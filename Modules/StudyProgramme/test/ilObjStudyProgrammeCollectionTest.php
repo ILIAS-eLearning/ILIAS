@@ -22,19 +22,19 @@
 */
 
 /**
- * TestCase for the ilObjTrainingProgrammeCollection
+ * TestCase for the ilObjStudyProgrammeCollection
  *
  * @author Michael Herren <mh@studer-raimann.ch>
  * @version 1.0.0
  */
-class ilObjTrainingProgrammeCollectionTest extends PHPUnit_Framework_TestCase {
+class ilObjStudyProgrammeCollectionTest extends PHPUnit_Framework_TestCase {
 	protected $backupGlobals = FALSE;
 
 	protected function setUp() {
 		PHPUnit_Framework_Error_Deprecated::$enabled = FALSE;
 
-		require_once("./Modules/TrainingProgramme/classes/class.ilObjTrainingProgrammeCollection.php");
-		require_once("./Modules/TrainingProgramme/classes/class.ilObjTrainingProgramme.php");
+		require_once("./Modules/StudyProgramme/classes/class.ilObjStudyProgrammeCollection.php");
+		require_once("./Modules/StudyProgramme/classes/class.ilObjStudyProgramme.php");
 
 		require_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
 		ilUnitUtil::performInitialisation();
@@ -43,12 +43,12 @@ class ilObjTrainingProgrammeCollectionTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * Helper function to generate collections
 	 * @param int $length
-	 * @return array|ilObjTrainingProgrammeCollection
+	 * @return array|ilObjStudyProgrammeCollection
 	 */
 	protected function getCollection($length = 3) {
-		$collection = new ilObjTrainingProgrammeCollection();
+		$collection = new ilObjStudyProgrammeCollection();
 		for($i = 0; $i < $length; $i++) {
-			$collection[] = new ilObjTrainingProgramme();
+			$collection[] = new ilObjStudyProgramme();
 		}
 
 		return $collection;
@@ -92,7 +92,7 @@ class ilObjTrainingProgrammeCollectionTest extends PHPUnit_Framework_TestCase {
 	 * @expectedException ilException
 	 */
 	public function testTypeChecking() {
-		$collection = new ilObjTrainingProgrammeCollection();
+		$collection = new ilObjStudyProgrammeCollection();
 		$collection[] = "Should not work!";
 	}
 }

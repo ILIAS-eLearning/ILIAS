@@ -24,24 +24,24 @@
 require_once("mocks.php");
 
 /**
- * TestCase for the ilObjTrainingProgramme
+ * TestCase for the ilObjStudyProgramme
  *
  * @author Michael Herren <mh@studer-raimann.ch>
  * @author Richard Klees <richard.klees@concepts-and-training.de>
  * @version 1.0.0
  */
-class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
+class ilObjStudyProgrammeTest extends PHPUnit_Framework_TestCase {
 	protected $backupGlobals = FALSE;
 
 	protected function setUp() {
 		PHPUnit_Framework_Error_Deprecated::$enabled = FALSE;
 
-		require_once("./Modules/TrainingProgramme/classes/class.ilObjTrainingProgramme.php");
+		require_once("./Modules/StudyProgramme/classes/class.ilObjStudyProgramme.php");
 
 		include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
 		ilUnitUtil::performInitialisation();
 		
-		$this->root_object = ilObjTrainingProgramme::createInstance();
+		$this->root_object = ilObjStudyProgramme::createInstance();
 		$this->root_object_obj_id = $this->root_object->getId();
 		$this->root_object_ref_id = $this->root_object->getRefId();
 		$this->root_object->putInTree(ROOT_FOLDER_ID);
@@ -60,7 +60,7 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
 	}
 	
 	/**
-	 * Test creation of ilObjTrainingProgramme
+	 * Test creation of ilObjStudyProgramme
 	 */
 	public function testCreation() {
 		$this->assertNotEmpty($this->root_object_obj_id);
@@ -73,18 +73,18 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
 	}
 	
 	public function testDefaults() {
-		$this->assertEquals($this->root_object->getStatus(), ilTrainingProgramme::STATUS_DRAFT);
+		$this->assertEquals($this->root_object->getStatus(), ilStudyProgramme::STATUS_DRAFT);
 	}
 
 	/**
-	 * Test loading of ilObjTrainingProgramme with obj_id. and ref_id
+	 * Test loading of ilObjStudyProgramme with obj_id. and ref_id
 	 *
 	 * @depends testCreation
 	 */
 	public function testLoadByObjId() {
-		$loaded = new ilObjTrainingProgramme($this->root_object_obj_id, false);
+		$loaded = new ilObjStudyProgramme($this->root_object_obj_id, false);
 		$orig = $this->root_object;
-		$load_ref_id = ilObjTrainingProgramme::getInstanceByRefId($this->root_object_ref_id);
+		$load_ref_id = ilObjStudyProgramme::getInstanceByRefId($this->root_object_ref_id);
 
 		$this->assertNotNull($loaded);
 		$this->assertGreaterThan(0, $loaded->getId());
@@ -98,12 +98,12 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Test loading of ilObjTrainingProgramme with ref_id.
+	 * Test loading of ilObjStudyProgramme with ref_id.
 	 *
 	 * @depends testCreation
 	 */
 	public function testLoadByRefId() {
-		$loaded = new ilObjTrainingProgramme($this->root_object_ref_id);
+		$loaded = new ilObjStudyProgramme($this->root_object_ref_id);
 		$orig = $this->root_object;
 
 		$this->assertNotNull($loaded);
@@ -123,12 +123,12 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
 	 * @depends testCreation
 	 */
 	public function testGetInstanceByRefId() {
-		require_once("Modules/TrainingProgramme/classes/class.ilObjTrainingProgrammeCache.php");
+		require_once("Modules/StudyProgramme/classes/class.ilObjStudyProgrammeCache.php");
 
-		ilObjTrainingProgrammeCache::singleton()->test_clear();
-		$this->assertTrue(ilObjTrainingProgrammeCache::singleton()->test_isEmpty());
+		ilObjStudyProgrammeCache::singleton()->test_clear();
+		$this->assertTrue(ilObjStudyProgrammeCache::singleton()->test_isEmpty());
 		
-		$loaded = ilObjTrainingProgramme::getInstanceByRefId($this->root_object_ref_id);
+		$loaded = ilObjStudyProgramme::getInstanceByRefId($this->root_object_ref_id);
 		$orig = $this->root_object;
 
 		$this->assertNotNull($loaded);
@@ -143,33 +143,33 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Test 	tings on ilObjTrainingProgramme
+	 * Test 	tings on ilObjStudyProgramme
 	 *
 	 * @depends testCreation
 	 */
 	public function testSettings() {
-		$obj = ilObjTrainingProgramme::getInstanceByRefId($this->root_object_ref_id);
+		$obj = ilObjStudyProgramme::getInstanceByRefId($this->root_object_ref_id);
 
 		$obj->setPoints(10);
-		$obj->setStatus(ilTrainingProgramme::STATUS_ACTIVE);
+		$obj->setStatus(ilStudyProgramme::STATUS_ACTIVE);
 		$obj->update();
 
-		$obj = ilObjTrainingProgramme::getInstanceByRefId($this->root_object_ref_id);
+		$obj = ilObjStudyProgramme::getInstanceByRefId($this->root_object_ref_id);
 
 		$this->assertEquals(10, $obj->getPoints());
-		$this->assertEquals(ilTrainingProgramme::STATUS_ACTIVE, $obj->getStatus());
+		$this->assertEquals(ilStudyProgramme::STATUS_ACTIVE, $obj->getStatus());
 
 		$midnight = strtotime("today midnight");
 		$this->assertGreaterThan($midnight, $obj->getLastChange()->getUnixTime());
 	}
 
 	/**
-	 * Test deletion of a ilObjTrainingProgramme
+	 * Test deletion of a ilObjStudyProgramme
 	 *
 	 * @depends testCreation
 	 */
 	public function testDelete() {
-		$deleted_object = ilObjTrainingProgramme::getInstanceByRefId($this->root_object_ref_id);
+		$deleted_object = ilObjStudyProgramme::getInstanceByRefId($this->root_object_ref_id);
 
 		$this->assertTrue($deleted_object->delete());
 	}
@@ -178,15 +178,15 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
 	 * Creates a small tree, used by various tests.
 	 */
 	protected function createSmallTree() {
-		$first_node = ilObjTrainingProgramme::createInstance();
-		$second_node = ilObjTrainingProgramme::createInstance();
-		$third_node = ilObjTrainingProgramme::createInstance();
+		$first_node = ilObjStudyProgramme::createInstance();
+		$second_node = ilObjStudyProgramme::createInstance();
+		$third_node = ilObjStudyProgramme::createInstance();
 
 		$this->root_object->addNode($first_node);
 		$this->root_object->addNode($second_node);
 		$this->root_object->addNode($third_node);
 
-		$third_first_node = ilObjTrainingProgramme::createInstance();
+		$third_first_node = ilObjStudyProgramme::createInstance();
 		$third_node->addNode($third_first_node);
 	}
 
@@ -212,8 +212,8 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
 		$children = $this->root_object->getChildren();
 		$this->assertEquals(3, count($children), "getChildren()");
 
-		$children = ilObjTrainingProgramme::getAllChildren($this->root_object_ref_id);
-		$this->assertEquals(4, count($children), "ilObjTrainingProgramme::getAllChildren(".$this->root_object_ref_id.")");
+		$children = ilObjStudyProgramme::getAllChildren($this->root_object_ref_id);
+		$this->assertEquals(4, count($children), "ilObjStudyProgramme::getAllChildren(".$this->root_object_ref_id.")");
 
 		$this->assertTrue($this->root_object->hasChildren(), "hasChildren()");
 		$this->assertEquals(3, $this->root_object->getAmountOfChildren(), "getAmountOfChildren()");
@@ -224,7 +224,7 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Test getParent on ilObjTrainingProgramme
+	 * Test getParent on ilObjStudyProgramme
 	 *
 	 * @depends testTreeCreation
 	 */
@@ -242,7 +242,7 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testTreeGetParents() {
 		$this->createSmallTree();
-		$node3 = ilObjTrainingProgramme::createInstance();
+		$node3 = ilObjStudyProgramme::createInstance();
 		$children = $this->root_object->getChildren();
 		$children[0]->addNode($node3);
 		
@@ -258,7 +258,7 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Test getDepth on ilObjTrainingProgramme
+	 * Test getDepth on ilObjStudyProgramme
 	 *
 	 * @depends testTreeCreation
 	 */
@@ -272,7 +272,7 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Test getRoot on ilObjTrainingProgramme
+	 * Test getRoot on ilObjStudyProgramme
 	 *
 	 * @depends testTreeCreation
 	 */
@@ -285,7 +285,7 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
 	}
 	
 	/**
-	 * Test applyToSubTreeNodes on ilObjTrainingProgramme.
+	 * Test applyToSubTreeNodes on ilObjStudyProgramme.
 	 *
 	 * @depends testTreeCreation
 	 */
@@ -299,7 +299,7 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
 		});
 		
 		// We didn't make modification on the points of the nodes.
-		$this->assertEquals($val, 5 * ilTrainingProgramme::DEFAULT_POINTS);
+		$this->assertEquals($val, 5 * ilStudyProgramme::DEFAULT_POINTS);
 
 
 		$this->root_object->setPoints(1);
@@ -328,7 +328,7 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
 		
 		$children = $this->root_object->getChildren();
 		$child = $children[0];
-		$grandchild = new ilObjTrainingProgramme();
+		$grandchild = new ilObjStudyProgramme();
 		$grandchild->create();
 		$child->addNode($grandchild);
 		
@@ -337,7 +337,7 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
 							"Root of grandchild is root of tree.");
 		$this->assertEquals(1, $child->getAmountOfChildren());
 		$this->assertEquals(2, $grandchild->getDepth());
-		$this->assertEquals($child->getLPMode(), ilTrainingProgramme::MODE_POINTS);
+		$this->assertEquals($child->getLPMode(), ilStudyProgramme::MODE_POINTS);
 	}
 	
 	/**
@@ -357,7 +357,7 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
 		try {
 			$child->getParent();
 		}
-		catch (ilTrainingProgrammeTreeException $e) {
+		catch (ilStudyProgrammeTreeException $e) {
 			$raised = true;
 		}
 		$this->assertTrue($raised, "Child does not raise on getParent after it is removed.");
@@ -369,7 +369,7 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
 		try {
 			$this->root_object->removeNode($child);
 		}
-		catch (ilTrainingProgrammeTreeException $e) {
+		catch (ilStudyProgrammeTreeException $e) {
 			$raised = true;
 		}
 		$this->assertTrue($raised, "Child can be removed two times.");
@@ -382,7 +382,7 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testAddLeaf() {
 		$this->createSmallTree();
-		$mock_leaf = new ilTrainingProgrammeLeafMock();
+		$mock_leaf = new ilStudyProgrammeLeafMock();
 
 		$children = $this->root_object->getChildren();
 		$first_child = $children[0];
@@ -394,13 +394,13 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
 		$first_child->object_factory = new ilObjectFactoryWrapperMock();
 
 		$this->assertEquals(3, $this->root_object->getAmountOfChildren(), "getAmountOfChildren()");
-		// Check if TrainingProgrammes are not counted as LP-Children
+		// Check if StudyProgrammes are not counted as LP-Children
 		$this->assertEquals(0, $this->root_object->getAmountOfLPChildren(), "getAmountOfLPChildren() on root");
 		$this->assertEquals(false, $this->root_object->hasLPChildren(), "hasLPChildren() on root");
 
 		$this->assertEquals(1, $first_child->getAmountOfLPChildren(), "getAmountOfLPChildren() on first child");
 		$this->assertEquals(true, $first_child->hasLPChildren(), "hasLPChildren() on first child");
-		$this->assertEquals($first_child->getLPMode(), ilTrainingProgramme::MODE_LP_COMPLETED);
+		$this->assertEquals($first_child->getLPMode(), ilStudyProgramme::MODE_LP_COMPLETED);
 		
 		$lp_children = $first_child->getLPChildren();
 		$this->assertEquals(1, count($lp_children));
@@ -413,7 +413,7 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
 	 * @depends testAddLeaf
 	 */
 	public function testRemoveLeaf() {
-		$mock_leaf = new ilTrainingProgrammeLeafMock();
+		$mock_leaf = new ilStudyProgrammeLeafMock();
 		$this->root_object->addLeaf($mock_leaf);
 		
 		$this->root_object->removeLeaf($mock_leaf);
@@ -434,10 +434,10 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
 		$child_n = $children[0];
 		$child_l = $children[1];
 		
-		$mock_leaf1 = new ilTrainingProgrammeLeafMock();
-		$mock_leaf2 = new ilTrainingProgrammeLeafMock();
-		$node1 = new ilObjTrainingProgramme();
-		$node2 = new ilObjTrainingProgramme();
+		$mock_leaf1 = new ilStudyProgrammeLeafMock();
+		$mock_leaf2 = new ilStudyProgrammeLeafMock();
+		$node1 = new ilObjStudyProgramme();
+		$node2 = new ilObjStudyProgramme();
 		$node1->create();
 		$node2->create();
 		
@@ -448,7 +448,7 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
 		try {
 			$child_n->addLeaf($mock_leaf2);
 		}
-		catch (ilTrainingProgrammeTreeException $e) {
+		catch (ilStudyProgrammeTreeException $e) {
 			$raised = true;
 		}
 		$this->assertTrue($raised, "Could add leaf to program containing node.");
@@ -457,7 +457,7 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
 		try {
 			$child_n->addLeaf($mock_leaf2);
 		}
-		catch (ilTrainingProgrammeTreeException $e) {
+		catch (ilStudyProgrammeTreeException $e) {
 			$raised = true;
 		}
 		$this->assertTrue($raised, "Could add node to program containing leaf.");
@@ -495,20 +495,20 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($child_m->getId(), $first_third_node->getParent()->getId());
 
 		$this->assertEquals(1, $this->root_object->getAmountOfChildren());
-		$this->assertEquals(3, count(ilObjTrainingProgramme::getAllChildren($child_l->getRefId())));
+		$this->assertEquals(3, count(ilObjStudyProgramme::getAllChildren($child_l->getRefId())));
 	}
 	
 	/**
-	 * @expectedException ilTrainingProgrammeTreeException
+	 * @expectedException ilStudyProgrammeTreeException
 	 */
 	public function testCantRemoveNodeWithRelevantProgress() {
 		$this->createSmallTree();
 		$children = $this->root_object->getChildren();
 		$child_l = $children[0];
 		$child_r = $children[1];
-		$this->root_object->setStatus(ilTrainingProgramme::STATUS_ACTIVE);
-		$child_l->setStatus(ilTrainingProgramme::STATUS_ACTIVE);
-		$child_r->setStatus(ilTrainingProgramme::STATUS_ACTIVE);
+		$this->root_object->setStatus(ilStudyProgramme::STATUS_ACTIVE);
+		$child_l->setStatus(ilStudyProgramme::STATUS_ACTIVE);
+		$child_r->setStatus(ilStudyProgramme::STATUS_ACTIVE);
 		
 		$user = new ilObjUser();
 		$user->create();
@@ -522,9 +522,9 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
 		$children = $this->root_object->getChildren();
 		$child_l = $children[0];
 		$child_r = $children[1];
-		$this->root_object->setStatus(ilTrainingProgramme::STATUS_ACTIVE);
-		$child_l->setStatus(ilTrainingProgramme::STATUS_ACTIVE);
-		$child_r->setStatus(ilTrainingProgramme::STATUS_OUTDATED);
+		$this->root_object->setStatus(ilStudyProgramme::STATUS_ACTIVE);
+		$child_l->setStatus(ilStudyProgramme::STATUS_ACTIVE);
+		$child_r->setStatus(ilStudyProgramme::STATUS_OUTDATED);
 		
 		$user = new ilObjUser();
 		$user->create();
@@ -548,23 +548,23 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
 		$this->assertArrayHasKey("crsr", $all_possible_subobjects);
 		
 		// root already contains program nodes, so course ref is forbidden
-		$subobjs = ilObjTrainingProgramme::getCreatableSubObjects($all_possible_subobjects, $this->root_object->getRefId());
+		$subobjs = ilObjStudyProgramme::getCreatableSubObjects($all_possible_subobjects, $this->root_object->getRefId());
 		$this->assertCount(1, $subobjs);
 		$this->assertArrayHasKey("prg", $subobjs);
 		
 		// first node contains nothing, so course ref and program node are allowed
-		$subobjs = ilObjTrainingProgramme::getCreatableSubObjects($all_possible_subobjects, $child_l->getRefId());
+		$subobjs = ilObjStudyProgramme::getCreatableSubObjects($all_possible_subobjects, $child_l->getRefId());
 		$this->assertCount(2, $subobjs);
 		$this->assertArrayHasKey("prg", $subobjs);
 		$this->assertArrayHasKey("crsr", $subobjs);
 		
-		$mock_leaf = new ilTrainingProgrammeLeafMock();
+		$mock_leaf = new ilStudyProgrammeLeafMock();
 		$children = $this->root_object->getChildren();
 		$child_l->object_factory = new ilObjectFactoryWrapperMock();
 		$child_l->addLeaf($mock_leaf);
 
 		// Now we added a leaf, so no program nodes are allowed anymore.
-		$subobjs = ilObjTrainingProgramme::getCreatableSubObjects($all_possible_subobjects, $child_l->getRefId());
+		$subobjs = ilObjStudyProgramme::getCreatableSubObjects($all_possible_subobjects, $child_l->getRefId());
 		$this->assertCount(1, $subobjs);
 		$this->assertArrayHasKey("crsr", $subobjs);
 	}
@@ -574,7 +574,7 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
 		// don't take rolfs into account, we don't need rolf anymore
 		unset($all_possible_subobjects["rolf"]);
 		$this->assertEquals( $all_possible_subobjects
-						   , ilObjTrainingProgramme::getCreatableSubObjects($all_possible_subobjects, null)
+						   , ilObjStudyProgramme::getCreatableSubObjects($all_possible_subobjects, null)
 						   );
 	}
 
@@ -582,6 +582,6 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
 	 * @expectedException ilException
 	 */
 	public function testCreatableSubObjectsRaisesOnNonProgramRef() {
-		ilObjTrainingProgramme::getCreatableSubObjects(array(), 9);
+		ilObjStudyProgramme::getCreatableSubObjects(array(), 9);
 	}
 }

@@ -11,21 +11,21 @@ require_once("./Services/User/classes/class.ilObjUser.php");
  * @author Richard Klees <richard.klees@concepts-and-training.de>
  * @version 1.0.0
  */
-class ilTrainingProgrammeProgressCalculationTest extends PHPUnit_Framework_TestCase {
+class ilStudyProgrammeProgressCalculationTest extends PHPUnit_Framework_TestCase {
 	protected $backupGlobals = FALSE;
 
 	protected function setUp() {
 		PHPUnit_Framework_Error_Deprecated::$enabled = FALSE;
 
-		require_once("./Modules/TrainingProgramme/classes/class.ilObjTrainingProgramme.php");
+		require_once("./Modules/StudyProgramme/classes/class.ilObjStudyProgramme.php");
 
 		include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
 		ilUnitUtil::performInitialisation();
 		
-		$this->root = ilObjTrainingProgramme::createInstance();
+		$this->root = ilObjStudyProgramme::createInstance();
 		$this->root->putInTree(ROOT_FOLDER_ID);
 		$this->root->object_factory = new ilObjectFactoryWrapperMock();
-		$this->root->setStatus(ilTrainingProgramme::STATUS_ACTIVE)
+		$this->root->setStatus(ilStudyProgramme::STATUS_ACTIVE)
 				   ->update();
 		
 		global $tree;
@@ -61,15 +61,15 @@ class ilTrainingProgrammeProgressCalculationTest extends PHPUnit_Framework_TestC
 			}
 			
 			if ($data2 == null) {
-				$this->$node_name = new ilTrainingProgrammeLeafMock();
+				$this->$node_name = new ilStudyProgrammeLeafMock();
 				$top->addLeaf($this->$node_name);
 			}
 			else {
-				$this->$node_name = ilObjTrainingProgramme::createInstance();
+				$this->$node_name = ilObjStudyProgramme::createInstance();
 				$this->$node_name->object_factory = new ilObjectFactoryWrapperMock();
 				$top->addNode($this->$node_name);
 				$this->setUpNodes($this->$node_name, $data2);
-				$this->$node_name->setStatus(ilTrainingProgramme::STATUS_ACTIVE)
+				$this->$node_name->setStatus(ilStudyProgramme::STATUS_ACTIVE)
 								 ->update();
 			}
 		}
@@ -95,11 +95,11 @@ class ilTrainingProgrammeProgressCalculationTest extends PHPUnit_Framework_TestC
 		$this->leaf11->markCompletedFor($user_id);
 		$this->leaf21->markCompletedFor($user_id);
 		
-		$this->assertEquals( ilTrainingProgrammeProgress::STATUS_COMPLETED
+		$this->assertEquals( ilStudyProgrammeProgress::STATUS_COMPLETED
 						   , $this->root->getProgressForAssignment($ass_id)->getStatus());
-		$this->assertEquals( ilTrainingProgrammeProgress::STATUS_COMPLETED
+		$this->assertEquals( ilStudyProgrammeProgress::STATUS_COMPLETED
 						   , $this->node1->getProgressForAssignment($ass_id)->getStatus());
-		$this->assertEquals( ilTrainingProgrammeProgress::STATUS_COMPLETED
+		$this->assertEquals( ilStudyProgrammeProgress::STATUS_COMPLETED
 						   , $this->node2->getProgressForAssignment($ass_id)->getStatus());
 	}
 
@@ -124,11 +124,11 @@ class ilTrainingProgrammeProgressCalculationTest extends PHPUnit_Framework_TestC
 					->markAccredited($this->user->getId());
 		$this->leaf21->markCompletedFor($user_id);
 		
-		$this->assertEquals( ilTrainingProgrammeProgress::STATUS_COMPLETED
+		$this->assertEquals( ilStudyProgrammeProgress::STATUS_COMPLETED
 						   , $this->root->getProgressForAssignment($ass_id)->getStatus());
-		$this->assertEquals( ilTrainingProgrammeProgress::STATUS_ACCREDITED
+		$this->assertEquals( ilStudyProgrammeProgress::STATUS_ACCREDITED
 						   , $this->node1->getProgressForAssignment($ass_id)->getStatus());
-		$this->assertEquals( ilTrainingProgrammeProgress::STATUS_COMPLETED
+		$this->assertEquals( ilStudyProgrammeProgress::STATUS_COMPLETED
 						   , $this->node2->getProgressForAssignment($ass_id)->getStatus());
 	}
 	
@@ -155,11 +155,11 @@ class ilTrainingProgrammeProgressCalculationTest extends PHPUnit_Framework_TestC
 				   ->setRequiredAmountOfPoints(100, $this->user->getId());
 		$this->leaf21->markCompletedFor($user_id);
 		
-		$this->assertEquals( ilTrainingProgrammeProgress::STATUS_COMPLETED
+		$this->assertEquals( ilStudyProgrammeProgress::STATUS_COMPLETED
 						   , $this->root->getProgressForAssignment($ass_id)->getStatus());
-		$this->assertEquals( ilTrainingProgrammeProgress::STATUS_NOT_RELEVANT
+		$this->assertEquals( ilStudyProgrammeProgress::STATUS_NOT_RELEVANT
 						   , $this->node1->getProgressForAssignment($ass_id)->getStatus());
-		$this->assertEquals( ilTrainingProgrammeProgress::STATUS_COMPLETED
+		$this->assertEquals( ilStudyProgrammeProgress::STATUS_COMPLETED
 						   , $this->node2->getProgressForAssignment($ass_id)->getStatus());
 	}
 	
@@ -185,11 +185,11 @@ class ilTrainingProgrammeProgressCalculationTest extends PHPUnit_Framework_TestC
 		$this->leaf11->markCompletedFor($user_id);
 		$this->leaf21->markCompletedFor($user_id);
 		
-		$this->assertEquals( ilTrainingProgrammeProgress::STATUS_IN_PROGRESS
+		$this->assertEquals( ilStudyProgrammeProgress::STATUS_IN_PROGRESS
 						   , $this->root->getProgressForAssignment($ass_id)->getStatus());
-		$this->assertEquals( ilTrainingProgrammeProgress::STATUS_NOT_RELEVANT
+		$this->assertEquals( ilStudyProgrammeProgress::STATUS_NOT_RELEVANT
 						   , $this->node1->getProgressForAssignment($ass_id)->getStatus());
-		$this->assertEquals( ilTrainingProgrammeProgress::STATUS_COMPLETED
+		$this->assertEquals( ilStudyProgrammeProgress::STATUS_COMPLETED
 						   , $this->node2->getProgressForAssignment($ass_id)->getStatus());
 	}
 }
