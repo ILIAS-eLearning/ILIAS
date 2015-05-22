@@ -4,10 +4,10 @@
 	<baseclasses>
 	</baseclasses>
 	<objectgroups>
-		<objectgroup id="prg" name="TrainingProgramme" default_pres_pos="30"/>
+		<objectgroup id="prg" name="StudyProgramme" default_pres_pos="30"/>
 	</objectgroups>
 	<objects>
-		<object id="prg" class_name="TrainingProgramme" dir="classes" default_pos="30" default_pres_pos="30" checkbox="1" inherit="1" translate="0" allow_link="0" allow_copy="1" rbac="1" export="0" workspace="0" repository="1">
+		<object id="prg" class_name="StudyProgramme" dir="classes" default_pos="30" default_pres_pos="30" checkbox="1" inherit="1" translate="0" allow_link="0" allow_copy="1" rbac="1" export="0" workspace="0" repository="1">
 			<subobj id="rolf" max="1">rolf</subobj>
 			<subobj id="crsr" max="1">crsr</subobj>
 
@@ -19,14 +19,14 @@
 			<parent id="root">root</parent>
 		</object>
 	    <!--
-		<object id="prgs" class_name="TrainingProgrammeAdministration" dir="classes"
+		<object id="prgs" class_name="StudyProgrammeAdministration" dir="classes"
 			checkbox="0" inherit="0" translate="sys" rbac="1" system="1" administration="1">
 			<parent id="adm" max="1">adm</parent>
 			<subobj id="rolf" max="1">rolf</subobj>
 		</object>
         -->
 	    <!--
-		<object id="prgv" class_name="TrainingProgrammeVerification" dir="classes/Verification" default_pos="90" default_pres_pos="150"
+		<object id="prgv" class_name="StudyProgrammeVerification" dir="classes/Verification" default_pos="90" default_pres_pos="150"
 			checkbox="0" inherit="0" translate="0" rbac="0" allow_link="0" allow_copy="0" export="0"
 			repository="0" workspace="1">
 			<parent id="wsrt">wsrt</parent>
