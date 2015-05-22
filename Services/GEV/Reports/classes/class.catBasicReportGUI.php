@@ -144,6 +144,9 @@ class catBasicReportGUI {
 		$table->setEnableTitle(false);
 		$table->setTopCommands(false);
 		$table->setEnableHeader(true);
+		if(!$this->table->row_template_filename) {
+			throw new Exception("No template defined for table ".get_class($this));
+		}
 		$table->setRowTemplate(
 			$this->table->row_template_filename, 
 			$this->table->row_template_module
@@ -353,7 +356,7 @@ class catBasicReportGUI {
 		while($rec = $this->db->fetchAssoc($res)) {
 			$data[] = $this->transformResultRow($rec);
 		}
-		
+
 		return $data;
 	}
 	

@@ -24,30 +24,40 @@ require_once("Services/GEV/Reports/classes/class.catBasicReportGUI.php");
 require_once("Services/GEV/Reports/classes/class.catFilter.php");
 require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
 require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
 
+const MIN_ROW = "3991";
+const IMPORTANT_TEP_CATEGORIES 
+	= array("Training");
 class gevTrainerOperationByTEPCategoryGUI extends catBasicReportGUI{
 
-	const MIN_ROW = 3991;
-
+	protected $internal_sorting_fields = array("fullname");
 	public function __construct() {
 		
 		parent::__construct();
+		$min_row_condition = "ht.row_id > ".MIN_ROW;
+
+
 
 		$this->title = catTitleGUI::create()
 						->title("gev_report_trainer_operation_by_tep_category_title")
 						->subTitle("gev_report_trainer_operation_by_tep_category_desc")
-						->image("GEV_img/ico-head-edubio.png")
-						;
+						->image("GEV_img/ico-head-edubio.png");
 
 		$this->table = catReportTable::create();
-		$this->table->column("fullname", "fullname");
-
+		$this->table->column("fullname", "name");
 		$categories = $this->getCategories();
- 		$foo = "";
+
+
+		$i = 1;
 		foreach($categories as $category) {
-			$this->table->column($category, $category);
-			$this->table->column("hrs".$category, "hrs".$category);
+			$this->table->column("cat$i", $category, true);
+			$this->table->column("cath$i", "Std.", true);
+			$i++;
 		}
+
+		$this->table->template("tpl.gev_trainer_operation_by_template_category_row.html", 
+								"Services/GEV/Reports");
 
 		$this->order = catReportOrder::create($this->table)
 						->defaultOrder("fullname", "ASC");
@@ -56,10 +66,11 @@ class gevTrainerOperationByTEPCategoryGUI extends catBasicReportGUI{
 						->distinct()
 						->select("ud.usr_id")
 						->select_raw("CONCAT(ud.lastname, ', ', ud.firstname) as fullname");
-
+		$i = 1;
 		foreach($categories as $category) {
-			$this->query->select_raw($this->daysPerTEPCategory($category));
-			$this->query->select_raw($this->hoursPerTEPCategory($category));
+			$this->query->select_raw($this->daysPerTEPCategory($category, "cat$i"));
+			$this->query->select_raw($this->hoursPerTEPCategory($category, "cath$i"));
+			$i++;
 		}
 		$this->query->from("hist_tep ht")
 					->join("usr_data ud")
@@ -70,60 +81,53 @@ class gevTrainerOperationByTEPCategoryGUI extends catBasicReportGUI{
 						->on("context_id = crs_id")
 					->group_by("fullname")
 					->compile();
-;
+
 		$this->filter = catFilter::create()
-						->dateperiod( "period"
-									, $this->lng->txt("gev_period")
-									, $this->lng->txt("gev_until")
-									, "ht.begin_date"
-									, "ht.end_date"
-									, date("Y")."-01-01"
-									, date("Y")."-12-31"
-									, false
-									, " OR ht.hist_historic IS NULL"
-									)
-						/*->multiselect( "org_unit"
-									 , $this->lng->txt("gev_org_unit_short")
-									 , array("usr.org_unit", "org_unit_above1", "org_unit_above2")
-									 , $this->user_utils->getOrgUnitNamesWhereUserIsSuperior()
-									 , array()
-									 )
-						->multiselect("edu_program"
+						->multiselect( "edu_program"
 									 , $this->lng->txt("gev_edu_program")
-									 , "edu_program"
+									 , "hc.edu_program"
 									 , gevCourseUtils::getEduProgramsFromHisto()
 									 , array()
 									 )
-						->multiselect("type"
+						->multiselect( "template_title"
+									 , $this->lng->txt("crs_title")
+									 , "hc.template_title"
+									 , gevCourseUtils::getTemplateTitleFromHisto()
+									 , array()
+									 )
+						->multiselect( "type"
 									 , $this->lng->txt("gev_course_type")
 									 , "type"
 									 , gevCourseUtils::getLearningTypesFromHisto()
 									 , array()
 									 )
-						->multiselect("template_title"
-									 , $this->lng->txt("crs_title")
-									 , "template_title"
-									 , gevCourseUtils::getTemplateTitleFromHisto()
+						->dateperiod( "period"
+									 , $this->lng->txt("gev_period")
+									 , $this->lng->txt("gev_until")
+									 , "ht.begin_date"
+									 , "ht.end_date"
+									 , date("Y")."-01-01"
+									 , date("Y")."-12-31"
+									 , false
+									 , " OR ht.hist_historic IS NULL"
+									 )
+						->multiselect( "org_unit"
+									 , $this->lng->txt("gev_org_unit_short")
+									 , "ht.orgu_title"
+									 , $this->user_utils->getOrgUnitNamesWhereUserIsSuperior()
 									 , array()
 									 )
-						->multiselect("participation_status"
-									 , $this->lng->txt("gev_participation_status")
-									 , "participation_status"
-									 , gevCourseUtils::getParticipationStatusFromHisto()
+						->multiselect( "venue"
+									 , $this->lng->txt("gev_venue")
+									 , "ht.location"
+									 , gevOrgUnitUtils::getVenueNames()
 									 , array()
 									 )
-						->multiselect("position_key"
-									 , $this->lng->txt("gev_position_key")
-									 , "position_key"
-									 , gevUserUtils::getPositionKeysFromHisto()
-									 , array()
-									 )*/
 						->static_condition("(hc.hist_historic = 0 OR hc.hist_historic IS NULL)")
 						->static_condition("ht.hist_historic = 0")
-						->static_condition("ht.row_id > 3991") 
+						->static_condition($min_row_condition) 
 						->action($this->ctrl->getLinkTarget($this, "view"))
-						->compile()
-						;
+						->compile();
 
 	}
 
@@ -176,20 +180,25 @@ class gevTrainerOperationByTEPCategoryGUI extends catBasicReportGUI{
 		while($res = $ilDB->fetchAssoc($rec)) {
 			$columns[] = $res["title"];
 		}
+		foreach(array_reverse(IMPORTANT_TEP_CATEGORIES) as $category) {
+			$key = array_search($category, $columns);
+			unset($columns["key"]);
+		}
+		array_unshift($columns,$category);
 		return $columns;
 	}
 
-	protected function daysPerTEPCategory($category) {
+	protected function daysPerTEPCategory($category,$name) {
 		global $ilDB;
-		$sql = "SUM(IF(category = ".$ilDB->quote($category,"text").",1,0)) as `".$category."`";
+		$sql = "SUM(IF(category = ".$ilDB->quote($category,"text").",1,0)) as ".$name;
 		return $sql;
 	}
 
-	protected function hoursPerTEPCategory($category) {
+	protected function hoursPerTEPCategory($category, $name) {
 		global $ilDB;
-		$sql = "SUM(IF(category = ".$ilDB->quote($category,"text").",
-						CEIL( TIME_TO_SEC( TIMEDIFF( end_time, start_time ) )* weight /720000) *2,
-						0)) as `H".$category."`";
+		$sql = 
+		"SUM(IF(category = ".$ilDB->quote($category,"text").",
+			CEIL( TIME_TO_SEC( TIMEDIFF( end_time, start_time ) )* weight /720000) *2,0)) as ".$name;
 		return $sql;
 	}
 }
