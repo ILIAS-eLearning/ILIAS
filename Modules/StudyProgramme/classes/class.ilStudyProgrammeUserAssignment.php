@@ -2,7 +2,7 @@
 
 /* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-require_once("./Modules/TrainingProgramme/classes/model/class.ilTrainingProgrammeAssignment.php");
+require_once("./Modules/StudyProgramme/classes/model/class.ilStudyProgrammeAssignment.php");
 
 /**
  * Represents one assignment of a user to a training programme.
@@ -11,24 +11,24 @@ require_once("./Modules/TrainingProgramme/classes/model/class.ilTrainingProgramm
  *
  * @author : Richard Klees <richard.klees@concepts-and-training.de>
  */
-class ilTrainingProgrammeUserAssignment {
-	protected $assignment; // ilTrainingProgrammeAssignment
+class ilStudyProgrammeUserAssignment {
+	protected $assignment; // ilStudyProgrammeAssignment
 	
 	/**
 	 * Throws when id does not refer to a training programme assignment.
 	 *
 	 * @throws ilException
-	 * @param int | ilTrainingProgrammeAssignment $a_id_or_model
+	 * @param int | ilStudyProgrammeAssignment $a_id_or_model
 	 */
 	public function __construct($a_id_or_model) {
-		if ($a_id_or_model instanceof ilTrainingProgrammeAssignment) {
+		if ($a_id_or_model instanceof ilStudyProgrammeAssignment) {
 			$this->assignment = $a_id_or_model;
 		}
 		else {
-			$this->assignment = ilTrainingProgrammeAssignment::find($a_id_or_model);
+			$this->assignment = ilStudyProgrammeAssignment::find($a_id_or_model);
 		}
 		if ($this->assignment === null) {
-			throw new ilException("ilTrainingProgrammeUserAssignment::__construct: "
+			throw new ilException("ilStudyProgrammeUserAssignment::__construct: "
 								 ."Unknown assignmemt id '$a_id_or_model'.");
 		}
 	}
@@ -38,23 +38,23 @@ class ilTrainingProgrammeUserAssignment {
 	 *
 	 * @throws ilException
 	 * @param  int $a_id
-	 * @return ilTrainingProgrammeUserAssignment
+	 * @return ilStudyProgrammeUserAssignment
 	 */
 	static public function getInstance($a_id) {
-		return new ilTrainingProgrammeUserAssignment($a_id);
+		return new ilStudyProgrammeUserAssignment($a_id);
 	}
 	
 	/**
 	 * Get all instances for a given user.
 	 *
 	 * @param int $a_user_id
-	 * @return ilTrainingProgrammeUserAssignment[]
+	 * @return ilStudyProgrammeUserAssignment[]
 	 */
 	static public function getInstancesOfUser($a_user_id) {
-		$assignments = ilTrainingProgrammeAssignment::where(array( "usr_id" => $a_user_id ))
+		$assignments = ilStudyProgrammeAssignment::where(array( "usr_id" => $a_user_id ))
 													->get();
 		return array_map(function($ass) {
-			return new ilTrainingProgrammeUserAssignment($ass);
+			return new ilStudyProgrammeUserAssignment($ass);
 		}, array_values($assignments)); // use array values since we want keys 0...
 	}
 	
@@ -62,13 +62,13 @@ class ilTrainingProgrammeUserAssignment {
 	 * Get all assignments that were made to the given program.
 	 *
 	 * @param int $a_program_id
-	 * @return ilTrainingProgrammeUserAssignment[]
+	 * @return ilStudyProgrammeUserAssignment[]
 	 */
 	static public function getInstancesForProgram($a_program_id) {
-		$assignments = ilTrainingProgrammeAssignment::where(array( "root_prg_id" => $a_program_id ))
+		$assignments = ilStudyProgrammeAssignment::where(array( "root_prg_id" => $a_program_id ))
 													->get();
 		return array_map(function($ass) {
-			return new ilTrainingProgrammeUserAssignment($ass);
+			return new ilStudyProgrammeUserAssignment($ass);
 		}, array_values($assignments)); // use array values since we want keys 0...
 	}
 	
@@ -87,17 +87,17 @@ class ilTrainingProgrammeUserAssignment {
 	 * Throws when program this assignment is about has no ref id.
 	 *
 	 * @throws ilException
-	 * @return ilObjTrainingProgramme
+	 * @return ilObjStudyProgramme
 	 */
-	public function getTrainingProgramme() {
-		require_once("./Modules/TrainingProgramme/classes/class.ilObjTrainingProgramme.php");
+	public function getStudyProgramme() {
+		require_once("./Modules/StudyProgramme/classes/class.ilObjStudyProgramme.php");
 		$refs = ilObject::_getAllReferences($this->assignment->getRootId());
 		if (!count($refs)) {
-			throw new ilException("ilTrainingProgrammeUserAssignment::getTrainingProgramme: "
+			throw new ilException("ilStudyProgrammeUserAssignment::getStudyProgramme: "
 								 ."could not find ref_id for program '"
 								 .$this->assignment->getRootId()."'.");
 		}
-		return ilObjTrainingProgramme::getInstanceByRefId(array_shift($refs));
+		return ilObjStudyProgramme::getInstanceByRefId(array_shift($refs));
 	}
 	
 	/**
@@ -113,7 +113,7 @@ class ilTrainingProgrammeUserAssignment {
 	 * Remove this assignment.
 	 */
 	public function remove() {
-		$this->getTrainingProgramme()->removeAssignment($this);
+		$this->getStudyProgramme()->removeAssignment($this);
 	}
 	
 	/**
@@ -130,7 +130,7 @@ class ilTrainingProgrammeUserAssignment {
 	 * @return $this
 	 */
 	public function updateFromProgram() {
-		$prg = $this->getTrainingProgramme();
+		$prg = $this->getStudyProgramme();
 		$id = $this->getId();
 
 		$prg->applyToSubTreeNodes(function($node) use ($id) {

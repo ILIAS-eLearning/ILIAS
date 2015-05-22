@@ -1,8 +1,8 @@
 <?php
 require_once('./Services/Table/classes/class.ilTable2GUI.php');
-require_once('./Modules/TrainingProgramme/classes/model/class.ilTrainingProgrammeType.php');
+require_once('./Modules/StudyProgramme/classes/model/class.ilStudyProgrammeType.php');
 
-class ilTrainingProgrammeTypeTableGUI extends ilTable2GUI {
+class ilStudyProgrammeTypeTableGUI extends ilTable2GUI {
 
     /**
      * @var ilCtrl
@@ -41,7 +41,7 @@ class ilTrainingProgrammeTypeTableGUI extends ilTable2GUI {
 
         parent::__construct($parent_obj, $parent_cmd);
 
-        $this->setRowTemplate('tpl.types_row.html', 'Modules/TrainingProgramme');
+        $this->setRowTemplate('tpl.types_row.html', 'Modules/StudyProgramme');
         $this->initColumns();
         $this->addColumn($this->lng->txt('action'));
         $this->buildData();
@@ -80,9 +80,9 @@ class ilTrainingProgrammeTypeTableGUI extends ilTable2GUI {
      * Build and set data for table.
      */
     protected function buildData() {
-        $types = ilTrainingProgrammeType::getAllTypes();
+        $types = ilStudyProgrammeType::getAllTypes();
         $data = array();
-        /** @var $type ilTrainingProgrammeType */
+        /** @var $type ilStudyProgrammeType */
         foreach ($types as $type) {
             $row = array();
             $row['id'] = $type->getId();

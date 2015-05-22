@@ -2,16 +2,16 @@
 require_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
 
 /**
- * Class ilTrainingProgrammeTypeFormGUI
+ * Class ilStudyProgrammeTypeFormGUI
  *
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
  * @author Fabian Schmid <fs@studer-raimann.ch>
  * @author Michael Herren <mh@studer-raimann.ch>
  */
-class ilTrainingProgrammeTypeCustomIconsFormGUI extends ilPropertyFormGUI {
+class ilStudyProgrammeTypeCustomIconsFormGUI extends ilPropertyFormGUI {
 
 	/**
-	 * @var ilTrainingProgrammeType
+	 * @var ilStudyProgrammeType
 	 */
 	protected $type;
 	/**
@@ -34,9 +34,9 @@ class ilTrainingProgrammeTypeCustomIconsFormGUI extends ilPropertyFormGUI {
 
 	/**
 	 * @param               $parent_gui
-	 * @param ilTrainingProgrammeType $type
+	 * @param ilStudyProgrammeType $type
 	 */
-	public function __construct($parent_gui, ilTrainingProgrammeType $type) {
+	public function __construct($parent_gui, ilStudyProgrammeType $type) {
 		global $tpl, $ilCtrl, $lng;
 		$this->parent_gui = $parent_gui;
 		$this->type = $type;

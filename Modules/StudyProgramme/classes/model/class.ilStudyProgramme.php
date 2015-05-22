@@ -5,13 +5,13 @@
 require_once(dirname(__FILE__)."/../../../../Services/ActiveRecord/class.ActiveRecord.php");
 
 /**
- * Class ilTrainingProgramme
+ * Class ilStudyProgramme
  * 
  * @author: Richard Klees <richard.klees@concepts-and-training.de>
  * @version: 0.1.0
  */
 
-class ilTrainingProgramme extends ActiveRecord {
+class ilStudyProgramme extends ActiveRecord {
 	
 	// There are two different modes the programs calculation of the learning
 	// progress can run in.
@@ -23,8 +23,8 @@ class ilTrainingProgramme extends ActiveRecord {
 	// subobject.
 	const MODE_LP_COMPLETED = 2;
 
-	static $MODES = array( ilTrainingProgramme::MODE_POINTS
-						 , ilTrainingProgramme::MODE_LP_COMPLETED
+	static $MODES = array( ilStudyProgramme::MODE_POINTS
+						 , ilStudyProgramme::MODE_LP_COMPLETED
 						 );
 
 
@@ -39,9 +39,9 @@ class ilTrainingProgramme extends ActiveRecord {
 	// still complete the program.
 	const STATUS_OUTDATED = 30;
 
-	static $STATUS = array( ilTrainingProgramme::STATUS_DRAFT
-						  , ilTrainingProgramme::STATUS_ACTIVE
-						  , ilTrainingProgramme::STATUS_OUTDATED
+	static $STATUS = array( ilStudyProgramme::STATUS_DRAFT
+						  , ilStudyProgramme::STATUS_ACTIVE
+						  , ilStudyProgramme::STATUS_OUTDATED
 						  );
 
 	
@@ -140,19 +140,19 @@ class ilTrainingProgramme extends ActiveRecord {
 	 * Throws when object is no program object.
 	 *
 	 * @throws ilException
-	 * @return ilTrainingProgramme
+	 * @return ilStudyProgramme
 	 */
 	static public function createForObject(ilObject $a_object) {
 		if ($a_object->getType() != "prg") {
-			throw new ilException("ilTrainingProgramme::createSettingsForObject: "
+			throw new ilException("ilStudyProgramme::createSettingsForObject: "
 								 ."Object is no prg object.");
 		}
 		if(!$a_object->getId()) {
-			throw new ilException("ilTrainingProgramme::createSettingsForObject: "
+			throw new ilException("ilStudyProgramme::createSettingsForObject: "
 								 ."Object has no id."); 
 		}
 
-		$prg = new ilTrainingProgramme();
+		$prg = new ilStudyProgramme();
 		$prg->subtype_id = self::DEFAULT_SUBTYPE;
 		$prg->setObjId($a_object->getId())
 			->setStatus(self::STATUS_DRAFT)
@@ -225,7 +225,7 @@ class ilTrainingProgramme extends ActiveRecord {
 	 */
 	public function setLastChange(ilDateTime $a_timestamp) {
 		if (ilDateTime::_before($a_timestamp, $this->getLastChange())) {
-			throw new ilException("ilTrainingProgramme::setLastChange: Given "
+			throw new ilException("ilStudyProgramme::setLastChange: Given "
 								 ."timestamp is before current timestamp. That "
 								 ."is logically impossible.");
 		}
@@ -245,7 +245,6 @@ class ilTrainingProgramme extends ActiveRecord {
 	 */
 	public function setPoints($a_points) {
 		$a_points = (int)$a_points;
-
 		if ($a_points < 0) {
 			throw new ilException("ilTrainingProgramme::setPoints: Points cannot "
 								 ."be smaller than zero.");
@@ -276,11 +275,11 @@ class ilTrainingProgramme extends ActiveRecord {
 	public function setLPMode($a_mode) {
 		$a_mode = (int)$a_mode;
 		if ($this->getStatus() !== self::STATUS_DRAFT) {
-			throw new ilException("ilTrainingProgramme::setLPMode: Can't set "
+			throw new ilException("ilStudyProgramme::setLPMode: Can't set "
 								 ." lp mode when not in draft status.");
 		}
 		if (!in_array($a_mode, self::$MODES)) {
-			throw new ilException("ilTrainingProgramme::setLPMode: No lp mode: "
+			throw new ilException("ilStudyProgramme::setLPMode: No lp mode: "
 								 ."'$a_mode'");
 		}
 		$this->lp_mode = $a_mode;
@@ -309,7 +308,7 @@ class ilTrainingProgramme extends ActiveRecord {
 	public function setStatus($a_status) {
 		$a_status = (int)$a_status;
 		if (!in_array($a_status, self::$STATUS)) {
-			throw new ilException("ilTrainingProgramme::setStatus: No lp mode: "
+			throw new ilException("ilStudyProgramme::setStatus: No lp mode: "
 								 ."'$a_status'");
 		}
 		$this->status = $a_status;

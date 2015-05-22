@@ -32,7 +32,7 @@ class ilAsyncNotifications {
 
 	public function __construct($content_container_id = null) {
 		$this->js_init = false;
-		$this->js_path = "./Modules/TrainingProgramme/templates/js/";
+		$this->js_path = "./Modules/StudyProgramme/templates/js/";
 		$this->content_container_id = ($content_container_id != null)? $content_container_id : "ilContentContainer";
 	}
 
@@ -44,7 +44,7 @@ class ilAsyncNotifications {
 		global $tpl;
 
 		if(!$this->js_init) {
-			$tpl->addJavaScript($this->getJsPath().'ilTrainingProgramme.js');
+			$tpl->addJavaScript($this->getJsPath().'ilStudyProgramme.js');
 
 			$templates['info'] = $tpl->getMessageHTML("[MESSAGE]");
 			$templates['success'] = $tpl->getMessageHTML("[MESSAGE]", 'success');

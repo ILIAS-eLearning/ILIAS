@@ -4,12 +4,12 @@
 
 
 /**
- * Class ilObjTrainingProgrammeIndividualPlanGUI
+ * Class ilObjStudyProgrammeIndividualPlanGUI
  *
  * @author: Richard Klees <richard.klees@concepts-and-training.de>
  */
 
-class ilObjTrainingProgrammeIndividualPlanGUI {
+class ilObjStudyProgrammeIndividualPlanGUI {
 	/**
 	 * @var ilCtrl
 	 */
@@ -26,7 +26,7 @@ class ilObjTrainingProgrammeIndividualPlanGUI {
 	protected $ilAccess;
 	
 	/**
-	 * @var ilObjTrainingProgramme
+	 * @var ilObjStudyProgramme
 	 */
 	public $object;
 	
@@ -94,7 +94,7 @@ class ilObjTrainingProgrammeIndividualPlanGUI {
 				$cont = $this->$cmd();
 				break;
 			default:
-				throw new ilException("ilObjTrainingProgrammeMembersGUI: ".
+				throw new ilException("ilObjStudyProgrammeMembersGUI: ".
 									  "Command not supported: $cmd");
 		}
 		
@@ -102,7 +102,7 @@ class ilObjTrainingProgrammeIndividualPlanGUI {
 	}
 	
 	protected function getAssignmentId() {
-		require_once("Modules/TrainingProgramme/classes/class.ilTrainingProgrammeUserAssignment.php");
+		require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeUserAssignment.php");
 		if (!is_numeric($_GET["ass_id"])) {
 			throw new ilException("Expected integer 'ass_id'");
 		}
@@ -112,20 +112,20 @@ class ilObjTrainingProgrammeIndividualPlanGUI {
 	protected function getAssignmentObject() {
 		if ($this->assignment_object === null) {
 			$id = $this->getAssignmentId();
-			$this->assignment_object = ilTrainingProgrammeUserAssignment::getInstance($id);
+			$this->assignment_object = ilStudyProgrammeUserAssignment::getInstance($id);
 		}
 		return $this->assignment_object;
 	}
 	
 	protected function view() {
-		require_once("Modules/TrainingProgramme/classes/class.ilTrainingProgrammeIndividualPlanTreeExplorerGUI.php");
-		$expl = new ilTrainingProgrammeIndividualPlanTreeExplorerGUI($this, $this->getAssignmentObject());
+		require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeIndividualPlanTreeExplorerGUI.php");
+		$expl = new ilStudyProgrammeIndividualPlanTreeExplorerGUI($this, $this->getAssignmentObject());
 		return $this->buildFrame("view", $expl->getHTML());
 	}
 
 	protected function manage() {
-		require_once("Modules/TrainingProgramme/classes/class.ilTrainingProgrammeIndividualPlanTableGUI.php");
-		$table = new ilTrainingProgrammeIndividualPlanTableGUI($this, $this->getAssignmentObject());
+		require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeIndividualPlanTableGUI.php");
+		$table = new ilStudyProgrammeIndividualPlanTableGUI($this, $this->getAssignmentObject());
 		return $this->buildFrame("manage", $table->getHTML());
 	}
 	
@@ -138,26 +138,26 @@ class ilObjTrainingProgrammeIndividualPlanGUI {
 	}
 	
 	protected function updateFromInput() {
-		require_once("Modules/TrainingProgramme/classes/class.ilTrainingProgrammeUserProgress.php");
+		require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeUserProgress.php");
 		
 		$updates = $this->getManualStatusUpdates();
 		$changed = false;
 		foreach ($updates as $prgrs_id => $status) {
-			$prgrs = ilTrainingProgrammeUserProgress::getInstanceById($prgrs_id);
+			$prgrs = ilStudyProgrammeUserProgress::getInstanceById($prgrs_id);
 			$cur_status = $prgrs->getStatus();
-			if ($status == self::MANUAL_STATUS_NONE && $cur_status == ilTrainingProgrammeProgress::STATUS_ACCREDITED) {
+			if ($status == self::MANUAL_STATUS_NONE && $cur_status == ilStudyProgrammeProgress::STATUS_ACCREDITED) {
 				$prgrs->unmarkAccredited($this->user->getId());
 				$changed = true;
 			}
-			else if ($status == self::MANUAL_STATUS_NONE && $cur_status == ilTrainingProgrammeProgress::STATUS_NOT_RELEVANT) {
+			else if ($status == self::MANUAL_STATUS_NONE && $cur_status == ilStudyProgrammeProgress::STATUS_NOT_RELEVANT) {
 				$prgrs->markRelevant($this->user->getId());
 				$changed = true;
 			}
-			else if($status == self::MANUAL_STATUS_NOT_RELEVANT && $cur_status != ilTrainingProgrammeProgress::STATUS_NOT_RELEVANT) {
+			else if($status == self::MANUAL_STATUS_NOT_RELEVANT && $cur_status != ilStudyProgrammeProgress::STATUS_NOT_RELEVANT) {
 				$prgrs->markNotRelevant($this->user->getId());
 				$changed = true;
 			}
-			else if($status == self::MANUAL_STATUS_ACCREDITED && $cur_status != ilTrainingProgrammeProgress::STATUS_ACCREDITED) {
+			else if($status == self::MANUAL_STATUS_ACCREDITED && $cur_status != ilStudyProgrammeProgress::STATUS_ACCREDITED) {
 				$prgrs->markAccredited($this->user->getId());
 				$changed = true;
 			}
@@ -183,7 +183,7 @@ class ilObjTrainingProgrammeIndividualPlanGUI {
 	}
 	
 	protected function buildFrame($tab, $content) {
-		$tpl = new ilTemplate("tpl.indivdual_plan_frame.html", true, true, "Modules/TrainingProgramme");
+		$tpl = new ilTemplate("tpl.indivdual_plan_frame.html", true, true, "Modules/StudyProgramme");
 		$ass = $this->getAssignmentObject();
 		
 		$tpl->setVariable("USERNAME", ilObjUser::_lookupFullname($ass->getUserId()));
@@ -235,7 +235,7 @@ class ilObjTrainingProgrammeIndividualPlanGUI {
 	}
 	
 	static public function getLinkTargetView($ctrl, $a_ass_id) {
-		$cl = "ilObjTrainingProgrammeIndividualPlanGUI";
+		$cl = "ilObjStudyProgrammeIndividualPlanGUI";
 		$ctrl->setParameterByClass($cl, "ass_id", $a_ass_id);
 		$link = $ctrl->getLinkTargetByClass($cl, "view");
 		$ctrl->setParameterByClass($cl, "ass_id", null);

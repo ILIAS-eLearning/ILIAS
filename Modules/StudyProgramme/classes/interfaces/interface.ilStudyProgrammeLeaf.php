@@ -7,13 +7,13 @@
  * program.
  *
  * ATTENTION: This serves documentary purpose atm. These are the methods on the
- * leaf objects that are really used by the TrainingProgramme. Maybe some day this
+ * leaf objects that are really used by the StudyProgramme. Maybe some day this
  * could be tagged on ilCourseReference and other objects.
  *
  * @author : Richard Klees <richard.klees@concepts-and-training.de>
  */
 
-interface ilTrainingProgrammeLeaf {
+interface ilStudyProgrammeLeaf {
 	/**
 	 * Get the ILIAS object id of the leaf.
 	 *

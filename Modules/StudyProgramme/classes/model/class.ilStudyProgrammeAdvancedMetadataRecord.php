@@ -2,12 +2,12 @@
 require_once("./Services/ActiveRecord/class.ActiveRecord.php");
 
 /**
- * Class ilTrainingProgrammeAdvancedMetadataRecord
+ * Class ilStudyProgrammeAdvancedMetadataRecord
  *
  * @author Michael Herren <mh@studer-raimann.ch>
  * @version 1.0.0
  */
-class ilTrainingProgrammeAdvancedMetadataRecord extends ActiveRecord {
+class ilStudyProgrammeAdvancedMetadataRecord extends ActiveRecord {
 	protected $connector_container_name = 'prg_type_adv_md_rec';
 
 	/**

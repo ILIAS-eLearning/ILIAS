@@ -6,7 +6,7 @@ require_once('./Services/Object/classes/class.ilObjectAccess.php');
 require_once('./Services/User/classes/class.ilUserAccountSettings.php');
 
 /**
- * Class ilObjTrainingProgrammeAccess
+ * Class ilObjStudyProgrammeAccess
  *
  * TODO: deletion is only allowed if there are now more users assigned to the
  * programme.
@@ -14,7 +14,7 @@ require_once('./Services/User/classes/class.ilUserAccountSettings.php');
  * @author: Richard Klees <richard.klees@concepts-and-training.de>
  *
  */
-class ilObjTrainingProgrammeAccess extends ilObjectAccess {
+class ilObjStudyProgrammeAccess extends ilObjectAccess {
 	/**
 	* Checks wether a user may invoke a command or not
 	* (this method is called by ilAccessHandler::checkAccess)

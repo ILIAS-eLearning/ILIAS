@@ -3,21 +3,21 @@
 /* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 require_once("Services/Table/classes/class.ilTable2GUI.php");
-require_once("Modules/TrainingProgramme/classes/class.ilTrainingProgrammeUserProgress.php");
-require_once("Modules/TrainingProgramme/classes/model/class.ilTrainingProgrammeProgress.php");
-require_once("Modules/TrainingProgramme/classes/model/class.ilTrainingProgrammeAssignment.php");
-require_once("Modules/TrainingProgramme/classes/class.ilObjTrainingProgramme.php");
-require_once("Modules/TrainingProgramme/classes/class.ilTrainingProgrammeUserProgress.php");
+require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeUserProgress.php");
+require_once("Modules/StudyProgramme/classes/model/class.ilStudyProgrammeProgress.php");
+require_once("Modules/StudyProgramme/classes/model/class.ilStudyProgrammeAssignment.php");
+require_once("Modules/StudyProgramme/classes/class.ilObjStudyProgramme.php");
+require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeUserProgress.php");
 require_once("Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 
 /**
- * Class ilObjTrainingProgrammeMembersTableGUI
+ * Class ilObjStudyProgrammeMembersTableGUI
  *
  * @author: Richard Klees <richard.klees@concepts-and-training.de>
  *
  */
 
-class ilTrainingProgrammeMembersTableGUI extends ilTable2GUI {
+class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 	protected $prg_obj_id;
 	protected $prg_ref_id;
 	
@@ -38,7 +38,7 @@ class ilTrainingProgrammeMembersTableGUI extends ilTable2GUI {
 		// TODO: switch this to internal sorting/segmentation
 		$this->setExternalSorting(false);
 		$this->setExternalSegmentation(false);
-		$this->setRowTemplate("tpl.members_table_row.html", "Modules/TrainingProgramme");
+		$this->setRowTemplate("tpl.members_table_row.html", "Modules/StudyProgramme");
 		
 		//$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, "view"));
 
@@ -67,7 +67,7 @@ class ilTrainingProgrammeMembersTableGUI extends ilTable2GUI {
 	}
 
 	protected function fillRow($a_set) {
-		if ($a_set["status"] == ilTrainingProgrammeProgress::STATUS_COMPLETED) {
+		if ($a_set["status"] == ilStudyProgrammeProgress::STATUS_COMPLETED) {
 			// If the status completed and there is a non-null completion_by field
 			// in the set, this means the completion was achieved by some leaf in
 			// the program tree.
@@ -77,20 +77,20 @@ class ilTrainingProgrammeMembersTableGUI extends ilTable2GUI {
 			// if that's not the case, the user completed underlying nodes and we
 			// need to no which...
 			else {
-				require_once("Modules/TrainingProgramme/classes/class.ilTrainingProgrammeUserProgress.php");
-				$prgrs = ilTrainingProgrammeUserProgress::getInstanceForAssignment( $this->prg_obj_id
+				require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeUserProgress.php");
+				$prgrs = ilStudyProgrammeUserProgress::getInstanceForAssignment( $this->prg_obj_id
 																				  , $a_set["assignment_id"]);
 				$completion_by = implode(", ", $prgrs->getNamesOfCompletedOrAccreditedChildren());
 			}
 		}
-		else if($a_set["status"] == ilTrainingProgrammeProgress::STATUS_ACCREDITED) {
+		else if($a_set["status"] == ilStudyProgrammeProgress::STATUS_ACCREDITED) {
 			$completion_by = $a_set["accredited_by"];
 		}
 		
 		$this->tpl->setVariable("FIRSTNAME", $a_set["firstname"]);
 		$this->tpl->setVariable("LASTNAME", $a_set["lastname"]);
 		$this->tpl->setVariable("LOGIN", $a_set["login"]);
-		$this->tpl->setVariable("STATUS", ilTrainingProgrammeUserProgress::statusToRepr($a_set["status"]));
+		$this->tpl->setVariable("STATUS", ilStudyProgrammeUserProgress::statusToRepr($a_set["status"]));
 		$this->tpl->setVariable("COMPLETION_BY", $completion_by);
 		$this->tpl->setVariable("POINTS_REQUIRED", $a_set["points"]);
 		$this->tpl->setVariable("POINTS_CURRENT", $a_set["points_cur"]);
@@ -132,9 +132,9 @@ class ilTrainingProgrammeMembersTableGUI extends ilTable2GUI {
 							   ."     , cmpl_obj.title completion_by"
 							   ."     , prgrs.assignment_id assignment_id"
 							   ."     , ass.root_prg_id root_prg_id"
-							   ."  FROM ".ilTrainingProgrammeProgress::returnDbTableName()." prgrs"
+							   ."  FROM ".ilStudyProgrammeProgress::returnDbTableName()." prgrs"
 							   ."  JOIN usr_data pcp ON pcp.usr_id = prgrs.usr_id"
-							   ."  JOIN ".ilTrainingProgrammeAssignment::returnDbTableName()." ass"
+							   ."  JOIN ".ilStudyProgrammeAssignment::returnDbTableName()." ass"
 							   			 ." ON ass.id = prgrs.assignment_id"
 							   ."  JOIN object_data blngs ON blngs.obj_id = ass.root_prg_id"
 							   ."  LEFT JOIN usr_data cmpl_usr ON cmpl_usr.usr_id = prgrs.completion_by"
@@ -144,7 +144,7 @@ class ilTrainingProgrammeMembersTableGUI extends ilTable2GUI {
 	
 		$members_list = array();
 		while($rec = $this->db->fetchAssoc($res)) {
-			$rec["actions"] = ilTrainingProgrammeUserProgress::getPossibleActions(
+			$rec["actions"] = ilStudyProgrammeUserProgress::getPossibleActions(
 										$a_prg_id, $rec["root_prg_id"], $rec["status"]);
 			$members_list[] = $rec;
 		}

@@ -3,14 +3,14 @@
 require_once("./Services/Component/classes/class.ilPlugin.php");
 
 /**
- * Abstract parent class for all TrainingProgrammeTypeHook plugin classes.
+ * Abstract parent class for all StudyProgrammeTypeHook plugin classes.
  *
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
  * @version $Id$
  *
  * @ingroup ServicesEventHandling
  */
-abstract class ilTrainingProgrammeTypeHookPlugin extends ilPlugin
+abstract class ilStudyProgrammeTypeHookPlugin extends ilPlugin
 {
     /**
      * Get Component Type
@@ -29,7 +29,7 @@ abstract class ilTrainingProgrammeTypeHookPlugin extends ilPlugin
      */
     final function getComponentName()
     {
-        return 'TrainingProgramme';
+        return 'StudyProgramme';
     }
 
     /**
@@ -39,7 +39,7 @@ abstract class ilTrainingProgrammeTypeHookPlugin extends ilPlugin
      */
     final function getSlot()
     {
-        return 'TrainingProgrammeTypeHook';
+        return 'StudyProgrammeTypeHook';
     }
 
     /**
@@ -102,7 +102,7 @@ abstract class ilTrainingProgrammeTypeHookPlugin extends ilPlugin
     }
 
     /**
-     * Return false if TrainingProgramme type cannot be deleted
+     * Return false if StudyProgramme type cannot be deleted
      *
      * @param int $a_type_id
      * @return bool
@@ -112,7 +112,7 @@ abstract class ilTrainingProgrammeTypeHookPlugin extends ilPlugin
     }
 
     /**
-     * Return false if TrainingProgramme type is locked and no updates are possible
+     * Return false if StudyProgramme type is locked and no updates are possible
      *
      * @param int $a_type_id
      * @return bool
@@ -122,7 +122,7 @@ abstract class ilTrainingProgrammeTypeHookPlugin extends ilPlugin
     }
 
     /**
-     * Return false if an AdvancedMDRecord cannot be assigned to an TrainingProgramme type
+     * Return false if an AdvancedMDRecord cannot be assigned to an StudyProgramme type
      *
      * @param int $a_type_id
      * @param int $a_record_id
@@ -133,7 +133,7 @@ abstract class ilTrainingProgrammeTypeHookPlugin extends ilPlugin
     }
 
     /**
-     * Return false if an AdvancedMDRecord cannot be deassigned from an TrainingProgramme type
+     * Return false if an AdvancedMDRecord cannot be deassigned from an StudyProgramme type
      *
      * @param int $a_type_id
      * @param int $a_record_id

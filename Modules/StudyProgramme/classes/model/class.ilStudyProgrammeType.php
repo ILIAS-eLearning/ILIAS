@@ -1,16 +1,16 @@
 <?php
 require_once("./Services/ActiveRecord/class.ActiveRecord.php");
-require_once('class.ilTrainingProgrammeTypeTranslation.php');
-require_once('./Modules/TrainingProgramme/classes/exceptions/class.ilTrainingProgrammeTypeException.php');
-require_once('./Modules/TrainingProgramme/classes/exceptions/class.ilTrainingProgrammeTypePluginException.php');
+require_once('class.ilStudyProgrammeTypeTranslation.php');
+require_once('./Modules/StudyProgramme/classes/exceptions/class.ilStudyProgrammeTypeException.php');
+require_once('./Modules/StudyProgramme/classes/exceptions/class.ilStudyProgrammeTypePluginException.php');
 require_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
 
 /**
- * Class ilTrainingProgrammeType
+ * Class ilStudyProgrammeType
  *
  * @author Michael Herren <mh@studer-raimann.ch>
  */
-class ilTrainingProgrammeType extends ActiveRecord {
+class ilStudyProgrammeType extends ActiveRecord {
 
 	/**
 	 * Folder in ILIAS webdir to store the icons
@@ -131,7 +131,7 @@ class ilTrainingProgrammeType extends ActiveRecord {
 	/**
 	 * @param int $a_id
 	 *
-	 * @throws ilTrainingProgrammeTypeException
+	 * @throws ilStudyProgrammeTypeException
 	 */
 	public function __construct($primary_key = 0) {
 		global $ilDB, $ilLog, $ilUser, $ilPluginAdmin, $lng;
@@ -149,7 +149,7 @@ class ilTrainingProgrammeType extends ActiveRecord {
 	 */
 
 	/**
-	 * Get array of all instances of ilTrainingProgrammeType objects
+	 * Get array of all instances of ilStudyProgrammeType objects
 	 *
 	 * @return array
 	 */
@@ -173,13 +173,13 @@ class ilTrainingProgrammeType extends ActiveRecord {
 	/**
 	 * Create object in database. Also invokes creating of translation objects.
 	 *
-	 * @throws ilTrainingProgrammeTypeException
+	 * @throws ilStudyProgrammeTypeException
 	 */
 	public function create() {
 		$default_lang = $this->getDefaultLang();
 		$title = $this->getTranslation('title', $default_lang);
 		if (!$default_lang || !$title) {
-			throw new ilTrainingProgrammeTypeException($this->lng->txt('prg_type_msg_missing_title_default_language'));
+			throw new ilStudyProgrammeTypeException($this->lng->txt('prg_type_msg_missing_title_default_language'));
 		}
 
 		$this->setOwner($this->user->getId());
@@ -188,7 +188,7 @@ class ilTrainingProgrammeType extends ActiveRecord {
 		parent::create();
 
 		// Create translation(s)
-		/** @var $trans ilTrainingProgrammeTypeTranslation */
+		/** @var $trans ilStudyProgrammeTypeTranslation */
 		foreach ($this->changed_translations as $lang => $trans_objects) {
 			foreach($trans_objects as $trans) {
 				$trans->setPrgTypeId($this->getId());
@@ -202,18 +202,18 @@ class ilTrainingProgrammeType extends ActiveRecord {
 	/**
 	 * Update changes to database
 	 *
-	 * @throws ilTrainingProgrammeTypePluginException
-	 * @throws ilTrainingProgrammeTypeException
+	 * @throws ilStudyProgrammeTypePluginException
+	 * @throws ilStudyProgrammeTypeException
 	 */
 	public function update() {
 		$title = $this->getTranslation('title', $this->getDefaultLang());
 		if (!$title) {
-			throw new ilTrainingProgrammeTypeException($this->lng->txt('prg_type_msg_missing_title'));
+			throw new ilStudyProgrammeTypeException($this->lng->txt('prg_type_msg_missing_title'));
 		}
 
 		$disallowed = array();
 		$titles = array();
-		/** @var ilTrainingProgrammeTypeHookPlugin $plugin */
+		/** @var ilStudyProgrammeTypeHookPlugin $plugin */
 		foreach ($this->getActivePlugins() as $plugin) {
 			if (!$plugin->allowUpdate($this->getId())) {
 				$disallowed[] = $plugin;
@@ -222,13 +222,13 @@ class ilTrainingProgrammeType extends ActiveRecord {
 		}
 		/*if (count($disallowed)) {
 			$msg = sprintf($this->lng->txt('prg_type_msg_updating_prevented'), implode(', ', $titles));
-			throw new ilTrainingProgrammeTypePluginException($msg, $disallowed);
+			throw new ilStudyProgrammeTypePluginException($msg, $disallowed);
 		}*/
 
 		parent::update();
 
 		// Update translation(s)
-		/** @var $trans ilTrainingProgrammeTypeTranslation */
+		/** @var $trans ilStudyProgrammeTypeTranslation */
 		foreach ($this->changed_translations as $lang => $trans_objects) {
 			foreach($trans_objects as $trans) {
 				$trans->setPrgTypeId($this->getId());
@@ -240,28 +240,28 @@ class ilTrainingProgrammeType extends ActiveRecord {
 
 	/**
 	 * Delete object by removing all database entries.
-	 * Deletion is only possible if this type is not assigned to any TrainingProgramme and if no plugin disallowed deletion process.
+	 * Deletion is only possible if this type is not assigned to any StudyProgramme and if no plugin disallowed deletion process.
 	 *
-	 * @throws ilTrainingProgrammeTypeException
+	 * @throws ilStudyProgrammeTypeException
 	 */
 	public function delete() {
-		$prgs = ilTrainingProgramme::where(array('subtype_id'=>$this->getId()))->get();
+		$prgs = ilStudyProgramme::where(array('subtype_id'=>$this->getId()))->get();
 
 		if (count($prgs)) {
 			$titles = array();
-			/** @var $prg ilTrainingProgramme */
+			/** @var $prg ilStudyProgramme */
 			foreach ($prgs as $key=>$prg) {
-				$container = new ilObjTrainingProgramme($prg->getObjId(), false);
+				$container = new ilObjStudyProgramme($prg->getObjId(), false);
 				$titles[] = $container->getTitle();
 			}
 
-			throw new ilTrainingProgrammeTypeException(sprintf($this->lng->txt('prg_type_msg_unable_delete'), implode(', ', $titles)));
+			throw new ilStudyProgrammeTypeException(sprintf($this->lng->txt('prg_type_msg_unable_delete'), implode(', ', $titles)));
 		}
 
 		$disallowed = array();
 		$titles = array();
 
-		/** @var ilTrainingProgrammeTypeHookPlugin $plugin */
+		/** @var ilStudyProgrammeTypeHookPlugin $plugin */
 		foreach ($this->getActivePlugins() as $plugin) {
 			if (!$plugin->allowDelete($this->getId())) {
 				$disallowed[] = $plugin;
@@ -270,12 +270,12 @@ class ilTrainingProgrammeType extends ActiveRecord {
 		}
 		if (count($disallowed)) {
 			$msg = sprintf($this->lng->txt('prg_type_msg_deletion_prevented'), implode(', ', $titles));
-			throw new ilTrainingProgrammeTypePluginException($msg, $disallowed);
+			throw new ilStudyProgrammeTypePluginException($msg, $disallowed);
 		}
 
 		parent::delete();
 
-		// Reset Type of TrainingProgrammes (in Trash)
+		// Reset Type of StudyProgrammes (in Trash)
 		/*$this->db->update('prg_data', array(
 			'prg_type_id' => array( 'integer', 0 ),
 		), array(
@@ -283,7 +283,7 @@ class ilTrainingProgrammeType extends ActiveRecord {
 		));*/
 
 		// Delete all translations
-		ilTrainingProgrammeTypeTranslation::deleteAllTranslations($this->getId());
+		ilStudyProgrammeTypeTranslation::deleteAllTranslations($this->getId());
 
 		// Delete icon & folder
 		if (is_file($this->getIconPath(true))) {
@@ -294,7 +294,7 @@ class ilTrainingProgrammeType extends ActiveRecord {
 		}
 
 		// Delete relations to advanced metadata records
-		$records = ilTrainingProgrammeAdvancedMetadataRecord::where(array('type_id'=>$this->getId()))->get();
+		$records = ilStudyProgrammeAdvancedMetadataRecord::where(array('type_id'=>$this->getId()))->get();
 		foreach($records as $record) {
 			$record->delete();
 		}
@@ -302,7 +302,7 @@ class ilTrainingProgrammeType extends ActiveRecord {
 
 
 	/**
-	 * Get the title of an TrainingProgramme type. If no language code is given, a translation in the user-language is
+	 * Get the title of an StudyProgramme type. If no language code is given, a translation in the user-language is
 	 * returned. If no such translation exists, the translation of the default language is substituted.
 	 * If a language code is provided, returns title for the given language or null.
 	 *
@@ -316,7 +316,7 @@ class ilTrainingProgrammeType extends ActiveRecord {
 
 
 	/**
-	 * Set title of TrainingProgramme type.
+	 * Set title of StudyProgramme type.
 	 * If no lang code is given, sets title for default language.
 	 *
 	 * @param        $a_title
@@ -329,7 +329,7 @@ class ilTrainingProgrammeType extends ActiveRecord {
 
 
 	/**
-	 * Get the description of an TrainingProgramme type. If no language code is given, a translation in the user-language is
+	 * Get the description of an StudyProgramme type. If no language code is given, a translation in the user-language is
 	 * returned. If no such translation exists, the description of the default language is substituted.
 	 * If a language code is provided, returns description for the given language or null.
 	 *
@@ -343,7 +343,7 @@ class ilTrainingProgrammeType extends ActiveRecord {
 
 
 	/**
-	 * Set description of TrainingProgramme type.
+	 * Set description of StudyProgramme type.
 	 * If no lang code is given, sets description for default language.
 	 *
 	 * @param        $a_description
@@ -355,18 +355,18 @@ class ilTrainingProgrammeType extends ActiveRecord {
 	}
 
 	/**
-	 * Get an array of ilObjTrainingProgramme objects using this type
+	 * Get an array of ilObjStudyProgramme objects using this type
 	 *
-	 * @param bool $include_deleted True if also deleted TrainingProgrammes are returned
+	 * @param bool $include_deleted True if also deleted StudyProgrammes are returned
 	 *
 	 * @return array
 	 */
-	public function getAssignedTrainingProgrammes($include_deleted = true) {
-		return ilTrainingProgramme::where(array('subtype_id'=>$this->getId()))->get();
+	public function getAssignedStudyProgrammes($include_deleted = true) {
+		return ilStudyProgramme::where(array('subtype_id'=>$this->getId()))->get();
 	}
 
-	public function getAssignedTrainingProgrammeIds() {
-		$training_programmes = $this->getAssignedTrainingProgrammes();
+	public function getAssignedStudyProgrammeIds() {
+		$training_programmes = $this->getAssignedStudyProgrammes();
 
 		$out = array();
 		foreach($training_programmes as $training_program) {
@@ -390,7 +390,7 @@ class ilTrainingProgrammeType extends ActiveRecord {
 			return $this->amd_records_assigned[$active];
 		}
 		$this->amd_records_assigned[$active] = array();
-		$sets = ilTrainingProgrammeAdvancedMetadataRecord::where(array('type_id'=>$this->getId()))->get();
+		$sets = ilStudyProgrammeAdvancedMetadataRecord::where(array('type_id'=>$this->getId()))->get();
 
 		foreach($sets as $set) {
 			$amd_record = new ilAdvancedMDRecord($set->getRecId());
@@ -426,7 +426,7 @@ class ilTrainingProgrammeType extends ActiveRecord {
 
 
 	/**
-	 * Get all available AdvancedMDRecord objects for TrainingProgrammes/Types
+	 * Get all available AdvancedMDRecord objects for StudyProgrammes/Types
 	 *
 	 * @return array
 	 */
@@ -441,7 +441,7 @@ class ilTrainingProgrammeType extends ActiveRecord {
 
 
 	/**
-	 * Get IDs of all available AdvancedMDRecord objects for TrainingProgramme/Types
+	 * Get IDs of all available AdvancedMDRecord objects for StudyProgramme/Types
 	 *
 	 * @return array
 	 */
@@ -458,20 +458,20 @@ class ilTrainingProgrammeType extends ActiveRecord {
 
 	/**
 	 * Assign a given AdvancedMDRecord to this type.
-	 * If the AMDRecord is already assigned, nothing is done. If the AMDRecord cannot be assigned to TrainingProgrammes/Types,
+	 * If the AMDRecord is already assigned, nothing is done. If the AMDRecord cannot be assigned to StudyProgrammes/Types,
 	 * an Exception is thrown. Otherwise the AMDRecord is assigned (relation gets stored in DB).
 	 *
 	 * @param int $a_record_id
 	 *
-	 * @throws ilTrainingProgrammeTypePluginException
-	 * @throws ilTrainingProgrammeTypeException
+	 * @throws ilStudyProgrammeTypePluginException
+	 * @throws ilStudyProgrammeTypeException
 	 */
 	public function assignAdvancedMDRecord($a_record_id) {
 		if (!in_array($a_record_id, $this->getAssignedAdvancedMDRecordIds())) {
 			if (!in_array($a_record_id, self::getAvailableAdvancedMDRecordIds())) {
-				throw new ilTrainingProgrammeTypeException("AdvancedMDRecord with ID {$a_record_id} cannot be assigned to TrainingProgramme types");
+				throw new ilStudyProgrammeTypeException("AdvancedMDRecord with ID {$a_record_id} cannot be assigned to StudyProgramme types");
 			}
-			/** @var ilTrainingProgrammeTypeHookPlugin $plugin */
+			/** @var ilStudyProgrammeTypeHookPlugin $plugin */
 			$disallowed = array();
 			$titles = array();
 			foreach ($this->getActivePlugins() as $plugin) {
@@ -482,22 +482,22 @@ class ilTrainingProgrammeType extends ActiveRecord {
 			}
 			if (count($disallowed)) {
 				$msg = sprintf($this->lng->txt('prg_type_msg_assign_amd_prevented'), implode(', ', $titles));
-				throw new ilTrainingProgrammeTypePluginException($msg, $disallowed);
+				throw new ilStudyProgrammeTypePluginException($msg, $disallowed);
 			}
 			$record_ids = $this->getAssignedAdvancedMDRecordIds();
 			$record_ids[] = $a_record_id;
 
-			$exists = ilTrainingProgrammeAdvancedMetadataRecord::where(array('type_id'=>$this->getId(), 'rec_id'=>$a_record_id))->first();
+			$exists = ilStudyProgrammeAdvancedMetadataRecord::where(array('type_id'=>$this->getId(), 'rec_id'=>$a_record_id))->first();
 
 			if(!$exists) {
-				$advanced_meta = new ilTrainingProgrammeAdvancedMetadataRecord();
+				$advanced_meta = new ilStudyProgrammeAdvancedMetadataRecord();
 				$advanced_meta->setTypeId($this->getId());
 				$advanced_meta->setRecId($a_record_id);
 				$advanced_meta->create();
 			}
 
-			// We need to update each TrainingProgramme from this type and map the selected records to object_id
-			foreach ($this->getAssignedTrainingProgrammeIds() as $prg_id) {
+			// We need to update each StudyProgramme from this type and map the selected records to object_id
+			foreach ($this->getAssignedStudyProgrammeIds() as $prg_id) {
 				ilAdvancedMDRecord::saveObjRecSelection($prg_id, 'prg_type', $record_ids);
 			}
 			$this->amd_records_assigned = NULL; // Force reload of assigned objects
@@ -510,13 +510,13 @@ class ilTrainingProgrammeType extends ActiveRecord {
 	 *
 	 * @param int $a_record_id
 	 *
-	 * @throws ilTrainingProgrammeTypePluginException
+	 * @throws ilStudyProgrammeTypePluginException
 	 */
 	public function deassignAdvancedMdRecord($a_record_id) {
 		$record_ids = $this->getAssignedAdvancedMDRecordIds();
 		$key = array_search($a_record_id, $record_ids);
 		if ($key !== false) {
-			/** @var ilTrainingProgrammeTypeHookPlugin $plugin */
+			/** @var ilStudyProgrammeTypeHookPlugin $plugin */
 			$disallowed = array();
 			$titles = array();
 			foreach ($this->getActivePlugins() as $plugin) {
@@ -527,17 +527,17 @@ class ilTrainingProgrammeType extends ActiveRecord {
 			}
 			if (count($disallowed)) {
 				$msg = sprintf($this->lng->txt('prg_type_msg_deassign_amd_prevented'), implode(', ', $titles));
-				throw new ilTrainingProgrammeTypePluginException($msg, $disallowed);
+				throw new ilStudyProgrammeTypePluginException($msg, $disallowed);
 			}
 			unset($record_ids[$key]);
 
-			$records = ilTrainingProgrammeAdvancedMetadataRecord::where(array('type_id'=>$this->getId(), 'rec_id'=>$a_record_id))->get();
+			$records = ilStudyProgrammeAdvancedMetadataRecord::where(array('type_id'=>$this->getId(), 'rec_id'=>$a_record_id))->get();
 			foreach($records as $record) {
 				$record->delete();
 			}
 
-			// We need to update each TrainingProgramme from this type and map the selected records to object_id
-			foreach ($this->getAssignedTrainingProgrammeIds() as $prg_id) {
+			// We need to update each StudyProgramme from this type and map the selected records to object_id
+			foreach ($this->getAssignedStudyProgrammeIds() as $prg_id) {
 				ilAdvancedMDRecord::saveObjRecSelection($prg_id, 'prg_type', $record_ids);
 			}
 			$this->amd_records_assigned = NULL; // Force reload of assigned objects
@@ -631,7 +631,7 @@ class ilTrainingProgrammeType extends ActiveRecord {
 	 * @param string $a_value
 	 * @param string $a_lang_code
 	 *
-	 * @throws ilTrainingProgrammeTypePluginException
+	 * @throws ilStudyProgrammeTypePluginException
 	 */
 	protected function setTranslation($a_member, $a_value, $a_lang_code) {
 		$a_value = trim($a_value);
@@ -642,13 +642,13 @@ class ilTrainingProgrammeType extends ActiveRecord {
 		}
 		// #19 Title should be unique per language
 		//        if ($a_value && $a_member == 'title') {
-		//            if (ilTrainingProgrammeTypeTranslation::exists($this->getId(), 'title', $a_lang_code, $a_value)) {
-		//                throw new ilTrainingProgrammeTypeException($this->lng->txt('prg_type_msg_title_already_exists'));
+		//            if (ilStudyProgrammeTypeTranslation::exists($this->getId(), 'title', $a_lang_code, $a_value)) {
+		//                throw new ilStudyProgrammeTypeException($this->lng->txt('prg_type_msg_title_already_exists'));
 		//            }
 		//        }
 		$disallowed = array();
 		$titles = array();
-		/** @var ilTrainingProgrammeTypeHookPlugin $plugin */
+		/** @var ilStudyProgrammeTypeHookPlugin $plugin */
 		foreach ($this->getActivePlugins() as $plugin) {
 			$allowed = true;
 			if ($a_member == 'title') {
@@ -665,12 +665,12 @@ class ilTrainingProgrammeType extends ActiveRecord {
 		}
 		if (count($disallowed)) {
 			$msg = sprintf($this->lng->txt('prg_type_msg_setting_member_prevented'), $a_value, implode(', ', $titles));
-			throw new ilTrainingProgrammeTypePluginException($msg, $disallowed);
+			throw new ilStudyProgrammeTypePluginException($msg, $disallowed);
 		}
 
-		$trans_obj = ilTrainingProgrammeTypeTranslation::where(array('prg_type_id'=>$this->getId(), 'member'=>$a_member, 'lang'=>$a_lang_code))->first();
+		$trans_obj = ilStudyProgrammeTypeTranslation::where(array('prg_type_id'=>$this->getId(), 'member'=>$a_member, 'lang'=>$a_lang_code))->first();
 		if(!$trans_obj) {
-			$trans_obj = new ilTrainingProgrammeTypeTranslation();
+			$trans_obj = new ilStudyProgrammeTypeTranslation();
 			$trans_obj->setPrgTypeId($this->getId());
 			$trans_obj->setLang($a_lang_code);
 			$trans_obj->setMember($a_member);
@@ -684,17 +684,17 @@ class ilTrainingProgrammeType extends ActiveRecord {
 
 
 	/**
-	 * Get array of all acitve plugins for the ilTrainingProgrammeTypeHook plugin slot
+	 * Get array of all acitve plugins for the ilStudyProgrammeTypeHook plugin slot
 	 *
 	 * @return array
 	 */
 	protected function getActivePlugins() {
 		if ($this->active_plugins === NULL) {
-			$active_plugins = $this->pluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, 'TrainingProgramme', 'prgtypehk');
+			$active_plugins = $this->pluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, 'StudyProgramme', 'prgtypehk');
 			$this->active_plugins = array();
 			foreach ($active_plugins as $pl_name) {
-				/** @var ilTrainingProgrammeTypeHookPlugin $plugin */
-				$plugin = $this->pluginAdmin->getPluginObject(IL_COMP_MODULE, 'TrainingProgramme', 'prgtypehk', $pl_name);
+				/** @var ilStudyProgrammeTypeHookPlugin $plugin */
+				$plugin = $this->pluginAdmin->getPluginObject(IL_COMP_MODULE, 'StudyProgramme', 'prgtypehk', $pl_name);
 				$this->active_plugins[] = $plugin;
 			}
 		}
@@ -715,7 +715,7 @@ class ilTrainingProgrammeType extends ActiveRecord {
 		if (isset($this->translations[$a_lang_code])) {
 			return $this->translations[$a_lang_code];
 		} else {
-			$trans_array = ilTrainingProgrammeTypeTranslation::where(array('prg_type_id'=>$this->getId(), 'lang'=>$a_lang_code))->getArray('member', 'value');
+			$trans_array = ilStudyProgrammeTypeTranslation::where(array('prg_type_id'=>$this->getId(), 'lang'=>$a_lang_code))->getArray('member', 'value');
 			if (count($trans_array)) {
 				$this->translations[$a_lang_code] = $trans_array;
 
@@ -770,8 +770,8 @@ class ilTrainingProgrammeType extends ActiveRecord {
 	 * @return array
 	 */
 	public function getAllTranslations() {
-		$translations = ilTrainingProgrammeTypeTranslation::where(array('prg_type_id'=>$this->getId()))->get();
-		/** @var ilTrainingProgrammeTypeTranslation $trans */
+		$translations = ilStudyProgrammeTypeTranslation::where(array('prg_type_id'=>$this->getId()))->get();
+		/** @var ilStudyProgrammeTypeTranslation $trans */
 		foreach ($translations as $trans) {
 			$this->translations[$trans->getLang()] = $trans->getArray('member', 'value');
 		}
@@ -824,17 +824,17 @@ class ilTrainingProgrammeType extends ActiveRecord {
 	 * Set new Icon filename.
 	 *
 	 * Note that if you did also send a new icon image file with a form, make sure to call
-	 * ilTrainingProgrammeType::processAndStoreIconFile() to store the file additionally on disk.
+	 * ilStudyProgrammeType::processAndStoreIconFile() to store the file additionally on disk.
 	 *
-	 * If you want to delete the icon, set call ilTrainingProgrammeType::removeIconFile() first and set an empty string here.
+	 * If you want to delete the icon, set call ilStudyProgrammeType::removeIconFile() first and set an empty string here.
 	 *
 	 * @param string $icon
 	 *
-	 * @throws ilTrainingProgrammeTypeException
+	 * @throws ilStudyProgrammeTypeException
 	 */
 	public function setIcon($icon) {
 		if ($icon AND !preg_match('/\.(svg)$/', $icon)) {
-			throw new ilTrainingProgrammeTypeException('Icon must be set with file extension svg');
+			throw new ilStudyProgrammeTypeException('Icon must be set with file extension svg');
 		}
 		$this->icon = $icon;
 	}
@@ -868,7 +868,7 @@ class ilTrainingProgrammeType extends ActiveRecord {
 	/**
 	 * @param string $default_lang
 	 *
-	 * @throws ilTrainingProgrammeTypePluginException
+	 * @throws ilStudyProgrammeTypePluginException
 	 */
 	public function setDefaultLang($default_lang) {
 		// If the new default_lang is identical, quit early and do not execute plugin checks
@@ -878,7 +878,7 @@ class ilTrainingProgrammeType extends ActiveRecord {
 		$disallowed = array();
 		$titles = array();
 		/**
-		 * @var ilTrainingProgrammeTypeHookPlugin $plugin
+		 * @var ilStudyProgrammeTypeHookPlugin $plugin
 		 */
 		foreach ($this->getActivePlugins() as $plugin) {
 			if (!$plugin->allowSetDefaultLanguage($this->getId(), $default_lang)) {
@@ -888,7 +888,7 @@ class ilTrainingProgrammeType extends ActiveRecord {
 		}
 		if (count($disallowed)) {
 			$msg = sprintf($this->lng->txt('prg_type_msg_setting_default_lang_prevented'), $default_lang, implode(', ', $titles));
-			throw new ilTrainingProgrammeTypePluginException($msg, $disallowed);
+			throw new ilStudyProgrammeTypePluginException($msg, $disallowed);
 		}
 
 		$this->default_lang = $default_lang;

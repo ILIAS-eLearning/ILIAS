@@ -2,7 +2,7 @@
 
 /* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-require_once("./Modules/TrainingProgramme/classes/model/class.ilTrainingProgrammeProgress.php");
+require_once("./Modules/StudyProgramme/classes/model/class.ilStudyProgrammeProgress.php");
 
 /**
  * Represents the progress of a user at one node of a training programme.
@@ -12,25 +12,25 @@ require_once("./Modules/TrainingProgramme/classes/model/class.ilTrainingProgramm
  *
  * @author : Richard Klees <richard.klees@concepts-and-training.de>
  */
-class ilTrainingProgrammeUserProgress {
-	protected $progress; // ilTrainingProgrammeProgress
+class ilStudyProgrammeUserProgress {
+	protected $progress; // ilStudyProgrammeProgress
 	
 	/**
 	 * Throws when id does not refer to a training programme progress.
 	 *
 	 * Expects an array [assignment_id, program_node_id, user_id] or an
-	 * ilTrainingProgress as first parameter.
+	 * ilStudyProgress as first parameter.
 	 *
 	 * @throws ilException
-	 * @param int[] | ilTrainingProgrammeAssignment $a_ids_or_model 
+	 * @param int[] | ilStudyProgrammeAssignment $a_ids_or_model 
 	 */
 	public function __construct($a_ids_or_model) {
-		if ($a_ids_or_model instanceof ilTrainingProgrammeProgress) {
+		if ($a_ids_or_model instanceof ilStudyProgrammeProgress) {
 			$this->progress = $a_ids_or_model;
 		}
 		else {
 			if (count($a_ids_or_model) != 3) {
-				throw new ilException("ilTrainingProgrammeUserProgress::__construct: "
+				throw new ilException("ilStudyProgrammeUserProgress::__construct: "
 									 ."expected array with 3 items.");
 			}
 			
@@ -38,14 +38,14 @@ class ilTrainingProgrammeUserProgress {
 			// we are not using find. Maybe we should do this ourselves??
 			// Or should we instead cache in getInstance?
 			$this->progress = array_shift(
-				ilTrainingProgrammeProgress::where(array
+				ilStudyProgrammeProgress::where(array
 							( "assignment_id" => $a_ids_or_model[0]
 							, "prg_id" => $a_ids_or_model[1]
 							, "usr_id" => $a_ids_or_model[2]
 							))->get());
 		}
 		if ($this->progress === null) {
-			throw new ilException("ilTrainingProgrammeUserProgress::__construct: Could not find progress.");
+			throw new ilException("ilStudyProgrammeUserProgress::__construct: Could not find progress.");
 		}
 	}
 	
@@ -56,24 +56,24 @@ class ilTrainingProgrammeUserProgress {
 	 * @param  int $a_assignment_id
 	 * @param  int $a_program_id
 	 * @param  int $a_user_id
-	 * @return ilTrainingProgrammeUserProgress
+	 * @return ilStudyProgrammeUserProgress
 	 */
 	static public function getInstance($a_assignment_id, $a_program_id, $a_user_id) {
-		return new ilTrainingProgrammeUserProgress(array($a_assignment_id, $a_program_id, $a_user_id));
+		return new ilStudyProgrammeUserProgress(array($a_assignment_id, $a_program_id, $a_user_id));
 	}
 	
 	/**
 	 * Get an instance by progress id.
 	 * 
 	 * @param  int $a_prgrs_id
-	 * @return ilTrainingProgrammeUserProgress
+	 * @return ilStudyProgrammeUserProgress
 	 */
 	static public function getInstanceById($a_prgrs_id) {
-		$prgrs = ilTrainingProgrammeProgress::find($a_prgrs_id);
+		$prgrs = ilStudyProgrammeProgress::find($a_prgrs_id);
 		if ($prgrs === null) {
 			throw new ilException("Unknown progress id $a_prgrs_id.");
 		}
-		return new ilTrainingProgrammeUserProgress($prgrs);
+		return new ilStudyProgrammeUserProgress($prgrs);
 	}
 	
 	/**
@@ -81,15 +81,15 @@ class ilTrainingProgrammeUserProgress {
 	 *
 	 * @param  int $a_program_id
 	 * @param  int $a_user_id
-	 * @return ilTrainingProgrammeUserProgress[]
+	 * @return ilStudyProgrammeUserProgress[]
 	 */
 	static public function getInstancesForUser($a_program_id, $a_user_id) {
-		$progresses = ilTrainingProgrammeProgress::where(array
+		$progresses = ilStudyProgrammeProgress::where(array
 							( "prg_id" => $a_program_id
 							, "usr_id" => $a_user_id
 							))->get();
 		return array_values(array_map(function($dat) {
-			return new ilTrainingProgrammeUserProgress($dat);
+			return new ilStudyProgrammeUserProgress($dat);
 		}, $progresses));
 	}
 	
@@ -101,33 +101,33 @@ class ilTrainingProgrammeUserProgress {
 	 * @throws ilException
 	 * @param  int $a_program_id
 	 * @param  int $a_user_id
-	 * @return ilTrainingProgrammeUserProgress
+	 * @return ilStudyProgrammeUserProgress
 	 */
 	static public function getInstanceForAssignment($a_program_id, $a_assignment_id) {
-		$progresses = ilTrainingProgrammeProgress::where(array
+		$progresses = ilStudyProgrammeProgress::where(array
 							( "prg_id" => $a_program_id
 							, "assignment_id" => $a_assignment_id
 							))->get();
 		if (count($progresses) == 0) {
-			throw new ilException("ilTrainingProgrammeUserProgress::getInstanceForAssignment: "
+			throw new ilException("ilStudyProgrammeUserProgress::getInstanceForAssignment: "
 								 ."Assignment '$a_assignment_id' does not belong to program "
 								 ."'$a_program_id'");
 		}
-		return new ilTrainingProgrammeUserProgress(array_shift($progresses));
+		return new ilStudyProgrammeUserProgress(array_shift($progresses));
 	}
 	
 	/**
 	 * Get the instances for a program node.
 	 *
 	 * @param int $a_program_id
-	 * @return ilTrainingProgrammeUserProgress[]
+	 * @return ilStudyProgrammeUserProgress[]
 	 */
 	static public function getInstancesForProgram($a_program_id) {
-		$progresses = ilTrainingProgrammeProgress::where(array
+		$progresses = ilStudyProgrammeProgress::where(array
 							( "prg_id" => $a_program_id
 							))->get();
 		return array_values(array_map(function($dat) {
-			return new ilTrainingProgrammeUserProgress($dat);
+			return new ilStudyProgrammeUserProgress($dat);
 		}, $progresses));
 	}
 	
@@ -138,16 +138,16 @@ class ilTrainingProgrammeUserProgress {
 		global $lng;
 		$lng->loadLanguageModule("prg");
 		
-		if ($a_status == ilTrainingProgrammeProgress::STATUS_IN_PROGRESS) {
+		if ($a_status == ilStudyProgrammeProgress::STATUS_IN_PROGRESS) {
 			return $lng->txt("prg_status_in_progress");
 		}
-		if ($a_status == ilTrainingProgrammeProgress::STATUS_COMPLETED) {
+		if ($a_status == ilStudyProgrammeProgress::STATUS_COMPLETED) {
 			return $lng->txt("prg_status_completed");
 		}
-		if ($a_status == ilTrainingProgrammeProgress::STATUS_ACCREDITED) {
+		if ($a_status == ilStudyProgrammeProgress::STATUS_ACCREDITED) {
 			return $lng->txt("prg_status_accredited");
 		}
-		if ($a_status == ilTrainingProgrammeProgress::STATUS_NOT_RELEVANT) {
+		if ($a_status == ilStudyProgrammeProgress::STATUS_NOT_RELEVANT) {
 			return $lng->txt("prg_status_not_relevant");
 		}
 		throw new ilException("Unknown status: '$a_status'");
@@ -161,27 +161,27 @@ class ilTrainingProgrammeUserProgress {
 	 * TODO: I'm quite sure, this will profit from caching.
 	 *
 	 * @throws ilException
-	 * @return ilObjTrainingProgramme
+	 * @return ilObjStudyProgramme
 	 */
-	public function getTrainingProgramme() {
-		require_once("./Modules/TrainingProgramme/classes/class.ilObjTrainingProgramme.php");
+	public function getStudyProgramme() {
+		require_once("./Modules/StudyProgramme/classes/class.ilObjStudyProgramme.php");
 		$refs = ilObject::_getAllReferences($this->progress->getNodeId());
 		if (!count($refs)) {
-			throw new ilException("ilTrainingProgrammeUserAssignment::getTrainingProgramme: "
+			throw new ilException("ilStudyProgrammeUserAssignment::getStudyProgramme: "
 								 ."could not find ref_id for program '"
 								 .$this->progress->getNodeId()."'.");
 		}
-		return ilObjTrainingProgramme::getInstanceByRefId(array_shift($refs));
+		return ilObjStudyProgramme::getInstanceByRefId(array_shift($refs));
 	}
 	
 	/**
 	 * Get the assignment this progress belongs to.
 	 *
-	 * @return ilTrainingProgrammeUserAssignment
+	 * @return ilStudyProgrammeUserAssignment
 	 */
 	public function getAssignment() {
-		require_once("Modules/TrainingProgramme/classes/class.ilTrainingProgrammeUserAssignment.php");
-		return ilTrainingProgrammeUserAssignment::getInstance($this->progress->getAssignmentId());
+		require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeUserAssignment.php");
+		return ilStudyProgrammeUserAssignment::getInstance($this->progress->getAssignmentId());
 	}
 	
 	/**
@@ -214,7 +214,7 @@ class ilTrainingProgrammeUserProgress {
 	/**
 	 * Get the status of the progress.
 	 *
-	 * @return ilTrainingProgrammeProgress::$STATUS
+	 * @return ilStudyProgrammeProgress::$STATUS
 	 */
 	public function getStatus() {
 		return $this->progress->getStatus();
@@ -285,15 +285,15 @@ class ilTrainingProgrammeUserProgress {
 	 * @return $this
 	 */
 	public function markAccredited($a_user_id) {
-		if ($this->getStatus() == ilTrainingProgrammeProgress::STATUS_NOT_RELEVANT) {
-			$prg = $this->getTrainingProgramme();
-			if ($prg->getStatus() == ilTrainingProgramme::STATUS_OUTDATED) {
-				throw new ilException("ilTrainingProgrammeUserProgress::markAccredited: "
+		if ($this->getStatus() == ilStudyProgrammeProgress::STATUS_NOT_RELEVANT) {
+			$prg = $this->getStudyProgramme();
+			if ($prg->getStatus() == ilStudyProgramme::STATUS_OUTDATED) {
+				throw new ilException("ilStudyProgrammeUserProgress::markAccredited: "
 									 ."Can't mark as accredited since program is outdated.");
 			}
 		}
 		
-		$this->progress->setStatus(ilTrainingProgrammeProgress::STATUS_ACCREDITED)
+		$this->progress->setStatus(ilStudyProgrammeProgress::STATUS_ACCREDITED)
 					   ->setCompletionBy($a_user_id)
 					   ->update();
 					   
@@ -310,11 +310,11 @@ class ilTrainingProgrammeUserProgress {
 	 * @return $this
 	 */
 	public function unmarkAccredited() {
-		if ($this->progress->getStatus() != ilTrainingProgrammeProgress::STATUS_ACCREDITED) {
+		if ($this->progress->getStatus() != ilStudyProgrammeProgress::STATUS_ACCREDITED) {
 			throw new ilException("Expected status ACCREDITED.");
 		}
 		
-		$this->progress->setStatus(ilTrainingProgrammeProgress::STATUS_IN_PROGRESS)
+		$this->progress->setStatus(ilStudyProgrammeProgress::STATUS_IN_PROGRESS)
 					   ->setCompletionBy(null)
 					   ->update();
 		
@@ -332,7 +332,7 @@ class ilTrainingProgrammeUserProgress {
 	 * @return $this
 	 */
 	public function markNotRelevant($a_user_id) {
-		$this->progress->setStatus(ilTrainingProgrammeProgress::STATUS_NOT_RELEVANT)
+		$this->progress->setStatus(ilStudyProgrammeProgress::STATUS_NOT_RELEVANT)
 					   ->setCompletionBy($a_user_id)
 					   ->setLastChangeBy($a_user_id)
 					   ->update();
@@ -351,11 +351,11 @@ class ilTrainingProgrammeUserProgress {
 	 * @return $this
 	 */
 	public function markRelevant($a_user_id) {
-		if ($this->progress->getStatus() != ilTrainingProgrammeProgress::STATUS_NOT_RELEVANT) {
+		if ($this->progress->getStatus() != ilStudyProgrammeProgress::STATUS_NOT_RELEVANT) {
 			throw new ilException("Expected status IN_PROGRESS.");
 		}
 		
-		$this->progress->setStatus(ilTrainingProgrammeProgress::STATUS_IN_PROGRESS)
+		$this->progress->setStatus(ilStudyProgrammeProgress::STATUS_IN_PROGRESS)
 					   ->setCompletionBy($a_user_id)
 					   ->setLastChangeBy($a_user_id)
 					   ->update();
@@ -394,8 +394,8 @@ class ilTrainingProgrammeUserProgress {
 	 * @return int
 	 */
 	public function getMaximumPossibleAmountOfPoints() {
-		$prg = $this->getTrainingProgramme();
-		if ($prg->getLPMode() == ilTrainingProgramme::MODE_LP_COMPLETED) {
+		$prg = $this->getStudyProgramme();
+		if ($prg->getLPMode() == ilStudyProgramme::MODE_LP_COMPLETED) {
 			return $this->getAmountOfPoints();
 		}
 		$children = $prg->getChildren();
@@ -435,8 +435,8 @@ class ilTrainingProgrammeUserProgress {
 	public function isSuccessful() {
 		$status = $this->getStatus();
 
-		return $status == ilTrainingProgrammeProgress::STATUS_ACCREDITED
-			|| $status == ilTrainingProgrammeProgress::STATUS_COMPLETED;
+		return $status == ilStudyProgrammeProgress::STATUS_ACCREDITED
+			|| $status == ilStudyProgrammeProgress::STATUS_COMPLETED;
 	}
 	
 	/**
@@ -445,7 +445,7 @@ class ilTrainingProgrammeUserProgress {
 	 * @return bool
 	 */
 	public function isRelevant() {
-		return $this->getStatus() != ilTrainingProgrammeProgress::STATUS_NOT_RELEVANT;
+		return $this->getStatus() != ilStudyProgrammeProgress::STATUS_NOT_RELEVANT;
 	}
 	
 	/**
@@ -459,15 +459,15 @@ class ilTrainingProgrammeUserProgress {
 		if ($this->hasIndividualModifications()) {
 			return false;
 		}
-		if ($this->getStatus() == ilTrainingProgrammeProgress::STATUS_COMPLETED) {
+		if ($this->getStatus() == ilStudyProgrammeProgress::STATUS_COMPLETED) {
 			return false;
 		}
 		
-		$prg = $this->getTrainingProgramme();
+		$prg = $this->getStudyProgramme();
 		$this->progress->setAmountOfPoints($prg->getPoints())
-					   ->setStatus($prg->getStatus() == ilTrainingProgramme::STATUS_ACTIVE 
-					   				? ilTrainingProgrammeProgress::STATUS_NOT_RELEVANT
-					   				: ilTrainingProgrammeProgress::STATUS_IN_PROGRESS
+					   ->setStatus($prg->getStatus() == ilStudyProgramme::STATUS_ACTIVE 
+					   				? ilStudyProgrammeProgress::STATUS_NOT_RELEVANT
+					   				: ilStudyProgrammeProgress::STATUS_IN_PROGRESS
 					   			   )
 					   ->update();
 		
@@ -479,9 +479,9 @@ class ilTrainingProgrammeUserProgress {
 	 * on the sub nodes. Then update the status of the parent.
 	 */
 	protected function updateStatus() {
-		$prg = $this->getTrainingProgramme();
-		if (   $prg->getLPMode() == ilTrainingProgramme::MODE_LP_COMPLETED
-			&& $this->getStatus() != ilTrainingProgrammeProgress::STATUS_ACCREDITED) {
+		$prg = $this->getStudyProgramme();
+		if (   $prg->getLPMode() == ilStudyProgramme::MODE_LP_COMPLETED
+			&& $this->getStatus() != ilStudyProgrammeProgress::STATUS_ACCREDITED) {
 			// Nothing to do here, as the status will be set by LP.
 			return;
 		}
@@ -506,7 +506,7 @@ class ilTrainingProgrammeUserProgress {
 		
 		$this->progress->setCurrentAmountOfPoints($achieved_points);
 		if ($successful) {
-			$this->progress->setStatus(ilTrainingProgrammeProgress::STATUS_COMPLETED);
+			$this->progress->setStatus(ilStudyProgrammeProgress::STATUS_COMPLETED);
 		}
 		
 		$this->progress->update();
@@ -538,22 +538,22 @@ class ilTrainingProgrammeUserProgress {
 			return true;
 		}
 		
-		$prg = $this->getTrainingProgramme();
-		if ($prg->getLPMode() != ilTrainingProgramme::MODE_LP_COMPLETED) {
-			throw new ilException("ilTrainingProgrammeUserProgress::setLPCompleted: "
+		$prg = $this->getStudyProgramme();
+		if ($prg->getLPMode() != ilStudyProgramme::MODE_LP_COMPLETED) {
+			throw new ilException("ilStudyProgrammeUserProgress::setLPCompleted: "
 								 ."The node '".$prg->getId()."' is not in LP_COMPLETED mode.");
 		}
 		if ($this->getUserId() != $a_usr_id) {
-			throw new ilException("ilTrainingProgrammeUserProgress::setLPCompleted: "
+			throw new ilException("ilStudyProgrammeUserProgress::setLPCompleted: "
 								 ."This progress does belong to user '".$this->getUserId()
 								 ."' and not to user '$a_usr_id'");
 		}
 		if (!in_array($a_obj_id, $prg->getLPChildrenIds())) {
-			throw new ilException("ilTrainingProgrammeUserProgress::setLPCompleted: "
+			throw new ilException("ilStudyProgrammeUserProgress::setLPCompleted: "
 								 ."Object '$a_obj_id' is no child of node '".$prg->getId()."'.");
 		}
 		
-		$this->progress->setStatus(ilTrainingProgrammeProgress::STATUS_COMPLETED)
+		$this->progress->setStatus(ilStudyProgrammeProgress::STATUS_COMPLETED)
 					   ->setCompletionBy($a_obj_id)
 					   ->update();
 		
@@ -568,7 +568,7 @@ class ilTrainingProgrammeUserProgress {
 	 * belongs to.
 	 */
 	protected function getParentProgress() {
-		$prg = $this->getTrainingProgramme();
+		$prg = $this->getStudyProgramme();
 		$parent = $prg->getParent();
 		if (!$parent) {
 			return null;
@@ -581,9 +581,9 @@ class ilTrainingProgrammeUserProgress {
 	 * this progress belongs to.
 	 */
 	protected function getChildrenProgress() {
-		$prg = $this->getTrainingProgramme();
-		if ($prg->getLPMode() == ilTrainingProgramme::MODE_LP_COMPLETED) {
-			throw new ilException("ilTrainingProgrammeUserProgress::getProgressChildren: "
+		$prg = $this->getStudyProgramme();
+		if ($prg->getLPMode() == ilStudyProgramme::MODE_LP_COMPLETED) {
+			throw new ilException("ilStudyProgrammeUserProgress::getProgressChildren: "
 								 ."There is some problem in the implementation. This "
 								 ."method should only be callled for nodes in points "
 								 ."mode.");
@@ -603,7 +603,7 @@ class ilTrainingProgrammeUserProgress {
 	 * @return string[]
 	 */ 
 	public function getNamesOfCompletedOrAccreditedChildren() {
-		$prg = $this->getTrainingProgramme();
+		$prg = $this->getStudyProgramme();
 		$children = $prg->getChildren();
 		$ass_id = $this->progress->getAssignmentId();
 		$names = array();
@@ -635,10 +635,10 @@ class ilTrainingProgrammeUserProgress {
 			$actions[] = self::ACTION_SHOW_INDIVIDUAL_PLAN;
 			$actions[] = self::ACTION_REMOVE_USER;
 		}
-		if ($a_status == ilTrainingProgrammeProgress::STATUS_ACCREDITED) {
+		if ($a_status == ilStudyProgrammeProgress::STATUS_ACCREDITED) {
 			$actions[] = self::ACTION_UNMARK_ACCREDITED;
 		}
-		else if ($a_status == ilTrainingProgrammeProgress::STATUS_IN_PROGRESS) {
+		else if ($a_status == ilStudyProgrammeProgress::STATUS_IN_PROGRESS) {
 			$actions[] = self::ACTION_MARK_ACCREDITED;
 		}
 		return $actions;

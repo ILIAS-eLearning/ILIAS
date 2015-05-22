@@ -8,29 +8,29 @@ require_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 require_once("./Services/AccessControl/classes/class.ilPermissionGUI.php");
 require_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 require_once("./Services/Object/classes/class.ilObjectAddNewItemGUI.php");
-require_once("./Modules/TrainingProgramme/classes/class.ilObjTrainingProgrammeTreeGUI.php");
+require_once("./Modules/StudyProgramme/classes/class.ilObjStudyProgrammeTreeGUI.php");
 require_once('./Services/Container/classes/class.ilContainerSortingSettings.php');
-require_once("./Modules/TrainingProgramme/classes/types/class.ilTrainingProgrammeTypeGUI.php");
-require_once("./Modules/TrainingProgramme/classes/model/class.ilTrainingProgrammeAdvancedMetadataRecord.php");
+require_once("./Modules/StudyProgramme/classes/types/class.ilStudyProgrammeTypeGUI.php");
+require_once("./Modules/StudyProgramme/classes/model/class.ilStudyProgrammeAdvancedMetadataRecord.php");
 require_once("./Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php");
 //require_once("./Modules/OrgUnit/classes/Translation/class.ilTranslationGUI.php");
 
 /**
- * Class ilObjTrainingProgrammeGUI class
+ * Class ilObjStudyProgrammeGUI class
  *
  * @author				Richard Klees <richard.klees@concepts-and-training.de>
  *
- * @ilCtrl_Calls ilObjTrainingProgrammeGUI: ilPermissionGUI
- * @ilCtrl_Calls ilObjTrainingProgrammeGUI: ilInfoScreenGUI
- * @ilCtrl_Calls ilObjTrainingProgrammeGUI: ilCommonActionDispatcherGUI
- * @ilCtrl_Calls ilObjTrainingProgrammeGUI: ilColumnGUI
- * @ilCtrl_Calls ilObjTrainingProgrammeGUI: ilObjTrainingProgrammeSettingsGUI
- * @ilCtrl_Calls ilObjTrainingProgrammeGUI: ilObjTrainingProgrammeTreeGUI
- * @ilCtrl_Calls ilObjTrainingProgrammeGUI: ilObjTrainingProgrammeMembersGUI
- * @ilCtrl_Calls ilObjTrainingProgrammeGUI: ilTrainingProgrammeTypeGUI, ilTranslationGUI
+ * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilPermissionGUI
+ * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilInfoScreenGUI
+ * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilCommonActionDispatcherGUI
+ * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilColumnGUI
+ * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjStudyProgrammeSettingsGUI
+ * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjStudyProgrammeTreeGUI
+ * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjStudyProgrammeMembersGUI
+ * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilStudyProgrammeTypeGUI, ilTranslationGUI
  */
 
-class ilObjTrainingProgrammeGUI extends ilContainerGUI {
+class ilObjStudyProgrammeGUI extends ilContainerGUI {
 	/**
 	 * @var ilCtrl
 	 */
@@ -144,8 +144,8 @@ class ilObjTrainingProgrammeGUI extends ilContainerGUI {
 				$this->tabs_gui->setTabActive(self::TAB_SETTINGS);
 				$this->tabs_gui->setSubTabActive('settings');
 
-				require_once("Modules/TrainingProgramme/classes/class.ilObjTrainingProgrammeSettingsGUI.php");
-				$gui = new ilObjTrainingProgrammeSettingsGUI($this, $this->ref_id);
+				require_once("Modules/StudyProgramme/classes/class.ilObjStudyProgrammeSettingsGUI.php");
+				$gui = new ilObjStudyProgrammeSettingsGUI($this, $this->ref_id);
 				$this->ctrl->forwardCommand($gui);
 				break;
 			/*case 'iltranslationgui':
@@ -161,8 +161,8 @@ class ilObjTrainingProgrammeGUI extends ilContainerGUI {
 			case "ilobjtrainingprogrammemembersgui":
 				$this->denyAccessIfNot("manage_members");
 				$this->tabs_gui->setTabActive(self::TAB_MEMBERS);
-				require_once("Modules/TrainingProgramme/classes/class.ilObjTrainingProgrammeMembersGUI.php");
-				$gui = new ilObjTrainingProgrammeMembersGUI($this, $this->ref_id);
+				require_once("Modules/StudyProgramme/classes/class.ilObjStudyProgrammeMembersGUI.php");
+				$gui = new ilObjStudyProgrammeMembersGUI($this, $this->ref_id);
 				$this->ctrl->forwardCommand($gui);
 				break;
 			case "ilobjtrainingprogrammetreegui":
@@ -176,13 +176,13 @@ class ilObjTrainingProgrammeGUI extends ilContainerGUI {
 				// disable admin panel
 				$_SESSION["il_cont_admin_panel"] = false;
 
-				$gui = new ilObjTrainingProgrammeTreeGUI($this->id);
+				$gui = new ilObjStudyProgrammeTreeGUI($this->id);
 				$this->ctrl->forwardCommand($gui);
 				break;
 			case 'iltrainingprogrammetypegui':
 				$this->tabs_gui->setTabActive('subtypes');
 
-				$types_gui = new ilTrainingProgrammeTypeGUI($this);
+				$types_gui = new ilStudyProgrammeTypeGUI($this);
 				$this->ctrl->forwardCommand($types_gui);
 				break;
 			case false:
@@ -279,11 +279,11 @@ class ilObjTrainingProgrammeGUI extends ilContainerGUI {
 						$this->updateAdvancedSettings();
 						break;*/
 					default:
-						throw new ilException("ilObjTrainingProgrammeGUI: Command not supported: $cmd");
+						throw new ilException("ilObjStudyProgrammeGUI: Command not supported: $cmd");
 				}
 				break;
 			default:
-				throw new ilException("ilObjTrainingProgrammeGUI: Can't forward to next class $next_class");
+				throw new ilException("ilObjStudyProgrammeGUI: Can't forward to next class $next_class");
 		}
 	}
 
@@ -549,7 +549,7 @@ class ilObjTrainingProgrammeGUI extends ilContainerGUI {
 				$this->tabs_gui->addSubTab('settings', $this->lng->txt('settings'), $this->getLinkTarget('settings'));
 				//$this->tabs_gui->addSubTab("edit_translations", $this->lng->txt("obj_multilinguality"), $this->ctrl->getLinkTargetByClass("iltranslationgui", "editTranslations"));
 
-				$type = ilTrainingProgrammeType::find($this->object->getSubtypeId());
+				$type = ilStudyProgrammeType::find($this->object->getSubtypeId());
 
 				if (!is_null($type) && count($type->getAssignedAdvancedMDRecords(true))) {
 					$this->tabs_gui->addSubTab('edit_advanced_settings', $this->lng->txt('prg_adv_settings'), $this->ctrl->getLinkTarget($this, 'editAdvancedSettings'));
@@ -606,7 +606,7 @@ class ilObjTrainingProgrammeGUI extends ilContainerGUI {
 		require_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
 		require_once('./Services/ADT/classes/class.ilADTFactory.php');
 
-		$type = ilTrainingProgrammeType::find($this->object->getSubtypeId());
+		$type = ilStudyProgrammeType::find($this->object->getSubtypeId());
 		if (!$type) {
 			return;
 		}

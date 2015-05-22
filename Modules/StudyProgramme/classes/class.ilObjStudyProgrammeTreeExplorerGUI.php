@@ -4,17 +4,17 @@ require_once("./Services/UIComponent/Explorer2/classes/class.ilTreeExplorerGUI.p
 require_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 require_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
 require_once("./Services/UIComponent/Button/classes/class.ilLinkButton.php");
-require_once("./Modules/TrainingProgramme/classes/class.ilObjTrainingProgrammeSettingsGUI.php");
+require_once("./Modules/StudyProgramme/classes/class.ilObjStudyProgrammeSettingsGUI.php");
 /**
- * ilObjTrainingProgrammeTreeExplorerGUI generates the tree output for TrainingProgrammes
+ * ilObjStudyProgrammeTreeExplorerGUI generates the tree output for TrainingProgrammes
  * This class builds the tree with drag & drop functionality and some additional buttons which triggers bootstrap-modals
  *
  * @author  Michael Herren <mh@studer-raimann.ch>
  * @version 1.0.0
  */
-class ilObjTrainingProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
-	protected $js_training_programme_path = "./Modules/TrainingProgramme/templates/js/ilTrainingProgramme.js";
-	protected $css_training_programme_path = "./Modules/TrainingProgramme/templates/css/ilTrainingProgramme.css";
+class ilObjStudyProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
+	protected $js_study_programme_path = "./Modules/StudyProgramme/templates/js/ilStudyProgramme.js";
+	protected $css_study_programme_path = "./Modules/StudyProgramme/templates/css/ilStudyProgramme.css";
 
 	/**
 	 * @var array
@@ -110,7 +110,7 @@ class ilObjTrainingProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
 	/**
 	 * Return node element
 	 *
-	 * @param ilObjTrainingProgramme|ilObject $node
+	 * @param ilObjStudyProgramme|ilObject $node
 	 *
 	 * @return string
 	 */
@@ -118,18 +118,19 @@ class ilObjTrainingProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
 		global $lng, $ilAccess;
 
 		$current_ref_id = (isset($_GET["ref_id"]))? $_GET["ref_id"] : -1;
+
 		$is_current_node = ($node->getRefId() == $current_ref_id);
-		$is_training_programme = ($node instanceof ilObjTrainingProgramme);
-		$is_root_node = ($is_training_programme && $node->getRoot() == null);
+		$is_study_programme = ($node instanceof ilObjStudyProgramme);
+		$is_root_node = ($is_study_programme && $node->getRoot() == null);
 
 		// show delete only on not current elements and not root
-		$is_delete_enabled = ($is_training_programme && ($is_current_node || $is_root_node))? false : true;
+		$is_delete_enabled = ($is_study_programme && ($is_current_node || $is_root_node))? false : true;
 
 		$node_config = array(
 			'current_ref_id' =>$current_ref_id,
 			'is_current_node' => $is_current_node,
 			'is_delete_enabled' => $is_delete_enabled,
-			'is_training_programme' => $is_training_programme,
+			'is_study_programme' => $is_study_programme,
 			'is_root_node' => $is_root_node
 		);
 
@@ -140,7 +141,7 @@ class ilObjTrainingProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
 		$tpl->setVariable('NODE_TITLE_CLASSES', implode(' ', $this->getNodeTitleClasses($node_config)));
 		$tpl->setVariable('NODE_TITLE', $node->getTitle());
 
-		if($is_training_programme) {
+		if($is_study_programme) {
 			$tpl->setVariable('NODE_POINT_CLASSES', $this->class_configuration['node']['node_point']);
 			$tpl->setVariable('NODE_POINTS', $this->formatPointValue($node->getPoints()));
 		}
@@ -149,8 +150,8 @@ class ilObjTrainingProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
 
 		// add the tree buttons
 		if($this->checkAccess('write', $node->getRefId())) {
-			if($is_training_programme) {
-				$this->parseTrainingProgrammeNodeButtons($node, $node_config, $tpl);
+			if($is_study_programme) {
+				$this->parseStudyProgrammeNodeButtons($node, $node_config, $tpl);
 			} else {
 				$this->parseLeafNodeButtons($node, $node_config, $tpl);
 			}
@@ -158,7 +159,6 @@ class ilObjTrainingProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
 
 		return $tpl->get();
 	}
-
 
 	/**
 	 * Returns array with all css classes of the title node element
@@ -169,7 +169,7 @@ class ilObjTrainingProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
 	 */
 	protected function getNodeTitleClasses($node_config) {
 		$node_title_classes = array($this->class_configuration['node']['title']);
-		if($node_config['is_training_programme']){
+		if($node_config['is_study_programme']){
 			if ($node_config['is_current_node']) {
 				array_push($node_title_classes, $this->class_configuration['node']['node_current']);
 			}
@@ -182,13 +182,13 @@ class ilObjTrainingProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
 
 
 	/**
-	 * Generates the buttons for a training-programme node
+	 * Generates the buttons for a study-programme node
 	 *
 	 * @param ilObjTrainingProgramme $node parsed node
 	 * @param array $node_config configuration of current node
 	 * @param ilTemplate $tpl current node template
 	 */
-	protected function parseTrainingProgrammeNodeButtons($node, $node_config, $tpl) {
+	protected function parseStudyProgrammeNodeButtons($node, $node_config, $tpl) {
 		$tpl->setCurrentBlock('enable-tree-buttons');
 		$tpl->touchBlock('enable-tree-buttons');
 
@@ -211,7 +211,7 @@ class ilObjTrainingProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
 	}
 
 	/**
-	 * Generates the buttons for a training programme leaf
+	 * Generates the buttons for a study programme leaf
 	 *
 	 * @param ilObject $node parsed node
 	 * @param array $node_config configuration of current node
@@ -294,7 +294,7 @@ class ilObjTrainingProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
 	 * @return mixed
 	 */
 	public function getRootNode() {
-		$node = ilObjTrainingProgramme::getInstanceByRefId($this->tree_root_id);
+		$node = ilObjStudyProgramme::getInstanceByRefId($this->tree_root_id);
 		if($node->getRoot() != NULL) {
 			return $node->getRoot();
 		}
@@ -332,10 +332,10 @@ class ilObjTrainingProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
 		global $ilCtrl;
 
 		if ($ilCtrl->getCmd() == "performPaste") {
-			$ilCtrl->setParameterByClass("ilObjTrainingProgrammeGUI", "target_node", $node->getRefId());
+			$ilCtrl->setParameterByClass("ilObjStudyProgrammeGUI", "target_node", $node->getRefId());
 		}
 
-		$ilCtrl->setParameterByClass("ilObjTrainingProgrammeGUI", "ref_id", $node->getRefId());
+		$ilCtrl->setParameterByClass("ilObjStudyProgrammeGUI", "ref_id", $node->getRefId());
 
 		return '#';
 	}
@@ -356,11 +356,11 @@ class ilObjTrainingProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
 
 		$children = array();
 
-		// its currently only possible to have children on TrainingProgrammes
-		if($parent_obj instanceof ilObjTrainingProgramme) {
+		// its currently only possible to have children on StudyProgrammes
+		if($parent_obj instanceof ilObjStudyProgramme) {
 			$children = $parent_obj->getChildren();
 
-			// only return lp-children if there are no TrainingProgramme-children
+			// only return lp-children if there are no StudyProgramme-children
 			if(!$parent_obj->hasChildren()) {
 				$children = $parent_obj->getLPChildren();
 			}
@@ -406,7 +406,7 @@ class ilObjTrainingProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
 	{
 		$tpl->setCurrentBlock("list_item_start");
 
-		if ($this->getAjax() && $this->nodeHasVisibleChilds($a_node) || ($a_node instanceof ilTrainingProgramme && $a_node->getParent() === null))
+		if ($this->getAjax() && $this->nodeHasVisibleChilds($a_node) || ($a_node instanceof ilStudyProgramme && $a_node->getParent() === null))
 		{
 			$tpl->touchBlock("li_closed");
 		}
@@ -424,10 +424,10 @@ class ilObjTrainingProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
 	 * @return string
 	 */
 	public function getHTML() {
-		$this->tpl->addJavascript($this->js_training_programme_path);
-		$this->tpl->addCss($this->css_training_programme_path);
+		$this->tpl->addJavascript($this->js_study_programme_path);
+		$this->tpl->addCss($this->css_study_programme_path);
 
-		$this->tpl->addOnLoadCode('$("#'.$this->getContainerId().'").training_programme_tree('.json_encode($this->js_conf).');');
+		$this->tpl->addOnLoadCode('$("#'.$this->getContainerId().'").study_programme_tree('.json_encode($this->js_conf).');');
 
 		return parent::getHTML();
 	}
@@ -494,7 +494,7 @@ class ilObjTrainingProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
 	}
 
 	/**
-	 * Adds configuration to the training-programme-tree jquery plugin
+	 * Adds configuration to the study-programme-tree jquery plugin
 	 *
 	 * @param array $js_conf
 	 */
@@ -503,7 +503,7 @@ class ilObjTrainingProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
 	}
 
 	/**
-	 * Returns setting of the training-programme-tree
+	 * Returns setting of the study-programme-tree
 	 *
 	 * @param array $js_conf
 	 */

@@ -8,7 +8,7 @@ require_once("./Services/Object/classes/class.ilObjectFactory.php");
  * Class ilObjectFactoryWrapper.
  *
  * Wraps around static class ilObjectFactory to make the object factory
- * exchangeable in ilObjTrainingProgramm for testing purpose.
+ * exchangeable in ilObjStudyProgramm for testing purpose.
  *
  * @author : Richard Klees <richard.klees@concepts-and-training.de>
  */

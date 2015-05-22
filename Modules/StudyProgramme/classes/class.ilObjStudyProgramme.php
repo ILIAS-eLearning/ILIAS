@@ -4,22 +4,22 @@
 
 require_once("./Services/Container/classes/class.ilContainer.php");
 require_once('./Services/Container/classes/class.ilContainerSorting.php');
-require_once("./Modules/TrainingProgramme/classes/model/class.ilTrainingProgramme.php");
-require_once("./Modules/TrainingProgramme/classes/class.ilObjectFactoryWrapper.php");
-require_once("./Modules/TrainingProgramme/classes/interfaces/interface.ilTrainingProgrammeLeaf.php");
-require_once("./Modules/TrainingProgramme/classes/exceptions/class.ilTrainingProgrammeTreeException.php");
-require_once("./Modules/TrainingProgramme/classes/class.ilObjTrainingProgrammeCache.php");
+require_once("./Modules/StudyProgramme/classes/model/class.ilStudyProgramme.php");
+require_once("./Modules/StudyProgramme/classes/class.ilObjectFactoryWrapper.php");
+require_once("./Modules/StudyProgramme/classes/interfaces/interface.ilStudyProgrammeLeaf.php");
+require_once("./Modules/StudyProgramme/classes/exceptions/class.ilStudyProgrammeTreeException.php");
+require_once("./Modules/StudyProgramme/classes/class.ilObjStudyProgrammeCache.php");
 
 /**
- * Class ilObjTrainingProgramme
+ * Class ilObjStudyProgramme
  *
  * @author : Richard Klees <richard.klees@concepts-and-training.de>
  */
-class ilObjTrainingProgramme extends ilContainer {
-	protected $settings; // ilTrainingProgramme | null
-	protected $parent; // ilObjTrainingProgramme | null | false
-	protected $children; // [ilObjTrainingProgramme] | null
-	protected $lp_children; // [ilTrainingProgrammeLeaf] | null;
+class ilObjStudyProgramme extends ilContainer {
+	protected $settings; // ilStudyProgramme | null
+	protected $parent; // ilObjStudyProgramme | null | false
+	protected $children; // [ilObjStudyProgramme] | null
+	protected $lp_children; // [ilStudyProgrammeLeaf] | null;
 	
 	// GLOBALS from ILIAS
 	public $tree;
@@ -52,7 +52,7 @@ class ilObjTrainingProgramme extends ilContainer {
 
 		$this->object_factory = ilObjectFactoryWrapper::singleton();
 		if (self::$training_programme_cache === null) {
-			self::$training_programme_cache = ilObjTrainingProgrammeCache::singleton();
+			self::$training_programme_cache = ilObjStudyProgrammeCache::singleton();
 		}
 	}
 	
@@ -80,21 +80,21 @@ class ilObjTrainingProgramme extends ilContainer {
 	
 	
 	/**
-	 * Get an instance of ilObjTrainingProgramme, use cache.
+	 * Get an instance of ilObjStudyProgramme, use cache.
 	 *
 	 * @param  int  $a_ref_id
-	 * @return ilObjTrainingProgramme
+	 * @return ilObjStudyProgramme
 	 */
 	static public function getInstanceByRefId($a_ref_id) {
-		require_once("Modules/TrainingProgramme/classes/class.ilObjTrainingProgrammeCache.php");
+		require_once("Modules/StudyProgramme/classes/class.ilObjStudyProgrammeCache.php");
 		return self::$training_programme_cache->getInstanceByRefId($a_ref_id);
 	}
 	
 	/**
-	 * Create an instance of ilObjTrainingProgramme, put in cache.
+	 * Create an instance of ilObjStudyProgramme, put in cache.
 	 */
 	static public function createInstance() {
-		$obj =  new ilObjTrainingProgramme();
+		$obj =  new ilObjStudyProgramme();
 		$obj->create();
 		$obj->createReference();
 		self::$training_programme_cache->addInstance($obj);
@@ -112,13 +112,13 @@ class ilObjTrainingProgramme extends ilContainer {
 	 */
 	protected function readSettings() {
 		if ($this->settings !== null) {
-			throw new ilException("ilObjTrainingProgramme::loadSettings: already loaded.");
+			throw new ilException("ilObjStudyProgramme::loadSettings: already loaded.");
 		}
 		$id = $this->getId();
 		if (!$id) {
-			throw new ilException("ilObjTrainingProgramme::loadSettings: no id.");
+			throw new ilException("ilObjStudyProgramme::loadSettings: no id.");
 		}
-		$this->settings = new ilTrainingProgramme($this->getId());
+		$this->settings = new ilStudyProgramme($this->getId());
 	}
 	
 	/**
@@ -127,14 +127,14 @@ class ilObjTrainingProgramme extends ilContainer {
 	 */
 	protected function createSettings() {
 		if ($this->settings !== null) {
-			throw new ilException("ilObjTrainingProgramme::createSettings: already loaded.");
+			throw new ilException("ilObjStudyProgramme::createSettings: already loaded.");
 		}
 		
 		$id = $this->getId();
 		if (!$id) {
-			throw new ilException("ilObjTrainingProgramme::loadSettings: no id.");
+			throw new ilException("ilObjStudyProgramme::loadSettings: no id.");
 		}
-		$this->settings = ilTrainingProgramme::createForObject($this);
+		$this->settings = ilStudyProgramme::createForObject($this);
 	}
 	
 	/**
@@ -143,7 +143,7 @@ class ilObjTrainingProgramme extends ilContainer {
 	 */
 	protected function updateSettings() {
 		if ($this->settings === null) {
-			throw new ilException("ilObjTrainingProgramme::updateSettings: no settings loaded.");
+			throw new ilException("ilObjStudyProgramme::updateSettings: no settings loaded.");
 		}
 		$this->settings->update();
 	}
@@ -154,7 +154,7 @@ class ilObjTrainingProgramme extends ilContainer {
 	 */
 	protected function deleteSettings() {
 		if ($this->settings === null) {
-			throw new Exception("ilObjTrainingProgramme::deleteSettings: no settings loaded.");
+			throw new Exception("ilObjStudyProgramme::deleteSettings: no settings loaded.");
 		}
 		$this->settings->delete();
 	}
@@ -179,7 +179,7 @@ class ilObjTrainingProgramme extends ilContainer {
 	}
 
 	/**
-	 * Delete Training Programme and all related data.
+	 * Delete Study Programme and all related data.
 	 *
 	 * @return    boolean    true if all object data were removed; false if only a references were removed
 	 */
@@ -231,7 +231,7 @@ class ilObjTrainingProgramme extends ilContainer {
 	/**
 	 * Get the lp mode.
 	 *
-	 * @return integer  - one of ilTrainingProgramme::$MODES
+	 * @return integer  - one of ilStudyProgramme::$MODES
 	 */
 	public function getLPMode() {
 		return $this->settings->getLPMode();
@@ -240,7 +240,7 @@ class ilObjTrainingProgramme extends ilContainer {
 	/**
 	 * Get the status.
 	 *
-	 * @return integer  - one of ilTrainingProgramme::$STATUS
+	 * @return integer  - one of ilStudyProgramme::$STATUS
 	 */
 	public function getStatus() {
 		return $this->settings->getStatus();
@@ -249,7 +249,7 @@ class ilObjTrainingProgramme extends ilContainer {
 	/**
 	 * Set the status of the node.
 	 *
-	 * @param integer $a_status     - one of ilTrainingProgramme::$STATUS
+	 * @param integer $a_status     - one of ilStudyProgramme::$STATUS
 	 * @return $this
 	 */
 	public function setStatus($a_status) {
@@ -286,13 +286,13 @@ class ilObjTrainingProgramme extends ilContainer {
 	////////////////////////////////////
 
 	/**
-	 * Get a list of all ilObjTrainingProgrammes in the subtree starting at
+	 * Get a list of all ilObjStudyProgrammes in the subtree starting at
 	 * $a_ref_id.
 	 *
 	 * Throws when object is not in tree.
 	 *
 	 * @param  int $a_ref_id
-	 * @return [ilObjTrainingProgramme]
+	 * @return [ilObjStudyProgramme]
 	 */
 	static public function getAllChildren($a_ref_id) {
 		$ret = array();
@@ -309,12 +309,12 @@ class ilObjTrainingProgramme extends ilContainer {
 	}
 
 	/**
-	 * Get all ilObjTrainingProgrammes that are direct children of this
+	 * Get all ilObjStudyProgrammes that are direct children of this
 	 * object.
 	 *
 	 * Throws when this object is not in tree.
 	 *
-	 * @return [ilObjTrainingProgramme]
+	 * @return [ilObjStudyProgramme]
 	 */
 	public function getChildren() {
 		$this->throwIfNotInTree();
@@ -336,12 +336,12 @@ class ilObjTrainingProgramme extends ilContainer {
 	} 
 
 	/**
-	 * Get the parent ilObjTrainingProgramme of this object. Returns null if
-	 * parent is no TrainingProgramme.
+	 * Get the parent ilObjStudyProgramme of this object. Returns null if
+	 * parent is no StudyProgramme.
 	 *
 	 * Throws when this object is not in tree.
 	 *
-	 * @return ilObjTrainingProgramme | null
+	 * @return ilObjStudyProgramme | null
 	 */
 	public function getParent() {
 		if ($this->parent === false) {
@@ -351,7 +351,7 @@ class ilObjTrainingProgramme extends ilContainer {
 				$this->parent = null;
 			}
 			else {
-				$this->parent = ilObjTrainingProgramme::getInstanceByRefId($parent_data["ref_id"]);
+				$this->parent = ilObjStudyProgramme::getInstanceByRefId($parent_data["ref_id"]);
 			}
 		}
 		return $this->parent;
@@ -360,7 +360,7 @@ class ilObjTrainingProgramme extends ilContainer {
 	/**
 	 * Get all parents of the node, where the root of the program comes first.
 	 *
-	 * @return [ilObjTrainingProgramme]
+	 * @return [ilObjStudyProgramme]
 	 */
 	public function getParents() {
 		$current = $this;
@@ -375,7 +375,7 @@ class ilObjTrainingProgramme extends ilContainer {
 	}
 
 	/**
-	 * Does this TrainingProgramme have other ilObjTrainingProgrammes as children?
+	 * Does this StudyProgramme have other ilObjStudyProgrammes as children?
 	 *
 	 * Throws when this object is not in tree.
 	 *
@@ -386,7 +386,7 @@ class ilObjTrainingProgramme extends ilContainer {
 	}
 
 	/**
-	 * Get the amount of other TrainingProgrammes this TrainingProgramme has as
+	 * Get the amount of other StudyProgrammes this StudyProgramme has as
 	 * children.
 	 *
 	 * Throws when this object is not in tree.
@@ -398,8 +398,8 @@ class ilObjTrainingProgramme extends ilContainer {
 	}
 
 	/**
-	 * Get the depth of this TrainingProgramme in the tree starting at the topmost
-	 * TrainingProgramme (not root node of the repo tree!). Root node has depth = 0.
+	 * Get the depth of this StudyProgramme in the tree starting at the topmost
+	 * StudyProgramme (not root node of the repo tree!). Root node has depth = 0.
 	 *
 	 * Throws when this object is not in tree.
 	 *
@@ -415,12 +415,12 @@ class ilObjTrainingProgramme extends ilContainer {
 	}
 
 	/**
-	 * Get the ilObjTrainingProgramme that is the root node of the tree this programme
+	 * Get the ilObjStudyProgramme that is the root node of the tree this programme
 	 * is in.
 	 *
 	 * Throws when this object is not in tree.
 	 *
-	 * @return ilObjTrainingProgramme
+	 * @return ilObjStudyProgramme
 	 */
 	public function getRoot() {
 		$parents = $this->getParents();
@@ -432,7 +432,7 @@ class ilObjTrainingProgramme extends ilContainer {
 	 *
 	 * Throws when this object is not in tree.
 	 *
-	 * @return ilTrainingProgrammeLeaf[]
+	 * @return ilStudyProgrammeLeaf[]
 	 */
 	public function getLPChildren() {
 		$this->throwIfNotInTree();
@@ -440,13 +440,13 @@ class ilObjTrainingProgramme extends ilContainer {
 		if ($this->lp_children === null) {
 			$this->lp_children = array();
 
-			// TODO: find a better way to get all elements except TrainingProgramme-children
+			// TODO: find a better way to get all elements except StudyProgramme-children
 			$ref_ids = $this->tree->getChilds($this->getRefId());
 
 			$lp_children = array_map(function($node_data) {
 				$lp_obj = $this->object_factory->getInstanceByRefId($node_data["child"]);
 
-				// filter out all TrainingProgramme instances
+				// filter out all StudyProgramme instances
 				return ($lp_obj instanceof $this)? null : $lp_obj;
 			}, $ref_ids);
 
@@ -460,7 +460,7 @@ class ilObjTrainingProgramme extends ilContainer {
 	 *
 	 * Throws when object is not in tree.
 	 *
-	 * @return ilTrainingProgrammeLeaf[]
+	 * @return ilStudyProgrammeLeaf[]
 	 */
 	public function getLPChildrenIds() {
 		return array_map(function($child) {
@@ -478,7 +478,7 @@ class ilObjTrainingProgramme extends ilContainer {
 	}
 
 	/**
-	 * Does this TrainingProgramme has leafs?
+	 * Does this StudyProgramme has leafs?
 	 *
 	 * Throws when this object is not in tree.
 	 *
@@ -490,11 +490,11 @@ class ilObjTrainingProgramme extends ilContainer {
 	
 	/**
 	 * Helper function to check, weather object is in tree.
-	 * Throws ilTrainingProgrammeTreeException if object is not in tree.
+	 * Throws ilStudyProgrammeTreeException if object is not in tree.
 	 */
 	protected function throwIfNotInTree() {
 		if (!$this->tree->isInTree($this->getRefId())) {
-			throw new ilTrainingProgrammeTreeException("This program is not in tree.");
+			throw new ilStudyProgrammeTreeException("This program is not in tree.");
 		}
 	}
 	
@@ -509,7 +509,7 @@ class ilObjTrainingProgramme extends ilContainer {
 	 *
 	 * Throws when this object is not in tree.
 	 *
-	 * @param Closure $fun - An anonymus function taking an ilObjTrainingProgramme
+	 * @param Closure $fun - An anonymus function taking an ilObjStudyProgramme
 	 *                       as parameter.
 	 */
 	public function applyToSubTreeNodes(Closure $fun) {
@@ -527,24 +527,24 @@ class ilObjTrainingProgramme extends ilContainer {
 	////////////////////////////////////
 	
 	/**
-	 * Inserts another ilObjTrainingProgramme in this object.
+	 * Inserts another ilObjStudyProgramme in this object.
 	 *
-	 * Throws when object already contains non ilObjTrainingProgrammes as 
+	 * Throws when object already contains non ilObjStudyProgrammes as 
 	 * children. Throws when $a_prg already is in the tree. Throws when this
 	 * object is not in tree.
 	 *
-	 * @throws ilTrainingProgrammeTreeException
+	 * @throws ilStudyProgrammeTreeException
 	 * @return $this
 	 */
-	public function addNode(ilObjTrainingProgramme $a_prg) {
+	public function addNode(ilObjStudyProgramme $a_prg) {
 		$this->throwIfNotInTree();
 		
-		if ($this->getLPMode() == ilTrainingProgramme::MODE_LP_COMPLETED) {
-			throw new ilTrainingProgrammeTreeException("Program already contains leafs.");
+		if ($this->getLPMode() == ilStudyProgramme::MODE_LP_COMPLETED) {
+			throw new ilStudyProgrammeTreeException("Program already contains leafs.");
 		}
 		
 		if ($this->tree->isInTree($a_prg->getRefId())) {
-			throw new ilTrainingProgrammeTreeException("Other program already is in tree.");
+			throw new ilStudyProgrammeTreeException("Other program already is in tree.");
 		}
 		
 		if ($a_prg->getRefId() === null) {
@@ -557,9 +557,9 @@ class ilObjTrainingProgramme extends ilContainer {
 	/**
 	 * Clears child chache and adds progress for new node.
 	 */
-	protected function nodeInserted(ilObjTrainingProgramme $a_prg) {
-		if ($this->getLPMode() == ilTrainingProgramme::MODE_LP_COMPLETED) {
-			throw new ilTrainingProgrammeTreeException("Program already contains leafs.");
+	protected function nodeInserted(ilObjStudyProgramme $a_prg) {
+		if ($this->getLPMode() == ilStudyProgramme::MODE_LP_COMPLETED) {
+			throw new ilStudyProgrammeTreeException("Program already contains leafs.");
 		}
 		
 		$this->clearChildrenCache();
@@ -575,7 +575,7 @@ class ilObjTrainingProgramme extends ilContainer {
 		$res = parent::putInTree($a_parent_ref);
 		
 		if (ilObject::_lookupType($a_parent_ref) == "prg") {
-			$par = ilObjTrainingProgramme::getInstanceByRefId($a_parent_ref);
+			$par = ilObjStudyProgramme::getInstanceByRefId($a_parent_ref);
 			$par->nodeInserted($this);
 		}
 		
@@ -589,16 +589,16 @@ class ilObjTrainingProgramme extends ilContainer {
 	 * of tree is not allowed due to invariants that need to hold on the tree.
 	 * 
 	 * @throws ilException
-	 * @throws ilTrainingProgrammTreeException
+	 * @throws ilStudyProgrammTreeException
 	 * @return $this
 	 */
-	public function removeNode(ilObjTrainingProgramme $a_prg) {
+	public function removeNode(ilObjStudyProgramme $a_prg) {
 		if ($a_prg->getParent()->getId() !== $this->getId()) {
-			throw new ilTrainingProgrammeTreeException("This is no parent of the given programm.");
+			throw new ilStudyProgrammeTreeException("This is no parent of the given programm.");
 		}
 		
 		if (!$a_prg->canBeRemoved()) {
-			throw new ilTrainingProgrammeTreeException("The node has relevant assignments.");
+			throw new ilStudyProgrammeTreeException("The node has relevant assignments.");
 		}
 		
 		// *sigh*...
@@ -618,7 +618,7 @@ class ilObjTrainingProgramme extends ilContainer {
 	 */
 	public function canBeRemoved() {
 		foreach($this->getProgresses() as $progress) {
-			if ($progress->getStatus() != ilTrainingProgrammeProgress::STATUS_NOT_RELEVANT) {
+			if ($progress->getStatus() != ilStudyProgrammeProgress::STATUS_NOT_RELEVANT) {
 				return false;
 			}
 			if ($progress->getLastChangeBy() !== null) {
@@ -631,17 +631,17 @@ class ilObjTrainingProgramme extends ilContainer {
 	/**
 	 * Insert a leaf in this object.
 	 *
-	 * Throws when object already contain ilObjTrainingProgrammes as children. Throws 
+	 * Throws when object already contain ilObjStudyProgrammes as children. Throws 
 	 * when this object is not in tree.
 	 *
-	 * @throws ilTrainingProgrammeTreeException
+	 * @throws ilStudyProgrammeTreeException
 	 * @return $this
 	 */
-	public function addLeaf(/*ilTrainingProgrammeLeaf*/ $a_leaf) {
+	public function addLeaf(/*ilStudyProgrammeLeaf*/ $a_leaf) {
 		$this->throwIfNotInTree();
 		
 		if ($this->hasChildren()) {
-			throw new ilTrainingProgrammeTreeException("Program already contains other programm nodes.");
+			throw new ilStudyProgrammeTreeException("Program already contains other programm nodes.");
 		}
 		
 		if ($a_leaf->getRefId() === null) {
@@ -650,7 +650,7 @@ class ilObjTrainingProgramme extends ilContainer {
 		$a_leaf->putInTree($this->getRefId());
 		$this->clearLPChildrenCache();
 		
-		$this->settings->setLPMode(ilTrainingProgramme::MODE_LP_COMPLETED);
+		$this->settings->setLPMode(ilStudyProgramme::MODE_LP_COMPLETED);
 		$this->update();
 		
 		return $this;
@@ -663,12 +663,12 @@ class ilObjTrainingProgramme extends ilContainer {
 	 * of tree is not allowed due to invariants that need to hold on the tree.
 	 *
 	 * @throws ilException
-	 * @throws ilTrainingProgrammeTreeException
+	 * @throws ilStudyProgrammeTreeException
 	 * @return $this
 	 */
-	public function removeLeaf(/*ilTrainingProgrammeLeaf*/ $a_leaf) {
+	public function removeLeaf(/*ilStudyProgrammeLeaf*/ $a_leaf) {
 		if (self::getParentId($a_leaf) !== $this->getId()) {
-			throw new ilTrainingProgrammeTreeException("This is no parent of the given leaf node.");
+			throw new ilStudyProgrammeTreeException("This is no parent of the given leaf node.");
 		}
 
 		$node_data = $this->tree->getNodeData($a_leaf->getRefId());
@@ -684,11 +684,11 @@ class ilObjTrainingProgramme extends ilContainer {
 	 * Throws, when manipulation of tree is not allowed due to invariants that
 	 * need to hold on the tree.
 	 *
-	 * @throws ilTrainingProgrammeTreeException
+	 * @throws ilStudyProgrammeTreeException
 	 * @param  int $a_new_parent_ref_id
 	 * @return $this
 	 */
-	public function moveTo(ilObjTrainingProgramme $a_new_parent) {
+	public function moveTo(ilObjStudyProgramme $a_new_parent) {
 		global $rbacadmin;
 
 		if ($parent = $this->getParent()) {
@@ -729,19 +729,19 @@ class ilObjTrainingProgramme extends ilContainer {
 	 * @throws ilException
 	 * @param  int 				$a_usr_id
 	 * @param  int | null		$a_assigning_usr_id	- defaults to global ilUser
-	 * @return ilTrainingProgrammeUserAssignment
+	 * @return ilStudyProgrammeUserAssignment
 	 */
 	public function assignUser($a_usr_id, $a_assigning_usr_id = null) {
-		require_once("./Modules/TrainingProgramme/classes/class.ilTrainingProgrammeUserAssignment.php");
-		require_once("./Modules/TrainingProgramme/classes/model/class.ilTrainingProgrammeAssignment.php");
-		require_once("./Modules/TrainingProgramme/classes/model/class.ilTrainingProgrammeProgress.php");
+		require_once("./Modules/StudyProgramme/classes/class.ilStudyProgrammeUserAssignment.php");
+		require_once("./Modules/StudyProgramme/classes/model/class.ilStudyProgrammeAssignment.php");
+		require_once("./Modules/StudyProgramme/classes/model/class.ilStudyProgrammeProgress.php");
 		
 		if ($this->settings === null) {
-			throw new ilException("ilObjTrainingProgramme::assignUser: Program was not properly created.'");
+			throw new ilException("ilObjStudyProgramme::assignUser: Program was not properly created.'");
 		}
 		
-		if ($this->getStatus() != ilTrainingProgramme::STATUS_ACTIVE) {
-			throw new ilException("ilObjTrainingProgramme::assignUser: Can't assign user to program '"
+		if ($this->getStatus() != ilStudyProgramme::STATUS_ACTIVE) {
+			throw new ilException("ilObjStudyProgramme::assignUser: Can't assign user to program '"
 								 .$this->getId()."', since it's not in active status.");
 		}
 		
@@ -749,13 +749,13 @@ class ilObjTrainingProgramme extends ilContainer {
 			$a_assigning_usr_id = $this->ilUser->getId();
 		}
 
-		$ass_mod = ilTrainingProgrammeAssignment::createFor($this->settings, $a_usr_id, $a_assigning_usr_id);
-		$ass = new ilTrainingProgrammeUserAssignment($ass_mod);
+		$ass_mod = ilStudyProgrammeAssignment::createFor($this->settings, $a_usr_id, $a_assigning_usr_id);
+		$ass = new ilStudyProgrammeUserAssignment($ass_mod);
 		
 		$this->applyToSubTreeNodes(function($node) use ($ass_mod, $a_assigning_usr_id) {
-			$progress = ilTrainingProgrammeProgress::createFor($node->settings, $ass_mod);
-			if ($node->getStatus() != ilTrainingProgramme::STATUS_ACTIVE) {
-				$progress->setStatus(ilTrainingProgrammeProgress::STATUS_NOT_RELEVANT);
+			$progress = ilStudyProgrammeProgress::createFor($node->settings, $ass_mod);
+			if ($node->getStatus() != ilStudyProgramme::STATUS_ACTIVE) {
+				$progress->setStatus(ilStudyProgrammeProgress::STATUS_NOT_RELEVANT);
 			}
 		});
 		
@@ -770,9 +770,9 @@ class ilObjTrainingProgramme extends ilContainer {
 	 * @throws ilException
 	 * @return $this
 	 */
-	public function removeAssignment(ilTrainingProgrammeUserAssignment $a_assignment) {
-		if ($a_assignment->getTrainingProgramme()->getId() != $this->getId()) {
-			throw new ilException("ilObjTrainingProgramme::removeAssignment: Assignment '"
+	public function removeAssignment(ilStudyProgrammeUserAssignment $a_assignment) {
+		if ($a_assignment->getStudyProgramme()->getId() != $this->getId()) {
+			throw new ilException("ilObjStudyProgramme::removeAssignment: Assignment '"
 								 .$a_assignment->getId()."' does not belong to training "
 								 ."program '".$this->getId()."'.");
 		}
@@ -815,30 +815,30 @@ class ilObjTrainingProgramme extends ilContainer {
 	 * first one.
 	 *
 	 * @param int 		$a_user_id
-	 * @return [ilTrainingProgrammeUserAssignment]
+	 * @return [ilStudyProgrammeUserAssignment]
 	 */
 	public function getAssignmentsOf($a_user_id) {
-		require_once("./Modules/TrainingProgramme/classes/class.ilTrainingProgrammeUserAssignment.php");
+		require_once("./Modules/StudyProgramme/classes/class.ilStudyProgrammeUserAssignment.php");
 		
 		$prg_ids = $this->getIdsFromNodesOnPathFromRootToHere();
-		$assignments = ilTrainingProgrammeAssignment::where(array( "usr_id" => $a_user_id
+		$assignments = ilStudyProgrammeAssignment::where(array( "usr_id" => $a_user_id
 														   		 , "root_prg_id" => $prg_ids
 														   ))
 													->orderBy("last_change", "DESC")
 													->get();
 		return array_map(function($ass) {
-			return new ilTrainingProgrammeUserAssignment($ass);
+			return new ilStudyProgrammeUserAssignment($ass);
 		}, array_values($assignments)); // use array values since we want keys 0...
 	}
 	
 	/**
 	 * Get all assignments to this program or any node above.
 	 *
-	 * @return [ilTrainingProgrammeUserAssignment]
+	 * @return [ilStudyProgrammeUserAssignment]
 	 */
 	public function getAssignments() {
 		return array_map(function($ass) {
-			return new ilTrainingProgrammeUserAssignment($ass);
+			return new ilStudyProgrammeUserAssignment($ass);
 		}, array_values($this->getAssignmentsRaw())); // use array values since we want keys 0...
 	}
 	
@@ -857,7 +857,7 @@ class ilObjTrainingProgramme extends ilContainer {
 	 * @return $this
 	 */
 	public function updateAllAssignments() {
-		$assignments = ilTrainingProgrammeUserAssignment::getInstancesForProgram($this->getId());
+		$assignments = ilStudyProgrammeUserAssignment::getInstancesForProgram($this->getId());
 		foreach ($assignments as $ass) {
 			$ass->updateFromProgram();
 		}
@@ -872,11 +872,11 @@ class ilObjTrainingProgramme extends ilContainer {
 	 * Get the progresses the user has on this node.
 	 *
 	 * @param int $a_user_id
-	 * @return ilTrainingProgrammUserProgress[] 
+	 * @return ilStudyProgrammUserProgress[] 
 	 */
 	public function getProgressesOf($a_user_id) {
-		require_once("./Modules/TrainingProgramme/classes/class.ilTrainingProgrammeUserProgress.php");
-		return ilTrainingProgrammeUserProgress::getInstancesForUser($this->getId(), $a_user_id);
+		require_once("./Modules/StudyProgramme/classes/class.ilStudyProgrammeUserProgress.php");
+		return ilStudyProgrammeUserProgress::getInstancesForUser($this->getId(), $a_user_id);
 	}
 	
 	/**
@@ -886,18 +886,18 @@ class ilObjTrainingProgramme extends ilContainer {
 	 *
 	 * @throws ilException
 	 * @param int $a_assignment_id
-	 * @return ilTrainingProgrammUserProgress
+	 * @return ilStudyProgrammUserProgress
 	 */
 	public function getProgressForAssignment($a_assignment_id) {
-		require_once("./Modules/TrainingProgramme/classes/class.ilTrainingProgrammeUserProgress.php");
-		return ilTrainingProgrammeUserProgress::getInstanceForAssignment($this->getId(), $a_assignment_id);
+		require_once("./Modules/StudyProgramme/classes/class.ilStudyProgrammeUserProgress.php");
+		return ilStudyProgrammeUserProgress::getInstanceForAssignment($this->getId(), $a_assignment_id);
 	}
 	
-	protected function addProgressForNewNodes(ilObjTrainingProgramme $a_prg) {
-		require_once("Modules/TrainingProgramme/classes/model/class.ilTrainingProgrammeProgress.php");
+	protected function addProgressForNewNodes(ilObjStudyProgramme $a_prg) {
+		require_once("Modules/StudyProgramme/classes/model/class.ilStudyProgrammeProgress.php");
 		foreach ($this->getAssignmentsRaw() as $ass) {
-			$progress = ilTrainingProgrammeProgress::createFor($a_prg->settings, $ass);
-			$progress->setStatus(ilTrainingProgrammeProgress::STATUS_NOT_RELEVANT)
+			$progress = ilStudyProgrammeProgress::createFor($a_prg->settings, $ass);
+			$progress->setStatus(ilStudyProgrammeProgress::STATUS_NOT_RELEVANT)
 					 ->update();
 		}
 	}
@@ -905,11 +905,11 @@ class ilObjTrainingProgramme extends ilContainer {
 	/**
 	 * Get all progresses on this node.
 	 *
-	 * @return ilTrainingProgrammeUserProgress[]
+	 * @return ilStudyProgrammeUserProgress[]
 	 */
 	public function getProgresses() {
-		require_once("./Modules/TrainingProgramme/classes/class.ilTrainingProgrammeUserProgress.php");
-		return ilTrainingProgrammeUserProgress::getInstancesForProgram($this->getId());
+		require_once("./Modules/StudyProgramme/classes/class.ilStudyProgrammeUserProgress.php");
+		return ilStudyProgrammeUserProgress::getInstancesForProgram($this->getId());
 	}
 	
 	
@@ -944,9 +944,9 @@ class ilObjTrainingProgramme extends ilContainer {
 	 * Get model objects for the assignments on this programm.
 	 */
 	protected function getAssignmentsRaw() {
-		require_once("./Modules/TrainingProgramme/classes/class.ilTrainingProgrammeUserAssignment.php");
+		require_once("./Modules/StudyProgramme/classes/class.ilStudyProgrammeUserAssignment.php");
 		$prg_ids = $this->getIdsFromNodesOnPathFromRootToHere();
-		return ilTrainingProgrammeAssignment::where(array( "root_prg_id" => $prg_ids))
+		return ilStudyProgrammeAssignment::where(array( "root_prg_id" => $prg_ids))
 												->orderBy("last_change", "DESC")
 												->get();
 	}
@@ -964,7 +964,7 @@ class ilObjTrainingProgramme extends ilContainer {
 			if ($node_data["type"] !== "prg") {
 				continue;
 			}
-			$prg = ilObjTrainingProgramme::getInstanceByRefId($node_data["child"]);
+			$prg = ilObjStudyProgramme::getInstanceByRefId($node_data["child"]);
 			foreach ($prg->getProgressesOf($a_user_id) as $progress) {
 				$progress->setLPCompleted($a_obj_id, $a_user_id);
 			}
@@ -1010,7 +1010,7 @@ class ilObjTrainingProgramme extends ilContainer {
 			throw new ilException("Ref-Id '$a_ref_id' does not belong to a training programme object.");
 		}
 		
-		$parent = ilObjTrainingProgramme::getInstanceByRefId($a_ref_id);
+		$parent = ilObjStudyProgramme::getInstanceByRefId($a_ref_id);
 
 		if (!$parent->hasChildren() && !$parent->hasLPChildren()) {
 			return $a_subobjects;
