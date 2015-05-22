@@ -21,7 +21,7 @@
              */
             var refresh_tree = function () {
                 $(element).jstree("refresh");
-            }
+            };
 
             /**
              * Enables or disable the save-order and cancel-order button in the toolbar
@@ -42,7 +42,7 @@
                         $("#" + settings.cancel_button_id).addClass('disabled');
                     }
                 }
-            }
+            };
 
             /**
              * Shows and hides all buttons on the tree nodes
@@ -58,7 +58,7 @@
                 }
 
                 tree_buttons_disabled = !enable;
-            }
+            };
 
             /**
              * Hides all remove buttons from parents of the current selected element
@@ -69,7 +69,7 @@
                 element.find(settings.current_node_selector).parents('li').each(function () {
                     $(this).find("> " + settings.button_selectors.delete).hide();
                 });
-            }
+            };
 
             /**
              * Defines drag & drop rules for tree-elements
@@ -106,7 +106,7 @@
                 };
 
                 $.jstree._reference($(element).attr("id"))._set_settings(js_tree_settings);
-            }
+            };
 
 
             // JsTree events handlers
@@ -303,7 +303,7 @@
                          }*/
                     }
                 });
-            }
+            };
 
             $('body').on("async_explorer-add_reference", function(event, data) {
                 save_explorer_data(data);
