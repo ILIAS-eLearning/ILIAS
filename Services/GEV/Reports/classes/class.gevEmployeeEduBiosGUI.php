@@ -108,18 +108,7 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 									."   , '-')"
 									." as points_year5"
 									)
-						->select_raw("IF ( usr.begin_of_certification >= '$earliest_possible_cert_period_begin'"
-									."   , SUM( IF (     usrcrs.begin_date >= usr.begin_of_certification"
-									."               AND usrcrs.begin_date < ( usr.begin_of_certification "
-									."                                       + INTERVAL (".$cert_year_sql.") YEAR"
-									."                                       )"
-									."               AND usrcrs.okz <> '-empty-'"
-									."             , usrcrs.credit_points"
-									."             , 0"
-									."             )"
-									."        )"
-									."   , '-')"
-									." as points_sum")
+						->select_raw($points_in_current_period." as points_sum")
 						->select_raw("CASE WHEN usr.begin_of_certification <= '$earliest_possible_cert_period_begin' THEN ''"
 									."     WHEN ".$cert_year_sql." = 1 AND ".$points_in_current_period." < 40 THEN 'X'"
 									."     WHEN ".$cert_year_sql." = 2 AND ".$points_in_current_period." < 80 THEN 'X'"
