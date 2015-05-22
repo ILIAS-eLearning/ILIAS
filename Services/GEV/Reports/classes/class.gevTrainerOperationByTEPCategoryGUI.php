@@ -27,11 +27,11 @@ require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
 
 const MIN_ROW = "3991";
-const IMPORTANT_TEP_CATEGORIES 
-	= array("Training");
+
 class gevTrainerOperationByTEPCategoryGUI extends catBasicReportGUI{
 
 	protected $internal_sorting_fields = array("fullname");
+	protected $important_tep_categories	= array("Training");
 	public function __construct() {
 		
 		parent::__construct();
@@ -180,7 +180,7 @@ class gevTrainerOperationByTEPCategoryGUI extends catBasicReportGUI{
 		while($res = $ilDB->fetchAssoc($rec)) {
 			$columns[] = $res["title"];
 		}
-		foreach(array_reverse(IMPORTANT_TEP_CATEGORIES) as $category) {
+		foreach(array_reverse($this->important_tep_categories) as $category) {
 			$key = array_search($category, $columns);
 			unset($columns["key"]);
 		}
