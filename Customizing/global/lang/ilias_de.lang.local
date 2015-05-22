@@ -639,6 +639,9 @@ gev#:#gev_rep_employee_edu_bios_title#:#Bildungsbiographien meiner Mitarbeiter
 gev#:#gev_rep_employee_edu_bios_desc#:#Hier bekommen Sie einen Überblick über die Bildungsbiographien Ihrer Mitarbeiter.
 gev#:#gev_report_billing#:#Rechnungen
 gev#:#gev_report_filter_crs_region#:#Trainingsregion
+gev#:#gev_report_trainer_operation_by_tep_category#:#Trainereinsätze nach TEP Kategorie
+gev#:#gev_report_trainer_operation_by_tep_category_title#:#Trainereinsätze nach TEP Kategorie
+gev#:#gev_report_trainer_operation_by_tep_category_desc#:#Hier erhalten Sie eine Übersicht über die Einsatzplanung von Trainern.
 gev#:#gev_report_attendance_by_employee#:#Teilnahmen nach Mitarbeiter
 gev#:#gev_rep_filter_show_critical_persons#:#Zeige mir nur kritische Personen.
 gev#:#gev_rep_filter_show_critical_persons_4th_year#:#Zeige mir nur kritische Personen nach dem vierten Jahr.
