@@ -58,12 +58,12 @@ class ilStudyProgrammeTypeTableGUI extends ilTable2GUI {
         $this->tpl->setVariable('DESCRIPTION', $set['description']);
         $this->tpl->setVariable('DEFAULT_LANG', $set['default_language']);
         $this->tpl->setVariable('ICON', $set['icon']);
-        $this->ctrl->setParameterByClass("iltrainingprogrammetypegui", "type_id", $set['id']);
+        $this->ctrl->setParameterByClass("ilstudyprogrammetypegui", "type_id", $set['id']);
         $selection = new ilAdvancedSelectionListGUI();
         $selection->setListTitle($this->lng->txt('actions'));
         $selection->setId('action_prg_type' . $set['id']);
-        $selection->addItem($this->lng->txt('edit'), 'edit', $this->ctrl->getLinkTargetByClass('iltrainingprogrammetypegui', 'edit'));
-        $selection->addItem($this->lng->txt('delete'), 'delete', $this->ctrl->getLinkTargetByClass('iltrainingprogrammetypegui', 'delete'));
+        $selection->addItem($this->lng->txt('edit'), 'edit', $this->ctrl->getLinkTargetByClass('ilstudyprogrammetypegui', 'edit'));
+        $selection->addItem($this->lng->txt('delete'), 'delete', $this->ctrl->getLinkTargetByClass('ilstudyprogrammetypegui', 'delete'));
         $this->tpl->setVariable('ACTIONS', $selection->getHTML());
     }
 

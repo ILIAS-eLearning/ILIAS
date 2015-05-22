@@ -324,8 +324,8 @@ class ilObjStudyProgrammeTreeGUI {
 
 		$create_node_form = $tmp_obj->getAsyncCreationForm();
 		$create_node_form->setTitle("");
-		$this->ctrl->setParameterByClass("ilobjtrainingprogrammegui", "new_type", "prg");
-		$create_node_form->setFormAction($this->ctrl->getFormActionByClass("ilobjtrainingprogrammegui", "save"));
+		$this->ctrl->setParameterByClass("ilobjstudyprogrammegui", "new_type", "prg");
+		$create_node_form->setFormAction($this->ctrl->getFormActionByClass("ilobjstudyprogrammegui", "save"));
 
 		return $create_node_form;
 	}
@@ -511,13 +511,13 @@ class ilObjStudyProgrammeTreeGUI {
 		$settings_modal = ilModalGUI::getInstance();
 		$settings_modal->setId($this->modal_id);
 		$settings_modal->setType(ilModalGUI::TYPE_LARGE);
-		$this->tpl->addOnLoadCode('$("#'.$this->modal_id.'").training_programme_modal();');
+		$this->tpl->addOnLoadCode('$("#'.$this->modal_id.'").study_programme_modal();');
 
 		$content =  $settings_modal->getHTML();
 
 		// init js notifications
 		$notifications = new ilAsyncNotifications();
-		$notifications->addJsConfig('events', array('success'=>array('training_programme-show_success')));
+		$notifications->addJsConfig('events', array('success'=>array('study_programme-show_success')));
 		$notifications->initJs();
 
 		// init tree selection explorer
@@ -535,13 +535,13 @@ class ilObjStudyProgrammeTreeGUI {
 		$save_order_btn = ilLinkButton::getInstance();
 		$save_order_btn->setId('save_order_button');
 		$save_order_btn->setUrl("javascript:void(0);");
-		$save_order_btn->setOnClick("$('body').trigger('training_programme-save_order');");
+		$save_order_btn->setOnClick("$('body').trigger('study_programme-save_order');");
 		$save_order_btn->setCaption('prg_save_tree_order');
 
 		$cancel_order_btn = ilLinkButton::getInstance();
 		$cancel_order_btn->setId('cancel_order_button');
 		$cancel_order_btn->setUrl("javascript:void(0);");
-		$cancel_order_btn->setOnClick("$('body').trigger('training_programme-cancel_order');");
+		$cancel_order_btn->setOnClick("$('body').trigger('study_programme-cancel_order');");
 		$cancel_order_btn->setCaption('prg_cancel_tree_order');
 
 		$this->toolbar->addButtonInstance($save_order_btn);

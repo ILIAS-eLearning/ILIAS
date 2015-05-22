@@ -101,7 +101,7 @@ class ilObjStudyProgrammeMembersGUI {
 				$this->ctrl->setReturn($this, "view");
 				$this->ctrl->forwardCommand($rep_search);
 				return;
-			case "ilobjtrainingprogrammeindividualplangui":
+			case "ilobjstudyprogrammeindividualplangui":
 				require_once("./Modules/StudyProgramme/classes/class.ilObjStudyProgrammeIndividualPlanGUI.php");
 				$individual_plan_gui = new ilObjStudyProgrammeIndividualPlanGUI( $this, $this->ref_id);
 				$this->ctrl->forwardCommand($individual_plan_gui);

@@ -137,7 +137,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
 				$this->ctrl->forwardCommand($gui);
 				break;
-			case "ilobjtrainingprogrammesettingsgui":
+			case "ilobjstudyprogrammesettingsgui":
 				$this->denyAccessIfNot("write");
 
 				$this->getSubTabs('settings');
@@ -158,14 +158,14 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 				$ilTranslationGui = new ilTranslationGUI($this);
 				$this->ctrl->forwardCommand($ilTranslationGui);
 				break;*/
-			case "ilobjtrainingprogrammemembersgui":
+			case "ilobjstudyprogrammemembersgui":
 				$this->denyAccessIfNot("manage_members");
 				$this->tabs_gui->setTabActive(self::TAB_MEMBERS);
 				require_once("Modules/StudyProgramme/classes/class.ilObjStudyProgrammeMembersGUI.php");
 				$gui = new ilObjStudyProgrammeMembersGUI($this, $this->ref_id);
 				$this->ctrl->forwardCommand($gui);
 				break;
-			case "ilobjtrainingprogrammetreegui":
+			case "ilobjstudyprogrammetreegui":
 				$this->denyAccessIfNot("write");
 
 				$this->getSubTabs($cmd);
@@ -179,7 +179,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 				$gui = new ilObjStudyProgrammeTreeGUI($this->id);
 				$this->ctrl->forwardCommand($gui);
 				break;
-			case 'iltrainingprogrammetypegui':
+			case 'ilstudyprogrammetypegui':
 				$this->tabs_gui->setTabActive('subtypes');
 
 				$types_gui = new ilStudyProgrammeTypeGUI($this);
@@ -580,16 +580,16 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 			return $this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary");
 		}
 		if ($a_cmd == "settings") {
-			return $this->ctrl->getLinkTargetByClass("ilobjtrainingprogrammesettingsgui", "view");
+			return $this->ctrl->getLinkTargetByClass("ilobjstudyprogrammesettingsgui", "view");
 		}
 		if($a_cmd == self::SUBTAB_VIEW_TREE) {
-			return $this->ctrl->getLinkTargetByClass("ilobjtrainingprogrammetreegui", "view");
+			return $this->ctrl->getLinkTargetByClass("ilobjstudyprogrammetreegui", "view");
 		}
 		if ($a_cmd == "members") {
-			return $this->ctrl->getLinkTargetByClass("ilobjtrainingprogrammemembersgui", "view");
+			return $this->ctrl->getLinkTargetByClass("ilobjstudyprogrammemembersgui", "view");
 		}
 		if($a_cmd == "subtypes") {
-			return $this->ctrl->getLinkTargetByClass("iltrainingprogrammetypegui", "listTypes");
+			return $this->ctrl->getLinkTargetByClass("ilstudyprogrammetypegui", "listTypes");
 		}
 		
 		return $this->ctrl->getLinkTarget($this, $a_cmd);
@@ -647,9 +647,9 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 		$id = explode("_", $a_target);
 		$ilCtrl->setTargetScript("ilias.php");
 		$ilCtrl->initBaseClass("ilRepositoryGUI");
-		$ilCtrl->setParameterByClass("ilobjtrainingprogrammegui", "ref_id", $id[0]);
+		$ilCtrl->setParameterByClass("ilobjstudyprogrammegui", "ref_id", $id[0]);
 
-		$ilCtrl->redirectByClass(array( "ilRepositoryGUI", "ilobjtrainingprogrammegui" ), "view");
+		$ilCtrl->redirectByClass(array( "ilRepositoryGUI", "ilobjstudyprogrammegui" ), "view");
 	}
 }
 

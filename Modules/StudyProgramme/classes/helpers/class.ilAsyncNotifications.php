@@ -53,7 +53,7 @@ class ilAsyncNotifications {
 
 			$this->addJsConfig('templates', $templates);
 
-			$tpl->addOnLoadCode("$('#".$this->content_container_id."').training_programme_notifications(".json_encode($this->js_config).");");
+			$tpl->addOnLoadCode("$('#".$this->content_container_id."').study_programme_notifications(".json_encode($this->js_config).");");
 
 			$this->js_init = true;
 		}

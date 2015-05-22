@@ -27,8 +27,8 @@ class ilObjStudyProgramme extends ilContainer {
 	
 	// Wrapped static ilObjectFactory of ILIAS.
 	public $object_factory;
-	// Cache for training programmes
-	static public $training_programme_cache = null;
+	// Cache for study programmes
+	static public $study_programme_cache = null;
 	
 	/**
 	 * ATTENTION: After using the constructor the object won't be in the cache.
@@ -51,8 +51,8 @@ class ilObjStudyProgramme extends ilContainer {
 		$this->ilUser = $ilUser;
 
 		$this->object_factory = ilObjectFactoryWrapper::singleton();
-		if (self::$training_programme_cache === null) {
-			self::$training_programme_cache = ilObjStudyProgrammeCache::singleton();
+		if (self::$study_programme_cache === null) {
+			self::$study_programme_cache = ilObjStudyProgrammeCache::singleton();
 		}
 	}
 	
@@ -87,7 +87,7 @@ class ilObjStudyProgramme extends ilContainer {
 	 */
 	static public function getInstanceByRefId($a_ref_id) {
 		require_once("Modules/StudyProgramme/classes/class.ilObjStudyProgrammeCache.php");
-		return self::$training_programme_cache->getInstanceByRefId($a_ref_id);
+		return self::$study_programme_cache->getInstanceByRefId($a_ref_id);
 	}
 	
 	/**
@@ -97,7 +97,7 @@ class ilObjStudyProgramme extends ilContainer {
 		$obj =  new ilObjStudyProgramme();
 		$obj->create();
 		$obj->createReference();
-		self::$training_programme_cache->addInstance($obj);
+		self::$study_programme_cache->addInstance($obj);
 		return $obj;
 	}
 	
@@ -428,7 +428,7 @@ class ilObjStudyProgramme extends ilContainer {
 	}
 	
 	/**
-	 * Get the leafs the training programme contains.
+	 * Get the leafs the study programme contains.
 	 *
 	 * Throws when this object is not in tree.
 	 *
@@ -469,7 +469,7 @@ class ilObjStudyProgramme extends ilContainer {
 	}
 	
 	/**
-	 * Get the amount of leafs, the training programme contains.
+	 * Get the amount of leafs, the study programme contains.
 	 *
 	 * Throws when this object is not in tree.
 	 */
@@ -719,7 +719,7 @@ class ilObjStudyProgramme extends ilContainer {
 	////////////////////////////////////
 	
 	/**
-	 * Assign a user to this node at the training program.
+	 * Assign a user to this node at the study program.
 	 *
 	 * Throws when node is in DRAFT or OUTDATED status. Throws when there are no
 	 * settings for the program.
@@ -773,7 +773,7 @@ class ilObjStudyProgramme extends ilContainer {
 	public function removeAssignment(ilStudyProgrammeUserAssignment $a_assignment) {
 		if ($a_assignment->getStudyProgramme()->getId() != $this->getId()) {
 			throw new ilException("ilObjStudyProgramme::removeAssignment: Assignment '"
-								 .$a_assignment->getId()."' does not belong to training "
+								 .$a_assignment->getId()."' does not belong to study "
 								 ."program '".$this->getId()."'.");
 		}
 		
@@ -1007,7 +1007,7 @@ class ilObjStudyProgramme extends ilContainer {
 		}
 		
 		if (ilObject::_lookupType($a_ref_id, true) != "prg") {
-			throw new ilException("Ref-Id '$a_ref_id' does not belong to a training programme object.");
+			throw new ilException("Ref-Id '$a_ref_id' does not belong to a study programme object.");
 		}
 		
 		$parent = ilObjStudyProgramme::getInstanceByRefId($a_ref_id);

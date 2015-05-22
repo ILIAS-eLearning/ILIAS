@@ -97,7 +97,7 @@ class ilAsyncContainerSelectionExplorer extends ilContainerSelectionExplorer {
 	 * Adds the on load code for the async explorer
 	 */
 	public function initJs() {
-		self::addOnLoadCode('explorer', '$("#'.$this->getId().'").training_programme_async_explorer('.json_encode($this->js_conf).');');
+		self::addOnLoadCode('explorer', '$("#'.$this->getId().'").study_programme_async_explorer('.json_encode($this->js_conf).');');
 	}
 
 	/**
