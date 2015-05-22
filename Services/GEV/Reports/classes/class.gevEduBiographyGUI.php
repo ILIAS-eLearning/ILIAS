@@ -262,9 +262,7 @@ class gevEduBiographyGUI extends catBasicReportGUI {
 				.$this->queryWhere($cy_start, $cy_end)
 				." AND usrcrs.booking_status = 'gebucht'"
 				." AND ".$this->db->in("usrcrs.participation_status", array("teilgenommen", "nicht gesetzt"), false, "text")
-				." AND (".$this->db->in("usrcrs.okz", array("OKZ1", "OKZ2", "OKZ3"), false, "text")
-				."      OR crs.crs_id < 0 "
-				."     )"
+				." AND ".$this->db->in("usrcrs.okz", array("OKZ1", "OKZ2", "OKZ3"), false, "text")
 				;
 		$res = $this->db->query($query);
 		if ($rec = $this->db->fetchAssoc($res)) {
@@ -275,13 +273,8 @@ class gevEduBiographyGUI extends catBasicReportGUI {
 	protected function wbdQuery(ilDate $start, ilDate $end) {
 		return   "SELECT SUM(usrcrs.credit_points) sum "
 				." FROM hist_usercoursestatus usrcrs"
-				." JOIN hist_user usr ON usr.user_id = usrcrs.usr_id AND usr.hist_historic = 0"
-				." JOIN hist_course crs ON crs.crs_id = usrcrs.crs_id AND crs.hist_historic = 0"
-				.$this->queryWhere($start, $end)
-				." AND usrcrs.participation_status = 'teilgenommen'"
-				." AND (".$this->db->in("usrcrs.okz", array("OKZ1", "OKZ2", "OKZ3"), false, "text")
-				."      OR crs.crs_id < 0 "
-				."     )"
+				.$this->queryWhere($start, $end, false)
+				." AND NOT usrcrs.wbd_booking_id IS NULL"
 				;
 	}
 	
@@ -420,13 +413,13 @@ class gevEduBiographyGUI extends catBasicReportGUI {
 		}
 	}
 	
-	protected function queryWhere(ilDate $start = null, ilDate $end = null) {
+	protected function queryWhere(ilDate $start = null, ilDate $end = null, $no_historic = true) {
 		if ($start === null) {
 			return parent::queryWhere();
 		}
 		
-		return		 " WHERE usr.user_id = ".$this->db->quote($this->target_user_id, "integer")
-					."   AND usrcrs.hist_historic = 0 "
+		return		 " WHERE usrcrs.usr_id = ".$this->db->quote($this->target_user_id, "integer")
+					.($no_historic ? "   AND usrcrs.hist_historic = 0 " : "")
 					."   AND ( usrcrs.end_date >= ".$this->db->quote($start->get(IL_CAL_DATE), "date")
 					."        OR usrcrs.end_date = '0000-00-00')"
 					."   AND usrcrs.begin_date <= ".$this->db->quote($end->get(IL_CAL_DATE), "date")
