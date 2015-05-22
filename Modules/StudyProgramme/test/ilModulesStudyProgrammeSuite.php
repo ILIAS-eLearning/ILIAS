@@ -22,21 +22,21 @@
 */
 
 /**
- * TrainingProgramme Test-Suite
+ * StudyProgramme Test-Suite
  * @author Michael Herren <mh@studer-raimann.ch>
  * @version 1.0.0
  */
-class ilModulesTrainingProgrammeSuite extends PHPUnit_Framework_TestSuite {
+class ilModulesStudyProgrammeSuite extends PHPUnit_Framework_TestSuite {
     public static function suite()
     {
-        $suite = new ilObjTrainingProgrammeTest();
+        $suite = new ilObjStudyProgrammeTest();
 
         // add each test class of the component
-        require_once("./Services/Administration/test/ilObjTrainingProgrammeTest.php");
-        require_once("./Services/Administration/test/ilObjTrainingProgrammeCollectionTest.php");
+        require_once("./Services/Administration/test/ilObjStudyProgrammeTest.php");
+        require_once("./Services/Administration/test/ilObjStudyProgrammeCollectionTest.php");
 
-        $suite->addTestSuite("ilObjTrainingProgrammeTest");
-        $suite->addTestSuite("ilObjTrainingProgrammeCollectionTest");
+        $suite->addTestSuite("ilObjStudyProgrammeTest");
+        $suite->addTestSuite("ilObjStudyProgrammeCollectionTest");
 
         return $suite;
     }

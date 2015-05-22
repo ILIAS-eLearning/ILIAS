@@ -12,26 +12,26 @@ require_once("./Services/User/classes/class.ilObjUser.php");
  * @author Richard Klees <richard.klees@concepts-and-training.de>
  * @version 1.0.0
  */
-class ilTrainingProgrammeUserAssignmentTest extends PHPUnit_Framework_TestCase {
+class ilStudyProgrammeUserAssignmentTest extends PHPUnit_Framework_TestCase {
 	protected $backupGlobals = FALSE;
 
 	protected function setUp() {
 		PHPUnit_Framework_Error_Deprecated::$enabled = FALSE;
 
-		require_once("./Modules/TrainingProgramme/classes/class.ilObjTrainingProgramme.php");
+		require_once("./Modules/StudyProgramme/classes/class.ilObjStudyProgramme.php");
 
 		include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
 		ilUnitUtil::performInitialisation();
 		
-		$this->root = ilObjTrainingProgramme::createInstance();
+		$this->root = ilObjStudyProgramme::createInstance();
 		$this->root->putInTree(ROOT_FOLDER_ID);
 		$this->root->object_factory = new ilObjectFactoryWrapperMock();
 		
-		$this->node1 = ilObjTrainingProgramme::createInstance();
-		$this->node2 = ilObjTrainingProgramme::createInstance();
+		$this->node1 = ilObjStudyProgramme::createInstance();
+		$this->node2 = ilObjStudyProgramme::createInstance();
 		
-		$this->leaf1 = new ilTrainingProgrammeLeafMock();
-		$this->leaf2 = new ilTrainingProgrammeLeafMock();
+		$this->leaf1 = new ilStudyProgrammeLeafMock();
+		$this->leaf2 = new ilStudyProgrammeLeafMock();
 		
 		$this->root->addNode($this->node1);
 		$this->root->addNode($this->node2);
@@ -58,7 +58,7 @@ class ilTrainingProgrammeUserAssignmentTest extends PHPUnit_Framework_TestCase {
 	 */ 
 	public function testNoAssignmentWhenDraft() {
 		$user = $this->newUser();
-		$this->assertEquals(ilTrainingProgramme::STATUS_DRAFT, $this->root->getStatus());
+		$this->assertEquals(ilStudyProgramme::STATUS_DRAFT, $this->root->getStatus());
 		$this->root->assignUser($user->getId());
 	}
 	
@@ -68,8 +68,8 @@ class ilTrainingProgrammeUserAssignmentTest extends PHPUnit_Framework_TestCase {
 	public function testNoAssignmentWhenOutdated() {
 		$user = $this->newUser();
 		
-		$this->root->setStatus(ilTrainingProgramme::STATUS_OUTDATED);
-		$this->assertEquals(ilTrainingProgramme::STATUS_OUTDATED, $this->root->getStatus());
+		$this->root->setStatus(ilStudyProgramme::STATUS_OUTDATED);
+		$this->assertEquals(ilStudyProgramme::STATUS_OUTDATED, $this->root->getStatus());
 		$this->root->assignUser($user->getId());
 	}
 	
@@ -78,13 +78,13 @@ class ilTrainingProgrammeUserAssignmentTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testNoAssignementWhenNotCreated() {
 		$user = $this->newUser();
-		$prg = new ilObjTrainingProgramme();
+		$prg = new ilObjStudyProgramme();
 		$prg->assignUser($user->getId());
 	}
 	
 	public function testUserId() {
 		$user1 = $this->newUser();
-		$this->root->setStatus(ilTrainingProgramme::STATUS_ACTIVE);
+		$this->root->setStatus(ilStudyProgramme::STATUS_ACTIVE);
 		$ass = $this->root->assignUser($user1->getId());
 		$this->assertEquals($user1->getId(), $ass->getUserId());
 	}
@@ -93,7 +93,7 @@ class ilTrainingProgrammeUserAssignmentTest extends PHPUnit_Framework_TestCase {
 		$user1 = $this->newUser();
 		$user2 = $this->newUser();
 		
-		$this->root->setStatus(ilTrainingProgramme::STATUS_ACTIVE);
+		$this->root->setStatus(ilStudyProgramme::STATUS_ACTIVE);
 		
 		$this->root->assignUser($user1->getId());
 		$this->assertTrue($this->root->hasAssignmentOf($user1->getId()));
@@ -111,9 +111,9 @@ class ilTrainingProgrammeUserAssignmentTest extends PHPUnit_Framework_TestCase {
 		$user3 = $this->newUser();
 		$user4 = $this->newUser();
 		
-		$this->root->setStatus(ilTrainingProgramme::STATUS_ACTIVE);
-		$this->node1->setStatus(ilTrainingProgramme::STATUS_ACTIVE);
-		$this->node2->setStatus(ilTrainingProgramme::STATUS_ACTIVE);
+		$this->root->setStatus(ilStudyProgramme::STATUS_ACTIVE);
+		$this->node1->setStatus(ilStudyProgramme::STATUS_ACTIVE);
+		$this->node2->setStatus(ilStudyProgramme::STATUS_ACTIVE);
 		
 		$this->assertEquals(0, $this->root->getAmountOfAssignmentsOf($user1->getId()));
 		
@@ -139,8 +139,8 @@ class ilTrainingProgrammeUserAssignmentTest extends PHPUnit_Framework_TestCase {
 		$user1 = $this->newUser();
 		$user2 = $this->newUser();
 		
-		$this->root->setStatus(ilTrainingProgramme::STATUS_ACTIVE);
-		$this->node1->setStatus(ilTrainingProgramme::STATUS_ACTIVE);
+		$this->root->setStatus(ilStudyProgramme::STATUS_ACTIVE);
+		$this->node1->setStatus(ilStudyProgramme::STATUS_ACTIVE);
 		
 		$this->assertEquals(0, count($this->root->getAssignmentsOf($user1->getId())));
 		$this->assertEquals(0, count($this->node1->getAssignmentsOf($user1->getId())));
@@ -157,11 +157,11 @@ class ilTrainingProgrammeUserAssignmentTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(2, count($node1_ass));
 		$this->assertEquals(1, count($node2_ass));
 		
-		$this->assertEquals($this->root->getId(), $root_ass[0]->getTrainingProgramme()->getId());
-		$this->assertEquals($this->root->getId(), $node2_ass[0]->getTrainingProgramme()->getId());
+		$this->assertEquals($this->root->getId(), $root_ass[0]->getStudyProgramme()->getId());
+		$this->assertEquals($this->root->getId(), $node2_ass[0]->getStudyProgramme()->getId());
 		
 		$node1_ass_prg_ids = array_map(function($ass) {
-			return $ass->getTrainingProgramme()->getId();
+			return $ass->getStudyProgramme()->getId();
 		}, $node1_ass);
 		$this->assertContains($this->root->getId(), $node1_ass_prg_ids);
 		$this->assertContains($this->node1->getId(), $node1_ass_prg_ids);
@@ -173,7 +173,7 @@ class ilTrainingProgrammeUserAssignmentTest extends PHPUnit_Framework_TestCase {
 	public function testRemoveOnRootNodeOnly1() {
 		$user = $this->newUser();
 		
-		$this->root->setStatus(ilTrainingProgramme::STATUS_ACTIVE);
+		$this->root->setStatus(ilStudyProgramme::STATUS_ACTIVE);
 		
 		$ass1 = $this->root->assignUser($user->getId());
 		$this->node1->removeAssignment($ass1);
@@ -185,7 +185,7 @@ class ilTrainingProgrammeUserAssignmentTest extends PHPUnit_Framework_TestCase {
 	public function testRemoveOnRootNodeOnly2() {
 		$user = $this->newUser();
 		
-		$this->node1->setStatus(ilTrainingProgramme::STATUS_ACTIVE);
+		$this->node1->setStatus(ilStudyProgramme::STATUS_ACTIVE);
 		
 		$ass1 = $this->node1->assignUser($user->getId());
 		$this->root->removeAssignment($ass1);
@@ -194,7 +194,7 @@ class ilTrainingProgrammeUserAssignmentTest extends PHPUnit_Framework_TestCase {
 	public function testRemoveAssignment1() {
 		$user = $this->newUser();
 		
-		$this->root->setStatus(ilTrainingProgramme::STATUS_ACTIVE);
+		$this->root->setStatus(ilStudyProgramme::STATUS_ACTIVE);
 		
 		$ass1 = $this->root->assignUser($user->getId());
 		$this->root->removeAssignment($ass1);
@@ -204,7 +204,7 @@ class ilTrainingProgrammeUserAssignmentTest extends PHPUnit_Framework_TestCase {
 	public function testRemoveAssignment2() {
 		$user = $this->newUser();
 		
-		$this->root->setStatus(ilTrainingProgramme::STATUS_ACTIVE);
+		$this->root->setStatus(ilStudyProgramme::STATUS_ACTIVE);
 		
 		$ass1 = $this->root->assignUser($user->getId());
 		$ass1->remove();
@@ -215,8 +215,8 @@ class ilTrainingProgrammeUserAssignmentTest extends PHPUnit_Framework_TestCase {
 		$user1 = $this->newUser();
 		$user2 = $this->newUser();
 		
-		$this->root->setStatus(ilTrainingProgramme::STATUS_ACTIVE);
-		$this->node1->setStatus(ilTrainingProgramme::STATUS_ACTIVE);
+		$this->root->setStatus(ilStudyProgramme::STATUS_ACTIVE);
+		$this->node1->setStatus(ilStudyProgramme::STATUS_ACTIVE);
 		
 		$ass1 = $this->root->assignUser($user1->getId());
 		$ass2 = $this->node1->assignUser($user2->getId());
