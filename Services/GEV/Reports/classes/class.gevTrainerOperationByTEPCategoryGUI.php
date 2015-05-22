@@ -31,7 +31,7 @@ const MIN_ROW = "3991";
 class gevTrainerOperationByTEPCategoryGUI extends catBasicReportGUI{
 
 	protected $internal_sorting_fields = array("fullname");
-	protected $important_tep_categories	= array("Training");
+	protected static $important_tep_categories	= array("Training");
 	public function __construct() {
 		
 		parent::__construct();
@@ -46,22 +46,15 @@ class gevTrainerOperationByTEPCategoryGUI extends catBasicReportGUI{
 
 		$this->table = catReportTable::create();
 		$this->table->column("fullname", "name");
-		$categories = $this->getCategories();
-		$str = fopen("Services/GEV/Reports/templates/default/"
-			."tpl.gev_trainer_operation_by_template_category_row.html","w"); 
-		$tpl = '<tr class="{CSS_ROW}"><td></td>'."\n".'<td>{VAL_FULLNAME}</td>';
+		$categories = self::getCategories(true);
 
 		$i = 1;
 		foreach($categories as $category) {
 			$this->table->column("cat$i", $category, true);
 			$this->table->column("cath$i", "Std.", true);
-			$tpl .= "\n".'<td align = "right">{VAL_CAT'."$i".'}</td>';
-			$tpl .= "\n".'<td align = "right">{VAL_CATH'."$i".'}</td>';
 			$i++;
 		}
-		$tpl .= "\n".'</tr>';
-		fwrite($str,$tpl);
-		fclose($str);
+
 
 		$this->table->template("tpl.gev_trainer_operation_by_template_category_row.html", 
 								"Services/GEV/Reports");
@@ -139,10 +132,6 @@ class gevTrainerOperationByTEPCategoryGUI extends catBasicReportGUI{
 	}
 
 	protected function transformResultRow($rec) {
-		// credit_points
-		if ($rec["credit_points"] == -1) {
-			$rec["credit_points"] = $this->lng->txt("gev_table_no_entry");
-		}
 
 		//date
 		if( $rec["begin_date"] && $rec["end_date"] 
@@ -157,19 +146,6 @@ class gevTrainerOperationByTEPCategoryGUI extends catBasicReportGUI{
 		}
 		$rec['date'] = $date;
 		
-		// od_bd
-		if ( $rec["org_unit_above2"] == "-empty-") {
-			if ($rec["org_unit_above1"] == "-empty-") {
-				$rec["od_bd"] = $this->lng->txt("gev_table_no_entry");
-			}
-			else {
-				$rec["od_bd"] = $rec["org_unit_above1"];
-			}
-		}
-		else {
-			$rec["od_bd"] = $rec["org_unit_above2"]."/".$rec["org_unit_above1"];
-		}
-
 		return $this->replaceEmpty($rec);
 	}
 	
@@ -179,7 +155,7 @@ class gevTrainerOperationByTEPCategoryGUI extends catBasicReportGUI{
 		return $val;
 	}
 
-	protected function getCategories() {
+	protected static function getCategories($create_template = false) {
 		global $ilDB;
 		$sql = "SELECT title FROM tep_type";
 		$rec = $ilDB->query($sql);
@@ -187,13 +163,31 @@ class gevTrainerOperationByTEPCategoryGUI extends catBasicReportGUI{
 		while($res = $ilDB->fetchAssoc($rec)) {
 			$columns[] = $res["title"];
 		}
-		foreach(array_reverse($this->important_tep_categories) as $category) {
+		foreach(array_reverse(self::$important_tep_categories) as $category) {
 			$key = array_search($category, $columns);
 			unset($columns[$key]);
 			array_unshift($columns,$category);
 		}
-
+		if($create_template) {
+			self::createTemplateFile($columns);
+		}
 		return $columns;
+	}
+
+	protected static function createTemplateFile(array $categories) {
+		$i=1;
+		$str = fopen("Services/GEV/Reports/templates/default/"
+			."tpl.gev_trainer_operation_by_template_category_row.html","w"); 
+		$tpl = '<tr class="{CSS_ROW}"><td></td>'."\n".'<td>{VAL_FULLNAME}</td>';
+		foreach($categories as $category) {
+			$tpl .= "\n".'<td align = "right">{VAL_CAT'."$i".'}</td>';
+			$tpl .= "\n".'<td align = "right">{VAL_CATH'."$i".'}</td>';
+			$i++;
+		}
+		$tpl .= "\n</tr>";
+		fwrite($str,$tpl);
+		fclose($str);
+
 	}
 
 	protected function getOrgusFromTep() {
