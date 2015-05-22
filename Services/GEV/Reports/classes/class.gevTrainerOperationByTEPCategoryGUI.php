@@ -47,14 +47,21 @@ class gevTrainerOperationByTEPCategoryGUI extends catBasicReportGUI{
 		$this->table = catReportTable::create();
 		$this->table->column("fullname", "name");
 		$categories = $this->getCategories();
-
+		$str = fopen("Services/GEV/Reports/templates/default/"
+			."tpl.gev_trainer_operation_by_template_category_row.html","w"); 
+		$tpl = '<tr class="{CSS_ROW}"><td></td>'."\n".'<td>{VAL_FULLNAME}</td>';
 
 		$i = 1;
 		foreach($categories as $category) {
 			$this->table->column("cat$i", $category, true);
 			$this->table->column("cath$i", "Std.", true);
+			$tpl .= "\n".'<td align = "right">{VAL_CAT'."$i".'}</td>';
+			$tpl .= "\n".'<td align = "right">{VAL_CATH'."$i".'}</td>';
 			$i++;
 		}
+		$tpl .= "\n".'</tr>';
+		fwrite($str,$tpl);
+		fclose($str);
 
 		$this->table->template("tpl.gev_trainer_operation_by_template_category_row.html", 
 								"Services/GEV/Reports");
@@ -112,9 +119,9 @@ class gevTrainerOperationByTEPCategoryGUI extends catBasicReportGUI{
 									 , " OR ht.hist_historic IS NULL"
 									 )
 						->multiselect( "org_unit"
-									 , $this->lng->txt("gev_org_unit_short")
+									 , $this->lng->txt("gev_report_filter_crs_region")
 									 , "ht.orgu_title"
-									 , $this->user_utils->getOrgUnitNamesWhereUserIsSuperior()
+									 , $this->getOrgusFromTep()
 									 , array()
 									 )
 						->multiselect( "venue"
@@ -182,10 +189,22 @@ class gevTrainerOperationByTEPCategoryGUI extends catBasicReportGUI{
 		}
 		foreach(array_reverse($this->important_tep_categories) as $category) {
 			$key = array_search($category, $columns);
-			unset($columns["key"]);
+			unset($columns[$key]);
+			array_unshift($columns,$category);
 		}
-		array_unshift($columns,$category);
+
 		return $columns;
+	}
+
+	protected function getOrgusFromTep() {
+		global $ilDB;
+		$orgu_s = array();
+		$sql = "SELECT DISTINCT orgu_title as ot FROM hist_tep WHERE orgu_title != '-empty-'";
+		$res = $ilDB->query($sql);
+		while( $rec = $ilDB->fetchAssoc($res)) {
+			$orgu_s[] = $rec["ot"];
+		}
+		return $orgu_s;
 	}
 
 	protected function daysPerTEPCategory($category,$name) {
