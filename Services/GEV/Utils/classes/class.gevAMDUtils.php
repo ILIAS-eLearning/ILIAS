@@ -55,7 +55,7 @@ class gevAMDUtils {
 			throw new Exception("AMD Field ".$field_id." for GEV setting ".$a_amd_setting." does not exist.");
 		}
 		
-		if ($a_value !== null) {
+		if ($a_value !== null && $a_value != "") {
 			$this->setValue($a_obj, $field_id, $field_type, $a_value);
 		}
 		else {
@@ -88,6 +88,7 @@ class gevAMDUtils {
 	}
 	
 	protected function getFieldType($a_field_id) {
+
 		$ret = $this->db->query("SELECT field_type FROM adv_mdf_definition WHERE field_id = ".
 								$this->db->quote($a_field_id, "integer"));
 		
