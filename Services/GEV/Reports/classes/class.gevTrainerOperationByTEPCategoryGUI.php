@@ -33,7 +33,7 @@ class gevTrainerOperationByTEPCategoryGUI extends catBasicReportGUI{
 	protected $internal_sorting_fields = array("fullname");
 	protected static $important_tep_categories	= array("Training");
 	public function __construct() {
-		
+		global $ilDB;
 		parent::__construct();
 		$min_row_condition = "ht.row_id > ".MIN_ROW;
 
@@ -65,8 +65,8 @@ class gevTrainerOperationByTEPCategoryGUI extends catBasicReportGUI{
 		
 		$this->query = catReportQuery::create()
 						->distinct()
-						->select("ud.usr_id")
-						->select_raw("CONCAT(ud.lastname, ', ', ud.firstname) as fullname");
+						->select("hu.user_id")
+						->select_raw("CONCAT(hu.lastname, ', ', hu.firstname) as fullname");
 		$i = 1;
 		foreach($categories as $category) {
 			$this->query->select_raw($this->daysPerTEPCategory($category, "cat$i"));
@@ -74,12 +74,12 @@ class gevTrainerOperationByTEPCategoryGUI extends catBasicReportGUI{
 			$i++;
 		}
 		$this->query->from("hist_tep ht")
-					->join("usr_data ud")
-						->on("ht.user_id = ud.usr_id")
+					->join("hist_user hu")
+						->on("ht.user_id = hu.user_id")
 					->join("hist_tep_individ_days htid")
 						->on("individual_days = id")
 					->left_join("hist_course hc")
-						->on("context_id = crs_id")
+						->on("context_id = crs_id AND ht.category  = ".$ilDB->quote("Training","text"))
 					->group_by("fullname")
 					->compile();
 
