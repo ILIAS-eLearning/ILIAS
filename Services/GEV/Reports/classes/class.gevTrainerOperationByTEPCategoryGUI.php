@@ -126,6 +126,8 @@ class gevTrainerOperationByTEPCategoryGUI extends catBasicReportGUI{
 									 )
 						->static_condition("(hc.hist_historic = 0 OR hc.hist_historic IS NULL)")
 						->static_condition("ht.hist_historic = 0")
+						->static_condition("ht.deleted = 0")
+						->static_condition("hu.hist_historic = 0")
 						->static_condition($min_row_condition) 
 						->action($this->ctrl->getLinkTarget($this, "view"))
 						->compile();
@@ -201,14 +203,15 @@ class gevTrainerOperationByTEPCategoryGUI extends catBasicReportGUI{
 
 	protected function daysPerTEPCategory($category,$name) {
 		global $ilDB;
-		$sql = "SUM(IF(category = ".$ilDB->quote($category,"text").",1,0)) as ".$name;
+		$sql = "SUM(IF(category = "
+				.$ilDB->quote($category,"text")." ,1,0)) as ".$name;
 		return $sql;
 	}
 
 	protected function hoursPerTEPCategory($category, $name) {
 		global $ilDB;
 		$sql = 
-		"SUM(IF(category = ".$ilDB->quote($category,"text").",
+		"SUM(IF(category = ".$ilDB->quote($category,"text")." ,
 			CEIL( TIME_TO_SEC( TIMEDIFF( end_time, start_time ) )* weight /720000) *2,0)) as ".$name;
 		return $sql;
 	}
