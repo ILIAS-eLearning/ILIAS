@@ -33,7 +33,7 @@ class ilObjectCopyGUI
 	
 	private $type = '';
 	private $source = 0;
-	// begin-patch mc
+	// begin-patch multi copy
 	private $targets = array();
 	// end-patch multi copy
 
@@ -573,6 +573,17 @@ class ilObjectCopyGUI
 	}
 	
 	// begin-patch mc
+	
+	/**
+	 * Set single object target
+	 * @param type $a_ref_id
+	 */
+	public function setTarget($a_ref_id)
+	{
+		$this->setTargets(array($a_ref_id));
+	}
+	
+	
 	/**
 	 * Set target id
 	 * @param int $a_target
@@ -890,12 +901,53 @@ class ilObjectCopyGUI
 
 	}
 	
+	/**
+	 * Copy to multiple targets
+	 */
+	protected function copyContainerToTargets()
+	{
+		global $ilCtrl;
+		
+		$last_target = 0;
+		$result = 1;
+		foreach($this->getTargets() as $target_ref_id)
+		{
+			$result = $this->copyContainer($target_ref_id);
+			$last_target = $target_ref_id;
+		}
+		
+		unset($_SESSION["clipboard"]["ref_ids"]);
+		unset($_SESSION["clipboard"]["cmd"]);
+
+		// Check if copy is in progress
+		if ($result == $last_target)
+		{
+			ilUtil::sendInfo($this->lng->txt("object_copy_in_progress"),true);
+			$ilCtrl->setParameterByClass(
+					"ilrepositorygui", 
+					"ref_id",
+					$last_target
+			);
+			$ilCtrl->redirectByClass("ilrepositorygui", "");
+		} 
+		else 
+		{
+			ilUtil::sendSuccess($this->lng->txt("object_duplicated"),true);
+			$ilCtrl->setParameterByClass(
+					"ilrepositorygui", 
+					"ref_id",
+					$result
+			);
+			$ilCtrl->redirectByClass("ilrepositorygui", "");
+		}	
+	}
+	
 	
 	/**
 	 * Copy a container
 	 * @return 
 	 */
-	protected function copyContainer()
+	protected function copyContainer($a_target)
 	{
 		global $ilLog, $ilCtrl;
 		
@@ -906,12 +958,12 @@ class ilObjectCopyGUI
 		
 		// Workaround for course in course copy
 
-		$target_type = ilObject::_lookupType(ilObject::_lookupObjId($this->getTarget()));
+		$target_type = ilObject::_lookupType(ilObject::_lookupObjId($a_target));
 		$source_type = ilObject::_lookupType(ilObject::_lookupObjId($this->getSource()));
 		
 		if($target_type != $source_type or $target_type != 'crs')
 		{
-		 	if(!$rbacsystem->checkAccess('create', $this->getTarget(),$this->getType()))
+		 	if(!$rbacsystem->checkAccess('create', $a_target,$this->getType()))
 		 	{
 		 		ilUtil::sendFailure($this->lng->txt('permission_denied'),true);
 				$ilCtrl->returnToParent($this);
@@ -930,32 +982,13 @@ class ilObjectCopyGUI
 				$_COOKIE['PHPSESSID'], 
 				$_COOKIE['ilClientId'], 
 				$this->getType(), 
-				$this->getTarget(), 
+				$a_target,
 				$this->getSource(), 
 				$options,
 				FALSE,
 				$this->getSubMode()
 		);
-
-
-		unset($_SESSION["clipboard"]["ref_ids"]);
-		unset($_SESSION["clipboard"]["cmd"]);
-
-		// Check if copy is in progress
-		if ($result == $this->getTarget())
-		{
-			ilUtil::sendInfo($this->lng->txt("object_copy_in_progress"),true);
-			$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id",
-				$this->getFirstTarget());
-			$ilCtrl->redirectByClass("ilrepositorygui", "");
-		} 
-		else 
-		{
-			ilUtil::sendSuccess($this->lng->txt("object_duplicated"),true);
-			$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id",
-				$result);
-			$ilCtrl->redirectByClass("ilrepositorygui", "");
-		}	
+		return $result;
 	}
 	
 	
