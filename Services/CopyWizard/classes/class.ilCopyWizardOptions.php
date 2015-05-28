@@ -118,10 +118,10 @@ class ilCopyWizardOptions
 	 	$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
 	 	
 		$ilDB->insert("copy_wizard_options", array(
-			"copy_id" => array("integer", $row->latest + 1),
+			"copy_id" => array("integer", ((int) $row->latest) + 1),
 			"source_id" => array("integer", 0)
 			));
-	 	return $row->latest + 1;
+	 	return ((int) $row->latest) + 1;
 	}
 	
 	/**
@@ -269,6 +269,7 @@ class ilCopyWizardOptions
 	{
 		global $ilDB;
 		
+		$this->tmp_tree = array();
 		$this->readTree($a_source_id);
 		$a_tree_structure = $this->tmp_tree;
 		
