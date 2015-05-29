@@ -957,7 +957,7 @@ class gevCourseUtils {
 	}
 
 	//handles the assignsystem for VC
-	public function doVCAssignment() {		
+	public function doVCAssignment() {
 		$doReturn = false;
 
 		if($this->getStartDate() === null || $this->getEndDate() === null || !$this->isVirtualTraining() || $this->getWebExVirtualClassType() === null) {
@@ -969,8 +969,8 @@ class gevCourseUtils {
 			}
 			
 			$this->setWebExLink(null);
-			//$this->setWebExPassword(null);
-			//$this->setWebExPasswordTutor(null);
+			$this->setWebExPassword(null);
+			$this->setWebExPasswordTutor(null);
 
 			$doReturn = true;
 		}
@@ -995,7 +995,7 @@ class gevCourseUtils {
 			
 			foreach($assigned_vc as $avc) {
 				$avc->release();
-			}			
+			}
 
 			$str_url = "";
 			$cnt = 1;
@@ -1003,19 +1003,20 @@ class gevCourseUtils {
 				$cnt = count($assigned_vc);
 			}
 
-			for ($i = 0; $i < $cnt; $i++) {				
+			if($cnt > 1) {
+				die("More than one vritual class was assigned to VT. CrsUtils line: 1007");
+			}
+
+			for ($i = 0; $i < $cnt; $i++) {
 				$to_assign_vc = $vc_pool->getVCAssignment($this->getWebExVirtualClassType(), $this->crs_id, $this->getStartDate(), $this->getEndDate());
 
 				if($to_assign_vc === null) {
+					ilUtil::sendFailure($this->lng->txt("gev_vc_no_free_url"));
 					break;
 				}
-				$str_url .= $to_assign_vc->getVC()->getUrl();
-			}
-
-			if($str_url != "") {				
-				$this->setWebExLink($str_url);
-			}else{
-				ilUtil::sendFailure($this->lng->txt("gev_vc_no_free_url"));
+				$this->setWebExLink($to_assign_vc->getVC()->getUrl());
+				$this->setWebExPassword($to_assign_vc->getVC()->getMemberPassword());
+				$this->setWebExPasswordTutor($to_assign_vc->getVC()->getTutorPassword());
 			}
 
 			ilUtil::sendInfo($this->lng->txt("gev_vc_send_invitation_mail_reminder"));

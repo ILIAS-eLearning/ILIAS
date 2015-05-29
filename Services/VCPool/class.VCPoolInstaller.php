@@ -22,6 +22,16 @@ class VCPoolInstaller {
 				"length"	=> "20",
 				"notnull"	=> true
 			)
+			"tutor_password" => array(
+				"type"		=> "text",
+				"length"	=> "10",
+				"notnull"	=> false
+			)
+			"member_password" => array(
+				"type"		=> "text",
+				"length"	=> "10",
+				"notnull"	=> false
+			)
 		));
 		
 		$ilDB->addPrimaryKey(ilVCPool::URL_POOL_TABLE, array("id"));
