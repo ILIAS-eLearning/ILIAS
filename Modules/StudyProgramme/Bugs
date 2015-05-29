@@ -1,0 +1,14 @@
+= JavaScript-Tree nicht aktualisiert = 
+
+* neues Prg anlegen
+* Content -> Manage
+* am Prg auf (+) klicken und neuen Knoten hinzufügen
+* neue Knoten wird _nicht_ angezeigt
+
+* funktioniert nur dann nicht, wenn der erste Knoten hinzugefügt wird
+
+= neue Knoten im Javascript-Baum unten anfügen =
+
+* neue Knoten werden im Javascript-Baum oben angefügt
+* ich vermute, die Erwartung ist eher, dass die Knoten unten angefügt
+  werden.
