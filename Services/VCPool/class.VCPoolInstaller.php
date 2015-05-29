@@ -43,6 +43,11 @@ class VCPoolInstaller {
 				"length"	=> 4,
 				"notnull"	=> true
 			),
+			"obj_id" => array(
+				"type"		=> "integer",
+				"length"	=> 4,
+				"notnull"	=> true
+			),
 			"ts_start" => array(
 				"type"		=> "timestamp",
 				"notnull"	=> true

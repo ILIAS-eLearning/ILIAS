@@ -671,7 +671,7 @@ abstract class ilTEPViewGridBased extends ilTEPView
 							."' title='".$lng->txt("gev_mytrainingsap_legend_view_bookings")."'>".$bookings_img."</a>&nbsp;";
 			}
 			if($crs_utils->getWebExLink() !== null) {
-				$vc_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-table-virtual-class").'" />';
+				$vc_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-classroom.png").'" />';
 				$actions .=  "<a href='".$crs_utils->getWebExLink()
 							."' title='".$lng->txt("gev_virtual_class")."'>".$vc_img."</a>&nbsp;";
 			}
