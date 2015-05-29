@@ -971,6 +971,7 @@ class gevCourseUtils {
 			$this->setWebExLink(null);
 			$this->setWebExPassword(null);
 			$this->setWebExPasswordTutor(null);
+			$this->setWebExLoginTutor(null);
 
 			$doReturn = true;
 		}
@@ -1017,6 +1018,7 @@ class gevCourseUtils {
 				$this->setWebExLink($to_assign_vc->getVC()->getUrl());
 				$this->setWebExPassword($to_assign_vc->getVC()->getMemberPassword());
 				$this->setWebExPasswordTutor($to_assign_vc->getVC()->getTutorPassword());
+				$this->setWebExLoginTutor($to_assign_vc->getVC()->getTutorLogin());
 			}
 
 			ilUtil::sendInfo($this->lng->txt("gev_vc_send_invitation_mail_reminder"));
@@ -1045,6 +1047,14 @@ class gevCourseUtils {
 	
 	public function setWebExPasswordTutor($a_value) {
 		return $this->amd->setField($this->crs_id, gevSettings::CRS_AMD_WEBEX_PASSWORD_TUTOR, $a_value);
+	}
+
+	public function getWebExLoginTutor() {
+		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_WEBEX_LOGIN_TUTOR);
+	}
+
+	public function setWebExLoginTutor($a_value) {
+		return $this->amd->setField($this->crs_id, gevSettings::CRS_AMD_WEBEX_LOGIN_TUTOR, $a_value);
 	}
 	
 	public function getWebExVirtualClassType() {

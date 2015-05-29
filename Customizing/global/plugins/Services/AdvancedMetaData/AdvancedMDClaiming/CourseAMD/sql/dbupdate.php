@@ -636,3 +636,34 @@ $gev_settings = array(gevSettings::CRS_AMD_PROVIDER
 
 $amdutils->updatePositionOrderAMDField($gev_settings);
 ?>
+
+<#17>
+<?php
+require_once("Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php");
+require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
+require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+
+$amdutils = gevAMDUtils::getInstance();
+
+$amdutils->addAMDField( "Orte und Anbieter"
+						, "Webinar Login Trainer"
+						, gevSettings::CRS_AMD_WEBEX_LOGIN_TUTOR
+						, "Login zum virtuellen Klassenraum für den Trainer"
+						, false
+						, null
+						, ilAdvancedMDFieldDefinition::TYPE_TEXT
+						);
+
+$gev_settings = array(gevSettings::CRS_AMD_PROVIDER
+					 ,gevSettings::CRS_AMD_VENUE
+					 ,gevSettings::CRS_AMD_ACCOMODATION
+					 ,gevSettings::CRS_AMD_WEBEX_VC_CLASS_TYPE
+					 ,gevSettings::CRS_AMD_WEBEX_LINK
+					 ,gevSettings::CRS_AMD_WEBEX_PASSWORD
+					 ,gevSettings::CRS_AMD_WEBEX_LOGIN_TUTOR
+					 ,gevSettings::CRS_AMD_WEBEX_PASSWORD_TUTOR
+					 ,gevSettings::CRS_AMD_ORGA
+					 ,gevSettings::CRS_AMD_TEP_ORGU);
+
+$amdutils->updatePositionOrderAMDField($gev_settings);
+?>

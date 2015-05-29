@@ -56,7 +56,7 @@ class ilVCPool {
 		$start = $ilDB->quote($a_start->get(IL_CAL_DATETIME), "timestamp");
 		$end = $ilDB->quote($a_end->get(IL_CAL_DATETIME), "timestamp");
 
-		$res = $ilDB->query("SELECT id, url, vc_type, tutor_password, member_password"
+		$res = $ilDB->query("SELECT id, url, vc_type, tutor_password, member_password, tutor_login"
 						   ."  FROM ".self::URL_POOL_TABLE
 						   ." WHERE id NOT IN ("
 						   ."         SELECT vc_id"
@@ -83,7 +83,7 @@ class ilVCPool {
 						 ."        )"
 						 );
 		
-		$vc = new ilVirtualClassroom((int)$rec["id"], $rec["url"], $rec["vc_type"], $rec["tutor_password"], $rec["member_password"]);
+		$vc = new ilVirtualClassroom((int)$rec["id"], $rec["url"], $rec["vc_type"], $rec["tutor_password"], $rec["member_password"], $rec["tutor_login"]);
 		return new ilVCAssignment((int)$ass_id, $vc,$a_obj_id, $a_start, $a_end);
 	}
 	
@@ -111,7 +111,7 @@ class ilVCPool {
 		
 		$ilDB = $this->getDB();
 
-		$res = $ilDB->query("SELECT ass.id, ass.ts_start, ass.ts_end, ass.obj_id, vc.id as vc_id, vc.url, vc.vc_type, vc.tutor_password, vc.member_password"
+		$res = $ilDB->query("SELECT ass.id, ass.ts_start, ass.ts_end, ass.obj_id, vc.id as vc_id, vc.url, vc.vc_type, vc.tutor_password, vc.member_password, vc.tutor_login"
 						   ."  FROM ".self::ASSIGNMENT_TABLE." ass "
 						   ."  JOIN ".self::URL_POOL_TABLE." vc "
 						   ."    ON ass.vc_id = vc.id"
@@ -124,7 +124,7 @@ class ilVCPool {
 			throw new ilException("Could not find VC assignment with id '$a_id'.");
 		}
 		
-		$vc = new ilVirtualClassroom((int)$rec["vc_id"], $rec["url"], $rec["vc_type"], $rec["tutor_password"], $rec["member_password"]);
+		$vc = new ilVirtualClassroom((int)$rec["vc_id"], $rec["url"], $rec["vc_type"], $rec["tutor_password"], $rec["member_password"], $rec["tutor_login"]);
 		$begin = new ilDateTime($rec["ts_start"], IL_CAL_DATETIME);
 		$end = new ilDateTime($rec["ts_end"], IL_CAL_DATETIME);
 		return new ilVCAssignment((int)$rec["id"], $vc,(int)$rec["obj_id"], $begin, $end);
@@ -142,7 +142,7 @@ class ilVCPool {
 		
 		$ilDB = $this->getDB();
 		
-		$res = $ilDB->query("SELECT ass.id, ass.ts_start, ass.ts_end, ass.obj_id, vc.id as vc_id, vc.url, vc.vc_type, vc.tutor_password, vc.member_password"
+		$res = $ilDB->query("SELECT ass.id, ass.ts_start, ass.ts_end, ass.obj_id, vc.id as vc_id, vc.url, vc.vc_type, vc.tutor_password, vc.member_password, vc.tutor_login"
 						   ."  FROM ".self::ASSIGNMENT_TABLE." ass "
 						   ."  JOIN ".self::URL_POOL_TABLE." vc "
 						   ."    ON ass.vc_id = vc.id"
@@ -152,10 +152,10 @@ class ilVCPool {
 		$ret = array();
 
 		while($row = $ilDB->fetchAssoc($res)) {		
-			$vc = new ilVirtualClassroom((int)$row["vc_id"], $row["url"], $row["vc_type"], $rec["tutor_password"], $rec["member_password"]);
+			$vc = new ilVirtualClassroom((int)$row["vc_id"], $row["url"], $row["vc_type"], $rec["tutor_password"], $rec["member_password"], $rec["tutor_login"]);
 			$begin = new ilDateTime($row["ts_start"], IL_CAL_DATETIME);
 			$end = new ilDateTime($row["ts_end"], IL_CAL_DATETIME);
-			$ret[] = new ilVCAssignment((int)$row["id"], $vc,(int)$row["obj_id"], $begin, $end);			
+			$ret[] = new ilVCAssignment((int)$row["id"], $vc,(int)$row["obj_id"], $begin, $end);
 		}
 
 		return $ret;

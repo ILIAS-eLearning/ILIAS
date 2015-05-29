@@ -16,10 +16,11 @@ class ilVirtualClassroom {
 	private $type;				// string
 	private $tutor_password;	// string
 	private $member_password;	// string
+	private $tutor_login;		// string
 	
 	// This should only be used by VCPool to protect the constraints
 	// of the pool.
-	public function __construct($a_id, $a_url, $a_type,$a_tutor_password = null, $a_member_password = null) {
+	public function __construct($a_id, $a_url, $a_type,$a_tutor_password = null, $a_member_password = null,$a_tutor_login = null) {
 		assert(is_int($a_id));
 		assert(is_string($a_url));
 		assert(is_string($a_type));
@@ -28,6 +29,7 @@ class ilVirtualClassroom {
 		$this->type = $a_type;
 		$this->tutor_password = $a_tutor_password;
 		$this->member_password = $a_member_password;
+		$this->tutor_login = $a_tutor_login;
 	}
 	
 	public function getId() {
@@ -48,6 +50,10 @@ class ilVirtualClassroom {
 
 	public function getMemberPassword() {
 		return $this->member_password;
+	}
+
+	public function getTutorLogin() {
+		return $this->tutor_login;
 	}
 }
 
