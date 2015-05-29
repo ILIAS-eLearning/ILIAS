@@ -751,8 +751,8 @@ class ilObjectDefinition// extends ilSaxParser
 		
 		if ($a_obj_type == "prg") {
 			// ask study program which objects are allowed to create on the concrete node.
-			require_once("Modules/TrainingProgramme/classes/class.ilObjTrainingProgramme.php");
-			return ilObjTrainingProgramme::getCreatableSubObjects($subobjects, $a_parent_ref_id);
+			require_once("Modules/StudyProgramme/classes/class.ilObjStudyProgramme.php");
+			return ilObjStudyProgramme::getCreatableSubObjects($subobjects, $a_parent_ref_id);
 		}
 
 		return $subobjects;
