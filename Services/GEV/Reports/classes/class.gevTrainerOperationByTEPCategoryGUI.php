@@ -212,7 +212,7 @@ class gevTrainerOperationByTEPCategoryGUI extends catBasicReportGUI{
 		global $ilDB;
 		$sql = 
 		"SUM(IF(category = ".$ilDB->quote($category,"text")." ,
-			CEIL( TIME_TO_SEC( TIMEDIFF( end_time, start_time ) )* weight /720000) *2,0)) as ".$name;
+			LEAST(CEIL( TIME_TO_SEC( TIMEDIFF( end_time, start_time ) )* weight /720000) *2,8),0)) as ".$name;
 		return $sql;
 	}
 }
