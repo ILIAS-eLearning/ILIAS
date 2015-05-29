@@ -7,8 +7,35 @@
 
 * funktioniert nur dann nicht, wenn der erste Knoten hinzugefügt wird
 
+
 = neue Knoten im Javascript-Baum unten anfügen =
 
 * neue Knoten werden im Javascript-Baum oben angefügt
-* ich vermute, die Erwartung ist eher, dass die Knoten unten angefügt
+* Ich vermute, die Erwartung ist eher, dass die Knoten unten angefügt
   werden.
+
+
+= Keine "Settings" am aktuellen Knoten im JavaScript-Baum =
+
+* Der aktuelle Knoten im JavaScript-Baum verfügt nicht über Settings.
+* D.h. um das gesamte Programm zu konfigurieren muss ich zwischen
+  Content und Settings hin und her wechseln.
+
+
+= [Save tree order] und [Dismiss tree order] werden immer angezeigt =
+
+* Besser verständlich wäre es, wenn die Buttons erst angezeigt werden, sobald
+  Änderungen gemacht wurden.
+* Es wäre außerdem hilfreich, eine Notice anzuzeigen, dass noch gespeichert
+  werden muss.
+
+
+= [Create new leaf] aus dem JavaScript-Baum öffnet "about:blank" =
+
+* das hinzufügen an sich funktioniert aber
+
+
+= Status im JavaScript-Baum anzeigen =
+
+* Imho würde es die Benutzerbarkeit des Baums erhöhen, wenn "Active"-Knoten
+  anders repräsentiert werden als "Draft"- oder "Outdated"-Knoten
