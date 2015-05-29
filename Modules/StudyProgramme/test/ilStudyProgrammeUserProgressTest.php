@@ -274,7 +274,7 @@ class ilStudyProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 		$this->root->addNode($node3);
 		
 		// sleep here, since changes might not have been written to database
-		usleep(400);
+		usleep(500);
 		
 		$node3_progress = array_shift($node3->getProgressesOf($user->getId()));
 		$this->assertNotNull($node3_progress);
