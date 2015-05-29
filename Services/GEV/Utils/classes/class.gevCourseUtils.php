@@ -378,17 +378,17 @@ class gevCourseUtils {
 			return true;
 		}
 
-		$start_date = ($this->getStartDate()) ?$this->getStartDate()->get(IL_CAL_DATE) : "0000-00-00";
-		$end_date = ($this->getEndDate()) ?$this->getEndDate()->get(IL_CAL_DATE) : "0000-00-00";
-		
-		foreach($assigns as $assign) {
-			$ass_start_date = $assign->getStart()->get(IL_CAL_DATE);
-			$ass_end_date = $assign->getEnd()->get(IL_CAL_DATE);
+		$start_datetime = $this->getStartDate()->get(IL_CAL_DATE)." ".$this->getFormattedStartTime().":00";
+		$end_datetime = $this->getEndDate()->get(IL_CAL_DATE)." ".$this->getFormattedEndTime().":00";
 
-			if ($ass_start_date != $start_date || $ass_end_date != $end_date) {
+		foreach($assigns as $assign) {
+			$ass_start_date = $assign->getStart()->get(IL_CAL_DATETIME);
+			$ass_end_date = $assign->getEnd()->get(IL_CAL_DATETIME);
+
+			if ($ass_start_date != $start_datetime || $ass_end_date != $end_datetime) {
 				return true;
 			}
-		}		
+		}
 
 		return false;
 	}
@@ -989,7 +989,9 @@ class gevCourseUtils {
 			return;
 		}
 
-		if($this->isVirtualTraining() && $this->isStartAndEndDateSet() && $this->getWebExVirtualClassType() !== null && $this->hasStartOrEndDateChangedToVCAssign()) {		
+		if($this->isVirtualTraining() && $this->isStartAndEndDateSet() && $this->getWebExVirtualClassType() !== null 
+			&& $this->hasStartOrEndDateChangedToVCAssign()) 
+		{
 			require_once("Services/VCPool/classes/class.ilVCPool.php");
 			$vc_pool = ilVCPool::getInstance();
 			$assigned_vc = $vc_pool->getVCAssignmentsByObjId($this->crs_id);
@@ -1005,16 +1007,13 @@ class gevCourseUtils {
 			}
 
 			if($cnt > 1) {
-				die("More than one vritual class was assigned to VT. CrsUtils line: 1007");
+				die("More than one virtual class was assigned to VT. CrsUtils doVCAssignment");
 			}
 
-			for ($i = 0; $i < $cnt; $i++) {
-				$start_time = ($this->getFormattedStartTime() == "") ? "00:00:00" : $this->getFormattedStartTime().":00";
-				$end_time = ($this->getFormattedEndTime() == "") ? "00:00:00" : $this->getFormattedEndTime().":00";
+			$start_datetime = new ilDateTime($this->getStartDate()->get(IL_CAL_DATE)." ".$this->getFormattedStartTime().":00", IL_CAL_DATETIME);
+			$end_datetime = new ilDateTime($this->getEndDate()->get(IL_CAL_DATE)." ".$this->getFormattedEndTime().":00", IL_CAL_DATETIME);
 
-				$start_datetime = new ilDateTime($this->getStartDate()->get(IL_CAL_DATE)." ".$start_time, IL_CAL_DATETIME);
-				$end_datetime = new ilDateTime($this->getEndDate()->get(IL_CAL_DATE)." ".$end_time, IL_CAL_DATETIME);
-				
+			for ($i = 0; $i < $cnt; $i++) {				
 				$to_assign_vc = $vc_pool->getVCAssignment($this->getWebExVirtualClassType(), $this->crs_id, $start_datetime, $end_datetime);
 
 				if($to_assign_vc === null) {
