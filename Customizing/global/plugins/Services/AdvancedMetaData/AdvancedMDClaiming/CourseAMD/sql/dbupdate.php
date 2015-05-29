@@ -613,7 +613,7 @@ require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 $amdutils = gevAMDUtils::getInstance();
 
 $amdutils->addAMDField( "Orte und Anbieter"
-						, "Virtuelle Klassentyp"
+						, "VC-Typ"
 						, gevSettings::CRS_AMD_WEBEX_VC_CLASS_TYPE
 						, ""
 						, false
