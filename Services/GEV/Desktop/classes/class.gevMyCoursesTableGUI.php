@@ -125,7 +125,7 @@ class gevCoursesTableGUI extends catAccordionTableGUI {
 		}
 
 		if ($crs_utils->getWebExlink() !== null) {
-			$action .= '&nbsp;<a href="'.$crs_utils->getWebExlink().'">'.$this->virtualclass_img.'</a>';
+			$action .= '&nbsp;<a href="'.$crs_utils->getWebExlink().'" target="_blank">'.$this->virtualclass_img.'</a>';
 		}
 
 		$action = ltrim($action,"&nbsp;");

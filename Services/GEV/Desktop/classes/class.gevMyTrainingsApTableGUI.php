@@ -145,7 +145,7 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 		}
 
 		if ($crs_utils->getWebExlink() !== null) {
-			$actions .= '&nbsp;<a href="'.$crs_utils->getWebExlink().'">'.$this->virtualclass_img.'</a>';
+			$actions .= '&nbsp;<a href="'.$crs_utils->getWebExlink().'" target="_blank">'.$this->virtualclass_img.'</a>';
 		}
 
 		$this->ctrl->setParameterByClass("ilrepositorygui","ref_id",$a_set["crs_ref_id"]);

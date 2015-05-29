@@ -1009,7 +1009,13 @@ class gevCourseUtils {
 			}
 
 			for ($i = 0; $i < $cnt; $i++) {
-				$to_assign_vc = $vc_pool->getVCAssignment($this->getWebExVirtualClassType(), $this->crs_id, $this->getStartDate(), $this->getEndDate());
+				$start_time = ($this->getFormattedStartTime() == "") ? "00:00:00" : $this->getFormattedStartTime().":00";
+				$end_time = ($this->getFormattedEndTime() == "") ? "00:00:00" : $this->getFormattedEndTime().":00";
+
+				$start_datetime = new ilDateTime($this->getStartDate()->get(IL_CAL_DATE)." ".$start_time, IL_CAL_DATETIME);
+				$end_datetime = new ilDateTime($this->getEndDate()->get(IL_CAL_DATE)." ".$end_time, IL_CAL_DATETIME);
+				
+				$to_assign_vc = $vc_pool->getVCAssignment($this->getWebExVirtualClassType(), $this->crs_id, $start_datetime, $end_datetime);
 
 				if($to_assign_vc === null) {
 					ilUtil::sendFailure($this->lng->txt("gev_vc_no_free_url"));
