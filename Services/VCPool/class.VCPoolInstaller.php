@@ -21,17 +21,17 @@ class VCPoolInstaller {
 				"type"		=> "text",
 				"length"	=> "20",
 				"notnull"	=> true
-			)
+			),
 			"tutor_password" => array(
 				"type"		=> "text",
 				"length"	=> "10",
 				"notnull"	=> false
-			)
+			),
 			"member_password" => array(
 				"type"		=> "text",
 				"length"	=> "10",
 				"notnull"	=> false
-			)
+			),
 			"tutor_login" => array(
 				"type"		=> "text",
 				"length"	=> "50",
