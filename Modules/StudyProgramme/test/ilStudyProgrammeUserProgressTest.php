@@ -56,9 +56,9 @@ class ilStudyProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 	}
 
 	protected function setAllNodesActive() {
-		$this->root->setStatus(ilStudyProgramme::STATUS_ACTIVE);
-		$this->node1->setStatus(ilStudyProgramme::STATUS_ACTIVE);
-		$this->node2->setStatus(ilStudyProgramme::STATUS_ACTIVE);
+		$this->root->setStatus(ilStudyProgramme::STATUS_ACTIVE)->update();
+		$this->node1->setStatus(ilStudyProgramme::STATUS_ACTIVE)->update();
+		$this->node2->setStatus(ilStudyProgramme::STATUS_ACTIVE)->update();
 	}
 	
 	protected function assignNewUserToRoot() {
@@ -116,9 +116,9 @@ class ilStudyProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 	}
 	
 	public function testInitialProgressDraft() {
-		$this->root->setStatus(ilStudyProgramme::STATUS_ACTIVE);
-		$this->node1->setStatus(ilStudyProgramme::STATUS_ACTIVE);
-		$this->node2->setStatus(ilStudyProgramme::STATUS_DRAFT);
+		$this->root->setStatus(ilStudyProgramme::STATUS_ACTIVE)->update();
+		$this->node1->setStatus(ilStudyProgramme::STATUS_ACTIVE)->update();
+		$this->node2->setStatus(ilStudyProgramme::STATUS_DRAFT)->update();
 		
 		$tmp = $this->assignNewUserToRoot();
 		$user = $tmp[1];
@@ -141,9 +141,9 @@ class ilStudyProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 	}
 	
 	public function testInitialProgressOutdated() {
-		$this->root->setStatus(ilStudyProgramme::STATUS_ACTIVE);
-		$this->node1->setStatus(ilStudyProgramme::STATUS_ACTIVE);
-		$this->node2->setStatus(ilStudyProgramme::STATUS_DRAFT);
+		$this->root->setStatus(ilStudyProgramme::STATUS_ACTIVE)->update();
+		$this->node1->setStatus(ilStudyProgramme::STATUS_ACTIVE)->update();
+		$this->node2->setStatus(ilStudyProgramme::STATUS_OUTDATED)->update();
 		
 		$tmp = $this->assignNewUserToRoot();
 		$user = $tmp[1];
