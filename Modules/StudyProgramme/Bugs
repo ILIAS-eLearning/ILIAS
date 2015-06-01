@@ -39,3 +39,10 @@
 
 * Imho würde es die Benutzerbarkeit des Baums erhöhen, wenn "Active"-Knoten
   anders repräsentiert werden als "Draft"- oder "Outdated"-Knoten
+
+
+= Einträge in prg_* werden nicht gelöscht, wenn Programm gelöscht wird =
+
+
+= Individuelle Baumansicht: Zeigt Kursreferenzen nicht an =
+
