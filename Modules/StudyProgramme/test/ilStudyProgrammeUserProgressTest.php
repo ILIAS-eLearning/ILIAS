@@ -364,19 +364,22 @@ class ilStudyProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 		$this->assertGreaterThan(ilStudyProgramme::DEFAULT_POINTS, $NEW_AMOUNT_OF_POINTS);
 		
 		$this->setAllNodesActive();
-		$this->node1->setPoints($NEW_AMOUNT_OF_POINTS)
-					->update();
+		$node3 = ilObjStudyProgramme::createInstance();
+		$this->root->addNode($node3);
+		$node3->setPoints($NEW_AMOUNT_OF_POINTS)
+			  ->setStatus(ilStudyProgramme::STATUS_ACTIVE)
+			  ->update();
+		
+
 		$tmp = $this->assignNewUserToRoot();
 		$ass = $tmp[0];
 		$user = $tmp[1];
 		
 		$root_progress = array_shift($this->root->getProgressesOf($user->getId()));
-		$node1_progress = array_shift($this->node1->getProgressesOf($user->getId()));
-		$node2_progress = array_shift($this->node2->getProgressesOf($user->getId()));
+		$node3_progress = array_shift($node3->getProgressesOf($user->getId()));
 	
 		$this->assertFalse($root_progress->canBeCompleted());
-		$this->assertFalse($node1_progress->canBeCompleted());
-		$this->assertTrue($node2_progress->canBeCompleted());
+		$this->assertFalse($node3_progress->canBeCompleted());
 	}
 	
 	public function testUserDeletionDeletesAssignments() {
