@@ -28,6 +28,17 @@ class ilStudyProgrammeAppEventListener {
 				switch($a_event) {
 					case "updateStatus":
 						self::onServiceTrackingUpdateStatus($a_parameter);
+						break;
+				}
+				break;
+			case "Services/Tree":
+				switch($a_event) {
+					case "insertNode":
+						self::onServiceTreeInsertNode($a_parameter);
+						break;
+					case "moveTree":
+						self::onServiceTreeMoveTree($a_parameter);
+						break;
 				}
 				break;
 			default:
@@ -36,7 +47,7 @@ class ilStudyProgrammeAppEventListener {
 		}
 	}
 
-	private function onServiceUserDeleteUser($a_parameter) {
+	private static function onServiceUserDeleteUser($a_parameter) {
 		require_once("./Modules/StudyProgramme/classes/class.ilStudyProgrammeUserAssignment.php");
 		$assignments = ilStudyProgrammeUserAssignment::getInstancesOfUser($a_parameter["usr_id"]);
 		foreach ($assignments as $ass) {
@@ -44,7 +55,7 @@ class ilStudyProgrammeAppEventListener {
 		}
 	}
 	
-	private function onServiceTrackingUpdateStatus($a_par) {
+	private static function onServiceTrackingUpdateStatus($a_par) {
 		require_once("./Services/Tracking/classes/class.ilLPStatus.php");
 		if ($a_par["status"] != ilLPStatus::LP_STATUS_COMPLETED_NUM) {
 			return;
@@ -52,5 +63,49 @@ class ilStudyProgrammeAppEventListener {
 		
 		require_once("./Modules/StudyProgramme/classes/class.ilObjStudyProgramme.php");
 		ilObjStudyProgramme::setProgressesCompletedFor($a_par["obj_id"], $a_par["usr_id"]);
+	}
+	
+	private static function onServiceTreeInsertNode($a_parameter) {
+		global $ilLog;
+		$ilLog->write("insertNode: ".print_r($a_parameter, true));
+	
+		$node_ref_id = $a_parameter["node_id"];
+		$parent_ref_id = $a_parameter["parent_id"];
+		
+		$node_type = ilObject::_lookupType($node_ref_id, true);
+		$parent_type = ilObject::_lookupType($parent_ref_id, true);
+	
+		if ($node_type != "crsr" || $parent_type != "prg") {
+			return;
+		}
+		
+		$ilLog->write("\n\ncrs_ref inserted in programme.\n\n");
+	}
+	
+	private static function onServiceTreeMoveTree($a_parameter) {
+		global $ilLog;
+		$ilLog->write("moveTree: ".print_r($a_parameter, true));
+		
+		$node_ref_id = $a_parameter["source_id"];
+		$new_parent_ref_id = $a_parameter["target_id"];
+		$old_parent_ref_id = $a_parameter["old_parent_id"];
+		
+		$node_type = ilObject::_lookupType($node_ref_id, true);
+		$new_parent_type = ilObject::_lookupType($new_parent_ref_id, true);
+		$old_parent_type = ilObject::_lookupType($old_parent_ref_id, true);
+		
+		$ilLog->write("$node_type $new_parent_type $old_parent_type");
+		
+		if ($node_type != "crsr" || ($new_parent_type != "prg" && $old_parent_type != "prg")) {
+			return;
+		}
+		
+		if ($new_parent_type == "prg") {
+			$ilLog->write("\n\ncrs_ref moved to programme\n\n");
+		}
+		else if ($old_parent_type == "prg") {
+			$ilLog->write("\n\ncrs_ref moved from programme\n\n");
+		}
+		
 	}
 }
