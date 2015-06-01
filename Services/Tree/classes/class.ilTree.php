@@ -2646,14 +2646,17 @@ class ilTree
 	 */
 	public function moveTree($a_source_id, $a_target_id, $a_location = self::POS_LAST_NODE)
 	{
+		$old_parent_id = $this->getParentId($a_source_id);
 		$this->getTreeImplementation()->moveTree($a_source_id,$a_target_id,$a_location);
 		$GLOBALS['ilAppEventHandler']->raise(
 				"Services/Tree", 
 				"moveTree", 
 				array(
-					'tree'		=> $this->table_tree,
-					'source_id' => $a_source_id, 
-					'target_id' => $a_target_id)
+					'tree'			=> $this->table_tree,
+					'source_id' 	=> $a_source_id, 
+					'target_id' 	=> $a_target_id,
+					'old_parent_id'	=> $old_parent_id
+					)
 		);
 		return true;
 	}
