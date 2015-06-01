@@ -1093,9 +1093,10 @@ class ilDataCollectionTable {
 		} else {
 			switch ($sortField->getDatatypeId()) {
 				case ilDataCollectionDatatype::INPUTFORMAT_RATING:
+					$rating_joined = true;
+					// FSX Bugfix 0015735: The average is multiplied with 10000 and added to the amount of votes
 					$joinStr .= "LEFT JOIN (SELECT (ROUND(AVG(rating), 1) * 10000 + COUNT(rating)) as rating, obj_id FROM il_rating GROUP BY obj_id) AS average ON average.obj_id = record.id";
 					$selectStr .= " average.rating AS field_{$id},";
-
 					break;
 				case ilDataCollectionDatatype::INPUTFORMAT_ILIAS_REF:
 					$joinStr .=
@@ -1156,6 +1157,9 @@ class ilDataCollectionTable {
 				$filterField = $this->getField($filter_field_id);
 				switch ($filterField->getDatatypeId()) {
 					case ilDataCollectionDatatype::INPUTFORMAT_RATING:
+						if(!$rating_joined) {
+							$joinStr .= "LEFT JOIN (SELECT (ROUND(AVG(rating), 1) * 10000 + COUNT(rating)) as rating, obj_id FROM il_rating GROUP BY obj_id) AS average ON average.obj_id = record.id";
+						}
 						// FSX Bugfix 0015735: The average is multiplied with 10000 and added to the amount of votes
 						$where_additions .= " AND average.rating >= " . $ilDB->quote($filter_value * 10000, 'integer');
 
