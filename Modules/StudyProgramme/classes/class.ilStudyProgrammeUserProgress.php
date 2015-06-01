@@ -414,7 +414,24 @@ class ilStudyProgrammeUserProgress {
 	 * @return bool
 	 */
 	public function canBeCompleted() {
-		return $this->getMaximumPossibleAmountOfPoints() >= $this->getAmountOfPoints();
+		$prg = $this->getStudyProgramme();
+		
+		if ($prg->getLPMode() == ilStudyProgramme::MODE_LP_COMPLETED) {
+			return true;
+		}
+		
+		if ($this->getMaximumPossibleAmountOfPoints() < $this->getAmountOfPoints()) {
+			// Fast track
+			return false;
+		}
+		
+		$children_progress = $this->getChildrenProgress();
+		foreach ($children_progress as $prg) {
+			if (!$prg->canBeCompleted()) {
+				return false;
+			}
+		}
+		return true;
 	}
 	
 	/**
