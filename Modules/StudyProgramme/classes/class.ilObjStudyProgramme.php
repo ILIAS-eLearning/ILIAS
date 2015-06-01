@@ -1004,6 +1004,17 @@ class ilObjStudyProgramme extends ilContainer {
 		return $nd["obj_id"];
 	}
 	
+	/**
+	 * Get the underlying model of this program.
+	 *
+	 * ATTENTION: Only use the model object if you know what you are doing.
+	 *
+	 * @return ilStudyProgramme
+	 */
+	public function getRawSettings() {
+		return $this->settings;
+	}
+	
 	////////////////////////////////////
 	// HOOKS
 	////////////////////////////////////
