@@ -41,6 +41,14 @@ class ilStudyProgrammeAppEventListener {
 						break;
 				}
 				break;
+			case "Services/Object":
+				switch ($a_event) {
+					case "toTrash":
+					case "delete":
+						self::onServiceObjectDelete($a_parameter);
+						break;
+				}
+				break;
 			default:
 				throw new ilException("ilStudyProgrammeAppEventListener::handleEvent: "
 									 ."Won't handle events of '$a_component'.");
@@ -66,9 +74,6 @@ class ilStudyProgrammeAppEventListener {
 	}
 	
 	private static function onServiceTreeInsertNode($a_parameter) {
-		global $ilLog;
-		$ilLog->write("insertNode: ".print_r($a_parameter, true));
-	
 		$node_ref_id = $a_parameter["node_id"];
 		$parent_ref_id = $a_parameter["parent_id"];
 		
@@ -79,7 +84,7 @@ class ilStudyProgrammeAppEventListener {
 			return;
 		}
 		
-		$ilLog->write("\n\ncrs_ref inserted in programme.\n\n");
+		self::setProgrammeLPMode($parent_ref_id);
 	}
 	
 	private static function onServiceTreeMoveTree($a_parameter) {
@@ -106,6 +111,18 @@ class ilStudyProgrammeAppEventListener {
 		else if ($old_parent_type == "prg") {
 			$ilLog->write("\n\ncrs_ref moved from programme\n\n");
 		}
-		
+
+		// TODO: implement this!
+	}
+	
+	private static function onServiceObjectDelete($a_parameter) {
+		global $ilLog;
+		$ilLog->write("delete: ".print_r($a_parameter, true));
+	}
+	
+	private function setProgrammeLPMode($a_ref_id) {
+		require_once("Modules/StudyProgramme/classes/class.ilObjStudyProgramme.php");
+		$obj = ilObjStudyProgramme::getInstanceByRefId($a_ref_id);
+		$obj->adjustLPMode();
 	}
 }
