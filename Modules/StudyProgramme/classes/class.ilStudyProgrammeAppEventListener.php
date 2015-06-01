@@ -80,11 +80,12 @@ class ilStudyProgrammeAppEventListener {
 		$node_type = ilObject::_lookupType($node_ref_id, true);
 		$parent_type = ilObject::_lookupType($parent_ref_id, true);
 	
-		if ($node_type != "crsr" || $parent_type != "prg") {
-			return;
+		if ($node_type == "crsr" && $parent_type == "prg") {
+			self::adjustProgrammeLPMode($parent_ref_id);
 		}
-		
-		self::adjustProgrammeLPMode($parent_ref_id);
+		if ($node_type == "prg" && $parent_type == "prg") {
+			self::addMissingProgresses($parent_ref_id);
+		}
 	}
 	
 	private static function onServiceTreeMoveTree($a_parameter) {
@@ -122,11 +123,22 @@ class ilStudyProgrammeAppEventListener {
 		self::adjustProgrammeLPMode($old_parent_ref_id);
 	}
 	
-	private function adjustProgrammeLPMode($a_ref_id) {
+	private function getStudyProgramme($a_ref_id) {
 		require_once("Modules/StudyProgramme/classes/class.ilObjStudyProgramme.php");
-		$obj = ilObjStudyProgramme::getInstanceByRefId($a_ref_id);
+		return ilObjStudyProgramme::getInstanceByRefId($a_ref_id);
+	}
+	
+	private function adjustProgrammeLPMode($a_ref_id) {
+		$obj = self::getStudyProgramme($a_ref_id);
 		if ($obj->getStatus() == ilStudyProgramme::STATUS_DRAFT) {
 			$obj->adjustLPMode();
+		}
+	}
+	
+	private function addMissingProgresses($a_ref_id) {
+		$obj = self::getStudyProgramme($a_ref_id);
+		foreach ($obj->getAssignments() as $ass) {
+			$ass->addMissingProgresses();
 		}
 	}
 }

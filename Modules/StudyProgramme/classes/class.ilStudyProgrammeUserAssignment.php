@@ -144,6 +144,36 @@ class ilStudyProgrammeUserAssignment {
 		
 		return $this;
 	}
+	
+	/**
+	 * Add missing progresses for new nodes in the programm.
+	 *
+	 * The new progresses will be set to not relevant.
+	 *
+	 * @return $this
+	 */
+	public function addMissingProgresses() {
+		require_once("Modules/StudyProgramme/classes/exceptions/class.ilStudyProgrammeNoProgressForAssignmentException.php");
+		
+		$prg = $this->getStudyProgramme();
+		$id = $this->getId();
+		
+		$prg->applyToSubTreeNodes(function($node) use ($id) {
+			try {
+				$node->getProgressForAssignment($id);
+			}
+			catch(ilStudyProgrammeNoProgressForAssignmentException $e) {
+				global $ilLog;
+				$ilLog->write("Adding progress for: ".$this->getId()." ".$node->getId());
+				require_once("Modules/StudyProgramme/classes/model/class.ilStudyProgrammeProgress.php");
+				$progress = ilStudyProgrammeProgress::createFor($node->getRawSettings(), $this->assignment);
+				$progress->setStatus(ilStudyProgrammeProgress::STATUS_NOT_RELEVANT)
+						 ->update();
+			}
+		});
+		
+		return $this;
+	}
 }
 
 ?>
