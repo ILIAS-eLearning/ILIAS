@@ -780,7 +780,8 @@ class ilObjStudyProgramme extends ilContainer {
 		$this->applyToSubTreeNodes(function($node) use ($ass_mod, $a_assigning_usr_id) {
 			$progress = ilStudyProgrammeProgress::createFor($node->settings, $ass_mod);
 			if ($node->getStatus() != ilStudyProgramme::STATUS_ACTIVE) {
-				$progress->setStatus(ilStudyProgrammeProgress::STATUS_NOT_RELEVANT);
+				$progress->setStatus(ilStudyProgrammeProgress::STATUS_NOT_RELEVANT)
+						 ->update();
 			}
 		});
 		

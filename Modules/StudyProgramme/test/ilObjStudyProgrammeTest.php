@@ -153,7 +153,7 @@ class ilObjStudyProgrammeTest extends PHPUnit_Framework_TestCase {
 		$obj->setPoints(10);
 		$obj->setStatus(ilStudyProgramme::STATUS_ACTIVE);
 		$obj->update();
-
+		
 		$obj = ilObjStudyProgramme::getInstanceByRefId($this->root_object_ref_id);
 
 		$this->assertEquals(10, $obj->getPoints());
