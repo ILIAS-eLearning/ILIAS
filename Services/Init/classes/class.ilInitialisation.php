@@ -84,12 +84,12 @@ class ilInitialisation
 	 */
 	protected static function includePhp5Compliance()
 	{
-        include_once 'Services/Authentication/classes/class.ilAuthFactory.php';
-        if(ilAuthFactory::getContext() != ilAuthFactory::CONTEXT_CAS)
-        {
-            require_once("include/inc.xml5compliance.php");
-        }
-        require_once("include/inc.xsl5compliance.php");
+		include_once 'Services/Authentication/classes/class.ilAuthFactory.php';
+		if(ilAuthFactory::getContext() != ilAuthFactory::CONTEXT_CAS)
+		{
+			require_once("include/inc.xml5compliance.php");
+		}
+		require_once("include/inc.xsl5compliance.php");
 	}
 
 	/**
@@ -175,7 +175,7 @@ class ilInitialisation
 		include_once './Services/Http/classes/class.ilHTTPS.php';
 		$https = new ilHTTPS();
 
-	    if($https->isDetected())
+		if($https->isDetected())
 		{
 			$protocol = 'https://';
 		}
@@ -465,10 +465,10 @@ class ilInitialisation
 		define('IL_COOKIE_DOMAIN','');
 		define('IL_COOKIE_SECURE', $cookie_secure); // Default Value
 
-        define('IL_COOKIE_HTTPONLY',true); // Default Value
-        session_set_cookie_params(
-                IL_COOKIE_EXPIRE, IL_COOKIE_PATH, IL_COOKIE_DOMAIN, IL_COOKIE_SECURE, IL_COOKIE_HTTPONLY
-        );
+		define('IL_COOKIE_HTTPONLY',true); // Default Value
+		session_set_cookie_params(
+			IL_COOKIE_EXPIRE, IL_COOKIE_PATH, IL_COOKIE_DOMAIN, IL_COOKIE_SECURE, IL_COOKIE_HTTPONLY
+		);
 	}
 
 	/**
