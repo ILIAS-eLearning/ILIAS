@@ -274,8 +274,16 @@ class ilObjStudyProgramme extends ilContainer {
 		$this->updateLastChange();
 		return $this;
 	}
-
-
+	
+	/**
+	 * Check whether this programme is active.
+	 *
+	 * @return bool
+	 */
+	public function isActive() {
+		return $this->getStatus() == ilStudyProgramme::STATUS_ACTIVE;
+	}
+	
 	/**
 	 * Gets the meta-data subtype id (allows to add additional meta-data based on a type)
 	 *
