@@ -772,6 +772,15 @@ class ilTree
 		{
 			ilObject::_resetDeletedDate($a_node_id);
 		}
+		
+		$GLOBALS['ilAppEventHandler']->raise(
+				"Services/Tree", 
+				"insertNode", 
+				array(
+					'tree'		=> $this->table_tree,
+					'node_id' 	=> $a_node_id, 
+					'parent_id'	=> $a_parent_id)
+		);
 	}
 	
 	/**
