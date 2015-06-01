@@ -43,8 +43,8 @@ class ilStudyProgrammeAppEventListener {
 				break;
 			case "Services/Object":
 				switch ($a_event) {
-					case "toTrash":
 					case "delete":
+					case "toTrash":
 						self::onServiceObjectDeleteOrToTrash($a_parameter);
 						break;
 				}
@@ -88,9 +88,6 @@ class ilStudyProgrammeAppEventListener {
 	}
 	
 	private static function onServiceTreeMoveTree($a_parameter) {
-		global $ilLog;
-		$ilLog->write("moveTree: ".print_r($a_parameter, true));
-		
 		$node_ref_id = $a_parameter["source_id"];
 		$new_parent_ref_id = $a_parameter["target_id"];
 		$old_parent_ref_id = $a_parameter["old_parent_id"];
@@ -99,35 +96,30 @@ class ilStudyProgrammeAppEventListener {
 		$new_parent_type = ilObject::_lookupType($new_parent_ref_id, true);
 		$old_parent_type = ilObject::_lookupType($old_parent_ref_id, true);
 		
-		$ilLog->write("$node_type $new_parent_type $old_parent_type");
-		
 		if ($node_type != "crsr" || ($new_parent_type != "prg" && $old_parent_type != "prg")) {
 			return;
 		}
 		
 		if ($new_parent_type == "prg") {
-			// TODO: implement this!
+			self::adjustProgrammeLPMode($new_parent_ref_id);
 		}
 		else if ($old_parent_type == "prg") {
-			// TODO: implement this!
+			self::adjustProgrammeLPMode($old_parent_ref_id);
 		}
 	}
 	
 	private static function onServiceObjectDeleteOrToTrash($a_parameter) {
-		global $ilLog;
-		$ilLog->write(print_r($a_parameter, true));
 		$node_ref_id = $a_parameter["ref_id"];
 		$old_parent_ref_id = $a_parameter["old_parent_ref_id"];
 		
 		$node_type = $a_parameter["type"];
 		$old_parent_type = ilObject::_lookupType($old_parent_ref_id, true);
 		
-		$ilLog->write("$node_type $old_parent_type");
 		if ($node_type != "crsr" || $old_parent_type != "prg") {
 			return;
 		}
 		
-		// TODO: implement this
+		self::adjustProgrammeLPMode($old_parent_ref_id);
 	}
 	
 	private function adjustProgrammeLPMode($a_ref_id) {
