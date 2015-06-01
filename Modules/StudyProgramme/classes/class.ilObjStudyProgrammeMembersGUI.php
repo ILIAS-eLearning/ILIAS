@@ -130,8 +130,9 @@ class ilObjStudyProgrammeMembersGUI {
 	protected function view() {
 		require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeMembersTableGUI.php");
 		
-		// TODO: if ($this->getStudyProgramme()->isActive()) {
-		$this->initSearchGUI();
+		if ($this->getStudyProgramme()->isActive()) {
+			$this->initSearchGUI();
+		}
 		
 		$prg_id = ilObject::_lookupObjId($this->ref_id);
 		$table = new ilStudyProgrammeMembersTableGUI($prg_id, $this->ref_id, $this);
