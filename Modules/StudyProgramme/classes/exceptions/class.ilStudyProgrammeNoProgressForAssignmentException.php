@@ -4,8 +4,8 @@
 require_once("./Services/Exceptions/classes/class.ilException.php");
 
 /**
- * Exception is thrown when invariants on the program tree would be violated
- * by manipulation of tree.
+ * Exception is thrown when a progress for some programme node and assignment is
+ * missing.
  */
-class ilStudyProgrammeNoProgressForAssignment extends ilException {
+class ilStudyProgrammeNoProgressForAssignmentException extends ilException {
 }
