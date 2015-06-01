@@ -73,5 +73,8 @@ patch for PEAR bug #17024
 MDB2/Driver/mysqli.php, line 425
 patch for hhvm usage
 
+Services/PEAR/lib/PEAR.php, line 917
+patch for hhvm RepoAuthoritative Mode: eval() replaced PR#8
+
 */
 ?>

@@ -39,7 +39,7 @@ class ilObjCloudAccess extends ilObjectAccess
      */
     function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
     {
-        global $ilUser, $rbacsystem;
+        global $ilUser, $rbacsystem, $rbacreview;
 
         $object = new ilObjCloud($a_ref_id);
 
@@ -64,7 +64,7 @@ class ilObjCloudAccess extends ilObjectAccess
          * Check if authentication is complete. If not, only the owner of the object has access. This prevents the
          * authentication of an account which does not belong to the owner.
          */
-        if (!ilObjCloudAccess::checkAuthStatus($a_obj_id) && $a_user_id != $object->getOwnerId())
+        if (!ilObjCloudAccess::checkAuthStatus($a_obj_id) && $a_user_id != $object->getOwnerId() && !$rbacreview->isAssigned($a_user_id, 2))
         {
             return false;
         }

@@ -632,7 +632,7 @@ assessment#:#internal_links_update#:#Aktualisierung
 assessment#:#javaapplet#:#Java-Applet
 assessment#:#keywords_hint#:#Um eine automatische Punktevergabe bei einer Frage vom Typ Freitext eingeben zu erreichen, geben Sie hier bitte eine Liste von Schlagwörtern an. Die Schlagwörter müssen durch Leerzeichen oder Zeilenumbrüche voneinander getrennt sein. Ist eines der Schlagwörter im Antworttext vorhanden, vergibt ILIAS die für die Frage eingetragene maximale Punktezahl anstelle der üblichen Bewertung von 0 Punkten.
 assessment#:#kiosk#:#Prüfungsansicht
-assessment#:#kiosk_description#:#Die Prüfungsansicht zeigt den Test im Kiosk-Modus. Dabei werden alle Bildschirmelemente, die nicht zum Test gehören, ausgeblendet. Teilnehmer werden daran gehindert, andere Webseiten zu öffnen.
+assessment#:#kiosk_description#:#Die Prüfungsansicht zeigt den Test im Kiosk-Modus. Dabei werden alle Bildschirmelemente, die nicht zum Test gehören, ausgeblendet. Um Teilnehmer effektiv daran zu hindern, während des Tests andere Webseiten zu öffnen, setzen Sie bitte zusätzlich einen spezialisierten Browser (z.B. Safe Exam Browser) ein.
 assessment#:#kiosk_options#:#Angezeigte Informationen
 assessment#:#kiosk_options_desc#:#Die ausgewählten Informationen werden im Kopfbereich der Seite angezeigt.
 assessment#:#kiosk_show_participant#:#Name des Teilnehmers
