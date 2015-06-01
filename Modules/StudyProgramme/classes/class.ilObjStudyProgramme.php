@@ -242,13 +242,15 @@ class ilObjStudyProgramme extends ilContainer {
 	 *
 	 * If there are any non programme children, the mode is MODE_LP_COMPLETED,
 	 * otherwise its MODE_POINTS.
+	 *
+	 * @throws ilException		when programme is not in draft mode.
 	 */
 	public function adjustLPMode() {
 		if ($this->getAmountOfLPChildren() > 0) {
-			$this->progress->setLPMode(ilStudyProgramme::MODE_LP_COMPLETED);
+			$this->settings->setLPMode(ilStudyProgramme::MODE_LP_COMPLETED);
 		}
 		else {
-			$this->progress->setLPMode(ilStudyProgramme::MODE_POINTS);
+			$this->settings->setLPMode(ilStudyProgramme::MODE_POINTS);
 		}
 	}
 	
