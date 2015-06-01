@@ -39,6 +39,7 @@ include_once("./Services/Table/classes/class.ilTableGUI.php");
 * // BEGIN WebDAV
 * @ilCtrl_Calls ilAdministrationGUI: ilObjFileAccessSettingsGUI, ilPermissionGUI, ilObjRemoteTestGUI
 * // END WebDAV
+* @ilCtrl_Calls ilAdministrationGUI: ilObjStudyProgrammeGUI
 */
 class ilAdministrationGUI
 {
