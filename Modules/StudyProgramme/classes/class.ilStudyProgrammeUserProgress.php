@@ -109,9 +109,11 @@ class ilStudyProgrammeUserProgress {
 							, "assignment_id" => $a_assignment_id
 							))->get();
 		if (count($progresses) == 0) {
-			throw new ilException("ilStudyProgrammeUserProgress::getInstanceForAssignment: "
-								 ."Assignment '$a_assignment_id' does not belong to program "
-								 ."'$a_program_id'");
+			require_once("Modules/StudyProgramme/classes/exceptions/class.ilStudyProgrammeNoProgressForAssignmentException.php");
+			throw new ilStudyProgrammeNoProgressForAssignmentException
+								("ilStudyProgrammeUserProgress::getInstanceForAssignment: "
+								."Assignment '$a_assignment_id' does not belong to program "
+								."'$a_program_id'");
 		}
 		return new ilStudyProgrammeUserProgress(array_shift($progresses));
 	}
