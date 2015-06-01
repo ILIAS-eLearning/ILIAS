@@ -33,9 +33,13 @@ class gevTrainerOperationByTEPCategoryGUI extends catBasicReportGUI{
 	protected $internal_sorting_fields = array("fullname");
 	protected static $important_tep_categories	= array("Training");
 	public function __construct() {
-		global $ilDB;
+
 		parent::__construct();
 		$min_row_condition = "ht.row_id > ".MIN_ROW;
+
+		if(!$this->user_utils->isAdmin()) {
+			return;
+		}
 
 
 
