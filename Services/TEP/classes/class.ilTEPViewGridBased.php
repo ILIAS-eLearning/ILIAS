@@ -645,7 +645,18 @@ abstract class ilTEPViewGridBased extends ilTEPView
 			$ref_id = $a_entry["course_ref_id"];
 			$crs_id = $a_entry["context_id"];
 			$crs_utils = gevCourseUtils::getInstance($crs_id);
+			
 			$actions = "";
+			if($crs_utils->isVirtualTraining()) {
+				if($crs_utils->getWebExLoginTutor()) {
+					$actions .= "VC Login: ".$crs_utils->getWebExLoginTutor()."<br />";
+				}
+
+				if($crs_utils->getWebExPasswordTutor()) {
+					$actions .= "VC Passwort: ".$crs_utils->getWebExPasswordTutor()."<br /><br />";
+				}
+			}
+
 			if ($crs_utils->hasTrainer($cur_user_id) || $crs_utils->hasAdmin($cur_user_id)) {
 				$memberlist_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-table-eye.png").'" />';
 				$ilCtrl->setParameterByClass("gevMemberListDeliveryGUI", "ref_id", $ref_id);

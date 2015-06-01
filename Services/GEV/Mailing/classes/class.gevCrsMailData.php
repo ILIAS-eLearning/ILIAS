@@ -231,6 +231,12 @@ class gevCrsMailData extends ilMailData {
 			case "WEBINAR-PASSWORT":
 				$val = $this->crs_utils->getWebExPassword();
 				break;
+			case "WEBINAR-LOGIN-TUTOR":
+				$val = $this->crs_utils->getWebExLoginTutor();
+				break;
+			case "WEBINAR-PASSWORT-TUTOR":
+				$val = $this->crs_utils->getWebExPasswordTutor();
+				break;
 			/*case "CSN-LINK":
 				$val = $this->crs_utils->getCSNLink();
 				break;*/

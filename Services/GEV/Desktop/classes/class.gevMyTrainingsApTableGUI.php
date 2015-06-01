@@ -184,6 +184,22 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 			$this->tpl->setVariable("VIEW_BOOKINGS_LINK_TXT", $this->lng->txt('gev_mytrainingsap_btn_bookings'));
 			$this->tpl->parseCurrentBlock();
 		}
+
+		$actions = "";
+		if($crs_utils->isVirtualTraining()) {
+			$this->tpl->setVariable("VC_HEADER", "Zugangsdaten virtueller Klassenraum");
+		
+			if($crs_utils->getWebExLoginTutor()) {
+			$actions .= "Login: ".$crs_utils->getWebExLoginTutor()."<br />";
+			}
+
+			if($crs_utils->getWebExPasswordTutor()) {
+				$actions .= "Passwort: ".$crs_utils->getWebExPasswordTutor();
+			}
+
+			$this->tpl->setVariable("VC_DATA", $actions);
+		}
+		
 	}
 }
 
