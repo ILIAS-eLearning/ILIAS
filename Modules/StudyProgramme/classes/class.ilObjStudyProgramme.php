@@ -238,6 +238,21 @@ class ilObjStudyProgramme extends ilContainer {
 	}
 	
 	/**
+	 * Adjust the lp mode to match current state of tree:
+	 *
+	 * If there are any non programme children, the mode is MODE_LP_COMPLETED,
+	 * otherwise its MODE_POINTS.
+	 */
+	public function adjustLPMode() {
+		if ($this->getAmountOfLPChildren() > 0) {
+			$this->progress->setLPMode(ilStudyProgramme::MODE_LP_COMPLETED);
+		}
+		else {
+			$this->progress->setLPMode(ilStudyProgramme::MODE_POINTS);
+		}
+	}
+	
+	/**
 	 * Get the status.
 	 *
 	 * @return integer  - one of ilStudyProgramme::$STATUS
