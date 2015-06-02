@@ -447,7 +447,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 	{
 		$selection = $this->object->getBestSelection(false);
 
-		if( !$this->object->feedbackOBJ->specificAnswerFeedbackExists(array_values($selection)) )
+		if( !$this->object->feedbackOBJ->specificAnswerFeedbackExists(array_keys($selection)) )
 		{
 			return '';
 		}
