@@ -123,8 +123,10 @@ class gevInvitation extends gevCrsAutoMail {
 
 		$template_id = $this->mail_settings->getTemplateFor($a_function);
 		
+		// This is the key for the "No Mail"-option.
 		if($template_id == -2) { return null; }
 		
+		// This is the key for the "Standard-Mail"-option
 		if($template_id == -1) {
 			$template_id = $this->mail_settings->getTemplateFor("standard");
 			$attachments = $this->mail_settings->getAttachmentsFor("standard");

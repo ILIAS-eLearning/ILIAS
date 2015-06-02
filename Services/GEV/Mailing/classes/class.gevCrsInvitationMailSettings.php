@@ -84,6 +84,9 @@ class gevCrsInvitationMailSettings {
 		$this->settings[$a_function_name]["attachments"] = $a_attachments;
 	}
 
+	/**
+	 * Returns a dictionary with $template_id => $title.
+	 */
 	public function getInvitationMailTemplates($a_default_option) {
 		require_once("./Services/MailTemplates/classes/class.ilMailTemplateManagementAPI.php");
 		require_once("./Services/MailTemplates/classes/class.ilMailTemplateSettingsEntity.php");

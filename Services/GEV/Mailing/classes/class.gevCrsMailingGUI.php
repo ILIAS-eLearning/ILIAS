@@ -264,7 +264,12 @@ class gevCrsMailingGUI extends ilMailingGUI {
 			$tpl->setCurrentBlock("row_bl");
 			$tpl->setVariable("FUNCTION_NAME", $name);
 			$tpl->setVariable("MAIL_SELECTION", $mail_select->render());
-			if($attachment_select !== null AND $this->getInvitationMailSettings()->getTemplateFor($name) >= 0) {
+			
+			// $attachment_select is null, when there are no files to be attached
+			if( $attachment_select !== null 
+			// -1 and -2 are for "Standard-Mail" and "No Mail", > 0 is a template id
+			AND $this->getInvitationMailSettings()->getTemplateFor($name) >= 0
+			) {
 				$tpl->setVariable("ATTACHMENT_SELECTION", $attachment_select->render());
 			}
 			else {
@@ -355,7 +360,7 @@ class gevCrsMailingGUI extends ilMailingGUI {
 		$select = new ilSelectInputGUI("", $a_function_name."[template]");
 		$options = $this->getInvitationMailSettings()->getInvitationMailTemplates($a_default_option);
 
-		if(!in_array($this->lng->txt("dont_send_mail"), $options)) {			
+		if(!in_array($this->lng->txt("dont_send_mail"), $options)) {
 			foreach ($options as $key => $value) {
 				$newOptions[$key] = $value;
 				if($key == -1) {
