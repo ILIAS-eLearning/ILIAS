@@ -358,17 +358,21 @@ class gevCrsMailingGUI extends ilMailingGUI {
 		require_once("Services/Form/classes/class.ilSelectInputGUI.php");
 
 		$select = new ilSelectInputGUI("", $a_function_name."[template]");
-		$options = $this->getInvitationMailSettings()->getInvitationMailTemplates($a_default_option);
+		//Get all possible templates out of the DB
+		$options = $this->getInvitationMailSettings()->getInvitationMailTemplates();
 
-		if(!in_array($this->lng->txt("dont_send_mail"), $options)) {
-			foreach ($options as $key => $value) {
-				$newOptions[$key] = $value;
-				if($key == -1) {
-					$newOptions[-2] = $this->lng->txt("dont_send_mail");
-				}
-			}
-			$options = $newOptions;
+		//Basic 'Send No Mail'-Template
+		$no_mail_option = array(-2 => $this->lng->txt("dont_send_mail"));
+
+		/*if the 'default option'-Template isNot the 'Send No Mail'-Template
+		* add the 'default option'-Template
+		*/
+		if(!in_array($a_default_option, $no_mail_option)) {
+			$no_mail_option = array(-1 => $a_default_option) + $no_mail_option;
 		}
+
+		//add the possible options to the above created
+		$options = $no_mail_option + $options;
 
 		$select->setOptions($options);
 		$select->setValue($this->getInvitationMailSettings()->getTemplateFor($a_function_name));
