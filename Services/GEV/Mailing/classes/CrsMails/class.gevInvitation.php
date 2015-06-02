@@ -122,7 +122,9 @@ class gevInvitation extends gevCrsAutoMail {
 		}
 
 		$template_id = $this->mail_settings->getTemplateFor($a_function);
-
+		
+		if($template_id == -2) { return null; }
+		
 		if($template_id == -1) {
 			$template_id = $this->mail_settings->getTemplateFor("standard");
 			$attachments = $this->mail_settings->getAttachmentsFor("standard");
