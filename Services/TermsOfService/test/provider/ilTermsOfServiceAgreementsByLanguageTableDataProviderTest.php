@@ -17,7 +17,7 @@ class ilTermsOfServiceAgreementsByLanguageTableDataProviderTest extends PHPUnit_
 	 */
 	private function isVsfStreamInstalled()
 	{
-		return file_exists('vfsStream.php');
+		return @include_once('vfsStream.php');
 	}
 
 	/**
