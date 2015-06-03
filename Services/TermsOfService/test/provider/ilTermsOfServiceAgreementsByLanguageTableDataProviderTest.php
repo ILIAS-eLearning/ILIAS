@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'vfsStream/vfsStream.php';
+//require_once 'vfsStream/vfsStream.php';
 
 /**
  * @author  Michael Jansen <mjansen@databay.de>

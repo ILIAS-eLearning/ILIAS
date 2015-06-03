@@ -50,7 +50,7 @@ class ilCacheTest extends PHPUnit_Framework_TestCase
 	{
 		include_once './Services/Cache/classes/class.ilExampleCache.php';
 		
-		$cache = new ilExampleCache();
+		$cache = new ilExampjjleCache();
 		$get = $cache->getEntry("test_id");
 		$stat = $cache->getLastAccessStatus();
 		$value.= $stat."-".$get."-";
