@@ -36,32 +36,53 @@ class ilTermsOfServiceFileSystemDocumentTest extends PHPUnit_Framework_TestCase
 	protected $source_files = array();
 
 	/**
+	 * @return bool
+	 */
+	private function isVsfStreamInstalled()
+	{
+		return file_exists('vfsStream.php');
+	}
+
+	/**
+	 *
+	 */
+	private function skipIfvfsStreamNotSupported()
+	{
+		if(!$this->isVsfStreamInstalled())
+		{
+			$this->markTestSkipped('Requires vfsStream (http://vfs.bovigo.org)');
+		}
+	}
+
+	/**
 	 *
 	 */
 	public function setUp()
 	{
-		vfsStreamWrapper::register();
-		$root             = vfsStreamWrapper::setRoot(new vfsStreamDirectory('root'));
-		$customizing_dir  = vfsStream::newDirectory('Customizing')->at($root);
-		$this->client_dir = vfsStream::newDirectory('clients/default/agreement')->at($customizing_dir);
-		$this->global_dir = vfsStream::newDirectory('global/agreement')->at($customizing_dir);
-
 		$this->lng = $this->getMockBuilder('ilLanguage')->disableOriginalConstructor()->getMock();
 		$this->lng->expects($this->any())
-			->method('getLangKey')
-			->will($this->returnValue('de'));
+				  ->method('getLangKey')
+				  ->will($this->returnValue('de'));
 		$this->lng->expects($this->any())
-			->method('getDefaultLanguage')
-			->will($this->returnValue('fr'));
+				  ->method('getDefaultLanguage')
+				  ->will($this->returnValue('fr'));
 
-		$this->source_files = array(
-			vfsStream::url(implode('/', array('root', 'Customizing', 'clients', 'default', 'agreement', 'agreement_' . $this->lng->getLangKey() . '.html')))         => $this->lng->getLangKey(),
-			vfsStream::url(implode('/', array('root', 'Customizing', 'clients', 'default', 'agreement', 'agreement_' . $this->lng->getDefaultLanguage() . '.html'))) => $this->lng->getDefaultLanguage(),
-			vfsStream::url(implode('/', array('root', 'Customizing', 'clients', 'default', 'agreement', 'agreement_en.html')))                                       => 'en',
-			vfsStream::url(implode('/', array('root', 'Customizing', 'global', 'agreement', 'agreement_' . $this->lng->getLangKey() . '.html')))                     => $this->lng->getLangKey(),
-			vfsStream::url(implode('/', array('root', 'Customizing', 'global', 'agreement', 'agreement_' . $this->lng->getDefaultLanguage() . '.html')))             => $this->lng->getDefaultLanguage(),
-			vfsStream::url(implode('/', array('root', 'Customizing', 'global', 'agreement', 'agreement_en.html')))                                                   => 'en'
-		);
+		if($this->isVsfStreamInstalled())
+		{
+			vfsStreamWrapper::register();
+			$root             = vfsStreamWrapper::setRoot(new vfsStreamDirectory('root'));
+			$customizing_dir  = vfsStream::newDirectory('Customizing')->at($root);
+			$this->client_dir = vfsStream::newDirectory('clients/default/agreement')->at($customizing_dir);
+			$this->global_dir = vfsStream::newDirectory('global/agreement')->at($customizing_dir);
+			$this->source_files = array(
+				vfsStream::url(implode('/', array('root', 'Customizing', 'clients', 'default', 'agreement', 'agreement_' . $this->lng->getLangKey() . '.html')))         => $this->lng->getLangKey(),
+				vfsStream::url(implode('/', array('root', 'Customizing', 'clients', 'default', 'agreement', 'agreement_' . $this->lng->getDefaultLanguage() . '.html'))) => $this->lng->getDefaultLanguage(),
+				vfsStream::url(implode('/', array('root', 'Customizing', 'clients', 'default', 'agreement', 'agreement_en.html')))                                       => 'en',
+				vfsStream::url(implode('/', array('root', 'Customizing', 'global', 'agreement', 'agreement_' . $this->lng->getLangKey() . '.html')))                     => $this->lng->getLangKey(),
+				vfsStream::url(implode('/', array('root', 'Customizing', 'global', 'agreement', 'agreement_' . $this->lng->getDefaultLanguage() . '.html')))             => $this->lng->getDefaultLanguage(),
+				vfsStream::url(implode('/', array('root', 'Customizing', 'global', 'agreement', 'agreement_en.html')))                                                   => 'en'
+			);
+		}
 	}
 
 	/**
@@ -91,6 +112,8 @@ class ilTermsOfServiceFileSystemDocumentTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testClientDocumentCouldBeRetrievedByCurrentLanguage(ilTermsOfServiceFileSystemDocument $document)
 	{
+		$this->skipIfvfsStreamNotSupported();
+
 		vfsStream::newFile('agreement_de.html', 0777)->withContent('phpunit')->at($this->client_dir);
 		file_put_contents(vfsStream::url('root/Customizing/clients/default/agreement/agreement_de.html'), 'phpunit');
 
@@ -108,6 +131,8 @@ class ilTermsOfServiceFileSystemDocumentTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testClientDocumentCouldBeRetrievedByDefaultLanguage(ilTermsOfServiceFileSystemDocument $document)
 	{
+		$this->skipIfvfsStreamNotSupported();
+
 		vfsStream::newFile('agreement_fr.html', 0777)->withContent('phpunit')->at($this->client_dir);
 		file_put_contents(vfsStream::url('root/Customizing/clients/default/agreement/agreement_fr.html'), 'phpunit');
 
@@ -125,6 +150,8 @@ class ilTermsOfServiceFileSystemDocumentTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testClientDocumentCouldBeRetrievedByEnglishLanguage(ilTermsOfServiceFileSystemDocument $document)
 	{
+		$this->skipIfvfsStreamNotSupported();
+
 		vfsStream::newFile('agreement_en.html', 0777)->withContent('phpunit')->at($this->client_dir);
 		file_put_contents(vfsStream::url('root/Customizing/clients/default/agreement/agreement_en.html'), 'phpunit');
 
@@ -142,6 +169,8 @@ class ilTermsOfServiceFileSystemDocumentTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGlobalDocumentCouldBeRetrievedByCurrentLanguage(ilTermsOfServiceFileSystemDocument $document)
 	{
+		$this->skipIfvfsStreamNotSupported();
+
 		vfsStream::newFile('agreement_de.html', 0777)->withContent('phpunit')->at($this->client_dir);
 		file_put_contents(vfsStream::url('root/Customizing/global/agreement/agreement_de.html'), 'phpunit');
 
@@ -159,6 +188,8 @@ class ilTermsOfServiceFileSystemDocumentTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGlobalDocumentCouldBeRetrievedByDefaultLanguage(ilTermsOfServiceFileSystemDocument $document)
 	{
+		$this->skipIfvfsStreamNotSupported();
+
 		vfsStream::newFile('agreement_fr.html', 0777)->withContent('phpunit')->at($this->client_dir);
 		file_put_contents(vfsStream::url('root/Customizing/global/agreement/agreement_fr.html'), 'phpunit');
 
@@ -176,6 +207,8 @@ class ilTermsOfServiceFileSystemDocumentTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGlobalDocumentCouldBeRetrievedByEnglishLanguage(ilTermsOfServiceFileSystemDocument $document)
 	{
+		$this->skipIfvfsStreamNotSupported();
+
 		vfsStream::newFile('agreement_en.html', 0777)->withContent('phpunit')->at($this->client_dir);
 		file_put_contents(vfsStream::url('root/Customizing/global/agreement/agreement_en.html'), 'phpunit');
 
