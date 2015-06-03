@@ -56,7 +56,7 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 			($ilSetting->get("rep_tree_limit_grp_crs") && $this->top_node_id == 0))
 		{
 			$this->setTypeWhiteList(array("root", "cat", "catr", "grp", "icrs",
-				"crs", "crsr", "rcrs"));
+				"crs", "crsr", "rcrs", "itgr"));
 		}
 		else if ($ilSetting->get("repository_tree_pres") == "all_types")
 		{
@@ -300,7 +300,6 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 		global $objDefinition;
 
 		$parent_obj_id = ilObject::_lookupObjId($a_parent_node_id);
-		
 		if ($parent_obj_id > 0)
 		{
 			$parent_type = ilObject::_lookupType($parent_obj_id);
@@ -311,15 +310,20 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 			$this->type_grps["dummy"] = array("root" => "dummy");
 		}
 
+		// alex: if this is not initialized, things are messed up
+		// see bug 0015978
+		$this->type_grps = array();
+
 		if (empty($this->type_grps[$parent_type]))
 		{
 			$this->type_grps[$parent_type] =
 				$objDefinition->getGroupedRepositoryObjectTypes($parent_type);
 		}
-										
-		// #14465 - item groups 
+
+		// #14465 - item groups
 		include_once('./Services/Object/classes/class.ilObjectActivation.php');									
-		$group = array();		
+		$group = array();
+		$igroup = array(); // used for item groups, see bug #0015978
 		foreach ($a_childs as $child)
 		{					
 			// item group: get childs
@@ -331,9 +335,14 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 				{
 					// add item group ref id to item group block
 					$this->type_grps[$parent_type]["itgr"]["ref_ids"][] = $g;
-					
+
+					// see bug #0015978
+					include_once("./Services/Container/classes/class.ilContainerSorting.php");
+					$items = ilContainerSorting::_getInstance($parent_obj_id)->sortSubItems('itgr', $child["obj_id"], $items);
+
 					foreach($items as $item)
 					{
+						$igroup[$g][] = $item;
 						$group[$g][] = $item;
 					}
 				}
@@ -349,13 +358,13 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 				$group[$g][] = $child;		
 			}
 		}
-		
+
 		// custom block sorting?
 		include_once("./Services/Container/classes/class.ilContainerSorting.php");	
 		$sort = ilContainerSorting::_getInstance($parent_obj_id);									
-		$block_pos = $sort->getBlockPositions();		
+		$block_pos = $sort->getBlockPositions();
 		if (sizeof($block_pos))
-		{									
+		{
 			$tmp = $this->type_grps[$parent_type];						
 
 			$this->type_grps[$parent_type] = array();
@@ -386,33 +395,50 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 			}
 
 			unset($tmp);
-		}			
-				
+		}
+
 		$childs = array();
 		$done = array();
+
 		foreach ($this->type_grps[$parent_type] as $t => $g)
 		{
 			// type group
 			if (is_array($group[$t]))
 			{
-				// do we have to sort this group??
-				include_once("./Services/Container/classes/class.ilContainer.php");
-				include_once("./Services/Container/classes/class.ilContainerSorting.php");
-				$sort = ilContainerSorting::_getInstance($parent_obj_id);
-				$group = $sort->sortItems($group);
-				
-				// need extra session sorting here
-				if ($t == "sess")
+				// see bug #0015978
+				// custom sorted igroups
+				if (is_array($igroup[$t]))
 				{
-
+					foreach ($igroup[$t] as $k => $item)
+					{
+						if (!in_array($item["child"], $done))
+						{
+							$childs[] = $item;
+							$done[] = $item["child"];
+						}
+					}
 				}
-				
-				foreach ($group[$t] as $k => $item)
+				else
 				{
-					if (!in_array($item["child"], $done))
-					{						
-						$childs[] = $item;
-						$done[] = $item["child"];						
+					// do we have to sort this group??
+					include_once("./Services/Container/classes/class.ilContainer.php");
+					include_once("./Services/Container/classes/class.ilContainerSorting.php");
+					$sort = ilContainerSorting::_getInstance($parent_obj_id);
+					$group = $sort->sortItems($group);
+
+					// need extra session sorting here
+					if ($t == "sess")
+					{
+
+					}
+
+					foreach ($group[$t] as $k => $item)
+					{
+						if (!in_array($item["child"], $done))
+						{
+							$childs[] = $item;
+							$done[] = $item["child"];
+						}
 					}
 				}
 			}
@@ -427,7 +453,7 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 						foreach ($group[$ref_id] as $k => $item)
 						{
 							if(!in_array($item["child"], $done))
-							{								
+							{
 								$childs[] = $item;
 								$done[] = $item["child"];						
 							}
@@ -436,7 +462,7 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 				}
 			}
 		}
-		
+
 		return $childs;
 	}
 
