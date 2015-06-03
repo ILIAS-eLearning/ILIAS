@@ -71,7 +71,6 @@ class ilBcryptPasswordEncoderTest extends PHPUnit_Framework_TestCase
 	{
 		if($this->isVsfStreamInstalled())
 		{
-			require_once 'vfsStream.php';
 			vfsStream::setup();
 			$this->setTestDirectory(vfsStream::newDirectory('tests')->at(vfsStreamWrapper::getRoot()));
 			define('CLIENT_DATA_DIR', vfsStream::url('root/tests'));
