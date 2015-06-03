@@ -38,6 +38,7 @@ class ilTermsOfServiceAgreementsByLanguageTableDataProviderTest extends PHPUnit_
 	{
 		if($this->isVsfStreamInstalled())
 		{
+			require_once 'vfsStream.php';
 			vfsStreamWrapper::register();
 		}
 	}
