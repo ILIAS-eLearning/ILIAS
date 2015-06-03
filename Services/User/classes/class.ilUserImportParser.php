@@ -940,11 +940,7 @@ class ilUserImportParser extends ilSaxParser
 						$this->personalPicture["content"] = base64_decode($this->cdata);
 						break;
 					case "UUEncode":
-						// this only works with PHP >= 5
-						if (version_compare(PHP_VERSION,'5','>='))
-						{
-							$this->personalPicture["content"] = convert_uudecode($this->cdata);
-						}
+    					$this->personalPicture["content"] = convert_uudecode($this->cdata);
 						break;
 				}
 				break;

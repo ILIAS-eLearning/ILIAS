@@ -1047,7 +1047,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 				$has_image = true;
 			}
 			array_push($answers, array(
-				"answertext" => (string) $this->formatSAQuestion($answer_obj->getAnswertext(), "\<span class\=\"latex\">", "\<\/span>"),
+				"answertext" => (string) $this->formatSAQuestion($answer_obj->getAnswertext()),
 				"points_checked" => (float) $answer_obj->getPointsChecked(),
 				"points_unchecked" => (float) $answer_obj->getPointsUnchecked(),
 				"order" => (int) $answer_obj->getOrder(),

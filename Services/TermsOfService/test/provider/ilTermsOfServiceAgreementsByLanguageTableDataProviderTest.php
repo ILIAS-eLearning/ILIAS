@@ -15,11 +15,33 @@ class ilTermsOfServiceAgreementsByLanguageTableDataProviderTest extends PHPUnit_
 	protected $backupGlobals = false;
 
 	/**
+	 * @return bool
+	 */
+	private function isVsfStreamInstalled()
+	{
+		return file_exists('vfsStream.php');
+	}
+
+	/**
+	 *
+	 */
+	private function skipIfvfsStreamNotSupported()
+	{
+		if(!$this->isVsfStreamInstalled())
+		{
+			$this->markTestSkipped('Requires vfsStream (http://vfs.bovigo.org)');
+		}
+	}
+
+	/**
 	 *
 	 */
 	public function setUp()
 	{
-		vfsStreamWrapper::register();
+		if($this->isVsfStreamInstalled())
+		{
+			vfsStreamWrapper::register();
+		}
 	}
 
 	/**
@@ -44,6 +66,8 @@ class ilTermsOfServiceAgreementsByLanguageTableDataProviderTest extends PHPUnit_
 	 */
 	public function testProviderReturnsAResultForEveryInstalledLanguage(ilTermsOfServiceAgreementByLanguageProvider $provider)
 	{
+		$this->skipIfvfsStreamNotSupported();
+
 		$client_rel_path = implode('/', array('clients', 'default', 'agreement'));
 		$global_rel_path = implode('/', array('global', 'agreement'));
 
