@@ -21,7 +21,7 @@ ilTemplate = {ilTemplateClass, ilTemplateGlobal}
 ilTabsClass = PhpDependency with name:"ilTabsGUI"
 ilTabsGlobal = PhpDependency with name:"ilTabs"
 ilTabs = {ilTabsClass, ilTabsGlobal}
-SetErrorHandler = PhpDepndency with name:"set_error_handler"
+SetErrorHandler = PhpDependency with name:"set_error_handler"
 SetExceptionHandler = PhpDependency with name:"set_exception_handler"
 SetErrorOrExceptionHandler = {SetExceptionHandler, SetErrorHandler}
 
