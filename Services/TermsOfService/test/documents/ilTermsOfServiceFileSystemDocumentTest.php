@@ -68,7 +68,6 @@ class ilTermsOfServiceFileSystemDocumentTest extends PHPUnit_Framework_TestCase
 
 		if($this->isVsfStreamInstalled())
 		{
-			require_once 'vfsStream.php';
 			vfsStreamWrapper::register();
 			$root             = vfsStreamWrapper::setRoot(new vfsStreamDirectory('root'));
 			$customizing_dir  = vfsStream::newDirectory('Customizing')->at($root);
