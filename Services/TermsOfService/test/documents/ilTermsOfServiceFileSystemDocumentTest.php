@@ -39,7 +39,7 @@ class ilTermsOfServiceFileSystemDocumentTest extends PHPUnit_Framework_TestCase
 	 */
 	private function isVsfStreamInstalled()
 	{
-		return file_exists('vfsStream.php');
+		return @include_once('vfsStream.php');
 	}
 
 	/**
