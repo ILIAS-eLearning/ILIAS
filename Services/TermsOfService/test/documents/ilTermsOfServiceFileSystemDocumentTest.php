@@ -97,12 +97,12 @@ class ilTermsOfServiceFileSystemDocumentTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @param ilTermsOfServiceFileSystemDocument $document
 	 * @expectedException ilTermsOfServiceNoSignableDocumentFoundException
 	 */
 	public function testExceptionIsRaisedWhenNoSingableDocumentCouldBeFoundForCurrentLanguage()
 	{
 		$document = new ilTermsOfServiceFileSystemDocument($this->getMockBuilder('ilLanguage')->disableOriginalConstructor()->getMock());
+		$document->setSourceFiles(array());
 		$document->determine();
 	}
 
