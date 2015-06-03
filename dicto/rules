@@ -21,6 +21,9 @@ ilTemplate = {ilTemplateClass, ilTemplateGlobal}
 ilTabsClass = PhpDependency with name:"ilTabsGUI"
 ilTabsGlobal = PhpDependency with name:"ilTabs"
 ilTabs = {ilTabsClass, ilTabsGlobal}
+SetErrorHandler = PhpDepndency with name:"set_error_handler"
+SetExceptionHandler = PhpDependency with name:"set_exception_handler"
+SetErrorOrExceptionHandler = {SetExceptionHandler, SetErrorHandler}
 
 /**
  * The global php function trigger_error is a procedural concept. Please ommit this php function and use an ILIAS exception instead.
@@ -35,6 +38,11 @@ WholeIliasCodebase cannot depend on triggerError
  * Exception: Currently if you want to output json you most likely have to use exit() at the moment.
  */
 WholeIliasCodebase cannot depend on exitOrDie
+
+/**
+ * The error and exception handler of ILIAS should not be overridden!
+ */
+WholeIliasCodebase cannot depend on SetErrorOrExceptionHandler
 
 /**
  * The php function eval() is not good practice. It's use often comes with a high security risk, because it is generally not a trivial task to make sure that a paramater of eval() can be fully trusted. And if it is, then eval() is usually not neccessary. It is also tricky to debug, because it obfuscates control flow. Last but not least, it does not work with HHVM in the special "RepoAuthoritative" mode, which makes PHP run extra-fast.
