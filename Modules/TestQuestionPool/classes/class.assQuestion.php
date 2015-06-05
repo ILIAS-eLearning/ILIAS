@@ -3979,14 +3979,18 @@ abstract class assQuestion
 	 * @param
 	 * @return
 	 */
-	function formatSAQuestion($a_q, $a_latex_start_delimiter = "\[tex\]", $a_latex_end_delimiter = "\[\/tex\]")
+	function formatSAQuestion($a_q)
 	{
 		include_once("./Services/RTE/classes/class.ilRTE.php");
 		$a_q = nl2br((string) ilRTE::_replaceMediaObjectImageSrc($a_q, 0));
 		$a_q = str_replace("</li><br />", "</li>", $a_q);
 		$a_q = str_replace("</li><br>", "</li>", $a_q);
 		
-		$a_q = ilUtil::insertLatexImages($a_q, $a_latex_start_delimiter, $a_latex_end_delimiter);
+		$a_q = ilUtil::insertLatexImages($a_q, "\[tex\]", "\[\/tex\]");
+		$a_q = ilUtil::insertLatexImages($a_q, "\<span class\=\"latex\">", "\<\/span>");
+
+		$a_q = str_replace('{', '&#123;', $a_q);
+		$a_q = str_replace('}', '&#125;', $a_q);
 		
 		return $a_q;
 	}
