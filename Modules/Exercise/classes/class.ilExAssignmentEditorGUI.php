@@ -510,14 +510,10 @@ class ilExAssignmentEditorGUI
 				
 				// files
 				if(is_array($_FILES["files"]))
-				{
-					foreach($_FILES["files"] as $file)
-					{
-						if($file["tmp_name"])
-						{
-							$res["files"][] = $file;
-						}
-					}					
+				{					
+					// #15994 - we are keeping the upload files array structure
+					// see ilFSStorageExercise::uploadAssignmentFiles()
+					$res["files"] = $_FILES["files"];								
 				}
 				
 				// global feedback				
@@ -586,14 +582,14 @@ class ilExAssignmentEditorGUI
 		
 		// id needed for file handling
 		if($is_create)
-		{					
-			// assignment files
+		{								
+			$a_ass->save();		
+			
+			// #15994 - assignment files
 			if(is_array($a_input["files"]))
 			{
 				$a_ass->uploadAssignmentFiles($a_input["files"]);
-			}
-			
-			$a_ass->save();					
+			}			
 		}
 		else
 		{			
