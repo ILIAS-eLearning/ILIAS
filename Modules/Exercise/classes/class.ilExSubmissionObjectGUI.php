@@ -273,7 +273,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 		$blog->setTitle($this->exercise->getTitle()." - ".$this->assignment->getTitle());
 		$blog->create();
 		
-		$tree = new ilWorkspaceTree($this->submi);
+		$tree = new ilWorkspaceTree($this->submission->getUserId()); // #15993
 		
 		$node_id = $tree->insertObject($parent_node, $blog->getId());
 		
