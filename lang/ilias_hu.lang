@@ -1,7 +1,7 @@
 /* Copyright (c) 1998-2015 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
-* @author 5.1.x 2015-04-01 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
+* @author 5.1.x 2015-04-09 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
 * @author 4.2.2	Berecz Antónia <berecz@gdf.hu>
 * @module		language file Hungarian
 * @modulegroup	language
@@ -152,7 +152,7 @@ administration#:#restoring_missing_objs#:#Elveszett objektumok visszaállítása
 administration#:#restoring_trash#:#Törölt objektumok visszaállítása...
 administration#:#restoring_unbound_objs#:#Kapcsolódás nélküli objektumok és alobjektumok visszaállítása...
 administration#:#restoring#:#Helyreállítás...
-administration#:#reuse_of_loginnames_contained_in_history#:#A felhasználónevek nem használhatók fel újra.
+administration#:#reuse_of_loginnames_contained_in_history#:#Felhasználónevek újra felhasználhatóak
 administration#:#scan_completed#:#Az átvizsgálás befejeződött
 administration#:#scan_desc#:#Rendszer átvizsgálása korrupt/érvénytelen/elveszett/kapcsolódás nélküli objektumok után.
 administration#:#scan_details#:#Vizsgálat részletei
@@ -520,7 +520,7 @@ assessment#:#internal_links_update#:#Frissítés
 assessment#:#internal_links#:#Belső linkek
 assessment#:#javaapplet#:#Java Applet
 assessment#:#keywords_hint#:#Adja meg a kulcsszavak listáját szóközökkel vagy sorokkal elválasztva, hogy automatikus pontozás legyen az esszékérdésnél. Ha a kulcsszavak valamelyike megtalálható a tanuló válaszszövegében, az alapértelmezett pontot fogja kapni maximális pontként 0 helyett.
-assessment#:#kiosk_description#:#A vizsganézet esetén a teszt úgynevezett kioszk-módban fut. Ilyenkor nem látszódik a böngésző cím- és állapotsora, továbbá azok az elemek sem, amelyek nem részei a tesztnek. Ez megakadályozva a felhasználót új weboldal megnyitásában.
+assessment#:#kiosk_description#:#A vizsganézet esetén a teszt úgynevezett kioszk-módban fut. Ilyenkor nem látszódik a böngésző cím- és állapotsora, továbbá azok az elemek sem, amelyek nem részei a tesztnek. Ez megakadályozva a felhasználót új weboldal megnyitásában.<br />Hogy a teszt kitöltése alatt hatékonyan megakadályozhassuk a résztvevőknek másik weboldal megnyitását, megfelelő böngészőkörnyezet telepítése szükséges (pl. Safe Exam Browser). 
 assessment#:#kiosk_options_desc#:#Az információ a képernyő tetején jelenik meg.
 assessment#:#kiosk_options#:#Vizsganézet beállításai
 assessment#:#kiosk_show_participant#:#Résztvevő nevének megjelenítése
@@ -1239,7 +1239,7 @@ assessment#:#toplist_col_hints#:#Útmutatások
 assessment#:#toplist_col_wtime#:#Kidolgozási idő
 assessment#:#toplist_your_result#:#Az Ön helyezése
 assessment#:#tst_highscore_enabled#:#Rangsor
-assessment#:#tst_highscore_description#:#A résztvevőknek megjelenik a 'Rangsor megjelenítése' gomb az 'Információ' fülön. A gombra kattintva a résztvevők tesztben nyújtott teljesítményei láthatóak. Eléréséhez a 'Hozzáférés a teszteredményekhez' funkciót engedélyezni kell.
+assessment#:#tst_highscore_description#:#Az 'Információ' fülön a résztvevők megjelennek a 'Rangsor megjelenítése' gombbal. A gombra kattintva a résztvevők tesztben nyújtott teljesítményei láthatóak. Eléréséhez a 'Hozzáférés a teszteredményekhez' funkciót engedélyezni kell.
 assessment#:#tst_highscore_anon#:#Nevek nélkül
 assessment#:#tst_highscore_anon_description#:#A rangsor résztvevőket azok nevei nélkül sorolja fel. Névtelen tesztkitöltés esetén is ez történik.
 assessment#:#tst_highscore_achieved_ts#:#Időpont
@@ -2398,9 +2398,9 @@ common#:#err_auth_ldap_no_ilias_user#:#A bejelentkezés nem sikerült. Az LDAP-a
 common#:#err_auth_mode_inactive#:#Az Ön hitelesítési módszere ki van kapcsolva.
 common#:#err_auth_radius_no_ilias_user#:#A bejelentkezés nem sikerült. A RADIUS-azonosítás sikerült, de nem létezik megfelelő ILIAS-felhasználó.
 common#:#err_auth_soap_no_ilias_user#:#A bejelentkezés nem sikerült. A SOAP-hitelesítés sikeres, de nincs megfelelő ILIAS-felhasználó. Vegye fel a kapcsolatot egy rendszergazdával!
-common#:#err_check_input#:#A beállítások nem menthetők. Ellenőrizze a bemeneti értékeket!
+common#:#err_check_input#:#A beállítások nem menthetők. Ellenőrizze a bemeneti értékeket.
 common#:#err_count_param#:#Ok: hibás paraméterszám
-common#:#err_enter_current_passwd#:#Adja meg jelenlegi jelszavát!
+common#:#err_enter_current_passwd#:#Adja meg jelenlegi jelszavát.
 common#:#err_in_line#:#Hiba a sorban.
 common#:#err_inactive#:#Ez az ILIAS-fiók még nincs aktiválva. Vegye fel a kapcsolatot egy rendszergazdával!
 common#:#err_invalid_port#:#Érvénytelen port!
@@ -2413,7 +2413,7 @@ common#:#err_no_langfile_found#:#Nem található nyelvi fájl.
 common#:#err_no_param#:#Nincs paraméter.
 common#:#err_over_3_param#:#Több, mint 3 paraméter szükséges.
 common#:#err_role_not_assignable#:#A felhasználók nem rendelhetők hozzá ehhez a szerephez ezen a területen.
-common#:#err_session_expired#:#Munkamenet lejárt!
+common#:#err_session_expired#:#Munkamenete lejárt!
 common#:#err_unknown_error#:#Ismeretlen hiba
 common#:#err_wrong_header#:#Ok: hibás fejléc.
 common#:#err_wrong_login#:#Hibás felhasználónév vagy jelszó.
@@ -2902,7 +2902,7 @@ common#:#import_cat_table#:#Az alábbi táblázat csak akkor nyújt érdemleges 
 common#:#import_categories#:#Kategóriák importja
 common#:#import_failure_log#:#Hibanapló importálása
 common#:#import_file_not_valid#:#Az import fájl nem érvényes.
-common#:#import_file#:#Fájl importja
+common#:#import_file#:#Importfájl
 common#:#import_finished#:#Importált üzenetek száma.
 common#:#import_forum_finished#:#A fórumot sikeresen importálta.
 common#:#import_glossary#:#Fogalomtár importálása
@@ -11854,7 +11854,7 @@ exc#:#exc_select_portfolio_change#:#Másik portfólió használata
 exc#:#exc_blog_selected#:#A blogot sikeresen hozzárendelte.
 exc#:#exc_portfolio_selected#:#A portfóliót sikeresen hozzárendelte.
 common#:#my_courses_groups#:#Kurzusaim és csoportjaim
-content#:#cont_sc_auto_continue#:#Automatikus folytatás
+content#:#cont_sc_auto_continue#:#Felhasználók átirányítása 
 user#:#user_profile_portfolio_selected#:#Jelenleg egy portfóliót használ profiljaként. Az aktiválás a 'Megosztás' fülön állítható be ott.
 prtf#:#prtf_admin_toggle_info#:#A portfóliófunkciót a munkaasztal rendszerbeállításaiban kapcsolhatja ki teljesen.
 blog#:#blog_admin_toggle_info#:#A blogfunkciót a munkaasztal rendszerbeállításaiban kapcsolhatja ki teljesen.
@@ -13677,7 +13677,7 @@ search#:#search_add_members_from_container_grp#:#Felhasználók jelen csoporthoz
 search#:#search_add_members_from_container_crs#:#Felhasználók jelen kurzushoz rendelése
 exc#:#exc_peer_review#:#Tanulói visszajelzés
 exc#:#exc_peer_review_info#:#Csapatfeltöltési feladatoknál nem érhető el.
-exc#:#exc_peer_review_min_number#:#A visszajelzések minimum száma, amely a személyes visszajelzés megtekintéséhez szükséges
+exc#:#exc_peer_review_min_number#:#Visszajelzések száma felhasználónként
 exc#:#exc_peer_review_give#:#Visszajelzés küldése
 exc#:#exc_peer_review_no_peers#:#Nincs társ, akinek visszajelzés küldhető.
 exc#:#exc_peer_review_rating#:#Értékelés
@@ -14949,7 +14949,7 @@ crs#:#crs_loc_qst_resume_tst_itest#:#Különböző tanulás célokhoz belépő t
 crs#:#crs_loc_qst_resume_tst_qtest#:#Különböző tanulás célokhoz minősítő tesztek nem indíthatóak el párhuzamosan. Egy tanulási célhoz már elkezdett kitölteni egy minősítő tesztet. Vagy folytassa a már elkezdett tesztet vagy kezdjen újat.
 bibl#:#bibl_library_show_in_list#:#A link is jelenjen meg a felsorolásban
 content#:#cont_ie_compatibility#:#Internet Explorer 7 kompatibilitási mód
-content#:#cont_ie_compatibility_info#:#Régebbi tananyagoknál hasznos lehet a kompatibilitási mód bekapcsolása. Megjegyzés: az Internet Explorer újabb változataiban letiltható a kompatibilitási mód.
+content#:#cont_ie_compatibility_info#:#Internet Explorer-re optimalizált SCORM-tananyagok megjelenítési problémáinak számát csökkenti. Ez nem túl hatékony, ha az Internet Explorer újabb változataiban ki van kapcsolva a kompatibilitási mód.
 content#:#cont_ie_force_render#:#Internet Explorer újrarenderelés kikényszerítése
 content#:#cont_ie_force_render_info#:#Kapcsolja be azt a funkciót, ha a sok keret (frame és iframe) miatt az Internet Explorer nem hibátlanul jeleníti meg az tananyag tartalmát. Ezen kívül be kell állítani a 'Megjelenítés' opciót 'Új ablakban' értékre.
 ecs#:#ecs_token_mechanism#:#Token hitelesítés
@@ -15231,3 +15231,75 @@ trac#:#trac_mode_survey_finished#:#Kérdőív befejezve
 trac#:#trac_mode_survey_finished_info#:#A kérdőívet a felhasználónak be kell fejeznie, hogy az állapota 'Teljesített' legyen.
 crs#:#crs_usr_agreement#:#Szolgáltatási feltételek
 grp#:#grp_usr_agreement#:#Szolgáltatási feltételek
+meta#:#md_adv_confirm_definition_select_option_all#:#Összes bejegyzése kezelése ugyanúgy
+meta#:#md_adv_confirm_definition_select_option_single#:#Döntéshozatal bejegyzésenként
+meta#:#md_adv_confirm_definition_select_option_all_action#:#Új érték
+file#:#file_import#:#Fájl importálása
+dcl#:#dcl_boolean_desc#:#'Kipipált'/'Nem kipipált' jelölőnégyzet.
+dcl#:#dcl_text_desc#:#Beviteli mező szöveg, link vagy e-mailcím tárolására.
+dcl#:#dcl_integer_desc#:#Egész szám típusú beviteli mező. Közönséges és tizedes törtek nem engedélyezettek.
+dcl#:#dcl_datetime_desc#:#Dátum beviteli mező vagy naptár.
+dcl#:#dcl_mob_desc#:#Kép-, hang-, illetve videófájl feltöltési lehetőség. A fájl az adatgyűjtésben jelenik meg. Engedélyezett fájltípusok: %s
+dcl#:#dcl_file_desc#:#Tetszőleges fájl feltöltése (akár URL-ből is).
+dcl#:#dcl_reference_desc#:#Másik mező vagy táblázat kiválasztási lehetőségét biztosítja.
+dcl#:#dcl_reference_title#:#Hivatkozás táblázatra vagy mezőre.
+dcl#:#dcl_ILIAS_reference_desc#:#Keresési mező ILIAS-ban lévő objektum kiválasztására vagy belinkelésére.
+dcl#:#dcl_rating_desc#:#Felhasználók értékelhetik a bejegyzéseket, legfeljebb öt csillagig.
+dcl#:#dcl_formula_desc#:#Táblázatkezelőkhöz hasonlóan számítást vagy képletet használhatunk.
+dcl#:#dcl_additional_info_desc#:#A táblázat felett közvetlenül megjelenő szöveg.
+dcl#:#dcl_public_comments_desc#:#Felhasználók hozzászólásokat készíthetnek ehhez táblázathoz.
+dcl#:#dcl_default_sort_field_desc#:#Táblázat rendezéshez alapértelmezetten kiválasztott mező.
+dcl#:#dcl_visible_desc#:#Felhasználók a 'Táblázat' menüben hozzáférhetnek ehhez a táblázathoz.
+dcl#:#dcl_ILIAS_reference_link_desc#:#Az objektumot olvasási engedéllyel rendelkezők érhetik el a linkkel. 
+dcl#:#dcl_learning_progress_desc#:#Ha rendelkezésre áll, a felhasználó tanulási folyamatában megjelenik.
+dcl#:#dcl_display_action_menu_desc#:#Objektum másolható vagy csatolható, ha a felhasználó megfelelő jogosultsággal rendelkezik.
+dcl#:#dcl_export_enabled_desc#:#Az összes felhasználó exportálhatja a táblázat adatait. Az exportálható tulajdonság a mezőknél külön-külön állítható.
+dcl#:#dcl_add_perm_desc#:#A felhasználók bejegyzéseket hozhatnak létre ebben a táblázatban.
+dcl#:#dcl_limited_desc#:#A felhasználók csak adott időszakban hozhatnak létre, módosíthat, törölhetnek bejegyzéseket.
+dcl#:#dcl_unique_desc#:#Ebben a mezőben minden értéknek különböznie kell egymástól.
+dcl#:#dcl_formula_detail_desc#:#Automatikusan generált, nem módosítható bejegyzések.
+dcl#:#dcl_text_email_detail_desc#:#Érvényes URL-t vagy e-mailcímet adjon meg.
+adve#:#adve_auto_url_linking#:#URL Auto-Linkelés
+adve#:#adve_auto_url_linking_info#:#A szöveg bekezdéseiben lévő URL-eket ('http://..') megpróbálja megtalálni és automatikusa linkké alakítani.
+content#:#cont_auto_time#:#Automatikus animáció várakozási ideje
+content#:#cont_rand_start#:#Véletlenszerű kezdet
+content#:#cont_tabs_carousel#:#Körhinta (Carousel)
+exc#:#exc_adopt_group_teams#:#Csapatok átemelése a csoportokból.  
+exc#:#exc_adopt_group_teams_added#:#%s felhasználó hozzáadva.
+exc#:#exc_adopt_group_teams_blocked#:#%s felhasználó már hozzá volt rendelve.
+exc#:#exc_adopt_group_teams_conflict#:#'%1$s' felhasználó már a(z) '%2$s' csoportból ki lett választva.
+exc#:#exc_adopt_group_teams_no_members#:#Nincsenek tagok.
+exc#:#exc_deadline_ext_mismatch#:#A türelmi időszaknak a határidő után kell befejeződnie.
+exc#:#exc_deadline_extended#:#Türelmi időszak
+exc#:#exc_deadline_extended_info#:#A határidő és a türelmi idő között késői beadások lehetségesek.
+exc#:#exc_late_submission#:#Késői beadás
+exc#:#exc_late_submission_warning#:#%s utáni beadások későinek lesznek megjelölve.
+exc#:#exc_max_file#:#Fájlok maximális száma
+exc#:#exc_max_file_info#:#A korlát elérése után a felhasználók már tudnak több fájlt feltölteni.
+exc#:#exc_max_file_reached#:#%s fájlnál többet nem tud feltölteni.
+exc#:#exc_max_file_tgl#:#Feltöltési korlát
+exc#:#exc_no_team_yet_info_tutor#:#A csapatokat a beadandó feladat tutorai kezelik.
+exc#:#exc_peer_review_chars_invalid#:#Legalább egy visszajelzésének a hossza nem éri a szükséges %s karaktert.
+exc#:#exc_peer_review_completion#:#'Sikeresen megfelelt' állapot meghatározása
+exc#:#exc_peer_review_completion_all#:#Csak az összes szükséges visszajelzés után
+exc#:#exc_peer_review_completion_none#:#Nem szükséges visszajelzés
+exc#:#exc_peer_review_completion_one#:#Már van legalább 1 érvényes visszajelzés
+exc#:#exc_peer_review_given#:#Elküldött visszajelzések megjelenítése
+exc#:#exc_peer_review_min_chars#:#Karakterek minimális száma
+exc#:#exc_peer_review_min_chars_info#:#Érvényes visszajelzéshez szükséges minimális karakterhosszúság.
+exc#:#exc_peer_review_min_chars_tgl#:#Minimális hossz
+exc#:#exc_peer_review_show_missing#:#Még nem tekintheti meg a kapott visszajelzéseit, mert még nem adott elegendő számú visszajelzést.
+exc#:#exc_peer_review_show_received_none#:#Még egy visszajelzést sem kapott.
+exc#:#exc_peer_review_simple_unlock#:#Hozzáférés a kapott visszajelzésekhez
+exc#:#exc_peer_review_simple_unlock_active#:#Legalább 1 érvényes visszajelzés beérkezése után.
+exc#:#exc_peer_review_simple_unlock_inactive#:#Az összes szükséges visszajelzés beérkezése után.
+exc#:#exc_team_management_tutor#:#Tutorok kezelik a csapatot.
+exc#:#exc_team_management_tutor_info#:#Ha be van kapcsolva, a résztvevők nem oszthatják saját magukat csoportokba.
+exc#:#exc_team_multi_create#:#Csapat létrehozása
+exc#:#exc_team_multi_dissolve#:#Csapat(ok) feloszlatása
+style#:#sty_type_ca_cntr#:#Körhintatároló (Carousel)
+style#:#sty_type_ca_icntr#:#Körhinta elem tároló
+style#:#sty_type_ca_icont#:#Körhinta elem tartalom
+style#:#sty_type_ca_ihead#:#Körhinta elem fejléc
+wiki#:#wiki_link_md_values#:#Automatikus linkelés
+wiki#:#wiki_link_md_values_info#:#Az automatikusan linkelt tulajdonságok a wiki oldal oldalsávjában jelenik meg ugyanazon a néven.
