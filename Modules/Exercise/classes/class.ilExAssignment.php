@@ -824,15 +824,21 @@ class ilExAssignment
 			$new_ass->setMaxFile($d->getMaxFile());
 			$new_ass->save();
 			
-			// clone assignment files
 			include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 			$old_storage = new ilFSStorageExercise($a_old_exc_id, (int) $d->getId());
 			$new_storage = new ilFSStorageExercise($a_new_exc_id, (int) $new_ass->getId());
 			$new_storage->create();
 			
+			// clone assignment files		
 			if (is_dir($old_storage->getPath()))
 			{
 				ilUtil::rCopy($old_storage->getPath(), $new_storage->getPath());
+			}
+			
+			// clone global feedback file			
+			if (is_dir($old_storage->getGlobalFeedbackPath()))
+			{
+				ilUtil::rCopy($old_storage->getGlobalFeedbackPath(), $new_storage->getGlobalFeedbackPath());
 			}
 		}
 	}

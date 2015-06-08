@@ -234,7 +234,7 @@ class ilExAssignmentGUI
 				{						
 					$a_info->addProperty($file["name"],
 						$lng->txt("download"),
-						$this->getSubmissionLink("downloadFile", array("file"=>$file["name"])));
+						$this->getSubmissionLink("downloadFile", array("file"=>urlencode($file["name"]))));
 				}
 			}
 		}			
@@ -356,7 +356,7 @@ class ilExAssignmentGUI
 					{								
 						$a_info->addProperty($file,
 							$lng->txt("download"),
-							$this->getSubmissionLink("downloadFeedbackFile", array("file"=>$file)));								
+							$this->getSubmissionLink("downloadFeedbackFile", array("file"=>urlencode($file))));								
 					}
 				}												
 			}	

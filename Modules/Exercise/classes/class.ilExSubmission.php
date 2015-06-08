@@ -413,6 +413,23 @@ class ilExSubmission
 	}
 	
 	/**
+	 * Get exercise from submission id (used in ilObjMediaObject)
+	 * 
+	 * @param int $a_returned_id
+	 * @return int
+	 */
+	public static function lookupExerciseIdForReturnedId($a_returned_id)
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT obj_id".
+			" FROM exc_returned".
+			" WHERE returned_id = ".$ilDB->quote($a_returned_id, "integer"));
+		$row = $ilDB->fetchAssoc($set);
+		return (int)$row["obj_id"];		
+	}
+	
+	/**
 	 * Check if given file was assigned
 	 * 
 	 * Used in Blog/Portfolio
