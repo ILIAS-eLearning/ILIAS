@@ -101,7 +101,7 @@ class ilWikiAdvMetaDataBlockGUI extends ilBlockGUI
 	}
 
 	/**
-	* Get bloch HTML code.
+	* Get block HTML code.
 	*/
 	function getHTML($a_export = false)
 	{
@@ -112,11 +112,9 @@ class ilWikiAdvMetaDataBlockGUI extends ilBlockGUI
 		$has_write = $ilAccess->checkAccess("write", "", $this->ref_id);
 		
 		if ($this->isHidden())
-		{
-			if(!$has_write)
-			{
-				return;
-			}			
+		{			
+			#16029 - hide completely
+			return;					
 		}
 		
 		if (!$this->export && $has_write)
@@ -131,12 +129,14 @@ class ilWikiAdvMetaDataBlockGUI extends ilBlockGUI
 					$ilCtrl->getLinkTargetByClass("ilwikipagegui", "hideAdvancedMetaData"),
 					$lng->txt("hide"), "_top");		
 			}
+			/* #16029 - moved to page actions
 			else
 			{
 				$this->addBlockCommand(
 					$ilCtrl->getLinkTargetByClass("ilwikipagegui", "unhideAdvancedMetaData"),
 					$lng->txt("show"), "_top");		
-			}
+			}			 
+			*/
 		}
 		
 		return parent::getHTML();
@@ -202,12 +202,13 @@ class ilWikiAdvMetaDataBlockGUI extends ilBlockGUI
 			$btpl->parseCurrentBlock();										
 		}
 		
-		
+		/*
 		if ($this->isHidden())
 		{
 			$btpl->setVariable("HIDDEN_INFO", $lng->txt("wiki_adv_md_hidden"));			
 		}
-				
+		*/
+		
 		$this->setDataSection($btpl->get());		
 		
 		ilDatePresentation::setUseRelativeDates($old_dt);
