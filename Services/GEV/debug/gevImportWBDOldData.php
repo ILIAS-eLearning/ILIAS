@@ -289,13 +289,19 @@ class gevImportOldData {
 		$begin_date = date('Y-m-d', strtotime($rec['Beginn']));
 		$end_date = date('Y-m-d', strtotime($rec['Ende']));
 		$creator_id = $rec['creator_id'];
+		$custom_id = $rec['MassnahmenNr'];
 
+		//also check for MassnahmenNr, since it occurs that there are 
+		//two seminars on one day with the same title
+		//yes, really.
 		$sql = "SELECT crs_id FROM hist_course WHERE 
 			title = '$title'
 			AND
 			begin_date = '$begin_date'
 			AND 
 			end_date = '$end_date'
+			AND
+			custom_id = '$custom_id'
 		";
 		$result = $this->db->query($sql);
 		if($this->db->numRows($result) > 0){
@@ -321,12 +327,6 @@ class gevImportOldData {
 
 		$next_id = $this->db->nextId('hist_course');
 
-		
-		/*
-		hours
- 		venue
- 		provider
- 		*/
 		$sql = "INSERT INTO hist_course
 			(
 				row_id,
@@ -358,7 +358,7 @@ class gevImportOldData {
 		 		'$wbd_topic',
 		 		'$begin_date',
 		 		'$end_date',
-		 		'-empty-',
+		 		'$custom_id',
 		 		'-empty-',
 		 		'-empty-'
 			)";
@@ -368,12 +368,7 @@ class gevImportOldData {
 				die($sql);
 			}
 
-
-
-
 		return $crs_id;
-
-
 	}
 
 
