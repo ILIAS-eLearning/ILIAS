@@ -378,8 +378,12 @@ class assFormulaQuestionResult
 			default:
 				if(substr_count($value, '.') == 1 || substr_count($value, ',') == 1)
 				{
-					$exp_val    = $value;
-					$frac_value = str_replace(',', '.', $exp_val);
+					$frac_value = str_replace(',', '.', $value);
+				}
+				elseif( substr_count($value, '/') == 1 )
+				{
+					$exp_val = explode('/', $value);
+					$frac_value = ilMath::_div($exp_val[0], $exp_val[1], $this->getPrecision());
 				}
 				else
 				{
