@@ -151,10 +151,9 @@ class gevImportOldData {
 	}
 
 	public function getOldData(){
-		$sql = 'SELECT * FROM wbd_altdaten 
+		$sql = "SELECT * FROM wbd_altdaten 
 				WHERE reported = 0
-				ORDER BY name';
-		//$sql .= ' LIMIT 250';
+				AND goa_username != ''";
 
 		$result = mysql_query($sql, $this->importDB);
 		while($record = mysql_fetch_assoc($result)) {
@@ -175,7 +174,7 @@ class gevImportOldData {
 	public function matchUser($rec){
 		$docheck = True;
 		if($rec['goa_username'] != ''){
-			$login = $rec['goa_username'];
+			$login = trim($rec['goa_username']);
 			$sql = "SELECT * FROM usr_data WHERE login ='$login'"; 
 			$docheck = False;
 		}else{

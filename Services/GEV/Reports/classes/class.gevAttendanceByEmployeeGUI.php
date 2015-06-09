@@ -23,6 +23,8 @@ require_once("Services/GEV/Reports/classes/class.catFilter.php");
 require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
 require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 
+ini_set("memory_limit", "1024M");
+
 class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 	public function __construct() {
 		

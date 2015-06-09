@@ -616,16 +616,16 @@ class gevDebug {
 		while($rec = mysql_fetch_assoc($result)) {
 			$buf[] = array(
 					'id' => $rec['id'], 
-					'vorname' => $rec['name'], 
-					'name' => $rec['vorname'] 
+					'vorname' => $rec['Name'], 
+					'name' => $rec['Vorname'] 
 				);
 
 		}
 
 		foreach ($buf as $entry) {
 			$sql = "UPDATE wbd_altdaten SET "
-			."name = '" . $entry['name'] ."'"
-			.", vorname = '" . $entry['vorname'] ."'"
+			."Name = '" . $entry['name'] ."'"
+			.", Vorname = '" . $entry['vorname'] ."'"
 			." WHERE id=" .$entry['id'] .';<br>';
 
 			print($sql);

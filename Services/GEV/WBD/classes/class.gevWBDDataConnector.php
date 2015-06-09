@@ -22,17 +22,16 @@ $GET_CHANGED_EDURECORDS = false;
 $IMPORT_FOREIGN_EDURECORDS = false;
 $STORNO_EDURECORDS = false;
 
-/*
 
+/*
 $GET_NEW_USERS = false;
 $GET_UPDATED_USERS = false;
 $GET_NEW_EDURECORDS = false;
 $GET_CHANGED_EDURECORDS = false;
-$IMPORT_FOREIGN_EDURECORDS = true;
-$STORNO_EDURECORDS = false;
+$IMPORT_FOREIGN_EDURECORDS = false;
+$STORNO_EDURECORDS = true;
 
 */
-
 
 $LIMIT_RECORDS = false;
 $ANON_DATA = false;
@@ -1173,6 +1172,9 @@ class gevWBDDataConnector extends wbdDataConnector {
 		if(! $IMPORT_FOREIGN_EDURECORDS){
 			return array();
 		}
+		
+//		return array('20141021-101537-86');
+		
 		$ret = array();
 		$sql = "SELECT bwv_id FROM hist_user "
 			." WHERE bwv_id != '-empty-'"
@@ -1334,9 +1336,15 @@ class gevWBDDataConnector extends wbdDataConnector {
 		$sql .= ' AND usr_id in (SELECT usr_id FROM usr_data)';
 		$sql .= ' AND user_id NOT IN (6, 13)'; //root, anonymous
 		
+
+		$sql .= ' and hist_usercoursestatus.row_id IN (
+260604,
+260603		
+		
+		)';
 		$sql .= ' AND FALSE'; 
 		
-
+print $sql;
 
 		$result = $this->ilDB->query($sql);
 		$ret = array();
