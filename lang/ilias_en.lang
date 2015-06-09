@@ -15239,3 +15239,4 @@ meta#:#md_adv_confirm_definition_select_option_all#:#Handle all existing entries
 meta#:#md_adv_confirm_definition_select_option_single#:#Decide for each existing entry
 meta#:#md_adv_confirm_definition_select_option_all_action#:#New Value
 file#:#file_import#:#Import File
+cron#:#cron_result_status_fail#:#Failed

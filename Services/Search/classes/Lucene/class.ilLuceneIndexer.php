@@ -80,8 +80,9 @@ class ilLuceneIndexer extends ilCronJob
 		$result = new ilCronJobResult();
 		if($error_message)
 		{
+			// #16035 - currently no way to discern the severity of the exception
 			$result->setMessage($error_message);
-			$status = ilCronJobResult::STATUS_CRASHED;
+			$status = ilCronJobResult::STATUS_FAIL;
 		}
 		else
 		{

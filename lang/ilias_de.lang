@@ -15238,3 +15238,4 @@ meta#:#md_adv_confirm_definition_select_option_all#:#Alle vorhandenen Einträge 
 meta#:#md_adv_confirm_definition_select_option_single#:#Jeden vorhandenen Eintrag einzeln entscheiden
 meta#:#md_adv_confirm_definition_select_option_all_action#:#Neuer Wert
 file#:#file_import#:#Dateiimport
+cron#:#cron_result_status_fail#:#Fehler
