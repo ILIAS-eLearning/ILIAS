@@ -971,9 +971,11 @@ class gevCourseUtils {
 			if(!$this->isWebinar()) {
 				$this->setWebExLink(null);
 				$this->setWebExPassword(null);
-				$this->setWebExPasswordTutor(null);
-				$this->setWebExLoginTutor(null);
 			}
+
+			$this->setWebExPasswordTutor(null);
+			$this->setWebExLoginTutor(null);
+			
 
 			$doReturn = true;
 		}
