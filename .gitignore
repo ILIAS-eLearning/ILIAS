@@ -14,6 +14,8 @@
 /ilias.log
 .DS_Store
 *~
+db_template_writer.php
+
 
 # /Customizing/
 /Customizing/global

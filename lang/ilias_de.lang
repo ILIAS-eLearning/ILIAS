@@ -15304,3 +15304,5 @@ style#:#sty_type_ca_icont#:#Carousel Item Content
 style#:#sty_type_ca_ihead#:#Carousel Item Header
 wiki#:#wiki_link_md_values#:#Automatische Verlinkung
 wiki#:#wiki_link_md_values_info#:#Verlinkt automatisch Eigenschaftenwerte im Seitenblock mit gleichlautenden Wikiseiten (wenn vorhanden).
+cron#:#cron_result_status_fail#:#Fehler
+wiki#:#wiki_unhide_meta_adv_records#:#Zusätzliche Eigenschaften anzeigen

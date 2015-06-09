@@ -11455,7 +11455,7 @@ didactic#:#didactic_confirm_delete_msg#:#Do you really want to delete the follow
 didactic#:#didactic_delete_msg#:#Deleted didactic templates.
 common#:#fold_type#:#Folder Type
 content#:#cont_pword#:#Paste from Word
-blog#:#blog_edit#:#Blog Settings
+blog#:#blog_edit#:#Edit Blog
 blog#:#blog_banner#:#Banner
 blog#:#blog_background_color#:#Background Color
 blog#:#blog_font_color#:#Font Color
@@ -15303,3 +15303,5 @@ style#:#sty_type_ca_icont#:#Carousel Item Content
 style#:#sty_type_ca_ihead#:#Carousel Item Header
 wiki#:#wiki_link_md_values#:#Automatic Linking
 wiki#:#wiki_link_md_values_info#:#Autmatically links properties presented in the side block to wiki pages with the same name.
+cron#:#cron_result_status_fail#:#Failed
+wiki#:#wiki_unhide_meta_adv_records#:#Show additional properties
