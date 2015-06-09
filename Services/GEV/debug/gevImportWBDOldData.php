@@ -503,6 +503,106 @@ class gevImportOldData {
 	}
 
 
+
+	public function stornoEduRecords() {
+	
+		print 'STORNO:<br>';
+	
+		$sql = "SELECT usrcrs_row FROM wbd_altdaten 
+				WHERE reported = 17
+				AND storno = 0
+				AND usrcrs_row > -1";
+
+		$storno_rows = array();
+		
+
+		$result = mysql_query($sql, $this->importDB);
+		while($record = mysql_fetch_assoc($result)) {
+			$storno_rows[] = $record['usrcrs_row'];
+		}
+		
+		if (count($storno_rows) == 0) {
+			print ' - no stornos.';
+		} else {
+		
+			$sql = 'UPDATE hist_usercoursestatus SET hist_historic = 1 WHERE row_id IN ('
+			.implode(',', $storno_rows)
+			.')';
+
+			print $sql;
+			$this->db->query($sql);
+		
+			$sql = 'UPDATE wbd_altdaten set storno=1 WHERE usrcrs_row IN ('
+			.implode(',', $storno_rows)
+			.')';
+
+			print '<br>';
+			print $sql;
+			mysql_query($sql, $this->importDB);
+		}
+				
+	}
+
+
+	public function rematchUserCourseRow() {
+		$sql = "SELECT * FROM wbd_altdaten 
+				WHERE reported = 1
+				AND usrcrs_row = -1
+				ORDER BY id DESC
+				";
+
+		$single_q = "SELECT *, 
+				hist_usercoursestatus.row_id as row_id,
+				hist_usercoursestatus.begin_date as course_begin,
+				hist_usercoursestatus.end_date as course_end
+			FROM hist_usercoursestatus
+			INNER JOIN hist_course ON hist_usercoursestatus.crs_id = hist_course.crs_id
+			INNER JOIN hist_user ON hist_usercoursestatus.usr_id = hist_user.user_id
+			WHERE	hist_usercoursestatus.hist_historic = 0
+			AND 	hist_user.firstname = '%s'
+			AND 	hist_user.lastname  = '%s'
+			AND 	hist_course.title = '%s'
+			AND 	hist_usercoursestatus.begin_date  = '%s'
+			AND		hist_usercoursestatus.end_date  = '%s'
+			GROUP BY hist_usercoursestatus.row_id
+			";		
+
+
+		print '<pre>';
+
+		$result = mysql_query($sql, $this->importDB);
+		while($record = mysql_fetch_assoc($result)) {
+			print_r($record);
+			$q = sprintf($single_q, 
+				$record['Vorname'],
+				$record['Name'],
+				$record['Titel'],
+				date('Y-m-d', strtotime($record['Beginn'])),
+				date('Y-m-d', strtotime($record['Ende']))
+			);
+
+			$matches = array();
+			$res = $this->db->query($q);
+			while($rec = $this->db->fetchAssoc($res)) {
+				$matches[] = $rec;
+			}
+			if(count($matches) === 1){
+				$update = 'UPDATE wbd_altdaten SET usrcrs_row = '
+					.$matches[0]['row_id']
+					.', creator_id = -101'
+					.' WHERE id=' .$record['id']
+					;
+				print $update;				
+				mysql_query($update, $this->importDB);
+			}
+			print '<hr>';
+		}
+		
+		
+				
+	} 
+
+
 	
 }
 
@@ -515,17 +615,21 @@ run:
 */
 
 
-
 $sem_many_matches = array();
-
-//die();
 
 $import = new gevImportOldData();
 
-$import->rectifyOKZforAltdaten();
-//$import->rematchWBDTopic();
 
-//die();
+$import->rectifyOKZforAltdaten();
+print '<hr>';
+//$import->rematchWBDTopic();
+//print '<hr>';
+
+//$import->rematchUserCourseRow();
+//print '<hr>';
+
+$import->stornoEduRecords();
+print '<hr>';
 
 
 $import->getOldData();
