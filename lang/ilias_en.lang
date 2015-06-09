@@ -14359,3 +14359,4 @@ grp#:#grp_admission_link_failure_membership_limited#:#Can't registrate: Group me
 crs#:#crs_admission_link_failure_membership_limited#:#Can't registrate: Course membership is limited.
 grp#:#grp_admission_link_success_registration#:#Successfully registrated to group "%s".
 crs#:#crs_admission_link_success_registration#:#Successfully registrated to course "%s".
+cron#:#cron_result_status_fail#:#Failed
