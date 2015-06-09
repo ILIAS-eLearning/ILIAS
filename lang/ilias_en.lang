@@ -15303,3 +15303,4 @@ style#:#sty_type_ca_icont#:#Carousel Item Content
 style#:#sty_type_ca_ihead#:#Carousel Item Header
 wiki#:#wiki_link_md_values#:#Automatic Linking
 wiki#:#wiki_link_md_values_info#:#Autmatically links properties presented in the side block to wiki pages with the same name.
+cron#:#cron_result_status_fail#:#Failed
