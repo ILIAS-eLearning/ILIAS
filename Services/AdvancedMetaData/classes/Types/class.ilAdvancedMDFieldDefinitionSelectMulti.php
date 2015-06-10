@@ -154,14 +154,20 @@ class ilAdvancedMDFieldDefinitionSelectMulti extends ilAdvancedMDFieldDefinition
 						{
 							// find changed option in old value
 							$old_value = explode(ilADTMultiEnumDBBridge::SEPARATOR, $old_values[$item]);
-							$old_idx = array_keys($old_value, $old_option);
+							// remove separators
+							array_shift($old_value);
+							array_pop($old_value);
+							$old_idx = array_keys($old_value, $old_option);							
 							if(sizeof($old_idx))
 							{
 								// switch option
 								$old_idx = array_pop($old_idx);						
-								$old_value[$old_idx] = $new_option;			
-								$new_value = array_unique($old_value);
-								$new_value = implode(ilADTMultiEnumDBBridge::SEPARATOR, $new_value);
+								$old_value[$old_idx] = $new_option;									
+								$new_value = array_unique($old_value);	
+								// add separators
+								$new_value = ilADTMultiEnumDBBridge::SEPARATOR.
+									implode(ilADTMultiEnumDBBridge::SEPARATOR, $new_value).
+									ilADTMultiEnumDBBridge::SEPARATOR;
 								
 								$primary = array(
 									"obj_id" => array("integer", $obj_id),
@@ -185,7 +191,7 @@ class ilAdvancedMDFieldDefinitionSelectMulti extends ilAdvancedMDFieldDefinition
 			
 			$this->confirmed_objects = array();
 		}	
-				
+			
 		parent::update();		
 	}
 	
