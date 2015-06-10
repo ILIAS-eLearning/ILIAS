@@ -1033,9 +1033,7 @@ class gevCourseUtils {
 				if ($this->getWebExLink() == $avc->getVC()->getUrl()) {
 					$this->setWebExLink(null);
 				}
-				print "'".$this->getWebExPassword()."' == '".$avc->getVC()->getMemberPassword()."'\n";
-				print "'".$this->getWebExPasswordTutor()."' == '".$avc->getVC()->getTutorPassword()."'\n";
-				print "'".$this->getWebExLoginTutor()."' == '".$avc->getVC()->getTutorLogin()."'\n";
+
 				if ($this->getWebExPassword() == $avc->getVC()->getMemberPassword()) {
 					$this->setWebExPassword(null);
 				}
