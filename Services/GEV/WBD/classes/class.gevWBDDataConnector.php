@@ -17,6 +17,7 @@ $SET_BWVID = true;
 $GET_NEW_USERS = true;
 $GET_UPDATED_USERS = true;
 $GET_NEW_EDURECORDS = true;
+$GET_NEW_EXIT_USER = true;
 
 $GET_CHANGED_EDURECORDS = false;
 $IMPORT_FOREIGN_EDURECORDS = false;
@@ -27,6 +28,7 @@ $STORNO_EDURECORDS = false;
 $GET_NEW_USERS = false;
 $GET_UPDATED_USERS = false;
 $GET_NEW_EDURECORDS = false;
+$GET_NEW_EXIT_USER = false;
 $GET_CHANGED_EDURECORDS = false;
 $IMPORT_FOREIGN_EDURECORDS = false;
 $STORNO_EDURECORDS = true;
@@ -76,11 +78,15 @@ class gevWBDDataConnector extends wbdDataConnector {
 	const WBD_TP_SERVICE		= "TP-Service";
 	*/
 
+	private $empty_bwv_id_text = "-empty-";
+	private $empty_date_text = "0000-00-00";
 
 	public $valid_newusers = array();
 	public $broken_newusers = array();
 	
 	public $broken_updatedusers = array();
+
+	public $broken_exitusers = array();
 
 	public $valid_newedurecords = array();
 	public $broken_newedurecords = array();
@@ -383,7 +389,34 @@ class gevWBDDataConnector extends wbdDataConnector {
 		$result = $this->ilDB->query($sql);
 	}
 
+	/**
+	* sets the WBD EXIT DATA on the GOA-User and hist_user
+	*
+	*@param 	integer 	$a_row_id to determin the user_id
+	*/
+	private function setWbdExitUserData($a_row_id) {
+		$sql = "SELECT distinct user_id FROM hist_user WHERE row_id = ".$this->ilDB->quote($a_row_id, "integer")."";
 
+		$res = $this->ilDB->query($sql);
+
+		if($this->ilDB->numRows($res) > 0) {
+			$usr_id = $this->ilDB->fetchAssoc($res)["user_id"];
+			
+			require_once("Services/GEV/Utils/classes/class.gevUDFUtils.php");
+			$udf_utils = gevUDFUtils::getInstance();
+
+			$wbd_exit_date = date("d.m.Y",time());
+			$udf_utils->setField($usr_id,gevSettings::USR_WBD_EXIT_DATE, $wbd_exit_date);
+			$udf_utils->setField($usr_id,gevSettings::USR_TP_TYPE, "1 - Bildungsdienstleister");
+			
+			$date = new ilDate($wbd_exit_date, IL_CAL_DATE);
+
+			//UPDATE hist_user ROW
+			$sql = "UPDATE hist_user SET last_wbd_report = NOW() , exit_date_wbd = ".$this->ilDB->quote($date, "text")." WHERE row_id = ".$this->ilDB->quote($a_row_id, "integer")."";
+
+			$result = $this->ilDB->query($sql);
+		}
+	}
 
 	/**
 	 * new entry for foreign wbd-course
@@ -1380,7 +1413,96 @@ print $sql;
 		print "\n";
 	}
 
+	/**
+	* BLOCK exit user
+	*/
+	public function get_exit_users() {
+		global $GET_NEW_EXIT_USER;
+		if(! $GET_NEW_EXIT_USER){
+			return array();
+		}
+		
+		$sql = "SELECT * FROM hist_user"
+					." WHERE hist_historic = ".$this->ilDB->quote(0, "integer")
+					." AND NOT	bwv_id = ".$this->ilDB->quote($this->empty_bwv_id_text, "text").""
+					//." AND NOT	bwv_id = '-empty-'"
+					." AND last_wbd_report IS NULL"
+					." AND NOT exit_date = ".$this->ilDB->quote($this->empty_date_text, "text").""
+					." AND exit_date_wbd = ".$this->ilDB->quote($this->empty_date_text, "text")."";
+		// manage accounts for TP_Service only:
+		$sql .= " AND ".$this->ilDB->in("wbd_type", array(self::WBD_TP_SERVICE,self::WBD_TP_BASIS), false, "text")."";
 
+		//dev-safety:
+		$sql .= ' AND user_id in (SELECT usr_id FROM usr_data)';
+		$sql .= ' AND user_id NOT IN (6, 13)'; //root, anonymous
+
+		//ERROR-LOG:
+		$sql .= " AND user_id NOT IN ("
+			." SELECT DISTINCT usr_id FROM wbd_errors WHERE"
+			." resolved=0"
+			." AND ".$this->ilDB->in("reason", 
+										array('WRONG_USERDATA','USER_EXISTS_TP', 'USER_SERVICETYPE', 
+											'USER_DIFFERENT_TP', 'USER_DEACTIVATED', 'USER_UNKNOWN'), false, "text"
+									).""
+			//." AND action='new_user'"
+			.")";
+	
+		$res = $this->ilDB->query($sql);
+		$ret = array();
+		while($row = $this->ilDB->fetchAssoc($res)) {
+			$udata = $this->_map_userdata($row);
+
+			$valid = $this->validateUserRecord($udata);
+
+			if($valid === true){
+				$ret[] = wbdDataConnector::new_user_record($udata);
+			} else {
+				$this->log->storeWBDError('exit_user',
+					str_replace('<br>', '', $valid),
+					1,
+					$udata['internal_agent_id'],
+					0,
+					$udata['row_id']
+				);
+
+				$this->broken_exitusers[] = array(
+					$valid,
+					$udata
+				);
+			}
+
+		}
+
+		return $ret;
+	}
+
+	public function success_exit_user($row_id) {
+		$this->setWbdExitUserData($row_id);
+	}
+	
+	public function fail_exit_user($row_id, $a_exception) {
+		print "\n";
+		print 'ERROR on updateUser: ';
+		print $row_id;
+		print "\n";
+		print_r($a_exception->getReason());
+		print "\n\n";
+
+
+		//ERROR-LOG:
+		$sql = " SELECT user_id FROM hist_user WHERE"
+			." row_id=" .$row_id; 
+		$result = $this->ilDB->query($sql);
+		$record = $this->ilDB->fetchAssoc($result);
+
+		$this->log->storeWBDError('exit_user',
+			$a_exception->getReason(),
+			0,
+			$record['user_id'],
+			0,
+			$row_id
+		);
+	}
 
 }
 
@@ -1479,6 +1601,26 @@ if($DEBUG_HTML_OUT){
 	print '<hr>';
 
 
+	print '<h3>exit user:</h3>';
+	$cls->export_get_exit_users('html');
+
+	print '<h2> invalid records: ' .count($cls->broken_exitusers) .'</h2>';
+//	print_r($cls->broken_newedurecords);
+	
+	print 'error';
+	foreach($cls->broken_exitusers[0][1] as $hl=>$v){
+		print ', ' .$hl;
+	}
+	
+	foreach($cls->broken_exitusers as $entry){
+		print '<br>';
+		print str_replace('<br>', '', $entry[0]);
+		
+		foreach( $entry[1] as $k=>$v){
+			print ', ' .$v;
+		}
+	
+	}
 	/*
 	print '<hr>';
 	print '<h3>changed edu-records:</h3>';

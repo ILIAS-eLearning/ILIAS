@@ -255,6 +255,7 @@ class gevSettings {
 	const USR_WBD_CERT_PERIOD_BEGIN = "usr_udf_wbd_cert_period_begin";
 	const USR_WBD_DID_REGISTRATION	= "usr_udf_wbd_did_registration";
 	const USR_WBD_COM_EMAIL			= "usr_udf_wbd_com_email";
+	const USR_WBD_EXIT_DATE			= "usr_udf_wbd_exit_date";
 
 
 
@@ -292,7 +293,7 @@ class gevSettings {
 		,'BWV-ID'
 		,'Beginn erste Zertifizierungsperiode'
 		,'Email WBD'
-		
+		,'Austrittsdatum WBD'		
 	);
 
 

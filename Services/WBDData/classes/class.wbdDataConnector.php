@@ -375,6 +375,14 @@ abstract class wbdDataConnector {
 			$this->html_dump($data);
 		}
 	}
+	public function export_get_exit_users($out='csv', $as_file=False){
+		$data = $this->get_exit_users();
+		if($out == 'csv'){
+			$this->csv_dump($data, True, $as_file);
+		}else{
+			$this->html_dump($data);
+		}
+	}
 
 
 
@@ -514,7 +522,31 @@ abstract class wbdDataConnector {
 	public function fail_storno_edu_records($row_id, $e){}
 
 
+	/**
+	* BLOCK exit user
+	*/
 
+	/** 
+	* get user-records with exit dates in GOA
+	* 
+	* @return 	array 	user records with exit date in GOA
+	*/
+	public function get_exit_users() {}
+
+	/*
+	* callback on success
+	* 
+	* @param 	string 		$a_row_id 	Number to identify the row in hist_user
+	*/
+	public function success_exit_user($a_row_id) {}
+
+	/*
+	* callback on faliure
+	*
+	* @param 	string 		$a_row_id 	Number to identify the row in hist_user
+	* @param 	excepteion	$a_exception 	Exception Message
+	*/
+	public function fail_exit_user($a_row_id, $a_exception) {}
 
 }
 

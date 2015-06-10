@@ -3609,3 +3609,19 @@ ilCustomInstaller::initPluginEnv();
 ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "AdvancedMetaData", "amdc", "CourseAMD");
 
 ?>
+
+<#121>
+<?php
+// init helper class
+require_once "Customizing/class.ilCustomInstaller.php";
+
+ilCustomInstaller::initPluginEnv();
+ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "User", "udfc", "GEVUserData");
+?>
+
+<#122>
+<?php
+if(!$ilDB->tableColumnExists('hist_user', 'exit_date_wbd')){
+	$ilDB->manipulate("ALTER TABLE `hist_user` ADD `exit_date_wbd` DATE NULL DEFAULT '0000-00-00' AFTER `is_active`");
+}
+?>
