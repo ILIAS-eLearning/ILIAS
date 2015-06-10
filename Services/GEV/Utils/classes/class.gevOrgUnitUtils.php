@@ -770,6 +770,25 @@ class gevOrgUnitUtils {
 		
 		return $orgu->getId();
 	}
+
+	public function _getAllSuperiors() {
+		global $ilDB;
+
+		$sql = "SELECT ua.usr_id
+			  FROM rbac_ua ua
+			  JOIN rbac_fa fa ON ua.rol_id = fa.rol_id
+			  JOIN object_data od ON od.obj_id = fa.rol_id
+			  JOIN usr_data ud ON ua.usr_id = ud.usr_id
+			 WHERE od.title LIKE 'il_orgu_superior_%'";
+
+ 		$res = $ilDB->query($sql);
+ 		$ret = array();
+ 		while($row = $ilDB->fetchAssoc($res)) {
+			$ret[] = $row["usr_id"];
+		}
+
+		return $ret;
+	}
 }
 
 

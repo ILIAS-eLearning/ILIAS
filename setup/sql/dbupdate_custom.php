@@ -3625,3 +3625,8 @@ if(!$ilDB->tableColumnExists('hist_user', 'exit_date_wbd')){
 	$ilDB->manipulate("ALTER TABLE `hist_user` ADD `exit_date_wbd` DATE NULL DEFAULT '0000-00-00' AFTER `is_active`");
 }
 ?>
+
+<#123>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

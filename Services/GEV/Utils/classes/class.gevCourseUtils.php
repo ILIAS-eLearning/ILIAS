@@ -976,7 +976,6 @@ class gevCourseUtils {
 			$this->setWebExPasswordTutor(null);
 			$this->setWebExLoginTutor(null);
 			
-
 			$doReturn = true;
 		}
 
