@@ -45,7 +45,11 @@ class ilGEVCourseUpdatePlugin extends ilEventHookPlugin
 			
 			$this->crs_utils->moveAccomodations();
 
-			$this->crs_utils->doVCAssignment();
+			if ($this->crs_utils->isVirtualTraining()) {
+				$this->crs_utils->checkVirtualTrainingForPossibleVCAssignment();
+			}
+
+			$this->crs_utils->adjustVCAssignment();
 		}
 		catch (Exception $e) {
 			$this->log->write("Error in GEVCourseUpdate::updatedCourse: ".print_r($e, true));

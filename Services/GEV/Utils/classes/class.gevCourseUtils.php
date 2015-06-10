@@ -956,80 +956,107 @@ class gevCourseUtils {
 		}
 	}
 
+	// assign a new vc to a course
+	protected function assignNewVC($a_amount_of_vcs = 1) {
+		require_once("Services/VCPool/classes/class.ilVCPool.php");
+		$vc_pool = ilVCPool::getInstance();
+
+		$start_datetime = new ilDateTime($this->getStartDate()->get(IL_CAL_DATE)." ".$this->getFormattedStartTime().":00", IL_CAL_DATETIME);
+		$end_datetime = new ilDateTime($this->getEndDate()->get(IL_CAL_DATE)." ".$this->getFormattedEndTime().":00", IL_CAL_DATETIME);
+
+		for ($i = 0; $i < $a_amount_of_vcs; $i++) {				
+			$to_assign_vc = $vc_pool->getVCAssignment($this->getWebExVirtualClassType(), $this->crs_id, $start_datetime, $end_datetime);
+
+			if($to_assign_vc === null) {
+				return false;
+			}
+			
+			$this->setWebExLink($to_assign_vc->getVC()->getUrl());
+			$this->setWebExPassword($to_assign_vc->getVC()->getMemberPassword());
+			$this->setWebExPasswordTutor($to_assign_vc->getVC()->getTutorPassword());
+			$this->setWebExLoginTutor($to_assign_vc->getVC()->getTutorLogin());
+		}
+
+		return true;
+	}
+	
+	public function checkVirtualTrainingForPossibleVCAssignment() {
+		if (!$this->isStartAndEndDateSet() && $this->getWebExVirtualClassType() === null) {
+			ilUtil::sendFailure($this->lng->txt("gev_vc_no_url_saved_because_no_vc_class_type_and_no_times"));
+			return false;
+		}
+		elseif (!$this->isStartAndEndDateSet() && $this->getWebExVirtualClassType() !== null) {
+			ilUtil::sendFailure($this->lng->txt("gev_vc_no_url_saved_because_no_startenddate_set"));	
+			return false;
+		}
+		elseif ($this->isStartAndEndDateSet() && $this->getWebExVirtualClassType() === null) {
+			ilUtil::sendFailure($this->lng->txt("gev_vc_no_url_saved_because_no_vc_class_type"));
+			return false;
+		}
+		return true;
+	}
+
 	//handles the assignsystem for VC
-	public function doVCAssignment() {
-		$doReturn = false;
-
-		if($this->getStartDate() === null || $this->getEndDate() === null || !$this->isVirtualTraining() || $this->getWebExVirtualClassType() === null) {
-			require_once("Services/VCPool/classes/class.ilVCPool.php");
-			$vc_pool = ilVCPool::getInstance();
-			$assigned_vc = $vc_pool->getVCAssignmentsByObjId($this->crs_id);
-			foreach($assigned_vc as $avc) {
-				$avc->release();
-			}
-			
-			if(!$this->isWebinar()) {
-				$this->setWebExLink(null);
-				$this->setWebExPassword(null);
-			}
-
-			$this->setWebExPasswordTutor(null);
-			$this->setWebExLoginTutor(null);
-			
-			$doReturn = true;
-		}
-
-		if($doReturn) {
-			if($this->isVirtualTraining()) {
-				if(!$this->isStartAndEndDateSet() && $this->getWebExVirtualClassType() === null) {
-					ilUtil::sendFailure($this->lng->txt("gev_vc_no_url_saved_because_no_vc_class_type_and_no_times"));
-				}elseif(!$this->isStartAndEndDateSet() && $this->getWebExVirtualClassType() !== null) {
-					ilUtil::sendFailure($this->lng->txt("gev_vc_no_url_saved_because_no_startenddate_set"));	
-				}elseif($this->isStartAndEndDateSet() && $this->getWebExVirtualClassType() === null) {
-					ilUtil::sendFailure($this->lng->txt("gev_vc_no_url_saved_because_no_vc_class_type"));
+	public function adjustVCAssignment() {
+		require_once("Services/VCPool/classes/class.ilVCPool.php");
+		$vc_pool = ilVCPool::getInstance();
+		
+		$assigned_vcs = $vc_pool->getVCAssignmentsByObjId($this->crs_id);
+		$has_vc_assigned = !empty($assigned_vcs);
+		
+		$should_get_vc_assignment = $this->isVirtualTraining() 
+								&& $this->isStartAndEndDateSet() 
+								&& $this->getWebExVirtualClassType() !== null;
+		
+		if ($has_vc_assigned && $should_get_vc_assignment) {
+			if ($this->hasStartOrEndDateChangedToVCAssign()) {
+				// release current assignments and assign a new vc
+				foreach($assigned_vcs as $avc) {
+					$avc->release();
 				}
-			}
-			return;
-		}
-
-		if($this->isVirtualTraining() && $this->isStartAndEndDateSet() && $this->getWebExVirtualClassType() !== null 
-			&& $this->hasStartOrEndDateChangedToVCAssign()) 
-		{
-			require_once("Services/VCPool/classes/class.ilVCPool.php");
-			$vc_pool = ilVCPool::getInstance();
-			$assigned_vc = $vc_pool->getVCAssignmentsByObjId($this->crs_id);
-			
-			foreach($assigned_vc as $avc) {
-				$avc->release();
-			}
-
-			$str_url = "";
-			$cnt = 1;
-			if(count($assigned_vc) != 0) {
-				$cnt = count($assigned_vc);
-			}
-
-			if($cnt > 1) {
-				die("More than one virtual class was assigned to VT. CrsUtils doVCAssignment");
-			}
-
-			$start_datetime = new ilDateTime($this->getStartDate()->get(IL_CAL_DATE)." ".$this->getFormattedStartTime().":00", IL_CAL_DATETIME);
-			$end_datetime = new ilDateTime($this->getEndDate()->get(IL_CAL_DATE)." ".$this->getFormattedEndTime().":00", IL_CAL_DATETIME);
-
-			for ($i = 0; $i < $cnt; $i++) {				
-				$to_assign_vc = $vc_pool->getVCAssignment($this->getWebExVirtualClassType(), $this->crs_id, $start_datetime, $end_datetime);
-
-				if($to_assign_vc === null) {
+				
+				if ($this->assignNewVC()) {
+					ilUtil::sendInfo($this->lng->txt("gev_vc_send_invitation_mail_reminder"));
+				}
+				else {
 					ilUtil::sendFailure($this->lng->txt("gev_vc_no_free_url"));
-					break;
 				}
-				$this->setWebExLink($to_assign_vc->getVC()->getUrl());
-				$this->setWebExPassword($to_assign_vc->getVC()->getMemberPassword());
-				$this->setWebExPasswordTutor($to_assign_vc->getVC()->getTutorPassword());
-				$this->setWebExLoginTutor($to_assign_vc->getVC()->getTutorLogin());
 			}
-
-			ilUtil::sendInfo($this->lng->txt("gev_vc_send_invitation_mail_reminder"));
+			else {
+				// everything ok, don't touch it
+			}
+		}
+		elseif ($has_vc_assigned && !$should_get_vc_assignment) {
+			// release all assignments and empty amd fields
+			foreach($assigned_vcs as $avc) {
+				$avc->release();
+				if ($this->getWebExLink() == $avc->getVC()->getUrl()) {
+					$this->setWebExLink(null);
+				}
+				print "'".$this->getWebExPassword()."' == '".$avc->getVC()->getMemberPassword()."'\n";
+				print "'".$this->getWebExPasswordTutor()."' == '".$avc->getVC()->getTutorPassword()."'\n";
+				print "'".$this->getWebExLoginTutor()."' == '".$avc->getVC()->getTutorLogin()."'\n";
+				if ($this->getWebExPassword() == $avc->getVC()->getMemberPassword()) {
+					$this->setWebExPassword(null);
+				}
+				if ($this->getWebExPasswordTutor() == $avc->getVC()->getTutorPassword()) {
+					$this->setWebExPasswordTutor(null);
+				}
+				if ($this->getWebExLoginTutor() == $avc->getVC()->getTutorLogin()) {
+					$this->setWebExLoginTutor(null);
+				}
+			}
+		}
+		elseif (!$has_vc_assigned && $should_get_vc_assignment) {
+			if ($this->assignNewVC()) {
+				ilUtil::sendInfo($this->lng->txt("gev_vc_send_invitation_mail_reminder"));
+			}
+			else {
+				ilUtil::sendFailure($this->lng->txt("gev_vc_no_free_url"));
+			}
+		}
+		else { // $!has_vc_assigned && !$should_get_vc_assignment
+			// DON'T TOUCH THIS.
 		}
 	}
 	
