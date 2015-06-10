@@ -1,0 +1,9 @@
+﻿// Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
+<!-- language file start -->
+common#:#obj_logs#:#Logging
+common#:#obj_logs_desc#:#General Logging Settings
+rbac#:#logs_edit_permission#:#User can edit permission settings of Logging administration
+rbac#:#logs_read#:#User can read general Logging settings
+rbac#:#logs_visible#:#Logging settings are visible
+rbac#:#logs_write#:#User can edit Logging settings
+logging#:#logs_settings#:#Logging Settings
