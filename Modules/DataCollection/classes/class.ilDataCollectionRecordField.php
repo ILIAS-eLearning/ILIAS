@@ -34,10 +34,6 @@ class ilDataCollectionRecordField {
 	 */
 	protected $value;
 	/**
-	 * @var ilLanguage
-	 */
-	protected $lng;
-	/**
 	 * @var ilObjUser
 	 */
 	protected $user;
@@ -56,10 +52,9 @@ class ilDataCollectionRecordField {
 	 * @param ilDataCollectionField  $field
 	 */
 	public function __construct(ilDataCollectionRecord $record, ilDataCollectionField $field) {
-		global $lng, $ilCtrl, $ilUser, $ilDB;
+		global $ilCtrl, $ilUser, $ilDB;
 		$this->record = $record;
 		$this->field = $field;
-		$this->lng = $lng;
 		$this->ctrl = $ilCtrl;
 		$this->user = $ilUser;
 		$this->db = $ilDB;
