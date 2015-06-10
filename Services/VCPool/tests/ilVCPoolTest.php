@@ -42,21 +42,30 @@ class ilVCPoolTest extends PHPUnit_Framework_TestCase {
 		global $ilDB;
 		
 		$ilDB->insert(ilVCPool::URL_POOL_TABLE, array
-					( "id"		=> array("integer", 0)
-					, "url"		=> array("text", "www.concepts-and-training.de")
-					, "vc_type"	=> array("text", "cat")
+					( "id"				=> array("integer", 0)
+					, "url"				=> array("text", "www.concepts-and-training.de")
+					, "vc_type"			=> array("text", "cat")
+					, "tutor_password"	=> array("text", "tutor_pw1")
+					, "tutor_login"		=> array("text", "tutor_login1")
+					, "member_password"	=> array("text", "member_pw1")
 					));
 		
 		$ilDB->insert(ilVCPool::URL_POOL_TABLE, array
 					( "id"		=> array("integer", 1)
 					, "url"		=> array("text", "www.concepts-and-training.de")
 					, "vc_type"	=> array("text", "cat")
+					, "tutor_password"	=> array("text", "tutor_pw2")
+					, "tutor_login"		=> array("text", "tutor_login2")
+					, "member_password"	=> array("text", "member_pw2")
 					));
 		
 		$ilDB->insert(ilVCPool::URL_POOL_TABLE, array
 					( "id"		=> array("integer", 2)
 					, "url"		=> array("text", "www.google.de")
 					, "vc_type"	=> array("text", "other")
+					, "tutor_password"	=> array("text", "tutor_pw3")
+					, "tutor_login"		=> array("text", "tutor_login3")
+					, "member_password"	=> array("text", "member_pw3")
 					));
 	}
 	
@@ -236,6 +245,27 @@ class ilVCPoolTest extends PHPUnit_Framework_TestCase {
 
 		$assigns1 = $vc_pool->getVCAssignmentsByObjId($obj_id);
 		$this->assertNotEmpty($assigns1);
+	}
+
+	public function testDataForGetAssignmentsByObjId() {
+		$vc_pool = ilVCPool::getInstance();
+		
+		$start1 = new ilDateTime("2015-04-05 10:00:00", IL_CAL_DATETIME);
+		$end1 = new ilDateTime("2015-04-05 11:00:00", IL_CAL_DATETIME);
+		$obj_id = 307;		
+
+		$ass1 = $vc_pool->getVCAssignment("other", $obj_id, $start1, $end1);
+		$this->assertNotNull($ass1);
+
+		$assigns1 = $vc_pool->getVCAssignmentsByObjId($obj_id);
+		$this->assertNotEmpty($assigns1);
+
+		$vc = array_shift($assigns1)->getVC();
+		
+		$this->assertEquals("www.google.de", $vc->getUrl());
+		$this->assertEquals("tutor_pw3", $vc->getTutorPassword());
+		$this->assertEquals("tutor_login3", $vc->getTutorLogin());
+		$this->assertEquals("member_pw3", $vc->getMemberPassword());
 	}
 	
 	protected function tearDown() {

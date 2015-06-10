@@ -151,11 +151,11 @@ class ilVCPool {
 		
 		$ret = array();
 
-		while($row = $ilDB->fetchAssoc($res)) {		
-			$vc = new ilVirtualClassroom((int)$row["vc_id"], $row["url"], $row["vc_type"], $rec["tutor_password"], $rec["member_password"], $rec["tutor_login"]);
-			$begin = new ilDateTime($row["ts_start"], IL_CAL_DATETIME);
-			$end = new ilDateTime($row["ts_end"], IL_CAL_DATETIME);
-			$ret[] = new ilVCAssignment((int)$row["id"], $vc,(int)$row["obj_id"], $begin, $end);
+		while($rec = $ilDB->fetchAssoc($res)) {		
+			$vc = new ilVirtualClassroom((int)$rec["vc_id"], $rec["url"], $rec["vc_type"], $rec["tutor_password"], $rec["member_password"], $rec["tutor_login"]);
+			$begin = new ilDateTime($rec["ts_start"], IL_CAL_DATETIME);
+			$end = new ilDateTime($rec["ts_end"], IL_CAL_DATETIME);
+			$ret[] = new ilVCAssignment((int)$rec["id"], $vc,(int)$rec["obj_id"], $begin, $end);
 		}
 
 		return $ret;
