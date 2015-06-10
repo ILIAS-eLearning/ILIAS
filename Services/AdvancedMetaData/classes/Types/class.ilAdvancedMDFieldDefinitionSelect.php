@@ -307,7 +307,7 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
 		{
 			ilADTFactory::initActiveRecordByType();
 			foreach($this->confirmed_objects as $old_option => $item_ids)
-			{
+			{				
 				foreach($item_ids as $item => $new_option)
 				{
 					$item = explode("_", $item);
@@ -337,7 +337,14 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
 						);
 						ilADTActiveRecordByType::writeByPrimary("adv_md_values", $primary, "Enum", $new_option);
 					}
-				}
+										
+					if($sub_type == "wpg")
+					{
+						// #15763 - adapt advmd page lists
+						include_once "Modules/Wiki/classes/class.ilPCAMDPageList.php";
+						ilPCAMDPageList::migrateField($obj_id, $this->getFieldId(), $old_option, $new_option);												
+					}					
+				}				
 			}			
 		}		
 	}
