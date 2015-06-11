@@ -123,15 +123,7 @@ abstract class gevOrguSuperiorMail extends ilAutoMail {
 	}
 
 	protected function getCC($a_recipient) {
-		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
-
-		if (!$this->checkUserID($a_recipient)) {
-			return array();
-		}
-
-		$superior_ids = gevUserUtils::getInstance($a_recipient)->getDirectSuperiors();
-
-		return array_map(array($this, "getTo"), $superior_ids);
+		return array();
 	}
 
 	protected function getBCC($a_recipient) {

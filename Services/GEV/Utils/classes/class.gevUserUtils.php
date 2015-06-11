@@ -1774,7 +1774,7 @@ class gevUserUtils {
 		if ($this->superior_ous !== null) {
 			return $this->superior_ous;
 		}
-		
+
 		$_ds_ous = $this->getOrgUnitsWhereUserIsDirectSuperior();
 		$where = array(" 0 = 1 ");
 		$ds_ous = array();
@@ -2346,7 +2346,7 @@ class gevUserUtils {
 	*
 	* @return array
 	*/
-	public function getUserDataForSuperiorWeeklyReport($a_start_ts, $a_end_ts) {
+	public function getUserDataForSuperiorWeeklyReport($a_start_ts, $a_end_ts, $org_unit_obj_id) {
 		$booking_status = array("gebucht" => "gebucht"
 						,"kostenfrei_storniert" => "kostenfrei storniert"
 						,"kostenpflichtig_storniert" => "kostenpflichtig storniert"
@@ -2359,51 +2359,61 @@ class gevUserUtils {
 		$actions["auf Warteliste"] = array();
 		$actions["teilgenommen"] = array();
 
-		$empl = $this->getEmployees();
+		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+		$org_units = $this->getOrgUnitsWhereUserIsSuperior();
+		$ref_ids = array();
 
-		if(!empty($empl)) {
-		 	$sql_emp = "SELECT" 
-					." histucs.begin_date, histucs.end_date, histucs.overnights, histucs.booking_status, histucs.participation_status,"
-					." histu.firstname, histu.lastname,"
-					." histc.title, histc.type,"
-					." IF(crsa_start.night IS NULL, false, true) AS prenight,"
-					." IF(crsa_end.night IS NULL, false, true) AS lastnight"
-				." FROM hist_usercoursestatus histucs"
-				." JOIN hist_user histu ON histu.user_id = histucs.usr_id AND histu.hist_historic = 0"
-				." JOIN hist_course histc ON histc.crs_id = histucs.crs_id AND histc.hist_historic = 0"
-				." LEFT JOIN crs_acco crsa_start ON crsa_start.user_id = histu.user_id AND crsa_start.crs_id = histc.crs_id AND crsa_start.night = DATE_SUB(histucs.begin_date, INTERVAL 1 DAY)"
-				." LEFT JOIN crs_acco crsa_end ON crsa_start.user_id = histu.user_id AND crsa_start.crs_id = histc.crs_id AND crsa_end.night = histucs.end_date"
-				." WHERE histucs.created_ts BETWEEN ".$this->db->quote($a_start_ts, "integer")." AND ".$this->db->quote($a_end_ts, "integer").""
-				." AND ".$this->db->in("histucs.booking_status", $booking_status, false, "text").""
-				." AND histucs.hist_historic = 0"
-				." AND ".$this->db->in("histu.user_id", $empl, false, "integer").""
-				." ORDER BY histucs.booking_status";
+		foreach ($org_units as $org_unit) {
+			$ref_ids[] = $org_unit["ref_id"];
+		}
 
-			$res_emp = $this->db->query($sql_emp);
+		if(!empty($ref_ids)) {
+			$empl = gevOrgUnitUtils::getDistinctEmployeesIn($ref_ids);
 
-			while($row_emp = $this->db->fetchAssoc($res_emp)) {
-				switch($row_emp["booking_status"]) {
-					case "gebucht":
-						if($row_emp["participation_status"] == "teilgenommen") {
-							$actions["teilgenommen"][] = $row_emp;
+			if(!empty($empl)) {
+				$sql_emp = "SELECT" 
+						." histucs.begin_date, histucs.end_date, histucs.overnights, histucs.booking_status, histucs.participation_status,"
+						." histu.firstname, histu.lastname,"
+						." histc.title, histc.type,"
+						." IF(crsa_start.night IS NULL, false, true) AS prenight,"
+						." IF(crsa_end.night IS NULL, false, true) AS lastnight"
+					." FROM hist_usercoursestatus histucs"
+					." JOIN hist_user histu ON histu.user_id = histucs.usr_id AND histu.hist_historic = 0"
+					." JOIN hist_course histc ON histc.crs_id = histucs.crs_id AND histc.hist_historic = 0"
+					." LEFT JOIN crs_acco crsa_start ON crsa_start.user_id = histu.user_id AND crsa_start.crs_id = histc.crs_id AND crsa_start.night = DATE_SUB(histucs.begin_date, INTERVAL 1 DAY)"
+					." LEFT JOIN crs_acco crsa_end ON crsa_start.user_id = histu.user_id AND crsa_start.crs_id = histc.crs_id AND crsa_end.night = histucs.end_date"
+					." WHERE histucs.created_ts BETWEEN ".$this->db->quote($a_start_ts, "integer")." AND ".$this->db->quote($a_end_ts, "integer").""
+					." AND ".$this->db->in("histucs.booking_status", $booking_status, false, "text").""
+					." AND histucs.hist_historic = 0"
+					." AND ".$this->db->in("histu.user_id", $empl, false, "integer").""
+					." ORDER BY histucs.booking_status";
+
+				$res_emp = $this->db->query($sql_emp);
+
+				while($row_emp = $this->db->fetchAssoc($res_emp)) {
+					switch($row_emp["booking_status"]) {
+						case "gebucht":
+							if($row_emp["participation_status"] == "teilgenommen") {
+								$actions["teilgenommen"][] = $row_emp;
+								break;
+							}
+
+							$actions["gebucht"][] = $row_emp;
 							break;
-						}
-
-						$actions["gebucht"][] = $row_emp;
-						break;
-					case "kostenfrei storniert":
-						$actions["kostenfrei storniert"][] = $row_emp;
-						break;
-					case "kostenpflichtig storniert":
-						$actions["kostenpflichtig storniert"][] = $row_emp;
-						break;
-					case "auf Warteliste":
-						$actions["auf Warteliste"][] = $row_emp;
-						break;
-					default:
-						break;
+						case "kostenfrei storniert":
+							$actions["kostenfrei storniert"][] = $row_emp;
+							break;
+						case "kostenpflichtig storniert":
+							$actions["kostenpflichtig storniert"][] = $row_emp;
+							break;
+						case "auf Warteliste":
+							$actions["auf Warteliste"][] = $row_emp;
+							break;
+						default:
+							break;
+					}
 				}
-			}
+	 		}
 	 	}
 
 	 	return $actions;

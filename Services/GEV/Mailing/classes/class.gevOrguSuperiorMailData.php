@@ -6,6 +6,7 @@ require_once("Services/Calendar/classes/class.ilDatePresentation.php");
 require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 
+
 /**
  * Generali mail data for Orgunit Superiors
  *
@@ -41,7 +42,7 @@ class gevOrguSuperiorMailData extends ilMailData {
 			}
 
 			$start_date = new DateTime($this->end_date_str);
-			$start_date->sub(date_interval_create_from_date_string('2 Months'));
+			$start_date->sub(date_interval_create_from_date_string('1 Week'));
 			$this->start_timestamp = $start_date->getTimestamp();
 		}
 
@@ -175,7 +176,7 @@ class gevOrguSuperiorMailData extends ilMailData {
 		foreach($a_user_data as $key => $entry) {
 			$ret .= "Mitarbeiter/Vertiebspartner: ".$entry["firstname"]." ".$entry["lastname"]."<br />";
 			$ret .= "Kursinformationen: ".$entry["title"].", ".$entry["type"].", ".$entry["begin_date"]." - ".$entry["end_date"]."<br />";
-			$ret .= "Übernachtungen: ".$entry["overnights"]."<br />";
+			$ret .= utf8_encode("Übernachtungen").": ".$entry["overnights"]."<br />";
 			
 			$prenight = ($entry["prenight"]) ? "Ja" : "Nein";
 			$ret .= "Vorabendanreise: ".$prenight."<br />";

@@ -45,7 +45,7 @@ class gevReportWeeklyActionsMail extends gevOrguSuperiorMail {
 
 	// Turn template to mail content. Returns
 	// a dict containing fields "subject", "plain" and "html"
-	protected function getMessageFromTemplate($a_templ_id, $a_recipient) {
+	protected function getMessageFromTemplate($a_templ_id, $a_recipient, $a_orgunit_obj_id) {
 		$this->initTemplateObjects($a_templ_id, "de");
 		$rec_name = $this->getNameForTemplate($a_recipient);
 		$rec_gender = $this->getGenderForTemplate($a_recipient);
