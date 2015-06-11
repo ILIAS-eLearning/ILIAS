@@ -16,7 +16,7 @@ require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 class gevOrguSuperiorMailData extends ilMailData {
 	protected $cache;
 	
-	public function __construct($a_recipient,$a_rec_name) {
+	public function __construct($a_recipient,$a_rec_name,$a_gender) {
 		$this->recipeint = $a_recipient;
 		$this->usr_utils = gevUserUtils::getInstance($a_recipient);
 		$this->start_timestamp = null;
@@ -24,6 +24,7 @@ class gevOrguSuperiorMailData extends ilMailData {
 		$this->end_date_str = "";
 		$this->firstname = $a_rec_name["firstname"];
 		$this->lastname = $a_rec_name["lastname"];
+		$this->gender = $a_gender;
 	}
 	
 	function getRecipientMailAddress() {
@@ -111,7 +112,7 @@ class gevOrguSuperiorMailData extends ilMailData {
 				break;
 			case "BERICHT":
 				//return "bla";
-				return $this->getReportDataString();
+				return $this->getReportDataString($a_markup);
 				break;
 		}
 		
@@ -138,55 +139,64 @@ class gevOrguSuperiorMailData extends ilMailData {
 		return true;
 	}
 
-	function getReportDataString() {
+	function getReportDataString($a_markup) {
 		$user_data = $this->getReportData();
 
-		$ret = "<br /><br />Buchungen<br /><br />";
-		$ret .= $this->getFullInfoEachUser($user_data["gebucht"]);
+		$ret = "<h3>Buchungen</h3>";
+		$ret .= $this->getFullInfoEachUser($user_data["gebucht"],"Keine Buchungen gefunden.");
 
-		$ret .= "<br />Buchungen auf Warteliste<br /><br />";
-		$ret .= $this->getFullInfoEachUser($user_data["auf Warteliste"]);
+		$ret .= "<h3>Buchungen auf Warteliste</h3>";
+		$ret .= $this->getFullInfoEachUser($user_data["auf Warteliste"],"Keine Buchungen gefunden.");
 
-		$ret .= "<br />kostenfreie Stornierungen<br /><br />";
-		$ret .= $this->getSmallInfoEachUser($user_data["kostenfrei storniert"]);
+		$ret .= "<h3>kostenfreie Stornierungen</h3>";
+		$ret .= $this->getSmallInfoEachUser($user_data["kostenfrei storniert"],"Keine Buchungen gefunden.");
 
-		$ret .= "<br />kostenpflichtige Stornierungen<br /><br />";
-		$ret .= $this->getSmallInfoEachUser($user_data["kostenfrei storniert"]);
+		$ret .= "<h3>kostenpflichtige Stornierungen</h3>";
+		$ret .= $this->getSmallInfoEachUser($user_data["kostenfrei storniert"],"Keine Buchungen gefunden.");
 		
-		$ret .= "<br />erfolgreiche Teilnahmen<br /><br />";
-		$ret .= $this->getSmallInfoEachUser($user_data["teilgenommen"]);
+		$ret .= "<h3>erfolgreiche Teilnahmen</h3>";
+		$ret .= $this->getSmallInfoEachUser($user_data["teilgenommen"],"Keine Buchungen gefunden.");
+
+		if(!$a_markup) {
+			$ret = strip_tags($ret,"<br>");
+			$ret = str_replace("<br />", "\n", $ret);
+		}
 
 		return $ret;
 	}
 
-	private function getFullInfoEachUser($a_user_data) {
+	private function getFullInfoEachUser($a_user_data, $a_empty_message) {
 		$ret = "";
+
+		if(empty($a_user_data)) {
+			return $a_empty_message;
+		}
 
 		foreach($a_user_data as $key => $entry) {
 			$ret .= "Mitarbeiter/Vertiebspartner: ".$entry["firstname"]." ".$entry["lastname"]."<br />";
-			$ret .= "Kursinformationen: ".$entry["title"]." ".$entry["type"]." ".$entry["begin_date"]." - ".$entry["end_date"]."<br />";
+			$ret .= "Kursinformationen: ".$entry["title"].", ".$entry["type"].", ".$entry["begin_date"]." - ".$entry["end_date"]."<br />";
 			$ret .= "Übernachtungen: ".$entry["overnights"]."<br />";
 			
 			$prenight = ($entry["prenight"]) ? "Ja" : "Nein";
 			$ret .= "Vorabendanreise: ".$prenight."<br />";
 
 			$lastnight = ($entry["lastnight"]) ? "Ja" : "Nein";
-			$ret .= "Abreise am Folgetag: ".$lastnight."<br />";
-
-			$ret .= "<br />";
+			$ret .= "Abreise am Folgetag: ".$lastnight."<br /><br />";
 		}
 
 		return $ret;
 	}
 
-	private function getSmallInfoEachUser($a_user_data) {
+	private function getSmallInfoEachUser($a_user_data, $a_empty_message) {
 		$ret = "";
 
+		if(empty($a_user_data)) {
+			return $a_empty_message;
+		}
+		
 		foreach($a_user_data as $key => $entry) {
-			$ret .= $entry["firstname"]." ".$entry["lastname"]."<br />";
-			$ret .= "Kursinformationen: ".$entry["title"]." ".$entry["type"]." ".$entry["begin_date"]." - ".$entry["end_date"]."<br />";			
-
-			$ret .= "<br />";
+			$ret .= "Mitarbeiter/Vertiebspartner: ".$entry["firstname"]." ".$entry["lastname"]."<br />";
+			$ret .= "Kursinformationen: ".$entry["title"].", ".$entry["type"].", ".$entry["begin_date"]." - ".$entry["end_date"]."<br /><br />";
 		}
 
 		return $ret;

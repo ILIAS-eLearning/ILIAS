@@ -16,7 +16,7 @@ class gevReportWeeklyActionsMail extends gevOrguSuperiorMail {
 	}
 	
 	public function getTemplateCategory() {
-		return "???";
+		return "S01";
 	}
 
 	public function getMail($a_recipient) {
@@ -48,8 +48,10 @@ class gevReportWeeklyActionsMail extends gevOrguSuperiorMail {
 	protected function getMessageFromTemplate($a_templ_id, $a_recipient) {
 		$this->initTemplateObjects($a_templ_id, "de");
 		$rec_name = $this->getNameForTemplate($a_recipient);
+		$rec_gender = $this->getGenderForTemplate($a_recipient);
+
 		require_once "./Services/GEV/Mailing/classes/class.gevOrguSuperiorMailData.php";
-		$mail_data = new gevOrguSuperiorMailData($a_recipient,$rec_name);
+		$mail_data = new gevOrguSuperiorMailData($a_recipient,$rec_name,$rec_gender);
 
 		$adapter = $this->template_settings->getAdapterClassInstance();
 

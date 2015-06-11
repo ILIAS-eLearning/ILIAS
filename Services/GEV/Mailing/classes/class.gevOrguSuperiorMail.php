@@ -150,6 +150,10 @@ abstract class gevOrguSuperiorMail extends ilAutoMail {
 		return ilObjUser::_lookupName($a_recipient);
 	}
 
+	protected function getGenderForTemplate($a_recipient) {
+		return ilObjUser::_lookupGender($a_recipient);
+	}
+
 	public function getAttachmentPath($a_name) {
 		return "";
 	}
@@ -183,10 +187,10 @@ abstract class gevOrguSuperiorMail extends ilAutoMail {
 	// a dict containing fields "subject", "plain" and "html"
 	protected function getMessageFromTemplate($a_templ_id, $a_recipient) {
 		$this->initTemplateObjects($a_templ_id, "de");
-		$rec_name = $this->getNameForTemplate($a_recipient);
+		$rec_gender = $this->getGenderForTemplate($a_recipient);
 
 		require_once "./Services/GEV/Mailing/classes/class.gevOrguSuperiorMailData.php";
-		$mail_data = new gevOrguSuperiorMailData($a_recipient,$rec_name);
+		$mail_data = new gevOrguSuperiorMailData($a_recipient,$rec_name,$rec_gender);
 
 		$adapter = $this->template_settings->getAdapterClassInstance();
 
