@@ -1654,7 +1654,6 @@ class gevCourseUtils {
 	}
  	
  	public function buildUVGList($a_send, $a_filename) {
-
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 		require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
 		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
@@ -1721,7 +1720,6 @@ class gevCourseUtils {
 							   );
 		
 		$role_utils = gevRoleUtils::getInstance();
-		$idVProle = $role_utils->getRoleIdByName("VP"); 
 		$user_ids = $this->getCourse()->getMembersObject()->getMembers();
 		$participations = $this->getParticipations();
 		$maxPoints = $participations->getMaxCreditPoints();
@@ -1730,6 +1728,11 @@ class gevCourseUtils {
 			foreach($user_ids as $user_id) {
 
 				$user_utils = gevUserUtils::getInstance($user_id);
+
+				if (!$user_utils->hasRoleIn(array("VP", "ExpressUser"))) {
+					continue;
+				}
+
 				$user = new ilObjUser($user_id);
 				$user_roles = $user_utils->getGlobalRoles();
 
@@ -1741,10 +1744,6 @@ class gevCourseUtils {
 					} 
 				} elseif ($statusAndPoints["status"] == ilParticipationStatus::STATUS_NOT_SET) {
 					$points = $lng->txt("gev_in_progress");
-				}
-
-				if(!in_array($idVProle, $user_roles)) {
-					continue;
 				}
 
 				$row++;
