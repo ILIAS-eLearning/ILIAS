@@ -147,20 +147,22 @@ class gevOrguSuperiorMailData extends ilMailData {
 		$ret .= $this->getFullInfoEachUser($user_data["gebucht"],"Keine Buchungen gefunden.");
 
 		$ret .= "<h3>Buchungen auf Warteliste</h3>";
-		$ret .= $this->getFullInfoEachUser($user_data["auf Warteliste"],"Keine Buchungen gefunden.");
+		$ret .= $this->getFullInfoEachUser($user_data["auf Warteliste"],"Keine Buchungen auf Warteliste gefunden.");
 
 		$ret .= "<h3>kostenfreie Stornierungen</h3>";
-		$ret .= $this->getSmallInfoEachUser($user_data["kostenfrei storniert"],"Keine Buchungen gefunden.");
+		$ret .= $this->getSmallInfoEachUser($user_data["kostenfrei storniert"],"Keine kostenfreie Stornierungen gefunden.");
 
 		$ret .= "<h3>kostenpflichtige Stornierungen</h3>";
-		$ret .= $this->getSmallInfoEachUser($user_data["kostenfrei storniert"],"Keine Buchungen gefunden.");
+		$ret .= $this->getSmallInfoEachUser($user_data["kostenfrei storniert"],"Keine kostenpflichtige Stornierungen gefunden.");
 		
 		$ret .= "<h3>erfolgreiche Teilnahmen</h3>";
-		$ret .= $this->getSmallInfoEachUser($user_data["teilgenommen"],"Keine Buchungen gefunden.");
+		$ret .= $this->getSmallInfoEachUser($user_data["teilgenommen"],"Keine erfolgreiche Teilnahmen gefunden.");
 
 		if(!$a_markup) {
-			$ret = strip_tags($ret,"<br>");
+			$ret = strip_tags($ret,"<br><h3>");
 			$ret = str_replace("<br />", "\n", $ret);
+			$ret = str_replace("<h3>", "\n\n", $ret);
+			$ret = str_replace("</h3>", ":\n\n", $ret);
 		}
 
 		return $ret;

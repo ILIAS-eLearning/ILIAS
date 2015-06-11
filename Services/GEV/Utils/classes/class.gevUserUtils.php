@@ -2368,7 +2368,7 @@ class gevUserUtils {
 		}
 
 		if(!empty($ref_ids)) {
-			$empl = gevOrgUnitUtils::getDistinctEmployeesIn($ref_ids);
+			$empl = gevOrgUnitUtils::getEmployeesIn($ref_ids);
 
 			if(!empty($empl)) {
 				$sql_emp = "SELECT" 
