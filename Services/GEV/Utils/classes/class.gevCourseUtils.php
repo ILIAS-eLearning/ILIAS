@@ -1697,6 +1697,7 @@ class gevCourseUtils {
 						, $lng->txt("gev_job_number")
 						, $lng->txt("gev_participation_status")
 						, $lng->txt("gev_credit_points")
+						, $lng->txt("gev_express_login")
 						, "Zu welchen Themen hätten Sie gerne nähere Informationen?"
 						, "Zu welchen Themen wünschen Sie sich weitere Webinare?"
 						);
@@ -1761,7 +1762,7 @@ class gevCourseUtils {
 				$worksheet->write($row, 11,	$user_utils->getJobNumber(), $format_wrap);
 				$worksheet->write($row, 12,	$this->getParticipationStatusLabelOf($user_id), $format_wrap);
 				$worksheet->write($row, 13,	$points, $format_wrap);
-
+				$worksheet->write($row, 14, $user_utils->isExpressUser() ? $lng->txt("yes") : $lng->txt("no"));
 			}
 		}
 		$workbook->close();

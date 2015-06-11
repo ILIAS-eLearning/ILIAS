@@ -1456,6 +1456,10 @@ class gevUserUtils {
 		return $this->hasRoleIn(array('VFS'));
 	}
 	
+	public function isExpressUser() {
+		return $this->hasRoleIn(array("ExpressUser"));
+	}
+	
 	public function getIDHGBAADStatus() {
 		$roles = $this->getGlobalRoles();
 		foreach ($roles as $role) {

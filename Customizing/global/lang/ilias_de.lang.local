@@ -1120,6 +1120,7 @@ gev#:#gev_warning_to_book_crs_for_others_because_period#:#Der Mitarbeiter hat be
 gev#:#gev_login_express#:#Anmelden
 gev#:#gev_login_express_existend_account#:#Ich habe in der Generali Online Akademie bereits ein Benutzerkonto.
 gev#:#gev_login_express_new_account#:#Ich möchte mich in der Online Akademie registrieren um künftig Webinare einfach nutzen zu können.
+gev#:#gev_express_login#:#Express Login
 gev#:#gev_login_express_no_login#:#Express Login <u>ohne</u> Bildungspunkte
 gev#:#gev_login_express_companyname#:#Firmenname
 gev#:#gev_login_express_vnumber#:#Vermittlernummer
