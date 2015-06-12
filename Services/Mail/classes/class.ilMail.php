@@ -2122,8 +2122,8 @@ class ilMail
 				$email = $user->getEmail();
 				$fullname = $user->getFullname();
 			}
-			
-			$sender = self::addFullname($email, $fullname);
+
+			$sender = array($email, $fullname);
 		}
 		else
 		{
@@ -2159,13 +2159,11 @@ class ilMail
 				$no_reply_adress = 'noreply@'.$_SERVER['SERVER_NAME'];
 			}
 
-			$sender = ilMimeMail::_mimeEncode(self::_getIliasMailerName()).
-					  ' <'.$no_reply_adress.'>';
+			$sender = array($no_reply_adress, self::_getIliasMailerName());
 		}
 		else
 		{
-			$sender = ilMimeMail::_mimeEncode(self::_getIliasMailerName()).
-					  ' <noreply@'.$_SERVER['SERVER_NAME'].'>';
+			$sender = array('noreply@'.$_SERVER['SERVER_NAME'], self::_getIliasMailerName());
 		}
 		
 		return $sender;
@@ -2224,7 +2222,7 @@ class ilMail
 												$a_rcp_to,
 												$a_rcp_cc,
 												$a_rcp_bcc,
-												$sender,
+												is_array($sender) ? implode('#:#', $sender) : $sender,
 												$a_m_subject,
 												$a_m_message,
 												$attachments));
