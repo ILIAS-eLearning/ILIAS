@@ -125,6 +125,13 @@ class gevExitedUserCleanupJob extends ilCronJob {
 			// i'm alive!
 			ilCronManager::ping($this->getId());
 		}
+		
+		$ilLog->write("gevExitedUserCleanupJob: purging empty na-org units.");
+		
+		$na_base_utils = gevOrgUnitUtils::getInstance($gev_settings->getNAPOUBaseUnitId());
+		$no_adviser_ref_id = gevObjectUtils::getRefId($gev_settings->getNAPOUNoAdviserUnitId());
+		$template_ref_id = gevObjectUtils::getRefId($gev_settings->getNAPOUTemplateUnitId());
+		$na_base_utils->purgeEmptyChildren(2, array($no_adviser_ref_id, $template_ref_id));
 
 		$cron_result->setStatus(ilCronJobResult::STATUS_OK);
 		return $cron_result;
