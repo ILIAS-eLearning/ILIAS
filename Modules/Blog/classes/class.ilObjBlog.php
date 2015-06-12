@@ -804,7 +804,7 @@ class ilObjBlog extends ilObject2
 			$url = str_replace("&", "&amp;", $url);				
 
 			$feed_item = new ilFeedItem();
-			$feed_item->setTitle($item["title"]);
+			$feed_item->setTitle(str_replace("&", "&amp;", $item["title"])); // #16022
 			$feed_item->setDate($item["created"]->get(IL_CAL_DATETIME));
 			$feed_item->setDescription($snippet);
 			$feed_item->setLink($url);
