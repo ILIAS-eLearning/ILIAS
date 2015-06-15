@@ -4470,6 +4470,8 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->tabs_gui->addTab("start",
 					$this->lng->txt("crs_start_objects"),
 					$this->ctrl->getLinkTargetByClass("ilcontainerstartobjectsgui", "listStructure"));
+				global $ilHelp;
+				$ilHelp->setScreenIdComponent("crs");
 				
 				include_once './Services/Container/classes/class.ilContainerStartObjectsGUI.php';
 				$stgui = new ilContainerStartObjectsGUI($this->object);
