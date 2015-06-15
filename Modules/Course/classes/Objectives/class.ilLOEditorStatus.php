@@ -234,6 +234,8 @@ class ilLOEditorStatus
 		{
 			$done = $this->getInitialTestStatus();
 
+			$this->ctrl->setParameter($this->getCmdClass(),'tt', 1);
+
 			$list->addEntry($this->lng->txt('crs_objective_status_itest'),
 				$this->ctrl->getLinkTarget($this->getCmdClass(),'testOverview'),
 				$done
@@ -248,6 +250,8 @@ class ilLOEditorStatus
 		// course qtest
 		$done = $this->getQualifiedTestStatus();
 
+		$this->ctrl->setParameter($this->getCmdClass(),'tt', 2);
+
 		$list->addEntry($this->lng->txt('crs_objective_status_qtest'),
 			$this->ctrl->getLinkTarget($this->getCmdClass(),'testOverview'),
 			$done
@@ -256,6 +260,8 @@ class ilLOEditorStatus
 			($this->section == self::SECTION_QTEST),
 			$this->getErrorMessages(self::SECTION_QTEST)
 		);
+
+		$this->ctrl->setParameter($this->getCmdClass(),'tt', $_GET["tt"]);
 
 		// Step 5
 		// course qtest
