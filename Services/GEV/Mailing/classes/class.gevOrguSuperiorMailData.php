@@ -143,26 +143,23 @@ class gevOrguSuperiorMailData extends ilMailData {
 	function getReportDataString($a_markup) {
 		$user_data = $this->getReportData();
 
-		$ret = "<h3>Buchungen</h3>";
+		$ret = "\n\n<h3>Buchungen:</h3>\n\n";
 		$ret .= $this->getFullInfoEachUser($user_data["gebucht"],"Keine Buchungen gefunden.");
 
-		$ret .= "<h3>Buchungen auf Warteliste</h3>";
+		$ret .= "\n\n<h3>Buchungen auf Warteliste:</h3>\n\n";
 		$ret .= $this->getFullInfoEachUser($user_data["auf Warteliste"],"Keine Buchungen auf Warteliste gefunden.");
 
-		$ret .= "<h3>kostenfreie Stornierungen</h3>";
+		$ret .= "\n\n<h3>kostenfreie Stornierungen:</h3>\n\n";
 		$ret .= $this->getSmallInfoEachUser($user_data["kostenfrei storniert"],"Keine kostenfreie Stornierungen gefunden.");
 
-		$ret .= "<h3>kostenpflichtige Stornierungen</h3>";
+		$ret .= "\n\n<h3>kostenpflichtige Stornierungen:</h3>\n\n";
 		$ret .= $this->getSmallInfoEachUser($user_data["kostenfrei storniert"],"Keine kostenpflichtige Stornierungen gefunden.");
 		
-		$ret .= "<h3>erfolgreiche Teilnahmen</h3>";
+		$ret .= "\n\n<h3>erfolgreiche Teilnahmen:</h3>\n\n";
 		$ret .= $this->getSmallInfoEachUser($user_data["teilgenommen"],"Keine erfolgreiche Teilnahmen gefunden.");
 
 		if(!$a_markup) {
-			$ret = strip_tags($ret,"<br><h3>");
-			$ret = str_replace("<br />", "\n", $ret);
-			$ret = str_replace("<h3>", "\n\n", $ret);
-			$ret = str_replace("</h3>", ":\n\n", $ret);
+			$ret = strip_tags($ret);
 		}
 
 		return $ret;
@@ -176,15 +173,15 @@ class gevOrguSuperiorMailData extends ilMailData {
 		}
 
 		foreach($a_user_data as $key => $entry) {
-			$ret .= "Mitarbeiter/Vertriebspartner: ".$entry["firstname"]." ".$entry["lastname"]."<br />";
-			$ret .= "Kursinformationen: ".$entry["title"].", ".$entry["type"].", ".$entry["begin_date"]." - ".$entry["end_date"]."<br />";
-			$ret .= "Übernachtungen: ".$entry["overnights"]."<br />";
+			$ret .= "Mitarbeiter/Vertriebspartner: ".$entry["firstname"]." ".$entry["lastname"]."<br />\n";
+			$ret .= "Kursinformationen: ".$entry["title"].", ".$entry["type"].", ".$entry["begin_date"]." - ".$entry["end_date"]."<br />\n";
+			$ret .= "Übernachtungen: ".$entry["overnights"]."<br />\n";
 			
 			$prenight = ($entry["prenight"]) ? "Ja" : "Nein";
-			$ret .= "Vorabendanreise: ".$prenight."<br />";
+			$ret .= "Vorabendanreise: ".$prenight."<br />\n";
 
 			$lastnight = ($entry["lastnight"]) ? "Ja" : "Nein";
-			$ret .= "Abreise am Folgetag: ".$lastnight."<br /><br />";
+			$ret .= "Abreise am Folgetag: ".$lastnight."<br />\n<br />\n";
 		}
 
 		return $ret;
@@ -198,8 +195,8 @@ class gevOrguSuperiorMailData extends ilMailData {
 		}
 		
 		foreach($a_user_data as $key => $entry) {
-			$ret .= "Mitarbeiter/Vertiebspartner: ".$entry["firstname"]." ".$entry["lastname"]."<br />";
-			$ret .= "Kursinformationen: ".$entry["title"].", ".$entry["type"].", ".$entry["begin_date"]." - ".$entry["end_date"]."<br /><br />";
+			$ret .= "Mitarbeiter/Vertiebspartner: ".$entry["firstname"]." ".$entry["lastname"]."<br />\n";
+			$ret .= "Kursinformationen: ".$entry["title"].", ".$entry["type"].", ".$entry["begin_date"]." - ".$entry["end_date"]."<br />\n<br />\n";
 		}
 
 		return $ret;
