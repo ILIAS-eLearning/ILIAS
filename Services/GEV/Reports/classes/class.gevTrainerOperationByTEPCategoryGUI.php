@@ -83,7 +83,7 @@ class gevTrainerOperationByTEPCategoryGUI extends catBasicReportGUI{
 					->join("hist_tep_individ_days htid")
 						->on("individual_days = id")
 					->left_join("hist_course hc")
-						->on("context_id = crs_id AND ht.category  = ".$ilDB->quote("Training","text"))
+						->on("context_id = crs_id AND ht.category  = 'Training'")
 					->group_by("fullname")
 					->compile();
 
