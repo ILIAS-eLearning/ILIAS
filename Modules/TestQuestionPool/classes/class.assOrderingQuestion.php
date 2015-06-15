@@ -1495,7 +1495,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		$result = new ilUserQuestionResult($this, $active_id, $pass);
 
 		$data = $ilDB->queryF(
-			"SELECT value1+1 as value1, value2 FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s AND step = (
+			"SELECT value1, value2 FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s AND step = (
 				SELECT MAX(step) FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s
 			) ORDER BY value1 ASC ",
 			array("integer", "integer", "integer","integer", "integer", "integer"),
@@ -1513,9 +1513,9 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 			{
 				if($this->getOrderingType() == OQ_TERMS)
 				{
-					if($answer->getAnswerText() == $row["value2"])
+					if($key == $row["value1"])
 					{
-						$elements[$key] = $row["value1"];
+						$elements[$key] = $row["value2"];
 						break;
 					}
 				}
