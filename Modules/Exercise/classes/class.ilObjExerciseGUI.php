@@ -490,8 +490,12 @@ class ilObjExerciseGUI extends ilObjectGUI
 		{
 			$this->tabs_gui->clearTargets();
 			$this->tabs_gui->setBackTarget($this->lng->txt("back"), 
-				$this->ctrl->getLinkTarget($this, "submissionScreen"));		
-			
+				$this->ctrl->getLinkTarget($this, "submissionScreen"));
+
+			global $ilHelp;
+			$ilHelp->setScreenIdComponent("exc");
+			$ilHelp->setScreenId("upload_submission");
+
 			$this->initUploadForm();
 			$this->tpl->setContent($this->form->getHTML());
 		}
@@ -4007,9 +4011,17 @@ class ilObjExerciseGUI extends ilObjectGUI
 		
 		$this->checkPermission("read");		
 			
-		$ilTabs->activateTab("content");
-		$this->addContentSubTabs("content");
-		
+		//$ilTabs->activateTab("content");
+		//$this->addContentSubTabs("content");
+
+		$this->tabs_gui->clearTargets();
+		$this->tabs_gui->setBackTarget($this->lng->txt("back"),
+			$this->ctrl->getLinkTarget($this, "showOverview"));
+
+		global $ilHelp;
+		$ilHelp->setScreenIdComponent("exc");
+		$ilHelp->setScreenId("text_submission");
+
 		if($this->ass->getDeadline())
 		{
 			ilUtil::sendInfo($this->lng->txt("exc_edit_until").": ".
