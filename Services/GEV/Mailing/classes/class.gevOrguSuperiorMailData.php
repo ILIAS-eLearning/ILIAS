@@ -176,7 +176,7 @@ class gevOrguSuperiorMailData extends ilMailData {
 		}
 
 		foreach($a_user_data as $key => $entry) {
-			$ret .= "Mitarbeiter/Vertiebspartner: ".$entry["firstname"]." ".$entry["lastname"]."<br />";
+			$ret .= "Mitarbeiter/Vertriebspartner: ".$entry["firstname"]." ".$entry["lastname"]."<br />";
 			$ret .= "Kursinformationen: ".$entry["title"].", ".$entry["type"].", ".$entry["begin_date"]." - ".$entry["end_date"]."<br />";
 			$ret .= "Übernachtungen: ".$entry["overnights"]."<br />";
 			
