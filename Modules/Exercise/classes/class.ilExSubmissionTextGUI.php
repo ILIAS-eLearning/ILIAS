@@ -162,7 +162,11 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 		}
 		
 		$this->handleTabs();
-		
+
+		global $ilHelp;
+		$ilHelp->setScreenIdComponent("exc");
+		$ilHelp->setScreenId("text_submission");
+
 		if(!$a_form)
 		{
 			$a_form = $this->initAssignmentTextForm();		
