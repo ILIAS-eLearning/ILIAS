@@ -2843,7 +2843,13 @@ return;
 			$ilCtrl->redirect($this, "preview");
 		}
 
-		$ilHelp->setScreenId("edit_".$this->getParentType());
+		// not so nive workaround for container pages, bug #0015831
+		$ptype = $this->getParentType();
+		if ($ptype == "cont" && $_GET["ref_id"] > 0)
+		{
+			$ptype = ilObject::_lookupType((int) $_GET["ref_id"], true);
+		}
+		$ilHelp->setScreenId("edit_".$ptype);
 
 		require_once 'Services/Captcha/classes/class.ilCaptchaUtil.php';
 		if(
