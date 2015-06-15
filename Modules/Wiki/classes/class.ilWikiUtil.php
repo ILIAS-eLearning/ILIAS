@@ -499,6 +499,7 @@ class ilWikiUtil
 					$retVal = '<a '.$wiki_link_class.' href="'.
 						$ilCtrl->getLinkTargetByClass("ilobjwikigui", "gotoPage").$anc.
 						'">'.$text.'</a>'.$trail;
+					$ilCtrl->setParameterByClass("ilobjwikigui", "page", $_GET["page"]);
 				}
 				else
 				{
