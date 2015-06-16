@@ -1124,8 +1124,7 @@ gev#:#gev_express_login#:#Express Login
 gev#:#gev_login_express_no_login#:#Express Login <u>ohne</u> Bildungspunkte
 gev#:#gev_login_express_companyname#:#Firmenname
 gev#:#gev_login_express_vnumber#:#Vermittlernummer
-gev#:#gev_login_express_agreement#:#
-Ja, ich stimme der <a href='/Customizing/global/skin/genv/static/documents/GEV_Makler_Finale_Nutzungsbedingungen_Express_Login.pdf' target='_blank' class='blue'>Nutzungsvereinbarung</a> und der darin enthaltenen datenschutzrechtlichen Einwilligungserklärung zu, um mich für das Training zu registrieren.
+gev#:#gev_login_express_agreement#:#Ja, ich stimme der <a href='/Customizing/global/skin/genv/static/documents/GEV_Makler_Finale_Nutzungsbedingungen_Express_Login.pdf' target='_blank' class='blue'>Nutzungsvereinbarung</a> und der darin enthaltenen datenschutzrechtlichen Einwilligungserklärung zu, um mich für das Training zu registrieren.
 gev#:#gev_login_express_phone_number#:#Telefonnummer für Audioverbindung
 gev#:#gev_vc_no_free_url#:#Es konnte kein freier virtueller Klassenraum für diesen Zeitraum gefunden werden.
 gev#:#gev_vc_no_url_saved_because_no_startenddate_set#:#Es konnte kein virtueller Klassenraum hinzugefügt werden, da kein Zeitraum definiert wurde.
