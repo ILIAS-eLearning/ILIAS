@@ -166,7 +166,8 @@ class assTextQuestionImport extends assQuestionImport
 		
 		require_once './Modules/TestQuestionPool/classes/class.assAnswerMultipleResponseImage.php';
 		$no_keywords_found=true;
-		$termscoring = unserialize( base64_decode( $item->getMetadataEntry('termscoring')) );
+		
+		$termscoring = $this->fetchTermScoring($item);
 		$termscoring = ( is_array($termscoring) ? $termscoring : array() );
 		for ($i = 0; $i < count($termscoring); $i++ )
 		{
@@ -177,7 +178,7 @@ class assTextQuestionImport extends assQuestionImport
 		{
 			$this->object->setKeywordRelation($item->getMetadataEntry('termrelation'));
 		}
-		$this->object->setKeywordRelation($item->getMetadataEntry('termrelation'));
+		
 		$keywords = $item->getMetadataEntry("keywords");
 		if (strlen($keywords))
 		{
@@ -185,7 +186,7 @@ class assTextQuestionImport extends assQuestionImport
 			$answers = explode(' ', $keywords);
 			foreach ($answers as $answer)
 			{
-				$this->object->addAnswer($answer, $maxpoints/count($answers));	
+				$this->object->addAnswer($answer, 0);	
 			}
 			$this->object->setKeywordRelation('one');
 			$no_keywords_found=false;
@@ -193,7 +194,6 @@ class assTextQuestionImport extends assQuestionImport
 		if($no_keywords_found)
 		{
 			$this->object->setKeywordRelation('non');
-			$this->object->addAnswer('', $maxpoints);
 		}
 		
 		$this->object->saveToDb();
@@ -255,6 +255,33 @@ class assTextQuestionImport extends assQuestionImport
 		{
 			$import_mapping[$item->getIdent()] = array("pool" => $this->object->getId(), "test" => 0);
 		}
+	}
+	
+	protected function fetchTermScoring($item)
+	{
+		$termScoringString = $item->getMetadataEntry('termscoring');
+		
+		if( !strlen($termScoringString) )
+		{
+			return array();
+		}
+
+		$termScoring = unserialize($termScoringString);
+
+		if( is_array($termScoring) )
+		{
+			return $termScoring;
+		}
+
+		$termScoringString = base64_decode($termScoringString);
+		$termScoring = unserialize($termScoringString);
+
+		if( is_array($termScoring) )
+		{
+			return $termScoring;
+		}
+		
+		return array();		
 	}
 }
 
