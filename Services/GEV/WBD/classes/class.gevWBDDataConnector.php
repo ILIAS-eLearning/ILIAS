@@ -661,7 +661,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 	 *
 	 * @param string $a_user_id
 	 */
-	public function raiseEvenUserChanged($a_user_id) {
+	public function raiseEventUserChanged($a_user_id) {
 		global $ilAppEventHandler;
 
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
@@ -1471,7 +1471,7 @@ print $sql;
 									).""
 			//." AND action='new_user'"
 			.")";
-die($sql);
+
 		$res = $this->ilDB->query($sql);
 		$ret = array();
 		while($row = $this->ilDB->fetchAssoc($res)) {
