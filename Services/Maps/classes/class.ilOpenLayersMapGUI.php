@@ -40,9 +40,7 @@ class ilOpenLayersMapGUI extends ilMapGUI
 	function __construct()
 	{
 		parent::__construct();
-		require_once("Services/Maps/classes/class.ilMapUtil.php");
-		$this->setTileServer(ilMapUtil::getStdTileServer());
-		$this->setGeolocationServer(ilMapUtil::getStdGeolocation());
+
 	}
 	
 	/**
