@@ -2248,6 +2248,8 @@ return;
 			$btpl->setVariable("TXT_WIKI_BUTTON2", $lng->txt("obj_wiki"));
 			$btpl->setVariable("WIKI_BUTTON2_URL", $ilCtrl->getLinkTargetByClass("ilwikipagegui", ""));
 			$btpl->parseCurrentBlock();
+			ilTooltipGUI::addTooltip("il_edm_wlinkd", $lng->txt("cont_wiki_link_dialog"),
+				"iltinymenu_bd");
 
 			$btpl->setCurrentBlock("bb_wikilink_button");
 			$btpl->setVariable("TXT_WLN2", $lng->txt("obj_wiki"));
