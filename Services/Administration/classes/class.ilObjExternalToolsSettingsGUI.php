@@ -496,6 +496,8 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		$loc_prop->setLongitude($std_longitude);
 		$loc_prop->setZoom($std_zoom);
 		$form->addItem($loc_prop);
+		// map data server property
+		/*
 		
 		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
 		{
