@@ -4,8 +4,9 @@
 // Needs libraries OpenLayers and jQuery.
 // addressInvalid is a string that will be displayed, when a searched address wasn't found
 // mapData is a dictionary containing the maps to be displayed as arrays with entrys
-//      [central_latitude, central_longitude, zoom_level, display_central_marker, allow_zoom_and_pan, allow_replace_central_marker]
-
+//      [central_latitude, central_longitude, zoom_level, display_central_marker, 
+//			allow_zoom_and_pan, allow_replace_central_marker, tile_server, geolocation_server]
+//
 var _ilOpenLayers = function(OpenLayers, jQuery, addressInvalid, mapData, userMarkers) {
 	// Maps
 	this.maps = [];

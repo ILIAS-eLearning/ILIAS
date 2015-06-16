@@ -34,14 +34,38 @@ require_once("Services/Maps/classes/class.ilMapGUI.php");
 
 class ilOpenLayersMapGUI extends ilMapGUI
 {
+	protected $tile_server;
+	protected $geolocation_server;
+
 	function __construct()
 	{
 		parent::__construct();
+		require_once("Services/Maps/classes/class.ilMapUtil.php");
+		$this->setTileServer(ilMapUtil::getStdTileServer());
+		$this->setGeolocationServer(ilMapUtil::getStdGeolocation());
 	}
 	
 	/**
 	 * Get HTML
 	 */
+	function getTileServer() {
+		return  $this->tile_server;
+	}
+
+	function setTileServer($a_tile) {
+		$this->tile_server = $a_tile;
+		return $this;
+	}
+
+	function getGeolocationServer() {
+		return $this->geolocation_server;
+	}
+
+	function setGeolocationServer($a_geolocation) {
+		$this->geolocation_server = $a_geolocation;
+		return $this;
+	}
+
 	function getHtml()
 	{
 		global $tpl, $lng, $https;
@@ -131,8 +155,8 @@ class ilOpenLayersMapGUI extends ilMapGUI
 			? "true"
 			: "false";
 		$this->tpl->setVariable("REPLACE_MARKER", $replace_marker);
-		$this->tpl->setVariable("TILES", "tile.opencyclemap.org/cycle");
-		$this->tpl->setVariable("GEOLOCATION", "open.mapquestapi.com");
+		$this->tpl->setVariable("TILES", $this->getTileServer());
+		$this->tpl->setVariable("GEOLOCATION", $this->getGeolocationServer());
 		$this->tpl->setVariable("INVALID_ADDRESS_STRING", $lng->txt("invalid_address"));
 
 		return $this->tpl->get();

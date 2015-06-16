@@ -104,7 +104,7 @@ class ilMapUtil
 	{
 		return self::settings()->get("std_zoom");
 	}
-
+	
 	static function setStdTileServer($a_tile) 
 	{
 		self::settings()->set("std_tile", $a_tile);
@@ -146,7 +146,6 @@ class ilMapUtil
 		} else {
 			return self::DEFAULT_GEOLOCATION;
 		}
-
 	}
 
 	static function setStdUseCustomMapServer($a_bool) 
