@@ -162,6 +162,29 @@ class gevOrgUnitUtils {
 		
 		return gevOrgUnitUtils::getInstance($above_obj_id);
 	}
+
+	public function getOrgUnitsOneTreeLevelBelow() {
+		global $ilDB;
+
+		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+		$ref_id = gevObjectUtils::getRefId($this->orgu_id);
+
+		$sql = "SELECT DISTINCT oref.ref_id, oref.obj_id"
+			  ." FROM object_reference oref"
+			  ." JOIN object_data od ON od.obj_id = oref.obj_id"
+			  ." JOIN tree tr ON tr.parent = ".$ref_id
+			  ." WHERE od.type = 'orgu' AND oref.ref_id = tr.child AND oref.deleted IS NULL";
+
+		$res = $ilDB->query($sql);
+		$first_child_org = array();
+		while ($rec = $ilDB->fetchAssoc($res)) {
+			$first_child_org[] = array( "ref_id" => $rec["ref_id"]
+										 , "obj_id" => $rec["obj_id"]
+										 );
+		}
+
+		return $first_child_org;
+	}
 	
 	public function getOrgUnitInstance() {
 		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnit.php");
@@ -476,6 +499,34 @@ class gevOrgUnitUtils {
 			."  JOIN object_data od ON od.obj_id = fa.rol_id"
 			." WHERE ua.rol_id = fa.rol_id"
 			."   AND od.title LIKE 'il_orgu_employee_%'"
+			);
+		$ret = array();
+		while ($rec = $ilDB->fetchAssoc($res)) {
+			$ret[] = $rec["usr_id"];
+		}
+		return $ret;
+	}
+
+	static public function getSuperiorsIn($a_ref_ids) {
+		global $ilDB;
+		
+		$sql = "SELECT ua.usr_id"
+			."  FROM rbac_ua ua"
+			."  JOIN tree tr ON ".$ilDB->in("tr.parent", $a_ref_ids, false, "integer")
+			."  JOIN rbac_fa fa ON fa.parent = tr.child"
+			."  JOIN object_data od ON od.obj_id = fa.rol_id"
+			." WHERE ua.rol_id = fa.rol_id"
+			."   AND od.title LIKE 'il_orgu_superior_%'";
+			echo $sql;
+
+		$res = $ilDB->query(
+			 "SELECT ua.usr_id"
+			."  FROM rbac_ua ua"
+			."  JOIN tree tr ON ".$ilDB->in("tr.parent", $a_ref_ids, false, "integer")
+			."  JOIN rbac_fa fa ON fa.parent = tr.child"
+			."  JOIN object_data od ON od.obj_id = fa.rol_id"
+			." WHERE ua.rol_id = fa.rol_id"
+			."   AND od.title LIKE 'il_orgu_superior_%'"
 			);
 		$ret = array();
 		while ($rec = $ilDB->fetchAssoc($res)) {

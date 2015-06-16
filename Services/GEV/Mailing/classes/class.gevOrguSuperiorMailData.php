@@ -42,7 +42,7 @@ class gevOrguSuperiorMailData extends ilMailData {
 			}
 
 			$start_date = new DateTime($this->end_date_str);
-			$start_date->sub(date_interval_create_from_date_string('1 Week'));
+			$start_date->sub(date_interval_create_from_date_string('2 Month'));
 			$this->start_timestamp = $start_date->getTimestamp();
 		}
 
@@ -60,6 +60,7 @@ class gevOrguSuperiorMailData extends ilMailData {
 	function createEndTimestamp() {
 		$timestamp_today = time();
 		$this->end_date_str = date("Y-m-d", $timestamp_today);
+		$this->end_date_str = "16.06.2015";
 		$end_date = new DateTime($this->end_date_str." 23:59:59");
 
 		if(date("l",$timestamp_today) == "Monday") {
@@ -153,7 +154,7 @@ class gevOrguSuperiorMailData extends ilMailData {
 		$ret .= $this->getSmallInfoEachUser($user_data["kostenfrei storniert"],"Keine kostenfreie Stornierungen gefunden.");
 
 		$ret .= "\n\n<h3>kostenpflichtige Stornierungen:</h3>\n\n";
-		$ret .= $this->getSmallInfoEachUser($user_data["kostenfrei storniert"],"Keine kostenpflichtige Stornierungen gefunden.");
+		$ret .= $this->getSmallInfoEachUser($user_data["kostenpflichtig storniert"],"Keine kostenpflichtige Stornierungen gefunden.");
 		
 		$ret .= "\n\n<h3>erfolgreiche Teilnahmen:</h3>\n\n";
 		$ret .= $this->getSmallInfoEachUser($user_data["teilgenommen"],"Keine erfolgreiche Teilnahmen gefunden.");
