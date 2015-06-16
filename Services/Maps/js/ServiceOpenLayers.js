@@ -22,8 +22,6 @@ var _ilOpenLayers = function(OpenLayers, jQuery, addressInvalid, mapData, userMa
 	// Thats the Projection used by OSM
 	this.osmProjection = new OpenLayers.Projection("EPSG:900913");
 
-	// URL for geolocation lookup
-	this.geolocationURL = window.location.protocol + "//open.mapquestapi.com/nominatim/v1/search.php?format=json&q=";
 
 	// this gets displayed in the address search field
 	// if the address could not be found
@@ -253,7 +251,7 @@ var _ilOpenLayers = function(OpenLayers, jQuery, addressInvalid, mapData, userMa
 	// will be set to that place.
 	// If a central marker is used it can be replaced by a single click on
 	// the map if replace_marker is set to true.
-	this.initMap = function (id, latitude, longitude, zoom, central_marker, nav_control, replace_marker)
+	this.initMap = function (id, latitude, longitude, zoom, central_marker, nav_control, replace_marker, server_url)
 	{
 		var mapControls = null;
 
@@ -268,8 +266,18 @@ var _ilOpenLayers = function(OpenLayers, jQuery, addressInvalid, mapData, userMa
 			controls : mapControls
 		});
 
-		// layer for the actual map
-		var mapLayer = new OpenLayers.Layer.OSM("OpenStreetMap");
+		/*// layer for the actual map
+		var mapLayer = new OpenLayers.Layer.OSM("OpenStreetMap",
+  ["http://a.tile.opencyclemap.org/cycle/${z}/${x}/${y}.png",
+   "http://b.tile.opencyclemap.org/cycle/${z}/${x}/${y}.png",
+   "http://c.tile.opencyclemap.org/cycle/${z}/${x}/${y}.png"]);
+		*/
+		var mapLayer = new OpenLayers.Layer.OSM("OpenStreetMap",
+			["http://a."+server_url+"/${z}/${x}/${y}.png",
+			"http://b."+server_url+"/${z}/${x}/${y}.png",
+			"http://c."+server_url+"/${z}/${x}/${y}.png"]);
+
+
 
 		// central position of the map
 		var mapPos = this.OSMPosFromLonLat(longitude, latitude);
@@ -380,10 +388,17 @@ var _ilOpenLayers = function(OpenLayers, jQuery, addressInvalid, mapData, userMa
 		}
 	};
 
+
+	// URL for geolocation lookup
+	
+
+
 	for (var id in mapData) {
 		var map = mapData[id];
 
-		this.initMap(id, map[0], map[1], map[2], map[3], map[4], map[5]);
+		this.geolocationURL = window.location.protocol + "//"+ map[7] +"/nominatim/v1/search.php?format=json&q=";
+
+		this.initMap(id, map[0], map[1], map[2], map[3], map[4], map[5], map[6]);
 
 		var mapUserMarkers = userMarkers[id];
 

@@ -490,7 +490,12 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		$loc_prop->setLongitude($std_longitude);
 		$loc_prop->setZoom($std_zoom);
 		$form->addItem($loc_prop);
+		// map data server property
+		/*
 		
+
+		*/
+
 		$form->addCommandButton("saveMaps", $lng->txt("save"));
 		$form->addCommandButton("view", $lng->txt("cancel"));
 		

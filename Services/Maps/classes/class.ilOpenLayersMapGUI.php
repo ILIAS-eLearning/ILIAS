@@ -117,6 +117,8 @@ class ilOpenLayersMapGUI extends ilMapGUI
 		$this->tpl->setVariable("LAT", $this->getLatitude());
 		$this->tpl->setVariable("LONG", $this->getLongitude());
 		$this->tpl->setVariable("ZOOM", (int) $this->getZoom());
+
+
 		$nav_control = $this->getEnableNavigationControl()
 			? "true"
 			: "false";
@@ -129,6 +131,8 @@ class ilOpenLayersMapGUI extends ilMapGUI
 			? "true"
 			: "false";
 		$this->tpl->setVariable("REPLACE_MARKER", $replace_marker);
+		$this->tpl->setVariable("TILES", "tile.opencyclemap.org/cycle");
+		$this->tpl->setVariable("GEOLOCATION", "open.mapquestapi.com");
 		$this->tpl->setVariable("INVALID_ADDRESS_STRING", $lng->txt("invalid_address"));
 
 		return $this->tpl->get();
