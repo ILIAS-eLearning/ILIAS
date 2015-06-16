@@ -535,11 +535,6 @@ assessment#:#eval_search_term#:#Zoek term
 assessment#:#eval_search_users#:#Gebruikers
 assessment#:#eval_search_userselection#:#Zoek de gebruikers die je wilt toevoegen aan de evaluatie
 assessment#:#eval_selected_users#:#Evaluatie voor de geselecteerde gebruikers
-assessment#:#examid_in_test_pass#:#Tonen Examennummer
-assessment#:#examid_in_test_pass_desc#:#Laat het examennumer zien
-assessment#:#examid_in_test_res#:#Tonen Examennummer
-assessment#:#examid_in_test_res_desc#:#Tonen Examennummer
-assessment#:#exam_id#:#Examennummer:
 assessment#:#export#:#Exporteren
 assessment#:#exp_eval_data#:#Evaluatiegegevens exporteren als
 assessment#:#exp_type_certificate#:#Certificaat (PDF)
@@ -817,8 +812,6 @@ assessment#:#rectangle#:#Rechthoek
 assessment#:#rectangle_click_br_corner#:#Klik op de hoek rechtsonder van het gewenste gebied.
 assessment#:#rectangle_click_tl_corner#:#Klik op de hoek linksboven van het gewenste gebied.
 assessment#:#redirectAfterSave#:#De maximale werktijd is bereikt en de laatste vraag is automatisch opgeslagen. In enkele seconden wordt je doorgeleid...
-assessment#:#redirect_after_finishing_tst#:#Verwijzing na voltooien van toets
-assessment#:#redirect_after_finishing_tst_desc#:#De deelnemer wordt, na voltooing van de toets, automatisch naar een bepaalde website geleid. Dat gebeurt alleen als de toets zodanig is geconfigureerd dat de deelnemer na het voltoooien van de toets het resultaat niet kan inzien.
 assessment#:#region#:#Regio
 assessment#:#remove_as_participant#:#Verwijder als vaste deelnemer
 assessment#:#remove_question#:#Verwijder
@@ -10633,7 +10626,6 @@ rbac#:#rbac_log_change_owner#:#Verander eigenaar van object
 rbac#:#rbac_log_copy_object#:#Kopieer object
 rbac#:#rbac_log_create_object#:#Creëer Object
 rbac#:#rbac_log_edit_permissions#:#Permissies wijzigen
-rbac#:#rbac_log_edit_sjabloon_existing#:#Gebruik rol-sjabloon voor alle bestaande objecten
 rbac#:#rbac_log_edit_template#:#Rol sjabloon wijzigen
 rbac#:#rbac_log_edit_template_existing#:#Gebruik rol-sjabloon voor alle bestaande objecten
 rbac#:#rbac_log_inheritance_add#:#Vererving gestopt voor"%s"
@@ -11383,17 +11375,10 @@ skmg#:#skmg_insert_basic_skill_template#:#Insert Competence Template
 skmg#:#skmg_insert_basic_skill_template_child#:#Insert Competence Template as Subitem
 skmg#:#skmg_insert_on_same_level#:#Insert on Same Level
 skmg#:#skmg_insert_please_choose_one_type_only#:#Kies slechts één itemtype
-skmg#:#skmg_insert_sjabloon_category_from_clip#:#Invoeren Sjablooncategorie van klembord
 skmg#:#skmg_insert_skill_category#:#Invoeren competentiecategorie
 skmg#:#skmg_insert_skill_category_child#:#Invoeren competentiecategorie vanaf klembord
 skmg#:#skmg_insert_skill_category_from_clip#:#Invoeren competentiecategorie vanaf klembord
 skmg#:#skmg_insert_skill_category_from_clip_child#:#Invoeren competentiecategorieën van klemboard als subitems
-skmg#:#skmg_insert_skill_sjabloon_category#:#Invoeren competentiesjabloon categorie
-skmg#:#skmg_insert_skill_sjabloon_category_child#:#Invoeren competentiesjabloon categorie als Subitem
-skmg#:#skmg_insert_skill_sjabloon_from_clip#:#Invoeren competentiesjabloon van klembord
-skmg#:#skmg_insert_skill_sjabloon_reference#:#Invoeren competentiesjabloon referentie
-skmg#:#skmg_insert_skill_sjabloon_reference_child#:#Invoeren competentiesjabloon referentie as subitem
-skmg#:#skmg_insert_skill_sjabloon_reference_from_clip#:#Invoeren competentiesjabloon referentie van klemboard
 skmg#:#skmg_insert_skill_template_category#:#Invoeren competentiesjabloon categorie
 skmg#:#skmg_insert_skill_template_category_child#:#Invoeren competentiesjabloon categorie als Subitem
 skmg#:#skmg_insert_skill_template_from_clip#:#Invoeren competentiesjabloon van klembord
@@ -11409,7 +11394,6 @@ skmg#:#skmg_materials#:#Materialen
 skmg#:#skmg_new_level#:#Nieuw niveau
 skmg#:#skmg_new_skill#:#Nieuwe competentie
 skmg#:#skmg_new_skill_category#:#Nieuwe competentiecategorie
-skmg#:#skmg_new_skill_sjabloon_category#:#Nieuwe competentiesjabloon Categorie
 skmg#:#skmg_new_skill_template#:#Nieuwe competentiesjabloon
 skmg#:#skmg_new_skill_template_category#:#Nieuwe competentiesjabloon Categorie
 skmg#:#skmg_new_sktr#:#Nieuwe competentiesjabloon Referentie
@@ -11508,7 +11492,6 @@ style#:#sty_confirm_char_deletion#:#Are you sure that you want to delete the fol
 style#:#sty_confirm_color_deletion#:#Confirm Color Deletion
 style#:#sty_confirm_del_ind_styles#:#Bevestig verwijdering van individuele inhoudstijlen
 style#:#sty_confirm_del_ind_styles_desc#:#Alle leermodules met individuele stijlen worden toegewezen aan de stijl'%s'. Dit zal ook de individuele inhoudstylen verwijderen. Ben je zeker dat je verder wilt gaan
-style#:#sty_confirm_sjabloon_deletion#:#Bevestig sjabloon Verwijdering
 style#:#sty_confirm_template_deletion#:#Confirm Template Deletion
 style#:#sty_copied_please_select_target#:#The style classes have been copied. Please open the target style and click "Paste Style Classes".
 style#:#sty_copy_other_stylesheet#:#Kopieer stijl van lokale bron
@@ -11538,7 +11521,6 @@ style#:#sty_font_weight#:#Lettergewicht
 style#:#sty_from#:#From
 style#:#sty_generate_template#:#Generate sjabloon
 style#:#sty_glo_char#:#Woordenlijst
-style#:#sty_haccordion_sjabloons#:#Hor. Accordion sjabloons
 style#:#sty_haccordion_templates#:#Hor. Accordion sjablonen
 style#:#sty_ha_cntr_class#:#Hor. Accordion Container
 style#:#sty_ha_icntr_class#:#Hor. Accordion Item Container
@@ -13054,3 +13036,4 @@ assessment#:#thumb_size_unit_pixel#:#Pixel
 assessment#:#user_has_finished_a_test#:#Een deelnemer heeft de toets voltooid.
 assessment#:#tst_attached_xls_file#:#Je vindt de toetsresultaten voor deze deelnemer in het bijgevoegde Excel bestand.
 assessment#:#tst_notification_explanation_admin#:#Je ontvangt deze e-mail van ILIAS omdat je berichtgeving hebt ingeschakeld.
+content#:#cont_LocalFile#:#Local File###16 06 2015 new variable
