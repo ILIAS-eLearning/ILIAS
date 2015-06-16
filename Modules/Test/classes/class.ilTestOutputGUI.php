@@ -1219,6 +1219,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 			$res = $this->saveQuestionSolution(TRUE);
 			if ($res)
 			{
+				$this->object->getTestSession()->saveToDb();
 				$result = $this->lng->txt("autosave_success");
 			}
 			else
