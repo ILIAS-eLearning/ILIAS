@@ -77,7 +77,8 @@ class ilStudyProgrammeIndividualPlanTreeExplorerGUI extends ilExplorerBaseGUI {
 	 */
 	public function getNodeContent($a_node) {
 		$obj_id = ilObject::_lookupObjectId($a_node);
-		if (ilObject::_lookupType($obj_id) == "prg") {
+		$obj_type = ilObject::_lookupType($obj_id);
+		if ($obj_type == "prg") {
 			$progress = ilStudyProgrammeUserProgress::getInstanceForAssignment($obj_id, $this->assignment->getId());
 			
 			$tpl = new ilTemplate("tpl.individual_plan_tree_entry.html", true, true, "Modules/StudyProgramme");
@@ -93,6 +94,10 @@ class ilStudyProgrammeIndividualPlanTreeExplorerGUI extends ilExplorerBaseGUI {
 				$tpl->parseCurrentBlock();	
 			}
 			return $tpl->get();
+		}
+		else if ($obj_type == "crsr" || $obj_type == "catr") {
+			require_once("Services/ContainerReference/classes/class.ilContainerReference.php");
+			return ilContainerReference::_lookupTargetTitle($obj_id);
 		}
 		else {
 			return ilObject::_lookupTitle($obj_id);
