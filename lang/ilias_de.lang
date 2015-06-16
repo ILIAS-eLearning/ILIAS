@@ -5787,7 +5787,7 @@ content#:#cont_link_int#:#Link (intern)
 content#:#cont_link_select#:#Interner Link
 content#:#cont_link_to_external#:#Link zu einer externen Webseite
 content#:#cont_link_to_internal#:#Link innerhalb von ILIAS
-content#:#cont_link_to_wiki#:#Link zu einer Wikiseite
+content#:#cont_link_to_wiki#:#Link zu einer Wikiseite (Klammern einfügen)
 content#:#cont_link_type#:#Linktyp
 content#:#cont_link_whole_picture#:#Komplettes Bild verlinken
 content#:#cont_linked_mobs#:#Verlinkte Medienobjekte
@@ -15240,3 +15240,5 @@ meta#:#md_adv_confirm_definition_select_option_all_action#:#Neuer Wert
 file#:#file_import#:#Dateiimport
 cron#:#cron_result_status_fail#:#Fehler
 wiki#:#wiki_unhide_meta_adv_records#:#Zusätzliche Eigenschaften anzeigen
+content#:#cont_wiki_link_dialog#:#Link zu einer Wikiseite (Dialog)
+link#:#link_link#:#Link

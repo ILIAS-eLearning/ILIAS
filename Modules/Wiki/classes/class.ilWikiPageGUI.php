@@ -1034,6 +1034,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		// Target page
 		$tp = new ilTextInputGUI($this->lng->txt("wiki_target_page"), "target_page");
 		$tp->setSize(18);
+		$tp->setRequired(true);
 		$tp->setInfo("...");
 		$tp->setDataSource($ilCtrl->getLinkTarget($this, "insertWikiLinkAC", "", true));
 		$form->addItem($tp);
@@ -1043,7 +1044,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		$lt->setSize(18);
 		$form->addItem($lt);
 
-		$form->setTitle($lng->txt("wiki_link"));
+		//$form->setTitle($lng->txt("wiki_link"));
 
 		echo $form->getHTML();
 		exit;

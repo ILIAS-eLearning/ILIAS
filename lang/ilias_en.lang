@@ -11019,7 +11019,7 @@ notes#:#notes_private_annotating#:#Private Annotation
 tagging#:#tagging_set_tag#:#Set Tags
 content#:#cont_link_to_internal#:#Link to ILIAS Resource
 content#:#cont_link_to_external#:#Link to External Website
-content#:#cont_link_to_wiki#:#Link to Wiki Page
+content#:#cont_link_to_wiki#:#Link to Wiki Page (Insert Brackets)
 content#:#cont_standard#:#Standard
 content#:#cont_char_style_com#:#Comment
 content#:#cont_char_style_quot#:#Quotation
@@ -15241,3 +15241,5 @@ meta#:#md_adv_confirm_definition_select_option_all_action#:#New Value
 file#:#file_import#:#Import File
 cron#:#cron_result_status_fail#:#Failed
 wiki#:#wiki_unhide_meta_adv_records#:#Show additional properties
+content#:#cont_wiki_link_dialog#:#Link to Wiki Page (Dialog)
+link#:#link_link#:#Link
