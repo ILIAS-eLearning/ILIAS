@@ -247,10 +247,12 @@ class ilObjStudyProgramme extends ilContainer {
 	 */
 	public function adjustLPMode() {
 		if ($this->getAmountOfLPChildren() > 0) {
-			$this->settings->setLPMode(ilStudyProgramme::MODE_LP_COMPLETED);
+			$this->settings->setLPMode(ilStudyProgramme::MODE_LP_COMPLETED)
+						   ->update();
 		}
 		else {
-			$this->settings->setLPMode(ilStudyProgramme::MODE_POINTS);
+			$this->settings->setLPMode(ilStudyProgramme::MODE_POINTS)
+						   ->update();
 		}
 	}
 	
