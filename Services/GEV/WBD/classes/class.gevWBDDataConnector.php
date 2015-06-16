@@ -230,32 +230,33 @@ class gevWBDDataConnector extends wbdDataConnector {
 
 		$street_and_nr = $this->_extract_house_nr( $record['street']);
 		$udata = array(
-				'internal_agent_id' 	=> $record['user_id']
-				,'title' 		=> $this->VALUE_MAPPINGS['salutation'][$record['gender']]
-				,'first_name' 		=> $record['firstname']
-				,'last_name' 		=> $record['lastname']
+				'internal_agent_id' 		=> $record['user_id']
+				,'title' 					=> $this->VALUE_MAPPINGS['salutation'][$record['gender']]
+				,'first_name' 				=> $record['firstname']
+				,'last_name' 				=> $record['lastname']
 				
-				,'birthday' 		=> $record['birthday']
+				,'birthday' 				=> $record['birthday']
 
-				,'street'		=> $street_and_nr['street']
-				,'house_number'		=> $street_and_nr['nr']
-				,'zipcode'		=> $record['zipcode']
-				,'city'			=> $record['city']
-				,'phone_nr'		=> ($record['phone_nr'] == '-empty-') ? '' : $record['phone_nr']
-				,'mobile_phone_nr'	=> $record['mobile_phone_nr']
+				,'street'					=> $street_and_nr['street']
+				,'house_number'				=> $street_and_nr['nr']
+				,'zipcode'					=> $record['zipcode']
+				,'city'						=> $record['city']
+				,'phone_nr'					=> ($record['phone_nr'] == '-empty-') ? '' : $record['phone_nr']
+				,'mobile_phone_nr'			=> $record['mobile_phone_nr']
 				
-				,'auth_email' 		=> ($record['email'] == '-empty-') ? '' : $record['email']
-				,'email'		=> ($record['wbd_email'] && $record['wbd_email'] != '-empty-') ? $record['wbd_email'] : $record['email']
-				,'auth_phone_nr' 	=> $record['mobile_phone_nr']
+				,'auth_email' 				=> ($record['email'] == '-empty-') ? '' : $record['email']
+				,'email'					=> ($record['wbd_email'] && $record['wbd_email'] != '-empty-') ? $record['wbd_email'] : $record['email']
+				,'auth_phone_nr' 			=> $record['mobile_phone_nr']
 
-				,'agent_registration_nr' => '' // optional
-				,'agent_id'		 => ($record['bwv_id'] == '-empty-') ? '' : $record['bwv_id']
+				,'agent_registration_nr' 	=> '' // optional
+				,'agent_id'					=> ($record['bwv_id'] == '-empty-') ? '' : $record['bwv_id']
 				
-				,'agency_work' 		=> $record['okz'] 			//OKZ
-				,'agent_state' 		=> ($this->VALUE_MAPPINGS['agent_status'][$record['wbd_agent_status']])	//Status
+				,'agency_work' 				=> $record['okz'] //OKZ
+				,'agent_state' 				=> ($this->VALUE_MAPPINGS['agent_status'][$record['wbd_agent_status']])	//Status
 				//,'email_confirmation' => 'Nein'			//Benachrichtigung?
-				,"row_id" 		=> $record["row_id"]
-				,'wbd_type' 		=> $record['wbd_type'] //debug
+				,"row_id" 					=> $record["row_id"]
+				,'wbd_type' 				=> $record['wbd_type'] //debug
+				,'begin_of_certification'	=> $record['begin_of_certification']
 			);
 
 	
@@ -307,6 +308,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 			*/
 			,"row_id" 				=> $record["row_id"]
 			,"training_score_booking_id"	=> $record["wbd_booking_id"]
+			,"begin_of_certification" => $record["begin_of_certification"]
 		);
 		return $edudata;
 	}
@@ -395,24 +397,25 @@ class gevWBDDataConnector extends wbdDataConnector {
 	*@param 	integer 	$a_row_id to determin the user_id
 	*/
 	private function setWbdExitUserData($a_row_id) {
-		$sql = "SELECT distinct user_id FROM hist_user WHERE row_id = ".$this->ilDB->quote($a_row_id, "integer")."";
+		$sql = "SELECT user_id FROM hist_user WHERE row_id = ".$this->ilDB->quote($a_row_id, "integer")."";
 
 		$res = $this->ilDB->query($sql);
 
-		if($this->ilDB->numRows($res) > 0) {
-			$usr_id = $this->ilDB->fetchAssoc($res)["user_id"];
+		assert($this->ilDB->numRows($res) == 1);
+
+		if($this->ilDB->numRows($res) == 1) {
+			$row = $this->ilDB->fetchAssoc($res);
+			$usr_id = $row["user_id"];
 			
 			require_once("Services/GEV/Utils/classes/class.gevUDFUtils.php");
 			$udf_utils = gevUDFUtils::getInstance();
 
-			$wbd_exit_date = date("d.m.Y",time());
+			$wbd_exit_date = date("Y-m-d");
 			$udf_utils->setField($usr_id,gevSettings::USR_WBD_EXIT_DATE, $wbd_exit_date);
 			$udf_utils->setField($usr_id,gevSettings::USR_TP_TYPE, "1 - Bildungsdienstleister");
-			
-			$date = new ilDate($wbd_exit_date, IL_CAL_DATE);
 
 			//UPDATE hist_user ROW
-			$sql = "UPDATE hist_user SET last_wbd_report = NOW() , exit_date_wbd = ".$this->ilDB->quote($date, "text")." WHERE row_id = ".$this->ilDB->quote($a_row_id, "integer")."";
+			$sql = "UPDATE hist_user SET last_wbd_report = NOW() , exit_date_wbd = ".$this->ilDB->quote($wbd_exit_date, "text")." WHERE row_id = ".$this->ilDB->quote($a_row_id, "integer")."";
 
 			$result = $this->ilDB->query($sql);
 		}
@@ -609,11 +612,10 @@ class gevWBDDataConnector extends wbdDataConnector {
 	 *
 	 * @param string $user_id
 	 * @param string $bwv_id
-	 * @param date $certification_begin
 	 * @return boolean
 	 */
 
-	public function set_bwv_id($user_id, $bwv_id, $certification_begin) {
+	public function set_bwv_id($user_id, $bwv_id) {
 		global $SET_BWVID;
 		if(! $SET_BWVID){
 			return true;
@@ -621,27 +623,51 @@ class gevWBDDataConnector extends wbdDataConnector {
 
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 		global $ilAppEventHandler;
-		$uutils = gevUserUtils::getInstanceByObjOrId($user_id);
+		$uutils = gevUserUtils::getInstance($user_id);
 		$uutils->setWBDBWVId($bwv_id);
-		//$uutils->setWBDFirstCertificationPeriodBegin($certification_begin);
-		//ensure a history-case for setting of bwv-id
-		$ilAppEventHandler->raise("Services/User", "afterUpdate", array("user_obj" => $uutils->getUser()));
 
 		//write last_wbd_report....
-		$sql = "
+		/*$sql = "
 			SELECT row_id FROM hist_user 
 			WHERE user_id = $user_id
 			AND hist_historic = 0
 		";
 		$result = $this->ilDB->query($sql);
 		$record = $this->ilDB->fetchAssoc($result);
-		$this->_set_last_wbd_report('hist_user', $record['row_id']);
+		$this->_set_last_wbd_report('hist_user', $record['row_id']);*/
 		return true;
 	}
 
 
+	/**
+	* set begin-of-certification for user
+	*
+	* @param string $a_user_id
+	* @param date $a_certification_begin
+	*/
+	public function setBeginOfCertification($a_user_id, $a_certification_begin) {
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		require_once("Services/Calendar/classes/class.ilDate.php");
+		$uutils = gevUserUtils::getInstance($a_user_id);
+		$str = explode("T",$a_certification_begin);
+		$begin_of_certification = new ilDate($str[0],IL_CAL_DATE);
+		$uutils->setWBDFirstCertificationPeriodBegin($begin_of_certification);
 
+		return;
+	}
 
+	/**
+	 * raises the event user has changed
+	 *
+	 * @param string $a_user_id
+	 */
+	public function raiseEvenUserChanged($a_user_id) {
+		global $ilAppEventHandler;
+
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		$uutils = gevUserUtils::getInstance($a_user_id);
+		$ilAppEventHandler->raise("Services/User", "afterUpdate", array("user_obj" => $uutils->getUser()));
+	}
 
 	/**
 	 * get users that do not have a BWV-ID yet
@@ -1375,7 +1401,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 260603		
 		
 		)';
-		$sql .= ' AND FALSE'; 
+		$sql .= ' AND FALSE';
 		
 print $sql;
 
@@ -1425,12 +1451,11 @@ print $sql;
 		$sql = "SELECT * FROM hist_user"
 					." WHERE hist_historic = ".$this->ilDB->quote(0, "integer")
 					." AND NOT	bwv_id = ".$this->ilDB->quote($this->empty_bwv_id_text, "text").""
-					//." AND NOT	bwv_id = '-empty-'"
-					." AND last_wbd_report IS NULL"
 					." AND NOT exit_date = ".$this->ilDB->quote($this->empty_date_text, "text").""
+					." AND exit_date < CURDATE()"
 					." AND exit_date_wbd = ".$this->ilDB->quote($this->empty_date_text, "text")."";
 		// manage accounts for TP_Service only:
-		$sql .= " AND ".$this->ilDB->in("wbd_type", array(self::WBD_TP_SERVICE,self::WBD_TP_BASIS), false, "text")."";
+		$sql .= " AND ".$this->ilDB->in("wbd_type", array(self::WBD_TP_SERVICE), false, "text")."";
 
 		//dev-safety:
 		$sql .= ' AND user_id in (SELECT usr_id FROM usr_data)';
@@ -1446,7 +1471,7 @@ print $sql;
 									).""
 			//." AND action='new_user'"
 			.")";
-	
+die($sql);
 		$res = $this->ilDB->query($sql);
 		$ret = array();
 		while($row = $this->ilDB->fetchAssoc($res)) {
