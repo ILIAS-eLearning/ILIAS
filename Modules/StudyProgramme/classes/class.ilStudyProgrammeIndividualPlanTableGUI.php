@@ -68,7 +68,7 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI {
 		$this->tpl->setVariable("POINTS_CURRENT", $a_set["points_current"]);
 		$this->tpl->setVariable("POINTS_REQUIRED", $a_set["points_required"]);
 		$this->tpl->setVariable("MANUAL_STATUS", $this->getManualStatusSelect($a_set["progress_id"], $a_set["status"]));
-		$this->tpl->setVariable("POSSIBLE", $a_set["possible"] == 0 ? $this->not_possible_image : $this->possible_image);
+		$this->tpl->setVariable("POSSIBLE", $a_set["possible"] ? $this->possible_image : $this->not_possible_image);
 		$this->tpl->setVariable("CHANGED_BY", $a_set["changed_by"]);
 		$this->tpl->setVariable("COMPLETION_BY", $a_set["completion_by"]);
 	}
@@ -93,7 +93,7 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI {
 						   , "title" => $node->getTitle()
 						   , "points_current" => $progress->getCurrentAmountOfPoints()
 						   , "points_required" => $progress->getAmountOfPoints()
-						   , "possible" => $progress->isSuccessful() || $progress->canBeCompleted() || !$progress->isRelevant() 
+						   , "possible" => $progress->isSuccessful() || $progress->canBeCompleted() || !$progress->isRelevant()
 						   , "changed_by" => ilObjUser::_lookupLogin($progress->getLastChangeBy())
 						   , "completion_by" => $completion_by
 						   , "progress_id" => $progress->getId()
