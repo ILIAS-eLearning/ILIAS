@@ -520,7 +520,7 @@ assessment#:#internal_links_update#:#Update
 assessment#:#internal_links#:#Internal Links
 assessment#:#javaapplet#:#Java Applet
 assessment#:#keywords_hint#:#Enter a list of keywords, separated by spaces or newlines to add an automatic scoring option for the essay question. If any of the keywords will be found in the answer text of the learner, the default score will be set to the maximum available points instead of 0 points.
-assessment#:#kiosk_description#:#Exam view runs test in kiosk mode. This hides the browser bar and navigation and all other screen elements that are not part of the test. Participants are prevented from opening an other website.
+assessment#:#kiosk_description#:#Exam view runs test in kiosk mode. This hides the browser bar and navigation and all other screen elements that are not part of the test. Participants are prevented from opening an other website.<br />Effectively preventing participants from opening other websites during tests additinally requires deploying a suitable browser enviroment (e.g. Safe Exam Browser).
 assessment#:#kiosk_options_desc#:#Information is displayed at the top section of the screen.
 assessment#:#kiosk_options#:#Exam View Options
 assessment#:#kiosk_show_participant#:#Show Name of Participant
@@ -7197,6 +7197,10 @@ mail#:#search_recipients#:#Search Recipients
 mail#:#send_mail_to#:#Mail to
 maps#:#maps_enable_maps_info#:#Activates Maps in user profiles, groups and courses.
 maps#:#maps_enable_maps#:#Enable Maps
+maps#:#maps_use_custom_server#:#Use custom server
+maps#:#maps_custom_server_info#:#Activate custom servers to provide tile- and geolocation-data. Defaults are %s for tiles and %s for geolocation.
+maps#:#maps_tile_server#:#Server for Tiles
+maps#:#maps_geolocation_server#:#Server for Reverse Geolocation
 maps#:#maps_extt_maps#:#Maps
 maps#:#maps_latitude#:#Latitude
 maps#:#maps_longitude#:#Longitude
@@ -11455,7 +11459,7 @@ didactic#:#didactic_confirm_delete_msg#:#Do you really want to delete the follow
 didactic#:#didactic_delete_msg#:#Deleted didactic templates.
 common#:#fold_type#:#Folder Type
 content#:#cont_pword#:#Paste from Word
-blog#:#blog_edit#:#Blog Settings
+blog#:#blog_edit#:#Edit Blog
 blog#:#blog_banner#:#Banner
 blog#:#blog_background_color#:#Background Color
 blog#:#blog_font_color#:#Font Color
@@ -14947,7 +14951,7 @@ crs#:#crs_loc_settings_reset_enable_info#:#If activated, all users are able to r
 crs#:#crs_loc_progress_no_result_no_initial#:#Please work through the following learning materials and then take the qualifying test.
 crs#:#crs_loc_qst_resume_tst_itest#:#You have already started an initial test to another learning objective. Either you finish the started test or you stop it and start this one. But running two initial tests at the same time is not supported.
 crs#:#crs_loc_qst_resume_tst_qtest#:#You have already started a qualifying test to another learning objective. Either you finish the started test or you stop it and start this one. But running two qualifying tests at the same time is not supported.
-bibl#:#bibl_library_show_in_list#:#Show link als in the list
+bibl#:#bibl_library_show_in_list#:#Show as link in the list
 content#:#cont_ie_compatibility#:#Internet Explorer 7 compatibility mode
 content#:#cont_ie_compatibility_info#:#Especially for older learning modules it can be helpful to activate the compatibility mode. Please note that the compatibility mode can be disabled in newer versions of Internet Explorer.
 content#:#cont_ie_force_render#:#Force Internet Explorer to render again
@@ -15227,11 +15231,17 @@ dcl#:#dcl_notification_info#:#Enables the individual notification feature for us
 administration#:#adm_missing_entries#:#Missing Entries
 administration#:#adm_missing_entry_add_action#:#Add
 administration#:#adm_missing_entry_add#:#Add New Entry
-trac#:#trac_mode_survey_finished#:#Survey Finished
-trac#:#trac_mode_survey_finished_info#:#The survey has to be finished by an user to receive the status 'Completed'.
 crs#:#crs_usr_agreement#:#User Agreement
 grp#:#grp_usr_agreement#:#User Agreement
+forum#:#sel_threads_already_sticky#:#At least one of the selected threads is already sticky
+forum#:#sel_threads_already_unsticky#:#At least one of the selected threads is already unsticky
+forum#:#sel_threads_make_sticky#:#The selected threads has been marked as sticky
+forum#:#sel_threads_make_unsticky#:#The selected threads are not marked as sticky anymore
+forum#:#selected_threads_closed#:#The selected threads has been closed
+forum#:#selected_threads_reopened#:#The selected threads has been reopened
 meta#:#md_adv_confirm_definition_select_option_all#:#Handle all existing entries the same
 meta#:#md_adv_confirm_definition_select_option_single#:#Decide for each existing entry
 meta#:#md_adv_confirm_definition_select_option_all_action#:#New Value
 file#:#file_import#:#Import File
+cron#:#cron_result_status_fail#:#Failed
+wiki#:#wiki_unhide_meta_adv_records#:#Show additional properties

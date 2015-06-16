@@ -1183,7 +1183,7 @@ class ilObjUserGUI extends ilObjectGUI
 		{
 			$ext = new ilTextInputGUI($lng->txt("user_ext_account"), "ext_account");
 			$ext->setSize(40);
-			$ext->setMaxLength(50);
+			$ext->setMaxLength(250);
 			$ext->setInfo($lng->txt("user_ext_account_desc"));
 			$this->form_gui->addItem($ext);
 		}

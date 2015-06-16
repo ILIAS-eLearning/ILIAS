@@ -34,14 +34,36 @@ require_once("Services/Maps/classes/class.ilMapGUI.php");
 
 class ilOpenLayersMapGUI extends ilMapGUI
 {
+	protected $tile_server;
+	protected $geolocation_server;
+
 	function __construct()
 	{
 		parent::__construct();
+
 	}
 	
 	/**
 	 * Get HTML
 	 */
+	function getTileServer() {
+		return  $this->tile_server;
+	}
+
+	function setTileServer($a_tile) {
+		$this->tile_server = $a_tile;
+		return $this;
+	}
+
+	function getGeolocationServer() {
+		return $this->geolocation_server;
+	}
+
+	function setGeolocationServer($a_geolocation) {
+		$this->geolocation_server = $a_geolocation;
+		return $this;
+	}
+
 	function getHtml()
 	{
 		global $tpl, $lng, $https;
@@ -117,6 +139,8 @@ class ilOpenLayersMapGUI extends ilMapGUI
 		$this->tpl->setVariable("LAT", $this->getLatitude());
 		$this->tpl->setVariable("LONG", $this->getLongitude());
 		$this->tpl->setVariable("ZOOM", (int) $this->getZoom());
+
+
 		$nav_control = $this->getEnableNavigationControl()
 			? "true"
 			: "false";
@@ -129,6 +153,8 @@ class ilOpenLayersMapGUI extends ilMapGUI
 			? "true"
 			: "false";
 		$this->tpl->setVariable("REPLACE_MARKER", $replace_marker);
+		$this->tpl->setVariable("TILES", $this->getTileServer());
+		$this->tpl->setVariable("GEOLOCATION", $this->getGeolocationServer());
 		$this->tpl->setVariable("INVALID_ADDRESS_STRING", $lng->txt("invalid_address"));
 
 		return $this->tpl->get();

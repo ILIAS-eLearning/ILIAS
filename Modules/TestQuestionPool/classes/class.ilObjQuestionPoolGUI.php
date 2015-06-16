@@ -160,7 +160,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$gui->initPreviewSession($ilUser->getId(), (int)$_GET['q_id']);
 				$gui->initHintTracking();
 				$gui->initStyleSheets();
-				
+
+				global $ilHelp;
+				$ilHelp->setScreenIdComponent("qpl");
+
 				$this->ctrl->forwardCommand($gui);
 				break;
 				
@@ -180,6 +183,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$q_gui->setQuestionTabs();
 				$q_gui->outAdditionalOutput();
 				$q_gui->object->setObjId($this->object->getId());
+
+				$q_gui->setTargetGuiClass(null);
+				$q_gui->setQuestionActionCmd(null);
+				
 				$question = $q_gui->object;
 				$this->ctrl->saveParameter($this, "q_id");
 				include_once("./Modules/TestQuestionPool/classes/class.ilAssQuestionPageGUI.php");
@@ -238,7 +245,9 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$questionGUI = assQuestionGUI::_getQuestionGUI($q_type, $_GET['q_id']);
 				$questionGUI->object->setObjId($this->object->getId());
 				$questionGUI->setQuestionTabs();
-				
+				global $ilHelp;
+				$ilHelp->setScreenIdComponent("qpl");
+
 				// forward to ilAssQuestionHintsGUI
 				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintsGUI.php';
 				$gui = new ilAssQuestionHintsGUI($questionGUI);
@@ -277,7 +286,9 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$questionGUI = assQuestionGUI::_getQuestionGUI($q_type, $_GET['q_id']);
 				$questionGUI->object->setObjId($this->object->getId());
 				$questionGUI->setQuestionTabs();
-				
+				global $ilHelp;
+				$ilHelp->setScreenIdComponent("qpl");
+
 				// forward to ilAssQuestionFeedbackGUI
 				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionFeedbackEditingGUI.php';
 				$gui = new ilAssQuestionFeedbackEditingGUI($questionGUI, $ilCtrl, $ilAccess, $tpl, $ilTabs, $lng);
@@ -329,6 +340,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 					$this->object->addQuestionChangeListeners($q_gui->object);
 				}
 				$q_gui->setQuestionTabs();
+				global $ilHelp;
+				$ilHelp->setScreenIdComponent("qpl");
 				$ret = $this->ctrl->forwardCommand($q_gui);
 				break;
 		}

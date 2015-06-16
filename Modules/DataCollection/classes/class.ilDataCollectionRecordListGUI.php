@@ -153,6 +153,7 @@ class ilDataCollectionRecordListGUI {
 			$this->ctrl->setParameterByClass("ildatacollectionrecordeditgui", "record_id", NULL);
 
 			$add_new = ilLinkButton::getInstance();
+			$add_new->setPrimary(true);
 			$add_new->setCaption("dcl_add_new_record");
 			$add_new->setUrl($this->ctrl->getFormActionByClass("ildatacollectionrecordeditgui", "create"));
 			//			$add_new->addCSSClass('emphsubmit');

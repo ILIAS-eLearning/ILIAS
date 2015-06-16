@@ -43,7 +43,11 @@ class ilBibliographicDetailsGUI {
 	 * @return string
 	 */
 	public function getHTML() {
-		global $tpl, $ilTabs, $ilCtrl, $lng;
+		global $tpl, $ilTabs, $ilCtrl, $lng, $ilHelp;
+		/**
+		 * @var $ilHelp ilHelpGUI
+		 */
+		$ilHelp->setScreenIdComponent('bibl');
 
 		$form = new ilPropertyFormGUI();
 		$ilTabs->clearTargets();

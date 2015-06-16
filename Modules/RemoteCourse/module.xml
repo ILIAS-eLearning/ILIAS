@@ -10,6 +10,8 @@
 			repository="0" workspace="0" amet="1">
 			<parent id="cat">cat</parent>
 			<parent id="root">root</parent>
+			<parent id="crs">crs</parent>
+			<parent id="grp">grp</parent>
 		</object>
 	</objects>
 </module>

@@ -427,6 +427,10 @@ class ilObjTestGUI extends ilObjectGUI
 
 				$q_gui->outAdditionalOutput();
 				$q_gui->object->setObjId($this->object->getId());
+				
+				$q_gui->setTargetGuiClass(null);
+				$q_gui->setQuestionActionCmd(null);
+				
 				$question = $q_gui->object;
 				$this->ctrl->saveParameter($this, "q_id");
 
@@ -3721,13 +3725,13 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 		
 			$starting_time = $this->object->getStartingTime();
-			if ($starting_time)
+			if ($starting_time && $this->object->isStartingTimeEnabled())
 			{
 				$info->addProperty($this->lng->txt("tst_starting_time"),
 					ilDatePresentation::formatDate(new ilDateTime($starting_time,IL_CAL_TIMESTAMP)));
 			}
 			$ending_time = $this->object->getEndingTime();
-			if ($ending_time)
+			if ($ending_time && $this->object->isEndingTimeEnabled())
 			{
 				$info->addProperty($this->lng->txt("tst_ending_time"),
 					ilDatePresentation::formatDate(new ilDateTime($ending_time,IL_CAL_TIMESTAMP)));

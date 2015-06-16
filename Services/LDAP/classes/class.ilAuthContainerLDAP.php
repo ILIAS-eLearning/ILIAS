@@ -57,7 +57,6 @@ class ilAuthContainerLDAP extends Auth_Container_LDAP
 		
 		include_once 'Services/LDAP/classes/class.ilLDAPServer.php';
 		$this->server = new ilLDAPServer(ilLDAPServer::_getFirstActiveServer());
-		$this->server->doConnectionCheck();
 	 	$this->log = $ilLog;
 		
 		parent::__construct($this->server->toPearAuthArray());
@@ -100,6 +99,12 @@ class ilAuthContainerLDAP extends Auth_Container_LDAP
 	 */
 	public function fetchData($username, $password)
 	{
+		if(!$this->server->doConnectionCheck())
+		{
+			return FALSE;
+		}
+		
+		
 		$res = parent::fetchData($username,$password);
 		
 		if (PEAR::isError($res))

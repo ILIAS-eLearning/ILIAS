@@ -159,7 +159,7 @@ class ilCloudPluginFileTreeGUI extends ilCloudPluginGUI {
 		if ($node->getIsDir()) {
 			if ($node->getIconPath() == "") {
 				//				$item->setVariable("SRC_ICON", "./Modules/Cloud/templates/images/icon_folder_b.png");
-				$item->setVariable("SRC_ICON", ilUtil::getImagePath('icon_fold.svg'));
+				$item->setVariable("SRC_ICON", ilUtil::getImagePath('icon_dcl_fold.svg'));
 			}
 			$item->setVariable("TXT_DESC", '&nbsp;');
 			$item->setVariable("TXT_TITLE_LINKED", basename($node->getPath()));
@@ -168,7 +168,7 @@ class ilCloudPluginFileTreeGUI extends ilCloudPluginGUI {
 		else {
 			if ($node->getIconPath() == "") {
 				//				$item->setVariable("SRC_ICON", "./Modules/Cloud/templates/images/icon_file_b.png");
-				$item->setVariable("SRC_ICON", ilUtil::getImagePath('icon_file.svg'));
+				$item->setVariable("SRC_ICON", ilUtil::getImagePath('icon_dcl_file.svg'));
 			}
 
 			$item->setVariable("TXT_DESC",

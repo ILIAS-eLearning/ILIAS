@@ -136,6 +136,7 @@ class ilRoleTableGUI extends ilTable2GUI
 		include_once './Services/Tree/classes/class.ilPathGUI.php';
 		$this->path_gui = new ilPathGUI();
 		$this->getPathGUI()->enableTextOnly(false);
+		$this->getPathGUI()->enableHideLeaf(FALSE);
 		
 
 		// Filter initialisation

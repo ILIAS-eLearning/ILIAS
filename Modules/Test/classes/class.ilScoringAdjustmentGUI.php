@@ -66,6 +66,12 @@ class ilScoringAdjustmentGUI
 	 */
 	public function executeCommand()
 	{
+		$setting = new ilSetting('assessment');
+		if( ! (bool)$setting->get('assessment_adjustments_enabled', false) )
+		{
+			$this->ctrl->redirectByClass('ilObjTestGUI');
+		}
+		
 		$cmd = $this->ctrl->getCmd();
 		$next_class = $this->ctrl->getNextClass($this);
 

@@ -14,7 +14,8 @@ class ilADTFactory
 	 */
 	protected function __construct() 
 	{
-		
+		// #15666 - generic fix in 5.1+, but float/location needs this
+		setlocale(LC_NUMERIC, 'C');	
 	}
 	
 	/**
@@ -208,7 +209,7 @@ class ilADTFactory
 	 * @param ilADT $a_adt
 	 * @return ilADTActiveRecordBridge
 	 */
-	public static function getActiveRecordBridgeForInstance(ilADT $a_adt)
+	public function getActiveRecordBridgeForInstance(ilADT $a_adt)
 	{
 		$class = $this->initTypeClass($a_adt->getType(), "ActiveRecordBridge");		
 		return new $class($a_adt);

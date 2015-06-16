@@ -6396,6 +6396,10 @@ span.ilAlert {
   height: 22px;
   margin: 0 3px 0 0;
 }
+#ilAdvSelListTable_socialbm_actions.dropdown-menu img {
+  width: auto;
+  height: auto;
+}
 .ilAdvNoImg {
   display: inline-block;
   width: 22px;
@@ -8451,6 +8455,7 @@ span.ilCalColSpan {
   width: 24px;
   height: 25px;
   float: left;
+  text-align: center;
 }
 ul.ilCalSel li img {
   margin-top: 6px;
@@ -9522,10 +9527,11 @@ span.bibl_text_inline_Emph {
 .ilPlayerPreviewDescription {
   padding: 7px;
   font-size: 85%;
-  position: relative;
+  position: absolute;
+  width: 306px;
   color: #F0F0F0;
-  top: -240px;
-  background: url("images/black60.png");
+  margin-top: -240px;
+  background: url("images//black60.png");
 }
 .ilPlayerPreviewOverlay img {
   cursor: pointer;
@@ -9733,6 +9739,7 @@ div.ilPreconditionItem {
 div.ilContainerListItemOuter {
   padding: 15px 10px;
   zoom: 1;
+  width: 100%;
   /* background-color: lighten(@mid-gray, 75%); */
 }
 div.tblfooter.ilContainerListFooter {
@@ -10880,7 +10887,7 @@ table.mceToolbar td {
    Google recommending 640px: https://developers.google.com/webmasters/smartphone-sites/details
    
    */
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 767px) {
   html {
     -webkit-text-size-adjust: none;
   }
