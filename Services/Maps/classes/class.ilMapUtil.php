@@ -33,6 +33,9 @@ class ilMapUtil
 {
 	static $_settings = null;
 
+	const DEF_TILE = "tile.openstreetmap.org";
+	const DEF_GEOLOCATION = "open.mapquestapi.com";
+
 	// Settings
 
 	static function settings() 
@@ -101,7 +104,50 @@ class ilMapUtil
 	{
 		return self::settings()->get("std_zoom");
 	}
+
+	static function setStdTileServer($a_tile) 
+	{
+		self::settings()->set("std_tile", $a_tile);
+	}
 	
+	static function getStdTileServer($enforce_custom = false) 
+	{
+		$std_tile = self::settings()->get("std_tile");	
+		$use_custom_condition = $enforce_custom ? $enforce_custom : self::getStdUseCustomMapServer();
+		if($use_custom_condition && $std_tile) {
+			return $std_tile;
+		} else {
+			return self::DEF_TILE;	
+		}
+	}
+	
+
+	static function setStdGeolocation($a_geolocation) 
+	{
+		self::settings()->set("std_geolocation", $a_geolocation);
+	}
+	
+	static function getStdGeolocation($enforce_custom = false) 
+	{
+		$std_geolocation = self::settings()->get("std_geolocation");
+		$use_custom_condition = $enforce_custom ? $enforce_custom : self::getStdUseCustomMapServer();
+		if($use_custom_condition && $std_geolocation) {
+			return $std_geolocation;
+		} else {
+			return self::DEF_GEOLOCATION;
+		}
+
+	}
+
+	static function setStdUseCustomMapServer($a_bool) 
+	{
+		self::settings()->set("std_use_custom_map_server", $a_bool);
+	}
+	
+	static function getStdUseCustomMapServer() 
+	{
+		return self::settings()->get("std_use_custom_map_server");
+	}
 	/**
 	* Get default longitude, latitude and zoom.
 	*
@@ -112,7 +158,10 @@ class ilMapUtil
 		return array(
 			"longitude" => self::settings()->get("std_longitude"),
 			"latitude" => self::settings()->get("std_latitude"),
-			"zoom" => self::settings()->get("std_zoom"));
+			"zoom" => self::settings()->get("std_zoom"),
+			"use_custom_map_server" => self::settings()->get("std_use_custom_map_server"),
+			"tile" => self::settings()->get("std_tile"),
+			"geolocation" => self::settings()->get("std_geolocation"));
 	}
 	
 	/**
@@ -127,7 +176,10 @@ class ilMapUtil
 				return new ilGoogleMapGUI();
 			case "openlayers":
 				require_once("Services/Maps/classes/class.ilOpenLayersMapGUI.php");
-				return new ilOpenLayersMapGUI();
+				 $map = new ilOpenLayersMapGUI();
+				 $map->setTileServer(self::getStdTileServer());
+				 $map->setGeolocationServer(self::getStdGeolocation());
+				 return $map;
 			default:
 				require_once("Services/Maps/classes/class.ilGoogleMapGUI.php");
 				return new ilGoogleMapGUI();
