@@ -319,9 +319,9 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 		// value
 		$value = $this->getValue();
 		if($value)
-		{
+		{			
 			// #15647 
-			if($has_int && self::isInternalLink($value))			
+			if($has_int && self::isInternalLink($value))
 			{
 				$mode->setValue("int");
 								

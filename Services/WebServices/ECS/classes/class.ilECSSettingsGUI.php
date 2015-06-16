@@ -71,6 +71,7 @@ class ilECSSettingsGUI
 	 */
 	public function executeCommand()
 	{
+		global $ilAccess;
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 		
@@ -95,6 +96,12 @@ class ilECSSettingsGUI
 				break;
 			
 			default:
+
+				if(!$ilAccess->checkAccess('write','',$_REQUEST["ref_id"]) && $cmd != "overview" && $cmd != "communities")
+				{
+					$this->ctrl->redirect($this, "overview");
+				}
+
 				if(!$cmd || $cmd == 'view')
 				{
 					$cmd = "overview";
@@ -113,15 +120,18 @@ class ilECSSettingsGUI
 	 */
 	public function overview()
 	{
-		global $ilToolbar,$ilTabs;
+		global $ilToolbar,$ilTabs, $ilAccess;
 
 		include_once './Services/WebServices/ECS/classes/class.ilECSServerSettings.php';
 
 		$ilTabs->setSubTabActive('overview');
-		$ilToolbar->addButton(
-			$this->lng->txt('ecs_add_new_ecs'),
-			$this->ctrl->getLinkTarget($this,'create')
-		);
+		if($ilAccess->checkAccess('write','',$_REQUEST["ref_id"]))
+		{
+			$ilToolbar->addButton(
+				$this->lng->txt('ecs_add_new_ecs'),
+				$this->ctrl->getLinkTarget($this,'create')
+			);
+		}
 
 		$servers = ilECSServerSettings::getInstance();
 		$servers->readInactiveServers();
@@ -677,19 +687,30 @@ class ilECSSettingsGUI
 	 */
 	public function communities()
 	{
+		global $ilAccess;
 		// add toolbar to refresh communities
-		$GLOBALS['ilToolbar']->addButton(
+		if($ilAccess->checkAccess('write','',$_REQUEST["ref_id"]))
+		{
+			$GLOBALS['ilToolbar']->addButton(
 				$this->lng->txt('ecs_refresh_participants'),
 				$this->ctrl->getLinkTarget($this,'refreshParticipants')
-		);
+			);
+		}
+
 		
 	 	$this->tabs_gui->setSubTabActive('ecs_communities');
 
 	 	$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.ecs_communities.html','Services/WebServices/ECS');
 	 	
 	 	$this->tpl->setVariable('FORMACTION',$this->ctrl->getFormAction($this,'updateCommunities'));
-	 	$this->tpl->setVariable('TXT_SAVE',$this->lng->txt('save'));
-	 	$this->tpl->setVariable('TXT_CANCEL', $this->lng->txt('cancel'));
+
+		if($ilAccess->checkAccess('write','',$_REQUEST["ref_id"]))
+		{
+			$this->tpl->setCurrentBlock("submit_buttons");
+	 		$this->tpl->setVariable('TXT_SAVE',$this->lng->txt('save'));
+	 		$this->tpl->setVariable('TXT_CANCEL', $this->lng->txt('cancel'));
+			$this->tpl->parseCurrentBlock();
+		}
 	 	
 	 	include_once('Services/WebServices/ECS/classes/class.ilECSCommunityReader.php');
 	 	include_once('Services/WebServices/ECS/classes/class.ilECSCommunityTableGUI.php');
@@ -870,7 +891,7 @@ class ilECSSettingsGUI
 	 */
 	protected function setMappingTabs($a_active)
 	{
-		global $ilTabs;
+		global $ilTabs, $ilAccess;
 
 		$ilTabs->clearTargets();
 		$ilTabs->clearSubTabs();
@@ -879,11 +900,14 @@ class ilECSSettingsGUI
 			$this->lng->txt('ecs_settings'),
 			$this->ctrl->getLinkTarget($this,'overview')
 		);
-		$ilTabs->addTab(
-			'import',
-			$this->lng->txt('ecs_tab_import'),
-			$this->ctrl->getLinkTarget($this,'importMappings')
-		);
+		if($ilAccess->checkAccess('write','',$_REQUEST["ref_id"]))
+		{
+			$ilTabs->addTab(
+				'import',
+				$this->lng->txt('ecs_tab_import'),
+				$this->ctrl->getLinkTarget($this,'importMappings')
+			);
+		}
 		$ilTabs->addTab(
 			'export',
 			$this->lng->txt('ecs_tab_export'),
@@ -1318,6 +1342,7 @@ class ilECSSettingsGUI
 			$this->rule->setContainerId($this->form->getInput('import_id'));			
 			$this->rule->setFieldName($this->form->getInput('field'));
 			$this->rule->setMappingType($this->form->getInput('type'));
+
 			
 			switch($this->form->getInput('type'))
 			{
@@ -1862,6 +1887,7 @@ class ilECSSettingsGUI
 	 */
 	protected function setSubTabs()
 	{
+		global $ilAccess;
 		$this->tabs_gui->clearSubTabs();
 		
 		$this->tabs_gui->addSubTabTarget("overview",
@@ -1878,7 +1904,12 @@ class ilECSSettingsGUI
 		$this->tabs_gui->addSubTabTarget("ecs_communities",
 			$this->ctrl->getLinkTarget($this,'communities'),
 			"communities",get_class($this));
-			
+
+		if(!$ilAccess->checkAccess('write','',$_REQUEST["ref_id"]))
+		{
+			return true;
+		}
+
 		$this->tabs_gui->addSubTabTarget('ecs_mappings',
 			$this->ctrl->getLinkTarget($this,'importMappings'),
 			'importMappings',get_class($this));

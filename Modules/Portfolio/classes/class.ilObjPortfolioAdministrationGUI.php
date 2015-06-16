@@ -169,14 +169,18 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
 	 */
 	protected function initFormSettings()
 	{
-	    global $lng, $ilSetting;
+	    global $lng, $ilSetting, $ilAccess;
 		
 		include_once('Services/Form/classes/class.ilPropertyFormGUI.php');
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->setTitle($this->lng->txt('prtf_settings'));
-		$form->addCommandButton('saveSettings',$this->lng->txt('save'));
-		$form->addCommandButton('cancel',$this->lng->txt('cancel'));
+		
+		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		{
+			$form->addCommandButton('saveSettings',$this->lng->txt('save'));
+			$form->addCommandButton('cancel',$this->lng->txt('cancel'));
+		}
 		
 		// Enable 'Portfolios'
 		$lng->loadLanguageModule('pd');

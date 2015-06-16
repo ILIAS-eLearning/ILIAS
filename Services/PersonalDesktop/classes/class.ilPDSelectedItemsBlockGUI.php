@@ -492,7 +492,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 					{
 						continue;
 					}					
-									
+										
 					// notes, comment currently do not work properly
 					$item_list_gui->enableNotes(false);
 					$item_list_gui->enableComments(false);
@@ -531,7 +531,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 				
 				if (is_object($item_list_gui))
 				{					
-					ilObjectActivation::addListGUIActivationProperty($item_list_gui, $item);													
+					ilObjectActivation::addListGUIActivationProperty($item_list_gui, $item);							
 					
 					// #15232
 					if($this->manage)
@@ -1101,7 +1101,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 				}
 				// render item row
 				$ilBench->start("ilPersonalDesktopGUI", "getListHTML");
-									
+													
 				ilObjectActivation::addListGUIActivationProperty($item_list_gui, $item);												
 				
 				$item_list_gui->setContainerObject($this);

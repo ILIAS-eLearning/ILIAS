@@ -53,7 +53,7 @@ abstract class ilPageObject
 	var $xml;
 	var $encoding;
 	var $node;
-	var $cur_dtd = "ilias_pg_4_5.dtd";
+	var $cur_dtd = "ilias_pg_5_1.dtd";
 	var $contains_int_link;
 	var $needs_parsing;
 	var $parent_type;
@@ -2897,6 +2897,10 @@ abstract class ilPageObject
 
 				case "WikiPage":
 					$t_type = "wpage";
+					break;
+
+				case "User":
+					$t_type = "user";
 					break;
 			}
 

@@ -1255,9 +1255,9 @@ class ilObjMediaObject extends ilObject
 					case "exca":
 						// Exercise assignment
 						$returned_pk = $a_usage['id'];					
-						// we are just checking against exercise object
-						include_once 'Modules/Exercise/classes/class.ilObjExercise.php';
-						$obj_id = ilObjExercise::lookupExerciseIdForReturnedId($returned_pk);			
+						// #15995 - we are just checking against exercise object
+						include_once 'Modules/Exercise/classes/class.ilExSubmission.php';
+						$obj_id = ilExSubmission::lookupExerciseIdForReturnedId($returned_pk);			
 						break;
 					
 					case "frm":		

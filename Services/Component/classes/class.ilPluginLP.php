@@ -69,6 +69,25 @@ class ilPluginLP extends ilObjectLP
 		}		
 		return ilLPObjSettings::LP_MODE_UNDEFINED;
 	}
+	
+	protected static function isLPMember(array &$a_res, $a_usr_id,  $a_obj_ids)
+	{		
+		global $objDefinition;
+		
+		$type = $a_obj_ids;
+		$type = array_shift($type);
+		$type = ilObject::_lookupType($type);
+		
+		$location = $objDefinition->getLocation($type);
+		$class_name = "ilObj".$objDefinition->getClassName($type);
+		include_once $location."/class.".$class_name.".php";
+		
+		// forward to plugin object
+		if(method_exists($class_name, "isLPMember"))
+		{
+			$class_name::isLPMember($a_res, $a_usr_id, $a_obj_ids);
+		}
+	}
 }
 
 ?>

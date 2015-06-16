@@ -164,14 +164,18 @@ class ilObjBlogAdministrationGUI extends ilObjectGUI
 	 */
 	protected function initFormSettings()
 	{
-	    global $lng;
+	    global $lng, $ilAccess;
 		
 		include_once('Services/Form/classes/class.ilPropertyFormGUI.php');
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->setTitle($this->lng->txt('blog_settings'));
-		$form->addCommandButton('saveSettings',$this->lng->txt('save'));
-		$form->addCommandButton('cancel',$this->lng->txt('cancel'));
+		
+		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		{
+			$form->addCommandButton('saveSettings',$this->lng->txt('save'));
+			$form->addCommandButton('cancel',$this->lng->txt('cancel'));
+		}
 
 		$banner = new ilCheckboxInputGUI($lng->txt("blog_preview_banner"), "banner");
 		$banner->setInfo($lng->txt("blog_preview_banner_info"));

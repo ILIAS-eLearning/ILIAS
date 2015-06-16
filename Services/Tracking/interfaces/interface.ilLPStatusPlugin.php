@@ -46,6 +46,10 @@ interface ilLPStatusPluginInterface
 	 * @return int
 	 */
 	public function getLPStatusForUser($a_user_id);
+	
+	/* 
+	public static function isLPMember(array &$a_res, $a_usr_id,  $a_obj_ids);	 
+	*/
 }
 
 ?>

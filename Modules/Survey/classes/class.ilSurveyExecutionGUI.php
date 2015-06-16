@@ -434,6 +434,12 @@ class ilSurveyExecutionGUI
 			global $ilHelp;
 			$ilHelp->setScreenIdComponent("svy");
 			$ilHelp->setScreenId("quest_presentation");
+			
+			if($ilUser->getId() != ANONYMOUS_USER_ID)
+			{
+				include_once "Services/Tracking/classes/class.ilLearningProgress.php";
+				ilLearningProgress::_tracProgress($ilUser->getId(), $this->object->getId(), $this->object->ref_id, "svy");		
+			}
 
 			$required = false;
 			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_content.html", "Modules/Survey");
@@ -916,6 +922,12 @@ class ilSurveyExecutionGUI
 		if(!$this->preview)
 		{
 			$this->object->finishSurvey($_SESSION["finished_id"][$this->object->getId()]);
+						
+			if($ilUser->getId() != ANONYMOUS_USER_ID)
+			{
+				include_once "Services/Tracking/classes/class.ilLPStatusWrapper.php";
+				ilLPStatusWrapper::_updateStatus($this->object->getId(), $ilUser->getId());
+			}
 									
 			if ($this->object->getMailNotification())
 			{

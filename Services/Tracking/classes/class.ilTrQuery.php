@@ -236,7 +236,7 @@ class ilTrQuery
 			$items[$item_id] = array(
 				"title" => $item_data[$item_id]["title"],
 				"status" => $status,
-				"type" => "st"
+				"type" => self::getSubItemType($a_parent_obj_id)		
 				);						
 		}
 		
@@ -587,8 +587,46 @@ class ilTrQuery
 					$result["cnt"]++;
 				}
 			}
+			
+			// subitem data
+			if($objects["subitems"])
+			{
+				$sub_type = self::getSubItemType($a_parent_obj_id);			
+				foreach($objects["subitems"]["items"] as $item_id)
+				{				
+					$row = array("title" => $objects["subitems"]["item_titles"][$item_id],
+						"type" => $sub_type);
+					
+					$status = ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
+					if(in_array($a_user_id, $objects["subitems"]["completed"][$item_id]))
+					{
+						$status = ilLPStatus::LP_STATUS_COMPLETED_NUM;
+					}					
+					$row["status"] = $status;
+										
+					$result["set"][] = $row;
+					$result["cnt"]++;
+				}				
+			}
 		}
 		return $result;
+	}
+	
+	/**
+	 * Get sub-item object type for parent
+	 * @param int $a_parent_obj_id
+	 * @return string
+	 */
+	public static function getSubItemType($a_parent_obj_id)
+	{
+		switch(ilObject::_lookupType($a_parent_obj_id))
+		{
+			case "lm":
+				return "st";
+				
+			case "mcst":
+				return "mob";
+		}
 	}
 
 	/**
@@ -917,6 +955,12 @@ class ilTrQuery
 				include_once "Services/Tracking/classes/class.ilLPStatusFactory.php";
 				$class = ilLPStatusFactory::_getClassById($obj_id, ilLPObjSettings::LP_MODE_TEST_FINISHED);
 				$a_users = $class::getParticipants($obj_id);
+				break;
+			
+			case "svy":
+				include_once "Services/Tracking/classes/class.ilLPStatusFactory.php";
+				$class = ilLPStatusFactory::_getClassById($obj_id, ilLPObjSettings::LP_MODE_SURVEY_FINISHED);
+				$a_users = $class::getParticipants($obj_id);				
 				break;
 			
 			default:
@@ -1278,15 +1322,10 @@ class ilTrQuery
 				}
 				break;
 				
-			case ilLPObjSettings::LP_MODE_COLLECTION_MANUAL:
-				include_once "Services/Tracking/classes/class.ilLPStatusFactory.php";
-				$status_coll_man = ilLPStatusFactory::_getInstance($a_parent_obj_id, ilLPObjSettings::LP_MODE_COLLECTION_MANUAL);
-				$subitems = $status_coll_man->_getStatusInfo($a_parent_obj_id);
-				break;
-				
+			case ilLPObjSettings::LP_MODE_COLLECTION_MANUAL:				
 			case ilLPObjSettings::LP_MODE_COLLECTION_TLT:
 				include_once "Services/Tracking/classes/class.ilLPStatusFactory.php";
-				$status_coll_tlt = ilLPStatusFactory::_getInstance($a_parent_obj_id, ilLPObjSettings::LP_MODE_COLLECTION_TLT);
+				$status_coll_tlt = ilLPStatusFactory::_getInstance($a_parent_obj_id, $mode);
 				$subitems = $status_coll_tlt->_getStatusInfo($a_parent_obj_id);
 				break;
 				

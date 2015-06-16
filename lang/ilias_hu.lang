@@ -1,7 +1,7 @@
 /* Copyright (c) 1998-2015 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
-* @author 5.0.0 2015-03-20 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
+* @author 5.1.x 2015-04-01 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
 * @author 4.2.2	Berecz Antónia <berecz@gdf.hu>
 * @module		language file Hungarian
 * @modulegroup	language
@@ -679,7 +679,7 @@ assessment#:#polygon_click_next_point#:#Kattintson a sokszög következő pontj�
 assessment#:#polygon_click_starting_point#:#Kattintson a sokszög kezdőpontjára!
 assessment#:#polygon#:#Sokszög
 assessment#:#postpone#:#Kérdés későbbre halasztása
-assessment#:#remove_gap#:##Rés (Gap) eltávolítása###Remove Gap
+assessment#:#remove_gap#:#Kitöltendő hely eltávolítása
 assessment#:#postponed#:#Későbbre halasztott
 assessment#:#postpone_status#:#Későbbre halasztott
 assessment#:#preview#:#Előnézet
@@ -1340,9 +1340,9 @@ assessment#:#feedback_setting#:#Válaszfüggő visszajelzések módja.
 assessment#:#feedback_all#:#Válaszfüggő visszajelzések megjelenítése az összes kérdéshez.
 assessment#:#feedback_checked#:#Válaszfüggő visszajelzések megjelenítése az összes kiválasztott kérdéshez.
 assessment#:#feedback_correct#:#Válaszfüggő visszajelzések megjelenítése az összes helyesen megválaszolt kérdéshez (helyes válasznak az minősül, mely pozitív pontot ér).
-assessment#:#tst_add_quest_cont_edit_mode#:#Kiegészítő kérdéstartalom szerkesztési módja
-assessment#:#tst_add_quest_cont_edit_mode_default#:#Kiegészítő kérdéstartalom alapértelmezett szerkesztési módja
-assessment#:#tst_add_quest_cont_edit_mode_page_object#:#Kiegészítő tartalom szerkesztése az Oldal Szerkesztővel
+assessment#:#tst_add_quest_cont_edit_mode#:#További kérdéstartalom szerkesztésének módja
+assessment#:#tst_add_quest_cont_edit_mode_default#:#Alapértelmezett szerkesztési mód használata
+assessment#:#tst_add_quest_cont_edit_mode_page_object#:#Oldalszerkesztő használata
 assessment#:#tst_question_feedback_edit_page#:#Tartalom szerkesztése
 assessment#:#tst_question_feedback_back_to_feedback_form#:#Vissza a hívott kérdéshez
 assessment#:#enable_examview#:#Adott válaszok áttekintése
@@ -3857,7 +3857,7 @@ rbac#:#ps_export_member_data#:#A felhasználó tagadatokat exportálhat kurzusok
 rbac#:#ps_read#:#A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Adatvédelem és biztonság beállításaihoz
 rbac#:#ps_visible#:#A felhasználó láthatja a Rendszerbeállítások » Adatvédelem és biztonságot
 rbac#:#ps_write#:#A felhasználó módosíthatja a Rendszerbeállítások » Adatvédelem és biztonság beállításait
-common#:#pub_section_info#:#Ha be van kapcsolva, a rendszer részei (pl. taneszköztároló, magánterület, felhasználói profilok) bejelentkezés nélkül elérhetők az internetről. Az 'Anonymous' szerep jogosultságai határozzák meg a taneszköztároló forrásainak elérését.
+common#:#pub_section_info#:#Ha be van kapcsolva, a rendszer részei (pl. taneszköztároló, magánterület, felhasználói profilok) bejelentkezés nélkül elérhetőek az internetről. Az 'Anonymous' szerep jogosultságai határozzák meg a taneszköztároló objektumainak elérhetőségét.
 common#:#pub_section#:#Nyilvános terület
 common#:#public_notes#:#Nyilvános jegyzetek
 common#:#public_profile_not_visible#:#A felhasználói profil nem nyilvános
@@ -3977,9 +3977,9 @@ common#:#role_count_users#:#Felhasználók száma
 common#:#role_deleted_desktop_items#:#Hozzárendelést sikeresen törölte.
 common#:#role_deleted#:#Szerepet sikeresen törölte.
 common#:#role_desk_add#:#Munkaasztalelem hozzárendelése
-common#:#role_desk_none_created#:#Egy munkaasztalelem sincs ennek a a szerepnek.
+common#:#role_desk_none_created#:#Egy munkaasztaleleme sincs hozzárendelve ehhez a szerephez.
 common#:#role_edit#:#Szerep szerkesztése
-common#:#role_header_edit_users#:#Felhasználói hozzáférés változtatása
+common#:#role_header_edit_users#:#Felhasználói hozzáférés módosítása
 common#:#role_list_users#:#Felhasználók felsorolása
 common#:#role_mailto#:#Levél minden hozzárendelt felhasználónak
 common#:#role_new_search#:#Új keresés
@@ -4011,7 +4011,7 @@ common#:#rolf_edit_permission#:#Jogosultsági beállítások változtatása
 common#:#rolf_edit_userassignment#:#Szerep és felhasználó összerendelésének változtatása
 common#:#rolf_read#:#Olvasási elérés szerepekhez / szerepmintákhoz
 common#:#rolf_visible#:#Szerepek / szerepminták láthatók
-common#:#rolf_write#:#Szerepek / szerepminták alap jogosultság beállításainak szerkesztése
+common#:#rolf_write#:#Szerepek / szerepminták alapértelmezett jogosultsági beállításainak szerkesztése
 common#:#rolf#:#Szerepek
 common#:#rolt_a#:#egy szerepminta
 common#:#rolt_add#:#Szerepminta létrehozása
@@ -5800,7 +5800,7 @@ crs#:#crs_show_link_objectives#:#Célkitűzések megjelenítése
 crs#:#crs_show_link_or#:#További források megjelenítése
 crs#:#crs_show_link_session#:#Események megjelenítése
 crs#:#crs_show_link_tst#:#Tesztek megjelenítése
-crs#:#crs_show_members_info#:#A kurzustagok megtekinthetik a tagok képtárát, és levelet küldhetnek a tagoknak.
+crs#:#crs_show_members_info#:#A kurzustagok megtekinthetik a tagok képtárát.
 crs#:#crs_show_members#:#Tagok megjelenítése
 crs#:#crs_show_objectives_view#:#Célkitűzésnézet
 crs#:#crs_size#:#Fájlméret
@@ -6516,7 +6516,7 @@ exc#:#exc_deadline#:#Határidő
 exc#:#exc_edit_assignment#:#Feladat szerkesztése
 exc#:#exc_edit_assignments#:#Feladatok szerkesztése
 exc#:#exc_edit_submission#:#Megoldás módosítása
-exc#:#exc_ended_on#:#Befejezve
+exc#:#exc_ended_on#:#Lezárva
 exc#:#exc_export_excel#:#Exportálás Excel (.xls) fájlba
 exc#:#exc_fb_files#:#Visszajelzésfájlok
 exc#:#exc_grades_overview#:#Értékelések
@@ -10211,7 +10211,7 @@ dateplaner#:#cal_adm_notification_info#:#Kurzus-/csoporttagok e-mail értesíté
 rbac#:#rbac_add_new_local_role#:#Új helyi szerep létrehozása
 search#:#search_item_filter#:#Keresés típus szerint
 search#:#search_item_filter_form#:#Keresés típus szerint
-search#:#search_item_filter_form_info#:#Ha be van kapcsolva, a keresés a kiválasztott objektumtípusokra korlátozható.
+search#:#search_item_filter_form_info#:#A keresés a kiválasztott fájltípusokra korlátozható.
 administration#:#group_export#:#Látható a csoportokban
 tbl#:#tbl_export_csv#:#Exportálás vesszővel tagolt (.csv) fájlba
 tbl#:#tbl_export_excel#:#Exportálás Excel (.xls) fájlba
@@ -10561,7 +10561,7 @@ book#:#book_set_in_use#:#Használatban
 book#:#book_set_not_in_use#:#Nincs használatban
 book#:#book_set_cancel#:#Foglalás törlése
 book#:#book_set_not_cancel#:#Törlés visszavonása
-rbac#:#book_edit_permission#:##A felhasználó megváltoztathatja a foglalásgyűjteményt jogosultságait
+rbac#:#book_edit_permission#:#A felhasználó megváltoztathatja a foglalásgyűjteményt jogosultságait
 rbac#:#book_visible#:#A foglalásgyűjtemény látható
 rbac#:#book_read#:#A felhasználó foglalhat a foglalásgyűjtemény erőforrásaiból/objektumaiból
 rbac#:#book_delete#:#A felhasználó áthelyezhet vagy törölhet foglalásgyűjteményt
@@ -11955,7 +11955,7 @@ didactic#:#didactic_confirm_apply_new_template#:#Biztos, hogy alkalmazza a kivá
 chatroom#:#chatserver_address#:#Csevegőszerverek IP-címe
 chatroom#:#chatserver_port#:#Csevegőszerverek portja
 chatroom#:#instance_name#:#Egyedi azonosító
-chatroom#:#ilias_url#:#ILIAS-installáció alap URL-je
+chatroom#:#ilias_url#:#ILIAS-installáció Base-URL-je
 chatroom#:#soap_user#:#SOAP-felhasználó neve
 chatroom#:#soap_user_password#:#SOAP-felhasználó jelszava
 chatroom#:#hint_osd#:#Ha be van kapcsolva, a felhasználók felbukkanó ablakban kapnak értesítést új meghívásokról.
@@ -13583,7 +13583,7 @@ cld#:#cld_add_folder#:#Könyvtár
 cld#:#cld_add_items_from_service_failed#:#Szolgáltatásból új elem hozzáadása sikertelen
 cld#:#cld_add_new_item#:#Új elem hozzáadása
 cld#:#cld_auth_failed#:#Hitelesítés sikertelen
-cld#:#cld_authentication_failed#:#:#Hitelesítés sikertelen
+cld#:#cld_authentication_failed#:#Hitelesítés sikertelen
 cld#:#cld_config_entry_does_not_exist#:#Konfigurációs bejegyzés nem létezik
 cld#:#cld_config_no_valid_get_or_set_function#:#Nincs érvényes get, illetve set függvény a konfigurációs értékhez.
 cld#:#cld_config_table_does_not_exist#:#Konfigurációs tábla nem létezik
@@ -13803,10 +13803,14 @@ prtf#:#prtf_template_import_quota_failure#:#Ezt a portfólió sablont nem tudja 
 cntr#:#prtf_create_portfolio_from_template#:#Portfólió létrehozása sablonból
 content#:#content_plugin_not_activated#:#Az oldal tartalmi elem bővítmény jelenleg nem aktív.
 administration#:#vc_information#:#SVN verzió megjelenítése
+administration#:#vc_information_not_determined#:#ILIAS nem tudja megállapítani az verzióinformációt.
 administration#:#svn_revision_current#:#Jelenlegi revízió: %s
 administration#:#svn_revision_last_change#:#Utoljára módosított revízió: %s
-administration#:#svn_root#:#Root: %s
+administration#:#svn_root#:#Gyökér: %s
 administration#:#svn_path#:#Útvonal: %s
+administration#:#git_revision#:#Szám: %s
+administration#:#git_hash_short#:#Változtatás Hash (rövid): %s
+administration#:#git_last_commit#:#Utolsó változtatás: %s
 content#:#cont_verification_placeh#:#Kattints és szerkessz a tanúsítvány beszúrásához
 content#:#cont_verification_placehl#:#Tanúsítvány helyőrzők
 content#:#cont_ed_plachverification#:#Helyőrző tanúsítványok
@@ -14039,7 +14043,7 @@ search#:#search_mime_image#:#Képek
 search#:#lucene_show_sub_relevance#:#Altételek relevanciájának megjelenítése
 search#:#search_mime_filter_form#:#Mime típus szűrő
 search#:#lucene_prefix_wildcard#:#Helyettesítő jellel keresés
-search#:#lucene_prefix_wildcard_info#:#Ha be van kapcsolva, a helyettesítő jellel végzett kereséseket támogatjuk (*LIAS találata: ILIAS).
+search#:#lucene_prefix_wildcard_info#:#Helyettesítő jellel végzett keresések támogatása: '*LIAS' találata 'ILIAS'
 content#:#cont_activate_multi_lang#:#Többnyelvűség bekapcsolása
 obj#:#obj_select_master_lang#:#Válasszon elsődleges nyelvet. A jelenlegi tartalom a elsődleges nyelvhez lesz hozzárendelve.
 assessment#:#show_answer_overview#:#Válaszok áttekintésének megjelenítése
@@ -14061,8 +14065,8 @@ content#:#cont_current_lang#:#Jelenlegi nyelv
 obj#:#obj_deactivate_content_lang#:#Többnyelvűség kikapcsolása
 content#:#cont_edit_language_version#:#Verzió szerkesztése
 content#:#cont_page_translation_does_not_exist#:#A fordítási oldal még nem létezik és a mester nyelvi oldal tartalmának másolásával fog létrejönni. 
-search#:#search_user_search_form#:#Felhasználó keresése
-search#:#search_user_search_info_form#:#Ha be van kapcsolva, felhasználói adatok indexeltek és kereshetőek.
+search#:#search_user_search_form#:#Felhasználói profilokban keresés
+search#:#search_user_search_info_form#:#A felhasználói profilok adatai indexeltek és a felhasználók számára kereshetőek.
 adve#:#adve_blocking_mode#:#Szerkesztése zárolása
 adve#:#adve_minutes#:#Percek
 adve#:#adve_minutes_info#:#Inaktivitás percben, mielőtt egy szerkesztési zárolás lejár és az oldalt másik felhasználó szerkesztheti.
@@ -14201,10 +14205,10 @@ obj#:#obj_tool_setting_info_tab#:#Információ fül
 adve#:#char_selector_admin#:#Unicode karakterválasztó (Ω gomb) megjelenítése tesztekben és kérdésgyűjteményekben
 adve#:#char_selector_user#:#Unicode karakterválasztó (Ω gomb) megjelenítése tesztekben
 adve#:#char_selector_test#:#Unicode karakterválasztó
-adve#:#char_selector_inherit_info_test#:#A globálisan rendszer- és az egyéni felhasználói beállítástól függően jelenik meg vagy marad rejtve az Unicode karakterválasztó.
-adve#:#char_selector_inherit_info_user#:#A rendszerbállítás globálisan, az egész rendszerre legyen érvényben.
+adve#:#char_selector_inherit_info_test#:#A globális rendszer- és az egyéni felhasználói beállítástól függően jelenik meg vagy marad rejtve az Unicode karakterválasztó.
+adve#:#char_selector_inherit_info_user#:#A globális, egész rendszerre vonatkozó rendszerbeállítás legyen érvényben.
 adve#:#char_selector_inherit_test#:#A globális rendszer-, illetve az egyéni felhasználói beállítás együtt hatnak.
-adve#:#char_selector_inherit_user#:#Globálisan beállítások használata
+adve#:#char_selector_inherit_user#:#Globális beállítások használata
 adve#:#char_selector_disabled_admin#:#Unicode karakterválasztó csak akkor jelenik meg, ha be van kapcsolva
 adve#:#char_selector_disabled_info_admin#:#Az Unicode karakterválasztó tesztekben és kérdésgyűjteményekben engedélyezve van, de a felhasználó munkaasztal beállítása alatt vagy az adott tesztben, illetve kérdésgyűjteményeben be kell kapcsolniuk a felhasználóknak. A tesztbeállítások felülírják a a felhasználó beállításait.
 adve#:#char_selector_disabled_info_test#:#Az Unicode karakterválasztó ebben a tesztben - a felhasználó egyéni beállításaitól függetlenül - ki van kapcsolva.
@@ -14540,7 +14544,7 @@ exc#:#exc_your_text#:#Szövege
 exc#:#exc_peer_review_min_number_info#:#Ennyi felhasználó munkáját kell értékelnie a résztvevőnek, mielőtt a saját munkájának az értékelése láthatóvá válik.
 content#:#cont_def_feedb_activated#:#Az alapértelmezett visszajelzés-szövegek be vannak kapcsolva a tanulási modul beállításiban.
 content#:#cont_def_feedb_deactivated#:#Az alapértelmezett visszajelzés-szövegek ki vannak kapcsolva a tanulási modul beállításiban.
-adve#:#advanced_editing_tst_editing#:#Oldalszerkesztő kiegészítő kérdés tartalomhoz
+adve#:#advanced_editing_tst_editing#:#Oldalszerkesztő használata a további kérdéstartalom szerkesztéséhez
 ecs#:#ecs_server_title#:#ECS konfiguráció neve
 adve#:#advanced_editing_tst_editing_desc#:#Kapcsolja be az ILIAS-oldalszerkesztőt a visszajelzések és a súgószövegek szerkesztéséhez.
 assessment#:#fq_precision_info#:#Adja meg a tizedeshelyek számát.
@@ -15220,21 +15224,10 @@ scormtrac#:#rvalue#:#Érték
 scormtrac#:#identifierref#:#SCO-Azonosító
 dcl#:#dcl_online_info#:#Az adatgyűjtést csak online állapotában használhatják a felhasználók.
 dcl#:#dcl_notification_info#:#Az egyedi értesítési funkció engedélyezése a felhasználók számára.
-administration#:#adm_missing_entries#:#Missing Entries###06 02 2015 new variable
-administration#:#adm_missing_entry_add_action#:#Add###06 02 2015 new variable
-administration#:#adm_missing_entry_add#:#Add New Entry###06 02 2015 new variable
-administration#:#vc_information_not_determined#:#ILIAS could not determine any version control information.###08 04 2015 new variable
-administration#:#git_revision#:#Number: %s###08 04 2015 new variable
-administration#:#git_hash_short#:#Commit Hash (short): %s###08 04 2015 new variable
-administration#:#git_last_commit#:#Last Commit: %s###08 04 2015 new variable
-crs#:#crs_usr_agreement#:#User Agreement###08 04 2015 new variable
-grp#:#grp_usr_agreement#:#User Agreement###08 04 2015 new variable
-forum#:#sel_threads_already_sticky#:#At least one of the selected threads is already sticky###08 04 2015 new variable
-forum#:#sel_threads_already_unsticky#:#At least one of the selected threads is already unsticky###08 04 2015 new variable
-forum#:#sel_threads_make_sticky#:#The selected threads has been marked as sticky###08 04 2015 new variable
-forum#:#sel_threads_make_unsticky#:#The selected threads are not marked as sticky anymore###08 04 2015 new variable
-forum#:#selected_threads_closed#:#The selected threads has been closed###08 04 2015 new variable
-forum#:#selected_threads_reopened#:#The selected threads has been reopened###08 04 2015 new variable
-meta#:#md_adv_confirm_definition_select_option_all#:#Handle all existing entries the same###08 04 2015 new variable
-meta#:#md_adv_confirm_definition_select_option_single#:#Decide for each existing entry###08 04 2015 new variable
-meta#:#md_adv_confirm_definition_select_option_all_action#:#New Value###08 04 2015 new variable
+administration#:#adm_missing_entries#:#Hiányzó bejegyzések
+administration#:#adm_missing_entry_add_action#:#Hozzáadás
+administration#:#adm_missing_entry_add#:#Új bejegyzés hozzáadása
+trac#:#trac_mode_survey_finished#:#Kérdőív befejezve
+trac#:#trac_mode_survey_finished_info#:#A kérdőívet a felhasználónak be kell fejeznie, hogy az állapota 'Teljesített' legyen.
+crs#:#crs_usr_agreement#:#Szolgáltatási feltételek
+grp#:#grp_usr_agreement#:#Szolgáltatási feltételek

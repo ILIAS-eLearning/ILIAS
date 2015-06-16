@@ -299,36 +299,11 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		$table = new ilPortfolioPageTableGUI($this, "view");
 		
 		// exercise portfolio?			
-		include_once "Modules/Exercise/classes/class.ilObjExercise.php";			
-		$exercises = ilObjExercise::findUserFiles($this->user_id, $this->object->getId());
+		include_once "Modules/Portfolio/classes/class.ilPortfolioExerciseGUI.php";			
+		$exercises = ilPortfolioExerciseGUI::checkExercise($this->user_id, $this->object->getId(), $table->dataExists());
 		if($exercises)
-		{
-			$info = array();
-			foreach($exercises as $exercise)
-			{
-				// #9988
-				$active_ref = false;
-				foreach(ilObject::_getAllReferences($exercise["obj_id"]) as $ref_id)
-				{
-					if(!$tree->isSaved($ref_id))
-					{
-						$active_ref = true;
-						break;
-					}
-				}
-				if($active_ref)
-				{				
-					$part = $this->getExerciseInfo($exercise["ass_id"], $table->dataExists());
-					if($part)
-					{
-						$info[] = $part;
-					}
-				}
-			}
-			if(sizeof($info))
-			{
-				ilUtil::sendInfo(implode("<br />", $info));									
-			}
+		{			
+			ilUtil::sendInfo($exercises);												
 		}
 		
 		$this->tpl->setContent($table->getHTML());

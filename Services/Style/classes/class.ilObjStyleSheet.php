@@ -246,7 +246,7 @@ class ilObjStyleSheet extends ilObject
 	// style types and their super type
 	public static $style_super_types = array(
 		"text_block" => array("text_block", "heading1", "heading2", "heading3"),
-		"text_inline" => array("text_inline"),
+		"text_inline" => array("text_inline", "sub", "sup"),
 		"section" => array("section"),
 		"link" => array("link"),
 		"table" => array("table", "table_cell", "table_caption"),
@@ -254,7 +254,7 @@ class ilObjStyleSheet extends ilObject
 		"flist" => array("flist_cont", "flist_head", "flist", "flist_li", "flist_a"),
 		"media" => array("media_cont", "media_caption", "iim", "marker"),
 		"tabs" => array("va_cntr", "va_icntr", "va_ihead", "va_iheada", "va_ihcap", "va_icont",
-			"ha_cntr", "ha_icntr", "ha_ihead", "ha_iheada", "ha_ihcap", "ha_icont"),
+			"ha_cntr", "ha_icntr", "ha_ihead", "ha_iheada", "ha_ihcap", "ha_icont", "ca_cntr", "ca_icntr", "ca_ihead", "ca_icont"),
 		"question" => array("question", "qtitle", "qanswer", "qinput", "qlinput", "qsubmit", "qfeedr", "qfeedw",
 			"qimg", "qordul", "qordli", "qimgd", "qetitem", "qetcorr", "qover"),
 		"page" => array("page_frame", "page_cont", "page_title", "page_fn",
@@ -271,7 +271,8 @@ class ilObjStyleSheet extends ilObject
 			"text_block", "section", "media_cont", "table", "table_cell", "flist_li", "table_caption",
 				"list_o", "list_u",
 				"va_cntr", "va_icntr", "va_ihead", "va_iheada", "va_ihcap", "va_icont",
-				"ha_cntr", "ha_icntr", "ha_ihead", "ha_iheada", "ha_ihcap", "ha_icont"
+				"ha_cntr", "ha_icntr", "ha_ihead", "ha_iheada", "ha_ihcap", "ha_icont",
+				"ca_cntr", "ca_icntr", "ca_ihead", "ca_icont"
 		);
 		
 	// these types can be hidden in the content editor
@@ -286,6 +287,8 @@ class ilObjStyleSheet extends ilObject
 		"heading2" => "h2",
 		"heading3" => "h3",
 		"text_inline" => "span",
+		"sup" => "sup",
+		"sub" => "sub",
 		"section" => "div",
 		"link" => "a",
 		"table" => "table",
@@ -365,7 +368,11 @@ class ilObjStyleSheet extends ilObject
 		"ha_icont" => "div",
 		"ha_iheada" => "div",
 		"ha_ihcap" => "div",
-		"ha_ihead" => "div"
+		"ha_ihead" => "div",
+		"ca_cntr" => "div",
+		"ca_icntr" => "div",
+		"ca_ihead" => "div",
+		"ca_icont" => "div"
 		);
 		
 	// pseudo classes
@@ -386,6 +393,8 @@ class ilObjStyleSheet extends ilObject
 			array("type" => "text_inline", "class" => "Strong"),
 			array("type" => "text_inline", "class" => "Accent"),
 			array("type" => "text_inline", "class" => "Important"),
+			array("type" => "sup", "class" => "Sup"),
+			array("type" => "sub", "class" => "Sub"),
 			array("type" => "link", "class" => "IntLink"),
 			array("type" => "link", "class" => "ExtLink"),
 			array("type" => "link", "class" => "FootnoteLink"),
@@ -520,6 +529,12 @@ class ilObjStyleSheet extends ilObject
 			"ha_iheada" => "ha_iheada",
 			"ha_ihcap" => "ha_ihcap",
 			"ha_icont" => "ha_icont"
+		),
+		"carousel" => array(
+			"ca_cntr" => "ca_cntr",
+			"ca_icntr" => "ca_icntr",
+			"ca_ihead" => "ca_ihead",
+			"ca_icont" => "ca_icont"
 			)
 		);
 
@@ -3492,7 +3507,7 @@ class ilObjStyleSheet extends ilObject
 		
 		$tag = "<StyleTemplates>";
 		
-		$ttypes = array("table", "vaccordion", "haccordion");
+		$ttypes = array("table", "vaccordion", "haccordion", "carousel");
 		
 		foreach ($ttypes as $ttype)
 		{

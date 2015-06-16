@@ -115,7 +115,7 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
 		
 		$field = new ilTextInputGUI($lng->txt("options"), "opts");			
 		$field->setRequired(true);
-		$field->setMulti(true);
+		$field->setMulti(true, true);
 		$field->setMaxLength(255); // :TODO:
 		$a_form->addItem($field);
 		
@@ -216,19 +216,19 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
 	public function prepareCustomDefinitionFormConfirmation(ilPropertyFormGUI $a_form)
 	{
 		global $lng, $objDefinition;
-		
-		$a_form->getItemByPostVar("opts")->setDisabled(true);
+				
+		$a_form->getItemByPostVar("opts")->setDisabled(true);				
 		
 		if(sizeof($this->confirm_objects))
-		{			
+		{					
 			$new_options = $a_form->getInput("opts");		
 			
 			$sec = new ilFormSectionHeaderGUI();
 			$sec->setTitle($lng->txt("md_adv_confirm_definition_select_section"));
 			$a_form->addItem($sec);
-			
+									
 			foreach($this->confirm_objects as $old_option => $items)
-			{
+			{				
 				$details = new ilRadioGroupInputGUI($lng->txt("md_adv_confirm_definition_select_option").': "'.$old_option.'"', "conf_det[".$this->getFieldId()."][".$old_option."]");			
 				$details->setRequired(true);			
 				$details->setValue("sum");
@@ -287,9 +287,7 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
 					$sel->setOptions($options);
 					
 					$single->addSubItem($sel);
-				}
-				
-				
+				}								
 			}
 		}		
 	}
@@ -307,7 +305,7 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
 		{
 			ilADTFactory::initActiveRecordByType();
 			foreach($this->confirmed_objects as $old_option => $item_ids)
-			{				
+			{
 				foreach($item_ids as $item => $new_option)
 				{
 					$item = explode("_", $item);
@@ -337,14 +335,7 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
 						);
 						ilADTActiveRecordByType::writeByPrimary("adv_md_values", $primary, "Enum", $new_option);
 					}
-										
-					if($sub_type == "wpg")
-					{
-						// #15763 - adapt advmd page lists
-						include_once "Modules/Wiki/classes/class.ilPCAMDPageList.php";
-						ilPCAMDPageList::migrateField($obj_id, $this->getFieldId(), $old_option, $new_option);												
-					}					
-				}				
+				}
 			}			
 		}		
 	}
@@ -381,6 +372,16 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
 	{		
 		$this->getADT()->setSelection($a_cdata);			
 	}	
+	
+	
+	//
+	// presentation
+	//
+	
+	public function prepareElementForEditor(ilADTEnumFormBridge $a_enum)
+	{
+		$a_enum->setAutoSort(false);		
+	}
 }
 
 ?>

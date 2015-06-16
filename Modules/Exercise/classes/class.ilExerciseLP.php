@@ -24,7 +24,23 @@ class ilExerciseLP extends ilObjectLP
 			ilLPObjSettings::LP_MODE_DEACTIVATED,
 			ilLPObjSettings::LP_MODE_EXERCISE_RETURNED
 		);
-	}		
+	}	
+	
+	protected static function isLPMember(array &$a_res, $a_usr_id, array $a_obj_ids)
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT obj_id".
+			" FROM exc_members".
+			" WHERE ".$ilDB->in("obj_id", $a_obj_ids, "", "integer").
+			" AND usr_id = ".$ilDB->quote($a_usr_id, "integer"));
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			$a_res[$row["obj_id"]] = true;
+		}
+		
+		return true;
+	}
 }
 
 ?>

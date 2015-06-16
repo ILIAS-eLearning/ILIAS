@@ -1,0 +1,58 @@
+<!-- language file start -->
+adve#:#adve_auto_url_linking#:#URL Auto-Linking
+adve#:#adve_auto_url_linking_info#:#ILIAS durchsucht Textparagraphen nach URLs (z.B. "http://..") und verlinkt diese entsprechend automatisch.
+content#:#cont_tabs_carousel#:#Karussell
+content#:#cont_auto_time#:#Wartezeit Animation
+content#:#cont_rand_start#:#Zufällige Startseite
+style#:#sty_type_ca_cntr#:#Carousel Container
+style#:#sty_type_ca_icntr#:#Carousel Item Container
+style#:#sty_type_ca_icont#:#Carousel Item Content
+style#:#sty_type_ca_ihead#:#Carousel Item Header
+exc#:#exc_peer_review_given#:#Gegebenes Feedback zeigen
+exc#:#exc_peer_review_show_received_none#:#Sie haben kein Feedback erhalten.
+exc#:#exc_peer_review_min_chars_tgl#:#Mindestlänge
+exc#:#exc_peer_review_min_chars#:#Mindestanzahl Zeichen
+exc#:#exc_peer_review_min_chars_info#:#Die nötige Anzahl Zeichen für ein gültiges Feedback.
+exc#:#exc_peer_review_chars_invalid#:#Sie haben noch nicht die erforderliche Länge des Textes von %s Zeichen in mind. einem Feedback erreicht.
+exc#:#exc_peer_review_show_missing#:#Sie können das erhaltene Feedback nicht einsehen, da Sie zu wenig Feedback gegeben haben.
+exc#:#exc_peer_review_simple_unlock#:#Anzeige der erhaltenen Bewertungen
+exc#:#exc_peer_review_simple_unlock_active#:#Nach Abgabe einer Bewertung
+exc#:#exc_peer_review_simple_unlock_inactive#:#Nach Abgabe aller Bewertungen
+exc#:#exc_peer_review_min_number#:#Anzahl der Bewertungen je Teilnehmer
+exc#:#exc_peer_review_completion#:#Bestimmung des Status "Bestanden"
+exc#:#exc_peer_review_completion_none#:#Keine Abgabe einer Bewertung notwendig
+exc#:#exc_peer_review_completion_one#:#Bereits nach Abgabe einer Bewertung
+exc#:#exc_peer_review_completion_all#:#Erst nach Abgabe aller Bewertungen
+exc#:#exc_team_multi_create#:#Team erstellen
+exc#:#exc_team_multi_dissolve#:#Team(s) auflösen
+exc#:#exc_team_management_tutor#:#Team-Management durch Tutoren
+exc#:#exc_team_management_tutor_info#:#Bei Aktivierung dieser Option könne Teilnehmer ihre Teams nicht selbst organisieren.
+exc#:#exc_no_team_yet_info_tutor#:#Teams werden von den Übungstutoren verwaltet.
+exc#:#exc_max_file#:#Maximale Dateianzahl
+exc#:#exc_max_file_info#:#Nach Erreichen des Limits können Teilnehmer keine weiteren Dateien hochladen.
+exc#:#exc_max_file_tgl#:#Uploads begrenzen
+exc#:#exc_max_file_reached#:#Sie können maximal %s Dateien hochladen.
+exc#:#exc_deadline_extended#:#Karenzzeit
+exc#:#exc_deadline_extended_info#:#Im Zeitraum zwischen dem Abgabetermin und dem Ende der Karenzzeit können verspätete Abgaben vorgenommen werden.
+exc#:#exc_late_submission_warning#:#Abgaben nach %s werden als verspätet gekennzeichnet.
+exc#:#exc_late_submission#:#Verspätete Abgabe
+exc#:#exc_adopt_group_teams#:#Teams aus Gruppen bilden
+exc#:#exc_adopt_group_teams_no_members#:#Keine Mitglieder
+exc#:#exc_adopt_group_teams_conflict#:#Benutzer "%1$s" ist bereits in Gruppe "%2$s" gewählt.
+exc#:#exc_adopt_group_teams_added#:#%s Benutzer wurden hinzugefügt.
+exc#:#exc_adopt_group_teams_blocked#:#%s Benutzer waren bereits vorhanden.
+exc#:#exc_deadline_ext_mismatch#:#Die Karenzzeit muss nach dem Abgabetermin enden.
+wiki#:#wiki_link_md_values#:#Automatische Verlinkung
+wiki#:#wiki_link_md_values_info#:#Verlinkt automatisch Eigenschaftenwerte im Seitenblock mit gleichlautenden Wikiseiten (wenn vorhanden).
+content#:#cont_pc_carousel#:#Karussell
+style#:#sty_carousel_templates#:#Karussell Templates
+style#:#sty_ca_cntr_class#:#Carousel Container
+style#:#sty_ca_icntr_class#:#Carousel Item Container
+style#:#sty_ca_icont_class#:#Carousel Item Content
+style#:#sty_ca_ihead_class#:#Carousel Item Header
+content#:#cont_cc_sub#:#Tiefgestellt
+content#:#cont_cc_sup#:#Hochgestellt
+style#:#sty_type_sub#:#Tiefgestellt
+style#:#sty_type_sup#:#Hochgestellt
+content#:#cont_text_sub#:#Tiefgestellt
+content#:#cont_text_sup#:#Hochgestellt

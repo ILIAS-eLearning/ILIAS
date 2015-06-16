@@ -112,7 +112,7 @@ abstract class ilMembershipAdministrationGUI extends ilObjectGUI
 
 	protected function initFormSettings()
 	{	    
-		global $ilSetting;
+		global $ilSetting, $ilAccess;
 		
 		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 		$form = new ilPropertyFormGUI();
@@ -135,8 +135,11 @@ abstract class ilMembershipAdministrationGUI extends ilObjectGUI
 			$this
 		);
 		
-		$form->addCommandButton("saveSettings", $this->lng->txt("save"));
-		$form->addCommandButton("view", $this->lng->txt("cancel"));
+		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		{
+			$form->addCommandButton("saveSettings", $this->lng->txt("save"));
+			$form->addCommandButton("view", $this->lng->txt("cancel"));
+		}
 
 		return $form;
 	}

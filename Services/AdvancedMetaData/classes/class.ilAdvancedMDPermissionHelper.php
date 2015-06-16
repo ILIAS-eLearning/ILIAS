@@ -197,6 +197,25 @@ class ilAdvancedMDPermissionHelper extends ilClaimingPermissionHelper
 		
 		return $res;
 	}	
+	
+	protected function checkPermission($a_context_type, $a_context_id, $a_action_id, $a_action_sub_id = null)
+	{		
+		global $ilAccess;
+		
+		if(!$this->checkPlugins($a_context_type, $a_context_id, $a_action_id, $a_action_sub_id))
+		{
+			return false;
+		}
+		
+		// export is considered read-action
+		if($a_context_type == ilAdvancedMDPermissionHelper::CONTEXT_RECORD &&
+			$a_action_id == ilAdvancedMDPermissionHelper::ACTION_RECORD_EXPORT)
+		{
+			 return $ilAccess->checkAccessOfUser($this->getUserId(), "read", "", $this->getRefId());
+		}
+		
+		return $this->checkRBAC();
+	}
 }
 
 ?>

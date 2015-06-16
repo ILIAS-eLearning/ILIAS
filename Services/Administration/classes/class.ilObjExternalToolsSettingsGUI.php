@@ -287,56 +287,58 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 	{
 		global $ilAccess, $rbacreview, $lng, $ilCtrl;
 		
-		if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
-		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
-		}
-		
 		$this->__initSubTabs("editSocialBookmarks");
-		
-
-
+				
+		$has_write = $ilAccess->checkAccess('write','',$this->object->getRefId());
+	
 		include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 
 		include_once './Services/Administration/classes/class.ilSocialBookmarks.php';
 		$rset = ilSocialBookmarks::_getEntry();
 
 		$counter = 0;
-		foreach($rset as $row)
+		foreach($rset as $idx => $row)
 		{
-			$current_selection_list = new ilAdvancedSelectionListGUI();
-			$current_selection_list->setListTitle($lng->txt("actions"));
-			$current_selection_list->setId("act_".$counter++);
-
-			$ilCtrl->setParameter($this, 'sbm_id', $row->sbm_id);
-
-			$current_selection_list->addItem($lng->txt("edit"), '', $ilCtrl->getLinkTarget($this, "editSocialBookmark"));
-			$current_selection_list->addItem($lng->txt("delete"), '', $ilCtrl->getLinkTarget($this, "deleteSocialBookmarks"));
-			
-			$toggle_action = '';
-			if ($row->sbm_active)
-			{
-				$current_selection_list->addItem($lng->txt("socialbm_disable"), '', $toggle_action = $ilCtrl->getLinkTarget($this, "disableSocialBookmarks"));
-			}
-			else
-			{
-				$current_selection_list->addItem($lng->txt("socialbm_enable"), '', $toggle_action = $ilCtrl->getLinkTarget($this, "enableSocialBookmarks"));
-			}
-
-
-
-			$dset[] = array
-			(
-				'CHECK' => ilUtil::formCheckbox(0, 'sbm_id[]', $row->sbm_id),
-				'ID' => $row->sbm_id,
+			$dset[$idx] = array
+			(			
 				'TITLE' => $row->sbm_title,
 				'LINK' => str_replace('{', '&#123;', $row->sbm_link),
-				'ICON' => $row->sbm_icon,
-				'ACTIVE' => $row->sbm_active ? $lng->txt('enabled') : $lng->txt('disabled'),
-				'ACTIONS' => $current_selection_list->getHTML(),
-				'TOGGLE_LINK' => $toggle_action
+				'ICON' => $row->sbm_icon,				
 			);
-			$ilCtrl->clearParameters($this);
+			
+			if($has_write)
+			{
+				$current_selection_list = new ilAdvancedSelectionListGUI();
+				$current_selection_list->setListTitle($lng->txt("actions"));
+				$current_selection_list->setId("act_".$counter++);
+
+				$ilCtrl->setParameter($this, 'sbm_id', $row->sbm_id);
+
+				$current_selection_list->addItem($lng->txt("edit"), '', $ilCtrl->getLinkTarget($this, "editSocialBookmark"));
+				$current_selection_list->addItem($lng->txt("delete"), '', $ilCtrl->getLinkTarget($this, "deleteSocialBookmarks"));
+
+				$toggle_action = '';
+				if ($row->sbm_active)
+				{
+					$current_selection_list->addItem($lng->txt("socialbm_disable"), '', $toggle_action = $ilCtrl->getLinkTarget($this, "disableSocialBookmarks"));
+				}
+				else
+				{
+					$current_selection_list->addItem($lng->txt("socialbm_enable"), '', $toggle_action = $ilCtrl->getLinkTarget($this, "enableSocialBookmarks"));
+				}
+				
+				$ilCtrl->clearParameters($this);
+				
+				$dset[$idx]['CHECK'] = ilUtil::formCheckbox(0, 'sbm_id[]', $row->sbm_id);
+				$dset[$idx]['ID'] = $row->sbm_id;
+				$dset[$idx]['ACTIONS'] = $current_selection_list->getHTML();
+				$dset[$idx]['TOGGLE_LINK'] = $toggle_action;
+				$dset[$idx]['ACTIVE'] = $row->sbm_active ? $lng->txt('enabled') : $lng->txt('disabled');
+			}		
+			else
+			{
+				$dset[$idx]['ACTIVE_STATIC'] = $row->sbm_active ? $lng->txt('enabled') : $lng->txt('disabled');
+			}
 		}
 
 		require_once 'Services/Table/classes/class.ilTable2GUI.php';
@@ -345,25 +347,34 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		$table->setId('smtable');
 		$table->setPrefix('sm');
 		$table->setFormAction($ilCtrl->getFormAction($this, 'saveSocialBookmarks'));
-		$table->addColumn('', 'check', '', true);
+		if($has_write)
+		{
+			$table->addColumn('', 'check', '', true);
+		}
 		$table->addColumn($lng->txt('icon'), '');
 		$table->addColumn($lng->txt('title'), 'TITLE');
 		$table->addColumn($lng->txt('link'), 'LINK');
 		$table->addColumn($lng->txt('active'), 'ACTIVE');
-		$table->addColumn($lng->txt('actions'), '');
+		if($has_write)
+		{			
+			$table->addColumn($lng->txt('actions'), '');
+		}
 		$table->setTitle($lng->txt('bm_manage_social_bm'));
 		$table->setData($dset);
-		$table->setRowTemplate('tpl.social_bookmarking_row.html', 'Services/Administration');
-		$table->setSelectAllCheckbox('sbm_id');
+		$table->setRowTemplate('tpl.social_bookmarking_row.html', 'Services/Administration');		
 
 		$table->setDefaultOrderField("title");
 		$table->setDefaultOrderDirection("asc");
 
-		$table->addMultiCommand('enableSocialBookmarks', $lng->txt('socialbm_enable'));
-		$table->addMultiCommand('disableSocialBookmarks', $lng->txt('socialbm_disable'));
-		$table->addMultiCommand('deleteSocialBookmarks', $lng->txt('delete'));
+		if($has_write)
+		{
+			$table->addMultiCommand('enableSocialBookmarks', $lng->txt('socialbm_enable'));
+			$table->addMultiCommand('disableSocialBookmarks', $lng->txt('socialbm_disable'));
+			$table->addMultiCommand('deleteSocialBookmarks', $lng->txt('delete'));
+			$table->setSelectAllCheckbox('sbm_id');
 
-		$table->addCommandButton('addSocialBookmark', $lng->txt('create'));
+			$table->addCommandButton('addSocialBookmark', $lng->txt('create'));
+		}
 		
 		$this->tpl->setVariable('ADM_CONTENT', $table->getHTML());
 	}
@@ -454,11 +465,6 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		
 		global $ilAccess, $lng, $ilCtrl, $tpl;
 		
-		if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
-		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
-		}
-		
 		$this->__initSubTabs("editMaps");
 		$std_tile_server = ilMapUtil::getStdTileServer();
 		$std_geolocation_server = ilMapUtil::getStdGeolocation();
@@ -511,11 +517,12 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		$loc_prop->setLongitude($std_longitude);
 		$loc_prop->setZoom($std_zoom);
 		$form->addItem($loc_prop);
-
-
-
-		$form->addCommandButton("saveMaps", $lng->txt("save"));
-		$form->addCommandButton("view", $lng->txt("cancel"));
+		
+		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		{
+			$form->addCommandButton("saveMaps", $lng->txt("save"));
+			$form->addCommandButton("view", $lng->txt("cancel"));
+		}
 		
 		$tpl->setVariable("ADM_CONTENT", $form->getHTML());
 	}
@@ -525,24 +532,27 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 	* Save Maps Setttings
 	*/
 	function saveMapsObject()
-	{
-		require_once("Services/Maps/classes/class.ilMapUtil.php");
-		
-		global $ilCtrl;
-		
-		ilMapUtil::setActivated(ilUtil::stripSlashes($_POST["enable"]) == "1");
-		ilMapUtil::setType(ilUtil::stripSlashes($_POST["type"]));
-		if($_POST["use_custom_map_server"] == "1") {
-			ilMapUtil::setStdUseCustomMapServer(1);
-			ilMapUtil::setStdTileServer(ilUtil::stripSlashes($_POST["tile"]));
-			ilMapUtil::setStdGeolocation(ilUtil::stripSlashes($_POST["geolocation"]));
-		} else {
-			ilMapUtil::setStdUseCustomMapServer(0);
+	{		
+		global $ilCtrl, $ilAccess;
+			
+		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		{
+			require_once("Services/Maps/classes/class.ilMapUtil.php");
+
+			ilMapUtil::setActivated(ilUtil::stripSlashes($_POST["enable"]) == "1");
+			ilMapUtil::setType(ilUtil::stripSlashes($_POST["type"]));
+			if($_POST["use_custom_map_server"] == "1") {
+				ilMapUtil::setStdUseCustomMapServer(1);
+				ilMapUtil::setStdTileServer(ilUtil::stripSlashes($_POST["tile"]));
+				ilMapUtil::setStdGeolocation(ilUtil::stripSlashes($_POST["geolocation"]));
+			} else {
+				ilMapUtil::setStdUseCustomMapServer(0);
+			}
+			ilMapUtil::setStdLatitude(ilUtil::stripSlashes($_POST["std_location"]["latitude"]));
+			ilMapUtil::setStdLongitude(ilUtil::stripSlashes($_POST["std_location"]["longitude"]));
+			ilMapUtil::setStdZoom(ilUtil::stripSlashes($_POST["std_location"]["zoom"]));
 		}
-		ilMapUtil::setStdLatitude(ilUtil::stripSlashes($_POST["std_location"]["latitude"]));
-		ilMapUtil::setStdLongitude(ilUtil::stripSlashes($_POST["std_location"]["longitude"]));
-		ilMapUtil::setStdZoom(ilUtil::stripSlashes($_POST["std_location"]["zoom"]));
-		
+
 		$ilCtrl->redirect($this, "editMaps");
 	}
 	
@@ -575,11 +585,17 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 	
 	function &executeCommand()
 	{
+		global $ilAccess;
 		
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 		$this->prepareOutput();
-
+				
+		if (!$ilAccess->checkAccess("read", "", $this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+		
 		switch($next_class)
 		{
 			case 'ilecssettingsgui':

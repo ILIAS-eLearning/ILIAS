@@ -400,6 +400,10 @@ class ilObjSurvey extends ilObject
 				array($active_fi)
 			);
 		}
+		
+		include_once "Services/Object/classes/class.ilObjectLP.php";
+		$lp_obj = ilObjectLP::getInstance($this->getId());
+		$lp_obj->resetLPDataForCompleteObject();
 	}
 	
 	/**
@@ -411,6 +415,8 @@ class ilObjSurvey extends ilObject
 	{
 		global $ilDB;
 		
+		$user_ids[] = array();
+		
 		foreach ($finished_ids as $finished_id)
 		{
 			$result = $ilDB->queryF("SELECT finished_id FROM svy_finished WHERE finished_id = %s",
@@ -418,6 +424,11 @@ class ilObjSurvey extends ilObject
 				array($finished_id)
 			);
 			$row = $ilDB->fetchAssoc($result);
+			
+			if($row["user_fi"])
+			{
+				$user_ids[] = $row["user_fi"];
+			}
 
 			$affectedRows = $ilDB->manipulateF("DELETE FROM svy_answer WHERE active_fi = %s",
 				array('integer'),
@@ -433,6 +444,13 @@ class ilObjSurvey extends ilObject
 				array('integer'),
 				array($row["finished_id"])
 			);
+		}
+		
+		if(sizeof($user_ids))
+		{
+			include_once "Services/Object/classes/class.ilObjectLP.php";
+			$lp_obj = ilObjectLP::getInstance($this->getId());
+			$lp_obj->resetLPDataForUserIds($user_ids);
 		}
 	}
 	

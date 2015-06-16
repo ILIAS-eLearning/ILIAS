@@ -102,55 +102,96 @@ class ilPCTabsGUI extends ilPageContentGUI
 			$this->form->setTitle($lng->txt("cont_edit_tabs"));
 		}
 		
-		// tabs type
-		/*$type_prop = new ilSelectInputGUI($lng->txt("cont_type"),
-			"type");
-		$types = array(ilPCTabs::ACCORDION_VER => $lng->txt("cont_tabs_acc_ver"),
-			ilPCTabs::ACCORDION_HOR => $lng->txt("cont_tabs_acc_hor"));
-		$type_prop->setOptions($types);
-		$this->form->addItem($type_prop);*/
-		
-		$templ = $this->getTemplateOptions("vaccordion");
 
-		require_once("./Services/Form/classes/class.ilAdvSelectInputGUI.php");
-		$vchar_prop = new ilAdvSelectInputGUI($this->lng->txt("cont_characteristic"),
-			"vaccord_templ");
-
-		$vchars = array();
-		foreach($templ as $k => $te)
-		{
-			$t = explode(":", $k);
-			$html = $this->style->lookupTemplatePreview($t[1]).'<div style="clear:both" class="small">'.$te."</div>";
-			$vchar_prop->addOption($k, $te, $html);
-			if ($t[2] == "VerticalAccordion")
-			{
-				$vchar_prop->setValue($k);
-			}
-		}
-
-		$templ = $this->getTemplateOptions("haccordion");
-		$hchar_prop = new ilAdvSelectInputGUI($this->lng->txt("cont_characteristic"),
-			"haccord_templ");
-		$hchars = array();
-		foreach($templ as $k => $te)
-		{
-			$t = explode(":", $k);
-			$html = $this->style->lookupTemplatePreview($t[1]).'<div style="clear:both" class="small">'.$te."</div>";
-			$hchar_prop->addOption($k, $te, $html);
-			if ($t[2] == "HorizontalAccordion")
-			{
-				$hchar_prop->setValue($k);
-			}
-		}
-		
+		// type selection
 		$radg = new ilRadioGroupInputGUI($lng->txt("cont_type"), "type");
 		$radg->setValue(ilPCTabs::ACCORDION_VER);
+
+		// type: vertical accordion
 		$op1 = new ilRadioOption($lng->txt("cont_tabs_acc_ver"), ilPCTabs::ACCORDION_VER);
-		$op1->addSubItem($vchar_prop);
+
+			$templ = $this->getTemplateOptions("vaccordion");
+			require_once("./Services/Form/classes/class.ilAdvSelectInputGUI.php");
+			if (count($templ) > 0)
+			{
+				$vchar_prop = new ilAdvSelectInputGUI($this->lng->txt("cont_characteristic"),
+					"vaccord_templ");
+				foreach($templ as $k => $te)
+				{
+					$t = explode(":", $k);
+					$html = $this->style->lookupTemplatePreview($t[1]).'<div style="clear:both" class="small">'.$te."</div>";
+					$vchar_prop->addOption($k, $te, $html);
+					if ($t[2] == "VerticalAccordion")
+					{
+						$vchar_prop->setValue($k);
+					}
+				}
+				$op1->addSubItem($vchar_prop);
+			}
+			else
+			{
+				$vchar_prop = new ilHiddenInputGUI("vaccord_templ");
+				$this->form->addItem($vchar_prop);
+			}
 		$radg->addOption($op1);
+
+
+
+		// type: horizontal accordion
 		$op2 = new ilRadioOption($lng->txt("cont_tabs_acc_hor"), ilPCTabs::ACCORDION_HOR);
-		$op2->addSubItem($hchar_prop);
+
+			$templ = $this->getTemplateOptions("haccordion");
+			if (count($templ) > 0)
+			{
+				$hchar_prop = new ilAdvSelectInputGUI($this->lng->txt("cont_characteristic"),
+					"haccord_templ");
+				foreach($templ as $k => $te)
+				{
+					$t = explode(":", $k);
+					$html = $this->style->lookupTemplatePreview($t[1]).'<div style="clear:both" class="small">'.$te."</div>";
+					$hchar_prop->addOption($k, $te, $html);
+					if ($t[2] == "HorizontalAccordion")
+					{
+						$hchar_prop->setValue($k);
+					}
+				}
+				$op2->addSubItem($hchar_prop);
+			}
+			else
+			{
+				$hchar_prop = new ilHiddenInputGUI("haccord_templ");
+				$this->form->addItem($hchar_prop);
+			}
+
 		$radg->addOption($op2);
+
+		// type: carousel
+		$op3 = new ilRadioOption($lng->txt("cont_tabs_carousel"), ilPCTabs::CAROUSEL);
+			$templ = $this->getTemplateOptions("carousel");
+			require_once("./Services/Form/classes/class.ilAdvSelectInputGUI.php");
+			if (count($templ) > 0)
+			{
+				$cchar_prop = new ilAdvSelectInputGUI($this->lng->txt("cont_characteristic"),
+					"carousel_templ");
+				foreach($templ as $k => $te)
+				{
+					$t = explode(":", $k);
+					$html = $this->style->lookupTemplatePreview($t[1]).'<div style="clear:both" class="small">'.$te."</div>";
+					$cchar_prop->addOption($k, $te, $html);
+					if ($t[2] == "Carousel")
+					{
+						$cchar_prop->setValue($k);
+					}
+				}
+				$op3->addSubItem($cchar_prop);
+			}
+			else
+			{
+				$cchar_prop = new ilHiddenInputGUI("carousel_templ");
+				$this->form->addItem($cchar_prop);
+			}
+
+		$radg->addOption($op3);
 		$this->form->addItem($radg);
 		
 		
@@ -181,9 +222,12 @@ class ilPCTabsGUI extends ilPageContentGUI
 			"FirstOpen" => $lng->txt("cont_first_open"),
 			"ForceAllOpen" => $lng->txt("cont_force_all_open"),
 			);
-		$si = new ilSelectInputGUI($this->lng->txt("cont_behavior"), "behavior");
+		$si = new ilSelectInputGUI($this->lng->txt("cont_behavior"), "vbehavior");
 		$si->setOptions($options);
-		$this->form->addItem($si);
+		$op1->addSubItem($si);
+		$si = new ilSelectInputGUI($this->lng->txt("cont_behavior"), "hbehavior");
+		$si->setOptions($options);
+		$op2->addSubItem($si);
 		
 		
 		// alignment
@@ -191,11 +235,30 @@ class ilPCTabsGUI extends ilPageContentGUI
 			"Right" => $lng->txt("cont_right"), "Center" => $lng->txt("cont_center"),
 			"LeftFloat" => $lng->txt("cont_left_float"),
 			"RightFloat" => $lng->txt("cont_right_float"));
-		$align = new ilSelectInputGUI($this->lng->txt("cont_align"), "align");
+		$align = new ilSelectInputGUI($this->lng->txt("cont_align"), "valign");
 		$align->setOptions($align_opts);
 		$align->setValue("Center");
-		$align->setInfo($lng->txt("cont_tabs_hor_align_info"));
-		$this->form->addItem($align);
+		//$align->setInfo($lng->txt("cont_tabs_hor_align_info"));
+		$op1->addSubItem($align);
+		$align = new ilSelectInputGUI($this->lng->txt("cont_align"), "calign");
+		$align->setOptions($align_opts);
+		$align->setValue("Center");
+		$op3->addSubItem($align);
+
+		// carousel: time
+		$ti = new ilNumberInputGUI($this->lng->txt("cont_auto_time"), "auto_time");
+		$ti->setMaxLength(6);
+		$ti->setSize(6);
+		$ti->setSuffix("ms");
+		$ti->setMinValue(100);
+		$op3->addSubItem($ti);
+
+		// carousel: random start
+		$cb = new ilCheckboxInputGUI($this->lng->txt("cont_rand_start"), "rand_start");
+		//$cb->setOptionTitle($this->lng->txt(""));
+		//$cb->setInfo($this->lng->txt(""));
+		$op3->addSubItem($cb);
+
 
 		// save/cancel buttons
 		if ($a_mode == "create")
@@ -218,8 +281,14 @@ class ilPCTabsGUI extends ilPageContentGUI
 		$values["type"] = $this->content_obj->getTabType();
 		$values["content_width"] = $this->content_obj->getContentWidth();
 		$values["content_height"] = $this->content_obj->getContentHeight();
-		$values["align"] = $this->content_obj->getHorizontalAlign();
-		$values["behavior"] = $this->content_obj->getBehavior();
+		$values["valign"] = $this->content_obj->getHorizontalAlign();
+		$values["calign"] = $this->content_obj->getHorizontalAlign();
+		$values["vbehavior"] = $this->content_obj->getBehavior();
+		$values["hbehavior"] = $this->content_obj->getBehavior();
+
+		$values["auto_time"] = $this->content_obj->getAutoTime();
+		$values["rand_start"] = $this->content_obj->getRandomStart();
+
 		$this->form->setValuesByArray($values);
 		
 		if ($values["type"] == ilPCTabs::ACCORDION_VER)
@@ -238,6 +307,14 @@ class ilPCTabsGUI extends ilPageContentGUI
 				$this->content_obj->getTemplate();
 			$ha->setValue($v);
 		}
+		if ($values["type"] == ilPCTabs::CAROUSEL)
+		{
+			$ca = $this->form->getItemByPostVar("carousel_templ");
+			$v = "t:".
+				ilObjStyleSheet::_lookupTemplateIdByName($this->getStyleId(), $this->content_obj->getTemplate()).":".
+				$this->content_obj->getTemplate();
+			$ca->setValue($v);
+		}
 	}
 
 	/**
@@ -252,25 +329,14 @@ class ilPCTabsGUI extends ilPageContentGUI
 		{
 			$this->content_obj = new ilPCTabs($this->getPage());
 			$this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
-			$this->content_obj->setTabType($_POST["type"]);
-			$this->content_obj->setContentWidth($_POST["content_width"]);
-			$this->content_obj->setContentHeight($_POST["content_height"]);
-			$this->content_obj->setHorizontalAlign($_POST["align"]);
-			$this->content_obj->setBehavior($_POST["behavior"]);
+
+			$this->setPropertiesByForm();
+
 			for ($i = 0; $i < (int) $_POST["nr"]; $i++)
 			{
 				$this->content_obj->addTab($lng->txt("cont_new_tab"));
 			}
-			if ($_POST["type"] == ilPCTabs::ACCORDION_VER)
-			{
-				$t = explode(":", $_POST["vaccord_templ"]);
-				$this->content_obj->setTemplate($t[2]);
-			}
-			if ($_POST["type"] == ilPCTabs::ACCORDION_HOR)
-			{
-				$t = explode(":", $_POST["haccord_templ"]);
-				$this->content_obj->setTemplate($t[2]);
-			}
+
 			$this->updated = $this->pg_obj->update();
 
 			if ($this->updated === true)
@@ -308,6 +374,47 @@ class ilPCTabsGUI extends ilPageContentGUI
 		$this->edit();
 	}
 
+	/**
+	 * Set properties by post
+	 *
+	 * @param
+	 * @return
+	 */
+	function setPropertiesByForm()
+	{
+		$c = $this->content_obj;
+		$f = $this->form;
+
+		$c->setTabType($f->getInput("type"));
+
+		$c->setContentWidth($f->getInput("content_width"));
+		$c->setContentHeight($f->getInput("content_height"));
+		$c->setTemplate("");
+		switch ($_POST["type"])
+		{
+			case ilPCTabs::ACCORDION_VER:
+				$t = explode(":", $f->getInput("vaccord_templ"));
+				$c->setTemplate($t[2]);
+				$c->setBehavior($f->getInput("vbehavior"));
+				$c->setHorizontalAlign($f->getInput("valign"));
+				break;
+
+			case ilPCTabs::ACCORDION_HOR:
+				$t = explode(":", $f->getInput("haccord_templ"));
+				$c->setTemplate($t[2]);
+				$c->setBehavior($f->getInput("hbehavior"));
+				break;
+
+			case ilPCTabs::CAROUSEL:
+				$t = explode(":", $f->getInput("carousel_templ"));
+				$c->setTemplate($t[2]);
+				$c->setHorizontalAlign($f->getInput("calign"));
+				$c->setAutoTime($f->getInput("auto_time"));
+				$c->setRandomStart($f->getInput("rand_start"));
+				break;
+		}
+	}
+
 
 	/**
 	* Save tabs properties in db and return to page edit screen
@@ -315,29 +422,17 @@ class ilPCTabsGUI extends ilPageContentGUI
 	function update()
 	{
 		$this->initForm();
+		$this->updated = false;
 		if ($this->form->checkInput())
 		{
-			$this->content_obj->setTabType(ilUtil::stripSlashes($_POST["type"]));
-			$this->content_obj->setContentWidth($_POST["content_width"]);
-			$this->content_obj->setContentHeight($_POST["content_height"]);
-			$this->content_obj->setHorizontalAlign($_POST["align"]);
-			$this->content_obj->setTemplate("");
-			$this->content_obj->setBehavior($_POST["behavior"]);
-			if ($_POST["type"] == ilPCTabs::ACCORDION_VER)
-			{
-				$t = explode(":", $_POST["vaccord_templ"]);
-				$this->content_obj->setTemplate($t[2]);
-			}
-			if ($_POST["type"] == ilPCTabs::ACCORDION_HOR)
-			{
-				$t = explode(":", $_POST["haccord_templ"]);
-				$this->content_obj->setTemplate($t[2]);
-			}
+			$this->setPropertiesByForm();
+			$this->updated = $this->pg_obj->update();
 		}
-		$this->updated = $this->pg_obj->update();
 		if ($this->updated === true)
 		{
-			$this->ctrl->returnToParent($this, "jump".$this->hier_id);
+			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+			$this->ctrl->redirect($this, "editProperties");
+			//$this->ctrl->returnToParent($this, "jump".$this->hier_id);
 		}
 		else
 		{

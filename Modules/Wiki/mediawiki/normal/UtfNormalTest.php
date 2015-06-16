@@ -29,18 +29,26 @@ $verbose = true;
 
 if( defined( 'PRETTY_UTF8' ) ) {
 	function pretty( $string ) {
-		return preg_replace( '/([\x00-\xff])/e',
-			'sprintf("%02X", ord("$1"))',
-			$string );
+		return preg_replace_callback(
+            '/([\x00-\xff])/',
+            function($hit) {
+                return sprintf("%02X", ord($hit[1]));
+            },
+            $string
+        );
 	}
 } else {
 	/**
 	 * @ignore
 	 */
 	function pretty( $string ) {
-		return trim( preg_replace( '/(.)/use',
-			'sprintf("%04X ", utf8ToCodepoint("$1"))',
-			$string ) );
+		return trim( preg_replace_callback(
+            '/(.)/us',
+			function($hit) {
+                return sprintf("%04X ", utf8ToCodepoint($hit[1]));
+            },
+			$string
+        ));
 	}
 }
 

@@ -41,7 +41,7 @@ class ilMediaCastHandlerGUI
 		if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 		{
 			$ilNavigationHistory->addItem($_GET["ref_id"],
-				"ilias.php?baseClass=ilMediaCastHandlerGUI&cmd=listItems&ref_id=".$_GET["ref_id"], "mcst");
+				"ilias.php?baseClass=ilMediaCastHandlerGUI&cmd=showContent&ref_id=".$_GET["ref_id"], "mcst");
 		}
 
 		switch ($next_class)

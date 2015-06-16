@@ -813,7 +813,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 		{
 			if(!$this->isArrayColumn($c))
 			{
-				$val = $this->parseValue($c, $a_set[$c], "user");
+				$val = $this->parseValue($c, $a_set[$c], $a_set["type"]);
 				$worksheet->write($a_row, $cnt, $val);
 				$cnt++;
 			}
@@ -910,7 +910,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 		{
 			if(!$this->isArrayColumn($c))
 			{
-				$val = $this->parseValue($c, $a_set[$c], "user");
+				$val = $this->parseValue($c, $a_set[$c], $a_set["type"]);
 				$a_csv->addColumn($val);
 			}
 			else

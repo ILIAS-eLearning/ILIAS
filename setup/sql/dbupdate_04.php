@@ -5774,3 +5774,127 @@ $ilDB->manipulate(
 
 
 ?>
+<#4473>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#4474>
+<?php
+
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');				
+$lp_type_id = ilDBUpdateNewObjectType::getObjectTypeId('svy');
+if($lp_type_id)
+{				
+	$src_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('write');	
+
+	// clone settings from "write" to "edit_learning_progress"
+	$tgt_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('edit_learning_progress');	
+	if($tgt_ops_id)
+	{
+		ilDBUpdateNewObjectType::addRBACOperation($lp_type_id, $tgt_ops_id);				
+		ilDBUpdateNewObjectType::cloneOperation('svy', $src_ops_id, $tgt_ops_id);
+	}
+
+	// clone settings from "write" to "read_learning_progress"
+	$tgt_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('read_learning_progress');	
+	if($tgt_ops_id)
+	{
+		ilDBUpdateNewObjectType::addRBACOperation($lp_type_id, $tgt_ops_id);		
+		ilDBUpdateNewObjectType::cloneOperation('svy', $src_ops_id, $tgt_ops_id);
+	}
+}	
+
+?>
+<#4475>
+<?php
+
+if($ilDB->tableColumnExists('obj_stat', 'tstamp'))
+{
+	$ilDB->dropTableColumn('obj_stat', 'tstamp');
+}
+
+?>
+<#4476>
+<?php
+if(!$ilDB->uniqueConstraintExists('usr_data', array('login')))
+{
+	$res = $ilDB->query("
+		SELECT COUNT(*) cnt
+		FROM (
+			SELECT login
+			FROM usr_data
+			GROUP BY login
+			HAVING COUNT(*) > 1
+		) duplicatelogins
+	");
+	$data = $ilDB->fetchAssoc($res);
+	if($data['cnt'] > 0)
+	{
+		echo "<pre>
+				Dear Administrator,
+
+				PLEASE READ THE FOLLOWING INSTRUCTIONS
+
+				The update process has been stopped due to data inconsistency reasons.
+				We found multiple ILIAS user accounts with the same login. You have to fix this issue manually.
+
+				Database table: usr_data
+				Field: login
+
+				You can determine these accounts by executing the following SQL statement:
+				SELECT * FROM usr_data WHERE login IN(SELECT login FROM usr_data GROUP BY login HAVING COUNT(*) > 1)
+
+				Please manipulate the affected records by choosing different login names.
+				If you try to rerun the update process, this warning will apear again if the issue is still not solved.
+
+				Best regards,
+				The ILIAS developers
+			</pre>";
+		exit();
+	}
+
+	$ilDB->addUniqueConstraint('usr_data', array('login'), 'uc1');
+}
+?>
+<#4477>
+<?php
+
+$query = "
+	UPDATE tst_rnd_quest_set_qpls SET pool_title = (
+		COALESCE(
+			(SELECT title FROM object_data WHERE obj_id = pool_fi), %s 
+		)
+	) WHERE pool_title IS NULL OR pool_title = %s
+";
+
+$ilDB->manipulateF($query, array('text', 'text'), array('*** unknown/deleted ***', ''));
+
+?>
+<#4478>
+<?php
+
+if( !$ilDB->tableColumnExists('tst_tests', 'broken'))
+{
+	$ilDB->addTableColumn('tst_tests', 'broken',
+		array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false,
+			'default' => null
+		)
+	);
+
+	$ilDB->queryF("UPDATE tst_tests SET broken = %s", array('integer'), array(0));
+}
+
+?>
+<#4479>
+<?php
+$ilDB->manipulate("UPDATE style_data SET ".
+	" uptodate = ".$ilDB->quote(0, "integer")
+	);
+?>
+<#4480>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

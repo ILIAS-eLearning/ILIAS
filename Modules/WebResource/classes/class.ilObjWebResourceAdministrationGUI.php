@@ -109,7 +109,7 @@ class ilObjWebResourceAdministrationGUI extends ilObjectGUI
 
 	protected function initFormSettings()
 	{	    
-		global $ilSetting;
+		global $ilSetting, $ilAccess;
 		
 		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 		$form = new ilPropertyFormGUI();
@@ -122,8 +122,11 @@ class ilObjWebResourceAdministrationGUI extends ilObjectGUI
 		$cb->setChecked($ilSetting->get("links_dynamic"));		
 		$form->addItem($cb);		
 	
-		$form->addCommandButton("saveSettings", $this->lng->txt("save"));
-		$form->addCommandButton("view", $this->lng->txt("cancel"));
+		if ($ilAccess->checkAccess("write",'',$this->object->getRefId()))
+		{
+			$form->addCommandButton("saveSettings", $this->lng->txt("save"));
+			$form->addCommandButton("view", $this->lng->txt("cancel"));
+		}
 
 		return $form;
 	}

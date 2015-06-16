@@ -136,7 +136,27 @@ class ilUserUtil
 
 		return $return_as_array ? $names : $names[$a_user_id[0]];
 	}
-	
+
+	/**
+	 * Has public profile
+	 *
+	 * @param
+	 * @return
+	 */
+	static function hasPublicProfile($a_user_id)
+	{
+		global $ilDB;
+
+		$set = $ilDB->query("SELECT value FROM usr_pref ".
+			" WHERE usr_id = ".$ilDB->quote($a_user_id, "integer").
+			" and keyword = ".$ilDB->quote("public_profile", "text")
+			);
+		$rec = $ilDB->fetchAssoc($set);
+
+		return in_array($rec["value"], array("y", "g"));
+	}
+
+
 	/**
 	 * Get link to personal profile 
 	 * Return empty string in case of not public profile

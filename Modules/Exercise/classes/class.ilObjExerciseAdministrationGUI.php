@@ -150,14 +150,18 @@ class ilObjExerciseAdministrationGUI extends ilObjectGUI
 	 */
 	protected function initFormSettings()
 	{
-	    global $lng;
+	    global $lng, $ilAccess;
 		
 		include_once('Services/Form/classes/class.ilPropertyFormGUI.php');
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->setTitle($this->lng->txt('exc_admin_settings'));
-		$form->addCommandButton('saveSettings',$this->lng->txt('save'));
-		$form->addCommandButton('cancel',$this->lng->txt('cancel'));
+		
+		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		{
+			$form->addCommandButton('saveSettings',$this->lng->txt('save'));
+			$form->addCommandButton('cancel',$this->lng->txt('cancel'));
+		}
 
 		$exc_set = new ilSetting("excs");
 		

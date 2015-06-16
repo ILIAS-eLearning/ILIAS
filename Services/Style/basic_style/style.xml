@@ -677,6 +677,10 @@
 <Style Tag="span" Type="text_inline" Class="Accent">
 	<StyleParameter Name="color" Value="#E000E0"/>
 </Style>
+<Style Tag="sup" Type="sup" Class="Sup">
+</Style>
+<Style Tag="sub" Type="sub" Class="Sub">
+</Style>
 
 <!-- Tabs -->
 <Style Tag="div" Type="va_cntr" Class="VAccordCntr">
@@ -754,6 +758,14 @@
 	<StyleParameter Name="padding" Value="3px"/>
 	<StyleParameter Name="background-color" Value="#FFFFFF"/>
 </Style>
+<Style Tag="div" Type="ca_cntr" Class="CarouselCntr">
+</Style>
+<Style Tag="div" Type="ca_icntr" Class="CarouselICntr">
+</Style>
+<Style Tag="div" Type="ca_ihead" Class="CarouselIHead">
+</Style>
+<Style Tag="div" Type="ca_icont" Class="CarouselICont">
+</Style>
 <StyleTemplate Type="vaccordion" Name="VerticalAccordion">
 	<StyleTemplateClass ClassType="va_cntr" Class="VAccordCntr" />
 	<StyleTemplateClass ClassType="va_icntr" Class="VAccordICntr" />
@@ -769,5 +781,11 @@
 	<StyleTemplateClass ClassType="ha_iheada" Class="HAccordIHeadActive" />
 	<StyleTemplateClass ClassType="ha_ihcap" Class="HAccordIHeadCap" />
 	<StyleTemplateClass ClassType="ha_icont" Class="HAccordICont" />
+</StyleTemplate>
+<StyleTemplate Type="carousel" Name="Carousel">
+	<StyleTemplateClass ClassType="ca_cntr" Class="CarouselCntr" />
+	<StyleTemplateClass ClassType="ca_icntr" Class="CarouselICntr" />
+	<StyleTemplateClass ClassType="ca_ihead" Class="CarouselIHead" />
+	<StyleTemplateClass ClassType="ca_icont" Class="CarouselICont" />
 </StyleTemplate>
 </StyleSheet>

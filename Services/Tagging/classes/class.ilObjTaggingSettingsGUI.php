@@ -169,7 +169,7 @@ class ilObjTaggingSettingsGUI extends ilObjectGUI
 	 */
 	protected function initFormSettings()
 	{
-	    global $lng;
+	    global $lng, $ilAccess;
 		
 		$tags_set = new ilSetting("tags");
 		
@@ -178,8 +178,12 @@ class ilObjTaggingSettingsGUI extends ilObjectGUI
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->setTitle($this->lng->txt('tagging_settings'));
-		$form->addCommandButton('saveSettings',$this->lng->txt('save'));
-		$form->addCommandButton('cancel',$this->lng->txt('cancel'));
+		
+		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		{
+			$form->addCommandButton('saveSettings',$this->lng->txt('save'));
+			$form->addCommandButton('cancel',$this->lng->txt('cancel'));
+		}
 
 		// enable tagging
 		$cb_prop = new ilCheckboxInputGUI($lng->txt("tagging_enable_tagging"),

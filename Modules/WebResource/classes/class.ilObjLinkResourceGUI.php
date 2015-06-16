@@ -1530,7 +1530,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 			include_once "Services/Form/classes/class.ilFormPropertyGUI.php";
 			include_once "Services/Form/classes/class.ilLinkInputGUI.php";								
 			if(ilLinkInputGUI::isInternalLink($url["target"]))			
-			{						
+			{
 				// #10612
 				$parts = explode("|", $url["target"]);
 				if ($parts[0] == "page")
@@ -1569,7 +1569,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 				include_once "Services/Form/classes/class.ilFormPropertyGUI.php";
 				include_once "Services/Form/classes/class.ilLinkInputGUI.php";								
 				if(ilLinkInputGUI::isInternalLink($item["target"]))
-				{								
+				{
 					$parts = explode("|", $item["target"]);
 					if ($parts[0] == "page")
 					{
