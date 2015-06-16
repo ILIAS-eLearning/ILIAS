@@ -161,9 +161,7 @@ class gevDBVUtils {
 		//get DBVs
 		$sql= "SELECT "
 			." ou.dbaf,"
-			." ou.dbbav,"
 			." ou.dbvg,"
-			." ou.dbatv"
 			." FROM ivimport_orgunit ou "
 			." INNER JOIN ivimport_stelle stelle "
 			."         ON ou.id = stelle.sql_org_unit_id "
