@@ -3683,23 +3683,11 @@ function getAnswerFeedbackPoints()
 		}
 	}
 
-	public function removeTestResults($userIds)
+	public function removeTestResults(ilTestParticipantData $participantData)
 	{
 		global $ilDB;
 
-		$IN_userIds = $ilDB->in('user_fi', $userIds, false, 'integer');
-		$res = $ilDB->queryF(
-			"SELECT active_id FROM tst_active WHERE test_fi = %s AND $IN_userIds",
-			array('integer'), array($this->getTestId())
-		);
-
-		$activeIds = array();
-		while( $row = $ilDB->fetchAssoc($res) )
-		{
-			$activeIds[] = $row['active_id'];
-		}
-
-		$IN_activeIds = $ilDB->in('active_fi', $activeIds, false, 'integer');
+		$IN_activeIds = $ilDB->in('active_fi', $participantData->getActiveIds(), false, 'integer');
 
 		$ilDB->manipulate("DELETE FROM tst_solutions WHERE $IN_activeIds");
 		$ilDB->manipulate("DELETE FROM tst_qst_solved WHERE $IN_activeIds");
@@ -3713,7 +3701,7 @@ function getAnswerFeedbackPoints()
 			$ilDB->manipulate("DELETE FROM tst_test_rnd_qst WHERE $IN_activeIds");
 		}
 
-		$IN_userIds = $ilDB->in('usr_id', $userIds, false, 'integer');
+		$IN_userIds = $ilDB->in('usr_id', $participantData->getUserIds(), false, 'integer');
 		$ilDB->manipulateF(
 			"DELETE FROM usr_pref WHERE $IN_userIds AND keyword = %s",
 			array('text'), array("tst_password_".$this->getTestId())
@@ -3721,7 +3709,7 @@ function getAnswerFeedbackPoints()
 
 		include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
 
-		foreach ($activeIds as $active_id)
+		foreach ($participantData->getActiveIds() as $active_id)
 		{
 			// TODO: this shouldn't be here since it is question stuff and should be modular but there's no other solution yet
 			// remove file uploads
@@ -3737,7 +3725,7 @@ function getAnswerFeedbackPoints()
 		}
 
 		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintTracking.php';
-		ilAssQuestionHintTracking::deleteRequestsByActiveIds($activeIds);
+		ilAssQuestionHintTracking::deleteRequestsByActiveIds($participantData->getActiveIds());
 	}
 
 	public function removeTestActives($activeIds)

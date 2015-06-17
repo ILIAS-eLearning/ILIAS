@@ -3652,7 +3652,7 @@ global $ilDB, $ilUser;
 		$participantData = new ilTestParticipantData($ilDB, $lng);
 		$participantData->load($this->object->getTestId());
 
-		$this->object->removeTestResults($participantData->getUserIds());
+		$this->object->removeTestResults($participantData);
 		
 		// Update lp status
 		self::_deleteLpMarksForUsers($this->object->getId(), $participantData->getUserIds());
@@ -3711,13 +3711,16 @@ global $ilDB, $ilUser;
 
 		$participantData->load($this->object->getTestId());
 
-		$this->object->removeTestResults($participantData->getUserIds());
+		$this->object->removeTestResults($participantData);
 
-		// Update lp status
-		self::_deleteLpMarksForUsers($this->object->getId(), $participantData->getUserIds());
-		self::_deleteReadEventsForUsers($this->object->getId(), $participantData->getUserIds());
-		include_once './Services/Tracking/classes/class.ilLPStatusWrapper.php';
-		ilLPStatusWrapper::_refreshStatus($this->object->getId());
+		if( count($participantData->getUserIds()) )
+		{
+			// Update lp status
+			self::_deleteLpMarksForUsers($this->object->getId(), $participantData->getUserIds());
+			self::_deleteReadEventsForUsers($this->object->getId(), $participantData->getUserIds());
+			include_once './Services/Tracking/classes/class.ilLPStatusWrapper.php';
+			ilLPStatusWrapper::_refreshStatus($this->object->getId());
+		}
 
 		$this->object->removeTestActives($participantData->getActiveIds());
 
