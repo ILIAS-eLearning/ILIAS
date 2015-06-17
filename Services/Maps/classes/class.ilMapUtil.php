@@ -33,8 +33,8 @@ class ilMapUtil
 {
 	static $_settings = null;
 
-	const DEF_TILE = "tile.openstreetmap.org";
-	const DEF_GEOLOCATION = "open.mapquestapi.com";
+	const DEFAULT_TILE = "tile.openstreetmap.org";
+	const DEFAULT_GEOLOCATION = "open.mapquestapi.com";
 
 	// Settings
 
@@ -110,14 +110,19 @@ class ilMapUtil
 		self::settings()->set("std_tile", $a_tile);
 	}
 	
+	/**
+	* Returns the standart tile server (the server to be used for newly created map wievs).
+	* Enforcing custom results in the return of the server stored in database, if present.
+	*
+	* @return	string		tile server url
+	*/
 	static function getStdTileServer($enforce_custom = false) 
 	{
 		$std_tile = self::settings()->get("std_tile");	
-		$use_custom_condition = $enforce_custom ? $enforce_custom : self::getStdUseCustomMapServer();
-		if($use_custom_condition && $std_tile) {
+		if(($enforce_custom || self::getStdUseCustomMapServer()) && $std_tile) {
 			return $std_tile;
 		} else {
-			return self::DEF_TILE;	
+			return self::DEFAULT_TILE;	
 		}
 	}
 	
@@ -126,15 +131,20 @@ class ilMapUtil
 	{
 		self::settings()->set("std_geolocation", $a_geolocation);
 	}
-	
+
+	/**
+	* Returns the standart geolocation server (the server to be used for newly created map wievs).
+	* Enforcing custom results in the return of the server stored in database, if present.
+	*
+	* @return	string		geolocation server url
+	*/
 	static function getStdGeolocation($enforce_custom = false) 
 	{
 		$std_geolocation = self::settings()->get("std_geolocation");
-		$use_custom_condition = $enforce_custom ? $enforce_custom : self::getStdUseCustomMapServer();
-		if($use_custom_condition && $std_geolocation) {
+		if(($enforce_custom || self::getStdUseCustomMapServer()) && $std_geolocation) {
 			return $std_geolocation;
 		} else {
-			return self::DEF_GEOLOCATION;
+			return self::DEFAULT_GEOLOCATION;
 		}
 
 	}

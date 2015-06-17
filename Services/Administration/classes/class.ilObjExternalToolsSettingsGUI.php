@@ -505,7 +505,8 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 
 			$custom_map_server->addSubItem($tile);
 			$custom_map_server->addSubItem($geolocation);
-			$custom_map_server->setInfo(sprintf($lng->txt("maps_custom_server_info"),ilMapUtil::DEF_TILE,ilMapUtil::DEF_GEOLOCATION));
+			$custom_map_server->setInfo(sprintf($lng->txt("maps_custom_server_info"),
+									ilMapUtil::DEFAULT_TILE, ilMapUtil::DEFAULT_GEOLOCATION));
 			$form->addItem($custom_map_server);
 		}
 		
