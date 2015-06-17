@@ -488,6 +488,25 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		$types->setOptions(ilMapUtil::getAvailableMapTypes());
 		$types->setValue($type);
 		$form->addItem($types);
+
+		// map data server property
+		if($type == "openlayers") {
+			$custom_map_server = new ilCheckboxInputGUI($lng->txt("maps_use_custom_server"),"use_custom_map_server");
+			if(ilMapUtil::getStdUseCustomMapServer()) {
+				$custom_map_server->setChecked(true);
+			}
+
+			$tile = new ilTextInputGUI($lng->txt("maps_tile_server"),"tile");
+			$tile->setValue(ilMapUtil::getStdTileServer(true));
+			$geolocation = new ilTextInputGUI($lng->txt("maps_geolocation_server"),"geolocation");
+			$geolocation->setValue(ilMapUtil::getStdGeolocation(true));
+
+			$custom_map_server->addSubItem($tile);
+			$custom_map_server->addSubItem($geolocation);
+			$custom_map_server->setInfo(sprintf($lng->txt("maps_custom_server_info"),
+									ilMapUtil::DEFAULT_TILE, ilMapUtil::DEFAULT_GEOLOCATION));
+			$form->addItem($custom_map_server);
+		}
 		
 		// location property
 		$loc_prop = new ilLocationInputGUI($lng->txt("maps_std_location"),
