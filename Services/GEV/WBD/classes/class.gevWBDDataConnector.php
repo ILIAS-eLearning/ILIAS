@@ -32,7 +32,6 @@ $GET_NEW_EXIT_USER = false;
 $GET_CHANGED_EDURECORDS = false;
 $IMPORT_FOREIGN_EDURECORDS = false;
 $STORNO_EDURECORDS = true;
-
 */
 
 $LIMIT_RECORDS = false;
@@ -382,7 +381,6 @@ class gevWBDDataConnector extends wbdDataConnector {
 			return;
 		}
 
-
 		$sql = "
 			UPDATE $table
 			SET last_wbd_report = NOW()
@@ -414,10 +412,8 @@ class gevWBDDataConnector extends wbdDataConnector {
 			$udf_utils->setField($usr_id,gevSettings::USR_WBD_EXIT_DATE, $wbd_exit_date);
 			$udf_utils->setField($usr_id,gevSettings::USR_TP_TYPE, "1 - Bildungsdienstleister");
 
-			//UPDATE hist_user ROW
-			$sql = "UPDATE hist_user SET last_wbd_report = NOW() , exit_date_wbd = ".$this->ilDB->quote($wbd_exit_date, "text")." WHERE row_id = ".$this->ilDB->quote($a_row_id, "integer")."";
-
-			$result = $this->ilDB->query($sql);
+			//Create new History Row
+			$this->raiseEventUserChanged($usr_id);
 		}
 	}
 
@@ -625,16 +621,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 		global $ilAppEventHandler;
 		$uutils = gevUserUtils::getInstance($user_id);
 		$uutils->setWBDBWVId($bwv_id);
-
-		//write last_wbd_report....
-		/*$sql = "
-			SELECT row_id FROM hist_user 
-			WHERE user_id = $user_id
-			AND hist_historic = 0
-		";
-		$result = $this->ilDB->query($sql);
-		$record = $this->ilDB->fetchAssoc($result);
-		$this->_set_last_wbd_report('hist_user', $record['row_id']);*/
+		
 		return true;
 	}
 
@@ -667,6 +654,23 @@ class gevWBDDataConnector extends wbdDataConnector {
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 		$uutils = gevUserUtils::getInstance($a_user_id);
 		$ilAppEventHandler->raise("Services/User", "afterUpdate", array("user_obj" => $uutils->getUser()));
+
+		setLastWBDReportForAutoHistRows($a_user_id);
+	}
+
+	/**
+	* set last_wbd_report for automaticly created hist rows
+	*/
+	public function setLastWBDReportForAutoHistRows($a_user_id) {
+		$sql = "
+			SELECT row_id FROM hist_user
+			WHERE user_id = $a_user_id
+			AND hist_historic = 0
+			";
+
+		$result = $this->ilDB->query($sql);
+		$record = $this->ilDB->fetchAssoc($result);
+		$this->_set_last_wbd_report('hist_user', $record['row_id']);
 	}
 
 	/**
@@ -874,7 +878,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 		$sql .= " AND user_id NOT IN ("
 			." SELECT DISTINCT usr_id FROM wbd_errors WHERE"
 			." resolved=0"
-			." AND reason IN ('WRONG_USERDATA','USER_EXISTS_TP', 'USER_SERVICETYPE', 'USER_DIFFERENT_TP', 'USER_DEACTIVATED', 'USER_UNKNOWN')"
+			." AND reason IN ('WRONG_USERDATA','USER_EXISTS_TP', 'USER_SERVICETYPE', 'USER_DIFFERENT_TP', 'USER_DEACTIVATED', 'USER_UNKNOWN', 'CREATE_DUPLICATE')"
 			//." AND action='new_user'"
 			.")";
 
@@ -1466,8 +1470,7 @@ print $sql;
 			." SELECT DISTINCT usr_id FROM wbd_errors WHERE"
 			." resolved=0"
 			." AND ".$this->ilDB->in("reason", 
-										array('WRONG_USERDATA','USER_EXISTS_TP', 'USER_SERVICETYPE', 
-											'USER_DIFFERENT_TP', 'USER_DEACTIVATED', 'USER_UNKNOWN'), false, "text"
+										array('WRONG_USERDATA', 'USER_SERVICETYPE', 'USER_DIFFERENT_TP', 'USER_UNKNOWN', 'NO_RELEASE'), false, "text"
 									).""
 			//." AND action='new_user'"
 			.")";
@@ -1503,6 +1506,7 @@ print $sql;
 
 	public function success_exit_user($row_id) {
 		$this->setWbdExitUserData($row_id);
+		$this->_set_last_wbd_report('hist_user', $row_id);
 	}
 	
 	public function fail_exit_user($row_id, $a_exception) {

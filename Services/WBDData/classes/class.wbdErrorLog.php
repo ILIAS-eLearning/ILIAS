@@ -61,6 +61,14 @@ class wbdErrorLog {
 		'TOO_OLD' => array( //separate this for easier filtering
 			'date older than one year',
 			'liegt vor dem ersten gültigen Meldungsdatum (Sep 1, 2013)'
+		),
+
+		'NO_RELEASE' => array(
+			'Die Organisation ist nicht berechtigt den Vermittler transferfähig zu machen'
+		),
+
+		'CREATE_DUPLICATE' => array(
+			'Der Nutzer konnte nicht im ISTS geändert werden. Status Code: 100'
 		)
 	);
 
