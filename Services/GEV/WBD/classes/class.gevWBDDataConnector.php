@@ -655,7 +655,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 		$uutils = gevUserUtils::getInstance($a_user_id);
 		$ilAppEventHandler->raise("Services/User", "afterUpdate", array("user_obj" => $uutils->getUser()));
 
-		setLastWBDReportForAutoHistRows($a_user_id);
+		$this->setLastWBDReportForAutoHistRows($a_user_id);
 	}
 
 	/**
