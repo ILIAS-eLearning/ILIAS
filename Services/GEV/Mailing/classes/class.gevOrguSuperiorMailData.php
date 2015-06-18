@@ -42,7 +42,7 @@ class gevOrguSuperiorMailData extends ilMailData {
 			}
 
 			$start_date = new DateTime($this->end_date_str);
-			$start_date->sub(date_interval_create_from_date_string('1 Day'));
+			$start_date->sub(date_interval_create_from_date_string('7 Days'));
 			$this->start_timestamp = $start_date->getTimestamp();
 		}
 
