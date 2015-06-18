@@ -853,38 +853,15 @@ class gevOrgUnitUtils {
 		$org_unit_final->assignUsersToEmployeeRole($employees_initial);
 		$org_unit_final->assignUsersToSuperiorRole($superiors_initial);
 		
-		if($log) {
-			$return = "Merging users from ".$org_unit_initial->getTitle()." to ".$org_unit_final->getTitle()."<hr>";	
-			$return .= "<hr> Merging employee users <hr>";
-			foreach ($employees_initial as $usr_id) {
-				$return .= $usr_id."<br>";
-			}
-
-			$return .= "Merging superior users <hr>";
-			foreach ($superiors_initial as $usr_id) {
-				$return .= $usr_id."<br>";
-			}
-
-
-		}
-
-
-		$return .= "<hr> Assignments to new roles seem to be successfull <hr>";
-
 		foreach ($employees_initial as $usr_id) {
 			$org_unit_initial->deassignUserFromEmployeeRole($usr_id);
-			if($log) {
-				$return .= "Deassigning user from old employees:".$usr_id."<br>";
-			}
+
 		}
 
 		foreach ($superiors_initial as $usr_id) {
 			$org_unit_initial->deassignUserFromSuperiorRole($usr_id);
-			if($log) {
-				$return .= "Deassigning user from old superiors:".$usr_id."<br>";
-			}
+
 		}
-		return $return;
 	}
 }
 
