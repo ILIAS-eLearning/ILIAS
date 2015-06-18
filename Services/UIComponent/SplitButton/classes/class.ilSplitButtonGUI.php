@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/UIComponent/SplitButton/classes/class.ilButtonSplitButtonItemAdapter.php';
+require_once 'Services/UIComponent/SplitButton/classes/class.ilButtonToSplitButtonMenuItemAdapter.php';
 require_once 'Services/UIComponent/SplitButton/classes/class.ilSplitButtonItemDivider.php';
 require_once 'Services/UIComponent/SplitButton/exceptions/class.ilSplitButtonException.php';
 require_once "Services/UIComponent/Button/classes/class.ilButton.php";

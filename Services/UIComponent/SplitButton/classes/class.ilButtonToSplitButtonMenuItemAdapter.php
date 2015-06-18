@@ -4,11 +4,11 @@
 require_once 'Services/UIComponent/SplitButton/interfaces/interface.ilSplitButtonMenuItem.php';
 
 /**
- * Class ilButtonSplitButtonItemAdapter
+ * Class ilButtonToSplitButtonMenuItemAdapter
  * @author Michael Jansen <mjansen@databay.de>
  * @ingroup ServicesUIComponent
  */
-class ilButtonSplitButtonItemAdapter implements ilSplitButtonMenuItem 
+class ilButtonToSplitButtonMenuItemAdapter implements ilSplitButtonMenuItem 
 {
 	/**
 	 * @var ilButton
