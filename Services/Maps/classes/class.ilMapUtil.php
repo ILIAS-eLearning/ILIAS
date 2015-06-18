@@ -129,7 +129,7 @@ class ilMapUtil
 	}
 	
 
-	static function setStdGeolocation($a_geolocation) 
+	static function setStdGeolocationServer($a_geolocation) 
 	{
 		self::settings()->set("std_geolocation", $a_geolocation);
 	}
@@ -142,7 +142,7 @@ class ilMapUtil
 	 * @param	bool		$enforce_custom
 	 * @return	string		tile server url
 	 */
-	static function getStdGeolocation($enforce_custom = false) 
+	static function getStdGeolocationServer($enforce_custom = false) 
 	{
 		$std_geolocation = self::settings()->get("std_geolocation");
 		if(($enforce_custom || self::getStdUseCustomMapServer()) && $std_geolocation) {
@@ -192,7 +192,7 @@ class ilMapUtil
 				require_once("Services/Maps/classes/class.ilOpenLayersMapGUI.php");
 				 $map = new ilOpenLayersMapGUI();
 				 $map->setTileServer(self::getStdTileServer());
-				 $map->setGeolocationServer(self::getStdGeolocation());
+				 $map->setGeolocationServer(self::getStdGeolocationServer());
 				 return $map;
 			default:
 				require_once("Services/Maps/classes/class.ilGoogleMapGUI.php");
