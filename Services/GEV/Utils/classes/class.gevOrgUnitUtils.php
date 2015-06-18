@@ -849,6 +849,9 @@ class gevOrgUnitUtils {
 		$oui_superior_role_id = $org_unit_initial->getSuperiorRole();
 		$employees_initial = $rbacreview->assignedUsers($oui_employee_role_id);
 		$superiors_initial = $rbacreview->assignedUsers($oui_superior_role_id);
+		$org_unit_final = new ilObjOrgUnit($org_unit_final_id);
+		$org_unit_final->assignUsersToEmployeeRole($employees_initial);
+		$org_unit_final->assignUsersToSuperiorRole($superiors_initial);
 		
 		if($log) {
 			$return = "Merging users from ".$org_unit_initial->getTitle()." to ".$org_unit_final->getTitle()."<hr>";	
@@ -865,9 +868,7 @@ class gevOrgUnitUtils {
 
 		}
 
-		$org_unit_final = new ilObjOrgUnit($org_unit_final_id);
-		$org_unit_final->assignUsersToEmployeeRole($employees_initial);
-		$org_unit_final->assignUsersToSuperiorRole($superiors_initial);
+
 		$return .= "<hr> Assignments to new roles seem to be successfull <hr>";
 
 		foreach ($employees_initial as $usr_id) {
