@@ -36,6 +36,11 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	protected $processLocker;
 
 	/**
+	 * @var ilTestSession
+	 */
+	protected $testSession;
+
+	/**
 	* ilTestOutputGUI constructor
 	*
 	* @param ilObjTest $a_object
@@ -46,18 +51,31 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$this->ref_id = $_GET["ref_id"];
 		
 		$this->processLocker = null;
+		$this->testSession = null;
 	}
 	
 	protected function ensureExistingTestSession(ilTestSession $testSession)
 	{
-		if( !$testSession->getActiveId() )
+		if( $testSession->getActiveId() )
 		{
-			global $ilUser;
-
-			$testSession->setUserId($ilUser->getId());
-			$testSession->setAnonymousId($_SESSION['tst_access_code'][$this->object->getTestId()]);
-			$testSession->saveToDb();
+			return;
 		}
+
+		global $ilUser;
+		
+		$testSession->setUserId($ilUser->getId());
+
+		if( $testSession->isAnonymousUser() )
+		{
+			if( !$testSession->doesAccessCodeInSessionExists() )
+			{
+				return;
+			}
+
+			$testSession->setAnonymousId($testSession->getAccessCodeFromSession());
+		}
+		
+		$testSession->saveToDb();
 	}
 	
 	protected function initProcessLocker($activeId)
@@ -521,10 +539,11 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	 */
 	public function setAnonymousIdCmd()
 	{
-		if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
+		if( $this->testSession->isAnonymousUser() )
 		{
-			$this->object->setAccessCodeSession($_POST["anonymous_id"]);
+			$this->testSession->setAccessCodeToSession($_POST['anonymous_id']);
 		}
+		
 		$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
 	}
 
@@ -629,13 +648,17 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			return $this->showMaximumAllowedUsersReachedMessage();
 		}
 
-		if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
+		if( $this->testSession->isAnonymousUser() && !$this->testSession->getActiveId() )
 		{
-			$this->object->setAccessCodeSession($this->object->createNewAccessCode());
-			$this->ctrl->redirect($this, "displayCode");
+			$accessCode = $this->testSession->createNewAccessCode();
+			
+			$this->testSession->setAccessCodeToSession($accessCode);
+			$this->testSession->setAnonymousId($accessCode);
+			$this->testSession->saveToDb();
+			
+			$this->ctrl->redirect($this, 'displayCode');
 		}
 
-		$this->object->unsetAccessCodeSession();
 		$this->ctrl->redirect($this, 'startTest');
 	}
 	
@@ -644,7 +667,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$this->tpl->addBlockFile($this->getContentBlockName(), "adm_content", "tpl.il_as_tst_anonymous_code_presentation.html", "Modules/Test");
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("TEXT_ANONYMOUS_CODE_CREATED", $this->lng->txt("tst_access_code_created"));
-		$this->tpl->setVariable("TEXT_ANONYMOUS_CODE", $this->object->getAccessCodeSession());
+		$this->tpl->setVariable("TEXT_ANONYMOUS_CODE", $this->testSession->getAccessCodeFromSession());
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("CONTINUE", $this->lng->txt("continue_work"));
 		$this->tpl->parseCurrentBlock();

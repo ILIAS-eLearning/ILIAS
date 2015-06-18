@@ -75,7 +75,7 @@ class ilTestSessionFactory
 			else
 			{
 				self::$testSession->loadTestSession(
-					$this->testOBJ->getTestId(), $ilUser->getId(), $_SESSION["tst_access_code"][$this->testOBJ->getTestId()]
+					$this->testOBJ->getTestId(), $ilUser->getId(), self::$testSession->getAccessCodeFromSession()
 				);
 			}
 		}
