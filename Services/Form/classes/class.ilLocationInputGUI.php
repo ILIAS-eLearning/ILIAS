@@ -30,8 +30,6 @@
 */
 class ilLocationInputGUI extends ilFormPropertyGUI
 {
-	protected $tile;
-	protected $geolocation;
 	protected $latitude;
 	protected $longitude;
 	protected $zoom;
@@ -47,46 +45,6 @@ class ilLocationInputGUI extends ilFormPropertyGUI
 	{
 		parent::__construct($a_title, $a_postvar);
 		$this->setType("location");
-	}
-
-	/**
-	* Set tile server.
-	*
-	* @return	string	Tile server
-	*/
-	function setTileServer($a_tile)
-	{
-		$this->tile = $a_tile;
-	}
-
-	/**
-	* Get tile server.
-	*
-	* @return	real	Tile server
-	*/
-	function getTileServer()
-	{
-		return $this->tile;
-	}
-
-	/**
-	* Set geolocation server.
-	*
-	* @return	string	Geolocation server
-	*/
-	function setGeolocationServer($a_geolocation)
-	{
-		$this->geolocation = $a_geolocation;
-	}
-
-	/**
-	* Get geolocation server.
-	*
-	* @return	string	Geolocation server
-	*/
-	function getGeolocationServer()
-	{
-		return $this->geolocation;
 	}
 
 	/**
@@ -254,8 +212,6 @@ class ilLocationInputGUI extends ilFormPropertyGUI
 				->setEnableLargeMapControl(true)
 				->setEnableUpdateListener(true)
 				->setEnableCentralMarker(true);
-
-
 
 		$tpl->setVariable("MAP", $map_gui->getHtml());
 		
