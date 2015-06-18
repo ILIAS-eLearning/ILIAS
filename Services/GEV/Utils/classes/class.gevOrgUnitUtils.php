@@ -840,6 +840,30 @@ class gevOrgUnitUtils {
 
 		return $ret;
 	}
+	
+	static public function moveUsers($org_unit_initial_id, $org_unit_final_id) {
+		global $rbacreview;
+
+		$org_unit_initial = new ilObjOrgUnit($org_unit_initial_id);
+		$oui_employee_role_id = $org_unit_initial->getEmployeeRole();
+		$oui_superior_role_id = $org_unit_initial->getSuperiorRole();
+		$employees_initial = $rbacreview->assignedUsers($oui_employee_role_id);
+		$superiors_initial = $rbacreview->assignedUsers($oui_superior_role_id);
+
+		$org_unit_final = new ilObjOrgUnit($org_unit_final_id);
+		$org_unit_final->assignUsersToEmployeeRole($employees_initial);
+		$org_unit_final->assignUsersToSuperiorRole($superiors_initial);
+
+
+		foreach ($employees_initial as $usr_id) {
+			$org_unit_initial->deassignUserFromEmployeeRole($usr_id);
+		}
+
+		foreach ($superiors_initial as $usr_id) {
+			$org_unit_initial->deassignUserFromSuperiorRole($usr_id);
+		}
+
+	}
 }
 
 
