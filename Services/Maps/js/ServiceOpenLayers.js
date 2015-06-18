@@ -267,12 +267,7 @@ var _ilOpenLayers = function(OpenLayers, jQuery, addressInvalid, mapData, userMa
 			controls : mapControls
 		});
 
-		/*// layer for the actual map
-		var mapLayer = new OpenLayers.Layer.OSM("OpenStreetMap",
-  ["http://a.tile.opencyclemap.org/cycle/${z}/${x}/${y}.png",
-   "http://b.tile.opencyclemap.org/cycle/${z}/${x}/${y}.png",
-   "http://c.tile.opencyclemap.org/cycle/${z}/${x}/${y}.png"]);
-		*/
+		// layer for the actual map
 		var mapLayer = new OpenLayers.Layer.OSM("OpenStreetMap",
 			["http://a."+server_url+"/${z}/${x}/${y}.png",
 			"http://b."+server_url+"/${z}/${x}/${y}.png",
