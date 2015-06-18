@@ -204,6 +204,7 @@ class gevUserUtils {
 		$this->user_obj = null;
 		$this->org_id = null;
 		$this->direct_superior_ous = null;
+		$this->direct_superior_ou_names = null;
 		$this->superior_ous = null;
 		$this->superior_ou_names = null;
 		$this->edu_bio_ou_names = null;
@@ -218,6 +219,8 @@ class gevUserUtils {
 		$this->employees_for_booking_cancellations = null;
 		$this->employee_ids_for_booking_cancellations = null;
 		$this->employee_ids_for_booking_view = null;
+		$this->employee_ous = null;
+		$this->employees_ou_names = null;
 		$this->od = false;
 		
 		$this->potentiallyBookableCourses = array();
@@ -1837,8 +1840,90 @@ class gevUserUtils {
 		
 		return $this->superior_ou_names;
 	}
-	
-	
+
+	public function getOrgUnitNamesWhereUserIsDirectSuperior() {
+		if ($this->direct_superior_ou_names !== null) {
+			return $this->direct_superior_ou_names;
+		}
+		
+		$ids = $this->getOrgUnitsWhereUserIsDirectSuperior();
+		foreach($ids as $key => $value) {
+			$ids[$key] = $ids[$key]["obj_id"];
+		}
+		
+		$res = $this->db->query( "SELECT title FROM object_data"
+								." WHERE ".$this->db->in("obj_id", $ids, false, "integer")
+								." ORDER BY title ASC"
+								);
+		$this->direct_superior_ou_names = array();
+		while ($rec = $this->db->fetchAssoc($res)) {
+			$this->direct_superior_ou_names[] = $rec["title"];
+		}
+		
+		return $this->direct_superior_ou_names;
+	}
+
+	public function getOrgUnitsWhereUserIsEmployee() {
+		if ($this->employee_ous !== null) {
+			return $this->employee_ous;
+		}
+		
+		$like_role = array();
+		foreach (gevSettings::$EMPLOYEE_ROLES as $role) {
+			$like_role[] = "od.title LIKE ".$this->db->quote($role);
+		}
+		$like_role = implode(" OR ", $like_role);
+
+		$res = $this->db->query(
+			 "SELECT oref.obj_id, oref.ref_id "
+			."  FROM object_reference oref"
+			."  JOIN object_data od ON od.type = 'role' AND ( ".$like_role ." )"
+			."  JOIN rbac_fa fa ON fa.rol_id = od.obj_id"
+			."  JOIN tree tr ON tr.child = fa.parent"
+			."  JOIN rbac_ua ua ON ua.rol_id = od.obj_id"
+			."  JOIN object_data od2 ON od2.obj_id = oref.obj_id"
+			." WHERE oref.ref_id = tr.parent"
+			."   AND oref.deleted IS NULL"
+			."   AND ua.usr_id = ".$this->db->quote($this->user_id, "integer")
+			."   AND od2.type = 'orgu'"
+			);
+		$this->employee_ous = array();
+		while($rec = $this->db->fetchAssoc($res)) {
+			$this->employee_ous[] = array( "obj_id" => $rec["obj_id"]
+												, "ref_id" => $rec["ref_id"]
+												);
+		}
+		return $this->employee_ous;
+	}
+
+	public function getOrgUnitNamesWhereUserIsEmployee() {
+		if ($this->employee_ou_names !== null) {
+			return $this->employee_ou_names;
+		}
+		
+		$ids = $this->getOrgUnitsWhereUserIsEmployee();
+		foreach($ids as $key => $value) {
+			$ids[$key] = $ids[$key]["obj_id"];
+		}
+		
+		$res = $this->db->query( "SELECT title FROM object_data"
+								." WHERE ".$this->db->in("obj_id", $ids, false, "integer")
+								." ORDER BY title ASC"
+								);
+		$this->employee_ou_names = array();
+		while ($rec = $this->db->fetchAssoc($res)) {
+			$this->employee_ou_names[] = $rec["title"];
+		}
+		
+		return $this->employee_ou_names;
+	}
+
+	public function getAllOrgUnitTitlesUserIsMember() {
+		$superior_orgus = $this->getOrgUnitNamesWhereUserIsDirectSuperior();
+		$employee_orgus = $this->getOrgUnitNamesWhereUserIsEmployee();
+
+		return implode(", ", array_merge($superior_orgus, $employee_orgus));
+	}
 	
 	public function getOrgUnitsWhereUserCanBookEmployees() {
 		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php");
@@ -2368,7 +2453,7 @@ class gevUserUtils {
 		$org_units = $this->getOrgUnitsWhereUserIsDirectSuperior();
 		$ref_ids = array();
 		$ref_id_child_orgunit = array();
-
+		
 		foreach ($org_units as $org_unit) {
 			$ref_ids[] = $org_unit["ref_id"];
 			$org_util = gevOrgUnitUtils::getInstance($org_unit["obj_id"]);
@@ -2376,6 +2461,9 @@ class gevUserUtils {
 				$ref_id_child_orgunit[] = $org_unit_child["ref_id"];
 			}
 		}
+
+		$empl = array();
+		$sup = array();
 
 		if(!empty($ref_ids)) {
 			$empl = gevOrgUnitUtils::getEmployeesIn($ref_ids);
@@ -2404,7 +2492,7 @@ class gevUserUtils {
 				." AND histucs.hist_historic = 0"
 				." AND ".$this->db->in("histu.user_id", $to_search, false, "integer").""
 				." ORDER BY histucs.booking_status";
-				
+
 			$res_emp = $this->db->query($sql_emp);
 
 			while($row_emp = $this->db->fetchAssoc($res_emp)) {
