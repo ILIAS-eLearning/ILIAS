@@ -111,11 +111,13 @@ class ilMapUtil
 	}
 	
 	/**
-	* Returns the standart tile server (the server to be used for newly created map wievs).
-	* Enforcing custom results in the return of the server stored in database, if present.
-	*
-	* @return	string		tile server url
-	*/
+	 * Returns the tile server to be used in the installation.
+	 *
+	 * If $enforce_custom returns the url found in the settings.
+	 *
+	 * @param	bool		$enforce_custom
+	 * @return	string		tile server url
+	 */
 	static function getStdTileServer($enforce_custom = false) 
 	{
 		$std_tile = self::settings()->get("std_tile");	
@@ -133,11 +135,13 @@ class ilMapUtil
 	}
 
 	/**
-	* Returns the standart geolocation server (the server to be used for newly created map wievs).
-	* Enforcing custom results in the return of the server stored in database, if present.
-	*
-	* @return	string		geolocation server url
-	*/
+	 * Returns the reverse geolocation server to be used in the installation.
+	 *
+	 * If $enforce_custom returns the url found in the settings.
+	 *
+	 * @param	bool		$enforce_custom
+	 * @return	string		tile server url
+	 */
 	static function getStdGeolocation($enforce_custom = false) 
 	{
 		$std_geolocation = self::settings()->get("std_geolocation");
