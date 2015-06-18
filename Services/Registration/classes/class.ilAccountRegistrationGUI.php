@@ -221,7 +221,10 @@ class ilAccountRegistrationGUI
 		if($this->registration_settings->getRegistrationType() == IL_REG_ACTIVATION)
 		{
 			$mail_obj = $this->form->getItemByPostVar('usr_email');
-			$mail_obj->setRequired(true);
+			if($mail_obj) // #16087
+			{
+				$mail_obj->setRequired(true);
+			}
 		}
 
 		if(ilTermsOfServiceHelper::isEnabled())
