@@ -24,7 +24,7 @@ require_once("class.ilObjOrgUnitTree.php");
 require_once(dirname(__FILE__) . '/Types/class.ilOrgUnitTypeGUI.php');
 require_once(dirname(__FILE__) . '/Settings/class.ilObjOrgUnitSettingsFormGUI.php');
 require_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
-require_once('./Services/GEV/Desktop/classes/class.gevLocalUserGUI.php');
+require_once('./Modules/OrgUnit/classes/LocalUser/class.gevLocalUserGUI.php');
 
 /**
  * Class ilObjOrgUnit GUI class

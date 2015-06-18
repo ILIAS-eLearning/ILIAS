@@ -4,7 +4,7 @@ require_once("./Services/User/classes/class.ilUserTableGUI.php");
 require_once("./Services/User/classes/class.ilLocalUser.php");
 require_once("./Services/User/classes/class.ilObjUserGUI.php");
 require_once("./Services/User/classes/class.ilObjUserFolderGUI.php");
-require_once('./Services/GEV/Desktop/classes/class.gevLocalUserGUI.php');
+require_once('./Modules/OrgUnit/classes/LocalUser/class.gevLocalUserGUI.php');
 /**
  * Class ilLocalUserGUI
  *
