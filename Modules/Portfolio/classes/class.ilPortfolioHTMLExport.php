@@ -66,7 +66,10 @@ class ilPortfolioHTMLExport
 		if($prfa_set->get("banner"))
 		{		
 			$banner = $this->object->getImageFullPath();
-			copy($banner, $this->export_dir."/".basename($banner));
+			if($banner) // #16096
+			{
+				copy($banner, $this->export_dir."/".basename($banner));
+			}
 		}
 		// page element: profile picture
 		$ppic = ilObjUser::_getPersonalPicturePath($this->object->getOwner(), "big", true, true);
