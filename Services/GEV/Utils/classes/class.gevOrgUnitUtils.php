@@ -841,7 +841,7 @@ class gevOrgUnitUtils {
 		return $ret;
 	}
 
-	static public function moveUsers($org_unit_initial_id, $org_unit_final_id, $log = false) {
+	static public function moveUsers($org_unit_initial_id, $org_unit_final_id) {
 		global $rbacreview;
 
 		$org_unit_initial = new ilObjOrgUnit($org_unit_initial_id);
