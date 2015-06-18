@@ -246,7 +246,7 @@ class gevUserProfileGUI {
 		$form->addItem($agent_key);
 		
 		$org_unit = new ilNonEditableValueGUI($this->lng->txt("gev_org_unit"));
-		$org_unit->setValue($this->user_utils->getOrgUnitTitle());
+		$org_unit->setValue($this->user_utils->getAllOrgUnitTitlesUserIsMember());
 		$form->addItem($org_unit);
 		
 		$section2 = new ilFormSectionHeaderGUI();

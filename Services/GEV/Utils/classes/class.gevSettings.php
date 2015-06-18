@@ -442,6 +442,11 @@ class gevSettings {
 		  "il_crs_tutor_%"
 		);
 
+	// Names of roles that count as employees
+	static $EMPLOYEE_ROLES = array(
+		  "il_orgu_employee_%"
+		);
+
 	// Will store the ref id of the orgu where the exited users should be put.
 	const ORG_UNIT_EXITED = "org_unit_exited";
 	
