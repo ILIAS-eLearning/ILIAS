@@ -1,4 +1,4 @@
-<a name="frm_page_top"></a>
+<a id="frm_page_top"></a>
 {THREAD_MENU}
 <!-- BEGIN posttable -->
 <ul id="ilFrmPostList"><!-- BEGIN posts_row -->
@@ -20,17 +20,20 @@
 					<br /><a href="{HREF_DOWNLOAD}" title="{TXT_FILENAME}">{TXT_FILENAME}</a><!-- END attachment_download_row -->
 				</div><!-- END attachments -->
 			</div>
-		</div><!-- BEGIN commands_block -->
-		<div class="ilFrmPostCommands"><!-- BEGIN commands -->
-			<a class="il_ContainerItemCommand" href="{COMMANDS_COMMAND}">{COMMANDS_TXT}</a><!-- END commands -->
-		</div><!-- END commands_block -->
+		</div>
+		<div class="ilFrmPostClear"></div><!-- BEGIN commands_block -->
+		<div class="ilFrmPostCommands">{COMMANDS}</div><!-- END commands_block -->
 		<div class="ilFrmPostClear"></div>
 		<a name="{REPLY_ANKER}"></a>
 		{FORM}
 		{FORM_ADDITIONAL_JS}
 	</li><!-- END posts_row --><!-- BEGIN posts_no -->
 	<li>{TXT_MSG_NO_POSTS_AVAILABLE}</li><!-- END posts_no -->
-</ul><!-- BEGIN jump2anchor -->
+</ul>
+
+{BOTTOM_FORM}
+
+<!-- BEGIN jump2anchor -->
 <script type="text/javascript">
     $(function() {
         document.location.href = "#{JUMP2ANCHOR_ID}";
@@ -38,4 +41,5 @@
 </script><!-- END jump2anchor --><!-- END posttable -->
 
 {THREAD_MENU}
+<a id="frm_page_bottom"></a>
 {THREAD_TOOLBAR}
