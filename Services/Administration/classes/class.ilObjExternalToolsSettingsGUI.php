@@ -494,7 +494,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		// map data server property
 		if($type == "openlayers") {
 			$custom_map_server = new ilCheckboxInputGUI($lng->txt("maps_use_custom_server"),"use_custom_map_server");
-			if(ilMapUtil::getStdUseCustomMapServer()) {
+			if(ilMapUtil::getStdUseCustomMapServers()) {
 				$custom_map_server->setChecked(true);
 			}
 
@@ -541,11 +541,11 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		ilMapUtil::setActivated(ilUtil::stripSlashes($_POST["enable"]) == "1");
 		ilMapUtil::setType(ilUtil::stripSlashes($_POST["type"]));
 		if($_POST["use_custom_map_server"] == "1") {
-			ilMapUtil::setStdUseCustomMapServer(1);
+			ilMapUtil::setStdUseCustomMapServers(1);
 			ilMapUtil::setStdTileServer(ilUtil::stripSlashes($_POST["tile"]));
 			ilMapUtil::setStdGeolocationServer(ilUtil::stripSlashes($_POST["geolocation"]));
 		} else {
-			ilMapUtil::setStdUseCustomMapServer(0);
+			ilMapUtil::setStdUseCustomMapServers(0);
 		}
 
 		$ilCtrl->redirect($this, "editMaps");
