@@ -37,7 +37,7 @@ class ilTestLP extends ilObjectLP
 		require_once 'Services/Object/classes/class.ilObjectFactory.php';
 		$testOBJ = ilObjectFactory::getInstanceByObjId($this->obj_id);
 
-		$testOBJ->removeTestResults($a_user_ids);
+		$testOBJ->removeTestResultsByUserIds($a_user_ids);
 	}
 }
 
