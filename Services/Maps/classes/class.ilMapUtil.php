@@ -121,7 +121,7 @@ class ilMapUtil
 	static function getStdTileServer($enforce_custom = false) 
 	{
 		$std_tile = self::settings()->get("std_tile");	
-		if(($enforce_custom || self::getStdUseCustomMapServer()) && $std_tile) {
+		if(($enforce_custom || self::getStdUseCustomMapServers()) && $std_tile) {
 			return $std_tile;
 		} else {
 			return self::DEFAULT_TILE;	
@@ -145,19 +145,19 @@ class ilMapUtil
 	static function getStdGeolocationServer($enforce_custom = false) 
 	{
 		$std_geolocation = self::settings()->get("std_geolocation");
-		if(($enforce_custom || self::getStdUseCustomMapServer()) && $std_geolocation) {
+		if(($enforce_custom || self::getStdUseCustomMapServers()) && $std_geolocation) {
 			return $std_geolocation;
 		} else {
 			return self::DEFAULT_GEOLOCATION;
 		}
 	}
 
-	static function setStdUseCustomMapServer($a_bool) 
+	static function setStdUseCustomMapServers($a_bool) 
 	{
 		self::settings()->set("std_use_custom_map_server", $a_bool);
 	}
 	
-	static function getStdUseCustomMapServer() 
+	static function getStdUseCustomMapServers() 
 	{
 		return self::settings()->get("std_use_custom_map_server");
 	}
