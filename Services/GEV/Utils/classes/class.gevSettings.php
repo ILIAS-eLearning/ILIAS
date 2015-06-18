@@ -293,7 +293,11 @@ class gevSettings {
 		,'BWV-ID'
 		,'Beginn erste Zertifizierungsperiode'
 		,'Email WBD'
-		,'Austrittsdatum WBD'		
+		,'Austrittsdatum WBD'
+	);
+
+	static $LOCAL_USER_MANDATORY_UDF_FIELDS = array(
+		'Eintrittsdatum'
 	);
 
 

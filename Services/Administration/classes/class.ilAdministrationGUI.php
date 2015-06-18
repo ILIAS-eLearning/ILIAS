@@ -37,6 +37,7 @@ include_once("./Services/Table/classes/class.ilTableGUI.php");
 * // BEGIN WebDAV
 * @ilCtrl_Calls ilAdministrationGUI: ilObjFileAccessSettingsGUI, ilPermissionGUI, ilObjRemoteTestGUI
 * // END WebDAV
+* @ilCtrl_Calls ilAdministrationGUI: gevLocalUserGUI
 */
 class ilAdministrationGUI
 {
@@ -184,7 +185,8 @@ class ilAdministrationGUI
 					$class_name = $this->ctrl->getClassForClasspath($class_path);
 					if (($next_class == "ilobjrolegui" || $next_class == "ilobjusergui"
 						|| $next_class == "ilobjroletemplategui"
-						|| $next_class == "ilobjstylesheetgui"))
+						|| $next_class == "ilobjstylesheetgui"
+						|| $next_class == "gevlocalusergui"))
 					{
 						if ($_GET["obj_id"] != "")
 						{

@@ -1132,3 +1132,6 @@ gev#:#gev_vc_no_url_saved_because_no_vc_class_type#:#Es konnte kein virtueller K
 gev#:#gev_vc_no_url_saved_because_no_vc_class_type_and_no_times#:#Es konnte kein virtueller Klassenraum hinzugefügt werden, da weder ein Zeitraum definiert wurde, noch ein Typ für die virtuelle Klasse ausgewählt wurde.
 gev#:#gev_virtual_class#:#virtueller Klassenraum
 gev#:#gev_vc_send_invitation_mail_reminder#:#Es besteht die Möglichkeit, dass Sie die Einladungen an die Teilnehmer neu versenden müssen.
+gev#:#gev_add_staff_member#:#Mitarbeiter hinzufügen
+gev#:#gev_import_staff_member#:#Mitarbeiter importieren
+gev#:#gev_default_role_agtid_does_not_exist#:#Lokale Benutzer können nicht hinzugefügt werden, da die Rolle 'Agt-ID' fehlt.

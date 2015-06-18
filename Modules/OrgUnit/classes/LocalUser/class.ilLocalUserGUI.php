@@ -4,6 +4,7 @@ require_once("./Services/User/classes/class.ilUserTableGUI.php");
 require_once("./Services/User/classes/class.ilLocalUser.php");
 require_once("./Services/User/classes/class.ilObjUserGUI.php");
 require_once("./Services/User/classes/class.ilObjUserFolderGUI.php");
+require_once('./Services/GEV/Desktop/classes/class.gevLocalUserGUI.php');
 /**
  * Class ilLocalUserGUI
  *
@@ -121,11 +122,11 @@ class ilLocalUserGUI {
 			or in_array(SYSTEM_ROLE_ID, $rbacreview->assignedRoles($ilUser->getId()))
 		) {
 			$this->toolbar->addButton(
-				$this->lng->txt('add_user'),
-				$this->ctrl->getLinkTargetByClass('ilobjusergui', 'create')
+				$this->lng->txt('gev_add_staff_member'),
+				$this->ctrl->getLinkTargetByClass('gevLocalUserGUI', 'create')
 			);
 			$this->toolbar->addButton(
-				$this->lng->txt('import_users'),
+				$this->lng->txt('gev_import_staff_member'),
 				$this->ctrl->getLinkTargetByClass('ilobjuserfoldergui', 'importUserForm')
 			);
 		} else {

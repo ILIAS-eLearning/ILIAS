@@ -3630,3 +3630,8 @@ if(!$ilDB->tableColumnExists('hist_user', 'exit_date_wbd')){
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+
+<#124>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
