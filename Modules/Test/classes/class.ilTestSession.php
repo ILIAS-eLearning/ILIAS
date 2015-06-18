@@ -12,6 +12,12 @@
 */
 class ilTestSession
 {
+	const ACCESS_CODE_SESSION_INDEX = "tst_access_code";
+	
+	const ACCESS_CODE_CHAR_DOMAIN = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	
+	const ACCESS_CODE_LENGTH = 5;
+	
 	/**
 	* The unique identifier of the test session
 	*
@@ -293,11 +299,11 @@ class ilTestSession
 		{
 			$user_id = $ilUser->getId();
 		}
-		if (($_SESSION["AccountId"] == ANONYMOUS_USER_ID) && (strlen($_SESSION["tst_access_code"][$test_id])))
+		if (($_SESSION["AccountId"] == ANONYMOUS_USER_ID) && $this->doesAccessCodeInSessionExists())
 		{
 			$result = $ilDB->queryF("SELECT * FROM tst_active WHERE user_fi = %s AND test_fi = %s AND anonymous_id = %s",
 				array('integer','integer','text'),
-				array($user_id, $test_id, $_SESSION["tst_access_code"][$test_id])
+				array($user_id, $test_id, $this->getAccessCodeFromSession())
 			);
 		}
 		else if (strlen($anonymous_id))
@@ -333,6 +339,10 @@ class ilTestSession
 
 			$this->setLastFinishedPass($row['last_finished_pass']);
 			$this->setObjectiveOrientedContainerId((int)$row['objective_container']);
+		}
+		elseif( $this->doesAccessCodeInSessionExists() )
+		{
+			$this->unsetAccessCodeInSession();
 		}
 	}
 	
@@ -498,6 +508,91 @@ class ilTestSession
 		
 		return null;
 	}
-}
 
-?>
+	public function setAccessCodeToSession($access_code)
+	{
+		if (!is_array($_SESSION[self::ACCESS_CODE_SESSION_INDEX]))
+		{
+			$_SESSION[self::ACCESS_CODE_SESSION_INDEX] = array();
+		}
+		
+		$_SESSION[self::ACCESS_CODE_SESSION_INDEX][$this->getTestId()] = $access_code;
+	}
+
+	public function unsetAccessCodeInSession()
+	{
+		unset($_SESSION[self::ACCESS_CODE_SESSION_INDEX][$this->getTestId()]);
+	}
+
+	public function getAccessCodeFromSession()
+	{
+		if( !is_array($_SESSION[self::ACCESS_CODE_SESSION_INDEX]) )
+		{
+			return null;
+		}
+
+		if( !isset($_SESSION[self::ACCESS_CODE_SESSION_INDEX][$this->getTestId()]) )
+		{
+			return null;
+		}
+
+		return $_SESSION[self::ACCESS_CODE_SESSION_INDEX][$this->getTestId()];
+	}
+	
+	public function doesAccessCodeInSessionExists()
+	{
+		if( !is_array($_SESSION[self::ACCESS_CODE_SESSION_INDEX]) )
+		{
+			return false;
+		}
+
+		return isset($_SESSION[self::ACCESS_CODE_SESSION_INDEX][$this->getTestId()]);
+	}
+
+	public function createNewAccessCode()
+	{
+		do
+		{
+			$code = $this->buildAccessCode();
+		}
+		while( $this->isAccessCodeUsed($code) );
+
+		return $code;
+	}
+
+	public function isAccessCodeUsed($code)
+	{
+		global $ilDB;
+		
+		$query = "SELECT anonymous_id FROM tst_active WHERE test_fi = %s AND anonymous_id = %s";
+
+		$result = $ilDB->queryF(
+			$query, array('integer', 'text'), array($this->getTestId(), $code)
+		);
+		
+		return ($result->numRows() > 0);
+	}
+
+	private function buildAccessCode()
+	{
+		// create a 5 character code
+		$codestring = self::ACCESS_CODE_CHAR_DOMAIN;
+
+		mt_srand();
+
+		$code = "";
+
+		for($i = 1; $i <= self::ACCESS_CODE_LENGTH; $i++)
+		{
+			$index = mt_rand(0, strlen($codestring)-1);
+			$code .= substr($codestring, $index, 1);
+		}
+
+		return $code;
+	}
+	
+	public function isAnonymousUser()
+	{
+		return $this->getUserId() == ANONYMOUS_USER_ID;
+	}
+}

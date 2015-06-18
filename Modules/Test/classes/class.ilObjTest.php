@@ -9120,45 +9120,6 @@ function getAnswerFeedbackPoints()
 	}
 
 	/**
-	* Returns a new, unused test access code
-	*
-	* @return	string A new test access code
-	*/
-	function createNewAccessCode()
-	{
-		// create a 5 character code
-		$codestring = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-		mt_srand();
-		$code = "";
-		for ($i = 1; $i <=5; $i++)
-		{
-			$index = mt_rand(0, strlen($codestring)-1);
-			$code .= substr($codestring, $index, 1);
-		}
-		
-		// todo: separate the code "building" from the code "creation", because the following self calling construction
-		// is not testable and leads btw in non required double queries if a random value is allready used in db anytime
-		
-		// verify it against the database
-		while ($this->isAccessCodeUsed($code))
-		{
-			$code = $this->createNewAccessCode();
-		}
-		return $code;
-	}
-
-	function isAccessCodeUsed($code)
-	{
-		global $ilDB;
-
-		$result = $ilDB->queryF("SELECT anonymous_id FROM tst_active WHERE test_fi = %s AND anonymous_id = %s",
-			array('integer', 'text'),
-			array($this->getTestId(), $code)
-		);
-		return ($result->numRows() > 0) ? true : false;
-	}
-
-	/**
 	 * @deprecated: use ilTestParticipantData instead
 	 */
 	public static function _getUserIdFromActiveId($active_id)
@@ -9177,35 +9138,6 @@ function getAnswerFeedbackPoints()
 		{
 			return -1;
 		}
-	}
-
-	function getAccessCodeSession()
-	{
-		$id = $this->getTestId();
-		if (!is_array($_SESSION["tst_access_code"]))
-		{
-			return "";
-		}
-		else
-		{
-			return $_SESSION["tst_access_code"]["$id"];
-		}
-	}
-
-	function setAccessCodeSession($access_code)
-	{
-		$id = $this->getTestId();
-		if (!is_array($_SESSION["tst_access_code"]))
-		{
-			$_SESSION["tst_access_code"] = array();
-		}
-		$_SESSION["tst_access_code"]["$id"] = $access_code;
-	}
-
-	function unsetAccessCodeSession()
-	{
-		$id = $this->getTestId();
-		unset($_SESSION["tst_access_code"]["$id"]);
 	}
 
 	/**
