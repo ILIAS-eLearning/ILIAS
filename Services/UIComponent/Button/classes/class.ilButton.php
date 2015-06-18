@@ -21,8 +21,14 @@ abstract class ilButton
 	protected $disabled; // [bool]
 	protected $css = array(); // [array]
 	
+	/**
+	 * @var bool
+	 */
+	protected $apply_default_css = true;
+
 	const TYPE_SUBMIT = 1;
 	const TYPE_LINK = 2;
+	const TYPE_SPLIT = 3;
 	
 	/**
 	 * Constructor
@@ -334,8 +340,25 @@ abstract class ilButton
 	 */
 	protected function prepareRender()
 	{		
-		$this->addCSSClass("btn");
-		$this->addCSSClass("btn-default");
+		if($this->applyDefaultCss())
+		{
+			$this->addCSSClass("btn");
+			$this->addCSSClass("btn-default");
+		}
+	}
+
+	/**
+	 * @param boolean|null $apply_default_css
+	 * @return boolean|void
+	 */
+	public function applyDefaultCss($apply_default_css = null)
+	{
+		if(null === $apply_default_css)
+		{
+			return $this->apply_default_css;
+		}
+		
+		$this->apply_default_css = $apply_default_css;
 	}
 	 
 	/**

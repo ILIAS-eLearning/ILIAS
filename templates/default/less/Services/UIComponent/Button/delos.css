@@ -82,3 +82,9 @@ a.submit_disabled:hover {
   font-size: 90%;
   cursor: pointer;
 }
+.bnt-split.dropdown-toggle,
+.bnt-split.dropdown-toggle:active,
+.bnt-split.dropdown-toggle:focus,
+.bnt-split.dropdown-toggle:hover {
+	border-left: 1px solid white
+}

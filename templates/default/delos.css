@@ -3676,6 +3676,9 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   background-color: #eeeeee;
   border-color: #557196;
 }
+.split-btn-default {
+	float:left
+}
 .nav .nav-divider {
   height: 1px;
   margin: 9px 0;
@@ -10564,6 +10567,12 @@ fieldset[disabled] .btn-info.active {
   color: #3a4c65;
   text-decoration: none;
   background-color: transparent;
+}
+.bnt-split.dropdown-toggle,
+.bnt-split.dropdown-toggle:active, 
+.bnt-split.dropdown-toggle:focus, 
+.bnt-split.dropdown-toggle:hover {
+	border-left: 1px solid white
 }
 /* old stuff */
 input.ilSubmitInactive,
