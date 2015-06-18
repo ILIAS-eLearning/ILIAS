@@ -467,7 +467,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		
 		$this->__initSubTabs("editMaps");
 		$std_tile_server = ilMapUtil::getStdTileServer();
-		$std_geolocation_server = ilMapUtil::getStdGeolocation();
+		$std_geolocation_server = ilMapUtil::getStdGeolocationServer();
 		$std_latitude = ilMapUtil::getStdLatitude();
 		$std_longitude = ilMapUtil::getStdLongitude();
 		$std_zoom = ilMapUtil::getStdZoom();
@@ -501,7 +501,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 			$tile = new ilTextInputGUI($lng->txt("maps_tile_server"),"tile");
 			$tile->setValue(ilMapUtil::getStdTileServer(true));
 			$geolocation = new ilTextInputGUI($lng->txt("maps_geolocation_server"),"geolocation");
-			$geolocation->setValue(ilMapUtil::getStdGeolocation(true));
+			$geolocation->setValue(ilMapUtil::getStdGeolocationServer(true));
 
 			$custom_map_server->addSubItem($tile);
 			$custom_map_server->addSubItem($geolocation);
@@ -533,25 +533,19 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 	* Save Maps Setttings
 	*/
 	function saveMapsObject()
-	{		
-		global $ilCtrl, $ilAccess;
-			
-		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
-		{
-			require_once("Services/Maps/classes/class.ilMapUtil.php");
-
-			ilMapUtil::setActivated(ilUtil::stripSlashes($_POST["enable"]) == "1");
-			ilMapUtil::setType(ilUtil::stripSlashes($_POST["type"]));
-			if($_POST["use_custom_map_server"] == "1") {
-				ilMapUtil::setStdUseCustomMapServer(1);
-				ilMapUtil::setStdTileServer(ilUtil::stripSlashes($_POST["tile"]));
-				ilMapUtil::setStdGeolocation(ilUtil::stripSlashes($_POST["geolocation"]));
-			} else {
-				ilMapUtil::setStdUseCustomMapServer(0);
-			}
-			ilMapUtil::setStdLatitude(ilUtil::stripSlashes($_POST["std_location"]["latitude"]));
-			ilMapUtil::setStdLongitude(ilUtil::stripSlashes($_POST["std_location"]["longitude"]));
-			ilMapUtil::setStdZoom(ilUtil::stripSlashes($_POST["std_location"]["zoom"]));
+	{
+		require_once("Services/Maps/classes/class.ilMapUtil.php");
+		
+		global $ilCtrl;
+		
+		ilMapUtil::setActivated(ilUtil::stripSlashes($_POST["enable"]) == "1");
+		ilMapUtil::setType(ilUtil::stripSlashes($_POST["type"]));
+		if($_POST["use_custom_map_server"] == "1") {
+			ilMapUtil::setStdUseCustomMapServer(1);
+			ilMapUtil::setStdTileServer(ilUtil::stripSlashes($_POST["tile"]));
+			ilMapUtil::setStdGeolocationServer(ilUtil::stripSlashes($_POST["geolocation"]));
+		} else {
+			ilMapUtil::setStdUseCustomMapServer(0);
 		}
 
 		$ilCtrl->redirect($this, "editMaps");
