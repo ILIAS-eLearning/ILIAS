@@ -157,11 +157,8 @@ class ilOpenLayersMapGUI extends ilMapGUI
 		$this->tpl->setVariable("REPLACE_MARKER", $replace_marker);
 
 		$tile_servers = $this->getTileServers();
-
 		$tile_servers = explode(" ", $tile_servers);
-
 		array_walk($tile_servers, function(&$string) { $string = '"'.$string.'"';});
-
 		$tile_servers = '['.implode(', ', $tile_servers).']';
 
 		$this->tpl->setVariable("TILES", $tile_servers);
