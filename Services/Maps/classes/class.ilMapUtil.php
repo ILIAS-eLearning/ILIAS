@@ -105,7 +105,7 @@ class ilMapUtil
 		return self::settings()->get("std_zoom");
 	}
 
-	static function setStdTileServer($a_tile) 
+	static function setStdTileServers($a_tile) 
 	{
 		self::settings()->set("std_tile", $a_tile);
 	}
@@ -118,26 +118,15 @@ class ilMapUtil
 	 * @param	bool		$enforce_custom
 	 * @return	string		tile server url
 	 */
-	static function getStdTileServer($as_stored = false, $enforce_custom = false) 
+	static function getStdTileServers($enforce_custom = false) 
 	{
 		$std_tile = self::settings()->get("std_tile");	
 
 		if(($enforce_custom || self::getStdUseCustomMapServers()) && $std_tile) {
-			$return = $std_tile;
+			return $std_tile;
 		} else {
-			$return = self::DEFAULT_TILE;	
+			return self::DEFAULT_TILE;	
 		}
-
-		if($as_stored) {
-			return $return;
-		}
-
-		$return = explode(" ", $return);
-		array_walk($return, function(&$string) { $string = '"'.$string.'"';});
-
-		$return = '['.implode(', ', $return).']';
-
-		return $return;
 	}
 	
 
@@ -203,7 +192,7 @@ class ilMapUtil
 			case "openlayers":
 				require_once("Services/Maps/classes/class.ilOpenLayersMapGUI.php");
 				 $map = new ilOpenLayersMapGUI();
-				 $map->setTileServer(self::getStdTileServer());
+				 $map->setTileServers(self::getStdTileServers());
 				 $map->setGeolocationServer(self::getStdGeolocationServer());
 				 return $map;
 			default:
