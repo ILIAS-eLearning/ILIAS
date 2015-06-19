@@ -97,6 +97,7 @@ class ilStudyProgrammeEventsTest extends PHPUnit_Framework_TestCase {
 		
 		$this->assertCount(1, $this->event_handler_mock->events);
 	
+		$event = array_pop($this->event_handler_mock->events);
 		$this->assertEquals("Modules/StudyProgramme", $event["component"]);
 		$this->assertEquals("userDeassigned", $event["event"]);
 		$this->assertEquals($this->root->getId(), $event["parameters"]["root_prg_id"]);
