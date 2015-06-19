@@ -252,7 +252,7 @@ var _ilOpenLayers = function(OpenLayers, jQuery, addressInvalid, mapData, userMa
 	// will be set to that place.
 	// If a central marker is used it can be replaced by a single click on
 	// the map if replace_marker is set to true.
-	this.initMap = function (id, latitude, longitude, zoom, central_marker, nav_control, replace_marker, server_url)
+	this.initMap = function (id, latitude, longitude, zoom, central_marker, nav_control, replace_marker, map_servers)
 	{
 		var mapControls = null;
 
@@ -268,12 +268,12 @@ var _ilOpenLayers = function(OpenLayers, jQuery, addressInvalid, mapData, userMa
 		});
 
 		// layer for the actual map
-		var mapLayer = new OpenLayers.Layer.OSM("OpenStreetMap",
+		var mapLayer = new OpenLayers.Layer.OSM("OpenStreetMap", map_servers);
+		
+		/*var mapLayer = new OpenLayers.Layer.OSM("OpenStreetMap",
 			["http://a."+server_url+"/${z}/${x}/${y}.png",
 			"http://b."+server_url+"/${z}/${x}/${y}.png",
-			"http://c."+server_url+"/${z}/${x}/${y}.png"]);
-
-
+			"http://c."+server_url+"/${z}/${x}/${y}.png"]);*/
 
 		// central position of the map
 		var mapPos = this.OSMPosFromLonLat(longitude, latitude);
@@ -393,8 +393,14 @@ var _ilOpenLayers = function(OpenLayers, jQuery, addressInvalid, mapData, userMa
 		var map = mapData[id];
 
 		this.geolocationURL = window.location.protocol + "//"+ map[7] +"/nominatim/v1/search.php?format=json&q=";
+		map_servers = map[6];
+		map_servers_count = map_servers.length;
+		
+		for(var j = 0; j < map_servers_count; j++) {
+			map_servers[j] = "http://"+map_servers[j]+"/${z}/${x}/${y}.png";
+		}
 
-		this.initMap(id, map[0], map[1], map[2], map[3], map[4], map[5], map[6]);
+		this.initMap(id, map[0], map[1], map[2], map[3], map[4], map[5], map_servers);
 
 		var mapUserMarkers = userMarkers[id];
 
