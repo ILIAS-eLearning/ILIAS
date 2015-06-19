@@ -238,6 +238,9 @@ class ilStudyProgrammeUserProgress {
 	 * @return int
 	 */
 	public function getCurrentAmountOfPoints() {
+		if ($this->isSuccessful() && $this->getStudyProgramme()->hasLPChildren()) {
+			return $this->getAmountOfPoints();
+		}
 		return $this->progress->getCurrentAmountOfPoints();
 	}
 	
