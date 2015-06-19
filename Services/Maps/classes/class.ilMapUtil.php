@@ -33,7 +33,7 @@ class ilMapUtil
 {
 	static $_settings = null;
 
-	const DEFAULT_TILE = "tile.openstreetmap.org";
+	const DEFAULT_TILE = "a.tile.openstreetmap.org b.tile.openstreetmap.org c.tile.openstreetmap.org";
 	const DEFAULT_GEOLOCATION = "open.mapquestapi.com";
 
 	// Settings
@@ -116,14 +116,26 @@ class ilMapUtil
 	*
 	* @return	string		tile server url
 	*/
-	static function getStdTileServer($enforce_custom = false) 
+	static function getStdTileServer($as_stored = false, $enforce_custom = false) 
 	{
 		$std_tile = self::settings()->get("std_tile");	
+
 		if(($enforce_custom || self::getStdUseCustomMapServer()) && $std_tile) {
-			return $std_tile;
+			$return = $std_tile;
 		} else {
-			return self::DEFAULT_TILE;	
+			$return = self::DEFAULT_TILE;	
 		}
+
+		if($as_stored) {
+			return $return;
+		}
+
+		$return = explode(" ", $return);
+		array_walk($return, function(&$string) { $string = '"'.$string.'"';});
+
+		$return = '['.implode(', ', $return).']';
+
+		return $return;
 	}
 	
 
@@ -187,6 +199,7 @@ class ilMapUtil
 			case "openlayers":
 				require_once("Services/Maps/classes/class.ilOpenLayersMapGUI.php");
 				 $map = new ilOpenLayersMapGUI();
+				 //die(self::getStdTileServer());
 				 $map->setTileServer(self::getStdTileServer());
 				 $map->setGeolocationServer(self::getStdGeolocation());
 				 return $map;
