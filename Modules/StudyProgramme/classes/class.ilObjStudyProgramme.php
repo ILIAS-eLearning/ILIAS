@@ -51,6 +51,10 @@ class ilObjStudyProgramme extends ilContainer {
 		$this->ilUser = $ilUser;
 
 		$this->object_factory = ilObjectFactoryWrapper::singleton();
+		self::initStudyProgrammeCache();
+	}
+	
+	static public function initStudyProgrammeCache() {
 		if (self::$study_programme_cache === null) {
 			self::$study_programme_cache = ilObjStudyProgrammeCache::singleton();
 		}
@@ -984,18 +988,33 @@ class ilObjStudyProgramme extends ilContainer {
 	 * and that belong to the user.
 	 */
 	static public function setProgressesCompletedFor($a_obj_id, $a_user_id) {
-		require_once("./Services/Object/classes/class.ilObject.php");
+		// We only use courses via crs_refs
+		if (ilObject::_lookupType($a_obj_id) == "crs") {
+			require_once("Services/ContainerReference/classes/class.ilContainerReference.php");
+			$crs_reference_obj_ids = ilContainerReference::_lookupSourceIds($a_obj_id);
+			foreach ($crs_reference_obj_ids as $obj_id) {
+				foreach(ilObject::_getAllReferences($obj_id) as $ref_id) {
+					self::setProgressesCompletedIfParentIsProgramme($ref_id, $obj_id, $a_user_id);
+				}
+			}
+		}
+		else {
+			foreach (ilObject::_getAllReferences($a_obj_id) as $ref_id) {
+				self::setProgressesCompletedIfParentIsProgramme($ref_id, $a_obj_id, $a_user_id);
+			}
+		}
+	}
+	
+	static protected function setProgressesCompletedIfParentIsProgramme($a_ref_id, $a_obj_id, $a_user_id) {
 		global $tree; // TODO: replace this by a settable static for testing purpose?
-		
-		foreach (ilObject::_getAllReferences($a_obj_id) as $ref_id) {
-			$node_data = $tree->getParentNodeData($ref_id);
-			if ($node_data["type"] !== "prg") {
-				continue;
-			}
-			$prg = ilObjStudyProgramme::getInstanceByRefId($node_data["child"]);
-			foreach ($prg->getProgressesOf($a_user_id) as $progress) {
-				$progress->setLPCompleted($a_obj_id, $a_user_id);
-			}
+		$node_data = $tree->getParentNodeData($a_ref_id);
+		if ($node_data["type"] !== "prg") {
+			return;
+		}
+		self::initStudyProgrammeCache();
+		$prg = ilObjStudyProgramme::getInstanceByRefId($node_data["child"]);
+		foreach ($prg->getProgressesOf($a_user_id) as $progress) {
+			$progress->setLPCompleted($a_obj_id, $a_user_id);
 		}
 	}
 	
