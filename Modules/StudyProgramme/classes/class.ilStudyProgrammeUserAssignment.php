@@ -112,7 +112,7 @@ class ilStudyProgrammeUserAssignment {
 	/**
 	 * Remove this assignment.
 	 */
-	public function remove() {
+	public function deassign() {
 		$this->getStudyProgramme()->removeAssignment($this);
 	}
 	
