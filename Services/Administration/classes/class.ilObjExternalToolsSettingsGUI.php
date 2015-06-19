@@ -547,7 +547,9 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		} else {
 			ilMapUtil::setStdUseCustomMapServers(0);
 		}
-
+		ilMapUtil::setStdLatitude(ilUtil::stripSlashes($_POST["std_location"]["latitude"]));
+		ilMapUtil::setStdLongitude(ilUtil::stripSlashes($_POST["std_location"]["longitude"]));
+		ilMapUtil::setStdZoom(ilUtil::stripSlashes($_POST["std_location"]["zoom"]));
 		$ilCtrl->redirect($this, "editMaps");
 	}
 	
