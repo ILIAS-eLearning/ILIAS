@@ -11,6 +11,7 @@
 class ilCourseAppEventListener
 {	
 	static protected $course_mode = array();
+	static protected $blocked_for_lp;
 	
 	/**
 	* Handle an event in a listener.
@@ -20,11 +21,15 @@ class ilCourseAppEventListener
 	* @param	array	$a_parameter	parameter array (assoc), array("name" => ..., "phone_office" => ...)
 	*/
 	static function handleEvent($a_component, $a_event, $a_parameter)
-	{
-		global $ilUser;
-
+	{		
 		if($a_component == "Services/Tracking" && $a_event == "updateStatus")
 		{
+			// see ilObjCourseGUI::updateLPFromStatus()
+			if((bool)self::$blocked_for_lp)
+			{
+				return;
+			}				
+			
 			// #13905
 			include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
 			if(!ilObjUserTracking::_enabledLearningProgress())
@@ -96,6 +101,16 @@ class ilCourseAppEventListener
 				}										
 			}
 		}
+	}
+	
+	/**
+	 * Toggle LP blocking property status
+	 * 
+	 * @param bool $a_status
+	 */
+	public static function setBlockedForLP($a_status)
+	{
+		self::$blocked_for_lp = (bool)$a_status;
 	}
 }
 
