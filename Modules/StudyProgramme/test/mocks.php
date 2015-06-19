@@ -67,3 +67,21 @@ class ilObjectFactoryWrapperMock extends ilObjectFactoryWrapper {
 		return ilObjectFactoryWrapper::getInstanceByRefId($a_ref_id, $stop_on_error);
 	}
 }
+
+/**
+ * Mock for ilAppEventHandler
+ */
+class ilAppEventHandlerMock {
+	public $events;
+	
+	public function __construct() {
+		$this->events = array();
+	}
+	
+	public function raise($a_component, $a_event, $a_parameters) {
+		$events[] = array( "component"	=> $a_component
+						 , "event"		=> $a_event
+						 , "parameters"	=> $a_parameters
+						 );
+	}
+}
