@@ -61,6 +61,9 @@ require_once("Modules/StudyProgramme/classes/class.ilObjectFactoryWrapper.php");
 
 class ilObjectFactoryWrapperMock extends ilObjectFactoryWrapper {
 	public function getInstanceByRefId($a_ref_id, $stop_on_error = true) {
-		return new ilStudyProgrammeLeafMock($a_ref_id);
+		if (ilObject::_lookupType($a_ref_id, true) == "mock") {
+			return new ilStudyProgrammeLeafMock($a_ref_id);
+		}
+		return ilObjectFactoryWrapper::getInstanceByRefId($a_ref_id, $stop_on_error);
 	}
 }
