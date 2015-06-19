@@ -766,6 +766,7 @@ class ilObjStudyProgramme extends ilContainer {
 		require_once("./Modules/StudyProgramme/classes/class.ilStudyProgrammeUserAssignment.php");
 		require_once("./Modules/StudyProgramme/classes/model/class.ilStudyProgrammeAssignment.php");
 		require_once("./Modules/StudyProgramme/classes/model/class.ilStudyProgrammeProgress.php");
+		require_once("./Modules/StudyProgramme/classes/class.ilStudyProgrammeEvents.php");
 		
 		if ($this->settings === null) {
 			throw new ilException("ilObjStudyProgramme::assignUser: Program was not properly created.'");
@@ -791,6 +792,8 @@ class ilObjStudyProgramme extends ilContainer {
 			}
 		});
 		
+		ilStudyProgrammeEvents::userAssigned($ass);
+		
 		return $ass;
 	}
 	
@@ -803,6 +806,8 @@ class ilObjStudyProgramme extends ilContainer {
 	 * @return $this
 	 */
 	public function removeAssignment(ilStudyProgrammeUserAssignment $a_assignment) {
+		require_once("./Modules/StudyProgramme/classes/class.ilStudyProgrammeEvents.php");
+		
 		if ($a_assignment->getStudyProgramme()->getId() != $this->getId()) {
 			throw new ilException("ilObjStudyProgramme::removeAssignment: Assignment '"
 								 .$a_assignment->getId()."' does not belong to study "
@@ -814,6 +819,8 @@ class ilObjStudyProgramme extends ilContainer {
 			$progress = $node->getProgressForAssignment($ass_id);
 			$progress->delete();
 		});
+		
+		ilStudyProgrammeEvents::userDeassigned($a_assignment);
 		
 		$a_assignment->delete();
 		
