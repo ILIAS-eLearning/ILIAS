@@ -83,7 +83,7 @@ class ilStudyProgrammeEventsTest extends PHPUnit_Framework_TestCase {
 		
 		$this->assertEquals("Modules/StudyProgramme", $event["component"]);
 		$this->assertEquals("userAssigned", $event["event"]);
-		$this->assertEquals($this->root_object->getId(), $event["parameters"]["root_prg_id"]);
+		$this->assertEquals($this->root->getId(), $event["parameters"]["root_prg_id"]);
 		$this->assertEquals($user->getId(), $event["parameters"]["usr_id"]);
 		$this->assertEquals($ass->getId(), $event["parameters"]["ass_id"]);
 	}
@@ -97,7 +97,7 @@ class ilStudyProgrammeEventsTest extends PHPUnit_Framework_TestCase {
 	
 		$this->assertEquals("Modules/StudyProgramme", $event["component"]);
 		$this->assertEquals("userDeassigned", $event["event"]);
-		$this->assertEquals($this->root_object->getId(), $event["parameters"]["root_prg_id"]);
+		$this->assertEquals($this->root->getId(), $event["parameters"]["root_prg_id"]);
 		$this->assertEquals($user->getId(), $event["parameters"]["usr_id"]);
 		$this->assertEquals($ass->getId(), $event["parameters"]["ass_id"]);
 	}
