@@ -122,7 +122,7 @@ class ilMapUtil
 	{
 		$std_tile = self::settings()->get("std_tile");	
 
-		if(($enforce_custom || self::getStdUseCustomMapServer()) && $std_tile) {
+		if(($enforce_custom || self::getStdUseCustomMapServers()) && $std_tile) {
 			$return = $std_tile;
 		} else {
 			$return = self::DEFAULT_TILE;	
