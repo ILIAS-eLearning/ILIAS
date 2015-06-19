@@ -68,10 +68,10 @@ class ilStudyProgrammeEventsTest extends PHPUnit_Framework_TestCase {
 	}
 	
 	protected function tearDown() {
-		$this->root->delete();
 		foreach($this->users as $user) {
 			$user->delete();
 		}
+		$this->root->delete();
 	}
 	
 	public function testAssignUser() {
@@ -92,6 +92,8 @@ class ilStudyProgrammeEventsTest extends PHPUnit_Framework_TestCase {
 		$user = $this->newUser();
 		$ass = $this->root->assignUser($user->getId());
 		$this->event_handler_mock->events = array();
+		
+		$ass->deassign();
 		
 		$this->assertCount(1, $this->event_handler_mock->events);
 	
