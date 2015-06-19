@@ -540,7 +540,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		ilMapUtil::setType(ilUtil::stripSlashes($_POST["type"]));
 		if($_POST["use_custom_map_server"] == "1") {
 			ilMapUtil::setStdUseCustomMapServers(1);
-			ilMapUtil::setStdTileServer(ilUtil::stripSlashes($_POST["tile"]));
+			ilMapUtil::setStdTileServers(ilUtil::stripSlashes($_POST["tile"]));
 			ilMapUtil::setStdGeolocationServer(ilUtil::stripSlashes($_POST["geolocation"]));
 		} else {
 			ilMapUtil::setStdUseCustomMapServers(0);
