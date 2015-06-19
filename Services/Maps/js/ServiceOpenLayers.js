@@ -270,10 +270,6 @@ var _ilOpenLayers = function(OpenLayers, jQuery, addressInvalid, mapData, userMa
 		// layer for the actual map
 		var mapLayer = new OpenLayers.Layer.OSM("OpenStreetMap", map_servers);
 		
-		/*var mapLayer = new OpenLayers.Layer.OSM("OpenStreetMap",
-			["http://a."+server_url+"/${z}/${x}/${y}.png",
-			"http://b."+server_url+"/${z}/${x}/${y}.png",
-			"http://c."+server_url+"/${z}/${x}/${y}.png"]);*/
 
 
 
