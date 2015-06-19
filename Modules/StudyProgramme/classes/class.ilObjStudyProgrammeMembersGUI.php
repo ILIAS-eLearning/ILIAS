@@ -170,7 +170,7 @@ class ilObjStudyProgrammeMembersGUI {
 		if ($prg->getRefId() != $this->ref_id) {
 			throw new ilException("Can only remove users from the node they where assigned to.");
 		}
-		$ass->remove();
+		$ass->deassign();
 		$this->showSuccessMessage("remove_user_success");
 		$this->ctrl->redirect($this, "view");
 	}

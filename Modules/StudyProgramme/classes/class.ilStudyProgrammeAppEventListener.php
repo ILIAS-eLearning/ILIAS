@@ -59,7 +59,7 @@ class ilStudyProgrammeAppEventListener {
 		require_once("./Modules/StudyProgramme/classes/class.ilStudyProgrammeUserAssignment.php");
 		$assignments = ilStudyProgrammeUserAssignment::getInstancesOfUser($a_parameter["usr_id"]);
 		foreach ($assignments as $ass) {
-			$ass->remove();
+			$ass->deassign();
 		}
 	}
 	
