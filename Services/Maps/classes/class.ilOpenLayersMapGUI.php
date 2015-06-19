@@ -46,11 +46,11 @@ class ilOpenLayersMapGUI extends ilMapGUI
 	/**
 	 * Get HTML
 	 */
-	function getTileServer() {
+	function getTileServers() {
 		return  $this->tile_server;
 	}
 
-	function setTileServer($a_tile) {
+	function setTileServers($a_tile) {
 		$this->tile_server = $a_tile;
 		return $this;
 	}
@@ -63,6 +63,8 @@ class ilOpenLayersMapGUI extends ilMapGUI
 		$this->geolocation_server = $a_geolocation;
 		return $this;
 	}
+
+
 
 	function getHtml()
 	{
@@ -153,7 +155,16 @@ class ilOpenLayersMapGUI extends ilMapGUI
 			? "true"
 			: "false";
 		$this->tpl->setVariable("REPLACE_MARKER", $replace_marker);
-		$this->tpl->setVariable("TILES", $this->getTileServer());
+
+		$tile_servers = $this->getTileServers();
+
+		$tile_servers = explode(" ", $tile_servers);
+
+		array_walk($tile_servers, function(&$string) { $string = '"'.$string.'"';});
+
+		$tile_servers = '['.implode(', ', $tile_servers).']';
+
+		$this->tpl->setVariable("TILES", $tile_servers);
 		$this->tpl->setVariable("GEOLOCATION", $this->getGeolocationServer());
 		$this->tpl->setVariable("INVALID_ADDRESS_STRING", $lng->txt("invalid_address"));
 
