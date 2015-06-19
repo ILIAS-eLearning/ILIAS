@@ -186,8 +186,8 @@ class ilStudyProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 		$USER_ID = $user2->getId();
 		
 		$root_progress = array_shift($this->root->getProgressesOf($user->getId()));
-		$node1_progress = array_shift($this->node1->getProgressesOf($user->getId()))
-		;
+		$node1_progress = array_shift($this->node1->getProgressesOf($user->getId()));
+		
 		$node2_progress = array_shift($this->node2->getProgressesOf($user->getId()));
 		$this->assertEquals($root_progress->getAmountOfPoints(), ilStudyProgramme::DEFAULT_POINTS);
 		$this->assertEquals($node1_progress->getAmountOfPoints(), ilStudyProgramme::DEFAULT_POINTS);
