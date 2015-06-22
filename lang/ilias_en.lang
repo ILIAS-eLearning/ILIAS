@@ -15308,5 +15308,5 @@ wiki#:#wiki_unhide_meta_adv_records#:#Show additional properties
 content#:#cont_wiki_link_dialog#:#Link to Wiki Page (Dialog)
 link#:#link_link#:#Link
 common#:#toggle_dropdown#:#Toggle Dropdown
-forum#:#reply_to_postings#:#Reply to this posting
-forum#:#add_new_answer#:#Add New Answer 
+forum#:#reply_to_postings#:#Reply
+forum#:#add_new_answer#:#Add Posting
