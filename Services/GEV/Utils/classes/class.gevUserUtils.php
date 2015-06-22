@@ -793,9 +793,7 @@ class gevUserUtils {
 				 $additional_where.
 				 "";
 
-
 		$res = $this->db->query($query);
-		
 		$crss = array();
 		while($val = $this->db->fetchAssoc($res)) {
 			$crs_utils = gevCourseUtils::getInstance($val["obj_id"]);
@@ -814,7 +812,7 @@ class gevUserUtils {
 				$crss[] = $val["obj_id"];
 			}
 		}
-		
+
 		$this->potentiallyBookableCourses[$hash] = $crss;
 		return $crss;
 	}
@@ -874,6 +872,20 @@ class gevUserUtils {
 								 "ORDER BY ".$a_order." ".$a_direction." ".
 								 " LIMIT ".$a_limit." OFFSET ".$a_offset);
 
+		$self_learn = array();
+		$other = array();
+
+		foreach($info as $key => $to_sort_val) {
+			$crs_utils = gevCourseUtils::getInstance($to_sort_val["obj_id"]);
+			if($crs_utils->isSelflearning()) {
+				$self_learn[$key] = $to_sort_val;
+			}else {
+				$other[$key] = $to_sort_val;
+			}
+		}
+
+		$info = $other + $self_learn;
+
 		foreach ($info as $key => $value) {
 			// TODO: This surely could be tweaked to be faster if there was no need
 			// to instantiate the course to get booking information about it.
@@ -913,6 +925,8 @@ class gevUserUtils {
 			/*$info[$key]["bookable"] = $info[$key]["free_places"] === null 
 									|| $info[$key]["free_places"] > 0
 									|| $crs_utils->isWaitingListActivated();*/
+
+			
 		}
 
 		return $info;

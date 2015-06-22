@@ -1135,3 +1135,4 @@ gev#:#gev_vc_send_invitation_mail_reminder#:#Es besteht die Möglichkeit, dass S
 gev#:#gev_add_staff_member#:#Mitarbeiter hinzufügen
 gev#:#gev_import_staff_member#:#Mitarbeiter importieren
 gev#:#gev_default_role_agtid_does_not_exist#:#Lokale Benutzer können nicht hinzugefügt werden, da die Rolle 'Agt-ID' fehlt.
+gev#:#gev_new_pos_self_learnings_in_table#:#Die Selbstlernkurse finden Sie ab sofort am Ende der Trainingsübersicht!

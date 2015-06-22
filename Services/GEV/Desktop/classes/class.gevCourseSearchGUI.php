@@ -219,6 +219,7 @@ class gevCourseSearchGUI {
 		
 		$type = new ilSelectInputGUI($this->lng->txt("gev_course_type"), "type");
 		$type->setOptions(gevCourseUtils::getTypeOptions());
+		$type->setInfo($this->lng->txt("gev_new_pos_self_learnings_in_table"));
 		$form->addItem($type);
 		
 		$categorie = new ilSelectInputGUI($this->lng->txt("gev_course_categorie"), "categorie");

@@ -349,6 +349,10 @@ class gevCourseUtils {
 		return preg_match("/.*senztraining/", $this->getType());
 	}
 	
+	public function isSelflearning() {
+		return $this->getType() == "Selbstlernkurs";
+	}
+
 	public function isWebinar() {
 		return $this->getType() == "Webinar";
 	}
