@@ -2226,7 +2226,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$mark_thr_read_button->setUrl($this->ctrl->getLinkTarget($this, 'viewThread'));
 				$mark_thr_read_button->setAccessKey(ilAccessKey::MARK_ALL_READ);
 
-				$ilToolbar->addButtonInstance($mark_thr_read_button);
 				$bottom_toolbar_split_button_items[] = $mark_thr_read_button;
 
 				$this->ctrl->clearParameters($this);
@@ -2241,7 +2240,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$print_thr_button->setCaption('forums_print_thread');
 			$print_thr_button->setUrl($this->ctrl->getLinkTargetByClass('ilforumexportgui', 'printThread'));
 
-			$ilToolbar->addButtonInstance($print_thr_button);
 			$bottom_toolbar_split_button_items[] = $print_thr_button;
 
 			$this->ctrl->clearParametersByClass('ilforumexportgui');
@@ -2566,8 +2564,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 							// button: reply
 							if(!$this->objCurrentTopic->isClosed() &&
 								$ilAccess->checkAccess('add_reply', '', (int)$_GET['ref_id']) &&
-								!$node->isCensored() &&
-								$this->isHierarchicalView()
+								!$node->isCensored()
 							)
 							{
 								$this->ctrl->setParameter($this, 'action', 'showreply');
@@ -3024,6 +3021,12 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 				++$i;
 			}
 			$bottom_toolbar->addButtonInstance($bottom_split_button);
+		}
+
+		$ilToolbar = clone $bottom_toolbar;
+
+		if($bottom_toolbar_split_button_items)
+		{
 			$bottom_toolbar->addSeparator();
 		}
 
@@ -3032,7 +3035,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$to_top_button->setCaption('top_of_page');
 		$to_top_button->setUrl('#frm_page_top');
 		$bottom_toolbar->addButtonInstance($to_top_button);
-		$tpl->setVariable('THREAD_TOOLBAR', $bottom_toolbar->getHTML());
+		$tpl->setVariable('TOOLBAR_BOTTOM', $bottom_toolbar->getHTML());
 
 		include_once 'Services/PermanentLink/classes/class.ilPermanentLinkGUI.php';
 		$permalink = new ilPermanentLinkGUI('frm', $this->object->getRefId(), '_'.$this->objCurrentTopic->getId());		
