@@ -555,6 +555,10 @@ class gevCourseUtils {
 		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_CREDIT_POINTS);
 	}
 	
+	public function getDBVHotTopic() {
+		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_DBV_HOT_TOPIC);
+	}
+
 	public function getFee() {
 		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_FEE);
 	}

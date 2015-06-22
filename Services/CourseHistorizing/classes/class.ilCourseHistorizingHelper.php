@@ -284,4 +284,9 @@ class ilCourseHistorizingHelper
 
 	}
 
+	public static function getDBVHotTopicOf($course) {
+		$utils = gevCourseUtils::getInstanceByObjOrId($course);
+		return $utils->getDBVHotTopic();
+	}
+
 }

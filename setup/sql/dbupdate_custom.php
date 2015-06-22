@@ -3635,3 +3635,17 @@ if(!$ilDB->tableColumnExists('hist_user', 'exit_date_wbd')){
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+
+<#125>
+<?php
+	if(!$ilDB->tableColumnExists('hist_course', 'dbv_hot_topic')) {
+	$ilDB->manipulate("ALTER TABLE `hist_course` ADD `dbv_hot_topic` VARCHAR(50) NULL");
+	}
+?>
+
+<#126>
+<?php
+require_once "Customizing/class.ilCustomInstaller.php";
+	ilCustomInstaller::initPluginEnv();
+	ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "AdvancedMetaData", "amdc", "CourseAMD");
+?>

@@ -667,3 +667,41 @@ $gev_settings = array(gevSettings::CRS_AMD_PROVIDER
 
 $amdutils->updatePositionOrderAMDField($gev_settings);
 ?>
+
+<#18>
+<?php
+require_once("Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php");
+require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
+require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+
+$amdutils = gevAMDUtils::getInstance();
+
+$amdutils->addAMDField( "Inhalte"
+						, "Relevante Themen"
+						, gevSettings::CRS_AMD_DBV_HOT_TOPIC
+						, "Auswahl aktuell relevanter Themen"
+						, true
+						, null
+						, ilAdvancedMDFieldDefinition::TYPE_SELECT
+						);
+
+$gev_settings = array(gevSettings::CRS_AMD_PROVIDER
+					 ,gevSettings::CRS_AMD_VENUE
+					 ,gevSettings::CRS_AMD_ACCOMODATION
+					 ,gevSettings::CRS_AMD_WEBEX_VC_CLASS_TYPE
+					 ,gevSettings::CRS_AMD_WEBEX_LINK
+					 ,gevSettings::CRS_AMD_WEBEX_PASSWORD
+					 ,gevSettings::CRS_AMD_WEBEX_LOGIN_TUTOR
+					 ,gevSettings::CRS_AMD_WEBEX_PASSWORD_TUTOR
+					 ,gevSettings::CRS_AMD_ORGA
+					 ,gevSettings::CRS_AMD_TEP_ORGU
+					 ,gevSettings::CRS_AMD_DBV_HOT_TOPIC);
+
+$options = array(
+	"Rente Profil Plus",
+	"bAV",
+	"3D Pflegevorsorge");
+
+$amdutils->updateOptionsOfAMDField(gevSettings::CRS_AMD_DBV_HOT_TOPIC, $options);
+$amdutils->updatePositionOrderAMDField($gev_settings);
+?>

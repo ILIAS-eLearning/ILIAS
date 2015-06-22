@@ -95,6 +95,8 @@ class gevSettings {
 	const CRS_AMD_CANCEL_WAITING	= "crs_amd_cancel_waiting";
 	// harte Stornofrist
 	const CRS_AMD_ABSOLUTE_CANCEL_DEADLINE = "crs_amd_absolute_cancel_deadline";
+	// relevante Themen
+	const CRS_AMD_DBV_HOT_TOPIC = "crs_amd_dbv_hot_topic";
 	
 	// Anbieter
 	const CRS_AMD_PROVIDER			= "crs_amd_provider";
@@ -112,7 +114,7 @@ class gevSettings {
 	const CRS_AMD_CSN_LINK			= "crs_amd_csn_link";	// this is not used anymore
 	// Organisationseinheit TEP
 	const CRS_AMD_TEP_ORGU			= "crs_amd_tep_orgu";
-	
+
 	
 	// Typen von Organisationseinheiten
 	const ORG_TYPE_VENUE			= "org_unit_type_venue";
