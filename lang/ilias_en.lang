@@ -15307,3 +15307,4 @@ cron#:#cron_result_status_fail#:#Failed
 wiki#:#wiki_unhide_meta_adv_records#:#Show additional properties
 content#:#cont_wiki_link_dialog#:#Link to Wiki Page (Dialog)
 link#:#link_link#:#Link
+common#:#toggle_dropdown#:#Toggle Dropdown
