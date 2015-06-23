@@ -1,5 +1,6 @@
 <?php
 require_once "Services/GEV/Utils/classes/class.gevCourseUtils.php";
+require_once "Services/GEV/Utils/classes/class.gevUserUtils.php";
 require_once "Modules/Course/classes/class.ilCourseCertificateAdapter.php";
 include_once "Services/Certificate/classes/class.ilCertificate.php";
 require_once "Services/UserCourseStatusHistorizing/classes/class.ilUserCourseStatusHistorizing.php";
@@ -14,12 +15,20 @@ class rehistorizeCertificate extends ilUserCourseStatusHistorizing {
 }
 
 class gevRefreshCertificates {
+
+	global $ilUser;
+
 	private $crs_successfull_usrs;
 	private $crs_usrs;
-	private $opt;
+	private $usr_utils;
+
 
 	public function __construct() {
-		$this->opt = getopt("f::u::c::ho");
+		$this->usr_utils = gevUserUtils::getInstance($ilUser->getId());
+		if(!$this->usr_utils->isAdmin()) {
+			return null;
+		}
+
 		if(isset($this->opt["h"])) {
 			die("help...");
 		}
