@@ -221,8 +221,8 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 									)
 						->multiselect( "org_unit"
 									 , $this->lng->txt("gev_org_unit_short")
-									 //, array("usr.org_unit", "org_unit_above1", "org_unit_above2")
-									 , array("usr.org_unit")
+									 , array("usr.org_unit", "org_unit_above1", "org_unit_above2")
+									 //, array("usr.org_unit")
 									 , $this->user_utils->getOrgUnitNamesWhereUserIsSuperior()
 									 , array()
 									 )
