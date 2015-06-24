@@ -93,7 +93,7 @@ class gevRefreshCertificates {
 	}
 
 	private function getParams() {
-		$this->opt = getopt("h::");
+		$this->opt = $_GET;
 	}
 
 	private function uniqueUsrs() {
