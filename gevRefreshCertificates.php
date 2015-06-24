@@ -131,7 +131,6 @@ class gevRefreshCertificates {
 
 	private function refreshCertificate($crs_id, $usr_id, $certificate, $overwrite) {
 		if($overwrite) {
-
 			$cert = $this->createCertificate($crs_id, $usr_id, $certificate);
 		} elseif (!$this->hasCertificateHistorized($crs_id, $usr_id)) {
 
@@ -139,6 +138,7 @@ class gevRefreshCertificates {
 		}
 
 		if($cert) {
+			echo "creating cert. for user: ".$usr_id;
 			$this->rehistorizeCertificate($crs_id, $usr_id, $cert);
 		}
 	}
@@ -180,7 +180,9 @@ class gevRefreshCertificates {
 			$certificate_adapter = new ilCourseCertificateAdapter($course_obj);
 			$certificate = new ilCertificate($certificate_adapter);
 			$is_complete = $certificate->isComplete();
+
 			if($is_complete) {
+				echo "crs: ".$crs_id." certificate complete<br>";
 				$iterate_usrs(function ($crs_id, $usr_id, $certificate) use ($overwrite) {
 								$this->refreshCertificate($crs_id, $usr_id, $certificate, $overwrite);
 								}, 
