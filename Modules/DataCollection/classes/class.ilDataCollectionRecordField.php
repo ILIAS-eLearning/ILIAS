@@ -113,10 +113,10 @@ class ilDataCollectionRecordField {
 		}
 
 		$this->db->insert("il_dcl_stloc" . $datatype->getStorageLocation() . "_value", array(
-				"value" => array( $datatype->getDbType(), $this->value ),
-				"record_field_id " => array( "integer", $this->id ),
-				"id" => array( "integer", $next_id )
-			));
+			"value" => array( $datatype->getDbType(), $this->value ),
+			"record_field_id " => array( "integer", $this->id ),
+			"id" => array( "integer", $next_id )
+		));
 	}
 
 
@@ -152,7 +152,7 @@ class ilDataCollectionRecordField {
 	 */
 	public function setValue($value, $omit_parsing = false) {
 		$this->loadValue();
-		if (!$omit_parsing) {
+		if (! $omit_parsing) {
 			$tmp = $this->field->getDatatype()->parseValue($value, $this);
 			$old = $this->value;
 			//if parse value fails keep the old value
@@ -223,8 +223,13 @@ class ilDataCollectionRecordField {
 	protected function loadValue() {
 		if ($this->value === NULL) {
 			$datatype = $this->field->getDatatype();
+			switch ($datatype->getId()) {
+				case ilDataCollectionDatatype::INPUTFORMAT_RATING:
+					return true;
+			}
 			$query = "SELECT * FROM il_dcl_stloc" . $datatype->getStorageLocation() . "_value WHERE record_field_id = "
 				. $this->db->quote($this->id, "integer");
+
 			$set = $this->db->query($query);
 			$rec = $this->db->fetchAssoc($set);
 			$this->value = $rec['value'];
