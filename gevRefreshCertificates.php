@@ -33,7 +33,7 @@ class gevRefreshCertificates {
 		$this->getParams();
 
 		if(isset($this->opt["h"])) {
-			die("You may use c = $crs_id, u = $usr_id as get-parameters, 
+			die("You may use c=$crs_id, u=$usr_id as get-parameters, 
 				to specify a course a user or the corresponding intersection. 
 				Please use o to overwrite old certificates.");
 		}
@@ -93,7 +93,7 @@ class gevRefreshCertificates {
 	}
 
 	private function getParams() {
-		$this->opt = $_GET;
+		$this->opt = getopt("h::");
 	}
 
 	private function uniqueUsrs() {
