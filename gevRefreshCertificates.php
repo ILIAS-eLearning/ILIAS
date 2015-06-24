@@ -27,7 +27,7 @@ class gevRefreshCertificates {
 		$this->usr_utils = gevUserUtils::getInstance($ilUser->getId());
 
 		if(!$this->usr_utils->isAdmin()) {
-			return null;
+			die("You need to be an admin to use this feature.");
 		}
 
 		$this->getParams();
