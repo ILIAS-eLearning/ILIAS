@@ -799,7 +799,7 @@ class gevUserUtils {
 			$crs_utils = gevCourseUtils::getInstance($val["obj_id"]);
 			
 			if ( $ilUser->getId() !== 0 && (
-					!$crs_utils->canBookCourseForOther($ilUser->getId(), $this->user_id)
+					$crs_utils->canBookCourseForOther($ilUser->getId(), $this->user_id)
 					|| in_array($crs_utils->getBookingStatusOf($this->user_id)
 							   , array(ilCourseBooking::STATUS_BOOKED, ilCourseBooking::STATUS_WAITING)
 							   )
@@ -860,31 +860,21 @@ class gevUserUtils {
 			);
 			
 		$city_amd_id = $this->gev_set->getAMDFieldId(gevSettings::ORG_AMD_CITY);
-			
-		$info = gevAMDUtils::getInstance()->getTable($crss, $crs_amd, 
-								array("CONCAT(od_city.title, ', ', city.value) as location"), 
+		$amd_util = gevAMDUtils::getInstance();
+
+		$info = $amd_util->getTable($crss, $crs_amd, 
+								array("CONCAT(od_city.title, ', ', city.value) as location","if(type_sort.value = 'Selbstlernkurs',1,0) as tp_sort"), 
 								array(" LEFT JOIN object_data od_city ".
 									  "   ON od_city.obj_id = amd4.value "
 									 ," LEFT JOIN adv_md_values_text city ".
 									  "   ON city.field_id = ".$this->db->quote($city_amd_id, "integer").
 									  "  AND city.obj_id = amd4.value "
+									 ," LEFT JOIN adv_md_values_text type_sort ".
+									 "    ON type_sort.field_id = ".$this->db->quote($amd_util->getFieldId(gevSettings::CRS_AMD_TYPE), "integer").
+									 "    AND type_sort.obj_id = od.obj_id"
 									 ),
-								 "ORDER BY ".$a_order." ".$a_direction." ".
+								 "ORDER BY tp_sort, ".$a_order." ".$a_direction." ".
 								 " LIMIT ".$a_limit." OFFSET ".$a_offset);
-
-		$self_learn = array();
-		$other = array();
-
-		foreach($info as $key => $to_sort_val) {
-			$crs_utils = gevCourseUtils::getInstance($to_sort_val["obj_id"]);
-			if($crs_utils->isSelflearning()) {
-				$self_learn[$key] = $to_sort_val;
-			}else {
-				$other[$key] = $to_sort_val;
-			}
-		}
-
-		$info = $other + $self_learn;
 
 		foreach ($info as $key => $value) {
 			// TODO: This surely could be tweaked to be faster if there was no need
