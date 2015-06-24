@@ -91,8 +91,6 @@ class gevExitedUserCleanupJob extends ilCronJob {
 			}
 			
 			$usr->setActive(false);
-			$usr->update();
-			
 			$ilLog->write("gevExitedUserCleanupJob: Deactivated user with id $usr_id.");
 			
 			$orgus = $orgu_tree->getOrgUnitOfUser($usr_id, 0, true);
@@ -121,6 +119,8 @@ class gevExitedUserCleanupJob extends ilCronJob {
 				$ilLog->write("gevExitedUserCleanupJob: ".$e);
 			}
 			
+			//update user and create a history entry
+			$usr->update();
 			
 			// i'm alive!
 			ilCronManager::ping($this->getId());
