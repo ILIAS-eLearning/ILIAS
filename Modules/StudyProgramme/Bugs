@@ -44,9 +44,6 @@
 = Einträge in prg_* werden nicht gelöscht, wenn Programm gelöscht wird =
 
 
-= Individuelle Baumansicht: Zeigt Kursreferenzen nicht an =
-
-
 = "cut" funktioniert nicht in StudyProgramme =
 
 
@@ -60,5 +57,6 @@
 
 
 = Points required im individuellen Plan änderbar machen =
+
 
 = Warnmeldung in Members anzeigen wenn Programm in DRAFT oder OUTDATED status =
