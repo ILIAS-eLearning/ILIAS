@@ -65,7 +65,7 @@ class gevRefreshCertificates {
 
 		$this->filterSuccessfullParticipations();
 		$this->updateCertificates();
-		
+		die(var_dump($this->crs_usrs));
 	}
 
 	private function addCrsUsrFromCrs($crs_id) {
@@ -173,6 +173,7 @@ class gevRefreshCertificates {
 
 	private function updateCertificates() {
 		$overwrite = isset($this->opt["o"]);
+
 		$at_crs = function ($crs_id, $iterate_usrs) use ($overwrite) {
 
 			$course_class = ilObjectFactory::getClassByType('crs');
