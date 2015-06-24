@@ -140,7 +140,9 @@ class gevBookingsByVenueGUI extends catBasicReportGUI{
 						FROM
 							crs_acco acco
 						LEFT JOIN
-							hist_usercoursestatus usrcrs ON usrcrs.crs_id = acco.crs_id AND usrcrs.hist_historic = 0
+							hist_usercoursestatus usrcrs ON usrcrs.crs_id = acco.crs_id 
+														 AND usrcrs.usr_id = acco.user_id
+														 AND usrcrs.hist_historic = 0
 						WHERE 
 							acco.crs_id =".$rec['crs_id']."
 						AND (
