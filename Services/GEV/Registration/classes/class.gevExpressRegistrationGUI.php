@@ -88,7 +88,13 @@ class gevExpressRegistrationGUI {
 
 	protected function failAtFinalize($msg) {
 		$this->log->write("gevBookingGUI::finalizeBooking: ".$msg);
-		ilUtil::sendFailure($this->lng->txt("gev_finalize_booking_error"), true);
+
+		if($this->crs_utils->getFreePlaces() == 0) {
+			ilUtil::sendFailure($this->lng->txt("gev_finalize_booking_booked_out_error"), true);
+		} else {
+			ilUtil::sendFailure($this->lng->txt("gev_finalize_booking_error"), true);
+		}
+
 		$this->toMaklerOffer();
 		exit();
 	}
