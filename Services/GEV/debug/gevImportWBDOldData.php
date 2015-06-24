@@ -600,7 +600,31 @@ class gevImportOldData {
 		
 		
 				
-	} 
+	}
+
+
+	function rectifyAltdatenDateFormat(){
+		$sql = " SELECT id, Geburtsdatum, Beginn, Ende FROM wbd_altdaten WHERE "
+			." Geburtsdatum LIKE '%-%'"
+			." OR Beginn LIKE '%-%'"
+			." OR Ende LIKE '%-%'";
+
+		$result = mysql_query($sql, $this->importDB);
+		while($rec = mysql_fetch_assoc($result)) {
+
+		//execute for every record:
+			$sql = "UPDATE wbd_altdaten SET "
+				." Geburtsdatum = '" .date('d.m.Y', strtotime($rec['Geburtsdatum'])) ."'"
+				." Beginn = '" .date('d.m.Y', strtotime($rec['Beginn'])) ."'"
+				." Ende = '" .date('d.m.Y', strtotime($rec['Ende'])) ."'"
+				." WHERE id=" .$rec['id'];	
+
+			print $sql .'<br>';
+			//mysql_query($sql, $this->importDB);
+		}
+
+		
+	}  
 
 
 	
@@ -614,11 +638,12 @@ class gevImportOldData {
 run: 
 */
 
-
 $sem_many_matches = array();
 
 $import = new gevImportOldData();
 
+$import->rectifyAltdatenDateFormat();
+print '<hr>';
 
 $import->rectifyOKZforAltdaten();
 print '<hr>';
