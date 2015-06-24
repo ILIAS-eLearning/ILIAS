@@ -584,6 +584,9 @@ class ilStudyProgrammeUserProgress {
 					   ->setCompletionBy($a_obj_id)
 					   ->update();
 		
+		require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeEvents.php");
+		ilStudyProgrammeEvents::userSuccessful($this);
+		
 		$parent = $this->getParentProgress();
 		if ($parent) {
 			$parent->updateStatus();
