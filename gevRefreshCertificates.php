@@ -51,13 +51,13 @@ class gevRefreshCertificates {
 		if($set_path) {
 			$this->addCrsUsrFromCSV($path);
 		}
-		if($set_course && !$set_user) {
+		if($set_crs && !$set_usr) {
 			$this->addCrsUsrFromCrs($crs_id);
 		}
-		if($set_user && !$set_course) {
+		if($set_usr && !$set_crs) {
 			$this->addCrsUsrFromUsr($usr_id);
 		}
-		if($set_user && $set_course) {
+		if($set_usr && $set_crs) {
 			$this->addCrsUsrFromCrsUsr($crs_id, $usr_id);
 		}
 
