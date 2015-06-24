@@ -799,7 +799,7 @@ class gevUserUtils {
 			$crs_utils = gevCourseUtils::getInstance($val["obj_id"]);
 			
 			if ( $ilUser->getId() !== 0 && (
-					$crs_utils->canBookCourseForOther($ilUser->getId(), $this->user_id)
+					!$crs_utils->canBookCourseForOther($ilUser->getId(), $this->user_id)
 					|| in_array($crs_utils->getBookingStatusOf($this->user_id)
 							   , array(ilCourseBooking::STATUS_BOOKED, ilCourseBooking::STATUS_WAITING)
 							   )
