@@ -497,7 +497,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 			}
 
 			$tile = new ilTextInputGUI($lng->txt("maps_tile_server"),"tile");
-			$tile->setValue(ilMapUtil::getStdTileServers(true, true));
+			$tile->setValue(ilMapUtil::getStdTileServers(true));
 			$geolocation = new ilTextInputGUI($lng->txt("maps_geolocation_server"),"geolocation");
 			$geolocation->setValue(ilMapUtil::getStdGeolocationServer(true));
 
