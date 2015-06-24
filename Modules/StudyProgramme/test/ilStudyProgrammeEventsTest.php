@@ -46,8 +46,10 @@ class ilStudyProgrammeEventsTest extends PHPUnit_Framework_TestCase {
 		$this->root_ref_id = $this->root->getRefId();
 		$this->root->putInTree(ROOT_FOLDER_ID);
 		$this->root->setStatus(ilStudyProgramme::STATUS_ACTIVE);
+		$this->root->object_factory = new ilObjectFactoryWrapperMock();
 		
 		$this->node = ilObjStudyProgramme::createInstance();
+		$this->node->object_factory = new ilObjectFactoryWrapperMock();
 		$this->root->addNode($this->node);
 		
 		$this->leaf = new ilStudyProgrammeLeafMock();
