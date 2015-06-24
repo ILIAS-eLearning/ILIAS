@@ -135,18 +135,27 @@ class gevBookingsByVenueGUI extends catBasicReportGUI{
 		// get this from hist_usercoursestatus.overnights instead?
 		// here, trainers are involved.
 		$query_temp = "SELECT
-					 		night,
-					 		COUNT(night) no_accomodations
-
-					 	FROM
-					 		crs_acco
-					 	WHERE 
-						 	crs_id =" .$rec['crs_id']
-						 	
-						." GROUP BY 
-						 	night
-						   ORDER BY
-						   	night
+							acco.night,
+							COUNT(acco.night) no_accomodations
+						LEFT JOIN
+							hist_usercoursestatus usrcrs ON usrcrs.crs_id = acco.crs_id AND usrcrs.hist_historic
+						FROM
+							crs_acco acco
+						WHERE 
+							acco.crs_id =".$rec['crs_id']."
+						AND (
+								(	
+								usrcrs.function = 'Mitglied' 
+								AND 
+								usrcrs.booking_status = 'gebucht'
+								)
+							OR
+								usrcrs.function = 'Trainer'
+						)
+						GROUP BY 
+						 	acco.night
+						ORDER BY
+							acco.night
 
 						 ";
 
