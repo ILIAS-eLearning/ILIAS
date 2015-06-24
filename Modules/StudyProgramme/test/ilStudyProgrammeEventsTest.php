@@ -114,7 +114,7 @@ class ilStudyProgrammeEventsTest extends PHPUnit_Framework_TestCase {
 		
 		$this->assertCount(2, $this->event_handler_mock->events);
 		
-		$event = array_pop($this->event_handler_mock->events);
+		$event = array_shift($this->event_handler_mock->events);
 		$this->assertEquals("Modules/StudyProgramme", $event["component"]);
 		$this->assertEquals("userSuccessful", $event["event"]);
 		$this->assertEquals($this->root->getId(), $event["parameters"]["root_prg_id"]);
@@ -122,7 +122,7 @@ class ilStudyProgrammeEventsTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($user->getId(), $event["parameters"]["usr_id"]);
 		$this->assertEquals($ass->getId(), $event["parameters"]["ass_id"]);
 
-		$event = array_pop($this->event_handler_mock->events);
+		$event = array_shift($this->event_handler_mock->events);
 		$this->assertEquals("Modules/StudyProgramme", $event["component"]);
 		$this->assertEquals("userSuccessful", $event["event"]);
 		$this->assertEquals($this->root->getId(), $event["parameters"]["root_prg_id"]);
@@ -141,7 +141,9 @@ class ilStudyProgrammeEventsTest extends PHPUnit_Framework_TestCase {
 		
 		$this->assertCount(2, $this->event_handler_mock->events);
 		
-		$event = array_pop($this->event_handler_mock->events);
+		print_r($this->event_handler_mock->events);
+		
+		$event = array_shift($this->event_handler_mock->events);
 		$this->assertEquals("Modules/StudyProgramme", $event["component"]);
 		$this->assertEquals("userSuccessful", $event["event"]);
 		$this->assertEquals($this->root->getId(), $event["parameters"]["root_prg_id"]);
@@ -149,7 +151,7 @@ class ilStudyProgrammeEventsTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($user->getId(), $event["parameters"]["usr_id"]);
 		$this->assertEquals($ass->getId(), $event["parameters"]["ass_id"]);
 
-		$event = array_pop($this->event_handler_mock->events);
+		$event = array_shift($this->event_handler_mock->events);
 		$this->assertEquals("Modules/StudyProgramme", $event["component"]);
 		$this->assertEquals("userSuccessful", $event["event"]);
 		$this->assertEquals($this->root->getId(), $event["parameters"]["root_prg_id"]);
