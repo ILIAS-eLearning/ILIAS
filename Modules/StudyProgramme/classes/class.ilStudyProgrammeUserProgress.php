@@ -301,7 +301,10 @@ class ilStudyProgrammeUserProgress {
 		$this->progress->setStatus(ilStudyProgrammeProgress::STATUS_ACCREDITED)
 					   ->setCompletionBy($a_user_id)
 					   ->update();
-					   
+		
+		require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeEvents.php");
+		ilStudyProgrammeEvents::userSuccessful($this);
+		
 		$this->updateParentStatus();
 		return $this;
 	}
@@ -529,6 +532,8 @@ class ilStudyProgrammeUserProgress {
 		$this->progress->setCurrentAmountOfPoints($achieved_points);
 		if ($successful) {
 			$this->progress->setStatus(ilStudyProgrammeProgress::STATUS_COMPLETED);
+			require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeEvents.php");
+			ilStudyProgrammeEvents::userSuccessful($this);
 		}
 		
 		$this->progress->update();
