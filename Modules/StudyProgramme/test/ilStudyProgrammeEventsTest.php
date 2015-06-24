@@ -52,6 +52,7 @@ class ilStudyProgrammeEventsTest extends PHPUnit_Framework_TestCase {
 		
 		$this->leaf = new ilStudyProgrammeLeafMock();
 		$this->node->addLeaf($this->leaf);
+		$this->node->setStatus(ilStudyProgramme::STATUS_ACTIVE);
 		
 		$this->users = array();
 		
