@@ -127,7 +127,7 @@ class gevDecentralTrainingUtils {
 				."   AND is_template.value = 'Ja'"
 				."   AND edu_prog.value = 'dezentrales Training' "
 				.$a_where
-				." ORDER BY od.title DESC";
+				." ORDER BY od.title ASC";
 	}
 	
 	public function getAvailableTemplatesFor($a_user_id) {
