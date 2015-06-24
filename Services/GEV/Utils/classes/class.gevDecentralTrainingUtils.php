@@ -97,7 +97,7 @@ class gevDecentralTrainingUtils {
 	
 	// TEMPLATES
 	
-	protected function templateBaseQuery() {
+	protected function templateBaseQuery($a_where = "") {
 		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 		
 		$ltype_field_id = gevSettings::getInstance()->getAMDFieldId(gevSettings::CRS_AMD_TYPE);
@@ -125,7 +125,9 @@ class gevDecentralTrainingUtils {
 				." WHERE cs.activation_type = 1"
 				."   AND oref.deleted IS NULL"
 				."   AND is_template.value = 'Ja'"
-				."   AND edu_prog.value = 'dezentrales Training'";
+				."   AND edu_prog.value = 'dezentrales Training' "
+				.$a_where
+				." ORDER BY od.title DESC";
 	}
 	
 	public function getAvailableTemplatesFor($a_user_id) {
@@ -152,8 +154,7 @@ class gevDecentralTrainingUtils {
 	}
 	
 	public function getTemplateInfoFor($a_user_id, $a_template_id) {
-		$query = $this->templateBaseQuery()
-				."  AND od.obj_id = ".$this->db->quote($a_template_id);
+		$query = $this->templateBaseQuery("  AND od.obj_id = ".$this->db->quote($a_template_id));
 		$res = $this->db->query($query);
 		if ($rec = $this->db->fetchAssoc($res)) {
 			if ($this->access->checkAccessOfUser($a_user_id, "visible",  "", $rec["ref_id"], "crs")) {
