@@ -216,7 +216,6 @@ class ilUserCourseStatusHistorizing extends ilHistorizingStorage
 					 )
 				);
 				$a_data['certificate'] = $certfile_id;
-				echo $certfile_id."<hr>";
 			}
 		}
 
