@@ -15242,3 +15242,4 @@ cron#:#cron_result_status_fail#:#Fehler
 wiki#:#wiki_unhide_meta_adv_records#:#Zusätzliche Eigenschaften anzeigen
 content#:#cont_wiki_link_dialog#:#Link zu einer Wikiseite (Dialog)
 link#:#link_link#:#Link
+common#:#msg_copy_clipboard_source#:#Now, please select the desired course, whose content should be copied and click the button ‘Next’.###25 06 2015 new variable

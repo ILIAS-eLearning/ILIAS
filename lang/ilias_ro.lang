@@ -15238,3 +15238,8 @@ forum#:#selected_threads_reopened#:#The selected threads has been reopened###08 
 meta#:#md_adv_confirm_definition_select_option_all#:#Handle all existing entries the same###08 04 2015 new variable
 meta#:#md_adv_confirm_definition_select_option_single#:#Decide for each existing entry###08 04 2015 new variable
 meta#:#md_adv_confirm_definition_select_option_all_action#:#New Value###08 04 2015 new variable
+file#:#file_import#:#Import File###25 06 2015 new variable
+cron#:#cron_result_status_fail#:#Failed###25 06 2015 new variable
+wiki#:#wiki_unhide_meta_adv_records#:#Show additional properties###25 06 2015 new variable
+content#:#cont_wiki_link_dialog#:#Link to Wiki Page (Dialog)###25 06 2015 new variable
+link#:#link_link#:#Link###25 06 2015 new variable
