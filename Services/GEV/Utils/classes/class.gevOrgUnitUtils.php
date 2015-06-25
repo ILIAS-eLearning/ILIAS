@@ -14,6 +14,7 @@ require_once("Modules/OrgUnit/classes/class.ilObjOrgUnit.php");
 require_once("Modules/OrgUnit/classes/Types/class.ilOrgUnitType.php");
 require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
+require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 
 class gevOrgUnitUtils {
@@ -206,7 +207,6 @@ class gevOrgUnitUtils {
 			require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 			$this->ref_id = gevObjectUtils::getRefId($this->orgu_id);
 		}
-		
 		if (!$this->ref_id) {
 			throw new Exception("Could not determine ref_id for org unit with id '".$this->orgu_id."'");
 		}
@@ -628,6 +628,25 @@ class gevOrgUnitUtils {
 		return $ret;
 	}
 	
+	static public function getAllChildrenTitles($a_ref_ids) {
+		global $ilDB;
+		
+		$res = $ilDB->query(
+			 "SELECT DISTINCT od.title title "
+			." FROM tree p"
+			." RIGHT JOIN tree c ON c.lft > p.lft AND c.rgt < p.rgt AND c.tree = p.tree"
+			." LEFT JOIN object_reference oref ON oref.ref_id = c.child"
+			." LEFT JOIN object_data od ON od.obj_id = oref.obj_id"
+			." WHERE ".$ilDB->in("p.child", $a_ref_ids, false, "integer")
+			."   AND od.type = 'orgu'"
+			);
+	
+		$ret = array();
+		while($rec = $ilDB->fetchAssoc($res)) {
+			$ret[] = $rec["title"];
+		}
+		return $ret;
+	}
 	// assignment of users to the org-unit
 	
 	public function assignUser($a_user_id, $a_role_title) {

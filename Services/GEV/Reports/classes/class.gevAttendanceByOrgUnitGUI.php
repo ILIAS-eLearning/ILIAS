@@ -21,7 +21,8 @@ require_once("Services/GEV/Reports/classes/class.catBasicReportGUI.php");
 require_once("Services/GEV/Reports/classes/class.catFilter.php");
 require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
 require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
-
+require_once("Modules/OrgUnit/classes/class.ilObjOrgUnit.php");
+require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
 
 
@@ -204,8 +205,32 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 						->compile()
 						;
 
+		$never_skip = $this->user_utils->getOrgUnitsWhereUserIsDirectSuperior();
+
+		array_walk($never_skip, 
+			function (&$obj_ref_id) {
+				$aux = new ilObjOrgUnit($obj_ref_id["ref_id"]);
+				$obj_ref_id = $aux->getTitle();
+			}
+		);
 
 		$this->allowed_user_ids = $this->user_utils->getEmployees();
+		 
+		$skip_org_units_in_filter_below = array('Nebenberufsagenturen');
+		array_walk($skip_org_units_in_filter_below, 
+			function(&$title) { 
+				$title = ilObjOrgUnit::_getIdsForTitle($title)[0];
+				$title = gevObjectUtils::getRefId($title);
+				$title = gevOrgUnitUtils::getAllChildrenTitles(array($title));
+			}
+		);
+		$skip_org_units_in_filter = array();
+		foreach ($skip_org_units_in_filter_below as $org_units) {
+			$skip_org_units_in_filter = array_merge($skip_org_units_in_filter, $org_units);
+		}
+		array_unique($skip_org_units_in_filter);
+		$skip_org_units_in_filter = array_diff($skip_org_units_in_filter, $never_skip);
+		$org_units_filter = array_diff($this->user_utils->getOrgUnitNamesWhereUserIsSuperior(), $skip_org_units_in_filter);
 
 		$this->filter = catFilter::create()
 		
@@ -223,7 +248,7 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 									 , $this->lng->txt("gev_org_unit_short")
 									 , array("usr.org_unit", "org_unit_above1", "org_unit_above2")
 									 //, array("usr.org_unit")
-									 , $this->user_utils->getOrgUnitNamesWhereUserIsSuperior()
+									 , $org_units_filter
 									 , array()
 									 )
 						->multiselect("edu_program"
