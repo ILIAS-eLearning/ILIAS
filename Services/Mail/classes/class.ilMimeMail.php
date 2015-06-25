@@ -361,20 +361,24 @@ class ilMimeMail
 			$this->body  = ' ';
 		}
 
-		$mail->Body    = str_replace( '{PLACEHOLDER}', nl2br( ilUtil::makeClickable( $this->body ) ), $bracket );
+		$mail->Body    = str_replace( '{PLACEHOLDER}', nl2br( $this->body ), $bracket );
 		$mail->AltBody = $this->body;
 
 		$directory_handle  = @opendir($directory);
-		while (false !== ($filename = readdir($directory_handle)))
+		$files = array();
+		if($directory_handle)
 		{
-			$files[] = $filename;
-		}
+			while ($filename = @readdir($directory_handle))
+			{
+				$files[] = $filename;
+			}
 
-		$images = preg_grep ('/\.jpg$/i', $files);
+			$images = preg_grep ('/\.jpg$/i', $files);
 
-		foreach($images as $image)
-		{
-			$mail->AddEmbeddedImage($directory.$image, 'img/'.$image, $image);
+			foreach($images as $image)
+			{
+				$mail->AddEmbeddedImage($directory.$image, 'img/'.$image, $image);
+			}
 		}
 
 		foreach($this->aattach as $attachment)
