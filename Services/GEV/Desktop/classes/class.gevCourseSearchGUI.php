@@ -49,7 +49,7 @@ class gevCourseSearchGUI {
 		$this->ctrl->setParameter($this, "target_user_id", $this->target_user_id);
 
 		$this->tpl->getStandardTemplate();
-	}
+		}
 
 	public function executeCommand() {
 		$cmd = $this->ctrl->getCmd();
@@ -159,7 +159,8 @@ class gevCourseSearchGUI {
 				->setImage("GEV_img/ico-head-search.png")
 				//->setCommand("gev_crs_srch_limit", "www.google.de"); // TODO: set this properly
 				//->setCommand("gev_crs_srch_limit", "javascript:gevShowSearchFilter();"); // TODO: set this properly
-				->setCommand("gev_crs_srch_limit", "-"); // TODO: set this properly
+				->setCommand("gev_crs_srch_limit", "-") // TODO: set this properly
+				->setAdvice("gev_crs_srch_my_table_desc_advice"); // TO DISPLAY AN ADIVCE!
 
 		return $usrsel
 			 . ( ($hls->countHighlights() > 0 && !$a_in_search)
@@ -219,7 +220,6 @@ class gevCourseSearchGUI {
 		
 		$type = new ilSelectInputGUI($this->lng->txt("gev_course_type"), "type");
 		$type->setOptions(gevCourseUtils::getTypeOptions());
-		$type->setInfo($this->lng->txt("gev_new_pos_self_learnings_in_table"));
 		$form->addItem($type);
 		
 		$categorie = new ilSelectInputGUI($this->lng->txt("gev_course_categorie"), "categorie");
