@@ -139,10 +139,30 @@ class ilExSubmission
 	
 	public function canView()
 	{
-		return ($this->canSubmit() ||
-				$this->isTutor() ||
-				$this->isInTeam() ||
-				$this->public_submissions);
+		global $ilUser;
+		
+		if($this->canSubmit() ||
+			$this->isTutor() ||
+			$this->isInTeam() ||
+			$this->public_submissions)
+		{
+			return true;
+		}
+				
+		// #16115
+		if($this->peer_review)
+		{
+			// peer review givers may view peer submissions
+			foreach($this->peer_review->getPeerReviewsByPeerId($this->getUserId()) as $giver)
+			{
+				if($giver["giver_id"] == $ilUser->getId())
+				{
+					return true;
+				}
+			}
+		}
+		
+		return false;
 	}
 	
 	public function isTutor()
