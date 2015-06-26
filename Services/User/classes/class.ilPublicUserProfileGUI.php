@@ -546,7 +546,16 @@ class ilPublicUserProfileGUI
 				$tpl->parseCurrentBlock();
 			}
 		}
-		
+		if(
+			$this->getUserId() != $ilUser->getId() &&
+			!$ilUser->isAnonymous() &&
+			!ilObjUser::_isAnonymous($this->getUserId())
+		)
+		{
+			require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystemLinkButton.php';
+			$button = ilBuddySystemLinkButton::getInstanceByUserId($user->getId());
+			$tpl->setVariable('BUDDY_HTML', $button->getHtml());
+		}
 		$goto = "";
 		if($a_add_goto)
 		{			

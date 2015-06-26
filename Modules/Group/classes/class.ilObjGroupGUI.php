@@ -38,7 +38,7 @@ class ilObjGroupGUI extends ilContainerGUI
 
 	function &executeCommand()
 	{
-		global $ilUser,$rbacsystem,$ilAccess, $ilNavigationHistory,$ilErr, $ilCtrl;
+		global $ilUser,$rbacsystem,$ilAccess, $ilNavigationHistory,$ilErr, $ilCtrl, $ilToolbar;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -64,6 +64,27 @@ class ilObjGroupGUI extends ilContainerGUI
 				include_once('./Modules/Group/classes/class.ilGroupRegistrationGUI.php');
 				$registration = new ilGroupRegistrationGUI($this->object);
 				$this->ctrl->forwardCommand($registration);
+				break;
+
+			case 'ilusersgallerygui':
+				$is_participant = (bool)ilGroupParticipants::_isParticipant($this->ref_id, $ilUser->getId());
+				if(!$ilAccess->checkAccess('write', '', $this->ref_id) && !$is_participant)
+				{
+					$ilErr->raiseError($this->lng->txt('msg_no_perm_read'), $ilErr->MESSAGE);
+				}
+
+				// @todo
+				$this->addMailToMemberButton($ilToolbar, "members");
+
+				require_once 'Services/User/classes/class.ilUsersGalleryParticipants.php';
+				require_once 'Services/User/classes/class.ilUsersGalleryGUI.php';
+				$this->setSubTabs('members');
+				$this->tabs_gui->setTabActive('members');
+				$this->tabs_gui->setSubTabActive('grp_members_gallery');
+
+				$provider = new ilUsersGalleryParticipants($this->object->members_obj);
+				$gallery_gui = new ilUsersGalleryGUI($provider);
+				$this->ctrl->forwardCommand($gallery_gui);
 				break;
 
 			case 'ilpermissiongui':
@@ -128,6 +149,7 @@ class ilObjGroupGUI extends ilContainerGUI
 				$this->tabs_gui->setTabActive('group_members');
 				$this->tabs_gui->setSubTabActive('grp_members_gallery');
 				$profile_gui = new ilPublicUserProfileGUI($_GET["user"]);
+				// @todo
 				$profile_gui->setBackUrl($ilCtrl->getLinkTarget($this, "membersGallery"));
 				$html = $this->ctrl->forwardCommand($profile_gui);
 				$this->tpl->setVariable("ADM_CONTENT", $html);
@@ -827,143 +849,6 @@ class ilObjGroupGUI extends ilContainerGUI
 	}
 	
 	/////////////////////////////////////////////////////////// Member section /////////////////////
-	/**
-	 * Builds a group members gallery as a layer of left-floating images
-	 * @author Arturo Gonzalez <arturogf@gmail.com>
-	 * @access       public
-	 */
-	public function membersGalleryObject()
-	{
-		global $rbacsystem, $ilAccess, $ilUser, $ilToolbar;
-		
-		$is_admin = (bool) $rbacsystem->checkAccess("write", $this->object->getRefId());
-		
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.crs_members_gallery.html','Modules/Course');
-		
-		$this->setSubTabs('members');
-		$this->tabs_gui->setTabActive('members');
-		
-		$member_ids = $this->object->getGroupMemberIds();
-		$admin_ids = $this->object->getGroupAdminIds();
-		
-		// fetch all users data in one shot to improve performance
-		$members = $this->object->getGroupMemberData($member_ids);
-
-		$this->addMailToMemberButton($ilToolbar, "membersGallery");
-		
-		// MEMBERS
-		if(count($members))
-		{
-			$ordered_members = array();
-
-			foreach($members as $member)
-			{
-				// get user object
-				if(!($usr_obj = ilObjectFactory::getInstanceByObjId($member["id"],false)))
-				{
-					continue;
-				}
-
-				if(!$usr_obj->getActive())
-				{
-					continue;
-				}
-				
-				// please do not use strtoupper on first/last name for output
-				// this messes up with some unicode characters, i guess
-				// depending on php verion, alex
-				array_push($ordered_members,array("id" => $member["id"], 
-								  "login" => $usr_obj->getLogin(),
-								  "lastname" => $usr_obj->getLastName(),
-								  "firstname" => $usr_obj->getFirstName(),
-								  "sortlastname" => strtoupper($usr_obj->getLastName()).strtoupper($usr_obj->getFirstName()),
-								  "usr_obj" => $usr_obj));
-			}
-
-			$ordered_members=ilUtil::sortArray($ordered_members,"sortlastname","asc");
-
-			foreach($ordered_members as $member) {
-
-				$usr_obj = $member["usr_obj"];
-
-			        $public_profile = $usr_obj->getPref("public_profile");
-			        if ($public_profile == "g")
-			        {
-			        	$public_profile = "y";
-			        }
-
-				// SET LINK TARGET FOR USER PROFILE
-				$this->ctrl->setParameterByClass("ilpublicuserprofilegui", "user", $member["id"]);
-				$profile_target = $this->ctrl->getLinkTargetByClass("ilpublicuserprofilegui","getHTML");
-			
-				// GET USER IMAGE
-				$file = $usr_obj->getPersonalPicturePath("xsmall");
-				
-				switch(in_array($member["id"],$admin_ids))
-				{
-					//admins
-					case 1:
-						if ($public_profile == "y")
-						{
-							$this->tpl->setCurrentBlock("member_linked");
-							$this->tpl->setVariable("LINK_PROFILE", $profile_target);
-							$this->tpl->setVariable("SRC_USR_IMAGE", $file);
-							$this->tpl->parseCurrentBlock();
-						}
-						else
-						{
-							$this->tpl->setCurrentBlock("member_not_linked");
-							$this->tpl->setVariable("SRC_USR_IMAGE", $file);
-							$this->tpl->parseCurrentBlock();
-						}
-						$this->tpl->setCurrentBlock("member");
-						break;
-				
-					case 0:
-						if ($public_profile == "y")
-						{
-							$this->tpl->setCurrentBlock("member_linked");
-							$this->tpl->setVariable("LINK_PROFILE", $profile_target);
-							$this->tpl->setVariable("SRC_USR_IMAGE", $file);
-							$this->tpl->parseCurrentBlock();
-						}
-						else
-						{
-							$this->tpl->setCurrentBlock("member_not_linked");
-							$this->tpl->setVariable("SRC_USR_IMAGE", $file);
-							$this->tpl->parseCurrentBlock();
-						}
-						$this->tpl->setCurrentBlock("member");
-						break;
-				}
-				
-				if (in_array($member["id"],$admin_ids)) {
-					$this->tpl->setVariable("MEMBER_CLASS", "il_Admin");
-				}
-				else {
-						$this->tpl->setVariable("MEMBER_CLASS", "il_Member");
-				}
-
-			
-				// do not show name, if public profile is not activated
-				if ($public_profile == "y")
-				{
-					$this->tpl->setVariable("FIRSTNAME", $member["firstname"]);
-					$this->tpl->setVariable("LASTNAME", $member["lastname"]);
-				}
-				$this->tpl->setVariable("LOGIN", $usr_obj->getLogin());
-				$this->tpl->parseCurrentBlock();
-			}
-			$this->tpl->setCurrentBlock("members");	
-			//$this->tpl->setVariable("MEMBERS_TABLE_HEADER",$this->lng->txt('crs_members_title'));
-			$this->tpl->parseCurrentBlock();
-		}
-		
-		$this->tpl->setVariable("TITLE",$this->lng->txt('crs_members_print_title'));
-		$this->tpl->setVariable("CSS_PATH",ilUtil::getStyleSheetLocation());
-	}
-	
-    
 	public function readMemberData($ids,$role = 'admin',$selected_columns = null)
 	{
 		include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
@@ -2015,15 +1900,19 @@ class ilObjGroupGUI extends ilContainerGUI
 		$is_participant = ilGroupParticipants::_isParticipant($this->ref_id, $ilUser->getId());
 			
 		// Members
-		$mem_cmd = $ilAccess->checkAccess('write','',$this->ref_id) ? "members" : "membersGallery";
-		if($mem_cmd != "membersGallery" || $is_participant)
+		if($ilAccess->checkAccess('write', '', $this->ref_id))
 		{
-			$tabs_gui->addTarget("members",
-					$this->ctrl->getLinkTarget($this, $mem_cmd), 
-					array(),
-					get_class($this));
+			$tabs_gui->addTarget('members', $this->ctrl->getLinkTarget($this, 'members'), array(), get_class($this));
 		}
-	
+		else if($is_participant)
+		{
+			$this->tabs_gui->addTarget(
+				'members',
+				$this->ctrl->getLinkTargetByClass('ilUsersGalleryGUI','view'),
+				'',
+				'ilUsersGalleryGUI'
+			);
+		}
 		// learning progress
 		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
 		if(ilLearningProgressAccess::checkAccess($this->object->getRefId(), $is_participant))
@@ -2957,9 +2846,12 @@ class ilObjGroupGUI extends ilContainerGUI
 						get_class($this));
 				}
 				// for all
-				$this->tabs_gui->addSubTabTarget("grp_members_gallery",
-					$this->ctrl->getLinkTarget($this,'membersGallery'),
-					"membersGallery", get_class($this));
+				$this->tabs_gui->addSubTabTarget(
+					'grp_members_gallery',
+					$this->ctrl->getLinkTargetByClass('ilUsersGalleryGUI','view'),
+					'',
+					'ilUsersGalleryGUI'
+				);
 				
 				// members map
 				include_once("./Services/Maps/classes/class.ilMapUtil.php");
