@@ -15,7 +15,7 @@ require_once "Services/Contact/classes/class.ilAddressbookTableGUI.php";
 *
 * @ingroup ServicesMail
 * @ilCtrl_Calls ilMailAddressbookGUI: ilMailSearchCoursesGUI, ilMailSearchGroupsGUI, ilMailingListsGUI
-* @ilCtrl_Calls ilMailAddressbookGUI: ilMailFormGUI
+* @ilCtrl_Calls ilMailAddressbookGUI: ilMailFormGUI, ilUsersGalleryGUI
 */
 class ilMailAddressbookGUI
 {
@@ -84,6 +84,14 @@ class ilMailAddressbookGUI
 
 				$this->ctrl->setReturn($this, "showAddressbook");
 				$this->ctrl->forwardCommand(new ilMailingListsGUI());
+				break;
+
+			case 'ilusersgallerygui':
+				require_once 'Services/User/classes/class.ilUsersGalleryUsers.php';
+				require_once 'Services/User/classes/class.ilUsersGalleryGUI.php';
+				$this->activateTab('my_contacts');
+				$this->ctrl->forwardCommand(new ilUsersGalleryGUI(new ilUsersGalleryUsers()));
+				$this->tpl->show();
 				break;
 
 			default:
@@ -762,7 +770,8 @@ class ilMailAddressbookGUI
 		else
 		{
 			$ilHelp->setScreenIdComponent("contacts");
-			
+
+			$this->tabs_gui->addTab('my_contacts', $this->lng->txt('my_contacts'), $this->ctrl->getLinkTargetByClass('ilusersgallerygui'));
 			$this->tabs_gui->addTab('mail_my_entries', $this->lng->txt('mail_my_entries'), $this->ctrl->getLinkTarget($this));
 			$this->tabs_gui->addTab('mail_my_mailing_lists', $this->lng->txt('mail_my_mailing_lists'), $this->ctrl->getLinkTargetByClass('ilmailinglistsgui'));
 			$this->tabs_gui->addTab('mail_my_courses', $this->lng->txt('mail_my_courses'), $this->ctrl->getLinkTargetByClass('ilmailsearchcoursesgui'));

@@ -7265,7 +7265,7 @@ mail#:#mail_moved_to_trash#:#Mail has been moved to trash
 mail#:#mail_moved#:#The mail has been moved
 mail#:#mail_multiple_recipients_found#:#Enter a more specific mail address. ILIAS found multiple possible recipients for this address: %s
 mail#:#mail_my_courses#:#My Courses
-mail#:#mail_my_entries#:#My Contacts
+mail#:#mail_my_entries#:#My Address Book
 mail#:#mail_my_groups#:#My Groups
 mail#:#mail_my_mailing_lists#:#My Mailing Lists
 mail#:#mail_nacc_admin_mail#:#Mail address of Administrator

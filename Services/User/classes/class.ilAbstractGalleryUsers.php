@@ -19,8 +19,8 @@ abstract class ilAbstractGalleryUsers implements ilGalleryUsers
 		 */
 		global $ilUser;
 
-		$sortable_names = ilUserUtil::getNamePresentation(array_keys($user_data), false, false, '', false, false, true);
-		$names          = ilUserUtil::getNamePresentation(array_keys($user_data), false, false, '', false, true, false, true);
+		$sortable_names = ilUserUtil::getNamePresentation(array_keys($user_data));
+		$names          = ilUserUtil::getNamePresentation(array_keys($user_data), false, false, '', false, true, false);
 
 		foreach($user_data as $id => &$data)
 		{

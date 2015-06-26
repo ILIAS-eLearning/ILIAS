@@ -1,22 +1,24 @@
-<div class="ilParticipantsGalleryContainer">
+<div class="ilUsersGalleryContainer">
 	<!-- BEGIN participants -->
-	<div class="ilParticipantsGallery row">
+	<div class="ilUsersGalleryRow row">
 		<!-- BEGIN participant -->
 		<div class="col-md-3">
-			<div class="{USER_CLASS} gallery_usr_element" data-users-gallery-status="{BUDDYLIST_STATUS}" data-users-gallery-contact_type="{CONTACT_TYPE}">
+			<div class="ilUser" data-users-gallery-status="{BUDDYLIST_STATUS}">
 				<!-- BEGIN linked_image -->
-				<a href="{LINK_PROFILE}"><img class="img-circle circularImg" src="{SRC_USR_IMAGE}" /><h3>{PUBLIC_NAME}</h3></a>
+				<a href="{LINK_PROFILE}"><img class="img" src="{SRC_USR_IMAGE}" /><h3>{PUBLIC_NAME}</h3></a>
 				<!-- END linked_image -->
 				<!-- BEGIN unlinked_image -->
-				<img class="img-circle circularImg" src="{SRC_USR_IMAGE}" /><h3>{PUBLIC_NAME}</h3>
+				<img class="img" src="{SRC_USR_IMAGE}" /><h3>{PUBLIC_NAME}</h3>
 				<!-- END unlinked_image -->
-				<!-- BEGIN mail_to_start -->
-				<a href="{WRITE_MAIL}" title="{WRITE_MAIL_TEXT}">{WRITE_MAIL_TEXT}</a>
-				<!-- END mail_to_start -->
 				<div class="action">
 					<!-- BEGIN link -->
 					{BUDDY_HTML}
 					<!-- END link -->
+					<!-- BEGIN mail_to_start -->
+					<div>
+						<a href="{WRITE_MAIL}" title="{WRITE_MAIL_TEXT}"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a>
+					</div>
+					<!-- END mail_to_start -->
 				</div>
 			</div>
 		</div>

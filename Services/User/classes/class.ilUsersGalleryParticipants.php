@@ -26,7 +26,7 @@ class ilUsersGalleryParticipants extends ilAbstractGalleryUsers
 	public function getGalleryUsers()
 	{
 		$participants_data = array();
-		foreach($this->participants->getMembers() as $users_id)
+		foreach($this->participants->getParticipants() as $users_id)
 		{
 			/**
 			 * @var $user ilObjUser

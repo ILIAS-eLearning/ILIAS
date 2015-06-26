@@ -711,7 +711,7 @@ class ilPersonalDesktopGUI
 	 */
 	function jumpToContacts()
 	{
-		$this->ctrl->redirectByClass("ilmailaddressbookgui");
+		$this->ctrl->redirectByClass(array("ilpersonaldesktopgui", "ilmailaddressbookgui", "ilusersgallerygui"));
 	}
 
 	/**

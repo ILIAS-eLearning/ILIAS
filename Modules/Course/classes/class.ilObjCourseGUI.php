@@ -4315,7 +4315,7 @@ class ilObjCourseGUI extends ilContainerGUI
 					$ilErr->raiseError($this->lng->txt('msg_no_perm_read'), $ilErr->MESSAGE);
 				}
 
-				$this->addMailToMemberButton($ilToolbar, "members");
+				$this->addMailToMemberButton($ilToolbar, 'jump2UsersGallery');
 
 				require_once 'Services/User/classes/class.ilUsersGalleryGUI.php';
 				require_once 'Services/User/classes/class.ilUsersGalleryParticipants.php';
@@ -4396,11 +4396,10 @@ class ilObjCourseGUI extends ilContainerGUI
 			case 'ilpublicuserprofilegui':
 				$this->tpl->enableDragDropFileUpload(null);				
 				require_once './Services/User/classes/class.ilPublicUserProfileGUI.php';
-				$profile_gui = new ilPublicUserProfileGUI($_GET["user"]);
 				$this->setSubTabs('members');
 				$this->tabs_gui->setTabActive('members');
-				// @todo
-				$profile_gui->setBackUrl($ilCtrl->getLinkTarget($this, "membersGallery"));
+				$profile_gui = new ilPublicUserProfileGUI($_GET["user"]);
+				$profile_gui->setBackUrl($this->ctrl->getLinkTargetByClass("ilUsersGalleryGUI",'view'));
 				$this->tabs_gui->setSubTabActive('crs_members_gallery');
 				$html = $this->ctrl->forwardCommand($profile_gui);
 				$this->tpl->setVariable("ADM_CONTENT", $html);				
@@ -5510,6 +5509,13 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->ctrl->getLinkTarget($this,'mailMembers'));
 		}
 	}
-	
+
+	/**
+	 * 
+	 */
+	protected function jump2UsersGalleryObject()
+	{
+		$this->ctrl->redirectByClass('ilUsersGalleryGUI');
+	}
 } // END class.ilObjCourseGUI
 ?>

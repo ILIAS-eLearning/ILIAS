@@ -15,8 +15,6 @@ require_once 'Services/Mail/classes/class.ilMailFormCall.php';
  */
 class ilUsersGalleryGUI
 {
-	const NORMAL_CONTACT  = 1;
-
 	/**
 	 * @var ilGalleryUsers
 	 */
@@ -163,27 +161,20 @@ class ilUsersGalleryGUI
 
 			$tpl->setCurrentBlock('participant');
 
-			if($has_internal_mail_access && $this->rbacsystem->checkAccessOfUser($user->getId(), 'internal_mail', ilMailGlobalServices::getMailObjectRefId()))
+			if(
+				$has_internal_mail_access &&
+				$this->rbacsystem->checkAccessOfUser($user->getId(), 'internal_mail', ilMailGlobalServices::getMailObjectRefId()) &&
+				$user->getId() != $buddylist->getOwnerId()
+			)
 			{
 				$tpl->setVariable('WRITE_MAIL', ilMailFormCall::getLinkTarget($this, '', array(), array('type' => 'new', 'rcp_to' => $user->getLogin())));
 				$tpl->setVariable('WRITE_MAIL_TEXT', $this->lng->txt('mail'));
 			}
 
-			$tpl->setVariable('USER_CLASS', 'ilMember');
 			$tpl->setVariable('BUDDYLIST_STATUS', get_class($buddylist->getRelationByUserId($user->getId())->getState()));
-			$tpl->setVariable('CONTACT_TYPE', $this->getContactType($user->getId()));
 			$this->renderLinkButton($tpl, $user);
 			$tpl->parseCurrentBlock();
 		}
 		return $tpl;
-	}
-
-	/**
-	 * @param $buddy_user_id
-	 * @return int
-	 */
-	protected function getContactType($buddy_user_id)
-	{
-		return self::NORMAL_CONTACT;
 	}
 }

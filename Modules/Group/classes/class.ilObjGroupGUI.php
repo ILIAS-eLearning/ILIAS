@@ -73,8 +73,7 @@ class ilObjGroupGUI extends ilContainerGUI
 					$ilErr->raiseError($this->lng->txt('msg_no_perm_read'), $ilErr->MESSAGE);
 				}
 
-				// @todo
-				$this->addMailToMemberButton($ilToolbar, "members");
+				$this->addMailToMemberButton($ilToolbar, 'jump2UsersGallery');
 
 				require_once 'Services/User/classes/class.ilUsersGalleryParticipants.php';
 				require_once 'Services/User/classes/class.ilUsersGalleryGUI.php';
@@ -149,8 +148,7 @@ class ilObjGroupGUI extends ilContainerGUI
 				$this->tabs_gui->setTabActive('group_members');
 				$this->tabs_gui->setSubTabActive('grp_members_gallery');
 				$profile_gui = new ilPublicUserProfileGUI($_GET["user"]);
-				// @todo
-				$profile_gui->setBackUrl($ilCtrl->getLinkTarget($this, "membersGallery"));
+				$profile_gui->setBackUrl($this->ctrl->getLinkTargetByClass("ilUsersGalleryGUI",'view'));
 				$html = $this->ctrl->forwardCommand($profile_gui);
 				$this->tpl->setVariable("ADM_CONTENT", $html);
 				break;
@@ -3199,5 +3197,12 @@ class ilObjGroupGUI extends ilContainerGUI
 		}
 	}
 
+	/**
+	 *
+	 */
+	protected function jump2UsersGalleryObject()
+	{
+		$this->ctrl->redirectByClass('ilUsersGalleryGUI');
+	}
 } // END class.ilObjGroupGUI
 ?>
