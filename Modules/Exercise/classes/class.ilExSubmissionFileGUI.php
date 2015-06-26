@@ -85,11 +85,12 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 	{
 		global $ilToolbar, $ilHelp;
 
+
+		$this->handleTabs();
+
 		$ilHelp->setScreenIdComponent("exc");
 		$ilHelp->setScreenId("submissions");
-		
-		$this->handleTabs();
-		
+
 		if (!$this->submission->canSubmit())
 		{
 			ilUtil::sendInfo($this->lng->txt("exercise_time_over"));
@@ -144,7 +145,11 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 		
 		$this->tabs_gui->clearTargets();
 		$this->tabs_gui->setBackTarget($this->lng->txt("back"), 
-			$this->ctrl->getLinkTarget($this, "submissionScreen"));		
+			$this->ctrl->getLinkTarget($this, "submissionScreen"));
+
+		global $ilHelp;
+		$ilHelp->setScreenIdComponent("exc");
+		$ilHelp->setScreenId("upload_submission");
 
 		$this->initUploadForm();
 		$this->tpl->setContent($this->form->getHTML());		
