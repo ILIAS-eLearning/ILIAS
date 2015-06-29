@@ -849,6 +849,11 @@ class gevCourseUtils {
 		$this->amd->setField($this->crs_id, gevSettings::CRS_AMD_ACCOMODATION, $a_accom);
 	}
 	
+	protected function getAccomodations() {
+		require_once("Services/Accomodations/classes/class.ilAccomodations.php");
+		return ilAccomodations::getInstance($this->getCourse());
+	}
+	
 	public function getAccomodation() {
 		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
 		$id = $this->getAccomodationId();
@@ -948,18 +953,18 @@ class gevCourseUtils {
 			$start_hist = $rec["begin_date"];
 			$start_cur = $start_date->get(IL_CAL_DATE);
 			$end_hist = $rec["end_date"];
-			$end_date = $end_date->get(IL_CAL_DATE);
-			if ($start_hist != $start_cur || $end_hist != $end_date) {
-				$duration_cur = floor((strtotime($start_cur) - strtotime($end_cur)) / (60 * 60 * 24));
-				$duration_hist = floor((strtotime($start_hist) - strtotime($end_hist)) / (60 * 60 * 24));
-				
+			$end_cur = $end_date->get(IL_CAL_DATE);
+			$duration_cur = floor((strtotime($start_cur) - strtotime($end_cur)) / (60 * 60 * 24));
+			$duration_hist = floor((strtotime($start_hist) - strtotime($end_hist)) / (60 * 60 * 24));
+			
+			if ($start_hist != $start_cur || $end_hist != $end_cur) {
 				if ($duration_cur == $duration_hist) {
 					// New training has the same length as the old training, so we jus need to
 					// move the accomodations accordingly.
 					self::moveAccomodationsSameDuration($start_cur, $start_hist);
 				}
 				else {
-					self::moveAccomodationsDurationChanged($start_cur, $end_cur, $start_hist, $end_hist);
+					self::moveAccomodationsDurationChanged($start_hist, $end_hist, $start_cur, $end_cur);
 				}
 			}
 		}
@@ -968,16 +973,96 @@ class gevCourseUtils {
 	protected function moveAccomodationsSameDuration($a_old_start_date, $a_new_start_date) {
 		$offset_days = floor((strtotime($a_old_start_date) - strtotime($a_new_start_date)) / (60 * 60 * 24));
 		$this->db->manipulate("UPDATE crs_acco"
-							 ."   SET night = night + INTERVAL($offset_days) DAY"
+							 ."   SET night = night + INTERVAL($offset_days) DAY,"
+							 // This prevents primary key problems
+							 ."       crs_id = ".$this->db->quote(-1 * $this->crs_id, "integer")
 							 ." WHERE crs_id = ".$this->db->quote($this->crs_id, "integer")
+							 );
+		// This reverts the preventing for primary key problems
+		$this->db->manipulate("UPDATE crs_acco"
+							 ."   SET crs_id = ".$this->db->quote($this->crs_id, "integer")
+							 ." WHERE crs_id = ".$this->db->quote(-1 * $this->crs_id, "integer")
 							 );
 	}
 	
 	protected function moveAccomodationsDurationChanged($a_old_start_date, $a_old_end_date, $a_new_start_date, $a_new_end_date) {
-			$this->db->manipulate("DELETE FROM crs_acco"
-								 ." WHERE night > '$end_date'"
-								 ."   AND crs_id = ".$this->db->quote($this->crs_id, "integer")
-								 );
+		$old_nights = array();
+		$this->nightsFromTo($a_old_start_date, $a_old_end_date, $old_nights);
+		$old_amount_of_nights = count($old_nights);
+		
+		$new_nights = array();
+		$this->nightsFromTo($a_new_start_date, $a_new_end_date, $new_nights);
+		$new_amount_of_nights = count($new_nights);
+		
+		$accos = $this->getAccomodations();
+		
+		$res = $this->db->query( "SELECT user_id, GROUP_CONCAT(night SEPARATOR \";\") nights"
+								."  FROM crs_acco"
+								." WHERE crs_id = ".$this->db->quote($this->crs_id, "integer")
+								." GROUP BY user_id"
+								);
+		while ($rec = $this->db->fetchAssoc($res)) {
+			$nights = explode(";", $rec["nights"]);
+			$user_id = $rec["user_id"];
+			
+			$new_accos = array_values($new_nights);
+			
+			$prearrival = in_array($old_nights[0], $nights);
+			$postdeparture = in_array($old_nights[$old_amount_of_nights - 1], $nights);
+			$amount_of_nights = count($nights);
+			
+			// Handle simple cases first
+			if ($prearrival && $postdeparture && $amount_of_nights == $old_amount_of_nights) {
+				// User had prearrival and postdeparture and all nights
+				// Nothing to do here...
+			}
+			else if ($prearrival && $amount_of_nights + 1 == $old_amount_of_nights) {
+				// User had a prearrival but no postdepature and all other nights
+				unset($new_accos[$new_amount_of_nights - 1]);
+			}
+			else if ($postdeparture && $amount_of_nights + 1 == $old_amount_of_nights) {
+				// User had a postdeparture but no prearrival and all other nights
+				unset($new_accos[0]);
+			}
+			else if (!$prearrival && !$postdeparture && $amount_of_nights + 2 == $old_amount_of_nights) {
+				// User had no postdeparture or prearrival, but all other nights
+				unset($new_accos[$new_amount_of_nights - 1]);
+				unset($new_accos[0]);
+			}
+			else {
+				if (!$prearrival) {
+					unset($new_accos[0]);
+				}
+				if (!$postdeparture) {
+					unset($new_accos[$new_amount_of_nights - 1]);
+				}
+				
+				foreach ($old_nights as $index => $old_night) {
+					if (!in_array($old_night, $nights)) {
+						unset($new_accos[$index]);
+					}
+				}
+			}
+			
+			foreach($new_accos as $index => $acco) {
+				$new_accos[$index] = new ilDate($acco, IL_CAL_DATE);
+			}
+			
+			$accos->setAccomodationsOfUser($user_id, $new_accos);
+		}
+	}
+	
+	// Helpers for moving accomodations
+	protected function nightsFromTo($a_start_date, $a_end_date, &$a_nights) {
+		require_once("Services/Calendar/classes/class.ilDate.php");
+		$start = new ilDate($a_start_date, IL_CAL_DATE);
+		// For prearrival
+		$start->increment(ilDateTime::DAY, -1);
+				
+		while ($start->get(IL_CAL_DATE) <= $a_end_date) {
+			$a_nights[] = $start->get(IL_CAL_DATE);
+			$start->increment(ilDateTime::DAY);
+		}
 	}
 
 	// assign a new vc to a course
