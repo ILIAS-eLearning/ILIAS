@@ -949,19 +949,35 @@ class gevCourseUtils {
 			$start_cur = $start_date->get(IL_CAL_DATE);
 			$end_hist = $rec["end_date"];
 			$end_date = $end_date->get(IL_CAL_DATE);
-			
 			if ($start_hist != $start_cur || $end_hist != $end_date) {
-				$offset_days = floor((strtotime($start_cur) - strtotime($start_hist)) / (60 * 60 * 24));
-				$this->db->manipulate("UPDATE crs_acco"
-									 ."   SET night = night + INTERVAL($offset_days) DAY"
-									 ." WHERE crs_id = ".$this->db->quote($this->crs_id, "integer")
-									 );
+				$duration_cur = floor((strtotime($start_cur) - strtotime($end_cur)) / (60 * 60 * 24));
+				$duration_hist = floor((strtotime($start_hist) - strtotime($end_hist)) / (60 * 60 * 24));
+				
+				if ($duration_cur == $duration_hist) {
+					// New training has the same length as the old training, so we jus need to
+					// move the accomodations accordingly.
+					self::moveAccomodationsSameDuration($start_cur, $start_hist);
+				}
+				else {
+					self::moveAccomodationsDurationChanged($start_cur, $end_cur, $start_hist, $end_hist);
+				}
+			}
+		}
+	}
+
+	protected function moveAccomodationsSameDuration($a_old_start_date, $a_new_start_date) {
+		$offset_days = floor((strtotime($a_old_start_date) - strtotime($a_new_start_date)) / (60 * 60 * 24));
+		$this->db->manipulate("UPDATE crs_acco"
+							 ."   SET night = night + INTERVAL($offset_days) DAY"
+							 ." WHERE crs_id = ".$this->db->quote($this->crs_id, "integer")
+							 );
+	}
+	
+	protected function moveAccomodationsDurationChanged($a_old_start_date, $a_old_end_date, $a_new_start_date, $a_new_end_date) {
 				$this->db->manipulate("DELETE FROM crs_acco"
 									 ." WHERE night > '$end_date'"
 									 ."   AND crs_id = ".$this->db->quote($this->crs_id, "integer")
 									 );
-			}
-		}
 	}
 
 	// assign a new vc to a course

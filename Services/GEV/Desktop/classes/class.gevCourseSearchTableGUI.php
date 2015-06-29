@@ -34,7 +34,7 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 		$this->setEnableTitle(true);
 		$this->setTopCommands(false);
 		$this->setEnableHeader(true);
-		$this->setEnabaleAdvice(true);
+		$this->setEnableAdvice(true);
 		$this->setExternalSorting(true);
 		$this->setExternalSegmentation(true);
 		$cnt = count($user_util->getPotentiallyBookableCourseIds($a_search_options));
@@ -207,9 +207,43 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 			$this->tpl->setVariable("TIME", $a_set["schedule"][0]);
 			$this->tpl->parseCurrentBlock();
 		}
+	}
+	
+	
+	protected $_advice = null;
 
+	public function setAdvice($a_advice) {
+		$this->advice = $a_advice;
+	}
 
+	public function getAdvice() {
+		return $this->advice;
+	}
 
+	private function renderAdvice() {
+		$tpl = new ilTemplate("tpl.gev_my_advice.html", true, true, "Services/GEV/Desktop");
+
+		$tpl->setCurrentBlock("advice");
+		$tpl->setVariable("ADVICE", $this->lng->txt($this->getAdvice()));
+		$tpl->parseCurrentBlock();
+
+		return $tpl->get();
+	}
+
+	public function render() {
+		$ret = "";
+
+		if ($this->_title_enabled) {
+			$ret .= $this->_title->render()."<br />";
+		}
+
+		if($this->_advice) {
+			$ret .= $this->renderAdvice()."<br />";
+		}
+
+		$ret .= parent::render();
+
+		return $ret;
 	}
 }
 

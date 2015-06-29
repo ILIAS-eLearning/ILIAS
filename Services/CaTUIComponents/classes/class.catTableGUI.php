@@ -15,7 +15,6 @@ require_once("Services/CaTUIComponents/classes/class.catLegendGUI.php");
 
 class catTableGUI extends ilTable2GUI {
 	protected $_title_enabled = false;
-	protected $_enable_advice = false;
 	protected $_title = null;
 
 	public function __construct($a_parent_obj, $a_parent_cmd="", $a_template_context="") {
@@ -23,7 +22,6 @@ class catTableGUI extends ilTable2GUI {
 		parent::setEnableTitle(false);
 
 		$this->_title = new catTitleGUI();
-		$this->advice = "";
 	}
 
 	public function setEnableTitle($a_enable) {
@@ -51,14 +49,6 @@ class catTableGUI extends ilTable2GUI {
 
 	public function getSubtitle() {
 		return $this->_title->getSubtitle();
-	}
-
-	public function setAdvice($a_advice) {
-		$this->advice = $a_advice;
-	}
-
-	public function getAdvice() {
-		return $this->advice;
 	}
 
 	public function setImage($a_img) {
@@ -89,34 +79,12 @@ class catTableGUI extends ilTable2GUI {
 		return $this;
 	}
 
-	public function setEnabaleAdvice($a_enable_advice) {
-		$this->_enable_advice = $a_enable_advice;
-	}
-
-	private function renderAdvice() {
-		$tpl = new ilTemplate("tpl.gev_my_advice.html", true, true, "Services/GEV/Desktop");
-
-		$tpl->setCurrentBlock("advice");
-		$tpl->setVariable("ADVICE", $this->lng->txt($this->getAdvice()));
-			$tpl->parseCurrentBlock();
-
-		return $tpl->get();
-	}
-
 	public function render() {
-		$ret = "";
-
 		if ($this->_title_enabled) {
-			$ret .= $this->_title->render()."<br />";
+			return $this->_title->render()."<br />".parent::render();
 		}
 
-		if($this->_enable_advice) {
-			$ret .= $this->renderAdvice()."<br />";
-		}
-
-		$ret .= parent::render();
-
-		return $ret;
+		return parent::render();
 	}
 	
 	protected function fillRow($a_set)
