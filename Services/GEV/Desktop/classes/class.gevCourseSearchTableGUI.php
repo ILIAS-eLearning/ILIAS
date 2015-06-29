@@ -209,7 +209,7 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 	}
 	
 	
-	protected $_advice = null;
+	protected $advice = null;
 
 	public function setAdvice($a_advice) {
 		$this->advice = $a_advice;
@@ -236,11 +236,11 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 			$ret .= $this->_title->render()."<br />";
 		}
 
-		if($this->_advice) {
+		if($this->advice) {
 			$ret .= $this->renderAdvice()."<br />";
 		}
 
-		$ret .= parent::render();
+		$ret .= ilTable2GUI::render();
 
 		return $ret;
 	}
