@@ -406,7 +406,7 @@ class gevDecentralTrainingGUI {
 				$training_info["start_datetime"] = new ilDateTime("1970-01-01 ".$sched[0].":00", IL_CAL_DATETIME);
 				$training_info["end_datetime"] = new ilDateTime("1970-01-01 ".$sched[1].":00", IL_CAL_DATETIME);
 				$training_info["invitation_preview"] = gevCourseUtils::getInstance($a_template_id)->getInvitationMailPreview();
-				$training_info["suppress_mails"] = true;
+				$training_info["suppress_mails"] = false;
 				$no_changes_allowed = false;
 				
 				$tmplt_id = new ilHiddenInputGUI("template_id");
