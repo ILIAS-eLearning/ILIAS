@@ -9,3 +9,17 @@
 	</div>
 </div>
 <!-- END placeholder_box -->
+<script>
+	$( '#context' ).off('change');
+	$( '#context' ).on('change', function() {
+		var value =  $('#context').val();
+		$.when(
+			$.ajax({
+				url: "{URL}" + "&context_id=" + value,
+				type: 'GET'
+			})
+		).then(function (placeholders) {
+			$('#placeholders_box').html(placeholders);
+		});
+	});
+</script>

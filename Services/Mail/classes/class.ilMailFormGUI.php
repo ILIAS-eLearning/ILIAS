@@ -212,13 +212,12 @@ class ilMailFormGUI
 				ilUtil::securePlainString($_POST["m_subject"]),
 				ilUtil::securePlainString($_POST["m_message"]),
 				(int)$_SESSION["draft"],
-				(int)ilUtil::securePlainString($_POST['use_placeholders'])
+				(int)ilUtil::securePlainString($_POST['use_placeholders']),
+				ilMailFormCall::getContextId(),
+				ilMailFormCall::getContextParameters()
+				
 			);
-			#session_unregister("draft");
-			#ilUtil::sendInfo($this->lng->txt("mail_saved"),true);
-			#ilUtil::redirect("ilias.php?baseClass=ilMailGUI&mobj_id=".$mbox->getInboxFolder());
-			
-			unset($_SESSION["draft"]);
+			unset($_SESSION['draft']);
 			ilUtil::sendInfo($this->lng->txt("mail_saved"), true);
 			
             if(ilMailFormCall::isRefererStored())
@@ -239,7 +238,9 @@ class ilMailFormGUI
 					ilUtil::securePlainString($_POST["m_subject"]),
 					ilUtil::securePlainString($_POST["m_message"]),
 					$_SESSION["AccountId"],
-					ilUtil::securePlainString($_POST['use_placeholders'])
+					0,
+					ilMailFormCall::getContextId(),
+					ilMailFormCall::getContextParameters()
 					)
 			)
 			{
@@ -288,7 +289,9 @@ class ilMailFormGUI
 										 ilUtil::securePlainString($_POST["m_email"]),
 										 ilUtil::securePlainString($_POST["m_subject"]),
 										 ilUtil::securePlainString($_POST["m_message"]),
-										 ilUtil::securePlainString($_POST['use_placeholders'])
+										 ilUtil::securePlainString($_POST['use_placeholders']),
+										 ilMailFormCall::getContextId(),
+										 ilMailFormCall::getContextParameters()
 									);
 		}
 		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
@@ -394,7 +397,9 @@ class ilMailFormGUI
 									ilUtil::securePlainString($_POST["m_email"]),
 							 		ilUtil::securePlainString($_POST["m_subject"]),
 									ilUtil::securePlainString($_POST["m_message"]),
-									ilUtil::securePlainString($_POST['use_placeholders'])
+									ilUtil::securePlainString($_POST['use_placeholders']),
+									ilMailFormCall::getContextId(),
+									ilMailFormCall::getContextParameters()
 								);
 			
 		$this->ctrl->redirectByClass("ilmailattachmentgui");
@@ -434,6 +439,37 @@ class ilMailFormGUI
 	{
 		$_GET["type"] = "attach";
 		$this->showForm();		
+	}
+
+	/**
+	 * Called asynchronously when changing the template
+	 */
+	protected function getTemplateDataById()
+	{
+		require_once 'Services/JSON/classes/class.ilJsonUtil.php';
+
+		if(!isset($_GET['template_id']))
+		{
+			exit();
+		}
+
+		try
+		{
+			require_once 'Services/Mail/classes/class.ilMailTemplateService.php';
+			require_once 'Services/Mail/classes/class.ilMailTemplateDataProvider.php';
+			$template_id = (int)$_GET['template_id'];
+			$template_provider = new ilMailTemplateDataProvider();
+			$template = $template_provider->getTemplateById($template_id);
+			$context = ilMailTemplateService::getTemplateContextById($template->getContext());
+			echo ilJsonUtil::encode(array(
+				'm_subject' => $template->getSubject(),
+				'm_message' => $template->getMessage()
+			));
+		}
+		catch(Exception $e)
+		{
+		}
+		exit();
 	}
 
 	public function showForm()
@@ -503,6 +539,8 @@ class ilMailFormGUI
 			case 'draft':
 				$_SESSION["draft"] = $_GET["mail_id"];
 				$mailData = $this->umail->getMail($_GET["mail_id"]);
+				ilMailFormCall::setContextId($mailData['tpl_ctx_id']);
+				ilMailFormCall::setContextParameters($mailData['tpl_ctx_params']);
 				break;
 		
 			case 'forward':
@@ -654,7 +692,6 @@ class ilMailFormGUI
 		include_once 'Services/Mail/classes/class.ilMailFormAttachmentFormPropertyGUI.php';
 		$att = new ilMailFormAttachmentPropertyGUI($this->lng->txt( ($mailData["attachments"]) ? 'edit' : 'add' ));
 		
-
 		if (is_array($mailData["attachments"]) && count($mailData["attachments"]))
 		{
 			foreach($mailData["attachments"] as $data)
@@ -686,6 +723,52 @@ class ilMailFormGUI
 			$form_gui->addItem($chb);
 		}
 
+		if(ilMailFormCall::getContextId())
+		{
+			$context_id = ilMailFormCall::getContextId();
+
+			// Activate placeholders
+			$mailData['use_placeholders'] = true;
+
+			try {
+				require_once 'Services/Mail/classes/class.ilMailTemplateService.php';
+				$context = ilMailTemplateService::getTemplateContextById($context_id);
+
+				require_once 'Services/Mail/classes/class.ilMailTemplateDataProvider.php';
+				$template_provider = new ilMailTemplateDataProvider();
+				$templates = $template_provider->getTemplateByContexId($context->getId());
+
+				if(count($templates))
+				{
+					$options = array();
+					foreach($templates as $template)
+					{
+						$options[$template->getTplId()] = $template->getTitle();
+					}
+					asort($options);
+
+					require_once 'Services/Mail/classes/Form/class.ilMailTemplateSelectInputGUI.php';
+					$template_chb = new ilMailTemplateSelectInputGUI(
+						$this->lng->txt('mail_template_client'),
+						'template_id',
+						$this->ctrl->getLinkTarget($this, 'getTemplateDataById', '', true, false),
+						array('m_subject', 'm_message')
+					);
+					$template_chb->setInfo($this->lng->txt('mail_template_client_info'));
+					$template_chb->setOptions(array('' => $this->lng->txt('please_choose')) + $options);
+					$form_gui->addItem($template_chb);
+				}
+			}
+			catch(Exception $e)
+			{
+				$GLOBALS['ilLog']->write(sprintf("Mail form called with invalid context id: %s", $context_id));
+			}
+		}
+		else
+		{
+			require_once 'Services/Mail/classes/class.ilMailTemplateGenericContext.php';
+			$context = new ilMailTemplateGenericContext();
+		}
 
 		// MESSAGE
 		$inp = new ilTextAreaInputGUI($this->lng->txt('message_content'), 'm_message');
@@ -694,24 +777,24 @@ class ilMailFormGUI
 		$inp->setRequired(false);
 		$inp->setCols(60);
 		$inp->setRows(10);
+		$form_gui->addItem($inp);
 
 		// PLACEHOLDERS
 		$chb = new ilCheckboxInputGUI($this->lng->txt('activate_serial_letter_placeholders'), 'use_placeholders');
 		$chb->setOptionTitle($this->lng->txt('activate_serial_letter_placeholders'));
 		$chb->setValue(1);
-		$chb->setChecked(false);
-		$form_gui->addItem($inp);
-
-		include_once 'Services/Mail/classes/class.ilMailFormPlaceholdersPropertyGUI.php';
-		$prop = new ilMailFormPlaceholdersPropertyGUI();
-		
-		$chb->addSubItem($prop);
-
-		if ($mailData['use_placeholders'])
+		if(isset($mailData['use_placeholders']) && $mailData['use_placeholders'])
 		{
 			$chb->setChecked(true);
 		}
 		
+		require_once 'Services/Mail/classes/Form/class.ilManualPlaceholderInputGUI.php';
+		$placeholders = new ilManualPlaceholderInputGUI($this->ctrl->getLinkTarget($this, 'getAjaxPlaceholdersById', '', true, false));
+		foreach($context->getPlaceholders() as $key => $value)
+		{
+			$placeholders->addPlaceholder($value['placeholder'], $value['label'] );
+		}
+		$chb->addSubItem($placeholders);
 		$form_gui->addItem($chb);
 
 		$form_gui->addCommandButton('sendMessage', $this->lng->txt('send_mail'));
@@ -789,7 +872,9 @@ class ilMailFormGUI
 			ilUtil::securePlainString($_POST['m_email']),
 			ilUtil::securePlainString($_POST['m_subject']),
 			ilUtil::securePlainString($_POST['m_message']),
-			ilUtil::securePlainString($_POST['use_placeholders'])
+			ilUtil::securePlainString($_POST['use_placeholders']),
+			ilMailFormCall::getContextId(),
+			ilMailFormCall::getContextParameters()
 		);
 	}
 

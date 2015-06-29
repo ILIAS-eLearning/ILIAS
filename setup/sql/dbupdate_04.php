@@ -8931,3 +8931,142 @@ if(!$ilDB->tableColumnExists('skl_user_skill_level', 'unique_identifier'))
 		));
 	}
 ?>
+<#4640>
+<?php
+if(!$ilDB->tableExists('mail_man_tpl'))
+{
+	$ilDB->createTable('mail_man_tpl', array(
+		'tpl_id'    => array(
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'title'     => array(
+			'type'    => 'text',
+			'length'  => 255,
+			'notnull' => true
+		),
+		'context'   => array(
+			'type'    => 'text',
+			'length'  => 100,
+			'notnull' => true
+		),
+		'lang'      => array(
+			'type'    => 'text',
+			'length'  => 2,
+			'notnull' => true
+		),
+		'm_subject' => array(
+			'type'    => 'text',
+			'length'  => 255,
+			'notnull' => false,
+			'default' => null
+		),
+		'm_message' => array(
+			'type'    => 'clob',
+			'notnull' => false,
+			'default' => null
+		)
+	));
+
+	$ilDB->addPrimaryKey('mail_man_tpl', array('tpl_id'));
+	$ilDB->createSequence('mail_man_tpl');
+}
+?>
+<#4641>
+<?php
+if(!$ilDB->tableExists('mail_tpl_ctx'))
+{
+	$ilDB->createTable('mail_tpl_ctx', array(
+		'id'             => array(
+			'type'    => 'text',
+			'length'  => 100,
+			'notnull' => true
+		),
+		'component'      => array(
+			'type'    => 'text',
+			'length'  => 100,
+			'notnull' => true
+		),
+		'class' => array(
+			'type'    => 'text',
+			'length'  => 100,
+			'notnull' => true
+		),
+		'path'           => array(
+			'type'    => 'text',
+			'length'  => 4000,
+			'notnull' => false,
+			'default' => null
+		)
+	));
+	$ilDB->addPrimaryKey('mail_tpl_ctx', array('id'));
+}
+?>
+<#4642>
+<?php
+$ilDB->addIndex('mail_man_tpl', array('context'), 'i1');
+?>
+<#4643>
+<?php
+if(!$ilDB->tableColumnExists('mail_saved', 'tpl_ctx_id'))
+{
+	$ilDB->addTableColumn(
+		'mail_saved',
+		'tpl_ctx_id',
+		array(
+			'type'    => 'text',
+			'length'  => '100',
+			'notnull' => false,
+			'default' => null
+		)
+	);
+}
+
+if(!$ilDB->tableColumnExists('mail_saved', 'tpl_ctx_params'))
+{
+	$ilDB->addTableColumn(
+		'mail_saved',
+		'tpl_ctx_params',
+		array(
+			'type'    => 'blob',
+			'notnull' => false,
+			'default' => null
+		)
+	);
+}
+?>
+<#4644>
+<?php
+if(!$ilDB->tableColumnExists('mail', 'tpl_ctx_id'))
+{
+	$ilDB->addTableColumn(
+		'mail',
+		'tpl_ctx_id',
+		array(
+			'type'    => 'text',
+			'length'  => '100',
+			'notnull' => false,
+			'default' => null
+		)
+	);
+}
+
+if(!$ilDB->tableColumnExists('mail', 'tpl_ctx_params'))
+{
+	$ilDB->addTableColumn(
+		'mail',
+		'tpl_ctx_params',
+		array(
+			'type'    => 'blob',
+			'notnull' => false,
+			'default' => null
+		)
+	);
+}
+?>
+<#4645>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

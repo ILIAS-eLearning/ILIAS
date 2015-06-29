@@ -15,4 +15,7 @@
 		<cron id="mail_address_sync" class="ilMailCronAddressbookSync" />
 		<cron id="mail_orphaned_mails" class="ilMailCronOrphanedMails" />
 	</crons>
+	<mailtemplates>
+		<context id="mail_template_generic" class="ilMailTemplateGenericContext" />
+	</mailtemplates>
 </service>

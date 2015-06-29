@@ -15660,3 +15660,17 @@ cntr#:#cntr_copy_crs_grp#:#Auswahl Mitgliedschaften
 crs#:#crs_mail_context_tutor_title#:#Kurs-Tutor
 crs#:#crs_mail_context_member_title#:#Kurs-Mitglied
 sahs#:#sahs_mail_context_lp#:#SCORM Lernfortschritt
+mail#:#mail_templates#:#Textvorlagen
+mail#:#mail_new_template#:#Neue Textvorlage
+mail#:#mail_template_title#:#Name der Textvorlage
+mail#:#mail_template_context#:#Kontext
+mail#:#mail_template_no_context_available#:#Aktuell wird von keinem ILIAS-Service oder -Modul ein Kontext bereitgestellt. Das Anlegen oder Bearbeiten von Textvorlagen ist daher nicht möglich.
+mail#:#mail_template_orphaned_context#:#Kontext verwaist
+mail#:#mail_create_tpl#:#Textvorlage erstellen
+mail#:#mail_edit_tpl#:#Textvorlage bearbeiten
+mail#:#mail_tpl_deleted_p#:#Die Textvorlagen wurded erfolgreich gelöscht.
+mail#:#mail_tpl_deleted_s#:#Die Textvorlage wurde erfolgreich gelöscht.
+mail#:#mail_template_missing_id#:#Die Aktion kann nicht ausgeführt werden, da die ID der Textvorlage nicht korrekt übertragen wurde.
+mail#:#mail_template_no_valid_context#:#Der gewählte Kontext ist nicht gültig.
+mail#:#mail_template_client#:#Textvorlage
+mail#:#mail_template_client_info#:#Wählen Sie zwischen einer der verfügbaren Textvorlagen. Sie haben die Möglichkeit, die durch die Textvorlage angebotenen Platzhalter zu nutzen. Beim Wahl einer Textvorlage werden Nachrichte und Betreff in diesem Formular (falls in der Vorlage definiert) ersetzt.

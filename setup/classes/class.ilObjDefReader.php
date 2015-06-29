@@ -21,6 +21,13 @@ class ilObjDefReader extends ilSaxParser
 		);
 	protected $current_reader = null;
 	
+	protected $in_mail_templates = false;
+
+	/**
+	 * @var array
+	 */
+	protected $mail_templates_by_component = array();
+
 	function ilObjDefReader($a_path, $a_name, $a_type)
 	{
 		// init specialized readers
@@ -211,6 +218,32 @@ class ilObjDefReader extends ilSaxParser
 					$this->has_cron[$component][] = $a_attribs["id"];
 					break;
 	
+				case 'mailtemplates':
+					$this->in_mail_templates = true;
+					break;
+
+				case 'context':
+					if(!$this->in_mail_templates)
+					{
+						break;
+					}
+
+					$component = $a_attribs['component'];
+					if(!$component)
+					{
+						$component = $this->current_component;
+					}
+
+					require_once 'Services/Mail/classes/class.ilMailTemplateService.php';
+					ilMailTemplateService::insertFromXML(
+						$component,
+						$a_attribs['id'],
+						$a_attribs['class'],
+						$a_attribs['path']
+					);
+					$this->mail_templates_by_component[$component][] = $a_attribs["id"];
+					break;
+	
 				case "sub_type":
 					$ilDB->manipulate("INSERT INTO il_object_sub_type ".
 						"(obj_type, sub_type, amet) VALUES (".
@@ -254,12 +287,14 @@ class ilObjDefReader extends ilSaxParser
 		}
 		else
 		{
-			// cron
 			if($a_name == "module" || $a_name == "service")
 			{
 				include_once "Services/Cron/classes/class.ilCronManager.php";
 				ilCronManager::clearFromXML($this->current_component, 
 					(array)$this->has_cron[$this->current_component]);				
+
+				require_once 'Services/Mail/classes/class.ilMailTemplateService.php';
+				ilMailTemplateService::clearFromXml($this->current_component, (array)$this->mail_templates_by_component[$this->current_component]);
 			}
 		}
 		
