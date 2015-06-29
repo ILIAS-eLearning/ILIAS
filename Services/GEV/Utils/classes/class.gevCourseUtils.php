@@ -974,10 +974,10 @@ class gevCourseUtils {
 	}
 	
 	protected function moveAccomodationsDurationChanged($a_old_start_date, $a_old_end_date, $a_new_start_date, $a_new_end_date) {
-				$this->db->manipulate("DELETE FROM crs_acco"
-									 ." WHERE night > '$end_date'"
-									 ."   AND crs_id = ".$this->db->quote($this->crs_id, "integer")
-									 );
+			$this->db->manipulate("DELETE FROM crs_acco"
+								 ." WHERE night > '$end_date'"
+								 ."   AND crs_id = ".$this->db->quote($this->crs_id, "integer")
+								 );
 	}
 
 	// assign a new vc to a course
