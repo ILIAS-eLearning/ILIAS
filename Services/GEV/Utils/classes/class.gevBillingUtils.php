@@ -229,7 +229,7 @@ class gevBillingUtils {
 								  " but could not get coupon instance.");
 				continue;
 			}
-			$coupon->addValue(-1 * $item->getPreTaxAmount());
+			$coupon->addValue(-1 * $item->getPostTaxAmount());
 		}
 	}
 	
