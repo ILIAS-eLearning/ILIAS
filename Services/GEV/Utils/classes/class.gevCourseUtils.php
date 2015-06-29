@@ -999,6 +999,7 @@ class gevCourseUtils {
 		$res = $this->db->query( "SELECT user_id, GROUP_CONCAT(night SEPARATOR \";\") nights"
 								."  FROM crs_acco"
 								." WHERE crs_id = ".$this->db->quote($this->crs_id, "integer")
+								." ORDER BY night ASC"
 								." GROUP BY user_id"
 								);
 		while ($rec = $this->db->fetchAssoc($res)) {
@@ -1033,8 +1034,15 @@ class gevCourseUtils {
 				if (!$prearrival) {
 					unset($new_accos[0]);
 				}
+				else {
+					unset($nights[0]);
+				}
+				
 				if (!$postdeparture) {
 					unset($new_accos[$new_amount_of_nights - 1]);
+				}
+				else {
+					unset($nights[$amount_of_nights - 1]);
 				}
 				
 				foreach ($old_nights as $index => $old_night) {
