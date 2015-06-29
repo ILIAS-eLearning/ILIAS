@@ -386,6 +386,7 @@ class gevBillingUtils {
 
 		// search for the item regarding the course...
 		$items = $bill->getItems();
+		$this->resetCouponValuesFromItems($items);
 		foreach ($items as $item) {
 			if ($item->getContextId() == $a_crs_id) {
 				// ... and change its title appropriately
