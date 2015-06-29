@@ -367,7 +367,10 @@ class ilParticipationStatusAdminGUI
 			$ilToolbar->setFormAction($ilCtrl->getFormAction($gui), true);
 		}
 		
-		if($helper->getCourseNeedsAttendanceList())
+		// gev-patch start -- only temporary, see #1339, #1279
+		if (true)
+		//if($helper->getCourseNeedsAttendanceList())
+		// gev-patch end
 		{
 			if($may_write)
 			{

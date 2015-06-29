@@ -183,6 +183,8 @@ class ilParticipationStatusHelper
 	 */
 	public function getCourseNeedsAttendanceList()
 	{
+		// only temporary, see #1339, #1279
+		return false;
 		return $this->utils->isDecentralTraining() && ($this->utils->getCreditPoints() > 0);
 	}
 	
