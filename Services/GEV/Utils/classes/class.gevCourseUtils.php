@@ -999,8 +999,8 @@ class gevCourseUtils {
 		$res = $this->db->query( "SELECT user_id, GROUP_CONCAT(night SEPARATOR \";\") nights"
 								."  FROM crs_acco"
 								." WHERE crs_id = ".$this->db->quote($this->crs_id, "integer")
-								." ORDER BY night ASC"
 								." GROUP BY user_id"
+								." ORDER BY night ASC"
 								);
 		while ($rec = $this->db->fetchAssoc($res)) {
 			$nights = explode(";", $rec["nights"]);
