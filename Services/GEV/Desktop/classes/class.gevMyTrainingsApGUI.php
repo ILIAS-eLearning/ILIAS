@@ -70,6 +70,7 @@ class gevMyTrainingsApGUI {
 				
 				$gui->from_foreign_class = 'gevMyTrainingsApGUI';
 				$gui->crs_ref_id = $crs_ref_id;
+				$this->ctrl->setParameter($gui, "crsrefid", $crs_ref_id);
 
 				//$gui->returnToList();
 				//die('forwarding cmd');
