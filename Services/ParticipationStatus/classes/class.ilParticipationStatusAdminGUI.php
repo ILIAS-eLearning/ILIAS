@@ -363,7 +363,10 @@ class ilParticipationStatusAdminGUI
 		
 		$helper = ilParticipationStatusHelper::getInstance($course);
 		
-		if (($helper->getCourseNeedsAttendanceList() || $helper->getCourseNeedsInvitationMailConfirmation()) && $may_write) {
+		// gev-patch start -- only temporary, see #1339, #1279
+		//if (($helper->getCourseNeedsAttendanceList() || $helper->getCourseNeedsInvitationMailConfirmation()) && $may_write) {
+		// gev-patch end
+		if ((true || $helper->getCourseNeedsInvitationMailConfirmation()) && $may_write) {
 			$ilToolbar->setFormAction($ilCtrl->getFormAction($gui), true);
 		}
 		
