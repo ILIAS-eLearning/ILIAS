@@ -4266,14 +4266,22 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$tpl->setContent($tbl->getHTML());		
 	}
 	
+	protected function canPeerReviewBeEdited()
+	{
+		// #16130
+		return ($this->ass &&
+			$this->ass->getPeerReview()  &&
+			$this->ass->getDeadline() &&
+			$this->ass->getDeadline() < time() &&
+			(!$this->ass->getPeerReviewDeadline() ||
+			$this->ass->getPeerReviewDeadline() > time()));
+	}
+	
 	function editPeerReviewObject()
 	{
 		global $ilCtrl, $ilUser, $tpl;
 				
-		if(!$this->ass || 
-			!$this->ass->getPeerReview() ||
-			!$this->ass->getDeadline() ||
-			$this->ass->getDeadline()-time() > 0)				
+		if(!$this->canPeerReviewBeEdited())				
 		{
 			$ilCtrl->redirect($this, "showOverview");
 		}
@@ -4320,8 +4328,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 	{
 		global $ilUser, $ilCtrl;
 		
-		if(!$this->ass || 
-			!$this->ass->getPeerReview() ||
+		if(!$this->canPeerReviewBeEdited() ||
 			!sizeof($_POST["pc"]))				
 		{
 			$ilCtrl->redirect($this, "showOverview");
@@ -4353,10 +4360,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 	{
 		global $ilCtrl, $ilUser, $tpl;
 		
-		if(!$this->ass || 
-			!$this->ass->getPeerReview() ||
-			!$this->ass->getDeadline() ||
-			$this->ass->getDeadline()-time() > 0 ||
+		if(!$this->canPeerReviewBeEdited() ||
 			!sizeof($_POST["pc"]) ||
 			!$ilCtrl->isAsynch())				
 		{
@@ -4409,10 +4413,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 	{
 		global $ilCtrl;
 		
-		if(!$this->ass || 
-			!$this->ass->getPeerReview() ||
-			!$this->ass->getDeadline() ||
-			$this->ass->getDeadline()-time() > 0 ||
+		if(!$this->canPeerReviewBeEdited() ||
 			!(int)$_REQUEST["peer_id"])
 		{
 			$ilCtrl->redirect($this, "editPeerReview");	
