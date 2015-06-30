@@ -155,8 +155,9 @@ class gevDBVReportGUI extends catBasicReportGUI{
 
 	protected function renderView() {
 		$main_table = $this->renderTable();
-		return 	$this->renderSumTable()
-				.$main_table;
+		//return 	$this->renderSumTable()
+		//		.$main_table;
+		return $main_table;
 	}
 
 	private function renderSumTable(){
