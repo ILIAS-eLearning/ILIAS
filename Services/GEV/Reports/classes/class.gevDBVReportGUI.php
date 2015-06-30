@@ -5,7 +5,7 @@
 * Report "DBV Report"
 * for Generali
 *
-* @author	Nils Haagen <nhaagen@concepts-and-training.de>
+* @author	Denis Klöpfer <denis.kloepfer@concepts-and-training.de>
 * @version	$Id$
 *
 *
@@ -27,9 +27,17 @@ require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
 
 
 class gevDBVReportGUI extends catBasicReportGUI{
+	protected $summed_data = array();
+	static $to_sum = array("credit_points" ,"max_points");
 	public function __construct() {
 		
 		parent::__construct();
+		$viewer = 33892;
+		$to_sum = array("credit_points" ,"max_points");
+
+		foreach ($tosum as $value) {
+			$this->summed_data[$values] = 0;
+		}
 
 		$this->title = catTitleGUI::create()
 						->title("gev_rep_dbv_report_title")
@@ -38,39 +46,24 @@ class gevDBVReportGUI extends catBasicReportGUI{
 						;
 
 		$this->table = catReportTable::create()
-						->column("org_unit", "title")
+						->column("lastname", "lastname")
+						->column("firstname", "firstname")
 						->column("odbd", "gev_od_bd")
-						//->column("above2", "above2")
-						//->column("above1", "above1")
-						->column("sum_employees", "sum_employees")
-						
-						->column("sum_booked_wbt", "sum_booked_WBT")
-						->column("sum_attended_wbt", "sum_attended_WBT")
-						
-						->column("sum_booked", "sum_booked_nowbt")
-						->column("sum_waiting", "sum_waiting")
-						->column("sum_attended", "sum_attended_nowbt")
-						->column("sum_excused", "sum_excused")
-						->column("sum_unexcused", "sum_unexcused")
-						->column("sum_exit", "sum_exit")
-						
-						->template("tpl.gev_attendance_by_orgunit_row.html", "Services/GEV/Reports")
+						->column("job_number", "job_numer")
+						->column("training_title", "title")
+						->column("dbv_hot_topic", "dbv_hot_topic")
+						->column("type", "type")
+						->column("date", "date")
+						->column("credit_points", "credit_points")
+						->column("max_points", "max_points")
+						->template("tpl.gev_dbv_report_row.html", "Services/GEV/Reports")
 						;
-
 		$this->table_sums = catReportTable::create()
-						->column("sum_employees", "sum_employees")
-						->column("sum_booked_wbt", "sum_booked_WBT")
-						->column("sum_attended_wbt", "sum_attended_WBT")
-						->column("sum_booked", "sum_booked_nowbt")
-						->column("sum_waiting", "sum_waiting")
-						->column("sum_attended", "sum_attended_nowbt")
-						->column("sum_excused", "sum_excused")
-						->column("sum_unexcused", "sum_unexcused")
-						->column("sum_exit", "sum_exit")
-
-						->template("tpl.gev_attendance_by_orgunit_sums_row.html", "Services/GEV/Reports")
+						->column("sum_credit_points", "sum_credit_points")
+						->column("sum_max_credit_points", "sum_max_credit_points")
+						->template("tpl.gev_dbv_report_sums_row.html", "Services/GEV/Reports")
 						;
-		$this->summed_data = array();
+		
 
 
 		
@@ -83,7 +76,7 @@ class gevDBVReportGUI extends catBasicReportGUI{
 		
 		//internal ordering:
 		$this->internal_sorting_numeric = array(
-			'sum_employees'
+			'lastname'
 		);
 		$this->internal_sorting_fields = array_merge(
 			$this->internal_sorting_numeric,
@@ -91,235 +84,48 @@ class gevDBVReportGUI extends catBasicReportGUI{
 		 	  'odbd'
 			));
 
-
-
-		$this->sql_sum_parts = array(
-
-				"sum_booked" => "SUM(
-						CASE 
-							WHEN LCASE(usrcrs.booking_status) = 'gebucht'
-							AND LCASE(usrcrs.participation_status) = 'nicht gesetzt'
-							AND crs.type != 'Selbstlernkurs'
-						THEN 1
-						END 
-					) AS sum_booked",
-
-					"sum_booked_wbt" => "SUM(
-						CASE 
-							WHEN LCASE(usrcrs.booking_status) = 'gebucht'
-							AND LCASE(usrcrs.participation_status) = 'nicht gesetzt'
-							AND crs.type = 'Selbstlernkurs'
-						THEN 1
-						END 
-					) AS sum_booked_wbt",
-
-
-					"sum_waiting" => "SUM(
-						CASE 
-							WHEN usrcrs.booking_status = 'auf Warteliste'
-							AND participation_status = 'nicht gesetzt'
-						THEN 1
-						END 
-					) AS sum_waiting",
-
-					"sum_attended" => "SUM(
-						CASE 
-							WHEN LCASE(usrcrs.participation_status) = 'teilgenommen'
-							AND crs.type != 'Selbstlernkurs'
-						THEN 1
-						END 
-					) AS sum_attended",
-
-					"sum_attended_wbt" => "SUM(
-						CASE 
-							WHEN LCASE(usrcrs.participation_status) = 'teilgenommen'
-							AND crs.type = 'Selbstlernkurs'
-						THEN 1
-						END 
-					) AS sum_attended_wbt",
-
-
-					"sum_excused" => "SUM(
-						CASE 
-							WHEN LCASE(usrcrs.participation_status) = 'fehlt entschuldigt'
-						THEN 1
-						END 
-					) AS sum_excused",
-
-
-					"sum_unexcused" => " SUM(
-						CASE 
-							WHEN LCASE(usrcrs.participation_status) = 'fehlt ohne Absage'
-						THEN 1
-						END 
-					) AS sum_unexcused",
-
-					"sum_exit" => "SUM(
-						CASE 
-							WHEN LCASE(usrcrs.participation_status) = 'canceled_exit'
-						THEN 1
-						END 
-					) AS sum_exit"
-
-			);
-
-
-
-
 		$this->query = catReportQuery::create()
 						//->distinct()
 
-						->select("usr.org_unit")
-						->select("usr.org_unit_above1")
-						->select("usr.org_unit_above2")
-						->select("usr.gender")
+						->select("hu.lastname")
+						->select("hu.firstname")
+						->select("hu.org_unit_above1")
+						->select("hu.org_unit_above2")
+						->select("hu.job_number")
+						->select("hc.title")
+						->select("hc.dbv_hot_topic")
+						->select("hc.type")
+						->select("hc.begin_date")
+						->select("hc.end_date")
+						->select("hucs.credit_points")
+						->select("hc.max_credit_points")
 
-						->select("crs.venue")
-						->select("crs.provider")
-
-						/*->select("usrcrs.booking_status")
-						->select("usrcrs.participation_status")
-						->select("usr.user_id")
-						->select("crs.crs_id")
-						*/
-						->select_raw($this->sql_sum_parts['sum_booked_wbt'])
-						->select_raw($this->sql_sum_parts['sum_attended_wbt'])
-
-						->select_raw($this->sql_sum_parts['sum_booked'])
-						->select_raw($this->sql_sum_parts['sum_attended'])
-						->select_raw($this->sql_sum_parts['sum_waiting'])
-						->select_raw($this->sql_sum_parts['sum_excused'])
-						->select_raw($this->sql_sum_parts['sum_unexcused'])
-						->select_raw($this->sql_sum_parts['sum_exit'])
-
-
-						->from("hist_usercoursestatus usrcrs")
-
-						->join("hist_course crs")
-							->on("usrcrs.crs_id = crs.crs_id")
-
-						->join("hist_user usr")
-							->on("usrcrs.usr_id = usr.user_id")
-
-						->group_by("usr.org_unit")
+						->from("org_unit_personal oup")
+						->join("object_reference ore")
+							->on("oup.orgunit_id = ore.obj_id")
+						->join("object_data oda")
+							->on("CONCAT( 'il_orgu_employee_', ore.ref_id ) = oda.title")
+						->join("rbac_ua rua")
+							->on("rua.rol_id = oda.obj_id")
+						->join("hist_user hu")
+							->on("rua.usr_id = hu.user_id")						
+						->join("hist_usercoursestatus hucs")
+							->on("hu.user_id = hucs.usr_id")
+						->join("hist_course hc")
+							->on("hucs.crs_id = hc.crs_id")
 						->compile()
 						;
 
-		$never_skip = $this->user_utils->getOrgUnitsWhereUserIsDirectSuperior();
-
-		array_walk($never_skip, 
-			function (&$obj_ref_id) {
-				$aux = new ilObjOrgUnit($obj_ref_id["ref_id"]);
-				$obj_ref_id = $aux->getTitle();
-			}
-		);
-
-		$this->allowed_user_ids = $this->user_utils->getEmployees();
-		 
-		$skip_org_units_in_filter_below = array('Nebenberufsagenturen');
-		array_walk($skip_org_units_in_filter_below, 
-			function(&$title) { 
-				$title = ilObjOrgUnit::_getIdsForTitle($title)[0];
-				$title = gevObjectUtils::getRefId($title);
-				$title = gevOrgUnitUtils::getAllChildrenTitles(array($title));
-			}
-		);
-		$skip_org_units_in_filter = array();
-		foreach ($skip_org_units_in_filter_below as $org_units) {
-			$skip_org_units_in_filter = array_merge($skip_org_units_in_filter, $org_units);
-		}
-		array_unique($skip_org_units_in_filter);
-		$skip_org_units_in_filter = array_diff($skip_org_units_in_filter, $never_skip);
-		$org_units_filter = array_diff($this->user_utils->getOrgUnitNamesWhereUserIsSuperior(), $skip_org_units_in_filter);
 
 		$this->filter = catFilter::create()
-		
-						->dateperiod( "period"
-									, $this->lng->txt("gev_period")
-									, $this->lng->txt("gev_until")
-									, "usrcrs.begin_date"
-									, "usrcrs.end_date"
-									, date("Y")."-01-01"
-									, date("Y")."-12-31"
-									, false
-									, " OR usrcrs.hist_historic IS NULL"
-									)
-						->multiselect( "org_unit"
-									 , $this->lng->txt("gev_org_unit_short")
-									 , array("usr.org_unit", "org_unit_above1", "org_unit_above2")
-									 //, array("usr.org_unit")
-									 , $org_units_filter
-									 , array()
-									 )
-						->multiselect("edu_program"
-									 , $this->lng->txt("gev_edu_program")
-									 , "edu_program"
-									 //, gevCourseUtils::getEduProgramsFromHisto()
-									 , gevCourseUtils::getEduProgramsFromHisto()
-									 , array()
-									 )
-						->multiselect("type"
-									 , $this->lng->txt("gev_course_type")
-									 , "type"
-									 , gevCourseUtils::getLearningTypesFromHisto()
-									 , array()
-									 )
-						->multiselect("template_title"
-									 , $this->lng->txt("crs_title")
-									 , "template_title"
-									 , gevCourseUtils::getTemplateTitleFromHisto()
-									 , array()
-									 )
-						->multiselect("participation_status"
-									 , $this->lng->txt("gev_participation_status")
-									 , "participation_status"
-									 , gevCourseUtils::getParticipationStatusFromHisto()
-									 , array()
-									 )
-						->multiselect("booking_status"
-									 , $this->lng->txt("gev_booking_status")
-									 , "booking_status"
-									 , catFilter::getDistinctValues('booking_status', 'hist_usercoursestatus')
-									 , array()
-									 )
-						->multiselect("gender"
-									 , $this->lng->txt("gender")
-									 , "gender"
-									 , array('f', 'm')
-									 , array()
-									 )
-						->multiselect("venue"
-									 , $this->lng->txt("gev_venue")
-									 , "venue"
-									 , catFilter::getDistinctValues('venue', 'hist_course')
-									 , array()
-									 )
-						->multiselect("provider"
-									 , $this->lng->txt("gev_provider")
-									 , "provider"
-									 , catFilter::getDistinctValues('provider', 'hist_course')
-									 , array()
-									 )
-
-
-
-
-						->static_condition($this->db->in("usr.user_id", $this->allowed_user_ids, false, "integer"))
-
-						->static_condition(" usrcrs.hist_historic = 0")
-						->static_condition(" usr.hist_historic = 0")
-						->static_condition(" crs.hist_historic = 0")
-										  
-						  
-						->action($this->ctrl->getLinkTarget($this, "view"))
+						->static_condition("oup.usr_id = ".$this->db->quote($viewer, "integer"))
+						->static_condition("oda.type = 'role'")
+						->static_condition("hu.hist_historic = 0")
+						->static_condition("hucs.hist_historic = 0")
+						->static_condition("hc.hist_historic = 0")
 						->compile()
 						;
-
-
-
 	}
-
-
 
 	protected function _process_xls_date($val) {
 		$val = str_replace('<nobr>', '', $val);
@@ -327,40 +133,30 @@ class gevDBVReportGUI extends catBasicReportGUI{
 		return $val;
 	}
 
-
 	protected function transformResultRow($rec) {
 		$rec['odbd'] = $rec['org_unit_above2'] .'/' .$rec['org_unit_above1'];
-		
-		$tmpsql = "SELECT COUNT( * ) AS oumembers FROM hist_user"
-				." WHERE org_unit = '" .$rec['org_unit'] ."'"
-				." AND hist_historic = 0";
-		$tmpres = $this->db->query($tmpsql);
-		$tmprec = $this->db->fetchAssoc($tmpres);
 
-		$rec['sum_employees'] = intval($tmprec['oumembers']);
-		
-		//$rec['sum_employees'] = 'many';
-
-		foreach(array_keys($this->table_sums->columns) as $field) {
-			if (! array_key_exists($field, $this->summed_data)) {
-				$this->summed_data[$field] = 0;
-			}
-			
-			$this->summed_data[$field] +=  intval($rec[$field]);
+		if( $rec["begin_date"] && $rec["end_date"] 
+			&& ($rec["begin_date"] != '0000-00-00' && $rec["end_date"] != '0000-00-00' )) {
+			$start = new ilDate($rec["begin_date"], IL_CAL_DATE);
+			$end = new ilDate($rec["end_date"], IL_CAL_DATE);
+			$date = '<nobr>' .ilDatePresentation::formatPeriod($start,$end) .'</nobr>';
+			//$date = ilDatePresentation::formatPeriod($start,$end);
+		} else {
+			$date = '-';
 		}
-			
+		$rec['date'] = $date;
+		foreach (self::$tosum as $value) {
+			$this->summed_data[$value] += is_numeric($rec[$value]) ? $rec[$value] : 0;
+		}
 		return $this->replaceEmpty($rec);
 	}
-
-
-
 
 	protected function renderView() {
 		$main_table = $this->renderTable();
 		return 	$this->renderSumTable()
 				.$main_table;
 	}
-
 
 	private function renderSumTable(){
 		$table = new catTableGUI($this, "view");
@@ -391,7 +187,6 @@ class gevDBVReportGUI extends catBasicReportGUI{
 		}
 
 		$table->setData(array($this->summed_data));
-
 		return $table->getHtml();
 	}
 
