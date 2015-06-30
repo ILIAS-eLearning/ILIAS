@@ -85,6 +85,7 @@ function ilUpdateEndDate(cal)
 	
 	//alert(end.toDateString());
 	
+	/*
 	var year = document.getElementById(prefix + "[end][date]_y");
 	for(i = 0; i < year.options.length;i++)
 	{
@@ -142,7 +143,7 @@ function ilUpdateEndDate(cal)
 			minute.selectedIndex = i;
 			break;
 		}
-	}
+	}*/
 	
 	// patch generali start
 	ilTEPWeight(prefix);
