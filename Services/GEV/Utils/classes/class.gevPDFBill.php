@@ -58,7 +58,7 @@ class gevPDFBill extends ilPDFBill {
 			$res = $this->db->query("SELECT gc.coupon_code, cp.coupon_value "
 								   ."  FROM gev_bill_coupon gc "
 								   ."  JOIN coupon cp ON cp.coupon_code = gc.coupon_code"
-								   ."WHERE bill_pk = ".$a_bill->getId());
+								   ." WHERE bill_pk = ".$a_bill->getId());
 			if ($rec = $this->db->fetchAssoc($res)) {
 				$posttext .= " Sie erhalten von uns den Gutscheincode ".$rec["coupon_code"]." in Höhe von "
 						     .number_format($rec["coupon_value"], 2, ",", "")." EUR, welchen Sie für Folgebuchungen "
