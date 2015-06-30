@@ -377,7 +377,7 @@ class gevSettings {
 		, "Ausbildungsbeauftragter"
 		, "ID FK"
 		, "ID MA"
-		, "OD/LD/BD/VD/VTWL"
+		, "OD/FD/BD ID"
 		, "VA 59"
 		, "VA HGB 84"
 		, "NFK"
@@ -389,6 +389,8 @@ class gevSettings {
 		, "int. Trainer"
 		, "ext. Trainer"
 		, "OD-Betreuer"
+		, "DBV UVG"
+		, "DBV EVG"
 		);
 	
 	// Names of roles where users need to pay the 
