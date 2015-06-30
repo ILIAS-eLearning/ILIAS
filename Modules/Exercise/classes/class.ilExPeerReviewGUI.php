@@ -342,7 +342,7 @@ class ilExPeerReviewGUI
 			$parts = explode("__", $idx);					
 			if($parts[0] == $ilUser->getId())
 			{
-				$this->submission->getPeerReview()->updatePeerReviewComment($parts[1], $value);				
+				$this->submission->getPeerReview()->updatePeerReviewComment($parts[1], ilUtil::stripSlashes($value)); // #16128							
 			}			
 		}
 		
@@ -376,7 +376,7 @@ class ilExPeerReviewGUI
 		{
 			if($peer_id)
 			{
-				$this->submission->getPeerReview()->updatePeerReviewComment($peer_id, $value);				
+				$this->submission->getPeerReview()->updatePeerReviewComment($peer_id, ilUtil::stripSlashes($value)); // #16128							
 			}
 		}
 		
@@ -417,7 +417,7 @@ class ilExPeerReviewGUI
 			$this->returnToParentObject();
 		}
 		
-		$this->submission->getPeerReview()->updatePeerReviewComment((int)$_REQUEST["peer_id"], trim($_POST["comm"]));		
+		$this->submission->getPeerReview()->updatePeerReviewComment((int)$_REQUEST["peer_id"], ilUtil::stripSlashes(trim($_POST["comm"])));	// #16128			
 		$this->handlePeerReviewChange();
 		
 		if(!$this->submission->getPeerReview()->validatePeerReviewText($_POST["comm"]))
