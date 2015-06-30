@@ -63,6 +63,7 @@ class gevMyTrainingsApGUI {
 			case "confirmFinalize":
 			case "saveStatusAndPoints":
 			case "uploadAttendanceList":
+			case "viewAttendanceList":
 				//ilParticipationStatusTableGUI
 				require_once("Services/ParticipationStatus/classes/class.ilParticipationStatusAdminGUI.php");
 				$crs_ref_id = $this->getCrsRefId();
