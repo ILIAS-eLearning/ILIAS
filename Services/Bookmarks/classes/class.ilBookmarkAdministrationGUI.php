@@ -464,6 +464,7 @@ class ilBookmarkAdministrationGUI
 
 		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 		$form = new ilPropertyFormGUI();
+		$form->setFormAction($ilCtrl->getFormAction($this, "importFile")); // #16133
 		$form->setTopAnchor("bookmark_top");
 		$form->setTitle($lng->txt("bkm_import"));
 
