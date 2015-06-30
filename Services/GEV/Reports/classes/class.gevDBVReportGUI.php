@@ -49,7 +49,7 @@ class gevDBVReportGUI extends catBasicReportGUI{
 						->column("lastname", "lastname")
 						->column("firstname", "firstname")
 						->column("odbd", "gev_od_bd")
-						->column("job_number", "job_numer")
+						->column("job_number", "job_number")
 						->column("training_title", "title")
 						->column("dbv_hot_topic", "dbv_hot_topic")
 						->column("type", "type")
@@ -71,7 +71,7 @@ class gevDBVReportGUI extends catBasicReportGUI{
 		$this->order = catReportOrder::create($this->table)
 						//->mapping("date", "crs.begin_date")
 						//->mapping("odbd", array("org_unit_above1", "org_unit_above2"))
-						->defaultOrder("org_unit", "ASC")
+						->defaultOrder("lastname", "ASC")
 						;
 		
 		//internal ordering:
