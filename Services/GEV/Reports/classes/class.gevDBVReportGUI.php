@@ -123,6 +123,7 @@ class gevDBVReportGUI extends catBasicReportGUI{
 						->static_condition("hu.hist_historic = 0")
 						->static_condition("hucs.hist_historic = 0")
 						->static_condition("hc.hist_historic = 0")
+						->action($this->ctrl->getLinkTarget($this, "view"))
 						->compile()
 						;
 	}
