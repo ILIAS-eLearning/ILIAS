@@ -2594,7 +2594,36 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 								$this->ctrl->clearParameters($this);
 							}
-							
+
+							// button: mark read
+							if ($ilUser->getId() != ANONYMOUS_USER_ID && !$node->isPostRead())
+							{
+								$this->ctrl->setParameter($this, 'pos_pk', $node->getId());
+								$this->ctrl->setParameter($this, 'thr_pk', $node->getThreadId());
+								$this->ctrl->setParameter($this, 'offset', $Start);
+								$this->ctrl->setParameter($this, 'orderby', $_GET['orderby']);
+								$this->ctrl->setParameter($this, 'viewmode', $_SESSION['viewmode']);
+
+								$actions['is_read'] = $this->ctrl->getLinkTarget($this, 'markPostRead', $node->getId());
+
+								$this->ctrl->clearParameters($this);
+							}
+
+							// button: mark unread
+							if ($ilUser->getId() != ANONYMOUS_USER_ID &&
+								$node->isPostRead())
+							{
+								$this->ctrl->setParameter($this, 'pos_pk', $node->getId());
+								$this->ctrl->setParameter($this, 'thr_pk', $node->getThreadId());
+								$this->ctrl->setParameter($this, 'offset', $Start);
+								$this->ctrl->setParameter($this, 'orderby', $_GET['orderby']);
+								$this->ctrl->setParameter($this, 'viewmode', $_SESSION['viewmode']);
+
+								$actions['unread'] = $this->ctrl->getLinkTarget($this, 'markPostUnread', $node->getId());
+
+								$this->ctrl->clearParameters($this);
+							}
+
 							// button: print
 							if (!$node->isCensored())
 							{
@@ -2648,35 +2677,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 								{
 									$actions['activate_post'] = $this->ctrl->getLinkTarget($this, 'askForPostActivation', $node->getId());
 								}
-
-								$this->ctrl->clearParameters($this);
-							}
-							
-							// button: mark read
-							if ($ilUser->getId() != ANONYMOUS_USER_ID && !$node->isPostRead())
-							{
-								$this->ctrl->setParameter($this, 'pos_pk', $node->getId());
-								$this->ctrl->setParameter($this, 'thr_pk', $node->getThreadId());
-								$this->ctrl->setParameter($this, 'offset', $Start);
-								$this->ctrl->setParameter($this, 'orderby', $_GET['orderby']);
-								$this->ctrl->setParameter($this, 'viewmode', $_SESSION['viewmode']);
-
-								$actions['is_read'] = $this->ctrl->getLinkTarget($this, 'markPostRead', $node->getId());
-
-								$this->ctrl->clearParameters($this);
-							}
-
-							// button: mark unread
-							if ($ilUser->getId() != ANONYMOUS_USER_ID &&
-							    $node->isPostRead())
-							{
-								$this->ctrl->setParameter($this, 'pos_pk', $node->getId());
-								$this->ctrl->setParameter($this, 'thr_pk', $node->getThreadId());
-								$this->ctrl->setParameter($this, 'offset', $Start);
-								$this->ctrl->setParameter($this, 'orderby', $_GET['orderby']);
-								$this->ctrl->setParameter($this, 'viewmode', $_SESSION['viewmode']);
-
-								$actions['unread'] = $this->ctrl->getLinkTarget($this, 'markPostUnread', $node->getId());
 
 								$this->ctrl->clearParameters($this);
 							}
