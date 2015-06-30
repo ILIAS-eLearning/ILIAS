@@ -55,10 +55,13 @@ class gevPDFBill extends ilPDFBill {
 		$posttext = "Der Rechnungsbetrag wird dem Agenturkonto ".$a_bill->getCostCenter()." belastet.";
 		if (   $booking_status == ilCourseBooking::STATUS_CANCELLED_WITH_COSTS
 			|| $participation_status == ilParticipationStatus::STATUS_ABSENT_EXCUSED) {
-			$res = $this->db->query("SELECT coupon_code FROM gev_bill_coupon WHERE bill_pk = ".$a_bill->getId());
+			$res = $this->db->query("SELECT gc.coupon_code, cp.coupon_value "
+								   ."  FROM gev_bill_coupon gc "
+								   ."  JOIN coupon cp ON cp.coupon_code = gc.coupon_code"
+								   ."WHERE bill_pk = ".$a_bill->getId());
 			if ($rec = $this->db->fetchAssoc($res)) {
 				$posttext .= " Sie erhalten von uns den Gutscheincode ".$rec["coupon_code"]." in Höhe von "
-						     .number_format($a_bill->getAmount(), 2, ",", "")." EUR, welchen Sie für Folgebuchungen "
+						     .number_format($rec["coupon_value"], 2, ",", "")." EUR, welchen Sie für Folgebuchungen "
 						     ."einlösen können. Der Gutschein ist ein Jahr gültig.";
 			}
 		}
