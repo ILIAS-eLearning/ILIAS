@@ -28,12 +28,12 @@ require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
 
 class gevDBVReportGUI extends catBasicReportGUI{
 	protected $summed_data = array();
-	static $to_sum = array("credit_points" ,"max_points");
+	//static $to_sum = array("credit_points" ,"max_points");
 	public function __construct() {
 		
 		parent::__construct();
 		$viewer = 33892;
-		$to_sum = array("credit_points" ,"max_points");
+		//$to_sum = array("credit_points" ,"max_points");
 
 		foreach ($tosum as $value) {
 			$this->summed_data[$values] = 0;
@@ -68,11 +68,11 @@ class gevDBVReportGUI extends catBasicReportGUI{
 
 		
 
-		$this->order = catReportOrder::create($this->table)
+	/*	$this->order = catReportOrder::create($this->table)
 						//->mapping("date", "crs.begin_date")
 						//->mapping("odbd", array("org_unit_above1", "org_unit_above2"))
 						->defaultOrder("lastname", "ASC")
-						;
+						;*/
 		
 		//internal ordering:
 		$this->internal_sorting_numeric = array(
@@ -147,9 +147,9 @@ class gevDBVReportGUI extends catBasicReportGUI{
 			$date = '-';
 		}
 		$rec['date'] = $date;
-		foreach (self::$tosum as $value) {
+		/*foreach (self::$tosum as $value) {
 			$this->summed_data[$value] += is_numeric($rec[$value]) ? $rec[$value] : 0;
-		}
+		}*/
 		return $this->replaceEmpty($rec);
 	}
 
