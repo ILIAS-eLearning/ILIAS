@@ -108,9 +108,10 @@ class ilGEVBillingPlugin extends ilEventHookPlugin
 		$context_id = $a_bill->getContextId();
 		
 		if ($context_id) {
-			require_once("Services/GEV/Mailing/classes/CrsMails/class.gevCrsBillMail.php");
+			require_once("Services/GEV/Mailing/classes/class.gevCrsAutoMails.php");
 			$ilLog->write("ilGEVBillingPlugin::billFinalized: send bill ".$a_bill->getId());
-			$automail = new gevCrsBillMail($context_id);
+			$crs_automails = new gevCrsAutoMails($context_id);
+			$automail = $crs_automails->getAutoMail("bill_mail");
 			$automail->sendBill($a_bill);
 		}
 		else {
