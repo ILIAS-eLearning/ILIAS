@@ -254,7 +254,7 @@ abstract class ilAutoMail {
 			}
 					
 			$ilLog->write (
-				'ilAutoMail::send ->sending ' .$a_occasion .' to ' .$recipient
+				'ilAutoMail::send ->sending ' .$a_occasion .' to ' .print_r($recipient, true);
 			);
 
 			if (!$mail->Send()) {
