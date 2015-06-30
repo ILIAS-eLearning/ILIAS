@@ -61,7 +61,7 @@ class gevDBVReportGUI extends catBasicReportGUI{
 		$this->table_sums = catReportTable::create()
 						->column("sum_credit_points", "sum_credit_points")
 						->column("sum_max_credit_points", "sum_max_credit_points")
-						->template("tpl.gev_dbv_report_sums_row.html", "Services/GEV/Reports")
+						->template("tpl.gev_dbv_report_sum_row.html", "Services/GEV/Reports")
 						;
 		
 
