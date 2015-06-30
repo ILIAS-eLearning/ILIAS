@@ -30,6 +30,7 @@
 * @ilCtrl_Calls gevDesktopGUI: gevAttendanceByOrgUnitGUI
 * @ilCtrl_Calls gevDesktopGUI: gevAttendanceByCourseTemplateGUI
 * @ilCtrl_Calls gevDesktopGUI: gevTrainerOperationByTEPCategoryGUI
+* @ilCtrl_Calls gevDesktopGUI: gevDBVReportGUI
 */
 
 class gevDesktopGUI {
@@ -191,6 +192,13 @@ class gevDesktopGUI {
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;
 
+				case "gevdbvreportgui":
+				$ilMainMenu->setActive("gev_reporting_menu");
+				require_once("Services/GEV/Reports/classes/class.gevDBVReportGUI.php");
+				$gui = new gevDBVReportGUI();
+				$ret = $this->ctrl->forwardCommand($gui);
+				break;
+
 			default:	
 				$this->dispatchCmd($cmd);
 				break;
@@ -221,6 +229,7 @@ class gevDesktopGUI {
 			case "toReportAttendanceByCourseTemplate":
 			case "toReportTrainerOperationByTEPCategory":
 			case "toReportWBDEdupoints":
+			case "toDBVReport":
 			case "toWBDErrors":
 			case "createHAUnit":
 				$this->$a_cmd();
@@ -273,6 +282,10 @@ class gevDesktopGUI {
 	
 	protected function toEmployeeBookings() {
 		$this->ctrl->redirectByClass("gevEmployeeBookingsGUI");
+	}
+
+	protected function toDBVReport() {
+		$this->ctrl->redirectByClass("gevDBVReportGUI");
 	}
 	
 	protected function toReportEmployeeEduBios() {

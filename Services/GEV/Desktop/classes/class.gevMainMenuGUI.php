@@ -99,6 +99,7 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		$report_permission_attendancebycoursetemplate = $this->userUtils->isAdmin();
 		$report_permission_wbd = $this->userUtils->isAdmin();
 		$report_permission_traineroperationbytepcategory = $this->userUtils->isAdmin();
+		$report_permission_dbv = $this->userUtils->isAdmin();
 
 
 		$has_reporting_menu =  $report_permission_billing 
@@ -166,6 +167,7 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 				, "gev_report_attendance_by_coursetemplate" => array($report_permission_attendancebycoursetemplate, "ilias.php?baseClass=gevDesktopGUI&cmd=toReportAttendanceByCourseTemplate",$this->lng->txt("gev_report_attendancebycoursetemplate"))
 				, "gev_report_wbd_edupoints" => array($report_permission_wbd, "ilias.php?baseClass=gevDesktopGUI&cmd=toReportWBDEdupoints",$this->lng->txt("gev_report_wbd_edupoints"))
 				, "gev_report_wbd_errors" => array($report_permission_wbd, "ilias.php?baseClass=gevDesktopGUI&cmd=toWBDErrors",$this->lng->txt("gev_report_wbd_errors"))
+				, "gev_report_dbv_report" => array($report_permission_dbv, "ilias.php?baseClass=gevDesktopGUI&cmd=toDBVReport",$this->lng->txt("gev_report_dbv_report"))
 
 				), $this->lng->txt("gev_reporting_menu"))
 
