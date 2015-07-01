@@ -170,6 +170,7 @@ class gevRoleUtils {
 
 	public function createLocalRole($a_ref_id, $a_role_name, $a_role_desc = "") {
 		$rolf = $this->getRbacReview()->getRoleFolderOfObject($a_ref_id);
+
 		if (!isset($rolf["ref_id"]) or !$rolf["ref_id"]) {
 			throw new Exception("gevRoleUtils::getLocalRoleIdsAndTitles: Could not load role folder.");
 		}
@@ -195,6 +196,12 @@ class gevRoleUtils {
 				return true;
 		}
 		return false;
+	}
+
+	public function usersHavingRole($a_role) {
+		$role_id = $this->getRoleIdByName($a_role);
+		$this->getRbacReview();
+		return $this->rbac_review->assignedUsers($role_id);
 	}
 }
 
