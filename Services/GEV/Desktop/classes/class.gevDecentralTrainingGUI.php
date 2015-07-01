@@ -34,10 +34,12 @@ class gevDecentralTrainingGUI {
 		$this->loadUserId();
 		$this->loadDate();
 		
+		
+		
 		$this->checkCanCreateDecentralTraining();
 		
 		$cmd = $this->ctrl->getCmd();
-		
+		echo $cmd;
 		switch($cmd) {
 			case "chooseTemplateAndTrainers":
 			case "createTraining":
@@ -268,12 +270,6 @@ class gevDecentralTrainingGUI {
 			$password = $a_form->getInput("webinar_password");
 			$crs_utils->setWebExPassword($password ? $password : " ");
 		}
-		
-		$mail_settings = new gevCrsAdditionalMailSettings($a_obj_id);
-		if (!$mail_settings->getSuppressMails()) {
-			$mail_settings->setSuppressMails($a_form->getInput("suppress_mails"));
-			$mail_settings->save();
-		} 
 		
 		$crs->update();
 	}
@@ -546,11 +542,11 @@ class gevDecentralTrainingGUI {
 		$orgu_selection->setRecursive(false);
 		$form->addItem($orgu_selection);
 		
-		$mail_section = new ilFormSectionHeaderGUI();
-		$mail_section->setTitle($this->lng->txt("gev_mail_mgmt"));
-		$form->addItem($mail_section);
-		
 		if ($training_info["invitation_preview"]) {
+			$mail_section = new ilFormSectionHeaderGUI();
+			$mail_section->setTitle($this->lng->txt("gev_mail_mgmt"));
+			$form->addItem($mail_section);
+
 			$this->lng->loadLanguageModule("mail");
 			$preview = new ilNonEditableValueGUI($this->lng->txt("gev_preview_invitation_mail"), "", true);
 			if ($a_fill) {
@@ -561,12 +557,6 @@ class gevDecentralTrainingGUI {
 			}
 			$form->addItem($preview);
 		}
-		
-		$suppress_mails = new ilCheckboxInputGUI($this->lng->txt("gev_suppress_mails"), "suppress_mails");
-		$suppress_mails->setOptionTitle($this->lng->txt("gev_suppress_mails_info"));
-		$suppress_mails->setChecked($training_info["suppress_mails"]);
-		$suppress_mails->setDisabled(($training_info["suppress_mails"] || $no_changes_allowed) && $a_template_id === null);
-		$form->addItem($suppress_mails);
 		
 		return $form;
 	}
