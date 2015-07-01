@@ -32,8 +32,8 @@ class gevDBVReportGUI extends catBasicReportGUI{
 	public function __construct() {
 		
 		parent::__construct();
-		$viewer = 33892;
-
+		//$viewer = 33892;
+		$viewer = $this->userUtils->getId();
 		foreach (self::$to_sum as $key => $value) {
 			$this->summed_data[$key] = 0;
 		}
@@ -41,15 +41,14 @@ class gevDBVReportGUI extends catBasicReportGUI{
 		$this->title = catTitleGUI::create()
 						->title("gev_rep_dbv_report_title")
 						->subTitle("gev_rep_dbv_report_desc")
-						->image("GEV_img/ico-head-edubio.png")
-						;
+						->image("GEV_img/ico-head-edubio.png");
 
 		$this->table = catReportTable::create()
 						->column("lastname", "lastname")
 						->column("firstname", "firstname")
 						->column("odbd", "gev_od_bd")
 						->column("job_number", "job_number")
-						->column("training_title", "title")
+						->column("title", "title")
 						->column("dbv_hot_topic", "dbv_hot_topic")
 						->column("type", "type")
 						->column("date", "date")
@@ -112,6 +111,7 @@ class gevDBVReportGUI extends catBasicReportGUI{
 						->static_condition("hu.hist_historic = 0")
 						->static_condition("hucs.hist_historic = 0")
 						->static_condition("hc.hist_historic = 0")
+						//->static_condition("hc.dbv_hot_topic IS NOT NULL")
 						->action($this->ctrl->getLinkTarget($this, "view"))
 						->compile();
 	}

@@ -99,8 +99,7 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		$report_permission_attendancebycoursetemplate = $this->userUtils->isAdmin();
 		$report_permission_wbd = $this->userUtils->isAdmin();
 		$report_permission_traineroperationbytepcategory = $this->userUtils->isAdmin();
-		$report_permission_dbv = $this->userUtils->isAdmin();
-
+		$report_permission_dbv = $this->userUtils->hasRoleIn(array("DBV-Fin-UVG"));
 
 		$has_reporting_menu =  $report_permission_billing 
 							|| $report_permission_attendancebyuser 
