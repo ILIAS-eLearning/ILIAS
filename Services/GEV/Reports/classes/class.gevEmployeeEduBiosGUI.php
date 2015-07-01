@@ -132,10 +132,33 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 						->group_by("user_id")
 						->compile()
 						;
+
+		$never_skip = $this->user_utils->getOrgUnitsWhereUserIsDirectSuperior();
+		array_walk($never_skip, 
+			function (&$obj_ref_id) {
+				$aux = new ilObjOrgUnit($obj_ref_id["ref_id"]);
+				$obj_ref_id = $aux->getTitle();
+			}
+		);
+		$skip_org_units_in_filter_below = array('Nebenberufsagenturen');
+		array_walk($skip_org_units_in_filter_below, 
+			function(&$title) { 
+				$title = ilObjOrgUnit::_getIdsForTitle($title)[0];
+				$title = gevObjectUtils::getRefId($title);
+				$title = gevOrgUnitUtils::getAllChildrenTitles(array($title));
+			}
+		);
+		$skip_org_units_in_filter = array();
+		foreach ($skip_org_units_in_filter_below as $org_units) {
+			$skip_org_units_in_filter = array_merge($skip_org_units_in_filter, $org_units);
+		}
+		array_unique($skip_org_units_in_filter);
+		$skip_org_units_in_filter = array_diff($skip_org_units_in_filter, $never_skip);
+		$org_units_filter = array_diff($this->user_utils->getOrgUnitNamesWhereUserCanViewEduBios(), $skip_org_units_in_filter);
 						
 		$this->allowed_user_ids = $this->user_utils->getEmployeesWhereUserCanViewEduBios();
-		$ous = $this->user_utils->getOrgUnitNamesWhereUserCanViewEduBios();
-		sort($ous);
+
+		sort($org_units_filter);
 		$this->filter = catFilter::create()
 						->checkbox( "critical"
 								  , $this->lng->txt("gev_rep_filter_show_critical_persons")
@@ -157,7 +180,7 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 						->multiselect("org_unit"
 									 , $this->lng->txt("gev_org_unit")
 									 , array("usr.org_unit", "usr.org_unit_above1", "usr.org_unit_above2")
-									 , $ous
+									 , $org_units_filter
 									 , array()
 									 )
 						->static_condition($this->db->in("usr.user_id", $this->allowed_user_ids, false, "integer"))

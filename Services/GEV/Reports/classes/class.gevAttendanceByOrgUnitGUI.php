@@ -204,6 +204,7 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 						->group_by("usr.org_unit")
 						->compile()
 						;
+		$this->allowed_user_ids = $this->user_utils->getEmployees();
 
 		$never_skip = $this->user_utils->getOrgUnitsWhereUserIsDirectSuperior();
 
@@ -213,9 +214,6 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 				$obj_ref_id = $aux->getTitle();
 			}
 		);
-
-		$this->allowed_user_ids = $this->user_utils->getEmployees();
-		 
 		$skip_org_units_in_filter_below = array('Nebenberufsagenturen');
 		array_walk($skip_org_units_in_filter_below, 
 			function(&$title) { 
@@ -231,7 +229,7 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 		array_unique($skip_org_units_in_filter);
 		$skip_org_units_in_filter = array_diff($skip_org_units_in_filter, $never_skip);
 		$org_units_filter = array_diff($this->user_utils->getOrgUnitNamesWhereUserIsSuperior(), $skip_org_units_in_filter);
-
+		sort($org_units_filter);
 		$this->filter = catFilter::create()
 		
 						->dateperiod( "period"
