@@ -13,6 +13,7 @@ require_once("Services/GEV/Reports/classes/class.catBasicReportGUI.php");
 require_once("Services/GEV/Reports/classes/class.catFilter.php");
 require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
 require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+require_once("Modules/OrgUnit/classes/class.ilObjOrgUnit.php");
 
 class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 	public function __construct() {
@@ -155,10 +156,9 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 		array_unique($skip_org_units_in_filter);
 		$skip_org_units_in_filter = array_diff($skip_org_units_in_filter, $never_skip);
 		$org_units_filter = array_diff($this->user_utils->getOrgUnitNamesWhereUserCanViewEduBios(), $skip_org_units_in_filter);
-						
+		sort($org_units_filter);						
 		$this->allowed_user_ids = $this->user_utils->getEmployeesWhereUserCanViewEduBios();
 
-		sort($org_units_filter);
 		$this->filter = catFilter::create()
 						->checkbox( "critical"
 								  , $this->lng->txt("gev_rep_filter_show_critical_persons")
