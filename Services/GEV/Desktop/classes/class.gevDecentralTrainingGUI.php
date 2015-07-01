@@ -545,6 +545,7 @@ class gevDecentralTrainingGUI {
 		if ($training_info["orgaInfo"] && $a_fill) {
 				$orgaInfo->setValue($training_info["orgaInfo"]);
 			}
+		$orgaInfo->setUseRte(true);
 		$form->addItem($orgaInfo);
 
 		require_once("Services/TEP/classes/class.ilTEP.php");
