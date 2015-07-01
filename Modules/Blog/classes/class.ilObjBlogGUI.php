@@ -1084,12 +1084,13 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			{
 				foreach($items as $id => $item)
 				{
-					if($item["author"] == $this->author)
+					if($item["author"] == $this->author || 
+						(is_array($item["editors"]) && in_array($this->author, $item["editors"])))
 					{
 						$list_items[$id] = $item;
 					}
 				}
-			}
+			}			
 		}
 		else if($this->keyword)
 		{
@@ -1356,7 +1357,9 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$items = array();
 		foreach(ilBlogPosting::getAllPostings($a_obj_id) as $posting)
 		{
-			if($this->author && $posting["author"] == $this->author)
+			if($this->author && 
+				($posting["author"] == $this->author ||
+				(is_array($posting["editors"]) && in_array($this->author, $posting["editors"]))))
 			{
 				$author_found = true;
 			}
@@ -1611,13 +1614,28 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			
 			$author = "";
 			if($this->id_type == self::REPOSITORY_NODE_ID)
-			{				
+			{			
+				$authors = array();
+				
 				$author_id = $item["author"];
 				if($author_id)
 				{
 					include_once "Services/User/classes/class.ilUserUtil.php";
-					$author = ilUserUtil::getNamePresentation($author_id)." - ";
-				}				
+					$authors[] = ilUserUtil::getNamePresentation($author_id);
+				}			
+				
+				if(is_array($item["editors"]))
+				{
+					foreach($item["editors"] as $editor_id)
+					{
+						$authors[] = ilUserUtil::getNamePresentation($editor_id);
+					}
+				}
+				
+				if($authors)
+				{
+					$author = implode(", ", $authors)." - ";
+				}
 			}
 			
 			// title
@@ -1935,9 +1953,23 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		{
 			foreach($items as $item)
 			{
-				if(($a_show_inactive || ilBlogPosting::_lookupActive($item["id"], "blp")) && $item["author"])
-				{
-					$authors[] = $item["author"];					
+				if(($a_show_inactive || ilBlogPosting::_lookupActive($item["id"], "blp")))
+				{					
+					if($item["author"])
+					{
+						$authors[] = $item["author"];					
+					}
+					
+					if(is_array($item["editors"]))
+					{
+						foreach($item["editors"] as $editor_id)
+						{
+							if($editor_id != $item["author"])
+							{
+								$authors[] = $editor_id;
+							}
+						}
+					}
 				}	
 			}
 		}			
