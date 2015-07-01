@@ -272,6 +272,9 @@ class gevDecentralTrainingGUI {
 			$crs_utils->setWebExPassword($password ? $password : " ");
 		}
 		
+		$orgaInfo = $a_form->getInput("orgaInfo");
+		$crs_utils->setOrgaInfo($orgaInfo);
+
 		$crs->update();
 	}
 	
@@ -434,6 +437,7 @@ class gevDecentralTrainingGUI {
 					, "webinar_password" => $crs_utils->getWebExPassword()
 					, "orgu_id" => $crs_utils->getTEPOrguId()
 					, "invitation_preview" => $crs_utils->getInvitationMailPreview()
+					, "orgaInfo" => $crs_utils->getOrgaInfo()
 					);
 				$trainer_ids = $crs_utils->getTrainers();
 				$no_changes_allowed = $crs_utils->isFinalized();
@@ -537,6 +541,12 @@ class gevDecentralTrainingGUI {
 			$form->addItem($webinar_password);
 		}
 		
+		$orgaInfo = new ilTextAreaInputGUI($this->lng->txt("gev_orga_info"),"orgaInfo");
+		if ($training_info["orgaInfo"] && $a_fill) {
+				$orgaInfo->setValue($training_info["orgaInfo"]);
+			}
+		$form->addItem($orgaInfo);
+
 		require_once("Services/TEP/classes/class.ilTEP.php");
 		$org_info = ilTEP::getPossibleOrgUnitsForTEPEntries();
 		require_once "Services/TEP/classes/class.ilTEPOrgUnitSelectionInputGUI.php";
