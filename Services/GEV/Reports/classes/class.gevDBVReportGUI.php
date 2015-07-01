@@ -33,7 +33,8 @@ class gevDBVReportGUI extends catBasicReportGUI{
 		
 		parent::__construct();
 		//$viewer = 33892;
-		$viewer = $this->userUtils->getId();
+		$viewer = $this->user_utils->getId();
+		
 		foreach (self::$to_sum as $key => $value) {
 			$this->summed_data[$key] = 0;
 		}
