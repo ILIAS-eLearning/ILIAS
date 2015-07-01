@@ -164,8 +164,28 @@ class ilCourseHistorizingHelper
 	 */
 	public static function getVenueOf($course)
 	{
-		return gevCourseUtils::getInstanceByObjOrId($course)
+		$venue = gevCourseUtils::getInstanceByObjOrId($course)
 							 ->getVenueTitle();
+		if ($venue == "") {
+			return self::getVenueFreeTextOf($course);
+		}
+
+		return $venue;
+	}
+
+	/**
+	 * Returns the venue free text marker of the given course.
+	 *
+	 * @param integer|ilObjCourse $course
+	 *
+	 * @return string
+	 */
+	public static function getVenueFreeTextOf($course)
+	{
+		$ret = gevCourseUtils::getInstanceByObjOrId($course)
+							 ->getVenueFreeText();
+
+		return ($ret) ? "FREITEXT" : "";
 	}
 
 	/**

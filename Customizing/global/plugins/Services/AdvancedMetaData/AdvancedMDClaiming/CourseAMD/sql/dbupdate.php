@@ -705,3 +705,34 @@ $options = array(
 $amdutils->updateOptionsOfAMDField(gevSettings::CRS_AMD_DBV_HOT_TOPIC, $options);
 $amdutils->updatePositionOrderAMDField($gev_settings);
 ?>
+
+<#19>
+<?php
+require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
+require_once("Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php");
+
+gevAMDUtils::addAMDField( "Orte und Anbieter"
+						, "Freitext Veranstaltungsort"
+						, gevSettings::CRS_AMD_VENUE_FREE_TEXT
+						, ""
+						, false
+						, null
+						, ilAdvancedMDFieldDefinition::TYPE_TEXT
+						);
+
+
+//Reihenfolge im array ist gleich der Reihenfolge der neuen Position
+$gev_settings = array(gevSettings::CRS_AMD_PROVIDER
+					 ,gevSettings::CRS_AMD_VENUE
+					 ,gevSettings::CRS_AMD_VENUE_FREE_TEXT
+					 ,gevSettings::CRS_AMD_ACCOMODATION
+					 ,gevSettings::CRS_AMD_WEBEX_LINK
+					 ,gevSettings::CRS_AMD_WEBEX_PASSWORD
+					 ,gevSettings::CRS_AMD_WEBEX_PASSWORD_TUTOR
+					 ,gevSettings::CRS_AMD_ORGA
+					 ,gevSettings::CRS_AMD_TEP_ORGU);
+
+$amdutils = gevAMDUtils::getInstance();
+$amdutils->updatePositionOrderAMDField($gev_settings);
+?>

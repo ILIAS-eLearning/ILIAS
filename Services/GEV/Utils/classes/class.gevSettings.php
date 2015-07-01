@@ -102,6 +102,7 @@ class gevSettings {
 	const CRS_AMD_PROVIDER			= "crs_amd_provider";
 	// Veranstaltungsort
 	const CRS_AMD_VENUE				= "crs_amd_venue";
+	const CRS_AMD_VENUE_FREE_TEXT	= "crs_amd_venue_free_text";
 	// Übernachtungsort
 	const CRS_AMD_ACCOMODATION		= "crs_amd_accomodation";
 	// Veranstaltungsort Internet
