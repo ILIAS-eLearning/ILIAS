@@ -55,7 +55,7 @@ class gevDBVReportGUI extends catBasicReportGUI{
 						->column("type", "type")
 						->column("date", "date")
 						->column("credit_points", "credit_points")
-						->column("max_points", "max_points")
+						->column("max_credit_points", "max_credit_points")
 						->template("tpl.gev_dbv_report_row.html", "Services/GEV/Reports")
 						;
 		$this->table_sums = catReportTable::create()
@@ -97,9 +97,11 @@ class gevDBVReportGUI extends catBasicReportGUI{
 						->select("hc.type")
 						->select("hc.begin_date")
 						->select("hc.end_date")
-						->select("hucs.credit_points")
-						->select("hc.max_credit_points")
-
+						->select_raw(
+							"IF(hucs.participation_status = 'bestanden',hucs.credit_points,0) credit_points")
+						->select_raw(
+							"IF(hucs.participation_status = 'nicht gesetzt',hc.max_credit_points,
+								hucs.credit_points) max_credit_points")
 						->from("org_unit_personal oup")
 						->join("object_reference ore")
 							->on("oup.orgunit_id = ore.obj_id")
