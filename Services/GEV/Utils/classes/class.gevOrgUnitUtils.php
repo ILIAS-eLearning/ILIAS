@@ -731,9 +731,8 @@ class gevOrgUnitUtils {
 		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 		$obj_id = gevObjectUtils::getObjId($a_start_ref);
 		$ou_utils = gevOrgUnitUtils::getInstance($obj_id);
-		
+
 		$ou_utils->grantPermissionsFor($a_role_name, $a_permissions);
-		
 		$children = self::getAllChildren(array($a_start_ref));
 		foreach($children as $child) {
 			$ou_utils = gevOrgUnitUtils::getInstance($child["obj_id"]);

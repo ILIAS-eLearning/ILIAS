@@ -48,18 +48,18 @@ class gevDBVReportGUI extends catBasicReportGUI{
 						->column("lastname", "lastname")
 						->column("firstname", "firstname")
 						->column("odbd", "gev_od_bd")
-						->column("job_number", "job_number")
+						->column("job_number", "gev_job_number")
 						->column("title", "title")
-						->column("dbv_hot_topic", "dbv_hot_topic")
+						->column("dbv_hot_topic", "gev_dbv_hot_topic")
 						->column("type", "type")
 						->column("date", "date")
-						->column("credit_points", "credit_points")
-						->column("max_credit_points", "max_credit_points")
+						->column("credit_points", "gev_credit_points")
+						->column("max_credit_points", "gev_credit_points_forecast")
 						->template("tpl.gev_dbv_report_row.html", "Services/GEV/Reports");
 
 		$this->table_sums = catReportTable::create()
-						->column("sum_credit_points", "sum_credit_points")
-						->column("sum_max_credit_points", "sum_max_credit_points")
+						->column("sum_credit_points", "gev_overall_points")
+						->column("sum_max_credit_points", "gev_overall_credit_points_forecast")
 						->template("tpl.gev_dbv_report_sum_row.html", "Services/GEV/Reports");
 
 	$this->order = catReportOrder::create($this->table)
@@ -124,7 +124,7 @@ class gevDBVReportGUI extends catBasicReportGUI{
 	}
 
 	protected function transformResultRow($rec) {
-		$rec['odbd'] = $rec['org_unit_above2'] .'/' .$rec['org_unit_above1'];
+		$rec['odbd'] = $rec['org_unit_above1'];
 
 		if( $rec["begin_date"] && $rec["end_date"] 
 			&& ($rec["begin_date"] != '0000-00-00' && $rec["end_date"] != '0000-00-00' )) {

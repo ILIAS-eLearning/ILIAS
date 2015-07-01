@@ -100,6 +100,7 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		$report_permission_wbd = $this->userUtils->isAdmin();
 		$report_permission_traineroperationbytepcategory = $this->userUtils->isAdmin();
 		$report_permission_dbv = $this->userUtils->hasRoleIn(array("DBV-Fin-UVG"));
+		$report_permission_dbv_superior = $this->userUtils->isSuperior() || $this->userUtils->isAdmin();
 
 		$has_reporting_menu =  $report_permission_billing 
 							|| $report_permission_attendancebyuser 
@@ -167,7 +168,7 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 				, "gev_report_wbd_edupoints" => array($report_permission_wbd, "ilias.php?baseClass=gevDesktopGUI&cmd=toReportWBDEdupoints",$this->lng->txt("gev_report_wbd_edupoints"))
 				, "gev_report_wbd_errors" => array($report_permission_wbd, "ilias.php?baseClass=gevDesktopGUI&cmd=toWBDErrors",$this->lng->txt("gev_report_wbd_errors"))
 				, "gev_report_dbv_report" => array($report_permission_dbv, "ilias.php?baseClass=gevDesktopGUI&cmd=toDBVReport",$this->lng->txt("gev_report_dbv_report"))
-
+				, "gev_report_dbv_report_superior" => array($report_permission_dbv_superior, "ilias.php?baseClass=gevDesktopGUI&cmd=toDBVReportSuperior",$this->lng->txt("gev_report_dbv_report_superior"))
 				), $this->lng->txt("gev_reporting_menu"))
 
 			, "gev_admin_menu" => array(false, $has_managment_menu, array(

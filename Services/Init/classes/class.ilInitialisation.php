@@ -292,7 +292,7 @@ class ilInitialisation
 	protected static function initClientIniFile()
 	{
 		global $ilIliasIniFile;
-		
+
 		// check whether ILIAS_WEB_DIR is set.
 		if (ILIAS_WEB_DIR == "")
 		{

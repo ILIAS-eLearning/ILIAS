@@ -1861,6 +1861,9 @@ if(!$ilDB->tableExists('hist_user'))
 <#42>
 <?php
 // init helper class
+$idDB->	manipulate("ALTER TABLE `il_plugin` CHANGE `plugin_id` `plugin_id` 
+			VARCHAR(40) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL");
+
 require_once "Customizing/class.ilCustomInstaller.php";
 
 ilCustomInstaller::initPluginEnv();
@@ -2554,7 +2557,7 @@ if(!$ilDB->tableExists('hist_tep'))
 	ilCustomInstaller::maybeInitRBAC();
 	ilCustomInstaller::maybeInitObjDataCache();
 	ilCustomInstaller::maybeInitUserToRoot();
-	
+
 	ini_set('max_execution_time', 0);
 	set_time_limit(0);
 
@@ -3066,7 +3069,8 @@ $ilDB->manipulate("UPDATE tep_type SET title = 'FD-Gespräch' WHERE title = 'FD 
 									  , "ID FK"
 									  , "DBV UVG"
 									  );
-	
+
+
 	$res = $ilDB->query("SELECT DISTINCT oref.ref_id "
 						."  FROM object_data od "
 						."  JOIN object_reference oref ON oref.obj_id = od.obj_id "
@@ -3074,7 +3078,7 @@ $ilDB->manipulate("UPDATE tep_type SET title = 'FD-Gespräch' WHERE title = 'FD 
 						."   AND oref.deleted IS NULL"
 						."   AND od.type = 'orgu'"
 						);
-	
+
 	if ($rec = $ilDB->fetchAssoc($res)) {
 		foreach($global_roles_of_superiors as $role) {
 			gevOrgUnitUtils::grantPermissionsRecursivelyFor($rec["ref_id"], $role,
@@ -3086,7 +3090,7 @@ $ilDB->manipulate("UPDATE tep_type SET title = 'FD-Gespräch' WHERE title = 'FD 
 	else {
 		die("Could not find orgu with import id evg.");
 	}
-	
+
 	$res = $ilDB->query("SELECT DISTINCT od.obj_id "
 						."  FROM object_data od "
 						."  JOIN object_reference oref ON oref.obj_id = od.obj_id "
@@ -3107,13 +3111,14 @@ $ilDB->manipulate("UPDATE tep_type SET title = 'FD-Gespräch' WHERE title = 'FD 
 	else {
 		die("Could not find orgu with import id gev_base.");
 	}
-	
+
 	// Administration 
 	$ref_id = 9;
 	global $rbacreview;
 	global $rbacadmin;
 	foreach($global_roles_of_superiors as $role_name) {
 		$role = gevRoleUtils::getInstance()->getRoleIdByName($role_name);
+
 		if (!$role) {
 			die("Could not find role $role_name");
 		}
@@ -3123,7 +3128,7 @@ $ilDB->manipulate("UPDATE tep_type SET title = 'FD-Gespräch' WHERE title = 'FD 
 		$rbacadmin->revokePermission($ref_id, $role);
 		$rbacadmin->grantPermission($role, $new_ops, $ref_id);
 	}
-	
+
 	// Org-Units 
 	$ref_id = 56;
 	global $rbacreview;
@@ -3185,7 +3190,7 @@ $ilDB->manipulate("UPDATE tep_type SET title = 'FD-Gespräch' WHERE title = 'FD 
 	ilCustomInstaller::maybeInitRBAC();
 	ilCustomInstaller::maybeInitObjDataCache();
 	ilCustomInstaller::maybeInitUserToRoot();
-	
+
 	$global_roles_of_superiors = array( "HA 84"
 									  );
 	
@@ -3411,10 +3416,11 @@ ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "User", "udfc", "GEVUserData"
 	$user->setActive(true, 6);
 	$user->setTimeLimitUnlimited(true);
 	// user already agreed at registration
+
 	$now = new ilDateTime(time(),IL_CAL_UNIX);
 	$user->setAgreeDate($now->get(IL_CAL_DATETIME));
 	$user->setIsSelfRegistered(true);
-	
+
 	$user->create();
 	$user->saveAsNew();
 
@@ -3450,7 +3456,7 @@ ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "User", "udfc", "GEVUserData"
 	ilCustomInstaller::maybeInitRBAC();
 	ilCustomInstaller::maybeInitObjDataCache();
 	ilCustomInstaller::maybeInitUserToRoot();
-	
+
 	$res = $ilDB->query("SELECT DISTINCT oref.ref_id "
 						."  FROM object_data od "
 						."  JOIN object_reference oref ON oref.obj_id = od.obj_id "
@@ -3458,14 +3464,14 @@ ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "User", "udfc", "GEVUserData"
 						."   AND oref.deleted IS NULL"
 						."   AND od.type = 'orgu'"
 						);
-	
+/*
 	if ($rec = $ilDB->fetchAssoc($res)) {
 		gevOrgUnitUtils::grantPermissionsRecursivelyFor($rec["ref_id"], "superior",
 					array( "view_learning_progress_rec"));
 	}
 	else {
 		die("Custom Update #109: Expected to find org_unit with import_id = 'gev_base'");
-	}
+	}*/
 
 ?>
 
