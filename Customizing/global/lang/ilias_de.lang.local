@@ -1,0 +1,5 @@
+<!-- language file start -->
+rbac#:#redact#:#Redigieren
+common#:#il_blog_editor#:#Blog-Editor
+rbac#:#blog_redact#:#Benutzer darf alle Einträge bearbeiten
+blog#:#blog_contributors#:#Mitwirkende
