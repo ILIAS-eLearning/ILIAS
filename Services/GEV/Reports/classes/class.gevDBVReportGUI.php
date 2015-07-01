@@ -28,14 +28,14 @@ require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
 
 class gevDBVReportGUI extends catBasicReportGUI{
 	protected $summed_data = array();
-	protected static $to_sum = array("credit_points" ,"max_credit_points");
+	protected static $to_sum = array("sum_credit_points" => "credit_points","sum_max_credit_points" => "max_credit_points");
 	public function __construct() {
 		
 		parent::__construct();
 		$viewer = 33892;
 
-		foreach ($tosum as $value) {
-			$this->summed_data[$values] = 0;
+		foreach (self::$to_sum as $key => $value) {
+			$this->summed_data[$key] = 0;
 		}
 
 		$this->title = catTitleGUI::create()
@@ -58,8 +58,8 @@ class gevDBVReportGUI extends catBasicReportGUI{
 						->template("tpl.gev_dbv_report_row.html", "Services/GEV/Reports");
 
 		$this->table_sums = catReportTable::create()
-						->column("credit_points", "sum_credit_points")
-						->column("max_credit_points", "sum_max_credit_points")
+						->column("sum_credit_points", "sum_credit_points")
+						->column("sum_max_credit_points", "sum_max_credit_points")
 						->template("tpl.gev_dbv_report_sum_row.html", "Services/GEV/Reports");
 
 	$this->order = catReportOrder::create($this->table)
@@ -135,8 +135,8 @@ class gevDBVReportGUI extends catBasicReportGUI{
 			$date = '-';
 		}
 		$rec['date'] = $date;
-		foreach (self::$to_sum as $value) {
-			$this->summed_data[$value] += is_numeric($rec[$value]) ? $rec[$value] : 0;
+		foreach (self::$to_sum as $key => $value) {
+			$this->summed_data[$key] += is_numeric($rec[$value]) ? $rec[$value] : 0;
 		}
 		return $this->replaceEmpty($rec);
 	}
