@@ -28,12 +28,11 @@ require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
 
 class gevDBVReportGUI extends catBasicReportGUI{
 	protected $summed_data = array();
-	//static $to_sum = array("credit_points" ,"max_points");
+	protected static $to_sum = array("credit_points" ,"max_credit_points");
 	public function __construct() {
 		
 		parent::__construct();
 		$viewer = 33892;
-		//$to_sum = array("credit_points" ,"max_points");
 
 		foreach ($tosum as $value) {
 			$this->summed_data[$values] = 0;
@@ -56,23 +55,15 @@ class gevDBVReportGUI extends catBasicReportGUI{
 						->column("date", "date")
 						->column("credit_points", "credit_points")
 						->column("max_credit_points", "max_credit_points")
-						->template("tpl.gev_dbv_report_row.html", "Services/GEV/Reports")
-						;
+						->template("tpl.gev_dbv_report_row.html", "Services/GEV/Reports");
+
 		$this->table_sums = catReportTable::create()
-						->column("sum_credit_points", "sum_credit_points")
-						->column("sum_max_credit_points", "sum_max_credit_points")
-						->template("tpl.gev_dbv_report_sum_row.html", "Services/GEV/Reports")
-						;
-		
+						->column("credit_points", "sum_credit_points")
+						->column("max_credit_points", "sum_max_credit_points")
+						->template("tpl.gev_dbv_report_sum_row.html", "Services/GEV/Reports");
 
-
-		
-
-	/*	$this->order = catReportOrder::create($this->table)
-						//->mapping("date", "crs.begin_date")
-						//->mapping("odbd", array("org_unit_above1", "org_unit_above2"))
-						->defaultOrder("lastname", "ASC")
-						;*/
+	$this->order = catReportOrder::create($this->table)
+						->defaultOrder("lastname", "ASC");
 		
 		//internal ordering:
 		$this->internal_sorting_numeric = array(
@@ -85,8 +76,6 @@ class gevDBVReportGUI extends catBasicReportGUI{
 			));
 
 		$this->query = catReportQuery::create()
-						//->distinct()
-
 						->select("hu.lastname")
 						->select("hu.firstname")
 						->select("hu.org_unit_above1")
@@ -98,10 +87,10 @@ class gevDBVReportGUI extends catBasicReportGUI{
 						->select("hc.begin_date")
 						->select("hc.end_date")
 						->select_raw(
-							"IF(hucs.participation_status = 'bestanden',hucs.credit_points,0) credit_points")
+							"IF(hucs.participation_status != 'nicht gesetzt', hucs.credit_points, 0) credit_points")
 						->select_raw(
-							"IF(hucs.participation_status = 'nicht gesetzt',hc.max_credit_points,
-								hucs.credit_points) max_credit_points")
+							"IF(hucs.participation_status != 'nicht gesetzt', hucs.credit_points,
+								hc.max_credit_points) max_credit_points")
 						->from("org_unit_personal oup")
 						->join("object_reference ore")
 							->on("oup.orgunit_id = ore.obj_id")
@@ -115,9 +104,7 @@ class gevDBVReportGUI extends catBasicReportGUI{
 							->on("hu.user_id = hucs.usr_id")
 						->join("hist_course hc")
 							->on("hucs.crs_id = hc.crs_id")
-						->compile()
-						;
-
+						->compile();
 
 		$this->filter = catFilter::create()
 						->static_condition("oup.usr_id = ".$this->db->quote($viewer, "integer"))
@@ -126,8 +113,7 @@ class gevDBVReportGUI extends catBasicReportGUI{
 						->static_condition("hucs.hist_historic = 0")
 						->static_condition("hc.hist_historic = 0")
 						->action($this->ctrl->getLinkTarget($this, "view"))
-						->compile()
-						;
+						->compile();
 	}
 
 	protected function _process_xls_date($val) {
@@ -149,9 +135,9 @@ class gevDBVReportGUI extends catBasicReportGUI{
 			$date = '-';
 		}
 		$rec['date'] = $date;
-		/*foreach (self::$tosum as $value) {
+		foreach (self::$to_sum as $value) {
 			$this->summed_data[$value] += is_numeric($rec[$value]) ? $rec[$value] : 0;
-		}*/
+		}
 		return $this->replaceEmpty($rec);
 	}
 
