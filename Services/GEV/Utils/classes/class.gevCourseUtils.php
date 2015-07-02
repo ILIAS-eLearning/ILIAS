@@ -1940,7 +1940,7 @@ class gevCourseUtils {
 						, $lng->txt("gev_org_unit_short")
 						);
 
-		$format_wrap = $workbook->addFormat();
+		$format_wrap = $workbook->addFormat(array("bottom" => 1));
 		$format_wrap->setTextWrap();
 		
 		$worksheet->setColumn(0, 0, 10);		// gender
@@ -1967,8 +1967,8 @@ class gevCourseUtils {
 			$columns[] = $lng->txt("birthday");
 			$columns[] = $lng->txt("gev_mobile");
 			$columns[] = "Vorbedingung erfüllt";
-			$columns[] = "Funktion";
-			//$columns[] = $lng->txt("gev_signature");
+			//$columns[] = "Funktion";
+			$columns[] = $lng->txt("gev_signature");
 			
 			$worksheet->setColumn(4, 4, 8);
 			$worksheet->setColumn(5, 5, 10);
@@ -2043,9 +2043,10 @@ class gevCourseUtils {
 					//$worksheet->write($row, 4, $user_utils->getFunctionAtCourse($this->crs_id), $format_wrap);
 					$worksheet->write($row, 4, $user_utils->getIDHGBAADStatus(), $format_wrap);
 					$worksheet->write($row, 5, $user_utils->getFormattedBirthday(), $format_wrap);
-					$worksheet->write($row, 6, " ".$user_utils->getMobilePhone());
-					$worksheet->write($row, 7, $user_utils->hasFullfilledPreconditionOf($this->crs_id) ? "Ja" : "Nein");
-					$worksheet->write($row, 8, $user_utils->getFunctionAtCourse($this->crs_id), $format_wrap);
+					$worksheet->write($row, 6, " ".$user_utils->getMobilePhone(), $format_wrap);
+					$worksheet->write($row, 7, $user_utils->hasFullfilledPreconditionOf($this->crs_id) ? "Ja" : "Nein", $format_wrap);
+					$worksheet->write($row, 8, " ", $format_wrap);
+					//$worksheet->write($row, 8, $user_utils->getFunctionAtCourse($this->crs_id), $format_wrap);
 					
 					//$txt[] = $lng->txt("vofue_udf_join_date").": ".$user_data["jdate"];
 					//$txt[] = $lng->txt("birthday").": ".$user_data["bdate"];
@@ -2075,7 +2076,7 @@ class gevCourseUtils {
 		$format_bold = $workbook->addFormat(array("bold" => 1));
 		$format_title = $workbook->addFormat(array("bold" => 1, "size" => 14));
 		$format_subtitle = $workbook->addFormat(array("bold" => 1, "bottom" => 6));
-		$format_row_header = $workbook->addFormat(array("bold" => 1));
+		$format_row_header = $workbook->addFormat(array("bold" => 1, "bottom" => 6));
 		$format_row_header->setTextWrap();
 
 		$worksheet->writeString(0, 0, $title, $format_title);
