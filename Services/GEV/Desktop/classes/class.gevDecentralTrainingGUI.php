@@ -96,7 +96,6 @@ class gevDecentralTrainingGUI {
 	}
 	
 	protected function createTraining($a_form = null) {
-		var_dump($_POST);
 		$form_prev = $this->buildChooseTemplateAndTrainersForm($this->user_id, $this->date);
 		$dec_utils = gevDecentralTrainingUtils::getInstance();
 		
