@@ -811,7 +811,7 @@ abstract class ilTEPViewGridBased extends ilTEPView
 	 * @param int $a_id
 	 * @return string
 	 */
-	protected function renderDayActions($a_user_id, $a_id)
+	protected function renderDayActions($a_user_id, $a_id, $a_createDecentral)
 	{
 		global $ilUser, $ilCtrl, $lng;
 				
@@ -834,7 +834,7 @@ abstract class ilTEPViewGridBased extends ilTEPView
 						"</a>";
 		}
 		
-		if ($may_create_decentral_training) {
+		if ($may_create_decentral_training && $a_createDecentral) {
 			$spl = explode("_", $a_id);
 			$ilCtrl->setParameterByClass("gevDecentralTrainingGUI", "user_id", $spl[0]);
 			$ilCtrl->setParameterByClass("gevDecentralTrainingGUI", "date", $spl[1]);
@@ -897,8 +897,10 @@ abstract class ilTEPViewGridBased extends ilTEPView
 		{						
 			$ilCtrl->setParameterByClass("ilTEPEntryGUI", "euid", $a_user_id);
 			$ilCtrl->setParameterByClass("ilTEPEntryGUI", "edt", $date_id);
-					
-			$actions = $this->renderDayActions($a_user_id, $unique_id);
+			
+			$createDecentral = ($date_id >= date('Y-m-d'));
+
+			$actions = $this->renderDayActions($a_user_id, $unique_id, $createDecentral);
 			if($actions)
 			{															
 				$a_tpl->setCurrentBlock("col_actions_bl");

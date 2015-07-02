@@ -96,6 +96,7 @@ class gevDecentralTrainingGUI {
 	}
 	
 	protected function createTraining($a_form = null) {
+		var_dump($_POST);
 		$form_prev = $this->buildChooseTemplateAndTrainersForm($this->user_id, $this->date);
 		$dec_utils = gevDecentralTrainingUtils::getInstance();
 		
@@ -128,6 +129,24 @@ class gevDecentralTrainingGUI {
 		return   $title->render()
 				.$form->getHTML();
 	}
+
+	protected function failCreateTraining($a_form) {
+		$title = new catTitleGUI("gev_dec_training_creation", "gev_dec_training_creation_header_note", "GEV_img/ico-head-create-decentral-training.png");
+
+		$tmplt_id = new ilHiddenInputGUI("template_id");
+		$a_form->addItem($tmplt_id);
+				
+		$trnrs = new ilHiddenInputGUI("trainer_ids");
+		$a_form->addItem($trnrs);
+
+		$a_form->setValuesByPost();
+		$a_form->addCommandButton("finalizeTrainingCreation", $this->lng->txt("gev_dec_training_creation"));
+		$a_form->addCommandButton("cancel", $this->lng->txt("cancel"));
+		$a_form->setFormAction($this->ctrl->getFormAction($this));
+
+		return   $title->render()
+				.$a_form->getHTML();
+	}
 	
 	protected function finalizeTrainingCreation() {
 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
@@ -138,8 +157,20 @@ class gevDecentralTrainingGUI {
 		if (!$form_prev->checkInput()) {
 			return $this->createTraining($form_prev);
 		}
+
+		$tmp = $form_prev->getInput("date");
+		$date = new ilDate($tmp["date"], IL_CAL_DATE);
+		$dateUnix = $date->get(IL_CAL_UNIX);
+		$now = new ilDate(date('Y-m-d'), IL_CAL_DATE);
+		$nowUnix = $now->get(IL_CAL_UNIX);
 		
-		$template_id = intval($form_prev->getInput("template_id"));
+		// ANDERES DATUMS VERGLEICH!!!
+		if($dateUnix < $nowUnix){
+			ilUtil::sendFailure($this->lng->txt("gev_dec_training_date_before_now"), false);
+			return $this->failCreateTraining($form_prev);
+		}
+		
+		$template_id = intval($form_prev->getInput("template_id"));		
 		$trainer_ids = unserialize(base64_decode($form_prev->getInput("trainer_ids")));
 		
 		$res = $dec_utils->create($this->current_user->getId(), $template_id, $trainer_ids);
@@ -393,7 +424,7 @@ class gevDecentralTrainingGUI {
 		$form = new catPropertyFormGUI();
 		$form->setTemplate("tpl.gev_dec_training_choose_template_form.html", "Services/GEV/Desktop");
 		$form->setTitle($this->lng->txt("gev_dec_training_settings"));
-		
+
 		if ($a_fill) {
 			if ($a_template_id !== null) {
 				$training_info = $dec_utils->getTemplateInfoFor($this->current_user_id, $a_template_id);
@@ -466,7 +497,7 @@ class gevDecentralTrainingGUI {
 			}
 		}
 		
-		$title = new ilNonEditableValueGUI($this->lng->txt("title"), "", false);
+		$title = new ilNonEditableValueGUI($this->lng->txt("title"), "title", false);
 		$title->setValue($training_info["title"]);
 		$form->addItem($title);
 		
@@ -477,7 +508,7 @@ class gevDecentralTrainingGUI {
 		$description->setDisabled($no_changes_allowed);
 		$form->addItem($description);
 		
-		$ltype = new ilNonEditableValueGUI($this->lng->txt("gev_course_type"), "", false);
+		$ltype = new ilNonEditableValueGUI($this->lng->txt("gev_course_type"), "ltype", false);
 		$ltype->setValue($training_info["ltype"]);
 		$form->addItem($ltype);
 		
@@ -501,7 +532,7 @@ class gevDecentralTrainingGUI {
 		$time->setDisabled($no_changes_allowed);
 		$form->addItem($time);
 		
-		$trainers = new ilNonEditableValueGUI($this->lng->txt("tutor"), "", true);
+		$trainers = new ilNonEditableValueGUI($this->lng->txt("tutor"), "tutor", true);
 		if ($a_fill) {
 			$trainers->setValue(implode("<br />", gevUserUtils::getFullNames($trainer_ids)));
 		}
