@@ -91,10 +91,6 @@ class gevDBVReportSuperiorGUI extends catBasicReportGUI{
 						->compile();
 						
 		$dbv_fin_uvg = $roles->usersHavingRole("DBV-Fin-UVG");
-		array_walk($dbv_fin_uvg, 
-			function (&$usr_id) {
-				$usr_id = gevUserUtils::getInstance($usr_id)->getLastname();
-			});
 
 		$this->filter = catFilter::create()
 						->checkbox( "critical"
