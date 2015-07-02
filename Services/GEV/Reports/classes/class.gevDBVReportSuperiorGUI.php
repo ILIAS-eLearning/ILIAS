@@ -104,8 +104,8 @@ class gevDBVReportSuperiorGUI extends catBasicReportGUI{
 								   , "dbv.lastname"
 								   )
 						->static_condition($this->db->in("oup.usr_id", $dbv_fin_uvg, false, "integer"))
-						->static_condition("hc.begin_date < ".$this->db->quote("2016-01-01","date"))
-						->static_condition("hc.begin_date >= ".$this->db->quote("2015-01-01","date"))
+						->static_condition("hc.end_date < ".$this->db->quote("2016-01-01","date"))
+						->static_condition("hc.end_date >= ".$this->db->quote("2015-01-01","date"))
 						->static_condition("oda.type = 'role'")
 						->static_condition("hu.hist_historic = 0")
 						->static_condition("hucs.hist_historic = 0")
