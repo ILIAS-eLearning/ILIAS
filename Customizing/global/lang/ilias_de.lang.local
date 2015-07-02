@@ -642,11 +642,19 @@ gev#:#gev_rep_employee_edu_bios_title#:#Bildungsbiographien meiner Mitarbeiter
 gev#:#gev_rep_employee_edu_bios_desc#:#Hier bekommen Sie einen Überblick über die Bildungsbiographien Ihrer Mitarbeiter.
 gev#:#gev_report_billing#:#Rechnungen
 gev#:#gev_report_filter_crs_region#:#Trainingsregion
+gev#:#gev_report_dbv_report_superior#:#DBV Report für Führungskräte
+gev#:#gev_rep_dbv_report_superior_title#:#DBV Report für Führungskräte
+gev#:#gev_rep_dbv_report_superior_desc#:#Hier finden Sie die jährlich gesammelten Punkte eines DBV.
+gev#:#gev_report_dbv_report#:#DBV Report
+gev#:#gev_rep_dbv_report_title#:#DBV Report
+gev#:#gev_rep_dbv_report_desc#:#Hier finden Sie die jährlich gesammelten Punkte Ihrer Vermittler.
+gev#:#gev_report_filter_crs_region#:#Trainingsregion
 gev#:#gev_report_trainer_operation_by_tep_category#:#Trainereinsätze nach TEP Kategorie
 gev#:#gev_report_trainer_operation_by_tep_category_title#:#Trainereinsätze nach TEP Kategorie
 gev#:#gev_report_trainer_operation_by_tep_category_desc#:#Hier erhalten Sie eine Übersicht über die Einsatzplanung von Trainern.
 gev#:#gev_report_attendance_by_employee#:#Teilnahmen nach Mitarbeiter
 gev#:#gev_rep_filter_show_critical_persons#:#Zeige mir nur kritische Personen.
+gev#:#gev_rep_filter_show_critical#:#Zeige mir nur kritische.
 gev#:#gev_rep_filter_show_critical_persons_4th_year#:#Zeige mir nur kritische Personen nach dem vierten Jahr.
 gev#:#gev_report_employee_edu_bios#:#Bildungsbiographien meiner Mitarbeiter
 gev#:#gev_registration_install_note#:#Generali Vermittler melden sich bitte mit der Generali E-Mail-Adresse an.

@@ -68,10 +68,10 @@ class gevDBVReportSuperiorGUI extends catBasicReportGUI{
 						->select("hu.org_unit_above1")
 						->select("hu.org_unit_above2")
 						->select_raw(
-							"SUM(IF(hucs.participation_status != 'nicht gesetzt', hucs.credit_points, 0)) credit_points")
+							"SUM(IF(hucs.participation_status != 'nicht gesetzt', hucs.credit_points, 0)) as credit_points")
 						->select_raw(
 							"SUM(IF(hucs.participation_status != 'nicht gesetzt', hucs.credit_points,
-								hc.max_credit_points)) max_credit_points")
+								hc.max_credit_points)) as max_credit_points")
 						->from("org_unit_personal oup")
 						->join("object_reference ore")
 							->on("oup.orgunit_id = ore.obj_id")
@@ -91,9 +91,25 @@ class gevDBVReportSuperiorGUI extends catBasicReportGUI{
 						->compile();
 						
 		$dbv_fin_uvg = $roles->usersHavingRole("DBV-Fin-UVG");
+		array_walk($dbv_fin_uvg, 
+			function (&$usr_id) {
+				$usr_id = gevUserUtils::getInstance($usr_id)->getLastname();
+			});
 
 		$this->filter = catFilter::create()
+						->checkbox( "critical"
+								  , $this->lng->txt("gev_rep_filter_show_critical")
+								  , " credit_points < ".$this->db->quote(200,"integer")
+								  , " TRUE "								  
+								  , true
+								  )
+						->textinput( "lastname"
+								   , $this->lng->txt("gev_lastname_filter")
+								   , "dbv.lastname"
+								   )
 						->static_condition($this->db->in("oup.usr_id", $dbv_fin_uvg, false, "integer"))
+						->static_condition("hc.begin_date < ".$this->db->quote("2016-01-01","date"))
+						->static_condition("hc.begin_date >= ".$this->db->quote("2015-01-01","date"))
 						->static_condition("oda.type = 'role'")
 						->static_condition("hu.hist_historic = 0")
 						->static_condition("hucs.hist_historic = 0")
