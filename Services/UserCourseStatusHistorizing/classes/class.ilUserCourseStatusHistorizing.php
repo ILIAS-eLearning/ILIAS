@@ -201,7 +201,10 @@ class ilUserCourseStatusHistorizing extends ilHistorizingStorage
 				$current = array();
 			}
 
-			if ($current['certificate'] == -1 && strlen($a_data['certificate']))
+
+
+			//if ($current['certificate'] == -1 && strlen($a_data['certificate']))
+			if (static::maybeUpdateCertificate($current['certificate'], $a_data['certificate'] ))
 			{
 				global $ilDB;
 				$certfile_id = $ilDB->nextId('hist_certfile');
@@ -224,5 +227,11 @@ class ilUserCourseStatusHistorizing extends ilHistorizingStorage
 		);
 	}
 
+ 	static private function maybeUpdateCertificate($current, $a_data) {
+ 		if ($current == -1 && strlen($a_data)) {
+ 			return true;
+ 		}
+ 		return false;
+ 	}
 
 }

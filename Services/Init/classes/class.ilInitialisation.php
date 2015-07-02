@@ -292,7 +292,7 @@ class ilInitialisation
 	protected static function initClientIniFile()
 	{
 		global $ilIliasIniFile;
-		
+
 		// check whether ILIAS_WEB_DIR is set.
 		if (ILIAS_WEB_DIR == "")
 		{
@@ -1363,6 +1363,7 @@ class ilInitialisation
 			// gev-patch start
 			$a_current_script == "gev_registration.php" ||
 			$a_current_script == "na_confirmation.php"  ||
+			$a_current_script == "makler.php" ||
 			// gev-patch end
 			$a_current_script == "il_securimage_show.php") 
 		{

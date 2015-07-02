@@ -385,24 +385,39 @@ class ilAdvancedMDRecordGUI
 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
 		include_once('Services/ADT/classes/class.ilADTFactory.php');
-								
+		
+		// gev patch start
+		// getFieldIds for fields not shown at infoScreen
+		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+		require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
+		$amd_utils = gevAMDUtils::getInstance();
+		$field_ids[] = $amd_utils->getFieldId(gevSettings::CRS_AMD_WEBEX_PASSWORD_TUTOR);
+		$field_ids[] = $amd_utils->getFieldId(gevSettings::CRS_AMD_WEBEX_LOGIN_TUTOR);
+		// gev patch end
+
 		foreach(ilAdvancedMDValues::getInstancesForObjectId($this->obj_id, $this->obj_type) as $record_id => $a_values)
-		{					
+		{
 			// this correctly binds group and definitions
 			$a_values->read();
 			
 			$this->info->addSection(ilAdvancedMDRecord::_lookupTitle($record_id)); 
 		
-			$defs = $a_values->getDefinitions();									
-			foreach($a_values->getADTGroup()->getElements() as $element_id => $element)				
-			{								
+			$defs = $a_values->getDefinitions();
+			foreach($a_values->getADTGroup()->getElements() as $element_id => $element)	
+			{
 				if(!$element->isNull())
-				{									
+				{	
+					// gev patch start
+					// do not show WebExPasswordTutor
+					if(in_array($element_id, $field_ids)) {
+						continue;
+					}
+					// gev patch end
 					$this->info->addProperty($defs[$element_id]->getTitle(),
-						ilADTFactory::getInstance()->getPresentationBridgeForInstance($element)->getHTML());					
+						ilADTFactory::getInstance()->getPresentationBridgeForInstance($element)->getHTML());
 				}
 			}
-		}						
+		}
 	} 
 	
 					

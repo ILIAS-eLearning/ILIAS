@@ -24,6 +24,7 @@ require_once("class.ilObjOrgUnitTree.php");
 require_once(dirname(__FILE__) . '/Types/class.ilOrgUnitTypeGUI.php');
 require_once(dirname(__FILE__) . '/Settings/class.ilObjOrgUnitSettingsFormGUI.php');
 require_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
+require_once('./Modules/OrgUnit/classes/LocalUser/class.gevLocalUserGUI.php');
 
 /**
  * Class ilObjOrgUnit GUI class
@@ -41,6 +42,7 @@ require_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.ph
  * @ilCtrl_Calls      ilObjOrgUnitGUI: ilTranslationGUI, ilLocalUserGUI, ilOrgUnitExportGUI, ilOrgUnitStaffGUI, ilExtIdGUI
  * @ilCtrl_Calls      ilObjOrgUnitGUI: ilOrgUnitSimpleImportGUI, ilOrgUnitSimpleUserImportGUI
  * @ilCtrl_Calls      ilObjOrgUnitGUI: ilOrgUnitTypeGUI
+ * @ilCtrl_Calls      ilObjOrgUnitGUI: gevLocalUserGUI
  */
 class ilObjOrgUnitGUI extends ilContainerGUI {
 
@@ -147,16 +149,17 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 				$ilOrgUnitStaffGUI = new ilOrgUnitStaffGUI($this);
 				$this->ctrl->forwardCommand($ilOrgUnitStaffGUI);
 				break;
+			case "gevlocalusergui":
 			case "ilobjusergui":
 				switch ($cmd) {
 					case "create":
-						$ilObjUserGUI = new ilObjUserGUI("", (int)$_GET['ref_id'], true, false);
+						$ilObjUserGUI = new gevLocalUserGUI("", (int)$_GET['ref_id'], true, false);
 						$ilObjUserGUI->setCreationMode(true);
 						$this->ctrl->forwardCommand($ilObjUserGUI);
 						$this->tabs_gui->setBackTarget($this->lng->txt("back"),$this->ctrl->getLinkTargetByClass("illocalusergui", 'index'));
 						break;
 					case "save":
-						$ilObjUserGUI = new ilObjUserGUI("",$_GET['ref_id'],true, false);
+						$ilObjUserGUI = new gevLocalUserGUI("",$_GET['ref_id'],true, false);
 						$ilObjUserGUI->setCreationMode(true);
 						$this->ctrl->forwardCommand($ilObjUserGUI);
 						$this->tabs_gui->clearTargets();
@@ -164,7 +167,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 						break;
 					case "view":
 					case "update":
-						$ilObjUserGUI = new ilObjUserGUI("", (int)$_GET['obj_id'], false, false);
+						$ilObjUserGUI = new gevLocalUserGUI("", (int)$_GET['obj_id'], false, false);
 						$ilObjUserGUI->setCreationMode(false);
 						$this->ctrl->forwardCommand($ilObjUserGUI);
 						$this->tabs_gui->clearTargets();

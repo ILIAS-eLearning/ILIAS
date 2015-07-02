@@ -36,7 +36,7 @@ common#:#advanced_editing_rep_page_editing_desc#:#Diese Funktion ermöglicht das
 common#:#back_to_crs_content#:#Zurück zum Inhalt des Trainings
 common#:#clone_existing_course#:#Vorhandenes Training kopieren
 common#:#clone_option_in_crs#:#In existierendes Training kopieren
-common#:#content#:#Trainingsmaterialien
+common#:#content#:#Zum Kurs / Trainingsmaterialien
 common#:#course#:#Trainings
 common#:#courses#:#Training
 common#:#crs#:#Training
@@ -63,6 +63,7 @@ common#:#display_webdav_actions_info#:#Zeigt die Aktion 'Als Webordner öffnen' 
 common#:#enable_course_group_notifications#:#Tägliche Mail für Gruppen und Trainings News
 common#:#enable_custom_icons_info#:#Damit können Sie eigene Symbole (Icons) für einzelne Kategorien, Trainings und Gruppen definieren. Die entsprechenden Bilddateien laden Sie in den Eigenschaften der entsprechenden Kategorien, Training und Gruppen hoch.
 common#:#federal_state#:#Bundesland
+common#:#hobby#:#Kommentar
 common#:#groupings_assigned_obj_crs#:#Zugeordnete Trainings
 common#:#il_crs_admin#:#Trainingsbetreuer
 common#:#il_crs_member#:#Teilnehmer
@@ -267,7 +268,7 @@ crsbook#:#crsbook_admin_action_cancel_with_costs#:#Mit Kosten stornieren
 crsbook#:#crsbook_admin_action_cancel_without_costs#:#Ohne Kosten stornieren
 crsbook#:#crsbook_admin_action_to_waiting_list#:#Auf die Warteliste
 crsbook#:#crsbook_admin_add_group#:#Gruppe hinzufügen
-crsbook#:#crsbook_admin_add_org_unit#:#Org.-Einheit hizufügen
+crsbook#:#crsbook_admin_add_org_unit#:#Org.-Einheit hinzufügen
 crsbook#:#crsbook_admin_add_participants#:#Teilnehmer hinzufügen
 crsbook#:#crsbook_admin_assign_already_assigned#:#Ist bereits gebucht (oder auf der Warteliste)
 crsbook#:#crsbook_admin_assign_cancelled_user#:#Wurde bereits storniert
@@ -356,6 +357,7 @@ gev#:#dont_send_mail#:#keine Mail versenden
 gev#:#evg_email#:#E-Mail-Adresse
 gev#:#evg_mandatory#:#Sie müssen dieses Feld bestätigen, um sich registrieren zu können.
 gev#:#evg_toc#:#Ja, ich stimme der <a href='/Customizing/global/skin/genv/static/documents/GEV_NB_Finale_Nutzungsbedingungen.pdf' target='_blank' class='blue'>Nutzungsvereinbarung</a> zu, um auf die Generali Online Akademie zugreifen zu können.
+gev#:#uvg_toc#:#Ja, ich stimme der <a href='/Customizing/global/skin/genv/static/documents/GEV_Makler_Finale_Nutzungsbedingungen.pdf' target='_blank' class='blue'>Nutzungsvereinbarung</a> zu, um auf die Generali Online Akademie zugreifen zu können.
 gev#:#evg_wbd#:#Hiermit erteile ich die <a href='/Customizing/global/skin/genv/static/documents/GEV_BDL_Auftrag_BDL.pdf' target='_blank' class='blue'>Einwilligung zur Eintragung von Weiterbildungspunkten und -maßnahmen</a> in die WBD.
 gev#:#gev_accept_book_cond#:#Hiermit akzeptiere ich die <a href='/Customizing/global/skin/genv/static/documents/GEV_Allg_Trainingsinfos Praesenz.pdf' target='_blank'  class='blue'>Buchungs- und Stornierungsbedingungen</a> der Generali Online Akademie.
 gev#:#gev_accomodations#:#Übernachtungen
@@ -369,6 +371,7 @@ gev#:#gev_adp_number_gev#:#ADP-Nummer GEV
 gev#:#gev_adp_number_vfs#:#ADP-Nummer VFS
 gev#:#gev_agb_tgic#:#AGB der TGIC
 gev#:#gev_agb_wbd#:#AGB der WBD
+gev#:#gev_dbv_hot_topic#:#relevante Themen
 gev#:#gev_agent_key#:#Vermittlerschlüssel
 gev#:#gev_agent_registration#:#Registrierung: Generali Online Akademie
 gev#:#gev_agent_registration_note#:#Bitte vervollständigen Sie Ihr Benutzerprofil.
@@ -429,6 +432,8 @@ gev#:#gev_cert_course_end_date#:#Enddatum des Trainings
 gev#:#gev_cert_course_start_date#:#Startdatum des Trainings
 gev#:#gev_cert_course_topics#:#Trainingskategorien des Kurses
 gev#:#gev_cert_course_type#:#Typ des Trainings
+gev#:#gev_credit_points_forecast#:#Gebuchte Bildungspunkte
+gev#:#gev_overall_credit_points_forecast#:#Gesamte Gebuchte Bildungspunkte
 gev#:#gev_cert_points#:#Weiterbildungspunkte bei erfolgreicher Teilnahme
 gev#:#gev_cert_period#:#Zertifizierungsperiode
 gev#:#gev_charged_agency#:#belastetes Agenturkonto
@@ -472,6 +477,7 @@ gev#:#gev_crs_srch_theirs_table_desc#:#Hier sehen Sie auf einen Blick alle für 
 gev#:#gev_crs_srch_title#:#Übersicht
 gev#:#gev_crs_srch_usr_slctr_caption#:#Suche für:
 gev#:#gev_csn_list#:#CSN-Liste
+gev#:#gev_csn#:#CSN
 gev#:#gev_desk_displays#:#Tischaufsteller
 gev#:#gev_dec_training_creation_successfull#:#Das neue dezentrale Training wurde erfolgreich angelegt.
 gev#:#gev_dev_training_book_users#:#Bitte buchen Sie Benutzer auf das Training.
@@ -577,6 +583,8 @@ gev#:#gev_not_bookable#:#ausgebucht
 gev#:#gev_number_of_measure#:#Nummer der Maßnahme
 gev#:#gev_obligatory_booking#:#Verbindliche Buchung
 gev#:#gev_od_bd#:#OD/BD
+gev#:#gev_bd#:#BD
+gev#:#gev_uvg#:#UVG
 gev#:#gev_course_online_status#:#Online-Status
 gev#:#gev_org_mgmt#:#Organisationseinheiten
 gev#:#gev_org_unit#:#zugehörige Organisationseinheit
@@ -624,7 +632,7 @@ gev#:#gev_registration_pretext#:#Bitte treffen Sie Ihre Auswahl:
 gev#:#gev_agent_registration_label#:#Erstregistrierung als:
 gev#:#gev_na_registration_label#:#Erstregistrierung als:
 gev#:#gev_agent_registration_button#:#unabhängiger Vertriebspartner
-gev#:#gev_na_registration_button#:#Nebenberufsagentur
+gev#:#gev_na_registration_button#:#Nebenberufsagentur / VA-Praktikant
 gev#:#gev_registration_posttext#:#Bei Rückfragen wenden Sie sich an: <a href="mailto:bildungspunkte.de@generali.com" class="blue">bildungspunkte.de@generali.com</a>
 gev#:#gev_rep_attendance_by_employee_desc#:#Hier sehen Sie die Buchungen und Trainingsteilnahmen Ihrer Mitarbeiter.
 gev#:#gev_rep_attendance_by_employee_title#:#Teilnahme nach Mitarbeiter
@@ -633,8 +641,20 @@ gev#:#gev_rep_billing_desc#:#Hier sehen Sie alle vom System versandten Rechnunge
 gev#:#gev_rep_employee_edu_bios_title#:#Bildungsbiographien meiner Mitarbeiter
 gev#:#gev_rep_employee_edu_bios_desc#:#Hier bekommen Sie einen Überblick über die Bildungsbiographien Ihrer Mitarbeiter.
 gev#:#gev_report_billing#:#Rechnungen
+gev#:#gev_report_filter_crs_region#:#Trainingsregion
+gev#:#gev_report_dbv_report_superior#:#DBV Report für Führungskräte
+gev#:#gev_rep_dbv_report_superior_title#:#DBV Report für Führungskräte
+gev#:#gev_rep_dbv_report_superior_desc#:#Hier finden Sie die jährlich gesammelten Punkte eines DBV.
+gev#:#gev_report_dbv_report#:#DBV Report
+gev#:#gev_rep_dbv_report_title#:#DBV Report
+gev#:#gev_rep_dbv_report_desc#:#Hier finden Sie die jährlich gesammelten Punkte Ihrer Vermittler.
+gev#:#gev_report_filter_crs_region#:#Trainingsregion
+gev#:#gev_report_trainer_operation_by_tep_category#:#Trainereinsätze nach TEP Kategorie
+gev#:#gev_report_trainer_operation_by_tep_category_title#:#Trainereinsätze nach TEP Kategorie
+gev#:#gev_report_trainer_operation_by_tep_category_desc#:#Hier erhalten Sie eine Übersicht über die Einsatzplanung von Trainern.
 gev#:#gev_report_attendance_by_employee#:#Teilnahmen nach Mitarbeiter
 gev#:#gev_rep_filter_show_critical_persons#:#Zeige mir nur kritische Personen.
+gev#:#gev_rep_filter_show_critical#:#Zeige mir nur kritische.
 gev#:#gev_rep_filter_show_critical_persons_4th_year#:#Zeige mir nur kritische Personen nach dem vierten Jahr.
 gev#:#gev_report_employee_edu_bios#:#Bildungsbiographien meiner Mitarbeiter
 gev#:#gev_registration_install_note#:#Generali Vermittler melden sich bitte mit der Generali E-Mail-Adresse an.
@@ -681,7 +701,7 @@ gev#:#gev_user_profile_saved#:#Ihre Profilinformationen wurden erfolgreich gespe
 gev#:#gev_venue#:#Veranstaltungsort
 gev#:#gev_waiting#:#gebucht auf Warteliste
 gev#:#gev_was_booked_employee#:#Ihr Mitarbeiter %s wurde erfolgreich auf das Training "%s" gebucht.
-gev#:#gev_was_booked_self#:#Das Training "%s" wurde erfolgreich für Sie gebucht.
+gev#:#gev_was_booked_self#:#Das Training "%s" wurde erfolgreich für Sie gebucht. Sie erhalten eine Bestätigungsmail.
 gev#:#gev_was_booked_waiting_employee#:#Ihr Mitarbeiter %s wurde erfolgreich beim Training "%s" auf die Warteliste hinzugefügt.
 gev#:#gev_was_booked_waiting_self#:#Sie wurden beim Training "%s" erfolgreich auf die Warteliste hinzugefügt.
 gev#:#gev_wbd_notifications#:#Benachrichtigungen der WBD
@@ -1054,6 +1074,7 @@ gev#:#begin_date#:#Startdatum
 gev#:#end_date#:#Enddatum
 gev#:#wbd_booking_id#:#GDV Buchungs-ID
 gev#:#wbd_service_type#:#Service-Typ
+gev#:#filter_wbd_service_type#:#(aktueller) Service-Typ
 gev#:#gev_report_wbd_edupoints#:#Gemeldete Bildungspunkte
 gev#:#gev_rep_wbd_edupoints#:#Gemeldete Bildungspunkte
 gev#:#gev_rep_wbd_edupoints_desc#:#Die folgenden Benutzer/Trainingsbeziehungen wurden an die WBD gemeldet.
@@ -1070,4 +1091,64 @@ gev#:#gev_ha_org_unit_created#:#Ihre Organisationseinheit wurde erfolgreich ange
 gev#:#gev_cancel_training#:#Training absagen
 gev#:#gev_confirm_training_cancellation#:#Möchten sie das Training wirklich absagen?
 gev#:#gev_cancel_training_action#:#Absagen
+gev#:#gev_cancellation#:#Absage
 gev#:#gev_training_cancelled#:#Das Training wurde erfolgreich abgesagt. Bitte denken Sie daran, verbleibende Mitglieder des Trainings, die nicht automatisch entfernt werden konnten, eventuell zu benachrichten und vom Training zu entfernen.
+gev#:#gev_needs_wbd_acceptance#:#Sie müssen die Einwilligung zur Eintragung von Weiterbildungspunkten und -maßnahmen in die WBD erteilen, um fortfahren zu können.
+gev#:#gev_company_name#:#Firmenname
+gev#:#gev_pstatus_mail_date_title#:#Die Einladung zum Seminar wurde verschickt am: 
+gev#:#gev_pstatus_mail_confirm_title#:#Einladungsmail ist versandt:
+gev#:#gev_psstatus_mail_send_date_error#:#Bitte bestätigen Sie den Versandt der Einladungsmail!
+gev#:#gev_psstatus_mail_send_date_success#:#Das Versandtdatum der Einladungsmail wurde gespeichert.
+gev#:#gev_psstatus_mail_send_date_invalid#:#Die Einladungsmail muss mindestens vier Tage vor Trainingsbeginn versendet werden.
+gev#:#gev_report_attendancebyorgunit#:#Teilnahmen nach Organisationseinheit
+gev#:#gev_rep_attendance_by_orgunit_title#:#Teilnahmen nach Organisationseinheit
+gev#:#gev_rep_attendance_by_orgunit_desc#:#Hier sehen Sie die Anzahl der Teilnehmer nach Organisationseinheit
+gev#:#gev_report_attendancebycoursetemplate#:#Teilnahmen nach Trainingsvorlage
+gev#:#gev_rep_attendance_by_coursetemplate_title#:#Teilnahmen nach Trainingsvorlage
+gev#:#gev_rep_attendance_by_coursetemplate_desc#:#Hier sehen Sie die Anzahl der Teilnehmer nach Trainingsvorlage
+gev#:#sum_employees#:#Mitarbeiter
+gev#:#sum_booked_WBT#:#Selbstlernkurs, gebucht
+gev#:#sum_attended_WBT#:#Selbstlernkurs, teilgenommen
+gev#:#sum_booked_nowbt#:#gebucht
+gev#:#sum_waiting#:#Warteliste
+gev#:#sum_attended_nowbt#:#teilgenmommen
+gev#:#sum_excused#:#entschuldigt
+gev#:#sum_unexcused#:#nicht entschuldigt
+gev#:#sum_exit#:#ausgeschieden
+gev#:#gev_report_wbd_errors#:#Fehler bei der WBD-Meldung
+gev#:#gev_rep_wbd_errors#:#Fehler bei der WBD-Meldung
+gev#:#gev_rep_wbd_errors_desc#:#Bestimmte Datensätze konnten nicht übermittelt werden.
+gev#:#gev_wbd_errors_reason#:#Grund
+gev#:#gev_wbd_errors_action#:#Aktion
+gev#:#gev_wbd_errors_internal#:#Interner Vor-Filter
+gev#:#gev_wbd_errors_reason_full#:#Grund (Volltext)
+gev#:#gev_wbd_errors_resolve#:#gelöst
+gev#:#usr_id#:#Benutzer-ID
+gev#:#crs_id#:#Kurs-ID
+gev#:#ts#:#Zeitpunkt
+gev#:#gev_warning_to_book_crs_self_because_period#:#Sie haben bereits ein oder mehrere andere Trainings im gleichen Zeitraum gebucht.
+gev#:#gev_warning_to_book_crs_for_others_because_period#:#Der Mitarbeiter hat bereits ein oder mehrere andere Trainings im gleichen Zeitraum gebucht.
+gev#:#gev_login_express#:#Anmelden
+gev#:#gev_login_express_existend_account#:#Ich habe in der Generali Online Akademie bereits ein Benutzerkonto.
+gev#:#gev_login_express_new_account#:#Ich möchte mich in der Online Akademie registrieren um künftig Webinare einfach nutzen zu können.
+gev#:#gev_express_login#:#Express Login
+gev#:#gev_login_express_no_login#:#Express Login <u>ohne</u> Bildungspunkte
+gev#:#gev_login_express_companyname#:#Firmenname
+gev#:#gev_login_express_vnumber#:#Vermittlernummer
+gev#:#gev_login_express_agreement#:#Ja, ich stimme der <a href='/Customizing/global/skin/genv/static/documents/GEV_Makler_Finale_Nutzungsbedingungen_Express_Login.pdf' target='_blank' class='blue'>Nutzungsvereinbarung</a> und der darin enthaltenen datenschutzrechtlichen Einwilligungserklärung zu, um mich für das Training zu registrieren.
+gev#:#gev_login_express_phone_number#:#Telefonnummer für Audioverbindung
+gev#:#gev_vc_no_free_url#:#Es konnte kein freier virtueller Klassenraum für diesen Zeitraum gefunden werden.
+gev#:#gev_vc_no_url_saved_because_no_startenddate_set#:#Es konnte kein virtueller Klassenraum hinzugefügt werden, da kein Zeitraum definiert wurde.
+gev#:#gev_vc_no_url_saved_because_no_vc_class_type#:#Es konnte kein virtueller Klassenraum hinzugefügt werden, da kein Typ für die virtuelle Klasse ausgewählt wurde.
+gev#:#gev_vc_no_url_saved_because_no_vc_class_type_and_no_times#:#Es konnte kein virtueller Klassenraum hinzugefügt werden, da weder ein Zeitraum definiert wurde, noch ein Typ für die virtuelle Klasse ausgewählt wurde.
+gev#:#gev_virtual_class#:#virtueller Klassenraum
+gev#:#gev_vc_send_invitation_mail_reminder#:#Es besteht die Möglichkeit, dass Sie die Einladungen an die Teilnehmer neu versenden müssen.
+gev#:#gev_add_staff_member#:#Mitarbeiter hinzufügen
+gev#:#gev_import_staff_member#:#Mitarbeiter importieren
+gev#:#gev_default_role_agtid_does_not_exist#:#Lokale Benutzer können nicht hinzugefügt werden, da die Rolle 'Agt-ID' fehlt.
+gev#:#gev_new_pos_self_learnings_in_table#:#Die Selbstlernkurse finden Sie ab sofort am Ende der Trainingsübersicht!
+gev#:#gev_finalize_booking_booked_out_error#:#Das Training konnte leider nicht für Sie gebucht werden, da es inzwischen ausgebucht ist.
+gev#:#gev_crs_srch_my_table_desc_advice#:#Hinweis:<br />Die Selbstlernkurse finden Sie ab sofort am Ende der Trainingsübersicht bzw. im Filter unter "Suche eingrenzen" - "Trainingstyp" - "Selbstlernkurs"!
+gev#:#gev_venue_free_text#:#Freitext Veranstaltungsort
+gev#:#gev_orga_info#:#Organisatorisches
+gev#:#gev_dec_training_date_before_now#:#Das gewählte Startdatum liegt in der Vergangenheit!

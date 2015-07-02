@@ -22,13 +22,14 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 	public function __construct($a_search_options, $a_user_id, $a_parent_obj, $a_parent_cmd="", $a_template_context="") {
 		parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
 
-		global $ilCtrl, $lng;
+		global $ilCtrl, $lng, $ilUser;
 
 		$this->lng = &$lng;
 		$this->ctrl = &$ilCtrl;
 
 		$user_util = gevUserUtils::getInstance($a_user_id);
 		$this->user_id = $a_user_id;
+		$this->is_logged_in = $ilUser->getId() != 0;
 
 		$this->setEnableTitle(true);
 		$this->setTopCommands(false);
@@ -113,7 +114,8 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 		$booking_deadline_expired = $a_set["booking_date"] ? (date("Y-m-d") > $a_set["booking_date"]->get(IL_CAL_DATE)):false;
 		$bookable = !$booking_deadline_expired && ($a_set["free_places"] > 0 || $a_set["waiting_list_active"]);
 		
-		$booking_action = '<a href="'.gevCourseUtils::getBookingLinkTo($a_set["obj_id"], $this->user_id).'">'.
+		$target = $this->is_logged_in ? "" : 'target="_blank"';
+		$booking_action = '<a href="'.gevCourseUtils::getBookingLinkTo($a_set["obj_id"], $this->user_id).'" '.$target.'>'.
 						  $this->book_img."</a>";
 		$contact_onside_action = '<a href="mailto:'.$this->lng->txt("gev_book_contact_onside").'">'.$this->email_img.'</a>';
 		$contact_webinar_action = '<a href="mailto:'.$this->lng->txt("gev_book_contact_webinar").'">'.$this->email_img.'</a>';
@@ -168,6 +170,7 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 		if ($bookable && !$booking_deadline_expired) {
 			$this->tpl->setCurrentBlock("booking_deadline");
 			$this->tpl->setVariable("BOOKING_LINK", gevCourseUtils::getBookingLinkTo($a_set["obj_id"], $this->user_id));
+			$this->tpl->setVariable("TARGET", $target);
 			$this->tpl->parseCurrentBlock();
 		}
 		else if ($status == $this->almost_not_bookable_img) {
@@ -175,6 +178,13 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 			$this->tpl->setVariable("PE_NOTE", $this->lng->txt("gev_booking_request_pe_note"));
 			$this->tpl->parseCurrentBlock();
 		}
+
+		$crs_utils = gevCourseUtils::getInstance($a_set["obj_id"]);
+		$tutors = $crs_utils->getTrainers(true);
+		$tutors = implode("; ", $tutors);
+
+		$this->tpl->setVariable("TUTORS", $tutors);
+
 		$this->tpl->setVariable("FREE_PLACES", $unlimited
 											 ? $this->lng->txt("gev_unlimited")
 											 : $a_set["free_places"]
@@ -196,9 +206,43 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 			$this->tpl->setVariable("TIME", $a_set["schedule"][0]);
 			$this->tpl->parseCurrentBlock();
 		}
+	}
+	
+	
+	protected $advice = null;
 
+	public function setAdvice($a_advice) {
+		$this->advice = $a_advice;
+	}
 
+	public function getAdvice() {
+		return $this->advice;
+	}
 
+	private function renderAdvice() {
+		$tpl = new ilTemplate("tpl.gev_my_advice.html", true, true, "Services/GEV/Desktop");
+
+		$tpl->setCurrentBlock("advice");
+		$tpl->setVariable("ADVICE", $this->lng->txt($this->getAdvice()));
+		$tpl->parseCurrentBlock();
+
+		return $tpl->get();
+	}
+
+	public function render() {
+		$ret = "";
+
+		if ($this->_title_enabled) {
+			$ret .= $this->_title->render()."<br />";
+		}
+
+		if($this->advice) {
+			$ret .= $this->renderAdvice()."<br />";
+		}
+
+		$ret .= ilTable2GUI::render();
+
+		return $ret;
 	}
 }
 

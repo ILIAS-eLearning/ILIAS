@@ -2,9 +2,12 @@
 <service xmlns="http://www.w3.org" version="$Id$" id="gev">
 	<baseclasses>
 		<baseclass name="gevDesktopGUI" dir="Desktop/classes" />
+		<baseclass name="gevAgentOfferGUI" dir="Desktop/classes" />
 		<baseclass name="gevMemberListDeliveryGUI" dir="Desktop/classes" />
 		<baseclass name="gevDeskDisplaysDeliveryGUI" dir="Desktop/classes" />
 		<baseclass name="gevRegistrationGUI" dir="Registration/classes" />
+		<baseclass name="gevExpressRegistrationGUI" dir="Registration/classes" />
+		<baseclass name="gevLocalUserGUI" dir="Desktop/classes" />
 	</baseclasses>
 	<objects>
 	</objects>
@@ -13,5 +16,10 @@
 		<cron id="gev_deferred_mailing" class="gevDeferredMailingJob" path="Services/GEV/Mailing/classes/" />
 		<cron id="gev_clean_waiting_list" class="gevCleanWaitingListJob" path="Services/GEV/Utils/classes/" />
 		<cron id="gev_exited_user_cleanup" class="gevExitedUserCleanupJob" path="Services/GEV/Utils/classes/" />
+		<cron id="gev_express_user_cleanup" class="gevExpressUserCleanupJob" path="Services/GEV/Utils/classes/" />
+		<cron id="gev_user_not_in_org_unit" class="gevUserNotInOrgUnitJob" path="Services/GEV/Utils/classes/" />
+		<cron id="gev_update_dbv" class="gevUpdateDBVJob" path="Services/GEV/Utils/classes/" />
+		<cron id="gev_orgu_superior_mailing" class="gevOrguSuperiorMailingJob" path="Services/GEV/Mailing/classes/CronJobs/" />
+
 	</crons>
 </service>

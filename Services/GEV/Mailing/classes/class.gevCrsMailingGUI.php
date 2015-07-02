@@ -216,8 +216,9 @@ class gevCrsMailingGUI extends ilMailingGUI {
 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 
 		$roles = gevCourseUtils::getCustomRoles($this->obj_id);
-		$ret = array($this->lng->txt("crs_member"));
-		
+		$ret = array($this->lng->txt("crs_member"));		
+		$ret[] = $this->lng->txt("crs_tutor");
+
 		foreach($roles as $role) {
 			$ret[] = $role["title"];
 		}
@@ -263,7 +264,12 @@ class gevCrsMailingGUI extends ilMailingGUI {
 			$tpl->setCurrentBlock("row_bl");
 			$tpl->setVariable("FUNCTION_NAME", $name);
 			$tpl->setVariable("MAIL_SELECTION", $mail_select->render());
-			if($attachment_select !== null AND $this->getInvitationMailSettings()->getTemplateFor($name) != -1) {
+			
+			// $attachment_select is null, when there are no files to be attached
+			if( $attachment_select !== null 
+			// -1 and -2 are for "Standard-Mail" and "No Mail", > 0 is a template id
+			AND $this->getInvitationMailSettings()->getTemplateFor($name) >= 0
+			) {
 				$tpl->setVariable("ATTACHMENT_SELECTION", $attachment_select->render());
 			}
 			else {
@@ -352,7 +358,23 @@ class gevCrsMailingGUI extends ilMailingGUI {
 		require_once("Services/Form/classes/class.ilSelectInputGUI.php");
 
 		$select = new ilSelectInputGUI("", $a_function_name."[template]");
-		$select->setOptions($this->getInvitationMailSettings()->getInvitationMailTemplates($a_default_option));
+		//Get all possible templates out of the DB
+		$options = $this->getInvitationMailSettings()->getInvitationMailTemplates();
+
+		//Basic 'Send No Mail'-Template
+		$no_mail_option = array(-2 => $this->lng->txt("dont_send_mail"));
+
+		/*if the 'default option'-Template isNot the 'Send No Mail'-Template
+		* add the 'default option'-Template
+		*/
+		if(!in_array($a_default_option, $no_mail_option)) {
+			$no_mail_option = array(-1 => $a_default_option) + $no_mail_option;
+		}
+
+		//add the possible options to the above created
+		$options = $no_mail_option + $options;
+
+		$select->setOptions($options);
 		$select->setValue($this->getInvitationMailSettings()->getTemplateFor($a_function_name));
 		// TODO: Set current option
 		return $select;

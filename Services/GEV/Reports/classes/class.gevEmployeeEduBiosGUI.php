@@ -13,6 +13,9 @@ require_once("Services/GEV/Reports/classes/class.catBasicReportGUI.php");
 require_once("Services/GEV/Reports/classes/class.catFilter.php");
 require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
 require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+require_once("Modules/OrgUnit/classes/class.ilObjOrgUnit.php");
+require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
 
 class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 	public function __construct() {
@@ -54,9 +57,9 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 		$cert_year_sql = " YEAR( CURDATE( ) ) - YEAR( usr.begin_of_certification ) "
 						."- ( DATE_FORMAT( CURDATE( ) , '%m%d' ) < DATE_FORMAT( usr.begin_of_certification, '%m%d' ) )"
 						;
-		$points_in_completed_cert_years 
+		$points_in_current_period
 						  =  "SUM( IF (     usrcrs.begin_date >= usr.begin_of_certification"
-							."         AND usrcrs.begin_date < (usr.begin_of_certification + INTERVAL (".$cert_year_sql.") YEAR)"
+							."         AND usrcrs.begin_date < (usr.begin_of_certification + INTERVAL 5 YEAR)"
 							."         AND usrcrs.okz <> '-empty-'"
 							."        , usrcrs.credit_points"
 							."        , 0"
@@ -108,24 +111,12 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 									."   , '-')"
 									." as points_year5"
 									)
-						->select_raw("IF ( usr.begin_of_certification >= '$earliest_possible_cert_period_begin'"
-									."   , SUM( IF (     usrcrs.begin_date >= usr.begin_of_certification"
-									."               AND usrcrs.begin_date < ( usr.begin_of_certification "
-									."                                       + INTERVAL (".$cert_year_sql.") YEAR"
-									."                                       )"
-									."               AND usrcrs.okz <> '-empty-'"
-									."             , usrcrs.credit_points"
-									."             , 0"
-									."             )"
-									."        )"
-									."   , '-')"
-									." as points_sum")
+						->select_raw($points_in_current_period." as points_sum")
 						->select_raw("CASE WHEN usr.begin_of_certification <= '$earliest_possible_cert_period_begin' THEN ''"
-									."     WHEN ".$cert_year_sql." = 0 AND ".$points_in_completed_cert_years." < 40 THEN 'X'"
-									."     WHEN ".$cert_year_sql." = 1 AND ".$points_in_completed_cert_years." < 80 THEN 'X'"
-									."     WHEN ".$cert_year_sql." = 2 AND ".$points_in_completed_cert_years." < 120 THEN 'X'"
-									."     WHEN ".$cert_year_sql." = 3 AND ".$points_in_completed_cert_years." < 160 THEN 'X'"
-									."     WHEN ".$cert_year_sql." = 4 AND ".$points_in_completed_cert_years." < 200 THEN 'X'"
+									."     WHEN ".$cert_year_sql." = 1 AND ".$points_in_current_period." < 40 THEN 'X'"
+									."     WHEN ".$cert_year_sql." = 2 AND ".$points_in_current_period." < 80 THEN 'X'"
+									."     WHEN ".$cert_year_sql." = 3 AND ".$points_in_current_period." < 120 THEN 'X'"
+									."     WHEN ".$cert_year_sql." = 4 AND ".$points_in_current_period." < 160 THEN 'X'"
 									."     ELSE ''"
 									."END"
 									." as attention"
@@ -144,10 +135,32 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 						->group_by("user_id")
 						->compile()
 						;
-						
-		$this->allowed_user_ids = $this->user_utils->getEmployees();
-		$ous = $this->user_utils->getOrgUnitNamesWhereUserIsSuperior();
-		sort($ous);
+
+		$never_skip = $this->user_utils->getOrgUnitsWhereUserIsDirectSuperior();
+		array_walk($never_skip, 
+			function (&$obj_ref_id) {
+				$aux = new ilObjOrgUnit($obj_ref_id["ref_id"]);
+				$obj_ref_id = $aux->getTitle();
+			}
+		);
+		$skip_org_units_in_filter_below = array('Nebenberufsagenturen');
+		array_walk($skip_org_units_in_filter_below, 
+			function(&$title) { 
+				$title = ilObjOrgUnit::_getIdsForTitle($title)[0];
+				$title = gevObjectUtils::getRefId($title);
+				$title = gevOrgUnitUtils::getAllChildrenTitles(array($title));
+			}
+		);
+		$skip_org_units_in_filter = array();
+		foreach ($skip_org_units_in_filter_below as $org_units) {
+			$skip_org_units_in_filter = array_merge($skip_org_units_in_filter, $org_units);
+		}
+		array_unique($skip_org_units_in_filter);
+		$skip_org_units_in_filter = array_diff($skip_org_units_in_filter, $never_skip);
+		$org_units_filter = array_diff($this->user_utils->getOrgUnitNamesWhereUserCanViewEduBios(), $skip_org_units_in_filter);
+		sort($org_units_filter);						
+		$this->allowed_user_ids = $this->user_utils->getEmployeesWhereUserCanViewEduBios();
+
 		$this->filter = catFilter::create()
 						->checkbox( "critical"
 								  , $this->lng->txt("gev_rep_filter_show_critical_persons")
@@ -169,7 +182,7 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 						->multiselect("org_unit"
 									 , $this->lng->txt("gev_org_unit")
 									 , array("usr.org_unit", "usr.org_unit_above1", "usr.org_unit_above2")
-									 , $ous
+									 , $org_units_filter
 									 , array()
 									 )
 						->static_condition($this->db->in("usr.user_id", $this->allowed_user_ids, false, "integer"))

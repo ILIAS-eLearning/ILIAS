@@ -4447,8 +4447,19 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->ctrl->getLinkTargetByClass("iltestevaluationgui", "singleResults"),
 			array("singleResults"),
 			"", "");
-	}
-	
+
+		// gev patch start
+		// question export
+		if (!$this->object->isRandomTest())
+		{
+			$ilTabs->addSubTabTarget("print_view",
+				$this->ctrl->getLinkTargetByClass("iltestevaluationgui", "printPreview"),
+				array("printPreview"),
+				"", "");
+		}
+		// gev patch end
+	}	
+
 	function getSettingsSubTabs($hiddenTabs = array())
 	{
 		global $ilTabs, $ilias;
@@ -4666,6 +4677,9 @@ class ilObjTestGUI extends ilObjectGUI
 			case "passDetails":
 			case "outStatisticsResultsOverview":
 			case "statisticsPassDetails":
+			// gev patch start
+			case "printPreview":
+			// gev patch end
 				$this->getStatisticsSubTabs();
 				break;
 		}
@@ -4814,11 +4828,14 @@ class ilObjTestGUI extends ilObjectGUI
 			if ((($ilAccess->checkAccess("tst_statistics", "", $this->ref_id)) || ($ilAccess->checkAccess("write", "", $this->ref_id)))  && !in_array('statistics', $hidden_tabs))
 			{
 				// statistics tab
+				// gev patch start
+				// shecken: printPreview hinzugefügt
 				$tabs_gui->addTarget("statistics",
 					 $this->ctrl->getLinkTargetByClass("iltestevaluationgui", "outEvaluation"),
 					 array("statistics", "outEvaluation", "exportEvaluation", "detailedEvaluation", "eval_a", "evalUserDetail",
-					 	"passDetails", "outStatisticsResultsOverview", "statisticsPassDetails", "singleResults")
+					 	"passDetails", "outStatisticsResultsOverview", "statisticsPassDetails", "singleResults","printPreview")
 					 , "");
+				// gev patch end
 			}
 
 			if ($ilAccess->checkAccess("write", "", $this->ref_id))

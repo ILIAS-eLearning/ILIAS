@@ -26,6 +26,17 @@ class gevParticipantAbsentExcused extends gevCrsAutoMail {
 	public function getCC($a_recipient) {
 		return array();
 	}
+
+	public function getMail($a_recipient) {
+		require_once("Services/GEV/Utils/classes/class.gevExpressLoginUtils.php");
+		$exprUserUtils = gevExpressLoginUtils::getInstance();
+
+		if($exprUserUtils->isExpressUser($a_recipient)){
+			return null;
+		}
+
+		return parent::getMail($a_recipient);
+	}
 }
 
 ?>

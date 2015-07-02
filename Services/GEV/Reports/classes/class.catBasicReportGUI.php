@@ -5,8 +5,8 @@
 * base class for ReportGUIs 
 * for Generali
 *
-* @author	Nils Haagen <nhaagen@concepts-and-training.de>
 * @author	Richard Klees <richard.klees@concepts-and-training.de>
+* @author	Nils Haagen <nhaagen@concepts-and-training.de>
 * @version	$Id$
 */
 
@@ -74,7 +74,9 @@ class catBasicReportGUI {
 	}
 
 	protected function userIsPermitted () {
-		return $this->user_utils->isAdmin() || $this->user_utils->isSuperior();
+		return $this->user_utils->isAdmin() || $this->user_utils->isSuperior()
+				|| $this->user_utils->hasRoleIn(array("Key-Accounter"))
+				|| $this->user_utils->canCancelEmployeeBookings();;
 	}
 
 	
@@ -115,28 +117,36 @@ class catBasicReportGUI {
 		}
 		
 		//export-button
+		$export_btn = "";
 		if (count($data) > 0) {
-			$export_btn = '<a class="submit exportXlsBtn"'
-						. 'href="'
-						.$this->ctrl->getLinkTarget($this, "exportxls")
-						.'">'
-						.$this->lng->txt("gev_report_exportxls")
-						.'</a>';
-		}
-		else {
-			$export_btn = "";
+			$export_btn = $this->renderExportButton();
 		}
 
 		return	 $export_btn
 				.$content
 				.$export_btn;
 	}
+
+
+	protected function renderExportButton() {
+		$export_btn = '<a class="submit exportXlsBtn"'
+						. 'href="'
+						.$this->ctrl->getLinkTarget($this, "exportxls")
+						.'">'
+						.$this->lng->txt("gev_report_exportxls")
+						.'</a>';
+		return $export_btn;
+	}
+
 	
 	protected function renderUngroupedTable($data) {
 		$table = new catTableGUI($this, "view");
 		$table->setEnableTitle(false);
 		$table->setTopCommands(false);
 		$table->setEnableHeader(true);
+		if(!$this->table->row_template_filename) {
+			throw new Exception("No template defined for table ".get_class($this));
+		}
 		$table->setRowTemplate(
 			$this->table->row_template_filename, 
 			$this->table->row_template_module
@@ -158,7 +168,21 @@ class catBasicReportGUI {
 		$cnt = count($data);
 		$table->setLimit($cnt);
 		$table->setMaxCount($cnt);
-		$table->setExternalSorting($this->order !== null);
+
+		$external_sorting = true;
+		if($this->order === null || 
+			in_array($this->order->getOrderField(), $this->internal_sorting_fields)
+			) {
+				$external_sorting = false;	
+		}
+		$table->setExternalSorting($external_sorting);
+
+		if ($this->internal_sorting_numeric) {
+			foreach ($this->internal_sorting_numeric as $col) {
+				$table->numericOrdering($col);
+			}
+		}
+
 
 		$table->setData($data);
 
@@ -296,9 +320,13 @@ class catBasicReportGUI {
 	}
 	
 	protected function queryOrder() {
-		if ($this->order === null) {
+		if ($this->order === null ||
+			in_array($this->order->getOrderField(), $this->internal_sorting_fields)
+			) {
 			return "";
 		}
+
+		
 		
 		return $this->order->getSQL();
 	}
@@ -319,8 +347,8 @@ class catBasicReportGUI {
 			   . $this->queryWhere()."\n "
 			   . $this->query->sqlGroupBy()."\n"
 			   . $this->queryHaving()."\n"
-			   . $this->queryOrder()
-			   ; //die($query);
+			   . $this->queryOrder();
+			  //die($query);
 		
 		$res = $this->db->query($query);
 		$data = array();
@@ -328,7 +356,7 @@ class catBasicReportGUI {
 		while($rec = $this->db->fetchAssoc($res)) {
 			$data[] = $this->transformResultRow($rec);
 		}
-		
+
 		return $data;
 	}
 	
@@ -533,7 +561,7 @@ class catReportQuery {
 	public function compile() {
 		$this->checkNotCompiled();
 		
-		if (count($this->fields) === 0) {
+		if (count($this->fields) === 0 && count($this->_select_raw) === 0) {
 			throw new Exception("catReportQuery::compile: No fields defined.");
 		}
 		if ($this->_from === null) {

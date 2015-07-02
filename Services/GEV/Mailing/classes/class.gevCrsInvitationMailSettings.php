@@ -16,6 +16,8 @@ class gevCrsInvitationMailSettings {
 	protected $template_api;
 
 	private static $template_type = "CrsInv";
+	protected $tutor_standard_function_name;
+	protected $tutor_standard_template_id;
 
 	public function __construct($a_crs_id) {
 		global $ilDB, $ilCtrl;
@@ -25,6 +27,9 @@ class gevCrsInvitationMailSettings {
 		$this->attachments_path = null;
 		$this->template_api = null;
 
+		$this->tutor_standard_function_name = "Trainer";
+		$this->tutor_standard_template_id = -2;
+
 		$this->read();
 	}
 
@@ -33,6 +38,14 @@ class gevCrsInvitationMailSettings {
 	public function getTemplateFor($a_function_name) {
 		if(array_key_exists($a_function_name, $this->settings)) {
 			return $this->settings[$a_function_name]["template_id"];
+		}
+
+		/*IF there is no template for searched function_name 
+		* AND function_name euqals tutor standard function name
+		* return tutor standard template id
+		*/
+		if($this->tutor_standard_function_name == $a_function_name) {
+			return $this->tutor_standard_template_id;
 		}
 
 		return -1;
@@ -84,7 +97,10 @@ class gevCrsInvitationMailSettings {
 		$this->settings[$a_function_name]["attachments"] = $a_attachments;
 	}
 
-	public function getInvitationMailTemplates($a_default_option) {
+	/**
+	 * Returns a dictionary with $template_id => $title.
+	 */
+	public function getInvitationMailTemplates() {
 		require_once("./Services/MailTemplates/classes/class.ilMailTemplateManagementAPI.php");
 		require_once("./Services/MailTemplates/classes/class.ilMailTemplateSettingsEntity.php");
 
@@ -94,8 +110,6 @@ class gevCrsInvitationMailSettings {
 
 		// TODO: "Einladungsmail" is magic. Better use some setting...
 		$templates = $this->template_api->getTemplateCategoriesByType(self::$template_type);
-
-		$arr = array( -1 => $a_default_option);
 
 		foreach ($templates as $template) {
 			$settings = new ilMailTemplateSettingsEntity();

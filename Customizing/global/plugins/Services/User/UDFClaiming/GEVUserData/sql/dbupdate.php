@@ -656,3 +656,57 @@ foreach ($new_fields as $udf_const => $title) {
 }
 ?>
 
+<#10>
+<?php
+
+
+require_once("Services/GEV/Utils/classes/class.gevUDFUtils.php");
+require_once("Services/User/classes/class.ilUserDefinedFields.php");
+
+gevUDFUtils::getInstance()->createUDFFields(array(
+	"Firmenname" => array( gevSettings::USR_UDF_COMPANY_NAME
+						 , UDF_TYPE_TEXT
+						 , array( "visible"				=> true
+						 	   , "changeable"			=> false
+						 	   , "searchable"			=> true
+						 	   , "required"				=> false
+						 	   , "export"				=> true
+						 	   , "course_export"		=> true
+						 	   , "group_export"			=> true
+						 	   , "registration_visible"	=> false
+						 	   , "visible_lua"			=> false
+						 	   , "changeable_lua"		=> false
+						 	   , "certificate"			=> false
+						 	   )
+						 , null
+						 )
+	));
+
+?>
+
+<#11>
+<?php
+
+require_once("Services/GEV/Utils/classes/class.gevUDFUtils.php");
+require_once("Services/User/classes/class.ilUserDefinedFields.php");
+
+gevUDFUtils::createUDFFields(array(
+	"Austrittsdatum WBD" => array( gevSettings::USR_WBD_EXIT_DATE
+											, UDF_TYPE_TEXT
+											, array( "visible"				=> true
+												   , "changeable"			=> false
+												   , "searchable"			=> true
+												   , "required"				=> false
+												   , "export"				=> true
+												   , "course_export"		=> false
+												   , "group_export"			=> false
+												   , "registration_visible"	=> false
+												   , "visible_lua"			=> false
+												   , "changeable_lua"		=> false
+												   , "certificate"			=> false
+												   )
+											, null
+											)
+	));
+
+?>

@@ -14,6 +14,7 @@ require_once("Modules/OrgUnit/classes/class.ilObjOrgUnit.php");
 require_once("Modules/OrgUnit/classes/Types/class.ilOrgUnitType.php");
 require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
+require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 
 class gevOrgUnitUtils {
@@ -87,22 +88,27 @@ class gevOrgUnitUtils {
 			return gevOrgUnitUtils::$venue_names;
 		}
 		
+		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 		require_once("Modules/OrgUnit/classes/Types/class.ilOrgUnitType.php");
 
 		$type_name1 = gevSettings::getInstance()->get(gevSettings::ORG_TYPE_VENUE);
 		$type1 = ilOrgUnitType::getInstance($type_name1);
 		$ou_ids1 = $type1->getOrgUnitIDs(false);
 		
-		$type_name2 = gevSettings::getInstance()->get(gevSettings::ORG_TYPE_DEFAULT);
-		$type2 = ilOrgUnitType::getInstance($type_name2);
-		$ou_ids2 = $type2->getOrgUnitIDs(false);
-		
+		$evg_ref_id = gevOrgUnitUtils::getEVGOrgUnitRefId();
+		$ou_ids2 = array();
+		foreach (gevOrgUnitUtils::getAllChildren(array($evg_ref_id)) as $ids) {
+			$ou_ids2[] = $ids["obj_id"];
+		}
+
 		$ou_info = gevAMDUtils::getInstance()->getTable(array_merge($ou_ids1, $ou_ids2), array(gevSettings::ORG_AMD_CITY => "city"));
 
 		gevOrgUnitUtils::$venue_names = array();
 		foreach ($ou_info as $values) {
 			gevOrgUnitUtils::$venue_names[$values["obj_id"]] = $values["title"].", ".$values["city"];
 		}
+		
+		asort(gevOrgUnitUtils::$venue_names,  SORT_NATURAL | SORT_FLAG_CASE);
 		
 		return gevOrgUnitUtils::$venue_names;
 	}
@@ -127,6 +133,60 @@ class gevOrgUnitUtils {
 		return gevOrgUnitUtils::$provider_names;
 	}
 	
+	static public function getEVGOrgUnitRefId() {
+		global $ilDB;
+		
+		$res = $ilDB->query("SELECT DISTINCT oref.ref_id "
+						   ."  FROM object_data od "
+						   ."  JOIN object_reference oref ON oref.obj_id = od.obj_id "
+						   ." WHERE import_id = 'evg'"
+						   ."   AND oref.deleted IS NULL"
+						   ."   AND od.type = 'orgu'"
+						   );
+		if ($rec = $ilDB->fetchAssoc($res)) {
+			return $rec["ref_id"];
+		}
+		throw new ilException("gevOrgUnitUtils::getEVGOrgUnitRefId: could not find org unit with import_id = 'evg'");
+	}
+	
+	public function getOrgUnitAbove() {
+		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php");
+
+		$tree = ilObjOrgUnitTree::_getInstance();
+		$ref_id = gevObjectUtils::getRefId($this->orgu_id);
+		$above_ref_id = $tree->getParent($ref_id);
+		if (!$above_ref_id) {
+			return null;
+		}
+		$above_obj_id = gevObjectUtils::getObjId($above_ref_id);
+		
+		return gevOrgUnitUtils::getInstance($above_obj_id);
+	}
+
+	public function getOrgUnitsOneTreeLevelBelow() {
+		global $ilDB;
+
+		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+		$ref_id = gevObjectUtils::getRefId($this->orgu_id);
+
+		$sql = "SELECT DISTINCT oref.ref_id, oref.obj_id"
+			  ." FROM object_reference oref"
+			  ." JOIN object_data od ON od.obj_id = oref.obj_id"
+			  ." JOIN tree tr ON tr.parent = ".$ref_id
+			  ." WHERE od.type = 'orgu' AND oref.ref_id = tr.child AND oref.deleted IS NULL";
+
+		$res = $ilDB->query($sql);
+		$first_child_org = array();
+		while ($rec = $ilDB->fetchAssoc($res)) {
+			$first_child_org[] = array( "ref_id" => $rec["ref_id"]
+										 , "obj_id" => $rec["obj_id"]
+										 );
+		}
+
+		return $first_child_org;
+	}
+	
 	public function getOrgUnitInstance() {
 		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnit.php");
 		
@@ -147,7 +207,6 @@ class gevOrgUnitUtils {
 			require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 			$this->ref_id = gevObjectUtils::getRefId($this->orgu_id);
 		}
-		
 		if (!$this->ref_id) {
 			throw new Exception("Could not determine ref_id for org unit with id '".$this->orgu_id."'");
 		}
@@ -390,8 +449,6 @@ class gevOrgUnitUtils {
 	}
 
 
-
-
 	// Helpers and Caching for role related stuff
 	
 	public function getRoleFolder() {
@@ -449,6 +506,34 @@ class gevOrgUnitUtils {
 		}
 		return $ret;
 	}
+
+	static public function getSuperiorsIn($a_ref_ids) {
+		global $ilDB;
+		
+		$sql = "SELECT ua.usr_id"
+			."  FROM rbac_ua ua"
+			."  JOIN tree tr ON ".$ilDB->in("tr.parent", $a_ref_ids, false, "integer")
+			."  JOIN rbac_fa fa ON fa.parent = tr.child"
+			."  JOIN object_data od ON od.obj_id = fa.rol_id"
+			." WHERE ua.rol_id = fa.rol_id"
+			."   AND od.title LIKE 'il_orgu_superior_%'";
+			echo $sql;
+
+		$res = $ilDB->query(
+			 "SELECT ua.usr_id"
+			."  FROM rbac_ua ua"
+			."  JOIN tree tr ON ".$ilDB->in("tr.parent", $a_ref_ids, false, "integer")
+			."  JOIN rbac_fa fa ON fa.parent = tr.child"
+			."  JOIN object_data od ON od.obj_id = fa.rol_id"
+			." WHERE ua.rol_id = fa.rol_id"
+			."   AND od.title LIKE 'il_orgu_superior_%'"
+			);
+		$ret = array();
+		while ($rec = $ilDB->fetchAssoc($res)) {
+			$ret[] = $rec["usr_id"];
+		}
+		return $ret;
+	}
 	
 	// Get everyone in the given org-units.
 	static public function getAllPeopleIn($a_ref_ids) {
@@ -493,6 +578,35 @@ class gevOrgUnitUtils {
 		return array_unique($ret);
 	}
 	
+	public function getChildren() {
+		global $tree;
+		return $tree->getChildsByType($this->getRefId(), "orgu");
+	}
+	
+	public function deleteChild($ref_id) {
+		require_once("Services/Repository/classes/class.ilRepUtil.php");
+		$obj_id = ilObject::_lookupObjectId($ref_id);
+		unset(self::$instances[$obj_id]);
+		ilRepUtil::deleteObjects($this->getRefId(), array($ref_id));
+	}
+	
+	public function getUsers() {
+		return self::getAllPeopleIn(array($this->getRefId()));
+	}
+	
+	public function purgeEmptyChildren($min_amount_users = 1, $do_not_purge_ref_ids = array()) {
+		foreach ($this->getChildren() as $child) {
+			if (in_array($child["ref_id"], $do_not_purge_ref_ids)) {
+				continue;
+			}
+			$utils = gevOrgUnitUtils::getInstance($child["obj_id"]);
+			$utils->purgeEmptyChildren($min_amount_users, $do_not_purge_ref_ids);
+			if (count($utils->getChildren()) == 0 && count($utils->getUsers()) < $min_amount_users) {
+				$this->deleteChild($child["ref_id"]);
+			}
+		}
+	}
+	
 	// Get all orgunits below the given ones. Returns ref_ids and obj_ids.
 	static public function getAllChildren($a_ref_ids) {
 		global $ilDB;
@@ -514,6 +628,25 @@ class gevOrgUnitUtils {
 		return $ret;
 	}
 	
+	static public function getAllChildrenTitles($a_ref_ids) {
+		global $ilDB;
+		
+		$res = $ilDB->query(
+			 "SELECT DISTINCT od.title title "
+			." FROM tree p"
+			." RIGHT JOIN tree c ON c.lft > p.lft AND c.rgt < p.rgt AND c.tree = p.tree"
+			." LEFT JOIN object_reference oref ON oref.ref_id = c.child"
+			." LEFT JOIN object_data od ON od.obj_id = oref.obj_id"
+			." WHERE ".$ilDB->in("p.child", $a_ref_ids, false, "integer")
+			."   AND od.type = 'orgu'"
+			);
+	
+		$ret = array();
+		while($rec = $ilDB->fetchAssoc($res)) {
+			$ret[] = $rec["title"];
+		}
+		return $ret;
+	}
 	// assignment of users to the org-unit
 	
 	public function assignUser($a_user_id, $a_role_title) {
@@ -561,7 +694,7 @@ class gevOrgUnitUtils {
 	}
 	
 	// setting of permissions
-	public function grantPermissionsFor($a_role_name, $a_permissions) {
+	public function grantPermissionsFor($a_role, $a_permissions) {
 		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 		require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
 		
@@ -569,17 +702,22 @@ class gevOrgUnitUtils {
 		$ref_id = gevObjectUtils::getRefId($ou->getId());
 		$ou->setRefId($ref_id);
 
-		if ($a_role_name == "superior") {
-			$role = $ou->getSuperiorRole();
-		}
-		elseif ($a_role_name == "employee") {
-			$role = $ou->getEmployeeRole();
+		if (!is_numeric($a_role)) {
+			if ($a_role == "superior") {
+				$role = $ou->getSuperiorRole();
+			}
+			elseif ($a_role == "employee") {
+				$role = $ou->getEmployeeRole();
+			}
+			else {
+				$role = gevRoleUtils::getInstance()->getRoleIdByName($a_role);
+				if (!$role) {
+					throw new Exception("gevOrgUnitUtils::grantPermissionFor: unknown role name '".$a_role);
+				}
+			}
 		}
 		else {
-			$role = gevRoleUtils::getInstance()->getRoleIdByName($a_role_name);
-			if (!$role) {
-				throw new Exception("gevOrgUnitUtils::grantPermissionFor: unknown role name '".$a_role_name);
-			}
+			$role = (int)$a_role;
 		}
 		
 		$cur_ops = $this->rbacreview->getRoleOperationsOnObject($role, $ref_id);
@@ -593,9 +731,8 @@ class gevOrgUnitUtils {
 		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 		$obj_id = gevObjectUtils::getObjId($a_start_ref);
 		$ou_utils = gevOrgUnitUtils::getInstance($obj_id);
-		
+
 		$ou_utils->grantPermissionsFor($a_role_name, $a_permissions);
-		
 		$children = self::getAllChildren(array($a_start_ref));
 		foreach($children as $child) {
 			$ou_utils = gevOrgUnitUtils::getInstance($child["obj_id"]);
@@ -701,6 +838,48 @@ class gevOrgUnitUtils {
 		$orgutils->setType(gevSettings::ORG_TYPE_DEFAULT);
 		
 		return $orgu->getId();
+	}
+
+	public function _getAllSuperiors() {
+		global $ilDB;
+
+		$sql = "SELECT DISTINCT ua.usr_id
+			  FROM rbac_ua ua
+			  JOIN rbac_fa fa ON ua.rol_id = fa.rol_id
+			  JOIN object_data od ON od.obj_id = fa.rol_id
+			  JOIN usr_data ud ON ua.usr_id = ud.usr_id
+			 WHERE od.title LIKE 'il_orgu_superior_%'";
+
+ 		$res = $ilDB->query($sql);
+ 		$ret = array();
+ 		while($row = $ilDB->fetchAssoc($res)) {
+			$ret[] = $row["usr_id"];
+		}
+
+		return $ret;
+	}
+
+	static public function moveUsers($org_unit_initial_id, $org_unit_final_id) {
+		global $rbacreview;
+
+		$org_unit_initial = new ilObjOrgUnit($org_unit_initial_id);
+		$oui_employee_role_id = $org_unit_initial->getEmployeeRole();
+		$oui_superior_role_id = $org_unit_initial->getSuperiorRole();
+		$employees_initial = $rbacreview->assignedUsers($oui_employee_role_id);
+		$superiors_initial = $rbacreview->assignedUsers($oui_superior_role_id);
+		$org_unit_final = new ilObjOrgUnit($org_unit_final_id);
+		$org_unit_final->assignUsersToEmployeeRole($employees_initial);
+		$org_unit_final->assignUsersToSuperiorRole($superiors_initial);
+		
+		foreach ($employees_initial as $usr_id) {
+			$org_unit_initial->deassignUserFromEmployeeRole($usr_id);
+
+		}
+
+		foreach ($superiors_initial as $usr_id) {
+			$org_unit_initial->deassignUserFromSuperiorRole($usr_id);
+
+		}
 	}
 }
 

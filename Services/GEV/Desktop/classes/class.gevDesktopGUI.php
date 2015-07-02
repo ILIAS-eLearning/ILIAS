@@ -26,6 +26,12 @@
 * @ilCtrl_Calls gevDesktopGUI: gevDecentralTrainingGUI
 * @ilCtrl_Calls gevDesktopGUI: gevEmployeeEduBiosGUI
 * @ilCtrl_Calls gevDesktopGUI: ilFormPropertyDispatchGUI
+* @ilCtrl_Calls gevDesktopGUI: gevWBDErrorsGUI
+* @ilCtrl_Calls gevDesktopGUI: gevAttendanceByOrgUnitGUI
+* @ilCtrl_Calls gevDesktopGUI: gevAttendanceByCourseTemplateGUI
+* @ilCtrl_Calls gevDesktopGUI: gevTrainerOperationByTEPCategoryGUI
+* @ilCtrl_Calls gevDesktopGUI: gevDBVReportGUI
+* @ilCtrl_Calls gevDesktopGUI: gevDBVReportSuperiorGUI
 */
 
 class gevDesktopGUI {
@@ -119,6 +125,12 @@ class gevDesktopGUI {
 				$gui = new gevAttendanceByEmployeeGUI();
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;
+			case "gevtraineroperationbytepcategorygui":
+				$ilMainMenu->setActive("gev_reporting_menu");
+				require_once("Services/GEV/Reports/classes/class.gevTrainerOperationByTEPCategoryGUI.php");
+				$gui = new gevTrainerOperationByTEPCategoryGUI();
+				$ret = $this->ctrl->forwardCommand($gui);
+				break;
 			case "gevbillingreportgui":
 				$ilMainMenu->setActive("gev_reporting_menu");
 				require_once("Services/GEV/Reports/classes/class.gevBillingReportGUI.php");
@@ -160,6 +172,41 @@ class gevDesktopGUI {
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;
 
+			case "gevwbderrorsgui":
+				$ilMainMenu->setActive("gev_reporting_menu");
+				require_once("Services/GEV/Reports/classes/class.gevWBDErrorsGUI.php");
+				$gui = new gevWBDErrorsGUI();
+				$ret = $this->ctrl->forwardCommand($gui);
+				break;
+
+			case "gevattendancebyorgunitgui":
+				$ilMainMenu->setActive("gev_reporting_menu");
+				require_once("Services/GEV/Reports/classes/class.gevAttendanceByOrgUnitGUI.php");
+				$gui = new gevAttendanceByOrgUnitGUI();
+				$ret = $this->ctrl->forwardCommand($gui);
+				break;
+
+			case "gevattendancebycoursetemplategui":
+				$ilMainMenu->setActive("gev_reporting_menu");
+				require_once("Services/GEV/Reports/classes/class.gevAttendanceByCourseTemplateGUI.php");
+				$gui = new gevAttendanceByCourseTemplateGUI();
+				$ret = $this->ctrl->forwardCommand($gui);
+				break;
+
+				case "gevdbvreportgui":
+				$ilMainMenu->setActive("gev_reporting_menu");
+				require_once("Services/GEV/Reports/classes/class.gevDBVReportGUI.php");
+				$gui = new gevDBVReportGUI();
+				$ret = $this->ctrl->forwardCommand($gui);
+				break;
+
+				case "gevdbvreportsuperiorgui":
+				$ilMainMenu->setActive("gev_reporting_menu");
+				require_once("Services/GEV/Reports/classes/class.gevDBVReportSuperiorGUI.php");
+				$gui = new gevDBVReportSuperiorGUI();
+				$ret = $this->ctrl->forwardCommand($gui);
+				break;
+
 			default:	
 				$this->dispatchCmd($cmd);
 				break;
@@ -184,14 +231,24 @@ class gevDesktopGUI {
 			case "toBillingReport":
 			case "toReportBookingsByVenue":
 			case "toBooking":
-			case "toReportWBDEdupoints":
 			case "toEmployeeBookings":
 			case "toReportEmployeeEduBios":
+			case "toReportAttendanceByOrgUnit":
+			case "toReportAttendanceByCourseTemplate":
+			case "toReportTrainerOperationByTEPCategory":
+			case "toReportWBDEdupoints":
+			case "toDBVReport":
+			case "toDBVReportSuperior":
+			case "toWBDErrors":
 			case "createHAUnit":
 				$this->$a_cmd();
 			default:
 				throw new Exception("Unknown command: ".$a_cmd);
 		}
+	}
+
+	protected function toReportTrainerOperationByTEPCategory() {
+		$this->ctrl->redirectByClass("gevTrainerOperationByTEPCategoryGUI");
 	}
 	
 	protected function toCourseSearch() {
@@ -235,10 +292,29 @@ class gevDesktopGUI {
 	protected function toEmployeeBookings() {
 		$this->ctrl->redirectByClass("gevEmployeeBookingsGUI");
 	}
+
+	protected function toDBVReport() {
+		$this->ctrl->redirectByClass("gevDBVReportGUI");
+	}
+
+	protected function toDBVReportSuperior() {
+		$this->ctrl->redirectByClass("gevDBVReportSuperiorGUI");
+	}
 	
 	protected function toReportEmployeeEduBios() {
 		$this->ctrl->redirectByClass("gevEmployeeEduBiosGUI");
 	}
+	protected function toWBDErrors() {
+		$this->ctrl->redirectByClass("gevWBDErrorsGUI");
+	}
+
+	protected function toReportAttendanceByOrgUnit() {
+		$this->ctrl->redirectByClass("gevAttendanceByOrgUnitGUI");
+	}
+	protected function toReportAttendanceByCourseTemplate() {
+		$this->ctrl->redirectByClass("gevAttendanceByCourseTemplateGUI");
+	}
+
 
 	protected function toBooking() {
 		if (!$_GET["crs_id"]) {

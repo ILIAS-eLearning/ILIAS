@@ -335,7 +335,11 @@ class ilParticipationStatusAdminGUI
 			require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 			$crs_utils = gevCourseUtils::getInstanceByObj($this->getCourse());
 
-			if ($crs_utils->isDecentralTraining() && ($crs_utils->getMinParticipants() > count($crs_utils->getParticipants()))) {
+			if ($crs_utils->isDecentralTraining() 
+			&& (   $crs_utils->getMinParticipants() > count($crs_utils->getParticipants())
+				//|| !$this->getParticipationStatus()->getMailSendDate()
+				)
+			) {
 				$may_finalize = false;
 			}
 			else {
@@ -344,14 +348,35 @@ class ilParticipationStatusAdminGUI
 			// gev-patch end
 		}
 		
-		// attendance list
-		$helper = ilParticipationStatusHelper::getInstance($this->getCourse());
-		if($helper->getCourseNeedsAttendanceList())
+		// gev-patch start
+		self::renderToolbar($this, $this->getParticipationStatus(), $this->getCourse(), $may_write, $may_finalized);
+		// gev-patch end
+		
+		require_once "Services/ParticipationStatus/classes/class.ilParticipationStatusTableGUI.php";
+		$tbl = new ilParticipationStatusTableGUI($this, "listStatus", $this->getCourse(), $may_write, $may_finalize, $a_invalid);
+		$tpl->setContent($tbl->getHTML());		
+	}
+	
+	// gev-patch start
+	static public function renderToolbar($gui, ilParticipationStatus $pstatus, ilObjCourse $course, $may_write, $may_finalized) {
+		global $ilToolbar, $ilCtrl, $lng, $tpl;
+		
+		$helper = ilParticipationStatusHelper::getInstance($course);
+		
+		// gev-patch start -- only temporary, see #1339, #1279
+		//if (($helper->getCourseNeedsAttendanceList() || $helper->getCourseNeedsInvitationMailConfirmation()) && $may_write) {
+		// gev-patch end
+		if ((true || $helper->getCourseNeedsInvitationMailConfirmation()) && $may_write) {
+			$ilToolbar->setFormAction($ilCtrl->getFormAction($gui), true);
+		}
+		
+		// gev-patch start -- only temporary, see #1339, #1279
+		if (true)
+		//if($helper->getCourseNeedsAttendanceList())
+		// gev-patch end
 		{
 			if($may_write)
 			{
-				$ilToolbar->setFormAction($ilCtrl->getFormAction($this, "uploadAttendanceList"), true);
-				
 				require_once "Services/Form/classes/class.ilFileInputGUI.php";
 				$file = new ilFileInputGUI($lng->txt("ptst_admin_attendance_list"), "atlst");
 				$ilToolbar->addInputItem($file, true);
@@ -360,29 +385,59 @@ class ilParticipationStatusAdminGUI
 
 				$ilToolbar->addSeparator();
 			}
-			if($this->getParticipationStatus()->getAttendanceList())
+			if($pstatus->getAttendanceList())
 			{
 				if($may_write)
 				{
 					$ilToolbar->addButton($lng->txt("delete"), 
-						$ilCtrl->getLinkTarget($this, "deleteAttendanceList"));
+						$ilCtrl->getLinkTarget($gui, "deleteAttendanceList"));
 
 					$ilToolbar->addSeparator();
 				}
 				
 				$ilToolbar->addButton($lng->txt("ptst_admin_view_attendance_list"),
-					$ilCtrl->getLinkTarget($this, "viewAttendanceList"));
+					$ilCtrl->getLinkTarget($gui, "viewAttendanceList"));
 			}
 			else
 			{
 				$ilToolbar->addText($lng->txt("ptst_admin_no_attendance_list"));
 			}
 		}
-		
-		require_once "Services/ParticipationStatus/classes/class.ilParticipationStatusTableGUI.php";
-		$tbl = new ilParticipationStatusTableGUI($this, "listStatus", $this->getCourse(), $may_write, $may_finalize, $a_invalid);
-		$tpl->setContent($tbl->getHTML());		
+
+		if ($helper->getCourseNeedsAttendanceList() && $helper->getCourseNeedsInvitationMailConfirmation()) {
+			$ilToolbar->addSeparator();
+		}
+
+		if ($helper->getCourseNeedsInvitationMailConfirmation()) {
+			require_once("Services/Form/classes/class.ilSubEnabledFormPropertyGUI.php");
+			require_once("Services/UIComponent/Toolbar/interfaces/interface.ilToolbarItem.php");
+			require_once("Services/Form/classes/class.ilDateTimeInputGUI.php");
+			require_once("Services/Form/classes/class.ilCheckboxInputGUI.php");
+			
+			$mail_send_date = $pstatus->getMailSendDate();
+			
+			$dt_inp = new ilDateTimeInputGUI("", "mail_send_at");
+			$dt_inp->setDisabled(!$may_write);
+			if ($mail_send_date) {
+				$dt_inp->setDate(new ilDate($mail_send_date,IL_CAL_DATE));
+			}
+			$ilToolbar->addText($lng->txt("gev_pstatus_mail_date_title"));
+			$ilToolbar->addInputItem($dt_inp);
+			
+			$ilToolbar->addSeparator();
+				
+			$confirm = new ilCheckboxInputGUI("", "mail_send_confirm");
+			$confirm->setDisabled(!$may_write);
+			$confirm->setChecked($mail_send_date);
+			$ilToolbar->addText($lng->txt("gev_pstatus_mail_confirm_title"));
+			$ilToolbar->addInputItem($confirm);
+			
+			if ($may_write) {
+				$ilToolbar->addFormButton($lng->txt("save"), "saveSendMailDate");
+			}
+		}
 	}
+	// gev-patch end
 	
 	
 	//
@@ -625,5 +680,31 @@ class ilParticipationStatusAdminGUI
 		
 		$ilCtrl->redirect($this, "listStatus");
 	}	
+
+	// gev-patch start
+	protected function saveSendMailDate() {
+		global $lng;
+		
+		if (!array_key_exists("mail_send_confirm", $_POST) || !$this->mayWrite()) {
+			ilUtil::sendFailure($lng->txt("gev_psstatus_mail_send_date_error"), true);
+		}
+		else {
+			$d = $_POST["mail_send_at"]["date"];
+			$date_set = $d["y"]."-".str_pad($d["m"], 2, '0', STR_PAD_LEFT)."-".str_pad($d["d"], 2, '0', STR_PAD_LEFT);
+			
+			$helper = ilParticipationStatusHelper::getInstance($this->getCourse());
+			$date_tr = $helper->getCourseStart();
+			$date_tr->increment(ilDateTime::DAY, -3);
+			if ($date_tr->get(IL_CAL_DATE) < $date_set) {
+				ilUtil::sendFailure($lng->txt("gev_psstatus_mail_send_date_invalid"), true);
+			}
+			else {
+				$this->getParticipationStatus()->setMailSendDate($date_set);
+				ilUtil::sendSuccess($lng->txt("gev_psstatus_mail_send_date_success"), true);
+			}
+		}
+		$this->returnToList();
+	}
+	// gev-patch end
 }
 

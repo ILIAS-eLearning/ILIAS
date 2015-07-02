@@ -63,12 +63,13 @@ $WBD_EDU_RECORD = array(
 	"study_type_selection" => "", // "Präsenzveranstaltung" | "Selbstgesteuertes E-Learning" | "Gesteuertes E-Learning";
 	"study_content" => "", //Spartenübergreifend",
 	"score_code" => ""
-			
 );
 
 
 $VALUE_MAPPINGS = array(
 	"course_type" => array(
+		"Präsenzveranstaltung" => "Präsenzveranstaltung",
+
 		"Präsenzveranstaltung" => "Präsenzveranstaltung",
 		"Präsenztraining" => "Präsenzveranstaltung",
 		"Präsenz" => "Präsenzveranstaltung",
@@ -77,11 +78,12 @@ $VALUE_MAPPINGS = array(
 		"Webinar" => "gesteuertes E-Learning",
 		"gesteuertes E-learning" => "gesteuertes E-Learning",
 		"gesteuertes e-learning" => "gesteuertes E-Learning",
+		"Virtuelle Sitzung" => "gesteuertes E-Learning",
 
 		"Onlinetraining" => "selbstgesteuertes E-Learning",
+		"Blended Learning" => "Blended Learning",
 
 		"XX" => "Einzeltraining",
-		"XX" => "Blended Learning"
 /*
 "Präsenztraining"
 "Selbstlernkurs"
@@ -145,7 +147,7 @@ $VALUE_MAPPINGS = array(
 //static $telno_regexp = "/^((00|[+])49((\s|[-\/])?)|0)1[5-7][0-9]([0-9]?)((\s|[-\/])?)([0-9 ]{7,12})$/";
 require_once("Services/GEV/Desktop/classes/class.gevUserProfileGUI.php");
 $TELNO_MOBILE_REGEXP = gevUserProfileGUI::$telno_regexp;
-$TELNO_REGEXP = "/^(00|[+])49[\s-\/][0-9]+[\s-\/][0-9]*/"; //city-code must be separated
+//$TELNO_REGEXP = "/^(00|[+])49[\s-\/][0-9]+[\s-\/][0-9]*/"; //city-code must be separated
 $TELNO_REGEXP = "/^(00|[+])49[\s-\/][0-9]*/";
 
 $WBD_USER_RECORD_VALIDATION = array(
@@ -157,8 +159,7 @@ $WBD_USER_RECORD_VALIDATION = array(
 	,'name_affix' 		=> array('maxlen' => 50)
 	,'birthday' 		=> array('custom' => 'datebefore2000')
 	,'auth_email' 		=> array('mandatory' => 1)
-	,'auth_phone_nr' 	=> array( 
-								 'form' => $TELNO_MOBILE_REGEXP)
+	,'auth_phone_nr' 	=> array('form' => $TELNO_MOBILE_REGEXP)
 	,'phone_nr'	 		=> array('form' => $TELNO_REGEXP)
 	//,'mobile_phone_nr'	=> array('form' => $TELNO_REGEXP)
 	,'zipcode' 			=> array('mandatory'=>1, 'maxlen' => 30)

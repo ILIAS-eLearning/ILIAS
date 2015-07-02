@@ -276,18 +276,20 @@ class catFilter {
 			$postvar = $this->getPostVar($conf);
 			$type = $this->getType($conf);
 			$type_id = $type->getId();
-
+			
 			$_tpl = new ilTemplate( "tpl.cat_filter_".$type_id.".html", true, true, "Services/GEV/Reports"
 								  , array("POST_VAR" => $postvar));
 			if($type->render($_tpl, $postvar, $conf, $this->getParameters($conf))) {
 				$tpl->setCurrentBlock($type_id);
 				$_tpl->setVariable("POST_VAR", $postvar);
 				$tpl->setVariable("FILTER_ITEM", $_tpl->get());
+				$tpl->setVariable("CSSID", $this->getName($conf));
 				$tpl->parseCurrentBlock();
 			}
 		}
 		
 		$tpl->setVariable("POST_VAR_PREFIX", $this->post_var_prefix);
+		
 		$tpl->setVariable("ACTION", $this->action);
 		$tpl->setVariable("FILTER", $this->action_title);
 		
@@ -359,6 +361,35 @@ class catFilter {
 			throw new Exception("catFilter::checkNameExists: Name ".$a_name." already used.");
 		}
 	}
+
+
+
+	static function getDistinctValues($a_field, $a_table, $a_order='ASC', $a_showempty=false, $a_filter_historic=false) {
+		global $ilDB;
+		$where = "WHERE TRIM($a_field) NOT IN ('-empty-', '')"
+				." AND $a_field IS NOT NULL"
+				;
+		if ($a_showempty === true) {
+			$where = 'WHERE 1';
+		}
+		if ($a_filter_historic === true) {
+			$where .= ' AND hsit_historic=0';
+		}
+
+
+		$sql = "SELECT DISTINCT $a_field FROM $a_table $where ORDER BY $a_field $a_order";
+		$res = $ilDB->query($sql);
+		$ret = array();
+		while ($rec = $ilDB->fetchAssoc($res)) {
+			$ret[] = $rec[$a_field];
+		}
+
+		return $ret;
+	}
+
+
+
+
 }
 
 

@@ -2175,11 +2175,14 @@ class ilObjCourseGUI extends ilContainerGUI
 		*/
 		$utils = gevCourseUtils::getInstanceByObj($this->object);
 		$ilToolbar->addSeparator();
-		$ilToolbar->addButton( $this->lng->txt("gev_member_list")
+		$ilToolbar->addButton( $this->lng->txt("associated_users")
 							 , "ilias.php?ref_id=".$_GET["ref_id"]."&cmd=trainer&baseClass=gevMemberListDeliveryGUI"
 							 );
+		$ilToolbar->addButton( $this->lng->txt("gev_uvg")
+							 , "ilias.php?ref_id=".$_GET["ref_id"]."&cmd=uvg&baseClass=gevMemberListDeliveryGUI"
+		);
 		if (in_array($utils->getType(), array("Webinar", "Spezialistenschulung Webinar"))) {
-			$ilToolbar->addButton( $this->lng->txt("gev_csn_list")
+			$ilToolbar->addButton( $this->lng->txt("gev_csn")
 								 , "ilias.php?ref_id=".$_GET["ref_id"]."&cmd=csn&baseClass=gevMemberListDeliveryGUI"
 								 );
 		}
@@ -2192,7 +2195,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$now = @date("Y-m-d");
 		$start_date = $utils->getStartDate();
 		if (!$this->object->getOfflineStatus() && $start_date !== null && $start_date->get(IL_CAL_DATE) > $now) {
-			$ilToolbar->addButton( $this->lng->txt("gev_cancel_training")
+			$ilToolbar->addButton( $this->lng->txt("gev_cancellation")
 								 , $this->ctrl->getLinkTarget($this, "confirmTrainingCancellation"));
 		}
 		// gev-patch end

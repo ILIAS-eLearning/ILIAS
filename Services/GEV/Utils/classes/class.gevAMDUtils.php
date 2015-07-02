@@ -55,11 +55,11 @@ class gevAMDUtils {
 			throw new Exception("AMD Field ".$field_id." for GEV setting ".$a_amd_setting." does not exist.");
 		}
 		
-		if ($a_value !== null) {
+		if ($a_value !== null && $a_value != "") {
 			$this->setValue($a_obj, $field_id, $field_type, $a_value);
 		}
 		else {
-			$this->deleteValue($a_obj_id, $field_id, $field_type);
+			$this->deleteValue($a_obj, $field_id, $field_type);
 		}
 	}
 	
@@ -88,6 +88,7 @@ class gevAMDUtils {
 	}
 	
 	protected function getFieldType($a_field_id) {
+
 		$ret = $this->db->query("SELECT field_type FROM adv_mdf_definition WHERE field_id = ".
 								$this->db->quote($a_field_id, "integer"));
 		
@@ -292,7 +293,7 @@ class gevAMDUtils {
 	protected function deleteValue($a_obj, $a_field_id, $a_type) {
 		$postfix = self::getTablePostfixForType($a_type);
 		$this->db->manipulate("DELETE FROM adv_md_values_".$postfix.
-							  " WHERE obj_id = ".$this->db->quote($a_obj_id, "integer").
+							  " WHERE obj_id = ".$this->db->quote($a_obj, "integer").
 							  "   AND field_id = ".$this->db->quote($a_field_id, "integer")
 							 );
 	}
@@ -423,8 +424,6 @@ class gevAMDUtils {
 		$ilDB->manipulate($query);
 	}
 
-
-
 	public static function updateOptionsOfAMDField($a_gev_setting, $options) {
 		require_once("Services/AdvancedMetaData/classes/class.ilAdvancedMDClaimingPlugin.php");
 		global $ilDB;
@@ -439,6 +438,31 @@ class gevAMDUtils {
 			 WHERE field_id= $field_id";
 
 		$ilDB->manipulate($query);
+	}
+
+	/*
+	*
+	* @param $a_gev_settings = array()
+	*
+	*/
+	public static function updatePositionOrderAMDField($a_gev_settings) {
+		require_once("Services/AdvancedMetaData/classes/class.ilAdvancedMDClaimingPlugin.php");
+		global $ilDB, $ilLog;
+
+		$ilLog->write("guck guck ich mach jetzt ein update");
+		$gev_set = gevSettings::getInstance();
+
+		foreach($a_gev_settings as $key => $gev_setting) {		
+			$field_id = $gev_set->getAMDFieldId($gev_setting);
+
+			$query = "UPDATE adv_mdf_definition SET"
+					 ." position = ".($key+1)
+					 ." WHERE field_id = $field_id";
+
+			$ilDB->manipulate($query);
+			$ilLog->write($query);
+		}
+
 	}
 
 }

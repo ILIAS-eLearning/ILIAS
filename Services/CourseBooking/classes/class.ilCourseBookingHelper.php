@@ -232,7 +232,22 @@ class ilCourseBookingHelper
 		return true;				
 	}	
 	
+	//gev patch-start
+
+	/**
+	 * Is course start date passed?
+	 * 
+	 * @param int $a_user_id
+	 * @return bool
+	 */
+	public function isCourseStartDatePassed() {
+		$dl = $this->getCourseStart();
+		$now = new ilDateTime(date('Y-m-d'), IL_CAL_DATE);
+		return ($dl && ilDateTime::_after($now, $dl));
+	}
 	
+	// gev patch-end
+
 	//
 	// ORG UNIT
 	//

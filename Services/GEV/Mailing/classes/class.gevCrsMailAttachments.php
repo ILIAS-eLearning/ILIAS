@@ -17,6 +17,7 @@ class gevCrsMailAttachments extends ilMailAttachments {
 	const LIST_FOR_HOTEL_NAME = "Teilnehmerliste_Hotel.xls";
 	const LIST_FOR_PARTICIPANT_NAME = "Teilnehmerliste_Teilnehmer.xls";
 	const MATERIAL_LIST = "Materialliste.xls";
+	const ICAL_ENTRY = "Kalendereintrag.ics";
 	
 	public function __construct($a_obj_id) {
 		parent::__construct($a_obj_id);
@@ -27,6 +28,7 @@ class gevCrsMailAttachments extends ilMailAttachments {
 									  , self::LIST_FOR_HOTEL_NAME
 									  , self::LIST_FOR_PARTICIPANT_NAME
 									  , self::MATERIAL_LIST
+									  , self::ICAL_ENTRY
 									  );
 	}
 	
@@ -141,6 +143,9 @@ class gevCrsMailAttachments extends ilMailAttachments {
 				return;
 			case self::MATERIAL_LIST:
 				$this->getCourseUtils()->getMaterialList()->buildXLS($path, false);
+				return;
+			case self::ICAL_ENTRY:
+				$this->getCourseUtils()->buildICAL(false,$path);
 				return;
 		}
 		throw new Exception("Don't know how to generate file '".$a_filename."'.");

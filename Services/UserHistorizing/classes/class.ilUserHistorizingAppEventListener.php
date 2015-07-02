@@ -125,6 +125,11 @@ class ilUserHistorizingAppEventListener
 
 		$org_units_above = self::$ilUserHistorizingHelper->getOrgUnitsAboveOf($parameter['user_obj']);
 		
+		$exit_date_wbd = self::$ilUserHistorizingHelper->getExitDateWBDOf($parameter['user_obj']);
+		if ($exit_date_wbd != null)
+		{
+			$exit_date_wbd = $exit_date_wbd->get(IL_CAL_DATE);
+		}
 
 
 
@@ -161,7 +166,10 @@ class ilUserHistorizingAppEventListener
 			
 			//new 2014-11-30:
 			'is_vfs'			=>self::$ilUserHistorizingHelper->isVFSOf($parameter['user_obj']),
-			'is_active'			=>self::$ilUserHistorizingHelper->isActiveUser($parameter['user_obj'])
+			'is_active'			=>self::$ilUserHistorizingHelper->isActiveUser($parameter['user_obj']),
+
+			//new 2015-06-05
+			'exit_date_wbd'		=>$exit_date_wbd
 		);
 		/*
 		'street'	 	

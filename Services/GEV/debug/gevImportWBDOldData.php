@@ -6,6 +6,10 @@
 * @version	$Id$
 */
 
+ini_set("memory_limit","2048M"); 
+ini_set('max_execution_time', 0);
+set_time_limit(0);
+
 $LIVE = True;
 
 
@@ -20,13 +24,13 @@ chdir($basedir);
 require "./Customizing/global/skin/genv/Services/GEV/simplePwdSec.php";
 
 
-if( !$LIVE) {
+//if( !$LIVE) {
 	//context w/o user
 	require_once "./Services/Context/classes/class.ilContext.php";
 	ilContext::init(ilContext::CONTEXT_WEB_NOAUTH);
 	require_once("./Services/Init/classes/class.ilInitialisation.php");
 	ilInitialisation::initILIAS();
-}
+//}
 
 require_once("./include/inc.header.php");
 
@@ -147,10 +151,9 @@ class gevImportOldData {
 	}
 
 	public function getOldData(){
-		$sql = 'SELECT * FROM wbd_altdaten 
-				WHERE reported != 1
-				ORDER BY name';
-		//$sql .= ' LIMIT 250';
+		$sql = "SELECT * FROM wbd_altdaten 
+				WHERE reported = 0
+				AND goa_username != ''";
 
 		$result = mysql_query($sql, $this->importDB);
 		while($record = mysql_fetch_assoc($result)) {
@@ -158,10 +161,11 @@ class gevImportOldData {
 		}
 	}
 
-	public function setReported($id){
-		$sql = 'UPDATE wbd_altdaten 
-				SET  reported = 1
-				WHERE id=' .$id;
+	public function setReported($id, $row_id){
+		$sql = 'UPDATE wbd_altdaten SET  
+				reported = 1,
+				usrcrs_row = ' .$row_id
+				.' WHERE id=' .$id;
 
 		mysql_query($sql, $this->importDB);
 	}
@@ -170,7 +174,7 @@ class gevImportOldData {
 	public function matchUser($rec){
 		$docheck = True;
 		if($rec['goa_username'] != ''){
-			$login = $rec['goa_username'];
+			$login = trim($rec['goa_username']);
 			$sql = "SELECT * FROM usr_data WHERE login ='$login'"; 
 			$docheck = False;
 		}else{
@@ -180,16 +184,14 @@ class gevImportOldData {
 			if($LIVE){
 				$sql = "SELECT * FROM usr_data WHERE"; //user_table
 			}
-			$sql .= " (LOWER(firstname) = '" .strtolower(trim($rec['Vorname'])) ."'";
-			$sql .= " OR LOWER(firstname) = '" .$this->fuzzyName(trim($rec['Vorname'])) ."')";
+			$sql .= " (LOWER(firstname) = " .$this->db->quote(strtolower(trim($rec['Vorname'])), 'text') ."";
+			$sql .= " OR LOWER(firstname) = " .$this->db->quote($this->fuzzyName(trim($rec['Vorname'])), 'text') .")";
 			$sql .= " AND";
-			$sql .= " (LOWER(lastname) = '" .strtolower(trim($rec['Name'])) ."'";
-			$sql .= " OR LOWER(lastname) = '" .$this->fuzzyName(trim($rec['Name'])) ."')";
+			$sql .= " (LOWER(lastname) = " .$this->db->quote(strtolower(trim($rec['Name'])), 'text') ."";
+			$sql .= " OR LOWER(lastname) = " .$this->db->quote($this->fuzzyName(trim($rec['Name'])), 'text') .")";
 		}
 
 
-
-		//print $sql .'<br>';
 		$ret = array();
 		$result = $this->db->query($sql);
 
@@ -287,13 +289,19 @@ class gevImportOldData {
 		$begin_date = date('Y-m-d', strtotime($rec['Beginn']));
 		$end_date = date('Y-m-d', strtotime($rec['Ende']));
 		$creator_id = $rec['creator_id'];
+		$custom_id = $rec['MassnahmenNr'];
 
+		//also check for MassnahmenNr, since it occurs that there are 
+		//two seminars on one day with the same title
+		//yes, really.
 		$sql = "SELECT crs_id FROM hist_course WHERE 
 			title = '$title'
 			AND
 			begin_date = '$begin_date'
 			AND 
 			end_date = '$end_date'
+			AND
+			custom_id = '$custom_id'
 		";
 		$result = $this->db->query($sql);
 		if($this->db->numRows($result) > 0){
@@ -319,12 +327,6 @@ class gevImportOldData {
 
 		$next_id = $this->db->nextId('hist_course');
 
-		
-		/*
-		hours
- 		venue
- 		provider
- 		*/
 		$sql = "INSERT INTO hist_course
 			(
 				row_id,
@@ -356,7 +358,7 @@ class gevImportOldData {
 		 		'$wbd_topic',
 		 		'$begin_date',
 		 		'$end_date',
-		 		'-empty-',
+		 		'$custom_id',
 		 		'-empty-',
 		 		'-empty-'
 			)";
@@ -366,12 +368,7 @@ class gevImportOldData {
 				die($sql);
 			}
 
-
-
-
 		return $crs_id;
-
-
 	}
 
 
@@ -432,7 +429,7 @@ class gevImportOldData {
 			if(! $this->db->query($sql)){
 				die($sql);
 			}
-
+			return $next_id;
 	
 	}
 
@@ -488,8 +485,8 @@ class gevImportOldData {
 			. " INNER JOIN hist_user ON hist_usercoursestatus.usr_id = hist_user.user_id"
 			. " WHERE hist_user.hist_historic = 0 "
 			. " AND hist_user.okz != '-empty-' "
-			. " AND hist_usercoursestatus.creator_user_id = -100 "
-			. " AND hist_usercoursestatus.OKZ = '' "
+			. " AND hist_usercoursestatus.creator_user_id < 0 "
+			. " AND hist_usercoursestatus.OKZ is NULL "
 			. " AND hist_usercoursestatus.function = 'Mitglied' ";
 		
 
@@ -506,6 +503,130 @@ class gevImportOldData {
 	}
 
 
+
+	public function stornoEduRecords() {
+	
+		print 'STORNO:<br>';
+	
+		$sql = "SELECT usrcrs_row FROM wbd_altdaten 
+				WHERE reported = 17
+				AND storno = 0
+				AND usrcrs_row > -1";
+
+		$storno_rows = array();
+		
+
+		$result = mysql_query($sql, $this->importDB);
+		while($record = mysql_fetch_assoc($result)) {
+			$storno_rows[] = $record['usrcrs_row'];
+		}
+		
+		if (count($storno_rows) == 0) {
+			print ' - no stornos.';
+		} else {
+		
+			$sql = 'UPDATE hist_usercoursestatus SET hist_historic = 1 WHERE row_id IN ('
+			.implode(',', $storno_rows)
+			.')';
+
+			print $sql;
+			$this->db->query($sql);
+		
+			$sql = 'UPDATE wbd_altdaten set storno=1 WHERE usrcrs_row IN ('
+			.implode(',', $storno_rows)
+			.')';
+
+			print '<br>';
+			print $sql;
+			mysql_query($sql, $this->importDB);
+		}
+				
+	}
+
+
+	public function rematchUserCourseRow() {
+		$sql = "SELECT * FROM wbd_altdaten 
+				WHERE reported = 1
+				AND usrcrs_row = -1
+				ORDER BY id DESC
+				";
+
+		$single_q = "SELECT *, 
+				hist_usercoursestatus.row_id as row_id,
+				hist_usercoursestatus.begin_date as course_begin,
+				hist_usercoursestatus.end_date as course_end
+			FROM hist_usercoursestatus
+			INNER JOIN hist_course ON hist_usercoursestatus.crs_id = hist_course.crs_id
+			INNER JOIN hist_user ON hist_usercoursestatus.usr_id = hist_user.user_id
+			WHERE	hist_usercoursestatus.hist_historic = 0
+			AND 	hist_user.firstname = '%s'
+			AND 	hist_user.lastname  = '%s'
+			AND 	hist_course.title = '%s'
+			AND 	hist_usercoursestatus.begin_date  = '%s'
+			AND		hist_usercoursestatus.end_date  = '%s'
+			GROUP BY hist_usercoursestatus.row_id
+			";		
+
+
+		print '<pre>';
+
+		$result = mysql_query($sql, $this->importDB);
+		while($record = mysql_fetch_assoc($result)) {
+			print_r($record);
+			$q = sprintf($single_q, 
+				$record['Vorname'],
+				$record['Name'],
+				$record['Titel'],
+				date('Y-m-d', strtotime($record['Beginn'])),
+				date('Y-m-d', strtotime($record['Ende']))
+			);
+
+			$matches = array();
+			$res = $this->db->query($q);
+			while($rec = $this->db->fetchAssoc($res)) {
+				$matches[] = $rec;
+			}
+			if(count($matches) === 1){
+				$update = 'UPDATE wbd_altdaten SET usrcrs_row = '
+					.$matches[0]['row_id']
+					.', creator_id = -101'
+					.' WHERE id=' .$record['id']
+					;
+				print $update;				
+				mysql_query($update, $this->importDB);
+			}
+			print '<hr>';
+		}
+		
+		
+				
+	}
+
+
+	function rectifyAltdatenDateFormat(){
+		$sql = " SELECT id, Geburtsdatum, Beginn, Ende FROM wbd_altdaten WHERE "
+			." Geburtsdatum LIKE '%-%-%'"
+			." OR Beginn LIKE '%-%-%'"
+			." OR Ende LIKE '%-%-%'";
+
+		$result = mysql_query($sql, $this->importDB);
+		while($rec = mysql_fetch_assoc($result)) {
+
+			//execute for every record:
+			$sql = "UPDATE wbd_altdaten SET"
+				." Geburtsdatum = '" .date('d.m.Y', strtotime($rec['Geburtsdatum'])) ."'"
+				." ,Beginn = '" .date('d.m.Y', strtotime($rec['Beginn'])) ."'"
+				." ,Ende = '" .date('d.m.Y', strtotime($rec['Ende'])) ."'"
+				." WHERE id=" .$rec['id'];	
+
+			//print "<br>$sql";
+			mysql_query($sql, $this->importDB);
+		}
+
+		
+	}  
+
+
 	
 }
 
@@ -517,14 +638,23 @@ class gevImportOldData {
 run: 
 */
 
-
-
 $sem_many_matches = array();
-
-//die();
 
 $import = new gevImportOldData();
 
+$import->rectifyAltdatenDateFormat();
+print '<hr>';
+
+$import->rectifyOKZforAltdaten();
+print '<hr>';
+//$import->rematchWBDTopic();
+//print '<hr>';
+
+//$import->rematchUserCourseRow();
+//print '<hr>';
+
+$import->stornoEduRecords();
+print '<hr>';
 
 
 $import->getOldData();
@@ -557,23 +687,25 @@ print '<hr>';
 // !!!!!!!!!!!
 
 
-//die();
+/*
+printToTable($import->sem_ok);
+die();
+*/
+
 
 foreach($import->sem_ok as $rec){
 	$crs_id = $import->importSeminar($rec);
 
-	$import->assignUserToSeminar($rec, $crs_id);
-	$import->setReported($rec['id']);
+	$row_id = $import->assignUserToSeminar($rec, $crs_id);
+	$import->setReported($rec['id'], $row_id);
 }
 
-//$import->rectifyOKZforAltdaten();
+$import->rectifyOKZforAltdaten();
 //$import->rematchWBDTopic();
 
 
 
-
 printToTable($import->sem_ok);
-
 print '<hr>';
 print 'no match:';
 //printToTable($import->sem_no_user_matches);

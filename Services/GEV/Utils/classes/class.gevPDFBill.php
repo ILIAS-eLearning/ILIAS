@@ -44,6 +44,7 @@ class gevPDFBill extends ilPDFBill {
 		$crs_utils = gevCourseUtils::getInstance($a_bill->getContextId());
 		$user_utils = gevUserUtils::getInstance($a_bill->getUserId());
 		$booking_status = $crs_utils->getBookingStatusOf($a_bill->getUserId());
+		$participation_status = $crs_utils->getParticipationStatusOf($a_bill->getUserId());
 		$app = $crs_utils->getFormattedAppointment();
 		
 		$this->setAbout("Rechnung");
@@ -52,11 +53,15 @@ class gevPDFBill extends ilPDFBill {
 		$this->setPretext("Für die Weiterbildung des Teilnehmers ".$user_utils->getFirstname()." ".$user_utils->getLastname().
 						  " erlauben wir uns, folgende Rechnung zu stellen:");
 		$posttext = "Der Rechnungsbetrag wird dem Agenturkonto ".$a_bill->getCostCenter()." belastet.";
-		if ($booking_status == ilCourseBooking::STATUS_CANCELLED_WITH_COSTS) {
-			$res = $this->db->query("SELECT coupon_code FROM gev_bill_coupon WHERE bill_pk = ".$a_bill->getId());
+		if (   $booking_status == ilCourseBooking::STATUS_CANCELLED_WITH_COSTS
+			|| $participation_status == ilParticipationStatus::STATUS_ABSENT_EXCUSED) {
+			$res = $this->db->query("SELECT gc.coupon_code, cp.coupon_value "
+								   ."  FROM gev_bill_coupon gc "
+								   ."  JOIN coupon cp ON cp.coupon_code = gc.coupon_code"
+								   ." WHERE bill_pk = ".$a_bill->getId());
 			if ($rec = $this->db->fetchAssoc($res)) {
 				$posttext .= " Sie erhalten von uns den Gutscheincode ".$rec["coupon_code"]." in Höhe von "
-						     .number_format($a_bill->getAmount(), 2, ",", "")." EUR, welchen Sie für Folgebuchungen "
+						     .number_format($rec["coupon_value"], 2, ",", "")." EUR, welchen Sie für Folgebuchungen "
 						     ."einlösen können. Der Gutschein ist ein Jahr gültig.";
 			}
 		}

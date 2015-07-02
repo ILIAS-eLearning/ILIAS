@@ -1861,6 +1861,9 @@ if(!$ilDB->tableExists('hist_user'))
 <#42>
 <?php
 // init helper class
+$idDB->	manipulate("ALTER TABLE `il_plugin` CHANGE `plugin_id` `plugin_id` 
+			VARCHAR(40) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL");
+
 require_once "Customizing/class.ilCustomInstaller.php";
 
 ilCustomInstaller::initPluginEnv();
@@ -2554,7 +2557,7 @@ if(!$ilDB->tableExists('hist_tep'))
 	ilCustomInstaller::maybeInitRBAC();
 	ilCustomInstaller::maybeInitObjDataCache();
 	ilCustomInstaller::maybeInitUserToRoot();
-	
+
 	ini_set('max_execution_time', 0);
 	set_time_limit(0);
 
@@ -3066,7 +3069,8 @@ $ilDB->manipulate("UPDATE tep_type SET title = 'FD-Gespräch' WHERE title = 'FD 
 									  , "ID FK"
 									  , "DBV UVG"
 									  );
-	
+
+
 	$res = $ilDB->query("SELECT DISTINCT oref.ref_id "
 						."  FROM object_data od "
 						."  JOIN object_reference oref ON oref.obj_id = od.obj_id "
@@ -3074,7 +3078,7 @@ $ilDB->manipulate("UPDATE tep_type SET title = 'FD-Gespräch' WHERE title = 'FD 
 						."   AND oref.deleted IS NULL"
 						."   AND od.type = 'orgu'"
 						);
-	
+
 	if ($rec = $ilDB->fetchAssoc($res)) {
 		foreach($global_roles_of_superiors as $role) {
 			gevOrgUnitUtils::grantPermissionsRecursivelyFor($rec["ref_id"], $role,
@@ -3086,7 +3090,7 @@ $ilDB->manipulate("UPDATE tep_type SET title = 'FD-Gespräch' WHERE title = 'FD 
 	else {
 		die("Could not find orgu with import id evg.");
 	}
-	
+
 	$res = $ilDB->query("SELECT DISTINCT od.obj_id "
 						."  FROM object_data od "
 						."  JOIN object_reference oref ON oref.obj_id = od.obj_id "
@@ -3107,13 +3111,14 @@ $ilDB->manipulate("UPDATE tep_type SET title = 'FD-Gespräch' WHERE title = 'FD 
 	else {
 		die("Could not find orgu with import id gev_base.");
 	}
-	
+
 	// Administration 
 	$ref_id = 9;
 	global $rbacreview;
 	global $rbacadmin;
 	foreach($global_roles_of_superiors as $role_name) {
 		$role = gevRoleUtils::getInstance()->getRoleIdByName($role_name);
+
 		if (!$role) {
 			die("Could not find role $role_name");
 		}
@@ -3123,7 +3128,7 @@ $ilDB->manipulate("UPDATE tep_type SET title = 'FD-Gespräch' WHERE title = 'FD 
 		$rbacadmin->revokePermission($ref_id, $role);
 		$rbacadmin->grantPermission($role, $new_ops, $ref_id);
 	}
-	
+
 	// Org-Units 
 	$ref_id = 56;
 	global $rbacreview;
@@ -3185,7 +3190,7 @@ $ilDB->manipulate("UPDATE tep_type SET title = 'FD-Gespräch' WHERE title = 'FD 
 	ilCustomInstaller::maybeInitRBAC();
 	ilCustomInstaller::maybeInitObjDataCache();
 	ilCustomInstaller::maybeInitUserToRoot();
-	
+
 	$global_roles_of_superiors = array( "HA 84"
 									  );
 	
@@ -3292,4 +3297,368 @@ $ilDB->manipulate("UPDATE tep_type SET title = 'FD-Gespräch' WHERE title = 'FD 
 <#101>
 <?php
 	$ilCtrlStructureReader->getStructure();
+?>
+
+<#102>
+<?php
+
+require_once "Customizing/class.ilCustomInstaller.php";
+ilCustomInstaller::maybeInitClientIni();
+ilCustomInstaller::maybeInitPluginAdmin();
+ilCustomInstaller::maybeInitObjDefinition();
+ilCustomInstaller::maybeInitAppEventHandler();
+ilCustomInstaller::maybeInitTree();
+ilCustomInstaller::maybeInitRBAC();
+ilCustomInstaller::maybeInitObjDataCache();
+ilCustomInstaller::maybeInitUserToRoot();
+ilCustomInstaller::maybeInitSettings();
+
+require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+
+gevCourseUtils::grantPermissionsForAllCoursesBelow(1696, "RTL", array("write"));
+gevCourseUtils::grantPermissionsForAllCoursesBelow(1783, "RTL", array("write"));
+gevCourseUtils::grantPermissionsForAllCoursesBelow(1621, "RTL", array("write"));
+gevCourseUtils::grantPermissionsForAllCoursesBelow(1644, "RTL", array("write"));
+
+
+?>
+
+
+<#103>
+<?php
+// init helper class
+require_once "Customizing/class.ilCustomInstaller.php";
+
+ilCustomInstaller::initPluginEnv();
+ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "User", "udfc", "GEVUserData");
+?>
+
+<#104>
+<?php
+	require_once "Customizing/class.ilCustomInstaller.php";
+	ilCustomInstaller::maybeInitClientIni();
+	ilCustomInstaller::maybeInitPluginAdmin();
+	ilCustomInstaller::maybeInitObjDefinition();
+	ilCustomInstaller::maybeInitAppEventHandler();
+	ilCustomInstaller::maybeInitTree();
+	ilCustomInstaller::maybeInitRBAC();
+	ilCustomInstaller::maybeInitObjDataCache();
+	ilCustomInstaller::maybeInitUserToRoot();
+
+	require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+	$gev_settings = gevSettings::getInstance();
+	$res = $ilDB->query("SELECT obj_id FROM object_data WHERE import_id = 'na_ohne' AND type = 'orgu'");
+	if ($rec = $ilDB->fetchAssoc($res)) {
+		$gev_settings->setNAPOUNoAdviserUnitId($rec["obj_id"]);
+	}
+	else {
+		die("Custom Update #104: Expected to find org_unit with import_id = 'na_ohne'");
+	}
+?>
+
+<#105>
+<?php
+
+	require_once "Customizing/class.ilCustomInstaller.php";
+	ilCustomInstaller::maybeInitClientIni();
+	ilCustomInstaller::maybeInitPluginAdmin();
+	ilCustomInstaller::maybeInitObjDefinition();
+	ilCustomInstaller::maybeInitAppEventHandler();
+	ilCustomInstaller::maybeInitTree();
+	ilCustomInstaller::maybeInitRBAC();
+	ilCustomInstaller::maybeInitObjDataCache();
+	ilCustomInstaller::maybeInitUserToRoot();
+
+	require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+
+
+	// Set the absolute cancel deadline to 9999 for all trainings in the category
+	// "Grundausbildung"
+	$cat_ref_id = 1644;
+
+	foreach (gevCourseUtils::getAllCoursesBelow(array($cat_ref_id)) as $info) {
+		$utils = gevCourseUtils::getInstance($info["obj_id"]);
+		$utils->setAbsoluteCancelDeadline(9999);
+	}
+
+?>
+
+<#106>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+
+<#107>
+<?php
+	// Create new user for the "Maklerangenbot"
+
+	require_once "Customizing/class.ilCustomInstaller.php";
+	ilCustomInstaller::maybeInitClientIni();
+	ilCustomInstaller::maybeInitPluginAdmin();
+	ilCustomInstaller::maybeInitObjDefinition();
+	ilCustomInstaller::maybeInitAppEventHandler();
+	ilCustomInstaller::maybeInitTree();
+	ilCustomInstaller::maybeInitRBAC();
+	ilCustomInstaller::maybeInitObjDataCache();
+	ilCustomInstaller::maybeInitUserToRoot();
+	ilCustomInstaller::maybeInitSettings();
+	ilCustomInstaller::maybeInitIliasObject();
+
+	$user = new ilObjUser();
+	$user->setLogin("makler_angebot");
+	$user->setEmail("rklees@cat06.de");
+	$user->setPasswd(md5(rand()));
+	$user->setLastname("löschen");
+	$user->setFirstname("nicht");
+	$user->setGender("m");
+
+	// is active, owner is root
+	$user->setActive(true, 6);
+	$user->setTimeLimitUnlimited(true);
+	// user already agreed at registration
+
+	$now = new ilDateTime(time(),IL_CAL_UNIX);
+	$user->setAgreeDate($now->get(IL_CAL_DATETIME));
+	$user->setIsSelfRegistered(true);
+
+	$user->create();
+	$user->saveAsNew();
+
+	require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+	gevSettings::getInstance()->set(gevSettings::AGENT_OFFER_USER_ID, $user->getId());
+?>
+
+<#108>
+<?php
+
+	// Create DB-field for #1041
+	if (!$ilDB->tableColumnExists("crs_pstatus_crs", "mail_send_date")) {
+		$ilDB->addTableColumn('crs_pstatus_crs', 'mail_send_date', 
+			array(
+				'type' => 'date', 
+				'notnull' => false
+			));
+	}
+
+?>
+
+<#109>
+<?php
+	require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+	require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
+	require_once("Customizing/class.ilCustomInstaller.php");
+	
+	ilCustomInstaller::maybeInitClientIni();
+	ilCustomInstaller::maybeInitPluginAdmin();
+	ilCustomInstaller::maybeInitObjDefinition();
+	ilCustomInstaller::maybeInitAppEventHandler();
+	ilCustomInstaller::maybeInitTree();
+	ilCustomInstaller::maybeInitRBAC();
+	ilCustomInstaller::maybeInitObjDataCache();
+	ilCustomInstaller::maybeInitUserToRoot();
+
+	$res = $ilDB->query("SELECT DISTINCT oref.ref_id "
+						."  FROM object_data od "
+						."  JOIN object_reference oref ON oref.obj_id = od.obj_id "
+						." WHERE ".$ilDB->in("import_id", array("gev_base"), false, "text")
+						."   AND oref.deleted IS NULL"
+						."   AND od.type = 'orgu'"
+						);
+/*
+	if ($rec = $ilDB->fetchAssoc($res)) {
+		gevOrgUnitUtils::grantPermissionsRecursivelyFor($rec["ref_id"], "superior",
+					array( "view_learning_progress_rec"));
+	}
+	else {
+		die("Custom Update #109: Expected to find org_unit with import_id = 'gev_base'");
+	}*/
+
+?>
+
+<#110>
+<?php
+	// Add global and local Key-Accounter-Roles.
+	require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+	require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
+	require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+	require_once("Customizing/class.ilCustomInstaller.php");
+	
+	ilCustomInstaller::maybeInitClientIni();
+	ilCustomInstaller::maybeInitPluginAdmin();
+	ilCustomInstaller::maybeInitObjDefinition();
+	ilCustomInstaller::maybeInitAppEventHandler();
+	ilCustomInstaller::maybeInitTree();
+	ilCustomInstaller::maybeInitRBAC();
+	ilCustomInstaller::maybeInitObjDataCache();
+	ilCustomInstaller::maybeInitUserToRoot();
+	
+	$role_utils = gevRoleUtils::getInstance();
+	
+	$role_utils->createGlobalRole("Key-Accounter", "Key-Accounter (global)");
+	
+	$evg = gevOrgUnitUtils::getInstanceByImportId("evg");
+	$children = gevOrgUnitUtils::getAllChildren(array($evg->getRefId()));
+	foreach ($children as $child) {
+		$role = $role_utils->createLocalRole($child["ref_id"], "Key-Accounter", "Key-Accounter (lokal)");
+		$ouutils = gevOrgUnitUtils::getInstance($child["obj_id"]);
+		$ouutils->grantPermissionsFor($role->getId(),  array( "view_learning_progress"
+															, "view_learning_progress_rec"
+															)
+									 );
+	}
+?>
+
+
+<#111>
+<?php
+	require_once("Services/WBDData/classes/class.wbdErrorLog.php");
+	wbdErrorLog::_install();
+?>
+
+<#112>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+
+<#113>
+<?php
+	// Add global and local Key-Accounter-Roles.
+	require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+	require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
+	require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+	require_once("Customizing/class.ilCustomInstaller.php");
+	
+	ilCustomInstaller::maybeInitClientIni();
+	ilCustomInstaller::maybeInitPluginAdmin();
+	ilCustomInstaller::maybeInitObjDefinition();
+	ilCustomInstaller::maybeInitAppEventHandler();
+	ilCustomInstaller::maybeInitTree();
+	ilCustomInstaller::maybeInitRBAC();
+	ilCustomInstaller::maybeInitObjDataCache();
+	ilCustomInstaller::maybeInitUserToRoot();
+	
+	$role_utils = gevRoleUtils::getInstance();
+	$role_utils->createGlobalRole("ExpressUser", "Benutzeraccount per Express-Login angelegt.");
+?>
+
+<#114>
+<?php
+	require_once("Modules/OrgUnit/classes/class.ilObjOrgUnit.php");
+	require_once("Customizing/class.ilCustomInstaller.php");
+
+	ilCustomInstaller::maybeInitPluginAdmin();
+	ilCustomInstaller::maybeInitObjDefinition();
+	ilCustomInstaller::maybeInitAppEventHandler();
+	ilCustomInstaller::maybeInitTree();
+	ilCustomInstaller::maybeInitRBAC();
+	ilCustomInstaller::maybeInitObjDataCache();
+	ilCustomInstaller::maybeInitUserToRoot();
+
+	$orgu = new ilObjOrgUnit();
+	$orgu->setTitle("ohne Zuordnung");
+	$orgu->create();
+	$orgu->createReference();
+	$orgu->update();
+
+	$id = $orgu->getId();
+	$ref_id = $orgu->getRefId();
+
+	$orgu->putInTree($orgu->getRootOrgRefId());
+	$orgu->initDefaultRoles();
+
+
+
+	require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+	$setting_utils = gevSettings::getInstance();
+	$setting_utils->setOrgUnitUnassignedUser($ref_id);
+?>
+
+
+<#115>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+
+<#116>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+
+<#117>
+<?php
+	require_once("Services/VCPool/class.VCPoolInstaller.php");
+	
+	VCPoolInstaller::allSteps($ilDB);
+?>
+
+<#118>
+<?php
+// init helper class
+require_once "Customizing/class.ilCustomInstaller.php";
+
+ilCustomInstaller::initPluginEnv();
+ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "AdvancedMetaData", "amdc", "CourseAMD");
+
+?>
+
+<#119>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+
+<#120>
+<?php
+// init helper class
+require_once "Customizing/class.ilCustomInstaller.php";
+
+ilCustomInstaller::initPluginEnv();
+ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "AdvancedMetaData", "amdc", "CourseAMD");
+
+?>
+
+<#121>
+<?php
+// init helper class
+require_once "Customizing/class.ilCustomInstaller.php";
+
+ilCustomInstaller::initPluginEnv();
+ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "User", "udfc", "GEVUserData");
+?>
+
+<#122>
+<?php
+if(!$ilDB->tableColumnExists('hist_user', 'exit_date_wbd')){
+	$ilDB->manipulate("ALTER TABLE `hist_user` ADD `exit_date_wbd` DATE NULL DEFAULT '0000-00-00' AFTER `is_active`");
+}
+?>
+
+<#123>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+
+<#124>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+
+<#125>
+<?php
+	if(!$ilDB->tableColumnExists('hist_course', 'dbv_hot_topic')) {
+	$ilDB->manipulate("ALTER TABLE `hist_course` ADD `dbv_hot_topic` VARCHAR(50) NULL");
+	}
+?>
+
+<#126>
+<?php
+require_once "Customizing/class.ilCustomInstaller.php";
+	ilCustomInstaller::initPluginEnv();
+	ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "AdvancedMetaData", "amdc", "CourseAMD");
+?>
+
+<#127>
+<?php
+require_once "Customizing/class.ilCustomInstaller.php";
+	ilCustomInstaller::initPluginEnv();
+	ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "AdvancedMetaData", "amdc", "CourseAMD");
 ?>

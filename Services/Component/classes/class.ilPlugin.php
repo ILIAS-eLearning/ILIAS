@@ -743,8 +743,9 @@ abstract class ilPlugin
 					" AND component_name = ".$ilDB->quote($this->getComponentName(), "text").
 					" AND slot_id = ".$ilDB->quote($this->getSlotId(), "text").
 					" AND name = ".$ilDB->quote($this->getPluginName(), "text");
-					
-				$ilDB->manipulate($q);
+
+				$ilDB->manipulate($q);				
+
 				$this->afterActivation();
 			}
 		}
@@ -826,7 +827,7 @@ abstract class ilPlugin
 				" AND component_name = ".$ilDB->quote($this->getComponentName(), "text").
 				" AND slot_id = ".$ilDB->quote($this->getSlotId(), "text").
 				" AND name = ".$ilDB->quote($this->getPluginName(), "text");
-				
+
 			$ilDB->manipulate($q);
 		}
 

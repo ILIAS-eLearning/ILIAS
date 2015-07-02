@@ -152,7 +152,7 @@ class ilDatePresentation
 			include_once('./Services/Calendar/classes/class.ilCalendarUtil.php');
 				// gev-patch start
 			$date_str = $date->get(IL_CAL_FKT_DATE,'d').'.'.
-				//ilCalendarUtil::_numericMonthToString($date_info['mon'],false).' '.
+				//ilCalendarUtil::_numericMonthToString($date_info['mon'],true).' '.
 				//ilCalendarUtil::_numericMonthToString($date_info['mon'],true).' '.
 				sprintf("%02d", (int)$date_info["mon"]).".".
 				// gev-patch end
@@ -239,11 +239,11 @@ class ilDatePresentation
 			if ($start_info['year'] == $end_info["year"]) {
 				if ($start_info['mon'] == $end_info['mon']) {
 					return $start->get(IL_CAL_FKT_DATE,'d').'.'.
-							//ilCalendarUtil::_numericMonthToString($date_info['mon'],false).' '.
+							//ilCalendarUtil::_numericMonthToString($date_info['mon'],true).' '.
 							//ilCalendarUtil::_numericMonthToString($date_info['mon'],true).' '.
 							" - ".
 							$end->get(IL_CAL_FKT_DATE,'d').'.'.
-							//ilCalendarUtil::_numericMonthToString($date_info['mon'],false).' '.
+							//ilCalendarUtil::_numericMonthToString($date_info['mon'],true).' '.
 							//ilCalendarUtil::_numericMonthToString($date_info['mon'],true).' '.
 							sprintf("%02d", (int)$end_info["mon"]).".".
 							// gev-patch end
@@ -251,11 +251,11 @@ class ilDatePresentation
 				}
 				
 				return $start->get(IL_CAL_FKT_DATE,'d').'.'.
-						//ilCalendarUtil::_numericMonthToString($date_info['mon'],false).' '.
+						//ilCalendarUtil::_numericMonthToString($date_info['mon'],true).' '.
 						//ilCalendarUtil::_numericMonthToString($date_info['mon'],true).' '.
 						sprintf("%02d", (int)$start_info["mon"]).". - ".
 						$end->get(IL_CAL_FKT_DATE,'d').'.'.
-						//ilCalendarUtil::_numericMonthToString($date_info['mon'],false).' '.
+						//ilCalendarUtil::_numericMonthToString($date_info['mon'],true).' '.
 						//ilCalendarUtil::_numericMonthToString($date_info['mon'],true).' '.
 						sprintf("%02d", (int)$end_info["mon"]).".".
 						// gev-patch end

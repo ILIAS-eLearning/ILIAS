@@ -27,12 +27,16 @@ class gevParticipantWaitingToBooked extends gevCrsAutoMail {
 		return array();
 	}
 	
-	public function getMail($a_recipient) {
-		if ($this->getAdditionalMailSettings()->getSuppressMails()) {
-			return null;
-		}
-		
-		return parent::getMail($a_recipient);
+	public function getAttachmentsForMail() {
+		require_once ("Services/GEV/Mailing/classes/class.gevCrsMailAttachments.php");
+
+		$ical = gevCrsMailAttachments::ICAL_ENTRY;
+		$path = $this->getAttachments()->getPathTo($ical);
+
+		return array( array( "name" => $ical
+						   , "path" => $path
+						   )
+					);
 	}
 }
 

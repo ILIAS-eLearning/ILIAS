@@ -284,7 +284,7 @@ class ilCustomInstaller
 		if (isset($GLOBALS["ilClientIniFile"])) {
 			return;
 		}
-		
+		$_COOKIE["ilClientId"] = "Generali2";
 		$ini_file = "./".ILIAS_WEB_DIR."/".$_COOKIE["ilClientId"]."/client.ini.php";
 		require_once("./Services/Init/classes/class.ilIniFile.php");
 		$ilClientIniFile = new ilIniFile($ini_file);		
@@ -305,5 +305,25 @@ class ilCustomInstaller
 		
 		require_once("Services/Object/classes/class.ilObjectDataCache.php");
 		$GLOBALS["ilObjDataCache"] = new ilObjectDataCache();
+	}
+	
+	static public function maybeInitSettings() {
+		if (isset($GLOBALS["ilSetting"])) {
+			return;
+		}
+		
+		require_once("./Services/Administration/classes/class.ilSetting.php");
+		
+		$GLOBALS["ilSetting"] = new ilSetting();
+	}
+	
+	static public function maybeInitIliasObject() {
+		if (isset($GLOBALS["ilias"])) {
+			return;
+		}	
+		
+		require_once("./Services/Init/classes/class.ilias.php");
+		
+		$GLOBALS["ilias"] = new ILIAS();
 	}
 }

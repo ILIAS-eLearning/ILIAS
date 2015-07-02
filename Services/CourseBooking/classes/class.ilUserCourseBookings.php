@@ -164,6 +164,7 @@ class ilUserCourseBookings
 		
 		$amd = array( gevSettings::CRS_AMD_START_DATE => "start"
 					, gevSettings::CRS_AMD_END_DATE => "end"
+					, gevSettings::CRS_AMD_SCHEDULE => "schedule"
 					);
 		
 		$dates = gevAMDUtils::getInstance()

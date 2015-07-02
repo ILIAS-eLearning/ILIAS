@@ -129,7 +129,8 @@ class ilCourseHistorizing extends ilHistorizingStorage
 			'dl_invitation'		=> 'integer',
 			'dl_storno'			=> 'integer',
 			'dl_booking'		=> 'integer',
-			'dl_waitinglist'	=> 'integer'
+			'dl_waitinglist'	=> 'integer',
+			'dbv_hot_topic'		=> 'text'
 
 		);
 

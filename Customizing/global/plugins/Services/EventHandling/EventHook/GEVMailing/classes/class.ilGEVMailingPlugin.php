@@ -115,9 +115,6 @@ class ilGEVMailingPlugin extends ilEventHookPlugin
 			return;
 		}
 		
-		// #317
-		return;
-		
 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 		require_once("Services/ParticipationStatus/classes/class.ilParticipationStatus.php");
 		require_once("Services/GEV/Mailing/classes/class.gevCrsAutoMails.php");
@@ -138,6 +135,13 @@ class ilGEVMailingPlugin extends ilEventHookPlugin
 			$mails->sendDeferred("trainer_added", array($usr_id));
 		}
 		else if ($a_event == "deleteParticipant") {
+			require_once("Services/GEV/Mailing/classes/class.gevDeferredMails.php");
+			gevDeferredMails::getInstance()->removeDeferredMails( array($crs_id)
+																, array( "trainer_added"
+																	   , "invitation"
+																	   )
+																, array($usr_id)
+																);
 			$mails->send("trainer_removed", array($usr_id));
 		}
 	}

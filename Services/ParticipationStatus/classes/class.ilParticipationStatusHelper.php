@@ -1,7 +1,9 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+// gev-patch start
 require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+// gev-patch end
 
 /**
  * Course participation status helper 
@@ -181,6 +183,21 @@ class ilParticipationStatusHelper
 	 */
 	public function getCourseNeedsAttendanceList()
 	{
+		// only temporary, see #1339, #1279
 		return false;
-	}	
+		return $this->utils->isDecentralTraining() && ($this->utils->getCreditPoints() > 0);
+	}
+	
+	// gev-patch start
+	/**
+	 * Is the trainer obliged to confirm that an invitation mail was send
+	 * before he is allowed to finalize the participation status?
+	 *
+	 * @return boolean
+	 */
+	public function getCourseNeedsInvitationMailConfirmation() {
+		return false;
+		return $this->utils->isDecentralTraining();
+	}
+	// gev-patch end
 }

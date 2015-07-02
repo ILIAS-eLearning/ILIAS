@@ -121,6 +121,15 @@ class gevUserProfileGUI {
 				if ($bwv_id && !$bwv_id=='') {
 					$this->user_utils->setWBDBWVId($bwv_id);
 					$this->user_utils->setWBDTPType(gevUserUtils::WBD_EDU_PROVIDER);
+					
+					$inp = $form->getItemByPostVar("bwv_id");
+					if ($inp) {
+						$inp->setDisabled(true);
+					}
+					$cb = $form->getItemByPostVar("wbd_acceptance");
+					if ($cb) {
+						$cb->setDisabled(true);
+					}
 				}
 			
 				ilUtil::sendSuccess($this->lng->txt("gev_user_profile_saved"), true);
@@ -193,7 +202,7 @@ class gevUserProfileGUI {
 		$birthday = new ilBirthdayInputGUI($this->lng->txt("birthday"), "birthday");
 		$date = new ilDateTime($this->user->getBirthday(), IL_CAL_DATE);
 		$birthday->setDate($date);
-		$birthday->setRequired(true);
+		$birthday->setRequired($this->user_utils->forceWBDUserProfileFields());
 		$birthday->setStartYear(1900);
 		$form->addItem($birthday);
 		
@@ -216,12 +225,16 @@ class gevUserProfileGUI {
 			$_bwv_id = $this->user_utils->getWBDBWVId();
 			if (!$_bwv_id) {
 				$bwv_id = new ilTextInputGUI($this->lng->txt("gev_bwv_id"), "bwv_id");
+				$item_to_add = new ilCheckboxInputGUI("", "wbd_acceptance");
+				$item_to_add->setOptionTitle($this->lng->txt("evg_wbd"));
+				$item_to_add->addSubItem($bwv_id);
 			}
 			else {
 				$bwv_id = new ilNonEditableValueGUI($this->lng->txt("gev_bwv_id"));
+				$item_to_add = $bwv_id;
 			}
 			$bwv_id->setValue($_bwv_id);
-			$form->addItem($bwv_id);
+			$form->addItem($item_to_add);
 		}
 		
 		$ad_title = new ilNonEditableValueGUI($this->lng->txt("gev_ad_title"));
@@ -232,15 +245,9 @@ class gevUserProfileGUI {
 		$agent_key->setValue($this->user_utils->getAgentKey());
 		$form->addItem($agent_key);
 		
-		/*$company_title = new ilNonEditableValueGUI($this->lng->txt("gev_company_title"));
-		$company_title->setValue($this->user_utils->getCompanyTitle());
-		$form->addItem($company_title);*/
-		
 		$org_unit = new ilNonEditableValueGUI($this->lng->txt("gev_org_unit"));
-		$org_unit->setValue($this->user_utils->getOrgUnitTitle());
+		$org_unit->setValue($this->user_utils->getAllOrgUnitTitlesUserIsMember());
 		$form->addItem($org_unit);
-		
-		
 		
 		$section2 = new ilFormSectionHeaderGUI();
 		$section2->setTitle($this->lng->txt("gev_business_contact"));
@@ -257,22 +264,18 @@ class gevUserProfileGUI {
 		
 		$b_street = new ilTextInputGUI($this->lng->txt("street"), "b_street");
 		$b_street->setValue($this->user->getStreet());
-		$b_street->setRequired(true);
+		$b_street->setRequired($this->user_utils->forceWBDUserProfileFields());
 		$form->addItem($b_street);
 		
 		$b_city = new ilTextInputGUI($this->lng->txt("city"), "b_city");
 		$b_city->setValue($this->user->getCity());
-		$b_city->setRequired(true);
+		$b_city->setRequired($this->user_utils->forceWBDUserProfileFields());
 		$form->addItem($b_city);
 		
 		$b_zipcode = new ilTextInputGUI($this->lng->txt("zipcode"), "b_zipcode");
 		$b_zipcode->setValue($this->user->getZipcode());
-		$b_zipcode->setRequired(true);
+		$b_zipcode->setRequired($this->user_utils->forceWBDUserProfileFields());
 		$form->addItem($b_zipcode);
-		
-		/*$b_country = new ilTextInputGUI($this->lng->txt("federal_state"), "b_country");
-		$b_country->setValue($this->user->getCountry());
-		$form->addItem($b_country);*/
 		
 		$info = new ilNonEditableValueGUI("");
 		$info->setValue($this->lng->txt("gev_private_contact_info"));
@@ -281,24 +284,17 @@ class gevUserProfileGUI {
 		$p_email = new ilEMailInputGUI($this->lng->txt("gev_com_email"), "p_email");
 		$_p_email = $this->user_utils->getPrivateEmail();
 		$p_email->setValue($_p_email?$_p_email:$_b_email);
-		$p_email->setRequired(true);
+		$p_email->setRequired($this->user_utils->forceWBDUserProfileFields());
 		$form->addItem($p_email);
 		
 		$p_phone = new ilTextInputGUI($this->lng->txt("gev_mobile"), "p_phone");
 		$telno = $this->user_utils->getMobilePhone();
 		$p_phone->setValue($telno);
-		if (!preg_match(self::$telno_regexp, $telno)) {
+		if (!preg_match(self::$telno_regexp, $telno) && $this->user_utils->forceWBDUserProfileFields()) {
 				$p_phone->setAlert($this->lng->txt("gev_telno_wbd_alert"));
 		}
-		$p_phone->setRequired(true);
+		$p_phone->setRequired($this->user_utils->forceWBDUserProfileFields());
 		$form->addItem($p_phone);
-		/*
-		*/
-
-		/*$b_fax = new ilTextInputGUI($this->lng->txt("fax"), "b_fax");
-		$b_fax->setValue($this->user->getFax());
-		$form->addItem($b_fax);*/
-		
 		
 		$section3 = new ilFormSectionHeaderGUI();
 		$section3->setTitle($this->lng->txt("gev_private_contact"));
@@ -316,17 +312,6 @@ class gevUserProfileGUI {
 		$p_zipcode->setValue($this->user_utils->getPrivateZipcode());
 		$form->addItem($p_zipcode);
 		
-		/*$p_country = new ilTextInputGUI($this->lng->txt("federal_state"), "p_country");
-		$p_country->setValue($this->user_utils->getPrivateState());
-		$form->addItem($p_country);*/
-		
-		
-		/*$p_fax = new ilTextInputGUI($this->lng->txt("fax"), "p_fax");
-		$p_fax->setValue($this->user_utils->getPrivateFax());
-		$form->addItem($p_fax);*/
-		
-		
-		
 		$section4 = new ilFormSectionHeaderGUI();
 		$section4->setTitle($this->lng->txt("gev_activity"));
 		$form->addItem($section4);
@@ -340,10 +325,6 @@ class gevUserProfileGUI {
 		$_exit_date = $this->user_utils->getExitDate();
 		$exit_date->setValue($_exit_date?ilDatePresentation::formatDate($_exit_date):"");
 		$form->addItem($exit_date);
-		
-		/*$status = new ilNonEditableValueGUI($this->lng->txt("gev_status"));
-		$status->setValue($this->user_utils->getStatus());
-		$form->addItem($status);*/
 		
 		return $form;
 	}

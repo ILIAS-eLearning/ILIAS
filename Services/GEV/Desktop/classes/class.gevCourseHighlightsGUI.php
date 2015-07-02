@@ -13,6 +13,7 @@ require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
 require_once("Services/GEV/Desktop/classes/class.gevCourseHighlightsSliderGUI.php");
 require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 
 class gevCourseHighlightsGUI {
 	public function __construct($a_target_user_id = null) {
@@ -37,7 +38,9 @@ class gevCourseHighlightsGUI {
 	}
 
 	public function render() {
-		if ($this->target_user_id == $this->user_id) {
+		if (   $this->target_user_id == $this->user_id
+			// or someone is viewing the offer for agents as anonymus
+			|| $this->user_id == 0 ) { 
 			$hl_title = new catTitleGUI("gev_highlights", "gev_my_highlights_desc", "GEV_img/ico-head-hightlights.png");
 		}
 		else {

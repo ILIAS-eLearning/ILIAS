@@ -32,6 +32,7 @@ class gevExitedUserCleanupJob extends ilCronJob {
 	public function run() {
 		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevNAUtils.php");
 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
 		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
@@ -46,6 +47,8 @@ class gevExitedUserCleanupJob extends ilCronJob {
 		$exit_orgu_ref_id = $gev_settings->getOrgUnitExited();
 		$exit_orgu_obj_id = gevObjectUtils::getObjId($exit_orgu_ref_id);
 		$exit_orgu_utils = gevOrgUnitUtils::getInstance($exit_orgu_obj_id);
+		$na_utils = gevNAUtils::getInstance();
+		$na_no_adviser_orgu_utils = gevOrgUnitUtils::getInstance($gev_settings->getNAPOUNoAdviserUnitId());
 		
 		$res = $ilDB->query("SELECT ud.usr_id "
 						   ."  FROM usr_data ud"
@@ -66,28 +69,13 @@ class gevExitedUserCleanupJob extends ilCronJob {
 			$usr = new ilObjUser($usr_id);
 			$usr_utils = gevUserUtils::getInstance($usr_id);
 			
-			$usr->setActive(false);
-			$usr->update();
-			
-			$ilLog->write("gevExitedUserCleanupJob: Deactivated user with id $usr_id.");
-			
-			$orgus = $orgu_tree->getOrgUnitOfUser($usr_id, 0, true);
-			foreach ($orgus as $orgu_id) {
-				$orgu_utils = gevOrgUnitUtils::getInstance($orgu_id);
-				$orgu_utils->deassignUser($usr_id, "Mitarbeiter");
-				$orgu_utils->deassignUser($usr_id, "Vorgesetzter");
-				$ilLog->write("gevExitedUserCleanupJob: Removed user with id $usr_id from OrgUnit with id $orgu_id.");
-			}
-			
-			$exit_orgu_utils->assignUser($usr_id, "Mitarbeiter");
-			$ilLog->write("gevExitedUserCleanupJob: Moved user with id $usr_id to exit-OrgUnit.");
-			
 			foreach ($usr_utils->getBookedAndWaitingCourses() as $crs_id) {
 				$crs_utils = gevCourseUtils::getInstance($crs_id);
 				$start_date = $crs_utils->getStartDate();
 				if ($start_date === null) {
 					$ilLog->write("gevExitedUserCleanupJob: User $usr_id was not removed from training $crs_id, since"
 								 ." the start date of the training could not be determined.");
+					continue;
 				}
 				
 				if ($start_date->get(IL_CAL_DATE) >= $now) {
@@ -102,9 +90,48 @@ class gevExitedUserCleanupJob extends ilCronJob {
 				}
 			}
 			
+			$usr->setActive(false);
+			$ilLog->write("gevExitedUserCleanupJob: Deactivated user with id $usr_id.");
+			
+			$orgus = $orgu_tree->getOrgUnitOfUser($usr_id, 0, true);
+			foreach ($orgus as $orgu_id) {
+				$orgu_utils = gevOrgUnitUtils::getInstance($orgu_id);
+				$orgu_utils->deassignUser($usr_id, "Mitarbeiter");
+				$orgu_utils->deassignUser($usr_id, "Vorgesetzter");
+				$ilLog->write("gevExitedUserCleanupJob: Removed user with id $usr_id from OrgUnit with id $orgu_id.");
+			}
+			
+			$exit_orgu_utils->assignUser($usr_id, "Mitarbeiter");
+			$ilLog->write("gevExitedUserCleanupJob: Moved user with id $usr_id to exit-OrgUnit.");
+			
+			try {
+				$nas = $na_utils->getNAsOf($usr_id);
+				foreach ($nas as $na) {
+					$na_no_adviser_orgu_utils->assignUser($na, "Mitarbeiter");
+					$ilLog->write("gevExitedUserCleanupJob: Moved na $na of user $usr_id to no-adviser-OrgUnit.");
+				}
+				if (count($nas) > 0) {
+					$ilLog->write("gevExitedUserCleanupJob: Removed NA-OrgUnit of $usr_id.");
+					$na_utils->removeNAOrgUnitOf($usr_id);
+				}
+			}
+			catch (Exception $e) {
+				$ilLog->write("gevExitedUserCleanupJob: ".$e);
+			}
+			
+			//update user and create a history entry
+			$usr->update();
+			
 			// i'm alive!
 			ilCronManager::ping($this->getId());
 		}
+		
+		$ilLog->write("gevExitedUserCleanupJob: purging empty na-org units.");
+		
+		$na_base_utils = gevOrgUnitUtils::getInstance($gev_settings->getNAPOUBaseUnitId());
+		$no_adviser_ref_id = gevObjectUtils::getRefId($gev_settings->getNAPOUNoAdviserUnitId());
+		$template_ref_id = gevObjectUtils::getRefId($gev_settings->getNAPOUTemplateUnitId());
+		$na_base_utils->purgeEmptyChildren(2, array($no_adviser_ref_id, $template_ref_id));
 
 		$cron_result->setStatus(ilCronJobResult::STATUS_OK);
 		return $cron_result;

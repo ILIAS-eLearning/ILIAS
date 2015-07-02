@@ -209,7 +209,7 @@ abstract class gevCrsAutoMail extends ilAutoMail {
 	
 	
 	protected function getCourseAccomodationAddress() {
-		$accom = $this->getCourseUtils()->getVenue();
+		$accom = $this->getCourseUtils()->getAccomodation();
 		
 		if ($accom === null ) {
 			return null;
@@ -269,7 +269,7 @@ abstract class gevCrsAutoMail extends ilAutoMail {
 	}
 
 	public function getAttachmentPath($a_name) {
-		return $this->getAttachments()->pathTo($a_name);
+		return $this->getAttachments()->getPathTo($a_name);
 	}
 
 	protected function checkUserID($a_recipient) {
@@ -435,10 +435,14 @@ abstract class gevCrsAutoMail extends ilAutoMail {
 		}
 
 		$res = parent::send($a_recipients, $a_occasion);
-		if ($res) {
+		if ($res === true) {
 			$this->setLastSend();
 
 			$ilLog->write("gevCrsAutoMail::send: sending done. crs_id=".$this->getCourse()->getId().", mail_id=".$this->getId().
+						  ($a_recipients?(", ".print_r($a_recipients, true)):""));
+		}
+		else {
+			$ilLog->write("gevCrsAutoMail::send: problem when sending. crs_id=".$this->getCourse()->getId().", mail_id=".$this->getId().
 						  ($a_recipients?(", ".print_r($a_recipients, true)):""));
 		}
 

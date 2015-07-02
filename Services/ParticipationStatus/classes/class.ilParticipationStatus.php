@@ -689,7 +689,14 @@ class ilParticipationStatus
 				foreach($this->getCourse()->getMembersObject()->getMembers() as $user_id)
 				{
 					$this->raiseEvent("setStatusAndPoints", $user_id);
-				}			
+
+					//gev-patch start
+					//set experience date for express user
+					require_once("Services/GEV/Utils/classes/class.gevExpressLoginUtils.php");					
+					$expLoginUtils = gevExpressLoginUtils::getInstance();
+					$this->user_id = $expLoginUtils->setExpressUserExperienceDate($user_id);
+					//gev-patch end
+				}
 				
 				// gev-patch start
 				require_once("Services/GEV/Utils/classes/class.gevBillingUtils.php");
@@ -779,6 +786,19 @@ class ilParticipationStatus
 			return $path.$data["alist"];
 		}
 	}
+	
+	// gev-patch start
+	public function setMailSendDate($a_mail_send_date) {
+		return $this->updateDBCourseData(null, "-1", $a_mail_send_date);
+	}
+	
+	public function getMailSendDate() {
+		$data = $this->getDBCourseData();
+		if (is_array($data) && $data["mail_send_date"]) {
+			return $data["mail_send_date"];
+		}
+	}
+	// gev-patch end
 	
 	
 	/**
@@ -1005,7 +1025,7 @@ class ilParticipationStatus
 	{		
 		global $ilDB;
 		
-		$sql = "SELECT state,alist".
+		$sql = "SELECT state,alist,mail_send_date".
 			" FROM crs_pstatus_crs".
 			" WHERE crs_id = ".$ilDB->quote($this->getCourse()->getId(), "integer");
 		$set = $ilDB->query($sql);
@@ -1022,14 +1042,18 @@ class ilParticipationStatus
 	 * @param string $a_attendance_list
 	 * @return boolean
 	 */
-	protected function updateDBCourseData($a_state, $a_attendance_list)
+	// gev-patch start
+	protected function updateDBCourseData($a_state, $a_attendance_list, $a_mail_send_date = null)
+	// gev-patch end
 	{
 		global $ilDB;
 	
 		$a_state = (int)$a_state;
 		$a_attendance_list = (string)$a_attendance_list;
 				
-		if($a_state || $a_attendance_list)	
+		// gev-patch start
+		if($a_state || $a_attendance_list || $a_mail_send_date)
+		// gev-patch end
 		{		
 			$fields = array();
 			if($a_state !== -1)
@@ -1040,6 +1064,11 @@ class ilParticipationStatus
 			{
 				$fields["alist"] = array("text", $a_attendance_list);
 			}
+			// gev-patch start
+			if ($a_mail_send_date !== null) {
+				$fields["mail_send_date"] = array("date", $a_mail_send_date);
+			} 
+			// gev-patch end
 			
 			$primary = array(				
 				"crs_id" => array("integer", $this->getCourse()->getId())
@@ -1059,7 +1088,7 @@ class ilParticipationStatus
 		}
 		
 		return false;		
-	}	
+	}
 	
 	
 	// 

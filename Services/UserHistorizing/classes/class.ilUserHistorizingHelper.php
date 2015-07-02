@@ -226,7 +226,11 @@ class ilUserHistorizingHelper
 		return gevUserUtils::getInstanceByObjOrId($user)->getWBDCommunicationEmail();
 	}
 
-
+	public static function getExitDateWBDOf($user)
+	{
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		return gevUserUtils::getInstanceByObjOrId($user)->getExitDateWBD();
+	}
 
 	public static function getOrgUnitsAboveOf($user)
 	{

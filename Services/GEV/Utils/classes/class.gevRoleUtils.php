@@ -120,6 +120,17 @@ class gevRoleUtils {
 		return $this->getRbacReview()->assignedGlobalRoles($a_user_id);
 	}
 	
+	
+	public static function getGlobalRolesTitles($a_roles) {
+
+		foreach($a_roles as $key => $value) {
+			$roles[$key] = ilObject::_lookupTitle($value);
+		}
+		return $roles;
+	}
+	
+
+
 	public function getLocalRoleIdsAndTitles($a_obj_id) {
 		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 		$rbac_review = $this->getRbacReview();
@@ -151,6 +162,46 @@ class gevRoleUtils {
 			return $rec["obj_id"];
 		}
 		return null;
+	}
+	
+	public function createGlobalRole($a_role_name, $a_role_desc = "") {
+		return self::createRoleInFolder(ROLE_FOLDER_ID, $a_role_name, $a_role_desc);
+	}
+
+	public function createLocalRole($a_ref_id, $a_role_name, $a_role_desc = "") {
+		$rolf = $this->getRbacReview()->getRoleFolderOfObject($a_ref_id);
+
+		if (!isset($rolf["ref_id"]) or !$rolf["ref_id"]) {
+			throw new Exception("gevRoleUtils::getLocalRoleIdsAndTitles: Could not load role folder.");
+		}
+		$folder_ref_id = $rolf["ref_id"];
+		return self::createRoleInFolder($folder_ref_id, $a_role_name, $a_role_desc);
+	}
+	
+	public function createRoleInFolder($a_folder_ref_id, $a_role_name, $a_role_desc = "") {
+		require_once("Services/Object/classes/class.ilObjectFactory.php");
+		$a_role_name = trim($a_role_name);
+		if (self::roleExistsInFolder($a_folder_ref_id, $a_role_name)) {
+			throw new ilException("Role $a_role_name already exists in folder '$a_folder_ref_id'.");
+		}
+		$rolf = ilObjectFactory::getInstanceByRefId($a_folder_ref_id);
+		return $rolf->createRole($a_role_name, $a_role_desc);
+	}
+
+	public function roleExistsInFolder($a_folder_ref_id, $a_role_name) {
+		$a_role_name = trim($a_role_name);
+		$role_ids = $this->getRbacReview()->getRolesOfRoleFolder($a_folder_ref_id);
+		foreach ($role_ids as $id) {
+			if ($a_role_name == ilObject::_lookupTitle($id))
+				return true;
+		}
+		return false;
+	}
+
+	public function usersHavingRole($a_role) {
+		$role_id = $this->getRoleIdByName($a_role);
+		$this->getRbacReview();
+		return $this->rbac_review->assignedUsers($role_id);
 	}
 }
 

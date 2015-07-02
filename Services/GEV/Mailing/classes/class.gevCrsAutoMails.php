@@ -41,6 +41,7 @@ class gevCrsAutoMails extends ilAutoMails {
 		, "trainer_removed" 									=> "gevTrainerRemoved"
 		
 		, "training_cancelled"									=> "gevTrainingCancelled"
+		, "training_cancelled_trainer_info"						=> "gevTrainingCancelledTrainerInfo"
 		
 		, "min_participants_not_reached" 						=> "gevMinParticipantsNotReached"
 		, "reminder_participants" 								=> "gevReminderParticipants"
@@ -54,6 +55,7 @@ class gevCrsAutoMails extends ilAutoMails {
 		, "bill_mail"											=> "gevCrsBillMail"
 		
 		, "materiallist_for_storage"							=> "gevMaterialListForStorage"
+		, "cancellation_mail_for_storage"						=> "gevCancellationMailForStorage"
 		);
 
 		parent::__construct($a_obj_id);

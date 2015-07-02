@@ -87,7 +87,22 @@ class gevNAUtils {
 	 * @return array
 	 */
 	public function getNAsOf($a_adviser_id) {
-		return $this->pou->getEmployeesOf();
+		return $this->pou->getEmployeesOf($a_adviser_id);
+	}
+	
+	/**
+	 * Entfernt die NA-Org.-Einheit für einen Benutzer.
+	 *
+	 * @param integer $a_adviser_id
+	 */
+	public function removeNAOrgUnitOf($a_adviser_id) {
+		require_once("./Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+		$orgu = $this->pou->getOrgUnitOf($a_adviser_id);
+		$orgu_utils = gevOrgUnitUtils::getInstance($orgu->getId());
+		foreach(gevOrgUnitUtils::getEmployeesIn(array($orgu->getRefId())) as $na_id) {
+			$orgu_utils->deassignUser($na_id, "Mitarbeiter");
+		}
+		$this->pou->purgeOrgUnitOf($a_adviser_id);
 	}
 	
 	static $ADVISER_ROLES = array(
@@ -179,7 +194,7 @@ class gevNAUtils {
 			return "ADS Sued <ads-sued@generali.com>";
 		}
 		
-		return "Generali Online Akademie <Bildungspunkte.de@generali.com>";
+		return "NA Bildung <na-bildung@generali.de>";
 	}
 	
 	static $ADSN_ODS = array(

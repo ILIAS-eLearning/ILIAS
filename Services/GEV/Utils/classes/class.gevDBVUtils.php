@@ -11,6 +11,7 @@
 */
 
 require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+require_once("Services/GEV/Utils/classes/class.gevUVGOrgUnits.php");
 require_once("Modules/OrgUnit/classes/PersonalOrgUnit/class.ilPersonalOrgUnits.php");
 
 class gevDBVUtils {
@@ -24,10 +25,7 @@ class gevDBVUtils {
 		
 		$this->gev_settings = gevSettings::getInstance();
 
-		$this->pou = ilPersonalOrgUnits::getInstance(
-			$this->gev_settings->getDBVPOUBaseUnitId(),
-			$this->gev_settings->getDBVPOUTemplateUnitId()
-			);
+		$this->pou = gevUVGOrgUnits::getInstance();
 	}
 	
 	public static function getInstance() {
@@ -66,23 +64,91 @@ class gevDBVUtils {
 	*
 	*/
 	public function assignUserToDBVsByShadowDB($a_user_id){
+		$dbv_ids = $this->iv_getDBVsUserIdsOf($a_user_id);
+		if (count($dbv_ids) > 0) {
+			foreach ($dbv_ids as $dbv_id) {
+				$this->pou->assignEmployee($dbv_id, $a_user_id);
+			}
+		}
+		else {
+			require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+			$cpool_id = $this->gev_settings->getCPoolUnitId();
+			if (!$cpool_id) {
+				throw new Exception("gevDBVUtils::assignUserToDBVsByShadowDB: No CPool-Org-Unit set.");
+			}
+			gevOrgUnitUtils::getInstance($cpool_id)->assignUser($a_user_id, "Mitarbeiter");
+		}
+	}
+	
+	public function updateUsersDBVAssignmentsByShadowDB($a_user_id) {
+		// remove existing assignments
+		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+		
+		$cpool_id = $this->gev_settings->getCPoolUnitId();
+		if (!$cpool_id) {
+			throw new Exception("gevDBVUtils::assignUserToDBVsByShadowDB: No CPool-Org-Unit set.");
+		}
+		gevOrgUnitUtils::getInstance($cpool_id)->deassignUser($a_user_id, "Mitarbeiter");
+		
+		$dbvs = $this->pou->getSuperiorsOf($a_user_id);
+		foreach ($dbvs as $dbv) {
+			$this->pou->deassignEmployee($dbv, $a_user_id);
+		}
+		
+		// make new assignments
+		$this->assignUserToDBVsByShadowDB($a_user_id);
+	}
+
+	/**
+	 * Gibt die Benutzernummern der DBVs eines Benutzer mit Daten aus der IV
+	 * zurück.
+	 *
+	 * @param integer $a_user_id
+	 */
+	public function iv_getDBVsUserIdsOf($a_user_id) {
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+
+		$job_number_field_id = $this->gev_settings->getUDFFieldId(gevSettings::USR_UDF_JOB_NUMMER);
+		
+		$job_numbers = $this->iv_getJobNumbersOfDBVsOf($a_user_id);
+		$res = $this->db->query("SELECT usr_id"
+							   ."  FROM udf_text"
+							   ." WHERE field_id = ".$this->db->quote($job_number_field_id, "integer")
+							   ."   AND ".$this->db->in("value", $job_numbers, false, "text")
+							   );
+		$result = array();
+		while ($rec = $this->db->fetchAssoc($res)) {
+			$utils = gevUserUtils::getInstance($rec["usr_id"]);
+			if ($utils->isUVGDBV()) {
+				$result[] = $rec["usr_id"];
+			}
+		}
+		return $result;
+	}
+
+	/**
+	 * Gibt die Stellennummern der DBVs eines Benutzer aus der IV zurück.
+	 *
+	 * @param integer $a_user_id
+	 */
+	public function iv_getJobNumbersOfDBVsOf($a_user_id) {
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 		
-		global $ilClientIniFile, $ilDB;
+		global $ilClientIniFile;
 		
 		$utils = gevUserUtils::getInstance($a_user_id);
 		
 		$job_number = $utils->getJobNumber();
 		
 		if (!$job_number) {
-			return;
+			return array();
 		}
 		
 		$host = $ilClientIniFile->readVariable('shadowdb', 'host');
 		$user = $ilClientIniFile->readVariable('shadowdb', 'user');
 		$pass = $ilClientIniFile->readVariable('shadowdb', 'pass');
 		$name = $ilClientIniFile->readVariable('shadowdb', 'name');
-
+		
 		$mysql = mysql_connect($host, $user, $pass);
 		
 		if (!$mysql) {
@@ -95,9 +161,7 @@ class gevDBVUtils {
 		//get DBVs
 		$sql= "SELECT "
 			." ou.dbaf,"
-			." ou.dbbav,"
-			." ou.dbvg,"
-			." ou.dbatv"
+			." ou.dbvg"
 			." FROM ivimport_orgunit ou "
 			." INNER JOIN ivimport_stelle stelle "
 			."         ON ou.id = stelle.sql_org_unit_id "
@@ -108,44 +172,12 @@ class gevDBVUtils {
 		$record = mysql_fetch_assoc($result);
 
 		if (!$record) {
-			return;
+			return array();
 		}
-
-		$job_number_field_id = $this->gev_settings->getUDFFieldId(gevSettings::USR_UDF_JOB_NUMMER);
-
-		$assigned = false;
-		foreach($record as $key => $dbv_job_number) {
-			if (!$dbv_job_number) {
-				continue;
-			}
-			$res = $this->db->query( "SELECT usr_id FROM udf_text "
-									."WHERE field_id = ".$this->db->quote($job_number_field_id, "integer")
-									."  AND value = ".$this->db->quote($dbv_job_number, "text")
-									);
-			// There might be many people having the job number, i'll take
-			// rather all of them then dying or only the first one. 
-			while($rec = $this->db->fetchAssoc($res)) {
-				// NAs can't be DBVs (#863)
-				$uu = gevUserUtils::getInstance($rec["usr_id"]);
-				if ($uu->isNA()) {
-					continue;
-				}
-				$this->pou->assignEmployee($rec["usr_id"], $a_user_id);
-				$assigned = true;
-			}
-		}
-
-		if (!$assigned) {
-			require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
-			$cpool_id = $this->gev_settings->getCPoolUnitId();
-			if (!$cpool_id) {
-				throw new Exception("gevDBVUtils::assignUserToDBVsByShadowDB: No CPool-Org-Unit set.");
-			}
-			gevOrgUnitUtils::getInstance($cpool_id)->assignUser($a_user_id, "Mitarbeiter");
-		}
+		
+		return $record;
 	}
-
-
+	
 
 	/**
 	* Entfernt alle DBV-Zuweisungen für den Benutzer.

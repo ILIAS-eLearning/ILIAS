@@ -95,21 +95,27 @@ class gevSettings {
 	const CRS_AMD_CANCEL_WAITING	= "crs_amd_cancel_waiting";
 	// harte Stornofrist
 	const CRS_AMD_ABSOLUTE_CANCEL_DEADLINE = "crs_amd_absolute_cancel_deadline";
+	// relevante Themen
+	const CRS_AMD_DBV_HOT_TOPIC = "crs_amd_dbv_hot_topic";
 	
 	// Anbieter
 	const CRS_AMD_PROVIDER			= "crs_amd_provider";
 	// Veranstaltungsort
 	const CRS_AMD_VENUE				= "crs_amd_venue";
+	const CRS_AMD_VENUE_FREE_TEXT	= "crs_amd_venue_free_text";
 	// Übernachtungsort
 	const CRS_AMD_ACCOMODATION		= "crs_amd_accomodation";
 	// Veranstaltungsort Internet
 	//const CRS_AMD_WEB_LOCATION		= "crs_amd_web_location";
 	const CRS_AMD_WEBEX_LINK		= "crs_amd_webex_link";			// these are general webinar links now
 	const CRS_AMD_WEBEX_PASSWORD	= "crs_amd_webex_password";		// these are general webinar passwords now
+	const CRS_AMD_WEBEX_PASSWORD_TUTOR	= "crs_amd_webex_password_tutor";		// these are general webinar tutor password
+	const CRS_AMD_WEBEX_VC_CLASS_TYPE = "crs_amd_webex_vc_class_type"; // type of the virtual class
+	const CRS_AMD_WEBEX_LOGIN_TUTOR = "crs_amd_webex_login_tutor"; // type of the virtual class
 	const CRS_AMD_CSN_LINK			= "crs_amd_csn_link";	// this is not used anymore
 	// Organisationseinheit TEP
 	const CRS_AMD_TEP_ORGU			= "crs_amd_tep_orgu";
-	
+
 	
 	// Typen von Organisationseinheiten
 	const ORG_TYPE_VENUE			= "org_unit_type_venue";
@@ -195,8 +201,11 @@ class gevSettings {
 	const USR_UDF_AGENT_KEY_VFS		= "usr_udf_agent_key_vfs";
 	//Stellung VFS	
 	const USR_UDF_AGENT_POSITION_VFS= "usr_udf_agent_position_vfs";
-
-
+	
+	
+	// Firmenname
+	const USR_UDF_COMPANY_NAME		= "usr_udf_company_name";
+	
 	
 	// Gesellschaftstitel
 	const USR_UDF_COMPANY_TITLE		= "usr_udf_company_title"; //deprecated
@@ -249,6 +258,7 @@ class gevSettings {
 	const USR_WBD_CERT_PERIOD_BEGIN = "usr_udf_wbd_cert_period_begin";
 	const USR_WBD_DID_REGISTRATION	= "usr_udf_wbd_did_registration";
 	const USR_WBD_COM_EMAIL			= "usr_udf_wbd_com_email";
+	const USR_WBD_EXIT_DATE			= "usr_udf_wbd_exit_date";
 
 
 
@@ -277,6 +287,8 @@ class gevSettings {
 		,'Austrittsdatum'
 		,'IHK Registernummer'
 		
+		, 'Firmenname'
+		
 		,'Hat WBD-Registrierung durchgeführt'
 		,'TP-Typ'
 		,'Zuweisung WBD OKZ'
@@ -284,7 +296,11 @@ class gevSettings {
 		,'BWV-ID'
 		,'Beginn erste Zertifizierungsperiode'
 		,'Email WBD'
-		
+		,'Austrittsdatum WBD'
+	);
+
+	static $LOCAL_USER_MANDATORY_UDF_FIELDS = array(
+		'Eintrittsdatum'
 	);
 
 
@@ -333,7 +349,7 @@ class gevSettings {
 		609 => array("OD/BD",		"Vorgesetzter"),
 		649 => array("OD/BD",		"Vorgesetzter"),
 		671 => array("FD",			"Vorgesetzter"),
-		674 => array("UA",			"Vorgesetzter"),
+		674 => array("VP",			"Vorgesetzter"),
 		9100 => array("ID FK",		"Vorgesetzter")
 		
 	);
@@ -362,7 +378,7 @@ class gevSettings {
 		, "Ausbildungsbeauftragter"
 		, "ID FK"
 		, "ID MA"
-		, "OD/LD/BD/VD/VTWL"
+		, "OD/FD/BD ID"
 		, "VA 59"
 		, "VA HGB 84"
 		, "NFK"
@@ -374,6 +390,8 @@ class gevSettings {
 		, "int. Trainer"
 		, "ext. Trainer"
 		, "OD-Betreuer"
+		, "DBV UVG"
+		, "DBV EVG"
 		);
 	
 	// Names of roles where users need to pay the 
@@ -429,6 +447,11 @@ class gevSettings {
 		  "il_crs_tutor_%"
 		);
 
+	// Names of roles that count as employees
+	static $EMPLOYEE_ROLES = array(
+		  "il_orgu_employee_%"
+		);
+
 	// Will store the ref id of the orgu where the exited users should be put.
 	const ORG_UNIT_EXITED = "org_unit_exited";
 	
@@ -440,6 +463,17 @@ class gevSettings {
 		return $this->settings->set(self::ORG_UNIT_EXITED, $a_ref_id);
 	}
 
+	//Will store the ref id of the orgu where unassign user should be put
+	const ORG_UNIT_UNASSIGNED_USER = "org_unit_unassigned_user";
+	
+	public function getOrgUnitUnassignedUser() {
+		return $this->settings->get(self::ORG_UNIT_UNASSIGNED_USER);
+	}
+
+	public function setOrgUnitUnassignedUser($a_ref_id) {
+		return $this->settings->set(self::ORG_UNIT_UNASSIGNED_USER,$a_ref_id);
+	}
+
 	//OrgUnit Mappings (Personal OrgUnits)
 	
 	// for DBVen, NA-Superiors and HAs
@@ -448,6 +482,7 @@ class gevSettings {
 	const CPOOL_UNIT_KEY = "gev_dbv_pou_cpool_unit_key";
 	const NA_POU_BASE_UNIT_KEY = "gev_na_pou_base_unit";
 	const NA_POU_TEMPLATE_UNIT_KEY = "gev_na_pou_template_unit_key";
+	const NA_POU_NO_ADVISER_UNIT_KEY = "gev_na_pou_no_adviser_unit_key";
 	const HA_POU_BASE_UNIT_KEY = "gev_ha_pou_base_unit";
 	const HA_POU_TEMPLATE_UNIT_KEY = "gev_ha_pou_template_unit";
 	
@@ -489,6 +524,14 @@ class gevSettings {
 	
 	public function setNAPOUTemplateUnitId($a_val) {
 		$this->settings->set(self::NA_POU_TEMPLATE_UNIT_KEY, $a_val);
+	}
+	
+	public function getNAPOUNoAdviserUnitId() {
+		return $this->settings->get(self::NA_POU_NO_ADVISER_UNIT_KEY);
+	}
+	
+	public function setNAPOUNoAdviserUnitId($a_val) {
+		$this->settings->set(self::NA_POU_NO_ADVISER_UNIT_KEY, $a_val);
 	}
 	
 	public function getHAPOUBaseUnitId() {
@@ -579,8 +622,11 @@ class gevSettings {
 		'FDL-Arbeitskreis'
 	);
 
+	const AGENT_OFFER_USER_ID = "agent_offer_user_id";
 
-
+	public function getAgentOfferUserId() {
+		return $this->settings->get(self::AGENT_OFFER_USER_ID);
+	}
 	
 	private function __construct() {
 		$this->settings = new ilSetting(self::MODULE_NAME);

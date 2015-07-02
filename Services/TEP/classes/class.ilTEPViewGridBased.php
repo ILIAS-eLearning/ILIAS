@@ -645,7 +645,18 @@ abstract class ilTEPViewGridBased extends ilTEPView
 			$ref_id = $a_entry["course_ref_id"];
 			$crs_id = $a_entry["context_id"];
 			$crs_utils = gevCourseUtils::getInstance($crs_id);
+			
 			$actions = "";
+			if($crs_utils->isVirtualTraining()) {
+				if($crs_utils->getWebExLoginTutor()) {
+					$actions .= "VC Login: ".$crs_utils->getWebExLoginTutor()."<br />";
+				}
+
+				if($crs_utils->getWebExPasswordTutor()) {
+					$actions .= "VC Passwort: ".$crs_utils->getWebExPasswordTutor()."<br /><br />";
+				}
+			}
+
 			if ($crs_utils->hasTrainer($cur_user_id) || $crs_utils->hasAdmin($cur_user_id)) {
 				$memberlist_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-table-eye.png").'" />';
 				$ilCtrl->setParameterByClass("gevMemberListDeliveryGUI", "ref_id", $ref_id);
@@ -669,6 +680,11 @@ abstract class ilTEPViewGridBased extends ilTEPView
 				$bookings_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-table-booking.png").'" />';
 				$actions .=  "<a href='".$ilCtrl->getLinkTargetByClass("ilTEPGUI", "showBookings")
 							."' title='".$lng->txt("gev_mytrainingsap_legend_view_bookings")."'>".$bookings_img."</a>&nbsp;";
+			}
+			if($crs_utils->getWebExLink() !== null) {
+				$vc_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-classroom.png").'" />';
+				$actions .=  "<a href='".$crs_utils->getWebExLink()
+							."' title='".$lng->txt("gev_virtual_class")."' target='_blank'>".$vc_img."</a>&nbsp;";
 			}
 			$ilCtrl->setParameterByClass("ilTEPGUI", "ref_id", null);
 			$ilCtrl->setParameterByClass("ilTEPGUI", "crs_id", null);
@@ -795,7 +811,7 @@ abstract class ilTEPViewGridBased extends ilTEPView
 	 * @param int $a_id
 	 * @return string
 	 */
-	protected function renderDayActions($a_user_id, $a_id)
+	protected function renderDayActions($a_user_id, $a_id, $a_createDecentral)
 	{
 		global $ilUser, $ilCtrl, $lng;
 				
@@ -818,7 +834,7 @@ abstract class ilTEPViewGridBased extends ilTEPView
 						"</a>";
 		}
 		
-		if ($may_create_decentral_training) {
+		if ($may_create_decentral_training && $a_createDecentral) {
 			$spl = explode("_", $a_id);
 			$ilCtrl->setParameterByClass("gevDecentralTrainingGUI", "user_id", $spl[0]);
 			$ilCtrl->setParameterByClass("gevDecentralTrainingGUI", "date", $spl[1]);
@@ -881,8 +897,10 @@ abstract class ilTEPViewGridBased extends ilTEPView
 		{						
 			$ilCtrl->setParameterByClass("ilTEPEntryGUI", "euid", $a_user_id);
 			$ilCtrl->setParameterByClass("ilTEPEntryGUI", "edt", $date_id);
-					
-			$actions = $this->renderDayActions($a_user_id, $unique_id);
+			
+			$createDecentral = ($date_id >= date('Y-m-d'));
+
+			$actions = $this->renderDayActions($a_user_id, $unique_id, $createDecentral);
 			if($actions)
 			{															
 				$a_tpl->setCurrentBlock("col_actions_bl");

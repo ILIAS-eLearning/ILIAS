@@ -25,6 +25,7 @@ abstract class wbdDataConnector {
 	public $csv_text_delimiter = '"';
 	public $csv_field_delimiter = ';';
 
+
 	public function __construct() {
 		global $ilDB;
 		$this->ilDB = &$ilDB;
@@ -38,6 +39,10 @@ abstract class wbdDataConnector {
 		$this->EDU_RECORD_VALIDATION = $WBD_EDU_RECORD_VALIDATION;
 		$this->TELNO_REGEXP = $TELNO_REGEXP;
 		$this->FAKEDATA = $FAKEDATA;
+
+		require_once("./Services/WBDData/classes/class.wbdErrorLog.php");
+		$this->log = new wbdErrorLog();
+
 	}
 
 	/**
@@ -305,19 +310,6 @@ abstract class wbdDataConnector {
 			print $r;
 		}
 
-		/*
-		Fabi goes like this:
-
-		function escape_quotes($str) {
-			return str_replace("\"", "\"\"", $str); // This seems to be the way how excel likes it....
-		}
-
-		// Output
-		foreach ($ret as $row) {
-			echo mb_convert_encoding("\"".implode("\";\"", array_map("escape_quotes", $row))."\"\n", "ISO-8859-1", "UTF-8");
-		}
-
-		*/
 	}
 
 
@@ -377,6 +369,14 @@ abstract class wbdDataConnector {
 	}
 	public function export_get_changed_edu_records($out='csv', $as_file=False){
 		$data = $this->get_changed_edu_records();
+		if($out == 'csv'){
+			$this->csv_dump($data, True, $as_file);
+		}else{
+			$this->html_dump($data);
+		}
+	}
+	public function export_get_exit_users($out='csv', $as_file=False){
+		$data = $this->get_exit_users();
 		if($out == 'csv'){
 			$this->csv_dump($data, True, $as_file);
 		}else{
@@ -507,6 +507,46 @@ abstract class wbdDataConnector {
 
 	abstract function save_external_edu_records($bwv_id, $edu_records);
 
+
+
+	/**
+	 * get edu-records for storno;
+	 *
+	 * @param
+	 * @return array of edu-records
+	 */
+
+	public function get_storno_edu_records() {}
+	//on success/failure:
+	public function success_storno_edu_records($row_id, $booking_id){}
+	public function fail_storno_edu_records($row_id, $e){}
+
+
+	/**
+	* BLOCK exit user
+	*/
+
+	/** 
+	* get user-records with exit dates in GOA
+	* 
+	* @return 	array 	user records with exit date in GOA
+	*/
+	public function get_exit_users() {}
+
+	/*
+	* callback on success
+	* 
+	* @param 	string 		$a_row_id 	Number to identify the row in hist_user
+	*/
+	public function success_exit_user($a_row_id) {}
+
+	/*
+	* callback on faliure
+	*
+	* @param 	string 		$a_row_id 	Number to identify the row in hist_user
+	* @param 	excepteion	$a_exception 	Exception Message
+	*/
+	public function fail_exit_user($a_row_id, $a_exception) {}
 
 }
 

@@ -102,10 +102,7 @@ class ilTEPOrgUnitExplorerGUI extends ilOrgUnitExplorerGUI
 			return $bl_childs;
 		}
 		
-		
-		// :TODO: display ALL nodes?
-		
-		return $childs;
+		return array_filter($childs, array($this, "isNodeSelectable"));
 	}
 	
 	public function isNodeSelectable(array $a_node)

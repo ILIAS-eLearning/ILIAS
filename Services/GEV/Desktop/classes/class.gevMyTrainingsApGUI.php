@@ -9,6 +9,7 @@
 * @version	$Id$
 *
 * @ilCtrl_Calls gevMyTrainingsApGUI: ilParticipationStatusAdminGUI
+* @ilCtrl_Calls gevMyTrainingsApGUI: gevDesktopGUI
 *
 */
 
@@ -47,6 +48,7 @@ class gevMyTrainingsApGUI {
 			case "saveOvernights":
 			case "viewBookings":
 			case "backFromBookings":
+			case "saveSendMailDate":
 				$cont = $this->$cmd();
 				break;
 
@@ -61,6 +63,7 @@ class gevMyTrainingsApGUI {
 			case "confirmFinalize":
 			case "saveStatusAndPoints":
 			case "uploadAttendanceList":
+			case "viewAttendanceList":
 				//ilParticipationStatusTableGUI
 				require_once("Services/ParticipationStatus/classes/class.ilParticipationStatusAdminGUI.php");
 				$crs_ref_id = $this->getCrsRefId();
@@ -68,6 +71,7 @@ class gevMyTrainingsApGUI {
 				
 				$gui->from_foreign_class = 'gevMyTrainingsApGUI';
 				$gui->crs_ref_id = $crs_ref_id;
+				$this->ctrl->setParameter($gui, "crsrefid", $crs_ref_id);
 
 				//$gui->returnToList();
 				//die('forwarding cmd');
@@ -135,16 +139,30 @@ class gevMyTrainingsApGUI {
 		
 		$lng->loadLanguageModule("ptst");
 
+
 		$ptstatus_admingui =  ilParticipationStatusAdminGUI::getInstanceByRefId($a_crs_ref_id);
 		//$ptstatus_admingui =  new ilParticipationStatusAdminGUI($crs_obj);
 		$may_write = $ptstatus_admingui->mayWrite();
-		if($ptstatus_admingui->getParticipationStatus()->getMode() == ilParticipationStatus::MODE_CONTINUOUS)
+		$pstatus = $ptstatus_admingui->getParticipationStatus();
+		if($pstatus->getMode() == ilParticipationStatus::MODE_CONTINUOUS)
 		{
 			$may_finalize = false;
 		}
 		else
 		{
-			$may_finalize = $may_write;
+			require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+			$crs_utils = gevCourseUtils::getInstanceByObj($crs_obj);
+
+			if ($crs_utils->isDecentralTraining() 
+			&& (   $crs_utils->getMinParticipants() > count($crs_utils->getParticipants())
+				//|| !$pstatus->getMailSendDate()
+				)
+			) {
+				$may_finalize = false;
+			}
+			else {
+				$may_finalize = $may_write;
+			}
 		}
 		$ptstatusgui = new ilParticipationStatusTableGUI($a_parent_gui, 'listParticipationStatus', $crs_obj, $may_write, $may_finalize);
 		
@@ -152,11 +170,17 @@ class gevMyTrainingsApGUI {
 		$form_action .= '&crsrefid=' .$a_crs_ref_id;
 		$ptstatusgui->setFormAction($form_action);
 
-		return (
-				$title->render()
-			   .$spacer->render()
-			   .$ptstatusgui->getHTML()
+		$ilCtrl->setParameter($a_parent_gui, "crsrefid", $a_crs_ref_id);
+		ilParticipationStatusAdminGUI::renderToolbar($a_parent_gui, $pstatus, $crs_obj, $may_write, $may_finalize);
+		global $ilToolbar;
+		
+		$ret = ( $title->render()
+			   . $ilToolbar->getHTML()
+			   . $spacer->render()
+			   . $ptstatusgui->getHTML()
 			   );
+		$ilToolbar->setHidden(true);
+		return $ret;
 	}
 
 	protected function listParticipationStatus() {
@@ -261,6 +285,32 @@ class gevMyTrainingsApGUI {
 		require_once("Services/CourseBooking/classes/class.ilCourseBookingAdminGUI.php");
 		ilCourseBookingAdminGUI::removeBackTarget();
 		return $this->view();
+	}
+	
+	protected function saveSendMailDate() {
+		$ptstatus_admingui =  ilParticipationStatusAdminGUI::getInstanceByRefId($this->getCrsRefId());
+		$crs_obj = new ilObjCourse(intval($this->getCrsRefId()));
+		$pstatus = $ptstatus_admingui->getParticipationStatus();
+		
+		if (!array_key_exists("mail_send_confirm", $_POST) || !$ptstatus_admingui->mayWrite()) {
+			ilUtil::sendFailure($this->lng->txt("gev_psstatus_mail_send_date_error"), true);
+		}
+		else {
+			$d = $_POST["mail_send_at"]["date"];
+			$date_set = $d["y"]."-".str_pad($d["m"], 2, '0', STR_PAD_LEFT)."-".str_pad($d["d"], 2, '0', STR_PAD_LEFT);
+			
+			$helper = ilParticipationStatusHelper::getInstance($crs_obj);
+			$date_tr = $helper->getCourseStart();
+			$date_tr->increment(ilDateTime::DAY, -3);
+			if ($date_tr->get(IL_CAL_DATE) < $date_set) {
+				ilUtil::sendFailure($this->lng->txt("gev_psstatus_mail_send_date_invalid"), true);
+			}
+			else {
+				$pstatus->setMailSendDate($date_set);
+				ilUtil::sendSuccess($this->lng->txt("gev_psstatus_mail_send_date_success"), true);
+			}
+		}
+		return $this->listParticipationStatus();
 	}
 }
 

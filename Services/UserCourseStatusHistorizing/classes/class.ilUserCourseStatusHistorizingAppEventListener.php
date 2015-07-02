@@ -228,11 +228,9 @@ class ilUserCourseStatusHistorizingAppEventListener
 			self::$ilUserCourseStatusHistorizingHelper->setIndividualStartAndEnd($user_id, $course_id, $data_payload);
 		}
 
-		if ($event == "setStatusAndPoints")
+		if ($event == "setStatusAndPoints" && self::$ilUserCourseStatusHistorizingHelper->hasCertificate($user_id, $course_id))
 		{
-			$data_payload['certificate'] = (self::$ilUserCourseStatusHistorizingHelper->hasCertificate($user_id, $course_id) ?
-				self::$ilUserCourseStatusHistorizingHelper->getCertificateOf($user_id, $course_id) :
-				null);
+			$data_payload['certificate'] = self::$ilUserCourseStatusHistorizingHelper->getCertificateOf($user_id, $course_id);
 		}
 
 		return $data_payload;

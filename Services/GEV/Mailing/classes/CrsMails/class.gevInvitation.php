@@ -21,7 +21,7 @@ class gevInvitation extends gevCrsAutoMail {
 	}
 
 	public function getTitle() {
-		return "Einladung Teilnehmer";
+		return "Einladung";
 	}
 
 	public function getDescription() {
@@ -49,7 +49,7 @@ class gevInvitation extends gevCrsAutoMail {
 	}
 
 	public function getRecipientUserIDs() {
-		return array_merge($this->getCourseParticipants(), $this->getCourseSpecialMembers());
+		return array_merge($this->getCourseParticipants(), $this->getCourseSpecialMembers(),$this->getCourseTrainers());
 	}
 
 	public function getRecipientAddresses() {
@@ -62,6 +62,17 @@ class gevInvitation extends gevCrsAutoMail {
 
 	public function getCC($a_recipient) {
 		return array();
+	}
+	
+	public function send($a_recipients = null, $a_occasion = null) {
+		if ($a_recipients !== null) {
+			// remove deferred mails for the people who receive this mail now (#1019)
+			require_once("./Services/GEV/Mailing/classes/class.gevDeferredMails.php");
+			gevDeferredMails::getInstance()
+				->removeDeferredMails(array($this->crs_id), array($this->getId()), $a_recipients);
+		}
+		
+		return parent::send($a_recipients, $a_occasion);
 	}
 
 	public function getMail($a_recipient) {
@@ -111,7 +122,11 @@ class gevInvitation extends gevCrsAutoMail {
 		}
 
 		$template_id = $this->mail_settings->getTemplateFor($a_function);
-
+		
+		// This is the key for the "No Mail"-option.
+		if($template_id == -2) { return null; }
+		
+		// This is the key for the "Standard-Mail"-option
 		if($template_id == -1) {
 			$template_id = $this->mail_settings->getTemplateFor("standard");
 			$attachments = $this->mail_settings->getAttachmentsFor("standard");

@@ -467,6 +467,9 @@ function basisInit() {
 
 //done at end
 function onWindowUnload () {
+	
+	//window.opener.top.location.reload();
+
 	if (typeof SOP!="undefined" && SOP==true){
 		var result = {};
 		result["hash"]=iv.status.hash;

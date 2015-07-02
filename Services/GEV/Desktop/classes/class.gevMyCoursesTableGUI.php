@@ -27,6 +27,7 @@ class gevCoursesTableGUI extends catAccordionTableGUI {
 		$this->ctrl = &$ilCtrl;
 
 		$user_util = gevUserUtils::getInstance($a_user_id);
+
 		$this->user_id = $a_user_id;
 
 		$this->setEnableTitle(true);
@@ -59,11 +60,13 @@ class gevCoursesTableGUI extends catAccordionTableGUI {
 		$this->cancel_img = '<img src="'.ilUtil::getImagePath("gev_cancel_action.png").'" />';
 		$this->booked_img = '<img src="'.ilUtil::getImagePath("gev_booked_icon.png").'" />';
 		$this->waiting_img = '<img src="'.ilUtil::getImagePath("gev_waiting_icon.png").'" />';
+		$this->virtualclass_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-classroom.png").'" />';
 
 		$legend = new catLegendGUI();
 		$legend->addItem($this->cancel_img, "gev_cancel_training")
 			   ->addItem($this->booked_img, "gev_booked")
-			   ->addItem($this->waiting_img, "gev_waiting");
+			   ->addItem($this->waiting_img, "gev_waiting")
+			   ->addItem($this->virtualclass_img, "gev_virtual_class");
 		$this->setLegend($legend);
 
 		$this->setData($data);
@@ -73,7 +76,7 @@ class gevCoursesTableGUI extends catAccordionTableGUI {
 		$this->tpl->setVariable("ACCORDION_BUTTON_CLASS", $this->getAccordionButtonExpanderClass());
 		$this->tpl->setVariable("ACCORDION_ROW", $this->getAccordionRowClass());
 		$this->tpl->setVariable("COLSPAN", $this->getColspan());
-
+		$crs_utils = gevCourseUtils::getInstance($a_set["obj_id"]);
 		// i know this has timezone issues....
 		$now_str = @date("Y-m-d");
 		$now = new ilDate($now_str, IL_CAL_DATE);
@@ -104,6 +107,8 @@ class gevCoursesTableGUI extends catAccordionTableGUI {
 			$status = "";
 		}
 
+
+		$action = "";
 		$show_cancel_link = 
 			(  $a_set["start_date"] === null 
 			|| (   ilDateTime::_before($now, $a_set["start_date"]   )
@@ -115,12 +120,15 @@ class gevCoursesTableGUI extends catAccordionTableGUI {
 			&& $a_set["type"] != "Selbstlernkurs"
 			;
 		if ($show_cancel_link) {
-			$action = '<a href="'.gevCourseUtils::getCancelLinkTo($a_set["obj_id"], $this->user_id).'">'.
+			$action .= '<a href="'.gevCourseUtils::getCancelLinkTo($a_set["obj_id"], $this->user_id).'">'.
 					  $this->cancel_img."</a>";
 		}
-		else {
-			$action = "";
+
+		if ($crs_utils->getWebExlink() !== null) {
+			$action .= '&nbsp;<a href="'.$crs_utils->getWebExlink().'" target="_blank">'.$this->virtualclass_img.'</a>';
 		}
+
+		$action = ltrim($action,"&nbsp;");
 
 		$show_cancel_date = true;
 		if ($a_set["cancel_date"] == null) {
@@ -147,12 +155,19 @@ class gevCoursesTableGUI extends catAccordionTableGUI {
 		$this->tpl->setVariable("LOCATION", $a_set["location"]);
 		$this->tpl->setVariable("DATE", $date);
 		$this->tpl->setVariable("POINTS", $a_set["points"]);
-		$this->tpl->setVariable("FEE", $a_set["fee"]);
+		$this->tpl->setVariable("FEE", gevCourseUtils::formatFee($a_set["fee"]));
 		$this->tpl->setVariable("ACTIONS", $action);
 		$this->tpl->setVariable("TARGET_GROUP", $a_set["target_group"]);
 		$this->tpl->setVariable("GOALS", $a_set["goals"]);
 		$this->tpl->setVariable("CONTENTS", $a_set["content"]);
 		$this->tpl->setVariable("CRS_LINK", gevCourseUtils::getLinkTo($a_set["obj_id"]));
+
+		
+		$tutors = $crs_utils->getTrainers(true);
+		$tutors = implode("; ", $tutors);
+
+		$this->tpl->setVariable("TUTORS", $tutors);
+
 		if ($a_set["overnights"]) {
 			$this->tpl->setCurrentBlock("overnights");
 			$this->tpl->setVariable("OVERNIGHTS", $a_set["overnights"]);

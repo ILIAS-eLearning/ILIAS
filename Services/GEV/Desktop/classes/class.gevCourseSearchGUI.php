@@ -17,7 +17,7 @@ require_once("Services/CaTUIComponents/classes/class.catLegendGUI.php");
 require_once("Services/GEV/Desktop/classes/class.gevCourseSearchTableGUI.php");
 
 class gevCourseSearchGUI {
-	public function __construct() {
+	public function __construct($a_target_user_id = null) {
 		global $lng, $ilCtrl, $tpl, $ilUser, $ilLog;
 
 		$this->lng = &$lng;
@@ -29,22 +29,27 @@ class gevCourseSearchGUI {
 		$this->user_utils = gevUserUtils::getInstanceByObj($ilUser);
 		$this->search_form = null;
 
-		if ($this->user_utils->hasUserSelectorOnSearchGUI()) {
-			$this->target_user_id = $_POST["target_user_id"]
-								  ? $_POST["target_user_id"]
-								  : (   $_GET["target_user_id"]
-								  	  ? $_GET["target_user_id"]
-								  	  : $ilUser->getId()
-								  	);
+		if ($a_target_user_id === null) {
+			if ($this->user_utils->hasUserSelectorOnSearchGUI()) {
+				$this->target_user_id = $_POST["target_user_id"]
+									  ? $_POST["target_user_id"]
+									  : (   $_GET["target_user_id"]
+									  	  ? $_GET["target_user_id"]
+									  	  : $ilUser->getId()
+									  	);
+			}
+			else {
+				$this->target_user_id = $ilUser->getId();
+			}
 		}
 		else {
-			$this->target_user_id = $ilUser->getId();
+			$this->target_user_id = $a_target_user_id;
 		}
 		
 		$this->ctrl->setParameter($this, "target_user_id", $this->target_user_id);
 
 		$this->tpl->getStandardTemplate();
-	}
+		}
 
 	public function executeCommand() {
 		$cmd = $this->ctrl->getCmd();
@@ -146,14 +151,16 @@ class gevCourseSearchGUI {
 
 		$crs_tbl = new gevCourseSearchTableGUI($search_opts, $this->target_user_id, $this);
 		$crs_tbl->setTitle(!$a_in_search?"gev_crs_srch_title":"gev_crs_srch_results")
-				->setSubtitle( $this->target_user_id == $this->user_id
+				->setSubtitle( ($this->target_user_id == $this->user_id 
+								|| $this->user_id == 0 )// Someone is viewing the offers for agents as anonymus.
 							 ? "gev_crs_srch_my_table_desc"
 							 : "gev_crs_srch_theirs_table_desc"
 							 )
 				->setImage("GEV_img/ico-head-search.png")
 				//->setCommand("gev_crs_srch_limit", "www.google.de"); // TODO: set this properly
 				//->setCommand("gev_crs_srch_limit", "javascript:gevShowSearchFilter();"); // TODO: set this properly
-				->setCommand("gev_crs_srch_limit", "-"); // TODO: set this properly
+				->setCommand("gev_crs_srch_limit", "-") // TODO: set this properly
+				->setAdvice("gev_crs_srch_my_table_desc_advice"); // TO DISPLAY AN ADIVCE!
 
 		return $usrsel
 			 . ( ($hls->countHighlights() > 0 && !$a_in_search)

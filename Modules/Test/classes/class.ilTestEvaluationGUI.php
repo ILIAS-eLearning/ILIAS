@@ -127,6 +127,89 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$this->ctrl->redirect($this, "outEvaluation");
 	}
 
+
+	// gev patch start 
+
+	/**
+	* Creates the print preview
+	*
+	* @access public
+	*/
+	function printPreview(){
+		global $ilAccess, $ilias;
+		if (!$ilAccess->checkAccess("write", "", $this->ref_id)) 
+		{
+			// allow only write access
+			ilUtil::sendInfo($this->lng->txt("cannot_edit_test"), true);
+			$this->ctrl->redirect($this, "infoScreen");
+		}
+		
+		$template = new ilTemplate("tpl.il_as_tst_print_test_confirm.html", TRUE, TRUE, "Modules/Test");
+
+		$this->ctrl->setParameter($this, "pdf", "1");
+		$template->setCurrentBlock("pdf_export");
+		$template->setVariable("PDF_URL", $this->ctrl->getLinkTarget($this, "printPreview"));
+		$this->ctrl->setParameter($this, "pdf", "");
+		$template->setVariable("PDF_TEXT", $this->lng->txt("pdf_export"));
+		$template->setVariable("PDF_IMG_ALT", $this->lng->txt("pdf_export"));
+		$template->setVariable("PDF_IMG_URL", ilUtil::getHtmlPath(ilUtil::getImagePath("application-pdf.png")));
+		$template->parseCurrentBlock();
+
+		$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
+		
+		global $ilUser;		
+		$print_date = mktime(date("H"), date("i"), date("s"), date("m")  , date("d"), date("Y"));
+		$max_points= 0;
+		$counter = 1;
+					
+		foreach ($this->object->questions as $question) 
+		{		
+			$template->setCurrentBlock("question");
+			$question_gui = $this->object->createQuestionGUI("", $question);
+			$template->setVariable("COUNTER_QUESTION", $counter.".");
+			$template->setVariable("TXT_QUESTION_ID", $this->lng->txt('question_id_short'));
+			$template->setVariable("QUESTION_ID", $question_gui->object->getId());
+			$template->setVariable("QUESTION_TITLE", ilUtil::prepareFormOutput($question_gui->object->getTitle()));
+			if ($question_gui->object->getMaximumPoints() == 1)
+			{
+				$template->setVariable("QUESTION_POINTS", $question_gui->object->getMaximumPoints() . " " . $this->lng->txt("point"));
+			}
+			else
+			{
+				$template->setVariable("QUESTION_POINTS", $question_gui->object->getMaximumPoints() . " " . $this->lng->txt("points"));
+			}
+			$result_output = $question_gui->getSolutionOutput("", NULL, FALSE, TRUE, FALSE, $this->object->getShowSolutionFeedback());
+			if (strlen($result_output) == 0) $result_output = $question_gui->getPreview(FALSE);
+			$template->setVariable("SOLUTION_OUTPUT", $result_output);
+			$template->parseCurrentBlock("question");
+			$counter ++;
+			$max_points += $question_gui->object->getMaximumPoints();
+		}
+
+		$template->setCurrentBlock("navigation_buttons");
+		$template->setVariable("BUTTON_PRINT", $this->lng->txt("print"));
+		$template->parseCurrentBlock();
+		
+		$template->setVariable("TITLE", ilUtil::prepareFormOutput($this->object->getTitle()));
+		$template->setVariable("PRINT_TEST", ilUtil::prepareFormOutput($this->lng->txt("tst_print")));
+		$template->setVariable("TXT_PRINT_DATE", ilUtil::prepareFormOutput($this->lng->txt("date")));
+		$template->setVariable("VALUE_PRINT_DATE", ilUtil::prepareFormOutput(strftime("%c",$print_date)));
+		$template->setVariable("TXT_MAXIMUM_POINTS", ilUtil::prepareFormOutput($this->lng->txt("tst_maximum_points")));
+		$template->setVariable("VALUE_MAXIMUM_POINTS", ilUtil::prepareFormOutput($max_points));
+		
+		if (array_key_exists("pdf", $_GET) && ($_GET["pdf"] == 1))
+		{
+			//$this->object->deliverPDFfromHTML($template->get(), $this->object->getTitle());
+			require_once 'class.ilTestPDFGenerator.php';
+			ilTestPDFGenerator::generatePDF($template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitle());
+		}
+		else
+		{
+			$this->tpl->setVariable("PRINT_CONTENT", $template->get());
+		}
+	}
+	// gev patch end
+
 	/**
 	* Creates the evaluation output for the test
 	*

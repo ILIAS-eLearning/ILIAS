@@ -180,6 +180,17 @@ abstract class ilAutoMail {
 		$no_mails = false;
 
 		foreach ($a_recipients as $recipient) {
+			// gev-patch start
+			// Do not send mail to inactive users 
+			if (is_numeric($recipient)) {
+				require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+				if (gevUserUtils::userIsInactive($recipient)) {
+					$no_mails = true;
+					continue;
+				}
+			}
+			// gev-patch end
+			
 			$mail_data = $this->getMail($recipient);
 
 			if ($mail_data === null) {
@@ -243,7 +254,7 @@ abstract class ilAutoMail {
 			}
 					
 			$ilLog->write (
-				'ilAutoMail::send ->sending ' .$a_occasion .' to ' .$a_recipients[0] 
+				'ilAutoMail::send ->sending ' .$a_occasion .' to ' .print_r($recipient, true)
 			);
 
 			if (!$mail->Send()) {

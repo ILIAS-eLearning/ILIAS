@@ -44,12 +44,14 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 		$this->setstatus_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-table-state-neutral.png").'" />';
 		$this->overnight_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-edit.png").'" />';
 		$this->bookings_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-table-booking.png").'" />';
+		$this->virtualclass_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-classroom.png").'" />';
 		
 		$legend = new catLegendGUI();
 		$legend->addItem($this->memberlist_img, "gev_mytrainingsap_legend_memberlist")
 			   ->addItem($this->setstatus_img, "gev_mytrainingsap_legend_setstatus")
 			   ->addItem($this->overnight_img, "gev_mytrainingsap_legend_overnights")
 			   ->addItem($this->bookings_img, "gev_mytrainingsap_legend_view_bookings")
+			   ->addItem($this->virtualclass_img, "gev_virtual_class")
 			   ;
 		$this->setLegend($legend);
 
@@ -142,6 +144,15 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 			$actions .= "&nbsp;<a href=\"".$bookings_link."\">".$this->bookings_img."</a>";
 		}
 
+		if ($crs_utils->getWebExlink() !== null) {
+			$actions .= '&nbsp;<a href="'.$crs_utils->getWebExlink().'" target="_blank">'.$this->virtualclass_img.'</a>';
+		}
+
+		$this->ctrl->setParameterByClass("ilrepositorygui","ref_id",$a_set["crs_ref_id"]);
+		$course_link = $this->ctrl->getLinkTargetByClass("ilrepositorygui", "view");
+		$this->ctrl->clearParametersByClass("ilrepositorygui");
+
+		$this->tpl->setVariable("TITLE_LINK",$course_link);
 		$this->tpl->setVariable("TITLE", $a_set["title"]);
 		$this->tpl->setVariable("CUSTOM_ID", $a_set["custom_id"]);
 		$this->tpl->setVariable("TYPE", $a_set["type"]);
@@ -173,6 +184,22 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 			$this->tpl->setVariable("VIEW_BOOKINGS_LINK_TXT", $this->lng->txt('gev_mytrainingsap_btn_bookings'));
 			$this->tpl->parseCurrentBlock();
 		}
+
+		$actions = "";
+		if($crs_utils->isVirtualTraining()) {
+			$this->tpl->setVariable("VC_HEADER", "Zugangsdaten virtueller Klassenraum");
+		
+			if($crs_utils->getWebExLoginTutor()) {
+			$actions .= "Login: ".$crs_utils->getWebExLoginTutor()."<br />";
+			}
+
+			if($crs_utils->getWebExPasswordTutor()) {
+				$actions .= "Passwort: ".$crs_utils->getWebExPasswordTutor();
+			}
+
+			$this->tpl->setVariable("VC_DATA", $actions);
+		}
+		
 	}
 }
 

@@ -225,7 +225,7 @@ class ilUserCourseStatusHistorizingHelper
 			return;
 		}
 		
-		$cur = ilUserCourseStatusHistorizing::getCurrentRecordByCase();
+		$cur = ilUserCourseStatusHistorizing::getCurrentRecordByCase($case_id);
 		
 		if ($cur["participation_status"] !== "teilgenommen") {
 			$payload["end_date"] = date("Y-m-d");

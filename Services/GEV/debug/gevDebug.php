@@ -526,9 +526,113 @@ class gevDebug {
 	}
 
 
+	public function rectify_wbdreg_vfs_olddata(){
+		
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		
+		$sql = "SELECT interimUsers.ilid FROM usr_data"
+			." INNER JOIN interimUsers on usr_data.usr_id = interimUsers.ilid_vfs"
+			." WHERE usr_data.agree_date IS NULL AND usr_data.active = 1"
+			." AND interimUsers.ilid != ''"
+			;
+
+		$notAgreedUsersVFS = [];
+		$result = mysql_query($sql, $this->importDB);
+		while($record = mysql_fetch_assoc($result)) {
+			$notAgreedUsersVFS[] = $record['ilid'];
+			$uutils = gevUserUtils::getInstanceByObjOrId($record['ilid']);
+			$uutils->setWBDRegistrationNotDone();
+			print '<hr>';
+			print_r($record);
+
+
+		}
 	
+	}	
+	
+	public function analyze_wbdreg_vfs_olddata(){
+		
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		
+		$sql = "SELECT interimUsers.ilid FROM usr_data"
+			." INNER JOIN interimUsers on usr_data.usr_id = interimUsers.ilid_vfs"
+			." WHERE usr_data.agree_date IS NULL AND usr_data.active = 1"
+			." AND interimUsers.ilid != ''"
+			;
+
+		$notAgreedUsersVFS = [];
+		$result = mysql_query($sql, $this->importDB);
+		while($record = mysql_fetch_assoc($result)) {
+			$notAgreedUsersVFS[] = $record['ilid'];
+		}
 
 
+		$sql  = "SELECT * from hist_user WHERE hist_historic=0"
+		." AND is_active=1"
+		." AND user_id IN ("
+		.implode(', ', $notAgreedUsersVFS)
+		.")";
+
+
+		$sql  = "SELECT * FROM hist_user" 
+		." INNER JOIN usr_data ON hist_user.user_id=usr_data.usr_id"
+		." WHERE hist_historic=0"
+		." AND is_active=1"
+		." AND okz !='' AND okz !='-empty-'"
+		." AND wbd_type = '3 - TP-Service'" 
+		." AND bwv_id = '-empty-'" 
+		." AND user_id IN ("
+		.implode(', ', $notAgreedUsersVFS)
+		.")";
+										
+
+		
+		print $sql;
+		print '<hr>';
+
+
+		$ret = array();
+		
+		$res = $this->db->query($sql);
+		while($rec = $this->db->fetchAssoc($res)) {
+		
+			$ret[]=$rec;
+			//print '<hr>';
+			//print_r($rec);
+		}
+		print 'total: ' .count($ret);
+		print '<hr><pre>';
+		print_r($ret);
+
+	}
+
+
+
+	
+	public function fix_wrong_altdaten_import(){
+		$buf = array();
+		$sql= "SELECT * FROM wbd_altdaten WHERE id > 20850 AND reported = 0";
+		$result = mysql_query($sql, $this->importDB);
+		while($rec = mysql_fetch_assoc($result)) {
+			$buf[] = array(
+					'id' => $rec['id'], 
+					'vorname' => $rec['Name'], 
+					'name' => $rec['Vorname'] 
+				);
+
+		}
+
+		foreach ($buf as $entry) {
+			$sql = "UPDATE wbd_altdaten SET "
+			."Name = '" . $entry['name'] ."'"
+			.", Vorname = '" . $entry['vorname'] ."'"
+			." WHERE id=" .$entry['id'] .';<br>';
+
+			print($sql);
+		}
+		
+
+	}
 
 
 
@@ -538,9 +642,11 @@ print '<pre>';
 
 //die('online');
 $debug = new gevDebug();
-$debug->fix_hist_users_calculated_fields();
-$debug->find_users_with_missing_roles();
+//$debug->fix_hist_users_calculated_fields();
+//$debug->find_users_with_missing_roles();
+//$debug->analyze_wbdreg_vfs_olddata();
 
+$debug->fix_wrong_altdaten_import();
 
 
 print '<br><br><i>done.</i>';

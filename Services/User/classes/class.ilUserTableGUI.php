@@ -514,7 +514,7 @@ class ilUserTableGUI extends ilTable2GUI
 			{
 				$this->tpl->setCurrentBlock("access_until");
 				$this->tpl->setVariable("VAL_ACCESS_UNTIL", $user["access_until"]);
-				$this->tpl->setVariable("CLASS_ACCESS_UNTIL", $user["access_class"]);						
+				$this->tpl->setVariable("CLASS_ACCESS_UNTIL", $user["access_class"]);
 			}
 			else if ($c == "last_login")
 			{
@@ -571,12 +571,18 @@ class ilUserTableGUI extends ilTable2GUI
 		}
 		
 		if($this->getMode() == self::MODE_USER_FOLDER or $user['time_limit_owner'] == $this->getUserFolderId())
-		{
+		{	
+			//gev-patch start
+			$class_name = "ilobjusergui";
+			if($this->getMode() == self::MODE_LOCAL_USER) {
+				$class_name = "gevlocalusergui";
+			}
 			$this->tpl->setVariable("VAL_LOGIN", $user["login"]);
-			$ilCtrl->setParameterByClass("ilobjusergui", "obj_id", $user["usr_id"]);
+			$ilCtrl->setParameterByClass($class_name, "obj_id", $user["usr_id"]);
 			$this->tpl->setVariable("HREF_LOGIN",
-				$ilCtrl->getLinkTargetByClass("ilobjusergui", "view"));
-			$ilCtrl->setParameterByClass("ilobjusergui", "obj_id", "");
+				$ilCtrl->getLinkTargetByClass($class_name, "view"));
+			$ilCtrl->setParameterByClass($class_name, "obj_id", "");
+			//gev-patch end
 		}
 		else
 		{

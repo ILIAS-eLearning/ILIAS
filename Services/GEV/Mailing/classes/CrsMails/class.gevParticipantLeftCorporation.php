@@ -24,7 +24,12 @@ class gevParticipantLeftCorporation extends gevCrsAutoMail {
 	}
 	
 	public function getCC($a_recipient) {
-		return array();
+		require_once("./Services/GEV/Utils/classes/class.gevUserUtils.php");
+		return gevUserUtils::getInstance($a_recipient)->getDirectSuperiors();
+	}
+	
+	protected function getMessage($a_template_id, $a_recipient) {
+		return $this->swapToWithCC(parent::getMessage($a_template_id, $a_recipient));
 	}
 	
 	public function getMail($a_recipient) {

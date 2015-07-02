@@ -728,6 +728,14 @@ abstract class ilMailingGUI {
 			ilUtil::sendFailure($this->lng->txt("no_mail_available"));
 			return $this->showAutoMails();
 		}
+		
+		foreach($mail["attachments"] as $key => $attachment) {
+			$this->ctrl->setParameter($this, "auto_mail_id", $mail_id);
+			$this->ctrl->setParameter($this, "filename", $attachment["name"]);
+			$link = $this->ctrl->getLinkTarget($this, "deliverAutoMailAttachment");
+			$this->ctrl->clearParameters($this);
+			$mail["attachments"][$key]["link"] = $link;
+		}
 
 		require_once("Services/Mailing/classes/class.ilMailViewGUI.php");
 
@@ -892,7 +900,6 @@ abstract class ilMailingGUI {
 	protected function getRecipientUserSelectionTable($a_user_data, $a_title, $a_form_action, $a_command_buttons) {
 		require_once("Services/Table/classes/class.ilTable2GUI.php");
 		$table_gui = new ilTable2GUI($this);
-
 		$table_gui->setFormName("recipients");
 		$table_gui->setFormAction($a_form_action);
 
@@ -1169,7 +1176,8 @@ abstract class ilMailingGUI {
 		
 		$command_buttons = array( array("showMailToMembersMailInput", $this->lng->txt("continue"))
 								);
-		
+
+		$this->ctrl->setParameter($this, "cmd", "selectMailToMembersRecipients");
 		$table_gui = $this->getRecipientUserSelectionTable(
 							  $this->getUserData($user_ids)
 							, $this->lng->txt("select_mail_recipients")

@@ -92,8 +92,10 @@ class ilGEVBillingPlugin extends ilEventHookPlugin
 		if ($status == ilParticipationStatus::STATUS_SUCCESSFUL) {
 			$billing_utils->finalizeBill($a_crs_id, $a_user_id);
 		}
-		else if (  $status == ilParticipationStatus::STATUS_ABSENT_EXCUSED
-			    || $status == ilParticipationStatus::STATUS_ABSENT_NOT_EXCUSED) {
+		else if ($status == ilParticipationStatus::STATUS_ABSENT_EXCUSED) {
+			$billing_utils->createCancellationBillAndCoupon($a_crs_id, $a_user_id);
+		}
+		else if ( $status == ilParticipationStatus::STATUS_ABSENT_NOT_EXCUSED) {
 			$billing_utils->finalizeNoShowBill($a_crs_id, $a_user_id);
 		}
 	}
@@ -106,9 +108,10 @@ class ilGEVBillingPlugin extends ilEventHookPlugin
 		$context_id = $a_bill->getContextId();
 		
 		if ($context_id) {
-			require_once("Services/GEV/Mailing/classes/CrsMails/class.gevCrsBillMail.php");
+			require_once("Services/GEV/Mailing/classes/class.gevCrsAutoMails.php");
 			$ilLog->write("ilGEVBillingPlugin::billFinalized: send bill ".$a_bill->getId());
-			$automail = new gevCrsBillMail($context_id);
+			$crs_automails = new gevCrsAutoMails($context_id);
+			$automail = $crs_automails->getAutoMail("bill_mail");
 			$automail->sendBill($a_bill);
 		}
 		else {
