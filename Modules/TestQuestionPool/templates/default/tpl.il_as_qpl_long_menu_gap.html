@@ -1,19 +1,122 @@
-<!-- BEGIN row -->
-<div class="long_menu_gap">
-	{SELECT_BOX}
-	{ITEM_LIST}
-</div>
-<!-- END row -->
-<script src="./Modules/TestQuestionPool/templates/default/gap_inserting_wizard.js"></script>
+<script src="./Modules/TestQuestionPool/templates/default/GapInsertingWizard.js"></script>
+{SELECT_BOX}
 <script>
-
+	var long_menu_language = {
+		'edit' : '[Edit]',
+		'type' : 'Typ',
+		'answers': 'Answers',
+		'answer_options' : 'Answer Options: ',
+		'correct_answers': 'Correct Answers: '
+		
+		
+	};
+	var gap_wizard = GapInsertingWizard;
+	gap_wizard.textarea 		= 'question_text';
+	gap_wizard.trigger_id		= '#gaptrigger';
+	gap_wizard.replacement_word = 'Longmenu';
+	gap_wizard.show_end			= false;
 	$( document ).ready(function() {
-		var gap_wizard = Gap_inserting_wizard;
-		gap_wizard.textarea 		= 'question_text';
-		gap_wizard.trigger_id		= '#gaptrigger';
-		gap_wizard.replacement_word = 'Longmenu';
-		gap_wizard.show_end			= false;
 		gap_wizard.Init();
+		longMenuQuestion.Init();
 	});
-	
+	var longMenuQuestion = (function () {
+		var pub = {};
+		pub.questionParts = {
+			list : [
+				{
+					'title' : 1,
+					'answer_count' : 200,
+					correct_answers : [0, 1]
+				},
+				{
+					'title' : 2,
+					'answer_count' : 200,
+					correct_answers : [2, 3]
+				}
+			],
+			last_updated_element : 0
+		};
+		pub.answers =
+			[
+				['fdasfasdfadsf', 'asdfasdf', 'dasfadsfs', 'adfadsf'],
+				['1', '2', '3', '4', '1', '2', '3', '4','1', '2', '3', '4', '1', '2', '3', '4','1', '2', '3', '4', '1', '2', '3', '4','1', '2', '3', '4', '1', '2', '3', '4','1', '2', '3', '4', '1', '2', '3', '4','1', '2', '3', '4', '1', '2', '3', '4','1', '2', '3', '4', '1', '2', '3', '4','1', '2', '3', '4', '1', '2', '3', '4']
+			];
+		function appendFormParts()  {
+			var footer_class = $('.ilFormFooter');
+			var new_title = $(".gap_title").find('.ilFormHeader').addClass('longmenu_head');
+			$.each(pub.questionParts.list , function( index, value ) {
+				footer_class.parent().append(new_title.clone());
+				$(document).find('.longmenu_head').last().find('.ilHeader').html(gap_wizard.replacement_word + ' ' + value.title);
+				appendSelectBox(footer_class, index);
+				appendAnswersOverview(footer_class, index);
+			});
+			footer_class.appendTo( '#form_assLongMenu');
+		}
+		function appendSelectBox(footer_class, index)  {
+			var id = 'select_type_' + index;
+			footer_class.parent().append($('#layout_dummy_select').clone().attr('id', id));
+			var selector = $('#' + id);
+			selector.find('label').html(long_menu_language.type);
+		}
+
+		function appendAnswersOverview(footer_class, index)  {
+			var id = 'answer_overview_' + index;
+			footer_class.parent().append($('#layout_dummy_answers').clone().attr('id', id));
+			var selector = $('#' + id);
+			selector.find('label').html(long_menu_language.answers);
+			var html = buildAnswerOverview(index);
+			selector.find('.form-inline').html(html);
+		}
+		function buildAnswerOverview(question)  {
+			var html ='<p>' + long_menu_language.answer_options + pub.answers[question].length;
+			html +=   ' ' + long_menu_language.edit + '</p>';
+			html += '<p>' + long_menu_language.correct_answers;
+			var answers = '';
+			$.each(pub.questionParts.list[question].correct_answers , function( index, value ) {
+				answers += pub.answers[question][value] + ', ';
+			});
+			html += ' ' + answers.substring(0, answers.length - 2) + ' ' + long_menu_language.edit + '</p>';
+			return html;
+		}
+		//Public property
+
+		pub.Init = function()
+		{
+			appendFormParts();
+		};
+
+		//Return just the public parts
+		return pub;
+	}());
 </script>
+<style>
+	.prototype_long_menu{
+		display:none;
+	}
+</style>
+<div class="prototype_long_menu">
+	<div class="gap_title">
+		<div class="ilFormHeader">
+			<h3 class="ilHeader"></h3>
+			<div class="help-block"></div>
+		</div>
+	</div>
+	<div class="form-group" id="layout_dummy_answers">
+		<label for="" class="col-sm-3 control-label"></label>
+		<div class="col-sm-9">
+			<div class="form-inline">
+			</div>
+		</div>
+	</div>
+	<div class="form-group" id="layout_dummy_select">
+		<label for="" class="col-sm-3 control-label"></label>
+		<div class="col-sm-9">
+			<div class="form-inline">
+				<select name="Estimated[hh]" class=" form-control " size="0">
+					<option value="select" selected="selected">SELECT</option>
+					<option value="text">TEXT</option>
+				</select>
+			</div>
+		</div>
+	</div>
+</div>

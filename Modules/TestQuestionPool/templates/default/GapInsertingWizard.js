@@ -1,5 +1,5 @@
-var Gap_inserting_wizard = (function () {
-	var pub = {};
+var GapInsertingWizard = (function () {
+	var pub = {}, cursorPos;
 	pub.active_gap = -1;
 	
 	function insertGapCodeAtCaret(object)  {
@@ -41,7 +41,7 @@ var Gap_inserting_wizard = (function () {
 
 	function cleanGapCode()
 	{
-		var text 		= getTextAreaValue();
+		var text 		= pub.getTextAreaValue();
 		var newText 	= text.replace(new RegExp("\\[" + pub.replacement_word + "[\\s\\S\\d]*?\\]", "g"), '[temp]');
 		var gaps_length	= text.split(new RegExp('\\[' + pub.replacement_word + '[\\s\\S\\d]*?\\]')).length;
 		newText 		= newText.replace(new RegExp('\\[\\/' + pub.replacement_word + '\\]' ,'g'), '[/temp]');
@@ -58,19 +58,6 @@ var Gap_inserting_wizard = (function () {
 			}
 		}
 		setTextAreaValue(newText);
-	}
-
-	function getTextAreaValue()
-	{
-		var text;
-		if (typeof(tinymce) != 'undefined') {
-			text = tinymce.get(pub.textarea).getContent();
-		}
-		else {
-			var textarea =  $('textarea#' + pub.textarea);
-			text = textarea.val();
-		}
-		return text;
 	}
 
 	function setTextAreaValue(text)
@@ -160,16 +147,25 @@ var Gap_inserting_wizard = (function () {
 
 	function cursorInGap(position)
 	{
-		var text    = getTextAreaValue();
+		var text    = pub.getTextAreaValue();
 		var end     = 0;
 		var inGap   = -1;
 		var gaps_length	= text.split(new RegExp('\\[' + pub.replacement_word + '[\\s\\S\\d]*?\\]')).length;
 		var gapNumber;
 		var gap_length = pub.replacement_word.length + 2;
-		for (var i = 0; i < gaps_length.length; i++) {
-			var start = text.indexOf('[' + pub.replacement_word + ' ', end);
-			end = text.indexOf('[/' + pub.replacement_word + ']', parseInt(end, 10)) + gap_length;
-			if (start < position && end >= position)
+		for (var i = 0; i < gaps_length; i++) {
+			
+			if( pub.show_end )
+			{
+				var start = text.indexOf('[' + pub.replacement_word + ' ', end);
+				end = text.indexOf('[/' + pub.replacement_word + ']', parseInt(end, 10)) + gap_length;
+			}
+			else
+			{
+				var start = text.indexOf('[' + pub.replacement_word + ' ', end);
+				end = start + gap_length +1 ;
+			}
+			if ( start != -1 && start < position && end >= position)
 			{
 				inGap = parseInt(end, 10) + 1;
 				var gapSize = parseInt(end, 10) - parseInt(start, 10);
@@ -177,16 +173,32 @@ var Gap_inserting_wizard = (function () {
 				gapContent = gapContent.split(']');
 				gapNumber = gapContent[0];
 			}
+			
 		}
 		return [gapNumber, inGap];
 	}
+	function bindTextareaHandlerTiny()
+	{
+		var tinymce_iframe_selector =   $('.mceIframeContainer iframe').eq(0).contents().find('body');
+			tinymce_iframe_selector.on('click', function () {
+			var inst = tinyMCE.activeEditor;
+			var cursorPosition = getCursorPositionTiny(inst, false);
+			cursorPos = cursorPosition;
+			var pos = cursorInGap(cursorPosition);
+			if (pos[1] != -1) {
+				setCursorPositionTiny(inst,pos[1]);
+			}
+		});
+	}
+	
 	//Public property
 	pub.textarea  			= '';
 	pub.trigger_id			= '';
 	pub.replacement_word 	= '';
 	pub.show_end			= true;
 
-	pub.Init = function(){
+	pub.Init = function(callback)
+	{
 		var selector =  $(pub.trigger_id);
 		selector.off('click');
 		selector.on('click', function (evt)
@@ -194,11 +206,28 @@ var Gap_inserting_wizard = (function () {
 			evt.preventDefault();
 			insertGapCodeAtCaret($('#' + pub.textarea));
 			cleanGapCode();
+			if (typeof callback === "function") {
+				callback();
+			}
 			return false;
 		});
+		if (typeof(tinyMCE) != 'undefined') {
+			if (tinyMCE.activeEditor === null || tinyMCE.activeEditor.isHidden() !== false) {
+				ilTinyMceInitCallbackRegistry.addCallback(bindTextareaHandlerTiny);
+			}
+		}
 	};
-	pub.doSomething = function(){
-		
+	pub.getTextAreaValue = function()
+	{
+		var text;
+		if (typeof(tinymce) != 'undefined') {
+			text = tinymce.get(pub.textarea).getContent();
+		}
+		else {
+			var textarea =  $('textarea#' + pub.textarea);
+			text = textarea.val();
+		}
+		return text;
 	};
 
 	//Return just the public parts
