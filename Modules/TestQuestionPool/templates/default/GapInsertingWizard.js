@@ -87,8 +87,8 @@ var GapInsertingWizard = (function () {
 				}
 				else
 				{
-					textarea.prop('selectionStart',ClozeGlobals.active_gap);
-					textarea.prop('selectionEnd',ClozeGlobals.active_gap);
+					textarea.prop('selectionStart',pub.active_gap);
+					textarea.prop('selectionEnd',pub.active_gap);
 				}
 				pub.active_gap = parseInt(inGap[0], 10);
 			}
@@ -211,6 +211,20 @@ var GapInsertingWizard = (function () {
 			}
 		});
 	}
+	function bindTextareaHandler()
+	{
+		var cloze_text_selector= $('#' + pub.textarea);
+
+		cloze_text_selector.click(function () {
+			var cursorPosition = $('#' + pub.textarea).prop('selectionStart');
+			var pos = cursorInGap(cursorPosition);
+			cursorPos = cursorPosition;
+			if (pos[1] != -1) {
+				setCaretPosition(document.getElementById(pub.textarea), pos[1]);
+			}
+			return false;
+		});
+	}
 	
 	//Public property
 	pub.textarea  			= '';
@@ -221,7 +235,7 @@ var GapInsertingWizard = (function () {
 	pub.callbackActiveGapChange;
 	pub.callbackClickedInGap;
 
-	pub.Init = function(callback)
+	pub.Init = function()
 	{
 		var selector =  $(pub.trigger_id);
 		selector.off('click');
@@ -230,15 +244,16 @@ var GapInsertingWizard = (function () {
 			evt.preventDefault();
 			insertGapCodeAtCaret($('#' + pub.textarea));
 			cleanGapCode();
-			if (typeof callback === "function") {
-				callback();
-			}
 			return false;
 		});
 		if (typeof(tinyMCE) != 'undefined') {
 			if (tinyMCE.activeEditor === null || tinyMCE.activeEditor.isHidden() !== false) {
 				ilTinyMceInitCallbackRegistry.addCallback(bindTextareaHandlerTiny);
 			}
+		}
+		else
+		{
+			bindTextareaHandler();
 		}
 	};
 	pub.getTextAreaValue = function()

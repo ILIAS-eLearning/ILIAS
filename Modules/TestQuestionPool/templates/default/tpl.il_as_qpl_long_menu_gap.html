@@ -14,9 +14,10 @@
 	gap_wizard.textarea 		= 'question_text';
 	gap_wizard.trigger_id		= '#gaptrigger';
 	gap_wizard.replacement_word = 'Longmenu';
-	gap_wizard.callbackActiveGapChange = function (){console.log('changed',gap_wizard.active_gap)};
-	gap_wizard.callbackClickedInGap = function (){console.log('clicked on',gap_wizard.active_gap)};
 	gap_wizard.show_end			= false;
+	gap_wizard.callbackActiveGapChange 	= function (){console.log('changed',gap_wizard.active_gap)};
+	gap_wizard.callbackClickedInGap 	= function (){console.log('clicked on',gap_wizard.active_gap)};
+	
 	$( document ).ready(function() {
 		gap_wizard.Init();
 		longMenuQuestion.Init();
