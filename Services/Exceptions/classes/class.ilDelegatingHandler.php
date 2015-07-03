@@ -45,7 +45,7 @@ final class ilDelegatingHandler extends Handler {
 	 * @return int|null A handler may return nothing, or a Handler::HANDLE_* constant
 	 */
 	public function handle() {
-		$handler = $this->error_handling->getrHandler();
+		$handler = $this->error_handling->getHandler();
 		$handler->setRun($this->getRun());
 		$handler->setException($this->getException());
 		$handler->setInspector($this->getInspector());
