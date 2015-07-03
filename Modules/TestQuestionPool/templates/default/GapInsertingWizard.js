@@ -57,8 +57,38 @@ var GapInsertingWizard = (function () {
 			}
 		}
 		setTextAreaValue(newText);
+		if (typeof pub.callbackCleanGapCode === 'function') {
+			pub.callbackCleanGapCode();
+		}
 	}
-
+	function createNewGapCode()
+	{
+		var newText = pub.getTextAreaValue();
+		if(pub.show_end)
+		{
+			var iterator = newText.match(new RegExp("\\[" + pub.replacement_word + "[\\s\\S\\d]*?\\](.*?)\\[\\/" + pub.replacement_word + "\\]", "g"));
+		}
+		else
+		{
+			var iterator = newText.match(new RegExp("\\[" + pub.replacement_word + "[\\s\\S\\d]*?\\]", "g"));
+		}
+		var last = 0;
+		for (var i = 0; i < iterator.length; i++) {
+			last = i;
+			if (iterator[i].match(new RegExp("\\[" + pub.replacement_word + "\\]"))) {
+				var values = iterator[i].replace('[' + pub.replacement_word +']', '');
+				values = values.replace('[/' + pub.replacement_word +']', '');
+				var gap_id =  parseInt(i, 10) + 1;
+				newText = newText.replace('[' + pub.replacement_word +']', '['  + pub.replacement_word +' ' + gap_id + ']');
+				if (typeof pub.callbackCleanGapCode === 'function') {
+					pub.callbackNewGap(last, values);
+				}
+			}
+		}
+		setTextAreaValue(newText);
+		cleanGapCode();
+	}
+	
 	function setTextAreaValue(text)
 	{
 		var cursor, inGap;
@@ -232,8 +262,7 @@ var GapInsertingWizard = (function () {
 	pub.replacement_word 	= '';
 	pub.show_end			= true;
 	pub.active_gap = -1;
-	pub.callbackActiveGapChange;
-	pub.callbackClickedInGap;
+	pub.callbackActiveGapChange, pub.callbackClickedInGap, pub.callbackCleanGapCode, pub.callbackNewGap;
 
 	pub.Init = function()
 	{
@@ -243,7 +272,7 @@ var GapInsertingWizard = (function () {
 		{
 			evt.preventDefault();
 			insertGapCodeAtCaret($('#' + pub.textarea));
-			cleanGapCode();
+			createNewGapCode();
 			return false;
 		});
 		if (typeof(tinyMCE) != 'undefined') {

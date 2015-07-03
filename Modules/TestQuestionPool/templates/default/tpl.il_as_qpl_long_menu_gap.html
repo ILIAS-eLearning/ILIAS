@@ -16,7 +16,14 @@
 	gap_wizard.replacement_word = 'Longmenu';
 	gap_wizard.show_end			= false;
 	gap_wizard.callbackActiveGapChange 	= function (){console.log('changed',gap_wizard.active_gap)};
-	gap_wizard.callbackClickedInGap 	= function (){console.log('clicked on',gap_wizard.active_gap)};
+	gap_wizard.callbackClickedInGap 	= function () 
+		{
+			$('#ilGapModal').modal('show');
+			$('.modal-title').html(gap_wizard.replacement_word +' ' + gap_wizard.active_gap);
+			console.log('clicked on',gap_wizard.active_gap)
+		};
+	gap_wizard.callbackNewGap = function (gap_id, gap_value){console.log('new gap',gap_id, gap_value)};
+	gap_wizard.callbackCleanGapCode 	= function (){console.log('cleanup done')};
 	
 	$( document ).ready(function() {
 		gap_wizard.Init();
@@ -29,12 +36,12 @@
 				{
 					'title' : 1,
 					'answer_count' : 200,
-					correct_answers : [0, 1]
+					'correct_answers' : [0, 1]
 				},
 				{
 					'title' : 2,
 					'answer_count' : 200,
-					correct_answers : [2, 3]
+					'correct_answers' : [2, 3]
 				}
 			],
 			last_updated_element : 0
@@ -71,14 +78,14 @@
 			selector.find('.form-inline').html(html);
 		}
 		function buildAnswerOverview(question)  {
-			var html ='<p>' + long_menu_language.answer_options + pub.answers[question].length;
-			html +=   ' ' + long_menu_language.edit + '</p>';
-			html += '<p>' + long_menu_language.correct_answers;
+			var html =	'<p>' + long_menu_language.answer_options + pub.answers[question].length;
+			html += 	' <a>' + long_menu_language.edit + '</a></p>';
+			html += 	'<p>' + long_menu_language.correct_answers;
 			var answers = '';
 			$.each(pub.questionParts.list[question].correct_answers , function( index, value ) {
 				answers += pub.answers[question][value] + ', ';
 			});
-			html += ' ' + answers.substring(0, answers.length - 2) + ' ' + long_menu_language.edit + '</p>';
+			html += ' ' + answers.substring(0, answers.length - 2) + ' <a>' + long_menu_language.edit + '</a></p>';
 			return html;
 		}
 		//Public property
@@ -123,3 +130,4 @@
 		</div>
 	</div>
 </div>
+{MY_MODAL}
