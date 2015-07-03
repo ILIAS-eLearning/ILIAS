@@ -51,7 +51,17 @@ if (!$ilIliasIniFile) {
 
 include_once "Services/Context/classes/class.ilContext.php";
 ilContext::init(ilContext::CONTEXT_SOAP);
-	
+
+if ((bool)$ilIliasIniFile->readVariable('https', 'auto_https_detect_enabled')) {
+	$headerName = $ilIliasIniFile->readVariable('https', 'auto_https_detect_header_name');
+	$headerValue = $ilIliasIniFile->readVariable('https', 'auto_https_detect_header_value');
+
+	$headerName = "HTTP_".str_replace("-","_", strtoupper($headerName));
+	if (strcasecmp($_SERVER[$headerName], $headerValue) == 0) {
+		$_SERVER['HTTPS'] = 'on';
+	}
+}
+
 if (IL_SOAPMODE == IL_SOAPMODE_INTERNAL && strcasecmp($_SERVER["REQUEST_METHOD"], "post") == 0 )
 {
 	// called by webservice
