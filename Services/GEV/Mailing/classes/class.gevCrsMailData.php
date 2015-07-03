@@ -276,14 +276,19 @@ class gevCrsMailData extends ilMailData {
 				$end = $this->crs_utils->getEndDate();
 				
 				if ($start && $end) {
-					require_once("Services/TEP/classes/class.ilTEPCourseEntries.php");
-					$tmp = ilTEPCourseEntries::getInstance($this->crs_utils->getCourse())
-								->getOperationsDaysInstance();
-					$op_days = $tmp->getDaysForUser($this->rec_user_id);
-					foreach ($op_days as $key => $value) {
-						$op_days[$key] = ilDatePresentation::formatDate($value);
+					try {
+						require_once("Services/TEP/classes/class.ilTEPCourseEntries.php");
+						$tmp = ilTEPCourseEntries::getInstance($this->crs_utils->getCourse())
+									->getOperationsDaysInstance();
+						$op_days = $tmp->getDaysForUser($this->rec_user_id);
+						foreach ($op_days as $key => $value) {
+							$op_days[$key] = ilDatePresentation::formatDate($value);
+						}
+						$val = implode("<br />", $op_days);
 					}
-					$val = implode("<br />", $op_days);
+					catch (ilTEPException $e) {
+						$val = "Nicht verfügbar.";
+					}
 				}
 				else {
 					$val = "Nicht verfügbar.";
@@ -305,7 +310,7 @@ class gevCrsMailData extends ilMailData {
 			case "VORABENDANREISE":
 				if ($this->usr_utils !== null) {
 					$tmp = $this->usr_utils->getOvernightDetailsForCourse($this->crs_utils->getCourse());
-					if (   count($tmp) > 0 
+					if (   count($tmp) > 0 && $this->crs_utils->get
 						&& $tmp[0]->get(IL_CAL_DATE) < $this->crs_utils->getStartDate()->get(IL_CAL_DATE)) {
 						$val = "Ja";
 					}

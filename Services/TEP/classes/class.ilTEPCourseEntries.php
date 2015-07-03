@@ -60,7 +60,8 @@ class ilTEPCourseEntries
 			// gev-patch start
 			//throw new ilException("ilTEPCourseEntries - course needs TEP entry for operation days");
 			$crsid = $this->getCourse()->getId();
-			throw new ilException("ilTEPCourseEntries - course needs TEP entry for operation days (course-ID: $crsid)");
+			require_once("Services/TEP/classes/class.ilTEPException.php");
+			throw new ilTEPException("ilTEPCourseEntries - course needs TEP entry for operation days (course-ID: $crsid)");
 			// gev-patch end
 		}
 				
