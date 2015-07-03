@@ -610,3 +610,5 @@ ps_auto_https_header_value#:#Fejléc értéke
 ps_auto_https#:#Automatikus HTTPS felismerés
 https_settings#:#HTTPS beállítások
 alert#:#Figyelmeztetés
+pre_opcache_comments#:#opcache.load_comments értéke legyen 1
+pre_load_comments#:#PHP-OPCache load_comments
