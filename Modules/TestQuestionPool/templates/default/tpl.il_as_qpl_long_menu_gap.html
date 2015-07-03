@@ -1,0 +1,19 @@
+<!-- BEGIN row -->
+<div class="long_menu_gap">
+	{SELECT_BOX}
+	{ITEM_LIST}
+</div>
+<!-- END row -->
+<script src="./Modules/TestQuestionPool/templates/default/gap_inserting_wizard.js"></script>
+<script>
+
+	$( document ).ready(function() {
+		var gap_wizard = Gap_inserting_wizard;
+		gap_wizard.textarea 		= 'question_text';
+		gap_wizard.trigger_id		= '#gaptrigger';
+		gap_wizard.replacement_word = 'Longmenu';
+		gap_wizard.show_end			= false;
+		gap_wizard.Init();
+	});
+	
+</script>

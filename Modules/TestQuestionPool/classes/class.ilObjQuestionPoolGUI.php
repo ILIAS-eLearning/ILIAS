@@ -26,7 +26,7 @@ require_once './Modules/Test/classes/class.ilObjTest.php';
  * @ilCtrl_Calls ilObjQuestionPoolGUI: ilAssQuestionHintsGUI, ilAssQuestionFeedbackEditingGUI, ilLocalUnitConfigurationGUI
  * @ilCtrl_Calls ilObjQuestionPoolGUI: ilObjQuestionPoolSettingsGeneralGUI, assFormulaQuestionGUI
  * @ilCtrl_Calls ilObjQuestionPoolGUI: ilAssQuestionPreviewGUI
- * @ilCtrl_Calls ilObjQuestionPoolGUI: assKprimChoiceGUI
+ * @ilCtrl_Calls ilObjQuestionPoolGUI: assKprimChoiceGUI, assLongMenuGUI
  *
  * @ingroup ModulesTestQuestionPool
  * 
@@ -517,6 +517,9 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 					break;
 				case KPRIM_CHOICE_QUESTION_IDENTIFIER:
 					$type = $this->lng->txt("assKprimChoice");
+					break;
+				case LONG_MENU_QUESTION_IDENTIFIER:
+					$type = $this->lng->txt("longMenuQuestion");
 					break;
 				case SINGLE_CHOICE_QUESTION_IDENTIFIER:
 					$type = $this->lng->txt("assSingleChoice");
