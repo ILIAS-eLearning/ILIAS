@@ -1,7 +1,7 @@
-﻿/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
-* @translator 56910 2015-01-08 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
+* @translator 5.0.x 2015-07-06 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
 * @translator 31603 Antónia Berecz <berecz@gdf.hu>
 * @module       setup language file hungarian
 * @modulegroup  language
@@ -66,7 +66,7 @@ clone_clientismaster#:#A kliens mester azon a néven, ezért nem írható felül
 clone_clientisnotmysql#:#A kliensnek nincs MySQL adatbázisa.
 clone_clientnodatabase#:#Jelenleg csak MySQL adatbázis támogatott.
 clone_disabledmessage#:#A klónozás az alábbi ok(ok) miatt le van tiltva:
-clone_youmustcheckiamsure#:#Be kell jelölnie, a "Biztos vagyok benne, hogy" felülírom a célklienst.
+clone_youmustcheckiamsure#:#Be kell jelölnie, a 'Biztos vagyok benne, hogy' felülírom a célklienst.
 clone_source#:#Válassza ki a forrást a klónozáshoz
 clone_selectsource#:#Forrás
 clone_areyousure#:#Biztos benne?
@@ -97,8 +97,8 @@ data_directory_outside_ws#:#Webhelyen kívüli adatkönyvtár
 data_path#:#Adat elérési útvonal
 database_create#:#Adatbázis létrehozása
 database_exists#:#az adatbázis létezik
-database_install#:#Adatbázis installálása
-database_installed#:#Adatbázis installálva.
+database_install#:#Adatbázis telepítése
+database_installed#:#Adatbázis telepítve.
 database_is_uptodate#:#Adatbázisa frissítve.
 database_needs_update#:#Adatbázisa frissítésre szorul.
 database_not_exists_create_first#:#Az adatbázis nem létezik. Először az adatbázist hozza létre.
@@ -125,8 +125,9 @@ db_port#:#Adatbázisport
 db_selection#:#Adatbázis kiválasztása
 db_service_name#:#Szolgáltatásnév
 db_type#:#Adatbázistípus
-db_update_interrupted_avoid#:#To avoid this problem, please check your max_execution_time and memory_limit settings in your php.ini. Also take fewer steps in each run, to reduce the resources needed by the system.
-db_update_interrupted#:#The database update script has been interrupted unexpectedly in a previous run. This can cause an <b>inconsistent</b> state of your system. We highly recommend to re-install your latest backup and to run the migration again.
+db_update_interrupted_avoid#:#A hiba elkerülés érdekében ellenőrizze a php.ini-ben a 'max_execution_time' és a 'memory_limit settings' értékeit. Kevesebb lépést futtasson egyszerre, így csökkentheti a szükséges erőforrásokat.
+db_update_interrupted#:#
+Az adatbázist frissítő script váratlanul elakadt az előző futás során. Ez rendszerében <b>inkonzisztens</b> állapotot idézhetett elő. Javasoljuk, hogy állítsa vissza utolsó biztonsági mentését, majd  futtassa újra a frissítést. 
 db_user#:#Adatbázis-felhasználó
 db_version#:#Adatbázis-változat
 default_client_changed#:#Alapértelmezett kliens cserélve.
@@ -146,7 +147,7 @@ display_clientlist#:#A klienskiválasztás elérhető a felhasználók számára
 duplicate_ctrl#:#Hiba: Duplikált hívási struktúra definíció (%s osztály) ezekben a fájlokban:<br /><br />- %s<br />- %s<br /><br />Távolítsa el a fájlt, hogy ne legyen része a IIAS hivatalos disztribúciónak.<br />Aztán hívja az 'Eszközök' -> 'Irányítási struktúra újra letöltés'-t az ILIAS setup-ban.
 email_not_valid#:#Nem megfelelő e-mail cím
 email#:#E-mail
-en_by_default#:#(Az angol alapértelmezettként installált, nem törölhető.)
+en_by_default#:#(Az angol alapértelmezettként telepített és nem törölhető).
 enable#:#Engedélyezés
 enabled#:#Engedélyezve
 enter_dir_and_filename#:#Adja meg a teljes elérési utat (abszolút útvonalat) és a fájl nevét.
@@ -191,22 +192,22 @@ ilias_version#:#ILIAS verzió
 include_local#:#Helyit is tartalmazza
 info_text_3rdparty#:#Itt állítsa be az ILIAS-nak szükséges 3. fél eszközöket. Ennek a lépésnek a befejezéséhez kövesse a setup információkat az egyes add-on-ok esetében.
 info_text_clone#:#Ez a funkció a jelenleg kiválasztott klienst felülírja egy másik másolatával.<p><i>Figyeljen arra, hogy csak letiltott klienst tud felölteni, és az nem szerepelhet 'master' a névben.<br>Jelenleg csak a MySQL támogatott.</i><p><b>Figyelem! Ez nem visszavonható! A kliens felülíródik az Ön által itt kiválasztott forrás tartalmával.</b>
-info_text_contact#:#Itt további kliensinformációkat és ezen kliens rendszergazdájának kapcsolati adatait állíthatja be. Minden információ az Ön adatbázisában kerül tárolásra. A következő képernyőn regisztrálhatja installációját a nyílt forráskódú ILIAS szerveren.
-info_text_db_collation1#:#Ha az Ön által kívánt karakterrendezési szabálygyűjtemény (collation) nincs a támogatott UTF-8 collation-ok listájában, adatbázisát is manuálisan kell létrehoznia. Minden esetben győződjön meg arról, hogy az adatbázis karakterkészlete utf8.
+info_text_contact#:#Itt további kliensinformációkat és ezen kliens rendszergazdájának kapcsolati adatait állíthatja be. Minden információ az Ön adatbázisában kerül tárolásra. A következő képernyőn regisztrálhatja telepítését a nyílt forráskódú ILIAS szerveren.
+info_text_db_collation1#:#Ha az Ön által használni kívánt karakterrendezési szabálygyűjtemény (collation) nincs a támogatott UTF-8 collation-ok között, adatbázisát is manuálisan kell létrehoznia. Minden esetben győződjön meg arról, hogy az adatbázis karakterkészlete utf8.
 info_text_db_collation2#:#További információkat a MySQL karakterrendezési szabálygyűjteményről (collation) a MySQL weboldalán talál.
 info_text_db#:#Az adatbázis nem létezik vagy üres. Ha nem létezik még az adatbázis, jelölje be az 'Adatbázis létrehozása' opciót alul. Az ILIAS meg fogja próbálni automatikusan létrehozni adatbázisát. Ha a létrehozás nem sikerül, vagy az Ön által kívánt egyezés nem elérhető, hozza létre manuálisan az adatbázist az alábbi parancs használatával:
-info_text_db2#:#Bizonyosodjon meg arról, hogy adatbázisa a "CHARACTER SET utf8" beállítással lett létrehozva.
+info_text_db2#:#Bizonyosodjon meg arról, hogy adatbázisa a 'CHARACTER SET utf8' beállítással lett létrehozva.
 info_text_delete#:#Ezt a klienst az alul levő gombra kattintva törölheti. Csak a client.ini fájlja kerül eltávolításra, minden fájl a kliens adatkönyvtárakban és az adatbázisban megmarad. A fájlokat és adatbázist a rendszergazdának manuálisan kell eltávolítania.
-info_text_finish1#:#Gratulálunk! Kliens setup-ja sikeres volt. Kattintson a 'Bejelentkezés"-re, hogy belépjen és konfigurálja ILIAS-installációját.
+info_text_finish1#:#Gratulálunk! Kliens beállítása sikeres volt. Kattintson a 'Bejelentkezés'-re, hogy belépjen és konfigurálja ILIAS-telepítését.
 info_text_finish2#:#Néhány beállítás még hiányzik vagy nem pontos. Nézze meg az eljárásvázlatot, hogy megtudhassa, mit kell elvégeznie.
-info_text_first_client#:#Alapbeállításai elmentésre kerültek. Most beállítjuk (setup) első kliensét. A setup végigvezeti Önt az installációs folyamaton. A jobb oldali panelen mindig láthatja az installációs folyamat aktuális állapotát.
-info_text_first_install#:#Úgy tűnik, először installálja az ILIAS-t, mert nem található ilias.ini fájl. Abban a fájlban tárolja az ILIAS a mesterjelszót, hogy megvédje az ILIAS setup-ot az engedély nélküli hozzáférésétől.
+info_text_first_client#:#Alapbeállításai elmentésre kerültek. Most beállítjuk (setup) első kliensét. A setup végigvezeti Önt a telepítési folyamaton. A jobb oldali panelen mindig láthatja a telepítési folyamat aktuális állapotát.
+info_text_first_install#:#Úgy tűnik, először telepíti az ILIAS-t, mert nem található ilias.ini fájl. Abban a fájlban tárolja az ILIAS a mesterjelszót, hogy megvédje az ILIAS setup-ot az engedély nélküli hozzáférésétől.
 info_text_ini#:#Válasszon kliens-azonosítót (ID-t). Minden betű használható (kivéve az umlautosak) és számok. A kliens-azonosítónak egy szónak kell lennie.<br/>Majd az adatbázis-kapcsolódáshoz szükséges adatokat adja meg. A setup egy tesztkapcsolódással megvizsgálja beállításait, és teszteli, hogy létezik-e az adatbázis. Ha az adatbázis nem létezik még, a setup következő telepítési lépésében létrehozza Önnek.
 info_text_lang#:#Válasszon további nyelveket és/vagy távolítsa el a kiválasztott nyelveket. Az alapértelmezett nyelv azon új felhasználói fiókoknak vagy felhasználóknak határozza meg a használt nyelvet, akik nem választottak még.
 info_text_list#:#Ebben az áttekintésben minden elérhető kliens, setup és elérési állapot látszik. Jobb fent a kliensválasztás képernyőjét be-/kikapcsolhatja. Ha a kliensválasztás bekapcsolt, minden elérhető on-line kliens megjelenik az ILIAS kezdőlapján egy listában. Ha a kliensválasztás kikapcsolt, és egy felhasználó a startlapra lép, az <i>alapértelmezett</i> kliens bejelentkezési képernyője jelenik meg. Az alapértelmezett klienst az alul lévő gombbal határozhatja meg.
-info_text_login#:#Adja meg installációja kliensazonosítóját (ID) és számlafiókjának adatait. Felhasználói fiókját hozzá kell rendelni az 'rendszergazda' szerephez.
-info_text_nic#:#Kívánt esetben regisztráljon, és szerezzen be installációs ID-t (NIC-ID) a nyílt forráskódú ILIAS közösségi szervernél. A NIC-ID ajánlott, ha más ILIAS installációkkal tartalmat akar megosztani.
-info_text_nic3#:#Regisztrálta installációját. Az Ön nic-id-je
+info_text_login#:#Adja meg telepítése kliensazonosítóját (ID) és számlafiókjának adatait. Felhasználói fiókját hozzá kell rendelni az 'rendszergazda' szerephez.
+info_text_nic#:#Amennyiben úgy gondolja, regisztráljon és szerezzen be telepítési ID-t (NIC-ID) a nyílt forráskódú ILIAS közösségi szervernél. A NIC-ID beszerzése ajánlott, ha más ILIAS telepítésekkel tartalmat szeretne megosztani.
+info_text_nic3#:#Sikeresen regisztrálta telepítését. Az Ön nic-id-je
 info_text_password#:#Itt cserélheti le setup-programjának mesterjelszavát.
 info_text_pathes#:#Az ILIAS támogatja a többklienses struktúrát különböző adatbázisokkal. Alább megadhatja az alap adatkönyvtárat, a naplófájl helyét és az elérési utat a 3. felek által készített eszközökhöz. Ezen beállítások az Ön által később létrehozott összes kliensre érvényesek lesznek.
 ini_client_id_exists#:#Ezzel az azonosítóval (ID) már létezik kliens. Válasszon másik kliensazonosítót.
@@ -222,20 +223,20 @@ ini_no_db_user#:#Nincs adatbázis-felhasználónév.
 inifile_can_write#:#Az ILIAS setup tudja írni az ini-fájlját.
 inifile_cannot_write#:#Az ILIAS setup nem tudja írni az ini-fájlját. Először ellenőrizze az írási jogosultságokat.
 inifile_content#:#Ini-fájljának ez a tartalma:
-inifile_exists#:#Létezik egy ini-fájl. Ez az installációs folyamat törli az előző beállításokat.
+inifile_exists#:#Létezik egy ini-fájl. Ez az telepítési folyamat törli az előző beállításokat.
 inifile_fill_all#:#Töltsön ki minden mezőt.
 inifile_firsttime#:#Nincs előzetes ini-fájl. Úgy tűnik, ez az első indítása az ILIAS-nak.
 inifile_written#:#Az ini-fájl sikeresen elmentésre került kiszolgálójára.
 inifile#:#ini-fájl
 input_error#:#Bementi hiba
-inst_identification#:#Installációs azonosítás
-inst_name#:#Installáció neve
+inst_identification#:#Telepítési azonosítás
+inst_name#:#Telepítés neve
 install#:#Installálás
-installation#:#Installáció
+installation#:#Telepítés
 installed_local#:#Helyi nyelvi fájllal telepítve
 installed#:#Telepítve
 institution#:#Intézmény
-intro_install#:#Ez az ILIAS setup-jának főlapja. Innen tudja végrehajtani az installációt.
+intro_install#:#Ez az ILIAS setup-jának főlapja. Innen tudja végrehajtani a telepítést.
 ip_address#:#IP-cím
 java_path_comment_win#:#SCORM tananyagmodulok validálásához lehetőség, pl. 'C:/Program Files/Java/bin/java.exe'.
 java_path_comment#:#SCORM tananyagmodulok validálásához lehetőség, pl. '/your_path/java'.
@@ -257,11 +258,11 @@ lang_it#:#Olasz
 lang_ja#:#Japán
 lang_ka#:#Grúz
 lang_lt#:#Litván
-lang_min_one_language#:#Legalább egy nyelvet installálnia kell
+lang_min_one_language#:#Legalább egy nyelvet telepítenie kell!
 lang_nl#:#Holland
 lang_no#:#Norvég
-lang_none_installed#:#Nincs installált nyelv.
-lang_not_installed_default#:#Az alapértelmezettnek kiválasztott nyelv nincs installálva.
+lang_none_installed#:#Egy nyelv sincs telepítve.
+lang_not_installed_default#:#Az alapértelmezettnek kiválasztott nyelv nincs telepítve.
 lang_pl#:#Lengyel
 lang_pt#:#Portugál
 lang_ro#:#Román
@@ -275,10 +276,10 @@ lang_uk#:#Ukrán
 lang_vi#:#Vietnámi
 lang_xx#:#Egyedi
 lang_zh#:#Kínai
-langs_not_valid_not_installed#:#Az alábbi nyelvek érvénytelen nyelvi fájlok miatt nincsenek installálva
+langs_not_valid_not_installed#:#Az alábbi nyelvek érvénytelen nyelvi fájlok miatt nincsenek telepítve
 language#:#nyelv
 language#:#Nyelv
-languages_installed#:#A nyelv(ek) installálva vannak
+languages_installed#:#nyelv van telepítve
 languages#:#nyelvek
 lastname#:#Vezetéknév
 latex_url_comment#:#LaTeX támogatás lehetősége az ILIAS-ban.
@@ -307,7 +308,7 @@ name#:#Név
 need_mysql_4_1_or_higher#:#Az Ön MySQL verziója nem támogatott. Installáljon MysQL 4.1.x-et vagy magasabb verziót az ILIAS futtatásához!
 new_client#:#Új kliens
 new#:#új
-next_update_break_info#:#Installációja méretétől függően általában nem tanácsos egy menetben végezni a nagy frissítéseket.
+next_update_break_info#:#Telepítése méretétől függően általában nem tanácsos egy menetben végezni a nagy frissítéseket.
 next_update_break#:#Következő frissítési megszakítás
 next#:#Következő
 nic_not_disabled#:#Nincs NIC-ID és nem engedélyezett
@@ -383,27 +384,27 @@ port#:#Port
 position#:#Pozíció
 pre_cookies_disabled#:#A cookie-k le vannak tiltva, pedig szükségesek az ILIAS-hoz.
 pre_cookies_enabled#:#Cookie-k engedélyezve
-pre_dom_missing#:#Engedélyezze a DOM támogatást PHP installációjában.
+pre_dom_missing#:#Engedélyezze a DOM támogatást PHP-telepítésében.
 pre_dom#:#DOM támogatás
-pre_error#:#Néhány alapkövetelmény nem megfelelő az Ön installációjának. További információkat a <a href="%s" target="_blank">ILIAS honlapján</a> kaphat.
+pre_error#:#Az Ön telepítése nem felel meg néhány alapkövetelménynek. További információkat az <a href="%s" target="_blank">ILIAS honlapján</a> talál.
 pre_folder_create_error#:#Nem hozható létre almappa. Változtassa meg a jogosultságokat.
 pre_folder_create#:#Mappák létrehozhatóak a webhely főmappájában
 pre_folder_write_error#:#A webhely főmappája nem írható. Változtassa meg a jogosultságokat!
-pre_gd_missing#:#Engedélyezze a GD támogatást PHP installációjában, lásd <a target="_blank" href="%s">PHP dokumentáció</a>.
+pre_gd_missing#:#Engedélyezze a GD támogatást PHP-telepítésében, lásd <a target="_blank" href="%s">PHP dokumentáció</a>.
 pre_gd#:#GD támogatás
-pre_intro#:#Először nézzük, hogy környezete minden követelménynek megfelel-e, hogy installálja és futtassa az ILIAS-t rendszerében.
+pre_intro#:#Először nézzük, hogy környezete minden követelménynek megfelel-e, hogy telepítse és futtassa az ILIAS-t rendszerében.
 pre_javascript_comment#:#JavaScript nélkül is futtathatja az ILIAS-t, de néhány interfészjellemzőt elveszít.
 pre_javascript_enabled#:#JavaScript engedélyezett
 pre_memory_limit_recommend#:#80M vagy nagyobb érték ajánlott.
-pre_memory_limit_too_low#:#A "memory_limit"-hez az értéket legalább 40M-ra állítsa php.ini-jében. 80M vagy nagyobb érték ajánlott
+pre_memory_limit_too_low#:#A 'memory_limit'-hez az értéket legalább 40M-ra állítsa php.ini-jében. 80M vagy nagyobb érték ajánlott
 pre_memory#:#PHP memóriakorlát beállítása (php.ini)
 pre_mysql_4_1_or_higher#:#MySQL 4.1 vagy magasabb verzióra van szüksége az ILIAS futtatásához.
-pre_mysql_missing#:#Engedélyezze a MySQL támogatást (4.1 vagy magasabb verziót) PHP installációjában.
+pre_mysql_missing#:#Engedélyezze a MySQL támogatást (4.1 vagy magasabb verziót) PHP-telepítésében.
 pre_mysql#:#MySQL támogatás
 pre_php_version_too_low#:#Az Ön PHP verziója nem támogatott. PHP 5.2.1-et vagy magasabb verziót ajánlunk. A PHP 6 még nem volt tesztelve.
 pre_php#:#PHP verzió
 pre_root#:#Írható webhely főmappa
-pre_xsl_missing#:#Engedélyezze az XSL támogatást a PHP installációjában, lásd <a target="_blank" href="%s">PHP dokumentáció</a>.
+pre_xsl_missing#:#Engedélyezze az XSL támogatást a PHP-telepítésében, lásd <a target="_blank" href="%s">PHP dokumentáció</a>.
 pre_xsl#:#XSL támogatás
 preliminaries#:#Előfeltételek
 prev#:#Előző
@@ -422,7 +423,7 @@ server_settings#:#Szerverbeállítás
 server_software#:#Szerverszoftver
 sess_allow_client_maintenance_info#:#Meghatározza, hogy a munkamenet paraméterek konfigurációja elvégezhető-e a kliensadminisztrációban vagy sem.
 sess_allow_client_maintenance#:#Engedélyezi, hogy a kliens végezze a karbantartást
-sess_max_session_count_info#:#Megadja a párhuzamosan létrehozható munkamenetek maximális számát. "0"-ra állítva letiltja ezt a funkciót.
+sess_max_session_count_info#:#Megadja a párhuzamosan létrehozható munkamenetek maximális számát. '0'-ra állítva letiltja ezt a funkciót.
 sess_max_session_count#:#Maximális munkamenetszám
 sess_max_session_idle_after_first_request_info#:#Azok a munkamenetek, amelyek legalább ezen periódusig tétlenek, felszámolásra kerülnek, ha más munkamenetet kellene megnyitni másik felhasználó számára, és a munkamenetek száma elérte a maximumot.
 sess_max_session_idle_after_first_request#:#Maximális munkamenet tétlenség az első kérés után (percben)
@@ -460,14 +461,14 @@ setup_db_first#:#Először állítsa be adatbázisát.
 setup_finished#:#A beállítás befejeződött
 setup_first_client#:#1. kliensének beállítása
 setup_ini_first#:#Először hozza létre ini-fájlját.
-setup_inifile_desc#:#ini-fájl létrehozása installációjához.
+setup_inifile_desc#:#ini-fájl létrehozása telepítéséhez.
 setup_inifile#:#ini-fájl létrehozása
-setup_languages_desc#:#További nyelvek installálása
+setup_languages_desc#:#További nyelvek telepítése
 setup_languages#:#Nyelvek
 setup_login#:#Bejelentkezés a setup-ba
 setup_mainmenu#:#Setup-főmenü
 setup_menu#:#setup-menü
-setup_nic_desc#:#installációjának regisztrációja az ILIAS-NIC-Server-en
+setup_nic_desc#:#telepítésének regisztrációja az ILIAS-NIC-Server-en
 setup_not_finished#:#A setup nem fejeződött be
 setup_pass_title#:#Master-jelszó beállítása
 setup_pass#:#Jelszó
@@ -490,7 +491,7 @@ setup#:#Setup
 sophos#:#Sophos
 sort_by_this_column#:#Rendezés oszlopok szerint
 status_3rdparty_false#:#3. fél eszköze hiányzik
-status_3rdparty_ok#:#3. fél eszköze installálva
+status_3rdparty_ok#:#3. fél eszköze telepítve
 status_3rdparty_problems#:#3. fél eszközének problémái
 status#:#Állapot
 step_access#:#Elérés
@@ -505,8 +506,8 @@ step#:#Lépés
 street#:#Utca, házszám, emelet/ajtó
 submit#:#Elküldés
 time_zone#:#Időzóna
-tiny_dir_does_not_exist#:#Nincs könyvtár a szerkesztővel. A szerkesztőt tartalmazó ZIP fáljt ki kell csomagolnia a megfelelő helyre.
-tiny_nothing_to_do#:#A szerkesztő installálásra került, nincs további tennivaló
+tiny_dir_does_not_exist#:#A szerkesztőt tartalmazó könyvtár nem létezik. A szerkesztőt tartalmazó ZIP fájlt ki kell csomagolnia a megfelelő helyre.
+tiny_nothing_to_do#:#A szerkesztőt már telepítették, nincs további tennivaló.
 tiny_zip_changed#:#A szerkesztőt tartalmazó ZIP fájl megváltozott a legutóbbi setup alatt. Csomagolja ki a ZIP fájlt, hogy frissítse a meglévő szerkesztőpéldányt.
 tiny_zip_does_not_exist#:#A TinyMCE szerkesztőt tartalmazó ZIP fájlt nem található a Szolgáltatások/RTE-ben a megfelelő helyen .
 tinymce_wysiwyg_editor#:#TinyMCE WYSIWYG szerkesztő
@@ -576,7 +577,7 @@ tree_implementation_ns#:#Nested-Set Modell
 tree_implementation_mp#:#Materialized-Path Modell
 tree_implementation_switch_btn#:#Faszerkezet modell váltása
 tree_implementation_switched#:#Faszerkezet modell váltása megtörtént.
-feedback_recipient_info#:#Ez a cím kerül láblécben lévő "Kapcsolat a rendszergazdával" linkbe.
+feedback_recipient_info#:#Ez a cím kerül láblécben lévő 'Kapcsolat a rendszergazdával' linkbe.
 passwd#:#Jelszókódolás
 step_passwd#:#Jelszókódolás
 setup_process_step_passwd#:#Jelszavak
