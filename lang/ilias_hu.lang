@@ -1,7 +1,7 @@
 /* Copyright (c) 1998-2015 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
-* @author 5.1.x 2015-04-09 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
+* @author 5.1.x 2015-07-05 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
 * @author 4.2.2	Berecz Antónia <berecz@gdf.hu>
 * @module		language file Hungarian
 * @modulegroup	language
@@ -1691,7 +1691,7 @@ cntr#:#cntr_saved_sorting#:#Rendezés mentése sikerült
 cntr#:#cntr_switch_to_new_editor_cmd#:#Új tartalom kapcsolása ehhez a laphoz. A régi tartalom eltávolításra kerül.
 cntr#:#cntr_switch_to_new_editor_message#:#Ez a támogatott szabványos szerkesztő. A régi szerkesztő tartalma nem hozható át. Lentebb vegyen fel új laptartalmat. Ha az alábbi linkre kattint, az új tartalom kerül használatra.
 cntr#:#cntr_switched_editor#:#Új tartalomhoz kapcsolva.
-cntr#:#cntr_text_media_editor#:#Oldal testreszabás
+cntr#:#cntr_text_media_editor#:#Oldal testreszabása
 cntr#:#cntr_view_by_type#:#Típus szerint csoportosított nézet
 cntr#:#cntr_view_info_by_type#:#Az objektumokat típusuk alapján csoportosítva jelenítjük meg.
 cntr#:#cntr_view_info_sessions#:#Először az eseményeket azok objektumaival, alatta pedig a további kurzustartalmakat jelenítjük meg.
@@ -2070,10 +2070,10 @@ common#:#change_assignment#:#Hozzárendelés változtatása
 rbac#:#change_existing_object_type_desc#:#Ez meg fogja változtatni a típus már létező objektumainak jogosultság-beállításait is
 rbac#:#change_existing_objects_desc#:#Ennek a szerepnek a jogosultsági beállításai lesznek alkalmazva minden objektumra. Ha csak bizonyos objektumtípusokra szeretné a változtatást, kattintson a jelölőnégyzetekre a megfelelő objektumtípusok jobb oldalán.
 rbac#:#change_existing_objects#:#A fastruktúra jelen pontjától örökítés
-rbac#:#change_existing_prefix_single#:#Változtatás
-rbac#:#change_existing_prefix#:#Létező változtatása
-rbac#:#change_existing_suffix_single#:#&nbsp;
-rbac#:#change_existing_suffix#:#&nbsp;
+rbac#:#change_existing_prefix_single#:#A már létező
+rbac#:#change_existing_prefix#:#Már létező
+rbac#:#change_existing_suffix_single#:#jogosultságainak módosítása
+rbac#:#change_existing_suffix#:#jogosultságainak módosítása
 common#:#change_header_title#:#Fejléccím szerkesztése
 common#:#change_lo_info#:#Tananyagobjektum információjának változtatása
 common#:#change_metadata#:#Metaadat-változtatás
@@ -2171,8 +2171,8 @@ common#:#contra#:#Negatívum
 common#:#cookies_howto#:#Hogyan engedélyezhetők a sütik?
 common#:#copied_object#:#Másolt objektum
 common#:#copy_all#:#Mindent másol
-common#:#copy_n_of_suffix#:#- (%1$s) másolat
-common#:#copy_of_suffix#:#- másolat
+common#:#copy_n_of_suffix#:#- másolata (%1$s)
+common#:#copy_of_suffix#:#- másolata
 common#:#copy_of#:#Másolandó:
 common#:#copy_selected_items#:#Másolás
 common#:#copy_to#:#ide:
@@ -2384,7 +2384,7 @@ common#:#enable_registration#:#Új felhasználói regisztráció engedélyezése
 common#:#enable_search_engine#:#Nyilvános terület internetes keresőmotoroknak (pl. Google). <br/> Az Apache modul 'mod_rewrite' szükséges hozzá. Ügyeljen arra, hogy megfelelő jogosultságai legyenek a .htaccess konfigurációk használatához.
 common#:#enable_trash_info#:#Ha be van kapcsolva, a törölt objektumok a lomtárba kerülnek, és később visszaállíthatóak. Ha nem engedélyezett, a törölt objektumok visszavonhatatlanul törlődnek a rendszerből.
 common#:#enable_trash#:#Lomtár engedélyezése
-common#:#enable_webdav_info#:#WebDAV klienseknek engedély a taneszköztároló webmappaként való eléréséhez. A felhasználók a webmappákat a 'megnyitás webmappaként' paranccsal nyithatják meg a taneszköztárolóban, vagy a következő címen belépve egy WebDAV kliensben: <a href='%1$s' folder='%1$s'>%1$s</a>
+common#:#enable_webdav_info#:#WebDAV klienseknek engedély a taneszköztároló webmappaként való eléréséhez. A felhasználók a webmappákat a 'megnyitás webmappaként' paranccsal nyithatják meg a taneszköztárolóban, vagy a következő címen belépve egy WebDAV kliensben: <a href="%1$s" folder="%1$s">%1$s</a>
 common#:#enable_webdav#:#WebDAV elérés engedélyezése
 common#:#enable#:#Engedélyezés
 common#:#enabled#:#Engedélyezve
@@ -4602,13 +4602,13 @@ common#:#visits#:#Látogatások
 common#:#web_resources#:#Weblinkek
 common#:#webdav_pear_auth_http_needed#:#Pear Auth_HTTP-t kell telepítenie ennek a funkciónak a használatához. Ehhez adja ki a terminálban: <code>pear install Auth_HTTP</code>.
 common#:#webdav#:#WebDAV
-common#:#webfolder_dir_info#:#Böngészője nem tud megnyitni webmappákat. Olvassa el a <a href='%1$s'>utasításokat a webmappák megnyitásához</a>.
+common#:#webfolder_dir_info#:#Böngészője nem tud megnyitni webmappákat. Olvassa el a <a href="%1$s">utasításokat a webmappák megnyitásához</a>.
 common#:#webfolder_index_of#:#%1$s indexe
 common#:#webfolder_instructions_info#:#Azokban a böngészőkben, amelyek nem tudnak webmappákat közvetlenül megnyitni, a webmappa-utasítások láthatók. HTML-kódot és az alábbi dzsókerlemeket használhatja: <b>[WEBFOLDER_TITLE]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI_IE]</b>, <b>[WEBFOLDER_URI_KONQUEROR]</b>, <b>[WEBFOLDER_URI_NAUTILUS]</b>, <b>[ADMIN_MAIL]</b>, <b>[IF_WINDOWS]</b>...<b>[/IF_WINDOWS]</b>, <b>[IF_MAC]</b>...<b>[/IF_MAC]</b>, <b>[IF_LINUX]</b>...<b>[/IF_LINUX]</b>. Törölje ki a mezőt, hogy megkapja az alapértelmezett utasításokat!
 common#:#webfolder_instructions_text#:#<p> Kövesse az alábbi utasításokat a(z) <b>[WEBFOLDER_TITLE]</b> webmappaként való megnyitásához:</p>[IF_WINDOWS]<h3>Utasítások Windows Vista esethez</h3><ol><li>Nyomja meg a Windows+E billentyűkombinációt a Windows Explorer megnyitásához.</li><li>A 'Hálózati hely' varázsló fog megnyílni.</li><li>Kattintson a ’Hálózati hely hozzáadása’-n az eszköztáron.<br/>A ’Hálózati hely hozzáadása’ varázsló fog megnyílni.</li><li>Kattintson a ’Kapcsolódás webhelyhez’ linkre.</li><li>Válassza a ’Másik hálózati hely választása’ opciót, majd a ’Következő’-t.<li>Az ’Internet vagy hálózati cím’ mezőben adja meg<br/><b>[WEBFOLDER_URI]</b><br/>aztán válassza a ’Következő’-t.</li><li>Adja meg bejelentkezési nevét és jelszavát, majd válassza az ’OK’-t.<br/>Ismételje ezt a lépést, amíg eljut a következő dialógusablakig.</li><li>Válassza a ’Befejezés’-t.</li><li>Most már elérheti a webmappát a ’Számítógép’ start menüjéből.</li></ol><h3> Utasítások Windows XP-hez</h3><ol><li>Nyomja meg a Windows+E-t az Windows Explorer megnyitásához</li><li>válassza az ’Extrák &gt; Új hálózati hely hozzáadása...’ menüt<br/>A ’Hálózati hely’ varázsló fog megnyílni.</li><li>Kattintson a ’Website-hoz kapcsolódás...’-ra</br> Ekkor megnyílik a segédablak.</li><li>Válassza a ’Következő’-t. </li><li>Válassza a ’Másik hálózati hely választása’ lehetőséget, és kattintson a ’Következő’-re.<li>Az ’Internet és hálózati cím’ mezőben adja meg<br/><b>[WEBFOLDER_URI]</b><br/>aztán válassza a ’Következő’ gombot.</li><li>Adja meg bejelentkezési jelszavát, majd válassza az 'OK'-t.<li>Adjon meg a webmappához egy nevet, majd válassza a ’Következő’-t.<li>Adja meg bejelentkezési nevét és jelszavát, majd válassza az ’OK’-t.</li><li>Válassza a ’Befejezés’-t.</li><li>Ekkor megnyílik a webmappa. A későbbiekben a webmappát a start menü ’Hálózati helyek’-ből is elérheti. </li></ol>[/IF_WINDOWS][IF_MAC]<h3> Utasítások Mac OS X-hez </h3><ol><li>Nyissa meg a Keresőt (Finder) </li><li>Válassza a ’Menj &gt; Kapcsolódás Szerverhez...’ menüt</br>Erre a ’Kapcsolódás szerverhez’ dialógusablak nyílik meg. </li><li>A cím mezőben adja meg a következő címet:<br/><b>[WEBFOLDER_URI]</b><br/>és válassza a ’Kapcsolódás’-t.</li><li>Adja meg bejelentkezési nevét és jelszavát, majd válassza az ’OK’-t. </li></ol>[/IF_MAC][IF_LINUX]<h3>Utasítások Linuxhoz és Konquerorhoz</h3><ol><li>Indítsa el a Konqueror böngészőt. </li><li>A cím mezőben adja meg a következő címet:<br/><b>[WEBFOLDER_URI_KONQUEROR]</b></li><li>Nyomja meg az Enter billentyűt. </li><li>Adja meg bejelentkezési nevét és jelszavát, majd válassza az ’OK’-t. </li></ol><h3>Utasítások Linuxhoz Nautilusszal</h3><ol><li>Indítsa el a Nautilus böngészőt</li><li>A cím mezőben adja meg az alábbi címet: <br/><b>[WEBFOLDER_URI_NAUTILUS]</b></li><li>Nyomja meg az Enter billentyűt. </li><li>Adja meg bejelentkezési nevét és jelszavát, majd válassza az ’OK’-t. </li></ol>[/IF_LINUX]<p> Ha nem sikerül megnyitni a webmappát, vegye fel a kapcsolatot egy rendszergazdával <a href=\'mailto:[ADMIN_MAIL]\'>[ADMIN_MAIL]</a>.</p>
 common#:#webfolder_instructions_titletext#:#%1$s webmappaként megnyitása
 common#:#webfolder_instructions#:#Leírás webmappa használatához
-common#:#webfolder_mount_dir_with#:#Nyissa meg webmappaként ezt a lapot <a href='%1$s'>Internet Explorerrel</a>, <a href='%2$s'>Konquerorral</a>, <a href='%3$s'>Nautilusszal</a>, <a href='%4$s'>más böngészővel</a>.
+common#:#webfolder_mount_dir_with#:#Nyissa meg webmappaként ezt a lapot <a href="%1$s">Internet Explorerrel</a>, <a href="%2$s">Konquerorral</a>, <a href="%3$s">Nautilusszal</a>, <a href="%4$s">más böngészővel</a>.
 common#:#webfolder#:#Webmappa
 common#:#webr_active#:#Aktív
 common#:#webr_add_item#:#Weblink létrehozása
@@ -6931,7 +6931,7 @@ ldap#:#ldap_edit_role_ass_rule#:#Szerep-összerendelési szabály szerkesztése
 ldap#:#ldap_err_missing_plugin_id#:#Valós bővítmény azonosítót adjon meg!
 ldap#:#ldap_filter_info#:#Szűrő, amely a keresési szűrőhöz a következőképpen adódik hozzá: (&(userattr=username)<strong>(userfilter)</strong>). Például <i>(objectclass=user)</i>
 ldap#:#ldap_global_role_assignment#:#ILIAS-szerep hozzárendelése
-ldap#:#ldap_global_role_info#:#Válasszon egy ILIAS-szerepet, melynek az új felhasználó automatikusan tagja lesz. <span class='asterisk'>*</span> A szerepkiválasztás <b>kötelező</b>, ha választott szinkronizációt.
+ldap#:#ldap_global_role_info#:#Válasszon egy ILIAS-szerepet, melynek az új felhasználó automatikusan tagja lesz. <span class="asterisk">*</span> A szerepkiválasztás <b>kötelező</b>, ha választott szinkronizációt.
 ldap#:#ldap_global_role#:#Globális szerep
 ldap#:#ldap_group_attribute_info#:#A csoport attribútumának neve. Például <i>cn</i>
 ldap#:#ldap_group_attribute#:#Csoport attribútuma
@@ -7181,7 +7181,7 @@ mail#:#mail_select_one_entry#:#Ki kell választania egy bejegyzést
 mail#:#mail_select_one_file#:#Ki kell választania egy fájlt
 mail#:#mail_select_only_one_entry#:#Csak egy bejegyzést válasszon!
 mail#:#mail_send_with_system_address#:#Küldés rendszercímmel
-mail#:#mail_settings_incoming_type_see_also#:#További lehetőséget a felhasználókhoz beérkező leveleinek módosítására <a href='%s'>itt</a> talál.
+mail#:#mail_settings_incoming_type_see_also#:#További lehetőséget a felhasználókhoz beérkező leveleinek módosítására <a href="%s">itt</a> talál.
 mail#:#mail_subject_prefix_info#:#Az automatikusan generált kimenő e-mailek tárgya elé kerülő szöveg.
 mail#:#mail_subject_prefix#:#Levél tárgya
 mail#:#mail_sure_delete_entry#:#Biztos, hogy törli az alábbi névjegy(ek)et?
@@ -7993,7 +7993,7 @@ payment#:#delete_addresses_bmf#:#BMF címek törlése
 payment#:#delete_addresses_paypal#:#Paypal címek törlése
 payment#:#duration#:#Időtartam
 payment#:#edit_topic#:#Téma szerkesztése
-payment#:#enable_ean_info#:#Szükséges a németországbeli közigazgatási számlázáshoz. Kattintson ide <a href='http://www.oes.dk/sw1903.asp' target='_blank'>további információkért az EAN-ról</a>.
+payment#:#enable_ean_info#:#Szükséges a németországbeli közigazgatási számlázáshoz. Kattintson ide <a href="http://www.oes.dk/sw1903.asp" target="_blank">további információkért az EAN-ról</a>.
 payment#:#enable_ean#:#EAN engedélyezése
 payment#:#excel_export#:#Exportálás Excel (.xls) fájlba
 payment#:#filter_by#:#által
@@ -8349,7 +8349,7 @@ payment#:#pays_epay_auth_email_info#:#E-mail küldése feldolgozott tranzakciók
 payment#:#pays_epay_auth_email#:#E-mail értesítés
 payment#:#pays_epay_auth_token_info#:#Meg kell adnia ezt az ePay backenden is. A titkosítás megóvja a felhasználót a hamis kifizetésektől.
 payment#:#pays_epay_auth_token#:#Hitelesítő token
-payment#:#pays_epay_info#:#Az <a href='http://www.epay.dk' target='_blank'>ePay</a> fizetési kapu lehetővé teszi az ILIAS számára, hogy VISA, MasterCard, JCB, VISA Electron, MasterCard Maestro, Diners, AMEX stb.-t fogadjon. Használatához szükséges az ePay-jel való megállapodás és egy Merchant azonosító.
+payment#:#pays_epay_info#:#Az <a href="http://www.epay.dk" target="_blank">ePay</a> fizetési kapu lehetővé teszi az ILIAS számára, hogy VISA, MasterCard, JCB, VISA Electron, MasterCard Maestro, Diners, AMEX stb.-t fogadjon. Használatához szükséges az ePay-jel való megállapodás és egy Merchant azonosító.
 payment#:#pays_epay_instant_capture_info#:#Ha be van kapcsolva, minden összeg azonnal levonásra kerül a vásárló számlájáról. Engedélyezés előtt győződjön meg róla, hogy ez törvényes az Ön országában.
 payment#:#pays_epay_instant_capture#:#Azonnali elfogadás
 payment#:#pays_epay_merchant_number#:#Merchant ID
@@ -8727,7 +8727,7 @@ registration#:#reg_confirmation_hash_life_time_expired#:#A visszaigazoló link n
 registration#:#reg_confirmation_hash_life_time_info#:#Visszaigazoló linkek élettartamának megadása (másodpercben). Az ajánlott érték 1800 másodperc.
 registration#:#reg_confirmation_hash_not_found#:#Ehhez a visszaigazoló linkhez nem tartozik ILIAS-fiók.
 registration#:#reg_confirmation_hash_not_passed#:#A visszaigazoló link nem teljes.
-registration#:#reg_confirmation_link_successful#:#Sikeresen elküldött egy ILIAS-fiók igényt az ILIAS-hoz. A következő néhány percben kap egy visszaigazoló e-mailt.<br/>20 másodperc múlva átirányításra kerül a <a href='%s' title='login screen'>bejelentkező képernyőre</a>.
+registration#:#reg_confirmation_link_successful#:#Sikeresen elküldött egy ILIAS-fiók igényt az ILIAS-hoz. A következő néhány percben kap egy visszaigazoló e-mailt.<br/>20 másodperc múlva átirányításra kerül a <a href="%s" title="login screen">bejelentkező képernyőre</a>.
 registration#:#reg_default#:#Alapértelmezett
 registration#:#reg_deleted_assignment#:#Törölt összerendelés(ek)
 registration#:#reg_direct_info#:#Új felhasználó regisztrációkérése automatikusan jóváhagyásra kerül.
@@ -9693,7 +9693,7 @@ survey#:#upper_limit#:#Felső határ
 survey#:#use_anonymous_id_desc#:#A felhasználónév az anonimizált kérdőívekben kérdőívkódként fog látszani, máskülönben az 'Anonymous' szöveg lesz látható.
 survey#:#use_anonymous_id#:#Kérdőívkód megjelenítése
 survey#:#use_browser_print_function#:#Használja a böngészője nyomtatási funkcióját!
-survey#:#use_google_chart_api_desc#:#A diagramok a kérdőív-statisztika halmozott részletes eredményeiben a <a href='http://code.google.com/apis/chart/' target='_blank'>Google Chart API</a>-val kerülnek megrajzolásra. Folyamatos internetkapcsolat szükséges a Google-diagram API munkájához.
+survey#:#use_google_chart_api_desc#:#A diagramok a kérdőív-statisztika halmozott részletes eredményeiben a <a href="http://code.google.com/apis/chart/" target="_blank">Google Chart API</a>-val kerülnek megrajzolásra. Folyamatos internetkapcsolat szükséges a Google-diagram API munkájához.
 survey#:#use_google_chart_api#:#Google diagram API használata
 survey#:#used#:#használt
 survey#:#users_answered#:#Válaszoltak
@@ -11019,7 +11019,7 @@ notes#:#notes_private_annotating#:#Személyes megjegyzés
 tagging#:#tagging_set_tag#:#Címkék
 content#:#cont_link_to_internal#:#Link ILIAS-forrásra
 content#:#cont_link_to_external#:#Link külső weboldalra
-content#:#cont_link_to_wiki#:#Link wikilapra
+content#:#cont_link_to_wiki#:#Link wikilapra (zárójelek beszúrása)
 content#:#cont_standard#:#Standard
 content#:#cont_char_style_com#:#Megjegyzés
 content#:#cont_char_style_quot#:#Idézet
@@ -11455,7 +11455,7 @@ didactic#:#didactic_confirm_delete_msg#:#Biztos, hogy törli az alábbi oktatói
 didactic#:#didactic_delete_msg#:#Törölt oktatói sablon.
 common#:#fold_type#:#Mappatípus
 content#:#cont_pword#:#Másolás Wordből
-blog#:#blog_edit#:#Blogbeállítások
+blog#:#blog_edit#:#Blog szerkesztése
 blog#:#blog_banner#:#Banner
 blog#:#blog_background_color#:#Háttérszín
 blog#:#blog_font_color#:#Betűszín
@@ -11840,7 +11840,7 @@ common#:#notice#:#Jegyzet
 common#:#public_room#:#Nyilvános szoba
 chatroom#:#chtr_moderate#:#A felhasználó moderálhat beszélgetést a csevegőszobában
 chatroom#:#unkown_private_room#:#Ismeretlen privát szoba
-chatroom#:#server_further_information#:#További információkat a szerver-konfigurációról a <a href='%1$s' target='_blank'>readme file</a>-ban talál.
+chatroom#:#server_further_information#:#További információkat a szerver-konfigurációról a <a href="%1$s" target="_blank">readme file</a>-ban talál.
 chatroom#:#chtr_new#:#Új csevegőszoba
 chatroom#:#chtr_add#:#Csevegőszoba létrehozása
 blog#:#blog_exercise_submitted_info#:#Utolsó beadásának időpontja: %s. Ellenőrizze az exportfájlt: %s!
@@ -13703,7 +13703,7 @@ common#:#renderer_type_plugin#:#Plug-in
 common#:#renderer_type_builtin#:#Beépített
 common#:#renderer_supported_repo_types#:#Támogatott Taneszköztároló típusok
 common#:#renderer_supported_file_types#:#Támogatott fájl típusok
-common#:#ghostscript_not_configured#:#GhostScript nincs konfigurálva. Nyissa meg a <a href='setup/setup.php?cmd=mastersettings' target='_blank'>Setup</a> a konfiguráláshoz.
+common#:#ghostscript_not_configured#:#GhostScript nincs konfigurálva. Nyissa meg a <a href="setup/setup.php?cmd=mastersettings" target="_blank">Setup</a> a konfiguráláshoz.
 exc#:#exc_peer_review_show_not_rated_yet#:#Visszajelzést kell adnia, mielőtt megtekintheti a beérkezett visszajelzéseket.
 exc#:#exc_peer_review_show#:#Beérkezett visszajelzések megjelenítése
 exc#:#exc_needs_deadline#:#Ez a funkció csak hozzárendelt határidővel működik.
@@ -14263,7 +14263,7 @@ common#:#obj_wiks_desc#:#Wiki globális beállításai
 blog#:#blog_edit_posting#:#Bejegyzés szerkesztése
 sop#:#sop_check_system_requirements#:#Rendszerkövetelmények ellenőrzése
 sop#:#sop_already_exported#:#Ezt a tanulási modult már exportálták. Nyissa meg egy olyan számítógépen, melyre Firefox-ot telepítettek SCORM Offline Player kiegészítővel.
-sop#:#sop_firefox_required#:#A SCORM offline modul naprakész Mozilla Firefox böngészőt igényel (> v. 20)<br/><a href='http://www.mozilla.org/en/firefox/new' target='_new'>Firefox letöltése</a>
+sop#:#sop_firefox_required#:#A SCORM offline modul naprakész Mozilla Firefox böngészőt igényel (> v. 20)<br/><a href="http://www.mozilla.org/en/firefox/new" target="_new">Firefox letöltése</a>
 sop#:#sop_xpi_install#:#Kérem telepítse az alábbi Firefox-kiegészítőt: %s<br/>A sikeres xpi telepítés után az 'Oldal újratöltése' gombbal szükséges az oldal frissítése. Ezután a SCORM tanulási modul használható offline módban.
 sop#:#sop_reload_page#:#Oldal újratöltése
 sop#:#sop_text_export#:#SCORM tanulási modul exportálása offline használathoz
@@ -14431,7 +14431,7 @@ content#:#cont_language#:#Nyelv
 content#:#cont_add_lang#:#Nyelv hozzáadása 
 content#:#cont_conf_delete_lang#:#Biztos, hogy törli az alábbi nyelvi támogatásokat?
 content#:#cont_back_to_page#:#Vissza az oldalra
-content#:#cont_got_lock#:#Az oldalt a szerkesztés miatt zároltuk. A szerkesztés végeztével oldja fel a zárolást.
+content#:#cont_got_lock#:#Az oldalt szerkesztés miatt zároltuk. A szerkesztés végeztével oldja fel a zárolást.
 content#:#cont_finish_editing#:#Szerkesztés befejezése
 content#:#cont_page_lock_released#:#Szerkesztés vége. Az oldal zárolása feloldva.
 notes#:#note_content_removed#:#Tartalom eltávolítva.
@@ -14457,7 +14457,7 @@ init#:#init_error_redirect_click#:#Kattints a folytatáshoz.
 init#:#init_error_redirect_info#:#Az átirányítás nem támogatott.
 init#:#init_error_maintenance#:#A szerver karbantartás miatt nem elérhető. Elnézést az esetleges kellemetlenségért.
 init#:#init_error_authentication_fail#:#Hitelesítés sikertelen.
-obj#:#obj_multilang_title_descr_only#:#A fordítás csak címre és leírásra van bekapcsolva. Oldalszerkesztés ('Tartalom/Oldal testreszabás') fordításához további aktiválásokra van szükség.
+obj#:#obj_multilang_title_descr_only#:#A fordítás csak címre és leírásra van bekapcsolva. Oldalszerkesztés ('Tartalom/Oldal testreszabása') fordításához további aktiválásokra van szükség.
 obj#:#obj_activate_content_lang#:#Oldalszerkesztés fordításának bekapcsolása
 obj#:#obj_add_languages#:#Nyelvek hozzáadása
 obj#:#obj_activate_multilang#:#Többnyelvűség bekapcsolása
@@ -14810,8 +14810,8 @@ trac#:#trac_mode_questions#:#Kérdések
 trac#:#trac_mode_questions_info#:#Azon felhasználók, akik az összes kérdést hibátlanul megválaszolták megkapják a 'Befejezett' állapotot.
 wiki#:#wiki_link#:#Wiki linkelése
 wiki#:#wiki_add_link#:#Link létrehozása
-wiki#:#wiki_link_text#:#Szöveg linkelése
-wiki#:#wiki_target_page#:#Céloldal
+wiki#:#wiki_link_text#:#Link szövege
+wiki#:#wiki_target_page#:#Céllap
 mmbr#:#mmbr_selected_users#:#Kiválasztott résztvevők
 mmbr#:#mmbr_btn_mail_selected_users#:#Levél küldése
 sess#:#sess_mail_permanent_link#:#Az alábbi linkre kattintva talál információkat az eseményről:
@@ -15303,3 +15303,10 @@ style#:#sty_type_ca_icont#:#Körhinta elem tartalom
 style#:#sty_type_ca_ihead#:#Körhinta elem fejléc
 wiki#:#wiki_link_md_values#:#Automatikus linkelés
 wiki#:#wiki_link_md_values_info#:#Az automatikusan linkelt tulajdonságok a wiki oldal oldalsávjában jelenik meg ugyanazon a néven.
+cron#:#cron_result_status_fail#:#Sikertelen
+wiki#:#wiki_unhide_meta_adv_records#:#További tulajdonságok megjelenítése
+content#:#cont_wiki_link_dialog#:#Link wikilapra (párbeszédablakos)
+link#:#link_link#:#Link
+common#:#toggle_dropdown#:#Legördülő váltása
+forum#:#reply_to_postings#:#Válasz
+forum#:#add_new_answer#:#Új hozzászólás
