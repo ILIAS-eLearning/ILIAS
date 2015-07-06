@@ -239,8 +239,8 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 				break;
 		}
 		if ($question_title)
-		{
-			$template->setVariable("QUESTION_TITLE", $this->object->getTitle());
+		{						
+			$template->setVariable("QUESTION_TITLE", $this->getPrintViewQuestionTitle($question_title));
 		}
 		if ($show_questiontext)
 		{

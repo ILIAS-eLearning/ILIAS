@@ -545,6 +545,26 @@ abstract class SurveyQuestionGUI
 				
 	abstract public function getPrintView($question_title = 1, $show_questiontext = 1);
 	
+	protected function getPrintViewQuestionTitle($question_title = 1)
+	{
+		switch ($question_title)
+		{
+			case 1:
+				$title = ilUtil::prepareFormOutput($this->object->getTitle());
+				break;
+
+			case 2:
+				$title = ilUtil::prepareFormOutput($this->object->getLabel());
+				break;
+
+			case 3:
+				$title = ilUtil::prepareFormOutput($this->object->getTitle()).
+					' <span class="questionLabel">('.ilUtil::prepareFormOutput($this->object->getLabel()).')</span>';
+				break;
+		}
+		return $title;
+	}
+	
 	/**
 	* Creates a preview of the question
 	*

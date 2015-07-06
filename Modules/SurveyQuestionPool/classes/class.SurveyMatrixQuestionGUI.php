@@ -507,8 +507,23 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 					: "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
 				$tplrow->parseCurrentBlock();
 			}
+			
+			switch ($question_title)
+			{
+				case 1:
+					$row_title = ilUtil::prepareFormOutput($rowobj->title);
+					break;
 
-			$tplrow->setVariable("TEXT_ROW", ilUtil::prepareFormOutput($rowobj->title));
+				case 2:
+					$row_title = ilUtil::prepareFormOutput($rowobj->label);
+					break;
+
+				case 3:
+					$row_title = ilUtil::prepareFormOutput($rowobj->title).
+						' <span class="questionLabel">('.ilUtil::prepareFormOutput($rowobj->label).')</span>';
+					break;
+			}
+			$tplrow->setVariable("TEXT_ROW", $row_title);
 			$tplrow->setVariable("ROWCLASS", $rowclass[$i % 2]);
 			if ($this->object->getRowSeparators() == 1)
 			{
@@ -524,7 +539,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		
 		if ($question_title)
 		{
-			$template->setVariable("QUESTION_TITLE", ilUtil::prepareFormOutput($this->object->getTitle()));
+			$template->setVariable("QUESTION_TITLE", $this->getPrintViewQuestionTitle($question_title));
 		}
 		$template->setCurrentBlock();
 		if ($show_questiontext)

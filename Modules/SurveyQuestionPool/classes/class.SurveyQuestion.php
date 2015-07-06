@@ -454,6 +454,11 @@ class SurveyQuestion
 	{
 		return $this->title;
 	}
+	
+	function getLabel()
+	{
+		return $this->label;
+	}
 
 /**
 * Gets the id of the SurveyQuestion object

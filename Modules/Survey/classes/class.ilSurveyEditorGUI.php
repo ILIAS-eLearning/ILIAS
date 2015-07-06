@@ -1266,7 +1266,28 @@ class ilSurveyEditorGUI
 		global $ilToolbar;
 		
 		$this->questionsSubtabs("print");
+			
+		if(!$_POST["export_label"])
+		{
+			$_POST["export_label"] = $this->object->getShowQuestionTitles();
+		}
+		$current_title = (int)$_POST["export_label"];
 		
+		include_once "Services/Form/classes/class.ilSelectInputGUI.php";
+		$label = new ilSelectInputGUI("", "export_label");
+		$label->setOptions(array(
+			1 => $this->lng->txt('export_title_only'), 
+			2 => $this->lng->txt('export_label_only'), 			
+			3 => $this->lng->txt('export_title_label')
+			));
+		$label->setValue($current_title);
+		$ilToolbar->addInputItem($label);
+		
+		$ilToolbar->setFormAction($this->ctrl->getFormAction($this, "printView"));
+		$ilToolbar->addFormButton($this->lng->txt("show"), "printView");
+		
+		$ilToolbar->addSeparator();
+	
 		include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
 		$button = ilLinkButton::getInstance();
 		$button->setCaption("print");								
@@ -1308,7 +1329,7 @@ class ilSurveyEditorGUI
 							$template->parseCurrentBlock();
 						}
 						$template->setCurrentBlock("question");
-						$template->setVariable("QUESTION_DATA", $questionGUI->getPrintView($this->object->getShowQuestionTitles(), $question["questionblock_show_questiontext"], $this->object->getSurveyId()));
+						$template->setVariable("QUESTION_DATA", $questionGUI->getPrintView($current_title, $question["questionblock_show_questiontext"], $this->object->getSurveyId()));
 						$template->parseCurrentBlock();
 					}
 				}

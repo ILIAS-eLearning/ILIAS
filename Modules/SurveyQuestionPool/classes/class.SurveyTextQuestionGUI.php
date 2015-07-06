@@ -123,7 +123,7 @@ class SurveyTextQuestionGUI extends SurveyQuestionGUI
 		}
 		if ($question_title)
 		{
-			$template->setVariable("QUESTION_TITLE", $this->object->getTitle());
+			$template->setVariable("QUESTION_TITLE", $this->getPrintViewQuestionTitle($question_title));
 		}		
 		$template->setVariable("QUESTION_ID", $this->object->getId());		
 		$template->setVariable("TEXT_ANSWER", $this->lng->txt("answer"));
