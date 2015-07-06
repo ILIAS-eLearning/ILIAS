@@ -12,7 +12,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
 {
 	private $shuffleAnswersEnabled;
 
-	private $answerType;
+	private $answerType, $long_menu_text;
 
 	const ANSWER_TYPE_SELECT 	= 'select';
 	const ANSWER_TYPE_TEXT_BOX	= 'text_box';
@@ -32,6 +32,16 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
 		$this->answerType = $answerType;
 	}
 
+	function setLongMenuTextValue($long_menu_text = "")
+	{
+		$this->long_menu_text = $long_menu_text;
+	}
+
+	function getLongMenuTextValue()
+	{
+		return $this->long_menu_text;
+	}
+	
 	/**
 	 * @param ilLanguage $lng
 	 * @return array
@@ -87,19 +97,17 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
 	public function saveAdditionalQuestionDataToDb()
 	{
 		global $ilDB;
-		$params = $this->buildParams();
 		// save additional data
 		$ilDB->manipulateF( "DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
 			array( "integer" ),
 			array( $this->getId() )
 		);
 		$ilDB->manipulateF( "INSERT INTO " . $this->getAdditionalTableName(
-			) . " (question_fi, image_file, params) VALUES (%s, %s, %s)",
-			array( "integer", "text", "text" ),
+			) . " (question_fi, long_menu_text) VALUES (%s, %s)",
+			array( "integer", "text"),
 			array(
 				$this->getId(),
-				$this->javaapplet_filename,
-				$params
+				$this->getLongMenuTextValue()
 			)
 		);
 	}
@@ -108,7 +116,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
 	{
 		global $ilDB;
 
-		/*$result = $ilDB->queryF("SELECT qpl_questions.*, " . $this->getAdditionalTableName() . ".* FROM qpl_questions LEFT JOIN " . $this->getAdditionalTableName() . " ON " . $this->getAdditionalTableName() . ".question_fi = qpl_questions.question_id WHERE qpl_questions.question_id = %s",
+		$result = $ilDB->queryF("SELECT qpl_questions.*, " . $this->getAdditionalTableName() . ".* FROM qpl_questions LEFT JOIN " . $this->getAdditionalTableName() . " ON " . $this->getAdditionalTableName() . ".question_fi = qpl_questions.question_id WHERE qpl_questions.question_id = %s",
 			array("integer"),
 			array($question_id)
 		);
@@ -125,9 +133,9 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
 			$this->setPoints($data["points"]);
 			$this->setOwner($data["owner"]);
 			include_once("./Services/RTE/classes/class.ilRTE.php");
-			$this->setQuestion(ilRTE::_replaceMediaObjectImageSrc($data["question_text"], 1));
+			$this->setQuestion(ilRTE::_replaceMediaObjectImageSrc($data['question_text'], 1));
 			$this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
-
+			$this->setLongMenuTextValue(ilRTE::_replaceMediaObjectImageSrc($data['long_menu_text'], 1));
 			try
 			{
 				$this->setAdditionalContentEditingMode($data['add_cont_edit_mode']);
@@ -135,7 +143,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
 			catch(ilTestQuestionPoolException $e)
 			{
 			}
-		}*/
+		}
 		parent::loadFromDb($question_id);
 	}
 	
@@ -455,7 +463,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
 	 */
 	public function getAdditionalTableName()
 	{
-		return '';//"qpl_qst_javaapplet";
+		return 'qpl_qst_lomo';
 	}
 
 	/**

@@ -46,26 +46,29 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 	 */
 	public function writePostData($always = false)
 	{
-		$hasErrors = (!$always) ? $this->editQuestion(true) : false;
-		if (!$hasErrors)
+		$form = $this->buildEditForm();
+		$form->setValuesByPost();
+		if( !$form->checkInput() )
 		{
-			require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
-
-			$this->writeQuestionGenericPostData();
-
-			$this->object->setPoints($_POST["points"]);
-			$this->writeQuestionSpecificPostData(new ilPropertyFormGUI());
-
-			$this->saveTaxonomyAssignments();
-
-			return 0;
+			$this->editQuestion($form);
+			return 1;
 		}
-		return 1;
+		$this->writeQuestionGenericPostData();
+		$this->writeQuestionSpecificPostData($form);
+		//$this->writeAnswerSpecificPostData(new ilPropertyFormGUI());
+		$this->saveTaxonomyAssignments();
+		return 0;
 	}
 
 	public function writeQuestionSpecificPostData(ilPropertyFormGUI $form)
 	{
-		
+			$longmenu_text = ilUtil::stripSlashesRecursive($_POST['longmenu_text']);
+			//$cloze_text = $this->removeIndizesFromGapText( $cloze_text );
+			$_POST['longmenu_text'] = $longmenu_text;
+			$this->object->setQuestion($_POST['question_text']);
+			$this->object->setLongMenuTextValue($_POST["longmenu_text"]);
+			//$this->object->flushGaps();
+			$this->saveTaxonomyAssignments();
 	}
 
 	protected function editQuestion(ilPropertyFormGUI $form = null)
@@ -131,7 +134,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 				$thumbSize->setValue( $this->object->getThumbSize() );
 				$form->addItem($thumbSize);
 			}
-	
+		
 		// points
 		$points = new ilNumberInputGUI($this->lng->txt('points'), 'points');
 		$points->setRequired(true);
@@ -141,8 +144,34 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 		$points->setMinvalueShouldBeGreater(true);
 		$points->setValue($this->object->getPoints());
 		$form->addItem($points);
-
 		*/
+		// cloze text
+		$long_menu_text = new ilTextAreaInputGUI($this->lng->txt("longmenu_text"), 'longmenu_text');
+		$long_menu_text->setRequired(true);
+		$long_menu_text->setInfo($this->lng->txt("longmenu_hint"));
+		$long_menu_text->setRows( 10 );
+		$long_menu_text->setCols( 80 );
+		if (!$this->object->getSelfAssessmentEditingMode())
+		{
+			if( $this->object->getAdditionalContentEditingMode() == assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT )
+			{
+				include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
+				$long_menu_text->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
+				$long_menu_text->addPlugin("latex");
+				$long_menu_text->addButton("latex");
+				$long_menu_text->addButton("pastelatex");
+			}
+		}
+		else
+		{
+			$long_menu_text->setRteTags(self::getSelfAssessmentTags());
+			$long_menu_text->setUseTagsForRteOnly(false);
+		}
+		$long_menu_text->setUseRte(TRUE);
+		$long_menu_text->setRTESupport($this->object->getId(), "qpl", "assessment");
+		$long_menu_text->setValue($this->object->getLongMenuTextValue());
+		$form->addItem($long_menu_text);
+		
 		$tpl = new ilTemplate("tpl.il_as_qpl_cloze_gap_button_code.html", TRUE, TRUE, "Modules/TestQuestionPool");
 		$tpl->setVariable('INSERT_GAP', $this->lng->txt('insert_gap'));
 		$tpl->parseCurrentBlock();
@@ -159,6 +188,9 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 		
 		$tpl = new ilTemplate("tpl.il_as_qpl_long_menu_gap.html", TRUE, TRUE, "Modules/TestQuestionPool");
 		$tpl->setVariable('SELECT_BOX', $this->lng->txt('insert_gap'));
+		$tpl->setVariable("SELECT", 	$this->lng->txt('select'));
+		$tpl->setVariable("TEXT", 		$this->lng->txt('text'));
+		$tpl->setVariable("POINTS", 	$this->lng->txt('points'));
 		$tpl->setVariable("MY_MODAL", 	$modal->getHTML());
 		$tpl->parseCurrentBlock();
 		$button = new ilCustomInputGUI('&nbsp;','');

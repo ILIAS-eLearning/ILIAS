@@ -6,47 +6,50 @@
 		'type' : 'Typ',
 		'answers': 'Answers',
 		'answer_options' : 'Answer Options: ',
-		'correct_answers': 'Correct Answers: '
+		'correct_answers': 'Correct Answers: ',
+		'add_answers'	 : '[Add Answers]'
 		
 		
 	};
-	var gap_wizard = GapInsertingWizard;
-	gap_wizard.textarea 		= 'question_text';
-	gap_wizard.trigger_id		= '#gaptrigger';
-	gap_wizard.replacement_word = 'Longmenu';
-	gap_wizard.show_end			= false;
-	gap_wizard.callbackActiveGapChange 	= function (){console.log('changed',gap_wizard.active_gap)};
-	gap_wizard.callbackClickedInGap 	= function () 
-		{
-			$('#ilGapModal').modal('show');
-			$('.modal-title').html(gap_wizard.replacement_word +' ' + gap_wizard.active_gap);
-			console.log('clicked on',gap_wizard.active_gap)
-		};
-	gap_wizard.callbackNewGap = function (gap_id, gap_value)
-									{
-										console.log('new gap',gap_id, gap_value)
-										longMenuQuestion.sliceInNewQuestionPart(gap_id);
-									};
-	gap_wizard.callbackCleanGapCode 	= function (){console.log('cleanup done')};
 	
 	$( document ).ready(function() {
-		gap_wizard.Init();
 		longMenuQuestion.Init();
 	});
 	
 	var longMenuQuestion = (function () {
 		var pub = {};
-		var new_question_part = {
-									'correct_answers' : []
-								};
+		var new_question_part = { 'correct_answers' : [] };
 		pub.questionParts = {
-			list : [
-			],
-			last_updated_element : 0
+			list : [],
+			last_updated_element : 0,
+			replacement_word : ''
 		};
-		pub.answers =
-			[
-			];
+		pub.answers = [];
+
+		function buildAndInitGapWizard()
+		{
+			var gap_wizard = GapInsertingWizard;
+			gap_wizard.textarea 		= 'longmenu_text';
+			gap_wizard.trigger_id		= '#gaptrigger';
+			gap_wizard.replacement_word = 'Longmenu';
+			gap_wizard.show_end			= false;
+
+			pub.questionParts.replacement_word = gap_wizard.replacement_word;
+
+			gap_wizard.callbackActiveGapChange 	= function (){console.log('changed',gap_wizard.active_gap)};
+			gap_wizard.callbackClickedInGap 	= function ()
+			{
+				$('#ilGapModal').modal('show');
+				$('.modal-title').html(gap_wizard.replacement_word +' ' + gap_wizard.active_gap);
+			};
+			gap_wizard.callbackNewGap = function (gap_id, gap_value)
+			{
+				sliceInNewQuestionPart(gap_id);
+			};
+			gap_wizard.callbackCleanGapCode 	= function (){console.log('cleanup done')};
+			gap_wizard.Init();
+		}
+		
 		function appendFormParts()  {
 			var footer_class 	= $('.ilFormFooter');
 			var new_title 		= $(".gap_title").find('.ilFormHeader').clone().addClass('longmenu_head longmenu');
@@ -54,12 +57,13 @@
 			$.each(pub.questionParts.list , function( index, value ) {
 				footer_class.parent().append(new_title.clone());
 				title = index + 1;
-				$(document).find('.longmenu_head').last().find('.ilHeader').html(gap_wizard.replacement_word + ' ' + title);
+				$(document).find('.longmenu_head').last().find('.ilHeader').html(pub.questionParts.replacement_word + ' ' + title);
 				appendSelectBox(footer_class, index);
 				appendAnswersOverview(footer_class, index);
 			});
 			footer_class.appendTo( '#form_assLongMenu');
 		}
+		
 		function appendSelectBox(footer_class, index)  {
 			var id = 'select_type_' + index;
 			footer_class.parent().append($('#layout_dummy_select').clone().attr({'id': id}).addClass('longmenu'));
@@ -74,35 +78,58 @@
 			selector.find('label').html(long_menu_language.answers);
 			var html = buildAnswerOverview(index);
 			selector.find('.form-inline').html(html);
+			appendPointsField(footer_class, index);
 		}
-		function buildAnswerOverview(question)  {
-			var html =	'<p>' + long_menu_language.answer_options + pub.answers[question].length;
-			html += 	' <a>' + long_menu_language.edit + '</a></p>';
-			html += 	'<p>' + long_menu_language.correct_answers;
-			var answers = '';
-			$.each(pub.questionParts.list[question].correct_answers , function( index, value ) {
-				answers += pub.answers[question][value] + ', ';
-			});
-			html += ' ' + answers.substring(0, answers.length - 2) + ' <a>' + long_menu_language.edit + '</a></p>';
+
+		function appendPointsField(footer_class, index)  {
+			var id = 'points_' + index;
+			var name = 'points[' + index + ']';
+			footer_class.parent().append($('#layout_dummy_points').clone().attr({'id': id, 'name' : name}).addClass('longmenu'));
+		}
+		
+		function buildAnswerOverview(question_id)  {
+			var length 	= pub.answers[question_id].length;
+			var html 	= '';
+			if( length > 0 )
+			{
+				html =	'<p>' + long_menu_language.answer_options + pub.answers[question_id].length;
+				html += ' <a>'+ long_menu_language.edit + '</a></p>';
+				html += '<p>' + long_menu_language.correct_answers;
+				var answers = '';
+				$.each(pub.questionParts.list[question_id].correct_answers , function( index, value ) {
+					answers += pub.answers[question_id][value] + ', ';
+				});
+				html += ' ' + answers.substring(0, answers.length - 2) + ' <a>' + long_menu_language.edit + '</a></p>';
+			}
+			else
+			{
+				html = '<a href="#">' + long_menu_language.add_answers + '</a>';
+			}
+			
 			return html;
 		}
+		
 		function redrawFormParts()
 		{
 			$('.longmenu').remove();
 			appendFormParts();
 		}
-		//Public property
 
-		pub.Init = function()
-		{
-			appendFormParts();
-		};
-		pub.sliceInNewQuestionPart = function(gap_id)
+		function sliceInNewQuestionPart(gap_id)
 		{
 			pub.questionParts.list.splice(gap_id, 0, new_question_part);
 			pub.answers.splice(gap_id,0,[]);
 			redrawFormParts();
+		}
+		
+		//Public property
+
+		pub.Init = function()
+		{
+			buildAndInitGapWizard();
+			appendFormParts();
 		};
+		
 		//Return just the public parts
 		return pub;
 	}());
@@ -131,9 +158,17 @@
 		<div class="col-sm-9">
 			<div class="form-inline">
 				<select name="Estimated[hh]" class=" form-control " size="0">
-					<option value="select" selected="selected">SELECT</option>
-					<option value="text">TEXT</option>
+					<option value="select" selected="selected">{SELECT}</option>
+					<option value="text">{TEXT}</option>
 				</select>
+			</div>
+		</div>
+	</div>
+	<div class="form-group" id="layout_dummy_points">
+		<label for="" class="col-sm-3 control-label">{POINTS}</label>
+		<div class="col-sm-9">
+			<div class="form-inline">
+				<input type="text" class="form-control text-right" size="5" value="0">
 			</div>
 		</div>
 	</div>

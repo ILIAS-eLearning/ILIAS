@@ -230,7 +230,7 @@ var GapInsertingWizard = (function () {
 	
 	function bindTextareaHandlerTiny()
 	{
-		var tinymce_iframe_selector =   $('.mceIframeContainer iframe').eq(0).contents().find('body');
+		var tinymce_iframe_selector =   $('.mceIframeContainer iframe').eq(1).contents().find('body');
 			tinymce_iframe_selector.on('click', function () {
 			var inst = tinyMCE.activeEditor;
 			var cursorPosition = getCursorPositionTiny(inst, false);
