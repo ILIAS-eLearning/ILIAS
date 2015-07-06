@@ -856,28 +856,33 @@ class ilCourseBookingAdminGUI
 			}
 			
 			if($user_status == ilCourseBooking::STATUS_BOOKED)
-			{		
+			{
 				// nothing to do
 				if($bookings->isMember($user_id))
 				{
 					continue;
-				}				
+				}
 				if($bookings->bookCourse($user_id))
-				{				
+				{
 					// gev-patch start
-					require_once("Services/GEV/Mailing/classes/class.gevCrsAutoMails.php");
-					$automails = new gevCrsAutoMails($this->getCourse()->getId());
-					$automails->sendDeferred("admin_booking_to_booked", array($user_id));
-					$automails->sendDeferred("invitation", array($user_id));
+					require_once("Services/GEV/Mailing/classes/class.gevCrsAdditionalMailSettings.php");
+					$addMailSettings = new gevCrsAdditionalMailSettings($this->getCourse()->getId());
+					
+					if(!$addMailSettings->getSuppressMails()) {
+						require_once("Services/GEV/Mailing/classes/class.gevCrsAutoMails.php");
+						$automails = new gevCrsAutoMails($this->getCourse()->getId());
+						$automails->sendDeferred("admin_booking_to_booked", array($user_id));
+						$automails->sendDeferred("invitation", array($user_id));
+					}
 					
 					$this->setDefaultAccomodations($user_id);
 					// gev-patch end
 					
 					// :TODO: needed?
-					$members_obj->sendNotification($members_obj->NOTIFY_ACCEPT_USER, $user_id);			
+					$members_obj->sendNotification($members_obj->NOTIFY_ACCEPT_USER, $user_id);
 					ilForumNotification::checkForumsExistsInsert($this->getCourse()->getRefId(), $user_id);
 					$this->getCourse()->checkLPStatusSync($user_id);
-				}		
+				}
 			}
 			else
 			{
@@ -885,13 +890,18 @@ class ilCourseBookingAdminGUI
 				if($bookings->isWaiting($user_id))
 				{
 					continue;
-				}				
+				}
 				$bookings->putOnWaitingList($user_id);
 				// gev-patch start
-				require_once("Services/GEV/Mailing/classes/class.gevCrsAutoMails.php");
-				$automails = new gevCrsAutoMails($this->getCourse()->getId());
-				$automails->sendDeferred("admin_booking_to_waiting", array($user_id));
-
+				require_once("Services/GEV/Mailing/classes/class.gevCrsAdditionalMailSettings.php");
+				$addMailSettings = new gevCrsAdditionalMailSettings($this->getCourse()->getId());
+					
+				if(!$addMailSettings->getSuppressMails()) {
+					require_once("Services/GEV/Mailing/classes/class.gevCrsAutoMails.php");
+					$automails = new gevCrsAutoMails($this->getCourse()->getId());
+					$automails->sendDeferred("admin_booking_to_waiting", array($user_id));
+				}
+				
 				$this->setDefaultAccomodations($user_id);
 				// gev-patch end
 			}
@@ -906,7 +916,7 @@ class ilCourseBookingAdminGUI
 			unset($_SESSION["crs_search_for"]);
 			unset($_SESSION['crs_usr_search_result']);
 
-			// $this->checkLicenses(true);			
+			// $this->checkLicenses(true);
 		}
 		
 		$ilCtrl->redirect($this, "listBookings");
@@ -947,7 +957,7 @@ class ilCourseBookingAdminGUI
 	protected function isUserActionPossible($a_status)
 	{
 		$user_id = (int)$_REQUEST["user_id"];
-		if ($user_id &&			
+		if ($user_id &&
 			!ilCourseBookingHelper::getInstance($this->getCourse())->isUltimateBookingDeadlineReached())
 		{
 			if(
@@ -955,7 +965,7 @@ class ilCourseBookingAdminGUI
 					$this->getPermissions()->bookCourseForOthers()) ||
 				(in_array($a_status, array(ilCourseBooking::STATUS_CANCELLED_WITHOUT_COSTS, ilCourseBooking::STATUS_CANCELLED_WITH_COSTS)) &&
 					$this->getPermissions()->cancelCourseForOthers()))
-			{			
+			{
 				return $user_id;
 			}
 		}
@@ -969,7 +979,7 @@ class ilCourseBookingAdminGUI
 		global $ilCtrl, $lng, $tpl;
 		
 		$user_status = (int)$_GET["user_status"];
-		$user_id = $this->isUserActionPossible($user_status);		
+		$user_id = $this->isUserActionPossible($user_status);
 		
 		if(!$user_id || !$user_status)
 		{
@@ -990,7 +1000,7 @@ class ilCourseBookingAdminGUI
 		$confirm->setFormAction($ilCtrl->getFormAction($this, $cmd));
 		$confirm->setHeaderText($lng->txt("crsbook_admin_user_action_confirm_".$map[$user_status]));
 		$confirm->setConfirm($lng->txt("confirm"), $cmd);
-		$confirm->setCancel($lng->txt("cancel"), "listBookings");		
+		$confirm->setCancel($lng->txt("cancel"), "listBookings");
 		
 		$confirm->addItem("user_id",
 				$user_id,
