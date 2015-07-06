@@ -65,7 +65,7 @@ class ilDidacticTemplateLocalRoleAction extends ilDidacticTemplateAction
 		
 		include_once './Services/AccessControl/classes/class.ilObjRole.php';
 		$role = new ilObjRole();
-		$role->setTitle(ilObject::_lookupTitle($this->getRoleTemplateId()));
+		$role->setTitle(ilObject::_lookupTitle($this->getRoleTemplateId()). '_' . $this->getRefId());
 		$role->setDescription(ilObject::_lookupDescription($this->getRoleTemplateId()));
 		$role->create();
 		$rbacadmin->assignRoleToFolder($role->getId(),$source->getRefId(),"y");
