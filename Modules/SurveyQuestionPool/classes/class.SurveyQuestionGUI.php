@@ -558,8 +558,11 @@ abstract class SurveyQuestionGUI
 				break;
 
 			case 3:
-				$title = ilUtil::prepareFormOutput($this->object->getTitle()).
-					' <span class="questionLabel">('.ilUtil::prepareFormOutput($this->object->getLabel()).')</span>';
+				$title = ilUtil::prepareFormOutput($this->object->getTitle());
+				if(trim($this->object->getLabel()))
+				{
+					$title .= ' <span class="questionLabel">('.ilUtil::prepareFormOutput($this->object->getLabel()).')</span>';
+				}
 				break;
 		}
 		return $title;
