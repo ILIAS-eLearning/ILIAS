@@ -64,13 +64,14 @@ var GapInsertingWizard = (function () {
 	function createNewGapCode()
 	{
 		var newText = pub.getTextAreaValue();
+		var iterator;
 		if(pub.show_end)
 		{
-			var iterator = newText.match(new RegExp("\\[" + pub.replacement_word + "[\\s\\S\\d]*?\\](.*?)\\[\\/" + pub.replacement_word + "\\]", "g"));
+			iterator = newText.match(new RegExp("\\[" + pub.replacement_word + "[\\s\\S\\d]*?\\](.*?)\\[\\/" + pub.replacement_word + "\\]", "g"));
 		}
 		else
 		{
-			var iterator = newText.match(new RegExp("\\[" + pub.replacement_word + "[\\s\\S\\d]*?\\]", "g"));
+			iterator = newText.match(new RegExp("\\[" + pub.replacement_word + "[\\s\\S\\d]*?\\]", "g"));
 		}
 		var last = 0;
 		for (var i = 0; i < iterator.length; i++) {
@@ -192,7 +193,7 @@ var GapInsertingWizard = (function () {
 			else
 			{
 				start = text.indexOf('[' + pub.replacement_word + ' ', end);
-				end = start + gap_length +1 ;
+				end = start + gap_length + 1;
 			}
 			if ( start != -1 && start < position && end >= position)
 			{
@@ -203,7 +204,6 @@ var GapInsertingWizard = (function () {
 				gapNumber = gapContent[0];
 				clickedInGap(gapNumber);
 			}
-			
 		}
 		return [gapNumber, inGap];
 	}
@@ -261,7 +261,7 @@ var GapInsertingWizard = (function () {
 	pub.trigger_id			= '';
 	pub.replacement_word 	= '';
 	pub.show_end			= true;
-	pub.active_gap = -1;
+	pub.active_gap          = -1;
 	pub.callbackActiveGapChange, pub.callbackClickedInGap, pub.callbackCleanGapCode, pub.callbackNewGap;
 
 	pub.Init = function()
