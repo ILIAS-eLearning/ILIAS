@@ -1267,21 +1267,22 @@ class ilSurveyEditorGUI
 		
 		$this->questionsSubtabs("print");
 			
-		if(!$_POST["export_label"])
+		if(!isset($_POST["export_label"]))
 		{
 			$_POST["export_label"] = $this->object->getShowQuestionTitles();
 		}
 		$current_title = (int)$_POST["export_label"];
 		
 		include_once "Services/Form/classes/class.ilSelectInputGUI.php";
-		$label = new ilSelectInputGUI("", "export_label");
+		$label = new ilSelectInputGUI($this->lng->txt("title")."/".$this->lng->txt("label"), "export_label");
 		$label->setOptions(array(
+			0 => $this->lng->txt('none'), 
 			1 => $this->lng->txt('export_title_only'), 
 			2 => $this->lng->txt('export_label_only'), 			
 			3 => $this->lng->txt('export_title_label')
 			));
 		$label->setValue($current_title);
-		$ilToolbar->addInputItem($label);
+		$ilToolbar->addInputItem($label, true);
 		
 		$ilToolbar->setFormAction($this->ctrl->getFormAction($this, "printView"));
 		$ilToolbar->addFormButton($this->lng->txt("show"), "printView");
