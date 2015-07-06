@@ -534,7 +534,7 @@ class ilUserSearchCache
 		$this->failed = (array) $_SESSION['usr_search_cache'][$this->search_type]['failed'];
 		$this->page_number = $_SESSION['usr_search_cache'][$this->search_type]['page_number'];
 
-		$this->setQuery((string) $_SESSION['usr_search_cache'][$this->search_type]['query']);
+		$this->setQuery($_SESSION['usr_search_cache'][$this->search_type]['query']);
 		$this->setRoot((string) $_SESSION['usr_search_cache'][$this->search_type]['root']);
 		$this->setItemFilter((array) $_SESSION['usr_search_cache'][$this->search_type]['item_filter']);
 		$this->setMimeFilter((array) $_SESSION['usr_search_cache'][$this->search_type]['mime_filter']);
