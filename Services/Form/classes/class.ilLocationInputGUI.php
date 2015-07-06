@@ -67,6 +67,8 @@ class ilLocationInputGUI extends ilFormPropertyGUI
 		return $this->latitude;
 	}
 
+
+
 	/**
 	* Set Longitude.
 	*
@@ -210,7 +212,7 @@ class ilLocationInputGUI extends ilFormPropertyGUI
 				->setEnableLargeMapControl(true)
 				->setEnableUpdateListener(true)
 				->setEnableCentralMarker(true);
-		
+
 		$tpl->setVariable("MAP", $map_gui->getHtml());
 		
 		$a_tpl->setCurrentBlock("prop_generic");

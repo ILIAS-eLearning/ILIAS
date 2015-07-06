@@ -7197,6 +7197,10 @@ mail#:#search_recipients#:#Search Recipients
 mail#:#send_mail_to#:#Mail to
 maps#:#maps_enable_maps_info#:#Activates Maps in user profiles, groups and courses.
 maps#:#maps_enable_maps#:#Enable Maps
+maps#:#maps_use_custom_server#:#Use custom server
+maps#:#maps_custom_server_info#:#Activate custom servers to provide tile- and geolocation-data. Multiple inputs should be separated by spaces. Defaults are "%s" for tiles and "%s" for geolocation.
+maps#:#maps_tile_server#:#Server for Tiles
+maps#:#maps_geolocation_server#:#Server for Reverse Geolocation
 maps#:#maps_extt_maps#:#Maps
 maps#:#maps_latitude#:#Latitude
 maps#:#maps_longitude#:#Longitude
