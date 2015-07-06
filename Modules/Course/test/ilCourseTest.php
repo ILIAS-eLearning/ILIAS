@@ -24,6 +24,7 @@
 class ilCourseTest extends PHPUnit_Framework_TestCase
 {
 	protected $backupGlobals = FALSE;
+	protected $preserveGlobalState = FALSE;
 
 	protected function setUp()
 	{
