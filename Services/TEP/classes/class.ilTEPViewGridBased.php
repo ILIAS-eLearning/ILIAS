@@ -39,6 +39,39 @@ abstract class ilTEPViewGridBased extends ilTEPView
 		return $this->filter;
 	}
 	
+	//gev patch-stat
+	/**
+	* Check if any value set at the filter
+	*
+	* @return boolen
+	*/
+	public function isFilterSet()
+	{
+		global $ilUser;
+
+		if ($this->filter["etitle"]) {
+			return true;
+		}
+
+		if ($this->filter["eloc"]) {
+			return true;
+		}
+
+		if ($this->filter["etype"]) {
+			return true;
+		}
+
+		if ($this->filter["tutor"] && $this->filter["tutor"] != $ilUser->getId()) {
+			return true;
+		}
+
+		if(!empty($this->filter["orgu"]["ids"])) {
+			return true;
+		}
+
+		return false;
+	}
+	//gev patch-end
 			
 	// 
 	// request
@@ -73,13 +106,13 @@ abstract class ilTEPViewGridBased extends ilTEPView
 			if(!$this->hasNoTutorColumn())
 			{
 				$_POST["tepflt"]["notut"] = (bool)$_SESSION["tepflt"]["notut"];
-			}			
+			}
 			
 			$_POST["tepflt"]["orgu"] = array(
 				"ids" => is_array($_POST["tepflt_orgu"]) ? array_unique($_POST["tepflt_orgu"]) : array()
 				,"rcrsv" => (bool)$_POST["tepflt_orgu_rcrsv"]
 			);
-			$_SESSION["tepflt"] = $_POST["tepflt"];			
+			$_SESSION["tepflt"] = $_POST["tepflt"];
 		}
 	
 		// reload
@@ -88,7 +121,7 @@ abstract class ilTEPViewGridBased extends ilTEPView
 			$filter = array();
 			$filter["etitle"] = trim($_SESSION["tepflt"]["etitle"]);
 			$filter["eloc"] = trim($_SESSION["tepflt"]["eloc"]);
-			$filter["etype"] = trim($_SESSION["tepflt"]["etype"]);		
+			$filter["etype"] = trim($_SESSION["tepflt"]["etype"]);
 			$filter["tutor"] = (int)$_SESSION["tepflt"]["tutor"];
 			$filter["orgu"] = (array)$_SESSION["tepflt"]["orgu"];
 			$filter["notut"] = (bool)$_SESSION["tepflt"]["notut"];
@@ -123,7 +156,7 @@ abstract class ilTEPViewGridBased extends ilTEPView
 			$filter = $this->getFilter();
 			
 			$orgu_rcrsv = (bool)$filter["orgu"]["rcrsv"];
-			$orgu_ids = (array)$filter["orgu"]["ids"];			
+			$orgu_ids = (array)$filter["orgu"]["ids"];
 			if(!sizeof($orgu_ids))
 			{
 				$this->all_tutors = ilTEP::getViewableTutorNames($this->getPermissions(), null, $orgu_rcrsv);
@@ -131,7 +164,7 @@ abstract class ilTEPViewGridBased extends ilTEPView
 			else
 			{
 				$this->all_tutors = ilTEP::getViewableTutorNames($this->getPermissions(), $orgu_ids, $orgu_rcrsv);
-			}						
+			}
 			$tutors = array_keys($this->all_tutors);
 			if(!$this->all_tutors)
 			{
@@ -140,7 +173,7 @@ abstract class ilTEPViewGridBased extends ilTEPView
 			
 			// single-tutor view 
 			if(!$this->isMultiTutor())
-			{							
+			{
 				// restrict to selected user (if valid) #233
 				if($filter["tutor"] && array_key_exists($filter["tutor"], $this->all_tutors))
 				{
@@ -148,7 +181,7 @@ abstract class ilTEPViewGridBased extends ilTEPView
 				}
 				// select 1st in alphabetical list
 				else
-				{					
+				{
 					$tutors = array($ilUser->getId());
 				}
 			}
@@ -158,14 +191,14 @@ abstract class ilTEPViewGridBased extends ilTEPView
 	}
 	
 	public function getTutors()
-	{		
+	{
 		if($this->tutors === null)
 		{
 			$this->tutors = $this->initTutors();
 		}
 		
 		return $this->tutors;
-	}		
+	}
 	
 	/**
 	 * Get currently selected navigation option
@@ -241,7 +274,7 @@ abstract class ilTEPViewGridBased extends ilTEPView
 		foreach(ilCalEntryType::getListData() as $item)
 		{
 			$options[$item["id"]] = $item["title"];
-		}		
+		}
 		$etype = new ilSelectInputGUI("", "tepflt[etype]");
 		$opts = array(""=>$lng->txt("tep_search_all"))+$options;
 		$etype->setOptions($opts);
@@ -258,7 +291,7 @@ abstract class ilTEPViewGridBased extends ilTEPView
 		}
 		
 		if($this->getPermissions()->mayViewOthers())
-		{			
+		{
 			// org unit(s)
 			$orgs = ilTEP::getViewableOrgUnits($this->getPermissions());
 			if($orgs)
@@ -270,11 +303,11 @@ abstract class ilTEPViewGridBased extends ilTEPView
 						
 				$tpl->setVariable("ORGU_CAPTION", $lng->txt("objs_orgu"));
 				$tpl->setVariable("ORGU_FIELD", $ogrp->getTableFilterHTML());	
-			}		
+			}
 			
 			// tutor 
 			if(!$this->isMultiTutor())
-			{												
+			{
 				$tutor = new ilSelectInputGUI("", "tepflt[tutor]");
 				$tutor->setOptions($this->all_tutors);
 				$tutor->setValue($filter["tutor"]);
@@ -291,7 +324,7 @@ abstract class ilTEPViewGridBased extends ilTEPView
 			$ilCtrl->getFormAction($this->getParentGUI(), "view"));
 
 		return $tpl->get();
-	}	
+	}
 	
 	
 	//
@@ -307,8 +340,8 @@ abstract class ilTEPViewGridBased extends ilTEPView
 	{
 		global $ilCtrl;
 		
-		$options = $this->getNavigationOptions();		
-		$curr = $this->getCurrentNavigationOption();	
+		$options = $this->getNavigationOptions();
+		$curr = $this->getCurrentNavigationOption();
 		
 		
 		// parse
@@ -378,11 +411,11 @@ abstract class ilTEPViewGridBased extends ilTEPView
 				$ilCtrl->setParameter($this->getParentGUI(), "seed", $item[0]);
 				$url = $ilCtrl->getLinkTarget($this->getParentGUI(), "view");
 				$tpl->setVariable($var."_CAPTION", $item[1]);
-				$tpl->setVariable($var."_URL", $url);				
+				$tpl->setVariable($var."_URL", $url);
 			}
 		}
 		
-		$ilCtrl->setParameter($this->getParentGUI(), "seed", trim($_REQUEST["seed"]));		
+		$ilCtrl->setParameter($this->getParentGUI(), "seed", trim($_REQUEST["seed"]));
 		
 		return $tpl->get();
 	}
@@ -395,7 +428,7 @@ abstract class ilTEPViewGridBased extends ilTEPView
 		global $lng;
 		
 		require_once "Services/TEP/classes/class.ilCalEntryType.php";
-		require_once "Services/TEP/classes/class.ilTEPEntry.php";		
+		require_once "Services/TEP/classes/class.ilTEPEntry.php";
 		//$used = ilTEPEntry::getAllTypesInUse();		
 		//if($used)
 		//{
@@ -429,19 +462,19 @@ abstract class ilTEPViewGridBased extends ilTEPView
 			//foreach(ilCalEntryType::getListData($used) as $item)
 
 		//gev-patch end			
-			{		
+			{
 				$counter++;
 
 				$tep_tpl->setCurrentBlock("type_bl");
 				$tep_tpl->setVariable("TYPE_COLOR", $item["bg_color"]);
 				$tep_tpl->setVariable("TYPE_CAPTION", $item["title"]);
-				$tep_tpl->parseCurrentBlock();				
+				$tep_tpl->parseCurrentBlock();
 
 				if($counter && !($counter%5))
 				{
 					$tep_tpl->setCurrentBlock("row_bl");
 					$tep_tpl->parseCurrentBlock();
-				}				
+				}
 			}
 			
 			if($counter && !($counter%5))
@@ -556,7 +589,7 @@ abstract class ilTEPViewGridBased extends ilTEPView
 	 */
 	protected function getDayEntries($a_user_id, $a_date)
 	{
-		$res = array();			
+		$res = array();
 		
 		if(isset($this->entries[$a_user_id]))
 		{
@@ -564,7 +597,7 @@ abstract class ilTEPViewGridBased extends ilTEPView
 			{
 				if($entry["start"] <= $a_date && $entry["end"] >= $a_date)
 				{
-					$res[] = $entry;									
+					$res[] = $entry;
 				}
 			}
 		}
@@ -583,7 +616,7 @@ abstract class ilTEPViewGridBased extends ilTEPView
 		static $type_map;
 		
 		if(!is_array($type_map))
-		{						
+		{
 			require_once "Services/TEP/classes/class.ilCalEntryType.php";
 			$type_map = array();
 			foreach(ilCalEntryType::getListData() as $item)
@@ -593,9 +626,9 @@ abstract class ilTEPViewGridBased extends ilTEPView
 					,"bg_color" => $item["bg_color"]
 					,"font_color" => $item["font_color"] 
 						? $item["font_color"] 
-						: ilCalEntryType::getFontColorForBg($item["bg_color"])					
+						: ilCalEntryType::getFontColorForBg($item["bg_color"])
 				);
-			}		
+			}
 		}
 		
 		if(array_key_exists($a_type, $type_map))
@@ -712,7 +745,7 @@ abstract class ilTEPViewGridBased extends ilTEPView
 
 		if($a_entry["location"])
 		{
-			$a_tpl->setVariable("LOCATION", $a_entry["location"]);			
+			$a_tpl->setVariable("LOCATION", $a_entry["location"]);
 		}
 
 		if(!$a_entry["fullday"])
@@ -737,7 +770,7 @@ abstract class ilTEPViewGridBased extends ilTEPView
 	 * @return string
 	 */
 	protected function renderDayContent($a_year, $a_month, $a_day, $a_user_id, $a_row_height, $a_col_width)
-	{	
+	{
 		$res = array();
 		
 		$date = date("Y-m-d", mktime(12, 0, 1, $a_month, $a_day, $a_year));
@@ -746,7 +779,7 @@ abstract class ilTEPViewGridBased extends ilTEPView
 		foreach($this->getDayEntries($a_user_id, $date) as $entry)
 		{
 			if($entry["start"] == $date || $a_day == 1)
-			{				
+			{
 				// restrict to current month
 				$start = date_parse($entry["start"]);
 				$end = date_parse($entry["end"]);
@@ -798,7 +831,7 @@ abstract class ilTEPViewGridBased extends ilTEPView
 				$etpl->setVariable("STYLE", $style);
 								
 				$res[] = $etpl->get();
-			}						
+			}
 		}
 
 		return implode("\n", $res);
@@ -894,7 +927,7 @@ abstract class ilTEPViewGridBased extends ilTEPView
 		$unique_id = $a_user_id."_".$date_id;
 		
 		if($a_user_id)
-		{						
+		{
 			$ilCtrl->setParameterByClass("ilTEPEntryGUI", "euid", $a_user_id);
 			$ilCtrl->setParameterByClass("ilTEPEntryGUI", "edt", $date_id);
 			
@@ -902,7 +935,7 @@ abstract class ilTEPViewGridBased extends ilTEPView
 
 			$actions = $this->renderDayActions($a_user_id, $unique_id, $createDecentral);
 			if($actions)
-			{															
+			{
 				$a_tpl->setCurrentBlock("col_actions_bl");
 			
 				// gev-patch start
@@ -916,16 +949,16 @@ abstract class ilTEPViewGridBased extends ilTEPView
 				// gev-patch end
 				
 				$a_tpl->parseCurrentBlock();
-			}	
+			}
 		}
 					
 		$a_tpl->setCurrentBlock("col_bl");
-		$a_tpl->setVariable("WRAPPER_WIDTH", static::COL_WIDTH-20);				
+		$a_tpl->setVariable("WRAPPER_WIDTH", static::COL_WIDTH-20);
 		$a_tpl->setVariable("COL", (bool)$a_force_empty 
 			? "&nbsp;"
 			: $this->renderDayContent($a_year, $a_month, $a_day, $a_user_id, static::DAY_HEIGHT, static::COL_WIDTH-39));
 		$a_tpl->setVariable("HOLIDAY_CLASS", $a_is_holiday ? "holiday" : "");
-		$a_tpl->parseCurrentBlock();		
+		$a_tpl->parseCurrentBlock();
 	}
 	
 	/**
@@ -958,7 +991,7 @@ abstract class ilTEPViewGridBased extends ilTEPView
 	{
 		global $ilCtrl;
 	
-		$this->prepareDataForPresentation();						
+		$this->prepareDataForPresentation();
 		
 		$tmpl = strtolower(substr(get_class($this), 9));
 		$tpl = new ilTemplate("tpl.view_".$tmpl.".html", true, true, "Services/TEP");
@@ -979,16 +1012,16 @@ abstract class ilTEPViewGridBased extends ilTEPView
 	}
 		
 	public function render()
-	{				
+	{
 		global $tpl;
 				
 		$tpl->addCss(ilUtil::getStyleSheetLocation("filesystem", "tep.css", "Services/TEP"));
 		$tpl->addJavaScript("Services/TEP/js/tep.js");
 				
-		$tep_tpl = new ilTemplate("tpl.view_grid.html", true, true, "Services/TEP");		
+		$tep_tpl = new ilTemplate("tpl.view_grid.html", true, true, "Services/TEP");
 		$tep_tpl->setVariable("NAV", $this->renderNavigation());
-		$tep_tpl->setVariable("FILTER", $this->renderFilter());								
-		$tep_tpl->setVariable("VIEW", $this->renderGrid());		
+		$tep_tpl->setVariable("FILTER", $this->renderFilter());
+		$tep_tpl->setVariable("VIEW", $this->renderGrid());
 		$tep_tpl->setVariable("LEGEND", $this->renderLegend());
 		
 		return $tep_tpl->get();
