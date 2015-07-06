@@ -18,6 +18,8 @@ class ilToolbarGUI
 	var $form_target = "";
 	var $form_name = "";
 
+	protected $prevent_double_submission = false;
+
 	function __construct()
 	{
 	
@@ -91,6 +93,26 @@ class ilToolbarGUI
 	function getId()
 	{
 		return $this->id;
+	}
+
+	/**
+	 * Set prevent double submission
+	 *
+	 * @param bool $a_val prevent double submission
+	 */
+	public function setPreventDoubleSubmission($a_val)
+	{
+		$this->prevent_double_submission = $a_val;
+	}
+
+	/**
+	 * Get prevent double submission
+	 *
+	 * @return bool prevent double submission
+	 */
+	public function getPreventDoubleSubmission()
+	{
+		return $this->prevent_double_submission;
 	}
 	
 	/**
@@ -398,6 +420,10 @@ class ilToolbarGUI
 				{
 					$tpl->setCurrentBlock("form_open");
 					$tpl->setVariable("FORMACTION", $this->getFormAction());
+					if($this->getPreventDoubleSubmission())
+					{
+						$tpl->setVariable("FORM_CLASS", "preventDoubleSubmission");
+					}
 					if ($this->multipart)
 					{
 						$tpl->setVariable("ENC_TYPE", 'enctype="multipart/form-data"');
