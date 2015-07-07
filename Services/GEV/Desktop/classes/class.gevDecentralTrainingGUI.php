@@ -163,7 +163,6 @@ class gevDecentralTrainingGUI {
 		$now = new ilDate(date('Y-m-d'), IL_CAL_DATE);
 		$nowUnix = $now->get(IL_CAL_UNIX);
 		
-		// ANDERES DATUMS VERGLEICH!!!
 		if($dateUnix < $nowUnix){
 			ilUtil::sendFailure($this->lng->txt("gev_dec_training_date_before_now"), false);
 			return $this->failCreateTraining($form_prev);
@@ -242,12 +241,25 @@ class gevDecentralTrainingGUI {
 		$mail_settings = new gevCrsAdditionalMailSettings($_POST["obj_id"]);
 		
 		$form = $this->buildTrainingOptionsForm(false, $_POST["obj_id"]);
-		
+
+		//gev patch start
 		$form->setValuesByPost();
-		
+
 		if (!$form->checkInput()) {
 			return $this->showSettings($form);
 		}
+		
+		$tmp = $form->getInput("date");
+		$date = new ilDate($tmp["date"], IL_CAL_DATE);
+		$dateUnix = $date->get(IL_CAL_UNIX);
+		$now = new ilDate(date('Y-m-d'), IL_CAL_DATE);
+		$nowUnix = $now->get(IL_CAL_UNIX);
+		
+		if($dateUnix < $nowUnix){
+			ilUtil::sendFailure($this->lng->txt("gev_dec_training_date_before_now"), false);
+			return $this->showSettings($form);
+		}
+		//gev patch end	
 		
 		if (!$this->access->checkAccess("write_reduced_settings", "", gevObjectUtils::getRefId($_POST["obj_id"]))) {
 			$this->log->write("gevDecentralTrainingGUI::updateSettings: User ".$this->current_user->getId()
