@@ -157,7 +157,7 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 		$this->tpl->setVariable("CUSTOM_ID", $a_set["custom_id"]);
 		$this->tpl->setVariable("TYPE", $a_set["type"]);
 		//$this->tpl->setVariable("CATEGORY", $a_set["category"]);
-		$this->tpl->setVariable("LOCATION", $a_set["location"]);
+		$this->tpl->setVariable("LOCATION", ($a_set["location"] != "") ? $a_set["location"] : $a_set["location_free_text"]);
 		$this->tpl->setVariable("DATE", $date);
 		
 		$this->tpl->setVariable("APDAYS", $apdays_str);

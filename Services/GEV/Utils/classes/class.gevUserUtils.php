@@ -418,6 +418,7 @@ class gevUserUtils {
 				 //, gevSettings::CRS_AMD_START_DATE => "status"
 				 , gevSettings::CRS_AMD_TYPE 				=> "type"
 				 , gevSettings::CRS_AMD_VENUE 				=> "location"
+				 , gevSettings::CRS_AMD_VENUE_FREE_TEXT 	=> "location_free_text"
 				 , gevSettings::CRS_AMD_CREDIT_POINTS 		=> "points"
 				 , gevSettings::CRS_AMD_FEE					=> "fee"
 				 , gevSettings::CRS_AMD_TARGET_GROUP_DESC	=> "target_group"
@@ -555,6 +556,7 @@ class gevUserUtils {
 				 , gevSettings::CRS_AMD_TYPE 				=> "type"
 				 
 				 , gevSettings::CRS_AMD_VENUE 				=> "location"
+				 , gevSettings::CRS_AMD_VENUE_FREE_TEXT 	=> "location_free_text"
 
 				 , gevSettings::CRS_AMD_MAX_PARTICIPANTS	=> "mbr_max"
 				 , gevSettings::CRS_AMD_MIN_PARTICIPANTS	=> "mbr_min"
