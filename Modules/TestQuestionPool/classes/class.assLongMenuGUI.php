@@ -63,7 +63,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 	public function writeQuestionSpecificPostData(ilPropertyFormGUI $form)
 	{
 			$longmenu_text = ilUtil::stripSlashesRecursive($_POST['longmenu_text']);
-			//$cloze_text = $this->removeIndizesFromGapText( $cloze_text );
+			//$longmenu_text = $this->removeIndizesFromGapText( $longmenu_text );
 			$_POST['longmenu_text'] = $longmenu_text;
 			$this->object->setQuestion($_POST['question_text']);
 			$this->object->setLongMenuTextValue($_POST["longmenu_text"]);
@@ -102,6 +102,13 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 		return $form;
 	}
 
+	public function removeIndizesFromGapText( $question_text )
+	{
+		$parts         = preg_split( '/\[Longmenu \d*\]/', $question_text );
+		$question_text = implode( '[Longmenu]', $parts );
+		return $question_text;
+	}
+	
 	/**
 	 * @param ilPropertyFormGUI $form
 	 * @return ilPropertyFormGUI
@@ -187,6 +194,8 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 		$modal->setBody('');
 		
 		$tpl = new ilTemplate("tpl.il_as_qpl_long_menu_gap.html", TRUE, TRUE, "Modules/TestQuestionPool");
+		$tpl->setVariable('CORRECT_ANSWERS', $this->object->getCorrectAnswers());
+		$tpl->setVariable('ALL_ANSWERS', $this->object->getAnswersObject());
 		$tpl->setVariable('SELECT_BOX', $this->lng->txt('insert_gap'));
 		$tpl->setVariable("SELECT", 	$this->lng->txt('select'));
 		$tpl->setVariable("TEXT", 		$this->lng->txt('text'));
@@ -233,125 +242,17 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 		$show_question_text = TRUE
 	)
 	{
-		$userdata = $this->object->getActiveUserData($active_id);
-
-		// generate the question output
-		include_once "./Services/UICore/classes/class.ilTemplate.php";
-		include_once "./Modules/Test/classes/class.ilObjTest.php";
-		$template = new ilTemplate("tpl.il_as_qpl_javaapplet_question_output_solution.html", TRUE, TRUE, "Modules/TestQuestionPool");
-		$solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
-		if (strlen($userdata["test_id"]))
-		{
-			
-		}
-		if (strlen($userdata["test_id"]))
-		{
-			
-		}
-		if (strlen($userdata["user_id"]))
-		{
-			
-		}
 		
-		$questiontext = $this->object->getQuestion();
-		if ($show_question_text==true)
-		{
-			$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
-		}
-		if (($active_id > 0) && (!$show_correct_solution))
-		{
-			if ($graphicalOutput)
-			{
-				// output of ok/not ok icons for user entered solutions
-				$reached_points = $this->object->getReachedPoints($active_id, $pass);
-				if ($reached_points == $this->object->getPoints())
-				{
-					$template->setCurrentBlock("icon_ok");
-					$template->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.svg"));
-					$template->setVariable("TEXT_OK", $this->lng->txt("answer_is_right"));
-					$template->parseCurrentBlock();
-				}
-				else
-				{
-					$template->setCurrentBlock("icon_ok");
-					if ($reached_points > 0)
-					{
-						$template->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_mostly_ok.svg"));
-						$template->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_not_correct_but_positive"));
-					}
-					else
-					{
-						$template->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_not_ok.svg"));
-						$template->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_wrong"));
-					}
-					$template->parseCurrentBlock();
-				}
-			}
-		}
-		$questionoutput = $template->get();
-		$feedback = ($show_feedback) ? $this->getAnswerFeedbackOutput($active_id, $pass) : "";
-		if (strlen($feedback)) $solutiontemplate->setVariable("FEEDBACK", $feedback);
-		$solutiontemplate->setVariable("SOLUTION_OUTPUT", $questionoutput);
-
-		$solutionoutput = $solutiontemplate->get();
-		if (!$show_question_only)
-		{
-			// get page object output
-			$solutionoutput = $this->getILIASPage($solutionoutput);
-		}
-		return $solutionoutput;
 	}
 
 	function getPreview($show_question_only = FALSE, $showInlineFeedback = false)
 	{
-		// generate the question output
-		include_once "./Services/UICore/classes/class.ilTemplate.php";
-		$template = new ilTemplate("tpl.il_as_qpl_javaapplet_question_output.html", TRUE, TRUE, "Modules/TestQuestionPool");
-		$questionoutput = $template->get();
-		if (!$show_question_only)
-		{
-			// get page object output
-			$questionoutput = $this->getILIASPage($questionoutput);
-		}
-		return $questionoutput;
+		
 	}
 
 	function getTestOutput($active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
 	{
-		$userdata = $this->object->getActiveUserData($active_id);
-		// generate the question output
-		include_once "./Services/UICore/classes/class.ilTemplate.php";
-		$template = new ilTemplate("tpl.il_as_qpl_javaapplet_question_output.html", TRUE, TRUE, "Modules/TestQuestionPool");
-	
-		include_once "./Modules/Test/classes/class.ilObjTest.php";
-		if (ilObjTest::_lookupAnonymity(ilObjTest::_getObjectIDFromTestID($userdata["test_id"])))
-		{
-			$template->setVariable("PARAM_VALUE", "0");
-		}
-		else
-		{
-			$template->setVariable("PARAM_VALUE", "1");
-		}
-		$template->parseCurrentBlock();
 		
-		if ($active_id)
-		{
-			$solutions = NULL;
-			include_once "./Modules/Test/classes/class.ilObjTest.php";
-			if (!ilObjTest::_getUsePreviousAnswers($active_id, true))
-			{
-				if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
-			}
-			$info = $this->object->getReachedInformation($active_id, $pass);
-			
-		}
-
-		$questiontext = $this->object->getQuestion();
-		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
-	
-		$questionoutput = $template->get();
-		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id, $questionoutput);
-		return $pageoutput;
 	}
 
 	/**

@@ -240,6 +240,48 @@ var GapInsertingWizard = (function () {
 				setCursorPositionTiny(inst,pos[1]);
 			}
 		});
+		/*tinymce_iframe_selector.keydown(function () {
+			//ToDo: find out why location function breaks keyboard input
+			 var inst = tinyMCE.activeEditor;
+			 var cursorPosition = getCursorPositionTiny(inst);
+			 var pos = cursorInGap(cursorPosition);
+			cursorPos = cursorPosition;
+			 if (pos[1] != -1) {
+			 setCursorPositionTiny(inst, pos[1]);
+			 //focusOnFormular(pos);
+			 }
+		});
+		tinymce_iframe_selector.keyup(function(e){
+			if(e.keyCode == 8 || e.keyCode == 46)
+			{
+				//checkTextAreaAgainstJson();
+			}
+		});
+		tinymce_iframe_selector.click(function () {
+			var inst = tinyMCE.activeEditor;
+			var cursorPosition = getCursorPositionTiny(inst, false);
+			cursorPos = cursorPosition;
+			var pos = cursorInGap(cursorPosition);
+			//checkTextAreaAgainstJson();
+			if (pos[1] != -1) {
+				setCursorPositionTiny(inst,pos[1]);
+				//focusOnFormular(pos);
+			}
+		});
+		tinymce_iframe_selector.blur(function () {
+			//checkTextAreaAgainstJson();
+		});*/
+		tinymce_iframe_selector.bind('paste', function (event){
+			event.preventDefault();
+			var clipboard_text = (event.originalEvent || event).clipboardData.getData('text/plain') || prompt('Paste something..');
+			clipboard_text = clipboard_text.replace(new RegExp("\\[" + pub.replacement_word + "[\\s\\S\\d]*?\\]", "g"), '[' +  pub.replacement_word  + ']');
+			var text = pub.getTextAreaValue();
+			var textBefore = text.substring(0,  cursorPos );
+			var textAfter  = text.substring(cursorPos, text.length );
+			setTextAreaValue(textBefore + clipboard_text + textAfter);
+			createNewGapCode();
+			cleanGapCode();
+		});
 	}
 	function bindTextareaHandler()
 	{

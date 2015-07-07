@@ -147,6 +147,20 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
 		parent::loadFromDb($question_id);
 	}
 	
+	function getAnswersObject()
+	{
+		$a = array(1,2,3,4,5,6,7,8,9,0);
+		$b = array(1,2,3,4,5,6,7,8,9,0);
+		return json_encode(array($a, $b));
+	}
+	
+	function getCorrectAnswers()
+	{
+		$a = array('correct_answers' => array(1,2,3));
+		$b = array('correct_answers' => array(9,0));
+		return json_encode(array($a, $b));
+	}
+
 	function duplicate($for_test = true, $title = "", $author = "", $owner = "", $testObjId = null)
 	{
 		if ($this->id <= 0)
