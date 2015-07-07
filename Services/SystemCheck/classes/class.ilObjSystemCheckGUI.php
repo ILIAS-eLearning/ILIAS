@@ -160,6 +160,7 @@ class ilObjSystemCheckGUI extends ilObjectGUI
 		$form->setTitle($this->lng->txt('sysc_administrate_deleted'));
 		
 		$action = new ilRadioGroupInputGUI($this->lng->txt('sysc_trash_action'), 'type');
+		$action->setRequired(TRUE);
 		
 		// Restore
 		$restore = new ilRadioOption($this->lng->txt('sysc_trash_restore'),  ilSystemCheckTrash::MODE_TRASH_RESTORE);
@@ -204,7 +205,7 @@ class ilObjSystemCheckGUI extends ilObjectGUI
 			$options[$obj_type] = $this->lng->txt('obj_'.$obj_type);
 		}
 		
-		sort($options);
+		asort($options);
 		
 		$types->setOptions($options);
 		$remove->addSubItem($types);
@@ -231,16 +232,23 @@ class ilObjSystemCheckGUI extends ilObjectGUI
 			$dt_arr = $form->getInput('age');
 			if($dt_arr['date'])
 			{
-				$trash->setAgeLimit(new ilDate($dt_arr['date'],IL_CAL_DATETIME));
+				$trash->setAgeLimit(new ilDate($dt_arr['date'],IL_CAL_DATE));
 			}
 			$trash->setNumberLimit($form->getInput('number'));
 			$trash->setTypesLimit((array) $form->getInput('types'));
 			$trash->setMode($form->getInput('type'));
 			$trash->start();
 			
-			$this->ctrl->redirect($this,'trash');
+			ilUtil::sendSuccess($this->lng->txt('settings_saved'),TRUE);
+			$form->setValuesByPost();
+			$this->trash($form);
+			return TRUE;
 		}
 		
+		ilUtil::sendFailure($this->lng->txt('err_check_input'));
+		$form->setValuesByPost();
+		$this->trash($form);
+		return FALSE;
 	}
 
 		

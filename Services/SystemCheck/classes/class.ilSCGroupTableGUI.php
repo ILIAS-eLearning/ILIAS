@@ -61,7 +61,7 @@ class ilSCGroupTableGUI extends ilTable2GUI
 		$list->setId('sysc_'.$row['id']);
 		$list->setListTitle($this->lng->txt('actions'));
 		
-		$list->addItem($a_title)
+		$list->addItem($a_title);
 
 		
 

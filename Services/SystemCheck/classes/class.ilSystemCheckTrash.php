@@ -1,8 +1,7 @@
 <?php
-
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
+ * @version           $Id$
  */
 class ilSystemCheckTrash
 {
@@ -16,7 +15,7 @@ class ilSystemCheckTrash
 	
 	public function __construct()
 	{
-		;
+		$this->limit_age = new ilDate(0, IL_CAL_UNIX);
 	}
 	
 	public function setNumberLimit($a_limit)
@@ -34,6 +33,10 @@ class ilSystemCheckTrash
 		$this->limit_age = $dt;
 	}
 	
+	/**
+	 * 
+	 * @return ilDateTime
+	 */
 	public function getAgeLimit()
 	{
 		return $this->limit_age;
@@ -61,14 +64,21 @@ class ilSystemCheckTrash
 	
 	public function start()
 	{
+		$GLOBALS['ilLog']->write(__METHOD__.': Handling delete');
 		switch($this->getMode())
 		{
 			case self::MODE_TRASH_RESTORE:
+				$GLOBALS['ilLog']->write(__METHOD__.': Restore trash to recovery folder');
 				$this->restore();
 				break;
 				
 			case self::MODE_TRASH_REMOVE:
-				
+				$GLOBALS['ilLog']->write(__METHOD__.': Remove selected from system.');
+				$GLOBALS['ilLog']->write(__METHOD__.': Type limit: '. print_r($this->getTypesLimit(),TRUE));
+				$GLOBALS['ilLog']->write(__METHOD__.': Age limit: '. (string) $this->getAgeLimit());
+				$GLOBALS['ilLog']->write(__METHOD__.': Number limit: '. (string) $this->getNumberLimit());
+				$this->removeSelectedFromSystem();
+				return TRUE;
 		}
 	}
 
@@ -79,49 +89,140 @@ class ilSystemCheckTrash
 	{
 		$deleted = $this->readDeleted();
 		
+		$GLOBALS['ilLog']->write(__METHOD__.': Found deleted : '.print_r($deleted,TRUE));
+		
 		$factory = new ilObjectFactory();
 		
-		foreach($deleted as $tree_id => $ref_id)
+		foreach($deleted as $tmp_num => $deleted_info)
 		{
-			$ref_obj = $factory->getInstanceByRefId($ref_id, FALSE);
+			$ref_obj = $factory->getInstanceByRefId($deleted_info['child'], FALSE);
 			if(!$ref_obj instanceof ilObject)
 			{
 				continue;
 			}
 
-			$GLOBALS['tree']->deleteNode($tree_id,$ref_id);
+			$GLOBALS['tree']->deleteNode($deleted_info['tree'],$deleted_info['child']);
+			$GLOBALS['ilLog']->write(__METHOD__.': Object tree entry deleted');
 			
 			if($ref_obj->getType() != 'rolf')
 			{
-				$GLOBALS['rbacadmin']->revokePermission($ref_id);
+				$GLOBALS['rbacadmin']->revokePermission($deleted_info['child']);
 				$ref_obj->putInTree(RECOVERY_FOLDER_ID);
 				$ref_obj->setPermissions(RECOVERY_FOLDER_ID);
+				$GLOBALS['ilLog']->write(__METHOD__.': Object moved to recovery folder');
 			}
-			break;
 		}
-		
 	}
 	
+	/**
+	 * remove (containers) from system
+	 */
+	protected function removeSelectedFromSystem()
+	{
+		$factory = new ilObjectFactory();
+
+		$deleted = $this->readSelectedDeleted();
+		foreach($deleted as $tmp_num => $deleted_info)
+		{
+			$sub_nodes = $this->readDeleted($deleted_info['tree']);
+			
+			foreach($sub_nodes as $tmp_num => $subnode_info)
+			{
+				$ref_obj = $factory->getInstanceByRefId($subnode_info['child'], FALSE);
+				if(!$ref_obj instanceof ilObject)
+				{
+					continue;
+				}
+				
+				$ref_obj->delete();
+				ilTree::_removeEntry($subnode_info['tree'],$subnode_info['child']);
+			}
+		}
+	}
 	
+	/**
+	 * read deleted according to filter settings
+	 */
+	protected function readSelectedDeleted()
+	{
+		global $ilDB;
+		
+		$and_types = '';
+		if($this->getTypesLimit())
+		{
+			$and_types = 'AND '.$ilDB->in('o.type', $this->getTypesLimit(),FALSE,'text').' ';
+		}
+		$and_age = '';
+		if($this->getAgeLimit()->get(IL_CAL_UNIX) >= 0)
+		{
+			$and_age = 'AND r.deleted > '.$ilDB->quote($this->getAgeLimit()->get(IL_CAL_DATETIME)).' ';
+		}
+		$limit = '';
+		if($this->getNumberLimit())
+		{
+			$limit = 'LIMIT '.(int) $this->getNumberLimit();
+		}
+		
+		$query = 'SELECT child,tree FROM tree t JOIN object_reference r ON child = r.ref_id '.
+				'JOIN object_data o on r.obj_id = o.obj_id '.
+				'WHERE tree < '.$ilDB->quote(0,'integer').' '.
+				'AND child = -tree ';
+		
+		$query .= $and_age;
+		$query .= $and_types;
+		$query .= 'ORDER BY depth desc ';
+		$query .= $limit;
+		
+		$GLOBALS['ilLog']->write($query);
+		
+		$deleted = array();
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$deleted[] = array(
+				'tree' => $row->tree,
+				'child' => $row->child
+			);
+		}
+		return $deleted;
+		
+	}
+
+
+
+
 	/**
 	 * Read deleted objects
 	 * @global type $ilDB
 	 * @return type
 	 */
-	protected function readDeleted()
+	protected function readDeleted($tree_id = null)
 	{
 		global $ilDB;
 		
 		$query = 'SELECT child,tree FROM tree t JOIN object_reference r ON child = r.ref_id '.
-				'JOIN object_data o on r.obj_id = o.obj_id '.
-				'WHERE tree < '.$ilDB->quote(0,'integer').' '.
-				'ORDER BY depth desc';
+				'JOIN object_data o on r.obj_id = o.obj_id ';
+		
+		if($tree_id === null)
+		{
+			$query .= 'WHERE tree < '.$ilDB->quote(0,'integer').' ';
+		}
+		else
+		{
+			$query .= 'WHERE tree = '.$ilDB->quote($tree_id,'integer').' ';
+		}
+		$query .= 'ORDER BY depth desc';
+		
 		$res = $ilDB->query($query);
+		$GLOBALS['ilLog']->write(__METHOD__.': '.$query);
 		
 		$deleted = array();
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$deleted[$row->tree] = $row->child;
+			$deleted[] = array(
+				'tree' => $row->tree,
+				'child' => $row->child
+			);
 		}
 		return $deleted;
 	}
