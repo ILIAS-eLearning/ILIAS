@@ -119,9 +119,11 @@ class ilCourseBookingHelper
 	 */
 	public function isBookingDeadlineReached()
 	{
-		$dl = $this->getBookingDeadline();
-		$now = new ilDateTime(time(), IL_CAL_UNIX);
-		return ($dl && ilDateTime::_before($dl, $now));
+		$dl = $this->getCourseStart();
+		$dlDate = $dl->get(IL_CAL_DATE);
+		$now = date("Y-m-d");
+
+		return $dlDate < $now;
 	}
 	
 	/**
