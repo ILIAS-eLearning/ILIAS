@@ -181,7 +181,8 @@ class ilTEPGUI
 						$gui = ilParticipationStatusAdminGUI::getInstanceByRefId($crs_ref_id);
 						$gui->from_foreign_class = 'ilTEPGUI';
 						$gui->crs_ref_id = $crs_ref_id;
-
+						$ilCtrl->saveParameterByClass("ilParticipationStatusAdminGUI", "ref_id", $crs_ref_id);	
+						$ilCtrl->saveParameterByClass("ilParticipationStatusAdminGUI", "crsrefid", $crs_ref_id);	
 						//$gui->returnToList();
 						//die('forwarding cmd');
 						$ret = $ilCtrl->forwardCommand($gui);
@@ -323,7 +324,7 @@ class ilTEPGUI
 			$crs_ref_id = $_GET['crsrefid'];
 		}
 
-		if(! $crs_ref_id){
+		if(! $crs_ref_id) {
 			throw new ilException("ilTEPGUI - needs course ref_id");
 		}
 		return $crs_ref_id;
