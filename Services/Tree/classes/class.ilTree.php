@@ -2732,6 +2732,30 @@ class ilTree
 		$ilDB->manipulate($query);
 	}
 	
+	/**
+	 * Lookup object types in trash
+	 * @global type $ilDB
+	 * @return type
+	 */
+	public function lookupTrashedObjectTypes()
+	{
+		global $ilDB;
+		
+		$query = 'SELECT DISTINCT(o.type) type FROM tree t JOIN object_reference r ON child = r.ref_id '.
+				'JOIN object_data o on r.obj_id = o.obj_id '.
+				'WHERE tree < '.$ilDB->quote(0,'integer').' '.
+				'AND child = -tree '.
+				'GROUP BY o.type';
+		$res = $ilDB->query($query);
+		
+		$types_deleted = array();
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$types_deleted[] = $row->type;
+		}
+		return $types_deleted;
+	}
+	
 	
 } // END class.tree
 ?>

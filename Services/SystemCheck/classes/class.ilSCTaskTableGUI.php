@@ -5,22 +5,35 @@
 include_once './Services/Table/classes/class.ilTable2GUI.php';
 
 /**
- * Table GUI for system check groups overview
+ * Table GUI for system check task overview
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  */
-class ilSCGroupTableGUI extends ilTable2GUI
+class ilSCTaskTableGUI extends ilTable2GUI
 {
 
+	private $group_id = 0;
+	
 	/**
 	 * Constructor
 	 * @param type $a_parent_obj
 	 * @param type $a_parent_cmd
 	 */
-	public function __construct($a_parent_obj, $a_parent_cmd = "")
+	public function __construct($a_group_id, $a_parent_obj, $a_parent_cmd = "")
 	{
+		$this->group_id = $a_group_id;
 		$this->setId('sc_groups');
+		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
+	}
+	
+	/**
+	 * Get group id
+	 * @return type
+	 */
+	public function getGroupId()
+	{
+		return $this->group_id;
 	}
 	
 	/**
@@ -30,15 +43,15 @@ class ilSCGroupTableGUI extends ilTable2GUI
 	{
 		global $ilCtrl, $lng;
 
-		$lng->loadLanguageModule('syscheck');
+		$lng->loadLanguageModule('sysc');
 		$this->addColumn($this->lng->txt('title'),'title','60%');
 		$this->addColumn($this->lng->txt('last_update'),'last_update_sort','20%');
 		$this->addColumn($this->lng->txt('status'),'status','10%');
 		$this->addColumn($this->lng->txt('actions'),'','10%');
 
-		$this->setTitle($this->lng->txt('syscheck_overview'));
+		$this->setTitle($this->lng->txt('sysc_task_overview'));
 
-		$this->setRowTemplate('tpl.syscheck_groups_row.html','Services/SystemCheck');
+		$this->setRowTemplate('tpl.syscheck_tasks_row.html','Services/SystemCheck');
 		$this->setFormAction($ilCtrl->getFormAction($this->getParentObject()));
 	}
 
@@ -61,7 +74,6 @@ class ilSCGroupTableGUI extends ilTable2GUI
 		$list->setId('sysc_'.$row['id']);
 		$list->setListTitle($this->lng->txt('actions'));
 		
-		$GLOBALS['ilCtrl']->setParameter($this->getParentObject(),'grp_id', $row['id']);
 		$list->addItem(
 				$this->lng->txt('show'),
 				'',
@@ -77,23 +89,21 @@ class ilSCGroupTableGUI extends ilTable2GUI
 	public function parse()
 	{
 		$data = array();
-		include_once './Services/SystemCheck/classes/class.ilSCGroups.php';
-		foreach(ilSCGroups::getInstance()->getGroups() as $group)
+		include_once './Services/SystemCheck/classes/class.ilSCTasks.php';
+		foreach(ilSCTasks::getInstanceByGroupId($this->getGroupId())->getTasks() as $task)
 		{
 			$item = array();
-			$item['id'] = $group->getId();
-			$item['title'] = $GLOBALS['lng']->txt($group->getTitle());
-			$item['description'] = $GLOBALS['lng']->txt($group->getDescription());
-			$item['last_update'] = ilDatePresentation::formatDate($group->getLastUpdate());
-			$item['last_update_sort'] = $group->getLastUpdate()->get(IL_CAL_UNIX);
-			$item['status'] = $group->getStatus();
+			$item['id'] = $task->getId();
+			$item['title'] = $GLOBALS['lng']->txt($task->getTitle());
+			$item['description'] = $GLOBALS['lng']->txt($task->getDescription());
+			$item['last_update'] = ilDatePresentation::formatDate($task->getLastUpdate());
+			$item['last_update_sort'] = $task->getLastUpdate()->get(IL_CAL_UNIX);
+			$item['status'] = $task->getStatus();
 			
 			$data[] = $item;
 		}
 		
 		$this->setData($data);
 	}
-	
-	
 }
 ?>

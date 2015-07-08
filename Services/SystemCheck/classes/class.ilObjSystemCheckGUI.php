@@ -10,7 +10,7 @@ include_once './Services/SystemCheck/classes/class.ilSystemCheckTrash.php';
 /**
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
  * @version           $Id$
- * @ilCtrl_Calls      ilObjSystemCheckGUI: ilPermissionGUI, ilObjectOwnershipManagmentGUI, ilObjSystemFolderGUI
+ * @ilCtrl_Calls      ilObjSystemCheckGUI: ilPermissionGUI, ilObjectOwnershipManagmentGUI, ilObjSystemFolderGUI, ilSCComponentTasksGUI
  * @ilCtrl_isCalledBy ilObjSystemCheckGUI: ilAdministrationGUI
  */
 class ilObjSystemCheckGUI extends ilObjectGUI
@@ -114,13 +114,13 @@ class ilObjSystemCheckGUI extends ilObjectGUI
 			$tabs_gui->addTarget('perm_settings', $this->ctrl->getLinkTargetByClass(array(get_class($this), 'ilpermissiongui'), 'perm'), array('perm', 'info', 'owner'), 'ilpermissiongui');
 		}
 	}
-
+	
 	/**
 	 * Show overview table
 	 */
 	protected function overview()
 	{
-		$this->setSubTabs(self::SECTION_MAIN, 'sc');
+		$this->setSubTabs(self::SECTION_MAIN, 'overview');
 		
 		
 		include_once 'Services/SystemCheck/classes/class.ilSCGroupTableGUI.php';
@@ -132,6 +132,26 @@ class ilObjSystemCheckGUI extends ilObjectGUI
 		$GLOBALS['tpl']->setContent($table->getHTML());
 		return true;
 	}
+	
+	/**
+	 * Show group tasks
+	 */
+	protected function showGroup()
+	{
+		$grp_id = (int) $_REQUEST['grp_id'];
+		$this->ctrl->saveParameter($this, 'grp_id');
+		
+		include_once 'Services/SystemCheck/classes/class.ilSCTaskTableGUI.php';
+		$table = new ilSCTaskTableGUI($grp_id,$this,'showGroup');
+		$table->init();
+		$table->parse();
+		
+		$GLOBALS['tpl']->setContent($table->getHTML());
+		return true;
+	}
+	
+	
+	
 
 	/**
 	 * Show trash form
@@ -193,7 +213,8 @@ class ilObjSystemCheckGUI extends ilObjectGUI
 		/*
 		 * @var ilObjDefinition
 		 */
-		$sub_objects = $GLOBALS['objDefinition']->getAllRepositoryTypes();
+		$sub_objects = $GLOBALS['tree']->lookupTrashedObjectTypes();
+		
 		$options = array();
 		$options[0] = '';
 		foreach($sub_objects as $obj_type)
@@ -262,10 +283,18 @@ class ilObjSystemCheckGUI extends ilObjectGUI
 		{
 			case self::SECTION_MAIN:
 				$GLOBALS['ilTabs']->addSubTab(
+						'',
+						$this->getLang()->txt('sysc_groups'),
+						$this->ctrl->getLinkTarget($this,'overview')
+				);
+
+				$GLOBALS['ilTabs']->addSubTab(
 						'sc',
 						$this->getLang()->txt('obj_sysc'),
 						$this->ctrl->getLinkTargetByClass('ilobjsystemfoldergui','check')
 				);
+				
+				
 //				$GLOBALS['ilTabs']->addSubTab(
 //						'no_owner',
 //						$this->getLang()->txt('system_check_no_owner'),
