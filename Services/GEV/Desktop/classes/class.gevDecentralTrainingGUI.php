@@ -168,7 +168,15 @@ class gevDecentralTrainingGUI {
 			return $this->failCreateTraining($form_prev);
 		}
 		
-		$template_id = intval($form_prev->getInput("template_id"));		
+		$venue = $form_prev->getInput("venue");
+		$venue_free_text = $form_prev->getInput("venue_free_text");
+		
+		if($venue && $venue_free_text) {
+			ilUtil::sendFailure($this->lng->txt("gev_dec_training_two_venues"), false);
+			return $this->failCreateTraining($form_prev);
+		}
+		
+		$template_id = intval($form_prev->getInput("template_id"));
 		$trainer_ids = unserialize(base64_decode($form_prev->getInput("trainer_ids")));
 		
 		$res = $dec_utils->create($this->current_user->getId(), $template_id, $trainer_ids);
@@ -257,6 +265,14 @@ class gevDecentralTrainingGUI {
 		
 		if($dateUnix < $nowUnix){
 			ilUtil::sendFailure($this->lng->txt("gev_dec_training_date_before_now"), false);
+			return $this->showSettings($form);
+		}
+
+		$venue = $form->getInput("venue");
+		$venue_free_text = $form->getInput("venue_free_text");
+		
+		if($venue && $venue_free_text) {
+			ilUtil::sendFailure($this->lng->txt("gev_dec_training_two_venues"), false);
 			return $this->showSettings($form);
 		}
 		//gev patch end	
