@@ -35,7 +35,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
 			$this->assertDirExists();
 			return $this->buildFolderName($this->getId()) . $gap_id . '.txt';
 		}
-		catch (Exception $e) {
+		catch (ilException $e) {
 			
 		}
 	}
@@ -654,13 +654,8 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
 		// TODO: Implement getExpressionTypes() method.
 	}
 	
-	public function setShuffleAnswersEnabled($shuffleAnswersEnabled)
-	{
-		$this->shuffleAnswersEnabled = $shuffleAnswersEnabled;
-	}
-
 	public function isShuffleAnswersEnabled()
 	{
-		return $this->shuffleAnswersEnabled;
+		return false;
 	}
 }
