@@ -611,3 +611,14 @@ https_settings#:#HTTPS Settings
 alert#:#Warning
 pre_opcache_comments#:#Set opcache.load_comments to 1
 pre_load_comments#:#PHP-OPCache load_comments
+memcache_servers#:#Nodes
+memcache_status#:#State
+memcache_host#:#Host
+memcache_port#:#Port
+memcache_weight#:#Weight
+memcache_actions#:#Actions
+memcache_edit#:#Edit node
+memcache_add#:#Add node
+memcache_delete#:#Delete node
+memcache_cancel#:#Cancel
+memcache_update#:#Save node

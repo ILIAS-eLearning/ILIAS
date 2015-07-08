@@ -31,8 +31,8 @@ class ilGlobalCache {
 	 * @var array
 	 */
 	protected static $types = array(
-		//		self::TYPE_MEMCACHED,
-		//		self::TYPE_XCACHE,
+		self::TYPE_MEMCACHED,
+//		self::TYPE_XCACHE,
 		self::TYPE_APC,
 		self::TYPE_STATIC
 	);
@@ -89,7 +89,7 @@ class ilGlobalCache {
 	 */
 	protected static function getComponentType($component = NULL) {
 		$component = 0; // In this Version All Components have the same Caching-Type
-		if (!isset(self::$type_per_component[$component])) {
+		if (! isset(self::$type_per_component[$component])) {
 			/**
 			 * @var $ilClientIniFile ilIniFile
 			 */
@@ -113,7 +113,7 @@ class ilGlobalCache {
 	 * @return ilGlobalCache
 	 */
 	public static function getInstance($component) {
-		if (!isset(self::$instances[$component])) {
+		if (! isset(self::$instances[$component])) {
 			$service_type = self::getComponentType($component);
 			$ilGlobalCache = new self($service_type, $component);
 
@@ -128,7 +128,7 @@ class ilGlobalCache {
 	 * @return string
 	 */
 	protected static function generateServiceId() {
-		if (!isset(self::$unique_service_id)) {
+		if (! isset(self::$unique_service_id)) {
 			self::$unique_service_id = substr(md5('il_' . CLIENT_ID), 0, 6);
 		}
 
@@ -137,6 +137,8 @@ class ilGlobalCache {
 
 
 	public static function flushAll() {
+		global $ilLog;
+		$ilLog->write('ilGlobalCache requested a flushAll();');
 		/**
 		 * @var $service  ilApc
 		 */
@@ -144,7 +146,9 @@ class ilGlobalCache {
 			$serviceName = self::lookupServiceName($type);
 			$service = new $serviceName(self::generateServiceId(), 'flush');
 			if ($service->isActive()) {
-				$service->flush();
+				$ilLog->write('Told ' . $serviceName . ' to flush');
+				$returned = $service->flush();
+				$ilLog->write($serviceName . ' returned status ' . ($returned ? 'ok' : 'failure'));
 			}
 		}
 	}
@@ -220,7 +224,7 @@ class ilGlobalCache {
 	 * @return bool
 	 */
 	public function isActive() {
-		if (!self::ACTIVE) {
+		if (! self::ACTIVE) {
 
 			return false;
 		}
@@ -235,7 +239,7 @@ class ilGlobalCache {
 		} else {
 			return false;
 		}
-		if (!$this->getActive()) {
+		if (! $this->getActive()) {
 			return false;
 		}
 
@@ -284,7 +288,7 @@ class ilGlobalCache {
 	 * @return bool
 	 */
 	public function exists($key) {
-		if (!$this->global_cache->isActive()) {
+		if (! $this->global_cache->isActive()) {
 			return false;
 		}
 
@@ -301,7 +305,7 @@ class ilGlobalCache {
 	 * @return bool
 	 */
 	public function set($key, $value, $ttl = NULL) {
-		if (!$this->isActive()) {
+		if (! $this->isActive()) {
 			return false;
 		}
 		$this->global_cache->setValid($key);
@@ -317,7 +321,7 @@ class ilGlobalCache {
 	 * @return mixed
 	 */
 	public function get($key) {
-		if (!$this->isActive()) {
+		if (! $this->isActive()) {
 			return false;
 		}
 		$unserialized_return = $this->global_cache->unserialize($this->global_cache->get($key));
@@ -342,7 +346,7 @@ class ilGlobalCache {
 	 * @return bool
 	 */
 	public function delete($key) {
-		if (!$this->isActive()) {
+		if (! $this->isActive()) {
 
 			return false;
 			throw new RuntimeException(self::MSG);
