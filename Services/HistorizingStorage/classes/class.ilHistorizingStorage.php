@@ -372,8 +372,11 @@ abstract class ilHistorizingStorage
 		$cases = self::getCaseIdsByPartialCase($a_case_id);
 		if (count($cases) > 1 && $mass_modification_allowed == false)
 		{
-			throw new Exception( 'Illegal call: Case-Id '.implode(", ", $a_case_id).' does not point to a unique record in '
+			global $ilLog;
+			$ilLog->write('Illegal call: Case-Id '.implode(", ", $a_case_id).' does not point to a unique record in '
 								.static::getHistorizedTableName().'.');
+			/*throw new Exception( 'Illegal call: Case-Id '.implode(", ", $a_case_id).' does not point to a unique record in '
+								.static::getHistorizedTableName().'.');*/
 		}
 
 		if ( count($cases) == 0 && $mass_modification_allowed == false)
