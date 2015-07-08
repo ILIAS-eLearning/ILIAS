@@ -294,16 +294,31 @@ class ilAdvancedMDRecord
 			$a_sub_type = "-";
 		}
 		
+		// object-wide metadata configuration setting		
+		include_once 'Services/Container/classes/class.ilContainer.php';
+		include_once 'Services/Object/classes/class.ilObjectServiceSettingsGUI.php';			
+		$config_setting = ilContainer::_lookupContainerSetting(
+			$a_obj_id,
+			ilObjectServiceSettingsGUI::CUSTOM_METADATA,
+			false);		
+		
 		$optional = array();
 		foreach(self::_getActivatedRecordsByObjectType($a_obj_type, $a_sub_type) as $record)
 		{
 			foreach($record->getAssignedObjectTypes() as $item)
-			{
-				// only matching local records
-				if($record->getParentObject() &&
-					$record->getParentObject() != $a_obj_id)
+			{				
+				if($record->getParentObject())
 				{
-					continue;
+					// only matching local records
+					if($record->getParentObject() != $a_obj_id)
+					{
+						continue;
+					}
+					// if object-wide setting is off, ignore local records
+					else if(!$config_setting)
+					{
+						continue;
+					}
 				}
 				
 				if($item['obj_type'] == $a_obj_type &&
@@ -320,13 +335,7 @@ class ilAdvancedMDRecord
 		
 		if($optional)
 		{
-			// object-wide metadata configuration setting
-			include_once 'Services/Container/classes/class.ilContainer.php';
-			include_once 'Services/Object/classes/class.ilObjectServiceSettingsGUI.php';			
-			if(!ilContainer::_lookupContainerSetting(
-				$a_obj_id,
-				ilObjectServiceSettingsGUI::CUSTOM_METADATA,
-				false))
+			if(!$config_setting)
 			{
 				$selected = array();
 			}
