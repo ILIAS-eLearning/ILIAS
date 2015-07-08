@@ -24,6 +24,22 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
 		return $this->answerType;
 	}
 
+	private function buildFolderName()
+	{
+		return ilUtil::getDataDir() . '/assessment/longMenuQuestion/' . $this->getId() . '/' ;
+	}
+	private function buildFileName($gap_id)
+	{
+		try
+		{
+			$this->assertDirExists();
+			return $this->buildFolderName($this->getId()) . $gap_id . '.txt';
+		}
+		catch (Exception $e) {
+			
+		}
+	}
+
 	/**
 	 * @param mixed $answerType
 	 */
@@ -110,6 +126,67 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
 				$this->getLongMenuTextValue()
 			)
 		);
+		$this->createFileFromArray();
+	}
+	
+	private function createFileFromArray()
+	{
+		$array = json_decode(ilUtil::stripSlashes($_POST['hidden_text_files']));
+		$this->clearFolder();
+		foreach($array as $gap => $values)
+		{
+			$file_content = '';
+			if(is_array($values))
+			{
+				foreach($values as $key => $value)
+				{
+					$file_content .= $value . '\n';
+				}
+				$file_content = rtrim($file_content, '\n'); 
+				$file = fopen($this->buildFileName($gap), "w");
+				fwrite($file, $file_content);
+				fclose($file);
+			}
+		}
+	}
+
+	private function createArrayFromFile()
+	{
+		$answers = array();
+		$dir = $this->buildFolderName();
+		$dir_h = opendir($dir);
+		while($file = readdir($dir_h))
+		{
+			if ($file != "." and
+				$file != "..")
+			{
+				$gap					= str_replace('.txt', '', $file);
+				$answers[(int) $gap] 	= explode('\n', file_get_contents($dir . $file));
+			}
+		}
+		return $answers;
+	}
+	
+	private function clearFolder()
+	{
+		ilUtil::delDir($this->buildFolderName(), true);
+	}
+	private function assertDirExists()
+	{
+		$folder_name = $this->buildFolderName();
+		if(!ilUtil::makeDirParents($folder_name))
+		{
+			throw new ilException('Cannot create export directory');
+		}
+
+		if(
+			!is_dir($folder_name) ||
+			!is_readable($folder_name) ||
+			!is_writable($folder_name)
+		)
+		{
+			throw new ilException('Cannot create export directory');
+		}
 	}
 	
 	public function loadFromDb($question_id)
@@ -149,6 +226,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
 	
 	function getAnswersObject()
 	{
+		return json_encode($this->createArrayFromFile());
 		$a = array(1,2,3,4,5,6,7,8,9,0);
 		$b = array(1,2,3,4,5,6,7,8,9,0);
 		return json_encode(array($a, $b));
