@@ -432,7 +432,7 @@ class ilCourseBookingAdminGUI
 	{
 		global $tpl, $lng, $ilCtrl;
 		
-		$grp_obj_id = $_REQUEST["grp"];		
+		$grp_obj_id = $_REQUEST["grp"];
 		if($grp_obj_id)
 		{
 			$ilCtrl->setParameter($this, "grp", $grp_obj_id);
@@ -442,12 +442,12 @@ class ilCourseBookingAdminGUI
 			$members = ilGroupParticipants::_getInstanceByObjId($grp_obj_id);
 			$user_ids = $members->getMembers();
 			if(sizeof($user_ids))
-			{								
+			{
 				$this->setTabs("listBookings");
 				
 				require_once "Services/CourseBooking/classes/class.ilCourseBookingSearchResultsTableGUI.php";
 				$tbl = new ilCourseBookingSearchResultsTableGUI($this, "assignMembersFromGroup", $user_ids, ilCourseBooking::STATUS_BOOKED);
-														
+
 				$tbl->setFormAction($ilCtrl->getFormAction($this, "assignMembersConfirm"));
 				$tbl->addCommandButton("assignMembersConfirm", $lng->txt("add"));
 				$tbl->addCommandButton("listBookings", $lng->txt("cancel"));
@@ -460,11 +460,11 @@ class ilCourseBookingAdminGUI
 			}
 		}
 		
-		$form = $this->initAddGroupForm();		
+		$form = $this->initAddGroupForm();
 		if(!$grp_obj_id)
 		{
 			$form->checkInput();
-		}		
+		}
 		$form->setValuesByPost();
 		$this->addGroup($form);
 	}
@@ -829,7 +829,7 @@ class ilCourseBookingAdminGUI
 		{
 			if(!ilObjectFactory::getInstanceByObjId($user_id, false))
 			{								
-				continue;				
+				continue;
 			}
 			
 			if(!$helper->isBookable($user_id))
@@ -871,7 +871,14 @@ class ilCourseBookingAdminGUI
 					if(!$addMailSettings->getSuppressMails()) {
 						require_once("Services/GEV/Mailing/classes/class.gevCrsAutoMails.php");
 						$automails = new gevCrsAutoMails($this->getCourse()->getId());
-						$automails->sendDeferred("admin_booking_to_booked", array($user_id));
+						
+						require_once "Services/GEV/Utils/classes/class.gevCourseUtils.php";
+						$crs_ultils = gevCourseUtils::getInstance($this->getCourse()->getId());
+
+						if(!$crs_ultils->isDecentralTraining()) {
+							$automails->sendDeferred("admin_booking_to_booked", array($user_id));
+						}
+						
 						$automails->sendDeferred("invitation", array($user_id));
 					}
 					
