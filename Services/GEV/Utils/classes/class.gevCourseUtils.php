@@ -1946,7 +1946,7 @@ class gevCourseUtils {
 		$worksheet->setColumn(0, 0, 10);		// gender
 		$worksheet->setColumn(1, 1, 12); 	// firstname
 		$worksheet->setColumn(2, 2, 12);	// lastname
-		$worksheet->setColumn(3, 3, 20);	// org-unit
+		$worksheet->setColumn(3, 3, 25);	// org-unit
 		
 		if($a_type == self::MEMBERLIST_HOTEL)
 		{
@@ -1974,7 +1974,7 @@ class gevCourseUtils {
 			$worksheet->setColumn(5, 5, 10);
 			$worksheet->setColumn(6, 6, 14);
 			$worksheet->setColumn(7, 7, 12);
-			$worksheet->setColumn(8, 8, 10);
+			$worksheet->setColumn(8, 8, 12);
 		}
 
 		$row = $this->buildListMeta( $workbook
