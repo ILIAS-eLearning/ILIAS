@@ -92,26 +92,6 @@ class ilAdvancedMDRecordGUI
 	}
 	
 	/**
-	 * Set selected only flag
-	 *
-	 * @param boolean $a_val retrieve only records, that are selected by the object	
-	 */
-	function setSelectedOnly($a_val)
-	{
-		$this->selected_only = $a_val;
-	}
-	
-	/**
-	 * Get selected only flag
-	 *
-	 * @return boolean retrieve only records, that are selected by the object
-	 */
-	function getSelectedOnly()
-	{
-		return $this->selected_only;
-	}
-	
-	/**
 	 * Get HTML
 	 *
 	 * @access public
@@ -157,21 +137,11 @@ class ilAdvancedMDRecordGUI
 	 * Parse property form in editor mode
 	 */
 	protected function parseEditor()
-	{	 	
-	 	include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
-		if ($this->getSelectedOnly())
-		{
-			$recs = ilAdvancedMDRecord::_getSelectedRecordsByObject($this->obj_type, $this->obj_id, $this->sub_type);
-		}
-		else
-		{
-			$recs = ilAdvancedMDRecord::_getActivatedRecordsByObjectType($this->obj_type, $this->sub_type);
-		}
-
+	{	 		 	
 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');		
 		$this->editor_form = array();
 		
-	 	foreach($recs as $record_obj)
+	 	foreach($this->getActiveRecords() as $record_obj)
 	 	{
 			/* :TODO:
 			if($this->handleECSDefinitions($def))
@@ -274,20 +244,11 @@ class ilAdvancedMDRecordGUI
 		// current usage: wiki page element "[amd] page list"
 		
 		$this->lng->loadLanguageModule('search');
-		
-	 	include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');		
+			 	
 	 	include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');			
-		if ($this->getSelectedOnly())
-		{
-			$recs = ilAdvancedMDRecord::_getSelectedRecordsByObject($this->obj_type, $this->obj_id, $this->sub_type);
-		}
-		else
-		{
-			$recs = ilAdvancedMDRecord::_getActivatedRecordsByObjectType($this->obj_type, $this->sub_type);
-		}
 		
 		$this->search_form = array();
-		foreach($recs as $record)
+		foreach($this->getActiveRecords() as $record)
 		{ 			
 			$section = new ilFormSectionHeaderGUI();
 			$section->setTitle($record->getTitle());
@@ -639,6 +600,12 @@ class ilAdvancedMDRecordGUI
 	{
 		return $this->row_data;
 	}
+		
+	protected function getActiveRecords()
+	{
+		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
+		return ilAdvancedMDRecord::_getSelectedRecordsByObject($this->obj_type, $this->obj_id, $this->sub_type);
+	}
 	
 	/**
 	 * Parse property for filter (table)
@@ -647,21 +614,11 @@ class ilAdvancedMDRecordGUI
 	 * 
 	 */
 	private function parseFilter()
-	{	 
-	 	include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
-		if ($this->getSelectedOnly())
-		{
-			$recs = ilAdvancedMDRecord::_getSelectedRecordsByObject($this->obj_type, $this->obj_id, $this->sub_type);
-		}
-		else
-		{
-			$recs = ilAdvancedMDRecord::_getActivatedRecordsByObjectType($this->obj_type, $this->sub_type);
-		}
-		
+	{	 	 	
 		$this->adt_search = array();
 		
 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
-	 	foreach($recs as $record_obj)
+	 	foreach($this->getActiveRecords() as $record_obj)
 	 	{			
 			$record_id = $record_obj->getRecordId();
 			
@@ -747,19 +704,8 @@ class ilAdvancedMDRecordGUI
 	 * Parse property for table head
 	 */
 	private function parseTableHead()
-	{
-	 	global $ilUser;
-	 	
-	 	include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
-		if ($this->getSelectedOnly())
-		{
-			$recs = ilAdvancedMDRecord::_getSelectedRecordsByObject($this->obj_type, $this->obj_id, $this->sub_type);
-		}
-		else
-		{
-			$recs = ilAdvancedMDRecord::_getActivatedRecordsByObjectType($this->obj_type, $this->sub_type);
-		}
-	 	foreach($recs as $record_obj)
+	{	 	
+	 	foreach($this->getActiveRecords() as $record_obj)
 	 	{
 	 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
 	 		foreach(ilAdvancedMDFieldDefinition::_getDefinitionsByRecordId($record_obj->getRecordId()) as $def)
@@ -778,23 +724,12 @@ class ilAdvancedMDRecordGUI
 	 * Parse table cells
 	 */
 	private function parseTableCells()
-	{
-	 	global $ilUser;
-	 	
+	{	 	
 	 	$data = $this->getRowData();
 	 	
 	 	$html = "";
 	 	
-	 	include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
-		if ($this->getSelectedOnly())
-		{
-			$recs = ilAdvancedMDRecord::_getSelectedRecordsByObject($this->obj_type, $this->obj_id, $this->sub_type);
-		}
-		else
-		{
-			$recs = ilAdvancedMDRecord::_getActivatedRecordsByObjectType($this->obj_type, $this->sub_type);
-		}
-	 	foreach($recs as $record_obj)
+	 	foreach($this->getActiveRecords() as $record_obj)
 	 	{
 	 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
 	 		foreach(ilAdvancedMDFieldDefinition::_getDefinitionsByRecordId($record_obj->getRecordId()) as $def)

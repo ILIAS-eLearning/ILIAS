@@ -196,8 +196,7 @@ class ilGlossaryTermGUI
 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
 		$this->record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_EDITOR,'glo',$this->glossary->getId(),'term',
 			$this->term->getId());
-		$this->record_gui->setPropertyForm($form);
-		$this->record_gui->setSelectedOnly(true);
+		$this->record_gui->setPropertyForm($form);		
 		$this->record_gui->parse();
 		
 		$form->addCommandButton("updateTerm", $this->lng->txt("save"));

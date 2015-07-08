@@ -1,0 +1,9 @@
+<!-- language file start -->
+meta#:#meta_obj_type_inactive#:#Not Used
+meta#:#meta_obj_type_mandatory#:#Mandatory
+meta#:#meta_obj_type_optional#:#Optional
+common#:#obj_tool_setting_custom_metadata#:#Custom Metadata
+common#:#obj_tool_setting_custom_metadata_info#:#If activated metadata can be configured.
+meta#:#meta_section#:#Section
+meta#:#meta_tab_lom#:#LOM
+meta#:#meta_tab_advmd#:#Custom Metadata

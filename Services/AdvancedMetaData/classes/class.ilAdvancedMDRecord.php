@@ -169,7 +169,6 @@ class ilAdvancedMDRecord
 		}
 
 		return $types;
-	 	return array('cat','crs','rcrs');
 	}
 	
 	/**
@@ -247,7 +246,7 @@ class ilAdvancedMDRecord
 	 *
 	 * @param string obj_type
 	 */
-	public static function _getActivatedRecordsByObjectType($a_obj_type, $a_sub_type = "")
+	public static function _getActivatedRecordsByObjectType($a_obj_type, $a_sub_type = "", $a_only_optional = false)
 	{
 		global $ilDB;		
 
@@ -263,6 +262,11 @@ class ilAdvancedMDRecord
 			"WHERE active = 1 ".
 			"AND obj_type = ".$ilDB->quote($a_obj_type ,'text')." ".
 			"AND sub_type = ".$ilDB->quote($a_sub_type ,'text');
+		
+		if($a_only_optional)
+		{
+			$query .= " AND optional =".$ilDB->quote(1, 'integer');
+		}
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -281,9 +285,7 @@ class ilAdvancedMDRecord
 	 * @param string $a_sub_type sub type
 	 */
 	public static function _getSelectedRecordsByObject($a_obj_type, $a_obj_id, $a_sub_type = "")
-	{
-		global $ilDB;		
-
+	{		
 		$records = array();
 		
 		if ($a_sub_type == "")
@@ -291,6 +293,49 @@ class ilAdvancedMDRecord
 			$a_sub_type = "-";
 		}
 		
+		$optional = array();
+		foreach(self::_getActivatedRecordsByObjectType($a_obj_type, $a_sub_type) as $record)
+		{
+			foreach($record->getAssignedObjectTypes() as $item)
+			{
+				if($item['obj_type'] == $a_obj_type &&
+					$item['sub_type'] == $a_sub_type)
+				{
+					if($item['optional'])
+					{
+						$optional[] = $record->getRecordId();
+					}
+					$records[$record->getRecordId()] = $record;
+				}
+			}
+		}
+		
+		if($optional)
+		{
+			// object-wide metadata configuration setting
+			include_once 'Services/Container/classes/class.ilContainer.php';
+			include_once 'Services/Object/classes/class.ilObjectServiceSettingsGUI.php';			
+			if(!ilContainer::_lookupContainerSetting(
+				$a_obj_id,
+				ilObjectServiceSettingsGUI::CUSTOM_METADATA,
+				false))
+			{
+				$selected = array();
+			}
+			else
+			{
+				$selected = self::getObjRecSelection($a_obj_id, $a_sub_type);
+			}
+			foreach($optional as $record_id)
+			{
+				if(!in_array($record_id, $selected))
+				{
+					unset($records[$record_id]);
+				}
+			}
+		}
+		
+		/* v1 obsolete		
 		$query = "SELECT amro.record_id record_id FROM adv_md_record_objs amro ".
 			"JOIN adv_md_record amr ON (amr.record_id = amro.record_id) ".
 			"JOIN adv_md_obj_rec_select os ON (amr.record_id = os.rec_id AND amro.sub_type = os.sub_type) ".
@@ -305,7 +350,8 @@ class ilAdvancedMDRecord
 		{
 			$records[] = self::_getInstanceByRecordId($row->record_id);
 		}
-
+		*/
+		
 		return $records;
 	}
 	
@@ -386,11 +432,12 @@ class ilAdvancedMDRecord
 	 	{
 	 		global $ilDB;
 
-	 		$query = "INSERT INTO adv_md_record_objs (record_id,obj_type,sub_type) ".
+	 		$query = "INSERT INTO adv_md_record_objs (record_id,obj_type,sub_type,optional) ".
 	 			"VALUES( ".
 	 			$this->db->quote($this->getRecordId() ,'integer').", ".
 	 			$this->db->quote($type["obj_type"] ,'text').", ".
-	 			$this->db->quote($type["sub_type"] ,'text')." ".
+	 			$this->db->quote($type["sub_type"] ,'text').", ".
+	 			$this->db->quote($type["optional"] ,'integer')." ".
 	 			")";
 			$res = $ilDB->manipulate($query);
 	 	}
@@ -421,11 +468,12 @@ class ilAdvancedMDRecord
 	 	// Insert assignments
 	 	foreach($this->getAssignedObjectTypes() as $type)
 	 	{
-	 		$query = "INSERT INTO adv_md_record_objs (record_id,obj_type, sub_type) ".
+	 		$query = "INSERT INTO adv_md_record_objs (record_id,obj_type,sub_type,optional) ".
 	 			"VALUES ( ".
 	 			$this->db->quote($this->getRecordId() ,'integer').", ".
 	 			$this->db->quote($type["obj_type"] ,'text').", ".
-	 			$this->db->quote($type["sub_type"] ,'text')." ".
+	 			$this->db->quote($type["sub_type"] ,'text').", ".
+	 			$this->db->quote($type["optional"] ,'integer')." ".
 	 			")";
 			$res = $ilDB->manipulate($query);
 	 	}
@@ -572,9 +620,13 @@ class ilAdvancedMDRecord
 	 * @param string ilias object type
 	 * 
 	 */
-	public function appendAssignedObjectType($a_obj_type, $a_sub_type)
+	public function appendAssignedObjectType($a_obj_type, $a_sub_type, $a_optional = false)
 	{
-	 	$this->obj_types[] = array("obj_type"=>$a_obj_type, "sub_type"=>$a_sub_type);
+	 	$this->obj_types[] = array(
+			"obj_type"=>$a_obj_type, 
+			"sub_type"=>$a_sub_type,
+			"optional"=>(bool)$a_optional
+		);
 	}
 	
 	/**
@@ -606,8 +658,7 @@ class ilAdvancedMDRecord
 		}
 		return false;
 	}
-	
-	
+		
 	/**
 	 * To Xml.
 	 * This method writes only the subset Record (including all fields)
@@ -626,13 +677,14 @@ class ilAdvancedMDRecord
 	 	
 	 	foreach($this->getAssignedObjectTypes() as $obj_type)
 	 	{
+			$optional = array("optional"=>$obj_type["optional"]);
 	 		if ($obj_type["sub_type"] == "")
 	 		{
-	 			$writer->xmlElement('ObjectType',null,$obj_type["obj_type"]);
+	 			$writer->xmlElement('ObjectType',$optional,$obj_type["obj_type"]);
 	 		}
 	 		else
 	 		{
-	 			$writer->xmlElement('ObjectType',null,$obj_type["obj_type"].":".$obj_type["sub_type"]);
+	 			$writer->xmlElement('ObjectType',$optional,$obj_type["obj_type"].":".$obj_type["sub_type"]);
 	 		}
 	 	}
 	 	
@@ -670,8 +722,11 @@ class ilAdvancedMDRecord
 	 	$res = $this->db->query($query);
 	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	 	{
-	 		$this->obj_types[] = array("obj_type" => $row->obj_type,
-	 			"sub_type" => $row->sub_type);
+	 		$this->obj_types[] = array(
+				"obj_type" => $row->obj_type,
+	 			"sub_type" => $row->sub_type,
+				"optional" => (bool)$row->optional
+			);
 	 	}
 	}
 	

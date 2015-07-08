@@ -1,0 +1,9 @@
+<!-- language file start -->
+meta#:#meta_obj_type_inactive#:#Inaktiv
+meta#:#meta_obj_type_mandatory#:#Verpflichtend
+meta#:#meta_obj_type_optional#:#Optional
+common#:#obj_tool_setting_custom_metadata#:#Benutzerdefinierte Metadaten
+common#:#obj_tool_setting_custom_metadata_info#:#Wenn aktiviert können Metadaten konfiguriert werden.
+meta#:#meta_section#:#Bereich
+meta#:#meta_tab_lom#:#LOM
+meta#:#meta_tab_advmd#:#Benutzerdefinierte Metadaten

@@ -20,7 +20,7 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
 * @ilCtrl_Calls ilObjCourseGUI: ilCourseParticipantsGroupsGUI, ilExportGUI, ilCommonActionDispatcherGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilDidacticTemplateGUI, ilCertificateGUI, ilObjectServiceSettingsGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilContainerStartObjectsGUI, ilContainerStartObjectsPageGUI
-* @ilCtrl_Calls ilObjCourseGUI: ilLOPageGUI
+* @ilCtrl_Calls ilObjCourseGUI: ilLOPageGUI, ilAdvancedMDSettingsGUI
 *
 * @extends ilContainerGUI
 */
@@ -938,7 +938,8 @@ class ilObjCourseGUI extends ilContainerGUI
 					ilObjectServiceSettingsGUI::CALENDAR_VISIBILITY,
 					ilObjectServiceSettingsGUI::NEWS_VISIBILITY,
 					ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,				
-					ilObjectServiceSettingsGUI::TAG_CLOUD
+					ilObjectServiceSettingsGUI::TAG_CLOUD,
+					ilObjectServiceSettingsGUI::CUSTOM_METADATA
 				)
 			);
 			
@@ -1303,7 +1304,8 @@ class ilObjCourseGUI extends ilContainerGUI
 					ilObjectServiceSettingsGUI::CALENDAR_VISIBILITY,
 					ilObjectServiceSettingsGUI::NEWS_VISIBILITY,
 					ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,
-					ilObjectServiceSettingsGUI::TAG_CLOUD
+					ilObjectServiceSettingsGUI::TAG_CLOUD,
+					ilObjectServiceSettingsGUI::CUSTOM_METADATA
 				)
 			);
 
@@ -4186,8 +4188,22 @@ class ilObjCourseGUI extends ilContainerGUI
 				$md_gui->addObserver($this->object,'MDUpdateListener','General');
 
 				$this->ctrl->forwardCommand($md_gui);
-				$this->tabs_gui->setTabActive('meta_data');
+				$this->tabs_gui->setTabActive('meta_data');				
+				$this->handleMetadataSubTabs(true);
 				break;
+				
+			case 'iladvancedmdsettingsgui':
+				if(!$ilAccess->checkAccess('write','',$this->object->getRefId()) ||
+					!$this->object->hasAdvancedMDSettings())
+				{
+					$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->WARNING);
+				}				
+				include_once 'Services/AdvancedMetaData/classes/class.ilAdvancedMDSettingsGUI.php';
+				$advmdgui = new ilAdvancedMDSettingsGUI($this->object->getId(), "crs");				
+				$this->ctrl->forwardCommand($advmdgui);
+				$this->tabs_gui->setTabActive('meta_data');				
+				$this->handleMetadataSubTabs(true, true);
+				break;				
 
 			case 'ilcourseregistrationgui':
 				$this->ctrl->setReturn($this,'');

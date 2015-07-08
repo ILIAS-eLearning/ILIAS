@@ -2068,6 +2068,36 @@ class ilObjectGUI
 			$a_new_obj->update();
 		}		
 	}
+	
+	/**
+	 * Handle metadata sub tabs
+	 * 
+	 * @param bool $a_supports_lom
+	 * @param bool $a_is_advmd_call
+	 */
+	protected function handleMetadataSubTabs($a_supports_lom = false, $a_is_advmd_call = false)
+	{
+		global $ilTabs;
+	
+		if((bool)$a_supports_lom)
+		{
+			$ilTabs->addSubTab("lom",			
+				$this->lng->txt("meta_tab_lom"),
+				$this->ctrl->getLinkTargetByClass("ilmdeditorgui", "listSection")
+			);
+		}
+				
+		if($this->object->hasAdvancedMDSettings())
+		{
+			$ilTabs->addSubTab("advmd",
+				$this->lng->txt("meta_tab_advmd"),
+				$this->ctrl->getLinkTargetByClass("iladvancedmdsettingsgui", "showRecords"));
+		}		
+		
+		$ilTabs->activateSubTab($a_is_advmd_call
+			? "advmd"
+			: "lom");
+	}
 
 } // END class.ilObjectGUI (3.10: 2896 loc)
 

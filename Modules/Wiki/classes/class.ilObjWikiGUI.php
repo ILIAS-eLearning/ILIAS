@@ -16,6 +16,7 @@ require_once "./Modules/Wiki/classes/class.ilObjWiki.php";
 * @ilCtrl_Calls ilObjWikiGUI: ilPublicUserProfileGUI, ilObjStyleSheetGUI
 * @ilCtrl_Calls ilObjWikiGUI: ilExportGUI, ilCommonActionDispatcherGUI
 * @ilCtrl_Calls ilObjWikiGUI: ilRatingGUI, ilWikiPageTemplateGUI, ilWikiStatGUI
+* @ilCtrl_Calls ilObjWikiGUI: ilAdvancedMDSettingsGUI
 */
 class ilObjWikiGUI extends ilObjectGUI
 {
@@ -182,6 +183,16 @@ class ilObjWikiGUI extends ilObjectGUI
 				$wptgui = new ilWikiPageTemplateGUI($this);
 				$this->ctrl->forwardCommand($wptgui);
 				break;
+			
+			case 'iladvancedmdsettingsgui':
+				$this->checkPermission("write");	
+				$this->addHeaderAction();
+				$ilTabs->activateTab("settings");
+				$this->setSettingsSubTabs("advmd");		
+				include_once 'Services/AdvancedMetaData/classes/class.ilAdvancedMDSettingsGUI.php';
+				$advmdgui = new ilAdvancedMDSettingsGUI($this->object->getId(), "wiki", "wpg");				
+				$this->ctrl->forwardCommand($advmdgui);				
+				break;		
 
 			default:
 				$this->addHeaderAction();
@@ -476,7 +487,7 @@ class ilObjWikiGUI extends ilObjectGUI
 		// wiki tabs
 		if (in_array($ilCtrl->getCmdClass(), array("", "ilobjwikigui",
 			"ilinfoscreengui", "ilpermissiongui", "ilexportgui", "ilratingcategorygui",
-			"ilwikistatgui", "ilwikipagetemplategui"
+			"ilwikistatgui", "ilwikipagetemplategui", "iladvancedmdsettingsgui"
 			)))
 		{	
 			if ($_GET["page"] != "")
@@ -552,12 +563,20 @@ class ilObjWikiGUI extends ilObjectGUI
 
 		if (in_array($a_active,
 			array("general_settings", "style", "imp_pages", "rating_categories",
-			"page_templates")))
+			"page_templates", "advmd")))
 		{
 			// general properties
 			$ilTabs->addSubTab("general_settings",
 				$lng->txt("wiki_general_settings"),
 				$ilCtrl->getLinkTarget($this, 'editSettings'));
+			
+			// metadata
+			if($this->object->hasAdvancedMDSettings())
+			{
+				$ilTabs->addSubTab("advmd",
+					$this->lng->txt("meta_data"),
+					$this->ctrl->getLinkTargetByClass("iladvancedmdsettingsgui", ""));
+			}
 				
 			// style properties
 			$ilTabs->addSubTab("style",
@@ -720,12 +739,21 @@ class ilObjWikiGUI extends ilObjectGUI
 		$this->form_gui->addItem($page_toc);
 		
 		if($a_mode == "edit")
-		{
-			// advanced metadata
-			include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
-			$record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_REC_SELECTION,'wiki',$this->object->getId(), "wpg");
-			$record_gui->setPropertyForm($this->form_gui);
-			$record_gui->parseRecordSelection($this->lng->txt("wiki_add_page_properties"));
+		{			
+			// additional features
+			$feat = new ilFormSectionHeaderGUI();
+			$feat->setTitle($this->lng->txt('obj_features'));
+			$this->form_gui->addItem($feat);
+
+			include_once './Services/Container/classes/class.ilContainer.php';
+			include_once './Services/Object/classes/class.ilObjectServiceSettingsGUI.php';
+			ilObjectServiceSettingsGUI::initServiceSettingsForm(
+					$this->object->getId(),
+					$this->form_gui,
+					array(						
+						ilObjectServiceSettingsGUI::CUSTOM_METADATA
+					)
+				);			
 		}
 		
 		// :TODO: sorting
@@ -831,11 +859,15 @@ class ilObjWikiGUI extends ilObjectGUI
 //				$this->object->setImportantPages($this->form_gui->getInput("imp_pages"));
 				$this->object->setPageToc($this->form_gui->getInput("page_toc"));
 				$this->object->update();
-				
-				// update metadata record selection
-				include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
-				$record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_REC_SELECTION,'wiki',$this->object->getId(), "wpg");
-				$record_gui->saveSelection();
+							
+				include_once './Services/Object/classes/class.ilObjectServiceSettingsGUI.php';
+				ilObjectServiceSettingsGUI::updateServiceSettingsForm(
+					$this->object->getId(),
+					$this->form_gui,
+					array(
+						ilObjectServiceSettingsGUI::CUSTOM_METADATA
+					)
+				);
 				
 				// Update ecs export settings
 				include_once 'Modules/Wiki/classes/class.ilECSWikiSettings.php';	

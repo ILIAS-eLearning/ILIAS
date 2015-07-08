@@ -226,7 +226,7 @@ class ilWikiAdvMetaDataBlockGUI extends ilBlockGUI
 	}
 	
 	public static function isActive($a_wiki_obj_id)
-	{		
+	{				
 		return (bool)sizeof(self::getRecords($a_wiki_obj_id));	
 	}
 }
