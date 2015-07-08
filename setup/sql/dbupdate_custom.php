@@ -12,3 +12,16 @@ if (!$ilDB->tableColumnExists('adv_md_record_objs', 'optional'))
 }
 	
 ?>
+<#2>
+<?php
+
+if (!$ilDB->tableColumnExists('adv_md_record', 'parent_obj'))
+{
+	$ilDB->addTableColumn('adv_md_record', 'parent_obj', array(
+		"type" => "integer",
+		"notnull" => false,
+		"length" => 4
+	));
+}
+	
+?>

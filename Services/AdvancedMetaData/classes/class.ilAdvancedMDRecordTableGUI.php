@@ -63,7 +63,7 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
 	public function fillRow($a_set)
 	{		
 		// assigned object types
-		if(!$a_set["readonly"])
+		if(!$a_set["readonly"] && !$a_set["local"])
 		{
 			$disabled = !$a_set["perm"][ilAdvancedMDPermissionHelper::ACTION_RECORD_EDIT_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_RECORD_OBJECT_TYPES];			
 			$options = array(

@@ -187,8 +187,7 @@ class ilObjWikiGUI extends ilObjectGUI
 			case 'iladvancedmdsettingsgui':
 				$this->checkPermission("write");	
 				$this->addHeaderAction();
-				$ilTabs->activateTab("settings");
-				$this->setSettingsSubTabs("advmd");		
+				$ilTabs->activateTab("advmd");					
 				include_once 'Services/AdvancedMetaData/classes/class.ilAdvancedMDSettingsGUI.php';
 				$advmdgui = new ilAdvancedMDSettingsGUI($this->object->getId(), "wiki", "wpg");				
 				$this->ctrl->forwardCommand($advmdgui);				
@@ -518,9 +517,17 @@ class ilObjWikiGUI extends ilObjectGUI
 			{
 				$ilTabs->addTab("settings",
 					$lng->txt("settings"),
-					$this->ctrl->getLinkTarget($this, "editSettings"));
+					$this->ctrl->getLinkTarget($this, "editSettings"));				
+							
+				// metadata
+				if($this->object->hasAdvancedMDSettings())
+				{
+					$ilTabs->addTab("advmd",
+						$this->lng->txt("meta_data"),
+						$this->ctrl->getLinkTargetByClass("iladvancedmdsettingsgui", ""));
+				}				
 			}			
-
+			
 			// contributors
 			if ($ilAccess->checkAccess('write', "", $this->object->getRefId()))
 			{
@@ -570,14 +577,6 @@ class ilObjWikiGUI extends ilObjectGUI
 				$lng->txt("wiki_general_settings"),
 				$ilCtrl->getLinkTarget($this, 'editSettings'));
 			
-			// metadata
-			if($this->object->hasAdvancedMDSettings())
-			{
-				$ilTabs->addSubTab("advmd",
-					$this->lng->txt("meta_data"),
-					$this->ctrl->getLinkTargetByClass("iladvancedmdsettingsgui", ""));
-			}
-				
 			// style properties
 			$ilTabs->addSubTab("style",
 				$lng->txt("wiki_style"),

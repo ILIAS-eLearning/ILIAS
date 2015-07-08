@@ -23,6 +23,7 @@ class ilAdvancedMDRecord
 	protected $description;
 	protected $obj_types = array();
 	protected $db = null;
+	protected $parent_obj; // [int]
 	
 	/**
 	 * Singleton constructor
@@ -298,6 +299,13 @@ class ilAdvancedMDRecord
 		{
 			foreach($record->getAssignedObjectTypes() as $item)
 			{
+				// only matching local records
+				if($record->getParentObject() &&
+					$record->getParentObject() != $a_obj_id)
+				{
+					continue;
+				}
+				
 				if($item['obj_type'] == $a_obj_type &&
 					$item['sub_type'] == $a_sub_type)
 				{
@@ -408,13 +416,14 @@ class ilAdvancedMDRecord
 	 	// Save import id if given
 	 	$next_id = $ilDB->nextId('adv_md_record');
 	 	
-	 	$query = "INSERT INTO adv_md_record (record_id,import_id,active,title,description) ".
+	 	$query = "INSERT INTO adv_md_record (record_id,import_id,active,title,description,parent_obj) ".
 	 		"VALUES(".
 	 		$ilDB->quote($next_id,'integer').", ".
 			$this->db->quote($this->getImportId(),'text').", ".
 	 		$this->db->quote($this->isActive() ,'integer').", ".
 	 		$this->db->quote($this->getTitle() ,'text').", ".
-	 		$this->db->quote($this->getDescription() ,'text')." ".
+	 		$this->db->quote($this->getDescription() ,'text').", ".
+	 		$this->db->quote($this->getParentObject() ,'integer')." ".
 	 		")";
 		$res = $ilDB->manipulate($query);
 	 	$this->record_id = $next_id;
@@ -658,7 +667,17 @@ class ilAdvancedMDRecord
 		}
 		return false;
 	}
-		
+	
+	function setParentObject($a_obj_id)
+	{		
+		$this->parent_obj = $a_obj_id;
+	}
+	
+	function getParentObject()
+	{		
+		return $this->parent_obj;
+	}
+	
 	/**
 	 * To Xml.
 	 * This method writes only the subset Record (including all fields)
@@ -716,6 +735,7 @@ class ilAdvancedMDRecord
 			$this->setActive($row->active);
 			$this->setTitle($row->title);
 			$this->setDescription($row->description);
+			$this->setParentObject($row->parent_obj);
 		}
 		$query = "SELECT * FROM adv_md_record_objs ".
 	 		"WHERE record_id = ".$this->db->quote($this->getRecordId() ,'integer')." ";
