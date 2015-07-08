@@ -126,6 +126,11 @@ class gevSettings {
 								 , gevSettings::ORG_TYPE_PROVIDER
 								 , gevSettings::ORG_TYPE_DEFAULT
 								 );
+
+		static $dbv_hot_topics = array("3D Pflegevorsorge"
+								 , "Rente Profil Plus"
+								 , "bAV"
+								 );
 	
 	// AMD für alle Org-Units (vgl. Konzept, Abschnitte Veranstaltungsorte, Anbieter)
 	// Straße
