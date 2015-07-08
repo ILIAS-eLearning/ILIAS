@@ -91,8 +91,4 @@ class ilTEPOrgUnitSelectionInputGUI extends ilExplorerSelectInputGUI
 				
 		return $res.$rcrsv->getTableFilterHTML();
 	}
-	
-	function handleExplorerCommand() {
-		
-	}
 }

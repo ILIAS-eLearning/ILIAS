@@ -241,6 +241,7 @@ class gevDesktopGUI {
 			case "toDBVReportSuperior":
 			case "toWBDErrors":
 			case "createHAUnit":
+			case "handleExplorerCommand":
 				$this->$a_cmd();
 			default:
 				throw new Exception("Unknown command: ".$a_cmd);
@@ -330,7 +331,10 @@ class gevDesktopGUI {
 		$this->ctrl->setParameterByClass("gevBookingGUI", "crs_id", $crs_id);
 		$this->ctrl->redirectByClass("gevBookingGUI", "book");
 	}
-
+	
+	protected function handleExplorerCommand() {
+		
+	}
 	
 	protected function checkProfileComplete($cmd, $next_class) {
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
