@@ -32,14 +32,14 @@ class updateCrsHistoryHotTopics {
 	}
 
 	public function updateRow() {
-		$sql = 	"UPDATE hist_course SET dbv_hot_topic = ? WHERE title = ? AND is_template = ? AND hist_historic = 0";
+		$sql = 	"UPDATE hist_course SET dbv_hot_topic = ? WHERE (title = ? OR template_title = ?) AND hist_historic = 0";
 		$statement = $this->db->prepareManip($sql,array("text","text","text"));
 		while($this->csv) {
 			if($this->csv[2] == "-") {
 				$this->nextCsv();
 				continue;
 			}
-			$this->db->execute($statement,array($this->csv[2],$this->csv[0],$this->csv[1]));
+			$this->db->execute($statement,array($this->csv[2],$this->csv[0], $this->csv[0]));
 			$this->nextCsv();
 		}
 		$sql = 	"SELECT crs_id, dbv_hot_topic FROM hist_course"
