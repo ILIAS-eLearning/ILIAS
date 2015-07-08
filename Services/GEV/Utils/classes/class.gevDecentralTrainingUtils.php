@@ -211,7 +211,8 @@ class gevDecentralTrainingUtils {
 		if (!$trgt_ref_id) {
 			throw new Exception("gevDecentralTrainingUtils::create: <br />"
 								."User has no permission to create training in the category with ref_id = ".$parent
-								." or user has no permission to copy template course with ref_id = ".$info["ref_id"]);
+								." or user has no permission to copy template course with ref_id = ".$info["ref_id"]
+								." or anything unexpected happens in gevDecentralTrainingUtils::create.");
 		}
 		
 		$trgt_obj_id = gevObjectUtils::getObjId($trgt_ref_id);
