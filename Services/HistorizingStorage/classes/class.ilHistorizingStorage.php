@@ -428,7 +428,7 @@ abstract class ilHistorizingStorage
 				|| $key == "hist_historic" || $key == "hist_version") {
 				continue;
 			}
-			
+
 			if ($a_new_data[$key] === null || $a_new_data[$key] === "") {
 				switch($col_def[$key]) {
 					case "date":
@@ -446,12 +446,12 @@ abstract class ilHistorizingStorage
 						break;
 				}
 
-				if ($a_current_data[$key] != $value) {
+				if ($a_current_data[$key] !== $value) {
 					return true;
 				}
 			}
 			else {
-				if ($a_current_data[$key] != $a_new_data[$key]) {
+				if ($a_current_data[$key] !== $a_new_data[$key]) {
 					return true;
 				}
 			}
