@@ -49,6 +49,7 @@ class ilMemcacheServerTableGUI extends ilTable2GUI {
 		$server = ilMemcacheServer::find($a_set['id']);
 
 		$this->tpl->setVariable('STATUS', $server->isActive() ? ilUtil::getImagePath('icon_ok.svg') : ilUtil::getImagePath('icon_not_ok.svg'));
+		$this->tpl->setVariable('STATUS_SERVER', $server->isReachable() ? ilUtil::getImagePath('icon_ok.svg') : ilUtil::getImagePath('icon_not_ok.svg'));
 		$this->tpl->setVariable('HOST', $server->getHost());
 		$this->tpl->setVariable('PORT', $server->getPort());
 		$this->tpl->setVariable('WEIGHT', $server->getWeight());
@@ -81,6 +82,7 @@ class ilMemcacheServerTableGUI extends ilTable2GUI {
 
 	protected function initColumns() {
 		$this->addColumn($this->txt('status'), '', '25px');
+		$this->addColumn($this->txt('status_server'), '', '25px');
 		$this->addColumn($this->txt('host'), '');
 		$this->addColumn($this->txt('port'), '');
 		$this->addColumn($this->txt('weight'), '');

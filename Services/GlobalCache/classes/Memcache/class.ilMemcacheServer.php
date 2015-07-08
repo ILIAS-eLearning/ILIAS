@@ -32,6 +32,19 @@ class ilMemcacheServer extends ActiveRecord {
 
 
 	/**
+	 * @return bool
+	 */
+	public function isReachable() {
+		$mem = new Memcached();
+		$mem->resetServerList();
+		$mem->addServer($this->getHost(), $this->getPort(), $this->getWeight());
+		$stats = $mem->getStats();
+
+		return $stats[$this->getHost() . ':' . $this->getPort()]['pid'] > 0;
+	}
+
+
+	/**
 	 * @var int
 	 *
 	 * @con_is_primary true

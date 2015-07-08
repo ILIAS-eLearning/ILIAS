@@ -622,3 +622,4 @@ memcache_add#:#Add node
 memcache_delete#:#Delete node
 memcache_cancel#:#Cancel
 memcache_update#:#Save node
+memcache_status_server#:#Reachable
