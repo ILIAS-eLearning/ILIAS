@@ -16,6 +16,7 @@ class ilObjectMetaDataGUI
 	protected $obj_type; // [string]
 	protected $sub_type; // [string]
 	protected $sub_id; // [int]
+	protected $md_observers; // [array]
 	
 	/**
 	 * Construct
@@ -54,8 +55,17 @@ class ilObjectMetaDataGUI
 			case 'ilmdeditorgui':										
 				$this->setSubTabs("lom");					
 				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
-				$md_gui = new ilMDEditorGUI($this->obj_id, (int)$this->sub_id, $this->getLOMType());
-				if(!$this->sub_id)
+				$md_gui = new ilMDEditorGUI($this->obj_id, (int)$this->sub_id, $this->getLOMType());	
+				// custom observers?
+				if(is_array($this->md_observers))
+				{
+					foreach($this->md_observers as $observer)
+					{
+						$md_gui->addObserver($observer["class"], $observer["method"], $observer["section"]);
+					}
+				}
+				// "default" repository object observer
+				else if(!$this->sub_id)
 				{
 					$md_gui->addObserver($this->object, 'MDUpdateListener', 'General');
 				}
@@ -75,6 +85,15 @@ class ilObjectMetaDataGUI
 				break;
 		}
 	}	
+	
+	public function addMDObserver($a_class, $a_method, $a_section)
+	{
+		$this->md_observers[] = array(
+			"class" => $a_class,
+			"method" => $a_method,
+			"section" => $a_section				
+		);
+	}
 	
 	protected function getLOMType()
 	{
@@ -104,19 +123,25 @@ class ilObjectMetaDataGUI
 	}
 	
 	protected function isLOMAvailable()
-	{			
+	{		
+		$type = $this->getLOMType();
+		if($type == $this->sub_type)
+		{
+			$type = $this->obj_type.":".$type;
+		}
+		
 		return ($this->obj_id &&
-			in_array($this->getLOMType(), array(
+			in_array($type, array(
 				"crs", 
 				"file", 
-				"glo", "gdf", 
+				"glo", "glo:gdf", 
 				"svy", "spl", 
 				"tst", "qpl", 
 				"mob", 
 				"webr", 
 				"htlm", 
-				"lm", 
-				"sahs"
+				"lm", "lm:pg",
+				"sahs", "sahs:page"
 		)));
 	}
 	

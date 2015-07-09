@@ -927,14 +927,12 @@ return;
 				//$this->setTabs();
 				$ilTabs->setTabActive("meta_data");				
 				include_once 'Services/Object/classes/class.ilObjectMetaDataGUI.php';
-				$md_gui = new ilObjectMetaDataGUI($this->meta_data_rep_obj, $this->meta_data_type, $this->meta_data_sub_obj_id);	
-				/*
+				$md_gui = new ilObjectMetaDataGUI($this->meta_data_rep_obj, $this->meta_data_type, $this->meta_data_sub_obj_id);				
 				if (is_object($this->meta_data_observer_obj))
 				{
-					$md_gui->addObserver($this->meta_data_observer_obj,
+					$md_gui->addMDObserver($this->meta_data_observer_obj,
 						$this->meta_data_observer_func, "General");
-				}
-				*/				
+				}							
 				$this->ctrl->forwardCommand($md_gui);
 				break;
 			
