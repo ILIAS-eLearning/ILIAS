@@ -2123,22 +2123,5 @@ class ilObject
 		}
 		return false;
 	}	
-	
-	/**
-	 * Are there any advanced md settings to be made on the object-level?
-	 * 
-	 * @return bool
-	 */
-	public function hasAdvancedMDSettings()
-	{					
-		include_once 'Services/Container/classes/class.ilContainer.php';
-		include_once 'Services/Object/classes/class.ilObjectServiceSettingsGUI.php';
-		
-		return ilContainer::_lookupContainerSetting(
-			$this->getId(),
-			ilObjectServiceSettingsGUI::CUSTOM_METADATA,
-			false);	
-	}			
-	
 } // END class.ilObject
 ?>

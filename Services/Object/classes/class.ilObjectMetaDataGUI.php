@@ -14,6 +14,7 @@ class ilObjectMetaDataGUI
 	protected $obj_id; // [int]
 	protected $obj_type; // [string]
 	protected $sub_type; // [string]
+	protected $sub_id; // [int]
 	
 	/**
 	 * Construct
@@ -164,10 +165,64 @@ class ilObjectMetaDataGUI
 		$ilTabs->activateSubTab($a_active);
 	}
 	
-	protected function edit()
+	
+	//
+	// (VALUES) EDITOR
+	// 
+	
+	protected function initEditForm()
 	{
+		global $ilCtrl, $lng;
 		
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($ilCtrl->getFormAction($this, "update"));				
+		$form->setTitle($lng->txt("meta_tab_advmd"));
 		
+		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
+		$this->record_gui = new ilAdvancedMDRecordGUI(
+			ilAdvancedMDRecordGUI::MODE_EDITOR, 
+			$this->obj_type, 
+			$this->obj_id, 
+			$this->sub_type, 
+			$this->sub_id
+		);
+		$this->record_gui->setPropertyForm($form);
+		$this->record_gui->parse();
+		
+		$form->addCommandButton("update", $lng->txt("save"));
+		
+		return $form;
+	}
+	
+	protected function edit(ilPropertyFormGUI $a_form = null)
+	{
+		global $tpl;
+		
+		if(!$a_form)
+		{
+			$a_form = $this->initEditForm();
+		}
+		
+		$tpl->setContent($a_form->getHTML());		
+	}
+	
+	protected function update()
+	{
+		global $lng, $ilCtrl;
+		
+		$form = $this->initEditForm();
+		if($form->checkInput() &&
+			$this->record_gui->importEditFormPostValues())
+		{
+			$this->record_gui->writeEditForm();
+			
+			ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+			$ilCtrl->redirect($this, "edit");
+		}
+		
+		$form->setValuesByPost();
+		$this->edit($form);
 	}
 }
 
