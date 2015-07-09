@@ -293,16 +293,16 @@ abstract class ilTEPViewGridBased extends ilTEPView
 		if($this->getPermissions()->mayViewOthers())
 		{
 			// org unit(s)
-			$orgs = ilTEP::getViewableOrgUnits($this->getPermissions());
+			$orgs = ilTEP::getViewableOrgUnitsSeperated($this->getPermissions());
+
 			if($orgs)
 			{
 				require_once "Services/TEP/classes/class.ilTEPOrgUnitSelectionInputGUI.php";
 				$ogrp = new ilTEPOrgUnitSelectionInputGUI($orgs, "tepflt_orgu", true);
 				$ogrp->setValue($filter["orgu"]["ids"]);
 				$ogrp->setRecursive($filter["orgu"]["rcrsv"]);
-						
 				$tpl->setVariable("ORGU_CAPTION", $lng->txt("objs_orgu"));
-				$tpl->setVariable("ORGU_FIELD", $ogrp->getTableFilterHTML());	
+				$tpl->setVariable("ORGU_FIELD", $ogrp->getTableFilterHTML());
 			}
 			
 			// tutor 
@@ -313,7 +313,7 @@ abstract class ilTEPViewGridBased extends ilTEPView
 				$tutor->setValue($filter["tutor"]);
 				$tutor->addCustomAttribute(' onchange="this.form.submit();"');
 				$tpl->setVariable("TUTOR_CAPTION", $lng->txt("tep_filter_tutor"));
-				$tpl->setVariable("TUTOR_FIELD", $tutor->getToolbarHTML());		
+				$tpl->setVariable("TUTOR_FIELD", $tutor->getToolbarHTML());
 			}
 		}
 

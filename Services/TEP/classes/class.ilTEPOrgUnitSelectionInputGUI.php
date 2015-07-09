@@ -45,13 +45,11 @@ class ilTEPOrgUnitSelectionInputGUI extends ilExplorerSelectInputGUI
 		$id = "ousel".md5($a_postvar);
 		
 		$this->explorer_gui = new ilTEPOrgUnitExplorerGUI($id, array("ilformpropertydispatchgui", "ilteporgunitselectioninputgui"), $this->getExplHandleCmd(), $tree, $a_root_node_ref_id);
-		$this->explorer_gui->setTypeWhiteList(array( "orgu" ));
 		$this->explorer_gui->setSelectMode($a_postvar."_sel", $this->multi_nodes);
-		$this->explorer_gui->setSkipRootNode(true);		
-		$this->explorer_gui->setSelectableOrgUnitIds(array_keys($a_org_units));
+		$this->explorer_gui->setSkipRootNode(true);
+		$this->explorer_gui->setSelectableOrgUnitIds($a_org_units);
 
 		parent::__construct($lng->txt("objs_orgu"), $a_postvar, $this->explorer_gui, $this->multi_nodes);
-		// $this->setType("orgu_select");		
 	}
 	
 	public function setRecursive($a_value)
@@ -61,7 +59,13 @@ class ilTEPOrgUnitSelectionInputGUI extends ilExplorerSelectInputGUI
 	
 	function getTitleForNodeId($a_id)
 	{
-		return $this->org_unit_map[$a_id];
+		foreach ($this->org_unit_map as $key => $value) {
+			if(array_key_exists($a_id, $value)) {
+				return $value[$a_id]["title"];
+			}
+		}
+
+		return "";
 	}
 	
 	function render($a_mode = "property_form")
@@ -84,11 +88,6 @@ class ilTEPOrgUnitSelectionInputGUI extends ilExplorerSelectInputGUI
 		// gev-patch end
 		$res .= parent::render();
 		
-		$rcrsv = new ilCheckboxInputGUI("", $this->getPostVar()."_rcrsv");
-		$rcrsv->setOptionTitle($lng->txt("tep_filter_orgu_rcrsv"));
-		$rcrsv->setValue(1);
-		$rcrsv->setChecked($this->rcrsv);
-				
-		return $res.$rcrsv->getTableFilterHTML();
+		return $res;
 	}
 }
