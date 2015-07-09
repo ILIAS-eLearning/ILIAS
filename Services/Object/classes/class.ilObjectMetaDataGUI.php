@@ -205,7 +205,11 @@ class ilObjectMetaDataGUI
 				$ilTabs->addSubTab("advmddef",
 					$lng->txt("meta_tab_advmd_def"),
 					$ilCtrl->getLinkTargetByClass("iladvancedmdsettingsgui", "showRecords"));
-			}		
+			}	
+			
+			$ilTabs->addSubTab("md_adv_file_list",
+				$lng->txt("md_adv_file_list"),
+				$ilCtrl->getLinkTargetByClass("iladvancedmdsettingsgui", "showFiles"));
 		}
 		
 		$ilTabs->activateSubTab($a_active);

@@ -320,7 +320,7 @@ class ilAdvancedMDSettingsGUI
 	 	$xml_writer->write();
 	 	
 	 	include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordExportFiles.php');
-	 	$export_files = new ilAdvancedMDRecordExportFiles();
+	 	$export_files = new ilAdvancedMDRecordExportFiles($this->obj_id);
 	 	$export_files->create($xml_writer->xmlDumpMem());
 	 	
 	 	ilUtil::sendSuccess($this->lng->txt('md_adv_records_exported'));
@@ -339,7 +339,7 @@ class ilAdvancedMDSettingsGUI
 		$this->tabs_gui->setSubTabActive('md_adv_file_list');
 		
 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordExportFiles.php');
-		$files = new ilAdvancedMDRecordExportFiles();
+		$files = new ilAdvancedMDRecordExportFiles($this->obj_id);
 		$file_data = $files->readFilesInfo();
 
 		include_once("./Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordExportFilesTableGUI.php");
@@ -371,7 +371,7 @@ class ilAdvancedMDSettingsGUI
 	 	}
 	 	
 	 	include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordExportFiles.php');
-	 	$files = new ilAdvancedMDRecordExportFiles();
+	 	$files = new ilAdvancedMDRecordExportFiles($this->obj_id);
 	 	$abs_path = $files->getAbsolutePathByFileId((int) $_POST['file_id'][0]);
 		
 	 	ilUtil::deliverFile($abs_path,'ilias_meta_data_record.xml','application/xml');
@@ -402,7 +402,7 @@ class ilAdvancedMDSettingsGUI
 		$c_gui->setConfirm($this->lng->txt("confirm"), "deleteFiles");
 
 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordExportFiles.php');
-		$files = new ilAdvancedMDRecordExportFiles();
+		$files = new ilAdvancedMDRecordExportFiles($this->obj_id);
 		$file_data = $files->readFilesInfo();
 
 
@@ -432,7 +432,7 @@ class ilAdvancedMDSettingsGUI
 	 	}
 
 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordExportFiles.php');
-		$files = new ilAdvancedMDRecordExportFiles();
+		$files = new ilAdvancedMDRecordExportFiles($this->obj_id);
 		
 		foreach($_POST['file_id'] as $file_id)
 		{
@@ -932,6 +932,12 @@ class ilAdvancedMDSettingsGUI
 	 	{
 		 	include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordParser.php');
 		 	$parser = new ilAdvancedMDRecordParser($import_files->getImportFileByCreationDate($create_time));
+			
+			// local import?
+			if($this->obj_id)
+			{
+				$parser->setContext($this->obj_id, $this->obj_type, $this->sub_type);
+			}
 		 	
 		 	// Validate
 	 		$parser->setMode(ilAdvancedMDRecordParser::MODE_INSERT_VALIDATION);
@@ -1655,13 +1661,14 @@ class ilAdvancedMDSettingsGUI
 
 				// local records are never optional
 				$assigned = $optional = false;
-				foreach($tmp_arr['obj_types'] as $item)
+				foreach($tmp_arr['obj_types'] as $idx => $item)
 				{
 					if($item["obj_type"] == $this->obj_type &&
 						$item["sub_type"] == $this->sub_type)
-					{
+					{						
 						$assigned = true;
-						$optional = $item["optional"];
+						$optional = $item["optional"];						
+						$tmp_arr['obj_types'][$idx]['context'] = true;
 						break;
 					}
 				}

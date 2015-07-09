@@ -39,9 +39,13 @@ class ilAdvancedMDRecordExportFiles
 	 * @access public
 	 * 
 	 */
-	public function __construct()
+	public function __construct($a_obj_id = null)
 	{
 	 	$this->export_dir = ilUtil::getDataDir().'/ilAdvancedMetaData/export';
+		if($a_obj_id)
+		{
+			$this->export_dir .= "_".$a_obj_id;
+		}
 	 	$this->init();
 	}
 	

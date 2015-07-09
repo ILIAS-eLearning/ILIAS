@@ -65,34 +65,43 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
 			1 => $this->lng->txt("meta_obj_type_mandatory"),
 			2 => $this->lng->txt("meta_obj_type_optional")
 		);				
+		
+		$do_select = (!$a_set["readonly"] && !$a_set["local"]);
 		foreach(ilAdvancedMDRecord::_getAssignableObjectTypes(true) as $obj_type)
-		{
-			$this->tpl->setCurrentBlock('ass_obj_types');
-			$this->tpl->setVariable('VAL_OBJ_TYPE', $obj_type["text"]);
-			
+		{			
 			$value = 0;
 			foreach ($a_set['obj_types'] as $t)
 			{
 				if ($obj_type["obj_type"] == $t["obj_type"] && 
 					$obj_type["sub_type"] == $t["sub_type"])
 				{
+					if($t["context"] &&
+						!$a_set["local"])
+					{
+						$obj_type["text"] = '<span class="il_ItemAlertProperty">'.$obj_type["text"].'</span>';
+					}
+					
 					$value = $t["optional"]
 						? 2
 						: 1;				
-					break;
+					break;				
 				}				
 			}
 				
-			if(!$a_set["readonly"] && !$a_set["local"])
+			if(!$do_select && !$value)
 			{				
+				continue;
+			}
+			
+			$this->tpl->setCurrentBlock('ass_obj_types');
+			$this->tpl->setVariable('VAL_OBJ_TYPE', $obj_type["text"]);
+			
+			if($do_select)
+			{
 				$select = ilUtil::formSelect($value, "obj_types[".$a_set['id']."][".$obj_type["obj_type"].":".$obj_type["sub_type"]."]", $options, false, true, 0, "", "", $disabled);			
 				$this->tpl->setVariable('VAL_OBJ_TYPE_STATUS', $select);
 			}
-			else if(!$value)
-			{
-				continue;
-			}
-
+			
 			$this->tpl->parseCurrentBlock();
 		}
 		
@@ -101,7 +110,11 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
 			$a_set['description'] .= ' <span class="il_ItemAlertProperty">'.$this->lng->txt("meta_global").'</span>';
 		}
 		
-		$this->tpl->setVariable('VAL_ID',$a_set['id']);
+		if(!$a_set["readonly"] || $a_set["local"])
+		{
+			$this->tpl->setVariable('VAL_ID',$a_set['id']);
+		}
+		
 		$this->tpl->setVariable('VAL_TITLE',$a_set['title']);
 		if(strlen($a_set['description']))
 		{
