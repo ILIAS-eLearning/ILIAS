@@ -12,7 +12,7 @@ require_once "./Modules/File/classes/class.ilObjFileAccess.php";
 * @author Stefan Born <stefan.born@phzh.ch> 
 * @version $Id$
 *
-* @ilCtrl_Calls ilObjFileGUI: ilMDEditorGUI, ilInfoScreenGUI, ilPermissionGUI, ilShopPurchaseGUI, ilObjectCopyGUI
+* @ilCtrl_Calls ilObjFileGUI: ilObjectMetaDataGUI, ilInfoScreenGUI, ilPermissionGUI, ilShopPurchaseGUI, ilObjectCopyGUI
 * @ilCtrl_Calls ilObjFileGUI: ilExportGUI, ilWorkspaceAccessGUI, ilPortfolioPageGUI, ilCommonActionDispatcherGUI
 *
 * @ingroup ModulesFile
@@ -89,7 +89,7 @@ class ilObjFileGUI extends ilObject2GUI
 				$this->infoScreenForward();	// forwards command
 				break;
 
-			case 'ilmdeditorgui':								
+			case 'ilobjectmetadatagui':								
 				if(!$this->checkPermissionBool("write"))
 				{
 					$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->WARNING);
@@ -97,13 +97,11 @@ class ilObjFileGUI extends ilObject2GUI
 				
 				$ilTabs->activateTab("id_meta");
 
-				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
-
-				$md_gui =& new ilMDEditorGUI($this->object->getId(), 0, $this->object->getType());
-				$md_gui->addObserver($this->object,'MDUpdateListener','General');
+				include_once 'Services/Object/classes/class.ilObjectMetaDataGUI.php';
+				$md_gui = new ilObjectMetaDataGUI($this->object);	
 				
 				// todo: make this work
-				$md_gui->addObserver($this->object,'MDUpdateListener','Technical');
+				// $md_gui->addMDObserver($this->object,'MDUpdateListener','Technical');
 				
 				$this->ctrl->forwardCommand($md_gui);
 				break;
@@ -902,9 +900,15 @@ class ilObjFileGUI extends ilObject2GUI
 		// meta data
 		if ($this->checkPermissionBool("write"))
 		{
-			$ilTabs->addTab("id_meta",
-				$lng->txt("meta_data"),
-				$this->ctrl->getLinkTargetByClass(array('ilobjfilegui','ilmdeditorgui'),'listSection'));
+			include_once "Services/Object/classes/class.ilObjectMetaDataGUI.php";
+			$mdgui = new ilObjectMetaDataGUI($this->object);					
+			$mdtab = $mdgui->getTab();
+			if($mdtab)
+			{
+				$ilTabs->addTab("id_meta",
+					$lng->txt("meta_data"),
+					$mdtab);
+			}			
 		}
 
 		// export

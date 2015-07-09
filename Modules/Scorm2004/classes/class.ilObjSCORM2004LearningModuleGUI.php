@@ -13,7 +13,7 @@ include_once("./Services/Style/classes/class.ilPageLayout.php");
 * @author Alex Killing <alex.killing@gmx.de>, Hendrik Holtmann <holtmann@mac.com>, Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
 * $Id: class.ilObjSCORMLearningModuleGUI.php 13133 2007-01-30 11:13:06Z akill $
 *
-* @ilCtrl_Calls ilObjSCORM2004LearningModuleGUI: ilFileSystemGUI, ilMDEditorGUI, ilPermissionGUI, ilLearningProgressGUI
+* @ilCtrl_Calls ilObjSCORM2004LearningModuleGUI: ilFileSystemGUI, ilObjectMetaDataGUI, ilPermissionGUI, ilLearningProgressGUI
 * @ilCtrl_Calls ilObjSCORM2004LearningModuleGUI: ilInfoScreenGUI, ilSCORM2004ChapterGUI, ilSCORM2004SeqChapterGUI, ilSCORM2004PageNodeGUI, ilSCORM2004ScoGUI
 * @ilCtrl_Calls ilObjSCORM2004LearningModuleGUI: ilCertificateGUI, ilObjStyleSheetGUI, ilNoteGUI, ilSCORM2004AssetGUI
 * @ilCtrl_Calls ilObjSCORM2004LearningModuleGUI: ilLicenseGUI, ilCommonActionDispatcherGUI
@@ -1639,9 +1639,15 @@ $this->ctrl->redirect($this, "properties");
 			*/
 
 		// edit meta
-		$tabs_gui->addTarget("meta_data",
-		$this->ctrl->getLinkTargetByClass('ilmdeditorgui',''),
-			 "", "ilmdeditorgui");
+		include_once "Services/Object/classes/class.ilObjectMetaDataGUI.php";
+		$mdgui = new ilObjectMetaDataGUI($this->object);					
+		$mdtab = $mdgui->getTab();
+		if($mdtab)
+		{
+			$tabs_gui->addTarget("meta_data",
+				$mdtab,
+				"", "ilmdeditorgui");
+		}
 
 		// export
 		$tabs_gui->addTarget("export",

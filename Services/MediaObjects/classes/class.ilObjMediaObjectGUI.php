@@ -12,7 +12,7 @@ require_once ("./Services/Object/classes/class.ilObjectGUI.php");
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
-* @ilCtrl_Calls ilObjMediaObjectGUI: ilMDEditorGUI, ilImageMapEditorGUI, ilFileSystemGUI
+* @ilCtrl_Calls ilObjMediaObjectGUI: ilObjectMetaDataGUI, ilImageMapEditorGUI, ilFileSystemGUI
 *
 * @ingroup ServicesMediaObjects
 */
@@ -142,12 +142,11 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
 		switch($next_class)
 		{
-			case 'ilmdeditorgui':
-				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
-
-				$md_gui =& new ilMDEditorGUI(0, $this->object->getId(), $this->object->getType());
-				$md_gui->addObserver($this->object,'MDUpdateListener','General');
-
+			case 'ilobjectmetadatagui':
+				include_once 'Services/Object/classes/class.ilObjectMetaDataGUI.php';
+				$md_gui = new ilObjectMetaDataGUI(null, $this->object->getType(), $this->object->getId());	
+				// object is subtype, so we have to do it ourselves
+				$md_gui->addMDObserver($this->object, 'MDUpdateListener', 'General');
 				$this->ctrl->forwardCommand($md_gui);
 				break;
 				
@@ -1830,10 +1829,15 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 					"ilfilesystemgui");
 			}
 
-			$ilTabs->addTarget("meta_data",
-				$this->ctrl->getLinkTargetByClass(
-					array("ilobjmediaobjectgui", "ilmdeditorgui"),'listSection'),
-				"", "ilmdeditorgui");
+			include_once "Services/Object/classes/class.ilObjectMetaDataGUI.php";
+			$mdgui = new ilObjectMetaDataGUI(null, $this->object->getType(), $this->object->getId());					
+			$mdtab = $mdgui->getTab("ilobjmediaobjectgui");
+			if($mdtab)
+			{
+				$ilTabs->addTarget("meta_data",
+					$mdtab,
+					"", "ilmdeditorgui");
+			}
 
 		}
 

@@ -21,7 +21,7 @@ require_once './Modules/Test/classes/class.ilObjTest.php';
  * @ilCtrl_Calls ilObjQuestionPoolGUI: assMultipleChoiceGUI, assClozeTestGUI, assMatchingQuestionGUI
  * @ilCtrl_Calls ilObjQuestionPoolGUI: assOrderingQuestionGUI, assImagemapQuestionGUI, assJavaAppletGUI
  * @ilCtrl_Calls ilObjQuestionPoolGUI: assNumericGUI, assTextSubsetGUI, assSingleChoiceGUI, ilPropertyFormGUI
- * @ilCtrl_Calls ilObjQuestionPoolGUI: assTextQuestionGUI, ilMDEditorGUI, ilPermissionGUI, ilObjectCopyGUI
+ * @ilCtrl_Calls ilObjQuestionPoolGUI: assTextQuestionGUI, ilObjectMetaDataGUI, ilPermissionGUI, ilObjectCopyGUI
  * @ilCtrl_Calls ilObjQuestionPoolGUI: ilQuestionPoolExportGUI, ilInfoScreenGUI, ilObjTaxonomyGUI, ilCommonActionDispatcherGUI
  * @ilCtrl_Calls ilObjQuestionPoolGUI: ilAssQuestionHintsGUI, ilAssQuestionFeedbackEditingGUI, ilLocalUnitConfigurationGUI
  * @ilCtrl_Calls ilObjQuestionPoolGUI: ilObjQuestionPoolSettingsGeneralGUI, assFormulaQuestionGUI
@@ -135,16 +135,13 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$this->ctrl->forwardCommand($gui);
 				break;
 
-			case 'ilmdeditorgui':
+			case 'ilobjectmetadatagui':
 				if(!$ilAccess->checkAccess('write','',$this->object->getRefId()))
 				{
 					$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->WARNING);
-				}
-				
-				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
-
-				$md_gui = new ilMDEditorGUI($this->object->getId(), 0, $this->object->getType());
-				$md_gui->addObserver($this->object,'MDUpdateListener','General');
+				}				
+				include_once 'Services/Object/classes/class.ilObjectMetaDataGUI.php';
+				$md_gui = new ilObjectMetaDataGUI($this->object);	
 				$this->ctrl->forwardCommand($md_gui);
 				break;
 			
@@ -1357,7 +1354,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		{
 			case "":
 			case "ilpermissiongui":
-			case "ilmdeditorgui":
+			case "ilobjectmetadatagui":
 			case "ilquestionpoolexportgui":
 				break;
 			
@@ -1444,9 +1441,15 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
 		{
 			// meta data
-			$tabs_gui->addTarget("meta_data",
-				 $this->ctrl->getLinkTargetByClass('ilmdeditorgui','listSection'),
-				 "", "ilmdeditorgui");
+			include_once "Services/Object/classes/class.ilObjectMetaDataGUI.php";
+			$mdgui = new ilObjectMetaDataGUI($this->object);					
+			$mdtab = $mdgui->getTab();
+			if($mdtab)
+			{			
+				$tabs_gui->addTarget("meta_data",
+					$mdtab,
+					"", "ilmdeditorgui");
+			}
 
 //			$tabs_gui->addTarget("export",
 //				 $this->ctrl->getLinkTarget($this,'export'),

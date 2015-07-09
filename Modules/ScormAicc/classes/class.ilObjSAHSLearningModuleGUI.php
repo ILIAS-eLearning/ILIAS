@@ -10,7 +10,7 @@ require_once("./Services/FileSystem/classes/class.ilFileSystemGUI.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * $Id$
 *
-* @ilCtrl_Calls ilObjSAHSLearningModuleGUI: ilFileSystemGUI, ilMDEditorGUI, ilPermissionGUI, ilInfoScreenGUI, ilLearningProgressGUI
+* @ilCtrl_Calls ilObjSAHSLearningModuleGUI: ilFileSystemGUI, ilObjectMetaDataGUI, ilPermissionGUI, ilInfoScreenGUI, ilLearningProgressGUI
 * @ilCtrl_Calls ilObjSAHSLearningModuleGUI: ilLicenseGUI, ilCommonActionDispatcherGUI
 *
 * @ingroup ModulesScormAicc
@@ -55,17 +55,13 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 
 		switch($next_class)
 		{
-			case 'ilmdeditorgui':
+			case 'ilobjectmetadatagui':
 				if(!$ilAccess->checkAccess('write','',$this->object->getRefId()))
 				{
 					$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->WARNING);
-				}
-				
-				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
-
-				$md_gui =& new ilMDEditorGUI($this->object->getId(), 0, $this->object->getType());
-				$md_gui->addObserver($this->object,'MDUpdateListener','General');
-
+				}				
+				include_once 'Services/Object/classes/class.ilObjectMetaDataGUI.php';
+				$md_gui = new ilObjectMetaDataGUI($this->object);	
 				$this->ctrl->forwardCommand($md_gui);
 				break;
 				

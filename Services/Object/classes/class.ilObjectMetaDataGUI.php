@@ -25,13 +25,16 @@ class ilObjectMetaDataGUI
 	 * @param string $a_sub_type
 	 * @return self
 	 */
-	public function __construct(ilObject $a_object, $a_sub_type = null, $a_sub_id = null)
+	public function __construct(ilObject $a_object = null, $a_sub_type = null, $a_sub_id = null)
 	{
 		global $lng;
 		
-		$this->object = $a_object;
-		$this->obj_id = $a_object->getId();
-		$this->obj_type = $a_object->getType();
+		if($a_object)
+		{
+			$this->object = $a_object;
+			$this->obj_id = $a_object->getId();
+			$this->obj_type = $a_object->getType();
+		}
 		$this->sub_type = $a_sub_type;
 		$this->sub_id = $a_sub_id;
 		
@@ -55,7 +58,7 @@ class ilObjectMetaDataGUI
 			case 'ilmdeditorgui':										
 				$this->setSubTabs("lom");					
 				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
-				$md_gui = new ilMDEditorGUI($this->obj_id, (int)$this->sub_id, $this->getLOMType());	
+				$md_gui = new ilMDEditorGUI((int)$this->obj_id, (int)$this->sub_id, $this->getLOMType());	
 				// custom observers?
 				if(is_array($this->md_observers))
 				{
@@ -65,7 +68,8 @@ class ilObjectMetaDataGUI
 					}
 				}
 				// "default" repository object observer
-				else if(!$this->sub_id)
+				else if(!$this->sub_id && 
+					$this->object)
 				{
 					$md_gui->addObserver($this->object, 'MDUpdateListener', 'General');
 				}
@@ -123,25 +127,25 @@ class ilObjectMetaDataGUI
 	}
 	
 	protected function isLOMAvailable()
-	{		
+	{						
 		$type = $this->getLOMType();
 		if($type == $this->sub_type)
 		{
 			$type = $this->obj_type.":".$type;
 		}
 		
-		return ($this->obj_id &&
+		return (($this->obj_id || !$this->obj_type) &&
 			in_array($type, array(
 				"crs", 
 				"file", 
 				"glo", "glo:gdf", 
 				"svy", "spl", 
 				"tst", "qpl", 
-				"mob", 
+				":mob", 
 				"webr", 
 				"htlm", 
-				"lm", "lm:pg",
-				"sahs", "sahs:page"
+				"lm", "lm:st", "lm:pg",
+				"sahs", "sahs:sco", "sahs:page"
 		)));
 	}
 	
@@ -181,14 +185,25 @@ class ilObjectMetaDataGUI
 		return false;
 	}
 	
-	public function getTab()
+	public function getTab($a_base_class = null)
 	{
 		global $ilCtrl;
+		
+		if(!$a_base_class)
+		{
+			$path = array();
+		}
+		else
+		{
+			$path = array($a_base_class);
+		}
+		$path[] = "ilobjectmetadatagui";
 		
 		$link = null;
 		if($this->isLOMAvailable())
 		{
-			$link = $ilCtrl->getLinkTargetByClass(array("ilobjectmetadatagui", "ilmdeditorgui"), "listSection");
+			$path[] = "ilmdeditorgui";
+			$link = $ilCtrl->getLinkTargetByClass($path, "listSection");
 		}
 		else if($this->isAdvMDAvailable())
 		{	
@@ -198,7 +213,8 @@ class ilObjectMetaDataGUI
 			}
 			else if($this->hasAdvancedMDSettings())
 			{
-				$link = $ilCtrl->getLinkTargetByClass(array("ilobjectmetadatagui", "iladvancedmdsettingsgui"), "showRecords");
+				$path[] = "iladvancedmdsettingsgui";
+				$link = $ilCtrl->getLinkTargetByClass($path, "showRecords");
 			}	
 		}		
 		return $link;
