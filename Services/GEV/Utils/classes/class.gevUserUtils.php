@@ -414,6 +414,7 @@ class gevUserUtils {
 				 , gevSettings::CRS_AMD_CANCEL_DEADLINE		=> "cancel_date"
 				 , gevSettings::CRS_AMD_ABSOLUTE_CANCEL_DEADLINE => "absolute_cancel_date"
 				 , gevSettings::CRS_AMD_SCHEDULED_FOR		=> "scheduled_for"
+				 , gevSettings::CRS_AMD_SCHEDULE			=> "crs_amd_schedule"
 				 //, gevSettings::CRS_AMD_ => "title"
 				 //, gevSettings::CRS_AMD_START_DATE => "status"
 				 , gevSettings::CRS_AMD_TYPE 				=> "type"
