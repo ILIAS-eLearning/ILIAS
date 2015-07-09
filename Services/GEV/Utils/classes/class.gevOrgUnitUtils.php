@@ -179,8 +179,32 @@ class gevOrgUnitUtils {
 		$res = $ilDB->query($sql);
 		$first_child_org = array();
 		while ($rec = $ilDB->fetchAssoc($res)) {
+			$first_child_org[$rec["ref_id"]] = array( "ref_id" => $rec["ref_id"]
+										 , "obj_id" => $rec["obj_id"]
+										 );
+		}
+
+		return $first_child_org;
+	}
+
+	public function getOrgUnitsOneTreeLevelBelowWithTitle() {
+		global $ilDB;
+
+		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+		$ref_id = gevObjectUtils::getRefId($this->orgu_id);
+
+		$sql = "SELECT DISTINCT oref.ref_id, oref.obj_id, od.title"
+			  ." FROM object_reference oref"
+			  ." JOIN object_data od ON od.obj_id = oref.obj_id"
+			  ." JOIN tree tr ON tr.parent = ".$ref_id
+			  ." WHERE od.type = 'orgu' AND oref.ref_id = tr.child AND oref.deleted IS NULL";
+
+		$res = $ilDB->query($sql);
+		$first_child_org = array();
+		while ($rec = $ilDB->fetchAssoc($res)) {
 			$first_child_org[] = array( "ref_id" => $rec["ref_id"]
 										 , "obj_id" => $rec["obj_id"]
+										 , "title" => $rec["title"]
 										 );
 		}
 
