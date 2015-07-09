@@ -160,7 +160,7 @@ class gevDesktopGUI {
 
 			case "gevdecentraltraininggui":
 				$ilMainMenu->setActive("gev_others_menu");
-				require_once("Services/GEV/Desktop/classes/class.gevDecentralTrainingGUI.php");
+				require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingGUI.php");
 				$gui = new gevDecentralTrainingGUI();
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;

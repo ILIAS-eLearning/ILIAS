@@ -10,7 +10,7 @@
 */
 
 require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
-require_once("Services/GEV/Utils/classes/class.gevDecentralTrainingUtils.php");
+require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingUtils.php");
 require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
 require_once("Services/CaTUIComponents/classes/class.catPropertyFormGUI.php");
 

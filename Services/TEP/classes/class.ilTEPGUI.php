@@ -276,7 +276,7 @@ class ilTEPGUI
 			$ilToolbar->addButton($lng->txt("tep_add_new_entry"),
 				$ilCtrl->getLinkTargetByClass("ilTEPEntryGUI", "createEntry"));
 			// gev-patch start
-			require_once("Services/GEV/Utils/classes/class.gevDecentralTrainingUtils.php");
+			require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingUtils.php");
 			global $ilUser;
 			if (gevDecentralTrainingUtils::getInstance()->canCreate($ilUser->getId())) {
 				$ilToolbar->addButton($lng->txt("gev_create_decentral_training"),
