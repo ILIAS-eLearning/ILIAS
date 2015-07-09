@@ -87,7 +87,12 @@ class ilTEPOrgUnitSelectionInputGUI extends ilExplorerSelectInputGUI
 		}
 		// gev-patch end
 		$res .= parent::render();
-		
-		return $res;
+
+		$rcrsv = new ilCheckboxInputGUI("", $this->getPostVar()."_rcrsv");
+		$rcrsv->setOptionTitle($lng->txt("tep_filter_orgu_rcrsv"));
+		$rcrsv->setValue(1);
+		$rcrsv->setChecked($this->rcrsv);
+
+		return $res.$rcrsv->getTableFilterHTML();
 	}
 }

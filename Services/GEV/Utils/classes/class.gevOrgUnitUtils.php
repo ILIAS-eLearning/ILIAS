@@ -179,7 +179,7 @@ class gevOrgUnitUtils {
 		$res = $ilDB->query($sql);
 		$first_child_org = array();
 		while ($rec = $ilDB->fetchAssoc($res)) {
-			$first_child_org[$rec["ref_id"]] = array( "ref_id" => $rec["ref_id"]
+			$first_child_org[] = array( "ref_id" => $rec["ref_id"]
 										 , "obj_id" => $rec["obj_id"]
 										 );
 		}
@@ -202,7 +202,7 @@ class gevOrgUnitUtils {
 		$res = $ilDB->query($sql);
 		$first_child_org = array();
 		while ($rec = $ilDB->fetchAssoc($res)) {
-			$first_child_org[] = array( "ref_id" => $rec["ref_id"]
+			$first_child_org[$rec["ref_id"]] = array( "ref_id" => $rec["ref_id"]
 										 , "obj_id" => $rec["obj_id"]
 										 , "title" => $rec["title"]
 										 );

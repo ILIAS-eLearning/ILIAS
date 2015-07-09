@@ -273,7 +273,7 @@ class ilTEP
 	public static function getViewableOrgUnitsSeperated(ilTEPPermissions $a_permissions)
 	{		
 		$org_ids = $a_permissions->getViewOtherOrgUnits();
-		$org_rekru_ids = $a_permissions->getViewOtherRecursiveOrgUnits();
+		$org_rekru_ids = $a_permissions->getViewOtherRecursiveOrgUnitsOnlyOneTreeLevel();
 
 		$ret = array('view' => self::getOrgUnitNamesAndIds($org_ids), 'view_rekru' => self::getOrgUnitNamesAndIds($org_rekru_ids));
 		return $ret;

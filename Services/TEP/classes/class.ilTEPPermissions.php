@@ -333,7 +333,7 @@ class ilTEPPermissions
 			{
 				// if path is not to any selected org unit, remove from result
 				$is_path_valid = false;
-				$path = $tree->getPathId($ou_ref_id, ilObjOrgUnit::getRootOrgRefId());		
+				$path = $tree->getPathId($ou_ref_id, ilObjOrgUnit::getRootOrgRefId());
 				array_shift($path);	// root
 				$check_path = implode(":", $path);
 				foreach($valid_path as $path)
@@ -342,15 +342,61 @@ class ilTEPPermissions
 					{
 						$is_path_valid = true;
 					}
-				}								
+				}
 				if(!$is_path_valid)
-				{					
+				{
 					unset($res[$idx]);
 				}
-			}		
+			}
 		}
 		
 		return $res;
+	}
+
+	/**
+	 * Gets only these org units where user can view other tutors recursively
+	 * 
+	 * @param array $a_org_ref_ids
+	 * @return array
+	 */
+	public function getViewOtherRecursiveOrgUnitsOnlyOneTreeLevel(array $a_org_ref_ids = null)
+	{
+		global $tree;
+		
+		$ou_ref_ids = $path_ref_ids = $valid_path = array();
+		
+		// #914 - add path nodes to selected org units
+		if($a_org_ref_ids)
+		{		
+			foreach($a_org_ref_ids as $ou_ref_id)
+			{
+				$path = $tree->getPathId($ou_ref_id, ilObjOrgUnit::getRootOrgRefId());				
+				array_shift($path);	// root
+				$valid_path[]= implode(":", $path);
+				array_pop($path);
+				$path_ref_ids = array_merge($path_ref_ids, $path);									
+			}
+			// all parent nodes from selected org units
+			$path_ref_ids = array_unique($path_ref_ids);
+			// all org units to be checked for (recursive) permission
+			$valid_ou_ref_ids = array_unique(array_merge($path_ref_ids, $a_org_ref_ids));
+			// all valid path (to selected org units)
+			$valid_path = array_unique($valid_path);			
+		}		
+				
+		foreach($this->perms as $ou_ref_id => $ou_perms)
+		{
+			if(!is_array($a_org_ref_ids) || 
+				in_array($ou_ref_id, $valid_ou_ref_ids))
+			{
+				if($ou_perms["tep_view_other_rcrsv"])
+				{
+					$ou_ref_ids[] = $ou_ref_id;
+				}
+			}
+		}
+		
+		return $ou_ref_ids;
 	}
 	
 	/**
