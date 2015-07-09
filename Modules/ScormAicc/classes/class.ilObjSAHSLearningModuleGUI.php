@@ -690,9 +690,15 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		}
 		
 		// edit meta
-		$tabs_gui->addTarget("meta_data",
-			 $this->ctrl->getLinkTargetByClass('ilmdeditorgui',''),
-			 "", "ilmdeditorgui");
+		include_once "Services/Object/classes/class.ilObjectMetaDataGUI.php";
+		$mdgui = new ilObjectMetaDataGUI($this->object);					
+		$mdtab = $mdgui->getTab();
+		if($mdtab)
+		{
+			$tabs_gui->addTarget("meta_data",
+				$mdtab,
+				"", "ilmdeditorgui");
+		}
 
 		// perm
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
