@@ -124,10 +124,11 @@ class gevCoursesTableGUI extends catAccordionTableGUI {
 			$action .= '<a href="'.gevCourseUtils::getCancelLinkTo($a_set["obj_id"], $this->user_id).'">'.
 					  $this->cancel_img."</a>";
 		}
-
-		$show_webex_link = gevCourseUtils::timeWithinCourse(
-			time(), self::CUM_TEMPORE_MIN, $a_set["start_date"], $a_set["end_date"], $a_set["crs_amd_schedule"]) 
-			&& ($crs_utils->getWebExlink() !== null);
+		if($a_set["start_date"] && $a_set["end_date"] && $a_set["crs_amd_schedule"]) {
+			$show_webex_link = gevCourseUtils::timeWithinCourse(
+				time(), self::CUM_TEMPORE_MIN, $a_set["start_date"], $a_set["end_date"], $a_set["crs_amd_schedule"]) 
+				&& ($crs_utils->getWebExlink() !== null);
+		}
 
 		if ($show_webex_link ) {
 			$action .= '&nbsp;<a href="'.$crs_utils->getWebExlink().'" target="_blank">'.$this->virtualclass_img.'</a>';
