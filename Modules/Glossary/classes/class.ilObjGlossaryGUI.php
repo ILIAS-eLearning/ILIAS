@@ -20,7 +20,7 @@ require_once("./Services/COPage/classes/class.ilPCParagraph.php");
 * @ilCtrl_Calls ilObjGlossaryGUI: ilGlossaryTermGUI, ilMDEditorGUI, ilPermissionGUI
 * @ilCtrl_Calls ilObjGlossaryGUI: ilInfoScreenGUI, ilCommonActionDispatcherGUI, ilObjStyleSheetGUI
 * @ilCtrl_Calls ilObjGlossaryGUI: ilObjTaxonomyGUI, ilExportGUI, ilObjectCopyGUI
-* @ilCtrl_Calls ilObjGlossaryGUI: ilAdvancedMDSettingsGUI
+* @ilCtrl_Calls ilObjGlossaryGUI: ilObjectMetaDataGUI
 * 
 * @ingroup ModulesGlossary
 */
@@ -81,7 +81,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 		switch ($next_class)
 		{
-			case 'ilmdeditorgui':
+			case 'ilobjectmetadatagui';
 				$this->checkPermission("write");
 				
 				$this->getTemplate();
@@ -89,29 +89,12 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				$this->setLocator();
 				$this->addHeaderAction();
 
-				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
-
-				$md_gui =& new ilMDEditorGUI($this->object->getId(), 0, $this->object->getType());
-				$md_gui->addObserver($this->object,'MDUpdateListener','General');
-
+				$this->tabs_gui->activateTab('meta_data');
+				include_once 'Services/Object/classes/class.ilObjectMetaDataGUI.php';
+				$md_gui = new ilObjectMetaDataGUI($this->object->getId(), 'glo', 'term');	
 				$this->ctrl->forwardCommand($md_gui);
-				$this->handleMetadataSubTabs(true);
 				break;
 			
-			case 'iladvancedmdsettingsgui':
-				$this->checkPermission("write");
-				
-				$this->getTemplate();
-				$this->setTabs();
-				$this->setLocator();
-				$this->addHeaderAction();
-								
-				include_once 'Services/AdvancedMetaData/classes/class.ilAdvancedMDSettingsGUI.php';
-				$advmdgui = new ilAdvancedMDSettingsGUI($this->object->getId(), "glo", "term");				
-				$this->ctrl->forwardCommand($advmdgui);		
-				$this->handleMetadataSubTabs(true, true);
-				break;		
-
 			case "ilglossarytermgui":
 				$this->getTemplate();
 //				$this->quickList();
@@ -1419,12 +1402,18 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			$tabs_gui->addTarget("settings",
 				$this->ctrl->getLinkTarget($this, "properties"), "properties",
 				get_class($this));
-
+			
 			// meta data
-			$tabs_gui->addTarget("meta_data",
-				 $this->ctrl->getLinkTargetByClass('ilmdeditorgui','listSection'),
-				 "", array("ilmdeditorgui", "iladvancedmdsettingsgui"));
-
+			include_once "Services/Object/classes/class.ilObjectMetaDataGUI.php";
+			$mdgui = new ilObjectMetaDataGUI($this->object->getId(), "glo", "term");					
+			$mdtab = $mdgui->getTab();
+			if($mdtab)
+			{
+				$tabs_gui->addTab("meta_data",
+					$this->lng->txt("meta_data"),
+					$mdtab);
+			}
+			
 			// export
 			/*$tabs_gui->addTarget("export",
 				 $this->ctrl->getLinkTarget($this, "exportList"),

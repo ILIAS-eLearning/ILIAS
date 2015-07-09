@@ -11,6 +11,7 @@ require_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
 * @version $Id$
 *
 * @ilCtrl_Calls ilGlossaryTermGUI: ilTermDefinitionEditorGUI, ilGlossaryDefPageGUI, ilPropertyFormGUI
+* @ilCtrl_Calls ilGlossaryTermGUI: ilObjectMetaDataGUI
 *
 * @ingroup ModulesGlossary
 */
@@ -48,12 +49,13 @@ class ilGlossaryTermGUI
 	*/
 	function executeCommand()
 	{
+		global $ilTabs;
+		
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 
 		switch ($next_class)
 		{
-
 			case "iltermdefinitioneditorgui":
 				//$this->ctrl->setReturn($this, "listDefinitions");
 				$def_edit =& new ilTermDefinitionEditorGUI();
@@ -65,6 +67,15 @@ class ilGlossaryTermGUI
 			case "ilpropertyformgui";
 				$form = $this->getEditTermForm();
 				$this->ctrl->forwardCommand($form);
+				break;
+			
+			case "ilobjectmetadatagui";		
+				$this->setTabs();
+				$ilTabs->activateTab('meta_data');
+				include_once 'Services/Object/classes/class.ilObjectMetaDataGUI.php';
+				$md_gui = new ilObjectMetaDataGUI($this->term->getGlossaryId(), 'glo', 'term', $this->term->getId());	
+				$this->ctrl->forwardCommand($md_gui);
+				$this->quickList();
 				break;
 				
 			default:
@@ -685,6 +696,16 @@ class ilGlossaryTermGUI
 			$tabs_gui->addTab("properties",
 				$lng->txt("term"),
 				$this->ctrl->getLinkTarget($this, "editTerm"));
+			
+			include_once "Services/Object/classes/class.ilObjectMetaDataGUI.php";
+			$mdgui = new ilObjectMetaDataGUI($this->term->getGlossaryId(), "glo", "term", $this->term->getId());					
+			$mdtab = $mdgui->getTab();
+			if($mdtab)
+			{
+				$tabs_gui->addTab("meta_data",
+					$lng->txt("meta_data"),
+					$mdtab);
+			}
 
 			$tabs_gui->addTab("definitions",
 				$lng->txt("cont_definitions"),

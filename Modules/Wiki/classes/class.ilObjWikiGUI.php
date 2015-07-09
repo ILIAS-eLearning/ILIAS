@@ -16,7 +16,7 @@ require_once "./Modules/Wiki/classes/class.ilObjWiki.php";
 * @ilCtrl_Calls ilObjWikiGUI: ilPublicUserProfileGUI, ilObjStyleSheetGUI
 * @ilCtrl_Calls ilObjWikiGUI: ilExportGUI, ilCommonActionDispatcherGUI
 * @ilCtrl_Calls ilObjWikiGUI: ilRatingGUI, ilWikiPageTemplateGUI, ilWikiStatGUI
-* @ilCtrl_Calls ilObjWikiGUI: ilAdvancedMDSettingsGUI
+* @ilCtrl_Calls ilObjWikiGUI: ilObjectMetaDataGUI
 */
 class ilObjWikiGUI extends ilObjectGUI
 {
@@ -184,14 +184,14 @@ class ilObjWikiGUI extends ilObjectGUI
 				$this->ctrl->forwardCommand($wptgui);
 				break;
 			
-			case 'iladvancedmdsettingsgui':
+			case 'ilobjectmetadatagui';
 				$this->checkPermission("write");	
 				$this->addHeaderAction();
-				$ilTabs->activateTab("advmd");					
-				include_once 'Services/AdvancedMetaData/classes/class.ilAdvancedMDSettingsGUI.php';
-				$advmdgui = new ilAdvancedMDSettingsGUI($this->object->getId(), "wiki", "wpg");				
-				$this->ctrl->forwardCommand($advmdgui);				
-				break;		
+				$ilTabs->activateTab("advmd");		
+				include_once 'Services/Object/classes/class.ilObjectMetaDataGUI.php';
+				$md_gui = new ilObjectMetaDataGUI($this->object->getId(), "wiki", "wpg");	
+				$this->ctrl->forwardCommand($md_gui);
+				break;
 
 			default:
 				$this->addHeaderAction();
@@ -486,7 +486,7 @@ class ilObjWikiGUI extends ilObjectGUI
 		// wiki tabs
 		if (in_array($ilCtrl->getCmdClass(), array("", "ilobjwikigui",
 			"ilinfoscreengui", "ilpermissiongui", "ilexportgui", "ilratingcategorygui",
-			"ilwikistatgui", "ilwikipagetemplategui", "iladvancedmdsettingsgui"
+			"ilwikistatgui", "ilwikipagetemplategui", "iladvancedmdsettingsgui", 
 			)))
 		{	
 			if ($_GET["page"] != "")
@@ -520,12 +520,15 @@ class ilObjWikiGUI extends ilObjectGUI
 					$this->ctrl->getLinkTarget($this, "editSettings"));				
 							
 				// metadata
-				if($this->object->hasAdvancedMDSettings())
+				include_once "Services/Object/classes/class.ilObjectMetaDataGUI.php";
+				$mdgui = new ilObjectMetaDataGUI($this->object->getId(), "wiki", "wpg");					
+				$mdtab = $mdgui->getTab();
+				if($mdtab)
 				{
 					$ilTabs->addTab("advmd",
 						$this->lng->txt("meta_data"),
-						$this->ctrl->getLinkTargetByClass("iladvancedmdsettingsgui", ""));
-				}				
+						$mdtab);
+				}						
 			}			
 			
 			// contributors

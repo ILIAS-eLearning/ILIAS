@@ -7,3 +7,5 @@ common#:#obj_tool_setting_custom_metadata_info#:#Wenn aktiviert können Metadate
 meta#:#meta_section#:#Bereich
 meta#:#meta_tab_lom#:#LOM
 meta#:#meta_tab_advmd#:#Benutzerdefinierte Metadaten
+meta#:#meta_tab_advmd_def#:#Benutzerdefinierte Metadaten Definition
+meta#:#meta_global#:#Global

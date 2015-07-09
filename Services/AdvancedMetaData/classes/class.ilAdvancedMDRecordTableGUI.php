@@ -39,11 +39,7 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
 	 	$this->addColumn($this->lng->txt('title'),'title');
 	 	$this->addColumn($this->lng->txt('md_fields'),'fields');
 	 	$this->addColumn($this->lng->txt('md_adv_active'),'active');
-		
-		if(!$a_in_object_context)
-		{
-			$this->addColumn($this->lng->txt('md_obj_types'),'obj_types');
-		}
+		$this->addColumn($this->lng->txt('md_obj_types'),'obj_types');		
 		
 	 	$this->addColumn($this->lng->txt('actions'));
 	 	
@@ -61,40 +57,48 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
 	 * 
 	 */
 	public function fillRow($a_set)
-	{		
+	{				
 		// assigned object types
-		if(!$a_set["readonly"] && !$a_set["local"])
+		$disabled = !$a_set["perm"][ilAdvancedMDPermissionHelper::ACTION_RECORD_EDIT_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_RECORD_OBJECT_TYPES];			
+		$options = array(
+			0 => $this->lng->txt("meta_obj_type_inactive"),
+			1 => $this->lng->txt("meta_obj_type_mandatory"),
+			2 => $this->lng->txt("meta_obj_type_optional")
+		);				
+		foreach(ilAdvancedMDRecord::_getAssignableObjectTypes(true) as $obj_type)
 		{
-			$disabled = !$a_set["perm"][ilAdvancedMDPermissionHelper::ACTION_RECORD_EDIT_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_RECORD_OBJECT_TYPES];			
-			$options = array(
-				0 => $this->lng->txt("meta_obj_type_inactive"),
-				1 => $this->lng->txt("meta_obj_type_mandatory"),
-				2 => $this->lng->txt("meta_obj_type_optional")
-			);
-
-			foreach(ilAdvancedMDRecord::_getAssignableObjectTypes(true) as $obj_type)
+			$this->tpl->setCurrentBlock('ass_obj_types');
+			$this->tpl->setVariable('VAL_OBJ_TYPE', $obj_type["text"]);
+			
+			$value = 0;
+			foreach ($a_set['obj_types'] as $t)
 			{
-				$this->tpl->setCurrentBlock('ass_obj_types');
-				$this->tpl->setVariable('VAL_OBJ_TYPE', $obj_type["text"]);
-
-				$value = 0;
-				foreach ($a_set['obj_types'] as $t)
+				if ($obj_type["obj_type"] == $t["obj_type"] && 
+					$obj_type["sub_type"] == $t["sub_type"])
 				{
-					if ($obj_type["obj_type"] == $t["obj_type"] && 
-						$obj_type["sub_type"] == $t["sub_type"])
-					{
-						$value = $t["optional"]
-							? 2
-							: 1;				
-						break;
-					}				
-				}
-
+					$value = $t["optional"]
+						? 2
+						: 1;				
+					break;
+				}				
+			}
+				
+			if(!$a_set["readonly"] && !$a_set["local"])
+			{				
 				$select = ilUtil::formSelect($value, "obj_types[".$a_set['id']."][".$obj_type["obj_type"].":".$obj_type["sub_type"]."]", $options, false, true, 0, "", "", $disabled);			
 				$this->tpl->setVariable('VAL_OBJ_TYPE_STATUS', $select);
-
-				$this->tpl->parseCurrentBlock();
 			}
+			else if(!$value)
+			{
+				continue;
+			}
+
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		if($a_set["readonly"] && !$a_set["local"])
+		{
+			$a_set['description'] .= ' <span class="il_ItemAlertProperty">'.$this->lng->txt("meta_global").'</span>';
 		}
 		
 		$this->tpl->setVariable('VAL_ID',$a_set['id']);
