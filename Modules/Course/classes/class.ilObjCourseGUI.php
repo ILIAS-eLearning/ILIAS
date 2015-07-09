@@ -3274,7 +3274,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		if ($ilAccess->checkAccess('write','',$this->ref_id))
 		{
 			include_once "Services/Object/classes/class.ilObjectMetaDataGUI.php";
-			$mdgui = new ilObjectMetaDataGUI($this->object->getId(), "crs");					
+			$mdgui = new ilObjectMetaDataGUI($this->object);					
 			$mdtab = $mdgui->getTab();
 			if($mdtab)
 			{
@@ -4189,7 +4189,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				}
 				$this->tabs_gui->setTabActive('meta_data');
 				include_once 'Services/Object/classes/class.ilObjectMetaDataGUI.php';
-				$md_gui = new ilObjectMetaDataGUI($this->object->getId(), 'crs');	
+				$md_gui = new ilObjectMetaDataGUI($this->object);	
 				$this->ctrl->forwardCommand($md_gui);
 				break;
 				

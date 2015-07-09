@@ -73,7 +73,8 @@ class ilGlossaryTermGUI
 				$this->setTabs();
 				$ilTabs->activateTab('meta_data');
 				include_once 'Services/Object/classes/class.ilObjectMetaDataGUI.php';
-				$md_gui = new ilObjectMetaDataGUI($this->term->getGlossaryId(), 'glo', 'term', $this->term->getId());	
+				$md_gui = new ilObjectMetaDataGUI(new ilObjGlossary($this->term->getGlossaryId(), false), 
+					'term', $this->term->getId());	
 				$this->ctrl->forwardCommand($md_gui);
 				$this->quickList();
 				break;
@@ -697,16 +698,6 @@ class ilGlossaryTermGUI
 				$lng->txt("term"),
 				$this->ctrl->getLinkTarget($this, "editTerm"));
 			
-			include_once "Services/Object/classes/class.ilObjectMetaDataGUI.php";
-			$mdgui = new ilObjectMetaDataGUI($this->term->getGlossaryId(), "glo", "term", $this->term->getId());					
-			$mdtab = $mdgui->getTab();
-			if($mdtab)
-			{
-				$tabs_gui->addTab("meta_data",
-					$lng->txt("meta_data"),
-					$mdtab);
-			}
-
 			$tabs_gui->addTab("definitions",
 				$lng->txt("cont_definitions"),
 				$this->ctrl->getLinkTarget($this, "listDefinitions"));
@@ -715,6 +706,17 @@ class ilGlossaryTermGUI
 				$lng->txt("cont_usage")." (".ilGlossaryTerm::getNumberOfUsages($_GET["term_id"]).")",
 				$this->ctrl->getLinkTarget($this, "listUsages"));
 			
+			include_once "Services/Object/classes/class.ilObjectMetaDataGUI.php";
+			$mdgui = new ilObjectMetaDataGUI(new ilObjGlossary($this->term->getGlossaryId(), false), 
+				"term", $this->term->getId());					
+			$mdtab = $mdgui->getTab();
+			if($mdtab)
+			{
+				$tabs_gui->addTab("meta_data",
+					$lng->txt("meta_data"),
+					$mdtab);
+			}
+
 			$tabs_gui->addNonTabbedLink("presentation_view",
 				$this->lng->txt("glo_presentation_view"),
 				ILIAS_HTTP_PATH.

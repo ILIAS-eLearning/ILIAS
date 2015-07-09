@@ -10,7 +10,7 @@ include_once("./Modules/Glossary/classes/class.ilGlossaryDefPage.php");
  * 
  * @author Alex Killing <alex.killing@gmx.de> 
  *
- * @ilCtrl_Calls ilGlossaryDefPageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMDEditorGUI
+ * @ilCtrl_Calls ilGlossaryDefPageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilObjectMetaDataGUI
  * @ilCtrl_Calls ilGlossaryDefPageGUI: ilPublicUserProfileGUI, ilNoteGUI
  * @ilCtrl_Calls ilGlossaryDefPageGUI: ilPropertyFormGUI, ilInternalLinkGUI
  *

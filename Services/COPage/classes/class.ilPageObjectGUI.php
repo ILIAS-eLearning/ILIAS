@@ -21,7 +21,7 @@ include_once("./Services/Utilities/classes/class.ilDOMUtil.php");
  *
  * @version $Id$
  *
- * @ilCtrl_Calls ilPageObjectGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMDEditorGUI
+ * @ilCtrl_Calls ilPageObjectGUI: ilPageEditorGUI, ilEditClipboardGUI, ilObjectMetaDataGUI
  * @ilCtrl_Calls ilPageObjectGUI: ilPublicUserProfileGUI, ilNoteGUI, ilNewsItemGUI
  * @ilCtrl_Calls ilPageObjectGUI: ilPropertyFormGUI, ilInternalLinkGUI, ilPageMultiLangGUI
  *
@@ -812,11 +812,11 @@ return;
 	* @param	object	$a_observer_obj		observer object
 	* @param	object	$a_observer_func	observer function
 	*/
-	function activateMetaDataEditor($a_rep_obj_id, $a_sub_obj_id, $a_type,
+	function activateMetaDataEditor($a_rep_obj, $a_type, $a_sub_obj_id,
 		$a_observer_obj = NULL, $a_observer_func = "")
-	{
+	{		
 		$this->use_meta_data = true;
-		$this->meta_data_rep_obj_id = $a_rep_obj_id;
+		$this->meta_data_rep_obj = $a_rep_obj;
 		$this->meta_data_sub_obj_id = $a_sub_obj_id;
 		$this->meta_data_type = $a_type;
 		$this->meta_data_observer_obj = $a_observer_obj;
@@ -923,17 +923,18 @@ return;
 //echo "-".$next_class."-";
 		switch($next_class)
 		{
-			case 'ilmdeditorgui':
+			case 'ilobjectmetadatagui':
 				//$this->setTabs();
-				$ilTabs->setTabActive("meta_data");
-				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
-				$md_gui =& new ilMDEditorGUI($this->meta_data_rep_obj_id,
-					$this->meta_data_sub_obj_id, $this->meta_data_type);
+				$ilTabs->setTabActive("meta_data");				
+				include_once 'Services/Object/classes/class.ilObjectMetaDataGUI.php';
+				$md_gui = new ilObjectMetaDataGUI($this->meta_data_rep_obj, $this->meta_data_type, $this->meta_data_sub_obj_id);	
+				/*
 				if (is_object($this->meta_data_observer_obj))
 				{
 					$md_gui->addObserver($this->meta_data_observer_obj,
 						$this->meta_data_observer_func, "General");
 				}
+				*/				
 				$this->ctrl->forwardCommand($md_gui);
 				break;
 			
@@ -3199,10 +3200,16 @@ return;
 		//	, "properties", get_class($this));
 
 		if ($this->use_meta_data)
-		{
-			$ilTabs->addTarget("meta_data",
-				 $this->ctrl->getLinkTargetByClass('ilmdeditorgui',''),
-				 "", "ilmdeditorgui");
+		{			
+			include_once "Services/Object/classes/class.ilObjectMetaDataGUI.php";
+			$mdgui = new ilObjectMetaDataGUI($this->meta_data_rep_obj, 
+				$this->meta_data_type, $this->meta_data_sub_obj_id);					
+			$mdtab = $mdgui->getTab();
+			if($mdtab)
+			{
+				$ilTabs->addTarget("meta_data",			
+					$mdtab, "", "ilobjectmetadatagui");
+			}
 		}
 
 		$lm_set = new ilSetting("lm");

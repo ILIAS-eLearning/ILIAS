@@ -13,6 +13,7 @@ include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
 * @ilCtrl_Calls ilWikiPageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
 * @ilCtrl_Calls ilWikiPageGUI: ilPublicUserProfileGUI, ilPageObjectGUI, ilNoteGUI
 * @ilCtrl_Calls ilWikiPageGUI: ilCommonActionDispatcherGUI, ilRatingGUI, ilWikiStatGUI
+* @ilCtrl_Calls ilWikiPageGUI: ilObjectMetaDataGUI
 *
 * @ingroup ModulesWiki
 */

@@ -216,7 +216,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 				$this->prepareOutput();		
 				$this->tabs_gui->activateTab('meta_data');
 				include_once 'Services/Object/classes/class.ilObjectMetaDataGUI.php';
-				$md_gui = new ilObjectMetaDataGUI($this->object->getId(), 'cat');	
+				$md_gui = new ilObjectMetaDataGUI($this->object);	
 				$this->ctrl->forwardCommand($md_gui);
 				break;
 
@@ -311,7 +311,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 			
 			// metadata
 			include_once "Services/Object/classes/class.ilObjectMetaDataGUI.php";
-			$mdgui = new ilObjectMetaDataGUI($this->object->getId(), "cat");					
+			$mdgui = new ilObjectMetaDataGUI($this->object);					
 			$mdtab = $mdgui->getTab();
 			if($mdtab)
 			{			

@@ -91,7 +91,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 				$this->tabs_gui->activateTab('meta_data');
 				include_once 'Services/Object/classes/class.ilObjectMetaDataGUI.php';
-				$md_gui = new ilObjectMetaDataGUI($this->object->getId(), 'glo', 'term');	
+				$md_gui = new ilObjectMetaDataGUI($this->object, 'term');	
 				$this->ctrl->forwardCommand($md_gui);
 				break;
 			
@@ -1405,7 +1405,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			
 			// meta data
 			include_once "Services/Object/classes/class.ilObjectMetaDataGUI.php";
-			$mdgui = new ilObjectMetaDataGUI($this->object->getId(), "glo", "term");					
+			$mdgui = new ilObjectMetaDataGUI($this->object, "term");					
 			$mdtab = $mdgui->getTab();
 			if($mdtab)
 			{

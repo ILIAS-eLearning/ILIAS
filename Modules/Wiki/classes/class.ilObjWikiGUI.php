@@ -91,6 +91,8 @@ class ilObjWikiGUI extends ilObjectGUI
 				// alter title and description
 //				$tpl->setTitle($wpage_gui->getPageObject()->getTitle());
 //				$tpl->setDescription($this->object->getTitle());
+				
+				$wpage_gui->activateMetaDataEditor($this->object, "wpg", $wpage_gui->getId());
 
 				$ret = $this->ctrl->forwardCommand($wpage_gui);
 				if ($ret != "")
@@ -189,7 +191,7 @@ class ilObjWikiGUI extends ilObjectGUI
 				$this->addHeaderAction();
 				$ilTabs->activateTab("advmd");		
 				include_once 'Services/Object/classes/class.ilObjectMetaDataGUI.php';
-				$md_gui = new ilObjectMetaDataGUI($this->object->getId(), "wiki", "wpg");	
+				$md_gui = new ilObjectMetaDataGUI($this->object, "wpg");	
 				$this->ctrl->forwardCommand($md_gui);
 				break;
 
@@ -521,7 +523,7 @@ class ilObjWikiGUI extends ilObjectGUI
 							
 				// metadata
 				include_once "Services/Object/classes/class.ilObjectMetaDataGUI.php";
-				$mdgui = new ilObjectMetaDataGUI($this->object->getId(), "wiki", "wpg");					
+				$mdgui = new ilObjectMetaDataGUI($this->object, "wpg");					
 				$mdtab = $mdgui->getTab();
 				if($mdtab)
 				{
@@ -1258,7 +1260,7 @@ class ilObjWikiGUI extends ilObjectGUI
 	 */
 	static function renderSideBlock($a_wpg_id, $a_wiki_ref_id, $a_wp = null)
 	{
-		global $tpl, $lng;
+		global $tpl, $lng, $ilAccess, $ilCtrl;
 
 		if ($a_wpg_id > 0 && !$a_wp)
 		{
@@ -1293,17 +1295,20 @@ class ilObjWikiGUI extends ilObjectGUI
 				$rcontent .= $rgui->getBlockHTML($lng->txt("wiki_rate_page"));
 			}
 		
-			// advanced metadata
-			include_once("./Modules/Wiki/classes/class.ilWikiAdvMetaDataBlockGUI.php");			
-			if(ilWikiAdvMetaDataBlockGUI::isActive($wiki_id))
-			{				
-				$rec_ids = ilWikiAdvMetaDataBlockGUI::getRecords($wiki_id);
-				foreach($rec_ids as $record)
-				{				
-					$advmd_pages_block = new ilWikiAdvMetaDataBlockGUI($record);
-					$advmd_pages_block->setObject($a_wiki_ref_id, $wiki_id, $a_wpg_id);
-					$rcontent.= $advmd_pages_block->getHTML();
-				}
+			// advanced metadata			
+			if(!ilWikiPage::lookupAdvancedMetadataHidden($a_wpg_id) || true)
+			{		
+				$cmd = null;
+				if($ilAccess->checkAccess("write", "", $a_wiki_ref_id))
+				{
+					$cmd = array(
+						"edit" => $ilCtrl->getLinkTargetByClass("ilwikipagegui", "editAdvancedMetaData"),
+						"hide" => $ilCtrl->getLinkTargetByClass("ilwikipagegui", "hideAdvancedMetaData")
+					);
+				}				
+				include_once("./Services/Object/classes/class.ilObjectMetaDataGUI.php");				
+				$mdgui = new ilObjectMetaDataGUI(new ilObjWiki($wiki_id, false), "wpg", $a_wpg_id);				
+				$rcontent .= $mdgui->getBlockHTML($cmd);				
 			}
 		}
 			

@@ -11,6 +11,7 @@
 */
 class ilObjectMetaDataGUI
 {
+	protected $object; // [ilObject]
 	protected $obj_id; // [int]
 	protected $obj_type; // [string]
 	protected $sub_type; // [string]
@@ -19,17 +20,17 @@ class ilObjectMetaDataGUI
 	/**
 	 * Construct
 	 * 
-	 * @param int $a_obj_id
-	 * @param string $a_obj_type
+	 * @param ilObject $a_object
 	 * @param string $a_sub_type
 	 * @return self
 	 */
-	public function __construct($a_obj_id, $a_obj_type, $a_sub_type = null, $a_sub_id = null)
+	public function __construct(ilObject $a_object, $a_sub_type = null, $a_sub_id = null)
 	{
 		global $lng;
 		
-		$this->obj_id = $a_obj_id;
-		$this->obj_type = $a_obj_type;
+		$this->object = $a_object;
+		$this->obj_id = $a_object->getId();
+		$this->obj_type = $a_object->getType();
 		$this->sub_type = $a_sub_type;
 		$this->sub_id = $a_sub_id;
 		
@@ -51,10 +52,13 @@ class ilObjectMetaDataGUI
 		switch($next_class)
 		{			
 			case 'ilmdeditorgui':										
-				$this->setSubTabs("lom");		
+				$this->setSubTabs("lom");					
 				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
-				$md_gui = new ilMDEditorGUI($this->obj_id, 0, $this->obj_type);
-				$md_gui->addObserver($this->object,'MDUpdateListener','General');
+				$md_gui = new ilMDEditorGUI($this->obj_id, (int)$this->sub_id, $this->getLOMType());
+				if(!$this->sub_id)
+				{
+					$md_gui->addObserver($this->object, 'MDUpdateListener', 'General');
+				}
 				$ilCtrl->forwardCommand($md_gui);				
 				break;
 				
@@ -72,12 +76,48 @@ class ilObjectMetaDataGUI
 		}
 	}	
 	
-	protected function isLOMAvailable()
+	protected function getLOMType()
 	{
-		// no sub-type supported
+		if($this->sub_type != "-" &&
+			$this->sub_id)
+		{
+			return $this->sub_type;
+		}
+		else
+		{
+			return $this->obj_type;
+		}
+	}
+	
+	protected function isAdvMDAvailable()
+	{
+		include_once 'Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php';
+		foreach(ilAdvancedMDRecord::_getAssignableObjectTypes(false) as $item)
+		{			
+			if($item["obj_type"] == $this->obj_type)
+			{
+				return ((!$item["sub_type"] && $this->sub_type == "-") ||
+					($item["sub_type"] == $this->sub_type));
+			}
+		}
+		return false;
+	}
+	
+	protected function isLOMAvailable()
+	{			
 		return ($this->obj_id &&
-			!$this->sub_id && 
-			in_array($this->obj_type, array("crs", "glo")));
+			in_array($this->getLOMType(), array(
+				"crs", 
+				"file", 
+				"glo", "gdf", 
+				"svy", "spl", 
+				"tst", "qpl", 
+				"mob", 
+				"webr", 
+				"htlm", 
+				"lm", 
+				"sahs"
+		)));
 	}
 	
 	protected function hasAdvancedMDSettings()
@@ -125,13 +165,16 @@ class ilObjectMetaDataGUI
 		{
 			$link = $ilCtrl->getLinkTargetByClass(array("ilobjectmetadatagui", "ilmdeditorgui"), "listSection");
 		}
-		else if($this->canEdit())
-		{
-			$link = $ilCtrl->getLinkTarget($this, "edit");
-		}
-		else if($this->hasAdvancedMDSettings())
-		{
-			$link = $ilCtrl->getLinkTargetByClass(array("ilobjectmetadatagui", "iladvancedmdsettingsgui"), "showRecords");
+		else if($this->isAdvMDAvailable())
+		{	
+			if($this->canEdit())
+			{
+				$link = $ilCtrl->getLinkTarget($this, "edit");
+			}
+			else if($this->hasAdvancedMDSettings())
+			{
+				$link = $ilCtrl->getLinkTargetByClass(array("ilobjectmetadatagui", "iladvancedmdsettingsgui"), "showRecords");
+			}	
 		}		
 		return $link;
 	}
@@ -148,19 +191,22 @@ class ilObjectMetaDataGUI
 			);
 		}
 		
-		if($this->canEdit())
-		{
-			$ilTabs->addSubTab("advmd",
-				$lng->txt("meta_tab_advmd"),
-				$ilCtrl->getLinkTarget($this, "edit"));
+		if($this->isAdvMDAvailable())
+		{		
+			if($this->canEdit())
+			{
+				$ilTabs->addSubTab("advmd",
+					$lng->txt("meta_tab_advmd"),
+					$ilCtrl->getLinkTarget($this, "edit"));
+			}
+
+			if($this->hasAdvancedMDSettings())
+			{
+				$ilTabs->addSubTab("advmddef",
+					$lng->txt("meta_tab_advmd_def"),
+					$ilCtrl->getLinkTargetByClass("iladvancedmdsettingsgui", "showRecords"));
+			}		
 		}
-				
-		if($this->hasAdvancedMDSettings())
-		{
-			$ilTabs->addSubTab("advmddef",
-				$lng->txt("meta_tab_advmd_def"),
-				$ilCtrl->getLinkTargetByClass("iladvancedmdsettingsgui", "showRecords"));
-		}		
 		
 		$ilTabs->activateSubTab($a_active);
 	}
@@ -223,6 +269,37 @@ class ilObjectMetaDataGUI
 		
 		$form->setValuesByPost();
 		$this->edit($form);
+	}
+	
+	
+	//
+	// BLOCK
+	// 
+	
+	public function getBlockHTML(array $a_cmds = null)
+	{
+		global $lng;
+		
+		$html = "";
+		
+		include_once "Services/Object/classes/class.ilObjectMetaDataBlockGUI.php";	
+		include_once "Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php";
+		include_once "Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php";
+		foreach(ilAdvancedMDRecord::_getSelectedRecordsByObject($this->obj_type, $this->obj_id, $this->sub_type) as $record)			
+		{				
+			$block = new ilObjectMetaDataBlockGUI($record);
+			$block->setValues(new ilAdvancedMDValues($record->getRecordId(), $this->obj_id, $this->sub_type, $this->sub_id));
+			if($a_cmds)
+			{
+				foreach($a_cmds as $caption => $url)
+				{
+					$block->addBlockCommand($url, $lng->txt($caption), "_top");		
+				}
+			}
+			$html.= $block->getHTML();
+		}		
+		
+		return $html;
 	}
 }
 
