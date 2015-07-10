@@ -341,12 +341,14 @@ class ilObjTestGUI extends ilObjectGUI
 					require_once 'Modules/Test/classes/class.ilObjTestDynamicQuestionSetConfig.php';
 					$dynamicQuestionSetConfig = new ilObjTestDynamicQuestionSetConfig($tree, $ilDB, $ilPluginAdmin, $this->object);
 					$dynamicQuestionSetConfig->loadFromDb();
-					$questionList = new ilAssQuestionList($ilDB, $this->lng, $ilPluginAdmin, $dynamicQuestionSetConfig->getSourceQuestionPoolId());
+					$questionList = new ilAssQuestionList($ilDB, $this->lng, $ilPluginAdmin);
+					$questionList->setParentObjId($dynamicQuestionSetConfig->getSourceQuestionPoolId());
 					$questionList->setQuestionInstanceTypeFilter(ilAssQuestionList::QUESTION_INSTANCE_TYPE_ORIGINALS);
 				}
 				else
 				{
-					$questionList = new ilAssQuestionList($ilDB, $this->lng, $ilPluginAdmin, $this->object->getId());
+					$questionList = new ilAssQuestionList($ilDB, $this->lng, $ilPluginAdmin);
+					$questionList->setParentObjId($this->object->getId());
 					$questionList->setQuestionInstanceTypeFilter(ilAssQuestionList::QUESTION_INSTANCE_TYPE_DUPLICATES);
 				}
 				$questionList->load();
