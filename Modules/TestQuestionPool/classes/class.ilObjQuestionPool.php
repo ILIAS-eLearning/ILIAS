@@ -1418,6 +1418,7 @@ class ilObjQuestionPool extends ilObject
 		global $ilLog;
 		$newObj = parent::cloneObject($a_target_id,$a_copy_id);
 		$newObj->setOnline($this->getOnline());
+		$newObj->setSkillServiceEnabled($this->isSkillServiceEnabled());
 		$newObj->saveToDb();
 		// clone the questions in the question pool
 		$questions =& $this->getQplQuestions();

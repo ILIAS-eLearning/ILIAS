@@ -47,6 +47,8 @@ class ilAssQuestionSkillAssignmentPropertyFormGUI extends ilPropertyFormGUI
 	{
 		$this->ctrl = $ctrl;
 		$this->lng = $lng;
+		
+		parent::__construct();
 	}
 	
 	/**

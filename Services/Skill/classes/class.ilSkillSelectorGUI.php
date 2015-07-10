@@ -28,6 +28,33 @@ class ilSkillSelectorGUI extends ilVirtualSkillTreeExplorerGUI
 	}
 
 	/**
+	 * Set skill to be opened
+	 *
+	 * @param
+	 */
+	function setSkillSelected($a_id)
+	{
+		$this->setNodeSelected($this->vtree->getCSkillIdForVTreeId($a_id));
+	}
+
+	/**
+	 * Get selected skills (from POST)
+	 */
+	function getSelectedSkills()
+	{
+		$skills = array();
+		$pa = $_POST[$this->select_postvar];
+		if (is_array($pa))
+		{
+			foreach ($pa as $p)
+			{
+				$skills[] = $this->vtree->getCSkillIdForVTreeId($p);
+			}
+		}
+		return $skills;
+	}
+	
+	/**
 	 * Get href for node
 	 *
 	 * @param mixed $a_node node object/array

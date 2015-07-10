@@ -106,6 +106,15 @@ class ilTestSkillAdministrationGUI
 				$gui->setAssignmentEditingEnabled($this->isAssignmentEditingRequired());
 				$gui->setQuestionContainerId($questionContainerId);
 				$gui->setQuestionList($questionList);
+				
+				if( $this->testOBJ->isFixedTest() )
+				{
+					$gui->setQuestionOrderSequence($this->testOBJ->getQuestions());
+				}
+				else
+				{
+					$gui->setAssignmentConfigurationHintMessage($this->buildAssignmentConfigurationInPoolHintMessage());
+				}
 
 				$this->ctrl->forwardCommand($gui);
 				
@@ -200,5 +209,24 @@ class ilTestSkillAdministrationGUI
 		}
 
 		return ilAssQuestionList::QUESTION_INSTANCE_TYPE_DUPLICATES;
+	}
+	
+	private function buildAssignmentConfigurationInPoolHintMessage()
+	{
+		switch(true)
+		{
+			case $this->testOBJ->isRandomTest():
+				$testMode = $this->lng->txt('tst_question_set_type_random');
+				break;
+			
+			case $this->testOBJ->isDynamicTest():
+				$testMode = $this->lng->txt('tst_question_set_type_dynamic');
+				break;
+			
+			default:
+				return '';
+		}
+		
+		return sprintf($this->lng->txt('tst_qst_skl_config_in_pool_hint_msg'), $testMode);
 	}
 } 

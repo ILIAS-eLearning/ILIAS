@@ -69,4 +69,12 @@ class ilLogicalAnswerComparisonExpressionInputGUI extends ilAnswerWizardInputGUI
 	{
 		return $lng->txt('tst_comp_points');
 	}
+
+	/**
+	 * @return string
+	 */
+	protected function getTemplate()
+	{
+		return "tpl.prop_lac_expression_input.html";
+	}
 }

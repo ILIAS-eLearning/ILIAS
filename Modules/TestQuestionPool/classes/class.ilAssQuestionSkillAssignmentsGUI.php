@@ -69,6 +69,16 @@ class ilAssQuestionSkillAssignmentsGUI
 	private $assignmentEditingEnabled;
 
 	/**
+	 * @var array
+	 */
+	private $questionOrderSequence;
+
+	/**
+	 * @var string
+	 */
+	private $assignmentConfigurationHintMessage;
+
+	/**
 	 * @param ilCtrl $ctrl
 	 * @param ilAccessHandler $access
 	 * @param ilTemplate $tpl
@@ -82,6 +92,38 @@ class ilAssQuestionSkillAssignmentsGUI
 		$this->tpl = $tpl;
 		$this->lng = $lng;
 		$this->db = $db;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getQuestionOrderSequence()
+	{
+		return $this->questionOrderSequence;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getAssignmentConfigurationHintMessage()
+	{
+		return $this->assignmentConfigurationHintMessage;
+	}
+
+	/**
+	 * @param string $assignmentConfigurationHintMessage
+	 */
+	public function setAssignmentConfigurationHintMessage($assignmentConfigurationHintMessage)
+	{
+		$this->assignmentConfigurationHintMessage = $assignmentConfigurationHintMessage;
+	}
+
+	/**
+	 * @param array $questionOrderSequence
+	 */
+	public function setQuestionOrderSequence($questionOrderSequence)
+	{
+		$this->questionOrderSequence = $questionOrderSequence;
 	}
 
 	/**
@@ -190,7 +232,9 @@ class ilAssQuestionSkillAssignmentsGUI
 
 			$handledSkills = array();
 			
-			$skillIds = (array)$_POST['skill_ids'];
+			//$skillIds = (array)$_POST['skill_ids'];
+			$sgui = $this->buildSkillSelectorExplorerGUI(array());
+			$skillIds = $sgui->getSelectedSkills();
 			
 			foreach($skillIds as $skillId)
 			{
@@ -278,6 +322,8 @@ class ilAssQuestionSkillAssignmentsGUI
 		assQuestionGUI $questionGUI = null, ilAssQuestionSkillAssignment $assignment = null, ilPropertyFormGUI $form = null
 	)
 	{
+		$this->handleAssignmentConfigurationHintMessage();
+
 		$this->keepAssignmentParameters();
 		
 		if( $questionGUI === null )
@@ -388,6 +434,8 @@ class ilAssQuestionSkillAssignmentsGUI
 
 	private function showSkillQuestionAssignmentsCmd()
 	{
+		$this->handleAssignmentConfigurationHintMessage();
+		
 		$table = $this->buildTableGUI();
 
 		$assignmentList = $this->buildSkillQuestionAssignmentList();
@@ -395,7 +443,9 @@ class ilAssQuestionSkillAssignmentsGUI
 		$assignmentList->loadAdditionalSkillData();
 		$table->setSkillQuestionAssignmentList($assignmentList);
 
-		$table->setData($this->questionList->getQuestionDataArray());
+		$table->setData($this->orderQuestionData(
+			$this->questionList->getQuestionDataArray()
+		));
 
 		$this->tpl->setContent($this->ctrl->getHTML($table));
 	}
@@ -502,7 +552,8 @@ class ilAssQuestionSkillAssignmentsGUI
 		foreach($assignments as $assignment)
 		{
 			$id = "{$assignment->getSkillBaseId()}:{$assignment->getSkillTrefId()}";
-			$skillSelectorExplorerGUI->setNodeSelected($id);
+			//$skillSelectorExplorerGUI->setNodeSelected($id);
+			$skillSelectorExplorerGUI->setSkillSelected($id);
 		}
 
 		return $skillSelectorExplorerGUI;
@@ -630,5 +681,42 @@ class ilAssQuestionSkillAssignmentsGUI
 		$this->ctrl->saveParameter($this, 'question_id');
 		$this->ctrl->saveParameter($this, 'skill_base_id');
 		$this->ctrl->saveParameter($this, 'skill_tref_id');
+	}
+	
+	private function orderQuestionData($questionData)
+	{
+		$orderedQuestionsData = array();
+
+		if( $this->getQuestionOrderSequence() )
+		{
+			foreach($this->getQuestionOrderSequence() as $questionId)
+			{
+				$orderedQuestionsData[$questionId] = $questionData[$questionId];
+			}
+			
+			return $orderedQuestionsData;
+		}
+
+		foreach($questionData as $questionId => $data)
+		{
+			$orderedQuestionsData[$questionId] = trim($data['title']);
+		}
+
+		asort($orderedQuestionsData, SORT_NATURAL | SORT_FLAG_CASE);
+		
+		foreach($orderedQuestionsData as $questionId => $questionTitle)
+		{
+			$orderedQuestionsData[$questionId] = $questionData[$questionId];
+		}
+		
+		return $orderedQuestionsData;
+	}
+	
+	private function handleAssignmentConfigurationHintMessage()
+	{
+		if( $this->getAssignmentConfigurationHintMessage() )
+		{
+			ilUtil::sendInfo($this->getAssignmentConfigurationHintMessage());
+		}
 	}
 }

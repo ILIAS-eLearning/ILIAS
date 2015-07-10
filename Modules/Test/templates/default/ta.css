@@ -523,6 +523,12 @@ td.ilAssQuestSkillAssignQuestTitle div
     margin-right: 20px;
 }
 
+.ilAssQuestionLacExprWizard td,
+.ilAssQuestionLacExprWizard th
+{
+	padding-right: 10px;
+}
+
 div.tst_mark_output
 {
 }

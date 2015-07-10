@@ -257,7 +257,7 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
 	{
 		global $lng;
 		
-		$tpl = new ilTemplate("tpl.prop_answerwizardinput.html", true, true, "Modules/TestQuestionPool");
+		$tpl = new ilTemplate($this->getTemplate(), true, true, "Modules/TestQuestionPool");
 		$i = 0;
 		foreach ($this->values as $value)
 		{
@@ -360,5 +360,13 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
 	protected function getPointsInputLabel($lng)
 	{
 		return $lng->txt('points');
+	}
+
+	/**
+	 * @return string
+	 */
+	protected function getTemplate()
+	{
+		return "tpl.prop_answerwizardinput.html";
 	}
 }

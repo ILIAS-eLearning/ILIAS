@@ -2,7 +2,7 @@
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentsGUI.php';
-require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillUsagesGUI.php';
+require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillUsagesTableGUI.php';
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -11,7 +11,7 @@ require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillUsagesGUI
  * @package     Modules/TestQuestionPool
  * 
  * @ilCtrl_Calls ilQuestionPoolSkillAdministrationGUI: ilAssQuestionSkillAssignmentsGUI
- * @ilCtrl_Calls ilQuestionPoolSkillAdministrationGUI: ilAssQuestionSkillUsagesGUI
+ * @ilCtrl_Calls ilQuestionPoolSkillAdministrationGUI: ilAssQuestionSkillUsagesTableGUI
  */
 class ilQuestionPoolSkillAdministrationGUI
 {
@@ -106,7 +106,7 @@ class ilQuestionPoolSkillAdministrationGUI
 		);
 		
 		$link = $this->ctrl->getLinkTargetByClass(
-			'ilAssQuestionSkillUsagesGUI', ilAssQuestionSkillUsagesGUI::CMD_SHOW_USAGES
+			'ilAssQuestionSkillUsagesTableGUI', ilAssQuestionSkillUsagesTableGUI::CMD_SHOW
 		);
 		$this->tabs->addSubTab(
 			'ilassquestionskillusagesgui', $this->lng->txt('qpl_skl_sub_tab_usages'), $link
@@ -146,9 +146,11 @@ class ilQuestionPoolSkillAdministrationGUI
 
 				break;
 
-			case 'ilassquestionskillusagesgui':
+			case 'ilassquestionskillusagestablegui':
 
-				$gui = new ilAssQuestionSkillUsagesGUI($this->ctrl, $this->tpl, $this->lng, $this->db);
+				$gui = new ilAssQuestionSkillUsagesTableGUI(
+					$this->ctrl, $this->tpl, $this->lng, $this->db, $this->poolOBJ->getId()
+				);
 
 				$this->ctrl->forwardCommand($gui);
 

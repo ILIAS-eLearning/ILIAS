@@ -288,14 +288,14 @@ $ilDB->query("
 
 $row = $ilDB->fetchAssoc($ilDB->queryF(
 	'SELECT COUNT(*) cnt FROM qpl_qst_skl_assigns LEFT JOIN skl_tree_node ON skill_base_fi = obj_id WHERE type = %s',
-	array('text'), array('sktp')
+	array('text'), array('sktr')
 ));
 
 if( $row['cnt'] )
 {
 	$res = $ilDB->queryF(
 		'SELECT obj_fi, question_fi, skill_base_fi, skill_tref_fi FROM qpl_qst_skl_assigns LEFT JOIN skl_tree_node ON skill_base_fi = obj_id WHERE type = %s',
-		array('text'), array('sktp')
+		array('text'), array('sktr')
 	);
 	
 	while($row = $ilDB->fetchAssoc($res))

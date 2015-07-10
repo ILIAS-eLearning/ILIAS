@@ -576,6 +576,10 @@ assessment#:#ass_lac_expression_not_supported_by_cur_question#:#The current ques
 assessment#:#ass_lac_operator_not_supported_by_expression#:#The Operator "%s" can not be used in comparison with the expression "%s".
 assessment#:#tst_skill_triggerings_num_req_answers#:#Required Amount of Answers for Competence Triggers
 assessment#:#tst_skill_triggerings_num_req_answers_desc#:#Competences aren't triggered before this amount of answered questions contributes to the competence level calculation.
+assessment#:#qpl_qst_skl_usg_skill_col#:#Competence
+assessment#:#qpl_qst_skl_usg_numq_col#:#Number of Questions in Pool adressing this competence
+assessment#:#qpl_qst_skl_usg_sklpnt_col#:#Total Sum of Competence-Points per Competence
+assessment#:#tst_qst_skl_config_in_pool_hint_msg#:#The Skill-Question-Assignment for tests with mode "%s" is to be done in the corresponding question pool(s). The configuration of threshold values is to be done here in the test.
 assessment#:#locked#:#locked
 assessment#:#log_answer_changed_points#:#Manual change of points of test person %s from %d to %d points by %s
 assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#The user could not enter the test because the maximum number of simultaneous users has been reached
