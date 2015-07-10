@@ -100,6 +100,9 @@ class ilExAssignmentEditorGUI
 	{
 		global $tpl, $ilCtrl;
 		
+		// #16163 - ignore ass id from request
+		$this->assignment = null;
+		
 		if(!(int)$_POST["type"])
 		{
 			$ilCtrl->redirect($this, "listAssignments");
@@ -621,6 +624,9 @@ class ilExAssignmentEditorGUI
 	public function saveAssignmentObject()
 	{
 		global $tpl, $lng, $ilCtrl;
+		
+		// #16163 - ignore ass id from request
+		$this->assignment = null;
 		
 		$form = $this->initAssignmentForm((int)$_POST["type"], "create");
 		$input = $this->processForm($form);
