@@ -249,9 +249,6 @@ class gevDecentralTrainingGUI {
 		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 		
-		require_once("Services/GEV/Mailing/classes/class.gevCrsAdditionalMailSettings.php");
-		$mail_settings = new gevCrsAdditionalMailSettings($_POST["obj_id"]);
-		
 		$form = $this->buildTrainingOptionsForm(false, $_POST["obj_id"]);
 
 		//gev patch start
@@ -489,9 +486,7 @@ class gevDecentralTrainingGUI {
 				
 			}
 			else {
-				require_once("Services/GEV/Mailing/classes/class.gevCrsAdditionalMailSettings.php");
 				$crs_utils = gevCourseUtils::getInstance($a_training_id);
-				$mail_settings = new gevCrsAdditionalMailSettings($a_training_id);
 				$tmp = $crs_utils->getSchedule();
 				$sched = explode("-",$tmp[0]);
 				$training_info = array(
@@ -526,8 +521,6 @@ class gevDecentralTrainingGUI {
 			$crs_utils = gevCourseUtils::getInstance($a_training_id);
 			
 			if (!$a_fill) {
-				require_once("Services/GEV/Mailing/classes/class.gevCrsAdditionalMailSettings.php");
-				$mail_settings = new gevCrsAdditionalMailSettings($a_training_id);
 				$training_info = array(
 					  "ltype" => $crs_utils->getType()
 					, "title" => $crs_utils->getTitle()
