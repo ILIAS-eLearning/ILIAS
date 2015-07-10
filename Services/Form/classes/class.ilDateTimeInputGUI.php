@@ -676,6 +676,15 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
 		$html = $this->render("toolbar");
 		return $html;
 	}
+	
+	// gev-patch start
+	public function getValue() {
+		if (!$this->getShowTime() && $this->getShowDate()) {
+			return $this->getDate();
+		}
+		throw new ilException("ilDateTimeInputGUI::getValue: Only implemented for Date inputs.");
+	}
+	// gev-patch end
 }
 
 ?>
