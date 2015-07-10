@@ -175,6 +175,28 @@ class ilTestSkillEvaluationGUI
 
 		return $gui;
 	}
+	
+	private function isTestResultButtonRequired()
+	{
+		$testOBJ = ilObjectFactory::getInstanceByObjId($this->objectId);
+		
+		if( !$testOBJ->canShowTestResults($this->testSession) )
+		{
+			return false;
+		}
+
+		require_once 'Modules/Test/classes/class.ilTestPassesSelector.php';
+		$testPassesSelector = new ilTestPassesSelector($this->db, $testOBJ);
+		$testPassesSelector->setActiveId($this->testSession->getActiveId());
+		$testPassesSelector->setLastFinishedPass($this->testSession->getLastFinishedPass());
+
+		if( !count($testPassesSelector->getReportablePasses()) )
+		{
+			return false;
+		}
+		
+		return true;
+	}
 
 	private function buildPersonalSkillsGUI($usrId, $selectedSkillProfileId)
 	{
