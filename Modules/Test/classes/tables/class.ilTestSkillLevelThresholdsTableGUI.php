@@ -48,8 +48,11 @@ class ilTestSkillLevelThresholdsTableGUI extends ilTable2GUI
 		$this->setRowTemplate("tpl.tst_skl_thresholds_row.html", "Modules/Test");
 
 		$this->enable('header');
-		$this->disable('sort');
+		#$this->disable('sort');
 		$this->disable('select_all');
+		
+		$this->setDefaultOrderField('competence');
+		$this->setDefaultOrderDirection('asc');
 
 		$this->setFormAction($ctrl->getFormAction($parentOBJ));
 
@@ -60,16 +63,16 @@ class ilTestSkillLevelThresholdsTableGUI extends ilTable2GUI
 
 	public function initColumns()
 	{
-		$this->addColumn($this->lng->txt('tst_competence'),'conpetence', '50%');
+		$this->addColumn($this->lng->txt('tst_competence'),'competence', '50%');
 		
 		if( $this->areQuestionAssignmentColumnsEnabled() )
 		{
-			$this->addColumn($this->lng->txt('tst_num_questions'),'num_questions', '10%');
-			$this->addColumn($this->lng->txt('tst_max_comp_points'),'max_comp_points', '10%');
+			$this->addColumn($this->lng->txt('tst_num_questions'),'', '10%');
+			$this->addColumn($this->lng->txt('tst_max_comp_points'),'', '10%');
 		}
 
-		$this->addColumn($this->lng->txt('tst_level'),'level', '10%');
-		$this->addColumn($this->lng->txt('tst_threshold'),'threshold', '10%');
+		$this->addColumn($this->lng->txt('tst_level'),'', '10%');
+		$this->addColumn($this->lng->txt('tst_threshold'),'', '10%');
 	}
 
 	public function fillRow($data)
@@ -88,7 +91,7 @@ class ilTestSkillLevelThresholdsTableGUI extends ilTable2GUI
 
 		$this->tpl->setCurrentBlock('competence');
 		$this->tpl->setVariable('ROWSPAN', $this->getRowspan(count($levels)));
-		$this->tpl->setVariable('COMPETENCE', ilBasicSkill::_lookupTitle($skill->getId(), $data['skill_tref_id']));
+		$this->tpl->setVariable('COMPETENCE', $data['competence']);
 		$this->tpl->parseCurrentBlock();
 
 		$this->tpl->setCurrentBlock('tbl_content');
@@ -138,5 +141,17 @@ class ilTestSkillLevelThresholdsTableGUI extends ilTable2GUI
 		$skillKey = $skillBaseId.':'.$skillTrefId;
 
 		return "<input type\"text\" size=\"2\" name=\"threshold[{$skillKey}][$skillLevelId]\" value=\"{$thresholdValue}\" />";
+	}
+	
+	public function completeCompetenceTitles($rows)
+	{
+		foreach($rows as $key => $row)
+		{
+			$rows[$key]['competence'] = ilBasicSkill::_lookupTitle(
+				$row['skill']->getId(), $row['skill_tref_id']
+			);
+		}
+		
+		return $rows;
 	}
 }

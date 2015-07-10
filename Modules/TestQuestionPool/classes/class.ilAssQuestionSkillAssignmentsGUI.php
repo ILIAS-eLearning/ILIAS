@@ -392,9 +392,10 @@ class ilAssQuestionSkillAssignmentsGUI
 		}
 
 		$questionPageHTML = $this->buildQuestionPage($questionGUI);
-		
+
 		require_once 'Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/class.ilAssLacLegendGUI.php';
 		$legend = new ilAssLacLegendGUI($this->lng, $this->tpl);
+		$legend->setQuestionOBJ($questionGUI->object);
 		$legend->setInitialVisibilityEnabled($assignment->hasEvalModeBySolution());
 
 		$this->tpl->setContent( $this->ctrl->getHTML($form).'<br />'.$questionPageHTML.$this->ctrl->getHTML($legend) );
@@ -468,7 +469,7 @@ class ilAssQuestionSkillAssignmentsGUI
 	private function buildSkillQuestionAssignmentPropertiesForm(assQuestion $question, ilAssQuestionSkillAssignment $assignment)
 	{
 		require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssQuestionSkillAssignmentPropertyFormGUI.php';
-		$form = new ilAssQuestionSkillAssignmentPropertyFormGUI($this->ctrl, $this->lng);
+		$form = new ilAssQuestionSkillAssignmentPropertyFormGUI($this->ctrl, $this->lng, $this);
 
 		$form->setQuestion($question);
 		$form->setAssignment($assignment);

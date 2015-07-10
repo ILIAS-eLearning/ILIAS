@@ -28,6 +28,11 @@ class ilAssQuestionSkillAssignmentPropertyFormGUI extends ilPropertyFormGUI
 	protected $lng;
 	
 	/**
+	 * @var ilAssQuestionSkillAssignmentsGUI
+	 */
+	protected $parentGUI;
+	
+	/**
 	 * @var assQuestion
 	 */
 	private $question = null;
@@ -43,10 +48,11 @@ class ilAssQuestionSkillAssignmentPropertyFormGUI extends ilPropertyFormGUI
 	private $manipulationEnabled = false;
 
 	
-	public function __construct(ilCtrl $ctrl, ilLanguage $lng)
+	public function __construct(ilCtrl $ctrl, ilLanguage $lng, ilAssQuestionSkillAssignmentsGUI $parentGUI)
 	{
 		$this->ctrl = $ctrl;
 		$this->lng = $lng;
+		$this->parentGUI = $parentGUI;
 		
 		parent::__construct();
 	}
@@ -101,7 +107,7 @@ class ilAssQuestionSkillAssignmentPropertyFormGUI extends ilPropertyFormGUI
 
 	public function build()
 	{
-		$this->setFormAction($this->ctrl->getFormActionByClass('ilAssQuestionSkillAssignmentsGUI'));
+		$this->setFormAction($this->ctrl->getFormAction($this->parentGUI));
 
 		if( $this->isManipulationEnabled() )
 		{

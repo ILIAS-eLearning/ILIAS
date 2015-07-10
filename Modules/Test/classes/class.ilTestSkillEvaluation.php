@@ -283,7 +283,7 @@ class ilTestSkillEvaluation
 			$factor = $reachedTestPoints / $maxTestPoints;
 		}
 
-		return ( (2 * $skillPoints * $factor) - $skillPoints );
+		return ($skillPoints * $factor);
 	}
 
 	private function bookToSkillPointAccount($skillBaseId, $skillTrefId, $maxSkillPoints, $reachedSkillPoints)

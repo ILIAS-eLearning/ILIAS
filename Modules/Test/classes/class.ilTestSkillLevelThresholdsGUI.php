@@ -153,7 +153,9 @@ class ilTestSkillLevelThresholdsGUI
 		$assignmentList = $this->buildSkillQuestionAssignmentList();
 		$assignmentList->loadFromDb();
 		
-		$table->setData($assignmentList->getUniqueAssignedSkills());
+		$table->setData($table->completeCompetenceTitles(
+			$assignmentList->getUniqueAssignedSkills()
+		));
 
 		$this->tpl->setContent($this->ctrl->getHTML($table));
 	}

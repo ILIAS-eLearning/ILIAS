@@ -16,6 +16,8 @@ class ilAssLacLegendGUI extends ilOverlayGUI
 	protected $tpl;
 	
 	private $initialVisibilityEnabled;
+
+	private $questionOBJ;
 	
 	public function __construct(ilLanguage $lng, ilTemplate $tpl)
 	{
@@ -24,7 +26,19 @@ class ilAssLacLegendGUI extends ilOverlayGUI
 		
 		$this->initialVisibilityEnabled = false;
 
+		$this->questionOBJ = null;
+
 		parent::__construct('qpl_lac_legend');
+	}
+
+	public function getQuestionOBJ()
+	{
+		return $this->questionOBJ;
+	}
+
+	public function setQuestionOBJ(iQuestionCondition $questionOBJ)
+	{
+		$this->questionOBJ = $questionOBJ;
 	}
 
 	public function isInitialVisibilityEnabled()
@@ -40,7 +54,7 @@ class ilAssLacLegendGUI extends ilOverlayGUI
 	public function getHTML()
 	{
 		$this->initOverlay();
-		
+
 		$tpl = $this->getTemplate();
 		
 		$this->renderCommonLegendPart($tpl);
@@ -70,7 +84,7 @@ class ilAssLacLegendGUI extends ilOverlayGUI
 
 		$this->add();
 	}
-	
+
 	protected function getTemplate()
 	{
 		return new ilTemplate(
@@ -83,7 +97,7 @@ class ilAssLacLegendGUI extends ilOverlayGUI
 		$tpl->setVariable(
 			'COMMON_ELEMENTS_HEADER', $this->lng->txt('qpl_lac_legend_header_common')
 		);
-		
+
 		foreach($this->getCommonElements() as $element => $description)
 		{
 			$tpl->setCurrentBlock('common_elements');
@@ -92,20 +106,6 @@ class ilAssLacLegendGUI extends ilOverlayGUI
 			$tpl->parseCurrentBlock();
 		}
 	}
-	
-	protected function getCommonElements()
-	{
-		return array(
-			'&' => $this->lng->txt('qpl_lac_desc_logical_and'),
-			'|' => $this->lng->txt('qpl_lac_desc_logical_or'),
-			'!' => $this->lng->txt('qpl_lac_desc_negation'),
-			'()' => $this->lng->txt('qpl_lac_desc_brackets'),
-			//'Qn' => $this->lng->txt('qpl_lac_desc_res_of_quest_n'),
-			//'Qn[m]' => $this->lng->txt('qpl_lac_desc_res_of_answ_m_of_quest_n'),
-			'R' => $this->lng->txt('qpl_lac_desc_res_of_cur_quest'),
-			'R[m]' => $this->lng->txt('qpl_lac_desc_res_of_answ_m_of_cur_quest')
-		);
-	}
 
 	protected function renderQuestSpecificLegendPart(ilTemplate $tpl)
 	{
@@ -113,55 +113,17 @@ class ilAssLacLegendGUI extends ilOverlayGUI
 			'QUEST_SPECIFIC_ELEMENTS_HEADER', $this->lng->txt('qpl_lac_legend_header_quest_specific')
 		);
 		
-		foreach($this->getQuestionTypeSpecificElements() as $element => $info)
+		foreach($this->getQuestionTypeSpecificExpressions() as $expression => $description)
 		{
 			$tpl->setCurrentBlock('quest_specific_elements');
-			$tpl->setVariable('QSE_ELEMENT', $element);
-			$tpl->setVariable('QSE_DESCRIPTION', $info['description']);
+			$tpl->setVariable('QSE_ELEMENT', $expression);
+			$tpl->setVariable('QSE_DESCRIPTION', $description);
 			$tpl->setVariable('QSE_OPERATORS_TXT', $this->lng->txt('qpl_lac_legend_label_operators'));
-			$tpl->setVariable('QSE_OPERATORS', implode(', ', $info['operators']));
+			$tpl->setVariable('QSE_OPERATORS', implode(', ', $this->getQuestionOBJ()->getOperators($expression)));
 			$tpl->parseCurrentBlock();
 		}
 	}
 
-	protected function getQuestionTypeSpecificElements()
-	{
-		return array(
-			'%n%' => array(
-				'description'=> $this->lng->txt('qpl_lac_desc_compare_with_quest_res'),
-				'operators' => array('<', '<=', '=', '>=', '>', '<>')
-			),
-			'#n#' => array(
-				'description'=> $this->lng->txt('qpl_lac_desc_compare_with_number'),
-				'operators' => array('<', '<=', '=', '>=', '>', '<>')
-			),
-			'~TEXT~' => array(
-				'description'=> $this->lng->txt('qpl_lac_desc_compare_with_text'),
-				'operators' => array('=', '<>')
-			),
-			';n:m;' => array(
-				'description'=> $this->lng->txt('qpl_lac_desc_compare_with_assignment'),
-				'operators' => array('=', '<>')
-			),
-			'$n,m,o,p$' => array(
-				'description'=> $this->lng->txt('qpl_lac_desc_compare_with_sequence'),
-				'operators' => array('=', '<>')
-			),
-			'+n+' => array(
-				'description'=> $this->lng->txt('qpl_lac_desc_compare_with_answer_n'),
-				'operators' => array('=', '<>')
-			),
-			'*n,m,o,p*' => array(
-				'description'=> $this->lng->txt('qpl_lac_desc_compare_with_exact_sequence'),
-				'operators' => array('=', '<>')
-			),
-			'?' => array(
-				'description'=> $this->lng->txt('qpl_lac_desc_compare_answer_exist'),
-				'operators' => array('=', '<>')
-			)
-		);
-	}
-	
 	protected function populateVisibilityCss(ilTemplate $tpl)
 	{
 		if( !$this->isInitialVisibilityEnabled() )
@@ -194,5 +156,47 @@ class ilAssLacLegendGUI extends ilOverlayGUI
 	public function getTriggerElement()
 	{
 		return "<div id=\"qpl_lac_legend_trigger\"><a href=\"#\">".$this->lng->txt("qpl_lac_legend_link")."</a></div>";
+	}
+
+	protected function getQuestionTypeSpecificExpressions()
+	{
+		$availableExpressionTypes = $this->getAvailableExpressionTypes();
+
+		$expressionTypes = array();
+
+		foreach($this->getQuestionOBJ()->getExpressionTypes() as $expressionType)
+		{
+			$expressionTypes[$expressionType] = $availableExpressionTypes[$expressionType];
+		}
+
+		return $expressionTypes;
+	}
+
+	protected function getCommonElements()
+	{
+		return array(
+			'&' => $this->lng->txt('qpl_lac_desc_logical_and'),
+			'|' => $this->lng->txt('qpl_lac_desc_logical_or'),
+			'!' => $this->lng->txt('qpl_lac_desc_negation'),
+			'()' => $this->lng->txt('qpl_lac_desc_brackets'),
+			//'Qn' => $this->lng->txt('qpl_lac_desc_res_of_quest_n'),
+			//'Qn[m]' => $this->lng->txt('qpl_lac_desc_res_of_answ_m_of_quest_n'),
+			'R' => $this->lng->txt('qpl_lac_desc_res_of_cur_quest'),
+			'R[m]' => $this->lng->txt('qpl_lac_desc_res_of_answ_m_of_cur_quest')
+		);
+	}
+
+	protected function getAvailableExpressionTypes()
+	{
+		return array(
+			'%n%' => $this->lng->txt('qpl_lac_desc_compare_with_quest_res'),
+			'#n#' => $this->lng->txt('qpl_lac_desc_compare_with_number'),
+			'~TEXT~' => $this->lng->txt('qpl_lac_desc_compare_with_text'),
+			';n:m;' => $this->lng->txt('qpl_lac_desc_compare_with_assignment'),
+			'$n,m,o,p$' => $this->lng->txt('qpl_lac_desc_compare_with_sequence'),
+			'+n+' => $this->lng->txt('qpl_lac_desc_compare_with_answer_n'),
+			'*n,m,o,p*' => $this->lng->txt('qpl_lac_desc_compare_with_exact_sequence'),
+			'?' => $this->lng->txt('qpl_lac_desc_compare_answer_exist')
+		);
 	}
 }

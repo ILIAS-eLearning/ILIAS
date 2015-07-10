@@ -339,3 +339,5 @@ il.Overlay = {
 	}
 };
 
+$(document).bind("click",
+	function (e) {il.Overlay.hideAllOverlays(e, false, ""); });
