@@ -43,6 +43,86 @@ class ilSCTasks
 	}
 	
 	/**
+	 * Lookup group id by task id
+	 * @global type $ilDB
+	 * @param type $a_task_id
+	 * @return int
+	 */
+	public static function lookupGroupId($a_task_id)
+	{
+		global $ilDB;
+		
+		$query = 'SELECT grp_id FROM sysc_tasks '.
+				'WHERE id = '.$ilDB->quote($a_task_id,'integer');
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return $row->grp_id;
+		}
+		return 0;
+	}
+	
+	/**
+	 * 
+	 * @global type $ilDB
+	 */
+	public static function lookupCompleted($a_grp_id)
+	{
+		global $ilDB;
+		
+		$query = 'SELECT count(id) num FROM sysc_tasks '.
+				'WHERE status = '.$ilDB->quote(ilSCTask::STATUS_COMPLETED,'integer').' '.
+				'AND grp_id = '.$ilDB->quote($a_grp_id,'integer');
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return $row->num;
+		}
+		return 0;
+	}
+	
+	/**
+	 * 
+	 * @global type $ilDB
+	 */
+	public static function lookupFailed($a_grp_id)
+	{
+		global $ilDB;
+		
+		$query = 'SELECT count(id) num FROM sysc_tasks '.
+				'WHERE status = '.$ilDB->quote(ilSCTask::STATUS_FAILED,'integer').' '.
+				'AND grp_id = '.$ilDB->quote($a_grp_id,'integer');
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return $row->num;
+		}
+		return 0;
+	}
+	
+	/**
+	 * Lookup last update of group tasks
+	 * @global type $ilDB
+	 * @param type $a_grp_id
+	 * @return \ilDateTime
+	 */
+	public static function lookupLastUpdate($a_grp_id)
+	{
+		global $ilDB;
+		
+		$query = 'SELECT MAX(last_update) last_update FROM sysc_tasks '.
+				'WHERE status = '.$ilDB->quote(ilSCTask::STATUS_FAILED,'integer').' '.
+				'AND grp_id = '.$ilDB->quote($a_grp_id,'integer');
+		$res = $ilDB->query($query);
+		
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return new ilDateTime($row->last_update,IL_CAL_DATETIME,'UTC');
+		}
+		return new ilDateTime(time(),IL_CAL_UNIX);
+	}
+
+	/**
 	 * Get groups
 	 * @return ilSCGroup[]
 	 */

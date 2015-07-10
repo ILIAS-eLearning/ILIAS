@@ -13,6 +13,7 @@ class ilSCTaskTableGUI extends ilTable2GUI
 {
 
 	private $group_id = 0;
+	private $component_task_handler = null;
 	
 	/**
 	 * Constructor
@@ -36,6 +37,7 @@ class ilSCTaskTableGUI extends ilTable2GUI
 		return $this->group_id;
 	}
 	
+	
 	/**
 	 * init table 
 	 */
@@ -53,6 +55,7 @@ class ilSCTaskTableGUI extends ilTable2GUI
 
 		$this->setRowTemplate('tpl.syscheck_tasks_row.html','Services/SystemCheck');
 		$this->setFormAction($ilCtrl->getFormAction($this->getParentObject()));
+		
 	}
 
 	/**
@@ -63,8 +66,27 @@ class ilSCTaskTableGUI extends ilTable2GUI
 	{
 		$this->tpl->setVariable('VAL_TITLE',$row['title']);
 		$this->tpl->setVariable('VAL_DESC',$row['description']);
+
+		include_once './Services/SystemCheck/classes/class.ilSCUtils.php';
+		$text = ilSCUtils::taskStatus2Text($row['status']);
+		switch($row['status'])
+		{
+			case ilSCTask::STATUS_COMPLETED:
+				$this->tpl->setVariable('VAL_STATUS_SUCCESS',$text);
+				break;
+			
+			case ilSCTask::STATUS_FAILED:
+				$this->tpl->setCurrentBlock('warning');
+				$this->tpl->setVariable('VAL_STATUS_WARNING',$text);
+				$this->tpl->parseCurrentBlock();
+				break;
+			
+			default:
+				$this->tpl->setVariable('VAL_STATUS_STANDARD',$text);
+				break;
+		}
+
 		$this->tpl->setVariable('VAL_LAST_UPDATE',$row['last_update']);
-		$this->tpl->setVariable('VAL_STATUS',$row['status']);
 		
 		// Actions
 		include_once './Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
@@ -74,11 +96,22 @@ class ilSCTaskTableGUI extends ilTable2GUI
 		$list->setId('sysc_'.$row['id']);
 		$list->setListTitle($this->lng->txt('actions'));
 		
-		$list->addItem(
-				$this->lng->txt('show'),
-				'',
-				$GLOBALS['ilCtrl']->getLinkTarget($this->getParentObject(),'showGroup')
-		);
+		include_once './Services/SystemCheck/classes/class.ilSCComponentTaskFactory.php';
+		$task_handler =  ilSCComponentTaskFactory::getComponentTask($row['id']);
+		
+		$GLOBALS['ilCtrl']->setParameterByClass(get_class($task_handler),'task_id',$row['id']);
+		foreach((array) $task_handler->getActions() as $actions)
+		{
+			$list->addItem(
+					$actions['txt'],
+					'',
+					$GLOBALS['ilCtrl']->getLinkTargetByClass(
+						get_class($task_handler),
+						$actions['command']
+					)
+			);
+		}
+		
 		$this->tpl->setVariable('ACTIONS',$list->getHTML());
 	}
 
@@ -92,10 +125,14 @@ class ilSCTaskTableGUI extends ilTable2GUI
 		include_once './Services/SystemCheck/classes/class.ilSCTasks.php';
 		foreach(ilSCTasks::getInstanceByGroupId($this->getGroupId())->getTasks() as $task)
 		{
+			include_once './Services/SystemCheck/classes/class.ilSCComponentTaskFactory.php';
+			$task_handler =  ilSCComponentTaskFactory::getComponentTask($task->getId());
+			
+			
 			$item = array();
 			$item['id'] = $task->getId();
-			$item['title'] = $GLOBALS['lng']->txt($task->getTitle());
-			$item['description'] = $GLOBALS['lng']->txt($task->getDescription());
+			$item['title'] = $task_handler->getTitle();
+			$item['description'] = $task_handler->getDescription();
 			$item['last_update'] = ilDatePresentation::formatDate($task->getLastUpdate());
 			$item['last_update_sort'] = $task->getLastUpdate()->get(IL_CAL_UNIX);
 			$item['status'] = $task->getStatus();

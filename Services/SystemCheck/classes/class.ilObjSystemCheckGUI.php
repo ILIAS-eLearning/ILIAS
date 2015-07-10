@@ -10,17 +10,14 @@ include_once './Services/SystemCheck/classes/class.ilSystemCheckTrash.php';
 /**
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
  * @version           $Id$
- * @ilCtrl_Calls      ilObjSystemCheckGUI: ilPermissionGUI, ilObjectOwnershipManagmentGUI, ilObjSystemFolderGUI, ilSCComponentTasksGUI
+ * @ilCtrl_Calls      ilObjSystemCheckGUI: ilPermissionGUI, ilObjectOwnershipManagementGUI, ilObjSystemFolderGUI, ilSCComponentTasksGUI
  * @ilCtrl_isCalledBy ilObjSystemCheckGUI: ilAdministrationGUI
  */
 class ilObjSystemCheckGUI extends ilObjectGUI
 {
 	const SECTION_MAIN = 'main';
+	const SECTION_GROUP = 'group';
 	
-	/**
-	 * @var ilLanguage
-	 */
-	public $lng;
 
 	/**
 	 * @var ilCtrl
@@ -35,9 +32,16 @@ class ilObjSystemCheckGUI extends ilObjectGUI
 	 */
 	public function __construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output = true)
 	{
+		
 		$this->type = 'sysc';
 		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 		$this->lng->loadLanguageModule('sysc');
+		$GLOBALS['ilLog']->write($this->lng->txt('sysc_overview'));
+		$GLOBALS['ilLog']->write($this->lng->txt('sysc_trash_restore'));
+		
+		
+		
+		
 	}
 
 	/**
@@ -84,13 +88,28 @@ class ilObjSystemCheckGUI extends ilObjectGUI
 				$this->ctrl->forwardCommand($perm_gui);
 				break;
 
-			default:
+			case '':
+			case 'ilobjsystemcheckgui':
 				if($cmd == '' || $cmd == 'view')
 				{
 					$cmd = 'overview';
 				}
 				$this->$cmd();
 				break;
+				
+			default:
+				// Forward to task handler
+				include_once './Services/SystemCheck/classes/class.ilSCComponentTaskFactory.php';
+				$this->ctrl->saveParameter($this,'grp_id');
+				$this->ctrl->saveParameter($this, 'task_id');
+				$this->ctrl->setReturn($this,'showGroup');
+				$GLOBALS['ilTabs']->clearTargets();
+				$GLOBALS['ilTabs']->setBackTarget($this->lng->txt('back'),$this->ctrl->getLinkTarget($this,'showGroup'));
+				$handler = ilSCComponentTaskFactory::getComponentTask((int) $_REQUEST['task_id']);
+				$this->ctrl->forwardCommand($handler);
+				break;
+				
+				
 		}
 	}
 
@@ -120,6 +139,9 @@ class ilObjSystemCheckGUI extends ilObjectGUI
 	 */
 	protected function overview()
 	{
+		$this->getLang()->loadLanguageModule('sysc');
+		
+		
 		$this->setSubTabs(self::SECTION_MAIN, 'overview');
 		
 		
@@ -138,6 +160,8 @@ class ilObjSystemCheckGUI extends ilObjectGUI
 	 */
 	protected function showGroup()
 	{
+		$this->setSubTabs(self::SECTION_GROUP, '');
+		
 		$grp_id = (int) $_REQUEST['grp_id'];
 		$this->ctrl->saveParameter($this, 'grp_id');
 		
@@ -287,25 +311,24 @@ class ilObjSystemCheckGUI extends ilObjectGUI
 						$this->getLang()->txt('sysc_groups'),
 						$this->ctrl->getLinkTarget($this,'overview')
 				);
-
-				$GLOBALS['ilTabs']->addSubTab(
-						'sc',
-						$this->getLang()->txt('obj_sysc'),
-						$this->ctrl->getLinkTargetByClass('ilobjsystemfoldergui','check')
-				);
-				
-				
-//				$GLOBALS['ilTabs']->addSubTab(
-//						'no_owner',
-//						$this->getLang()->txt('system_check_no_owner'),
-//						$this->ctrl->getLinkTargetByClass('ilObjectOwnershipManagementGUI')
-//				);
 				$GLOBALS['ilTabs']->addSubTab(
 						'trash',
 						$this->getLang()->txt('sysc_tab_trash'),
 						$this->ctrl->getLinkTarget($this,'trash')
 				);
+				$GLOBALS['ilTabs']->addSubTab(
+						'no_owner',
+						$this->getLang()->txt('system_check_no_owner'),
+						$this->ctrl->getLinkTargetByClass('ilobjectownershipmanagementgui')
+				);
 				break;
+			
+			case self::SECTION_GROUP:
+				$GLOBALS['ilTabs']->clearTargets();
+				$GLOBALS['ilTabs']->setBackTarget(
+						$this->lng->txt('back'),
+						$this->ctrl->getLinkTarget($this,'overview')
+				);
 		}
 		$GLOBALS['ilTabs']->activateSubTab($a_active);
 	}

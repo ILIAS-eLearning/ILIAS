@@ -9,13 +9,6 @@
  */
 class ilSCGroup 
 {
-	const STATUS_NOT_ATTEMPTED = 0;
-	const STATUS_IN_PROGRESS = 1;
-	const STATUS_COMPLETED = 2;
-	const STATUS_FAILED = 3;
-	
-	
-	
 	private $id = 0;
 	private $title = '';
 	private $description = '';
@@ -33,6 +26,26 @@ class ilSCGroup
 	{
 		$this->id = $a_id;
 		$this->read();
+	}
+	
+	/**
+	 * lookup component by id
+	 * @global type $ilDB
+	 * @param type $a_id
+	 * @return string
+	 */
+	public static function lookupComponent($a_id)
+	{
+		global $ilDB;
+		
+		$query = 'SELECT component FROM sysc_groups '.
+				'WHERE id = '.$ilDB->quote($a_id,'integer');
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return (string) $row->component;
+		}
+		return '';
 	}
 	
 	public function getId()

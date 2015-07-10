@@ -3,6 +3,7 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once './Services/Table/classes/class.ilTable2GUI.php';
+include_once './Services/SystemCheck/classes/class.ilSCTask.php';
 
 /**
  * Table GUI for system check groups overview
@@ -30,13 +31,14 @@ class ilSCGroupTableGUI extends ilTable2GUI
 	{
 		global $ilCtrl, $lng;
 
-		$lng->loadLanguageModule('syscheck');
+		$lng->loadLanguageModule('sysc');
 		$this->addColumn($this->lng->txt('title'),'title','60%');
 		$this->addColumn($this->lng->txt('last_update'),'last_update_sort','20%');
-		$this->addColumn($this->lng->txt('status'),'status','10%');
+		$this->addColumn($this->lng->txt('sysc_completed_num'),'completed','10%');
+		$this->addColumn($this->lng->txt('sysc_failed_num'),'failed','10%');
 		$this->addColumn($this->lng->txt('actions'),'','10%');
 
-		$this->setTitle($this->lng->txt('syscheck_overview'));
+		$this->setTitle($this->lng->txt('sysc_overview'));
 
 		$this->setRowTemplate('tpl.syscheck_groups_row.html','Services/SystemCheck');
 		$this->setFormAction($ilCtrl->getFormAction($this->getParentObject()));
@@ -49,9 +51,29 @@ class ilSCGroupTableGUI extends ilTable2GUI
 	public function fillRow($row)
 	{
 		$this->tpl->setVariable('VAL_TITLE',$row['title']);
+
+		$GLOBALS['ilCtrl']->setParameter($this->getParentObject(),'grp_id', $row['id']);
+		$this->tpl->setVariable(
+				'VAL_LINK',
+				$GLOBALS['ilCtrl']->getLinkTarget($this->getParentObject(),'showGroup')
+		);
+		
 		$this->tpl->setVariable('VAL_DESC',$row['description']);
 		$this->tpl->setVariable('VAL_LAST_UPDATE',$row['last_update']);
-		$this->tpl->setVariable('VAL_STATUS',$row['status']);
+		$this->tpl->setVariable('VAL_COMPLETED',$row['completed']);
+		$this->tpl->setVariable('VAL_FAILED',$row['failed']);
+		
+		switch($row['status'])
+		{
+			case ilSCTask::STATUS_COMPLETED:
+				$this->tpl->setVariable('STATUS_CLASS', 'smallgreen');
+				break;
+			case ilSCTask::STATUS_FAILED:
+				$this->tpl->setVariable('STATUS_CLASS', 'warning');
+				break;
+				
+		}
+		
 		
 		// Actions
 		include_once './Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
@@ -84,10 +106,15 @@ class ilSCGroupTableGUI extends ilTable2GUI
 			$item['id'] = $group->getId();
 			$item['title'] = $GLOBALS['lng']->txt($group->getTitle());
 			$item['description'] = $GLOBALS['lng']->txt($group->getDescription());
-			$item['last_update'] = ilDatePresentation::formatDate($group->getLastUpdate());
-			$item['last_update_sort'] = $group->getLastUpdate()->get(IL_CAL_UNIX);
 			$item['status'] = $group->getStatus();
 			
+			include_once './Services/SystemCheck/classes/class.ilSCTasks.php';
+			$item['completed'] = ilSCTasks::lookupCompleted($group->getId());
+			$item['failed'] = ilSCTasks::lookupFailed($group->getId());
+			
+			$last_update = ilSCTasks::lookupLastUpdate($group->getId());
+			$item['last_update'] = ilDatePresentation::formatDate($last_update);
+			$item['last_update_sort'] = $last_update->get(IL_CAL_UNIX);
 			$data[] = $item;
 		}
 		

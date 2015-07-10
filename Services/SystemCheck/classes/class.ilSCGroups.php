@@ -40,6 +40,7 @@ class ilSCGroups
 		return self::$instance;
 	}
 	
+	
 	/**
 	 * Get groups
 	 * @return ilSCGroup[]

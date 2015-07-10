@@ -214,7 +214,6 @@ class ilSystemCheckTrash
 		$query .= 'ORDER BY depth desc';
 		
 		$res = $ilDB->query($query);
-		$GLOBALS['ilLog']->write(__METHOD__.': '.$query);
 		
 		$deleted = array();
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))

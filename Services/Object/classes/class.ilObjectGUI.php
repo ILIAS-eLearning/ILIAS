@@ -118,7 +118,7 @@ class ilObjectGUI
 
 		$this->ctrl->saveParameter($this, $params);
 
-		$this->lng =& $lng;
+		$this->lng = $lng;
 		$this->tree =& $tree;
 		$this->formaction = array();
 		$this->return_location = array();

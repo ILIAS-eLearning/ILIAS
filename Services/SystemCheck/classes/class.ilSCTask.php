@@ -18,10 +18,9 @@ class ilSCTask
 	
 	private $id = 0;
 	private $grp_id = 0;
-	private $title = '';
-	private $description = '';
 	private $last_update = NULL;
 	private $status = 0;
+	private $identifier = '';
 	
 	
 	/**
@@ -49,28 +48,14 @@ class ilSCTask
 		return $this->grp_id;
 	}
 	
-	public function setTitle($a_title)
+	public function setIdentifier($a_ide)
 	{
-		$this->title = $a_title;
+		$this->identifier = $a_ide;
 	}
 	
-	public function getTitle()
+	public function getIdentifier()
 	{
-		return $this->title;
-	}
-	
-	public function setDescription($a_desc)
-	{
-		$this->description = $a_desc;
-	}
-	
-	/**
-	 * Get description
-	 * @return string
-	 */
-	public function getDescription()
-	{
-		return $this->description;
+		return $this->identifier;
 	}
 	
 	public function setComponentId($a_comp)
@@ -129,10 +114,9 @@ class ilSCTask
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->setGroupId($row->grp_id);
-			$this->setTitle($row->title);
-			$this->setDescription($row->description);
 			$this->setLastUpdate(new ilDateTime($row->last_update,IL_CAL_DATETIME,'UTC'));
 			$this->setStatus($row->status);
+			$this->setIdentifier($row->identifier);
 		}
 		return true;
 	}
@@ -146,19 +130,33 @@ class ilSCTask
 		
 		$this->id = $ilDB->nextId('sysyc_tasks');
 		
-		$query = 'INSERT INTO sysc_groups (id,grp_id,title,description,last_update,status) '.
+		$query = 'INSERT INTO sysc_tasks (id,grp_id,last_update,status,identifier) '.
 				'VALUES ( '.
 				$ilDB->quote($this->getId(),'integer').', '.
 				$ilDB->quote($this->getGroupId(),'integer').', '.
-				$ilDB->quote($this->getTitle(),'text').', '.
-				$ilDB->quote($this->getDescription(),'text').', '.
 				$ilDB->quote($this->getComponentId(),'text').', '.
 				$ilDB->quote($this->getComponentType(),'text').', '.
 				$ilDB->quote($this->getLastUpdate()->get(IL_CAL_DATETIME,'','UTC'),'timestamp').', '.
-				$ilDB->quote($this->getStatus(),'integer').' '.
+				$ilDB->quote($this->getStatus(),'integer').', '.
+				$ilDB->quote($this->getIdentifier(),'text').' '.
 				')';
 		$ilDB->manipulate($query);
 		return $this->getId();
+	}
+	
+	/**
+	 * Update task
+	 */
+	public function update()
+	{
+		global $ilDB;
+		
+		$query = 'UPDATE sysc_tasks SET '.
+				'last_update = '.$ilDB->quote($this->getLastUpdate()->get(IL_CAL_DATETIME,'',UTC),'timestamp').', '.
+				'status = '.$ilDB->quote($this->getStatus(),'integer').', '.
+				'identifier = '.$ilDB->quote($this->getIdentifier(),'text').' '.
+				'WHERE id = '.$ilDB->quote($this->getId(),'integer');
+		$ilDB->manipulate($query);
 	}
 }
 ?>
