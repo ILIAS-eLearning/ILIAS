@@ -1237,14 +1237,45 @@ class ilAdvancedMDSettingsGUI
 			$section = new ilFormSectionHeaderGUI();
 			$section->setTitle($this->lng->txt('md_obj_types'));
 			$this->form->addItem($section);
+		
+			// see ilAdvancedMDRecordTableGUI::fillRow()
+			$options = array(
+				0 => $this->lng->txt("meta_obj_type_inactive"),
+				1 => $this->lng->txt("meta_obj_type_mandatory"),
+				2 => $this->lng->txt("meta_obj_type_optional")
+			);		
+			
 
 			foreach(ilAdvancedMDRecord::_getAssignableObjectTypes(true) as $type)
 			{
 				$t = $type["obj_type"].":".$type["sub_type"];
 				$this->lng->loadLanguageModule($type["obj_type"]);
-				$check = new ilCheckboxInputGUI($type["text"],'obj_types[]');
-				$check->setChecked($this->record->isAssignedObjectType($type["obj_type"], $type["sub_type"]));
-				$check->setValue($t);
+								
+				$type_options = $options;
+				if($type["obj_type"] == "orgu")
+				{
+					// currently no optional records for org unit (types)
+					unset($type_options[2]);
+				}
+				
+				$value = 0;
+				if($a_mode == "edit")
+				{
+					foreach($this->record->getAssignedObjectTypes() as $item)
+					{
+						if($item["obj_type"] == $type["obj_type"] &&
+							$item["sub_type"] == $type["sub_type"])
+						{
+							$value = $item["optional"]
+								? 2
+								: 1;
+						}
+					}
+				}
+					
+				$check = new ilSelectInputGUI($type["text"],'obj_types['.$t.']');
+				$check->setOptions($type_options);
+				$check->setValue($value);
 				$this->form->addItem($check);
 
 				if(!$perm[ilAdvancedMDPermissionHelper::ACTION_RECORD_EDIT_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_RECORD_OBJECT_TYPES])
@@ -1526,13 +1557,17 @@ class ilAdvancedMDSettingsGUI
 				$obj_types = array();
 				if (is_array($_POST['obj_types']))
 				{
-					foreach ($_POST['obj_types'] as $t)
+					foreach ($_POST['obj_types'] as $t => $value)
 					{
-						$t = explode(":", $t);
-						$obj_types[] = array(
-							"obj_type" => ilUtil::stripSlashes($t[0]),
-							"sub_type" => ilUtil::stripSlashes($t[1])
-							);
+						if($value)
+						{
+							$t = explode(":", $t);
+							$obj_types[] = array(
+								"obj_type" => ilUtil::stripSlashes($t[0]),
+								"sub_type" => ilUtil::stripSlashes($t[1]),
+								"optional" => ($value > 1)
+								);
+						}
 					}
 				}
 				$this->record->setAssignedObjectTypes($obj_types);
