@@ -18,6 +18,7 @@ class ilBenchmark
 	*/
 	function ilBenchmark()
 	{
+
 	}
 
 

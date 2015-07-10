@@ -265,7 +265,7 @@ class ilRepUtilGUI
 	function deleteObjects($a_cur_ref_id, $a_ref_ids)
 	{
 		global $ilSetting, $lng;
-		
+
 		if (!is_array($a_ref_ids) || count($a_ref_ids) == 0)
 		{
 			ilUtil::sendFailure($lng->txt("no_checkbox"), true);

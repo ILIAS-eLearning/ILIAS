@@ -164,7 +164,6 @@ class ilObjUser extends ilObject
 		$this->ilObject($a_user_id, $a_call_by_reference);
 		$this->auth_mode = "default";
 		$this->passwd_type = IL_PASSWD_PLAIN;
-
 		// for gender selection. don't change this
 		/*$this->gender = array(
 							  'm'    => "salutation_m",
@@ -260,6 +259,7 @@ class ilObjUser extends ilObject
 				!ilStyleDefinition::skinExists($this->skin, $this->prefs["style"]))
 			{
 				//load default (css)
+
 		 		$this->prefs["style"] = $this->ilias->ini->readVariable("layout","style");
 			}
 

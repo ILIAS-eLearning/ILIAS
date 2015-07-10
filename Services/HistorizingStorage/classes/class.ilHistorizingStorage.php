@@ -357,6 +357,7 @@ abstract class ilHistorizingStorage
 		$mass_modification_allowed = false
 	)
 	{
+
 		if (!$a_record_creator)
 		{
 			/** @var $ilUser ilObjUser */

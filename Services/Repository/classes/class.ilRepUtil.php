@@ -92,17 +92,20 @@ class ilRepUtil
 		// DELETE THEM
 		if (!$all_node_data[0]["type"])
 		{
-// alex: this branch looks suspicious to me... I deactivate it for
-// now. Objects that aren't in the tree should overwrite this method.
-throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type information missing."));
+
+			// alex: this branch looks suspicious to me... I deactivate it for
+			// now. Objects that aren't in the tree should overwrite this method.
+			throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type information missing."));
 			// OBJECTS ARE NO 'TREE OBJECTS'
 			if ($rbacsystem->checkAccess('delete', $a_cur_ref_id))
 			{
 				foreach($a_ids as $id)
 				{
+
 					$obj =& ilObjectFactory::getInstanceByObjId($id);
+					$tit = $obj->getTitle();
 					$obj->delete();
-					
+
 					// write log entry
 					$log->write("ilObjectGUI::confirmedDeleteObject(), deleted obj_id ".$obj->getId().
 						", type: ".$obj->getType().", title: ".$obj->getTitle());
@@ -116,6 +119,8 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 		}
 		else
 		{
+			
+
 			// SAVE SUBTREE AND DELETE SUBTREE FROM TREE
 			$affected_ids = array();
 			foreach ($a_ids as $id)
@@ -173,6 +178,7 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 					array("obj_id" => ilObject::_lookupObjId($aid),
 					"ref_id" => $aid));
 			}
+
 			// inform other objects in hierarchy about paste operation
 			//$this->object->notify("confirmedDelete", $_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$_SESSION["saved_post"]);
 		}

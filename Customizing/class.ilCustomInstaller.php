@@ -106,7 +106,7 @@ class ilCustomInstaller
 	public static function reloadStructure()
 	{
 		global $ilCtrlStructureReader, $ilClientIniFile;
-		
+
 		if(!$ilCtrlStructureReader instanceof ilCtrlStructureReader)
 		{									
 			require_once "./setup/classes/class.ilCtrlStructureReader.php";			
@@ -184,7 +184,6 @@ class ilCustomInstaller
 		if (isset($GLOBALS["ilUser"])) {
 			return;
 		}
-		
 		require_once("Services/Calendar/classes/class.ilDate.php");
 		
 		require_once("Services/User/classes/class.ilObjUser.php");

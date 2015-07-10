@@ -3669,3 +3669,61 @@ require_once "Customizing/class.ilCustomInstaller.php";
 	ilCustomInstaller::initPluginEnv();
 	ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "AdvancedMetaData", "amdc", "CourseAMD");
 ?>
+
+<#129> 
+<?php
+	if(!$ilDB->tableExists('hist_userorgu')) {
+		$fields = array(
+			'row_id' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true),
+			'hist_version' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true,
+				'default' => 1),
+			'hist_historic' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true,
+				'default' => 0),
+			'creator_user_id' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true),
+			'created_ts' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true,
+				'default' => 0),
+			'usr_id' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true),
+			'orgu_id' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true),
+			'role_id' => array(
+				'type' => 'integer' ,
+				'length' => 4 ,
+				'notnull' => true),
+			'orgu_title' => array(
+				'type' => 'text',
+				'length' => 10 ,
+				'notnull' => false),
+			'usr_status' => array(
+				'type' => 'text',
+				'length' => 10 ,
+				'notnull' => false),
+			'action' => array(
+				'type' => 'integer',
+				'length' => 1 ,
+				'notnull' => true)			
+		);
+		$ilDB->createTable('hist_userorgu', $fields);
+		$ilDB->addPrimaryKey('hist_userorgu', array('row_id'));
+		$ilDB->createSequence('hist_userorgu');
+	}
+?>
