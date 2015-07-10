@@ -1190,6 +1190,22 @@ class gevCourseUtils {
 	public function getWebExLink() {
 		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_WEBEX_LINK);
 	}
+
+	public function getWebExLinkWithHTTP() {
+		$link = $this->getWebExLink();
+
+		if($this->startsWith(strtolower($link), "http://") || $this->startsWith(strtolower($link), "https://")) {
+			return $link;
+		}
+
+		return "http://".strtolower($link);
+	}
+
+	private function startsWith($haystack, $needle)
+	{
+		$length = strlen($needle);
+		return (substr($haystack, 0, $length) === $needle);
+	}
 	
 	public function setWebExLink($a_value) {
 		return $this->amd->setField($this->crs_id, gevSettings::CRS_AMD_WEBEX_LINK, $a_value);
