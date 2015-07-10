@@ -8,10 +8,10 @@
  *
  * @package     Modules/Test
  *
- * @ilCtrl_Calls ilTestSkillQuestionAssignmentsGUI: ilTestSkillQuestionAssignmentsTableGUI
- * @ilCtrl_Calls ilTestSkillQuestionAssignmentsGUI: ilSkillSelectorGUI
+ * @ilCtrl_Calls ilAssQuestionSkillAssignmentsGUI: ilAssQuestionSkillAssignmentsTableGUI
+ * @ilCtrl_Calls ilAssQuestionSkillAssignmentsGUI: ilSkillSelectorGUI
  */
-class ilTestSkillQuestionAssignmentsGUI
+class ilAssQuestionSkillAssignmentsGUI
 {
 	const CMD_SHOW_SKILL_QUEST_ASSIGNS = 'showSkillQuestionAssignments';
 	const CMD_SAVE_SKILL_POINTS = 'saveSkillPoints';
@@ -39,17 +39,59 @@ class ilTestSkillQuestionAssignmentsGUI
 	private $db;
 
 	/**
-	 * @var ilObjTest
+	 * @var ilAssQuestionList
 	 */
-	private $testOBJ;
+	private $questionList;
 
-	public function __construct(ilCtrl $ctrl, ilTemplate $tpl, ilLanguage $lng, ilDB $db, ilObjTest $testOBJ)
+	/**
+	 * @var integer
+	 */
+	private $parentObjId;
+
+	/**
+	 * @param ilCtrl $ctrl
+	 * @param ilTemplate $tpl
+	 * @param ilLanguage $lng
+	 * @param ilDB $db
+	 */
+	public function __construct(ilCtrl $ctrl, ilTemplate $tpl, ilLanguage $lng, ilDB $db)
 	{
 		$this->ctrl = $ctrl;
 		$this->tpl = $tpl;
 		$this->lng = $lng;
 		$this->db = $db;
-		$this->testOBJ = $testOBJ;
+	}
+
+	/**
+	 * @return ilAssQuestionList
+	 */
+	public function getQuestionList()
+	{
+		return $this->questionList;
+	}
+
+	/**
+	 * @param ilAssQuestionList $questionList
+	 */
+	public function setQuestionList($questionList)
+	{
+		$this->questionList = $questionList;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getParentObjId()
+	{
+		return $this->parentObjId;
+	}
+
+	/**
+	 * @param int $parentObjId
+	 */
+	public function setParentObjId($parentObjId)
+	{
+		$this->parentObjId = $parentObjId;
 	}
 
 	public function executeCommand()
@@ -69,17 +111,17 @@ class ilTestSkillQuestionAssignmentsGUI
 
 		if( $this->isTestQuestion($questionId) && $skillBaseId )
 		{
-			require_once 'Modules/Test/classes/class.ilTestSkillQuestionAssignment.php';
-			$assignment = new ilTestSkillQuestionAssignment($this->db);
+			require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignment.php';
+			$assignment = new ilAssQuestionSkillAssignment($this->db);
 
-			$assignment->setTestId($this->testOBJ->getTestId());
+			$assignment->setParentObjId($this->getParentObjId());
 			$assignment->setQuestionId($questionId);
 			$assignment->setSkillBaseId($skillBaseId);
 			$assignment->setSkillTrefId($skillTrefId);
 
 			if( !$assignment->dbRecordExists() )
 			{
-				$assignment->setSkillPoints(ilTestSkillQuestionAssignment::DEFAULT_COMPETENCE_POINTS);
+				$assignment->setSkillPoints(ilAssQuestionSkillAssignment::DEFAULT_COMPETENCE_POINTS);
 
 				$assignment->saveToDb();
 			}
@@ -96,10 +138,10 @@ class ilTestSkillQuestionAssignmentsGUI
 
 		if( $this->isTestQuestion($questionId) && $skillBaseId )
 		{
-			require_once 'Modules/Test/classes/class.ilTestSkillQuestionAssignment.php';
-			$assignment = new ilTestSkillQuestionAssignment($this->db);
+			require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignment.php';
+			$assignment = new ilAssQuestionSkillAssignment($this->db);
 
-			$assignment->setTestId($this->testOBJ->getTestId());
+			$assignment->setParentObjId($this->getParentObjId());
 			$assignment->setQuestionId($questionId);
 			$assignment->setSkillBaseId($skillBaseId);
 			$assignment->setSkillTrefId($skillTrefId);
@@ -129,7 +171,7 @@ class ilTestSkillQuestionAssignmentsGUI
 	{
 		if( is_array($_POST['quantifiers']) )
 		{
-			require_once 'Modules/Test/classes/class.ilTestSkillQuestionAssignment.php';
+			require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignment.php';
 
 			$success = false;
 			
@@ -142,9 +184,9 @@ class ilTestSkillQuestionAssignmentsGUI
 
 				if( $this->isTestQuestion($questionId) && (int)$quantifier > 0 )
 				{
-					$assignment = new ilTestSkillQuestionAssignment($this->db);
+					$assignment = new ilAssQuestionSkillAssignment($this->db);
 
-					$assignment->setTestId($this->testOBJ->getTestId());
+					$assignment->setParentObjId($this->getParentObjId());
 					$assignment->setQuestionId($questionId);
 					$assignment->setSkillBaseId($skillBaseId);
 					$assignment->setSkillTrefId($skillTrefId);
@@ -171,24 +213,24 @@ class ilTestSkillQuestionAssignmentsGUI
 		$assignmentList->loadAdditionalSkillData();
 		$table->setSkillQuestionAssignmentList($assignmentList);
 
-		$table->setData($this->testOBJ->getTestQuestions());
+		$table->setData($this->questionList->getQuestionDataArray());
 
 		$this->tpl->setContent($this->ctrl->getHTML($table));
 	}
 
 	private function buildTableGUI()
 	{
-		require_once 'Modules/Test/classes/tables/class.ilTestSkillQuestionAssignmentsTableGUI.php';
-		$table = new ilTestSkillQuestionAssignmentsTableGUI($this, self::CMD_SHOW_SKILL_QUEST_ASSIGNS, $this->ctrl, $this->lng);
+		require_once 'Modules/TestQuestionPool/classes/tables/class.ilAssQuestionSkillAssignmentsTableGUI.php';
+		$table = new ilAssQuestionSkillAssignmentsTableGUI($this, self::CMD_SHOW_SKILL_QUEST_ASSIGNS, $this->ctrl, $this->lng);
 
 		return $table;
 	}
 
 	private function buildSkillQuestionAssignmentList()
 	{
-		require_once 'Modules/Test/classes/class.ilTestSkillQuestionAssignmentList.php';
-		$assignmentList = new ilTestSkillQuestionAssignmentList($this->db);
-		$assignmentList->setTestId($this->testOBJ->getTestId());
+		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentList.php';
+		$assignmentList = new ilAssQuestionSkillAssignmentList($this->db);
+		$assignmentList->setParentObjId($this->getParentObjId());
 
 		return $assignmentList;
 	}
@@ -206,7 +248,7 @@ class ilTestSkillQuestionAssignmentsGUI
 
 	private function isTestQuestion($questionId)
 	{
-		foreach($this->testOBJ->getTestQuestions() as $question)
+		foreach($this->questionList->getQuestionDataArray() as $question)
 		{
 			if( $question['question_id'] == $questionId )
 			{

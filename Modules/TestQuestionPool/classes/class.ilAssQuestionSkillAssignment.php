@@ -8,7 +8,7 @@
  *
  * @package     Modules/Test
  */
-class ilTestSkillQuestionAssignment
+class ilAssQuestionSkillAssignment
 {
 	const DEFAULT_COMPETENCE_POINTS = 1;
 
@@ -20,7 +20,7 @@ class ilTestSkillQuestionAssignment
 	/**
 	 * @var integer
 	 */
-	private $testId;
+	private $parentObjId;
 
 	/**
 	 * @var integer
@@ -61,9 +61,9 @@ class ilTestSkillQuestionAssignment
 	public function loadFromDb()
 	{
 		$query = "
-			SELECT test_fi, question_fi, skill_base_fi, skill_tref_fi, skill_points
-			FROM tst_skl_qst_assigns
-			WHERE test_fi = %s
+			SELECT obj_fi, question_fi, skill_base_fi, skill_tref_fi, skill_points
+			FROM qpl_qst_skl_assigns
+			WHERE obj_fi = %s
 			AND question_fi = %s
 			AND skill_base_fi = %s
 			AND skill_tref_fi = %s
@@ -71,7 +71,7 @@ class ilTestSkillQuestionAssignment
 
 		$res = $this->db->queryF(
 			$query, array('integer', 'integer', 'integer', 'integer'),
-			array($this->getTestId(), $this->getQuestionId(), $this->getSkillBaseId(), $this->getSkillTrefId())
+			array($this->getParentObjId(), $this->getQuestionId(), $this->getSkillBaseId(), $this->getSkillTrefId())
 		);
 
 		$row = $this->db->fetchAssoc($res);
@@ -86,11 +86,11 @@ class ilTestSkillQuestionAssignment
 	{
 		if( $this->dbRecordExists() )
 		{
-			$this->db->update('tst_skl_qst_assigns', array(
+			$this->db->update('qpl_qst_skl_assigns', array(
 					'skill_points' => array('integer', $this->getSkillPoints())
 				),
 				array(
-					'test_fi' => array('integer', $this->getTestId()),
+					'obj_fi' => array('integer', $this->getParentObjId()),
 					'question_fi' => array('integer', $this->getQuestionId()),
 					'skill_base_fi' => array('integer', $this->getSkillBaseId()),
 					'skill_tref_fi' => array('integer', $this->getSkillTrefId())
@@ -99,8 +99,8 @@ class ilTestSkillQuestionAssignment
 		}
 		else
 		{
-			$this->db->insert('tst_skl_qst_assigns', array(
-				'test_fi' => array('integer', $this->getTestId()),
+			$this->db->insert('qpl_qst_skl_assigns', array(
+				'obj_fi' => array('integer', $this->getParentObjId()),
 				'question_fi' => array('integer', $this->getQuestionId()),
 				'skill_base_fi' => array('integer', $this->getSkillBaseId()),
 				'skill_tref_fi' => array('integer', $this->getSkillTrefId()),
@@ -112,8 +112,8 @@ class ilTestSkillQuestionAssignment
 	public function deleteFromDb()
 	{
 		$query = "
-			DELETE FROM tst_skl_qst_assigns
-			WHERE test_fi = %s
+			DELETE FROM qpl_qst_skl_assigns
+			WHERE obj_fi = %s
 			AND question_fi = %s
 			AND skill_base_fi = %s
 			AND skill_tref_fi = %s
@@ -121,7 +121,7 @@ class ilTestSkillQuestionAssignment
 
 		$this->db->manipulateF(
 			$query, array('integer', 'integer', 'integer', 'integer'),
-			array($this->getTestId(), $this->getQuestionId(), $this->getSkillBaseId(), $this->getSkillTrefId())
+			array($this->getParentObjId(), $this->getQuestionId(), $this->getSkillBaseId(), $this->getSkillTrefId())
 		);
 	}
 
@@ -129,8 +129,8 @@ class ilTestSkillQuestionAssignment
 	{
 		$query = "
 			SELECT COUNT(*) cnt
-			FROM tst_skl_qst_assigns
-			WHERE test_fi = %s
+			FROM qpl_qst_skl_assigns
+			WHERE obj_fi = %s
 			AND question_fi = %s
 			AND skill_base_fi = %s
 			AND skill_tref_fi = %s
@@ -138,7 +138,7 @@ class ilTestSkillQuestionAssignment
 
 		$res = $this->db->queryF(
 			$query, array('integer', 'integer', 'integer', 'integer'),
-			array($this->getTestId(), $this->getQuestionId(), $this->getSkillBaseId(), $this->getSkillTrefId())
+			array($this->getParentObjId(), $this->getQuestionId(), $this->getSkillBaseId(), $this->getSkillTrefId())
 		);
 
 		$row = $this->db->fetchAssoc($res);
@@ -211,19 +211,19 @@ class ilTestSkillQuestionAssignment
 	}
 
 	/**
-	 * @param int $testId
+	 * @param int $parentObjId
 	 */
-	public function setTestId($testId)
+	public function setParentObjId($parentObjId)
 	{
-		$this->testId = $testId;
+		$this->parentObjId = $parentObjId;
 	}
 
 	/**
 	 * @return int
 	 */
-	public function getTestId()
+	public function getParentObjId()
 	{
-		return $this->testId;
+		return $this->parentObjId;
 	}
 
 	public function loadAdditionalSkillData()

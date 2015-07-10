@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Modules/Test/classes/class.ilTestSkillQuestionAssignment.php';
+require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignment.php';
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -9,7 +9,7 @@ require_once 'Modules/Test/classes/class.ilTestSkillQuestionAssignment.php';
  *
  * @package     Modules/Test
  */
-class ilTestSkillQuestionAssignmentList
+class ilAssQuestionSkillAssignmentList
 {
 	/**
 	 * @var ilDB
@@ -19,7 +19,7 @@ class ilTestSkillQuestionAssignmentList
 	/**
 	 * @var integer
 	 */
-	private $testId;
+	private $parentObjId;
 
 	/**
 	 * @var array
@@ -42,19 +42,19 @@ class ilTestSkillQuestionAssignmentList
 	}
 
 	/**
-	 * @param int $testId
+	 * @param int $parentObjId
 	 */
-	public function setTestId($testId)
+	public function setParentObjId($parentObjId)
 	{
-		$this->testId = $testId;
+		$this->parentObjId = $parentObjId;
 	}
 
 	/**
 	 * @return int
 	 */
-	public function getTestId()
+	public function getParentObjId()
 	{
-		return $this->testId;
+		return $this->parentObjId;
 	}
 
 	public function reset()
@@ -64,7 +64,7 @@ class ilTestSkillQuestionAssignmentList
 		$this->maxPointsBySkill = array();
 	}
 
-	private function addAssignment(ilTestSkillQuestionAssignment $assignment)
+	private function addAssignment(ilAssQuestionSkillAssignment $assignment)
 	{
 		if( !isset($this->assignments[$assignment->getQuestionId()]) )
 		{
@@ -74,7 +74,7 @@ class ilTestSkillQuestionAssignmentList
 		$this->assignments[$assignment->getQuestionId()][] = $assignment;
 	}
 
-	private function incrementNumAssignsBySkill(ilTestSkillQuestionAssignment $assignment)
+	private function incrementNumAssignsBySkill(ilAssQuestionSkillAssignment $assignment)
 	{
 		$key = $this->buildSkillKey($assignment->getSkillBaseId(), $assignment->getSkillTrefId());
 
@@ -86,7 +86,7 @@ class ilTestSkillQuestionAssignmentList
 		$this->numAssignsBySkill[$key]++;
 	}
 
-	private function incrementMaxPointsBySkill(ilTestSkillQuestionAssignment $assignment)
+	private function incrementMaxPointsBySkill(ilAssQuestionSkillAssignment $assignment)
 	{
 		$key = $this->buildSkillKey($assignment->getSkillBaseId(), $assignment->getSkillTrefId());
 
@@ -103,12 +103,12 @@ class ilTestSkillQuestionAssignmentList
 		$this->reset();
 
 		$query = "
-			SELECT test_fi, question_fi, skill_base_fi, skill_tref_fi, skill_points
-			FROM tst_skl_qst_assigns
-			WHERE test_fi = %s
+			SELECT obj_fi, question_fi, skill_base_fi, skill_tref_fi, skill_points
+			FROM qpl_qst_skl_assigns
+			WHERE obj_fi = %s
 		";
 
-		$res = $this->db->queryF( $query, array('integer'), array($this->getTestId()) );
+		$res = $this->db->queryF( $query, array('integer'), array($this->getParentObjId()) );
 
 		while( $row = $this->db->fetchAssoc($res) )
 		{
@@ -122,13 +122,13 @@ class ilTestSkillQuestionAssignmentList
 
 	/**
 	 * @param array $data
-	 * @return ilTestSkillQuestionAssignment
+	 * @return ilAssQuestionSkillAssignment
 	 */
 	private function buildSkillQuestionAssignmentByArray($data)
 	{
-		$assignment = new ilTestSkillQuestionAssignment($this->db);
+		$assignment = new ilAssQuestionSkillAssignment($this->db);
 
-		$assignment->setTestId($data['test_fi']);
+		$assignment->setParentObjId($data['obj_fi']);
 		$assignment->setQuestionId($data['question_fi']);
 		$assignment->setSkillBaseId($data['skill_base_fi']);
 		$assignment->setSkillTrefId($data['skill_tref_fi']);

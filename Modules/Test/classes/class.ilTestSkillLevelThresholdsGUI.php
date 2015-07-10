@@ -120,8 +120,8 @@ class ilTestSkillLevelThresholdsGUI
 
 	private function buildSkillQuestionAssignmentList()
 	{
-		require_once 'Modules/Test/classes/class.ilTestSkillQuestionAssignmentList.php';
-		$assignmentList = new ilTestSkillQuestionAssignmentList($this->db);
+		require_once 'Modules/Test/classes/class.ilAssQuestionSkillAssignmentList.php;
+		$assignmentList = new ilAssQuestionSkillAssignmentList($this->db);
 		$assignmentList->setTestId($this->testOBJ->getTestId());
 
 		return $assignmentList;

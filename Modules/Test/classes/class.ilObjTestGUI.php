@@ -4199,11 +4199,11 @@ class ilObjTestGUI extends ilObjectGUI
 				// skill service
 				if( $this->object->isSkillServiceEnabled() && ilObjTest::isSkillManagementGloballyActivated() )
 				{
-					require_once 'Modules/Test/classes/class.ilTestSkillQuestionAssignmentsGUI.php';
+					require_once 'Modules/Test/classes/class.ilAssQuestionSkillAssignmentsGUI.php';
 
 					$link = $this->ctrl->getLinkTargetByClass(
-						array('ilTestSkillAdministrationGUI', 'ilTestSkillQuestionAssignmentsGUI'),
-						ilTestSkillQuestionAssignmentsGUI::CMD_SHOW_SKILL_QUEST_ASSIGNS
+						array('ilTestSkillAdministrationGUI', 'ilAssQuestionSkillAssignmentsGUI'),
+						ilAssQuestionSkillAssignmentsGUI::CMD_SHOW_SKILL_QUEST_ASSIGNS
 					);
 
 					$tabs_gui->addTarget('tst_tab_competences', $link, array(), array());

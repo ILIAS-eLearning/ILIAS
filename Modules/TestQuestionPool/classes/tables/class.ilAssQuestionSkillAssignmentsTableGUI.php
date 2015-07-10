@@ -9,14 +9,14 @@ require_once 'Services/Table/classes/class.ilTable2GUI.php';
  *
  * @package     Modules/Test
  */
-class ilTestSkillQuestionAssignmentsTableGUI extends ilTable2GUI
+class ilAssQuestionSkillAssignmentsTableGUI extends ilTable2GUI
 {
 	/**
-	 * @var ilTestSkillQuestionAssignmentList
+	 * @var ilAssQuestionSkillAssignmentList
 	 */
 	private $skillQuestionAssignmentList;
 
-	public function setSkillQuestionAssignmentList(ilTestSkillQuestionAssignmentList $assignmentList)
+	public function setSkillQuestionAssignmentList(ilAssQuestionSkillAssignmentList $assignmentList)
 	{
 		$this->skillQuestionAssignmentList = $assignmentList;
 	}
@@ -44,7 +44,7 @@ class ilTestSkillQuestionAssignmentsTableGUI extends ilTable2GUI
 		$this->setFormAction($ctrl->getFormAction($parentOBJ));
 
 		$this->addCommandButton(
-			ilTestSkillQuestionAssignmentsGUI::CMD_SAVE_SKILL_POINTS, $this->lng->txt('tst_save_comp_points')
+			ilAssQuestionSkillAssignmentsGUI::CMD_SAVE_SKILL_POINTS, $this->lng->txt('tst_save_comp_points')
 		);
 	}
 
@@ -98,7 +98,7 @@ class ilTestSkillQuestionAssignmentsTableGUI extends ilTable2GUI
 		return $cnt + 1;
 	}
 
-	private function buildQuantifierInput(ilTestSkillQuestionAssignment $assignment)
+	private function buildQuantifierInput(ilAssQuestionSkillAssignment $assignment)
 	{
 		$assignmentKey = implode(':', array(
 			$assignment->getSkillBaseId(), $assignment->getSkillTrefId(), $assignment->getQuestionId()
@@ -110,7 +110,7 @@ class ilTestSkillQuestionAssignmentsTableGUI extends ilTable2GUI
 	private function getAddCompetenceActionLink()
 	{
 		$href = $this->ctrl->getLinkTarget(
-			$this->parent_obj, ilTestSkillQuestionAssignmentsGUI::CMD_SHOW_SKILL_SELECT
+			$this->parent_obj, ilAssQuestionSkillAssignmentsGUI::CMD_SHOW_SKILL_SELECT
 		);
 
 		$label = $this->lng->txt('tst_assign_competence');
@@ -118,13 +118,13 @@ class ilTestSkillQuestionAssignmentsTableGUI extends ilTable2GUI
 		return $this->buildActionLink($href, $label);
 	}
 
-	private function getRemoveCompetenceActionLink(ilTestSkillQuestionAssignment $assignment)
+	private function getRemoveCompetenceActionLink(ilAssQuestionSkillAssignment $assignment)
 	{
 		$this->ctrl->setParameter($this->parent_obj, 'skill_base_id', $assignment->getSkillBaseId());
 		$this->ctrl->setParameter($this->parent_obj, 'skill_tref_id', $assignment->getSkillTrefId());
 
 		$href = $this->ctrl->getLinkTarget(
-			$this->parent_obj, ilTestSkillQuestionAssignmentsGUI::CMD_REMOVE_SKILL_QUEST_ASSIGN
+			$this->parent_obj, ilAssQuestionSkillAssignmentsGUI::CMD_REMOVE_SKILL_QUEST_ASSIGN
 		);
 
 		$label = $this->lng->txt('tst_remove_competence');
@@ -150,7 +150,7 @@ class ilTestSkillQuestionAssignmentsTableGUI extends ilTable2GUI
 			$this->ctrl->setParameter($this->parent_obj, 'skill_tref_id', $assignment->getSkillTrefId());
 
 			$href = $this->ctrl->getLinkTarget(
-				$this->parent_obj, ilTestSkillQuestionAssignmentsGUI::CMD_REMOVE_SKILL_QUEST_ASSIGN
+				$this->parent_obj, ilAssQuestionSkillAssignmentsGUI::CMD_REMOVE_SKILL_QUEST_ASSIGN
 			);
 
 			$label = $this->lng->txt('tst_remove_competence');
@@ -159,7 +159,7 @@ class ilTestSkillQuestionAssignmentsTableGUI extends ilTable2GUI
 		}
 
 		$href = $this->ctrl->getLinkTarget(
-			$this->parent_obj, ilTestSkillQuestionAssignmentsGUI::CMD_SHOW_SKILL_SELECT
+			$this->parent_obj, ilAssQuestionSkillAssignmentsGUI::CMD_SHOW_SKILL_SELECT
 		);
 
 		$label = $this->lng->txt('tst_assign_competence');

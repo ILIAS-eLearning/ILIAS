@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Modules/Test/classes/class.ilTestSkillQuestionAssignmentList.php';
+require_once 'Modules/Test/classes/class.ilAssQuestionSkillAssignmentList.php;
 require_once 'Modules/Test/classes/class.ilTestSkillLevelThresholdList.php';
 require_once 'Services/Skill/classes/class.ilBasicSkill.php';
 
@@ -24,7 +24,7 @@ class ilTestSkillEvaluation
 	private $testOBJ;
 
 	/**
-	 * @var ilTestSkillQuestionAssignmentList
+	 * @var ilAssQuestionSkillAssignmentList
 	 */
 	private $skillQuestionAssignmentList;
 
@@ -63,7 +63,7 @@ class ilTestSkillEvaluation
 		$this->db = $db;
 		$this->testOBJ = $testOBJ;
 
-		$this->skillQuestionAssignmentList = new ilTestSkillQuestionAssignmentList($this->db);
+		$this->skillQuestionAssignmentList = new ilAssQuestionSkillAssignmentList($this->db);
 		$this->skillQuestionAssignmentList->setTestId($this->testOBJ->getTestId());
 
 		$this->skillLevelThresholdList = new ilTestSkillLevelThresholdList($this->db);
