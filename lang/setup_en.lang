@@ -630,3 +630,4 @@ cache_activate_comp#:#Components
 cache_activate_tpl#:#Template
 cache_activate_events#:#Events
 cache_activated_components#:#Activated Components
+cache_flush#:#Flush all caches

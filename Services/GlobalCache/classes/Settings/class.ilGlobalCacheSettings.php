@@ -1,4 +1,5 @@
 <?php
+require_once('./Services/GlobalCache/classes/class.ilGlobalCache.php');
 
 /**
  * Class ilGlobalCacheSettings
@@ -8,10 +9,16 @@
  */
 class ilGlobalCacheSettings {
 
+	const LOG_LEVEL_FORCED = - 1;
+	const LOG_LEVEL_NONE = 0;
+	const LOG_LEVEL_SHY = 1;
+	const LOG_LEVEL_NORMAL = 2;
+	const LOG_LEVEL_CHATTY = 3;
 	const INI_HEADER_CACHE = 'cache';
 	const INI_FIELD_ACTIVATE_GLOBAL_CACHE = 'activate_global_cache';
 	const INI_FIELD_GLOBAL_CACHE_SERVICE_TYPE = 'global_cache_service_type';
 	const INI_HEADER_CACHE_ACTIVATED_COMPONENTS = 'cache_activated_components';
+	const INI_FIELD_LOG_LEVEL = 'log_level';
 	/**
 	 * @var int
 	 */
@@ -24,6 +31,10 @@ class ilGlobalCacheSettings {
 	 * @var bool
 	 */
 	protected $active = false;
+	/**
+	 * @var int
+	 */
+	protected $log_level = self::LOG_LEVEL_NONE;
 
 
 	/**
@@ -33,9 +44,14 @@ class ilGlobalCacheSettings {
 		$this->checkIniHeader($ilIniFile);
 		$this->setActive($ilIniFile->readVariable(self::INI_HEADER_CACHE, self::INI_FIELD_ACTIVATE_GLOBAL_CACHE));
 		$this->setService($ilIniFile->readVariable(self::INI_HEADER_CACHE, self::INI_FIELD_GLOBAL_CACHE_SERVICE_TYPE));
-		foreach ($ilIniFile->readGroup(self::INI_HEADER_CACHE_ACTIVATED_COMPONENTS) as $comp => $v) {
-			if($v) {
-				$this->addActivatedComponent($comp);
+		$this->setLogLevel($ilIniFile->readVariable(self::INI_HEADER_CACHE, self::INI_FIELD_LOG_LEVEL));
+		if (! $this->isActive()) {
+			$this->resetActivatedComponents();
+		} else {
+			foreach ($ilIniFile->readGroup(self::INI_HEADER_CACHE_ACTIVATED_COMPONENTS) as $comp => $v) {
+				if ($v) {
+					$this->addActivatedComponent($comp);
+				}
 			}
 		}
 	}
@@ -47,12 +63,16 @@ class ilGlobalCacheSettings {
 	public function writeToIniFile(ilIniFile $ilIniFile) {
 		$ilIniFile->setVariable(self::INI_HEADER_CACHE, self::INI_FIELD_ACTIVATE_GLOBAL_CACHE, $this->isActive() ? '1' : '0');
 		$ilIniFile->setVariable(self::INI_HEADER_CACHE, self::INI_FIELD_GLOBAL_CACHE_SERVICE_TYPE, $this->getService());
+		$ilIniFile->setVariable(self::INI_HEADER_CACHE, self::INI_FIELD_LOG_LEVEL, $this->getLogLevel());
+
 		$ilIniFile->removeGroup(self::INI_HEADER_CACHE_ACTIVATED_COMPONENTS);
 		$ilIniFile->addGroup(self::INI_HEADER_CACHE_ACTIVATED_COMPONENTS);
-		foreach (ilGlobalCache::$available_components as $comp) {
+		foreach (ilGlobalCache::getAvailableComponents() as $comp) {
 			$ilIniFile->setVariable(self::INI_HEADER_CACHE_ACTIVATED_COMPONENTS, $comp, $this->isComponentActivated($comp) ? '1' : '0');
 		}
-		$ilIniFile->write();
+		if ($ilIniFile->write()) {
+			ilGlobalCache::log('saved new settings: ' . $this->__toString(), self::LOG_LEVEL_FORCED);
+		}
 	}
 
 
@@ -62,6 +82,11 @@ class ilGlobalCacheSettings {
 	public function addActivatedComponent($component) {
 		$this->activated_components[] = $component;
 		$this->activated_components = array_unique($this->activated_components);
+	}
+
+
+	public function resetActivatedComponents() {
+		$this->activated_components = array();
 	}
 
 
@@ -133,6 +158,56 @@ class ilGlobalCacheSettings {
 		if (! $ilIniFile->readGroup(self::INI_HEADER_CACHE_ACTIVATED_COMPONENTS)) {
 			$ilIniFile->addGroup(self::INI_HEADER_CACHE_ACTIVATED_COMPONENTS);
 		}
+	}
+
+
+	/**
+	 * @return int
+	 */
+	public function getLogLevel() {
+		return $this->log_level;
+	}
+
+
+	/**
+	 * @param int $log_level
+	 */
+	public function setLogLevel($log_level) {
+		$this->log_level = $log_level;
+	}
+
+
+	public function __toString() {
+		$service = 'Service: ' . ($this->getService() > 0 ? ilGlobalCache::lookupServiceClassName($this->getService()) : 'none');
+		$activated = 'Activated Components: ' . implode(', ', $this->getActivatedComponents());
+		$log_level = 'Log Level: ' . $this->getLogLevelName();
+
+		return implode("\n", array( '', '', $service, $activated, $log_level, '' ));
+	}
+
+
+	/**
+	 * @return string
+	 */
+	protected function getLogLevelName() {
+		return $this->lookupLogLevelName($this->getLogLevel());
+	}
+
+
+	/**
+	 * @param $level
+	 *
+	 * @return string
+	 */
+	protected function lookupLogLevelName($level) {
+		$r = new ReflectionClass($this);
+		foreach ($r->getConstants() as $k => $v) {
+			if (strpos($k, 'LOG_LEVEL') === 0 AND $v == $level) {
+				return $k;
+			}
+		}
+
+		return '';
 	}
 }
 

@@ -354,6 +354,11 @@ class ilInitialisation
 		{
 			define ("IL_DB_TYPE", $val);
 		}
+
+		require_once('./Services/GlobalCache/classes/Settings/class.ilGlobalCacheSettings.php');
+		$ilGlobalCacheSettings = new ilGlobalCacheSettings();
+		$ilGlobalCacheSettings->readFromIniFile($ilClientIniFile);
+		ilGlobalCache::setup($ilGlobalCacheSettings);
 		
 		return true;
 	}
