@@ -34,8 +34,6 @@ class gevDecentralTrainingGUI {
 		$this->loadUserId();
 		$this->loadDate();
 		
-		
-		
 		$this->checkCanCreateDecentralTraining();
 		
 		$cmd = $this->ctrl->getCmd();
