@@ -1153,3 +1153,4 @@ gev#:#gev_venue_free_text#:#Freitext Veranstaltungsort
 gev#:#gev_orga_info#:#Organisatorisches
 gev#:#gev_dec_training_date_before_now#:#Das gewählte Startdatum liegt in der Vergangenheit!
 gev#:#gev_dec_training_two_venues#:#Bitte wählen Sie einen Veranstaltungsort aus oder nutzen das Freitextfeld um einen alternativen Veranstaltungsort zu benennen.
+gev#:#gev_dec_training_crs_to_short#:#Die Gesamtlänge des Trainings ist zu kurz für die zu erlangenden Bildungspunkte (45 Minuten / Punkt).
