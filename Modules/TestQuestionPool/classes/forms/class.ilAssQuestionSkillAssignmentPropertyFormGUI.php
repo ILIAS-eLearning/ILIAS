@@ -131,41 +131,16 @@ class ilAssQuestionSkillAssignmentPropertyFormGUI extends ilPropertyFormGUI
 		$questionDesc->setValue($this->question->getComment());
 		$this->addItem($questionDesc);
 
-		$evaluationMode = new ilRadioGroupInputGUI($this->lng->txt('condition'), 'eval_mode');
-		$evalOptionReachedQuestionPoints = new ilRadioOption(
-			$this->lng->txt('qpl_skill_point_eval_by_quest_result'), 'result'
-		);
-		$evaluationMode->addOption($evalOptionReachedQuestionPoints);
-		$evalOptionLogicalAnswerCompare = new ilRadioOption(
-			$this->lng->txt('qpl_skill_point_eval_by_solution_compare'), 'solution'
-		);
-		$evaluationMode->addOption($evalOptionLogicalAnswerCompare);
-		$evaluationMode->setRequired(true);
-		$evaluationMode->setValue($this->assignment->getEvalMode());
-		$this->addItem($evaluationMode);
-
-		$questSolutionCompareExpressions = new ilLogicalAnswerComparisonExpressionInputGUI(
-			$this->lng->txt('tst_solution_compare_cfg'), 'solution_compare_expressions'
-		);
-		$questSolutionCompareExpressions->setInfo($this->buildLacLegendToggleButton());
-		$questSolutionCompareExpressions->setRequired(true);
-		$questSolutionCompareExpressions->setAllowMove(true);
-		$questSolutionCompareExpressions->setQuestionObject($this->question);
-		$questSolutionCompareExpressions->setValues($this->assignment->getSolutionComparisonExpressionList()->get());
-		$evalOptionLogicalAnswerCompare->addSubItem($questSolutionCompareExpressions);
-
-		$questResultSkillPoints = new ilNumberInputGUI($this->lng->txt('tst_comp_points'), 'q_res_skill_points');
-		$questResultSkillPoints->setRequired(true);
-		$questResultSkillPoints->setSize(4);
-		$questResultSkillPoints->setValue($this->assignment->getSkillPoints());
-		$evalOptionReachedQuestionPoints->addSubItem($questResultSkillPoints);
-		
-		if( !$this->isManipulationEnabled() )
+		if( $this->questionSupportsSolutionCompare() )
 		{
-			$evaluationMode->setDisabled(true);
-			$questResultSkillPoints->setDisabled(true);
-			$questSolutionCompareExpressions->setDisabled(true);
+			$this->populateFullProperties();
 		}
+		else
+		{
+			$this->populateLimitedProperties();
+		}
+
+			
 	}
 
 	private function buildLacLegendToggleButton()
@@ -180,5 +155,78 @@ class ilAssQuestionSkillAssignmentPropertyFormGUI extends ilPropertyFormGUI
 		}
 
 		return '<a id="lac_legend_toggle_btn" href="#">'.$this->lng->txt($langVar).'</a>';
+	}
+	
+	private function populateFullProperties()
+	{
+		$evaluationMode = new ilRadioGroupInputGUI($this->lng->txt('condition'), 'eval_mode');
+		$evalOptionReachedQuestionPoints = new ilRadioOption(
+			$this->lng->txt('qpl_skill_point_eval_by_quest_result'), 'result'
+		);
+		$evaluationMode->addOption($evalOptionReachedQuestionPoints);
+		$evalOptionLogicalAnswerCompare = new ilRadioOption(
+			$this->lng->txt('qpl_skill_point_eval_by_solution_compare'), 'solution'
+		);
+		$evaluationMode->addOption($evalOptionLogicalAnswerCompare);
+		$evaluationMode->setRequired(true);
+		$evaluationMode->setValue($this->assignment->getEvalMode());
+		if( !$this->isManipulationEnabled() )
+		{
+			$evaluationMode->setDisabled(true);
+		}
+		$this->addItem($evaluationMode);
+
+		$questSolutionCompareExpressions = new ilLogicalAnswerComparisonExpressionInputGUI(
+			$this->lng->txt('tst_solution_compare_cfg'), 'solution_compare_expressions'
+		);
+		$questSolutionCompareExpressions->setInfo($this->buildLacLegendToggleButton());
+		$questSolutionCompareExpressions->setRequired(true);
+		$questSolutionCompareExpressions->setAllowMove(true);
+		$questSolutionCompareExpressions->setQuestionObject($this->question);
+		$questSolutionCompareExpressions->setValues($this->assignment->getSolutionComparisonExpressionList()->get());
+		$questSolutionCompareExpressions->setMinvalueShouldBeGreater(false);
+		$questSolutionCompareExpressions->setMinValue(1);
+		if( !$this->isManipulationEnabled() )
+		{
+			$questSolutionCompareExpressions->setDisabled(true);
+		}
+		$evalOptionLogicalAnswerCompare->addSubItem($questSolutionCompareExpressions);
+
+		$questResultSkillPoints = $this->buildResultSkillPointsInputField();
+		$evalOptionReachedQuestionPoints->addSubItem($questResultSkillPoints);
+	}
+	
+	private function populateLimitedProperties()
+	{
+		$evaluationMode = new ilNonEditableValueGUI($this->lng->txt('condition'));
+		$evaluationMode->setValue($this->lng->txt('qpl_skill_point_eval_by_quest_result'));
+		$this->addItem($evaluationMode);
+
+		$questResultSkillPoints = $this->buildResultSkillPointsInputField();
+		$evaluationMode->addSubItem($questResultSkillPoints);
+	}
+	
+	private function buildResultSkillPointsInputField()
+	{
+		$questResultSkillPoints = new ilNumberInputGUI($this->lng->txt('tst_comp_points'), 'q_res_skill_points');
+		$questResultSkillPoints->setRequired(true);
+		$questResultSkillPoints->setSize(4);
+		$questResultSkillPoints->setMinvalueShouldBeGreater(false);
+		$questResultSkillPoints->setMinValue(1);
+		$questResultSkillPoints->allowDecimals(false);
+		$questResultSkillPoints->setValue($this->assignment->getSkillPoints());
+		if( !$this->isManipulationEnabled() )
+		{
+			$questResultSkillPoints->setDisabled(true);
+		}
+		
+		return $questResultSkillPoints;
+	}
+	
+	private function questionSupportsSolutionCompare()
+	{
+		return (
+			$this->question instanceof iQuestionCondition
+		);
 	}
 }

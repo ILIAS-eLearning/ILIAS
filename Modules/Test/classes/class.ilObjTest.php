@@ -7321,6 +7321,12 @@ function getAnswerFeedbackPoints()
 		$testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $ilPluginAdmin, $this);
 		$testQuestionSetConfigFactory->getQuestionSetConfig()->cloneQuestionSetRelatedData($newObj);
 
+		require_once 'Modules/Test/classes/class.ilTestSkillLevelThresholdList.php';
+		$skillLevelThresholdList = new ilTestSkillLevelThresholdList($ilDB);
+		$skillLevelThresholdList->setTestId($this->getTestId());
+		$skillLevelThresholdList->loadFromDb();
+		$skillLevelThresholdList->cloneListForTest($newObj->getTestId());
+		
 		$newObj->saveToDb();
 		$newObj->updateMetaData();// #14467
 		return $newObj;
