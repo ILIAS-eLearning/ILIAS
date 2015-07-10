@@ -281,20 +281,6 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		if( $newQuestionSetType != ilObjTest::QUESTION_SET_TYPE_FIXED )
 		{
 			$form->getItemByPostVar('chb_use_previous_answers')->setChecked(false);
-
-			if( $this->isSkillServiceSettingToBeAdjusted($form) )
-			{
-				$form->getItemByPostVar('skill_service')->setChecked(false);
-
-				if( $this->testOBJ->isSkillServiceEnabled() )
-				{
-					$infoMsg[] = $this->lng->txt("tst_disabled_skl_due_to_non_fixed_quest_set_type");
-				}
-				else
-				{
-					$infoMsg[] = $this->lng->txt("tst_cannot_enable_skl_due_to_non_fixed_quest_set_type");
-				}
-			}
 		}
 
 		// perform saving the form data
@@ -409,7 +395,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		$ecs->addSettingsToForm($form, 'tst');
 
 		// skill service activation for FIXED tests only
-		if( $this->testOBJ->isFixedTest() && ilObjTest::isSkillManagementGloballyActivated() )
+		if( ilObjTest::isSkillManagementGloballyActivated() )
 		{
 			$otherHead = new ilFormSectionHeaderGUI();
 			$otherHead->setTitle($this->lng->txt('other'));

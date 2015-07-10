@@ -1360,8 +1360,6 @@ assessment#:#tst_change_dyn_test_question_selection#:#Change Current Question Se
 assessment#:#tst_dyn_test_msg_currently_finished_completely#:#Currently you have answered all questions from the selected question pool successfully. You can proceed the test when there are new or edited questions in the question pool.
 assessment#:#tst_dyn_test_msg_currently_finished_selection#:#With the current question selection you have answered all questions successfully. Change the question selection to proceed the test.
 assessment#:#tst_activate_skill_service#:#Activate Competence Service
-assessment#:#tst_disabled_skl_due_to_non_fixed_quest_set_type#:#Competence service has been deactivated due to test mode with non fixed set of questions.
-assessment#:#tst_cannot_enable_skl_due_to_non_fixed_quest_set_type#:#Competence Service activation is not possible due to test mode with non fixed set of questions.
 assessment#:#tst_tab_competences#:#Competences
 assessment#:#qpl_tab_competences#:#Competences
 assessment#:#qpl_skl_sub_tab_quest_assign#:#Question/Competence Assignment
