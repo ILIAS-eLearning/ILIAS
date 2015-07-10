@@ -247,32 +247,33 @@ class ilExerciseManagementGUI
 			)
 		);
 		
-		$ilToolbar->addSeparator();
-		
-		// we do not want the ilRepositorySearchGUI form action		
-		$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
-		
-		$ilCtrl->setParameter($this, "ass_id", $this->assignment->getId());
-		
-		if($this->assignment->getType() == ilExAssignment::TYPE_UPLOAD_TEAM)
-		{
-			include_once("./Modules/Exercise/classes/class.ilExAssignmentTeam.php");
-			if(ilExAssignmentTeam::getAdoptableGroups($this->exercise->getRefId()))
-			{
-				// multi-feedback
-				$ilToolbar->addButton($this->lng->txt("exc_adopt_group_teams"),
-					$this->ctrl->getLinkTarget($this, "adoptTeamsFromGroup"));
-			}
-		}		
-		else
-		{	
-			// multi-feedback
-			$ilToolbar->addButton($this->lng->txt("exc_multi_feedback"),
-				$this->ctrl->getLinkTarget($this, "showMultiFeedback"));
-		}
-		
+		// #16168 - no assignments
 		if (count($ass) > 0)
-		{							
+		{	
+			$ilToolbar->addSeparator();
+
+			// we do not want the ilRepositorySearchGUI form action		
+			$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
+
+			$ilCtrl->setParameter($this, "ass_id", $this->assignment->getId());
+
+			if($this->assignment->getType() == ilExAssignment::TYPE_UPLOAD_TEAM)
+			{
+				include_once("./Modules/Exercise/classes/class.ilExAssignmentTeam.php");
+				if(ilExAssignmentTeam::getAdoptableGroups($this->exercise->getRefId()))
+				{
+					// multi-feedback
+					$ilToolbar->addButton($this->lng->txt("exc_adopt_group_teams"),
+						$this->ctrl->getLinkTarget($this, "adoptTeamsFromGroup"));
+				}
+			}		
+			else
+			{	
+				// multi-feedback
+				$ilToolbar->addButton($this->lng->txt("exc_multi_feedback"),
+					$this->ctrl->getLinkTarget($this, "showMultiFeedback"));
+			}
+								
 			if($this->assignment->getType() == ilExAssignment::TYPE_TEXT)
 			{
 				$ilToolbar->addSeparator();
