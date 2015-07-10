@@ -1,7 +1,8 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentsGUI.php';
+require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentsGUI.php';
+require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillUsagesGUI.php';
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -10,6 +11,7 @@ include_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmen
  * @package     Modules/TestQuestionPool
  * 
  * @ilCtrl_Calls ilQuestionPoolSkillAdministrationGUI: ilAssQuestionSkillAssignmentsGUI
+ * @ilCtrl_Calls ilQuestionPoolSkillAdministrationGUI: ilAssQuestionSkillUsagesGUI
  */
 class ilQuestionPoolSkillAdministrationGUI
 {
@@ -99,7 +101,15 @@ class ilQuestionPoolSkillAdministrationGUI
 			'ilAssQuestionSkillAssignmentsGUI', ilAssQuestionSkillAssignmentsGUI::CMD_SHOW_SKILL_QUEST_ASSIGNS
 		);
 		$this->tabs->addSubTab(
-			'ilAssQuestionSkillAssignmentsGUI', $this->lng->txt('tst_skl_sub_tab_quest_assign'), $link
+			'ilassquestionskillassignmentsgui', $this->lng->txt('qpl_skl_sub_tab_quest_assign'), $link
+
+		);
+		
+		$link = $this->ctrl->getLinkTargetByClass(
+			'ilAssQuestionSkillUsagesGUI', ilAssQuestionSkillUsagesGUI::CMD_SHOW_USAGES
+		);
+		$this->tabs->addSubTab(
+			'ilassquestionskillusagesgui', $this->lng->txt('qpl_skl_sub_tab_usages'), $link
 
 		);
 
@@ -127,13 +137,20 @@ class ilQuestionPoolSkillAdministrationGUI
 				$questionList->setQuestionInstanceTypeFilter(ilAssQuestionList::QUESTION_INSTANCE_TYPE_ORIGINALS);
 				$questionList->load();
 
-				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentsGUI.php';
 				$gui = new ilAssQuestionSkillAssignmentsGUI($this->ctrl, $this->tpl, $this->lng, $this->db);
 				$gui->setParentObjId($this->poolOBJ->getId());
 				$gui->setQuestionList($questionList);
 
 				$this->ctrl->forwardCommand($gui);
-				
+
+				break;
+
+			case 'ilassquestionskillusagesgui':
+
+				$gui = new ilAssQuestionSkillUsagesGUI($this->ctrl, $this->tpl, $this->lng, $this->db);
+
+				$this->ctrl->forwardCommand($gui);
+
 				break;
 		}
 	}

@@ -1318,7 +1318,8 @@ assessment#:#tst_disabled_skl_due_to_non_fixed_quest_set_type#:#Competence servi
 assessment#:#tst_cannot_enable_skl_due_to_non_fixed_quest_set_type#:#Competence Service activation is not possible due to test mode with non fixed set of questions.
 assessment#:#tst_tab_competences#:#Competences
 assessment#:#qpl_tab_competences#:#Competences
-assessment#:#tst_skl_sub_tab_quest_assign#:#Question/Competence Assignment
+assessment#:#qpl_skl_sub_tab_quest_assign#:#Question/Competence Assignment
+assessment#:#qpl_skl_sub_tab_usages#:#Assignment Frequency
 assessment#:#tst_skl_sub_tab_thresholds#:#Competence Thresholds
 assessment#:#tst_msg_skl_lvl_thresholds_saved#:#The competence thresholds has been saved.
 assessment#:#tst_msg_skl_qst_assign_points_saved#:#The competence points has been saved.

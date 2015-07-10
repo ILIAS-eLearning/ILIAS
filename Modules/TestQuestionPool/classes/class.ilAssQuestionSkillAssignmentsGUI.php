@@ -18,6 +18,7 @@ class ilAssQuestionSkillAssignmentsGUI
 	const CMD_SHOW_SKILL_SELECT = 'showSkillSelection';
 	const CMD_ADD_SKILL_QUEST_ASSIGN = 'addSkillQuestionAssignment';
 	const CMD_REMOVE_SKILL_QUEST_ASSIGN = 'removeSkillQuestionAssignment';
+	
 	/**
 	 * @var ilCtrl
 	 */

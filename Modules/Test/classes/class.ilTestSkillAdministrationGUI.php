@@ -114,15 +114,15 @@ class ilTestSkillAdministrationGUI
 	public function manageTabs($activeSubTabId)
 	{
 		$link = $this->ctrl->getLinkTargetByClass(
-			'ilassquestionskillassignmentsgui', ilAssQuestionSkillAssignmentsGUI::CMD_SHOW_SKILL_QUEST_ASSIGNS
+			'ilAssQuestionSkillAssignmentsGUI', ilAssQuestionSkillAssignmentsGUI::CMD_SHOW_SKILL_QUEST_ASSIGNS
 		);
 		$this->tabs->addSubTab(
-			'ilassquestionskillassignmentsgui', $this->lng->txt('tst_skl_sub_tab_quest_assign'), $link
+			'ilassquestionskillassignmentsgui', $this->lng->txt('qpl_skl_sub_tab_quest_assign'), $link
 
 		);
 
 		$link = $this->ctrl->getLinkTargetByClass(
-			'iltestskilllevelthresholdsgui', ilTestSkillLevelThresholdsGUI::CMD_SHOW_SKILL_THRESHOLDS
+			'ilTestSkillLevelThresholdsGUI', ilTestSkillLevelThresholdsGUI::CMD_SHOW_SKILL_THRESHOLDS
 		);
 		$this->tabs->addSubTab(
 			'iltestskilllevelthresholdsgui', $this->lng->txt('tst_skl_sub_tab_thresholds'), $link
