@@ -334,8 +334,22 @@ class ilObjTestGUI extends ilObjectGUI
 			case 'iltestskillevaluationgui':
 				$this->prepareOutput();
 				$this->addHeaderAction();
+				
+				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionList.php';
+				$questionList = new ilAssQuestionList($ilDB, $this->lng, $ilPluginAdmin, $this->object->getId());
+				if( $this->object->isDynamicTest() )
+				{
+					$questionList->setQuestionInstanceTypeFilter(ilAssQuestionList::QUESTION_INSTANCE_TYPE_ORIGINALS);
+				}
+				else
+				{
+					$questionList->setQuestionInstanceTypeFilter(ilAssQuestionList::QUESTION_INSTANCE_TYPE_DUPLICATES);
+				}
+				$questionList->load();
+				
 				require_once 'Modules/Test/classes/class.ilTestSkillEvaluationGUI.php';
 				$gui = new ilTestSkillEvaluationGUI($this->ctrl, $ilTabs, $this->tpl, $this->lng, $ilDB, $this->object);
+				$gui->setQuestionList($questionList);
 				$this->ctrl->forwardCommand($gui);
 				break;
 

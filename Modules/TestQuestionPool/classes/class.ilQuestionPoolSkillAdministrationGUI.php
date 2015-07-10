@@ -109,7 +109,7 @@ class ilQuestionPoolSkillAdministrationGUI
 			'ilAssQuestionSkillUsagesTableGUI', ilAssQuestionSkillUsagesTableGUI::CMD_SHOW
 		);
 		$this->tabs->addSubTab(
-			'ilassquestionskillusagesgui', $this->lng->txt('qpl_skl_sub_tab_usages'), $link
+			'ilassquestionskillusagestablegui', $this->lng->txt('qpl_skl_sub_tab_usages'), $link
 
 		);
 

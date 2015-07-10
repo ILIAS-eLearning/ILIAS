@@ -135,11 +135,8 @@ class ilAssQuestionSkillUsagesTableGUI extends ilTable2GUI
 		
 		foreach($assignedSkills as $assignedSkill)
 		{
-			/* @var ilBasicSkill $skill */
-			$skill = $assignedSkill['skill'];
-			
 			$rows[] = array(
-				'skill_title' => $skill->getTitle(),
+				'skill_title' => $assignedSkill['skill_title'],
 				'skill_path' => $assignedSkill['skill_path'],
 				'num_questions' => $assignedSkill['num_assigns'],
 				'max_skill_points' => $assignedSkill['max_points'],
