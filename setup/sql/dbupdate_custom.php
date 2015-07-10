@@ -1861,7 +1861,7 @@ if(!$ilDB->tableExists('hist_user'))
 <#42>
 <?php
 // init helper class
-$idDB->	manipulate("ALTER TABLE `il_plugin` CHANGE `plugin_id` `plugin_id` 
+$ilDB->	manipulate("ALTER TABLE `il_plugin` CHANGE `plugin_id` `plugin_id` 
 			VARCHAR(40) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL");
 
 require_once "Customizing/class.ilCustomInstaller.php";
@@ -3661,4 +3661,10 @@ require_once "Customizing/class.ilCustomInstaller.php";
 require_once "Customizing/class.ilCustomInstaller.php";
 	ilCustomInstaller::initPluginEnv();
 	ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "AdvancedMetaData", "amdc", "CourseAMD");
+?>
+
+<#128>
+<?php
+require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCreationRequestDB.php");
+gevDecentralTrainingCreationRequestDB::install_step1($ilDB);
 ?>
