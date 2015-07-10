@@ -10,7 +10,7 @@ include_once 'Modules/Test/classes/class.ilTestSkillLevelThresholdsGUI.php';
  *
  * @package		Modules/Test
  *
- * @ilCtrl_Calls ilTestSkillAdministrationGUI: ilTestSkillQuestionAssignmentsGUI
+ * @ilCtrl_Calls ilTestSkillAdministrationGUI: ilAssQuestionSkillAssignmentsGUI
  * @ilCtrl_Calls ilTestSkillAdministrationGUI: ilTestSkillLevelThresholdsGUI
  */
 class ilTestSkillAdministrationGUI
@@ -51,11 +51,16 @@ class ilTestSkillAdministrationGUI
 	private $db;
 
 	/**
+	 * @var ilPluginAdmin
+	 */
+	private $pluginAdmin;
+
+	/**
 	 * @var ilObjTest
 	 */
 	private $testOBJ;
 
-	public function __construct(ILIAS $ilias, ilCtrl $ctrl, ilAccessHandler $access, ilTabsGUI $tabs, ilTemplate $tpl, ilLanguage $lng, ilDB $db, ilObjTest $testOBJ, $refId)
+	public function __construct(ILIAS $ilias, ilCtrl $ctrl, ilAccessHandler $access, ilTabsGUI $tabs, ilTemplate $tpl, ilLanguage $lng, ilDB $db, ilPluginAdmin $pluginAdmin, ilObjTest $testOBJ, $refId)
 	{
 		$this->ilias = $ilias;
 		$this->ctrl = $ctrl;
@@ -64,6 +69,7 @@ class ilTestSkillAdministrationGUI
 		$this->tpl = $tpl;
 		$this->lng = $lng;
 		$this->db = $db;
+		$this->pluginAdmin = $pluginAdmin;
 		$this->testOBJ = $testOBJ;
 		$this->refId = $refId;
 	}
@@ -81,10 +87,20 @@ class ilTestSkillAdministrationGUI
 
 		switch($nextClass)
 		{
-			case 'iltestskillquestionassignmentsgui':
+			case 'ilassquestionskillassignmentsgui':
 
-				$gui = new ilTestSkillQuestionAssignmentsGUI($this->ctrl, $this->tpl, $this->lng, $this->db, $this->testOBJ);
+				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionList.php';
+				$questionList = new ilAssQuestionList($this->db, $this->lng, $this->pluginAdmin, $this->testOBJ->getId());
+				$questionList->setQuestionInstanceTypeFilter(ilAssQuestionList::QUESTION_INSTANCE_TYPE_DUPLICATES);
+				$questionList->load();
+
+				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentsGUI.php';
+				$gui = new ilAssQuestionSkillAssignmentsGUI($this->ctrl, $this->tpl, $this->lng, $this->db);
+				$gui->setParentObjId($this->testOBJ->getId());
+				$gui->setQuestionList($questionList);
+
 				$this->ctrl->forwardCommand($gui);
+				
 				break;
 
 			case 'iltestskilllevelthresholdsgui':
@@ -98,10 +114,10 @@ class ilTestSkillAdministrationGUI
 	public function manageTabs($activeSubTabId)
 	{
 		$link = $this->ctrl->getLinkTargetByClass(
-			'iltestskillquestionassignmentsgui', ilTestSkillQuestionAssignmentsGUI::CMD_SHOW_SKILL_QUEST_ASSIGNS
+			'ilassquestionskillassignmentsgui', ilAssQuestionSkillAssignmentsGUI::CMD_SHOW_SKILL_QUEST_ASSIGNS
 		);
 		$this->tabs->addSubTab(
-			'iltestskillquestionassignmentsgui', $this->lng->txt('tst_skl_sub_tab_quest_assign'), $link
+			'ilassquestionskillassignmentsgui', $this->lng->txt('tst_skl_sub_tab_quest_assign'), $link
 
 		);
 

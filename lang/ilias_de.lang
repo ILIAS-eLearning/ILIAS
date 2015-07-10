@@ -1496,6 +1496,7 @@ assessment#:#tst_activate_skill_service#:#Kompetenzservice aktivieren
 assessment#:#tst_disabled_skl_due_to_non_fixed_quest_set_type#:#Der Kompetenzservice wurde aufgrund des Testmodus ohne feste Fragenauswahl deaktiviert.
 assessment#:#tst_cannot_enable_skl_due_to_non_fixed_quest_set_type#:#Die Aktivierung des Kompetenzservice ist aufgrund des Testmodus ohne feste Fragenauswahl nicht möglich.
 assessment#:#tst_tab_competences#:#Kompetenzen
+assessment#:#qpl_tab_competences#:#Kompetenzen
 assessment#:#tst_skl_sub_tab_quest_assign#:#Fragen-Kompetenz-Zuordnung
 assessment#:#tst_skl_sub_tab_thresholds#:#Kompetenz-Schwellenwerte
 assessment#:#tst_msg_skl_lvl_thresholds_saved#:#Die Kompetenz-Schwellenwerte wurden gespeichert.

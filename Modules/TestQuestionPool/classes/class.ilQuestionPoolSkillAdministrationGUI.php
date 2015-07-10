@@ -103,7 +103,7 @@ class ilQuestionPoolSkillAdministrationGUI
 
 		);
 
-		$this->tabs->activateTab('tst_tab_competences');
+		$this->tabs->activateTab('qpl_tab_competences');
 		$this->tabs->activateSubTab($activeSubTabId);
 	}
 
@@ -124,6 +124,7 @@ class ilQuestionPoolSkillAdministrationGUI
 
 				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionList.php';
 				$questionList = new ilAssQuestionList($this->db, $this->lng, $this->pluginAdmin, $this->poolOBJ->getId());
+				$questionList->setQuestionInstanceTypeFilter(ilAssQuestionList::QUESTION_INSTANCE_TYPE_ORIGINALS);
 				$questionList->load();
 
 				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentsGUI.php';
