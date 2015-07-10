@@ -48,6 +48,7 @@ class ilExcDeliveredFilesTableGUI extends ilTable2GUI
 			$this->addColumn($this->lng->txt("exc_late_submission"), "late");
 		}
 		
+		$this->addColumn($this->lng->txt("action"));		
 		$this->setDefaultOrderField("filetitle");
 		
 		$this->setEnableHeader(true);
@@ -59,8 +60,7 @@ class ilExcDeliveredFilesTableGUI extends ilTable2GUI
 		if ($this->submission->canSubmit())
 		{
 			$this->addMultiCommand("confirmDeleteDelivered", $lng->txt("delete"));
-		}
-		$this->addMultiCommand("download", $lng->txt("download"));				
+		}			
 	}
 
 	/**
@@ -68,7 +68,7 @@ class ilExcDeliveredFilesTableGUI extends ilTable2GUI
 	*/
 	protected function fillRow($file)
 	{
-		global $lng;
+		global $ilCtrl;
 
 		$this->tpl->setVariable("FILE_ID", $file["returned_id"]);
 		$this->tpl->setVariable("DELIVERED_FILE", $file["filetitle"]);
@@ -88,6 +88,14 @@ class ilExcDeliveredFilesTableGUI extends ilTable2GUI
 				? '<span class="warning">'.$this->lng->txt("yes").'</span>'
 				: $this->lng->txt("no"));					
 		}
+		
+		// #16164 - download
+		$ilCtrl->setParameter($this->getParentObject(), "delivered", $file["returned_id"]);
+		$url = $ilCtrl->getLinkTarget($this->getParentObject(), "download");
+		$ilCtrl->setParameter($this->getParentObject(), "delivered", "");
+		$this->tpl->setVariable("ACTION_TXT", $this->lng->txt("download"));
+		$this->tpl->setVariable("ACTION_URL", $url);
+		
 	}
 
 }
