@@ -250,13 +250,13 @@ var GapInsertingWizard = (function () {
 			 setCursorPositionTiny(inst, pos[1]);
 			 //focusOnFormular(pos);
 			 }
-		});
+		});*/
 		tinymce_iframe_selector.keyup(function(e){
 			if(e.keyCode == 8 || e.keyCode == 46)
 			{
-				//checkTextAreaAgainstJson();
+				checkDataConsitencyCallback();
 			}
-		});
+		});/*
 		tinymce_iframe_selector.click(function () {
 			var inst = tinyMCE.activeEditor;
 			var cursorPosition = getCursorPositionTiny(inst, false);
@@ -283,6 +283,24 @@ var GapInsertingWizard = (function () {
 			cleanGapCode();
 		});
 	}
+	
+	function checkDataConsitencyCallback()
+	{
+		var gaps = pub.getTextAreaValue().match(new RegExp("\\[" + pub.replacement_word + "[\\s\\S\\d]*?\\]", "g"));
+		var front = new RegExp('\\[' + pub.replacement_word + '\\s');
+		var end   = new RegExp('\\]');
+		var existing_gaps = [];
+		var gap = '';
+		$.each(gaps , function( index, value ) {
+			gap = parseInt(value.replace(front,'').replace(end,''), 10);
+			existing_gaps.push(gap);		
+		});
+		if (typeof pub.checkDataConsistencyAfterGapRemovel === 'function') {
+			pub.checkDataConsistencyAfterGapRemovel(existing_gaps);
+		}
+		cleanGapCode();
+	}
+	
 	function bindTextareaHandler()
 	{
 		var cloze_text_selector= $('#' + pub.textarea);
@@ -304,7 +322,8 @@ var GapInsertingWizard = (function () {
 	pub.replacement_word 	= '';
 	pub.show_end			= true;
 	pub.active_gap          = -1;
-	pub.callbackActiveGapChange, pub.callbackClickedInGap, pub.callbackCleanGapCode, pub.callbackNewGap;
+	pub.callbackActiveGapChange, pub.callbackClickedInGap, pub.callbackCleanGapCode, 
+						pub.callbackNewGap, pub.checkDataConsistencyAfterGapRemovel;
 
 	pub.Init = function()
 	{

@@ -1,6 +1,6 @@
 var longMenuQuestion = (function () {
 	var pub = {};
-	var new_question_part = { 'correct_answers' : [] };
+	var new_question_part = { 0 : [] };
 	pub.questionParts, pub.answers;
 
 	function buildAndInitGapWizard()
@@ -24,6 +24,22 @@ var longMenuQuestion = (function () {
 			sliceInNewQuestionPart(gap_id);
 		};
 		gap_wizard.callbackCleanGapCode 	= function (){debugPrinter('cleanup done')};
+		gap_wizard.checkDataConsistencyAfterGapRemovel = function ( existing_gaps )
+		{
+			pub.questionParts.list  = $().ensureNoArrayIsAnObjectRecursive(pub.questionParts.list);
+			pub.answers             = $().ensureNoArrayIsAnObjectRecursive(pub.answers);
+			$.each(pub.questionParts.list , function( index, value ) {
+				if($.inArray(index + 1, existing_gaps) == -1) 
+				{
+					pub.answers.splice(index, 1);
+					pub.questionParts.list.splice(index, 1);
+					console.log(pub.answers, 'removed ' +index)
+				}
+			});
+			redrawFormParts();
+			debugPrinter('consistency check')
+		};
+		
 		gap_wizard.Init();
 	}
 
@@ -33,7 +49,7 @@ var longMenuQuestion = (function () {
 		var title 			= 0;
 		$.each(pub.questionParts.list , function( index, value ) {
 			footer_class.parent().append(new_title.clone());
-			title = index + 1;
+			title = parseInt(index, 10) + 1;
 			$(document).find('.longmenu_head').last().find('.ilHeader')
 				.attr('id', 'title_' + index)
 				.html(pub.questionParts.replacement_word + ' ' + title);
@@ -74,16 +90,16 @@ var longMenuQuestion = (function () {
 		{
 			html =	'<p>' + long_menu_language.answer_options + pub.answers[question_id].length;
 			html += ' <a data-id="' + question_id +
-			'" class="answer_options">' +
+			'" class="answer_options"> ' +
 			long_menu_language.edit + '</a></p>';
 			html += '<p>' + long_menu_language.correct_answers;
 			var answers = '';
-			$.each(pub.questionParts.list[question_id].correct_answers , function( index, value ) {
+			$.each(pub.questionParts.list[question_id][0] , function( index, value ) {
 				answers += value + ', ';
 			});
 			html += ' ' + answers.substring(0, answers.length - 2) +
 			'<a data-id="' + question_id +
-			'" class="correct_answers">' + long_menu_language.edit + '</a></p>';
+			'" class="correct_answers"> ' + long_menu_language.edit + '</a></p>';
 		}
 		else
 		{
@@ -176,22 +192,22 @@ var longMenuQuestion = (function () {
 		appendAnswerCloneButtonEvents();
 		redrawFormParts();
 	}
-	function redrawAnswerListFast(question_id, gap_id, addRow)
+	function redrawAnswerListFast(gap_id, answer_id, addRow)
 	{
 		debugPrinter('redraw answer list fast');
-		debugPrinter('New gap ' + gap_id + ' in quesstion ' + question_id);
-		checkAnswersArray(question_id);
+		debugPrinter('New answer ' + answer_id + ' in gap ' + gap_id);
+		checkAnswersArray(gap_id);
 		var buttons = $('.layout_dummy_add_remove_buttons').html();
-		if(inputFieldsStillPossible(question_id))
+		if(inputFieldsStillPossible(gap_id))
 		{
 			if(addRow)
 			{
-				$('.answerlist').eq(gap_id).before('<input type="text" class="col-sm-10 text-right answerlist" size="5" value="">' + buttons);
+				$('.answerlist').eq(answer_id).before('<input type="text" class="col-sm-10 text-right answerlist" size="5" value="">' + buttons);
 			}
 			else
 			{
-				$('.answerlist').eq(gap_id).next().remove();
-				$('.answerlist').eq(gap_id).remove();
+				$('.answerlist').eq(answer_id).next().remove();
+				$('.answerlist').eq(answer_id).remove();
 			}
 			appendAnswerCloneButtonEvents();
 			recalculateAnswerlistDataIds();
@@ -265,7 +281,7 @@ var longMenuQuestion = (function () {
 	function syncWithCorrectAnswers(question_id)
 	{
 		var to_remove = [];
-		$.each(pub.questionParts.list[question_id].correct_answers , function( index, value ) {
+		$.each(pub.questionParts.list[question_id][0] , function( index, value ) {
 			if ($.inArray(value, pub.answers[question_id]) == -1 )
 			{
 				to_remove.push(index);
@@ -274,12 +290,13 @@ var longMenuQuestion = (function () {
 		to_remove.sort(function(a, b){return b-a});
 		$.each(to_remove , function( index, position ) {
 			debugPrinter('value on pos ' + position + ' removed because it no part of the answer list anymore.');
-			pub.questionParts.list[question_id].correct_answers.splice(position, 1);
+			pub.questionParts.list[question_id][0].splice(position, 1);
 		});
 	}
 
 	function checkAnswersArray(question_id)
 	{
+		console.log( pub.answers)
 		var result = [];
 		$.each(pub.answers[question_id], function(index, value) {
 			value = value.toString().replace(/"/g,'');
@@ -295,6 +312,7 @@ var longMenuQuestion = (function () {
 		pub.answers[question_id] = result;
 		debugPrinter(removed + ' duplicate or empty elements where removed.');
 		debugPrinter(pub.answers[question_id].length + ' Answer for gap ' + question_id);
+		console.log( pub.answers)
 		syncWithCorrectAnswers(question_id);
 		syncWithHiddenTextField();
 	}
@@ -307,7 +325,6 @@ var longMenuQuestion = (function () {
 	function sliceInNewQuestionPart(gap_id)
 	{
 		pub.questionParts.list.splice(gap_id, 0, new_question_part);
-		pub.answers = forceArray(pub.answers);
 		pub.answers.splice(gap_id,0,[]);
 		redrawFormParts();
 	}
@@ -341,15 +358,6 @@ var longMenuQuestion = (function () {
 			alert('The File APIs are not fully supported by your browser.');
 		}
 	}
-
-	function forceArray(obj)
-	{
-		var array = $.map(obj, function(value, index) {
-			return [value];
-		});
-		return array;
-	}
-
 	//Public property
 
 	pub.Init = function()
@@ -357,6 +365,8 @@ var longMenuQuestion = (function () {
 		buildAndInitGapWizard();
 		appendFormParts();
 		syncWithHiddenTextField();
+		pub.questionParts.list = $().ensureNoArrayIsAnObjectRecursive(pub.questionParts.list);
+		pub.answers = $().ensureNoArrayIsAnObjectRecursive(pub.answers);
 		if (window.File && window.FileReader && window.FileList && window.Blob)
 		{
 			longMenuQuestion.filereader_usable = true;
@@ -366,3 +376,19 @@ var longMenuQuestion = (function () {
 	//Return just the public parts
 	return pub;
 }());
+(function ( $ ) {
+
+	$.fn.ensureNoArrayIsAnObjectRecursive = function( obj ) {
+		if ($.type(obj) === 'object' || $.type(obj) === 'array')
+		{
+			Object.keys(obj).forEach(function(key) {
+				obj[key] = jQuery().ensureNoArrayIsAnObjectRecursive(obj[key]);
+			});
+			obj = $.map(obj, function(value) {
+				return [value];
+			});
+		}
+		return obj;
+	};
+
+}( jQuery ));

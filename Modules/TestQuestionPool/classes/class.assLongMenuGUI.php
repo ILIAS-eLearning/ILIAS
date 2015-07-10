@@ -197,6 +197,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 		$form->addItem($hidden);
 		
 		$tpl = new ilTemplate("tpl.il_as_qpl_long_menu_gap.html", TRUE, TRUE, "Modules/TestQuestionPool");
+		$a = $this->object->getCorrectAnswers();
 		$tpl->setVariable('CORRECT_ANSWERS', $this->object->getCorrectAnswers());
 		$tpl->setVariable('ALL_ANSWERS', $this->object->getAnswersObject());
 		$tpl->setVariable('SELECT_BOX', $this->lng->txt('insert_gap'));

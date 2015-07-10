@@ -157,8 +157,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
 		$dir_h = opendir($dir);
 		while($file = readdir($dir_h))
 		{
-			if ($file != "." and
-				$file != "..")
+			if ($file != "." && $file != "..")
 			{
 				$gap					= str_replace('.txt', '', $file);
 				$answers[(int) $gap] 	= explode('\n', file_get_contents($dir . $file));
@@ -234,6 +233,16 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
 	
 	function getCorrectAnswers()
 	{
+		//Todo: remove workaround and return the real correct answers
+		$answers = $this->createArrayFromFile();
+		$return_array = array();
+		foreach( $answers as $key => $value )
+		{
+			$val1 = $value[rand(0, sizeof($value) / 2)];
+			$val2 = $value[rand(0, sizeof($value) / 2)];
+			$return_array[(int) $key] = array(0 => array($val1, $val2));
+		}
+		return json_encode($return_array);
 		$a = array('correct_answers' => array(1,2,3));
 		$b = array('correct_answers' => array(9,0));
 		return json_encode(array($a, $b));
