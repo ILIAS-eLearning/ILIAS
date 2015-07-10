@@ -639,6 +639,23 @@ assessment#:#kiosk_show_participant#:#Name des Teilnehmers
 assessment#:#kiosk_show_title#:#Titel des Tests
 assessment#:#last_update#:#Letzte Aktualisierung
 assessment#:#legend#:#Legende
+assessment#:#qpl_lac_legend_header_common#:#Aussagenlogik
+assessment#:#qpl_lac_desc_logical_and#:#Logisches UND
+assessment#:#qpl_lac_desc_logical_or#:#Logisches	ODER
+assessment#:#qpl_lac_desc_negation#:#Negation
+assessment#:#qpl_lac_desc_brackets#:#Klammerung
+assessment#:#qpl_lac_desc_res_of_quest_n#:#Ergebnis der n-ten Frage
+assessment#:#qpl_lac_desc_res_of_answ_m_of_quest_n#:#Ergebnis der m-ten Antwort einer n-ten Frage
+assessment#:#qpl_lac_legend_header_quest_specific#:#Fragenspezifische Ausdrücke
+assessment#:#qpl_lac_legend_label_operators#:#Operatoren
+assessment#:#qpl_lac_desc_compare_with_quest_res#:#Vergleiche das Ergebnis mit dem erzielten Ergebnis in Prozent
+assessment#:#qpl_lac_desc_compare_with_number#:#Vergleiche das Ergebnis mit dem Zahlenwert n
+assessment#:#qpl_lac_desc_compare_with_text#:#Vergleiche das Ergebnis mit dem Freitext TEXT
+assessment#:#qpl_lac_desc_compare_with_assignment#:#Vergleiche das Ergebnis mit der Zuordnung n:m
+assessment#:#qpl_lac_desc_compare_with_sequence#:#Vergleiche das Ergebnis mit der Antwortsequenz ($a,..,z$)
+assessment#:#qpl_lac_desc_compare_with_answer_n#:#Vergleiche das Ergebnis mit der n-ten Antwort der Frage
+assessment#:#qpl_lac_desc_compare_with_exact_sequence#:#Vergleiche das Ergebnis, ob ausschließlich die angegebene Sequenz ausgewählt wurde
+assessment#:#qpl_lac_desc_compare_answer_exist#:#Vergleiche ob für eine Frage/Lücke einer Frage keine Antwort gegeben wurde
 assessment#:#locked#:#gesperrt
 assessment#:#log_answer_changed_points#:#Manuelles Setzen der Punkte des Teilnehmers %s von %d auf %d Punkte durch %s
 assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#Der Teilnehmer konnte den Test nicht starten, da die maximale Anzahl der gleichzeitiger Teilnehmer für diesen Kurs bereits erreicht ist.

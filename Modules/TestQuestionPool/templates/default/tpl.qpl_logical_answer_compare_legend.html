@@ -1,0 +1,63 @@
+<div id="qpl_lac_legend" style="{CSS_DISPLAY_NONE}" class="ilOverlay">
+	<div class="qpl_lac_legend">
+	
+		<a class="closeAction" href="#" style="display: block; position: absolute; right: 10px; top: 10px;">Close<img id="adjustment_stats_container_close_aggr_usr_answ" alt="Close" src="./templates/default/images/icon_close2_s.png"></a>
+		
+		<div class="header">{COMMON_ELEMENTS_HEADER}</div>
+		<table>
+		<!-- BEGIN common_elements -->
+		<tr>
+			<td class="element">{CE_ELEMENT}</td>
+			<td class="description">{CE_DESCRIPTION}</td>
+		</tr>
+		<!-- END common_elements -->
+		</table>
+		
+		<div class="header">{QUEST_SPECIFIC_ELEMENTS_HEADER}</div>
+		<table>
+		<!-- BEGIN quest_specific_elements -->
+		<tr>
+			<td class="element">{QSE_ELEMENT}</td>
+			<td class="description">{QSE_DESCRIPTION}</td>
+		</tr>
+		<tr>
+			<td></td>
+			<td class="operators">{QSE_OPERATORS_TXT}: {QSE_OPERATORS}</td>
+		</tr>
+		<!-- END quest_specific_elements -->
+		</table>
+		
+	</div>
+</div>
+
+<script>
+(function($){$().ready(function(){
+
+	$('#qpl_lac_legend .closeAction').click(
+		function()
+		{
+			il.Overlay.hide(null, 'qpl_lac_legend');
+		}
+	);
+
+	$('input[name=eval_mode]').change(
+		function()
+		{
+			var selectedValue = $('input[name=eval_mode]:checked').val();
+			
+			if(selectedValue == 1)
+			{
+				il.Overlay.hide(null, 'qpl_lac_legend');
+			}
+			else if(selectedValue == 2)
+			{
+				il.Overlay.show(null, 'qpl_lac_legend');
+			}
+		}
+	);
+
+	$(document).unbind("click");
+	$(document).bind("click",function (e) {il.Overlay.hideAllOverlays(e, false, "qpl_lac_legend"); });
+
+});})(jQuery);
+</script>

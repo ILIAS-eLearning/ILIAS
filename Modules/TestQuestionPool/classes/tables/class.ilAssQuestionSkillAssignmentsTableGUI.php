@@ -124,7 +124,7 @@ class ilAssQuestionSkillAssignmentsTableGUI extends ilTable2GUI
 		$this->ctrl->setParameter($this->parent_obj, 'skill_tref_id', $assignment->getSkillTrefId());
 
 		$href = $this->ctrl->getLinkTarget(
-			$this->parent_obj, ilAssQuestionSkillAssignmentsGUI::CMD_SHOW_SKILL_QUEST_ASSIGN_EDIT_FORM
+			$this->parent_obj, ilAssQuestionSkillAssignmentsGUI::CMD_SHOW_SKILL_QUEST_ASSIGN_PROPERTIES_FORM
 		);
 
 		$label = $this->lng->txt('tst_edit_competence_assign');

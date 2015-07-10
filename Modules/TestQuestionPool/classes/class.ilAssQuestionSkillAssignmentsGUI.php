@@ -11,6 +11,9 @@
  * @ilCtrl_Calls ilAssQuestionSkillAssignmentsGUI: ilAssQuestionSkillAssignmentsTableGUI
  * @ilCtrl_Calls ilAssQuestionSkillAssignmentsGUI: ilSkillSelectorGUI
  * @ilCtrl_Calls ilAssQuestionSkillAssignmentsGUI: ilToolbarGUI
+ * @ilCtrl_Calls ilAssQuestionSkillAssignmentsGUI: ilPropertyFormGUI
+ * @ilCtrl_Calls ilAssQuestionSkillAssignmentsGUI: ilAssLacLegendGUI
+ * @ilCtrl_Calls ilAssQuestionSkillAssignmentsGUI: ilAssQuestionPageGUI
  */
 class ilAssQuestionSkillAssignmentsGUI
 {
@@ -18,8 +21,8 @@ class ilAssQuestionSkillAssignmentsGUI
 	const CMD_SAVE_SKILL_POINTS = 'saveSkillPoints';
 	const CMD_SHOW_SKILL_SELECT = 'showSkillSelection';
 	const CMD_UPDATE_SKILL_QUEST_ASSIGNS = 'updateSkillQuestionAssignments';
-	const CMD_SHOW_SKILL_QUEST_ASSIGN_EDIT_FORM = 'showSkillQuestionAssignmentEditForm';
-	const CMD_SAVE_SKILL_QUEST_ASSIGN_EDIT_FORM = 'saveSkillQuestionAssignmentEditForm';
+	const CMD_SHOW_SKILL_QUEST_ASSIGN_PROPERTIES_FORM = 'showSkillQuestionAssignmentPropertiesForm';
+	const CMD_SAVE_SKILL_QUEST_ASSIGN_PROPERTIES_FORM = 'saveSkillQuestionAssignmentPropertiesForm';
 	
 	const PARAM_SKILL_SELECTION = 'skill_ids';
 	
@@ -101,9 +104,21 @@ class ilAssQuestionSkillAssignmentsGUI
 
 	public function executeCommand()
 	{
-		$cmd = $this->ctrl->getCmd(self::CMD_SHOW_SKILL_QUEST_ASSIGNS) . 'Cmd';
-
-		$this->$cmd();
+		$nextClass = $this->ctrl->getNextClass();
+		
+		switch($nextClass)
+		{
+			case strtolower(__CLASS__):
+			case '':
+				
+				$command = $this->ctrl->getCmd(self::CMD_SHOW_SKILL_QUEST_ASSIGNS) . 'Cmd';
+				$this->$command();
+				break;
+				
+			default:
+				
+				throw new ilTestQuestionPoolException('unsupported next class in ctrl flow');
+		}
 	}
 
 	private function updateSkillQuestionAssignmentsCmd()
@@ -233,9 +248,62 @@ class ilAssQuestionSkillAssignmentsGUI
 		$this->ctrl->redirect($this, self::CMD_SHOW_SKILL_QUEST_ASSIGNS);
 	}
 	
-	private function showSkillQuestionAssignmentEditFormCmd()
+	private function showSkillQuestionAssignmentPropertiesFormCmd()
 	{
-		$form = 
+		require_once 'Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
+		$questionGUI = assQuestionGUI::_getQuestionGUI('', (int)$_GET['question_id']);
+
+		$questionPageHTML = $this->buildQuestionPage($questionGUI);
+		
+		$form = $this->buildSkillQuestionAssignmentPropertiesForm(
+			$questionGUI->object, (int)$_GET['skill_base_id'], (int)$_GET['skill_tref_id']
+		);
+
+		require_once 'Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/class.ilAssLacLegendGUI.php';
+		$legend = new ilAssLacLegendGUI($this->lng, $this->tpl);
+		$legend->setInitialVisibilityEnabled(true);
+
+		$this->tpl->setContent( $this->ctrl->getHTML($form).'<br />'.$questionPageHTML.$this->ctrl->getHTML($legend) );
+	}
+	
+	private function buildSkillQuestionAssignmentPropertiesForm(assQuestion $question, $skillBaseId, $skillTrefId)
+	{
+		require_once 'Services/Skill/classes/class.ilBasicSkill.php';
+		$skillTitle = ilBasicSkill::_lookupTitle($skillBaseId, $skillTrefId);
+
+		require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
+		require_once 'Services/Form/classes/class.ilNonEditableValueGUI.php';
+		require_once 'Services/Form/classes/class.ilRadioGroupInputGUI.php';
+		
+		$form = new ilPropertyFormGUI();
+
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		$form->addCommandButton(self::CMD_SAVE_SKILL_QUEST_ASSIGN_PROPERTIES_FORM, $this->lng->txt('save'));
+		$form->addCommandButton(self::CMD_SHOW_SKILL_QUEST_ASSIGNS, $this->lng->txt('cancel'));
+
+		$form->setTitle($skillTitle);
+
+		$questionTitle = new ilNonEditableValueGUI($this->lng->txt('question'));
+		$questionTitle->setValue($question->getTitle());
+		$form->addItem($questionTitle);
+
+		$questionDesc = new ilNonEditableValueGUI($this->lng->txt('description'));
+		$questionDesc->setValue($question->getComment());
+		$form->addItem($questionDesc);
+		
+		$evaluationMode = new ilRadioGroupInputGUI($this->lng->txt('condition'), 'eval_mode');
+		$evalOptionReachedQuestionPoints = new ilRadioOption(
+			$this->lng->txt('qpl_skill_point_eval_by_reached_quest_points'), 1
+		);
+		$evaluationMode->addOption($evalOptionReachedQuestionPoints);
+		$evalOptionLogicalAnswerCompare = new ilRadioOption(
+			$this->lng->txt('qpl_skill_point_eval_by_logical_answer_compare'), 2
+		);
+		$evaluationMode->addOption($evalOptionLogicalAnswerCompare);
+		$evaluationMode->setRequired(true);
+		$form->addItem($evaluationMode);
+		
+		return $form;
 	}
 
 	private function showSkillQuestionAssignmentsCmd()
@@ -309,6 +377,27 @@ class ilAssQuestionSkillAssignmentsGUI
 		$skillSelectorToolbarGUI->addFormButton($this->lng->txt('cancel'), self::CMD_SHOW_SKILL_QUEST_ASSIGNS);
 		
 		return $skillSelectorToolbarGUI;
+	}
+
+	private function buildQuestionPage(assQuestionGUI $questionGUI)
+	{
+		$this->tpl->addCss('Services/COPage/css/content.css');
+
+		include_once("./Modules/TestQuestionPool/classes/class.ilAssQuestionPageGUI.php");
+		$pageGUI = new ilAssQuestionPageGUI($questionGUI->object->getId());
+
+		$pageGUI->setOutputMode("presentation");
+		$pageGUI->setRenderPageContainer(true);
+
+		$pageGUI->setPresentationTitle($questionGUI->object->getTitle());
+
+		$questionHTML = $questionGUI->getSolutionOutput(0, 0, false, false, true, false, true, false, true);
+		$pageGUI->setQuestionHTML(array($questionGUI->object->getId() => $questionHTML));
+
+		$pageHTML = $pageGUI->presentation();
+		$pageHTML = preg_replace("/src=\"\\.\\//ims", "src=\"" . ILIAS_HTTP_PATH . "/", $pageHTML);
+
+		return $pageHTML;
 	}
 
 	private function isTestQuestion($questionId)
