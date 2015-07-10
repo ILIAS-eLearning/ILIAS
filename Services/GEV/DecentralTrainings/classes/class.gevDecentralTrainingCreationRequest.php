@@ -10,6 +10,12 @@
 */
 
 class gevDecentralTrainingCreationRequest {
+	// @var gevDecentralTrainingCreationRequestDB
+	protected $db;
+	
+	// @var int				Id of this request.
+	protected $request_id;
+	
 	// @var int				Id of the user that wants to create the training.
 	protected $user_id;
 	
@@ -30,12 +36,23 @@ class gevDecentralTrainingCreationRequest {
 	// @var int|null		Id of the object that was created by the request.
 	protected $created_obj_id;
 	
-	public function __construct( $a_user_id
+	public function __construct( gevDecentralTrainingCreationRequestDB $db
+							   , $a_user_id
 							   , $a_template_obj_id
 							   , array $a_trainer_ids
 							   , gevDecentralTrainingSettings $a_settings
+							   // For creation from the database.
+							   , $a_request_id = null
+							   , ilDateTime $a_requested_ts = null
+							   , ilDateTime $a_created_obj_id = null
+							   , $a_created_obj_id = null
 							   ) {
+		$this->db = $db;
+		
 		// TODO: Maybe uncomment this, if the stuff works.
+		assert($a_request_id === null || is_int($a_request_id));
+		assert($a_created_obj_id === null || (is_int($a_created_obj_id)));
+		
 		assert(is_int($a_user_id));
 		assert(ilObject::_lookupType($a_user_id) == "usr");
 		
@@ -53,6 +70,43 @@ class gevDecentralTrainingCreationRequest {
 		$this->settings = $a_settings;
 		$this->requested_ts = null;
 		$this->finished_ts = null;
+	}
+	
+	public function requestId() {
+		return $this->request_id();
+	}
+	
+	public function userId() {
+		return $this->user_id;
+	}
+	
+	public function templateObjId() {
+		return $this->template_obj_id;
+	}
+	
+	public function settings() {
+		return $this->settings;
+	}
+	
+	public function trainerIds() {
+		return $this->trainer_ids;
+	}
+	
+	public function requestedTS() {
+		return $this->requested_ts;
+	}
+	
+	public function finishedTS() {
+		return $this->finished_ts;
+	}
+	
+	public function createdObjId() {
+		return $this->created_obj_id;
+	}
+	
+	public function request() {
+		$this->requested_ts = new ilDateTime(time(),IL_CAL_UNIX);
+		$this->request_id = $this->db->createRequest($this);
 	}
 	
 	public function run() {

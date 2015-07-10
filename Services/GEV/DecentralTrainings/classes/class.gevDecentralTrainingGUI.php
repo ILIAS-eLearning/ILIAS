@@ -183,16 +183,19 @@ class gevDecentralTrainingGUI {
 		$crs_utils = gevCourseUtils::getInstance($template_id);
 		$settings = $this->getSettingsFromForm($crs_utils, $form_prev);
 		$creation_request = new gevDecentralTrainingCreationRequest
-									( (int)$this->current_user->getId()
+									( $dec_utils->getCreationRequestDB()
+									, (int)$this->current_user->getId()
 									, (int)$template_id
 									, $trainer_ids
 									, $settings
 									);
-		$res = $creation_request->run();
+		$creation_request->request();
+		//$res = $creation_request->run();
 		
 		ilUtil::sendSuccess($this->lng->txt("gev_dec_training_creation_successfull"), true);
 		
-		require_once("Services/CourseBooking/classes/class.ilCourseBookingAdminGUI.php");
+		
+/*		require_once("Services/CourseBooking/classes/class.ilCourseBookingAdminGUI.php");
 		require_once("Services/CourseBooking/classes/class.ilCourseBookingPermissions.php");
 		
 		if (ilCourseBookingPermissions::getInstanceByRefId($res["ref_id"], $this->current_user->getId())->bookCourseForOthers()) {
@@ -208,7 +211,7 @@ class gevDecentralTrainingGUI {
 		}
 		else {
 			return $this->backFromBooking();
-		}
+		}*/
 	}
 	
 	protected function backFromBooking() {

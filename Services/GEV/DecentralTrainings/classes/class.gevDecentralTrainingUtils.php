@@ -19,6 +19,7 @@ require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTraining
 
 class gevDecentralTrainingUtils {
 	static $instance = null;
+	static $creation_request_db = null;
 	protected $creation_permissions = array();
 	protected $creation_users = array();
 	
@@ -166,6 +167,15 @@ class gevDecentralTrainingUtils {
 		
 		// Could also mean that no permission is granted, but we hide that 
 		throw new Exception("gevDecentralTrainingUtils::getTemplateInfoFor: Training not found.");
+	}
+	
+	// Creation Requests Database
+	public function getCreationRequestDB() {
+		if (self::$creation_request_db === null) {
+			require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCreationRequestDB.php");
+			self::$creation_request_db = new gevDecentralTrainingCreationRequestDB();
+		}
+		return self::$creation_request_db;
 	}
 }
 

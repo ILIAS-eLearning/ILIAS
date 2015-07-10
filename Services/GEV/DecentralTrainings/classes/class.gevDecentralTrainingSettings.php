@@ -99,10 +99,6 @@ class gevDecentralTrainingSettings {
 		return $this->venue_text;
 	}
 	
-	public function trainerIds() {
-		return $this->trainer_ids;
-	}
-	
 	public function orguRefId() {
 		return $this->orgu_ref_id;
 	}
