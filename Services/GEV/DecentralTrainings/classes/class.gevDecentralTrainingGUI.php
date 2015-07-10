@@ -147,6 +147,7 @@ class gevDecentralTrainingGUI {
 	
 	protected function finalizeTrainingCreation() {
 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCreationRequest.php");
 		
 		$form_prev = $this->buildTrainingOptionsForm(false);
 		$dec_utils = gevDecentralTrainingUtils::getInstance();
@@ -175,13 +176,19 @@ class gevDecentralTrainingGUI {
 		}
 		
 		$template_id = intval($form_prev->getInput("template_id"));
-		$trainer_ids = unserialize(base64_decode($form_prev->getInput("trainer_ids")));
+		$trainer_ids = array_map(function($inp) {return (int)$inp; }
+								, unserialize(base64_decode($form_prev->getInput("trainer_ids")))
+								);
 		
 		$crs_utils = gevCourseUtils::getInstance($template_id);
-		
-		$res = $dec_utils->create($this->current_user->getId(), $template_id, $trainer_ids);
 		$settings = $this->getSettingsFromForm($crs_utils, $form_prev);
-		$settings->applyTo($res["obj_id"]);
+		$creation_request = new gevDecentralTrainingCreationRequest
+									( (int)$this->current_user->getId()
+									, (int)$template_id
+									, $trainer_ids
+									, $settings
+									);
+		$res = $creation_request->run();
 		
 		ilUtil::sendSuccess($this->lng->txt("gev_dec_training_creation_successfull"), true);
 		
