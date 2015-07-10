@@ -138,10 +138,10 @@ class gevDecentralTrainingSettings {
 		$start = explode(" ", $this->start()->get(IL_CAL_DATETIME));
 		$end = explode(" ", $this->end()->get(IL_CAL_DATETIME));
 		$crs_utils->setStartDate(new ilDate($start[0], IL_CAL_DATE));
+		$crs_utils->setEndDate(new ilDate($end[0], IL_CAL_DATE));
 
 		$start = explode(":", $start[1]);
 		$end = explode(":", $end[1]);
-		$crs_utils->setEndDate(new ilDate($end[0], IL_CAL_DATE));
 		$crs_utils->setSchedule(array($start[0].":".$start[1]."-".$end[0].":".$end[1]));
 
 		$crs_utils->setVenueId($this->venueObjId());
