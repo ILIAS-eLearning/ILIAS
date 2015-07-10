@@ -1999,6 +1999,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	 */
 	protected function handleSkillTriggering(ilTestSession $testSession)
 	{
+		$questionList = $this->buildTestPassQuestionList();
+		$questionList->load();
+		
 		require_once 'Modules/Test/classes/class.ilTestSkillEvaluation.php';
 		$skillEvaluation = new ilTestSkillEvaluation($this->db, $this->object);
 
@@ -2010,9 +2013,11 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			'ass_skl_trig_num_answ_barrier', ilObjAssessmentFolder::DEFAULT_SKL_TRIG_NUM_ANSWERS_BARRIER
 		));
 
-		$skillEvaluation->init();
+		$skillEvaluation->init($questionList);
 		$skillEvaluation->evaluate();
 		
 		$skillEvaluation->handleSkillTriggering();
 	}
+	
+	abstract protected function buildTestPassQuestionList();
 }

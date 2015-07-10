@@ -749,7 +749,7 @@ class ilAssQuestionSkillAssignmentsGUI
 			$orderedQuestionsData[$questionId] = $data['title'];
 		}
 
-		asort($orderedQuestionsData, SORT_NATURAL | SORT_FLAG_CASE);
+		$orderedQuestionsData = $this->sortAlphabetically($orderedQuestionsData);
 		
 		foreach($orderedQuestionsData as $questionId => $questionTitle)
 		{
@@ -772,5 +772,28 @@ class ilAssQuestionSkillAssignmentsGUI
 		$questionData = $this->questionList->getDataArrayForQuestionId($questionId);
 		
 		return sprintf($this->lng->txt('qpl_qst_skl_selection_for_question_header'), $questionData['title']);
+	}
+	
+	private function sortAlphabetically($array)
+	{
+		$flags = SORT_REGULAR;
+
+		if( defined('SORT_NATURAL') )
+		{
+			$flags = SORT_NATURAL;
+		}
+		elseif( defined('SORT_STRING') )
+		{
+			$flags = SORT_STRING;
+		}
+		
+		if( defined('SORT_FLAG_CASE') )
+		{
+			$flags = $flags | SORT_FLAG_CASE;
+		}
+		
+		asort($array, $flags);
+		
+		return $array;
 	}
 }

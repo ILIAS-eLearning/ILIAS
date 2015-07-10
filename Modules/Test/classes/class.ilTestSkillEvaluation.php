@@ -137,12 +137,12 @@ class ilTestSkillEvaluation
 		$this->numRequiredBookingsForSkillTriggering = $numRequiredBookingsForSkillTriggering;
 	}
 	
-	public function init()
+	public function init(ilAssQuestionList $questionList)
 	{
 		$this->skillQuestionAssignmentList->loadFromDb();
 		$this->skillLevelThresholdList->loadFromDb();
-
-		$this->initTestQuestionData();
+		
+		$this->initTestQuestionData($questionList);
 	}
 
 	public function evaluate()
@@ -167,13 +167,13 @@ class ilTestSkillEvaluation
 		$this->reachedSkillLevels = array();
 	}
 
-	private function initTestQuestionData()
+	private function initTestQuestionData(ilAssQuestionList $questionList)
 	{
-		foreach($this->testOBJ->getTestQuestions() as $question)
+		foreach($questionList->getQuestionDataArray() as $questionData)
 		{
-			$this->questions[] = $question['question_id'];
+			$this->questions[] = $questionData['question_id'];
 
-			$this->maxPointsByQuestion[ $question['question_id'] ] = $question['points'];
+			$this->maxPointsByQuestion[ $questionData['question_id'] ] = $questionData['points'];
 		}
 	}
 

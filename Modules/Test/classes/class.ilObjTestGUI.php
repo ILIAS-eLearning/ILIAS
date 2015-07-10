@@ -5191,13 +5191,23 @@ class ilObjTestGUI extends ilObjectGUI
 
 	private function areSkillLevelThresholdsMissing()
 	{
+		if( $this->object->isDynamicTest() )
+		{
+			$questionSetConfig = $this->testQuestionSetConfigFactory->getQuestionSetConfig();
+			$questionContainerId = $questionSetConfig->getSourceQuestionPoolId();
+		}
+		else
+		{
+			$questionContainerId = $this->object->getId();
+		}
+		
 		global $ilDB;
 		
 		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentList.php';
 		require_once 'Modules/Test/classes/class.ilTestSkillLevelThreshold.php';
 		
 		$assignmentList = new ilAssQuestionSkillAssignmentList($ilDB);
-		$assignmentList->setParentObjId($this->object->getId());
+		$assignmentList->setParentObjId($questionContainerId);
 		$assignmentList->loadFromDb();
 
 		foreach($assignmentList->getUniqueAssignedSkills() as $data)

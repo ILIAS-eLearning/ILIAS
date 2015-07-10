@@ -99,6 +99,8 @@ class ilTestSkillEvaluationGUI
 
 	private function showCmd()
 	{
+		ilUtil::sendInfo($this->lng->txt('tst_skl_res_interpretation_hint_msg'));
+		
 		$selectedSkillProfile = ilTestSkillEvaluationToolbarGUI::fetchSkillProfileParam($_POST);
 
 		$testSession = $this->testSessionFactory->getSession();

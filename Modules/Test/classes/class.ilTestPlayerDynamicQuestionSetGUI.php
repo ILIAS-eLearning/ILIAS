@@ -1203,4 +1203,18 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 
 		return $this->ctrl->getLinkTargetByClass('ilTestEvaluationGUI', 'confirmDeletePass');
 	}
+	
+	protected function buildTestPassQuestionList()
+	{
+		global $ilPluginAdmin;
+
+		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionList.php';
+		$questionList = new ilAssQuestionList(
+			$this->db, $this->lng, $ilPluginAdmin, $this->dynamicQuestionSetConfig->getSourceQuestionPoolId()
+		);
+
+		$questionList->setQuestionInstanceTypeFilter(ilAssQuestionList::QUESTION_INSTANCE_TYPE_ORIGINALS);
+
+		return $questionList;
+	}
 }
