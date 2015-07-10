@@ -258,7 +258,7 @@ class ilExAssignmentEditorGUI
 			$form->addItem($peer);
 
 				$peer_min = new ilNumberInputGUI($lng->txt("exc_peer_review_min_number"), "peer_min");
-				// $peer_min->setInfo($lng->txt("exc_peer_review_min_number_info"));
+				$peer_min->setInfo($lng->txt("exc_peer_review_min_number_info")); // #16161
 				$peer_min->setRequired(true);
 				$peer_min->setSize(3);
 				$peer_min->setValue(2);
@@ -274,9 +274,15 @@ class ilExAssignmentEditorGUI
 				if($this->enable_peer_review_completion)
 				{
 					$peer_cmpl = new ilRadioGroupInputGUI($lng->txt("exc_peer_review_completion"), "peer_valid");
-					$peer_cmpl->addOption(new ilRadioOption($lng->txt("exc_peer_review_completion_none"), ilExAssignment::PEER_REVIEW_VALID_NONE));
-					$peer_cmpl->addOption(new ilRadioOption($lng->txt("exc_peer_review_completion_one"), ilExAssignment::PEER_REVIEW_VALID_ONE));
-					$peer_cmpl->addOption(new ilRadioOption($lng->txt("exc_peer_review_completion_all"), ilExAssignment::PEER_REVIEW_VALID_ALL));
+					$option = new ilRadioOption($lng->txt("exc_peer_review_completion_none"), ilExAssignment::PEER_REVIEW_VALID_NONE);
+					$option->setInfo($lng->txt("exc_peer_review_completion_none_info"));
+					$peer_cmpl->addOption($option);
+					$option = new ilRadioOption($lng->txt("exc_peer_review_completion_one"), ilExAssignment::PEER_REVIEW_VALID_ONE);
+					$option->setInfo($lng->txt("exc_peer_review_completion_one_info"));
+					$peer_cmpl->addOption($option);
+					$option = new ilRadioOption($lng->txt("exc_peer_review_completion_all"), ilExAssignment::PEER_REVIEW_VALID_ALL);
+					$option->setInfo($lng->txt("exc_peer_review_completion_all_info"));
+					$peer_cmpl->addOption($option);
 					$peer_cmpl->setRequired(true);		
 					$peer_cmpl->setValue(ilExAssignment::PEER_REVIEW_VALID_NONE);
 					$peer->addSubItem($peer_cmpl);

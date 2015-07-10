@@ -11,9 +11,12 @@ exc#:#exc_peer_review_simple_unlock_active#:#After giving at least 1 valid feedb
 exc#:#exc_peer_review_simple_unlock_inactive#:#After giving all required feedbacks
 exc#:#exc_peer_review_min_number#:#Number of feedbacks per participant
 exc#:#exc_peer_review_completion#:#Determination of "Passed" Status
-exc#:#exc_peer_review_completion_none#:#No feedback necessary
-exc#:#exc_peer_review_completion_one#:#Already with at least 1 valid feedback
-exc#:#exc_peer_review_completion_all#:#Only after all required feedbacks
+exc#:#exc_peer_review_completion_none#:#Peer feedback is optional
+exc#:#exc_peer_review_completion_none_info#:#The assignment will be automatically set to "Passed" after submission regardless of feedback being provided or not. 
+exc#:#exc_peer_review_completion_one#:#At least one feedback 
+exc#:#exc_peer_review_completion_one_info#:#The assignment will be automatically set to "Passed" only after submission of a solution and at least one feedback.
+exc#:#exc_peer_review_completion_all#:#All required feedbacks 
+exc#:#exc_peer_review_completion_all_info#:#The assignment will be automatically set to "Passed" only after aubmission of a solution and all required feedbacks.
 exc#:#exc_team_multi_create#:#Create Team
 exc#:#exc_team_multi_dissolve#:#Dissolve Team(s)
 exc#:#exc_team_management_tutor#:#Team Management by Tutors
@@ -33,3 +36,6 @@ exc#:#exc_adopt_group_teams_conflict#:#User "%1$s" is already selected for group
 exc#:#exc_adopt_group_teams_added#:#%s Users were added.
 exc#:#exc_adopt_group_teams_blocked#:#%s User were already assigned.
 exc#:#exc_deadline_ext_mismatch#:#The grace period has to end after the deadline.
+exc#:#exc_peer_review_ass_setting_info#:#Users can rate the solutions of their peers after the deadline and (if granted) grace period lapsed. 
+exc#:#exc_peer_review_min_number#:#Required Number of Feedbacks
+exc#:#exc_peer_review_min_number_info#:#Number of feedbacks a participant is required to give to peers. In case the minimum number of required feedbacks is greater than the actual number of submissions, the required minimum is automatically reduced to the the number of peer submissions.

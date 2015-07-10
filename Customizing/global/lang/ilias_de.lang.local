@@ -11,9 +11,12 @@ exc#:#exc_peer_review_simple_unlock_active#:#Nach Abgabe einer Bewertung
 exc#:#exc_peer_review_simple_unlock_inactive#:#Nach Abgabe aller Bewertungen
 exc#:#exc_peer_review_min_number#:#Anzahl der Bewertungen je Teilnehmer
 exc#:#exc_peer_review_completion#:#Bestimmung des Status "Bestanden"
-exc#:#exc_peer_review_completion_none#:#Keine Abgabe einer Bewertung notwendig
-exc#:#exc_peer_review_completion_one#:#Bereits nach Abgabe einer Bewertung
-exc#:#exc_peer_review_completion_all#:#Erst nach Abgabe aller Bewertungen
+exc#:#exc_peer_review_completion_none#:#Peer-Feedback ist optional
+exc#:#exc_peer_review_completion_none_info#:#Die Übungseinheit wird automatisch nach der Einreichung auf "Bestanden" gesetzt, egal ob Feedbacks gegeben wurden oder nicht. 
+exc#:#exc_peer_review_completion_one#:#Mindestens ein Feedback 
+exc#:#exc_peer_review_completion_one_info#:#Die Übungseinheit wird automatisch auf "Bestanden" gesetzt, nachdem eine Lösung eingereicht wurde und mindestens ein Feedback gegeben wurde. 
+exc#:#exc_peer_review_completion_all#:#Alle geforderten Feedbacks 
+exc#:#exc_peer_review_completion_all_info#:#Die Übungseinheit wird automatisch auf "Bestanden" gesetzt, nachdem eine Lösung eingereicht wurde und die Anzahl der geforderten Feedback gegeben wurde. 
 exc#:#exc_team_multi_create#:#Team erstellen
 exc#:#exc_team_multi_dissolve#:#Team(s) auflösen
 exc#:#exc_team_management_tutor#:#Team-Management durch Tutoren
@@ -33,3 +36,6 @@ exc#:#exc_adopt_group_teams_conflict#:#Benutzer "%1$s" ist bereits in Gruppe "%2
 exc#:#exc_adopt_group_teams_added#:#%s Benutzer wurden hinzugefügt.
 exc#:#exc_adopt_group_teams_blocked#:#%s Benutzer waren bereits vorhanden.
 exc#:#exc_deadline_ext_mismatch#:#Die Karenzzeit muss nach dem Abgabetermin enden.
+exc#:#exc_peer_review_ass_setting_info#:#Nachdem der Abgabetermin und ggfs. die Karenzzeit verstrichen sind, können Teilnehmer ihre Arbeitsergebnisse gegenseitig bewerten.
+exc#:#exc_peer_review_min_number#:#Geforderte Anzahl von Feedbacks
+exc#:#exc_peer_review_min_number_info#:#Anzahl von Feedback, die ein Teilnehmer den Peers geben muss. Wenn die Anzahl geforderten Feedbacks größer ist als die Anzahl tatsächlich abgegebener Einreichungen, wird die geforderte Anzahl an Feedbacks automatisch auf die Anzahl der tatsächlich abgegebenen Einreichungen reduziert.
