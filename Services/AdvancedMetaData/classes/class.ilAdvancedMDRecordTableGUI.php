@@ -98,7 +98,13 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
 			
 			if($do_select)
 			{
-				$select = ilUtil::formSelect($value, "obj_types[".$a_set['id']."][".$obj_type["obj_type"].":".$obj_type["sub_type"]."]", $options, false, true, 0, "", "", $disabled);			
+				$type_options = $options;
+				if($obj_type["obj_type"] == "orgu")
+				{
+					// currently no optional records for org unit (types)
+					unset($type_options[2]);
+				}
+				$select = ilUtil::formSelect($value, "obj_types[".$a_set['id']."][".$obj_type["obj_type"].":".$obj_type["sub_type"]."]", $type_options, false, true, 0, "", "", $disabled);			
 				$this->tpl->setVariable('VAL_OBJ_TYPE_STATUS', $select);
 			}
 			
