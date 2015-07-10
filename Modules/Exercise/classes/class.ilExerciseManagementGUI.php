@@ -228,6 +228,11 @@ class ilExerciseManagementGUI
 				"selectAssignment");
 			$ilToolbar->addSeparator();
 		}
+		// #16165 - if only 1 assignment dropdown is not displayed;
+		else if($this->assignment)
+		{
+			$ilCtrl->setParameter($this, "ass_id", $this->assignment->getId());
+		}
 		
 		// add member
 		include_once './Services/Search/classes/class.ilRepositorySearchGUI.php';
