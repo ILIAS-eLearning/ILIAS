@@ -1,4 +1,4 @@
-// Build: 2015420173949 
+// Build: 2015710161105 
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -12494,7 +12494,7 @@ function onDocumentClick (e)
 		{
 			//throw away API from previous sco and sync CMI and ADLTree
 			//onItemUndeliver();
-			mlaunch = msequencer.navigateStr( target.id.substr(3).replace(/_____/g,'.'));
+			mlaunch = msequencer.navigateStr( target.id.substr(3).replace(/_____/g,'.').replace(/-----/g,':'));
 
  			if (mlaunch.mSeqNonContent == null) {
 				//alert(activities[mlaunch.mActivityID]);
@@ -12721,8 +12721,8 @@ function buildNavTree(rootAct,name,tree){
 	{
 		var id=rootAct.id;
 		if (rootAct.isvisible==true && typeof(mlaunch.mNavState.mChoice[id])=="object") {
-			var it_id=(ITEM_PREFIX + rootAct.id).replace(/\./g,"_____");
-			il.NestedList.addNode('rte_tree', (""+par_id).replace(/\./g,"_____"), it_id,
+			var it_id=(ITEM_PREFIX + rootAct.id).replace(/\./g,"_____").replace(/:/g,"-----");
+			il.NestedList.addNode('rte_tree', (""+par_id).replace(/\./g,"_____").replace(/:/g,"-----"), it_id,
 				"<a href='#this' id='" + it_id + "' target='_self'>" + rootAct.title + "</a>",
 				true);
 			par_id = ITEM_PREFIX + rootAct.id;
@@ -12736,8 +12736,8 @@ function buildNavTree(rootAct,name,tree){
 				var id=rootAct.item[i].id;
 				if (mlaunch.mNavState.mChoice!=null) {
 					if (rootAct.item[i].isvisible==true && typeof(mlaunch.mNavState.mChoice[id])=="object") {
-						var it_id=(ITEM_PREFIX + rootAct.item[i].id).replace(/\./g,"_____");
-						il.NestedList.addNode('rte_tree', (""+par_id).replace(/\./g,"_____"), it_id,
+						var it_id=(ITEM_PREFIX + rootAct.item[i].id).replace(/\./g,"_____").replace(/:/g,"-----");
+						il.NestedList.addNode('rte_tree', (""+par_id).replace(/\./g,"_____").replace(/:/g,"-----"), it_id,
 							"<a href='#this' id='" + it_id + "' target='_self'>" + rootAct.item[i].title + "</a>",
 							true);
 						var next_par_id = ITEM_PREFIX + rootAct.item[i].id;
@@ -14035,7 +14035,7 @@ function onItemDeliverDo(item, wasSuspendAll) // onDeliver called from sequencin
 		item.parameters = "?"+ item.parameters;
 	} 
 	openedResource=[item.id, item.href+randNumber+item.parameters, this.config.package_url];
-	guiItemId = (ITEM_PREFIX + item.id).replace(/\./g,"_____");
+	guiItemId = (ITEM_PREFIX + item.id).replace(/\./g,"_____").replace(/:/g,"-----");
 	updateNav();
 	updateControls();
 	setResource();
@@ -14578,7 +14578,7 @@ function updateNav(ignore) {
 				// continue;
 			// }
 		// }
-		var elm = all(ITEM_PREFIX + tree[i].mActivityID.replace(/\./g,"_____"));
+		var elm = all(ITEM_PREFIX + tree[i].mActivityID.replace(/\./g,"_____").replace(/:/g,"-----"));
 		// if (guiItem && ignore==true) {
 			// signActNode();
 			// continue;
