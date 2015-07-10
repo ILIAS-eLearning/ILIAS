@@ -277,29 +277,30 @@ class ilExPeerReview
 	public function validatePeerReviewText($a_text)
 	{
 		$a_text = trim($a_text);
-		$min_length = $this->assignment->getPeerReviewChars();
-				
-		if(!$min_length)
-		{
-			return (bool)strlen($a_text);
-		}
-		else 
-		{
+		$min_length = $this->assignment->getPeerReviewChars();				
+		if($min_length)
+		{			
 			include_once "Services/Utilities/classes/class.ilStr.php";
 			return (ilStr::strLen($a_text) >= $min_length);
 		}
+		// #16162 - empty text is valid without min chars
+		return true;
 	}
 	
 	protected function validatePeerReview(array $a_data, $a_rating = null)
 	{				
 		// comment
-		$valid = $this->validatePeerReviewText($a_data["pcomment"]);		
 		
-		// if minimum chars given, review is always invalid without text (JF, 27 Apr 2015)
+		// empty text is validated as true, but is not valid here
+		$valid = (bool)strlen(trim($a_data["pcomment"]))
+			? $this->validatePeerReviewText($a_data["pcomment"]) 
+			: false;
+								
+		// if minimum chars given, review requires valid text (JF, 27 Apr 2015)
 		if(!$valid &&
 			$this->assignment->getPeerReviewChars())
-		{
-			return false;
+		{			
+			return false;			
 		}
 		
 		// rating
