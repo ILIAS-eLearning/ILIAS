@@ -64,23 +64,24 @@ class ilAssQuestionSkillAssignmentsTableGUI extends ilTable2GUI
 
 		$this->tpl->setCurrentBlock('question_title');
 		$this->tpl->setVariable('ROWSPAN', $this->getRowspan($assignments));
-		$this->tpl->setVariable('QUESTION', $question['title']);
+		$this->tpl->setVariable('QUESTION_TITLE', $question['title']);
+		$this->tpl->setVariable('QUESTION_DESCRIPTION', $question['description']);
 		$this->tpl->parseCurrentBlock();
 
 		$this->tpl->setCurrentBlock('tbl_content');
 
 		for($i = 0, $max = count($assignments); $i < $max; $i++)
 		{
+			/* @var ilAssQuestionSkillAssignment $assignment */
 			$assignment = $assignments[$i];
 
 			$this->tpl->setVariable('COMPETENCE', $assignment->getSkillTitle());
 			$this->tpl->setVariable('COMPETENCE_PATH', $assignment->getSkillPath());
-			$this->tpl->setVariable('QUANTIFIER', $this->buildQuantifierInput($assignment));
+			$this->tpl->setVariable('MAX_SKILL_POINTS', $assignment->getMaxSkillPoints());
 			$this->tpl->setVariable('ACTION', $this->getEditCompetenceAssignActionLink($assignment));
 
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setVariable("CSS_ROW", $this->css_row);
-			$this->tpl->setVariable("CSS_NO_BORDER", 'ilBorderlessRow');
 		}
 
 		$this->tpl->setVariable('ACTION', $this->getManageCompetenceAssignsActionLink());
@@ -96,15 +97,6 @@ class ilAssQuestionSkillAssignmentsTableGUI extends ilTable2GUI
 		}
 
 		return $cnt + 1;
-	}
-
-	private function buildQuantifierInput(ilAssQuestionSkillAssignment $assignment)
-	{
-		$assignmentKey = implode(':', array(
-			$assignment->getSkillBaseId(), $assignment->getSkillTrefId(), $assignment->getQuestionId()
-		));
-
-		return "<input type\"text\" size=\"2\" name=\"quantifiers[{$assignmentKey}]\" value=\"{$assignment->getSkillPoints()}\" />";
 	}
 
 	private function getManageCompetenceAssignsActionLink()

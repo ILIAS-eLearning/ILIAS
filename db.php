@@ -264,3 +264,24 @@ if( !$ilDB->tableExists('qpl_qst_skl_sol_expr') )
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
+
+$res = $ilDB->query("
+	SELECT DISTINCT(question_fi) FROM qpl_qst_skl_assigns
+	LEFT JOIN qpl_questions ON question_fi = question_id
+	WHERE question_id IS NULL
+");
+
+$deletedQuestionIds = array();
+
+while($row = $ilDB->fetchAssoc($res))
+{
+	$deletedQuestionIds[] = $row['question_fi'];
+}
+
+$inDeletedQuestionIds = $ilDB->in('question_fi', $deletedQuestionIds, false, 'integer');
+
+$ilDB->query("
+	DELETE FROM qpl_qst_skl_assigns WHERE $inDeletedQuestionIds
+");
+
+// ---------------------------------------------------------------------------------------------------------------------

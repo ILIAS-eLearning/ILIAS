@@ -60,6 +60,8 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		$this->ctrl->saveParameter($this, "sequence");
 		$this->ctrl->saveParameter($this, "active_id");
 
+		$this->initAssessmentSettings();
+
 		require_once 'Modules/Test/classes/class.ilObjTestDynamicQuestionSetConfig.php';
 		$this->dynamicQuestionSetConfig = new ilObjTestDynamicQuestionSetConfig($tree, $ilDB, $ilPluginAdmin, $this->object);
 		$this->dynamicQuestionSetConfig->loadFromDb();
@@ -936,20 +938,27 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 
 		if ($this->canSaveResult($qId) || $force)
 		{
-				global $ilUser;
-				
-				$questionGUI = $this->object->createQuestionGUI("", $qId);
-				
-				if( $this->object->getJavaScriptOutput() )
-				{
-					$questionGUI->object->setOutputType(OUTPUT_JAVASCRIPT);
-				}
-				
-				$activeId = $this->testSession->getActiveId();
-				
-				$this->saveResult = $questionGUI->object->persistWorkingState(
-						$activeId, $pass = null, $this->object->areObligationsEnabled()
+			global $ilUser;
+			
+			$questionGUI = $this->object->createQuestionGUI("", $qId);
+			
+			if( $this->object->getJavaScriptOutput() )
+			{
+				$questionGUI->object->setOutputType(OUTPUT_JAVASCRIPT);
+			}
+			
+			$activeId = $this->testSession->getActiveId();
+			
+			$this->saveResult = $questionGUI->object->persistWorkingState(
+					$activeId, $pass = null, $this->object->areObligationsEnabled()
+			);
+
+			if( $this->object->isSkillServiceToBeConsidered() )
+			{
+				$this->handleSkillTriggering(
+					$this->testSession->getActiveId(), $this->testSession->getPass(), $this->testSession->getUserId()
 				);
+			}
 		}
 		
 		if ($this->saveResult == FALSE)

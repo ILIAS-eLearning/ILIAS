@@ -85,7 +85,7 @@ class ilTestSkillEvaluation
 		$this->testOBJ = $testOBJ;
 
 		$this->skillQuestionAssignmentList = new ilAssQuestionSkillAssignmentList($this->db);
-		$this->skillQuestionAssignmentList->setTestId($this->testOBJ->getTestId());
+		$this->skillQuestionAssignmentList->setParentObjId($this->testOBJ->getId());
 
 		$this->skillLevelThresholdList = new ilTestSkillLevelThresholdList($this->db);
 		$this->skillLevelThresholdList->setTestId($this->testOBJ->getTestId());

@@ -36,9 +36,16 @@ class ilAssQuestionSkillAssignmentList
 	 */
 	private $maxPointsBySkill;
 
+	/**
+	 * @var integer
+	 */
+	private $questionIdFilter;
+
 	public function __construct(ilDB $db)
 	{
 		$this->db = $db;
+		
+		$this->questionIdFilter = null;
 	}
 
 	/**
@@ -55,6 +62,22 @@ class ilAssQuestionSkillAssignmentList
 	public function getParentObjId()
 	{
 		return $this->parentObjId;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getQuestionIdFilter()
+	{
+		return $this->questionIdFilter;
+	}
+
+	/**
+	 * @param int $questionIdFilter
+	 */
+	public function setQuestionIdFilter($questionIdFilter)
+	{
+		$this->questionIdFilter = $questionIdFilter;
 	}
 
 	public function reset()
@@ -95,29 +118,46 @@ class ilAssQuestionSkillAssignmentList
 			$this->maxPointsBySkill[$key] = 0;
 		}
 
-		$this->maxPointsBySkill[$key] += $assignment->getSkillPoints();
+		$this->maxPointsBySkill[$key] += $assignment->getMaxSkillPoints();
 	}
 
 	public function loadFromDb()
 	{
 		$this->reset();
 
-		$query = "
-			SELECT obj_fi, question_fi, skill_base_fi, skill_tref_fi, skill_points
+		$res = $this->db->query("
+			SELECT obj_fi, question_fi, skill_base_fi, skill_tref_fi, skill_points, eval_mode
 			FROM qpl_qst_skl_assigns
-			WHERE obj_fi = %s
-		";
-
-		$res = $this->db->queryF( $query, array('integer'), array($this->getParentObjId()) );
+			WHERE {$this->getWhereConditions()}
+		");
 
 		while( $row = $this->db->fetchAssoc($res) )
 		{
 			$assignment = $this->buildSkillQuestionAssignmentByArray($row);
 
+			if( $assignment->hasEvalModeBySolution() )
+			{
+				$assignment->loadComparisonExpressions(); // db query
+			}
+			
 			$this->addAssignment($assignment);
 			$this->incrementNumAssignsBySkill($assignment);
 			$this->incrementMaxPointsBySkill($assignment);
 		}
+	}
+	
+	private function getWhereConditions()
+	{
+		$conditions = array(
+			'obj_fi = '.$this->db->quote($this->getParentObjId(), 'integer')
+		);
+		
+		if( $this->getQuestionIdFilter() )
+		{
+			$conditions[] = 'question_fi = '.$this->db->quote($this->getQuestionIdFilter(), 'integer');
+		}
+		
+		return implode(' AND ', $conditions);
 	}
 
 	/**
@@ -133,6 +173,7 @@ class ilAssQuestionSkillAssignmentList
 		$assignment->setSkillBaseId($data['skill_base_fi']);
 		$assignment->setSkillTrefId($data['skill_tref_fi']);
 		$assignment->setSkillPoints($data['skill_points']);
+		$assignment->setEvalMode($data['eval_mode']);
 
 		return $assignment;
 	}

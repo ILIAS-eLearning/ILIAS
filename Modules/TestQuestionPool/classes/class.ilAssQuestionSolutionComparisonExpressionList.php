@@ -78,6 +78,9 @@ class ilAssQuestionSolutionComparisonExpressionList
 		
 		foreach($this->expressions as $orderIndex => $expression)
 		{
+			/* @var ilAssQuestionSolutionComparisonExpression $expression */
+			
+			$expression->setQuestionId($this->getQuestionId());
 			$expression->save();
 		}
 	}
