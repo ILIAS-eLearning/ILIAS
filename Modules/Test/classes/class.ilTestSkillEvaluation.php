@@ -352,7 +352,7 @@ class ilTestSkillEvaluation
 	{
 		ilBasicSkill::writeUserSkillLevelStatus(
 			$skillLevelId, $this->getUserId(), $this->testOBJ->getRefId(),
-			$skillTrefId, ilBasicSkill::ACHIEVED, true, $this->getPass()
+			$skillTrefId, ilBasicSkill::ACHIEVED, true, 0, $this->getPass()
 		);
 
 		//mail('bheyser@databay.de', "trigger skill level $skillLevelId for user {$this->getUserId()}", '');

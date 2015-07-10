@@ -1376,6 +1376,8 @@ assessment#:#qpl_qst_skl_assign_properties_modified#:#The assignment's propertie
 assessment#:#qpl_qst_skl_assigns_updated#:#The competence assignments has been updated.
 assessment#:#qpl_sync_quest_skl_assigns_confirmation#:#The question was inserted from a question pool. Should the question's original be updated with the current config of competence assignments?
 assessment#:#qpl_qst_skl_assign_synced_to_orig#:#The competence assignments has been synchronised to the question within the question pool.
+assessment#:#qpl_save_skill_assigns_update#:#Save Competence Assignments
+assessment#:#qpl_cancel_skill_assigns_update#:#Cancel
 assessment#:#tst_comp_points#:#Competence Points
 assessment#:#tst_comp_eval_mode#:#Evaluation by
 assessment#:#tst_num_questions#:#Number of Questions

@@ -1,8 +1,8 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once 'Modules/Test/classes/class.ilTestSkillQuestionAssignmentsGUI.php';
-include_once 'Modules/Test/classes/class.ilTestSkillLevelThresholdsGUI.php';
+require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentsGUI.php';
+require_once 'Modules/Test/classes/class.ilTestSkillLevelThresholdsGUI.php';
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -102,7 +102,6 @@ class ilTestSkillAdministrationGUI
 				$questionList->setQuestionInstanceTypeFilter($this->getRequiredQuestionInstanceTypeFilter());
 				$questionList->load();
 
-				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentsGUI.php';
 				$gui = new ilAssQuestionSkillAssignmentsGUI($this->ctrl, $this->access, $this->tpl, $this->lng, $this->db);
 				$gui->setAssignmentEditingEnabled($this->isAssignmentEditingRequired());
 				$gui->setQuestionContainerId($questionContainerId);

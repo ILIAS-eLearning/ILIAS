@@ -3,6 +3,7 @@
 
 require_once 'Modules/Test/classes/toolbars/class.ilTestSkillEvaluationToolbarGUI.php';
 require_once 'Modules/Test/classes/class.ilTestPersonalSkillsGUI.php';
+require_once 'Modules/Test/classes/class.ilObjAssessmentFolder.php';
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -102,9 +103,18 @@ class ilTestSkillEvaluationGUI
 
 		$testSession = $this->testSessionFactory->getSession();
 
-		$this->skillEvaluation->init()->evaluate(
-			$testSession->getActiveId(), $testSession->getLastFinishedPass(), $testSession->getUserId()
-		);
+		$this->skillEvaluation->setUserId($testSession->getUserId());
+		$this->skillEvaluation->setActiveId($testSession->getActiveId());
+		$this->skillEvaluation->setPass($testSession->getPass());
+
+		$settings = new ilSetting('assessment');
+
+		$this->skillEvaluation->setNumRequiredBookingsForSkillTriggering($settings->get(
+			'ass_skl_trig_num_answ_barrier', ilObjAssessmentFolder::DEFAULT_SKL_TRIG_NUM_ANSWERS_BARRIER
+		));
+		
+		$this->skillEvaluation->init();
+		$this->skillEvaluation->evaluate();
 
 		$evaluationToolbarGUI = $this->buildEvaluationToolbarGUI($testSession->getUserId(), $selectedSkillProfile);
 		$personalSkillsGUI = $this->buildPersonalSkillsGUI($testSession->getUserId(), $selectedSkillProfile);

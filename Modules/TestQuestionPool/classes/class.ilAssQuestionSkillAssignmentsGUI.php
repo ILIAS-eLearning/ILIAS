@@ -343,7 +343,8 @@ class ilAssQuestionSkillAssignmentsGUI
 					$this->showSkillQuestionAssignmentPropertiesFormCmd($questionGUI, $assignment, $form);
 					return;
 				}
-	
+
+				$assignment->initSolutionComparisonExpressionList();
 				$assignment->getSolutionComparisonExpressionList()->reset();
 				
 				foreach($solCmpExprInput->getValues() as $expression)
@@ -516,8 +517,8 @@ class ilAssQuestionSkillAssignmentsGUI
 		$skillSelectorToolbarGUI = new ilToolbarGUI();
 
 		$skillSelectorToolbarGUI->setFormAction($this->ctrl->getFormAction($this));
-		$skillSelectorToolbarGUI->addFormButton($this->lng->txt('assign'), self::CMD_UPDATE_SKILL_QUEST_ASSIGNS);
-		$skillSelectorToolbarGUI->addFormButton($this->lng->txt('cancel'), self::CMD_SHOW_SKILL_QUEST_ASSIGNS);
+		$skillSelectorToolbarGUI->addFormButton($this->lng->txt('qpl_save_skill_assigns_update'), self::CMD_UPDATE_SKILL_QUEST_ASSIGNS);
+		$skillSelectorToolbarGUI->addFormButton($this->lng->txt('qpl_cancel_skill_assigns_update'), self::CMD_SHOW_SKILL_QUEST_ASSIGNS);
 		
 		return $skillSelectorToolbarGUI;
 	}
@@ -534,6 +535,7 @@ class ilAssQuestionSkillAssignmentsGUI
 
 		$pageGUI->setPresentationTitle($questionGUI->object->getTitle());
 
+		$questionGUI->object->setShuffle(false); // dirty, but works ^^
 		$questionHTML = $questionGUI->getSolutionOutput(0, 0, false, false, true, false, true, false, true);
 		$pageGUI->setQuestionHTML(array($questionGUI->object->getId() => $questionHTML));
 

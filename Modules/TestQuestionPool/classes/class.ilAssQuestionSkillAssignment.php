@@ -336,7 +336,7 @@ class ilAssQuestionSkillAssignment
 		return $this->getEvalMode() == self::EVAL_MODE_BY_QUESTION_SOLUTION;
 	}
 
-	private function initSolutionComparisonExpressionList()
+	public function initSolutionComparisonExpressionList()
 	{
 		$this->solutionComparisonExpressionList->setQuestionId($this->getQuestionId());
 		$this->solutionComparisonExpressionList->setSkillBaseId($this->getSkillBaseId());

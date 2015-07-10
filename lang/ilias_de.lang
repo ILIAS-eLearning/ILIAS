@@ -1555,6 +1555,8 @@ assessment#:#qpl_qst_skl_assign_properties_modified#:#Die Eigenschaften der Zuwe
 assessment#:#qpl_qst_skl_assigns_updated#:#Die Kompetenzuweisungen wurden aktualisiert.
 assessment#:#qpl_sync_quest_skl_assigns_confirmation#:#Die Frage wurde aus einem Fragenpool in den Test eingefügt. Soll die aktuelle Konfiguration von Kompetenzzuweisungen auf das Original der Frage übertragen werden?
 assessment#:#qpl_qst_skl_assign_synced_to_orig#:#Die Kompetenzuweisungen wurden auf die Frage im Fragenpool übertragen.
+assessment#:#qpl_save_skill_assigns_update#:#Kompetenzzuweisung speichern
+assessment#:#qpl_cancel_skill_assigns_update#:#Abbrechen
 assessment#:#tst_comp_eval_mode#:#Evaluierung über
 assessment#:#tst_comp_points#:#Kompetenz-Punkte
 assessment#:#tst_num_questions#:#Anzahl Fragen
