@@ -27,8 +27,8 @@ class ilMemcache extends ilGlobalCacheService {
 			 * @var $ilMemcacheServer ilMemcacheServer
 			 */
 			$memcached = new Memcached();
-			ilMemcacheServer::updateDB();
 			if (ilMemcacheServer::count() > 0) {
+				$memcached->resetServerList();
 				$servers = array();
 				foreach (ilMemcacheServer::where(array( 'status' => ilMemcacheServer::STATUS_ACTIVE ))->get() as $ilMemcacheServer) {
 					$servers[] = array( $ilMemcacheServer->getHost(), $ilMemcacheServer->getPort(), $ilMemcacheServer->getWeight() );

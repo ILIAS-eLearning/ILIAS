@@ -32,7 +32,7 @@ class ilGlobalCache {
 	 */
 	protected static $types = array(
 		self::TYPE_MEMCACHED,
-//		self::TYPE_XCACHE,
+		self::TYPE_XCACHE,
 		self::TYPE_APC,
 		self::TYPE_STATIC
 	);
@@ -46,7 +46,18 @@ class ilGlobalCache {
 		self::COMP_COMPONENT,
 		self::COMP_TEMPLATE,
 		self::COMP_EVENTS,
-		//'ctrl_mm'
+	);
+
+	/**
+	 * @var array
+	 */
+	public static $available_components = array(
+		self::COMP_CLNG,
+		self::COMP_OBJ_DEF,
+		self::COMP_ILCTRL,
+		self::COMP_COMPONENT,
+//		self::COMP_TEMPLATE,
+		self::COMP_EVENTS,
 	);
 	/**
 	 * @var array

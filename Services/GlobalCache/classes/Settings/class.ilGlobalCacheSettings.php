@@ -8,50 +8,70 @@
  */
 class ilGlobalCacheSettings {
 
+	const INI_HEADER_CACHE = 'cache';
+	const INI_FIELD_ACTIVATE_GLOBAL_CACHE = 'activate_global_cache';
+	const INI_FIELD_GLOBAL_CACHE_SERVICE_TYPE = 'global_cache_service_type';
+	const INI_HEADER_CACHE_ACTIVATED_COMPONENTS = 'cache_activated_components';
 	/**
 	 * @var int
 	 */
 	protected $service = ilGlobalCache::TYPE_STATIC;
 	/**
-	 * @var bool
+	 * @var array
 	 */
-	protected $activate_language = true;
+	protected $activated_components = array();
 	/**
 	 * @var bool
 	 */
-	protected $activate_object_definition = true;
-	/**
-	 * @var bool
-	 */
-	protected $activate_template = true;
-	/**
-	 * @var bool
-	 */
-	protected $activate_control_structure = true;
-	/**
-	 * @var bool
-	 */
-	protected $activate_plugins = true;
-	/**
-	 * @var bool
-	 */
-	protected $activate_component = true;
-	/**
-	 * @var bool
-	 */
-	protected $activate_events = true;
+	protected $active = false;
 
 
 	/**
 	 * @param ilIniFile $ilIniFile
 	 */
 	public function readFromIniFile(ilIniFile $ilIniFile) {
-
+		$this->checkIniHeader($ilIniFile);
+		$this->setActive($ilIniFile->readVariable(self::INI_HEADER_CACHE, self::INI_FIELD_ACTIVATE_GLOBAL_CACHE));
+		$this->setService($ilIniFile->readVariable(self::INI_HEADER_CACHE, self::INI_FIELD_GLOBAL_CACHE_SERVICE_TYPE));
+		foreach ($ilIniFile->readGroup(self::INI_HEADER_CACHE_ACTIVATED_COMPONENTS) as $comp => $v) {
+			if($v) {
+				$this->addActivatedComponent($comp);
+			}
+		}
 	}
 
 
-	public function writeToIniFile(ilIniFile $ilIniFile){
-		
+	/**
+	 * @param ilIniFile $ilIniFile
+	 */
+	public function writeToIniFile(ilIniFile $ilIniFile) {
+		$ilIniFile->setVariable(self::INI_HEADER_CACHE, self::INI_FIELD_ACTIVATE_GLOBAL_CACHE, $this->isActive() ? '1' : '0');
+		$ilIniFile->setVariable(self::INI_HEADER_CACHE, self::INI_FIELD_GLOBAL_CACHE_SERVICE_TYPE, $this->getService());
+		$ilIniFile->removeGroup(self::INI_HEADER_CACHE_ACTIVATED_COMPONENTS);
+		$ilIniFile->addGroup(self::INI_HEADER_CACHE_ACTIVATED_COMPONENTS);
+		foreach (ilGlobalCache::$available_components as $comp) {
+			$ilIniFile->setVariable(self::INI_HEADER_CACHE_ACTIVATED_COMPONENTS, $comp, $this->isComponentActivated($comp) ? '1' : '0');
+		}
+		$ilIniFile->write();
+	}
+
+
+	/**
+	 * @param $component
+	 */
+	public function addActivatedComponent($component) {
+		$this->activated_components[] = $component;
+		$this->activated_components = array_unique($this->activated_components);
+	}
+
+
+	/**
+	 * @param $component
+	 *
+	 * @return bool
+	 */
+	public function isComponentActivated($component) {
+		return in_array($component, $this->activated_components);
 	}
 
 
@@ -72,114 +92,47 @@ class ilGlobalCacheSettings {
 
 
 	/**
-	 * @return boolean
+	 * @return array
 	 */
-	public function isActivateLanguage() {
-		return $this->activate_language;
+	public function getActivatedComponents() {
+		return $this->activated_components;
 	}
 
 
 	/**
-	 * @param boolean $activate_language
+	 * @param array $activated_components
 	 */
-	public function setActivateLanguage($activate_language) {
-		$this->activate_language = $activate_language;
-	}
-
-
-	/**
-	 * @return boolean
-	 */
-	public function isActivateObjectDefinition() {
-		return $this->activate_object_definition;
-	}
-
-
-	/**
-	 * @param boolean $activate_object_definition
-	 */
-	public function setActivateObjectDefinition($activate_object_definition) {
-		$this->activate_object_definition = $activate_object_definition;
+	public function setActivatedComponents($activated_components) {
+		$this->activated_components = $activated_components;
 	}
 
 
 	/**
 	 * @return boolean
 	 */
-	public function isActivateTemplate() {
-		return $this->activate_template;
+	public function isActive() {
+		return $this->active;
 	}
 
 
 	/**
-	 * @param boolean $activate_template
+	 * @param boolean $active
 	 */
-	public function setActivateTemplate($activate_template) {
-		$this->activate_template = $activate_template;
+	public function setActive($active) {
+		$this->active = $active;
 	}
 
 
 	/**
-	 * @return boolean
+	 * @param ilIniFile $ilIniFile
 	 */
-	public function isActivateControlStructure() {
-		return $this->activate_control_structure;
-	}
-
-
-	/**
-	 * @param boolean $activate_control_structure
-	 */
-	public function setActivateControlStructure($activate_control_structure) {
-		$this->activate_control_structure = $activate_control_structure;
-	}
-
-
-	/**
-	 * @return boolean
-	 */
-	public function isActivatePlugins() {
-		return $this->activate_plugins;
-	}
-
-
-	/**
-	 * @param boolean $activate_plugins
-	 */
-	public function setActivatePlugins($activate_plugins) {
-		$this->activate_plugins = $activate_plugins;
-	}
-
-
-	/**
-	 * @return boolean
-	 */
-	public function isActivateComponent() {
-		return $this->activate_component;
-	}
-
-
-	/**
-	 * @param boolean $activate_component
-	 */
-	public function setActivateComponent($activate_component) {
-		$this->activate_component = $activate_component;
-	}
-
-
-	/**
-	 * @return boolean
-	 */
-	public function isActivateEvents() {
-		return $this->activate_events;
-	}
-
-
-	/**
-	 * @param boolean $activate_events
-	 */
-	public function setActivateEvents($activate_events) {
-		$this->activate_events = $activate_events;
+	protected function checkIniHeader(ilIniFile $ilIniFile) {
+		if (! $ilIniFile->readGroup(self::INI_HEADER_CACHE)) {
+			$ilIniFile->addGroup(self::INI_HEADER_CACHE);
+		}
+		if (! $ilIniFile->readGroup(self::INI_HEADER_CACHE_ACTIVATED_COMPONENTS)) {
+			$ilIniFile->addGroup(self::INI_HEADER_CACHE_ACTIVATED_COMPONENTS);
+		}
 	}
 }
 
