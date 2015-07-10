@@ -16,9 +16,10 @@ require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 require_once("Services/Calendar/classes/class.ilDatePresentation.php");
 require_once("Services/CourseBooking/classes/class.ilCourseBooking.php");
 require_once("Services/CaTUIComponents/classes/class.catLegendGUI.php");
+require_once 'Services/Calendar/classes/class.ilDateTime.php';
 
 class gevCoursesTableGUI extends catAccordionTableGUI {
-	const CUM_TEMPORE_MIN = 15;
+	const CUM_TEMPORE_MIN = 120;
 	public function __construct($a_user_id, $a_parent_obj, $a_parent_cmd="", $a_template_context="") {
 		parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
 
@@ -126,9 +127,12 @@ class gevCoursesTableGUI extends catAccordionTableGUI {
 					  $this->cancel_img."</a>";
 		}
 		
+		$datetime = new ilDateTime();
+		$offset =  $datetime->getUTCOffset(); 
+
 		if ( $a_set["start_date"] && $a_set["end_date"] && $a_set["crs_amd_schedule"] ) {
 			$show_webex_link = gevCourseUtils::timeWithinCourse(
-				time(), self::CUM_TEMPORE_MIN, $a_set["start_date"], $a_set["end_date"], $a_set["crs_amd_schedule"]
+				time() - $offset , self::CUM_TEMPORE_MIN, $a_set["start_date"], $a_set["end_date"], $a_set["crs_amd_schedule"]
 			) && ($crs_utils->getWebExlink()!==null);
 		}
 
