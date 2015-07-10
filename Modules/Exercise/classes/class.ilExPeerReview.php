@@ -476,8 +476,8 @@ class ilExPeerReview
 	{		
 		$max = $this->getMaxPossibleFeedbacks();
 		
-		// forever alone
-		if($max < 2)
+		// #16160 - forever alone
+		if(!$max)
 		{
 			return;
 		}
