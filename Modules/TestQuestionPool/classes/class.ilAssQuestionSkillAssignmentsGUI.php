@@ -210,6 +210,7 @@ class ilAssQuestionSkillAssignmentsGUI
 						$assignment->setSkillTrefId($skillTrefId);
 
 						$assignment->setSkillPoints(ilAssQuestionSkillAssignment::DEFAULT_COMPETENCE_POINTS);
+						$assignment->setEvalMode(ilAssQuestionSkillAssignment::EVAL_MODE_BY_QUESTION_RESULT);
 						$assignment->saveToDb();
 					}
 					

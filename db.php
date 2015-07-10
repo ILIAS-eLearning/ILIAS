@@ -285,3 +285,40 @@ $ilDB->query("
 ");
 
 // ---------------------------------------------------------------------------------------------------------------------
+
+$row = $ilDB->fetchAssoc($ilDB->queryF(
+	'SELECT COUNT(*) cnt FROM qpl_qst_skl_assigns LEFT JOIN skl_tree_node ON skill_base_fi = obj_id WHERE type = %s',
+	array('text'), array('sktp')
+));
+
+if( $row['cnt'] )
+{
+	$res = $ilDB->queryF(
+		'SELECT obj_fi, question_fi, skill_base_fi, skill_tref_fi FROM qpl_qst_skl_assigns LEFT JOIN skl_tree_node ON skill_base_fi = obj_id WHERE type = %s',
+		array('text'), array('sktp')
+	);
+	
+	while($row = $ilDB->fetchAssoc($res))
+	{
+		$ilDB->update('qpl_qst_skl_assigns',
+			array(
+				'skill_base_fi' => array('integer', $row['skill_tref_fi']),
+				'skill_tref_fi' => array('integer', $row['skill_base_fi'])
+			),
+			array(
+				'obj_fi' => array('integer', $row['obj_fi']),
+				'question_fi' => array('integer', $row['question_fi']),
+				'skill_base_fi' => array('integer', $row['skill_base_fi']),
+				'skill_tref_fi' => array('integer', $row['skill_tref_fi'])
+			)
+		);
+	}
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+
+$ilDB->manipulateF(
+	"UPDATE qpl_qst_skl_assigns SET eval_mode = %s WHERE eval_mode IS NULL", array('text'), array('result')
+);
+
+// ---------------------------------------------------------------------------------------------------------------------

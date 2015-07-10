@@ -16,6 +16,7 @@ class ilAssQuestionSkillAssignment
 	const EVAL_MODE_BY_QUESTION_RESULT = 'result';
 	const EVAL_MODE_BY_QUESTION_SOLUTION = 'solution';
 
+
 	/**
 	 * @var ilDB
 	 */
