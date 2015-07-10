@@ -1296,7 +1296,7 @@ class ilObjWikiGUI extends ilObjectGUI
 			}
 		
 			// advanced metadata			
-			if(!ilWikiPage::lookupAdvancedMetadataHidden($a_wpg_id) || true)
+			if(!ilWikiPage::lookupAdvancedMetadataHidden($a_wpg_id))
 			{		
 				$cmd = null;
 				if($ilAccess->checkAccess("write", "", $a_wiki_ref_id))

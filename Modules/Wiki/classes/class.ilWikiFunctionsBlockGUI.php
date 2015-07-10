@@ -210,6 +210,15 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
 						$ilCtrl->getLinkTargetByClass("ilwikipagegui", "deactivateWikiPageRating"));
 				}
 			}
+			
+			// unhide advmd?		
+			include_once 'Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php';
+			if((bool)sizeof(ilAdvancedMDRecord::_getSelectedRecordsByObject("wiki", $this->getPageObject()->getWikiId(), "wpg")) &&
+				ilWikiPage::lookupAdvancedMetadataHidden($this->getPageObject()->getId()))
+			{	
+				$list->addItem($lng->txt("wiki_unhide_meta_adv_records"), "",
+						$ilCtrl->getLinkTargetByClass("ilwikipagegui", "unhideAdvancedMetaData"));
+			}
 		}
 
 		if ($ilAccess->checkAccess("edit_content", "", $_GET["ref_id"]))
