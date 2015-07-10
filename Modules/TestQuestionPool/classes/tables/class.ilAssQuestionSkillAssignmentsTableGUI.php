@@ -59,11 +59,23 @@ class ilAssQuestionSkillAssignmentsTableGUI extends ilTable2GUI
 		$this->enable('header');
 		$this->disable('sort');
 		$this->disable('select_all');
-
-		$this->setFormAction($ctrl->getFormAction($parentOBJ));
+	}
+	
+	public function init()
+	{
+		$this->initColumns();
+		
+		if( $this->areManipulationsEnabled() )
+		{
+			$this->setFormAction($this->ctrl->getFormAction($this->parent_obj));
+			
+			$this->addCommandButton(
+				ilAssQuestionSkillAssignmentsGUI::CMD_SAVE_SKILL_POINTS, $this->lng->txt('tst_save_comp_points')
+			);
+		}
 	}
 
-	public function initColumns()
+	private function initColumns()
 	{
 		$this->addColumn($this->lng->txt('tst_question'),'question', '25%');
 		$this->addColumn($this->lng->txt('tst_competence'),'competence', '');
@@ -100,7 +112,15 @@ class ilAssQuestionSkillAssignmentsTableGUI extends ilTable2GUI
 			$this->tpl->setVariable('COMPETENCE', $assignment->getSkillTitle());
 			$this->tpl->setVariable('COMPETENCE_PATH', $assignment->getSkillPath());
 			$this->tpl->setVariable('EVAL_MODE', $this->getEvalModeLabel($assignment));
-			$this->tpl->setVariable('MAX_SKILL_POINTS', $assignment->getMaxSkillPoints());
+
+			if( $this->isSkillPointInputRequired($assignment) )
+			{
+				$this->tpl->setVariable('SKILL_POINTS', $this->buildSkillPointsInput($assignment));
+			}
+			else
+			{
+				$this->tpl->setVariable('SKILL_POINTS', $assignment->getMaxSkillPoints());
+			}
 
 			if( $this->areManipulationsEnabled() || ($i + 1) < $numAssigns )
 			{
@@ -222,5 +242,29 @@ class ilAssQuestionSkillAssignmentsTableGUI extends ilTable2GUI
 		}
 
 		return $this->lng->txt('qpl_skill_point_eval_mode_quest_result');
+	}
+
+	private function buildSkillPointsInput(ilAssQuestionSkillAssignment $assignment)
+	{
+		$assignmentKey = implode(':', array(
+			$assignment->getSkillBaseId(), $assignment->getSkillTrefId(), $assignment->getQuestionId()
+		));
+
+		return "<input type\"text\" size=\"2\" name=\"skill_points[{$assignmentKey}]\" value=\"{$assignment->getSkillPoints()}\" />";
+	}
+	
+	private function isSkillPointInputRequired(ilAssQuestionSkillAssignment $assignment)
+	{
+		if( !$this->areManipulationsEnabled() )
+		{
+			return false;
+		}
+
+		if( $assignment->hasEvalModeBySolution() )
+		{
+			return false;
+		}
+		
+		return true;
 	}
 }

@@ -3528,8 +3528,13 @@ class ilObjTestGUI extends ilObjectGUI
 
 			ilUtil::sendInfo($message);
 		}
-		
-		if( $ilAccess->checkAccess("write", "", $this->ref_id) )
+
+		if( $this->areSkillLevelThresholdsMissing() )
+		{
+			ilUtil::sendFailure($this->getSkillLevelThresholdsMissingInfo());
+		}
+
+		if($ilAccess->checkAccess("write", "", $this->ref_id))
 		{
 			$testQuestionSetConfig = $this->testQuestionSetConfigFactory->getQuestionSetConfig();
 			
@@ -5182,5 +5187,51 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 
 		return true;
+	}
+
+	private function areSkillLevelThresholdsMissing()
+	{
+		global $ilDB;
+		
+		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentList.php';
+		require_once 'Modules/Test/classes/class.ilTestSkillLevelThreshold.php';
+		
+		$assignmentList = new ilAssQuestionSkillAssignmentList($ilDB);
+		$assignmentList->setParentObjId($this->object->getId());
+		$assignmentList->loadFromDb();
+
+		foreach($assignmentList->getUniqueAssignedSkills() as $data)
+		{
+			foreach($data['skill']->getLevelData() as $level)
+			{
+				$treshold = new ilTestSkillLevelThreshold($ilDB);
+				$treshold->setTestId($this->object->getTestId());
+				$treshold->setSkillBaseId($data['skill_base_id']);
+				$treshold->setSkillTrefId($data['skill_tref_id']);
+				$treshold->setSkillLevelId($level['id']);
+				
+				if( !$treshold->dbRecordExists() )
+				{
+					return true;
+				}
+			}
+		}
+		
+		return false;
+	}
+	
+	private function getSkillLevelThresholdsMissingInfo()
+	{
+		require_once 'Modules/Test/classes/class.ilTestSkillLevelThresholdsGUI.php';
+		
+		$link = $this->ctrl->getLinkTargetByClass(
+			array('ilTestSkillAdministrationGUI', 'ilTestSkillLevelThresholdsGUI'),
+			ilTestSkillLevelThresholdsGUI::CMD_SHOW_SKILL_THRESHOLDS
+		);
+		
+		$msg = $this->lng->txt('tst_skl_level_thresholds_missing');
+		$msg .= '<br /><a href="'.$link.'">'.$this->lng->txt('tst_skl_level_thresholds_link').'</a>';
+		
+		return $msg;
 	}
 }

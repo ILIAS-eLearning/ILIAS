@@ -40,8 +40,7 @@ class ilTestPersonalSkillsGUI
 		$gui = new ilPersonalSkillsGUI();
 
 		$gui->setGapAnalysisActualStatusModePerObject($this->testOBJ->getId(), $this->lng->txt('tst_test_result'));
-
-		$gui->setGapAnalysisSelfEvalLevels($this->getReachedSkillLevels());
+		$gui->setGapAnalysisSelfEvalLevels($this->getReachedSkillLevels()); // this is not required a
 
 		$gui->setProfileId($this->getSelectedSkillProfile());
 
