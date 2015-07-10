@@ -273,16 +273,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 			$form->setValuesByPost();
 			return $this->settingsObject($form);
 		}
-
-		if( !$_POST['ass_process_lock'] )
-		{
-			$this->object->setAssessmentProcessLockMode(ilObjAssessmentFolder::ASS_PROC_LOCK_MODE_NONE);
-		}
-		elseif( in_array($_POST['ass_process_lock_mode'], ilObjAssessmentFolder::getValidAssessmentProcessLockModes()) )
-		{
-			$this->object->setAssessmentProcessLockMode($_POST['ass_process_lock_mode']);
-		}
-
+		
 		$this->object->setSkillTriggeringNumAnswersBarrier((int)$_POST['num_req_answers']);
 
 		$this->object->_setManualScoring($_POST["chb_manual_scoring"]);
@@ -309,7 +300,6 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		}
 		$this->object->setScoringAdjustableQuestions($scoring_types);
 		
-<<<<<<< .working
 		if( !$_POST['ass_process_lock'] )
 		{
 			$this->object->setAssessmentProcessLockMode(ilObjAssessmentFolder::ASS_PROC_LOCK_MODE_NONE);
@@ -327,8 +317,6 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		}
 		$assessmentSetting->set('user_criteria', ilUtil::stripSlashes($_POST['user_criteria']));
 
-=======
->>>>>>> .merge-rechts.r58291
 		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
 
 		$this->ctrl->redirect($this,'settings');
