@@ -129,7 +129,7 @@ class gevDecentralTrainingSettings {
 		$crs = $crs_utils->getCourse();
 		
 		if ($crs_utils->isFinalized()) {
-			$this->throwException(	"Training already finalized.");
+			$this->throwException("Training already finalized.");
 		}
 		
 		$crs_utils->setTEPOrguId($this->orguRefId());

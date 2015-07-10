@@ -247,6 +247,8 @@ class gevDecentralTrainingGUI {
 	
 	protected function updateSettings() {
 		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		
 		require_once("Services/GEV/Mailing/classes/class.gevCrsAdditionalMailSettings.php");
 		$mail_settings = new gevCrsAdditionalMailSettings($_POST["obj_id"]);
 		
@@ -284,7 +286,10 @@ class gevDecentralTrainingGUI {
 							 ." tried to update Settings but has no permission.");
 			throw new Exception("gevDecentralTrainingGUI::updateSettings: no permission");
 		}
-		$this->updateSettingsFromForm(intval($_POST["obj_id"]), $form);
+		
+		$crs_utils = gevCourseUtils::getInstance($_POST["obj_id"]);
+		$settings = $this->getSettingsFromForm($crs_utils, $form);
+		$settings->applyTo($_POST["obj_id"]);
 		
 		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"));
 		return $this->showSettings($form);
@@ -342,54 +347,6 @@ class gevDecentralTrainingGUI {
 						, $webinar_link
 						, $webinar_password
 						);
-	}
-	
-	protected function updateSettingsFromForm($a_obj_id, $a_form) {
-		require_once("Services/GEV/Mailing/classes/class.gevCrsAdditionalMailSettings.php");
-		require_once("Services/Calendar/classes/class.ilDate.php");
-		$crs_utils = gevCourseUtils::getInstance($a_obj_id);
-		$crs = $crs_utils->getCourse();
-		
-		$tep_orgu_id = $a_form->getInput("orgu_id");
-		$crs_utils->setTEPOrguId($tep_orgu_id ? $tep_orgu_id : null);
-		
-		if ($crs_utils->isFinalized()) {
-			return;
-			throw new Exception("gevDecentralTrainingGUI::updateSettingsFromForm: Training already finalized.");
-		}
-		
-		$crs->setDescription($a_form->getInput("description"));
-		
-		$tmp = $a_form->getInput("date");
-		$date = new ilDate($tmp["date"], IL_CAL_DATE);
-		$crs_utils->setStartDate($date);
-		$crs_utils->setEndDate($date);
-		
-		$tmp = $a_form->getInput("time");
-		$start = split(":", $tmp["start"]["time"]);
-		$end = split(":", $tmp["end"]["time"]);
-		$time = array($start[0].":".$start[1]."-".$end[0].":".$end[1]);
-		$crs_utils->setSchedule($time);
-		
-		if ($crs_utils->isPraesenztraining()) {
-			$venue = $a_form->getInput("venue");
-			$crs_utils->setVenueId($venue);
-
-			$venue_free_text = $a_form->getInput("venue_free_text");
-			$crs_utils->setVenueFreeText($venue_free_text);
-		}
-		
-		if ($crs_utils->isWebinar()) {
-			$link = $a_form->getInput("webinar_link");
-			$crs_utils->setWebExLink($link ? $link : " ");
-			$password = $a_form->getInput("webinar_password");
-			$crs_utils->setWebExPassword($password ? $password : " ");
-		}
-		
-		$orgaInfo = $a_form->getInput("orgaInfo");
-		$crs_utils->setOrgaInfo($orgaInfo);
-
-		$crs->update();
 	}
 	
 	protected function buildChooseTemplateAndTrainersForm($a_user_id = null, $a_date = null) {
