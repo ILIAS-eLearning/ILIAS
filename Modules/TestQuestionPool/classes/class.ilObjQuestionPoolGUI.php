@@ -1602,7 +1602,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$table_gui->setEditable($rbacsystem->checkAccess('write', $_GET['ref_id']));
 
 		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionList.php';
-		$questionList = new ilAssQuestionList($ilDB, $lng, $ilPluginAdmin, $this->object->getId());
+		$questionList = new ilAssQuestionList($ilDB, $lng, $ilPluginAdmin);
+		$questionList->setParentObjId($this->object->getId());
 		
 		foreach ($table_gui->getFilterItems() as $item)
 		{

@@ -88,7 +88,6 @@ class ilTestSkillEvaluation
 		$this->testOBJ = $testOBJ;
 
 		$this->skillQuestionAssignmentList = new ilAssQuestionSkillAssignmentList($this->db);
-		$this->skillQuestionAssignmentList->setParentObjId($this->testOBJ->getId());
 
 		$this->skillLevelThresholdList = new ilTestSkillLevelThresholdList($this->db);
 		$this->skillLevelThresholdList->setTestId($this->testOBJ->getTestId());
@@ -139,7 +138,9 @@ class ilTestSkillEvaluation
 	
 	public function init(ilAssQuestionList $questionList)
 	{
+		$this->skillQuestionAssignmentList->setParentObjId($questionList->getParentObjId());
 		$this->skillQuestionAssignmentList->loadFromDb();
+		
 		$this->skillLevelThresholdList->loadFromDb();
 		
 		$this->initTestQuestionData($questionList);
@@ -236,7 +237,7 @@ class ilTestSkillEvaluation
 	
 	private function isAnsweredQuestion($questionId)
 	{
-		return $this->reachedPointsByQuestion[$questionId];
+		return isset($this->reachedPointsByQuestion[$questionId]);
 	}
 	
 	private function determineReachedSkillPointsWithSolutionCompare(ilAssQuestionSolutionComparisonExpressionList $expressionList)

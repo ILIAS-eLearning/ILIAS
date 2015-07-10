@@ -133,7 +133,8 @@ class ilQuestionPoolSkillAdministrationGUI
 			case 'ilassquestionskillassignmentsgui':
 
 				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionList.php';
-				$questionList = new ilAssQuestionList($this->db, $this->lng, $this->pluginAdmin, $this->poolOBJ->getId());
+				$questionList = new ilAssQuestionList($this->db, $this->lng, $this->pluginAdmin);
+				$questionList->setParentObjId($this->poolOBJ->getId());
 				$questionList->setQuestionInstanceTypeFilter(ilAssQuestionList::QUESTION_INSTANCE_TYPE_ORIGINALS);
 				$questionList->load();
 

@@ -98,7 +98,8 @@ class ilTestSkillAdministrationGUI
 				$questionContainerId = $this->getQuestionContainerId();
 				
 				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionList.php';
-				$questionList = new ilAssQuestionList($this->db, $this->lng, $this->pluginAdmin, $questionContainerId);
+				$questionList = new ilAssQuestionList($this->db, $this->lng, $this->pluginAdmin);
+				$questionList->setParentObjId($questionContainerId);
 				$questionList->setQuestionInstanceTypeFilter($this->getRequiredQuestionInstanceTypeFilter());
 				$questionList->load();
 

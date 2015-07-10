@@ -1209,9 +1209,9 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		global $ilPluginAdmin;
 
 		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionList.php';
-		$questionList = new ilAssQuestionList(
-			$this->db, $this->lng, $ilPluginAdmin, $this->dynamicQuestionSetConfig->getSourceQuestionPoolId()
-		);
+		$questionList = new ilAssQuestionList($this->db, $this->lng, $ilPluginAdmin);
+
+		$questionList->setParentObjId($this->dynamicQuestionSetConfig->getSourceQuestionPoolId());
 
 		$questionList->setQuestionInstanceTypeFilter(ilAssQuestionList::QUESTION_INSTANCE_TYPE_ORIGINALS);
 

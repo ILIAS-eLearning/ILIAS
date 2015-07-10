@@ -336,7 +336,8 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->addHeaderAction();
 				
 				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionList.php';
-				$questionList = new ilAssQuestionList($ilDB, $this->lng, $ilPluginAdmin, $this->object->getId());
+				$questionList = new ilAssQuestionList($ilDB, $this->lng, $ilPluginAdmin);
+				$questionList->setParentObjId($this->object->getId());
 				if( $this->object->isDynamicTest() )
 				{
 					$questionList->setQuestionInstanceTypeFilter(ilAssQuestionList::QUESTION_INSTANCE_TYPE_ORIGINALS);

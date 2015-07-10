@@ -408,7 +408,8 @@ class ilLOTestQuestionAdapter
 		global $ilDB, $lng, $ilPluginAdmin;
 		
 		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionList.php';
-		$questionList = new ilAssQuestionList($ilDB, $lng, $ilPluginAdmin, $testObjId);
+		$questionList = new ilAssQuestionList($ilDB, $lng, $ilPluginAdmin);
+		$questionList->setParentObjId($testObjId);
 
 		$questionList->setQuestionInstanceTypeFilter(ilAssQuestionList::QUESTION_INSTANCE_TYPE_DUPLICATES);
 		$questionList->setQuestionIdsFilter($questionIds);
