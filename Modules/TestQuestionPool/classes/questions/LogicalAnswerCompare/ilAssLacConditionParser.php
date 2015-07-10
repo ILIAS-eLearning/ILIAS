@@ -69,7 +69,7 @@ class ilAssLacConditionParser {
 	 */
 	public function parse($condition){
 		$this->condition = $condition;
-	//	$this->checkBrackets();
+		$this->checkBrackets();
 		$this->fetchExpressions();
 		$this->fetchOperators();
 		$this->cannonicalizeCondition();

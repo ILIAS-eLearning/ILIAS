@@ -47,6 +47,7 @@ class ilAssLacLegendGUI extends ilOverlayGUI
 		$this->renderQuestSpecificLegendPart($tpl);
 		
 		$this->populateVisibilityCss($tpl);
+		$this->populateTriggerDepencies($tpl);
 		
 		return $tpl->get();
 	}
@@ -60,10 +61,12 @@ class ilAssLacLegendGUI extends ilOverlayGUI
 		
 		//$this->setAnchor('fixed_content', 'tr', 'tr');
 		// we use css instead, does not hoppel over screen for initially visible overlays
+
+		//$this->setTrigger('lac_legend_toggle_btn', 'click');
+		// is done by own listener that also changes the toggle label
 		
 		$this->setVisible($this->isInitialVisibilityEnabled());
 		$this->setAutoHide(false);
-		//$this->setTrigger('eval_mode_2', 'click');
 
 		$this->add();
 	}
@@ -97,8 +100,10 @@ class ilAssLacLegendGUI extends ilOverlayGUI
 			'|' => $this->lng->txt('qpl_lac_desc_logical_or'),
 			'!' => $this->lng->txt('qpl_lac_desc_negation'),
 			'()' => $this->lng->txt('qpl_lac_desc_brackets'),
-			'Qn' => $this->lng->txt('qpl_lac_desc_res_of_quest_n'),
-			'Qn[m]' => $this->lng->txt('qpl_lac_desc_res_of_answ_m_of_quest_n')
+			//'Qn' => $this->lng->txt('qpl_lac_desc_res_of_quest_n'),
+			//'Qn[m]' => $this->lng->txt('qpl_lac_desc_res_of_answ_m_of_quest_n'),
+			'R' => $this->lng->txt('qpl_lac_desc_res_of_cur_quest'),
+			'R[m]' => $this->lng->txt('qpl_lac_desc_res_of_answ_m_of_cur_quest')
 		);
 	}
 
@@ -163,6 +168,27 @@ class ilAssLacLegendGUI extends ilOverlayGUI
 		{
 			$tpl->setVariable('CSS_DISPLAY_NONE', 'display:none;');
 		}
+	}
+	
+	protected function populateTriggerDepencies(ilTemplate $tpl)
+	{
+		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignment.php';
+
+		$tpl->setVariable(
+			'TOGGLE_BTN_SHOW_LABEL', $this->lng->txt('ass_lac_show_legend_btn')
+		);
+		
+		$tpl->setVariable(
+			'TOGGLE_BTN_HIDE_LABEL', $this->lng->txt('ass_lac_hide_legend_btn')
+		);
+		
+		$tpl->setVariable(
+			'SKILL_POINT_EVAL_MODE_BY_RESULT', ilAssQuestionSkillAssignment::EVAL_MODE_BY_QUESTION_RESULT
+		);
+		
+		$tpl->setVariable(
+			'SKILL_POINT_EVAL_MODE_BY_SOLUTION', ilAssQuestionSkillAssignment::EVAL_MODE_BY_QUESTION_SOLUTION
+		);
 	}
 	
 	public function getTriggerElement()

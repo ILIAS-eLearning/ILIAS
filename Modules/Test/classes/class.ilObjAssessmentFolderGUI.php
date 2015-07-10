@@ -190,6 +190,17 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		$userCriteria->setValue($user_criteria);
 		$form->addItem($userCriteria);
 
+		$numRequiredAnswers = new ilNumberInputGUI(
+			$this->lng->txt('tst_skill_triggerings_num_req_answers'), 'num_req_answers'
+		);
+		$numRequiredAnswers->setInfo($this->lng->txt('tst_skill_triggerings_num_req_answers_desc'));
+		$numRequiredAnswers->setSize(4);
+		$numRequiredAnswers->allowDecimals(false);
+		$numRequiredAnswers->setMinValue(1);
+		$numRequiredAnswers->setMinvalueShouldBeGreater(false);
+		$numRequiredAnswers->setValue($this->object->getSkillTriggeringNumAnswersBarrier());
+		$form->addItem($numRequiredAnswers);
+
 		// question settings
 		$header = new ilFormSectionHeaderGUI();
 		$header->setTitle($this->lng->txt("assf_questiontypes"));
@@ -262,7 +273,18 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 			$form->setValuesByPost();
 			return $this->settingsObject($form);
 		}
-		
+
+		if( !$_POST['ass_process_lock'] )
+		{
+			$this->object->setAssessmentProcessLockMode(ilObjAssessmentFolder::ASS_PROC_LOCK_MODE_NONE);
+		}
+		elseif( in_array($_POST['ass_process_lock_mode'], ilObjAssessmentFolder::getValidAssessmentProcessLockModes()) )
+		{
+			$this->object->setAssessmentProcessLockMode($_POST['ass_process_lock_mode']);
+		}
+
+		$this->object->setSkillTriggeringNumAnswersBarrier((int)$_POST['num_req_answers']);
+
 		$this->object->_setManualScoring($_POST["chb_manual_scoring"]);
 		include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
 		$questiontypes =& ilObjQuestionPool::_getQuestionTypes(TRUE);
@@ -287,6 +309,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		}
 		$this->object->setScoringAdjustableQuestions($scoring_types);
 		
+<<<<<<< .working
 		if( !$_POST['ass_process_lock'] )
 		{
 			$this->object->setAssessmentProcessLockMode(ilObjAssessmentFolder::ASS_PROC_LOCK_MODE_NONE);
@@ -304,6 +327,8 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		}
 		$assessmentSetting->set('user_criteria', ilUtil::stripSlashes($_POST['user_criteria']));
 
+=======
+>>>>>>> .merge-rechts.r58291
 		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
 
 		$this->ctrl->redirect($this,'settings');

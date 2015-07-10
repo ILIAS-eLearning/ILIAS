@@ -645,7 +645,9 @@ assessment#:#qpl_lac_desc_logical_or#:#Logisches	ODER
 assessment#:#qpl_lac_desc_negation#:#Negation
 assessment#:#qpl_lac_desc_brackets#:#Klammerung
 assessment#:#qpl_lac_desc_res_of_quest_n#:#Ergebnis der n-ten Frage
+assessment#:#qpl_lac_desc_res_of_cur_quest#:#Ergebnis der aktuellen Frage
 assessment#:#qpl_lac_desc_res_of_answ_m_of_quest_n#:#Ergebnis der m-ten Antwort einer n-ten Frage
+assessment#:#qpl_lac_desc_res_of_answ_m_of_cur_quest#:#Ergebnis der m-ten Antwort der aktuellen Frage
 assessment#:#qpl_lac_legend_header_quest_specific#:#Fragenspezifische Ausdrücke
 assessment#:#qpl_lac_legend_label_operators#:#Operatoren
 assessment#:#qpl_lac_desc_compare_with_quest_res#:#Vergleiche das Ergebnis mit dem erzielten Ergebnis in Prozent
@@ -656,6 +658,33 @@ assessment#:#qpl_lac_desc_compare_with_sequence#:#Vergleiche das Ergebnis mit de
 assessment#:#qpl_lac_desc_compare_with_answer_n#:#Vergleiche das Ergebnis mit der n-ten Antwort der Frage
 assessment#:#qpl_lac_desc_compare_with_exact_sequence#:#Vergleiche das Ergebnis, ob ausschließlich die angegebene Sequenz ausgewählt wurde
 assessment#:#qpl_lac_desc_compare_answer_exist#:#Vergleiche ob für eine Frage/Lücke einer Frage keine Antwort gegeben wurde
+assessment#:#qpl_skill_point_eval_by_quest_result#:#Ermittlung der Kompetenzpunkte über Antwortergebnis
+assessment#:#qpl_skill_point_eval_by_solution_compare#:#Ermittlung der Kompetenzpunkte durch Lösungsvergleich
+assessment#:#tst_solution_compare_cfg#:#Konfiguration für Antworvergleich
+assessment#:#tst_sol_comp_expressions#:#Vergleichsausdrücke
+assessment#:#ass_lac_hide_legend_btn#:#Verstecke Legende
+assessment#:#ass_lac_show_legend_btn#:#Zeige Legende
+assessment#:#ass_lac_validation_error#:#Es sind Fehler bei der Validierung der Bedingung(en) aufgetreten!
+assessment#:#ass_lac_expression#:#Ausdruck
+assessment#:#ass_lac_question_not_exist#:#Die Frage mit dem Index "Q%s" existiert nicht in diesem Set.
+assessment#:#ass_lac_question_not_reachable#:#Die Frage mit dem Index "Q%s" kann an diesem Knoten nicht adressiert werden.
+assessment#:#ass_lac_expression_not_supported#:#Der Ausdruck "%s" wird nicht unterstützt.
+assessment#:#ass_lac_operator_not_supported#:#Der Operator "%s" wird nicht unterstützt.
+assessment#:#ass_lac_unable_to_parse_condition#:#Der Ausdruck "%s" kann nicht validiert werden.
+assessment#:#ass_lac_missing_bracket#:#In der Bedingung sind zu wenig "%s"-Klammer enthalten.
+assessment#:#ass_lac_invalid_statement#:#Der %s. Ausdruck in der eingegebenen Bedinung ist ungültig. Bitte überprüfen Sie ihre Eingabe gemäß der möglichen Ausdrücke (siehe Legende).
+assessment#:#ass_lac_duplicate_element#:#Doppelte Verwendung des Keys "%s" in der Bedingung.
+assessment#:#ass_lac_answer_index_not_exist#:#Die Frage mit dem Index "Q%s" hat keine Antwortoption mit dem Index "%s".
+assessment#:#ass_lac_answer_index_not_exist_cur_qst#:#Die aktuelle Frage hat keine Antwortoption mit dem Index "%s".
+assessment#:#ass_lac_answer_value_not_exists#:#Der Wert "%s" ist in der Frage Q%s[%s] nicht vorhanden.
+assessment#:#ass_lac_answer_value_not_exists_one_answer#:#Der Wert "%s" ist in der Frage Q%s nicht vorhanden.
+assessment#:#ass_lac_answer_value_not_exists_cur_qst#:#Der Wert "%s" ist in der Antwort mit dem Index "%s" der aktuellen Frage nicht vorhanden.
+assessment#:#ass_lac_answer_value_not_exists_cur_qst_one_answer#:#Der Wert "%s" ist in der aktuellen Frage nicht vorhanden.
+assessment#:#ass_lac_expression_not_supported_by_question#:#Für die Frage "Q%s" ist der Ausdruck "%s" nicht unterstützt.
+assessment#:#ass_lac_expression_not_supported_by_cur_question#:#Für die aktuelle Frage ist der Ausdruck "%s" nicht unterstützt.
+assessment#:#ass_lac_operator_not_supported_by_expression#:#Die Operation "%s" wird für den Vergleich mit dem Ausdruck "%s" nicht unterstützt.
+assessment#:#tst_skill_triggerings_num_req_answers#:#Benötigte Anzahl Antworten für Kompetenzerhebungen
+assessment#:#tst_skill_triggerings_num_req_answers_desc#:#Kompetenzen werden erst erhoben, wenn mindestens diese Anzahl Antworten zur Berechnung des Kompetenz-Levels beitragen.
 assessment#:#locked#:#gesperrt
 assessment#:#log_answer_changed_points#:#Manuelles Setzen der Punkte des Teilnehmers %s von %d auf %d Punkte durch %s
 assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#Der Teilnehmer konnte den Test nicht starten, da die maximale Anzahl der gleichzeitiger Teilnehmer für diesen Kurs bereits erreicht ist.

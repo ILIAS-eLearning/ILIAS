@@ -331,8 +331,8 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
 		}
 
 		$tpl->setVariable("ELEMENT_ID", $this->getPostVar());
-		$tpl->setVariable("ANSWER_TEXT", $lng->txt('answer_text'));
-		$tpl->setVariable("POINTS_TEXT", $lng->txt('points'));
+		$tpl->setVariable("ANSWER_TEXT", $this->getTextInputLabel($lng));
+		$tpl->setVariable("POINTS_TEXT", $this->getPointsInputLabel($lng));
 		$tpl->setVariable("COMMANDS_TEXT", $lng->txt('actions'));
 
 		$a_tpl->setCurrentBlock("prop_generic");
@@ -342,5 +342,23 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
 		global $tpl;
 		$tpl->addJavascript("./Services/Form/js/ServiceFormWizardInput.js");
 		$tpl->addJavascript("./Modules/TestQuestionPool/templates/default/answerwizard.js");
+	}
+
+	/**
+	 * @param $lng
+	 * @return mixed
+	 */
+	protected function getTextInputLabel($lng)
+	{
+		return $lng->txt('answer_text');
+	}
+
+	/**
+	 * @param $lng
+	 * @return mixed
+	 */
+	protected function getPointsInputLabel($lng)
+	{
+		return $lng->txt('points');
 	}
 }

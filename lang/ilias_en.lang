@@ -534,7 +534,9 @@ assessment#:#qpl_lac_desc_logical_or#:#Logical OR
 assessment#:#qpl_lac_desc_negation#:#Negation
 assessment#:#qpl_lac_desc_brackets#:#Brackets
 assessment#:#qpl_lac_desc_res_of_quest_n#:#Result of n-th Question
+assessment#:#qpl_lac_desc_res_of_cur_quest#:#Result of Current Question
 assessment#:#qpl_lac_desc_res_of_answ_m_of_quest_n#:#Result of m-th Answer of n-th Question
+assessment#:#qpl_lac_desc_res_of_answ_m_of_cur_quest#:#Result of m-th Answer of Current Question
 assessment#:#qpl_lac_legend_header_quest_specific#:#Question Specific Expressions
 assessment#:#qpl_lac_legend_label_operators#:#Operators
 assessment#:#qpl_lac_desc_compare_with_quest_res#:#Compare the Result with the Reached Points in Percent
@@ -545,6 +547,33 @@ assessment#:#qpl_lac_desc_compare_with_sequence#:#Compare the Result with the An
 assessment#:#qpl_lac_desc_compare_with_answer_n#:#Compare the Result with the n-th Answer of the Question
 assessment#:#qpl_lac_desc_compare_with_exact_sequence#:#Compare the Result with exactly the Given Sequence
 assessment#:#qpl_lac_desc_compare_answer_exist#:#Compare if there is an Answer for a Question/Gap
+assessment#:#qpl_skill_point_eval_by_quest_result#:#Evaluation of Competence Points by Question Result
+assessment#:#qpl_skill_point_eval_by_solution_compare#:#Evaluation of Competence Points by Solution Compare
+assessment#:#tst_solution_compare_cfg#:#Configuration for Solution Compare
+assessment#:#tst_sol_comp_expressions#:#Comparison Expressions
+assessment#:#ass_lac_hide_legend_btn#:#Hide Legend
+assessment#:#ass_lac_show_legend_btn#:#Show Legend
+assessment#:#ass_lac_validation_error#:#Errors occured while validating the conditional expression(s)!
+assessment#:#ass_lac_expression#:#Expression
+assessment#:#ass_lac_question_not_exist#:#The question with index "Q%s" does not exist in this set.
+assessment#:#ass_lac_question_not_reachable#:#The question with index "Q%s" is not reachable in this node.
+assessment#:#ass_lac_expression_not_supported#:#The Expression "%s" is not supported.
+assessment#:#ass_lac_operator_not_supported#:#The Operator "%s" is not supported.
+assessment#:#ass_lac_unable_to_parse_condition#:#The condition "%s" can not be validated.
+assessment#:#ass_lac_missing_bracket#:#There are not enough "%s"-Brackets in the condition.
+assessment#:#ass_lac_invalid_statement#:#The expression at position "%s" is not valid. Please check your input according to the supported expression (see legend).
+assessment#:#ass_lac_duplicate_element#:#Duplicate key "%s" in condition.
+assessment#:#ass_lac_answer_index_not_exist#:#The question with index "Q%s" does not have an answer with the index "%s".
+assessment#:#ass_lac_answer_index_not_exist_cur_qst#:#The current question does not have an answer with the index "%s".
+assessment#:#ass_lac_answer_value_not_exists#:#The value "%s" does not exist in question Q%s[%s].
+assessment#:#ass_lac_answer_value_not_exists_one_answer#:#The value "%s" does not exist in question Q%s.
+assessment#:#ass_lac_answer_value_not_exists_cur_qst#:#The value "%s" does not exist in the answer with index "%s" of current question.
+assessment#:#ass_lac_answer_value_not_exists_cur_qst_one_answer#:#The value "%s" does not exist in the current question.
+assessment#:#ass_lac_expression_not_supported_by_question#:#The question "Q%s" does not support the Expression "%s".
+assessment#:#ass_lac_expression_not_supported_by_cur_question#:#The current question does not support the Expression "%s".
+assessment#:#ass_lac_operator_not_supported_by_expression#:#The Operator "%s" can not be used in comparison with the expression "%s".
+assessment#:#tst_skill_triggerings_num_req_answers#:#Required Amount of Answers for Competence Triggers
+assessment#:#tst_skill_triggerings_num_req_answers_desc#:#Competences aren't triggered before this amount of answered questions contributes to the competence level calculation.
 assessment#:#locked#:#locked
 assessment#:#log_answer_changed_points#:#Manual change of points of test person %s from %d to %d points by %s
 assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#The user could not enter the test because the maximum number of simultaneous users has been reached

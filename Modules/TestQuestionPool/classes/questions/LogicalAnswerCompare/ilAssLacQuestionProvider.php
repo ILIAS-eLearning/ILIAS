@@ -8,16 +8,33 @@ require_once 'Modules/TestQuestionPool/classes/class.assQuestion.php';
  * Date: 04.12.13
  * Time: 15:04
  * @author Thomas Joußen <tjoussen@databay.de>
- *
- * @todo MAYBE CHANGE THE LOCATION OF THIS CLASS
  */ 
-class ilAssLacQuestionProvider {
+class ilAssLacQuestionProvider
+{
+	/*
+	 * @var iQuestionCondition
+	 */
+	protected $question;
 
+	/**
+	 * @var integer
+	 */
 	protected $questionId;
 
-	public function __construct($questionId)
+	/**
+	 * @param integer $questionId
+	 */
+	public function setQuestionId($questionId)
 	{
 		$this->questionId = $questionId;
+	}
+
+	/**
+	 * @param iQuestionCondition $question
+	 */
+	public function setQuestion(iQuestionCondition $question)
+	{
+		$this->question = $question;
 	}
 
 	/**
@@ -25,7 +42,13 @@ class ilAssLacQuestionProvider {
 	 */
 	public function getQuestion()
 	{
-		return assQuestion::_instantiateQuestion($this->questionId);
+		if( $this->question === null && $this->questionId )
+		{
+			require_once 'Modules/TestQuestionPool/classes/class.assQuestion.php';
+			$this->question = assQuestion::_instantiateQuestion($this->questionId);
+		}
+		
+		return $this->question;
 	}
 }
  

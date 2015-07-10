@@ -61,7 +61,7 @@ class ilAssLacCompositeValidator
 			$question = $this->object_loader->getQuestion($question_index);
 
 			$this->checkQuestionExists($question, $question_index);
-			$this->checkQuestionIsReachable($question, $question_index);
+			//$this->checkQuestionIsReachable($question, $question_index);
 
 			if($this->isResultOfAnswerExpression($question_expression))
 			{
@@ -229,7 +229,17 @@ class ilAssLacCompositeValidator
 	 */
 	private function isResultOfAnswerExpression($expression)
 	{
-		return $expression instanceof ilAssLacResultOfAnswerOfQuestionExpression;
+		if( $expression instanceof ilAssLacResultOfAnswerOfQuestionExpression )
+		{
+			return true;
+		}
+
+		if( $expression instanceof ilAssLacResultOfAnswerOfCurrentQuestionExpression )
+		{
+			return true;
+		}
+
+		return false;
 	}
 
 	/**

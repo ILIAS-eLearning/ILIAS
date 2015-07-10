@@ -15,18 +15,25 @@ class ilAssLacCompositeEvaluator {
 	protected $object_loader;
 
 	/**
-	 * @var ilFormATestSession
+	 * @var integer
 	 */
-	protected $session;
+	protected $activeId;
+
+	/**
+	 * @var integer
+	 */
+	protected $pass;
 
 	/**
 	 * @param ilAssLacQuestionProvider $object_loader
-	 * @param ilFormATestSession $session
+	 * @param $activeId
+	 * @param $pass
 	 */
-	public function __construct($object_loader, $session)
+	public function __construct($object_loader, $activeId, $pass)
 	{
 		$this->object_loader = $object_loader;
-		$this->session = $session;
+		$this->activeId = $activeId;
+		$this->pass = $pass;
 	}
 
 	/**
@@ -59,9 +66,9 @@ class ilAssLacCompositeEvaluator {
 			$question = $this->object_loader->getQuestion($composite->nodes[0]->getQuestionIndex());
 			$rightNode = $composite->nodes[1];
 
-			$index = ($composite->nodes[0] instanceof ilAssLacResultOfAnswerOfQuestionExpression)? $composite->nodes[0]->getAnswerIndex(): null;
+			$index = $this->isInstanceOfAnswerIndexProvidingExpression($composite) ? $composite->nodes[0]->getAnswerIndex(): null;
 
-			$solutions = $question->getUserQuestionResult($this->session->getActiveId(),$this->session->getPass());
+			$solutions = $question->getUserQuestionResult($this->activeId,$this->pass);
 
 			if($question instanceof assClozeTest)
 			{
@@ -143,7 +150,7 @@ class ilAssLacCompositeEvaluator {
 			if(
 				$question instanceof assFormulaQuestion &&
 				$rightNode instanceof ilAssLacPercentageResultExpression &&
-				$composite->nodes[0] instanceof ilAssLacResultOfAnswerOfQuestionExpression
+				$this->isInstanceOfAnswerIndexProvidingExpression($composite->nodes[0])
 			)
 			{
 				// @todo for Thomas J.: Move to interface / implement in concrete class (req. for future releases)
@@ -190,6 +197,25 @@ class ilAssLacCompositeEvaluator {
 			return !$result;
 		}
 		return $result;
+	}
+
+	/**
+	 * @param ilAssLacAbstractComposite $composite
+	 * @return bool
+	 */
+	private function isInstanceOfAnswerIndexProvidingExpression(ilAssLacAbstractComposite $composite)
+	{
+		if($composite->nodes[0] instanceof ilAssLacResultOfAnswerOfQuestionExpression)
+		{
+			return true;
+		}
+
+		if($composite->nodes[0] instanceof ilAssLacResultOfAnswerOfCurrentQuestionExpression)
+		{
+			return true;
+		}
+		
+		return false;
 	}
 }
  

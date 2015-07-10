@@ -1,15 +1,18 @@
 <?php
 
+require_once 'Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Exception/ilAssLacException.php';
+require_once 'Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Exception/ilAssLacFormAlertProvider.php';
+
 /**
  * Class ConditionParserException
  *
  * Date: 02.04.14
  * Time: 15:40
  * @author Thomas Joußen <tjoussen@databay.de>
+ * @author Björn Heyser <bheyser@databay.de>
  */ 
-class ilAssLacConditionParserException extends \RuntimeException
+class ilAssLacConditionParserException extends ilAssLacException implements ilAssLacFormAlertProvider
 {
-
 	/**
 	 * @var int
 	 */
@@ -22,9 +25,9 @@ class ilAssLacConditionParserException extends \RuntimeException
 	{
 		$this->column = $column;
 
-		parent::__construct(
-			sprintf('The expression at position "%s" is not valid', $this->column)
-		);
+		parent::__construct(sprintf(
+			'The expression at position "%s" is not valid', $this->getColumn()
+		));
 	}
 
 	/**
@@ -34,5 +37,15 @@ class ilAssLacConditionParserException extends \RuntimeException
 	{
 		return $this->column;
 	}
+
+	/**
+	 * @param ilLanguage $lng
+	 * @return string
+	 */
+	public function getFormAlert(ilLanguage $lng)
+	{
+		return sprintf(
+			$lng->txt("ass_lac_invalid_statement"), $this->getColumn()
+		);
+	}
 }
- 

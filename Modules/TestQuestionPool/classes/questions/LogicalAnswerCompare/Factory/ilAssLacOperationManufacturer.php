@@ -107,15 +107,15 @@ class ilAssLacOperationManufacturer extends ilAssLacAbstractManufacturer{
 	 */
 	private function __construct()
 	{
-		require_once __DIR__ . '/../Operations/LesserOperation.php';
-		require_once __DIR__ . '/../Operations/LesserOrEqualsOperation.php';
-		require_once __DIR__ . '/../Operations/EqualsOperation.php';
-		require_once __DIR__ . '/../Operations/GreaterOrEqualsOperation.php';
-		require_once __DIR__ . '/../Operations/GreaterOperation.php';
-		require_once __DIR__ . '/../Operations/NotEqualsOperation.php';
-		require_once __DIR__ . '/../Operations/AndOperation.php';
-		require_once __DIR__ . '/../Operations/OrOperation.php';
-		require_once __DIR__ . '/../Exception/UnsupportedOperation.php';
+		require_once 'Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Operations/ilAssLacLesserOperation.php';
+		require_once 'Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Operations/ilAssLacLesserOrEqualsOperation.php';
+		require_once 'Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Operations/ilAssLacEqualsOperation.php';
+		require_once 'Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Operations/ilAssLacGreaterOrEqualsOperation.php';
+		require_once 'Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Operations/ilAssLacGreaterOperation.php';
+		require_once 'Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Operations/ilAssLacNotEqualsOperation.php';
+		require_once 'Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Operations/ilAssLacAndOperation.php';
+		require_once 'Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Operations/ilAssLacOrOperation.php';
+		require_once 'Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Exception/ilAssLacUnsupportedOperation.php';
 	}
 
 	/**
