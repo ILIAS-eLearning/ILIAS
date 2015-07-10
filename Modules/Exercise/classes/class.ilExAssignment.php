@@ -600,7 +600,12 @@ class ilExAssignment
 			" WHERE id = ".$ilDB->quote($this->getId(), "integer")
 			);
 		$rec = $ilDB->fetchAssoc($set);
-		$this->initFromDB($rec);		
+		
+		// #16172 - might be deleted
+		if(is_array($rec))
+		{
+			$this->initFromDB($rec);		
+		}
 	}
 	
 	/**
