@@ -47,6 +47,11 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	protected $testSession;
 
 	/**
+	 * @var ilSetting
+	 */
+	protected $assSettings;
+	
+	/**
 	* ilTestOutputGUI constructor
 	*
 	* @param ilObjTest $a_object
@@ -62,6 +67,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		
 		$this->processLocker = null;
 		$this->testSession = null;
+		$this->assSettings = null;
 	}
 	
 	protected function ensureExistingTestSession(ilTestSession $testSession)
@@ -92,10 +98,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	{
 		global $ilDB;
 		
-		$settings = new ilSetting('assessment');
-
 		require_once 'Modules/Test/classes/class.ilTestProcessLockerFactory.php';
-		$processLockerFactory = new ilTestProcessLockerFactory($settings, $ilDB);
+		$processLockerFactory = new ilTestProcessLockerFactory($this->assSettings, $ilDB);
 
 		$processLockerFactory->setActiveId($activeId);
 		
@@ -1966,7 +1970,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	{
 		return false;
 	}
-	
+
 	protected function performCustomRedirect()
 	{
 		return;
@@ -1984,4 +1988,39 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		
 		return $this->lng->txt("save_introduction");
 	}
+
+	protected function initAssessmentSettings()
+	{
+		$this->assSettings = new ilSetting('assessment');
+	}
+
+	/**
+	 * @param ilTestSession $testSession
+	 */
+	protected function handleSkillTriggering(ilTestSession $testSession)
+	{
+		$questionList = $this->buildTestPassQuestionList();
+		$questionList->load();
+
+		$testResults = $this->object->getTestResult($testSession->getActiveId(), $testSession->getPass(), true);
+		
+		require_once 'Modules/Test/classes/class.ilTestSkillEvaluation.php';
+		$skillEvaluation = new ilTestSkillEvaluation($this->db, $this->object->getTestId(), $this->object->getRefId());
+
+		$skillEvaluation->setUserId($testSession->getUserId());
+		$skillEvaluation->setActiveId($testSession->getActiveId());
+		$skillEvaluation->setPass($testSession->getPass());
+		
+		$skillEvaluation->setNumRequiredBookingsForSkillTriggering($this->assSettings->get(
+			'ass_skl_trig_num_answ_barrier', ilObjAssessmentFolder::DEFAULT_SKL_TRIG_NUM_ANSWERS_BARRIER
+		));
+
+
+		$skillEvaluation->init($questionList);
+		$skillEvaluation->evaluate($testResults);
+		
+		$skillEvaluation->handleSkillTriggering();
+	}
+	
+	abstract protected function buildTestPassQuestionList();
 }

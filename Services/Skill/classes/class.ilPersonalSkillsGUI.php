@@ -56,6 +56,49 @@ class ilPersonalSkillsGUI
 	{
 		$this->profile_id = $a_val;
 	}
+
+	// PATCH BEGIN: optes44+
+	private function confirmDeleteOwnSkillData()
+	{
+		global $ilCtrl, $tpl;
+
+		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+
+		$c = new ilConfirmationGUI();
+		$c->setHeaderText('WIRKLICH ALLE KOMPETENZ ERHEBUNGEN LÖSCHEN ???');
+		$c->setFormAction($ilCtrl->getFormAction($this));
+		$c->setCancel('NEIN', '');
+		$c->setConfirm('ok', 'performDeleteOwnSkillData');
+		
+		$tpl->setContent($c->getHTML());
+	}
+	private function performDeleteOwnSkillData()
+	{
+		global $ilDB, $ilUser, $ilCtrl, $ilClientIniFile;
+
+		if( !$ilClientIniFile->variableExists('system', 'TESTMODE') )
+		{
+			$ilCtrl->redirect($this);
+		}
+		
+		if( $ilClientIniFile->readVariable('system', 'TESTMODE') != 1 )
+		{
+			$ilCtrl->redirect($this);
+		}
+
+		$ilDB->manipulateF(
+			"DELETE FROM skl_user_has_level WHERE user_id = %s",
+			array('integer'), array($ilUser->getId())
+		);
+		
+		$ilDB->manipulateF(
+			"DELETE FROM skl_user_skill_level WHERE user_id = %s",
+			array('integer'), array($ilUser->getId())
+		);
+
+		$ilCtrl->redirect($this);
+	}
+	// PATCH END: optes44+
 	
 	/**
 	 * Get profile id
@@ -163,7 +206,23 @@ class ilPersonalSkillsGUI
 		$ilToolbar->addFormButton($lng->txt("skmg_add_skill"),
 			"listSkillsForAdd");
 		$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
-		
+
+		// PATCH BEGIN: optes44+
+		if( $GLOBALS['ilClientIniFile']->variableExists('system', 'TESTMODE') )
+		{
+			if( $GLOBALS['ilClientIniFile']->readVariable('system', 'TESTMODE') == 1 )
+			{
+				/* @var ilToolbarGUI $ilToolbar */
+				
+				$ilToolbar->addSeparator();
+				
+				$ilToolbar->addLink(
+					'LÖSCHE ALLE KOMPETENZ-ERHEBUNGEN', $ilCtrl->getLinkTarget($this, 'confirmDeleteOwnSkillData')
+				);
+			}
+		}
+		// PATCH END: optes44+
+			
 		$skills = ilPersonalSkill::getSelectedUserSkills($ilUser->getId());
 		$html = "";
 		foreach ($skills as $s)

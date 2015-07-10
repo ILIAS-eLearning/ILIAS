@@ -639,6 +639,64 @@ assessment#:#kiosk_show_participant#:#Name des Teilnehmers
 assessment#:#kiosk_show_title#:#Titel des Tests
 assessment#:#last_update#:#Letzte Aktualisierung
 assessment#:#legend#:#Legende
+assessment#:#qpl_lac_legend_header_common#:#Aussagenlogik
+assessment#:#qpl_lac_desc_logical_and#:#Logisches UND
+assessment#:#qpl_lac_desc_logical_or#:#Logisches	ODER
+assessment#:#qpl_lac_desc_negation#:#Negation
+assessment#:#qpl_lac_desc_brackets#:#Klammerung
+assessment#:#qpl_lac_desc_res_of_quest_n#:#Ergebnis der n-ten Frage
+assessment#:#qpl_lac_desc_res_of_cur_quest#:#Ergebnis der aktuellen Frage
+assessment#:#qpl_lac_desc_res_of_answ_m_of_quest_n#:#Ergebnis der m-ten Antwort einer n-ten Frage
+assessment#:#qpl_lac_desc_res_of_answ_m_of_cur_quest#:#Ergebnis der m-ten Antwort der aktuellen Frage
+assessment#:#qpl_lac_legend_header_quest_specific#:#Fragenspezifische Ausdrücke
+assessment#:#qpl_lac_legend_label_operators#:#Operatoren
+assessment#:#qpl_lac_desc_compare_with_quest_res#:#Vergleiche das Ergebnis mit dem erzielten Ergebnis in Prozent
+assessment#:#qpl_lac_desc_compare_with_number#:#Vergleiche das Ergebnis mit dem Zahlenwert n
+assessment#:#qpl_lac_desc_compare_with_text#:#Vergleiche das Ergebnis mit dem Freitext TEXT
+assessment#:#qpl_lac_desc_compare_with_assignment#:#Vergleiche das Ergebnis mit der Zuordnung n:m
+assessment#:#qpl_lac_desc_compare_with_sequence#:#Vergleiche das Ergebnis mit der Antwortsequenz ($a,..,z$)
+assessment#:#qpl_lac_desc_compare_with_answer_n#:#Vergleiche das Ergebnis mit der n-ten Antwort der Frage
+assessment#:#qpl_lac_desc_compare_with_exact_sequence#:#Vergleiche das Ergebnis, ob ausschließlich die angegebene Sequenz ausgewählt wurde
+assessment#:#qpl_lac_desc_compare_answer_exist#:#Vergleiche ob für eine Frage/Lücke einer Frage keine Antwort gegeben wurde
+assessment#:#qpl_skill_point_eval_mode_quest_result#:#Antwortergebnis
+assessment#:#qpl_skill_point_eval_mode_solution_compare#:#Lösungsvergleich
+assessment#:#qpl_skill_point_eval_by_quest_result#:#Ermittlung der Kompetenzpunkte über Antwortergebnis
+assessment#:#qpl_skill_point_eval_by_solution_compare#:#Ermittlung der Kompetenzpunkte durch Lösungsvergleich
+assessment#:#tst_solution_compare_cfg#:#Konfiguration für Antworvergleich
+assessment#:#tst_sol_comp_expressions#:#Vergleichsausdrücke
+assessment#:#ass_lac_hide_legend_btn#:#Verstecke Legende
+assessment#:#ass_lac_show_legend_btn#:#Zeige Legende
+assessment#:#ass_lac_validation_error#:#Es sind Fehler bei der Validierung der Bedingung(en) aufgetreten!
+assessment#:#ass_lac_expression#:#Ausdruck
+assessment#:#ass_lac_question_not_exist#:#Die Frage mit dem Index "Q%s" existiert nicht in diesem Set.
+assessment#:#ass_lac_question_not_reachable#:#Die Frage mit dem Index "Q%s" kann an diesem Knoten nicht adressiert werden.
+assessment#:#ass_lac_expression_not_supported#:#Der Ausdruck "%s" wird nicht unterstützt.
+assessment#:#ass_lac_operator_not_supported#:#Der Operator "%s" wird nicht unterstützt.
+assessment#:#ass_lac_unable_to_parse_condition#:#Der Ausdruck "%s" kann nicht validiert werden.
+assessment#:#ass_lac_missing_bracket#:#In der Bedingung sind zu wenig "%s"-Klammer enthalten.
+assessment#:#ass_lac_invalid_statement#:#Der %s. Ausdruck in der eingegebenen Bedinung ist ungültig. Bitte überprüfen Sie ihre Eingabe gemäß der möglichen Ausdrücke (siehe Legende).
+assessment#:#ass_lac_duplicate_element#:#Doppelte Verwendung des Keys "%s" in der Bedingung.
+assessment#:#ass_lac_answer_index_not_exist#:#Die Frage mit dem Index "Q%s" hat keine Antwortoption mit dem Index "%s".
+assessment#:#ass_lac_answer_index_not_exist_cur_qst#:#Die aktuelle Frage hat keine Antwortoption mit dem Index "%s".
+assessment#:#ass_lac_answer_value_not_exists#:#Der Wert "%s" ist in der Frage Q%s[%s] nicht vorhanden.
+assessment#:#ass_lac_answer_value_not_exists_one_answer#:#Der Wert "%s" ist in der Frage Q%s nicht vorhanden.
+assessment#:#ass_lac_answer_value_not_exists_cur_qst#:#Der Wert "%s" ist in der Antwort mit dem Index "%s" der aktuellen Frage nicht vorhanden.
+assessment#:#ass_lac_answer_value_not_exists_cur_qst_one_answer#:#Der Wert "%s" ist in der aktuellen Frage nicht vorhanden.
+assessment#:#ass_lac_expression_not_supported_by_question#:#Für die Frage "Q%s" ist der Ausdruck "%s" nicht unterstützt.
+assessment#:#ass_lac_expression_not_supported_by_cur_question#:#Für die aktuelle Frage ist der Ausdruck "%s" nicht unterstützt.
+assessment#:#ass_lac_operator_not_supported_by_expression#:#Die Operation "%s" wird für den Vergleich mit dem Ausdruck "%s" nicht unterstützt.
+assessment#:#tst_skill_triggerings_num_req_answers#:#Benötigte Anzahl Antworten für Kompetenzerhebungen
+assessment#:#tst_skill_triggerings_num_req_answers_desc#:#Kompetenzen werden erst erhoben, wenn mindestens diese Anzahl Antworten zur Berechnung des Kompetenz-Levels beitragen.
+assessment#:#qpl_qst_skl_usg_skill_col#:#Kompetenz
+assessment#:#qpl_qst_skl_usg_numq_col#:#Fragenanzahl im gesamten Pool, welche die Kompetenz adressieren
+assessment#:#qpl_qst_skl_usg_sklpnt_col#:#Summe aller Kompetenzpunkte je Kompetenz
+assessment#:#tst_qst_skl_config_in_pool_hint_msg#:#Die Fragen-Kompetenz-Zuordnung für Tests im Modus "%s" müssen grundsätzlich im zugeordneten Fragenpool vorgenommen werden. Die Vergabe der Kompetenz-Schwellwerte erfolgt hier im Test.
+assessment#:#qpl_qst_skl_selection_for_question_header#:#Kompetenzzuordnung für die Frage: %s
+assessment#:#tst_save_comp_points#:#Speichere Kompetenz-Punkte
+assessment#:#tst_msg_skl_qst_assign_points_saved#:#Die Kompetenz-Punkte wurden gespeichert.
+assessment#:#tst_skl_level_thresholds_missing#:#Es sind noch nicht für alle relevanten Kompetenzen Schwellenwerte definiert worden!
+assessment#:#tst_skl_level_thresholds_link#:#Kompetenz-Schwellenwerte konfigurieren
+assessment#:#tst_skl_res_interpretation_hint_msg#:#Beachten Sie, dass die Kompetenzergebnisse eines einzelnen Tests nur bedingt aussagekräftig sind. Je mehr Informationen zu den einzelnen Kompetenzen gesammelt werden, desto valider die Aussage. Sollten einzelne Kompetenzen keinen Eintrag erhalten haben, standen für diese Kompetenz zu wenig Informationen zur Verfügung.
 assessment#:#locked#:#gesperrt
 assessment#:#log_answer_changed_points#:#Manuelles Setzen der Punkte des Teilnehmers %s von %d auf %d Punkte durch %s
 assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#Der Teilnehmer konnte den Test nicht starten, da die maximale Anzahl der gleichzeitiger Teilnehmer für diesen Kurs bereits erreicht ist.
@@ -648,6 +706,7 @@ assessment#:#log_mark_added#:#Note hinzugefügt
 assessment#:#log_mark_changed#:#Note geändert
 assessment#:#log_mark_removed#:#Note entfernt
 assessment#:#log_modified_test#:#Der Test wurde verändert
+assessment#:#tst_results_presentation_description#:#Wird die Ergebnisübersicht für laufende Tests angeboten, erhalten die Teilnehmer die Möglichkeit, Fragentitel und erzielte Punkte der jeweiligen Fragen in der Ergebnisübersicht einzusehen. Wenn die Bewertungsdetails in den Testergebnissen angezeigt werden, bekommen die Teilnehmer neben ihrer eigenen Lösung auch die korrekte Lösung einer Frage angezeigt. Wenn die Liste der Antworten angezeigt wird, erhalten die Teilnehmer eine Übersicht mit ihren Antworten zu den einzelnen Testfragen. Diese Übersicht wird vor dem endgültigen Abschicken des Tests und nach Beendigung auf der Info-Seite des Tests angeboten. Wenn die antwortspezifischen Rückmeldungen ausgewählt sind, werden diese Rückmeldungen (falls vorhanden) in den Testergebnissen angezeigt. Wenn "Druckausgabe der Ergebnisse (nur Antworten)" ausgewählt ist, werden ILIAS-Inhalte, die Sie über den "Inhalt bearbeiten" Karteireiter der Fragen vor und hinter dem eigentlichen Fragentext platzieren können, in einem Ausdruck nicht angezeigt. Ist "Unterschrift-Platzhalter anzeigen" ausgewählt, wird für den Ausdruck ein Platzhalter für die Unterschrift des Testteilnehmers angezeigt. Wenn "Musterlösungen anzeigen" ausgewählt ist, werden die Musterlösungen von Fragen (falls vorhanden) in der Fragenübersicht der Testergebnisse angezeigt.
 assessment#:#log_question_added#:#Frage hinzugefügt an Position
 assessment#:#log_question_position_changed#:#Fragenposition geändert
 assessment#:#log_question_removed#:#Frage entfernt
@@ -1493,22 +1552,28 @@ assessment#:#tst_change_dyn_test_question_selection#:#Aktuelle Fragenauswahl än
 assessment#:#tst_dyn_test_msg_currently_finished_completely#:#Aktuell haben Sie alle Fragen des Quellfragenpool erfolgreich beantwortet. Sowie neue oder veränderte Fragen im Quellfragenpool vorliegen können Sie den Test fortführen.
 assessment#:#tst_dyn_test_msg_currently_finished_selection#:#In der aktuellen Fragenauswahl haben Sie alle Fragen erfolgreich beantwortet. Ändern Sie die Fragenauswahl um den Test fort zu führen.
 assessment#:#tst_activate_skill_service#:#Kompetenzservice aktivieren
-assessment#:#tst_disabled_skl_due_to_non_fixed_quest_set_type#:#Der Kompetenzservice wurde aufgrund des Testmodus ohne feste Fragenauswahl deaktiviert.
-assessment#:#tst_cannot_enable_skl_due_to_non_fixed_quest_set_type#:#Die Aktivierung des Kompetenzservice ist aufgrund des Testmodus ohne feste Fragenauswahl nicht möglich.
 assessment#:#tst_tab_competences#:#Kompetenzen
-assessment#:#tst_skl_sub_tab_quest_assign#:#Fragen-Kompetenz-Zuordnung
+assessment#:#qpl_tab_competences#:#Kompetenzen
+assessment#:#qpl_skl_sub_tab_quest_assign#:#Fragen-Kompetenz-Zuordnung
+assessment#:#qpl_skl_sub_tab_usages#:#Vergabehäufigkeit
 assessment#:#tst_skl_sub_tab_thresholds#:#Kompetenz-Schwellenwerte
 assessment#:#tst_msg_skl_lvl_thresholds_saved#:#Die Kompetenz-Schwellenwerte wurden gespeichert.
-assessment#:#tst_msg_skl_qst_assign_points_saved#:#Die Kompetenz-Punkte wurden gespeichert.
 assessment#:#tst_competence#:#Kompetenz
-assessment#:#tst_assign_competence#:#Kompetenz zuordnen
-assessment#:#tst_remove_competence#:#Kompetenz entfernen
+assessment#:#tst_manage_competence_assigns#:#Kompetenz-Zuordnungen verwalten
+assessment#:#tst_edit_competence_assign#:#Bearbeite Zuordnungs-Eigenschaften
+assessment#:#tst_view_competence_assign#:#Zeige Zuordnungs-Eigenschaften
+assessment#:#qpl_qst_skl_assign_properties_modified#:#Die Eigenschaften der Zuweisung wurden gespeichert.
+assessment#:#qpl_qst_skl_assigns_updated#:#Die Kompetenzuweisungen wurden aktualisiert.
+assessment#:#qpl_sync_quest_skl_assigns_confirmation#:#Die Frage wurde aus einem anderen Magazinobjekt eingefügt. Soll die aktuelle Konfiguration von Kompetenzzuweisungen auf das Original der Frage übertragen werden?
+assessment#:#qpl_qst_skl_assign_synced_to_orig#:#Die Kompetenzuweisungen wurden auf die Originalfrage übertragen.
+assessment#:#qpl_save_skill_assigns_update#:#Kompetenzzuweisung speichern
+assessment#:#qpl_cancel_skill_assigns_update#:#Abbrechen
+assessment#:#tst_comp_eval_mode#:#Evaluierung über
 assessment#:#tst_comp_points#:#Kompetenz-Punkte
-assessment#:#tst_save_comp_points#:#Speichere Kompetenz-Punkte
 assessment#:#tst_num_questions#:#Anzahl Fragen
 assessment#:#tst_max_comp_points#:#Max. Kompetenz-Punkte
 assessment#:#tst_level#:#Kompetenz Level
-assessment#:#tst_threshold#:#Schwellenwert
+assessment#:#tst_threshold#:#Schwellenwert (in %)
 assessment#:#tst_save_thresholds#:#Speichere Schwellenwerte
 assessment#:#tst_show_comp_results#:#Kompetenz-Ergebnisse anzeigen
 assessment#:#tst_analysis#:#Analyse

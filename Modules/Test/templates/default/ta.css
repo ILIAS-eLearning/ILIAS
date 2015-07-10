@@ -515,12 +515,18 @@ a.il_question_answer_list_back_anchor
 
 tr.ilBorderlessRow
 {
-    border: none;
+    margin-right: 20px;
 }
 
-td.ilBottomAlignedCell
+td.ilAssQuestSkillAssignQuestTitle div
 {
-    vertical-align: bottom;
+    margin-right: 20px;
+}
+
+.ilAssQuestionLacExprWizard td,
+.ilAssQuestionLacExprWizard th
+{
+	padding-right: 10px;
 }
 
 div.tst_mark_output

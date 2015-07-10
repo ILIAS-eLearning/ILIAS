@@ -327,15 +327,42 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->prepareOutput();
 				$this->addHeaderAction();
 				require_once 'Modules/Test/classes/class.ilTestSkillAdministrationGUI.php';
-				$gui = new ilTestSkillAdministrationGUI($ilias, $this->ctrl, $ilAccess, $ilTabs, $this->tpl, $this->lng, $ilDB, $this->object, $this->ref_id);
+				$gui = new ilTestSkillAdministrationGUI($ilias, $this->ctrl, $ilAccess, $ilTabs, $this->tpl, $this->lng, $ilDB, $tree, $ilPluginAdmin, $this->object, $this->ref_id);
 				$this->ctrl->forwardCommand($gui);
 				break;
 
 			case 'iltestskillevaluationgui':
 				$this->prepareOutput();
 				$this->addHeaderAction();
+				
+				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionList.php';
+				if( $this->object->isDynamicTest() )
+				{
+					require_once 'Modules/Test/classes/class.ilObjTestDynamicQuestionSetConfig.php';
+					$dynamicQuestionSetConfig = new ilObjTestDynamicQuestionSetConfig($tree, $ilDB, $ilPluginAdmin, $this->object);
+					$dynamicQuestionSetConfig->loadFromDb();
+					$questionList = new ilAssQuestionList($ilDB, $this->lng, $ilPluginAdmin);
+					$questionList->setParentObjId($dynamicQuestionSetConfig->getSourceQuestionPoolId());
+					$questionList->setQuestionInstanceTypeFilter(ilAssQuestionList::QUESTION_INSTANCE_TYPE_ORIGINALS);
+				}
+				else
+				{
+					$questionList = new ilAssQuestionList($ilDB, $this->lng, $ilPluginAdmin);
+					$questionList->setParentObjId($this->object->getId());
+					$questionList->setQuestionInstanceTypeFilter(ilAssQuestionList::QUESTION_INSTANCE_TYPE_DUPLICATES);
+				}
+				$questionList->load();
+
+				require_once 'Modules/Test/classes/class.ilTestSessionFactory.php';
+				$testSessionFactory = new ilTestSessionFactory($this->object);
+				$testSession = $testSessionFactory->getSession();
+				$testResults = $this->object->getTestResult($testSession->getActiveId(), $testSession->getPass(), true);
+
 				require_once 'Modules/Test/classes/class.ilTestSkillEvaluationGUI.php';
-				$gui = new ilTestSkillEvaluationGUI($this->ctrl, $ilTabs, $this->tpl, $this->lng, $ilDB, $this->object);
+				$gui = new ilTestSkillEvaluationGUI($this->ctrl, $ilTabs, $this->tpl, $this->lng, $ilDB, $this->object->getTestId(),$this->object->getRefId(), $this->object->getId());
+				$gui->setQuestionList($questionList);
+				$gui->setTestSession($testSession);
+				$gui->setTestResults($testResults);
 				$this->ctrl->forwardCommand($gui);
 				break;
 
@@ -3528,8 +3555,13 @@ class ilObjTestGUI extends ilObjectGUI
 
 			ilUtil::sendInfo($message);
 		}
-		
-		if( $ilAccess->checkAccess("write", "", $this->ref_id) )
+
+		if( $this->areSkillLevelThresholdsMissing() )
+		{
+			ilUtil::sendFailure($this->getSkillLevelThresholdsMissingInfo());
+		}
+
+		if($ilAccess->checkAccess("write", "", $this->ref_id))
 		{
 			$testQuestionSetConfig = $this->testQuestionSetConfigFactory->getQuestionSetConfig();
 			
@@ -4199,11 +4231,11 @@ class ilObjTestGUI extends ilObjectGUI
 				// skill service
 				if( $this->object->isSkillServiceEnabled() && ilObjTest::isSkillManagementGloballyActivated() )
 				{
-					require_once 'Modules/Test/classes/class.ilTestSkillQuestionAssignmentsGUI.php';
+					require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentsGUI.php';
 
 					$link = $this->ctrl->getLinkTargetByClass(
-						array('ilTestSkillAdministrationGUI', 'ilTestSkillQuestionAssignmentsGUI'),
-						ilTestSkillQuestionAssignmentsGUI::CMD_SHOW_SKILL_QUEST_ASSIGNS
+						array('ilTestSkillAdministrationGUI', 'ilAssQuestionSkillAssignmentsGUI'),
+						ilAssQuestionSkillAssignmentsGUI::CMD_SHOW_SKILL_QUEST_ASSIGNS
 					);
 
 					$tabs_gui->addTarget('tst_tab_competences', $link, array(), array());
@@ -5182,5 +5214,61 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 
 		return true;
+	}
+
+	private function areSkillLevelThresholdsMissing()
+	{
+		if( $this->object->isDynamicTest() )
+		{
+			$questionSetConfig = $this->testQuestionSetConfigFactory->getQuestionSetConfig();
+			$questionContainerId = $questionSetConfig->getSourceQuestionPoolId();
+		}
+		else
+		{
+			$questionContainerId = $this->object->getId();
+		}
+		
+		global $ilDB;
+		
+		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentList.php';
+		require_once 'Modules/Test/classes/class.ilTestSkillLevelThreshold.php';
+		
+		$assignmentList = new ilAssQuestionSkillAssignmentList($ilDB);
+		$assignmentList->setParentObjId($questionContainerId);
+		$assignmentList->loadFromDb();
+
+		foreach($assignmentList->getUniqueAssignedSkills() as $data)
+		{
+			foreach($data['skill']->getLevelData() as $level)
+			{
+				$treshold = new ilTestSkillLevelThreshold($ilDB);
+				$treshold->setTestId($this->object->getTestId());
+				$treshold->setSkillBaseId($data['skill_base_id']);
+				$treshold->setSkillTrefId($data['skill_tref_id']);
+				$treshold->setSkillLevelId($level['id']);
+				
+				if( !$treshold->dbRecordExists() )
+				{
+					return true;
+				}
+			}
+		}
+		
+		return false;
+	}
+	
+	private function getSkillLevelThresholdsMissingInfo()
+	{
+		require_once 'Modules/Test/classes/class.ilTestSkillLevelThresholdsGUI.php';
+		
+		$link = $this->ctrl->getLinkTargetByClass(
+			array('ilTestSkillAdministrationGUI', 'ilTestSkillLevelThresholdsGUI'),
+			ilTestSkillLevelThresholdsGUI::CMD_SHOW_SKILL_THRESHOLDS
+		);
+		
+		$msg = $this->lng->txt('tst_skl_level_thresholds_missing');
+		$msg .= '<br /><a href="'.$link.'">'.$this->lng->txt('tst_skl_level_thresholds_link').'</a>';
+		
+		return $msg;
 	}
 }

@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Modules/Test/classes/class.ilTestSkillQuestionAssignment.php';
+require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignment.php';
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -9,7 +9,7 @@ require_once 'Modules/Test/classes/class.ilTestSkillQuestionAssignment.php';
  *
  * @package     Modules/Test
  */
-class ilTestSkillQuestionAssignmentList
+class ilAssQuestionSkillAssignmentList
 {
 	/**
 	 * @var ilDB
@@ -19,7 +19,7 @@ class ilTestSkillQuestionAssignmentList
 	/**
 	 * @var integer
 	 */
-	private $testId;
+	private $parentObjId;
 
 	/**
 	 * @var array
@@ -36,25 +36,48 @@ class ilTestSkillQuestionAssignmentList
 	 */
 	private $maxPointsBySkill;
 
+	/**
+	 * @var integer
+	 */
+	private $questionIdFilter;
+
 	public function __construct(ilDB $db)
 	{
 		$this->db = $db;
+		
+		$this->questionIdFilter = null;
 	}
 
 	/**
-	 * @param int $testId
+	 * @param int $parentObjId
 	 */
-	public function setTestId($testId)
+	public function setParentObjId($parentObjId)
 	{
-		$this->testId = $testId;
+		$this->parentObjId = $parentObjId;
 	}
 
 	/**
 	 * @return int
 	 */
-	public function getTestId()
+	public function getParentObjId()
 	{
-		return $this->testId;
+		return $this->parentObjId;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getQuestionIdFilter()
+	{
+		return $this->questionIdFilter;
+	}
+
+	/**
+	 * @param int $questionIdFilter
+	 */
+	public function setQuestionIdFilter($questionIdFilter)
+	{
+		$this->questionIdFilter = $questionIdFilter;
 	}
 
 	public function reset()
@@ -64,7 +87,7 @@ class ilTestSkillQuestionAssignmentList
 		$this->maxPointsBySkill = array();
 	}
 
-	private function addAssignment(ilTestSkillQuestionAssignment $assignment)
+	private function addAssignment(ilAssQuestionSkillAssignment $assignment)
 	{
 		if( !isset($this->assignments[$assignment->getQuestionId()]) )
 		{
@@ -74,7 +97,7 @@ class ilTestSkillQuestionAssignmentList
 		$this->assignments[$assignment->getQuestionId()][] = $assignment;
 	}
 
-	private function incrementNumAssignsBySkill(ilTestSkillQuestionAssignment $assignment)
+	private function incrementNumAssignsBySkill(ilAssQuestionSkillAssignment $assignment)
 	{
 		$key = $this->buildSkillKey($assignment->getSkillBaseId(), $assignment->getSkillTrefId());
 
@@ -86,7 +109,7 @@ class ilTestSkillQuestionAssignmentList
 		$this->numAssignsBySkill[$key]++;
 	}
 
-	private function incrementMaxPointsBySkill(ilTestSkillQuestionAssignment $assignment)
+	private function incrementMaxPointsBySkill(ilAssQuestionSkillAssignment $assignment)
 	{
 		$key = $this->buildSkillKey($assignment->getSkillBaseId(), $assignment->getSkillTrefId());
 
@@ -95,44 +118,62 @@ class ilTestSkillQuestionAssignmentList
 			$this->maxPointsBySkill[$key] = 0;
 		}
 
-		$this->maxPointsBySkill[$key] += $assignment->getSkillPoints();
+		$this->maxPointsBySkill[$key] += $assignment->getMaxSkillPoints();
 	}
 
 	public function loadFromDb()
 	{
 		$this->reset();
 
-		$query = "
-			SELECT test_fi, question_fi, skill_base_fi, skill_tref_fi, skill_points
-			FROM tst_skl_qst_assigns
-			WHERE test_fi = %s
-		";
-
-		$res = $this->db->queryF( $query, array('integer'), array($this->getTestId()) );
+		$res = $this->db->query("
+			SELECT obj_fi, question_fi, skill_base_fi, skill_tref_fi, skill_points, eval_mode
+			FROM qpl_qst_skl_assigns
+			WHERE {$this->getWhereConditions()}
+		");
 
 		while( $row = $this->db->fetchAssoc($res) )
 		{
 			$assignment = $this->buildSkillQuestionAssignmentByArray($row);
 
+			if( $assignment->hasEvalModeBySolution() )
+			{
+				$assignment->loadComparisonExpressions(); // db query
+			}
+			
 			$this->addAssignment($assignment);
 			$this->incrementNumAssignsBySkill($assignment);
 			$this->incrementMaxPointsBySkill($assignment);
 		}
 	}
+	
+	private function getWhereConditions()
+	{
+		$conditions = array(
+			'obj_fi = '.$this->db->quote($this->getParentObjId(), 'integer')
+		);
+		
+		if( $this->getQuestionIdFilter() )
+		{
+			$conditions[] = 'question_fi = '.$this->db->quote($this->getQuestionIdFilter(), 'integer');
+		}
+		
+		return implode(' AND ', $conditions);
+	}
 
 	/**
 	 * @param array $data
-	 * @return ilTestSkillQuestionAssignment
+	 * @return ilAssQuestionSkillAssignment
 	 */
 	private function buildSkillQuestionAssignmentByArray($data)
 	{
-		$assignment = new ilTestSkillQuestionAssignment($this->db);
+		$assignment = new ilAssQuestionSkillAssignment($this->db);
 
-		$assignment->setTestId($data['test_fi']);
+		$assignment->setParentObjId($data['obj_fi']);
 		$assignment->setQuestionId($data['question_fi']);
 		$assignment->setSkillBaseId($data['skill_base_fi']);
 		$assignment->setSkillTrefId($data['skill_tref_fi']);
 		$assignment->setSkillPoints($data['skill_points']);
+		$assignment->setEvalMode($data['eval_mode']);
 
 		return $assignment;
 	}
@@ -163,6 +204,31 @@ class ilTestSkillQuestionAssignmentList
 		return $this->assignments[$questionId];
 	}
 
+	public function isAssignedToQuestionId($skillBaseId, $skillTrefId, $questionId)
+	{
+		if( !isset($this->assignments[$questionId]) )
+		{
+			return false;
+		}
+		
+		foreach($this->assignments[$questionId] as $assignment)
+		{
+			if( $assignment->getSkillBaseId() != $skillBaseId )
+			{
+				continue;
+			}
+			
+			if( $assignment->getSkillTrefId() != $skillTrefId )
+			{
+				continue;
+			}
+			
+			return true;
+		}
+
+		return false;
+	}
+
 	public function getUniqueAssignedSkills()
 	{
 		require_once 'Services/Skill/classes/class.ilBasicSkill.php';
@@ -173,6 +239,8 @@ class ilTestSkillQuestionAssignmentList
 		{
 			foreach($assignmentsByQuestion as $assignment)
 			{
+				/* @var ilAssQuestionSkillAssignment $assignment */
+				
 				$key = $this->buildSkillKey($assignment->getSkillBaseId(), $assignment->getSkillTrefId());
 
 				if( !isset($skills[$key]) )
@@ -181,6 +249,8 @@ class ilTestSkillQuestionAssignmentList
 						'skill' => new ilBasicSkill($assignment->getSkillBaseId()),
 						'skill_base_id' => $assignment->getSkillBaseId(),
 						'skill_tref_id' => $assignment->getSkillTrefId(),
+						'skill_title' => $assignment->getSkillTitle(),
+						'skill_path' => $assignment->getSkillPath(),
 						'num_assigns' => $this->getNumAssignsBySkill(
 							$assignment->getSkillBaseId(), $assignment->getSkillTrefId()
 						),

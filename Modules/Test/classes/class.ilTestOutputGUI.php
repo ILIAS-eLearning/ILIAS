@@ -42,7 +42,9 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 				$this->ctrl->setParameter($this, 'gotosequence', $matches[1]);
 			}
 		}
-		
+
+		$this->initAssessmentSettings();
+
 		$testSessionFactory = new ilTestSessionFactory($this->object);
 		$this->testSession = $testSessionFactory->getSession($_GET['active_id']);
 		
@@ -758,6 +760,11 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 					$this->updateContainerObjectivesWithAnsweredQuestion(
 						$this->testSession, $this->testSequence, $question_gui->object
 					);
+				}
+				
+				if( $this->object->isSkillServiceToBeConsidered() )
+				{
+					$this->handleSkillTriggering($this->testSession);
 				}
 			}
 		}

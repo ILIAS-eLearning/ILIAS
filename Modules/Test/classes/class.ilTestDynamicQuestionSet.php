@@ -83,9 +83,9 @@ class ilTestDynamicQuestionSet
 
 	private function initCompleteQuestionList(ilObjTestDynamicQuestionSetConfig $dynamicQuestionSetConfig, $answerStatusActiveId)
 	{
-		$questionList = new ilAssQuestionList(
-				$this->db, $this->lng, $this->pluginAdmin, $dynamicQuestionSetConfig->getSourceQuestionPoolId()
-		);
+		$questionList = new ilAssQuestionList($this->db, $this->lng, $this->pluginAdmin);
+
+		$questionList->setParentObjId($dynamicQuestionSetConfig->getSourceQuestionPoolId());
 
 		$questionList->setAnswerStatusActiveId($answerStatusActiveId);
 		
@@ -96,9 +96,9 @@ class ilTestDynamicQuestionSet
 	
 	private function initFilteredQuestionList(ilObjTestDynamicQuestionSetConfig $dynamicQuestionSetConfig, ilTestDynamicQuestionSetFilterSelection $filterSelection)
 	{
-		$questionList = new ilAssQuestionList(
-				$this->db, $this->lng, $this->pluginAdmin, $dynamicQuestionSetConfig->getSourceQuestionPoolId()
-		);
+		$questionList = new ilAssQuestionList($this->db, $this->lng, $this->pluginAdmin);
+
+		$questionList->setParentObjId($dynamicQuestionSetConfig->getSourceQuestionPoolId());
 
 		$questionList->setAnswerStatusActiveId($filterSelection->getAnswerStatusActiveId());
 
