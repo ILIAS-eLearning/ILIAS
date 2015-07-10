@@ -163,6 +163,31 @@ class ilAssQuestionSkillAssignmentList
 		return $this->assignments[$questionId];
 	}
 
+	public function isAssignedToQuestionId($skillBaseId, $skillTrefId, $questionId)
+	{
+		if( !isset($this->assignments[$questionId]) )
+		{
+			return false;
+		}
+		
+		foreach($this->assignments[$questionId] as $assignment)
+		{
+			if( $assignment->getSkillBaseId() != $skillBaseId )
+			{
+				continue;
+			}
+			
+			if( $assignment->getSkillTrefId() != $skillTrefId )
+			{
+				continue;
+			}
+			
+			return true;
+		}
+
+		return false;
+	}
+
 	public function getUniqueAssignedSkills()
 	{
 		require_once 'Services/Skill/classes/class.ilBasicSkill.php';

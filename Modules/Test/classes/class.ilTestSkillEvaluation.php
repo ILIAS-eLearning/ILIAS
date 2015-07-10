@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Modules/Test/classes/class.ilAssQuestionSkillAssignmentList.php;
+require_once 'Modules/Test/classes/class.ilAssQuestionSkillAssignmentList.php';
 require_once 'Modules/Test/classes/class.ilTestSkillLevelThresholdList.php';
 require_once 'Services/Skill/classes/class.ilBasicSkill.php';
 
@@ -292,7 +292,7 @@ class ilTestSkillEvaluation
 			foreach($assignedSkillLevels as $assignedSkillLevel)
 			{
 				$skillBaseId = $assignedSkillLevel['base_skill_id'];
-				$skillTrefId = $assignedSkillLevel['tref_id'];
+				$skillTrefId = $assignedSk$skillPointsillLevel['tref_id'];
 
 				if( $this->skillQuestionAssignmentList->isAssignedSkill($skillBaseId, $skillTrefId) )
 				{

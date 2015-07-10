@@ -76,14 +76,14 @@ class ilAssQuestionSkillAssignmentsTableGUI extends ilTable2GUI
 			$this->tpl->setVariable('COMPETENCE', $assignment->getSkillTitle());
 			$this->tpl->setVariable('COMPETENCE_PATH', $assignment->getSkillPath());
 			$this->tpl->setVariable('QUANTIFIER', $this->buildQuantifierInput($assignment));
-			$this->tpl->setVariable('ACTION', $this->getRemoveCompetenceActionLink($assignment));
+			$this->tpl->setVariable('ACTION', $this->getEditCompetenceAssignActionLink($assignment));
 
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setVariable("CSS_ROW", $this->css_row);
 			$this->tpl->setVariable("CSS_NO_BORDER", 'ilBorderlessRow');
 		}
 
-		$this->tpl->setVariable('ACTION', $this->getAddCompetenceActionLink());
+		$this->tpl->setVariable('ACTION', $this->getManageCompetenceAssignsActionLink());
 	}
 
 	private function getRowspan($assignments)
@@ -107,27 +107,27 @@ class ilAssQuestionSkillAssignmentsTableGUI extends ilTable2GUI
 		return "<input type\"text\" size=\"2\" name=\"quantifiers[{$assignmentKey}]\" value=\"{$assignment->getSkillPoints()}\" />";
 	}
 
-	private function getAddCompetenceActionLink()
+	private function getManageCompetenceAssignsActionLink()
 	{
 		$href = $this->ctrl->getLinkTarget(
 			$this->parent_obj, ilAssQuestionSkillAssignmentsGUI::CMD_SHOW_SKILL_SELECT
 		);
 
-		$label = $this->lng->txt('tst_assign_competence');
+		$label = $this->lng->txt('tst_manage_competence_assigns');
 
 		return $this->buildActionLink($href, $label);
 	}
 
-	private function getRemoveCompetenceActionLink(ilAssQuestionSkillAssignment $assignment)
+	private function getEditCompetenceAssignActionLink(ilAssQuestionSkillAssignment $assignment)
 	{
 		$this->ctrl->setParameter($this->parent_obj, 'skill_base_id', $assignment->getSkillBaseId());
 		$this->ctrl->setParameter($this->parent_obj, 'skill_tref_id', $assignment->getSkillTrefId());
 
 		$href = $this->ctrl->getLinkTarget(
-			$this->parent_obj, ilAssQuestionSkillAssignmentsGUI::CMD_REMOVE_SKILL_QUEST_ASSIGN
+			$this->parent_obj, ilAssQuestionSkillAssignmentsGUI::CMD_SHOW_SKILL_QUEST_ASSIGN_EDIT_FORM
 		);
 
-		$label = $this->lng->txt('tst_remove_competence');
+		$label = $this->lng->txt('tst_edit_competence_assign');
 
 		$this->ctrl->setParameter($this->parent_obj, 'skill_base_id', null);
 		$this->ctrl->setParameter($this->parent_obj, 'skill_tref_id', null);

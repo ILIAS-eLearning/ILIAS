@@ -1503,8 +1503,8 @@ assessment#:#tst_skl_sub_tab_thresholds#:#Kompetenz-Schwellenwerte
 assessment#:#tst_msg_skl_lvl_thresholds_saved#:#Die Kompetenz-Schwellenwerte wurden gespeichert.
 assessment#:#tst_msg_skl_qst_assign_points_saved#:#Die Kompetenz-Punkte wurden gespeichert.
 assessment#:#tst_competence#:#Kompetenz
-assessment#:#tst_assign_competence#:#Kompetenz zuordnen
-assessment#:#tst_remove_competence#:#Kompetenz entfernen
+assessment#:#tst_manage_competence_assigns#:#Kompetenz-Zuordnungen verwalten
+assessment#:#tst_edit_competence_assign#:#Bearbeite Zuordnungs-Eigenschaften
 assessment#:#tst_comp_points#:#Kompetenz-Punkte
 assessment#:#tst_save_comp_points#:#Speichere Kompetenz-Punkte
 assessment#:#tst_num_questions#:#Anzahl Fragen

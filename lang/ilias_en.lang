@@ -1324,8 +1324,8 @@ assessment#:#tst_skl_sub_tab_thresholds#:#Competence Thresholds
 assessment#:#tst_msg_skl_lvl_thresholds_saved#:#The competence thresholds has been saved.
 assessment#:#tst_msg_skl_qst_assign_points_saved#:#The competence points has been saved.
 assessment#:#tst_competence#:#Competence
-assessment#:#tst_assign_competence#:#Assign Competence
-assessment#:#tst_remove_competence#:#Remove Competence
+assessment#:#tst_manage_competence_assigns#:#Manage Competence Assignments
+assessment#:#tst_edit_competence_assign#:#Edit Assignment Properties
 assessment#:#tst_comp_points#:#Competence Points
 assessment#:#tst_save_comp_points#:#Save Competence Points
 assessment#:#tst_num_questions#:#Number of Questions

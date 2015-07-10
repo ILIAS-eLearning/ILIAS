@@ -67,6 +67,16 @@ class ilSkillSelectorGUI extends ilVirtualSkillTreeExplorerGUI
 	 */
 	function isNodeClickable($a_node)
 	{
+		return $this->nodeHasAction($a_node);
+	}
+	
+	protected function isNodeSelectable($a_node)
+	{
+		return $this->nodeHasAction($a_node);
+	}
+	
+	private function nodeHasAction($a_node)
+	{
 		if (in_array($a_node["type"], array("skll", "sktp")))
 		{
 			return true;
@@ -79,7 +89,6 @@ class ilSkillSelectorGUI extends ilVirtualSkillTreeExplorerGUI
 
 		return false;
 	}
-	
 }
 
 ?>
