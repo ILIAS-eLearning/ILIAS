@@ -14,6 +14,8 @@ require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingSettings.php");
+require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingException.php");
 
 class gevDecentralTrainingUtils {
 	static $instance = null;

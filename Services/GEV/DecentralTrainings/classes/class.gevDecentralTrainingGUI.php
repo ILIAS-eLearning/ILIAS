@@ -156,7 +156,7 @@ class gevDecentralTrainingGUI {
 		if (!$form_prev->checkInput()) {
 			return $this->createTraining($form_prev);
 		}
-
+		
 		$tmp = $form_prev->getInput("date");
 		$date = new ilDate($tmp["date"], IL_CAL_DATE);
 		$dateUnix = $date->get(IL_CAL_UNIX);
@@ -179,9 +179,11 @@ class gevDecentralTrainingGUI {
 		$template_id = intval($form_prev->getInput("template_id"));
 		$trainer_ids = unserialize(base64_decode($form_prev->getInput("trainer_ids")));
 		
-		$res = $dec_utils->create($this->current_user->getId(), $template_id, $trainer_ids);
+		$crs_utils = gevCourseUtils::getInstance($template_id);
 		
-		$this->updateSettingsFromForm($res["obj_id"], $form_prev);
+		$res = $dec_utils->create($this->current_user->getId(), $template_id, $trainer_ids);
+		$settings = $this->getSettingsFromForm($crs_utils, $form_prev);
+		$settings->applyTo($res["obj_id"]);
 		
 		ilUtil::sendSuccess($this->lng->txt("gev_dec_training_creation_successfull"), true);
 		
@@ -286,6 +288,60 @@ class gevDecentralTrainingGUI {
 		
 		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"));
 		return $this->showSettings($form);
+	}
+	
+	protected function getSettingsFromForm(gevCourseUtils $a_target, $a_form) {
+		require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingSettings.php");
+		require_once("Services/Calendar/classes/class.ilDateTime.php");
+		require_once("Services/Calendar/classes/class.ilDate.php");
+	
+		$time = $a_form->getInput("time");
+		$start_date = $a_form->getInput("date");
+		$start_date = $start_date["date"];
+		
+		$start_datetime = new ilDateTime($start_date." ".$time["start"]["time"], IL_CAL_DATETIME);
+		$end_datetime = new ilDateTime($start_date." ".$time["end"]["time"], IL_CAL_DATETIME);
+		
+		if ($a_target->isPraesenztraining()) {
+			$venue = $a_form->getInput("venue");
+			$venue_obj_id = $venue ? $venue : null;
+			
+			if (!$venue_obj_id) {
+				$venue_free_text = $a_form->getInput("venue_free_text");
+				$venue_text = $venue_free_text ? $venue_free_text : null;
+			}
+		}
+		else {
+			$venue_obj_id = null;
+			$venue_text = null;
+		}
+		
+		if ($a_target->isWebinar()) {
+			$link = $a_form->getInput("webinar_link");
+			$webinar_link = $link ? $link : null;
+			$password = $a_form->getInput("webinar_password");
+			$webinar_password = $password ? $password : null;
+		}
+		else {
+			$webinar_link = null;
+			$webinar_password = null;
+		}
+		
+		$orgu_id = $a_form->getInput("orgu_id");
+		$description = $a_form->getInput("description");
+		$orgaInfo = $a_form->getInput("orgaInfo");
+		
+		return new gevDecentralTrainingSettings
+						( $start_datetime
+						, $end_datetime
+						, (int)$venue_obj_id
+						, $venue_text
+						, $orgu_id ? (int)$orgu_id : null
+						, $description ? $description : ""
+						, $orgaInfo ? $orgaInfo : ""
+						, $webinar_link
+						, $webinar_password
+						);
 	}
 	
 	protected function updateSettingsFromForm($a_obj_id, $a_form) {
