@@ -764,9 +764,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 				
 				if( $this->object->isSkillServiceToBeConsidered() )
 				{
-					$this->handleSkillTriggering(
-						$this->testSession->getActiveId(), $this->testSession->getPass(), $this->testSession->getUserId()
-					);
+					$this->handleSkillTriggering($this->testSession);
 				}
 			}
 		}

@@ -55,6 +55,6 @@ class ilAssQuestionSkillUsagesGUI
 	
 	private function showUsagesCmd()
 	{
-		$this->tpl->setContent(__METHOD__);
+		$this->tpl->setContent('<pre>'.__METHOD__ . '</pre><i>Not implemented yet!</i>');
 	}
 }

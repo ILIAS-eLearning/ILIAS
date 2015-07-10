@@ -16,9 +16,30 @@ class ilAssQuestionSkillAssignmentsTableGUI extends ilTable2GUI
 	 */
 	private $skillQuestionAssignmentList;
 
+	/**
+	 * @var bool
+	 */
+	private $manipulationsEnabled;
+
 	public function setSkillQuestionAssignmentList(ilAssQuestionSkillAssignmentList $assignmentList)
 	{
 		$this->skillQuestionAssignmentList = $assignmentList;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function areManipulationsEnabled()
+	{
+		return $this->manipulationsEnabled;
+	}
+
+	/**
+	 * @param boolean $manipulationsEnabled
+	 */
+	public function setManipulationsEnabled($manipulationsEnabled)
+	{
+		$this->manipulationsEnabled = $manipulationsEnabled;
 	}
 
 	public function __construct($parentOBJ, $parentCmd, ilCtrl $ctrl, ilLanguage $lng)
@@ -39,21 +60,16 @@ class ilAssQuestionSkillAssignmentsTableGUI extends ilTable2GUI
 		$this->disable('sort');
 		$this->disable('select_all');
 
-		$this->initColumns();
-
 		$this->setFormAction($ctrl->getFormAction($parentOBJ));
-
-		$this->addCommandButton(
-			ilAssQuestionSkillAssignmentsGUI::CMD_SAVE_SKILL_POINTS, $this->lng->txt('tst_save_comp_points')
-		);
 	}
 
-	private function initColumns()
+	public function initColumns()
 	{
 		$this->addColumn($this->lng->txt('tst_question'),'question', '25%');
-		$this->addColumn($this->lng->txt('tst_competence'),'competence', '55%');
-		$this->addColumn($this->lng->txt('tst_comp_points'),'points', '');
-		$this->addColumn($this->lng->txt('actions') ,'actions', '');
+		$this->addColumn($this->lng->txt('tst_competence'),'competence', '');
+		$this->addColumn($this->lng->txt('tst_comp_eval_mode'),'eval_mode', '13%');
+		$this->addColumn($this->lng->txt('tst_comp_points'),'points', '12%');
+		$this->addColumn($this->lng->txt('actions'), 'actions', '20%');
 	}
 
 	public function fillRow($question)
@@ -69,22 +85,48 @@ class ilAssQuestionSkillAssignmentsTableGUI extends ilTable2GUI
 		$this->tpl->parseCurrentBlock();
 
 		$this->tpl->setCurrentBlock('tbl_content');
-
-		for($i = 0, $max = count($assignments); $i < $max; $i++)
+		
+		for($i = 0, $numAssigns = count($assignments); $i < $numAssigns; $i++)
 		{
 			/* @var ilAssQuestionSkillAssignment $assignment */
 			$assignment = $assignments[$i];
+			
+			$this->tpl->setCurrentBlock('actions_col');
+			$this->tpl->setVariable('ACTION', $this->getCompetenceAssignPropertiesFormLink($assignment));
+			$this->tpl->parseCurrentBlock();
 
+			$this->tpl->setCurrentBlock('tbl_content');
+			
 			$this->tpl->setVariable('COMPETENCE', $assignment->getSkillTitle());
 			$this->tpl->setVariable('COMPETENCE_PATH', $assignment->getSkillPath());
+			$this->tpl->setVariable('EVAL_MODE', $this->getEvalModeLabel($assignment));
 			$this->tpl->setVariable('MAX_SKILL_POINTS', $assignment->getMaxSkillPoints());
-			$this->tpl->setVariable('ACTION', $this->getEditCompetenceAssignActionLink($assignment));
 
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setVariable("CSS_ROW", $this->css_row);
+			if( $this->areManipulationsEnabled() || ($i + 1) < $numAssigns )
+			{
+				$this->tpl->parseCurrentBlock();
+
+				$this->tpl->setCurrentBlock('tbl_content');
+				$this->tpl->setVariable("CSS_ROW", $this->css_row);
+			}
 		}
 
-		$this->tpl->setVariable('ACTION', $this->getManageCompetenceAssignsActionLink());
+		if( $this->areManipulationsEnabled() )
+		{
+			$this->tpl->setCurrentBlock('actions_col');
+			$this->tpl->setVariable('ACTION', $this->getManageCompetenceAssignsActionLink());
+			$this->tpl->parseCurrentBlock();
+
+			$this->tpl->setCurrentBlock('tbl_content');
+		}
+		elseif( !$numAssigns )
+		{
+			$this->tpl->setCurrentBlock('actions_col');
+			$this->tpl->setVariable('ACTION', '&nbsp;');
+			$this->tpl->parseCurrentBlock();
+
+			$this->tpl->setCurrentBlock('tbl_content');
+		}
 	}
 
 	private function getRowspan($assignments)
@@ -95,8 +137,13 @@ class ilAssQuestionSkillAssignmentsTableGUI extends ilTable2GUI
 		{
 			return 1;
 		}
+		
+		if( $this->areManipulationsEnabled() )
+		{
+			$cnt++;
+		}
 
-		return $cnt + 1;
+		return $cnt;
 	}
 
 	private function getManageCompetenceAssignsActionLink()
@@ -110,7 +157,7 @@ class ilAssQuestionSkillAssignmentsTableGUI extends ilTable2GUI
 		return $this->buildActionLink($href, $label);
 	}
 
-	private function getEditCompetenceAssignActionLink(ilAssQuestionSkillAssignment $assignment)
+	private function getCompetenceAssignPropertiesFormLink(ilAssQuestionSkillAssignment $assignment)
 	{
 		$this->ctrl->setParameter($this->parent_obj, 'skill_base_id', $assignment->getSkillBaseId());
 		$this->ctrl->setParameter($this->parent_obj, 'skill_tref_id', $assignment->getSkillTrefId());
@@ -119,7 +166,14 @@ class ilAssQuestionSkillAssignmentsTableGUI extends ilTable2GUI
 			$this->parent_obj, ilAssQuestionSkillAssignmentsGUI::CMD_SHOW_SKILL_QUEST_ASSIGN_PROPERTIES_FORM
 		);
 
-		$label = $this->lng->txt('tst_edit_competence_assign');
+		if( $this->areManipulationsEnabled() )
+		{
+			$label = $this->lng->txt('tst_edit_competence_assign');
+		}
+		else
+		{
+			$label = $this->lng->txt('tst_view_competence_assign');
+		}
 
 		$this->ctrl->setParameter($this->parent_obj, 'skill_base_id', null);
 		$this->ctrl->setParameter($this->parent_obj, 'skill_tref_id', null);
@@ -158,5 +212,15 @@ class ilAssQuestionSkillAssignmentsTableGUI extends ilTable2GUI
 		$actions[] = $this->buildActionLink($href, $label);
 
 		return implode('<br />', $actions);
+	}
+	
+	private function getEvalModeLabel(ilAssQuestionSkillAssignment $assignment)
+	{
+		if( $assignment->hasEvalModeBySolution() )
+		{
+			return $this->lng->txt('qpl_skill_point_eval_mode_solution_compare');
+		}
+
+		return $this->lng->txt('qpl_skill_point_eval_mode_quest_result');
 	}
 }

@@ -2,6 +2,9 @@
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentList.php';
+require_once 'Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/ilAssLacQuestionProvider.php';
+require_once 'Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/ilAssLacConditionParser.php';
+require_once 'Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/ilAssLacCompositeEvaluator.php';
 require_once 'Modules/Test/classes/class.ilTestSkillPointAccount.php';
 require_once 'Modules/Test/classes/class.ilTestSkillLevelThresholdList.php';
 require_once 'Services/Skill/classes/class.ilBasicSkill.php';
@@ -261,7 +264,7 @@ class ilTestSkillEvaluation
 		return 0;
 	}
 
-	private function calculateReachedSkillPoints($skillPoints, $maxTestPoints, $reachedTestPoints)
+	private function calculateReachedSkillPointsFromTestPoints($skillPoints, $maxTestPoints, $reachedTestPoints)
 	{
 		if( $reachedTestPoints < 0 )
 		{
@@ -296,7 +299,7 @@ class ilTestSkillEvaluation
 		{
 			/* @var ilTestSkillPointAccount $skillPointAccount */
 
-			if( $this->doesNumBookingsExceedRequiredBookingsBarrier($skillPointAccount) )
+			if( !$this->doesNumBookingsExceedRequiredBookingsBarrier($skillPointAccount) )
 			{
 				continue;
 			}
@@ -352,7 +355,7 @@ class ilTestSkillEvaluation
 			$skillTrefId, ilBasicSkill::ACHIEVED, true, $this->getPass()
 		);
 
-		//mail('bheyser@databay.de', "trigger skill $skillBaseId:$skillTrefId level $skillLevelId for user $userId", '');
+		//mail('bheyser@databay.de', "trigger skill level $skillLevelId for user {$this->getUserId()}", '');
 	}
 
 	public function getReachedSkillLevelsForPersonalSkillGUI()

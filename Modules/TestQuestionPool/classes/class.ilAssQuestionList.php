@@ -518,7 +518,12 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 		
 		return $this->pluginAdmin->isActive(IL_COMP_MODULE, 'TestQuestionPool', 'qst', $questionData['type_tag']);
 	}
-	
+
+	public function getDataArrayForQuestionId($questionId)
+	{
+		return $this->questions[$questionId];
+	}
+
 	public function getQuestionDataArray()
 	{
 		return $this->questions;

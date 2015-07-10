@@ -39,6 +39,11 @@ class ilTestSkillLevelThresholdsGUI
 	 */
 	private $testOBJ;
 
+	/**
+	 * @var integer
+	 */
+	private $questionContainerId;
+
 	public function __construct(ilCtrl $ctrl, ilTemplate $tpl, ilLanguage $lng, ilDB $db, ilObjTest $testOBJ)
 	{
 		$this->ctrl = $ctrl;
@@ -46,6 +51,22 @@ class ilTestSkillLevelThresholdsGUI
 		$this->lng = $lng;
 		$this->db = $db;
 		$this->testOBJ = $testOBJ;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getQuestionContainerId()
+	{
+		return $this->questionContainerId;
+	}
+
+	/**
+	 * @param int $questionContainerId
+	 */
+	public function setQuestionContainerId($questionContainerId)
+	{
+		$this->questionContainerId = $questionContainerId;
 	}
 
 	public function executeCommand()
@@ -114,6 +135,8 @@ class ilTestSkillLevelThresholdsGUI
 	{
 		require_once 'Modules/Test/classes/tables/class.ilTestSkillLevelThresholdsTableGUI.php';
 		$table = new ilTestSkillLevelThresholdsTableGUI($this, self::CMD_SHOW_SKILL_THRESHOLDS, $this->ctrl, $this->lng);
+		$table->setQuestionAssignmentColumnsEnabled( !$this->testOBJ->isRandomTest() );
+		$table->initColumns();
 
 		return $table;
 	}
@@ -122,7 +145,7 @@ class ilTestSkillLevelThresholdsGUI
 	{
 		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentList.php';
 		$assignmentList = new ilAssQuestionSkillAssignmentList($this->db);
-		$assignmentList->setParentObjId($this->testOBJ->getId());
+		$assignmentList->setParentObjId($this->getQuestionContainerId());
 
 		return $assignmentList;
 	}

@@ -547,6 +547,8 @@ assessment#:#qpl_lac_desc_compare_with_sequence#:#Compare the Result with the An
 assessment#:#qpl_lac_desc_compare_with_answer_n#:#Compare the Result with the n-th Answer of the Question
 assessment#:#qpl_lac_desc_compare_with_exact_sequence#:#Compare the Result with exactly the Given Sequence
 assessment#:#qpl_lac_desc_compare_answer_exist#:#Compare if there is an Answer for a Question/Gap
+assessment#:#qpl_skill_point_eval_mode_quest_result#:#Question Result
+assessment#:#qpl_skill_point_eval_mode_solution_compare#:#Solution Compare
 assessment#:#qpl_skill_point_eval_by_quest_result#:#Evaluation of Competence Points by Question Result
 assessment#:#qpl_skill_point_eval_by_solution_compare#:#Evaluation of Competence Points by Solution Compare
 assessment#:#tst_solution_compare_cfg#:#Configuration for Solution Compare
@@ -1366,12 +1368,16 @@ assessment#:#qpl_skl_sub_tab_quest_assign#:#Question/Competence Assignment
 assessment#:#qpl_skl_sub_tab_usages#:#Assignment Frequency
 assessment#:#tst_skl_sub_tab_thresholds#:#Competence Thresholds
 assessment#:#tst_msg_skl_lvl_thresholds_saved#:#The competence thresholds has been saved.
-assessment#:#tst_msg_skl_qst_assign_points_saved#:#The competence points has been saved.
 assessment#:#tst_competence#:#Competence
 assessment#:#tst_manage_competence_assigns#:#Manage Competence Assignments
 assessment#:#tst_edit_competence_assign#:#Edit Assignment Properties
+assessment#:#tst_view_competence_assign#:#View Assignment Properties
+assessment#:#qpl_qst_skl_assign_properties_modified#:#The assignment's properties has been modified.
+assessment#:#qpl_qst_skl_assigns_updated#:#The competence assignments has been updated.
+assessment#:#qpl_sync_quest_skl_assigns_confirmation#:#The question was inserted from a question pool. Should the question's original be updated with the current config of competence assignments?
+assessment#:#qpl_qst_skl_assign_synced_to_orig#:#The competence assignments has been synchronised to the question within the question pool.
 assessment#:#tst_comp_points#:#Competence Points
-assessment#:#tst_save_comp_points#:#Save Competence Points
+assessment#:#tst_comp_eval_mode#:#Evaluation by
 assessment#:#tst_num_questions#:#Number of Questions
 assessment#:#tst_max_comp_points#:#Max. Competence Points
 assessment#:#tst_level#:#Competence Level

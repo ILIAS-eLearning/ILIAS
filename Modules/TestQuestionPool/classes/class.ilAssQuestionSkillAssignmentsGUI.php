@@ -11,18 +11,20 @@
  * @ilCtrl_Calls ilAssQuestionSkillAssignmentsGUI: ilAssQuestionSkillAssignmentsTableGUI
  * @ilCtrl_Calls ilAssQuestionSkillAssignmentsGUI: ilSkillSelectorGUI
  * @ilCtrl_Calls ilAssQuestionSkillAssignmentsGUI: ilToolbarGUI
- * @ilCtrl_Calls ilAssQuestionSkillAssignmentsGUI: ilPropertyFormGUI
+ * @ilCtrl_Calls ilAssQuestionSkillAssignmentsGUI: ilAssQuestionSkillAssignmentPropertyFormGUI
  * @ilCtrl_Calls ilAssQuestionSkillAssignmentsGUI: ilAssLacLegendGUI
  * @ilCtrl_Calls ilAssQuestionSkillAssignmentsGUI: ilAssQuestionPageGUI
+ * @ilCtrl_Calls ilAssQuestionSkillAssignmentsGUI: ilConfirmationGUI
  */
 class ilAssQuestionSkillAssignmentsGUI
 {
 	const CMD_SHOW_SKILL_QUEST_ASSIGNS = 'showSkillQuestionAssignments';
-	const CMD_SAVE_SKILL_POINTS = 'saveSkillPoints';
 	const CMD_SHOW_SKILL_SELECT = 'showSkillSelection';
 	const CMD_UPDATE_SKILL_QUEST_ASSIGNS = 'updateSkillQuestionAssignments';
 	const CMD_SHOW_SKILL_QUEST_ASSIGN_PROPERTIES_FORM = 'showSkillQuestionAssignmentPropertiesForm';
 	const CMD_SAVE_SKILL_QUEST_ASSIGN_PROPERTIES_FORM = 'saveSkillQuestionAssignmentPropertiesForm';
+	const CMD_SHOW_SYNC_ORIGINAL_CONFIRMATION = 'showSyncOriginalConfirmation';
+	const CMD_SYNC_ORIGINAL = 'syncOriginal';
 	
 	const PARAM_SKILL_SELECTION = 'skill_ids';
 	
@@ -30,6 +32,11 @@ class ilAssQuestionSkillAssignmentsGUI
 	 * @var ilCtrl
 	 */
 	private $ctrl;
+	
+	/**
+	 * @var ilAccessHandler
+	 */
+	private $access;
 
 	/**
 	 * @var ilTemplate
@@ -54,17 +61,24 @@ class ilAssQuestionSkillAssignmentsGUI
 	/**
 	 * @var integer
 	 */
-	private $parentObjId;
+	private $questionContainerId;
+
+	/**
+	 * @var bool
+	 */
+	private $assignmentEditingEnabled;
 
 	/**
 	 * @param ilCtrl $ctrl
+	 * @param ilAccessHandler $access
 	 * @param ilTemplate $tpl
 	 * @param ilLanguage $lng
 	 * @param ilDB $db
 	 */
-	public function __construct(ilCtrl $ctrl, ilTemplate $tpl, ilLanguage $lng, ilDB $db)
+	public function __construct(ilCtrl $ctrl, ilAccessHandler $access, ilTemplate $tpl, ilLanguage $lng, ilDB $db)
 	{
 		$this->ctrl = $ctrl;
+		$this->access = $access;
 		$this->tpl = $tpl;
 		$this->lng = $lng;
 		$this->db = $db;
@@ -89,29 +103,52 @@ class ilAssQuestionSkillAssignmentsGUI
 	/**
 	 * @return int
 	 */
-	public function getParentObjId()
+	public function getQuestionContainerId()
 	{
-		return $this->parentObjId;
+		return $this->questionContainerId;
 	}
 
 	/**
-	 * @param int $parentObjId
+	 * @param int $questionContainerId
 	 */
-	public function setParentObjId($parentObjId)
+	public function setQuestionContainerId($questionContainerId)
 	{
-		$this->parentObjId = $parentObjId;
+		$this->questionContainerId = $questionContainerId;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isAssignmentEditingEnabled()
+	{
+		return $this->assignmentEditingEnabled;
+	}
+
+	/**
+	 * @param bool $assignmentEditingEnabled
+	 */
+	public function setAssignmentEditingEnabled($assignmentEditingEnabled)
+	{
+		$this->assignmentEditingEnabled = $assignmentEditingEnabled;
 	}
 
 	public function executeCommand()
 	{
 		$nextClass = $this->ctrl->getNextClass();
 		
+		$command = $this->ctrl->getCmd(self::CMD_SHOW_SKILL_QUEST_ASSIGNS);
+		
+		if( $this->isAvoidManipulationRedirectRequired($command) )
+		{
+			$this->ctrl->redirect($this, self::CMD_SHOW_SKILL_QUEST_ASSIGNS);
+		}
+		
 		switch($nextClass)
 		{
 			case strtolower(__CLASS__):
 			case '':
 				
-				$command = $this->ctrl->getCmd(self::CMD_SHOW_SKILL_QUEST_ASSIGNS) . 'Cmd';
+				$command .= 'Cmd';
 				$this->$command();
 				break;
 				
@@ -119,6 +156,24 @@ class ilAssQuestionSkillAssignmentsGUI
 				
 				throw new ilTestQuestionPoolException('unsupported next class in ctrl flow');
 		}
+	}
+	
+	private function isAvoidManipulationRedirectRequired($command)
+	{
+		if( $this->isAssignmentEditingEnabled() )
+		{
+			return false;
+		}
+		
+		switch($command)
+		{
+			case self::CMD_SAVE_SKILL_QUEST_ASSIGN_PROPERTIES_FORM:
+			case self::CMD_UPDATE_SKILL_QUEST_ASSIGNS:
+				
+				return true;
+		}
+		
+		return false;
 	}
 
 	private function updateSkillQuestionAssignmentsCmd()
@@ -130,7 +185,7 @@ class ilAssQuestionSkillAssignmentsGUI
 		if( $this->isTestQuestion($questionId) )
 		{
 			$assignmentList = new ilAssQuestionSkillAssignmentList($this->db);
-			$assignmentList->setParentObjId($this->getParentObjId());
+			$assignmentList->setParentObjId($this->getQuestionContainerId());
 			$assignmentList->loadFromDb();
 
 			$handledSkills = array();
@@ -149,7 +204,7 @@ class ilAssQuestionSkillAssignmentsGUI
 					{
 						$assignment = new ilAssQuestionSkillAssignment($this->db);
 
-						$assignment->setParentObjId($this->getParentObjId());
+						$assignment->setParentObjId($this->getQuestionContainerId());
 						$assignment->setQuestionId($questionId);
 						$assignment->setSkillBaseId($skillBaseId);
 						$assignment->setSkillTrefId($skillTrefId);
@@ -171,8 +226,16 @@ class ilAssQuestionSkillAssignmentsGUI
 
 				$assignment->deleteFromDb();
 			}
-		}
 
+			ilUtil::sendSuccess($this->lng->txt('qpl_qst_skl_assigns_updated'), true);
+			
+			if( $this->isSyncOriginalPossibleAndAllowed($questionId) )
+			{
+				$this->keepAssignmentParameters();
+				$this->ctrl->redirect($this, self::CMD_SHOW_SYNC_ORIGINAL_CONFIRMATION);
+			}
+		}
+		
 		$this->ctrl->redirect($this, self::CMD_SHOW_SKILL_QUEST_ASSIGNS);
 	}
 
@@ -183,7 +246,7 @@ class ilAssQuestionSkillAssignmentsGUI
 
 		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentList.php';
 		$assignmentList = new ilAssQuestionSkillAssignmentList($this->db);
-		$assignmentList->setParentObjId($this->getParentObjId());
+		$assignmentList->setParentObjId($this->getQuestionContainerId());
 		$assignmentList->loadFromDb();
 
 		$skillSelectorExplorerGUI = $this->buildSkillSelectorExplorerGUI(
@@ -209,52 +272,12 @@ class ilAssQuestionSkillAssignmentsGUI
 			$this->tpl->setContent($html);
 		}
 	}
-
-	// perhaps we can keep?
-	private function saveSkillPointsCmd()
-	{
-		if( is_array($_POST['quantifiers']) )
-		{
-			require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignment.php';
-
-			$success = false;
-			
-			foreach($_POST['quantifiers'] as $assignmentKey => $quantifier)
-			{
-				$assignmentKey = explode(':',$assignmentKey);
-				$skillBaseId = (int)$assignmentKey[0];
-				$skillTrefId = (int)$assignmentKey[1];
-				$questionId = (int)$assignmentKey[2];
-
-				if( $this->isTestQuestion($questionId) && (int)$quantifier > 0 )
-				{
-					$assignment = new ilAssQuestionSkillAssignment($this->db);
-
-					$assignment->setParentObjId($this->getParentObjId());
-					$assignment->setQuestionId($questionId);
-					$assignment->setSkillBaseId($skillBaseId);
-					$assignment->setSkillTrefId($skillTrefId);
-
-					if( $assignment->dbRecordExists() )
-					{
-						$assignment->setSkillPoints((int)$quantifier);
-						$assignment->saveToDb();
-					}
-				}
-			}
-		}
-
-		ilUtil::sendSuccess($this->lng->txt('tst_msg_skl_qst_assign_points_saved'), true);
-		$this->ctrl->redirect($this, self::CMD_SHOW_SKILL_QUEST_ASSIGNS);
-	}
 	
 	private function showSkillQuestionAssignmentPropertiesFormCmd(
 		assQuestionGUI $questionGUI = null, ilAssQuestionSkillAssignment $assignment = null, ilPropertyFormGUI $form = null
 	)
 	{
-		$this->ctrl->saveParameter($this, 'question_id');
-		$this->ctrl->saveParameter($this, 'skill_base_id');
-		$this->ctrl->saveParameter($this, 'skill_tref_id');
+		$this->keepAssignmentParameters();
 		
 		if( $questionGUI === null )
 		{
@@ -285,125 +308,80 @@ class ilAssQuestionSkillAssignmentsGUI
 	
 	private function saveSkillQuestionAssignmentPropertiesFormCmd()
 	{
-		$this->ctrl->saveParameter($this, 'question_id');
-		$this->ctrl->saveParameter($this, 'skill_base_id');
-		$this->ctrl->saveParameter($this, 'skill_tref_id');
-
-		require_once 'Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
-		$questionGUI = assQuestionGUI::_getQuestionGUI('', (int)$_GET['question_id']);
-
-		$assignment = $this->buildQuestionSkillAssignment(
-			(int)$_GET['question_id'], (int)$_GET['skill_base_id'], (int)$_GET['skill_tref_id']
-		);
-
-		$form = $this->buildSkillQuestionAssignmentPropertiesForm($questionGUI->object, $assignment);
-
-		$form->setValuesByPost();
+		$questionId = (int)$_GET['question_id'];
 		
-		if( !$form->checkInput() )
+		if( $this->isTestQuestion($questionId) )
 		{
-			return $this->showSkillQuestionAssignmentPropertiesFormCmd($questionGUI, $assignment, $form);
-		}
-		
-		$assignment->setEvalMode($form->getItemByPostVar('eval_mode')->getValue());
-		
-		if($assignment->hasEvalModeBySolution())
-		{
-			$solCmpExprInput = $form->getItemByPostVar('solution_compare_expressions');
+			require_once 'Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
+			$questionGUI = assQuestionGUI::_getQuestionGUI('', $questionId);
+	
+			$assignment = $this->buildQuestionSkillAssignment(
+				(int)$_GET['question_id'], (int)$_GET['skill_base_id'], (int)$_GET['skill_tref_id']
+			);
+	
+			$form = $this->buildSkillQuestionAssignmentPropertiesForm($questionGUI->object, $assignment);
+	
+			$form->setValuesByPost();
 			
-			if( !$this->checkSolutionCompareExpressionInput($solCmpExprInput, $questionGUI->object) )
+			if( !$form->checkInput() )
 			{
-				ilUtil::sendFailure($this->lng->txt("form_input_not_valid"));
-				return $this->showSkillQuestionAssignmentPropertiesFormCmd($questionGUI, $assignment, $form);
+				$this->keepAssignmentParameters();
+				$this->showSkillQuestionAssignmentPropertiesFormCmd($questionGUI, $assignment, $form);
+				return;
 			}
-
-			$assignment->getSolutionComparisonExpressionList()->reset();
 			
-			foreach($solCmpExprInput->getValues() as $expression)
+			$assignment->setEvalMode($form->getItemByPostVar('eval_mode')->getValue());
+			
+			if($assignment->hasEvalModeBySolution())
 			{
-				$assignment->getSolutionComparisonExpressionList()->add($expression);
+				$solCmpExprInput = $form->getItemByPostVar('solution_compare_expressions');
+				
+				if( !$this->checkSolutionCompareExpressionInput($solCmpExprInput, $questionGUI->object) )
+				{
+					ilUtil::sendFailure($this->lng->txt("form_input_not_valid"));
+					$this->keepAssignmentParameters();
+					$this->showSkillQuestionAssignmentPropertiesFormCmd($questionGUI, $assignment, $form);
+					return;
+				}
+	
+				$assignment->getSolutionComparisonExpressionList()->reset();
+				
+				foreach($solCmpExprInput->getValues() as $expression)
+				{
+					$assignment->getSolutionComparisonExpressionList()->add($expression);
+				}
+			}
+			else
+			{
+				$assignment->setSkillPoints($form->getItemByPostVar('q_res_skill_points')->getValue());
+			}
+			
+			$assignment->saveToDb();
+			
+			ilUtil::sendSuccess($this->lng->txt('qpl_qst_skl_assign_properties_modified'), true);
+
+			if( $this->isSyncOriginalPossibleAndAllowed($questionId) )
+			{
+				$this->keepAssignmentParameters();
+				$this->ctrl->redirect($this, self::CMD_SHOW_SYNC_ORIGINAL_CONFIRMATION);
 			}
 		}
-		else
-		{
-			$assignment->setSkillPoints($form->getItemByPostVar('q_res_skill_points')->getValue());
-		}
-		
-		$assignment->saveToDb();
-		
-		ilUtil::sendSuccess($this->lng->txt('qpl_qst_skl_assign_properties_modified'));
+
 		$this->ctrl->redirect($this, self::CMD_SHOW_SKILL_QUEST_ASSIGNS);
 	}
 	
 	private function buildSkillQuestionAssignmentPropertiesForm(assQuestion $question, ilAssQuestionSkillAssignment $assignment)
 	{
-		require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
-		require_once 'Services/Form/classes/class.ilNonEditableValueGUI.php';
-		require_once 'Services/Form/classes/class.ilRadioGroupInputGUI.php';
-		
-		require_once 'Modules/TestQuestionPool/classes/class.ilLogicalAnswerComparisonExpressionInputGUI.php';
-		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSolutionComparisonExpressionList.php';
-		
-		$form = new ilPropertyFormGUI();
+		require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssQuestionSkillAssignmentPropertyFormGUI.php';
+		$form = new ilAssQuestionSkillAssignmentPropertyFormGUI($this->ctrl, $this->lng);
 
-		$form->setFormAction($this->ctrl->getFormAction($this));
-		$form->addCommandButton(self::CMD_SAVE_SKILL_QUEST_ASSIGN_PROPERTIES_FORM, $this->lng->txt('save'));
-		$form->addCommandButton(self::CMD_SHOW_SKILL_QUEST_ASSIGNS, $this->lng->txt('cancel'));
+		$form->setQuestion($question);
+		$form->setAssignment($assignment);
+		$form->setManipulationEnabled($this->isAssignmentEditingEnabled());
 
-		$form->setTitle($assignment->getSkillTitle());
-
-		$questionTitle = new ilNonEditableValueGUI($this->lng->txt('question'));
-		$questionTitle->setValue($question->getTitle());
-		$form->addItem($questionTitle);
-
-		$questionDesc = new ilNonEditableValueGUI($this->lng->txt('description'));
-		$questionDesc->setValue($question->getComment());
-		$form->addItem($questionDesc);
-		
-		$evaluationMode = new ilRadioGroupInputGUI($this->lng->txt('condition'), 'eval_mode');
-		$evalOptionReachedQuestionPoints = new ilRadioOption(
-			$this->lng->txt('qpl_skill_point_eval_by_quest_result'), 'result'
-		);
-		$evaluationMode->addOption($evalOptionReachedQuestionPoints);
-		$evalOptionLogicalAnswerCompare = new ilRadioOption(
-			$this->lng->txt('qpl_skill_point_eval_by_solution_compare'), 'solution'
-		);
-		$evaluationMode->addOption($evalOptionLogicalAnswerCompare);
-		$evaluationMode->setRequired(true);
-		$evaluationMode->setValue($assignment->getEvalMode());
-		$form->addItem($evaluationMode);
-
-		$questSolutionCompareExpressions = new ilLogicalAnswerComparisonExpressionInputGUI(
-			$this->lng->txt('tst_solution_compare_cfg'), 'solution_compare_expressions'
-		);
-		$questSolutionCompareExpressions->setInfo($this->buildLacLegendToggleButton($assignment));
-		$questSolutionCompareExpressions->setRequired(true);
-		$questSolutionCompareExpressions->setAllowMove(true);
-		$questSolutionCompareExpressions->setQuestionObject($question);
-		$questSolutionCompareExpressions->setValues($assignment->getSolutionComparisonExpressionList()->get());
-		$evalOptionLogicalAnswerCompare->addSubItem($questSolutionCompareExpressions);
-		
-		$questResultSkillPoints = new ilNumberInputGUI($this->lng->txt('tst_comp_points'), 'q_res_skill_points');
-		$questResultSkillPoints->setRequired(true);
-		$questResultSkillPoints->setSize(4);
-		$questResultSkillPoints->setValue($assignment->getSkillPoints());
-		$evalOptionReachedQuestionPoints->addSubItem($questResultSkillPoints);
+		$form->build();
 		
 		return $form;
-	}
-	
-	private function buildLacLegendToggleButton(ilAssQuestionSkillAssignment $assignment)
-	{
-		if( $assignment->hasEvalModeBySolution() )
-		{
-			$langVar = 'ass_lac_hide_legend_btn';
-		}
-		else
-		{
-			$langVar = 'ass_lac_show_legend_btn';
-		}
-		
-		return '<a id="lac_legend_toggle_btn" href="#">'.$this->lng->txt($langVar).'</a>';
 	}
 
 	private function showSkillQuestionAssignmentsCmd()
@@ -420,10 +398,75 @@ class ilAssQuestionSkillAssignmentsGUI
 		$this->tpl->setContent($this->ctrl->getHTML($table));
 	}
 
+	private function isSyncOriginalPossibleAndAllowed($questionId)
+	{
+		$questionData = $this->questionList->getDataArrayForQuestionId($questionId);
+
+		if( !$questionData['original_id'] )
+		{
+			return false;
+		}
+
+		require_once 'Modules/TestQuestionPool/classes/class.assQuestion.php';
+		$parentObjId = assQuestion::lookupParentObjId($questionData['original_id']);
+
+		if( ilObject::_lookupType($parentObjId) != 'qpl' )
+		{
+			return false;
+		}
+
+		foreach( ilObject::_getAllReferences($parentObjId) as $parentRefId )
+		{
+			if( $this->access->checkAccess('write', '', $parentRefId) )
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	private function showSyncOriginalConfirmationCmd()
+	{
+		$questionId = (int)$_GET['question_id'];
+
+		require_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
+		$confirmation = new ilConfirmationGUI();
+
+		$confirmation->setHeaderText($this->lng->txt('qpl_sync_quest_skl_assigns_confirmation'));
+
+		$confirmation->setFormAction($this->ctrl->getFormAction($this));
+		$confirmation->addHiddenItem('question_id', $questionId);
+		$confirmation->setConfirm($this->lng->txt('yes'), self::CMD_SYNC_ORIGINAL);
+		$confirmation->setCancel($this->lng->txt('no'), self::CMD_SHOW_SKILL_QUEST_ASSIGNS);
+
+		$this->tpl->setContent($this->ctrl->getHTML($confirmation));
+	}
+
+	private function syncOriginalCmd()
+	{
+		$questionId = (int)$_POST['question_id'];
+
+		if( $this->isTestQuestion($questionId) && $this->isSyncOriginalPossibleAndAllowed($questionId) )
+		{
+			$question = assQuestion::_instantiateQuestion($questionId);
+
+			$question->syncSkillAssignments($question->getObjId(), $question->getId(),
+				$question->lookupParentObjId($question->getOriginalId()), $question->getOriginalId()
+			);
+
+			ilUtil::sendSuccess($this->lng->txt('qpl_qst_skl_assign_synced_to_orig'), true);
+		}
+
+		$this->ctrl->redirect($this, self::CMD_SHOW_SKILL_QUEST_ASSIGNS);
+	}
+
 	private function buildTableGUI()
 	{
 		require_once 'Modules/TestQuestionPool/classes/tables/class.ilAssQuestionSkillAssignmentsTableGUI.php';
 		$table = new ilAssQuestionSkillAssignmentsTableGUI($this, self::CMD_SHOW_SKILL_QUEST_ASSIGNS, $this->ctrl, $this->lng);
+		$table->setManipulationsEnabled($this->isAssignmentEditingEnabled());
+		$table->initColumns();
 
 		return $table;
 	}
@@ -432,7 +475,7 @@ class ilAssQuestionSkillAssignmentsGUI
 	{
 		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentList.php';
 		$assignmentList = new ilAssQuestionSkillAssignmentList($this->db);
-		$assignmentList->setParentObjId($this->getParentObjId());
+		$assignmentList->setParentObjId($this->getQuestionContainerId());
 
 		return $assignmentList;
 	}
@@ -509,7 +552,7 @@ class ilAssQuestionSkillAssignmentsGUI
 		
 		$assignment = new ilAssQuestionSkillAssignment($this->db);
 		
-		$assignment->setParentObjId($this->getParentObjId());
+		$assignment->setParentObjId($this->getQuestionContainerId());
 		$assignment->setQuestionId($questionId);
 		$assignment->setSkillBaseId($skillBaseId);
 		$assignment->setSkillTrefId($skillTrefId);
@@ -522,15 +565,7 @@ class ilAssQuestionSkillAssignmentsGUI
 
 	private function isTestQuestion($questionId)
 	{
-		foreach($this->questionList->getQuestionDataArray() as $question)
-		{
-			if( $question['question_id'] == $questionId )
-			{
-				return true;
-			}
-		}
-
-		return false;
+		return $this->questionList->isInList($questionId);
 	}
 
 	private function checkSolutionCompareExpressionInput(ilLogicalAnswerComparisonExpressionInputGUI $input, assQuestion $question)
@@ -585,5 +620,12 @@ class ilAssQuestionSkillAssignmentsGUI
 		}
 
 		return true;
+	}
+
+	private function keepAssignmentParameters()
+	{
+		$this->ctrl->saveParameter($this, 'question_id');
+		$this->ctrl->saveParameter($this, 'skill_base_id');
+		$this->ctrl->saveParameter($this, 'skill_tref_id');
 	}
 }

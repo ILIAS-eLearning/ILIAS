@@ -137,8 +137,9 @@ class ilQuestionPoolSkillAdministrationGUI
 				$questionList->setQuestionInstanceTypeFilter(ilAssQuestionList::QUESTION_INSTANCE_TYPE_ORIGINALS);
 				$questionList->load();
 
-				$gui = new ilAssQuestionSkillAssignmentsGUI($this->ctrl, $this->tpl, $this->lng, $this->db);
-				$gui->setParentObjId($this->poolOBJ->getId());
+				$gui = new ilAssQuestionSkillAssignmentsGUI($this->ctrl, $this->access, $this->tpl, $this->lng, $this->db);
+				$gui->setAssignmentEditingEnabled(true);
+				$gui->setQuestionContainerId($this->poolOBJ->getId());
 				$gui->setQuestionList($questionList);
 
 				$this->ctrl->forwardCommand($gui);

@@ -327,7 +327,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->prepareOutput();
 				$this->addHeaderAction();
 				require_once 'Modules/Test/classes/class.ilTestSkillAdministrationGUI.php';
-				$gui = new ilTestSkillAdministrationGUI($ilias, $this->ctrl, $ilAccess, $ilTabs, $this->tpl, $this->lng, $ilDB, $ilPluginAdmin, $this->object, $this->ref_id);
+				$gui = new ilTestSkillAdministrationGUI($ilias, $this->ctrl, $ilAccess, $ilTabs, $this->tpl, $this->lng, $ilDB, $tree, $ilPluginAdmin, $this->object, $this->ref_id);
 				$this->ctrl->forwardCommand($gui);
 				break;
 

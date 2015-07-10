@@ -658,6 +658,8 @@ assessment#:#qpl_lac_desc_compare_with_sequence#:#Vergleiche das Ergebnis mit de
 assessment#:#qpl_lac_desc_compare_with_answer_n#:#Vergleiche das Ergebnis mit der n-ten Antwort der Frage
 assessment#:#qpl_lac_desc_compare_with_exact_sequence#:#Vergleiche das Ergebnis, ob ausschließlich die angegebene Sequenz ausgewählt wurde
 assessment#:#qpl_lac_desc_compare_answer_exist#:#Vergleiche ob für eine Frage/Lücke einer Frage keine Antwort gegeben wurde
+assessment#:#qpl_skill_point_eval_mode_quest_result#:#Antwortergebnis
+assessment#:#qpl_skill_point_eval_mode_solution_compare#:#Lösungsvergleich
 assessment#:#qpl_skill_point_eval_by_quest_result#:#Ermittlung der Kompetenzpunkte über Antwortergebnis
 assessment#:#qpl_skill_point_eval_by_solution_compare#:#Ermittlung der Kompetenzpunkte durch Lösungsvergleich
 assessment#:#tst_solution_compare_cfg#:#Konfiguration für Antworvergleich
@@ -1545,12 +1547,16 @@ assessment#:#qpl_skl_sub_tab_quest_assign#:#Fragen-Kompetenz-Zuordnung
 assessment#:#qpl_skl_sub_tab_usages#:#Vergabehäufigkeit
 assessment#:#tst_skl_sub_tab_thresholds#:#Kompetenz-Schwellenwerte
 assessment#:#tst_msg_skl_lvl_thresholds_saved#:#Die Kompetenz-Schwellenwerte wurden gespeichert.
-assessment#:#tst_msg_skl_qst_assign_points_saved#:#Die Kompetenz-Punkte wurden gespeichert.
 assessment#:#tst_competence#:#Kompetenz
 assessment#:#tst_manage_competence_assigns#:#Kompetenz-Zuordnungen verwalten
 assessment#:#tst_edit_competence_assign#:#Bearbeite Zuordnungs-Eigenschaften
+assessment#:#tst_view_competence_assign#:#Zeige Zuordnungs-Eigenschaften
+assessment#:#qpl_qst_skl_assign_properties_modified#:#Die Eigenschaften der Zuweisung wurden gespeichert.
+assessment#:#qpl_qst_skl_assigns_updated#:#Die Kompetenzuweisungen wurden aktualisiert.
+assessment#:#qpl_sync_quest_skl_assigns_confirmation#:#Die Frage wurde aus einem Fragenpool in den Test eingefügt. Soll die aktuelle Konfiguration von Kompetenzzuweisungen auf das Original der Frage übertragen werden?
+assessment#:#qpl_qst_skl_assign_synced_to_orig#:#Die Kompetenzuweisungen wurden auf die Frage im Fragenpool übertragen.
+assessment#:#tst_comp_eval_mode#:#Evaluierung über
 assessment#:#tst_comp_points#:#Kompetenz-Punkte
-assessment#:#tst_save_comp_points#:#Speichere Kompetenz-Punkte
 assessment#:#tst_num_questions#:#Anzahl Fragen
 assessment#:#tst_max_comp_points#:#Max. Kompetenz-Punkte
 assessment#:#tst_level#:#Kompetenz Level
