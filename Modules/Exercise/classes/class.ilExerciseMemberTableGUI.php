@@ -202,7 +202,7 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 			// mail sent
 			if ($this->sent_col)
 			{
-				if ($member_status->getStatusSent())
+				if ($member_status->getSent())
 				{
 					$this->tpl->setCurrentBlock("mail_sent");
 					if (($st = $member_status->getSentTime()) > 0)
