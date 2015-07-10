@@ -4563,7 +4563,6 @@ abstract class assQuestion
 				assQuestion::convertISO8601FormatH_i_s_ExtendedToSeconds($time2);
 		return gmdate('H:i:s', $time);
 	}
-<<<<<<< .working
 
 	/**
 	 * @param $time
