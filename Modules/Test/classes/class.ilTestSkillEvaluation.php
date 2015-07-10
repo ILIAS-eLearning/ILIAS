@@ -23,9 +23,9 @@ class ilTestSkillEvaluation
 	private $db;
 
 	/**
-	 * @var ilObjTest
+	 * @var int
 	 */
-	private $testOBJ;
+	private $refId;
 
 	/**
 	 * @var ilAssQuestionSkillAssignmentList
@@ -82,15 +82,15 @@ class ilTestSkillEvaluation
 	 */
 	private $numRequiredBookingsForSkillTriggering;
 
-	public function __construct(ilDB $db, ilObjTest $testOBJ)
+	public function __construct(ilDB $db, $testId, $refId)
 	{
 		$this->db = $db;
-		$this->testOBJ = $testOBJ;
+		$this->refId = $refId;
 
 		$this->skillQuestionAssignmentList = new ilAssQuestionSkillAssignmentList($this->db);
 
 		$this->skillLevelThresholdList = new ilTestSkillLevelThresholdList($this->db);
-		$this->skillLevelThresholdList->setTestId($this->testOBJ->getTestId());
+		$this->skillLevelThresholdList->setTestId($testId);
 
 		$this->questions = array();
 		$this->maxPointsByQuestion = array();
@@ -146,11 +146,14 @@ class ilTestSkillEvaluation
 		$this->initTestQuestionData($questionList);
 	}
 
-	public function evaluate()
+	/**
+	 * @param array $testResults An array containing the test results for a given user
+	 */
+	public function evaluate($testResults)
 	{
 		$this->reset();
 
-		$this->initTestResultData();
+		$this->initTestResultData($testResults);
 
 		$this->drawUpSkillPointAccounts();
 		$this->evaluateSkillPointAccounts();
@@ -178,10 +181,11 @@ class ilTestSkillEvaluation
 		}
 	}
 
-	private function initTestResultData()
+	/**
+	 * @param array $testResults
+	 */
+	private function initTestResultData($testResults)
 	{
-		$testResults = $this->testOBJ->getTestResult($this->getActiveId(), $this->getPass(), true);
-		
 		foreach($testResults as $key => $result)
 		{
 			if($key === 'pass' || $key === 'test') // note: key int 0 IS == 'pass' or 'buxtehude'
@@ -352,7 +356,7 @@ class ilTestSkillEvaluation
 	private function invokeSkillLevelTrigger($skillLevelId, $skillTrefId)
 	{
 		ilBasicSkill::writeUserSkillLevelStatus(
-			$skillLevelId, $this->getUserId(), $this->testOBJ->getRefId(),
+			$skillLevelId, $this->getUserId(), $this->refId,
 			$skillTrefId, ilBasicSkill::ACHIEVED, true, 0, $this->getPass()
 		);
 

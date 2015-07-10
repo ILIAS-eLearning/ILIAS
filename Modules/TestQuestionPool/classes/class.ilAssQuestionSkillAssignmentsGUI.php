@@ -509,7 +509,7 @@ class ilAssQuestionSkillAssignmentsGUI
 		require_once 'Modules/TestQuestionPool/classes/class.assQuestion.php';
 		$parentObjId = assQuestion::lookupParentObjId($questionData['original_id']);
 
-		if( ilObject::_lookupType($parentObjId) != 'qpl' )
+		if( !$this->doesObjectTypeMatch($parentObjId) )
 		{
 			return false;
 		}
@@ -795,5 +795,10 @@ class ilAssQuestionSkillAssignmentsGUI
 		asort($array, $flags);
 		
 		return $array;
+	}
+
+	protected function doesObjectTypeMatch($objectId)
+	{
+		return ilObject::_lookupType($objectId) == 'qpl';
 	}
 }

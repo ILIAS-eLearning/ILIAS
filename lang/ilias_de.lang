@@ -1564,8 +1564,8 @@ assessment#:#tst_edit_competence_assign#:#Bearbeite Zuordnungs-Eigenschaften
 assessment#:#tst_view_competence_assign#:#Zeige Zuordnungs-Eigenschaften
 assessment#:#qpl_qst_skl_assign_properties_modified#:#Die Eigenschaften der Zuweisung wurden gespeichert.
 assessment#:#qpl_qst_skl_assigns_updated#:#Die Kompetenzuweisungen wurden aktualisiert.
-assessment#:#qpl_sync_quest_skl_assigns_confirmation#:#Die Frage wurde aus einem Fragenpool in den Test eingefügt. Soll die aktuelle Konfiguration von Kompetenzzuweisungen auf das Original der Frage übertragen werden?
-assessment#:#qpl_qst_skl_assign_synced_to_orig#:#Die Kompetenzuweisungen wurden auf die Frage im Fragenpool übertragen.
+assessment#:#qpl_sync_quest_skl_assigns_confirmation#:#Die Frage wurde aus einem anderen Magazinobjekt eingefügt. Soll die aktuelle Konfiguration von Kompetenzzuweisungen auf das Original der Frage übertragen werden?
+assessment#:#qpl_qst_skl_assign_synced_to_orig#:#Die Kompetenzuweisungen wurden auf die Originalfrage übertragen.
 assessment#:#qpl_save_skill_assigns_update#:#Kompetenzzuweisung speichern
 assessment#:#qpl_cancel_skill_assigns_update#:#Abbrechen
 assessment#:#tst_comp_eval_mode#:#Evaluierung über

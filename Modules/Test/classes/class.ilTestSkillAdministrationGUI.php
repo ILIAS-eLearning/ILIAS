@@ -123,7 +123,8 @@ class ilTestSkillAdministrationGUI
 
 			case 'iltestskilllevelthresholdsgui':
 
-				$gui = new ilTestSkillLevelThresholdsGUI($this->ctrl, $this->tpl, $this->lng, $this->db, $this->testOBJ);
+				$gui = new ilTestSkillLevelThresholdsGUI($this->ctrl, $this->tpl, $this->lng, $this->db, $this->testOBJ->getTestId());
+				$gui->setQuestionAssignmentColumnsEnabled(!$this->testOBJ->isRandomTest());
 				$gui->setQuestionContainerId($this->getQuestionContainerId());
 				$this->ctrl->forwardCommand($gui);
 				break;

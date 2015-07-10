@@ -43,9 +43,9 @@ class ilTestSkillEvaluationGUI
 	private $db;
 
 	/**
-	 * @var ilObjTest
+	 * @var int
 	 */
-	private $testOBJ;
+	private $testId;
 
 	/**
 	 * @var ilTestSkillEvaluation
@@ -53,29 +53,37 @@ class ilTestSkillEvaluationGUI
 	private $skillEvaluation;
 
 	/**
-	 * @var ilTestSessionFactory
+	 * @var ilTestSession
 	 */
-	private $testSessionFactory;
+	private $testSession;
+
+	/**
+	 * @var array
+	 */
+	private $testResults;
 
 	/**
 	 * @var ilAssQuestionList
 	 */
 	private $questionList;
 
-	public function __construct(ilCtrl $ctrl, ilTabsGUI $tabs, ilTemplate $tpl, ilLanguage $lng, ilDB $db, ilObjTest $testOBJ)
+	/**
+	 * @var int
+	 */
+	private $objectId;
+
+	public function __construct(ilCtrl $ctrl, ilTabsGUI $tabs, ilTemplate $tpl, ilLanguage $lng, ilDB $db, $testId, $refId, $objectId)
 	{
 		$this->ctrl = $ctrl;
 		$this->tabs = $tabs;
 		$this->tpl = $tpl;
 		$this->lng = $lng;
 		$this->db = $db;
-		$this->testOBJ = $testOBJ;
+		$this->testId = $testId;
+		$this->objectId = $objectId;
 
 		require_once 'Modules/Test/classes/class.ilTestSkillEvaluation.php';
-		$this->skillEvaluation = new ilTestSkillEvaluation($this->db, $this->testOBJ);
-
-		require_once 'Modules/Test/classes/class.ilTestSessionFactory.php';
-		$this->testSessionFactory = new ilTestSessionFactory($this->testOBJ);
+		$this->skillEvaluation = new ilTestSkillEvaluation($this->db, $this->getTestId(), $refId);
 	}
 
 	/**
@@ -124,7 +132,7 @@ class ilTestSkillEvaluationGUI
 		
 		$selectedSkillProfile = ilTestSkillEvaluationToolbarGUI::fetchSkillProfileParam($_POST);
 
-		$testSession = $this->testSessionFactory->getSession();
+		$testSession = $this->getTestSession();
 
 		$this->skillEvaluation->setUserId($testSession->getUserId());
 		$this->skillEvaluation->setActiveId($testSession->getActiveId());
@@ -136,10 +144,12 @@ class ilTestSkillEvaluationGUI
 			'ass_skl_trig_num_answ_barrier', ilObjAssessmentFolder::DEFAULT_SKL_TRIG_NUM_ANSWERS_BARRIER
 		));
 
-		$this->skillEvaluation->init($this->getQuestionList());
-		$this->skillEvaluation->evaluate();
+		$testResults = $this->getTestResults();
 
-		$evaluationToolbarGUI = $this->buildEvaluationToolbarGUI($testSession->getUserId(), $selectedSkillProfile);
+		$this->skillEvaluation->init($this->getQuestionList());
+		$this->skillEvaluation->evaluate($testResults);
+
+		$evaluationToolbarGUI = $this->buildEvaluationToolbarGUI($selectedSkillProfile);
 		$personalSkillsGUI = $this->buildPersonalSkillsGUI($testSession->getUserId(), $selectedSkillProfile);
 
 		$this->tpl->setContent(
@@ -147,14 +157,12 @@ class ilTestSkillEvaluationGUI
 		);
 	}
 
-	private function buildEvaluationToolbarGUI($usrId, $selectedSkillProfileId)
+	private function buildEvaluationToolbarGUI($selectedSkillProfileId)
 	{
-		$availableSkillProfiles = $this->skillEvaluation->getAssignedSkillMatchingSkillProfiles(
-			$usrId
-		);
+		$availableSkillProfiles = $this->skillEvaluation->getAssignedSkillMatchingSkillProfiles();
 
 		$noSkillProfileOptionEnabled = $this->skillEvaluation->noProfileMatchingAssignedSkillExists(
-			$usrId, $availableSkillProfiles
+			$availableSkillProfiles
 		);
 
 		$gui = new ilTestSkillEvaluationToolbarGUI($this->ctrl, $this->lng, $this, self::CMD_SHOW);
@@ -173,7 +181,7 @@ class ilTestSkillEvaluationGUI
 		$availableSkills = $this->skillEvaluation->getUniqueAssignedSkillsForPersonalSkillGUI();
 		$reachedSkillLevels = $this->skillEvaluation->getReachedSkillLevelsForPersonalSkillGUI();
 
-		$gui = new ilTestPersonalSkillsGUI($this->lng, $this->testOBJ);
+		$gui = new ilTestPersonalSkillsGUI($this->lng, $this->getObjectId());
 
 		$gui->setAvailableSkills($availableSkills);
 		$gui->setSelectedSkillProfile($selectedSkillProfileId);
@@ -182,5 +190,53 @@ class ilTestSkillEvaluationGUI
 		$gui->setUsrId($usrId);
 
 		return $gui;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getTestId()
+	{
+		return $this->testId;
+	}
+
+	/**
+	 * @param array $testResults
+	 */
+	public function setTestResults($testResults)
+	{
+		$this->testResults = $testResults;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getTestResults()
+	{
+		return $this->testResults;
+	}
+
+	/**
+	 * @param \ilTestSession $testSession
+	 */
+	public function setTestSession($testSession)
+	{
+		$this->testSession = $testSession;
+	}
+
+	/**
+	 * @return \ilTestSession
+	 */
+	public function getTestSession()
+	{
+		return $this->testSession;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getObjectId()
+	{
+		return $this->objectId;
 	}
 }

@@ -19,7 +19,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 	 *
 	 * @var ilDB
 	 */
-	private $db = null;
+	protected $db = null;
 	
 	/**
 	 * global ilLanguage object instance
@@ -115,7 +115,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 	 *
 	 * @var array
 	 */
-	private $questions = array();
+	protected $questions = array();
 
 
 	const QUESTION_INSTANCE_TYPE_ORIGINALS = 'QST_INSTANCE_TYPE_ORIGINALS';
@@ -489,7 +489,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 				AND	{$this->db->in('qpl_questions.question_id', $this->getForcedQuestionIds(), false, 'integer')}
 			";
 		}
-		
+
 		return $query;
 	}
 	
