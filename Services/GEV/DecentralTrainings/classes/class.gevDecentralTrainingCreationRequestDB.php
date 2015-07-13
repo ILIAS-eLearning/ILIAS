@@ -11,6 +11,7 @@
 
 class gevDecentralTrainingCreationRequestDB {
 	const TABLE_NAME = "dct_creation_requests";
+	const ARRAY_DELIM = ";";
 	
 	public function __construct() {
 		
@@ -38,7 +39,7 @@ class gevDecentralTrainingCreationRequestDB {
 			"        , ".$ilDB->quote($requested_ts ? $requested_ts->get(IL_CAL_DATETIME) : null, "timestamp")."\n".
 			"        , ".$ilDB->quote($finished_ts ? $finished_ts->get(IL_CAL_DATETIME) : null, "timestamp")."\n".
 			"        , ".$ilDB->quote($a_request->createdObjId(), "integer")."\n".
-			"        , ".$ilDB->quote(implode(";", $a_request->trainerIds()), "text")."\n".
+			"        , ".$ilDB->quote(implode(self::ARRAY_DELIM, $a_request->trainerIds()), "text")."\n".
 			"        , ".$ilDB->quote($settings->start()->get(IL_CAL_DATETIME), "timestamp")."\n".
 			"        , ".$ilDB->quote($settings->end()->get(IL_CAL_DATETIME), "timestamp")."\n".
 			"        , ".$ilDB->quote($settings->venueObjId(), "integer")."\n".
@@ -56,23 +57,19 @@ class gevDecentralTrainingCreationRequestDB {
 	public function updateRequest(gevDecentralTrainingCreationRequest $request) {
 		$ilDB = $this->getDB();
 		if ($request->requestId() === null) {
-			$this->throwException("Can't update request withou id.");
+			$this->throwException("Can't update request without id.");
 		}
 		$settings = $a_request->settings();
 		$requested_ts = $a_request->requestedTS();
 		$finished_ts = $a_request->finishedTS();
 		$ilDB->manipulate(
 			"UPDATE ".self::TABLE_NAME."\n".
-			"       (request_id, user_id, template_obj_id, requested_ts,\n".
-			"       finished_ts, created_obj_id, trainer_ids, start_dt,\n".
-			"       end_dt, venue_obj_id, venue_text, orgu_ref_id, description,\n".
-			"       orga_info, webinar_link, webinar_password)\n".
 			" SET ( user_id = ".$ilDB->quote($a_request->userId(), "integer")."\n".
 			"     , template_obj_id = ".$ilDB->quote($a_request->templateObjId(), "integer")."\n".
 			"     , requested_ts = ".$ilDB->quote($requested_ts ? $requested_ts->get(IL_CAL_DATETIME) : null, "timestamp")."\n".
 			"     , finished_ts = ".$ilDB->quote($finished_ts ? $finished_ts->get(IL_CAL_DATETIME) : null, "timestamp")."\n".
 			"     , created_obj_id = ".$ilDB->quote($a_request->createdObjId(), "integer")."\n".
-			"     , trainer_ids = ".$ilDB->quote(implode(";", $a_request->trainerIds()), "text")."\n".
+			"     , trainer_ids = ".$ilDB->quote(implode(self::ARRAY_DELIM, $a_request->trainerIds()), "text")."\n".
 			"     , start_dt = ".$ilDB->quote($settings->start()->get(IL_CAL_DATETIME), "timestamp")."\n".
 			"     , end_dt = ".$ilDB->quote($settings->end()->get(IL_CAL_DATETIME), "timestamp")."\n".
 			"     , venue_obj_id = ".$ilDB->quote($settings->venueObjId(), "integer")."\n".
@@ -87,6 +84,38 @@ class gevDecentralTrainingCreationRequestDB {
 		);
 	}
 	
+	public function getRequest($a_request_id) {
+		assert(is_int($a_request_id));
+		$ilDB = $this->getDB();
+		$query = "SELECT * FROM ".self::TABLE_NAME." WHERE request_id = ".$ilDB->quote($a_request_id, "integer");
+		$res = $ilDB->query($query);
+		if ($rec = $ilDB->fetchAssoc()) {
+			$settings = $this->newSettings( new ilDateTime($rec["start_dt"], IL_CAL_DATETIME)
+										  , new ilDateTime($rec["end_dt"], IL_CAL_DATETIME)
+										  , (int)$rec["venue_obj_id"]
+										  , $rec["venue_text"]
+										  , (int)$rec["orgu_ref_id"]
+										  , $rec["description"]
+										  , $rec["orga_info"]
+										  , $rec["webinar_link"]
+										  , $rec["webinar_password"]
+										  );
+			$trainer_ids = array_map(function($v) {return (int)$v;}, explode(self::ARRAY_DELIM, $rec["trainer_ids"]));
+			$request = $this->newCreationRequest( (int)$rec["user_id"]
+												, (int)$rec["template_obj_id"]
+												, $trainer_ids
+												, $settings
+												, (int)$a_request_id
+												, new ilDateTime($rec["requested_ts"], IL_CAL_DATETIME)
+												, new ilDateTime($rec["finished_ts"], IL_CAL_DATETIME)
+												, (int)$rec["created_obj_id"]
+												);
+			return $request;
+		}
+		else {
+			$this->throwException("Unknown request: $a_request_id");
+		}
+	}
 	
 	// HELPERS
 	
@@ -95,6 +124,34 @@ class gevDecentralTrainingCreationRequestDB {
 		throw new gevDecentralTrainingException($msg);
 	}
 	
+	protected function newSettings( ilDateTime $a_start_datetime
+								  , ilDateTime $a_end_datetime
+								  , $a_venue_obj_id
+								  , $a_venue_text
+								  , $a_orgu_ref_id
+								  , $a_description
+								  , $a_orga_info
+								  , $a_webinar_link
+								  , $a_webinar_password
+								  ) {
+		require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingSettings.php");
+		return new gevDecentralTrainingSettings( $a_start_datetime, $a_end_datetime, $a_venue_obj_id, $a_venue_text
+											   , $a_orgu_ref_id, $a_description, $a_orga_info, $a_webinar_link
+											   , $a_webinar_password);
+	}
+	
+	protected function newCreationRequest( $a_user_id
+										 , $a_template_obj_id
+										 , array $a_trainer_ids
+										 , gevDecentralTrainingSettings $a_settings
+										 , $a_request_id
+										 , ilDateTime $a_requested_ts = null
+										 , ilDateTime $a_finished_ts = null
+										 , $a_created_obj_id = null) {
+		require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCreationRequest.php");
+		return new gevDecentralTrainingCreationRequest( $this, $a_user_id, $a_template_obj_id, $a_trainer_ids
+													  , $a_requested_ts, $a_finished_ts, $a_created_obj_id);
+	}
 	
 	// GETTERS FOR GLOBALS
 	

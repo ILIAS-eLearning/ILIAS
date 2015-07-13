@@ -44,7 +44,7 @@ class gevDecentralTrainingCreationRequest {
 							   // For creation from the database.
 							   , $a_request_id = null
 							   , ilDateTime $a_requested_ts = null
-							   , ilDateTime $a_created_obj_id = null
+							   , ilDateTime $a_finished_ts = null
 							   , $a_created_obj_id = null
 							   ) {
 		$this->db = $db;
@@ -68,8 +68,9 @@ class gevDecentralTrainingCreationRequest {
 		$this->template_obj_id = $a_template_obj_id;
 		$this->trainer_ids = $a_trainer_ids;
 		$this->settings = $a_settings;
-		$this->requested_ts = null;
-		$this->finished_ts = null;
+		$this->requested_ts = $a_requested_ts;
+		$this->finished_ts = $a_finished_ts;
+		$this->created_obj_id = $a_created_obj_id;
 	}
 	
 	public function requestId() {
