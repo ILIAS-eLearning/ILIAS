@@ -11,10 +11,10 @@
  */
 class ilGroupedListGUI
 {
-	private $multi_column = false;
-	private $items = array();
-	private $as_dropdown = false;
-	private $dd_pullright = false;
+	protected $multi_column = false;
+	protected $items = array();
+	protected $as_dropdown = false;
+	protected $dd_pullright = false;
 	
 	/**
 	 * Constructor

@@ -120,7 +120,6 @@ class ilTestSubmissionReviewGUI
 	
 		if ($this->test->getShowExamviewPdf())
 		{
-			$template->setCurrentBlock("pdf_export");
 			$template->setVariable("PDF_TEXT", $this->lng->txt("pdf_export"));
 			global $ilSetting;
 			$inst_id = $ilSetting->get('inst_id', null);
@@ -133,6 +132,12 @@ class ilTestSubmissionReviewGUI
 			require_once 'class.ilTestPDFGenerator.php';
 			ilTestPDFGenerator::generatePDF($results_output, ilTestPDFGenerator::PDF_OUTPUT_FILE, $filename);
 			$template->setVariable("PDF_FILE_LOCATION", $filename);
+		}
+		else
+		{
+			$template->setCurrentBlock('prevent_double_form_subm');
+			$template->touchBlock('prevent_double_form_subm');
+			$template->parseCurrentBlock();
 		}
 
 		if($this->test->getShowExamviewHtml())

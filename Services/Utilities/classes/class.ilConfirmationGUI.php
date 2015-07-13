@@ -166,6 +166,7 @@ class ilConfirmationGUI
 		else // simple version, just ask for confirmation
 		{
 			$tb = new ilToolbarGUI();
+			$tb->setPreventDoubleSubmission(true);
 			$tb->setFormAction($this->getFormAction());
 			if($this->hidden_item)
 			{
@@ -177,8 +178,18 @@ class ilConfirmationGUI
 					$tb->addInputItem($hiddenInput);
 				}
 			}
-			$tb->addFormButton($this->confirm_txt, $this->confirm_cmd);
-			$tb->addFormButton($this->cancel_txt, $this->cancel_cmd);
+			require_once 'Services/UIComponent/Button/classes/class.ilSubmitButton.php';
+			$confirm = ilSubmitButton::getInstance();
+			$confirm->setCommand($this->confirm_cmd);
+			$confirm->setCaption($this->confirm_txt, false);
+
+			$cancel  = ilSubmitButton::getInstance();
+			$cancel->setCommand($this->cancel_cmd);
+			$cancel->setCaption($this->cancel_txt, false);
+
+			$tb->addButtonInstance($confirm);
+			$tb->addButtonInstance($cancel);
+
 			return $tb->getHTML();
 		}
 	}

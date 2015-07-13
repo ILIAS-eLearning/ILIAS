@@ -1,5 +1,4 @@
 <?php
-
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once "Services/Cron/classes/class.ilCronJob.php";
