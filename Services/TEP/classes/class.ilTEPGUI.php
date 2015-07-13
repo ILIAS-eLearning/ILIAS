@@ -12,6 +12,7 @@ require_once "Services/TEP/classes/class.ilTEPPermissions.php";
  * 
  * @ilCtrl_Calls ilTEPGUI: ilTEPEntryGUI, ilTEPOperationDaysGUI, ilFormPropertyDispatchGUI
  * @ilCtrl_Calls ilTEPGUI: ilParticipationStatusAdminGUI
+ * @ilCtrl_Calls ilTEPGUI: gevMaillogGUI
  */
 class ilTEPGUI
 {
@@ -186,6 +187,12 @@ class ilTEPGUI
 						$ilCtrl->saveParameterByClass("ilParticipationStatusAdminGUI", "crsrefid", $crs_ref_id);	
 						//$gui->returnToList();
 						//die('forwarding cmd');
+						$ret = $ilCtrl->forwardCommand($gui);
+						break;
+					case "showMaillog":
+					case "showLoggedMail":
+						require_once("Services/GEV/Mailing/classes/class.gevMaillogGUI.php");
+						$gui = new gevMaillogGUI("iltepgui");
 						$ret = $ilCtrl->forwardCommand($gui);
 						break;
 					default:

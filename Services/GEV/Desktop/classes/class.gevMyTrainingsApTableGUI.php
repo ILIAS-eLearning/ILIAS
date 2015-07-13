@@ -7,6 +7,7 @@
 *
 * @author	Nils Haagen <nhaagen@concepts-and-training.de>
 * @version	$Id$
+*
 */
 
 require_once("Services/CaTUIComponents/classes/class.catAccordionTableGUI.php");
@@ -45,6 +46,7 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 		$this->overnight_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-edit.png").'" />';
 		$this->bookings_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-table-booking.png").'" />';
 		$this->virtualclass_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-classroom.png").'" />';
+		$this->maillog_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-invitation.png").'" />';
 		
 		$legend = new catLegendGUI();
 		$legend->addItem($this->memberlist_img, "gev_mytrainingsap_legend_memberlist")
@@ -52,6 +54,7 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 			   ->addItem($this->overnight_img, "gev_mytrainingsap_legend_overnights")
 			   ->addItem($this->bookings_img, "gev_mytrainingsap_legend_view_bookings")
 			   ->addItem($this->virtualclass_img, "gev_virtual_class")
+			   ->addItem($this->maillog_img, "gev_mail_log")
 			   ;
 		$this->setLegend($legend);
 
@@ -135,7 +138,8 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 		if($a_set['may_finalize']) {
 			$actions .="&nbsp;<a href=\"".$setstatus_link."\">".$this->setstatus_img."</a>";
 		}
-												// is true after training start
+		
+		// is true after training start
 		if ($crs_utils->isWithAccomodations() && !$a_set["may_finalize"]) {
 			$actions .= "&nbsp;<a href=\"".$overnights_link."\">".$this->overnight_img."</a>";
 		}
@@ -147,6 +151,10 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 		if ($crs_utils->getWebExlink() !== null) {
 			$actions .= '&nbsp;<a href="'.$crs_utils->getWebExlink().'" target="_blank">'.$this->virtualclass_img.'</a>';
 		}
+
+		$this->ctrl->setParameterByClass("gevMaillogGUI", "obj_id", $a_set["obj_id"]);
+		$actions .= '&nbsp;<a href="'.$this->ctrl->getLinkTargetByClass("gevMaillogGUI", "showMaillog").'">'.$this->maillog_img.'</a>';
+		$this->ctrl->clearParametersByClass("gevMaillogGUI");
 
 		$this->ctrl->setParameterByClass("ilrepositorygui","ref_id",$a_set["crs_ref_id"]);
 		$course_link = $this->ctrl->getLinkTargetByClass("ilrepositorygui", "view");
