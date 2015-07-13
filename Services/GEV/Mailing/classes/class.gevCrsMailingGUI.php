@@ -495,6 +495,7 @@ class gevCrsMailingGUI extends ilMailingGUI {
 			}
 			$this->getAdditionalMailSettings()->save();
 			
+			$form->getItemByPostVar("inv_mailing_date")->setDisabled($this->getAdditionalMailSettings()->getSuppressMails());
 			$form->getItemByPostVar("suppress_mails")->setDisabled($this->getAdditionalMailSettings()->getSuppressMails());
 			
 			ilUtil::sendSuccess($this->lng->txt("gev_additional_settings_updated"));
