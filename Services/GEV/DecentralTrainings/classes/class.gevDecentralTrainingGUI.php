@@ -344,7 +344,7 @@ class gevDecentralTrainingGUI {
 		return new gevDecentralTrainingSettings
 						( $start_datetime
 						, $end_datetime
-						, (int)$venue_obj_id
+						, $venue_obj_id ? (int)$venue_obj_id : null
 						, $venue_text
 						, $orgu_id ? (int)$orgu_id : null
 						, $description ? $description : ""

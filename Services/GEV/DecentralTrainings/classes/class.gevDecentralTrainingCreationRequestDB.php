@@ -17,10 +17,6 @@ class gevDecentralTrainingCreationRequestDB {
 		
 	}
 	
-	public function getRequest($a_request_id) {
-		assert(is_int($a_request_id));
-	}
-	
 	public function createRequest(gevDecentralTrainingCreationRequest $a_request) {
 		$ilDB = $this->getDB();
 		$request_id = $ilDB->nextId(self::TABLE_NAME);
@@ -114,6 +110,76 @@ class gevDecentralTrainingCreationRequestDB {
 		}
 		else {
 			$this->throwException("Unknown request: $a_request_id");
+		}
+	}
+	
+	public function getOpenRequestsOfUser($a_user_id) {
+		assert(is_int($a_user_id));
+		assert(ilObject::_looupType($a_user_id) == "usr");
+		$ilDB = $this->getDB();
+		$query = "SELECT * FROM ".self::TABLE_NAME.
+				 " WHERE user_id = ".$ilDB->quote($a_user_id, "integer").
+				 "   AND finished_ts IS NULL"
+				 ;
+		$res = array();
+		while($rec = $ilDB->fetchAssoc()) {
+			$settings = $this->newSettings( new ilDateTime($rec["start_dt"], IL_CAL_DATETIME)
+										  , new ilDateTime($rec["end_dt"], IL_CAL_DATETIME)
+										  , (int)$rec["venue_obj_id"]
+										  , $rec["venue_text"]
+										  , (int)$rec["orgu_ref_id"]
+										  , $rec["description"]
+										  , $rec["orga_info"]
+										  , $rec["webinar_link"]
+										  , $rec["webinar_password"]
+										  );
+			$trainer_ids = array_map(function($v) {return (int)$v;}, explode(self::ARRAY_DELIM, $rec["trainer_ids"]));
+			$request = $this->newCreationRequest( (int)$rec["user_id"]
+												, (int)$rec["template_obj_id"]
+												, $trainer_ids
+												, $settings
+												, (int)$a_request_id
+												, new ilDateTime($rec["requested_ts"], IL_CAL_DATETIME)
+												, new ilDateTime($rec["finished_ts"], IL_CAL_DATETIME)
+												, (int)$rec["created_obj_id"]
+												);
+			$res[] = $request;
+		}
+		return $res;
+	}
+	
+	public function getNextOpenRequest() {
+		$ilDB = $this->getDB();
+		$query = "SELECT * FROM ".self::TABLE_NAME.
+				 " WHERE finished_ts IS NULL".
+				 " ORDER BY request_id ASC LIMIT 1"
+				 ;
+		$res = array();
+		if ($rec = $ilDB->fetchAssoc()) {
+			$settings = $this->newSettings( new ilDateTime($rec["start_dt"], IL_CAL_DATETIME)
+										  , new ilDateTime($rec["end_dt"], IL_CAL_DATETIME)
+										  , (int)$rec["venue_obj_id"]
+										  , $rec["venue_text"]
+										  , (int)$rec["orgu_ref_id"]
+										  , $rec["description"]
+										  , $rec["orga_info"]
+										  , $rec["webinar_link"]
+										  , $rec["webinar_password"]
+										  );
+			$trainer_ids = array_map(function($v) {return (int)$v;}, explode(self::ARRAY_DELIM, $rec["trainer_ids"]));
+			$request = $this->newCreationRequest( (int)$rec["user_id"]
+												, (int)$rec["template_obj_id"]
+												, $trainer_ids
+												, $settings
+												, (int)$a_request_id
+												, new ilDateTime($rec["requested_ts"], IL_CAL_DATETIME)
+												, new ilDateTime($rec["finished_ts"], IL_CAL_DATETIME)
+												, (int)$rec["created_obj_id"]
+												);
+			return $request;
+		}
+		else {
+			return null;
 		}
 	}
 	
