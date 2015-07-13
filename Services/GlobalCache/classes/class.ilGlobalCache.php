@@ -98,29 +98,6 @@ class ilGlobalCache {
 		self::setActiveComponents($ilGlobalCacheSettings->getActivatedComponents());
 	}
 
-	/**
-	 * @param $component
-	 *
-	 * @return int
-	 */
-	//	protected static function getComponentType($component = NULL) {
-	//		$component = 0; // In this Version All Components have the same Caching-Type
-	//		if (! isset(self::$type_per_component[$component])) {
-	//			/**
-	//			 * @var $ilClientIniFile ilIniFile
-	//			 */
-	//			global $ilClientIniFile;
-	//			if ($ilClientIniFile instanceof ilIniFile) {
-	//				self::$type_per_component[$component] = $ilClientIniFile->readVariable('cache', 'global_cache_service_type');
-	//			}
-	//		}
-	//
-	//		if (self::$type_per_component[$component]) {
-	//			return self::$type_per_component[$component];
-	//		}
-	//
-	//		return self::TYPE_FALLBACK;
-	//	}
 
 	/**
 	 * @param null $component
@@ -129,8 +106,8 @@ class ilGlobalCache {
 	 */
 	public static function getInstance($component) {
 		if (! isset(self::$instances[$component])) {
-			//			$service_type = self::getComponentType($component);
-			$ilGlobalCache = new self(self::TYPE_APC);
+			$service_type = self::getSettings()->getService();
+			$ilGlobalCache = new self($service_type);
 			$ilGlobalCache->setComponent($component);
 			$ilGlobalCache->initCachingService();
 
@@ -184,8 +161,9 @@ class ilGlobalCache {
 			$backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2);
 			$function = $backtrace[1]['function'];
 			$class = $backtrace[1]['class'];
-
-			$ilLog->write($class . '::' . $function . '(): ' . $message);
+			if ($ilLog instanceof ilLog) {
+				$ilLog->write($class . '::' . $function . '(): ' . $message);
+			}
 		}
 	}
 
@@ -384,13 +362,13 @@ class ilGlobalCache {
 		}
 		$unserialized_return = $this->global_cache->unserialize($this->global_cache->get($key));
 		if ($unserialized_return) {
-
+			$service_name = ' [' . self::lookupServiceClassName($this->getServiceType()) . ']';
 			if ($this->global_cache->isValid($key)) {
-				self::log($key . ' from component ' . $this->getComponent(), ilGlobalCacheSettings::LOG_LEVEL_CHATTY);
+				self::log($key . ' from component ' . $this->getComponent() . $service_name, ilGlobalCacheSettings::LOG_LEVEL_CHATTY);
 
 				return $unserialized_return;
 			} else {
-				self::log($key . ' from component ' . $this->getComponent() . ' is invalid', ilGlobalCacheSettings::LOG_LEVEL_CHATTY);
+				self::log($key . ' from component ' . $this->getComponent() . ' is invalid' . $service_name, ilGlobalCacheSettings::LOG_LEVEL_CHATTY);
 			}
 		}
 
