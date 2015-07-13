@@ -1,0 +1,17 @@
+<script>
+	var answer_options = {ANSWER_OPTIONS_JSON};
+	$( document ).ready(function() {
+		$.each($('.long_menu_input'), function( index, value ) {
+			var longest = answer_options[index].reduce(function (a, b) { return a.length > b.length ? a : b; });
+			$( this).attr('size', longest.length);
+			$( this ).autocomplete({
+				source: answer_options[index],
+				minLength: 0
+			});
+			
+		});
+
+	});
+</script>
+{QUESTIONTEXT}
+{LONGMENU_TEXT}

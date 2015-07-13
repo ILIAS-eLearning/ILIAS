@@ -267,10 +267,11 @@ var GapInsertingWizard = (function () {
 				setCursorPositionTiny(inst,pos[1]);
 				//focusOnFormular(pos);
 			}
-		});
-		tinymce_iframe_selector.blur(function () {
-			//checkTextAreaAgainstJson();
 		});*/
+		tinymce_iframe_selector.blur(function () {
+	        //This won't work this way
+	        //checkDataConsitencyCallback();
+		});
 		tinymce_iframe_selector.bind('paste', function (event){
 			event.preventDefault();
 			var clipboard_text = (event.originalEvent || event).clipboardData.getData('text/plain') || prompt('Paste something..');
@@ -291,12 +292,15 @@ var GapInsertingWizard = (function () {
 		var end   = new RegExp('\\]');
 		var existing_gaps = [];
 		var gap = '';
-		$.each(gaps , function( index, value ) {
-			gap = parseInt(value.replace(front,'').replace(end,''), 10);
-			existing_gaps.push(gap);		
-		});
-		if (typeof pub.checkDataConsistencyAfterGapRemovel === 'function') {
-			pub.checkDataConsistencyAfterGapRemovel(existing_gaps);
+		if( gaps != null )
+		{
+			$.each(gaps , function( index, value ) {
+				gap = parseInt(value.replace(front,'').replace(end,''), 10);
+				existing_gaps.push(gap);
+			});
+		}
+		if (typeof pub.checkDataConsistencyAfterGapRemoval === 'function') {
+			pub.checkDataConsistencyAfterGapRemoval(existing_gaps);
 		}
 		cleanGapCode();
 	}

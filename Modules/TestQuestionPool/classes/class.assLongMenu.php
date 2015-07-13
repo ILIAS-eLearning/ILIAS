@@ -640,7 +640,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
 	 */
 	public function getAvailableAnswerOptions($index = null)
 	{
-		return array();
+		return $this->createArrayFromFile();
 	}
 
 	/**

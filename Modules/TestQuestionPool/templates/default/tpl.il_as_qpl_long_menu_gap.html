@@ -13,11 +13,14 @@
 	{
 		float:right;
 	}
+	.prototype_long_menu{
+		display:none;
+	}
 </style>
 
 <script src="./Modules/TestQuestionPool/templates/default/gapInsertingWizard.js"></script>
 <script src="./Modules/TestQuestionPool/templates/default/longMenuQuestion.js"></script>
-{SELECT_BOX}
+
 <script>
 	function debugPrinter(message)
 	{
@@ -27,14 +30,14 @@
 		}
 	}
 	var long_menu_language = {
-		'edit' : '[Edit]',
-		'type' : 'Typ',
-		'answers': 'Answers',
-		'answer_options' : 'Answer Options: ',
-		'correct_answers': 'Correct Answers: ',
-		'add_answers'	 : '[Add Answers]',
-		'info_text_gap'	 : '{INFO_TEXT_GAP}',
-		'manual_editing' : '{MANUAL_EDITING}'
+		'edit' 				: '[Edit]',
+		'type' 				: 'Typ',
+		'answers'			: 'Answers',
+		'answer_options' 	: 'Answer Options: ',
+		'correct_answers'	: 'Correct Answers: ',
+		'add_answers'	 	: '[Add Answers]',
+		'info_text_gap'	 	: '{INFO_TEXT_GAP}',
+		'manual_editing' 	: '{MANUAL_EDITING}'
 	};
 	
 	$( document ).ready(function() {
@@ -48,13 +51,15 @@
 		longMenuQuestion.answers = {ALL_ANSWERS};
 		longMenuQuestion.Init();
 	});
-	
+	(function ( $ ) {
+		$.fn.ensureNoArrayIsAnObjectRecursive = function( obj ) {
+			if ($.type(obj) === 'object' || $.type(obj) === 'array'){
+				Object.keys(obj).forEach(function(key) { obj[key] = jQuery().ensureNoArrayIsAnObjectRecursive(obj[key]); });
+				obj = $.map(obj, function(value) { return [value];	});
+			}
+			return obj;
+		};}( jQuery ));
 </script>
-<style>
-	.prototype_long_menu{
-		display:none;
-	}
-</style>
 <div class="prototype_long_menu">
 	<div class="gap_title">
 		<div class="ilFormHeader">

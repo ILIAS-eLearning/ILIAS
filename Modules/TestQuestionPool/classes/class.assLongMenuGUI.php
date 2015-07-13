@@ -167,6 +167,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 				$long_menu_text->addPlugin("latex");
 				$long_menu_text->addButton("latex");
 				$long_menu_text->addButton("pastelatex");
+				$long_menu_text->setRTESupport($this->object->getId(), "qpl", "assessment");
 			}
 		}
 		else
@@ -176,7 +177,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 		}
 		$long_menu_text->setUseRte(TRUE);
 		$long_menu_text->setRTESupport($this->object->getId(), "qpl", "assessment");
-		$long_menu_text->setValue($this->object->getLongMenuTextValue());
+		$long_menu_text->setValue($this->object->prepareTextareaOutput($this->object->getLongMenuTextValue()));
 		$form->addItem($long_menu_text);
 		
 		$tpl = new ilTemplate("tpl.il_as_qpl_cloze_gap_button_code.html", TRUE, TRUE, "Modules/TestQuestionPool");
@@ -254,7 +255,52 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 
 	function getPreview($show_question_only = FALSE, $showInlineFeedback = false)
 	{
+		$user_solution = is_object($this->getPreviewSession()) ? (array)$this->getPreviewSession()->getParticipantsSolution() : array();
+		// shuffle output
+
+
+		// generate the question output
+		include_once "./Services/UICore/classes/class.ilTemplate.php";
+		$template = new ilTemplate("tpl.il_as_qpl_longmenu_output.html", TRUE, TRUE, "Modules/TestQuestionPool");
+		/*$keys = [];//$this->getParticipantsAnswerKeySequence();
+		foreach ($keys as $answer_id)
+		{
+			$answer = $this->object->getAnswer($answer_id);
+			
+			if( $showInlineFeedback )
+			{
+				$this->populateSpecificFeedbackInline($user_solution, $answer_id, $template);
+			}
+
+			$template->setCurrentBlock("answer_row");
+			$template->setVariable("ANSWER_ID", $answer_id);
+			$template->setVariable("ANSWER_TEXT", $this->object->prepareTextareaOutput($answer->getAnswertext(), TRUE));
+			$template->setVariable('VALUE_TRUE', 1);
+			$template->setVariable('VALUE_FALSE', 0);
+
+			if( isset($user_solution[$answer->getPosition()]) )
+			{
+				$tplVar = $user_solution[$answer->getPosition()] ? 'CHECKED_ANSWER_TRUE' : 'CHECKED_ANSWER_FALSE';
+				$template->setVariable($tplVar, " checked=\"checked\"");
+			}
+
+			$template->parseCurrentBlock();
+		}*/
+		$questiontext = $this->object->getQuestion();
+		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
+		$template->setVariable("ANSWER_OPTIONS_JSON", json_encode($this->object->getAvailableAnswerOptions()));
 		
+		$long_menu_text = $this->object->getLongMenuTextValue();
+		$long_menu_text = preg_replace("/\\[Longmenu (\\d+)\\]/", '<input class="long_menu_input" name="answer[${1}]">', $long_menu_text);
+		$template->setVariable('LONGMENU_TEXT', $long_menu_text);
+
+		$questionoutput = $template->get();
+		if (!$show_question_only)
+		{
+			// get page object output
+			$questionoutput = $this->getILIASPage($questionoutput);
+		}
+		return $questionoutput;
 	}
 
 	function getTestOutput($active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
