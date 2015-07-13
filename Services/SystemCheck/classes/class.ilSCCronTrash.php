@@ -23,6 +23,7 @@ class ilSCCronTrash extends ilCronJob
 	{
 		global $lng;
 			
+		$GLOBALS['lng']->loadLanguageModule('sysc');
 		return $lng->txt('sysc_cron_empty_trash');
 	}
 	
@@ -30,7 +31,8 @@ class ilSCCronTrash extends ilCronJob
 	{
 		global $lng;
 			
-		return $lng->txt('sysc_cron_emtpy_trash_desc');
+		$GLOBALS['lng']->loadLanguageModule('sysc');
+		return $lng->txt('sysc_cron_empty_trash_desc');
 	}
 	
 	public function getDefaultScheduleType()
@@ -101,17 +103,16 @@ class ilSCCronTrash extends ilCronJob
 		$num->setValue($settings->get('num',''));
 		$form->addItem($num);
 		
-		$age = new ilDateTimeInputGUI($lng->txt('sysc_trash_limit_age'), 'age');
+		$age = new ilNumberInputGUI($lng->txt('sysc_trash_limit_age'), 'age');
 		$age->setInfo($lng->txt('purge_age_limit_desc'));
-		$age->setMinuteStepSize(15);
-		$age->setMode(ilDateTimeInputGUI::MODE_INPUT);
+		$age->setSize(4);
+		$age->setMinValue(1);
+		$age->setMaxLength(4);
 		
 		if($settings->get('age',''))
 		{
-			$dt = new ilDateTime($settings->get('age',''),IL_CAL_DATETIME,'UTC');
-			$age->setDate($dt);
+			$age->setValue($settings->get('age',''));
 		}
-		
 		
 		$form->addItem($age);
 		
@@ -148,17 +149,8 @@ class ilSCCronTrash extends ilCronJob
 		include_once './Services/Administration/classes/class.ilSetting.php';
 		$settings = new ilSetting('sysc');
 		
-		
 		$settings->set('num', $a_form->getInput('number'));
-		
-		if($a_form->getItemByPostVar('age')->getDate() instanceof ilDateTime)
-		{
-			$settings->set('age', $a_form->getItemByPostVar('age')->getDate()->get(IL_CAL_DATETIME, '', UTC));
-		}
-		else
-		{
-			$settings->set('age', '');
-		}
+		$settings->set('age',$a_form->getInput('age'));
 		$settings->set('types',$a_form->getInput('types'));
 	}
 
@@ -187,7 +179,28 @@ class ilSCCronTrash extends ilCronJob
 	 */
 	public function run()
 	{
+		include_once './Services/SystemCheck/classes/class.ilSystemCheckTrash.php';
+		$trash = new ilSystemCheckTrash();
+			
+		include_once './Services/Administration/classes/class.ilSetting.php';
+		$settings = new ilSetting('sysc');
 		
+		$trash->setNumberLimit($settings->get('number',0));
+		$trash->setTypesLimit((array) $settings->get('types'));
+		
+		$age = $settings->get('age',0);
+		if($age)
+		{
+			$date = new ilDateTime(time(),IL_CAL_UNIX);
+			$date->increment(IL_CAL_DAY, (int) $age * -1);
+			$trash->setAgeLimit($date);
+		}
+		$trash->start();
+
+		include_once './Services/Cron/classes/class.ilCronJobResult.php';;
+		$result = new ilCronJobResult();
+		$result->setStatus(ilCronJobResult::STATUS_OK);
+		return $result;
 	}
 }
 ?>
