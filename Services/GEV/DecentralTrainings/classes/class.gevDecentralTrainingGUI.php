@@ -170,26 +170,11 @@ class gevDecentralTrainingGUI {
 			return $this->createTraining($form_prev);
 		}
 		
-		$tmp = $form_prev->getInput("date");
-		$date = new ilDate($tmp["date"], IL_CAL_DATE);
-		$dateUnix = $date->get(IL_CAL_UNIX);
-		$now = new ilDate(date('Y-m-d'), IL_CAL_DATE);
-		$nowUnix = $now->get(IL_CAL_UNIX);
-		
-		if($dateUnix < $nowUnix){
-			ilUtil::sendFailure($this->lng->txt("gev_dec_training_date_before_now"), false);
-			return $this->failCreateTraining($form_prev);
-		}
-		
-		$venue = $form_prev->getInput("venue");
-		$venue_free_text = $form_prev->getInput("venue_free_text");
-		
-		if($venue && $venue_free_text) {
-			ilUtil::sendFailure($this->lng->txt("gev_dec_training_two_venues"), false);
-			return $this->failCreateTraining($form_prev);
-		}
-		
 		$template_id = intval($form_prev->getInput("template_id"));
+		if(!$this->checkDecentralTrainingConstraints($form_prev, $template_id)) {
+			return $this->failCreateTraining($form_prev);
+		}
+		
 		$trainer_ids = array_map(function($inp) {return (int)$inp; }
 								, unserialize(base64_decode($form_prev->getInput("trainer_ids")))
 								);
@@ -280,25 +265,9 @@ class gevDecentralTrainingGUI {
 			return $this->showSettings($form);
 		}
 		
-		$tmp = $form->getInput("date");
-		$date = new ilDate($tmp["date"], IL_CAL_DATE);
-		$dateUnix = $date->get(IL_CAL_UNIX);
-		$now = new ilDate(date('Y-m-d'), IL_CAL_DATE);
-		$nowUnix = $now->get(IL_CAL_UNIX);
-		
-		if($dateUnix < $nowUnix){
-			ilUtil::sendFailure($this->lng->txt("gev_dec_training_date_before_now"), false);
+		if(!$this->checkDecentralTrainingConstraints($form_prev, intval($_POST["obj_id"]))) {
 			return $this->showSettings($form);
 		}
-
-		$venue = $form->getInput("venue");
-		$venue_free_text = $form->getInput("venue_free_text");
-		
-		if($venue && $venue_free_text) {
-			ilUtil::sendFailure($this->lng->txt("gev_dec_training_two_venues"), false);
-			return $this->showSettings($form);
-		}
-		//gev patch end	
 		
 		if (!$this->access->checkAccess("write_reduced_settings", "", gevObjectUtils::getRefId($_POST["obj_id"]))) {
 			$this->log->write("gevDecentralTrainingGUI::updateSettings: User ".$this->current_user->getId()
@@ -308,7 +277,7 @@ class gevDecentralTrainingGUI {
 		
 		$crs_utils = gevCourseUtils::getInstance($_POST["obj_id"]);
 		$settings = $this->getSettingsFromForm($crs_utils, $form);
-		$settings->applyTo($_POST["obj_id"]);
+		$settings->applyTo((int)$_POST["obj_id"]);
 		
 		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"));
 		return $this->showSettings($form);
@@ -496,6 +465,7 @@ class gevDecentralTrainingGUI {
 				$training_info["start_datetime"] = new ilDateTime("1970-01-01 ".$sched[0].":00", IL_CAL_DATETIME);
 				$training_info["end_datetime"] = new ilDateTime("1970-01-01 ".$sched[1].":00", IL_CAL_DATETIME);
 				$training_info["invitation_preview"] = gevCourseUtils::getInstance($a_template_id)->getInvitationMailPreview();
+				$training_info["credit_points"] = gevCourseUtils::getInstance($a_template_id)->getCreditPoints();
 				$no_changes_allowed = false;
 				
 				$tmplt_id = new ilHiddenInputGUI("template_id");
@@ -526,6 +496,7 @@ class gevDecentralTrainingGUI {
 					, "orgu_id" => $crs_utils->getTEPOrguId()
 					, "invitation_preview" => $crs_utils->getInvitationMailPreview()
 					, "orgaInfo" => $crs_utils->getOrgaInfo()
+					, "credit_points" => $crs_utils->getCreditPoints()
 					);
 				$trainer_ids = $crs_utils->getTrainers();
 				$no_changes_allowed = $crs_utils->isFinalized();
@@ -565,6 +536,10 @@ class gevDecentralTrainingGUI {
 		
 		$ltype = new ilNonEditableValueGUI($this->lng->txt("gev_course_type"), "ltype", false);
 		$ltype->setValue($training_info["ltype"]);
+		$form->addItem($ltype);
+		
+		$ltype = new ilNonEditableValueGUI($this->lng->txt("gev_credit_points"), "credit_points", false);
+		$ltype->setValue($training_info["credit_points"]);
 		$form->addItem($ltype);
 		
 		$date = new ilDateTimeInputGUI($this->lng->txt("date"), "date");
@@ -661,6 +636,58 @@ class gevDecentralTrainingGUI {
 		}
 		
 		return $form;
+	}
+	
+	protected function checkDecentralTrainingConstraints($a_form, $credit_points_source_id) {
+		// Check date is before today
+		$tmp = $a_form->getInput("date");
+		$date = new ilDate($tmp["date"], IL_CAL_DATE);
+		$dateUnix = $date->get(IL_CAL_UNIX);
+		$now = new ilDate(date('Y-m-d'), IL_CAL_DATE);
+		$nowUnix = $now->get(IL_CAL_UNIX);
+
+		if($dateUnix < $nowUnix){
+			ilUtil::sendFailure($this->lng->txt("gev_dec_training_date_before_now"), false);
+			return false;
+		}
+		// end check date
+
+		//check venue AND venue freetext is filles
+		$venue = $a_form->getInput("venue");
+		$venue_free_text = $a_form->getInput("venue_free_text");
+
+		if($venue && $venue_free_text) {
+			ilUtil::sendFailure($this->lng->txt("gev_dec_training_two_venues"), false);
+			return false;
+		}
+		// ench check venue
+
+		//check total minutes are to small for credit points
+		$tmp = $a_form->getInput("time");
+		$start = split(":", $tmp["start"]["time"]);
+		$end = split(":", $tmp["end"]["time"]);
+
+		$minutes = 0;
+		$hours = 0;
+		if($end[1] < $start[1]) {
+			$minutes = 60 - $start[1] + $end[1];
+			$hours = -1;
+		} else {
+			$minutes = $end[1] - $start[1];
+		}
+		$hours = $hours + $end[0] - $start[0];
+		$totalMinutes = $hours * 60 + $minutes;
+
+		$crs_utils = gevCourseUtils::getInstance($credit_points_source_id);
+		$credit_points = $crs_utils->getCreditPoints();
+
+		if(round(($totalMinutes / 45)) < $credit_points) {
+			ilUtil::sendFailure($this->lng->txt("gev_dec_training_crs_to_short"), false);
+			return false;
+		}
+		// end check total time
+
+		return true;
 	}
 }
 
