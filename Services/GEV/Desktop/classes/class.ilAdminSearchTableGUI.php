@@ -63,7 +63,7 @@ class ilAdminSearchTableGUI extends catAccordionTableGUI {
 			$order = "start_date";
 		}
 
-			   
+
 		$data = gevCourseUtils::searchCourses(
 			$a_search_options, 
 			$this->getOffset(),

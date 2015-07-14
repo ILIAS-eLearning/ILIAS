@@ -32,6 +32,7 @@
 * @ilCtrl_Calls gevDesktopGUI: gevTrainerOperationByTEPCategoryGUI
 * @ilCtrl_Calls gevDesktopGUI: gevDBVReportGUI
 * @ilCtrl_Calls gevDesktopGUI: gevDBVReportSuperiorGUI
+* @ilCtrl_Calls gevDesktopGUI: gevAdminBlockUnitGUI
 */
 
 class gevDesktopGUI {
@@ -47,20 +48,20 @@ class gevDesktopGUI {
 	}
 	
 	public function executeCommand() {
+		global $ilLog;
 		$next_class = $this->ctrl->getNextClass();
 		$cmd = $this->ctrl->getCmd();
 		$this->checkProfileComplete($cmd, $next_class);
-		
+
 		if ($next_class != "gevuserprofilegui" && $cmd != "toMyProfile") {
 			$this->checkNeedsWBDRegistration($cmd, $next_class);
 		}
-		
+			
 		if($cmd == "") {
 			$cmd = "toMyCourses";
 		}
 
 		global $ilMainMenu;
-
 		switch($next_class) {
 			case "gevmycoursesgui":
 				$ilMainMenu->setActive("gev_me_menu");
@@ -193,21 +194,25 @@ class gevDesktopGUI {
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;
 
-				case "gevdbvreportgui":
+			case "gevdbvreportgui":
 				$ilMainMenu->setActive("gev_reporting_menu");
 				require_once("Services/GEV/Reports/classes/class.gevDBVReportGUI.php");
 				$gui = new gevDBVReportGUI();
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;
-
-				case "gevdbvreportsuperiorgui":
+			case "gevdbvreportsuperiorgui":
 				$ilMainMenu->setActive("gev_reporting_menu");
 				require_once("Services/GEV/Reports/classes/class.gevDBVReportSuperiorGUI.php");
 				$gui = new gevDBVReportSuperiorGUI();
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;
-
-			default:	
+			case "gevadminblockunitgui":
+				$ilMainMenu->setActive("gev_admin_menu");
+				require_once("Services/GEV/Desktop/classes/class.gevAdminBlockUnitGUI.php");
+				$gui = new gevAdminBlockUnitGUI();
+				$ret = $this->ctrl->forwardCommand($gui);
+				break;
+			default:
 				$this->dispatchCmd($cmd);
 				break;
 		}
@@ -241,6 +246,7 @@ class gevDesktopGUI {
 			case "toDBVReportSuperior":
 			case "toWBDErrors":
 			case "createHAUnit":
+			case "toAdmBlockUnits":
 			case "handleExplorerCommand":
 				$this->$a_cmd();
 			default:
@@ -251,7 +257,11 @@ class gevDesktopGUI {
 	protected function toReportTrainerOperationByTEPCategory() {
 		$this->ctrl->redirectByClass("gevTrainerOperationByTEPCategoryGUI");
 	}
-	
+
+	protected function toAdmBlockUnits() {
+		$this->ctrl->redirectByClass("gevAdminBlockUnitGUI");
+	}
+
 	protected function toCourseSearch() {
 		$this->ctrl->redirectByClass("gevCourseSearchGUI");
 	}

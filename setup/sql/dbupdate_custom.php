@@ -3665,11 +3665,125 @@ require_once "Customizing/class.ilCustomInstaller.php";
 
 <#128>
 <?php
+	$ilCtrlStructureReader->getStructure();
+?>
+
+<#129>
+<?php
+if( !$ilDB->tableExists('block_units') )
+{
+	$ilDB->createTable('block_units', array(
+		'obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'title' => array(
+			'type' => 'text',
+			'length' => 50,
+			'notnull' => false
+		),
+		'content' => array(
+			'type' => 'text',
+			'length' => 50,
+			'notnull' => false
+		),
+		'learning_dest' => array(
+			'type' => 'text',
+			'length' => 50,
+			'notnull' => false
+		),
+		'is_wp_relevant' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false,
+			'default' => 0
+		),
+		'active' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false,
+			'default' => 0
+		)',
+		is_deleted' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false,
+			'default' => 0
+		),
+		'last_change_user' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false
+		),
+		'last_change_date' => array(
+			'type' => 'date',
+			'notnull' => false
+		)
+	));
+		
+	$ilDB->addPrimaryKey('crs_block_units', array('obj_id'));
+}
+?>
+
+<#130>
+<?php
+if( !$ilDB->tableExists('crs_block_units') )
+{
+	$ilDB->createTable('crs_block_units', array(
+		'id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'crs_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'bu_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'start_date' => array(
+			'type' => 'date',
+			'notnull' => true
+		),
+		'end_date' => array(
+			'type' => 'date',
+			'notnull' => true
+		),
+		'method' => array(
+			'type' => 'text',
+			'length' => 100,
+			'notnull' => true
+		)',
+		media' => array(
+			'type' => 'text',
+			'length' => 100,
+			'notnull' => true
+		),
+		'last_change_user' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false
+		)
+	));
+		
+	$ilDB->addPrimaryKey('crs_block_units', array('id'));
+}
+?>
+
+<#131>
+<?php
 require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCreationRequestDB.php");
 gevDecentralTrainingCreationRequestDB::install_step1($ilDB);
 ?>
 
-<#129>
+<#132>
 <?php
 require_once "Customizing/class.ilCustomInstaller.php";
 	ilCustomInstaller::initPluginEnv();

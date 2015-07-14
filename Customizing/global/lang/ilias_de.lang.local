@@ -1151,8 +1151,28 @@ gev#:#gev_finalize_booking_booked_out_error#:#Das Training konnte leider nicht f
 gev#:#gev_crs_srch_my_table_desc_advice#:#Hinweis:<br />Die Selbstlernkurse finden Sie ab sofort am Ende der Trainingsübersicht bzw. im Filter unter "Suche eingrenzen" - "Trainingstyp" - "Selbstlernkurs"!
 gev#:#gev_venue_free_text#:#Freitext Veranstaltungsort
 gev#:#gev_orga_info#:#Organisatorisches
+<<<<<<< .mine
+gev#:#gev_dec_training_date_before_now#:#Das gewählte Startdatum liegt in der Vergangenheit!
+gev#:#gev_block_unit_is_active_desc#:#Soll dieser Baustein aktiviert sein?
+gev#:#gev_block_unit_wp_relevant_desc#:#Ist dieser Baustein relevant für die Vergabe von Bildungspunkten sein?
+gev#:#gev_block_unit_edit#:#Baustein bearbeiten
+gev#:#gev_block_unit_new#:#Neuer Baustein
+gev#:#gev_block_unit_base_data#:#Bausteininformationen
+gev#:#gev_block_unit_title#:#Titel
+gev#:#gev_block_unit_content#:#Inhalt
+gev#:#gev_block_unit_learn_dest#:#Lernziel
+gev#:#gev_block_unit_is_wp_relevant#:#WP relevant
+gev#:#gev_block_unit_active#:#Aktive
+gev#:#gev_block_units_title#:#Bausteine
+gev#:#gev_block_unit_mgmt#:#Bausteinverwaltung
+gev#:#gev_block_units_sub_title#:#Hier erhalten Sie einen Überblick über alle vorhandenen Vorlagen für Bausteine.
+gev#:#gev_block_unit_search#:#Bausteinsuche
+gev#:#gev_block_unit_search_desc#:#Grenzen Sie die Anzeige der Bausteinvorlagen nach Ihren wünschen ein.
+gev#:#gev_block_unit_like_search#:#Stichwortsuche
+gev#:#gev_block_unit_delete#:#Baustein löschen
+gev#:#gev_block_unit_delete_confirm#:#Wollen Sie den Baustein mit folgendem Titel wirklich löschen?=======
 gev#:#gev_dec_training_date_before_now#:#Das gewählte Startdatum liegt in der Vergangenheit!
 gev#:#gev_dec_training_two_venues#:#Bitte wählen Sie einen Veranstaltungsort aus oder nutzen das Freitextfeld um einen alternativen Veranstaltungsort zu benennen.
 gev#:#gev_dec_training_crs_to_short#:#Die Gesamtlänge des Trainings ist zu kurz für die zu erlangenden Bildungspunkte (45 Minuten / Punkt).
 gev#:#gev_mail_log#:#Maillog
-gev#:#gev_back#:#Zurück
+gev#:#gev_back#:#Zurück>>>>>>> .r59922
