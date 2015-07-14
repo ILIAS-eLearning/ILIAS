@@ -15379,3 +15379,13 @@ link#:#link_link#:#Link
 common#:#toggle_dropdown#:#Toggle Dropdown
 forum#:#reply_to_postings#:#Reply
 forum#:#add_new_answer#:#Add Posting
+mail#:#mail_orphaned_mails#:#Delete old or orphaned mails
+mail#:#mail_threshold#:#Threshold
+mail#:#mail_threshold_info#:#Internal messages that are older than the defined threshold value here, will be deleted (including possibly existing attachments). <br> Please keep in mind that on the first run of this cronjob  a lot of messages will be deleted and because of this it is not possible to send a mail as a warning.
+mail#:#mail_orphaned_mails_desc#:#Delete old or orphaned mails
+mail#:#only_inbox_trash#:#Only consider inbox / trash
+mail#:#only_inbox_trash_info#:#If enabled, emails are only deleted if they are located in the Inbox and Trash of the respective user. Otherwise, all messages are deleted regardless of the folder. 
+mail#:#mail_notify_orphaned#:#Notification Mail
+mail#:#mail_notify_orphaned_info#:#If you enter a value here is larger than or equal to 1, ILIAS will send an email to the user before an internal mail is deleted. Please make sure that an external e-mail reception is possible.
+mail#:#orphaned_mail_subject#:#Notification about orphaned mails
+mail#:#orphaned_mail_body#:#There are old or orphaned mails in the following mailboxes. Please note, that these mails will be deleted automatically soon.

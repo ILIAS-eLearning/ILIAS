@@ -6203,3 +6203,32 @@ $ilDB->manipulateF(
 	"UPDATE qpl_qst_skl_assigns SET eval_mode = %s WHERE eval_mode IS NULL", array('text'), array('result')
 );
 ?>
+<#4495>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#4496>
+<?php
+if( !$ilDB->tableExists('mail_cron_orphaned') )
+{
+	$ilDB->createTable('mail_cron_orphaned', array(
+		'mail_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'folder_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'ts_do_delete' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		)
+	));
+
+	$ilDB->addPrimaryKey('mail_cron_orphaned', array('mail_id', 'folder_id'));
+}
+?>
