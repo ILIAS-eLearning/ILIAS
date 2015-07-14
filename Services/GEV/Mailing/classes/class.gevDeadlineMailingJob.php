@@ -82,7 +82,7 @@ class gevDeadlineMailingJob extends ilCronJob {
  				 "  LEFT JOIN object_reference oref".
 				 "    ON cs.obj_id = oref.obj_id".
 				 "  JOIN adv_md_values_text is_template ".
-				 "    ON cs.obj_id = is_template.obj_id ".
+				 "    ON cs.obj_id = is_template.obj_id ".
 				 "   AND is_template.field_id = ".$ilDB->quote($is_template_field_id, "integer").
 				 "  LEFT JOIN adv_md_values_date end_date ".
 				 "    ON cs.obj_id = end_date.obj_id ".
