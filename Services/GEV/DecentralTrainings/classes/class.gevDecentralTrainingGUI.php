@@ -87,7 +87,7 @@ class gevDecentralTrainingGUI {
 	protected function userCanOpenNewCreationRequest() {
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 		$user_utils = gevUserUtils::getInstance($this->current_user->getId());
-		if ($user_utils->hasRoleIn("Administrator", "Admin")) {
+		if ($user_utils->isAdmin()) {
 			return true;
 		}
 		return count($this->getOpenCreationRequests()) === 0;
@@ -98,6 +98,9 @@ class gevDecentralTrainingGUI {
 	}
 	
 	protected function showOpenRequests() {
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		$user_utils = gevUserUtils::getInstance($this->current_user->getId());
+		
 		require_once("Services/Calendar/classes/class.ilDatePresentation.php");
 		
 		$title = new catTitleGUI("gev_dec_training_creation", "gev_dec_training_creation_header_note", "GEV_img/ico-head-create-decentral-training.png");
@@ -122,6 +125,10 @@ class gevDecentralTrainingGUI {
 		$tpl->setCurrentBlock("footer");
 		$tpl->setVariable("WAITING_TIME_MIN", "drölf");
 		$tpl->parseCurrentBlock();
+		
+		if (!$user_utils->isAdmin()) {
+			$tpl->touchBlock("autoreload");
+		}
 		
 		return $title->render()
 			  . $tpl->get();
