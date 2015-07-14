@@ -198,7 +198,7 @@ class ilTEPGUI
 						break;
 					case "listParticipationStatus":
 						$this->showParticipationStatus();
-						return;
+						break;
 					default:
 						$this->$cmd();
 				}
