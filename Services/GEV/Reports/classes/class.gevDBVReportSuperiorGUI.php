@@ -125,14 +125,14 @@ class gevDBVReportSuperiorGUI extends catBasicReportGUI{
 	}
 	
 	protected function checkPermission($a_target_user_id) {
-		if (!$this->user_utils->isAdmin()) {
+		if (!$this->user_utils->isAdmin() && !$this->user_utils->isSuperior()) {
 			throw new Exception("No permission to view report");
 		}
 	}
 
 	protected function transformResultRow($rec) {
 		$rec['odbd'] = $rec['org_unit_above1'];
-		$this->ctrl->setParameterByClass("gevDBVReportGUI", "target_user_id", $rec["user_id"]);
+		$this->ctrl->setParameterByClass("gevDBVReportGUI", "target_user_id", $rec["usr_id"]);
 		$rec["dbv_report_link"] = $this->ctrl->getLinkTargetByClass("gevDBVReportGUI");
 		$this->ctrl->setParameterByClass("gevDBVReportGUI", "target_user_id", null);
 
