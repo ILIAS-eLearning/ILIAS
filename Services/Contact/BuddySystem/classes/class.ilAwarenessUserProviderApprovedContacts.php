@@ -53,6 +53,16 @@ class ilAwarenessUserProviderApprovedContacts extends ilAwarenessUserProvider
 	 */
 	function getInitialUserSet()
 	{
+		/**
+		 * @var $ilUser ilObjUser
+		 */
+		global $ilUser;
+
+		if($ilUser->isAnonymous())
+		{
+			return array();
+		}
+
 		require_once 'Services/Contact/BuddySystem/classes/class.ilBuddyList.php';
 		$buddylist = ilBuddyList::getInstanceByGlobalUser();
 		return $buddylist->getLinkedRelations()->getKeys();
