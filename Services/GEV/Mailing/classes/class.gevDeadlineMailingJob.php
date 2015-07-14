@@ -155,6 +155,7 @@ class gevDeadlineMailingJob extends ilCronJob {
 								  "    , NOW()".
 								  "    )"
 								 );
+				ilCronManager::ping($this->getId());
 			}
 			
 			// test to avoid php idiosyncracies
