@@ -26,6 +26,7 @@ class gevDecentralTrainingGUI {
 		$this->access = &$ilAccess;
 		$this->user_id = null;
 		$this->date = null;
+		$this->open_creation_requests = null;
 
 		$this->tpl->getStandardTemplate();
 	}
@@ -33,8 +34,6 @@ class gevDecentralTrainingGUI {
 	public function executeCommand() {
 		$this->loadUserId();
 		$this->loadDate();
-		
-		$this->checkCanCreateDecentralTraining();
 		
 		$cmd = $this->ctrl->getCmd();
 		
@@ -75,8 +74,23 @@ class gevDecentralTrainingGUI {
 		$this->date = $_GET["date"];
 	}
 	
-	protected function checkCanCreateDecentralTraining() {
-		// TODO
+	protected function getOpenCreationRequests() {
+		if ($this->open_creation_requests === null) {
+			$dec_utils = gevDecentralTrainingUtils::getInstance();
+			$db = $dec_utils->getCreationRequestDB();
+			$this->open_creation_requests = $db->getOpenRequestsOfUser($this->current_user->getId());
+		}
+		return $this->open_creation_requests;
+	}
+	
+	protected function userCanOpenNewCreationRequest() {
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		$user_utils = gevUserUtils::getInstance($this->current_user->getId());
+		if ($user_utils->hasRoleIn("Administrator", "Admin")) {
+			return true;
+		}
+		
+		return count($this->getOpenCreationRequests()) === 0;
 	}
 	
 	protected function cancel() {
