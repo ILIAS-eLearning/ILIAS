@@ -20,6 +20,10 @@ class gevSettings {
 	
 	const MODULE_NAME = "gev";
 	
+	const YES = "Ja";
+	const NO = "Nein";
+	
+	
 	// vgl. Konzept, Abschnitt Trainingsvorlagen
 	
 	// Block "Trainingsverwaltung"
