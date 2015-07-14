@@ -95,7 +95,7 @@ class gevDBVReportSuperiorGUI extends catBasicReportGUI{
 
 		$this->filter = catFilter::create()
 						->checkbox( "critical"
-								  , $this->lng->txt("gev_rep_filter_show_critical")
+								  , $this->lng->txt("gev_rep_filter_show_critical_dbvs")
 								  , " credit_points < ".$this->db->quote(200,"integer")
 								  , " TRUE "								  
 								  , true

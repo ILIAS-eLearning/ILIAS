@@ -654,7 +654,7 @@ gev#:#gev_report_trainer_operation_by_tep_category_title#:#Trainereinsätze nach
 gev#:#gev_report_trainer_operation_by_tep_category_desc#:#Hier erhalten Sie eine Übersicht über die Einsatzplanung von Trainern.
 gev#:#gev_report_attendance_by_employee#:#Teilnahmen nach Mitarbeiter
 gev#:#gev_rep_filter_show_critical_persons#:#Zeige mir nur kritische Personen.
-gev#:#gev_rep_filter_show_critical#:#Zeige mir nur kritische.
+gev#:#gev_rep_filter_show_critical_dbvs#:#Zeige mir nur kritische DBVen.
 gev#:#gev_rep_filter_show_critical_persons_4th_year#:#Zeige mir nur kritische Personen nach dem vierten Jahr.
 gev#:#gev_report_employee_edu_bios#:#Bildungsbiographien meiner Mitarbeiter
 gev#:#gev_registration_install_note#:#Generali Vermittler melden sich bitte mit der Generali E-Mail-Adresse an.
