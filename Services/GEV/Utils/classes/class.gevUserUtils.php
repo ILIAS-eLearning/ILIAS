@@ -1929,7 +1929,7 @@ class gevUserUtils {
 		$superior_orgus = $this->getOrgUnitNamesWhereUserIsDirectSuperior();
 		$employee_orgus = $this->getOrgUnitNamesWhereUserIsEmployee();
 
-		return implode(", ", array_merge($superior_orgus, $employee_orgus));
+		return array_merge($superior_orgus, $employee_orgus);
 	}
 	
 	public function getOrgUnitsWhereUserCanBookEmployees() {
