@@ -146,7 +146,7 @@ class gevDecentralTrainingCreationRequestDB {
 												);
 			$returns[] = $request;
 		}
-		return $res;
+		return $returns;
 	}
 	
 	public function getNextOpenRequest() {
