@@ -85,14 +85,14 @@ class gevDecentralTrainingCreationRequestDB {
 		$ilDB = $this->getDB();
 		$query = "SELECT * FROM ".self::TABLE_NAME." WHERE request_id = ".$ilDB->quote($a_request_id, "integer");
 		$res = $ilDB->query($query);
-		if ($rec = $ilDB->fetchAssoc()) {
+		if ($rec = $ilDB->fetchAssoc($res)) {
 			$settings = $this->newSettings( new ilDateTime($rec["start_dt"], IL_CAL_DATETIME)
 										  , new ilDateTime($rec["end_dt"], IL_CAL_DATETIME)
 										  , (int)$rec["venue_obj_id"]
 										  , $rec["venue_text"]
-										  , (int)$rec["orgu_ref_id"]
-										  , $rec["description"]
-										  , $rec["orga_info"]
+										  , $rec["orgu_ref_id"] ? (int)$rec["orgu_ref_id"] : null
+										  , $rec["description"] ? $rec["description"] : ""
+										  , $rec["orga_info"] ? $rec["orga_info"] : ""
 										  , $rec["webinar_link"]
 										  , $rec["webinar_password"]
 										  );
@@ -115,21 +115,22 @@ class gevDecentralTrainingCreationRequestDB {
 	
 	public function getOpenRequestsOfUser($a_user_id) {
 		assert(is_int($a_user_id));
-		assert(ilObject::_looupType($a_user_id) == "usr");
+		assert(ilObject::_lookupType($a_user_id) == "usr");
 		$ilDB = $this->getDB();
 		$query = "SELECT * FROM ".self::TABLE_NAME.
 				 " WHERE user_id = ".$ilDB->quote($a_user_id, "integer").
 				 "   AND finished_ts IS NULL"
 				 ;
-		$res = array();
-		while($rec = $ilDB->fetchAssoc()) {
+		$res = $ilDB->query($query);
+		$returns = array();
+		while($rec = $ilDB->fetchAssoc($res)) {
 			$settings = $this->newSettings( new ilDateTime($rec["start_dt"], IL_CAL_DATETIME)
 										  , new ilDateTime($rec["end_dt"], IL_CAL_DATETIME)
 										  , (int)$rec["venue_obj_id"]
 										  , $rec["venue_text"]
-										  , (int)$rec["orgu_ref_id"]
-										  , $rec["description"]
-										  , $rec["orga_info"]
+										  , $rec["orgu_ref_id"] ? (int)$rec["orgu_ref_id"] : null
+										  , $rec["description"] ? $rec["description"] : ""
+										  , $rec["orga_info"] ? $rec["orga_info"] : ""
 										  , $rec["webinar_link"]
 										  , $rec["webinar_password"]
 										  );
@@ -140,10 +141,10 @@ class gevDecentralTrainingCreationRequestDB {
 												, $settings
 												, (int)$a_request_id
 												, new ilDateTime($rec["requested_ts"], IL_CAL_DATETIME)
-												, new ilDateTime($rec["finished_ts"], IL_CAL_DATETIME)
+												, $rec["finished_ts"] ? new ilDateTime($rec["finished_ts"], IL_CAL_DATETIME) : null
 												, (int)$rec["created_obj_id"]
 												);
-			$res[] = $request;
+			$returns[] = $request;
 		}
 		return $res;
 	}
@@ -154,8 +155,8 @@ class gevDecentralTrainingCreationRequestDB {
 				 " WHERE finished_ts IS NULL".
 				 " ORDER BY request_id ASC LIMIT 1"
 				 ;
-		$res = array();
-		if ($rec = $ilDB->fetchAssoc()) {
+		$res = $ilDB->query($query);
+		if ($rec = $ilDB->fetchAssoc($res)) {
 			$settings = $this->newSettings( new ilDateTime($rec["start_dt"], IL_CAL_DATETIME)
 										  , new ilDateTime($rec["end_dt"], IL_CAL_DATETIME)
 										  , (int)$rec["venue_obj_id"]
@@ -173,7 +174,7 @@ class gevDecentralTrainingCreationRequestDB {
 												, $settings
 												, (int)$a_request_id
 												, new ilDateTime($rec["requested_ts"], IL_CAL_DATETIME)
-												, new ilDateTime($rec["finished_ts"], IL_CAL_DATETIME)
+												, $rec["finished_ts"] ? new ilDateTime($rec["finished_ts"], IL_CAL_DATETIME) : null
 												, (int)$rec["created_obj_id"]
 												);
 			return $request;
@@ -215,8 +216,8 @@ class gevDecentralTrainingCreationRequestDB {
 										 , ilDateTime $a_finished_ts = null
 										 , $a_created_obj_id = null) {
 		require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCreationRequest.php");
-		return new gevDecentralTrainingCreationRequest( $this, $a_user_id, $a_template_obj_id, $a_trainer_ids
-													  , $a_requested_ts, $a_finished_ts, $a_created_obj_id);
+		return new gevDecentralTrainingCreationRequest( $this, $a_user_id, $a_template_obj_id, $a_trainer_ids, $a_settings
+													  , $a_request_id, $a_requested_ts, $a_finished_ts, $a_created_obj_id);
 	}
 	
 	// GETTERS FOR GLOBALS
