@@ -177,6 +177,7 @@ class ilTEPGUI
 					case "saveStatusAndPoints":
 					case "uploadAttendanceList":
 					case "viewAttendanceList":
+					case "deleteAttendanceList":
 						//ilParticipationStatusTableGUI
 						require_once("Services/ParticipationStatus/classes/class.ilParticipationStatusAdminGUI.php");
 						$crs_ref_id = $this->getCrsRefId();
