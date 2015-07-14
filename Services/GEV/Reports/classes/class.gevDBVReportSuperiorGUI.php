@@ -64,6 +64,7 @@ class gevDBVReportSuperiorGUI extends catBasicReportGUI{
 			));
 
 		$this->query = catReportQuery::create()
+						->select("dbv.user_id")
 						->select("dbv.lastname")
 						->select("dbv.firstname")
 						->select("hu.org_unit_above1")
@@ -132,7 +133,7 @@ class gevDBVReportSuperiorGUI extends catBasicReportGUI{
 
 	protected function transformResultRow($rec) {
 		$rec['odbd'] = $rec['org_unit_above1'];
-		$this->ctrl->setParameterByClass("gevDBVReportGUI", "target_user_id", $rec["usr_id"]);
+		$this->ctrl->setParameterByClass("gevDBVReportGUI", "target_user_id", $rec["user_id"]);
 		$rec["dbv_report_link"] = $this->ctrl->getLinkTargetByClass("gevDBVReportGUI");
 		$this->ctrl->setParameterByClass("gevDBVReportGUI", "target_user_id", null);
 

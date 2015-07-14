@@ -34,14 +34,14 @@ class gevDBVReportGUI extends catBasicReportGUI{
 		
 		parent::__construct();
 		//$viewer = 33892;
-		$target_user = $_POST["target_user_id"]
+		$this->target_user = $_POST["target_user_id"]
 					   ? $_POST["target_user_id"]
 					   : ( $_GET["target_user_id"]
 					     ? $_GET["target_user_id"]
 					     : $this->user_utils->getId()
 					     );
 		
-		$this->checkPermission($target_user);
+		$this->checkPermissionOnTarget($target_user);
 		
 		foreach (self::$to_sum as $key => $value) {
 			$this->summed_data[$key] = 0;
@@ -135,8 +135,8 @@ class gevDBVReportGUI extends catBasicReportGUI{
 		return $val;
 	}
 
-	protected function checkPermission($a_target_user_id) {
-		if (   gevUserUtils::getInstance($a_target_user_id)->hasRoleIn("DBV-Fin-UVG")
+	protected function checkPermissionOnTarget($a_target_user_id) {
+		if (   gevUserUtils::getInstance($a_target_user_id)->hasRoleIn(array("DBV-Fin-UVG"))
 			&& (    $this->user_utils->isAdmin() 
 				 || $a_target_user_id == $this->user_utils->getId()
 			     || $this->user_utils->isSuperiorOf($a_target_user_id))) {
