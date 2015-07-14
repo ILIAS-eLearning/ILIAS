@@ -60,7 +60,8 @@ class ilTEPCourseEntries
 			// gev-patch start
 			//throw new ilException("ilTEPCourseEntries - course needs TEP entry for operation days");
 			$crsid = $this->getCourse()->getId();
-			throw new ilException("ilTEPCourseEntries - course needs TEP entry for operation days (course-ID: $crsid)");
+			require_once("Services/TEP/classes/class.ilTEPException.php");
+			throw new ilTEPException("ilTEPCourseEntries - course needs TEP entry for operation days (course-ID: $crsid)");
 			// gev-patch end
 		}
 				
@@ -141,7 +142,13 @@ class ilTEPCourseEntries
 	public function getCourseVenue()
 	{
 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
-		return gevCourseUtils::getInstance($this->getCourse()->getId())->getVenueTitle();
+		$venue = gevCourseUtils::getInstance($this->getCourse()->getId())->getVenueTitle();
+
+		if($venue == ""){
+			$venue = gevCourseUtils::getInstance($this->getCourse()->getId())->getVenueFreeText();
+		}
+
+		return $venue;
 	}
 	
 	
@@ -152,6 +159,12 @@ class ilTEPCourseEntries
 	const SYNC_NO_CHANGE = 0;
 	const SYNC_UPDATED = 1;
 	const SYNC_DELETED = 2;
+
+	/*#####################################
+	*
+	* SETZT DIE WERTE FÜR DEN TEP EINTRAG
+	*
+	*######################################
 
 	/**
 	 * Sync course settings/metadata with calendar entry

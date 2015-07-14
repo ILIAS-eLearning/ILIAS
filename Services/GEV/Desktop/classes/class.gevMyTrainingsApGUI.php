@@ -94,9 +94,13 @@ class gevMyTrainingsApGUI {
 	public function getCrsRefId() {
 		$crs_ref_id = $_GET['crsrefid'];
 
-		if(! $crs_ref_id){
-			throw new ilException("gevMyTrainingsApGUI - needs course-refid");
-		}
+        if(!$crs_ref_id) {
+            $crs_ref_id = $_GET['ref_id'];
+        } 
+
+        if(!$crs_ref_id){
+            throw new ilException("gevMyTrainingsApGUI - needs course-refid");
+        }
 		return $crs_ref_id;
 	}
 
@@ -124,7 +128,6 @@ class gevMyTrainingsApGUI {
 		global $ilTabs, $ilCtrl, $lng;
 		$ilTabs->clearTargets();
 		$ilTabs->setBackTarget($lng->txt("back"), $a_back_target);
-		
 		//ilParticipationStatusTableGUI
 		require_once("Services/ParticipationStatus/classes/class.ilParticipationStatusAdminGUI.php");
 		require_once("Services/ParticipationStatus/classes/class.ilParticipationStatusTableGUI.php");

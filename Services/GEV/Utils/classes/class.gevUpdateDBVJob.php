@@ -77,6 +77,7 @@ class gevUpdateDBVJob extends ilCronJob {
 	}
 	
 	public function updateAgentToDBVAssignment() {
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 		require_once("Services/GEV/Utils/classes/class.gevDBVUtils.php");
 		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
 		
@@ -90,7 +91,10 @@ class gevUpdateDBVJob extends ilCronJob {
 		$vps = gevOrgUnitUtils::getEmployeesIn($uvg_orgu_ref_ids);
 		$dbv_utils = gevDBVUtils::getInstance();
 		foreach ($vps as $vp) {
-			$dbv_utils->updateUsersDBVAssignmentsByShadowDB($vp);
+			$user_utils = gevUserUtils::getInstance($vp);
+			if ($user_utils->hasRoleIn(array("VP"))) {
+				$dbv_utils->updateUsersDBVAssignmentsByShadowDB($vp);
+			}
 			
 			ilCronManager::ping($this->getId());
 		}

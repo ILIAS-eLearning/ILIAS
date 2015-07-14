@@ -372,8 +372,11 @@ abstract class ilHistorizingStorage
 		$cases = self::getCaseIdsByPartialCase($a_case_id);
 		if (count($cases) > 1 && $mass_modification_allowed == false)
 		{
-			throw new Exception( 'Illegal call: Case-Id '.implode(", ", $a_case_id).' does not point to a unique record in '
+			global $ilLog;
+			$ilLog->write('Illegal call: Case-Id '.implode(", ", $a_case_id).' does not point to a unique record in '
 								.static::getHistorizedTableName().'.');
+			/*throw new Exception( 'Illegal call: Case-Id '.implode(", ", $a_case_id).' does not point to a unique record in '
+								.static::getHistorizedTableName().'.');*/
 		}
 
 		if ( count($cases) == 0 && $mass_modification_allowed == false)
@@ -428,7 +431,7 @@ abstract class ilHistorizingStorage
 				|| $key == "hist_historic" || $key == "hist_version") {
 				continue;
 			}
-			
+
 			if ($a_new_data[$key] === null || $a_new_data[$key] === "") {
 				switch($col_def[$key]) {
 					case "date":
@@ -446,12 +449,12 @@ abstract class ilHistorizingStorage
 						break;
 				}
 
-				if ($a_current_data[$key] != $value) {
+				if ($a_current_data[$key] !== $value) {
 					return true;
 				}
 			}
 			else {
-				if ($a_current_data[$key] != $a_new_data[$key]) {
+				if ($a_current_data[$key] !== $a_new_data[$key]) {
 					return true;
 				}
 			}

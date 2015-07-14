@@ -135,6 +135,7 @@ class gevAgentRegistrationGUI {
 		$user->setFirstname($form->getInput("firstname"));
 		$user->setGender($form->getInput("gender"));
 		$user->setUTitle($form->getInput("title"));
+		$user->setPhoneOffice($form->getInput("b_phone"));
 
 		// is not active, owner is root
 		$user->setActive(0, 6);

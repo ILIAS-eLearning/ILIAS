@@ -175,13 +175,15 @@ class ilTEPGUI
 					case "confirmFinalize":
 					case "saveStatusAndPoints":
 					case "uploadAttendanceList":
+					case "viewAttendanceList":
 						//ilParticipationStatusTableGUI
 						require_once("Services/ParticipationStatus/classes/class.ilParticipationStatusAdminGUI.php");
 						$crs_ref_id = $this->getCrsRefId();
 						$gui = ilParticipationStatusAdminGUI::getInstanceByRefId($crs_ref_id);
 						$gui->from_foreign_class = 'ilTEPGUI';
 						$gui->crs_ref_id = $crs_ref_id;
-
+						$ilCtrl->saveParameterByClass("ilParticipationStatusAdminGUI", "ref_id", $crs_ref_id);	
+						$ilCtrl->saveParameterByClass("ilParticipationStatusAdminGUI", "crsrefid", $crs_ref_id);	
 						//$gui->returnToList();
 						//die('forwarding cmd');
 						$ret = $ilCtrl->forwardCommand($gui);
@@ -274,7 +276,7 @@ class ilTEPGUI
 			$ilToolbar->addButton($lng->txt("tep_add_new_entry"),
 				$ilCtrl->getLinkTargetByClass("ilTEPEntryGUI", "createEntry"));
 			// gev-patch start
-			require_once("Services/GEV/Utils/classes/class.gevDecentralTrainingUtils.php");
+			require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingUtils.php");
 			global $ilUser;
 			if (gevDecentralTrainingUtils::getInstance()->canCreate($ilUser->getId())) {
 				$ilToolbar->addButton($lng->txt("gev_create_decentral_training"),
@@ -323,7 +325,7 @@ class ilTEPGUI
 			$crs_ref_id = $_GET['crsrefid'];
 		}
 
-		if(! $crs_ref_id){
+		if(! $crs_ref_id) {
 			throw new ilException("ilTEPGUI - needs course ref_id");
 		}
 		return $crs_ref_id;

@@ -163,6 +163,10 @@ class gevWBDDataConnector extends wbdDataConnector {
 		if(in_array(substr($nr_raw, 0, 3), array('+49', '049'))){
 			$nr_raw = substr($nr_raw, 3);
 		}
+		//Lösungansatz auf dem Weg zur WBD wenn in der hist_user das "+" oder die "00" fehlen
+		if(in_array(substr($nr_raw, 0, 2), array('49'))){
+			$nr_raw = substr($nr_raw, 2);
+		}
 		$nr_raw = trim($nr_raw);
 
 		//nr is in "raw" - w/o country code
@@ -265,6 +269,10 @@ class gevWBDDataConnector extends wbdDataConnector {
 		$udata['phone_nr'] = $this->_polish_phone_nr($udata['phone_nr']);
 		$udata['mobile_phone_nr'] = $this->_polish_phone_nr($udata['mobile_phone_nr']);
 		$udata['auth_phone_nr'] = $this->_polish_phone_nr($udata['auth_phone_nr']);
+
+		//Leerzeichen am Ende der E-Mail entfernen
+		$udata['email'] = rtrim($udata['email']);
+		$udata['auth_email'] = rtrim($udata['auth_email']);
 
 		return $udata;
 	}

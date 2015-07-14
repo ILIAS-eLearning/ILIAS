@@ -10,7 +10,7 @@ require_once "Services/TEP/classes/class.ilTEPViewGridBased.php";
  * @ingroup ServicesTEP
  */
 class ilTEPViewMonth extends ilTEPViewGridBased
-{		
+{
 	const DAY_HEIGHT = 24; // You also need to set this in global css file for div.il_tep_content tr, div.il_tep_event_wrapper
 						   // div.il_tep_content td.il_tep_content_days and div.il_tep_content td.il_tep_content_cell
 	const COL_WIDTH = 100; // This is space for events plus 20px for action-item
@@ -35,7 +35,7 @@ class ilTEPViewMonth extends ilTEPViewGridBased
 		$month = (int)$seed->get(IL_CAL_FKT_DATE, 'm');
 		$year = (int)$seed->get(IL_CAL_FKT_DATE, 'Y');
 		$end = mktime(12, 0, 0, $month+1, 0, $year);
-		$end = new ilDate($end, IL_CAL_UNIX);		
+		$end = new ilDate($end, IL_CAL_UNIX);
 		return array($seed, $end);
 	}	
 	
@@ -72,6 +72,11 @@ class ilTEPViewMonth extends ilTEPViewGridBased
 	protected function getNumberOfColumns()
 	{
 		$num_cols = sizeof($this->getTutors());
+
+		if($num_cols > 15 && !$this->isFilterSet()) {
+			$num_cols = 1;
+		}
+
 		if($this->displayNoTutorsColumn()) 
 		{
 			$num_cols++;
@@ -80,21 +85,21 @@ class ilTEPViewMonth extends ilTEPViewGridBased
 	}
 	
 	protected function prepareDataForPresentation()
-	{		
+	{
 		parent::prepareDataForPresentation();
 		
 		$period = $this->getPeriod();
-		$from = $period[0]->get(IL_CAL_DATE);		
-		$to = $period[1]->get(IL_CAL_DATE);		
+		$from = $period[0]->get(IL_CAL_DATE);
+		$to = $period[1]->get(IL_CAL_DATE);
 		
 		foreach($this->entries as $tutor_id => $entries)
-		{			
+		{
 			$this->entries[$tutor_id] = $this->layoutEvents($entries, $from, $to);
 		}
 	}
 	
 	public function getNavigationOptions()
-	{					
+	{
 		require_once "Services/Calendar/classes/class.ilCalendarUtil.php";
 		
 		$min_year = 2014;
@@ -118,8 +123,8 @@ class ilTEPViewMonth extends ilTEPViewGridBased
 	 * @param ilTemplate $a_tpl
 	 */
 	protected function renderColumnHeaders(ilTemplate $a_tpl)
-	{		
-		global $lng;
+	{
+		global $lng,$ilUser;
 		
 		$seed_id = $this->getSeed()->get(IL_CAL_FKT_DATE, 'Ym');
 				
@@ -136,9 +141,14 @@ class ilTEPViewMonth extends ilTEPViewGridBased
 			$a_tpl->setVariable("COL_WIDTH", self::COL_WIDTH);
 			$a_tpl->parseCurrentBlock();
 		}
+
+		//gev patch-start
+		$lTutors = $this->getTutors();
+		if(count($lTutors) > 15 && !$this->isFilterSet()) {
+				$lTutors = array($ilUser->getId());
+		}
 		
-		
-		foreach(ilTEP::getUserNames($this->getTutors(), true) as $tid => $tname)
+		foreach(ilTEP::getUserNames($lTutors, true) as $tid => $tname)
 		{
 			$col_id = $tid."_".$seed_id;
 
@@ -152,32 +162,43 @@ class ilTEPViewMonth extends ilTEPViewGridBased
 			$a_tpl->setVariable("COL_FOOT", $tname);
 			$a_tpl->setVariable("COL_WIDTH", self::COL_WIDTH);
 			$a_tpl->parseCurrentBlock();
-		}		
+		}
+			
 	}
 	
 	protected function renderContent(ilTemplate $a_tpl)
-	{	
+	{
+		global $ilUser;
+
 		$period = $this->getPeriod();
 		$year = (int)$period[0]->get(IL_CAL_FKT_DATE, "Y");
-		$month = (int)$period[0]->get(IL_CAL_FKT_DATE, "m");	
+		$month = (int)$period[0]->get(IL_CAL_FKT_DATE, "m");
 		$last_day = (int)$period[1]->get(IL_CAL_FKT_DATE, "d");
 		
 		require_once "Services/TEP/classes/class.ilTEPHolidays.php";
 		
 		for($day = 1; $day <= $last_day; $day++)
-		{									
+		{
 			$is_holiday = (ilTEPHolidays::isBankHoliday("de", $year, $month, $day) || 
 							ilTEPHolidays::isWeekend($year, $month, $day));
 		
-			if($this->displayNoTutorsColumn())							
+			if($this->displayNoTutorsColumn())
 			{
-				$this->renderDayForUser($a_tpl, 0, $year, $month, $day, $is_holiday);				
+				$this->renderDayForUser($a_tpl, 0, $year, $month, $day, $is_holiday);
 			}
 
-			foreach($this->getTutors() as $tid)
-			{							
-				$this->renderDayForUser($a_tpl, $tid, $year, $month, $day, $is_holiday);					
-			}					
+			//gev patch-start
+			$lTutors = $this->getTutors();
+			if(count($lTutors) > 15 && !$this->isFilterSet()) {
+					$lTutors = array($ilUser->getId());
+			}
+
+			foreach($lTutors as $tid)
+			{
+				$this->renderDayForUser($a_tpl, $tid, $year, $month, $day, $is_holiday);
+			}
+			//gev patch-end
+			
 
 			$a_tpl->setCurrentBlock("row_bl");
 			$a_tpl->setVariable("DAY", $day);

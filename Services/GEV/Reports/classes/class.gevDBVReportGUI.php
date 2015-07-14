@@ -24,6 +24,7 @@ require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 require_once("Modules/OrgUnit/classes/class.ilObjOrgUnit.php");
 require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 
 
 class gevDBVReportGUI extends catBasicReportGUI{
@@ -114,7 +115,9 @@ class gevDBVReportGUI extends catBasicReportGUI{
 						->static_condition("hu.hist_historic = 0")
 						->static_condition("hucs.hist_historic = 0")
 						->static_condition("hc.hist_historic = 0")
+						->static_condition($this->db->in("hc.dbv_hot_topic", gevSettings::$dbv_hot_topics, false, "text"))
 						//->static_condition("hc.dbv_hot_topic IS NOT NULL")
+						//->static_condition("hc.dbv_hot_topic != '-empty-'")
 						->action($this->ctrl->getLinkTarget($this, "view"))
 						->compile();
 	}

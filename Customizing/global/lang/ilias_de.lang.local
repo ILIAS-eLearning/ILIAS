@@ -1152,3 +1152,4 @@ gev#:#gev_crs_srch_my_table_desc_advice#:#Hinweis:<br />Die Selbstlernkurse find
 gev#:#gev_venue_free_text#:#Freitext Veranstaltungsort
 gev#:#gev_orga_info#:#Organisatorisches
 gev#:#gev_dec_training_date_before_now#:#Das gewählte Startdatum liegt in der Vergangenheit!
+gev#:#gev_dec_training_two_venues#:#Bitte wählen Sie einen Veranstaltungsort aus oder nutzen das Freitextfeld um einen alternativen Veranstaltungsort zu benennen.

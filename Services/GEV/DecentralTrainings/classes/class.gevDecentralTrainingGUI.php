@@ -10,7 +10,7 @@
 */
 
 require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
-require_once("Services/GEV/Utils/classes/class.gevDecentralTrainingUtils.php");
+require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingUtils.php");
 require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
 require_once("Services/CaTUIComponents/classes/class.catPropertyFormGUI.php");
 
@@ -26,6 +26,7 @@ class gevDecentralTrainingGUI {
 		$this->access = &$ilAccess;
 		$this->user_id = null;
 		$this->date = null;
+		$this->open_creation_requests = null;
 
 		$this->tpl->getStandardTemplate();
 	}
@@ -33,10 +34,6 @@ class gevDecentralTrainingGUI {
 	public function executeCommand() {
 		$this->loadUserId();
 		$this->loadDate();
-		
-		
-		
-		$this->checkCanCreateDecentralTraining();
 		
 		$cmd = $this->ctrl->getCmd();
 		
@@ -77,8 +74,23 @@ class gevDecentralTrainingGUI {
 		$this->date = $_GET["date"];
 	}
 	
-	protected function checkCanCreateDecentralTraining() {
-		// TODO
+	protected function getOpenCreationRequests() {
+		if ($this->open_creation_requests === null) {
+			$dec_utils = gevDecentralTrainingUtils::getInstance();
+			$db = $dec_utils->getCreationRequestDB();
+			$this->open_creation_requests = $db->getOpenRequestsOfUser($this->current_user->getId());
+		}
+		return $this->open_creation_requests;
+	}
+	
+	protected function userCanOpenNewCreationRequest() {
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		$user_utils = gevUserUtils::getInstance($this->current_user->getId());
+		if ($user_utils->hasRoleIn("Administrator", "Admin")) {
+			return true;
+		}
+		
+		return count($this->getOpenCreationRequests()) === 0;
 	}
 	
 	protected function cancel() {
@@ -149,6 +161,7 @@ class gevDecentralTrainingGUI {
 	
 	protected function finalizeTrainingCreation() {
 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCreationRequest.php");
 		
 		$form_prev = $this->buildTrainingOptionsForm(false);
 		$dec_utils = gevDecentralTrainingUtils::getInstance();
@@ -156,29 +169,47 @@ class gevDecentralTrainingGUI {
 		if (!$form_prev->checkInput()) {
 			return $this->createTraining($form_prev);
 		}
-
+		
 		$tmp = $form_prev->getInput("date");
 		$date = new ilDate($tmp["date"], IL_CAL_DATE);
 		$dateUnix = $date->get(IL_CAL_UNIX);
 		$now = new ilDate(date('Y-m-d'), IL_CAL_DATE);
 		$nowUnix = $now->get(IL_CAL_UNIX);
 		
-		// ANDERES DATUMS VERGLEICH!!!
 		if($dateUnix < $nowUnix){
 			ilUtil::sendFailure($this->lng->txt("gev_dec_training_date_before_now"), false);
 			return $this->failCreateTraining($form_prev);
 		}
 		
-		$template_id = intval($form_prev->getInput("template_id"));		
-		$trainer_ids = unserialize(base64_decode($form_prev->getInput("trainer_ids")));
+		$venue = $form_prev->getInput("venue");
+		$venue_free_text = $form_prev->getInput("venue_free_text");
 		
-		$res = $dec_utils->create($this->current_user->getId(), $template_id, $trainer_ids);
+		if($venue && $venue_free_text) {
+			ilUtil::sendFailure($this->lng->txt("gev_dec_training_two_venues"), false);
+			return $this->failCreateTraining($form_prev);
+		}
 		
-		$this->updateSettingsFromForm($res["obj_id"], $form_prev);
+		$template_id = intval($form_prev->getInput("template_id"));
+		$trainer_ids = array_map(function($inp) {return (int)$inp; }
+								, unserialize(base64_decode($form_prev->getInput("trainer_ids")))
+								);
+		
+		$crs_utils = gevCourseUtils::getInstance($template_id);
+		$settings = $this->getSettingsFromForm($crs_utils, $form_prev);
+		$creation_request = new gevDecentralTrainingCreationRequest
+									( $dec_utils->getCreationRequestDB()
+									, (int)$this->current_user->getId()
+									, (int)$template_id
+									, $trainer_ids
+									, $settings
+									);
+		$creation_request->request();
+		//$res = $creation_request->run();
 		
 		ilUtil::sendSuccess($this->lng->txt("gev_dec_training_creation_successfull"), true);
 		
-		require_once("Services/CourseBooking/classes/class.ilCourseBookingAdminGUI.php");
+		
+/*		require_once("Services/CourseBooking/classes/class.ilCourseBookingAdminGUI.php");
 		require_once("Services/CourseBooking/classes/class.ilCourseBookingPermissions.php");
 		
 		if (ilCourseBookingPermissions::getInstanceByRefId($res["ref_id"], $this->current_user->getId())->bookCourseForOthers()) {
@@ -194,7 +225,7 @@ class gevDecentralTrainingGUI {
 		}
 		else {
 			return $this->backFromBooking();
-		}
+		}*/
 	}
 	
 	protected function backFromBooking() {
@@ -238,74 +269,103 @@ class gevDecentralTrainingGUI {
 	
 	protected function updateSettings() {
 		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
-		require_once("Services/GEV/Mailing/classes/class.gevCrsAdditionalMailSettings.php");
-		$mail_settings = new gevCrsAdditionalMailSettings($_POST["obj_id"]);
+		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 		
 		$form = $this->buildTrainingOptionsForm(false, $_POST["obj_id"]);
-		
+
+		//gev patch start
 		$form->setValuesByPost();
-		
+
 		if (!$form->checkInput()) {
 			return $this->showSettings($form);
 		}
+		
+		$tmp = $form->getInput("date");
+		$date = new ilDate($tmp["date"], IL_CAL_DATE);
+		$dateUnix = $date->get(IL_CAL_UNIX);
+		$now = new ilDate(date('Y-m-d'), IL_CAL_DATE);
+		$nowUnix = $now->get(IL_CAL_UNIX);
+		
+		if($dateUnix < $nowUnix){
+			ilUtil::sendFailure($this->lng->txt("gev_dec_training_date_before_now"), false);
+			return $this->showSettings($form);
+		}
+
+		$venue = $form->getInput("venue");
+		$venue_free_text = $form->getInput("venue_free_text");
+		
+		if($venue && $venue_free_text) {
+			ilUtil::sendFailure($this->lng->txt("gev_dec_training_two_venues"), false);
+			return $this->showSettings($form);
+		}
+		//gev patch end	
 		
 		if (!$this->access->checkAccess("write_reduced_settings", "", gevObjectUtils::getRefId($_POST["obj_id"]))) {
 			$this->log->write("gevDecentralTrainingGUI::updateSettings: User ".$this->current_user->getId()
 							 ." tried to update Settings but has no permission.");
 			throw new Exception("gevDecentralTrainingGUI::updateSettings: no permission");
 		}
-		$this->updateSettingsFromForm(intval($_POST["obj_id"]), $form);
+		
+		$crs_utils = gevCourseUtils::getInstance($_POST["obj_id"]);
+		$settings = $this->getSettingsFromForm($crs_utils, $form);
+		$settings->applyTo($_POST["obj_id"]);
 		
 		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"));
 		return $this->showSettings($form);
 	}
 	
-	protected function updateSettingsFromForm($a_obj_id, $a_form) {
-		require_once("Services/GEV/Mailing/classes/class.gevCrsAdditionalMailSettings.php");
+	protected function getSettingsFromForm(gevCourseUtils $a_target, $a_form) {
+		require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingSettings.php");
+		require_once("Services/Calendar/classes/class.ilDateTime.php");
 		require_once("Services/Calendar/classes/class.ilDate.php");
-		$crs_utils = gevCourseUtils::getInstance($a_obj_id);
-		$crs = $crs_utils->getCourse();
+	
+		$time = $a_form->getInput("time");
+		$start_date = $a_form->getInput("date");
+		$start_date = $start_date["date"];
 		
-		$tep_orgu_id = $a_form->getInput("orgu_id");
-		$crs_utils->setTEPOrguId($tep_orgu_id ? $tep_orgu_id : null);
+		$start_datetime = new ilDateTime($start_date." ".$time["start"]["time"], IL_CAL_DATETIME);
+		$end_datetime = new ilDateTime($start_date." ".$time["end"]["time"], IL_CAL_DATETIME);
 		
-		if ($crs_utils->isFinalized()) {
-			return;
-			throw new Exception("gevDecentralTrainingGUI::updateSettingsFromForm: Training already finalized.");
-		}
-		
-		$crs->setDescription($a_form->getInput("description"));
-		
-		$tmp = $a_form->getInput("date");
-		$date = new ilDate($tmp["date"], IL_CAL_DATE);
-		$crs_utils->setStartDate($date);
-		$crs_utils->setEndDate($date);
-		
-		$tmp = $a_form->getInput("time");
-		$start = split(":", $tmp["start"]["time"]);
-		$end = split(":", $tmp["end"]["time"]);
-		$time = array($start[0].":".$start[1]."-".$end[0].":".$end[1]);
-		$crs_utils->setSchedule($time);
-		
-		if ($crs_utils->isPraesenztraining()) {
+		if ($a_target->isPraesenztraining()) {
 			$venue = $a_form->getInput("venue");
-			$crs_utils->setVenueId($venue);
-
-			$venue_free_text = $a_form->getInput("venue_free_text");
-			$crs_utils->setVenueFreeText($venue_free_text);
+			$venue_obj_id = $venue ? $venue : null;
+			
+			if (!$venue_obj_id) {
+				$venue_free_text = $a_form->getInput("venue_free_text");
+				$venue_text = $venue_free_text ? $venue_free_text : null;
+			}
+		}
+		else {
+			$venue_obj_id = null;
+			$venue_text = null;
 		}
 		
-		if ($crs_utils->isWebinar()) {
+		if ($a_target->isWebinar()) {
 			$link = $a_form->getInput("webinar_link");
-			$crs_utils->setWebExLink($link ? $link : " ");
+			$webinar_link = $link ? $link : null;
 			$password = $a_form->getInput("webinar_password");
-			$crs_utils->setWebExPassword($password ? $password : " ");
+			$webinar_password = $password ? $password : null;
+		}
+		else {
+			$webinar_link = null;
+			$webinar_password = null;
 		}
 		
+		$orgu_id = $a_form->getInput("orgu_id");
+		$description = $a_form->getInput("description");
 		$orgaInfo = $a_form->getInput("orgaInfo");
-		$crs_utils->setOrgaInfo($orgaInfo);
-
-		$crs->update();
+		
+		return new gevDecentralTrainingSettings
+						( $start_datetime
+						, $end_datetime
+						, $venue_obj_id ? (int)$venue_obj_id : null
+						, $venue_text
+						, $orgu_id ? (int)$orgu_id : null
+						, $description ? $description : ""
+						, $orgaInfo ? $orgaInfo : ""
+						, $webinar_link
+						, $webinar_password
+						);
 	}
 	
 	protected function buildChooseTemplateAndTrainersForm($a_user_id = null, $a_date = null) {
@@ -448,9 +508,7 @@ class gevDecentralTrainingGUI {
 				
 			}
 			else {
-				require_once("Services/GEV/Mailing/classes/class.gevCrsAdditionalMailSettings.php");
 				$crs_utils = gevCourseUtils::getInstance($a_training_id);
-				$mail_settings = new gevCrsAdditionalMailSettings($a_training_id);
 				$tmp = $crs_utils->getSchedule();
 				$sched = explode("-",$tmp[0]);
 				$training_info = array(
@@ -485,8 +543,6 @@ class gevDecentralTrainingGUI {
 			$crs_utils = gevCourseUtils::getInstance($a_training_id);
 			
 			if (!$a_fill) {
-				require_once("Services/GEV/Mailing/classes/class.gevCrsAdditionalMailSettings.php");
-				$mail_settings = new gevCrsAdditionalMailSettings($a_training_id);
 				$training_info = array(
 					  "ltype" => $crs_utils->getType()
 					, "title" => $crs_utils->getTitle()
