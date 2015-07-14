@@ -3670,9 +3670,9 @@ require_once "Customizing/class.ilCustomInstaller.php";
 
 <#129>
 <?php
-if( !$ilDB->tableExists('block_units') )
+if( !$ilDB->tableExists('dct_building_blocks') )
 {
-	$ilDB->createTable('block_units', array(
+	$ilDB->createTable('dct_building_blocks', array(
 		'obj_id' => array(
 			'type' => 'integer',
 			'length' => 4,
@@ -3718,20 +3718,20 @@ if( !$ilDB->tableExists('block_units') )
 			'notnull' => false
 		),
 		'last_change_date' => array(
-			'type' => 'date',
+			'type' => 'timestamp',
 			'notnull' => false
 		)
 	));
 		
-	$ilDB->addPrimaryKey('crs_block_units', array('obj_id'));
+	$ilDB->addPrimaryKey('dct_building_blocks', array('obj_id'));
 }
 ?>
 
 <#130>
 <?php
-if( !$ilDB->tableExists('crs_block_units') )
+if( !$ilDB->tableExists('dct_crs_building_blocks') )
 {
-	$ilDB->createTable('crs_block_units', array(
+	$ilDB->createTable('dct_crs_building_blocks', array(
 		'id' => array(
 			'type' => 'integer',
 			'length' => 4,
@@ -3749,11 +3749,11 @@ if( !$ilDB->tableExists('crs_block_units') )
 			'notnull' => true
 		),
 		'start_date' => array(
-			'type' => 'date',
+			'type' => 'timestamp',
 			'notnull' => true
 		),
 		'end_date' => array(
-			'type' => 'date',
+			'type' => 'timestamp',
 			'notnull' => true
 		),
 		'method' => array(
@@ -3773,7 +3773,7 @@ if( !$ilDB->tableExists('crs_block_units') )
 		)
 	));
 		
-	$ilDB->addPrimaryKey('crs_block_units', array('id'));
+	$ilDB->addPrimaryKey('dct_crs_building_blocks', array('id'));
 }
 ?>
 

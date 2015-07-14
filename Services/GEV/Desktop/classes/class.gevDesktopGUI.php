@@ -32,7 +32,7 @@
 * @ilCtrl_Calls gevDesktopGUI: gevTrainerOperationByTEPCategoryGUI
 * @ilCtrl_Calls gevDesktopGUI: gevDBVReportGUI
 * @ilCtrl_Calls gevDesktopGUI: gevDBVReportSuperiorGUI
-* @ilCtrl_Calls gevDesktopGUI: gevAdminBlockUnitGUI
+* @ilCtrl_Calls gevDesktopGUI: gevDecentralTrainingBuildingBlockAdminGUI
 */
 
 class gevDesktopGUI {
@@ -206,10 +206,10 @@ class gevDesktopGUI {
 				$gui = new gevDBVReportSuperiorGUI();
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;
-			case "gevadminblockunitgui":
+			case "gevdecentraltrainingbuildingblockadmingui":
 				$ilMainMenu->setActive("gev_admin_menu");
-				require_once("Services/GEV/Desktop/classes/class.gevAdminBlockUnitGUI.php");
-				$gui = new gevAdminBlockUnitGUI();
+				require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingBuildingBlockAdminGUI.php");
+				$gui = new gevDecentralTrainingBuildingBlockAdminGUI();
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;
 			default:
@@ -246,7 +246,7 @@ class gevDesktopGUI {
 			case "toDBVReportSuperior":
 			case "toWBDErrors":
 			case "createHAUnit":
-			case "toAdmBlockUnits":
+			case "toDctBuildingBlockAdm":
 			case "handleExplorerCommand":
 				$this->$a_cmd();
 			default:
@@ -258,8 +258,8 @@ class gevDesktopGUI {
 		$this->ctrl->redirectByClass("gevTrainerOperationByTEPCategoryGUI");
 	}
 
-	protected function toAdmBlockUnits() {
-		$this->ctrl->redirectByClass("gevAdminBlockUnitGUI");
+	protected function toDctBuildingBlockAdm() {
+		$this->ctrl->redirectByClass("gevDecentralTrainingBuildingBlockAdminGUI");
 	}
 
 	protected function toCourseSearch() {
