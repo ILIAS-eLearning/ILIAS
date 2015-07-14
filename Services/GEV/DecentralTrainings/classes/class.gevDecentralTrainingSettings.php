@@ -120,6 +120,9 @@ class gevDecentralTrainingSettings {
 	}
 	
 	public function applyTo($a_obj_id) {
+		assert(is_int($a_obj_id));
+		assert(ilObject::_lookupType($a_obj_id) == "crs");
+		
 		require_once("Services/Calendar/classes/class.ilDate.php");
 		$crs_utils = $this->getCourseUtils($a_obj_id);
 		$crs = $crs_utils->getCourse();
