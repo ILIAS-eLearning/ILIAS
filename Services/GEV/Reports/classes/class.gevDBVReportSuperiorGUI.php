@@ -92,6 +92,13 @@ class gevDBVReportSuperiorGUI extends catBasicReportGUI{
 						->compile();
 						
 		$dbv_fin_uvg = $roles->usersHavingRole("DBV-Fin-UVG");
+		if ($this->user_utils->isAdmin()) {
+			$dbv_fin_uvg_employees = $dbv_fin_uvg;
+		}
+		else {
+			$employees = $this->user_utils->getEmployees();
+			$dbv_fin_uvg_employees = array_intersect($dbv_fin_uvg, $employees);
+		}
 
 		$this->filter = catFilter::create()
 						->checkbox( "critical"
@@ -104,7 +111,7 @@ class gevDBVReportSuperiorGUI extends catBasicReportGUI{
 								   , $this->lng->txt("gev_lastname_filter")
 								   , "dbv.lastname"
 								   )
-						->static_condition($this->db->in("oup.usr_id", $dbv_fin_uvg, false, "integer"))
+						->static_condition($this->db->in("oup.usr_id", $dbv_fin_uvg_employees, false, "integer"))
 						->static_condition("hc.end_date < ".$this->db->quote("2016-01-01","date"))
 						->static_condition("hc.end_date >= ".$this->db->quote("2015-01-01","date"))
 						->static_condition("oda.type = 'role'")
@@ -116,9 +123,18 @@ class gevDBVReportSuperiorGUI extends catBasicReportGUI{
 						->action($this->ctrl->getLinkTarget($this, "view"))
 						->compile();
 	}
+	
+	protected function checkPermission($a_target_user_id) {
+		if (!$this->user_utils->isAdmin()) {
+			throw new Exception("No permission to view report");
+		}
+	}
 
 	protected function transformResultRow($rec) {
 		$rec['odbd'] = $rec['org_unit_above1'];
+		$this->ctrl->setParameterByClass("gevDBVReportGUI", "target_user_id", $rec["user_id"]);
+		$rec["dbv_report_link"] = $this->ctrl->getLinkTargetByClass("gevDBVReportGUI");
+		$this->ctrl->setParameterByClass("gevDBVReportGUI", "target_user_id", null);
 
 		return $this->replaceEmpty($rec);
 	}
