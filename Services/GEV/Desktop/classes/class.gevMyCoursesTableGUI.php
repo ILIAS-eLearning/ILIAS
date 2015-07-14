@@ -16,8 +16,10 @@ require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 require_once("Services/Calendar/classes/class.ilDatePresentation.php");
 require_once("Services/CourseBooking/classes/class.ilCourseBooking.php");
 require_once("Services/CaTUIComponents/classes/class.catLegendGUI.php");
+require_once 'Services/Calendar/classes/class.ilDateTime.php';
 
 class gevCoursesTableGUI extends catAccordionTableGUI {
+	const CUM_TEMPORE_MIN = 120;
 	public function __construct($a_user_id, $a_parent_obj, $a_parent_cmd="", $a_template_context="") {
 		parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
 
@@ -80,7 +82,7 @@ class gevCoursesTableGUI extends catAccordionTableGUI {
 		// i know this has timezone issues....
 		$now_str = @date("Y-m-d");
 		$now = new ilDate($now_str, IL_CAL_DATE);
-		
+
 		if ($a_set["end_date"] === null) {
 			$a_set["end_date"] = $a_set["start_date"];
 		}
@@ -119,12 +121,22 @@ class gevCoursesTableGUI extends catAccordionTableGUI {
 			)
 			&& $a_set["type"] != "Selbstlernkurs"
 			;
+
 		if ($show_cancel_link) {
 			$action .= '<a href="'.gevCourseUtils::getCancelLinkTo($a_set["obj_id"], $this->user_id).'">'.
 					  $this->cancel_img."</a>";
 		}
+		
+		$datetime = new ilDateTime();
+		$offset =  $datetime->getUTCOffset(); 
 
-		if ($crs_utils->getWebExlink() !== null) {
+		if ( $a_set["start_date"] && $a_set["end_date"] && $a_set["crs_amd_schedule"] ) {
+			$show_webex_link = gevCourseUtils::timeWithinCourse(
+				time() - $offset , self::CUM_TEMPORE_MIN, $a_set["start_date"], $a_set["end_date"], $a_set["crs_amd_schedule"]
+			) && ($crs_utils->getWebExlink()!==null);
+		}
+
+		if ($show_webex_link ) {
 			$action .= '&nbsp;<a href="'.$crs_utils->getWebExlink().'" target="_blank">'.$this->virtualclass_img.'</a>';
 		}
 

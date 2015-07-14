@@ -59,9 +59,12 @@ class ilMailLogTableGUI extends ilTable2GUI {
 		
 		for ($i = 0; $i < $count; ++$i) {
 			$this->ctrl->setParameter($this->parent_gui, "mail_id", $data[$i]["id"]);
+			$this->ctrl->setParameter($this->parent_gui, "obj_id", $this->mail_log->getObjectId());
+
 			$data[$i]["_view_action"] = $this->ctrl->getLinkTarget($this->parent_gui, "showLoggedMail");
 		}
 		$this->ctrl->setParameter($this, "mail_id", null);
+		$this->ctrl->setParameter($this->parent_gui, "obj_id", null);
 
 		$this->setData($data);
 	}

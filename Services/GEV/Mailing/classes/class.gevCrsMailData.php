@@ -206,6 +206,9 @@ class gevCrsMailData extends ilMailData {
 				break;
 			case "VO-NAME":
 				$val = $this->crs_utils->getVenueTitle();
+				if (!$val) {
+					return $this->crs_utils->getVenueFreeText();
+				}
 				break;
 			case "VO-STRAßE":
 				$val = $this->crs_utils->getVenueStreet();
@@ -226,7 +229,7 @@ class gevCrsMailData extends ilMailData {
 				$val = $this->crs_utils->getVenueHomepage();
 				break;
 			case "WEBINAR-LINK":
-				$val = $this->crs_utils->getWebExLink();
+				$val = $this->crs_utils->getWebExLinkWithHTTP();
 				break;
 			case "WEBINAR-PASSWORT":
 				$val = $this->crs_utils->getWebExPassword();

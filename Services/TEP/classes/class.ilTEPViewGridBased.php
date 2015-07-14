@@ -293,16 +293,16 @@ abstract class ilTEPViewGridBased extends ilTEPView
 		if($this->getPermissions()->mayViewOthers())
 		{
 			// org unit(s)
-			$orgs = ilTEP::getViewableOrgUnits($this->getPermissions());
+			$orgs = ilTEP::getViewableOrgUnitsSeperated($this->getPermissions());
+
 			if($orgs)
 			{
 				require_once "Services/TEP/classes/class.ilTEPOrgUnitSelectionInputGUI.php";
 				$ogrp = new ilTEPOrgUnitSelectionInputGUI($orgs, "tepflt_orgu", true);
 				$ogrp->setValue($filter["orgu"]["ids"]);
 				$ogrp->setRecursive($filter["orgu"]["rcrsv"]);
-						
 				$tpl->setVariable("ORGU_CAPTION", $lng->txt("objs_orgu"));
-				$tpl->setVariable("ORGU_FIELD", $ogrp->getTableFilterHTML());	
+				$tpl->setVariable("ORGU_FIELD", $ogrp->getTableFilterHTML());
 			}
 			
 			// tutor 
@@ -313,7 +313,7 @@ abstract class ilTEPViewGridBased extends ilTEPView
 				$tutor->setValue($filter["tutor"]);
 				$tutor->addCustomAttribute(' onchange="this.form.submit();"');
 				$tpl->setVariable("TUTOR_CAPTION", $lng->txt("tep_filter_tutor"));
-				$tpl->setVariable("TUTOR_FIELD", $tutor->getToolbarHTML());		
+				$tpl->setVariable("TUTOR_FIELD", $tutor->getToolbarHTML());
 			}
 		}
 
@@ -719,8 +719,18 @@ abstract class ilTEPViewGridBased extends ilTEPView
 				$actions .=  "<a href='".$crs_utils->getWebExLink()
 							."' title='".$lng->txt("gev_virtual_class")."' target='_blank'>".$vc_img."</a>&nbsp;";
 			}
+			
+			$ilCtrl->setParameterByClass("gevMaillogGUI", "obj_id", $a_set["obj_id"]);
+			$ilCtrl->setParameterByClass("ilTEPGUI", "obj_id", $a_set["obj_id"]);
+			$maillog_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-invitation.png").'" />';
+			$actions .= '<a href="'.$ilCtrl->getLinkTargetByClass("gevMaillogGUI", "showMaillog").'">'.$maillog_img.'</a>';
+			$ilCtrl->clearParametersByClass("gevMaillogGUI");
+
+			
+
 			$ilCtrl->setParameterByClass("ilTEPGUI", "ref_id", null);
 			$ilCtrl->setParameterByClass("ilTEPGUI", "crs_id", null);
+			$ilCtrl->setParameterByClass("ilTEPGUI", "obj_id", null);
 			
 			if ($actions) {
 				$a_entry["description"] .= "<br /><br />".$actions;

@@ -216,7 +216,34 @@ class ilTEP
 		$set = $ilDB->query($sql);
 		while($row = $ilDB->fetchAssoc($set))
 		{			
-			$res[$row["ref_id"]] = $row["title"];			
+			$res[$row["ref_id"]] = $row["title"];
+		}
+		
+		return $res;
+	}
+
+	/**
+	 * Get org unit name presentation
+	 *
+	 * @param array $a_org_ref_ids
+	 * @return array
+	 */
+	public static function getOrgUnitNamesAndIds(array $a_org_ref_ids)
+	{
+		global $ilDB;
+		
+		$res = array();
+		
+		$sql = "SELECT od.title, oref.ref_id, od.obj_id".
+			" FROM object_data od".
+			" JOIN object_reference oref ON (oref.obj_id = od.obj_id)".
+			" WHERE ".$ilDB->in("oref.ref_id", array_unique($a_org_ref_ids), "", "integer").
+			" AND od.type = ".$ilDB->quote("orgu", "text").
+			" ORDER BY title, od.obj_id";
+		$set = $ilDB->query($sql);
+		while($row = $ilDB->fetchAssoc($set))
+		{			
+			$res[$row["ref_id"]] = array("title"=>$row["title"],"ref_id"=>$row["ref_id"],"obj_id"=>$row["obj_id"]);
 		}
 		
 		return $res;
@@ -231,10 +258,28 @@ class ilTEP
 	public static function getViewableOrgUnits(ilTEPPermissions $a_permissions)
 	{		
 		$org_ids = $a_permissions->getViewOtherOrgUnits();
-		$org_ids = array_merge($org_ids, $a_permissions->getViewOtherRecursiveOrgUnits());		
-		return self::getOrgUnitNames($org_ids);		
+		$org_ids = array_merge($org_ids, $a_permissions->getViewOtherRecursiveOrgUnits());
+		return self::getOrgUnitNames($org_ids);
 	}
 	
+	//gev patch start
+	/**
+	 * Get all orgunit names where user has ViewOtherOrgunit and -Rekursive permission
+	 * filled in two seperated arrays
+	 * 
+	 * @param ilTEPPermissions $a_permissions
+	 * @return array
+	 */
+	public static function getViewableOrgUnitsSeperated(ilTEPPermissions $a_permissions)
+	{		
+		$org_ids = $a_permissions->getViewOtherOrgUnits();
+		$org_rekru_ids = $a_permissions->getViewOtherRecursiveOrgUnitsOnlyOneTreeLevel();
+
+		$ret = array('view' => self::getOrgUnitNamesAndIds($org_ids), 'view_rekru' => self::getOrgUnitNamesAndIds($org_rekru_ids));
+		return $ret;
+	}
+	//gev patch end
+
 	/**
 	 * Get all tutor names (in given org units) where user has "write" permission
 	 * 

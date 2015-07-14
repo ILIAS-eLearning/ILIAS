@@ -12,6 +12,7 @@ require_once "Services/TEP/classes/class.ilTEPPermissions.php";
  * 
  * @ilCtrl_Calls ilTEPGUI: ilTEPEntryGUI, ilTEPOperationDaysGUI, ilFormPropertyDispatchGUI
  * @ilCtrl_Calls ilTEPGUI: ilParticipationStatusAdminGUI
+ * @ilCtrl_Calls ilTEPGUI: gevMaillogGUI
  */
 class ilTEPGUI
 {
@@ -176,6 +177,7 @@ class ilTEPGUI
 					case "saveStatusAndPoints":
 					case "uploadAttendanceList":
 					case "viewAttendanceList":
+					case "deleteAttendanceList":
 						//ilParticipationStatusTableGUI
 						require_once("Services/ParticipationStatus/classes/class.ilParticipationStatusAdminGUI.php");
 						$crs_ref_id = $this->getCrsRefId();
@@ -187,6 +189,15 @@ class ilTEPGUI
 						//$gui->returnToList();
 						//die('forwarding cmd');
 						$ret = $ilCtrl->forwardCommand($gui);
+						break;
+					case "showMaillog":
+					case "showLoggedMail":
+						require_once("Services/GEV/Mailing/classes/class.gevMaillogGUI.php");
+						$gui = new gevMaillogGUI("iltepgui");
+						$ret = $ilCtrl->forwardCommand($gui);
+						break;
+					case "listParticipationStatus":
+						$this->showParticipationStatus();
 						break;
 					default:
 						$this->$cmd();

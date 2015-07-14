@@ -1190,6 +1190,22 @@ class gevCourseUtils {
 	public function getWebExLink() {
 		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_WEBEX_LINK);
 	}
+
+	public function getWebExLinkWithHTTP() {
+		$link = $this->getWebExLink();
+
+		if($this->startsWith(strtolower($link), "http://") || $this->startsWith(strtolower($link), "https://")) {
+			return $link;
+		}
+
+		return "http://".strtolower($link);
+	}
+
+	private function startsWith($haystack, $needle)
+	{
+		$length = strlen($needle);
+		return (substr($haystack, 0, $length) === $needle);
+	}
 	
 	public function setWebExLink($a_value) {
 		return $this->amd->setField($this->crs_id, gevSettings::CRS_AMD_WEBEX_LINK, $a_value);
@@ -2938,6 +2954,21 @@ class gevCourseUtils {
 			$ret[] = $rec;
 		}
 		return $ret;
+	}
+
+	static public function timeWithinCourse($timestamp, $ct_minutes,
+		ilDateTime $a_start_date, ilDateTime $a_end_date,
+		array $a_crs_schedule) {
+		$start_time = explode(":",explode("-",$a_crs_schedule[0])[0]);
+		$end_time =  explode(":",explode("-",$a_crs_schedule[count($a_crs_schedule)-1])[1]);
+		$start_time = $start_time[0]*3600+($start_time[1]-$ct_minutes)*60;
+		$end_time = $end_time[0]*3600+($end_time[1]+$ct_minutes)*60;
+
+		$start = $a_start_date->getUnixTime();
+		$end = $a_end_date->getUnixTime();
+
+		return $start+$start_time < $timestamp 
+			&& $end+$end_time > $timestamp;
 	}
 }
 
