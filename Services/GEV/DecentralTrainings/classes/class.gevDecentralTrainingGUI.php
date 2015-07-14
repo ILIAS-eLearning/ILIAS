@@ -45,6 +45,7 @@ class gevDecentralTrainingGUI {
 			case "backFromBooking":
 			case "showSettings":
 			case "updateSettings":
+			case "showOpenRequests":
 				$cont = $this->$cmd();
 			default:
 				$this->log->write("gevDecentralTrainingGUI: Unknown command '".$this->cmd."'");
@@ -78,7 +79,7 @@ class gevDecentralTrainingGUI {
 		if ($this->open_creation_requests === null) {
 			$dec_utils = gevDecentralTrainingUtils::getInstance();
 			$db = $dec_utils->getCreationRequestDB();
-			$this->open_creation_requests = $db->getOpenRequestsOfUser($this->current_user->getId());
+			$this->open_creation_requests = $db->getOpenRequestsOfUser((int)$this->current_user->getId());
 		}
 		return $this->open_creation_requests;
 	}
@@ -89,7 +90,6 @@ class gevDecentralTrainingGUI {
 		if ($user_utils->hasRoleIn("Administrator", "Admin")) {
 			return true;
 		}
-		
 		return count($this->getOpenCreationRequests()) === 0;
 	}
 	
@@ -97,7 +97,41 @@ class gevDecentralTrainingGUI {
 		$this->ctrl->redirectByClass("ilTEPGUI");
 	}
 	
+	protected function showOpenRequests() {
+		require_once("Services/Calendar/classes/class.ilDatePresentation.php");
+		
+		$title = new catTitleGUI("gev_dec_training_creation", "gev_dec_training_creation_header_note", "GEV_img/ico-head-create-decentral-training.png");
+		
+		$tpl = new ilTemplate("tpl.open_requests.html", true, true, "Services/GEV/DecentralTrainings");
+		
+		$tpl->touchBlock("header");
+		
+		$requests = $this->getOpenCreationRequests();
+		foreach ($requests as $request) {
+			$tpl->setCurrentBlock("request");
+			$tpl->setVariable("TITLE", ilObject::_lookupTitle($request->templateObjId()));
+			$settings = $request->settings();
+			$start = explode(", ", ilDatePresentation::formatDate($settings->start()));
+			$tpl->setVariable("DATE", $start[0]);
+			$tpl->setVariable("START_TIME", $start[1]);
+			$end = explode(" ", ilDatePresentation::formatDate($settings->end()));
+			$tpl->setVariable("END_TIME", $end[1]);
+			$tpl->parseCurrentBlock();
+		}
+		
+		$tpl->setCurrentBlock("footer");
+		$tpl->setVariable("WAITING_TIME_MIN", "drölf");
+		$tpl->parseCurrentBlock();
+		
+		return $title->render()
+			  . $tpl->get();
+	}
+	
 	protected function chooseTemplateAndTrainers($a_form = null) {
+		if (!$this->userCanOpenNewCreationRequest()) {
+			return $this->ctrl->redirect($this, "showOpenRequests");
+		}
+		
 		$title = new catTitleGUI("gev_dec_training_creation", "gev_dec_training_creation_header_note", "GEV_img/ico-head-create-decentral-training.png");
 		
 		$form = ($a_form === null) ? $this->buildChooseTemplateAndTrainersForm($this->user_id, $this->date)
@@ -108,6 +142,10 @@ class gevDecentralTrainingGUI {
 	}
 	
 	protected function createTraining($a_form = null) {
+		if (!$this->userCanOpenNewCreationRequest()) {
+			return $this->ctrl->redirect($this, "showOpenRequests");
+		}
+		
 		$form_prev = $this->buildChooseTemplateAndTrainersForm($this->user_id, $this->date);
 		$dec_utils = gevDecentralTrainingUtils::getInstance();
 		
@@ -160,6 +198,10 @@ class gevDecentralTrainingGUI {
 	}
 	
 	protected function finalizeTrainingCreation() {
+		if (!$this->userCanOpenNewCreationRequest()) {
+			return $this->ctrl->redirect($this, "showOpenRequests");
+		}
+		
 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 		require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCreationRequest.php");
 		

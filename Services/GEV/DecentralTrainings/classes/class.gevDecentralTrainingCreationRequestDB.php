@@ -88,8 +88,8 @@ class gevDecentralTrainingCreationRequestDB {
 		if ($rec = $ilDB->fetchAssoc($res)) {
 			$settings = $this->newSettings( new ilDateTime($rec["start_dt"], IL_CAL_DATETIME)
 										  , new ilDateTime($rec["end_dt"], IL_CAL_DATETIME)
-										  , (int)$rec["venue_obj_id"]
-										  , $rec["venue_text"]
+										  , $rec["venue_obj_id"] ? (int)$rec["venue_obj_id"] : null
+										  , $rec["venue_text"] ? $rec["venue_text"] : null
 										  , $rec["orgu_ref_id"] ? (int)$rec["orgu_ref_id"] : null
 										  , $rec["description"] ? $rec["description"] : ""
 										  , $rec["orga_info"] ? $rec["orga_info"] : ""
@@ -126,8 +126,8 @@ class gevDecentralTrainingCreationRequestDB {
 		while($rec = $ilDB->fetchAssoc($res)) {
 			$settings = $this->newSettings( new ilDateTime($rec["start_dt"], IL_CAL_DATETIME)
 										  , new ilDateTime($rec["end_dt"], IL_CAL_DATETIME)
-										  , (int)$rec["venue_obj_id"]
-										  , $rec["venue_text"]
+										  , $rec["venue_obj_id"] ? (int)$rec["venue_obj_id"] : null
+										  , $$rec["venue_text"] ? $rec["venue_text"] : null
 										  , $rec["orgu_ref_id"] ? (int)$rec["orgu_ref_id"] : null
 										  , $rec["description"] ? $rec["description"] : ""
 										  , $rec["orga_info"] ? $rec["orga_info"] : ""
