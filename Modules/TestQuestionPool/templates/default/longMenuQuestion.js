@@ -1,6 +1,7 @@
 var longMenuQuestion = (function () {
 	var pub = {};
 	var new_question_part = { 0 : [] };
+	var temp_answers = [];
 	pub.questionParts, pub.answers;
 
 	function buildAndInitGapWizard()
@@ -26,13 +27,13 @@ var longMenuQuestion = (function () {
 		gap_wizard.callbackCleanGapCode 	= function (){debugPrinter('cleanup done')};
 		gap_wizard.checkDataConsistencyAfterGapRemoval = function ( existing_gaps )
 		{
-			checkDataConsitency(existing_gaps);
+			checkDataConsistency(existing_gaps);
 		};
 		
 		gap_wizard.Init();
 	}
 
-	function checkDataConsitency(existing_gaps)
+	function checkDataConsistency(existing_gaps)
 	{
 		pub.questionParts.list  = $().ensureNoArrayIsAnObjectRecursive(pub.questionParts.list);
 		pub.answers             = $().ensureNoArrayIsAnObjectRecursive(pub.answers);
@@ -40,26 +41,28 @@ var longMenuQuestion = (function () {
 		{
 			pub.answers = [];
 			pub.questionParts.list = [];
-			debugPrinter('checkDataConsistencyAfterGapRemoval removed all gaps.')
+			debugPrinter('checkDataConsistency removed all gaps.')
 		}
 		else if(existing_gaps.length > pub.questionParts.list.length )
 		{
-			console.log(existing_gaps)
-			console.log(pub.questionParts.list)
+			//Todo: fix this
+			debugPrinter(existing_gaps)
+			debugPrinter(pub.questionParts.list)
 			redrawFormParts();
 		}
 		else
 		{
 			var answers = [];
 			var list    = [];
+			var t0 = benchmarkCallsDummyNotForUsage('checkDataConsistency');
 			$.each(pub.questionParts.list , function( index, value ) {
-				console.log(index)
 				if($.inArray(index + 1, existing_gaps) != -1)
 				{
 					answers.push(pub.answers[index]);
 					list.push(pub.questionParts.list[index]);
 				}
 			});
+			benchmarkCallsDummyNotForUsage('checkDataConsistency', t0);
 			pub.answers = answers;
 			pub.questionParts.list = list;
 		}
@@ -71,6 +74,7 @@ var longMenuQuestion = (function () {
 		var footer_class 	= $('.ilFormFooter');
 		var new_title 		= $(".gap_title").find('.ilFormHeader').clone().addClass('longmenu_head longmenu');
 		var title 			= 0;
+		var t0 = benchmarkCallsDummyNotForUsage('appendFormParts');
 		$.each(pub.questionParts.list , function( index, value ) {
 			footer_class.parent().append(new_title.clone());
 			title = parseInt(index, 10) + 1;
@@ -80,6 +84,7 @@ var longMenuQuestion = (function () {
 			appendSelectBox(footer_class, index);
 			appendAnswersOverview(footer_class, index);
 		});
+		benchmarkCallsDummyNotForUsage('appendFormParts', t0);
 		footer_class.appendTo( '#form_assLongMenu');
 		addEditListeners();
 	}
@@ -93,7 +98,7 @@ var longMenuQuestion = (function () {
 
 	function appendAnswersOverview(footer_class, index)  {
 		var id = 'answer_overview_' + index;
-		footer_class.parent().append($('#layout_dummy_answers').clone().attr('id', id).addClass('longmenu'));
+		footer_class.parent().append($('#layout_dummy_answers').clone().attr({'id': id}).addClass('longmenu'));
 		var selector = $('#' + id);
 		selector.find('label').html(long_menu_language.answers);
 		var html = buildAnswerOverview(index);
@@ -104,7 +109,7 @@ var longMenuQuestion = (function () {
 	function appendPointsField(footer_class, index)  {
 		var id = 'points_' + index;
 		var name = 'points[' + index + ']';
-		footer_class.parent().append($('#layout_dummy_points').clone().attr('id', id).addClass('longmenu'));
+		footer_class.parent().append($('#layout_dummy_points').clone().attr({'id': id}).addClass('longmenu'));
 		$('#' + id).find('input').attr('name' , name);
 	}
 
@@ -115,22 +120,23 @@ var longMenuQuestion = (function () {
 		{
 			html =	'<p>' + long_menu_language.answer_options + pub.answers[question_id].length;
 			html += ' <a data-id="' + question_id +
-			'" class="answer_options"> ' +
-			long_menu_language.edit + '</a></p>';
+					'" class="answer_options"> ' +
+					long_menu_language.edit + '</a></p>';
 			html += '<p>' + long_menu_language.correct_answers;
 			var answers = '';
+			var t0 = benchmarkCallsDummyNotForUsage('buildAnswerOverview');
 			$.each(pub.questionParts.list[question_id][0] , function( index, value ) {
 				answers += value + ', ';
 			});
 			html += ' ' + answers.substring(0, answers.length - 2) +
-			'<a data-id="' + question_id +
-			'" class="correct_answers"> ' + long_menu_language.edit + '</a></p>';
+					'<a data-id="' + question_id + '" class="correct_answers"> ' + long_menu_language.edit + '</a></p>';
+			benchmarkCallsDummyNotForUsage('buildAnswerOverview', t0);
 		}
 		else
 		{
 			html = 	' <a data-id="' + question_id +
-			'" class="answer_options">' +
-			long_menu_language.add_answers + '</a></p>';
+					'" class="answer_options">' +
+					long_menu_language.add_answers + '</a></p>';
 		}
 
 		return html;
@@ -139,13 +145,12 @@ var longMenuQuestion = (function () {
 	function addEditListeners()  {
 		$( '.answer_options' ).on( "click", function() {
 			var gap_id = $( this ).attr('data-id');
+			temp_answers = pub.answers[gap_id];
+			
 			debugPrinter('answer_options ' + gap_id );
 			$('#ilGapModal').modal('show');
 			appendModalTitle(long_menu_language.answer_options, gap_id);
-			var html = $('#layout_dummy_upload').clone().html();
-			html += long_menu_language.manual_editing + '<div class="modal_answer_options"></div>';
-			html += $('#layout_dummy_buttons').clone().attr('id', '').html();
-			$('.modal-body').html(html);
+			$('.modal-body').html(appendUploadButtons());
 			$('.modal-body').find('.upload').attr('id', 'fileinput');
 			document.getElementById('fileinput').addEventListener('change', readSingleFile, false);
 			redrawAnswerList(gap_id);
@@ -160,6 +165,13 @@ var longMenuQuestion = (function () {
 		});
 	}
 
+	function appendUploadButtons()
+	{
+		var html = $('#layout_dummy_upload').clone().html();
+		html += long_menu_language.manual_editing + '<div class="modal_answer_options"></div>';
+		html += $('#layout_dummy_buttons').clone().attr('id', '').html();
+		return html;
+	}
 	function appendModalTitle(text, question_id)
 	{
 		var modal_title = $('.modal-title');
@@ -174,8 +186,9 @@ var longMenuQuestion = (function () {
 
 	function appendModalCloseListener()
 	{
-		$('#ilGapModal').off('hidden.bs.modal');
-		$('#ilGapModal').on('hidden.bs.modal', function () {
+		var modal_object = $('#ilGapModal');
+		modal_object.off('hidden.bs.modal');
+		modal_object.on('hidden.bs.modal', function () {
 			redrawFormParts();
 		});
 	}
@@ -195,8 +208,7 @@ var longMenuQuestion = (function () {
 		var buttons = $('.layout_dummy_add_remove_buttons').html();
 		if(inputFieldsStillPossible(question_id))
 		{
-			//Todo: remove
-			var t0 = performance.now();
+			var t0 = benchmarkCallsDummyNotForUsage('redrawAnswerList');
 			$.each(pub.answers[question_id] , function( index, value ) {
 				html += '<input type="text" class="col-sm-10 text-right answerlist" size="5" value="' +
 				value + '" data-id="' + index + '">' + buttons;
@@ -205,10 +217,9 @@ var longMenuQuestion = (function () {
 			{
 				html += '<input type="text" class="col-sm-10 text-right answerlist" size="5" value="" data-id="0">' + buttons;
 			}
+			benchmarkCallsDummyNotForUsage('redrawAnswerList only html build', t0);
 			$('.modal_answer_options').html(html);
-			//Todo: remove
-			var t1 = performance.now();
-			debugPrinter("Call redrawAnswerList took " + (t1 - t0) + " milliseconds.")
+			benchmarkCallsDummyNotForUsage('redrawAnswerList', t0);
 		}
 		else
 		{
@@ -224,6 +235,7 @@ var longMenuQuestion = (function () {
 	}
 	function redrawAnswerListFast(gap_id, answer_id, addRow)
 	{
+		var answerlist_object = $('.answerlist');
 		debugPrinter('redraw answer list fast');
 		debugPrinter('New answer ' + answer_id + ' in gap ' + gap_id);
 		checkAnswersArray(gap_id);
@@ -233,12 +245,12 @@ var longMenuQuestion = (function () {
 		{
 			if(addRow)
 			{
-				$('.answerlist').eq(answer_id).before('<input ' + input_string + '>' + buttons);
+				answerlist_object.eq(answer_id).before('<input ' + input_string + '>' + buttons);
 			}
 			else
 			{
-				$('.answerlist').eq(answer_id).next().remove();
-				$('.answerlist').eq(answer_id).remove();
+				answerlist_object.eq(answer_id).next().remove();
+				answerlist_object.eq(answer_id).remove();
 			}
 			appendAnswerCloneButtonEvents();
 			recalculateAnswerlistDataIds();
@@ -247,77 +259,91 @@ var longMenuQuestion = (function () {
 	}
 	function recalculateAnswerlistDataIds()
 	{
+		var t0 = benchmarkCallsDummyNotForUsage('recalculateAnswerlistDataIds');
 		$.each($('.answerlist') , function( index, value ) {
 			$(this).attr('data-id', index);
 		});
+		benchmarkCallsDummyNotForUsage('recalculateAnswerlistDataIds', t0);
 	}
 
 	function appendAnswerCloneButtonEvents()
 	{
+		var t0 = benchmarkCallsDummyNotForUsage('appendAnswerCloneButtonEvents');
 		appendAddButtonEvent();
 		appendRemoveButtonEvent();
 		appendSaveModalButtonEvent();
 		appendCancelModalButtonEvent();
+		benchmarkCallsDummyNotForUsage('appendAnswerCloneButtonEvents', t0);
 	}
 
 	function appendAddButtonEvent()
 	{
-		var add 	= $( '.clone_fields_add' );
-		add.off( "click");
-		add.on( "click", function() {
-			var gap_id 		= $(this).parent().prev().attr('data-id');
-			var question_id = $('.modal-title').attr('data-id');
-			pub.answers[question_id].splice(gap_id,0,[]);
-			redrawAnswerListFast(question_id,gap_id, true);
-			return false;
+		appendAbstractCloneButtonEvent( '.clone_fields_add' , function (gap_id, question_id )
+		{
+			temp_answers.splice(gap_id,0,[]);
+			redrawAnswerListFast(question_id, gap_id, true);
 		});
 	}
 
 	function appendRemoveButtonEvent()
 	{
-		var remove 	= $( '.clone_fields_remove' );
-		remove.off( "click");
-		remove.on( "click", function() {
+		appendAbstractCloneButtonEvent( '.clone_fields_remove' , function (gap_id, question_id )
+		{
+			if(temp_answers.length > 1)
+			{
+				temp_answers.splice(gap_id,1);
+				redrawAnswerListFast(question_id, gap_id, false);
+			}
+		});
+	}
+	function appendAbstractCloneButtonEvent(classElement, eventCallback)
+	{
+		var button 	= $(classElement);
+		button.off( "click");
+		button.on( "click", function() {
 			var gap_id 		= $(this).parent().prev().attr('data-id');
 			var question_id = $('.modal-title').attr('data-id');
-			if(pub.answers[question_id].length > 1)
-			{
-				pub.answers[question_id].splice(gap_id,1);
-				redrawAnswerListFast(question_id,gap_id, false);
+			if (typeof eventCallback === 'function') {
+				eventCallback(gap_id, question_id);
 			}
 			return false;
 		});
 	}
 
-
 	function appendSaveModalButtonEvent()
 	{
-		var save 	= $( '.save-modal' );
-		save.off( "click");
-		save.on( "click", function() {
+		appendAbstractModalButtonEvent( '.save-modal' , function (){
 			var gap_id 		= $('.modal-title').attr('data-id');
 			var answers		= [];
 			if(inputFieldsStillPossible(gap_id))
 			{
+				var t0 = benchmarkCallsDummyNotForUsage('appendSaveModalButtonEvent');
 				$.each($('.answerlist') , function() {
 					answers.push($(this).attr('value'));
 				});
+				benchmarkCallsDummyNotForUsage('appendSaveModalButtonEvent', t0);
 			}
 			else
 			{
 				answers  = $('.input-large').attr('value').split('\n');
 			}
 			pub.answers[gap_id] = answers;
-			$('#ilGapModal').modal('hide');
-			return false;
 		});
 	}
 
 	function appendCancelModalButtonEvent()
 	{
-		var cancel 	= $( '.cancel-modal' );
-		cancel.off( "click");
-		cancel.on( "click", function() {
+		appendAbstractModalButtonEvent( '.cancel-modal' , function (){});
+	}
+
+	function appendAbstractModalButtonEvent(classElement, eventCallback)
+	{
+		var button 	= $(classElement);
+		button.off( "click");
+		button.on( "click", function() {
+			if (typeof eventCallback === 'function') {
+				eventCallback();
+			}
 			$('#ilGapModal').modal('hide');
 			return false;
 		});
@@ -331,22 +357,25 @@ var longMenuQuestion = (function () {
 	function syncWithCorrectAnswers(question_id)
 	{
 		var to_remove = [];
+		var t0 = benchmarkCallsDummyNotForUsage('syncWithCorrectAnswers');
 		$.each(pub.questionParts.list[question_id][0] , function( index, value ) {
 			if ($.inArray(value, pub.answers[question_id]) == -1 )
 			{
 				to_remove.push(index);
 			}
 		});
-		to_remove.sort(function(a, b){return b-a});
+		to_remove.sort(function(a, b){ return b - a } );
 		$.each(to_remove , function( index, position ) {
 			debugPrinter('value on pos ' + position + ' removed because it is no part of the answer list anymore.');
 			pub.questionParts.list[question_id][0].splice(position, 1);
 		});
+		benchmarkCallsDummyNotForUsage('syncWithCorrectAnswers', t0);
 	}
 
 	function checkAnswersArray(question_id)
 	{
 		var result = [];
+		var t0 = benchmarkCallsDummyNotForUsage('checkAnswersArray');
 		$.each(pub.answers[question_id], function(index, value) {
 			value = value.toString().replace(/"/g,'');
 			if ($.inArray(value, result) == -1 )
@@ -357,6 +386,7 @@ var longMenuQuestion = (function () {
 				}
 			}
 		});
+		benchmarkCallsDummyNotForUsage('checkAnswersArray', t0);
 		var removed = pub.answers[question_id].length - result.length;
 		pub.answers[question_id] = result;
 		debugPrinter(removed + ' duplicate or empty elements where removed.');
@@ -412,12 +442,17 @@ var longMenuQuestion = (function () {
 			alert('The File APIs are not fully supported by your browser.');
 		}
 	}
-	function benchmarkCallsDummyNotForUsage()
+	function benchmarkCallsDummyNotForUsage(function_caller, t0)
 	{
-		var t0 = performance.now();
-		//Do something here.
-		var t1 = performance.now();
-		debugPrinter("Call to doSomething took " + (t1 - t0) + " milliseconds.")
+		if(t0 == null)
+		{
+			return performance.now();
+		}
+		else
+		{
+			var t1 = performance.now();
+			debugPrinter("Call to " + function_caller + " took " + (t1 - t0) + " milliseconds.")
+		}
 	}
 	
 	//Public property
