@@ -3673,6 +3673,6 @@ require_once "Customizing/class.ilCustomInstaller.php";
 <#129>
 <?php
 	if(!$ilDB->tableColumnExists('hist_course', 'webex_vc_type' )) {
-		$ilDB->manipulate("ALTER TABLE `hist_course` ADD COLUMN webex_vc_type` VARCHAR(50) NULL");
+		$ilDB->manipulate("ALTER TABLE `hist_course` ADD COLUMN webex_vc_type VARCHAR(50) NULL");
 	}
 ?>
