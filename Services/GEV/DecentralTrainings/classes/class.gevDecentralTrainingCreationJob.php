@@ -42,7 +42,7 @@ class gevDecentralTrainingCreationJob extends ilCronJob {
 	
 	protected function getRequestDB() {
 		if ($this->request_db === null) {
-			require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingGUI.php");
+			require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingUtils.php");
 			$this->request_db = gevDecentralTrainingUtils::getInstance()->getCreationRequestDB();
 		}
 		return $this->request_db;

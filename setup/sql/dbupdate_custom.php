@@ -3670,9 +3670,9 @@ require_once "Customizing/class.ilCustomInstaller.php";
 
 <#129>
 <?php
-if( !$ilDB->tableExists('dct_building_blocks') )
+if( !$ilDB->tableExists('dct_building_block') )
 {
-	$ilDB->createTable('dct_building_blocks', array(
+	$ilDB->createTable('dct_building_block', array(
 		'obj_id' => array(
 			'type' => 'integer',
 			'length' => 4,
@@ -3705,8 +3705,8 @@ if( !$ilDB->tableExists('dct_building_blocks') )
 			'length' => 1,
 			'notnull' => false,
 			'default' => 0
-		)',
-		is_deleted' => array(
+		),
+		'is_deleted' => array(
 			'type' => 'integer',
 			'length' => 1,
 			'notnull' => false,
@@ -3723,15 +3723,15 @@ if( !$ilDB->tableExists('dct_building_blocks') )
 		)
 	));
 		
-	$ilDB->addPrimaryKey('dct_building_blocks', array('obj_id'));
+	$ilDB->addPrimaryKey('dct_building_block', array('obj_id'));
 }
 ?>
 
 <#130>
 <?php
-if( !$ilDB->tableExists('dct_crs_building_blocks') )
+if( !$ilDB->tableExists('dct_crs_building_block') )
 {
-	$ilDB->createTable('dct_crs_building_blocks', array(
+	$ilDB->createTable('dct_crs_building_block', array(
 		'id' => array(
 			'type' => 'integer',
 			'length' => 4,
@@ -3760,8 +3760,8 @@ if( !$ilDB->tableExists('dct_crs_building_blocks') )
 			'type' => 'text',
 			'length' => 100,
 			'notnull' => true
-		)',
-		media' => array(
+		),
+		'media' => array(
 			'type' => 'text',
 			'length' => 100,
 			'notnull' => true
@@ -3773,7 +3773,7 @@ if( !$ilDB->tableExists('dct_crs_building_blocks') )
 		)
 	));
 		
-	$ilDB->addPrimaryKey('dct_crs_building_blocks', array('id'));
+	$ilDB->addPrimaryKey('dct_crs_building_block', array('id'));
 }
 ?>
 
@@ -3788,4 +3788,10 @@ gevDecentralTrainingCreationRequestDB::install_step1($ilDB);
 require_once "Customizing/class.ilCustomInstaller.php";
 	ilCustomInstaller::initPluginEnv();
 	ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "AdvancedMetaData", "amdc", "CourseAMD");
+?>
+
+<#133>
+<?php
+require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCreationRequestDB.php");
+gevDecentralTrainingCreationRequestDB::install_step2($ilDB);
 ?>

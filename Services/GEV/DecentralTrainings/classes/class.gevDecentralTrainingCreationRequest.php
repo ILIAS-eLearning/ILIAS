@@ -10,6 +10,9 @@
 */
 
 class gevDecentralTrainingCreationRequest {
+	const CREATOR_ROLE_TITLE = "Trainingsersteller";
+	const CREATOR_ROLE_DESC = "Ersteller des dezentralen Trainings mit Ref-Id %d";
+	
 	// @var gevDecentralTrainingCreationRequestDB
 	protected $db;
 	
@@ -18,6 +21,9 @@ class gevDecentralTrainingCreationRequest {
 	
 	// @var int				Id of the user that wants to create the training.
 	protected $user_id;
+	
+	// @var string			Session id to be used for copy soap calls.
+	protected $session_id;
 	
 	// @var int				Object id of the course template to use.
 	protected $template_obj_id;
@@ -43,6 +49,7 @@ class gevDecentralTrainingCreationRequest {
 							   , gevDecentralTrainingSettings $a_settings
 							   // For creation from the database.
 							   , $a_request_id = null
+							   , $a_session_id = null
 							   , ilDateTime $a_requested_ts = null
 							   , ilDateTime $a_finished_ts = null
 							   , $a_created_obj_id = null
@@ -59,6 +66,8 @@ class gevDecentralTrainingCreationRequest {
 		assert(is_int($a_template_obj_id));
 		assert(ilObject::_lookupType($a_template_obj_id) == "crs");
 		
+		assert($a_session_id === null || is_string($a_session_id));
+		
 		foreach ($a_trainer_ids as $id) {
 			assert(is_int($id));
 			assert(ilObject::_lookupType($id) == "usr");
@@ -66,6 +75,7 @@ class gevDecentralTrainingCreationRequest {
 		
 		$this->request_id = $a_request_id;
 		$this->user_id = $a_user_id;
+		$this->session_id = $a_session_id;
 		$this->template_obj_id = $a_template_obj_id;
 		$this->trainer_ids = $a_trainer_ids;
 		$this->settings = $a_settings;
@@ -80,6 +90,10 @@ class gevDecentralTrainingCreationRequest {
 	
 	public function userId() {
 		return $this->user_id;
+	}
+	
+	public function sessionId() {
+		return $this->session_id;
 	}
 	
 	public function templateObjId() {
@@ -108,6 +122,7 @@ class gevDecentralTrainingCreationRequest {
 	
 	public function request() {
 		$this->requested_ts = new ilDateTime(time(),IL_CAL_UNIX);
+		$this->session_id = $this->getNewSessionId();
 		$this->request_id = $this->db->createRequest($this);
 	}
 	
@@ -116,8 +131,11 @@ class gevDecentralTrainingCreationRequest {
 			$this->throwException("Request already finished.");
 		}
 		
+		if ($this->isSessionExpired()) {
+			$this->throwException("Session '".$this->session_id."' is expired.");
+		}
+		
 		$rbacsystem = $this->getRBACSystem();
-		$lng = $this->getLng();
 		
 		$this->checkPermissionToCreateTrainingForTrainers();
 
@@ -157,6 +175,7 @@ class gevDecentralTrainingCreationRequest {
 		$this->created_obj_id = $trgt_obj_id;
 		
 		$this->db->updateRequest($this);
+		$this->destroySession();
 	}
 	
 	public function abort() {
@@ -206,9 +225,7 @@ class gevDecentralTrainingCreationRequest {
 			$options[$rec["ref_id"]] = array("type" => 2);
 		}
 		
-		die("--".$this->getClientId()."--");
-		
-		return $a_src->cloneAllObject( $_COOKIE['PHPSESSID']
+		return $a_src->cloneAllObject( $this->session_id
 									 , $this->getClientId()
 									 , "crs"
 									 , $parent
@@ -223,21 +240,20 @@ class gevDecentralTrainingCreationRequest {
 		$rbacreview = $this->getRBACReview();
 		$object_factory = $this->getObjectFactory();
 		$rbacadmin = $this->getRBACAdmin();
-		$lng = $this->getLng();
 		$db = $this->getDB();
 		
 		// Get role template id
 		$res = $db->query( "SELECT obj_id FROM object_data "
 						  ."WHERE type = 'rolt'"
-						  ."  AND title = ".$db->quote($lng->txt("gev_dev_training_creator"), "text")
+						  ."  AND title = ".$db->quote(self::CREATOR_ROLE_TITLE, "text")
 						  );
 		
 		if ($rec = $db->fetchAssoc($res)) {
 			// Create the creator role
 			$rolf_data = $rbacreview->getRoleFolderOfObject($a_trgt_ref_id);
 			$rolf = $object_factory->getInstanceByRefId($rolf_data["ref_id"]);
-			$creator_role = $rolf->createRole( $lng->txt("gev_dev_training_creator")
-											 , sprintf($lng->txt("gev_dev_training_creator_desc"), $trgt_ref_id)
+			$creator_role = $rolf->createRole( self::CREATOR_ROLE_TITLE
+											 , sprintf(self::CREATOR_ROLE_DESC, $trgt_ref_id)
 											 );
 			
 			// Adjust permissions according to role template. 
@@ -252,7 +268,7 @@ class gevDecentralTrainingCreationRequest {
 		}
 		else {
 			$this->throwException( "gevDecentralTrainingUtils::create: Roletemplate '"
-								  .$lng->txt("gev_dev_training_creator")
+								  .self::CREATOR_ROLE_TITLE
 								  ."' does not exist.");
 		}
 		
@@ -360,4 +376,23 @@ class gevDecentralTrainingCreationRequest {
 		return $ilias->client_id;
 	}
 
+	protected function getNewSessionId() {
+		require_once("Services/Authentication/classes/class.ilSession.php");
+		$session_id = $_COOKIE["PHPSESSID"];
+		if (!ilSession::_exists($session_id)) {
+			$this->throwException("Session '$session_id' does not exists.");
+		}
+		$session_id = ilSession::_duplicate($session_id);
+		return $session_id;
+	}
+	
+	protected function destroySession() {
+		require_once("Services/Authentication/classes/class.ilSession.php");
+		ilSession::_destroy($this->session_id);
+	}
+	
+	protected function isSessionExpired() {
+		require_once("Services/Authentication/classes/class.ilSession.php");
+		return !ilSession::_exists($this->session_id);
+	}
 }

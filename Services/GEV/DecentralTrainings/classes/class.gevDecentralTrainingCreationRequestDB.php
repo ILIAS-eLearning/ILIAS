@@ -28,7 +28,7 @@ class gevDecentralTrainingCreationRequestDB {
 			"       (request_id, user_id, template_obj_id, requested_ts,\n".
 			"       finished_ts, created_obj_id, trainer_ids, start_dt,\n".
 			"       end_dt, venue_obj_id, venue_text, orgu_ref_id, description,\n".
-			"       orga_info, webinar_link, webinar_password)\n".
+			"       orga_info, webinar_link, webinar_password, session_id)\n".
 			" VALUES ( ".$ilDB->quote($request_id, "integer")."\n".
 			"        , ".$ilDB->quote($a_request->userId(), "integer")."\n".
 			"        , ".$ilDB->quote($a_request->templateObjId(), "integer")."\n".
@@ -45,6 +45,7 @@ class gevDecentralTrainingCreationRequestDB {
 			"        , ".$ilDB->quote($settings->orgaInfo(), "text")."\n".
 			"        , ".$ilDB->quote($settings->webinarLink(), "text")."\n".
 			"        , ".$ilDB->quote($settings->webinarPassword(), "text")."\n".
+			"        , ".$ilDB->quote($a_request->sessionId(), "text")."\n".
 			"        )\n"
 		);
 		return $request_id;
@@ -101,6 +102,7 @@ class gevDecentralTrainingCreationRequestDB {
 												, $trainer_ids
 												, $settings
 												, (int)$a_request_id
+												, $rec["session_id"]
 												, new ilDateTime($rec["requested_ts"], IL_CAL_DATETIME)
 												, new ilDateTime($rec["finished_ts"], IL_CAL_DATETIME)
 												, (int)$rec["created_obj_id"]
@@ -139,6 +141,7 @@ class gevDecentralTrainingCreationRequestDB {
 												, $trainer_ids
 												, $settings
 												, (int)$rec["request_id"]
+												, $rec["session_id"]
 												, new ilDateTime($rec["requested_ts"], IL_CAL_DATETIME)
 												, $rec["finished_ts"] ? new ilDateTime($rec["finished_ts"], IL_CAL_DATETIME) : null
 												, (int)$rec["created_obj_id"]
@@ -172,6 +175,7 @@ class gevDecentralTrainingCreationRequestDB {
 												, $trainer_ids
 												, $settings
 												, (int)$rec["request_id"]
+												, $rec["session_id"]
 												, new ilDateTime($rec["requested_ts"], IL_CAL_DATETIME)
 												, $rec["finished_ts"] ? new ilDateTime($rec["finished_ts"], IL_CAL_DATETIME) : null
 												, (int)$rec["created_obj_id"]
@@ -211,12 +215,13 @@ class gevDecentralTrainingCreationRequestDB {
 										 , array $a_trainer_ids
 										 , gevDecentralTrainingSettings $a_settings
 										 , $a_request_id
+										 , $a_session_id
 										 , ilDateTime $a_requested_ts = null
 										 , ilDateTime $a_finished_ts = null
 										 , $a_created_obj_id = null) {
 		require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCreationRequest.php");
 		return new gevDecentralTrainingCreationRequest( $this, $a_user_id, $a_template_obj_id, $a_trainer_ids, $a_settings
-													  , $a_request_id, $a_requested_ts, $a_finished_ts, $a_created_obj_id);
+													  , $a_request_id, $a_session_id, $a_requested_ts, $a_finished_ts, $a_created_obj_id);
 	}
 	
 	// GETTERS FOR GLOBALS
@@ -250,11 +255,11 @@ class gevDecentralTrainingCreationRequestDB {
 				'notnull' => true
 			),
 			'requested_ts' => array(
-				'type' => 'timestamp',			
+				'type' => 'timestamp',
 				'notnull' => true
 			),
 			'finished_ts' => array(
-				'type' => 'timestamp',			
+				'type' => 'timestamp',
 				'notnull' => false
 			),
 			'created_obj_id' => array(
@@ -269,11 +274,11 @@ class gevDecentralTrainingCreationRequestDB {
 			),
 			// Settings
 			'start_dt' => array(
-				'type' => 'timestamp',			
+				'type' => 'timestamp',
 				'notnull' => true
 			),
 			'end_dt' => array(
-				'type' => 'timestamp',			
+				'type' => 'timestamp',
 				'notnull' => true
 			),
 			'venue_obj_id' => array(
@@ -320,5 +325,13 @@ class gevDecentralTrainingCreationRequestDB {
 			
 		$ilDB->addPrimaryKey(self::TABLE_NAME, array('request_id'));
 		$ilDB->createSequence(self::TABLE_NAME);
+	}
+	
+	static public function install_step2(ilDB $ilDB) {
+		$ilDB->addTableColumn(self::TABLE_NAME, 'session_id', array(
+			"type" => "text",
+			"length" => 250,
+			"notnull" => true
+		));
 	}
 }
