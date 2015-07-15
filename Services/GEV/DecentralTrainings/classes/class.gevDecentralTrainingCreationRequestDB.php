@@ -50,9 +50,9 @@ class gevDecentralTrainingCreationRequestDB {
 		return $request_id;
 	}
 	
-	public function updateRequest(gevDecentralTrainingCreationRequest $request) {
+	public function updateRequest(gevDecentralTrainingCreationRequest $a_request) {
 		$ilDB = $this->getDB();
-		if ($request->requestId() === null) {
+		if ($a_request->requestId() === null) {
 			$this->throwException("Can't update request without id.");
 		}
 		$settings = $a_request->settings();
@@ -60,7 +60,7 @@ class gevDecentralTrainingCreationRequestDB {
 		$finished_ts = $a_request->finishedTS();
 		$ilDB->manipulate(
 			"UPDATE ".self::TABLE_NAME."\n".
-			" SET ( user_id = ".$ilDB->quote($a_request->userId(), "integer")."\n".
+			" SET   user_id = ".$ilDB->quote($a_request->userId(), "integer")."\n".
 			"     , template_obj_id = ".$ilDB->quote($a_request->templateObjId(), "integer")."\n".
 			"     , requested_ts = ".$ilDB->quote($requested_ts ? $requested_ts->get(IL_CAL_DATETIME) : null, "timestamp")."\n".
 			"     , finished_ts = ".$ilDB->quote($finished_ts ? $finished_ts->get(IL_CAL_DATETIME) : null, "timestamp")."\n".
@@ -75,8 +75,7 @@ class gevDecentralTrainingCreationRequestDB {
 			"     , orga_info = ".$ilDB->quote($settings->orgaInfo(), "text")."\n".
 			"     , webinar_link = ".$ilDB->quote($settings->webinarLink(), "text")."\n".
 			"     , webinar_password = ".$ilDB->quote($settings->webinarPassword(), "text")."\n".
-			"     )\n".
-			" WHERE request_id = ".$ilDB->quote($request->requestId(), "integer")."\n"
+			" WHERE request_id = ".$ilDB->quote($a_request->requestId(), "integer")."\n"
 		);
 	}
 	
@@ -127,7 +126,7 @@ class gevDecentralTrainingCreationRequestDB {
 			$settings = $this->newSettings( new ilDateTime($rec["start_dt"], IL_CAL_DATETIME)
 										  , new ilDateTime($rec["end_dt"], IL_CAL_DATETIME)
 										  , $rec["venue_obj_id"] ? (int)$rec["venue_obj_id"] : null
-										  , $$rec["venue_text"] ? $rec["venue_text"] : null
+										  , $rec["venue_text"] ? $rec["venue_text"] : null
 										  , $rec["orgu_ref_id"] ? (int)$rec["orgu_ref_id"] : null
 										  , $rec["description"] ? $rec["description"] : ""
 										  , $rec["orga_info"] ? $rec["orga_info"] : ""
@@ -139,7 +138,7 @@ class gevDecentralTrainingCreationRequestDB {
 												, (int)$rec["template_obj_id"]
 												, $trainer_ids
 												, $settings
-												, (int)$a_request_id
+												, (int)$rec["request_id"]
 												, new ilDateTime($rec["requested_ts"], IL_CAL_DATETIME)
 												, $rec["finished_ts"] ? new ilDateTime($rec["finished_ts"], IL_CAL_DATETIME) : null
 												, (int)$rec["created_obj_id"]
@@ -159,11 +158,11 @@ class gevDecentralTrainingCreationRequestDB {
 		if ($rec = $ilDB->fetchAssoc($res)) {
 			$settings = $this->newSettings( new ilDateTime($rec["start_dt"], IL_CAL_DATETIME)
 										  , new ilDateTime($rec["end_dt"], IL_CAL_DATETIME)
-										  , (int)$rec["venue_obj_id"]
-										  , $rec["venue_text"]
-										  , (int)$rec["orgu_ref_id"]
-										  , $rec["description"]
-										  , $rec["orga_info"]
+										  , $rec["venue_obj_id"] ? (int)$rec["venue_obj_id"] : null
+										  , $rec["venue_text"] ? $rec["venue_text"] : null
+										  , $rec["orgu_ref_id"] ? (int)$rec["orgu_ref_id"] : null
+										  , $rec["description"] ? $rec["description"] : ""
+										  , $rec["orga_info"] ? $rec["orga_info"] : ""
 										  , $rec["webinar_link"]
 										  , $rec["webinar_password"]
 										  );
@@ -172,7 +171,7 @@ class gevDecentralTrainingCreationRequestDB {
 												, (int)$rec["template_obj_id"]
 												, $trainer_ids
 												, $settings
-												, (int)$a_request_id
+												, (int)$rec["request_id"]
 												, new ilDateTime($rec["requested_ts"], IL_CAL_DATETIME)
 												, $rec["finished_ts"] ? new ilDateTime($rec["finished_ts"], IL_CAL_DATETIME) : null
 												, (int)$rec["created_obj_id"]
