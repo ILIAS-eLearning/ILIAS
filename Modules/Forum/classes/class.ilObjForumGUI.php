@@ -2400,7 +2400,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 						$this->ctrl->setParameter($this, 'offset', ($Start + $pageHits));
 						$this->ctrl->setParameter($this, 'orderby', $_GET['orderby']);
 						$this->ctrl->redirect($this, 'viewThread', $this->objCurrentPost->getId());
-						exit();
 					}
 					else
 					{
