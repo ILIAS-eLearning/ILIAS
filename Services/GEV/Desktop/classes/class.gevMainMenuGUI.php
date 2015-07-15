@@ -179,7 +179,7 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 				, "gev_user_mgmt" => array($manage_users, "ilias.php?baseClass=ilAdministrationGUI&ref_id=7&cmd=jump",$this->lng->txt("gev_user_mgmt"))
 				, "gev_org_mgmt" => array($manage_org_units, "ilias.php?baseClass=ilAdministrationGUI&ref_id=56&cmd=jump",$this->lng->txt("gev_org_mgmt"))
 				, "gev_mail_mgmt" => array($manage_mails, "ilias.php?baseClass=ilAdministrationGUI&ref_id=12&cmd=jump",$this->lng->txt("gev_mail_mgmt"))
-				, "gev_competence_mgmt" => array($manage_competences, "ilias.php?baseClass=ilAdministrationGUI&ref_id=41&cmd=jump",$this->lng->txt("gev_competence_mgmt"))
+				//, "gev_competence_mgmt" => array($manage_competences, "ilias.php?baseClass=ilAdministrationGUI&ref_id=41&cmd=jump",$this->lng->txt("gev_competence_mgmt"))
 				, "gev_course_bock_unit_mgmt" => array($manage_course_block_units, "ilias.php?baseClass=gevDesktopGUI&cmd=toDctBuildingBlockAdm",$this->lng->txt("gev_dec_building_block_mgmt"))
 				), $this->lng->txt("gev_admin_menu"))
 			, self::IL_STANDARD_ADMIN => array(false, $has_super_admin_menu, null)
