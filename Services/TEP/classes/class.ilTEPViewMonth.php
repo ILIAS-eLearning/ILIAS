@@ -14,7 +14,7 @@ class ilTEPViewMonth extends ilTEPViewGridBased
 	const DAY_HEIGHT = 24; // You also need to set this in global css file for div.il_tep_content tr, div.il_tep_event_wrapper
 						   // div.il_tep_content td.il_tep_content_days and div.il_tep_content td.il_tep_content_cell
 	const COL_WIDTH = 100; // This is space for events plus 20px for action-item
-	const MAX_COUNT_VISIBLE_TUTORS = 15; // Max Number of Tutors to see in TEP. If more user see himself and "no tutor"
+	const MAX_COUNT_VISIBLE_TUTORS = 20; // Max Number of Tutors to see in TEP. If more user see himself and "no tutor"
 	
 	// 
 	// request
