@@ -59,13 +59,9 @@ class ilTEPOrgUnitSelectionInputGUI extends ilExplorerSelectInputGUI
 	
 	function getTitleForNodeId($a_id)
 	{
-		foreach ($this->org_unit_map as $key => $value) {
-			if(array_key_exists($a_id, $value)) {
-				return $value[$a_id]["title"];
-			}
-		}
-
-		return "";
+		require_once ("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+		$title = gevOrgUnitUtils::getTitleByRefId($a_id);
+		return $title;
 	}
 	
 	function render($a_mode = "property_form")
