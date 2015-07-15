@@ -398,7 +398,7 @@ class gevBillingUtils {
 		}
 		$bill->update();
 
-		$coupon_code = ilCoupons::getSingleton()->createCoupon((float)$crs_utils->getFee(), time() + 365 * 24 * 60 * 60);
+		$coupon_code = ilCoupons::getSingleton()->createCoupon((float)$crs_utils->getFee(), time() + 365 * 24 * 60 * 60, $a_user_id);
 		
 		$this->db->manipulate("INSERT INTO gev_bill_coupon (bill_pk,coupon_code) VALUES "
 							  ."(".$this->db->quote($bill->getId(), "integer").", ".$this->db->quote($coupon_code, "text").")");

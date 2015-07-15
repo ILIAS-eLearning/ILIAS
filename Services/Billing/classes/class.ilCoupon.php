@@ -251,7 +251,7 @@ class ilCoupon
 	/**
 	 * @param $user_id
 	 */
-	private function setUserId($user_id)
+	public function setUserId($user_id)
 	{
 		$this->user_id = $user_id;
 	}
