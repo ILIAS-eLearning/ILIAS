@@ -17,7 +17,11 @@ class ilObjectCopyGUI
 	const TARGET_SELECTION = 2;
 	const SEARCH_SOURCE = 3;
 	
+	const SUBMODE_COMPLETE = 1;
+	const SUBMODE_CONTENT_ONLY = 2;
+	
 	private $mode = 0;
+	private $sub_mode = self::SUBMODE_COMPLETE;
 	
 	private $lng;
 	
@@ -76,6 +80,13 @@ class ilObjectCopyGUI
 	{
 		global $ilCtrl;
 		
+		if((int) $_REQUEST['smode'])
+		{
+			$this->setSubMode((int) $_REQUEST['smode']);
+			$GLOBALS['ilCtrl']->setParameter($this,'smode',$this->getSubMode());
+		}
+		
+		
 		if($_REQUEST['new_type'])
 		{
 			$this->setMode(self::SEARCH_SOURCE);
@@ -105,6 +116,17 @@ class ilObjectCopyGUI
 				);
 			}
 		}
+	}
+	
+	/**
+	 * Adopt content (crs in crs, grp in grp, crs in grp or grp in crs)
+	 * @return type
+	 */
+	protected function adoptContent()
+	{
+		$GLOBALS['ilCtrl']->setParameter($this,'smode',self::SUBMODE_CONTENT_ONLY);
+		$this->setSubMode(self::SUBMODE_CONTENT_ONLY);
+		return $this->initSourceSelection();
 	}
 	
 	/**
@@ -344,7 +366,7 @@ class ilObjectCopyGUI
 		#$exp->setNotSelectableItems(array($this->getTarget()));
 		
 		// Filter to container
-		foreach(array('cat','root','grp','fold') as $container)
+		foreach(array('cat','root','fold') as $container)
 		{
 			$exp->removeFormItemForType($container);
 		}
@@ -447,6 +469,16 @@ class ilObjectCopyGUI
 	public function getMode()
 	{
 		return $this->mode;
+	}
+	
+	public function setSubMode($a_mode)
+	{
+		$this->sub_mode = $a_mode;
+	}
+	
+	public function getSubMode()
+	{
+		return $this->sub_mode;
 	}
 	
 	/**
@@ -703,63 +735,6 @@ class ilObjectCopyGUI
 		$this->copyMultipleNonContainer(array($this->getSource()));
 
 		return;
-
-	// old implementation
-
-
-
-		// Create permission
-	 	if(!$rbacsystem->checkAccess('create', $this->getTarget(), $this->getType()))
-	 	{
-	 		ilUtil::sendFailure($this->lng->txt('permission_denied'),true);
-			$ilCtrl->returnToParent($this);
-	 	}
-		// Source defined
-		if(!$this->getSource())
-		{
-			ilUtil::sendFailure($this->lng->txt('select_one'),true);
-			$ilCtrl->returnToParent($this);
-		}
-		// Copy permission
-		if(!$ilAccess->checkAccess('copy','',$this->getSource()))
-		{
-	 		ilUtil::sendFailure($this->lng->txt('permission_denied'),true);
-			$ilCtrl->returnToParent($this);
-		}
-		
-		// Save wizard options
-		$copy_id = ilCopyWizardOptions::_allocateCopyId();
-		$wizard_options = ilCopyWizardOptions::_getInstance($copy_id);
-		$wizard_options->saveOwner($ilUser->getId());
-		$wizard_options->saveRoot((int) $this->getSource());
-		
-		/*
-		$options = $_POST['cp_options'] ? $_POST['cp_options'] : array();
-		foreach($options as $source_id => $option)
-		{
-			$wizard_options->addEntry($source_id,$option);
-		}
-		*/
-		
-		$wizard_options->read();
-		
-		$orig = ilObjectFactory::getInstanceByRefId((int) $this->getSource());
-		$new_obj = $orig->cloneObject($this->getTarget(),$copy_id);
-		
-		// Delete wizard options
-		$wizard_options->deleteAll();
-
-		// rbac log
-		include_once "Services/AccessControl/classes/class.ilRbacLog.php";
-		if(ilRbacLog::isActive())
-		{
-			$rbac_log_roles = $rbacreview->getParentRoleIds($new_obj->getRefId(), false);
-			$rbac_log = ilRbacLog::gatherFaPa($new_obj->getRefId(), array_keys($rbac_log_roles), true);
-			ilRbacLog::add(ilRbacLog::COPY_OBJECT, $new_obj->getRefId(), $rbac_log, (int)$this->getSource());
-		}
-
-		ilUtil::sendSuccess($this->lng->txt("object_duplicated"),true);
-		ilUtil::redirect(ilLink::_getLink($new_obj->getRefId()));
 	}
 	
 	/**
@@ -883,7 +858,16 @@ class ilObjectCopyGUI
 
 		$options = $_POST['cp_options'] ? $_POST['cp_options'] : array();
 		$orig = ilObjectFactory::getInstanceByRefId($this->getSource());
-		$result = $orig->cloneAllObject($_COOKIE['PHPSESSID'], $_COOKIE['ilClientId'], $this->getType(), $this->getTarget(), $this->getSource(), $options);
+		$result = $orig->cloneAllObject(
+				$_COOKIE['PHPSESSID'], 
+				$_COOKIE['ilClientId'], 
+				$this->getType(), 
+				$this->getTarget(), 
+				$this->getSource(), 
+				$options,
+				FALSE,
+				$this->getSubMode()
+		);
 
 
 		unset($_SESSION["clipboard"]["ref_ids"]);

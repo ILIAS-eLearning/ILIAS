@@ -478,9 +478,11 @@ class ilContainer extends ilObject
 	 * @param int $ref_id
 	 * @param int $clone_source
 	 * @param array $options
+	 * @param bool force soap
+	 * @param int submode 1 => copy all, 2 => copy content
 	 * @return new refid if clone has finished or parameter ref id if cloning is still in progress
 	 */
-	public function cloneAllObject($session_id, $client_id, $new_type, $ref_id, $clone_source, $options, $soap_call = false)
+	public function cloneAllObject($session_id, $client_id, $new_type, $ref_id, $clone_source, $options, $soap_call = false, $a_submode = 1)
 	{
 		global $ilLog;
 		
@@ -505,15 +507,16 @@ class ilContainer extends ilObject
 		$wizard_options->read();
 		$wizard_options->storeTree($clone_source);
 		
-		// Special handling for course in existing courses
-		if($new_type == 'crs' and ilObject::_lookupType(ilObject::_lookupObjId($ref_id)) == 'crs')
+		include_once './Services/Object/classes/class.ilObjectCopyGUI.php';
+		if($a_submode == ilObjectCopyGUI::SUBMODE_CONTENT_ONLY)
 		{
-			$ilLog->write(__METHOD__.': Copy course in course...');
+			$ilLog->write(__METHOD__.': Copy content only...');
 			$ilLog->write(__METHOD__.': Added mapping, source ID: '.$clone_source.', target ID: '.$ref_id);
 			$wizard_options->read();
 			$wizard_options->dropFirstNode();
 			$wizard_options->appendMapping($clone_source,$ref_id);
 		}
+		
 		
 		#print_r($options);
 		// Duplicate session to avoid logout problems with backgrounded SOAP calls
