@@ -63,10 +63,11 @@ class gevDecentralTrainingCreationJob extends ilCronJob {
 		return $cron_result;
 	}
 	
-	public function log($msg) {
+	protected function log($msg) {
 		$log = $this->getLog();
 		$log->write("gevDecentralTrainingCreationJob: $msg");
 	}
+	
 	public function run() {
 		$request_db = $this->getRequestDB();
 		

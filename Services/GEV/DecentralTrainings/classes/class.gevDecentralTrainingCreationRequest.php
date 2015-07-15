@@ -176,6 +176,7 @@ class gevDecentralTrainingCreationRequest {
 		
 		$this->db->updateRequest($this);
 		$this->destroySession();
+		$this->resetCopyWizard();
 	}
 	
 	public function abort() {
@@ -394,5 +395,10 @@ class gevDecentralTrainingCreationRequest {
 	protected function isSessionExpired() {
 		require_once("Services/Authentication/classes/class.ilSession.php");
 		return !ilSession::_exists($this->session_id);
+	}
+	
+	protected function resetCopyWizard() {
+		require_once("Services/CopyWizard/classes/class.ilCopyWizardOptions.php");
+		ilCopyWizardOptions::$instances = null;
 	}
 }
