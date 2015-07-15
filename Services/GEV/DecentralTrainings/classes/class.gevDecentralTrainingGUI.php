@@ -47,8 +47,9 @@ class gevDecentralTrainingGUI {
 			case "updateSettings":
 			case "showOpenRequests":
 				$cont = $this->$cmd();
+				break;
 			default:
-				$this->log->write("gevDecentralTrainingGUI: Unknown command '".$this->cmd."'");
+				$this->log->write("gevDecentralTrainingGUI: Unknown command '".$cmd."'");
 		}
 		
 		
@@ -242,24 +243,7 @@ class gevDecentralTrainingGUI {
 		
 		ilUtil::sendSuccess($this->lng->txt("gev_dec_training_creation_successfull"), true);
 		
-		
-/*		require_once("Services/CourseBooking/classes/class.ilCourseBookingAdminGUI.php");
-		require_once("Services/CourseBooking/classes/class.ilCourseBookingPermissions.php");
-		
-		if (ilCourseBookingPermissions::getInstanceByRefId($res["ref_id"], $this->current_user->getId())->bookCourseForOthers()) {
-			ilUtil::sendInfo($this->lng->txt("gev_dev_training_book_users"), true);
-			$this->ctrl->setParameter($this, "obj_id", $res["obj_id"]);
-			ilCourseBookingAdminGUI::setBackTarget(
-				$this->ctrl->getLinkTarget($this, "backFromBooking")
-				);
-			$this->ctrl->setParameter($this, "obj_id", null);
-			
-			$this->ctrl->setParameterByClass("ilCourseBookingGUI", "ref_id", $res["ref_id"]);
-			$this->ctrl->redirectByClass(array("ilCourseBookingGUI", "ilCourseBookingAdminGUI"));
-		}
-		else {
-			return $this->backFromBooking();
-		}*/
+		return $this->ctrl->redirect($this, "showOpenRequests");
 	}
 	
 	protected function backFromBooking() {

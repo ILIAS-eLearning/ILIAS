@@ -64,6 +64,7 @@ class gevDecentralTrainingCreationRequest {
 			assert(ilObject::_lookupType($id) == "usr");
 		}
 		
+		$this->request_id = $a_request_id;
 		$this->user_id = $a_user_id;
 		$this->template_obj_id = $a_template_obj_id;
 		$this->trainer_ids = $a_trainer_ids;
@@ -74,7 +75,7 @@ class gevDecentralTrainingCreationRequest {
 	}
 	
 	public function requestId() {
-		return $this->request_id();
+		return $this->request_id;
 	}
 	
 	public function userId() {
@@ -144,7 +145,7 @@ class gevDecentralTrainingCreationRequest {
 		
 		$rbacsystem->resetRoleCache();
 		
-		$this->settings->applyTo($trgt_obj_id);
+		$this->settings->applyTo((int)$trgt_obj_id);
 		
 		// New course should have same title as old course.
 		$trgt_crs->setTitle($src_utils->getTitle());
@@ -152,7 +153,19 @@ class gevDecentralTrainingCreationRequest {
 		$trgt_crs->setOfflineStatus(false);
 		$trgt_crs->update();
 		
-		return array("ref_id" => $trgt_ref_id, "obj_id" => $trgt_obj_id);
+		$this->finished_ts = new ilDateTime(time(),IL_CAL_UNIX);
+		$this->created_obj_id = $trgt_obj_id;
+		
+		$this->db->updateRequest($this);
+	}
+	
+	public function abort() {
+		if ($this->finished_ts !== null) {
+			$this->throwException("Request already finished.");
+		}
+		
+		$this->finished_ts = new ilDateTime(time(),IL_CAL_UNIX);
+		$this->db->updateRequest($this);
 	}
 	
 	protected function checkPermissionToCreateTrainingForTrainers() {
