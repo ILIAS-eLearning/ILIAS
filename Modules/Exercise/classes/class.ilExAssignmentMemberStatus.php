@@ -250,7 +250,7 @@ class ilExAssignmentMemberStatus
 		$row = $ilDB->fetchAssoc($set);
 		if($row["fb_cron"] &&
 			$row["fb_file"] &&
-			$row["fb_date"] == self::FEEDBACK_DATE_SUBMISSION)
+			$row["fb_date"] == ilExAssignment::FEEDBACK_DATE_SUBMISSION) // #16200
 		{
 			include_once "Modules/Exercise/classes/class.ilExAssignment.php";
 			ilExAssignment::sendFeedbackNotifications($this->ass_id, $this->user_id);
