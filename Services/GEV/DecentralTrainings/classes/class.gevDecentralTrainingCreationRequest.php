@@ -206,8 +206,10 @@ class gevDecentralTrainingCreationRequest {
 			$options[$rec["ref_id"]] = array("type" => 2);
 		}
 		
+		die("--".$this->getClientId()."--");
+		
 		return $a_src->cloneAllObject( $_COOKIE['PHPSESSID']
-									 , $_COOKIE['ilClientId']
+									 , $this->getClientId()
 									 , "crs"
 									 , $parent
 									 , $info["ref_id"]
@@ -353,5 +355,9 @@ class gevDecentralTrainingCreationRequest {
 		return $lng;
 	}
 	
+	protected function getClientId() {
+		global $ilias;
+		return $ilias->client_id;
+	}
 
 }
