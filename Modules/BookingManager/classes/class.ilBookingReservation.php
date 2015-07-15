@@ -536,6 +536,11 @@ class ilBookingReservation
 		{			
 			$sql .= ' ORDER BY date_from DESC';			
 		}
+		else
+		{
+			// #16155 - could be cancelled and re-booked
+			$sql .= ' ORDER BY status';
+		}
 				
 		$set = $ilDB->query($sql);			
 		while($row = $ilDB->fetchAssoc($set))
