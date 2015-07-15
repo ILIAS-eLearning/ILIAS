@@ -3645,7 +3645,7 @@ if(!$ilDB->tableColumnExists('hist_user', 'exit_date_wbd')){
 <#125>
 <?php
 	if(!$ilDB->tableColumnExists('hist_course', 'dbv_hot_topic')) {
-	$ilDB->manipulate("ALTER TABLE `hist_course` ADD `dbv_hot_topic` VARCHAR(50) NULL");
+		$ilDB->manipulate("ALTER TABLE `hist_course` ADD `dbv_hot_topic` VARCHAR(50) NULL");
 	}
 ?>
 
@@ -3668,4 +3668,11 @@ require_once "Customizing/class.ilCustomInstaller.php";
 require_once "Customizing/class.ilCustomInstaller.php";
 	ilCustomInstaller::initPluginEnv();
 	ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "AdvancedMetaData", "amdc", "CourseAMD");
+?>
+
+<#129>
+<?php
+	if(!$ilDB->tableColumnExists('hist_course', 'webex_vc_type' )) {
+		$ilDB->manipulate("ALTER TABLE `hist_course` ADD COLUMN webex_vc_type` VARCHAR(50) NULL");
+	}
 ?>
