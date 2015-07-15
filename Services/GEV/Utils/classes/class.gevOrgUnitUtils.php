@@ -601,6 +601,19 @@ class gevOrgUnitUtils {
 		}
 		return array_unique($ret);
 	}
+
+	static public function getTitleByRefId($a_ref_id) {
+		global $ilDB;
+		$sql = "SELECT title FROM object_data od JOIN object_reference obr ON od.obj_id = obr.obj_id WHERE obr.ref_id = ".$a_ref_id;
+		$res = $ilDB->query($sql);
+
+		if($ilDB->numRows($res) > 0) {
+			$row = $ilDB->fetchAssoc($res);
+			return $row["title"];
+		}
+
+		return "";
+	}
 	
 	public function getChildren() {
 		global $tree;
