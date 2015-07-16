@@ -139,8 +139,6 @@ class gevDecentralTrainingCourseBuildingBlockGUI {
 		if(isset($_GET["crs_request_id"])) {
 			$this->crs_request_id = $_GET["crs_request_id"];
 		}
-
-		var_dump($this->crs_request_id);
 	}
 
 	protected function newCourseBuildingBlock($a_form = null) {

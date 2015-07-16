@@ -3850,3 +3850,9 @@ if($ilDB->tableColumnExists('dct_building_block', 'learning_dest')) {
 	));
 }
 ?>
+
+<#135>
+<?php
+	$ilDB->createSequence("dct_crs_building_block");
+	$ilDB->createSequence("dct_building_block");
+?>
