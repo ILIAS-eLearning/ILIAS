@@ -71,7 +71,7 @@ class gevDecentralTrainingCreationJob extends ilCronJob {
 	public function run() {
 		$request_db = $this->getRequestDB();
 		
-		while($request = $request_db->getNextOpenRequest()) {
+		while($request = $request_db->nextOpenRequest()) {
 			try {
 				$this->log("Running request: ".$request->requestId());
 				$request->run();

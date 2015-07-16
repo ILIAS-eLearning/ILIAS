@@ -80,12 +80,12 @@ class gevDecentralTrainingGUI {
 		if ($this->open_creation_requests === null) {
 			$dec_utils = gevDecentralTrainingUtils::getInstance();
 			$db = $dec_utils->getCreationRequestDB();
-			$this->open_creation_requests = $db->getOpenRequestsOfUser((int)$this->current_user->getId());
+			$this->open_creation_requests = $db->openRequestsOfUser((int)$this->current_user->getId());
 		}
 		return $this->open_creation_requests;
 	}
 	
-	protected function flushOpenCreationRequestCache() {
+	protected function flushOpenCreationRequests() {
 		$this->open_creation_requests = null;
 	}
 	
@@ -273,7 +273,7 @@ class gevDecentralTrainingGUI {
 									, $settings
 									);
 		$creation_request->request();
-		$this->flushOpenCreationRequestCache();
+		$this->flushOpenCreationRequests();
 		
 		ilUtil::sendSuccess($this->lng->txt("gev_dec_training_creation_requested"), true);
 		

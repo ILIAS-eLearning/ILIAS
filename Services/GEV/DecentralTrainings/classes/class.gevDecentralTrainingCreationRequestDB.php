@@ -80,7 +80,7 @@ class gevDecentralTrainingCreationRequestDB {
 		);
 	}
 	
-	public function getRequest($a_request_id) {
+	public function request($a_request_id) {
 		assert(is_int($a_request_id));
 		$ilDB = $this->getDB();
 		$query = "SELECT * FROM ".self::TABLE_NAME." WHERE request_id = ".$ilDB->quote($a_request_id, "integer");
@@ -114,7 +114,7 @@ class gevDecentralTrainingCreationRequestDB {
 		}
 	}
 	
-	public function getOpenRequestsOfUser($a_user_id) {
+	public function openRequestsOfUser($a_user_id) {
 		assert(is_int($a_user_id));
 		assert(ilObject::_lookupType($a_user_id) == "usr");
 		$ilDB = $this->getDB();
@@ -151,7 +151,7 @@ class gevDecentralTrainingCreationRequestDB {
 		return $returns;
 	}
 	
-	public function getNextOpenRequest() {
+	public function nextOpenRequest() {
 		$ilDB = $this->getDB();
 		$query = "SELECT * FROM ".self::TABLE_NAME.
 				 " WHERE finished_ts IS NULL".
