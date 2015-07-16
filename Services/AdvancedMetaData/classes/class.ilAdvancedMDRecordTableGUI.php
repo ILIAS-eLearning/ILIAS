@@ -99,8 +99,10 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
 			if($do_select)
 			{
 				$type_options = $options;
-				if($obj_type["obj_type"] == "orgu")
+				if($obj_type["obj_type"] == "orgu" ||
+					$obj_type["obj_type"] == "rcrs")
 				{
+					// optional makes no sense for ecs-courses
 					// currently no optional records for org unit (types)
 					unset($type_options[2]);
 				}

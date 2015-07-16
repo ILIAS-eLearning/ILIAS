@@ -1252,7 +1252,8 @@ class ilAdvancedMDSettingsGUI
 				$this->lng->loadLanguageModule($type["obj_type"]);
 								
 				$type_options = $options;
-				if($type["obj_type"] == "orgu")
+				if($type["obj_type"] == "orgu" ||
+					$type["obj_type"] == "rcrs")
 				{
 					// currently no optional records for org unit (types)
 					unset($type_options[2]);
