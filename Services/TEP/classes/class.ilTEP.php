@@ -374,8 +374,8 @@ class ilTEP
 		$evg = gevOrgUnitUtils::getInstanceByImportId("evg");
 		$uvg = gevOrgUnitUtils::getInstanceByImportId("uvg");
 		
-		return array( "view" => array()
-					, "view_rekru" => self::getOrgUnitNamesAndIds(array($evg->getRefId(), $uvg->getRefId()))
+		return array( "view" => array($uvg->getRefId())
+					, "view_rekru" => self::getOrgUnitNamesAndIds(array($evg->getRefId()))
 					);
 	}
 	// gev-patch end
