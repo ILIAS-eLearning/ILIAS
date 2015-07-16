@@ -1176,3 +1176,5 @@ gev#:#gev_dec_training_crs_to_short#:#Die Gesamtlänge des Trainings ist zu kurz
 gev#:#gev_mail_log#:#Maillog
 gev#:#gev_back#:#Zurück
 gev#:#gev_dec_training_creation_requested#:#Das dezentrale Training wird für sie angelegt.
+gev#:#gev_dec_training_open_requests_header#:#Folgende dezentrale Trainings werden derzeit für sie angelegt:
+gev#:#gev_dec_training_open_requests_time_info#:#Die Wartezeit zur Anlage eines dezentralen Trainings beträgt derzeit etwa %s Minuten.
