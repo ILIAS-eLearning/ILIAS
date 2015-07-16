@@ -95,6 +95,31 @@ class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 						;
 
 		$this->allowed_user_ids = $this->user_utils->getEmployees();
+
+		$never_skip = $this->user_utils->getOrgUnitsWhereUserIsDirectSuperior();
+		array_walk($never_skip, 
+			function (&$obj_ref_id) {
+				$aux = new ilObjOrgUnit($obj_ref_id["ref_id"]);
+				$obj_ref_id = $aux->getTitle();
+			}
+		);
+		$skip_org_units_in_filter_below = array('Nebenberufsagenturen');
+		array_walk($skip_org_units_in_filter_below, 
+			function(&$title) { 
+				$title = ilObjOrgUnit::_getIdsForTitle($title)[0];
+				$title = gevObjectUtils::getRefId($title);
+				$title = gevOrgUnitUtils::getAllChildrenTitles(array($title));
+			}
+		);
+		$skip_org_units_in_filter = array();
+		foreach ($skip_org_units_in_filter_below as $org_units) {
+			$skip_org_units_in_filter = array_merge($skip_org_units_in_filter, $org_units);
+		}
+		array_unique($skip_org_units_in_filter);
+		$skip_org_units_in_filter = array_diff($skip_org_units_in_filter, $never_skip);
+		$org_units_filter = array_diff($this->user_utils->getOrgUnitNamesWhereUserIsSuperior(), $skip_org_units_in_filter);
+		sort($org_units_filter);
+
 		$this->filter = catFilter::create()
 						->dateperiod( "period"
 									, $this->lng->txt("gev_period")
@@ -106,13 +131,13 @@ class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 									, false
 									, " OR usrcrs.hist_historic IS NULL"
 									)
-						/*->multiselect( "org_unit"
+						->multiselect( "org_unit"
 									 , $this->lng->txt("gev_org_unit_short")
 									 , array("usr.org_unit", "org_unit_above1", "org_unit_above2")
-									 , $this->user_utils->getOrgUnitNamesWhereUserIsSuperior()
+									 , $org_units_filter
 									 , array()
 									 )
-						->multiselect("edu_program"
+						/*->multiselect("edu_program"
 									 , $this->lng->txt("gev_edu_program")
 									 , "edu_program"
 									 , gevCourseUtils::getEduProgramsFromHisto()
@@ -123,7 +148,7 @@ class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 									 , "type"
 									 , gevCourseUtils::getLearningTypesFromHisto()
 									 , array()
-									 )
+									 )*/
 						->multiselect("template_title"
 									 , $this->lng->txt("crs_title")
 									 , "template_title"
@@ -135,7 +160,7 @@ class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 									 , "participation_status"
 									 , gevCourseUtils::getParticipationStatusFromHisto()
 									 , array()
-									 )
+									 )/*
 						->multiselect("position_key"
 									 , $this->lng->txt("gev_position_key")
 									 , "position_key"
