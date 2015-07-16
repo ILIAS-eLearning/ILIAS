@@ -85,6 +85,12 @@ class gevDecentralTrainingGUI {
 		return $this->open_creation_requests;
 	}
 	
+	protected function getWaitingTime() {
+		$dec_utils = gevDecentralTrainingUtils::getInstance();
+		$db = $dec_utils->getCreationRequestDB();
+		return $db->waitingTimeInMinuteEstimate();
+	}
+	
 	protected function flushOpenCreationRequests() {
 		$this->open_creation_requests = null;
 	}
@@ -133,7 +139,8 @@ class gevDecentralTrainingGUI {
 		}
 
 		$tpl->setCurrentBlock("footer");
-		$time_info = sprintf($this->lng->txt("gev_dec_training_open_requests_time_info"), "drölf");
+		$wait_m = $this->getWaitingTime();
+		$time_info = sprintf($this->lng->txt("gev_dec_training_open_requests_time_info"), $wait_m);
 		$tpl->setVariable("FOOTER", $time_info);
 		$tpl->parseCurrentBlock();
 		

@@ -187,6 +187,26 @@ class gevDecentralTrainingCreationRequestDB {
 		}
 	}
 	
+	public function waitingTimeInMinuteEstimate() {
+		$ilDB = $this->getDB();
+		
+		$query = "SELECT CEIL(AVG(TIME_TO_SEC(TIMEDIFF(finished_ts, requested_ts)) / 60)) min_avg\n"
+				."  FROM ".self::TABLE_NAME."\n"
+				." WHERE NOT finished_ts IS NULL";
+		$res = $ilDB->query($query);
+		$rec = $ilDB->fetchAssoc($res);
+		$min_avg = $rec["min_avg"];
+		
+		$query = "SELECT COUNT(*) cnt\n"
+				."  FROM ".self::TABLE_NAME."\n"
+				." WHERE finished_ts IS NULL";
+		$res = $ilDB->query($query);
+		$rec = $ilDB->fetchAssoc($res);
+		$open_requests = $rec["cnt"];
+		
+		return $min_avg * $open_requests;
+	}
+	
 	// HELPERS
 	
 	protected function throwException($msg) {
