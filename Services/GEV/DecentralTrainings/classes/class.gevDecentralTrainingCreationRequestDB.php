@@ -207,6 +207,24 @@ class gevDecentralTrainingCreationRequestDB {
 		return $min_avg * $open_requests;
 	}
 	
+	public function lastCreatedTrainingOfUser($a_user_id) {
+		assert(is_int($a_user_id));
+		assert(ilObject::_lookupType($a_user_id) == "usr");
+		
+		$ilDB = $this->getDB();
+		
+		$query = "SELECT created_obj_id\n"
+				."  FROM ".self::TABLE_NAME."\n"
+				." WHERE NOT finished_ts IS NULL\n"
+				."   AND NOT created_obj_id IS NULL\n"
+				."   AND created_obj_id > 0";
+		$res = $ilDB->query($query);
+		if ($rec = $ilDB->fetchAssoc($res)) {
+			return $rec["created_obj_id"];
+		}
+		return null;
+	}
+	
 	// HELPERS
 	
 	protected function throwException($msg) {
@@ -222,7 +240,7 @@ class gevDecentralTrainingCreationRequestDB {
 								  , $a_description
 								  , $a_orga_info
 								  , $a_webinar_link
-								  , $a_webinar_password
+								  , $a_webinar_password 
 								  ) {
 		require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingSettings.php");
 		return new gevDecentralTrainingSettings( $a_start_datetime, $a_end_datetime, $a_venue_obj_id, $a_venue_text

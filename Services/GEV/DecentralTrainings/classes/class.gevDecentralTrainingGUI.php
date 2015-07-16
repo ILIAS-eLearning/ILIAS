@@ -15,6 +15,8 @@ require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
 require_once("Services/CaTUIComponents/classes/class.catPropertyFormGUI.php");
 
 class gevDecentralTrainingGUI {
+	const AUTO_RELOAD_TIMEOUT_MS = 5000;
+	
 	public function __construct() {
 		global $lng, $ilCtrl, $tpl, $ilUser, $ilLog, $ilAccess;
 
@@ -76,19 +78,27 @@ class gevDecentralTrainingGUI {
 		$this->date = $_GET["date"];
 	}
 	
+	protected function getRequestDB() {
+		$dec_utils = gevDecentralTrainingUtils::getInstance();
+		return $dec_utils->getCreationRequestDB();
+	}
+	
 	protected function getOpenCreationRequests() {
 		if ($this->open_creation_requests === null) {
-			$dec_utils = gevDecentralTrainingUtils::getInstance();
-			$db = $dec_utils->getCreationRequestDB();
+			$db = $this->getRequestDB();
 			$this->open_creation_requests = $db->openRequestsOfUser((int)$this->current_user->getId());
 		}
 		return $this->open_creation_requests;
 	}
 	
 	protected function getWaitingTime() {
-		$dec_utils = gevDecentralTrainingUtils::getInstance();
-		$db = $dec_utils->getCreationRequestDB();
+		$db = $this->getRequestDB();
 		return $db->waitingTimeInMinuteEstimate();
+	}
+	
+	protected function lastCreatedCourseId() {
+		$db = $this->getRequestDB();
+		return $db->lastCreatedTrainingOfUser();
 	}
 	
 	protected function flushOpenCreationRequests() {
@@ -113,6 +123,7 @@ class gevDecentralTrainingGUI {
 	}
 	
 	protected function getOpenRequestsView(array $a_requests, $a_do_autoload = false) {
+		require_once("Services/Calendar/classes/class.ilDatePresentation.php");
 		$tpl = new ilTemplate("tpl.open_requests.html", true, true, "Services/GEV/DecentralTrainings");
 		
 		$tpl->setCurrentBlock("header");
@@ -143,24 +154,28 @@ class gevDecentralTrainingGUI {
 		$time_info = sprintf($this->lng->txt("gev_dec_training_open_requests_time_info"), $wait_m);
 		$tpl->setVariable("FOOTER", $time_info);
 		$tpl->parseCurrentBlock();
-		
-		if ($a_autoload) {
-			$tpl->touchBlock("autoreload");
+
+		if ($a_do_autoload) {
+			$tpl->setCurrentBlock("autoreload");
+			$tpl->setVariable("TIMEOUT", self::AUTO_RELOAD_TIMEOUT_MS);
+			$tpl->parseCurrentBlock();
 		}
 		
 		return $tpl->get();
 	}
 	
 	protected function showOpenRequests() {
+		$requests = $this->getOpenCreationRequests();
+		if ($this->userCanOpenNewCreationRequest() && !$this->userCanOpenMultipleRequests()) {
+			return $this->redirectToBookingFormOfLastCreatedTraining();
+		}
+		
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 		$user_utils = gevUserUtils::getInstance($this->current_user->getId());
 		
-		require_once("Services/Calendar/classes/class.ilDatePresentation.php");
-		
 		$title = new catTitleGUI("gev_dec_training_creation", "gev_dec_training_creation_header_note", "GEV_img/ico-head-create-decentral-training.png");
 		
-		$requests = $this->getOpenCreationRequests();
-		$view = $this->getOpenRequestsView($requests, $this->userCanOpenNewCreationRequest());
+		$view = $this->getOpenRequestsView($requests, !$this->userCanOpenNewCreationRequest());
 		
 		return  $title->render()
 			  . $view;
@@ -290,6 +305,25 @@ class gevDecentralTrainingGUI {
 		else {
 			$this->ctrl->redirectByClass(array("ilTEPGUI"));
 		}
+	}
+	
+	protected function redirectToBookingFormOfLastCreatedTraining() {
+		$obj_id = $this->lastCreatedCourseId();
+		if (!$obj_id) {
+			$this->ctrl->redirect(array("ilTEPGUI"));
+		}
+		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+		$ref_id = gevObjectUtils::getRefId($obj_id);
+		
+		require_once("Services/CourseBooking/classes/class.ilCourseBookingAdminGUI.php");
+		require_once("Services/CourseBooking/classes/class.ilCourseBookingPermissions.php");
+		
+		$this->ctrl->setParameter($this, "obj_id", $obj_id);
+		ilCourseBookingAdminGUI::setBackTarget($this->ctrl->getLinkTarget($this, "backFromBooking"));
+		$this->ctrl->setParameter($this, "obj_id", null);
+		
+		$this->ctrl->setParameterByClass("ilCourseBookingGUI", "ref_id", $ref_id);
+		$this->ctrl->redirectByClass(array("ilCourseBookingGUI", "ilCourseBookingAdminGUI"));
 	}
 	
 	protected function backFromBooking() {
