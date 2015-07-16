@@ -117,6 +117,9 @@ class gevDBVReportSuperiorGUI extends catBasicReportGUI{
 						->static_condition("hc.end_date >= ".$this->db->quote("2015-01-01","date"))
 						->static_condition("oda.type = 'role'")
 						->static_condition("hu.hist_historic = 0")
+						->static_condition(
+							$this->db->in(
+								"hucs.participation_status", array("fehlt entschuldigt", "fehlt ohne Absage"), true, "text"))
 						->static_condition("hucs.hist_historic = 0")
 						->static_condition("hc.hist_historic = 0")
 						->static_condition("dbv.hist_historic = 0")

@@ -117,6 +117,9 @@ class gevDBVReportGUI extends catBasicReportGUI{
 		$this->filter = catFilter::create()
 						->static_condition("oup.usr_id = ".$this->db->quote($target_user, "integer"))
 						->static_condition("oda.type = 'role'")
+						->static_condition(
+							$this->db->in(
+								"hucs.participation_status", array("fehlt entschuldigt", "fehlt ohne Absage"), true, "text"))
 						->static_condition("hc.end_date < ".$this->db->quote("2016-01-01","date"))
 						->static_condition("hc.end_date >= ".$this->db->quote("2015-01-01","date"))
 						->static_condition("hu.hist_historic = 0")
