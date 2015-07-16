@@ -308,6 +308,14 @@ class ilObjectMetaDataGUI
 		{
 			$this->record_gui->writeEditForm();
 			
+			// Update ECS content
+			if($this->obj_type == "crs")
+			{
+				include_once "Modules/Course/classes/class.ilECSCourseSettings.php";
+				$ecs = new ilECSCourseSettings($this->object);
+				$ecs->handleContentUpdate();
+			}
+			
 			ilUtil::sendSuccess($lng->txt("settings_saved"), true);
 			$ilCtrl->redirect($this, "edit");
 		}
