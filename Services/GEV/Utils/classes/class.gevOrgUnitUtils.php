@@ -238,6 +238,10 @@ class gevOrgUnitUtils {
 		return $this->ref_id;
 	}
 	
+	public function getObjId() {
+		return $this->orgu_id;
+	}
+	
 	public function getTitle() {
 		$inst = $this->getOrgUnitInstance();
 		if ($inst === null) {
