@@ -310,7 +310,7 @@ class gevDecentralTrainingGUI {
 	protected function redirectToBookingFormOfLastCreatedTraining() {
 		$obj_id = $this->lastCreatedCourseId();
 		if (!$obj_id) {
-			$this->ctrl->redirect(array("ilTEPGUI"));
+			$this->ctrl->redirectByClass(array("ilTEPGUI"));
 		}
 		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 		$ref_id = gevObjectUtils::getRefId($obj_id);

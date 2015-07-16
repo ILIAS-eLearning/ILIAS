@@ -459,7 +459,7 @@ class ilContainer extends ilObject
 	 * @return new refid if clone has finished or parameter ref id if cloning is still in progress
 	 */
 	// gev-patch start
-	public function cloneAllObject($session_id, $client_id, $new_type, $ref_id, $clone_source, $options, $soap_call = false, $ret_new_ref = false)
+	public function cloneAllObject($session_id, $client_id, $new_type, $ref_id, $clone_source, $options, $soap_call = false, $ret_new_ref = false, $clone_owner_id = null)
 	// gev-patch end
 	{
 		global $ilLog;
@@ -472,7 +472,14 @@ class ilContainer extends ilObject
 		// Save wizard options
 		$copy_id = ilCopyWizardOptions::_allocateCopyId();
 		$wizard_options = ilCopyWizardOptions::_getInstance($copy_id);
-		$wizard_options->saveOwner($ilUser->getId());
+		// gev-patch start
+		if ($clone_owner_id === null) {
+			$wizard_options->saveOwner($ilUser->getId());
+		}
+		else {
+			$wizard_options->saveOwner($clone_owner_id);
+		}
+		// gev-patch end
 		$wizard_options->saveRoot($clone_source);
 			
 		// add entry for source container
