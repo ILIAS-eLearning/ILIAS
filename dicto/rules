@@ -21,6 +21,8 @@ ilTabsGlobal = PhpGlobal with name:"ilTabs"
 SetErrorHandler = PhpFunction with name:"set_error_handler"
 SetExceptionHandler = PhpFunction with name:"set_exception_handler"
 SetErrorOrExceptionHandler = {SetExceptionHandler, SetErrorHandler}
+IliasTemplateFile = File with file:"*/tpl.*.html"
+
 
 /**
  * The global php function trigger_error is a procedural concept. Please ommit this php function and use an ILIAS exception instead.
@@ -93,3 +95,18 @@ only GUIClasses can depend on ilTemplateGlobal
  * ILIAS should not rely on PEAR::raiseError. We would like to introduce exceptions instead. 
  */
 WholeIliasCodebase cannot invoke raiseError
+
+**
+ * Used to detect HTML <script>-Tags 
+ */
+IliasTemplateFile cannot contain text "<script*>"
+
+/**
+ * Used to detect JavaScript in e.g. HTML attributes, e.g. <a href="javascript:void(0);">x</a>
+ */
+IliasTemplateFile cannot contain text "javascript*:"
+
+/**
+ * Used to detect inline JavaScript events, e.g. <a onclick="alert('HelloWorld');">x</a>
+ */
+IliasTemplateFile cannot contain text "on(blur|change|click|dblclick|focus|keydown|keypress|keyup|load|mousemove|mouseup|mousedown|mouseenter|mouseleave|mouseout|mouseover|mousewheel|resize|select|submit|unload|wheel|scroll)"
