@@ -14,6 +14,7 @@ class gevCourseBuildingBlockUtils {
 	static protected $instances = array();
 	const TABLE_NAME = "dct_crs_building_block";
 	const TABLE_NAME_JOIN1 = "dct_building_block";
+	const DURATION_PER_POINT = 45;
 
 	protected $course_building_block_id = "";
 	protected $crs_id = "-1";
@@ -147,7 +148,7 @@ class gevCourseBuildingBlockUtils {
 
 		$this->db->manipulate($sql);
 
-		$this->updateCourseMethodAndMedia();
+		$this->courseUpdates();
 	}
 
 	public function save() {
@@ -174,14 +175,14 @@ class gevCourseBuildingBlockUtils {
 
 		$this->db->manipulate($sql);
 
-		$this->updateCourseMethodAndMedia();
+		$this->courseUpdates();
 	}
 
 	public function delete() {
 		$query = "DELETE FROM ".self::TABLE_NAME." WHERE id = ".$this->db->quote($this->getId(),"integer");
 		$this->db->manipulate($query);
 
-		$this->updateCourseMethodAndMedia();
+		$this->courseUpdates();
 	}
 
 	static public function getAllCourseBuildingBlocks($a_crs_ref_id,$a_request_id = null) {
@@ -238,6 +239,11 @@ class gevCourseBuildingBlockUtils {
 		$this->db->manipulate($sql);
 	}
 
+	private function courseUpdates() {
+		$this->updateCourseMethodAndMedia();
+		$this->updateWP();
+	}
+
 	private function updateCourseMethodAndMedia() {
 		$sql = "SELECT method, media FROM ".self::TABLE_NAME." WHERE crs_id = ".$this->getCrsId();
 		$res = $this->db->query($sql);
@@ -263,7 +269,41 @@ class gevCourseBuildingBlockUtils {
 		}
 
 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
-		gevCourseUtils::updateMethodAndMedia($methods, $media,$this->getCrsId());
+		gevCourseUtils::updateMethod($methods,$this->getCrsId());
+		gevCourseUtils::updateMedia($media,$this->getCrsId());
+	}
+
+	private function updateWP() {
+		$sql = "SELECT MIN(start_date) as start_date, MAX(end_date) as end_date FROM ".self::TABLE_NAME." WHERE crs_id = ".$this->getCrsId(). " ORDER BY start_date";
+		$res = $this->db->query($sql);
+
+		$wp = null;
+
+		if($this->db->numRows($res) > 0) {
+			$row = $this->db->fetchAssoc($res);
+
+			$start_date = split(" ",$row["start_date"]);
+			$end_date = split(" ",$row["end_date"]);
+
+			$start_time = split(":",$start_date[1]);
+			$end_time = split(":",$end_date[1]);
+
+			$minutes = 0;
+			$hours = 0;
+			if($end_time[1] < $start_time[1]) {
+				$minutes = 60 - $start_time[1] + $end_time[1];
+				$hours = -1;
+			} else {
+				$minutes = $end_time[1] - $start_time[1];
+			}
+			$hours = $hours + $end_time[0] - $start_time[0];
+			$totalMinutes = $hours * 60 + $minutes;
+
+			$wp = round($totalMinutes / self::DURATION_PER_POINT);
+		}
+		
+		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		gevCourseUtils::updateWP($wp, $this->getCrsId());
 	}
 }
 ?>

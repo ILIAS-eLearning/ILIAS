@@ -2971,7 +2971,7 @@ class gevCourseUtils {
 			&& $end+$end_time > $timestamp;
 	}
 
-	static public function updateMethodAndMedia(array $a_new_method,array $a_new_media, $a_ref_id) {
+	static public function updateMethod(array $a_new_method, $a_ref_id) {
 		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 		require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
 		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
@@ -2980,7 +2980,28 @@ class gevCourseUtils {
 		$amd_utils = gevAMDUtils::getInstance();
 
 		$amd_utils->setField($obj_id,gevSettings::CRS_AMD_METHODS,$a_new_method);
+	}
+
+	static public function updateMedia(array $a_new_media, $a_ref_id) {
+		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+		
+		$obj_id = gevObjectUtils::getObjId($a_ref_id);
+		$amd_utils = gevAMDUtils::getInstance();
+		
 		$amd_utils->setField($obj_id,gevSettings::CRS_AMD_MEDIA,$a_new_media);
+	}
+
+	static public function updateWP($a_wp, $a_ref_id) {
+		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+		
+		$obj_id = gevObjectUtils::getObjId($a_ref_id);
+		$amd_utils = gevAMDUtils::getInstance();
+
+		$amd_utils->setField($obj_id,gevSettings::CRS_AMD_CREDIT_POINTS,$a_wp);
 	}
 }
 
