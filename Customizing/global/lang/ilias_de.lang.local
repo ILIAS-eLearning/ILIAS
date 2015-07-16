@@ -1175,3 +1175,4 @@ gev#:#gev_dec_training_two_venues#:#Bitte wählen Sie einen Veranstaltungsort au
 gev#:#gev_dec_training_crs_to_short#:#Die Gesamtlänge des Trainings ist zu kurz für die zu erlangenden Bildungspunkte (45 Minuten / Punkt).
 gev#:#gev_mail_log#:#Maillog
 gev#:#gev_back#:#Zurück
+gev#:#gev_dec_training_creation_requested#:#Das dezentrale Training wird für sie angelegt.

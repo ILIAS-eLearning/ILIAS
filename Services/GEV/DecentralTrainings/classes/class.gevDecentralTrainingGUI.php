@@ -241,7 +241,7 @@ class gevDecentralTrainingGUI {
 		$creation_request->request();
 		//$res = $creation_request->run();
 		
-		ilUtil::sendSuccess($this->lng->txt("gev_dec_training_creation_successfull"), true);
+		ilUtil::sendSuccess($this->lng->txt("gev_dec_training_creation_requested"), true);
 		
 		return $this->ctrl->redirect($this, "showOpenRequests");
 	}
