@@ -51,7 +51,7 @@ class gevBillingReportGUI extends catBasicReportGUI {
 						->column("lastname", "lastname")
 						->column("firstname", "firstname");
 		if($this->is_vfs) {
-			$this->table->column("adp_number", "gev_adp_vfs");
+			$this->table->column("adp_number", "gev_adp_number_vfs");
 		}
 		$this->table 	->column("gender", "gender")
 						->column("org_unit", "gev_org_unit_short")
