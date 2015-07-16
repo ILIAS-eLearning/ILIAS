@@ -2970,6 +2970,18 @@ class gevCourseUtils {
 		return $start+$start_time < $timestamp 
 			&& $end+$end_time > $timestamp;
 	}
+
+	static public function updateMethodAndMedia(array $a_new_method,array $a_new_media, $a_ref_id) {
+		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+		
+		$obj_id = gevObjectUtils::getObjId($a_ref_id);
+		$amd_utils = gevAMDUtils::getInstance();
+
+		$amd_utils->setField($obj_id,gevSettings::CRS_AMD_METHODS,$a_new_method);
+		$amd_utils->setField($obj_id,gevSettings::CRS_AMD_MEDIA,$a_new_media);
+	}
 }
 
 ?>

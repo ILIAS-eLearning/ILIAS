@@ -22,7 +22,8 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
 *
 * // gev-patch start
 * @ilCtrl_Calls ilObjCourseGUI: gevCrsMailingGUI
-* // gev-patch end 
+* @ilCtrl_Calls ilObjCourseGUI: gevDecentralTrainingCourseBuildingBlockGUI
+* // gev-patch end * @ilCtrl_Calls ilObjCourseGUI: gevDecentralTrainingCourseBuildingBlockGUI
 *
 * @extends ilContainerGUI
 */
@@ -1718,8 +1719,16 @@ class ilObjCourseGUI extends ilContainerGUI
 					$this->ctrl->setParameterByClass('ilmateriallistgui', 'ref_id', $this->object->getRefId());
 					$this->tabs_gui->addSubTabTarget('matlist',
 						$this->ctrl->getLinkTargetByClass('ilmateriallistgui',''), 
-						'', 'ilmateriallistgui');		
-					$this->ctrl->setParameterByClass('ilmateriallistgui', 'ref_id', '');				
+						'', 'ilmateriallistgui');
+					$this->ctrl->setParameterByClass('ilmateriallistgui', 'ref_id', '');
+				}
+
+				if(true) {
+					$this->ctrl->setParameterByClass('gevDecentralTrainingCourseBuildingBlockGUI', 'obj_id', $this->object->getId());
+					$this->tabs_gui->addSubTabTarget('gev_dct_crs_building_block_sub_title',
+						$this->ctrl->getLinkTargetByClass('gevDecentralTrainingCourseBuildingBlockGUI',''), 
+						'', 'gevDecentralTrainingCourseBuildingBlockGUI');
+					$this->ctrl->setParameterByClass('gevDecentralTrainingCourseBuildingBlockGUI', 'obj_id', '');
 				}
 				// gev-patch end
 
@@ -4849,6 +4858,13 @@ class ilObjCourseGUI extends ilContainerGUI
 				$mailing_gui = new gevCrsMailingGUI($this->object->getId(), $this->object->getRefId(), $this);
 				$this->tabs_gui->activateTab("mailing");
 				$this->ctrl->forwardCommand($mailing_gui);
+				break;
+			case "gevdecentraltrainingcoursebuildingblockgui":
+				require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCourseBuildingBlockGUI.php");
+				$bb_gui = new gevDecentralTrainingCourseBuildingBlockGUI();
+				$this->setSubTabs("properties");
+				$this->tabs_gui->activateTab("settings");
+				$this->ctrl->forwardCommand($bb_gui);
 				break;
 			// gev-patch end
 						

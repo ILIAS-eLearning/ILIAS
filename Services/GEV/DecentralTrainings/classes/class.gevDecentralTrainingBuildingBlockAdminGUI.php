@@ -362,7 +362,7 @@ class gevDecentralTrainingBuildingBlockAdminGUI {
 			return $this->newBuildingBlock($form);
 		}
 
-		$newId = $this->db->nextId("object_data");
+		$newId = $this->db->nextId("dct_building_block");
 		require_once ("Services/GEV/Utils/classes/class.gevBuildingBlockUtils.php");
 		$bu_utils = gevBuildingBlockUtils::getInstance($newId);
 

@@ -1175,6 +1175,20 @@ gev#:#gev_dec_training_two_venues#:#Bitte wählen Sie einen Veranstaltungsort au
 gev#:#gev_dec_training_crs_to_short#:#Die Gesamtlänge des Trainings ist zu kurz für die zu erlangenden Bildungspunkte (45 Minuten / Punkt).
 gev#:#gev_mail_log#:#Maillog
 gev#:#gev_back#:#Zurück
+gev#:#gev_dct_crs_building_block_sub_title#:#Ablaufplan
+gev#:#gev_dec_crs_building_block_title#:#Ablaufplan
+gev#:#gev_dec_crs_building_block_sub_title#:#Hier wird Ihnen angezeigt wie das Training ablaufen wird.
+gev#:#gev_dct_crs_building_block_from#:#Von
+gev#:#gev_dct_crs_building_block_to#:#Bis
+gev#:#gev_dct_crs_building_block_block#:#Baustein
+gev#:#gev_dct_crs_building_block_methods#:#Methoden
+gev#:#gev_dct_crs_building_block_media#:#Medien
+gev#:#gev_dct_crs_building_block_content#:#Inhalt
+gev#:#gev_dct_crs_building_block_lern_dest#:#Lernziel
+gev#:#gev_dec_crs_building_block_edit#:#Baustein bearbeiten
+gev#:#gev_dec_crs_building_block_new#:#Neuer Baustein
+gev#:#gev_dec_crs_building_block_base_data#:#Bausteininformationen
 gev#:#gev_dec_training_creation_requested#:#Das dezentrale Training wird für sie angelegt.
+gev#:#gev_dct_please_select_building_block#:#Bitte wählen Sie einen Baustein aus.
 gev#:#gev_dec_training_open_requests_header#:#Folgende dezentrale Trainings werden derzeit für sie angelegt:
 gev#:#gev_dec_training_open_requests_time_info#:#Die Wartezeit zur Anlage eines dezentralen Trainings beträgt derzeit etwa %s Minuten.

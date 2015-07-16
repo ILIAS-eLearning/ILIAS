@@ -10,34 +10,34 @@
 */
 class gevBuildingBlockUtils {
 	static protected $instances = array();
-	const TABLE_NAME = "dct_building_blocks";
+	const TABLE_NAME = "dct_building_block";
 
-	protected $block_unit_id = "";
+	protected $building_block_id = "";
 	protected $title = "";
 	protected $content = "";
 	protected $learning_dest = "";
 	protected $is_wp_relevant = false;
 	protected $is_active = false;
 
-	protected function __construct($a_block_unit_id) {
+	protected function __construct($a_building_block_id) {
 		global $ilDB, $ilUser;
 				
-		$this->block_unit_id = $a_block_unit_id;
+		$this->building_block_id = $a_building_block_id;
 		$this->db = $ilDB;
 		$this->ilUser = $ilUser;
 	}
 
-	public function getInstance($a_block_unit_id) {
-		if (array_key_exists($a_block_unit_id, self::$instances)) {
-			return self::$instances[$a_block_unit_id];
+	public function getInstance($a_building_block_id) {
+		if (array_key_exists($a_building_block_id, self::$instances)) {
+			return self::$instances[$a_building_block_id];
 		}
 		
-		self::$instances[$a_block_unit_id] = new gevBuildingBlockUtils($a_block_unit_id);
-		return self::$instances[$a_block_unit_id];
+		self::$instances[$a_building_block_id] = new gevBuildingBlockUtils($a_building_block_id);
+		return self::$instances[$a_building_block_id];
 	}
 
 	public function getId() {
-		return $this->block_unit_id;
+		return $this->building_block_id;
 	}
 
 	public function getTitle() {
@@ -206,6 +206,21 @@ class gevBuildingBlockUtils {
 		$lnk = $ilCtrl->getLinkTargetByClass("gevDecentralTrainingBuildingBlockAdminGUI", "edit");
 		$ilCtrl->clearParametersByClass("gevDecentralTrainingBuildingBlockAdminGUI");
 		return $lnk;
+	}
+
+	static function getPossibleBuildingBlocks() {
+		global $ilDB;
+
+		$sql = "SELECT obj_id, title FROM ".self::TABLE_NAME." WHERE is_deleted = 0 AND is_active = 1";
+		$res = $ilDB->query($sql);
+
+		$ret = array();
+
+		while ($row = $ilDB->fetchAssoc($res)) {
+			$ret[$row["obj_id"]] = $row["title"];
+		}
+
+		return $ret;
 	}
 }
 

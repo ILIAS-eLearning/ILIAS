@@ -3682,17 +3682,17 @@ if( !$ilDB->tableExists('dct_building_block') )
 		'title' => array(
 			'type' => 'text',
 			'length' => 50,
-			'notnull' => false
+			'notnull' => true
 		),
 		'content' => array(
 			'type' => 'text',
 			'length' => 50,
-			'notnull' => false
+			'notnull' => true
 		),
 		'learning_dest' => array(
 			'type' => 'text',
 			'length' => 50,
-			'notnull' => false
+			'notnull' => true
 		),
 		'is_wp_relevant' => array(
 			'type' => 'integer',
@@ -3772,8 +3772,9 @@ if( !$ilDB->tableExists('dct_crs_building_block') )
 			'notnull' => false
 		)
 	));
-		
-	$ilDB->addPrimaryKey('dct_crs_building_block', array('id'));
+
+	$ilDB->addPrimaryKey('dct_crs_building_block',array('id'));
+
 }
 ?>
 
@@ -3794,4 +3795,58 @@ require_once "Customizing/class.ilCustomInstaller.php";
 <?php
 require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCreationRequestDB.php");
 gevDecentralTrainingCreationRequestDB::install_step2($ilDB);
+?>
+
+<#134>
+<?php
+if(!$ilDB->tableColumnExists('dct_crs_building_block', 'crs_request_id')) {
+	$ilDB->addTableColumn('dct_crs_building_block', 'crs_request_id', array(
+			"type" => "integer",
+			"length" => 4,
+			"notnull" => true
+		));
+}
+
+if($ilDB->tableColumnExists('dct_crs_building_block', 'media')) {
+	$ilDB->modifyTableColumn('dct_crs_building_block','media', array(
+			'type' => 'text',
+			'length' => 4000,
+			'notnull' => true
+	));
+}
+
+if($ilDB->tableColumnExists('dct_crs_building_block', 'method')) {
+	$ilDB->modifyTableColumn('dct_crs_building_block','method', array(
+			'type' => 'text',
+			'length' => 4000,
+			'notnull' => true
+	));
+}
+
+if($ilDB->tableColumnExists('dct_building_block', 'title')) {
+	$ilDB->modifyTableColumn('dct_building_block','title', array(
+			'type' => 'text',
+			'length' => 100,
+			'notnull' => true,
+			'default' => ""
+	));
+}
+
+if($ilDB->tableColumnExists('dct_building_block', 'content')) {
+	$ilDB->modifyTableColumn('dct_building_block','content', array(
+			'type' => 'text',
+			'length' => 100,
+			'notnull' => true,
+			'default' => ""
+	));
+}
+
+if($ilDB->tableColumnExists('dct_building_block', 'learning_dest')) {
+	$ilDB->modifyTableColumn('dct_building_block','learning_dest', array(
+			'type' => 'text',
+			'length' => 100,
+			'notnull' => true,
+			'default' => ""
+	));
+}
 ?>
