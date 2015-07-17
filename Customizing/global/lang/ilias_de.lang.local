@@ -1192,3 +1192,7 @@ gev#:#gev_dec_training_creation_requested#:#Das dezentrale Training wird für si
 gev#:#gev_dct_please_select_building_block#:#Bitte wählen Sie einen Baustein aus.
 gev#:#gev_dec_training_open_requests_header#:#Folgende dezentrale Trainings werden derzeit für sie angelegt:
 gev#:#gev_dec_training_open_requests_time_info#:#Die Wartezeit zur Anlage eines dezentralen Trainings beträgt derzeit etwa %s Minuten.
+gev#:#gev_dec_training_presence_fix#:#Präsenztraining (fester Ablaufplan)
+gev#:#gev_dec_training_webinar_fix#:#Webinar (fester Ablaufplan)
+gev#:#gev_dec_training_presence_flex#:#Präsenztraing (individuelle Bausteine)
+gev#:#gev_dec_training_webinar_flex#:#Webinar (individuelle Bausteine)

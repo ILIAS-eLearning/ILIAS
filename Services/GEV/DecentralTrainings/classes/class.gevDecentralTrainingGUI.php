@@ -473,10 +473,10 @@ class gevDecentralTrainingGUI {
 		$key = null;
 		$_templates = $dec_utils->getAvailableTemplatesFor($this->current_user->getId());
 		
-		if (count($_templates) == 0) {
+		/*if (count($_templates) == 0) {
 			ilUtil::sendFailure($this->lng->txt("gev_dec_training_no_templates"), true);
 			$this->ctrl->redirectByClass("ilTEPGUI");
-		}
+		}*/
 		
 		foreach ($_templates as $obj_id => $info) {
 			if (!$info["ltype"]) {
@@ -492,13 +492,50 @@ class gevDecentralTrainingGUI {
 			$templates[$info["ltype"]][$info["obj_id"]] = $info["title"];
 		}
 		
+		//load templates id's for flexible trainings
+		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+		$settings_utils = gevSettings::getInstance();
+		$presence_flexible_tpl_id = $settings_utils->getDctTplFlexPresenceId();
+		$webinar_flexsible_tpl_id = $settings_utils->getDctTplFlexWebinarId();
+
 		$ltype_choice = new ilRadioGroupInputGUI($this->lng->txt("gev_course_type"), "ltype");
 		$form->addItem($ltype_choice);
+		$selected = "presence_flexible";
+
+		echo "<pre>";
+		var_dump($templates);
+		echo "</pre>";
+		
 		foreach ($templates as $ltype => $tmplts) {
-		//foreach (array("Präsenztraining", "Webinar") as $ltype) {
-			//$tmplts = $templates[$ltype];
+			
+			if(array_key_exists($presence_flexible_tpl_id,$tmplts)) {
+				unset($tmplts[$presence_flexible_tpl_id]);
+			}
+
+			if(array_key_exists($webinar_flexsible_tpl_id,$tmplts)) {
+				unset($tmplts[$webinar_flexsible_tpl_id]);
+			}
+
+			$desc = "";
+			if($ltype == "Präsenztraining") {
+				$desc = $this->lng->txt("gev_dec_training_presence_fix");
+				$selected = "präsenztraining";
+			}
+
+			if($ltype == "Webinar") {
+				$desc = $this->lng->txt("gev_dec_training_webinar_fix");
+				
+				if($selected != "präsenztraining") {
+					$selected = "webinar";
+				}
+			}
+
+			if(empty($tmplts)) {
+				continue;
+			}
+
 			$key = strtolower(str_replace(" ", "_", $ltype));
-			$ltype_opt = new ilRadioOption($ltype, $key);
+			$ltype_opt = new ilRadioOption($desc, $key);
 			$ltype_choice->addOption($ltype_opt);
 			
 			$training_select = new ilSelectInputGUI($this->lng->txt("gev_dec_training_template"), $key."_template");
@@ -506,7 +543,21 @@ class gevDecentralTrainingGUI {
 
 			$ltype_opt->addSubItem($training_select);
 		}
-		$ltype_choice->setValue("präsenztraining");
+		
+	
+		//Präsenztraining Flexsibel
+		$presence_flexible = new ilRadioOption($this->lng->txt("gev_dec_training_presence_flex"), "presence_flexible");
+		$ltype_choice->addOption($presence_flexible);
+		$presence_flexible_tpl_id = new ilHiddenInputGUI("praesenz_flexible_template");
+		$form->addItem($presence_flexible_tpl_id);
+		
+		//Webinar Flexsibel
+		$webinar_flexible = new ilRadioOption($this->lng->txt("gev_dec_training_webinar_flex"), "webinar_flexible");
+		$ltype_choice->addOption($webinar_flexible);
+		$webinar_flexsible_tpl_id = new ilHiddenInputGUI("praesenz_flexible_template");		
+		$form->addItem($webinar_flexsible_tpl_id);
+
+		$ltype_choice->setValue($selected);
 		
 		
 		// maybe choice of trainers
