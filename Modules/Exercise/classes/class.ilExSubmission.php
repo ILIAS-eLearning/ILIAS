@@ -127,7 +127,16 @@ class ilExSubmission
 
 	public function hasSubmitted()
 	{
-		return (bool)sizeof($this->getFiles());
+		return (bool)sizeof($this->getFiles(null, true));
+	}		
+	
+	public function getSelectedObject()
+	{
+		$files = $this->getFiles();
+		if(sizeof($files))		
+		{
+			return array_pop($files);
+		}
 	}
 	
 	public function canSubmit()
@@ -357,7 +366,7 @@ class ilExSubmission
 		return $delivered ? $delivered : array();
 	}
 
-	function getFiles(array $a_file_ids = null, $a_filter_empty_filename = false, $a_min_timestamp = null)
+	function getFiles(array $a_file_ids = null, $a_only_valid = false, $a_min_timestamp = null)
 	{
 		global $ilDB;
 		
@@ -384,7 +393,10 @@ class ilExSubmission
 		
 			while ($row = $ilDB->fetchAssoc($result))
 			{
-				if($a_filter_empty_filename && !$row["filename"])
+				// blog/portfolio/text submissions
+				if($a_only_valid && 
+					!$row["filename"] &&
+					!(trim($row["atext"])))
 				{
 					continue;
 				}
