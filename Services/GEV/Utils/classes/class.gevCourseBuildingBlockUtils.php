@@ -23,7 +23,7 @@ class gevCourseBuildingBlockUtils {
 	protected $end_date = "";
 	protected $methods = array();
 	protected $media = array();
-	protected $crs_request_id = -1;
+	protected $crs_request_id = null;
 
 	protected function __construct($a_course_building_block_id) {
 		global $ilDB, $ilUser;
