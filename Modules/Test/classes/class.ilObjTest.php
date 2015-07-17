@@ -394,7 +394,11 @@ class ilObjTest extends ilObject
 	
 	protected $mailnotification;
 	protected $mailnottype;
-	protected $random_questionpool_data;
+
+	/**
+	 * @var array
+	 */
+	protected $random_questionpool_data = array();
 	protected $exportsettings;
 
 	protected $poolUsage;
