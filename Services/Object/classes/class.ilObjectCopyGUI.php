@@ -35,6 +35,7 @@ class ilObjectCopyGUI
 	private $source = 0;
 	// begin-patch multi copy
 	private $targets = array();
+	private $targets_copy_id = array();
 	// end-patch multi copy
 
 
@@ -918,28 +919,60 @@ class ilObjectCopyGUI
 		
 		unset($_SESSION["clipboard"]["ref_ids"]);
 		unset($_SESSION["clipboard"]["cmd"]);
-
-		// Check if copy is in progress
-		if ($result == $last_target)
-		{
-			ilUtil::sendInfo($this->lng->txt("object_copy_in_progress"),true);
-			$ilCtrl->setParameterByClass(
-					"ilrepositorygui", 
-					"ref_id",
-					$last_target
-			);
-			$ilCtrl->redirectByClass("ilrepositorygui", "");
-		} 
-		else 
+		
+		include_once './Services/CopyWizard/classes/class.ilCopyWizardOptions.php';
+		if(ilCopyWizardOptions::_isFinished($result['copy_id']))
 		{
 			ilUtil::sendSuccess($this->lng->txt("object_duplicated"),true);
 			$ilCtrl->setParameterByClass(
 					"ilrepositorygui", 
 					"ref_id",
-					$result
+					$result['ref_id']
 			);
 			$ilCtrl->redirectByClass("ilrepositorygui", "");
-		}	
+		}
+		else
+		{
+			// show progress
+			return $this->showCopyProgress();
+		}
+	}
+	
+	/**
+	 * Show progress for copying
+	 */
+	protected function showCopyProgress()
+	{
+		include_once './Services/Object/classes/class.ilObjectCopyProgressTableGUI.php';
+		$progress = new ilObjectCopyProgressTableGUI(
+				$this,
+				'showCopyProgress',
+				(int) $_GET['ref_id']
+		);
+		$progress->setObjectInfo($this->targets_copy_id);
+		$progress->parse();
+		$progress->init();
+		
+		$GLOBALS['tpl']->setContent($progress->getHTML());
+	}
+
+	/**
+	 * Update progress
+	 */
+	protected function updateProgress()
+	{
+		$json = new stdClass();
+		$json->percentage = null;
+		$json->performed_steps = null;
+		
+		include_once './Services/CopyWizard/classes/class.ilCopyWizardOptions.php';
+		$options = ilCopyWizardOptions::_getInstance((int) $_REQUEST['copy_id']);
+		$json->required_steps = $options->getRequiredSteps();
+		$json->id = (int) $_REQUEST['copy_id'];
+		
+		
+		echo json_encode($json);
+		exit;
 	}
 	
 	
@@ -988,6 +1021,9 @@ class ilObjectCopyGUI
 				FALSE,
 				$this->getSubMode()
 		);
+		
+		$this->targets_copy_id[$a_target] = $result['copy_id'];
+
 		return $result;
 	}
 	

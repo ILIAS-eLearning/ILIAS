@@ -84,6 +84,18 @@ class ilCopyWizardOptions
 		return self::$instances[$a_copy_id] = new ilCopyWizardOptions($a_copy_id);
 	}
 	
+	
+	public function getRequiredSteps()
+	{
+		
+		$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($this->options[0],TRUE));
+		$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($this->options[-1],TRUE));
+		
+		
+		return count($this->options[0]) + count($this->options[-1]);
+	}
+	
+	
 	/**
 	 * check if copy is finished
 	 *

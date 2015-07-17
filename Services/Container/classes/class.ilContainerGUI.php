@@ -3084,19 +3084,19 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$orig = ilObjectFactory::getInstanceByRefId($clone_source);
 		$result = $orig->cloneAllObject($_COOKIE['PHPSESSID'], $_COOKIE['ilClientId'], $new_type, $ref_id, $clone_source, $options);
 		
-		// Check if copy is in progress
-		if ($result == $ref_id)
+		include_once './Services/CopyWizard/classes/class.ilCopyWizardOptions.php';
+		if(ilCopyWizardOptions::_isFinished($result['copy_id']))
+		{
+			ilUtil::sendSuccess($this->lng->txt("object_duplicated"),true);			
+			$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $result['ref_id']);
+			$ilCtrl->redirectByClass("ilrepositorygui", "");
+		}
+		else
 		{
 			ilUtil::sendInfo($this->lng->txt("object_copy_in_progress"),true);
 			$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $ref_id);
 			$ilCtrl->redirectByClass("ilrepositorygui", "");
-		} 
-		else 
-		{
-			ilUtil::sendSuccess($this->lng->txt("object_duplicated"),true);			
-			$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $result);
-			$ilCtrl->redirectByClass("ilrepositorygui", "");
-		}	
+		}
 	}
 
 	
