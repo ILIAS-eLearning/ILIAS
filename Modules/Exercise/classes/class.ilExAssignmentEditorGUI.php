@@ -428,7 +428,8 @@ class ilExAssignmentEditorGUI
 					$valid = false;
 				}			
 				// global feedback
-				if($a_form->getInput("fb"))
+				if($a_form->getInput("fb") &&
+					$a_form->getInput("fb_date") == ilExAssignment::FEEDBACK_DATE_DEADLINE)
 				{
 					$a_form->getItemByPostVar("fb")
 						->setAlert($lng->txt("exc_needs_deadline"));

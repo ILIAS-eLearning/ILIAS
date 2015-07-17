@@ -269,19 +269,15 @@ class ilExAssignmentGUI
 			include_once "Modules/Exercise/classes/class.ilExSubmissionGUI.php";
 			ilExSubmissionGUI::getOverviewContent($a_info, $submission);
 				
-			$last_sub = $submission->getLastSubmission();
-
-			if ($last_sub)
+			$last_sub = null;
+			if($submission->hasSubmitted())
 			{
-				$last_sub = ilDatePresentation::formatDate(new ilDateTime($last_sub,IL_CAL_DATETIME));
-			}
-			else
-			{
-				$last_sub = "---";
-			}
-			if ($last_sub != "---")
-			{
-				$a_info->addProperty($lng->txt("exc_last_submission"), $last_sub);
+				$last_sub = $submission->getLastSubmission();
+				if($last_sub)
+				{
+					$last_sub = ilDatePresentation::formatDate(new ilDateTime($last_sub,IL_CAL_DATETIME));
+					$a_info->addProperty($lng->txt("exc_last_submission"), $last_sub);
+				}				
 			}
 
 			include_once "Modules/Exercise/classes/class.ilExPeerReviewGUI.php";
@@ -294,7 +290,7 @@ class ilExAssignmentGUI
 			}
 			else
 			{
-				$show_global_feedback = ($last_sub != "---" && $a_ass->getFeedbackFile());
+				$show_global_feedback = ($last_sub && $a_ass->getFeedbackFile());
 			}								
 
 			$this->addSubmissionFeedback($a_info, $a_ass, $submission->getFeedbackId(), $show_global_feedback);												
