@@ -1250,13 +1250,19 @@ class ilAdvancedMDSettingsGUI
 			{
 				$t = $type["obj_type"].":".$type["sub_type"];
 				$this->lng->loadLanguageModule($type["obj_type"]);
-								
+				
 				$type_options = $options;
-				if($type["obj_type"] == "orgu" ||
-					$type["obj_type"] == "rcrs")
+				switch($type["obj_type"])
 				{
-					// currently no optional records for org unit (types)
-					unset($type_options[2]);
+					case "orgu":
+						// currently only optional records for org unit (types)
+						unset($type_options[1]);
+						break;
+						
+					case "rcrs":
+						// optional makes no sense for ecs-courses
+						unset($type_options[2]);
+						break;																				
 				}
 				
 				$value = 0;

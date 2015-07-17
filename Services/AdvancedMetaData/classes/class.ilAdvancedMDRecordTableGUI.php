@@ -99,14 +99,29 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
 			if($do_select)
 			{
 				$type_options = $options;
-				if($obj_type["obj_type"] == "orgu" ||
-					$obj_type["obj_type"] == "rcrs")
+				switch($obj_type["obj_type"])
 				{
-					// optional makes no sense for ecs-courses
-					// currently no optional records for org unit (types)
-					unset($type_options[2]);
+					case "orgu":
+						// currently only optional records for org unit (types)
+						unset($type_options[1]);
+						break;
+						
+					case "rcrs":
+						// optional makes no sense for ecs-courses
+						unset($type_options[2]);
+						break;																				
 				}
-				$select = ilUtil::formSelect($value, "obj_types[".$a_set['id']."][".$obj_type["obj_type"].":".$obj_type["sub_type"]."]", $type_options, false, true, 0, "", "", $disabled);			
+				$select = ilUtil::formSelect(
+						$value, 
+						"obj_types[".$a_set['id']."][".$obj_type["obj_type"].":".$obj_type["sub_type"]."]", 
+						$type_options, 
+						false, 
+						true, 
+						0, 
+						"", 
+						array("style"=>"min-width:125px"), 
+						$disabled
+				);			
 				$this->tpl->setVariable('VAL_OBJ_TYPE_STATUS', $select);
 			}
 			
