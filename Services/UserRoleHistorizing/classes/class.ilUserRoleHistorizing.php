@@ -6,7 +6,7 @@ require_once './Services/HistorizingStorage/classes/class.ilHistorizingStorage.p
 /**
  * Class ilUserHistorizing
  */
-class ilUserOrgUnitHistorizing extends ilHistorizingStorage {
+class ilUserRoleHistorizing extends ilHistorizingStorage {
 
 	/**
 	 * Returns the defined name of the table to be used for historizing.
@@ -19,7 +19,7 @@ class ilUserOrgUnitHistorizing extends ilHistorizingStorage {
 	 * @return string Name of the table which contains the historized records.
 	 */
 	protected function getHistorizedTableName() {
-		return 'hist_userorgu';
+		return 'hist_userrole';
 	}
 
 	/**
@@ -102,11 +102,8 @@ class ilUserOrgUnitHistorizing extends ilHistorizingStorage {
 	 */
 	protected function getContentColumnsDefinition() {
 		$definition =  array(
-			'action'	 		=> 'integer',
-			'orgu_title' 		=> 'text',
-			'rol_title' 		=> 'text',
-			'org_unit_above1' 	=> 'text',
-			'org_unit_above2' 	=> 'text'			
+			'action'	 => 'integer',
+			'rol_title' => 'text'
 		);
 
 		return $definition;
@@ -144,7 +141,6 @@ class ilUserOrgUnitHistorizing extends ilHistorizingStorage {
 	protected function getCaseIdColumns() {
 		return array(
 			'usr_id'	 =>	'integer',
-			'orgu_id'    => 'integer',
 			'rol_id'	 => 'integer'
 		);
 	}
@@ -153,6 +149,7 @@ class ilUserOrgUnitHistorizing extends ilHistorizingStorage {
 		if($data['action'] == -1 && $version == 1) {
 			return;
 		}
+
 		return parent::createRecord($case_id, $data, $version, $record_creator, $creation_timestamp);
 	}
 
@@ -160,7 +157,7 @@ class ilUserOrgUnitHistorizing extends ilHistorizingStorage {
 		if($a_current_data['action'] == $a_new_data['action']) {
 			return false;
 		}
-		if($a_current_data['action'] === null && $a_new_data['action'] == -1) {
+		if($a_current_data['action'] == null && $a_new_data['action'] == -1) {
 			return false;
 		}
 		return parent::containsChanges($a_current_data, $a_new_data);

@@ -3705,7 +3705,7 @@ require_once "Customizing/class.ilCustomInstaller.php";
 				'type' => 'integer',
 				'length' => 4,
 				'notnull' => true),
-			'role_id' => array(
+			'rol_id' => array(
 				'type' => 'integer' ,
 				'length' => 4 ,
 				'notnull' => true),
@@ -3713,7 +3713,15 @@ require_once "Customizing/class.ilCustomInstaller.php";
 				'type' => 'text',
 				'length' => 10 ,
 				'notnull' => false),
-			'usr_status' => array(
+			'org_unit_above1' => array(
+				'type' => 'text',
+				'length' => 10 ,
+				'notnull' => false),
+			'org_unit_above2' => array(
+				'type' => 'text',
+				'length' => 10 ,
+				'notnull' => false),
+			'rol_title' => array(
 				'type' => 'text',
 				'length' => 10 ,
 				'notnull' => false),
@@ -3726,4 +3734,54 @@ require_once "Customizing/class.ilCustomInstaller.php";
 		$ilDB->addPrimaryKey('hist_userorgu', array('row_id'));
 		$ilDB->createSequence('hist_userorgu');
 	}
+?>
+
+<#130> 
+<?php
+	if(!$ilDB->tableExists('hist_userrole')) {
+		$fields = array(
+			'row_id' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true),
+			'hist_version' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true,
+				'default' => 1),
+			'hist_historic' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true,
+				'default' => 0),
+			'creator_user_id' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true),
+			'created_ts' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true,
+				'default' => 0),
+			'usr_id' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true),
+			'rol_id' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true),
+			'rol_title' => array(
+				'type' => 'text',
+				'length' => 10 ,
+				'notnull' => false),
+			'action' => array(
+				'type' => 'integer',
+				'length' => 1 ,
+				'notnull' => true)			
+		);
+		$ilDB->createTable('hist_userrole', $fields);
+		$ilDB->addPrimaryKey('hist_userrole', array('row_id'));
+		$ilDB->createSequence('hist_userrole');
+	}	
 ?>

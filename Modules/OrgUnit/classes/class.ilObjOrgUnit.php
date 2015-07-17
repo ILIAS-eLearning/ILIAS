@@ -221,19 +221,18 @@ class ilObjOrgUnit extends ilContainer {
 	private function doLoadRoles(){
 		global $ilDB;
 		if(!$this->employee_role || !$this->superior_role){
-		$q = "SELECT obj_id, title FROM object_data WHERE title LIKE 'il_orgu_employee_".$ilDB->quote($this->getRefId(),"integer")."' OR title LIKE 'il_orgu_superior_".$ilDB->quote($this->getRefId(),"integer")."'";
-		$set = $ilDB->query($q);
-		while($res = $ilDB->fetchAssoc($set)){
-			if($res["title"] == "il_orgu_employee_".$this->getRefId())
-				$this->employee_role = $res["obj_id"];
-			elseif($res["title"] == "il_orgu_superior_".$this->getRefId())
-				$this->superior_role = $res["obj_id"];
-		}
-
-			if(!$this->employee_role || !$this->superior_role)
-				throw new Exception("The standard roles the orgu object with id: ".$this->getId()." aren't initialized or have been deleted!");
-	}
-	}
+    		$q = "SELECT obj_id, title FROM object_data WHERE title LIKE 'il_orgu_employee_".$ilDB->quote($this->getRefId(),"integer")."' OR title LIKE 'il_orgu_superior_".$ilDB->quote($this->getRefId(),"integer")."'";
+    		$set = $ilDB->query($q);
+    		while($res = $ilDB->fetchAssoc($set)){
+    			if($res["title"] == "il_orgu_employee_".$this->getRefId())
+    				$this->employee_role = $res["obj_id"];
+    			elseif($res["title"] == "il_orgu_superior_".$this->getRefId())
+    				$this->superior_role = $res["obj_id"];
+    		}
+    		if(!$this->employee_role || !$this->superior_role)
+    			throw new Exception("The standard roles the orgu object with id: ".$this->getId()." aren't initialized or have been deleted!");
+	    }	
+    }
 
 	public function assignUsersToEmployeeRole($user_ids){
 		global $rbacadmin, $ilAppEventHandler;

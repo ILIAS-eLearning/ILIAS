@@ -48,7 +48,20 @@ class ilUserOrgUnitHistorizingHelper
 		return $this->role_utils->usersHavingRoleId($a_id);
 	}
 
-	public static function getOrgUnitsAboveOf($orgu_id) {
+	public function getOrguOfRole($a_role_id) {
+		require_once "Services/AccessControl/classes/class.ilRbacReview.php";
+		require_once "Services/Object/classes/class.ilObject.php";
+		require_once "Services/Object/classes/class.ilObjectFactory.php";
+		global $ilRbacReview;
+		$obj_fac = new ilObjectFactory;
+		$obj = $obj_fac->getInstanceByObjId($ilRbacReview->getObjectOfRole($a_role_id));
+		if($obj->getType() == 'orgu') {
+			return $obj;		
+		}
+		return false;
+	}
+
+	public function getOrgUnitsAboveOf($orgu_id) {
 		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php");
 
