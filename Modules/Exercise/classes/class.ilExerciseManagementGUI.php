@@ -274,17 +274,18 @@ class ilExerciseManagementGUI
 					$this->ctrl->getLinkTarget($this, "showMultiFeedback"));
 			}
 								
-			if($this->assignment->getType() == ilExAssignment::TYPE_TEXT)
+			if(ilExSubmission::hasAnySubmissions($this->assignment->getId()))
 			{
-				$ilToolbar->addSeparator();
-				$ilToolbar->addFormButton($lng->txt("exc_list_text_assignment"), "listTextAssignment");					
-			}		
-			else if(ilExSubmission::hasAnySubmissions($this->assignment->getId()))
-			{			
-				$ilToolbar->addSeparator();
-				$ilToolbar->addFormButton($lng->txt("download_all_returned_files"), "downloadAll");			
-			}		
-			
+				$ilToolbar->addSeparator();			
+				if($this->assignment->getType() == ilExAssignment::TYPE_TEXT)
+				{
+					$ilToolbar->addFormButton($lng->txt("exc_list_text_assignment"), "listTextAssignment");					
+				}		
+				else 
+				{			
+					$ilToolbar->addFormButton($lng->txt("download_all_returned_files"), "downloadAll");			
+				}		
+			}
 			$this->ctrl->setParameter($this, "vw", self::VIEW_ASSIGNMENT);
 			
 			include_once("./Modules/Exercise/classes/class.ilExerciseMemberTableGUI.php");

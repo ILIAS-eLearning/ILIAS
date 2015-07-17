@@ -338,8 +338,10 @@ class ilExSubmission
 	{
 		global $ilDB;
 		
-		$query = "SELECT * FROM exc_returned WHERE ass_id = ".
-			$ilDB->quote($a_ass_id, "integer");
+		$query = "SELECT * FROM exc_returned".
+			" WHERE ass_id = ".$ilDB->quote($a_ass_id, "integer").
+			" AND (filename IS NOT NULL OR atext IS NOT NULL)".
+			" AND ts IS NOT NULL";
 		$res = $ilDB->query($query);
 		return $res->numRows($res);
 	}
@@ -1038,19 +1040,12 @@ class ilExSubmission
 		$q = "SELECT obj_id,user_id,ts FROM exc_returned".
 			" WHERE ass_id = ".$ilDB->quote($this->assignment->getId(), "integer").
 			" AND ".$ilDB->in("user_id", $this->getUserIds(), "", "integer").
+			" AND (filename IS NOT NULL OR atext IS NOT NULL)".
+			" AND ts IS NOT NULL".
 			" ORDER BY ts DESC";
-
 		$usr_set = $ilDB->query($q);
-
-		$array = $ilDB->fetchAssoc($usr_set);
-		if ($array["ts"]==NULL)
-		{
-			return false;
-  		}
-		else
-		{
-			return ilUtil::getMySQLTimestamp($array["ts"]);
-  		}
+		$array = $ilDB->fetchAssoc($usr_set);		
+		return ilUtil::getMySQLTimestamp($array["ts"]);  		
 	}
 
 	
