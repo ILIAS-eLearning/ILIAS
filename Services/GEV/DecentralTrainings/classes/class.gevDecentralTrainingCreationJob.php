@@ -33,7 +33,9 @@ class gevDecentralTrainingCreationJob extends ilCronJob {
 	}
 	
 	public function getDefaultScheduleType() {
-		return ilCronJob::SCHEDULE_TYPE_IN_MINUTES;
+		// As we will be running this in a custom cron script, the
+		// regular script does not need to run this very often.
+		return ilCronJob::SCHEDULE_TYPE_YEARLY;
 	}
 	
 	public function getDefaultScheduleValue() {
