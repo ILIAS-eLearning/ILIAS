@@ -36,7 +36,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
 		try
 		{
 			$this->assertDirExists();
-			return $this->buildFolderName($this->getId()) . $gap_id . '.txt';
+			return $this->buildFolderName() . $gap_id . '.txt';
 		}
 		catch (ilException $e) {
 			
@@ -156,15 +156,10 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
 	private function createArrayFromFile()
 	{
 		$answers = array();
-		$dir = $this->buildFolderName();
-		$dir_h = opendir($dir);
-		while($file = readdir($dir_h))
+		foreach( glob( $this->buildFolderName() . '*.txt' ) as $file) 
 		{
-			if ($file != "." && $file != "..")
-			{
-				$gap					= str_replace('.txt', '', $file);
-				$answers[(int) $gap] 	= explode('\n', file_get_contents($dir . $file));
-			}
+			$gap					= str_replace('.txt', '', basename($file));
+			$answers[(int) $gap] 	= explode('\n', file_get_contents($file));
 		}
 		return $answers;
 	}
@@ -173,6 +168,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
 	{
 		ilUtil::delDir($this->buildFolderName(), true);
 	}
+	
 	private function assertDirExists()
 	{
 		$folder_name = $this->buildFolderName();

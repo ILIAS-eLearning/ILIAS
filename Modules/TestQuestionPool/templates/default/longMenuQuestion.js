@@ -18,10 +18,7 @@ var longMenuQuestion = (function () {
 		gap_wizard.callbackClickedInGap 	= function ()
 		{
 			var gap         = gap_wizard.active_gap - 1;
-			var headerSize  = parseInt($('#ilTopBar').height(), 10) + parseInt($('.ilMainHeader').height(), 10);
-			$('html, body').animate({
-				scrollTop: $('#title_' + gap).offset().top - headerSize
-			}, 200);
+			scrollToPageObject('#title_' + gap);
 		};
 		gap_wizard.callbackNewGap = function (gap_id, gap_value)
 		{
@@ -393,7 +390,7 @@ var longMenuQuestion = (function () {
 		});
 		benchmarkCallsDummyNotForUsage('checkAnswersArray', t0);
 		var removed = pub.answers[question_id].length - result.length;
-		pub.answers[question_id] = result;
+		pub.answers[question_id] = result.sort();
 		debugPrinter(removed + ' duplicate or empty elements where removed.');
 		debugPrinter(pub.answers[question_id].length + ' Answers for gap ' + question_id);
 		syncWithCorrectAnswers(question_id);
@@ -447,6 +444,16 @@ var longMenuQuestion = (function () {
 			alert('The File APIs are not fully supported by your browser.');
 		}
 	}
+	
+	function scrollToPageObject(object)
+	{
+		var headerSize  = parseInt($('#ilTopBar').height(), 10) + parseInt($('.ilMainHeader').height(), 10);
+		$('html, body').animate(
+			{ 
+				scrollTop: $(object).offset().top - headerSize	
+			}, 200);
+	}
+	
 	function benchmarkCallsDummyNotForUsage(function_caller, t0)
 	{
 		if(t0 == null)
@@ -475,6 +482,7 @@ var longMenuQuestion = (function () {
 		}
 		else
 		{
+			//Todo: implement workaround
 			alert('FileReader not usable, implement workaround.')
 		}
 	};
