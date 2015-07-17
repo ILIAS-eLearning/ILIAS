@@ -365,6 +365,24 @@ class gevCourseUtils {
 		return $this->getEduProgramm() == "dezentrales Training";
 	}
 
+	public function isFlexibleDecentrallTraining() {
+		$tpl_ref_id = $this->getTemplateRefId();
+		
+		if($tpl_ref_id === null) {
+			return false;
+		}
+		
+		if(gevSettings::getInstance()->getDctTplFlexPresenceId() == $tpl_ref_id) {
+			return true;
+		}
+
+		if(gevSettings::getInstance()->getDctTplFlexPresenceId() == $tpl_ref_id) {
+			return true;
+		}
+
+		return false;
+	}
+
 	public function isStartAndEndDateSet(){
 		if($this->getStartDate() !== null && $this->getEndDate() !== null){
 			return true;

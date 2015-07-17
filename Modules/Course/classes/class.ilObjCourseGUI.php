@@ -1723,7 +1723,7 @@ class ilObjCourseGUI extends ilContainerGUI
 					$this->ctrl->setParameterByClass('ilmateriallistgui', 'ref_id', '');
 				}
 
-				if(true) {
+				if(gevCourseUtils::getInstanceByObj($this->object)->isFlexibleDecentrallTraining()) {
 					$this->ctrl->setParameterByClass('gevDecentralTrainingCourseBuildingBlockGUI', 'obj_id', $this->object->getId());
 					$this->tabs_gui->addSubTabTarget('gev_dct_crs_building_block_sub_title',
 						$this->ctrl->getLinkTargetByClass('gevDecentralTrainingCourseBuildingBlockGUI',''), 
