@@ -1,4 +1,7 @@
 <?php
+chdir(dirname(__FILE__));
+chdir('..');
+
 include_once "Services/Context/classes/class.ilContext.php";
 ilContext::init(ilContext::CONTEXT_CRON);
 
