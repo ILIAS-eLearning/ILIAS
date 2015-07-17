@@ -16,6 +16,8 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
 
 	const ANSWER_TYPE_SELECT 	= 'select';
 	const ANSWER_TYPE_TEXT_BOX	= 'text_box';
+	const GAP_PLACEHOLDER		= 'Longmenu';
+	
 	/**
 	 * @return mixed
 	 */
@@ -28,6 +30,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
 	{
 		return ilUtil::getDataDir() . '/assessment/longMenuQuestion/' . $this->getId() . '/' ;
 	}
+	
 	private function buildFileName($gap_id)
 	{
 		try
@@ -226,12 +229,9 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
 	function getAnswersObject()
 	{
 		return json_encode($this->createArrayFromFile());
-		$a = array(1,2,3,4,5,6,7,8,9,0);
-		$b = array(1,2,3,4,5,6,7,8,9,0);
-		return json_encode(array($a, $b));
 	}
 	
-	function getCorrectAnswers()
+	function getCorrectAnswersAsJson()
 	{
 		//Todo: remove workaround and return the real correct answers
 		$answers = $this->createArrayFromFile();
@@ -243,9 +243,6 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
 			$return_array[(int) $key] = array(0 => array($val1, $val2));
 		}
 		return json_encode($return_array);
-		$a = array('correct_answers' => array(1,2,3));
-		$b = array('correct_answers' => array(9,0));
-		return json_encode(array($a, $b));
 	}
 
 	function duplicate($for_test = true, $title = "", $author = "", $owner = "", $testObjId = null)

@@ -327,7 +327,7 @@ var GapInsertingWizard = (function () {
 	pub.show_end			= true;
 	pub.active_gap          = -1;
 	pub.callbackActiveGapChange, pub.callbackClickedInGap, pub.callbackCleanGapCode, 
-						pub.callbackNewGap, pub.checkDataConsistencyAfterGapRemovel;
+						pub.callbackNewGap, pub.checkDataConsistencyAfterGapRemoval;
 
 	pub.Init = function()
 	{
