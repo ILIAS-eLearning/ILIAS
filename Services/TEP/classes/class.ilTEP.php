@@ -368,5 +368,15 @@ class ilTEP
 					, "root_ref_id" => $base_ref_id
 					);
 	}
+	
+	public static function getPossibleOrgUnitsForTEPEntriesSeparated() {
+		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+		$evg = gevOrgUnitUtils::getInstanceByImportId("evg");
+		$uvg = gevOrgUnitUtils::getInstanceByImportId("uvg");
+		
+		return array( "view" => self::getOrgUnitNamesAndIds(array($uvg->getRefId()))
+					, "view_rekru" => self::getOrgUnitNamesAndIds(array($evg->getRefId()))
+					);
+	}
 	// gev-patch end
 }

@@ -113,6 +113,7 @@ class ilCoupons
 
 		$coupons         = array();
 		$coupons_objects = array();
+
 		for($i = 0; $i < $a_amount; $i++)
 		{
 			$coupon            = $this->createNewCoupon($a_value, $a_expires, $a_prefix);
@@ -132,9 +133,9 @@ class ilCoupons
 	 * @return ilCoupon
 	 * @throws ilException
 	 */
-	public function createCoupon($a_value, $a_expires, $a_prefix = null) {
-		$coupons = $this->createCoupons(1, $a_value, $a_expires, $a_prefix);
-		return $coupons[0];
+	public function createCoupon($a_value, $a_expires, $a_prefix = null, $a_user_id = null) {
+		$coupon = $this->createNewCoupon($a_value, $a_expires, $a_prefix, $a_user_id);
+		return $coupon->getCode();
 	}
 
 	/**
@@ -163,7 +164,7 @@ class ilCoupons
 	 * @param string  $a_prefix
 	 * @return ilCoupon
 	 */
-	private function createNewCoupon($a_value, $a_expires, $a_prefix)
+	private function createNewCoupon($a_value, $a_expires, $a_prefix, $a_user_id = null)
 	{
 		$coupon = new ilCoupon();
 		$coupon->setExpires($a_expires);
@@ -176,6 +177,9 @@ class ilCoupons
 		{
 			$this->ensurePrefixIsValid($a_prefix);
 			$coupon->generateNewCode($a_prefix);
+		}
+		if($a_user_id) {
+			$coupon->setUserId($a_user_id);
 		}
 		$coupon->addValue($a_value);
 		return $coupon;

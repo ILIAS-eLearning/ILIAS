@@ -49,7 +49,6 @@ class gevExpressUserCleanupJob extends ilCronJob {
 
 		$gev_settings = gevSettings::getInstance();
 		$exit_udf_field_id = $gev_settings->getUDFFieldId(gevSettings::USR_UDF_EXIT_DATE);
-		$usr_utils = gevUserUtils::getInstance();
 
 		$sql = "SELECT ud.usr_id "
 				." FROM usr_data ud "

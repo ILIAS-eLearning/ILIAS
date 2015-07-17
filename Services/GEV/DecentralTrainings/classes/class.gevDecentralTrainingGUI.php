@@ -723,9 +723,9 @@ class gevDecentralTrainingGUI {
 		$form->addItem($orgaInfo);
 
 		require_once("Services/TEP/classes/class.ilTEP.php");
-		$org_info = ilTEP::getPossibleOrgUnitsForTEPEntries();
+		$org_info = ilTEP::getPossibleOrgUnitsForTEPEntriesSeparated();
 		require_once "Services/TEP/classes/class.ilTEPOrgUnitSelectionInputGUI.php";
-		$orgu_selection = new ilTEPOrgUnitSelectionInputGUI($org_info["orgu_ref_ids"], "orgu_id", false, false, $org_info["root_ref_id"]);
+		$orgu_selection = new ilTEPOrgUnitSelectionInputGUI($org_info, "orgu_id", false, false);
 		if ($a_fill) {
 			$orgu_selection->setValue($training_info["orgu_id"]);
 		}

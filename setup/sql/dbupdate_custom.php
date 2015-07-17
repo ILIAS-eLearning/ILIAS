@@ -3645,7 +3645,7 @@ if(!$ilDB->tableColumnExists('hist_user', 'exit_date_wbd')){
 <#125>
 <?php
 	if(!$ilDB->tableColumnExists('hist_course', 'dbv_hot_topic')) {
-	$ilDB->manipulate("ALTER TABLE `hist_course` ADD `dbv_hot_topic` VARCHAR(50) NULL");
+		$ilDB->manipulate("ALTER TABLE `hist_course` ADD `dbv_hot_topic` VARCHAR(50) NULL");
 	}
 ?>
 
@@ -3855,4 +3855,11 @@ if($ilDB->tableColumnExists('dct_building_block', 'learning_dest')) {
 <?php
 	$ilDB->createSequence("dct_crs_building_block");
 	$ilDB->createSequence("dct_building_block");
+?>
+
+<#136>
+<?php
+	if(!$ilDB->tableColumnExists('hist_course', 'webex_vc_type' )) {
+		$ilDB->manipulate("ALTER TABLE `hist_course` ADD COLUMN webex_vc_type VARCHAR(50) NULL");
+	}
 ?>

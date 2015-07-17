@@ -14,6 +14,7 @@ class ilTEPViewMonth extends ilTEPViewGridBased
 	const DAY_HEIGHT = 24; // You also need to set this in global css file for div.il_tep_content tr, div.il_tep_event_wrapper
 						   // div.il_tep_content td.il_tep_content_days and div.il_tep_content td.il_tep_content_cell
 	const COL_WIDTH = 100; // This is space for events plus 20px for action-item
+	const MAX_COUNT_VISIBLE_TUTORS = 20; // Max Number of Tutors to see in TEP. If more user see himself and "no tutor"
 	
 	// 
 	// request
@@ -25,7 +26,7 @@ class ilTEPViewMonth extends ilTEPViewGridBased
 		if($day > 1)
 		{
 			$a_value->increment(IL_CAL_DAY, -($day-1));
-		}	
+		}
 		return $a_value;
 	}
 	
@@ -72,8 +73,7 @@ class ilTEPViewMonth extends ilTEPViewGridBased
 	protected function getNumberOfColumns()
 	{
 		$num_cols = sizeof($this->getTutors());
-
-		if($num_cols > 15 && !$this->isFilterSet()) {
+		if($this->isMaxTutorReachedAndNoFilterSet()) {
 			$num_cols = 1;
 		}
 
@@ -144,8 +144,8 @@ class ilTEPViewMonth extends ilTEPViewGridBased
 
 		//gev patch-start
 		$lTutors = $this->getTutors();
-		if(count($lTutors) > 15 && !$this->isFilterSet()) {
-				$lTutors = array($ilUser->getId());
+		if($this->isMaxTutorReachedAndNoFilterSet()) {
+			$lTutors = array($ilUser->getId());
 		}
 		
 		foreach(ilTEP::getUserNames($lTutors, true) as $tid => $tname)
@@ -189,8 +189,8 @@ class ilTEPViewMonth extends ilTEPViewGridBased
 
 			//gev patch-start
 			$lTutors = $this->getTutors();
-			if(count($lTutors) > 15 && !$this->isFilterSet()) {
-					$lTutors = array($ilUser->getId());
+			if($this->isMaxTutorReachedAndNoFilterSet()) {
+				$lTutors = array($ilUser->getId());
 			}
 
 			foreach($lTutors as $tid)
@@ -205,5 +205,15 @@ class ilTEPViewMonth extends ilTEPViewGridBased
 			$a_tpl->parseCurrentBlock();
 		}
 	}
+
+	//gev patch start
+	private function isMaxTutorReachedAndNoFilterSet() {
+			if((count($this->getTutors()) > self::MAX_COUNT_VISIBLE_TUTORS) && !$this->isFilterSet()) {
+				return true;
+			}
+
+			return false;
+	}
+	//gev patch-end
 }
 

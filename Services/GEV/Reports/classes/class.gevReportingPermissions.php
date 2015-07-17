@@ -87,7 +87,7 @@ class gevReportingPermissions
 	}
 	
 	public function viewBillingReport() {
-		return $this->user_utils->hasRoleIn(array("Buchhaltung"));
+		return $this->user_utils->hasRoleIn(array('Buchhaltung-GEV','Buchhaltung-VFS'));
 	}
 	
 	//
