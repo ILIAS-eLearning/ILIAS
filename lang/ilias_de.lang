@@ -15653,3 +15653,6 @@ crs#:#crs_cancellation_end_info#:#Ab diesem Datum können Teilnehmer nicht mehr 
 crs#:#crs_period_info#:#Start- und Enddatum des Kurses
 meta#:#md_adv_deleted_fields#:#Die Felder wurden gelöscht.
 cntr#:#tab_back_to_repository#:#Zurück zum Magazin
+common#:#msg_copy_clipboard_source#:#Now, please select the desired course, whose content should be copied and click the button ‘Next’.###25 06 2015 new variable
+obj#:#obj_target_location#:#Zielordner
+obj#:#obj_copy_progress#:#Fortschritt des Kopierens
