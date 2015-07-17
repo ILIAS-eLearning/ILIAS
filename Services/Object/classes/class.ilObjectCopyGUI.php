@@ -20,6 +20,10 @@ class ilObjectCopyGUI
 	const SUBMODE_COMPLETE = 1;
 	const SUBMODE_CONTENT_ONLY = 2;
 	
+	const TAB_SELECTION_TREE = 1;
+	const TAB_SELECTION_MEMBERSHIP = 2;
+	
+	
 	private $mode = 0;
 	private $sub_mode = self::SUBMODE_COMPLETE;
 	
@@ -59,6 +63,7 @@ class ilObjectCopyGUI
 		global $ilCtrl;
 		
 		$this->init();
+		$this->initTabs();
 
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd();
@@ -116,6 +121,21 @@ class ilObjectCopyGUI
 				);
 			}
 		}
+	}
+	
+	protected function initTabs()
+	{
+		$GLOBALS['lng']->loadLanguageModule('cntr');
+		$GLOBALS['ilTabs']->clearTargets();
+		$GLOBALS['ilTabs']->setBackTarget(
+				$GLOBALS['lng']->txt('tab_back_to_repository'),
+				$GLOBALS['ilCtrl']->getParentReturn($this->parent_obj)
+		);
+	}
+	
+	protected function setTabs($a_sect)
+	{
+		
 	}
 	
 	/**

@@ -15652,3 +15652,4 @@ grp#:#grp_cancellation_end_info#:#Ab diesem Datum können Teilnehmer nicht mehr 
 crs#:#crs_cancellation_end_info#:#Ab diesem Datum können Teilnehmer nicht mehr die Kursmitgliedschaft beenden.
 crs#:#crs_period_info#:#Start- und Enddatum des Kurses
 meta#:#md_adv_deleted_fields#:#Die Felder wurden gelöscht.
+cntr#:#tab_back_to_repository#:#Zurück zum Magazin

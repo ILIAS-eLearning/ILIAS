@@ -71,8 +71,9 @@ class ilLuceneAdvancedSearchGUI extends ilSearchBaseGUI
 		switch($next_class)
 		{
 			case 'ilobjectcopygui':
+				$this->ctrl->setReturn($this);
 				include_once './Services/Object/classes/class.ilObjectCopyGUI.php';
-				$cp = new ilObjectCopyGUI($this);
+				$cp = new ilObjectCopyGUI($this,'');
 				$this->ctrl->forwardCommand($cp);
 				break;
 			
