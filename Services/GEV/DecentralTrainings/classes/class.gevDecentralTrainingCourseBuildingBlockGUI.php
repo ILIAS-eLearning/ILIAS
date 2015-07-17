@@ -16,6 +16,7 @@ require_once("Services/GEV/Utils/classes/class.gevCourseBuildingBlockUtils.php")
 class gevDecentralTrainingCourseBuildingBlockGUI {
 	const NEW_UNIT = "new";
 	const EDIT_UNIT = "edit";
+	const MINUTE_STEP_SIZE = 15;
 	protected $obj_id = null;
 	protected $crs_ref_id = -1;
 	protected $crs_request_id = null;
@@ -201,6 +202,8 @@ class gevDecentralTrainingCourseBuildingBlockGUI {
 		$time->setStartText($this->lng->txt("gev_from"));
 		$time->setEndText($this->lng->txt("until"));
 		$time->setDisabled($no_changes_allowed);
+		$time->setMinuteStepSize(self::MINUTE_STEP_SIZE);
+
 
 		if($a_mode == self::EDIT_UNIT) {
 			$time->setValueByArray($vals);

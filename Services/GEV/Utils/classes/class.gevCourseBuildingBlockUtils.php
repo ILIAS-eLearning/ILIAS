@@ -148,7 +148,7 @@ class gevCourseBuildingBlockUtils {
 
 		$this->db->manipulate($sql);
 
-		$this->courseUpdates();
+		self::courseUpdates($this->getCrsId(),$this->db);
 	}
 
 	public function save() {
@@ -175,14 +175,14 @@ class gevCourseBuildingBlockUtils {
 
 		$this->db->manipulate($sql);
 
-		$this->courseUpdates();
+		self::courseUpdates($this->getCrsId(),$this->db);
 	}
 
 	public function delete() {
 		$query = "DELETE FROM ".self::TABLE_NAME." WHERE id = ".$this->db->quote($this->getId(),"integer");
 		$this->db->manipulate($query);
 
-		$this->courseUpdates();
+		self::courseUpdates($this->getCrsId(),$this->db);
 	}
 
 	static public function getAllCourseBuildingBlocks($a_crs_ref_id,$a_request_id = null) {
@@ -235,22 +235,33 @@ class gevCourseBuildingBlockUtils {
 	}
 
 	static public function updateCrsBuildungBlocksCrsIdByCrsRequestId($a_crs_id, $a_crs_request_id) {
+		global $ilDB;
+
 		$sql = "UPDATE ".self::TABLE_NAME." SET crs_id = ".$a_crs_id.", crs_request_id = NULL WHERE crs_request_id = ".$a_crs_request_id;
-		$this->db->manipulate($sql);
+		$ilDB->manipulate($sql);
 	}
 
-	private function courseUpdates() {
-		$this->updateCourseMethodAndMedia();
-		$this->updateWP();
+	static public function courseUpdates($a_crs_ref_id, $a_db = null) {
+		if($a_crs_ref_id == -1 && $a_crs_ref_id === null) {
+			return;
+		}
+
+		if($a_db === null) {
+			global $ilDB;
+			$a_db = $ilDB;
+		}
+
+		self::updateCourseMethodAndMedia($a_crs_ref_id, $a_db);
+		self::updateWP($a_crs_ref_id, $a_db);
 	}
 
-	private function updateCourseMethodAndMedia() {
-		$sql = "SELECT method, media FROM ".self::TABLE_NAME." WHERE crs_id = ".$this->getCrsId();
-		$res = $this->db->query($sql);
+	static private function updateCourseMethodAndMedia($a_crs_ref_id, $a_db) {
+		$sql = "SELECT method, media FROM ".self::TABLE_NAME." WHERE crs_id = ".$a_crs_ref_id;
+		$res = $a_db->query($sql);
 
 		$methods = array();
 		$media = array();
-		while($row = $this->db->fetchAssoc($res)) {
+		while($row = $a_db->fetchAssoc($res)) {
 			$new_methods = unserialize($row["method"]);
 		
 			foreach($new_methods as $val) {
@@ -269,18 +280,18 @@ class gevCourseBuildingBlockUtils {
 		}
 
 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
-		gevCourseUtils::updateMethod($methods,$this->getCrsId());
-		gevCourseUtils::updateMedia($media,$this->getCrsId());
+		gevCourseUtils::updateMethod($methods,$a_crs_ref_id);
+		gevCourseUtils::updateMedia($media,$a_crs_ref_id);
 	}
 
-	private function updateWP() {
-		$sql = "SELECT MIN(start_date) as start_date, MAX(end_date) as end_date FROM ".self::TABLE_NAME." WHERE crs_id = ".$this->getCrsId(). " ORDER BY start_date";
-		$res = $this->db->query($sql);
+	static private function updateWP($a_crs_ref_id, $a_db) {
+		$sql = "SELECT MIN(start_date) as start_date, MAX(end_date) as end_date FROM ".self::TABLE_NAME." WHERE crs_id = ".$a_crs_ref_id. " ORDER BY start_date";
+		$res = $a_db->query($sql);
 
 		$wp = null;
 
-		if($this->db->numRows($res) > 0) {
-			$row = $this->db->fetchAssoc($res);
+		if($a_db->numRows($res) > 0) {
+			$row = $a_db->fetchAssoc($res);
 
 			$start_date = split(" ",$row["start_date"]);
 			$end_date = split(" ",$row["end_date"]);
@@ -303,7 +314,7 @@ class gevCourseBuildingBlockUtils {
 		}
 		
 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
-		gevCourseUtils::updateWP($wp, $this->getCrsId());
+		gevCourseUtils::updateWP($wp, $a_crs_ref_id);
 	}
 }
 ?>
