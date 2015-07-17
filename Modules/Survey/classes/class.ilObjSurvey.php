@@ -4514,6 +4514,13 @@ class ilObjSurvey extends ilObject
 				}
 			}
 		}
+
+		// #16210 - clone LP settings
+		include_once('./Services/Tracking/classes/class.ilLPObjSettings.php');
+		$obj_settings = new ilLPObjSettings($this->getId());
+		$obj_settings->cloneSettings($newObj->getId());
+		unset($obj_settings);
+		
 		return $newObj;
 	}
 	
