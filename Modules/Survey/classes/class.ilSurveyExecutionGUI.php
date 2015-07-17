@@ -286,7 +286,11 @@ class ilSurveyExecutionGUI
 		}
 	}
 	
-
+	function previousNoSave()
+	{
+		$this->previous(false);
+	}
+	
 /**
 * Navigates to the previous pages
 *
@@ -294,12 +298,16 @@ class ilSurveyExecutionGUI
 *
 * @access private
 */
-	function previous()
+	function previous($a_save_input = true)
 	{
-		$result = $this->saveUserInput("previous");
+		if($a_save_input)
+		{
+			// #16209
+			$has_error = $this->saveUserInput("previous");
+		}
 		$this->ctrl->setParameter($this, "activecommand", "previous");
 		$this->ctrl->setParameter($this, "qid", $_GET["qid"]);
-		if (strlen($result))
+		if (strlen($has_error))
 		{
 			$this->ctrl->setParameter($this, "direction", "0");
 		}
@@ -903,7 +911,7 @@ class ilSurveyExecutionGUI
 		$cgui->setHeaderText($this->lng->txt("survey_execution_sure_finish"));
 
 		$cgui->setFormAction($this->ctrl->getFormAction($this, "confirmedFinish"));
-		$cgui->setCancel($this->lng->txt("cancel"), "previous");
+		$cgui->setCancel($this->lng->txt("cancel"), "previousNoSave");
 		$cgui->setConfirm($this->lng->txt("confirm"), "confirmedFinish");
 		
 		$tpl->setContent($cgui->getHTML());
