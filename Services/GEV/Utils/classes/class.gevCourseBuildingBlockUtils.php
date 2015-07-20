@@ -119,7 +119,8 @@ class gevCourseBuildingBlockUtils {
 	}
 
 	public function loadData() {
-		$sql = "SELECT crs_id, bb_id, start_date, end_date, method, media FROM ".self::TABLE_NAME." WHERE id = ".$this->getId();
+		$sql = "SELECT crs_id, bb_id, start_date, end_date, method, media\n"
+			  ."  FROM ".self::TABLE_NAME." WHERE id = ".$this->db->quote($this->getId(), "integer");
 
 		$res = $this->db->query($sql);
 		
@@ -138,14 +139,15 @@ class gevCourseBuildingBlockUtils {
 		$method_serial = serialize($this->getMethods());
 		$media_serial = serialize($this->getMedia());
 
-		$sql = "UPDATE ".self::TABLE_NAME." SET bb_id = '".$this->getBuldingBlock()->getId()."'"
-									   .", start_date = '".$this->getStartDate()."'"
-									   .", end_date = '".$this->getEndDate()."'"
-									   .", method = '".$method_serial."'"
-									   .", media = '".$media_serial."'"
-									   .", last_change_user = ".$this->ilUser->getId().""
-									   .", last_change_date = NOW()"
-									   ." WHERE id = ".$this->getId();
+		$sql = "UPDATE ".self::TABLE_NAME."\n"
+			  ."   SET bb_id = ".$this->db->quote($this->getBuldingBlock()->getId(), "integer")."\n"
+			  ."     , start_date = ".$this->db->quote($this->getStartDate(), "timestamp")."\n"
+			  ."     , end_date = ".$this->db->quote($this->getEndDate(), "timestamp")."\n"
+			  ."     , method = ".$this->db->quote($method_serial, "text")."\n"
+			  ."     , media = ".$this->db->quote($media_serial, "text")."\n"
+			  ."     , last_change_user = ".$this->db->quote($this->ilUser->getId(), "integer")."\n"
+			  ."     , last_change_date = NOW()"
+			  ." WHERE id = ".$this->db->quote($this->getId(), "integer");
 
 		$this->db->manipulate($sql);
 
@@ -158,22 +160,20 @@ class gevCourseBuildingBlockUtils {
 
 		$method_serial = serialize($this->getMethods());
 		$media_serial = serialize($this->getMedia());
-		$crs_requerst_value = ($this->getCourseRequestId() === null) ? "-1" : $this->getCourseRequestId();
 
 		$sql = "INSERT INTO ".self::TABLE_NAME.""
-				." (id, crs_id, bb_id, start_date, end_date, method, media, last_change_user, last_change_date, crs_request_id)"
-				." VALUES ("
-					.$this->getId().""
-					.",'".$this->getCrsId()."'"
-					.",'".$this->getBuldingBlock()->getId()."'"
-					.",'".$this->getStartDate()."'"
-					.",'".$this->getEndDate()."'"
-					.",'".$method_serial."'"
-					.",'".$media_serial."'"
-					.",".$this->ilUser->getId().""
-					.", NOW()"
-					.", '".$crs_requerst_value."'"
-					.")";
+			  ." (id, crs_id, bb_id, start_date, end_date, method, media, last_change_user, last_change_date, crs_request_id)\n"
+			  ." VALUES ( ".$this->db->quote($this->getId(), "integer")."\n"
+			  ."        , ".$this->db->quote($this->getCrsId(), "integer")."\n"
+			  ."        , ".$this->db->quote($this->getBuldingBlock()->getId(), "integer")."\n"
+			  ."        , ".$this->db->quote($this->getStartDate(), "timestamp")."\n"
+			  ."        , ".$this->db->quote($this->getEndDate(), "timestamp")."\n"
+			  ."        , ".$this->db->quote($method_serial, "text")."\n"
+			  ."        , ".$this->db->quote($media_serial, "text")."\n"
+			  ."        , ".$this->db->quote($this->ilUser->getId(), "integer")."\n"
+			  ."        , NOW()\n"
+			  ."        , ".$this->db->quote($this->getCourseRequestId(), "integer")."\n"
+			  ."        )";
 
 		$this->db->manipulate($sql);
 
@@ -190,18 +190,18 @@ class gevCourseBuildingBlockUtils {
 	static public function getAllCourseBuildingBlocks($a_crs_ref_id,$a_request_id = null) {
 		global $ilDB;
 
-		$sql = "SELECT"
-			  ." base.id, base.crs_id, base.bb_id, base.start_date, base.end_date, base.method, base.media,"
-			  ." join1.title, join1.learning_dest, join1.content"
-			  ." FROM ".self::TABLE_NAME." as base"
-			  ." JOIN ".self::TABLE_NAME_JOIN1." as join1"
-			  ."	ON  base.bb_id = join1.obj_id";
+		$sql = "SELECT\n"
+			  ."    base.id, base.crs_id, base.bb_id, base.start_date, base.end_date, base.method, base.media,\n"
+			  ."    join1.title, join1.learning_dest, join1.content\n"
+			  ." FROM ".self::TABLE_NAME." as base\n"
+			  ." JOIN ".self::TABLE_NAME_JOIN1." as join1\n"
+			  ."   ON  base.bb_id = join1.obj_id\n";
 		
-		if($a_crs_ref_id != -1) {
-			$sql .= " WHERE base.crs_id = ".$a_crs_ref_id;
+		if($a_crs_ref_id !== null) {
+			$sql .= " WHERE base.crs_id = ".$ilDB->quote($a_crs_ref_id, "integer")."\n";
 		} else {
 			if($a_request_id !== null) {
-				$sql .= " WHERE base.crs_request_id = ".$a_reques_id;
+				$sql .= " WHERE base.crs_request_id = ".$ilDB->db->quote($a_reques_id, "integer")."\n";
 			}
 		}
 			$sql .= " ORDER BY base.start_date";
@@ -239,12 +239,15 @@ class gevCourseBuildingBlockUtils {
 	static public function updateCrsBuildungBlocksCrsIdByCrsRequestId($a_crs_id, $a_crs_request_id) {
 		global $ilDB;
 
-		$sql = "UPDATE ".self::TABLE_NAME." SET crs_id = ".$a_crs_id.", crs_request_id = NULL WHERE crs_request_id = ".$a_crs_request_id;
+		$sql = "UPDATE ".self::TABLE_NAME."\n"
+			  ."   SET crs_id = ".$ilDB->quote($a_crs_id, "integer")."\n"
+			  ."     , crs_request_id = NULL\n"
+			  ." WHERE crs_request_id = ".$ilDB->quote($a_crs_request_id, "integer");
 		$ilDB->manipulate($sql);
 	}
 
 	static public function courseUpdates($a_crs_ref_id, $a_db = null) {
-		if($a_crs_ref_id == -1 && $a_crs_ref_id === null) {
+		if($a_crs_ref_id === null) {
 			return;
 		}
 
@@ -258,7 +261,9 @@ class gevCourseBuildingBlockUtils {
 	}
 
 	static private function updateCourseMethodAndMedia($a_crs_ref_id, $a_db) {
-		$sql = "SELECT method, media FROM ".self::TABLE_NAME." WHERE crs_id = ".$a_crs_ref_id;
+		$sql = "SELECT method, media\n"
+			  ."  FROM ".self::TABLE_NAME."\n"
+			  ." WHERE crs_id = ".$a_db->quote($a_crs_ref_id, "integer");
 		$res = $a_db->query($sql);
 
 		$methods = array();
@@ -287,7 +292,10 @@ class gevCourseBuildingBlockUtils {
 	}
 
 	static private function updateWP($a_crs_ref_id, $a_db) {
-		$sql = "SELECT SUM(TIME_TO_SEC(TIMEDIFF(end_date, start_date))/60) as minutes_diff FROM ".self::TABLE_NAME." WHERE crs_id = ".$a_crs_ref_id. " ORDER BY start_date";
+		$sql = "SELECT SUM(TIME_TO_SEC(TIMEDIFF(end_date, start_date))/60) as minutes_diff\n"
+			  ."  FROM ".self::TABLE_NAME."\n"
+			  ." WHERE crs_id = ".$a_db->quote($a_crs_ref_id, "integer")."\n"
+			  ." ORDER BY start_date";
 		$res = $a_db->query($sql);
 
 		$wp = null;
@@ -310,7 +318,7 @@ class gevCourseBuildingBlockUtils {
 
 		$sql = "SELECT SUM(TIME_TO_SEC(TIMEDIFF(end_date, start_date))/60) as minutes_diff FROM ".self::TABLE_NAME;
 		
-		if($a_crs_ref_id != -1) {
+		if($a_crs_ref_id !== null) {
 			$sql .= " WHERE crs_id = ".$a_crs_ref_id. " ORDER BY start_date";
 		} else {
 			$sql .= " WHERE crs_request_id = ".$a_crs_request_id. " ORDER BY start_date";
@@ -352,16 +360,17 @@ class gevCourseBuildingBlockUtils {
 	static public function getRemainingTime($a_crs_ref_id,$a_crs_request_id) {
 		global $ilDB;
 
-		if($a_crs_ref_id == -1 && $a_crs_request_id === null) {
+		if($a_crs_ref_id === null && $a_crs_request_id === null) {
 			throw new Exception("gevCourseBuildingBlockUtils::getRemainingTime: Either set course_ref_id or course_request_id.");
 		}
 
-		$sql = "SELECT SUM(TIME_TO_SEC(TIMEDIFF(end_date, start_date))/60) as minutes_diff FROM ".self::TABLE_NAME;
+		$sql = "SELECT SUM(TIME_TO_SEC(TIMEDIFF(end_date, start_date))/60) as minutes_diff\n"
+			  ."  FROM ".self::TABLE_NAME;
 		
-		if($a_crs_ref_id != -1) {
-			$sql .= " WHERE crs_id = ".$a_crs_ref_id. " ORDER BY start_date";
+		if($a_crs_ref_id !== null) {
+			$sql .= " WHERE crs_id = ".$ilDB->quote($a_crs_ref_id, "integer"). " ORDER BY start_date";
 		} else {
-			$sql .= " WHERE crs_request_id = ".$a_crs_request_id. " ORDER BY start_date";
+			$sql .= " WHERE crs_request_id = ".$ilDB->quote($a_crs_request_id, "integer"). " ORDER BY start_date";
 		}
 
 		$res = $ilDB->query($sql);

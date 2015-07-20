@@ -81,7 +81,9 @@ class gevBuildingBlockUtils {
 	}
 
 	public function loadData() {
-		$sql = "SELECT obj_id, title, content, learning_dest, is_wp_relevant, is_active FROM ".self::TABLE_NAME." WHERE obj_id = ".$this->getId();
+		$sql = "SELECT obj_id, title, content, learning_dest, is_wp_relevant, is_active \n".
+			   "  FROM ".self::TABLE_NAME.
+			   " WHERE obj_id = ".$this->db->quote($this->getId(), "integer");
 
 		$res = $this->db->query($sql);
 		
@@ -97,14 +99,15 @@ class gevBuildingBlockUtils {
 	}
 
 	public function update() {
-		$sql = "UPDATE ".self::TABLE_NAME." SET title = '".$this->getTitle()."'"
-									   .", content = '".$this->getContent()."'"
-									   .", learning_dest = '".$this->getLearningDestination()."'"
-									   .", is_wp_relevant = ".$this->isWPRelevant().""
-									   .", is_active = ".$this->isActive().""
-									   .", last_change_user = ".$this->ilUser->getId().""
-									   .", last_change_date = NOW()"
-									   ." WHERE obj_id = ".$this->getId();
+		$sql = "UPDATE ".self::TABLE_NAME
+			  ."   SET title = ".$this->db->quote($this->getTitle(), "text")."\n"
+			  ."     , content = ".$this->db->quote($this->getContent(), "text")."\n"
+			  ."     , learning_dest = ".$this->db->quote($this->getLearningDestination(), "text")."\n"
+			  ."     , is_wp_relevant = ".$this->db->quote($this->isWPRelevant(), "integer")."\n"
+			  ."     , is_active = ".$this->db->quote($this->isActive(), "integer")."\n"
+			  ."     , last_change_user = ".$this->db->quote($this->ilUser->getId(), "integer")."\n"
+			  ."     , last_change_date = NOW()\n"
+			  ." WHERE obj_id = ".$this->db->quote($this->getId(), "integer");
 
 		$this->db->manipulate($sql);
 
@@ -117,17 +120,16 @@ class gevBuildingBlockUtils {
 		$isActive = ($this->isActive() === "") ? "0" : "1";
 
 		$sql = "INSERT INTO ".self::TABLE_NAME.""
-				." (obj_id, title, content, learning_dest, is_wp_relevant, is_active, last_change_user, last_change_date, is_deleted)"
-				." VALUES ("
-					.$this->getId()
-					.",'".$this->getTitle()."'"
-					.",'".$this->getContent()."'"
-					.",'".$this->getLearningDestination()."'"
-					.",".$isWPRelevant
-					.",".$isActive
-					.",".$this->ilUser->getId()
-					.", NOW()"
-					.", 0)";
+			  ." (obj_id, title, content, learning_dest, is_wp_relevant, is_active, last_change_user, last_change_date, is_deleted)\n"
+			  ." VALUES (".$this->db->quote($this->getId(), "integer")."\n"
+			  ."        ,".$this->db->quote($this->getTitle(), "text")."\n"
+			  ."        ,".$this->db->quote($this->getContent(), "text")."\n"
+			  ."        ,".$this->db->quote($this->getLearningDestination(), "text")."\n"
+			  ."        ,".$this->db->quote($isWPRelevant, "integer")."\n"
+			  ."        ,".$this->db->quote($isActive, "integer")."\n"
+			  ."        ,".$this->db->quote($this->ilUser->getId(), "integer")."\n"
+			  ."        , NOW()"
+			  ."        , 0)";
 
 		$this->db->manipulate($sql);
 
@@ -157,26 +159,28 @@ class gevBuildingBlockUtils {
 	static private function createAdditionalWhere($a_search_opts) {
 		$ret = "";
 
-			foreach ($a_search_opts as $key => $value) {
-				switch($key) {
-					case "title":
-					case "content":
-					case "learning_dest":
-						$ret .= " AND ".$key." LIKE '%".$value."%'";
-						break;
-					case "is_wp_relevant":
-					case "is_active":
-						if($value != -1) {
-							if($value == "ja") {
-								$ret .= " AND ".$key." = 1";
-							} elseif($value == "nein"){
-								$ret .= " AND ".$key." = 0";
-							}
+		foreach ($a_search_opts as $key => $value) {
+			switch($key) {
+				case "title":
+				case "content":
+				case "learning_dest":
+					$ret .= " AND ".$key." LIKE ".$this->db->quote("%".$value."%", "text");
+					break;
+				case "is_wp_relevant":
+				case "is_active":
+					if($value != -1) {
+						if($value == "ja") {
+							$ret .= " AND ".$key." = 1";
+						} elseif($value == "nein"){
+							$ret .= " AND ".$key." = 0";
 						}
-						break;
-				}
-				
+					}
+					break;
+				default:
+					throw new ilException("Unknown search option: $key");
 			}
+			
+		}
 
 		return $ret;
 	}
