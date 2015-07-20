@@ -12,6 +12,7 @@ require_once("Services/CaTUIComponents/classes/class.catHSpacerGUI.php");
 require_once("Services/CaTUIComponents/classes/class.catLegendGUI.php");
 require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCourseBuildingBlockTableGUI.php");
 require_once("Services/GEV/Utils/classes/class.gevCourseBuildingBlockUtils.php");
+require_once("Services/GEV/Utils/classes/class.gevBuildingBlockUtils.php");
 
 class gevDecentralTrainingCourseBuildingBlockGUI {
 	const NEW_UNIT = "new";
@@ -159,7 +160,6 @@ class gevDecentralTrainingCourseBuildingBlockGUI {
 		$form_gui->setFormAction($this->ctrl->getFormAction($this));
 
 		if($a_mode == self::EDIT_UNIT) {
-			require_once ("Services/GEV/Utils/classes/class.gevBuildingBlockUtils.php");
 			$bu_utils = gevCourseBuildingBlockUtils::getInstance($this->obj_id);
 			$bu_utils->loadData();
 
@@ -210,7 +210,7 @@ class gevDecentralTrainingCourseBuildingBlockGUI {
 		}
 		$form_gui->addItem($time);
 
-		require_once("Services/GEV/Utils/classes/class.gevBuildingBlockUtils.php");
+		
 		$bb_sets = gevBuildingBlockUtils::getPossibleBuildingBlocks();
 		$bb_options = array("-1"=>"-");
 		$building_block = new ilSelectInputGUI("Baustein","build_block");
@@ -285,6 +285,16 @@ class gevDecentralTrainingCourseBuildingBlockGUI {
 			return $this->editCourseBuildingBlock($form);
 		}
 
+		//did you passed ne max duration for a day (12 hours)
+		if(gevCourseBuildingBlockUtils::getMaxDurationReached($this->crs_ref_id, $crs_request_id, $form->getInput("time"))){
+			$message = $this->lng->txt("gev_dct_max_duration_reached_part1");
+			$message .= $this->getFormattedRemainingTime(gevCourseBuildingBlockUtils::getRemainingTime($this->crs_ref_id, $this->crs_request_id));
+			$message .= $this->lng->txt("gev_dct_max_duration_reached_part2");
+
+			ilUtil::sendFailure($message,false);
+			return $this->newCourseBuildingBlock($form);
+		}
+
 		$time = $form->getInput("time");
 		require_once ("Services/GEV/Utils/classes/class.gevCourseBuildingBlockUtils.php");
 		$bu_utils = gevCourseBuildingBlockUtils::getInstance($form->getInput("id"));
@@ -309,16 +319,26 @@ class gevDecentralTrainingCourseBuildingBlockGUI {
 			return $this->newCourseBuildingBlock($form);
 		}
 		
+		//is a buldingblock selected
 		$building_bock_value = $form->getInput("build_block");
 		if($building_bock_value == -1) {
 			ilUtil::sendFailure($this->lng->txt("gev_dct_please_select_building_block"),false);
 			return $this->newCourseBuildingBlock($form);
 		}
 
+		//did you passed ne max duration for a day (12 hours)
+		if(gevCourseBuildingBlockUtils::getMaxDurationReached($this->crs_ref_id, $crs_request_id, $form->getInput("time"))){
+			$message = $this->lng->txt("gev_dct_max_duration_reached_part1");
+			$message .= $this->getFormattedRemainingTime(gevCourseBuildingBlockUtils::getRemainingTime($this->crs_ref_id, $this->crs_request_id));
+			$message = $this->lng->txt("gev_dct_max_duration_reached_part2");
+
+			ilUtil::sendFailure($message,false);
+			return $this->newCourseBuildingBlock($form);
+		}
+
 		$time = $form->getInput("time");
 		$newId = $this->db->nextId("dct_crs_building_block");
 
-		require_once ("Services/GEV/Utils/classes/class.gevCourseBuildingBlockUtils.php");
 		$bu_utils = gevCourseBuildingBlockUtils::getInstance($newId);
 
 		$bu_utils->setCrsId($this->crs_ref_id);
@@ -339,6 +359,20 @@ class gevDecentralTrainingCourseBuildingBlockGUI {
 
 	public function setCourseRequestId($a_crs_request_id) {
 		$this->crs_request_id = $a_crs_request_id;
+	}
+
+	/*
+	* @return string
+	*/
+	private function getFormattedRemainingTime($a_minutes) {
+		if($a_minutes < 60) {
+			return "0 Stunden und $a_minutes Minuten ";
+		}
+
+		$hours = $a_minutes / 60;
+		$r_minutes = $a_minutes - $hours * 60;
+
+		return "$hours Stunden und $r_minutes Minuten ";
 	}
 }
 

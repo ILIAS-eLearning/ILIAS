@@ -15,6 +15,7 @@ class gevCourseBuildingBlockUtils {
 	const TABLE_NAME = "dct_crs_building_block";
 	const TABLE_NAME_JOIN1 = "dct_building_block";
 	const DURATION_PER_POINT = 45;
+	const MAX_DURATION_MINUTES = 720;
 
 	protected $course_building_block_id = "";
 	protected $crs_id = "-1";
@@ -157,6 +158,7 @@ class gevCourseBuildingBlockUtils {
 
 		$method_serial = serialize($this->getMethods());
 		$media_serial = serialize($this->getMedia());
+		$crs_requerst_value = ($this->getCourseRequestId() === null) ? "-1" : $this->getCourseRequestId();
 
 		$sql = "INSERT INTO ".self::TABLE_NAME.""
 				." (id, crs_id, bb_id, start_date, end_date, method, media, last_change_user, last_change_date, crs_request_id)"
@@ -170,7 +172,7 @@ class gevCourseBuildingBlockUtils {
 					.",'".$media_serial."'"
 					.",".$this->ilUser->getId().""
 					.", NOW()"
-					.",".$this->getCourseRequestId().""
+					.", '".$crs_requerst_value."'"
 					.")";
 
 		$this->db->manipulate($sql);
@@ -285,36 +287,94 @@ class gevCourseBuildingBlockUtils {
 	}
 
 	static private function updateWP($a_crs_ref_id, $a_db) {
-		$sql = "SELECT MIN(start_date) as start_date, MAX(end_date) as end_date FROM ".self::TABLE_NAME." WHERE crs_id = ".$a_crs_ref_id. " ORDER BY start_date";
+		$sql = "SELECT SUM(TIME_TO_SEC(TIMEDIFF(end_date, start_date))/60) as minutes_diff FROM ".self::TABLE_NAME." WHERE crs_id = ".$a_crs_ref_id. " ORDER BY start_date";
 		$res = $a_db->query($sql);
 
 		$wp = null;
 
 		if($a_db->numRows($res) > 0) {
 			$row = $a_db->fetchAssoc($res);
-
-			$start_date = split(" ",$row["start_date"]);
-			$end_date = split(" ",$row["end_date"]);
-
-			$start_time = split(":",$start_date[1]);
-			$end_time = split(":",$end_date[1]);
-
-			$minutes = 0;
-			$hours = 0;
-			if($end_time[1] < $start_time[1]) {
-				$minutes = 60 - $start_time[1] + $end_time[1];
-				$hours = -1;
-			} else {
-				$minutes = $end_time[1] - $start_time[1];
-			}
-			$hours = $hours + $end_time[0] - $start_time[0];
-			$totalMinutes = $hours * 60 + $minutes;
-
-			$wp = round($totalMinutes / self::DURATION_PER_POINT);
+			$wp = round($row["minutes_diff"] / self::DURATION_PER_POINT);
 		}
 		
 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 		gevCourseUtils::updateWP($wp, $a_crs_ref_id);
+	}
+
+	static public function getMaxDurationReached($a_crs_ref_id, $a_crs_request_id, array $a_time) {
+		global $ilDB;
+
+		if($a_crs_ref_id == -1 && $a_crs_request_id === null) {
+			//FEHLER MELDERN
+			return;
+		}
+
+		$sql = "SELECT SUM(TIME_TO_SEC(TIMEDIFF(end_date, start_date))/60) as minutes_diff FROM ".self::TABLE_NAME;
+		
+		if($a_crs_ref_id != -1) {
+			$sql .= " WHERE crs_id = ".$a_crs_ref_id. " ORDER BY start_date";
+		} else {
+			$sql .= " WHERE crs_request_id = ".$a_crs_request_id. " ORDER BY start_date";
+		}
+
+		$res = $ilDB->query($sql);
+
+		$old_time_diff = 0;
+		if($ilDB->numRows($res) > 0) {
+			$row = $ilDB->fetchAssoc($res);
+			$old_time_diff = $row["minutes_diff"];
+		}
+
+		if($old_time_diff > self::MAX_DURATION_MINUTES) {
+			return true;
+		}
+
+		$start = $a_time["start"];
+		$end  = $a_time["end"];
+
+		$minutes = 0;
+		$hours = 0;
+		if($end[1] < $start[1]) {
+			$minutes = 60 - $start[1] + $end[1];
+			$hours = -1;
+		} else {
+			$minutes = $end[1] - $start[1];
+		}
+		$hours = $hours + $end[0] - $start[0];
+		$totalMinutes = $hours * 60 + $minutes;
+
+		if(($old_time_diff + $totalMinutes) >= self::MAX_DURATION_MINUTES) {
+			return true;
+		}
+
+		return false;
+	}
+
+	static public function getRemainingTime($a_crs_ref_id,$a_crs_request_id) {
+		global $ilDB;
+
+		if($a_crs_ref_id == -1 && $a_crs_request_id === null) {
+			//FEHLER MELDERN
+			return;
+		}
+
+		$sql = "SELECT SUM(TIME_TO_SEC(TIMEDIFF(end_date, start_date))/60) as minutes_diff FROM ".self::TABLE_NAME;
+		
+		if($a_crs_ref_id != -1) {
+			$sql .= " WHERE crs_id = ".$a_crs_ref_id. " ORDER BY start_date";
+		} else {
+			$sql .= " WHERE crs_request_id = ".$a_crs_request_id. " ORDER BY start_date";
+		}
+
+		$res = $ilDB->query($sql);
+
+		$old_time_diff = 0;
+		if($ilDB->numRows($res) > 0) {
+			$row = $ilDB->fetchAssoc($res);
+			$old_time_diff = $row["minutes_diff"];
+		}
+
+		return self::MAX_DURATION_MINUTES - $old_time_diff;
 	}
 }
 ?>
