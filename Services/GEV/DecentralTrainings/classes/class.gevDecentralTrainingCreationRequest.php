@@ -132,7 +132,12 @@ class gevDecentralTrainingCreationRequest {
 	}
 	
 	public function save() {
-		$this->request_id = $this->db->createRequest($this);
+		if ($this->request_id === null) {
+			$this->request_id = $this->db->createRequest($this);
+		}
+		else {
+			$this->db->updateRequest($this);
+		}
 	}
 	
 	public function run() {
