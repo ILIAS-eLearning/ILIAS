@@ -13270,6 +13270,10 @@ bibl#:#attr_order_bibtex#:#Attribut-Reihenfolge (Bibtex)
 bibl#:#attr_order_bibtex_info#:#default: isbn,issn,title
 bibl#:#attr_order_ris#:#Attribut-Reihenfolge (ris)
 bibl#:#attr_order_ris_info#:#default: sn,ti, t1
+bibl#:#news_title_created#:#Neue Literaturliste hinzugefügt
+bibl#:#news_content_created#:#Eine neue Literaturliste wurde hinzugefügt. Die Einträge können eingesehen werden.
+bibl#:#news_title_updated#:#Literaturliste aktualisiert
+bibl#:#news_content_updated#:#Die Literaturliste wurde aktualisiert. Die neuen Einträge können eingesehen werden.
 rbac#:#bibl_visible#:#Literaturliste ist sichtbar
 rbac#:#bibl_read#:#Literaturliste lesen
 rbac#:#bibl_copy#:#Literaturliste kopieren
