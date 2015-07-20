@@ -3869,3 +3869,8 @@ if($ilDB->tableColumnExists('dct_building_block', 'learning_dest')) {
 require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCreationRequestDB.php");
 gevDecentralTrainingCreationRequestDB::install_step3($ilDB);
 ?>
+
+<#138>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
