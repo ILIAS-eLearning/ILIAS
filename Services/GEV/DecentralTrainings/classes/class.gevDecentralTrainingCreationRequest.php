@@ -123,6 +123,15 @@ class gevDecentralTrainingCreationRequest {
 	public function request() {
 		$this->requested_ts = new ilDateTime(time(),IL_CAL_UNIX);
 		$this->session_id = $this->getNewSessionId();
+		if ($this->request_id === null) {
+			$this->request_id = $this->db->createRequest($this);
+		}
+		else {
+			$this->db->updateRequest($this);
+		}
+	}
+	
+	public function save() {
 		$this->request_id = $this->db->createRequest($this);
 	}
 	

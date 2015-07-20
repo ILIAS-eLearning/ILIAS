@@ -103,8 +103,8 @@ class gevDecentralTrainingCreationRequestDB {
 												, $settings
 												, (int)$a_request_id
 												, $rec["session_id"]
-												, new ilDateTime($rec["requested_ts"], IL_CAL_DATETIME)
-												, new ilDateTime($rec["finished_ts"], IL_CAL_DATETIME)
+												, $rec["requested_ts"] ? new ilDateTime($rec["requested_ts"], IL_CAL_DATETIME) : null
+												, $rec["finished_ts"] ? new ilDateTime($rec["finished_ts"], IL_CAL_DATETIME) : null
 												, (int)$rec["created_obj_id"]
 												);
 			return $request;
@@ -120,6 +120,7 @@ class gevDecentralTrainingCreationRequestDB {
 		$ilDB = $this->getDB();
 		$query = "SELECT * FROM ".self::TABLE_NAME.
 				 " WHERE user_id = ".$ilDB->quote($a_user_id, "integer").
+				 "   AND NOT requested_ts IS NULL".
 				 "   AND finished_ts IS NULL"
 				 ;
 		$res = $ilDB->query($query);
@@ -142,7 +143,7 @@ class gevDecentralTrainingCreationRequestDB {
 												, $settings
 												, (int)$rec["request_id"]
 												, $rec["session_id"]
-												, new ilDateTime($rec["requested_ts"], IL_CAL_DATETIME)
+												, $rec["requested_ts"] ? new ilDateTime($rec["requested_ts"], IL_CAL_DATETIME) : null
 												, $rec["finished_ts"] ? new ilDateTime($rec["finished_ts"], IL_CAL_DATETIME) : null
 												, (int)$rec["created_obj_id"]
 												);
@@ -154,7 +155,8 @@ class gevDecentralTrainingCreationRequestDB {
 	public function nextOpenRequest() {
 		$ilDB = $this->getDB();
 		$query = "SELECT * FROM ".self::TABLE_NAME.
-				 " WHERE finished_ts IS NULL".
+				 " WHERE NOT requested_ts IS NULL".
+				 "   AND finished_ts IS NULL".
 				 " ORDER BY request_id ASC LIMIT 1"
 				 ;
 		$res = $ilDB->query($query);
@@ -176,7 +178,7 @@ class gevDecentralTrainingCreationRequestDB {
 												, $settings
 												, (int)$rec["request_id"]
 												, $rec["session_id"]
-												, new ilDateTime($rec["requested_ts"], IL_CAL_DATETIME)
+												, $rec["requested_ts"] ? new ilDateTime($rec["requested_ts"], IL_CAL_DATETIME) : null
 												, $rec["finished_ts"] ? new ilDateTime($rec["finished_ts"], IL_CAL_DATETIME) : null
 												, (int)$rec["created_obj_id"]
 												);
@@ -199,7 +201,8 @@ class gevDecentralTrainingCreationRequestDB {
 		
 		$query = "SELECT COUNT(*) cnt\n"
 				."  FROM ".self::TABLE_NAME."\n"
-				." WHERE finished_ts IS NULL";
+				." WHERE finished_ts IS NULL"
+				."   AND NOT requested_ts IS NULL";
 		$res = $ilDB->query($query);
 		$rec = $ilDB->fetchAssoc($res);
 		$open_requests = $rec["cnt"];
@@ -370,6 +373,13 @@ class gevDecentralTrainingCreationRequestDB {
 			"type" => "text",
 			"length" => 250,
 			"notnull" => true
+		));
+	}
+	
+	static public function install_step3(ilDB $ilDB) {
+		$ilDB->modifyTableColumn(self::TABLE_NAME, "requested_ts", array(
+			'type' => 'timestamp',
+			'notnull' => false
 		));
 	}
 }

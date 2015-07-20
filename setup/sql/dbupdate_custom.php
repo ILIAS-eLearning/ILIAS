@@ -3863,3 +3863,9 @@ if($ilDB->tableColumnExists('dct_building_block', 'learning_dest')) {
 		$ilDB->manipulate("ALTER TABLE `hist_course` ADD COLUMN webex_vc_type VARCHAR(50) NULL");
 	}
 ?>
+
+<#137>
+<?php
+require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCreationRequestDB.php");
+gevDecentralTrainingCreationRequestDB::install_step3($ilDB);
+?>
