@@ -3874,3 +3874,32 @@ gevDecentralTrainingCreationRequestDB::install_step3($ilDB);
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+
+<#139>
+<?php
+if(!$ilDB->tableColumnExists('dct_crs_building_block', 'last_change_date')) {
+	$ilDB->addTableColumn('dct_crs_building_block', 'last_change_date', array(
+			"type" => "timestamp",
+			"notnull" => true
+		));
+}
+?>
+
+<#140>
+<?php
+$ilDB->modifyTableColumn('dct_crs_building_block', "crs_request_id", array(
+		"type" => "integer",
+		"length" => 4,
+		"notnull" => false
+));
+?>
+
+<#141>
+<?php
+$ilDB->modifyTableColumn('dct_crs_building_block', 'crs_id', array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => true
+));
+
+?>
