@@ -54,7 +54,7 @@ class gevDecentralTrainingCourseBuildingBlockTableGUI extends catAccordionTableG
 			   ->addItem($this->edit_image, "gev_dec_building_block_edit");
 		$this->setLegend($legend);
 
-		$data = gevCourseBuildingBlockUtils::getAllCourseBuildingBlocks($a_crs_id,$a_crs_request_id);
+		$data = gevCourseBuildingBlockUtils::getAllCourseBuildingBlocksRaw($a_crs_id,$a_crs_request_id);
 
 		$this->setMaxCount(count($data));
 		$this->setData($data);

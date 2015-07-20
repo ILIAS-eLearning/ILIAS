@@ -71,6 +71,16 @@ class gevCourseBuildingBlockUtils {
 		$this->end_date = $a_end_date;
 	}
 
+	public function getStartTime() {
+		$expl = explode(" ", $this->getStartDate());
+		return $expl[1];
+	}
+
+	public function getEndTime() {
+		$expl = explode(" ", $this->getEndDate());
+		return $expl[1];
+	}
+
 	public function getMethods() {
 		return $this->methods;
 	}
@@ -87,7 +97,7 @@ class gevCourseBuildingBlockUtils {
 		$this->media = $a_media;
 	}
 
-	public function getBuldingBlock() {
+	public function getBuildingBlock() {
 		return $this->building_block;
 	}
 
@@ -140,7 +150,7 @@ class gevCourseBuildingBlockUtils {
 		$media_serial = serialize($this->getMedia());
 
 		$sql = "UPDATE ".self::TABLE_NAME."\n"
-			  ."   SET bb_id = ".$this->db->quote($this->getBuldingBlock()->getId(), "integer")."\n"
+			  ."   SET bb_id = ".$this->db->quote($this->getBuildingBlock()->getId(), "integer")."\n"
 			  ."     , start_date = ".$this->db->quote($this->getStartDate(), "timestamp")."\n"
 			  ."     , end_date = ".$this->db->quote($this->getEndDate(), "timestamp")."\n"
 			  ."     , method = ".$this->db->quote($method_serial, "text")."\n"
@@ -165,7 +175,7 @@ class gevCourseBuildingBlockUtils {
 			  ." (id, crs_id, bb_id, start_date, end_date, method, media, last_change_user, last_change_date, crs_request_id)\n"
 			  ." VALUES ( ".$this->db->quote($this->getId(), "integer")."\n"
 			  ."        , ".$this->db->quote($this->getCrsId(), "integer")."\n"
-			  ."        , ".$this->db->quote($this->getBuldingBlock()->getId(), "integer")."\n"
+			  ."        , ".$this->db->quote($this->getBuildingBlock()->getId(), "integer")."\n"
 			  ."        , ".$this->db->quote($this->getStartDate(), "timestamp")."\n"
 			  ."        , ".$this->db->quote($this->getEndDate(), "timestamp")."\n"
 			  ."        , ".$this->db->quote($method_serial, "text")."\n"
@@ -187,12 +197,12 @@ class gevCourseBuildingBlockUtils {
 		self::courseUpdates($this->getCrsId(),$this->db);
 	}
 
-	static public function getAllCourseBuildingBlocks($a_crs_ref_id,$a_request_id = null) {
+	static public function getAllCourseBuildingBlocksRaw($a_crs_ref_id,$a_request_id = null) {
 		global $ilDB;
 
 		$sql = "SELECT\n"
 			  ."    base.id, base.crs_id, base.bb_id, base.start_date, base.end_date, base.method, base.media,\n"
-			  ."    join1.title, join1.learning_dest, join1.content\n"
+			  ."    join1.title, join1.learning_dest, join1.content, base.crs_request_id, base.bb_id\n"
 			  ." FROM ".self::TABLE_NAME." as base\n"
 			  ." JOIN ".self::TABLE_NAME_JOIN1." as join1\n"
 			  ."   ON  base.bb_id = join1.obj_id\n";
@@ -215,7 +225,21 @@ class gevCourseBuildingBlockUtils {
 
 		return $ret;
 	}
-
+	
+	static public function getAllCourseBuildingBlocks($a_crs_ref_id, $a_request_id = null) {
+		return array_map(function($row) {
+			$obj = new gevCourseBuildingBlockUtils($row["id"]);
+			$obj->setCrsId($row["crs_id"]);
+			$obj->setStartDate($row["start_date"]);
+			$obj->setEndDate($row["end_date"]);
+			$obj->setMethods(unserialize($row["method"]));
+			$obj->setMedia(unserialize($row["media"]));
+			$obj->setCourseRequestId($row["crs_request_id"]);
+			$obj->setBuildingBlock($row["bb_id"]);
+			return $obj;
+		}, self::getAllCourseBuildingBlocksRaw($a_crs_ref_id, $a_request_id));
+	}
+	
 	static public function getDeleteLink($a_id,$a_crs_request_id) {
 		global $ilCtrl,$ilUser;
 

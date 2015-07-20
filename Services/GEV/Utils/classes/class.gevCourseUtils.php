@@ -2105,7 +2105,7 @@ class gevCourseUtils {
 		return array($filename, "Teilnehmer.xls");//, implode("\n", $txt));
 	}
 	
-	protected function buildListMeta($workbook, $worksheet, $title, $row_title, array $column_titles, $a_type)
+	public function buildListMeta($workbook, $worksheet, $title, $row_title, array $column_titles, $a_type)
 	{
 		global $lng;
 

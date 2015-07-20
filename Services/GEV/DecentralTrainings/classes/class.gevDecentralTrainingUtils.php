@@ -177,6 +177,86 @@ class gevDecentralTrainingUtils {
 		}
 		return self::$creation_request_db;
 	}
+	
+	public function buildScheduleXLS($a_crs_id, $a_send, $a_filename) {
+		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		require_once("Services/User/classes/class.ilObjUser.php");
+		
+		global $lng;
+
+		if ($a_filename === null) {
+			if(!$a_send)
+			{
+				$a_filename = ilUtil::ilTempnam();
+			}
+			else
+			{
+				$a_filename = "uvg_list.xls";
+			}
+		}
+
+		$lng->loadLanguageModule("common");
+		$lng->loadLanguageModule("gev");
+
+		include_once "./Services/Excel/classes/class.ilExcelUtils.php";
+		include_once "./Services/Excel/classes/class.ilExcelWriterAdapter.php";
+		$adapter = new ilExcelWriterAdapter($a_filename, $a_send);
+		$workbook = $adapter->getWorkbook();
+		$worksheet = $workbook->addWorksheet();
+		$worksheet->setLandscape();
+
+		$columns = array( $lng->txt("gev_dct_crs_building_block_from")
+						, $lng->txt("gev_dct_crs_building_block_to")
+						, $lng->txt("gev_dct_crs_building_block_block")
+						, $lng->txt("gev_dct_crs_building_block_methods")	
+						, $lng->txt("gev_dct_crs_building_block_media")
+						, $lng->txt("gev_dct_crs_building_block_content")
+						, $lng->txt("gev_dct_crs_building_block_lern_dest")
+						);
+
+		$format_wrap = $workbook->addFormat();
+		$format_wrap->setTextWrap();
+		
+		$i = 0;
+
+		foreach ($columns as $column) {
+			$worksheet->setColumn($i, $i, min(max(strlen($column),10),30));
+			$i++;
+		}
+		
+		$crs_utils = gevCourseUtils::getInstance($a_crs_id);
+		$row = $crs_utils->buildListMeta( $workbook
+							   , $worksheet
+							   , $lng->txt("gev_dec_crs_building_block_title")
+							   , ""
+							   , $columns
+							   , $a_type
+							   );
+		
+		require_once("Services/GEV/Utils/classes/class.gevCourseBuildingBlockUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+		$blocks = gevCourseBuildingBlockUtils::getAllCourseBuildingBlocks(gevObjectUtils::getRefId($a_crs_id));
+		foreach ($blocks as $block) {
+			$row++;
+			$base = $block->getBuildingBlock();
+			$worksheet->write($row, 0, $block->getStartTime(), $format_wrap);
+			$worksheet->write($row, 1, $block->getEndTime(), $format_wrap);
+			$worksheet->write($row, 2, $base->getTitle(), $format_wrap);
+			$worksheet->write($row, 3, implode("\n", $block->getMethods()), $format_wrap);
+			$worksheet->write($row, 4, implode("\n", $block->getMedia()), $format_wrap);
+			$worksheet->write($row, 5, $base->getContent(), $format_wrap);
+			$worksheet->write($row, 6, $base->getLearningDestination(), $format_wrap);
+		}
+		
+		$workbook->close();
+
+		if($a_send)
+		{
+			exit();
+		}
+
+		return array($filename, "Teilnehmer.xls");
+ 	}
 }
 
 ?>
