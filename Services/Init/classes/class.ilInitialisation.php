@@ -251,22 +251,27 @@ class ilInitialisation
 		{
 			self::abortAndDie("Fatal Error: ilInitialisation::determineClient called without initialisation of ILIAS ini file object.");
 		}
-				
+
 		// set to default client if empty
 		if ($_GET["client_id"] != "")
 		{
+
 			$_GET["client_id"] = ilUtil::stripSlashes($_GET["client_id"]);
 			if (!defined("IL_PHPUNIT_TEST"))
 			{
+
 				ilUtil::setCookie("ilClientId", $_GET["client_id"]);
 			}
+
 		}
+
 		else if (!$_COOKIE["ilClientId"])
 		{
 			// to do: ilias ini raus nehmen
 			$client_id = $ilIliasIniFile->readVariable("clients","default");
 			ilUtil::setCookie("ilClientId", $client_id);
 		}
+
 		if (!defined("IL_PHPUNIT_TEST"))
 		{
 			define ("CLIENT_ID", $_COOKIE["ilClientId"]);

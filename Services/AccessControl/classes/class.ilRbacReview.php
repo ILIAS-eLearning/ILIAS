@@ -957,14 +957,13 @@ class ilRbacReview
 			
 			$res = $ilDB->query($query);
             while($row = $ilDB->fetchAssoc($res))
-            {
+            {	
+
                 array_push($result_arr,$row["usr_id"]);
             }
 			$ilDB->enableResultBuffering(true);
-        }
-		
+        }	
 		$ilBench->stop("RBAC", "review_assignedUsers");
-
 		return $result_arr;
 	}
 

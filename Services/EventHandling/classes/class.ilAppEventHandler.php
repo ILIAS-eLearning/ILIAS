@@ -101,7 +101,8 @@ class ilAppEventHandler
 	* @param	array	$a_parameter	parameter array (assoc), array("name" => ..., "phone_office" => ...)
 	*/
 	function raise($a_component, $a_event, $a_parameter = "")
-	{
+	{	
+
 		if (is_array($this->listener[$a_component]))
 		{
 			foreach ($this->listener[$a_component] as $listener)

@@ -40,7 +40,6 @@ class ilCtrlStructureReader
 	function getStructure()
 	{
 		global $ilDB;
-		
 		$this->ini->setVariable("db","structure_reload", "1");
 		$this->ini->write();
 		if ($this->ini->readVariable("db","structure_reload") != "1")
@@ -57,7 +56,7 @@ class ilCtrlStructureReader
 		$a_plugin_path = "")
 	{
 		global $ilDB;
-		
+
 		if (!$a_force && $this->ini->readVariable("db","structure_reload") != "1")
 		{
 			return;
@@ -108,7 +107,7 @@ class ilCtrlStructureReader
 	function read($a_cdir)
 	{
 		global $ilDB, $lng;
-		
+
 		// check wether $a_cdir is a directory
 		if (!@is_dir($a_cdir))
 		{

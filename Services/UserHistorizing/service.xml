@@ -3,5 +3,6 @@
 	<events>
 		<event type="listen" id="Services/User" />
 		<event type="listen" id="Modules/OrgUnit" />
+		<event type="raise" id="usrhist_called" />
 	</events>
 </service>
