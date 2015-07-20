@@ -192,6 +192,6 @@ class ilUserRoleHistorizingAppEventListener {
 	 * @return 	string 	UNIX-Timestamp. (@see ilUserHistorizing, ilHistorizingStorage)
 	 */
 	protected static function getCreationTimestamp($event, $parameter) {
-		return time();
+		return $parameter['creation_timestamp'] ? $parameter['creation_timestamp'] : time();
 	}
 }

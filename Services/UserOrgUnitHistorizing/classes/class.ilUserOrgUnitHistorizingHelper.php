@@ -69,11 +69,12 @@ class ilUserOrgUnitHistorizingHelper
 
 		if(! $orgu_id){
 			return array(null, null);
-		}
-
+		}		
+		$root_ref_id = ilObjOrgUnit::getRootOrgRefId();
 		$orgu_refid = gevObjectUtils::getRefId($orgu_id);
-		$orgu_1_refid = $tree->getParent($orgu_0_refid);
-		$orgu_2_refid = $tree->getParent($orgu_1_refid);
+		$orgu_1_refid = $tree->getParent($orgu_refid);
+
+		$orgu_2_refid = ($orgu_1_refid == $root_ref_id) ? $orgu_1_refid : $tree->getParent($orgu_1_refid);
 
 		$titles = $tree->getTitles(array($orgu_1_refid, $orgu_2_refid));
 
@@ -96,8 +97,6 @@ class ilUserOrgUnitHistorizingHelper
 
 		return array($orgu_1_title, $orgu_2_title);
 	}
-
-
 }
 
 ?>

@@ -46,6 +46,7 @@ class ilUserOrgUnitHistorizingAppEventListener {
 	public static function handleEvent($a_component, $a_event, $a_parameter)
 	{
 		self::initEventHandler();
+
 		if(in_array($a_event, self::$relevant_events[$a_component])) {
 			self::$ilUserOrgUnitHistorizing->updateHistorizedData(
 				self::getCaseId($a_component, $a_event, $a_parameter), 
@@ -148,9 +149,9 @@ class ilUserOrgUnitHistorizingAppEventListener {
 					break;
 				case 'assignUserOrguRole':
 					$data_payload = array('action' => 1);
-					//$orgus_above = 
-					//	self::$ilUserOrgUnitHistorizingHelper
-					//	->getOrgUnitsAboveOf($parameter['rol_obj_id']);
+					$orgus_above = 
+						self::$ilUserOrgUnitHistorizingHelper
+						->getOrgUnitsAboveOf($parameter['rol_obj_id']);
 					$data_payload['org_unit_above1'] = $orgus_above[0];
 					$data_payload['org_unit_above2'] = $orgus_above[1];	
 					$data_payload['orgu_title'] = $parameter['rol_obj']->getTitle();
@@ -230,6 +231,6 @@ class ilUserOrgUnitHistorizingAppEventListener {
 	 * @return 	string 	UNIX-Timestamp. (@see ilUserHistorizing, ilHistorizingStorage)
 	 */
 	protected static function getCreationTimestamp($event, $parameter) {
-		return time();
+		return $parameter['creation_timestamp'] ? $parameter['creation_timestamp'] : time();
 	}
 }
