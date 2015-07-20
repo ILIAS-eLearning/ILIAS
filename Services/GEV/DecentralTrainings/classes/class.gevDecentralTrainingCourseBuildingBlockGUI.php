@@ -93,7 +93,7 @@ class gevDecentralTrainingCourseBuildingBlockGUI {
 
 		$confirm->addItem("id",
 				$this->obj_id,
-				$bu_utils->getBuldingBlock()->getTitle()
+				$bu_utils->getBuildingBlock()->getTitle()
 			);
 		
 		$this->tpl->setContent($confirm->getHTML());
@@ -168,7 +168,7 @@ class gevDecentralTrainingCourseBuildingBlockGUI {
 					,"time" => $bu_utils->getTime()
 					,"methods" => $bu_utils->getMethods()
 					,"media" => $bu_utils->getMedia()
-					,"build_block" => $bu_utils->getBuldingBlock()->getId()
+					,"build_block" => $bu_utils->getBuildingBlock()->getId()
 				);
 
 			$form_gui->setTitle($this->lng->txt("gev_dec_crs_building_block_edit"));
