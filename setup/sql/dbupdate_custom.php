@@ -3743,7 +3743,7 @@ if( !$ilDB->tableExists('dct_crs_building_block') )
 			'length' => 4,
 			'notnull' => true
 		),
-		'bu_id' => array(
+		'bb_id' => array(
 			'type' => 'integer',
 			'length' => 4,
 			'notnull' => true
