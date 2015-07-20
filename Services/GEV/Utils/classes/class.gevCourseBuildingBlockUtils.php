@@ -305,8 +305,7 @@ class gevCourseBuildingBlockUtils {
 		global $ilDB;
 
 		if($a_crs_ref_id == -1 && $a_crs_request_id === null) {
-			//FEHLER MELDERN
-			return;
+			throw new Exception("gevCourseBuildingBlockUtils::getMaxDurationReached: Either set course_ref_id or course_request_id.");
 		}
 
 		$sql = "SELECT SUM(TIME_TO_SEC(TIMEDIFF(end_date, start_date))/60) as minutes_diff FROM ".self::TABLE_NAME;
@@ -354,8 +353,7 @@ class gevCourseBuildingBlockUtils {
 		global $ilDB;
 
 		if($a_crs_ref_id == -1 && $a_crs_request_id === null) {
-			//FEHLER MELDERN
-			return;
+			throw new Exception("gevCourseBuildingBlockUtils::getRemainingTime: Either set course_ref_id or course_request_id.");
 		}
 
 		$sql = "SELECT SUM(TIME_TO_SEC(TIMEDIFF(end_date, start_date))/60) as minutes_diff FROM ".self::TABLE_NAME;
