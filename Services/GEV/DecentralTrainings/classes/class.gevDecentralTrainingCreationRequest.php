@@ -140,6 +140,11 @@ class gevDecentralTrainingCreationRequest {
 		}
 	}
 	
+	public function delete() {
+		$this->db->deleteRequest($this);
+		$this->request_id = null;
+	}
+	
 	public function run() {
 		if ($this->finished_ts !== null) {
 			$this->throwException("Request already finished.");

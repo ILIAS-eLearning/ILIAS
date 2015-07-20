@@ -80,6 +80,18 @@ class gevDecentralTrainingCreationRequestDB {
 		);
 	}
 	
+	public function deleteRequest(gevDecentralTrainingCreationRequest $a_request) {
+		$ilDB = $this->getDB();
+		if ($a_request->requestId() === null) {
+			$this->throwException("Can't delete request without id.");
+		}
+		
+		$ilDB->manipulate(
+			"DELETE FROM ".self::TABLE_NAME."\n".
+			" WHERE request_id = ".$ilDB->quote($a_request->requestId(), "integer")
+		);
+	}
+	
 	public function request($a_request_id) {
 		assert(is_int($a_request_id));
 		$ilDB = $this->getDB();
