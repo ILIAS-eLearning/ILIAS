@@ -1,59 +1,37 @@
-<style>
-	.modal-dialog, .modal-content, .modal-body
-	{
-		height: 90%
-	}
-	.modal_answer_options
-	{
-		overflow: auto;
-		max-height: 80%;
-		margin: 0.5em 0;
-	}
-	.modal-submit
-	{
-		float:right;
-	}
-	.prototype_long_menu{
-		display:none;
-	}
-</style>
-
-<script src="./Modules/TestQuestionPool/templates/default/gapInsertingWizard.js"></script>
-<script src="./Modules/TestQuestionPool/templates/default/longMenuQuestion.js"></script>
-
-<script>
-	function debugPrinter(message)
-	{
-		if(true)
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>QUnit Example</title>
+	<link rel="stylesheet" href="qunit-1.18.0.css">
+	<style>
+		.modal-dialog, .modal-content, .modal-body
 		{
-			console.log(message)
+			height: 90%
 		}
-	}
-	var long_menu_language = {
-		'edit' 				: '[Edit]',
-		'type' 				: 'Typ',
-		'answers'			: 'Answers',
-		'answer_options' 	: 'Answer Options: ',
-		'correct_answers'	: 'Correct Answers: ',
-		'add_answers'	 	: '[Add Answers]',
-		'info_text_gap'	 	: '{INFO_TEXT_GAP}',
-		'manual_editing' 	: '{MANUAL_EDITING}'
-	};
-	
-	$( document ).ready(function() {
-		longMenuQuestion.questionParts = {
-			list 					: {CORRECT_ANSWERS},
-			gap_placeholder			: "{GAP_PLACEHOLDER}",
-			last_updated_element 	: 0,
-			replacement_word 		: '',
-			filereader_usable		: false,
-			max_input_fields		: 500
-		};
-		longMenuQuestion.answers = {ALL_ANSWERS};
-		longMenuQuestion.Init();
-	});
-
-</script>
+		.modal_answer_options
+		{
+			overflow: auto;
+			max-height: 80%;
+			margin: 0.5em 0;
+		}
+		.modal-submit
+		{
+			float:right;
+		}
+		.prototype_long_menu{
+			display:none;
+		}
+	</style>
+</head>
+<body>
+<div id="qunit"></div>
+<div id="qunit-fixture"></div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="qunit-1.18.0.js"></script>
+<script src="blanket.min.js"></script>
+<script src="../longMenuQuestion.js"  data-cover></script>
+<script src="longMenu.js"></script>
 <div class="prototype_long_menu">
 	<div class="gap_title">
 		<div class="ilFormHeader">
@@ -92,10 +70,10 @@
 		<div class="help-block">{INFO_TEXT_UPLOAD}</div>
 	</div>
 	<div class="form-group" id="layout_dummy_buttons">
-			<div class="modal-submit">
-				<input type="submit" class="btn btn-default cancel-modal" value="{Cancel}cancel" />
-				<input type="submit" class="btn btn-default save-modal" value="{Save}save" />
-			</div>
+		<div class="modal-submit">
+			<input type="submit" class="btn btn-default cancel-modal" value="{Cancel}cancel" />
+			<input type="submit" class="btn btn-default save-modal" value="{Save}save" />
+		</div>
 	</div>
 	<div class="layout_dummy_help-block">
 		<div class="help-block"></div>
@@ -106,5 +84,11 @@
 			<button name="remove_gap" class="clone_fields_remove combination btn btn-link"><span class="sr-only"></span><span class="glyphicon glyphicon-minus"></span></button>
 		</div>
 	</div>
+	<div class="test_dummy"></div>
+	<div id="ilGapModal" class="modal"><div class="modal-header"><div class="modal-title"></div></div>
+		<div class="modal_answer_options"></div>
+	</div>
+	
 </div>
-{MY_MODAL}
+</body>
+</html>

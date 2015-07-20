@@ -1,5 +1,5 @@
 var longMenuQuestion = (function () {
-	var pub = {};
+	var pub = {}, protect = {};
 	var new_question_part = { 0 : [] };
 	var temp_answers = [];
 	pub.questionParts, pub.answers;
@@ -22,39 +22,42 @@ var longMenuQuestion = (function () {
 		};
 		gap_wizard.callbackNewGap = function (gap_id, gap_value)
 		{
-			sliceInNewQuestionPart(gap_id);
+			protect.sliceInNewQuestionPart(gap_id);
 		};
 		gap_wizard.callbackCleanGapCode 	= function (){debugPrinter('cleanup done')};
 		gap_wizard.checkDataConsistencyAfterGapRemoval = function ( existing_gaps )
 		{
-			checkDataConsistency(existing_gaps);
+			protect.checkDataConsistency(existing_gaps);
 		};
 		
 		gap_wizard.Init();
 	}
 
-	function checkDataConsistency(existing_gaps)
+	protect.checkDataConsistency = function (existing_gaps)
 	{
 		pub.questionParts.list  = $().ensureNoArrayIsAnObjectRecursive(pub.questionParts.list);
 		pub.answers             = $().ensureNoArrayIsAnObjectRecursive(pub.answers);
 		if(existing_gaps.length == 0 )
 		{
+			console.log('YEEEEEEEEEEEEEA1')
 			pub.answers = [];
 			pub.questionParts.list = [];
 			debugPrinter('checkDataConsistency removed all gaps.')
 		}
 		else if(existing_gaps.length > pub.questionParts.list.length )
 		{
+			console.log('YEEEEEEEEEEEEEA2')
 			//Todo: fix this
 			debugPrinter(existing_gaps)
 			debugPrinter(pub.questionParts.list)
-			redrawFormParts();
+			protect.redrawFormParts();
 		}
 		else
 		{
 			var answers = [];
 			var list    = [];
-			var t0 = benchmarkCallsDummyNotForUsage('checkDataConsistency');
+			console.log('YEEEEEEEEEEEEEA3')
+			var t0 = protect.benchmarkCallsDummyNotForUsage('checkDataConsistency');
 			$.each(pub.questionParts.list , function( index, value ) {
 				if($.inArray(index + 1, existing_gaps) != -1)
 				{
@@ -62,58 +65,58 @@ var longMenuQuestion = (function () {
 					list.push(pub.questionParts.list[index]);
 				}
 			});
-			benchmarkCallsDummyNotForUsage('checkDataConsistency', t0);
+			protect.benchmarkCallsDummyNotForUsage('checkDataConsistency', t0);
 			pub.answers = answers;
 			pub.questionParts.list = list;
 		}
-		redrawFormParts();
+		protect.redrawFormParts();
 		debugPrinter('consistency check')
-	}
+	};
 	
-	function appendFormParts()  {
+	protect.appendFormParts = function()  {
 		var footer_class 	= $('.ilFormFooter');
 		var new_title 		= $(".gap_title").find('.ilFormHeader').clone().addClass('longmenu_head longmenu');
 		var title 			= 0;
-		var t0 = benchmarkCallsDummyNotForUsage('appendFormParts');
+		var t0 = protect.benchmarkCallsDummyNotForUsage('appendFormParts');
 		$.each(pub.questionParts.list , function( index, value ) {
 			footer_class.parent().append(new_title.clone());
 			title = parseInt(index, 10) + 1;
 			$(document).find('.longmenu_head').last().find('.ilHeader')
 				.attr('id', 'title_' + index)
 				.html(pub.questionParts.replacement_word + ' ' + title);
-			appendSelectBox(footer_class, index);
-			appendAnswersOverview(footer_class, index);
+			protect.appendSelectBox(footer_class, index);
+			protect.appendAnswersOverview(footer_class, index);
 		});
-		benchmarkCallsDummyNotForUsage('appendFormParts', t0);
+		protect.benchmarkCallsDummyNotForUsage('appendFormParts', t0);
 		footer_class.appendTo( '#form_assLongMenu');
-		addEditListeners();
-	}
+		protect.addEditListeners();
+	};
 
-	function appendSelectBox(footer_class, index)  {
+	protect.appendSelectBox = function (footer_class, index)  {
 		var id = 'select_type_' + index;
 		footer_class.parent().append($('#layout_dummy_select').clone().attr({'id': id}).addClass('longmenu'));
 		var selector = $('#' + id);
 		selector.find('label').html(long_menu_language.type);
-	}
+	};
 
-	function appendAnswersOverview(footer_class, index)  {
+	protect.appendAnswersOverview = function(footer_class, index)  {
 		var id = 'answer_overview_' + index;
 		footer_class.parent().append($('#layout_dummy_answers').clone().attr({'id': id}).addClass('longmenu'));
 		var selector = $('#' + id);
 		selector.find('label').html(long_menu_language.answers);
-		var html = buildAnswerOverview(index);
+		var html = protect.buildAnswerOverview(index);
 		selector.find('.form-inline').html(html);
-		appendPointsField(footer_class, index);
-	}
+		protect.appendPointsField(footer_class, index);
+	};
 
-	function appendPointsField(footer_class, index)  {
+	protect.appendPointsField = function (footer_class, index)  {
 		var id = 'points_' + index;
 		var name = 'points[' + index + ']';
 		footer_class.parent().append($('#layout_dummy_points').clone().attr({'id': id}).addClass('longmenu'));
 		$('#' + id).find('input').attr('name' , name);
-	}
+	};
 
-	function buildAnswerOverview(question_id)  {
+	protect.buildAnswerOverview = function (question_id)  {
 		var length 	= pub.answers[question_id].length;
 		var html 	= '';
 		if( length > 0 )
@@ -124,13 +127,13 @@ var longMenuQuestion = (function () {
 					long_menu_language.edit + '</a></p>';
 			html += '<p>' + long_menu_language.correct_answers;
 			var answers = '';
-			var t0 = benchmarkCallsDummyNotForUsage('buildAnswerOverview');
+			var t0 = protect.benchmarkCallsDummyNotForUsage('buildAnswerOverview');
 			$.each(pub.questionParts.list[question_id][0] , function( index, value ) {
 				answers += value + ', ';
 			});
 			html += ' ' + answers.substring(0, answers.length - 2) +
 					'<a data-id="' + question_id + '" class="correct_answers"> ' + long_menu_language.edit + '</a></p>';
-			benchmarkCallsDummyNotForUsage('buildAnswerOverview', t0);
+			protect.benchmarkCallsDummyNotForUsage('buildAnswerOverview', t0);
 		}
 		else
 		{
@@ -140,39 +143,40 @@ var longMenuQuestion = (function () {
 		}
 
 		return html;
-	}
+	};
 
-	function addEditListeners()  {
+	protect.addEditListeners = function()  {
 		$( '.answer_options' ).on( "click", function() {
 			var gap_id = $( this ).attr('data-id');
 			temp_answers = pub.answers[gap_id];
 			
 			debugPrinter('answer_options ' + gap_id );
-			appendModalTitle(long_menu_language.answer_options, gap_id);
-			$('.modal-body').html(appendUploadButtons());
+			protect.appendModalTitle(long_menu_language.answer_options, gap_id);
+			$('.modal-body').html(protect.appendUploadButtons());
 			$('.modal-body').find('.upload').attr('id', 'fileinput');
 			document.getElementById('fileinput').addEventListener('change', readSingleFile, false);
-			redrawAnswerList(gap_id);
-			appendModalCloseListener();
+			protect.redrawAnswerList(gap_id);
+			protect.appendModalCloseListener();
 			$('#ilGapModal').modal('show');
 		});
 		$( '.correct_answers' ).on( "click", function() {
 			var gap_id = $( this ).attr('data-id');
 			debugPrinter('correct_answers ' +  gap_id );
-			appendModalTitle(long_menu_language.correct_answers, gap_id);
+			protect.appendModalTitle(long_menu_language.correct_answers, gap_id);
 			$('.modal-body').html('');
 			$('#ilGapModal').modal('show');
 		});
-	}
+	};
 
-	function appendUploadButtons()
+	protect.appendUploadButtons = function()
 	{
 		var html = $('#layout_dummy_upload').clone().html();
 		html += long_menu_language.manual_editing + '<div class="modal_answer_options"></div>';
 		html += $('#layout_dummy_buttons').clone().attr('id', '').html();
 		return html;
-	}
-	function appendModalTitle(text, question_id)
+	};
+	
+	protect.appendModalTitle = function(text, question_id)
 	{
 		var modal_title = $('.modal-title');
 		var modal_header= $('.modal-header');
@@ -182,33 +186,33 @@ var longMenuQuestion = (function () {
 		modal_header.find('.help-block').html(long_menu_language.info_text_gap);
 		modal_title.attr('data-id', question_id)
 			.html(pub.questionParts.replacement_word + ' ' + view_id + ' ' + text );
-	}
+	};
 
-	function appendModalCloseListener()
+	protect.appendModalCloseListener = function()
 	{
 		var modal_object = $('#ilGapModal');
 		modal_object.off('hidden.bs.modal');
 		modal_object.on('hidden.bs.modal', function () {
-			redrawFormParts();
+			protect.redrawFormParts();
 		});
-	}
+	};
 
-	function redrawFormParts()
+	protect.redrawFormParts = function()
 	{
 		debugPrinter('redraw form parts');
 		$('.longmenu').remove();
-		appendFormParts();
-	}
+		protect.appendFormParts();
+	};
 
-	function redrawAnswerList(question_id)
+	protect.redrawAnswerList = function(question_id)
 	{
 		debugPrinter('redraw answer list');
-		checkAnswersArray(question_id);
+		protect.checkAnswersArray(question_id);
 		var buttons = $('.layout_dummy_add_remove_buttons').html();
 		var html = '';
-		if(inputFieldsStillPossible(question_id))
+		if(protect.inputFieldsStillPossible(question_id))
 		{
-			var t0 = benchmarkCallsDummyNotForUsage('redrawAnswerList');
+			var t0 = protect.benchmarkCallsDummyNotForUsage('redrawAnswerList');
 			$.each(pub.answers[question_id] , function( index, value ) {
 				html += '<input type="text" class="col-sm-10 text-right answerlist" size="5" value="' +
 						value + '" data-id="' + index + '">' + buttons;
@@ -217,9 +221,9 @@ var longMenuQuestion = (function () {
 			{
 				html += '<input type="text" class="col-sm-10 text-right answerlist" size="5" value="" data-id="0">' + buttons;
 			}
-			benchmarkCallsDummyNotForUsage('redrawAnswerList only html build', t0);
+			protect.benchmarkCallsDummyNotForUsage('redrawAnswerList only html build', t0);
 			$('.modal_answer_options').html(html);
-			benchmarkCallsDummyNotForUsage('redrawAnswerList', t0);
+			protect.benchmarkCallsDummyNotForUsage('redrawAnswerList', t0);
 		}
 		else
 		{
@@ -231,14 +235,15 @@ var longMenuQuestion = (function () {
 			$('.modal_answer_options').html(html);
 		}
 		appendAnswerCloneButtonEvents();
-		redrawFormParts();
-	}
-	function redrawAnswerListFast(gap_id, answer_id, addRow)
+		protect.redrawFormParts();
+	};
+	
+	protect.redrawAnswerListFast = function(gap_id, answer_id, addRow)
 	{
 		debugPrinter('redraw answer list fast');
 		var answerList_object = $('.answerlist');
-		checkAnswersArray(gap_id);
-		if(inputFieldsStillPossible(gap_id))
+		protect.checkAnswersArray(gap_id);
+		if(protect.inputFieldsStillPossible(gap_id))
 		{
 			if(addRow)
 			{
@@ -254,50 +259,51 @@ var longMenuQuestion = (function () {
 				answerList_object.eq(answer_id).remove();
 			}
 			appendAnswerCloneButtonEvents();
-			recalculateAnswerListDataIds();
+			protect.recalculateAnswerListDataIds();
 		}
-		redrawFormParts();
-	}
-	function recalculateAnswerListDataIds()
+		protect.redrawFormParts();
+	};
+	
+	protect.recalculateAnswerListDataIds = function()
 	{
-		var t0 = benchmarkCallsDummyNotForUsage('recalculateAnswerListDataIds');
+		var t0 = protect.benchmarkCallsDummyNotForUsage('recalculateAnswerListDataIds');
 		$.each($('.answerlist') , function( index, value ) {
 			$(this).attr('data-id', index);
 		});
-		benchmarkCallsDummyNotForUsage('recalculateAnswerListDataIds', t0);
-	}
+		protect.benchmarkCallsDummyNotForUsage('recalculateAnswerListDataIds', t0);
+	};
 
 	function appendAnswerCloneButtonEvents()
 	{
-		var t0 = benchmarkCallsDummyNotForUsage('appendAnswerCloneButtonEvents');
-		appendAddButtonEvent();
-		appendRemoveButtonEvent();
-		appendSaveModalButtonEvent();
-		appendCancelModalButtonEvent();
-		benchmarkCallsDummyNotForUsage('appendAnswerCloneButtonEvents', t0);
+		var t0 = protect.benchmarkCallsDummyNotForUsage('appendAnswerCloneButtonEvents');
+		protect.appendAddButtonEvent();
+		protect.appendRemoveButtonEvent();
+		protect.appendSaveModalButtonEvent();
+		protect.appendCancelModalButtonEvent();
+		protect.benchmarkCallsDummyNotForUsage('appendAnswerCloneButtonEvents', t0);
 	}
 
-	function appendAddButtonEvent()
+	protect.appendAddButtonEvent = function()
 	{
-		appendAbstractCloneButtonEvent( '.clone_fields_add' , function (gap_id, question_id )
+		protect.appendAbstractCloneButtonEvent( '.clone_fields_add' , function (gap_id, question_id )
 		{
 			temp_answers.splice(gap_id,0,[]);
-			redrawAnswerListFast(question_id, gap_id, true);
+			protect.redrawAnswerListFast(question_id, gap_id, true);
 		});
-	}
+	};
 
-	function appendRemoveButtonEvent()
+	protect.appendRemoveButtonEvent = function()
 	{
-		appendAbstractCloneButtonEvent( '.clone_fields_remove' , function (gap_id, question_id )
+		protect.appendAbstractCloneButtonEvent( '.clone_fields_remove' , function (gap_id, question_id )
 		{
 			if(temp_answers.length > 1)
 			{
 				temp_answers.splice(gap_id,1);
-				redrawAnswerListFast(question_id, gap_id, false);
+				protect.redrawAnswerListFast(question_id, gap_id, false);
 			}
 		});
-	}
-	function appendAbstractCloneButtonEvent(classElement, eventCallback)
+	};
+	protect.appendAbstractCloneButtonEvent = function(classElement, eventCallback)
 	{
 		var button 	= $(classElement);
 		button.off( "click");
@@ -309,36 +315,36 @@ var longMenuQuestion = (function () {
 			}
 			return false;
 		});
-	}
+	};
 
-	function appendSaveModalButtonEvent()
+	protect.appendSaveModalButtonEvent = function()
 	{
-		appendAbstractModalButtonEvent( '.save-modal' , function (){
+		protect.appendAbstractModalButtonEvent( '.save-modal' , function (){
 			var gap_id 		= $('.modal-title').attr('data-id');
 			var answers		= [];
-			if(inputFieldsStillPossible(gap_id))
+			if(protect.inputFieldsStillPossible(gap_id))
 			{
-				var t0 = benchmarkCallsDummyNotForUsage('appendSaveModalButtonEvent');
+				var t0 = protect.benchmarkCallsDummyNotForUsage('protect.appendSaveModalButtonEvent');
 				$.each($('.answerlist') , function() {
 					answers.push($(this).attr('value'));
 				});
-				benchmarkCallsDummyNotForUsage('appendSaveModalButtonEvent', t0);
+				protect.benchmarkCallsDummyNotForUsage('protect.appendSaveModalButtonEvent', t0);
 			}
 			else
 			{
 				answers  = $('.input-large').attr('value').split('\n');
 			}
 			pub.answers[gap_id] = answers;
-			checkAnswersArray(gap_id);
+			protect.checkAnswersArray(gap_id);
 		});
-	}
+	};
 
-	function appendCancelModalButtonEvent()
+	protect.appendCancelModalButtonEvent = function()
 	{
-		appendAbstractModalButtonEvent( '.cancel-modal' , function (){});
-	}
+		protect.appendAbstractModalButtonEvent( '.cancel-modal' , function (){});
+	};
 
-	function appendAbstractModalButtonEvent(classElement, eventCallback)
+	protect.appendAbstractModalButtonEvent = function(classElement, eventCallback)
 	{
 		var button 	= $(classElement);
 		button.off( "click");
@@ -349,35 +355,40 @@ var longMenuQuestion = (function () {
 			$('#ilGapModal').modal('hide');
 			return false;
 		});
-	}
-	
-	function inputFieldsStillPossible(gap_id)
+	};
+
+	protect.inputFieldsStillPossible = function(gap_id)
 	{
 		return pub.answers[gap_id].length < pub.questionParts.max_input_fields;
-	}
+	};
 
-	function syncWithCorrectAnswers(question_id)
+	protect.syncWithCorrectAnswers = function (question_id)
 	{
 		var to_remove = [];
-		var t0 = benchmarkCallsDummyNotForUsage('syncWithCorrectAnswers');
+		var t0 = protect.benchmarkCallsDummyNotForUsage('syncWithCorrectAnswers');
 		$.each(pub.questionParts.list[question_id][0] , function( index, value ) {
 			if ($.inArray(value, pub.answers[question_id]) == -1 )
 			{
 				to_remove.push(index);
 			}
 		});
+		protect.removeNonExistingCorrectAnswersByKey(question_id, to_remove);
+		protect.benchmarkCallsDummyNotForUsage('syncWithCorrectAnswers', t0);
+	};
+
+	protect.removeNonExistingCorrectAnswersByKey = function(question_id, to_remove)
+	{
 		to_remove.sort(function(a, b){ return b - a } );
 		$.each(to_remove , function( index, position ) {
 			debugPrinter('value on pos ' + position + ' removed because it is no part of the answer list anymore.');
 			pub.questionParts.list[question_id][0].splice(position, 1);
 		});
-		benchmarkCallsDummyNotForUsage('syncWithCorrectAnswers', t0);
-	}
-
-	function checkAnswersArray(question_id)
+	};
+	
+	protect.checkAnswersArray = function (question_id)
 	{
 		var result = [];
-		var t0 = benchmarkCallsDummyNotForUsage('checkAnswersArray');
+		var t0 = protect.benchmarkCallsDummyNotForUsage('checkAnswersArray');
 		$.each(pub.answers[question_id], function(index, value) {
 			value = value.toString().replace(/"/g,'');
 			if ($.inArray(value, result) == -1 )
@@ -388,26 +399,26 @@ var longMenuQuestion = (function () {
 				}
 			}
 		});
-		benchmarkCallsDummyNotForUsage('checkAnswersArray', t0);
+		protect.benchmarkCallsDummyNotForUsage('checkAnswersArray', t0);
 		var removed = pub.answers[question_id].length - result.length;
 		pub.answers[question_id] = result.sort();
 		debugPrinter(removed + ' duplicate or empty elements where removed.');
 		debugPrinter(pub.answers[question_id].length + ' Answers for gap ' + question_id);
-		syncWithCorrectAnswers(question_id);
-		syncWithHiddenTextField();
-	}
+		protect.syncWithCorrectAnswers(question_id);
+		protect.syncWithHiddenTextField();
+	};
 
-	function syncWithHiddenTextField()
+	protect.syncWithHiddenTextField = function() 
 	{
 		$('#hidden_text_files').attr('value', JSON.stringify(pub.answers));
-	}
+	};
 
-	function sliceInNewQuestionPart(gap_id)
+	protect.sliceInNewQuestionPart = function (gap_id)
 	{
 		pub.questionParts.list.splice(gap_id, 0, new_question_part);
 		pub.answers.splice(gap_id,0,[]);
-		redrawFormParts();
-	}
+		protect.redrawFormParts();
+	};
 
 	function readSingleFile (evt){
 		if ( longMenuQuestion.filereader_usable )
@@ -425,7 +436,7 @@ var longMenuQuestion = (function () {
 						var question_id	= $('.modal-title').attr('data-id');
 						pub.answers[question_id] = contents.split('\n');
 						pub.answers[question_id] = pub.answers[question_id].sort();
-						redrawAnswerList(question_id);
+						protect.redrawAnswerList(question_id);
 					};
 					reader.readAsText(file);
 				}
@@ -454,7 +465,7 @@ var longMenuQuestion = (function () {
 			}, 200);
 	}
 	
-	function benchmarkCallsDummyNotForUsage(function_caller, t0)
+	protect.benchmarkCallsDummyNotForUsage = function(function_caller, t0)
 	{
 		if(t0 == null)
 		{
@@ -472,8 +483,8 @@ var longMenuQuestion = (function () {
 	pub.Init = function()
 	{
 		buildAndInitGapWizard();
-		appendFormParts();
-		syncWithHiddenTextField();
+		protect.appendFormParts();
+		protect.syncWithHiddenTextField();
 		pub.questionParts.list = $().ensureNoArrayIsAnObjectRecursive(pub.questionParts.list);
 		pub.answers = $().ensureNoArrayIsAnObjectRecursive(pub.answers);
 		if (window.File && window.FileReader && window.FileList && window.Blob)
@@ -488,5 +499,15 @@ var longMenuQuestion = (function () {
 	};
 
 	//Return just the public parts
+	pub.protected = protect;
 	return pub;
 }());
+
+(function ( $ ) {
+	$.fn.ensureNoArrayIsAnObjectRecursive = function( obj ) {
+		if ($.type(obj) === 'object' || $.type(obj) === 'array'){
+			Object.keys(obj).forEach(function(key) { obj[key] = jQuery().ensureNoArrayIsAnObjectRecursive(obj[key]); });
+			obj = $.map(obj, function(value) { return [value];	});
+		}
+		return obj;
+	};}( jQuery ));
