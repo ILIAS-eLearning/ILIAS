@@ -154,7 +154,13 @@ class ilUserOrgUnitHistorizingAppEventListener {
 					$data_payload['org_unit_above1'] = $orgus_above[0];
 					$data_payload['org_unit_above2'] = $orgus_above[1];	
 					$data_payload['orgu_title'] = $parameter['rol_obj']->getTitle();
-					$data_payload['rol_title'] = $parameter['rol']->getTitle();
+					$role_title = $parameter['rol']->getTitle();
+					if(strpos($role_title, 'il_orgu_employee_') !== false) {
+						$role_title = 'Mitarbeiter';
+					} elseif(strpos($role_title, 'il_orgu_superior_') !== false) {
+						$role_title = 'Vorgesetzter';
+					}
+					$data_payload['rol_title'] = $role_title;
 					break;
 				case 'deassignUserOrguRole':
 					$data_payload = array('action' => -1);
