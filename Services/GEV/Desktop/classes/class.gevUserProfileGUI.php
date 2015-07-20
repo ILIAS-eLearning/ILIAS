@@ -59,14 +59,6 @@ class gevUserProfileGUI {
 			$err = false;
 			$telno = $form->getInput("p_phone");
 			$telno_field = $form->getItemByPostVar("p_phone");
-			if (!preg_match(self::$telno_regexp, $telno)) {
-				$telno_field->setAlert($this->lng->txt("gev_telno_alert"));
-				
-				$err = true;
-			}
-			else {
-				$telno_field->setAlert("");
-			}
 			
 			if(   $form->getInput("username") !== $this->user->getLogin()
 			   && ilObjUser::_loginExists($form->getInput("username"))) {
@@ -245,8 +237,8 @@ class gevUserProfileGUI {
 		$agent_key->setValue($this->user_utils->getAgentKey());
 		$form->addItem($agent_key);
 		
-		$org_unit = new ilNonEditableValueGUI($this->lng->txt("gev_org_unit"));
-		$org_unit->setValue($this->user_utils->getAllOrgUnitTitlesUserIsMember());
+		$org_unit = new ilNonEditableValueGUI($this->lng->txt("gev_org_unit"), "", true);
+		$org_unit->setValue(implode("<br />", $this->user_utils->getAllOrgUnitTitlesUserIsMember()));
 		$form->addItem($org_unit);
 		
 		$section2 = new ilFormSectionHeaderGUI();

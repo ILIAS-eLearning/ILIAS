@@ -18,10 +18,11 @@ class gevDBVUtils {
 	static $instance;
 
 	protected function __construct() {
-		global $ilDB, $ilias, $ilLog;
+		global $ilDB, $ilias, $ilLog, $ilAppEventHandler;
 		$this->db = &$ilDB;
 		$this->ilias = &$ilias;
 		$this->log = &$ilLog;
+		$this->appEventHandler = &$ilAppEventHandler;
 		
 		$this->gev_settings = gevSettings::getInstance();
 
@@ -77,6 +78,7 @@ class gevDBVUtils {
 				throw new Exception("gevDBVUtils::assignUserToDBVsByShadowDB: No CPool-Org-Unit set.");
 			}
 			gevOrgUnitUtils::getInstance($cpool_id)->assignUser($a_user_id, "Mitarbeiter");
+			$this->appEventHandler->raise("Modules/OrgUnit", "afterUpdate", array("user_id" => $a_user_id));
 		}
 	}
 	

@@ -349,7 +349,7 @@ class ilParticipationStatusAdminGUI
 		}
 		
 		// gev-patch start
-		self::renderToolbar($this, $this->getParticipationStatus(), $this->getCourse(), $may_write, $may_finalized);
+		self::renderToolbar($this, $this->getParticipationStatus(), $this->getCourse(), $may_write, $may_finalize);
 		// gev-patch end
 		
 		require_once "Services/ParticipationStatus/classes/class.ilParticipationStatusTableGUI.php";
@@ -358,7 +358,7 @@ class ilParticipationStatusAdminGUI
 	}
 	
 	// gev-patch start
-	static public function renderToolbar($gui, ilParticipationStatus $pstatus, ilObjCourse $course, $may_write, $may_finalized) {
+	static public function renderToolbar($gui, ilParticipationStatus $pstatus, ilObjCourse $course, $may_write, $may_finalize) {
 		global $ilToolbar, $ilCtrl, $lng, $tpl;
 		
 		$helper = ilParticipationStatusHelper::getInstance($course);

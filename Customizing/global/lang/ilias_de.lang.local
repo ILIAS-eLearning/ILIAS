@@ -654,7 +654,7 @@ gev#:#gev_report_trainer_operation_by_tep_category_title#:#Trainereinsätze nach
 gev#:#gev_report_trainer_operation_by_tep_category_desc#:#Hier erhalten Sie eine Übersicht über die Einsatzplanung von Trainern.
 gev#:#gev_report_attendance_by_employee#:#Teilnahmen nach Mitarbeiter
 gev#:#gev_rep_filter_show_critical_persons#:#Zeige mir nur kritische Personen.
-gev#:#gev_rep_filter_show_critical#:#Zeige mir nur kritische.
+gev#:#gev_rep_filter_show_critical_dbvs#:#Zeige mir nur kritische DBVen.
 gev#:#gev_rep_filter_show_critical_persons_4th_year#:#Zeige mir nur kritische Personen nach dem vierten Jahr.
 gev#:#gev_report_employee_edu_bios#:#Bildungsbiographien meiner Mitarbeiter
 gev#:#gev_registration_install_note#:#Generali Vermittler melden sich bitte mit der Generali E-Mail-Adresse an.
@@ -1154,3 +1154,5 @@ gev#:#gev_orga_info#:#Organisatorisches
 gev#:#gev_dec_training_date_before_now#:#Das gewählte Startdatum liegt in der Vergangenheit!
 gev#:#gev_dec_training_two_venues#:#Bitte wählen Sie einen Veranstaltungsort aus oder nutzen das Freitextfeld um einen alternativen Veranstaltungsort zu benennen.
 gev#:#gev_dec_training_crs_to_short#:#Die Gesamtlänge des Trainings ist zu kurz für die zu erlangenden Bildungspunkte (45 Minuten / Punkt).
+gev#:#gev_mail_log#:#Maillog
+gev#:#gev_back#:#Zurück

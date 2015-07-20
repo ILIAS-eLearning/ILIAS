@@ -34,7 +34,14 @@ class gevDBVReportGUI extends catBasicReportGUI{
 		
 		parent::__construct();
 		//$viewer = 33892;
-		$viewer = $this->user_utils->getId();
+		$target_user = $_POST["target_user_id"]
+					   ? $_POST["target_user_id"]
+					   : ( $_GET["target_user_id"]
+					     ? $_GET["target_user_id"]
+					     : $this->user_utils->getId()
+					     );
+		
+		$this->checkPermissionOnTarget($target_user);
 		
 		foreach (self::$to_sum as $key => $value) {
 			$this->summed_data[$key] = 0;
@@ -108,8 +115,11 @@ class gevDBVReportGUI extends catBasicReportGUI{
 						->compile();
 
 		$this->filter = catFilter::create()
-						->static_condition("oup.usr_id = ".$this->db->quote($viewer, "integer"))
+						->static_condition("oup.usr_id = ".$this->db->quote($target_user, "integer"))
 						->static_condition("oda.type = 'role'")
+						->static_condition(
+							$this->db->in(
+								"hucs.participation_status", array("fehlt entschuldigt", "fehlt ohne Absage"), true, "text"))
 						->static_condition("hc.end_date < ".$this->db->quote("2016-01-01","date"))
 						->static_condition("hc.end_date >= ".$this->db->quote("2015-01-01","date"))
 						->static_condition("hu.hist_historic = 0")
@@ -128,6 +138,16 @@ class gevDBVReportGUI extends catBasicReportGUI{
 		return $val;
 	}
 
+	protected function checkPermissionOnTarget($a_target_user_id) {
+		if (   gevUserUtils::getInstance($a_target_user_id)->hasRoleIn(array("DBV-Fin-UVG"))
+			&& (    $this->user_utils->isAdmin() 
+				 || $a_target_user_id == $this->user_utils->getId()
+			     || $this->user_utils->isSuperiorOf($a_target_user_id))) {
+			return;
+		}
+		throw new Exception("No permission to view report for user $a_target_user_id");
+	}
+	
 	protected function transformResultRow($rec) {
 		$rec['odbd'] = $rec['org_unit_above1'];
 

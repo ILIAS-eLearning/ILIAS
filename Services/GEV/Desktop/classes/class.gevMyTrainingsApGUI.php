@@ -10,6 +10,7 @@
 *
 * @ilCtrl_Calls gevMyTrainingsApGUI: ilParticipationStatusAdminGUI
 * @ilCtrl_Calls gevMyTrainingsApGUI: gevDesktopGUI
+* @ilCtrl_Calls gevMyTrainingsApGUI: gevMaillogGUI
 *
 */
 
@@ -77,7 +78,12 @@ class gevMyTrainingsApGUI {
 				//die('forwarding cmd');
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;
-
+			case "showMaillog":
+			case "showLoggedMail":
+				require_once("Services/GEV/Mailing/classes/class.gevMaillogGUI.php");
+				$gui = new gevMaillogGUI("mytrainigsapgui");
+				$ret = $this->ctrl->forwardCommand($gui);
+				break;
 			default:
 				$errstr = "gevMyTrainingsApGUI: Unknown command '".$cmd."'";
 				$this->log->write($errstr);

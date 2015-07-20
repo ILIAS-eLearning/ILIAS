@@ -216,6 +216,12 @@ class ilMailLog {
 	public function getPath($a_hash) {
 		return $this->getStorage()->getAbsolutePath() . "/" . $a_hash;
 	}
+
+	//gev-patch start
+	public function getObjectId() {
+		return $this->obj_id;
+	}
+	//gev-patch end
 }
 
 ?>

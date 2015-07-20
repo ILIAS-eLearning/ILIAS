@@ -719,8 +719,18 @@ abstract class ilTEPViewGridBased extends ilTEPView
 				$actions .=  "<a href='".$crs_utils->getWebExLink()
 							."' title='".$lng->txt("gev_virtual_class")."' target='_blank'>".$vc_img."</a>&nbsp;";
 			}
+			
+			$ilCtrl->setParameterByClass("gevMaillogGUI", "obj_id", $a_set["obj_id"]);
+			$ilCtrl->setParameterByClass("ilTEPGUI", "obj_id", $a_set["obj_id"]);
+			$maillog_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-invitation.png").'" />';
+			$actions .= '<a href="'.$ilCtrl->getLinkTargetByClass("gevMaillogGUI", "showMaillog").'">'.$maillog_img.'</a>';
+			$ilCtrl->clearParametersByClass("gevMaillogGUI");
+
+			
+
 			$ilCtrl->setParameterByClass("ilTEPGUI", "ref_id", null);
 			$ilCtrl->setParameterByClass("ilTEPGUI", "crs_id", null);
+			$ilCtrl->setParameterByClass("ilTEPGUI", "obj_id", null);
 			
 			if ($actions) {
 				$a_entry["description"] .= "<br /><br />".$actions;

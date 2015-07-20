@@ -485,10 +485,17 @@ class gevCrsMailingGUI extends ilMailingGUI {
 		if ($form->checkInput()) {
 			$this->getAdditionalMailSettings()->setSendListToAccomodation((bool) ($form->getInput("send_list_to_accom") == 1));
 			$this->getAdditionalMailSettings()->setSendListToVenue((bool) ($form->getInput("send_list_to_venue") == 1));
-			$this->getAdditionalMailSettings()->setInvitationMailingDate(intval($form->getInput("inv_mailing_date")));
-			$this->getAdditionalMailSettings()->setSuppressMails((bool) ($form->getInput("suppress_mails") == 1));
+			if (!$this->getAdditionalMailSettings()->getSuppressMails()) {
+				$this->getAdditionalMailSettings()->setInvitationMailingDate(intval($form->getInput("inv_mailing_date")));
+				$this->getAdditionalMailSettings()->setSuppressMails((bool) ($form->getInput("suppress_mails") == 1));
+			}
+			else {
+				$form->getItemByPostVar("suppress_mails")->setChecked(true);
+				$form->getItemByPostVar("inv_mailing_date")->setValue($this->getAdditionalMailSettings()->getInvitationMailingDate());
+			}
 			$this->getAdditionalMailSettings()->save();
 			
+			$form->getItemByPostVar("inv_mailing_date")->setDisabled($this->getAdditionalMailSettings()->getSuppressMails());
 			$form->getItemByPostVar("suppress_mails")->setDisabled($this->getAdditionalMailSettings()->getSuppressMails());
 			
 			ilUtil::sendSuccess($this->lng->txt("gev_additional_settings_updated"));
@@ -538,6 +545,7 @@ class gevCrsMailingGUI extends ilMailingGUI {
 		$inv_mailing_date->setDecimals(0);
 		$inv_mailing_date->setInfo($this->lng->txt("gev_mailing_inv_mailing_date_expl"));
 		$inv_mailing_date->setValue($this->getAdditionalMailSettings()->getInvitationMailingDate());
+		$inv_mailing_date->setDisabled($this->getAdditionalMailSettings()->getSuppressMails());
 		$form->addItem($inv_mailing_date);
 		
 		$suppress_mails = new ilFormSectionHeaderGUI();
