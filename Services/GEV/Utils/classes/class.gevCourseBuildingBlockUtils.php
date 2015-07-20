@@ -73,12 +73,14 @@ class gevCourseBuildingBlockUtils {
 
 	public function getStartTime() {
 		$expl = explode(" ", $this->getStartDate());
-		return $expl[1];
+		$expl = explode(":", $expl[1]);
+		return $expl[0].":".$expl[1];
 	}
 
 	public function getEndTime() {
 		$expl = explode(" ", $this->getEndDate());
-		return $expl[1];
+		$expl = explode(":", $expl[1]);
+		return $expl[0].":".$expl[1];
 	}
 
 	public function getMethods() {

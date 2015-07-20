@@ -205,24 +205,25 @@ class gevDecentralTrainingUtils {
 		$worksheet = $workbook->addWorksheet();
 		$worksheet->setLandscape();
 
-		$columns = array( $lng->txt("gev_dct_crs_building_block_from")
-						, $lng->txt("gev_dct_crs_building_block_to")
-						, $lng->txt("gev_dct_crs_building_block_block")
-						, $lng->txt("gev_dct_crs_building_block_methods")	
-						, $lng->txt("gev_dct_crs_building_block_media")
-						, $lng->txt("gev_dct_crs_building_block_content")
-						, $lng->txt("gev_dct_crs_building_block_lern_dest")
-						);
+		$columns = array();
+		
+		$columns[] = $lng->txt("gev_dct_crs_building_block_from");
+		$worksheet->setColumn(0, 0, 10);
+		$columns[] = $lng->txt("gev_dct_crs_building_block_to");
+		$worksheet->setColumn(1, 1, 10);
+		$columns[] = $lng->txt("gev_dct_crs_building_block_block");
+		$worksheet->setColumn(2, 2, 20);
+		$columns[] = $lng->txt("gev_dct_crs_building_block_methods");
+		$worksheet->setColumn(3, 3, 16);
+		$columns[] = $lng->txt("gev_dct_crs_building_block_media");
+		$worksheet->setColumn(4, 4, 16);
+		$columns[] = $lng->txt("gev_dct_crs_building_block_content");
+		$worksheet->setColumn(5, 5, 22);
+		$columns[] = $lng->txt("gev_dct_crs_building_block_lern_dest");
+		$worksheet->setColumn(6, 6, 22);
 
 		$format_wrap = $workbook->addFormat();
 		$format_wrap->setTextWrap();
-		
-		$i = 0;
-
-		foreach ($columns as $column) {
-			$worksheet->setColumn($i, $i, min(max(strlen($column),10),30));
-			$i++;
-		}
 		
 		$crs_utils = gevCourseUtils::getInstance($a_crs_id);
 		$row = $crs_utils->buildListMeta( $workbook
