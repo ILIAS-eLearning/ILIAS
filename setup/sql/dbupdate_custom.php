@@ -3700,7 +3700,7 @@ if( !$ilDB->tableExists('dct_building_block') )
 			'notnull' => false,
 			'default' => 0
 		),
-		'active' => array(
+		'is_active' => array(
 			'type' => 'integer',
 			'length' => 1,
 			'notnull' => false,
