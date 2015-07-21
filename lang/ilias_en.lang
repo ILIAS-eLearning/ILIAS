@@ -1060,6 +1060,7 @@ assessment#:#tst_reset_processing_time_desc#:#The duration will be reset to the 
 assessment#:#tst_reset_processing_time#:#Reset duration for every test pass
 assessment#:#tst_result_user_name_pass#:#Results of Test Pass %s for %s
 assessment#:#tst_result_user_name#:#Test Results for %s
+assessment#:#tst_result_pass#:#Results of Test Pass
 assessment#:#tst_results_access_always#:#Immediately
 assessment#:#tst_results_access_always_desc#:#Participants can access their results on the ‘Info’-tab immediately after starting the test pass and while still taking the test. Additionally ILIAS will present them with their test results immediately after finishing  the test.
 assessment#:#tst_results_access_date#:#Date

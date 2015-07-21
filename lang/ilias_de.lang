@@ -1229,6 +1229,7 @@ assessment#:#tst_result#:#Testergebnis
 assessment#:#tst_result_user_name#:#Testergebnisse für %s
 assessment#:#tst_result_user_name_pass#:#Ergebnisse von Testdurchlauf %s für %s
 assessment#:#tst_results#:#Testergebnisse
+assessment#:#tst_result_pass#:#Ergebnisse des Testdurchlaufs
 assessment#:#tst_results_access_enabled#:#Teilnehmer sehen Testergebnisse
 assessment#:#tst_results_access_enabled_desc#:#Teilnehmer erhalten Zugriff auf ihre Testergebnisse. Um diese einzusehen, klicken sie im 'Info'-Reiter den Button 'Testergebnisse anzeigen'.
 assessment#:#tst_results_access_setting#:#Zeitpunkt
