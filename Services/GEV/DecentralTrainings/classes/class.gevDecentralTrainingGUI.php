@@ -500,8 +500,8 @@ class gevDecentralTrainingGUI {
 		$orgaInfo = $a_form->getInput("orgaInfo");
 
 		$title = null;
-		$training_category = array();
-		$target_group = array();
+		$training_category = null;
+		$target_group = null;
 		$gdv_topic = null;
 
 		if($is_flexible) {
