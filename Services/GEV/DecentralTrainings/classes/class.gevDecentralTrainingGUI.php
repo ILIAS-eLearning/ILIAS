@@ -506,7 +506,8 @@ class gevDecentralTrainingGUI {
 
 		if($is_flexible) {
 			$title = $a_form->getInput("title");
-			$training_category = $a_form->getInput("training_category");
+			$tc = $a_form->getInput("training_category");
+			$training_category = $tc ? $tc : array();
 			$tg = $a_form->getInput("target_groups");
 			$target_group = $tg ? $tg : array();
 			$gdv_topic_temp = $a_form->getInput("gdv_topic");

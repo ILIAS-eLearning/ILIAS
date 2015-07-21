@@ -68,8 +68,8 @@ class gevDecentralTrainingSettings {
 
 		assert($a_title === null || is_string($a_title));
 		assert($a_vc_type === null || is_string($a_vc_type));
-		assert($a_training_category === null || is_array($a_training_category));
-		assert($a_target_group === null || is_array($a_target_group));
+		assert(is_array($a_training_category));
+		assert(is_array($a_target_group));
 		assert($a_gdv_topic === null || is_string($a_gdv_topic));
 
 		$this->start_datetime = $a_start_datetime;
