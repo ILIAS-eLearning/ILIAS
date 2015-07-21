@@ -296,6 +296,10 @@ class gevCourseUtils {
 	public function getTitle() {
 		return $this->getCourse()->getTitle();
 	}
+
+	public function setTitle($a_title) {
+		$this->getCourse()->setTitle($a_title);
+	}
 	
 	public function getSubtitle() {
 		return $this->getCourse()->getDescription();
@@ -376,7 +380,7 @@ class gevCourseUtils {
 			return true;
 		}
 
-		if(gevSettings::getInstance()->getDctTplFlexPresenceId() == $tpl_ref_id) {
+		if(gevSettings::getInstance()->getDctTplFlexWebinarId() == $tpl_ref_id) {
 			return true;
 		}
 
@@ -769,6 +773,22 @@ class gevCourseUtils {
 		return $prv->getLongTitle();
 	}
 	
+	public function setVCType($a_vc_type) {
+		$this->amd->setField($this->crs_id, gevSettings::CRS_AMD_WEBEX_VC_CLASS_TYPE, $a_vc_type);
+	}
+
+	public function setTrainingCategory(array $a_training_category) {
+		$this->amd->setField($this->crs_id, gevSettings::CRS_AMD_TOPIC, $a_training_category);
+	}
+
+	public function setTargetGroup(array $a_target_group) {
+		$this->amd->setField($this->crs_id, gevSettings::CRS_AMD_TARGET_GROUP, $a_target_group);
+	}
+
+	public function setGDVTopic($a_gdv_topic) {
+		$this->amd->setField($this->crs_id, gevSettings::CRS_AMD_GDV_TOPIC, $a_gdv_topic);
+	}
+
 	// Venue Info
 	
 	public function getVenueId() {

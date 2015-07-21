@@ -107,14 +107,19 @@ class gevDecentralTrainingCourseBuildingBlockGUI {
 		//die("sdsd");
 		
 		$this->ctrl->setParameter($this,"crs_request_id",$this->crs_request_id);
+		$crs_tbl = $this->getTable();
+
+		$this->tpl->setContent($crs_tbl->getHTML());
+		$this->ctrl->setParameter($this,"crs_request_id",null);
+	}
+
+	protected function getTable() {
 		$crs_tbl = new gevDecentralTrainingCourseBuildingBlockTableGUI($this,$this->crs_ref_id,$this->crs_request_id);
 		$crs_tbl->setTitle("gev_dec_crs_building_block_title")
 				->setSubtitle("gev_dec_crs_building_block_sub_title")
 				->setImage("GEV_img/ico-head-search.png")
 				->addCommandButton("add",$this->lng->txt("add"));
-
-		$this->tpl->setContent($crs_tbl->getHTML());
-		$this->ctrl->setParameter($this,"crs_request_id",null);
+		return $crs_tbl;
 	}
 
 	protected function determineObjId() {
@@ -281,15 +286,15 @@ class gevDecentralTrainingCourseBuildingBlockGUI {
 		$building_bock_value = $form->getInput("build_block");
 
 		if($building_bock_value == "-1") {
-			ilUtil::sendFailure($this->lng->txt("gev_dct_please_select_building_block"),false);
+			ilUtil::sendFailure($this->lng->txt("gev_dec_please_select_building_block"),false);
 			return $this->editCourseBuildingBlock($form);
 		}
 
 		//did you passed ne max duration for a day (12 hours)
 		if(gevCourseBuildingBlockUtils::getMaxDurationReached($this->crs_ref_id, $crs_request_id, $form->getInput("time"))){
-			$message = $this->lng->txt("gev_dct_max_duration_reached_part1");
+			$message = $this->lng->txt("gev_dec_max_duration_reached_part1");
 			$message .= $this->getFormattedRemainingTime(gevCourseBuildingBlockUtils::getRemainingTime($this->crs_ref_id, $this->crs_request_id));
-			$message .= $this->lng->txt("gev_dct_max_duration_reached_part2");
+			$message .= $this->lng->txt("gev_dec_max_duration_reached_part2");
 
 			ilUtil::sendFailure($message,false);
 			return $this->newCourseBuildingBlock($form);
@@ -322,22 +327,22 @@ class gevDecentralTrainingCourseBuildingBlockGUI {
 		//is a buldingblock selected
 		$building_bock_value = $form->getInput("build_block");
 		if($building_bock_value == -1) {
-			ilUtil::sendFailure($this->lng->txt("gev_dct_please_select_building_block"),false);
+			ilUtil::sendFailure($this->lng->txt("gev_dec_please_select_building_block"),false);
 			return $this->newCourseBuildingBlock($form);
 		}
 
 		//did you passed ne max duration for a day (12 hours)
 		if(gevCourseBuildingBlockUtils::getMaxDurationReached($this->crs_ref_id, $crs_request_id, $form->getInput("time"))){
-			$message = $this->lng->txt("gev_dct_max_duration_reached_part1");
+			$message = $this->lng->txt("gev_dec_max_duration_reached_part1");
 			$message .= $this->getFormattedRemainingTime(gevCourseBuildingBlockUtils::getRemainingTime($this->crs_ref_id, $this->crs_request_id));
-			$message = $this->lng->txt("gev_dct_max_duration_reached_part2");
+			$message = $this->lng->txt("gev_dec_max_duration_reached_part2");
 
 			ilUtil::sendFailure($message,false);
 			return $this->newCourseBuildingBlock($form);
 		}
 
 		$time = $form->getInput("time");
-		$newId = $this->db->nextId("dct_crs_building_block");
+		$newId = $this->db->nextId("dec_crs_building_block");
 
 		$bu_utils = gevCourseBuildingBlockUtils::getInstance($newId);
 

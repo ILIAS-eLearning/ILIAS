@@ -46,6 +46,11 @@ class gevDecentralTrainingSettings {
 							   , $a_orga_info
 							   , $a_webinar_link
 							   , $a_webinar_password
+							   , $a_title
+							   , $a_vc_type
+							   , $a_training_category
+							   , $a_target_group
+							   , $a_gdv_topic
 							   ) {
 		assert($a_start_datetime->get(IL_CAL_DATE) == $a_end_datetime->get(IL_CAL_DATE));
 		
@@ -61,6 +66,12 @@ class gevDecentralTrainingSettings {
 		assert($a_webinar_link === null || is_string($a_webinar_link));
 		assert($a_webinar_password === null || is_string($a_webinar_password));
 
+		assert($a_title === null || is_string($a_title));
+		assert($a_vc_type === null || is_string($a_vc_type));
+		assert($a_training_category === null || is_array($a_training_category));
+		assert($a_target_group === null || is_array($a_target_group));
+		assert($a_gdv_topic === null || is_string($a_gdv_topic));
+
 		$this->start_datetime = $a_start_datetime;
 		$this->end_datetime = $a_end_datetime;
 		$this->venue_obj_id = $a_venue_obj_id; 
@@ -71,6 +82,12 @@ class gevDecentralTrainingSettings {
 		$this->orga_info = $a_orga_info;
 		$this->webinar_link = $a_webinar_link;
 		$this->webinar_password = $a_webinar_password;
+
+		$this->title = $a_title;
+		$this->vc_type = $a_vc_type;
+		$this->training_category = $a_training_category;
+		$this->target_group = $a_target_group;
+		$this->gdv_topic = $a_gdv_topic;
 	}
 	
 	protected function getCourseUtils($a_obj_id) {
@@ -118,7 +135,27 @@ class gevDecentralTrainingSettings {
 	public function webinarPassword() {
 		return $this->webinar_password;
 	}
+
+	public function title() {
+		return $this->title;
+	}
+
+	public function vcType() {
+		return $this->vc_type;
+	}
+
+	public function trainingCategory() {
+		return $this->training_category;
+	}
 	
+	public function targetGroup() {
+		return $this->target_group;
+	}
+
+	public function gdvTopic() {
+		return $this->gdv_topic;
+	}
+
 	public function applyTo($a_obj_id) {
 		assert(is_int($a_obj_id));
 		assert(ilObject::_lookupType($a_obj_id) == "crs");
@@ -148,6 +185,12 @@ class gevDecentralTrainingSettings {
 		$crs_utils->setWebExLink($this->webinarLink());
 		$crs_utils->setWebExPassword($this->webinarPassword());
 		$crs_utils->setOrgaInfo($this->orgaInfo());
+
+		$crs_utils->setTitle($this->title());
+		$crs_utils->setVCType($this->vcType());
+		$crs_utils->setTrainingCategory($this->trainingCategory());
+		$crs_utils->setTargetGroup($this->targetGroup());
+		$crs_utils->setGDVTopic($this->gdvTopic());
 		
 		$crs->update();
 	}

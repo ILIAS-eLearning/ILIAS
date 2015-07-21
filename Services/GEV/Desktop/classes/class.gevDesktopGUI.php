@@ -33,6 +33,7 @@
 * @ilCtrl_Calls gevDesktopGUI: gevDBVReportGUI
 * @ilCtrl_Calls gevDesktopGUI: gevDBVReportSuperiorGUI
 * @ilCtrl_Calls gevDesktopGUI: gevDecentralTrainingBuildingBlockAdminGUI
+* @ilCtrl_Calls gevDesktopGUI: gevDecentralTrainingCourseCreatingBuildingBlockGUI
 */
 
 class gevDesktopGUI {
