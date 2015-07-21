@@ -202,8 +202,13 @@ class gevDecentralTrainingGUI {
 		$form = ($a_form === null) ? $this->buildChooseTemplateAndTrainersForm($this->user_id, $this->date)
 								   : $a_form;
 		
+		$tpl = new ilTemplate("tpl.gev_notice.html", false, false, "Services/GEV/DecentralTrainings");
+		$tpl->setVariable("NOTICE", $this->lng->txt("gev_dec_training_notice"));
+		
 		return   $title->render()
-				.$form->getHTML();
+				.$form->getHTML()
+				.$tpl->get()
+				;
 	}
 	
 	protected function createTraining($a_form = null) {
