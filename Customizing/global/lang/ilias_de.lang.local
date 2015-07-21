@@ -38,4 +38,4 @@ exc#:#exc_adopt_group_teams_blocked#:#%s Benutzer waren bereits vorhanden.
 exc#:#exc_deadline_ext_mismatch#:#Die Karenzzeit muss nach dem Abgabetermin enden.
 exc#:#exc_peer_review_ass_setting_info#:#Nachdem der Abgabetermin und ggfs. die Karenzzeit verstrichen sind, können Teilnehmer ihre Arbeitsergebnisse gegenseitig bewerten.
 exc#:#exc_peer_review_min_number#:#Geforderte Anzahl von Feedbacks
-exc#:#exc_peer_review_min_number_info#:#Anzahl von Feedback, die ein Teilnehmer den Peers geben muss. Wenn die Anzahl geforderten Feedbacks größer ist als die Anzahl tatsächlich abgegebener Einreichungen, wird die geforderte Anzahl an Feedbacks automatisch auf die Anzahl der tatsächlich abgegebenen Einreichungen reduziert.
+exc#:#exc_peer_review_min_number_info#:#Anzahl von Feedback, die ein Teilnehmer den Peers geben muss. Sollte die Anzahl der geforderten Feedbacks die Anzahl der tatsächlichen Einreichungen übersteigen, wird die geforderte Anzahl automatisch auf die Anzahl der tatsächlichen Einreichungen reduziert.
