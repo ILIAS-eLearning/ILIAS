@@ -1101,8 +1101,8 @@ class gevDecentralTrainingGUI {
 		if ($training_info["ltype"] == "Webinar") {
 			$vc_type_options = $amd_utils->getOptions(gevSettings::CRS_AMD_WEBEX_VC_CLASS_TYPE);
 			$webinar_vc_type = new ilSelectInputGUI($this->lng->txt("gev_dec_training_vc_type"),"webinar_vc_type");
-			$venues = array(0 => "-") + $vc_type_options;
-			$webinar_vc_type->setOptions($venues);
+			$options = array(0 => "-") + $vc_type_options;
+			$webinar_vc_type->setOptions($options);
 			if($training_info["webinar_vc_type"] && $a_fill){
 				$webinar_vc_type->setValue($training_info["webinar_vc_type"]);
 			}
