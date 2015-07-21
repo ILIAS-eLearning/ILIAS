@@ -16,6 +16,7 @@ require_once("Services/CaTUIComponents/classes/class.catPropertyFormGUI.php");
 
 class gevDecentralTrainingGUI {
 	const AUTO_RELOAD_TIMEOUT_MS = 5000;
+	const MAX_COURSE_DURATION = 720;
 	
 	public function __construct() {
 		global $lng, $ilCtrl, $tpl, $ilUser, $ilLog, $ilAccess;
@@ -419,8 +420,10 @@ class gevDecentralTrainingGUI {
 		if (!$form->checkInput()) {
 			return $this->showSettings($form);
 		}
-		
-		if(!$this->checkDecentralTrainingConstraints($form, intval($_POST["obj_id"]))) {
+
+		$crs_utils = gevCourseUtils::getInstance($_POST["obj_id"]);
+		$template_id = $crs_utils->getTemplateRefId();
+		if(!$this->checkDecentralTrainingConstraints($form, $template_id)) {
 			return $this->showSettings($form);
 		}
 		
@@ -430,7 +433,7 @@ class gevDecentralTrainingGUI {
 			throw new Exception("gevDecentralTrainingGUI::updateSettings: no permission");
 		}
 		
-		$crs_utils = gevCourseUtils::getInstance($_POST["obj_id"]);
+		
 		$settings = $this->getSettingsFromForm($crs_utils, $form);
 		$settings->applyTo((int)$_POST["obj_id"]);
 		
@@ -497,14 +500,15 @@ class gevDecentralTrainingGUI {
 		$orgaInfo = $a_form->getInput("orgaInfo");
 
 		$title = null;
-		$training_category = null;
-		$target_group = null;
+		$training_category = array();
+		$target_group = array();
 		$gdv_topic = null;
 
 		if($is_flexible) {
 			$title = $a_form->getInput("title");
 			$training_category = $a_form->getInput("training_category");
-			$target_group = $a_form->getInput("target_groups");
+			$tg = $a_form->getInput("target_groups");
+			$target_group = $tg ? $tg : array();
 			$gdv_topic_temp = $a_form->getInput("gdv_topic");
 			$gdv_topic = ($gdv_topic_temp != "0") ? $gdv_topic_temp : null;
 		}
@@ -1206,7 +1210,7 @@ class gevDecentralTrainingGUI {
 		return $form;
 	}
 	
-	protected function checkDecentralTrainingConstraints($a_form, $credit_points_source_id) {
+	protected function checkDecentralTrainingConstraints($a_form, $a_template_id) {
 		// Check date is before today
 		$tmp = $a_form->getInput("date");
 		$date = new ilDate($tmp["date"], IL_CAL_DATE);
@@ -1219,7 +1223,7 @@ class gevDecentralTrainingGUI {
 			return false;
 		}
 		// end check date
-		$crs_utils = gevCourseUtils::getInstance($credit_points_source_id);
+		$crs_utils = gevCourseUtils::getInstance($a_template_id);
 		
 		//check venue AND venue freetext is filles
 		if($crs_utils->isPraesenztraining()) {
@@ -1239,29 +1243,32 @@ class gevDecentralTrainingGUI {
 		// ench check venue
 
 		//check total minutes are to small for credit points
-		$tmp = $a_form->getInput("time");
-		$start = split(":", $tmp["start"]["time"]);
-		$end = split(":", $tmp["end"]["time"]);
-
-		$minutes = 0;
-		$hours = 0;
-		if($end[1] < $start[1]) {
-			$minutes = 60 - $start[1] + $end[1];
-			$hours = -1;
-		} else {
-			$minutes = $end[1] - $start[1];
-		}
-		$hours = $hours + $end[0] - $start[0];
-		$totalMinutes = $hours * 60 + $minutes;
-
-		$crs_utils = gevCourseUtils::getInstance($credit_points_source_id);
-		$credit_points = $crs_utils->getCreditPoints();
-
-		if(round(($totalMinutes / 45)) < $credit_points) {
-			ilUtil::sendFailure($this->lng->txt("gev_dec_training_crs_to_short"), false);
-			return false;
-		}
+		$settings_utils = gevSettings::getInstance();
+		$presence_flexible_tpl_id = $settings_utils->getDctTplFlexPresenceObjId();
+		$webinar_flexible_tpl_id = $settings_utils->getDctTplFlexWebinarObjId();
 		
+		if($a_template_id == $presence_flexible_tpl_id || $a_template_id == $webinar_flexible_tpl_id) {
+			$tmp = $a_form->getInput("time");
+			$start = split(":", $tmp["start"]["time"]);
+			$end = split(":", $tmp["end"]["time"]);
+
+			$minutes = 0;
+			$hours = 0;
+			if($end[1] < $start[1]) {
+				$minutes = 60 - $start[1] + $end[1];
+				$hours = -1;
+			} else {
+				$minutes = $end[1] - $start[1];
+			}
+		
+			$hours = $hours + $end[0] - $start[0];
+			$totalMinutes = $hours * 60 + $minutes;
+			
+			if($totalMinutes > self::MAX_COURSE_DURATION) {
+				ilUtil::sendFailure($this->lng->txt("gev_dec_training_crs_to_long"), false);
+				return false;
+			}
+		}
 		// end check total time
 
 		// check orgunits are selected
@@ -1317,22 +1324,19 @@ class gevDecentralTrainingGUI {
 		if (!$form->checkInput()) {
 			return $this->showSettings($form_prev);
 		}
-
-		if(!$this->checkDecentralTrainingConstraints($form, intval($_POST["obj_id"]))) {
+		
+		$crs_utils = gevCourseUtils::getInstance($_POST["obj_id"]);
+		$template_id = $crs_utils->getTemplateRefId();
+		if(!$this->checkDecentralTrainingConstraints($form, $template_id)) {
 			return $this->showSettings($form);
 		}
 
-		$crs_utils = gevCourseUtils::getInstance($_POST["obj_id"]);
 		$settings = $this->getSettingsFromForm($crs_utils, $form, $crs_utils->getTemplateRefId());
 		$settings->applyTo((int)$_POST["obj_id"]);
 
 		require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCourseCreatingBuildingBlockGUI.php");
 		$bb_gui = new gevDecentralTrainingCourseCreatingBuildingBlockGUI($_POST["obj_id"]);
 		$this->ctrl->forwardCommand($bb_gui);
-	}
-
-	protected function forwardToCrsBuldingBlock() {
-
 	}
 }
 

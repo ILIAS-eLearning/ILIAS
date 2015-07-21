@@ -188,6 +188,7 @@ class gevDecentralTrainingSettings {
 
 		$crs_utils->setTitle($this->title());
 		$crs_utils->setVCType($this->vcType());
+
 		$crs_utils->setTrainingCategory($this->trainingCategory());
 		$crs_utils->setTargetGroup($this->targetGroup());
 		$crs_utils->setGDVTopic($this->gdvTopic());
