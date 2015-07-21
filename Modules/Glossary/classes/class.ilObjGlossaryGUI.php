@@ -1409,9 +1409,8 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			$mdtab = $mdgui->getTab();
 			if($mdtab)
 			{
-				$tabs_gui->addTab("meta_data",
-					$this->lng->txt("meta_data"),
-					$mdtab);
+				$tabs_gui->addTarget("meta_data", $mdtab,
+					"", "ilobjectmetadatagui");
 			}
 			
 			// export
