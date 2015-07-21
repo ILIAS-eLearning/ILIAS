@@ -82,6 +82,7 @@ class gevDecentralTrainingCreationRequestDB {
 			"     , orga_info = ".$ilDB->quote($settings->orgaInfo(), "text")."\n".
 			"     , webinar_link = ".$ilDB->quote($settings->webinarLink(), "text")."\n".
 			"     , webinar_password = ".$ilDB->quote($settings->webinarPassword(), "text")."\n".
+			"     , session_id = ".$ilDB->quote($a_request->sessionId(), "text")."\n".
 			"     , title = ".$ilDB->quote($settings->title(), "text")."\n".
 			"     , vc_type = ".$ilDB->quote($settings->vcType(), "text")."\n".
 			"     , training_category = ".$ilDB->quote(serialize($settings->trainingCategory()), "text")."\n".
@@ -134,7 +135,7 @@ class gevDecentralTrainingCreationRequestDB {
 												, $rec["session_id"]
 												, $rec["requested_ts"] ? new ilDateTime($rec["requested_ts"], IL_CAL_DATETIME) : null
 												, $rec["finished_ts"] ? new ilDateTime($rec["finished_ts"], IL_CAL_DATETIME) : null
-												, (int)$rec["created_obj_id"]
+												, $rec["created_obj_id"] ? (int)$rec["created_obj_id"] : null
 												);
 			return $request;
 		}
@@ -179,7 +180,7 @@ class gevDecentralTrainingCreationRequestDB {
 												, $rec["session_id"]
 												, $rec["requested_ts"] ? new ilDateTime($rec["requested_ts"], IL_CAL_DATETIME) : null
 												, $rec["finished_ts"] ? new ilDateTime($rec["finished_ts"], IL_CAL_DATETIME) : null
-												, (int)$rec["created_obj_id"]
+												, $rec["created_obj_id"] ? (int)$rec["created_obj_id"] : null
 												);
 			$returns[] = $request;
 		}
@@ -219,7 +220,7 @@ class gevDecentralTrainingCreationRequestDB {
 												, $rec["session_id"]
 												, $rec["requested_ts"] ? new ilDateTime($rec["requested_ts"], IL_CAL_DATETIME) : null
 												, $rec["finished_ts"] ? new ilDateTime($rec["finished_ts"], IL_CAL_DATETIME) : null
-												, (int)$rec["created_obj_id"]
+												, $rec["created_obj_id"] ? (int)$rec["created_obj_id"] : null
 												);
 			return $request;
 		}

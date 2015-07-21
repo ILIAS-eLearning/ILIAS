@@ -85,11 +85,17 @@ class gevDecentralTrainingCourseCreatingBuildingBlockGUI extends gevDecentralTra
 	}
 
 	protected function saveRequest() {
-
+		require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCreationRequestDB.php");
+		$request_db = new gevDecentralTrainingCreationRequestDB();
+		$crs_request = $request_db->request((int)$this->crs_request_id);
+		$crs_request->request();
 	}
 
 	protected function deleteRequest() {
-
+		require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCreationRequestDB.php");
+		$request_db = new gevDecentralTrainingCreationRequestDB();
+		$crs_request = $request_db->request((int)$this->crs_request_id);
+		$crs_request->delete();
 	}
 }
 ?>
