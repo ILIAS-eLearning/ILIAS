@@ -477,7 +477,7 @@ class ilAdvancedMDRecordGUI
 		if($field_id = $mapping->getMappingByECSName('cycle'))
 		{
 			$value = ilAdvancedMDValue::_getInstance($this->obj_id,$field_id);
-			$cycle_def = new ilAdvancedMDFieldDefinition($field_id);
+			$cycle_def = ilAdvancedMDFieldDefinition::getInstance($field_id);
 			switch($cycle_def->getFieldType())
 			{
  				case ilAdvancedMDFieldDefinition::TYPE_TEXT:
@@ -501,7 +501,7 @@ class ilAdvancedMDRecordGUI
 		if($field_id = $mapping->getMappingByECSName('room'))
 		{
 			$value = ilAdvancedMDValue::_getInstance($this->obj_id,$field_id);
-			$room_def = new ilAdvancedMDFieldDefinition($field_id);
+			$room_def = ilAdvancedMDFieldDefinition::getInstance($field_id);
 			switch($room_def->getFieldType())
 			{
  				case ilAdvancedMDFieldDefinition::TYPE_TEXT:
