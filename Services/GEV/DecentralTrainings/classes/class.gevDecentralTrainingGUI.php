@@ -318,7 +318,7 @@ class gevDecentralTrainingGUI {
 								);
 		
 		$crs_utils = gevCourseUtils::getInstance($template_id);
-		$settings = $this->getSettingsFromForm($crs_utils, $form_prev);
+		$settings = $this->getSettingsFromForm($crs_utils, $form_prev, $template_id);
 		$creation_request = new gevDecentralTrainingCreationRequest
 									( $dec_utils->getCreationRequestDB()
 									, (int)$this->current_user->getId()
@@ -449,7 +449,7 @@ class gevDecentralTrainingGUI {
 
 		$settings_utils = gevSettings::getInstance();
 		$presence_flexible_tpl_id = $settings_utils->getDctTplFlexPresenceObjId();
-		$webinar_flexible_tpl_id = $settings_utils->getDctTplFlexWebinarObjId();	
+		$webinar_flexible_tpl_id = $settings_utils->getDctTplFlexWebinarObjId();
 
 		$is_flexible = false;
 		if($a_template_id == $presence_flexible_tpl_id || $a_template_id == $webinar_flexible_tpl_id) {
