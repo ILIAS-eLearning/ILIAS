@@ -63,7 +63,13 @@ class gevWBDEdupointsReportedGUI extends catBasicReportGUI{
 						->select("usr.wbd_type")
 
 						->select("crs.title")
-						->select("crs.custom_id")
+						->select_raw(" IF ( crs.custom_id <> '-empty-'"
+									."    , crs.custom_id "
+									."    , IF (usrcrs.gev_id IS NULL"
+									."         , '-'"
+									."         , usrcrs.gev_id"
+									."         )"
+									."    ) as custom_id")
 						->select("crs.type")
 						->select("usrcrs.begin_date")
 						->select("usrcrs.end_date")
