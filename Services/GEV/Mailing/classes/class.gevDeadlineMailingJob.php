@@ -67,6 +67,7 @@ class gevDeadlineMailingJob extends ilCronJob {
 		
 		$this->initCronMailData();
 		$end_date_field_id = gevSettings::getInstance()->getAMDFieldId(gevSettings::CRS_AMD_END_DATE);
+		$start_date_field_id = gevSettings::getInstance()->getAMDFieldId(gevSettings::CRS_AMD_START_DATE);
 		$is_template_field_id = gevSettings::getInstance()->getAMDFieldId(gevSettings::CRS_AMD_IS_TEMPLATE);
 		$num_jobs = count($this->deadline_jobs);
 		
