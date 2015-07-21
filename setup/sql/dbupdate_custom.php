@@ -3672,12 +3672,6 @@ require_once "Customizing/class.ilCustomInstaller.php";
 
 <#129>
 <?php
-	$ilCtrlStructureReader->getStructure();
-
-?>
-
-<#130>
-<?php
 	if(!$ilDB->tableColumnExists('hist_course', 'webex_vc_type' )) {
 		$ilDB->manipulate("ALTER TABLE `hist_course` ADD COLUMN webex_vc_type VARCHAR(50) NULL");
 	}
@@ -3878,7 +3872,7 @@ if( !$ilDB->tableExists('dct_crs_building_block') )
 		'crs_id' => array(
 			'type' => 'integer',
 			'length' => 4,
-			'notnull' => true
+			'notnull' => false
 		),
 		'bb_id' => array(
 			'type' => 'integer',

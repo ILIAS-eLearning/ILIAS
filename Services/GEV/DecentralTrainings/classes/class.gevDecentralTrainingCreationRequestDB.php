@@ -260,7 +260,14 @@ class gevDecentralTrainingCreationRequestDB {
 				."  FROM ".self::TABLE_NAME."\n"
 				." WHERE NOT finished_ts IS NULL\n"
 				."   AND NOT created_obj_id IS NULL\n"
-				."   AND created_obj_id > 0";
+				."   AND created_obj_id > 0"
+				."   AND request_id = (SELECT MAX(request_id)\n"
+				."                     FROM ".self::TABLE_NAME."\n"
+				."                     WHERE NOT finished_ts IS NULL\n"
+				."                         AND NOT created_obj_id IS NULL\n"
+				."                         AND created_obj_id > 0\n"
+				."                         AND user_id = ".$ilDB->quote($a_user_id,"integer").")\n";
+
 		$res = $ilDB->query($query);
 		if ($rec = $ilDB->fetchAssoc($res)) {
 			return $rec["created_obj_id"];

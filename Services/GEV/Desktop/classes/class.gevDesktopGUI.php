@@ -216,7 +216,23 @@ class gevDesktopGUI {
 			case "gevdecentraltrainingcoursecreatingbuildingblockgui":
 				$ilMainMenu->setActive("gev_admin_menu");
 				require_once("Services/GEV/DecentralTrainings/classes/class.gevdecentraltrainingcoursecreatingbuildingblockgui.php");
-				$gui = new gevdecentraltrainingcoursecreatingbuildingblockgui(null);
+				$crs_obj_id = null;
+				
+				if(isset($_GET["crs_obj_id"])){
+					$crs_obj_id = (int)$_GET["crs_obj_id"];
+				}
+				
+				if(isset($_GET["crs_ref_id"])){
+					require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+					$crs_obj_id = (int)gevObjectUtils::getObjId((int)$_GET["crs_ref_id"]);
+				}
+
+				if(isset($_POST["crs_ref_id"])){
+					require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+					$crs_obj_id = (int)gevObjectUtils::getObjId((int)$_POST["crs_ref_id"]);
+				}
+
+				$gui = new gevdecentraltrainingcoursecreatingbuildingblockgui($crs_obj_id);
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;
 			default:
