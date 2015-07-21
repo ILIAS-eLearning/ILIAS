@@ -1162,9 +1162,9 @@ gev#:#gev_dec_building_block_content#:#Inhalt
 gev#:#gev_dec_building_block_learn_dest#:#Lernziel
 gev#:#gev_dec_building_block_is_wp_relevant#:#WP relevant
 gev#:#gev_dec_building_block_active#:#Aktiv
-gev#:#gev_dec_building_block_title#:#Bausteine
-gev#:#gev_dec_building_block_mgmt#:#Bausteinverwaltung
-gev#:#gev_dec_building_block_sub_title#:#Hier erhalten Sie einen Überblick über alle vorhandenen Vorlagen für Bausteine.
+gev#:#gev_dec_building_block_title#:#Trainingsbausteine
+gev#:#gev_dec_building_block_mgmt#:#Trainingsbausteine verwalten
+gev#:#gev_dec_building_block_sub_title#:#Hier erhalten Sie einen Überblick über alle vorhandenen Bausteine für flexible dezentrale Trainings.
 gev#:#gev_dec_building_block_search#:#Bausteinsuche
 gev#:#gev_dec_building_block_search_desc#:#Grenzen Sie die Anzeige der Bausteinvorlagen nach Ihren wünschen ein.
 gev#:#gev_dec_building_block_like_search#:#Stichwortsuche
@@ -1196,4 +1196,16 @@ gev#:#gev_dec_training_presence_fix#:#Präsenztraining (fester Ablaufplan)
 gev#:#gev_dec_training_webinar_fix#:#Webinar (fester Ablaufplan)
 gev#:#gev_dec_training_presence_flex#:#Präsenztraing (individuelle Bausteine)
 gev#:#gev_dec_training_webinar_flex#:#Webinar (individuelle Bausteine)
-gev#:#gev_dec_training_vc_type#:#VC-Typ
+gev#:#gev_dec_training_notice#:#Für nähere Informationen wenden Sie sich bitte an die Abteilung Außendienstentwicklung, Telefon 089 5121 1919, Mail <a href="mailto:Bildungspunkte.de@generali.com">Bildungspunkte.de@generali.com</a>
+gev#:#gev_dec_training_title#:#Titel
+gev#:#gev_dec_training_duration#:#Zeitraum
+gev#:#gev_dec_training_venue#:#Orte und Anbieter
+gev#:#gev_dec_training_orga#:#Organisation
+gev#:#gev_dec_training_content#:#Inhalte
+gev#:#gev_dec_training_vc_type#:#VC-Type
+gev#:#gev_dec_training_training_category#:#Trainingskategorie
+gev#:#gev_dec_training_target_groups#:#Zielgruppen
+gev#:#gev_dec_training_rating#:#Bewertung
+gev#:#gev_dec_training_gdv_topic#:#GDV-Lerninhalt
+gev#:#gev_dec_training_add_buildingblocks#:#Ablaufplan anlegen
+gev#:#gev_dec_training_no_venue#:#Bitte wählen sie einen Veranstaltungort oder tragen sie einen Freitext für den Veranstaltungsort ein.
