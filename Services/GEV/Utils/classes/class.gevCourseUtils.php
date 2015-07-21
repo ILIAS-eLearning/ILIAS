@@ -1801,6 +1801,7 @@ class gevCourseUtils {
  	public function buildUVGList($a_send, $a_filename) {
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 		require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevDBVUtils.php");
 		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
 		require_once("Services/User/classes/class.ilObjUser.php");
 		
@@ -1828,7 +1829,7 @@ class gevCourseUtils {
 		$worksheet->setLandscape();
 
 		$columns = array( $lng->txt("gev_bd")
-						, "DBV-FIN"
+						, "DBV"
 						, $lng->txt("gev_company_name")
 						, $lng->txt("lastname")	
 						, $lng->txt("firstname")
@@ -1868,6 +1869,7 @@ class gevCourseUtils {
 		$user_ids = $this->getCourse()->getMembersObject()->getMembers();
 		$participations = $this->getParticipations();
 		$maxPoints = $participations->getMaxCreditPoints();
+		$dbv_utils = gevDBVUtils::getInstance();
 
 		if($user_ids) {
 			foreach($user_ids as $user_id) {
@@ -1892,8 +1894,15 @@ class gevCourseUtils {
 				}
 
 				$row++;
-
+				
+				$dbvs = $dbv_utils->getDBVsOf($user_id);
+				$dbv_names = array_map(function($id) { 
+								$names = ilObjUser::lookupName($id);
+								return $names["firstname"]." ".$names["lastname"];
+							 }, $dbvs);
+				
 				$worksheet->write($row, 0 , $user_utils->getBDFromIV(), $format_wrap);
+				$worksheet->write($row, 1, implode(", ", $dbv_names), $format_wrap);
 				$worksheet->write($row, 2 , $user_utils->getCompanyName(), $format_wrap);
 				$worksheet->write($row, 3 , $user_utils->getLastname(), $format_wrap);
 				$worksheet->write($row, 4 , $user_utils->getFirstname(), $format_wrap);
