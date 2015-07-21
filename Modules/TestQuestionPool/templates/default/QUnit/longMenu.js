@@ -11,6 +11,13 @@ var long_menu_language = {
 	'manual_editing':  '{MANUAL_EDITING}'
 };
 
+var GapInsertingWizard = (function () {
+	var pub = {}, cursorPos;
+	pub.Init = function(){};
+	pub.done = true;
+	return pub;
+}());
+
 $(document).ready(function () {
 
 	QUnit.module("Array/Object Operations");
@@ -162,6 +169,7 @@ $(document).ready(function () {
 	});
 
 	QUnit.test('buildAnswerOverview', function (assert) {
+		$('.answer_options').remove();
 		longMenuQuestion.answers = [[]];
 		longMenuQuestion.questionParts = {'list': [[[1, 2]]]};
 		var html = longMenuQuestion.protected.buildAnswerOverview(0);
@@ -284,6 +292,7 @@ $(document).ready(function () {
 	});
 
 	QUnit.test('appendModalCloseListener', function (assert) {
+		$("#ilGapModal").off('hidden');
 		assert.equal($._data( $("#ilGapModal")[0], "events"), undefined, 'no hidden event on ilGapModal');
 		longMenuQuestion.protected.appendModalCloseListener();
 		assert.equal($._data( $("#ilGapModal")[0], "events")['hidden'].length, 1, 'hidden event on ilGapModal')
@@ -337,8 +346,44 @@ $(document).ready(function () {
 		assert.equal($._data( $(".clone_fields_remove")[0], "events")['click'].length, 1, 'click event')
 	});
 
+	QUnit.test('answerOptionsClickFunction', function (assert) {
+		jQuery.fn.extend({
+			modal: function () {
+			}
+		});
+		longMenuQuestion.answers = [[1, 2, 3]];
+		longMenuQuestion.questionParts = {'list': [[[1, 2]]]};
+		$('.modal-title').html('');
+		$('.test_dummy').append('<div class="answer_options_event" data-id="0"><div id="fileinput"></div></div>');
+		assert.equal($('.modal-title').html(), '', 'no title');
+		longMenuQuestion.protected.answerOptionsClickFunction($('.answer_options_event'));
+		assert.equal($('.modal-title').html(), 'undefined 1 Answer Options: ', 'title');
+	});
+
+	QUnit.test('correctAnswersClickFunction', function (assert) {
+		jQuery.fn.extend({
+			modal: function () {
+			}
+		});
+		longMenuQuestion.answers = [[1, 2, 3]];
+		longMenuQuestion.questionParts = {'list': [[[1, 2]]]};
+		$('.modal-title').html('');
+		$('.test_dummy').append('<div class="answer_options_event" data-id="0"><div id="fileinput"></div></div>');
+		assert.equal($('.modal-title').html(), '', 'no title');
+		longMenuQuestion.protected.correctAnswersClickFunction($('.answer_options_event'));
+		assert.equal($('.modal-title').html(), 'undefined 1 Correct Answers: ', 'title');
+	});
+	
 	QUnit.module("Helper", {
 		beforeEach: function () {
+			longMenuQuestion.questionParts ={
+				list 					: {},
+				gap_placeholder			: {},
+				last_updated_element 	: 0,
+				replacement_word 		: 'replacement_word',
+				filereader_usable		: false,
+				max_input_fields		: 500
+			};
 		},
 		afterEach:  function () {
 
@@ -352,6 +397,11 @@ $(document).ready(function () {
 		var t2 = longMenuQuestion.protected.benchmarkCallsDummyNotForUsage('testing', t0);
 		assert.notEqual(t2, 0);
 
+	});
+
+	QUnit.test('buildAndInitGapWizard', function (assert) {
+		longMenuQuestion.protected.buildAndInitGapWizard();
+		assert.equal(GapInsertingWizard.done, true);
 	});
 
 	QUnit.module("Public functions", {
@@ -372,9 +422,7 @@ $(document).ready(function () {
 	});
 
 	QUnit.test('Init', function (assert) {
-	//	var GapInsertingWizard = '';
-	//	var t0 = longMenuQuestion.Init();
-	//	assert.notEqual(t2, 0);
-	// Todo implement test
+		longMenuQuestion.Init();
+		assert.equal(longMenuQuestion.filereader_usable, true);
 	});
 });
