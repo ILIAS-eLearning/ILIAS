@@ -112,7 +112,7 @@ $watch_jobs = array
 			}
 		, "fail_message" => "Job is not active or running for more than 3000s."
 		)*/
-	/*, "dct_creation" => array
+	, "dct_creation" => array
 		( "check" => function($job_data) {
 				return	last_run(300, $job_data)
 					&&	(	(is_running($job_data) && last_pinged(180, $job_data))
@@ -120,7 +120,7 @@ $watch_jobs = array
 						);
 			}
 		, "fail_message" => "Job is not active or running and did not ping for 180s or did not run for 5m."
-		)*/
+		)
 	);
 
 include_once './Services/Cron/classes/class.ilCronManager.php';
