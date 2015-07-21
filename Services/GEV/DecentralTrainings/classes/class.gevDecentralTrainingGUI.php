@@ -1179,7 +1179,7 @@ class gevDecentralTrainingGUI {
 		//GDV Lerninhalt
 		$gdv_topic_options = $amd_utils->getOptions(gevSettings::CRS_AMD_GDV_TOPIC);
 		$gdv_topic = new ilSelectInputGUI($this->lng->txt("gev_dec_training_gdv_topic"),"gdv_topic");
-		$options = array(0 => "-") + $gdv_topic_options;
+		$options = $gdv_topic_options;
 		$gdv_topic->setOptions($options);
 		$gdv_topic->setRequired(true);
 		if($training_info["gdv_topic"] && $a_fill){
