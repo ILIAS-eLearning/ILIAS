@@ -246,10 +246,10 @@ class gevDecentralTrainingGUI {
 		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 		$settings_utils = gevSettings::getInstance();
 		$presence_flexible_tpl_id = $settings_utils->getDctTplFlexPresenceObjId();
-		$webinar_flexsible_tpl_id = $settings_utils->getDctTplFlexWebinarObjId();
+		$webinar_flexible_tpl_id = $settings_utils->getDctTplFlexWebinarObjId();
 
-		if($template_id == $presence_flexible_tpl_id || $template_id == $webinar_flexsible_tpl_id) {
-			$form->addCommandButton("addBuildingBlock", $this->lng->txt("gev_dec_add_buildingblocks"));
+		if($template_id == $presence_flexible_tpl_id || $template_id == $webinar_flexible_tpl_id) {
+			$form->addCommandButton("addBuildingBlock", $this->lng->txt("gev_dec_training_add_buildingblocks"));
 		} else {
 			$form->addCommandButton("finalizeTrainingCreation", $this->lng->txt("gev_dec_training_creation"));
 		}
@@ -275,12 +275,12 @@ class gevDecentralTrainingGUI {
 		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 		$settings_utils = gevSettings::getInstance();
 		$presence_flexible_tpl_id = $settings_utils->getDctTplFlexPresenceObjId();
-		$webinar_flexsible_tpl_id = $settings_utils->getDctTplFlexWebinarObjId();
+		$webinar_flexible_tpl_id = $settings_utils->getDctTplFlexWebinarObjId();
 
 		$form_tpl_id = $a_form->getInput("template_id");
 
-		if($form_tpl_id == $presence_flexible_tpl_id || $form_tpl_id == $webinar_flexsible_tpl_id) {
-			$a_form->addCommandButton("addBuildingBlock", $this->lng->txt("gev_dec_add_buildingblocks"));
+		if($form_tpl_id == $presence_flexible_tpl_id || $form_tpl_id == $webinar_flexible_tpl_id) {
+			$a_form->addCommandButton("addBuildingBlock", $this->lng->txt("gev_dec_training_add_buildingblocks"));
 		} else {
 			$a_form->addCommandButton("finalizeTrainingCreation", $this->lng->txt("gev_dec_training_creation"));
 		}
@@ -385,10 +385,10 @@ class gevDecentralTrainingGUI {
 		$crs_utils = gevCourseUtils::getInstance($obj_id);
 		$settings_utils = gevSettings::getInstance();
 		$presence_flexible_tpl_id = $settings_utils->getDctTplFlexPresenceObjId();
-		$webinar_flexsible_tpl_id = $settings_utils->getDctTplFlexWebinarObjId();
+		$webinar_flexible_tpl_id = $settings_utils->getDctTplFlexWebinarObjId();
 		$tmpl_id = $crs_utils->getTemplateRefId();
 
-		if($tmpl_id == $presence_flexible_tpl_id || $tmpl == $webinar_flexsible_tpl_id) {
+		if($tmpl_id == $presence_flexible_tpl_id || $tmpl == $webinar_flexible_tpl_id) {
 			$form->addCommandButton("updateBuildingBlock", $this->lng->txt("save"));
 		} else {
 			$form->addCommandButton("updateSettings", $this->lng->txt("save"));
@@ -446,10 +446,10 @@ class gevDecentralTrainingGUI {
 
 		$settings_utils = gevSettings::getInstance();
 		$presence_flexible_tpl_id = $settings_utils->getDctTplFlexPresenceObjId();
-		$webinar_flexsible_tpl_id = $settings_utils->getDctTplFlexWebinarObjId();	
+		$webinar_flexible_tpl_id = $settings_utils->getDctTplFlexWebinarObjId();	
 
 		$is_flexible = false;
-		if($a_template_id == $presence_flexible_tpl_id || $a_template_id == $webinar_flexsible_tpl_id) {
+		if($a_template_id == $presence_flexible_tpl_id || $a_template_id == $webinar_flexible_tpl_id) {
 			$is_flexible = true;
 		}
 		
@@ -573,8 +573,7 @@ class gevDecentralTrainingGUI {
 		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 		$settings_utils = gevSettings::getInstance();
 		$presence_flexible_tpl_id = $settings_utils->getDctTplFlexPresenceObjId();
-		$webinar_flexsible_tpl_id = $settings_utils->getDctTplFlexWebinarObjId();
-
+		$webinar_flexible_tpl_id = $settings_utils->getDctTplFlexWebinarObjId();
 		$should_see_presence_flexible = false;
 		$should_see_webinar_flexible = false;
 
@@ -588,9 +587,9 @@ class gevDecentralTrainingGUI {
 				unset($tmplts[$presence_flexible_tpl_id]);
 			}
 
-			if(array_key_exists($webinar_flexsible_tpl_id,$tmplts)) {
+			if(array_key_exists($webinar_flexible_tpl_id,$tmplts)) {
 				$should_see_webinar_flexible = true;
-				unset($tmplts[$webinar_flexsible_tpl_id]);
+				unset($tmplts[$webinar_flexible_tpl_id]);
 			}
 
 			$desc = "";
@@ -637,13 +636,13 @@ class gevDecentralTrainingGUI {
 		
 		
 		//Webinar Flexsibel
-		if($should_see_presence_flexible) {
+		if($should_see_webinar_flexible) {
 			$webinar_flexible = new ilRadioOption($this->lng->txt("gev_dec_training_webinar_flex"), "webinar_flexible");
 			$ltype_choice->addOption($webinar_flexible);
 		
-			$webinar_flexsible_tpl_id_hidden = new ilHiddenInputGUI("webinar_flexible_template");
-			$webinar_flexsible_tpl_id_hidden->setValue($webinar_flexsible_tpl_id);
-			$form->addItem($webinar_flexsible_tpl_id_hidden);
+			$webinar_flexible_tpl_id_hidden = new ilHiddenInputGUI("webinar_flexible_template");
+			$webinar_flexible_tpl_id_hidden->setValue($webinar_flexible_tpl_id);
+			$form->addItem($webinar_flexible_tpl_id_hidden);
 		}
 
 		$ltype_choice->setValue($selected);
@@ -696,9 +695,9 @@ class gevDecentralTrainingGUI {
 		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 		$settings_utils = gevSettings::getInstance();
 		$presence_flexible_tpl_id = $settings_utils->getDctTplFlexPresenceObjId();
-		$webinar_flexsible_tpl_id = $settings_utils->getDctTplFlexWebinarObjId();
+		$webinar_flexible_tpl_id = $settings_utils->getDctTplFlexWebinarObjId();
 
-		if($a_template_id == $presence_flexible_tpl_id || $a_template_id == $webinar_flexsible_tpl_id) {
+		if($a_template_id == $presence_flexible_tpl_id || $a_template_id == $webinar_flexible_tpl_id) {
 			return $this->buildTrainingOptionsFormFlexible($a_fill, $a_training_id, $a_trainer_ids, $a_date, $a_template_id);
 		}
 
@@ -1120,6 +1119,14 @@ class gevDecentralTrainingGUI {
 			}
 			$form->addItem($webinar_password);
 		}
+
+		//organisatorisches
+		$orgaInfo = new ilTextAreaInputGUI($this->lng->txt("gev_orga_info"),"orgaInfo");
+		if ($training_info["orgaInfo"] && $a_fill) {
+				$orgaInfo->setValue($training_info["orgaInfo"]);
+			}
+		$orgaInfo->setUseRte(true);
+		$form->addItem($orgaInfo);
 		
 		/*************************
 		* INHALT
@@ -1158,14 +1165,6 @@ class gevDecentralTrainingGUI {
 			$cbx_group_target_groups->setValue($vals["target_groups"]);
 		}
 		$form->addItem($cbx_group_target_groups);
-
-		//organisatorisches
-		$orgaInfo = new ilTextAreaInputGUI($this->lng->txt("gev_orga_info"),"orgaInfo");
-		if ($training_info["orgaInfo"] && $a_fill) {
-				$orgaInfo->setValue($training_info["orgaInfo"]);
-			}
-		$orgaInfo->setUseRte(true);
-		$form->addItem($orgaInfo);
 
 		/*************************
 		* BEWERTUNG
