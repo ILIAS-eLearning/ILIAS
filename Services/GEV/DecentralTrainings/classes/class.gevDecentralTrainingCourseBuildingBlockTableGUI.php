@@ -73,8 +73,8 @@ class gevDecentralTrainingCourseBuildingBlockTableGUI extends catAccordionTableG
 		$this->tpl->setVariable("CONTENT", $a_set["content"]);
 		$this->tpl->setVariable("LEARNING_DEST", $a_set["learning_dest"]);
 
-		$action = '<a href="'.$this->getDeleteLink($a_set["id"],$this->crs_requerst_id).'">'.$this->delete_image.'</a>&nbsp;';
-		$action .= '<a href="'.$this->getEditLink($a_set["id"],$this->crs_requerst_id).'">'.$this->edit_image.'</a>';
+		$action = '<a href="'.$this->getDeleteLink($a_set["id"],$a_set["crs_request_id"]).'">'.$this->delete_image.'</a>&nbsp;';
+		$action .= '<a href="'.$this->getEditLink($a_set["id"],$a_set["crs_request_id"]).'">'.$this->edit_image.'</a>';
 		$this->tpl->setVariable("ACTION", $action);
 	}
 
@@ -91,8 +91,8 @@ class gevDecentralTrainingCourseBuildingBlockTableGUI extends catAccordionTableG
 	protected function getEditLink($a_id,$a_crs_request_id) {
 		global $ilCtrl,$ilUser;
 
-		$ilCtrl->setParameterByClass($this->parent, "id", $a_id);
-		$ilCtrl->setParameterByClass($this->parent, "crs_request_id", $a_crs_request_id);
+		$ilCtrl->setParameter($this->parent, "id", $a_id);
+		$ilCtrl->setParameter($this->parent, "crs_request_id", $a_crs_request_id);
 		$lnk = $ilCtrl->getLinkTarget($this->parent, "edit");
 		$ilCtrl->clearParameters($this->parent);
 		return $lnk;

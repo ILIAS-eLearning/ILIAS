@@ -18,7 +18,7 @@ class gevCourseBuildingBlockUtils {
 	const MAX_DURATION_MINUTES = 720;
 
 	protected $course_building_block_id = "";
-	protected $crs_id = "-1";
+	protected $crs_id = null;
 	protected $building_block = "";
 	protected $start_date = "";
 	protected $end_date = "";
@@ -163,7 +163,9 @@ class gevCourseBuildingBlockUtils {
 
 		$this->db->manipulate($sql);
 
-		self::courseUpdates($this->getCrsId(),$this->db);
+		if($this->getCrsId() !== null) {
+			self::courseUpdates($this->getCrsId(),$this->db);
+		}
 	}
 
 	public function save() {
@@ -189,14 +191,18 @@ class gevCourseBuildingBlockUtils {
 
 		$this->db->manipulate($sql);
 
-		self::courseUpdates($this->getCrsId(),$this->db);
+		if($this->getCrsId() !== null) {
+			self::courseUpdates($this->getCrsId(),$this->db);
+		}
 	}
 
 	public function delete() {
 		$query = "DELETE FROM ".self::TABLE_NAME." WHERE id = ".$this->db->quote($this->getId(),"integer");
 		$this->db->manipulate($query);
 
-		self::courseUpdates($this->getCrsId(),$this->db);
+		if($this->getCrsId() !== null) {
+			self::courseUpdates($this->getCrsId(),$this->db);
+		}
 	}
 
 	static public function getAllCourseBuildingBlocksRaw($a_crs_ref_id,$a_request_id = null) {
@@ -213,12 +219,11 @@ class gevCourseBuildingBlockUtils {
 			$sql .= " WHERE base.crs_id = ".$ilDB->quote($a_crs_ref_id, "integer")."\n";
 		} else {
 			if($a_request_id !== null) {
-				$sql .= " WHERE base.crs_request_id = ".$ilDB->db->quote($a_reques_id, "integer")."\n";
+				$sql .= " WHERE base.crs_request_id = ".$ilDB->db->quote($a_request_id, "integer")."\n";
 			}
 		}
 			$sql .= " ORDER BY base.start_date";
 		
-
 		$ret = array();
 		$res = $ilDB->query($sql);
 		while($row = $ilDB->fetchAssoc($res)) {
@@ -329,21 +334,25 @@ class gevCourseBuildingBlockUtils {
 		} else {
 			$sql .= " WHERE crs_request_id = ".$a_crs_request_id. " ORDER BY start_date";
 		}
-
+		
 		$res = $ilDB->query($sql);
 
 		$old_time_diff = 0;
 		if($ilDB->numRows($res) > 0) {
 			$row = $ilDB->fetchAssoc($res);
 			$old_time_diff = $row["minutes_diff"];
+			$old_time_diff = (int) $old_time_diff;
 		}
 
 		if($old_time_diff > self::MAX_DURATION_MINUTES) {
 			return true;
 		}
 
-		$start = $a_time["start"];
-		$end  = $a_time["end"];
+		$start_time = $a_time["start"]["time"];
+		$end_time  = $a_time["end"]["time"];
+
+		$start = split(":",$start_time);
+		$end = split(":",$end_time);
 
 		$minutes = 0;
 		$hours = 0;

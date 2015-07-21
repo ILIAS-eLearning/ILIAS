@@ -69,7 +69,7 @@ class gevDecentralTrainingCourseBuildingBlockGUI {
 		
 	}
 
-	private function deleteCourseBuildingBlock($a_obj_id) {
+	public function deleteCourseBuildingBlock($a_obj_id) {
 		
 		$bb_utils = gevCourseBuildingBlockUtils::getInstance($a_obj_id);
 		$bb_utils->loadData();
@@ -78,9 +78,10 @@ class gevDecentralTrainingCourseBuildingBlockGUI {
 		return;
 	}
 
-	private function renderConfirm() {
+	public function renderConfirm() {
 		include_once "./Services/User/classes/class.ilUserUtil.php";
 		include_once "./Services/Utilities/classes/class.ilConfirmationGUI.php";
+		$this->ctrl->setParameter($this,"crs_request_id",$this->crs_request_id);
 		$confirm = new ilConfirmationGUI();
 		$confirm->setFormAction($this->ctrl->getFormAction($this, "assignMembers"));
 		$confirm->setHeaderText($this->lng->txt("gev_dec_building_block_delete_confirm"));
@@ -97,11 +98,10 @@ class gevDecentralTrainingCourseBuildingBlockGUI {
 			);
 		
 		$this->tpl->setContent($confirm->getHTML());
+		$this->ctrl->setParameter($this,"crs_request_id",null);
 	}
 
 	protected function render() {
-
-
 		$spacer = new catHSpacerGUI();
 		$spacer_out = $spacer->render();
 		//die("sdsd");
@@ -119,6 +119,7 @@ class gevDecentralTrainingCourseBuildingBlockGUI {
 				->setSubtitle("gev_dec_crs_building_block_sub_title")
 				->setImage("GEV_img/ico-head-search.png")
 				->addCommandButton("add",$this->lng->txt("add"));
+				die();
 		return $crs_tbl;
 	}
 
@@ -276,7 +277,6 @@ class gevDecentralTrainingCourseBuildingBlockGUI {
 
 	protected function updateCourseBuildingBlock() {
 		$form = $this->initForm(self::NEW_UNIT);
-
 		$form->setValuesByPost();
 
 		if (!$form->checkInput()) {
@@ -291,7 +291,7 @@ class gevDecentralTrainingCourseBuildingBlockGUI {
 		}
 
 		//did you passed ne max duration for a day (12 hours)
-		if(gevCourseBuildingBlockUtils::getMaxDurationReached($this->crs_ref_id, $crs_request_id, $form->getInput("time"))){
+		if(gevCourseBuildingBlockUtils::getMaxDurationReached($this->crs_ref_id, $this->crs_request_id, $form->getInput("time"))){
 			$message = $this->lng->txt("gev_dec_max_duration_reached_part1");
 			$message .= $this->getFormattedRemainingTime(gevCourseBuildingBlockUtils::getRemainingTime($this->crs_ref_id, $this->crs_request_id));
 			$message .= $this->lng->txt("gev_dec_max_duration_reached_part2");
@@ -330,19 +330,19 @@ class gevDecentralTrainingCourseBuildingBlockGUI {
 			ilUtil::sendFailure($this->lng->txt("gev_dec_please_select_building_block"),false);
 			return $this->newCourseBuildingBlock($form);
 		}
-
+		$time = $form->getInput("time");
 		//did you passed ne max duration for a day (12 hours)
-		if(gevCourseBuildingBlockUtils::getMaxDurationReached($this->crs_ref_id, $crs_request_id, $form->getInput("time"))){
+		if(gevCourseBuildingBlockUtils::getMaxDurationReached($this->crs_ref_id, $this->crs_request_id, $time)){
 			$message = $this->lng->txt("gev_dec_max_duration_reached_part1");
 			$message .= $this->getFormattedRemainingTime(gevCourseBuildingBlockUtils::getRemainingTime($this->crs_ref_id, $this->crs_request_id));
-			$message = $this->lng->txt("gev_dec_max_duration_reached_part2");
+			$message .= $this->lng->txt("gev_dec_max_duration_reached_part2");
 
 			ilUtil::sendFailure($message,false);
 			return $this->newCourseBuildingBlock($form);
 		}
 
 		$time = $form->getInput("time");
-		$newId = $this->db->nextId("dec_crs_building_block");
+		$newId = $this->db->nextId("dct_crs_building_block");
 
 		$bu_utils = gevCourseBuildingBlockUtils::getInstance($newId);
 

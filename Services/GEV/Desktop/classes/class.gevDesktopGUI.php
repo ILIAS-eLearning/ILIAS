@@ -213,6 +213,12 @@ class gevDesktopGUI {
 				$gui = new gevDecentralTrainingBuildingBlockAdminGUI();
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;
+			case "gevdecentraltrainingcoursecreatingbuildingblockgui":
+				$ilMainMenu->setActive("gev_admin_menu");
+				require_once("Services/GEV/DecentralTrainings/classes/class.gevdecentraltrainingcoursecreatingbuildingblockgui.php");
+				$gui = new gevdecentraltrainingcoursecreatingbuildingblockgui(null);
+				$ret = $this->ctrl->forwardCommand($gui);
+				break;
 			default:
 				$this->dispatchCmd($cmd);
 				break;
@@ -251,7 +257,7 @@ class gevDesktopGUI {
 			case "handleExplorerCommand":
 				$this->$a_cmd();
 			default:
-				throw new Exception("Unknown command: ".$a_cmd);
+				throw new Exception("gevDesktopGUI:Unknown command: ".$a_cmd);
 		}
 	}
 
