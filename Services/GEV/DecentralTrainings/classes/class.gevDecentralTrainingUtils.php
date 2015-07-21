@@ -66,7 +66,7 @@ class gevDecentralTrainingUtils {
 	protected function queryCanCreateFor($a_user_id, $a_target_user_id) {
 		
 		if ($a_user_id == $a_target_user_id) {
-			return count($this->getOrgTree()->getOrgusWhereUserHasPermissionForOperation("add_dec_training_self")) > 0;
+			return count($this->getOrgTree()->getOrgusWhereUserHasPermissionForOperation("add_dec_training_self", $a_user_id)) > 0;
 		}
 		else {
 			return in_array($a_target_user_id, $this->getUsersWhereCanCreateFor($a_user_id));
@@ -80,8 +80,8 @@ class gevDecentralTrainingUtils {
 			return $this->creation_users[$a_user_id];
 		}
 		
-		$orgus_d = $this->getOrgTree()->getOrgusWhereUserHasPermissionForOperation("add_dec_training_others");
-		$orgus_r = $this->getOrgTree()->getOrgusWhereUserHasPermissionForOperation("add_dec_training_others_rec");
+		$orgus_d = $this->getOrgTree()->getOrgusWhereUserHasPermissionForOperation("add_dec_training_others", $a_user_id);
+		$orgus_r = $this->getOrgTree()->getOrgusWhereUserHasPermissionForOperation("add_dec_training_others_rec", $a_user_id);
 		$orgus_s = gevOrgUnitUtils::getAllChildren($orgus_r);
 		foreach ($orgus_s as $key => $value) {
 			$orgus_s[$key] = $value["ref_id"];
@@ -94,7 +94,7 @@ class gevDecentralTrainingUtils {
 	}
 	
 	public function canCreate($a_user_id) {
-		return	   count($this->getOrgTree()->getOrgusWhereUserHasPermissionForOperation("add_dec_training_self")) > 0
+		return	   count($this->getOrgTree()->getOrgusWhereUserHasPermissionForOperation("add_dec_training_self"), $a_user_id) > 0
 				|| count($this->getUsersWhereCanCreateFor($a_user_id)) > 0;
 	}
 	
