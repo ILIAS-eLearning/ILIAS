@@ -140,7 +140,10 @@ class gevBuildingBlockUtils {
 		global $ilDB;
 
 		$add_where = self::createAdditionalWhere($a_search_opts);
-		$sql = "SELECT obj_id, title, content, learning_dest, is_wp_relevant, is_active FROM ".self::TABLE_NAME." WHERE is_deleted = 0";
+		$sql = "SELECT bb.obj_id, bb.title, bb.content, bb.learning_dest\n"
+			  ."     , bb.is_wp_relevant, bb.is_active, usr.login, bb.last_change_date\n"
+			  ."  FROM ".self::TABLE_NAME." bb\n"
+			  ."  JOIN usr_data usr ON usr_id = last_change_user\n";
 		$sql .= $add_where;
 
 		if($a_order !== null) {

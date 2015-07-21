@@ -9,12 +9,14 @@
 * @version	$Id$
 */
 
-require_once("Services/CaTUIComponents/classes/class.catAccordionTableGUI.php");
+require_once("Services/CaTUIComponents/classes/class.catTableGUI.php");
 require_once("Services/Utilities/classes/class.ilUtil.php");
+require_once("Services/Calendar/classes/class.ilDate.php");
+require_once("Services/Calendar/classes/class.ilDatePresentation.php");
 require_once("Services/CaTUIComponents/classes/class.catLegendGUI.php");
 require_once("Services/GEV/Utils/classes/class.gevBuildingBlockUtils.php");
 
-class gevDecentralTrainingBuildingBlockAdminTableGUI extends catAccordionTableGUI {
+class gevDecentralTrainingBuildingBlockAdminTableGUI extends catTableGUI {
 	public function __construct($a_search_opts,$a_parent_obj, $a_parent_cmd="", $a_template_context="") {
 		parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
 
@@ -35,18 +37,19 @@ class gevDecentralTrainingBuildingBlockAdminTableGUI extends catAccordionTableGU
 		$this->determineOffsetAndOrder();
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, "view"));
 
-		$this->setRowTemplate("tpl.gev_building_block_search_row.html", "Services/GEV/DecentralTrainings");
+		$this->setRowTemplate("tpl.gev_building_block_row.html", "Services/GEV/DecentralTrainings");
 
 		$this->addColumn($this->lng->txt("title"), "title");
 		$this->addColumn($this->lng->txt("gev_dec_building_block_content"),"content");
 		$this->addColumn($this->lng->txt("gev_dec_building_block_learn_dest"), 'learning_dest');
-		$this->addColumn($this->lng->txt("gev_dec_building_block_is_wp_relevant"), "is_wp_relevant");
-		$this->addColumn($this->lng->txt("gev_dec_building_block_active"), "is_active");
-		$this->addColumn($this->lng->txt("action"), "");
+		$this->addColumn($this->lng->txt("gev_dec_building_block_is_wp_relevant"), "is_wp_relevant", "70px");
+		$this->addColumn($this->lng->txt("gev_dec_building_block_active"), "is_active", "20px");
+		$this->addColumn($this->lng->txt("last_change"), "last_change", "120px");
+		$this->addColumn($this->lng->txt("action"), "", "50px");
 
 		$legend = new catLegendGUI();
-		$legend->addItem($this->delete_image, "gev_dec_building_block_delete")
-			   ->addItem($this->edit_image, "gev_dec_building_block_edit");
+		$legend->addItem($this->edit_image, "gev_dec_building_block_edit")
+			   ->addItem($this->delete_image, "gev_dec_building_block_delete");
 		$this->setLegend($legend);
 		$order = $this->getOrderField();
 		$order_direction = $this->getOrderDirection();
@@ -65,9 +68,11 @@ class gevDecentralTrainingBuildingBlockAdminTableGUI extends catAccordionTableGU
 		$this->tpl->setVariable("LEARNING_DEST", $a_set["learning_dest"]);
 		$this->tpl->setVariable("IS_WP_RELEVANT", ($a_set["is_wp_relevant"]) ? "Ja" : "Nein");
 		$this->tpl->setVariable("IS_ACTIVE", ($a_set["is_active"]) ? "Ja" : "Nein");
+		$date = new ilDate($a_set["last_change_date"], IL_CAL_DATE);
+		$this->tpl->setVariable("LAST_CHANGE", $a_set["login"].", ".ilDatePresentation::formatDate($date));
 
-		$action = '<a href="'.gevBuildingBlockUtils::getDeleteLink($a_set["obj_id"]).'">'.$this->delete_image.'</a>&nbsp;';
-		$action .= '<a href="'.gevBuildingBlockUtils::getEditLink($a_set["obj_id"]).'">'.$this->edit_image.'</a>';
+		$action = '<a href="'.gevBuildingBlockUtils::getEditLink($a_set["obj_id"]).'">'.$this->edit_image.'</a>';
+		$action .= '<a href="'.gevBuildingBlockUtils::getDeleteLink($a_set["obj_id"]).'">'.$this->delete_image.'</a>&nbsp;';
 		$this->tpl->setVariable("ACTION", $action);
 	}
 }
