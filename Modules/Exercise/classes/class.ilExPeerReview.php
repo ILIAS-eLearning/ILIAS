@@ -501,6 +501,13 @@ class ilExPeerReview
 		
 	public function isFeedbackValidForPassed($a_user_id)
 	{						
+		// #16227
+		$active_peer_review = $this->assignment->afterDeadlineStrict();		
+		if(!$active_peer_review)
+		{
+			return false;
+		}
+		
 		switch($this->assignment->getPeerReviewValid())
 		{
 			case ilExAssignment::PEER_REVIEW_VALID_NONE:
@@ -513,7 +520,7 @@ class ilExPeerReview
 				$max = $this->getMaxPossibleFeedbacks();
 		
 				// forever alone - should be valid
-				if($max < 2)
+				if(!$max)
 				{
 					return true;
 				}
