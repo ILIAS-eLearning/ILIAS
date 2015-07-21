@@ -1028,6 +1028,7 @@ class gevDecentralTrainingGUI {
 		if ($a_fill) {
 			$date->setDate($training_info["date"]);
 		}
+		$date->setRequired(true);
 		$date->setDisabled($no_changes_allowed);
 		$form->addItem($date);
 
@@ -1038,6 +1039,7 @@ class gevDecentralTrainingGUI {
 			$time->setStart($training_info["start_datetime"]);
 			$time->setEnd($training_info["end_datetime"]);
 		}
+		$time->setRequired(true);
 		$time->setStartText($this->lng->txt("gev_from"));
 		$time->setEndText($this->lng->txt("until"));
 		$time->setDisabled($no_changes_allowed);
@@ -1081,6 +1083,7 @@ class gevDecentralTrainingGUI {
 			$orgu_selection->setValue($training_info["orgu_id"]);
 		}
 		$orgu_selection->setRecursive(false);
+		$orgu_selection->setRequired(true);
 		$form->addItem($orgu_selection);
 		
 		
@@ -1178,6 +1181,7 @@ class gevDecentralTrainingGUI {
 		$gdv_topic = new ilSelectInputGUI($this->lng->txt("gev_dec_training_gdv_topic"),"gdv_topic");
 		$options = array(0 => "-") + $gdv_topic_options;
 		$gdv_topic->setOptions($options);
+		$gdv_topic->setRequired(true);
 		if($training_info["gdv_topic"] && $a_fill){
 			$gdv_topic->setValue($training_info["gdv_topic"]);
 		}
@@ -1257,6 +1261,7 @@ class gevDecentralTrainingGUI {
 			ilUtil::sendFailure($this->lng->txt("gev_dec_training_crs_to_short"), false);
 			return false;
 		}
+		
 		// end check total time
 
 		// check orgunits are selected
