@@ -5,7 +5,7 @@
  */
 
 //pear MDB2 abstraction layer
-include_once ("MDB2.php");
+include_once ("Services/PEAR/lib/MDB2.php");
 
 define("DB_FETCHMODE_ASSOC", MDB2_FETCHMODE_ASSOC);
 define("DB_FETCHMODE_OBJECT", MDB2_FETCHMODE_OBJECT);

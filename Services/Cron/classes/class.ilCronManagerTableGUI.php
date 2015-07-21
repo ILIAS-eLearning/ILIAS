@@ -177,6 +177,10 @@ class ilCronManagerTableGUI extends ilTable2GUI
 				case ilCronJobResult::STATUS_RESET:
 					$result = $lng->txt("cron_result_status_reset");
 					break;
+				
+				case ilCronJobResult::STATUS_FAIL:
+					$result = $lng->txt("cron_result_status_fail");
+					break;
 			}			
 		}
 		$res["result"] = $result;

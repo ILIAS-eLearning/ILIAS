@@ -64,7 +64,7 @@ class ilTestSessionFactory
 				global $ilUser;
 
 				$testSession->loadTestSession(
-					$this->testOBJ->getTestId(), $ilUser->getId(), $_SESSION["tst_access_code"][$this->testOBJ->getTestId()]
+					$this->testOBJ->getTestId(), $ilUser->getId(), $testSession->getAccessCodeFromSession()
 				);
 
 				return $testSession;

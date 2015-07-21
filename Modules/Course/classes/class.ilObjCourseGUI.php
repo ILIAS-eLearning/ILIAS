@@ -2231,9 +2231,13 @@ class ilObjCourseGUI extends ilContainerGUI
 				{
 					$marks->setCompleted($a_has_passed);
 					$marks->update();
+					
+					// as course is origin of LP status change, block syncing
+					include_once("./Modules/Course/classes/class.ilCourseAppEventListener.php");
+					ilCourseAppEventListener::setBlockedForLP(true);
 
 					include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
-					ilLPStatusWrapper::_updateStatus($this->object->getId(), $a_member_id, null, false, true);					
+					ilLPStatusWrapper::_updateStatus($this->object->getId(), $a_member_id);					
 				}				
 			}
 		}
@@ -4470,6 +4474,8 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->tabs_gui->addTab("start",
 					$this->lng->txt("crs_start_objects"),
 					$this->ctrl->getLinkTargetByClass("ilcontainerstartobjectsgui", "listStructure"));
+				global $ilHelp;
+				$ilHelp->setScreenIdComponent("crs");
 				
 				include_once './Services/Container/classes/class.ilContainerStartObjectsGUI.php';
 				$stgui = new ilContainerStartObjectsGUI($this->object);

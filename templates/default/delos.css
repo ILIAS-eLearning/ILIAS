@@ -7991,6 +7991,9 @@ div.ilFrmPostHeader span.small {
   background-color: #FF9;
   padding: 0 5px;
 }
+.ilFrmBottomToolbar {
+  margin-top: 20px;
+}
 /* Services/Mail */
 a.mailread,
 a.mailread:visited {
@@ -9517,10 +9520,11 @@ span.bibl_text_inline_Emph {
 .ilPlayerPreviewDescription {
   padding: 7px;
   font-size: 85%;
-  position: relative;
+  position: absolute;
+  width: 306px;
   color: #F0F0F0;
-  top: -240px;
-  background: url("images/black60.png");
+  margin-top: -240px;
+  background: url("images//black60.png");
 }
 .ilPlayerPreviewOverlay img {
   cursor: pointer;
@@ -10431,7 +10435,7 @@ button.btn:not(.btn-link) > span:first-child:not(:empty) {
 }
 */
 .btn-default {
-  color: white;
+  color: #ffffff;
   background-color: #708bae;
   border-color: #708bae;
 }
@@ -10440,7 +10444,7 @@ button.btn:not(.btn-link) > span:first-child:not(:empty) {
 .btn-default:active,
 .btn-default.active,
 .open > .dropdown-toggle.btn-default {
-  color: white;
+  color: #ffffff;
   background-color: #557196;
   border-color: #526c90;
 }
@@ -10469,10 +10473,10 @@ fieldset[disabled] .btn-default.active {
 }
 .btn-default .badge {
   color: #708bae;
-  background-color: white;
+  background-color: #ffffff;
 }
 .btn-primary {
-  color: white;
+  color: #ffffff;
   background-color: #6ea03c;
   border-color: #6ea03c;
 }
@@ -10481,7 +10485,7 @@ fieldset[disabled] .btn-default.active {
 .btn-primary:active,
 .btn-primary.active,
 .open > .dropdown-toggle.btn-primary {
-  color: white;
+  color: #ffffff;
   background-color: #557b2e;
   border-color: #4f732b;
 }
@@ -10510,11 +10514,11 @@ fieldset[disabled] .btn-primary.active {
 }
 .btn-primary .badge {
   color: #6ea03c;
-  background-color: white;
+  background-color: #ffffff;
 }
 .btn-info {
   color: #557196;
-  background-color: white;
+  background-color: #ffffff;
   border-color: #c2cddc;
 }
 .btn-info:hover,
@@ -10546,11 +10550,11 @@ fieldset[disabled] .btn-info:active,
 .btn-info.disabled.active,
 .btn-info[disabled].active,
 fieldset[disabled] .btn-info.active {
-  background-color: white;
+  background-color: #ffffff;
   border-color: #c2cddc;
 }
 .btn-info .badge {
-  color: white;
+  color: #ffffff;
   background-color: #557196;
 }
 .btn-link {
@@ -10576,6 +10580,20 @@ a.ilSubmitInactive:active {
   background-color: #b0b0b0;
   border-color: #b0b0b0;
   cursor: default;
+}
+.split-btn ul {
+  min-width: 180px;
+}
+.split-btn-default {
+  float: left;
+}
+.btn-split.dropdown-toggle {
+  border-left: 1px solid white;
+}
+.btn-split.dropdown-toggle:hover,
+.btn-split.dropdown-toggle:focus,
+.btn-split.dropdown-toggle:active {
+  border-left: 1px solid white;
 }
 /* Services/Rating */
 img.ilRatingIcon {

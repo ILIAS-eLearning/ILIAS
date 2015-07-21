@@ -61,7 +61,9 @@ class ilSCORM2004AssetGUI extends ilSCORM2004ScoGUI
 	 */
 	function setTabs()
 	{
-		global $ilTabs, $ilCtrl, $tpl, $lng;
+		global $ilTabs, $ilCtrl, $tpl, $lng, $ilHelp;
+
+		$ilHelp->setScreenIdComponent("sahsed");
 
 		// subelements
 		$ilTabs->addTarget("sahs_organization",

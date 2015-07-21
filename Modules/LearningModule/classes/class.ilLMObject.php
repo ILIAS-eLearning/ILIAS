@@ -1027,9 +1027,12 @@ class ilLMObject
 						// Update Title and description
 						$md = new ilMD($a_lm->getId(), $id, $lmobj->getType());
 						$md_gen = $md->getGeneral();
-						$md_gen->setTitle($title);
-						$md_gen->update();
-						$md->update();
+						if (is_object($md_gen))			// see bug #0015843
+						{
+							$md_gen->setTitle($title);
+							$md_gen->update();
+							$md->update();
+						}
 						ilLMObject::_writeTitle($id, $title);
 					}
 				}

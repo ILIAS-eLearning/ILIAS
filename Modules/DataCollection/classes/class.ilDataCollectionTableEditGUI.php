@@ -180,11 +180,13 @@ class ilDataCollectionTableEditGUI {
 		$item->setRequired(true);
 		$this->form->addItem($item);
 		$item = new ilCheckboxInputGUI($this->lng->txt('dcl_visible'), 'is_visible');
+        $item->setInfo($this->lng->txt('dcl_visible_desc'));
 		$this->form->addItem($item);
 
 		// Show default order field and direction only in edit mode, because table id is not yet given and there are no fields to select
 		if ($a_mode != 'create') {
 			$item = new ilSelectInputGUI($this->lng->txt('dcl_default_sort_field'), 'default_sort_field');
+            $item->setInfo($this->lng->txt('dcl_default_sort_field_desc'));
 			$fields = $this->table->getVisibleFields();
 			$options = array( 0 => $this->lng->txt('dcl_please_select') );
 			foreach ($fields as $field) {
@@ -201,11 +203,13 @@ class ilDataCollectionTableEditGUI {
 
 		$item = new ilTextAreaInputGUI($this->lng->txt('additional_info'), 'description');
 		$item->setUseRte(true);
+        $item->setInfo($this->lng->txt('dcl_additional_info_desc'));
 		//        $item->setRTESupport($this->table->getId(), 'dcl', 'table_settings');
 		$item->setRteTagSet('mini');
 		$this->form->addItem($item);
 
 		$item = new ilCheckboxInputGUI($this->lng->txt('dcl_public_comments'), 'public_comments');
+        $item->setInfo($this->lng->txt('dcl_public_comments_desc'));
 		$this->form->addItem($item);
 
 		$section = new ilFormSectionHeaderGUI();
@@ -218,7 +222,7 @@ class ilDataCollectionTableEditGUI {
 		$this->form->addItem($item);
 
 		$item = new ilCheckboxInputGUI($this->lng->txt('dcl_add_perm'), 'add_perm');
-		//		$item->setInfo($this->lng->txt("dcl_add_perm_info"));
+		$item->setInfo($this->lng->txt("dcl_add_perm_desc"));
 		$this->form->addItem($item);
 		$item = new ilCheckboxInputGUI($this->lng->txt('dcl_edit_perm'), 'edit_perm');
 		//		$item->setInfo($this->lng->txt("dcl_edit_perm_info"));
@@ -235,6 +239,7 @@ class ilDataCollectionTableEditGUI {
 		$this->form->addItem($item);
 
 		$item = new ilCheckboxInputGUI($this->lng->txt('dcl_export_enabled'), 'export_enabled');
+		$item->setInfo($this->lng->txt('dcl_export_enabled_desc'));
 		$this->form->addItem($item);
 
 		$item = new ilCheckboxInputGUI($this->lng->txt('dcl_limited'), 'limited');
@@ -242,7 +247,7 @@ class ilDataCollectionTableEditGUI {
 		$sitem1->setShowTime(true);
 		$sitem2 = new ilDateTimeInputGUI($this->lng->txt('dcl_limit_end'), 'limit_end');
 		$sitem2->setShowTime(true);
-		//		$item->setInfo($this->lng->txt("dcl_limited_info"));
+		$item->setInfo($this->lng->txt("dcl_limited_desc"));
 		$item->addSubItem($sitem1);
 		$item->addSubItem($sitem2);
 		$this->form->addItem($item);

@@ -16,11 +16,6 @@ class ilTestPersonalSkillsGUI
 	 */
 	private $lng;
 
-	/**
-	 * @var ilObjTest
-	 */
-	private $testOBJ;
-
 	private $availableSkills;
 
 	private $selectedSkillProfile;
@@ -29,19 +24,30 @@ class ilTestPersonalSkillsGUI
 
 	private $usrId;
 
-	public function __construct(ilLanguage $lng, ilObjTest $testOBJ)
+	/**
+	 * @var int
+	 */
+	private $testId;
+
+	/**
+	 * @param ilLanguage $lng
+	 * @param int        $testId
+	 */
+	public function __construct(ilLanguage $lng, $testId)
 	{
 		$this->lng = $lng;
-		$this->testOBJ = $testOBJ;
+		$this->testId = $testId;
 	}
 
 	public function getHTML()
 	{
 		$gui = new ilPersonalSkillsGUI();
 
-		$gui->setGapAnalysisActualStatusModePerObject($this->testOBJ->getId(), $this->lng->txt('tst_test_result'));
+		$gui->setGapAnalysisActualStatusModePerObject($this->getTestId(), $this->lng->txt('tst_test_result'));
 
-		$gui->setGapAnalysisSelfEvalLevels($this->getReachedSkillLevels());
+		// this is not required, we have no self evals in the test context,
+		// getReachedSkillLevel is a "test evaluation"
+		//$gui->setGapAnalysisSelfEvalLevels($this->getReachedSkillLevels());
 
 		$gui->setProfileId($this->getSelectedSkillProfile());
 
@@ -88,6 +94,14 @@ class ilTestPersonalSkillsGUI
 	public function getUsrId()
 	{
 		return $this->usrId;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getTestId()
+	{
+		return $this->testId;
 	}
 
 } 

@@ -94,7 +94,7 @@ class ilChatroomBlockGUI extends ilBlockGUI
 		ilYuiUtil::initJson();
 
 		$chatSetting = new ilSetting('chatroom');
-		if($this->getCurrentDetailLevel() == 0 || !$chatSetting->get('chat_enabled', 0) || !(bool)@ilChatroomServerConnector::checkServerConnection())
+		if($this->getCurrentDetailLevel() == 0 || !$chatSetting->get('chat_enabled', 0) || !(bool)ilChatroomServerConnector::checkServerConnection())
 		{
 			return '';
 		}

@@ -1314,8 +1314,10 @@ class ilDataCollectionTable {
 		} else {
 			switch ($sort_field->getDatatypeId()) {
 				case ilDataCollectionDatatype::INPUTFORMAT_RATING:
-					$join_str .= "LEFT JOIN (SELECT AVG(sort_avg_rating.rating) AS avg_rating, sort_avg_rating.obj_id AS obj_id FROM il_rating as sort_avg_rating WHERE sort_avg_rating.sub_obj_id = {$sort_field->getId()} GROUP BY sort_avg_rating.obj_id) AS sort_avg_rating on sort_avg_rating.obj_id = record.id ";
-					$select_str .= " sort_avg_rating.avg_rating AS field_{$id},";
+					$rating_joined = true;
+					// FSX Bugfix 0015735: The average is multiplied with 10000 and added to the amount of votes
+					$join_str .= "LEFT JOIN (SELECT (ROUND(AVG(rating), 1) * 10000 + COUNT(rating)) as rating, obj_id FROM il_rating GROUP BY obj_id) AS average ON average.obj_id = record.id";
+					$select_str .= " average.rating AS field_{$id},";
 					break;
 				case ilDataCollectionDatatype::INPUTFORMAT_ILIAS_REF:
 					$join_str .=
@@ -1376,9 +1378,11 @@ class ilDataCollectionTable {
 				$filter_field = $this->getField($filter_field_id);
 				switch ($filter_field->getDatatypeId()) {
 					case ilDataCollectionDatatype::INPUTFORMAT_RATING:
-						$join_str .=
-							"INNER JOIN (SELECT AVG(avg_rating.rating) AS avg_rating, avg_rating.obj_id AS obj_id FROM il_rating as avg_rating WHERE avg_rating.sub_obj_id = {$filter_field_id} GROUP BY avg_rating.obj_id) AS avg_rating on avg_rating.avg_rating >= "
-							. $ilDB->quote($filter_value, 'integer') . " AND avg_rating.obj_id = record.id ";
+						if(!$rating_joined) {
+							$join_str .= "LEFT JOIN (SELECT (ROUND(AVG(rating), 1) * 10000 + COUNT(rating)) as rating, obj_id FROM il_rating GROUP BY obj_id) AS average ON average.obj_id = record.id";
+						}
+						// FSX Bugfix 0015735: The average is multiplied with 10000 and added to the amount of votes
+						$where_additions .= " AND average.rating >= " . $ilDB->quote($filter_value * 10000, 'integer');
 						break;
 					case ilDataCollectionDatatype::INPUTFORMAT_ILIAS_REF:
 						$join_str .=

@@ -284,7 +284,9 @@ die("deprecated");
 	 */
 	function setTabs()
 	{
-		global $ilTabs, $ilCtrl, $tpl, $lng;
+		global $ilTabs, $ilCtrl, $tpl, $lng, $ilHelp;
+
+		$ilHelp->setScreenIdComponent("sahsed");
 
 		// subelements
 		$ilTabs->addTarget("sahs_organization",

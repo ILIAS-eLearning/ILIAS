@@ -609,7 +609,8 @@ class ilLMTracker
 
 		// get question information
 		include_once("./Modules/TestQuestionPool/classes/class.ilAssQuestionList.php");
-		$qlist = new ilAssQuestionList($ilDB, $lng, $ilPluginAdmin, 0);
+		$qlist = new ilAssQuestionList($ilDB, $lng, $ilPluginAdmin);
+		$qlist->setParentObjId(0);
 		$qlist->addFieldFilter("question_id", $this->all_questions);
 		$qlist->load();
 		$qdata = $qlist->getQuestionDataArray();

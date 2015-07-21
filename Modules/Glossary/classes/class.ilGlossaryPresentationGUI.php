@@ -333,7 +333,7 @@ class ilGlossaryPresentationGUI
 		// tabs
 		if ($this->glossary->getPresentationMode() != "full_def")
 		{
-			$this->showDefinitionTabs("content");
+			$this->showDefinitionTabs("term_content");
 		}
 		
 		$term = new ilGlossaryTerm($term_id);
@@ -568,10 +568,12 @@ class ilGlossaryPresentationGUI
 	 */
 	function showDefinitionTabs($a_act)
 	{
-		global $ilTabs, $lng, $ilCtrl;
-		
+		global $ilTabs, $lng, $ilCtrl, $ilHelp;
+
 		if (!$this->offlineMode())
 		{
+			$ilHelp->setScreenIdComponent("glo");
+
 			$ilCtrl->setParameter($this, "term_id", "");
 			$this->ctrl->setParameter($this, "offset", $_GET["offset"]);
 			if (!empty ($_REQUEST["term"]))
@@ -589,7 +591,7 @@ class ilGlossaryPresentationGUI
 			
 			$ilTabs->setBackTarget($this->lng->txt("obj_glo"), $back);
 			
-			$ilTabs->addTab("content",
+			$ilTabs->addTab("term_content",
 				$lng->txt("content"),
 				$ilCtrl->getLinkTarget($this, "listDefinitions"));
 	

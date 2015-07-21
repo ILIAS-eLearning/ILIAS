@@ -18,8 +18,10 @@ require_once './Modules/Forum/classes/class.ilForumPost.php';
 class ilForum
 {
 	const SORT_TITLE = 1;
-	const SORT_DATE = 2;	
-	
+	const SORT_DATE = 2;
+
+	const DEFAULT_PAGE_HITS = 30;
+
 	/**
 	* ilias object
 	* @var object ilias
@@ -61,7 +63,7 @@ class ilForum
 	private $replQuote2 = '</blockquote>';
 	
 	// max. datasets per page
-	private $pageHits = 30;
+	private $pageHits = self::DEFAULT_PAGE_HITS;
 
 	// object id
 	private $id;
@@ -280,24 +282,20 @@ class ilForum
 			return $this->mdb2DataType;
 		}
 	}
-	
+
 	/**
-	* set number of max. visible datasets
-	* @param	integer	$pageHits 
-	* @see				$pageHits
-	* @access	public
-	*/
+	 * @param int $pageHits
+	 * @return bool
+	 */
 	public function setPageHits($pageHits)
 	{
-		if ($pageHits < 1)
+		if($pageHits < 1 || !is_numeric($pageHits))
 		{
-			die($this->className . "::setPageHits(): No int pageHits given.");
+			$pageHits = 1;
 		}
-		else
-		{
-			$this->pageHits = $pageHits;
-			return true;
-		}
+
+		$this->pageHits = (int)$pageHits;
+		return true;
 	}
 	
 	/**

@@ -1034,6 +1034,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		// Target page
 		$tp = new ilTextInputGUI($this->lng->txt("wiki_target_page"), "target_page");
 		$tp->setSize(18);
+		$tp->setRequired(true);
 		$tp->setInfo("...");
 		$tp->setDataSource($ilCtrl->getLinkTarget($this, "insertWikiLinkAC", "", true));
 		$form->addItem($tp);
@@ -1043,7 +1044,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		$lt->setSize(18);
 		$form->addItem($lt);
 
-		$form->setTitle($lng->txt("wiki_link"));
+		//$form->setTitle($lng->txt("wiki_link"));
 
 		echo $form->getHTML();
 		exit;
@@ -1104,10 +1105,11 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		$term = trim($_GET["term"]);
 
 		$pages = ilObjWiki::_performSearch($this->getPageObject()->getParentId(), $term);
+
 		$found = array();
 		foreach ($pages as $page)
 		{
-			$found[] = array("page_id" => $page[""], "title" => ilWikiPage::lookupTitle($page));
+			$found[] = array("page_id" => $page["page_id"], "title" => ilWikiPage::lookupTitle($page["page_id"]));
 		}
 
 		// sort if all pages are listed

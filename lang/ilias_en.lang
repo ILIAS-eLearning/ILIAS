@@ -520,7 +520,7 @@ assessment#:#internal_links_update#:#Update
 assessment#:#internal_links#:#Internal Links
 assessment#:#javaapplet#:#Java Applet
 assessment#:#keywords_hint#:#Enter a list of keywords, separated by spaces or newlines to add an automatic scoring option for the essay question. If any of the keywords will be found in the answer text of the learner, the default score will be set to the maximum available points instead of 0 points.
-assessment#:#kiosk_description#:#Exam view runs test in kiosk mode. This hides the browser bar and navigation and all other screen elements that are not part of the test. Participants are prevented from opening an other website.
+assessment#:#kiosk_description#:#Exam view runs test in kiosk mode. This hides the browser bar and navigation and all other screen elements that are not part of the test. Participants are prevented from opening an other website.<br />Effectively preventing participants from opening other websites during tests additinally requires deploying a suitable browser enviroment (e.g. Safe Exam Browser).
 assessment#:#kiosk_options_desc#:#Information is displayed at the top section of the screen.
 assessment#:#kiosk_options#:#Exam View Options
 assessment#:#kiosk_show_participant#:#Show Name of Participant
@@ -528,6 +528,64 @@ assessment#:#kiosk_show_title#:#Show Test Title
 assessment#:#kiosk#:#Exam View
 assessment#:#last_update#:#Last Update
 assessment#:#legend#:#Legend
+assessment#:#qpl_lac_legend_header_common#:#Expression Logic
+assessment#:#qpl_lac_desc_logical_and#:#Logical AND
+assessment#:#qpl_lac_desc_logical_or#:#Logical OR
+assessment#:#qpl_lac_desc_negation#:#Negation
+assessment#:#qpl_lac_desc_brackets#:#Brackets
+assessment#:#qpl_lac_desc_res_of_quest_n#:#Result of n-th Question
+assessment#:#qpl_lac_desc_res_of_cur_quest#:#Result of Current Question
+assessment#:#qpl_lac_desc_res_of_answ_m_of_quest_n#:#Result of m-th Answer of n-th Question
+assessment#:#qpl_lac_desc_res_of_answ_m_of_cur_quest#:#Result of m-th Answer of Current Question
+assessment#:#qpl_lac_legend_header_quest_specific#:#Question Specific Expressions
+assessment#:#qpl_lac_legend_label_operators#:#Operators
+assessment#:#qpl_lac_desc_compare_with_quest_res#:#Compare the Result with the Reached Points in Percent
+assessment#:#qpl_lac_desc_compare_with_number#:#Compare the Result with the Number n
+assessment#:#qpl_lac_desc_compare_with_text#:#Compare the Result with the text TEXT
+assessment#:#qpl_lac_desc_compare_with_assignment#:#Compare the Result with the Matching n:m
+assessment#:#qpl_lac_desc_compare_with_sequence#:#Compare the Result with the Answer Sequence ($a,..,z$)
+assessment#:#qpl_lac_desc_compare_with_answer_n#:#Compare the Result with the n-th Answer of the Question
+assessment#:#qpl_lac_desc_compare_with_exact_sequence#:#Compare the Result with exactly the Given Sequence
+assessment#:#qpl_lac_desc_compare_answer_exist#:#Compare if there is an Answer for a Question/Gap
+assessment#:#qpl_skill_point_eval_mode_quest_result#:#Question Result
+assessment#:#qpl_skill_point_eval_mode_solution_compare#:#Solution Compare
+assessment#:#qpl_skill_point_eval_by_quest_result#:#Evaluation of Competence Points by Question Result
+assessment#:#qpl_skill_point_eval_by_solution_compare#:#Evaluation of Competence Points by Solution Compare
+assessment#:#tst_solution_compare_cfg#:#Configuration for Solution Compare
+assessment#:#tst_sol_comp_expressions#:#Comparison Expressions
+assessment#:#ass_lac_hide_legend_btn#:#Hide Legend
+assessment#:#ass_lac_show_legend_btn#:#Show Legend
+assessment#:#ass_lac_validation_error#:#Errors occured while validating the conditional expression(s)!
+assessment#:#ass_lac_expression#:#Expression
+assessment#:#ass_lac_question_not_exist#:#The question with index "Q%s" does not exist in this set.
+assessment#:#ass_lac_question_not_reachable#:#The question with index "Q%s" is not reachable in this node.
+assessment#:#ass_lac_expression_not_supported#:#The Expression "%s" is not supported.
+assessment#:#ass_lac_operator_not_supported#:#The Operator "%s" is not supported.
+assessment#:#ass_lac_unable_to_parse_condition#:#The condition "%s" can not be validated.
+assessment#:#ass_lac_missing_bracket#:#There are not enough "%s"-Brackets in the condition.
+assessment#:#ass_lac_invalid_statement#:#The expression at position "%s" is not valid. Please check your input according to the supported expression (see legend).
+assessment#:#ass_lac_duplicate_element#:#Duplicate key "%s" in condition.
+assessment#:#ass_lac_answer_index_not_exist#:#The question with index "Q%s" does not have an answer with the index "%s".
+assessment#:#ass_lac_answer_index_not_exist_cur_qst#:#The current question does not have an answer with the index "%s".
+assessment#:#ass_lac_answer_value_not_exists#:#The value "%s" does not exist in question Q%s[%s].
+assessment#:#ass_lac_answer_value_not_exists_one_answer#:#The value "%s" does not exist in question Q%s.
+assessment#:#ass_lac_answer_value_not_exists_cur_qst#:#The value "%s" does not exist in the answer with index "%s" of current question.
+assessment#:#ass_lac_answer_value_not_exists_cur_qst_one_answer#:#The value "%s" does not exist in the current question.
+assessment#:#ass_lac_expression_not_supported_by_question#:#The question "Q%s" does not support the Expression "%s".
+assessment#:#ass_lac_expression_not_supported_by_cur_question#:#The current question does not support the Expression "%s".
+assessment#:#ass_lac_operator_not_supported_by_expression#:#The Operator "%s" can not be used in comparison with the expression "%s".
+assessment#:#tst_skill_triggerings_num_req_answers#:#Required Amount of Answers for Competence Triggers
+assessment#:#tst_skill_triggerings_num_req_answers_desc#:#Competences aren't triggered before this amount of answered questions contributes to the competence level calculation.
+assessment#:#qpl_qst_skl_usg_skill_col#:#Competence
+assessment#:#qpl_qst_skl_usg_numq_col#:#Number of Questions in Pool adressing this competence
+assessment#:#qpl_qst_skl_usg_sklpnt_col#:#Total Sum of Competence-Points per Competence
+assessment#:#tst_qst_skl_config_in_pool_hint_msg#:#The Competence-Question-Assignment for tests with mode "%s" is to be done in the corresponding question pool(s). The configuration of threshold values is to be done here in the test.
+assessment#:#qpl_qst_skl_selection_for_question_header#:#Compence Assignments for Question: %s
+assessment#:#tst_save_comp_points#:#Save Competence Points
+assessment#:#tst_msg_skl_qst_assign_points_saved#:#The competence points has been saved.
+assessment#:#tst_skl_level_thresholds_missing#:#There are missing thresholds for the relevant competences!
+assessment#:#tst_skl_level_thresholds_link#:#Configure Competence-Thresholds
+assessment#:#tst_skl_res_interpretation_hint_msg#:#Please consider that competence results from a single test has a limited significance. The more information is collected per competence, the merrier valid the significance will be. Should there are single competences without any entry, there is to less information collected.
 assessment#:#locked#:#locked
 assessment#:#log_answer_changed_points#:#Manual change of points of test person %s from %d to %d points by %s
 assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#The user could not enter the test because the maximum number of simultaneous users has been reached
@@ -537,6 +595,7 @@ assessment#:#log_mark_added#:#Mark added
 assessment#:#log_mark_changed#:#Mark changed
 assessment#:#log_mark_removed#:#Mark removed
 assessment#:#log_modified_test#:#The test was modified
+assessment#:#tst_results_presentation_description#:#If "Show Pass Details for running tests" is selected, the question titles and the reached points for every question in the test pass are available if the test is not finished. If "Show Solutions in Test Results" is selected, the detailed question solution is available to participants in the test results presentation. This includes the exact scoring of every answer, otherwise only an overview with the question titles and the reached points is shown. If the list of answers is selected, an overview of all questions with the answers of the participant is generated. This list will be offered on the Info Page and at the end of a test prior to the final submission. If "Show Answer-Specific Feedback in Test Results" is selected, the answer specific feedback will be shown in the test results next to the questions. If "Results print view (answers only)" is selected, the ILIAS content you place around a question using the "Edit content" tab page will not be visible in a print-out. If you want to save some paper space, select this option. If "Show Signature Placeholder" is selected, a signature placeholder will be shown for printout. If "Show Suggested Solution" is selected, the suggested solutions of questions (if existent) will be shown in the test results overview.
 assessment#:#log_question_added#:#Question added at position
 assessment#:#log_question_position_changed#:#Question position changed
 assessment#:#log_question_removed#:#Question removed
@@ -1239,7 +1298,7 @@ assessment#:#toplist_col_hints#:#Hints
 assessment#:#toplist_col_wtime#:#Working Time
 assessment#:#toplist_your_result#:#Your ranking
 assessment#:#tst_highscore_enabled#:#Ranking
-assessment#:#tst_highscore_description#:#Participants are presented with a button ‘Show Ranking’ on the ‘Info’-tab. On clicking it, participants are presented with a league table on their performance in the test. Additionally, you need to activate ‘Access to Test Results’ in order to use this functionality.
+assessment#:#tst_highscore_description#:#On the 'Info'-tab participants are presented with a button 'Show Ranking'. On clicking it participants are presented with a league table on the performance in the test. You have to activate 'Access to Test Results', too in order to use this funtionality.
 assessment#:#tst_highscore_anon#:#Without Names
 assessment#:#tst_highscore_anon_description#:#Ranking is displayed without listing the names of the other participants. This will be the case anyway if the test was taken anonymously.
 assessment#:#tst_highscore_achieved_ts#:#Date
@@ -1314,22 +1373,28 @@ assessment#:#tst_change_dyn_test_question_selection#:#Change Current Question Se
 assessment#:#tst_dyn_test_msg_currently_finished_completely#:#Currently you have answered all questions from the selected question pool successfully. You can proceed the test when there are new or edited questions in the question pool.
 assessment#:#tst_dyn_test_msg_currently_finished_selection#:#With the current question selection you have answered all questions successfully. Change the question selection to proceed the test.
 assessment#:#tst_activate_skill_service#:#Activate Competence Service
-assessment#:#tst_disabled_skl_due_to_non_fixed_quest_set_type#:#Competence service has been deactivated due to test mode with non fixed set of questions.
-assessment#:#tst_cannot_enable_skl_due_to_non_fixed_quest_set_type#:#Competence Service activation is not possible due to test mode with non fixed set of questions.
 assessment#:#tst_tab_competences#:#Competences
-assessment#:#tst_skl_sub_tab_quest_assign#:#Question/Competence Assignment
+assessment#:#qpl_tab_competences#:#Competences
+assessment#:#qpl_skl_sub_tab_quest_assign#:#Question/Competence Assignment
+assessment#:#qpl_skl_sub_tab_usages#:#Assignment Frequency
 assessment#:#tst_skl_sub_tab_thresholds#:#Competence Thresholds
 assessment#:#tst_msg_skl_lvl_thresholds_saved#:#The competence thresholds has been saved.
-assessment#:#tst_msg_skl_qst_assign_points_saved#:#The competence points has been saved.
 assessment#:#tst_competence#:#Competence
-assessment#:#tst_assign_competence#:#Assign Competence
-assessment#:#tst_remove_competence#:#Remove Competence
+assessment#:#tst_manage_competence_assigns#:#Manage Competence Assignments
+assessment#:#tst_edit_competence_assign#:#Edit Assignment Properties
+assessment#:#tst_view_competence_assign#:#View Assignment Properties
+assessment#:#qpl_qst_skl_assign_properties_modified#:#The assignment's properties has been modified.
+assessment#:#qpl_qst_skl_assigns_updated#:#The competence assignments has been updated.
+assessment#:#qpl_sync_quest_skl_assigns_confirmation#:#The question was inserted from another repository object. Should the question's original be updated with the current config of competence assignments?
+assessment#:#qpl_qst_skl_assign_synced_to_orig#:#The competence assignments has been synchronised to the questions original.
+assessment#:#qpl_save_skill_assigns_update#:#Save Competence Assignments
+assessment#:#qpl_cancel_skill_assigns_update#:#Cancel
 assessment#:#tst_comp_points#:#Competence Points
-assessment#:#tst_save_comp_points#:#Save Competence Points
+assessment#:#tst_comp_eval_mode#:#Evaluation by
 assessment#:#tst_num_questions#:#Number of Questions
 assessment#:#tst_max_comp_points#:#Max. Competence Points
 assessment#:#tst_level#:#Competence Level
-assessment#:#tst_threshold#:#Thresholds
+assessment#:#tst_threshold#:#Thresholds (in %)
 assessment#:#tst_save_thresholds#:#Save Thresholds
 assessment#:#tst_show_comp_results#:#Show Competence Results
 assessment#:#tst_analysis#:#Analysis
@@ -7197,6 +7262,10 @@ mail#:#search_recipients#:#Search Recipients
 mail#:#send_mail_to#:#Mail to
 maps#:#maps_enable_maps_info#:#Activates Maps in user profiles, groups and courses.
 maps#:#maps_enable_maps#:#Enable Maps
+maps#:#maps_use_custom_server#:#Use custom server
+maps#:#maps_custom_server_info#:#Activate custom servers to provide tile- and geolocation-data. Multiple inputs should be separated by spaces. Defaults are "%s" for tiles and "%s" for geolocation.
+maps#:#maps_tile_server#:#Server for Tiles
+maps#:#maps_geolocation_server#:#Server for Reverse Geolocation
 maps#:#maps_extt_maps#:#Maps
 maps#:#maps_latitude#:#Latitude
 maps#:#maps_longitude#:#Longitude
@@ -11019,7 +11088,7 @@ notes#:#notes_private_annotating#:#Private Annotation
 tagging#:#tagging_set_tag#:#Set Tags
 content#:#cont_link_to_internal#:#Link to ILIAS Resource
 content#:#cont_link_to_external#:#Link to External Website
-content#:#cont_link_to_wiki#:#Link to Wiki Page
+content#:#cont_link_to_wiki#:#Link to Wiki Page (Insert Brackets)
 content#:#cont_standard#:#Standard
 content#:#cont_char_style_com#:#Comment
 content#:#cont_char_style_quot#:#Quotation
@@ -11455,7 +11524,7 @@ didactic#:#didactic_confirm_delete_msg#:#Do you really want to delete the follow
 didactic#:#didactic_delete_msg#:#Deleted didactic templates.
 common#:#fold_type#:#Folder Type
 content#:#cont_pword#:#Paste from Word
-blog#:#blog_edit#:#Blog Settings
+blog#:#blog_edit#:#Edit Blog
 blog#:#blog_banner#:#Banner
 blog#:#blog_background_color#:#Background Color
 blog#:#blog_font_color#:#Font Color
@@ -11854,7 +11923,7 @@ exc#:#exc_select_portfolio_change#:#Use different portfolio
 exc#:#exc_blog_selected#:#The blog has been assigned.
 exc#:#exc_portfolio_selected#:#The portfolio has been assigned.
 common#:#my_courses_groups#:#My Courses and Groups
-content#:#cont_sc_auto_continue#:#Auto-Continue
+content#:#cont_sc_auto_continue#:#Redirect Users
 user#:#user_profile_portfolio_selected#:#You are currently using a portfolio as your profile. Activation can be set there using the ‘Share’ tab.
 prtf#:#prtf_admin_toggle_info#:#You can deactivate the portfolio feature completely in the Personal Desktop Administration.
 blog#:#blog_admin_toggle_info#:#You can deactivate the blog feature completely in the Personal Desktop Administration.
@@ -13629,7 +13698,7 @@ cld#:#service_specific_settings#:#Specific Settings
 common#:#obj_cld#:#Cloud Object
 common#:#objs_cld#:#Cloud Objects
 assessment#:#tst_show_solution_compare#:#Show Best Solution in ‘Detailed Results’
-assessment#:#tst_show_solution_compare_desc#:#Participants are presented with an overview comparing their own answers with the best solutions. Please note that this view will be displayed in the ‘Detailed Results’ that can be accessed via the ‘Show Test Results‘-button on the ‘Info’-tab. It will not be displayed in the printable ‘List of Answers’ even though the setting is made here.
+assessment#:#tst_show_solution_compare_desc#:#Participants are presented with an overview comparing their own answers with the best solutions. Please note that this view will be displayed in the 'Detailed Results' that can be accessed via the 'Show Test Results'-button on the 'Info'-tab. It will not be displayed in the printable 'List of Answers' even though the setting is made here.
 assessment#:#tst_header_participant#:#Your Answer:
 assessment#:#tst_header_solution#:#Best Solution:
 rbac#:#delete_files#:#Delete Files
@@ -13677,7 +13746,7 @@ search#:#search_add_members_from_container_grp#:#Add Users of Current Group
 search#:#search_add_members_from_container_crs#:#Add Users of Current Course
 exc#:#exc_peer_review#:#Peer-Feedback
 exc#:#exc_peer_review_info#:#Not available for team upload assignments.
-exc#:#exc_peer_review_min_number#:#Number of feedback given required to see personal feedback
+exc#:#exc_peer_review_min_number#:#Number of feedbacks per participant
 exc#:#exc_peer_review_give#:#Give Feedback
 exc#:#exc_peer_review_no_peers#:#There are no peers to give feedback for.
 exc#:#exc_peer_review_rating#:#Rating
@@ -14947,9 +15016,9 @@ crs#:#crs_loc_settings_reset_enable_info#:#If activated, all users are able to r
 crs#:#crs_loc_progress_no_result_no_initial#:#Please work through the following learning materials and then take the qualifying test.
 crs#:#crs_loc_qst_resume_tst_itest#:#You have already started an initial test to another learning objective. Either you finish the started test or you stop it and start this one. But running two initial tests at the same time is not supported.
 crs#:#crs_loc_qst_resume_tst_qtest#:#You have already started a qualifying test to another learning objective. Either you finish the started test or you stop it and start this one. But running two qualifying tests at the same time is not supported.
-bibl#:#bibl_library_show_in_list#:#Show link als in the list
-content#:#cont_ie_compatibility#:#Internet Explorer 7 compatibility mode
-content#:#cont_ie_compatibility_info#:#Especially for older learning modules it can be helpful to activate the compatibility mode. Please note that the compatibility mode can be disabled in newer versions of Internet Explorer.
+bibl#:#bibl_library_show_in_list#:#Show as link in the list
+content#:#cont_ie_compatibility#:#Internet Explorer 7 Compatibility Mode
+content#:#cont_ie_compatibility_info#:#Reduces problems with displaying older SCORM Learning Modules that were optimised for the Internet Explorer. If the Compatibility Mode is switched off in newer versions of the Internet Explorer, this setting does not become effective. <br />
 content#:#cont_ie_force_render#:#Force Internet Explorer to render again
 content#:#cont_ie_force_render_info#:#Enable this option only if content of the learning module is not displayed correctly with Internet Explorer due to many frames or iFrames. Additionally you have to set the option ‘Display’ to ‘in new window’.
 ecs#:#ecs_token_mechanism#:#Authentication Token
@@ -15235,3 +15304,88 @@ meta#:#md_adv_confirm_definition_select_option_all#:#Handle all existing entries
 meta#:#md_adv_confirm_definition_select_option_single#:#Decide for each existing entry
 meta#:#md_adv_confirm_definition_select_option_all_action#:#New Value
 file#:#file_import#:#Import File
+dcl#:#dcl_boolean_desc#:#Auswahlfeld für "zutreffend"/"nicht zutreffend"
+dcl#:#dcl_text_desc#:#Eingabefeld für Text, Links oder E-Mail-Adressen
+dcl#:#dcl_integer_desc#:#Eingabefeld für ganze Zahlen. Nicht erlaubt sind Brüche und Dezimalzahlen.
+dcl#:#dcl_datetime_desc#:#Datumseingabe per Auswahlmenü oder Kalender
+dcl#:#dcl_mob_desc#:#Möglichkeit zum Hochladen von Bild-, Audio- oder Video-Dateien, die direkt in der Datensammlung präsentiert werden. Erlaubte Dateitypen: %s
+dcl#:#dcl_file_desc#:#Möglichkeit zum Hochladen beliebiger Dateien, die per Link heruntergeladen werden können
+dcl#:#dcl_reference_desc#:#Bereitstellen von Auswahloptionen, die in einem anderen Feld einer Tabelle gepflegt werden
+dcl#:#dcl_reference_title#:#Referenz zu Tabelle und Feld
+dcl#:#dcl_ILIAS_reference_desc#:#Suchfeld, um ein Objekt in ILIAS auszuwählen und zu verlinken
+dcl#:#dcl_rating_desc#:#Benutzer können Einträge mit bis zu fünf Sternen bewerten.
+dcl#:#dcl_formula_desc#:#Ähnlich wie bei der Tabellenkalkulation können per Formel Einträge verbunden oder berechnet werden.
+dcl#:#dcl_additional_info_desc#:#Der Text wird direkt oberhalb der Tabelle angezeigt.
+dcl#:#dcl_public_comments_desc#:#Benutzer können Datensätze dieser Tabelle kommentieren
+dcl#:#dcl_default_sort_field_desc#:#Tabelle wird standardmässig nach dem ausgewählten Feld sortiert.
+dcl#:#dcl_visible_desc#:#Benutzer können diese Tabelle über das Auswahlmenü "Tabelle" aufrufen.
+dcl#:#dcl_ILIAS_reference_link_desc#:#Objekt kann per Link aufgerufen werden, wenn Leserecht vorhanden ist
+dcl#:#dcl_learning_progress_desc#:#Wenn vorhanden, wird der Lernfortschritts des Benutzers angezeigt
+dcl#:#dcl_display_action_menu_desc#:#Objekt kann kopiert oder verknüpft werden, wenn der Benutzer entsprechende Rechte besitzt
+dcl#:#dcl_export_enabled_desc#:#Alle Benutzer können die Daten der Tabelle selber exportieren. Dazu müssen in der Übersicht "Felder der ausgewählten Tabelle" die Felder einzeln als exportierbar ausgewählt werden.
+dcl#:#dcl_add_perm_desc#:#Benutzer können Einträge in dieser Tabelle erstellen.
+dcl#:#dcl_limited_desc#:#Benutzer können Einträge nur bis zum gewählten Datum hinzufügen, bearbeiten und löschen.
+dcl#:#dcl_unique_desc#:#In dieses Feld kann ein gleichlautender Eintrag nur einmal vorgenommen werden.
+dcl#:#dcl_formula_detail_desc#:#Entries are generated automatically, you are not able to edit the entry.
+dcl#:#dcl_text_email_detail_desc#:#Please enter a valid URL or E-Mail address.
+adve#:#adve_auto_url_linking#:#URL Auto-Linking
+adve#:#adve_auto_url_linking_info#:#Tries to identify URLs like "http://.." in text paragraphs and automatically creates links around them.
+content#:#cont_auto_time#:#Auto Animation Waiting Time
+content#:#cont_rand_start#:#Random Start
+content#:#cont_tabs_carousel#:#Carousel
+exc#:#exc_adopt_group_teams#:#Adopt Teams from Groups
+exc#:#exc_adopt_group_teams_added#:#%s Users were added.
+exc#:#exc_adopt_group_teams_blocked#:#%s User were already assigned.
+exc#:#exc_adopt_group_teams_conflict#:#User "%1$s" is already selected for group "%2$s".
+exc#:#exc_adopt_group_teams_no_members#:#No members
+exc#:#exc_deadline_ext_mismatch#:#The grace period has to end after the deadline.
+exc#:#exc_deadline_extended#:#Grace Period
+exc#:#exc_deadline_extended_info#:#Late submission are possible between the deadline and the end of the grace period.
+exc#:#exc_late_submission#:#Late Submission
+exc#:#exc_late_submission_warning#:#Submissions after %s are marked as late.
+exc#:#exc_max_file#:#Max Number of Files
+exc#:#exc_max_file_info#:#Participants will not be able to upload more files once the limit is reached.
+exc#:#exc_max_file_reached#:#You cannot upload more than %s files.
+exc#:#exc_max_file_tgl#:#Limit Uploads
+exc#:#exc_no_team_yet_info_tutor#:#Teams are managed by the exercise tutors.
+exc#:#exc_peer_review_chars_invalid#:#At least one of your feedbacks does not have the required minimum length of %s characters.
+exc#:#exc_peer_review_completion#:#Determination of "Passed" Status
+exc#:#exc_peer_review_completion_all#:#Only after all required feedbacks
+exc#:#exc_peer_review_completion_none#:#No feedback necessary
+exc#:#exc_peer_review_completion_one#:#Already with at least 1 valid feedback
+exc#:#exc_peer_review_given#:#Show Given Feedback
+exc#:#exc_peer_review_min_chars#:#Mininum Number of Characters
+exc#:#exc_peer_review_min_chars_info#:#The required number of characters for a valid feedback.
+exc#:#exc_peer_review_min_chars_tgl#:#Mininum Length
+exc#:#exc_peer_review_show_missing#:#You cannot view your received feedback as you gave not enough feedback.
+exc#:#exc_peer_review_show_received_none#:#You received no feedback.
+exc#:#exc_peer_review_simple_unlock#:#Access to received feedback
+exc#:#exc_peer_review_simple_unlock_active#:#After giving at least 1 valid feedback
+exc#:#exc_peer_review_simple_unlock_inactive#:#After giving all required feedbacks
+exc#:#exc_team_management_tutor#:#Team Management by Tutors
+exc#:#exc_team_management_tutor_info#:#If activated participants cannot organize teams themselves.
+exc#:#exc_team_multi_create#:#Create Team
+exc#:#exc_team_multi_dissolve#:#Dissolve Team(s)
+style#:#sty_type_ca_cntr#:#Carousel Container
+style#:#sty_type_ca_icntr#:#Carousel Item Container
+style#:#sty_type_ca_icont#:#Carousel Item Content
+style#:#sty_type_ca_ihead#:#Carousel Item Header
+wiki#:#wiki_link_md_values#:#Automatic Linking
+wiki#:#wiki_link_md_values_info#:#Autmatically links properties presented in the side block to wiki pages with the same name.
+cron#:#cron_result_status_fail#:#Failed
+wiki#:#wiki_unhide_meta_adv_records#:#Show additional properties
+content#:#cont_wiki_link_dialog#:#Link to Wiki Page (Dialog)
+link#:#link_link#:#Link
+common#:#toggle_dropdown#:#Toggle Dropdown
+forum#:#reply_to_postings#:#Reply
+forum#:#add_new_answer#:#Add Posting
+mail#:#mail_orphaned_mails#:#Delete old or orphaned mails
+mail#:#mail_threshold#:#Threshold
+mail#:#mail_threshold_info#:#Internal messages that are older than the defined threshold value here, will be deleted (including possibly existing attachments). <br> Please keep in mind that on the first run of this cronjob  a lot of messages will be deleted and because of this it is not possible to send a mail as a warning.
+mail#:#mail_orphaned_mails_desc#:#Delete old or orphaned mails
+mail#:#only_inbox_trash#:#Only consider inbox / trash
+mail#:#only_inbox_trash_info#:#If enabled, emails are only deleted if they are located in the Inbox and Trash of the respective user. Otherwise, all messages are deleted regardless of the folder. 
+mail#:#mail_notify_orphaned#:#Notification Mail
+mail#:#mail_notify_orphaned_info#:#If you enter a value here is larger than or equal to 1, ILIAS will send an email to the user before an internal mail is deleted. Please make sure that an external e-mail reception is possible.
+mail#:#orphaned_mail_subject#:#Notification about orphaned mails
+mail#:#orphaned_mail_body#:#There are old or orphaned mails in the following mailboxes. Please note, that these mails will be deleted automatically soon.

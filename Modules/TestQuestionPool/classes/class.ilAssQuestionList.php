@@ -19,7 +19,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 	 *
 	 * @var ilDB
 	 */
-	private $db = null;
+	protected $db = null;
 	
 	/**
 	 * global ilLanguage object instance
@@ -34,7 +34,14 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 	 * @var ilPluginAdmin
 	 */
 	private $pluginAdmin = null;
-	
+
+	/**
+	 * object ids of parent question containers
+	 *
+	 * @var array
+	 */
+	private $parentObjIdsFilter = array();
+
 	/**
 	 * object id of parent question container
 	 *
@@ -42,6 +49,11 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 	 */
 	private $parentObjId = null;
 
+	/**
+	 * object type of parent question container(s)
+	 *
+	 * @var string
+	 */
 	private $parentObjType = 'qpl';
 	
 	/**
@@ -103,7 +115,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 	 *
 	 * @var array
 	 */
-	private $questions = array();
+	protected $questions = array();
 
 
 	const QUESTION_INSTANCE_TYPE_ORIGINALS = 'QST_INSTANCE_TYPE_ORIGINALS';
@@ -118,12 +130,26 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 	 * @param ilDB $db
 	 * @param integer $parentObjId
 	 */
-	public function __construct(ilDB $db, ilLanguage $lng, ilPluginAdmin $pluginAdmin, $parentObjId)
+	public function __construct(ilDB $db, ilLanguage $lng, ilPluginAdmin $pluginAdmin)
 	{
 		$this->db = $db;
 		$this->lng = $lng;
 		$this->pluginAdmin = $pluginAdmin;
+	}
+
+	public function getParentObjId()
+	{
+		return $this->parentObjId;
+	}
+
+	public function setParentObjId($parentObjId)
+	{
 		$this->parentObjId = $parentObjId;
+	}
+
+	public function getParentObjectType()
+	{
+		return $this->parentObjType;
 	}
 
 	public function setParentObjectType($parentObjType)
@@ -131,9 +157,20 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 		$this->parentObjType = $parentObjType;
 	}
 
-	public function getParentObjectType()
+	/**
+	 * @return array
+	 */
+	public function getParentObjIdsFilter()
 	{
-		return $this->parentObjType;
+		return $this->parentObjIdsFilter;
+	}
+
+	/**
+	 * @param array $parentObjIdsFilter
+	 */
+	public function setParentObjIdsFilter($parentObjIdsFilter)
+	{
+		$this->parentObjIdsFilter = $parentObjIdsFilter;
 	}
 
 	public function setQuestionInstanceTypeFilter($questionInstanceTypeFilter)
@@ -210,6 +247,21 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 	public function getForcedQuestionIds()
 	{
 		return $this->forcedQuestionIds;
+	}
+	
+	private function getParentObjFilterExpression()
+	{
+		if( $this->getParentObjId() )
+		{
+			return 'qpl_questions.obj_fi = '.$this->db->quote($this->getParentObjId(), 'integer');
+		}
+		
+		if( count($this->getParentObjIdsFilter()) )
+		{
+			return $this->db->in('qpl_questions.obj_fi', $this->getParentObjIdsFilter(), false, 'integer');
+		}
+		
+		return null;
 	}
 	
 	private function getFieldFilterExpressions()
@@ -363,6 +415,11 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 	{
 		$CONDITIONS = array();
 
+		if( $this->getParentObjFilterExpression() !== null )
+		{
+			$CONDITIONS[] = $this->getParentObjFilterExpression();
+		}
+
 		if( $this->getQuestionInstanceTypeFilterExpression() !== null )
 		{
 			$CONDITIONS[] = $this->getQuestionInstanceTypeFilterExpression();
@@ -420,8 +477,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 			
 			{$this->getTableJoinExpression()}
 			
-			WHERE		qpl_questions.obj_fi = {$this->db->quote($this->parentObjId, 'integer')}
-			AND			qpl_questions.tstamp > 0
+			WHERE		qpl_questions.tstamp > 0
 		";
 	}
 	
@@ -438,7 +494,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 				AND	{$this->db->in('qpl_questions.question_id', $this->getForcedQuestionIds(), false, 'integer')}
 			";
 		}
-		
+
 		return $query;
 	}
 	
@@ -518,7 +574,12 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 		
 		return $this->pluginAdmin->isActive(IL_COMP_MODULE, 'TestQuestionPool', 'qst', $questionData['type_tag']);
 	}
-	
+
+	public function getDataArrayForQuestionId($questionId)
+	{
+		return $this->questions[$questionId];
+	}
+
 	public function getQuestionDataArray()
 	{
 		return $this->questions;

@@ -245,6 +245,10 @@ class ilDataCollectionDatatype {
 						$input->setMaxLength($field->getLength());
 					}
 				}
+                $properties = $field->getProperties();
+                if ($properties[ilDataCollectionField::PROPERTYID_URL]) {
+                    $input->setInfo($lng->txt('dcl_text_email_detail_desc'));
+                }
 				break;
 			case ilDataCollectionDatatype::INPUTFORMAT_NUMBER:
 				$input = new ilTextInputGUI($title, 'field_' . $field->getId());
@@ -280,9 +284,11 @@ class ilDataCollectionDatatype {
 				$input->setAllowDeletion(true);
 				break;
 			case ilDataCollectionDatatype::INPUTFORMAT_FORMULA:
-				$input = new ilNonEditableValueGUI($title, 'field_' . $field->getId());
-				$input->setValue('-');
-				break;
+				$input = new ilTextInputGUI($title, 'field_' . $field->getId());
+                $input->setDisabled(true);
+                $input->setValue('-');
+                $input->setInfo($lng->txt('dcl_formula_detail_desc'));
+                break;
 		}
 		if ($field->getDescription() && $input !== NULL) {
 			$input->setInfo($field->getDescription() . ($input->getInfo() ? "<br>" . $input->getInfo() : ""));
@@ -747,14 +753,17 @@ class ilDataCollectionDatatype {
 				$arr_properties = $record_field->getField()->getProperties();
 				if ($arr_properties[ilDataCollectionField::PROPERTYID_URL]) {
 					$link = $value;
-					if (preg_match("/^[a-z0-9!#$%&'*+=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i", $value)) {
-						$value = "mailto:" . $value;
-					} elseif (!(preg_match('~(^(news|(ht|f)tp(s?)\://){1}\S+)~i', $value))) {
+                    if (substr($link, 0, 3) === 'www') {
+                        $link = 'http://' . $link;
+                    }
+					if (preg_match("/^[a-z0-9!#$%&'*+=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i", $link)) {
+						$link = "mailto:" . $link;
+					} elseif (!(preg_match('~(^(news|(ht|f)tp(s?)\://){1}\S+)~i', $link))) {
 						return $link;
 					}
 
-					$link = $this->shortenLink($link);
-					$html = "<a target='_blank' href='" . $value . "'>" . $link . "</a>";
+					$link_value = $this->shortenLink($value);
+					$html = "<a target='_blank' href='" . $link . "'>" . $link_value . "</a>";
 				} elseif ($arr_properties[ilDataCollectionField::PROPERTYID_LINK_DETAIL_PAGE_TEXT] AND
 					$link AND ilDataCollectionRecordViewViewdefinition::getIdByTableId($record_field->getRecord()->getTableId())
 				) {

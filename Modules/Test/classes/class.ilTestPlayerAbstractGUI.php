@@ -42,6 +42,16 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	protected $processLocker;
 
 	/**
+	 * @var ilTestSession
+	 */
+	protected $testSession;
+
+	/**
+	 * @var ilSetting
+	 */
+	protected $assSettings;
+	
+	/**
 	* ilTestOutputGUI constructor
 	*
 	* @param ilObjTest $a_object
@@ -56,28 +66,40 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$this->passwordChecker = new ilTestPasswordChecker($rbacsystem, $ilUser, $this->object);
 		
 		$this->processLocker = null;
+		$this->testSession = null;
+		$this->assSettings = null;
 	}
 	
 	protected function ensureExistingTestSession(ilTestSession $testSession)
 	{
-		if( !$testSession->getActiveId() )
+		if( $testSession->getActiveId() )
 		{
-			global $ilUser;
-
-			$testSession->setUserId($ilUser->getId());
-			$testSession->setAnonymousId($_SESSION['tst_access_code'][$this->object->getTestId()]);
-			$testSession->saveToDb();
+			return;
 		}
+
+		global $ilUser;
+		
+		$testSession->setUserId($ilUser->getId());
+
+		if( $testSession->isAnonymousUser() )
+		{
+			if( !$testSession->doesAccessCodeInSessionExists() )
+			{
+				return;
+			}
+
+			$testSession->setAnonymousId($testSession->getAccessCodeFromSession());
+		}
+		
+		$testSession->saveToDb();
 	}
 	
 	protected function initProcessLocker($activeId)
 	{
 		global $ilDB;
 		
-		$settings = new ilSetting('assessment');
-
 		require_once 'Modules/Test/classes/class.ilTestProcessLockerFactory.php';
-		$processLockerFactory = new ilTestProcessLockerFactory($settings, $ilDB);
+		$processLockerFactory = new ilTestProcessLockerFactory($this->assSettings, $ilDB);
 
 		$processLockerFactory->setActiveId($activeId);
 		
@@ -520,10 +542,11 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	 */
 	public function setAnonymousIdCmd()
 	{
-		if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
+		if( $this->testSession->isAnonymousUser() )
 		{
-			$this->object->setAccessCodeSession($_POST["anonymous_id"]);
+			$this->testSession->setAccessCodeToSession($_POST['anonymous_id']);
 		}
+		
 		$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
 	}
 
@@ -591,13 +614,17 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			return $this->showMaximumAllowedUsersReachedMessage();
 		}
 
-		if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
+		if( $this->testSession->isAnonymousUser() && !$this->testSession->getActiveId() )
 		{
-			$this->object->setAccessCodeSession($this->object->createNewAccessCode());
-			$this->ctrl->redirect($this, "displayCode");
+			$accessCode = $this->testSession->createNewAccessCode();
+			
+			$this->testSession->setAccessCodeToSession($accessCode);
+			$this->testSession->setAnonymousId($accessCode);
+			$this->testSession->saveToDb();
+			
+			$this->ctrl->redirect($this, 'displayCode');
 		}
 
-		$this->object->unsetAccessCodeSession();
 		$this->ctrl->redirect($this, 'startTest');
 	}
 	
@@ -606,7 +633,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$this->tpl->addBlockFile($this->getContentBlockName(), "adm_content", "tpl.il_as_tst_anonymous_code_presentation.html", "Modules/Test");
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("TEXT_ANONYMOUS_CODE_CREATED", $this->lng->txt("tst_access_code_created"));
-		$this->tpl->setVariable("TEXT_ANONYMOUS_CODE", $this->object->getAccessCodeSession());
+		$this->tpl->setVariable("TEXT_ANONYMOUS_CODE", $this->testSession->getAccessCodeFromSession());
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("CONTINUE", $this->lng->txt("continue_work"));
 		$this->tpl->parseCurrentBlock();
@@ -1943,7 +1970,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	{
 		return false;
 	}
-	
+
 	protected function performCustomRedirect()
 	{
 		return;
@@ -1961,4 +1988,39 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		
 		return $this->lng->txt("save_introduction");
 	}
+
+	protected function initAssessmentSettings()
+	{
+		$this->assSettings = new ilSetting('assessment');
+	}
+
+	/**
+	 * @param ilTestSession $testSession
+	 */
+	protected function handleSkillTriggering(ilTestSession $testSession)
+	{
+		$questionList = $this->buildTestPassQuestionList();
+		$questionList->load();
+
+		$testResults = $this->object->getTestResult($testSession->getActiveId(), $testSession->getPass(), true);
+		
+		require_once 'Modules/Test/classes/class.ilTestSkillEvaluation.php';
+		$skillEvaluation = new ilTestSkillEvaluation($this->db, $this->object->getTestId(), $this->object->getRefId());
+
+		$skillEvaluation->setUserId($testSession->getUserId());
+		$skillEvaluation->setActiveId($testSession->getActiveId());
+		$skillEvaluation->setPass($testSession->getPass());
+		
+		$skillEvaluation->setNumRequiredBookingsForSkillTriggering($this->assSettings->get(
+			'ass_skl_trig_num_answ_barrier', ilObjAssessmentFolder::DEFAULT_SKL_TRIG_NUM_ANSWERS_BARRIER
+		));
+
+
+		$skillEvaluation->init($questionList);
+		$skillEvaluation->evaluate($testResults);
+		
+		$skillEvaluation->handleSkillTriggering();
+	}
+	
+	abstract protected function buildTestPassQuestionList();
 }

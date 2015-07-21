@@ -148,7 +148,7 @@ class ilObjBlog extends ilObject2
 					",bg_color = ".$ilDB->quote($this->getBackgroundColor(), "text").
 					",font_color = ".$ilDB->quote($this->getFontcolor(), "text").
 					",img = ".$ilDB->quote($this->getImage(), "text").
-					",rss_active = ".$ilDB->quote($this->hasRSS(), "text").
+					",rss_active = ".$ilDB->quote($this->hasRSS(), "integer").
 					",approval = ".$ilDB->quote($this->hasApproval(), "integer").
 					",abs_shorten = ".$ilDB->quote($this->hasAbstractShorten(), "integer").
 					",abs_shorten_len = ".$ilDB->quote($this->getAbstractShortenLength(), "integer").
@@ -804,7 +804,7 @@ class ilObjBlog extends ilObject2
 			$url = str_replace("&", "&amp;", $url);				
 
 			$feed_item = new ilFeedItem();
-			$feed_item->setTitle($item["title"]);
+			$feed_item->setTitle(str_replace("&", "&amp;", $item["title"])); // #16022
 			$feed_item->setDate($item["created"]->get(IL_CAL_DATETIME));
 			$feed_item->setDescription($snippet);
 			$feed_item->setLink($url);

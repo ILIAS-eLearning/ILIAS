@@ -82,9 +82,9 @@ class ilObjQuestionPoolTaxonomyEditingCommandForwarder
 		$this->lng->loadLanguageModule('tax');
 
 		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionList.php';
-		$questionList = new ilAssQuestionList(
-				$this->db, $this->lng, $this->pluginAdmin, $this->poolOBJ->getId()
-		);
+		$questionList = new ilAssQuestionList($this->db, $this->lng, $this->pluginAdmin);
+
+		$questionList->setParentObjId($this->poolOBJ->getId());
 
 		$questionList->load();
 

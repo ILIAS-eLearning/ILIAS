@@ -4514,6 +4514,13 @@ class ilObjSurvey extends ilObject
 				}
 			}
 		}
+
+		// #16210 - clone LP settings
+		include_once('./Services/Tracking/classes/class.ilLPObjSettings.php');
+		$obj_settings = new ilLPObjSettings($this->getId());
+		$obj_settings->cloneSettings($newObj->getId());
+		unset($obj_settings);
+		
 		return $newObj;
 	}
 	
@@ -4735,6 +4742,23 @@ class ilObjSurvey extends ilObject
 		}
 	}
 	
+	function bindSurveyCodeToUser($user_id, $code)
+	{
+		global $ilDB;
+		
+		if($user_id == ANONYMOUS_USER_ID)
+		{
+			return;
+		}
+		
+		if($this->checkSurveyCode($code))
+		{		
+			$ilDB->manipulate("UPDATE svy_anonymous".
+				" SET user_key = ".$ilDB->quote(md5($user_id), "text").
+				" WHERE survey_key = ".$ilDB->quote($code, "text"));
+		}
+	}
+	
 	function isAnonymizedParticipant($key)
 	{
 		global $ilDB;
@@ -4882,8 +4906,8 @@ class ilObjSurvey extends ilObject
 		$sql = "SELECT svy_anonymous.*, svy_finished.state".
 			" FROM svy_anonymous".
 			" LEFT JOIN svy_finished ON (svy_anonymous.survey_key = svy_finished.anonymous_id)".
-			" WHERE svy_anonymous.survey_fi = ".$ilDB->quote($this->getSurveyId(), "integer").
-			" AND svy_anonymous.user_key IS NULL";
+			" WHERE svy_anonymous.survey_fi = ".$ilDB->quote($this->getSurveyId(), "integer") /*.
+			" AND svy_anonymous.user_key IS NULL" */; // #15860
 		
 		if($ids)
 		{
@@ -5167,6 +5191,9 @@ class ilObjSurvey extends ilObject
 	function saveUserAccessCode($user_id, $access_code)
 	{
 		global $ilDB;
+		
+		// not really sure what to do about ANONYMOUS_USER_ID
+		
 		$next_id = $ilDB->nextId('svy_anonymous');
 		$affectedRows = $ilDB->manipulateF("INSERT INTO svy_anonymous (anonymous_id, survey_key, survey_fi, user_key, tstamp) ".
 			"VALUES (%s, %s, %s, %s, %s)",

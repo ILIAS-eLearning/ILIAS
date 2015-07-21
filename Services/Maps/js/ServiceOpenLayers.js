@@ -4,8 +4,9 @@
 // Needs libraries OpenLayers and jQuery.
 // addressInvalid is a string that will be displayed, when a searched address wasn't found
 // mapData is a dictionary containing the maps to be displayed as arrays with entrys
-//      [central_latitude, central_longitude, zoom_level, display_central_marker, allow_zoom_and_pan, allow_replace_central_marker]
-
+//      [central_latitude, central_longitude, zoom_level, display_central_marker, 
+//			allow_zoom_and_pan, allow_replace_central_marker, tile_server, geolocation_server]
+//
 var _ilOpenLayers = function(OpenLayers, jQuery, addressInvalid, mapData, userMarkers) {
 	// Maps
 	this.maps = [];
@@ -22,8 +23,6 @@ var _ilOpenLayers = function(OpenLayers, jQuery, addressInvalid, mapData, userMa
 	// Thats the Projection used by OSM
 	this.osmProjection = new OpenLayers.Projection("EPSG:900913");
 
-	// URL for geolocation lookup
-	this.geolocationURL = window.location.protocol + "//open.mapquestapi.com/nominatim/v1/search.php?format=json&q=";
 
 	// this gets displayed in the address search field
 	// if the address could not be found
@@ -253,7 +252,7 @@ var _ilOpenLayers = function(OpenLayers, jQuery, addressInvalid, mapData, userMa
 	// will be set to that place.
 	// If a central marker is used it can be replaced by a single click on
 	// the map if replace_marker is set to true.
-	this.initMap = function (id, latitude, longitude, zoom, central_marker, nav_control, replace_marker)
+	this.initMap = function (id, latitude, longitude, zoom, central_marker, nav_control, replace_marker, map_servers)
 	{
 		var mapControls = null;
 
@@ -269,7 +268,12 @@ var _ilOpenLayers = function(OpenLayers, jQuery, addressInvalid, mapData, userMa
 		});
 
 		// layer for the actual map
-		var mapLayer = new OpenLayers.Layer.OSM("OpenStreetMap");
+		var mapLayer = new OpenLayers.Layer.OSM("OpenStreetMap", map_servers);
+		
+		/*var mapLayer = new OpenLayers.Layer.OSM("OpenStreetMap",
+			["http://a."+server_url+"/${z}/${x}/${y}.png",
+			"http://b."+server_url+"/${z}/${x}/${y}.png",
+			"http://c."+server_url+"/${z}/${x}/${y}.png"]);*/
 
 		// central position of the map
 		var mapPos = this.OSMPosFromLonLat(longitude, latitude);
@@ -380,10 +384,23 @@ var _ilOpenLayers = function(OpenLayers, jQuery, addressInvalid, mapData, userMa
 		}
 	};
 
+
+	// URL for geolocation lookup
+	
+
+
 	for (var id in mapData) {
 		var map = mapData[id];
 
-		this.initMap(id, map[0], map[1], map[2], map[3], map[4], map[5]);
+		this.geolocationURL = window.location.protocol + "//"+ map[7] +"/nominatim/v1/search.php?format=json&q=";
+		map_servers = map[6];
+		map_servers_count = map_servers.length;
+		
+		for(var j = 0; j < map_servers_count; j++) {
+			map_servers[j] = "http://"+map_servers[j]+"/${z}/${x}/${y}.png";
+		}
+
+		this.initMap(id, map[0], map[1], map[2], map[3], map[4], map[5], map_servers);
 
 		var mapUserMarkers = userMarkers[id];
 

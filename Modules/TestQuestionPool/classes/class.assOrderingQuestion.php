@@ -197,11 +197,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		}
 		// duplicate the question in database
 		$this_id = $this->getId();
-		
-		if( (int)$testObjId > 0 )
-		{
-			$thisObjId = $this->getObjId();
-		}
+		$thisObjId = $this->getObjId();
 		
 		$clone = $this;
 		include_once ("./Modules/TestQuestionPool/classes/class.assQuestion.php");
@@ -1498,14 +1494,24 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		global $ilDB;
 		$result = new ilUserQuestionResult($this, $active_id, $pass);
 
-		$data = $ilDB->queryF(
-			"SELECT value1+1 as value1, value2 FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s AND step = (
-				SELECT MAX(step) FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s
-			) ORDER BY value1 ASC ",
-			array("integer", "integer", "integer","integer", "integer", "integer"),
-			array($active_id, $pass, $this->getId(), $active_id, $pass, $this->getId())
-		);
+		$maxStep = $this->lookupMaxStep($active_id, $pass);
 
+		if( $maxStep !== null )
+		{
+			$data = $ilDB->queryF(
+				"SELECT value1, value2 FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s AND step = %s ORDER BY value1 ASC ",
+				array("integer", "integer", "integer","integer"),
+				array($active_id, $pass, $this->getId(), $maxStep)
+			);
+		}
+		else
+		{
+			$data = $ilDB->queryF(
+				"SELECT value1, value2 FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s ORDER BY value1 ASC ",
+				array("integer", "integer", "integer"),
+				array($active_id, $pass, $this->getId())
+			);
+		}
 
 		$elements = array();
 		while($row = $ilDB->fetchAssoc($data))
@@ -1515,11 +1521,12 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
 			foreach($this->getAnswers() as $key => $answer)
 			{
+				// Images nut supported
 				if($this->getOrderingType() == OQ_TERMS)
 				{
-					if($answer->getAnswerText() == $row["value2"])
+					if($key == $row["value1"])
 					{
-						$elements[$key] = $row["value1"];
+						$elements[$key] = $row["value2"];
 						break;
 					}
 				}

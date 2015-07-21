@@ -259,6 +259,27 @@ class ilVirtualSkillTree
 		return $skill_id.":".$tref_id;
 	}
 
+	/**
+	 * Get tree id for common skill id
+	 *
+	 * @param
+	 * @return
+	 */
+	function getVTreeIdForCSkillId($a_cskill_id)
+	{
+		$id_parts = explode(":", $a_cskill_id);
+		if ($id_parts[1] == 0)
+		{
+			$id = $id_parts[0].":0";
+		}
+		else
+		{
+			$id = $id_parts[1].":".$id_parts[0];
+		}
+		return $id;
+	}
+
+
 	
 	/**
 	 * Get node content

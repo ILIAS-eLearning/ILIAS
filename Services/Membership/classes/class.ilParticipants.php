@@ -627,6 +627,7 @@ abstract class ilParticipants
 	 			}
 	 		}
 	 	}
+		$rbacreview->clearCaches();
 	 	$this->readParticipants();
 	 	$this->readParticipantsStatus();
 	}

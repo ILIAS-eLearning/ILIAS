@@ -94,3 +94,6 @@ div.ilFrmPostHeader span.small {
   background-color: #FF9;
   padding: 0 5px;
 }
+.ilFrmBottomToolbar {
+  margin-top: 20px;
+}

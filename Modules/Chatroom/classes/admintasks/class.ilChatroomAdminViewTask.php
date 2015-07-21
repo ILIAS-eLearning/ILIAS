@@ -418,7 +418,7 @@ class ilChatroomAdminViewTask extends ilChatroomTaskHandler
 		require_once 'Modules/Chatroom/classes/class.ilChatroomServerConnector.php';
 
 		$serverSettings = (array)$adminSettings->loadGeneralSettings();
-		if($serverSettings['port'] && $serverSettings['address'] && !(boolean)@ilChatroomServerConnector::checkServerConnection())
+		if($serverSettings['port'] && $serverSettings['address'] && !(boolean)ilChatroomServerConnector::checkServerConnection())
 		{
 			ilUtil::sendInfo($lng->txt('chat_cannot_connect_to_server'));
 		}

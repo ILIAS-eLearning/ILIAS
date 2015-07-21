@@ -72,7 +72,7 @@ class ilCourseObjectivesGUI
 		
 		$this->course_id = $a_course_id;
 		$this->__initCourseObject();
-		
+
 		// begin-patch lok
 		$this->settings = ilLOSettings::getInstanceByObjId($this->course_obj->getId());
 		// end-patch lok
@@ -95,8 +95,7 @@ class ilCourseObjectivesGUI
 		{
 			$cmd = "list";
 		}
-		
-		$this->setSubTabs();
+
 		$this->$cmd();
 	}
 	
@@ -418,9 +417,17 @@ class ilCourseObjectivesGUI
 	/**
 	* set sub tabs
 	*/
-	function setSubTabs()
+	function setSubTabs($a_active = "")
 	{
-		global $ilTabs;
+		global $ilTabs, $ilHelp;
+
+		if ($a_active != "")
+		{
+			$ilHelp->setScreenIdComponent("crs");
+			$ilHelp->setScreenId("crs_objective");
+			$ilHelp->setSubScreenId($a_active);
+		}
+
 
 		// begin-patch lok
 		// no subtabs here
@@ -458,6 +465,8 @@ class ilCourseObjectivesGUI
 	public function create()
 	{
 		global $tpl;
+
+		$this->setSubTabs("create_obj");
 		
 		$_SESSION['objective_mode'] = self::MODE_CREATE;
 		
@@ -487,6 +496,8 @@ class ilCourseObjectivesGUI
 		global $tpl;
 		
 		$_SESSION['objective_mode'] = self::MODE_UPDATE;
+
+		$this->setSubTabs("edit_obj");
 		
 		$this->ctrl->setParameter($this,'objective_id',(int) $_REQUEST['objective_id']);
 		
@@ -581,6 +592,8 @@ class ilCourseObjectivesGUI
 			ilUtil::sendFailure($this->lng->txt('crs_no_objective_selected'),true);
 			$this->ctrl->redirect($this,'listObjectives');
 		}
+
+		$this->setSubTabs("materials");
 
 		$this->ctrl->saveParameter($this,'objective_id');
 
@@ -692,6 +705,8 @@ class ilCourseObjectivesGUI
 			ilUtil::sendFailure($this->lng->txt('crs_no_objective_selected'),true);
 			$this->ctrl->redirect($this,'listObjectives');
 		}
+
+		$this->setSubTabs("self_ass_assign");
 
 		$this->ctrl->saveParameter($this,'objective_id');
 
@@ -823,6 +838,8 @@ class ilCourseObjectivesGUI
 			$this->ctrl->redirect($this,'listObjectives');
 		}
 
+		$this->setSubTabs("self_ass_limits");
+
 		$this->ctrl->saveParameter($this,'objective_id');
 		$this->objective = new ilCourseObjective($this->course_obj,(int) $_GET['objective_id']);
 		
@@ -898,7 +915,8 @@ class ilCourseObjectivesGUI
 			ilUtil::sendFailure($this->lng->txt('crs_no_objective_selected'),true);
 			$this->ctrl->redirect($this,'listObjectives');
 		}
-		
+
+		$this->setSubTabs("final_test_assign");
 
 		$this->ctrl->saveParameter($this,'objective_id');
 		$this->objective = new ilCourseObjective($this->course_obj,(int) $_GET['objective_id']);
@@ -956,7 +974,10 @@ class ilCourseObjectivesGUI
 		$this->ctrl->setParameter($this,'tt',  (int) $_REQUEST['tt']);
 		$this->objective = new ilCourseObjective($this->course_obj,(int) $_GET['objective_id']);
 		$this->test_type = (int) $_REQUEST['tt'];
-		
+
+
+		$this->setSubTabs("rand_test_assign");
+
 		if(!$form instanceof ilPropertyFormGUI)
 		{
 			$form = $this->initFormRandom();
@@ -1211,6 +1232,8 @@ class ilCourseObjectivesGUI
 			ilUtil::sendFailure($this->lng->txt('crs_no_objective_selected'),true);
 			$this->ctrl->redirect($this,'listObjectives');
 		}
+
+		$this->setSubTabs("final_test_limits");
 
 		$this->ctrl->saveParameter($this,'objective_id');
 		$this->objective = new ilCourseObjective($this->course_obj,(int) $_GET['objective_id']);

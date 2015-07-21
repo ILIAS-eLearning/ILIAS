@@ -3,6 +3,7 @@
 
 require_once 'Modules/Test/classes/toolbars/class.ilTestSkillEvaluationToolbarGUI.php';
 require_once 'Modules/Test/classes/class.ilTestPersonalSkillsGUI.php';
+require_once 'Modules/Test/classes/class.ilObjAssessmentFolder.php';
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -42,9 +43,9 @@ class ilTestSkillEvaluationGUI
 	private $db;
 
 	/**
-	 * @var ilObjTest
+	 * @var int
 	 */
-	private $testOBJ;
+	private $testId;
 
 	/**
 	 * @var ilTestSkillEvaluation
@@ -52,24 +53,53 @@ class ilTestSkillEvaluationGUI
 	private $skillEvaluation;
 
 	/**
-	 * @var ilTestSessionFactory
+	 * @var ilTestSession
 	 */
-	private $testSessionFactory;
+	private $testSession;
 
-	public function __construct(ilCtrl $ctrl, ilTabsGUI $tabs, ilTemplate $tpl, ilLanguage $lng, ilDB $db, ilObjTest $testOBJ)
+	/**
+	 * @var array
+	 */
+	private $testResults;
+
+	/**
+	 * @var ilAssQuestionList
+	 */
+	private $questionList;
+
+	/**
+	 * @var int
+	 */
+	private $objectId;
+
+	public function __construct(ilCtrl $ctrl, ilTabsGUI $tabs, ilTemplate $tpl, ilLanguage $lng, ilDB $db, $testId, $refId, $objectId)
 	{
 		$this->ctrl = $ctrl;
 		$this->tabs = $tabs;
 		$this->tpl = $tpl;
 		$this->lng = $lng;
 		$this->db = $db;
-		$this->testOBJ = $testOBJ;
+		$this->testId = $testId;
+		$this->objectId = $objectId;
 
 		require_once 'Modules/Test/classes/class.ilTestSkillEvaluation.php';
-		$this->skillEvaluation = new ilTestSkillEvaluation($this->db, $this->testOBJ);
+		$this->skillEvaluation = new ilTestSkillEvaluation($this->db, $this->getTestId(), $refId);
+	}
 
-		require_once 'Modules/Test/classes/class.ilTestSessionFactory.php';
-		$this->testSessionFactory = new ilTestSessionFactory($this->testOBJ);
+	/**
+	 * @return ilAssQuestionList
+	 */
+	public function getQuestionList()
+	{
+		return $this->questionList;
+	}
+
+	/**
+	 * @param ilAssQuestionList $questionList
+	 */
+	public function setQuestionList($questionList)
+	{
+		$this->questionList = $questionList;
 	}
 
 	public function executeCommand()
@@ -98,15 +128,28 @@ class ilTestSkillEvaluationGUI
 
 	private function showCmd()
 	{
+		ilUtil::sendInfo($this->lng->txt('tst_skl_res_interpretation_hint_msg'));
+		
 		$selectedSkillProfile = ilTestSkillEvaluationToolbarGUI::fetchSkillProfileParam($_POST);
 
-		$testSession = $this->testSessionFactory->getSession();
+		$testSession = $this->getTestSession();
 
-		$this->skillEvaluation->init()->evaluate(
-			$testSession->getActiveId(), $testSession->getLastFinishedPass(), $testSession->getUserId()
-		);
+		$this->skillEvaluation->setUserId($testSession->getUserId());
+		$this->skillEvaluation->setActiveId($testSession->getActiveId());
+		$this->skillEvaluation->setPass($testSession->getPass());
 
-		$evaluationToolbarGUI = $this->buildEvaluationToolbarGUI($testSession->getUserId(), $selectedSkillProfile);
+		$settings = new ilSetting('assessment');
+
+		$this->skillEvaluation->setNumRequiredBookingsForSkillTriggering($settings->get(
+			'ass_skl_trig_num_answ_barrier', ilObjAssessmentFolder::DEFAULT_SKL_TRIG_NUM_ANSWERS_BARRIER
+		));
+
+		$testResults = $this->getTestResults();
+
+		$this->skillEvaluation->init($this->getQuestionList());
+		$this->skillEvaluation->evaluate($testResults);
+
+		$evaluationToolbarGUI = $this->buildEvaluationToolbarGUI($selectedSkillProfile);
 		$personalSkillsGUI = $this->buildPersonalSkillsGUI($testSession->getUserId(), $selectedSkillProfile);
 
 		$this->tpl->setContent(
@@ -114,14 +157,12 @@ class ilTestSkillEvaluationGUI
 		);
 	}
 
-	private function buildEvaluationToolbarGUI($usrId, $selectedSkillProfileId)
+	private function buildEvaluationToolbarGUI($selectedSkillProfileId)
 	{
-		$availableSkillProfiles = $this->skillEvaluation->getAssignedSkillMatchingSkillProfiles(
-			$usrId
-		);
+		$availableSkillProfiles = $this->skillEvaluation->getAssignedSkillMatchingSkillProfiles();
 
 		$noSkillProfileOptionEnabled = $this->skillEvaluation->noProfileMatchingAssignedSkillExists(
-			$usrId, $availableSkillProfiles
+			$availableSkillProfiles
 		);
 
 		$gui = new ilTestSkillEvaluationToolbarGUI($this->ctrl, $this->lng, $this, self::CMD_SHOW);
@@ -134,13 +175,35 @@ class ilTestSkillEvaluationGUI
 
 		return $gui;
 	}
+	
+	private function isTestResultButtonRequired()
+	{
+		$testOBJ = ilObjectFactory::getInstanceByObjId($this->objectId);
+		
+		if( !$testOBJ->canShowTestResults($this->testSession) )
+		{
+			return false;
+		}
+
+		require_once 'Modules/Test/classes/class.ilTestPassesSelector.php';
+		$testPassesSelector = new ilTestPassesSelector($this->db, $testOBJ);
+		$testPassesSelector->setActiveId($this->testSession->getActiveId());
+		$testPassesSelector->setLastFinishedPass($this->testSession->getLastFinishedPass());
+
+		if( !count($testPassesSelector->getReportablePasses()) )
+		{
+			return false;
+		}
+		
+		return true;
+	}
 
 	private function buildPersonalSkillsGUI($usrId, $selectedSkillProfileId)
 	{
 		$availableSkills = $this->skillEvaluation->getUniqueAssignedSkillsForPersonalSkillGUI();
 		$reachedSkillLevels = $this->skillEvaluation->getReachedSkillLevelsForPersonalSkillGUI();
 
-		$gui = new ilTestPersonalSkillsGUI($this->lng, $this->testOBJ);
+		$gui = new ilTestPersonalSkillsGUI($this->lng, $this->getObjectId());
 
 		$gui->setAvailableSkills($availableSkills);
 		$gui->setSelectedSkillProfile($selectedSkillProfileId);
@@ -149,5 +212,53 @@ class ilTestSkillEvaluationGUI
 		$gui->setUsrId($usrId);
 
 		return $gui;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getTestId()
+	{
+		return $this->testId;
+	}
+
+	/**
+	 * @param array $testResults
+	 */
+	public function setTestResults($testResults)
+	{
+		$this->testResults = $testResults;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getTestResults()
+	{
+		return $this->testResults;
+	}
+
+	/**
+	 * @param \ilTestSession $testSession
+	 */
+	public function setTestSession($testSession)
+	{
+		$this->testSession = $testSession;
+	}
+
+	/**
+	 * @return \ilTestSession
+	 */
+	public function getTestSession()
+	{
+		return $this->testSession;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getObjectId()
+	{
+		return $this->objectId;
 	}
 }

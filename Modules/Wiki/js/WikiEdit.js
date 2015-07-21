@@ -114,6 +114,11 @@ il.Wiki.Edit = {
 			appendTo: "#ilIntLinkModalContent",
 			response: function(e, u) {
 				il.Wiki.Edit.setTargetInfoText(il.Wiki.Edit.txt.new_page);
+				for (var j=0; j < u.content.length; j++) {
+					if (u.content[j].label.toLowerCase() == $("input#target_page").val().toLowerCase()) {
+						il.Wiki.Edit.setTargetInfoText(il.Wiki.Edit.txt.page_exists);
+					}
+				}
 			},
 			select: function(e, u) {
 				il.Wiki.Edit.setTargetInfoText(il.Wiki.Edit.txt.page_exists);

@@ -34,10 +34,6 @@ class ilDataCollectionRecordField {
 	 */
 	protected $value;
 	/**
-	 * @var ilLanguage
-	 */
-	protected $lng;
-	/**
 	 * @var ilObjUser
 	 */
 	protected $user;
@@ -56,10 +52,9 @@ class ilDataCollectionRecordField {
 	 * @param ilDataCollectionField  $field
 	 */
 	public function __construct(ilDataCollectionRecord $record, ilDataCollectionField $field) {
-		global $lng, $ilCtrl, $ilUser, $ilDB;
+		global $ilCtrl, $ilUser, $ilDB;
 		$this->record = $record;
 		$this->field = $field;
-		$this->lng = $lng;
 		$this->ctrl = $ilCtrl;
 		$this->user = $ilUser;
 		$this->db = $ilDB;
@@ -113,10 +108,10 @@ class ilDataCollectionRecordField {
 		}
 
 		$this->db->insert("il_dcl_stloc" . $datatype->getStorageLocation() . "_value", array(
-				"value" => array( $datatype->getDbType(), $this->value ),
-				"record_field_id " => array( "integer", $this->id ),
-				"id" => array( "integer", $next_id )
-			));
+			"value" => array( $datatype->getDbType(), $this->value ),
+			"record_field_id " => array( "integer", $this->id ),
+			"id" => array( "integer", $next_id )
+		));
 	}
 
 
@@ -152,7 +147,7 @@ class ilDataCollectionRecordField {
 	 */
 	public function setValue($value, $omit_parsing = false) {
 		$this->loadValue();
-		if (!$omit_parsing) {
+		if (! $omit_parsing) {
 			$tmp = $this->field->getDatatype()->parseValue($value, $this);
 			$old = $this->value;
 			//if parse value fails keep the old value
@@ -223,8 +218,13 @@ class ilDataCollectionRecordField {
 	protected function loadValue() {
 		if ($this->value === NULL) {
 			$datatype = $this->field->getDatatype();
+			switch ($datatype->getId()) {
+				case ilDataCollectionDatatype::INPUTFORMAT_RATING:
+					return true;
+			}
 			$query = "SELECT * FROM il_dcl_stloc" . $datatype->getStorageLocation() . "_value WHERE record_field_id = "
 				. $this->db->quote($this->id, "integer");
+
 			$set = $this->db->query($query);
 			$rec = $this->db->fetchAssoc($set);
 			$this->value = $rec['value'];

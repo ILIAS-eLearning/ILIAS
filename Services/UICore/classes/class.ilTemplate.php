@@ -861,7 +861,7 @@ class ilTemplate extends ilTemplateX
 		
 		$link_items["mailto:".ilUtil::prepareFormOutput($ilSetting->get("feedback_recipient"))] = array($lng->txt("contact_sysadmin"), false);
 				
-		if (DEVMODE && version_compare(PHP_VERSION,'5','>='))
+		if (DEVMODE)
 		{
 			$link_items[ilUtil::appendUrlParameterString($_SERVER["REQUEST_URI"], "do_dev_validate=xhtml")] = array("Validate", true);
 			$link_items[ilUtil::appendUrlParameterString($_SERVER["REQUEST_URI"], "do_dev_validate=accessibility")] = array("Accessibility", true);			
