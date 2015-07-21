@@ -1897,7 +1897,7 @@ class gevCourseUtils {
 				
 				$dbvs = $dbv_utils->getDBVsOf($user_id);
 				$dbv_names = array_map(function($id) { 
-								$names = ilObjUser::lookupName($id);
+								$names = ilObjUser::_lookupName($id);
 								return $names["firstname"]." ".$names["lastname"];
 							 }, $dbvs);
 				
