@@ -14,9 +14,12 @@ require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingSettings.php");
+require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingException.php");
 
 class gevDecentralTrainingUtils {
 	static $instance = null;
+	static $creation_request_db = null;
 	protected $creation_permissions = array();
 	protected $creation_users = array();
 	
@@ -166,118 +169,95 @@ class gevDecentralTrainingUtils {
 		throw new Exception("gevDecentralTrainingUtils::getTemplateInfoFor: Training not found.");
 	}
 	
-	public function create($a_user_id, $a_template_id, $a_trainer_ids) {
-		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
-		
-		foreach ($a_trainer_ids as $trainer_id) {
-			if (!$this->canCreateFor($a_user_id, $trainer_id)) {
-				throw new Exception( "gevDecentralTrainingUtils::create: No permission for ".$a_user_id
-									." to create training for ".$trainer_id);
-			}
+	// Creation Requests Database
+	public function getCreationRequestDB() {
+		if (self::$creation_request_db === null) {
+			require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCreationRequestDB.php");
+			self::$creation_request_db = new gevDecentralTrainingCreationRequestDB();
 		}
-		
-		$info = $this->getTemplateInfoFor($a_user_id, $a_template_id);
-		$parent = $this->tree->getParentId($info["ref_id"]);
-		
-		$res = $this->db->query(
-			 "SELECT DISTINCT c.child ref_id, od.type "
-			." FROM tree p"
-			." RIGHT JOIN tree c ON c.lft > p.lft AND c.rgt < p.rgt AND c.tree = p.tree"
-			." LEFT JOIN object_reference oref ON oref.ref_id = c.child"
-			." LEFT JOIN object_data od ON od.obj_id = oref.obj_id"
-			." WHERE p.child = ".$this->db->quote($info["ref_id"], "integer")
-			);
-	
-		$options = array();
-		while($rec = $this->db->fetchAssoc($res)) {
-			if ($type == "rolf") {
-				continue;
-			}
-			$options[$rec["ref_id"]] = array("type" => 2);
-		}
-		
-		$src_utils = gevCourseUtils::getInstance($a_template_id);
-
-		$trgt_ref_id = $src_utils->getCourse()
-						->cloneAllObject( $_COOKIE['PHPSESSID']
-										, $_COOKIE['ilClientId']
-										, "crs"
-										, $parent
-										, $info["ref_id"]
-										, $options
-										, false
-										, true
-										);
-		if (!$trgt_ref_id) {
-			throw new Exception("gevDecentralTrainingUtils::create: <br />"
-								."User has no permission to create training in the category with ref_id = ".$parent
-								." or user has no permission to copy template course with ref_id = ".$info["ref_id"]
-								." or anything unexpected happens in gevDecentralTrainingUtils::create.");
-		}
-		
-		$trgt_obj_id = gevObjectUtils::getObjId($trgt_ref_id);
-		$trgt_utils = gevCourseUtils::getInstance($trgt_obj_id);
-		$trgt_crs = $trgt_utils->getCourse();
-		$trgt_crs->setOfflineStatus(false);
-		$trgt_crs->update();
-		
-		
-		// Roles and Members
-		
-		$rolf_data = $this->rbacreview->getRoleFolderOfObject($trgt_ref_id);
-		$rolf = $this->ilias->obj_factory->getInstanceByRefId($rolf_data["ref_id"]);
-		$creator_role = $rolf->createRole( $this->lng->txt("gev_dev_training_creator")
-										 , sprintf($this->lng->txt("gev_dev_training_creator_desc"), $trgt_ref_id)
-										 );
-		
-		$res = $this->db->query( "SELECT obj_id FROM object_data "
-								."WHERE type = 'rolt'"
-								."  AND title = ".$this->db->quote($this->lng->txt("gev_dev_training_creator"), "text")
-								);
-		if ($rec = $this->db->fetchAssoc($res)) {
-			$this->rbacadmin->copyRoleTemplatePermissions(
-						$rec["obj_id"], ROLE_FOLDER_ID
-						, $rolf->getRefId(), $creator_role->getId());
-			$ops = $this->rbacreview->getOperationsOfRole($creator_role->getId(), "crs", $rolf->getRefId());
-			$this->rbacadmin->grantPermission($creator_role->getId(), $ops, $trgt_ref_id);
-			if (!in_array($a_user_id,$a_trainer_ids)) {
-				$this->rbacadmin->assignUser($creator_role->getId(), $a_user_id);
-			}
-		}
-		else {
-			throw new Exception( "gevDecentralTrainingUtils::create: Roletemplate '"
-								.$this->lng->txt("gev_dev_training_creator")
-								."' does not exist.");
-		}
-		
-		$trainer_role = $trgt_crs->getDefaultTutorRole();
-		$trainer_ops = $this->rbacreview->getRoleOperationsOnObject(
-				$trainer_role,
-				$trgt_ref_id
-			);
-		$revoke_ops = ilRbacReview::_getOperationIdsByName(array("write", "copy", "edit_learning_progress"));
-		$grant_ops = ilRbacReview::_getOperationIdsByName(array("book_users", "cancel_bookings", "view_bookings"));
-		$new_trainer_ops = array_unique(array_merge($grant_ops, array_diff($trainer_ops, $revoke_ops)));
-		$this->rbacadmin->revokePermission($trgt_ref_id, $trainer_role);
-		$this->rbacadmin->grantPermission($trainer_role, $new_trainer_ops, $trgt_ref_id);
-
-		$orig_admin_id = $src_utils->getMainAdmin()->getId();
-		$trgt_crs->setOwner($orig_admin_id);
-		$trgt_crs->updateOwner();
-		
-		$trgt_crs->setTitle($src_utils->getTitle());
-		$trgt_crs->update();
-		$trgt_crs->getMembersObject()->add($orig_admin_id, IL_CRS_ADMIN);
-		$trgt_crs->getMembersObject()->delete($a_user_id);
-		
-		foreach ($a_trainer_ids as $trainer_id) {
-			$trgt_crs->getMembersObject()->add($trainer_id,IL_CRS_TUTOR);
-		}
-		
-		$this->rbacsystem->resetRoleCache();
-		
-		return array("ref_id" => $trgt_ref_id, "obj_id" => $trgt_obj_id);
+		return self::$creation_request_db;
 	}
+	
+	public function buildScheduleXLS($a_crs_id, $a_send, $a_filename) {
+		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		require_once("Services/User/classes/class.ilObjUser.php");
+		
+		global $lng;
+
+		if ($a_filename === null) {
+			if(!$a_send)
+			{
+				$a_filename = ilUtil::ilTempnam();
+			}
+			else
+			{
+				$a_filename = "uvg_list.xls";
+			}
+		}
+
+		$lng->loadLanguageModule("common");
+		$lng->loadLanguageModule("gev");
+
+		include_once "./Services/Excel/classes/class.ilExcelUtils.php";
+		include_once "./Services/Excel/classes/class.ilExcelWriterAdapter.php";
+		$adapter = new ilExcelWriterAdapter($a_filename, $a_send);
+		$workbook = $adapter->getWorkbook();
+		$worksheet = $workbook->addWorksheet();
+		$worksheet->setLandscape();
+
+		$columns = array();
+		
+		$columns[] = $lng->txt("gev_dct_crs_building_block_from");
+		$worksheet->setColumn(0, 0, 10);
+		$columns[] = $lng->txt("gev_dct_crs_building_block_to");
+		$worksheet->setColumn(1, 1, 10);
+		$columns[] = $lng->txt("gev_dct_crs_building_block_block");
+		$worksheet->setColumn(2, 2, 20);
+		$columns[] = $lng->txt("gev_dct_crs_building_block_methods");
+		$worksheet->setColumn(3, 3, 16);
+		$columns[] = $lng->txt("gev_dct_crs_building_block_media");
+		$worksheet->setColumn(4, 4, 16);
+		$columns[] = $lng->txt("gev_dct_crs_building_block_content");
+		$worksheet->setColumn(5, 5, 22);
+		$columns[] = $lng->txt("gev_dct_crs_building_block_lern_dest");
+		$worksheet->setColumn(6, 6, 22);
+
+		$format_wrap = $workbook->addFormat();
+		$format_wrap->setTextWrap();
+		
+		$crs_utils = gevCourseUtils::getInstance($a_crs_id);
+		$row = $crs_utils->buildListMeta( $workbook
+							   , $worksheet
+							   , $lng->txt("gev_dec_crs_building_block_title")
+							   , ""
+							   , $columns
+							   , $a_type
+							   );
+		
+		require_once("Services/GEV/Utils/classes/class.gevCourseBuildingBlockUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+		$blocks = gevCourseBuildingBlockUtils::getAllCourseBuildingBlocks(gevObjectUtils::getRefId($a_crs_id));
+		foreach ($blocks as $block) {
+			$row++;
+			$base = $block->getBuildingBlock();
+			$worksheet->write($row, 0, $block->getStartTime(), $format_wrap);
+			$worksheet->write($row, 1, $block->getEndTime(), $format_wrap);
+			$worksheet->write($row, 2, $base->getTitle(), $format_wrap);
+			$worksheet->write($row, 3, implode("\n", $block->getMethods()), $format_wrap);
+			$worksheet->write($row, 4, implode("\n", $block->getMedia()), $format_wrap);
+			$worksheet->write($row, 5, $base->getContent(), $format_wrap);
+			$worksheet->write($row, 6, $base->getLearningDestination(), $format_wrap);
+		}
+		
+		$workbook->close();
+
+		if($a_send)
+		{
+			exit();
+		}
+
+		return array($filename, "Teilnehmer.xls");
+ 	}
 }
 
 ?>

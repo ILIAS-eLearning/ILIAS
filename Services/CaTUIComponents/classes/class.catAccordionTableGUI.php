@@ -15,7 +15,6 @@ require_once("Services/jQuery/classes/class.iljQueryUtil.php");
 class catAccordionTableGUI extends catTableGUI {
 	public function __construct($a_parent_obj, $a_parent_cmd="", $a_template_context="") {
 		parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
-	
 		global $tpl;
 		iljQueryUtil::initjQuery();
 		$tpl->addJavaScript("./Services/CaTUIComponents/js/catAccordionTable.js");

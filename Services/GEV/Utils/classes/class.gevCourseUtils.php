@@ -296,6 +296,10 @@ class gevCourseUtils {
 	public function getTitle() {
 		return $this->getCourse()->getTitle();
 	}
+
+	public function setTitle($a_title) {
+		$this->getCourse()->setTitle($a_title);
+	}
 	
 	public function getSubtitle() {
 		return $this->getCourse()->getDescription();
@@ -363,6 +367,24 @@ class gevCourseUtils {
 	
 	public function isDecentralTraining() {
 		return $this->getEduProgramm() == "dezentrales Training";
+	}
+
+	public function isFlexibleDecentrallTraining() {
+		$tpl_ref_id = $this->getTemplateRefId();
+		
+		if($tpl_ref_id === null) {
+			return false;
+		}
+		
+		if(gevSettings::getInstance()->getDctTplFlexPresenceId() == $tpl_ref_id) {
+			return true;
+		}
+
+		if(gevSettings::getInstance()->getDctTplFlexWebinarId() == $tpl_ref_id) {
+			return true;
+		}
+
+		return false;
 	}
 
 	public function isStartAndEndDateSet(){
@@ -751,6 +773,22 @@ class gevCourseUtils {
 		return $prv->getLongTitle();
 	}
 	
+	public function setVCType($a_vc_type) {
+		$this->amd->setField($this->crs_id, gevSettings::CRS_AMD_WEBEX_VC_CLASS_TYPE, $a_vc_type);
+	}
+
+	public function setTrainingCategory(array $a_training_category) {
+		$this->amd->setField($this->crs_id, gevSettings::CRS_AMD_TOPIC, $a_training_category);
+	}
+
+	public function setTargetGroup(array $a_target_group) {
+		$this->amd->setField($this->crs_id, gevSettings::CRS_AMD_TARGET_GROUP, $a_target_group);
+	}
+
+	public function setGDVTopic($a_gdv_topic) {
+		$this->amd->setField($this->crs_id, gevSettings::CRS_AMD_GDV_TOPIC, $a_gdv_topic);
+	}
+
 	// Venue Info
 	
 	public function getVenueId() {
@@ -2096,7 +2134,7 @@ class gevCourseUtils {
 		return array($filename, "Teilnehmer.xls");//, implode("\n", $txt));
 	}
 	
-	protected function buildListMeta($workbook, $worksheet, $title, $row_title, array $column_titles, $a_type)
+	public function buildListMeta($workbook, $worksheet, $title, $row_title, array $column_titles, $a_type)
 	{
 		global $lng;
 
@@ -2978,6 +3016,39 @@ class gevCourseUtils {
 
 		return $start+$start_time < $timestamp 
 			&& $end+$end_time > $timestamp;
+	}
+
+	static public function updateMethod(array $a_new_method, $a_ref_id) {
+		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+		
+		$obj_id = gevObjectUtils::getObjId($a_ref_id);
+		$amd_utils = gevAMDUtils::getInstance();
+
+		$amd_utils->setField($obj_id,gevSettings::CRS_AMD_METHODS,$a_new_method);
+	}
+
+	static public function updateMedia(array $a_new_media, $a_ref_id) {
+		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+		
+		$obj_id = gevObjectUtils::getObjId($a_ref_id);
+		$amd_utils = gevAMDUtils::getInstance();
+		
+		$amd_utils->setField($obj_id,gevSettings::CRS_AMD_MEDIA,$a_new_media);
+	}
+
+	static public function updateWP($a_wp, $a_ref_id) {
+		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+		
+		$obj_id = gevObjectUtils::getObjId($a_ref_id);
+		$amd_utils = gevAMDUtils::getInstance();
+
+		$amd_utils->setField($obj_id,gevSettings::CRS_AMD_CREDIT_POINTS,$a_wp);
 	}
 }
 

@@ -1861,7 +1861,7 @@ if(!$ilDB->tableExists('hist_user'))
 <#42>
 <?php
 // init helper class
-$idDB->	manipulate("ALTER TABLE `il_plugin` CHANGE `plugin_id` `plugin_id` 
+$ilDB->	manipulate("ALTER TABLE `il_plugin` CHANGE `plugin_id` `plugin_id` 
 			VARCHAR(40) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL");
 
 require_once "Customizing/class.ilCustomInstaller.php";
@@ -3792,4 +3792,239 @@ require_once "Customizing/class.ilCustomInstaller.php";
 		$ilDB->addPrimaryKey('hist_userrole', array('row_id'));
 		$ilDB->createSequence('hist_userrole');
 	}	
+?>
+
+<#132>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+
+<#133>
+<?php
+if( !$ilDB->tableExists('dct_building_block') )
+{
+	$ilDB->createTable('dct_building_block', array(
+		'obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'title' => array(
+			'type' => 'text',
+			'length' => 50,
+			'notnull' => true
+		),
+		'content' => array(
+			'type' => 'text',
+			'length' => 50,
+			'notnull' => true
+		),
+		'learning_dest' => array(
+			'type' => 'text',
+			'length' => 50,
+			'notnull' => true
+		),
+		'is_wp_relevant' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false,
+			'default' => 0
+		),
+		'is_active' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false,
+			'default' => 0
+		),
+		'is_deleted' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false,
+			'default' => 0
+		),
+		'last_change_user' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false
+		),
+		'last_change_date' => array(
+			'type' => 'timestamp',
+			'notnull' => false
+		)
+	));
+		
+	$ilDB->addPrimaryKey('dct_building_block', array('obj_id'));
+}
+?>
+
+<#134>
+<?php
+if( !$ilDB->tableExists('dct_crs_building_block') )
+{
+	$ilDB->createTable('dct_crs_building_block', array(
+		'id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'crs_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'bb_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'start_date' => array(
+			'type' => 'timestamp',
+			'notnull' => true
+		),
+		'end_date' => array(
+			'type' => 'timestamp',
+			'notnull' => true
+		),
+		'method' => array(
+			'type' => 'text',
+			'length' => 100,
+			'notnull' => true
+		),
+		'media' => array(
+			'type' => 'text',
+			'length' => 100,
+			'notnull' => true
+		),
+		'last_change_user' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false
+		)
+	));
+
+	$ilDB->addPrimaryKey('dct_crs_building_block',array('id'));
+
+}
+?>
+
+<#135>
+<?php
+require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCreationRequestDB.php");
+gevDecentralTrainingCreationRequestDB::install_step1($ilDB);
+?>
+
+<#136>
+<?php
+require_once "Customizing/class.ilCustomInstaller.php";
+	ilCustomInstaller::initPluginEnv();
+	ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "AdvancedMetaData", "amdc", "CourseAMD");
+?>
+
+<#137>
+<?php
+require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCreationRequestDB.php");
+gevDecentralTrainingCreationRequestDB::install_step2($ilDB);
+?>
+
+<#138>
+<?php
+if(!$ilDB->tableColumnExists('dct_crs_building_block', 'crs_request_id')) {
+	$ilDB->addTableColumn('dct_crs_building_block', 'crs_request_id', array(
+			"type" => "integer",
+			"length" => 4,
+			"notnull" => true
+		));
+}
+
+if($ilDB->tableColumnExists('dct_crs_building_block', 'media')) {
+	$ilDB->modifyTableColumn('dct_crs_building_block','media', array(
+			'type' => 'text',
+			'length' => 4000,
+			'notnull' => true
+	));
+}
+
+if($ilDB->tableColumnExists('dct_crs_building_block', 'method')) {
+	$ilDB->modifyTableColumn('dct_crs_building_block','method', array(
+			'type' => 'text',
+			'length' => 4000,
+			'notnull' => true
+	));
+}
+
+if($ilDB->tableColumnExists('dct_building_block', 'title')) {
+	$ilDB->modifyTableColumn('dct_building_block','title', array(
+			'type' => 'text',
+			'length' => 100,
+			'notnull' => true,
+			'default' => ""
+	));
+}
+
+if($ilDB->tableColumnExists('dct_building_block', 'content')) {
+	$ilDB->modifyTableColumn('dct_building_block','content', array(
+			'type' => 'text',
+			'length' => 100,
+			'notnull' => true,
+			'default' => ""
+	));
+}
+
+if($ilDB->tableColumnExists('dct_building_block', 'learning_dest')) {
+	$ilDB->modifyTableColumn('dct_building_block','learning_dest', array(
+			'type' => 'text',
+			'length' => 100,
+			'notnull' => true,
+			'default' => ""
+	));
+}
+?>
+
+<#139>
+<?php
+	$ilDB->createSequence("dct_crs_building_block");
+	$ilDB->createSequence("dct_building_block");
+?>
+
+<#140>
+<?php
+require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCreationRequestDB.php");
+gevDecentralTrainingCreationRequestDB::install_step3($ilDB);
+?>
+
+<#141>
+<?php
+if(!$ilDB->tableColumnExists('dct_crs_building_block', 'last_change_date')) {
+	$ilDB->addTableColumn('dct_crs_building_block', 'last_change_date', array(
+			"type" => "timestamp",
+			"notnull" => true
+		));
+}
+?>
+
+<#142>
+<?php
+$ilDB->modifyTableColumn('dct_crs_building_block', "crs_request_id", array(
+		"type" => "integer",
+		"length" => 4,
+		"notnull" => false
+));
+?>
+
+<#143>
+<?php
+$ilDB->modifyTableColumn('dct_crs_building_block', 'crs_id', array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => true
+));
+?>
+
+<#144>
+<?php
+require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCreationRequestDB.php");
+gevDecentralTrainingCreationRequestDB::install_step4($ilDB);
+gevDecentralTrainingCreationRequestDB::install_step5($ilDB);
 ?>

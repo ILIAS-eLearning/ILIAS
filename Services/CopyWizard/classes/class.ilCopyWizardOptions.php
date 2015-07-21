@@ -31,7 +31,7 @@
 */
 class ilCopyWizardOptions
 {
-	private static $instances = null;
+	public static $instances = null;
 	
 	const COPY_WIZARD_OMIT = 1;
 	const COPY_WIZARD_COPY = 2;

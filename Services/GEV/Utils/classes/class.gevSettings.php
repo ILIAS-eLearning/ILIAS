@@ -269,7 +269,9 @@ class gevSettings {
 	const USR_WBD_COM_EMAIL			= "usr_udf_wbd_com_email";
 	const USR_WBD_EXIT_DATE			= "usr_udf_wbd_exit_date";
 
-
+	//basic templates for flexible decentral trainings
+	const DCT_TPL_FLEX_PRESENCE = "dct_tpl_flex_presence";
+	const DCT_TPL_FLEX_WEBINAR = "dct_tpl_flex_webinar";
 
 	static $UDF_FIELD_ORDER = array(
 		'Emailadresse (privat)'
@@ -664,6 +666,35 @@ class gevSettings {
 	
 	public function getUDFFieldId($a_field) {
 		return $this->get($a_field);
+	}
+
+	//basic templates for flexible decentral trainings	
+	public function setDctTplFlexPresenceId($a_tpl_id) {
+		$this->settings->set(self::DCT_TPL_FLEX_PRESENCE, $a_val);
+	}
+
+	public function getDctTplFlexPresenceId() {
+		return $this->settings->get(self::DCT_TPL_FLEX_PRESENCE);
+	}
+
+	public function getDctTplFlexPresenceObjId() {
+		$ref_id = $this->settings->get(self::DCT_TPL_FLEX_PRESENCE);
+		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+		return gevObjectUtils::getObjId($ref_id);
+	}
+
+	public function setDctTplFlexWebinarId($a_tpl_id) {
+		$this->settings->set(self::DCT_TPL_FLEX_WEBINAR, $a_val);
+	}
+
+	public function getDctTplFlexWebinarId() {
+		return $this->settings->get(self::DCT_TPL_FLEX_WEBINAR);
+	}
+
+	public function getDctTplFlexWebinarObjId() {
+		$ref_id = $this->settings->get(self::DCT_TPL_FLEX_WEBINAR);
+		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+		return gevObjectUtils::getObjId($ref_id);
 	}
 }
 
