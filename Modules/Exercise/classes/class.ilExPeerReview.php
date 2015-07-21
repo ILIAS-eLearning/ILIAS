@@ -500,35 +500,38 @@ class ilExPeerReview
 	}
 		
 	public function isFeedbackValidForPassed($a_user_id)
-	{						
-		// #16227
-		$active_peer_review = $this->assignment->afterDeadlineStrict();		
-		if(!$active_peer_review)
+	{					
+		// peer feedback is not required for passing
+		if($this->assignment->getPeerReviewValid() == ilExAssignment::PEER_REVIEW_VALID_NONE)
+		{
+			return true;
+		}
+	
+		// #16227 - no processing before reaching the peer review period
+		if(!$this->assignment->afterDeadlineStrict())
 		{
 			return false;
 		}
 		
-		switch($this->assignment->getPeerReviewValid())
+		// forever alone - should be valid		
+		$max = $this->getMaxPossibleFeedbacks();						
+		if(!$max)
 		{
-			case ilExAssignment::PEER_REVIEW_VALID_NONE:
-				return true;
-				
+			return true;
+		}
+		
+		$no_of_feedbacks = $this->countGivenFeedback(true, $a_user_id);
+						
+		switch($this->assignment->getPeerReviewValid())
+		{			
 			case ilExAssignment::PEER_REVIEW_VALID_ONE:
-				return (bool)$this->countGivenFeedback(true, $a_user_id);
+				return (bool)$no_of_feedbacks;
 				
-			case ilExAssignment::PEER_REVIEW_VALID_ALL:
-				$max = $this->getMaxPossibleFeedbacks();
-		
-				// forever alone - should be valid
-				if(!$max)
-				{
-					return true;
-				}
-		
+			case ilExAssignment::PEER_REVIEW_VALID_ALL:														
 				// there could be less participants than stated in the min required setting
 				$min = min($max, $this->assignment->getPeerReviewMin());
 				
-				return (($min-$this->countGivenFeedback(true, $a_user_id)) < 1);				
+				return (($min-$no_of_feedbacks) < 1);				
 		}			
 	}
 }
