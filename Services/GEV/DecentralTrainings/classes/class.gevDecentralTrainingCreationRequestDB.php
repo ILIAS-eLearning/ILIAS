@@ -394,4 +394,12 @@ class gevDecentralTrainingCreationRequestDB {
 			'notnull' => false
 		));
 	}
+	
+	static public function install_step4(ilDB $ilDB) {
+		$ilDB->modifyTableColumn(self::TABLE_NAME, 'session_id', array(
+			"type" => "text",
+			"length" => 250,
+			"notnull" => false
+		));
+	}
 }
