@@ -1182,6 +1182,7 @@ assessment#:#tst_result#:#Testergebnis
 assessment#:#tst_result_user_name#:#Testergebnisse für %s
 assessment#:#tst_result_user_name_pass#:#Ergebnisse von Testdurchlauf %s für %s
 assessment#:#tst_results#:#Testergebnisse
+assessment#:#tst_result_pass#:#Ergebnisse des Testdurchlaufs
 assessment#:#tst_results_access#:#Zugang zu den Testergebnissen
 assessment#:#tst_results_access_always#:#Immer
 assessment#:#tst_results_access_date#:#Datum
