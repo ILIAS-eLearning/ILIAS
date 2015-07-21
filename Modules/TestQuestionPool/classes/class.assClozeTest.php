@@ -1516,7 +1516,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 	*/
 	function getRTETextWithMediaObjects()
 	{
-		return parent::getRTETextWithMediaObjects();
+		return parent::getRTETextWithMediaObjects() . $this->getClozeText();
 	}
 	function getGapCombinationsExists()
 	{
