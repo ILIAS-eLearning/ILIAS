@@ -1140,7 +1140,7 @@ class gevDecentralTrainingGUI {
 		$form->addItem($cbx_group_training_cat);
 
 		//zielgruppe
-		$target_groups = $amd_utils->getOptions(gevSettings::CRS_AMD_TOPIC);
+		$target_groups = $amd_utils->getOptions(gevSettings::CRS_AMD_TARGET_GROUP);
 		$cbx_group_target_groups = new ilCheckBoxGroupInputGUI($this->lng->txt("gev_dec_training_target_groups"),"target_groups");
 
 		foreach($target_groups as $value => $caption)
@@ -1320,6 +1320,10 @@ class gevDecentralTrainingGUI {
 		require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCourseCreatingBuildingBlockGUI.php");
 		$bb_gui = new gevDecentralTrainingCourseCreatingBuildingBlockGUI($_POST["obj_id"]);
 		$this->ctrl->forwardCommand($bb_gui);
+	}
+
+	protected function forwardToCrsBuldingBlock() {
+
 	}
 }
 
