@@ -241,26 +241,6 @@ class gevCourseBuildingBlockUtils {
 			return $obj;
 		}, self::getAllCourseBuildingBlocksRaw($a_crs_ref_id, $a_request_id));
 	}
-	
-	static public function getDeleteLink($a_id,$a_crs_request_id) {
-		global $ilCtrl,$ilUser;
-
-		$ilCtrl->setParameterByClass("gevDecentralTrainingCourseBuildingBlockGUI", "id", $a_id);
-		$ilCtrl->setParameterByClass("gevDecentralTrainingCourseBuildingBlockGUI", "crs_request_id", $a_crs_request_id);
-		$lnk = $ilCtrl->getLinkTargetByClass("gevDecentralTrainingCourseBuildingBlockGUI", "delete");
-		$ilCtrl->clearParametersByClass("gevDecentralTrainingCourseBuildingBlockGUI");
-		return $lnk;
-	}
-
-	static public function getEditLink($a_id,$a_crs_request_id) {
-		global $ilCtrl,$ilUser;
-
-		$ilCtrl->setParameterByClass("gevDecentralTrainingCourseBuildingBlockGUI", "id", $a_id);
-		$ilCtrl->setParameterByClass("gevDecentralTrainingCourseBuildingBlockGUI", "crs_request_id", $a_crs_request_id);
-		$lnk = $ilCtrl->getLinkTargetByClass("gevDecentralTrainingCourseBuildingBlockGUI", "edit");
-		$ilCtrl->clearParametersByClass("gevDecentralTrainingCourseBuildingBlockGUI");
-		return $lnk;
-	}
 
 	static public function updateCrsBuildungBlocksCrsIdByCrsRequestId($a_crs_id, $a_crs_request_id) {
 		global $ilDB;
