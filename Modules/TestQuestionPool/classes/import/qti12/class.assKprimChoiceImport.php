@@ -106,18 +106,15 @@ class assKprimChoiceImport extends assQuestionImport
 		
 		foreach ($item->resprocessing as $resprocessing)
 		{
-			foreach($resprocessing->outcomes as $outcome)
+			foreach($resprocessing->outcomes->decvar as $decvar)
 			{
-				foreach($outcome->decvar as $decvar)
+				if( $decvar->getVarname() == 'SCORE' )
 				{
-					if( $decvar->getVarname() == 'SCORE' )
+					$this->object->setPoints($decvar->getMaxvalue());
+					
+					if( $decvar->getMinvalue() > 0 )
 					{
-						$this->object->setPoints($decvar->getMaxvalue());
-						
-						if( $decvar->getMinvalue() > 0 )
-						{
-							$this->object->setScorePartialSolutionEnabled(true);
-						}
+						$this->object->setScorePartialSolutionEnabled(true);
 					}
 				}
 			}
