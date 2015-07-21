@@ -3672,6 +3672,12 @@ require_once "Customizing/class.ilCustomInstaller.php";
 
 <#129>
 <?php
+	$ilCtrlStructureReader->getStructure();
+
+?>
+
+<#130>
+<?php
 	if(!$ilDB->tableColumnExists('hist_course', 'webex_vc_type' )) {
 		$ilDB->manipulate("ALTER TABLE `hist_course` ADD COLUMN webex_vc_type VARCHAR(50) NULL");
 	}
@@ -3786,7 +3792,7 @@ require_once "Customizing/class.ilCustomInstaller.php";
 			'action' => array(
 				'type' => 'integer',
 				'length' => 1 ,
-				'notnull' => true)			
+				'notnull' => true)
 		);
 		$ilDB->createTable('hist_userrole', $fields);
 		$ilDB->addPrimaryKey('hist_userrole', array('row_id'));
@@ -4027,4 +4033,15 @@ $ilDB->modifyTableColumn('dct_crs_building_block', 'crs_id', array(
 require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCreationRequestDB.php");
 gevDecentralTrainingCreationRequestDB::install_step4($ilDB);
 gevDecentralTrainingCreationRequestDB::install_step5($ilDB);
+?>
+
+<#145>
+<?php
+if(!$ilDB->tableColumnExists('hist_usercoursestatus', 'gev_id')) {
+	$ilDB->addTableColumn('hist_usercoursestatus', 'gev_id', array(
+			"type" => "integer",
+			"length" => 4,
+			"notnull" => false
+		));
+}
 ?>
