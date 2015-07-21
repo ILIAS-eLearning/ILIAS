@@ -3901,11 +3901,16 @@ $ilDB->modifyTableColumn('dct_crs_building_block', 'crs_id', array(
 		'length' => 4,
 		'notnull' => true
 ));
-
 ?>
 
 <#142>
 <?php
 require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCreationRequestDB.php");
 gevDecentralTrainingCreationRequestDB::install_step4($ilDB);
+?>
+
+<#143>
+<?php
+require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCreationRequestDB.php");
+gevDecentralTrainingCreationRequestDB::install_step5($ilDB);
 ?>

@@ -28,7 +28,8 @@ class gevDecentralTrainingCreationRequestDB {
 			"       (request_id, user_id, template_obj_id, requested_ts,\n".
 			"       finished_ts, created_obj_id, trainer_ids, start_dt,\n".
 			"       end_dt, venue_obj_id, venue_text, orgu_ref_id, description,\n".
-			"       orga_info, webinar_link, webinar_password, session_id)\n".
+			"       orga_info, webinar_link, webinar_password, session_id,title,vc_type,\n".
+			"       training_category,target_group,gdv_topic)\n".
 			" VALUES ( ".$ilDB->quote($request_id, "integer")."\n".
 			"        , ".$ilDB->quote($a_request->userId(), "integer")."\n".
 			"        , ".$ilDB->quote($a_request->templateObjId(), "integer")."\n".
@@ -46,6 +47,11 @@ class gevDecentralTrainingCreationRequestDB {
 			"        , ".$ilDB->quote($settings->webinarLink(), "text")."\n".
 			"        , ".$ilDB->quote($settings->webinarPassword(), "text")."\n".
 			"        , ".$ilDB->quote($a_request->sessionId(), "text")."\n".
+			"        , ".$ilDB->quote($settings->title(), "text")."\n".
+			"        , ".$ilDB->quote($settings->vcType(), "text")."\n".
+			"        , ".$ilDB->quote(serialize($settings->trainingCategory()), "text")."\n".
+			"        , ".$ilDB->quote(serialize($settings->targetGroup()), "text")."\n".
+			"        , ".$ilDB->quote($settings->gdvTopic(), "text")."\n".
 			"        )\n"
 		);
 		return $request_id;
@@ -76,6 +82,12 @@ class gevDecentralTrainingCreationRequestDB {
 			"     , orga_info = ".$ilDB->quote($settings->orgaInfo(), "text")."\n".
 			"     , webinar_link = ".$ilDB->quote($settings->webinarLink(), "text")."\n".
 			"     , webinar_password = ".$ilDB->quote($settings->webinarPassword(), "text")."\n".
+			"     , title = ".$ilDB->quote($settings->title(), "text")."\n".
+			"     , vc_type = ".$ilDB->quote($settings->vcType(), "text")."\n".
+			"     , training_category = ".$ilDB->quote(serialize($settings->trainingCategory()), "text")."\n".
+			"     , target_group = ".$ilDB->quote(serialize($settings->targetGroup()), "text")."\n".
+			"     , gdv_topic = ".$ilDB->quote($settings->gdvTopic(), "text")."\n".
+
 			" WHERE request_id = ".$ilDB->quote($a_request->requestId(), "integer")."\n"
 		);
 	}
@@ -107,6 +119,11 @@ class gevDecentralTrainingCreationRequestDB {
 										  , $rec["orga_info"] ? $rec["orga_info"] : ""
 										  , $rec["webinar_link"]
 										  , $rec["webinar_password"]
+										  , $rec["title"]
+										  , $rec["vc_type"]
+										  , unserialize($rec["training_category"])
+										  , unserialize($rec["target_group"])
+										  , $rec["gdv_topic"]
 										  );
 			$trainer_ids = array_map(function($v) {return (int)$v;}, explode(self::ARRAY_DELIM, $rec["trainer_ids"]));
 			$request = $this->newCreationRequest( (int)$rec["user_id"]
@@ -147,6 +164,11 @@ class gevDecentralTrainingCreationRequestDB {
 										  , $rec["orga_info"] ? $rec["orga_info"] : ""
 										  , $rec["webinar_link"]
 										  , $rec["webinar_password"]
+										  , $rec["title"]
+										  , $rec["vc_type"]
+										  , unserialize($rec["training_category"])
+										  , unserialize($rec["target_group"])
+										  , $rec["gdv_topic"]
 										  );
 			$trainer_ids = array_map(function($v) {return (int)$v;}, explode(self::ARRAY_DELIM, $rec["trainer_ids"]));
 			$request = $this->newCreationRequest( (int)$rec["user_id"]
@@ -182,6 +204,11 @@ class gevDecentralTrainingCreationRequestDB {
 										  , $rec["orga_info"] ? $rec["orga_info"] : ""
 										  , $rec["webinar_link"]
 										  , $rec["webinar_password"]
+										  , $rec["title"]
+										  , $rec["vc_type"]
+										  , unserialize($rec["training_category"])
+										  , unserialize($rec["target_group"])
+										  , $rec["gdv_topic"]
 										  );
 			$trainer_ids = array_map(function($v) {return (int)$v;}, explode(self::ARRAY_DELIM, $rec["trainer_ids"]));
 			$request = $this->newCreationRequest( (int)$rec["user_id"]
@@ -248,19 +275,24 @@ class gevDecentralTrainingCreationRequestDB {
 	}
 	
 	protected function newSettings( ilDateTime $a_start_datetime
-								  , ilDateTime $a_end_datetime
-								  , $a_venue_obj_id
-								  , $a_venue_text
-								  , $a_orgu_ref_id
-								  , $a_description
-								  , $a_orga_info
-								  , $a_webinar_link
-								  , $a_webinar_password 
+							   , ilDateTime $a_end_datetime
+							   , $a_venue_obj_id
+							   , $a_venue_text
+							   , $a_orgu_ref_id
+							   , $a_description
+							   , $a_orga_info
+							   , $a_webinar_link
+							   , $a_webinar_password
+							   , $a_title
+							   , $a_vc_type
+							   , $a_training_category
+							   , $a_target_group
+							   , $a_gdv_topic 
 								  ) {
 		require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingSettings.php");
 		return new gevDecentralTrainingSettings( $a_start_datetime, $a_end_datetime, $a_venue_obj_id, $a_venue_text
 											   , $a_orgu_ref_id, $a_description, $a_orga_info, $a_webinar_link
-											   , $a_webinar_password);
+											   , $a_webinar_password,$a_title,$a_vc_type,$a_training_category,$a_target_group,$a_gdv_topic);
 	}
 	
 	protected function newCreationRequest( $a_user_id
@@ -394,8 +426,40 @@ class gevDecentralTrainingCreationRequestDB {
 			'notnull' => false
 		));
 	}
-	
+
 	static public function install_step4(ilDB $ilDB) {
+		$ilDB->addTableColumn(self::TABLE_NAME, 'title', array(
+			"type" => "text",
+			"length" => 100,
+			"notnull" => false
+		));
+
+		$ilDB->addTableColumn(self::TABLE_NAME, 'vc_type', array(
+			"type" => "text",
+			"length" => 100,
+			"notnull" => false
+		));
+
+		$ilDB->addTableColumn(self::TABLE_NAME, 'training_category', array(
+			"type" => "text",
+			"length" => 4000,
+			"notnull" => false
+		));
+
+		$ilDB->addTableColumn(self::TABLE_NAME, 'target_group', array(
+			"type" => "text",
+			"length" => 4000,
+			"notnull" => false
+		));
+
+		$ilDB->addTableColumn(self::TABLE_NAME, 'gdv_topic', array(
+			"type" => "text",
+			"length" => 100,
+			"notnull" => false
+		));
+	}
+	
+	static public function install_step5(ilDB $ilDB) {
 		$ilDB->modifyTableColumn(self::TABLE_NAME, 'session_id', array(
 			"type" => "text",
 			"length" => 250,
