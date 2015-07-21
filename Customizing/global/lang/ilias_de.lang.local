@@ -1208,4 +1208,5 @@ gev#:#gev_dec_training_target_groups#:#Zielgruppen
 gev#:#gev_dec_training_rating#:#Bewertung
 gev#:#gev_dec_training_gdv_topic#:#GDV-Lerninhalt
 gev#:#gev_dec_training_add_buildingblocks#:#Ablaufplan anlegen
-gev#:#gev_dec_training_no_venue#:#Bitte wählen sie einen Veranstaltungort oder tragen sie einen Freitext für den Veranstaltungsort ein.
+gev#:#gev_dec_training_no_venue#:#Bitte wählen Sie einen Veranstaltungort oder tragen sie einen Freitext für den Veranstaltungsort ein.
+gev#:#gev_dec_training_no_orgu_selected#:#Bitte wählen Sie eine Organisationseinheit für die das Training veranstaltet wird.
