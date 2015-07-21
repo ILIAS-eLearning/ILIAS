@@ -256,6 +256,7 @@ class gevDesktopGUI {
 			case "toDctBuildingBlockAdm":
 			case "handleExplorerCommand":
 				$this->$a_cmd();
+				break;
 			default:
 				throw new Exception("gevDesktopGUI:Unknown command: ".$a_cmd);
 		}
