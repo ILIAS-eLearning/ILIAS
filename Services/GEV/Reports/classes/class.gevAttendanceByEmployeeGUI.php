@@ -61,7 +61,15 @@ class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 						->mapping("od_bd", array("org_unit_above1", "org_unit_above2"))
 						->defaultOrder("lastname", "ASC")
 						;
-		
+		$orgu_memberships =	" JOIN (SELECT pl.usr_id, pl.orgu_title, pl.org_unit_above1, pl.org_unit_above2, "
+							."pl.created_ts AS in_ts, mi.created_ts AS out_ts "
+							."FROM hist_userorgu AS pl LEFT JOIN "
+							."(SELECT usr_id, orgu_id, rol_id, hist_version, created_ts FROM hist_userorgu WHERE action = -1) AS mi "
+							."ON pl.usr_id = mi.usr_id AND pl.orgu_id =  mi.orgu_id AND "
+							."pl.rol_id = mi.rol_id AND pl.hist_version + 1  =  mi.hist_version AND "
+							."pl.created_ts < mi.created_ts "
+							."WHERE `action` = 1) AS orgu ON usr.user_id = orgu.usr_id ";
+
 		$this->query = catReportQuery::create()
 						->distinct()
 						->select("usr.user_id")
@@ -72,7 +80,7 @@ class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 						->select("usr.job_number")
 						->select("usr.org_unit_above1")
 						->select("usr.org_unit_above2")
-						->select("usr.org_unit")
+						->select_raw("GROUP_CONCAT(DISTINCT orgu.orgu_title SEPARATOR ', ') as org_unit")
 						->select("usr.position_key")
 						->select("crs.custom_id")
 						->select("crs.title")
@@ -91,6 +99,9 @@ class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 							->on("usr.user_id = usrcrs.usr_id AND usrcrs.hist_historic = 0")
 						->left_join("hist_course crs")
 							->on("crs.crs_id = usrcrs.crs_id AND crs.hist_historic = 0")
+						->raw_join($orgu_memberships)
+						->group_by("usr.user_id")
+						->group_by("usrcrs.crs_id")
 						->compile()
 						;
 
@@ -133,7 +144,7 @@ class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 									)
 						->multiselect( "org_unit"
 									 , $this->lng->txt("gev_org_unit_short")
-									 , array("usr.org_unit", "org_unit_above1", "org_unit_above2")
+									 , array("orgu.orgu_title", "org_unit_above1", "org_unit_above2")
 									 , $org_units_filter
 									 , array()
 									 )
@@ -179,6 +190,13 @@ class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 										  ." OR usrcrs.hist_historic IS NULL )")
 						->static_condition("(   usrcrs.function NOT IN ('Trainingsbetreuer', 'Trainingsersteller', 'Trainer')"
 										  ." OR usrcrs.hist_historic IS NULL )" )
+						->static_condition("IF(UNIX_TIMESTAMP(usrcrs.begin_date)>0 "
+										  ."AND UNIX_TIMESTAMP(usrcrs.begin_date) IS NOT NULL," 
+										  ." UNIX_TIMESTAMP(usrcrs.begin_date)>orgu.in_ts,TRUE)")
+						->static_condition("IF(UNIX_TIMESTAMP(usrcrs.end_date)>0 "
+										  ."AND UNIX_TIMESTAMP(usrcrs.end_date) IS NOT NULL " 
+										  ."AND orgu.out_ts IS NOT NULL," 
+										  ."UNIX_TIMESTAMP(usrcrs.end_date)>orgu.out_ts,TRUE)")
 						->action($this->ctrl->getLinkTarget($this, "view"))
 						->compile()
 						;
