@@ -61,12 +61,12 @@ class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 						->mapping("od_bd", array("org_unit_above1", "org_unit_above2"))
 						->defaultOrder("lastname", "ASC")
 						;
-		$orgu_memberships =	" JOIN (SELECT pl.usr_id, pl.orgu_title, pl.org_unit_above1, pl.org_unit_above2, "
+		$orgu_memberships =	" JOIN (SELECT pl.usr_id, pl.orgu_title, pl.org_unit_above1, pl.org_unit_above2,"
 							."pl.created_ts AS in_ts, mi.created_ts AS out_ts "
 							."FROM hist_userorgu AS pl LEFT JOIN "
 							."(SELECT usr_id, orgu_id, rol_id, hist_version, created_ts FROM hist_userorgu WHERE action = -1) AS mi "
-							."ON pl.usr_id = mi.usr_id AND pl.orgu_id =  mi.orgu_id AND "
-							."pl.rol_id = mi.rol_id AND pl.hist_version + 1  =  mi.hist_version AND "
+							."ON pl.usr_id = mi.usr_id AND pl.orgu_id = mi.orgu_id AND "
+							."pl.rol_id = mi.rol_id AND pl.hist_version+1 =  mi.hist_version AND "
 							."pl.created_ts < mi.created_ts "
 							."WHERE `action` = 1) AS orgu ON usr.user_id = orgu.usr_id ";
 
@@ -96,7 +96,7 @@ class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 						->select("crs.edu_program")
 						->from("hist_user usr")
 						->left_join("hist_usercoursestatus usrcrs")
-							->on("usr.user_id = usrcrs.usr_id AND usrcrs.hist_historic = 0")
+							->on("usr.user_id = usrcrs.usr_id AND (usrcrs.hist_historic = 0 OR usrcrs.hist_historic IS NULL)")
 						->left_join("hist_course crs")
 							->on("crs.crs_id = usrcrs.crs_id AND crs.hist_historic = 0")
 						->raw_join($orgu_memberships)
@@ -180,8 +180,6 @@ class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 									 )*/
 						->static_condition($this->db->in("usr.user_id", $this->allowed_user_ids, false, "integer"))
 						->static_condition(" usr.hist_historic = 0")
-						->static_condition("(   usrcrs.hist_historic = 0"
-										  ." OR usrcrs.hist_historic IS NULL )")
 						->static_condition("( usrcrs.booking_status != '-empty-'"
 										  ." OR usrcrs.hist_historic IS NULL )")
 						->static_condition("(   usrcrs.participation_status != '-empty-'"
@@ -190,13 +188,14 @@ class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 										  ." OR usrcrs.hist_historic IS NULL )")
 						->static_condition("(   usrcrs.function NOT IN ('Trainingsbetreuer', 'Trainingsersteller', 'Trainer')"
 										  ." OR usrcrs.hist_historic IS NULL )" )
-						->static_condition("IF(UNIX_TIMESTAMP(usrcrs.begin_date)>0 "
-										  ."AND UNIX_TIMESTAMP(usrcrs.begin_date) IS NOT NULL," 
-										  ." UNIX_TIMESTAMP(usrcrs.begin_date)>orgu.in_ts,TRUE)")
-						->static_condition("IF(UNIX_TIMESTAMP(usrcrs.end_date)>0 "
-										  ."AND UNIX_TIMESTAMP(usrcrs.end_date) IS NOT NULL " 
-										  ."AND orgu.out_ts IS NOT NULL," 
-										  ."UNIX_TIMESTAMP(usrcrs.end_date)>orgu.out_ts,TRUE)")
+						->static_condition("orgu.out_ts IS NULL")
+						/*->static_condition("IF(UNIX_TIMESTAMP(usrcrs.begin_date)=0 "
+                                          ."OR usrcrs.begin_date IS NULL, TRUE,"
+                                          ."UNIX_TIMESTAMP(usrcrs.begin_date)> orgu.in_ts)")
+                 		->static_condition("IF(UNIX_TIMESTAMP(usrcrs.end_date)=0 "
+                                          ."OR usrcrs.end_date IS NULL "
+                                          ."OR orgu.out_ts IS NULL, TRUE,"
+                                          ."UNIX_TIMESTAMP(usrcrs.end_date)< orgu.out_ts )")*/
 						->action($this->ctrl->getLinkTarget($this, "view"))
 						->compile()
 						;
