@@ -146,7 +146,13 @@ class gevDecentralTrainingCourseCreatingBuildingBlockGUI extends gevDecentralTra
 		$crs_request = $request_db->request((int)$this->crs_request_id);
 		$crs_request->request();
 
-		return $this->ctrl->redirect($this, "showOpenRequests");
+		ilUtil::sendSuccess($this->lng->txt("gev_dec_training_creation_requested"), true);
+		if (!$this->userCanOpenNewCreationRequest()) {
+			$this->ctrl->redirect($this, "showOpenRequests");
+		}
+		else {
+			$this->ctrl->redirectByClass(array("ilTEPGUI"));
+		}
 	}
 
 	protected function deleteRequest() {
