@@ -30,8 +30,10 @@ class gevDecentralTrainingGUI {
 		$this->user_id = null;
 		$this->date = null;
 		$this->open_creation_requests = null;
+		$this->tpl_date_auto_change = null;
 
 		$this->tpl->getStandardTemplate();
+		$this->tpl->addJavaScript('./Services/GEV/DecentralTrainings/js/dct_date_duration_update.js');
 	}
 
 	public function executeCommand() {
@@ -257,9 +259,18 @@ class gevDecentralTrainingGUI {
 		
 		$form->addCommandButton("cancel", $this->lng->txt("cancel"));
 		$form->setFormAction($this->ctrl->getFormAction($this));
+
+
 		
-		return   $title->render()
+		$ret = $title->render()
 				.$form->getHTML();
+
+		if($this->tpl_date_auto_change !== null) {
+			$ret .= $this->tpl_date_auto_change->get();
+		}
+
+		return $ret;
+				
 	}
 
 	protected function failCreateTraining($a_form) {
@@ -404,8 +415,14 @@ class gevDecentralTrainingGUI {
 								);
 	
 	
-		return   $title->render()
+		$ret = $title->render()
 				.$form->getHTML();
+
+		if($this->tpl_date_auto_change !== null) {
+			$ret .= $this->tpl_date_auto_change->get();
+		}
+
+		return $ret;
 	}
 	
 	protected function updateSettings() {
@@ -693,7 +710,9 @@ class gevDecentralTrainingGUI {
 		if ($a_template_id !== null && $a_trainer_ids === null && $a_fill) {
 			throw new Exception("gevDecentralTrainingGUI::buildTrainingOptionsForm: You need to set trainer_ids if you set a template_id.");
 		}
-$a_template_obj_id = $a_template_id;
+		
+		$a_template_obj_id = $a_template_id;
+		
 		if($a_training_id !== NULL && $a_template_id === null) {
 			require_once ("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 			require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
@@ -709,7 +728,8 @@ $a_template_obj_id = $a_template_id;
 		if($a_template_obj_id == $presence_flexible_tpl_id || $a_template_obj_id == $webinar_flexible_tpl_id) {
 			return $this->buildTrainingOptionsFormFlexible($a_fill, $a_training_id, $a_trainer_ids, $a_date, $a_template_id);
 		}
-
+		
+		$this->tpl_date_auto_change = new ilTemplate("tpl.gev_dct_duration_update_js.html", false, false, "Services/GEV/DecentralTrainings");
 		return $this->buildTrainingOptionsFormStable($a_fill, $a_training_id, $a_trainer_ids, $a_date, $a_template_id);
 	}
 
@@ -828,7 +848,7 @@ $a_template_obj_id = $a_template_id;
 		}
 		$date->setDisabled($no_changes_allowed);
 		$form->addItem($date);
-		
+
 		$time = new ilDateDurationInputGUI($this->lng->txt("gev_duration"), "time");
 		$time->setShowDate(false);
 		$time->setShowTime(true);
