@@ -70,6 +70,7 @@ class gevDeferredMails {
 										  		 )
 										  , array($a_recipient)
 										  );
+				break;
 			case "admin_cancel_booked_to_cancelled_without_costs":
 			case "admin_cancel_waiting_to_cancelled_without_costs":
 				$this->removeDeferredMails( array( $a_crs_id)
@@ -79,6 +80,7 @@ class gevDeferredMails {
 												 )
 										  , array($a_recipient)
 										  );
+				break;
 		}
 	}
 	
