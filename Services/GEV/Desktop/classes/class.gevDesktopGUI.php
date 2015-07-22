@@ -215,7 +215,7 @@ class gevDesktopGUI {
 				break;
 			case "gevdecentraltrainingcoursecreatingbuildingblockgui":
 				$ilMainMenu->setActive("gev_admin_menu");
-				require_once("Services/GEV/DecentralTrainings/classes/class.gevdecentraltrainingcoursecreatingbuildingblockgui.php");
+				require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCourseCreatingBuildingBlockGUI.php");
 				$crs_obj_id = null;
 				
 				if(isset($_GET["crs_obj_id"])){
