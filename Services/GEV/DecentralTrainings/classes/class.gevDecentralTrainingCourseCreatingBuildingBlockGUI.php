@@ -128,8 +128,8 @@ class gevDecentralTrainingCourseCreatingBuildingBlockGUI extends gevDecentralTra
 
 	protected function getTable() {
 		$crs_tbl = new gevDecentralTrainingCourseBuildingBlockTableGUI($this,$this->crs_ref_id,$this->crs_request_id);
-		$crs_tbl->setTitle("gev_dec_crs_creation_building_block_title")
-				->setSubtitle("gev_dec_crs_creation_building_block_sub_title")
+		$crs_tbl->setTitle("gev_dec_crs_creation_building_block_edit_title")
+				->setSubtitle("gev_dec_crs_creation_building_block_edit_sub_title")
 				->setImage("GEV_img/ico-head-search.png")
 				->addCommandButton("add",$this->lng->txt("add"));
 				
