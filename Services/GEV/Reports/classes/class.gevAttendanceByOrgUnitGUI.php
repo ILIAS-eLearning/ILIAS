@@ -164,14 +164,20 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 			);
 
 
-
+		$orgu_memberships =	" JOIN (SELECT pl.usr_id, pl.orgu_title AS org_unit, pl.org_unit_above1, pl.org_unit_above2,"
+							."pl.created_ts AS in_ts, mi.created_ts AS out_ts "
+							."FROM hist_userorgu AS pl LEFT JOIN "
+							."(SELECT usr_id, orgu_id, rol_id, hist_version, created_ts FROM hist_userorgu WHERE action = -1) AS mi "
+							."ON pl.usr_id = mi.usr_id AND pl.orgu_id = mi.orgu_id AND "
+							."pl.rol_id = mi.rol_id AND pl.hist_version+1 =  mi.hist_version "
+							."WHERE `action` = 1) AS orgu ON usr.user_id = orgu.usr_id ";
 
 		$this->query = catReportQuery::create()
 						//->distinct()
 
-						->select("usr.org_unit")
-						->select("usr.org_unit_above1")
-						->select("usr.org_unit_above2")
+						->select("orgu.org_unit")
+						->select("orgu.org_unit_above1")
+						->select("orgu.org_unit_above2")
 						->select("usr.gender")
 
 						->select("crs.venue")
@@ -191,17 +197,13 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 						->select_raw($this->sql_sum_parts['sum_excused'])
 						->select_raw($this->sql_sum_parts['sum_unexcused'])
 						->select_raw($this->sql_sum_parts['sum_exit'])
-
-
 						->from("hist_usercoursestatus usrcrs")
-
 						->join("hist_course crs")
-							->on("usrcrs.crs_id = crs.crs_id")
-
+							->on("usrcrs.crs_id = crs.crs_id AND crs.hist_historic = 0")
 						->join("hist_user usr")
-							->on("usrcrs.usr_id = usr.user_id")
-
-						->group_by("usr.org_unit")
+							->on("usrcrs.usr_id = usr.user_id AND usr.hist_historic = 0")
+						->raw_join($orgu_memberships)
+						->group_by("orgu.org_unit")
 						->compile()
 						;
 		$this->allowed_user_ids = $this->user_utils->getEmployees();
@@ -244,7 +246,7 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 									)
 						->multiselect( "org_unit"
 									 , $this->lng->txt("gev_org_unit_short")
-									 , array("usr.org_unit", "org_unit_above1", "org_unit_above2")
+									 , array("orgu.org_unit", "org_unit_above1", "org_unit_above2")
 									 //, array("usr.org_unit")
 									 , $org_units_filter
 									 , array()
@@ -298,17 +300,18 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 									 , catFilter::getDistinctValues('provider', 'hist_course')
 									 , array()
 									 )
-
-
-
+						->static_condition("IF(UNIX_TIMESTAMP(usrcrs.begin_date)=0 "
+                                          ."OR usrcrs.begin_date IS NULL, TRUE,"
+                                          ."UNIX_TIMESTAMP(usrcrs.begin_date)> orgu.in_ts)")
+                 		->static_condition("IF(UNIX_TIMESTAMP(usrcrs.end_date)=0 "
+                                          ."OR usrcrs.end_date IS NULL "
+                                          ."OR orgu.out_ts IS NULL, TRUE,"
+                                          ."UNIX_TIMESTAMP(usrcrs.end_date)< orgu.out_ts )")
 
 						->static_condition($this->db->in("usr.user_id", $this->allowed_user_ids, false, "integer"))
 
 						->static_condition(" usrcrs.hist_historic = 0")
-						->static_condition(" usr.hist_historic = 0")
-						->static_condition(" crs.hist_historic = 0")
-										  
-						  
+						  						  
 						->action($this->ctrl->getLinkTarget($this, "view"))
 						->compile()
 						;
