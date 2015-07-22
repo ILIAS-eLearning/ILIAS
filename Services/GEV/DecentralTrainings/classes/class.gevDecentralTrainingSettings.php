@@ -187,7 +187,7 @@ class gevDecentralTrainingSettings {
 		$crs_utils->setOrgaInfo($this->orgaInfo());
 
 		if ($this->title() !== null) {
-			$crs_utils->setTitle($this->title());
+			$crs->setTitle($this->title());
 		}
 		if ($this->vcType() !== null) {
 			$crs_utils->setVCType($this->vcType());

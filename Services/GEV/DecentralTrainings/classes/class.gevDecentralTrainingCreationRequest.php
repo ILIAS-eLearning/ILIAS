@@ -182,13 +182,13 @@ class gevDecentralTrainingCreationRequest {
 		
 		$rbacsystem->resetRoleCache();
 		
-		$this->settings->applyTo((int)$trgt_obj_id);
-		
 		// New course should have same title as old course.
 		$trgt_crs->setTitle($src_utils->getTitle());
 		// New course should be online.
 		$trgt_crs->setOfflineStatus(false);
 		$trgt_crs->update();
+
+		$this->settings->applyTo((int)$trgt_obj_id);
 		
 		$this->finished_ts = new ilDateTime(time(),IL_CAL_UNIX);
 		$this->created_obj_id = $trgt_obj_id;

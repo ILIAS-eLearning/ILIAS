@@ -296,10 +296,6 @@ class gevCourseUtils {
 	public function getTitle() {
 		return $this->getCourse()->getTitle();
 	}
-
-	public function setTitle($a_title) {
-		$this->getCourse()->setTitle($a_title);
-	}
 	
 	public function getSubtitle() {
 		return $this->getCourse()->getDescription();
