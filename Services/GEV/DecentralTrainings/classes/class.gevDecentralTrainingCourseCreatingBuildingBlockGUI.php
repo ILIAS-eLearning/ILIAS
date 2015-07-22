@@ -18,9 +18,6 @@ require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTraining
 
 
 class gevDecentralTrainingCourseCreatingBuildingBlockGUI extends gevDecentralTrainingCourseBuildingBlockGUI {
-
-	const AUTO_RELOAD_TIMEOUT_MS = 5000;
-	
 	public function __construct($a_crs_obj_id, $a_crs_request_id = null) {
 		global $lng, $ilCtrl, $tpl, $ilLog, $ilDB, $ilUser;
 
@@ -36,6 +33,7 @@ class gevDecentralTrainingCourseCreatingBuildingBlockGUI extends gevDecentralTra
 
 		$this->crs_ref_id = ($a_crs_obj_id === null) ? null : gevCourseUtils::getInstance($a_crs_obj_id)->getRefId();
 		$this->crs_request_id = $a_crs_request_id;
+		$this->dctl_utils = gevDecentralTrainingUtils::getInstance();
 
 		$this->tpl->getStandardTemplate();
 	}
@@ -147,7 +145,7 @@ class gevDecentralTrainingCourseCreatingBuildingBlockGUI extends gevDecentralTra
 		$crs_request->request();
 
 		ilUtil::sendSuccess($this->lng->txt("gev_dec_training_creation_requested"), true);
-		if (!$this->userCanOpenNewCreationRequest()) {
+		if (!$this->dctl_utils->userCanOpenNewCreationRequest()) {
 			$this->ctrl->redirect($this, "showOpenRequests");
 		}
 		else {
@@ -165,8 +163,8 @@ class gevDecentralTrainingCourseCreatingBuildingBlockGUI extends gevDecentralTra
 	}
 
 	protected function showOpenRequests() {
-		$requests = $this->getOpenCreationRequests();
-		if ($this->userCanOpenNewCreationRequest() && !$this->userCanOpenMultipleRequests()) {
+		$requests = $this->dctl_utils->getOpenCreationRequests();
+		if ($this->dctl_utils->userCanOpenNewCreationRequest() && !$this->dctl_utils->userCanOpenMultipleRequests()) {
 			return $this->redirectToBookingFormOfLastCreatedTraining();
 		}
 		
@@ -175,7 +173,7 @@ class gevDecentralTrainingCourseCreatingBuildingBlockGUI extends gevDecentralTra
 		
 		$title = new catTitleGUI("gev_dec_training_creation", "gev_dec_training_creation_header_note", "GEV_img/ico-head-create-decentral-training.png");
 		
-		$view = $this->getOpenRequestsView($requests, !$this->userCanOpenNewCreationRequest());
+		$view = $this->dctl_utils->getOpenRequestsView($requests, !$this->dctl_utils->userCanOpenNewCreationRequest());
 		
 		$this->tpl->setContent( $title->render()
 			  . $view);
@@ -185,29 +183,8 @@ class gevDecentralTrainingCourseCreatingBuildingBlockGUI extends gevDecentralTra
 		$this->ctrl->redirectByClass(array("ilTEPGUI"));
 	}
 
-	protected function getOpenCreationRequests() {
-		if ($this->open_creation_requests === null) {
-			$db = $this->getRequestDB();
-			$this->open_creation_requests = $db->openRequestsOfUser((int)$this->current_user->getId());
-		}
-		return $this->open_creation_requests;
-	}
-
-	protected function userCanOpenNewCreationRequest() {
-		if ($this->userCanOpenMultipleRequests()) {
-			return true;
-		}
-		return count($this->getOpenCreationRequests()) === 0;
-	}
-
-	protected function userCanOpenMultipleRequests() {
-		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
-		$user_utils = gevUserUtils::getInstance($this->current_user->getId());
-		return $user_utils->isAdmin();
-	}
-
 	protected function redirectToBookingFormOfLastCreatedTraining() {
-		$obj_id = $this->lastCreatedCourseId();
+		$obj_id = $this->dctl_utils->lastCreatedCourseId();
 		if (!$obj_id) {
 			$this->ctrl->redirectByClass(array("ilTEPGUI"));
 		}
@@ -223,63 +200,6 @@ class gevDecentralTrainingCourseCreatingBuildingBlockGUI extends gevDecentralTra
 		
 		$this->ctrl->setParameterByClass("ilCourseBookingGUI", "ref_id", $ref_id);
 		$this->ctrl->redirectByClass(array("ilCourseBookingGUI", "ilCourseBookingAdminGUI"));
-	}
-
-	protected function getOpenRequestsView(array $a_requests, $a_do_autoload = false) {
-		require_once("Services/Calendar/classes/class.ilDatePresentation.php");
-		$tpl = new ilTemplate("tpl.open_requests.html", true, true, "Services/GEV/DecentralTrainings");
-		
-		$tpl->setCurrentBlock("header");
-		$tpl->setVariable("HEADER", $this->lng->txt("gev_dec_training_open_requests_header"));
-		$tpl->parseCurrentBlock();
-		
-		if (count($a_requests) > 0) {
-			$tpl->setCurrentBlock("requests");
-			foreach ($a_requests as $request) {
-				$tpl->setCurrentBlock("request");
-				$tpl->setVariable("TITLE", ilObject::_lookupTitle($request->templateObjId()));
-				$settings = $request->settings();
-				$start = explode(", ", ilDatePresentation::formatDate($settings->start()));
-				$tpl->setVariable("DATE", $start[0]);
-				$tpl->setVariable("START_TIME", $start[1]);
-				$end = explode(" ", ilDatePresentation::formatDate($settings->end()));
-				$tpl->setVariable("END_TIME", $end[1]);
-				$tpl->parseCurrentBlock();
-			}
-			$tpl->parseCurrentBlock();
-		}
-		else {
-			$tpl->touchBlock("no_requests");
-		}
-
-		$tpl->setCurrentBlock("footer");
-		$wait_m = $this->getWaitingTime();
-		$time_info = sprintf($this->lng->txt("gev_dec_training_open_requests_time_info"), $wait_m);
-		$tpl->setVariable("FOOTER", $time_info);
-		$tpl->parseCurrentBlock();
-
-		if ($a_do_autoload) {
-			$tpl->setCurrentBlock("autoreload");
-			$tpl->setVariable("TIMEOUT", self::AUTO_RELOAD_TIMEOUT_MS);
-			$tpl->parseCurrentBlock();
-		}
-		
-		return $tpl->get();
-	}
-
-	protected function getRequestDB() {
-		$dec_utils = gevDecentralTrainingUtils::getInstance();
-		return $dec_utils->getCreationRequestDB();
-	}
-
-	protected function getWaitingTime() {
-		$db = $this->getRequestDB();
-		return $db->waitingTimeInMinuteEstimate();
-	}
-
-	protected function lastCreatedCourseId() {
-		$db = $this->getRequestDB();
-		return $db->lastCreatedTrainingOfUser($this->current_user->getId());
 	}
 
 	protected function updateCourseBuildingBlock() {
