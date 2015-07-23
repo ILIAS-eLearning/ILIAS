@@ -4048,3 +4048,17 @@ if(!$ilDB->tableColumnExists('hist_usercoursestatus', 'gev_id')) {
 			"notnull" => false
 	));
 ?>
+
+<#147>
+<?php
+	$ilDB->modifyTableColumn('hist_userorgu', "org_unit_above1", array(
+			"type" => "text",
+			"length" => 100,
+			"notnull" => false
+	));
+	$ilDB->modifyTableColumn('hist_userorgu', "org_unit_above2", array(
+			"type" => "text",
+			"length" => 100,
+			"notnull" => false
+	));
+?>
