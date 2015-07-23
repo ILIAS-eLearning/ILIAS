@@ -742,7 +742,14 @@ class gevDecentralTrainingGUI {
 				$no_changes_allowed = $crs_utils->isFinalized();
 			}
 		}
-		
+
+		/*************************
+		* TITEL
+		*************************/
+		$title_section = new ilFormSectionHeaderGUI();
+		$title_section->setTitle($this->lng->txt("gev_dec_training_title"));
+		$form->addItem($title_section);
+
 		$title = new ilNonEditableValueGUI($this->lng->txt("title"), "title", false);
 		$title->setValue($training_info["title"]);
 		$form->addItem($title);
@@ -754,13 +761,12 @@ class gevDecentralTrainingGUI {
 		$description->setDisabled($no_changes_allowed);
 		$form->addItem($description);
 		
-		$ltype = new ilNonEditableValueGUI($this->lng->txt("gev_course_type"), "ltype", false);
-		$ltype->setValue($training_info["ltype"]);
-		$form->addItem($ltype);
-		
-		$ltype = new ilNonEditableValueGUI($this->lng->txt("gev_credit_points"), "credit_points", false);
-		$ltype->setValue($training_info["credit_points"]);
-		$form->addItem($ltype);
+		/*************************
+		* ZEITRAUM
+		*************************/
+		$duration_section = new ilFormSectionHeaderGUI();
+		$duration_section->setTitle($this->lng->txt("gev_dec_training_duration"));
+		$form->addItem($duration_section);
 		
 		$date = new ilDateTimeInputGUI($this->lng->txt("date"), "date");
 		$date->setShowTime(false);
@@ -789,6 +795,13 @@ class gevDecentralTrainingGUI {
 		$trainers->setDisabled($no_changes_allowed);
 		$form->addItem($trainers);
 		
+		/*************************
+		* ORT UND ANBIETER
+		*************************/
+		$venue_section = new ilFormSectionHeaderGUI();
+		$venue_section->setTitle($this->lng->txt("gev_dec_training_venue"));
+		$form->addItem($venue_section);
+
 		if ($crs_utils->isPraesenztraining()) {
 			$venue = new ilSelectInputGUI($this->lng->txt("gev_venue"), "venue");
 			$venues = array(0 => "-") + gevOrgUnitUtils::getVenueNames();
@@ -805,7 +818,28 @@ class gevDecentralTrainingGUI {
 			}
 			$form->addItem($venue_free_text);
 		}
-		
+		require_once("Services/TEP/classes/class.ilTEP.php");
+		$org_info = ilTEP::getPossibleOrgUnitsForTEPEntriesSeparated();
+		require_once "Services/TEP/classes/class.ilTEPOrgUnitSelectionInputGUI.php";
+		$orgu_selection = new ilTEPOrgUnitSelectionInputGUI($org_info, "orgu_id", false, false);
+		if ($a_fill) {
+			$orgu_selection->setValue($training_info["orgu_id"]);
+		}
+		$orgu_selection->setRecursive(false);
+		$orgu_selection->setRequired(true);
+		$form->addItem($orgu_selection);
+
+		/*************************
+		* ORGANISTION
+		*************************/
+		$orga_section = new ilFormSectionHeaderGUI();
+		$orga_section->setTitle($this->lng->txt("gev_dec_training_orga"));
+		$form->addItem($orga_section);
+
+		$ltype = new ilNonEditableValueGUI($this->lng->txt("gev_course_type"), "ltype", false);
+		$ltype->setValue($training_info["ltype"]);
+		$form->addItem($ltype);
+
 		if ($training_info["ltype"] == "Webinar") {
 			$webinar_link = new ilTextInputGUI($this->lng->txt("gev_webinar_link"), "webinar_link");
 			$webinar_link->setDisabled($no_changes_allowed);
@@ -828,17 +862,6 @@ class gevDecentralTrainingGUI {
 			}
 		$orgaInfo->setUseRte(true);
 		$form->addItem($orgaInfo);
-
-		require_once("Services/TEP/classes/class.ilTEP.php");
-		$org_info = ilTEP::getPossibleOrgUnitsForTEPEntriesSeparated();
-		require_once "Services/TEP/classes/class.ilTEPOrgUnitSelectionInputGUI.php";
-		$orgu_selection = new ilTEPOrgUnitSelectionInputGUI($org_info, "orgu_id", false, false);
-		if ($a_fill) {
-			$orgu_selection->setValue($training_info["orgu_id"]);
-		}
-		$orgu_selection->setRecursive(false);
-		$orgu_selection->setRequired(true);
-		$form->addItem($orgu_selection);
 		
 		if ($training_info["invitation_preview"]) {
 			$mail_section = new ilFormSectionHeaderGUI();
@@ -956,6 +979,9 @@ class gevDecentralTrainingGUI {
 			}
 		}
 		
+		/*************************
+		* TITEL
+		*************************/
 		$title_section = new ilFormSectionHeaderGUI();
 		$title_section->setTitle($this->lng->txt("gev_dec_training_title"));
 		$form->addItem($title_section);
