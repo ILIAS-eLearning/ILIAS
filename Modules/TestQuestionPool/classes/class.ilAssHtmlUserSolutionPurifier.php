@@ -11,10 +11,4 @@ require_once 'Modules/TestQuestionPool/classes/class.ilAssHtmlPurifier.php';
  */
 class ilAssHtmlUserSolutionPurifier extends ilAssHtmlPurifier
 {
-	const TYPE = 'qpl_usersolution';
-
-	protected function getPurifierType()
-	{
-		return self::TYPE;
-	}
 } 

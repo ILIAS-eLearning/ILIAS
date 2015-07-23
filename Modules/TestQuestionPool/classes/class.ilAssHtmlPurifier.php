@@ -11,7 +11,10 @@ require_once 'Services/Html/classes/class.ilHtmlPurifierAbstractLibWrapper.php';
  */
 abstract class ilAssHtmlPurifier extends ilHtmlPurifierAbstractLibWrapper
 {
-	abstract protected function getPurifierType();
+	protected function getPurifierType()
+	{
+		return 'assessment';
+	}
 
 	/**
 	 * @return	HTMLPurifier_Config Instance of HTMLPurifier_Config
@@ -25,7 +28,6 @@ abstract class ilAssHtmlPurifier extends ilHtmlPurifierAbstractLibWrapper
 		$config->set('HTML.Doctype', 'XHTML 1.0 Strict');
 		$config->set('HTML.AllowedElements', $this->getAllowedElements());
 		$config->set('HTML.ForbiddenAttributes', 'div@style');
-
 		if ($def = $config->maybeGetRawHTMLDefinition()) {
 			$def->addAttribute('a', 'target', 'Enum#_blank,_self,_target,_top');
 		}
