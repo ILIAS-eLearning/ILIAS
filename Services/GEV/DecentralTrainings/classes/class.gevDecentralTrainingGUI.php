@@ -238,7 +238,7 @@ class gevDecentralTrainingGUI {
 		$dec_utils = gevDecentralTrainingUtils::getInstance();
 		
 		if (!$form_prev->checkInput()) {
-			return $this->createTraining($form_prev);
+			return $this->failCreateTraining($form_prev);
 		}
 		
 		$template_id = intval($form_prev->getInput("template_id"));
