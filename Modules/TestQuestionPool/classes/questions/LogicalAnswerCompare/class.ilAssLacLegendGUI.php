@@ -17,7 +17,29 @@ class ilAssLacLegendGUI extends ilOverlayGUI
 	
 	private $initialVisibilityEnabled;
 
+	/**
+	 * @var assQuestion
+	 */
 	private $questionOBJ;
+	
+	private $examplesByQuestionType = array(
+		'assQuestion' => array('PercentageResultExpression', 'EmptyAnswerExpression'),
+		'assSingleChoice' => array('NumberOfResultExpression'),
+		'assMultipleChoice' => array('NumberOfResultExpression', 'ExclusiveResultExpression'),
+		'assErrorText' => array('NumberOfResultExpression', 'ExclusiveResultExpression'),
+		'assImagemapQuestion' => array('NumberOfResultExpression', 'ExclusiveResultExpression'),
+		'assNumeric' => array('NumericResultExpression'),
+		'assOrderingQuestion' => array('OrderingResultExpression'),
+		'assOrderingHorizontal' => array('OrderingResultExpression'),
+		'assMatchingQuestion' => array('MatchingResultExpression'),
+		'assTextSubset' => array('StringResultExpression'),
+		'assFormulaQuestion' => array('NumericResultExpression'),
+		
+		'assClozeTest' => array(
+			'StringResultExpression_1', 'StringResultExpression_2',
+			'NumberOfResultExpression', 'NumericResultExpression'
+		),
+	);
 	
 	public function __construct(ilLanguage $lng, ilTemplate $tpl)
 	{
@@ -59,6 +81,7 @@ class ilAssLacLegendGUI extends ilOverlayGUI
 		
 		$this->renderCommonLegendPart($tpl);
 		$this->renderQuestSpecificLegendPart($tpl);
+		$this->renderQuestSpecificExamples($tpl);
 		
 		$this->populateVisibilityCss($tpl);
 		$this->populateTriggerDepencies($tpl);
@@ -117,11 +140,42 @@ class ilAssLacLegendGUI extends ilOverlayGUI
 		{
 			$tpl->setCurrentBlock('quest_specific_elements');
 			$tpl->setVariable('QSE_ELEMENT', $expression);
-			$tpl->setVariable('QSE_DESCRIPTION', $description);
+			$tpl->setVariable('QSE_DESCRIPTION', $this->lng->txt($description));
 			$tpl->setVariable('QSE_OPERATORS_TXT', $this->lng->txt('qpl_lac_legend_label_operators'));
 			$tpl->setVariable('QSE_OPERATORS', implode(', ', $this->getQuestionOBJ()->getOperators($expression)));
 			$tpl->parseCurrentBlock();
 		}
+	}
+
+	protected function renderQuestSpecificExamples(ilTemplate $tpl)
+	{
+		$tpl->setVariable(
+			'QUEST_SPECIFIC_EXAMPLES_HEADER', $this->lng->txt('qpl_lac_example_header')
+		);
+
+		$questionTypes = array(
+			'assQuestion', $this->getQuestionOBJ()->getQuestionType()
+		);
+		
+		foreach($questionTypes as $questionType)
+		{
+			$examples = $this->getExpressionTypeExamplesByQuestionType($questionType);
+			$this->renderExamples($tpl, $examples, $questionType);
+		}
+	}
+
+	protected function buildLangVarsByExampleCode($questionType, $exampleCode)
+	{
+		$langVar = 'lacex_'.$questionType.'_'.$exampleCode;
+		return array($langVar.'_e', $langVar.'_d');
+	}
+
+	protected function renderExample(ilTemplate $tpl, $langVarE, $langVarD)
+	{
+		$tpl->setCurrentBlock('quest_specific_examples');
+		$tpl->setVariable('QSEX_ELEMENT', $this->lng->txt($langVarE));
+		$tpl->setVariable('QSEX_DESCRIPTION', $this->lng->txt($langVarD));
+		$tpl->parseCurrentBlock();
 	}
 
 	protected function populateVisibilityCss(ilTemplate $tpl)
@@ -189,14 +243,38 @@ class ilAssLacLegendGUI extends ilOverlayGUI
 	protected function getAvailableExpressionTypes()
 	{
 		return array(
-			'%n%' => $this->lng->txt('qpl_lac_desc_compare_with_quest_res'),
-			'#n#' => $this->lng->txt('qpl_lac_desc_compare_with_number'),
-			'~TEXT~' => $this->lng->txt('qpl_lac_desc_compare_with_text'),
-			';n:m;' => $this->lng->txt('qpl_lac_desc_compare_with_assignment'),
-			'$n,m,o,p$' => $this->lng->txt('qpl_lac_desc_compare_with_sequence'),
-			'+n+' => $this->lng->txt('qpl_lac_desc_compare_with_answer_n'),
-			'*n,m,o,p*' => $this->lng->txt('qpl_lac_desc_compare_with_exact_sequence'),
-			'?' => $this->lng->txt('qpl_lac_desc_compare_answer_exist')
+			iQuestionCondition::PercentageResultExpression => 'qpl_lac_desc_compare_with_quest_res',
+			iQuestionCondition::NumericResultExpression => 'qpl_lac_desc_compare_with_number', 
+			iQuestionCondition::StringResultExpression => 'qpl_lac_desc_compare_with_text',
+			iQuestionCondition::MatchingResultExpression => 'qpl_lac_desc_compare_with_assignment',
+			iQuestionCondition::OrderingResultExpression => 'qpl_lac_desc_compare_with_sequence',
+			iQuestionCondition::NumberOfResultExpression => 'qpl_lac_desc_compare_with_answer_n',
+			iQuestionCondition::ExclusiveResultExpression => 'qpl_lac_desc_compare_with_exact_sequence',
+			iQuestionCondition::EmptyAnswerExpression => 'qpl_lac_desc_compare_answer_exist'
 		);
+	}
+	
+	public function getExpressionTypeExamplesByQuestionType($questionType)
+	{
+		if( !isset($this->examplesByQuestionType[$questionType]) )
+		{
+			return array();
+		}
+		
+		return $this->examplesByQuestionType[$questionType]; 
+	}
+
+	/**
+	 * @param ilTemplate $tpl
+	 * @param $examples
+	 * @param $questionType
+	 */
+	protected function renderExamples(ilTemplate $tpl, $examples, $questionType)
+	{
+		foreach($examples as $exampleCode)
+		{
+			list($langVarE, $langVarD) = $this->buildLangVarsByExampleCode($questionType, $exampleCode);
+			$this->renderExample($tpl, $langVarE, $langVarD);
+		}
 	}
 }
