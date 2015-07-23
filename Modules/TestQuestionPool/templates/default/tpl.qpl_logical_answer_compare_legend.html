@@ -47,59 +47,75 @@
 </div>
 
 <script>
-(function($){$().ready(function(){
+	(function($){$().ready(function(){
 
-	var updateLegendToggleBtnLabel = function(overlayId)
-	{
-		var toggleButtonShowLabel = '{TOGGLE_BTN_SHOW_LABEL}';
-		var toggleButtonHideLabel = '{TOGGLE_BTN_HIDE_LABEL}';
-		
-		if( $(il.Overlay.overlays[overlayId].element).hasClass('yui-overlay-hidden') )
+		var isOverlayVisible = function(overlayId)
 		{
-			$('a#lac_legend_toggle_btn').html(toggleButtonShowLabel);
-		}
-		else
-		{
-			$('a#lac_legend_toggle_btn').html(toggleButtonHideLabel);
-		}
-	}
-	
-	$('a#lac_legend_toggle_btn').click(
-		function()
-		{
-			il.Overlay.toggle(null, 'qpl_lac_legend');
-			updateLegendToggleBtnLabel('qpl_lac_legend');
-		}
-	);
+			return $(il.Overlay.overlays[overlayId].element).hasClass('yui-overlay-hidden');
+		};
 
-	$('#qpl_lac_legend .closeAction').click(
-		function()
+		var updateLegendToggleBtnLabel = function(overlayId)
 		{
-			il.Overlay.hide(null, 'qpl_lac_legend');
-			updateLegendToggleBtnLabel('qpl_lac_legend');
-		}
-	);
+			var toggleButtonShowLabel = '{TOGGLE_BTN_SHOW_LABEL}';
+			var toggleButtonHideLabel = '{TOGGLE_BTN_HIDE_LABEL}';
 
-	$('input[name=eval_mode]').change(
-		function()
-		{
-			var selectedValue = $('input[name=eval_mode]:checked').val();
-			
-			if(selectedValue == '{SKILL_POINT_EVAL_MODE_BY_RESULT}')
+			if( isOverlayVisible(overlayId) )
+			{
+				$('a#lac_legend_toggle_btn').html(toggleButtonShowLabel);
+			}
+			else
+			{
+				$('a#lac_legend_toggle_btn').html(toggleButtonHideLabel);
+			}
+		};
+
+		$('a#lac_legend_toggle_btn').click(
+			function(e)
+			{
+				e.stopPropagation();
+
+				if( isOverlayVisible('qpl_lac_legend') )
+				{
+					il.Overlay.show(null, 'qpl_lac_legend');
+				}
+				else
+				{
+					il.Overlay.hide(null, 'qpl_lac_legend');
+				}
+
+				updateLegendToggleBtnLabel('qpl_lac_legend');
+			}
+		);
+
+		$('#qpl_lac_legend .closeAction').click(
+			function()
 			{
 				il.Overlay.hide(null, 'qpl_lac_legend');
+				updateLegendToggleBtnLabel('qpl_lac_legend');
 			}
-			else if(selectedValue == '{SKILL_POINT_EVAL_MODE_BY_SOLUTION}')
+		);
+
+		$('input[name=eval_mode]').change(
+			function()
 			{
-				il.Overlay.show(null, 'qpl_lac_legend');
+				var selectedValue = $('input[name=eval_mode]:checked').val();
+
+				if(selectedValue == '{SKILL_POINT_EVAL_MODE_BY_RESULT}')
+				{
+					il.Overlay.hide(null, 'qpl_lac_legend');
+				}
+				else if(selectedValue == '{SKILL_POINT_EVAL_MODE_BY_SOLUTION}')
+				{
+					il.Overlay.show(null, 'qpl_lac_legend');
+				}
+
+				updateLegendToggleBtnLabel('qpl_lac_legend');
 			}
+		);
 
+		$(document).bind("click",function (e) {
 			updateLegendToggleBtnLabel('qpl_lac_legend');
-		}
-	);
+		});
 
-	$(document).unbind("click");
-	$(document).bind("click",function (e) {il.Overlay.hideAllOverlays(e, false, "qpl_lac_legend"); });
-
-});})(jQuery);
+	});})(jQuery);
 </script>
