@@ -579,7 +579,8 @@ assessment#:#tst_skill_triggerings_num_req_answers_desc#:#Competences aren't tri
 assessment#:#qpl_qst_skl_usg_skill_col#:#Competence
 assessment#:#qpl_qst_skl_usg_numq_col#:#Number of Questions in Pool adressing this competence
 assessment#:#qpl_qst_skl_usg_sklpnt_col#:#Total Sum of Competence-Points per Competence
-assessment#:#tst_qst_skl_config_in_pool_hint_msg#:#The Competence-Question-Assignment for tests with mode "%s" is to be done in the corresponding question pool(s). The configuration of threshold values is to be done here in the test.
+assessment#:#tst_qst_skl_cfg_in_pool_hint_rndquestset#:#The Competence-Question-Assignment for tests with mode "%s" is to be done in the corresponding question pool(s):<br />%s<br /><br />The configuration of threshold values is to be done here in the test.
+assessment#:#tst_qst_skl_cfg_in_pool_hint_dynquestset#:#The Competence-Question-Assignment for tests with mode "%s" is to be done in the corresponding question pool:<br />%s<br /><br />The configuration of threshold values is to be done here in the test.
 assessment#:#qpl_qst_skl_selection_for_question_header#:#Compence Assignments for Question: %s
 assessment#:#tst_save_comp_points#:#Save Competence Points
 assessment#:#tst_msg_skl_qst_assign_points_saved#:#The competence points has been saved.

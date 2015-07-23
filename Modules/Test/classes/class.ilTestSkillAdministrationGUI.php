@@ -215,20 +215,27 @@ class ilTestSkillAdministrationGUI
 	
 	private function buildAssignmentConfigurationInPoolHintMessage()
 	{
-		switch(true)
-		{
-			case $this->testOBJ->isRandomTest():
-				$testMode = $this->lng->txt('tst_question_set_type_random');
-				break;
-			
-			case $this->testOBJ->isDynamicTest():
-				$testMode = $this->lng->txt('tst_question_set_type_dynamic');
-				break;
-			
-			default:
-				return '';
-		}
+		$questionSetConfigFactory = new ilTestQuestionSetConfigFactory(
+			$this->tree, $this->db, $this->pluginAdmin, $this->testOBJ
+		);
 		
-		return sprintf($this->lng->txt('tst_qst_skl_config_in_pool_hint_msg'), $testMode);
+		$questionSetConfig = $questionSetConfigFactory->getQuestionSetConfig();
+		
+		if( $this->testOBJ->isRandomTest() )
+		{
+			$testMode = $this->lng->txt('tst_question_set_type_random');
+			$poolLinks = $questionSetConfig->getCommaSeparatedSourceQuestionPoolLinks();
+
+			return sprintf($this->lng->txt('tst_qst_skl_cfg_in_pool_hint_rndquestset'), $testMode, $poolLinks);
+		}
+		elseif( $this->testOBJ->isDynamicTest() )
+		{
+			$testMode = $this->lng->txt('tst_question_set_type_dynamic');
+			$poolLink = $questionSetConfig->getSourceQuestionPoolLink($questionSetConfig->getSourceQuestionPoolId());
+			
+			return sprintf($this->lng->txt('tst_qst_skl_cfg_in_pool_hint_dynquestset'), $testMode, $poolLink);
+		}
+
+		return '';
 	}
 } 
