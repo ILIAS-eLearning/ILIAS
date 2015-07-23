@@ -281,6 +281,7 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
 		$tpl->setVariable("TEXT_POINTS", $lng->txt('points'));
 		$tpl->setVariable("TEXT_DEFINITION", $lng->txt('definition'));
 		$tpl->setVariable("TEXT_TERM", $lng->txt('term'));
+		$tpl->setVariable("TEXT_ACTIONS", $lng->txt('actions'));
 
 		$a_tpl->setCurrentBlock("prop_generic");
 		$a_tpl->setVariable("PROP_GENERIC", $tpl->get());
