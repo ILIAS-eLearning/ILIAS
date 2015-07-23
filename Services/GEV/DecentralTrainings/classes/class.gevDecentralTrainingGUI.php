@@ -42,9 +42,6 @@ class gevDecentralTrainingGUI {
 		$this->loadDate();
 		
 		$cmd = $this->ctrl->getCmd();
-		//die(var_dump($_POST));
-		
-		//die(var_dump($cmd));
 
 		switch($cmd) {
 			case "chooseTemplateAndTrainers":
@@ -1084,7 +1081,9 @@ class gevDecentralTrainingGUI {
 		$form->addItem($ltype);
 
 		if ($training_info["ltype"] == "Webinar") {
-			$vc_type_options = $amd_utils->getOptions(gevSettings::CRS_AMD_WEBEX_VC_CLASS_TYPE);
+			//$vc_type_options = $amd_utils->getOptions(gevSettings::CRS_AMD_WEBEX_VC_CLASS_TYPE);
+			// For now we'll only allow csn and webex
+			$vc_type_options = array("CSN"=>"CSN","Webex"=>"Webex");
 			$webinar_vc_type = new ilSelectInputGUI($this->lng->txt("gev_dec_training_vc_type"),"webinar_vc_type");
 			$options = array(0 => "-") + $vc_type_options;
 			$webinar_vc_type->setOptions($options);
