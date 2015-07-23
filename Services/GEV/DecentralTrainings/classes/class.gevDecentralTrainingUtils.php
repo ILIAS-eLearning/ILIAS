@@ -281,6 +281,8 @@ class gevDecentralTrainingUtils {
 	}
 
 	public function userCanOpenMultipleRequests() {
+		// ATM everybody can only open one request.
+		return false;
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 		$user_utils = gevUserUtils::getInstance($this->current_user->getId());
 		return $user_utils->isAdmin();
