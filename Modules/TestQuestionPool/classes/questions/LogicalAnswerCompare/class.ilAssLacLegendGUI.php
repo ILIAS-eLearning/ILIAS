@@ -156,7 +156,7 @@ class ilAssLacLegendGUI extends ilOverlayGUI
 	protected function renderQuestSpecificExamples(ilTemplate $tpl)
 	{
 		$tpl->setVariable(
-			'QUEST_SPECIFIC_EXAMPLES_HEADER', $this->lng->txt('qpl_lac_example_header')
+			'QUEST_SPECIFIC_EXAMPLES_HEADER', $this->lng->txt('lacex_example_header')
 		);
 
 		$questionTypes = array(
