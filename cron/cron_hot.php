@@ -19,6 +19,9 @@ if($_SERVER['argc'] < 4)
 
 include_once './include/inc.header.php';
 
+require_once("Services/Utilities/classes/class.ilUtil.php");
+define("ILIAS_HTTP_PATH", ilUtil::_getHttpPath());
+
 include_once './Services/Cron/classes/class.ilCronManager.php';
 ilCronManager::runJobManual("dct_creation");
 
