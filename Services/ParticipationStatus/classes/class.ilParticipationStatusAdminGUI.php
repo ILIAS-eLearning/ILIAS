@@ -21,6 +21,7 @@ class ilParticipationStatusAdminGUI
 	// gev-patch start
 	public $from_foreign_class = false;
 	public $crs_ref_id = false;
+	const MIN_PARTICIPATION_COUNT = 6;
 	// gev-patch end
 
 	/**
@@ -446,7 +447,21 @@ class ilParticipationStatusAdminGUI
 	protected function saveStatusAndPoints($a_return = false)
 	{
 		global $ilCtrl, $lng;
-		
+
+		if(!$this->from_foreign_class){
+			$this->setTabs("listStatus");
+			$confirm->setFormAction($ilCtrl->getFormAction($this, "finalize"));
+			return $tpl->setContent($confirm->getHTML());	
+		} else {
+			$frm_action = $ilCtrl->getFormAction($this, "finalize");
+			$frm_action .= '&crsrefid=' .$this->crs_ref_id;
+			$confirm->setFormAction($frm_action);
+			return $tpl->setContent($confirm->getHTML());	
+		}
+
+		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		$crs_utils = gevCourseUtils::getInstanceByObj($this->getCourse());
+
 		$status = $_POST["status"];
 		$points = $_POST["cpoints"];
 		
@@ -579,7 +594,17 @@ class ilParticipationStatusAdminGUI
 		$confirm = new ilConfirmationGUI();
 		$confirm->setHeaderText($lng->txt("ptst_admin_confirm_finalize"));
 		$confirm->setConfirm($lng->txt("confirm"), "finalize");
-		$confirm->setCancel($lng->txt("cancel"), "listStatus");				
+		$confirm->setCancel($lng->txt("cancel"), "listStatus");
+
+		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		$crs_utils = gevCourseUtils::getInstanceByObj($this->getCourse());
+		if($crs_utils->isFlexibleDecentrallTraining() && $crs_utils->getParticipations() < self::MIN_PARTICIPATION_COUNT) {
+			$confirm->addItem("",
+				"",
+				$lng->txt("gev_dec_training_min_participation_count_not_reached")
+			);
+		}
+
 
 		if(!$this->from_foreign_class){
 			$this->setTabs("listStatus");
