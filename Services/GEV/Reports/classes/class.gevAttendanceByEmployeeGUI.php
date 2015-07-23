@@ -68,7 +68,7 @@ class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 							."ON pl.usr_id = mi.usr_id AND pl.orgu_id = mi.orgu_id AND "
 							."pl.rol_id = mi.rol_id AND pl.hist_version+1 =  mi.hist_version AND "
 							."pl.created_ts < mi.created_ts "
-							."WHERE `action` = 1) AS orgu ON usr.user_id = orgu.usr_id ";
+							."WHERE `action` = 1) AS orgu ON usrcrs.usr_id = orgu.usr_id ";
 
 		$this->query = catReportQuery::create()
 						->distinct()
@@ -80,7 +80,7 @@ class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 						->select("usr.job_number")
 						->select("usr.org_unit_above1")
 						->select("usr.org_unit_above2")
-						->select_raw("GROUP_CONCAT(DISTINCT orgu.orgu_title SEPARATOR ', ') as org_unit")
+						->select_raw("GROUP_CONCAT(DISTINCT orgu.orgu_title SEPARATOR',')AS org_unit")
 						->select("usr.position_key")
 						->select("crs.custom_id")
 						->select("crs.title")

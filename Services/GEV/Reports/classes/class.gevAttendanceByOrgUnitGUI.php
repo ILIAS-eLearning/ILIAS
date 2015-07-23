@@ -27,6 +27,7 @@ require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
 
 
 class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
+	protected $orgu_membeships;
 	public function __construct() {
 		
 		parent::__construct();
@@ -164,13 +165,12 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 			);
 
 
-		$orgu_memberships =	" JOIN (SELECT pl.usr_id, pl.orgu_title AS org_unit, pl.org_unit_above1, pl.org_unit_above2,"
-							."pl.created_ts AS in_ts, mi.created_ts AS out_ts "
-							."FROM hist_userorgu AS pl LEFT JOIN "
-							."(SELECT usr_id, orgu_id, rol_id, hist_version, created_ts FROM hist_userorgu WHERE action = -1) AS mi "
-							."ON pl.usr_id = mi.usr_id AND pl.orgu_id = mi.orgu_id AND "
-							."pl.rol_id = mi.rol_id AND pl.hist_version+1 =  mi.hist_version "
-							."WHERE `action` = 1) AS orgu ON usr.user_id = orgu.usr_id ";
+		$this->orgu_memberships =	"SELECT DISTINCT pl.usr_id,pl.orgu_title AS org_unit,pl.org_unit_above1,pl.org_unit_above2 "
+						."FROM hist_userorgu AS pl LEFT JOIN "
+						."(SELECT usr_id,orgu_id,rol_id,hist_version,created_ts FROM hist_userorgu WHERE `action`=-1)AS mi "
+						."ON pl.usr_id=mi.usr_id AND pl.orgu_id=mi.orgu_id AND "
+						."pl.rol_id=mi.rol_id AND pl.hist_version+1=mi.hist_version "
+						."AND `action`=1 WHERE mi.created_ts IS NULL";
 
 		$this->query = catReportQuery::create()
 						//->distinct()
@@ -188,6 +188,7 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 						->select("usr.user_id")
 						->select("crs.crs_id")
 						*/
+						->select_raw("COUNT(DISTINCT orgu.usr_id) as sum_employees")
 						->select_raw($this->sql_sum_parts['sum_booked_wbt'])
 						->select_raw($this->sql_sum_parts['sum_attended_wbt'])
 
@@ -202,7 +203,7 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 							->on("usrcrs.crs_id = crs.crs_id AND crs.hist_historic = 0")
 						->join("hist_user usr")
 							->on("usrcrs.usr_id = usr.user_id AND usr.hist_historic = 0")
-						->raw_join($orgu_memberships)
+						->raw_join("JOIN(".$this->orgu_memberships.")AS orgu ON usr.user_id=orgu.usr_id ")
 						->group_by("orgu.org_unit")
 						->compile()
 						;
@@ -246,7 +247,7 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 									)
 						->multiselect( "org_unit"
 									 , $this->lng->txt("gev_org_unit_short")
-									 , array("orgu.org_unit", "org_unit_above1", "org_unit_above2")
+									 , array("orgu.org_unit", "orgu.org_unit_above1", "orgu.org_unit_above2")
 									 //, array("usr.org_unit")
 									 , $org_units_filter
 									 , array()
@@ -300,18 +301,15 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 									 , catFilter::getDistinctValues('provider', 'hist_course')
 									 , array()
 									 )
-						->static_condition("IF(UNIX_TIMESTAMP(usrcrs.begin_date)=0 "
-                                          ."OR usrcrs.begin_date IS NULL, TRUE,"
-                                          ."UNIX_TIMESTAMP(usrcrs.begin_date)> orgu.in_ts)")
-                 		->static_condition("IF(UNIX_TIMESTAMP(usrcrs.end_date)=0 "
-                                          ."OR usrcrs.end_date IS NULL "
-                                          ."OR orgu.out_ts IS NULL, TRUE,"
-                                          ."UNIX_TIMESTAMP(usrcrs.end_date)< orgu.out_ts )")
-
+						/*->static_condition("IF(UNIX_TIMESTAMP(usrcrs.begin_date)=0 "
+                                       					."OR usrcrs.begin_date IS NULL,TRUE,"
+                                          				."UNIX_TIMESTAMP(usrcrs.begin_date)>orgu.in_ts)")
+                 				->static_condition("IF(UNIX_TIMESTAMP(usrcrs.end_date)=0 "
+                                          				."OR usrcrs.end_date IS NULL "
+                                          				."OR orgu.out_ts IS NULL,TRUE,"
+                                          				."UNIX_TIMESTAMP(usrcrs.end_date)< orgu.out_ts)")*/
 						->static_condition($this->db->in("usr.user_id", $this->allowed_user_ids, false, "integer"))
-
-						->static_condition(" usrcrs.hist_historic = 0")
-						  						  
+						->static_condition("usrcrs.hist_historic = 0")
 						->action($this->ctrl->getLinkTarget($this, "view"))
 						->compile()
 						;
@@ -332,13 +330,14 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 	protected function transformResultRow($rec) {
 		$rec['odbd'] = $rec['org_unit_above2'] .'/' .$rec['org_unit_above1'];
 		
-		$tmpsql = "SELECT COUNT( * ) AS oumembers FROM hist_user"
-				." WHERE org_unit = '" .$rec['org_unit'] ."'"
-				." AND hist_historic = 0";
+		$tmpsql =
+			 "SELECT COUNT( * ) AS oumembers FROM hist_user"
+			." WHERE org_unit = '" .$rec['org_unit'] ."'"
+			." AND hist_historic = 0";
 		$tmpres = $this->db->query($tmpsql);
 		$tmprec = $this->db->fetchAssoc($tmpres);
 
-		$rec['sum_employees'] = intval($tmprec['oumembers']);
+		//$rec['sum_employees'] = intval($tmprec['oumembers']);
 		
 		//$rec['sum_employees'] = 'many';
 
