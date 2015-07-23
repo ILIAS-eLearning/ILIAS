@@ -207,6 +207,7 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 						->group_by("orgu.org_unit")
 						->compile()
 						;
+
 		$this->allowed_user_ids = $this->user_utils->getEmployees();
 
 		$never_skip = $this->user_utils->getOrgUnitsWhereUserIsDirectSuperior();
@@ -336,7 +337,7 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 			." AND hist_historic = 0";
 		$tmpres = $this->db->query($tmpsql);
 		$tmprec = $this->db->fetchAssoc($tmpres);
-
+		$this->filtered_orgus[] = $rec['org_unit'];
 		//$rec['sum_employees'] = intval($tmprec['oumembers']);
 		
 		//$rec['sum_employees'] = 'many';
@@ -380,6 +381,26 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 							 );
 		}		
 
+		$sum_sql = 
+		"SELECT COUNT(DISTINCT user_id) as sum_employees, ".
+			"SUM(CASE WHEN LCASE(booking_status)='gebucht' AND LCASE(participation_status) = 'nicht gesetzt' AND type = 'Selbstlernkurs' THEN 1 END ) AS sum_booked_wbt,".
+			"SUM(CASE WHEN LCASE(participation_status)='teilgenommen' AND type = 'Selbstlernkurs' THEN 1 END ) AS sum_attended_wbt,".
+			"SUM(CASE WHEN LCASE(booking_status)='gebucht' AND LCASE(participation_status) = 'nicht gesetzt' AND type != 'Selbstlernkurs' THEN 1 END ) AS sum_booked,".
+			"SUM( CASE WHEN LCASE(participation_status) = 'teilgenommen' AND type != 'Selbstlernkurs' THEN 1 END ) AS sum_attended,".
+			"SUM( CASE WHEN booking_status = 'auf Warteliste' AND participation_status = 'nicht gesetzt' THEN 1 END ) AS sum_waiting,".
+			"SUM( CASE WHEN LCASE(participation_status) = 'fehlt entschuldigt' THEN 1 END ) AS sum_excused,".
+			"SUM( CASE WHEN LCASE(participation_status) = 'fehlt ohne Absage' THEN 1 END ) AS sum_unexcused,".
+			"SUM( CASE WHEN LCASE(participation_status) = 'canceled_exit' THEN 1 END ) AS sum_exit ".
+			"FROM (".
+			"SELECT DISTINCT usr.user_id, crs.crs_id, usrcrs.booking_status, ".
+			"usrcrs.participation_status, crs.type ".
+			"FROM `hist_usercoursestatus` usrcrs ". 
+			"JOIN `hist_course` crs ON usrcrs.crs_id = crs.crs_id AND crs.hist_historic = 0 ".
+			"JOIN `hist_user` usr ON usrcrs.usr_id = usr.user_id AND usr.hist_historic = 0 ".
+			"JOIN (".$this->orgu_memberships.") as orgu ON usr.user_id=orgu.usr_id ".$this->queryWhere().
+			") as temp";
+		$res = $this->db->query($sum_sql)
+		$this->summed_data = $this->db->fetchAssoc($res);
 		$cnt = 1;
 		$table->setLimit($cnt);
 		$table->setMaxCount($cnt);
@@ -391,7 +412,6 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 		}
 
 		$table->setData(array($this->summed_data));
-
 		return $table->getHtml();
 	}
 
