@@ -113,7 +113,13 @@ class gevCourseUtils {
 		global $ilCtrl;
 		ilUtil::redirect("ilias.php?baseClass=gevDesktopGUI&cmd=toBooking&crs_id=".$a_crs_id);
 	}
-
+	
+	static public function gotoBookingTrainer($a_crs_id) {
+		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+		$crs_ref_id = gevObjectUtils::getRefId($a_crs_id);
+		ilUtil::redirect("ilias.php?ref_id=$crs_ref_id&cmdClass=ilcoursebookingadmingui&baseClass=ilcoursebookinggui");
+	}
+	
 	static public function mkDeadlineDate($a_start_date, $a_deadline) {
 		if (!$a_start_date || $a_deadline === null) {
 			return null;

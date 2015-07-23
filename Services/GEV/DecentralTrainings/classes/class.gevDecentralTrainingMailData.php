@@ -35,7 +35,9 @@ class gevDecentralTrainingMailData extends ilMailData {
 			$this->end_date = $crs_utils->getFormattedEndDate();
 			$this->start_time = $crs_utils->getFormattedStartTime();
 			$this->end_time = $crs_utils->getFormattedEndTime();
-			$this->booking_link = "";
+			
+			require_once("Services/Link/classes/class.ilLink.php");
+			$this->booking_link = ilLink::_getLink($this->request->createdObjId(), 'gevcrsbookingtrainer');
 		}
 		else {
 			require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
@@ -67,7 +69,7 @@ class gevDecentralTrainingMailData extends ilMailData {
 			$this->end_date = $end_formatted[0];
 			$this->start_time = $start_formatted[1];
 			$this->end_time = $end_formatted[1];
-			$this->booking_link = "";
+			$this->booking_link = null;
 		}
 	}
 	
@@ -128,6 +130,12 @@ class gevDecentralTrainingMailData extends ilMailData {
 				$val = $this->end_time;
 				break;
 			case "BUCHUNGSLINK":
+				if ($this->booking_link !== null) {
+					$val = "<a href='".$this->booking_link."'>".$this->booking_link."</a>";
+				}
+				else {
+					$val = "";
+				}
 				break;
 			default:
 				return $a_placeholder_code;
