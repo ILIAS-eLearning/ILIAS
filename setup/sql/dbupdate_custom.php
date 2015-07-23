@@ -4039,3 +4039,12 @@ if(!$ilDB->tableColumnExists('hist_usercoursestatus', 'gev_id')) {
 		));
 }
 ?>
+
+<#146>
+<?php
+	$ilDB->modifyTableColumn('hist_userorgu', "orgu_title", array(
+			"type" => "text",
+			"length" => 100,
+			"notnull" => false
+	));
+?>
