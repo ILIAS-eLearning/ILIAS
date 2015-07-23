@@ -312,7 +312,9 @@ class gevDecentralTrainingUtils {
 			$tpl->parseCurrentBlock();
 		}
 		else {
-			$tpl->touchBlock("no_requests");
+			$tpl->setCurrentBlock("no_requests");
+			$tpl->setVariable("NO_REQUESTS", $this->lng->txt("gev_dec_training_no_open_requests"));
+			$tpl->parseCurrentBlock();
 		}
 
 		$tpl->setCurrentBlock("footer");
