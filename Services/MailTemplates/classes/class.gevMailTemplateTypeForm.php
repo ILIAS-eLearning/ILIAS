@@ -124,7 +124,7 @@ class gevMailTemplateTypeForm extends ilMailTemplateTypeForm {
 			case "orgu_superior_mail":
 				return "Services/GEV/Mailing/classes/class.gevOrguSuperiorMailTypeAdapter.php";
 			case "decentral_training_creation":
-				return "Services/GEV/Mailing/classes/class.gevDecentralTrainingsMailTypeAdapter.php";
+				return "Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingMailTypeAdapter.php";
 			default:
 				throw new Exception("gevMailTemplateTypeForm::mapTemplateTypeInputToConsumerLocation: unknown input: '".$a_name."'");
 		}
