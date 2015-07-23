@@ -185,17 +185,17 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 						->select("orgu.org_unit")
 						->select("orgu.org_unit_above1")
 						->select("orgu.org_unit_above2")
-						->select("usr.gender")
+						/*->select("usr.gender")
 
 						->select("crs.venue")
 						->select("crs.provider")
 
-						/*->select("usrcrs.booking_status")
+						->select("usrcrs.booking_status")
 						->select("usrcrs.participation_status")
 						->select("usr.user_id")
 						->select("crs.crs_id")
 						*/
-						->select_raw("COUNT(DISTINCT usr.user_id) as sum_employees")
+						->select_raw("COUNT(DISTINCT orgu.usr_id) as sum_employees")
 						->select_raw($this->sql_sum_parts['sum_booked_wbt'])
 						->select_raw($this->sql_sum_parts['sum_attended_wbt'])
 
@@ -208,9 +208,9 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 						->from("hist_user usr")
 						->left_join("hist_usercoursestatus usrcrs")
 							->on("usrcrs.usr_id = usr.user_id AND usrcrs.hist_historic = 0")
-						->join("hist_course crs")
+						->left_join("hist_course crs")
 							->on("usrcrs.crs_id = crs.crs_id AND crs.hist_historic = 0")
-						->raw_join("JOIN(".$this->orgu_memberships.")AS orgu ON usrcrs.usr_id=orgu.usr_id ")
+						->raw_join("JOIN(".$this->orgu_memberships.")AS orgu ON usr.user_id=orgu.usr_id ")
 						->group_by("orgu.org_unit")
 						->compile()
 						;
@@ -401,9 +401,9 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 			"FROM(".
 				"SELECT DISTINCT usr.user_id, crs.crs_id, usrcrs.booking_status, ".
 					"usrcrs.participation_status, crs.type ".
-					"FROM `hist_usercoursestatus` usrcrs ". 
-					"JOIN `hist_course` crs ON usrcrs.crs_id = crs.crs_id AND crs.hist_historic = 0 ".
-					"JOIN `hist_user` usr ON usrcrs.usr_id = usr.user_id AND usr.hist_historic = 0 ".
+					"FROM `hist_user` usr ". 
+					"LEFT JOIN `hist_usercoursestatus` usrcrs ON usrcrs.usr_id = usr.user_id AND usr.hist_historic = 0 ".
+					"LEFT JOIN `hist_course` crs ON usrcrs.crs_id = crs.crs_id AND crs.hist_historic = 0 ".
 					"JOIN (".$this->orgu_memberships.") as orgu ON usr.user_id=orgu.usr_id ".$this->queryWhere().
 			") as temp";
 		$res = $this->db->query($sum_sql);
