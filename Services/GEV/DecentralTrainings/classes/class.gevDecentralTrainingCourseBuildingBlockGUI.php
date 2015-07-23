@@ -118,8 +118,17 @@ class gevDecentralTrainingCourseBuildingBlockGUI {
 		$crs_tbl = new gevDecentralTrainingCourseBuildingBlockTableGUI($this,$this->crs_ref_id,$this->crs_request_id);
 		$crs_tbl->setTitle("gev_dec_crs_building_block_title")
 				->setSubtitle("gev_dec_crs_building_block_sub_title")
-				->setImage("GEV_img/ico-head-search.png")
-				->addCommandButton("add",$this->lng->txt("add"));
+				->setImage("GEV_img/ico-head-search.png");
+
+		require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingUtils.php");
+		$dct_utils = gevDecentralTrainingUtils::getInstance();
+		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+		$obj_id = gevObjectUtils::getObjId($this->crs_ref_id);
+
+		if($dct_utils->userCanEditBuildingBlocks($obj_id)) {
+			$crs_tbl->addCommandButton("add",$this->lng->txt("add"));
+		}
+		
 		return $crs_tbl;
 	}
 

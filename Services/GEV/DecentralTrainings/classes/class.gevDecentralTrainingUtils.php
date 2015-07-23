@@ -264,6 +264,28 @@ class gevDecentralTrainingUtils {
 		return array($filename, "Teilnehmer.xls");
  	}
 
+ 	public function userCanEditBuildingBlocks($a_crs_id) {
+ 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+ 		$crs_utils = gevCourseUtils::getInstance($a_crs_id);
+ 		$isFinalized = $crs_utils->isFinalized();
+ 		$startDate = $crs_utils->getStartDate();
+ 		$now = date("Y-m-d");
+
+ 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+ 		$usr_util = gevUserUtils::getInstance((int)$this->current_user->getId());
+ 		$isAdmin = $usr_util->isAdmin();
+ 		
+ 		if($startDate <= $now && !$isAdmin) {
+ 			return false;
+ 		}
+
+ 		if($crs_utils->isFinalized()) {
+ 			return false;
+ 		}
+
+ 		return true;
+ 	}
+
  	//REDIRECT PART AFTER CREATION
  	public function getOpenCreationRequests() {
 		if ($this->open_creation_requests === null) {
