@@ -1176,7 +1176,7 @@ gev#:#gev_dec_training_two_venues#:#Bitte wählen Sie einen Veranstaltungsort au
 gev#:#gev_dec_training_crs_to_short#:#Die Gesamtlänge des Trainings ist zu kurz für die zu erlangenden Bildungspunkte (45 Minuten / Punkt).
 gev#:#gev_mail_log#:#Maillog
 gev#:#gev_back#:#Zurück
-gev#:#gev_dec_crs_building_block_sub_title#:#Ablaufplan
+gev#:#gev_dec_crs_building_block_sub_menu_title#:#Ablaufplan
 gev#:#gev_dec_crs_building_block_title#:#Ablaufplan
 gev#:#gev_dec_crs_building_block_sub_title#:#Hier wird Ihnen angezeigt wie das Training ablaufen wird.
 gev#:#gev_dec_crs_building_block_from#:#Von

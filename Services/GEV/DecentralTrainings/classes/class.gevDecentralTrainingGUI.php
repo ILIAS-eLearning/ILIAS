@@ -42,7 +42,10 @@ class gevDecentralTrainingGUI {
 		$this->loadDate();
 		
 		$cmd = $this->ctrl->getCmd();
+		//die(var_dump($_POST));
 		
+		//die(var_dump($cmd));
+
 		switch($cmd) {
 			case "chooseTemplateAndTrainers":
 			case "createTraining":
@@ -834,6 +837,7 @@ class gevDecentralTrainingGUI {
 			$orgu_selection->setValue($training_info["orgu_id"]);
 		}
 		$orgu_selection->setRecursive(false);
+		$orgu_selection->setRequired(true);
 		$form->addItem($orgu_selection);
 		
 		if ($training_info["invitation_preview"]) {
@@ -1222,14 +1226,6 @@ class gevDecentralTrainingGUI {
 		}
 		// end check total time
 
-		// check orgunits are selected
-		$org_units = $a_form->getInput("orgu_id");
-		if(!$org_units) {
-			ilUtil::sendFailure($this->lng->txt("gev_dec_training_no_orgu_selected"), false);
-		return false;
-		}
-		// end check orgunits
-
 		return true;
 	}
 
@@ -1273,7 +1269,7 @@ class gevDecentralTrainingGUI {
 		$form->setValuesByPost();
 
 		if (!$form->checkInput()) {
-			return $this->showSettings($form_prev);
+			return $this->showSettings($form);
 		}
 		
 		$crs_utils = gevCourseUtils::getInstance($_POST["obj_id"]);
