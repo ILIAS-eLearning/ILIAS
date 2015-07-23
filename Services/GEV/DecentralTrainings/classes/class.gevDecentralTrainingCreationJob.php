@@ -15,6 +15,7 @@ require_once("Services/Cron/classes/class.ilCronJobResult.php");
 
 class gevDecentralTrainingCreationJob extends ilCronJob {
 	protected $request_db = null;
+	protected $auto_mails = null;
 	
 	public function getId() {
 		return "dct_creation";
@@ -74,10 +75,12 @@ class gevDecentralTrainingCreationJob extends ilCronJob {
 		$request_db = $this->getRequestDB();
 		
 		while($request = $request_db->nextOpenRequest()) {
+			// Create Training
 			try {
 				$this->log("Running request: ".$request->requestId());
 				$request->run();
 				$this->log("Finished request: ".$request->requestId());
+				$mail = "success";
 			}
 			catch (Exception $e) {
 				$this->log("Exception when running: ".$request->requestId()."\n"
@@ -86,10 +89,29 @@ class gevDecentralTrainingCreationJob extends ilCronJob {
 						  ."--------------------------------------\n");
 				$request->abort();
 				$this->log("Aborted request: ".$request->requestId());
+				$mail = "failure";
 			}
+			
+			// Send Mail
+			try {
+				$this->sendAutoMail($mail, $request);
+			}
+			catch(Exception $e) {
+				$this->log("Exception when sending $mail mail: ".$request->requestId()."\n"
+						  ."--------------------------------------\n"
+						  .$e
+						  ."--------------------------------------\n");
+			}
+
 			$this->ping();
 		}
 		
 		return $this->ok();
+	}
+	
+	protected function sendAutoMail($id, gevDecentralTrainingCreationRequest $request) {
+		require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingAutoMails.php");
+		$auto_mails = new gevDecentralTrainingsAutoMails($request);
+		$auto_mails->send($id);
 	}
 }

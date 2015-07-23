@@ -274,6 +274,9 @@ abstract class ilAutoMails {
 	public function getUserOccasion() {
 		return $this->user->getLogin();
 	}
+	
+	// TODO: introduce this, we need it in getMailLog:
+	// abstract function initMailLog();
 }
 
 ?>
