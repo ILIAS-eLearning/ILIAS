@@ -79,6 +79,7 @@ class ilAssLacLegendGUI extends ilOverlayGUI
 
 		$tpl = $this->getTemplate();
 		
+		$this->renderCloseIcon($tpl);
 		$this->renderCommonLegendPart($tpl);
 		$this->renderQuestSpecificLegendPart($tpl);
 		$this->renderQuestSpecificExamples($tpl);
@@ -87,6 +88,11 @@ class ilAssLacLegendGUI extends ilOverlayGUI
 		$this->populateTriggerDepencies($tpl);
 		
 		return $tpl->get();
+	}
+	
+	protected function renderCloseIcon($tpl)
+	{
+		$tpl->setVariable('CLOSE_ICON', ilGlyphGUI::get(ilGlyphGUI::CLOSE));
 	}
 	
 	protected function initOverlay()
