@@ -567,7 +567,7 @@ class gevSettings {
 		, "Admin-Voll"				=> "ID"
 		, "Admin-eingeschraenkt"	=> "ID"
 		, "Admin-Ansicht"			=> "ID"
-		, "OD/BD"					=> "ID"
+		, "OD/BD"					=> "AAD"
 		, "FD"						=> "AAD"
 		, "UA"						=> "HGB §84"
 		, "HA 84"					=> "HGB §84"
