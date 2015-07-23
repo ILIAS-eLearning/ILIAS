@@ -1418,19 +1418,29 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		{		
 			global $ilUser;
 			if(ilObject::_lookupOwner($_REQUEST["prt_id"]) == $ilUser->getId())
-			{				
+			{	
 				// see ilPortfolioPageTableGUI::fillRow()
 				$ilCtrl->setParameterByClass("ilportfoliopagegui", "ppage", (int)$_REQUEST["user_page"]);
 				$link = $ilCtrl->getLinkTargetByClass(array("ilportfoliopagegui", "ilobjbloggui"), "render");
 				$ilCtrl->setParameterByClass("ilportfoliopagegui", "ppage", "");
+						
+				include_once "Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php";
+				$list = new ilAdvancedSelectionListGUI();
+				$list->setListTitle($lng->txt("action"));
+				$list->addItem(
+					sprintf($lng->txt("prtf_edit_embedded_blog"), $this->object->getTitle()),
+					"",
+					$link);
 				
+				/*				
 				include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
 				$btn = ilLinkButton::getInstance();				
 				$btn->setCaption(sprintf($lng->txt("prtf_edit_embedded_blog"), $this->object->getTitle()), false);
 				$btn->setUrl($link);
+				*/
 				
 				$wtpl->setCurrentBlock("prtf_edit_bl");
-				$wtpl->setVariable("PRTF_BLOG_EDIT", $btn->render());				
+				$wtpl->setVariable("PRTF_BLOG_EDIT", $list->getHTML());				
 				$wtpl->parseCurrentBlock();
 			}
 		}
