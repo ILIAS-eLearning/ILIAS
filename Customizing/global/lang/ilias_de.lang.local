@@ -1191,8 +1191,8 @@ gev#:#gev_dec_crs_building_block_new#:#Neuer Baustein
 gev#:#gev_dec_crs_building_block_base_data#:#Bausteininformationen
 gev#:#gev_dec_training_creation_requested#:#Das dezentrale Training wird für sie angelegt.
 gev#:#gev_dec_please_select_building_block#:#Bitte wählen Sie einen Baustein aus.
-gev#:#gev_dec_training_open_requests_header#:#Folgende dezentrale Trainings werden derzeit für sie angelegt:
-gev#:#gev_dec_training_open_requests_time_info#:#Die Wartezeit zur Anlage eines dezentralen Trainings beträgt derzeit etwa %s Minuten.
+gev#:#gev_dec_training_open_requests_header#:#Derzeit wird dieses dezentrale Training für sie angelegt:
+gev#:#gev_dec_training_open_requests_time_info#:#Die Wartezeit zur Anlage eines dezentralen Trainings beträgt derzeit etwa %s Minuten. <br /><br /><b>Bleiben sie auf dieser Seite, um nach der Anlage des Trainings Buchungen vornehmen zu können.</b></br><br /><b>Nach der Anlage des Training erhalten sie außerdem eine E-Mail, die einen Link zu den Trainingsbuchungen enthält.</b>
 gev#:#gev_dec_training_presence_fix#:#Präsenztraining (fester Ablaufplan)
 gev#:#gev_dec_training_webinar_fix#:#Webinar (fester Ablaufplan)
 gev#:#gev_dec_training_presence_flex#:#Präsenztraing (individuelle Bausteine)
@@ -1218,3 +1218,5 @@ gev#:#gev_dec_training_update_buildingblocks#:#Ablaufplan bearbeiten
 gev#:#gev_dec_crs_creation_building_block_edit_title#:#Ablaufplan bearbeiten
 gev#:#gev_dec_crs_creation_building_block_edit_sub_title#:#Hier können Sie den Ablaufplan für Ihr Training bearbeiten.
 gev#:#gev_dec_training_no_open_requests#:#Derzeit sind keine dezentralen Trainings zur Anlage vorgesehen.
+gev#:#gev_dec_training_open_requests_title#:#Anlage von dezentralen Trainings
+gev#:#gev_dec_training_open_requests_header_note#:#Hier erfahren sie, welche dezentralen Trainings derzeit für sie angelegt werden.
