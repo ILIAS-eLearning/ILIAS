@@ -317,6 +317,10 @@ class gevCourseBuildingBlockUtils {
 			$wp = round($row["minutes_diff"] / self::DURATION_PER_POINT);
 		}
 		
+		if($wp < 0) {
+			$wp = 0;
+		}
+
 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 		gevCourseUtils::updateWP($wp, $a_crs_ref_id);
 	}
