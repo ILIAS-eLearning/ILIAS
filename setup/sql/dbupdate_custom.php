@@ -4018,7 +4018,7 @@ $ilDB->modifyTableColumn('dct_crs_building_block', "crs_request_id", array(
 $ilDB->modifyTableColumn('dct_crs_building_block', 'crs_id', array(
 		'type' => 'integer',
 		'length' => 4,
-		'notnull' => true
+		'notnull' => false
 ));
 ?>
 

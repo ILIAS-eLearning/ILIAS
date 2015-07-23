@@ -304,18 +304,35 @@ class gevCourseBuildingBlockUtils {
 	}
 
 	static private function updateWP($a_crs_ref_id, $a_db) {
-		$sql = "SELECT SUM(TIME_TO_SEC(TIMEDIFF(end_date, start_date))/60) as minutes_diff\n"
-			  ."  FROM ".self::TABLE_NAME."\n"
-			  ." WHERE crs_id = ".$a_db->quote($a_crs_ref_id, "integer")."\n"
-			  ." ORDER BY start_date";
+		$sql = "SELECT base.id, base.start_date, base.end_date "
+		      ." FROM ".self::TABLE_NAME." base"
+		      ." JOIN ".self::TABLE_NAME_JOIN1." join1"
+		      ." ON base.bb_id = join1.obj_id WHERE join1.is_wp_relevant = 1"
+		      ." ORDER BY base.start_date";
+		
 		$res = $a_db->query($sql);
+		$totalMinutes = 0;
+		while($row = $a_db->fetchAssoc($res)) {
+			$start_date = split(" ",$row["start_date"]);
+			$end_date = split(" ",$row["end_date"]);
+			
+			$start = split(":",$start_date[1]);
+			$end = split(":",$end_date[1]);
 
-		$wp = null;
-
-		if($a_db->numRows($res) > 0) {
-			$row = $a_db->fetchAssoc($res);
-			$wp = round($row["minutes_diff"] / self::DURATION_PER_POINT);
+			$minutes = 0;
+			$hours = 0;
+			if($end[1] < $start[1]) {
+				$minutes = 60 - $start[1] + $end[1];
+				$hours = -1;
+			} else {
+				$minutes = $end[1] - $start[1];
+			}
+			$hours = $hours + $end[0] - $start[0];
+			$totalMinutes += $hours * 60 + $minutes;
 		}
+		
+		$wp = null;
+		$wp = round($totalMinutes / self::DURATION_PER_POINT);
 		
 		if($wp < 0) {
 			$wp = 0;
