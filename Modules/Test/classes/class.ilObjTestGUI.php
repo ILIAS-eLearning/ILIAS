@@ -3363,6 +3363,9 @@ class ilObjTestGUI extends ilObjectGUI
 		global $ilAccess, $ilUser, $ilToolbar;
 		
 		require_once 'Modules/Test/classes/class.ilTestDynamicQuestionSetFilterSelection.php';
+		
+		require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
+		require_once 'Services/UIComponent/Button/classes/class.ilSubmitButton.php';
 
 		$testQuestionSetConfig = $this->testQuestionSetConfigFactory->getQuestionSetConfig();
 		$testSession = $this->testSessionFactory->getSession();
@@ -3439,20 +3442,29 @@ class ilObjTestGUI extends ilObjectGUI
 						
 						if ($existingPasses > $closedPasses)
 						{
-							$resumeTestLabel = $this->lng->txt("tst_resume_test");
-							$big_button[] = array('resumePlayer', $resumeTestLabel, true);
+							$btn = ilSubmitButton::getInstance();
+							$btn->setCaption('tst_resume_test');
+							$btn->setCommand('resumePlayer');
+							$btn->setPrimary(true);
+							$big_button[] = $btn;
 						}
 						else
 						{
-							$resumeTestLabel = $this->object->getStartTestLabel($testSession->getActiveId());
-							$big_button[] = array('startPlayer', $resumeTestLabel, true);
+							$btn = ilSubmitButton::getInstance();
+							$btn->setCaption($this->object->getStartTestLabel($testSession->getActiveId()), false);
+							$btn->setCommand('startPlayer');
+							$btn->setPrimary(true);
+							$big_button[] = $btn;
 						}
 					}
 					else
 					{
 						// start new test
-
-						$big_button[] = array("startPlayer", $this->object->getStartTestLabel($testSession->getActiveId()), true);
+						$btn = ilSubmitButton::getInstance();
+						$btn->setCaption($this->object->getStartTestLabel($testSession->getActiveId()), false);
+						$btn->setCommand('startPlayer');
+						$btn->setPrimary(true);
+						$big_button[] = $btn;
 					}
 				}
 				else
@@ -3470,27 +3482,31 @@ class ilObjTestGUI extends ilObjectGUI
 					
 					if ($this->object->canShowTestResults($testSession, $ilUser->getId()) && count($testPassesSelector->getReportablePasses())) 
 					{
-						//$info->addFormButton("outUserResultsOverview", $this->lng->txt("tst_show_results"));
-
-						$big_button[] = array(
-							array('ilTestEvaluationGUI', 'outUserResultsOverview'),
-							$this->lng->txt("tst_show_results"), false
-						);
+						$btn = ilLinkButton::getInstance();
+						$btn->setCaption('tst_show_comp_results');
+						$btn->setUrl($this->ctrl->getLinkTargetByClass('ilTestEvaluationGUI',  'outUserResultsOverview'));
+						$btn->setPrimary(false);
+						$big_button[] = $btn;
 
 						if ($this->object->getHighscoreEnabled())
 						{
 							// Can also compare results then
-							$big_button[] = array("outResultsToplist", $this->lng->txt("tst_show_toplist"), false);
+							$btn = ilSubmitButton::getInstance();
+							$btn->setCaption('tst_show_toplist');
+							$btn->setCommand('outResultsToplist');
+							$btn->setPrimary(false);
+							$big_button[] = $btn;
 						}
 
 						if( $this->object->isSkillServiceToBeConsidered() )
 						{
 							require_once 'Modules/Test/classes/class.ilTestSkillEvaluationGUI.php';
 
-							$big_button[] = array(
-								array('ilTestSkillEvaluationGUI', ilTestSkillEvaluationGUI::CMD_SHOW),
-								$this->lng->txt("tst_show_comp_results"), false
-							);
+							$btn = ilLinkButton::getInstance();
+							$btn->setCaption('tst_show_comp_results');
+							$btn->setUrl($this->ctrl->getLinkTargetByClass('ilTestSkillEvaluationGUI', ilTestSkillEvaluationGUI::CMD_SHOW));
+							$btn->setPrimary(false);
+							$big_button[] = $btn;
 						}
 					}
 					
@@ -3500,8 +3516,11 @@ class ilObjTestGUI extends ilObjectGUI
 			{
 				if ($this->object->canShowSolutionPrintview($ilUser->getId()))
 				{
-					//$info->addFormButton("outUserListOfAnswerPasses", $this->lng->txt("tst_list_of_answers_show"));
-					$big_button[] = array("outUserListOfAnswerPasses", $this->lng->txt("tst_list_of_answers_show"), false);
+					$btn = ilSubmitButton::getInstance();
+					$btn->setCaption('tst_list_of_answers_show');
+					$btn->setCommand('outUserListOfAnswerPasses');
+					$btn->setPrimary(false);
+					$big_button[] = $btn;
 				}
 			}
 			
@@ -3557,17 +3576,9 @@ class ilObjTestGUI extends ilObjectGUI
 
 			foreach($big_button as $button)
 			{
-				if( is_array($button[0]) )
-				{
-					$link = $this->ctrl->getLinkTargetByClass($button[0][0], $button[0][1]);
-					$ilToolbar->addButton($button[1], $link, '', '', '', '', $button[2] ? 'submit emphSubmit' : 'submit');
-				}
-				else
-				{
-					$ilToolbar->addFormButton($button[1], $button[0], "", $button[2]);
-				}
+				$ilToolbar->addButtonInstance($button);
 			}
-			
+
 			if($enter_anonymous_code)
 			{
 				if($big_button)
@@ -5150,6 +5161,7 @@ class ilObjTestGUI extends ilObjectGUI
 	private function populateDeleteDynamicTestResultsButton($testSession, &$big_button)
 	{
 		require_once 'Modules/Test/classes/confirmations/class.ilTestPassDeletionConfirmationGUI.php';
+		require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
 
 		$this->ctrl->setParameterByClass(
 			'iltestevaluationgui', 'context',
@@ -5158,12 +5170,12 @@ class ilObjTestGUI extends ilObjectGUI
 		
 		$this->ctrl->setParameterByClass('iltestevaluationgui', 'active_id', $testSession->getActiveId());
 		$this->ctrl->setParameterByClass('iltestevaluationgui', 'pass', $testSession->getPass());
-		
-		$big_button[] = array(
-			array('iltestevaluationgui', 'confirmDeletePass'),
-			$this->lng->txt("tst_delete_dyn_test_results_btn"),
-			false
-		);
+
+		$btn = ilLinkButton::getInstance();
+		$btn->setCaption('tst_delete_dyn_test_results_btn');
+		$btn->setUrl($this->ctrl->getLinkTargetByClass('iltestevaluationgui',  'confirmDeletePass'));
+		$btn->setPrimary(false);
+		$big_button[] = $btn;
 	}
 
 	/**
