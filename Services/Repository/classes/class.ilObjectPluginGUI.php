@@ -108,7 +108,11 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 													  $_GET['user_id'] ? $_GET['user_id'] : $GLOBALS['ilUser']->getId());
 				$this->ctrl->forwardCommand($new_gui);
 				break;
-
+			case 'ilcommonactiondispatchergui':
+				include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
+				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
+				$this->ctrl->forwardCommand($gui);
+				break;
 			default:
 				if (strtolower($_GET["baseClass"]) == "iladministrationgui")
 				{
