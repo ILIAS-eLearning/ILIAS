@@ -448,17 +448,6 @@ class ilParticipationStatusAdminGUI
 	{
 		global $ilCtrl, $lng;
 
-		if(!$this->from_foreign_class){
-			$this->setTabs("listStatus");
-			$confirm->setFormAction($ilCtrl->getFormAction($this, "finalize"));
-			return $tpl->setContent($confirm->getHTML());	
-		} else {
-			$frm_action = $ilCtrl->getFormAction($this, "finalize");
-			$frm_action .= '&crsrefid=' .$this->crs_ref_id;
-			$confirm->setFormAction($frm_action);
-			return $tpl->setContent($confirm->getHTML());	
-		}
-
 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 		$crs_utils = gevCourseUtils::getInstanceByObj($this->getCourse());
 
