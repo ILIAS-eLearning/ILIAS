@@ -21,7 +21,6 @@ class ilParticipationStatusAdminGUI
 	// gev-patch start
 	public $from_foreign_class = false;
 	public $crs_ref_id = false;
-	const MIN_PARTICIPATION_COUNT = 6;
 	// gev-patch end
 
 	/**
@@ -332,20 +331,7 @@ class ilParticipationStatusAdminGUI
 		else
 		{
 			// gev-patch start
-			// super special rule for decentral trainings
-			require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
-			$crs_utils = gevCourseUtils::getInstanceByObj($this->getCourse());
-
-			if ($crs_utils->isDecentralTraining() 
-			&& (   $crs_utils->getMinParticipants() > count($crs_utils->getParticipants())
-				//|| !$this->getParticipationStatus()->getMailSendDate()
-				)
-			) {
-				$may_finalize = false;
-			}
-			else {
-				$may_finalize = $may_write;
-			}
+			$may_finalize = $may_write;
 			// gev-patch end
 		}
 		
@@ -587,7 +573,7 @@ class ilParticipationStatusAdminGUI
 
 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 		$crs_utils = gevCourseUtils::getInstanceByObj($this->getCourse());
-		if($crs_utils->isFlexibleDecentrallTraining() && $crs_utils->getParticipations() < self::MIN_PARTICIPATION_COUNT) {
+		if($crs_utils->isDecentralTraining() && $crs_utils->getParticipations() < $crs_utils->getMinParticipants()) {
 			$confirm->addItem("",
 				"",
 				$lng->txt("gev_dec_training_min_participation_count_not_reached")
