@@ -278,8 +278,12 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 
 			);
 
-
-		$this->orgu_memberships =	
+        $this->orgu_memberships =       
+                        "SELECT orgu_id, usr_id, rol_title, orgu_title AS org_unit, SUM( `action` ) AS sum, "
+                        ." org_unit_above1, org_unit_above2"
+                        ." FROM hist_userorgu WHERE rol_title = ".$this->db->quote("Mitarbeiter","text")
+                        ."GROUP BY orgu_id, usr_id, rol_title HAVING sum >0";
+		/*$this->orgu_memberships =	
 						 "SELECT DISTINCT pl.usr_id,pl.orgu_title AS org_unit,pl.org_unit_above1,pl.org_unit_above2 "
 						." FROM hist_userorgu AS pl "
 						." LEFT JOIN "
@@ -291,7 +295,7 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 						."		AND pl.rol_id=mi.rol_id "
 						."      AND pl.hist_version+1 = mi.hist_version "
 						."		AND `action`=1 " 
-						." WHERE mi.created_ts IS NULL AND pl.rol_title = ".$this->db->quote("Mitarbeiter","text");
+						." WHERE mi.created_ts IS NULL AND pl.rol_title = ".$this->db->quote("Mitarbeiter","text");*/
 
 		$this->query = catReportQuery::create()
 						//->distinct()
