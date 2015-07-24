@@ -313,14 +313,13 @@ class gevDecentralTrainingUtils {
  		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
  		$crs_utils = gevCourseUtils::getInstance($a_crs_id);
  		$isFinalized = $crs_utils->isFinalized();
- 		$startDate = $crs_utils->getStartDate();
+ 		$startDate = $crs_utils->getStartDate()->get(IL_CAL_DATE);
  		$now = date("Y-m-d");
 
  		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
  		$usr_util = gevUserUtils::getInstance((int)$this->current_user->getId());
  		$isAdmin = $usr_util->isAdmin();
- 		
- 		if($startDate <= $now && !$isAdmin) {
+ 		if(($startDate <= $now) && !$isAdmin) {
  			return false;
  		}
 

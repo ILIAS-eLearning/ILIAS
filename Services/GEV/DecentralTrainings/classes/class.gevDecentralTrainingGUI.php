@@ -54,6 +54,7 @@ class gevDecentralTrainingGUI {
 			case "showOpenRequests":
 			case "addBuildingBlock":
 			case "updateBuildingBlock":
+			case "showBuildingBlock":
 				$cont = $this->$cmd();
 				break;
 			default:
@@ -318,11 +319,23 @@ class gevDecentralTrainingGUI {
 		$webinar_flexible_tpl_id = $settings_utils->getDctTplFlexWebinarObjId();
 		$tmpl_id = $obj_id = gevObjectUtils::getObjId($crs_utils->getTemplateRefId());
 
+		$start_date = $crs_utils->getStartDate()->get(IL_CAL_DATE);
+		$now = date("Y-m-d");
+		$should_save = $start_date > $now;
+
+		
 		if($tmpl_id == $presence_flexible_tpl_id || $tmpl_id == $webinar_flexible_tpl_id) {
-			$form->addCommandButton("updateBuildingBlock", $this->lng->txt("gev_dec_training_update_buildingblocks"));
+			if($should_save) {
+				$form->addCommandButton("updateBuildingBlock", $this->lng->txt("gev_dec_training_update_buildingblocks"));
+			} else {
+				$form->addCommandButton("showBuildingBlock", $this->lng->txt("gev_dec_training_show_buildingblocks"));
+			}
 		} else {
-			$form->addCommandButton("updateSettings", $this->lng->txt("save"));
+			if($should_save) {
+				$form->addCommandButton("updateSettings", $this->lng->txt("save"));
+			}
 		}
+		
 
 		$form->addCommandButton("cancel", $this->lng->txt("back"));
 		$form->setFormAction($this->ctrl->getFormAction($this));
@@ -1353,6 +1366,12 @@ class gevDecentralTrainingGUI {
 		$settings = $this->getSettingsFromForm($crs_utils, $form, gevObjectUtils::getObjId($tmpl_ref_id));
 		$settings->applyTo((int)$_POST["obj_id"]);
 
+		require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCourseCreatingBuildingBlockGUI.php");
+		$bb_gui = new gevDecentralTrainingCourseCreatingBuildingBlockGUI($_POST["obj_id"]);
+		$this->ctrl->forwardCommand($bb_gui);
+	}
+
+	protected function showBuildingBlock() {
 		require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCourseCreatingBuildingBlockGUI.php");
 		$bb_gui = new gevDecentralTrainingCourseCreatingBuildingBlockGUI($_POST["obj_id"]);
 		$this->ctrl->forwardCommand($bb_gui);
