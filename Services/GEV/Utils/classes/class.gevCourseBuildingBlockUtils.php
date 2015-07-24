@@ -297,7 +297,7 @@ class gevCourseBuildingBlockUtils {
 				}
 			}
 		}
-
+		
 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 		gevCourseUtils::updateMethod($methods,$a_crs_ref_id);
 		gevCourseUtils::updateMedia($media,$a_crs_ref_id);

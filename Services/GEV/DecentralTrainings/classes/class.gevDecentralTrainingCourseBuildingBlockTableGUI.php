@@ -75,15 +75,22 @@ class gevDecentralTrainingCourseBuildingBlockTableGUI extends catAccordionTableG
 
 		require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingUtils.php");
 		$dct_utils = gevDecentralTrainingUtils::getInstance();
-		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
-		$obj_id = gevObjectUtils::getObjId($a_set["crs_id"]);
+		
+		
+		if($a_set["crs_id"] !== null) {
+			require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+			$obj_id = gevObjectUtils::getObjId($a_set["crs_id"]);
 
-		if($dct_utils->userCanEditBuildingBlocks($obj_id)) {
+			if($dct_utils->userCanEditBuildingBlocks($obj_id)) {
+				$action = '<a href="'.$this->getDeleteLink($a_set["id"],$a_set["crs_request_id"],$a_set["crs_id"]).'">'.$this->delete_image.'</a>&nbsp;';
+				$action .= '<a href="'.$this->getEditLink($a_set["id"],$a_set["crs_request_id"],$a_set["crs_id"]).'">'.$this->edit_image.'</a>';
+				$this->tpl->setVariable("ACTION", $action);
+			}
+		} else {
 			$action = '<a href="'.$this->getDeleteLink($a_set["id"],$a_set["crs_request_id"],$a_set["crs_id"]).'">'.$this->delete_image.'</a>&nbsp;';
 			$action .= '<a href="'.$this->getEditLink($a_set["id"],$a_set["crs_request_id"],$a_set["crs_id"]).'">'.$this->edit_image.'</a>';
 			$this->tpl->setVariable("ACTION", $action);
 		}
-		
 	}
 
 	protected function getDeleteLink($a_id,$a_crs_request_id,$a_crs_ref_id) {

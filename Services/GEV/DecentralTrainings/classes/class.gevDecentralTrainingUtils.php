@@ -264,6 +264,51 @@ class gevDecentralTrainingUtils {
 		return array($filename, "Teilnehmer.xls");
  	}
 
+	public function isResendMailRequired($a_crs_obj_id, array $a_new_values) {
+		$old_field_values = $this->getReInvitationMailRelevantEntries($a_crs_obj_id);
+		
+		foreach ($old_field_values as $key => $value) {
+			
+			if($key == "time") {
+				$time = substr($a_new_values["time"]["start"]["time"],0,5)."-".substr($a_new_values["time"]["end"]["time"],0,5);
+
+				if($value[0] != $time) {
+					return true;
+				}
+			} elseif($key == "date") {
+				$new_date = ilDatePresentation::formatDate(new ilDate($a_new_values["date"],IL_CAL_DATE));
+				$old_date = ilDatePresentation::formatDate($value);
+				if($new_date != $old_date) {
+					return true;
+				}
+			} else {
+				if($value !== $a_new_values[$key]) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
+ 	public function getReInvitationMailRelevantEntries($a_crs_obj_id) {
+ 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+ 		$crs_utils = gevCourseUtils::getInstance($a_crs_obj_id);
+ 		$ret = array();
+ 		$ret["title"] = $crs_utils->getTitle();
+ 		$ret["desc"] = $crs_utils->getSubtitle();
+ 		$ret["date"] = $crs_utils->getStartDate();
+ 		$ret["time"] = $crs_utils->getSchedule();
+ 		$ret["venue_id"] = $crs_utils->getVenueId();
+ 		$ret["venue_free"] = $crs_utils->getVenueFreeText();
+ 		$ret["orgu_id"] = $crs_utils->getTEPOrguId();
+ 		$ret["vc_type"] = $crs_utils->getVCType();
+ 		$ret["webx_link"] = $crs_utils->getWebExLink();
+ 		$ret["webx_password"] = $crs_utils->getWebExPassword();
+
+ 		return $ret;
+ 	}
+
  	public function userCanEditBuildingBlocks($a_crs_id) {
  		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
  		$crs_utils = gevCourseUtils::getInstance($a_crs_id);

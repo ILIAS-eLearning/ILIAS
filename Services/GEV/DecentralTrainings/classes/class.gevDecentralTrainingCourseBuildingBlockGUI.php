@@ -119,15 +119,20 @@ class gevDecentralTrainingCourseBuildingBlockGUI {
 		$crs_tbl->setTitle("gev_dec_crs_building_block_title")
 				->setSubtitle("gev_dec_crs_building_block_sub_title")
 				->setImage("GEV_img/ico-head-search.png");
+		
+		if($this->crs_ref_id !== null){
+			require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingUtils.php");
+			$dct_utils = gevDecentralTrainingUtils::getInstance();
+			require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+			$obj_id = gevObjectUtils::getObjId($this->crs_ref_id);
 
-		require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingUtils.php");
-		$dct_utils = gevDecentralTrainingUtils::getInstance();
-		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
-		$obj_id = gevObjectUtils::getObjId($this->crs_ref_id);
-
-		if($dct_utils->userCanEditBuildingBlocks($obj_id)) {
+			if($dct_utils->userCanEditBuildingBlocks($obj_id)) {
+				$crs_tbl->addCommandButton("add",$this->lng->txt("add"));
+			}
+		} else {
 			$crs_tbl->addCommandButton("add",$this->lng->txt("add"));
 		}
+		
 		
 		return $crs_tbl;
 	}
@@ -326,9 +331,20 @@ class gevDecentralTrainingCourseBuildingBlockGUI {
 		}
 
 		$time = $form->getInput("time");
-		require_once ("Services/GEV/Utils/classes/class.gevCourseBuildingBlockUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevCourseBuildingBlockUtils.php");
 		$bu_utils = gevCourseBuildingBlockUtils::getInstance($form->getInput("id"));
 		$bu_utils->loadData();
+
+		if($bu_utils->getBuildingBlock()->getId() != $form->getInput("build_block")) {
+			//EMAIL VERSENDEN
+			require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+			require_once("Services/GEV/Mailing/classes/class.gevCrsAutoMails.php");
+			if($this->crs_ref_id !== null) {
+				$obj_id = gevObjectUtils::getObjId($this->crs_ref_id);
+				$crs_mails = new gevCrsAutoMails($obj_id);
+				$crs_mails->sendDeferred("invitation");
+			}
+		}
 		
 		$bu_utils->setBuildingBlock($form->getInput("build_block"));
 		$bu_utils->setStartDate($time["start"]["date"]." ".$time["start"]["time"]);
@@ -359,7 +375,6 @@ class gevDecentralTrainingCourseBuildingBlockGUI {
 		//did you passed ne max duration for a day (12 hours)
 		if(gevCourseBuildingBlockUtils::getMaxDurationReached($this->crs_ref_id, $this->crs_request_id, $time)){
 			$message = $this->lng->txt("gev_dec_max_duration_reached_part");
-
 			ilUtil::sendFailure($message,false);
 			return $this->newCourseBuildingBlock($form);
 		}

@@ -779,6 +779,10 @@ class gevCourseUtils {
 		$this->amd->setField($this->crs_id, gevSettings::CRS_AMD_WEBEX_VC_CLASS_TYPE, $a_vc_type);
 	}
 
+	public function getVCType($a_vc_type) {
+		$this->amd->getField($this->crs_id, gevSettings::CRS_AMD_WEBEX_VC_CLASS_TYPE);
+	}
+
 	public function setTrainingCategory(array $a_training_category) {
 		$this->amd->setField($this->crs_id, gevSettings::CRS_AMD_TOPIC, $a_training_category);
 	}

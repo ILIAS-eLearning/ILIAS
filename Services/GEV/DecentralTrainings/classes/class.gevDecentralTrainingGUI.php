@@ -230,7 +230,7 @@ class gevDecentralTrainingGUI {
 		
 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 		require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCreationRequest.php");
-		
+
 		$form_prev = $this->buildTrainingOptionsForm(false,null,$_POST["trainer_ids"],$_POST["date"],$_POST["template_id"]);
 		$dec_utils = gevDecentralTrainingUtils::getInstance();
 		
@@ -634,6 +634,7 @@ class gevDecentralTrainingGUI {
 		if($a_training_id !== NULL && $a_template_id === null) {
 			require_once ("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 			require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+
 			$a_template_ref_id = gevCourseUtils::getInstance($a_training_id)->getTemplateRefId();
 			$a_template_obj_id = gevObjectUtils::getObjId($a_template_ref_id);
 		}
@@ -896,11 +897,10 @@ class gevDecentralTrainingGUI {
 		
 		$amd_utils = gevAMDUtils::getInstance();
 		$dec_utils = gevDecentralTrainingUtils::getInstance();
-		
 		$form = new catPropertyFormGUI();
 		$form->setTemplate("tpl.gev_dec_training_choose_template_form.html", "Services/GEV/Desktop");
 		$form->setTitle($this->lng->txt("gev_dec_training_settings"));
-
+		
 		if ($a_fill) {
 			if ($a_template_id !== null) {
 				$training_info = $dec_utils->getTemplateInfoFor($this->current_user->getId(), $a_template_id);
@@ -927,6 +927,7 @@ class gevDecentralTrainingGUI {
 				
 			}
 			else {
+
 				$crs_utils = gevCourseUtils::getInstance($a_training_id);
 				$tmp = $crs_utils->getSchedule();
 				$sched = explode("-",$tmp[0]);
@@ -956,8 +957,13 @@ class gevDecentralTrainingGUI {
 			}
 		}
 		else {
-			$crs_utils = gevCourseUtils::getInstance(intval($_POST["template_id"]));
-			$no_changes_allowed = false;
+			if ($a_template_id !== null) {
+				$crs_utils = gevCourseUtils::getInstance($a_template_id);
+				$no_changes_allowed = false;
+			} else {
+				$crs_utils = gevCourseUtils::getInstance($a_training_id);
+				$no_changes_allowed = false;
+			}
 		}
 		
 		if ($a_training_id !== null) {
@@ -1040,7 +1046,7 @@ class gevDecentralTrainingGUI {
 		$venue_section = new ilFormSectionHeaderGUI();
 		$venue_section->setTitle($this->lng->txt("gev_dec_training_venue"));
 		$form->addItem($venue_section);
-		
+
 		if ($crs_utils->isPraesenztraining()) {
 			$venue = new ilSelectInputGUI($this->lng->txt("gev_venue"), "venue");
 			$venues = array(0 => "-") + gevOrgUnitUtils::getVenueNames();
@@ -1080,7 +1086,7 @@ class gevDecentralTrainingGUI {
 		$ltype->setValue($training_info["ltype"]);
 		$form->addItem($ltype);
 
-		if ($training_info["ltype"] == "Webinar") {
+		if ($crs_utils->isWebinar()) {
 			//$vc_type_options = $amd_utils->getOptions(gevSettings::CRS_AMD_WEBEX_VC_CLASS_TYPE);
 			// For now we'll only allow csn and webex
 			$vc_type_options = array("CSN"=>"CSN","Webex"=>"Webex");
@@ -1290,17 +1296,56 @@ class gevDecentralTrainingGUI {
 	}
 
 	protected function updateBuildingBlock() {
-		$form = $this->buildTrainingOptionsForm(false, $_POST["obj_id"]);
+		$obj_id = (int)$_POST["obj_id"];
+		
+		$form = $this->buildTrainingOptionsForm(false, $obj_id);
 		$form->setValuesByPost();
 
 		if (!$form->checkInput()) {
 			return $this->showSettings($form);
 		}
 		
-		$crs_utils = gevCourseUtils::getInstance($_POST["obj_id"]);
+		$crs_utils = gevCourseUtils::getInstance($obj_id);
 		$template_id = $crs_utils->getTemplateRefId();
 		if(!$this->checkDecentralTrainingConstraints($form, $template_id)) {
 			return $this->showSettings($form);
+		}
+
+		//HIER IRGENDWAS WEGEN MAILS
+		require_once("Services/Calendar/classes/class.ilDatePresentation.php");
+		require_once("Services/Calendar/classes/class.ilDate.php");
+		require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingUtils.php");
+		$dct_utils = gevDecentralTrainingUtils::getInstance();
+
+		$new_vals = array();
+ 		$new_vals["title"] = $_POST["title"];
+ 		$new_vals["desc"] = $_POST["description"] ? $_POST["description"] : null;
+		$new_vals["date"] = $_POST["date"]["date"];
+		$new_vals["time"] = $_POST["time"];
+ 		$new_vals["orgu_id"] = $_POST["orgu_id"];
+ 		$new_vals["venue_id"] = null;
+ 		$new_vals["venue_free"] = null;
+ 		$new_vals["vc_type"] = null;
+ 		$new_vals["webx_link"] = null;
+ 		$new_vals["webx_password"] = null;
+
+ 		if(isset($_POST["venue"])) {
+ 			$new_vals["venue_id"] = $_POST["venue"];
+ 			$new_vals["venue_free"] = $_POST["venue_free_text"] ? $_POST["venue_free_text"] : null;
+ 		}
+ 		
+ 		if(isset($_POST["webinar_vc_type"])){
+ 			$new_vals["vc_type"] = ($_POST["webinar_vc_type"] != "0") ? $_POST["webinar_vc_type"] : null;
+ 			$new_vals["webx_link"] = $_POST["webinar_link"] ? $_POST["webinar_link"] : null;
+ 			$new_vals["webx_password"] = $_POST["webinar_password"]? $_POST["webinar_password"] : null;
+ 		}
+
+		$resend_mail = $dct_utils->isResendMailRequired($obj_id, $new_vals);
+		
+		if($resend_mail) {
+			require_once("Services/GEV/Mailing/classes/class.gevCrsAutoMails.php");
+			$crs_mails = new gevCrsAutoMails($obj_id);
+			$crs_mails->sendDeferred("invitation");
 		}
 
 		$tmpl_ref_id = $crs_utils->getTemplateRefId();
