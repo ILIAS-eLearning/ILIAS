@@ -16,7 +16,7 @@ ini_set('max_execution_time', 0);
 set_time_limit(0);
 
 
-
+require_once("Services/Calendar/classes/class.ilDatePresentation.php");
 require_once("Services/GEV/Reports/classes/class.catBasicReportGUI.php");
 require_once("Services/GEV/Reports/classes/class.catFilter.php");
 require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
@@ -91,6 +91,118 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 			array(
 		 	  'odbd'
 			));
+
+		$this->allowed_user_ids = $this->user_utils->getEmployees();
+
+		$never_skip = $this->user_utils->getOrgUnitsWhereUserIsDirectSuperior();
+
+		array_walk($never_skip, 
+			function (&$obj_ref_id) {
+				$aux = new ilObjOrgUnit($obj_ref_id["ref_id"]);
+				$obj_ref_id = $aux->getTitle();
+			}
+		);
+		$skip_org_units_in_filter_below = array('Nebenberufsagenturen');
+		array_walk($skip_org_units_in_filter_below, 
+			function(&$title) { 
+				$title = ilObjOrgUnit::_getIdsForTitle($title)[0];
+				$title = gevObjectUtils::getRefId($title);
+				$title = gevOrgUnitUtils::getAllChildrenTitles(array($title));
+			}
+		);
+		$skip_org_units_in_filter = array();
+		foreach ($skip_org_units_in_filter_below as $org_units) {
+			$skip_org_units_in_filter = array_merge($skip_org_units_in_filter, $org_units);
+		}
+		array_unique($skip_org_units_in_filter);
+		$skip_org_units_in_filter = array_diff($skip_org_units_in_filter, $never_skip);
+		$org_units_filter = array_diff($this->user_utils->getOrgUnitNamesWhereUserIsSuperior(), $skip_org_units_in_filter);
+		sort($org_units_filter);
+
+		$this->filter = catFilter::create()
+		
+						->dateperiod( "period"
+									, $this->lng->txt("gev_period")
+									, $this->lng->txt("gev_until")
+									, "usrcrs.begin_date"
+									, "usrcrs.end_date"
+									, date("Y")."-01-01"
+									, date("Y")."-12-31"
+									, false
+									, " OR TRUE "
+									)
+						->multiselect( "org_unit"
+									 , $this->lng->txt("gev_org_unit_short")
+									 , array("orgu.org_unit", "orgu.org_unit_above1", "orgu.org_unit_above2")
+									 //, array("usr.org_unit")
+									 , $org_units_filter
+									 , array()
+									 )
+						->multiselect("edu_program"
+									 , $this->lng->txt("gev_edu_program")
+									 , "edu_program"
+									 //, gevCourseUtils::getEduProgramsFromHisto()
+									 , gevCourseUtils::getEduProgramsFromHisto()
+									 , array()
+									 )
+						->multiselect("type"
+									 , $this->lng->txt("gev_course_type")
+									 , "type"
+									 , gevCourseUtils::getLearningTypesFromHisto()
+									 , array()
+									 )
+						->multiselect("template_title"
+									 , $this->lng->txt("crs_title")
+									 , "template_title"
+									 , gevCourseUtils::getTemplateTitleFromHisto()
+									 , array()
+									 )
+						->multiselect("participation_status"
+									 , $this->lng->txt("gev_participation_status")
+									 , "participation_status"
+									 , gevCourseUtils::getParticipationStatusFromHisto()
+									 , array()
+									 )
+						->multiselect("booking_status"
+									 , $this->lng->txt("gev_booking_status")
+									 , "booking_status"
+									 , catFilter::getDistinctValues('booking_status', 'hist_usercoursestatus')
+									 , array()
+									 )
+						->multiselect("gender"
+									 , $this->lng->txt("gender")
+									 , "gender"
+									 , array('f', 'm')
+									 , array()
+									 )
+						->multiselect("venue"
+									 , $this->lng->txt("gev_venue")
+									 , "venue"
+									 , catFilter::getDistinctValues('venue', 'hist_course')
+									 , array()
+									 )
+						->multiselect("provider"
+									 , $this->lng->txt("gev_provider")
+									 , "provider"
+									 , catFilter::getDistinctValues('provider', 'hist_course')
+									 , array()
+									 )
+						/*->static_condition("IF(UNIX_TIMESTAMP(usrcrs.begin_date)=0 "
+                                       					."OR usrcrs.begin_date IS NULL,TRUE,"
+                                          				."UNIX_TIMESTAMP(usrcrs.begin_date)>orgu.in_ts)")
+                 				->static_condition("IF(UNIX_TIMESTAMP(usrcrs.end_date)=0 "
+                                          				."OR usrcrs.end_date IS NULL "
+                                          				."OR orgu.out_ts IS NULL,TRUE,"
+                                          				."UNIX_TIMESTAMP(usrcrs.end_date)< orgu.out_ts)")*/
+						->static_condition($this->db->in("usr.user_id", $this->allowed_user_ids, false, "integer"))
+						->static_condition("usr.hist_historic = 0")
+						->action($this->ctrl->getLinkTarget($this, "view"))
+						->compile()
+						;
+		$dates = $this->filter->get("period");
+		foreach($dates as &$il_date_obj) {
+			$il_date_obj = $il_date_obj->get(IL_CAL_DATE);
+		}
 
 
 
@@ -207,7 +319,10 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 						->select_raw($this->sql_sum_parts['sum_exit'])
 						->from("hist_user usr")
 						->left_join("hist_usercoursestatus usrcrs")
-							->on("usrcrs.usr_id = usr.user_id AND usrcrs.hist_historic = 0")
+							->on("usrcrs.usr_id = usr.user_id AND usrcrs.hist_historic = 0 "
+								 ." AND usrcrs.begin_date <= ".$this->db->quote($date["end"],"date")
+								 ." AND usrcrs.end_date >= ".$this->db->quote($date["start"],"date")
+								 ." OR usrcrs.hist_historic IS NULL")
 						->left_join("hist_course crs")
 							->on("usrcrs.crs_id = crs.crs_id AND crs.hist_historic = 0")
 						->raw_join("JOIN(".$this->orgu_memberships.")AS orgu ON usr.user_id=orgu.usr_id ")
@@ -215,115 +330,8 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 						->compile()
 						;
 
-		$this->allowed_user_ids = $this->user_utils->getEmployees();
 
-		$never_skip = $this->user_utils->getOrgUnitsWhereUserIsDirectSuperior();
-
-		array_walk($never_skip, 
-			function (&$obj_ref_id) {
-				$aux = new ilObjOrgUnit($obj_ref_id["ref_id"]);
-				$obj_ref_id = $aux->getTitle();
-			}
-		);
-		$skip_org_units_in_filter_below = array('Nebenberufsagenturen');
-		array_walk($skip_org_units_in_filter_below, 
-			function(&$title) { 
-				$title = ilObjOrgUnit::_getIdsForTitle($title)[0];
-				$title = gevObjectUtils::getRefId($title);
-				$title = gevOrgUnitUtils::getAllChildrenTitles(array($title));
-			}
-		);
-		$skip_org_units_in_filter = array();
-		foreach ($skip_org_units_in_filter_below as $org_units) {
-			$skip_org_units_in_filter = array_merge($skip_org_units_in_filter, $org_units);
-		}
-		array_unique($skip_org_units_in_filter);
-		$skip_org_units_in_filter = array_diff($skip_org_units_in_filter, $never_skip);
-		$org_units_filter = array_diff($this->user_utils->getOrgUnitNamesWhereUserIsSuperior(), $skip_org_units_in_filter);
-		sort($org_units_filter);
-		$this->filter = catFilter::create()
 		
-						->dateperiod( "period"
-									, $this->lng->txt("gev_period")
-									, $this->lng->txt("gev_until")
-									, "usrcrs.begin_date"
-									, "usrcrs.end_date"
-									, date("Y")."-01-01"
-									, date("Y")."-12-31"
-									, false
-									, " OR usrcrs.hist_historic IS NULL"
-									)
-						->multiselect( "org_unit"
-									 , $this->lng->txt("gev_org_unit_short")
-									 , array("orgu.org_unit", "orgu.org_unit_above1", "orgu.org_unit_above2")
-									 //, array("usr.org_unit")
-									 , $org_units_filter
-									 , array()
-									 )
-						->multiselect("edu_program"
-									 , $this->lng->txt("gev_edu_program")
-									 , "edu_program"
-									 //, gevCourseUtils::getEduProgramsFromHisto()
-									 , gevCourseUtils::getEduProgramsFromHisto()
-									 , array()
-									 )
-						->multiselect("type"
-									 , $this->lng->txt("gev_course_type")
-									 , "type"
-									 , gevCourseUtils::getLearningTypesFromHisto()
-									 , array()
-									 )
-						->multiselect("template_title"
-									 , $this->lng->txt("crs_title")
-									 , "template_title"
-									 , gevCourseUtils::getTemplateTitleFromHisto()
-									 , array()
-									 )
-						->multiselect("participation_status"
-									 , $this->lng->txt("gev_participation_status")
-									 , "participation_status"
-									 , gevCourseUtils::getParticipationStatusFromHisto()
-									 , array()
-									 )
-						->multiselect("booking_status"
-									 , $this->lng->txt("gev_booking_status")
-									 , "booking_status"
-									 , catFilter::getDistinctValues('booking_status', 'hist_usercoursestatus')
-									 , array()
-									 )
-						->multiselect("gender"
-									 , $this->lng->txt("gender")
-									 , "gender"
-									 , array('f', 'm')
-									 , array()
-									 )
-						->multiselect("venue"
-									 , $this->lng->txt("gev_venue")
-									 , "venue"
-									 , catFilter::getDistinctValues('venue', 'hist_course')
-									 , array()
-									 )
-						->multiselect("provider"
-									 , $this->lng->txt("gev_provider")
-									 , "provider"
-									 , catFilter::getDistinctValues('provider', 'hist_course')
-									 , array()
-									 )
-						/*->static_condition("IF(UNIX_TIMESTAMP(usrcrs.begin_date)=0 "
-                                       					."OR usrcrs.begin_date IS NULL,TRUE,"
-                                          				."UNIX_TIMESTAMP(usrcrs.begin_date)>orgu.in_ts)")
-                 				->static_condition("IF(UNIX_TIMESTAMP(usrcrs.end_date)=0 "
-                                          				."OR usrcrs.end_date IS NULL "
-                                          				."OR orgu.out_ts IS NULL,TRUE,"
-                                          				."UNIX_TIMESTAMP(usrcrs.end_date)< orgu.out_ts)")*/
-						->static_condition($this->db->in("usr.user_id", $this->allowed_user_ids, false, "integer"))
-						->static_condition("usr.hist_historic = 0")
-						->action($this->ctrl->getLinkTarget($this, "view"))
-						->compile()
-						;
-
-
-
 	}
 
 
@@ -371,6 +379,7 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 
 
 	private function renderSumTable(){
+
 		$table = new catTableGUI($this, "view");
 		$table->setEnableTitle(false);
 		$table->setTopCommands(false);
@@ -402,7 +411,7 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 				"SELECT DISTINCT usr.user_id, crs.crs_id, usrcrs.booking_status, ".
 					"usrcrs.participation_status, crs.type ".
 					"FROM `hist_user` usr ". 
-					"LEFT JOIN `hist_usercoursestatus` usrcrs ON usrcrs.usr_id = usr.user_id AND usrcrs.hist_historic = 0 ".
+					"LEFT JOIN `hist_usercoursestatus` usrcrs ON usrcrs.usr_id = usr.user_id AND usr.hist_historic = 0 ".
 					"LEFT JOIN `hist_course` crs ON usrcrs.crs_id = crs.crs_id AND crs.hist_historic = 0 ".
 					"JOIN (".$this->orgu_memberships.") as orgu ON usr.user_id=orgu.usr_id ".$this->queryWhere().
 			") as temp";

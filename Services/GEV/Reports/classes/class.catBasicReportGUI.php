@@ -349,6 +349,7 @@ class catBasicReportGUI {
 			   . $this->queryHaving()."\n"
 			   . $this->queryOrder();
 			   //die($query);
+
 		
 		$res = $this->db->query($query);
 		$data = array();
