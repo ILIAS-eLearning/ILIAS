@@ -49,12 +49,12 @@ class gevBillingReportGUI extends catBasicReportGUI {
 						->column("cost_center", "gev_charged_agency")
 						->column("bill_finalized_date", "create_date")
 						->column("lastname", "lastname")
-						->column("firstname", "firstname");
+						->column("firstname", "firstname")
+						->column("gender", "gender");
 		if($this->is_vfs) {
 			$this->table->column("adp_number", "gev_adp_number_vfs");
 		}
-		$this->table 	->column("gender", "gender")
-						->column("org_unit", "gev_org_unit_short")
+		$this->table 	->column("org_unit", "gev_org_unit_short")
 						->column("title", "gev_event_title")
 						->column("custom_id", "gev_number_of_measure")
 						->column("date", "gev_training_date")
