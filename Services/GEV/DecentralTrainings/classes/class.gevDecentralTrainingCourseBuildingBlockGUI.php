@@ -62,6 +62,9 @@ class gevDecentralTrainingCourseBuildingBlockGUI {
 			case "save":
 				$this->saveCourseBuildingBlock();
 				break;
+			case "backFromBooking":
+				$this->backFromBooking();
+				break;
 			default:
 				$this->render();
 		}
@@ -416,6 +419,15 @@ class gevDecentralTrainingCourseBuildingBlockGUI {
 		$r_minutes = $a_minutes - $hours * 60;
 
 		return "$hours Stunden und $r_minutes Minuten ";
+	}
+
+	protected function backFromBooking() {
+		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		require_once("Services/CourseBooking/classes/class.ilCourseBookingAdminGUI.php");
+		ilCourseBookingAdminGUI::setBackTarget(null);
+		
+		$this->ctrl->redirectByClass(array("ilTEPGUI"));
+		return;
 	}
 }
 

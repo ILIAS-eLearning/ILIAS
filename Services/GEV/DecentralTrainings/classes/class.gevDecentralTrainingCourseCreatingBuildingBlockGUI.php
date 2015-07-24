@@ -88,6 +88,9 @@ class gevDecentralTrainingCourseCreatingBuildingBlockGUI extends gevDecentralTra
 			case "cancelDelete":
 				$this->cancel();
 				break;
+			case "backFromBooking":
+				$this->backFromBooking();
+				break;
 			default:
 				$this->render();
 		}
@@ -334,6 +337,15 @@ class gevDecentralTrainingCourseCreatingBuildingBlockGUI extends gevDecentralTra
 		}
 
 		$this->render();
+	}
+
+	protected function backFromBooking() {
+		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		require_once("Services/CourseBooking/classes/class.ilCourseBookingAdminGUI.php");
+		ilCourseBookingAdminGUI::setBackTarget(null);
+		
+		$this->ctrl->redirectByClass(array("ilTEPGUI"));
+		return;
 	}
 }
 ?>
