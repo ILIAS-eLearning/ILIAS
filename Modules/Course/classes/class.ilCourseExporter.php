@@ -44,13 +44,14 @@ class ilCourseExporter extends ilXmlExporter
 	 */
 	public function getXmlExportHeadDependencies($a_entity, $a_target_release, $a_ids)
 	{
+		// always trigger container because of co-page(s)
 		return array(
-				array(
-					'component'		=> 'Services/Container',
-					'entity'		=> 'struct',
-					'ids'			=> $a_ids
-				)
-			);
+			array(
+				'component'		=> 'Services/Container',
+				'entity'		=> 'struct',
+				'ids'			=> $a_ids
+			)
+		);
 		
 		/*
 		include_once './Services/Export/classes/class.ilExportOptions.php';
