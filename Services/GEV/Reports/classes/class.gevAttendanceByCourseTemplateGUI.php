@@ -111,7 +111,7 @@ class gevAttendanceByCourseTemplateGUI extends catBasicReportGUI{
 									 //, array("usr.org_unit", "org_unit_above1", "org_unit_above2")
 									 , array("orgu.org_unit")
 									 , $org_units_filter
-									 , array()
+									 , $org_units_filter
 									 )
 						->multiselect("edu_program"
 									 , $this->lng->txt("gev_edu_program")

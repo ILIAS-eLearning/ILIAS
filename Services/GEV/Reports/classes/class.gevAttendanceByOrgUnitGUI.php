@@ -177,7 +177,7 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 						."		AND pl.rol_id=mi.rol_id "
 						."      AND pl.hist_version+1 = mi.hist_version "
 						."		AND `action`=1 " 
-						." WHERE mi.created_ts IS NULL";
+						." WHERE mi.created_ts IS NULL AND pl.rol_title = ".$this->db->quote("Mitarbeiter","text");
 
 		$this->query = catReportQuery::create()
 						//->distinct()
@@ -349,13 +349,13 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 		
 		//$rec['sum_employees'] = 'many';
 
-		foreach(array_keys($this->table_sums->columns) as $field) {
-			if (! array_key_exists($field, $this->summed_data)) {
-				$this->summed_data[$field] = 0;
-			}
+		//foreach(array_keys($this->table_sums->columns) as $field) {
+		//	if (! array_key_exists($field, $this->summed_data)) {
+		//		$this->summed_data[$field] = 0;
+		//	}
 			
-			$this->summed_data[$field] +=  intval($rec[$field]);
-		}
+		//	$this->summed_data[$field] +=  intval($rec[$field]);
+		//}
 			
 		return $this->replaceEmpty($rec);
 	}
@@ -402,7 +402,7 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 				"SELECT DISTINCT usr.user_id, crs.crs_id, usrcrs.booking_status, ".
 					"usrcrs.participation_status, crs.type ".
 					"FROM `hist_user` usr ". 
-					"LEFT JOIN `hist_usercoursestatus` usrcrs ON usrcrs.usr_id = usr.user_id AND usr.hist_historic = 0 ".
+					"LEFT JOIN `hist_usercoursestatus` usrcrs ON usrcrs.usr_id = usr.user_id AND usrcrs.hist_historic = 0 ".
 					"LEFT JOIN `hist_course` crs ON usrcrs.crs_id = crs.crs_id AND crs.hist_historic = 0 ".
 					"JOIN (".$this->orgu_memberships.") as orgu ON usr.user_id=orgu.usr_id ".$this->queryWhere().
 			") as temp";
