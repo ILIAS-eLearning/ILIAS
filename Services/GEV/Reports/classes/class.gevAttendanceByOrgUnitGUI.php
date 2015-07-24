@@ -324,7 +324,7 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 								." AND ((`usrcrs`.`end_date` >= ".$this->db->quote($dates["start"],"date")
 										." OR `usrcrs`.`end_date` = ".$this->db->quote("0000-00-00","date")
 										." OR `usrcrs`.`end_date` = ".$this->db->quote("-empty-","text")).")"
-									." AND `usrcrs`.`begin_date` <= ".$this->db->quote($dates["end"],"date").")".
+									." AND `usrcrs`.`begin_date` <= ".$this->db->quote($dates["end"],"date").")"
 								 ." OR usrcrs.hist_historic IS NULL")
 						->left_join("hist_course crs")
 							->on("usrcrs.crs_id = crs.crs_id AND crs.hist_historic = 0")
