@@ -1211,7 +1211,7 @@ gev#:#gev_dec_training_gdv_topic#:#GDV-Lerninhalt
 gev#:#gev_dec_training_add_buildingblocks#:#Ablaufplan anlegen
 gev#:#gev_dec_training_no_venue#:#Bitte wählen Sie einen Veranstaltungort oder tragen sie einen Freitext für den Veranstaltungsort ein.
 gev#:#gev_dec_training_no_orgu_selected#:#Bitte wählen Sie eine Organisationseinheit für die das Training veranstaltet wird.
-gev#:#gev_dec_training_crs_to_long#:#Das Training hat die maximale Länge überschritten (12 Zeitstunden).
+gev#:#gev_dec_training_crs_to_long#:#Das Training überschreitet die maximale Dauer von 12 Zeitstunden.
 gev#:#gev_dec_crs_creation_building_block_title#:#Ablaufplan anlegen
 gev#:#gev_dec_crs_creation_building_block_sub_title#:#Hier können Sie den Ablaufplan für Ihr Training anlegen.
 gev#:#gev_dec_training_update_buildingblocks#:#Ablaufplan bearbeiten
