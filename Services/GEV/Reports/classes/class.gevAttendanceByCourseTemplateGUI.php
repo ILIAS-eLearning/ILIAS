@@ -20,9 +20,12 @@ require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
 
 class gevAttendanceByCourseTemplateGUI extends catBasicReportGUI{
+	protected $orgu_membeships;
+	protected $filtered_orgus;
 	public function __construct() {
 		
 		parent::__construct();
+
 
 		$this->title = catTitleGUI::create()
 						->title("gev_rep_attendance_by_coursetemplate_title")
@@ -54,8 +57,6 @@ class gevAttendanceByCourseTemplateGUI extends catBasicReportGUI{
 						//->mapping("odbd", array("org_unit_above1", "org_unit_above2"))
 						->defaultOrder("template_title", "ASC")
 						;
-		
-
 
 		$this->table_sums = catReportTable::create()
 						->column("sum_booked_wbt", "sum_booked_WBT")
@@ -70,8 +71,105 @@ class gevAttendanceByCourseTemplateGUI extends catBasicReportGUI{
 						->template("tpl.gev_attendance_by_coursetemplate_sums_row.html", "Services/GEV/Reports")
 						;
 		$this->summed_data = array();
-
-
+		$never_skip = $this->user_utils->getOrgUnitsWhereUserIsDirectSuperior();
+		array_walk($never_skip, 
+			function (&$obj_ref_id) {
+				$aux = new ilObjOrgUnit($obj_ref_id["ref_id"]);
+				$obj_ref_id = $aux->getTitle();
+			}
+		);
+		$skip_org_units_in_filter_below = array('Nebenberufsagenturen');
+		array_walk($skip_org_units_in_filter_below, 
+			function(&$title) { 
+				$title = ilObjOrgUnit::_getIdsForTitle($title)[0];
+				$title = gevObjectUtils::getRefId($title);
+				$title = gevOrgUnitUtils::getAllChildrenTitles(array($title));
+			}
+		);
+		$skip_org_units_in_filter = array();
+		foreach ($skip_org_units_in_filter_below as $org_units) {
+			$skip_org_units_in_filter = array_merge($skip_org_units_in_filter, $org_units);
+		}
+		array_unique($skip_org_units_in_filter);
+		$skip_org_units_in_filter = array_diff($skip_org_units_in_filter, $never_skip);
+		$org_units_filter = array_diff( $this->user_utils->getOrgUnitNamesWhereUserIsSuperior(), $skip_org_units_in_filter);
+		sort($org_units_filter);
+		
+		$this->filter = catFilter::create()
+						->dateperiod( "period"
+									, $this->lng->txt("gev_period")
+									, $this->lng->txt("gev_until")
+									, "usrcrs.begin_date"
+									, "usrcrs.end_date"
+									, date("Y")."-01-01"
+									, date("Y")."-12-31"
+									, false
+									, " OR usrcrs.hist_historic IS NULL"
+									)
+						->multiselect( "org_unit"
+									 , $this->lng->txt("gev_org_unit_short")
+									 //, array("usr.org_unit", "org_unit_above1", "org_unit_above2")
+									 , array("orgu.org_unit")
+									 , $org_units_filter
+									 , array()
+									 , " OR TRUE "
+									 )
+						->multiselect("edu_program"
+									 , $this->lng->txt("gev_edu_program")
+									 , "edu_program"
+									 , gevCourseUtils::getEduProgramsFromHisto()
+									 , array()
+									 )
+						->multiselect("type"
+									 , $this->lng->txt("gev_course_type")
+									 , "type"
+									 , gevCourseUtils::getLearningTypesFromHisto()
+									 , array()
+									 )
+						->multiselect("template_title"
+									 , $this->lng->txt("crs_title")
+									 , "template_title"
+									 , gevCourseUtils::getTemplateTitleFromHisto()
+									 , array()
+									 )
+						->multiselect("participation_status"
+									 , $this->lng->txt("gev_participation_status")
+									 , "participation_status"
+									 , gevCourseUtils::getParticipationStatusFromHisto()
+									 , array()
+									 )
+						->multiselect("booking_status"
+									 , $this->lng->txt("gev_booking_status")
+									 , "booking_status"
+									 , catFilter::getDistinctValues('booking_status', 'hist_usercoursestatus')
+									 , array()
+									 )
+						->multiselect("venue"
+									 , $this->lng->txt("gev_venue")
+									 , "venue"
+									 , catFilter::getDistinctValues('venue', 'hist_course')
+									 , array()
+									 )
+						->multiselect("provider"
+									 , $this->lng->txt("gev_provider")
+									 , "provider"
+									 , catFilter::getDistinctValues('provider', 'hist_course')
+									 , array()
+									 )
+/*
+						->multiselect("gender"
+									 , $this->lng->txt("gender")
+									 , "gender"
+									 , array('f', 'm')
+									 , array()
+									 )
+*/
+						//->static_condition(" usr.hist_historic = 0")
+						->action($this->ctrl->getLinkTarget($this, "view"))
+						->compile()
+						;
+		$this->filtered_orgus = $this->filter->get("org_unit");
+					
 
 		$this->sql_sum_parts = array(
 
@@ -142,10 +240,23 @@ class gevAttendanceByCourseTemplateGUI extends catBasicReportGUI{
 					) AS sum_exit"
 
 			);
-
-
-
-
+		
+		$this->orgu_memberships =
+						 "SELECT DISTINCT pl.usr_id , NULL AS org_units"
+						." FROM hist_userorgu AS pl "
+						." LEFT JOIN "
+						."         (SELECT usr_id,orgu_id,rol_id,hist_version,created_ts "
+						."          FROM hist_userorgu "
+						."          WHERE `action`=-1 ) AS mi "
+						."		ON pl.usr_id=mi.usr_id " 
+						."		AND pl.orgu_id=mi.orgu_id "
+						."		AND pl.rol_id=mi.rol_id "
+						."      AND pl.hist_version+1 = mi.hist_version "
+						."		AND `action`=1 " 
+						." WHERE mi.created_ts IS NULL ";
+		if(count($this->filtered_orgus)>0) {
+			$this->orgu_memberships .= " AND ".$this->db->in("pl.orgu_title", $this->filtered_orgus, false, "text");
+		}
 		$this->query = catReportQuery::create()
 						//->distinct()
 
@@ -167,134 +278,25 @@ class gevAttendanceByCourseTemplateGUI extends catBasicReportGUI{
 						->select_raw($this->sql_sum_parts['sum_excused'])
 						->select_raw($this->sql_sum_parts['sum_unexcused'])
 						->select_raw($this->sql_sum_parts['sum_exit'])
-
-
 						->from("hist_usercoursestatus usrcrs")
-
 						->join("hist_course crs")
-							->on("usrcrs.crs_id = crs.crs_id")
-
-						->join("hist_user usr")
-							->on("usrcrs.usr_id = usr.user_id")
-
+							->on("crs.crs_id = usrcrs.crs_id AND crs.hist_historic = 0")
+						->raw_join("LEFT JOIN (".$this->orgu_memberships.") AS orgu ON usrcrs.usr_id = orgu.usr_id ")
 						->group_by("crs.template_title")
-						->compile()
-						;
+						->compile();
 
-		$never_skip = $this->user_utils->getOrgUnitsWhereUserIsDirectSuperior();
-		array_walk($never_skip, 
-			function (&$obj_ref_id) {
-				$aux = new ilObjOrgUnit($obj_ref_id["ref_id"]);
-				$obj_ref_id = $aux->getTitle();
-			}
-		);
-		$skip_org_units_in_filter_below = array('Nebenberufsagenturen');
-		array_walk($skip_org_units_in_filter_below, 
-			function(&$title) { 
-				$title = ilObjOrgUnit::_getIdsForTitle($title)[0];
-				$title = gevObjectUtils::getRefId($title);
-				$title = gevOrgUnitUtils::getAllChildrenTitles(array($title));
-			}
-		);
-		$skip_org_units_in_filter = array();
-		foreach ($skip_org_units_in_filter_below as $org_units) {
-			$skip_org_units_in_filter = array_merge($skip_org_units_in_filter, $org_units);
-		}
-		array_unique($skip_org_units_in_filter);
-		$skip_org_units_in_filter = array_diff($skip_org_units_in_filter, $never_skip);
-		$org_units_filter = array_diff( $this->user_utils->getOrgUnitNamesWhereUserIsSuperior(), $skip_org_units_in_filter);
-		sort($org_units_filter);	
-
-		$this->filter = catFilter::create()
-		
-						->dateperiod( "period"
-									, $this->lng->txt("gev_period")
-									, $this->lng->txt("gev_until")
-									, "usrcrs.begin_date"
-									, "usrcrs.end_date"
-									, date("Y")."-01-01"
-									, date("Y")."-12-31"
-									, false
-									, " OR usrcrs.hist_historic IS NULL"
-									)
-						->multiselect( "org_unit"
-									 , $this->lng->txt("gev_org_unit_short")
-									 //, array("usr.org_unit", "org_unit_above1", "org_unit_above2")
-									 , array("usr.org_unit")
-									 , $org_units_filter
-									 , array()
-									 )
-						->multiselect("edu_program"
-									 , $this->lng->txt("gev_edu_program")
-									 , "edu_program"
-									 , gevCourseUtils::getEduProgramsFromHisto()
-									 , array()
-									 )
-						->multiselect("type"
-									 , $this->lng->txt("gev_course_type")
-									 , "type"
-									 , gevCourseUtils::getLearningTypesFromHisto()
-									 , array()
-									 )
-						->multiselect("template_title"
-									 , $this->lng->txt("crs_title")
-									 , "template_title"
-									 , gevCourseUtils::getTemplateTitleFromHisto()
-									 , array()
-									 )
-						->multiselect("participation_status"
-									 , $this->lng->txt("gev_participation_status")
-									 , "participation_status"
-									 , gevCourseUtils::getParticipationStatusFromHisto()
-									 , array()
-									 )
-						->multiselect("booking_status"
-									 , $this->lng->txt("gev_booking_status")
-									 , "booking_status"
-									 , catFilter::getDistinctValues('booking_status', 'hist_usercoursestatus')
-									 , array()
-									 )
-						->multiselect("venue"
-									 , $this->lng->txt("gev_venue")
-									 , "venue"
-									 , catFilter::getDistinctValues('venue', 'hist_course')
-									 , array()
-									 )
-						->multiselect("provider"
-									 , $this->lng->txt("gev_provider")
-									 , "provider"
-									 , catFilter::getDistinctValues('provider', 'hist_course')
-									 , array()
-									 )
-/*
-						->multiselect("gender"
-									 , $this->lng->txt("gender")
-									 , "gender"
-									 , array('f', 'm')
-									 , array()
-									 )
-*/
-
-						->static_condition(" usrcrs.hist_historic = 0")
-						->static_condition(" crs.hist_historic = 0")
-						->static_condition(" usr.hist_historic = 0")
-					  
-						->action($this->ctrl->getLinkTarget($this, "view"))
-						->compile()
-						;
-
-
+	
 
 	}
 
 	protected function transformResultRow($rec) {
-		foreach(array_keys($this->table_sums->columns) as $field) {
-			if (! array_key_exists($field, $this->summed_data)) {
-				$this->summed_data[$field] = 0;
-			}
+		//foreach(array_keys($this->table_sums->columns) as $field) {
+		//	if (! array_key_exists($field, $this->summed_data)) {
+		//		$this->summed_data[$field] = 0;
+		//	}
 			
-			$this->summed_data[$field] +=  intval($rec[$field]);
-		}
+		//	$this->summed_data[$field] +=  intval($rec[$field]);
+		//}
 			
 		return $this->replaceEmpty($rec);
 	}
@@ -324,7 +326,26 @@ class gevAttendanceByCourseTemplateGUI extends catBasicReportGUI{
 							 , $col[3]
 							 );
 		}		
-
+		$sum_sql = 
+		"SELECT "
+		."SUM( CASE WHEN LCASE(booking_status) = 'gebucht' AND LCASE(participation_status) = 'nicht gesetzt' AND type = 'Selbstlernkurs' THEN 1 END ) AS sum_booked_wbt,"
+		."SUM( CASE WHEN LCASE(participation_status) = 'teilgenommen' AND type = 'Selbstlernkurs' THEN 1 END ) AS sum_attended_wbt,"
+		."SUM( CASE WHEN LCASE(booking_status) = 'gebucht' AND LCASE(participation_status) = 'nicht gesetzt' AND type != 'Selbstlernkurs' THEN 1 END ) AS sum_booked,"
+		."SUM( CASE WHEN LCASE(participation_status) = 'teilgenommen' AND type != 'Selbstlernkurs' THEN 1 END ) AS sum_attended,"
+		."SUM( CASE WHEN booking_status = 'auf Warteliste' AND participation_status = 'nicht gesetzt' THEN 1 END ) AS sum_waiting,"
+		."SUM( CASE WHEN LCASE(participation_status) = 'fehlt entschuldigt' THEN 1 END ) AS sum_excused,"
+		."SUM( CASE WHEN LCASE(participation_status) = 'fehlt ohne Absage' THEN 1 END ) AS sum_unexcused,"
+		."SUM( CASE WHEN LCASE(participation_status) = 'canceled_exit' THEN 1 END ) AS sum_exit ".
+			"FROM(".
+				"SELECT DISTINCT usr.user_id, crs.crs_id, usrcrs.booking_status, ".
+					"usrcrs.participation_status, crs.type ".
+					"FROM `hist_user` usr ". 
+					"LEFT JOIN `hist_usercoursestatus` usrcrs ON usrcrs.usr_id = usr.user_id AND usr.hist_historic = 0 ".
+					"LEFT JOIN `hist_course` crs ON usrcrs.crs_id = crs.crs_id AND crs.hist_historic = 0 ".
+					"JOIN (".$this->orgu_memberships.") as orgu ON usr.user_id=orgu.usr_id ".$this->queryWhere().
+			") as temp";
+		//$res = $this->db->query($sum_sql);
+		//$this->summed_data = $this->db->fetchAssoc($res);
 		$cnt = 1;
 		$table->setLimit($cnt);
 		$table->setMaxCount($cnt);
