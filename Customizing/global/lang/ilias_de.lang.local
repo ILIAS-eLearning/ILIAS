@@ -1195,7 +1195,7 @@ gev#:#gev_dec_training_open_requests_header#:#Derzeit wird dieses dezentrale Tra
 gev#:#gev_dec_training_open_requests_time_info#:#Die Wartezeit zur Anlage eines dezentralen Trainings beträgt derzeit etwa %s Minuten. <br /><br /><b>Bleiben sie auf dieser Seite, um nach der Anlage des Trainings Buchungen vornehmen zu können.</b></br><br /><b>Nach der Anlage des Training erhalten sie außerdem eine E-Mail, die einen Link zu den Trainingsbuchungen enthält.</b>
 gev#:#gev_dec_training_presence_fix#:#Präsenztraining (fester Ablaufplan)
 gev#:#gev_dec_training_webinar_fix#:#Webinar (fester Ablaufplan)
-gev#:#gev_dec_training_presence_flex#:#Präsenztraing (individuelle Bausteine)
+gev#:#gev_dec_training_presence_flex#:#Präsenztraining (individuelle Bausteine)
 gev#:#gev_dec_training_webinar_flex#:#Webinar (individuelle Bausteine)
 gev#:#gev_dec_training_notice#:#Für nähere Informationen wenden Sie sich bitte an die Abteilung Außendienstentwicklung, Telefon 089 5121 1919, Mail <a href="mailto:Bildungspunkte.de@generali.com">Bildungspunkte.de@generali.com</a>
 gev#:#gev_dec_training_title#:#Titel
