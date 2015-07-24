@@ -323,7 +323,7 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 							->on("usrcrs.usr_id = usr.user_id AND usrcrs.hist_historic = 0 "
 								." AND ((`usrcrs`.`end_date` >= ".$this->db->quote($dates["start"],"date")
 										." OR `usrcrs`.`end_date` = ".$this->db->quote("0000-00-00","date")
-										." OR `usrcrs`.`end_date` = ".$this->db->quote("-empty-","text")).")"
+										." OR `usrcrs`.`end_date` = ".$this->db->quote("-empty-","text").")"
 									." AND `usrcrs`.`begin_date` <= ".$this->db->quote($dates["end"],"date").")"
 								 ." OR usrcrs.hist_historic IS NULL")
 						->left_join("hist_course crs")
@@ -417,8 +417,8 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 					"LEFT JOIN `hist_usercoursestatus` usrcrs ON usrcrs.usr_id = usr.user_id AND usrcrs.hist_historic = 0 "
 								." AND ((`usrcrs`.`end_date` >= ".$this->db->quote($dates["start"],"date")
 										." OR `usrcrs`.`end_date` = ".$this->db->quote("0000-00-00","date")
-										." OR `usrcrs`.`end_date` = ".$this->db->quote("-empty-","text")).")"
-									." AND `usrcrs`.`begin_date` <= ".$this->db->quote($dates["end"],"date").")".
+										." OR `usrcrs`.`end_date` = ".$this->db->quote("-empty-","text").")"
+									." AND `usrcrs`.`begin_date` <= ".$this->db->quote($dates["end"],"date").")"
 								 ." OR usrcrs.hist_historic IS NULL".
 					"LEFT JOIN `hist_course` crs ON usrcrs.crs_id = crs.crs_id AND crs.hist_historic = 0 ".
 					"JOIN (".$this->orgu_memberships.") as orgu ON usr.user_id=orgu.usr_id ".$this->queryWhere().
