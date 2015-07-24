@@ -112,7 +112,6 @@ class gevAttendanceByCourseTemplateGUI extends catBasicReportGUI{
 									 , array("orgu.org_unit")
 									 , $org_units_filter
 									 , array()
-									 , " OR TRUE "
 									 )
 						->multiselect("edu_program"
 									 , $this->lng->txt("gev_edu_program")
@@ -164,7 +163,7 @@ class gevAttendanceByCourseTemplateGUI extends catBasicReportGUI{
 									 , array()
 									 )
 */
-						//->static_condition(" usr.hist_historic = 0")
+						->static_condition(" usrcrs.hist_historic = 0")
 						->action($this->ctrl->getLinkTarget($this, "view"))
 						->compile()
 						;
@@ -242,7 +241,7 @@ class gevAttendanceByCourseTemplateGUI extends catBasicReportGUI{
 			);
 		
 		$this->orgu_memberships =
-						 "SELECT DISTINCT pl.usr_id , NULL AS org_units"
+						 "SELECT DISTINCT pl.usr_id , ".$this->db->quote($this->filtered_orgus[0],"text")." AS org_unit"
 						." FROM hist_userorgu AS pl "
 						." LEFT JOIN "
 						."         (SELECT usr_id,orgu_id,rol_id,hist_version,created_ts "
@@ -344,8 +343,8 @@ class gevAttendanceByCourseTemplateGUI extends catBasicReportGUI{
 					"LEFT JOIN `hist_course` crs ON usrcrs.crs_id = crs.crs_id AND crs.hist_historic = 0 ".
 					"JOIN (".$this->orgu_memberships.") as orgu ON usr.user_id=orgu.usr_id ".$this->queryWhere().
 			") as temp";
-		//$res = $this->db->query($sum_sql);
-		//$this->summed_data = $this->db->fetchAssoc($res);
+		$res = $this->db->query($sum_sql);
+		$this->summed_data = $this->db->fetchAssoc($res);
 		$cnt = 1;
 		$table->setLimit($cnt);
 		$table->setMaxCount($cnt);
