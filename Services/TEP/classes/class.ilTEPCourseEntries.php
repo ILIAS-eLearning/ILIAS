@@ -13,7 +13,7 @@ class ilTEPCourseEntries
 {	
 	protected $course; // [ilObjCourse]
 	
-	static protected $instances = array();
+	static public $instances = array();
 	
 	/**
 	 * Constructor

@@ -193,6 +193,8 @@ class gevDecentralTrainingCreationRequest {
 		$this->updateCourseBuildingBlocks($trgt_utils->getRefId());
 		$this->updateCourseWithBuidlingBlockData($trgt_utils->getRefId());
 		
+		$this->createTEPEntry($trgt_crs);
+		
 		$this->finished_ts = new ilDateTime(time(),IL_CAL_UNIX);
 		$this->created_obj_id = $trgt_obj_id;
 		
@@ -331,6 +333,13 @@ class gevDecentralTrainingCreationRequest {
 		foreach ($this->trainer_ids as $trainer_id) {
 			$trgt_crs->getMembersObject()->add($trainer_id,IL_CRS_TUTOR);
 		}
+	}
+	
+	protected function createTEPEntry(ilObjCourse $trgt_crs) {
+		require_once("Services/TEP/classes/class.ilTEPCourseEntries.php");
+		ilTEPCourseEntries::$instances = array();
+		$tep_entry = ilTEPCourseEntries::getInstance($trgt_crs);
+		$tep_entry->updateEntry();
 	}
 	
 	// Some Helpers
