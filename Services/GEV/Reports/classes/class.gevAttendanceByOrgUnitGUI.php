@@ -411,7 +411,10 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 				"SELECT DISTINCT usr.user_id, crs.crs_id, usrcrs.booking_status, ".
 					"usrcrs.participation_status, crs.type ".
 					"FROM `hist_user` usr ". 
-					"LEFT JOIN `hist_usercoursestatus` usrcrs ON usrcrs.usr_id = usr.user_id AND usr.hist_historic = 0 ".
+					"LEFT JOIN `hist_usercoursestatus` usrcrs ON usrcrs.usr_id = usr.user_id AND usr.hist_historic = 0 "
+						." AND usrcrs.begin_date <= ".$this->db->quote($dates["end"],"date")
+						." AND usrcrs.end_date >= ".$this->db->quote($dates["start"],"date")
+						." OR usrcrs.hist_historic IS NULL".
 					"LEFT JOIN `hist_course` crs ON usrcrs.crs_id = crs.crs_id AND crs.hist_historic = 0 ".
 					"JOIN (".$this->orgu_memberships.") as orgu ON usr.user_id=orgu.usr_id ".$this->queryWhere().
 			") as temp";
