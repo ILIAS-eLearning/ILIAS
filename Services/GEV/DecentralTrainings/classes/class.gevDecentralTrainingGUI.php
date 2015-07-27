@@ -1402,7 +1402,7 @@ class gevDecentralTrainingGUI {
 		$settings = $this->getSettingsFromForm($crs_utils, $form, $tmpl_id);
 		$settings->applyTo($obj_id);
 
-		ilUtil::sendSuccess($this->lng->txt("gev_dec_training_creation_requested"), true);
+		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 		return $this->showSettings();
 	}
 }
