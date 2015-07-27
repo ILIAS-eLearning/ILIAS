@@ -124,6 +124,8 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 						->from("hist_user usr")
 						->join("usr_data usrd")
 							->on(" usr.user_id = usrd.usr_id")
+						->join("hist_userorgu orgu")
+							->on("usr.user_id = orgu.usr_id")
 						->left_join("hist_usercoursestatus usrcrs")
 							->on("     usr.user_id = usrcrs.usr_id"
 								." AND usrcrs.hist_historic = 0 "
@@ -181,12 +183,14 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 								   )
 						->multiselect("org_unit"
 									 , $this->lng->txt("gev_org_unit")
-									 , array("usr.org_unit", "usr.org_unit_above1", "usr.org_unit_above2")
+									 , array("orgu.orgu_title", "orgu.org_unit_above1", "orgu.org_unit_above2")
 									 , $org_units_filter
 									 , array()
 									 )
 						->static_condition($this->db->in("usr.user_id", $this->allowed_user_ids, false, "integer"))
 						->static_condition(" usr.hist_historic = 0")
+						->static_condition(" orgu.hist_historic = 0")
+						->static_condition(" orgu.action = 1")			
 						->action($this->ctrl->getLinkTarget($this, "view"))
 						->compile()
 						;
