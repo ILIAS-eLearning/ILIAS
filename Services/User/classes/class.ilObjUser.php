@@ -467,6 +467,10 @@ class ilObjUser extends ilObject
 		{
 			$this->setInactivationDate( ilUtil::now() );
 		}
+		else
+		{
+			$this->setInactivationDate(null);
+		}
 
 		$insert_array = array(
 			"usr_id" => array("integer", $this->id),
@@ -568,6 +572,10 @@ class ilObjUser extends ilObject
 		if( $this->getStoredActive($this->id) && !$this->active )
 		{
 			$this->setInactivationDate( ilUtil::now() );
+		}
+		else if($this->active)
+		{
+			$this->setInactivationDate(null);
 		}
 
 		$update_array = array(
@@ -5115,9 +5123,9 @@ class ilObjUser extends ilObject
 
 		$date = date( 'Y-m-d H:i:s', (time() - ((int)$period * 24 * 60 * 60)) );
 
-		$query = "SELECT usr_id FROM usr_data WHERE $field < %s";
+		$query = "SELECT usr_id FROM usr_data WHERE $field < %s AND active = %s";
 
-		$res = $ilDB->queryF($query, array('timestamp'), array($date));
+		$res = $ilDB->queryF($query, array('timestamp', 'integer'), array($date, 0));
 		
 		$ids = array();
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
