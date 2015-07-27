@@ -84,12 +84,14 @@ class gevDBVReportGUI extends catBasicReportGUI{
 			));
 
 		$this->query = catReportQuery::create()
+						->distinct()
 						->select("hu.lastname")
 						->select("hu.firstname")
 						->select("hu.org_unit_above1")
 						->select("hu.org_unit_above2")
 						->select("hu.job_number")
 						->select("hc.title")
+						->select("hc.crs_id")
 						->select("hc.dbv_hot_topic")
 						->select("hc.type")
 						->select("hc.begin_date")
@@ -100,14 +102,14 @@ class gevDBVReportGUI extends catBasicReportGUI{
 							"IF(hucs.participation_status != 'nicht gesetzt', hucs.credit_points,
 								hc.max_credit_points) max_credit_points")
 						->from("org_unit_personal oup")
-						->join("object_reference ore")
-							->on("oup.orgunit_id = ore.obj_id")
-						->join("object_data oda")
-							->on("CONCAT( 'il_orgu_employee_', ore.ref_id ) = oda.title")
-						->join("rbac_ua rua")
-							->on("rua.rol_id = oda.obj_id")
+						->join("hist_userorgu huo_in")
+							->on("oup.orgunit_id = huo_in.orgu_id AND huo_in.`action` = 1 AND rol_title = ".$this->db->quote("Mitarbeiter","text"))
+						->join("hist_userorgu huo_out")
+							->on("oup.orgunit_id = huo_out.orgu_id AND huo_out.`action` = -1"
+								." AND huo_in.usr_id = huo_out.usr_id AND huo_in.orgu_id = huo_out.orgu_id"
+								." AND huo_in.rol_id = huo_out.rol_id AND huo_in.hist_version+1 = huo_out.hist_version")
 						->join("hist_user hu")
-							->on("rua.usr_id = hu.user_id")						
+							->on("huo_in.usr_id = hu.user_id")						
 						->join("hist_usercoursestatus hucs")
 							->on("hu.user_id = hucs.usr_id")
 						->join("hist_course hc")
@@ -116,11 +118,14 @@ class gevDBVReportGUI extends catBasicReportGUI{
 
 		$this->filter = catFilter::create()
 						->static_condition("oup.usr_id = ".$this->db->quote($target_user, "integer"))
-						->static_condition("oda.type = 'role'")
 						->static_condition(
 							$this->db->in(
 								"hucs.participation_status", array("fehlt entschuldigt", "fehlt ohne Absage"), true, "text"))
 						->static_condition("hc.end_date < ".$this->db->quote("2016-01-01","date"))
+						->static_condition("hc.end_date >= ".$this->db->quote("2015-01-01","date"))
+						->static_condition("(huo_out.created_ts IS NULL "
+											." OR huo_out.created_ts > UNIX_TIMESTAMP(".$this->db->quote("2016-01-01","date").")"
+											.") AND huo_in.created_ts < UNIX_TIMESTAMP(".$this->db->quote("2016-01-01","date").")")
 						->static_condition("hc.end_date >= ".$this->db->quote("2015-01-01","date"))
 						->static_condition("hu.hist_historic = 0")
 						->static_condition("hucs.hist_historic = 0")
