@@ -5230,6 +5230,11 @@ class ilObjTestGUI extends ilObjectGUI
 
 	private function areSkillLevelThresholdsMissing()
 	{
+		if( !$this->object->isSkillServiceEnabled() )
+		{
+			return false;
+		}
+		
 		if( $this->object->isDynamicTest() )
 		{
 			$questionSetConfig = $this->testQuestionSetConfigFactory->getQuestionSetConfig();
