@@ -21,10 +21,21 @@ class ilWebAccessChecker {
 	 * @var bool
 	 */
 	protected $checked = false;
+	/**
+	 * @var string
+	 */
+	protected $disposition = ilFileDelivery::DISP_INLINE;
+	/**
+	 * @var string
+	 */
+	protected $override_mimetype = '';
 
 
-	public static function run() {
-		$ilWebAccessChecker = new self($_SERVER['REQUEST_URI']);
+	/**
+	 * @param string $path
+	 */
+	public static function run($path) {
+		$ilWebAccessChecker = new self($path);
 		try {
 			if ($ilWebAccessChecker->check()) {
 				$ilWebAccessChecker->deliver();
@@ -33,7 +44,7 @@ class ilWebAccessChecker {
 			}
 		} catch (ilWACException $e) {
 			if ($ilWebAccessChecker->getPathObject()->isImage()) {
-				ilFileDelivery::deliverFileInline('./Services/WebAccessChecker/templates/images/access_denied.png');
+				$ilWebAccessChecker->deliverDummyImage();
 			}
 
 			$ilWebAccessChecker->initILIAS();
@@ -48,12 +59,19 @@ class ilWebAccessChecker {
 	}
 
 
+	protected function deliverDummyImage() {
+		$ilFileDelivery = new ilFileDelivery('./Services/WebAccessChecker/templates/images/access_denied.png');
+		$ilFileDelivery->setDisposition($this->getDisposition());
+		$ilFileDelivery->deliver();
+	}
+
+
 	/**
 	 * ilWebAccessChecker constructor.
 	 *
 	 * @param string $path
 	 */
-	public function __construct($path) {
+	protected function __construct($path) {
 		$this->setPathObject(new ilWACPath($path));
 	}
 
@@ -78,6 +96,7 @@ class ilWebAccessChecker {
 		$this->initILIAS();
 
 		$checkingInstance = ilWACSecurePath::getCheckingInstance($this->getPathObject());
+
 		if ($checkingInstance instanceof ilWACCheckingClass) {
 			$canBeDelivered = $checkingInstance->canBeDelivered($this->getPathObject());
 			if ($canBeDelivered) {
@@ -94,8 +113,7 @@ class ilWebAccessChecker {
 
 	public function initILIAS() {
 		require_once('./Services/Init/classes/class.ilInitialisation.php');
-		session_destroy();
-		ilContext::init(ilContext::CONTEXT_WEB_ACCESS_CHECK);
+		ilContext::init(ilContext::CONTEXT_WAC);
 		ilInitialisation::initILIAS();
 	}
 
@@ -146,6 +164,38 @@ class ilWebAccessChecker {
 	 */
 	public function setPathObject($path_object) {
 		$this->path_object = $path_object;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getDisposition() {
+		return $this->disposition;
+	}
+
+
+	/**
+	 * @param string $disposition
+	 */
+	public function setDisposition($disposition) {
+		$this->disposition = $disposition;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getOverrideMimetype() {
+		return $this->override_mimetype;
+	}
+
+
+	/**
+	 * @param string $override_mimetype
+	 */
+	public function setOverrideMimetype($override_mimetype) {
+		$this->override_mimetype = $override_mimetype;
 	}
 }
 

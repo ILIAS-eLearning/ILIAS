@@ -54,7 +54,9 @@ class ilWACPath {
 	 * @param string $path
 	 */
 	public function __construct($path) {
-		preg_match("/\\/data\\/([a-zA-Z0-9_]*)\\/(.*)\\/(.*)/ui", $path, $results);
+		preg_match("/\\/data\\/([a-zA-Z0-9_]*)\\/([a-zA-Z0-9_]*)\\/(.*)/ui", $path, $results);
+//		echo '<pre>' . print_r($results, 1) . '</pre>';
+//		exit;
 		$this->setPath('.' . $results[0]);
 		$this->setClient($results[1]);
 		$this->setSecurePath($results[2]);
