@@ -156,7 +156,7 @@ class ilFileDelivery {
 
 	protected function deliverPHP() {
 		set_time_limit(0);
-		$file = @fopen(realpath($this->getPathToFile()), "rb");
+		$file = fopen(realpath($this->getPathToFile()), "rb");
 		while (! feof($file)) {
 			print(@fread($file, 1024 * 8));
 			ob_flush();
@@ -333,6 +333,7 @@ class ilFileDelivery {
 		if (function_exists('apache_get_modules') && in_array('mod_xsendfile', apache_get_modules())) {
 			$this->setDeliveryType(self::DELIVERY_METHOD_XSENDFILE);
 		}
+//		$this->setDeliveryType(self::DELIVERY_METHOD_PHP);
 	}
 
 
