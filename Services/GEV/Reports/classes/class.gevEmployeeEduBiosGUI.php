@@ -78,7 +78,7 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 						->select("usr.job_number")
 						->select("usr.org_unit_above1")
 						->select("usr.org_unit_above2")
-						->select("usr.org_unit")
+						->select_raw("GROUP_CONCAT(DISTINCT orgu.orgu_title SEPARATOR ', ') AS org_unit")
 						->select("usr.position_key")
 						->select("usr.begin_of_certification")
 						->select_raw("IF ( usr.begin_of_certification >= '$earliest_possible_cert_period_begin'"
