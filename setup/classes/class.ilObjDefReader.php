@@ -219,7 +219,7 @@ class ilObjDefReader extends ilSaxParser
 						$ilDB->quote($a_attribs["amet"], "integer").
 						")");
 					break;
-				
+
 				case 'systemcheck':
 					
 					include_once './Services/SystemCheck/classes/class.ilSCGroups.php';
@@ -234,7 +234,21 @@ class ilObjDefReader extends ilSaxParser
 					$tasks = ilSCTasks::getInstanceByGroupId($group_id);
 					$tasks->updateFromComponentDefinition($a_attribs['identifier']);
 					break;
-					
+
+				case "secure_path":
+					require_once('./Services/WebAccessChecker/classes/class.ilWACSecurePath.php');
+					try {
+						$ilWACSecurePath = ilWACSecurePath::findOrFail($a_attribs["path"]);
+					} catch (arException $e) {
+						$ilWACSecurePath = new ilWACSecurePath();
+						$ilWACSecurePath->setPath($a_attribs["path"]);
+						$ilWACSecurePath->create();
+					}
+					$ilWACSecurePath->setCheckingClass($a_attribs["checking-class"]);
+					$ilWACSecurePath->setComponentDirectory(dirname($this->xml_file));
+					$ilWACSecurePath->update();
+
+					break;
 			}
 		}
 	}
