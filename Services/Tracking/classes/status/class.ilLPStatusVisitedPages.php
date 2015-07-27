@@ -127,6 +127,8 @@ class ilLPStatusVisitedPages extends ilLPStatus
 		
 		$res = array();
 		
+		include_once "Services/COPage/classes/class.ilPageObject.php";
+		
 		$set = $ilDB->query("SELECT lm_data.obj_id".
 			" FROM lm_data".
 			" JOIN lm_tree ON (lm_tree.child = lm_data.obj_id)".
@@ -134,7 +136,11 @@ class ilLPStatusVisitedPages extends ilLPStatus
 			" AND lm_data.type = ".$ilDB->quote("pg", "text"));
 		while($row = $ilDB->fetchAssoc($set))
 		{
-			$res[] = $row["obj_id"];
+			// only active pages (time-based activation not supported)
+			if(ilPageObject::_lookupActive($row["obj_id"], "lm"))
+			{
+				$res[] = $row["obj_id"];
+			}
 		}
 		
 		return $res;
