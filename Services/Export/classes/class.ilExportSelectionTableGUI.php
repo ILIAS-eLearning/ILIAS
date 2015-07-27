@@ -47,6 +47,7 @@ class ilExportSelectionTableGUI extends ilTable2GUI
 		$this->setRowTemplate("tpl.export_item_selection_row.html", "Services/Export");
 		$this->setEnableTitle(true);
 		$this->setEnableNumInfo(true);
+		$this->setLimit(10000);
 		
 		$this->setFormName('cmd');
 		
