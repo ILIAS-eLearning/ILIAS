@@ -75,14 +75,14 @@ class gevDBVReportSuperiorGUI extends catBasicReportGUI{
 							"SUM(IF(hucs.participation_status != 'nicht gesetzt', hucs.credit_points,
 								hc.max_credit_points)) as max_credit_points")
 						->from("org_unit_personal oup")
-						->join("object_reference ore")
-							->on("oup.orgunit_id = ore.obj_id")
-						->join("object_data oda")
-							->on("CONCAT( 'il_orgu_employee_', ore.ref_id ) = oda.title")
-						->join("rbac_ua rua")
-							->on("rua.rol_id = oda.obj_id")
+						->join("hist_userorgu huo_in")
+							->on("oup.orgunit_id = huo_in.orgu_id AND huo_in.`action` = 1 AND rol_title = ".$this->db->quote("Mitarbeiter","text"))
+						->left_join("hist_userorgu huo_out")
+							->on("oup.orgunit_id = huo_out.orgu_id AND huo_out.`action` = -1"
+								." AND huo_in.usr_id = huo_out.usr_id AND huo_in.orgu_id = huo_out.orgu_id"
+								." AND huo_in.rol_id = huo_out.rol_id AND huo_in.hist_version+1 = huo_out.hist_version")
 						->join("hist_user hu")
-							->on("rua.usr_id = hu.user_id")						
+							->on("huo_in.usr_id = hu.user_id")						
 						->join("hist_usercoursestatus hucs")
 							->on("hu.user_id = hucs.usr_id")
 						->join("hist_course hc")

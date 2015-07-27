@@ -104,7 +104,7 @@ class gevDBVReportGUI extends catBasicReportGUI{
 						->from("org_unit_personal oup")
 						->join("hist_userorgu huo_in")
 							->on("oup.orgunit_id = huo_in.orgu_id AND huo_in.`action` = 1 AND rol_title = ".$this->db->quote("Mitarbeiter","text"))
-						->join("hist_userorgu huo_out")
+						->left_join("hist_userorgu huo_out")
 							->on("oup.orgunit_id = huo_out.orgu_id AND huo_out.`action` = -1"
 								." AND huo_in.usr_id = huo_out.usr_id AND huo_in.orgu_id = huo_out.orgu_id"
 								." AND huo_in.rol_id = huo_out.rol_id AND huo_in.hist_version+1 = huo_out.hist_version")
@@ -121,7 +121,7 @@ class gevDBVReportGUI extends catBasicReportGUI{
 						->static_condition(
 							$this->db->in(
 								"hucs.participation_status", array("fehlt entschuldigt", "fehlt ohne Absage"), true, "text"))
-						->static_condition("hc.end_date < ".$this->db->quote("2016-01-01","date"))
+						->static_condition("hc.begin_date < ".$this->db->quote("2016-01-01","date"))
 						->static_condition("hc.end_date >= ".$this->db->quote("2015-01-01","date"))
 						->static_condition("(huo_out.created_ts IS NULL "
 											." OR huo_out.created_ts > UNIX_TIMESTAMP(".$this->db->quote("2016-01-01","date").")"
