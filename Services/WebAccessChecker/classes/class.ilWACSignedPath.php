@@ -15,10 +15,11 @@ class ilWACSignedPath {
 	const TYPE_FOLDER = 2;
 	const WAC_TOKEN_ID = 'il_wac_token';
 	const WAC_TIMESTAMP_ID = 'il_wac_ts';
+	const SECONDS = 10;
 	/**
-	 * @var string
+	 * @var ilWACPath
 	 */
-	protected $path = '';
+	protected $path_object = NULL;
 	/**
 	 * @var ilWACToken
 	 */
@@ -30,12 +31,10 @@ class ilWACSignedPath {
 
 
 	/**
-	 * ilWACSignedPath constructor.
-	 *
-	 * @param string $path
+	 * @param ilWACPath $ilWACPath
 	 */
-	public function __construct($path) {
-		$this->setPath(ilWebAccessChecker::normalizePath($path));
+	public function __construct(ilWACPath $ilWACPath) {
+		$this->setPathObject($ilWACPath);
 	}
 
 
@@ -44,8 +43,7 @@ class ilWACSignedPath {
 			throw new ilWACException(ilWACException::CODE_NO_TYPE);
 		}
 
-
-		$token = ilWACToken::getInstance($this->getPath());
+		$token = ilWACToken::getInstance($this->getPathObject()->getPath());
 
 		$this->setTokenInstance($token);
 	}
@@ -55,10 +53,10 @@ class ilWACSignedPath {
 	 * @return string
 	 */
 	public function getSignedPath() {
-		if (strpos($this->getPath(), '?')) {
-			$path = $this->getPath() . '&' . self::WAC_TOKEN_ID . '=' . $this->getTokenInstance()->getToken();
+		if (strpos($this->getPathObject()->getPath(), '?')) {
+			$path = $this->getPathObject()->getPath() . '&' . self::WAC_TOKEN_ID . '=' . $this->getTokenInstance()->getToken();
 		} else {
-			$path = $this->getPath() . '?' . self::WAC_TOKEN_ID . '=' . $this->getTokenInstance()->getToken();
+			$path = $this->getPathObject()->getPath() . '?' . self::WAC_TOKEN_ID . '=' . $this->getTokenInstance()->getToken();
 		}
 
 		return $path . '&' . self::WAC_TIMESTAMP_ID . '=' . $this->getTokenInstance()->getTimestamp();
@@ -69,11 +67,7 @@ class ilWACSignedPath {
 	 * @return bool
 	 */
 	public function isSignedPath() {
-
-		$has_token = (strpos($this->getPath(), self::WAC_TOKEN_ID) !== false);
-		$has_timestamp = (strpos($this->getPath(), self::WAC_TIMESTAMP_ID) !== false);
-
-		return ($has_token && $has_timestamp);
+		return ($this->getPathObject()->hasToken() && $this->getPathObject()->hasTimestamp());
 	}
 
 
@@ -83,11 +77,10 @@ class ilWACSignedPath {
 	 */
 	public function isSignedPathValid() {
 		$this->generateTokenInstance();
-		$parts = parse_url($this->getPath());
-		parse_str($parts['query'], $query);
 		$current_timestamp = $this->getTokenInstance()->getTimestamp();
-		$timestamp_valid = ($query[self::WAC_TIMESTAMP_ID] > $current_timestamp - 2 && $query[self::WAC_TIMESTAMP_ID] < $current_timestamp + 2);
-		$token_valid = ($query[self::WAC_TOKEN_ID] == $this->getTokenInstance()->getToken());
+		$timestamp_valid = ($this->getPathObject()->getTimestamp() > $current_timestamp - self::SECONDS
+			&& $this->getPathObject()->getTimestamp() < $current_timestamp + self::SECONDS);
+		$token_valid = ($this->getPathObject()->getToken() == $this->getTokenInstance()->getToken());
 
 		return ($timestamp_valid && $token_valid);
 	}
@@ -100,7 +93,8 @@ class ilWACSignedPath {
 	 * @throws ilWACException
 	 */
 	public static function signFile($path_to_file) {
-		$obj = new self($path_to_file);
+		$ilWACPath = new ilWACPath($path_to_file);
+		$obj = new self($ilWACPath);
 		$obj->setType(self::TYPE_FILE);
 		$obj->generateTokenInstance();
 
@@ -110,26 +104,17 @@ class ilWACSignedPath {
 
 	/**
 	 * @param $folder_path
+	 *
+	 * @return string
+	 * @throws ilWACException
 	 */
 	public static function signFolder($folder_path) {
-		$obj = new self($folder_path);
+		$ilWACPath = new ilWACPath($folder_path);
+		$obj = new self($ilWACPath);
 		$obj->setType(self::TYPE_FOLDER);
-	}
+		$obj->generateTokenInstance();
 
-
-	/**
-	 * @return string
-	 */
-	public function getPath() {
-		return $this->path;
-	}
-
-
-	/**
-	 * @param string $path
-	 */
-	public function setPath($path) {
-		$this->path = $path;
+		return $obj->getSignedPath();
 	}
 
 
@@ -162,6 +147,22 @@ class ilWACSignedPath {
 	 */
 	public function setType($type) {
 		$this->type = $type;
+	}
+
+
+	/**
+	 * @return ilWACPath
+	 */
+	public function getPathObject() {
+		return $this->path_object;
+	}
+
+
+	/**
+	 * @param ilWACPath $path_object
+	 */
+	public function setPathObject($path_object) {
+		$this->path_object = $path_object;
 	}
 }
 

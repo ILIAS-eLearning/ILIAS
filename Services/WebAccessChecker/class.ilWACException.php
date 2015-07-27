@@ -1,5 +1,6 @@
 <?php
 require_once('./Services/Exceptions/classes/class.ilException.php');
+
 /**
  * Class ilWACException
  *
@@ -12,7 +13,8 @@ class ilWACException extends ilException {
 	const CODE_NO_TYPE = 1;
 	const CODE_NO_PATH = 2;
 	const ACCESS_WITHOUT_CHECK = 3;
-	const ACCESS_DENIED= 10;
+	const ACCESS_DENIED = 10;
+	const NO_CHECKING_INSTANCE = 4;
 	/**
 	 * @var array
 	 */
@@ -20,7 +22,8 @@ class ilWACException extends ilException {
 		self::CODE_NO_TYPE => 'No type for Path-Signing selected',
 		self::CODE_NO_PATH => 'No path for checking available',
 		self::ACCESS_WITHOUT_CHECK => 'the requested file cannot be delivered since it is not checked yet',
-		self::ACCESS_DENIED => 'the requested file cannot be delivered',
+		self::NO_CHECKING_INSTANCE => 'This path is not secured by a class',
+		self::ACCESS_DENIED => 'ACCESS DENIED: The requested file cannot be delivered.',
 	);
 
 

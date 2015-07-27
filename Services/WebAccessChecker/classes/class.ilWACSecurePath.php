@@ -20,12 +20,32 @@ class ilWACSecurePath extends ActiveRecord {
 
 
 	/**
-	 * @param $full_path
+	 * @param ilWACPath $ilWACPath
+	 *
+	 * @return ilWACCheckingClass
+	 * @throws ilWACException
 	 */
-	public static function getCheckingInstance($full_path) {
+	public static function getCheckingInstance(ilWACPath $ilWACPath) {
+		/**
+		 * @var $obj ilWACSecurePath
+		 */
+		$obj = self::find($ilWACPath->getSecurePath());
+		if (! $obj) {
+			throw new ilWACException(ilWACException::NO_CHECKING_INSTANCE);
+		}
+		require_once($obj->getComponentDirectory() . '/classes/class.' . $obj->getCheckingClass() . '.php');
+		$class_name = $obj->getCheckingClass();
 
+		return new $class_name();
 	}
 
+
+	/**
+	 * @return bool
+	 */
+	public function hasCheckingInstance() {
+		return $this->has_checking_instance;
+	}
 
 
 	/**
@@ -45,7 +65,7 @@ class ilWACSecurePath extends ActiveRecord {
 	 * @con_fieldtype  text
 	 * @con_length     256
 	 */
-	protected $classes_dir = '';
+	protected $component_directory = '';
 	/**
 	 * @var string
 	 *
@@ -54,6 +74,10 @@ class ilWACSecurePath extends ActiveRecord {
 	 * @con_length     256
 	 */
 	protected $checking_class = '';
+	/**
+	 * @var bool
+	 */
+	protected $has_checking_instance = false;
 
 
 	/**
@@ -75,16 +99,16 @@ class ilWACSecurePath extends ActiveRecord {
 	/**
 	 * @return string
 	 */
-	public function getClassesDir() {
-		return $this->classes_dir;
+	public function getComponentDirectory() {
+		return $this->component_directory;
 	}
 
 
 	/**
-	 * @param string $classes_dir
+	 * @param string $component_directory
 	 */
-	public function setClassesDir($classes_dir) {
-		$this->classes_dir = $classes_dir;
+	public function setComponentDirectory($component_directory) {
+		$this->component_directory = $component_directory;
 	}
 
 
@@ -101,6 +125,14 @@ class ilWACSecurePath extends ActiveRecord {
 	 */
 	public function setCheckingClass($checking_class) {
 		$this->checking_class = $checking_class;
+	}
+
+
+	/**
+	 * @param boolean $has_checking_instance
+	 */
+	public function setHasCheckingInstance($has_checking_instance) {
+		$this->has_checking_instance = $has_checking_instance;
 	}
 }
 
