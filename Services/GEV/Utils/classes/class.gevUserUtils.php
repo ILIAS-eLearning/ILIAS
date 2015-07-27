@@ -1524,7 +1524,7 @@ class gevUserUtils {
 			while ($ou_ref !== null) {
 				$ou_id = ilObject::_lookupObjectId($ou_ref);
 				$title = ilObject::_lookupTitle($ou_id);
-				if (preg_match("/Organisationsdirektion.*/", $title)) {
+				if (preg_match("/(Organisationsdirektion|OD).*/", $title)) {
 					$this->od = array( "obj_id" => $ou_id
 									 , "title" => $title
 									 );
