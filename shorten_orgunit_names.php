@@ -32,8 +32,8 @@ require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
 $evg_children = gevOrgUnitUtils::getAllChildren(array($evg_ref_id));
 
 foreach ($evg_children as $child) {
-	$orgu_utils = gevOrgUnitUtils::getInstance($child["ref_id"]);
 	$obj_id = $child["obj_id"];
+	$orgu_utils = gevOrgUnitUtils::getInstance($obj_id);
 	
 	$cur_title = $orgu_utils->getTitle();
 	
@@ -51,7 +51,7 @@ foreach ($evg_children as $child) {
 		$new_title = "UA ".$matches[1];
 	}
 	else {
-		echo "No replacement for: $title\n";
+		echo "No replacement for: $cur_title\n";
 		continue;
 	}
 	
@@ -62,33 +62,33 @@ foreach ($evg_children as $child) {
 	}
 	
 	// Updating original title.
-	$ilDB->manipulate("UPDATE obj_data \n"
-					 ."   SET title = ".$ilDB->quote($new_title, "text")
-					 -" WHERE obj_id = ".$ilDB->quote($obj_id, "integer")
+	$ilDB->manipulate("UPDATE object_data \n"
+					 ."   SET title = ".$ilDB->quote($new_title, "text")."\n"
+					 ." WHERE obj_id = ".$ilDB->quote($obj_id, "integer")
 					 );
 	
 	$ilDB->manipulate("UPDATE hist_user \n"
-					 ."   SET org_unit = ".$ilDB->quote($new_title, "text")
+					 ."   SET org_unit = ".$ilDB->quote($new_title, "text")."\n"
 					 ." WHERE org_unit = ".$ilDB->quote($cur_title, "text")
 					 );
 	
 	$ilDB->manipulate("UPDATE hist_user \n"
-					 ."   SET org_unit_above1 = ".$ilDB->quote($new_title, "text")
+					 ."   SET org_unit_above1 = ".$ilDB->quote($new_title, "text")."\n"
 					 ." WHERE org_unit_above1 = ".$ilDB->quote($cur_title, "text")
 					 );
 	
 	$ilDB->manipulate("UPDATE hist_user \n"
-					 ."   SET org_unit_above2 = ".$ilDB->quote($new_title, "text")
+					 ."   SET org_unit_above2 = ".$ilDB->quote($new_title, "text")."\n"
 					 ." WHERE org_unit_above2 = ".$ilDB->quote($cur_title, "text")
 					 );
 	
 	$ilDB->manipulate("UPDATE hist_tep \n"
-					 ."   SET orgu_title = ".$ilDB->quote($new_title, "text")
+					 ."   SET orgu_title = ".$ilDB->quote($new_title, "text")."\n"
 					 ." WHERE orgu_title = ".$ilDB->quote($cur_title, "text")
 					 );
 	
 	$ilDB->manipulate("UPDATE hist_usercoursestatus \n"
-					 ."   SET org_unit = ".$ilDB->quote($new_title, "text")
+					 ."   SET org_unit = ".$ilDB->quote($new_title, "text")."\n"
 					 ." WHERE org_unit = ".$ilDB->quote($cur_title, "text")
 					 );
 }
