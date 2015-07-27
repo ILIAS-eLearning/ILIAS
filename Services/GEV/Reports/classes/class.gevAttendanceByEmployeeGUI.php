@@ -184,6 +184,7 @@ class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 										  ." OR usrcrs.hist_historic IS NULL )" )
 						->static_condition("orgu.action = 1")
 						->static_condition("orgu.hist_historic = 0")
+						->static_condition("orgu.rol_title = 'Mitarbeiter'")
 						/*->static_condition("IF(UNIX_TIMESTAMP(usrcrs.begin_date)=0 "
                                           ."OR usrcrs.begin_date IS NULL, TRUE,"
                                           ."UNIX_TIMESTAMP(usrcrs.begin_date)> orgu.in_ts)")
