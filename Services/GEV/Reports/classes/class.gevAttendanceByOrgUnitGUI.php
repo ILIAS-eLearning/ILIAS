@@ -276,7 +276,7 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 		$this->query = catReportQuery::create()
 						//->distinct()
 
-						->select("orgu.orgu_title AS org_unit")
+						->select("orgu.orgu_title")
 						->select("orgu.org_unit_above1")
 						->select("orgu.org_unit_above2")
 						/*->select("usr.gender")
