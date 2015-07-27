@@ -109,7 +109,7 @@ class gevAttendanceByCourseTemplateGUI extends catBasicReportGUI{
 						->multiselect( "org_unit"
 									 , $this->lng->txt("gev_org_unit_short")
 									 //, array("usr.org_unit", "org_unit_above1", "org_unit_above2")
-									 , array("orgu.org_unit")
+									 , array("orgu.orgu_title")
 									 , $org_units_filter
 									 , $org_units_filter
 									 )
@@ -164,6 +164,10 @@ class gevAttendanceByCourseTemplateGUI extends catBasicReportGUI{
 									 )
 */
 						->static_condition(" usrcrs.hist_historic = 0")
+						->static_condition(" orgu.hist_historic = 0")						
+						->static_condition(" orgu.action = 1")
+
+
 						->action($this->ctrl->getLinkTarget($this, "view"))
 						->compile()
 						;
@@ -240,34 +244,12 @@ class gevAttendanceByCourseTemplateGUI extends catBasicReportGUI{
 
 			);
 		
-		$this->orgu_memberships =
-						 "SELECT DISTINCT pl.usr_id , ".$this->db->quote($this->filtered_orgus[0],"text")." AS org_unit"
-						." FROM hist_userorgu AS pl "
-						." LEFT JOIN "
-						."         (SELECT usr_id,orgu_id,rol_id,hist_version,created_ts "
-						."          FROM hist_userorgu "
-						."          WHERE `action`=-1 ) AS mi "
-						."		ON pl.usr_id=mi.usr_id " 
-						."		AND pl.orgu_id=mi.orgu_id "
-						."		AND pl.rol_id=mi.rol_id "
-						."      AND pl.hist_version+1 = mi.hist_version "
-						."		AND `action`=1 " 
-						." WHERE mi.created_ts IS NULL ";
-		if(count($this->filtered_orgus)>0) {
-			$this->orgu_memberships .= " AND ".$this->db->in("pl.orgu_title", $this->filtered_orgus, false, "text");
-		}
 		$this->query = catReportQuery::create()
 						//->distinct()
 
 						->select("crs.template_title")
 						->select("crs.edu_program")
-						
 
-						/*->select("usrcrs.booking_status")
-						->select("usrcrs.participation_status")
-						->select("usr.user_id")
-						->select("crs.crs_id")
-						*/
 						->select_raw($this->sql_sum_parts['sum_booked_wbt'])
 						->select_raw($this->sql_sum_parts['sum_attended_wbt'])
 
@@ -280,7 +262,8 @@ class gevAttendanceByCourseTemplateGUI extends catBasicReportGUI{
 						->from("hist_usercoursestatus usrcrs")
 						->join("hist_course crs")
 							->on("crs.crs_id = usrcrs.crs_id AND crs.hist_historic = 0")
-						->raw_join("LEFT JOIN (".$this->orgu_memberships.") AS orgu ON usrcrs.usr_id = orgu.usr_id ")
+						->raw_join("hist_userorgu orgu")
+							->on("usrcrs.usr_id = orgu.usr_id ")
 						->group_by("crs.template_title")
 						->compile();
 
@@ -334,15 +317,16 @@ class gevAttendanceByCourseTemplateGUI extends catBasicReportGUI{
 		."SUM( CASE WHEN booking_status = 'auf Warteliste' AND participation_status = 'nicht gesetzt' THEN 1 END ) AS sum_waiting,"
 		."SUM( CASE WHEN LCASE(participation_status) = 'fehlt entschuldigt' THEN 1 END ) AS sum_excused,"
 		."SUM( CASE WHEN LCASE(participation_status) = 'fehlt ohne Absage' THEN 1 END ) AS sum_unexcused,"
-		."SUM( CASE WHEN LCASE(participation_status) = 'canceled_exit' THEN 1 END ) AS sum_exit ".
-			"FROM(".
-				"SELECT DISTINCT usr.user_id, crs.crs_id, usrcrs.booking_status, ".
-					"usrcrs.participation_status, crs.type ".
-					"FROM `hist_user` usr ". 
-					"LEFT JOIN `hist_usercoursestatus` usrcrs ON usrcrs.usr_id = usr.user_id AND usr.hist_historic = 0 ".
-					"LEFT JOIN `hist_course` crs ON usrcrs.crs_id = crs.crs_id AND crs.hist_historic = 0 ".
-					"JOIN (".$this->orgu_memberships.") as orgu ON usr.user_id=orgu.usr_id ".$this->queryWhere().
-			") as temp";
+		."SUM( CASE WHEN LCASE(participation_status) = 'canceled_exit' THEN 1 END ) AS sum_exit "
+		."FROM("
+		."	SELECT DISTINCT usr.user_id, crs.crs_id, usrcrs.booking_status, "
+		."		usrcrs.participation_status, crs.type "
+		."		FROM `hist_user` usr " 
+		."			LEFT JOIN `hist_usercoursestatus` usrcrs ON usrcrs.usr_id = usr.user_id AND usr.hist_historic = 0 "
+		."			LEFT JOIN `hist_course` crs ON usrcrs.crs_id = crs.crs_id AND crs.hist_historic = 0 "
+		."			LEFT JOIN hist_userorgu orgu ON orgu.usr_id = usr.user_id "
+		.$this->queryWhere()
+		.") as temp";
 		$res = $this->db->query($sum_sql);
 		$this->summed_data = $this->db->fetchAssoc($res);
 		$cnt = 1;
