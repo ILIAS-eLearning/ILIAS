@@ -116,6 +116,7 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 			$skip_org_units_in_filter = array_merge($skip_org_units_in_filter, $org_units);
 		}
 		array_unique($skip_org_units_in_filter);
+
 		$skip_org_units_in_filter = array_diff($skip_org_units_in_filter, $never_skip);
 		$org_units_filter = array_diff($this->user_utils->getOrgUnitNamesWhereUserIsSuperior(), $skip_org_units_in_filter);
 		sort($org_units_filter);
@@ -130,7 +131,7 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 									, date("Y")."-01-01"
 									, date("Y")."-12-31"
 									, false
-									, " OR TRUE "
+									," OR TRUE"
 									)
 						->multiselect( "org_unit"
 									 , $this->lng->txt("gev_org_unit_short")
@@ -188,22 +189,16 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 									 , catFilter::getDistinctValues('provider', 'hist_course')
 									 , array()
 									 )
-						/*->static_condition("IF(UNIX_TIMESTAMP(usrcrs.begin_date)=0 "
-                                       					."OR usrcrs.begin_date IS NULL,TRUE,"
-                                          				."UNIX_TIMESTAMP(usrcrs.begin_date)>orgu.in_ts)")
-                 				->static_condition("IF(UNIX_TIMESTAMP(usrcrs.end_date)=0 "
-                                          				."OR usrcrs.end_date IS NULL "
-                                          				."OR orgu.out_ts IS NULL,TRUE,"
-                                          				."UNIX_TIMESTAMP(usrcrs.end_date)< orgu.out_ts)")*/
 						->static_condition($this->db->in("usr.user_id", $this->allowed_user_ids, false, "integer"))
 						->static_condition("usr.hist_historic = 0")
+						->static_condition("orgu.hist_historic = 0")
+						->static_condition("orgu.action = 1")
 						->action($this->ctrl->getLinkTarget($this, "view"))
-						->compile()
-						;
+						->compile();
 		$this->dates = $this->filter->get("period");
-		foreach($this->dates as &$il_date_obj) {
-			$il_date_obj = $il_date_obj->get(IL_CAL_DATE);
-		}
+        foreach($this->dates as &$il_date_obj) {
+            $il_date_obj = $il_date_obj->get(IL_CAL_DATE);
+        }
 
 	//Saving this fields outside the filter will enable us to cout the right employee-numbers,
 	//including the ones, that did not participate in a training or did so outside the period defined above	
@@ -278,25 +273,6 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 
 			);
 
-        $this->orgu_memberships =       
-                        "SELECT orgu_id, usr_id, rol_title, orgu_title AS org_unit, SUM( `action` ) AS sum, "
-                        ." org_unit_above1, org_unit_above2"
-                        ." FROM hist_userorgu WHERE rol_title = ".$this->db->quote("Mitarbeiter","text")
-                        ."GROUP BY orgu_id, usr_id, rol_title HAVING sum >0";
-		/*$this->orgu_memberships =	
-						 "SELECT DISTINCT pl.usr_id,pl.orgu_title AS org_unit,pl.org_unit_above1,pl.org_unit_above2 "
-						." FROM hist_userorgu AS pl "
-						." LEFT JOIN "
-						."         (SELECT usr_id,orgu_id,rol_id,hist_version,created_ts "
-						."          FROM hist_userorgu "
-						."          WHERE `action`=-1 ) AS mi "
-						."		ON pl.usr_id=mi.usr_id " 
-						."		AND pl.orgu_id=mi.orgu_id "
-						."		AND pl.rol_id=mi.rol_id "
-						."      AND pl.hist_version+1 = mi.hist_version "
-						."		AND `action`=1 " 
-						." WHERE mi.created_ts IS NULL AND pl.rol_title = ".$this->db->quote("Mitarbeiter","text");*/
-
 		$this->query = catReportQuery::create()
 						//->distinct()
 
@@ -326,20 +302,16 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 						->from("hist_user usr")
 						->left_join("hist_usercoursestatus usrcrs")
 							->on("usrcrs.usr_id = usr.user_id AND usrcrs.hist_historic = 0 "
-								." AND ((`usrcrs`.`end_date` >= ".$this->db->quote($this->dates["start"],"date")
-										." OR `usrcrs`.`end_date` = ".$this->db->quote("0000-00-00","date")
-										." OR `usrcrs`.`end_date` = ".$this->db->quote("-empty-","text").")"
-									." AND `usrcrs`.`begin_date` <= ".$this->db->quote($this->dates["end"],"date").")"
-								 ." OR usrcrs.hist_historic IS NULL")
+							."	AND ((`usrcrs`.`end_date` >= ".$this->db->quote($this->dates["start"],"date")
+							." 		OR `usrcrs`.`end_date` = ".$this->db->quote("0000-00-00","date")
+							." 		OR `usrcrs`.`end_date` = ".$this->db->quote("-empty-","text").")"
+							."  	AND `usrcrs`.`begin_date` <= ".$this->db->quote($this->dates["end"],"date").")")
 						->left_join("hist_course crs")
 							->on("usrcrs.crs_id = crs.crs_id AND crs.hist_historic = 0")
-						->raw_join("JOIN(".$this->orgu_memberships.") AS orgu ON usr.user_id=orgu.usr_id ")
+						->join("hist_userorgu orgu")
+							->on("usr.user_id = orgu.usr_id")
 						->group_by("orgu.org_unit")
-						->compile()
-						;
-
-
-		
+						->compile();
 	}
 
 
@@ -406,28 +378,29 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 		}		
 
 		$sum_sql = 
-		"SELECT COUNT(DISTINCT user_id) as sum_employees, ".
-			"SUM(CASE WHEN LCASE(booking_status)='gebucht' AND LCASE(participation_status) = 'nicht gesetzt' AND type = 'Selbstlernkurs' THEN 1 END ) AS sum_booked_wbt,".
-			"SUM(CASE WHEN LCASE(participation_status)='teilgenommen' AND type = 'Selbstlernkurs' THEN 1 END ) AS sum_attended_wbt,".
-			"SUM(CASE WHEN LCASE(booking_status)='gebucht' AND LCASE(participation_status) = 'nicht gesetzt' AND type != 'Selbstlernkurs' THEN 1 END ) AS sum_booked,".
-			"SUM(CASE WHEN LCASE(participation_status) = 'teilgenommen' AND type != 'Selbstlernkurs' THEN 1 END ) AS sum_attended,".
-			"SUM(CASE WHEN booking_status = 'auf Warteliste' AND participation_status = 'nicht gesetzt' THEN 1 END ) AS sum_waiting,".
-			"SUM(CASE WHEN LCASE(participation_status) = 'fehlt entschuldigt' THEN 1 END ) AS sum_excused,".
-			"SUM(CASE WHEN LCASE(participation_status) = 'fehlt ohne Absage' THEN 1 END ) AS sum_unexcused,".
-			"SUM(CASE WHEN LCASE(participation_status) = 'canceled_exit' THEN 1 END ) AS sum_exit ".
-			"FROM(".
-				"SELECT DISTINCT usr.user_id, crs.crs_id, usrcrs.booking_status, ".
-					"usrcrs.participation_status, crs.type ".
-					"FROM `hist_user` usr ". 
-					"LEFT JOIN `hist_usercoursestatus` usrcrs ON usrcrs.usr_id = usr.user_id AND usrcrs.hist_historic = 0 "
-								." AND ((`usrcrs`.`end_date` >= ".$this->db->quote($this->dates["start"],"date")
-										." OR `usrcrs`.`end_date` = ".$this->db->quote("0000-00-00","date")
-										." OR `usrcrs`.`end_date` = ".$this->db->quote("-empty-","text").")"
-									." AND `usrcrs`.`begin_date` <= ".$this->db->quote($this->dates["end"],"date").")"
-								 ." OR usrcrs.hist_historic IS NULL ".
-					"LEFT JOIN `hist_course` crs ON usrcrs.crs_id = crs.crs_id AND crs.hist_historic = 0 ".
-					"JOIN (".$this->orgu_memberships.") as orgu ON usr.user_id=orgu.usr_id ".$this->queryWhere().
-			") as temp";
+		"SELECT COUNT(DISTINCT user_id) as sum_employees, "
+			."SUM(CASE WHEN LCASE(booking_status)='gebucht' AND LCASE(participation_status) = 'nicht gesetzt' AND type = 'Selbstlernkurs' THEN 1 END ) AS sum_booked_wbt,"
+			."SUM(CASE WHEN LCASE(participation_status)='teilgenommen' AND type = 'Selbstlernkurs' THEN 1 END ) AS sum_attended_wbt,"
+			."SUM(CASE WHEN LCASE(booking_status)='gebucht' AND LCASE(participation_status) = 'nicht gesetzt' AND type != 'Selbstlernkurs' THEN 1 END ) AS sum_booked,"
+			."SUM(CASE WHEN LCASE(participation_status) = 'teilgenommen' AND type != 'Selbstlernkurs' THEN 1 END ) AS sum_attended,"
+			."SUM(CASE WHEN booking_status = 'auf Warteliste' AND participation_status = 'nicht gesetzt' THEN 1 END ) AS sum_waiting,"
+			."SUM(CASE WHEN LCASE(participation_status) = 'fehlt entschuldigt' THEN 1 END ) AS sum_excused,"
+			."SUM(CASE WHEN LCASE(participation_status) = 'fehlt ohne Absage' THEN 1 END ) AS sum_unexcused,"
+			."SUM(CASE WHEN LCASE(participation_status) = 'canceled_exit' THEN 1 END ) AS sum_exit "
+			."FROM("
+			."	SELECT DISTINCT usr.user_id, crs.crs_id, usrcrs.booking_status, "
+			."		usrcrs.participation_status, crs.type "
+			."		FROM `hist_user` usr "
+			."		JOIN hist_userorgu orgu ON usr.user_id = orgu.usr_id"
+			."		LEFT JOIN `hist_usercoursestatus` usrcrs "
+			."			ON usrcrs.usr_id = usr.user_id AND usrcrs.hist_historic = 0 "
+			."			AND ((`usrcrs`.`end_date` >= ".$this->db->quote($this->dates["start"],"date")
+			."	 			OR `usrcrs`.`end_date` = ".$this->db->quote("0000-00-00","date")
+			."	 			OR `usrcrs`.`end_date` = ".$this->db->quote("-empty-","text").")"
+			."	 			AND `usrcrs`.`begin_date` <= ".$this->db->quote($this->dates["end"],"date").")"
+			."		LEFT JOIN `hist_course` crs ON usrcrs.crs_id = crs.crs_id AND crs.hist_historic = 0 "
+			."		".$this->queryWhere();
+			.") as temp";
 		$res = $this->db->query($sum_sql);
 		$this->summed_data = $this->db->fetchAssoc($res);
 		$cnt = 1;
