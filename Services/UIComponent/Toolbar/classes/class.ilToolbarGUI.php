@@ -22,7 +22,8 @@ class ilToolbarGUI
 
 	function __construct()
 	{
-	
+		global $tpl;
+		$tpl->addJavascript("./Services/UIComponent/Toolbar/js/ilToolbar.js");
 	}
 
 	/**
