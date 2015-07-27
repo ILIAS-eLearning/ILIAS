@@ -80,7 +80,7 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 		$this->order = catReportOrder::create($this->table)
 						//->mapping("date", "crs.begin_date")
 						//->mapping("odbd", array("org_unit_above1", "org_unit_above2"))
-						->defaultOrder("org_unit", "ASC")
+						->defaultOrder("orgu_title", "ASC")
 						;
 		
 		//internal ordering:
@@ -138,7 +138,7 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 									 , array("orgu.orgu_title", "orgu.org_unit_above1", "orgu.org_unit_above2")
 									 //, array("usr.org_unit")
 									 , $org_units_filter
-									 , array()
+									 , $org_units_filter
 									 )
 						->multiselect("edu_program"
 									 , $this->lng->txt("gev_edu_program")
@@ -310,7 +310,7 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 							->on("usrcrs.crs_id = crs.crs_id AND crs.hist_historic = 0")
 						->join("hist_userorgu orgu")
 							->on("usr.user_id = orgu.usr_id")
-						->group_by("orgu.org_unit")
+						->group_by("orgu.orgu_title")
 						->compile();
 	}
 
