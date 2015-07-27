@@ -40,7 +40,7 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 						;
 
 		$this->table = catReportTable::create()
-						->column("org_unit", "title")
+						->column("orgu_title", "title")
 						->column("odbd", "gev_od_bd")
 						//->column("above2", "above2")
 						//->column("above1", "above1")
@@ -135,7 +135,7 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 									)
 						->multiselect( "org_unit"
 									 , $this->lng->txt("gev_org_unit_short")
-									 , array("orgu.org_unit", "orgu.org_unit_above1", "orgu.org_unit_above2")
+									 , array("orgu.orgu_title", "orgu.org_unit_above1", "orgu.org_unit_above2")
 									 //, array("usr.org_unit")
 									 , $org_units_filter
 									 , array()
@@ -276,7 +276,7 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 		$this->query = catReportQuery::create()
 						//->distinct()
 
-						->select("orgu.org_unit")
+						->select("orgu.orgu_title AS org_unit")
 						->select("orgu.org_unit_above1")
 						->select("orgu.org_unit_above2")
 						/*->select("usr.gender")
