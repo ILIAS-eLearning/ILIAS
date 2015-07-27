@@ -424,6 +424,10 @@ class ilObjUser extends ilObject
 		{
 			$this->setInactivationDate( ilUtil::now() );
 		}
+		else
+		{
+			$this->setInactivationDate(null);
+		}
 
 		$insert_array = array(
 			"usr_id" => array("integer", $this->id),
@@ -513,6 +517,10 @@ class ilObjUser extends ilObject
 		if( $this->getStoredActive($this->id) && !$this->active )
 		{
 			$this->setInactivationDate( ilUtil::now() );
+		}
+		else if($this->active)
+		{
+			$this->setInactivationDate(null);
 		}
 
 		$update_array = array(
