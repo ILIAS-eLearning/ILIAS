@@ -1,6 +1,7 @@
 <?php
 require_once('./Services/Utilities/classes/class.ilMimeTypeUtil.php');
 require_once('./Services/Utilities/classes/class.ilUtil.php');
+require_once('./Services/Context/classes/class.ilContext.php');
 require_once('./Services/Http/classes/class.ilHTTPS.php');
 
 /**
@@ -61,6 +62,10 @@ class ilFileDelivery {
 	 * @var bool
 	 */
 	protected $show_last_modified = false;
+	/**
+	 * @var bool
+	 */
+	protected $has_context = true;
 
 
 	/**
@@ -95,10 +100,12 @@ class ilFileDelivery {
 	 * @param $path_to_file
 	 */
 	public function __construct($path_to_file) {
-		$this->setPathToFile($path_to_file);
-		$this->setDownloadFileName(basename($path_to_file));
+		$parts = parse_url($path_to_file);
+		$this->setPathToFile($parts['path']);
 		$this->detemineDeliveryType();
 		$this->detemineMimeType();
+		$this->determineDownloadFileName();
+		$this->setHasContext(ilContext::getType() !== NULL);
 	}
 
 
@@ -111,15 +118,21 @@ class ilFileDelivery {
 	public function deliver() {
 		if (self::$DEV) {
 			global $ilLog;
-			$ilLog->write(print_r($this, true));
+			if ($ilLog instanceof ilLog) {
+				$ilLog->write(print_r($this, true));
+			}
 		}
 		$this->setGeneralHeaders();
+
 		switch ($this->getDeliveryType()) {
 			default:
 				$this->deliverPHP();
 				break;
 			case self::DELIVERY_METHOD_XSENDFILE:
 				$this->deliverXSendfile();
+				break;
+			case self::DELIVERY_METHOD_XACCEL:
+				$this->deliverXAccelRedirect();
 				break;
 			case self::DELIVERY_METHOD_PHP_CHUNKED:
 				$this->deliverPHPChunked();
@@ -132,14 +145,18 @@ class ilFileDelivery {
 
 
 	protected function deliverXSendfile() {
-		//		echo $this->getPathToFile();
-		header('X-Sendfile: ' . $this->getPathToFile());
+		header('X-Sendfile: ' . realpath($this->getPathToFile()));
+	}
+
+
+	protected function deliverXAccelRedirect() {
+		header('X-Accel-Redirect: ' . realpath($this->getPathToFile()));
 	}
 
 
 	protected function deliverPHP() {
 		set_time_limit(0);
-		$file = @fopen($this->getPathToFile(), "rb");
+		$file = @fopen(realpath($this->getPathToFile()), "rb");
 		while (! feof($file)) {
 			print(@fread($file, 1024 * 8));
 			ob_flush();
@@ -255,10 +272,11 @@ class ilFileDelivery {
 		if ($this->getDeliveryType() == self::DELIVERY_METHOD_PHP) {
 			header("Content-Length: " . (string)filesize($this->getPathToFile()));
 		}
-
-		if (ilHTTPS::getInstance()->isDetected()) {
-			header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-			header('Pragma: public');
+		if ($this->isHasContext()) {
+			if (ilHTTPS::getInstance()->isDetected()) {
+				header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+				header('Pragma: public');
+			}
 		}
 
 		if ($this->getEtag()) {
@@ -297,6 +315,17 @@ class ilFileDelivery {
 		}
 
 		return false;
+	}
+
+
+	/**
+	 * @return bool
+	 */
+	protected function determineDownloadFileName() {
+		if (! $this->getDownloadFileName()) {
+			$download_file_name = basename($this->getPathToFile());
+			$this->setDownloadFileName($download_file_name);
+		}
 	}
 
 
@@ -464,6 +493,22 @@ class ilFileDelivery {
 	 */
 	public function setShowLastModified($show_last_modified) {
 		$this->show_last_modified = $show_last_modified;
+	}
+
+
+	/**
+	 * @return boolean
+	 */
+	public function isHasContext() {
+		return $this->has_context;
+	}
+
+
+	/**
+	 * @param boolean $has_context
+	 */
+	public function setHasContext($has_context) {
+		$this->has_context = $has_context;
 	}
 }
 
