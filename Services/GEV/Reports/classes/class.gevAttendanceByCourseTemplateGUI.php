@@ -262,7 +262,7 @@ class gevAttendanceByCourseTemplateGUI extends catBasicReportGUI{
 						->from("hist_usercoursestatus usrcrs")
 						->join("hist_course crs")
 							->on("crs.crs_id = usrcrs.crs_id AND crs.hist_historic = 0")
-						->raw_join("hist_userorgu orgu")
+						->left_join("hist_userorgu orgu")
 							->on("usrcrs.usr_id = orgu.usr_id ")
 						->group_by("crs.template_title")
 						->compile();
