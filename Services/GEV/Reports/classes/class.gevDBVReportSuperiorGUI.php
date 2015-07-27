@@ -67,8 +67,8 @@ class gevDBVReportSuperiorGUI extends catBasicReportGUI{
 						->select("dbv.user_id")
 						->select("dbv.lastname")
 						->select("dbv.firstname")
-						->select("hu.org_unit_above1")
-						->select("hu.org_unit_above2")
+						->select("huo_in.org_unit_above1")
+						->select("huo_in.org_unit_above2")
 						->select_raw(
 							"SUM(IF(hucs.participation_status != 'nicht gesetzt', hucs.credit_points, 0)) as credit_points")
 						->select_raw(
@@ -80,16 +80,14 @@ class gevDBVReportSuperiorGUI extends catBasicReportGUI{
 						->left_join("hist_userorgu huo_out")
 							->on("oup.orgunit_id = huo_out.orgu_id AND huo_out.`action` = -1"
 								." AND huo_in.usr_id = huo_out.usr_id AND huo_in.orgu_id = huo_out.orgu_id"
-								." AND huo_in.rol_id = huo_out.rol_id AND huo_in.hist_version+1 = huo_out.hist_version")
-						->join("hist_user hu")
-							->on("huo_in.usr_id = hu.user_id")						
+								." AND huo_in.rol_id = huo_out.rol_id AND huo_in.hist_version+1 = huo_out.hist_version")					
 						->join("hist_usercoursestatus hucs")
-							->on("hu.user_id = hucs.usr_id")
+							->on("huo_in.usr_id = hucs.usr_id")
 						->join("hist_course hc")
 							->on("hucs.crs_id = hc.crs_id")
 						->join("hist_user dbv")
 							->on("dbv.user_id = oup.usr_id")
-						->group_by("dbv.user_id")
+						->group_by("oup.usr_id")
 						->compile();
 						
 		$dbv_fin_uvg = $roles->usersHavingRole("DBV-Fin-UVG");
@@ -113,10 +111,11 @@ class gevDBVReportSuperiorGUI extends catBasicReportGUI{
 								   , "dbv.lastname"
 								   )
 						->static_condition($this->db->in("oup.usr_id", $dbv_fin_uvg_employees, false, "integer"))
-						->static_condition("hc.end_date < ".$this->db->quote("2016-01-01","date"))
+						->static_condition("hc.begin_date < ".$this->db->quote("2016-01-01","date"))
 						->static_condition("hc.end_date >= ".$this->db->quote("2015-01-01","date"))
-						->static_condition("oda.type = 'role'")
-						->static_condition("hu.hist_historic = 0")
+						->static_condition("(huo_out.created_ts IS NULL "
+											." OR huo_out.created_ts > UNIX_TIMESTAMP(".$this->db->quote("2016-01-01","date").")"
+											.") AND huo_in.created_ts < UNIX_TIMESTAMP(".$this->db->quote("2016-01-01","date").")")
 						->static_condition(
 							$this->db->in(
 								"hucs.participation_status", array("fehlt entschuldigt", "fehlt ohne Absage"), true, "text"))
