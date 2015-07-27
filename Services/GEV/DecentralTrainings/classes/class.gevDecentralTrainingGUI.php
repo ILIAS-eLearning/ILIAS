@@ -1318,9 +1318,7 @@ class gevDecentralTrainingGUI {
 			return $this->showSettings($form);
 		}
 		
-		$crs_utils = gevCourseUtils::getInstance($obj_id);
-		$template_id = $crs_utils->getTemplateRefId();
-		if(!$this->checkDecentralTrainingConstraints($form, $template_id)) {
+		if(!$this->checkDecentralTrainingConstraints($form, $obj_id)) {
 			return $this->showSettings($form);
 		}
 
