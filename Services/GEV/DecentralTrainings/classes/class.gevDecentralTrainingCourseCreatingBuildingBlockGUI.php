@@ -139,7 +139,7 @@ class gevDecentralTrainingCourseCreatingBuildingBlockGUI extends gevDecentralTra
 			$crs_tbl->addCommandButton("add",$this->lng->txt("add"));
 		}
 
-		$crs_tbl->addCommandButton("redirect_to_tep",$this->lng->txt("back"));
+		$crs_tbl->addCommandButton("redirect_to_tep",$this->lng->txt("gev_dec_ready"));
 
 		return $crs_tbl;
 	}

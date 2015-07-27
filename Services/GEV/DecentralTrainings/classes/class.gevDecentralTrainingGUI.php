@@ -55,6 +55,7 @@ class gevDecentralTrainingGUI {
 			case "addBuildingBlock":
 			case "updateBuildingBlock":
 			case "showBuildingBlock":
+			case "updateCourseData":
 				$cont = $this->$cmd();
 				break;
 			default:
@@ -317,15 +318,16 @@ class gevDecentralTrainingGUI {
 		$settings_utils = gevSettings::getInstance();
 		$presence_flexible_tpl_id = $settings_utils->getDctTplFlexPresenceObjId();
 		$webinar_flexible_tpl_id = $settings_utils->getDctTplFlexWebinarObjId();
-		$tmpl_id = $obj_id = gevObjectUtils::getObjId($crs_utils->getTemplateRefId());
+		$tmpl_id = gevObjectUtils::getObjId($crs_utils->getTemplateRefId());
 
 		$start_date = $crs_utils->getStartDate()->get(IL_CAL_DATE);
 		$now = date("Y-m-d");
 		$should_save = $start_date > $now;
-
 		
 		if($tmpl_id == $presence_flexible_tpl_id || $tmpl_id == $webinar_flexible_tpl_id) {
 			if($should_save) {
+				$this->ctrl->setParameter($this,"ref_id", $_GET["ref_id"]);
+				$form->addCommandButton("updateCourseData", $this->lng->txt("save"));
 				$form->addCommandButton("updateBuildingBlock", $this->lng->txt("gev_dec_training_update_buildingblocks"));
 			} else {
 				$form->addCommandButton("showBuildingBlock", $this->lng->txt("gev_dec_training_show_buildingblocks"));
@@ -352,6 +354,8 @@ class gevDecentralTrainingGUI {
 		if($this->tpl_date_auto_change !== null) {
 			$ret .= $this->tpl_date_auto_change->get();
 		}
+
+		$this->ctrl->clearParameters($this);
 
 		return $ret;
 	}
@@ -1359,9 +1363,11 @@ class gevDecentralTrainingGUI {
 			$crs_mails->sendDeferred("invitation");
 		}
 
-		$tmpl_ref_id = $crs_utils->getTemplateRefId();
+		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		$crs_utils = gevCourseUtils::getInstance($obj_id);
+		$tmpl_id = gevObjectUtils::getObjId($crs_utils->getTemplateRefId());
 
-		$settings = $this->getSettingsFromForm($crs_utils, $form, gevObjectUtils::getObjId($tmpl_ref_id));
+		$settings = $this->getSettingsFromForm($crs_utils, $form, $tmpl_id);
 		$settings->applyTo((int)$_POST["obj_id"]);
 
 		require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCourseCreatingBuildingBlockGUI.php");
@@ -1373,6 +1379,31 @@ class gevDecentralTrainingGUI {
 		require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCourseCreatingBuildingBlockGUI.php");
 		$bb_gui = new gevDecentralTrainingCourseCreatingBuildingBlockGUI($_POST["obj_id"]);
 		$this->ctrl->forwardCommand($bb_gui);
+	}
+
+	function updateCourseData() {
+		$obj_id = (int)$_POST["obj_id"];
+		
+		$form = $this->buildTrainingOptionsForm(false, $obj_id);
+		$form->setValuesByPost();
+
+		if (!$form->checkInput()) {
+			return $this->showSettings($form);
+		}
+		
+		if(!$this->checkDecentralTrainingConstraints($form, $obj_id)) {
+			return $this->showSettings($form);
+		}
+
+		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		$crs_utils = gevCourseUtils::getInstance($obj_id);
+		$tmpl_id = gevObjectUtils::getObjId($crs_utils->getTemplateRefId());
+
+		$settings = $this->getSettingsFromForm($crs_utils, $form, $tmpl_id);
+		$settings->applyTo($obj_id);
+
+		ilUtil::sendSuccess($this->lng->txt("gev_dec_training_creation_requested"), true);
+		return $this->showSettings();
 	}
 }
 
