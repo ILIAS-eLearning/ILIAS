@@ -19,9 +19,9 @@
 chdir("../..");
 
 // Load the checker class, which also initializes ILIAS
-require_once "./Services/WebAccessChecker/classes/class.ilWebAccessChecker.php";
+require_once "./Services/WebAccessChecker/classes/class.ilWebAccessCheckerOld.php";
 
-$checker = new ilWebAccessChecker();
+$checker = new ilWebAccessCheckerOld();
 $checker->setDisposition("attachment");
 
 if ($checker->checkAccess())
