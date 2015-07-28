@@ -7,6 +7,7 @@ $(function () {
         var primary_items = [];
         var initialized_responsive_mode = false;
         var $items = $toolbar_container.find('ul.navbar-nav li');
+        $.fn.reverse = [].reverse;
 
         // Private
 
@@ -37,7 +38,11 @@ $(function () {
                     var $wrapper = $form.length ? $form : $first_item;
                     for (var j in group) {
                         var $item = group[j];
-                        var $input = $item.find('select, input, a, span')
+                        if ($item.find('.btn-primary').length) {
+                            // Don't attempt to group primary button
+                            continue;
+                        }
+                        var $input = $item.find('select, input, a, span, button')
                             .css({'display': 'inline-block', 'width': 'auto'})
                             .addClass('group-item');
                         if (j > 0) {
@@ -70,9 +75,9 @@ $(function () {
 
         var addPrimaryButtonsToHeader = function () {
             var $primary_buttons = $toolbar_container.find('.btn-primary').parents('li');
-            if ($primary_buttons.length && !primary_items.length) {
+            if ($primary_buttons.length) {
                 var $container = $('<ul>').addClass('sticky-primary-items').appendTo($header);
-                $primary_buttons.each(function () {
+                $primary_buttons.reverse().each(function () {
                     var $button = $(this);
                     primary_items.push({button: $button, prev: $button.prev('li')});
                 });
@@ -81,24 +86,21 @@ $(function () {
         };
 
         var removePrimaryButtonsFromHeader = function () {
+            var $items_container = $('.ilToolbar ul.navbar-nav');
             for (var i in primary_items) {
                 var item = primary_items[i];
-                item.button.insertAfter(item.prev);
+                if (item.prev.length) {
+                    item.button.insertAfter(item.prev);
+                } else {
+                    item.button.prependTo($items_container);
+                }
+
             }
             $('ul.sticky-primary-items').remove();
         };
 
 
         // Public
-
-        var init = function () {
-            var $last = $items.last();
-            if ($last.hasClass('ilToolbarSeparator')) {
-                // If the last item is a separator, remove its border style as this separator is (probably) only used
-                // to group the previous items for mobile view
-                $last.css('border', '0');
-            }
-        };
 
         /**
          * Optimize Toolbar for responsive view
@@ -123,7 +125,6 @@ $(function () {
         };
 
         return {
-            init: init,
             activateResponsiveMode: activateResponsiveMode,
             deactivateResponsiveMode: deactivateResponsiveMode
         };
@@ -139,7 +140,6 @@ $(function () {
         }
     };
 
-    ilToolbar.init();
     onResize();
     $(window).resize(onResize);
 });

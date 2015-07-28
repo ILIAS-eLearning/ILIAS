@@ -35,6 +35,9 @@ li.ilToolbarSeparator {
 	border-left: solid 1px #d8d8d8;
 	min-height: 34px;
 	padding: 0 5px 0 0;
+    &.hidden-separator {
+	  border: 0;
+	}
 }
 
 li.ilToolbarTextonly {
@@ -53,6 +56,9 @@ li.ilToolbarTextonly {
   padding-left: 0;
 	.navbar-form {
 	  border: 0;
+	}
+  	> li {
+	  display: inline-block;
 	}
 }
 

@@ -189,7 +189,7 @@ class ilOrgUnitStaffGUI {
 			'user_type' => $types,
 			'submit_name' => $this->lng->txt('add')
 		));
-		$this->toolbar->addSeparator();
+		$this->toolbar->addSeparator(true);
 	}
 
 

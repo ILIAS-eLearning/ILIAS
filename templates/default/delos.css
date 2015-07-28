@@ -10366,6 +10366,9 @@ li.ilToolbarSeparator {
   min-height: 34px;
   padding: 0 5px 0 0;
 }
+li.ilToolbarSeparator.hidden-separator {
+  border: 0;
+}
 li.ilToolbarTextonly {
   padding: 5px 15px 5px 10px;
 }
@@ -10381,6 +10384,9 @@ li.ilToolbarTextonly > span {
 }
 .ilToolbar .sticky-primary-items .navbar-form {
   border: 0;
+}
+.ilToolbar .sticky-primary-items > li {
+  display: inline-block;
 }
 .ilToolbar .group-item {
   margin-left: 5px;
