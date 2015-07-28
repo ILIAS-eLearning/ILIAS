@@ -6361,3 +6361,14 @@ if($ilDB->tableColumnExists('usr_data', 'ilinc_passwd'))
 	$ilDB->dropTableColumn('usr_data', 'ilinc_passwd');
 }
 ?>
+<#4514>
+<?php
+if( $ilDB->uniqueConstraintExists('tst_sequence', array('active_fi', 'pass')) )
+{
+	// if this breaks, simply change constraint name to c1_idx by using a db browser tool
+	$ilDB->dropIndex('tst_sequence', 'c1');
+	// if this breaks, simply change constraint name to c1_idx by using a db browser tool
+
+	$ilDB->addPrimaryKey('tst_sequence', array('active_fi', 'pass'));
+}
+?>
