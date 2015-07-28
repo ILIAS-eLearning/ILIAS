@@ -15245,3 +15245,11 @@ cron#:#cron_result_status_fail#:#Failed###25 06 2015 new variable
 wiki#:#wiki_unhide_meta_adv_records#:#Show additional properties###25 06 2015 new variable
 content#:#cont_wiki_link_dialog#:#Link to Wiki Page (Dialog)###25 06 2015 new variable
 link#:#link_link#:#Link###25 06 2015 new variable
+assessment#:#tst_result_pass#:#Results of Test Pass###28 07 2015 new variable
+prtt#:#prtt_portfolio_created#:#Portfolio Template added###28 07 2015 new variable
+forum#:#frm_censorship#:#Censor###28 07 2015 new variable
+forum#:#frm_revoke_censorship#:#Revoke Censorship###28 07 2015 new variable
+forum#:#frm_censorship_applied#:#The censorship has been successfully applied.###28 07 2015 new variable
+forum#:#frm_censorship_revoked#:#The censorship has been successfully revoked.###28 07 2015 new variable
+forum#:#frm_mark_as_read#:#Mark as read###28 07 2015 new variable
+forum#:#frm_mark_as_unread#:#Mark as unread###28 07 2015 new variable
