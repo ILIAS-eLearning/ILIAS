@@ -66,8 +66,77 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 							."        )"
 							."   )";
 		
+	$never_skip = $this->user_utils->getOrgUnitsWhereUserIsDirectSuperior();
+		array_walk($never_skip, 
+			function (&$obj_ref_id) {
+				$aux = new ilObjOrgUnit($obj_ref_id["ref_id"]);
+				$obj_ref_id = $aux->getTitle();
+			}
+		);
+		$skip_org_units_in_filter_below = array('Nebenberufsagenturen');
+		array_walk($skip_org_units_in_filter_below, 
+			function(&$title) { 
+				$title = ilObjOrgUnit::_getIdsForTitle($title)[0];
+				$title = gevObjectUtils::getRefId($title);
+				$title = gevOrgUnitUtils::getAllChildrenTitles(array($title));
+			}
+		);
+		$skip_org_units_in_filter = array();
+		foreach ($skip_org_units_in_filter_below as $org_units) {
+			$skip_org_units_in_filter = array_merge($skip_org_units_in_filter, $org_units);
+		}
+		array_unique($skip_org_units_in_filter);
+		$skip_org_units_in_filter = array_diff($skip_org_units_in_filter, $never_skip);
+		$org_units_filter = array_diff($this->user_utils->getOrgUnitNamesWhereUserCanViewEduBios(), $skip_org_units_in_filter);
+		sort($org_units_filter);						
+		$this->allowed_user_ids = $this->user_utils->getEmployeesWhereUserCanViewEduBios();
+
+		$this->filter = catFilter::create()
+						->checkbox( "critical"
+								  , $this->lng->txt("gev_rep_filter_show_critical_persons")
+								  , "attention = 'X'"
+								  , "TRUE"
+								  , true
+								  )
+						->checkbox( "critical_year4"
+								  , $this->lng->txt("gev_rep_filter_show_critical_persons_4th_year")
+								  , "usr.begin_of_certification >= '$earliest_possible_cert_period_begin' AND ".
+								    $cert_year_sql." = 4 AND attention = 'X'"
+								  , "TRUE"
+								  , true
+								  )
+						->textinput( "lastname"
+								   , $this->lng->txt("gev_lastname_filter")
+								   , "usr.lastname"
+								   )
+						->multiselect("org_unit"
+									 , $this->lng->txt("gev_org_unit")
+									 , array("orgu.orgu_title", "orgu.org_unit_above1", "orgu.org_unit_above2")
+									 , $org_units_filter
+									 , array()
+									 )
+						->static_condition($this->db->in("usr.user_id", $this->allowed_user_ids, false, "integer"))
+						->static_condition(" usr.hist_historic = 0")		
+						->action($this->ctrl->getLinkTarget($this, "view"))
+						->compile()
+						;
+		$this->filtered_orgus = $this->filter->get('org_unit');
+
 		$earliest_possible_cert_period_begin = "2013-09-01";
-		
+		$this->orgu_filter = "SELECT huo1.usr_id, GROUP_CONCAT(DISTINCT huo1.orgu_title SEPARATOR ', ') AS org_unit, "
+							."		".$this->db->quote($this->filtered_orgus[0],"text")." AS orgu_title, " 
+							."		".$this->db->quote($this->filtered_orgus[0],"text")." AS org_unit_above1, "
+							."		".$this->db->quote($this->filtered_orgus[0],"text")." AS org_unit_above2 " 
+							."		FROM hist_userorgu huo1 "
+							." 		JOIN hist_userorgu huo2 ON huo1.usr_id = huo2.usr_id AND huo1.orgu_id = huo2.orgu_id "
+							."			AND huo1.rol_id = huo2.rol_id "
+							."		WHERE  huo1.`action` = 1 AND huo1.hist_historic = 0 AND huo2.`action` = 1 AND huo2.hist_historic = 0";
+		if(count($this->filtered_orgus)>0) {
+		$this->orgu_filter .="		AND (".$this->db->in("huo2.orgu_title", $this->filtered_orgus, false, "text")
+							."		OR ".$this->db->in("huo2.org_unit_above1", $this->filtered_orgus, false, "text")
+							."		OR ".$this->db->in("huo2.org_unit_above2", $this->filtered_orgus, false, "text").")";
+		}
+		$this->orgu_filter .="		GROUP BY huo1.usr_id ";						
 		$this->query = catReportQuery::create()
 						->distinct()
 						->select("usr.user_id")
@@ -78,7 +147,7 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 						->select("usr.job_number")
 						->select("usr.org_unit_above1")
 						->select("usr.org_unit_above2")
-						->select("usr.org_unit")
+						->select_raw("orgu.org_unit")
 						->select("usr.position_key")
 						->select("usr.begin_of_certification")
 						->select_raw("IF ( usr.begin_of_certification >= '$earliest_possible_cert_period_begin'"
@@ -124,6 +193,8 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 						->from("hist_user usr")
 						->join("usr_data usrd")
 							->on(" usr.user_id = usrd.usr_id")
+						->raw_join("JOIN (".$this->orgu_filter
+									.") as orgu ON orgu.usr_id = usr.user_id")
 						->left_join("hist_usercoursestatus usrcrs")
 							->on("     usr.user_id = usrcrs.usr_id"
 								." AND usrcrs.hist_historic = 0 "
@@ -136,60 +207,7 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 						->compile()
 						;
 
-		$never_skip = $this->user_utils->getOrgUnitsWhereUserIsDirectSuperior();
-		array_walk($never_skip, 
-			function (&$obj_ref_id) {
-				$aux = new ilObjOrgUnit($obj_ref_id["ref_id"]);
-				$obj_ref_id = $aux->getTitle();
-			}
-		);
-		$skip_org_units_in_filter_below = array('Nebenberufsagenturen');
-		array_walk($skip_org_units_in_filter_below, 
-			function(&$title) { 
-				$title = ilObjOrgUnit::_getIdsForTitle($title)[0];
-				$title = gevObjectUtils::getRefId($title);
-				$title = gevOrgUnitUtils::getAllChildrenTitles(array($title));
-			}
-		);
-		$skip_org_units_in_filter = array();
-		foreach ($skip_org_units_in_filter_below as $org_units) {
-			$skip_org_units_in_filter = array_merge($skip_org_units_in_filter, $org_units);
-		}
-		array_unique($skip_org_units_in_filter);
-		$skip_org_units_in_filter = array_diff($skip_org_units_in_filter, $never_skip);
-		$org_units_filter = array_diff($this->user_utils->getOrgUnitNamesWhereUserCanViewEduBios(), $skip_org_units_in_filter);
-		sort($org_units_filter);						
-		$this->allowed_user_ids = $this->user_utils->getEmployeesWhereUserCanViewEduBios();
-
-		$this->filter = catFilter::create()
-						->checkbox( "critical"
-								  , $this->lng->txt("gev_rep_filter_show_critical_persons")
-								  , "attention = 'X'"
-								  , "TRUE"
-								  , true
-								  )
-						->checkbox( "critical_year4"
-								  , $this->lng->txt("gev_rep_filter_show_critical_persons_4th_year")
-								  , "usr.begin_of_certification >= '$earliest_possible_cert_period_begin' AND ".
-								    $cert_year_sql." = 4 AND attention = 'X'"
-								  , "TRUE"
-								  , true
-								  )
-						->textinput( "lastname"
-								   , $this->lng->txt("gev_lastname_filter")
-								   , "usr.lastname"
-								   )
-						->multiselect("org_unit"
-									 , $this->lng->txt("gev_org_unit")
-									 , array("usr.org_unit", "usr.org_unit_above1", "usr.org_unit_above2")
-									 , $org_units_filter
-									 , array()
-									 )
-						->static_condition($this->db->in("usr.user_id", $this->allowed_user_ids, false, "integer"))
-						->static_condition(" usr.hist_historic = 0")
-						->action($this->ctrl->getLinkTarget($this, "view"))
-						->compile()
-						;
+	
 	}
 	
 	protected function points_in_cert_year_sql($year) {

@@ -3665,10 +3665,141 @@ require_once "Customizing/class.ilCustomInstaller.php";
 
 <#128>
 <?php
-	$ilCtrlStructureReader->getStructure();
+require_once "Customizing/class.ilCustomInstaller.php";
+	ilCustomInstaller::initPluginEnv();
+	ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "AdvancedMetaData", "amdc", "CourseAMD");
 ?>
 
 <#129>
+<?php
+	if(!$ilDB->tableColumnExists('hist_course', 'webex_vc_type' )) {
+		$ilDB->manipulate("ALTER TABLE `hist_course` ADD COLUMN webex_vc_type VARCHAR(50) NULL");
+	}
+?>
+
+
+<#130> 
+<?php
+	if(!$ilDB->tableExists('hist_userorgu')) {
+		$fields = array(
+			'row_id' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true),
+			'hist_version' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true,
+				'default' => 1),
+			'hist_historic' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true,
+				'default' => 0),
+			'creator_user_id' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true),
+			'created_ts' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true,
+				'default' => 0),
+			'usr_id' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true),
+			'orgu_id' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true),
+			'rol_id' => array(
+				'type' => 'integer' ,
+				'length' => 4 ,
+				'notnull' => true),
+			'orgu_title' => array(
+				'type' => 'text',
+				'length' => 40 ,
+				'notnull' => false),
+			'org_unit_above1' => array(
+				'type' => 'text',
+				'length' => 40 ,
+				'notnull' => false),
+			'org_unit_above2' => array(
+				'type' => 'text',
+				'length' => 40 ,
+				'notnull' => false),
+			'rol_title' => array(
+				'type' => 'text',
+				'length' => 40 ,
+				'notnull' => false),
+			'action' => array(
+				'type' => 'integer',
+				'length' => 1 ,
+				'notnull' => true)			
+		);
+		$ilDB->createTable('hist_userorgu', $fields);
+		$ilDB->addPrimaryKey('hist_userorgu', array('row_id'));
+		$ilDB->createSequence('hist_userorgu');
+	}
+?>
+
+<#131> 
+<?php
+	if(!$ilDB->tableExists('hist_userrole')) {
+		$fields = array(
+			'row_id' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true),
+			'hist_version' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true,
+				'default' => 1),
+			'hist_historic' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true,
+				'default' => 0),
+			'creator_user_id' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true),
+			'created_ts' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true,
+				'default' => 0),
+			'usr_id' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true),
+			'rol_id' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true),
+			'rol_title' => array(
+				'type' => 'text',
+				'length' => 40 ,
+				'notnull' => false),
+			'action' => array(
+				'type' => 'integer',
+				'length' => 1 ,
+				'notnull' => true)
+		);
+		$ilDB->createTable('hist_userrole', $fields);
+		$ilDB->addPrimaryKey('hist_userrole', array('row_id'));
+		$ilDB->createSequence('hist_userrole');
+	}	
+?>
+
+<#132>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+
+<#133>
 <?php
 if( !$ilDB->tableExists('dct_building_block') )
 {
@@ -3727,7 +3858,7 @@ if( !$ilDB->tableExists('dct_building_block') )
 }
 ?>
 
-<#130>
+<#134>
 <?php
 if( !$ilDB->tableExists('dct_crs_building_block') )
 {
@@ -3741,7 +3872,7 @@ if( !$ilDB->tableExists('dct_crs_building_block') )
 		'crs_id' => array(
 			'type' => 'integer',
 			'length' => 4,
-			'notnull' => true
+			'notnull' => false
 		),
 		'bb_id' => array(
 			'type' => 'integer',
@@ -3778,26 +3909,26 @@ if( !$ilDB->tableExists('dct_crs_building_block') )
 }
 ?>
 
-<#131>
+<#135>
 <?php
 require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCreationRequestDB.php");
 gevDecentralTrainingCreationRequestDB::install_step1($ilDB);
 ?>
 
-<#132>
+<#136>
 <?php
 require_once "Customizing/class.ilCustomInstaller.php";
 	ilCustomInstaller::initPluginEnv();
 	ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "AdvancedMetaData", "amdc", "CourseAMD");
 ?>
 
-<#133>
+<#137>
 <?php
 require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCreationRequestDB.php");
 gevDecentralTrainingCreationRequestDB::install_step2($ilDB);
 ?>
 
-<#134>
+<#138>
 <?php
 if(!$ilDB->tableColumnExists('dct_crs_building_block', 'crs_request_id')) {
 	$ilDB->addTableColumn('dct_crs_building_block', 'crs_request_id', array(
@@ -3851,31 +3982,19 @@ if($ilDB->tableColumnExists('dct_building_block', 'learning_dest')) {
 }
 ?>
 
-<#135>
+<#139>
 <?php
 	$ilDB->createSequence("dct_crs_building_block");
 	$ilDB->createSequence("dct_building_block");
 ?>
 
-<#136>
-<?php
-	if(!$ilDB->tableColumnExists('hist_course', 'webex_vc_type' )) {
-		$ilDB->manipulate("ALTER TABLE `hist_course` ADD COLUMN webex_vc_type VARCHAR(50) NULL");
-	}
-?>
-
-<#137>
+<#140>
 <?php
 require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCreationRequestDB.php");
 gevDecentralTrainingCreationRequestDB::install_step3($ilDB);
 ?>
 
-<#138>
-<?php
-	$ilCtrlStructureReader->getStructure();
-?>
-
-<#139>
+<#141>
 <?php
 if(!$ilDB->tableColumnExists('dct_crs_building_block', 'last_change_date')) {
 	$ilDB->addTableColumn('dct_crs_building_block', 'last_change_date', array(
@@ -3885,7 +4004,7 @@ if(!$ilDB->tableColumnExists('dct_crs_building_block', 'last_change_date')) {
 }
 ?>
 
-<#140>
+<#142>
 <?php
 $ilDB->modifyTableColumn('dct_crs_building_block', "crs_request_id", array(
 		"type" => "integer",
@@ -3894,24 +4013,52 @@ $ilDB->modifyTableColumn('dct_crs_building_block', "crs_request_id", array(
 ));
 ?>
 
-<#141>
+<#143>
 <?php
 $ilDB->modifyTableColumn('dct_crs_building_block', 'crs_id', array(
 		'type' => 'integer',
 		'length' => 4,
-		'notnull' => true
+		'notnull' => false
 ));
 ?>
 
-<#142>
+<#144>
 <?php
 require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCreationRequestDB.php");
 gevDecentralTrainingCreationRequestDB::install_step4($ilDB);
 gevDecentralTrainingCreationRequestDB::install_step5($ilDB);
 ?>
 
-<#143>
+<#145>
 <?php
-require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCreationRequestDB.php");
-gevDecentralTrainingCreationRequestDB::install_step5($ilDB);
+if(!$ilDB->tableColumnExists('hist_usercoursestatus', 'gev_id')) {
+	$ilDB->addTableColumn('hist_usercoursestatus', 'gev_id', array(
+			"type" => "integer",
+			"length" => 4,
+			"notnull" => false
+		));
+}
+?>
+
+<#146>
+<?php
+	$ilDB->modifyTableColumn('hist_userorgu', "orgu_title", array(
+			"type" => "text",
+			"length" => 100,
+			"notnull" => false
+	));
+?>
+
+<#147>
+<?php
+	$ilDB->modifyTableColumn('hist_userorgu', "org_unit_above1", array(
+			"type" => "text",
+			"length" => 100,
+			"notnull" => false
+	));
+	$ilDB->modifyTableColumn('hist_userorgu', "org_unit_above2", array(
+			"type" => "text",
+			"length" => 100,
+			"notnull" => false
+	));
 ?>

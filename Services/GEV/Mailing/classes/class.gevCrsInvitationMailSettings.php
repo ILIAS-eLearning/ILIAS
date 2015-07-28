@@ -88,8 +88,7 @@ class gevCrsInvitationMailSettings {
 	}
 
 	public function setSettingsFor($a_function_name, $a_template_id, $a_attachments) {
-		//TODO: check validity of function_name here?
-
+		//TODO: check validity of function_name here?		
 		if (!array_key_exists($a_function_name, $this->settings)) {
 			$this->settings[$a_function_name] = array();
 		}

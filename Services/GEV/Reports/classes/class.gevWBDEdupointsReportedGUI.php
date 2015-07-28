@@ -42,6 +42,8 @@ class gevWBDEdupointsReportedGUI extends catBasicReportGUI{
 
 						->column("credit_points", "gev_credit_points")
 						->column("wbd_booking_id", "wbd_booking_id")
+						->column("custom_id", "gev_training_id2")
+						->column("type", "gev_course_type")
 
 						->template("tpl.gev_wbd_edupoints_row.html", "Services/GEV/Reports")
 						;
@@ -61,6 +63,14 @@ class gevWBDEdupointsReportedGUI extends catBasicReportGUI{
 						->select("usr.wbd_type")
 
 						->select("crs.title")
+						->select_raw(" IF ( crs.custom_id <> '-empty-'"
+									."    , crs.custom_id "
+									."    , IF (usrcrs.gev_id IS NULL"
+									."         , '-'"
+									."         , usrcrs.gev_id"
+									."         )"
+									."    ) as custom_id")
+						->select("crs.type")
 						->select("usrcrs.begin_date")
 						->select("usrcrs.end_date")
 						->select("usrcrs.credit_points")

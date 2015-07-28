@@ -26,6 +26,7 @@ require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 ini_set("memory_limit", "1024M");
 
 class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
+	protected $orgu_membeships;
 	public function __construct() {
 		
 		parent::__construct();
@@ -61,7 +62,7 @@ class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 						->mapping("od_bd", array("org_unit_above1", "org_unit_above2"))
 						->defaultOrder("lastname", "ASC")
 						;
-		
+
 		$this->query = catReportQuery::create()
 						->distinct()
 						->select("usr.user_id")
@@ -70,9 +71,9 @@ class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 						->select("usr.email")
 						->select("usr.adp_number")
 						->select("usr.job_number")
-						->select("usr.org_unit_above1")
-						->select("usr.org_unit_above2")
-						->select("usr.org_unit")
+						->select("orgu.org_unit_above1")
+						->select("orgu.org_unit_above2")
+						->select_raw("GROUP_CONCAT(DISTINCT orgu.orgu_title SEPARATOR ', ') AS org_unit")
 						->select("usr.position_key")
 						->select("crs.custom_id")
 						->select("crs.title")
@@ -88,9 +89,13 @@ class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 						->select("crs.edu_program")
 						->from("hist_user usr")
 						->left_join("hist_usercoursestatus usrcrs")
-							->on("usr.user_id = usrcrs.usr_id AND usrcrs.hist_historic = 0")
+							->on("usr.user_id = usrcrs.usr_id AND (usrcrs.hist_historic = 0 OR usrcrs.hist_historic IS NULL)")
 						->left_join("hist_course crs")
 							->on("crs.crs_id = usrcrs.crs_id AND crs.hist_historic = 0")
+						->left_join("hist_userorgu orgu")
+							->on("orgu.usr_id = usr.user_id")
+						->group_by("usr.user_id")
+						->group_by("usrcrs.crs_id")
 						->compile()
 						;
 
@@ -133,7 +138,7 @@ class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 									)
 						->multiselect( "org_unit"
 									 , $this->lng->txt("gev_org_unit_short")
-									 , array("usr.org_unit", "org_unit_above1", "org_unit_above2")
+									 , array("orgu.orgu_title", "orgu.org_unit_above1", "orgu.org_unit_above2")
 									 , $org_units_filter
 									 , array()
 									 )
@@ -169,8 +174,6 @@ class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 									 )*/
 						->static_condition($this->db->in("usr.user_id", $this->allowed_user_ids, false, "integer"))
 						->static_condition(" usr.hist_historic = 0")
-						->static_condition("(   usrcrs.hist_historic = 0"
-										  ." OR usrcrs.hist_historic IS NULL )")
 						->static_condition("( usrcrs.booking_status != '-empty-'"
 										  ." OR usrcrs.hist_historic IS NULL )")
 						->static_condition("(   usrcrs.participation_status != '-empty-'"
@@ -179,6 +182,16 @@ class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 										  ." OR usrcrs.hist_historic IS NULL )")
 						->static_condition("(   usrcrs.function NOT IN ('Trainingsbetreuer', 'Trainingsersteller', 'Trainer')"
 										  ." OR usrcrs.hist_historic IS NULL )" )
+						->static_condition("orgu.action = 1")
+						->static_condition("orgu.hist_historic = 0")
+						->static_condition("orgu.rol_title = 'Mitarbeiter'")
+						/*->static_condition("IF(UNIX_TIMESTAMP(usrcrs.begin_date)=0 "
+                                          ."OR usrcrs.begin_date IS NULL, TRUE,"
+                                          ."UNIX_TIMESTAMP(usrcrs.begin_date)> orgu.in_ts)")
+                 		->static_condition("IF(UNIX_TIMESTAMP(usrcrs.end_date)=0 "
+                                          ."OR usrcrs.end_date IS NULL "
+                                          ."OR orgu.out_ts IS NULL, TRUE,"
+                                          ."UNIX_TIMESTAMP(usrcrs.end_date)< orgu.out_ts )")*/
 						->action($this->ctrl->getLinkTarget($this, "view"))
 						->compile()
 						;

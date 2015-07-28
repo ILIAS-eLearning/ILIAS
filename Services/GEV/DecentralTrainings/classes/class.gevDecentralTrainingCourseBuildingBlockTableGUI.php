@@ -73,26 +73,51 @@ class gevDecentralTrainingCourseBuildingBlockTableGUI extends catAccordionTableG
 		$this->tpl->setVariable("CONTENT", $a_set["content"]);
 		$this->tpl->setVariable("LEARNING_DEST", $a_set["learning_dest"]);
 
-		$action = '<a href="'.$this->getDeleteLink($a_set["id"],$a_set["crs_request_id"]).'">'.$this->delete_image.'</a>&nbsp;';
-		$action .= '<a href="'.$this->getEditLink($a_set["id"],$a_set["crs_request_id"]).'">'.$this->edit_image.'</a>';
-		$this->tpl->setVariable("ACTION", $action);
+		require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingUtils.php");
+		$dct_utils = gevDecentralTrainingUtils::getInstance();
+		
+		
+		if($a_set["crs_id"] !== null) {
+			require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+			$obj_id = gevObjectUtils::getObjId($a_set["crs_id"]);
+
+			if($dct_utils->userCanEditBuildingBlocks($obj_id)) {
+				$action = '<a href="'.$this->getDeleteLink($a_set["id"],$a_set["crs_request_id"],$a_set["crs_id"]).'">'.$this->delete_image.'</a>&nbsp;';
+				$action .= '<a href="'.$this->getEditLink($a_set["id"],$a_set["crs_request_id"],$a_set["crs_id"]).'">'.$this->edit_image.'</a>';
+				$this->tpl->setVariable("ACTION", $action);
+			}
+		} else {
+			$action = '<a href="'.$this->getDeleteLink($a_set["id"],$a_set["crs_request_id"],$a_set["crs_id"]).'">'.$this->delete_image.'</a>&nbsp;';
+			$action .= '<a href="'.$this->getEditLink($a_set["id"],$a_set["crs_request_id"],$a_set["crs_id"]).'">'.$this->edit_image.'</a>';
+			$this->tpl->setVariable("ACTION", $action);
+		}
 	}
 
-	protected function getDeleteLink($a_id,$a_crs_request_id) {
+	protected function getDeleteLink($a_id,$a_crs_request_id,$a_crs_ref_id) {
 		global $ilCtrl,$ilUser;
 
 		$ilCtrl->setParameter($this->parent, "id", $a_id);
-		$ilCtrl->setParameter($this->parent, "crs_request_id", $a_crs_request_id);
+		$ilCtrl->setParameter($this->parent, "crs_ref_id", $a_crs_ref_id);
+		
+		if($a_crs_ref_id === null) {
+			$ilCtrl->setParameter($this->parent, "crs_request_id", $a_crs_request_id);
+		}
+		
 		$lnk = $ilCtrl->getLinkTarget($this->parent, "delete");
 		$ilCtrl->clearParameters($this->parent);
 		return $lnk;
 	}
 
-	protected function getEditLink($a_id,$a_crs_request_id) {
+	protected function getEditLink($a_id,$a_crs_request_id,$a_crs_ref_id) {
 		global $ilCtrl,$ilUser;
 
 		$ilCtrl->setParameter($this->parent, "id", $a_id);
-		$ilCtrl->setParameter($this->parent, "crs_request_id", $a_crs_request_id);
+		$ilCtrl->setParameter($this->parent, "crs_ref_id", $a_crs_ref_id);
+
+		if($a_crs_ref_id === null) {
+			$ilCtrl->setParameter($this->parent, "crs_request_id", $a_crs_request_id);
+		}
+		
 		$lnk = $ilCtrl->getLinkTarget($this->parent, "edit");
 		$ilCtrl->clearParameters($this->parent);
 		return $lnk;

@@ -69,6 +69,7 @@ class gevMailTemplateTypeForm extends ilMailTemplateTypeForm {
 					, "registration" => "Mails während der Makler-Registrierung"
 					, "na_registration" => "Mails während der NA-Registrierung"
 					, "orgu_superior_mail" => "Mails für Führungskräfte"
+					, "decentral_training_creation" => "Mails bei der Anlage von dezentralen Trainings"
 					);
 	}
 	
@@ -84,6 +85,8 @@ class gevMailTemplateTypeForm extends ilMailTemplateTypeForm {
 				return "na_registration";
 			case "OrguSuperiorMail":
 				return "orgu_superior_mail";
+			case "DecentralTrainingCreation":
+				return "decentral_training_creation";
 			default:
 				throw new Exception("gevMailTemplateTypeForm::mapTemplateTypeNameToTypeInput: unknown type: '".$a_name."'");
 		}
@@ -101,6 +104,8 @@ class gevMailTemplateTypeForm extends ilMailTemplateTypeForm {
 				return "NA-Registration";
 			case "orgu_superior_mail":
 				return "OrguSuperiorMail";
+			case "decentral_training_creation":
+				return "DecentralTrainingCreation";
 			default:
 				throw new Exception("gevMailTemplateTypeForm::mapTemplateTypeInputToTypeName: unknown input: '".$a_name."'");
 		}
@@ -118,6 +123,8 @@ class gevMailTemplateTypeForm extends ilMailTemplateTypeForm {
 				return "Services/GEV/Mailing/classes/class.gevNARegistrationMailTypeAdapter.php";
 			case "orgu_superior_mail":
 				return "Services/GEV/Mailing/classes/class.gevOrguSuperiorMailTypeAdapter.php";
+			case "decentral_training_creation":
+				return "Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingMailTypeAdapter.php";
 			default:
 				throw new Exception("gevMailTemplateTypeForm::mapTemplateTypeInputToConsumerLocation: unknown input: '".$a_name."'");
 		}

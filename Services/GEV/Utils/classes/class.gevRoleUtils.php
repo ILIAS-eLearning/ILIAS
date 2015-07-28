@@ -203,6 +203,11 @@ class gevRoleUtils {
 		$this->getRbacReview();
 		return $this->rbac_review->assignedUsers($role_id);
 	}
+
+	public function usersHavingRoleId($a_role_id) {
+		$this->getRbacReview();
+		return $this->rbac_review->assignedUsers($a_role_id);
+	}
 }
 
 ?>

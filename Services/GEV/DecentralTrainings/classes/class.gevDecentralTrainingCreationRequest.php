@@ -182,13 +182,18 @@ class gevDecentralTrainingCreationRequest {
 		
 		$rbacsystem->resetRoleCache();
 		
-		$this->settings->applyTo((int)$trgt_obj_id);
-		
 		// New course should have same title as old course.
 		$trgt_crs->setTitle($src_utils->getTitle());
 		// New course should be online.
 		$trgt_crs->setOfflineStatus(false);
 		$trgt_crs->update();
+
+		$this->settings->applyTo((int)$trgt_obj_id);
+
+		$this->updateCourseBuildingBlocks($trgt_utils->getRefId());
+		$this->updateCourseWithBuidlingBlockData($trgt_utils->getRefId());
+		
+		$this->createTEPEntry($trgt_crs);
 		
 		$this->finished_ts = new ilDateTime(time(),IL_CAL_UNIX);
 		$this->created_obj_id = $trgt_obj_id;
@@ -330,6 +335,13 @@ class gevDecentralTrainingCreationRequest {
 		}
 	}
 	
+	protected function createTEPEntry(ilObjCourse $trgt_crs) {
+		require_once("Services/TEP/classes/class.ilTEPCourseEntries.php");
+		ilTEPCourseEntries::$instances = array();
+		$tep_entry = ilTEPCourseEntries::getInstance($trgt_crs);
+		$tep_entry->updateEntry();
+	}
+	
 	// Some Helpers
 	
 	protected function getCourseUtils($a_obj_id) {
@@ -420,5 +432,15 @@ class gevDecentralTrainingCreationRequest {
 	protected function resetCopyWizard() {
 		require_once("Services/CopyWizard/classes/class.ilCopyWizardOptions.php");
 		ilCopyWizardOptions::$instances = null;
+	}
+
+	protected function updateCourseBuildingBlocks($a_trgt_crs_ref_id) {
+		require_once("Services/GEV/Utils/classes/class.gevCourseBuildingBlockUtils.php");
+		gevCourseBuildingBlockUtils::updateCrsBuildungBlocksCrsIdByCrsRequestId($a_trgt_crs_ref_id,$this->request_id);
+	}
+
+	protected function updateCourseWithBuidlingBlockData($a_trgt_crs_ref_id) {
+		require_once("Services/GEV/Utils/classes/class.gevCourseBuildingBlockUtils.php");
+		gevCourseBuildingBlockUtils::courseUpdates($a_trgt_crs_ref_id);
 	}
 }

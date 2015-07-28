@@ -222,8 +222,9 @@ class gevCourseBuildingBlockUtils {
 				$sql .= " WHERE base.crs_request_id = ".$ilDB->db->quote($a_request_id, "integer")."\n";
 			}
 		}
-			$sql .= " ORDER BY base.start_date";
-		
+	
+		$sql .= " ORDER BY base.start_date";
+
 		$ret = array();
 		$res = $ilDB->query($sql);
 		while($row = $ilDB->fetchAssoc($res)) {
@@ -296,26 +297,47 @@ class gevCourseBuildingBlockUtils {
 				}
 			}
 		}
-
+		
 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 		gevCourseUtils::updateMethod($methods,$a_crs_ref_id);
 		gevCourseUtils::updateMedia($media,$a_crs_ref_id);
 	}
 
 	static private function updateWP($a_crs_ref_id, $a_db) {
-		$sql = "SELECT SUM(TIME_TO_SEC(TIMEDIFF(end_date, start_date))/60) as minutes_diff\n"
-			  ."  FROM ".self::TABLE_NAME."\n"
-			  ." WHERE crs_id = ".$a_db->quote($a_crs_ref_id, "integer")."\n"
-			  ." ORDER BY start_date";
+		$sql = "SELECT base.id, base.start_date, base.end_date "
+		      ." FROM ".self::TABLE_NAME." base"
+		      ." JOIN ".self::TABLE_NAME_JOIN1." join1"
+		      ." ON base.bb_id = join1.obj_id WHERE join1.is_wp_relevant = 1"
+		      ." ORDER BY base.start_date";
+		
 		$res = $a_db->query($sql);
+		$totalMinutes = 0;
+		while($row = $a_db->fetchAssoc($res)) {
+			$start_date = split(" ",$row["start_date"]);
+			$end_date = split(" ",$row["end_date"]);
+			
+			$start = split(":",$start_date[1]);
+			$end = split(":",$end_date[1]);
 
-		$wp = null;
-
-		if($a_db->numRows($res) > 0) {
-			$row = $a_db->fetchAssoc($res);
-			$wp = round($row["minutes_diff"] / self::DURATION_PER_POINT);
+			$minutes = 0;
+			$hours = 0;
+			if($end[1] < $start[1]) {
+				$minutes = 60 - $start[1] + $end[1];
+				$hours = -1;
+			} else {
+				$minutes = $end[1] - $start[1];
+			}
+			$hours = $hours + $end[0] - $start[0];
+			$totalMinutes += $hours * 60 + $minutes;
 		}
 		
+		$wp = null;
+		$wp = round($totalMinutes / self::DURATION_PER_POINT);
+		
+		if($wp < 0) {
+			$wp = 0;
+		}
+
 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 		gevCourseUtils::updateWP($wp, $a_crs_ref_id);
 	}
@@ -323,7 +345,7 @@ class gevCourseBuildingBlockUtils {
 	static public function getMaxDurationReached($a_crs_ref_id, $a_crs_request_id, array $a_time) {
 		global $ilDB;
 
-		if($a_crs_ref_id == -1 && $a_crs_request_id === null) {
+		if($a_crs_ref_id == null && $a_crs_request_id === null) {
 			throw new Exception("gevCourseBuildingBlockUtils::getMaxDurationReached: Either set course_ref_id or course_request_id.");
 		}
 
@@ -365,7 +387,77 @@ class gevCourseBuildingBlockUtils {
 		$hours = $hours + $end[0] - $start[0];
 		$totalMinutes = $hours * 60 + $minutes;
 
-		if(($old_time_diff + $totalMinutes) >= self::MAX_DURATION_MINUTES) {
+		if(($old_time_diff + $totalMinutes) > self::MAX_DURATION_MINUTES) {
+			return true;
+		}
+
+		return false;
+	}
+
+	static public function getMaxDurationReachedOnUpdate($a_crs_ref_id, $a_crs_request_id, array $a_time,$a_updated_crs_building_block_id) {
+		global $ilDB;
+
+		if($a_crs_ref_id == null && $a_crs_request_id === null) {
+			throw new Exception("gevCourseBuildingBlockUtils::getMaxDurationReached: Either set course_ref_id or course_request_id.");
+		}
+
+		$sql = "SELECT id, end_date, start_date FROM ".self::TABLE_NAME;
+		
+		if($a_crs_ref_id !== null) {
+			$sql .= " WHERE crs_id = ".$a_crs_ref_id. " ORDER BY start_date";
+		} else {
+			$sql .= " WHERE crs_request_id = ".$a_crs_request_id. " ORDER BY start_date";
+		}
+		$res = $ilDB->query($sql);
+
+		$old_time_diff = 0;
+		$dates = array();
+		while($row = $ilDB->fetchAssoc($res)) {
+			if($row["id"] != $a_updated_crs_building_block_id) {
+				$start_date = split(" ",$row["start_date"]);
+				$end_date = split(" ",$row["end_date"]);
+				$dates[$row["id"]] = array("start_time"=>$start_date[1],"end_time"=>$end_date[1]);
+			} else {
+				$dates[$row["id"]] = array("start_time"=>$a_time["start"]["time"],"end_time"=>$a_time["end"]["time"]);
+			}
+		}
+
+		$start_time = "00:00:00";
+		$end_time  = "00:00:00";
+
+		foreach ($dates as $key => $value) {
+			if($start_time == "00:00:00") {
+				$start_time = $value["start_time"];
+			}
+
+			if($end_time == "00:00:00") {
+				$end_time = $value["end_time"];
+			}
+
+			if($start_time > $value["start_time"]) {
+				$start_time = $vlaue["start_time"];
+			}
+
+			if($end_time < $value["end_time"]) {
+				$end_time = $value["end_time"];
+			}
+		}
+
+		$start = split(":",$start_time);
+		$end = split(":",$end_time);
+
+		$minutes = 0;
+		$hours = 0;
+		if($end[1] < $start[1]) {
+			$minutes = 60 - $start[1] + $end[1];
+			$hours = -1;
+		} else {
+			$minutes = $end[1] - $start[1];
+		}
+		$hours = $hours + $end[0] - $start[0];
+		$totalMinutes = $hours * 60 + $minutes;
+
+		if($totalMinutes > self::MAX_DURATION_MINUTES) {
 			return true;
 		}
 

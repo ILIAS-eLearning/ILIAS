@@ -310,7 +310,7 @@ class gevDecentralTrainingBuildingBlockAdminGUI {
 
 		$is_wp_relevant = new ilCheckboxInputGUI($this->lng->txt("gev_dec_building_block_is_wp_relevant"), "frm_is_wp_relevant");
 		$is_wp_relevant->setChecked($vals["is_wp_relevant"]);
-		$is_wp_relevant->setInfo($this->lng->txt("gev_block_unit_wp_relevant_desc"));
+		$is_wp_relevant->setInfo($this->lng->txt("gev_dec_building_block_wp_relevant_desc"));
 		$form_gui->addItem($is_wp_relevant);
 
 		$active = new ilCheckboxInputGUI($this->lng->txt("gev_dec_building_block_active"), "frm_active");

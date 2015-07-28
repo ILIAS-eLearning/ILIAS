@@ -120,11 +120,11 @@ class gevDecentralTrainingCreationRequestDB {
 										  , $rec["orga_info"] ? $rec["orga_info"] : ""
 										  , $rec["webinar_link"]
 										  , $rec["webinar_password"]
-										  , $rec["title"]
-										  , $rec["vc_type"]
+										  , $rec["title"] ? $rec["title"] : null
+										  , $rec["vc_type"] ? $rec["vc_type"] : null
 										  , unserialize($rec["training_category"])
 										  , unserialize($rec["target_group"])
-										  , $rec["gdv_topic"]
+										  , $rec["gdv_topic"] ? $rec["gdv_topic"] : null
 										  );
 			$trainer_ids = array_map(function($v) {return (int)$v;}, explode(self::ARRAY_DELIM, $rec["trainer_ids"]));
 			$request = $this->newCreationRequest( (int)$rec["user_id"]
@@ -165,11 +165,11 @@ class gevDecentralTrainingCreationRequestDB {
 										  , $rec["orga_info"] ? $rec["orga_info"] : ""
 										  , $rec["webinar_link"]
 										  , $rec["webinar_password"]
-										  , $rec["title"]
-										  , $rec["vc_type"]
+										  , $rec["title"] ? $rec["title"] : null
+										  , $rec["vc_type"] ? $rec["vc_type"] : null
 										  , unserialize($rec["training_category"])
 										  , unserialize($rec["target_group"])
-										  , $rec["gdv_topic"]
+										  , $rec["gdv_topic"] ? $rec["gdv_topic"] : null
 										  );
 			$trainer_ids = array_map(function($v) {return (int)$v;}, explode(self::ARRAY_DELIM, $rec["trainer_ids"]));
 			$request = $this->newCreationRequest( (int)$rec["user_id"]
@@ -205,11 +205,11 @@ class gevDecentralTrainingCreationRequestDB {
 										  , $rec["orga_info"] ? $rec["orga_info"] : ""
 										  , $rec["webinar_link"]
 										  , $rec["webinar_password"]
-										  , $rec["title"]
-										  , $rec["vc_type"]
+										  , $rec["title"] ? $rec["title"] : null
+										  , $rec["vc_type"] ? $rec["vc_type"] : null
 										  , unserialize($rec["training_category"])
 										  , unserialize($rec["target_group"])
-										  , $rec["gdv_topic"]
+										  , $rec["gdv_topic"] ? $rec["gdv_topic"] : null
 										  );
 			$trainer_ids = array_map(function($v) {return (int)$v;}, explode(self::ARRAY_DELIM, $rec["trainer_ids"]));
 			$request = $this->newCreationRequest( (int)$rec["user_id"]
@@ -260,7 +260,14 @@ class gevDecentralTrainingCreationRequestDB {
 				."  FROM ".self::TABLE_NAME."\n"
 				." WHERE NOT finished_ts IS NULL\n"
 				."   AND NOT created_obj_id IS NULL\n"
-				."   AND created_obj_id > 0";
+				."   AND created_obj_id > 0"
+				."   AND request_id = (SELECT MAX(request_id)\n"
+				."                     FROM ".self::TABLE_NAME."\n"
+				."                     WHERE NOT finished_ts IS NULL\n"
+				."                         AND NOT created_obj_id IS NULL\n"
+				."                         AND created_obj_id > 0\n"
+				."                         AND user_id = ".$ilDB->quote($a_user_id,"integer").")\n";
+
 		$res = $ilDB->query($query);
 		if ($rec = $ilDB->fetchAssoc($res)) {
 			return $rec["created_obj_id"];

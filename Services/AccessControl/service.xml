@@ -16,4 +16,15 @@
 			checkbox="1" inherit="0" translate="0" rbac="0">
 		</object>
 	</objects>
+	<events>
+		<event type="raise" id="removeUser" />	
+		<event type="raise" id="deleteGlobalRole" />
+		<event type="raise" id="deleteOrguRole" />
+		<event type="raise" id="assignUserGlobalRole" />
+		<event type="raise" id="assignUserOrguRole" />
+		<event type="raise" id="deassignUserGlobalRole" />
+		<event type="raise" id="deassignUserOrguRole" />
+		<event type="raise" id="deassignUsersGlobalRole" />
+		<event type="raise" id="deassignUsersOrguRole" />
+	</events>
 </service>

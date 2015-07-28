@@ -38,7 +38,10 @@ class ilUserHistorizingAppEventListener
 			
 			$a_parameter["user_obj"] = new ilObjUser($a_parameter["user_id"]);
 		}
-
+		global $ilAppEventHandler;
+		$ilAppEventHandler->raise(
+			'Services/UserHistorizing', 'usrhist_called', $a_parameter
+		);
 		self::$ilUserHistorizing->updateHistorizedData(
 			self::getCaseId($a_event, $a_parameter), 
 			self::getStateData($a_event, $a_parameter), 

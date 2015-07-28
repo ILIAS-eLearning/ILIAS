@@ -132,7 +132,7 @@ class ilObject
 		}
 		// read object data
 		if ($a_id != 0)
-		{
+		{	
 			$this->read();
 		}
 

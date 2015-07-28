@@ -122,6 +122,7 @@ class gevBookingsByVenueGUI extends catBasicReportGUI{
 
 	
 	protected function transformResultRow($rec) {
+
 		$lnk = $this->ctrl->getLinkTarget($this, "deliverMemberList");
 		$lnk .= '&crs_id=' .$rec["crs_id"];
 		$rec['action'] = '<a href="' . $lnk 

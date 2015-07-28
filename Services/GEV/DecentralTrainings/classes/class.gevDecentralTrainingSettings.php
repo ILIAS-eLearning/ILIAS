@@ -186,12 +186,21 @@ class gevDecentralTrainingSettings {
 		$crs_utils->setWebExPassword($this->webinarPassword());
 		$crs_utils->setOrgaInfo($this->orgaInfo());
 
-		$crs_utils->setTitle($this->title());
-		$crs_utils->setVCType($this->vcType());
-
-		$crs_utils->setTrainingCategory($this->trainingCategory());
-		$crs_utils->setTargetGroup($this->targetGroup());
-		$crs_utils->setGDVTopic($this->gdvTopic());
+		if ($this->title() !== null) {
+			$crs->setTitle($this->title());
+		}
+		if ($this->vcType() !== null) {
+			$crs_utils->setVCType($this->vcType());
+		}
+		if ($this->trainingCategory() !== null) {
+			$crs_utils->setTrainingCategory($this->trainingCategory());
+		}
+		if ($this->targetGroup() !== null) {
+			$crs_utils->setTargetGroup($this->targetGroup());
+		}
+		if ($this->gdvTopic() !== null) {
+			$crs_utils->setGDVTopic($this->gdvTopic());
+		}
 		
 		$crs->update();
 	}

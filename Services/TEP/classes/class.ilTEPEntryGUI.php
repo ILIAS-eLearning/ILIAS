@@ -206,9 +206,9 @@ class ilTEPEntryGUI
 		$form->addItem($title);
 		
 		// gev-patch start
-		$org_info = ilTEP::getPossibleOrgUnitsForTEPEntries();
+		$org_info = ilTEP::getPossibleOrgUnitsForTEPEntriesSeparated();
 		require_once "Services/TEP/classes/class.ilTEPOrgUnitSelectionInputGUI.php";
-		$orgu = new ilTEPOrgUnitSelectionInputGUI($org_info["orgu_ref_ids"], "orgu", false, false, $org_info["root_ref_id"]);
+		$orgu = new ilTEPOrgUnitSelectionInputGUI($org_info, "orgu", false, false);
 		$orgu->setValue($filter["orgu"]["ids"]);
 		$orgu->setRecursive(false);
 		$form->addItem($orgu);

@@ -131,8 +131,14 @@ class ilObjOrgUnitTree {
 	 * @param $operation string
 	 * @return int[] ids of the org units.
 	 */
-	public function getOrgusWhereUserHasPermissionForOperation($operation){
-		global $ilUser;
+	// gev-patch start
+	public function getOrgusWhereUserHasPermissionForOperation($operation, $a_user_id = null) {
+		if ($a_user_id === null) {
+			global $ilUser;
+			$a_user_id = $ilUser->getId();
+		}
+		
+		
 		/*$q = "SELECT object_data.obj_id, object_reference.ref_id, object_data.title, object_data.type, rbac_pa.ops_id, rbac_operations.ops_id as op_id FROM object_data
 		INNER JOIN rbac_operations ON rbac_operations.operation = ".$this->db->quote($operation, "text")."
 		INNER JOIN rbac_ua ON rbac_ua.usr_id = ".$this->db->quote($ilUser->getId(), "integer")."
@@ -144,7 +150,7 @@ class ilObjOrgUnitTree {
 
         $q = "SELECT object_data.obj_id, object_reference.ref_id, object_data.title, object_data.type, rbac_pa.ops_id, rbac_operations.ops_id as op_id FROM object_data
 		INNER JOIN rbac_operations ON rbac_operations.operation = ".$this->db->quote($operation, "text")."
-		INNER JOIN rbac_ua ON rbac_ua.usr_id = ".$this->db->quote($ilUser->getId(), "integer")."
+		INNER JOIN rbac_ua ON rbac_ua.usr_id = ".$this->db->quote($a_user_id, "integer")."
 		INNER JOIN rbac_pa ON rbac_pa.rol_id = rbac_ua.rol_id AND rbac_pa.ops_id LIKE CONCAT('%', rbac_operations.ops_id, '%')
 		INNER JOIN object_reference ON object_reference.ref_id = rbac_pa.ref_id
 		WHERE object_data.obj_id = object_reference.obj_id AND object_data.type = 'orgu'";
@@ -161,6 +167,7 @@ class ilObjOrgUnitTree {
 		}
 		return $orgus;
 	}
+	// gev-path end
 
 	/**
 	 * If you want to have all orgunits where the current user has the write permission: use this with the parameter 3 (3 is the "write" permission as in rbac_operations).

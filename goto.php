@@ -317,6 +317,11 @@ switch($target_type)
 	case 'gevcrsbooking':
 		require_once("./Services/GEV/Utils/classes/class.gevCourseUtils.php");
 		gevCourseUtils::gotoBooking($target_id);
+		break;
+	case 'gevcrsbookingtrainer':
+		require_once("./Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		gevCourseUtils::gotoBookingTrainer($target_id);
+		break;
 	// gev-patch end
 
 	//

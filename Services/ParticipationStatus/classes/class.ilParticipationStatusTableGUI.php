@@ -90,10 +90,13 @@ class ilParticipationStatusTableGUI extends ilTable2GUI
 			{
 				$item["status"] = ilParticipationStatus::STATUS_NOT_SET;
 			} 	
-			if($item["points"] === null)
+			if($item["points"] === null && $item["status"] == ilParticipationStatus::STATUS_NOT_SET)
 			{
 				$item["points"] = $max;
-			} 			
+			}
+			if ($item["points"] === null) {
+				$item["points"] = 0;
+			}
 			
 			$data[$item["user_id"]] = array(
 				"id" => $item["user_id"]

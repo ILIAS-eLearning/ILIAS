@@ -22,9 +22,11 @@ class gevDecentralTrainingUtils {
 	static $creation_request_db = null;
 	protected $creation_permissions = array();
 	protected $creation_users = array();
+
+	const AUTO_RELOAD_TIMEOUT_MS = 5000;
 	
 	protected function __construct() {
-		global $ilDB, $ilias, $ilLog, $ilAccess, $tree, $lng, $rbacreview, $rbacadmin, $rbacsystem;
+		global $ilDB, $ilias, $ilLog, $ilAccess, $tree, $lng, $rbacreview, $rbacadmin, $rbacsystem, $ilUser, $ilCtrl;
 		$this->db = &$ilDB;
 		$this->ilias = &$ilias;
 		$this->log = &$ilLog;
@@ -34,6 +36,9 @@ class gevDecentralTrainingUtils {
 		$this->rbacreview = &$rbacreview;
 		$this->rbacadmin = &$rbacadmin;
 		$this->rbacsystem = &$rbacsystem;
+		$this->current_user = $ilUser;
+		$this->ctrl = $ilCtrl;
+		$this->open_creation_requests = null;
 	}
 	
 	public static function getInstance() {
@@ -66,7 +71,7 @@ class gevDecentralTrainingUtils {
 	protected function queryCanCreateFor($a_user_id, $a_target_user_id) {
 		
 		if ($a_user_id == $a_target_user_id) {
-			return count($this->getOrgTree()->getOrgusWhereUserHasPermissionForOperation("add_dec_training_self")) > 0;
+			return count($this->getOrgTree()->getOrgusWhereUserHasPermissionForOperation("add_dec_training_self", $a_user_id)) > 0;
 		}
 		else {
 			return in_array($a_target_user_id, $this->getUsersWhereCanCreateFor($a_user_id));
@@ -80,8 +85,8 @@ class gevDecentralTrainingUtils {
 			return $this->creation_users[$a_user_id];
 		}
 		
-		$orgus_d = $this->getOrgTree()->getOrgusWhereUserHasPermissionForOperation("add_dec_training_others");
-		$orgus_r = $this->getOrgTree()->getOrgusWhereUserHasPermissionForOperation("add_dec_training_others_rec");
+		$orgus_d = $this->getOrgTree()->getOrgusWhereUserHasPermissionForOperation("add_dec_training_others", $a_user_id);
+		$orgus_r = $this->getOrgTree()->getOrgusWhereUserHasPermissionForOperation("add_dec_training_others_rec", $a_user_id);
 		$orgus_s = gevOrgUnitUtils::getAllChildren($orgus_r);
 		foreach ($orgus_s as $key => $value) {
 			$orgus_s[$key] = $value["ref_id"];
@@ -94,7 +99,7 @@ class gevDecentralTrainingUtils {
 	}
 	
 	public function canCreate($a_user_id) {
-		return	   count($this->getOrgTree()->getOrgusWhereUserHasPermissionForOperation("add_dec_training_self")) > 0
+		return	   count($this->getOrgTree()->getOrgusWhereUserHasPermissionForOperation("add_dec_training_self"), $a_user_id) > 0
 				|| count($this->getUsersWhereCanCreateFor($a_user_id)) > 0;
 	}
 	
@@ -258,6 +263,158 @@ class gevDecentralTrainingUtils {
 
 		return array($filename, "Teilnehmer.xls");
  	}
+
+	public function isResendMailRequired($a_crs_obj_id, array $a_new_values) {
+		$old_field_values = $this->getReInvitationMailRelevantEntries($a_crs_obj_id);
+		
+		foreach ($old_field_values as $key => $value) {
+			
+			if($key == "time") {
+				$time = substr($a_new_values["time"]["start"]["time"],0,5)."-".substr($a_new_values["time"]["end"]["time"],0,5);
+
+				if($value[0] != $time) {
+					return true;
+				}
+			} elseif($key == "date") {
+				$new_date = ilDatePresentation::formatDate(new ilDate($a_new_values["date"],IL_CAL_DATE));
+				$old_date = ilDatePresentation::formatDate($value);
+				if($new_date != $old_date) {
+					return true;
+				}
+			} else {
+				if($value !== $a_new_values[$key]) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
+ 	public function getReInvitationMailRelevantEntries($a_crs_obj_id) {
+ 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+ 		$crs_utils = gevCourseUtils::getInstance($a_crs_obj_id);
+ 		$ret = array();
+ 		$ret["title"] = $crs_utils->getTitle();
+ 		$ret["desc"] = $crs_utils->getSubtitle();
+ 		$ret["date"] = $crs_utils->getStartDate();
+ 		$ret["time"] = $crs_utils->getSchedule();
+ 		$ret["venue_id"] = $crs_utils->getVenueId();
+ 		$ret["venue_free"] = $crs_utils->getVenueFreeText();
+ 		$ret["orgu_id"] = $crs_utils->getTEPOrguId();
+ 		$ret["vc_type"] = $crs_utils->getVCType();
+ 		$ret["webx_link"] = $crs_utils->getWebExLink();
+ 		$ret["webx_password"] = $crs_utils->getWebExPassword();
+
+ 		return $ret;
+ 	}
+
+ 	public function userCanEditBuildingBlocks($a_crs_id) {
+ 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+ 		$crs_utils = gevCourseUtils::getInstance($a_crs_id);
+ 		$isFinalized = $crs_utils->isFinalized();
+ 		$startDate = $crs_utils->getStartDate()->get(IL_CAL_DATE);
+ 		$now = date("Y-m-d");
+
+ 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+ 		$usr_util = gevUserUtils::getInstance((int)$this->current_user->getId());
+ 		$isAdmin = $usr_util->isAdmin();
+ 		if(($startDate <= $now) && !$isAdmin) {
+ 			return false;
+ 		}
+
+ 		if($crs_utils->isFinalized()) {
+ 			return false;
+ 		}
+
+ 		return true;
+ 	}
+
+ 	//REDIRECT PART AFTER CREATION
+ 	public function getOpenCreationRequests() {
+		if ($this->open_creation_requests === null) {
+			$db = $this->getRequestDB();
+			$this->open_creation_requests = $db->openRequestsOfUser((int)$this->current_user->getId());
+		}
+		return $this->open_creation_requests;
+	}
+
+	public function userCanOpenNewCreationRequest() {
+		if ($this->userCanOpenMultipleRequests()) {
+			return true;
+		}
+		return count($this->getOpenCreationRequests()) === 0;
+	}
+
+	public function userCanOpenMultipleRequests() {
+		// ATM everybody can only open one request.
+		return false;
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		$user_utils = gevUserUtils::getInstance($this->current_user->getId());
+		return $user_utils->isAdmin();
+	}
+
+	public function getOpenRequestsView(array $a_requests, $a_do_autoload = false) {
+		require_once("Services/Calendar/classes/class.ilDatePresentation.php");
+		$tpl = new ilTemplate("tpl.open_requests.html", true, true, "Services/GEV/DecentralTrainings");
+		
+		$tpl->setCurrentBlock("header");
+		$tpl->setVariable("HEADER", $this->lng->txt("gev_dec_training_open_requests_header"));
+		$tpl->parseCurrentBlock();
+		
+		if (count($a_requests) > 0) {
+			$tpl->setCurrentBlock("requests");
+			foreach ($a_requests as $request) {
+				$tpl->setCurrentBlock("request");
+				$tpl->setVariable("TITLE", ilObject::_lookupTitle($request->templateObjId()));
+				$settings = $request->settings();
+				$start = explode(", ", ilDatePresentation::formatDate($settings->start()));
+				$tpl->setVariable("DATE", $start[0]);
+				$tpl->setVariable("START_TIME", $start[1]);
+				$end = explode(" ", ilDatePresentation::formatDate($settings->end()));
+				$tpl->setVariable("END_TIME", $end[1]);
+				$tpl->parseCurrentBlock();
+			}
+			$tpl->parseCurrentBlock();
+		}
+		else {
+			$tpl->setCurrentBlock("no_requests");
+			$tpl->setVariable("NO_REQUESTS", $this->lng->txt("gev_dec_training_no_open_requests"));
+			$tpl->parseCurrentBlock();
+		}
+
+		$tpl->setCurrentBlock("footer");
+		$wait_m = $this->getWaitingTime();
+		$time_info = sprintf($this->lng->txt("gev_dec_training_open_requests_time_info"), $wait_m);
+		$tpl->setVariable("FOOTER", $time_info);
+		$tpl->parseCurrentBlock();
+
+		if ($a_do_autoload) {
+			$tpl->setCurrentBlock("autoreload");
+			$tpl->setVariable("TIMEOUT", self::AUTO_RELOAD_TIMEOUT_MS);
+			$tpl->parseCurrentBlock();
+		}
+		
+		return $tpl->get();
+	}
+
+	public function getRequestDB() {
+		return $this->getCreationRequestDB();
+	}
+
+	public function getWaitingTime() {
+		$db = $this->getRequestDB();
+		return $db->waitingTimeInMinuteEstimate();
+	}
+
+	public function lastCreatedCourseId() {
+		$db = $this->getRequestDB();
+		return $db->lastCreatedTrainingOfUser($this->current_user->getId());
+	}
+
+	public function flushOpenCreationRequests() {
+		$this->open_creation_requests = null;
+	}
 }
 
 ?>

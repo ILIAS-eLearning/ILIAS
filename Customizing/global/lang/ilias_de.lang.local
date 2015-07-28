@@ -1151,6 +1151,7 @@ gev#:#gev_finalize_booking_booked_out_error#:#Das Training konnte leider nicht f
 gev#:#gev_crs_srch_my_table_desc_advice#:#Hinweis:<br />Die Selbstlernkurse finden Sie ab sofort am Ende der Trainingsübersicht bzw. im Filter unter "Suche eingrenzen" - "Trainingstyp" - "Selbstlernkurs"!
 gev#:#gev_venue_free_text#:#Freitext Veranstaltungsort
 gev#:#gev_orga_info#:#Organisatorisches
+gev#:#gev_training_id2#:#Trainings-Id
 gev#:#gev_dec_training_date_before_now#:#Das gewählte Startdatum liegt in der Vergangenheit!
 gev#:#gev_dec_building_block_active_desc#:#Soll dieser Baustein aktiviert sein?
 gev#:#gev_dec_building_block_wp_relevant_desc#:#Ist dieser Baustein relevant für die Vergabe von Bildungspunkten sein?
@@ -1158,7 +1159,7 @@ gev#:#gev_dec_building_block_edit#:#Baustein bearbeiten
 gev#:#gev_dec_building_block_new#:#Neuer Baustein
 gev#:#gev_dec_building_block_base_data#:#Bausteininformationen
 gev#:#gev_dec_building_block_title#:#Titel
-gev#:#gev_dec_building_block_content#:#Inhalt
+gev#:#gev_dec_building_block_content#:#Inhalte
 gev#:#gev_dec_building_block_learn_dest#:#Lernziel
 gev#:#gev_dec_building_block_is_wp_relevant#:#WP relevant
 gev#:#gev_dec_building_block_active#:#Aktiv
@@ -1175,7 +1176,7 @@ gev#:#gev_dec_training_two_venues#:#Bitte wählen Sie einen Veranstaltungsort au
 gev#:#gev_dec_training_crs_to_short#:#Die Gesamtlänge des Trainings ist zu kurz für die zu erlangenden Bildungspunkte (45 Minuten / Punkt).
 gev#:#gev_mail_log#:#Maillog
 gev#:#gev_back#:#Zurück
-gev#:#gev_dec_crs_building_block_sub_title#:#Ablaufplan
+gev#:#gev_dec_crs_building_block_sub_menu_title#:#Ablaufplan
 gev#:#gev_dec_crs_building_block_title#:#Ablaufplan
 gev#:#gev_dec_crs_building_block_sub_title#:#Hier wird Ihnen angezeigt wie das Training ablaufen wird.
 gev#:#gev_dec_crs_building_block_from#:#Von
@@ -1190,11 +1191,11 @@ gev#:#gev_dec_crs_building_block_new#:#Neuer Baustein
 gev#:#gev_dec_crs_building_block_base_data#:#Bausteininformationen
 gev#:#gev_dec_training_creation_requested#:#Das dezentrale Training wird für sie angelegt.
 gev#:#gev_dec_please_select_building_block#:#Bitte wählen Sie einen Baustein aus.
-gev#:#gev_dec_training_open_requests_header#:#Folgende dezentrale Trainings werden derzeit für sie angelegt:
-gev#:#gev_dec_training_open_requests_time_info#:#Die Wartezeit zur Anlage eines dezentralen Trainings beträgt derzeit etwa %s Minuten.
+gev#:#gev_dec_training_open_requests_header#:#Derzeit wird dieses dezentrale Training für sie angelegt:
+gev#:#gev_dec_training_open_requests_time_info#:#Die Wartezeit zur Anlage eines dezentralen Trainings beträgt derzeit etwa %s Minuten. <br /><br /><b>Bleiben sie auf dieser Seite, um nach der Anlage des Trainings Buchungen vornehmen zu können.</b></br><br /><b>Nach der Anlage des Training erhalten sie außerdem eine E-Mail, die einen Link zu den Trainingsbuchungen enthält.</b>
 gev#:#gev_dec_training_presence_fix#:#Präsenztraining (fester Ablaufplan)
 gev#:#gev_dec_training_webinar_fix#:#Webinar (fester Ablaufplan)
-gev#:#gev_dec_training_presence_flex#:#Präsenztraing (individuelle Bausteine)
+gev#:#gev_dec_training_presence_flex#:#Präsenztraining (individuelle Bausteine)
 gev#:#gev_dec_training_webinar_flex#:#Webinar (individuelle Bausteine)
 gev#:#gev_dec_training_notice#:#Für nähere Informationen wenden Sie sich bitte an die Abteilung Außendienstentwicklung, Telefon 089 5121 1919, Mail <a href="mailto:Bildungspunkte.de@generali.com">Bildungspunkte.de@generali.com</a>
 gev#:#gev_dec_training_title#:#Titel
@@ -1210,4 +1211,16 @@ gev#:#gev_dec_training_gdv_topic#:#GDV-Lerninhalt
 gev#:#gev_dec_training_add_buildingblocks#:#Ablaufplan anlegen
 gev#:#gev_dec_training_no_venue#:#Bitte wählen Sie einen Veranstaltungort oder tragen sie einen Freitext für den Veranstaltungsort ein.
 gev#:#gev_dec_training_no_orgu_selected#:#Bitte wählen Sie eine Organisationseinheit für die das Training veranstaltet wird.
-gev#:#gev_dec_training_crs_to_long#:#Das Training hat die maximale Länge überschritten (12 Zeitstunden).
+gev#:#gev_dec_training_crs_to_long#:#Das Training überschreitet die maximale Dauer von 12 Zeitstunden.
+gev#:#gev_dec_crs_creation_building_block_title#:#Ablaufplan anlegen
+gev#:#gev_dec_crs_creation_building_block_sub_title#:#Hier können Sie den Ablaufplan für Ihr Training anlegen.
+gev#:#gev_dec_training_update_buildingblocks#:#Ablaufplan bearbeiten
+gev#:#gev_dec_crs_creation_building_block_edit_title#:#Ablaufplan bearbeiten
+gev#:#gev_dec_crs_creation_building_block_edit_sub_title#:#Hier können Sie den Ablaufplan für Ihr Training bearbeiten.
+gev#:#gev_dec_training_no_open_requests#:#Derzeit sind keine dezentralen Trainings zur Anlage vorgesehen.
+gev#:#gev_dec_training_open_requests_title#:#Anlage von dezentralen Trainings
+gev#:#gev_dec_training_open_requests_header_note#:#Hier erfahren sie, welche dezentralen Trainings derzeit für sie angelegt werden.
+gev#:#gev_dec_training_min_participation_count_not_reached#:#Bitte beachten Sie, dass bei allen dezentralen Trainings, bei denen Bildungspunkte vergeben werden sollen, eine Mindestteilnehmerzahl von 6 punkteberechtigten Personen erforderlich ist.
+gev#:#gev_dec_training_save_request#:#Dezentrales Training anlegen
+gev#:#gev_dec_training_show_buildingblocks#:#Ablaufplan anzeigen
+gev#:#gev_dec_ready#:#Fertig

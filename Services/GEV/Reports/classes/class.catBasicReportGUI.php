@@ -348,7 +348,8 @@ class catBasicReportGUI {
 			   . $this->query->sqlGroupBy()."\n"
 			   . $this->queryHaving()."\n"
 			   . $this->queryOrder();
-			  //die($query);
+			   //die($query);
+
 		
 		$res = $this->db->query($query);
 		$data = array();
@@ -449,6 +450,7 @@ class catReportQuery {
 		$this->_from = null;
 		$this->joins = array();
 		$this->left_joins = array();
+		$this->raw_joins = array();
 		$this->compiled = false;
 		$this->sql_str = null;
 		$this->sql_from = null;
@@ -503,6 +505,11 @@ class catReportQuery {
 		return new catReportQueryOn($this, $this->left_joins, $a_table);
 	}
 	
+	public function raw_join($sql) {
+		$this->raw_joins[] = $sql;
+		return $this;
+	}
+
 	public function group_by($a_column) {
 		$this->_group_by[] = $a_column;
 		return $this;
@@ -539,7 +546,8 @@ class catReportQuery {
 				// TODO: this might break the query since it does not respect
 				// the order in which the user defined the
 				.implode("\n ", $this->joins)."\n "
-				.implode("\n ", $this->left_joins)."\n";
+				.implode("\n ", $this->left_joins)."\n"
+				.implode("\n ", $this->raw_joins)."\n";
 		}
 		
 		return $this->sql_from;

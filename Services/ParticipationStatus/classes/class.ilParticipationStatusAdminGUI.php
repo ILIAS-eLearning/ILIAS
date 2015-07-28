@@ -331,20 +331,7 @@ class ilParticipationStatusAdminGUI
 		else
 		{
 			// gev-patch start
-			// super special rule for decentral trainings
-			require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
-			$crs_utils = gevCourseUtils::getInstanceByObj($this->getCourse());
-
-			if ($crs_utils->isDecentralTraining() 
-			&& (   $crs_utils->getMinParticipants() > count($crs_utils->getParticipants())
-				//|| !$this->getParticipationStatus()->getMailSendDate()
-				)
-			) {
-				$may_finalize = false;
-			}
-			else {
-				$may_finalize = $may_write;
-			}
+			$may_finalize = $may_write;
 			// gev-patch end
 		}
 		
@@ -446,7 +433,10 @@ class ilParticipationStatusAdminGUI
 	protected function saveStatusAndPoints($a_return = false)
 	{
 		global $ilCtrl, $lng;
-		
+
+		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		$crs_utils = gevCourseUtils::getInstanceByObj($this->getCourse());
+
 		$status = $_POST["status"];
 		$points = $_POST["cpoints"];
 		
@@ -579,7 +569,17 @@ class ilParticipationStatusAdminGUI
 		$confirm = new ilConfirmationGUI();
 		$confirm->setHeaderText($lng->txt("ptst_admin_confirm_finalize"));
 		$confirm->setConfirm($lng->txt("confirm"), "finalize");
-		$confirm->setCancel($lng->txt("cancel"), "listStatus");				
+		$confirm->setCancel($lng->txt("cancel"), "listStatus");
+
+		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		$crs_utils = gevCourseUtils::getInstanceByObj($this->getCourse());
+		if($crs_utils->isDecentralTraining() && $crs_utils->getParticipations() < $crs_utils->getMinParticipants()) {
+			$confirm->addItem("",
+				"",
+				$lng->txt("gev_dec_training_min_participation_count_not_reached")
+			);
+		}
+
 
 		if(!$this->from_foreign_class){
 			$this->setTabs("listStatus");

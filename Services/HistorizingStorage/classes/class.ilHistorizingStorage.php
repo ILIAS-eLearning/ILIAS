@@ -357,6 +357,7 @@ abstract class ilHistorizingStorage
 		$mass_modification_allowed = false
 	)
 	{
+
 		if (!$a_record_creator)
 		{
 			/** @var $ilUser ilObjUser */
@@ -370,6 +371,7 @@ abstract class ilHistorizingStorage
 		}
 
 		$cases = self::getCaseIdsByPartialCase($a_case_id);
+
 		if (count($cases) > 1 && $mass_modification_allowed == false)
 		{
 			global $ilLog;
@@ -378,11 +380,10 @@ abstract class ilHistorizingStorage
 			/*throw new Exception( 'Illegal call: Case-Id '.implode(", ", $a_case_id).' does not point to a unique record in '
 								.static::getHistorizedTableName().'.');*/
 		}
-
 		if ( count($cases) == 0 && $mass_modification_allowed == false)
 		{
 			self::validateRecordData($a_data);
-			return self::createRecord($a_case_id, $a_data, '1', $a_record_creator, $a_creation_timestamp);
+			return static::createRecord($a_case_id, $a_data, '1', $a_record_creator, $a_creation_timestamp);
 		}
 
 		foreach ($cases as $case)

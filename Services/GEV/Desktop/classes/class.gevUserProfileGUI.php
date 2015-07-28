@@ -59,14 +59,6 @@ class gevUserProfileGUI {
 			$err = false;
 			$telno = $form->getInput("p_phone");
 			$telno_field = $form->getItemByPostVar("p_phone");
-			if (!preg_match(self::$telno_regexp, $telno)) {
-				$telno_field->setAlert($this->lng->txt("gev_telno_alert"));
-				
-				$err = true;
-			}
-			else {
-				$telno_field->setAlert("");
-			}
 			
 			if(   $form->getInput("username") !== $this->user->getLogin()
 			   && ilObjUser::_loginExists($form->getInput("username"))) {

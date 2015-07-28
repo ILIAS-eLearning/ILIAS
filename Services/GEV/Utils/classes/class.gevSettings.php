@@ -272,6 +272,8 @@ class gevSettings {
 	//basic templates for flexible decentral trainings
 	const DCT_TPL_FLEX_PRESENCE = "dct_tpl_flex_presence";
 	const DCT_TPL_FLEX_WEBINAR = "dct_tpl_flex_webinar";
+	const DCT_TPL_MAIL_CSN = "dct_tpl_mail_csn";
+	const DCT_TPL_MAIL_WEBEX = "dct_tpl_mail_webex";
 
 	static $UDF_FIELD_ORDER = array(
 		'Emailadresse (privat)'
@@ -567,8 +569,8 @@ class gevSettings {
 		, "Admin-Voll"				=> "ID"
 		, "Admin-eingeschraenkt"	=> "ID"
 		, "Admin-Ansicht"			=> "ID"
-		, "OD/BD"					=> "ID"
-		, "FD"						=> "ID"
+		, "OD/BD"					=> "AAD"
+		, "FD"						=> "AAD"
 		, "UA"						=> "HGB §84"
 		, "HA 84"					=> "HGB §84"
 		, "BA 84"					=> "HGB §84"
@@ -695,6 +697,21 @@ class gevSettings {
 		$ref_id = $this->settings->get(self::DCT_TPL_FLEX_WEBINAR);
 		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 		return gevObjectUtils::getObjId($ref_id);
+	}
+
+	public function getCSNMailTemplateId() {
+		return $this->settings->get(self::DCT_TPL_MAIL_CSN);
+	}
+	public function getWebExMailTemplateId() {
+		return $this->settings->get(self::DCT_TPL_MAIL_WEBEX);
+	}
+
+	public function setCSNMailTemplateId($a_templade_id) {
+		$this->settings->set(self::DCT_TPL_MAIL_CSN, $a_templade_id);
+	}
+	
+	public function setWebExMailTemplateId($a_template_id) {
+		$this->settings->set(self::DCT_TPL_MAIL_WEBEX, $a_templade_id);
 	}
 }
 

@@ -340,7 +340,6 @@ class gevImportOldData {
 		 		wbd_topic,
 		 		begin_date,
 		 		end_date,
-		 		
 		 		custom_id,
 		 		template_title,
 		 		max_credit_points
@@ -383,6 +382,7 @@ class gevImportOldData {
 		$begin_date = date('Y-m-d', strtotime($rec['Beginn']));
 		$end_date = date('Y-m-d', strtotime($rec['Ende']));
 		$next_id = $this->db->nextId('hist_usercoursestatus');
+		$gev_id = $rec['id'];
 
 		$credit_points = $rec['WP'];
 		if(!is_numeric($credit_points)){
@@ -405,7 +405,8 @@ class gevImportOldData {
 		 		begin_date,
 		 		end_date,
 		 		bill_id,
-		 		certificate
+		 		certificate,
+		 		gev_id
 			) 
 			VALUES 
 			(
@@ -423,7 +424,8 @@ class gevImportOldData {
 				'$begin_date',
 				'$end_date',
 				-1,
-				-1
+				-1,
+				$gev_id
 			)";
 		
 			if(! $this->db->query($sql)){

@@ -113,7 +113,13 @@ class gevCourseUtils {
 		global $ilCtrl;
 		ilUtil::redirect("ilias.php?baseClass=gevDesktopGUI&cmd=toBooking&crs_id=".$a_crs_id);
 	}
-
+	
+	static public function gotoBookingTrainer($a_crs_id) {
+		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+		$crs_ref_id = gevObjectUtils::getRefId($a_crs_id);
+		ilUtil::redirect("ilias.php?ref_id=$crs_ref_id&cmdClass=ilcoursebookingadmingui&baseClass=ilcoursebookinggui");
+	}
+	
 	static public function mkDeadlineDate($a_start_date, $a_deadline) {
 		if (!$a_start_date || $a_deadline === null) {
 			return null;
@@ -295,10 +301,6 @@ class gevCourseUtils {
 	
 	public function getTitle() {
 		return $this->getCourse()->getTitle();
-	}
-
-	public function setTitle($a_title) {
-		$this->getCourse()->setTitle($a_title);
 	}
 	
 	public function getSubtitle() {
@@ -775,6 +777,10 @@ class gevCourseUtils {
 	
 	public function setVCType($a_vc_type) {
 		$this->amd->setField($this->crs_id, gevSettings::CRS_AMD_WEBEX_VC_CLASS_TYPE, $a_vc_type);
+	}
+
+	public function getVCType() {
+		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_WEBEX_VC_CLASS_TYPE);
 	}
 
 	public function setTrainingCategory(array $a_training_category) {
@@ -1839,6 +1845,7 @@ class gevCourseUtils {
  	public function buildUVGList($a_send, $a_filename) {
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 		require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevDBVUtils.php");
 		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
 		require_once("Services/User/classes/class.ilObjUser.php");
 		
@@ -1866,7 +1873,7 @@ class gevCourseUtils {
 		$worksheet->setLandscape();
 
 		$columns = array( $lng->txt("gev_bd")
-						, "DBV-FIN"
+						, "DBV"
 						, $lng->txt("gev_company_name")
 						, $lng->txt("lastname")	
 						, $lng->txt("firstname")
@@ -1906,6 +1913,7 @@ class gevCourseUtils {
 		$user_ids = $this->getCourse()->getMembersObject()->getMembers();
 		$participations = $this->getParticipations();
 		$maxPoints = $participations->getMaxCreditPoints();
+		$dbv_utils = gevDBVUtils::getInstance();
 
 		if($user_ids) {
 			foreach($user_ids as $user_id) {
@@ -1930,8 +1938,15 @@ class gevCourseUtils {
 				}
 
 				$row++;
-
+				
+				$dbvs = $dbv_utils->getDBVsOf($user_id);
+				$dbv_names = array_map(function($id) { 
+								$names = ilObjUser::_lookupName($id);
+								return $names["firstname"]." ".$names["lastname"];
+							 }, $dbvs);
+				
 				$worksheet->write($row, 0 , $user_utils->getBDFromIV(), $format_wrap);
+				$worksheet->write($row, 1, implode(", ", $dbv_names), $format_wrap);
 				$worksheet->write($row, 2 , $user_utils->getCompanyName(), $format_wrap);
 				$worksheet->write($row, 3 , $user_utils->getLastname(), $format_wrap);
 				$worksheet->write($row, 4 , $user_utils->getFirstname(), $format_wrap);
