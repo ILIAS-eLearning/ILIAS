@@ -40,4 +40,7 @@
 	<copage>
 		<pageobject parent_type="lm" class_name="ilLMPage" directory="classes"/>
 	</copage>
+	<web_access_checker>
+		<secure_path path="lm_data" checking-class="ilObjLearningModuleAccess" />
+	</web_access_checker>
 </module>
