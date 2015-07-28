@@ -15,6 +15,10 @@ class ilWACPath {
 	/**
 	 * @var string
 	 */
+	protected $secure_path_id = '';
+	/**
+	 * @var string
+	 */
 	protected $secure_path = '';
 	/**
 	 * @var string
@@ -37,6 +41,14 @@ class ilWACPath {
 	 */
 	protected $file_name = '';
 	/**
+	 * @var string
+	 */
+	protected $original_request = '';
+	/**
+	 * @var string
+	 */
+	protected $path_without_query = '';
+	/**
 	 * @var array
 	 */
 	protected static $image_suffixes = array(
@@ -46,6 +58,15 @@ class ilWACPath {
 		'gif',
 		'svg',
 	);
+	/**
+	 * @var array
+	 */
+	protected static $video_suffixes = array(
+		'mp4',
+		'm4v',
+		'mov',
+		'wmv',
+	);
 
 
 	/**
@@ -54,18 +75,21 @@ class ilWACPath {
 	 * @param string $path
 	 */
 	public function __construct($path) {
+		$this->setOriginalRequest($path);
 		preg_match("/\\/data\\/([a-zA-Z0-9_]*)\\/([a-zA-Z0-9_]*)\\/(.*)/ui", $path, $results);
-//		echo '<pre>' . print_r($results, 1) . '</pre>';
-//		exit;
+		preg_match("/(\\/data\\/[a-zA-Z0-9_]*\\/[a-zA-Z0-9_]*\\/.*)\\?/ui", $path, $results2);
+		$this->setPathWithoutQuery($results2[1] ? '.' . $results2[1] : '.' . $results[0]);
 		$this->setPath('.' . $results[0]);
 		$this->setClient($results[1]);
-		$this->setSecurePath($results[2]);
+		$this->setSecurePathId($results[2]);
 		$parts = parse_url($path);
 		$this->setFileName(basename($parts['path']));
 		$this->setQuery($parts['query']);
 		parse_str($parts['query'], $query);
 		$this->setParameters($query);
 		$this->setSuffix(pathinfo($parts['path'], PATHINFO_EXTENSION));
+		preg_match("/(\\/data\\/[a-zA-Z0-9_]*\\/[a-zA-Z0-9_]*\\/[a-zA-Z0-9_]*)\\//ui", $path, $results3);
+		$this->setSecurePath($results3[1] ? '.' . $results3[1] : NULL);
 	}
 
 
@@ -74,6 +98,22 @@ class ilWACPath {
 	 */
 	public function isImage() {
 		return in_array(strtolower($this->getSuffix()), self::$image_suffixes);
+	}
+
+
+	/**
+	 * @return bool
+	 */
+	public function isVideo() {
+		return in_array(strtolower($this->getSuffix()), self::$video_suffixes);
+	}
+
+
+	/**
+	 * @return bool
+	 */
+	public function fileExists() {
+		return is_file($this->getPathWithoutQuery());
 	}
 
 
@@ -108,12 +148,32 @@ class ilWACPath {
 
 
 	/**
+	 * @param $token
+	 */
+	public function setToken($token) {
+		$param = $this->getParameters();
+		$param[ilWACSignedPath::WAC_TOKEN_ID] = $token;
+		$this->setParameters($param);
+	}
+
+
+	/**
 	 * @return int
 	 */
 	public function getTimestamp() {
 		$param = $this->getParameters();
 
 		return ($param[ilWACSignedPath::WAC_TIMESTAMP_ID]);
+	}
+
+
+	/**
+	 * @param $timestamp
+	 */
+	public function setTimestamp($timestamp) {
+		$param = $this->getParameters();
+		$param[ilWACSignedPath::WAC_TIMESTAMP_ID] = $timestamp;
+		$this->setParameters($param);
 	}
 
 
@@ -136,16 +196,16 @@ class ilWACPath {
 	/**
 	 * @return string
 	 */
-	public function getSecurePath() {
-		return $this->secure_path;
+	public function getSecurePathId() {
+		return $this->secure_path_id;
 	}
 
 
 	/**
-	 * @param string $secure_path
+	 * @param string $secure_path_id
 	 */
-	public function setSecurePath($secure_path) {
-		$this->secure_path = $secure_path;
+	public function setSecurePathId($secure_path_id) {
+		$this->secure_path_id = $secure_path_id;
 	}
 
 
@@ -226,6 +286,86 @@ class ilWACPath {
 	 */
 	public function setFileName($file_name) {
 		$this->file_name = $file_name;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getOriginalRequest() {
+		return $this->original_request;
+	}
+
+
+	/**
+	 * @param string $original_request
+	 */
+	public function setOriginalRequest($original_request) {
+		$this->original_request = $original_request;
+	}
+
+
+	/**
+	 * @return array
+	 */
+	public static function getImageSuffixes() {
+		return self::$image_suffixes;
+	}
+
+
+	/**
+	 * @param array $image_suffixes
+	 */
+	public static function setImageSuffixes($image_suffixes) {
+		self::$image_suffixes = $image_suffixes;
+	}
+
+
+	/**
+	 * @return array
+	 */
+	public static function getVideoSuffixes() {
+		return self::$video_suffixes;
+	}
+
+
+	/**
+	 * @param array $video_suffixes
+	 */
+	public static function setVideoSuffixes($video_suffixes) {
+		self::$video_suffixes = $video_suffixes;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getPathWithoutQuery() {
+		return $this->path_without_query;
+	}
+
+
+	/**
+	 * @param string $path_without_query
+	 */
+	public function setPathWithoutQuery($path_without_query) {
+		$this->path_without_query = $path_without_query;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getSecurePath() {
+		return $this->secure_path;
+	}
+
+
+	/**
+	 * @param string $secure_path
+	 */
+	public function setSecurePath($secure_path) {
+		$this->secure_path = $secure_path;
 	}
 }
 
