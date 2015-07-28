@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+include_once './Services/Logging/classes/public/class.ilLogLevel.php';
+
 /** 
 * @defgroup ServicesLogging Services/Logging
 * 
@@ -12,9 +14,7 @@
 */
 class ilLoggingSettings
 {
-	
 	protected static $instance = null;
-
 	
 	/**
 	 * Singleton contructor
@@ -23,7 +23,7 @@ class ilLoggingSettings
 	 */
 	private function __construct()
 	{
-
+		$this->read();
 	}
 
 	/**
@@ -38,6 +38,34 @@ class ilLoggingSettings
 			return self::$instance;
 		}
 		return self::$instance = new self();
+	}
+	
+	/**
+	 * Get log level
+	 * @return type
+	 */
+	public function getLevel()
+	{
+		return ilLogLevel::INFO;
+	}
+	
+	/**
+	 * 
+	 * @global type $ilDB
+	 */
+	public static function readLogComponents()
+	{
+		global $ilDB;
+		
+		$query = 'SELECT * FROM il_component ';
+		$res = $ilDB->query($query);
+		
+		$components = array();
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$components[$row->id] = $row->name;
+		}
+		return $components;
 	}
 
 	/**
