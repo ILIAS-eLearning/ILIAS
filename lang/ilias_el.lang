@@ -14362,3 +14362,7 @@ administration#:#vc_information_not_determined#:#ILIAS could not determine any v
 administration#:#git_revision#:#Number: %s###18 03 2015 new variable
 administration#:#git_hash_short#:#Commit Hash (short): %s###18 03 2015 new variable
 administration#:#git_last_commit#:#Last Commit: %s###18 03 2015 new variable
+assessment#:#tst_dyn_quest_set_pool_deleted#:#The currently configured questionpool "%s" has been deleted.###28 07 2015 new variable
+assessment#:#tst_old_style_rnd_quest_set_broken#:#This random test is in a irreparable state, because one or more connected question pools have been deleted. Therefor participants cannot take the test any longer.###28 07 2015 new variable
+assessment#:#tst_result_pass#:#Results of Test Pass###28 07 2015 new variable
+cron#:#cron_result_status_fail#:#Failed###28 07 2015 new variable
