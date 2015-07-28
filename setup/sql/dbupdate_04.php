@@ -6344,3 +6344,20 @@ if($ilDB->tableExists('ilinc_registration'))
 	$ilDB->dropTable('ilinc_registration');
 }
 ?>
+<#4513>
+<?php
+if($ilDB->tableColumnExists('usr_data', 'ilinc_id'))
+{
+	$ilDB->dropTableColumn('usr_data', 'ilinc_id');
+}
+
+if($ilDB->tableColumnExists('usr_data', 'ilinc_login'))
+{
+	$ilDB->dropTableColumn('usr_data', 'ilinc_login');
+}
+
+if($ilDB->tableColumnExists('usr_data', 'ilinc_passwd'))
+{
+	$ilDB->dropTableColumn('usr_data', 'ilinc_passwd');
+}
+?>
