@@ -6330,3 +6330,17 @@ if($ilDB->sequenceExists('chat_record_data'))
 	$ilDB->dropSequence('chat_record_data');
 }
 ?>
+<#4511>
+<?php
+if($ilDB->tableExists('ilinc_data'))
+{
+	$ilDB->dropTable('ilinc_data');
+}
+?>
+<#4512>
+<?php
+if($ilDB->tableExists('ilinc_registration'))
+{
+	$ilDB->dropTable('ilinc_registration');
+}
+?>
