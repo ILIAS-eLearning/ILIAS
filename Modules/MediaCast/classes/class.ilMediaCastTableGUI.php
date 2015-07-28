@@ -165,23 +165,27 @@ class ilMediaCastTableGUI extends ilTable2GUI
 				$mpl = new ilMediaPlayerGUI($a_set["id"], $event_url);
 				if (is_object($med))
 				{
-					if (strcasecmp("Reference", $med->getLocationType()) == 0)
-						$mpl->setFile($med->getLocation());
-					else
-					$mpl->setFile(ilObjMediaObject::_getURL($mob->getId())."/".$med->getLocation());
+					require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
+					if (strcasecmp("Reference", $med->getLocationType()) == 0) {
+						$a_file = $med->getLocation();
+					}
+					else {
+						$a_file = ilObjMediaObject::_getURL($mob->getId()) . "/" . $med->getLocation();
+					}
+					$mpl->setFile(ilWACSignedPath::signFile($a_file));
 					$mpl->setMimeType ($med->getFormat());
 					//$mpl->setDisplayHeight($med->getHeight());
 					$mpl->setDisplayWidth("640");
 					$mpl->setDisplayHeight("480");
-					$mpl->setVideoPreviewPic($mob->getVideoPreviewPic());
+					$mpl->setVideoPreviewPic(ilWACSignedPath::signFile($mob->getVideoPreviewPic()));
 					$mpl->setTitle($a_set["title"]);
 					$mpl->setDescription($a_set["content"]);
 					
 					$med_alt = $mob->getMediaItem("VideoAlternative");
 					if (is_object($med_alt))
 					{
-						$mpl->setAlternativeVideoFile(ilObjMediaObject::_getURL($mob->getId())."/".
-							$med_alt->getLocation());
+						$a_val = ilObjMediaObject::_getURL($mob->getId()) . "/" . $med_alt->getLocation();
+						$mpl->setAlternativeVideoFile(ilWACSignedPath::signFile($a_val));
 						$mpl->setAlternativeVideoMimeType($med_alt->getFormat());
 					}
 				}
