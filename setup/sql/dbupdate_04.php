@@ -6372,3 +6372,14 @@ if( $ilDB->uniqueConstraintExists('tst_sequence', array('active_fi', 'pass')) )
 	$ilDB->addPrimaryKey('tst_sequence', array('active_fi', 'pass'));
 }
 ?>
+<#4515>
+<?php
+if( $ilDB->uniqueConstraintExists('tst_pass_result', array('active_fi', 'pass')) )
+{
+	// if this breaks, simply change constraint name to c1_idx by using a db browser tool
+	$ilDB->dropIndex('tst_pass_result', 'c1');
+	// if this breaks, simply change constraint name to c1_idx by using a db browser tool
+
+	$ilDB->addPrimaryKey('tst_pass_result', array('active_fi', 'pass'));
+}
+?>
