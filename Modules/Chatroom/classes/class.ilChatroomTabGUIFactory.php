@@ -2,13 +2,13 @@
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * Class ilChatroomTabFactory
+ * Class ilChatroomTabGUIFactory
  * @author  Jan Posselt <jposselt@databay.de>
  * @author  Michael Jansen <mjansen@databay.de>
  * @version $Id$
  * @ingroup ModulesChatroom
  */
-class ilChatroomTabFactory
+class ilChatroomTabGUIFactory
 {
 	/**
 	 * @var ilObjectGUI

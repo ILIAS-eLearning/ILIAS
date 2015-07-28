@@ -96,10 +96,10 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI
 
 		$next_class = $ilCtrl->getNextClass();
 
-		require_once 'Modules/Chatroom/classes/class.ilChatroomTabFactory.php';
+		require_once 'Modules/Chatroom/classes/class.ilChatroomTabGUIFactory.php';
 		if(!$this->getCreationMode())
 		{
-			$tabFactory = new ilChatroomTabFactory($this);
+			$tabFactory = new ilChatroomTabGUIFactory($this);
 
 			if(strtolower($_GET['baseClass']) == 'iladministrationgui')
 			{
