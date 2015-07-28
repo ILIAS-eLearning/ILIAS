@@ -6383,3 +6383,56 @@ if( $ilDB->uniqueConstraintExists('tst_pass_result', array('active_fi', 'pass'))
 	$ilDB->addPrimaryKey('tst_pass_result', array('active_fi', 'pass'));
 }
 ?>
+<#4516>
+<?php
+$crpra_dup_query_num = "
+SELECT COUNT(*) cnt
+FROM (
+	SELECT proom_id, user_id
+    FROM chatroom_proomaccess
+    GROUP BY proom_id, user_id
+    HAVING COUNT(*) > 1
+) duplicateChatProoms
+";
+$res  = $ilDB->query($crpra_dup_query_num);
+$data = $ilDB->fetchAssoc($res);
+if($data['cnt'])
+{
+	$mopt_dup_query = "
+	SELECT chatroom_proomaccess.*
+	FROM chatroom_proomaccess
+	INNER JOIN (
+		SELECT proom_id, user_id
+		FROM chatroom_proomaccess
+		GROUP BY proom_id, user_id
+		HAVING COUNT(*) > 1
+	) duplicateChatProoms ON duplicateChatProoms.user_id = chatroom_proomaccess.user_id AND duplicateChatProoms.proom_id = chatroom_proomaccess.proom_id
+	GROUP BY chatroom_proomaccess.proom_id, chatroom_proomaccess.user_id
+	";
+	$res = $ilDB->query($mopt_dup_query);
+	while($row = $ilDB->fetchAssoc($res))
+	{
+		$ilDB->manipulateF(
+			"DELETE FROM chatroom_proomaccess WHERE proom_id = %s AND user_id = %s",
+			array('integer', 'integer'),
+			array($row['proom_id'], $row['user_id'])
+		);
+		$ilDB->insert(
+			'chatroom_proomaccess',
+			array(
+				'proom_id' => array('integer', $row['proom_id']),
+				'user_id'  => array('integer', $row['user_id'])
+			)
+		);
+	}
+}
+
+$res  = $ilDB->query($crpra_dup_query_num);
+$data = $ilDB->fetchAssoc($res);
+if($data['cnt'] > 0)
+{
+	throw new Exception("There are still duplicate entries in table 'chatroom_proomaccess'. Please execute this database update step again.");
+}
+
+$ilDB->addPrimaryKey('chatroom_proomaccess', array('proom_id', 'user_id'));
+?>
