@@ -2434,8 +2434,17 @@ class gevUserUtils {
 		
 		$data = mysql_query($sql);
 		$data = mysql_fetch_assoc($data);
-		return $data["name"];
 
+		// Shorten Name
+		$name = $data["name"];
+		$matches = array();
+		if (preg_match("/^Generali Versicherung AG (.*)$/", $name, $matches)) {
+			$name = $matches[1];
+		}
+		if (preg_match("/^Bereichsdirektion (.*)$/", $name, $matches)) {
+			$name = "BD ".$matches[1];
+		}
+		return $name;
 	}
 
 	/*
