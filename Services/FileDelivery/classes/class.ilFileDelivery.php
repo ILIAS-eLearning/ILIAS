@@ -12,10 +12,6 @@ require_once('./Services/Http/classes/class.ilHTTPS.php');
  */
 class ilFileDelivery {
 
-	/**
-	 * @var bool
-	 */
-	public static $DEV = false;
 	const DELIVERY_METHOD_XSENDFILE = 'mod_xsendfile';
 	const DELIVERY_METHOD_XACCEL = 'x-accel-redirect';
 	const DELIVERY_METHOD_PHP = 'php';
@@ -86,6 +82,21 @@ class ilFileDelivery {
 	 * @param      $path_to_file
 	 * @param null $download_file_name
 	 */
+	public static function streamVideoInline($path_to_file, $download_file_name = NULL) {
+		$obj = new self($path_to_file);
+		if ($download_file_name) {
+			$obj->setDownloadFileName($download_file_name);
+		}
+		$obj->setDisposition(self::DISP_INLINE);
+//		$obj->setDeliveryType(self::DELIVERY_METHOD_PHP_CHUNKED);
+		$obj->stream();
+	}
+
+
+	/**
+	 * @param      $path_to_file
+	 * @param null $download_file_name
+	 */
 	public static function deliverFileInline($path_to_file, $download_file_name = NULL) {
 		$obj = new self($path_to_file);
 		if ($download_file_name) {
@@ -116,12 +127,6 @@ class ilFileDelivery {
 
 
 	public function deliver() {
-		if (self::$DEV) {
-			global $ilLog;
-			if ($ilLog instanceof ilLog) {
-				$ilLog->write(print_r($this, true));
-			}
-		}
 		$this->setGeneralHeaders();
 
 		switch ($this->getDeliveryType()) {
@@ -333,7 +338,7 @@ class ilFileDelivery {
 		if (function_exists('apache_get_modules') && in_array('mod_xsendfile', apache_get_modules())) {
 			$this->setDeliveryType(self::DELIVERY_METHOD_XSENDFILE);
 		}
-//		$this->setDeliveryType(self::DELIVERY_METHOD_PHP);
+		//		$this->setDeliveryType(self::DELIVERY_METHOD_PHP);
 	}
 
 
