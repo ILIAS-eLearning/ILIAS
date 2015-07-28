@@ -1736,7 +1736,10 @@ class gevCourseUtils {
 	public function deliverUVGList() {
 		$this->buildUVGList(true, null);
 	}
-	#
+
+	public function deliverSignatureList($filename = null) {
+		$this->buildSignatureList($filename);
+	}
 
 	public function buildICAL($a_send,$a_filename) {
 
@@ -1972,6 +1975,17 @@ class gevCourseUtils {
 		return array($filename, "Teilnehmer.xls");
  	}
 
+ 	public function buildSignatureList($a_filename = null) {
+		require_once 'Services/GEV/Utils/classes/class.gevCourseSignatureList.php';
+
+		if ($a_filename === null) {
+			$a_filename = "signature_list.pdf";
+		}
+
+		$list = new gevCourseSignatureList($this);
+		$list->Outout($a_filename,'D');
+
+ 	}
 
 	public function buildMemberList($a_send, $a_filename, $a_type) {
 		if (!in_array($a_type, array(self::MEMBERLIST_TRAINER, self::MEMBERLIST_HOTEL, self::MEMBERLIST_PARTICIPANT))) {
@@ -2225,7 +2239,7 @@ class gevCourseUtils {
 		return $row;
 	}
 	
-	protected function getListMetaData($a_type) {
+	protected function getListMetaData($a_type = null) {
 		$start_date = $this->getStartDate();
 		$end_date = $this->getEndDate();
 
