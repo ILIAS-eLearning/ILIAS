@@ -14361,3 +14361,7 @@ grp#:#grp_admission_link_failure_membership_limited#:#Can't registrate: Group me
 crs#:#crs_admission_link_failure_membership_limited#:#Can't registrate: Course membership is limited.###18 03 2015 new variable
 grp#:#grp_admission_link_success_registration#:#Successfully registrated to group "%s".###18 03 2015 new variable
 crs#:#crs_admission_link_success_registration#:#Successfully registrated to course "%s".###18 03 2015 new variable
+assessment#:#tst_dyn_quest_set_pool_deleted#:#The currently configured questionpool "%s" has been deleted.###28 07 2015 new variable
+assessment#:#tst_old_style_rnd_quest_set_broken#:#This random test is in a irreparable state, because one or more connected question pools have been deleted. Therefor participants cannot take the test any longer.###28 07 2015 new variable
+assessment#:#tst_result_pass#:#Results of Test Pass###28 07 2015 new variable
+cron#:#cron_result_status_fail#:#Failed###28 07 2015 new variable

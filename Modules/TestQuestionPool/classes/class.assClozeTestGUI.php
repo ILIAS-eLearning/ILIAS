@@ -734,6 +734,8 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 	 */
 	function getPreview($show_question_only = FALSE)
 	{
+		
+		
 		// generate the question output
 		include_once "./Services/UICore/classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_as_qpl_cloze_question_output.html", TRUE, TRUE, "Modules/TestQuestionPool");
@@ -1169,7 +1171,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 			$ilTabs->addTarget("edit_question",
 				$url,
 				array("editQuestion", "originalSyncForm", "save", "createGaps", "saveEdit"),
-				$classname, "", true);
+				$classname, "", $force_active);
 		}
 
 		// add tab for question feedback within common class assQuestionGUI

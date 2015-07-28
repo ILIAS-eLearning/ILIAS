@@ -14359,3 +14359,5 @@ grp#:#grp_admission_link_failure_membership_limited#:#Nem regisztrálhat, mert a
 crs#:#crs_admission_link_failure_membership_limited#:#Nem regisztrálhat, mert a kurzus tagsága korlátozott.
 grp#:#grp_admission_link_success_registration#:#'%s' csoportba sikeresen regisztrált.
 crs#:#crs_admission_link_success_registration#:#'%s' kurzusba sikeresen regisztrált.
+assessment#:#tst_result_pass#:#Results of Test Pass###28 07 2015 new variable
+cron#:#cron_result_status_fail#:#Failed###28 07 2015 new variable
