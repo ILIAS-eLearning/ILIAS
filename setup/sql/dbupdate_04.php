@@ -6241,10 +6241,7 @@ if($ilDB->tableExists('chat_blocked'))
 ?>
 <#4498>
 <?php
-/*if($ilDB->tableExists('chatroom_bans'))
-{
-	$ilDB->dropTable('chatroom_bans');
-}*/
+// Don't remove this comment
 ?>
 <#4499>
 <?php
@@ -6435,4 +6432,69 @@ if($data['cnt'] > 0)
 }
 
 $ilDB->addPrimaryKey('chatroom_proomaccess', array('proom_id', 'user_id'));
+?>
+<#4517>
+<?php
+$mopt_dup_query_num = "
+SELECT COUNT(*) cnt
+FROM (
+	SELECT user_id
+    FROM mail_options
+    GROUP BY user_id
+    HAVING COUNT(*) > 1
+) duplicateMailOptions
+";
+$res  = $ilDB->query($mopt_dup_query_num);
+$data = $ilDB->fetchAssoc($res);
+if($data['cnt'])
+{
+	$mopt_dup_query = "
+	SELECT mail_options.user_id
+	FROM mail_options
+	INNER JOIN (
+		SELECT user_id
+		FROM mail_options
+		GROUP BY user_id
+		HAVING COUNT(*) > 1
+	) duplicateMailOptions ON duplicateMailOptions.user_id = mail_options.user_id
+	GROUP BY mail_options.user_id
+	";
+	$res = $ilDB->query($mopt_dup_query);
+
+	$stmt = $ilDB->prepare("SELECT * FROM mail_options WHERE user_id = ?", array('integer'));
+
+	while($row = $ilDB->fetchAssoc($res))
+	{
+		$opt_res = $ilDB->execute($stmt, array($row['user_id']));
+		$opt_row = $ilDB->fetchAssoc($opt_res);
+
+		if($opt_row)
+		{
+			$ilDB->manipulateF(
+				"DELETE FROM mail_options WHERE user_id = %s",
+				array('integer'),
+				array($opt_row['user_id'])
+			);
+			$ilDB->insert(
+				'mail_options',
+				array(
+					'user_id'              => array('integer', $opt_row['user_id']),
+					'linebreak'            => array('integer', $opt_row['linebreak']),
+					'signature'            => array('text', $opt_row['signature']),
+					'incoming_type'        => array('integer', $opt_row['incoming_type']),
+					'cronjob_notification' => array('integer', $opt_row['cronjob_notification'])
+				)
+			);
+		}
+	}
+}
+
+$res  = $ilDB->query($mopt_dup_query_num);
+$data = $ilDB->fetchAssoc($res);
+if($data['cnt'] > 0)
+{
+	throw new Exception("There are still duplicate entries in table 'mail_options'. Please execute this database update step again.");
+}
+
+$ilDB->addPrimaryKey('mail_options', array('user_id'));
 ?>
