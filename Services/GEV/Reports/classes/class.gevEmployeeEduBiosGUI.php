@@ -125,16 +125,16 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 		$earliest_possible_cert_period_begin = "2013-09-01";
 		$this->orgu_filter = "SELECT huo1.usr_id, GROUP_CONCAT(DISTINCT huo1.orgu_title SEPARATOR ', ') AS org_unit, "
 							."		".$this->db->quote($this->filtered_orgus[0],"text")." AS orgu_title, " 
-							."		".$this->db->quote($this->filtered_orgus[0],"text")." AS org_org_unit_above1, "
-							."		".$this->db->quote($this->filtered_orgus[0],"text")." AS org_org_unit_above2 " 
+							."		".$this->db->quote($this->filtered_orgus[0],"text")." AS org_unit_above1, "
+							."		".$this->db->quote($this->filtered_orgus[0],"text")." AS org_unit_above2 " 
 							."		FROM hist_userorgu huo1 "
 							." 		JOIN hist_userorgu huo2 ON huo1.usr_id = huo2.usr_id AND huo1.orgu_id = huo2.orgu_id "
 							."			AND huo1.rol_id = huo2.rol_id "
 							."		WHERE  huo1.`action` = 1 AND huo1.hist_historic = 0 AND huo2.`action` = 1 AND huo2.hist_historic = 0";
 		if(count($this->filtered_orgus)>0) {
 		$this->orgu_gilter .="		AND (".$this->db->in("huo2.orgu_title", $this->filtered_orgus, false, "text")
-							."		OR ".$this->db->in("huo2.org_org_unit_above1", $this->filtered_orgus, false, "text")
-							."		OR ".$this->db->in("huo2.org_org_unit_above2", $this->filtered_orgus, false, "text").")";
+							."		OR ".$this->db->in("huo2.org_unit_above1", $this->filtered_orgus, false, "text")
+							."		OR ".$this->db->in("huo2.org_unit_above2", $this->filtered_orgus, false, "text").")";
 		}
 		$this->orgu_filter .="		GROUP BY huo1.usr_id ";						
 		$this->query = catReportQuery::create()
