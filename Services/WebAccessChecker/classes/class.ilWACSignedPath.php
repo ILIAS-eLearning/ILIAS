@@ -15,7 +15,7 @@ class ilWACSignedPath {
 	const TYPE_FOLDER = 2;
 	const WAC_TOKEN_ID = 'il_wac_token';
 	const WAC_TIMESTAMP_ID = 'il_wac_ts';
-	const TOKEN_MAX_LIFETIME_IN_SECONDS = 5;
+	const TOKEN_MAX_LIFETIME_IN_SECONDS = 3;
 	const COOKIE_SEPERATOR = '$';
 	/**
 	 * @var ilWACPath
@@ -106,8 +106,8 @@ class ilWACSignedPath {
 
 		$return = $this->checkToken();
 		if ($return) {
-			$this->setType(self::TYPE_FOLDER);
-			$this->saveFolderToken();
+//			$this->setType(self::TYPE_FOLDER);
+//			$this->saveFolderToken();
 		}
 
 		return $return;
