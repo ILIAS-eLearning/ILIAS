@@ -6232,3 +6232,101 @@ if( !$ilDB->tableExists('mail_cron_orphaned') )
 	$ilDB->addPrimaryKey('mail_cron_orphaned', array('mail_id', 'folder_id'));
 }
 ?>
+<#4497>
+<?php
+if($ilDB->tableExists('chat_blocked'))
+{
+	$ilDB->dropTable('chat_blocked');
+}
+?>
+<#4498>
+<?php
+if($ilDB->tableExists('chatroom_bans'))
+{
+	$ilDB->dropTable('chatroom_bans');
+}
+?>
+<#4499>
+<?php
+if($ilDB->tableExists('chat_invitations'))
+{
+	$ilDB->dropTable('chat_invitations');
+}
+?>
+<#4500>
+<?php
+if($ilDB->tableExists('chat_records'))
+{
+	$ilDB->dropTable('chat_records');
+}
+?>
+<#4501>
+<?php
+if($ilDB->sequenceExists('chat_records'))
+{
+	$ilDB->dropSequence('chat_records');
+}
+?>
+<#4502>
+<?php
+if($ilDB->sequenceExists('chat_rooms'))
+{
+	$ilDB->dropSequence('chat_rooms');
+}
+?>
+<#4503>
+<?php
+if($ilDB->tableExists('chat_rooms'))
+{
+	$ilDB->dropTable('chat_rooms');
+}
+?>
+<#4504>
+<?php
+if($ilDB->tableExists('chat_room_messages'))
+{
+	$ilDB->dropTable('chat_room_messages');
+}
+?>
+<#4505>
+<?php
+if($ilDB->sequenceExists('chat_room_messages'))
+{
+	$ilDB->dropSequence('chat_room_messages');
+}
+?>
+<#4506>
+<?php
+if($ilDB->sequenceExists('chat_smilies'))
+{
+	$ilDB->dropSequence('chat_smilies');
+}
+?>
+<#4507>
+<?php
+if($ilDB->tableExists('chat_smilies'))
+{
+	$ilDB->dropTable('chat_smilies');
+}
+?>
+<#4508>
+<?php
+if($ilDB->tableExists('chat_user'))
+{
+	$ilDB->dropTable('chat_user');
+}
+?>
+<#4509>
+<?php
+if($ilDB->tableExists('chat_record_data'))
+{
+	$ilDB->dropTable('chat_record_data');
+}
+?>
+<#4510>
+<?php
+if($ilDB->sequenceExists('chat_record_data'))
+{
+	$ilDB->dropSequence('chat_record_data');
+}
+?>
