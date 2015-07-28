@@ -15,7 +15,8 @@ class ilWACSignedPath {
 	const TYPE_FOLDER = 2;
 	const WAC_TOKEN_ID = 'il_wac_token';
 	const WAC_TIMESTAMP_ID = 'il_wac_ts';
-	const SECONDS = 10;
+	const TOKEN_MAX_LIFETIME_IN_SECONDS = 5;
+	const COOKIE_SEPERATOR = '$';
 	/**
 	 * @var ilWACPath
 	 */
@@ -51,8 +52,19 @@ class ilWACSignedPath {
 
 	/**
 	 * @return string
+	 * @throws ilWACException
 	 */
 	public function getSignedPath() {
+		if ($this->getType() !== self::TYPE_FILE) {
+			throw new ilWACException(ilWACException::WRONG_PATH_TYPE);
+		}
+		if (! $this->getPathObject()->getOriginalRequest()) {
+			return '';
+		}
+		if (! $this->getPathObject()->fileExists()) {
+			return $this->getPathObject()->getOriginalRequest();
+		}
+
 		if (strpos($this->getPathObject()->getPath(), '?')) {
 			$path = $this->getPathObject()->getPath() . '&' . self::WAC_TOKEN_ID . '=' . $this->getTokenInstance()->getToken();
 		} else {
@@ -60,6 +72,56 @@ class ilWACSignedPath {
 		}
 
 		return $path . '&' . self::WAC_TIMESTAMP_ID . '=' . $this->getTokenInstance()->getTimestamp();
+	}
+
+
+	/**
+	 * @return bool
+	 */
+	public function hasFolderToken() {
+		$this->generateFolderToken();
+
+		$exists = isset($_COOKIE[$this->getTokenInstance()->getId()]);
+		if ($exists) {
+			$this->setType(self::TYPE_FOLDER);
+		}
+
+		return $exists;
+	}
+
+
+	/**
+	 * @return bool
+	 * @throws ilWACException
+	 */
+	public function isFolderTokenValid() {
+		if (! $this->hasFolderToken()) {
+
+			return false;
+		}
+		$this->generateFolderToken();
+
+		$this->getPathObject()->setToken($_COOKIE[$this->getTokenInstance()->getId()]);
+		$this->getPathObject()->setTimestamp($_COOKIE[$this->getTokenInstance()->getId() . '_ts']);
+
+		$return = $this->checkToken();
+		if ($return) {
+			$this->setType(self::TYPE_FOLDER);
+			$this->saveFolderToken();
+		}
+
+		return $return;
+	}
+
+
+	public function saveFolderToken() {
+		if ($this->getType() !== self::TYPE_FOLDER) {
+			throw new ilWACException(ilWACException::WRONG_PATH_TYPE);
+		}
+		$expires = time() + self::TOKEN_MAX_LIFETIME_IN_SECONDS; // FSX use
+		$this->generateFolderToken();
+		setcookie($this->getTokenInstance()->getId(), $this->getTokenInstance()->getToken(), 0, '/');
+		setcookie($this->getTokenInstance()->getId() . '_ts', $expires, 0, '/');
 	}
 
 
@@ -77,12 +139,8 @@ class ilWACSignedPath {
 	 */
 	public function isSignedPathValid() {
 		$this->generateTokenInstance();
-		$current_timestamp = $this->getTokenInstance()->getTimestamp();
-		$timestamp_valid = ($this->getPathObject()->getTimestamp() > $current_timestamp - self::SECONDS
-			&& $this->getPathObject()->getTimestamp() < $current_timestamp + self::SECONDS);
-		$token_valid = ($this->getPathObject()->getToken() == $this->getTokenInstance()->getToken());
 
-		return ($timestamp_valid && $token_valid);
+		return $this->checkToken();
 	}
 
 
@@ -93,6 +151,9 @@ class ilWACSignedPath {
 	 * @throws ilWACException
 	 */
 	public static function signFile($path_to_file) {
+		if (! $path_to_file) {
+			return '';
+		}
 		$ilWACPath = new ilWACPath($path_to_file);
 		$obj = new self($ilWACPath);
 		$obj->setType(self::TYPE_FILE);
@@ -103,18 +164,15 @@ class ilWACSignedPath {
 
 
 	/**
-	 * @param $folder_path
+	 * @param $start_file_path
 	 *
-	 * @return string
 	 * @throws ilWACException
 	 */
-	public static function signFolder($folder_path) {
-		$ilWACPath = new ilWACPath($folder_path);
+	public static function signFolderOfStartFile($start_file_path) {
+		$ilWACPath = new ilWACPath($start_file_path);
 		$obj = new self($ilWACPath);
 		$obj->setType(self::TYPE_FOLDER);
-		$obj->generateTokenInstance();
-
-		return $obj->getSignedPath();
+		$obj->saveFolderToken();
 	}
 
 
@@ -163,6 +221,22 @@ class ilWACSignedPath {
 	 */
 	public function setPathObject($path_object) {
 		$this->path_object = $path_object;
+	}
+
+
+	/**
+	 * @return bool
+	 */
+	protected function checkToken() {
+		$timestamp_valid = ($this->getPathObject()->getTimestamp() > $this->getTokenInstance()->getTimestamp() - self::TOKEN_MAX_LIFETIME_IN_SECONDS);
+		$token_valid = ($this->getPathObject()->getToken() == $this->getTokenInstance()->getToken());
+
+		return ($timestamp_valid && $token_valid);
+	}
+
+
+	protected function generateFolderToken() {
+		$this->setTokenInstance(ilWACToken::getInstance($this->getPathObject()->getSecurePath()));
 	}
 }
 
