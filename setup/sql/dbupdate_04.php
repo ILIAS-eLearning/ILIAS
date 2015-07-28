@@ -6241,10 +6241,10 @@ if($ilDB->tableExists('chat_blocked'))
 ?>
 <#4498>
 <?php
-if($ilDB->tableExists('chatroom_bans'))
+/*if($ilDB->tableExists('chatroom_bans'))
 {
 	$ilDB->dropTable('chatroom_bans');
-}
+}*/
 ?>
 <#4499>
 <?php
