@@ -36,6 +36,10 @@ class ilWACToken {
 	 * @var string
 	 */
 	protected $path = '';
+	/**
+	 * @var string
+	 */
+	protected $id = '';
 
 
 	/**
@@ -48,6 +52,7 @@ class ilWACToken {
 		$this->setIp($_SERVER['REMOTE_ADDR']);
 		$this->setTimestamp(time());
 		$this->generateToken();
+		$this->setId(md5($this->getPath()));
 	}
 
 
@@ -162,6 +167,22 @@ class ilWACToken {
 	 */
 	public function setPath($path) {
 		$this->path = $path;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getId() {
+		return $this->id;
+	}
+
+
+	/**
+	 * @param string $id
+	 */
+	public function setId($id) {
+		$this->id = $id;
 	}
 
 
