@@ -2214,10 +2214,12 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 				if(($_POST['confirm'] != '' || $_POST['no_cs_change'] != '') && $_GET['action'] == 'ready_censor')
 				{
 					$frm->postCensorship($this->handleFormInput($_POST['formData']['cens_message']), $this->objCurrentPost->getId(), 1);
+					ilUtil::sendSuccess($this->lng->txt('frm_censorship_applied'));
 				}
 				else if(($_POST['cancel'] != '' || $_POST['yes_cs_change'] != '') && $_GET['action'] == 'ready_censor')
 				{
 					$frm->postCensorship($this->handleFormInput($_POST['formData']['cens_message']), $this->objCurrentPost->getId());
+					ilUtil::sendSuccess($this->lng->txt('frm_censorship_revoked'));
 				}
 			}
 
@@ -2530,8 +2532,15 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 								$this->ctrl->setParameter($this, 'thr_pk', $node->getThreadId());
 								$this->ctrl->setParameter($this, 'offset', $Start);
 								$this->ctrl->setParameter($this, 'orderby', $_GET['orderby']);									
-								$tpl->setVariable('COMMANDS_COMMAND', $this->ctrl->getLinkTarget($this, 'viewThread', $node->getId()));							
-								$tpl->setVariable('COMMANDS_TXT', $lng->txt('censorship'));
+								$tpl->setVariable('COMMANDS_COMMAND', $this->ctrl->getLinkTarget($this, 'viewThread', $node->getId()));
+								if($node->isCensored())
+								{
+									$tpl->setVariable('COMMANDS_TXT', $lng->txt('frm_revoke_censorship'));
+								}
+								else
+								{
+									$tpl->setVariable('COMMANDS_TXT', $lng->txt('frm_censorship'));
+								}
 								$this->ctrl->clearParameters($this);
 								$tpl->parseCurrentBlock();
 								
@@ -2562,7 +2571,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 								$this->ctrl->setParameter($this, 'orderby', $_GET['orderby']);
 								$this->ctrl->setParameter($this, 'viewmode', $_SESSION['viewmode']);
 								$tpl->setVariable('COMMANDS_COMMAND', $this->ctrl->getLinkTarget($this, 'markPostRead', $node->getId()));
-								$tpl->setVariable('COMMANDS_TXT', $lng->txt('is_read'));
+								$tpl->setVariable('COMMANDS_TXT', $lng->txt('frm_mark_as_read'));
 								$this->ctrl->clearParameters($this);
 								$tpl->parseCurrentBlock();
 							}
@@ -2578,7 +2587,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 								$this->ctrl->setParameter($this, 'orderby', $_GET['orderby']);
 								$this->ctrl->setParameter($this, 'viewmode', $_SESSION['viewmode']);
 								$tpl->setVariable('COMMANDS_COMMAND', $this->ctrl->getLinkTarget($this, 'markPostUnread', $node->getId()));
-								$tpl->setVariable('COMMANDS_TXT', $lng->txt('unread'));
+								$tpl->setVariable('COMMANDS_TXT', $lng->txt('frm_mark_as_unread'));
 								$this->ctrl->clearParameters($this);
 								$tpl->parseCurrentBlock();
 							}

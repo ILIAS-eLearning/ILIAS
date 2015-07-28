@@ -15245,3 +15245,9 @@ wiki#:#wiki_unhide_meta_adv_records#:#Show additional properties
 content#:#cont_wiki_link_dialog#:#Link to Wiki Page (Dialog)
 link#:#link_link#:#Link
 prtt#:#prtt_portfolio_created#:#Portfolio Template added
+forum#:#frm_censorship#:#Censor
+forum#:#frm_revoke_censorship#:#Revoke Censorship
+forum#:#frm_censorship_applied#:#The censorship has been successfully applied.
+forum#:#frm_censorship_revoked#:#The censorship has been successfully revoked.
+forum#:#frm_mark_as_read#:#Mark as read
+forum#:#frm_mark_as_unread#:#Mark as unread
