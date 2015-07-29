@@ -42,12 +42,13 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 		$this->setImage("GEV_img/ico-head-my-training-deployments.png");
 	
 		$this->memberlist_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-table-eye.png").'" />';
+		$this->signaure_list_img = '<img src="'.ilUtil::getImagePath("GEV_img/icon-table-signature.png").'" />';
 		$this->setstatus_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-table-state-neutral.png").'" />';
 		$this->overnight_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-edit.png").'" />';
 		$this->bookings_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-table-booking.png").'" />';
 		$this->virtualclass_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-classroom.png").'" />';
 		$this->maillog_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-invitation.png").'" />';
-		
+		$this->signature_list_img = '<img src="'.ilUtil::getImagePath("GEV_img/icon-table-signature.png").'" />';
 		$legend = new catLegendGUI();
 		$legend->addItem($this->memberlist_img, "gev_mytrainingsap_legend_memberlist")
 			   ->addItem($this->setstatus_img, "gev_mytrainingsap_legend_setstatus")
@@ -55,6 +56,7 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 			   ->addItem($this->bookings_img, "gev_mytrainingsap_legend_view_bookings")
 			   ->addItem($this->virtualclass_img, "gev_virtual_class")
 			   ->addItem($this->maillog_img, "gev_mail_log")
+			   ->addItem($this->signature_list_img, "gev_signature_list")
 			   ;
 		$this->setLegend($legend);
 
@@ -123,6 +125,7 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 		
 		$this->ctrl->setParameterByClass("gevMemberListDeliveryGUI", "ref_id", $a_set["crs_ref_id"]);
 		$memberlist_link = $this->ctrl->getLinkTargetByClass("gevMemberListDeliveryGUI", "trainer");
+		$signature_list_link = $this->ctrl->getLinkTargetByClass("gevMemberListDeliveryGUI", "download_signature_list");
 		$this->ctrl->clearParametersByClass("gevMemberListDeliveryGUI");
 		
 		$this->ctrl->setParameter($this->parent_obj, "crsrefid", $a_set['crs_ref_id']);
@@ -135,6 +138,7 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 		$view_bookings = $crs_utils->canViewBookings($this->user_id);
 
 		$actions = "<a href=\"".$memberlist_link."\">".$this->memberlist_img."</a>";
+
 		if($a_set['may_finalize']) {
 			$actions .="&nbsp;<a href=\"".$setstatus_link."\">".$this->setstatus_img."</a>";
 		}
@@ -155,7 +159,7 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 		$this->ctrl->setParameterByClass("gevMaillogGUI", "obj_id", $a_set["obj_id"]);
 		$actions .= '&nbsp;<a href="'.$this->ctrl->getLinkTargetByClass("gevMaillogGUI", "showMaillog").'">'.$this->maillog_img.'</a>';
 		$this->ctrl->clearParametersByClass("gevMaillogGUI");
-
+		$actions .= "<a href=\"".$signature_list_link."\">".$this->signature_list_img."</a>";
 		$this->ctrl->setParameterByClass("ilrepositorygui","ref_id",$a_set["crs_ref_id"]);
 		$course_link = $this->ctrl->getLinkTargetByClass("ilrepositorygui", "view");
 		$this->ctrl->clearParametersByClass("ilrepositorygui");
@@ -180,6 +184,8 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 		$this->tpl->setVariable("CONTENTS", $a_set["content"]);
 		$this->tpl->setVariable("MBMRLST_LINK", $memberlist_link);
 		$this->tpl->setVariable("MBMRLST_LINK_TXT", $this->lng->txt('gev_mytrainingsap_btn_memberlist'));
+		$this->tpl->setVariable("SIGNATURE_LIST_LINK", $signature_list_link);
+		$this->tpl->setVariable("SIGNATURE_LIST_LINK_TXT", $this->lng->txt('gev_signature_list'));
 		if ($a_set['may_finalize']) {
 			$this->tpl->setCurrentBlock("set_stat");
 			$this->tpl->setVariable("SETSTAT_LINK", $setstatus_link);
