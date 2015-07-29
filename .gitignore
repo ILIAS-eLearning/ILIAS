@@ -378,3 +378,4 @@ db_template_writer.php
 /dicto/results/*
 !/dicto/results/README.md
 override.php
+virtual-data
