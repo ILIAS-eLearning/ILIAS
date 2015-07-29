@@ -839,7 +839,13 @@ class ilInitialisation
 	}
 	
 	protected static $already_initialized;
-	
+
+
+	public static function reinitILIAS() {
+		self::$already_initialized = false;
+		self::initILIAS();
+	}
+
 	/**
 	 * ilias initialisation
 	 */
@@ -1126,6 +1132,7 @@ class ilInitialisation
 						&& $current_script != "shib_logout.php"
 						&& $current_script != "error.php"
 						&& $current_script != "chat.php"
+						&& $current_script != "wac.php"
 						&& $current_script != "index.php"); // #10316
 				
 				if($mandatory_auth)
@@ -1162,7 +1169,7 @@ class ilInitialisation
 		global $ilAuth, $ilSetting;
 						
 		// #10608
-		if(ilContext::getType() == ilContext::CONTEXT_SOAP)
+		if(ilContext::getType() == ilContext::CONTEXT_SOAP || ilContext::getType() == ilContext::CONTEXT_WAC)
 		{
 			throw new Exception("Authentication failed.");
 		}				
