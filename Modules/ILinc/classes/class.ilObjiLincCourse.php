@@ -50,7 +50,7 @@ class ilObjiLincCourse extends ilContainer
 	
 	public function getViewMode()
 	{
-		return ilContainer::VIEW_ILINC;
+		return ilContainer::VIEW_BY_TYPE;
 	}
 	
 	/**
