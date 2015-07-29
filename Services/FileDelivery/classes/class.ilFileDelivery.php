@@ -16,6 +16,7 @@ class ilFileDelivery {
 	const DELIVERY_METHOD_XACCEL = 'x-accel-redirect';
 	const DELIVERY_METHOD_PHP = 'php';
 	const DELIVERY_METHOD_PHP_CHUNKED = 'php_chunked';
+	const DELIVERY_METHOD_VIRTUAL = 'virtual';
 	const DISP_ATTACHMENT = 'attachment';
 	const DISP_INLINE = 'inline';
 	/**
@@ -142,9 +143,23 @@ class ilFileDelivery {
 			case self::DELIVERY_METHOD_PHP_CHUNKED:
 				$this->deliverPHPChunked();
 				break;
+			case self::DELIVERY_METHOD_VIRTUAL:
+				$this->deliverVirtual();
+				break;
 		}
 		if ($this->isExitAfter()) {
 			exit;
+		}
+	}
+
+
+	public function deliverVirtual() {
+		$path_to_file = $this->getPathToFile();
+		if (strpos($path_to_file, './data/') === 0) {
+			$virtual_path = str_replace('./data/', strstr(ilUtil::_getHttpPath(), '/data', true) . '/virtual-data/', $path_to_file);
+			virtual($virtual_path);
+		} else {
+			$this->deliverPHP();
 		}
 	}
 

@@ -377,3 +377,4 @@ db_template_writer.php
 # /dicto
 /dicto/results/*
 !/dicto/results/README.md
+override.php
