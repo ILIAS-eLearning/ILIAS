@@ -6396,31 +6396,20 @@ $data = $ilDB->fetchAssoc($res);
 if($data['cnt'])
 {
 	$mopt_dup_query = "
-	SELECT chatroom_proomaccess.*
+	SELECT proom_id, user_id
 	FROM chatroom_proomaccess
-	INNER JOIN (
-		SELECT proom_id, user_id
-		FROM chatroom_proomaccess
-		GROUP BY proom_id, user_id
-		HAVING COUNT(*) > 1
-	) duplicateChatProoms ON duplicateChatProoms.user_id = chatroom_proomaccess.user_id AND duplicateChatProoms.proom_id = chatroom_proomaccess.proom_id
-	GROUP BY chatroom_proomaccess.proom_id, chatroom_proomaccess.user_id
+	GROUP BY proom_id, user_id
+	HAVING COUNT(*) > 1
 	";
 	$res = $ilDB->query($mopt_dup_query);
+
+	$stmt_del = $ilDB->prepareManip("DELETE FROM chatroom_proomaccess WHERE proom_id = ? AND user_id = ?", array('integer', 'integer'));
+	$stmt_in  = $ilDB->prepareManip("INSERT INTO chatroom_proomaccess (proom_id, user_id) VALUES(?, ?)", array('integer', 'integer'));
+
 	while($row = $ilDB->fetchAssoc($res))
 	{
-		$ilDB->manipulateF(
-			"DELETE FROM chatroom_proomaccess WHERE proom_id = %s AND user_id = %s",
-			array('integer', 'integer'),
-			array($row['proom_id'], $row['user_id'])
-		);
-		$ilDB->insert(
-			'chatroom_proomaccess',
-			array(
-				'proom_id' => array('integer', $row['proom_id']),
-				'user_id'  => array('integer', $row['user_id'])
-			)
-		);
+		$ilDB->execute($stmt_del, array($row['proom_id'], $row['user_id']));
+		$ilDB->execute($stmt_in, array($row['proom_id'], $row['user_id']));
 	}
 }
 
@@ -6449,42 +6438,25 @@ $data = $ilDB->fetchAssoc($res);
 if($data['cnt'])
 {
 	$mopt_dup_query = "
-	SELECT mail_options.user_id
+	SELECT user_id
 	FROM mail_options
-	INNER JOIN (
-		SELECT user_id
-		FROM mail_options
-		GROUP BY user_id
-		HAVING COUNT(*) > 1
-	) duplicateMailOptions ON duplicateMailOptions.user_id = mail_options.user_id
-	GROUP BY mail_options.user_id
+	GROUP BY user_id
+	HAVING COUNT(*) > 1
 	";
 	$res = $ilDB->query($mopt_dup_query);
 
-	$stmt = $ilDB->prepare("SELECT * FROM mail_options WHERE user_id = ?", array('integer'));
+	$stmt_sel = $ilDB->prepare("SELECT * FROM mail_options WHERE user_id = ?", array('integer'));
+	$stmt_del = $ilDB->prepareManip("DELETE FROM mail_options WHERE user_id = ?", array('integer'));
+	$stmt_in  = $ilDB->prepareManip("INSERT INTO mail_options (user_id, linebreak, signature, incoming_type, cronjob_notification) VALUES(?, ?, ?, ?, ?)", array('integer', 'integer', 'text', 'integer', 'integer'));
 
 	while($row = $ilDB->fetchAssoc($res))
 	{
-		$opt_res = $ilDB->execute($stmt, array($row['user_id']));
+		$opt_res = $ilDB->execute($stmt_sel, array($row['user_id']));
 		$opt_row = $ilDB->fetchAssoc($opt_res);
-
 		if($opt_row)
 		{
-			$ilDB->manipulateF(
-				"DELETE FROM mail_options WHERE user_id = %s",
-				array('integer'),
-				array($opt_row['user_id'])
-			);
-			$ilDB->insert(
-				'mail_options',
-				array(
-					'user_id'              => array('integer', $opt_row['user_id']),
-					'linebreak'            => array('integer', $opt_row['linebreak']),
-					'signature'            => array('text', $opt_row['signature']),
-					'incoming_type'        => array('integer', $opt_row['incoming_type']),
-					'cronjob_notification' => array('integer', $opt_row['cronjob_notification'])
-				)
-			);
+			$ilDB->execute($stmt_del, array($opt_row['user_id']));
+			$ilDB->execute($stmt_in, array($opt_row['user_id'], $opt_row['linebreak'], $opt_row['signature'], $opt_row['incoming_type'], $opt_row['cronjob_notification']));
 		}
 	}
 }
@@ -6521,21 +6493,13 @@ if($data['cnt'])
 	";
 	$res = $ilDB->query($psc_dup_query);
 
+	$stmt_del = $ilDB->prepareManip("DELETE FROM payment_statistic_coup WHERE psc_ps_fk = ? AND psc_pc_fk = ? AND psc_pcc_fk = ?", array('integer', 'integer', 'integer'));
+	$stmt_in  = $ilDB->prepareManip("INSERT INTO payment_statistic_coup (psc_ps_fk, psc_pc_fk, psc_pcc_fk) VALUES(?, ?, ?)", array('integer', 'integer', 'integer'));
+
 	while($row = $ilDB->fetchAssoc($res))
 	{
-		$ilDB->manipulateF(
-			"DELETE FROM payment_statistic_coup WHERE psc_ps_fk = %s AND psc_pc_fk = %s AND psc_pcc_fk = %s",
-			array('integer', 'integer', 'integer'),
-			array($row['psc_ps_fk'], $row['psc_pc_fk'], $row['psc_pcc_fk'])
-		);
-		$ilDB->insert(
-			'payment_statistic_coup',
-			array(
-				'psc_ps_fk'  => array('integer', $row['psc_ps_fk']),
-				'psc_pc_fk'  => array('integer', $row['psc_pc_fk']),
-				'psc_pcc_fk' => array('integer', $row['psc_pcc_fk'])
-			)
-		);
+		$ilDB->execute($stmt_del, array($row['psc_ps_fk'], $row['psc_pc_fk'], $row['psc_pcc_fk']));
+		$ilDB->execute($stmt_in, array($row['psc_ps_fk'], $row['psc_pc_fk'], $row['psc_pcc_fk']));
 	}
 }
 
