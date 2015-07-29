@@ -659,8 +659,8 @@ class catMultiSelectFilter {
 		}
 		
 		$a_tpl->setVariable("MULTI_SELECT_LABEL", $a_conf[2]);
-		$a_tpl->setVariable("WIDTH", $a_conf[6]);
-		$a_tpl->setVariable("HEIGHT", $a_conf[7]);
+		$a_tpl->setVariable("WIDTH", $a_conf[7]);
+		$a_tpl->setVariable("HEIGHT", $a_conf[8]);
 		
 		$count = 0;
 

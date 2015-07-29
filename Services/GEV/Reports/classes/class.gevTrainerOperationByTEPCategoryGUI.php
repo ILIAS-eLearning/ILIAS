@@ -93,18 +93,27 @@ class gevTrainerOperationByTEPCategoryGUI extends catBasicReportGUI{
 									 , "hc.edu_program"
 									 , gevCourseUtils::getEduProgramsFromHisto()
 									 , array()
+									 , ""
+									 , 200
+									 , 160	
 									 )
 						->multiselect( "template_title"
 									 , $this->lng->txt("crs_title")
 									 , "hc.template_title"
 									 , gevCourseUtils::getTemplateTitleFromHisto()
 									 , array()
+									 , ""
+									 , 300
+									 , 160	
 									 )
 						->multiselect( "type"
 									 , $this->lng->txt("gev_course_type")
 									 , "type"
 									 , gevCourseUtils::getLearningTypesFromHisto()
 									 , array()
+									 , ""
+									 , 200
+									 , 160	
 									 )
 						->dateperiod( "period"
 									 , $this->lng->txt("gev_period")
@@ -121,12 +130,18 @@ class gevTrainerOperationByTEPCategoryGUI extends catBasicReportGUI{
 									 , "ht.orgu_title"
 									 , $this->getOrgusFromTep()
 									 , array()
+									 , ""
+									 , 200
+									 , 160	
 									 )
 						->multiselect( "venue"
 									 , $this->lng->txt("gev_venue")
 									 , "ht.location"
 									 , gevOrgUnitUtils::getVenueNames()
 									 , array()
+									 , ""
+									 , 300
+									 , 160
 									 )
 						->static_condition("(hc.hist_historic = 0 OR hc.hist_historic IS NULL)")
 						->static_condition("ht.hist_historic = 0")
