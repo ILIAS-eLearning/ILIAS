@@ -41,8 +41,6 @@
 			$this->buildMetaTable();
 			$this->buildParticipantsTable();
 			ob_clean();
-			$this->Output("foo.pdf",'I');
-
 		}
 
 		protected function buildParticipantsTable() {
@@ -85,7 +83,11 @@
 			$this->Cell(30,10,'Unterschriftenliste');
 			$this->Ln(5);
 			$this->SetFont('Arial','',8);
-			$this->Cell(20,10,$this->metadata["Titel"].", ".$this->metadata["Nummer der Maßnahme"]);
+			$header_info = utf8_decode($this->metadata["Titel"]);
+			if($this->metadata["Nummer der Maßnahme"]) {
+				$header_info .= ", ".$this->metadata["Nummer der Maßnahme"];
+			}
+			$this->Cell(20,10,$header_info);
 			$this->Image($this->img,170,6,30);
 			$this->Ln(30);
 
@@ -133,7 +135,7 @@
 		        //Draw the border
 		        $this->Rect($x, $y, $w, $h);
 		        //Print the text
-		        $this->MultiCell($w, 5, $data[$i], 0, $a);
+		        $this->MultiCell($w, 10, $data[$i], 0, $a);
 		        //Put the position to the right of the cell
 		        $this->SetXY($x+$w, $y);
 		    }

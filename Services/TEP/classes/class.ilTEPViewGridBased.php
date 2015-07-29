@@ -697,6 +697,13 @@ abstract class ilTEPViewGridBased extends ilTEPView
 							."' title='".$lng->txt("gev_mytrainingsap_legend_memberlist")."'>".$memberlist_img."</a>&nbsp;";
 				$ilCtrl->setParameterByClass("gevMemberListDeliveryGUI", "ref_id", null);
 			}
+			if ($crs_utils->hasTrainer($cur_user_id) || $crs_utils->hasAdmin($cur_user_id)) {
+				$signatures_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-table-eye.png").'" />';
+				$ilCtrl->setParameterByClass("gevMemberListDeliveryGUI", "ref_id", $ref_id);
+				$actions .=  "<a href='".$ilCtrl->getLinkTargetByClass("gevMemberListDeliveryGUI", "download_signature_list")
+							."' title='".$lng->txt("gev_mytrainingsap_legend_signature_list")."'>".$signatures_img."</a>&nbsp;";
+				$ilCtrl->setParameterByClass("gevMemberListDeliveryGUI", "ref_id", null);
+			}
 			$ilCtrl->setParameterByClass("ilTEPGUI", "ref_id", $ref_id);
 			$ilCtrl->setParameterByClass("ilTEPGUI", "crs_id", $crs_id);
 			if ( $crs_utils->canModifyParticipationStatus($cur_user_id)) {
@@ -719,7 +726,7 @@ abstract class ilTEPViewGridBased extends ilTEPView
 				$actions .=  "<a href='".$crs_utils->getWebExLink()
 							."' title='".$lng->txt("gev_virtual_class")."' target='_blank'>".$vc_img."</a>&nbsp;";
 			}
-			
+
 			$ilCtrl->setParameterByClass("gevMaillogGUI", "obj_id", $a_set["obj_id"]);
 			$ilCtrl->setParameterByClass("ilTEPGUI", "obj_id", $a_set["obj_id"]);
 			$maillog_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-invitation.png").'" />';
