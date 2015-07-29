@@ -2,7 +2,6 @@
 require_once('./Services/FileDelivery/classes/class.ilFileDelivery.php');
 require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
 require_once('./Services/WebAccessChecker/classes/class.ilWACPath.php');
-require_once('./Services/WebAccessChecker/classes/class.ilWACPath.php');
 require_once('./Services/WebAccessChecker/classes/class.ilWACSecurePath.php');
 require_once('./Services/WebAccessChecker/classes/class.ilWACLog.php');
 
@@ -34,6 +33,10 @@ class ilWebAccessChecker {
 	/**
 	 * @var bool
 	 */
+	protected $initialized = false;
+	/**
+	 * @var bool
+	 */
 	protected static $DEBUG = true;
 
 
@@ -54,9 +57,13 @@ class ilWebAccessChecker {
 		} catch (ilWACException $e) {
 			switch ($e->getCode()) {
 				case ilWACException::ACCESS_DENIED:
-				case ilWACException::ACCESS_WITHOUT_CHECK:
-				case ilWACException::NO_CHECKING_INSTANCE:
 					$ilWebAccessChecker->handleAccessErrors($e);
+					break;
+				case ilWACException::ACCESS_WITHOUT_CHECK:
+				case ilWACException::INITIALISATION_FAILED:
+				case ilWACException::NO_CHECKING_INSTANCE:
+				default:
+					$ilWebAccessChecker->handleErrors($e);
 					break;
 			}
 		}
@@ -84,6 +91,7 @@ class ilWebAccessChecker {
 			throw new ilWACException(ilWACException::CODE_NO_PATH);
 		}
 
+		// Check if Path has been signed with a token
 		$ilWACSignedPath = new ilWACSignedPath($this->getPathObject());
 		if ($ilWACSignedPath->isSignedPath()) {
 			if ($ilWACSignedPath->isSignedPathValid()) {
@@ -94,16 +102,20 @@ class ilWebAccessChecker {
 			}
 		}
 
-		if ($ilWACSignedPath->hasFolderToken()) {
+		// Check if the whole secured folder has been signed
+		if ($ilWACSignedPath->isFolderSigned()) {
 			if ($ilWACSignedPath->isFolderTokenValid()) {
 				$this->setChecked(true);
 				ilWACLog::getInstance()->write('checked using secure folder');
+
 				return true;
 			}
 		}
 
+		// Fallback, have to initiate ILIAS
 		$this->initILIAS();
 
+		// Maybe the path has been registered, lets check
 		$checkingInstance = ilWACSecurePath::getCheckingInstance($this->getPathObject());
 		if ($checkingInstance instanceof ilWACCheckingClass) {
 			ilWACLog::getInstance()->write('has checking instance: ' . get_class($checkingInstance));
@@ -113,23 +125,75 @@ class ilWebAccessChecker {
 				if ($ilWACSignedPath->getType() == ilWACSignedPath::TYPE_FOLDER) {
 					$ilWACSignedPath->saveFolderToken();
 				}
+
 				$this->setChecked(true);
 
 				return true;
 			}
 		}
+
+		// Files in ^/data/.*/sec Folder can be checked automatically
+		if ($ilWACSignedPath->getPathObject()->isInSecFolder()) {
+			ilWACLog::getInstance()->write('this file is in sec folder');
+			$component = substr($ilWACSignedPath->getPathObject()->getSecurePathId(), 2);
+			$comp_dir = NULL;
+			switch (true) {
+				case ilComponent::lookupId(IL_COMP_MODULE, $component):
+					$comp_dir = "Modules";
+					break;
+				case ilComponent::lookupId(IL_COMP_SERVICE, $component):
+					$comp_dir = "Services";
+					break;
+			}
+			if ($comp_dir) {
+				$comp_class = "il" . $component . "WebAccessChecker";
+				$comp_include = $comp_dir . "/" . $component . "/classes/class." . $comp_class . ".php";
+				if (file_exists($comp_include)) {
+					include_once $comp_include;
+					if (class_exists($comp_class)) {
+						$comp_inst = new $comp_class();
+						if ($comp_inst instanceof ilComponentWebAccessChecker) {
+							if ($comp_inst->isValidPath(explode('/', $ilWACSignedPath->getPathObject()->getPath()))) {
+								$this->setChecked(true);
+
+								return true;
+							}
+						}
+					}
+				}
+			}
+		}
+
+		// none of the checking mechanisms could have been applied. no access
 		$this->setChecked(true);
-		ilWACLog::getInstance()->write('no access');
+		ilWACLog::getInstance()->write('none of the checking mechanisms could have been applied. no access');
 
 		return false;
 	}
 
 
 	public function initILIAS() {
+		if ($this->isInitialized()) {
+			return true;
+		}
 		require_once('./Services/Init/classes/class.ilInitialisation.php');
 		$GLOBALS['COOKIE_PATH'] = '/';
+		setcookie('ilClientId', $this->getPathObject()->getClient(), 0, '/');
 		ilContext::init(ilContext::CONTEXT_WAC);
-		ilInitialisation::initILIAS();
+		try {
+			ilWACLog::getInstance()->write('init ILIAS');
+			ilInitialisation::initILIAS();
+			global $ilUser;
+			if ($ilUser->getId() == 0) {
+				$_POST['username'] = 'anonymous';
+				$_POST['password'] = 'anonymous';
+				ilWACLog::getInstance()->write('have to re-init ILIAS since theres no User to get checked');
+				ilInitialisation::reinitILIAS();
+			}
+		} catch (Exception $e) {
+			throw new ilWACException(ilWACException::INITIALISATION_FAILED);
+		}
+		$this->setInitialized(true);
 	}
 
 
@@ -199,6 +263,14 @@ class ilWebAccessChecker {
 
 
 	/**
+	 * @param ilWACException $e
+	 */
+	protected function handleErrors(ilWACException $e) {
+		echo $e->getMessage();
+	}
+
+
+	/**
 	 * @return boolean
 	 */
 	public function isChecked() {
@@ -259,6 +331,22 @@ class ilWebAccessChecker {
 	 */
 	public function setOverrideMimetype($override_mimetype) {
 		$this->override_mimetype = $override_mimetype;
+	}
+
+
+	/**
+	 * @return boolean
+	 */
+	public function isInitialized() {
+		return $this->initialized;
+	}
+
+
+	/**
+	 * @param boolean $initialized
+	 */
+	public function setInitialized($initialized) {
+		$this->initialized = $initialized;
 	}
 }
 

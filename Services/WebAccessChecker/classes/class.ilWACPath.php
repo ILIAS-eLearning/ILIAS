@@ -8,6 +8,8 @@
  */
 class ilWACPath {
 
+	const DIR_DATA = "data";
+	const DIR_SEC = "sec";
 	/**
 	 * @var string
 	 */
@@ -49,6 +51,10 @@ class ilWACPath {
 	 */
 	protected $path_without_query = '';
 	/**
+	 * @var bool
+	 */
+	protected $in_sec_folder = false;
+	/**
 	 * @var array
 	 */
 	protected static $image_suffixes = array(
@@ -76,20 +82,21 @@ class ilWACPath {
 	 */
 	public function __construct($path) {
 		$this->setOriginalRequest($path);
-		preg_match("/\\/data\\/([a-zA-Z0-9_]*)\\/([a-zA-Z0-9_]*)\\/(.*)/ui", $path, $results);
-		preg_match("/(\\/data\\/[a-zA-Z0-9_]*\\/[a-zA-Z0-9_]*\\/.*)\\?/ui", $path, $results2);
+		preg_match("/\\/" . self::DIR_DATA . "\\/([\\w]*)\\/(" . self::DIR_SEC . "\\/|)([\\w]*)\\/(.*)/ui", $path, $results);
+		preg_match("/(\\/" . self::DIR_DATA . "\\/[\\w]*\\/[\\w]*\\/.*)\\?/ui", $path, $results2);
 		$this->setPathWithoutQuery($results2[1] ? '.' . $results2[1] : '.' . $results[0]);
 		$this->setPath('.' . $results[0]);
 		$this->setClient($results[1]);
-		$this->setSecurePathId($results[2]);
+		$this->setInSecFolder($results[2] == 'sec/');
+		$this->setSecurePathId($results[3]);
 		$parts = parse_url($path);
 		$this->setFileName(basename($parts['path']));
 		$this->setQuery($parts['query']);
 		parse_str($parts['query'], $query);
 		$this->setParameters($query);
 		$this->setSuffix(pathinfo($parts['path'], PATHINFO_EXTENSION));
-		preg_match("/(\\/data\\/[a-zA-Z0-9_]*\\/[a-zA-Z0-9_]*\\/[a-zA-Z0-9_]*)\\//ui", $path, $results3);
-		$this->setSecurePath($results3[1] ? '.' . $results3[1] : NULL);
+		preg_match("/\\/" . self::DIR_DATA . "\\/([\\w]*)\\/(" . self::DIR_SEC . "\\/[\\w]*\\/[\\d]*\\/|[\\w]*\\/)([\\w]*)\\//ui", $path, $results3);
+		$this->setSecurePath($results3[0] ? '.' . $results3[0] : NULL);
 	}
 
 
@@ -366,6 +373,22 @@ class ilWACPath {
 	 */
 	public function setSecurePath($secure_path) {
 		$this->secure_path = $secure_path;
+	}
+
+
+	/**
+	 * @return boolean
+	 */
+	public function isInSecFolder() {
+		return $this->in_sec_folder;
+	}
+
+
+	/**
+	 * @param boolean $in_sec_folder
+	 */
+	public function setInSecFolder($in_sec_folder) {
+		$this->in_sec_folder = $in_sec_folder;
 	}
 }
 

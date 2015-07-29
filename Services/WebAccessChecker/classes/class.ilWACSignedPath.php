@@ -78,7 +78,7 @@ class ilWACSignedPath {
 	/**
 	 * @return bool
 	 */
-	public function hasFolderToken() {
+	public function isFolderSigned() {
 		$this->generateFolderToken();
 
 		$exists = isset($_COOKIE[$this->getTokenInstance()->getId()]);
@@ -95,7 +95,7 @@ class ilWACSignedPath {
 	 * @throws ilWACException
 	 */
 	public function isFolderTokenValid() {
-		if (! $this->hasFolderToken()) {
+		if (! $this->isFolderSigned()) {
 
 			return false;
 		}
@@ -106,8 +106,8 @@ class ilWACSignedPath {
 
 		$return = $this->checkToken();
 		if ($return) {
-//			$this->setType(self::TYPE_FOLDER);
-//			$this->saveFolderToken();
+			//			$this->setType(self::TYPE_FOLDER);
+			//			$this->saveFolderToken();
 		}
 
 		return $return;

@@ -14,6 +14,7 @@ class ilWACException extends ilException {
 	const ACCESS_WITHOUT_CHECK = 9003;
 	const NO_CHECKING_INSTANCE = 9004;
 	const WRONG_PATH_TYPE = 9005;
+	const INITIALISATION_FAILED = 9006;
 	const ACCESS_DENIED = 9010;
 	/**
 	 * @var array
@@ -25,6 +26,7 @@ class ilWACException extends ilException {
 		self::ACCESS_WITHOUT_CHECK => 'the requested file cannot be delivered since it is not checked yet',
 		self::NO_CHECKING_INSTANCE => 'This path is not secured by a class',
 		self::ACCESS_DENIED => 'ACCESS DENIED: The requested file cannot be delivered.',
+		self::INITIALISATION_FAILED => 'An error occured during your request. Please reload the page.',
 	);
 
 
