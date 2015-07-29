@@ -698,7 +698,7 @@ abstract class ilTEPViewGridBased extends ilTEPView
 				$ilCtrl->setParameterByClass("gevMemberListDeliveryGUI", "ref_id", null);
 			}
 			if ($crs_utils->hasTrainer($cur_user_id) || $crs_utils->hasAdmin($cur_user_id)) {
-				$signatures_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-table-eye.png").'" />';
+				$signatures_img = '<img src="'.ilUtil::getImagePath("GEV_img/icon-table-signature.png").'" />';
 				$ilCtrl->setParameterByClass("gevMemberListDeliveryGUI", "ref_id", $ref_id);
 				$actions .=  "<a href='".$ilCtrl->getLinkTargetByClass("gevMemberListDeliveryGUI", "download_signature_list")
 							."' title='".$lng->txt("gev_mytrainingsap_legend_signature_list")."'>".$signatures_img."</a>&nbsp;";

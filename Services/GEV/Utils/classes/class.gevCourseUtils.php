@@ -1983,7 +1983,7 @@ class gevCourseUtils {
 		}
 
 		$list = new gevCourseSignatureList($this);
-		$list->Outout($a_filename,'D');
+		$list->Output($a_filename,'D');
 
  	}
 

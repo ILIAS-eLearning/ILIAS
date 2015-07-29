@@ -68,9 +68,9 @@
 			$this->Cell(0,0.7,'','B');
 			$this->Ln();
 			foreach ($this->metadata as $key => $value) {
-				$this->Cell(45,8,utf8_decode($key),1);
+				$this->Cell(45,8,utf8_decode($key),1,'L');
 				$this->SetFont('Arial','',10);
-				$this->MultiCell(0,8,utf8_decode($value),1);
+				$this->MultiCell(0,8,utf8_decode($value),1,'L');
 				$this->SetFont('Arial','B',10);
 				$this->Ln(0);
 			}
@@ -121,7 +121,7 @@
 		    $nb=0;
 		    for($i=0;$i<count($data);$i++)
 		        $nb=max($nb, $this->NbLines($this->widths[$i], $data[$i]));
-		    $h=5*$nb;
+		    $h=10*$nb;
 		    //Issue a page break first if needed
 		    $this->CheckPageBreak($h);
 		    //Draw the cells of the row
