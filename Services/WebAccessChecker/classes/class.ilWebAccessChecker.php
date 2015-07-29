@@ -84,7 +84,7 @@ class ilWebAccessChecker {
 	 * @return bool
 	 * @throws ilWACException
 	 */
-	public function check() {
+	protected function check() {
 		ilWACLog::getInstance()->write(str_repeat('#', 100));
 		ilWACLog::getInstance()->write('Checking file: ' . $this->getPathObject()->getPathWithoutQuery());
 		if (! $this->getPathObject()) {
@@ -172,7 +172,7 @@ class ilWebAccessChecker {
 	}
 
 
-	public function initILIAS() {
+	protected function initILIAS() {
 		if ($this->isInitialized()) {
 			return true;
 		}
@@ -197,7 +197,7 @@ class ilWebAccessChecker {
 	}
 
 
-	public function deliver() {
+	protected function deliver() {
 		if (! $this->isChecked()) {
 			throw new ilWACException(ilWACException::ACCESS_WITHOUT_CHECK);
 		}
@@ -218,7 +218,7 @@ class ilWebAccessChecker {
 	}
 
 
-	public function deny() {
+	protected function deny() {
 		if (! $this->isChecked()) {
 			throw new ilWACException(ilWACException::ACCESS_WITHOUT_CHECK);
 		}
@@ -227,7 +227,7 @@ class ilWebAccessChecker {
 
 
 	protected function deliverDummyImage() {
-		$ilFileDelivery = new ilFileDelivery('./Services/WebAccessChecker/templates/images/access_denied.png');
+		$ilFileDelivery = new ilFileDelivery('./Services/WebAccessChecker/templates/images/access_denied.png', $this->getPathObject()->getFileName());
 		$ilFileDelivery->setDisposition($this->getDisposition());
 		$ilFileDelivery->deliver();
 	}
