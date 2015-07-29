@@ -373,6 +373,7 @@ class ilTEPGUI
 					$ilCtrl->getLinkTarget($this, "view"),
 					$ref_id));
 	}
+
 	
 	protected function showOvernights($a_form = null) {
 		global $ilCtrl, $tpl, $ilUser;

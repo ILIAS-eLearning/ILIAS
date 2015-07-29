@@ -626,20 +626,20 @@ class catMultiSelectFilter {
 			// one parameter less, since type is encoded in first parameter but not passed by user.
 			throw new Exception ("catDatePeriodFilterType::checkConfig: expected at least 5 parameters for multiselect.");
 		}
-		
+
 		if (count($a_conf) === 6) {
 			$a_conf[] = ""; // additional_clause
-			$a_conf[] = 160; // width
-			$a_conf[] = 75; // height
+			$a_conf[] = 200; // width
+			$a_conf[] = 160; // height
 			$a_conf[] = "text"; // type
 		}
 		else if (count($a_conf) === 7) {
-			$a_conf[] = 160; // width
-			$a_conf[] = 75; // height
+			$a_conf[] = 200; // width
+			$a_conf[] = 160; // height
 			$a_conf[] = "text"; // type
 		}
 		else if (count($a_conf) === 8) {
-			$a_conf[] = 75; // height
+			$a_conf[] = 160; // height
 			$a_conf[] = "text"; // type
 		}
 		else if (count($a_conf) === 9) {
@@ -659,8 +659,8 @@ class catMultiSelectFilter {
 		}
 		
 		$a_tpl->setVariable("MULTI_SELECT_LABEL", $a_conf[2]);
-		$a_tpl->setVariable("WIDTH", $a_conf[6]);
-		$a_tpl->setVariable("HEIGHT", $a_conf[7]);
+		$a_tpl->setVariable("WIDTH", $a_conf[7]);
+		$a_tpl->setVariable("HEIGHT", $a_conf[8]);
 		
 		$count = 0;
 

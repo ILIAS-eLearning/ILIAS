@@ -126,7 +126,6 @@ class gevDBVReportGUI extends catBasicReportGUI{
 						->static_condition("(huo_out.created_ts IS NULL "
 											." OR huo_out.created_ts > UNIX_TIMESTAMP(".$this->db->quote("2016-01-01","date").")"
 											.") AND huo_in.created_ts < UNIX_TIMESTAMP(".$this->db->quote("2016-01-01","date").")")
-						->static_condition("hc.end_date >= ".$this->db->quote("2015-01-01","date"))
 						->static_condition("hu.hist_historic = 0")
 						->static_condition("hucs.hist_historic = 0")
 						->static_condition("hc.hist_historic = 0")
@@ -209,9 +208,6 @@ class gevDBVReportGUI extends catBasicReportGUI{
 		$table->setData(array($this->summed_data));
 		return $table->getHtml();
 	}
-
-
-
 
 }
 

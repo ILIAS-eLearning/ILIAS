@@ -143,7 +143,8 @@ class gevBuildingBlockUtils {
 		$sql = "SELECT bb.obj_id, bb.title, bb.content, bb.learning_dest\n"
 			  ."     , bb.is_wp_relevant, bb.is_active, usr.login, bb.last_change_date\n"
 			  ."  FROM ".self::TABLE_NAME." bb\n"
-			  ."  JOIN usr_data usr ON usr_id = last_change_user\n";
+			  ."  JOIN usr_data usr ON usr_id = last_change_user\n"
+			  ."  WHERE is_deleted = ".$ilDB->quote(0,"integer")."\n";
 		$sql .= $add_where;
 
 		if($a_order !== null) {

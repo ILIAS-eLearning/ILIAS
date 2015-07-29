@@ -45,6 +45,9 @@ class gevMemberListDeliveryGUI {
 			case "uvg":
 				$utils->deliverUVGList();
 				return;
+			case "download_signature_list":
+				$utils->deliverSignatureList();
+				return;
 			default:
 				$this->ctrl->redirectByClass("gevDesktopGUI");
 				return;

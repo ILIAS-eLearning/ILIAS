@@ -138,7 +138,10 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 									 , array("orgu.orgu_title", "orgu.org_unit_above1", "orgu.org_unit_above2")
 									 //, array("usr.org_unit")
 									 , $org_units_filter
-									 , $org_units_filter
+									 , array()
+									 , ""
+									 , 300
+									 , 160	
 									 )
 						->multiselect("edu_program"
 									 , $this->lng->txt("gev_edu_program")
@@ -146,48 +149,72 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 									 //, gevCourseUtils::getEduProgramsFromHisto()
 									 , gevCourseUtils::getEduProgramsFromHisto()
 									 , array()
+									 , ""
+									 , 200
+									 , 160	
 									 )
 						->multiselect("type"
 									 , $this->lng->txt("gev_course_type")
 									 , "type"
 									 , gevCourseUtils::getLearningTypesFromHisto()
 									 , array()
+									 , ""
+									 , 200
+									 , 160	
 									 )
 						->multiselect("template_title"
 									 , $this->lng->txt("crs_title")
 									 , "template_title"
 									 , gevCourseUtils::getTemplateTitleFromHisto()
 									 , array()
+									 , ""
+									 , 300
+									 , 160	
 									 )
 						->multiselect("participation_status"
 									 , $this->lng->txt("gev_participation_status")
 									 , "participation_status"
 									 , gevCourseUtils::getParticipationStatusFromHisto()
 									 , array()
+									 , ""
+									 , 200
+									 , 160	
 									 )
 						->multiselect("booking_status"
 									 , $this->lng->txt("gev_booking_status")
 									 , "booking_status"
 									 , catFilter::getDistinctValues('booking_status', 'hist_usercoursestatus')
 									 , array()
+									 , ""
+									 , 200
+									 , 160	
 									 )
 						->multiselect("gender"
 									 , $this->lng->txt("gender")
 									 , "gender"
 									 , array('f', 'm')
 									 , array()
+									 , ""
+									 , 100
+									 , 160	
 									 )
 						->multiselect("venue"
 									 , $this->lng->txt("gev_venue")
 									 , "venue"
 									 , catFilter::getDistinctValues('venue', 'hist_course')
 									 , array()
+									 , ""
+									 , 300
+									 , 160	
 									 )
 						->multiselect("provider"
 									 , $this->lng->txt("gev_provider")
 									 , "provider"
 									 , catFilter::getDistinctValues('provider', 'hist_course')
 									 , array()
+									 , ""
+									 , 300
+									 , 160	
 									 )
 						->static_condition($this->db->in("usr.user_id", $this->allowed_user_ids, false, "integer"))
 						->static_condition("usr.hist_historic = 0")
@@ -399,7 +426,7 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 			."	 			OR `usrcrs`.`end_date` = ".$this->db->quote("-empty-","text").")"
 			."	 			AND `usrcrs`.`begin_date` <= ".$this->db->quote($this->dates["end"],"date").")"
 			."		LEFT JOIN `hist_course` crs ON usrcrs.crs_id = crs.crs_id AND crs.hist_historic = 0 "
-			."		".$this->queryWhere();
+			."		".$this->queryWhere()
 			.") as temp";
 		$res = $this->db->query($sum_sql);
 		$this->summed_data = $this->db->fetchAssoc($res);

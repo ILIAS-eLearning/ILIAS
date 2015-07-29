@@ -106,6 +106,9 @@ class gevWBDEdupointsReportedGUI extends catBasicReportGUI{
 									 , "wbd_type"
 									 , catFilter::getDistinctValues('wbd_type', 'hist_user')
 									 , array()
+									 , ""
+									 , 300
+									 , 160
 									 )
 
 						->textinput( "lastname"

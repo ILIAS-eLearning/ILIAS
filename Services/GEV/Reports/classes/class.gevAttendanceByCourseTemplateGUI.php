@@ -111,49 +111,73 @@ class gevAttendanceByCourseTemplateGUI extends catBasicReportGUI{
 									 //, array("usr.org_unit", "org_unit_above1", "org_unit_above2")
 									 , array("orgu.orgu_title")
 									 , $org_units_filter
-									 , $org_units_filter
+									 , array()
+									 , ""
+									 , 300
+									 , 160	
 									 )
 						->multiselect("edu_program"
 									 , $this->lng->txt("gev_edu_program")
 									 , "edu_program"
 									 , gevCourseUtils::getEduProgramsFromHisto()
 									 , array()
+									 , ""
+									 , 200
+									 , 160	
 									 )
 						->multiselect("type"
 									 , $this->lng->txt("gev_course_type")
 									 , "type"
 									 , gevCourseUtils::getLearningTypesFromHisto()
 									 , array()
+									 , ""
+									 , 200
+									 , 160	
 									 )
 						->multiselect("template_title"
 									 , $this->lng->txt("crs_title")
 									 , "template_title"
 									 , gevCourseUtils::getTemplateTitleFromHisto()
 									 , array()
+									 , ""
+									 , 300
+									 , 160	
 									 )
 						->multiselect("participation_status"
 									 , $this->lng->txt("gev_participation_status")
 									 , "participation_status"
 									 , gevCourseUtils::getParticipationStatusFromHisto()
 									 , array()
+									 , ""
+									 , 200
+									 , 160
 									 )
 						->multiselect("booking_status"
 									 , $this->lng->txt("gev_booking_status")
 									 , "booking_status"
 									 , catFilter::getDistinctValues('booking_status', 'hist_usercoursestatus')
 									 , array()
+									 , ""
+									 , 200
+									 , 160	
 									 )
 						->multiselect("venue"
 									 , $this->lng->txt("gev_venue")
 									 , "venue"
 									 , catFilter::getDistinctValues('venue', 'hist_course')
 									 , array()
+									 , ""
+									 , 300
+									 , 160	
 									 )
 						->multiselect("provider"
 									 , $this->lng->txt("gev_provider")
 									 , "provider"
 									 , catFilter::getDistinctValues('provider', 'hist_course')
 									 , array()
+									 , ""
+									 , 300
+									 , 160	
 									 )
 /*
 						->multiselect("gender"
@@ -239,10 +263,11 @@ class gevAttendanceByCourseTemplateGUI extends catBasicReportGUI{
 					) AS sum_exit"
 
 			);
-		$this->orgu_filter = 	"JOIN (SELECT DISTINCT usr_id ,".$this->db->quote($this->filtered_orgus[0])." AS orgu_title"
-					."	FROM hist_userorgu"
-					." 	WHERE ".$this->db->in("orgu_title", $this->filtered_orgus, false, "text")
-					."	AND hist_historic = 0 AND `action` = 1) as orgu ON usrcrs.usr_id = orgu.usr_id";
+		$this->orgu_filter = 	
+				"JOIN (SELECT DISTINCT usr_id ,".$this->db->quote($this->filtered_orgus[0])." AS orgu_title \n"
+					."	FROM hist_userorgu \n"
+					." 	WHERE ".$this->db->in("orgu_title", $this->filtered_orgus, false, "text")." \n"
+					."	AND hist_historic = 0 AND `action` = 1) as orgu ON usrcrs.usr_id = orgu.usr_id \n";
 		$this->query = catReportQuery::create()
 						//->distinct()
 
@@ -262,9 +287,9 @@ class gevAttendanceByCourseTemplateGUI extends catBasicReportGUI{
 						->join("hist_course crs")
 							->on("crs.crs_id = usrcrs.crs_id AND crs.hist_historic = 0");
 		if(count($this->filtered_orgus)>0) {
-			$this->query 		->raw_join($this->orgu_filter );
+			$this->query->raw_join($this->orgu_filter );
 		}
-		$this->query 			->group_by("crs.template_title")
+		$this->query 	->group_by("crs.template_title")
 						->compile();
 
 	
@@ -310,21 +335,21 @@ class gevAttendanceByCourseTemplateGUI extends catBasicReportGUI{
 		}		
 		$sum_sql = 
 		"SELECT "
-		."SUM( CASE WHEN LCASE(booking_status) = 'gebucht' AND LCASE(participation_status) = 'nicht gesetzt' AND type = 'Selbstlernkurs' THEN 1 END ) AS sum_booked_wbt,"
-		."SUM( CASE WHEN LCASE(participation_status) = 'teilgenommen' AND type = 'Selbstlernkurs' THEN 1 END ) AS sum_attended_wbt,"
-		."SUM( CASE WHEN LCASE(booking_status) = 'gebucht' AND LCASE(participation_status) = 'nicht gesetzt' AND type != 'Selbstlernkurs' THEN 1 END ) AS sum_booked,"
-		."SUM( CASE WHEN LCASE(participation_status) = 'teilgenommen' AND type != 'Selbstlernkurs' THEN 1 END ) AS sum_attended,"
-		."SUM( CASE WHEN booking_status = 'auf Warteliste' AND participation_status = 'nicht gesetzt' THEN 1 END ) AS sum_waiting,"
-		."SUM( CASE WHEN LCASE(participation_status) = 'fehlt entschuldigt' THEN 1 END ) AS sum_excused,"
-		."SUM( CASE WHEN LCASE(participation_status) = 'fehlt ohne Absage' THEN 1 END ) AS sum_unexcused,"
-		."SUM( CASE WHEN LCASE(participation_status) = 'canceled_exit' THEN 1 END ) AS sum_exit "
-		."FROM("
-		."	SELECT DISTINCT usr.user_id, crs.crs_id, usrcrs.booking_status, "
-		."		usrcrs.participation_status, crs.type "
-		."		FROM `hist_user` usr " 
-		."			LEFT JOIN `hist_usercoursestatus` usrcrs ON usrcrs.usr_id = usr.user_id AND usr.hist_historic = 0 "
-		."			LEFT JOIN `hist_course` crs ON usrcrs.crs_id = crs.crs_id AND crs.hist_historic = 0 "
-		."			LEFT JOIN hist_userorgu orgu ON orgu.usr_id = usr.user_id "
+		."SUM( CASE WHEN LCASE(booking_status) = 'gebucht' AND LCASE(participation_status) = 'nicht gesetzt' AND type = 'Selbstlernkurs' THEN 1 END ) AS sum_booked_wbt,\n"
+		."SUM( CASE WHEN LCASE(participation_status) = 'teilgenommen' AND type = 'Selbstlernkurs' THEN 1 END ) AS sum_attended_wbt,\n"
+		."SUM( CASE WHEN LCASE(booking_status) = 'gebucht' AND LCASE(participation_status) = 'nicht gesetzt' AND type != 'Selbstlernkurs' THEN 1 END ) AS sum_booked,\n"
+		."SUM( CASE WHEN LCASE(participation_status) = 'teilgenommen' AND type != 'Selbstlernkurs' THEN 1 END ) AS sum_attended,\n"
+		."SUM( CASE WHEN booking_status = 'auf Warteliste' AND participation_status = 'nicht gesetzt' THEN 1 END ) AS sum_waiting,\n"
+		."SUM( CASE WHEN LCASE(participation_status) = 'fehlt entschuldigt' THEN 1 END ) AS sum_excused,\n"
+		."SUM( CASE WHEN LCASE(participation_status) = 'fehlt ohne Absage' THEN 1 END ) AS sum_unexcused,\n"
+		."SUM( CASE WHEN LCASE(participation_status) = 'canceled_exit' THEN 1 END ) AS sum_exit \n"
+		."FROM( \n"
+		."	SELECT DISTINCT usr.user_id, crs.crs_id, usrcrs.booking_status, \n"
+		."		usrcrs.participation_status, crs.type \n"
+		."		FROM `hist_user` usr \n" 
+		."			LEFT JOIN `hist_usercoursestatus` usrcrs ON usrcrs.usr_id = usr.user_id AND usr.hist_historic = 0 \n"
+		."			LEFT JOIN `hist_course` crs ON usrcrs.crs_id = crs.crs_id AND crs.hist_historic = 0 \n"
+		."			LEFT JOIN hist_userorgu orgu ON orgu.usr_id = usr.user_id \n"
 		.$this->queryWhere()
 		.") as temp";
 		$res = $this->db->query($sum_sql);
