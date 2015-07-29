@@ -141,6 +141,9 @@ class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 									 , array("orgu.orgu_title", "orgu.org_unit_above1", "orgu.org_unit_above2")
 									 , $org_units_filter
 									 , array()
+									 , ""
+									 , 300
+									 , 160
 									 )
 						/*->multiselect("edu_program"
 									 , $this->lng->txt("gev_edu_program")
@@ -159,12 +162,18 @@ class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 									 , "template_title"
 									 , gevCourseUtils::getTemplateTitleFromHisto()
 									 , array()
+									 , ""
+									 , 300
+									 , 160
 									 )
 						->multiselect("participation_status"
 									 , $this->lng->txt("gev_participation_status")
 									 , "participation_status"
 									 , gevCourseUtils::getParticipationStatusFromHisto()
 									 , array()
+									 , ""
+									 , 200
+									 , 160
 									 )/*
 						->multiselect("position_key"
 									 , $this->lng->txt("gev_position_key")

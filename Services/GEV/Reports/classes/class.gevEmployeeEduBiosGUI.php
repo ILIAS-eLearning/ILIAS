@@ -114,6 +114,9 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 									 , array("orgu.orgu_title", "orgu.org_unit_above1", "orgu.org_unit_above2")
 									 , $org_units_filter
 									 , array()
+									 , ""
+									 , 300
+									 , 160
 									 )
 						->static_condition($this->db->in("usr.user_id", $this->allowed_user_ids, false, "integer"))
 						->static_condition(" usr.hist_historic = 0")		
