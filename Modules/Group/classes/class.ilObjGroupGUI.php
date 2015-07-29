@@ -51,8 +51,9 @@ class ilObjGroupGUI extends ilContainerGUI
 		if (!$this->getCreationMode() &&
 			$ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 		{
+			include_once("./Services/Link/classes/class.ilLink.php");
 			$ilNavigationHistory->addItem($_GET["ref_id"],
-				$ilCtrl->getLinkTargetByClass("ilrepositorygui", "frameset"), "grp");
+				ilLink::_getLink($_GET["ref_id"], "grp"), "grp");
 		}
 
 		switch($next_class)
