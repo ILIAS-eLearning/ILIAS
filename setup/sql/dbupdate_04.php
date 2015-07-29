@@ -6527,13 +6527,13 @@ $res  = $ilDB->query($msave_dup_query_num);
 $data = $ilDB->fetchAssoc($res);
 if($data['cnt'])
 {
-	$mopt_dup_query = "
+	$msave_dup_query = "
 	SELECT user_id
 	FROM mail_saved
 	GROUP BY user_id
 	HAVING COUNT(*) > 1
 	";
-	$res = $ilDB->query($mopt_dup_query);
+	$res = $ilDB->query($msave_dup_query);
 
 	$stmt_sel = $ilDB->prepare("SELECT * FROM mail_saved WHERE user_id = ?", array('integer'));
 	$stmt_del = $ilDB->prepareManip("DELETE FROM mail_saved WHERE user_id = ?", array('integer'));
