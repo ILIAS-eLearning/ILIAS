@@ -88,7 +88,7 @@ class ilFileDelivery {
 			$obj->setDownloadFileName($download_file_name);
 		}
 		$obj->setDisposition(self::DISP_INLINE);
-//		$obj->setDeliveryType(self::DELIVERY_METHOD_PHP_CHUNKED);
+		//		$obj->setDeliveryType(self::DELIVERY_METHOD_PHP_CHUNKED);
 		$obj->stream();
 	}
 
@@ -338,7 +338,13 @@ class ilFileDelivery {
 		if (function_exists('apache_get_modules') && in_array('mod_xsendfile', apache_get_modules())) {
 			$this->setDeliveryType(self::DELIVERY_METHOD_XSENDFILE);
 		}
-		//		$this->setDeliveryType(self::DELIVERY_METHOD_PHP);
+		if (is_file('./Services/FileDelivery/classes/override.php')) {
+			$override_delivery_type = false;
+			require_once('./Services/FileDelivery/classes/override.php');
+			if ($override_delivery_type) {
+				$this->setDeliveryType($override_delivery_type);
+			}
+		}
 	}
 
 
