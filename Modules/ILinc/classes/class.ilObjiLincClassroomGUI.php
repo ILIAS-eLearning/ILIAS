@@ -75,15 +75,8 @@ class ilObjiLincClassroomGUI extends ilObjectGUI
 		{
 			$this->prepareOutput();
 		}
-		
-		$this->assignObject();
 	}
-	
-	function assignObject()
-	{
-		$this->object = new ilObjiLincClassroom($this->id, $this->parent);
-	}
-	
+
 	public function create()
 	{
 		$this->prepareOutput();
@@ -97,17 +90,8 @@ class ilObjiLincClassroomGUI extends ilObjectGUI
 	{
 		$data = array(
 			'title' => '',
-			'desc' => '',
-			'instructoruserid' => 0,
-			'alwaysopen' => 1
-		);		
-		
-		$icrs_obj_id = ilObject::_lookupObjectId( $this->parent );
-		include_once 'Modules/ILinc/classes/class.ilObjiLincCourse.php';
-		$akclassvalues = ilObjiLincCourse::_getAKClassValues( $icrs_obj_id );
-		$data['akclassvalue1'] = $akclassvalues[0];
-		$data['akclassvalue2'] = $akclassvalues[1];
-		
+			'desc' => ''
+		);
 		$this->form_gui->setValuesByArray( $data );
 	}
 
@@ -122,64 +106,13 @@ class ilObjiLincClassroomGUI extends ilObjectGUI
 		$this->initSettingsForm('create');
 		if($this->form_gui->checkInput())
 		{
-			$_POST['Fobject']['title'] = $this->form_gui->getInput('title');
-			$_POST['Fobject']['desc'] = $this->form_gui->getInput('desc');	
-			$_POST['Fobject']['instructoruserid'] = $this->form_gui->getInput('instructoruserid');
-			$_POST['Fobject']['alwaysopen'] = $this->form_gui->getInput('alwaysopen');
-			
-			// Akclassvalues 
-			if($this->ilias->getSetting('ilinc_akclassvalues_active'))
-			{
-				$icrs_obj_id = ilObject::_lookupObjectId( $this->parent );
-				include_once 'Modules/ILinc/classes/class.ilObjiLincCourse.php';
-				$akclassvalues = ilObjiLincCourse::_getAKClassValues( $icrs_obj_id );
-				
-				$_POST['Fobject']['akclassvalue1'] = $akclassvalues[0];
-				$_POST['Fobject']['akclassvalue2'] = $akclassvalues[1];
-			}
-			
-			$ilinc_course_id = ilObjiLincClassroom::_lookupiCourseId( $this->parent );
-	
-			$this->object->ilincAPI->addClass($ilinc_course_id, $_POST['Fobject']);
-			$response = $this->object->ilincAPI->sendRequest('addClass');			
-			if($response->isError())
-			{
-				$this->ilErr->raiseError($response->getErrorMsg(), $this->ilErr->MESSAGE);
-			}
-	
-			// Always send a message
-			ilUtil::sendInfo($response->getResultMsg(), true);
-			
 			$this->ctrl->redirectByClass('ilobjilinccoursegui');
 		}
 		else
 		{
-			if($this->ilias->getSetting('ilinc_akclassvalues_active'))
-			{
-				$icrs_obj_id = ilObject::_lookupObjectId( $this->parent );
-				include_once 'Modules/ILinc/classes/class.ilObjiLincCourse.php';
-				$akclassvalues = ilObjiLincCourse::_getAKClassValues( $icrs_obj_id );
-				
-				$_POST['akclassvalue1'] = $akclassvalues[0];
-				$_POST['akclassvalue2'] = $akclassvalues[1];
-			}
-			
 			$this->form_gui->setValuesByPost();
 			return $this->tpl->setVariable('ADM_CONTENT', $this->form_gui->getHtml());
 		}
-	}
-	
-	function joinClassroom()
-	{
-		// join class
-		$url = $this->object->joinClass($this->ilias->account,$_GET['class_id']);
-
-		if (!$url)
-		{
-			$this->ilias->raiseError($this->object->getErrorMsg(),$this->ilias->error_obj->FATAL);
-		}
-
-		ilUtil::redirect(trim($url));
 	}
 	
 	public function editClassroom()
@@ -193,17 +126,8 @@ class ilObjiLincClassroomGUI extends ilObjectGUI
 	{
 		$data = array(
 			'title' => $this->object->getTitle(),
-			'desc' => $this->object->getDescription(),
-			'alwaysopen' => $this->object->getStatus(),
-			'instructoruserid' => $this->object->getDocentId()
+			'desc' => $this->object->getDescription()
 		);	 	
-		
-		$icrs_obj_id = ilObject::_lookupObjectId( $this->parent );
-		include_once 'Modules/ILinc/classes/class.ilObjiLincCourse.php';
-		$akclassvalues = ilObjiLincCourse::_getAKClassValues( $icrs_obj_id );
-		$data['akclassvalue1'] = $akclassvalues[0];
-		$data['akclassvalue2'] = $akclassvalues[1];
-		
 		$this->form_gui->setValuesByArray( $data );
 	}
 	
@@ -231,39 +155,6 @@ class ilObjiLincClassroomGUI extends ilObjectGUI
 		// Description
 		$text_area = new ilTextAreaInputGUI($this->lng->txt('desc'), 'desc');
 		$this->form_gui->addItem($text_area);
-		
-		// Docentselection
-		$sel = new ilSelectInputGUI($this->lng->txt(ILINC_MEMBER_DOCENT), 'instructoruserid');
-		$docentlist = $this->object->getDocentList();
-		$docent_options = array();		
-		$docent_options[0] = $this->lng->txt('please_choose');
-		foreach((array)$docentlist as $id => $data)
-		{
-			$docent_options[$id] = $data['fullname'];
-		}
-		$sel->setOptions($docent_options);
-		$this->form_gui->addItem($sel);		
-		
-		// Open
-		$rg = new ilRadioGroupInputGUI($this->lng->txt('access'), 'alwaysopen');
-		$rg->setValue(0);
-			$ro = new ilRadioOption($this->lng->txt('ilinc_classroom_open'), 1);
-		$rg->addOption($ro);
-			$ro = new ilRadioOption($this->lng->txt('ilinc_classroom_closed'), 0);
-		$rg->addOption($ro);				
-		$this->form_gui->addItem($rg);	
-		
-		// Display akclassvalues 
-		if($this->ilias->getSetting('ilinc_akclassvalues_active'))
-		{			
-			$text_input = new ilTextInputGUI($this->lng->txt('akclassvalue1'), 'akclassvalue1');
-			$text_input->setDisabled(true);
-			$this->form_gui->addItem($text_input);
-			
-			$text_input = new ilTextInputGUI($this->lng->txt('akclassvalue2'), 'akclassvalue2');
-			$text_input->setDisabled(true);
-			$this->form_gui->addItem($text_input);			
-		}	
 		
 		// save and cancel commands
 		if($a_mode == 'create')
@@ -297,31 +188,6 @@ class ilObjiLincClassroomGUI extends ilObjectGUI
 	}
 	
 	/**
-	* display deletion confirmation screen
-	* only for referenced objects. For user,role & rolt overwrite this function in the appropriate
-	* Object folders classes (ilObjUserFolderGUI,ilObjRoleFolderGUI)
-	*
-	* @access	public
- 	*/
-	function removeClassroom($a_error = false)
-	{		
-		// display confirmation message
-		$obj_str = "&class_id=".$this->object->id;
-		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
-		$cgui = new ilConfirmationGUI();
-		$cgui->setFormAction($this->getFormAction("delete",$this->ctrl->getFormAction($this).$obj_str));
-		$cgui->setHeaderText($this->lng->txt("info_delete_sure"));
-		$cgui->setCancel($this->lng->txt("cancelDeleteClassroom"), "cancel");
-		$cgui->setConfirm($this->lng->txt("confirmedDeleteClassroom"), "confirm");
-				
-		$caption = ilUtil::getImageTagByType($this->object->getType(), $this->tpl->tplPath).
-			" ".$this->object->getTitle().
-			" ".$this->object->getDescription();
-		
-		$cgui->addItem("id[]", $this->object->getId(), $caption);		
-	}
-	
-	/**
 	* updates class room on ilinc server
 	*
 	* @access	public
@@ -333,30 +199,11 @@ class ilObjiLincClassroomGUI extends ilObjectGUI
 		{			
 			$this->object->setTitle( $this->form_gui->getInput('title' ));
 			$this->object->setDescription( $this->form_gui->getInput('desc') );
-			$this->object->setDocentId( $this->form_gui->getInput('instructoruserid') );
-			$this->object->setStatus( $this->form_gui->getInput('alwaysopen') );
-			
-			if(!$this->object->update())
-			{
-				$this->ilErr->raiseError($this->object->getErrorMsg(), $this->ilErr->MESSAGE);
-			}
-
-			ilUtil::sendInfo($this->getResultMsg(), true);
-			
+			$this->object->update();
 			$this->ctrl->redirectByClass('ilobjilinccoursegui');
 		}
 		else
 		{
-			if($this->ilias->getSetting('ilinc_akclassvalues_active'))
-			{
-				$icrs_obj_id = ilObject::_lookupObjectId( $this->parent );
-				include_once 'Modules/ILinc/classes/class.ilObjiLincCourse.php';
-				$akclassvalues = ilObjiLincCourse::_getAKClassValues( $icrs_obj_id );
-				
-				$_POST['akclassvalue1'] = $akclassvalues[0];
-				$_POST['akclassvalue2'] = $akclassvalues[1];
-			}
-			
 			$this->form_gui->setValuesByPost();
 			return $this->tpl->setVariable('ADM_CONTENT', $this->form_gui->getHtml());
 		}		
@@ -378,45 +225,6 @@ class ilObjiLincClassroomGUI extends ilObjectGUI
 	}
 	
 	/**
-	* cancel deletion of classroom object
-	*
-	* @access	public
-	*/
-	function cancelDeleteClassroom()
-	{
-		ilSession::clear("saved_post");
-		
-		ilUtil::sendInfo($this->lng->txt("msg_cancel"),true);
-
-		$this->ctrl->redirectByClass("ilobjilinccoursegui");
-	}
-	
-	/**
-	* @access	public
-	*/
-	function confirmedDeleteClassroom()
-	{
-		if (!$this->object->delete())
-		{
-			$msg = $this->object->getErrorMsg();
-		}
-		else
-		{
-			$msg = $this->lng->txt('icla_deleted');
-		}
-		
-		// Feedback
-		ilUtil::sendInfo($msg,true);
-		
-		$this->ctrl->redirectByClass("ilobjilinccoursegui");
-	}
-	
-	function getResultMsg()
-	{
-		return $this->object->result_msg;
-	}
-	
-	/**
 	* cancel is called when an operation is canceled, method links back
 	* @access	public
 	*/
@@ -426,5 +234,4 @@ class ilObjiLincClassroomGUI extends ilObjectGUI
 
 		$this->ctrl->redirectByClass("ilobjilinccoursegui");
 	}
-} // END class.ilObjiLincClassroomGUI
-?>
+}
