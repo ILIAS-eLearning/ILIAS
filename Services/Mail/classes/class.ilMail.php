@@ -1698,23 +1698,23 @@ class ilMail
 		if(!$a_use_placeholders) $a_use_placeholders = '0';
 		/**/
 
-		$statement = $ilDB->manipulateF('
-			DELETE FROM '. $this->table_mail_saved .'
-			WHERE user_id = %s',
-			array('integer'), array($this->user_id));
-
-		$ilDB->insert($this->table_mail_saved, array(
-			'user_id'			=> array('integer', $a_user_id),
-			'attachments'		=> array('clob', serialize($a_attachments)),
-			'rcp_to'			=> array('clob', $a_rcp_to),
-			'rcp_cc'			=> array('clob', $a_rcp_cc),
-			'rcp_bcc'			=> array('clob', $a_rcp_bcc),
-			'm_type'			=> array('text', serialize($a_m_type)),
-			'm_email'			=> array('integer', $a_m_email),
-			'm_subject'			=> array('text', $a_m_subject),
-			'm_message'			=> array('clob', $a_m_message),
-			'use_placeholders'	=> array('integer', $a_use_placeholders),
-		));
+		$ilDB->replace(
+			$this->table_mail_saved,
+			array(
+				'user_id'			=> array('integer', $this->user_id)
+			),
+			array(
+				'attachments'		=> array('clob', serialize($a_attachments)),
+				'rcp_to'			=> array('clob', $a_rcp_to),
+				'rcp_cc'			=> array('clob', $a_rcp_cc),
+				'rcp_bcc'			=> array('clob', $a_rcp_bcc),
+				'm_type'			=> array('text', serialize($a_m_type)),
+				'm_email'			=> array('integer', $a_m_email),
+				'm_subject'			=> array('text', $a_m_subject),
+				'm_message'			=> array('clob', $a_m_message),
+				'use_placeholders'	=> array('integer', $a_use_placeholders),
+			)
+		);
 
 		$this->getSavedData();
 
