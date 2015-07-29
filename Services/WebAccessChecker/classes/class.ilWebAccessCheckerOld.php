@@ -52,6 +52,7 @@ require_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
 * @author Fred Neumann <fred.neumann@fim.uni-erlangen.de>
 * @version $Id$
 *
+ *          @deprecated
 */
 class ilWebAccessCheckerOld
 {
@@ -141,7 +142,7 @@ class ilWebAccessCheckerOld
 	* Constructor
 	* @access	public
 	*/
-	function ilWebAccessChecker()
+	function ilWebAccessCheckerOld()
 	{
 		global $ilUser, $ilAccess, $lng, $ilLog;
 

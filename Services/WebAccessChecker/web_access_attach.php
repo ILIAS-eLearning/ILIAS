@@ -13,6 +13,8 @@
 *
 * @author Fred Neumann <fred.neumann@fim.uni-erlangen.de>
 * @version $Id: web_access_checker.php 13944 2007-05-22 08:02:47Z akill $
+ *
+ *          @deprecated
 */
 
 // Change to ILIAS main directory
