@@ -374,8 +374,10 @@ class gevDecentralTrainingGUI {
 		}
 
 		$crs_utils = gevCourseUtils::getInstance($_POST["obj_id"]);
-		$template_id = $crs_utils->getTemplateRefId();
-		if(!$this->checkDecentralTrainingConstraints($form, $template_id)) {
+		$template_ref_id = $crs_utils->getTemplateRefId();
+		$tmpl_id = gevObjectUtils::getObjId($template_ref_id);
+
+		if(!$this->checkDecentralTrainingConstraints($form, $tmpl_id)) {
 			return $this->showSettings($form);
 		}
 		
@@ -384,9 +386,6 @@ class gevDecentralTrainingGUI {
 							 ." tried to update Settings but has no permission.");
 			throw new Exception("gevDecentralTrainingGUI::updateSettings: no permission");
 		}
-
-		$tmpl_ref_id = $crs_utils->getTemplateRefId();
-		$tmpl_id = gevObjectUtils::getObjId($tmpl_ref_id);
 		
 		$settings = $this->getSettingsFromForm($crs_utils, $form, $tmpl_id);
 		$settings->applyTo((int)$_POST["obj_id"]);
@@ -648,11 +647,18 @@ class gevDecentralTrainingGUI {
 		
 		$a_template_obj_id = $a_template_id;
 		
+		$crs_utils = null;
+		
+		if($a_template_id !== null) {
+			$crs_utils = gevCourseUtils::getInstance((int)$a_template_id);
+		}
+
 		if($a_training_id !== NULL && $a_template_id === null) {
-			require_once ("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+			require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 			require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 
-			$a_template_ref_id = gevCourseUtils::getInstance($a_training_id)->getTemplateRefId();
+			$crs_utils = gevCourseUtils::getInstance($a_training_id);
+			$a_template_ref_id = $crs_utils->getTemplateRefId();
 			$a_template_obj_id = gevObjectUtils::getObjId($a_template_ref_id);
 		}
 
@@ -665,7 +671,13 @@ class gevDecentralTrainingGUI {
 			return $this->buildTrainingOptionsFormFlexible($a_fill, $a_training_id, $a_trainer_ids, $a_date, $a_template_id);
 		}
 		
-		$this->tpl_date_auto_change = new ilTemplate("tpl.gev_dct_duration_update_js.html", false, false, "Services/GEV/DecentralTrainings");
+		if($crs_utils !== null) {
+			$credit_points = $crs_utils->getCreditPoints();
+			if($credit_points !== null && $credit_points > 0) {
+				$this->tpl_date_auto_change = new ilTemplate("tpl.gev_dct_duration_update_js.html", false, false, "Services/GEV/DecentralTrainings");
+			}
+		}
+		
 		return $this->buildTrainingOptionsFormStable($a_fill, $a_training_id, $a_trainer_ids, $a_date, $a_template_id);
 	}
 

@@ -190,8 +190,10 @@ class gevDecentralTrainingCreationRequest {
 
 		$this->settings->applyTo((int)$trgt_obj_id);
 
-		$this->updateCourseBuildingBlocks($trgt_utils->getRefId());
-		$this->updateCourseWithBuidlingBlockData($trgt_utils->getRefId());
+		if($trgt_utils->isFlexibleDecentrallTraining()) {
+			$this->updateCourseBuildingBlocks($trgt_utils->getRefId());
+			$this->updateCourseWithBuidlingBlockData($trgt_utils->getRefId());
+		}
 		
 		$this->createTEPEntry($trgt_crs);
 		
