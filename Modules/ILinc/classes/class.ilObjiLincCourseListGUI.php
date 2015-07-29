@@ -21,30 +21,16 @@
 	+-----------------------------------------------------------------------------+
 */
 
+include_once "Services/Object/classes/class.ilObjectListGUI.php";
 
 /**
 * Class ilObjiLincCourseListGUI
-*
 * @author 		Alex Killing <alex.killing@gmx.de>
 * @version		$Id$
-*
 * @extends ilObjectListGUI
 */
-
-
-include_once "Services/Object/classes/class.ilObjectListGUI.php";
-
 class ilObjiLincCourseListGUI extends ilObjectListGUI
 {
-	/**
-	* constructor
-	*
-	*/
-	function ilObjiLincCourseListGUI()
-	{
-		$this->ilObjectListGUI();
-	}
-
 	/**
 	* initialisation
 	*/
@@ -53,15 +39,14 @@ class ilObjiLincCourseListGUI extends ilObjectListGUI
 		$this->copy_enabled = false;
 		$this->delete_enabled = true;
 		$this->cut_enabled = false;
-		$this->subscribe_enabled = true;
+		$this->subscribe_enabled = false;
 		$this->link_enabled = false;
 		$this->payment_enabled = false;
 		$this->type = "icrs";
 		$this->gui_class_name = "ilobjilinccoursegui";
 
 		// general commands array
-		include_once('./Modules/ILinc/classes/class.ilObjiLincCourseAccess.php');
-		$this->commands = ilObjiLincCourseAccess::_getCommands();
+		$this->commands = array();
 	}
 	
 
@@ -83,68 +68,4 @@ class ilObjiLincCourseListGUI extends ilObjectListGUI
 
 		return $cmd_link;
 	}
-	
-	/**
-	* Get item properties
-	*
-	* @return	array		array of property arrays:
-	*						"alert" (boolean) => display as an alert property (usually in red)
-	*						"property" (string) => property name
-	*						"value" (string) => property value
-	*/
-	function getProperties()
-	{
-		global $lng, $ilias, $rbacsystem;
-
-		$props = array();
-
-		include_once("./Modules/ILinc/classes/class.ilObjiLincCourse.php");
-
-		if (!ilObjiLincCourse::_isActivated($this->obj_id))
-		{
-			$props[] = array("alert" => true, "property" => $lng->txt("status"),
-				"value" => $lng->txt("offline"));
-		}
-
-		if (!$ilias->getSetting("ilinc_active"))
-		{
-			$props[] = array("alert" => false, "property" => $lng->txt("ilinc_remark"),
-				"value" => $lng->txt("ilinc_server_not_active"));
-		}
-		
-		// Display cost centers if active
-		if ($ilias->getSetting("ilinc_akclassvalues_active") and $rbacsystem->checkAccess("write", $this->ref_id))
-		{
-			$akclassvalues = ilObjiLincCourse::_getAKClassValues($this->obj_id);
-
-			$value = "";
-			
-			if (!empty($akclassvalues[0]))
-			{
-				$value = $akclassvalues[0];
-				$property = $lng->txt("ilinc_akclassvalue");
-				
-				if (!empty($akclassvalues[1]))
-				{
-					$value .= " / ".$akclassvalues[1];
-					$property = $lng->txt("ilinc_akclassvalues");
-				}
-			}
-			elseif (!empty($akclassvalues[1]))
-			{
-				$value = $akclassvalues[1];
-				$property = $lng->txt("ilinc_akclassvalue");
-			}
-			else
-			{
-				$property = $lng->txt("ilinc_akclassvalues");
-				$value = $lng->txt("ilinc_no_akclassvalues");
-			}
-		}
-		
-		$props[] = array("alert" => false, "property" => $property, "value" => $value);
-				
-		return $props;
-	}
-} // END class.ilObjiLincCOurseListGUI
-?>
+}
