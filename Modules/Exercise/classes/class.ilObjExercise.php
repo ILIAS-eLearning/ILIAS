@@ -349,17 +349,41 @@ class ilObjExercise extends ilObject
 	 */
 	function sendAssignment(ilExAssignment $a_ass, $a_members)
 	{
-		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
-		$ass_title = $a_ass->getTitle();
+		global $lng, $ilUser;
+		
+		$a_members = array_keys($a_members);
+		
+		$lng->loadLanguageModule("exc");
+		
+		// subject
+		$subject = $a_ass->getTitle()
+			? $this->getTitle().": ".$a_ass->getTitle()
+			: $this->getTitle();
+		
+		
+		// body
+		
+		$body = $a_ass->getInstruction();
+		$body .= "\n\n";
+		
+		$body .= $lng->txt("exc_edit_until").": ";
+		$body .= (!$a_ass->getDeadline())
+		  ? $lng->txt("exc_no_deadline_specified")
+		  : ilDatePresentation::formatDate(new ilDateTime($a_ass->getDeadline(), IL_CAL_UNIX));
+		$body .= "\n\n";
+		
+		include_once "Services/Link/classes/class.ilLink.php";
+		$body .= ilLink::_getLink($this->getRefId(), "exc");
+		
 
+		// files
+		$file_names = array();
 		include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 		$storage = new ilFSStorageExercise($a_ass->getExerciseId(), $a_ass->getId());
 		$files = $storage->getFiles();
-
 		if(count($files))
 		{
 			include_once "./Services/Mail/classes/class.ilFileDataMail.php";
-
 			$mfile_obj = new ilFileDataMail($_SESSION["AccountId"]);
 			foreach($files as $file)
 			{
@@ -368,25 +392,39 @@ class ilObjExercise extends ilObject
 			}
 		}
 		
+		// recipients
+		$recipients = array();
+		foreach($a_members as $member_id)
+		{
+			$tmp_obj = ilObjectFactory::getInstanceByObjId($member_id);
+			$recipients[] = $tmp_obj->getLogin();
+			unset($tmp_obj);
+		}
+		$recipients = implode("," ,$recipients);
+	
+		// send mail
 		include_once "Services/Mail/classes/class.ilMail.php";
-
-		$tmp_mail_obj = new ilMail($_SESSION["AccountId"]);
+		$tmp_mail_obj = new ilMail($ilUser->getId());
 		$message = $tmp_mail_obj->sendMail(
-			$this->__formatRecipients($a_members),"","",
-			$this->__formatSubject($ass_title), $this->__formatBody($a_ass_id),
-			count($file_names) ? $file_names : array(),array("normal"));
-
+			$recipients,
+			"",
+			"",
+			$subject, 
+			$body,
+			$file_names,
+			array("normal")
+		);
 		unset($tmp_mail_obj);
 
-		if(count($file_names))
+		// remove tmp files
+		if(sizeof($file_names))
 		{
 			$mfile_obj->unlinkFiles($file_names);
 			unset($mfile_obj);
 		}
 
-
-		// SET STATUS SENT FOR ALL RECIPIENTS
-		foreach($a_members as $member_id => $value)
+		// set recipients mail status
+		foreach($a_members as $member_id)
 		{
 			$member_status = $a_ass->getMemberStatus($member_id);
 			$member_status->setSent(true);
@@ -394,82 +432,6 @@ class ilObjExercise extends ilObject
 		}
 
 		return true;
-	}
-
-	/**
-	* Get time when exercise has been set to solved.
-	*/
-	function _lookupStatusTime($exc_id, $member_id)
-	{
-
-  		global $ilDB, $lng;
-
-  		$q = "SELECT * ".
-		"FROM exc_members ".
-		"WHERE obj_id= ".$ilDB->quote($exc_id, "integer").
-		" AND usr_id= ".$ilDB->quote($member_id, "integer");
-
-  		$set = $ilDB->query($q);
-		if ($rec = $ilDB->fetchAssoc($set))
-		{
-			return ilUtil::getMySQLTimestamp($rec["status_time"]);
-		}
-	}
-
-	// PRIVATE METHODS
-	function __formatBody($a_ass_id)
-	{
-		global $lng;
-
-		$lng->loadLanguageModule("exc");
-		
-		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
-		$ass = new ilExAssignment($a_ass_id);
-
-		$body = $ass->getInstruction();
-		$body .= "\n\n";
-		if ($ass->getDeadline() == 0)
-		{
-			$body .= $lng->txt("exc_edit_until") . ": ".
-				$lng->txt("exc_no_deadline_specified");
-		}
-		else
-		{
-			$body .= $lng->txt("exc_edit_until") . ": ".
-				ilFormat::formatDate(date("Y-m-d H:i:s",$ass->getDeadline()), "datetime", true);
-		}
-		$body .= "\n\n";
-		$body .= ILIAS_HTTP_PATH.
-			"/goto.php?target=".
-			$this->getType().
-			"_".$this->getRefId()."&client_id=".CLIENT_ID;
-
-		return $body;
-	}
-
-	function __formatSubject($a_ass_title = "")
-	{
-		$subject = $this->getTitle();
-		
-		if ($a_ass_title != "")
-		{
-			$subject.= ": ".$a_ass_title;
-		}
-
-		return $subject;
-	}
-
-	function __formatRecipients($a_members)
-	{
-		foreach($a_members as $member_id => $value)
-		{
-			$tmp_obj = ilObjectFactory::getInstanceByObjId($member_id);
-			$tmp_members[] = $tmp_obj->getLogin();
-
-			unset($tmp_obj);
-		}
-
-		return implode(',',$tmp_members ? $tmp_members : array());
 	}
 
 	/**
