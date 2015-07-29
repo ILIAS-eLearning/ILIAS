@@ -1225,7 +1225,7 @@ class gevDecentralTrainingGUI {
 		return $form;
 	}
 	
-	protected function checkDecentralTrainingConstraints($a_form, $a_template_id) {
+	protected function checkDecentralTrainingConstraints(&$a_form, $a_template_id) {
 		// Check date is before today
 		$tmp = $a_form->getInput("date");
 		$date = new ilDate($tmp["date"], IL_CAL_DATE);
@@ -1252,6 +1252,8 @@ class gevDecentralTrainingGUI {
 
 			if(!$venue && !$venue_free_text) {
 				ilUtil::sendFailure($this->lng->txt("gev_dec_training_no_venue"), false);
+				$item = $a_form->getItemByPostVar("venue");
+				$item->setAlert($this->lng->txt("gev_dec_training_no_venue_error_msg"));
 				return false;
 			}
 		}

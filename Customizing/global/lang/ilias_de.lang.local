@@ -1224,3 +1224,4 @@ gev#:#gev_dec_training_min_participation_count_not_reached#:#Bitte beachten Sie,
 gev#:#gev_dec_training_save_request#:#Dezentrales Training anlegen
 gev#:#gev_dec_training_show_buildingblocks#:#Ablaufplan anzeigen
 gev#:#gev_dec_ready#:#Fertig
+gev#:#gev_dec_training_no_venue_error_msg#:#Bitte wählen Sie einen Veranstaltungsort.
