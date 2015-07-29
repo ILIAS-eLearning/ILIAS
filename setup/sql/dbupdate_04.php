@@ -6512,3 +6512,64 @@ if($data['cnt'] > 0)
 
 $ilDB->addPrimaryKey('payment_statistic_coup', array('psc_ps_fk', 'psc_pc_fk', 'psc_pcc_fk'));
 ?>
+<#4519>
+<?php
+$msave_dup_query_num = "
+SELECT COUNT(*) cnt
+FROM (
+	SELECT user_id
+    FROM mail_saved
+    GROUP BY user_id
+    HAVING COUNT(*) > 1
+) duplicateMailSaved
+";
+$res  = $ilDB->query($msave_dup_query_num);
+$data = $ilDB->fetchAssoc($res);
+if($data['cnt'])
+{
+	$mopt_dup_query = "
+	SELECT user_id
+	FROM mail_saved
+	GROUP BY user_id
+	HAVING COUNT(*) > 1
+	";
+	$res = $ilDB->query($mopt_dup_query);
+
+	$stmt_sel = $ilDB->prepare("SELECT * FROM mail_saved WHERE user_id = ?", array('integer'));
+	$stmt_del = $ilDB->prepareManip("DELETE FROM mail_saved WHERE user_id = ?", array('integer'));
+
+	while($row = $ilDB->fetchAssoc($res))
+	{
+		$opt_res = $ilDB->execute($stmt_sel, array($row['user_id']));
+		$opt_row = $ilDB->fetchAssoc($opt_res);
+		if($opt_row)
+		{
+			$ilDB->execute($stmt_del, array($opt_row['user_id']));
+			$ilDB->insert(
+				'mail_saved',
+				array(
+					'user_id'          => array('integer', $opt_row['user_id']),
+					'm_type'           => array('text', $opt_row['m_type']),
+					'm_email'          => array('integer', $opt_row['m_email']),
+					'm_subject'        => array('text', $opt_row['m_subject']),
+					'use_placeholders' => array('integer', $opt_row['use_placeholders']),
+					'm_message'        => array('clob', $opt_row['m_message']),
+					'rcp_to'           => array('clob', $opt_row['rcp_to']),
+					'rcp_cc'           => array('clob', $opt_row['rcp_cc']),
+					'rcp_bcc'          => array('clob', $opt_row['rcp_bcc']),
+					'attachments'      => array('clob', $opt_row['attachments'])
+				)
+			);
+		}
+	}
+}
+
+$res  = $ilDB->query($msave_dup_query_num);
+$data = $ilDB->fetchAssoc($res);
+if($data['cnt'])
+{
+	throw new ilException("There are still duplicate entries in table 'mail_saved'. Please execute this database update step again.");
+}
+
+$ilDB->addPrimaryKey('mail_saved', array('user_id'));
+?>
