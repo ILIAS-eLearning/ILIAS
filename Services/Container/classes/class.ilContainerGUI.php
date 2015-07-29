@@ -456,12 +456,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$container_view = new ilContainerSessionsContentGUI($this);
 				break;
 				
-			// ILinc courses
-			case ilContainer::VIEW_ILINC:
-				include_once 'Services/Container/classes/class.ilContainerILincContentGUI.php';
-				$container_view = new ilContainerILincContentGUI($this);
-				break;
-			
 			// all items in one block
 			case ilContainer::VIEW_BY_TYPE:
 			default:
