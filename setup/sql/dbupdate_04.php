@@ -6498,3 +6498,53 @@ if($data['cnt'] > 0)
 
 $ilDB->addPrimaryKey('mail_options', array('user_id'));
 ?>
+<#4518>
+<?php
+$psc_dup_query_num = "
+SELECT COUNT(*) cnt
+FROM (
+	SELECT psc_ps_fk, psc_pc_fk, psc_pcc_fk
+    FROM payment_statistic_coup
+    GROUP BY psc_ps_fk, psc_pc_fk, psc_pcc_fk
+    HAVING COUNT(*) > 1
+) duplicatePaymentStatistics
+";
+$res  = $ilDB->query($psc_dup_query_num);
+$data = $ilDB->fetchAssoc($res);
+if($data['cnt'])
+{
+	$psc_dup_query = "
+	SELECT psc_ps_fk, psc_pc_fk, psc_pcc_fk
+	FROM payment_statistic_coup
+	GROUP BY psc_ps_fk, psc_pc_fk, psc_pcc_fk
+	HAVING COUNT(*) > 1
+	";
+	$res = $ilDB->query($psc_dup_query);
+
+	while($row = $ilDB->fetchAssoc($res))
+	{
+		$ilDB->manipulateF(
+			"DELETE FROM payment_statistic_coup WHERE psc_ps_fk = %s AND psc_pc_fk = %s AND psc_pcc_fk = %s",
+			array('integer', 'integer', 'integer'),
+			array($row['psc_ps_fk'], $row['psc_pc_fk'], $row['psc_pcc_fk'])
+		);
+		$ilDB->insert(
+			'payment_statistic_coup',
+			array(
+				'psc_ps_fk'  => array('integer', $row['psc_ps_fk']),
+				'psc_pc_fk'  => array('integer', $row['psc_pc_fk']),
+				'psc_pcc_fk' => array('integer', $row['psc_pcc_fk'])
+			)
+		);
+	}
+}
+
+$res  = $ilDB->query($psc_dup_query_num);
+$data = $ilDB->fetchAssoc($res);
+if($data['cnt'] > 0)
+{
+	throw new Exception("There are still duplicate entries in table 'payment_statistic_coup'. Please execute this database update step again.");
+}
+
+$ilDB->addPrimaryKey('payment_statistic_coup', array('psc_ps_fk', 'psc_pc_fk', 'psc_pcc_fk'));
+?>
