@@ -4135,10 +4135,9 @@ class ilObjCourseGUI extends ilContainerGUI
 		if(!$this->getCreationMode() &&
 			$ilAccess->checkAccess('read', '', $_GET['ref_id']))
 		{
-			$link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", "frameset");				
-
-			$ilNavigationHistory->addItem($_GET['ref_id'],
-				$link, 'crs');
+			include_once("./Services/Link/classes/class.ilLink.php");
+			$ilNavigationHistory->addItem($_GET["ref_id"],
+				ilLink::_getLink($_GET["ref_id"], "crs"), "crs");
 		}
 	
 		if(!$this->getCreationMode())
