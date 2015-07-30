@@ -77,7 +77,7 @@ class ilChatroomServerHandler
 			$room = ilChatroom::byObjectId($deletableRoom['object_id']);
 
 			$params['user'] =  -1; //$chat_user->getUserId();
-			$room->closePrivateRoom($deletableRoom['proom_id'], $chat_user, $settings);
+			$room->closePrivateRoom($deletableRoom['proom_id']);
 			$query = http_build_query( $params );
 
 			$message = json_encode( array(
