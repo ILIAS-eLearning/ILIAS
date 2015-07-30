@@ -329,15 +329,17 @@ class ilChatroom
 			do
 			{
 				if ($this->getSetting( 'enable_history' )) {
+					$id = $ilDB->nextId(self::$sessionTable);
 					$ilDB->insert(
-					self::$sessionTable,
-					array(
-								'room_id'		=> array('integer', $this->roomId),
-								'user_id'		=> array('integer', $row['user_id']),
-								'userdata'		=> array('text', $row['userdata']),
-								'connected'		=> array('integer', $row['connected']),
-								'disconnected'	=> array('integer', time()),
-					)
+						self::$sessionTable,
+						array(
+							'sess_id'      => array('integer', $id),
+							'room_id'      => array('integer', $this->roomId),
+							'user_id'      => array('integer', $row['user_id']),
+							'userdata'     => array('text', $row['userdata']),
+							'connected'    => array('integer', $row['connected']),
+							'disconnected' => array('integer', time())
+						)
 					);
 				}
 			}
