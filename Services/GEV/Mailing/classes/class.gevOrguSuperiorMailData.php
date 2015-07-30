@@ -70,9 +70,9 @@ class gevOrguSuperiorMailData extends ilMailData {
 		$this->end_timestamp = $end_date->getTimestamp();
 
 		//test date
-		$this->end_date_str = "2015-08-03";
+		/*$this->end_date_str = "2015-08-03";
 		$end_date = new DateTime($this->end_date_str." 23:59:59");
-		$this->end_timestamp = $end_date->getTimestamp();
+		$this->end_timestamp = $end_date->getTimestamp();*/
 	}
 	
 	function hasCarbonCopyRecipients() {
