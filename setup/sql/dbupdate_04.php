@@ -6749,7 +6749,7 @@ $ilDB->dropTable('chatroom_sessions');
 ?>
 <#4534>
 <?php
-//$ilDB->renameTable('chatroom_sessionstmp', 'chatroom_sessions');
+$ilDB->renameTable('chatroom_sessionstmp', 'chatroom_sessions');
 ?>
 <#4535>
 <?php
@@ -6766,4 +6766,16 @@ if($ilDB->sequenceExists('chatroom_sessionstmp'))
 {
 	$ilDB->dropSequence('chatroom_sessionstmp');
 }
+?>
+<#4537>
+<?php
+$ilDB->addIndex('chatroom_sessions', array('room_id', 'user_id'), 'i1');
+?>
+<#4538>
+<?php
+$ilDB->addIndex('chatroom_sessions', array('disconnected'), 'i2');
+?>
+<#4539>
+<?php
+$ilDB->addIndex('chatroom_sessions', array('user_id'), 'i3');
 ?>
