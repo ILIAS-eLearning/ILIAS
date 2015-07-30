@@ -678,14 +678,16 @@ class ilChatroom
 	{
 		global $ilDB;
 
-		$ilDB->insert(
-		self::$banTable,
-		array(
-					'room_id'	=> array('integer', $this->roomId),
-					'user_id'	=> array('integer', $user_id),
-					'timestamp' => array('integer', time()),
-					'remark'	=> array('text', $comment),
-		)
+		$ilDB->replace(
+			self::$banTable,
+			array(
+				'room_id'   => array('integer', $this->roomId),
+				'user_id'   => array('integer', $user_id)
+			),
+			array(
+				'timestamp' => array('integer', time()),
+				'remark'    => array('text', $comment)
+			)
 		);
 	}
 
@@ -701,16 +703,17 @@ class ilChatroom
 	{
 		global $ilDB;
 
-		if( !is_array( $user_id ) )
-		$user_id = array($user_id);
+		if(!is_array($user_id))
+		{
+			$user_id = array($user_id);
+		}
 
-		$query = 'DELETE FROM ' . self::$banTable . ' WHERE room_id = %s AND ' .
-		$ilDB->in( 'user_id', $user_id, false, 'integer' );
+		$query = 'DELETE FROM ' . self::$banTable . ' WHERE room_id = %s AND ' . $ilDB->in('user_id', $user_id, false, 'integer');
 
-		$types	= array('integer');
+		$types  = array('integer');
 		$values = array($this->getRoomId());
 
-		return $ilDB->manipulateF( $query, $types, $values );
+		return $ilDB->manipulateF($query, $types, $values);
 	}
 
 	/**
@@ -725,16 +728,17 @@ class ilChatroom
 	{
 		global $ilDB;
 
-		$query = 'SELECT count(user_id) cnt FROM ' . self::$banTable .
-				' WHERE user_id = %s AND room_id = %s';
+		$query = 'SELECT COUNT(user_id) cnt FROM ' . self::$banTable . ' WHERE user_id = %s AND room_id = %s';
 
-		$types	= array('integer', 'integer');
+		$types  = array('integer', 'integer');
 		$values = array($user_id, $this->getRoomId());
 
-		$rset = $ilDB->queryF( $query, $types, $values );
+		$rset = $ilDB->queryF($query, $types, $values);
 
-		if( $rset && ($row = $ilDB->fetchAssoc( $rset )) && $row['cnt'] )
-		    return true;
+		if($rset && ($row = $ilDB->fetchAssoc($rset)) && $row['cnt'])
+		{
+			return true;
+		}
 
 		return false;
 	}
