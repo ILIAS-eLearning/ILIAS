@@ -582,14 +582,18 @@ class ilChatroom
 		$join = '';
 
 		if ($proom_id) {
-			$join .= ' INNER JOIN ' . self::$privateSessionsTable .
-				' pSessionTable ON pSessionTable.user_id = ' .
-				$ilDB->quote( $restricted_session_userid, 'integer' ) .
-				' AND historyTable.sub_room = pSessionTable.proom_id AND timestamp >= pSessionTable.connected AND timestamp <= pSessionTable.disconnected ';
+			$join .= 
+			'INNER JOIN ' . self::$privateSessionsTable . ' pSessionTable ' .
+			'ON pSessionTable.user_id = ' .$ilDB->quote( $restricted_session_userid, 'integer' ) . ' ' .
+			'AND pSessionTable.proom_id = historyTable.sub_room ' .
+			'AND timestamp >= pSessionTable.connected '.
+			'AND timestamp <= pSessionTable.disconnected ';
 		}
 		
-		$query = 'SELECT historyTable.* FROM ' . self::$historyTable . ' historyTable ' .
-			$join . ' WHERE historyTable.room_id = ' . $this->getRoomId();
+		$query =
+			'SELECT historyTable.* ' .
+			'FROM ' . self::$historyTable . ' historyTable ' . $join . ' ' . 
+			'WHERE historyTable.room_id = ' . $this->getRoomId();
 
 		$filter = array();
 
@@ -1100,15 +1104,18 @@ class ilChatroom
 	{
 		global $ilDB;
 
-		if (!$this->userIsInPrivateRoom($room_id, $user_id)) {
+		if(!$this->userIsInPrivateRoom($room_id, $user_id))
+		{
+			$id = $ilDB->nextId(self::$privateSessionsTable);
 			$ilDB->insert(
-			self::$privateSessionsTable,
-			array(
-                            'proom_id' => array('integer', $room_id),
-                            'user_id' => array('integer', $user_id),
-                            'connected' => array('integer', time()),
-                            'disconnected' => array('integer', 0),
-			)
+				self::$privateSessionsTable,
+				array(
+					'psess_id'     => array('integer', $id),
+					'proom_id'     => array('integer', $room_id),
+					'user_id'      => array('integer', $user_id),
+					'connected'    => array('integer', time()),
+					'disconnected' => array('integer', 0),
+				)
 			);
 		}
 	}
@@ -1124,14 +1131,14 @@ class ilChatroom
 		global $ilDB;
 
 		$ilDB->update(
-		self::$privateSessionsTable,
-		array(
-			'disconnected' => array('integer', time())
-		),
-		array(
-			'proom_id' => array('integer', $room_id),
-			'user_id' => array('integer', $user_id),
-		)
+			self::$privateSessionsTable,
+			array(
+				'disconnected' => array('integer', time())
+			),
+			array(
+				'proom_id' => array('integer', $room_id),
+				'user_id'  => array('integer', $user_id)
+			)
 		);
 	}
 

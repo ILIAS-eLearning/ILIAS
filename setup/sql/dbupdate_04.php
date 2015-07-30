@@ -6619,3 +6619,72 @@ if($data['cnt'])
 
 $ilDB->addPrimaryKey('chatroom_bans', array('room_id', 'user_id'));
 ?>
+<#4521>
+<?php
+if(!$ilDB->sequenceExists('chatroom_psessionstmp'))
+{
+	$ilDB->createSequence('chatroom_psessionstmp');
+}
+?>
+<#4522>
+<?php
+if(!$ilDB->tableExists('chatroom_psessionstmp'))
+{
+	$fields = array(
+		'psess_id'     => array('type' => 'integer', 'length' => 8, 'notnull' => true),
+		'proom_id'     => array('type' => 'integer', 'length' => 4, 'notnull' => true),
+		'user_id'      => array('type' => 'integer', 'length' => 4, 'notnull' => true),
+		'connected'    => array('type' => 'integer', 'length' => 4, 'notnull' => true),
+		'disconnected' => array('type' => 'integer', 'length' => 4, 'notnull' => true)
+	);
+	$ilDB->createTable('chatroom_psessionstmp', $fields);
+	$ilDB->addPrimaryKey('chatroom_psessionstmp', array('psess_id'));
+}
+?>
+<#4523>
+<?php
+$query = '
+SELECT chatroom_psessions.proom_id, chatroom_psessions.user_id, chatroom_psessions.connected, chatroom_psessions.disconnected
+FROM chatroom_psessions
+LEFT JOIN chatroom_psessionstmp
+	ON chatroom_psessionstmp.proom_id = chatroom_psessions.proom_id
+	AND chatroom_psessionstmp.user_id = chatroom_psessions.user_id
+	AND chatroom_psessionstmp.connected = chatroom_psessions.connected
+	AND chatroom_psessionstmp.disconnected = chatroom_psessions.disconnected
+WHERE chatroom_psessionstmp.psess_id IS NULL
+GROUP BY chatroom_psessions.proom_id, chatroom_psessions.user_id, chatroom_psessions.connected, chatroom_psessions.disconnected
+';
+$res = $ilDB->query($query);
+
+$stmt_in = $ilDB->prepareManip('INSERT INTO chatroom_psessionstmp (psess_id, proom_id, user_id, connected, disconnected) VALUES(?, ?, ?, ?, ?)', array('integer', 'integer', 'integer', 'integer','integer'));
+
+while($row = $ilDB->fetchAssoc($res))
+{
+	$psess_id = $ilDB->nextId('chatroom_psessionstmp');
+	$ilDB->execute($stmt_in, array($psess_id, $row['proom_id'], $row['user_id'], $row['connected'], $row['disconnected']));
+}
+?>
+<#4524>
+<?php
+$ilDB->dropTable('chatroom_psessions');
+?>
+<#4525>
+<?php
+$ilDB->renameTable('chatroom_psessionstmp', 'chatroom_psessions');
+?>
+<#4526>
+<?php
+if(!$ilDB->sequenceExists('chatroom_psessions'))
+{
+	$query = "SELECT MAX(psess_id) mpsess_id FROM chatroom_psessions";
+	$row = $ilDB->fetchAssoc($ilDB->query($query));
+	$ilDB->createSequence('chatroom_psessions', (int)$row['mpsess_id'] + 1);
+}
+?>
+<#4527>
+<?php
+if($ilDB->sequenceExists('chatroom_psessionstmp'))
+{
+	$ilDB->dropSequence('chatroom_psessionstmp');
+}
+?>
