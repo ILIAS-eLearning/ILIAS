@@ -2456,14 +2456,16 @@ class gevUserUtils {
 		$booking_status = array("gebucht" => "gebucht"
 						,"kostenfrei_storniert" => "kostenfrei storniert"
 						,"kostenpflichtig_storniert" => "kostenpflichtig storniert"
-						,"auf_warteliste" => "auf Warteliste");
+						,"auf_warteliste" => "auf Warteliste"
+						,"fehlt_ohne_absage" => "fehlt ohne Absage");
 
 		$actions = array(); 
  		$actions["gebucht"] = array();
-		$actions["kostenfrei storniert"] = array();
-		$actions["kostenpflichtig storniert"] = array();
-		$actions["auf Warteliste"] = array();
+		$actions["kostenfrei_storniert"] = array();
+		$actions["kostenpflichtig_storniert"] = array();
+		$actions["auf_Warteliste"] = array();
 		$actions["teilgenommen"] = array();
+		$actions["fehlt_ohne_Absage"] = array();
 
 		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
 		$org_units = $this->getOrgUnitsWhereUserIsDirectSuperior();
@@ -2519,16 +2521,21 @@ class gevUserUtils {
 							break;
 						}
 
+						if($row_emp["participation_status"] == "fehlt ohne Absage") {
+							$actions["fehlt_ohne_Absage"][] = $row_emp;
+							break;
+						}
+
 						$actions["gebucht"][] = $row_emp;
 						break;
 					case "kostenfrei storniert":
-						$actions["kostenfrei storniert"][] = $row_emp;
+						$actions["kostenfrei_storniert"][] = $row_emp;
 						break;
 					case "kostenpflichtig storniert":
-						$actions["kostenpflichtig storniert"][] = $row_emp;
+						$actions["kostenpflichtig_storniert"][] = $row_emp;
 						break;
 					case "auf Warteliste":
-						$actions["auf Warteliste"][] = $row_emp;
+						$actions["auf_Warteliste"][] = $row_emp;
 						break;
 					default:
 						break;

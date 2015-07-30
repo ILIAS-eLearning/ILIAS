@@ -51,7 +51,7 @@ class gevOrguSuperiorMailingJob extends ilCronJob {
 			$mail->send();
 		}
 		catch (Exception $e) {
-			$ilLog->write("gevOrguSuperiorMailingJob::run: error when sending mail report_weekly_actions.");
+			$ilLog->write("gevOrguSuperiorMailingJob::run: error when sending mail report_weekly_actions.".$e->getMessage());
 		}
 		// i'm alive!
 		ilCronManager::ping($this->getId());
