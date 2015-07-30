@@ -4069,3 +4069,28 @@ if(!$ilDB->tableColumnExists('hist_usercoursestatus', 'gev_id')) {
 	$ilDB->renameTableColumn('hist_course', 'webex_vc_type', 'virtual_classroom_type');
 
 ?>
+
+<#149>
+<?php
+	require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+	
+	$ilDB->manipulate("UPDATE settings SET keyword = ".$ilDB->quote(gevSettings::CRS_AMD_VC_LINK,"text")
+		." WHERE keyword = ".$ilDB->quote(gevSettings::CRS_AMD_WEBEX_LINK,"text"));
+
+	$ilDB->manipulate("UPDATE settings SET keyword = ".$ilDB->quote(gevSettings::CRS_AMD_VC_PASSWORD,"text")
+		." WHERE keyword = ".$ilDB->quote(gevSettings::CRS_AMD_WEBEX_PASSWORD,"text"));
+
+	$ilDB->manipulate("UPDATE settings SET keyword = ".$ilDB->quote(gevSettings::CRS_AMD_VC_PASSWORD_TUTOR,"text")
+		." WHERE keyword = ".$ilDB->quote(gevSettings::CRS_AMD_WEBEX_PASSWORD_TUTOR,"text"));
+
+	$ilDB->manipulate("UPDATE settings SET keyword = ".$ilDB->quote(gevSettings::CRS_AMD_VC_CLASS_TYPE,"text")
+		." WHERE keyword = ".$ilDB->quote(gevSettings::CRS_AMD_WEBEX_VC_CLASS_TYPE,"text"));
+
+	$ilDB->manipulate("UPDATE settings SET keyword = ".$ilDB->quote(gevSettings::CRS_AMD_VC_LOGIN_TUTOR,"text")
+		." WHERE keyword = ".$ilDB->quote(gevSettings::CRS_AMD_WEBEX_LOGIN_TUTOR,"text"));
+
+	require_once "Customizing/class.ilCustomInstaller.php";
+	ilCustomInstaller::initPluginEnv();
+	ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "AdvancedMetaData", "amdc", "CourseAMD");
+
+?>
