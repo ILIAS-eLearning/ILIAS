@@ -330,9 +330,11 @@ class ilCourseBooking
 	 * 
 	 * @param int $a_course_obj_id
 	 * @param bool $a_show_cancellations
+	 * @param int $a_offset
+	 * @param int $a_limit
 	 * @return array
 	 */
-	public static function getCourseTableData($a_course_obj_id, $a_show_cancellations = false)
+	public static function getCourseTableData($a_course_obj_id, $a_offset, $a_limit, $a_show_cancellations = false)
 	{
 		global $ilDB;
 		
@@ -349,45 +351,55 @@ class ilCourseBooking
 			$status = array(self::STATUS_CANCELLED_WITHOUT_COSTS, self::STATUS_CANCELLED_WITH_COSTS);
 		}
 		
-		$sql = "SELECT *".
-			" FROM crs_book".			
-			" WHERE crs_id = ".$ilDB->quote($a_course_obj_id, "integer").
-			" AND ".$ilDB->in("status", $status, "", "integer");			
+		$sql = "SELECT  usr.firstname AS firstname, usr.lastname AS lastname, usr.login AS login, change_usr.login AS stcblogin,"
+					." crb.status, crb.status_changed_on,crb.crs_id,crb.user_id,crb.status_changed_by,"
+					." GROUP_CONCAT(ou_title.obj_id SEPARATOR '#|#') AS oguid, GROUP_CONCAT(ou_title.title SEPARATOR '#|#') AS ogutitle"
+					." FROM crs_book crb"
+					." JOIN usr_data usr ON usr.usr_id = crb.user_id"
+					." JOIN usr_data change_usr ON change_usr.usr_id = crb.status_changed_by"
+					." JOIN rbac_ua ua ON ua.usr_id = crb.user_id"
+					." LEFT JOIN object_data role_data ON role_data.obj_id = ua.rol_id AND ( role_data.title LIKE 'il_orgu_superior_%' OR role_data.title LIKE 'il_orgu_employee_%')"
+					." LEFT JOIN object_reference ou_ref ON ou_ref.ref_id = SUBSTRING(role_data.title, 18)"
+					." LEFT JOIN object_data ou_title ON ou_title.obj_id = ou_ref.obj_id"
+					." WHERE crb.crs_id = ".$ilDB->quote($a_course_obj_id, "integer")." AND ".$ilDB->in("crb.status", $status, "", "integer").""
+					." GROUP BY usr.firstname, usr.lastname, usr.login, change_usr.login,"
+						." crb.status, crb.status_changed_on,crb.crs_id,crb.user_id,crb.status_changed_by";
+		
+		if($a_limit != 0) {
+			if($a_offset === null) {
+				$a_offset = 0;
+			}
+
+			$sql .= " LIMIT ".$a_offset.", ".$a_limit."";
+		}
+
+		$res = array();
+		$arrIndex = 0;
 		$set = $ilDB->query($sql);
 		while($row = $ilDB->fetchAssoc($set))
-		{			
-			$user_ids[] = $row["user_id"];
-			$user_ids[] = $row["status_changed_by"];
-			
-			$res[] = $row;
-		}
-				
-		$orgu = ilCourseBookingHelper::getUsersOrgUnitData($user_ids);		
-		
-		$users = array();
-		
-		$sql = "SELECT usr_id, firstname, lastname, login".
-			" FROM usr_data".	
-			" WHERE ".$ilDB->in("usr_id", $user_ids, "", "integer");
-		$set = $ilDB->query($sql);
-		while($row = $ilDB->fetchAssoc($set))
-		{	
-			$users[$row["usr_id"]] = $row;
-		}
-		
-		foreach($res as $idx => $row)
 		{
-			$user = $users[$row["user_id"]];
-			$res[$idx]["firstname"] = $user["firstname"];
-			$res[$idx]["lastname"] = $user["lastname"];
-			$res[$idx]["login"] = $user["login"];
+			$res[$arrIndex]["crs_id"] = $row["crs_id"];
+			$res[$arrIndex]["user_id"] = $row["user_id"];
+			$res[$arrIndex]["status"] = $row["status"];
+			$res[$arrIndex]["status_changed_by"] = $row["status_changed_by"];
+			$res[$arrIndex]["status_changed_on"] = $row["status_changed_on"];
 			
-			$res[$idx]["org_unit"] = $orgu[$row["user_id"]][0];
-			$res[$idx]["org_unit_txt"] = $orgu[$row["user_id"]][1];
-									
-			$res[$idx]["status_changed_by_txt"] = $users[$row["status_changed_by"]]["login"];			
+
+			$res[$arrIndex]["firstname"] = $row["firstname"];
+			$res[$arrIndex]["lastname"] = $row["lastname"];
+			$res[$arrIndex]["login"] = $row["login"];
+			
+			$res[$arrIndex]["org_unit"] = explode("#|#",$row["oguid"]);
+			
+			$title = explode("#|#", $row["ogutitle"]);
+			sort($title);
+			$res[$arrIndex]["org_unit_txt"] = implode(", ",$title);
+			
+			$res[$arrIndex]["status_changed_by_txt"] = $row["stcblogin"];
+
+			$arrIndex++;
 		}
 		
 		return $res;
-	}	
+	}
 }
