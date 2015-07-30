@@ -1178,7 +1178,14 @@ class ilChatroom
 	public static function findDeletablePrivateRooms() {
 		global $ilDB;
 
-		$query = 'SELECT private_rooms.proom_id id, MIN(disconnected) min_disconnected, MAX(disconnected) max_disconnected FROM ' . self::$privateSessionsTable . ' private_sessions INNER JOIN '.self::$privateRoomsTable.' private_rooms ON private_sessions.proom_id = private_rooms.proom_id WHERE closed = 0 GROUP BY private_rooms.proom_id HAVING min_disconnected > 0 AND max_disconnected < %s';
+		$query = '
+			SELECT private_rooms.proom_id id, MIN(disconnected) min_disconnected, MAX(disconnected) max_disconnected
+			FROM ' . self::$privateSessionsTable . ' private_sessions
+			INNER JOIN '.self::$privateRoomsTable.' private_rooms
+				ON private_sessions.proom_id = private_rooms.proom_id
+			WHERE closed = 0
+			GROUP BY private_rooms.proom_id
+			HAVING MIN(disconnected) > 0 AND MAX(disconnected) < %s';
 		$rset = $ilDB->queryF(
 		$query,
 		array('integer'),
@@ -1188,7 +1195,7 @@ class ilChatroom
 		$rooms = array();
 
 		while ($row = $ilDB->fetchAssoc($rset)) {
-			$rooms[] = $row['id'];
+			$rooms[$row['id']] = $row['id'];
 		}
 
 		$query = 'SELECT DISTINCT proom_id, room_id, object_id FROM ' . self::$privateRoomsTable
