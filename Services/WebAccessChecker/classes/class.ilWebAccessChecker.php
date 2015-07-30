@@ -273,7 +273,7 @@ class ilWebAccessChecker
 	*/
 	public function checkAccess()
 	{
-		global $ilLog, $ilUser, $ilObjDataCache;
+		global $ilLog, $ilUser, $ilObjDataCache, $objDefinition;
 
 		// an error already occurred at class initialisation
 		if ($this->errorcode)
@@ -315,7 +315,8 @@ class ilWebAccessChecker
 		}
 		// component name (generic)
 		elseif ($pos4 > 3)
-		{			
+		{
+			$plugin = false;
 			$seperator = strpos($this->subpath, '/', $pos4);
 			$path = explode("/", substr($this->subpath, $seperator +1));
 			$component = array_shift($path);
@@ -330,11 +331,26 @@ class ilWebAccessChecker
 				else if(ilComponent::lookupId(IL_COMP_SERVICE, $component))
 				{
 					$comp_dir = "Services";
-				}	
+				}
+				else if($objDefinition->isPlugin($pl_id = strtolower($component)))
+				{
+					$comp_class = $objDefinition->getClassName($pl_id);
+					$comp_dir = $objDefinition->getLocation($pl_id);
+					$plugin = true;
+				}
+
 				if($comp_dir)
 				{
-					$comp_class = "il".$component."WebAccessChecker";
-					$comp_include = $comp_dir."/".$component."/classes/class.".$comp_class.".php";
+					if($plugin)
+					{
+						$comp_class = "il".$comp_class."WebAccessChecker";
+						$comp_include = $comp_dir."/class.".$comp_class.".php";
+					}
+					else
+					{
+						$comp_class = "il".$component."WebAccessChecker";
+						$comp_include = $comp_dir."/".$component."/classes/class.".$comp_class.".php";
+					}
 					if(file_exists($comp_include))
 					{
 						include_once $comp_include;					
