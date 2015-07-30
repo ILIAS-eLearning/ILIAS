@@ -6749,7 +6749,7 @@ $ilDB->dropTable('chatroom_sessions');
 ?>
 <#4534>
 <?php
-//$ilDB->renameTable('chatroom_sessionstmp', 'chatroom_sessions');
+$ilDB->renameTable('chatroom_sessionstmp', 'chatroom_sessions');
 ?>
 <#4535>
 <?php
@@ -6768,6 +6768,18 @@ if($ilDB->sequenceExists('chatroom_sessionstmp'))
 }
 ?>
 <#4537>
+<?php
+$ilDB->addIndex('chatroom_sessions', array('room_id', 'user_id'), 'i1');
+?>
+<#4538>
+<?php
+$ilDB->addIndex('chatroom_sessions', array('disconnected'), 'i2');
+?>
+<#4539>
+<?php
+$ilDB->addIndex('chatroom_sessions', array('user_id'), 'i3');
+?>
+<#4540>
 <?php
 // qpl_a_cloze_combi_res - primary key step 1/8
 
@@ -6847,7 +6859,7 @@ if($dupsCountRow['dups_cnt'] > 0)
 	}
 }
 ?>
-<#4538>
+<#4541>
 <?php
 // qpl_a_cloze_combi_res - primary key step 2/8
 
@@ -6877,7 +6889,7 @@ if( $ilDB->tableExists('dups_clozecombis_qst') )
 	}
 }
 ?>
-<#4539>
+<#4542>
 <?php
 // qpl_a_cloze_combi_res - primary key step 3/8
 
@@ -6909,7 +6921,7 @@ if( $ilDB->tableExists('dups_clozecombis_qst') )
 	}
 }
 ?>
-<#4540>
+<#4543>
 <?php
 // qpl_a_cloze_combi_res - primary key step 4/8
 
@@ -7047,7 +7059,7 @@ if( $ilDB->tableExists('dups_clozecombis_qst') )
 	}
 }
 ?>
-<#4541>
+<#4544>
 <?php
 // qpl_a_cloze_combi_res - primary key step 5/8
 
@@ -7060,7 +7072,7 @@ if( $ilDB->tableExists('dups_clozecombis_rows') )
 	");
 }
 ?>
-<#4542>
+<#4545>
 <?php
 // qpl_a_cloze_combi_res - primary key step 6/8
 
@@ -7074,7 +7086,7 @@ if( $ilDB->tableExists('dups_clozecombis_rows') )
 	");
 }
 ?>
-<#4543>
+<#4546>
 <?php
 // qpl_a_cloze_combi_res - primary key step 7/8
 
@@ -7088,7 +7100,7 @@ if( $ilDB->tableExists('dups_clozecombis_rows') )
 	$ilDB->dropTable('dups_clozecombis_rows');
 }
 ?>
-<#4544>
+<#4547>
 <?php
 // qpl_a_cloze_combi_res - primary key step 8/8
 
