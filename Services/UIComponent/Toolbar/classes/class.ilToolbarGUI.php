@@ -22,7 +22,8 @@ class ilToolbarGUI
 
 	function __construct()
 	{
-	
+		global $tpl;
+		$tpl->addJavascript("./Services/UIComponent/Toolbar/js/ilToolbar.js");
 	}
 
 	/**
@@ -179,11 +180,15 @@ class ilToolbarGUI
 	// bs-patch end
 
 	/**
-	* Add separator
-	*/
-	function addSeparator()
+	 * Add separator
+	 * Set the parameter to true if you want to "group" the previous and next items without visually showing a border.
+	 * This is useful for the mobile view of the toolbar, grouped items are displayed on the same row.
+	 *
+	 * @param bool $visually_hidden If set to true, the separator groups items but does not show a border.
+	 */
+	public function addSeparator($visually_hidden = false)
 	{
-		$this->items[] = array("type" => "separator");
+		$this->items[] = array("type" => "separator", 'visually_hidden' => $visually_hidden);
 	}
 
 	/**
@@ -364,7 +369,10 @@ class ilToolbarGUI
 
 
 					case "separator":
-						$tpl->touchBlock("separator");
+						$tpl->setCurrentBlock("separator");
+						$hidden_class = $item['visually_hidden'] ? ' hidden-separator' : '';
+						$tpl->setVariable('VISUALLY_HIDDEN', $hidden_class);
+						$tpl->parseCurrentBlock();
 						$tpl->touchBlock("item");
 						break;
 

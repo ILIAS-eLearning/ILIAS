@@ -1,8 +1,14 @@
 /* Services/UIComponent/Toolbar */
 
 .ilToolbar .navbar-form {
-	padding: 5px 15px 5px 0;
-	margin: 0;
+  padding: 5px 15px 5px 10px;
+  margin: 0;
+  border-color: transparent;
+}
+
+.ilToolbar .collapse.in .navbar-form,
+.ilToolbar .collapse.collapsing .navbar-form {
+  border-top: 1px solid #e7e7e7;
 }
 
 .ilToolbar.navbar {
@@ -22,16 +28,20 @@
 
 .ilToolbar .navbar-collapse {
 	padding: 0;
+  	border: 0;
 }
 
 li.ilToolbarSeparator {
 	border-left: solid 1px #d8d8d8;
 	min-height: 34px;
-	padding: 0 15px 0 0;
+	padding: 0 5px 0 0;
+    &.hidden-separator {
+	  border: 0;
+	}
 }
 
 li.ilToolbarTextonly {
-	padding: 5px 15px 5px 0;
+  padding: 5px 15px 5px 10px;
 	> span {
 		line-height: 24px;
 	}
@@ -39,4 +49,28 @@ li.ilToolbarTextonly {
 
 .ilToolbar input[type=file] {
 	display: inline-block;
+}
+
+.ilToolbar .sticky-primary-items {
+  list-style-type: none;
+  padding-left: 0;
+	.navbar-form {
+	  border: 0;
+	}
+  	> li {
+	  display: inline-block;
+	}
+}
+
+.ilToolbar {
+  .group-item {
+	margin-left: 5px;
+	&:first-child {
+	  margin-left: 0;
+	}
+  }
+
+  .hidden-item {
+	display: none;
+  }
 }

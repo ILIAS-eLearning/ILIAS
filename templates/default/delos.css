@@ -10336,8 +10336,13 @@ div#il_startup_logo img {
 }
 /* Services/UIComponent/Toolbar */
 .ilToolbar .navbar-form {
-  padding: 5px 15px 5px 0;
+  padding: 5px 15px 5px 10px;
   margin: 0;
+  border-color: transparent;
+}
+.ilToolbar .collapse.in .navbar-form,
+.ilToolbar .collapse.collapsing .navbar-form {
+  border-top: 1px solid #e7e7e7;
 }
 .ilToolbar.navbar {
   min-height: 34px;
@@ -10354,20 +10359,43 @@ div#il_startup_logo img {
 }
 .ilToolbar .navbar-collapse {
   padding: 0;
+  border: 0;
 }
 li.ilToolbarSeparator {
   border-left: solid 1px #d8d8d8;
   min-height: 34px;
-  padding: 0 15px 0 0;
+  padding: 0 5px 0 0;
+}
+li.ilToolbarSeparator.hidden-separator {
+  border: 0;
 }
 li.ilToolbarTextonly {
-  padding: 5px 15px 5px 0;
+  padding: 5px 15px 5px 10px;
 }
 li.ilToolbarTextonly > span {
   line-height: 24px;
 }
 .ilToolbar input[type=file] {
   display: inline-block;
+}
+.ilToolbar .sticky-primary-items {
+  list-style-type: none;
+  padding-left: 0;
+}
+.ilToolbar .sticky-primary-items .navbar-form {
+  border: 0;
+}
+.ilToolbar .sticky-primary-items > li {
+  display: inline-block;
+}
+.ilToolbar .group-item {
+  margin-left: 5px;
+}
+.ilToolbar .group-item:first-child {
+  margin-left: 0;
+}
+.ilToolbar .hidden-item {
+  display: none;
 }
 /* Services/UIComponent/Tooltip */
 .ui-tooltip-rounded,
