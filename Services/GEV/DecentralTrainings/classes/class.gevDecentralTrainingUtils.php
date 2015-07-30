@@ -302,9 +302,9 @@ class gevDecentralTrainingUtils {
  		$ret["venue_id"] = $crs_utils->getVenueId();
  		$ret["venue_free"] = $crs_utils->getVenueFreeText();
  		$ret["orgu_id"] = $crs_utils->getTEPOrguId();
- 		$ret["vc_type"] = $crs_utils->getVCType();
- 		$ret["webx_link"] = $crs_utils->getWebExLink();
- 		$ret["webx_password"] = $crs_utils->getWebExPassword();
+ 		$ret["vc_type"] = $crs_utils->getVirtualClassType();
+ 		$ret["webx_link"] = $crs_utils->getVirtualClassLink();
+ 		$ret["webx_password"] = $crs_utils->getVirtualClassPassword();
 
  		return $ret;
  	}

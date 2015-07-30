@@ -64,7 +64,7 @@ class ilGEVCourseUpdatePlugin extends ilEventHookPlugin
 										);
 
 					$crs_inv_mail_set = new gevCrsInvitationMailSettings($this->crs_utils->getCourse()->getId());
-					$vc_type = $this->crs_utils->getVCType();
+					$vc_type = $this->crs_utils->getVirtualClassType();
 
 					if($vc_type && $vc_type == self::VC_TYPE_CSN) {
 						$crs_inv_mail_set->setSettingsFor(self::VC_RECIPIENT,$settings->getCSNMailTemplateId(),$attachments);

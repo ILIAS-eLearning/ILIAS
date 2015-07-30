@@ -681,12 +681,12 @@ abstract class ilTEPViewGridBased extends ilTEPView
 			
 			$actions = "";
 			if($crs_utils->isVirtualTraining()) {
-				if($crs_utils->getWebExLoginTutor()) {
-					$actions .= "VC Login: ".$crs_utils->getWebExLoginTutor()."<br />";
+				if($crs_utils->getVirtualClassLoginTutor()) {
+					$actions .= "VC Login: ".$crs_utils->getVirtualClassLoginTutor()."<br />";
 				}
 
-				if($crs_utils->getWebExPasswordTutor()) {
-					$actions .= "VC Passwort: ".$crs_utils->getWebExPasswordTutor()."<br /><br />";
+				if($crs_utils->getVirtualClassPasswordTutor()) {
+					$actions .= "VC Passwort: ".$crs_utils->getVirtualClassPasswordTutor()."<br /><br />";
 				}
 			}
 
@@ -722,9 +722,9 @@ abstract class ilTEPViewGridBased extends ilTEPView
 				$actions .=  "<a href='".$ilCtrl->getLinkTargetByClass("ilTEPGUI", "showBookings")
 							."' title='".$lng->txt("gev_mytrainingsap_legend_view_bookings")."'>".$bookings_img."</a>&nbsp;";
 			}
-			if($crs_utils->getWebExLink() !== null) {
+			if($crs_utils->getVirtualClassLink() !== null) {
 				$vc_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-classroom.png").'" />';
-				$actions .=  "<a href='".$crs_utils->getWebExLink()
+				$actions .=  "<a href='".$crs_utils->getVirtualClassLink()
 							."' title='".$lng->txt("gev_virtual_class")."' target='_blank'>".$vc_img."</a>&nbsp;";
 			}
 

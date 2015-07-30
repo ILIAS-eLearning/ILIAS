@@ -152,8 +152,8 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 			$actions .= "&nbsp;<a href=\"".$bookings_link."\">".$this->bookings_img."</a>";
 		}
 
-		if ($crs_utils->getWebExlink() !== null) {
-			$actions .= '&nbsp;<a href="'.$crs_utils->getWebExlink().'" target="_blank">'.$this->virtualclass_img.'</a>';
+		if ($crs_utils->getVirtualClassLink() !== null) {
+			$actions .= '&nbsp;<a href="'.$crs_utils->getVirtualClassLink().'" target="_blank">'.$this->virtualclass_img.'</a>';
 		}
 
 		$this->ctrl->setParameterByClass("gevMaillogGUI", "obj_id", $a_set["obj_id"]);
@@ -203,12 +203,12 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 		if($crs_utils->isVirtualTraining()) {
 			$this->tpl->setVariable("VC_HEADER", "Zugangsdaten virtueller Klassenraum");
 		
-			if($crs_utils->getWebExLoginTutor()) {
-			$actions .= "Login: ".$crs_utils->getWebExLoginTutor()."<br />";
+			if($crs_utils->getVirtualClassLoginTutor()) {
+			$actions .= "Login: ".$crs_utils->getVirtualClassLoginTutor()."<br />";
 			}
 
-			if($crs_utils->getWebExPasswordTutor()) {
-				$actions .= "Passwort: ".$crs_utils->getWebExPasswordTutor();
+			if($crs_utils->getVirtualClassPasswordTutor()) {
+				$actions .= "Passwort: ".$crs_utils->getVirtualClassPasswordTutor();
 			}
 
 			$this->tpl->setVariable("VC_DATA", $actions);

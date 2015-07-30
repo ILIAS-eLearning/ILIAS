@@ -775,12 +775,12 @@ class gevCourseUtils {
 		return $prv->getLongTitle();
 	}
 	
-	public function setVCType($a_vc_type) {
-		$this->amd->setField($this->crs_id, gevSettings::CRS_AMD_WEBEX_VC_CLASS_TYPE, $a_vc_type);
+	public function setVirtualClassType($a_vc_type) {
+		$this->amd->setField($this->crs_id, gevSettings::CRS_AMD_VC_CLASS_TYPE, $a_vc_type);
 	}
 
-	public function getVCType() {
-		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_WEBEX_VC_CLASS_TYPE);
+	public function getVirtualClassType() {
+		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_VC_CLASS_TYPE);
 	}
 
 	public function setTrainingCategory(array $a_training_category) {
@@ -1138,31 +1138,31 @@ class gevCourseUtils {
 		$end_datetime = new ilDateTime($this->getEndDate()->get(IL_CAL_DATE)." ".$this->getFormattedEndTime().":00", IL_CAL_DATETIME);
 
 		for ($i = 0; $i < $a_amount_of_vcs; $i++) {				
-			$to_assign_vc = $vc_pool->getVCAssignment($this->getWebExVirtualClassType(), $this->crs_id, $start_datetime, $end_datetime);
+			$to_assign_vc = $vc_pool->getVCAssignment($this->getVirtualClassType(), $this->crs_id, $start_datetime, $end_datetime);
 
 			if($to_assign_vc === null) {
 				return false;
 			}
 			
-			$this->setWebExLink($to_assign_vc->getVC()->getUrl());
-			$this->setWebExPassword($to_assign_vc->getVC()->getMemberPassword());
-			$this->setWebExPasswordTutor($to_assign_vc->getVC()->getTutorPassword());
-			$this->setWebExLoginTutor($to_assign_vc->getVC()->getTutorLogin());
+			$this->setVirtualClassLink($to_assign_vc->getVC()->getUrl());
+			$this->setVirtualClassPassword($to_assign_vc->getVC()->getMemberPassword());
+			$this->setVirtualClassPasswordTutor($to_assign_vc->getVC()->getTutorPassword());
+			$this->setVirtualClassLoginTutor($to_assign_vc->getVC()->getTutorLogin());
 		}
 
 		return true;
 	}
 	
 	public function checkVirtualTrainingForPossibleVCAssignment() {
-		if (!$this->isStartAndEndDateSet() && $this->getWebExVirtualClassType() === null) {
+		if (!$this->isStartAndEndDateSet() && $this->getVirtualClassType() === null) {
 			ilUtil::sendFailure($this->lng->txt("gev_vc_no_url_saved_because_no_vc_class_type_and_no_times"));
 			return false;
 		}
-		elseif (!$this->isStartAndEndDateSet() && $this->getWebExVirtualClassType() !== null) {
+		elseif (!$this->isStartAndEndDateSet() && $this->getVirtualClassType() !== null) {
 			ilUtil::sendFailure($this->lng->txt("gev_vc_no_url_saved_because_no_startenddate_set"));	
 			return false;
 		}
-		elseif ($this->isStartAndEndDateSet() && $this->getWebExVirtualClassType() === null) {
+		elseif ($this->isStartAndEndDateSet() && $this->getVirtualClassType() === null) {
 			ilUtil::sendFailure($this->lng->txt("gev_vc_no_url_saved_because_no_vc_class_type"));
 			return false;
 		}
@@ -1179,7 +1179,7 @@ class gevCourseUtils {
 		
 		$should_get_vc_assignment = $this->isVirtualTraining() 
 								&& $this->isStartAndEndDateSet() 
-								&& $this->getWebExVirtualClassType() !== null;
+								&& $this->getVirtualClassType() !== null;
 		
 		if ($has_vc_assigned && $should_get_vc_assignment) {
 			if ($this->hasStartOrEndDateChangedToVCAssign()) {
@@ -1203,18 +1203,18 @@ class gevCourseUtils {
 			// release all assignments and empty amd fields
 			foreach($assigned_vcs as $avc) {
 				$avc->release();
-				if ($this->getWebExLink() == $avc->getVC()->getUrl()) {
-					$this->setWebExLink(null);
+				if ($this->getVirtualClassLink() == $avc->getVC()->getUrl()) {
+					$this->setVirtualClassLink(null);
 				}
 
-				if ($this->getWebExPassword() == $avc->getVC()->getMemberPassword()) {
-					$this->setWebExPassword(null);
+				if ($this->getVirtualClassPassword() == $avc->getVC()->getMemberPassword()) {
+					$this->setVirtualClassPassword(null);
 				}
-				if ($this->getWebExPasswordTutor() == $avc->getVC()->getTutorPassword()) {
-					$this->setWebExPasswordTutor(null);
+				if ($this->getVirtualClassPasswordTutor() == $avc->getVC()->getTutorPassword()) {
+					$this->setVirtualClassPasswordTutor(null);
 				}
-				if ($this->getWebExLoginTutor() == $avc->getVC()->getTutorLogin()) {
-					$this->setWebExLoginTutor(null);
+				if ($this->getVirtualClassLoginTutor() == $avc->getVC()->getTutorLogin()) {
+					$this->setVirtualClassLoginTutor(null);
 				}
 			}
 		}
@@ -1230,13 +1230,14 @@ class gevCourseUtils {
 			// DON'T TOUCH THIS.
 		}
 	}
-	
-	public function getWebExLink() {
-		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_WEBEX_LINK);
-	}
 
-	public function getWebExLinkWithHTTP() {
-		$link = $this->getWebExLink();
+
+	public function getVirtualClassLink() {
+		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_VC_LINK);
+	}
+	
+	public function getVirtualClassLinkWithHTTP() {
+		$link = $this->getVirtualClassLink();
 
 		if($this->startsWith(strtolower($link), "http://") || $this->startsWith(strtolower($link), "https://")) {
 			return $link;
@@ -1251,41 +1252,35 @@ class gevCourseUtils {
 		return (substr($haystack, 0, $length) === $needle);
 	}
 	
-	public function setWebExLink($a_value) {
-		return $this->amd->setField($this->crs_id, gevSettings::CRS_AMD_WEBEX_LINK, $a_value);
-	}
-	
-	public function getWebExPassword() {
-		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_WEBEX_PASSWORD);
-	}
-	
-	public function setWebExPassword($a_value) {
-		return $this->amd->setField($this->crs_id, gevSettings::CRS_AMD_WEBEX_PASSWORD, $a_value);
+	public function setVirtualClassLink($a_value) {
+		return $this->amd->setField($this->crs_id, gevSettings::CRS_AMD_VC_LINK, $a_value);
 	}
 
-	public function getWebExPasswordTutor() {
-		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_WEBEX_PASSWORD_TUTOR);
-	}
-	
-	public function setWebExPasswordTutor($a_value) {
-		return $this->amd->setField($this->crs_id, gevSettings::CRS_AMD_WEBEX_PASSWORD_TUTOR, $a_value);
+	public function getVirtualClassPassword() {
+		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_VC_PASSWORD);
 	}
 
-	public function getWebExLoginTutor() {
-		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_WEBEX_LOGIN_TUTOR);
+	public function setVirtualClassPassword($a_value) {
+		return $this->amd->setField($this->crs_id, gevSettings::CRS_AMD_VC_PASSWORD, $a_value);
 	}
 
-	public function setWebExLoginTutor($a_value) {
-		return $this->amd->setField($this->crs_id, gevSettings::CRS_AMD_WEBEX_LOGIN_TUTOR, $a_value);
+	public function getVirtualClassPasswordTutor() {
+		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_VC_PASSWORD_TUTOR);
 	}
-	
-	public function getWebExVirtualClassType() {
-		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_WEBEX_VC_CLASS_TYPE);
+
+	public function setVirtualClassPasswordTutor($a_value) {
+		return $this->amd->setField($this->crs_id, gevSettings::CRS_AMD_VC_PASSWORD_TUTOR, $a_value);
 	}
-	
-	public function setWebExVirtualClassType($a_value) {
-		return $this->amd->setField($this->crs_id, gevSettings::CRS_AMD_WEBEX_VC_CLASS_TYPE, $a_value);
+
+	public function getVirtualClassLoginTutor() {
+		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_VC_LOGIN_TUTOR);
 	}
+
+	public function setVirtualClassLoginTutor($a_value) {
+		return $this->amd->setField($this->crs_id, gevSettings::CRS_AMD_VC_LOGIN_TUTOR, $a_value);
+	}
+
+
 
 	/*public function getCSNLink() {
 		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_CSN_LINK);

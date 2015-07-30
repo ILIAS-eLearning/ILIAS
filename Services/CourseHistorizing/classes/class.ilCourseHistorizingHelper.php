@@ -309,9 +309,9 @@ class ilCourseHistorizingHelper
 		return $utils->getDBVHotTopic();
 	}
 
-	public static function getWebExVCType($course) {
+	public static function getVirtualClassroomType($course) {
 		$utils = gevCourseUtils::getInstanceByObjOrId($course);
-		return $utils->getWebExVirtualClassType();
+		return $utils->getVirtualClassType();
 	}
 
 }
