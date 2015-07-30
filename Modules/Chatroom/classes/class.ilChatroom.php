@@ -559,7 +559,7 @@ class ilChatroom
 
 		$ilDB->manipulate( 'DELETE FROM ' . self::$userTable );
 		$ilDB->manipulate( 'UPDATE ' . self::$privateRoomsTable . ' SET closed = ' . $ilDB->quote( time() ,'integer') . ' WHERE closed = 0 OR closed IS NULL');
-		$ilDB->manipulate( 'UPDATE ' . self::$privateSessionsTable . ' SET disconnected = ' . $ilDB->quote( time() ,'integer') . ' WHERE disconnected = 0 OR disconnected IS NULL');
+		$ilDB->manipulate( 'UPDATE ' . self::$privateSessionsTable . ' SET disconnected = ' . $ilDB->quote( time() ,'integer') . ' WHERE disconnected = 0');
 		/**
 		 * @todo nicht nur löschen, auch in Session Tabelle nachpflegen
 		 */
@@ -1073,7 +1073,7 @@ class ilChatroom
 	public function listUsersInPrivateRoom($private_room_id) {
 		global $ilDB;
 
-		$query	= 'SELECT user_id FROM ' . self::$privateSessionsTable . ' WHERE proom_id = %s AND disconnected = 0 OR disconnected IS NULL';
+		$query	= 'SELECT user_id FROM ' . self::$privateSessionsTable . ' WHERE proom_id = %s AND disconnected = 0';
 		$types	= array('integer');
 		$values = array($private_room_id);
 		$rset	= $ilDB->queryF( $query, $types, $values );
@@ -1091,7 +1091,7 @@ class ilChatroom
 	{
 		global $ilDB;
 
-		$query	= 'SELECT proom_id id FROM ' . self::$privateSessionsTable . ' WHERE user_id = %s AND proom_id = %s AND disconnected = 0 OR disconnected IS NULL';
+		$query	= 'SELECT proom_id id FROM ' . self::$privateSessionsTable . ' WHERE user_id = %s AND proom_id = %s AND disconnected = 0';
 		$types	= array('integer', 'integer');
 		$values = array($user_id, $room_id);
 		$rset	= $ilDB->queryF( $query, $types, $values );
