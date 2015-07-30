@@ -6573,3 +6573,55 @@ if($data['cnt'])
 
 $ilDB->addPrimaryKey('mail_saved', array('user_id'));
 ?>
+<#4520>
+<?php
+$chrban_dup_query_num = "
+SELECT COUNT(*) cnt
+FROM (
+	SELECT room_id, user_id
+    FROM chatroom_bans
+    GROUP BY room_id, user_id
+    HAVING COUNT(*) > 1
+) duplicateChatroomBans
+";
+$res  = $ilDB->query($chrban_dup_query_num);
+$data = $ilDB->fetchAssoc($res);
+if($data['cnt'])
+{
+	$chrban_dup_query = "
+	SELECT DISTINCT finalDuplicateChatroomBans.room_id, finalDuplicateChatroomBans.user_id, finalDuplicateChatroomBans.timestamp, finalDuplicateChatroomBans.remark
+	FROM (
+		SELECT chatroom_bans.*
+		FROM chatroom_bans
+		INNER JOIN (
+			SELECT room_id, user_id, MAX(timestamp) ts
+			FROM chatroom_bans
+			GROUP BY room_id, user_id
+			HAVING COUNT(*) > 1
+		) duplicateChatroomBans
+			ON duplicateChatroomBans.room_id = chatroom_bans.room_id
+			AND duplicateChatroomBans.user_id = chatroom_bans.user_id 
+			AND duplicateChatroomBans.ts = chatroom_bans.timestamp 
+	) finalDuplicateChatroomBans
+	";
+	$res = $ilDB->query($chrban_dup_query);
+
+	$stmt_del = $ilDB->prepareManip("DELETE FROM chatroom_bans WHERE room_id = ? AND user_id = ?", array('integer', 'integer'));
+	$stmt_in  = $ilDB->prepareManip("INSERT INTO chatroom_bans (room_id, user_id, timestamp, remark) VALUES(?, ?, ?, ?)", array('integer', 'integer',  'integer',  'text'));
+
+	while($row = $ilDB->fetchAssoc($res))
+	{
+		$ilDB->execute($stmt_del, array($row['room_id'], $row['user_id']));
+		$ilDB->execute($stmt_in, array($row['room_id'], $row['user_id'], $row['timestamp'], $row['remark']));
+	}
+}
+
+$res  = $ilDB->query($chrban_dup_query_num);
+$data = $ilDB->fetchAssoc($res);
+if($data['cnt'])
+{
+	throw new ilException("There are still duplicate entries in table 'chatroom_bans'. Please execute this database update step again.");
+}
+
+$ilDB->addPrimaryKey('chatroom_bans', array('room_id', 'user_id'));
+?>
