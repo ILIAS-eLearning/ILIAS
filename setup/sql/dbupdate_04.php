@@ -6767,3 +6767,332 @@ if($ilDB->sequenceExists('chatroom_sessionstmp'))
 	$ilDB->dropSequence('chatroom_sessionstmp');
 }
 ?>
+<#4537>
+<?php
+// qpl_a_cloze_combi_res - primary key step 1/8
+
+$dupsCountRes = $ilDB->query("
+		SELECT COUNT(*) dups_cnt FROM (
+			SELECT combination_id, question_fi, gap_fi, row_id
+			FROM qpl_a_cloze_combi_res
+			GROUP BY combination_id, question_fi, gap_fi, row_id
+		HAVING COUNT(*) > 1
+	) dups");
+
+$dupsCountRow = $ilDB->fetchAssoc($dupsCountRes);
+
+if($dupsCountRow['dups_cnt'] > 0)
+{
+	if( !$ilDB->tableExists('dups_clozecombis_qst') )
+	{
+		$ilDB->createTable('dups_clozecombis_qst', array(
+			'qst' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true
+			),
+			'num' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => false
+			)
+		));
+
+		$ilDB->addPrimaryKey('dups_clozecombis_qst', array('qst'));
+	}
+
+	if( !$ilDB->tableExists('dups_clozecombis_rows') )
+	{
+		$ilDB->createTable('dups_clozecombis_rows', array(
+			'combination_id' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true
+			),
+			'question_fi' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true
+			),
+			'gap_fi' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true
+			),
+			'answer' => array(
+				'type' => 'text',
+				'length' => 1000,
+				'notnull' => false
+			),
+			'points' => array(
+				'type' => 'float',
+				'notnull' => false
+			),
+			'best_solution' => array(
+				'type' => 'integer',
+				'length' => 1,
+				'notnull' => false
+			),
+			'row_id' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => false,
+				'default' => 0
+			)
+		));
+
+		$ilDB->addPrimaryKey('dups_clozecombis_rows', array(
+			'combination_id', 'question_fi', 'gap_fi', 'row_id'
+		));
+	}
+}
+?>
+<#4538>
+<?php
+// qpl_a_cloze_combi_res - primary key step 2/8
+
+// break safe update step
+
+if( $ilDB->tableExists('dups_clozecombis_qst') )
+{
+	$res = $ilDB->query("
+			SELECT combination_id, question_fi, gap_fi, row_id, COUNT(*)
+			FROM qpl_a_cloze_combi_res
+			LEFT JOIN dups_clozecombis_qst ON qst = question_fi
+			WHERE qst IS NULL
+			GROUP BY combination_id, question_fi, gap_fi, row_id
+			HAVING COUNT(*) > 1
+		");
+
+	while( $row = $ilDB->fetchAssoc($res) )
+	{
+		$ilDB->replace('dups_clozecombis_qst',
+			array(
+				'qst' => array('integer', $row['question_fi'])
+			),
+			array(
+				'num' => array('integer', null)
+			)
+		);
+	}
+}
+?>
+<#4539>
+<?php
+// qpl_a_cloze_combi_res - primary key step 3/8
+
+// break safe update step
+
+if( $ilDB->tableExists('dups_clozecombis_qst') )
+{
+	$selectNumQuery = "
+			SELECT COUNT(*) num FROM (
+				SELECT question_fi FROM qpl_a_cloze_combi_res WHERE question_fi = ?
+				GROUP BY combination_id, question_fi, gap_fi, row_id
+			) numrows
+		";
+	$selectNumStmt = $ilDB->prepare($selectNumQuery, array('integer'));
+
+	$updateNumQuery = "
+			UPDATE dups_clozecombis_qst SET num = ? WHERE qst = ?
+		";
+	$updateNumStmt = $ilDB->prepareManip($updateNumQuery, array('integer', 'integer'));
+
+	$qstRes = $ilDB->query("SELECT qst FROM dups_clozecombis_qst WHERE num IS NULL");
+
+	while( $qstRow = $ilDB->fetchAssoc($qstRes) )
+	{
+		$selectNumRes = $ilDB->execute($selectNumStmt, array($qstRow['qst']));
+		$selectNumRow = $ilDB->fetchAssoc($selectNumRes);
+
+		$ilDB->execute($updateNumStmt, array($selectNumRow['num'], $qstRow['qst']));
+	}
+}
+?>
+<#4540>
+<?php
+// qpl_a_cloze_combi_res - primary key step 4/8
+
+// break safe update step
+
+if( $ilDB->tableExists('dups_clozecombis_qst') )
+{
+	$deleteRowsStmt = $ilDB->prepareManip(
+		"DELETE FROM dups_clozecombis_rows WHERE question_fi = ?", array('integer')
+	);
+
+	$selectRowsStmt = $ilDB->prepare(
+		"SELECT * FROM qpl_a_cloze_combi_res WHERE question_fi = ? ORDER BY combination_id, row_id, gap_fi",
+		array('integer')
+	);
+
+	$insertRowStmt = $ilDB->prepareManip(
+		"INSERT INTO dups_clozecombis_rows (combination_id, question_fi, gap_fi, answer, points, best_solution, row_id)
+			VALUES (?, ?, ?, ?, ?, ?, ?)", array('integer', 'integer', 'integer', 'text', 'float', 'integer', 'integer')
+	);
+
+	$qstRes = $ilDB->query("
+			SELECT qst, num
+			FROM dups_clozecombis_qst
+			LEFT JOIN dups_clozecombis_rows
+			ON question_fi = qst
+			GROUP BY qst, num, question_fi
+			HAVING COUNT(question_fi) < num
+		");
+
+	while( $qstRow = $ilDB->fetchAssoc($qstRes) )
+	{
+		$ilDB->execute($deleteRowsStmt, array($qstRow['qst']));
+
+		$selectRowsRes = $ilDB->execute($selectRowsStmt, array($qstRow['qst']));
+
+		$existingRows = array();
+		while( $selectRowsRow = $ilDB->fetchAssoc($selectRowsRes) )
+		{
+			$combinationId = $selectRowsRow['combination_id'];
+			$rowId = $selectRowsRow['row_id'];
+			$gapFi = $selectRowsRow['gap_fi'];
+
+			if( !isset($existingRows[$combinationId]) )
+			{
+				$existingRows[$combinationId] = array();
+			}
+
+			if( !isset($existingRows[$combinationId][$rowId]) )
+			{
+				$existingRows[$combinationId][$rowId] = array();
+			}
+
+			if( !isset($existingRows[$combinationId][$rowId][$gapFi]) )
+			{
+				$existingRows[$combinationId][$rowId][$gapFi] = array();
+			}
+
+			$existingRows[$combinationId][$rowId][$gapFi][] = array(
+				'answer' => $selectRowsRow['answer'],
+				'points' => $selectRowsRow['points']
+			);
+		}
+
+		$newRows = array();
+		foreach($existingRows as $combinationId => $combination)
+		{
+			if( !isset($newRows[$combinationId]) )
+			{
+				$newRows[$combinationId] = array();
+			}
+
+			$maxPointsForCombination = null;
+			$maxPointsRowIdForCombination = null;
+			foreach($combination as $rowId => $row)
+			{
+				if( !isset($newRows[$combinationId][$rowId]) )
+				{
+					$newRows[$combinationId][$rowId] = array();
+				}
+
+				$maxPointsForRow = null;
+				foreach($row as $gapFi => $gap)
+				{
+					foreach($gap as $dups)
+					{
+						if( !isset($newRows[$combinationId][$rowId][$gapFi]) )
+						{
+							$newRows[$combinationId][$rowId][$gapFi] = array(
+								'answer' => $dups['answer']
+							);
+
+							if($maxPointsForRow === null || $maxPointsForRow < $dups['points'] )
+							{
+								$maxPointsForRow = $dups['points'];
+							}
+						}
+					}
+				}
+
+				foreach($newRows[$combinationId][$rowId] as $gapFi => $gap)
+				{
+					$newRows[$combinationId][$rowId][$gapFi]['points'] = $maxPointsForRow;
+				}
+
+				if( $maxPointsForCombination === null || $maxPointsForCombination < $maxPointsForRow )
+				{
+					$maxPointsForCombination = $maxPointsForRow;
+					$maxPointsRowIdForCombination = $rowId;
+				}
+			}
+
+			foreach($combination as $rowId => $row)
+			{
+				foreach($newRows[$combinationId][$rowId] as $gapFi => $gap)
+				{
+					$newRows[$combinationId][$rowId][$gapFi]['best_solution'] = ($rowId == $maxPointsRowIdForCombination ? 1 : 0);
+				}
+			}
+		}
+
+		foreach($newRows as $combinationId => $combination)
+		{
+			foreach($combination as $rowId => $row)
+			{
+				foreach($row as $gapFi => $gap)
+				{
+					$ilDB->execute($insertRowStmt, array(
+						$combinationId, $qstRow['qst'], $gapFi, $gap['answer'],
+						$gap['points'], $gap['best_solution'], $rowId
+					));
+				}
+			}
+		}
+	}
+}
+?>
+<#4541>
+<?php
+// qpl_a_cloze_combi_res - primary key step 5/8
+
+if( $ilDB->tableExists('dups_clozecombis_rows') )
+{
+	$ilDB->manipulate("
+		DELETE FROM qpl_a_cloze_combi_res WHERE question_fi IN(
+			SELECT DISTINCT question_fi FROM dups_clozecombis_rows
+		)
+	");
+}
+?>
+<#4542>
+<?php
+// qpl_a_cloze_combi_res - primary key step 6/8
+
+if( $ilDB->tableExists('dups_clozecombis_rows') )
+{
+	$ilDB->manipulate("
+		INSERT INTO qpl_a_cloze_combi_res (
+			combination_id, question_fi, gap_fi, answer, points, best_solution, row_id
+		) SELECT combination_id, question_fi, gap_fi, answer, points, best_solution, row_id
+		FROM dups_clozecombis_rows
+	");
+}
+?>
+<#4543>
+<?php
+// qpl_a_cloze_combi_res - primary key step 7/8
+
+if( $ilDB->tableExists('dups_clozecombis_qst') )
+{
+	$ilDB->dropTable('dups_clozecombis_qst');
+}
+
+if( $ilDB->tableExists('dups_clozecombis_rows') )
+{
+	$ilDB->dropTable('dups_clozecombis_rows');
+}
+?>
+<#4544>
+<?php
+// qpl_a_cloze_combi_res - primary key step 8/8
+
+$ilDB->addPrimaryKey('qpl_a_cloze_combi_res', array(
+	'combination_id', 'question_fi', 'gap_fi', 'row_id'
+));
+?>
