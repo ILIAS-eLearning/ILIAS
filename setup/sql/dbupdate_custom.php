@@ -4062,3 +4062,10 @@ if(!$ilDB->tableColumnExists('hist_usercoursestatus', 'gev_id')) {
 			"notnull" => false
 	));
 ?>
+
+<#148> 
+<?php
+
+	$ilDB->renameTableColumn('hist_user', 'webex_vc_type', 'virtual_classroom_type');
+	
+?>
