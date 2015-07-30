@@ -6631,11 +6631,11 @@ if(!$ilDB->sequenceExists('chatroom_psessionstmp'))
 if(!$ilDB->tableExists('chatroom_psessionstmp'))
 {
 	$fields = array(
-		'psess_id'     => array('type' => 'integer', 'length' => 8, 'notnull' => true),
-		'proom_id'     => array('type' => 'integer', 'length' => 4, 'notnull' => true),
-		'user_id'      => array('type' => 'integer', 'length' => 4, 'notnull' => true),
-		'connected'    => array('type' => 'integer', 'length' => 4, 'notnull' => true),
-		'disconnected' => array('type' => 'integer', 'length' => 4, 'notnull' => true)
+		'psess_id'     => array('type' => 'integer', 'length' => 8, 'notnull' => true, 'default' => 0),
+		'proom_id'     => array('type' => 'integer', 'length' => 4, 'notnull' => true, 'default' => 0),
+		'user_id'      => array('type' => 'integer', 'length' => 4, 'notnull' => true, 'default' => 0),
+		'connected'    => array('type' => 'integer', 'length' => 4, 'notnull' => true, 'default' => 0),
+		'disconnected' => array('type' => 'integer', 'length' => 4, 'notnull' => true, 'default' => 0)
 	);
 	$ilDB->createTable('chatroom_psessionstmp', $fields);
 	$ilDB->addPrimaryKey('chatroom_psessionstmp', array('psess_id'));
@@ -6661,7 +6661,7 @@ $stmt_in = $ilDB->prepareManip('INSERT INTO chatroom_psessionstmp (psess_id, pro
 while($row = $ilDB->fetchAssoc($res))
 {
 	$psess_id = $ilDB->nextId('chatroom_psessionstmp');
-	$ilDB->execute($stmt_in, array($psess_id, $row['proom_id'], $row['user_id'], $row['connected'], $row['disconnected']));
+	$ilDB->execute($stmt_in, array($psess_id, (int)$row['proom_id'], (int)$row['user_id'], (int)$row['connected'], (int)$row['disconnected']));
 }
 ?>
 <#4524>
@@ -6687,4 +6687,12 @@ if($ilDB->sequenceExists('chatroom_psessionstmp'))
 {
 	$ilDB->dropSequence('chatroom_psessionstmp');
 }
+?>
+<#4528>
+<?php
+$ilDB->addIndex('chatroom_psessions', array('proom_id', 'user_id'), 'i1');
+?>
+<#4529>
+<?php
+$ilDB->addIndex('chatroom_psessions', array('disconnected'), 'i2');
 ?>
