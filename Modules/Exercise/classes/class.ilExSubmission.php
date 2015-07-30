@@ -1236,7 +1236,12 @@ class ilExSubmission
 				{
 					$blogs = array_pop($blogs);					
 					if($blogs && substr($blogs["filename"], -1) != "/")
-					{
+					{						
+						if($blogs["late"])
+						{
+							$result["files"]["txt"].= ' - <span class="warning">'.$lng->txt("exc_late_submission")."</span>";
+						}	
+						
 						$result["files"]["count"] = 1;
 											
 						$result["files"]["download_url"] = 
@@ -1255,6 +1260,11 @@ class ilExSubmission
 					$portfolios = array_pop($portfolios);									
 					if($portfolios && substr($portfolios["filename"], -1) != "/")
 					{	
+						if($portfolios["late"])
+						{
+							$result["files"]["txt"].= ' - <span class="warning">'.$lng->txt("exc_late_submission")."</span>";
+						}	
+						
 						$result["files"]["count"] = 1;
 												
 						$result["files"]["download_url"] = 
