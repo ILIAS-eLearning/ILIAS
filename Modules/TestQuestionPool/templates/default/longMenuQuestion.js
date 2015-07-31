@@ -14,7 +14,7 @@ var longMenuQuestion = (function () {
 		var gap_wizard = GapInsertingWizard;
 		gap_wizard.textarea 		= 'longmenu_text';
 		gap_wizard.trigger_id		= '#gaptrigger';
-		gap_wizard.replacement_word = longMenuQuestion.questionParts.gap_placeholder;
+		gap_wizard.replacement_word = pub.questionParts.gap_placeholder;
 		gap_wizard.show_end			= false;
 
 		pub.questionParts.replacement_word = gap_wizard.replacement_word;
@@ -23,9 +23,9 @@ var longMenuQuestion = (function () {
 		gap_wizard.callbackClickedInGap 	= function ()
 		{
 			var gap         = gap_wizard.active_gap - 1;
-			scrollToPageObject('#title_' + gap);
+			pro.scrollToPageObject('#title_' + gap);
 		};
-		gap_wizard.callbackNewGap = function (gap_id, gap_value)
+		gap_wizard.callbackNewGap = function (gap_id)
 		{
 			pro.sliceInNewQuestionPart(gap_id);
 		};
@@ -50,7 +50,7 @@ var longMenuQuestion = (function () {
 		}
 		else if(existing_gaps.length > pub.questionParts.list.length )
 		{
-			//Todo: fix this
+			//Todo: implement this
 			debugPrinter(existing_gaps);
 			debugPrinter(pub.questionParts.list);
 			pro.redrawFormParts();
@@ -165,7 +165,7 @@ var longMenuQuestion = (function () {
 		pro.appendModalTitle(long_menu_language.answer_options, gap_id);
 		modal_body.html(pro.appendUploadButtons());
 		modal_body.find('.upload').attr('id', 'fileinput');
-		document.getElementById('fileinput').addEventListener('change', readSingleFile, false);
+		document.getElementById('fileinput').addEventListener('change', pro.readSingleFile, false);
 		pro.redrawAnswerList(gap_id);
 		pro.appendModalCloseListener();
 		$('#ilGapModal').modal('show');
@@ -244,7 +244,7 @@ var longMenuQuestion = (function () {
 			html += '</textarea>';
 			$('.modal_answer_options').html(html);
 		}
-		appendAnswerCloneButtonEvents();
+		pro.appendAnswerCloneButtonEvents();
 		pro.redrawFormParts();
 	};
 	
@@ -268,7 +268,7 @@ var longMenuQuestion = (function () {
 				answerList_object.eq(answer_id).next().remove();
 				answerList_object.eq(answer_id).remove();
 			}
-			appendAnswerCloneButtonEvents();
+			pro.appendAnswerCloneButtonEvents();
 			pro.recalculateAnswerListDataIds();
 		}
 		pro.redrawFormParts();
@@ -283,7 +283,7 @@ var longMenuQuestion = (function () {
 		pro.benchmarkCallsDummyNotForUsage('recalculateAnswerListDataIds', t0);
 	};
 
-	function appendAnswerCloneButtonEvents()
+	pro.appendAnswerCloneButtonEvents = function()
 	{
 		var t0 = pro.benchmarkCallsDummyNotForUsage('appendAnswerCloneButtonEvents');
 		pro.appendAddButtonEvent();
@@ -291,7 +291,7 @@ var longMenuQuestion = (function () {
 		pro.appendSaveModalButtonEvent();
 		pro.appendCancelModalButtonEvent();
 		pro.benchmarkCallsDummyNotForUsage('appendAnswerCloneButtonEvents', t0);
-	}
+	};
 
 	pro.appendAddButtonEvent = function()
 	{
@@ -434,8 +434,8 @@ var longMenuQuestion = (function () {
 		pro.redrawFormParts();
 	};
 
-	function readSingleFile (evt){
-		if ( longMenuQuestion.filereader_usable )
+	pro.readSingleFile = function (evt){
+		if ( pub.filereader_usable )
 		{
 			var file = evt.target.files[0];
 			if (file) 
@@ -450,7 +450,7 @@ var longMenuQuestion = (function () {
 						var gap_id	= $('.modal-title').attr('data-id');
 						pub.answers[gap_id] = contents.split('\n');
 						pub.answers[gap_id] = pub.answers[gap_id].sort();
-						//Todo remove
+						//Todo remove after selection is implemented
 						pro.addDummyCorrectAnswers(gap_id);
 						pro.redrawAnswerList(gap_id);
 					};
@@ -470,16 +470,16 @@ var longMenuQuestion = (function () {
 		{
 			alert('The File APIs are not fully supported by your browser.');
 		}
-	}
+	};
 	
-	function scrollToPageObject(object)
+	pro.scrollToPageObject = function(object)
 	{
 		var headerSize  = parseInt($('#ilTopBar').height(), 10) + parseInt($('.ilMainHeader').height(), 10);
 		$('html, body').animate(
 			{ 
 				scrollTop: $(object).offset().top - headerSize	
 			}, 200);
-	}
+	};
 	
 	pro.benchmarkCallsDummyNotForUsage = function(function_caller, t0)
 	{
@@ -528,7 +528,7 @@ var longMenuQuestion = (function () {
 		pub.answers = $().ensureNoArrayIsAnObjectRecursive(pub.answers);
 		if (window.File && window.FileReader && window.FileList && window.Blob)
 		{
-			longMenuQuestion.filereader_usable = true;
+			pub.filereader_usable = true;
 		}
 		else
 		{

@@ -1,5 +1,3 @@
-'use strict';
-
 var ClozeGlobals = {
     clone_active                 : -1,
     active_gap                   : -1,
@@ -30,6 +28,7 @@ var ClozeGlobals = {
 
 
 var ClozeGapBuilder = (function () {
+    'use strict';
     var pub = {}, pro = {};
     
     pro.checkJSONArraysOnEntry = function()

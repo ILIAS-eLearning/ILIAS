@@ -4,7 +4,7 @@ var GapInsertingWizard = (function () {
 	var pub = {}, pro = { 'last_cursor_position' : 0 };
 	
 	function insertGapCodeAtCaret(object)  {
-		return object.each(function(i) {
+		return object.each(function() {
 			var code_start = '[' + pub.replacement_word + ']';
 			var code_end = '[/' + pub.replacement_word + ']';
 			if (pro.isTinyActiveInTextArea()) {
