@@ -7177,3 +7177,7 @@ if($ilDB->sequenceExists('chatroom_historytmp'))
 	$ilDB->dropSequence('chatroom_historytmp');
 }
 ?>
+<#4555>
+<?php
+$ilDB->addIndex('chatroom_history', array('room_id', 'sub_room'), 'i1');
+?>
