@@ -707,6 +707,7 @@ class ilLMPresentationGUI
 		else
 		{
 			$this->tpl = new ilTemplate("tpl.glossary_term_output.html", true, true, true);
+			$GLOBALS["tpl"] = $this->tpl;
 			$this->renderPageTitle();
 
 			// set style sheets
