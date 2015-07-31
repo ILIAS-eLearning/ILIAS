@@ -15,7 +15,7 @@ var longMenuQuestion = (function () {
 
 		pub.questionParts.replacement_word = gap_wizard.replacement_word;
 
-		gap_wizard.callbackActiveGapChange 	= function (){debugPrinter('clicked ' + gap_wizard.active_gap)};
+		gap_wizard.callbackActiveGapChange 	= function (){debugPrinter('clicked ' + gap_wizard.active_gap);};
 		gap_wizard.callbackClickedInGap 	= function ()
 		{
 			var gap         = gap_wizard.active_gap - 1;
@@ -25,7 +25,7 @@ var longMenuQuestion = (function () {
 		{
 			pro.sliceInNewQuestionPart(gap_id);
 		};
-		gap_wizard.callbackCleanGapCode 	= function (){debugPrinter('cleanup done')};
+		gap_wizard.callbackCleanGapCode 	= function (){debugPrinter('cleanup done');};
 		gap_wizard.checkDataConsistencyAfterGapRemoval = function ( existing_gaps )
 		{
 			pro.checkDataConsistency(existing_gaps);
@@ -38,17 +38,17 @@ var longMenuQuestion = (function () {
 	{
 		pub.questionParts.list  = $().ensureNoArrayIsAnObjectRecursive(pub.questionParts.list);
 		pub.answers             = $().ensureNoArrayIsAnObjectRecursive(pub.answers);
-		if(existing_gaps.length == 0 )
+		if(existing_gaps.length === 0 )
 		{
 			pub.answers = [];
 			pub.questionParts.list = [];
-			debugPrinter('checkDataConsistency removed all gaps.')
+			debugPrinter('checkDataConsistency removed all gaps.');
 		}
 		else if(existing_gaps.length > pub.questionParts.list.length )
 		{
 			//Todo: fix this
-			debugPrinter(existing_gaps)
-			debugPrinter(pub.questionParts.list)
+			debugPrinter(existing_gaps);
+			debugPrinter(pub.questionParts.list);
 			pro.redrawFormParts();
 		}
 		else
@@ -57,7 +57,7 @@ var longMenuQuestion = (function () {
 			var list    = [];
 			var t0 = pro.benchmarkCallsDummyNotForUsage('checkDataConsistency');
 			$.each(pub.questionParts.list , function( index, value ) {
-				if($.inArray(index + 1, existing_gaps) != -1)
+				if($.inArray(index + 1, existing_gaps) !== -1)
 				{
 					answers.push(pub.answers[index]);
 					list.push(pub.questionParts.list[index]);
@@ -68,7 +68,7 @@ var longMenuQuestion = (function () {
 			pub.questionParts.list = list;
 		}
 		pro.redrawFormParts();
-		debugPrinter('consistency check')
+		debugPrinter('consistency check');
 	};
 	
 	pro.appendFormParts = function()  {
@@ -111,7 +111,7 @@ var longMenuQuestion = (function () {
 		var id = 'points_' + index;
 		var name = 'points[' + index + ']';
 		footer_class.parent().append($('#layout_dummy_points').clone().attr({'id': id}).addClass('longmenu'));
-		$('#' + id).find('input').attr('name' , name);
+		$('#' + id).find('input').attr('name' , name).val(pub.questionParts.list[index][1]);
 	};
 
 	pro.buildAnswerOverview = function (question_id)  {
@@ -199,9 +199,7 @@ var longMenuQuestion = (function () {
 	{
 		var modal_object = $('#ilGapModal');
 		modal_object.off('hidden.bs.modal');
-		modal_object.on('hidden.bs.modal', function () {
-			pro.redrawFormParts();
-		});
+		modal_object.on('hidden.bs.modal', pro.redrawFormParts);
 	};
 
 	pro.redrawFormParts = function()
@@ -326,26 +324,29 @@ var longMenuQuestion = (function () {
 
 	pro.appendSaveModalButtonEvent = function()
 	{
-		pro.appendAbstractModalButtonEvent( '.save-modal' , function (){
-			var gap_id 		= $('.modal-title').attr('data-id');
-			var answers		= [];
-			if(pro.inputFieldsStillPossible(gap_id))
-			{
-				var t0 = pro.benchmarkCallsDummyNotForUsage('protect.appendSaveModalButtonEvent');
-				$.each($('.answerlist') , function() {
-					answers.push($(this).attr('value'));
-				});
-				pro.benchmarkCallsDummyNotForUsage('protect.appendSaveModalButtonEvent', t0);
-			}
-			else
-			{
-				answers  = $('.input-large').attr('value').split('\n');
-			}
-			pub.answers[gap_id] = answers;
-			pro.checkAnswersArray(gap_id);
-		});
+		pro.appendAbstractModalButtonEvent( '.save-modal' , pro.saveModalEvent);
 	};
 
+	pro.saveModalEvent = function()
+	{
+		var gap_id 		= $('.modal-title').attr('data-id');
+		var answers		= [];
+		if(pro.inputFieldsStillPossible(gap_id))
+		{
+			var t0 = pro.benchmarkCallsDummyNotForUsage('protect.appendSaveModalButtonEvent');
+			$.each($('.answerlist') , function() {
+				answers.push($(this).attr('value'));
+			});
+			pro.benchmarkCallsDummyNotForUsage('protect.appendSaveModalButtonEvent', t0);
+		}
+		else
+		{
+			answers  = $('.input-large').attr('value').split('\n');
+		}
+		pub.answers[gap_id] = answers;
+		pro.checkAnswersArray(gap_id);
+	};
+	
 	pro.appendCancelModalButtonEvent = function()
 	{
 		pro.appendAbstractModalButtonEvent( '.cancel-modal' , function (){});
@@ -418,6 +419,7 @@ var longMenuQuestion = (function () {
 	pro.syncWithHiddenTextField = function() 
 	{
 		$('#hidden_text_files').attr('value', JSON.stringify(pub.answers));
+		$('#hidden_correct_answers').attr('value', JSON.stringify(pub.questionParts.list));
 	};
 
 	pro.sliceInNewQuestionPart = function (gap_id)
@@ -440,16 +442,18 @@ var longMenuQuestion = (function () {
 					reader.onload = function(e) 
 					{
 						var contents 	= e.target.result;
-						var question_id	= $('.modal-title').attr('data-id');
-						pub.answers[question_id] = contents.split('\n');
-						pub.answers[question_id] = pub.answers[question_id].sort();
-						pro.redrawAnswerList(question_id);
+						var gap_id	= $('.modal-title').attr('data-id');
+						pub.answers[gap_id] = contents.split('\n');
+						pub.answers[gap_id] = pub.answers[gap_id].sort();
+						//Todo remove
+						pro.addDummyCorrectAnswers(gap_id);
+						pro.redrawAnswerList(gap_id);
 					};
 					reader.readAsText(file);
 				}
 				else
 				{
-					alert('Filetype not supported')
+					alert('Filetype not supported');
 				}
 			} 
 			else 
@@ -481,9 +485,33 @@ var longMenuQuestion = (function () {
 		else
 		{
 			var t1 = performance.now();
-			debugPrinter("Call to " + function_caller + " took " + (t1 - t0) + " milliseconds.")
+			debugPrinter("Call to " + function_caller + " took " + (t1 - t0) + " milliseconds.");
 		}
-	}
+	};
+
+	pro.ensureCorrectAnswersArrayExistAndIsEmpty = function(gap_id)
+	{
+		if(pub.questionParts.list == undefined)
+		{
+			pub.questionParts.list = [];
+		}
+		pub.questionParts.list[gap_id] = [[], 0];
+	};
+	
+	pro.addCorrectAnswers = function(gap_id, answers)
+	{
+		pro.ensureCorrectAnswersArrayExistAndIsEmpty(gap_id);
+		$.each(answers , function( index, value ) {
+			console.log(index, value)
+			pub.questionParts.list[gap_id][0].push(value);
+		});
+	};
+	
+	//Todo remove
+	pro.addDummyCorrectAnswers = function(gap_id)
+	{
+		pro.addCorrectAnswers(parseInt(gap_id, 10), ['ABC', 'DEF']);
+	};
 	
 	//Public property
 
@@ -501,7 +529,7 @@ var longMenuQuestion = (function () {
 		else
 		{
 			//Todo: implement workaround
-			alert('FileReader not usable, implement workaround.')
+			alert('FileReader not usable, implement workaround.');
 		}
 	};
 

@@ -1,15 +1,14 @@
 var GapInsertingWizard = (function () {
-	var pub = {}, cursorPos;
+	var pub = {}, pro = { 'last_cursor_position' : 0 };
 	
 	function insertGapCodeAtCaret(object)  {
 		return object.each(function(i) {
 			var code_start = '[' + pub.replacement_word + ']';
 			var code_end = '[/' + pub.replacement_word + ']';
-			if (typeof tinyMCE != "undefined" && typeof tinyMCE.get(pub.textarea) != "undefined") {
+			if (pro.isTinyActiveInTextArea()) {
 				var ed =  tinyMCE.get(pub.textarea);
 				ed.focus();
 				ed.selection.setContent(code_start + ed.selection.getContent() + code_end);
-
 				return;
 			}
 			if (document.selection) {
@@ -38,7 +37,17 @@ var GapInsertingWizard = (function () {
 		});
 	}
 
-	function cleanGapCode()
+	pro.isTinyActive = function()
+	{
+		return 	(typeof tinyMCE != "undefined");
+	};
+	
+	pro.isTinyActiveInTextArea = function()
+	{
+		return 	(typeof tinyMCE != "undefined" && typeof tinyMCE.get(pub.textarea) != "undefined" && tinyMCE.get(pub.textarea) != null );
+	};
+	
+	pro.cleanGapCode = function()
 	{
 		var text 		= pub.getTextAreaValue();
 		var newText 	= text.replace(new RegExp("\\[" + pub.replacement_word + "[\\s\\S\\d]*?\\]", "g"), '[temp]');
@@ -56,12 +65,13 @@ var GapInsertingWizard = (function () {
 				newText = newText.replace(/\[\/temp]/, '');
 			}
 		}
-		setTextAreaValue(newText);
+		pub.setTextAreaValue(newText);
 		if (typeof pub.callbackCleanGapCode === 'function') {
 			pub.callbackCleanGapCode();
 		}
-	}
-	function createNewGapCode()
+	};
+	
+	pro.createNewGapCode = function()
 	{
 		var newText = pub.getTextAreaValue();
 		var iterator;
@@ -81,52 +91,16 @@ var GapInsertingWizard = (function () {
 				values = values.replace('[/' + pub.replacement_word +']', '');
 				var gap_id =  parseInt(i, 10) + 1;
 				newText = newText.replace('[' + pub.replacement_word +']', '['  + pub.replacement_word +' ' + gap_id + ']');
-				if (typeof pub.callbackCleanGapCode === 'function') {
+				if (typeof pub.callbackNewGap === 'function') {
 					pub.callbackNewGap(last, values);
 				}
 			}
 		}
-		setTextAreaValue(newText);
-		cleanGapCode();
-	}
+		pub.setTextAreaValue(newText);
+		pro.cleanGapCode();
+	};
 	
-	function setTextAreaValue(text)
-	{
-		var cursor, inGap;
-		if (typeof(tinymce) != 'undefined') {
-			//ToDo: Bug in tiny steals focus on setContent (tinymce Bug #6423)
-			var inst = tinyMCE.activeEditor;
-			cursor = getCursorPositionTiny(inst);
-			tinymce.get(pub.textarea).setContent(text);
-			inGap = cursorInGap(cursor);
-			if(inGap[1] != '-1' )
-			{
-				pub.active_gap = parseInt(inGap[0], 10);
-			}
-			setCursorPositionTiny(inst, parseInt(inGap[1], 10));
-		}
-		else {
-			var textarea =  $('textarea#' + pub.textarea);
-			cursor = textarea.prop('selectionStart');
-			textarea.val(text);
-			inGap = cursorInGap(cursor + 1);
-			if(inGap != '-1')
-			{
-				if(pub.active_gap == '-1')
-				{
-					setCaretPosition(textarea, cursor);
-				}
-				else
-				{
-					textarea.prop('selectionStart',pub.active_gap);
-					textarea.prop('selectionEnd',pub.active_gap);
-				}
-				pub.active_gap = parseInt(inGap[0], 10);
-			}
-		}
-	}
-	
-	function getCursorPositionTiny(editor)
+	pro.getCursorPositionTiny = function(editor)
 	{
 		var bm = editor.selection.getBookmark(0);
 		var selector = '[data-mce-type=bookmark]';
@@ -141,9 +115,9 @@ var GapInsertingWizard = (function () {
 		editor.dom.remove(elementID, false);
 		editor.selection.moveToBookmark(bm);
 		return index;
-	}
+	};
 
-	function setCursorPositionTiny(editor, index)
+	pro.setCursorPositionTiny = function(editor, index)
 	{
 		var content = editor.getContent({format: 'html'});
 		if( index == '-1')
@@ -158,9 +132,9 @@ var GapInsertingWizard = (function () {
 		editor.setContent(contentWithString, ({format: 'raw'}));
 		editor.selection.moveToBookmark(bookmark);
 		return bookmark;
-	}
+	};
 
-	function setCaretPosition(element, pos)
+	pro.setCaretPosition = function(element, pos)
 	{
 		if (element.setSelectionRange) {
 			element.focus();
@@ -173,14 +147,14 @@ var GapInsertingWizard = (function () {
 			range.moveStart('character', pos);
 			range.select();
 		}
-	}
+	};
 
-	function cursorInGap(position)
+	pro.cursorInGap = function(position)
 	{
-		var text    = pub.getTextAreaValue();
-		var end     = 0;
-		var inGap   = -1;
-		var gaps_length	= text.split(new RegExp('\\[' + pub.replacement_word + '[\\s\\S\\d]*?\\]')).length;
+		var text                = pub.getTextAreaValue();
+		var end                 = 0;
+		var gap_end_position    = -1;
+		var gaps_length	        = text.split(new RegExp('\\[' + pub.replacement_word + '[\\s\\S\\d]*?\\]')).length;
 		var gapNumber, start;
 		var gap_length = pub.replacement_word.length + 2;
 		for (var i = 0; i < gaps_length; i++) {
@@ -197,27 +171,32 @@ var GapInsertingWizard = (function () {
 			}
 			if ( start != -1 && start < position && end >= position)
 			{
-				inGap = parseInt(end, 10) + 1;
+				gap_end_position = parseInt(end, 10) + 1;
 				var gapSize = parseInt(end, 10) - parseInt(start, 10);
 				var gapContent = text.substr(parseInt(start, 10) + gap_length, gapSize);
 				gapContent = gapContent.split(']');
 				gapNumber = gapContent[0];
-				clickedInGap(gapNumber);
+				pro.clickedInGap(gapNumber);
 			}
 		}
-		return [gapNumber, inGap];
-	}
+		return [gapNumber, gap_end_position];
+	};
 
-	function clickedInGap(gapNumber)
+	pro.clickedInGap = function(gapNumber)
 	{
 		var gap = parseInt(gapNumber, 10);
-		activeGapChanged(gap);
+		pro.activeGapChanged(gap);
+		pro.clickedInGapCallbackCall();
+	};
+
+	pro.clickedInGapCallbackCall = function()
+	{
 		if (typeof pub.callbackClickedInGap === 'function') {
 			pub.callbackClickedInGap();
 		}
-	}
+	};
 		
-	function activeGapChanged(gap)
+	pro.activeGapChanged = function(gap)
 	{
 		if( pub.active_gap != gap )
 		{
@@ -226,66 +205,57 @@ var GapInsertingWizard = (function () {
 				pub.callbackActiveGapChange();
 			}
 		}
-	}
-	
-	function bindTextareaHandlerTiny()
+	};
+
+	pro.bindTextareaHandlerTiny = function()
 	{
 		var tinymce_iframe_selector =   $('.mceIframeContainer iframe').eq(1).contents().find('body');
 			tinymce_iframe_selector.on('click', function () {
 			var inst = tinyMCE.activeEditor;
-			var cursorPosition = getCursorPositionTiny(inst, false);
-			cursorPos = cursorPosition;
-			var pos = cursorInGap(cursorPosition);
+			pro.last_cursor_position = pro.getCursorPositionTiny(inst, false);
+			var pos = pro.cursorInGap(pro.last_cursor_position);
 			if (pos[1] != -1) {
-				setCursorPositionTiny(inst,pos[1]);
+				pro.setCursorPositionTiny(inst,pos[1]);
 			}
+			pro.clickedInGapCallbackCall();
 		});
+		
 		/*tinymce_iframe_selector.keydown(function () {
 			//ToDo: find out why location function breaks keyboard input
 			 var inst = tinyMCE.activeEditor;
-			 var cursorPosition = getCursorPositionTiny(inst);
-			 var pos = cursorInGap(cursorPosition);
-			cursorPos = cursorPosition;
+			 var cursorPosition = pro.getCursorPositionTiny(inst);
+			 var pos = pro.cursorInGap(cursorPosition);
+			pro.last_cursor_position = cursorPosition;
 			 if (pos[1] != -1) {
-			 setCursorPositionTiny(inst, pos[1]);
+			 pro.setCursorPositionTiny(inst, pos[1]);
 			 //focusOnFormular(pos);
 			 }
 		});*/
 		tinymce_iframe_selector.keyup(function(e){
 			if(e.keyCode == 8 || e.keyCode == 46)
 			{
-				checkDataConsitencyCallback();
+				pro.checkDataConsitencyCallback();
 			}
-		});/*
-		tinymce_iframe_selector.click(function () {
-			var inst = tinyMCE.activeEditor;
-			var cursorPosition = getCursorPositionTiny(inst, false);
-			cursorPos = cursorPosition;
-			var pos = cursorInGap(cursorPosition);
-			//checkTextAreaAgainstJson();
-			if (pos[1] != -1) {
-				setCursorPositionTiny(inst,pos[1]);
-				//focusOnFormular(pos);
-			}
-		});*/
+		});
+		
 		tinymce_iframe_selector.blur(function () {
 	        //This won't work this way
-	        //checkDataConsitencyCallback();
+	        //pro.checkDataConsitencyCallback();
 		});
 		tinymce_iframe_selector.bind('paste', function (event){
 			event.preventDefault();
 			var clipboard_text = (event.originalEvent || event).clipboardData.getData('text/plain') || prompt('Paste something..');
 			clipboard_text = clipboard_text.replace(new RegExp("\\[" + pub.replacement_word + "[\\s\\S\\d]*?\\]", "g"), '[' +  pub.replacement_word  + ']');
 			var text = pub.getTextAreaValue();
-			var textBefore = text.substring(0,  cursorPos );
-			var textAfter  = text.substring(cursorPos, text.length );
-			setTextAreaValue(textBefore + clipboard_text + textAfter);
-			createNewGapCode();
-			cleanGapCode();
+			var textBefore = text.substring(0,  pro.last_cursor_position );
+			var textAfter  = text.substring(pro.last_cursor_position, text.length );
+			pub.setTextAreaValue(textBefore + clipboard_text + textAfter);
+			pro.createNewGapCode();
+			pro.cleanGapCode();
 		});
-	}
+	};
 	
-	function checkDataConsitencyCallback()
+	pro.checkDataConsitencyCallback = function()
 	{
 		var gaps = pub.getTextAreaValue().match(new RegExp("\\[" + pub.replacement_word + "[\\s\\S\\d]*?\\]", "g"));
 		var front = new RegExp('\\[' + pub.replacement_word + '\\s');
@@ -302,24 +272,36 @@ var GapInsertingWizard = (function () {
 		if (typeof pub.checkDataConsistencyAfterGapRemoval === 'function') {
 			pub.checkDataConsistencyAfterGapRemoval(existing_gaps);
 		}
-		cleanGapCode();
-	}
+		pro.cleanGapCode();
+	};
 	
-	function bindTextareaHandler()
+	pro.bindTextAreaHandler = function()
 	{
 		var cloze_text_selector= $('#' + pub.textarea);
 
 		cloze_text_selector.click(function () {
 			var cursorPosition = $('#' + pub.textarea).prop('selectionStart');
-			var pos = cursorInGap(cursorPosition);
-			cursorPos = cursorPosition;
+			var pos = pro.cursorInGap(cursorPosition);
+			pro.last_cursor_position = cursorPosition;
 			if (pos[1] != -1) {
-				setCaretPosition(document.getElementById(pub.textarea), pos[1]);
+				pro.setCaretPosition(document.getElementById(pub.textarea), pos[1]);
 			}
 			return false;
 		});
-	}
+	};
 	
+	pro.appendGapTrigger = function ()
+	{
+		var selector =  $(pub.trigger_id);
+		selector.off('click');
+		selector.on('click', function (evt)
+		{
+			evt.preventDefault();
+			insertGapCodeAtCaret($('#' + pub.textarea));
+			pro.createNewGapCode();
+			return false;
+		});
+	};
 	//Public property
 	pub.textarea  			= '';
 	pub.trigger_id			= '';
@@ -331,29 +313,26 @@ var GapInsertingWizard = (function () {
 
 	pub.Init = function()
 	{
-		var selector =  $(pub.trigger_id);
-		selector.off('click');
-		selector.on('click', function (evt)
-		{
-			evt.preventDefault();
-			insertGapCodeAtCaret($('#' + pub.textarea));
-			createNewGapCode();
-			return false;
-		});
-		if (typeof(tinyMCE) != 'undefined') {
+		pro.appendGapTrigger();
+		if (pro.isTinyActive()) {
 			if (tinyMCE.activeEditor === null || tinyMCE.activeEditor.isHidden() !== false) {
-				ilTinyMceInitCallbackRegistry.addCallback(bindTextareaHandlerTiny);
+				ilTinyMceInitCallbackRegistry.addCallback(pro.bindTextareaHandlerTiny);
+			}
+			else
+			{
+				pro.bindTextAreaHandler();
 			}
 		}
 		else
 		{
-			bindTextareaHandler();
+			pro.bindTextAreaHandler();
 		}
 	};
 	pub.getTextAreaValue = function()
 	{
 		var text;
-		if (typeof(tinymce) != 'undefined') {
+		if (pro.isTinyActiveInTextArea()) 
+		{
 			text = tinymce.get(pub.textarea).getContent();
 		}
 		else {
@@ -363,6 +342,43 @@ var GapInsertingWizard = (function () {
 		return text;
 	};
 
+	pub.setTextAreaValue = function(text)
+	{
+		var cursor, inGap;
+		if (pro.isTinyActiveInTextArea())
+		{
+			//ToDo: Bug in tiny steals focus on setContent (tinymce Bug #6423)
+			var inst = tinyMCE.activeEditor;
+			cursor = pro.getCursorPositionTiny(inst);
+			tinymce.get(pub.textarea).setContent(text);
+			inGap = pro.cursorInGap(cursor);
+			if(inGap[1] != '-1' )
+			{
+				pub.active_gap = parseInt(inGap[0], 10);
+			}
+			pro.setCursorPositionTiny(inst, parseInt(inGap[1], 10));
+		}
+		else {
+			var textarea =  $('textarea#' + pub.textarea);
+			cursor = textarea.prop('selectionStart');
+			textarea.val(text);
+			inGap = pro.cursorInGap(cursor + 1);
+			if(inGap != '-1')
+			{
+				if(pub.active_gap == '-1')
+				{
+					pro.setCaretPosition(textarea, cursor);
+				}
+				else
+				{
+					textarea.prop('selectionStart',pub.active_gap);
+					textarea.prop('selectionEnd',pub.active_gap);
+				}
+				pub.active_gap = parseInt(inGap[0], 10);
+			}
+		}
+	};
+	pub.protected = pro;
 	//Return just the public parts
 	return pub;
 }());
