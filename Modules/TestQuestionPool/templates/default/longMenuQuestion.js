@@ -1,9 +1,13 @@
+/*globals debugPrinter, long_menu_language, GapInsertingWizard, alert, performance, JSON */
 var longMenuQuestion = (function () {
+	'use strict';
+	
 	var pub = {},
 	    pro = {};
 	var new_question_part = { 0 : [] };
 	var temp_answers = [];
-	pub.questionParts, pub.answers;
+	pub.questionParts = []; 
+	pub.answers = [];
 
 	pro.buildAndInitGapWizard = function()
 	{
@@ -56,7 +60,7 @@ var longMenuQuestion = (function () {
 			var answers = [];
 			var list    = [];
 			var t0 = pro.benchmarkCallsDummyNotForUsage('checkDataConsistency');
-			$.each(pub.questionParts.list , function( index, value ) {
+			$.each(pub.questionParts.list , function( index ) {
 				if($.inArray(index + 1, existing_gaps) !== -1)
 				{
 					answers.push(pub.answers[index]);
@@ -73,10 +77,10 @@ var longMenuQuestion = (function () {
 	
 	pro.appendFormParts = function()  {
 		var footer_class 	= $('.ilFormFooter');
-		var new_title 		= $(".gap_title").find('.ilFormHeader').clone().addClass('longmenu_head longmenu');
+		var new_title 		= $('.gap_title').find('.ilFormHeader').clone().addClass('longmenu_head longmenu');
 		var title 			= 0;
 		var t0 = pro.benchmarkCallsDummyNotForUsage('appendFormParts');
-		$.each(pub.questionParts.list , function( index, value ) {
+		$.each(pub.questionParts.list , function( index ) {
 			footer_class.parent().append(new_title.clone());
 			title = parseInt(index, 10) + 1;
 			$(document).find('.longmenu_head').last().find('.ilHeader')
@@ -144,22 +148,23 @@ var longMenuQuestion = (function () {
 	};
 
 	pro.addEditListeners = function()  {
-		$( '.answer_options' ).on( "click", function() {
+		$( '.answer_options' ).on( 'click', function() {
 			pro.answerOptionsClickFunction($(this));
 		});
-		$( '.correct_answers' ).on( "click", function() {
-			pro.correctAnswersClickFunction($(this))
+		$( '.correct_answers' ).on( 'click', function() {
+			pro.correctAnswersClickFunction($(this));
 		});
 	};
 	
 	pro.answerOptionsClickFunction = function (that)
 	{
 		var gap_id = that.attr('data-id');
+		var modal_body = $('.modal-body');
 		temp_answers = pub.answers[gap_id];
 		debugPrinter('answer_options ' + gap_id );
 		pro.appendModalTitle(long_menu_language.answer_options, gap_id);
-		$('.modal-body').html(pro.appendUploadButtons());
-		$('.modal-body').find('.upload').attr('id', 'fileinput');
+		modal_body.html(pro.appendUploadButtons());
+		modal_body.find('.upload').attr('id', 'fileinput');
 		document.getElementById('fileinput').addEventListener('change', readSingleFile, false);
 		pro.redrawAnswerList(gap_id);
 		pro.appendModalCloseListener();
@@ -222,7 +227,7 @@ var longMenuQuestion = (function () {
 				html += '<input type="text" class="col-sm-10 text-right answerlist" size="5" value="' +
 						value + '" data-id="' + index + '">' + buttons;
 			});
-			if(html == '')
+			if(html === '')
 			{
 				html += '<input type="text" class="col-sm-10 text-right answerlist" size="5" value="" data-id="0">' + buttons;
 			}
@@ -272,7 +277,7 @@ var longMenuQuestion = (function () {
 	pro.recalculateAnswerListDataIds = function()
 	{
 		var t0 = pro.benchmarkCallsDummyNotForUsage('recalculateAnswerListDataIds');
-		$.each($('.answerlist') , function( index, value ) {
+		$.each($('.answerlist') , function( index) {
 			$(this).attr('data-id', index);
 		});
 		pro.benchmarkCallsDummyNotForUsage('recalculateAnswerListDataIds', t0);
@@ -311,8 +316,8 @@ var longMenuQuestion = (function () {
 	pro.appendAbstractCloneButtonEvent = function(classElement, eventCallback)
 	{
 		var button 	= $(classElement);
-		button.off( "click");
-		button.on( "click", function() {
+		button.off( 'click');
+		button.on( 'click', function() {
 			var gap_id 		= $(this).parent().prev().attr('data-id');
 			var question_id = $('.modal-title').attr('data-id');
 			if (typeof eventCallback === 'function') {
@@ -355,8 +360,8 @@ var longMenuQuestion = (function () {
 	pro.appendAbstractModalButtonEvent = function(classElement, eventCallback)
 	{
 		var button 	= $(classElement);
-		button.off( "click");
-		button.on( "click", function() {
+		button.off( 'click');
+		button.on( 'click', function() {
 			if (typeof eventCallback === 'function') {
 				eventCallback();
 			}
@@ -375,7 +380,7 @@ var longMenuQuestion = (function () {
 		var to_remove = [];
 		var t0 = pro.benchmarkCallsDummyNotForUsage('syncWithCorrectAnswers');
 		$.each(pub.questionParts.list[question_id][0] , function( index, value ) {
-			if ($.inArray(value, pub.answers[question_id]) == -1 )
+			if ($.inArray(value, pub.answers[question_id]) === -1 )
 			{
 				to_remove.push(index);
 			}
@@ -386,7 +391,7 @@ var longMenuQuestion = (function () {
 
 	pro.removeNonExistingCorrectAnswersByKey = function(question_id, to_remove)
 	{
-		to_remove.sort(function(a, b){ return b - a } );
+		to_remove.sort(function(a, b){ return b - a; } );
 		$.each(to_remove , function( index, position ) {
 			debugPrinter('value on pos ' + position + ' removed because it is no part of the answer list anymore.');
 			pub.questionParts.list[question_id][0].splice(position, 1);
@@ -399,9 +404,9 @@ var longMenuQuestion = (function () {
 		var t0 = pro.benchmarkCallsDummyNotForUsage('checkAnswersArray');
 		$.each(pub.answers[question_id], function(index, value) {
 			value = value.toString().replace(/"/g,'');
-			if ($.inArray(value, result) == -1 )
+			if ($.inArray(value, result) === -1 )
 			{
-				if( value != '' )
+				if( value !== '' )
 				{
 					result.push(value);
 				}
@@ -458,7 +463,7 @@ var longMenuQuestion = (function () {
 			} 
 			else 
 			{
-				alert("Failed to load file");
+				alert('Failed to load file');
 			}
 		}
 		else
@@ -478,20 +483,20 @@ var longMenuQuestion = (function () {
 	
 	pro.benchmarkCallsDummyNotForUsage = function(function_caller, t0)
 	{
-		if(t0 == null)
+		if(t0 === undefined)
 		{
 			return performance.now();
 		}
 		else
 		{
 			var t1 = performance.now();
-			debugPrinter("Call to " + function_caller + " took " + (t1 - t0) + " milliseconds.");
+			debugPrinter('Call to ' + function_caller + ' took ' + (t1 - t0) + ' milliseconds.');
 		}
 	};
 
 	pro.ensureCorrectAnswersArrayExistAndIsEmpty = function(gap_id)
 	{
-		if(pub.questionParts.list == undefined)
+		if(pub.questionParts.list === undefined)
 		{
 			pub.questionParts.list = [];
 		}
@@ -502,7 +507,6 @@ var longMenuQuestion = (function () {
 	{
 		pro.ensureCorrectAnswersArrayExistAndIsEmpty(gap_id);
 		$.each(answers , function( index, value ) {
-			console.log(index, value)
 			pub.questionParts.list[gap_id][0].push(value);
 		});
 	};
@@ -534,11 +538,12 @@ var longMenuQuestion = (function () {
 	};
 
 	//Return just the public parts
-	pub.protected = pro;
+	pub.protect = pro;
 	return pub;
 }());
 
 (function ( $ ) {
+	'use strict';
 	$.fn.ensureNoArrayIsAnObjectRecursive = function( obj ) {
 		if ($.type(obj) === 'object' || $.type(obj) === 'array'){
 			Object.keys(obj).forEach(function(key) { obj[key] = jQuery().ensureNoArrayIsAnObjectRecursive(obj[key]); });

@@ -1669,7 +1669,7 @@ var ClozeGapCombinationBuilder = (function () {
         }
     };
     
-    pub.protected = pro;
+    pub.protect = pro;
     return pub;
     
 }());

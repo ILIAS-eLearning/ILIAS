@@ -1,4 +1,6 @@
+/*globals  tinyMCE, tinymce, prompt, ilTinyMceInitCallbackRegistry */
 var GapInsertingWizard = (function () {
+	'use strict';
 	var pub = {}, pro = { 'last_cursor_position' : 0 };
 	
 	function insertGapCodeAtCaret(object)  {
@@ -14,20 +16,16 @@ var GapInsertingWizard = (function () {
 			if (document.selection) {
 				//For browsers like Internet Explorer
 				this.focus();
-				sel = document.selection.createRange();
+				var sel = document.selection.createRange();
 				sel.text = code_start + sel.text + code_end;
 				this.focus();
 			}
-			else if (this.selectionStart || this.selectionStart == '0') {
+			else if (this.selectionStart || this.selectionStart === '0') {
 				//For browsers like Firefox and Webkit based
 				var startPos = this.selectionStart;
 				var endPos = this.selectionEnd;
 				var scrollTop = this.scrollTop;
-				this.value = this.value.substring(0, startPos)
-				+ code_start
-				+ this.value.substring(startPos, endPos)
-				+ code_end
-				+ this.value.substring(endPos, this.value.length);
+				this.value = this.value.substring(0, startPos) 	+ code_start + this.value.substring(startPos, endPos) + code_end + this.value.substring(endPos, this.value.length);
 				this.focus();
 				this.scrollTop = scrollTop;
 			} else {
@@ -39,21 +37,21 @@ var GapInsertingWizard = (function () {
 
 	pro.isTinyActive = function()
 	{
-		return 	(typeof tinyMCE != "undefined");
+		return 	(typeof tinyMCE !== 'undefined');
 	};
 	
 	pro.isTinyActiveInTextArea = function()
 	{
-		return 	(typeof tinyMCE != "undefined" && typeof tinyMCE.get(pub.textarea) != "undefined" && tinyMCE.get(pub.textarea) != null );
+		return 	(typeof tinyMCE !== 'undefined' && typeof tinyMCE.get(pub.textarea) !== 'undefined' && tinyMCE.get(pub.textarea) !== null );
 	};
 	
 	pro.cleanGapCode = function()
 	{
 		var text 		= pub.getTextAreaValue();
-		var newText 	= text.replace(new RegExp("\\[" + pub.replacement_word + "[\\s\\S\\d]*?\\]", "g"), '[temp]');
+		var newText 	= text.replace(new RegExp('\\[' + pub.replacement_word + '[\\s\\S\\d]*?\\]', 'g'), '[temp]');
 		var gaps_length	= text.split(new RegExp('\\[' + pub.replacement_word + '[\\s\\S\\d]*?\\]')).length;
 		newText 		= newText.replace(new RegExp('\\[\\/' + pub.replacement_word + '\\]' ,'g'), '[/temp]');
-		for (var i = 0; i < gaps_length; i++) {
+		for (var i = 0; i < gaps_length; i = i + 1) {
 			var gap_id =  parseInt(i, 10) + 1;
 			newText = newText.replace(/\[temp]/, '[' + pub.replacement_word + ' ' + gap_id + ']');
 			if(pub.show_end)
@@ -77,16 +75,16 @@ var GapInsertingWizard = (function () {
 		var iterator;
 		if(pub.show_end)
 		{
-			iterator = newText.match(new RegExp("\\[" + pub.replacement_word + "[\\s\\S\\d]*?\\](.*?)\\[\\/" + pub.replacement_word + "\\]", "g"));
+			iterator = newText.match(new RegExp('\\[' + pub.replacement_word + '[\\s\\S\\d]*?\\](.*?)\\[\\/' + pub.replacement_word + '\\]', 'g'));
 		}
 		else
 		{
-			iterator = newText.match(new RegExp("\\[" + pub.replacement_word + "[\\s\\S\\d]*?\\]", "g"));
+			iterator = newText.match(new RegExp('\\[' + pub.replacement_word + '[\\s\\S\\d]*?\\]', 'g'));
 		}
 		var last = 0;
-		for (var i = 0; i < iterator.length; i++) {
+		for (var i = 0; i < iterator.length; i = i + 1 ) {
 			last = i;
-			if (iterator[i].match(new RegExp("\\[" + pub.replacement_word + "\\]"))) {
+			if (iterator[i].match(new RegExp('\\[' + pub.replacement_word + '\\]'))) {
 				var values = iterator[i].replace('[' + pub.replacement_word +']', '');
 				values = values.replace('[/' + pub.replacement_word +']', '');
 				var gap_id =  parseInt(i, 10) + 1;
@@ -120,7 +118,7 @@ var GapInsertingWizard = (function () {
 	pro.setCursorPositionTiny = function(editor, index)
 	{
 		var content = editor.getContent({format: 'html'});
-		if( index == '-1')
+		if( index === -1)
 		{
 			index = 0;
 		}
@@ -157,7 +155,7 @@ var GapInsertingWizard = (function () {
 		var gaps_length	        = text.split(new RegExp('\\[' + pub.replacement_word + '[\\s\\S\\d]*?\\]')).length;
 		var gapNumber, start;
 		var gap_length = pub.replacement_word.length + 2;
-		for (var i = 0; i < gaps_length; i++) {
+		for (var i = 0; i < gaps_length; i = i + 1) {
 			
 			if( pub.show_end )
 			{
@@ -169,7 +167,7 @@ var GapInsertingWizard = (function () {
 				start = text.indexOf('[' + pub.replacement_word + ' ', end);
 				end = start + gap_length + 1;
 			}
-			if ( start != -1 && start < position && end >= position)
+			if ( start !== -1 && start < position && end >= position)
 			{
 				gap_end_position = parseInt(end, 10) + 1;
 				var gapSize = parseInt(end, 10) - parseInt(start, 10);
@@ -198,7 +196,7 @@ var GapInsertingWizard = (function () {
 		
 	pro.activeGapChanged = function(gap)
 	{
-		if( pub.active_gap != gap )
+		if( pub.active_gap !== gap )
 		{
 			pub.active_gap = gap;
 			if (typeof pub.callbackActiveGapChange === 'function') {
@@ -214,10 +212,10 @@ var GapInsertingWizard = (function () {
 			var inst = tinyMCE.activeEditor;
 			pro.last_cursor_position = pro.getCursorPositionTiny(inst, false);
 			var pos = pro.cursorInGap(pro.last_cursor_position);
-			if (pos[1] != -1) {
+			if (pos[1] !== -1) {
 				pro.setCursorPositionTiny(inst,pos[1]);
+				pro.clickedInGapCallbackCall();
 			}
-			pro.clickedInGapCallbackCall();
 		});
 		
 		/*tinymce_iframe_selector.keydown(function () {
@@ -232,7 +230,7 @@ var GapInsertingWizard = (function () {
 			 }
 		});*/
 		tinymce_iframe_selector.keyup(function(e){
-			if(e.keyCode == 8 || e.keyCode == 46)
+			if(e.keyCode === 8 || e.keyCode === 46)
 			{
 				pro.checkDataConsitencyCallback();
 			}
@@ -245,7 +243,7 @@ var GapInsertingWizard = (function () {
 		tinymce_iframe_selector.bind('paste', function (event){
 			event.preventDefault();
 			var clipboard_text = (event.originalEvent || event).clipboardData.getData('text/plain') || prompt('Paste something..');
-			clipboard_text = clipboard_text.replace(new RegExp("\\[" + pub.replacement_word + "[\\s\\S\\d]*?\\]", "g"), '[' +  pub.replacement_word  + ']');
+			clipboard_text = clipboard_text.replace(new RegExp('\\[' + pub.replacement_word + '[\\s\\S\\d]*?\\]', 'g'), '[' +  pub.replacement_word  + ']');
 			var text = pub.getTextAreaValue();
 			var textBefore = text.substring(0,  pro.last_cursor_position );
 			var textAfter  = text.substring(pro.last_cursor_position, text.length );
@@ -257,12 +255,12 @@ var GapInsertingWizard = (function () {
 	
 	pro.checkDataConsitencyCallback = function()
 	{
-		var gaps = pub.getTextAreaValue().match(new RegExp("\\[" + pub.replacement_word + "[\\s\\S\\d]*?\\]", "g"));
+		var gaps = pub.getTextAreaValue().match(new RegExp('\\[' + pub.replacement_word + '[\\s\\S\\d]*?\\]', 'g'));
 		var front = new RegExp('\\[' + pub.replacement_word + '\\s');
 		var end   = new RegExp('\\]');
 		var existing_gaps = [];
 		var gap = '';
-		if( gaps != null )
+		if( gaps !== null )
 		{
 			$.each(gaps , function( index, value ) {
 				gap = parseInt(value.replace(front,'').replace(end,''), 10);
@@ -283,7 +281,7 @@ var GapInsertingWizard = (function () {
 			var cursorPosition = $('#' + pub.textarea).prop('selectionStart');
 			var pos = pro.cursorInGap(cursorPosition);
 			pro.last_cursor_position = cursorPosition;
-			if (pos[1] != -1) {
+			if (pos[1] !== -1) {
 				pro.setCaretPosition(document.getElementById(pub.textarea), pos[1]);
 			}
 			return false;
@@ -308,8 +306,11 @@ var GapInsertingWizard = (function () {
 	pub.replacement_word 	= '';
 	pub.show_end			= true;
 	pub.active_gap          = -1;
-	pub.callbackActiveGapChange, pub.callbackClickedInGap, pub.callbackCleanGapCode, 
-						pub.callbackNewGap, pub.checkDataConsistencyAfterGapRemoval;
+	pub.callbackActiveGapChange = {};
+	pub.callbackClickedInGap = {};
+	pub.callbackCleanGapCode = {};
+	pub.callbackNewGap = {};
+	pub.checkDataConsistencyAfterGapRemoval = {};
 
 	pub.Init = function()
 	{
@@ -352,7 +353,7 @@ var GapInsertingWizard = (function () {
 			cursor = pro.getCursorPositionTiny(inst);
 			tinymce.get(pub.textarea).setContent(text);
 			inGap = pro.cursorInGap(cursor);
-			if(inGap[1] != '-1' )
+			if(inGap[1] !== -1 )
 			{
 				pub.active_gap = parseInt(inGap[0], 10);
 			}
@@ -363,9 +364,9 @@ var GapInsertingWizard = (function () {
 			cursor = textarea.prop('selectionStart');
 			textarea.val(text);
 			inGap = pro.cursorInGap(cursor + 1);
-			if(inGap != '-1')
+			if(inGap !== -1)
 			{
-				if(pub.active_gap == '-1')
+				if(pub.active_gap === -1)
 				{
 					pro.setCaretPosition(textarea, cursor);
 				}
@@ -378,7 +379,7 @@ var GapInsertingWizard = (function () {
 			}
 		}
 	};
-	pub.protected = pro;
+	pub.protect = pro;
 	//Return just the public parts
 	return pub;
 }());
