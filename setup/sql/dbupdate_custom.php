@@ -83,3 +83,83 @@ if(!$ilDB->tableColumnExists('exc_returned','late'))
 	));
 }
 ?>
+<#9>
+<?php
+
+if(!$ilDB->tableExists('exc_crit_cat'))
+{
+	$ilDB->createTable('exc_crit_cat', array(
+		'id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'parent' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'title' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => false
+		),
+		'pos' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		)
+	));	
+	$ilDB->addPrimaryKey('exc_crit_cat',array('id'));
+	$ilDB->createSequence('exc_crit_cat');
+}
+
+?>
+<#10>
+<?php
+
+if(!$ilDB->tableExists('exc_crit'))
+{
+	$ilDB->createTable('exc_crit', array(
+		'id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'parent' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'type' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => false
+		),
+		'title' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => false
+		),
+		'descr' => array(
+			'type' => 'text',
+			'length' => 1000,
+			'notnull' => false
+		),
+		'pos' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		)
+	));	
+	$ilDB->addPrimaryKey('exc_crit',array('id'));
+	$ilDB->createSequence('exc_crit');
+}
+
+?>

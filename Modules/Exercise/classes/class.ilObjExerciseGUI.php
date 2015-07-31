@@ -16,7 +16,7 @@ require_once "./Services/Object/classes/class.ilObjectGUI.php";
 * @ilCtrl_Calls ilObjExerciseGUI: ilObjectCopyGUI, ilExportGUI, ilShopPurchaseGUI
 * @ilCtrl_Calls ilObjExerciseGUI: ilCommonActionDispatcherGUI, ilCertificateGUI 
 * @ilCtrl_Calls ilObjExerciseGUI: ilExAssignmentEditorGUI, ilExSubmissionGUI
-* @ilCtrl_Calls ilObjExerciseGUI: ilExerciseManagementGUI
+* @ilCtrl_Calls ilObjExerciseGUI: ilExerciseManagementGUI, ilExcCriteriaCatalogueGUI
 * 
 * @ingroup ModulesExercise
 */
@@ -147,6 +147,16 @@ class ilObjExerciseGUI extends ilObjectGUI
 				$this->ctrl->forwardCommand($mgmt_gui);
 				break;
 			
+			case "ilexccriteriacataloguegui":
+				$this->checkPermission("write");
+				$ilTabs->activateTab("settings");	
+				$this->setSettingsSubTabs();
+				$ilTabs->activateSubTab("crit");
+				include_once("./Modules/Exercise/classes/class.ilExcCriteriaCatalogueGUI.php");
+				$crit_gui = new ilExcCriteriaCatalogueGUI($this->object);
+				$this->ctrl->forwardCommand($crit_gui);
+				break;
+				
 			default:						
 				if(!$cmd)
 				{
@@ -518,6 +528,10 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$this->tabs_gui->addSubTab("edit",
 			$this->lng->txt("general_settings"),
 			$this->ctrl->getLinkTarget($this, "edit"));
+		
+		$this->tabs_gui->addSubTab("crit",
+			$this->lng->txt("exc_criteria_catalogues"),
+			$this->ctrl->getLinkTargetByClass("ilexccriteriacataloguegui", ""));
 		
 		include_once "Services/Certificate/classes/class.ilCertificate.php";
 		if(ilCertificate::isActive())

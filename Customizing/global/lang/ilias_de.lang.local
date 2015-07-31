@@ -39,3 +39,18 @@ exc#:#exc_deadline_ext_mismatch#:#Die Karenzzeit muss nach dem Abgabetermin ende
 exc#:#exc_peer_review_ass_setting_info#:#Nachdem der Abgabetermin und ggfs. die Karenzzeit verstrichen sind, können Teilnehmer ihre Arbeitsergebnisse gegenseitig bewerten.
 exc#:#exc_peer_review_min_number#:#Geforderte Anzahl von Feedbacks
 exc#:#exc_peer_review_min_number_info#:#Anzahl von Feedback, die ein Teilnehmer den Peers geben muss. Sollte die Anzahl der geforderten Feedbacks die Anzahl der tatsächlichen Einreichungen übersteigen, wird die geforderte Anzahl automatisch auf die Anzahl der tatsächlichen Einreichungen reduziert.
+exc#:#exc_criteria_catalogues#:#Kriterienkataloge
+exc#:#exc_add_criteria_catalogue#:#Katalog hinzufügen
+exc#:#exc_criterias#:#Kriterien
+exc#:#exc_criteria_catalogue_create_form#:#Neuen Katalog hinzufügen
+exc#:#exc_criteria_catalogue_update_form#:#Katalog bearbeiten
+exc#:#exc_criteria_catalogue_deletion_confirmation#:#Wollen Sie wirklich die folgenden Kriterienkataloge löschen?
+exc#:#exc_edit_criterias#:#Kriterien bearbeiten
+exc#:#exc_add_criteria#:#Kriterium hinzufügen
+exc#:#exc_criteria_create_form#:#Neues Kriterium hinzufügen
+exc#:#exc_criteria_update_form#:#Kriterium bearbeiten
+exc#:#exc_criteria_deletion_confirmation#:#Wollen Sie wirklich die folgenden Kriterien löschen?
+exc#:#exc_criteria_type_bool#:#Erfüllt Ja/Nein
+exc#:#exc_criteria_type_rating#:#5-Sterne-Bewertung
+exc#:#exc_criteria_type_text#:#Text
+exc#:#exc_criteria_type_file#:#Dateiupload
