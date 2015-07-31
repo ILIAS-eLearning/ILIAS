@@ -7189,3 +7189,11 @@ $ilDB->addIndex('chatroom_history', array('room_id', 'sub_room'), 'i1');
 require_once 'Services/Migration/DBUpdate_4550/classes/class.ilDBUpdate4550.php';
 ilDBUpdate4550::cleanupOrphanedChatRoomData();
 ?>
+<#4557>
+<?php
+$ilDB->addIndex('chatroom_prooms', array('parent_id'), 'i1');
+?>
+<#4558>
+<?php
+$ilDB->addIndex('chatroom_prooms', array('owner'), 'i2');
+?>
