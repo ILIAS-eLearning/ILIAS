@@ -161,7 +161,8 @@ class gevCourseUtils {
 
 		if ($val = $ilDB->fetchAssoc($res)) {
 			$temp = explode("-", $val["m"]);
-			$num = intval($temp[2]) + 1;
+			$ind = count($temp) - 1;
+			$num = intval($temp[$ind]) + 1;
 		}
 		else {
 			$num = 1;
