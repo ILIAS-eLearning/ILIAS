@@ -194,3 +194,44 @@ if(!$ilDB->tableColumnExists('exc_crit','def'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#14>
+<?php
+
+if(!$ilDB->tableColumnExists('exc_assignment','peer_text'))
+{
+	$ilDB->addTableColumn('exc_assignment', 'peer_text', array(
+		'type' => 'integer',
+		'length' => 1,
+		'notnull' => true,
+		'default' => 1
+	));
+}
+
+?>
+<#15>
+<?php
+
+if(!$ilDB->tableColumnExists('exc_assignment','peer_rating'))
+{
+	$ilDB->addTableColumn('exc_assignment', 'peer_rating', array(
+		'type' => 'integer',
+		'length' => 1,
+		'notnull' => true,
+		'default' => 1
+	));
+}
+
+?>
+<#16>
+<?php
+
+if(!$ilDB->tableColumnExists('exc_assignment','peer_crit_cat'))
+{
+	$ilDB->addTableColumn('exc_assignment', 'peer_crit_cat', array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => false
+	));
+}
+
+?>

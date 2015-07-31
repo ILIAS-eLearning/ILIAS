@@ -54,3 +54,5 @@ exc#:#exc_criteria_type_bool#:#Fulfilled Yes/No
 exc#:#exc_criteria_type_rating#:#5-Star-Rating
 exc#:#exc_criteria_type_text#:#Text
 exc#:#exc_criteria_type_file#:#File Upload
+exc#:#exc_criteria_catalogue_default#:#No Catalogue
+exc#:#exc_peer_review_text#:#Text Input
