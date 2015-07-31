@@ -7132,6 +7132,9 @@ if(!$ilDB->tableExists('chatroom_historytmp'))
 ?>
 <#4550>
 <?php
+require_once 'Services/Migration/DBUpdate_4550/classes/class.ilDBUpdate4550.php';
+ilDBUpdate4550::cleanupOrphanedChatRoomData();
+
 $query = '
 SELECT chatroom_history.room_id, chatroom_history.timestamp, chatroom_history.sub_room, chatroom_history.message
 FROM chatroom_history
@@ -7180,4 +7183,9 @@ if($ilDB->sequenceExists('chatroom_historytmp'))
 <#4555>
 <?php
 $ilDB->addIndex('chatroom_history', array('room_id', 'sub_room'), 'i1');
+?>
+<#4556>
+<?php
+require_once 'Services/Migration/DBUpdate_4550/classes/class.ilDBUpdate4550.php';
+ilDBUpdate4550::cleanupOrphanedChatRoomData();
 ?>
