@@ -4,7 +4,7 @@ require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
 require_once('./Services/WebAccessChecker/classes/class.ilWACPath.php');
 require_once('./Services/WebAccessChecker/classes/class.ilWACSecurePath.php');
 require_once('./Services/WebAccessChecker/classes/class.ilWACLog.php');
-
+require_once('./Services/WebAccessChecker/classes/class.ilHTTP.php');
 /**
  * Class ilWebAccessChecker
  *
@@ -16,8 +16,7 @@ class ilWebAccessChecker {
 	const DISPOSITION = 'disposition';
 	const STATUS_CODE = 'status_code';
 	const REVALIDATE = 'revalidate';
-	const ERROR_500 = "HTTP/1.1 500 Internal Server Error";
-	const ERROR_401 = "HTTP/1.1 401 Unauthorized";
+
 	/**
 	 * @var ilWACPath
 	 */
@@ -49,7 +48,7 @@ class ilWebAccessChecker {
 	/**
 	 * @var bool
 	 */
-	protected static $DEBUG = false;
+	protected static $DEBUG = true;
 
 
 	/**
@@ -280,7 +279,7 @@ class ilWebAccessChecker {
 	 * @param ilWACException $e
 	 */
 	protected function handleAccessErrors(ilWACException $e) {
-		$this->setHTTPError(self::ERROR_401);
+		ilHTTP::STATUS(401);
 		if ($this->getPathObject()->isImage()) {
 			$this->deliverDummyImage();
 		}
@@ -303,7 +302,7 @@ class ilWebAccessChecker {
 	 * @param ilWACException $e
 	 */
 	protected function handleErrors(ilWACException $e) {
-		$this->setHTTPError(self::ERROR_500);
+		ilHTTP::STATUS(500);
 		echo $e->getMessage();
 	}
 
@@ -420,19 +419,6 @@ class ilWebAccessChecker {
 	}
 
 
-	/**
-	 * @param string $error
-	 */
-	protected function setHTTPError($error) {
-		if ($this->isSendStatusCode()) {
-			if (! headers_sent()) {
-				foreach (headers_list() as $header) {
-					header_remove($header);
-				}
-			}
-			header($error);
-		}
-	}
 
 
 	/**

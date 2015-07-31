@@ -3,6 +3,7 @@ require_once('./Services/Utilities/classes/class.ilMimeTypeUtil.php');
 require_once('./Services/Utilities/classes/class.ilUtil.php');
 require_once('./Services/Context/classes/class.ilContext.php');
 require_once('./Services/Http/classes/class.ilHTTPS.php');
+require_once('./Services/WebAccessChecker/classes/class.ilHTTP.php');
 
 /**
  * Class ilFileDelivery
@@ -12,6 +13,7 @@ require_once('./Services/Http/classes/class.ilHTTPS.php');
  */
 class ilFileDelivery {
 
+	const DELIVERY_METHOD_NONE = 'cache';
 	const DELIVERY_METHOD_XSENDFILE = 'mod_xsendfile';
 	const DELIVERY_METHOD_XACCEL = 'x-accel-redirect';
 	const DELIVERY_METHOD_PHP = 'php';
@@ -58,11 +60,15 @@ class ilFileDelivery {
 	/**
 	 * @var bool
 	 */
-	protected $show_last_modified = false;
+	protected $show_last_modified = true;
 	/**
 	 * @var bool
 	 */
 	protected $has_context = true;
+	/**
+	 * @var bool
+	 */
+	protected $cache = true;
 
 
 	/**
@@ -89,7 +95,6 @@ class ilFileDelivery {
 			$obj->setDownloadFileName($download_file_name);
 		}
 		$obj->setDisposition(self::DISP_INLINE);
-		//		$obj->setDeliveryType(self::DELIVERY_METHOD_PHP_CHUNKED);
 		$obj->stream();
 	}
 
@@ -128,7 +133,18 @@ class ilFileDelivery {
 
 
 	public function deliver() {
-		$this->setGeneralHeaders();
+		if ($this->hasCache()) {
+			$this->generateEtag();
+			$this->sendEtagHeader();
+			$this->setShowLastModified(true);
+			$this->setCachingHeaders();
+			if ($this->isNonModified()) {
+				$this->setDeliveryType(self::DELIVERY_METHOD_NONE);
+				ilHTTP::STATUS(304);
+			} else {
+				$this->setGeneralHeaders();
+			}
+		}
 
 		switch ($this->getDeliveryType()) {
 			default:
@@ -146,9 +162,11 @@ class ilFileDelivery {
 			case self::DELIVERY_METHOD_VIRTUAL:
 				$this->deliverVirtual();
 				break;
+			case self::DELIVERY_METHOD_NONE;
+				break;
 		}
 		if ($this->isExitAfter()) {
-			exit;
+			$this->close();
 		}
 	}
 
@@ -185,99 +203,6 @@ class ilFileDelivery {
 	}
 
 
-	protected function deliverPHPChunked() {
-		$file = $this->getPathToFile();
-		$fp = @fopen($file, 'rb');
-
-		$size = filesize($file); // File size
-		$length = $size;           // Content length
-		$start = 0;               // Start byte
-		$end = $size - 1;       // End byte
-		// Now that we've gotten so far without errors we send the accept range header
-		/* At the moment we only support single ranges.
-		 * Multiple ranges requires some more work to ensure it works correctly
-		 * and comply with the spesifications: http://www.w3.org/Protocols/rfc2616/rfc2616-sec19.html#sec19.2
-		 *
-		 * Multirange support annouces itself with:
-		 * header('Accept-Ranges: bytes');
-		 *
-		 * Multirange content must be sent with multipart/byteranges mediatype,
-		 * (mediatype = mimetype)
-		 * as well as a boundry header to indicate the various chunks of data.
-		 */
-		header("Accept-Ranges: 0-$length");
-		// header('Accept-Ranges: bytes');
-		// multipart/byteranges
-		// http://www.w3.org/Protocols/rfc2616/rfc2616-sec19.html#sec19.2
-		if (isset($_SERVER['HTTP_RANGE'])) {
-			$c_start = $start;
-			$c_end = $end;
-
-			// Extract the range string
-			list(, $range) = explode('=', $_SERVER['HTTP_RANGE'], 2);
-			// Make sure the client hasn't sent us a multibyte range
-			if (strpos($range, ',') !== false) {
-				// (?) Shoud this be issued here, or should the first
-				// range be used? Or should the header be ignored and
-				// we output the whole content?
-				header('HTTP/1.1 416 Requested Range Not Satisfiable');
-				header("Content-Range: bytes $start-$end/$size");
-				// (?) Echo some info to the client?
-				exit;
-			} // fim do if
-			// If the range starts with an '-' we start from the beginning
-			// If not, we forward the file pointer
-			// And make sure to get the end byte if spesified
-			if ($range{0} == '-') {
-				// The n-number of the last bytes is requested
-				$c_start = $size - substr($range, 1);
-			} else {
-				$range = explode('-', $range);
-				$c_start = $range[0];
-				$c_end = (isset($range[1]) && is_numeric($range[1])) ? $range[1] : $size;
-			} // fim do if
-			/* Check the range and make sure it's treated according to the specs.
-			 * http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html
-			 */
-			// End bytes can not be larger than $end.
-			$c_end = ($c_end > $end) ? $end : $c_end;
-			// Validate the requested range and return an error if it's not correct.
-			if ($c_start > $c_end || $c_start > $size - 1 || $c_end >= $size) {
-				header('HTTP/1.1 416 Requested Range Not Satisfiable');
-				header("Content-Range: bytes $start-$end/$size");
-				// (?) Echo some info to the client?
-				exit;
-			} // fim do if
-
-			$start = $c_start;
-			$end = $c_end;
-			$length = $end - $start + 1; // Calculate new content length
-			fseek($fp, $start);
-			header('HTTP/1.1 206 Partial Content');
-		} // fim do if
-
-		// Notify the client the byte range we'll be outputting
-		header("Content-Range: bytes $start-$end/$size");
-		header("Content-Length: $length");
-
-		// Start buffered download
-		$buffer = 1024 * 8;
-		while (! feof($fp) && ($p = ftell($fp)) <= $end) {
-			if ($p + $buffer > $end) {
-				// In case we're only outputtin a chunk, make sure we don't
-				// read past the length
-				$buffer = $end - $p + 1;
-			} // fim do if
-
-			set_time_limit(0); // Reset time limit for big files
-			echo fread($fp, $buffer);
-			flush(); // Free up memory. Otherwise large files will trigger PHP's memory limit.
-		} // fim do while
-
-		fclose($fp);
-	}
-
-
 	protected function setGeneralHeaders() {
 		if ($this->isSendMimeType()) {
 			header("Content-type: " . $this->getMimeType());
@@ -292,25 +217,25 @@ class ilFileDelivery {
 		if ($this->getDeliveryType() == self::DELIVERY_METHOD_PHP) {
 			header("Content-Length: " . (string)filesize($this->getPathToFile()));
 		}
-		if ($this->isHasContext()) {
-			if (ilHTTPS::getInstance()->isDetected()) {
-				header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-				header('Pragma: public');
-			}
-		}
-
-		if ($this->getEtag()) {
-			header('ETag: "' . $this->getEtag() . '"');
-		}
-		if ($this->getShowLastModified()) {
-			header('Last-Modified: ' . date("D, j M Y H:i:s", filemtime($this->getPathToFile())) . " GMT");
-		}
 		header("Connection: close");
+	}
+
+
+	public function setCachingHeaders() {
+		header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+		header('Pragma: public');
+		$this->sendEtagHeader();
+		$this->sendLastModified();
 	}
 
 
 	public function generateEtag() {
 		$this->setEtag(md5(filemtime($this->getPathToFile()) . filesize($this->getPathToFile())));
+	}
+
+
+	protected function close() {
+		exit;
 	}
 
 
@@ -536,6 +461,149 @@ class ilFileDelivery {
 	 */
 	public function setHasContext($has_context) {
 		$this->has_context = $has_context;
+	}
+
+
+	/**
+	 * @return boolean
+	 */
+	public function hasCache() {
+		return $this->cache;
+	}
+
+
+	/**
+	 * @param boolean $cache
+	 */
+	public function setCache($cache) {
+		$this->cache = $cache;
+	}
+
+
+	protected function deliverPHPChunked() {
+		$file = $this->getPathToFile();
+		$fp = @fopen($file, 'rb');
+
+		$size = filesize($file); // File size
+		$length = $size;           // Content length
+		$start = 0;               // Start byte
+		$end = $size - 1;       // End byte
+		// Now that we've gotten so far without errors we send the accept range header
+		/* At the moment we only support single ranges.
+		 * Multiple ranges requires some more work to ensure it works correctly
+		 * and comply with the spesifications: http://www.w3.org/Protocols/rfc2616/rfc2616-sec19.html#sec19.2
+		 *
+		 * Multirange support annouces itself with:
+		 * header('Accept-Ranges: bytes');
+		 *
+		 * Multirange content must be sent with multipart/byteranges mediatype,
+		 * (mediatype = mimetype)
+		 * as well as a boundry header to indicate the various chunks of data.
+		 */
+		header("Accept-Ranges: 0-$length");
+		// header('Accept-Ranges: bytes');
+		// multipart/byteranges
+		// http://www.w3.org/Protocols/rfc2616/rfc2616-sec19.html#sec19.2
+		if (isset($_SERVER['HTTP_RANGE'])) {
+			$c_start = $start;
+			$c_end = $end;
+
+			// Extract the range string
+			list(, $range) = explode('=', $_SERVER['HTTP_RANGE'], 2);
+			// Make sure the client hasn't sent us a multibyte range
+			if (strpos($range, ',') !== false) {
+				// (?) Shoud this be issued here, or should the first
+				// range be used? Or should the header be ignored and
+				// we output the whole content?
+				ilHTTP::STATUS(416);
+				header("Content-Range: bytes $start-$end/$size");
+				// (?) Echo some info to the client?
+				$this->close();
+			} // fim do if
+			// If the range starts with an '-' we start from the beginning
+			// If not, we forward the file pointer
+			// And make sure to get the end byte if spesified
+			if ($range{0} == '-') {
+				// The n-number of the last bytes is requested
+				$c_start = $size - substr($range, 1);
+			} else {
+				$range = explode('-', $range);
+				$c_start = $range[0];
+				$c_end = (isset($range[1]) && is_numeric($range[1])) ? $range[1] : $size;
+			} // fim do if
+			/* Check the range and make sure it's treated according to the specs.
+			 * http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html
+			 */
+			// End bytes can not be larger than $end.
+			$c_end = ($c_end > $end) ? $end : $c_end;
+			// Validate the requested range and return an error if it's not correct.
+			if ($c_start > $c_end || $c_start > $size - 1 || $c_end >= $size) {
+				ilHTTP::STATUS(416);
+				header("Content-Range: bytes $start-$end/$size");
+				// (?) Echo some info to the client?
+				$this->close();
+			} // fim do if
+
+			$start = $c_start;
+			$end = $c_end;
+			$length = $end - $start + 1; // Calculate new content length
+			fseek($fp, $start);
+			ilHTTP::STATUS(206);
+		} // fim do if
+
+		// Notify the client the byte range we'll be outputting
+		header("Content-Range: bytes $start-$end/$size");
+		header("Content-Length: $length");
+
+		// Start buffered download
+		$buffer = 1024 * 8;
+		while (! feof($fp) && ($p = ftell($fp)) <= $end) {
+			if ($p + $buffer > $end) {
+				// In case we're only outputtin a chunk, make sure we don't
+				// read past the length
+				$buffer = $end - $p + 1;
+			} // fim do if
+
+			set_time_limit(0); // Reset time limit for big files
+			echo fread($fp, $buffer);
+			flush(); // Free up memory. Otherwise large files will trigger PHP's memory limit.
+		} // fim do while
+
+		fclose($fp);
+	}
+
+
+	protected function sendEtagHeader() {
+		if ($this->getEtag()) {
+			header('ETag: ' . $this->getEtag() . '');
+		}
+	}
+
+
+	protected function sendLastModified() {
+		if ($this->getShowLastModified()) {
+			header('Last-Modified: ' . date("D, j M Y H:i:s", filemtime($this->getPathToFile())) . " GMT");
+		}
+	}
+
+
+	/**
+	 * @return bool
+	 */
+	protected function isNonModified() {
+		$http_if_none_match = $_SERVER['HTTP_IF_NONE_MATCH'];
+		$http_if_modified_since = $_SERVER['HTTP_IF_MODIFIED_SINCE'];
+
+		switch (true) {
+			case (! isset($http_if_none_match) || ! isset($http_if_modified_since)):
+				return false;
+			case ($http_if_none_match != $this->getEtag()):
+				return false;
+			case (@strtotime($http_if_modified_since) <= filemtime($this->getPathToFile())):
+				return false;
+		}
+
+		return true;
 	}
 }
 
