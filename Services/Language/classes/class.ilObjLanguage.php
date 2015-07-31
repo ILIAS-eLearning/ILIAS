@@ -411,9 +411,6 @@ class ilObjLanguage extends ilObject
 			// remove header first
 			if ($content = $this->cut_header(file($lang_file)))
 			{
-				$GLOBALS['ilLog']->write(__METHOD__.': ++++++++++++++++++++++++'.count($content));
-				$GLOBALS['ilLog']->write(__METHOD__.': ++++++++++++++++++++++++'.$path);
-				$GLOBALS['ilLog']->write(__METHOD__.': ++++++++++++++++++++++++'.$lang_file);
 				if (empty($scope))
 				{
 					// reset change date for a global file
@@ -707,7 +704,6 @@ class ilObjLanguage extends ilObject
 		{
 			if (trim($val) == "<!-- language file start -->")
 			{
-				$GLOBALS['ilLog']->write(__METHOD__.': ++++++++++++++++++++++++'.$key + 1);
 				
 				return array_slice($content,$key +1);
 			}
