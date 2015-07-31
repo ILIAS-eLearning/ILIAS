@@ -104,6 +104,82 @@ class ilObjChatroom extends ilObject
 		
 		return $newObj;
 	}
-}
 
-?>
+	/**
+	 * {@inheritdoc}
+	 */
+	public function delete()
+	{
+		/**
+		 * @var $ilDB ilDB
+		 */
+		global $ilDB;
+
+		$ilDB->manipulateF(
+			'DELETE FROM chatroom_users WHERE chatroom_users.room_id IN (SELECT chatroom_settings.room_id FROM chatroom_settings WHERE chatroom_settings.object_id = %s)',
+			array('integer'),
+			array($this->getId())
+		);
+
+		$ilDB->manipulateF(
+			'DELETE FROM chatroom_history WHERE chatroom_history.room_id IN (SELECT chatroom_settings.room_id FROM chatroom_settings WHERE chatroom_settings.object_id = %s)',
+			array('integer'),
+			array($this->getId())
+		);
+
+		$ilDB->manipulateF(
+			'DELETE FROM chatroom_bans WHERE chatroom_bans.room_id IN (SELECT chatroom_settings.room_id FROM chatroom_settings WHERE chatroom_settings.object_id = %s)',
+			array('integer'),
+			array($this->getId())
+		);
+
+		$ilDB->manipulateF(
+			'DELETE FROM chatroom_sessions WHERE chatroom_sessions.room_id IN (SELECT chatroom_settings.room_id FROM chatroom_settings WHERE chatroom_settings.object_id = %s)',
+			array('integer'),
+			array($this->getId())
+		);
+
+		$ilDB->manipulateF('
+			DELETE FROM chatroom_proomaccess
+			WHERE chatroom_proomaccess.proom_id IN (
+				SELECT chatroom_prooms.proom_id
+				FROM chatroom_prooms WHERE chatroom_prooms.parent_id IN (
+					SELECT chatroom_settings.room_id
+					FROM chatroom_settings
+					WHERE chatroom_settings.object_id = %s
+				)
+			)',
+			array('integer'),
+			array($this->getId())
+		);
+
+		$ilDB->manipulateF('
+			DELETE FROM chatroom_psessions
+			WHERE chatroom_psessions.proom_id IN (
+				SELECT chatroom_prooms.proom_id
+				FROM chatroom_prooms WHERE chatroom_prooms.parent_id IN (
+					SELECT chatroom_settings.room_id
+					FROM chatroom_settings
+					WHERE chatroom_settings.object_id = %s
+				)
+			)',
+			array('integer'),
+			array($this->getId())
+		);
+
+		$ilDB->manipulateF(
+			'DELETE FROM chatroom_prooms WHERE chatroom_prooms.parent_id IN (SELECT chatroom_settings.room_id FROM chatroom_settings WHERE chatroom_settings.object_id = %s)',
+			array('integer'),
+			array($this->getId())
+		);
+
+		// Finally delete rooms
+		$ilDB->manipulateF(
+			'DELETE FROM chatroom_settings WHERE object_id = %s',
+			array('integer'),
+			array($this->getId())
+		);
+		
+		return parent::delete();
+	}
+}
