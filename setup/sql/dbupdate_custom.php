@@ -4094,3 +4094,10 @@ if(!$ilDB->tableColumnExists('hist_usercoursestatus', 'gev_id')) {
 	ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "AdvancedMetaData", "amdc", "CourseAMD");
 
 ?>
+
+<#150>
+<?php
+	
+	$ilDB->dropTableColumn('hist_usercoursestatus', 'org_unit');
+
+?>
