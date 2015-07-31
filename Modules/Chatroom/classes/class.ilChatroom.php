@@ -170,25 +170,29 @@ class ilChatroom
 	 */
 	public function addHistoryEntry($message, $recipient = null, $publicMessage = true)
 	{
-	    global $ilDB;
+		global $ilDB;
 
-	    $subRoom = 0;
-	    if (is_array($message)) {
-		$subRoom = (int) $message['sub'];
-	    }
-	    else if (is_object($message)) {
-		$subRoom = (int) $message->sub;
-	    }
+		$subRoom = 0;
+		if(is_array($message))
+		{
+			$subRoom = (int)$message['sub'];
+		}
+		else if(is_object($message))
+		{
+			$subRoom = (int)$message->sub;
+		}
 
-	    $ilDB->insert(
-		self::$historyTable,
-		array(
-		    'room_id'	=> array('integer', $this->roomId),
-		    'sub_room'	=> array('integer', $subRoom),
-		    'message'	=> array('text', json_encode($message)),
-		    'timestamp'	=> array('integer', time()),
-		)
-	    );
+		$id = $ilDB->nextId(self::$historyTable);
+		$ilDB->insert(
+			self::$historyTable,
+			array(
+				'hist_id'   => array('integer', $id),
+				'room_id'   => array('integer', $this->roomId),
+				'sub_room'  => array('integer', $subRoom),
+				'message'   => array('text', json_encode($message)),
+				'timestamp' => array('integer', time()),
+			)
+		);
 	}
 
 	/**
@@ -1396,31 +1400,34 @@ public function getLastMessages($number, $chatuser = null) {
 		}
 		return $results;
 	}
-    
-    public function clearMessages($sub_room) {
-	global $ilDB;
-	
-	$ilDB->queryF(
-		'DELETE FROM ' . self::$historyTable . ' WHERE room_id = %s AND sub_room = %s',
-		array('integer', 'integer'),
-		array($this->roomId, (int)$sub_room)
-	);
-	
-	if ($sub_room) {
-	    $ilDB->queryF(
-		    'DELETE FROM ' . self::$sessionTable . ' WHERE proom_id = %s AND disconnected < %s',
-		    array('integer', 'integer'),
-		    array($sub_room, time())
-	    );
+
+	public function clearMessages($sub_room)
+	{
+		global $ilDB;
+
+		$ilDB->queryF(
+			'DELETE FROM ' . self::$historyTable . ' WHERE room_id = %s AND sub_room = %s',
+			array('integer', 'integer'),
+			array($this->roomId, (int)$sub_room)
+		);
+
+		if($sub_room)
+		{
+			$ilDB->queryF(
+				'DELETE FROM ' . self::$sessionTable . ' WHERE proom_id = %s AND disconnected < %s',
+				array('integer', 'integer'),
+				array($sub_room, time())
+			);
+		}
+		else
+		{
+			$ilDB->queryF(
+				'DELETE FROM ' . self::$sessionTable . ' WHERE room_id = %s AND disconnected < %s',
+				array('integer', 'integer'),
+				array($this->roomId, time())
+			);
+		}
 	}
-	else {
-	    $ilDB->queryF(
-		    'DELETE FROM ' . self::$sessionTable . ' WHERE room_id = %s AND disconnected < %s',
-		    array('integer', 'integer'),
-		    array($this->roomId, time())
-	    );
-	}
-    }
 	
 	public static function getUntrashedChatReferences($filter = array())
 	{

@@ -7108,3 +7108,72 @@ $ilDB->addPrimaryKey('qpl_a_cloze_combi_res', array(
 	'combination_id', 'question_fi', 'gap_fi', 'row_id'
 ));
 ?>
+<#4548>
+<?php
+if(!$ilDB->sequenceExists('chatroom_historytmp'))
+{
+	$ilDB->createSequence('chatroom_historytmp');
+}
+?>
+<#4549>
+<?php
+if(!$ilDB->tableExists('chatroom_historytmp'))
+{
+	$fields = array(
+		'hist_id'   => array('type' => 'integer', 'length' => 8, 'notnull' => true, 'default' => 0),
+		'room_id'   => array('type' => 'integer', 'length' => 4, 'notnull' => true, 'default' => 0),
+		'message'   => array('type' => 'text', 'length' => 4000, 'notnull' => false, 'default' => null),
+		'timestamp' => array('type' => 'integer', 'length' => 4, 'notnull' => true, 'default' => 0),
+		'sub_room'  => array('type' => 'integer', 'length' => 4, 'notnull' => true, 'default' => 0)
+	);
+	$ilDB->createTable('chatroom_historytmp', $fields);
+	$ilDB->addPrimaryKey('chatroom_historytmp', array('hist_id'));
+}
+?>
+<#4550>
+<?php
+$query = '
+SELECT chatroom_history.room_id, chatroom_history.timestamp, chatroom_history.sub_room, chatroom_history.message
+FROM chatroom_history
+LEFT JOIN chatroom_historytmp
+	ON chatroom_historytmp.room_id = chatroom_history.room_id
+	AND chatroom_historytmp.timestamp = chatroom_history.timestamp
+	AND chatroom_historytmp.sub_room = chatroom_history.sub_room
+	AND chatroom_historytmp.message = chatroom_history.message
+WHERE chatroom_historytmp.hist_id IS NULL
+GROUP BY chatroom_history.room_id, chatroom_history.timestamp, chatroom_history.sub_room, chatroom_history.message
+';
+$res = $ilDB->query($query);
+
+$stmt_in = $ilDB->prepareManip('INSERT INTO chatroom_historytmp (hist_id, room_id, timestamp, sub_room, message) VALUES(?, ?, ?, ?, ?)', array('integer', 'integer', 'integer', 'integer', 'text'));
+
+while($row = $ilDB->fetchAssoc($res))
+{
+	$hist_id = $ilDB->nextId('chatroom_historytmp');
+	$ilDB->execute($stmt_in, array($hist_id, (int)$row['room_id'], (int)$row['timestamp'], (int)$row['sub_room'], (string)$row['message']));
+}
+?>
+<#4551>
+<?php
+$ilDB->dropTable('chatroom_history');
+?>
+<#4552>
+<?php
+$ilDB->renameTable('chatroom_historytmp', 'chatroom_history');
+?>
+<#4553>
+<?php
+if(!$ilDB->sequenceExists('chatroom_history'))
+{
+	$query = "SELECT MAX(hist_id) mhist_id FROM chatroom_history";
+	$row = $ilDB->fetchAssoc($ilDB->query($query));
+	$ilDB->createSequence('chatroom_history', (int)$row['mhist_id'] + 1);
+}
+?>
+<#4554>
+<?php
+if($ilDB->sequenceExists('chatroom_historytmp'))
+{
+	$ilDB->dropSequence('chatroom_historytmp');
+}
+?>
