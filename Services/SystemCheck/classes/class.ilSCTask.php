@@ -2,6 +2,8 @@
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+include_once './Services/Calendar/classes/class.ilDateTime.php';
+
 /**
  * Defines a system check task
  *
@@ -27,7 +29,7 @@ class ilSCTask
 	 * Constructor
 	 * @param type $a_id
 	 */
-	public function __construct($a_id)
+	public function __construct($a_id = 0)
 	{
 		$this->id = $a_id;
 		$this->read();
@@ -56,11 +58,6 @@ class ilSCTask
 	public function getIdentifier()
 	{
 		return $this->identifier;
-	}
-	
-	public function setComponentId($a_comp)
-	{
-		$this->component_id = $a_comp;
 	}
 	
 	
@@ -128,15 +125,12 @@ class ilSCTask
 	{
 		global $ilDB;
 		
-		$this->id = $ilDB->nextId('sysyc_tasks');
+		$this->id = $ilDB->nextId('sysc_tasks');
 		
-		$query = 'INSERT INTO sysc_tasks (id,grp_id,last_update,status,identifier) '.
+		$query = 'INSERT INTO sysc_tasks (id,grp_id,status,identifier) '.
 				'VALUES ( '.
 				$ilDB->quote($this->getId(),'integer').', '.
 				$ilDB->quote($this->getGroupId(),'integer').', '.
-				$ilDB->quote($this->getComponentId(),'text').', '.
-				$ilDB->quote($this->getComponentType(),'text').', '.
-				$ilDB->quote($this->getLastUpdate()->get(IL_CAL_DATETIME,'','UTC'),'timestamp').', '.
 				$ilDB->quote($this->getStatus(),'integer').', '.
 				$ilDB->quote($this->getIdentifier(),'text').' '.
 				')';

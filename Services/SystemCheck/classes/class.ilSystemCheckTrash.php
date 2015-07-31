@@ -153,9 +153,13 @@ class ilSystemCheckTrash
 			$and_types = 'AND '.$ilDB->in('o.type', $this->getTypesLimit(),FALSE,'text').' ';
 		}
 		$and_age = '';
-		if($this->getAgeLimit()->get(IL_CAL_UNIX) >= 0)
+		
+		
+		
+		$age_limit = $this->getAgeLimit()->get(IL_CAL_UNIX);
+		if($age_limit > 0)
 		{
-			$and_age = 'AND r.deleted > '.$ilDB->quote($this->getAgeLimit()->get(IL_CAL_DATETIME)).' ';
+			$and_age = 'AND r.deleted < '.$ilDB->quote($this->getAgeLimit()->get(IL_CAL_DATETIME)).' ';
 		}
 		$limit = '';
 		if($this->getNumberLimit())

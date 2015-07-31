@@ -43,6 +43,31 @@ class ilSCTasks
 	}
 	
 	/**
+	 * Update from module/service reader
+	 * @param type $a_identifier
+	 * @return boolean
+	 */
+	public function updateFromComponentDefinition($a_identifier)
+	{
+		foreach($this->getTasks() as $task)
+		{
+			if($task->getIdentifier() == $a_identifier)
+			{
+				return TRUE;
+			}
+		}
+		
+		$task = new ilSCTask();
+		$task->setGroupId($this->getGroupId());
+		$task->setIdentifier($a_identifier);
+		$task->create();
+		
+		return $task->getId();
+	}
+	
+	
+	
+	/**
 	 * Lookup group id by task id
 	 * @global type $ilDB
 	 * @param type $a_task_id
@@ -121,10 +146,15 @@ class ilSCTasks
 		}
 		return new ilDateTime(time(),IL_CAL_UNIX);
 	}
+	
+	public function getGroupId()
+	{
+		return $this->grp_id;
+	}
 
 	/**
 	 * Get groups
-	 * @return ilSCGroup[]
+	 * @return ilSCTask[]
 	 */
 	public function getTasks()
 	{

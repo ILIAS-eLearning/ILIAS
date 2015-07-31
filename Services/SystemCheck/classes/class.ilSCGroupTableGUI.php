@@ -104,8 +104,14 @@ class ilSCGroupTableGUI extends ilTable2GUI
 		{
 			$item = array();
 			$item['id'] = $group->getId();
-			$item['title'] = $GLOBALS['lng']->txt($group->getTitle());
-			$item['description'] = $GLOBALS['lng']->txt($group->getDescription());
+			
+			
+			include_once './Services/SystemCheck/classes/class.ilSCComponentTaskFactory.php';
+			$task_gui = ilSCComponentTaskFactory::getComponentTaskByForGroup($group->getId());
+			
+			
+			$item['title'] = $task_gui->getGroupTitle();
+			$item['description'] = $task_gui->getGroupDescription();
 			$item['status'] = $group->getStatus();
 			
 			include_once './Services/SystemCheck/classes/class.ilSCTasks.php';

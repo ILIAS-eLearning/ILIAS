@@ -19,7 +19,7 @@ abstract class ilSCComponentTaskGUI
 	/**
 	 * 
 	 */
-	public function __construct(ilSCTask $task)
+	public function __construct(ilSCTask $task = null)
 	{
 		$this->task = $task;
 		
@@ -48,6 +48,16 @@ abstract class ilSCComponentTaskGUI
 	 */
 	abstract public function getDescription();
 	
+	
+	/**
+	 * Get title of group
+	 */
+	abstract public function getGroupTitle();
+	
+	/**
+	 * Get description of group
+	 */
+	abstract public function getGroupDescription();
 	
 	/**
 	 * Get language

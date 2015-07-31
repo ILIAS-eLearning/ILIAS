@@ -275,12 +275,20 @@ class ilObjSystemCheckGUI extends ilObjectGUI
 			$trash = new ilSystemCheckTrash();
 			
 			$dt_arr = $form->getInput('age');
+			
+			$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($dt_arr,TRUE));
+			
+			
 			if($dt_arr['date'])
 			{
 				$trash->setAgeLimit(new ilDate($dt_arr['date'],IL_CAL_DATE));
 			}
 			$trash->setNumberLimit($form->getInput('number'));
-			$trash->setTypesLimit((array) $form->getInput('types'));
+			
+			if($form->getInput('types'))
+			{
+				$trash->setTypesLimit((array) $form->getInput('types'));
+			}
 			$trash->setMode($form->getInput('type'));
 			$trash->start();
 			

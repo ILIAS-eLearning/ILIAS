@@ -1,5 +1,7 @@
 <?php
 
+include_once './Services/Calendar/classes/class.ilDateTime.php';
+
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -22,7 +24,7 @@ class ilSCGroup
 	 * Constructor
 	 * @param type $a_id
 	 */
-	public function __construct($a_id)
+	public function __construct($a_id = 0)
 	{
 		$this->id = $a_id;
 		$this->read();
@@ -91,21 +93,6 @@ class ilSCGroup
 		return $this->component_id;
 	}
 	
-	/**
-	 * Get component type
-	 */
-	public function getComponentType()
-	{
-		return $this->component_type;
-	}
-	
-	/**
-	 * Set component type
-	 */
-	public function setComponentType($a_comp_type)
-	{
-		$this->component_type = $a_comp_type;
-	}
 	
 	public function setLastUpdate(ilDateTime $a_update)
 	{
@@ -157,7 +144,6 @@ class ilSCGroup
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->setComponentId($row->component);
-			$this->setComponentType($row->component_type);
 			$this->setTitle($row->title);
 			$this->setDescription($row->description);
 			$this->setLastUpdate(new ilDateTime($row->last_update,IL_CAL_DATETIME,'UTC'));
@@ -173,16 +159,14 @@ class ilSCGroup
 	{
 		global $ilDB;
 		
-		$this->id = $ilDB->nextId('sysyc_groups');
+		$this->id = $ilDB->nextId('sysc_groups');
 		
-		$query = 'INSERT INTO sysc_groups (id,title,description,component,component_type,last_update,status) '.
+		$query = 'INSERT INTO sysc_groups (id,title,description,component,status) '.
 				'VALUES ( '.
 				$ilDB->quote($this->getId(),'integer').', '.
 				$ilDB->quote($this->getTitle(),'text').', '.
 				$ilDB->quote($this->getDescription(),'text').', '.
 				$ilDB->quote($this->getComponentId(),'text').', '.
-				$ilDB->quote($this->getComponentType(),'text').', '.
-				$ilDB->quote($this->getLastUpdate()->get(IL_CAL_DATETIME,'','UTC'),'timestamp').', '.
 				$ilDB->quote($this->getStatus(),'integer').' '.
 				')';
 		$ilDB->manipulate($query);

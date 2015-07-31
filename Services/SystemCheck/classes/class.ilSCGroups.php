@@ -40,6 +40,44 @@ class ilSCGroups
 		return self::$instance;
 	}
 	
+	/**
+	 * Update from component definition reader
+	 * @param type $a_component_id
+	 */
+	public function updateFromComponentDefinition($a_component_id)
+	{
+		foreach($this->getGroups() as $group)
+		{
+			if($group->getComponentId() == $a_component_id)
+			{
+				return $group->getId();
+			}
+		}
+
+		$component_group = new ilSCGroup();
+		$component_group->setComponentId($a_component_id);
+		$component_group->create();
+		
+		return $component_group->getId();
+	}
+	
+	/**
+	 * 
+	 */
+	public function lookupGroupByComponentId($a_component_id)
+	{
+		global $ilDB;
+		
+		$query = 'SELECT id FROM sysc_groups '.
+				'WHERE component = '.$ilDB->quote($a_component_id,'text');
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return $row->id;
+		}
+		return 0;
+	}
+	
 	
 	/**
 	 * Get groups

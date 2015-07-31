@@ -14,8 +14,20 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
 {
 	const TYPE_DUPLICATES = 'duplicates';
 	const TYPE_DUMP = 'dump';
-	const TYPE_MISSING = 'missing';
+	const TYPE_MISSING = 'missing_reference';
+	const TYPE_MISSING_TREE = 'missing_tree';
+	const TYPE_STRUCTURE = 'structure';
 	
+	
+	public function getGroupTitle()
+	{
+		return $this->getLang()->txt('sysc_grp_tree');
+	}
+	
+	public function getGroupDescription()
+	{
+		return $this->getLang()->txt('sysc_grp_tree_desc');
+	}
 	
 	/**
 	 * Get title of task
@@ -31,8 +43,13 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
 				return $this->getLang()->txt('sysc_task_tree_duplicates');
 				
 			case self::TYPE_MISSING:
-				return $this->getLang()->txt('sysc_task_tree_missing');
+				return $this->getLang()->txt('sysc_task_tree_missing_reference');
 				
+			case self::TYPE_MISSING_TREE:
+				return $this->getLang()->txt('sysc_task_tree_missing_tree');
+
+			case self::TYPE_STRUCTURE:
+				return $this->getLang()->txt('sysc_task_structure');
 		}
 	}
 	
@@ -50,7 +67,13 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
 				return $this->getLang()->txt('sysc_task_tree_duplicates_desc');
 
 			case self::TYPE_MISSING:
-				return $this->getLang()->txt('sysc_task_tree_missing_desc');
+				return $this->getLang()->txt('sysc_task_tree_missing_reference_desc');
+
+			case self::TYPE_MISSING_TREE:
+				return $this->getLang()->txt('sysc_task_tree_missing_tree_desc');
+
+			case self::TYPE_STRUCTURE:
+				return $this->getLang()->txt('sysc_task_structure_desc');
 		}
 	}
 
@@ -118,10 +141,98 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
 				}
 				break;
 				
+			case self::TYPE_MISSING_TREE:
+
+				$actions[] = array(
+					'txt' => $this->getLang()->txt('sysc_action_validate'),
+					'command' => 'findMissingTreeEntries'
+				);
+				
+				if($repair)
+				{
+					$actions[] = array(
+						'txt' => $this->getLang()->txt('sysc_action_repair'),
+						'command' => 'confirmRepairMissingTreeEntries'
+					);
+				}
+				break;
+				
+			case self::TYPE_STRUCTURE:
+
+				$actions[] = array(
+					'txt' => $this->getLang()->txt('sysc_action_validate'),
+					'command' => 'analyzeStructure'
+				);
+				
+				if($repair)
+				{
+					$actions[] = array(
+						'txt' => $this->getLang()->txt('sysc_action_repair'),
+						'command' => 'confirmRepairStructure'
+					);
+				}
+				break;
 				
 		}
 		return $actions;
 	}
+	
+	/**
+	 * Analyze tree structure
+	 */
+	public function analyzeStructure()
+	{
+		include_once './Services/Tree/classes/class.ilSCTreeTasks.php';
+		$tasks = new ilSCTreeTasks($this->getTask());
+		$num_failures = $tasks->validateStructure();
+		
+		if($this->getTask()->getStatus() == ilSCTask::STATUS_FAILED)
+		{
+			// error message
+			ilUtil::sendFailure($this->getLang()->txt('sysc_tree_structure_failures').' '.$num_failures,TRUE);
+		}
+		else
+		{
+			ilUtil::sendSuccess($this->getLang()->txt('sysc_message_success'),TRUE);
+		}
+		$this->getCtrl()->returnToParent($this);		
+	}
+	
+	
+	/**
+	 * Show repair missing confirmation
+	 * @return type
+	 */
+	protected function confirmRepairStructure()
+	{
+		return $this->showSimpleConfirmation(
+				$this->getLang()->txt('sysc_message_tree_structure_confirm'),
+				$this->getLang()->txt('sysc_btn_tree_structure'),
+				'repairStructure'
+		);
+	}
+	
+	/**
+	 * Repair structure
+	 */
+	protected function repairStructure()
+	{
+		include_once './Services/Tree/classes/class.ilSCTreeTasks.php';
+		$tasks = new ilSCTreeTasks($this->getTask());
+		
+		
+		$GLOBALS['tree']->renumber(ROOT_FOLDER_ID);
+		
+		$this->getTask()->setStatus(ilSCTask::STATUS_COMPLETED);
+		$this->getTask()->setLastUpdate(new ilDateTime(time(),IL_CAL_UNIX));
+		$this->getTask()->update();
+		
+		ilUtil::sendSuccess($this->getLang()->txt('sysc_message_success'),TRUE);
+		$this->getCtrl()->returnToParent($this);		
+	}
+	
+	
+	
 	
 
 	/**
@@ -151,8 +262,6 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
 		$this->getTask()->update();
 		
 		$this->getCtrl()->returnToParent($this);		
-		
-
 	}
 
 	/**
@@ -200,11 +309,41 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
 	 * repair
 	 * @param type $a_task_identifier
 	 */
-	protected function repairTask()
+	protected function repairDuplicates()
 	{
-		$GLOBALS['tpl']->setContent('Hallo');
+		// repair duplicates
+		include_once './Services/Tree/classes/class.ilSCTreeTasks.php';
+		$deepest_duplicate = ilSCTreeTasks::findDeepestDuplicate();
+		
+		include_once './Services/Tree/classes/class.ilSCTreeDuplicatesTableGUI.php';
+		$table = new ilSCTreeDuplicatesTableGUI($this,'repairTask');
+		$table->init();
+		$table->parse($deepest_duplicate);
+		
+		$GLOBALS['tpl']->setContent($table->getHTML());
 	}
 	
+	protected function deleteDuplicatesFromRepository()
+	{
+		$GLOBALS['ilLog']->write(__METHOD__.': Removing from repository: '.$_REQUEST['duplicate_id']);
+		include_once './Services/Tree/classes/class.ilSCTreeTasks.php';
+		ilSCTreeTasks::deleteDuplicateFromTree((int) $_REQUEST['duplicate_id'], FALSE);
+		
+		ilUtil::sendSuccess($this->getLang()->txt('sysc_deleted_duplicate'),TRUE);
+		$this->getCtrl()->returnToParent($this);
+		
+	}
+	
+	protected function deleteDuplicatesFromTrash()
+	{
+		$GLOBALS['ilLog']->write(__METHOD__.': Removing from repository: '.$_REQUEST['duplicate_id']);
+		include_once './Services/Tree/classes/class.ilSCTreeTasks.php';
+		ilSCTreeTasks::deleteDuplicateFromTree((int) $_REQUEST['duplicate_id'], TRUE);
+
+		ilUtil::sendSuccess($this->getLang()->txt('sysc_deleted_duplicate'),TRUE);
+		$this->getCtrl()->returnToParent($this);
+	}
+
 	/**
 	 * find missing objects
 	 */
@@ -242,7 +381,7 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
 	}
 
 	/**
-	 * REpair missing oobjects
+	 * Repair missing objects
 	 */
 	protected function repairMissing()
 	{
@@ -258,6 +397,56 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
 		ilUtil::sendSuccess($this->getLang()->txt('sysc_message_success'),TRUE);
 		$this->getCtrl()->returnToParent($this);		
 	}
-
+	
+	/**
+	 * find missing objects
+	 */
+	protected function findMissingTreeEntries()
+	{
+		include_once './Services/Tree/classes/class.ilSCTreeTasks.php';
+		$tasks = new ilSCTreeTasks($this->getTask());
+		$num_failures = $tasks->findMissingTreeEntries();
+		
+		if($this->getTask()->getStatus() == ilSCTask::STATUS_FAILED)
+		{
+			// error message
+			ilUtil::sendFailure($this->getLang()->txt('sysc_tree_missing_tree_failures').' '.$num_failures,TRUE);
+		}
+		else
+		{
+			ilUtil::sendSuccess($this->getLang()->txt('sysc_message_success'),TRUE);
+		}
+		$this->getCtrl()->returnToParent($this);		
+	}
+	
+	/**
+	 * Show repair missing confirmation
+	 * @return type
+	 */
+	protected function confirmRepairMissingTreeEntries()
+	{
+		return $this->showSimpleConfirmation(
+				$this->getLang()->txt('sysc_message_tree_missing_tree_confirm'),
+				$this->getLang()->txt('sysc_btn_tree_missing_tree'),
+				'repairMissingTreeEntries'
+		);
+	}
+	
+	/**
+	 * Repair missing objects
+	 */
+	protected function repairMissingTreeEntries()
+	{
+		include_once './Services/Tree/classes/class.ilSCTreeTasks.php';
+		$tasks = new ilSCTreeTasks($this->getTask());
+		$tasks->repairMissingTreeEntries();
+		
+		$this->getTask()->setStatus(ilSCTask::STATUS_COMPLETED);
+		$this->getTask()->setLastUpdate(new ilDateTime(time(),IL_CAL_UNIX));
+		$this->getTask()->update();
+		
+		ilUtil::sendSuccess($this->getLang()->txt('sysc_message_success'),TRUE);
+		$this->getCtrl()->returnToParent($this);		
+	}
 }
 ?>

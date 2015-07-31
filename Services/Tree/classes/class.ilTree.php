@@ -2359,11 +2359,13 @@ class ilTree
 			$i,
 			$node_id));
 
-		$childs = $this->getChilds($node_id);
+		// to much dependencies
+		//$childs = $this->getChilds($node_id);
+		$childs = $this->getChildIds($node_id);
 
 		foreach ($childs as $child)
 		{
-			$i = $this->__renumber($child["child"],$i+1);
+			$i = $this->__renumber($child,$i+1);
 		}
 		$i++;
 		

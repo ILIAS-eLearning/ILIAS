@@ -32,7 +32,7 @@ class ilValidator extends PEAR
 	// Werner, 2007-04-16
 	var $object_types_exclude = array("adm","root","mail","usrf","objf","lngf",
 		"trac","taxf","auth","rolf","assf","svyf","extt","adve","fold");
-	
+
 	/**
 	* set mode
 	* @var	array
@@ -2073,14 +2073,14 @@ restore starts here
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$duplicateNodes[] = $row->child;
-		}		
+		}
 		
 		// dump tree
-		$q = "SELECT tree.*,ref.ref_id,dat.obj_id objobj_id,ref.obj_id refobj_id,ref.deleted,dat.*,usr.login "
+		$q = "SELECT tree.*,ref.ref_id,dat.obj_id objobj_id,ref.obj_id refobj_id,ref.deleted,dat.* "
 			."FROM tree "
 			."RIGHT JOIN object_reference ref ON tree.child = ref.ref_id "
 			."RIGHT JOIN object_data dat ON ref.obj_id = dat.obj_id "
-			."LEFT JOIN usr_data usr ON usr.usr_id = dat.owner "
+//			."LEFT JOIN usr_data usr ON usr.usr_id = dat.owner "
 		 	."ORDER BY tree, lft, type, dat.title";
 		$r = $this->db->query($q);
 		
@@ -2551,7 +2551,7 @@ restore starts here
 	}
 	
 	protected function filterWorkspaceObjects(array &$a_data, $a_index = "obj_id")
-	{		
+	{
 		if(sizeof($a_data))
 		{			
 			$this->initWorkspaceObjects();
