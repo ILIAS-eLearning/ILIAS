@@ -104,19 +104,13 @@ class ilWACSignedPath {
 		$this->getPathObject()->setToken($_COOKIE[$this->getTokenInstance()->getId()]);
 		$this->getPathObject()->setTimestamp($_COOKIE[$this->getTokenInstance()->getId() . '_ts']);
 
-		$return = $this->checkToken();
-		if ($return) {
-			//			$this->setType(self::TYPE_FOLDER);
-			//			$this->saveFolderToken();
-		}
-
-		return $return;
+		return $this->checkToken();
 	}
 
 
 	public function saveFolderToken() {
 		if ($this->getType() !== self::TYPE_FOLDER) {
-			throw new ilWACException(ilWACException::WRONG_PATH_TYPE);
+//			throw new ilWACException(ilWACException::WRONG_PATH_TYPE);
 		}
 		$expires = time() + self::TOKEN_MAX_LIFETIME_IN_SECONDS; // FSX use
 		$this->generateFolderToken();

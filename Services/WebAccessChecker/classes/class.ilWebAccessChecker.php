@@ -14,6 +14,10 @@ require_once('./Services/WebAccessChecker/classes/class.ilWACLog.php');
 class ilWebAccessChecker {
 
 	const DISPOSITION = 'disposition';
+	const STATUS_CODE = 'status_code';
+	const REVALIDATE = 'revalidate';
+	const ERROR_500 = "HTTP/1.1 500 Internal Server Error";
+	const ERROR_401 = "HTTP/1.1 401 Unauthorized";
 	/**
 	 * @var ilWACPath
 	 */
@@ -33,11 +37,19 @@ class ilWebAccessChecker {
 	/**
 	 * @var bool
 	 */
+	protected $send_status_code = false;
+	/**
+	 * @var bool
+	 */
 	protected $initialized = false;
 	/**
 	 * @var bool
 	 */
-	protected static $DEBUG = true;
+	protected $revalidate_folder_tokens = false;
+	/**
+	 * @var bool
+	 */
+	protected static $DEBUG = false;
 
 
 	/**
@@ -48,6 +60,13 @@ class ilWebAccessChecker {
 		if ($_GET[self::DISPOSITION]) {
 			$ilWebAccessChecker->setDisposition($_GET[self::DISPOSITION]);
 		}
+		if ($_GET[self::STATUS_CODE]) {
+			$ilWebAccessChecker->setSendStatusCode($_GET[self::STATUS_CODE]);
+		}
+		if ($_GET[self::REVALIDATE]) {
+			$ilWebAccessChecker->setRevalidateFolderTokens($_GET[self::REVALIDATE]);
+		}
+
 		try {
 			if ($ilWebAccessChecker->check()) {
 				$ilWebAccessChecker->deliver();
@@ -103,8 +122,11 @@ class ilWebAccessChecker {
 		}
 
 		// Check if the whole secured folder has been signed
-		if ($ilWACSignedPath->isFolderSigned()) {
-			if ($ilWACSignedPath->isFolderTokenValid()) {
+		if (! $ilWACSignedPath->isFolderSigned()) {
+			if (! $ilWACSignedPath->isFolderTokenValid()) {
+				if ($this->isRevalidateFolderTokens() && $ilWACSignedPath->getType() == ilWACSignedPath::TYPE_FOLDER) {
+					$ilWACSignedPath->saveFolderToken();
+				}
 				$this->setChecked(true);
 				ilWACLog::getInstance()->write('checked using secure folder');
 
@@ -122,7 +144,7 @@ class ilWebAccessChecker {
 			$canBeDelivered = $checkingInstance->canBeDelivered($this->getPathObject());
 			if ($canBeDelivered) {
 				ilWACLog::getInstance()->write('checked using fallback');
-				if ($ilWACSignedPath->getType() == ilWACSignedPath::TYPE_FOLDER) {
+				if ($this->isRevalidateFolderTokens()) {
 					$ilWACSignedPath->saveFolderToken();
 				}
 
@@ -132,7 +154,7 @@ class ilWebAccessChecker {
 			}
 		}
 
-		// Files in ^/data/.*/sec Folder can be checked automatically
+		// Files in ^/data/.*/sec Folder can be checked automatically. this part will be refactored to the new registry method
 		if ($ilWACSignedPath->getPathObject()->isInSecFolder()) {
 			ilWACLog::getInstance()->write('this file is in sec folder');
 			$component = substr($ilWACSignedPath->getPathObject()->getSecurePathId(), 2);
@@ -154,9 +176,18 @@ class ilWebAccessChecker {
 						$comp_inst = new $comp_class();
 						if ($comp_inst instanceof ilComponentWebAccessChecker) {
 							if ($comp_inst->isValidPath(explode('/', $ilWACSignedPath->getPathObject()->getPath()))) {
-								$this->setChecked(true);
+								$obj_id = $comp_inst->getRepositoryObjectId();
+								global $ilAccess;
+								$obj_type = ilObject::_lookupType($obj_id);
+								$ref_ids = ilObject::_getAllReferences($obj_id);
+								foreach ($ref_ids as $ref_id) {
+									global $ilUser;
+									if ($ilAccess->checkAccessOfUser($ilUser->getId(), "read", "view", $ref_id, $obj_type, $obj_id)) {
+										$this->setChecked(true);
 
-								return true;
+										return true;
+									}
+								}
 							}
 						}
 					}
@@ -183,8 +214,13 @@ class ilWebAccessChecker {
 		try {
 			ilWACLog::getInstance()->write('init ILIAS');
 			ilInitialisation::initILIAS();
-			global $ilUser;
+			global $ilUser, $ilSetting;
+			// No User seems to be logged in, we have to re-init ILIAS for anonymous
 			if ($ilUser->getId() == 0) {
+				if (! $ilSetting->get('pub_section')) {
+					// ILIAS does not support public access, abort. Access isn't possible
+					throw new ilWACException(ilWACException::ACCESS_DENIED);
+				}
 				$_POST['username'] = 'anonymous';
 				$_POST['password'] = 'anonymous';
 				ilWACLog::getInstance()->write('have to re-init ILIAS since theres no User to get checked');
@@ -244,6 +280,7 @@ class ilWebAccessChecker {
 	 * @param ilWACException $e
 	 */
 	protected function handleAccessErrors(ilWACException $e) {
+		$this->setHTTPError(self::ERROR_401);
 		if ($this->getPathObject()->isImage()) {
 			$this->deliverDummyImage();
 		}
@@ -266,6 +303,7 @@ class ilWebAccessChecker {
 	 * @param ilWACException $e
 	 */
 	protected function handleErrors(ilWACException $e) {
+		$this->setHTTPError(self::ERROR_500);
 		echo $e->getMessage();
 	}
 
@@ -347,6 +385,69 @@ class ilWebAccessChecker {
 	 */
 	public function setInitialized($initialized) {
 		$this->initialized = $initialized;
+	}
+
+
+	/**
+	 * @return boolean
+	 */
+	public function isSendStatusCode() {
+		return $this->send_status_code;
+	}
+
+
+	/**
+	 * @param boolean $send_status_code
+	 */
+	public function setSendStatusCode($send_status_code) {
+		$this->send_status_code = $send_status_code;
+	}
+
+
+	/**
+	 * @return boolean
+	 */
+	public function isRevalidateFolderTokens() {
+		return $this->revalidate_folder_tokens;
+	}
+
+
+	/**
+	 * @param boolean $revalidate_folder_tokens
+	 */
+	public function setRevalidateFolderTokens($revalidate_folder_tokens) {
+		$this->revalidate_folder_tokens = $revalidate_folder_tokens;
+	}
+
+
+	/**
+	 * @param string $error
+	 */
+	protected function setHTTPError($error) {
+		if ($this->isSendStatusCode()) {
+			if (! headers_sent()) {
+				foreach (headers_list() as $header) {
+					header_remove($header);
+				}
+			}
+			header($error);
+		}
+	}
+
+
+	/**
+	 * @return boolean
+	 */
+	public static function isDEBUG() {
+		return self::$DEBUG;
+	}
+
+
+	/**
+	 * @param boolean $DEBUG
+	 */
+	public static function setDEBUG($DEBUG) {
+		self::$DEBUG = $DEBUG;
 	}
 }
 
