@@ -7197,3 +7197,20 @@ $ilDB->addIndex('chatroom_prooms', array('parent_id'), 'i1');
 <?php
 $ilDB->addIndex('chatroom_prooms', array('owner'), 'i2');
 ?>
+<#4559>
+<?php
+if($ilDB->getDBType() == 'postgres')
+{
+	$ilDB->manipulate("ALTER TABLE chatroom_prooms ALTER COLUMN parent_id SET DEFAULT 0");
+	$ilDB->manipulate("ALTER TABLE chatroom_prooms ALTER parent_id TYPE INTEGER USING (parent_id::INTEGER)");
+}
+else
+{
+	$ilDB->modifyTableColumn('chatroom_prooms', 'parent_id', array(
+		'type'    => 'integer',
+		'length'  => 4,
+		'notnull' => true,
+		'default' => 0
+	));
+}
+?>
