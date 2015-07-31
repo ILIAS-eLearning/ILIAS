@@ -163,3 +163,34 @@ if(!$ilDB->tableExists('exc_crit'))
 }
 
 ?>
+<#11>
+<?php
+
+if(!$ilDB->tableColumnExists('exc_crit','required'))
+{
+	$ilDB->addTableColumn('exc_crit', 'required', array(
+		'type' => 'integer',
+		'length' => 1,
+		'notnull' => true,
+		'default' => 0
+	));
+}
+
+?>
+<#12>
+<?php
+
+if(!$ilDB->tableColumnExists('exc_crit','def'))
+{
+	$ilDB->addTableColumn('exc_crit', 'def', array(
+		'type' => 'text',
+		'length' => 4000,
+		'notnull' => false
+	));
+}
+
+?>
+<#13>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

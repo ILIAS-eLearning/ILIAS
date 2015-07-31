@@ -183,21 +183,24 @@ class ilExcCriteriaCatalogue
 		{
 			return;
 		}
+		
+		include_once "Modules/Exercise/classes/class.ilExcCriteria.php";
+		ilExcCriteria::deleteByParent($this->id);
 				
 		$ilDB->manipulate("DELETE FROM exc_crit_cat".
 			" WHERE id = ".$ilDB->quote($this->id, "integer"));
 	}
 	
-	public function deleteByParent()
+	public static function deleteByParent($a_parent_id)
 	{
 		global $ilDB;
 		
-		if(!$this->getParent())
+		if(!(int)$a_parent_id)
 		{
 			return;
 		}
 		
-		$ilDB->manipulate("DELETE FROM exc_crit_cat".
-			" WHERE parent = ".$ilDB->quote($this->getParent(), "integer"));	
+		$ilDB->manipulate("DELETE FROM exc_crit".
+			" WHERE parent = ".$ilDB->quote($a_parent_id, "integer"));	
 	}
 }

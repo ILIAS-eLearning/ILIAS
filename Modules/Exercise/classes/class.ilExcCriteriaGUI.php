@@ -169,6 +169,11 @@ class ilExcCriteriaGUI
 		$desc = new ilTextAreaInputGUI($lng->txt("description"), "desc");
 		$form->addItem($desc);
 		
+		$req = new ilCheckboxInputGUI($lng->txt("required_field"), "req");
+		$form->addItem($req);
+		
+		$a_crit_obj->initCustomForm($form);
+		
 		return $form;		
 	}
 	
@@ -197,6 +202,9 @@ class ilExcCriteriaGUI
 	{
 		$a_form->getItemByPostVar("title")->setValue($a_crit_obj->getTitle());
 		$a_form->getItemByPostVar("desc")->setValue($a_crit_obj->getDescription());
+		$a_form->getItemByPostVar("req")->setChecked($a_crit_obj->isRequired());
+		
+		$a_crit_obj->exportCustomForm($a_form);
 	}
 	
 	protected function importForm(ilExcCriteria $a_crit_obj)
@@ -209,6 +217,10 @@ class ilExcCriteriaGUI
 		if($form->checkInput())
 		{			
 			$a_crit_obj->setTitle($form->getInput("title"));
+			$a_crit_obj->setDescription($form->getInput("desc"));
+			$a_crit_obj->setRequired($form->getInput("req"));
+			
+			$a_crit_obj->importCustomForm($form);
 			
 			if(!$is_edit) 
 			{

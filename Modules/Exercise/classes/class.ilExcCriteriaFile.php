@@ -5,16 +5,16 @@
 include_once "Modules/Exercise/classes/class.ilExcCriteria.php";
 
 /**
- * Class ilExcCriteriaBool
+ * Class ilExcCriteriaFile
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ingroup ModulesExercise
  */
-class ilExcCriteriaBool extends ilExcCriteria
+class ilExcCriteriaFile extends ilExcCriteria
 {
 	protected function getType()
 	{
-		return "bool";
+		return "file";
 	}
 	
 	

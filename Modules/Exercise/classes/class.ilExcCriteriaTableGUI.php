@@ -28,9 +28,9 @@ class ilExcCriteriaTableGUI extends ilTable2GUI
 		$this->setTitle($lng->txt("exc_criterias"));
 		
 		$this->addColumn("", "", "1", true);
-		$this->addColumn($this->lng->txt("position"), "pos", "10%");	
-		$this->addColumn($this->lng->txt("type"), "type");			
+		$this->addColumn($this->lng->txt("position"), "pos", "10%");			
 		$this->addColumn($this->lng->txt("title"), "title");			
+		$this->addColumn($this->lng->txt("type"), "type");			
 		$this->addColumn($this->lng->txt("actions"));
 		
 		$this->setDefaultOrderField("pos");

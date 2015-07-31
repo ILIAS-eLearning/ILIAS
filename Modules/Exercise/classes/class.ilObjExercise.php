@@ -243,6 +243,9 @@ class ilObjExercise extends ilObject
 
 		//$this->file_obj->delete();
 		//$this->members_obj->delete();
+		
+		include_once "Modules/Exercise/classes/class.ilExcCriteriaCatalogue.php";
+		ilExcCriteriaCatalogue::deleteByParent($this->getId());
 
 		// remove all notifications
 		include_once "./Services/Notification/classes/class.ilNotification.php";

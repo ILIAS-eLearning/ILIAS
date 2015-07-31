@@ -14,7 +14,9 @@ abstract class ilExcCriteria
 	protected $parent; // [int]
 	protected $title; // [string]
 	protected $desc; // [string]
-	protected $pos; // [int]
+	protected $required; // [bool]
+	protected $pos; // [int]	
+	protected $def; // [string]
 	
 	protected function __construct()
 	{	
@@ -139,6 +141,16 @@ abstract class ilExcCriteria
 	{
 		return $this->desc;
 	}
+	
+	public function setRequired($a_value)
+	{
+		$this->required = (bool)$a_value;
+	}
+	
+	public function isRequired()
+	{
+		return $this->required;
+	}
 
 	public function setPosition($a_value)
 	{
@@ -148,6 +160,16 @@ abstract class ilExcCriteria
 	public function getPosition()
 	{
 		return $this->pos;
+	}
+	
+	protected function setDefinition(array $a_value = null)
+	{
+		$this->def = $a_value;
+	}
+	
+	protected function getDefinition()
+	{
+		return $this->def;
 	}
 	
 	
@@ -161,7 +183,11 @@ abstract class ilExcCriteria
 		$this->setParent($a_row["parent"]);
 		$this->setTitle($a_row["title"]);
 		$this->setDescription($a_row["descr"]);
+		$this->setRequired($a_row["required"]);
 		$this->setPosition($a_row["pos"]);
+		$this->setDefinition($a_row["def"] 
+				? unserialize($a_row["def"]) 
+				: null);
 	}
 	
 	protected function getDBProperties()
@@ -170,7 +196,11 @@ abstract class ilExcCriteria
 			"type" => array("text", $this->getType())
 			,"title" => array("text", $this->getTitle())
 			,"descr" => array("text", $this->getDescription())
+			,"required" => array("integer", $this->isRequired())
 			,"pos" => array("integer", $this->getPosition())
+			,"def" => array("text", is_array($this->getDefinition())
+				? serialize($this->getDefinition())
+				: null)
 		);		
 	}
 	protected function getLastPosition()
@@ -236,19 +266,36 @@ abstract class ilExcCriteria
 			" WHERE id = ".$ilDB->quote($this->id, "integer"));
 	}
 	
-	public function deleteByParent()
+	public static function deleteByParent($a_parent_id)
 	{
 		global $ilDB;
 		
-		if(!$this->getParent())
+		if(!(int)$a_parent_id)
 		{
 			return;
 		}
 		
 		$ilDB->manipulate("DELETE FROM exc_crit".
-			" WHERE parent = ".$ilDB->quote($this->getParent(), "integer"));	
+			" WHERE parent = ".$ilDB->quote($a_parent_id, "integer"));	
 	}
 	
 	
+	//
+	// EDITOR
+	// 
+	
+	public function initCustomForm(ilPropertyFormGUI $a_form)
+	{
+		// type-specific
+	}
+	
+	public function exportCustomForm(ilPropertyFormGUI $a_form)
+	{
+		// type-specific
+	}
+	
+	public function importCustomForm(ilPropertyFormGUI $a_form)
+	{
+		// type-specific
+	}	
 }
-
