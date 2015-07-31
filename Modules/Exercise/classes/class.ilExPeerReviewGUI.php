@@ -306,7 +306,7 @@ class ilExPeerReviewGUI
 		}
 		
 		$tbl = new ilExAssignmentPeerReviewTableGUI($this, "editPeerReview", $this->ass, $this->submission->getUserId(), 
-			$peer_items,  "returnToParent", $mode);
+			$peer_items, "returnToParent", $mode);
 		
 		if(!$this->submission->isTutor())
 		{

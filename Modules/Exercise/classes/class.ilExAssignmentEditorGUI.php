@@ -931,9 +931,23 @@ class ilExAssignmentEditorGUI
 		$cat_objs = ilExcCriteriaCatalogue::getInstancesByParentId($this->exercise_id);		
 		if(sizeof($cat_objs))
 		{
+			include_once "Modules/Exercise/classes/class.ilExcCriteria.php";
 			foreach($cat_objs as $cat_obj)
 			{
-				$cats->addOption(new ilRadioOption($cat_obj->getTitle(), $cat_obj->getId()));
+				$crits = ilExcCriteria::getInstancesByParentId($cat_obj->getId());
+				
+				// only non-empty catalogues
+				if(sizeof($crits))
+				{			
+					$titles = array();
+					foreach($crits as $crit)
+					{
+						$titles[] = $crit->getTitle();
+					}
+					$opt = new ilRadioOption($cat_obj->getTitle(), $cat_obj->getId());		
+					$opt->setInfo(implode(", ", $titles));
+					$cats->addOption($opt);
+				}
 			}			
 		}
 		
