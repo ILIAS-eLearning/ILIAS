@@ -58,16 +58,29 @@ class ilDBUpdate4550
 			) c2
 			ON c2.proom_id = c1.proom_id');
 		}
-		else
+		else if($ilDB->getDBType() == 'postgres')
 		{
-			// Oracle and Postgres
 			$ilDB->manipulate(' 
 				DELETE FROM chatroom_prooms
 				WHERE chatroom_prooms.proom_id IN (
-					SELECT chatroom_prooms.proom_id
-					FROM chatroom_prooms
+					SELECT c1.proom_id
+					FROM chatroom_prooms c1
 					LEFT JOIN chatroom_settings
-						ON chatroom_settings.room_id = chatroom_prooms.parent_id
+						ON chatroom_settings.room_id = CAST(c1.parent_id as INT)
+					WHERE chatroom_settings.room_id IS NULL
+				)'
+			);
+		}
+		else
+		{
+			// Oracle
+			$ilDB->manipulate(' 
+				DELETE FROM chatroom_prooms
+				WHERE chatroom_prooms.proom_id IN (
+					SELECT c1.proom_id
+					FROM chatroom_prooms c1
+					LEFT JOIN chatroom_settings
+						ON chatroom_settings.room_id = c1.parent_id
 					WHERE chatroom_settings.room_id IS NULL
 				)'
 			);
@@ -274,7 +287,7 @@ class ilDBUpdate4550
 			$ilDB->manipulate(' 
 				DELETE FROM chatroom_history
 				WHERE chatroom_history.sub_room IN (
-					SELECT chatroom_history.proom_id
+					SELECT chatroom_history.sub_room
 					FROM chatroom_history
 					LEFT JOIN chatroom_prooms
 						ON chatroom_prooms.proom_id = chatroom_history.sub_room
