@@ -15432,3 +15432,10 @@ forum#:#frm_censorship_applied#:#Der Beitrag wurde erfolgreich zensiert.
 forum#:#frm_censorship_revoked#:#Die Zensur für den Beitrag wurde aufgehoben.
 forum#:#frm_mark_as_read#:#Als gelesen markieren
 forum#:#frm_mark_as_unread#:#Als ungelesen markieren
+common#:#clientlist_clientlist#:#Mandantenauswahl
+common#:#clientlist_available_clients#:#Mandantenauswahl
+common#:#clientlist_installation_name#:#Mandanten
+common#:#clientlist_public_access#:#Öffentlicher Bereich
+common#:#clientlist_login#:#Anmelden
+common#:#clientlist_start_page#:#Öffentlicher Bereich
+common#:#clientlist_login_page#:#Anmelden
