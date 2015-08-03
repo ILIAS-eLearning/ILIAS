@@ -21,6 +21,7 @@ class ilFileDelivery {
 	const DELIVERY_METHOD_VIRTUAL = 'virtual';
 	const DISP_ATTACHMENT = 'attachment';
 	const DISP_INLINE = 'inline';
+	const VIRTUAL_DATA = 'virtual-data';
 	/**
 	 * @var string
 	 */
@@ -178,7 +179,7 @@ class ilFileDelivery {
 	public function deliverVirtual() {
 		$path_to_file = $this->getPathToFile();
 		if (strpos($path_to_file, './data/') === 0) {
-			$virtual_path = str_replace('./data/', strstr(ilUtil::_getHttpPath(), '/data', true) . '/virtual-data/', $path_to_file);
+			$virtual_path = str_replace('./data/', strstr(ilUtil::_getHttpPath(), '/data', true) . '/' . self::VIRTUAL_DATA . '/', $path_to_file);
 			virtual($virtual_path);
 		} else {
 			$this->deliverPHP();
@@ -192,7 +193,13 @@ class ilFileDelivery {
 
 
 	protected function deliverXAccelRedirect() {
-		header('X-Accel-Redirect: ' . realpath($this->getPathToFile()));
+		$path_to_file = $this->getPathToFile();
+		if (strpos($path_to_file, './data/') === 0 && is_dir('./' . self::VIRTUAL_DATA)) {
+			$virtual_path = str_replace('./data/', strstr(ilUtil::_getHttpPath(), '/data', true) . '/' . self::VIRTUAL_DATA . '/', $path_to_file);
+			header('X-Accel-Redirect: ' . $virtual_path);
+		} else {
+			$this->deliverPHP();
+		}
 	}
 
 
