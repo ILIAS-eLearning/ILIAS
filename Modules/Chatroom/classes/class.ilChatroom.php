@@ -859,18 +859,17 @@ class ilChatroom
 	{
 		global $ilDB;
 
-		$nextId = $ilDB->nextId('chatroom_prooms');
-
+		$nextId = $ilDB->nextId(self::$privateRoomsTable);
 		$ilDB->insert(
-		self::$privateRoomsTable,
-		array(
-					'proom_id'	=> array('integer', $nextId),
-					'parent_id'	=> array('integer', $this->roomId),
-					'title'	=> array('text', $title),
-					'owner'	=> array('integer', $owner->getUserId()),
-					'created' => array('integer', time()),
-					'is_public' => array('integer', $settings['public']),
-		)
+			self::$privateRoomsTable,
+			array(
+				'proom_id'  => array('integer', $nextId),
+				'parent_id' => array('integer', $this->roomId),
+				'title'     => array('text', $title),
+				'owner'     => array('integer', $owner->getUserId()),
+				'created'   => array('integer', time()),
+				'is_public' => array('integer', $settings['public']),
+			)
 		);
 
 		return $nextId;

@@ -44,47 +44,57 @@ class ilChatroomPrivateRoomTask extends ilChatroomTaskHandler
 	 */
 	public function create()
 	{
-	    global $tpl, $ilUser, $ilCtrl;
+		global $tpl, $ilUser, $ilCtrl;
 
-	    require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
-	    require_once 'Modules/Chatroom/classes/class.ilChatroomUser.php';
+		require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
+		require_once 'Modules/Chatroom/classes/class.ilChatroomUser.php';
 
-	    if ( !ilChatroom::checkUserPermissions( 'read', $this->gui->ref_id ) )
-	    {
-	    	$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", ROOT_FOLDER_ID);
-	    	$ilCtrl->redirectByClass("ilrepositorygui", "");
-	    }
+		if(!ilChatroom::checkUserPermissions('read', $this->gui->ref_id))
+		{
+			$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", ROOT_FOLDER_ID);
+			$ilCtrl->redirectByClass("ilrepositorygui", "");
+		}
 
-	    $room = ilChatroom::byObjectId( $this->gui->object->getId() );
+		$room = ilChatroom::byObjectId($this->gui->object->getId());
 
-	    $chat_user = new ilChatroomUser($ilUser, $room);
-	    $user_id = $chat_user->getUserId();
+		$chat_user = new ilChatroomUser($ilUser, $room);
+		$user_id   = $chat_user->getUserId();
 
-	    if( !$room )
-	    {
-		$response = json_encode( array(
-			'success'	=> false,
-			'reason'	=> 'unkown room'
-		) );
-		echo json_encode( $response );
+		if(!$room)
+		{
+			$response = json_encode(array(
+				'success' => false,
+				'reason'  => 'unkown room'
+			));
+			echo json_encode($response);
+			exit;
+		}
+		else if(!$room->isSubscribed($chat_user->getUserId()))
+		{
+			$response = json_encode(array(
+				'success' => false,
+				'reason'  => 'not subscribed'
+			));
+			echo json_encode($response);
+			exit;
+		}
+
+		if(!strlen($_REQUEST['title']))
+		{
+			$response = json_encode(array(
+				'success' => false,
+				'reason'  => 'empty title'
+			));
+			echo $response;
+			exit;
+		}
+
+		$title     = $room->getUniquePrivateRoomTitle(ilUtil::stripSlashes($_REQUEST['title']));
+		$connector = $this->gui->getConnector();
+		$response  = $connector->createPrivateRoom($room, $title, $chat_user);
+
+		echo json_encode($response);
 		exit;
-	    }
-	    else if( !$room->isSubscribed( $chat_user->getUserId() ) )
-	    {
-		$response = json_encode( array(
-			'success'	=> false,
-			'reason'	=> 'not subscribed'
-		) );
-		echo json_encode( $response );
-		exit;
-	    }
-
-	    $title	    = $room->getUniquePrivateRoomTitle($_REQUEST['title']);
-	    $connector  = $this->gui->getConnector();
-	    $response   = $connector->createPrivateRoom($room, $title, $chat_user);
-
-	    echo json_encode($response);
-	    exit;
 	}
 
 	public function delete()
