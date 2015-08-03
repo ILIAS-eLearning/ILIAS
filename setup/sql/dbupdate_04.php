@@ -7214,3 +7214,16 @@ else
 	));
 }
 ?>
+<#4560>
+<?php
+if($ilDB->sequenceExists('chatroom_smilies'))
+{
+	$ilDB->dropSequence('chatroom_smilies');
+}
+?>
+<#4561>
+<?php
+$query = "SELECT MAX(smiley_id) msmiley_id FROM chatroom_smilies";
+$row = $ilDB->fetchAssoc($ilDB->query($query));
+$ilDB->createSequence('chatroom_smilies', (int)$row['msmiley_id'] + 1);
+?>
