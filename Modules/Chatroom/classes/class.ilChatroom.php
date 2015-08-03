@@ -1058,9 +1058,14 @@ class ilChatroom
 		global $ilDB;
 
 		$query	= '
-			SELECT roomtable.title, roomtable.proom_id, accesstable.user_id id, roomtable.owner owner FROM ' . self::$privateRoomsTable . ' roomtable
-			LEFT JOIN '.self::$privateRoomsAccessTable.' accesstable ON roomtable.proom_id = accesstable.proom_id AND accesstable.user_id = %s
-			WHERE parent_id = %s AND (closed = 0 OR closed IS NULL) AND (accesstable.user_id IS NOT NULL OR roomtable.owner = %s)';
+			SELECT roomtable.title, roomtable.proom_id, accesstable.user_id id, roomtable.owner rowner
+			FROM ' . self::$privateRoomsTable . ' roomtable
+			LEFT JOIN '.self::$privateRoomsAccessTable.' accesstable
+			ON roomtable.proom_id = accesstable.proom_id
+			AND accesstable.user_id = %s
+			WHERE parent_id = %s
+			AND (closed = 0 OR closed IS NULL)
+			AND (accesstable.user_id IS NOT NULL OR roomtable.owner = %s)';
 		$types	= array('integer', 'integer', 'integer');
 		$values = array($userid, $this->roomId, $userid);
 		$rset	= $ilDB->queryF( $query, $types, $values );
@@ -1069,7 +1074,7 @@ class ilChatroom
 		while( $row = $ilDB->fetchAssoc( $rset ) )
 		{
 			$row['active_users'] = $this->listUsersInPrivateRoom($row['id']);
-			$row['owner'] = $row['owner'];
+			$row['owner']        = $row['rowner'];
 			$rooms[$row['proom_id']] = $row;
 		}
 
