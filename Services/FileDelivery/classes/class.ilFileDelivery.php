@@ -69,6 +69,10 @@ class ilFileDelivery {
 	 * @var bool
 	 */
 	protected $cache = true;
+	/**
+	 * @var bool
+	 */
+	protected $hash_filename = false;
 
 
 	/**
@@ -210,6 +214,9 @@ class ilFileDelivery {
 		$download_file_name = $this->getDownloadFileName();
 		if ($this->isConvertFileNameToAsci()) {
 			$download_file_name = ilUtil::getASCIIFilename($download_file_name);
+		}
+		if ($this->hasHashFilename()) {
+			$download_file_name = md5($download_file_name);
 		}
 		header('Content-Disposition: ' . $this->getDisposition() . '; filename="' . $download_file_name . '"');
 		header('Content-Description: ' . $download_file_name);
@@ -477,6 +484,22 @@ class ilFileDelivery {
 	 */
 	public function setCache($cache) {
 		$this->cache = $cache;
+	}
+
+
+	/**
+	 * @return boolean
+	 */
+	public function hasHashFilename() {
+		return $this->hash_filename;
+	}
+
+
+	/**
+	 * @param boolean $hash_filename
+	 */
+	public function setHashFilename($hash_filename) {
+		$this->hash_filename = $hash_filename;
 	}
 
 
