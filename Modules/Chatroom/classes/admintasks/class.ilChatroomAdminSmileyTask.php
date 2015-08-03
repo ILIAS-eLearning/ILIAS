@@ -535,7 +535,7 @@ class ilChatroomAdminSmileyTask extends ilChatroomTaskHandler
 		foreach($values as $val)
 		{
 			$row = array(
-				$ilDB->nextID("chat_smilies"),
+				$ilDB->nextID("chatroom_smilies"),
 				$val[1],
 				$val[0]
 			);
