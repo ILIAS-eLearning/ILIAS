@@ -155,71 +155,73 @@ il.Util.addOnLoad(function () {
 				}
 
 				return replacedMessage;
-			}
+			};
 
 			if (typeof smileys == "object") {
-				if (smileys.length == 0) {
-					return;
-				}
-				// Emoticons
-				var $emoticons_flyout_trigger = $('<a></a>');
-				var $emoticons_flyout = $('<div id="iosChatEmoticonsPanelFlyout"></div>');
-				var $emoticons_panel = $('<div id="iosChatEmoticonsPanel"></div>')
-					.append($emoticons_flyout_trigger)
-					.append($emoticons_flyout);
+				(function() {
+					if (smileys.length == 0) {
+						return;
+					}
+					// Emoticons
+					var $emoticons_flyout_trigger = $('<a></a>');
+					var $emoticons_flyout = $('<div id="iosChatEmoticonsPanelFlyout"></div>');
+					var $emoticons_panel = $('<div id="iosChatEmoticonsPanel"></div>')
+						.append($emoticons_flyout_trigger)
+						.append($emoticons_flyout);
 
-				$("#submit_message_text").css("paddingLeft", "25px").after($emoticons_panel);
+					$("#submit_message_text").css("paddingLeft", "25px").after($emoticons_panel);
 
-				if ($.browser.chrome || $.browser.safari) {
-					$emoticons_panel.css("top", "3px");
-				}
+					if ($.browser.chrome || $.browser.safari) {
+						$emoticons_panel.css("top", "3px");
+					}
 
-				var $emoticons_table = $("<table></table>");
-				var $emoticons_row = null;
-				var cnt = 0;
-				var emoticonMap = new Object();
-				for (var i in smileys) {
-					if (emoticonMap[smileys[i]]) {
-						var $emoticon = emoticonMap[smileys[i]];
-					} else {
-						if (cnt % 6 == 0) {
-							$emoticons_row = $("<tr></tr>");
-							$emoticons_table.append($emoticons_row);
+					var $emoticons_table = $("<table></table>");
+					var $emoticons_row = null;
+					var cnt = 0;
+					var emoticonMap = new Object();
+					for (var i in smileys) {
+						if (emoticonMap[smileys[i]]) {
+							var $emoticon = emoticonMap[smileys[i]];
+						} else {
+							if (cnt % 6 == 0) {
+								$emoticons_row = $("<tr></tr>");
+								$emoticons_table.append($emoticons_row);
+							}
+
+							var $emoticon = $('<img src="' + smileys[i] + '" alt="" title="" />');
+							$emoticon.data("emoticon", i);
+							$emoticons_row.append($('<td></td>').append($('<a></a>').append($emoticon)));
+
+							emoticonMap[smileys[i]] = $emoticon;
+
+							++cnt;
 						}
-
-						var $emoticon = $('<img src="' + smileys[i] + '" alt="" title="" />');
-						$emoticon.data("emoticon", i);
-						$emoticons_row.append($('<td></td>').append($('<a></a>').append($emoticon)));
-
-						emoticonMap[smileys[i]] = $emoticon;
-
-						++cnt;
+						$emoticon.attr({
+							alt:   [$emoticon.attr('alt').toString(), i].join(' '),
+							title: [$emoticon.attr('title').toString(), i].join(' ')
+						});
 					}
-					$emoticon.attr({
-						alt:   [$emoticon.attr('alt').toString(), i].join(' '),
-						title: [$emoticon.attr('title').toString(), i].join(' ')
+					$emoticons_flyout.append($emoticons_table);
+
+					$emoticons_flyout_trigger.click(function (e) {
+						$emoticons_flyout.toggle();
+					}).toggle(function () {
+						$(this).addClass("active");
+					}, function () {
+						$(this).removeClass("active");
 					});
-				}
-				$emoticons_flyout.append($emoticons_table);
 
-				$emoticons_flyout_trigger.click(function (e) {
-					$emoticons_flyout.toggle();
-				}).toggle(function () {
-					$(this).addClass("active");
-				}, function () {
-					$(this).removeClass("active");
-				});
+					$emoticons_panel.bind('clickoutside', function (event) {
+						if ($emoticons_flyout_trigger.hasClass("active")) {
+							$emoticons_flyout_trigger.click();
+						}
+					});
 
-				$emoticons_panel.bind('clickoutside', function (event) {
-					if ($emoticons_flyout_trigger.hasClass("active")) {
+					$("#iosChatEmoticonsPanelFlyout a").click(function () {
 						$emoticons_flyout_trigger.click();
-					}
-				});
-
-				$("#iosChatEmoticonsPanelFlyout a").click(function () {
-					$emoticons_flyout_trigger.click();
-					$("#submit_message_text").insertAtCaret($(this).find('img').data("emoticon"));
-				});
+						$("#submit_message_text").insertAtCaret($(this).find('img').data("emoticon"));
+					});
+				})();
 			}
 
 			$('#show_options').click(function () {
