@@ -15437,3 +15437,10 @@ forum#:#frm_censorship_applied#:#The censorship has been successfully applied.
 forum#:#frm_censorship_revoked#:#The censorship has been successfully revoked.
 forum#:#frm_mark_as_read#:#Mark as read
 forum#:#frm_mark_as_unread#:#Mark as unread
+common#:#clientlist_clientlist#:#Client List
+common#:#clientlist_available_clients#:#Available Clients
+common#:#clientlist_installation_name#:#Installation Name
+common#:#clientlist_public_access#:#Public Access
+common#:#clientlist_login#:#Login
+common#:#clientlist_start_page#:#Start page
+common#:#clientlist_login_page#:#Login page
