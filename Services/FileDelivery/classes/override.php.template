@@ -9,4 +9,3 @@
  * @author      Fabian Schmid <fs@studer-raimann.ch>
  */
 $override_delivery_type = ilFileDelivery::DELIVERY_METHOD_XACCEL;
-?>
