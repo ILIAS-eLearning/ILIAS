@@ -94,7 +94,7 @@ class ilDataCollectionRecordEditGUI {
 		$this->ctrl->saveParameter($this, 'redirect');
 		if ($this->record_id) {
 			$this->record = ilDataCollectionCache::getRecordCache($this->record_id);
-			if (! $this->record->hasPermissionToEdit($this->parent_obj->ref_id) OR ! $this->record->hasPermissionToView($this->parent_obj->ref_id)) {
+			if (!$this->record->hasPermissionToEdit($this->parent_obj->ref_id) OR !$this->record->hasPermissionToView($this->parent_obj->ref_id)) {
 				$this->accessDenied();
 			}
 			$this->table = $this->record->getTable();
