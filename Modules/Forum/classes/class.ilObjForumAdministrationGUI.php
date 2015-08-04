@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Object/classes/class.ilObjectGUI.php';
+require_once 'Modules/Forum/classes/class.ilForumProperties.php';
 
 /**
  * Forum Administration Settings.
@@ -117,7 +118,7 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
 
 		$frma_set = new ilSetting('frma');
 		$frma_set->set('forum_overview', $form->getInput('forum_overview'));
-
+		$ilSetting->set('file_upload_allowed_fora',  (int)$form->getInput('file_upload_allowed_fora'));
 		$ilSetting->set('enable_fora_statistics', (int)$form->getInput('fora_statistics'));
 		$ilSetting->set('enable_anonymous_fora', (int)$form->getInput('anonymous_fora'));
 
@@ -150,11 +151,12 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
 		$frma_set = new ilSetting('frma');
 
 		$form->setValuesByArray(array(
-			'forum_overview'          => (bool)$frma_set->get('forum_overview', false),
-			'fora_statistics'         => (bool)$ilSetting->get('enable_fora_statistics', false),
-			'anonymous_fora'          => (bool)$ilSetting->get('enable_anonymous_fora', false),
-			'forum_notification'      => (int)$ilSetting->get('forum_notification') === 1 ? true : false,
-			'activate_captcha_anonym' => ilCaptchaUtil::isActiveForForum()
+			'forum_overview'           => (bool)$frma_set->get('forum_overview', false),
+			'fora_statistics'          => (bool)$ilSetting->get('enable_fora_statistics', false),
+			'anonymous_fora'           => (bool)$ilSetting->get('enable_anonymous_fora', false),
+			'forum_notification'       => (int)$ilSetting->get('forum_notification') === 1 ? true : false,
+			'activate_captcha_anonym'  => ilCaptchaUtil::isActiveForForum(),
+			'file_upload_allowed_fora' => (int)$ilSetting->get('file_upload_allowed_fora', ilForumProperties::FILE_UPLOAD_GLOBALLY_ALLOWED)
 		));
 	}
 
@@ -181,6 +183,12 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
 		$check = new ilCheckboxInputGui($this->lng->txt('enable_anonymous_fora'), 'anonymous_fora');
 		$check->setInfo($this->lng->txt('enable_anonymous_fora_desc'));
 		$form->addItem($check);
+
+		$file_upload = new ilRadioGroupInputGUI($this->lng->txt('file_upload_allowed_fora'), 'file_upload_allowed_fora');
+		$file_upload->addOption(new ilRadioOption($this->lng->txt('file_upload_option_allow'), ilForumProperties::FILE_UPLOAD_GLOBALLY_ALLOWED));
+		$file_upload->addOption(new ilRadioOption($this->lng->txt('file_upload_option_disallow'),  ilForumProperties::FILE_UPLOAD_INDIVIDUAL));
+		$file_upload->setInfo($this->lng->txt('file_upload_allowed_fora_desc'));
+		$form->addItem($file_upload);
 
 		require_once 'Services/Cron/classes/class.ilCronManager.php';
 		if(ilCronManager::isJobActive('frm_notification'))

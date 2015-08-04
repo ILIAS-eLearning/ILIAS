@@ -15444,3 +15444,9 @@ common#:#clientlist_public_access#:#Public Access
 common#:#clientlist_login#:#Login
 common#:#clientlist_start_page#:#Start page
 common#:#clientlist_login_page#:#Login page
+forum#:#file_upload_allowed_fora_desc#:#If "Allow Attachments in Selected Forums" is selected, forum moderators can individually allow attaching files to postings in the settings of each forum. In new forums the upload of attachments will be disabled by default.
+forum#:#file_upload_allowed_fora#:#Attachments
+forum#:#file_upload_option_allow#:#Allow Attachments in All Forums
+forum#:#file_upload_option_disallow#:#Allow Attachments in Selected Forums
+forum#:#file_upload_allowed#:#Allow Attachments
+forum#:#allow_file_upload_desc#:#If enabled, users are able to attach files to their postings.

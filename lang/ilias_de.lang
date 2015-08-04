@@ -15439,3 +15439,9 @@ common#:#clientlist_public_access#:#Öffentlicher Bereich
 common#:#clientlist_login#:#Anmelden
 common#:#clientlist_start_page#:#Öffentlicher Bereich
 common#:#clientlist_login_page#:#Anmelden
+forum#:#file_upload_allowed_fora_desc#:#Wenn "Anhängen von Dateien in ausgewählten Foren erlauben" ausgewählt ist, können Moderatoren das Anhängen von Dateien in den jeweiligen Foren-Einstellungen gezielt aktivieren. Bei neuen Foren wird das Anhängen von Dateien standardmäßig deaktiviert.
+forum#:#file_upload_allowed_fora#:#Dateien anhängen
+forum#:#file_upload_option_allow#:#Anhängen von Dateien in allen Foren erlauben
+forum#:#file_upload_option_disallow#:#Anhängen von Dateien in ausgewählten Foren erlauben
+forum#:#file_upload_allowed#:#Erlaube das Anhängen von Dateien
+forum#:#allow_file_upload_desc#:#Wenn diese Option aktiviert ist, wird das Anhängen von Dateien in diesem Forum ermöglicht.

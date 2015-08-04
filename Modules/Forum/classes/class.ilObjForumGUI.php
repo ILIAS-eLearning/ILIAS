@@ -400,6 +400,14 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$cb_prop->setValue(1);
 		$cb_prop->setInfo($this->lng->txt('enable_thread_ratings_info'));
 		$a_form->addItem($cb_prop);
+
+		if(!ilForumProperties::isFileUploadGloballyAllowed())
+		{
+			$frm_upload = new ilCheckboxInputGUI($this->lng->txt('file_upload_allowed'), 'file_upload_allowed');
+			$frm_upload->setValue(1);
+			$frm_upload->setInfo($this->lng->txt('allow_file_upload_desc'));
+			$a_form->addItem($frm_upload);
+		}
 	}
 
 	protected function getEditFormCustomValues(Array &$a_values)
@@ -426,6 +434,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			: ilForumProperties::VIEW_DATE_ASC;
 		
 		$a_values['default_view_sort_dir'] = $default_view_sort_dir;
+		$a_values['file_upload_allowed']   = (bool)$this->objProperties->getFileUploadAllowed();
 	}
 
 	protected function updateCustom(ilPropertyFormGUI $a_form)
@@ -465,7 +474,11 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->objProperties->setMarkModeratorPosts((int) $a_form->getInput('mark_mod_posts'));
 		$this->objProperties->setThreadSorting((int)$a_form->getInput('thread_sorting'));
 		$this->objProperties->setIsThreadRatingEnabled((bool)$a_form->getInput('thread_rating'));
-		
+		if(!ilForumProperties::isFileUploadGloballyAllowed())
+		{
+			$this->objProperties->setFileUploadAllowed((bool)$a_form->getInput('file_upload_allowed'));
+		}
+
 		$this->objProperties->update();
 	}
 
@@ -1463,10 +1476,12 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$this->replyEditForm->addItem($oNotificationGUI);
 		}
 
-		// attachments
-		$oFileUploadGUI = new ilFileWizardInputGUI($this->lng->txt('forums_attachments_add'), 'userfile');
-		$oFileUploadGUI->setFilenames(array(0 => ''));
-		$this->replyEditForm->addItem($oFileUploadGUI);
+		if($this->objProperties->isFileUploadAllowed())
+		{
+			$oFileUploadGUI = new ilFileWizardInputGUI($this->lng->txt('forums_attachments_add'), 'userfile');
+			$oFileUploadGUI->setFilenames(array(0 => ''));
+			$this->replyEditForm->addItem($oFileUploadGUI);
+		}
 
 		require_once 'Services/Captcha/classes/class.ilCaptchaUtil.php';
 		if(
@@ -1481,11 +1496,9 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$this->replyEditForm->addItem($captcha);
 		}
 
-		// edit attachments
 		if(count($oFDForum->getFilesOfPost()) && ($_GET['action'] == 'showedit' || $_GET['action'] == 'ready_showedit'))
 		{
 			$oExistingAttachmentsGUI = new ilCheckboxGroupInputGUI($this->lng->txt('forums_delete_file'), 'del_file');
-						
 			foreach($oFDForum->getFilesOfPost() as $file)
 			{
 				$oAttachmentGUI = new ilCheckboxInputGUI($file['name'], 'del_file');
@@ -1495,7 +1508,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$this->replyEditForm->addItem($oExistingAttachmentsGUI);
 		}
 
-		// buttons
 		if($this->isTopLevelReplyCommand())
 		{
 			$this->replyEditForm->addCommandButton('saveTopLevelPost', $this->lng->txt('create'));
@@ -1692,12 +1704,15 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 					}
 					ilObjMediaObject::_saveUsage($mob, 'frm:html', $newPost);
 				}
-				
-				$oFDForum = new ilFileDataForum($forumObj->getId(), $newPost);
-				$file = $_FILES['userfile'];
-				if(is_array($file) && !empty($file))
+
+				if($this->objProperties->isFileUploadAllowed())
 				{
-					$oFDForum->storeUploadedFile($file);
+					$oFDForum = new ilFileDataForum($forumObj->getId(), $newPost);
+					$file     = $_FILES['userfile'];
+					if(is_array($file) && !empty($file))
+					{
+						$oFDForum->storeUploadedFile($file);
+					}
 				}
 
 				// FINALLY SEND MESSAGE
@@ -1705,7 +1720,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 				{
 					$objPost =  new ilForumPost((int)$newPost, $this->is_moderator);
 
-					$post_data = array();
 					$post_data = $objPost->getDataAsArray();
 					$titles = $this->getTitlesByRefId(array($this->object->getRefId()));
 					$post_data["top_name"] = $titles[0];
@@ -1812,21 +1826,23 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 						);
 						$news_item->update();
 					}
-					
-					// attachments					
+
 					$oFDForum = $oForumObjects['file_obj'];
-					
-					$file = $_FILES['userfile'];
-					if(is_array($file) && !empty($file))
+
+					if($this->objProperties->isFileUploadAllowed())
 					{
-						$oFDForum->storeUploadedFile($file);
+						$file = $_FILES['userfile'];
+						if(is_array($file) && !empty($file))
+						{
+							$oFDForum->storeUploadedFile($file);
+						}
 					}
-					
+
 					$file2delete = $oReplyEditForm->getInput('del_file');
 					if(is_array($file2delete) && count($file2delete))
 					{
 						$oFDForum->unlinkFilesByMD5Filenames($file2delete);
-					}				
+					}
 				}
 
 				if (!$status && $send_activation_mail)
@@ -3544,12 +3560,14 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		require_once 'Services/Html/classes/class.ilHtmlPurifierFactory.php';
 		$post_gui->setPurifier(ilHtmlPurifierFactory::_getInstanceByType('frm_post'));
 		$this->create_topic_form_gui->addItem($post_gui);
-		
-		// file
-		$fi = new ilFileWizardInputGUI($this->lng->txt('forums_attachments_add'), 'userfile');
-		$fi->setFilenames(array(0 => ''));
-		$this->create_topic_form_gui->addItem($fi);
-		
+
+		if($this->objProperties->isFileUploadAllowed())
+		{
+			$fi = new ilFileWizardInputGUI($this->lng->txt('forums_attachments_add'), 'userfile');
+			$fi->setFilenames(array(0 => ''));
+			$this->create_topic_form_gui->addItem($fi);
+		}
+
 		include_once 'Services/Mail/classes/class.ilMail.php';
 		$umail = new ilMail($ilUser->getId());
 		// catch hack attempts
@@ -3695,16 +3713,17 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 				'',
 				$status
 			);
-			
-			$file = $_FILES['userfile'];
-			
-			// file upload
-			if(is_array($file) && !empty($file))
+
+			if($this->objProperties->isFileUploadAllowed())
 			{
-				$tmp_file_obj = new ilFileDataForum($this->object->getId(), $newPost);
-				$tmp_file_obj->storeUploadedFile($file);
+				$file = $_FILES['userfile'];
+				if(is_array($file) && !empty($file))
+				{
+					$tmp_file_obj = new ilFileDataForum($this->object->getId(), $newPost);
+					$tmp_file_obj->storeUploadedFile($file);
+				}
 			}
-			
+
 			// Visit-Counter
 			$frm->setDbTable('frm_data');
 			$frm->setMDB2WhereCondition('top_pk = %s ', array('integer'), array($topicData['top_pk']));

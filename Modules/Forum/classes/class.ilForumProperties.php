@@ -16,7 +16,10 @@ class ilForumProperties
 	
 	const FORUM_OVERVIEW_WITH_NEW_POSTS = 0;
 	const FORUM_OVERVIEW_NO_NEW_POSTS = 1;
-	
+
+	const FILE_UPLOAD_GLOBALLY_ALLOWED  = 0;
+	const FILE_UPLOAD_INDIVIDUAL        = 1;
+
 	/**
 	 * Object id of current forum
 	 * @access	private
@@ -106,6 +109,11 @@ class ilForumProperties
 	private $db = null;
 
 	/**
+	 * @var int
+	 */
+	private $file_upload_allowed = 0;
+
+	/**
 	 * @var ilForumProperties[]
 	 */
 	static private $instances = array();
@@ -163,6 +171,7 @@ class ilForumProperties
 				$this->mark_mod_posts = $row->mark_mod_posts == 1 ? true : false;
 				$this->thread_sorting = $row->thread_sorting == 1? true : false;
 				$this->setIsThreadRatingEnabled((bool)$row->thread_rating);
+				$this->file_upload_allowed = $row->file_upload_allowed == 1 ? true : false;
 
 				return true;
 			}
@@ -178,19 +187,21 @@ class ilForumProperties
 		if ($this->obj_id)
 		{
 			$this->db->insert('frm_settings', 
-			array(	'obj_id'			=> array('integer', $this->obj_id),
-					'default_view'		=> array('integer', $this->default_view),
-					'anonymized'		=> array('integer', $this->anonymized),
-					'statistics_enabled'=> array('integer', $this->statistics_enabled),
-					'post_activation'	=> array('integer', $this->post_activation_enabled),
-					'admin_force_noti'	=> array('integer', $this->admin_force_noti),
-					'user_toggle_noti'	=> array('integer', $this->user_toggle_noti),
-					'preset_subject'	=> array('integer', $this->preset_subject),
-					'add_re_subject'	=> array('integer', $this->add_re_subject),
-					'notification_type' => array('text', $this->notification_type),
-					'mark_mod_posts'	=> array('integer', $this->mark_mod_posts),
-					'thread_sorting'	=> array('integer', $this->thread_sorting),
-					'thread_rating'		=> array('integer', $this->isIsThreadRatingEnabled())
+				array(
+					'obj_id'              => array('integer', $this->obj_id),
+					'default_view'        => array('integer', $this->default_view),
+					'anonymized'          => array('integer', $this->anonymized),
+					'statistics_enabled'  => array('integer', $this->statistics_enabled),
+					'post_activation'     => array('integer', $this->post_activation_enabled),
+					'admin_force_noti'    => array('integer', $this->admin_force_noti),
+					'user_toggle_noti'    => array('integer', $this->user_toggle_noti),
+					'preset_subject'      => array('integer', $this->preset_subject),
+					'add_re_subject'      => array('integer', $this->add_re_subject),
+					'notification_type'   => array('text', $this->notification_type),
+					'mark_mod_posts'      => array('integer', $this->mark_mod_posts),
+					'thread_sorting'      => array('integer', $this->thread_sorting),
+					'thread_rating'       => array('integer', $this->isIsThreadRatingEnabled()),
+					'file_upload_allowed' => array('integer', $this->file_upload_allowed)
 				)
 			);
 
@@ -204,21 +215,25 @@ class ilForumProperties
 	{
 		if ($this->obj_id)
 		{
-			$this->db->update('frm_settings', 
-			array(	'default_view'		=> array('integer', $this->default_view),
-					'anonymized'		=> array('integer', $this->anonymized),
-					'statistics_enabled'=> array('integer', $this->statistics_enabled),
-					'post_activation'	=> array('integer', $this->post_activation_enabled),
-					'admin_force_noti'	=> array('integer', $this->admin_force_noti),
-					'user_toggle_noti'	=> array('integer', $this->user_toggle_noti),
-					'preset_subject'	=> array('integer', $this->preset_subject),
-					'add_re_subject'	=> array('integer', $this->add_re_subject),
-					'notification_type' => array('text', $this->notification_type),
-					'mark_mod_posts'	=> array('integer', $this->mark_mod_posts),
-					'thread_sorting'	=> array('integer', $this->thread_sorting),
-					'thread_rating'		=> array('integer', $this->isIsThreadRatingEnabled())
+			$this->db->update('frm_settings',
+				array(
+					'default_view'        => array('integer', $this->default_view),
+					'anonymized'          => array('integer', $this->anonymized),
+					'statistics_enabled'  => array('integer', $this->statistics_enabled),
+					'post_activation'     => array('integer', $this->post_activation_enabled),
+					'admin_force_noti'    => array('integer', $this->admin_force_noti),
+					'user_toggle_noti'    => array('integer', $this->user_toggle_noti),
+					'preset_subject'      => array('integer', $this->preset_subject),
+					'add_re_subject'      => array('integer', $this->add_re_subject),
+					'notification_type'   => array('text', $this->notification_type),
+					'mark_mod_posts'      => array('integer', $this->mark_mod_posts),
+					'thread_sorting'      => array('integer', $this->thread_sorting),
+					'thread_rating'       => array('integer', $this->isIsThreadRatingEnabled()),
+					'file_upload_allowed' => array('integer', $this->file_upload_allowed)
 				),
-			array(	'obj_id'			=> array('integer', $this->obj_id))
+				array(
+					'obj_id' => array('integer', $this->obj_id)
+				)
 			);
 			return true;
 		}		
@@ -228,24 +243,25 @@ class ilForumProperties
 	public function copy($a_new_obj_id)
 	{
 		if ($a_new_obj_id)
-		{		
-			$this->db->update('frm_settings', 
+		{
+			$this->db->update('frm_settings',
 				array(
-					'default_view'		=> array('integer', $this->default_view),
-					'anonymized'		=> array('integer', $this->anonymized),
-					'statistics_enabled'=> array('integer', $this->statistics_enabled),
-					'post_activation'	=> array('integer', $this->post_activation_enabled),
-					'admin_force_noti'	=> array('integer', $this->admin_force_noti),
-					'user_toggle_noti'	=> array('integer', $this->user_toggle_noti),
-					'preset_subject'	=> array('integer', $this->preset_subject),
-					'add_re_subject'	=> array('integer', $this->add_re_subject),
-					'notification_type' => array('text', $this->notification_type),
-					'mark_mod_posts'	=> array('integer', $this->mark_mod_posts),
-					'thread_sorting'	=> array('integer', $this->thread_sorting),
-					'thread_rating'		=> array('integer', $this->isIsThreadRatingEnabled())
+					'default_view'        => array('integer', $this->default_view),
+					'anonymized'          => array('integer', $this->anonymized),
+					'statistics_enabled'  => array('integer', $this->statistics_enabled),
+					'post_activation'     => array('integer', $this->post_activation_enabled),
+					'admin_force_noti'    => array('integer', $this->admin_force_noti),
+					'user_toggle_noti'    => array('integer', $this->user_toggle_noti),
+					'preset_subject'      => array('integer', $this->preset_subject),
+					'add_re_subject'      => array('integer', $this->add_re_subject),
+					'notification_type'   => array('text', $this->notification_type),
+					'mark_mod_posts'      => array('integer', $this->mark_mod_posts),
+					'thread_sorting'      => array('integer', $this->thread_sorting),
+					'thread_rating'       => array('integer', $this->isIsThreadRatingEnabled()),
+					'file_upload_allowed' => array('integer', $this->file_upload_allowed)
 				),
 				array(
-					'obj_id'			=> array('integer',	$a_new_obj_id)
+					'obj_id' => array('integer', $a_new_obj_id)
 				)
 			);
 			return true;
@@ -474,5 +490,53 @@ class ilForumProperties
 	public function getAdminForceNoti()
 	{
 		return $this->admin_force_noti;
+	}
+
+	/**
+	 * @param int $allowed
+	 * @throws InvalidArgumentException
+	 */
+	public function setFileUploadAllowed($allowed)
+	{
+		$this->file_upload_allowed = $allowed;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getFileUploadAllowed()
+	{
+		return $this->file_upload_allowed;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isFileUploadAllowed()
+	{
+		if(self::isFileUploadGloballyAllowed())
+		{
+			return true;
+		}
+
+		if((bool)$this->getFileUploadAllowed())
+		{
+			return true;
+		}
+		
+		return false;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public static function isFileUploadGloballyAllowed()
+	{
+		/**
+		 * @var $ilSetting;
+		 */
+		global $ilSetting;
+
+		return $ilSetting->get('file_upload_allowed_fora', self::FILE_UPLOAD_GLOBALLY_ALLOWED) == self::FILE_UPLOAD_GLOBALLY_ALLOWED;
 	}
 }

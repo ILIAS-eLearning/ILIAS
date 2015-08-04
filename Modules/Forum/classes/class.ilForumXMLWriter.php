@@ -94,6 +94,7 @@ class ilForumXMLWriter extends ilXmlWriter
 		$this->xmlElement("Moderator",  null, (int)$row->top_mods);
 		$this->xmlElement("CreateDate",  null, $row->top_date);
 		$this->xmlElement("UpdateDate",  null, $row->top_update);
+		$this->xmlElement("FileUpload",  null, (int)$row->file_upload_allowed);
 		$this->xmlElement("UpdateUserId",  null, $row->update_user);
 		$this->xmlElement("UserId",  null, (int)$row->top_usr_id);
 		$this->xmlElement("AuthorId",  null, (int)$row->thr_author_id);
