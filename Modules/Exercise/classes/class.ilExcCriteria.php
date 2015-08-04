@@ -18,6 +18,11 @@ abstract class ilExcCriteria
 	protected $pos; // [int]	
 	protected $def; // [string]
 	
+	protected $form; // [ilPropertyFormGUI]
+	protected $ass; // [ilExAssignment]
+	protected $giver_id; // [int]
+	protected $peer_id; // [int]
+	
 	protected function __construct()
 	{	
 		
@@ -104,7 +109,7 @@ abstract class ilExcCriteria
 		$this->id = (int)$a_id;
 	}
 	
-	abstract protected function getType();
+	abstract public function getType();
 	
 	public function setParent($a_value)
 	{
@@ -281,7 +286,7 @@ abstract class ilExcCriteria
 	
 	
 	//
-	// EDITOR
+	// ASSIGNMENT EDITOR
 	// 
 	
 	public function initCustomForm(ilPropertyFormGUI $a_form)
@@ -298,4 +303,41 @@ abstract class ilExcCriteria
 	{
 		// type-specific
 	}	
+	
+	
+	// PEER REVIEW
+	
+	public function setPeerReviewContext(ilExAssignment $a_ass, $a_giver_id, $a_peer_id, ilPropertyFormGUI $a_form = null)
+	{
+		$this->form = $a_form;
+		$this->ass = $a_ass;
+		$this->giver_id = $a_giver_id;
+		$this->peer_id = $a_peer_id;
+	}
+	
+	abstract public function addToPeerReviewForm($a_value = null);
+	
+	abstract public function importFromPeerReviewForm();
+	
+	public function updateFromAjax()
+	{
+		// type-specific
+	}		
+	
+	public function validate($a_value)
+	{
+		return true;
+	}
+	
+	abstract public function hasValue($a_value);	
+	
+	abstract public function addToInfo(ilInfoScreenGUI $a_info, $a_value);
+	
+	abstract public function addToAccordion(array &$a_acc, $a_value);
+		
+	public function resetReview()
+	{
+		// type-specific (only needed for data not kept in exc_assignment_peer)
+	}
+	
 }

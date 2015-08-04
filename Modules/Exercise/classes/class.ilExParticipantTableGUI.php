@@ -313,14 +313,15 @@ class ilExParticipantTableGUI extends ilTable2GUI
 				$this->tpl->setVariable("TXT_PEER_REVIEW_RECEIVED", 
 					$lng->txt("exc_peer_review_show")." (".$received.")");				
 				$this->tpl->setVariable("LINK_PEER_REVIEW_RECEIVED", 
-					$ilCtrl->getLinkTargetByClass("ilexpeerreviewgui", "showPersonalPeerReview"));
+					$ilCtrl->getLinkTargetByClass("ilexpeerreviewgui", "showReceivedPeerReview"));
 				
-				// :TODO: restrict to valid?
+				/* :TODO: restrict to valid?
 				$rating = new ilRatingGUI();
 				$rating->setObject($d["id"], "ass", $this->part_id, "peer");
 				$rating->setUserId(0);			
 				$this->tpl->setVariable("VAL_RATING", $rating->getHTML(true, false));		
-
+				*/
+				
 				$this->tpl->parseCurrentBlock();
 			}
 

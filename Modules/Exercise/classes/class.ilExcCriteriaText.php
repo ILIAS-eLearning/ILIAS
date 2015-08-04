@@ -12,14 +12,27 @@ include_once "Modules/Exercise/classes/class.ilExcCriteria.php";
  */
 class ilExcCriteriaText extends ilExcCriteria
 {
-	protected function getType()
+	public function getType()
 	{
 		return "text";
 	}
 	
+	public function setMinChars($a_value)
+	{
+		$this->setDefinition(array("chars" => (int)$a_value));
+	}
+	
+	public function getMinChars()
+	{		
+		$def = $this->getDefinition();
+		if(is_array($def))
+		{
+			return $def["chars"];
+		}
+	}
 	
 	//
-	// EDITOR
+	// ASSIGNMENT EDITOR
 	// 
 	
 	public function initCustomForm(ilPropertyFormGUI $a_form)
@@ -38,23 +51,91 @@ class ilExcCriteriaText extends ilExcCriteria
 	
 	public function exportCustomForm(ilPropertyFormGUI $a_form)
 	{
-		$def = $this->getDefinition();
-		if(is_array($def))
+		$min = $this->getMinChars();
+		if($min)
 		{
 			$a_form->getItemByPostVar("peer_char_tgl")->setChecked(true);
-			$a_form->getItemByPostVar("peer_char")->setValue($def["chars"]);
+			$a_form->getItemByPostVar("peer_char")->setValue($min);
 		}
 	}
 	
 	public function importCustomForm(ilPropertyFormGUI $a_form)
 	{
-		$def = null;
+		$this->setDefinition(null);			
 		
 		if($a_form->getInput("peer_char_tgl"))
 		{			
-			$def = array("chars" => (int)$a_form->getInput("peer_char"));
+			$this->setMinChars($a_form->getInput("peer_char"));
+		}				
+	}	
+	
+	
+	// PEER REVIEW
+	
+	public function addToPeerReviewForm($a_value = null)
+	{		
+		$input = new ilTextAreaInputGUI($this->getTitle(), "prccc_text_".$this->getId());
+		$input->setRows(10);
+		$input->setInfo($this->getDescription());
+		$input->setRequired($this->isRequired());
+		$input->setValue($a_value);
+		$this->form->addItem($input);
+	}
+	 
+	public function importFromPeerReviewForm()
+	{
+		return trim($this->form->getInput("prccc_text_".$this->getId()));								
+	}
+	
+	public function validate($a_value)
+	{				
+		global $lng;
+		
+		if(!$this->hasValue($a_value) && 
+			!$this->isRequired())
+		{
+			return true;
 		}
 		
-		$this->setDefinition($def);			
-	}		
+		$min = $this->getMinChars();
+		if($min)
+		{
+			include_once "Services/Utilities/classes/class.ilStr.php";
+			if(ilStr::strLen($a_value) < $min)
+			{
+				if($this->form)
+				{
+					$mess = sprintf($lng->txt("exc_peer_review_chars_invalid"), $min);
+					$this->form->getItemByPostVar("prccc_text_".$this->getId())->setAlert($mess);
+				}
+				return false;
+			}			
+		}						
+		return true;
+	}
+	
+	public function hasValue($a_value)
+	{
+		return (bool)strlen($a_value);
+	}
+	
+	public function addToInfo(ilInfoScreenGUI $a_info, $a_value)
+	{
+		$a_info->addProperty($this->getTitle(), $a_value 
+			? nl2br($a_value) 
+			: "&nbsp;"
+		);
+	}
+	
+	public function addToAccordion(array &$a_acc, $a_value)
+	{
+		$title = $this->getTitle()
+			? $this->getTitle().": "
+			: "";
+		
+		$a_acc[]= $title.
+			$a_value 
+				? nl2br($a_value) 
+				: "&nbsp;";
+	}
 }

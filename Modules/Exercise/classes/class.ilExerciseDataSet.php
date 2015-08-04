@@ -47,6 +47,15 @@ class ilExerciseDataSet extends ilDataSet
 			switch ($a_version)
 			{
 				case "4.1.0":
+					return array(
+						"Id" => "integer",
+						"Title" => "text",
+						"Description" => "text",
+						"PassMode" => "text",
+						"PassNr" => "integer",
+						"ShowSubmissions" => "integer"
+					);					
+					
 				case "4.4.0":
 				case "5.0.0":
 				case "5.1.0":
@@ -56,7 +65,9 @@ class ilExerciseDataSet extends ilDataSet
 						"Description" => "text",
 						"PassMode" => "text",
 						"PassNr" => "integer",
-						"ShowSubmissions" => "integer");
+						"ShowSubmissions" => "integer",
+						"ComplBySubmission" => "integer"
+					);
 			}
 		}
 
@@ -144,6 +155,8 @@ class ilExerciseDataSet extends ilDataSet
 						,"PeerChar" => "integer"
 						,"PeerUnlock" => "integer"
 						,"PeerValid" => "integer"
+						,"PeerText" => "integer"
+						,"PeerRating" => "integer"
 						// global feedback
 						,"FeedbackFile" => "integer"
 						,"FeedbackCron" => "integer"
@@ -175,11 +188,18 @@ class ilExerciseDataSet extends ilDataSet
 			switch ($a_version)
 			{
 				case "4.1.0":
+					$this->getDirectDataFromQuery("SELECT exc_data.obj_id id, title, description, ".
+						" pass_mode, pass_nr, show_submissions".
+						" FROM exc_data JOIN object_data ON (exc_data.obj_id = object_data.obj_id) ".
+						"WHERE ".
+						$ilDB->in("exc_data.obj_id", $a_ids, false, "integer"));
+					break;
+					
 				case "4.4.0":
 				case "5.0.0":
 				case "5.1.0":
 					$this->getDirectDataFromQuery("SELECT exc_data.obj_id id, title, description, ".
-						" pass_mode, pass_nr, show_submissions".
+						" pass_mode, pass_nr, show_submissions, compl_by_submission".
 						" FROM exc_data JOIN object_data ON (exc_data.obj_id = object_data.obj_id) ".
 						"WHERE ".
 						$ilDB->in("exc_data.obj_id", $a_ids, false, "integer"));
@@ -200,7 +220,7 @@ class ilExerciseDataSet extends ilDataSet
 					break;
 				
 				case "4.4.0":
-					$this->getDirectDataFromQuery("SELECT id, exc_id exercise_id, time_stamp deadline,".
+					$this->getDirectDataFromQuery("SELECT id, exc_id exercise_id, type, time_stamp deadline,".
 						" instruction, title, start_time, mandatory, order_nr, peer, peer_min, peer_dl peer_deadline,".
 						" fb_file feedback_file, fb_cron feedback_cron, fb_date feedback_date".
 						" FROM exc_assignment".
@@ -209,7 +229,7 @@ class ilExerciseDataSet extends ilDataSet
 					break;
 				
 				case "5.0.0":
-					$this->getDirectDataFromQuery("SELECT id, exc_id exercise_id, time_stamp deadline,".
+					$this->getDirectDataFromQuery("SELECT id, exc_id exercise_id, type, time_stamp deadline,".
 						" instruction, title, start_time, mandatory, order_nr, peer, peer_min, peer_dl peer_deadline,".
 						" peer_file, peer_prsl peer_personal, fb_file feedback_file, fb_cron feedback_cron, fb_date feedback_date".
 						" FROM exc_assignment".
@@ -218,10 +238,10 @@ class ilExerciseDataSet extends ilDataSet
 					break;
 				
 				case "5.1.0":
-					$this->getDirectDataFromQuery("SELECT id, exc_id exercise_id, time_stamp deadline, deadline2".
+					$this->getDirectDataFromQuery("SELECT id, exc_id exercise_id, type, time_stamp deadline, deadline2,".
 						" instruction, title, start_time, mandatory, order_nr, team_tutor, max_file, peer, peer_min,".
 						" peer_dl peer_deadline, peer_file, peer_prsl peer_personal, peer_char, peer_unlock, peer_valid,".
-						" fb_file feedback_file, fb_cron feedback_cron, fb_date feedback_date".
+						" peer_text, peer_rating, fb_file feedback_file, fb_cron feedback_cron, fb_date feedback_date".
 						" FROM exc_assignment".
 						" WHERE ".
 						$ilDB->in("exc_id", $a_ids, false, "integer"));
@@ -252,6 +272,11 @@ class ilExerciseDataSet extends ilDataSet
 				$deadline = new ilDateTime($a_set["Deadline"], IL_CAL_UNIX);
 				$a_set["Deadline"] = $deadline->get(IL_CAL_DATETIME,'','UTC');
 			}
+			if($a_set["Deadline2"] != "")
+			{
+				$deadline = new ilDateTime($a_set["Deadline2"], IL_CAL_UNIX);
+				$a_set["Deadline2"] = $deadline->get(IL_CAL_DATETIME,'','UTC');
+			}
 
 			include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 			$fstorage = new ilFSStorageExercise($a_set["ExerciseId"], $a_set["Id"]);
@@ -260,7 +285,6 @@ class ilExerciseDataSet extends ilDataSet
 			include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 			$fstorage = new ilFSStorageExercise($a_set["ExerciseId"], $a_set["Id"]);
 			$a_set["FeedbackDir"] = $fstorage->getGlobalFeedbackPath();
-
 		}
 
 		return $a_set;
@@ -316,6 +340,7 @@ class ilExerciseDataSet extends ilDataSet
 				$newObj->setPassMode($a_rec["PassMode"]);
 				$newObj->setPassNr($a_rec["PassNr"]);
 				$newObj->setShowSubmissions($a_rec["ShowSubmissions"]);
+				$newObj->setCompletionBySubmission($a_rec["ComplBySubmission"]);
 				$newObj->update();
 				$newObj->saveData();
 				$this->current_exc = $newObj;
@@ -385,6 +410,8 @@ class ilExerciseDataSet extends ilDataSet
 					$ass->setPeerReviewChars($a_rec["PeerChar"]);
 					$ass->setPeerReviewSimpleUnlock($a_rec["PeerUnlock"]);
 					$ass->setPeerReviewValid($a_rec["PeerValid"]);
+					$ass->setPeerReviewText($a_rec["PeerText"]);
+					$ass->setPeerReviewRating($a_rec["PeerRating"]);
 															
 					$ass->save();
 

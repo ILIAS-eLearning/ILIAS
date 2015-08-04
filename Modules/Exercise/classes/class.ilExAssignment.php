@@ -551,6 +551,42 @@ class ilExAssignment
 		return $this->crit_cat;
 	}
 	
+	function getPeerReviewCriteriaCatalogueItems()
+	{
+		include_once "Modules/Exercise/classes/class.ilExcCriteria.php";
+		
+		if($this->crit_cat)
+		{			
+			return ilExcCriteria::getInstancesByParentId($this->crit_cat);
+		}
+		else
+		{
+			$res = array();
+			
+			if($this->peer_rating)
+			{
+				$res[] = ilExcCriteria::getInstanceByType("rating");
+			}
+			
+			if($this->peer_text)
+			{
+				$crit = ilExcCriteria::getInstanceByType("text");				
+				if($this->peer_char)
+				{
+					$crit->setMinChars($this->peer_char);
+				}
+				$res[] = $crit;
+			}
+			
+			if($this->peer_file)
+			{
+				$res[] = ilExcCriteria::getInstanceByType("file");
+			}
+			
+			return $res;
+		}
+	}
+	
 	/**
 	 * Set (global) feedback file
 	 * 
@@ -900,12 +936,16 @@ class ilExAssignment
 			$new_ass->setPeerReviewRating($d->hasPeerReviewRating());
 			$new_ass->setPeerReviewCriteriaCatalogue($d->getPeerReviewCriteriaCatalogue());
 			$new_ass->setPeerReviewSimpleUnlock($d->getPeerReviewSimpleUnlock());
+			$new_ass->setPeerReviewText($d->hasPeerReviewText());
+			$new_ass->setPeerReviewRating($d->hasPeerReviewRating());			
 			$new_ass->setFeedbackFile($d->getFeedbackFile());
 			$new_ass->setFeedbackDate($d->getFeedbackDate());
-			$new_ass->setFeedbackCron($d->getFeedbackFile());
+			$new_ass->setFeedbackCron($d->hasFeedbackCron()); // #16295
 			$new_ass->setTeamTutor($d->getTeamTutor());
 			$new_ass->setMaxFile($d->getMaxFile());
 			$new_ass->save();
+			
+			// criteria catalogue(s)?
 			
 			include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 			$old_storage = new ilFSStorageExercise($a_old_exc_id, (int) $d->getId());

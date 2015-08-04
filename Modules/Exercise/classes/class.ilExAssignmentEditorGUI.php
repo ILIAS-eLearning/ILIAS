@@ -994,7 +994,7 @@ class ilExAssignmentEditorGUI
 	{
 		$a_form->getItemByPostVar("peer_min")->setValue($this->assignment->getPeerReviewMin());		
 		$a_form->getItemByPostVar("peer_prsl")->setChecked($this->assignment->hasPeerReviewPersonalized());
-		$a_form->getItemByPostVar("peer_unlock")->setValue($this->assignment->getPeerReviewSimpleUnlock());
+		$a_form->getItemByPostVar("peer_unlock")->setValue((int)$this->assignment->getPeerReviewSimpleUnlock());
 		
 		if($this->enable_peer_review_completion)
 		{
@@ -1068,7 +1068,7 @@ class ilExAssignmentEditorGUI
 			$protected_peer_review_groups = true;
 		}
 		
-		$valid = $a_form->checkInput();			
+		$valid = $a_form->checkInput();					
 		if($valid)
 		{									
 			// dates

@@ -133,16 +133,6 @@ class ilExPeerReview
 		return true;
 	}
 	
-	public function resetPeerReviewFileUploads()
-	{		
-		if($this->assignment->hasPeerReviewFileUpload())
-		{
-			include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
-			$storage = new ilFSStorageExercise($this->assignment->getExerciseId(), $this->assignment_id);
-			$storage->deletePeerReviewUploads();
-		}
-	}
-	
 	public function resetPeerReviews()
 	{
 		global $ilDB;
@@ -150,21 +140,20 @@ class ilExPeerReview
 		$all = array();
 		
 		if($this->hasPeerReviewGroups())
-		{
-			// ratings					
+		{				
 			foreach($this->getAllPeerReviews(false) as $peer_id => $reviews)
 			{
-				foreach($reviews as $giver_id => $review)
+				foreach(array_keys($reviews) as $giver_id)
 				{					
 					$all[] = $giver_id;
 					
-					ilRating::resetRatingForUserAndObject($this->assignment_id, "ass", 
-						$peer_id, "peer", $giver_id);
+					foreach($this->assignment->getPeerReviewCriteriaCatalogueItems() as $crit)		
+					{
+						$crit->setPeerReviewContext($this->assignment, $giver_id, $peer_id);
+						$crit->resetReview();
+					}
 				}
 			}
-			
-			// files
-			$this->resetPeerReviewFileUploads();
 			
 			// peer groups
 			$ilDB->manipulate("DELETE FROM exc_assignment_peer".
@@ -192,7 +181,7 @@ class ilExPeerReview
 				{
 					$invalid_peer_ids[] = $peer_id;
 				}
-				foreach($reviews as $giver_id => $review)
+				foreach($reviews as $giver_id => $valid)
 				{
 					if(!in_array($giver_id, $all_valid) ||
 						!in_array($peer_id, $all_exc))
@@ -200,8 +189,7 @@ class ilExPeerReview
 						$invalid_giver_ids[] = $giver_id;
 					}
 					else 
-					{
-						$valid = (trim($review[0]) || $review[1]);					
+					{									
 						$all_reviews[$peer_id][$giver_id] = $valid;						
 					}
 				}
@@ -236,6 +224,33 @@ class ilExPeerReview
 				"invalid_peer_ids" => $invalid_peer_ids, 
 				"invalid_giver_ids" => $invalid_giver_ids,
 				"reviews" => $all_reviews);
+		}
+	}
+	
+	public function getPeerReviewValues($a_giver_id, $a_peer_id)
+	{
+		$peer = null;
+		foreach($this->getPeerReviewsByGiver($a_giver_id) as $item)
+		{
+			if($item["peer_id"] == $a_peer_id)
+			{
+				$peer = $item;
+			}
+		}
+		if(!$peer)
+		{
+			return;
+		}
+		$data = $peer["pcomment"];
+		if($data)
+		{
+			$items = @unserialize($data);
+			if(!is_array($items))
+			{
+				// v1 - pcomment == text 
+				$items = array("text"=>$data);
+			}
+			return $items;
 		}
 	}
 	
@@ -274,57 +289,48 @@ class ilExPeerReview
 		}
 	}
 	
-	public function validatePeerReviewText($a_text)
-	{
-		$a_text = trim($a_text);
-		$min_length = $this->assignment->getPeerReviewChars();				
-		if($min_length)
-		{			
-			include_once "Services/Utilities/classes/class.ilStr.php";
-			return (ilStr::strLen($a_text) >= $min_length);
-		}
-		// #16162 - empty text is valid without min chars
-		return true;
-	}
-	
-	protected function validatePeerReview(array $a_data, $a_rating = null)
-	{				
-		// comment
+	protected function validatePeerReview(array $a_data)
+	{			
+		$all_empty = true;
 		
-		// empty text is validated as true, but is not valid here
-		$valid = (bool)strlen(trim($a_data["pcomment"]))
-			? $this->validatePeerReviewText($a_data["pcomment"]) 
-			: false;
-								
-		// if minimum chars given, review requires valid text (JF, 27 Apr 2015)
-		if(!$valid &&
-			$this->assignment->getPeerReviewChars())
-		{			
-			return false;			
-		}
-		
-		// rating
-		if(!$valid)
+		// see getPeerReviewValues()
+		$values = null;
+		$data = $a_data["pcomment"];
+		if($data)
 		{
-			if($a_rating === null)
-			{			
-				include_once './Services/Rating/classes/class.ilRating.php';		
-				$valid = (bool)round(ilRating::getRatingForUserAndObject($a_data["ass_id"], 
-					"ass", $a_data["peer_id"], "peer", $a_data["giver_id"]));				
-			}
-			else if($a_rating)
+			$values = @unserialize($data);
+			if(!is_array($values))
 			{
-				$valid = true;
+				// v1 - pcomment == text 
+				$values = array("text"=>$data);
 			}
 		}
-
-		// file(s) 
-		if(!$valid) 
-		{		
-			$valid = (bool)sizeof($this->getPeerUploadFiles($a_data["peer_id"], $a_data["giver_id"]));
-		}
+		if(!$values)
+		{
+			return false;
+		}		
 		
-		return $valid;
+		foreach($this->assignment->getPeerReviewCriteriaCatalogueItems() as $crit)		
+		{
+			$crit_id = $crit->getId()
+				? $crit->getId()
+				: $crit->getType();		
+			$crit->setPeerReviewContext(				
+				$this->assignment, 
+				$a_data["giver_id"],
+				$a_data["peer_id"]
+			);				
+			if(!$crit->validate($values[$crit_id]))
+			{
+				return false;
+			}
+			if($crit->hasValue($values[$crit_id]))
+			{
+				$all_empty = false;
+			}
+		}			
+		
+		return !$all_empty;		
 	}
 	
 	public function getPeerReviewsByPeerId($a_user_id, $a_only_valid = false)
@@ -354,27 +360,23 @@ class ilExPeerReview
 		return $res;
 	}
 	
-	public function getAllPeerReviews($a_validate = true)
+	public function getAllPeerReviews($a_only_valid = true)
 	{
 		global $ilDB;
 		
 		$res = array();
 
-		include_once './Services/Rating/classes/class.ilRating.php';
-		
 		$set = $ilDB->query("SELECT *".
 			" FROM exc_assignment_peer".
 			" WHERE ass_id = ".$ilDB->quote($this->assignment_id, "integer").
 			" ORDER BY peer_id");
 		while($row = $ilDB->fetchAssoc($set))
-		{
-			$rating = round(ilRating::getRatingForUserAndObject($this->assignment_id, 
-					"ass", $row["peer_id"], "peer", $row["giver_id"]));		
-			
-			if(!$a_validate ||
-				$this->validatePeerReview($row, $rating))
+		{			
+			$valid = $this->validatePeerReview($row);
+			if(!$a_only_valid ||
+				$valid)
 			{
-				$res[$row["peer_id"]][$row["giver_id"]] = array($row["pcomment"], $rating);
+				$res[$row["peer_id"]][$row["giver_id"]] = $valid;
 			}
 		}						
 		
@@ -417,13 +419,13 @@ class ilExPeerReview
 		return glob($path."/*.*");			
 	}
 	
-	public function updatePeerReviewComment($a_peer_id, $a_comment)
+	public function updatePeerReview($a_peer_id, array $a_values)
 	{
 		global $ilDB, $ilUser;
 		
 		$sql = "UPDATE exc_assignment_peer".
 			" SET tstamp = ".$ilDB->quote(ilUtil::now(), "timestamp").
-			",pcomment  = ".$ilDB->quote(trim($a_comment), "text").
+			",pcomment  = ".$ilDB->quote(serialize($a_values), "text").
 			" WHERE giver_id = ".$ilDB->quote($ilUser->getId(), "integer").
 			" AND peer_id = ".$ilDB->quote($a_peer_id, "integer").
 			" AND ass_id = ".$ilDB->quote($this->assignment_id, "integer");

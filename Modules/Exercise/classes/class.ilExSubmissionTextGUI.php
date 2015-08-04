@@ -61,7 +61,7 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 	// TEXT ASSIGNMENT (EDIT)
 	// 
 	
-	protected function initAssignmentTextForm($a_read_only = false, $a_cancel_cmd = "returnToParent", $a_peer_review_class = null, $a_peer_review_cmd = null, $a_peer_rating_html = null)
+	protected function initAssignmentTextForm($a_read_only = false)
 	{		
 		global $ilCtrl;
 		
@@ -104,29 +104,11 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 		}
 		else
 		{
+			$form->setFormAction($ilCtrl->getFormAction($this, "returnToParent"));
 			$text = new ilNonEditableValueGUI($this->lng->txt("exc_files_returned_text"), "atxt", true);	
-			$form->addItem($text);		
-			
-			if(!$a_peer_review_cmd)
-			{
-				$form->setFormAction($ilCtrl->getFormAction($this, "returnToParent"));
-			}
-			else
-			{				
-				$rating = new ilCustomInputGUI($this->lng->txt("exc_peer_review_rating"));
-				$rating->setHtml($a_peer_rating_html);
-				$form->addItem($rating);				
-				
-				$comm = new ilTextAreaInputGUI($this->lng->txt("exc_peer_review_comment"), "comm");
-				$comm->setCols(75);
-				$comm->setRows(15);				
-				$form->addItem($comm);
-				
-				$form->setFormAction($ilCtrl->getFormActionByClass($a_peer_review_class, $a_peer_review_cmd));
-				$form->addCommandButton($a_peer_review_cmd, $this->lng->txt("save"));	
-			}
+			$form->addItem($text);					
 		}
-		$form->addCommandButton($a_cancel_cmd, $this->lng->txt("cancel"));
+		$form->addCommandButton("returnToParent", $this->lng->txt("cancel"));
 		
 		return $form;
 	}
@@ -259,89 +241,13 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 	}
 	
 	function showAssignmentTextObject()
-	{
-		global $ilCtrl, $lng, $tpl, $ilUser;
-		
-		$user_id = $this->submission->getUserId();
-		$add_rating = null;		
-		$add_peer_data = false;
-		$cancel_cmd = "returnToParent";
-				
-		if($this->submission->isTutor())
-		{
-			$add_peer_data = true;
-		}
-		else if($this->submission->hasPeerReviewAccess())
-		{					
-			$add_peer_data = true; 
-			
-			$peer_class = "ilExPeerReviewGUI";
-			$peer_cmd = "updatePeerReviewText";
-			$cancel_cmd = "editPeerReview";
-			
-			$ilCtrl->setParameterByClass($peer_class, "peer_id", $user_id);	
-			
-			// rating						
-			include_once './Services/Rating/classes/class.ilRatingGUI.php';
-			$rating = new ilRatingGUI();
-			$rating->setObject($this->assignment->getId(), "ass", $user_id, "peer");
-			$rating->setUserId($ilUser->getId());
-			$rating = '<div id="rtr_widget">'.$rating->getHTML(false, true,
-				"il.ExcPeerReview.saveSingleRating(".$user_id.", %rating%)").'</div>';		
-
-			$ilCtrl->setParameterByClass($peer_class, "ssrtg", 1);
-			$tpl->addJavaScript("Modules/Exercise/js/ilExcPeerReview.js");
-			$tpl->addOnLoadCode("il.ExcPeerReview.setAjax('".
-				$ilCtrl->getLinkTargetByClass($peer_class, "updatePeerReviewComments", "", true, false).
-				"')");
-			$ilCtrl->setParameterByClass($peer_class, "ssrtg", "");			
-		}		
-		else
+	{		
+		if(!$this->submission->isTutor())		
 		{
 			$this->handleTabs();
 		}
 		
-		$a_form = $this->initAssignmentTextForm(true, $cancel_cmd, $peer_class, $peer_cmd, $rating);	
-		
-		if($add_peer_data)
-		{
-			if(!stristr($peer_cmd, "peer"))
-			{
-				include_once "Services/User/classes/class.ilUserUtil.php";
-				$a_form->setDescription(ilUserUtil::getNamePresentation($user_id));						
-			}
-			else
-			{							
-				$ilCtrl->setParameterByClass($peer_class, "peer_id", "");	
-				
-				if(!$this->assignment->hasPeerReviewPersonalized())
-				{
-					$masked_id = $this->submission->getPeerReview()->getPeerMaskedId($ilUser->getId(), $user_id);					
-					$a_form->setDescription($lng->txt("id").": ".$masked_id);
-				}
-				else
-				{					
-					include_once "Services/User/classes/class.ilUserUtil.php";
-					$a_form->setDescription(ilUserUtil::getNamePresentation($user_id));	
-				}
-								
-				foreach($this->submission->getPeerReview()->getPeerReviewsByPeerId($user_id) as $item)
-				{
-					if($item["giver_id"] == $ilUser->getId())
-					{																
-						$a_form->getItemByPostVar("comm")->setValue($item["pcomment"]);					
-						
-						if(!$this->submission->getPeerReview()->validatePeerReviewText($item["pcomment"]))
-						{
-							ilUtil::sendFailure(sprintf($this->lng->txt("exc_peer_review_chars_invalid"), 
-								$this->submission->getAssignment()->getPeerReviewChars()));
-						}
-						
-						break;
-					}
-				}
-			}						
-		}
+		$a_form = $this->initAssignmentTextForm(true);	
 		
 		$files = $this->submission->getFiles();
 		if($files)
