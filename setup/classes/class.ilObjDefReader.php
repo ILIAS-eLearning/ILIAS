@@ -14,6 +14,8 @@
 */
 class ilObjDefReader extends ilSaxParser
 {
+	protected $component_id;
+	
 	protected $readers = array(
 		"copage" => array("class" => "ilCOPageDefReader")
 		);
@@ -217,6 +219,22 @@ class ilObjDefReader extends ilSaxParser
 						$ilDB->quote($a_attribs["amet"], "integer").
 						")");
 					break;
+				
+				case 'systemcheck':
+					
+					include_once './Services/SystemCheck/classes/class.ilSCGroups.php';
+					ilSCGroups::getInstance()->updateFromComponentDefinition($this->getComponentId());
+					break;
+				
+				case 'systemcheck_task':
+					include_once './Services/SystemCheck/classes/class.ilSCGroups.php';
+					$group_id = ilSCGroups::lookupGroupByComponentId($this->getComponentId());
+					
+					include_once './Services/SystemCheck/classes/class.ilSCTasks.php';
+					$tasks = ilSCTasks::getInstanceByGroupId($group_id);
+					$tasks->updateFromComponentDefinition($a_attribs['identifier']);
+					break;
+					
 			}
 		}
 	}
@@ -273,6 +291,23 @@ class ilObjDefReader extends ilSaxParser
 				case '':
 			}
 		}
+	}
+	
+	/**
+	 * Set from module or service reader
+	 */
+	public function setComponentId($a_component_id)
+	{
+		$this->component_id = $a_component_id;
+	}
+	
+	/**
+	 * Get component id
+	 * @return type
+	 */
+	public function getComponentId()
+	{
+		return $this->component_id;
 	}
 
 }

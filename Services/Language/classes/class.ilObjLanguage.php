@@ -704,6 +704,7 @@ class ilObjLanguage extends ilObject
 		{
 			if (trim($val) == "<!-- language file start -->")
 			{
+				
 				return array_slice($content,$key +1);
 			}
 	 	}

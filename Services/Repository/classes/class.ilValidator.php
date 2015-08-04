@@ -32,7 +32,7 @@ class ilValidator extends PEAR
 	// Werner, 2007-04-16
 	var $object_types_exclude = array("adm","root","mail","usrf","objf","lngf",
 		"trac","taxf","auth","rolf","assf","svyf","extt","adve","fold");
-	
+
 	/**
 	* set mode
 	* @var	array
@@ -2073,14 +2073,14 @@ restore starts here
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$duplicateNodes[] = $row->child;
-		}		
+		}
 		
 		// dump tree
-		$q = "SELECT tree.*,ref.ref_id,dat.obj_id objobj_id,ref.obj_id refobj_id,ref.deleted,dat.*,usr.login "
+		$q = "SELECT tree.*,ref.ref_id,dat.obj_id objobj_id,ref.obj_id refobj_id,ref.deleted,dat.* "
 			."FROM tree "
 			."RIGHT JOIN object_reference ref ON tree.child = ref.ref_id "
 			."RIGHT JOIN object_data dat ON ref.obj_id = dat.obj_id "
-			."LEFT JOIN usr_data usr ON usr.usr_id = dat.owner "
+//			."LEFT JOIN usr_data usr ON usr.usr_id = dat.owner "
 		 	."ORDER BY tree, lft, type, dat.title";
 		$r = $this->db->query($q);
 		
@@ -2233,10 +2233,12 @@ restore starts here
 				$this->writeScanLogLine('<tr><td>&nbsp;</td></tr>');
 			} 
 			// Pop old stack entries
+			
+			
 			while (count($stack) > 0 && $stack[count($stack) - 1]->rgt < $row->lft) 
 			{
 				$popped = array_pop($stack);
-				
+
 				// check for gap
 				$gap = $popped->rgt - $previousNumber - 1;
 				if ($gap > 0)
@@ -2292,24 +2294,30 @@ restore starts here
 					$isParentOkay = false;
 					$isRowOkay = false;
 				}
-				if ($parent->lft >= $row->lft)
+				if($GLOBALS['ilSetting']->get('main_tree_impl','ns') == 'ns')
+				{				
+					if ($parent->lft >= $row->lft)
+					{
+						$isLftOkay = false;
+						$isRowOkay = false;
+					}
+					if ($parent->rgt <= $row->rgt)
+					{
+						$isRgtOkay = false;
+						$isRowOkay = false;
+					}
+				}
+			}
+
+			// Check lft rgt
+			if($GLOBALS['ilSetting']->get('main_tree_impl','ns') == 'ns')
+			{
+				if ($row->lft >= $row->rgt)
 				{
 					$isLftOkay = false;
-					$isRowOkay = false;
-				}
-				if ($parent->rgt <= $row->rgt)
-				{
 					$isRgtOkay = false;
 					$isRowOkay = false;
 				}
-			}
-			
-			// Check lft rgt
-			if ($row->lft >= $row->rgt)
-			{
-				$isLftOkay = false;
-				$isRgtOkay = false;
-				$isRowOkay = false;
 			}
 			if (in_array($row->child, $duplicateNodes))
 			{
@@ -2338,74 +2346,77 @@ restore starts here
 
 			// Check for gap between siblings,
 			// and eventually write a log line
-			$gap = $row->lft - $previousNumber - 1;
-			$previousNumber = $row->lft;
-			if ($gap > 0)
+			if($GLOBALS['ilSetting']->get('main_tree_impl','ns') == 'ns')
 			{
-				$this->writeScanLogLine(
-					'<tr>'
-					.'<td colspan=2><div align="right">'
-					.'<font color=#00cc00>*gap* for '.($gap/2).' nodes between&nbsp;</font>'
-					.'</div></td>'
-					.'<td>'
-					.'<font color=#00cc00>siblings</font>'
-					.'</td>'
-					.'</tr>'
-				);
+				$gap = $row->lft - $previousNumber - 1;
+				$previousNumber = $row->lft;
+				if ($gap > 0)
+				{
+					$this->writeScanLogLine(
+						'<tr>'
+						.'<td colspan=2><div align="right">'
+						.'<font color=#00cc00>*gap* for '.($gap/2).' nodes between&nbsp;</font>'
+						.'</div></td>'
+						.'<td>'
+						.'<font color=#00cc00>siblings</font>'
+						.'</td>'
+						.'</tr>'
+					);
+				}
 			}
 						
 			// Write log line
 			// -------------------
 			$this->writeScanLogLine(
-				'<tr>'
-				.'<td>'
-				.(($isRowOkay) ? '' : '<font color=#ff0000>')
-				.$row->tree.', '
-				.$row->child.', '
-				.(($isParentOkay) ? '' : 'parent:<b>')
-				.$row->parent
-				.(($isParentOkay) ? '' : '</b>')
-				.', '
-				.(($isLftOkay) ? '' : 'lft:<b>')
-				.$row->lft
-				.(($isLftOkay) ? '' : '</b>')
-				.', '
-				.(($isRgtOkay) ? '' : 'rgt:<b>')
-				.$row->rgt
-				.(($isRgtOkay) ? '' : '</b>')
-				.', '
-				.(($isDepthOkay) ? '' : 'depth:<b>')
-				.$row->depth
-				.(($isDepthOkay) ? '' : '</b>')
-				.(($isRowOkay) ? '' : '</font>')
-				.'</td><td>'
-				.(($isRowOkay) ? '' : '<font color=#ff0000>')
-				.(($isRefRefOkay && $isChildOkay) ? '' : 'ref.ref_id:<b>')
-				.$row->ref_id
-				.(($isRefRefOkay && $isChildOkay) ? '' : '</b>')
-				.', '
-				.(($isRefObjOkay) ? '' : 'ref.obj_id:<b>')
-				.$row->refobj_id
-				.(($isRefObjOkay) ? '' : '</b>')
-				.(($isRowOkay) ? '' : '<font color=#ff0000>')
-				.(($row->tree < 0) ? ', '.$row->deleted : '')
-				.'</td><td>'
-				.(($isRowOkay) ? '' : '<font color=#ff0000>')
-				.$indent
-				.$row->obj_id.', '
-				.$row->type.', '
-				.$row->login.', '
-				.$row->title
-				.(($isRowOkay) ? '' : ' <b>*ERROR*</b><font color=#ff0000>')
-				.'</td>'
-				.'</tr>'
+					'<tr>'
+					. '<td>'
+					. (($isRowOkay) ? '' : '<font color=#ff0000>')
+					. $row->tree . ', '
+					. $row->child . ', '
+					. (($isParentOkay) ? '' : 'parent:<b>')
+					. $row->parent
+					. (($isParentOkay) ? '' : '</b>')
+					. ', '
+					. (($isLftOkay) ? '' : 'lft:<b>')
+					. $row->lft
+					. (($isLftOkay) ? '' : '</b>')
+					. ', '
+					. (($isRgtOkay) ? '' : 'rgt:<b>')
+					. $row->rgt
+					. (($isRgtOkay) ? '' : '</b>')
+					. ', '
+					. (($isDepthOkay) ? '' : 'depth:<b>')
+					. $row->depth
+					. (($isDepthOkay) ? '' : '</b>')
+					. (($isRowOkay) ? '' : '</font>')
+					. '</td><td>'
+					. (($isRowOkay) ? '' : '<font color=#ff0000>')
+					. (($isRefRefOkay && $isChildOkay) ? '' : 'ref.ref_id:<b>')
+					. $row->ref_id
+					. (($isRefRefOkay && $isChildOkay) ? '' : '</b>')
+					. ', '
+					. (($isRefObjOkay) ? '' : 'ref.obj_id:<b>')
+					. $row->refobj_id
+					. (($isRefObjOkay) ? '' : '</b>')
+					. (($isRowOkay) ? '' : '<font color=#ff0000>')
+					. (($row->tree < 0) ? ', ' . $row->deleted : '')
+					. '</td><td>'
+					. (($isRowOkay) ? '' : '<font color=#ff0000>')
+					. $indent
+					. $row->obj_id . ', '
+					. $row->type . ', '
+					. $row->login . ', '
+					. $row->title
+					. (($isRowOkay) ? '' : ' <b>*ERROR*</b><font color=#ff0000>')
+					. '</td>'
+					. '</tr>'
 			);
 
 			// Update stack
 			// -------------------
 			// Push node on stack
 			$stack[] = $row;
-			
+
 			// Count nodes
 			// -----------------
 			if ($row->tree == 1)
@@ -2419,15 +2430,15 @@ restore starts here
 			else
 			{
 				$other_trees_count++;
-			}		
-			
+			}
 		}
 		//
 		// Pop remaining stack entries
+
 		while (count($stack) > 0) 
 		{
 			$popped = array_pop($stack);
-			
+
 			// check for gap
 			$gap = $popped->rgt - $previousNumber - 1;
 			if ($gap > 0)
@@ -2540,7 +2551,7 @@ restore starts here
 	}
 	
 	protected function filterWorkspaceObjects(array &$a_data, $a_index = "obj_id")
-	{		
+	{
 		if(sizeof($a_data))
 		{			
 			$this->initWorkspaceObjects();
