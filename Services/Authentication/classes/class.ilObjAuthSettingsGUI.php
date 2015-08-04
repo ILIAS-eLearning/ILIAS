@@ -1028,11 +1028,10 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 
 	public function apacheAuthSettingsObject($form = false)
 	{
-		global $ilDB, $tpl;
+		global $tpl;
 
 		$this->tabs_gui->setTabActive("apache_auth_settings");
-		//$this->setSubTabs("authSettings");
-		//$this->tabs_gui->setSubTabActive("apache_auth_settings");
+
 		if (!$form)
 		{
 			$form = $this->getApacheAuthSettingsForm();
