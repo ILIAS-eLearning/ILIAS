@@ -7491,3 +7491,12 @@ if( $ilDB->indexExistsByFields('tst_addtime', array('active_fi')) )
 
 $ilDB->addPrimaryKey('tst_addtime', array('active_fi'));
 ?>
+<#4573>
+<?php 
+if($ilDB->indexExistsByFields('ctrl_calls', array('parent')))
+{
+	$ilDB->dropIndexByFields('ctrl_calls', array('parent'));
+}
+$ilDB->addPrimaryKey('ctrl_calls', array('parent','child'));
+?>
+
