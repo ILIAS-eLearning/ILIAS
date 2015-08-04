@@ -699,8 +699,14 @@ class ilDataCollectionTable {
 	 * @return bool
 	 */
 	public function hasPermissionToAddRecord($ref_id) {
-		return ($this->getAddPerm() AND ilObjDataCollectionAccess::hasAddRecordAccess($ref_id) AND $this->checkLimit())
-		OR ilObjDataCollectionAccess::hasWriteAccess($ref_id);
+		if (ilObjDataCollectionAccess::hasWriteAccess($ref_id)) {
+			return true;
+		}
+		if (!ilObjDataCollectionAccess::hasAddRecordAccess($ref_id)) {
+			return false;
+		}
+
+		return ($this->getAddPerm() AND $this->checkLimit());
 	}
 
 
@@ -711,8 +717,24 @@ class ilDataCollectionTable {
 	 * @return bool
 	 */
 	public function hasPermissionToEditRecord($ref_id, ilDataCollectionRecord $record) {
-		return ($this->getEditPerm() AND ilObjDataCollectionAccess::hasWriteAccess($ref_id) AND $this->checkLimit())
-		OR $this->checkEditByOwner($record);
+		if (ilObjDataCollectionAccess::hasWriteAccess($ref_id)) {
+			return true;
+		}
+		if (!ilObjDataCollectionAccess::hasAddRecordAccess($ref_id)) {
+			return false;
+		}
+		if (!$this->checkLimit()) {
+			return false;
+		}
+		if ($this->getEditPerm() && !$this->getEditByOwner()) {
+			return true;
+		}
+		if ($this->getEditByOwner()) {
+			// Edit by owner is set... user is only allowed to edit her own entries
+			return $this->checkEditByOwner($record);
+		}
+
+		return false;
 	}
 
 
@@ -723,8 +745,24 @@ class ilDataCollectionTable {
 	 * @return bool
 	 */
 	public function hasPermissionToDeleteRecord($ref_id, ilDataCollectionRecord $record) {
-		return ($this->getDeletePerm() AND ilObjDataCollectionAccess::hasWriteAccess($ref_id) AND $this->checkLimit())
-		OR $this->checkEditByOwner($record);
+		if (ilObjDataCollectionAccess::hasWriteAccess($ref_id)) {
+			return true;
+		}
+		if (!ilObjDataCollectionAccess::hasAddRecordAccess($ref_id)) {
+			return false;
+		}
+		if (!$this->checkLimit()) {
+			return false;
+		}
+		if ($this->getDeletePerm() && !$this->getEditByOwner()) {
+			return true;
+		}
+		if ($this->getEditByOwner()) {
+			// Edit by owner is set... user is only allowed to edit her own entries
+			return $this->checkEditByOwner($record);
+		}
+
+		return false;
 	}
 
 
@@ -772,11 +810,7 @@ class ilDataCollectionTable {
 	protected function checkEditByOwner(ilDataCollectionRecord $record) {
 		global $ilUser;
 
-		if ($this->getEditByOwner() AND $ilUser->getId() != $record->getOwner()) {
-			return false;
-		}
-
-		return true;
+		return ($ilUser->getId() == $record->getOwner());
 	}
 
 
@@ -885,7 +919,7 @@ class ilDataCollectionTable {
 	 * @return boolean
 	 */
 	public function getAddPerm() {
-		return $this->add_perm;
+		return (bool) $this->add_perm;
 	}
 
 
@@ -902,7 +936,7 @@ class ilDataCollectionTable {
 	 */
 	public function getDeletePerm() {
 
-		return $this->delete_perm;
+		return (bool) $this->delete_perm;
 	}
 
 
@@ -918,7 +952,7 @@ class ilDataCollectionTable {
 	 * @return boolean
 	 */
 	public function getEditByOwner() {
-		return $this->edit_by_owner;
+		return (bool) $this->edit_by_owner;
 	}
 
 
@@ -934,7 +968,7 @@ class ilDataCollectionTable {
 	 * @return boolean
 	 */
 	public function getEditPerm() {
-		return $this->edit_perm;
+		return (bool) $this->edit_perm;
 	}
 
 
