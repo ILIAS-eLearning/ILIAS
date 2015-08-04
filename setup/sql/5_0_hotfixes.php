@@ -65,3 +65,73 @@ $ilDB->manipulate("UPDATE tst_active SET last_finished_pass = (tries - 1) WHERE 
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#8>
+<?php
+
+if($ilDB->tableExists('sysc_groups'))
+{
+	$ilDB->dropTable('sysc_groups');
+}
+
+if(!$ilDB->tableExists('sysc_groups'))
+{
+	$fields = array (
+    'id'    => array(
+    		'type' => 'integer',
+    		'length'  => 4,
+    		'notnull' => true),
+	'component' => array(
+			"type" => "text",
+			"notnull" => false,
+		 	"length" => 16,
+		 	"fixed" => true),
+
+	'last_update' => array(
+			"type" => "timestamp",
+			"notnull" => false),
+		
+	'status' => array(
+			"type" => "integer",
+			"notnull" => true,
+			'length' => 1,
+			'default' => 0)
+	  );
+  $ilDB->createTable('sysc_groups', $fields);
+  $ilDB->addPrimaryKey('sysc_groups', array('id'));
+  $ilDB->createSequence("sysc_groups");
+}
+?>
+<#9>
+<?php
+
+if(!$ilDB->tableExists('sysc_tasks'))
+{
+	$fields = array (
+    'id'    => array(
+    		'type' => 'integer',
+    		'length'  => 4,
+    		'notnull' => true),
+	'grp_id' => array(
+			"type" => "integer",
+			"notnull" => TRUE,
+		 	"length" => 4),
+
+	'last_update' => array(
+			"type" => "timestamp",
+			"notnull" => false),
+		
+	'status' => array(
+			"type" => "integer",
+			"notnull" => true,
+			'length' => 1,
+			'default' => 0),
+	'identifier' => array(
+			"type" => "text",
+			"notnull" => FALSE,
+			'length' => 64)
+	  );
+	$ilDB->createTable('sysc_tasks', $fields);
+	$ilDB->addPrimaryKey('sysc_tasks', array('id'));
+	$ilDB->createSequence("sysc_tasks");
+}
+?>
