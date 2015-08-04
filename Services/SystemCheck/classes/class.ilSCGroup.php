@@ -12,8 +12,6 @@ include_once './Services/Calendar/classes/class.ilDateTime.php';
 class ilSCGroup 
 {
 	private $id = 0;
-	private $title = '';
-	private $description = '';
 	private $component_id = '';
 	private $component_type = '';
 	private $last_update = NULL;
@@ -55,29 +53,6 @@ class ilSCGroup
 		return $this->id;
 	}
 	
-	public function setTitle($a_title)
-	{
-		$this->title = $a_title;
-	}
-	
-	public function getTitle()
-	{
-		return $this->title;
-	}
-	
-	public function setDescription($a_desc)
-	{
-		$this->description = $a_desc;
-	}
-	
-	/**
-	 * Get description
-	 * @return string
-	 */
-	public function getDescription()
-	{
-		return $this->description;
-	}
 	
 	public function setComponentId($a_comp)
 	{
@@ -144,8 +119,6 @@ class ilSCGroup
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->setComponentId($row->component);
-			$this->setTitle($row->title);
-			$this->setDescription($row->description);
 			$this->setLastUpdate(new ilDateTime($row->last_update,IL_CAL_DATETIME,'UTC'));
 			$this->setStatus($row->status);
 		}
@@ -161,11 +134,9 @@ class ilSCGroup
 		
 		$this->id = $ilDB->nextId('sysc_groups');
 		
-		$query = 'INSERT INTO sysc_groups (id,title,description,component,status) '.
+		$query = 'INSERT INTO sysc_groups (id,component,status) '.
 				'VALUES ( '.
 				$ilDB->quote($this->getId(),'integer').', '.
-				$ilDB->quote($this->getTitle(),'text').', '.
-				$ilDB->quote($this->getDescription(),'text').', '.
 				$ilDB->quote($this->getComponentId(),'text').', '.
 				$ilDB->quote($this->getStatus(),'integer').' '.
 				')';
