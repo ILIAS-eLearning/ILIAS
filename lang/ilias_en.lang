@@ -14361,3 +14361,38 @@ crs#:#crs_admission_link_failure_membership_limited#:#Can't registrate: Course m
 grp#:#grp_admission_link_success_registration#:#Successfully registrated to group "%s".
 crs#:#crs_admission_link_success_registration#:#Successfully registrated to course "%s".
 cron#:#cron_result_status_fail#:#Failed
+sysc#:#sysc_overview#:#Overview
+sysc#:#sysc_groups#:#System Check Groups
+sysc#:#sysc_grp_tree#:#Repository Tree
+sysc#:#sysc_grp_tree_desc#:#Performs an analysis of the tree and prints all tree nodes along with analysis data.
+sysc#:#sysc_completed_num#:#Fullfilled Tasks
+sysc#:#sysc_failed_num#:#Not Fullfilled Tasks
+sysc#:#sysc_task_overview#:#Tasks
+sysc#:#sysc_action_validate#:#Validate
+sysc#:#sysc_action_repair#:#Repair
+sysc#:#sysc_task_tree_duplicates#:#Duplicate Entries in Repository Tree
+sysc#:#sysc_task_tree_duplicates_desc#:#Search for duplicate entries in the repository tree structure.
+sysc#:#sysc_task_tree_dump#:#List Tree
+sysc#:#sysc_task_tree_dump_desc#:#Analyses and prints the repository tree structure
+sysc#:#sysc_action_list_tree#:#Create Repository Tree Dump
+sysc#:#sysc_action_show_tree#:#Show Repository Tree Dump
+sysc#:#sysc_tree_duplicate_failures#:#Found duplicate entries in tree structure. Number of duoplicate entries
+sysc#:#sysc_message_success#:#No errors found
+sysc#:#sysc_tree_list_failures#:#A dump of the the repository tree has been created. Number of errors in tree structure:
+sysc#:#sysc_status_na#:#Not Executed
+sysc#:#sysc_status_running#:#Running
+sysc#:#sysc_status_failed#:#Failed
+sysc#:#sysc_status_completed#:#Completed
+sysc#:#sysc_task_tree_missing#:#Missing Entries in Repository Tree
+sysc#:#sysc_task_tree_missing_desc#:#Searches and repairs missing entries in the repository tree.
+sysc#:#sysc_message_tree_missing_confirm#:#Do you really want to restore missing entries in the repository tree structure?
+sysc#:#sysc_btn_tree_missing#:#Restore Missing
+sysc#:#sysc_tree_missing_failures#:#Found missing entries in the tree structure. Number of missing entries:
+sysc#:#sysc_cron_empty_trash#:#Delete Trash Bin
+sysc#:#sysc_cron_empty_trash_desc#:#If enabled, the repository trash bin will be purged by given criteria (age, object type or maximum number of objects).
+sysc#:#sysc_task_tree_missing_tree#:#Missing Entries in Repository Tree
+sysc#:#sysc_task_tree_missing_tree_desc#:#Searches and repairs missing entries in the repository tree.
+sysc#:#sysc_task_tree_missing_reference#:#Missing Object References
+sysc#:#sysc_task_tree_missing_reference_desc#:#Searches and repairs missing object references in the repository tree.
+sysc#:#sysc_task_structure#:#Tree structure
+sysc#:#sysc_task_structure_desc#:#Analyzes and corrects the repository tree structure.

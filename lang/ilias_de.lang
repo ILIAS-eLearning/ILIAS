@@ -14361,3 +14361,38 @@ grp#:#grp_admission_link_success_registration#:#Erfolgreich zur Gruppe "%s" beig
 crs#:#crs_admission_link_success_registration#:#Erfolgreich zum Kurs "%s" beigetreten.
 assessment#:#show_exam_id#:#Display Exam ID###01 02 2015 new variable
 cron#:#cron_result_status_fail#:#Fehler
+sysc#:#sysc_overview#:#Übersicht
+sysc#:#sysc_groups#:#Systemcheck-Gruppen
+sysc#:#sysc_grp_tree#:#Magazinbaum
+sysc#:#sysc_grp_tree_desc#:#Analysiert und repariert die Datenintegrität des Magazinbaums
+sysc#:#sysc_completed_num#:#Erfüllte Aufgaben
+sysc#:#sysc_failed_num#:#Nicht erfüllte Aufgaben
+sysc#:#sysc_task_overview#:#Aufgaben
+sysc#:#sysc_action_validate#:#Überprüfen
+sysc#:#sysc_action_repair#:#Reparieren
+sysc#:#sysc_task_tree_duplicates#:#Doppelte Einträge in der Baumstruktur
+sysc#:#sysc_task_tree_duplicates_desc#:#Durchsucht das System nach doppelten Einträgen in Magazinbaum.
+sysc#:#sysc_task_tree_dump#:#Baum auflisten
+sysc#:#sysc_task_tree_dump_desc#:#Analysiert die Baumstruktur und listet alle Baumknoten zusammen mit den Analysedaten auf.
+sysc#:#sysc_action_list_tree#:#Dump der Baumstruktur erzeugen
+sysc#:#sysc_action_show_tree#:#Baumstruktur anzeigen
+sysc#:#sysc_tree_duplicate_failures#:#Es wurden doppelte Einträge in der Baumstruktur gefunden. Anzahl doppelter Einträge:
+sysc#:#sysc_message_success#:#Es wurden keine Fehler festgestellt.
+sysc#:#sysc_tree_list_failures#:#Ein Dump des Magazinbaums wurde erstellt. Anzahl gefundener Fehler:
+sysc#:#sysc_status_na#:#Noch nicht ausgeführt
+sysc#:#sysc_status_running#:#Wird durchgeführt
+sysc#:#sysc_status_failed#:#Fehlgschlagen
+sysc#:#sysc_status_completed#:#Erfüllt
+sysc#:#sysc_task_tree_missing#:#Fehlende Einträge in der Baumstruktur
+sysc#:#sysc_task_tree_missing_desc#:#Durchsucht das System nach fehlenden Einträgen in der Baumstruktur
+sysc#:#sysc_message_tree_missing_confirm#:#Möchten sie die fehlenden Einträge in der Baumstruktur wieder herstellen?
+sysc#:#sysc_btn_tree_missing#:#Wiederherstellung starten
+sysc#:#sysc_tree_missing_failures#:#Es gibt fehlende Einträge in der Baumstruktur. Anzahl fehlender Einträge:
+sysc#:#sysc_cron_empty_trash#:#Papierkorb löschen
+sysc#:#sysc_cron_empty_trash_desc#:#Wenn aktiviert, werden Objekte des Papierkorbs automatisch anhand bestimmter Kriterien (Alter, Objekttyp, Anzahl) aus dem System entfernt.
+sysc#:#sysc_task_tree_missing_tree#:#Fehlende Einträge im Magazinbaum
+sysc#:#sysc_task_tree_missing_tree_desc#:#Sucht und repariert fehlende Einträge referenzierter Objekte im Magazinbaum.
+sysc#:#sysc_task_tree_missing_reference#:#Fehlende Referenzen
+sysc#:#sysc_task_tree_missing_reference_desc#:#Sucht und repariert fehlende Objekt-Referenzen für Einträge im Magazinbaum.
+sysc#:#sysc_task_structure#:#Baumstruktur
+sysc#:#sysc_task_structure_desc#:#Analyiert und korrigiert die Struktur des Magazinbaums
