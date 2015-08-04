@@ -7227,3 +7227,17 @@ $query = "SELECT MAX(smiley_id) msmiley_id FROM chatroom_smilies";
 $row = $ilDB->fetchAssoc($ilDB->query($query));
 $ilDB->createSequence('chatroom_smilies', (int)$row['msmiley_id'] + 1);
 ?>
+<#4562>
+<?php
+if(!$ilDB->tableColumnExists('frm_settings', 'file_upload_allowed'))
+{
+	$ilDB->addTableColumn('frm_settings', 'file_upload_allowed',
+		array(
+			"type"    => "integer",
+			"notnull" => true,
+			"length"  => 1,
+			"default" => 0
+		)
+	);
+}
+?>
