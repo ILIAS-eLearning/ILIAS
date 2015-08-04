@@ -12,7 +12,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
 {
 	private $shuffleAnswersEnabled;
 
-	private $answerType, $long_menu_text, $answers, $json_structure;
+	private $answerType, $long_menu_text, $answers, $json_structure, $ilDB;
 
 	const ANSWER_TYPE_SELECT 	= 'select';
 	const ANSWER_TYPE_TEXT_BOX	= 'text_box';
@@ -114,19 +114,13 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
 	{
 		parent::__construct($title, $comment, $author, $owner, $question);
 		$this->parameters = array();
+		global $ilDB;
+		$this->ilDB = $ilDB;
 	}
 	
 	public function isComplete()
 	{
 		if (strlen($this->title)
-			&& $this->author
-			&& $this->question
-			&& $this->getPoints() > 0
-		)
-		{
-			return true;
-		}
-		else if (strlen($this->title)
 			&& $this->author
 			&& $this->question
 			&& $this->getPoints() > 0
@@ -145,15 +139,73 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
 		parent::saveToDb($original_id);
 	}
 
+	public function checkQuestionCustomPart()
+	{
+		$this->getCorrectAnswersFromJson();
+		$hidden_text_files 	= json_decode(ilUtil::stripSlashesRecursive($_POST['hidden_text_files']));
+		$points 			= $this->getPointsArrayForAnswersFromPost();
+		if( sizeof($this->answers) == 0 || sizeof($hidden_text_files) == 0 || $points == '' )
+		{
+			return false;
+		}
+		if(sizeof($this->answers) != sizeof($points) || sizeof($this->answers) != sizeof($hidden_text_files))
+		{
+			return false;
+		}
+		foreach($this->answers as $key => $correct_answers_row)
+		{
+			if($this->correctAnswerDoesNotExistAreInAnswerOptions($correct_answers_row, $hidden_text_files[$key]))
+			{
+				return false;
+			}
+		}
+		foreach($points as $row)
+		{
+			if($row <= 0)
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	private function correctAnswerDoesNotExistAreInAnswerOptions($answers, $answer_options)
+	{
+		foreach($answers[0] as $key => $answer)
+		{
+			if(!in_array($answer, $answer_options))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Returns the maximum points, a learner can reach answering the question
+	 *
+	 * @access public
+	 * @see $points
+	 */
+	function getMaximumPoints()
+	{
+		$sum = 0;
+		$points = $this->loadPoints($this->getId());
+		foreach($points as $add)
+		{
+			$sum += $add;
+		}
+		return $sum;
+	}
+	
 	public function saveAdditionalQuestionDataToDb()
 	{
-		global $ilDB;
 		// save additional data
-		$ilDB->manipulateF( "DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
+		$this->ilDB->manipulateF( "DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
 			array( "integer" ),
 			array( $this->getId() )
 		);
-		$ilDB->manipulateF( "INSERT INTO " . $this->getAdditionalTableName(
+		$this->ilDB->manipulateF( "INSERT INTO " . $this->getAdditionalTableName(
 			) . " (question_fi, long_menu_text) VALUES (%s, %s)",
 			array( "integer", "text"),
 			array(
@@ -175,9 +227,12 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
 	{
 		$points_array 	= array();
 		$clean_post 	= ilUtil::stripSlashesRecursive($_POST['points']);
-		foreach($clean_post as $gap_number => $points)
+		if($clean_post !== '')
 		{
-			$points_array[$gap_number] = (float) $points;
+			foreach($clean_post as $gap_number => $points)
+			{
+				$points_array[$gap_number] = (float) $points;
+			}
 		}
 		return $points_array;
 	}
@@ -210,9 +265,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
 
 	public function clearAnswerSpecificDataFromDb($question_id)
 	{
-		global $ilDB;
-
-		$ilDB->manipulateF( 'DELETE FROM ' . $this->getAnswerTableName() .' WHERE question_fi = %s',
+		$this->ilDB->manipulateF( 'DELETE FROM ' . $this->getAnswerTableName() .' WHERE question_fi = %s',
 			array( 'integer' ),
 			array( $question_id )
 		);
@@ -275,15 +328,13 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
 	
 	public function loadFromDb($question_id)
 	{
-		global $ilDB;
-
-		$result = $ilDB->queryF("SELECT qpl_questions.*, " . $this->getAdditionalTableName() . ".* FROM qpl_questions LEFT JOIN " . $this->getAdditionalTableName() . " ON " . $this->getAdditionalTableName() . ".question_fi = qpl_questions.question_id WHERE qpl_questions.question_id = %s",
+		$result = $this->ilDB->queryF("SELECT qpl_questions.*, " . $this->getAdditionalTableName() . ".* FROM qpl_questions LEFT JOIN " . $this->getAdditionalTableName() . " ON " . $this->getAdditionalTableName() . ".question_fi = qpl_questions.question_id WHERE qpl_questions.question_id = %s",
 			array("integer"),
 			array($question_id)
 		);
 		if ($result->numRows() == 1)
 		{
-			$data = $ilDB->fetchAssoc($result);
+			$data = $this->ilDB->fetchAssoc($result);
 			$this->setId($question_id);
 			$this->setObjId($data["obj_fi"]);
 			$this->setNrOfTries($data['nr_of_tries']);
@@ -306,28 +357,83 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
 			}
 		}
 
-		$this->loadAnswerData($question_id);
+		$this->setJsonStructure($this->loadAnswerData($question_id, true));
 		
 		parent::loadFromDb($question_id);
 	}
 
-	private function loadAnswerData($questionId)
+	private function loadAnswerData($question_id, $as_json = false)
 	{
-		global $ilDB;
-
 		$res = $this->db->queryF(
 			"SELECT * FROM {$this->getAnswerTableName()} WHERE question_fi = %s ORDER BY gap_number, position ASC",
-			array('integer'), array($questionId)
+			array('integer'), array($question_id)
 		);
 		
-		$json_data = array();
-		while($data = $ilDB->fetchAssoc($res))
+		$answer_data = array();
+		while($data = $this->ilDB->fetchAssoc($res))
 		{
-			$json_data[$data['gap_number']][0][$data['position']] = $data['answer_text'];
-			$json_data[$data['gap_number']][1] = $data['points'];
+			if($as_json)
+			{
+				$answer_data[$data['gap_number']][0][$data['position']] = $data['answer_text'];
+				$answer_data[$data['gap_number']][1] = $data['points'];
+			}
+			else
+			{
+				$answer_data[$data['gap_number']][$data['position']] = $data['answer_text'];
+			}
 		}
-		$this->setJsonStructure(json_encode($json_data));
+		if($as_json)
+		{
+			return json_encode($answer_data);
+		}
+		else
+		{
+			return $answer_data;
+		}
 	}
+
+	private function getCorrectAnswersForGap($question_id, $gap_id)
+	{
+		$correct_answers = array();
+		$res = $this->db->queryF(
+			'SELECT answer_text FROM  ' . $this->getAnswerTableName() .' WHERE question_fi = %s AND gap_number = %s',
+			array('integer', 'integer'), array($question_id, $gap_id)
+		);
+		while($data = $this->ilDB->fetchAssoc($res))
+		{
+			$correct_answers[] = $data['answer_text'];
+		}
+		return $correct_answers;
+	}
+	
+	private function loadPoints($question_id)
+	{
+		$points = array();
+		$res = $this->db->queryF(
+			'SELECT points FROM  ' . $this->getAnswerTableName() .' WHERE question_fi = %s GROUP BY gap_number, points',
+			array('integer'), array($question_id)
+		);
+		while($data = $this->ilDB->fetchAssoc($res))
+		{
+			$points[] = $data['points'];
+		}
+		return $points;
+	}
+
+	private function getPointsForGap($question_id, $gap_id)
+	{
+		$points = 0;
+		$res = $this->db->queryF(
+			'SELECT points FROM  ' . $this->getAnswerTableName() .' WHERE question_fi = %s AND gap_number = %s GROUP BY gap_number, points',
+			array('integer', 'integer'), array($question_id, $gap_id)
+		);
+		while($data = $this->ilDB->fetchAssoc($res))
+		{
+			$points = $data['points'];
+		}
+		return $points;
+	}
+
 	
 	function getAnswersObject()
 	{
@@ -484,19 +590,42 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
 	 */
 	public function calculateReachedPoints($active_id, $pass = NULL, $returndetails = FALSE)
 	{
+		if( $returndetails )
+		{
+			throw new ilTestException('return details not implemented for '.__METHOD__);
+		}
 
-		$points = 1;
+		$found_values = array();
+		if (is_null($pass))
+		{
+			$pass = $this->getSolutionMaxPass($active_id);
+		}
+		$result = $this->ilDB->queryF("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+			array('integer','integer','integer'),
+			array($active_id, $this->getId(), $pass)
+		);
+		while ($data =  $this->ilDB->fetchAssoc($result))
+		{
+			$found_values[(int)$data['value1']] = $data['value2'];
+		}
+
+		$points = $this->calculateReachedPointsForSolution($found_values, $active_id);
+
 		return $points;
 	}
 
-	public function calculateReachedPointsFromPreviewSession(ilAssQuestionPreviewSession $previewSession)
+	protected function calculateReachedPointsForSolution($found_values, $active_id = 0)
 	{
 		$points = 0;
-		foreach($previewSession->getParticipantsSolution() as $solution)
+		foreach($found_values as $key => $answer)
 		{
-			if( isset($solution['points']) )
+			if($answer != '')
 			{
-				$points += $solution['points'];
+				$correct_answers = $this->getCorrectAnswersForGap($this->id, $key);
+				if(in_array($answer, $correct_answers))
+				{
+					$points += $this->getPointsForGap($this->id, $key);
+				}
 			}
 		}
 		return $points;
@@ -525,20 +654,69 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
 	 */
 	public function saveWorkingData($active_id, $pass = NULL)
 	{
-		// nothing to save!
+		if (is_null($pass))
+		{
+			include_once "./Modules/Test/classes/class.ilObjTest.php";
+			$pass = ilObjTest::_getPass($active_id);
+		}
+		$this->getProcessLocker()->requestUserSolutionUpdateLock();
 
-		//$this->getProcessLocker()->requestUserSolutionUpdateLock();
-		// store in tst_solutions
-		//$this->getProcessLocker()->releaseUserSolutionUpdateLock();
+		$entered_values = 0;
+		$this->removeCurrentSolution($active_id, $pass);
 
+		foreach($this->getSolutionSubmit() as $val1 => $val2)
+		{
+			$value = ilUtil::stripSlashes($val2, FALSE);
+			if (strlen($value))
+			{
+				$this->saveCurrentSolution($active_id,$pass, $val1, $value);
+				$entered_values++;
+			}
+		}
+		$this->getProcessLocker()->releaseUserSolutionUpdateLock();
+		
+		if ($entered_values)
+		{
+			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
+			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
+			{
+				$this->logAction($this->lng->txtlng("assessment", "log_user_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
+			}
+		}
+		else
+		{
+			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
+			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
+			{
+				$this->logAction($this->lng->txtlng("assessment", "log_user_not_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
+			}
+		}
 		return true;
 	}
 
+	public function getSolutionSubmit()
+	{
+		$solutionSubmit = array();
+		$answer = ilUtil::stripSlashesRecursive($_POST['answer']);
+		
+		foreach($answer as $key => $value)
+		{
+			$solutionSubmit[$key - 1] = $value;
+		}
+
+		return $solutionSubmit;
+	}
+	
 	protected function savePreviewData(ilAssQuestionPreviewSession $previewSession)
 	{
-		// nothing to save!
-
-		return true;
+		if( array_key_exists('answer',$_POST) )
+		{
+			$previewSession->setParticipantsSolution($_POST['answer']);
+		}
+		else
+		{
+			$previewSession->setParticipantsSolution(null);
+		}
 	}
 
 	/**

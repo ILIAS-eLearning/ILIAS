@@ -218,17 +218,17 @@ var GapInsertingWizard = (function () {
 			}
 		});
 		
-		/*tinymce_iframe_selector.keydown(function () {
-			//ToDo: find out why location function breaks keyboard input
-			 var inst = tinyMCE.activeEditor;
+		tinymce_iframe_selector.keydown(function () {
+			 /*var inst = tinyMCE.activeEditor;
 			 var cursorPosition = pro.getCursorPositionTiny(inst);
 			 var pos = pro.cursorInGap(cursorPosition);
-			pro.last_cursor_position = cursorPosition;
-			 if (pos[1] != -1) {
-			 pro.setCursorPositionTiny(inst, pos[1]);
-			 //focusOnFormular(pos);
-			 }
-		});*/
+				pro.last_cursor_position = cursorPosition;
+			 if (pos[1] !== -1) 
+			 {
+				 pro.setCursorPositionTiny(inst,pos[1]);
+				 pro.clickedInGapCallbackCall();
+			 }*/
+		});
 		tinymce_iframe_selector.keyup(function(e){
 			if(e.keyCode === 8 || e.keyCode === 46)
 			{

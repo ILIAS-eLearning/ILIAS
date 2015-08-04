@@ -39,7 +39,7 @@ require_once './Modules/Test/classes/class.ilTestExpressPage.php';
  * @ilCtrl_Calls ilObjTestGUI: ilTestSettingsChangeConfirmationGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestSkillAdministrationGUI, ilTestSkillEvaluationGUI
  * @ilCtrl_Calls ilObjTestGUI: ilAssQuestionPreviewGUI
- * @ilCtrl_Calls ilObjTestGUI: assKprimChoiceGUI
+ * @ilCtrl_Calls ilObjTestGUI: assKprimChoiceGUI, assLongMenuGUI
  *
  * @ingroup ModulesTest
  */
