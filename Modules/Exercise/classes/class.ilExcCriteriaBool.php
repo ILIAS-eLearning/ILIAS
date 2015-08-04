@@ -59,38 +59,19 @@ class ilExcCriteriaBool extends ilExcCriteria
 		return (int)$a_value;
 	}
 	
-	public function addToInfo(ilInfoScreenGUI $a_info, $a_value)
+	public function getHTML($a_value)
 	{
 		global $lng;
-		
-		$caption = "&nbsp;";
-		if($a_value <= 0 && $this->isRequired())
-		{
-			$caption = $lng->txt("no");
-		}
-		else if($a_value == 1)
-		{
-			$caption = $lng->txt("yes");
-		}
-		$a_info->addProperty($this->getTitle(), $caption);
-	}
 	
-	public function addToAccordion(array &$a_acc, $a_value)
-	{
-		$title = $this->getTitle()
-			? $this->getTitle().": "
-			: "";
-		
-		$caption = "&nbsp;";
-		if($a_value <= 0 && $this->isRequired())
+		$caption = null;
+		if($this->isRequired() && $a_value < 0)
 		{
 			$caption = $lng->txt("no");
 		}
 		else if($a_value == 1)
 		{
 			$caption = $lng->txt("yes");
-		}
-		
-		$a_acc[] = $title.$caption;
+		}		
+		return $caption;
 	}
 }

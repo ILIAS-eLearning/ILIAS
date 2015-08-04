@@ -407,18 +407,6 @@ class ilExPeerReview
 			" AND ass_id = ".$ilDB->quote($this->assignment_id, "integer"));
 	}
 	
-	public function getPeerUploadFiles($a_peer_id, $a_giver_id)
-	{
-		if(!$this->assignment->hasPeerReviewFileUpload())
-		{
-			return array();
-		}
-		include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
-		$storage = new ilFSStorageExercise($this->assignment->getExerciseId(), $this->assignment_id);
-		$path = $storage->getPeerReviewUploadPath($a_peer_id, $a_giver_id);			
-		return glob($path."/*.*");			
-	}
-	
 	public function updatePeerReview($a_peer_id, array $a_values)
 	{
 		global $ilDB, $ilUser;
@@ -451,10 +439,10 @@ class ilExPeerReview
 			" WHERE ass_id = ".$ilDB->quote($this->assignment_id, "integer").
 			" AND giver_id = ".$ilDB->quote($a_user_id, "integer"));			
 		while($row = $ilDB->fetchAssoc($set))
-		{
+		{			
 			if(!(bool)$a_validate ||
 				$this->validatePeerReview($row))
-			{
+			{				
 				$cnt++;
 			}			
 		}

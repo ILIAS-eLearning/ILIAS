@@ -119,23 +119,8 @@ class ilExcCriteriaText extends ilExcCriteria
 		return (bool)strlen($a_value);
 	}
 	
-	public function addToInfo(ilInfoScreenGUI $a_info, $a_value)
+	public function getHTML($a_value)
 	{
-		$a_info->addProperty($this->getTitle(), $a_value 
-			? nl2br($a_value) 
-			: "&nbsp;"
-		);
-	}
-	
-	public function addToAccordion(array &$a_acc, $a_value)
-	{
-		$title = $this->getTitle()
-			? $this->getTitle().": "
-			: "";
-		
-		$a_acc[]= $title.
-			$a_value 
-				? nl2br($a_value) 
-				: "&nbsp;";
+		return nl2br($a_value);
 	}
 }

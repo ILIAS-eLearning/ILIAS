@@ -146,22 +146,18 @@ class ilFSStorageExercise extends ilFileSystemStorage
 	 * Get pear review upload path
 	 * (each peer handled in a separate path)
 	 */
-	function getPeerReviewUploadPath($a_peer_id, $a_giver_id)
+	function getPeerReviewUploadPath($a_peer_id, $a_giver_id, $a_crit_id)
 	{
 		$path = $this->peer_review_upload_path."/".$a_peer_id."/".$a_giver_id;
+		if((int)$a_crit_id)
+		{
+			$path .= (int)$a_crit_id."/";
+		}
 		if(!file_exists($path))
 		{
 			ilUtil::makeDirParents($path);
 		}
 		return $path;
-	}
-	
-	/**
-	 * Remove all uploads
-	 */
-	function deletePeerReviewUploads()
-	{
-		$this->deleteDirectory($this->peer_review_upload_path);		
 	}
 		
 	/**

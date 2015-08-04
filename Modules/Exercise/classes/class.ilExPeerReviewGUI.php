@@ -402,7 +402,10 @@ class ilExPeerReviewGUI
 					$giver_id,
 					$peer_id
 				);
-				$item->addToInfo($a_info_widget, $values[$crit_id]);
+				
+				$title = $item->getTitle();
+				$html = $item->getHTML($values[$crit_id]);				
+				$a_info_widget->addProperty($title ? $title : "&nbsp;", $html ? $html : "&nbsp;");
 			}							
 		}
 	}
@@ -700,26 +703,25 @@ class ilExPeerReviewGUI
 		$parts = explode("__", $_GET["fu"]);
 		$giver_id = $parts[0];
 		$peer_id = $parts[1];
+		$crit_id = $parts[2];
 		
-		$peer_items = $this->submission->getPeerReview()->getPeerReviewsByPeerId($peer_id, true);				
-		if(sizeof($peer_items))
+		include_once "Modules/Exercise/classes/class.ilExcCriteria.php";		
+		if(!is_numeric($crit_id))
 		{
-			foreach($peer_items as $item)
-			{
-				if($item["giver_id"] == $giver_id)
-				{													
-					$files = $this->submission->getPeerReview()->getPeerUploadFiles($peer_id, $giver_id);			
-					foreach($files as $file)
-					{
-						if(md5($file) == trim($_GET["fuf"]))
-						{
-							ilUtil::deliverFile($file, basename($file));
-							break(2);
-						}
-					}										
-				}
-			}
-		}		
+			$crit = ilExcCriteria::getInstanceByType($crit_id);
+		}
+		else
+		{
+			$crit = ilExcCriteria::getInstanceById($crit_id);
+		}				
+		
+		$crit->setPeerReviewContext($this->ass, $giver_id, $peer_id);	
+		$file = $crit->getFileByHash();
+		if($file)
+		{
+			ilUtil::deliverFile($file, basename($file));
+			break(2);		
+		}				
 		
 		$ilCtrl->redirect($this, "returnToParent");		
 	}

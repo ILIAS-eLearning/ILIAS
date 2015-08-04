@@ -331,9 +331,7 @@ abstract class ilExcCriteria
 	
 	abstract public function hasValue($a_value);	
 	
-	abstract public function addToInfo(ilInfoScreenGUI $a_info, $a_value);
-	
-	abstract public function addToAccordion(array &$a_acc, $a_value);
+	abstract public function getHTML($a_value);
 		
 	public function resetReview()
 	{

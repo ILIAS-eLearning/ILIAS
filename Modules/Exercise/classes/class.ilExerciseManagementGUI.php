@@ -361,8 +361,7 @@ class ilExerciseManagementGUI
 		$tbl = new ilExAssignmentListTextTableGUI($this, $cmd, $this->assignment, $a_show_peer_review);		
 		$tpl->setContent($tbl->getHTML());		
 	}
-	
-	
+		
 	
 	/**
 	* Add user as member

@@ -63,12 +63,8 @@ class ilExAssignmentListTextTableGUI extends ilTable2GUI
 		if(!$a_disable_peer_review &&
 			$this->ass->getPeerReview() && 
 			!$a_show_peer_review)
-		{
-			$peer_review = new ilExPeerReview($this->ass);
-			if($peer_review->countGivenFeedback())
-			{
-				$this->addCommandButton("listTextAssignmentWithPeerReview", $lng->txt("exc_show_peer_review"));
-			}
+		{								
+			$this->addCommandButton("listTextAssignmentWithPeerReview", $lng->txt("exc_show_peer_review"));			
 		}					
 
 		$this->parse();
@@ -132,17 +128,22 @@ class ilExAssignmentListTextTableGUI extends ilTable2GUI
 					
 					$acc_html = array();
 					foreach($this->ass->getPeerReviewCriteriaCatalogueItems() as $crit)		
-					{
+					{						
 						$crit_id = $crit->getId()
 							? $crit->getId()
 							: $crit->getType();		
 						$crit->setPeerReviewContext($this->ass, $peer_id, $a_set["uid"]);
-						$crit->addToAccordion($acc_html, $values[$crit_id]);
+						
+						// see ilWikiAdvMetaDataBlockGUI
+						$acc_html[] = '<p>'.
+							'<div class="ilBlockPropertyCaption">'.$crit->getTitle().'</div>'.
+							'<div>'.$crit->getHTML($values[$crit_id]).'</div>'.
+							'</p>';						
 					}
 					
 					$acc->addItem(
 						ilUserUtil::getNamePresentation($peer_id, false, false, "", true), 
-						'<div style="padding:2px; padding-left:10px;">'.implode("<br />", $acc_html).'</div>'
+						'<div style="margin-left:10px;">'.implode("\n", $acc_html).'</div>'
 					);									
 				}
 					

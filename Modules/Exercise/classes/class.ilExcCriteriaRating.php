@@ -41,6 +41,13 @@ class ilExcCriteriaRating extends ilExcCriteria
 		$this->form_item = $input;
 	}
 	
+	protected function getRatingSubType()
+	{
+		return $this->getId()
+			? "peer_".(int)$this->getId()
+			: "peer"; // no catalogue / v1
+	}
+	
 	protected function renderWidget($a_read_only = false)
 	{
 		include_once './Services/Rating/classes/class.ilRatingGUI.php';
@@ -49,7 +56,7 @@ class ilExcCriteriaRating extends ilExcCriteria
 			$this->ass->getId(), 
 			"ass", 
 			$this->peer_id, 
-			"peer_".(int)$this->getId()
+			$this->getRatingSubType()
 		);
 		$rating->setUserId($this->giver_id);
 		
@@ -84,16 +91,13 @@ class ilExcCriteriaRating extends ilExcCriteria
 			$this->ass->getId(), 
 			"ass", 
 			$this->peer_id, 
-			"peer_".(int)$this->getId(), 
+			$this->getRatingSubType(),
 			$this->giver_id, 
 			$_POST["value"]
 		);
-		
-		
-		// render current rating
-		
-		// $ilCtrl->setParameter($this->parent_obj, "peer_id", $peer_id);		
-		
+				
+		// render current rating		
+		// $ilCtrl->setParameter($this->parent_obj, "peer_id", $peer_id);				
 		return $this->renderWidget($a_ass, $a_giver_id, $a_peer_id);					
 	}
 	
@@ -122,26 +126,14 @@ class ilExcCriteriaRating extends ilExcCriteria
 			$this->ass->getId(), 
 			"ass", 
 			$this->peer_id, 
-			"peer_".(int)$this->getId(),
+			$this->getRatingSubType(),
 			$this->giver_id
 		);					
 	}		
 	
-	public function addToInfo(ilInfoScreenGUI $a_info, $a_value)
-	{
-		$rating = $this->renderWidget($this->ass, $this->giver_id, $this->peer_id, true);			
-		
-		$a_info->addProperty($this->getTitle(), $rating);
-	}	
-	
-	public function addToAccordion(array &$a_acc, $a_value)
-	{		
-		$title = $this->getTitle()
-			? $this->getTitle().": "
-			: "";
-		
-		$a_acc[]= $title.
-			$this->renderWidget($this->ass, $this->giver_id, $this->peer_id, true);	
+	public function getHTML($a_value)
+	{				
+		return $this->renderWidget($this->ass, $this->giver_id, $this->peer_id, true);	
 	}
 		
 	public function resetReview()
@@ -151,7 +143,7 @@ class ilExcCriteriaRating extends ilExcCriteria
 			$this->ass->getId(), 
 			"ass", 
 			$this->peer_id, 
-			"peer_".(int)$this->getId(),
+			$this->getRatingSubType(),
 			$this->giver_id
 		);
 	}
