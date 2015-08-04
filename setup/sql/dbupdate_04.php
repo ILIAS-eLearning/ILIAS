@@ -7312,3 +7312,20 @@ if(!$ilDB->tableExists('sysc_tasks'))
 }
 
 ?>
+<#4565>
+<?php
+global $ilDB;
+if(!$ilDB->tableColumnExists('il_dcl_table', 'delete_by_owner')) {
+	$ilDB->addTableColumn('il_dcl_table', 'delete_by_owner',
+		array(
+			"type"    => "integer",
+			"notnull" => true,
+			"length"  => 1,
+			"default" => 0
+		)
+	);
+	// Migrate tables: Set new setting to true if "edit by owner" is true
+	// Set edit permission to true if edit
+	$ilDB->manipulate("UPDATE il_dcl_table SET delete_by_owner = 1, edit_perm = 1, delete_perm = 1 WHERE edit_by_owner = 1");
+}
+?>
