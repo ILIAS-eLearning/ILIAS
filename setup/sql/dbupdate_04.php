@@ -7314,14 +7314,205 @@ if(!$ilDB->tableExists('sysc_tasks'))
 ?>
 <#4565>
 <?php
+// primary key for tst_addtime - step 1/8
+
+$cntRes = $ilDB->query("
+	SELECT COUNT(active_fi) cnt FROM (
+		SELECT active_fi FROM tst_addtime
+		GROUP BY active_fi HAVING COUNT(active_fi) > 1
+	) actives
+");
+
+$cntRow = $ilDB->fetchAssoc($cntRes);
+
+if( $cntRow['cnt'] > 0 )
+{
+	$ilDB->createTable('tst_addtime_tmp', array(
+		'active_fi' => array(
+			'type'  => 'integer',
+			'length'=> 8,
+			'notnull' => true,
+			'default' => 0
+		),
+		'additionaltime' => array(
+			'type'  => 'integer',
+			'length'=> 8,
+			'notnull' => false,
+			'default' => null,
+		),
+		'tstamp' => array (
+			'type' => 'integer',
+			'length' => 8,
+			'notnull' => false,
+			'default' => null
+		)
+	));
+
+	$ilDB->addPrimaryKey('tst_addtime_tmp', array('active_fi'));
+}
+?>
+<#4566>
+<?php
+// primary key for tst_addtime - step 2/8
+
+// break safe
+
+if( $ilDB->tableExists('tst_addtime_tmp') )
+{
+	$res = $ilDB->query("
+		SELECT orig.active_fi FROM tst_addtime orig
+		LEFT JOIN tst_addtime_tmp tmp ON tmp.active_fi = orig.active_fi
+		WHERE tmp.active_fi IS NULL
+		GROUP BY orig.active_fi HAVING COUNT(orig.active_fi) > 1
+	");
+
+	while( $row = $ilDB->fetchAssoc($res) )
+	{
+		$ilDB->replace('tst_addtime_tmp',
+			array(
+				'additionaltime' => array('integer', null),
+				'tstamp' => array('integer', null)
+			),
+			array(
+				'active_fi' => array('integer', $row['active_fi'])
+			)
+		);
+	}
+}
+?>
+<#4567>
+<?php
+// primary key for tst_addtime - step 3/8
+
+// break safe
+
+if( $ilDB->tableExists('tst_addtime_tmp') )
+{
+	$res = $ilDB->query("
+		SELECT orig.*
+		FROM tst_addtime_tmp tmp
+		INNER JOIN tst_addtime orig ON orig.active_fi = tmp.active_fi
+		WHERE tmp.additionaltime IS NULL
+		AND tmp.tstamp IS NULL
+		ORDER BY tmp.active_fi ASC, orig.tstamp ASC
+	");
+
+	$active_fi = null;
+	$addtime = null;
+	$tstamp = null;
+
+	while( $row = $ilDB->fetchAssoc($res) )
+	{
+		if( $active_fi === null )
+		{
+			// first loop
+			$active_fi = $row['active_fi'];
+		}
+		elseif( $row['active_fi'] != $active_fi )
+		{
+			// update last active
+			$ilDB->update('tst_addtime_tmp',
+				array(
+					'additionaltime' => array('integer', $addtime),
+					'tstamp' => array('integer', $tstamp)
+				),
+				array(
+					'active_fi' => array('integer', $active_fi)
+				)
+			);
+
+			// process next active
+			$active_fi = $row['active_fi'];
+			$addtime = null;
+			$tstamp = null;
+		}
+
+		if( $addtime === null || $row['additionaltime'] >= $addtime )
+		{
+			$addtime = $row['additionaltime'];
+			$tstamp = $row['tstamp'];
+		}
+	}
+
+	$ilDB->update('tst_addtime_tmp',
+		array(
+			'additionaltime' => array('integer', $addtime),
+			'tstamp' => array('integer', $tstamp)
+		),
+		array(
+			'active_fi' => array('integer', $active_fi)
+		)
+	);
+}
+?>
+<#4568>
+<?php
+// primary key for tst_addtime - step 4/8
+
+if( $ilDB->tableExists('tst_addtime_tmp') )
+{
+	$ilDB->manipulate("
+		DELETE FROM tst_addtime WHERE active_fi IN(
+			SELECT DISTINCT active_fi FROM tst_addtime_tmp
+		)
+	");
+}
+?>
+<#4569>
+<?php
+// primary key for tst_addtime - step 5/8
+
+if( $ilDB->tableExists('tst_addtime_tmp') )
+{
+	$ilDB->manipulate("
+		INSERT INTO tst_addtime (active_fi, additionaltime, tstamp)
+		SELECT active_fi, additionaltime, tstamp
+		FROM tst_addtime_tmp
+	");
+}
+?>
+<#4570>
+<?php
+// primary key for tst_addtime - step 6/8
+
+if( $ilDB->tableExists('tst_addtime_tmp') )
+{
+	$ilDB->dropTable('tst_addtime_tmp');
+}
+?>
+<#4571>
+<?php
+// primary key for tst_addtime - step 7/8
+
+if( $ilDB->indexExistsByFields('tst_addtime', array('active_fi')) )
+{
+	$ilDB->dropIndexByFields('tst_addtime', array('active_fi'));
+}
+?>
+<#4572>
+<?php
+// primary key for tst_addtime - step 8/8
+
+$ilDB->addPrimaryKey('tst_addtime', array('active_fi'));
+?>
+<#4573>
+<?php 
+if($ilDB->indexExistsByFields('ctrl_calls', array('parent')))
+{
+	$ilDB->dropIndexByFields('ctrl_calls', array('parent'));
+}
+$ilDB->addPrimaryKey('ctrl_calls', array('parent','child'));
+?>
+<#4574>
+<?php
 global $ilDB;
 if(!$ilDB->tableColumnExists('il_dcl_table', 'delete_by_owner')) {
 	$ilDB->addTableColumn('il_dcl_table', 'delete_by_owner',
 		array(
-			"type"    => "integer",
-			"notnull" => true,
-			"length"  => 1,
-			"default" => 0
+		"type"    => "integer",
+		"notnull" => true,
+		"length"  => 1,
+		"default" => 0
 		)
 	);
 	// Migrate tables: Set new setting to true if "edit by owner" is true
