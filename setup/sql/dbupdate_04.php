@@ -7368,11 +7368,15 @@ if( $ilDB->tableExists('tst_addtime_tmp') )
 
 	while( $row = $ilDB->fetchAssoc($res) )
 	{
-		$ilDB->insert('tst_addtime_tmp', array(
-			'active_fi' => array('integer', $row['active_fi']),
-			'additionaltime' => array('integer', null),
-			'tstamp' => array('integer', null)
-		));
+		$ilDB->replace('tst_addtime_tmp',
+			array(
+				'additionaltime' => array('integer', null),
+				'tstamp' => array('integer', null)
+			),
+			array(
+				'active_fi' => array('integer', $row['active_fi'])
+			)
+		);
 	}
 }
 ?>
