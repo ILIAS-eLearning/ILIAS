@@ -1420,7 +1420,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$template->setVariable("HOUR", $date["hours"]);
 		$template->setVariable("MINUTE", $date["minutes"]);
 		$template->setVariable("SECOND", $date["seconds"]);
-		if (preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->object->getEndingTime(), $matches))
+		if ($this->object->isEndingTimeEnabled() && preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->object->getEndingTime(), $matches))
 		{
 			$template->setVariable("ENDYEAR", $matches[1]);
 			$template->setVariable("ENDMONTH", $matches[2]-1);
