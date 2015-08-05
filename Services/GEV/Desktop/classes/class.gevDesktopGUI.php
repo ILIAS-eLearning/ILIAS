@@ -34,6 +34,8 @@
 * @ilCtrl_Calls gevDesktopGUI: gevDBVReportSuperiorGUI
 * @ilCtrl_Calls gevDesktopGUI: gevDecentralTrainingBuildingBlockAdminGUI
 * @ilCtrl_Calls gevDesktopGUI: gevDecentralTrainingCourseCreatingBuildingBlockGUI
+* @ilCtrl_Calls gevDesktopGUI: gevTrainerWorkloadGUI
+* @ilCtrl_Calls gevDesktopGUI: gevTrainerOperationByOrgUnitAndTrainerGUI
 */
 
 class gevDesktopGUI {
@@ -235,6 +237,18 @@ class gevDesktopGUI {
 				$gui = new gevdecentraltrainingcoursecreatingbuildingblockgui($crs_obj_id);
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;
+			case "gevtrainerworkloadgui":
+				$ilMainMenu->setActive("gev_reporting_menu");
+				require_once("Services/GEV/Reports/classes/class.gevTrainerWorkloadGUI.php");
+				$gui = new gevTrainerWorkloadGUI();
+				$ret = $this->ctrl->forwardCommand($gui);
+				break;
+			case "gevtraineroperationbyorgunitandtrainergui":
+				$ilMainMenu->setActive("gev_reporting_menu");
+				require_once("Services/GEV/Reports/classes/class.gevTrainerOperationByOrgUnitAndTrainerGUI.php");
+				$gui = new gevTrainerOperationByOrgUnitAndTrainerGUI();
+				$ret = $this->ctrl->forwardCommand($gui);
+				break;
 			default:
 				$this->dispatchCmd($cmd);
 				break;
@@ -270,6 +284,8 @@ class gevDesktopGUI {
 			case "toWBDErrors":
 			case "createHAUnit":
 			case "toDctBuildingBlockAdm":
+			case "toTrainerWorkload":
+			case "toTrainerOperationByOrgUnitAndTrainer":
 				$this->$a_cmd();
 			case "handleExplorerCommand":
 				break;
@@ -334,6 +350,14 @@ class gevDesktopGUI {
 
 	protected function toDBVReportSuperior() {
 		$this->ctrl->redirectByClass("gevDBVReportSuperiorGUI");
+	}
+
+	protected function toTrainerWorkload() {
+		$this->ctrl->redirectByClass("gevTrainerWorkloadGUI");
+	}
+
+	protected function toTrainerOperationByOrgUnitAndTrainer() {
+		$this->ctrl->redirectByClass("gevTrainerOperationByOrgUnitAndTrainerGUI");
 	}
 	
 	protected function toReportEmployeeEduBios() {

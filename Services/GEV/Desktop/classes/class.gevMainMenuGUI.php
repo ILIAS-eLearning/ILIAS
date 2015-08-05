@@ -171,6 +171,8 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 				, "gev_report_wbd_errors" => array($report_permission_wbd, "ilias.php?baseClass=gevDesktopGUI&cmd=toWBDErrors",$this->lng->txt("gev_report_wbd_errors"))
 				, "gev_report_dbv_report" => array($report_permission_dbv, "ilias.php?baseClass=gevDesktopGUI&cmd=toDBVReport",$this->lng->txt("gev_report_dbv_report"))
 				, "gev_report_dbv_report_superior" => array($report_permission_dbv_superior, "ilias.php?baseClass=gevDesktopGUI&cmd=toDBVReportSuperior",$this->lng->txt("gev_report_dbv_report_superior"))
+				, "gev_report_trainer_workload" => array($this->userUtils->isAdmin(), "ilias.php?baseClass=gevDesktopGUI&cmd=toTrainerWorkload",$this->lng->txt("gev_report_trainer_workload"))
+				, "gev_report_trainer_operation_by_orgu_trainer" => array($this->userUtils->isAdmin(), "ilias.php?baseClass=gevDesktopGUI&cmd=toTrainerOperationByOrgUnitAndTrainer",$this->lng->txt("gev_report_trainer_operation_by_orgu_trainer"))
 				), $this->lng->txt("gev_reporting_menu"))
 
 			, "gev_admin_menu" => array(false, $has_managment_menu, array(
