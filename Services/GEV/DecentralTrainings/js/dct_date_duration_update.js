@@ -1,6 +1,5 @@
 function ilInitDuration(event,args,prefix)
 {
-	var prefix = "time";
 	old = new Date(
 			document.getElementById("date[date]_y").options[document.getElementById("date[date]_y").selectedIndex].value, 
 			document.getElementById("date[date]_m").selectedIndex, 
