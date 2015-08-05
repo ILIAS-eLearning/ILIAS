@@ -73,7 +73,10 @@ class ilStudyProgrammeAssignmentListGUI {
 	}
 	
 	protected function buildProgressBar(ilStudyProgrammeUserProgress $a_progress) {
-		return $this->buildProgressBarRaw(10, 40, 30);
+		$tooltip_id = "prg_".$a_progress->getId();
+		$current_percent = (int)($a_progress->getCurrentAmountOfPoints() * 100 / $a_progress->getMaximumPossibleAmountOfPoints());
+		$required_percent = (int)($a_progress->getAmountOfPoints() * 100 / $a_progress->getMaximumPossibleAmountOfPoints());
+		return $this->buildProgressBarRaw($tooltip_id, $current_percent, $required_percent);
 	}
 
 	protected function buildProgressBarRaw($a_tooltip_id, $a_result_in_percent, $a_limit_in_percent) {
@@ -94,7 +97,7 @@ class ilStudyProgrammeAssignmentListGUI {
 						 , $a_limit_in_percent
 						 );
 		
-		if($a_result_in_percent > $a_limit_in_percent) {
+		if($a_result_in_percent >= $a_limit_in_percent) {
 			$bar_color = "#80f080";
 		}
 		else {
