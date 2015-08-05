@@ -198,7 +198,7 @@ class ilObjStudyProgrammeTreeGUI {
 		$this->checkAccess('write');
 
 		if(!isset($_POST['tree']) || is_null(json_decode($_POST['tree']))) {
-			throw new ilTrainingProgrammeTreeException("There is no tree data to save!");
+			throw new ilStudyProgrammeTreeException("There is no tree data to save!");
 		}
 
 		// saves order recursive
@@ -211,7 +211,7 @@ class ilObjStudyProgrammeTreeGUI {
 	/**
 	 * Recursive function for saving the tree order
 	 *
-	 * @param [ilObjTrainingProgramme]      $nodes
+	 * @param [ilObjStudyProgramme]      $nodes
 	 * @param ilContainerSorting|null       $container_sorting
 	 * @param int|null                      $parent_ref_id
 	 */
@@ -315,7 +315,7 @@ class ilObjStudyProgrammeTreeGUI {
 
 
 	/**
-	 * Returns the async creation form for TrainingProgrammes
+	 * Returns the async creation form for StudyProgrammes
 	 *
 	 * @return ilAsyncPropertyFormGUI
 	 */
@@ -333,7 +333,7 @@ class ilObjStudyProgrammeTreeGUI {
 
 	/**
 	 * Generates the modal window content for the creation form of nodes or leafs
-	 * If there are already TrainingProgramme-nodes in the parent, leaf creation is disabled and if there are already leafs, nodes can't be created
+	 * If there are already StudyProgramme-nodes in the parent, leaf creation is disabled and if there are already leafs, nodes can't be created
 	 *
 	 * @throws ilException
 	 */
