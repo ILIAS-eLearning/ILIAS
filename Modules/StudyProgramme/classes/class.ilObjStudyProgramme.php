@@ -162,6 +162,15 @@ class ilObjStudyProgramme extends ilContainer {
 		}
 		$this->settings->delete();
 	}
+	
+	/**
+	 * Delete all assignments from the DB.
+	 */
+	protected function deleteAssignments() {
+		foreach ($this->getAssignments() as $ass) {
+			$ass->delete();
+		}
+	}
 
 	public function read() {
 		parent::read();
@@ -194,6 +203,7 @@ class ilObjStudyProgramme extends ilContainer {
 		}
 
 		$this->deleteSettings();
+		$this->deleteAssignments();
 		return true;
 	}
 	
@@ -815,10 +825,6 @@ class ilObjStudyProgramme extends ilContainer {
 		}
 		
 		$ass_id = $a_assignment->getId();
-		$this->applyToSubTreeNodes(function($node) use ($ass_id) {
-			$progress = $node->getProgressForAssignment($ass_id);
-			$progress->delete();
-		});
 		
 		ilStudyProgrammeEvents::userDeassigned($a_assignment);
 		
