@@ -1256,21 +1256,21 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 					{
 						if($answer["answertext_wrong"] == $item && !$answer["pos"])
 						{
-							$result["correct_answers"][$aidx]["pos"] = $textidx."_".($idx+1);
+							$result["correct_answers"][$aidx]["pos"] = $this->getId()."_".$textidx."_".($idx+1);
 							break;
 						}
 					}
 				}
 				array_push($answers, array(
 					"answertext" => (string) ilUtil::prepareFormOutput($item),
-					"order" => $textidx."_".($idx+1)
+					"order" => $this->getId()."_".$textidx."_".($idx+1)
 				));
 			}
 			if($textidx != sizeof($textarray)-1)
 			{
 				array_push($answers, array(
 						"answertext" => "###",
-						"order" => $textidx."_".($idx+2)
+						"order" => $this->getId()."_".$textidx."_".($idx+2)
 					));
 			}
 		}
