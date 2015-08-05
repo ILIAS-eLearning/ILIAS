@@ -42,7 +42,7 @@ class ilStudyProgrammeAssignmentListGUI {
 			$programme = $this->assignment->getStudyProgramme();
 			$progress = $programme->getProgressForAssignment($this->assignment->getId());
 			
-			$tpl = $this->getTemplate("Modules/StudyProgramme", static::$tpl_file);
+			$tpl = $this->getTemplate("Modules/StudyProgramme", static::$tpl_file, true, true);
 			$tpl->setVariable("TXT_TITLE", $programme->getTitle());
 			$tpl->setVariable("TXT_DESC", $programme->getDescription());
 			$tpl->setVariable("SRC_ICON", $this->getIconPath($programme->getId()));
@@ -80,12 +80,12 @@ class ilStudyProgrammeAssignmentListGUI {
 	}
 
 	protected function buildProgressBarRaw($a_tooltip_id, $a_result_in_percent, $a_limit_in_percent) {
-		assert(is_int($a_tooltip_id));
+		assert(is_string($a_tooltip_id));
 		assert(is_int($a_result_in_percent));
-		assert($a_result_in_percent > 0);
+		assert($a_result_in_percent >= 0);
 		assert($a_result_in_percent <= 100);
 		assert(is_int($a_limit_in_percent));
-		assert($a_limit_in_percent > 0);
+		assert($a_limit_in_percent >= 0);
 		assert($a_limit_in_percent <= 100);
 		
 		// Shameless copy of ilContainerObjectiveGUI::buildObjectiveProgressBar with modifications.
