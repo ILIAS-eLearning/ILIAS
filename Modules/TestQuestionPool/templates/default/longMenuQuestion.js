@@ -115,7 +115,7 @@ var longMenuQuestion = (function () {
 		var id = 'points_' + index;
 		var name = 'points[' + index + ']';
 		footer_class.parent().append($('#layout_dummy_points').clone().attr({'id': id}).addClass('longmenu'));
-		$('#' + id).find('input').attr('name' , name).val(pub.questionParts.list[index][1]);
+		$('#' + id).find('input').attr('name' , name).addClass('points').val(pub.questionParts.list[index][1]);
 	};
 
 	pro.buildAnswerOverview = function (question_id)  {
@@ -166,9 +166,17 @@ var longMenuQuestion = (function () {
 		modal_body.html(pro.appendUploadButtons());
 		modal_body.find('.upload').attr('id', 'fileinput');
 		document.getElementById('fileinput').addEventListener('change', pro.readSingleFile, false);
+		pro.savePossibleChangedPoints();
 		pro.redrawAnswerList(gap_id);
 		pro.appendModalCloseListener();
 		$('#ilGapModal').modal('show');
+	};
+
+	pro.savePossibleChangedPoints = function ()
+	{
+		$.each($('.points') , function( index) {
+			pub.questionParts.list[index][1] = $(this).val();
+		});
 	};
 
 	pro.correctAnswersClickFunction = function (that)

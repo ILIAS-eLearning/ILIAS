@@ -16,4 +16,18 @@ class ilAssLongMenuFeedback  extends ilAssConfigurableMultiOptionQuestionFeedbac
 	{
 		return self::SPECIFIC_QUESTION_TABLE_NAME;
 	}
+
+	protected function getAnswerOptionsByAnswerIndex()
+	{
+		return $this->questionOBJ->getAnswers();
+	}
+
+	protected function buildAnswerOptionLabel($index, $answer)
+	{
+		$counter = $index + 1;
+		$caption = 'Longmenu '. $counter .':<i> ';
+		$caption .= $answer . '</i>';
+
+		return $caption;
+	}
 }
