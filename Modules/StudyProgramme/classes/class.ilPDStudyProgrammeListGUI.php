@@ -13,9 +13,17 @@ require_once("Services/Block/classes/class.ilBlockGUI.php");
 class ilPDStudyProgrammeListGUI extends ilBlockGUI {
 	const BLOCK_TYPE = "prglist";
 	
+	/**
+	 * @var ilStudyProgrammeUserAssignment[]
+	 */
+	protected $users_assignments;
+	
 	public function __construct() {
-		global $lng;
+		global $lng, $ilUser;
 		$this->il_lng = $lng;
+		$this->il_user = $ilUser;
+		
+		$this->loadUsersAssignments();
 		
 		// As this won't be visible we don't have to initialize this.
 		if (!$this->userHasStudyProgrammes()) {
@@ -40,9 +48,32 @@ class ilPDStudyProgrammeListGUI extends ilBlockGUI {
 		return false;
 	}
 	
+	public function fillDataSection() {
+		assert($this->userHasStudyProgrammes()); // We should not get here.
+		
+		require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeAssignmentListGUI.php");
+		
+		$content = "";
+		
+		foreach ($this->users_assignments as $assignment) {
+			$list_item = $this->new_ilStudyProgrammeAssignmentListGUI($assignment);
+			$content .= $list_item->getHTML();
+		}
+		$this->tpl->setVariable("BLOCK_ROW", $content);
+	}
 	
-	// Specific stuff
+	
 	protected function userHasStudyProgrammes() {
-		return false;
+		return !empty($this->users_assignments);
+	}
+	
+	protected function loadUsersAssignments() {
+		require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeUserAssignment.php");
+		$this->users_assignments = ilStudyProgrammeUserAssignment::getInstancesOfUser($this->il_user->getId());
+	}
+	
+	protected function new_ilStudyProgrammeAssignmentListGUI(ilStudyProgrammeUserAssignment $a_assignment) {
+		require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeAssignmentListGUI.php");
+		return new ilStudyProgrammeAssignmentListGUI($a_assignment);
 	}
 }

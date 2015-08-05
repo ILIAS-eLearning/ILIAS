@@ -91,6 +91,9 @@ class ilObjStudyProgramme extends ilContainer {
 	 */
 	static public function getInstanceByRefId($a_ref_id) {
 		require_once("Modules/StudyProgramme/classes/class.ilObjStudyProgrammeCache.php");
+		if (self::$study_programme_cache === null) {
+			self::initStudyProgrammeCache();
+		}
 		return self::$study_programme_cache->getInstanceByRefId($a_ref_id);
 	}
 	
