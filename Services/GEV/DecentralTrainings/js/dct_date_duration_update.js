@@ -13,11 +13,16 @@ function ilInitDuration(event,args,prefix)
 
 	document.getElementById(prefix + "[end][time]_h").disabled = true;
 	document.getElementById(prefix + "[end][time]_m").disabled = true;
+	
+	$("#form_").submit(function() {
+		document.getElementById(prefix + "[end][time]_h").disabled = false;
+		document.getElementById(prefix + "[end][time]_m").disabled = false;
+	});
 }
 
 function ilUpdateEndDate(cal)
 {
-	var start;
+	var start;	
 	var end;
 	var diff;
 	
