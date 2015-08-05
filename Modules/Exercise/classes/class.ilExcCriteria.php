@@ -177,6 +177,18 @@ abstract class ilExcCriteria
 		return $this->def;
 	}
 	
+	public function importDefinition($a_def)
+	{
+		if($a_def)
+		{
+			$a_def = @unserialize($a_def);
+			if(is_array($a_def))
+			{
+				$this->setDefinition($a_def);
+			}
+		}		
+	}
+	
 	
 	//
 	// CRUD
@@ -282,6 +294,20 @@ abstract class ilExcCriteria
 		
 		$ilDB->manipulate("DELETE FROM exc_crit".
 			" WHERE parent = ".$ilDB->quote($a_parent_id, "integer"));	
+	}
+	
+	public function cloneObject($a_target_parent_id)
+	{
+		$new_obj = ilExcCriteria::getInstanceByType($this->getType());
+		$new_obj->setParent($a_target_parent_id);
+		$new_obj->setTitle($this->getTitle());
+		$new_obj->setDescription($this->getDescription());
+		$new_obj->setRequired($this->isRequired());
+		$new_obj->setPosition($this->getPosition());
+		$new_obj->setDefinition($this->getDefinition());
+		$new_obj->save();	
+		
+		return $new_obj->getId();
 	}
 	
 	

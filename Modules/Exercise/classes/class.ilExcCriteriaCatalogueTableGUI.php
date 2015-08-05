@@ -31,6 +31,7 @@ class ilExcCriteriaCatalogueTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt("position"), "pos", "10%");	
 		$this->addColumn($this->lng->txt("title"), "title");	
 		$this->addColumn($this->lng->txt("exc_criterias"));
+		$this->addColumn($this->lng->txt("exc_assignments"));
 		$this->addColumn($this->lng->txt("actions"));
 		
 		$this->setDefaultOrderField("pos");
@@ -50,9 +51,33 @@ class ilExcCriteriaCatalogueTableGUI extends ilTable2GUI
 	
 	protected function getItems()
 	{
+		global $lng;
+		
 		$data = array();
 		
+		include_once "Modules/Exercise/classes/class.ilExAssignment.php";
 		include_once "Modules/Exercise/classes/class.ilExcCriteria.php";
+		include_once "Modules/Exercise/classes/class.ilExPeerReview.php";
+		
+		$protected = $assigned = array();
+		foreach(ilExAssignment::getInstancesByExercise($this->exc_id) as $ass)
+		{			
+			if($ass->getPeerReviewCriteriaCatalogue())
+			{
+				$assigned[$ass->getPeerReviewCriteriaCatalogue()][$ass->getId()] = $ass->getTitle();
+				
+				$peer_review = new ilExPeerReview($ass);	
+				if($peer_review->hasPeerReviewGroups())
+				{
+					$protected[$ass->getPeerReviewCriteriaCatalogue()][] = $ass->getId();
+				}
+			}
+		}
+		
+		if(sizeof($protected))
+		{
+			ilUtil::sendInfo($lng->txt("exc_crit_cat_protected_assignment_info"));
+		}
 		
 		$pos = 0;
 		foreach(ilExcCriteriaCatalogue::getInstancesByParentId($this->exc_id) as $item)
@@ -69,7 +94,13 @@ class ilExcCriteriaCatalogueTableGUI extends ilTable2GUI
 				"id" => $item->getId()
 				,"pos" => $pos
 				,"title" => $item->getTitle()
-				,"criterias" => $crits
+				,"criterias" => $crits				
+				,"protected" => array_key_exists($item->getId(), $protected)
+					? $protected[$item->getId()]
+					: null
+				,"assigned" => array_key_exists($item->getId(), $assigned)
+					? $assigned[$item->getId()]
+					: null
 			);
 		}
 		
@@ -109,15 +140,37 @@ class ilExcCriteriaCatalogueTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("ACTION_URL", $url);
 		$this->tpl->setVariable("ACTION_TXT", $lng->txt("edit"));
 		$this->tpl->parseCurrentBlock();
+		
+		if(is_array($a_set["assigned"]))
+		{
+			var_dump($a_set["protected"]);
+			foreach($a_set["assigned"] as $ass_id => $ass_title)
+			{
+				if(is_array($a_set["protected"]) &&
+					in_array($ass_id, $a_set["protected"]))
+				{
+					$this->tpl->setCurrentBlock("ass_protected_bl");
+					$this->tpl->setVariable("ASS_PROTECTED", $lng->txt("exc_crit_cat_protected_assignment")); 
+					$this->tpl->parseCurrentBlock();
+				}
 				
-		$url = $ilCtrl->getLinkTargetByClass("ilExcCriteriaGUI", "");
+				$this->tpl->setCurrentBlock("ass_bl");
+				$this->tpl->setVariable("ASS_TITLE", $ass_title); 
+				$this->tpl->parseCurrentBlock();
+			}
+		}
 		
-		$this->tpl->setCurrentBlock("action_bl");
-		$this->tpl->setVariable("ACTION_URL", $url);
-		$this->tpl->setVariable("ACTION_TXT", $lng->txt("exc_edit_criterias"));
-		$this->tpl->parseCurrentBlock();
-		
-		$ilCtrl->setParameter($this->getParentObject(), "cat_id", "");
-		
+				
+		if(!is_array($a_set["protected"]))
+		{
+			$url = $ilCtrl->getLinkTargetByClass("ilExcCriteriaGUI", "");
+
+			$this->tpl->setCurrentBlock("action_bl");
+			$this->tpl->setVariable("ACTION_URL", $url);
+			$this->tpl->setVariable("ACTION_TXT", $lng->txt("exc_edit_criterias"));
+			$this->tpl->parseCurrentBlock();
+
+			$ilCtrl->setParameter($this->getParentObject(), "cat_id", "");
+		}		
 	}
 }

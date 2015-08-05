@@ -202,21 +202,28 @@ class ilObjExercise extends ilObject
 	 	$new_obj->saveData();
 	 	$new_obj->setPassNr($this->getPassNr());
 	 	$new_obj->setShowSubmissions($this->getShowSubmissions());
-	 	$new_obj->setCompletionBySubmission($this->isCompletionBySubmissionEnabled());
-
-	 	
+	 	$new_obj->setCompletionBySubmission($this->isCompletionBySubmissionEnabled());	 
 	 	$new_obj->update();
 	 	
+		// Copy criteria catalogues
+		$crit_cat_map = array();
+		include_once("./Modules/Exercise/classes/class.ilExcCriteriaCatalogue.php");
+		foreach(ilExcCriteriaCatalogue::getInstancesByParentId($this->getId()) as $crit_cat)
+		{
+			$new_id = $crit_cat->cloneObject($new_obj->getId());
+			$crit_cat_map[$crit_cat->getId()] = $new_id;			
+		}
+			
 		// Copy assignments
 		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
-		ilExAssignment::cloneAssignmentsOfExercise($this->getId(), $new_obj->getId());	
+		ilExAssignment::cloneAssignmentsOfExercise($this->getId(), $new_obj->getId(), $crit_cat_map);	
 		
 		// Copy learning progress settings
 		include_once('Services/Tracking/classes/class.ilLPObjSettings.php');
 		$obj_settings = new ilLPObjSettings($this->getId());
 		$obj_settings->cloneSettings($new_obj->getId());
 		unset($obj_settings);
-				
+			
 		return $new_obj;
 	}
 	

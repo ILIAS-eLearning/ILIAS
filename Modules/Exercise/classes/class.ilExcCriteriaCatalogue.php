@@ -38,7 +38,7 @@ class ilExcCriteriaCatalogue
 		}	
 		
 		return $res;
-	}
+	}		
 	
 	
 	//
@@ -202,5 +202,22 @@ class ilExcCriteriaCatalogue
 		
 		$ilDB->manipulate("DELETE FROM exc_crit".
 			" WHERE parent = ".$ilDB->quote($a_parent_id, "integer"));	
+	}
+	
+	public function cloneObject($a_target_parent_id)
+	{
+		$new_obj = new self();
+		$new_obj->setParent($a_target_parent_id);
+		$new_obj->setTitle($this->getTitle());
+		$new_obj->setPosition($this->getPosition());
+		$new_obj->save();
+		
+		include_once "Modules/Exercise/classes/class.ilExcCriteria.php";
+		foreach(ilExcCriteria::getInstancesByParentId($this->getId()) as $crit)
+		{
+			$crit->cloneObject($new_obj->getId());			
+		}		
+		
+		return $new_obj->getId();
 	}
 }

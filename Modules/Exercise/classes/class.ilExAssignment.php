@@ -909,7 +909,7 @@ class ilExAssignment
 	 * @param
 	 * @return
 	 */
-	function cloneAssignmentsOfExercise($a_old_exc_id, $a_new_exc_id)
+	function cloneAssignmentsOfExercise($a_old_exc_id, $a_new_exc_id, array $a_crit_cat_map)
 	{
 		$ass_data = self::getInstancesByExercise($a_old_exc_id);
 		foreach ($ass_data as $d)
@@ -943,9 +943,15 @@ class ilExAssignment
 			$new_ass->setFeedbackCron($d->hasFeedbackCron()); // #16295
 			$new_ass->setTeamTutor($d->getTeamTutor());
 			$new_ass->setMaxFile($d->getMaxFile());
-			$new_ass->save();
 			
-			// criteria catalogue(s)?
+			// criteria catalogue(s)
+			if($d->getPeerReviewCriteriaCatalogue() &&
+				array_key_exists($d->getPeerReviewCriteriaCatalogue(), $a_crit_cat_map))
+			{
+				$new_ass->setPeerReviewCriteriaCatalogue($a_crit_cat_map[$d->getPeerReviewCriteriaCatalogue()]);
+			}			
+			
+			$new_ass->save();
 			
 			include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 			$old_storage = new ilFSStorageExercise($a_old_exc_id, (int) $d->getId());
