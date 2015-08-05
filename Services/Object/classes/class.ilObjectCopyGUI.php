@@ -20,8 +20,13 @@ class ilObjectCopyGUI
 	const SUBMODE_COMPLETE = 1;
 	const SUBMODE_CONTENT_ONLY = 2;
 	
-	const TAB_SELECTION_TREE = 1;
-	const TAB_SELECTION_MEMBERSHIP = 2;
+	// tabs
+	const TAB_SELECTION_TARGET_TREE = 1;
+	const TAB_SELECTION_SOURCE_TREE = 2;
+	const TAB_SELECTION_MEMBERSHIP = 3;
+	
+	// group selection of source or target
+	const TAB_GROUP_SC_SELECTION = 1;
 	
 	
 	private $mode = 0;
@@ -32,7 +37,9 @@ class ilObjectCopyGUI
 	private $parent_obj = null;
 	
 	private $type = '';
-	private $source = 0;
+	
+	private $sources = array();
+	
 	// begin-patch multi copy
 	private $targets = array();
 	private $targets_copy_id = array();
@@ -52,9 +59,6 @@ class ilObjectCopyGUI
 		$this->lng->loadLanguageModule('obj');
 
 		$this->parent_obj = $a_parent_gui;
-
-		// this parameter may be filled in "manage" view
-		$ilCtrl->saveParameter($this, array("source_ids"));
 	}
 	
 	/**
@@ -92,9 +96,11 @@ class ilObjectCopyGUI
 		{
 			$this->setSubMode((int) $_REQUEST['smode']);
 			$GLOBALS['ilCtrl']->setParameter($this,'smode',$this->getSubMode());
+			$GLOBALS['ilLog']->write(__METHOD__.': Submode is:' . $this->getSubMode());
 		}
 		
 		
+		// creation screen: copy section
 		if($_REQUEST['new_type'])
 		{
 			$this->setMode(self::SEARCH_SOURCE);
@@ -103,29 +109,47 @@ class ilObjectCopyGUI
 			$ilCtrl->setParameterByClass(get_class($this->parent_obj), 'new_type', $this->getType());
 			$ilCtrl->setParameterByClass(get_class($this->parent_obj), 'cpfl', 1);
 			$ilCtrl->setReturnByClass(get_class($this->parent_obj), 'create');
+			$GLOBALS['ilLog']->write(__METHOD__.': Creation mode. ' );
 		}
+		// adopt content, and others?
 		elseif($_REQUEST['selectMode'] == self::SOURCE_SELECTION)
 		{
 			$this->setMode(self::SOURCE_SELECTION);
 
 			$ilCtrl->setParameterByClass(get_class($this->parent_obj), 'selectMode', self::SOURCE_SELECTION);
-			$this->setTargets(array((int) $_GET['ref_id']));
+			$this->setTarget((int) $_GET['ref_id']);
 			$ilCtrl->setReturnByClass(get_class($this->parent_obj), '');
+			$GLOBALS['ilLog']->write(__METHOD__.': Source selection mode. Target is ' . $this->getFirstTarget());
 		}
-		else
+		elseif($_REQUEST['selectMode'] == self::TARGET_SELECTION)
 		{
 			$this->setMode(self::TARGET_SELECTION);
 			$ilCtrl->setReturnByClass(get_class($this->parent_obj),'');
-
-			if ($_GET["source_ids"] == "")
-			{
-				$this->setType(
-					ilObject::_lookupType(ilObject::_lookupObjId($this->getSource()))
-				);
-			}
+			$GLOBALS['ilLog']->write(__METHOD__.': Target selection mode. ' );
 		}
+		
+		// save sources
+		
+		if($_REQUEST['source_ids'])
+		{
+			$this->setSource(explode('_',$_REQUEST['source_ids']));
+			$GLOBALS['ilCtrl']->setParameter($this,'source_ids',  implode('_', $this->getSource()));
+		}
+		if($_REQUEST['source_id'])
+		{
+			$this->setSource(array((int) $_REQUEST['source_id']));
+			$GLOBALS['ilCtrl']->setParameter($this,'source_ids',  implode('_', $this->getSource()));
+			
+		}
+		$this->setType(
+				ilObject::_lookupType(ilObject::_lookupObjId($this->getFirstSource()))
+		);
 	}
 	
+	/**
+	 * Init tabs
+	 * General 
+	 */
 	protected function initTabs()
 	{
 		$GLOBALS['lng']->loadLanguageModule('cntr');
@@ -136,10 +160,35 @@ class ilObjectCopyGUI
 		);
 	}
 	
-	protected function setTabs($a_sect)
+	/**
+	 * Set tabs
+	 * @param type $a_tab_group
+	 * @param type $a_active_tab
+	 */
+	protected function setTabs($a_tab_group, $a_active_tab)
 	{
-		
+		if($a_tab_group == self::TAB_GROUP_SC_SELECTION)
+		{
+			if($this->getSubMode() == self::SUBMODE_CONTENT_ONLY)
+			{
+				if($this->getMode() == self::SOURCE_SELECTION)
+				{
+					$GLOBALS['ilTabs']->addTab(
+							self::TAB_SELECTION_SOURCE_TREE,
+							$GLOBALS['lng']->txt('cntr_copy_repo_tree'),
+							$GLOBALS['ilCtrl']->getLinkTarget($this,'initSourceSelection')
+					);
+					$GLOBALS['ilTabs']->addTab(
+							self::TAB_SELECTION_MEMBERSHIP,
+							$GLOBALS['lng']->txt('cntr_copy_crs_grp'),
+							$GLOBALS['ilCtrl']->getLinkTarget($this,'showSourceSelectionMembership')
+					);
+				}
+			}
+		}
+		$GLOBALS['ilTabs']->activateTab($a_active_tab);
 	}
+	
 	
 	/**
 	 * Adopt content (crs in crs, grp in grp, crs in grp or grp in crs)
@@ -148,7 +197,14 @@ class ilObjectCopyGUI
 	protected function adoptContent()
 	{
 		$GLOBALS['ilCtrl']->setParameter($this,'smode',self::SUBMODE_CONTENT_ONLY);
+		$GLOBALS['ilCtrl']->setParameter($this,'selectMode',self::SOURCE_SELECTION);
+		
+		
 		$this->setSubMode(self::SUBMODE_CONTENT_ONLY);
+		$this->setMode(self::SOURCE_SELECTION);
+		$this->setTarget((int) $_GET['ref_id']);
+		
+		
 		return $this->initSourceSelection();
 	}
 	
@@ -166,32 +222,29 @@ class ilObjectCopyGUI
 		// copy opened nodes from repository explorer		
 		$_SESSION['paste_copy_repexpand'] = is_array($_SESSION['repexpand']) ? $_SESSION['repexpand'] : array();
 
-
-		$this->setMode(self::TARGET_SELECTION);
 		// begin-patch mc
 		$this->setTargets(array());
 		// cognos-blu-patch: end
 
-		// note that source_id is empty, if source_ids are given
-		if ($_GET['source_id'] > 0)
+		// open current position
+		
+		foreach($this->getSource() as $source_id)
 		{
-			// open current position
-			$path = $tree->getPathId((int)$_GET['source_id']);
-			foreach((array)$path as $node_id)
+			if($source_id)
 			{
-				if(!in_array($node_id, $_SESSION['paste_copy_repexpand']))
-					$_SESSION['paste_copy_repexpand'][] = $node_id;
+				$path = $tree->getPathId($source_id);
+				foreach((array) $path as $node_id)
+				{
+					if(!in_array($node_id, $_SESSION['paste_copy_repexpand']))
+					{
+						$_SESSION['paste_copy_repexpand'][] = $node_id;
+					}
+				}
+				
 			}
-
-			$this->setSource((int) $_GET['source_id']);
-
-			$this->setType(
-				ilObject::_lookupType(ilObject::_lookupObjId($this->getSource()))
-			);
 		}
 
 		$ilCtrl->setReturnByClass(get_class($this->parent_obj),'');
-		
 		$this->showTargetSelectionTree();
 	}
 	
@@ -209,11 +262,8 @@ class ilObjectCopyGUI
 		// copy opened nodes from repository explorer
 		$_SESSION['paste_copy_repexpand'] = is_array($_SESSION['repexpand']) ? $_SESSION['repexpand'] : array();
 
-		$this->setMode(self::SOURCE_SELECTION);
-		$this->setSource(0);
-		// begin-patch mc
-		$this->setTarget(array((int) $_GET['ref_id']));
-		// end-patch multi copy
+		$this->setTabs(self::TAB_GROUP_SC_SELECTION, self::TAB_SELECTION_SOURCE_TREE);
+
 		
 		// open current position
 		// begin-patch mc
@@ -231,6 +281,30 @@ class ilObjectCopyGUI
 		$this->showSourceSelectionTree();	
 	}
 	
+	
+	/**
+	 * show target selection membership
+	 */
+	protected function showSourceSelectionMembership()
+	{
+		ilUtil::sendInfo($this->lng->txt('msg_copy_clipboard_source'));
+		$this->setTabs(self::TAB_GROUP_SC_SELECTION, self::TAB_SELECTION_MEMBERSHIP);
+		
+		include_once './Services/Object/classes/class.ilObjectCopyCourseGroupSelectionTableGUI.php';
+		$cgs = new ilObjectCopyCourseGroupSelectionTableGUI($this, 'showSourceSelectionMembership','copy_selection_membership');
+		$cgs->init();
+		$cgs->setObjects(
+				array_merge(
+					ilParticipants::_getMembershipByType($GLOBALS['ilUser']->getId(), 'crs', FALSE),
+					ilParticipants::_getMembershipByType($GLOBALS['ilUser']->getId(), 'grp', FALSE)
+				)
+		);
+		$cgs->parse();
+		
+		$GLOBALS['tpl']->setContent($cgs->getHTML());
+	}
+	
+	
 	/**
 	 * Show target selection
 	 */
@@ -239,7 +313,7 @@ class ilObjectCopyGUI
 		global $ilTabs, $ilToolbar, $ilCtrl, $tree, $tpl, $objDefinition, $lng;
 	
 		$this->tpl = $tpl;
-
+		
 		if($objDefinition->isContainer($this->getType()))
 		{
 			ilUtil::sendInfo($this->lng->txt('msg_copy_clipboard_container'));
@@ -286,91 +360,7 @@ class ilObjectCopyGUI
 
 		$this->tpl->setContent($output);
 
-	return;
-
-		// old implementation
-
-		$this->tpl->addBlockfile('ADM_CONTENT', 'adm_content', 'tpl.paste_into_multiple_objects.html',
-			"Services/Object");
-
-		include_once './Services/Object/classes/class.ilPasteIntoMultipleItemsExplorer.php';
-		$exp = new ilPasteIntoMultipleItemsExplorer(
-			ilPasteIntoMultipleItemsExplorer::SEL_TYPE_RADIO,
-			'ilias.php?baseClass=ilRepositoryGUI&amp;cmd=goto', 'paste_copy_repexpand');
-		
-		// Target selection should check for create permission
-		$required_perm = 'visible';
-		$create_perm = 'create_'.ilObject::_lookupType($this->getSource(), true);
-		if($create_perm)
-		{
-			$required_perm .= (','.$create_perm);
-		}
-		$exp->setRequiredFormItemPermission($required_perm);
-		$exp->setExpandTarget($ilCtrl->getLinkTarget($this, 'showTargetSelectionTree'));
-		$exp->setTargetGet('ref_id');
-		$exp->setPostVar('target');
-		$exp->highlightNode($_GET['ref_id']);
-		$exp->setCheckedItems(array((int) $_POST['target']));
-		
-		// Filter to container
-		foreach(array('cat','root','crs','grp','fold') as $container)
-		{
-			/*
-			if($this->getType() == 'crs' and $container == 'crs')
-			{
-				continue;
-			}
-			*/
-			$sub = $objDefinition->getSubObjects($container);
-			if(!isset($sub[$this->getType()]))
-			{
-				$exp->removeFormItemForType($container);
-			}
-		}
-
-		if($_GET['paste_copy_repexpand'] == '')
-		{
-			$expanded = $tree->readRootId();
-		}
-		else
-		{
-			$expanded = $_GET['paste_copy_repexpand'];
-		}
-		
-		$this->tpl->setVariable('FORM_TARGET', '_self');
-		$this->tpl->setVariable('FORM_ACTION', $ilCtrl->getFormAction($this, 'copySelection'));
-
-		$exp->setExpand($expanded);
-		// build html-output
-		$exp->setOutput(0);
-		$output = $exp->getOutput();
-
-		$this->tpl->setVariable('OBJECT_TREE', $output);
-		
-		$this->tpl->setVariable('CMD_SUBMIT', 'saveTarget');
-
-		if($objDefinition->isContainer($this->getType()))
-		{
-			$this->tpl->setVariable('TXT_SUBMIT',$this->lng->txt('btn_next'));			
-		}
-		else
-		{
-			if(!$objDefinition->isPlugin($this->getType()))
-			{
-				$submit = $this->lng->txt('obj_'.$this->getType().'_duplicate');
-			}	
-			else
-			{
-				// get plugin instance
-				include_once "Services/Component/classes/class.ilPlugin.php";
-				$plugin = ilPlugin::getPluginObject(IL_COMP_SERVICE, "Repository", "robj",
-					ilPlugin::lookupNameForId(IL_COMP_SERVICE, "Repository", "robj", $this->getType()));
-				$submit = $plugin->txt('obj_'.$this->getType().'_duplicate');
-			}
-			$this->tpl->setVariable('TXT_SUBMIT', $submit);
-		}
-		
-		$ilToolbar->addButton($this->lng->txt('cancel'), $ilCtrl->getLinkTarget($this,'cancel'));
+		return;
 	}
 	
 	/**
@@ -395,7 +385,7 @@ class ilObjectCopyGUI
 		$exp->setExpandTarget($ilCtrl->getLinkTarget($this, 'showSourceSelectionTree'));
 		$exp->setTargetGet('ref_id');
 		$exp->setPostVar('source');
-		$exp->setCheckedItems(array($this->getSource()));
+		$exp->setCheckedItems($this->getSource());
 		
 		// Filter to container
 		foreach(array('cat','root','fold') as $container)
@@ -450,21 +440,23 @@ class ilObjectCopyGUI
 			$this->showTargetSelectionTree();
 			return false;	
 		}
+		
+		$GLOBALS['ilLog']->write(__METHOD__.': ------------------ '. print_r($this->getSource(),TRUE));
 
-		if($_GET["source_ids"] == "" && $objDefinition->isContainer($this->getType()))
+		if(count($this->getSource() == 1) && $objDefinition->isContainer($this->getType()))
 		{
 			// check, if object should be copied into itself
 			// begin-patch mc
 			$is_child = array();
 			foreach($this->getTargets() as $target_ref_id)
 			{
-				if ($tree->isGrandChild($this->getSource(), $target_ref_id))
+				if ($tree->isGrandChild($this->getFirstSource(), $target_ref_id))
 				{
-					$is_child[] = ilObject::_lookupTitle(ilObject::_lookupObjId($this->getSource()));
+					$is_child[] = ilObject::_lookupTitle(ilObject::_lookupObjId($this->getFirstSource()));
 				}
-				if ($this->getSource() == $target_ref_id)
+				if ($this->getFirstSource() == $target_ref_id)
 				{
-					$is_child[] = ilObject::_lookupTitle(ilObject::_lookupObjId($this->getSource()));
+					$is_child[] = ilObject::_lookupTitle(ilObject::_lookupObjId($this->getFirstSource()));
 				}
 			}
 			// end-patch multi copy
@@ -479,14 +471,13 @@ class ilObjectCopyGUI
 		}
 		else
 		{
-			if ($_GET["source_ids"] == "")
+			if(count($this->getSource()) == 1)
 			{
 				$this->copySingleObject();
 			}
 			else
 			{
-				$source_ids = explode("_", $_GET["source_ids"]);
-				$this->copyMultipleNonContainer($source_ids);
+				$this->copyMultipleNonContainer($this->getSource());
 			}
 		}
 	}
@@ -552,25 +543,30 @@ class ilObjectCopyGUI
 
 	/**
 	 * Set source id
-	 * @param int $a_source_id
+	 * @param array $a_source_id
 	 * @return 
 	 */
-	public function setSource($a_source_id)
+	public function setSource(array $a_source_ids)
 	{
-		$_SESSION['copy_source'] = $a_source_id;
+		$this->sources = $a_source_ids;
 	}
 	
 	/**
 	 * Get source id
-	 * @return 
+	 * @return array
 	 */
 	public function getSource()
 	{
-		if ($_GET["source_ids"] != "")
+		return (array) $this->sources;
+	}
+	
+	public function getFirstSource()
+	{
+		if(count($this->sources))
 		{
-			return "";
+			return $this->sources[0];
 		}
-		return $_SESSION['copy_source'];
+		return 0;
 	}
 	
 	// begin-patch mc
@@ -590,9 +586,9 @@ class ilObjectCopyGUI
 	 * @param int $a_target
 	 * @return 
 	 */
-	public function setTargets(Array $a_target)
+	public function setTargets(array $a_target)
 	{
-		$_SESSION['copy_targets'] = $a_target;
+		$this->targets = $a_target;
 	}
 	
 	/**
@@ -601,7 +597,7 @@ class ilObjectCopyGUI
 	 */
 	public function getTargets()
 	{
-		return (array) $_SESSION['copy_targets'];
+		return (array) $this->targets;
 	}
 	
 	/**
@@ -635,14 +631,7 @@ class ilObjectCopyGUI
 	{
 		global $ilCtrl;
 		$_SESSION['clipboard']['cmd'] = "copy";
-		if ($_GET["source_ids"] == "")
-		{
-			$_SESSION['clipboard']['ref_ids'] = array((int) $this->getSource());
-		}
-		else
-		{
-			$_SESSION['clipboard']['ref_ids'] = explode("_", $_GET["source_ids"]);
-		}
+		$_SESSION['clipboard']['ref_ids'] = explode('_', $this->getSource());
 		$ilCtrl->returnToParent($this);
 	}
 
@@ -702,7 +691,7 @@ class ilObjectCopyGUI
 	
 		include_once './Services/Object/classes/class.ilObjectCopySearchResultTableGUI.php';
 		$table = new ilObjectCopySearchResultTableGUI($this,'searchSource',$_REQUEST['new_type']);
-		$table->setSelectedReference($this->getSource());
+		$table->setSelectedReference($this->getFirstSource());
 		$table->parseSearchResults($results);
 		$tpl->setContent($table->getHTML());
 	}
@@ -717,7 +706,9 @@ class ilObjectCopyGUI
 		
 		if(isset($_POST['source']))
 		{
-			$this->setSource($_POST['source']);
+			$this->setSource(array((int) $_REQUEST['source']));
+			$this->setType(ilObject::_lookupType((int) $_REQUEST['source'], TRUE));
+			$GLOBALS['ilCtrl']->setParameter($this,'source_id',(int) $_REQUEST['source']);
 		}
 		else
 		{
@@ -736,8 +727,6 @@ class ilObjectCopyGUI
 		}
 	}
 	
-	
-	
 	/**
 	 * 
 	 * @return 
@@ -746,7 +735,7 @@ class ilObjectCopyGUI
 	{
 		global $tpl;
 		
-		if(!$this->getSource())
+		if(!count($this->getSource()))
 		{
 			ilUtil::sendFailure($this->lng->txt('select_one'));
 			$this->searchSource();
@@ -775,7 +764,7 @@ class ilObjectCopyGUI
 		}
 
 		$table = new ilObjectCopySelectionTableGUI($this,'showItemSelection',$this->getType(),$back_cmd);
-		$table->parseSource($this->getSource());
+		$table->parseSource($this->getFirstSource());
 		
 		$tpl->setContent($table->getHTML());
 	}
@@ -792,13 +781,13 @@ class ilObjectCopyGUI
 		global $ilAccess,$ilErr,$rbacsystem,$ilUser,$ilCtrl,$rbacreview;
 
 		// Source defined
-		if(!$this->getSource())
+		if(!count($this->getSource()))
 		{
 			ilUtil::sendFailure($this->lng->txt('select_one'),true);
 			$ilCtrl->returnToParent($this);
 		}
 
-		$this->copyMultipleNonContainer(array($this->getSource()));
+		$this->copyMultipleNonContainer($this->getSource());
 		return;
 	}
 	
@@ -847,7 +836,7 @@ class ilObjectCopyGUI
 			}
 
 			// check that these objects are really not containers
-			if($objDefinition->isContainer($source_type))
+			if($objDefinition->isContainer($source_type) and $this->getSubMode() != self::SUBMODE_CONTENT_ONLY)
 			{
 				ilUtil::sendFailure($this->lng->txt('cntr_container_only_on_their_own'),true);
 				$ilCtrl->returnToParent($this);
@@ -859,6 +848,9 @@ class ilObjectCopyGUI
 		// clone
 		foreach ($a_sources as $source_ref_id)
 		{
+			
+			$GLOBALS['ilLog']->write(__METHOD__.': +++++++++++++++ '.$source_ref_id);
+			
 			// begin-patch mc
 			foreach($this->getTargets() as $target_ref_id)
 			{
@@ -908,6 +900,8 @@ class ilObjectCopyGUI
 	protected function copyContainerToTargets()
 	{
 		global $ilCtrl;
+		
+		$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($_REQUEST,TRUE));
 		
 		$last_target = 0;
 		$result = 1;
@@ -992,7 +986,7 @@ class ilObjectCopyGUI
 		// Workaround for course in course copy
 
 		$target_type = ilObject::_lookupType(ilObject::_lookupObjId($a_target));
-		$source_type = ilObject::_lookupType(ilObject::_lookupObjId($this->getSource()));
+		$source_type = ilObject::_lookupType(ilObject::_lookupObjId($this->getFirstSource()));
 		
 		if($target_type != $source_type or $target_type != 'crs')
 		{
@@ -1002,7 +996,7 @@ class ilObjectCopyGUI
 				$ilCtrl->returnToParent($this);
 		 	}
 		}
-		if(!$this->getSource())
+		if(!$this->getFirstSource())
 		{
 			ilUtil::sendFailure($this->lng->txt('select_one'),true);
 			$ilCtrl->returnToParent($this);
@@ -1010,13 +1004,17 @@ class ilObjectCopyGUI
 		}
 
 		$options = $_POST['cp_options'] ? $_POST['cp_options'] : array();
-		$orig = ilObjectFactory::getInstanceByRefId($this->getSource());
+		
+		
+		$GLOBALS['ilLog']->write(__METHOD__.': '. print_r($this->getSource(),TRUE));
+		
+		$orig = ilObjectFactory::getInstanceByRefId($this->getFirstSource());
 		$result = $orig->cloneAllObject(
 				$_COOKIE['PHPSESSID'], 
 				$_COOKIE['ilClientId'], 
 				$this->getType(), 
 				$a_target,
-				$this->getSource(), 
+				$this->getFirstSource(), 
 				$options,
 				FALSE,
 				$this->getSubMode()
@@ -1104,7 +1102,7 @@ class ilObjectCopyGUI
 	protected function unsetSession()
 	{
 		unset($_SESSION['source_query']);
-		$this->setSource(0);
+		$this->setSource(array());
 	}
 }
 ?>

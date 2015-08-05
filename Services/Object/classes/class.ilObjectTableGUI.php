@@ -60,6 +60,8 @@ class ilObjectTableGUI extends ilTable2GUI
 	 */
 	public function parse()
 	{
+		
+		
 		$counter = 0;
 		$set = array();
 		foreach($this->getObjects() as $ref_id)
@@ -76,6 +78,7 @@ class ilObjectTableGUI extends ilTable2GUI
 			$set[$counter]['title'] = ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id));
 			$counter++;
 		}
+		$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($set,TRUE));
 		
 		$this->setData($set);
 	}
