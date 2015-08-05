@@ -221,8 +221,16 @@ class gevDecentralTrainingGUI {
 		$a_form->addCommandButton("cancel", $this->lng->txt("cancel"));
 		$a_form->setFormAction($this->ctrl->getFormAction($this));
 
+		if($this->tpl_date_auto_change !== null) {
+			$js = $this->tpl_date_auto_change->get();
+		}
+		else {
+			$js = "";
+		}
+
 		return   $title->render()
-				.$a_form->getHTML();
+				.$a_form->getHTML()
+				.$js;
 	}
 	
 	protected function finalizeTrainingCreation() {
