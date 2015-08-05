@@ -119,6 +119,31 @@ class ilStudyProgrammeUserProgress {
 	}
 	
 	/**
+	 * Get the instance for an assignment.
+	 *
+	 * Throws when the node does not belong to the assignment.
+	 *
+	 * @throws ilException
+	 * @param  int $a_program_id
+	 * @param  int $a_user_id
+	 * @return ilStudyProgrammeUserProgress
+	 */
+	static public function getInstancesForAssignment($a_assignment_id) {
+		$progresses = ilStudyProgrammeProgress::where(array
+							( "assignment_id" => $a_assignment_id
+							))->get();
+		if (count($progresses) == 0) {
+			require_once("Modules/StudyProgramme/classes/exceptions/class.ilStudyProgrammeNoProgressForAssignmentException.php");
+			throw new ilStudyProgrammeNoProgressForAssignmentException
+								("ilStudyProgrammeUserProgress::getInstancesForAssignment: "
+								."Can't find progresses for assignment '$a_assignment_id'.");
+		}
+		return array_map(function($dat) {
+			return new ilStudyProgrammeUserProgress($dat);
+		}, $progresses);
+	}
+	
+	/**
 	 * Get the instances for a program node.
 	 *
 	 * @param int $a_program_id
