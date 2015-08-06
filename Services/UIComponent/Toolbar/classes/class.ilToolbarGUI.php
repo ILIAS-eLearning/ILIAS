@@ -12,25 +12,83 @@
 */
 class ilToolbarGUI
 {
-	var $items = array();
-	var $open_form_tag = true;
-	var $close_form_tag = true;
-	var $form_target = "";
-	var $form_name = "";
 
+	/**
+	 * @var string
+	 */
+	protected $id = '';
+
+	/**
+	 * @var string
+	 */
+	protected $form_action = '';
+
+	/**
+	 * @var bool
+	 */
+	protected $hidden;
+
+	/**
+	 * @var array
+	 */
+	protected $items = array();
+
+	/**
+	 * @var array
+	 */
+	protected $lead_img = array(
+		'img' => '',
+		'alt' => '',
+	);
+
+	/**
+	 * @var bool
+	 */
+	protected $open_form_tag = true;
+
+	/**
+	 * @var bool
+	 */
+	protected $close_form_tag = true;
+
+	/**
+	 * @var string
+	 */
+	protected $form_target = "";
+
+	/**
+	 * @var string
+	 */
+	protected $form_name = "";
+
+	/**
+	 * @var bool
+	 */
 	protected $prevent_double_submission = false;
 
-	function __construct()
+	/**
+	 * @var array
+	 */
+	protected $primary_items = array();
+
+	/**
+	 * @var bool
+	 */
+	protected $has_separator = false;
+
+	public function __construct()
 	{
 	
 	}
 
 	/**
-	 * Set form action (if form action is set, toolbar is wrapped into form tags
+	 * Set form action (if form action is set, toolbar is wrapped into form tags)
 	 *
-	 * @param	string	form action
+	 * @param string $a_val form action
+	 * @param bool $a_multipart
+	 * @param string $a_target
 	 */
-	function setFormAction($a_val, $a_multipart = false, $a_target = "")
+	public function setFormAction($a_val, $a_multipart = false, $a_target = "")
 	{
 		$this->form_action = $a_val;
 		$this->multipart = $a_multipart;
@@ -42,15 +100,19 @@ class ilToolbarGUI
 	 *
 	 * @return	string	form action
 	 */
-	function getFormAction()
+	public function getFormAction()
 	{
 		return $this->form_action;
 	}
 
+
 	/**
-	* Set leading image
-	*/
-	function setLeadingImage($a_img, $a_alt)
+	 * Set leading image
+	 *
+	 * @param string $a_img
+	 * @param string $a_alt
+	 */
+	public function setLeadingImage($a_img, $a_alt)
 	{
 		$this->lead_img = array("img" => $a_img, "alt" => $a_alt);
 	}
@@ -60,7 +122,7 @@ class ilToolbarGUI
 	 *
 	 * @param boolean $a_val hidden	
 	 */
-	function setHidden($a_val)
+	public function setHidden($a_val)
 	{
 		$this->hidden = $a_val;
 	}
@@ -70,7 +132,7 @@ class ilToolbarGUI
 	 *
 	 * @return boolean hidden
 	 */
-	function getHidden()
+	public function getHidden()
 	{
 		return $this->hidden;
 	}
@@ -80,7 +142,7 @@ class ilToolbarGUI
 	 *
 	 * @param string $a_val id	
 	 */
-	function setId($a_val)
+	public function setId($a_val)
 	{
 		$this->id = $a_val;
 	}
@@ -90,7 +152,7 @@ class ilToolbarGUI
 	 *
 	 * @return string id
 	 */
-	function getId()
+	public function getId()
 	{
 		return $this->id;
 	}
@@ -136,7 +198,7 @@ class ilToolbarGUI
 	/**
 	* Add form button to toolbar
 	* 
-	* deprecated use addButtonInstance() instead! 
+	* @deprecated use addButtonInstance() instead!
 	*
 	* @param	string		text
 	* @param	string		link href / submit command
@@ -149,14 +211,31 @@ class ilToolbarGUI
 		$this->items[] = array("type" => "fbutton", "txt" => $a_txt, "cmd" => $a_cmd,
 			"acc_key" => $a_acc_key, "primary" => $a_primary, "class" => $a_class);
 	}
-	
+
+
 	/**
-	* Add input item
-	*/
+	 * Add input item
+	 *
+	 * @param ilToolbarItem $a_item
+	 * @param bool $a_output_label
+	 */
 	public function addInputItem(ilToolbarItem $a_item, $a_output_label = false)
 	{
 		$this->items[] = array("type" => "input", "input" => $a_item, "label" => $a_output_label);
 	}
+
+
+	/**
+	 * Add a primary item. Primary items are always visible, also if the toolbar is collapsed (responsive view).
+	 * Primary items are displayed first in the toolbar.
+	 *
+	 * @param ilToolbarItem $a_item
+	 */
+	public function addPrimaryItem(ilToolbarItem $a_item)
+	{
+		$this->primary_items[] = $a_item;
+	}
+
 
 	/**
 	 * Add button instance
@@ -181,15 +260,16 @@ class ilToolbarGUI
 	/**
 	* Add separator
 	*/
-	function addSeparator()
+	public function addSeparator()
 	{
 		$this->items[] = array("type" => "separator");
+		$this->has_separator = true;
 	}
 
 	/**
 	* Add text
 	*/
-	function addText($a_text)
+	public function addText($a_text)
 	{
 		$this->items[] = array("type" => "text", "text" => $a_text);
 	}
@@ -197,7 +277,7 @@ class ilToolbarGUI
 	/**
 	* Add spacer
 	*/
-	function addSpacer($a_width = null)
+	public function addSpacer($a_width = null)
 	{
 		$this->items[] = array("type" => "spacer", "width" => $a_width);
 	}
@@ -208,9 +288,9 @@ class ilToolbarGUI
 	 *
 	 * @param  string $a_caption
 	 * @param string $a_url
-         * @param boolean $a_disabled
+	 * @param boolean $a_disabled
 	 */
-	function addLink($a_caption, $a_url, $a_disabled = false)
+	public function addLink($a_caption, $a_url, $a_disabled = false)
 	{
 		$this->items[] = array("type" => "link", "txt" => $a_caption, "cmd" => $a_url, "disabled" => $a_disabled);
 	}
@@ -218,9 +298,9 @@ class ilToolbarGUI
 	/**
 	 * Set open form tag
 	 *
-	 * @param	boolean	open form tag
+	 * @param boolean $a_val open form tag
 	 */
-	function setOpenFormTag($a_val)
+	public function setOpenFormTag($a_val)
 	{
 		$this->open_form_tag = $a_val;
 	}
@@ -230,7 +310,7 @@ class ilToolbarGUI
 	 *
 	 * @return	boolean	open form tag
 	 */
-	function getOpenFormTag()
+	public function getOpenFormTag()
 	{
 		return $this->open_form_tag;
 	}
@@ -238,7 +318,7 @@ class ilToolbarGUI
 	/**
 	 * Set close form tag
 	 *
-	 * @param	boolean	close form tag
+	 * @param boolean $a_val close form tag
 	 */
 	function setCloseFormTag($a_val)
 	{
@@ -250,7 +330,7 @@ class ilToolbarGUI
 	 *
 	 * @return	boolean	close form tag
 	 */
-	function getCloseFormTag()
+	public function getCloseFormTag()
 	{
 		return $this->close_form_tag;
 	}
@@ -258,9 +338,9 @@ class ilToolbarGUI
 	/**
 	 * Set form name
 	 *
-	 * @param	string form name
+	 * @param string $a_val form name
 	 */
-	function setFormName($a_val)
+	public function setFormName($a_val)
 	{
 		$this->form_name = $a_val;
 	}
@@ -270,140 +350,194 @@ class ilToolbarGUI
 	 *
 	 * @return	string form name
 	 */
-	function getFormName()
+	public function getFormName()
 	{
 		return $this->form_name;
+	}
+
+
+	/**
+	 * Get all groups (items separated by a separator)
+	 *
+	 * @return array
+	 */
+	public function getGroupedItems()
+	{
+		$groups = array();
+		$group = array();
+		foreach ($this->items as $item) {
+			if ($item['type'] == 'separator') {
+				$groups[] = $group;
+				$group = array();
+			} else {
+				$group[] = $item;
+			}
+		}
+		if (count($group)) {
+			$groups[] = $group;
+		}
+
+		return $groups;
 	}
 
 	/**
 	* Get toolbar html
 	*/
-	function getHTML()
+	public function getHTML()
 	{
 		global $lng;
 		
-		$tpl = new ilTemplate("tpl.toolbar.html", true, true, "Services/UIComponent/Toolbar");
-		if (count($this->items) > 0)
+		if (count($this->items) || count($this->primary_items))
 		{
-			foreach($this->items as $item)
-			{
-				switch ($item["type"])
+			$tpl = new ilTemplate("tpl.toolbar.html", true, true, "Services/UIComponent/Toolbar");
+			if (count($this->primary_items)) {
+				$tpl_primaries = new ilTemplate("tpl.toolbar_primary_items.html", true, true, "Services/UIComponent/Toolbar");
+				/** @var ilToolbarItem $primary_item */
+				foreach ($this->primary_items as $primary_item)
 				{
-					case "button":						
-						$tpl->setCurrentBlock("button");
-						$tpl->setVariable("BTN_TXT", $item["txt"]);
-						$tpl->setVariable("BTN_LINK", $item["cmd"]);
-						if ($item["target"] != "")
-						{
-							$tpl->setVariable("BTN_TARGET", 'target="'.$item["target"].'"');
-						}
-						if ($item["id"] != "")
-						{
-							$tpl->setVariable("BID", 'id="'.$item["id"].'"');
-						}
-						if ($item["acc_key"] != "")
-						{
-							include_once("./Services/Accessibility/classes/class.ilAccessKeyGUI.php");
-							$tpl->setVariable("BTN_ACC_KEY",
-								ilAccessKeyGUI::getAttribute($item["acc_key"]));
-						}
-						if(($item['add_attrs']))
-						{
-							$tpl->setVariable('BTN_ADD_ARG',$item['add_attrs']);
-						}
-						$tpl->setVariable('BTN_CLASS',$item['class']);
-						$tpl->parseCurrentBlock();
-						$tpl->touchBlock("item");
-						break;
-					
-					case "fbutton":
-						$tpl->setCurrentBlock("form_button");
-						$tpl->setVariable("SUB_TXT", $item["txt"]);
-						$tpl->setVariable("SUB_CMD", $item["cmd"]);
-						if($item["primary"])
-						{
-							$tpl->setVariable("SUB_CLASS", " emphsubmit");
-						}
-						else if($item["class"])
-						{
-							$tpl->setVariable("SUB_CLASS", " ".$item["class"]);
-						}
-						$tpl->parseCurrentBlock();
-						$tpl->touchBlock("item");
-						break;
-						
-					case "button_obj":
-						$tpl->setCurrentBlock("button_instance");
-						$tpl->setVariable("BUTTON_OBJ", $item["instance"]->render());
-						$tpl->parseCurrentBlock();
-						$tpl->touchBlock("item");
-						break;
-						
-					case "input":
-						if ($item["label"])
-						{
-							$tpl->setCurrentBlock("input_label");
-							$tpl->setVariable("TXT_INPUT", $item["input"]->getTitle());
-							$tpl->parseCurrentBlock();
-						}
-						$tpl->setCurrentBlock("input");
-						$tpl->setVariable("INPUT_HTML", $item["input"]->getToolbarHTML());
-						$tpl->parseCurrentBlock();
-						$tpl->touchBlock("item");
-						break;
-
-					// bs-patch start
-					case "dropdown":
-						$tpl->setCurrentBlock("dropdown");
-						$tpl->setVariable("TXT_DROPDOWN", $item["txt"]);
-						$tpl->setVariable("DROP_DOWN", $item["dd_html"]);
-						$tpl->parseCurrentBlock();
-						$tpl->touchBlock("item");
-						break;
-					// bs-patch end
-
-
-					case "separator":
-						$tpl->touchBlock("separator");
-						$tpl->touchBlock("item");
-						break;
-
-					case "text":
-						$tpl->setCurrentBlock("text");
-						$tpl->setVariable("VAL_TEXT", $item["text"]);
-						$tpl->touchBlock("item");
-						break;
-
-					case "spacer":
-						$tpl->touchBlock("spacer");
-						if(!$item["width"])
-						{
-							$item["width"] = 2;
-						}
-						$tpl->setVariable("SPACER_WIDTH", $item["width"]);
-						$tpl->touchBlock("item");
-						break;
-
-					case "link":
-                                                if ($item["disabled"] == false) {
-                                                    $tpl->setCurrentBlock("link");
-                                                    $tpl->setVariable("LINK_TXT", $item["txt"]);
-                                                    $tpl->setVariable("LINK_URL", $item["cmd"]);
-                                                    $tpl->parseCurrentBlock();
-                                                    $tpl->touchBlock("item");
-                                                    break;
-                                                }
-                                                else {
-                                                    $tpl->setCurrentBlock("link_disabled");
-                                                    $tpl->setVariable("LINK_DISABLED_TXT", $item["txt"]);
-                                                    //$tpl->setVariable("LINK_URL", $item["cmd"]);
-                                                    $tpl->parseCurrentBlock();
-                                                    $tpl->touchBlock("item");
-                                                    break;
-                                                }
+					$tpl_primaries->setCurrentBlock('primary_item');
+					$tpl_primaries->setVariable('PRIMARY_ITEM_HTML', $primary_item->getToolbarHTML());
+					$tpl_primaries->parseCurrentBlock();
 				}
+				$tpl->setCurrentBlock('primary_items');
+				$tpl->setVariable('PRIMARY_ITEMS', $tpl_primaries->get());
+				$tpl->parseCurrentBlock();
 			}
-			
+
+			$markup_items = '';
+			foreach($this->getGroupedItems() as $i => $group)
+			{
+				$tpl_items = new ilTemplate("tpl.toolbar_items.html", true, true, "Services/UIComponent/Toolbar");
+				if ($i > 0) {
+					static $tpl_separator;
+					if ($tpl_separator === null) {
+						$tpl_separator = new ilTemplate('tpl.toolbar_separator.html', true, true, 'Services/UIComponent/Toolbar');
+					}
+					$tpl_separator->touchBlock('separator');
+					$markup_items .= $tpl_separator->get();
+				}
+				foreach ($group as $item) {
+					switch ($item["type"])
+					{
+						case "button":
+							$tpl_items->setCurrentBlock("button");
+							$tpl_items->setVariable("BTN_TXT", $item["txt"]);
+							$tpl_items->setVariable("BTN_LINK", $item["cmd"]);
+							if ($item["target"] != "")
+							{
+								$tpl_items->setVariable("BTN_TARGET", 'target="'.$item["target"].'"');
+							}
+							if ($item["id"] != "")
+							{
+								$tpl_items->setVariable("BID", 'id="'.$item["id"].'"');
+							}
+							if ($item["acc_key"] != "")
+							{
+								include_once("./Services/Accessibility/classes/class.ilAccessKeyGUI.php");
+								$tpl_items->setVariable("BTN_ACC_KEY",
+									ilAccessKeyGUI::getAttribute($item["acc_key"]));
+							}
+							if(($item['add_attrs']))
+							{
+								$tpl_items->setVariable('BTN_ADD_ARG',$item['add_attrs']);
+							}
+							$tpl_items->setVariable('BTN_CLASS',$item['class']);
+							$tpl_items->parseCurrentBlock();
+							$tpl_items->touchBlock("item");
+							break;
+
+						case "fbutton":
+							$tpl_items->setCurrentBlock("form_button");
+							$tpl_items->setVariable("SUB_TXT", $item["txt"]);
+							$tpl_items->setVariable("SUB_CMD", $item["cmd"]);
+							if($item["primary"])
+							{
+								$tpl_items->setVariable("SUB_CLASS", " emphsubmit");
+							}
+							else if($item["class"])
+							{
+								$tpl_items->setVariable("SUB_CLASS", " ".$item["class"]);
+							}
+							$tpl_items->parseCurrentBlock();
+							$tpl_items->touchBlock("item");
+							break;
+
+						case "button_obj":
+							$tpl_items->setCurrentBlock("button_instance");
+							$tpl_items->setVariable("BUTTON_OBJ", $item["instance"]->render());
+							$tpl_items->parseCurrentBlock();
+							$tpl_items->touchBlock("item");
+							break;
+
+						case "input":
+							if ($item["label"])
+							{
+								$tpl_items->setCurrentBlock("input_label");
+								$tpl_items->setVariable("TXT_INPUT", $item["input"]->getTitle());
+								$tpl_items->parseCurrentBlock();
+							}
+							$tpl_items->setCurrentBlock("input");
+							$tpl_items->setVariable("INPUT_HTML", $item["input"]->getToolbarHTML());
+							$tpl_items->parseCurrentBlock();
+							$tpl_items->touchBlock("item");
+							break;
+
+						// bs-patch start
+						case "dropdown":
+							$tpl_items->setCurrentBlock("dropdown");
+							$tpl_items->setVariable("TXT_DROPDOWN", $item["txt"]);
+							$tpl_items->setVariable("DROP_DOWN", $item["dd_html"]);
+							$tpl_items->parseCurrentBlock();
+							$tpl_items->touchBlock("item");
+							break;
+						// bs-patch end
+
+
+//						case "separator":
+//							$tpl_items->touchBlock("separator");
+//							$tpl_items->touchBlock("item");
+//							break;
+
+						case "text":
+							$tpl_items->setCurrentBlock("text");
+							$tpl_items->setVariable("VAL_TEXT", $item["text"]);
+							$tpl_items->touchBlock("item");
+							break;
+
+						case "spacer":
+							$tpl_items->touchBlock("spacer");
+							if(!$item["width"])
+							{
+								$item["width"] = 2;
+							}
+							$tpl_items->setVariable("SPACER_WIDTH", $item["width"]);
+							$tpl_items->touchBlock("item");
+							break;
+
+						case "link":
+							if ($item["disabled"] == false) {
+								$tpl_items->setCurrentBlock("link");
+								$tpl_items->setVariable("LINK_TXT", $item["txt"]);
+								$tpl_items->setVariable("LINK_URL", $item["cmd"]);
+								$tpl_items->parseCurrentBlock();
+								$tpl_items->touchBlock("item");
+								break;
+							}
+							else {
+								$tpl_items->setCurrentBlock("link_disabled");
+								$tpl_items->setVariable("LINK_DISABLED_TXT", $item["txt"]);
+								//$tpl_items->setVariable("LINK_URL", $item["cmd"]);
+								$tpl_items->parseCurrentBlock();
+								$tpl_items->touchBlock("item");
+								break;
+							}
+					}
+				}
+				$li = (count($group) > 1) ? "<li class='ilToolbarGroup'>" : "<li>";
+				$markup_items .= $li . $tpl_items->get() . '</li>';
+			}
+
+			$tpl->setVariable('ITEMS', $markup_items);
 			$tpl->setVariable("TXT_FUNCTIONS", $lng->txt("functions"));
 			if ($this->lead_img["img"] != "")
 			{
@@ -456,7 +590,7 @@ class ilToolbarGUI
 			{
 				$tpl->setVariable("HIDDEN_CLASS", 'ilNoDisplay');
 			}
-			
+
 			return $tpl->get();
 		}
 		return "";

@@ -3835,7 +3835,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 .navbar {
   position: relative;
-  min-height: 50px;
+  min-height: 40px;
   margin-bottom: 20px;
   border: 1px solid transparent;
 }
@@ -3943,10 +3943,10 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 .navbar-brand {
   float: left;
-  padding: 15px 15px;
+  padding: 10px 15px;
   font-size: 18px;
   line-height: 20px;
-  height: 50px;
+  height: 40px;
 }
 .navbar-brand:hover,
 .navbar-brand:focus {
@@ -3963,8 +3963,8 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   float: right;
   margin-right: 15px;
   padding: 9px 10px;
-  margin-top: 8px;
-  margin-bottom: 8px;
+  margin-top: 3px;
+  margin-bottom: 3px;
   background-color: transparent;
   background-image: none;
   border: 1px solid transparent;
@@ -3988,7 +3988,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   }
 }
 .navbar-nav {
-  margin: 7.5px -15px;
+  margin: 5px -15px;
 }
 .navbar-nav > li > a {
   padding-top: 10px;
@@ -4026,8 +4026,8 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
     float: left;
   }
   .navbar-nav > li > a {
-    padding-top: 15px;
-    padding-bottom: 15px;
+    padding-top: 10px;
+    padding-bottom: 10px;
   }
   .navbar-nav.navbar-right:last-child {
     margin-right: -15px;
@@ -4049,8 +4049,8 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   border-bottom: 1px solid transparent;
   -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(255, 255, 255, 0.1);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(255, 255, 255, 0.1);
-  margin-top: 12.5px;
-  margin-bottom: 12.5px;
+  margin-top: 7.5px;
+  margin-bottom: 7.5px;
 }
 @media (min-width: 768px) {
   .navbar-form .form-group {
@@ -4129,20 +4129,20 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   border-bottom-left-radius: 0;
 }
 .navbar-btn {
-  margin-top: 12.5px;
-  margin-bottom: 12.5px;
+  margin-top: 7.5px;
+  margin-bottom: 7.5px;
 }
 .navbar-btn.btn-sm {
-  margin-top: 12px;
-  margin-bottom: 12px;
+  margin-top: 7px;
+  margin-bottom: 7px;
 }
 .navbar-btn.btn-xs {
-  margin-top: 14px;
-  margin-bottom: 14px;
+  margin-top: 9px;
+  margin-bottom: 9px;
 }
 .navbar-text {
-  margin-top: 15px;
-  margin-bottom: 15px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 @media (min-width: 768px) {
   .navbar-text {
@@ -10335,39 +10335,71 @@ div#il_startup_logo img {
   width: 20px;
 }
 /* Services/UIComponent/Toolbar */
-.ilToolbar .navbar-form {
-  padding: 5px 15px 5px 0;
-  margin: 0;
-}
 .ilToolbar.navbar {
-  min-height: 34px;
   border: 0;
   background-color: #f9f9f9;
-  margin-bottom: 20px;
-  font-size: 90%;
-  white-space: nowrap;
-  border-radius: 0;
 }
-.ilToolbar .navbar-brand {
-  padding: 5px 10px 0 10px;
-  height: 34px;
-}
-.ilToolbar .navbar-collapse {
+.ilToolbar .ilToolbarItems {
   padding: 0;
 }
-li.ilToolbarSeparator {
-  border-left: solid 1px #d8d8d8;
-  min-height: 34px;
-  padding: 0 15px 0 0;
+.ilToolbar .form-control {
+  width: auto;
 }
-li.ilToolbarTextonly {
-  padding: 5px 15px 5px 0;
+.ilToolbar li {
+  border-bottom: 1px solid #d8d8d8;
 }
-li.ilToolbarTextonly > span {
-  line-height: 24px;
-}
-.ilToolbar input[type=file] {
+.ilToolbar li .navbar-form,
+.ilToolbar li .navbar-text {
+  padding: 0;
+  border: 0;
+  margin-left: 0;
+  margin-right: 0;
   display: inline-block;
+}
+.ilToolbar li.navbar-text {
+  margin-left: 0;
+}
+.ilToolbar li.ilToolbarSeparator {
+  border-left: 1px solid #d8d8d8;
+  height: 40px;
+}
+.ilToolbar li.ilToolbarGroup .navbar-form,
+.ilToolbar li.ilToolbarGroup .navbar-text {
+  margin-left: 7.5px;
+}
+.ilToolbar li.ilToolbarGroup .navbar-form:first-child,
+.ilToolbar li.ilToolbarGroup .navbar-text:first-child {
+  margin-left: 0;
+}
+.ilToolbar li.ilToolbarGroup .navbar-text {
+  margin-right: 0;
+}
+.ilToolbar .ilToolbarPrimaryItems {
+  float: left;
+  margin-left: 15px;
+}
+.ilToolbar .ilToolbarPrimaryItems.navbar-nav {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.ilToolbar .ilToolbarPrimaryItems li {
+  float: left;
+  margin-right: 15px;
+}
+.ilToolbar .ilToolbarPrimaryItems li .navbar-form {
+  border: 0;
+}
+.ilToolbar .ilToolbarPrimaryItems li.ilToolbarPrimaryItem {
+  border: 0;
+}
+@media (min-width: 768px) {
+  .ilToolbar .container-fluid {
+    padding-left: 0;
+  }
+  .ilToolbar li {
+    border: 0;
+    margin-right: 15px;
+  }
 }
 /* Services/UIComponent/Tooltip */
 .ui-tooltip-rounded,
