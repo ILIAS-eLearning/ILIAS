@@ -11,8 +11,6 @@ WholeIliasCodebase = {ilClasses, assClasses}
 GUIClasses = PhpClass with name:"*GUI*"
 triggerError = PhpFunction with name:"trigger_error"
 raiseError = PhpFunction with name:"raiseError"
-ilLanguageGlobal = PhpGlobal with name:"lng"
-ilLanguageClass = PhpClass with name:"ilLanguage"
 exitOrDie = PhpFunction with name:"exit/die"
 eval = PhpFunction with name:"eval"
 ilTopLevelException = PhpClass with name:"ilException"
@@ -66,7 +64,7 @@ WholeIliasCodebase cannot depend on SuppressErrors
  *
  * See: http://www.ilias.de/docu/goto_docu_pg_42740_42.html
  */
-ilExceptionsWithoutTopLevelException can only depend on ilExceptions
+ilExceptionsWithoutTopLevelException must depend on any ilExceptions
 
 /**
  * The GUI-Layer should not itself interact with the database. Try to build reusable Model classes, adding a layer of abstraction instead of accessing the database.
