@@ -44,7 +44,7 @@ class ilWebAccessChecker {
 	/**
 	 * @var bool
 	 */
-	protected $revalidate_folder_tokens = true;
+	protected $revalidate_folder_tokens = false;
 	/**
 	 * @var bool
 	 */
@@ -90,7 +90,7 @@ class ilWebAccessChecker {
 
 	/**
 	 * @throws ilWACException
-	 * 
+	 *
 	 * remove after deploy
 	 */
 	public static function install() {
