@@ -15,8 +15,6 @@ class ilWACSignedPath {
 	const TYPE_FOLDER = 2;
 	const WAC_TOKEN_ID = 'il_wac_token';
 	const WAC_TIMESTAMP_ID = 'il_wac_ts';
-	const TOKEN_MAX_LIFETIME_IN_SECONDS = 3;
-	const COOKIE_SEPERATOR = '$';
 	/**
 	 * @var ilWACPath
 	 */
@@ -29,6 +27,10 @@ class ilWACSignedPath {
 	 * @var int
 	 */
 	protected $type = self::TYPE_FILE;
+	/**
+	 * @var int
+	 */
+	protected static $token_max_lifetime_in_seconds = 30;
 
 
 	/**
@@ -110,9 +112,9 @@ class ilWACSignedPath {
 
 	public function saveFolderToken() {
 		if ($this->getType() !== self::TYPE_FOLDER) {
-//			throw new ilWACException(ilWACException::WRONG_PATH_TYPE);
+			throw new ilWACException(ilWACException::WRONG_PATH_TYPE);
 		}
-		$expires = time() + self::TOKEN_MAX_LIFETIME_IN_SECONDS; // FSX use
+		$expires = time() + self::getTokenMaxLifetimeInSeconds();
 		$this->generateFolderToken();
 		setcookie($this->getTokenInstance()->getId(), $this->getTokenInstance()->getToken(), 0, '/');
 		setcookie($this->getTokenInstance()->getId() . '_ts', $expires, 0, '/');
@@ -222,7 +224,8 @@ class ilWACSignedPath {
 	 * @return bool
 	 */
 	protected function checkToken() {
-		$timestamp_valid = ($this->getPathObject()->getTimestamp() > $this->getTokenInstance()->getTimestamp() - self::TOKEN_MAX_LIFETIME_IN_SECONDS);
+		$timestamp_valid = ($this->getPathObject()->getTimestamp() > $this->getTokenInstance()->getTimestamp()
+			- self::getTokenMaxLifetimeInSeconds());
 		$token_valid = ($this->getPathObject()->getToken() == $this->getTokenInstance()->getToken());
 
 		return ($timestamp_valid && $token_valid);
@@ -231,6 +234,22 @@ class ilWACSignedPath {
 
 	protected function generateFolderToken() {
 		$this->setTokenInstance(ilWACToken::getInstance($this->getPathObject()->getSecurePath()));
+	}
+
+
+	/**
+	 * @return int
+	 */
+	public static function getTokenMaxLifetimeInSeconds() {
+		return self::$token_max_lifetime_in_seconds;
+	}
+
+
+	/**
+	 * @param int $token_max_lifetime_in_seconds
+	 */
+	public static function setTokenMaxLifetimeInSeconds($token_max_lifetime_in_seconds) {
+		self::$token_max_lifetime_in_seconds = $token_max_lifetime_in_seconds;
 	}
 }
 
