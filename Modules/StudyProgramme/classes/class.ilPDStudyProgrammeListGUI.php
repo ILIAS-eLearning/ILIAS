@@ -8,9 +8,9 @@ require_once("Services/Block/classes/class.ilBlockGUI.php");
  * Personal Desktop-Presentation for the Study Programme
  *
  * @author : Richard Klees <richard.klees@concepts-and-training.de>
- * @ilCtrl_IsCalledBy ilPDStudyProgrammeListGUI: ilColumnGUI
+ * @ilCtrl_IsCalledBy ilPDStudyProgrammeSimpleListGUI: ilColumnGUI
  */
-class ilPDStudyProgrammeListGUI extends ilBlockGUI {
+class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI {
 	const BLOCK_TYPE = "prglist";
 	
 	/**
@@ -63,8 +63,6 @@ class ilPDStudyProgrammeListGUI extends ilBlockGUI {
 	
 	public function fillDataSection() {
 		assert($this->userHasStudyProgrammes()); // We should not get here.
-		
-		require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeAssignmentListGUI.php");
 		
 		$content = "";
 		
