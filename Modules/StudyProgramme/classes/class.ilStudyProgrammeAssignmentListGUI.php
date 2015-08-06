@@ -9,7 +9,7 @@
  *
  */
 
-class ilStudyProgrammeAssignmentListGUI {
+class ilStudyProgrammeProgressListGUI {
 	protected static $tpl_file = "tpl.study_programme_assignment_list_item.html";
 	
 	/**
@@ -18,29 +18,28 @@ class ilStudyProgrammeAssignmentListGUI {
 	protected $il_lng;
 	
 	/**
-	 * @var ilStudyProgrammeUserAssignment
+	 * @var ilStudyProgrammeUserProgress
 	 */
-	protected $assignment;
+	protected $progress;
 
 	/**
 	 * @var string
 	 */
 	protected $html;
 
-	function __construct(ilStudyProgrammeUserAssignment $a_assignment) {
+	function __construct(ilStudyProgrammeUserProgress $a_progress) {
 		global $lng;
 		$this->il_lng = $lng;
 		$this->il_lng->loadLanguageModule("prg");
 		
-		$this->assignment = $a_assignment;
+		$this->progress = $a_progress;
 		$this->tpl = null;
 		$this->html = null;
 	}
 	
 	public function getHTML() {
 		if ($this->html === null) {
-			$programme = $this->assignment->getStudyProgramme();
-			$progress = $programme->getProgressForAssignment($this->assignment->getId());
+			$programme = $this->progress->getStudyProgramme();
 			
 			$tpl = $this->getTemplate("Modules/StudyProgramme", static::$tpl_file, true, true);
 			$tpl->setVariable("TXT_TITLE", $programme->getTitle());
@@ -49,7 +48,7 @@ class ilStudyProgrammeAssignmentListGUI {
 			$tpl->setVariable("ALT_ICON", $this->getAltIcon($programme->getId()));
 			$tpl->setVariable("HREF_TITLE", $this->getTargetForProgramme($programme->getId()));
 			$tpl->setVariable("ICON_HREF", $this->getTargetForProgramme($programme->getId()));
-			$tpl->setVariable("PROGRESS_BAR", $this->buildProgressBar($progress));
+			$tpl->setVariable("PROGRESS_BAR", $this->buildProgressBar($this->progress));
 			
 			$this->html = $tpl->get();
 		}

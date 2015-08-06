@@ -91,6 +91,7 @@ class ilPDStudyProgrammeListGUI extends ilBlockGUI {
 	
 	protected function new_ilStudyProgrammeAssignmentListGUI(ilStudyProgrammeUserAssignment $a_assignment) {
 		require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeAssignmentListGUI.php");
-		return new ilStudyProgrammeAssignmentListGUI($a_assignment);
+		$progress = $a_assignment->getStudyProgramme()->getProgressForAssignment($a_assignment->getId());
+		return new ilStudyProgrammeProgressListGUI($progress);
 	}
 }
