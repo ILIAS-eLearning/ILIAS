@@ -18,6 +18,11 @@ class ilStudyProgrammeProgressListGUI {
 	protected $il_lng;
 	
 	/**
+	 * @var ilCtrl
+	 */
+	protected $il_ctrl;
+	
+	/**
 	 * @var ilStudyProgrammeUserProgress
 	 */
 	protected $progress;
@@ -28,9 +33,10 @@ class ilStudyProgrammeProgressListGUI {
 	protected $html;
 
 	function __construct(ilStudyProgrammeUserProgress $a_progress) {
-		global $lng;
+		global $lng, $ilCtrl;
 		$this->il_lng = $lng;
 		$this->il_lng->loadLanguageModule("prg");
+		$this->il_ctrl = $ilCtrl;
 		
 		$this->progress = $a_progress;
 		$this->tpl = null;
@@ -46,8 +52,8 @@ class ilStudyProgrammeProgressListGUI {
 			$tpl->setVariable("TXT_DESC", $programme->getDescription());
 			$tpl->setVariable("SRC_ICON", $this->getIconPath($programme->getId()));
 			$tpl->setVariable("ALT_ICON", $this->getAltIcon($programme->getId()));
-			$tpl->setVariable("HREF_TITLE", $this->getTargetForProgramme($programme->getId()));
-			$tpl->setVariable("ICON_HREF", $this->getTargetForProgramme($programme->getId()));
+			$tpl->setVariable("HREF_TITLE", $this->getTargetForProgress($this->progress));
+			$tpl->setVariable("ICON_HREF", $this->getTargetForProgress($this->progress));
 			$tpl->setVariable("PROGRESS_BAR", $this->buildProgressBar($this->progress));
 			
 			$this->html = $tpl->get();
@@ -67,8 +73,11 @@ class ilStudyProgrammeProgressListGUI {
 		return $this->il_lng->txt("icon")." ".$this->il_lng->txt("obj_prg");
 	}
 	
-	protected function getTargetForProgramme($a_obj_id) {
-		return "http://www.google.de";
+	protected function getTargetForProgress(ilStudyProgrammeUserProgress $a_progress) {
+		$this->il_ctrl->setParameterByClass("ilPersonalDesktopGUI", "prg_progress_id", $a_progress->getId());
+		$link = $this->il_ctrl->getLinkTargetByClass("ilPersonalDesktopGUI", "jumpToStudyProgramme");
+		$this->il_ctrl->setParameterByClass("ilPersonalDesktopGUI", "prg_progress_id", null);
+		return $link;
 	}
 	
 	protected function buildProgressBar(ilStudyProgrammeUserProgress $a_progress) {
