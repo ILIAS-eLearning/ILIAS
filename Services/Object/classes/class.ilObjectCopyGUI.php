@@ -728,6 +728,34 @@ class ilObjectCopyGUI
 	}
 	
 	/**
+	 * Save selected source from membership screen
+	 */
+	protected function saveSourceMembership()
+	{
+		global $objDefinition;
+		
+		if(!isset($_REQUEST['source']))
+		{
+			ilUtil::sendFailure($this->lng->txt('select_one'));
+			$GLOBALS['ilCtrl']->redirect($this,'showSourceSelectionMembership');
+			return FALSE;
+		}
+		
+		$this->setSource(array((int) $_REQUEST['source']));
+		$this->setType(ilObject::_lookupType((int) $this->getFirstSource(), TRUE));
+		$GLOBALS['ilCtrl']->setParameter($this,'source_id',(int) $_REQUEST['source']);
+		
+		if($objDefinition->isContainer($this->getType()))
+		{
+			$this->showItemSelection();
+		}
+		else
+		{
+			$this->copySingleObject();
+		}
+	}
+	
+	/**
 	 * 
 	 * @return 
 	 */

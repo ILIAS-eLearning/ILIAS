@@ -15656,3 +15656,5 @@ cntr#:#tab_back_to_repository#:#Zurück zum Magazin
 common#:#msg_copy_clipboard_source#:#Now, please select the desired course, whose content should be copied and click the button ‘Next’.###25 06 2015 new variable
 obj#:#obj_target_location#:#Zielordner
 obj#:#obj_copy_progress#:#Fortschritt des Kopierens
+cntr#:#cntr_copy_repo_tree#:#Auswahl Magazinbaum
+cntr#:#cntr_copy_crs_grp#:#Auswahl Mitgliedschaften

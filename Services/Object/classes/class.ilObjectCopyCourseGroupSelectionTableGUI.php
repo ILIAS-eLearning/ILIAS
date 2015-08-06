@@ -13,7 +13,6 @@ include_once './Services/Object/classes/class.ilObjectTableGUI.php';
  */
 class ilObjectCopyCourseGroupSelectionTableGUI extends ilObjectTableGUI
 {
-	
 	/**
 	 * Set objects
 	 * @param type $a_obj_ids
@@ -27,6 +26,46 @@ class ilObjectCopyCourseGroupSelectionTableGUI extends ilObjectTableGUI
 			$ref_ids[] = end($all_ref_ids);
 		}
 		return parent::setObjects($ref_ids);
+	}
+	
+	/**
+	 * Init table
+	 */
+	public function init()
+	{
+		$this->enableRowSelectionInput(TRUE);
+		
+		parent::init();
+		
+		$this->setFormAction($GLOBALS['ilCtrl']->getFormAction($this->getParentObject()));
+		
+		$this->enableObjectPath(TRUE);
+		$this->addCommandButton('saveSourceMembership',$this->lng->txt('btn_next'));
+		$this->addCommandButton('cancel',$this->lng->txt('cancel'));
+	}
+	
+	/**
+	 * Fill row selection input
+	 * @param type $set
+	 */
+	public function fillRowSelectionInput($set)
+	{
+		$this->tpl->setCurrentBlock('row_selection_input');
+		$this->tpl->setVariable('OBJ_INPUT_TYPE','radio');
+		$this->tpl->setVariable('OBJ_INPUT_NAME','source');
+		$this->tpl->setVariable('OBJ_INPUT_VALUE',$set['ref_id']);
+	}
+	
+	/**
+	 * Customize path
+	 * @param \ilPathGUI $path
+	 * @return \ilPathGUI
+	 */
+	public function customizePath(\ilPathGUI $path)
+	{
+		$path->setUseImages(TRUE);
+		$path->enableTextOnly(FALSE);
+		return $path;
 	}
 }
 ?>

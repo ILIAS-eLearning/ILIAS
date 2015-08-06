@@ -15660,3 +15660,5 @@ meta#:#md_adv_deleted_fields#:#The fields have been deleted.
 cntr#:#tab_back_to_repository#:#Back to Repository
 obj#:#obj_target_location#:#Target Location
 obj#:#obj_copy_progress#:#Copy Progress
+cntr#:#cntr_copy_repo_tree#:#Repository Tree
+cntr#:#cntr_copy_crs_grp#:#My Courses and Groups
