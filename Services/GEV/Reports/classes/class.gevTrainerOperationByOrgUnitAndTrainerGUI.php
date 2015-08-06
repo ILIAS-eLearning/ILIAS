@@ -44,8 +44,8 @@ class gevTrainerOperationByOrgUnitAndTrainerGUI extends catBasicReportGUI{
 						;
 
 		$this->title = catTitleGUI::create()
-						->title("gev_report_trainer_operation_by_orgu_and_trainer")
-						->subTitle("gev_report_trainer_operation_by_orgu_and_trainer")
+						->title("gev_report_trainer_operation_by_orgu_trainer")
+						->subTitle("gev_report_trainer_operation_by_orgu_trainer_desc")
 						->image("GEV_img/ico-head-edubio.png");
 
 		$this->table = catReportTable::create();
