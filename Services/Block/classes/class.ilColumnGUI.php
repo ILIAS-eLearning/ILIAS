@@ -81,7 +81,7 @@ class ilColumnGUI
 		'ilChatroomBlockGUI' => 'chatviewer',
 		'ilPollBlockGUI' => 'poll',
 		'ilClassificationBlockGUI' => 'clsfct',
-		"ilPDStudyProgrammeSimpleListGUI" => "prgsimplelist",
+		"ilPDStudyProgrammeSimpleListGUI" => "prgsimplelist"
 	);
 	
 		
