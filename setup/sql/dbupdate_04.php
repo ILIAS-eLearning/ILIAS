@@ -7631,3 +7631,178 @@ if( $ilDB->tableExists('tst_result_cache_tmp') )
 	$ilDB->dropTable('tst_result_cache_tmp');
 }
 ?>
+<#4582>
+<?php
+$ilDB->addIndex('mail_obj_data', array('obj_id', 'user_id'), 'i2');
+?>
+<#4583>
+<?php
+$ilDB->dropPrimaryKey('mail_obj_data');
+?>
+<#4584>
+<?php
+$mod_dup_query_num = "
+SELECT COUNT(*) cnt
+FROM (
+	SELECT obj_id
+    FROM mail_obj_data
+    GROUP BY obj_id
+    HAVING COUNT(*) > 1
+) duplicateMailFolders
+";
+
+$res  = $ilDB->query($mod_dup_query_num);
+$data = $ilDB->fetchAssoc($res);
+
+$ilSetting = new ilSetting();
+$setting   = $ilSetting->get('mail_mod_dupl_warn_51x_shown', 0);
+if($data['cnt'] > 0 && !(int)$setting)
+{
+	echo "<pre>
+
+		Dear Administrator,
+		
+		DO NOT REFRESH THIS PAGE UNLESS YOU HAVE READ THE FOLLOWING INSTRUCTIONS
+		
+		The update process has been stopped due to a data consistency issue in table 'mail_obj_data'.
+		The values in field 'obj_id' should be unique, but there are different values in field 'user_id', associated to the same 'obj_id'.
+		You have the opportunity to review the data and apply manual fixes on your own risk. The duplicates can be determined with the following SQL string:
+
+		SELECT mail_obj_data.* FROM mail_obj_data INNER JOIN (SELECT obj_id FROM mail_obj_data GROUP BY obj_id HAVING COUNT(*) > 1) duplicateMailFolders ON duplicateMailFolders.obj_id = mail_obj_data.obj_id ORDER BY mail_obj_data.obj_id
+		
+		If you try to rerun the update process, this warning will be skipped.
+		The remaining duplicates will be removed automatically by the criteria documented below.
+
+		Foreach each duplicate record, ...
+		
+		1. ILIAS temporarily stores the value of the duplicate 'obj_id' in a variable: \$old_folder_id .
+		2. ILIAS deletes every duplicate row in table 'mail_obj_data' determined by \$old_folder_id (field: 'obj_id') and the respective 'user_id'.
+		3. ILIAS creates a new record for the user account (with a unique 'obj_id') and stores this value in a variable: \$new_folder_id .
+		4. All messages of the user stored in table 'mail' and related to the \$old_folder_id will be updated to \$new_folder_id (field: 'folder_id').
+		5. The existing tree entries of the old \$old_folder_id in table 'mail_tree' will be replaced by the \$new_folder_id (fields: 'child' and 'parent').
+
+		Please ensure to backup your current database before reloading this page or executing the database update in general.
+		Furthermore disable your client while executing the following 2 update steps.
+
+		Best regards,
+		The mail system maintainer
+		
+	</pre>";
+
+	$ilSetting->set('mail_mod_dupl_warn_51x_shown', 1);
+	exit();
+}
+
+
+if($data['cnt'] > 0)
+{
+	$db_step = 4584;
+
+	$ps_delete_mf_by_obj_and_usr = $ilDB->prepareManip(
+		"DELETE FROM mail_obj_data WHERE obj_id = ? AND user_id = ?",
+		array('integer', 'integer')
+	);
+
+	$ps_create_mf_by_obj_and_usr = $ilDB->prepareManip(
+		"INSERT INTO mail_obj_data (obj_id, user_id, title, m_type) VALUES(?, ?, ?, ?)",
+		array('integer','integer', 'text', 'text')
+	);
+
+	$ps_update_mail_by_usr_and_folder = $ilDB->prepareManip(
+		"UPDATE mail SET folder_id = ? WHERE folder_id = ? AND user_id = ?",
+		array('integer', 'integer', 'integer')
+	);
+
+	$ps_update_tree_entry_by_child_and_usr = $ilDB->prepareManip(
+		"UPDATE mail_tree SET child = ? WHERE child = ? AND tree = ?",
+		array('integer', 'integer', 'integer')
+	);
+
+	$ps_update_tree_par_entry_by_child_and_usr = $ilDB->prepareManip(
+		"UPDATE mail_tree SET parent = ? WHERE parent = ? AND tree = ?",
+		array('integer', 'integer', 'integer')
+	);
+
+	$mod_dup_query = "
+	SELECT mail_obj_data.*
+	FROM mail_obj_data
+	INNER JOIN (
+		SELECT obj_id
+		FROM mail_obj_data
+		GROUP BY obj_id
+		HAVING COUNT(*) > 1
+	) duplicateMailFolders ON duplicateMailFolders.obj_id = mail_obj_data.obj_id
+	ORDER BY mail_obj_data.obj_id
+	";
+	$res = $ilDB->query($mod_dup_query);
+	while($row = $ilDB->fetchAssoc($res))
+	{
+		$old_folder_id = $row['obj_id'];
+		$user_id       = $row['user_id'];
+		$title         = $row['title'];
+		$type          = $row['m_type'];
+
+		// Delete old folder entry
+		$ilDB->execute($ps_delete_mf_by_obj_and_usr, array($old_folder_id, $user_id));
+		$GLOBALS['ilLog']->write(sprintf(
+			"DB Step %s: Deleted folder %s of user %s .",
+			$db_step, $old_folder_id, $user_id
+		));
+
+		$new_folder_id = $ilDB->nextId('mail_obj_data');
+		// create new folder entry
+		$ilDB->execute($ps_create_mf_by_obj_and_usr, array($new_folder_id, $user_id, $title, $type));
+		$GLOBALS['ilLog']->write(sprintf(
+			"DB Step %s: Created new folder %s for user %s .",
+			$db_step, $new_folder_id, $user_id
+		));
+
+		// Move mails to new folder
+		$ilDB->execute($ps_update_mail_by_usr_and_folder, array($new_folder_id, $old_folder_id, $user_id));
+		$GLOBALS['ilLog']->write(sprintf(
+			"DB Step %s: Moved mails from %s to %s for user %s .",
+			$db_step, $old_folder_id, $new_folder_id,  $user_id
+		));
+
+		// Change existing tree entry
+		$ilDB->execute($ps_update_tree_entry_by_child_and_usr, array($new_folder_id, $old_folder_id, $user_id));
+		$GLOBALS['ilLog']->write(sprintf(
+			"DB Step %s: Changed child in table 'mail_tree' from %s to %s for tree %s .",
+			$db_step, $old_folder_id, $new_folder_id, $user_id
+		));
+		// Change existing tree parent entry
+		$ilDB->execute($ps_update_tree_par_entry_by_child_and_usr, array($new_folder_id, $old_folder_id, $user_id));
+		$GLOBALS['ilLog']->write(sprintf(
+			"DB Step %s: Changed parent in table 'mail_tree' from %s to %s for tree %s .",
+			$db_step, $old_folder_id, $new_folder_id, $user_id
+		));
+	}
+}
+
+$res  = $ilDB->query($mod_dup_query_num);
+$data = $ilDB->fetchAssoc($res);
+if($data['cnt'] > 0)
+{
+	throw new ilException("There are still duplicate entries in table 'mail_obj_data'. Please execute this database update step again.");
+}
+$ilSetting->delete('mail_mod_dupl_warn_51x_shown');
+?>
+<#4585>
+<?php
+$mod_dup_query_num = "
+SELECT COUNT(*) cnt
+FROM (
+	SELECT obj_id
+    FROM mail_obj_data
+    GROUP BY obj_id
+    HAVING COUNT(*) > 1
+) duplicateMailFolders
+";
+$res  = $ilDB->query($mod_dup_query_num);
+$data = $ilDB->fetchAssoc($res);
+if($data['cnt'] > 0)
+{
+	throw new ilException("There are still duplicate entries in table 'mail_obj_data'. Please execute database update step 4584 again. Execute the following SQL string manually: UPDATE settings SET value = 4583 WHERE keyword = 'db_version'; ");
+}
+$ilDB->addPrimaryKey('mail_obj_data', array('obj_id'));
+?>
