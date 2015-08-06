@@ -50,8 +50,8 @@ class gevTrainerOperationByTEPCategoryGUI extends catBasicReportGUI{
 
 		$this->table = catReportTable::create();
 		$this->table->column("fullname", "name");
-		$categories = self::getCategories();
-		//self::createTemplateFile($categories);
+		$categories = $this->getCategories();
+		//$this->createTemplateFile($categories);
 
 		$i = 1;
 		foreach($categories as $category) {
@@ -177,7 +177,7 @@ class gevTrainerOperationByTEPCategoryGUI extends catBasicReportGUI{
 		return $val;
 	}
 
-	protected static function getCategories() {
+	protected function getCategories() {
 		$sql = "SELECT title FROM tep_type";
 		$rec = $this->db->query($sql);
 		$columns = array();
@@ -192,7 +192,7 @@ class gevTrainerOperationByTEPCategoryGUI extends catBasicReportGUI{
 		return $columns;
 	}
 
-	protected static function createTemplateFile(array $categories) {
+	protected function createTemplateFile(array $categories) {
 		$i=1;
 		$str = fopen("Services/GEV/Reports/templates/default/"
 			."tpl.gev_trainer_operation_by_template_category_row.html","w"); 
