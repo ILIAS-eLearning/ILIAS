@@ -21,12 +21,13 @@ class ilUsersGalleryParticipants extends ilAbstractGalleryUsers
 	}
 
 	/**
+	 * @param array $users
 	 * @return array
 	 */
-	public function getGalleryUsers()
+	protected function getSortedUsers(array $users)
 	{
 		$participants_data = array();
-		foreach($this->participants->getParticipants() as $users_id)
+		foreach($users as $users_id)
 		{
 			/**
 			 * @var $user ilObjUser
@@ -47,7 +48,18 @@ class ilUsersGalleryParticipants extends ilAbstractGalleryUsers
 			);
 		}
 		$participants_data = $this->collectUserDetails($participants_data);
-		$ordered_user      = ilUtil::sortArray($participants_data, 'sort', 'asc');
+		$participants_data = ilUtil::sortArray($participants_data, 'sort', 'asc');
+		return $participants_data;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getGalleryUsers()
+	{
+		$ordered_user = $this->getSortedUsers($this->participants->getAdmins());
+		$ordered_user = $ordered_user + $this->getSortedUsers($this->participants->getTutors());
+		$ordered_user = $ordered_user + $this->getSortedUsers($this->participants->getMembers());
 		return $ordered_user;
 	}
 } 
