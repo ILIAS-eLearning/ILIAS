@@ -69,21 +69,28 @@ class ilFileDelivery {
 	/**
 	 * @var bool
 	 */
-	protected $cache = true;
+	protected $cache = false;
 	/**
 	 * @var bool
 	 */
 	protected $hash_filename = false;
+	/**
+	 * @var bool
+	 */
+	protected static $DEBUG = true;
 
 
 	/**
 	 * @param      $path_to_file
 	 * @param null $download_file_name
 	 */
-	public static function deliverFileAttached($path_to_file, $download_file_name = NULL) {
+	public static function deliverFileAttached($path_to_file, $download_file_name = NULL, $mime_type = NULL) {
 		$obj = new self($path_to_file);
 		if ($download_file_name) {
 			$obj->setDownloadFileName($download_file_name);
+		}
+		if ($mime_type) {
+			$obj->setMimeType($mime_type);
 		}
 		$obj->setDisposition(self::DISP_ATTACHMENT);
 		$obj->deliver();
@@ -123,7 +130,7 @@ class ilFileDelivery {
 	 */
 	public function __construct($path_to_file) {
 		$parts = parse_url($path_to_file);
-		$this->setPathToFile($parts['path']);
+		$this->setPathToFile(($parts['path']));
 		$this->detemineDeliveryType();
 		$this->detemineMimeType();
 		$this->determineDownloadFileName();
@@ -138,18 +145,8 @@ class ilFileDelivery {
 
 
 	public function deliver() {
-		if ($this->hasCache()) {
-			$this->generateEtag();
-			$this->sendEtagHeader();
-			$this->setShowLastModified(true);
-			$this->setCachingHeaders();
-			if ($this->isNonModified()) {
-				$this->setDeliveryType(self::DELIVERY_METHOD_NONE);
-				ilHTTP::STATUS(304);
-			} else {
-				$this->setGeneralHeaders();
-			}
-		}
+		$this->checkCache();
+		$this->setGeneralHeaders();
 
 		switch ($this->getDeliveryType()) {
 			default:
@@ -205,12 +202,17 @@ class ilFileDelivery {
 
 	protected function deliverPHP() {
 		set_time_limit(0);
-		$file = fopen(realpath($this->getPathToFile()), "rb");
+		$file = fopen(($this->getPathToFile()), "rb");
 		while (! feof($file)) {
 			print(@fread($file, 1024 * 8));
 			ob_flush();
 			flush();
 		}
+	}
+
+
+	protected function clearHeaders() {
+		header_remove();
 	}
 
 
@@ -263,7 +265,6 @@ class ilFileDelivery {
 
 			return true;
 		}
-
 		$finfo = finfo_open(FILEINFO_MIME_TYPE);
 		$info = finfo_file($finfo, $this->getPathToFile());
 		finfo_close($finfo);
@@ -634,6 +635,36 @@ class ilFileDelivery {
 		}
 
 		return true;
+	}
+
+
+	/**
+	 * @return boolean
+	 */
+	public static function isDEBUG() {
+		return self::$DEBUG;
+	}
+
+
+	/**
+	 * @param boolean $DEBUG
+	 */
+	public static function setDEBUG($DEBUG) {
+		self::$DEBUG = $DEBUG;
+	}
+
+
+	protected function checkCache() {
+		if ($this->hasCache()) {
+			$this->generateEtag();
+			$this->sendEtagHeader();
+			$this->setShowLastModified(true);
+			$this->setCachingHeaders();
+			if ($this->isNonModified()) {
+				ilHTTP::STATUS(304);
+				$this->close();
+			}
+		}
 	}
 }
 
