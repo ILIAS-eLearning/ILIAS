@@ -23,6 +23,10 @@ class ilPDStudyProgrammeListGUI extends ilBlockGUI {
 		$this->il_lng = $lng;
 		$this->il_user = $ilUser;
 		
+		if (!$this->pageIsPDOverview()) {
+			return;
+		}
+		
 		$this->loadUsersAssignments();
 		
 		// As this won't be visible we don't have to initialize this.
@@ -30,10 +34,15 @@ class ilPDStudyProgrammeListGUI extends ilBlockGUI {
 			return;
 		}
 		
+		
 		$this->setTitle($this->il_lng->txt("objs_prg"));
 	}
 	
 	public function getHTML() {
+		if (!$this->pageIsPDOverview()) {
+			return "";
+		}
+		
 		if (!$this->userHasStudyProgrammes()) {
 			return "";
 		}
@@ -65,6 +74,10 @@ class ilPDStudyProgrammeListGUI extends ilBlockGUI {
 	
 	protected function userHasStudyProgrammes() {
 		return !empty($this->users_assignments);
+	}
+	
+	protected function pageIsPDOverview() {
+		return $_GET["cmd"] == "jumpToSelectedItems";
 	}
 	
 	protected function loadUsersAssignments() {
