@@ -1,11 +1,11 @@
-/* Copyright (c) 1998-2014 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2015 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file ...
-* @author 4.4.x 2015-03-20 00:00 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
+* @author 4.4.x 2015-08-06 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
 * @author 4.2.2	Berecz Antónia <berecz@gdf.hu>
-* @module		language file Hungary
+* @module		language file Hungarian
 * @modulegroup	language
-* @version		$Id: ilias_hu.lang 57703 2015-02-01 03:24:56Z akill $
+* @version		$Id$
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
@@ -152,7 +152,7 @@ administration#:#restoring_missing_objs#:#Elveszett objektumok visszaállítása
 administration#:#restoring_trash#:#Törölt objektumok visszaállítása...
 administration#:#restoring_unbound_objs#:#Kapcsolódás nélküli objektumok és alobjektumok visszaállítása...
 administration#:#restoring#:#Helyreállítás...
-administration#:#reuse_of_loginnames_contained_in_history#:#A felhasználónevek újra felhasználhatóak.
+administration#:#reuse_of_loginnames_contained_in_history#:#Felhasználónevek újra felhasználhatóak
 administration#:#scan_completed#:#Az átvizsgálás befejeződött
 administration#:#scan_desc#:#Rendszer átvizsgálása korrupt/érvénytelen/elveszett/kapcsolódás nélküli objektumok után.
 administration#:#scan_details#:#Vizsgálat részletei
@@ -1015,6 +1015,7 @@ assessment#:#tst_reset_processing_time_desc#:#A kitöltési idő értéke vissza
 assessment#:#tst_reset_processing_time#:#A kitöltési idő visszaállítása minden tesztkitöltéshez
 assessment#:#tst_result_user_name_pass#:#%s befejezett teszt eredménye a következőhöz: %s
 assessment#:#tst_result_user_name#:#%s eredményei:
+assessment#:#tst_result_pass#:#Tesztkitöltés végeredményei
 assessment#:#tst_results_access_always#:#Rögtön
 assessment#:#tst_results_access_date#:#Időpont
 assessment#:#tst_results_access_description#:#Ez a beállítás a résztvevők saját teszteredményeihez való hozzáférést kezeli.<br />Ha az eredmények a "Teszt befejezése után" elérhetők, a résztvevők első tesztmegoldásuk után elérhetik teszteredményeiket. Akkor is az első kitöltés után érhetik el teszteredményeiket, ha többször engedélyezett a teszt kitöltése.<br />Ha a kezdő időpontot választja, a résztvevők nem érhetik el teszteredményeiket a megadott időpont előtt. Ezt az opciót válassza, ha ECTS pontozási rendszert akar használni, ill. manuálisan kell pontoznia.<br />Ha a "Mindig" van kiválasztva, a résztvevők bármikor elérhetik teszteredményeiket, már a teszt befejezése előtt is.<br />Ha a „Soha” van kiválasztva, a teszteredmények semmikor sem lesznek elérhetők.
@@ -2303,9 +2304,9 @@ common#:#err_auth_ldap_no_ilias_user#:#A bejelentkezés nem sikerült. Az LDAP-a
 common#:#err_auth_mode_inactive#:#Az Ön hitelesítési módszere ki van kapcsolva.
 common#:#err_auth_radius_no_ilias_user#:#A bejelentkezés nem sikerült. A RADIUS-azonosítás sikerült, de nem létezik megfelelő ILIAS-felhasználó.
 common#:#err_auth_soap_no_ilias_user#:#A bejelentkezés nem sikerült. A SOAP-hitelesítés sikeres, de nincs megfelelő ILIAS-felhasználó. Vegye fel a kapcsolatot egy rendszergazdával!
-common#:#err_check_input#:#A beállítások nem menthetők. Ellenőrizze a bemeneti értékeket!
+common#:#err_check_input#:#A beállítások nem menthetők. Ellenőrizze a bemeneti értékeket.
 common#:#err_count_param#:#Ok: hibás paraméterszám
-common#:#err_enter_current_passwd#:#Adja meg jelenlegi jelszavát!
+common#:#err_enter_current_passwd#:#Adja meg jelenlegi jelszavát.
 common#:#err_in_line#:#Hiba a sorban.
 common#:#err_inactive#:#Ez az ILIAS-fiók még nincs aktiválva. Vegye fel a kapcsolatot egy rendszergazdával!
 common#:#err_invalid_port#:#Érvénytelen port!
@@ -2318,7 +2319,7 @@ common#:#err_no_langfile_found#:#Nem található nyelvi fájl.
 common#:#err_no_param#:#Nincs paraméter.
 common#:#err_over_3_param#:#Több, mint 3 paraméter szükséges.
 common#:#err_role_not_assignable#:#A felhasználók nem rendelhetők hozzá ehhez a szerephez ezen a területen.
-common#:#err_session_expired#:#Munkamenet lejárt!
+common#:#err_session_expired#:#Munkamenete lejárt!
 common#:#err_unknown_error#:#Ismeretlen hiba
 common#:#err_wrong_header#:#Ok: hibás fejléc.
 common#:#err_wrong_login#:#Hibás felhasználónév vagy jelszó.
@@ -3223,7 +3224,7 @@ common#:#msg_changes_ok#:#A változtatások rendben voltak
 common#:#msg_clear_clipboard#:#A vágólap üres.
 common#:#msg_cloned#:#Kiválasztott objektum(ok) lemásolva
 common#:#msg_copy_clipboard_source#:#Most válassza ki azt a kurzust, amelynek tartalmát másolni szeretné, majd kattintson a 'Folytatás' gombra.
-common#:#msg_copy_clipboard#:#Most válassza ki, hová szeretné beilleszteni a kiválasztott objektumokat, majd kattintson a 'Beillesztés' gombra.
+common#:#msg_copy_clipboard#:#Most válassza ki, hová szeretné beilleszteni a kiválasztott objektumokat, majd kattintson a 'Folytatás' gombra.
 common#:#msg_cut_clipboard#:#Most válassza ki, hová szeretné beilleszteni a kiválasztott objektumokat, majd kattintson a 'Beillesztés' gombra.
 common#:#msg_cut_copied#:#Kiválasztott objektum(ok) áthelyezve.
 common#:#msg_deleted_export_files#:#Exportfájlokat sikeresen törölte
@@ -12568,7 +12569,7 @@ registration#:#reg_allowed_domains#:#Engedélyezett e-mail cím domain-ek
 registration#:#reg_allowed_domains_info#:#Használjon helyettesítőnek *-ot, elválasztónak ;-t.
 pd#:#block_show_pdcal#:#Naptár megjelenítése
 pd#:#block_show_pdmail#:#E-mail megjelenítése
-pd#:#block_show_pdtag#:#Napjaim megjelenítése
+pd#:#block_show_pdtag#:#Saját címkéim megjelenítése
 pd#:#block_show_pdnews#:#Hírek megjelenítése
 pd#:#block_show_pdusers#:#Aktív felhasználók megjelenítése
 pd#:#block_show_pdnotes#:#Jegyzetek megjelenítése
@@ -14103,7 +14104,7 @@ content#:#cont_col_ordering#:#Oszloprendezés
 orgu#:#simple_xls#:#Egyszerű Excel Export
 assessment#:#un_add_category#:#Kategória hozzáadása
 assessment#:#un_add_unit#:#Mértékegység hozzáadása
-assessment#:#fq_question_desc#:#Definiálhatsz változókat $v1, $v2 ... $vn beírásával, végeredményeket $r1, $r2 .... $rn beírásával a kérdés szövegének tetszőleges helyén. Kattints a 'Kérdés elemzése' gombra, hogy a változók és a végeredmények szerkeszthető űrlapja megjelenjen.
+assessment#:#fq_question_desc#:#Definiálhat változókat $v1, $v2 ... $vn beírásával, végeredményeket $r1, $r2 .... $rn beírásával a kérdés szövegének tetszőleges helyén. Kattints a 'Kérdés elemzése' gombra, hogy a változók és a végeredmények szerkeszthető űrlapja megjelenjen.
 ecs#:#ecs_cmap_delete_rule#:#Mapping törlése
 wsp#:#wsp_list_excv#:#Beadandó feladat igazolás
 wsp#:#wsp_list_tstv#:#Teszt igazolás
@@ -14359,5 +14360,39 @@ grp#:#grp_admission_link_failure_membership_limited#:#Nem regisztrálhat, mert a
 crs#:#crs_admission_link_failure_membership_limited#:#Nem regisztrálhat, mert a kurzus tagsága korlátozott.
 grp#:#grp_admission_link_success_registration#:#'%s' csoportba sikeresen regisztrált.
 crs#:#crs_admission_link_success_registration#:#'%s' kurzusba sikeresen regisztrált.
-assessment#:#tst_result_pass#:#Results of Test Pass###28 07 2015 new variable
-cron#:#cron_result_status_fail#:#Failed###28 07 2015 new variable
+cron#:#cron_result_status_fail#:#Sikertelen
+sysc#:#sysc_overview#:#Áttekintés
+sysc#:#sysc_groups#:#Rendszerellenőrzési csoportok
+sysc#:#sysc_grp_tree#:#Taneszköztároló-fa
+sysc#:#sysc_grp_tree_desc#:#A fa elemzése és az összes facsomópont megjelenítése az elemzési adatokkal.
+sysc#:#sysc_completed_num#:#Elvégzett feladatok
+sysc#:#sysc_failed_num#:#El nem végzett feladatok
+sysc#:#sysc_task_overview#:#Feladatok
+sysc#:#sysc_action_validate#:#Validálás
+sysc#:#sysc_action_repair#:#Javítás
+sysc#:#sysc_task_tree_duplicates#:#Duplikált bejegyzések a Taneszköztároló-fában
+sysc#:#sysc_task_tree_duplicates_desc#:#Duplikált bejegyzések keresése a Taneszköztároló-fa szerkezetében.
+sysc#:#sysc_task_tree_dump#:#Fa listázása
+sysc#:#sysc_task_tree_dump_desc#:#Taneszköztároló-fa szerkezetének elemzése és megjelenítése.
+sysc#:#sysc_action_list_tree#:#Taneszköztároló-fa lenyomat létrehozása
+sysc#:#sysc_action_show_tree#:#Taneszköztároló-fa lenyomat megjelenítése
+sysc#:#sysc_tree_duplicate_failures#:#Duplikált bejegyzéseket találtunk a Taneszköztároló-fa szerkezetében. Duplikált bejegyzések száma:
+sysc#:#sysc_message_success#:#Nincs hiba
+sysc#:#sysc_tree_list_failures#:#Taneszköztároló-fa lenyomatát létrehoztuk. Hibák száma a Taneszköztároló-fa szerkezetében:
+sysc#:#sysc_status_na#:#Nem futott
+sysc#:#sysc_status_running#:#Fut
+sysc#:#sysc_status_failed#:#Sikertelen
+sysc#:#sysc_status_completed#:#Befejezve
+sysc#:#sysc_task_tree_missing#:#Hiányzó bejegyzések a Taneszköztároló-fában
+sysc#:#sysc_task_tree_missing_desc#:#Hiányzó bejegyzések keresése és javítása a Taneszköztároló-fában.
+sysc#:#sysc_message_tree_missing_confirm#:#Biztos, hogy visszaállítja a hiányzó bejegyzéseket a Taneszköztároló-fa szerkezetében?
+sysc#:#sysc_btn_tree_missing#:#Hiányzók visszaállítása
+sysc#:#sysc_tree_missing_failures#:#Hiányzó bejegyzéseket találtunk a Taneszköztároló-fa szerkezetében. Hiányzó bejegyzések száma:
+sysc#:#sysc_cron_empty_trash#:#Lomtár ürítése
+sysc#:#sysc_cron_empty_trash_desc#:#Ha be van kapcsolva, a lomtárat ürítjük a megfelelő feltételek alapján (életkor, objektumtípus vagy objektumok maximális száma).
+sysc#:#sysc_task_tree_missing_tree#:#Hiányzó bejegyzések a Taneszköztároló-fában
+sysc#:#sysc_task_tree_missing_tree_desc#:#Hiányzó bejegyzések keresése és javítása a Taneszköztároló-fában.
+sysc#:#sysc_task_tree_missing_reference#:#Hiányzó objektumhivatkozások
+sysc#:#sysc_task_tree_missing_reference_desc#:#Hiányzó objektumhivatkozások keresése és javítása a Taneszköztároló-fában.
+sysc#:#sysc_task_structure#:#Fastruktúra
+sysc#:#sysc_task_structure_desc#:#Taneszköztároló-fa szerkezetének elemzése és javítása.
