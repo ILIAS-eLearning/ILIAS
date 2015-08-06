@@ -6,12 +6,14 @@ require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
 
 const MIN_ROW = "3991";
+const shift = "&nbsp;&nbsp;&nbsp;";
 
 class gevTrainerOperationByOrgUnitAndTrainerGUI extends catBasicReportGUI{
 	protected $meta_categories = array("Training"=>array("Training", "Veranstaltung / Tagung (Zentral)"));
 	protected $tree;
 	protected $orgu_utils;
 	protected $report_data;
+	protected $top_nodes = array(2271,2275);
 
 	public function __construct() {
 		global $tree;
@@ -83,7 +85,7 @@ class gevTrainerOperationByOrgUnitAndTrainerGUI extends catBasicReportGUI{
 			$this->pre_data[$rec["orgu_title"]][] = $rec;
 		}
 
-		$top_sup_orgus = $this->getTopSuperiorNodesOfUser();
+		$top_sup_orgus = $this->getTopSuperiorNodesOfUser($this->top_nodes);
 		$tree_data = array();
 
 		foreach ($top_sup_orgus as $orgu) {
@@ -158,14 +160,12 @@ class gevTrainerOperationByOrgUnitAndTrainerGUI extends catBasicReportGUI{
 		$children = $this->tree->getChildsByType($ref_id,'orgu');
 		$return = array("title"=>$title,"trainers"=>$this->pre_data[$title],"children"=>array());
 		
-		$offset .= "&nbsp;&nbsp;&nbsp;";
-
 		foreach ($return["trainers"] as &$trainers) {
-			$trainers["title"] = $offset.$trainers["title"];
+			$trainers["title"] = $offset.shift.$trainers["title"];
 		}
 
 		foreach($children as $child) {
-			$return["children"][] = $this->buildReportTree($child["ref_id"],$offset);
+			$return["children"][] = $this->buildReportTree($child["ref_id"],$offset.shift);
 		}
 		$return["sum"] = $this->sumMetaCategories($return["trainers"]);
 		foreach ($return["children"] as $child) {
