@@ -178,11 +178,10 @@ class gevTrainerOperationByTEPCategoryGUI extends catBasicReportGUI{
 	}
 
 	protected static function getCategories() {
-		global $ilDB;
 		$sql = "SELECT title FROM tep_type";
-		$rec = $ilDB->query($sql);
+		$rec = $this->db->query($sql);
 		$columns = array();
-		while($res = $ilDB->fetchAssoc($rec)) {
+		while($res = $this->db->fetchAssoc($rec)) {
 			$columns[] = $res["title"];
 		}
 		foreach(array_reverse(self::$important_tep_categories) as $category) {
@@ -210,27 +209,24 @@ class gevTrainerOperationByTEPCategoryGUI extends catBasicReportGUI{
 	}
 
 	protected function getOrgusFromTep() {
-		global $ilDB;
 		$orgu_s = array();
 		$sql = "SELECT DISTINCT orgu_title as ot FROM hist_tep WHERE orgu_title != '-empty-'";
-		$res = $ilDB->query($sql);
-		while( $rec = $ilDB->fetchAssoc($res)) {
+		$res = $this->db->query($sql);
+		while( $rec = $this->db->fetchAssoc($res)) {
 			$orgu_s[] = $rec["ot"];
 		}
 		return $orgu_s;
 	}
 
 	protected function daysPerTEPCategory($category,$name) {
-		global $ilDB;
 		$sql = "SUM(IF(category = "
-				.$ilDB->quote($category,"text")." ,1,0)) as ".$name;
+				.$this->db->quote($category,"text")." ,1,0)) as ".$name;
 		return $sql;
 	}
 
 	protected function hoursPerTEPCategory($category, $name) {
-		global $ilDB;
 		$sql = 
-		"SUM(IF(category = ".$ilDB->quote($category,"text")." ,
+		"SUM(IF(category = ".$this->db->quote($category,"text")." ,
 			LEAST(CEIL( TIME_TO_SEC( TIMEDIFF( end_time, start_time ) )* weight /720000) *2,8),0)) as ".$name;
 		return $sql;
 	}
