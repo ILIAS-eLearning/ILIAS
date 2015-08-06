@@ -14,6 +14,16 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI {
 	const BLOCK_TYPE = "prgsimplelist";
 	
 	/**
+	 * @var ilLanguage
+	 */
+	protected $il_lng;
+	
+	/**
+	 * @var ilUser
+	 */
+	protected $il_user;
+	
+	/**
 	 * @var ilStudyProgrammeUserAssignment[]
 	 */
 	protected $users_assignments;
