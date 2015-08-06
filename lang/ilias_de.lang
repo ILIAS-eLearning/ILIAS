@@ -12806,8 +12806,10 @@ dcl#:#dcl_locked#:#Gesperrt
 dcl#:#dcl_table_settings#:#Tabelleneinstellungen
 dcl#:#dcl_add_perm#:#Neuen Eintrag hinzufügen
 dcl#:#dcl_add_perm_desc#:#Benutzer können Einträge in dieser Tabelle erstellen.
-dcl#:#dcl_edit_perm#:#Alle Einträge bearbeiten
-dcl#:#dcl_delete_perm#:#Alle Einträge löschen
+dcl#:#dcl_edit_perm#:#Einträge bearbeiten
+dcl#:#dcl_delete_perm#:#Einträge löschen
+dcl#:#dcl_all_entries#:#Alle Einträge
+dcl#:#dcl_own_entries#:#Nur eigene Einträge
 dcl#:#dcl_edit_by_owner#:#Nur eigene Einträge bearbeiten oder löschen
 dcl#:#dcl_limited#:#Zeitlich begrenzte Bearbeitung
 dcl#:#dcl_limited_desc#:#Benutzer können Einträge nur bis zum gewählten Datum hinzufügen, bearbeiten und löschen.

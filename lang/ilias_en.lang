@@ -12704,6 +12704,8 @@ dcl#:#dcl_export_enabled#:#Allow export function for all users
 dcl#:#dcl_no_fields_yet#:#There are no fields defined for this table thus you cannot create any entries yet.
 dcl#:#dcl_create_fields#:#Please create at least one field in the tab ‘List Fields’.
 dcl#:#dcl_inconsistent_at#:#The Data Collection is inconsistent. A reference no longer exists.
+dcl#:#dcl_all_entries#:#All entries
+dcl#:#dcl_own_entries#:#Only own entries
 common#:#mail_member#:#Mail to Member
 exc#:#exc_type_upload_team#:#Team Upload
 exc#:#exc_team#:#Team

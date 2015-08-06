@@ -37,7 +37,10 @@ class ilDataCollectionTableEditGUI {
 	 * @var ilTemplate
 	 */
 	protected $tpl;
-
+	/**
+	 * @var ilPropertyFormGUI
+	 */
+	protected $form;
 
 	/**
 	 * Constructor
@@ -54,7 +57,7 @@ class ilDataCollectionTableEditGUI {
 		$this->obj_id = $a_parent_obj->obj_id;
 		$this->table_id = $_GET['table_id'];
 		$this->table = ilDataCollectionCache::getTableCache($this->table_id);
-		if (! $this->checkPermission()) {
+		if (!$this->checkPermission()) {
 			ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
 			$this->ctrl->redirectByClass('ildatacollectionrecordlistgui', 'listRecords');
 		}
@@ -95,7 +98,7 @@ class ilDataCollectionTableEditGUI {
 	 * create field edit form
 	 */
 	public function edit() {
-		if (! $this->table_id) {
+		if (!$this->table_id) {
 			$this->ctrl->redirectByClass("ildatacollectionfieldeditgui", "listFields");
 
 			return;
@@ -114,10 +117,11 @@ class ilDataCollectionTableEditGUI {
 	public function getValues() {
 		$values = array(
 			'title' => $this->table->getTitle(),
-			'add_perm' => $this->table->getAddPerm(),
-			'edit_perm' => $this->table->getEditPerm(),
-			'delete_perm' => $this->table->getDeletePerm(),
-			'edit_by_owner' => $this->table->getEditByOwner(),
+			'add_perm' => (int) $this->table->getAddPerm(),
+			'edit_perm' => (int) $this->table->getEditPerm(),
+			'edit_perm_mode' => $this->table->getEditByOwner() ? 'own' : 'all',
+			'delete_perm' => (int) $this->table->getDeletePerm(),
+			'delete_perm_mode' => $this->table->getDeleteByOwner() ? 'own' : 'all',
 			'export_enabled' => $this->table->getExportEnabled(),
 			'limited' => $this->table->getLimited(),
 			'limit_start' => array( "date" => substr($this->table->getLimitStart(), 0, 10), "time" => substr($this->table->getLimitStart(), - 8) ),
@@ -129,10 +133,10 @@ class ilDataCollectionTableEditGUI {
 			'public_comments' => $this->table->getPublicCommentsEnabled(),
 			'view_own_records_perm' => $this->table->getViewOwnRecordsPerm(),
 		);
-		if (! $this->table->getLimitStart()) {
+		if (!$this->table->getLimitStart()) {
 			$values['limit_start'] = NULL;
 		}
-		if (! $this->table->getLimitEnd()) {
+		if (!$this->table->getLimitEnd()) {
 			$values['limit_end'] = NULL;
 		}
 		$this->form->setValuesByArray($values);
@@ -148,6 +152,8 @@ class ilDataCollectionTableEditGUI {
 			'is_visible' => 1,
 			'add_perm' => 1,
 			'edit_perm' => 1,
+			'edit_perm_mode' => 'all',
+			'delete_perm_mode' => 'all',
 			'delete_perm' => 1,
 			'edit_by_owner' => 1,
 			'export_enabled' => 0,
@@ -224,15 +230,24 @@ class ilDataCollectionTableEditGUI {
 		$item = new ilCheckboxInputGUI($this->lng->txt('dcl_add_perm'), 'add_perm');
 		$item->setInfo($this->lng->txt("dcl_add_perm_desc"));
 		$this->form->addItem($item);
+
 		$item = new ilCheckboxInputGUI($this->lng->txt('dcl_edit_perm'), 'edit_perm');
 		//		$item->setInfo($this->lng->txt("dcl_edit_perm_info"));
 		$this->form->addItem($item);
+
+		$radios = new ilRadioGroupInputGUI('', 'edit_perm_mode');
+		$radios->addOption(new ilRadioOption($this->lng->txt('dcl_all_entries'), 'all'));
+		$radios->addOption(new ilRadioOption($this->lng->txt('dcl_own_entries'), 'own'));
+		$item->addSubItem($radios);
+
 		$item = new ilCheckboxInputGUI($this->lng->txt('dcl_delete_perm'), 'delete_perm');
 		//		$item->setInfo($this->lng->txt("dcl_delete_perm_info"));
 		$this->form->addItem($item);
-		$item = new ilCheckboxInputGUI($this->lng->txt('dcl_edit_by_owner'), 'edit_by_owner');
-		//		$item->setInfo($this->lng->txt("dcl_edit_by_owner_info"));
-		$this->form->addItem($item);
+
+		$radios = new ilRadioGroupInputGUI('', 'delete_perm_mode');
+		$radios->addOption(new ilRadioOption($this->lng->txt('dcl_all_entries'), 'all'));
+		$radios->addOption(new ilRadioOption($this->lng->txt('dcl_own_entries'), 'own'));
+		$item->addSubItem($radios);
 
 		$item = new ilCheckboxInputGUI($this->lng->txt('dcl_view_own_records_perm'), 'view_own_records_perm');
 		//		$item->setInfo($this->lng->txt("dcl_edit_by_owner_info"));
@@ -276,14 +291,12 @@ class ilDataCollectionTableEditGUI {
 	public function save($a_mode = "create") {
 		global $ilTabs;
 
-		if (! ilObjDataCollectionAccess::checkActionForObjId('write', $this->obj_id)) {
+		if (!ilObjDataCollectionAccess::checkActionForObjId('write', $this->obj_id)) {
 			$this->accessDenied();
-
 			return;
 		}
 
 		$ilTabs->activateTab("id_fields");
-
 		$this->initForm($a_mode);
 
 		if ($this->checkInput($a_mode)) {
@@ -297,11 +310,18 @@ class ilDataCollectionTableEditGUI {
 
 			$this->table->setTitle($this->form->getInput("title"));
 			$this->table->setObjId($this->obj_id);
-			$this->table->setIsVisible($this->form->getInput("is_visible"));
-			$this->table->setAddPerm($this->form->getInput("add_perm"));
-			$this->table->setEditPerm($this->form->getInput("edit_perm"));
-			$this->table->setDeletePerm($this->form->getInput("delete_perm"));
-			$this->table->setEditByOwner($this->form->getInput("edit_by_owner"));
+			$this->table->setIsVisible((bool)$this->form->getInput("is_visible"));
+			$this->table->setAddPerm((bool)$this->form->getInput("add_perm"));
+			$this->table->setEditPerm((bool)$this->form->getInput("edit_perm"));
+			if ($this->table->getEditPerm()) {
+				$edit_by_owner = ($this->form->getInput('edit_perm_mode') == 'own');
+				$this->table->setEditByOwner($edit_by_owner);
+			}
+			$this->table->setDeletePerm((bool)$this->form->getInput("delete_perm"));
+			if ($this->table->getDeletePerm()) {
+				$delete_by_owner = ($this->form->getInput('delete_perm_mode') == 'own');
+				$this->table->setDeleteByOwner($delete_by_owner);
+			}
 			$this->table->setViewOwnRecordsPerm($this->form->getInput('view_own_records_perm'));
 			$this->table->setExportEnabled($this->form->getInput("export_enabled"));
 			$this->table->setDefaultSortField($this->form->getInput("default_sort_field"));
@@ -313,12 +333,6 @@ class ilDataCollectionTableEditGUI {
 			$limit_end = $this->form->getInput("limit_end");
 			$this->table->setLimitStart($limit_start["date"] . " " . $limit_start["time"]);
 			$this->table->setLimitEnd($limit_end["date"] . " " . $limit_end["time"]);
-
-			if (! $this->table->hasPermissionToAddTable($this->parent_object->ref_id)) {
-				$this->accessDenied();
-
-				return;
-			}
 			if ($a_mode == "update") {
 				$this->table->doUpdate();
 				ilUtil::sendSuccess($this->lng->txt("dcl_msg_table_edited"), true);
@@ -424,5 +438,3 @@ class ilDataCollectionTableEditGUI {
 		return ilObjDataCollection::_hasWriteAccess($ref_id);
 	}
 }
-
-?>

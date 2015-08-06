@@ -46,6 +46,7 @@ class ilMaterialExplorer extends ilTreeExplorerGUI
 		
 		$this->setTypeWhiteList(array("root", "cat", "grp", "fold", "crs", $this->current_type));
 		$this->setSkipRootNode(true);
+		$this->setAjax(true);
 	}
 	
 	function getNodeContent($a_node)

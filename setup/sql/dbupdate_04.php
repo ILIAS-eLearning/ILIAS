@@ -7503,4 +7503,131 @@ if($ilDB->indexExistsByFields('ctrl_calls', array('parent')))
 }
 $ilDB->addPrimaryKey('ctrl_calls', array('parent','child'));
 ?>
+<#4574>
+<?php
+global $ilDB;
+if(!$ilDB->tableColumnExists('il_dcl_table', 'delete_by_owner')) {
+	$ilDB->addTableColumn('il_dcl_table', 'delete_by_owner',
+		array(
+		"type"    => "integer",
+		"notnull" => true,
+		"length"  => 1,
+		"default" => 0
+		)
+	);
+	// Migrate tables: Set new setting to true if "edit by owner" is true
+	// Set edit permission to true if edit
+	$ilDB->manipulate("UPDATE il_dcl_table SET delete_by_owner = 1, edit_perm = 1, delete_perm = 1 WHERE edit_by_owner = 1");
+}
+?>
+<#4575>
+<?php
+// primary key for tst_result_cache - step 1/7
 
+$res = $ilDB->query("
+	SELECT COUNT(active_fi) cnt FROM (
+		SELECT active_fi FROM tst_result_cache
+		GROUP BY active_fi HAVING COUNT(active_fi) > 1
+	) actives
+");
+
+$row = $ilDB->fetchAssoc($res);
+
+if( $row['cnt'] > 0 )
+{
+	$ilDB->createTable('tst_result_cache_tmp', array(
+		'active_fi' => array(
+			'type'  => 'integer',
+			'length'=> 8,
+			'notnull' => true,
+			'default' => 0
+		)
+	));
+
+	$ilDB->addPrimaryKey('tst_result_cache_tmp', array('active_fi'));
+}
+?>
+<#4576>
+<?php
+// primary key for tst_result_cache - step 2/7
+
+// break safe
+
+if( $ilDB->tableExists('tst_result_cache_tmp') )
+{
+	$res = $ilDB->query("
+		SELECT active_fi FROM tst_result_cache
+		GROUP BY active_fi HAVING COUNT(active_fi) > 1
+	");
+
+	while( $row = $ilDB->fetchAssoc($res) )
+	{
+		$ilDB->replace('tst_result_cache_tmp', array(), array(
+			'active_fi' => array('integer', $row['active_fi'])
+		));
+	}
+}
+?>
+<#4577>
+<?php
+// primary key for tst_result_cache - step 3/7
+
+if( $ilDB->tableExists('tst_result_cache_tmp') )
+{
+	$ilDB->manipulate("
+		DELETE FROM tst_result_cache WHERE active_fi IN(
+			SELECT DISTINCT active_fi FROM tst_result_cache_tmp
+		)
+	");
+}
+?>
+<#4578>
+<?php
+// primary key for tst_result_cache - step 4/7
+
+if( $ilDB->indexExistsByFields('tst_result_cache', array('active_fi')) )
+{
+	$ilDB->dropIndexByFields('tst_result_cache', array('active_fi'));
+}
+?>
+<#4579>
+<?php
+// primary key for tst_result_cache - step 5/7
+
+$ilDB->addPrimaryKey('tst_result_cache', array('active_fi'));
+?>
+<#4580>
+<?php
+// primary key for tst_result_cache - step 6/7
+
+// break safe
+
+if( $ilDB->tableExists('tst_result_cache_tmp') )
+{
+	include_once 'Services/Migration/DBUpdate_4209/classes/class.DBUpdateTestResultCalculator.php';
+
+	$res = $ilDB->query("
+		SELECT tmp.active_fi, pass_scoring FROM tst_result_cache_tmp tmp
+		INNER JOIN tst_active ON active_id = tmp.active_fi
+		INNER JOIN tst_tests ON test_id = test_fi
+		LEFT JOIN tst_result_cache orig ON orig.active_fi = tmp.active_fi
+		WHERE orig.active_fi IS NULL
+	");
+
+	while( $row = $ilDB->fetchAssoc($res) )
+	{
+		DBUpdateTestResultCalculator::_updateTestResultCache(
+			$row['active_fi'], $row['pass_scoring']
+		);
+	}
+}
+?>
+<#4581>
+<?php
+// primary key for tst_result_cache - step 7/7
+
+if( $ilDB->tableExists('tst_result_cache_tmp') )
+{
+	$ilDB->dropTable('tst_result_cache_tmp');
+}
+?>
