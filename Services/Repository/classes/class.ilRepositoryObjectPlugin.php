@@ -201,6 +201,25 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
 		
 		return true;
 	}
+	
+	protected function beforeUninstallCustom()
+	{
+		// plugin-specific
+		// false would indicate that anything went wrong
+		return true; 
+	}
+	
+	final protected function beforeUninstall()
+	{		
+		if($this->beforeUninstallCustom())
+		{					
+			include_once "Services/Repository/classes/class.ilRepUtil.php";
+			$rep_util = new ilRepUtil();
+			$rep_util->deleteObjectType($this->getId());
 
+			return true;
+		}
+		return false;
+	}
 }
 ?>

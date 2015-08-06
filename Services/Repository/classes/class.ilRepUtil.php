@@ -454,6 +454,115 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 			ilRepUtil::insertSavedNodes($child["child"],$a_source_id,$a_tree_id,$a_affected_ids);
 		}
 	}
+	
+	
+	
+	//
+	// OBJECT TYPE HANDLING / REMOVAL
+	//
+	
+	protected function findTypeInTrash($a_type)
+	{
+		global $ilDB;
+		
+		$res = array();
+		
+		$set = $ilDB->query("SELECT child".
+			" FROM tree".
+			" JOIN object_ref ref ON (tree.child = ref.ref_id)".
+			" JOIN object_data od ON (od.obj_id = ref.obj_id)".
+			" WHERE tree.tree < ".$ilDB->quote(0, "integer").
+			" AND od.type = ".$ilDB->quote($a_type, "text"));
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			$res[] = $row["child"];
+		}
+		
+		return $res;
+	}
+	
+	protected function getObjectTypeId($a_type)
+	{
+		global $ilDB;
+
+		$set = $ilDB->query("SELECT obj_id".
+			" FROM object_data ".
+			" WHERE type = ".$ilDB->quote("typ", "text").
+			" AND title = ".$ilDB->quote($a_type, "text"));
+		$row = $ilDB->fetchAssoc($set);
+		return $row["obj_id"];
+	}
+							
+	public function deleteObjectType($a_type)
+	{
+		global $ilDB, $tree, $ilSetting;
+		
+		// delete object instances (repository/trash)
+		
+		$ref_ids_in_tree = $tree->getSubTree($tree->getNodeData(ROOT_FOLDER_ID), false, $a_type);
+		if($ref_ids_in_tree)
+		{
+			$this->deleteObjects(null, $ref_ids_in_tree);
+		}
+		
+		if($ilSetting->get('enable_trash'))
+		{
+			$ref_ids_in_trash = $this->findTypeInTrash($a_type);
+			if($ref_ids_in_trash)
+			{
+				$this->removeObjectsFromSystem($ref_ids_in_tree, true);
+			}
+		}
+		
+		// delete "component"
+		$type_id = $this->getObjectTypeId($a_type);
+		if($type_id)
+		{				
+			// see ilRepositoryObjectPlugin::beforeActivation()
+			
+			$ilDB->manipulate("DELETE FROM object_data".
+				" WHERE obj_id = ".$ilDB->quote($type_id, "integer"));		
+			
+			// RBAC
+			
+			// basic operations
+			$ilDB->manipulate("DELETE FROM rbac_ta".
+				" WHERE typ_id = ".$ilDB->quote($type_id, "integer").
+				" AND ".$ilDB->in("ops_id", array(1, 2, 3, 4, 6), "", "integer"));
+			
+			// creation operation
+			$set = $ilDB->query("SELECT ops_id".
+				" FROM rbac_operations ".
+				" WHERE class = ".$ilDB->quote("create", "text").
+				" AND operation = ".$ilDB->quote("create_".$a_type, "text"));			
+			$row = $ilDB->fetchAssoc($set);		
+			$create_ops_id = $row["ops_id"];
+			if($create_ops_id)
+			{				
+				$ilDB->manipulate("DELETE FROM rbac_operations".
+					" WHERE ops_id = ".$ilDB->quote($create_ops_id, "integer"));
+				
+				$ilDB->manipulate("DELETE FROM rbac_templates".
+					" WHERE ops_id = ".$ilDB->quote($create_ops_id, "integer"));
+				
+				// container create
+				foreach(array("root", "cat", "crs", "grp", "fold") as $parent_type)
+				{
+					$parent_type_id = $this->getObjectTypeId($parent_type);
+					if($parent_type_id)
+					{
+						$ilDB->manipulate("DELETE FROM rbac_ta".
+							" WHERE typ_id = ".$ilDB->quote($parent_type_id, "integer").
+							" AND ops_id = ".$ilDB->quote($create_ops_id, "integer"));
+					}
+				}			
+			}
+		}
+		
+		// delete new item settings	
+		include_once "Services/Repository/classes/class.ilObjRepositorySettings.php";
+		ilObjRepositorySettings::deleteObjectType($a_type);	
+	}
 
 
 }

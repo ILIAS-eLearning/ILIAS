@@ -342,6 +342,18 @@ class ilLPObjSettings
 		}
 		return $res;
 	}
+	
+	public static function _deleteByObjId($a_obj_id)
+	{	 
+		global $ilDB;
+		
+		// we are only removing settings for now
+		// invalid ut_lp_collections-entries are filtered
+		// ut_lp_marks is deemed private user data
+		
+	 	$ilDB->manipulate("DELETE FROM ut_lp_settings".			
+			" WHERE obj_id = ".$ilDB->quote($a_obj_id, "integer"));
+	}
 }
 
 ?>

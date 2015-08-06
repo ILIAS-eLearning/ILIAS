@@ -1434,6 +1434,9 @@ class ilObject
 			
 			include_once("Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php");
 			ilAdvancedMDValues::_deleteByObjId($this->getId());
+			
+			include_once("Services/Tracking/classes/class.ilLPObjSettings.php");
+			ilLPObjSettings::_deleteByObjId($this->getId());
 
 			$remove = true;
 		}
