@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/User/interfaces/interface.ilGalleryUsers.php';
+require_once 'Services/User/classes/class.ilUserUtil.php';
 
 /**
  * Class ilAbstractGalleryUsers
@@ -20,7 +21,7 @@ abstract class ilAbstractGalleryUsers implements ilGalleryUsers
 		global $ilUser;
 
 		$sortable_names = ilUserUtil::getNamePresentation(array_keys($user_data));
-		$names          = ilUserUtil::getNamePresentation(array_keys($user_data), false, false, '', false, true, false);
+		$names          = ilUserUtil::getNamePresentation(array_keys($user_data), false, false, '', false, false, false);
 
 		foreach($user_data as $id => &$data)
 		{

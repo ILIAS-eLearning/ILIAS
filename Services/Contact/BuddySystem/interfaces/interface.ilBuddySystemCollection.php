@@ -79,10 +79,10 @@ interface ilBuddySystemCollection extends Countable, IteratorAggregate, ArrayAcc
 
 	/**
 	 * Returns all the elements of this collection that satisfy the predicate $callable.
-	 * @param callable $callable
+	 * @param Callable $callable
 	 * @return ilBuddySystemCollection
 	 */
-	public function filter(Closure $callable);
+	public function filter(Callable $callable);
 
 	/**
 	 * Extracts a slice of $length elements starting at position $offset from the Collection.

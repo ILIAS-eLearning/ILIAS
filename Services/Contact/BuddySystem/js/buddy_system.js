@@ -1,18 +1,26 @@
-(function ($) {
-
-	window.il.BuddySystemButton = {
+(function($, $scope) {
+	$scope.il.BuddySystem = {
 		config: {},
 
 		setConfig: function (config) {
-			var bs = il.BuddySystemButton;
+			var bs = $scope.il.BuddySystem;
 			bs.config = config;
+		}
+	};
+
+	$scope.il.BuddySystemButton = {
+		config: {},
+
+		setConfig: function (config) {
+			var btn = $scope.il.BuddySystemButton;
+			btn.config = config;
 		},
 
 		init: function () {
-			var bs = il.BuddySystemButton;
+			var btn = $scope.il.BuddySystemButton, bs = $scope.il.BuddySystem;
 
 			var trigger_selector = "a[data-target-state], button[data-target-state]";
-			$("." + bs.config.bnt_class).on("click", trigger_selector, function (e) {
+			$("." + btn.config.bnt_class).on("click", trigger_selector, function (e) {
 				var $trigger = $(this);
 
 				if ($trigger.data("submitted") === true) {
@@ -23,7 +31,7 @@
 				e.preventDefault();
 				e.stopPropagation();
 
-				var $container = $trigger.closest('.' + bs.config.bnt_class);
+				var $container = $trigger.closest('.' + btn.config.bnt_class);
 
 				var values = {};
 				values["usr_id"] = $container.data("buddy-id");
@@ -36,7 +44,7 @@
 					data:       values,
 					dataType:   "json",
 					beforeSend: function () {
-						$("." + bs.config.bnt_class).filter(function() {
+						$("." + btn.config.bnt_class).filter(function() {
 							return $(this).data("buddy-id") == $container.data("buddy-id");
 						}).each(function() {
 							var container = $(this);
@@ -53,9 +61,9 @@
 					if (response.success != undefined) {
 						if (response.state != undefined && response.state_html != undefined) {
 							if (state != response.state) {
-								$(window).trigger("il.bs.stateChange.beforeWidgetReRendered", [$container.data("buddy-id"), response.state, state]);
+								$(window).trigger("il.bs.stateChange.beforeButtonWidgetReRendered", [$container.data("buddy-id"), response.state, state]);
 
-								$("." + bs.config.bnt_class).filter(function() {
+								$("." + btn.config.bnt_class).filter(function() {
 									return $(this).data("buddy-id") == $container.data("buddy-id");
 								}).each(function() {
 									var container = $(this);
@@ -63,12 +71,12 @@
 									container.data("current-state", response.state);
 								});
 
-								$(window).trigger("il.bs.stateChange.afterWidgetReRendered", [$container.data("buddy-id"), response.state, state]);
+								$(window).trigger("il.bs.stateChange.afterButtonWidgetReRendered", [$container.data("buddy-id"), response.state, state]);
 							}
 						}
 					}
 
-					$("." + bs.config.bnt_class).filter(function() {
+					$("." + btn.config.bnt_class).filter(function() {
 						return $(this).data("buddy-id") == $container.data("buddy-id");
 					}).each(function() {
 						var container = $(this);
@@ -91,7 +99,7 @@
 
 					$(window).trigger("il.bs.stateChange.afterStateChangePerformed", [$container.data("buddy-id"), $container.data("current-state"), state]);
 				}).fail(function () {
-					$("." + bs.config.bnt_class).filter(function() {
+					$("." + btn.config.bnt_class).filter(function() {
 						return $(this).data("buddy-id") == $container.data("buddy-id");
 					}).each(function() {
 						var container = $(this);
@@ -104,144 +112,53 @@
 		}
 	};
 
-	$.fn["ilBuddySystemList"] = function (method) {
-		var pluginId = "ilBuddySystemList";
-
-		var methods = {
-			init:       function (params) {
-				var $this = $(this);
-
-				if ($this.size() > 1) {
-					throw new Error(pluginId + " can only be used for an selector matching exactly one DOM element!");
-				}
-
-				// prevent double initialization
-				if ($this.data(pluginId)) {
-					return;
-				}
-
-				var data = $.extend(true, {}, {
-					_items:     {},
-					_num_items: 0
-					},
-					params
-				);
-				$this.data(pluginId, data);
-			},
-			add:        function (buddy, fn) {
-				var $this = $(this);
-
-				if ($this.data(pluginId)._items[buddy.usr_id]) {
-					return $this;
-				}
-
-				var $row = fn(buddy);
-
-				$row.data(pluginId, buddy);
-				$this.data(pluginId)._items[buddy.usr_id] = $row;
-				$this.data(pluginId)._num_items++;
-				$this.append($row);
-
-
-				return $this[pluginId]('sort');
-			},
-			sort:       function () {
-				var $this = $(this), tmp = [];
-
-				$.each($this.data(pluginId)._items, function (i) {
-					tmp.push({usr_id: i, data: this});
-				});
-
-				tmp.sort(function (a, b) {
-					return (a.data.data(pluginId).ts < b.data.data(pluginId).ts) ? 1 : -1;
-				});
-
-				for (var i = 0; i < tmp.length; ++i) {
-					$this.append(tmp[i].data);
-				}
-
-				return $this;
-			},
-			removeById: function (id) {
-				var $this = $(this);
-
-				var $row = $this.data(pluginId)._items[id];
-				if ($row) {
-					$row.remove();
-					delete $this.data(pluginId)._items[id];
-					$this.data(pluginId)._num_items--;
-					return true;
-				}
-				return false;
-			},
-			getById:    function (id) {
-				var $this = $(this);
-
-				var $row = $this.data(pluginId)._items[id];
-				if ($row) {
-					return $row;
-				}
-				return null;
-			},
-			num:        function () {
-				return $(this).data(pluginId)._num_items;
-			}
-		};
-
-		if (methods[method]) {
-			return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
-		} else if (typeof method === 'object' || !method) {
-			return methods.init.apply(this, arguments);
-		} else {
-			$.error('Method ' + method + ' does not exist on jQuery.' + pluginId);
+	$(window).on("il.bs.stateChange.afterStateChangePerformed", function(event, usr_id, is_state, was_state) {
+		if (
+			was_state != "ilBuddySystemRequestedRelationState" ||
+			(
+				is_state != "ilBuddySystemIgnoredRequestRelationState" && is_state != "ilBuddySystemLinkedRelationState"
+			)
+		) {
+			return;
 		}
-	};
+		il.Awareness.reload();
+	});
 
+	$(document).ready(function() {
+		$("#awareness_trigger").on("awrn:shown", function(event) {
+			$("#awareness-content").find("a[data-target-state]").off("click").on("click", function(e) {
+				var bs = $scope.il.BuddySystem,
+					$elm = $(this),
+					usr_id = $elm.data("buddy-id");
 
-	$.fn["ilBuddySystemNumberOfRequestsRenderer"] = function (method) {
-		var pluginId = "ilBuddySystemNumberOfRequestsRenderer";
+				e.preventDefault();
+				e.stopPropagation();
 
-		var methods = {
-			init: function (params) {
-				return this.each(function() {
-					var $this = $(this);
+				var values = {};
+				values["usr_id"] = usr_id;
+				values["action"] = $elm.data("action");
+				values["cmd[" + bs.config.transition_state_cmd + "]"] = 1;
 
-					var data = $.extend(true, {}, {
-							num: 0
-						},
-						params
-					);
-					$this.data(pluginId, data);
+				var promise = $.ajax({
+					url:        bs.config.http_post_url,
+					type:       "POST",
+					data:       values,
+					dataType:   "json",
+					beforeSend: function () {
+					}
 				});
-			},
-			setValue: function(value) {
-				return this.each(function() {
-					var $this = $(this), data = $this.data(pluginId);
-					data.num = value; 
-					$this.data(pluginId, data);
-				});
-			},
-			render: function() {
-				return this.each(function() {
-					var $this = $(this), data = $this.data(pluginId);
 
-					$this.html(function(num_requests) {
-						if (0 == num_requests) {
-							return "";
+				promise.done(function (response) {
+					var state = $elm.data("current-state");
+					if (response.success != undefined) {
+						if (response.state != undefined) {
+							if (state != response.state) {
+								$(window).trigger("il.bs.stateChange.afterStateChangePerformed", [usr_id, response.state, state]);
+							}
 						}
-
-						return num_requests > 9 ? "9+" : num_requests;
-					}(data.num));
+					}
 				});
-			}
-		};
-
-		if (methods[method]) {
-			return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
-		} else if (typeof method === 'object' || !method) {
-			return methods.init.apply(this, arguments);
-		} else {
-			$.error('Method ' + method + ' does not exist on jQuery.' + pluginId);
-		}
-	};
-})(jQuery);
+			});
+		});
+	});
+})(jQuery, window);

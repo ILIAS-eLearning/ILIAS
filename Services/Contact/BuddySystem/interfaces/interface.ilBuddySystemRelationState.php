@@ -23,7 +23,7 @@ interface ilBuddySystemRelationState
 	public function getAction();
 
 	/**
-	 * @return ilBuddySystemRelationState[]
+	 * @return ilBuddySystemCollection|ilBuddySystemRelationState[]
 	 */
 	public function getPossibleTargetStates();
 

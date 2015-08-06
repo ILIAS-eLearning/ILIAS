@@ -12,6 +12,11 @@ class ilBuddySystemRelation
 	/**
 	 * @var int
 	 */
+	protected $is_owned_by_request = false;
+
+	/**
+	 * @var int
+	 */
 	protected $user_id;
 
 	/**
@@ -83,6 +88,22 @@ class ilBuddySystemRelation
 	}
 
 	/**
+	 * @return bool
+	 */
+	public function isOwnedByRequest()
+	{
+		return $this->is_owned_by_request;
+	}
+
+	/**
+	 * @param bool $is_owned_by_request
+	 */
+	public function setIsOwnedByRequest($is_owned_by_request)
+	{
+		$this->is_owned_by_request = $is_owned_by_request;
+	}
+
+	/**
 	 * @return int
 	 */
 	public function getBuddyUserId()
@@ -134,6 +155,16 @@ class ilBuddySystemRelation
 	{
 		$this->timestamp = $timestamp;
 		return $this;
+	}
+
+	/**
+	 * @return ilBuddySystemCollection|ilBuddySystemRelationState[]
+	 */
+	public function getCurrentPossibleTargetStates()
+	{
+		require_once 'Services/Contact/BuddySystem/classes/states/class.ilBuddySystemRelationStateFilterRuleFactory.php';
+		$state_filter = ilBuddySystemRelationStateFilterRuleFactory::getInstance()->getFilterRuleByRelation($this);
+		return $state_filter->getStates();
 	}
 
 	/**

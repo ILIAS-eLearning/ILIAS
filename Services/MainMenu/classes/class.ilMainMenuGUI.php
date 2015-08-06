@@ -215,6 +215,8 @@ class ilMainMenuGUI
 
 			// online help
 			$this->renderHelpButtons();
+
+			$this->populateWithBuddySystem();
 		}
 
 		if($this->getMode() == self::MODE_FULL)
@@ -288,8 +290,8 @@ class ilMainMenuGUI
 					 */
 					global $tpl;
 
-					if($chatSettings->get('chat_enabled') && $notificationSettings->get('enable_osd'))
-					{
+//					if($chatSettings->get('chat_enabled') && $notificationSettings->get('enable_osd'))
+//					{
 						$this->tpl->touchBlock('osd_enabled');
 						$this->tpl->touchBlock('osd_container');
 
@@ -318,7 +320,7 @@ class ilMainMenuGUI
 							{
 								continue;
 							}
-							$this->tpl->setCurrentBlock('osd_notification_item');
+//							$this->tpl->setCurrentBlock('osd_notification_item');
 
 							$this->tpl->setVariable('NOTIFICATION_ICON_PATH', $notification['data']->iconPath);
 							$this->tpl->setVariable('NOTIFICATION_TITLE', $notification['data']->title);
@@ -329,7 +331,7 @@ class ilMainMenuGUI
 							$this->tpl->parseCurrentBlock();
 						}
 					}
-				}
+//				}
 
 				$this->tpl->setCurrentBlock("userisloggedin");
 				$this->tpl->setVariable("TXT_LOGIN_AS",$lng->txt("login_as"));
@@ -686,9 +688,8 @@ class ilMainMenuGUI
 			}
 
 			// contacts
-			if(!$this->ilias->getSetting('disable_contacts') &&
-				($this->ilias->getSetting('disable_contacts_require_mail') ||
-				$rbacsystem->checkAccess('internal_mail', ilMailGlobalServices::getMailObjectRefId())))
+			require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystem.php';
+			if(ilBuddySystem::getInstance()->isEnabled())
 			{
 				$gl->addEntry($lng->txt('mail_addressbook'),
 					'ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToContacts', '_top'
@@ -944,9 +945,8 @@ class ilMainMenuGUI
 				}
 
 				// contacts
-				if (!$this->ilias->getSetting('disable_contacts') &&
-					($this->ilias->getSetting('disable_contacts_require_mail') ||
-					$rbacsystem->checkAccess('internal_mail', ilMailGlobalServices::getMailObjectRefId())))
+				require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystem.php';
+				if(ilBuddySystem::getInstance()->isEnabled())
 				{
 					$selection->addItem($lng->txt('mail_addressbook'), '', 'ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToContacts', '', '', '_top');
 				}
@@ -1093,8 +1093,20 @@ class ilMainMenuGUI
 			$ilCtrl->setTargetScript($ts);
 		}
 	}
-	
-	
+
+	/**
+	 * Includes all buddy system/user connections related javascript code
+	 */
+	protected function populateWithBuddySystem()
+	{
+		require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystem.php';
+		if(ilBuddySystem::getInstance()->isEnabled())
+		{
+			require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystemGUI.php';
+			ilBuddySystemGUI::initializeFrontend();
+		}
+	}
+
 	/**
 	 * Toggle rendering of main menu, search, user info
 	 * 

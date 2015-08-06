@@ -3,6 +3,7 @@
 
 require_once 'Services/User/interfaces/interface.ilGalleryUsers.php';
 require_once 'Services/User/classes/class.ilUserUtil.php';
+require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystem.php';
 require_once 'Services/Contact/BuddySystem/classes/class.ilBuddyList.php';
 require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystemLinkButton.php';
 require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystemRelation.php';
@@ -105,7 +106,7 @@ class ilUsersGalleryGUI
 	 */
 	protected function view()
 	{
-		$template = $this->buildHTML($this->object->getGalleryUsers(true));
+		$template = $this->buildHTML($this->object->getGalleryUsers());
 		$this->tpl->setContent($template->get());
 	}
 
@@ -116,6 +117,7 @@ class ilUsersGalleryGUI
 	protected function renderLinkButton(ilTemplate $tpl, ilObjUser $user)
 	{
 		if(
+			ilBuddySystem::getInstance()->isEnabled() &&
 			$this->user->getId() != $user->getId() &&
 			!$this->user->isAnonymous() &&
 			!$user->isAnonymous()
@@ -134,8 +136,16 @@ class ilUsersGalleryGUI
 	{
 		$buddylist = ilBuddyList::getInstanceByGlobalUser();
 		$tpl       = new ilTemplate('tpl.users_gallery.html', true, true, 'Services/User');
+		
+		if(!count($participants))
+		{
+			require_once 'Services/UIComponent/Panel/classes/class.ilPanelGUI.php';
+			$panel = ilPanelGUI::getInstance();
+			$panel->setBody($this->lng->txt('no_gallery_users_available'));
+			$tpl->setVariable('NO_GALLERY_USERS', $panel->getHTML());
+			return $tpl;
+		}
 
-		$has_internal_mail_access = !$this->user->isAnonymous() && $this->rbacsystem->checkAccess('internal_mail', ilMailGlobalServices::getMailObjectRefId());
 		foreach($participants as $participant)
 		{
 			/**
@@ -159,22 +169,13 @@ class ilUsersGalleryGUI
 			$tpl->setVariable('SRC_USR_IMAGE', $user->getPersonalPicturePath('small'));
 			$tpl->parseCurrentBlock();
 
-			$tpl->setCurrentBlock('participant');
-
-			if(
-				$has_internal_mail_access &&
-				$this->rbacsystem->checkAccessOfUser($user->getId(), 'internal_mail', ilMailGlobalServices::getMailObjectRefId()) &&
-				$user->getId() != $buddylist->getOwnerId()
-			)
-			{
-				$tpl->setVariable('WRITE_MAIL', ilMailFormCall::getLinkTarget($this, '', array(), array('type' => 'new', 'rcp_to' => $user->getLogin())));
-				$tpl->setVariable('WRITE_MAIL_TEXT', $this->lng->txt('mail'));
-			}
+			$tpl->setCurrentBlock('user');
 
 			$tpl->setVariable('BUDDYLIST_STATUS', get_class($buddylist->getRelationByUserId($user->getId())->getState()));
 			$this->renderLinkButton($tpl, $user);
 			$tpl->parseCurrentBlock();
 		}
+
 		return $tpl;
 	}
 }

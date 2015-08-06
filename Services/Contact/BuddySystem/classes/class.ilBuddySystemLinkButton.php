@@ -78,15 +78,21 @@ class ilBuddySystemLinkButton implements ilBuddySystemLinkButtonType
 
 		$lng->loadLanguageModule('buddysystem');
 
-		ilBuddySystemGUI::handleFrontendInitialization();
+		ilBuddySystemGUI::initializeFrontend();
 
-		$relation = $this->buddylist->getRelationByUserId($this->getUsrId());
+		require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystem.php';
+		if(ilBuddySystem::getInstance()->isEnabled())
+		{
+			$relation = $this->buddylist->getRelationByUserId($this->getUsrId());
 
-		$button_tpl = new ilTemplate('tpl.buddy_system_link_button.html', true, true, 'Services/Contact/BuddySystem');
-		$button_tpl->setVariable('BUTTON_HTML', ilBuddySystemRelationStateFactory::getInstance()->getRendererByOwnerAndRelation($ilUser->getId(), $relation)->getHtml());
-		$button_tpl->setVariable('BUTTON_BUDDY_ID', $this->getUsrId());
-		$button_tpl->setVariable('BUTTON_CSS_CLASS', 'ilBuddySystemLinkWidget');
-		$button_tpl->setVariable('BUTTON_CURRENT_STATE', get_class($relation->getState()));
-		return $button_tpl->get();
+			$button_tpl = new ilTemplate('tpl.buddy_system_link_button.html', true, true, 'Services/Contact/BuddySystem');
+			$button_tpl->setVariable('BUTTON_HTML', ilBuddySystemRelationStateFactory::getInstance()->getRendererByOwnerAndRelation($ilUser->getId(), $relation)->getHtml());
+			$button_tpl->setVariable('BUTTON_BUDDY_ID', $this->getUsrId());
+			$button_tpl->setVariable('BUTTON_CSS_CLASS', 'ilBuddySystemLinkWidget');
+			$button_tpl->setVariable('BUTTON_CURRENT_STATE', get_class($relation->getState()));
+			return $button_tpl->get();
+		}
+
+		return '';
 	}
 }

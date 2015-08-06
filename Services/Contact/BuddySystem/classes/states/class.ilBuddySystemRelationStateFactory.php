@@ -10,7 +10,7 @@ require_once 'Services/Contact/BuddySystem/classes/states/class.ilAbstractBuddyS
 class ilBuddySystemRelationStateFactory
 {
 	/**
-	 * @var ilBuddySystemRelationStateFactory
+	 * @var self
 	 */
 	protected static $instance;
 

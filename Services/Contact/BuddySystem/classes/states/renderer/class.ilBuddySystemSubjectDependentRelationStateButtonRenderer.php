@@ -13,7 +13,7 @@ abstract class ilBuddySystemSubjectDependentRelationStateButtonRenderer extends 
 	 */
 	public function getTemplateVariablePrefix()
 	{
-		if($this->user_id == $this->relation->getUserId())
+		if($this->relation->isOwnedByRequest())
 		{
 			return 'REQUESTER_';
 		}
@@ -28,7 +28,7 @@ abstract class ilBuddySystemSubjectDependentRelationStateButtonRenderer extends 
 	 */
 	protected function render()
 	{
-		if($this->user_id == $this->relation->getUserId())
+		if($this->relation->isOwnedByRequest())
 		{
 			$this->tpl->setCurrentBlock('requester_container');
 		}

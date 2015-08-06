@@ -76,7 +76,7 @@ class ilBuddySystemRelationRepository
 			$relation->setUserId($row['usr_id']);
 			$relation->setBuddyUserId($row['buddy_usr_id']);
 			$relation->setTimestamp($row['ts']);
-
+			$relation->setIsOwnedByRequest($relation->getUserId() == $this->usr_id);
 			$key = $this->usr_id == $relation->getUserId() ? $relation->getBuddyUserId() : $relation->getUserId();
 			$relations[$key] = $relation;
 		}

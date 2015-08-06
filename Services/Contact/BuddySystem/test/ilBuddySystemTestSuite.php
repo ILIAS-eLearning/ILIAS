@@ -3,6 +3,7 @@
 
 require_once 'Services/Database/classes/class.ilDB.php';
 require_once 'Services/User/classes/class.ilObjUser.php';
+require_once 'Services/EventHandling/classes/class.ilAppEventHandler.php';
 require_once 'Services/Contact/BuddySystem/classes/class.ilBuddyList.php';
 require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystemRelation.php';
 require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystemRelationCollection.php';

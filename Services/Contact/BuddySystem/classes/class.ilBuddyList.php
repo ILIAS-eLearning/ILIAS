@@ -292,6 +292,7 @@ class ilBuddyList
 
 		require_once 'Services/Contact/BuddySystem/classes/states/class.ilBuddySystemRelationStateFactory.php';
 		$relation = new ilBuddySystemRelation(ilBuddySystemRelationStateFactory::getInstance()->getInitialState());
+		$relation->setIsOwnedByRequest(true);
 		$relation->setUserId($this->getOwnerId());
 		$relation->setBuddyUserId($usr_id);
 		$relation->setTimestamp(time());
@@ -349,6 +350,14 @@ class ilBuddyList
 		$relation->request();
 		$this->getRepository()->save($relation);
 		$this->getRelations()->set($this->getRelationTargetUserId($relation), $relation);
+
+		$GLOBALS['ilAppEventHandler']->raise(
+			'Services/Contact',
+			'contactRequested',
+			array(
+				'usr_id' => $this->getRelationTargetUserId($relation)
+			)
+		);
 
 		return $this;
 	}

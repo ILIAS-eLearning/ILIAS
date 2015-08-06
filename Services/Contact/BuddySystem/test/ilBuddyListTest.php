@@ -21,6 +21,7 @@ class ilBuddyListTest extends PHPUnit_Framework_TestCase
 	 */
 	public function setUp()
 	{
+		$GLOBALS['ilAppEventHandler'] = $this->getMockBuilder('ilAppEventHandler')->disableOriginalConstructor()->setMethods(array('raise'))->getMock();
 	}
 
 	/**

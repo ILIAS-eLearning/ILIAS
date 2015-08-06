@@ -7222,7 +7222,7 @@ mail#:#mail_enter_valid_login#:#Please enter a valid login name.
 mail#:#mail_entry_added#:#Added new Entry
 mail#:#mail_entry_changed#:#The entry is changed
 mail#:#mail_entry_exists#:#An entry with the given login name already exists.
-mail#:#mail_entry_of_addressbook#:#Entry of Contacts
+mail#:#mail_entry_of_contacts#:#Entry of Contacts
 mail#:#mail_external_sender_noreply#:#no-reply Address
 mail#:#mail_file_name#:#File Name
 mail#:#mail_file_size#:#File Size
@@ -7250,8 +7250,8 @@ mail#:#mail_into_addressbook#:#Add to Contacts
 mail#:#mail_invite_users_to_chat#:#Invite Users to Chat
 mail#:#mail_list_members#:#List members
 mail#:#mail_mailing_list#:#Mailing List
-mail#:#mail_mailing_lists_all_addressbook_entries_assigned#:#You have already assigned all of your contacts to this mailing list.
-mail#:#mail_mailing_lists_no_addressbook_entries#:#You have no entries in your contacts to add to a list.
+mail#:#mail_mailing_lists_all_contact_entries_assigned#:#You have already assigned all of your contacts to this mailing list.
+mail#:#mail_mailing_lists_no_contact_entries#:#You have no entries in your contacts to add to a list.
 mail#:#mail_mailing_lists#:#Mailing Lists
 mail#:#mail_mark_read#:#Mark mail read
 mail#:#mail_mark_unread#:#Mark mail unread

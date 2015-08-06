@@ -26,14 +26,15 @@ class ilBuddySystemIgnoredRequestRelationState extends ilAbstractBuddySystemRela
 	}
 
 	/**
-	 * @return ilBuddySystemRelationState[]
+	 * @return ilBuddySystemCollection|ilBuddySystemRelationState[]
 	 */
 	public function getPossibleTargetStates()
 	{
-		return array(
+		require_once 'Services/Contact/BuddySystem/classes/states/class.ilBuddySystemRelationStateCollection.php';
+		return new ilBuddySystemRelationStateCollection(array(
 			new ilBuddySystemUnlinkedRelationState(),
 			new ilBuddySystemLinkedRelationState()
-		);
+		));
 	}
 
 	/**

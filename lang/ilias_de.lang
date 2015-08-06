@@ -8367,7 +8367,7 @@ mail#:#mail_enter_valid_login#:#Bitte geben Sie einen gültigen Benutzernamen ei
 mail#:#mail_entry_added#:#Ein neuer Eintrag wurde hinzugefügt
 mail#:#mail_entry_changed#:#Der Eintrag wurde geändert
 mail#:#mail_entry_exists#:#Es existiert bereits ein Eintrag mit dem gegebenen Benutzernamen.
-mail#:#mail_entry_of_addressbook#:#Eintrag aus den Kontakten
+mail#:#mail_entry_of_contacts#:#Eintrag aus den Kontakten
 mail#:#mail_external_sender_noreply#:#noreply-Adresse
 mail#:#mail_file_name#:#Dateiname
 mail#:#mail_file_size#:#Dateigröße
@@ -8396,8 +8396,8 @@ mail#:#mail_invite_users_to_chat#:#Benutzer in Chat einladen
 mail#:#mail_list_members#:#Mitglieder auflisten
 mail#:#mail_mailing_list#:#Verteilerliste
 mail#:#mail_mailing_lists#:#Verteilerlisten
-mail#:#mail_mailing_lists_all_addressbook_entries_assigned#:#Sie haben bereits all Ihre Kontakte diesem Verteiler zugeordnet.
-mail#:#mail_mailing_lists_no_addressbook_entries#:#Sie haben keine Einträge in den Kontakten die Sie zur Verteilerliste hinzufügen können.
+mail#:#mail_mailing_lists_all_contact_entries_assigned#:#Sie haben bereits all Ihre Kontakte diesem Verteiler zugeordnet.
+mail#:#mail_mailing_lists_no_contact_entries#:#Sie haben keine Einträge in den Kontakten die Sie zur Verteilerliste hinzufügen können.
 mail#:#mail_mark_read#:#Als gelesen markieren
 mail#:#mail_mark_unread#:#Als ungelesen markieren
 mail#:#mail_maxsize_attachment_error#:#Die maximale Dateigröße beträgt:

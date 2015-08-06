@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Contact/BuddySystem/interfaces/interface.ilBuddySystemRelationStateButtonRenderer.php';
+require_once 'Services/Utilities/classes/class.ilStr.php';
 
 /**
  * Class ilAbstractBuddySystemRelationStateButtonRenderer
@@ -34,7 +35,7 @@ abstract class ilAbstractBuddySystemRelationStateButtonRenderer implements ilBud
 		$this->relation  = $relation;
 
 		$this->tpl = new ilTemplate(
-			'tpl.buddy_system_state_' . self::convertUpperCamelCaseToUnderscoreCase($this->relation->getState()->getName()) . '.html',
+			'tpl.buddy_system_state_' . ilStr::convertUpperCamelCaseToUnderscoreCase($this->relation->getState()->getName()) . '.html',
 			true,
 			true,
 			'Services/Contact/BuddySystem'
@@ -42,20 +43,11 @@ abstract class ilAbstractBuddySystemRelationStateButtonRenderer implements ilBud
 	}
 
 	/**
-	 * Convert a value given in camel case conversion to underscore case conversion (e.g. MyClass to my_class)
-	 * @param string $value Value in lower camel case conversion
-	 * @return string The value in underscore case conversion
-	 */
-	protected static function convertUpperCamelCaseToUnderscoreCase($value) {
-		return preg_replace('/(^|[a-z])([A-Z])/e', 'strtolower(strlen("\\1") ? "\\1_\\2" : "\\2")', $value);
-	}
-
-	/**
 	 * @return string
 	 */
 	protected function getLanguageVariableSuffix()
 	{
-		if($this->user_id == $this->relation->getUserId())
+		if($this->relation->isOwnedByRequest())
 		{
 			$suffix = '_a';
 		}
@@ -71,8 +63,9 @@ abstract class ilAbstractBuddySystemRelationStateButtonRenderer implements ilBud
 	 */
 	protected function render()
 	{
-		$this->renderStateButton($this->relation->getState());
-		foreach($this->relation->getState()->getPossibleTargetStates() as $target_state)
+		$this->renderStateButton();
+		$states = $this->relation->getCurrentPossibleTargetStates();
+		foreach($states as $target_state)
 		{
 			$this->renderTargetState($target_state);
 		}
@@ -96,7 +89,7 @@ abstract class ilAbstractBuddySystemRelationStateButtonRenderer implements ilBud
 		 */
 		global $lng;
 
-		$state_id = self::convertUpperCamelCaseToUnderscoreCase($this->relation->getState()->getName());
+		$state_id = ilStr::convertUpperCamelCaseToUnderscoreCase($this->relation->getState()->getName());
 
 		$this->tpl->setVariable(
 			$this->getTemplateVariablePrefix() . 'BUTTON_TXT',
@@ -116,8 +109,8 @@ abstract class ilAbstractBuddySystemRelationStateButtonRenderer implements ilBud
 		 */
 		global $lng;
 
-		$state_id        = self::convertUpperCamelCaseToUnderscoreCase($this->relation->getState()->getName());
-		$target_state_id = self::convertUpperCamelCaseToUnderscoreCase($target_state->getName());
+		$state_id        = ilStr::convertUpperCamelCaseToUnderscoreCase($this->relation->getState()->getName());
+		$target_state_id = ilStr::convertUpperCamelCaseToUnderscoreCase($target_state->getName());
 
 		$this->tpl->setVariable(
 			$this->getTemplateVariablePrefix() . 'TARGET_STATE_' . strtoupper($target_state_id),
