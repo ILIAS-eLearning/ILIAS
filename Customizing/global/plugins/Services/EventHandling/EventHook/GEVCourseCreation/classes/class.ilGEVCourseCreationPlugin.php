@@ -17,13 +17,13 @@ class ilGEVCourseCreationPlugin extends ilEventHookPlugin
 
 		if (ilObject::_lookupType($a_parameter["source_ref_id"], true) == "cat") {
 			$this->clonedCategory($a_parameter["source_ref_id"], $a_parameter["target_ref_id"]);
-		}
-
-		if (ilObject::_lookupType($a_parameter["source_ref_id"], true) !== "crs") {
 			return;
 		}
 
-		$this->clonedCourse($a_parameter["source_ref_id"], $a_parameter["target_ref_id"]);
+		if (ilObject::_lookupType($a_parameter["source_ref_id"], true) == "crs") {
+			$this->clonedCourse($a_parameter["source_ref_id"], $a_parameter["target_ref_id"]);
+			return;
+		}
 	}
 
 	public function clonedCourse($a_source_ref_id, $a_target_ref_id) {
