@@ -18,6 +18,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 {
 	const VIEW_SELECTED_ITEMS      = 0;
 	const VIEW_MY_MEMBERSHIPS      = 1;
+	const VIEW_MY_STUDYPROGRAMME   = 2;
 
 	static $block_type = "pditems";
 
@@ -125,7 +126,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		 */
 		global $ilSetting, $ilCtrl;
 
-		$this->allowed_views = array();
+		$this->allowed_views = array(self::VIEW_MY_STUDYPROGRAMME);
 
 		// determine view
 		if($ilSetting->get('disable_my_offers') == 1 &&
@@ -218,6 +219,15 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		
 		switch((int)$this->view)
 		{
+			case self::VIEW_MY_STUDYPROGRAMME:
+				// TODO: This seems to be very hacky, but i did not find a way to get the standard PD blocks
+				// and only exchange the middle blog for the study programme list. Sry Alex.
+				require_once("Modules/StudyProgramme/classes/class.ilPDStudyProgrammeExpandableListGUI.php");
+				$list = new ilPDStudyProgrammeExpandableListGUI();
+				$this->setTitle($lng->txt("objs_prg"));
+				$this->setContent($list->getDataSectionContent());
+				$this->setAvailableDetailLevels(0);
+				break;
 			case self::VIEW_MY_MEMBERSHIPS:
 				$ilHelp->setDefaultScreenId(ilHelpGUI::ID_PART_SCREEN, "crs_grp");
 				if ($ilSetting->get('disable_my_offers') == 0)
@@ -254,6 +264,17 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		$ilDB->useSlave(false);
 		
 		return parent::getHTML();
+	}
+	
+	// Overwritten from ilBlockGUI as there seems to be no other possibility to
+	// not show Commands in the HEADER(!!!!) of a block in the VIEW_MY_STUDYPROGRAMME
+	// case... Sigh.
+	function getFooterLinks()
+	{
+		if((int)$this->view == self::VIEW_MY_STUDYPROGRAMME) {
+			return array();
+		}
+		return parent::getFooterLinks();
 	}
 	
 	/**
