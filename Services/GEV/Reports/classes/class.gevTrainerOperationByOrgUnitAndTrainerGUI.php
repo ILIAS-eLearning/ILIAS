@@ -44,12 +44,12 @@ class gevTrainerOperationByOrgUnitAndTrainerGUI extends catBasicReportGUI{
 						;
 
 		$this->title = catTitleGUI::create()
-						->title("gev_report_trainer_operation_by_tep_category_title")
-						->subTitle("gev_report_trainer_operation_by_tep_category_desc")
+						->title("gev_report_trainer_operation_by_orgu_and_trainer")
+						->subTitle("gev_report_trainer_operation_by_orgu_and_trainer")
 						->image("GEV_img/ico-head-edubio.png");
 
 		$this->table = catReportTable::create();
-		$this->table->column("fullname", "name");
+		$this->table->column("title", "title");
 
 		foreach($this->meta_categories as $meta_category => $categories) {
 			$this->table->column($meta_category."_d", $meta_category, true);
@@ -159,15 +159,18 @@ class gevTrainerOperationByOrgUnitAndTrainerGUI extends catBasicReportGUI{
 		$title =  gevOrgUnitUtils::getTitleByRefId($ref_id);
 		$children = $this->tree->getChildsByType($ref_id,'orgu');
 		$return = array("title"=>$title,"trainers"=>$this->pre_data[$title],"children"=>array());
-		
+
 		foreach ($return["trainers"] as &$trainers) {
 			$trainers["title"] = $offset.shift.$trainers["title"];
 		}
 
+
 		foreach($children as $child) {
 			$return["children"][] = $this->buildReportTree($child["ref_id"],$offset.shift);
 		}
+
 		$return["sum"] = $this->sumMetaCategories($return["trainers"]);
+
 		foreach ($return["children"] as $child) {
 			$return["sum"] = $this->sumMetaCategories(array($return["sum"],$child["sum"]));
 		}
