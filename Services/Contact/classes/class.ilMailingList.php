@@ -321,6 +321,19 @@ class ilMailingList
 	public function getMode()
 	{
 		return $this->mode;
-	}	
+	}
+
+	/**
+	 * @param int $usr_id
+	 */
+	public static function removeAssignmentsByUserId($usr_id)
+	{
+		/**
+		 * @var $ilDB ilDB
+		 */
+		global $ilDB;
+
+		$ilDB->manipulate('DELETE FROM addressbook_mlist_ass WHERE usr_id = ' . $ilDB->quote($usr_id, 'integer'));
+	}
 }
 ?>

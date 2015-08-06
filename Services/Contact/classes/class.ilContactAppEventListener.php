@@ -16,17 +16,16 @@ class ilContactAppEventListener implements ilAppEventListener
 	{
 		/**
 		 * @var $ilUser ilObjUser
-		 * @var $ilDB   ilDB
 		 */
-		global $ilUser, $ilDB;
+		global $ilUser;
 
 		if('Services/User' == $a_component && 'deleteUser' == $a_event)
 		{
 			require_once 'Services/Contact/BuddySystem/classes/class.ilBuddyList.php';
 			ilBuddyList::getInstanceByUserId($a_parameter['usr_id'])->destroy();
 
-			// Move to an application class
-			$ilDB->manipulate('DELETE FROM addressbook_mlist_ass WHERE usr_id = ' . $ilDB->quote($a_parameter['usr_id'], 'integer'));
+			require_once 'Services/Contact/classes/class.ilMailingList.php';
+			ilMailingList::removeAssignmentsByUserId($a_parameter['usr_id']);
 		}
 
 		if('Services/Contact' == $a_component && 'contactRequested' == $a_event)
