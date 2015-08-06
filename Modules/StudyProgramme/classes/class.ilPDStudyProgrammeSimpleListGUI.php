@@ -34,7 +34,7 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI {
 		$this->il_user = $ilUser;
 		
 		// No need to load data, as we won't display this. 
-		if (!$this->pageIsPDOverview()) {
+		if (!$this->shouldShowThisList()) {
 			return;
 		}
 		
@@ -53,7 +53,7 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI {
 		// TODO: This should be determined from somewhere up in the hierarchy, as
 		// this will lead to problems, when e.g. a command changes. But i don't see
 		// how atm...
-		if (!$this->pageIsPDOverview()) {
+		if (!$this->shouldShowThisList()) {
 			return "";
 		}
 		
@@ -61,6 +61,17 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI {
 			return "";
 		}
 		return parent::getHTML();
+	}
+	
+	public function getDataSectionContent() {
+		$content = "";
+		
+		foreach ($this->users_assignments as $assignment) {
+			$list_item = $this->new_ilStudyProgrammeAssignmentListGUI($assignment);
+			$content .= $list_item->getHTML();
+		}
+		
+		return $content;
 	}
 	
 	static public function getBlockType() {
@@ -73,14 +84,7 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI {
 	
 	public function fillDataSection() {
 		assert($this->userHasStudyProgrammes()); // We should not get here.
-		
-		$content = "";
-		
-		foreach ($this->users_assignments as $assignment) {
-			$list_item = $this->new_ilStudyProgrammeAssignmentListGUI($assignment);
-			$content .= $list_item->getHTML();
-		}
-		$this->tpl->setVariable("BLOCK_ROW", $content);
+		$this->tpl->setVariable("BLOCK_ROW", $this->getDataSectionContent());
 	}
 	
 	
@@ -88,7 +92,7 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI {
 		return !empty($this->users_assignments);
 	}
 	
-	protected function pageIsPDOverview() {
+	protected function shouldShowThisList() {
 		return $_GET["cmd"] == "jumpToSelectedItems";
 	}
 	
