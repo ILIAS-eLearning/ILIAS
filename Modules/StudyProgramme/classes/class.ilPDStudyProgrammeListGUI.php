@@ -23,6 +23,7 @@ class ilPDStudyProgrammeListGUI extends ilBlockGUI {
 		$this->il_lng = $lng;
 		$this->il_user = $ilUser;
 		
+		// No need to load data, as we won't display this. 
 		if (!$this->pageIsPDOverview()) {
 			return;
 		}
@@ -39,6 +40,9 @@ class ilPDStudyProgrammeListGUI extends ilBlockGUI {
 	}
 	
 	public function getHTML() {
+		// TODO: This should be determined from somewhere up in the hierarchy, as
+		// this will lead to problems, when e.g. a command changes. But i don't see
+		// how atm...
 		if (!$this->pageIsPDOverview()) {
 			return "";
 		}
