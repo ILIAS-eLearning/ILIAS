@@ -164,7 +164,7 @@ class gevDecentralTrainingCreationRequest {
 		
 		if (!$trgt_ref_id) {
 			$this->throwException("gevDecentralTrainingUtils::create: <br />"
-								 ."User has no permission to create training in the category above the template course"
+								 ."User ".$this->getUserIdOfOperator()."has no permission to create training in the category above the template course"
 								 ." or user has no permission to copy template course with obj_id = ".$this->template_obj_id
 								 ." or anything unexpected happens in gevDecentralTrainingUtils::create.");
 		}
@@ -409,6 +409,11 @@ class gevDecentralTrainingCreationRequest {
 	protected function getClientId() {
 		global $ilias;
 		return $ilias->client_id;
+	}
+	
+	protected function getUserIdOfOperator() {
+		global $ilUser;
+		return $ilUser->getId();
 	}
 
 	protected function getNewSessionId() {
