@@ -76,10 +76,10 @@ class ilExportSelectionTableGUI extends ilTable2GUI
 			$this->tpl->touchBlock('padding');
 			$this->tpl->touchBlock('end_padding');
 		}
-		$this->tpl->setVariable('TREE_IMG',ilUtil::getImagePath('icon_'.$s['type'].'.svg'));
+
+		$this->tpl->setVariable('TREE_IMG',ilObject::_getIcon(ilObject::_lookupObjId($s['ref_id']), "tiny", $s['type']));
 		$this->tpl->setVariable('TREE_ALT_IMG',$this->lng->txt('obj_'.$s['type']));
 		$this->tpl->setVariable('TREE_TITLE',$s['title']);
-		
 		
 		if($s['last_export'])
 		{
@@ -122,7 +122,7 @@ class ilExportSelectionTableGUI extends ilTable2GUI
 			$this->tpl->setVariable('NAME_EXPORT','cp_options['.$s['ref_id'].'][type]');
 			$this->tpl->setVariable('VALUE_EXPORT',ilExportOptions::EXPORT_BUILD);
 			$this->tpl->setVariable('ID_EXPORT',$s['depth'].'_'.$s['type'].'_'.$s['ref_id'].'_export');
-			if(!$copy or !$perm_copy)
+			if(!$s['copy'] or !$s['$perm_copy'])
 			{
 				$this->tpl->setVariable('EXPORT_CHECKED','checked="checked"');
 			}

@@ -202,5 +202,12 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
 		return true;
 	}
 
+
+	/**
+	 * @return bool
+	 */
+	public function allowLink()
+	{
+		return true;
+	}
 }
-?>
