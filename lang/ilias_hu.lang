@@ -1,7 +1,7 @@
 /* Copyright (c) 1998-2015 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
-* @author 5.0.x 2015-07-05 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
+* @author 5.0.x 2015-08-06 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
 * @author 4.2.2	Berecz Antónia <berecz@gdf.hu>
 * @module		language file Hungarian
 * @modulegroup	language
@@ -1060,6 +1060,7 @@ assessment#:#tst_reset_processing_time_desc#:#A kitöltési idő értéke vissza
 assessment#:#tst_reset_processing_time#:#A kitöltési idő visszaállítása minden tesztkitöltéshez
 assessment#:#tst_result_user_name_pass#:#%s befejezett teszt eredménye a következőhöz: %s
 assessment#:#tst_result_user_name#:#%s eredményei:
+assessment#:#tst_result_pass#:#Tesztkitöltés végeredményei
 assessment#:#tst_results_access_always#:#Rögtön
 assessment#:#tst_results_access_always_desc#:#A résztvevők elérhetik eredményeiket az 'Információ' fülön a tesztkitöltésük ideje alatt. Továbbá a tesztkitöltők az eredményeikkel közvetlenül a teszt befejezése után megjelennek.
 assessment#:#tst_results_access_date#:#Időpont
@@ -12668,7 +12669,7 @@ registration#:#reg_allowed_domains#:#Engedélyezett e-mail cím domain-ek
 registration#:#reg_allowed_domains_info#:#Használjon helyettesítőnek *-ot, elválasztónak ;-t.
 pd#:#block_show_pdcal#:#Naptár megjelenítése
 pd#:#block_show_pdmail#:#E-mail megjelenítése
-pd#:#block_show_pdtag#:#Napjaim megjelenítése
+pd#:#block_show_pdtag#:#Saját címkéim megjelenítése
 pd#:#block_show_pdnews#:#Hírek megjelenítése
 pd#:#block_show_pdusers#:#Aktív felhasználók megjelenítése
 pd#:#block_show_pdnotes#:#Jegyzetek megjelenítése
@@ -13282,6 +13283,10 @@ bibl#:#attr_order_bibtex#:#Attribútum-hozzárendelés (Bibtex)
 bibl#:#attr_order_bibtex_info#:#alapértelmezett: isbn,issn,title
 bibl#:#attr_order_ris#:#Attribútum-hozzárendelés (ris)
 bibl#:#attr_order_ris_info#:#alapértelmezett: sn,ti, t1
+bibl#:#news_title_created#:#Új bibliográfiai lista jött létre
+bibl#:#news_content_created#:#Egy új bibliográfiai listát jött létre. Kattintson az elem linkjére a bejegyzés megtekintéséhez.
+bibl#:#news_title_updated#:#Bibliográfiai lista frissült
+bibl#:#news_content_updated#:#A bibliográfiai lista módosult. Kattintson az elem linkjére az új bejegyzés megtekintéséhez.
 rbac#:#bibl_visible#:#Bibliográfia látható
 rbac#:#bibl_read#:#A felhasználónak olvasási hozzáférése van a bibliográfia tartalmához
 rbac#:#bibl_copy#:#A felhasználó másolhatja a bibliográfiát
@@ -14297,7 +14302,7 @@ content#:#cont_col_ordering#:#Oszloprendezés
 orgu#:#simple_xls#:#Egyszerű Excel Export
 assessment#:#un_add_category#:#Kategória hozzáadása
 assessment#:#un_add_unit#:#Mértékegység hozzáadása
-assessment#:#fq_question_desc#:#Definiálhatsz változókat $v1, $v2 ... $vn beírásával, végeredményeket $r1, $r2 .... $rn beírásával a kérdés szövegének tetszőleges helyén. Kattints a 'Kérdés elemzése' gombra, hogy a változók és a végeredmények szerkeszthető űrlapja megjelenjen.
+assessment#:#fq_question_desc#:#Definiálhat változókat $v1, $v2 ... $vn beírásával, végeredményeket $r1, $r2 .... $rn beírásával a kérdés szövegének tetszőleges helyén. Kattints a 'Kérdés elemzése' gombra, hogy a változók és a végeredmények szerkeszthető űrlapja megjelenjen.
 ecs#:#ecs_cmap_delete_rule#:#Mapping törlése
 wsp#:#wsp_list_excv#:#Beadandó feladat igazolás
 wsp#:#wsp_list_tstv#:#Teszt igazolás
@@ -15243,11 +15248,45 @@ cron#:#cron_result_status_fail#:#Sikertelen
 wiki#:#wiki_unhide_meta_adv_records#:#További tulajdonságok megjelenítése
 content#:#cont_wiki_link_dialog#:#Link wikilapra (párbeszédablakos)
 link#:#link_link#:#Link
-assessment#:#tst_result_pass#:#Results of Test Pass###28 07 2015 new variable
-prtt#:#prtt_portfolio_created#:#Portfolio Template added###28 07 2015 new variable
-forum#:#frm_censorship#:#Censor###28 07 2015 new variable
-forum#:#frm_revoke_censorship#:#Revoke Censorship###28 07 2015 new variable
-forum#:#frm_censorship_applied#:#The censorship has been successfully applied.###28 07 2015 new variable
-forum#:#frm_censorship_revoked#:#The censorship has been successfully revoked.###28 07 2015 new variable
-forum#:#frm_mark_as_read#:#Mark as read###28 07 2015 new variable
-forum#:#frm_mark_as_unread#:#Mark as unread###28 07 2015 new variable
+prtt#:#prtt_portfolio_created#:#Sikeresen létrehozott egy portfoliómintát
+forum#:#frm_censorship#:#Cenzúra
+forum#:#frm_revoke_censorship#:#Cenzúrázás visszavonása
+forum#:#frm_censorship_applied#:#A cenzúrázást sikeresen végrehajtotta.
+forum#:#frm_censorship_revoked#:#A cenzúrázást sikeresen visszavonta.
+forum#:#frm_mark_as_read#:#Megjelölés olvasottként
+forum#:#frm_mark_as_unread#:#Megjelölés olvasatlanként
+sysc#:#sysc_overview#:#Áttekintés
+sysc#:#sysc_groups#:#Rendszerellenőrzési csoportok
+sysc#:#sysc_grp_tree#:#Taneszköztároló-fa
+sysc#:#sysc_grp_tree_desc#:#A fa elemzése és az összes facsomópont megjelenítése az elemzési adatokkal.
+sysc#:#sysc_completed_num#:#Elvégzett feladatok
+sysc#:#sysc_failed_num#:#El nem végzett feladatok
+sysc#:#sysc_task_overview#:#Feladatok
+sysc#:#sysc_action_validate#:#Validálás
+sysc#:#sysc_action_repair#:#Javítás
+sysc#:#sysc_task_tree_duplicates#:#Duplikált bejegyzések a Taneszköztároló-fában
+sysc#:#sysc_task_tree_duplicates_desc#:#Duplikált bejegyzések keresése a Taneszköztároló-fa szerkezetében.
+sysc#:#sysc_task_tree_dump#:#Fa listázása
+sysc#:#sysc_task_tree_dump_desc#:#Taneszköztároló-fa szerkezetének elemzése és megjelenítése.
+sysc#:#sysc_action_list_tree#:#Taneszköztároló-fa lenyomat létrehozása
+sysc#:#sysc_action_show_tree#:#Taneszköztároló-fa lenyomat megjelenítése
+sysc#:#sysc_tree_duplicate_failures#:#Duplikált bejegyzéseket találtunk a Taneszköztároló-fa szerkezetében. Duplikált bejegyzések száma:
+sysc#:#sysc_message_success#:#Nincs hiba
+sysc#:#sysc_tree_list_failures#:#Taneszköztároló-fa lenyomatát létrehoztuk. Hibák száma a Taneszköztároló-fa szerkezetében:
+sysc#:#sysc_status_na#:#Nem futott
+sysc#:#sysc_status_running#:#Fut
+sysc#:#sysc_status_failed#:#Sikertelen
+sysc#:#sysc_status_completed#:#Befejezve
+sysc#:#sysc_task_tree_missing#:#Hiányzó bejegyzések a Taneszköztároló-fában
+sysc#:#sysc_task_tree_missing_desc#:#Hiányzó bejegyzések keresése és javítása a Taneszköztároló-fában.
+sysc#:#sysc_message_tree_missing_confirm#:#Biztos, hogy visszaállítja a hiányzó bejegyzéseket a Taneszköztároló-fa szerkezetében?
+sysc#:#sysc_btn_tree_missing#:#Hiányzók visszaállítása
+sysc#:#sysc_tree_missing_failures#:#Hiányzó bejegyzéseket találtunk a Taneszköztároló-fa szerkezetében. Hiányzó bejegyzések száma:
+sysc#:#sysc_cron_empty_trash#:#Lomtár ürítése
+sysc#:#sysc_cron_empty_trash_desc#:#Ha be van kapcsolva, a lomtárat ürítjük a megfelelő feltételek alapján (életkor, objektumtípus vagy objektumok maximális száma).
+sysc#:#sysc_task_tree_missing_tree#:#Hiányzó bejegyzések a Taneszköztároló-fában
+sysc#:#sysc_task_tree_missing_tree_desc#:#Hiányzó bejegyzések keresése és javítása a Taneszköztároló-fában.
+sysc#:#sysc_task_tree_missing_reference#:#Hiányzó objektumhivatkozások
+sysc#:#sysc_task_tree_missing_reference_desc#:#Hiányzó objektumhivatkozások keresése és javítása a Taneszköztároló-fában.
+sysc#:#sysc_task_structure#:#Fastruktúra
+sysc#:#sysc_task_structure_desc#:#Taneszköztároló-fa szerkezetének elemzése és javítása.
