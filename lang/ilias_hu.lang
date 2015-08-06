@@ -528,6 +528,104 @@ assessment#:#kiosk_show_title#:#Tesztcím megjelenítése
 assessment#:#kiosk#:#Vizsganézet
 assessment#:#last_update#:#Utoljára frissítve
 assessment#:#legend#:#Jelmagyarázat
+assessment#:#qpl_lac_legend_header_common#:#Logikai kifejezések
+assessment#:#qpl_lac_desc_logical_and#:#Logikai ÉS
+assessment#:#qpl_lac_desc_logical_or#:#Logikai VAGY
+assessment#:#qpl_lac_desc_negation#:#Tagadás
+assessment#:#qpl_lac_desc_brackets#:#Zárójelek
+assessment#:#qpl_lac_desc_res_of_quest_n#:#n-edik kérdés végeredménye
+assessment#:#qpl_lac_desc_res_of_cur_quest#:#Jelen kérdés végeredménye
+assessment#:#qpl_lac_desc_res_of_answ_m_of_quest_n#:#n-edik kérdés m-edik válaszának eredménye
+assessment#:#qpl_lac_desc_res_of_answ_m_of_cur_quest#:#Jelen kérdés m-edik válaszának eredménye
+assessment#:#qpl_lac_legend_header_quest_specific#:#Kérdésfüggő kifejezések
+assessment#:#qpl_lac_legend_label_operators#:#Operátorok
+assessment#:#qpl_lac_desc_compare_with_quest_res#:#Végeredmény összehasonlítása az elért pontszámokkal százalékban
+assessment#:#qpl_lac_desc_compare_with_number#:#Végeredmény összehasonlítása az n számmal
+assessment#:#qpl_lac_desc_compare_with_text#:#Végeredmény összehasonlítása az TEXT szöveggel
+assessment#:#qpl_lac_desc_compare_with_assignment#:#Végeredmény összehasonlítása n:m egyezéssel
+assessment#:#qpl_lac_desc_compare_with_sequence#:#Végeredmény összehasonlítása válaszsorrenddel ($a,..,z$)
+assessment#:#qpl_lac_desc_compare_with_answer_n#:#Végeredmény összehasonlítása a kérdés n-edik válaszával
+assessment#:#qpl_lac_desc_compare_with_exact_sequence#:#Végeredmény összehasonlítása pontosan a mgadott sorrenddel
+assessment#:#qpl_lac_desc_compare_answer_exist#:#Összehasonlítás, ha van válasz a kérdésre/résre
+assessment#:#lacex_example_header#:#Példák
+assessment#:#lacex_assQuestion_PercentageResultExpression_e#:#R >= %75%
+assessment#:#lacex_assQuestion_PercentageResultExpression_d#:#A kérdésre adott válasz értéke nagyobb vagy egyenlő mint 75%
+assessment#:#lacex_assQuestion_EmptyAnswerExpression_e#:#R = ?
+assessment#:#lacex_assQuestion_EmptyAnswerExpression_d#:#A kérdést nem válaszolták meg
+assessment#:#lacex_assSingleChoice_NumberOfResultExpression_e#:#R = +2+
+assessment#:#lacex_assSingleChoice_NumberOfResultExpression_d#:#A kérdés megválaszolásához a második lehetőséget választották
+assessment#:#lacex_assMultipleChoice_NumberOfResultExpression_e#:#R = +2+
+assessment#:#lacex_assMultipleChoice_NumberOfResultExpression_d#:#A kérdés megválaszolásához a második lehetőséget választották
+assessment#:#lacex_assMultipleChoice_ExclusiveResultExpression_e#:#R = *1,3,4*
+assessment#:#lacex_assMultipleChoice_ExclusiveResultExpression_d#:#A kérdés megválaszolásához pontosan az első, a harmadik és a negyedik lehetőséget választották
+assessment#:#lacex_assErrorText_NumberOfResultExpression_e#:#R = +2+
+assessment#:#lacex_assErrorText_NumberOfResultExpression_d#:#A kérdés megválaszolásához a második lehetőséget választották
+assessment#:#lacex_assErrorText_ExclusiveResultExpression_e#:#R = *1,3,4*
+assessment#:#lacex_assErrorText_ExclusiveResultExpression_d#:#A kérdés megválaszolásához pontosan az első, a harmadik és a negyedik lehetőséget választották
+assessment#:#lacex_assImagemapQuestion_NumberOfResultExpression_e#:#R = +2+
+assessment#:#lacex_assImagemapQuestion_NumberOfResultExpression_d#:#A kérdés megválaszolásához a második lehetőséget választották
+assessment#:#lacex_assImagemapQuestion_ExclusiveResultExpression_e#:#R = *1,3,4*
+assessment#:#lacex_assImagemapQuestion_ExclusiveResultExpression_d#:#A kérdés megválaszolásához pontosan az első, a harmadik és a negyedik lehetőséget választották
+assessment#:#lacex_assNumeric_NumericResultExpression_e#:#R = #4.7#
+assessment#:#lacex_assNumeric_NumericResultExpression_d#:#The question was answered with the numeric value 4.7###
+assessment#:#lacex_assOrderingQuestion_OrderingResultExpression_e#:#R = $2,5,1,4,3$
+assessment#:#lacex_assOrderingQuestion_OrderingResultExpression_d#:#The question's elements were ordered as follows: 2, 5, 1, 4, 3
+assessment#:#lacex_assOrderingHorizontal_OrderingResultExpression_e#:#R = $2,5,1,4,3$
+assessment#:#lacex_assOrderingHorizontal_OrderingResultExpression_d#:#The question's elements were ordered as follows: 2, 5, 1, 4, 3
+assessment#:#lacex_assMatchingQuestion_MatchingResultExpression_e#:#R = ;1:2; & R = ;2:3; & R = ;3:1;
+assessment#:#lacex_assMatchingQuestion_MatchingResultExpression_d#:#The question's terms were assigned to defintions as follows: 1 => 2 and 2 => 3 and 3 => 1
+assessment#:#lacex_assTextSubset_StringResultExpression_e#:#R[2] = ~sodium chloride~
+assessment#:#lacex_assTextSubset_StringResultExpression_d#:#For the second answer option the answer „sodium chloride“ was entered
+assessment#:#lacex_assFormulaQuestion_NumericResultExpression_e#:#R[1] = #3.14159#
+assessment#:#lacex_assFormulaQuestion_NumericResultExpression_d#:#The first answer option was answered with the numeric value 3.14159
+assessment#:#lacex_assClozeTest_NumericResultExpression_e#:#R[2] = #5#
+assessment#:#lacex_assClozeTest_NumericResultExpression_d#:#The second answer option is a numeric gap and was answered with the numeric value 5
+assessment#:#lacex_assClozeTest_StringResultExpression_1_e#:#R[1] = ~Monday~
+assessment#:#lacex_assClozeTest_StringResultExpression_1_d#:#The first answer option is a text gap and was answered with „Monday“
+assessment#:#lacex_assClozeTest_StringResultExpression_2_e#:#R[4] = ~Green~
+assessment#:#lacex_assClozeTest_StringResultExpression_2_d#:#The fourth answer option is a select gap and the option labeled as „Green“ was selected
+assessment#:#lacex_assClozeTest_NumberOfResultExpression_e#:#R[4] = +2+
+assessment#:#lacex_assClozeTest_NumberOfResultExpression_d#:#The fourth answer option is a select gap and the second option was selected
+assessment#:#qpl_skill_point_eval_mode_quest_result#:#Question Result
+assessment#:#qpl_skill_point_eval_mode_solution_compare#:#Solution Compare
+assessment#:#qpl_skill_point_eval_by_quest_result#:#Evaluation of Competence Points by Question Result
+assessment#:#qpl_skill_point_eval_by_solution_compare#:#Evaluation of Competence Points by Solution Compare
+assessment#:#tst_solution_compare_cfg#:#Megoldás összehasonlításához beállítások
+assessment#:#tst_sol_comp_expressions#:#Összehasonlító kifejezések
+assessment#:#ass_lac_hide_legend_btn#:#Jelmagyarázat elrejtése
+assessment#:#ass_lac_show_legend_btn#:#Jelmagyarázat megjelenítése
+assessment#:#ass_lac_validation_error#:#Errors occured while validating the conditional expression(s)!
+assessment#:#ass_lac_expression#:#Kifejezés
+assessment#:#ass_lac_question_not_exist#:#The question with index "Q%s" does not exist in this set.
+assessment#:#ass_lac_question_not_reachable#:#The question with index "Q%s" is not reachable in this node.
+assessment#:#ass_lac_expression_not_supported#:#The Expression "%s" is not supported.
+assessment#:#ass_lac_operator_not_supported#:#The Operator "%s" is not supported.
+assessment#:#ass_lac_unable_to_parse_condition#:#The condition "%s" can not be validated.
+assessment#:#ass_lac_missing_bracket#:#There are not enough "%s"-Brackets in the condition.
+assessment#:#ass_lac_invalid_statement#:#The expression at position "%s" is not valid. Please check your input according to the supported expression (lásd jelmagyarázat).
+assessment#:#ass_lac_duplicate_element#:#Duplicate key "%s" in condition.
+assessment#:#ass_lac_answer_index_not_exist#:#The question with index "Q%s" does not have an answer with the index "%s".
+assessment#:#ass_lac_answer_index_not_exist_cur_qst#:#The current question does not have an answer with the index "%s".
+assessment#:#ass_lac_answer_value_not_exists#:#The value "%s" does not exist in question Q%s[%s].
+assessment#:#ass_lac_answer_value_not_exists_one_answer#:#The value "%s" does not exist in question Q%s.
+assessment#:#ass_lac_answer_value_not_exists_cur_qst#:#The value "%s" does not exist in the answer with index "%s" of current question.
+assessment#:#ass_lac_answer_value_not_exists_cur_qst_one_answer#:#The value "%s" does not exist in the current question.
+assessment#:#ass_lac_expression_not_supported_by_question#:#The question "Q%s" does not support the Expression "%s".
+assessment#:#ass_lac_expression_not_supported_by_cur_question#:#The current question does not support the Expression "%s".
+assessment#:#ass_lac_operator_not_supported_by_expression#:#The Operator "%s" can not be used in comparison with the expression "%s".
+assessment#:#tst_skill_triggerings_num_req_answers#:#Required Amount of Answers for Competence Triggers
+assessment#:#tst_skill_triggerings_num_req_answers_desc#:#Competences aren't triggered before this amount of answered questions contributes to the competence level calculation.
+assessment#:#qpl_qst_skl_usg_skill_col#:#Competence
+assessment#:#qpl_qst_skl_usg_numq_col#:#Number of Questions in Pool adressing this competence
+assessment#:#qpl_qst_skl_usg_sklpnt_col#:#Total Sum of Competence-Points per Competence
+assessment#:#tst_qst_skl_cfg_in_pool_hint_rndquestset#:#The Competence-Question-Assignment for tests with mode "%s" is to be done in the corresponding question pool(s):<br />%s<br /><br />The configuration of threshold values is to be done here in the test.
+assessment#:#tst_qst_skl_cfg_in_pool_hint_dynquestset#:#The Competence-Question-Assignment for tests with mode "%s" is to be done in the corresponding question pool:<br />%s<br /><br />The configuration of threshold values is to be done here in the test.
+assessment#:#qpl_qst_skl_selection_for_question_header#:#Compence Assignments for Question: %s
+assessment#:#tst_save_comp_points#:#Save Competence Points
+assessment#:#tst_msg_skl_qst_assign_points_saved#:#The competence points has been saved.
+assessment#:#tst_skl_level_thresholds_missing#:#There are missing thresholds for the relevant competences!
+assessment#:#tst_skl_level_thresholds_link#:#Configure Competence-Thresholds
+assessment#:#tst_skl_res_interpretation_hint_msg#:#Please consider that competence results from a single test has a limited significance. The more information is collected per competence, the merrier valid the significance will be. Should there are single competences without any entry, there is to less information collected.
 assessment#:#locked#:#Zárolva
 assessment#:#log_answer_changed_points#:#%s tesztkitöltő pontjainak manuális módosítása %d pontról %d pontra %s által
 assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#A felhasználó nem tud belépni a tesztbe, mert az egyidejű kitöltők száma elérte a maximumot.
@@ -537,6 +635,7 @@ assessment#:#log_mark_added#:#Érdemjegy hozzáadva.
 assessment#:#log_mark_changed#:#Érdemjegy cserélve.
 assessment#:#log_mark_removed#:#Érdemjegy eltávolítva.
 assessment#:#log_modified_test#:#A teszt megváltozott.
+assessment#:#tst_results_presentation_description#:#Ha a 'Futó tesztek kitöltési részleteinek megjelenítése' be van kapcsolva, a még be nem fejezett tesztek összes kérdésének címe és rá kapott pontszáma elérhető.  Ha a 'Teszteredményekben a megoldások megjelenítése' be van kapcsolva, részletes megoldás elérhető a kitöltő számára teszteredményei bemutatásakor. Ez az összes válasz részletes pontozását jelenti, máskülönben csak a kérdés címét és az elért pontszámot tartalmazó áttekintés jelenik meg. Ha a válaszok felsorolása be van kapcsolva, egy áttekintést generálunk az összes kérdésről a résztvevő válaszával. Ez a felsorolás a tesztkitölés után közvetlenül a végső tesztbeadás előtt érhető el az 'Információ' fülön.  Ha a 'Válaszfüggő visszajelzés megjelenítése a teszteredményekben' be van kapcsolva, a teszteredményekben a kérdések után megjelennek a válaszfüggő visszajelzések. Ha a 'Eredmények nyomtatási nézete (csak válaszok)' be van kapcsolva, a kérdéshez a 'Tartalom szerkesztése' fülön megadott tartalom nem jelennek meg nyomtatáskor. Amennyiben papíron helyet szeretne megtakarítani, válassza ezt az opciót. Ha az 'Aláírás-helykitöltő megjelenítése' be van kapcsolva, a nyomtatásákor egy helykitöltő jelenik meg az aláírás számára. Ha a 'Javasolt megoldás megjelenítése' be van kapcsolva, a teszteredmények áttekintésében a kérdések javasolt megoldása megjelenik (amennyiben az létezik).
 assessment#:#log_question_added#:#Kérdés hozzáadva az adott helyhez.
 assessment#:#log_question_position_changed#:#A kérdés helye megváltozott.
 assessment#:#log_question_removed#:#Kérdés eltávolítva.
@@ -1060,6 +1159,7 @@ assessment#:#tst_reset_processing_time_desc#:#A kitöltési idő értéke vissza
 assessment#:#tst_reset_processing_time#:#A kitöltési idő visszaállítása minden tesztkitöltéshez
 assessment#:#tst_result_user_name_pass#:#%s befejezett teszt eredménye a következőhöz: %s
 assessment#:#tst_result_user_name#:#%s eredményei:
+assessment#:#tst_result_pass#:#Tesztkitöltés végeredményei
 assessment#:#tst_results_access_always#:#Rögtön
 assessment#:#tst_results_access_always_desc#:#A résztvevők elérhetik eredményeiket az 'Információ' fülön a tesztkitöltésük ideje alatt. Továbbá a tesztkitöltők az eredményeikkel közvetlenül a teszt befejezése után megjelennek.
 assessment#:#tst_results_access_date#:#Időpont
@@ -1314,22 +1414,28 @@ assessment#:#tst_change_dyn_test_question_selection#:#Jelenlegi tesztkérdés-ki
 assessment#:#tst_dyn_test_msg_currently_finished_completely#:#A kiválasztott kérdésgyűjtemény összes kérdését sikeresen megválaszolta. Akkor folyathatja a tesztet, ha új kérdés jelenik meg a kérdésgyűjteményben, vagy módosítanak egy már benne lévőt.
 assessment#:#tst_dyn_test_msg_currently_finished_selection#:#A jelenlegi kérdéskiválasztások alapján az összes kérdést sikeresen megválaszolta. Módosítsa a kérdéskiválasztást a teszt folytatásához.
 assessment#:#tst_activate_skill_service#:#Kompetencia-szolgáltatás bekapcsolása
-assessment#:#tst_disabled_skl_due_to_non_fixed_quest_set_type#:#Kompetencia-szolgáltatás kikapcsoltuk, mert a teszt módja nem fix, azaz a kérdések nem előre rögzítettek.
-assessment#:#tst_cannot_enable_skl_due_to_non_fixed_quest_set_type#:#Kompetencia-szolgáltatás bekapcsolása nem lehetséges, mert a teszt módja nem fix, azaz a kérdések nem előre rögzítettek.
 assessment#:#tst_tab_competences#:#Kompetenciák
-assessment#:#tst_skl_sub_tab_quest_assign#:#Kérdés/kompetencia összerendelés
+assessment#:#qpl_tab_competences#:#Kompetenciák
+assessment#:#qpl_skl_sub_tab_quest_assign#:#Kérdés/kompetencia összerendelés
+assessment#:#qpl_skl_sub_tab_usages#:#Összerendelés gyakorisága
 assessment#:#tst_skl_sub_tab_thresholds#:#Kompetencia-küszöbértékek
 assessment#:#tst_msg_skl_lvl_thresholds_saved#:#A kompetencia-küszöbértékeket sikeresen mentette.
-assessment#:#tst_msg_skl_qst_assign_points_saved#:#A kompetencia-pontszámokat sikeresen mentette.
 assessment#:#tst_competence#:#Kompetencia
-assessment#:#tst_assign_competence#:#Kompetencia hozzárendelése
-assessment#:#tst_remove_competence#:#Kompetencia eltávolítása
+assessment#:#tst_manage_competence_assigns#:#Kompetencia-összrendelések kezelése
+assessment#:#tst_edit_competence_assign#:#Összerendelési tulajdonságok módosítása
+assessment#:#tst_view_competence_assign#:#Összerendelési tulajdonságok megtekintése
+assessment#:#qpl_qst_skl_assign_properties_modified#:#Az összerendelés tulajdonságait sikeresen módosította.
+assessment#:#qpl_qst_skl_assigns_updated#:#A kompetencia összerendeléseit sikeresen módosította.
+assessment#:#qpl_sync_quest_skl_assigns_confirmation#:#A kérdést egy másik objektumból illesztették be. Frissítsük a kérdés eredetijét a jelenlegi kompetencia-összrendelések beállítása alapján?
+assessment#:#qpl_qst_skl_assign_synced_to_orig#:#A kompetencia-összerendeléseket szinkronizáltuk az eredeti kérdésekkel.
+assessment#:#qpl_save_skill_assigns_update#:#Kompetencia-összrendelése mentése
+assessment#:#qpl_cancel_skill_assigns_update#:#Mégsem
 assessment#:#tst_comp_points#:#Kompetencia-pontszámok
-assessment#:#tst_save_comp_points#:#Kompetencia-pontszámok mentése
+assessment#:#tst_comp_eval_mode#:#Értékelte
 assessment#:#tst_num_questions#:#Kérdések száma
 assessment#:#tst_max_comp_points#:#Max. kompetencia-pontszámok
 assessment#:#tst_level#:#Kompetenciaszint
-assessment#:#tst_threshold#:#Küszöbértékek
+assessment#:#tst_threshold#:#Küszöbértékek (itt: %)
 assessment#:#tst_save_thresholds#:#Küszöbértékek mentése
 assessment#:#tst_show_comp_results#:#Kompetencia eredmények megjelenítése
 assessment#:#tst_analysis#:#Analízis
@@ -4192,7 +4298,7 @@ common#:#show_private_notes#:#Jegyzek megjelenítése
 common#:#show_profile#:#Profil megjelenítése
 common#:#show_structure#:#Strukturált nézet engedélyezése
 common#:#show_users_online#:#Bejelentkezett felhasználók megjelenítése
-common#:#show#:#Mutat
+common#:#show#:#Megjelenítés
 common#:#side_frame#:#Oldalkeret
 common#:#signature#:#Aláírás
 common#:#simultaneous_login_detected#:#Hozzáférését elutasították, mert ezzel a felhasználónévvel már bejelentkeztek.
@@ -7197,6 +7303,10 @@ mail#:#search_recipients#:#Címzettek keresése
 mail#:#send_mail_to#:#Címzettek közé
 maps#:#maps_enable_maps_info#:#Térképek engedélyezése felhasználói adatokban, csoportokban és kurzusokban.
 maps#:#maps_enable_maps#:#Térképek engedélyezése
+maps#:#maps_use_custom_server#:#Egyéni szerver használata
+maps#:#maps_custom_server_info#:#Aktiváljon egyéni szervereket csempe- és helymeghatározási adatokhoz. A bevitt adatokat szóközzel válassza el. Alapértelmezett érték '%s' a csempékhez és '%s' a helymeghatározáshoz.
+maps#:#maps_tile_server#:#Csempékhez szerver
+maps#:#maps_geolocation_server#:#Fordított helymeghatározáshoz szerver
 maps#:#maps_extt_maps#:#Térképek
 maps#:#maps_latitude#:#Földrajzi szélesség
 maps#:#maps_longitude#:#Földrajzi hosszúság
@@ -9935,7 +10045,7 @@ trac#:#trac_select_area#:#Terület kiválasztása
 trac#:#trac_select_one#:#Semmit sem választott ki.
 trac#:#trac_settings_saved#:#Mentett beállítások.
 trac#:#trac_settings#:#Beállítások
-trac#:#trac_show_hidden#:#Mutat
+trac#:#trac_show_hidden#:#Megjelenítés
 trac#:#trac_show#:#Tanulási haladás megjelenítése
 trac#:#trac_spent_time#:#Eltöltött idő
 trac#:#trac_status#:#Állapot
@@ -12594,6 +12704,8 @@ dcl#:#dcl_export_enabled#:#Export használatának engedélyezése az összes fel
 dcl#:#dcl_no_fields_yet#:#Nincsenek mezők definiálva ehhez a táblához, így nem hozhat létre még egy rekordot sem.
 dcl#:#dcl_create_fields#:#Kérem hozzon létre legalább egy mezőt a 'Mezők' fül alatti 'Új mező létrehozása' gombbal.
 dcl#:#dcl_inconsistent_at#:#Az adatgyűjtés inkonzisztens. A hivatkozás már nem létezik.
+dcl#:#dcl_all_entries#:#Összes bejegyzés
+dcl#:#dcl_own_entries#:#Csak a saját bejegyzéseim
 common#:#mail_member#:#E-mail a tagoknak
 exc#:#exc_type_upload_team#:#Csapatfeltöltés
 exc#:#exc_team#:#Csapat
@@ -12668,7 +12780,7 @@ registration#:#reg_allowed_domains#:#Engedélyezett e-mail cím domain-ek
 registration#:#reg_allowed_domains_info#:#Használjon helyettesítőnek *-ot, elválasztónak ;-t.
 pd#:#block_show_pdcal#:#Naptár megjelenítése
 pd#:#block_show_pdmail#:#E-mail megjelenítése
-pd#:#block_show_pdtag#:#Napjaim megjelenítése
+pd#:#block_show_pdtag#:#Saját címkéim megjelenítése
 pd#:#block_show_pdnews#:#Hírek megjelenítése
 pd#:#block_show_pdusers#:#Aktív felhasználók megjelenítése
 pd#:#block_show_pdnotes#:#Jegyzetek megjelenítése
@@ -13282,6 +13394,10 @@ bibl#:#attr_order_bibtex#:#Attribútum-hozzárendelés (Bibtex)
 bibl#:#attr_order_bibtex_info#:#alapértelmezett: isbn,issn,title
 bibl#:#attr_order_ris#:#Attribútum-hozzárendelés (ris)
 bibl#:#attr_order_ris_info#:#alapértelmezett: sn,ti, t1
+bibl#:#news_title_created#:#Új bibliográfiai lista jött létre
+bibl#:#news_content_created#:#Egy új bibliográfiai listát jött létre. Kattintson az elem linkjére a bejegyzés megtekintéséhez.
+bibl#:#news_title_updated#:#Bibliográfiai lista frissült
+bibl#:#news_content_updated#:#A bibliográfiai lista módosult. Kattintson az elem linkjére az új bejegyzés megtekintéséhez.
 rbac#:#bibl_visible#:#Bibliográfia látható
 rbac#:#bibl_read#:#A felhasználónak olvasási hozzáférése van a bibliográfia tartalmához
 rbac#:#bibl_copy#:#A felhasználó másolhatja a bibliográfiát
@@ -14297,7 +14413,7 @@ content#:#cont_col_ordering#:#Oszloprendezés
 orgu#:#simple_xls#:#Egyszerű Excel Export
 assessment#:#un_add_category#:#Kategória hozzáadása
 assessment#:#un_add_unit#:#Mértékegység hozzáadása
-assessment#:#fq_question_desc#:#Definiálhatsz változókat $v1, $v2 ... $vn beírásával, végeredményeket $r1, $r2 .... $rn beírásával a kérdés szövegének tetszőleges helyén. Kattints a 'Kérdés elemzése' gombra, hogy a változók és a végeredmények szerkeszthető űrlapja megjelenjen.
+assessment#:#fq_question_desc#:#Definiálhat változókat $v1, $v2 ... $vn beírásával, végeredményeket $r1, $r2 .... $rn beírásával a kérdés szövegének tetszőleges helyén. Kattints a 'Kérdés elemzése' gombra, hogy a változók és a végeredmények szerkeszthető űrlapja megjelenjen.
 ecs#:#ecs_cmap_delete_rule#:#Mapping törlése
 wsp#:#wsp_list_excv#:#Beadandó feladat igazolás
 wsp#:#wsp_list_tstv#:#Teszt igazolás
@@ -15310,3 +15426,68 @@ link#:#link_link#:#Link
 common#:#toggle_dropdown#:#Legördülő váltása
 forum#:#reply_to_postings#:#Válasz
 forum#:#add_new_answer#:#Új hozzászólás
+mail#:#mail_orphaned_mails#:#Régi és gazdátlan levelek törlése
+mail#:#mail_threshold#:#Küszöb
+mail#:#mail_threshold_info#:#A küszöb értékénél régebbi belső leveleket (csatolmányaikkal együtt) végérvényesen töröljük. <br> Ezen ütemezett feladat első futásakor sok üzenetet törlünk, ezért figyelmeztető levél küldése nem lehetséges. 
+mail#:#mail_orphaned_mails_desc#:#Régi és gazdátlan levelek törlése
+mail#:#only_inbox_trash#:#Csak Beérkező / Kuka
+mail#:#only_inbox_trash_info#:#Ha be van kapcsolva, csak a Beérkező levelekben és a Kukában lévőket töröljük. Különben mappától függetlenül töröljük a leveleket.
+mail#:#mail_notify_orphaned#:#Értesítő levél
+mail#:#mail_notify_orphaned_info#:#Ha 1 vagy nagyobb értéket ad meg, ILIAS levelet küld a felhasználónak belső levél törlése előtt. Ellenőrizze, hogy külső címzett megadása lehetséges.
+mail#:#orphaned_mail_subject#:#Értesítés gazdátlan levelekről
+mail#:#orphaned_mail_body#:#Az alábbi levelezési fiókokban régi vagy gazdátlan levelek hevernek. Ezeket a leveleket automatikus töröljük hamarosan.
+prtt#:#prtt_portfolio_created#:#Sikeresen létrehozott egy portfoliómintát
+forum#:#frm_censorship#:#Cenzúra
+forum#:#frm_revoke_censorship#:#Cenzúrázás visszavonása
+forum#:#frm_censorship_applied#:#A cenzúrázást sikeresen végrehajtotta.
+forum#:#frm_censorship_revoked#:#A cenzúrázást sikeresen visszavonta.
+forum#:#frm_mark_as_read#:#Megjelölés olvasottként
+forum#:#frm_mark_as_unread#:#Megjelölés olvasatlanként
+common#:#clientlist_clientlist#:#Klienslista
+common#:#clientlist_available_clients#:#Elérhető kliensek
+common#:#clientlist_installation_name#:#Telepítés neve
+common#:#clientlist_public_access#:#Nyilvános elérés
+common#:#clientlist_login#:#Bejelentkezés
+common#:#clientlist_start_page#:#Kezdőoldal
+common#:#clientlist_login_page#:#Bejelentkezési oldal
+forum#:#file_upload_allowed_fora_desc#:#Ha a 'Csatolmányok engedélyezése bizonyos fórumokban' be van kapcsolva, az adott fórum beállításában a fórummoderátor engedélyezheti fájlok csatolását a hozzászóláshoz. Új fórumban ez csatolás alapértelmezetten nem lehetséges.
+forum#:#file_upload_allowed_fora#:#Csatolmányok
+forum#:#file_upload_option_allow#:#Csatolmányok engedélyezése az összes fórumban
+forum#:#file_upload_option_disallow#:#Csatolmányok engedélyezése bizonyos fórumokban
+forum#:#file_upload_allowed#:#Csatolmányok engedélyezése
+forum#:#allow_file_upload_desc#:#Ha be van kapcsolva, a felhasználók hozzászólásaikhoz csatolhatnak fájlokat.
+sysc#:#sysc_overview#:#Áttekintés
+sysc#:#sysc_groups#:#Rendszerellenőrzési csoportok
+sysc#:#sysc_grp_tree#:#Taneszköztároló-fa
+sysc#:#sysc_grp_tree_desc#:#A fa elemzése és az összes facsomópont megjelenítése az elemzési adatokkal.
+sysc#:#sysc_completed_num#:#Elvégzett feladatok
+sysc#:#sysc_failed_num#:#El nem végzett feladatok
+sysc#:#sysc_task_overview#:#Feladatok
+sysc#:#sysc_action_validate#:#Validálás
+sysc#:#sysc_action_repair#:#Javítás
+sysc#:#sysc_task_tree_duplicates#:#Duplikált bejegyzések a Taneszköztároló-fában
+sysc#:#sysc_task_tree_duplicates_desc#:#Duplikált bejegyzések keresése a Taneszköztároló-fa szerkezetében.
+sysc#:#sysc_task_tree_dump#:#Fa listázása
+sysc#:#sysc_task_tree_dump_desc#:#Taneszköztároló-fa szerkezetének elemzése és megjelenítése.
+sysc#:#sysc_action_list_tree#:#Taneszköztároló-fa lenyomat létrehozása
+sysc#:#sysc_action_show_tree#:#Taneszköztároló-fa lenyomat megjelenítése
+sysc#:#sysc_tree_duplicate_failures#:#Duplikált bejegyzéseket találtunk a Taneszköztároló-fa szerkezetében. Duplikált bejegyzések száma:
+sysc#:#sysc_message_success#:#Nincs hiba
+sysc#:#sysc_tree_list_failures#:#Taneszköztároló-fa lenyomatát létrehoztuk. Hibák száma a Taneszköztároló-fa szerkezetében:
+sysc#:#sysc_status_na#:#Nem futott
+sysc#:#sysc_status_running#:#Fut
+sysc#:#sysc_status_failed#:#Sikertelen
+sysc#:#sysc_status_completed#:#Befejezve
+sysc#:#sysc_task_tree_missing#:#Hiányzó bejegyzések a Taneszköztároló-fában
+sysc#:#sysc_task_tree_missing_desc#:#Hiányzó bejegyzések keresése és javítása a Taneszköztároló-fában.
+sysc#:#sysc_message_tree_missing_confirm#:#Biztos, hogy visszaállítja a hiányzó bejegyzéseket a Taneszköztároló-fa szerkezetében?
+sysc#:#sysc_btn_tree_missing#:#Hiányzók visszaállítása
+sysc#:#sysc_tree_missing_failures#:#Hiányzó bejegyzéseket találtunk a Taneszköztároló-fa szerkezetében. Hiányzó bejegyzések száma:
+sysc#:#sysc_cron_empty_trash#:#Lomtár ürítése
+sysc#:#sysc_cron_empty_trash_desc#:#Ha be van kapcsolva, a lomtárat ürítjük a megfelelő feltételek alapján (életkor, objektumtípus vagy objektumok maximális száma).
+sysc#:#sysc_task_tree_missing_tree#:#Hiányzó bejegyzések a Taneszköztároló-fában
+sysc#:#sysc_task_tree_missing_tree_desc#:#Hiányzó bejegyzések keresése és javítása a Taneszköztároló-fában.
+sysc#:#sysc_task_tree_missing_reference#:#Hiányzó objektumhivatkozások
+sysc#:#sysc_task_tree_missing_reference_desc#:#Hiányzó objektumhivatkozások keresése és javítása a Taneszköztároló-fában.
+sysc#:#sysc_task_structure#:#Fastruktúra
+sysc#:#sysc_task_structure_desc#:#Taneszköztároló-fa szerkezetének elemzése és javítása.
