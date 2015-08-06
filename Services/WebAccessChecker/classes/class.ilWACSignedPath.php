@@ -112,7 +112,7 @@ class ilWACSignedPath {
 
 	public function saveFolderToken() {
 		if ($this->getType() !== self::TYPE_FOLDER) {
-			throw new ilWACException(ilWACException::WRONG_PATH_TYPE);
+//			throw new ilWACException(ilWACException::WRONG_PATH_TYPE);
 		}
 		$expires = time() + self::getTokenMaxLifetimeInSeconds();
 		$this->generateFolderToken();

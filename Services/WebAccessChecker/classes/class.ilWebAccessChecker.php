@@ -5,6 +5,7 @@ require_once('./Services/WebAccessChecker/classes/class.ilWACPath.php');
 require_once('./Services/WebAccessChecker/classes/class.ilWACSecurePath.php');
 require_once('./Services/WebAccessChecker/classes/class.ilWACLog.php');
 require_once('./Services/WebAccessChecker/classes/class.ilHTTP.php');
+
 /**
  * Class ilWebAccessChecker
  *
@@ -16,7 +17,6 @@ class ilWebAccessChecker {
 	const DISPOSITION = 'disposition';
 	const STATUS_CODE = 'status_code';
 	const REVALIDATE = 'revalidate';
-
 	/**
 	 * @var ilWACPath
 	 */
@@ -44,7 +44,7 @@ class ilWebAccessChecker {
 	/**
 	 * @var bool
 	 */
-	protected $revalidate_folder_tokens = false;
+	protected $revalidate_folder_tokens = true;
 	/**
 	 * @var bool
 	 */
@@ -89,6 +89,19 @@ class ilWebAccessChecker {
 
 
 	/**
+	 * @throws ilWACException
+	 * 
+	 * remove after deploy
+	 */
+	public static function install() {
+		$obj = new self('tmp');
+		$obj->initILIAS();
+		require_once('./Services/WebAccessChecker/classes/class.ilWACSecurePath.php');
+		ilWACSecurePath::installDB();
+	}
+
+
+	/**
 	 * ilWebAccessChecker constructor.
 	 *
 	 * @param string $path
@@ -123,7 +136,7 @@ class ilWebAccessChecker {
 		// Check if the whole secured folder has been signed
 		if ($ilWACSignedPath->isFolderSigned()) {
 			if ($ilWACSignedPath->isFolderTokenValid()) {
-				if ($this->isRevalidateFolderTokens()){//} && $ilWACSignedPath->getType() == ilWACSignedPath::TYPE_FOLDER) {
+				if ($this->isRevalidateFolderTokens()) {//} && $ilWACSignedPath->getType() == ilWACSignedPath::TYPE_FOLDER) {
 					ilWACLog::getInstance()->write('revalidating folder token');
 					$ilWACSignedPath->saveFolderToken();
 				}
@@ -419,8 +432,6 @@ class ilWebAccessChecker {
 	public function setRevalidateFolderTokens($revalidate_folder_tokens) {
 		$this->revalidate_folder_tokens = $revalidate_folder_tokens;
 	}
-
-
 
 
 	/**
