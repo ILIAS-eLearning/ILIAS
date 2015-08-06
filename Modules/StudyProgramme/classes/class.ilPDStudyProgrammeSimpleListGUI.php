@@ -11,7 +11,7 @@ require_once("Services/Block/classes/class.ilBlockGUI.php");
  * @ilCtrl_IsCalledBy ilPDStudyProgrammeSimpleListGUI: ilColumnGUI
  */
 class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI {
-	const BLOCK_TYPE = "prglist";
+	const BLOCK_TYPE = "prgsimplelist";
 	
 	/**
 	 * @var ilStudyProgrammeUserAssignment[]
