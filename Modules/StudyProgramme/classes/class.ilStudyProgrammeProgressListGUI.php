@@ -3,14 +3,14 @@
 /* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 /**
- * Class ilObjStudyProgrammeListGUI
+ * Class ilStudyProgrammeProgressListGUI
  *
  * @author: Richard Klees <richard.klees@concepts-and-training.de>
  *
  */
 
 class ilStudyProgrammeProgressListGUI {
-	protected static $tpl_file = "tpl.study_programme_assignment_list_item.html";
+	protected static $tpl_file = "tpl.study_programme_progress_list_item.html";
 	
 	/**
 	 * @var ilLanguage
