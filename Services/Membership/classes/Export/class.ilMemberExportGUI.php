@@ -35,7 +35,7 @@ include_once('Services/User/classes/class.ilUserFormSettings.php');
 * @version $Id$
 * 
 * 
-* @ilCtrl_Calls ilMemberExportGUI:
+
 * @ingroup ModulesCourse 
 */
 class ilMemberExportGUI

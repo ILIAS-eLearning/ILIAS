@@ -8,7 +8,7 @@ include_once("./Services/Object/classes/class.ilObject2GUI.php");
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
-* @ilCtrl_Calls ilObjPluginDispatchGUI:
+
 * @ingroup ServicesRepository
 */
 class ilObjPluginDispatchGUI

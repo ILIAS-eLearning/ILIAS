@@ -9,7 +9,7 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
 * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
 * @version $Id$
 *
-* @ilCtrl_Calls ilAccountCodesTableGUI:
+
 * @ingroup ServicesUser
 */
 class ilAccountCodesTableGUI extends ilTable2GUI

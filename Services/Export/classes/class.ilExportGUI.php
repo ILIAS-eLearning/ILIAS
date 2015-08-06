@@ -9,7 +9,7 @@
 * @version	$Id$
 * @ingroup	ServicesExport
 *
-* @ilCtrl_Calls ilExportGUI:
+
 */
 class ilExportGUI
 {

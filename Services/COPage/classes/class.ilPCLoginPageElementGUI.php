@@ -11,7 +11,7 @@ include_once './Services/COPage/classes/class.ilPCLoginPageElement.php';
 * @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 *
-* @ilCtrl_Calls ilPCLoginPageElementGUI:
+
 *
 * @ingroup ServicesCOPage
 */

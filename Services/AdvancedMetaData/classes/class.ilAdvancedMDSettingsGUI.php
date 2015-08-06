@@ -10,7 +10,7 @@ include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDPermissionHelp
  * @author Stefan Meyer <meyer@leifos.com>
  * @version $Id$
  * 
- * @ilCtrl_Calls ilAdvancedMDSettingsGUI:
+
  * @ingroup ServicesAdvancedMetaData
  */
 class ilAdvancedMDSettingsGUI

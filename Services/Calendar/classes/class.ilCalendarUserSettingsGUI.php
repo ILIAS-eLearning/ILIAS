@@ -30,7 +30,7 @@ include_once('Services/Calendar/classes/class.ilCalendarSettings.php');
 * @version $Id$
 * 
 * 
-* @ilCtrl_Calls ilCalendarUserSettingsGUI:
+
 * @ingroup ServicesCalendar 
 */
 class ilCalendarUserSettingsGUI

@@ -10,7 +10,7 @@ include_once './Services/User/classes/class.ilUDFPermissionHelper.php';
 * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
 * @version $Id: class.ilObjUserFolderGUI.php 30361 2011-08-25 11:05:41Z jluetzen $
 * 
-* @ilCtrl_Calls ilCustomUserFieldsGUI: 
+
 *
 * @ingroup ServicesUser
 */

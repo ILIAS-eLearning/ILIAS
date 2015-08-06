@@ -12,7 +12,7 @@ include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition
 * @version $Id$
 * 
 * 
-* @ilCtrl_Calls ilMemberAgreementGUI: 
+
 * @ingroup ModulesCourse
 */
 class ilMemberAgreementGUI

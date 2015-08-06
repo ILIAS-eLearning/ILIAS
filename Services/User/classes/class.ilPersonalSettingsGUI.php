@@ -6,7 +6,7 @@
  *
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
- * @ilCtrl_Calls ilPersonalSettingsGUI:
+
  */
 class ilPersonalSettingsGUI
 {

@@ -9,7 +9,7 @@ include_once "./Modules/Course/classes/class.ilCourseParticipantsGroupsTableGUI.
 * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
 * $Id: class.ilObjCourseGUI.php 24234 2010-06-14 12:35:45Z smeyer $
 *
-* @ilCtrl_Calls ilCourseParticipantsGroupsGUI:
+
 *
 */
 class ilCourseParticipantsGroupsGUI

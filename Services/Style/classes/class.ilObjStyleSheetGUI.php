@@ -8,7 +8,7 @@
 * @author Alex Killing <alex.killing@gmx.de>
 * $Id$
 *
-* @ilCtrl_Calls ilObjStyleSheetGUI:
+
 *
 * @extends ilObjectGUI
 */

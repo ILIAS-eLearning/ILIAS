@@ -7,7 +7,7 @@
  *
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
- * @ilCtrl_Calls ilSurveySkillThresholdsGUI:
+
  * @ingroup ModulesSurvey
  */
 class ilSurveySkillThresholdsGUI

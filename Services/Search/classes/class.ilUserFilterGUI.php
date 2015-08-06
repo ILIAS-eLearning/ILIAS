@@ -26,7 +26,7 @@
 * Used for object and learning progress presentation
 *
 *
-* @ilCtrl_Calls ilUserFilterGUI:
+
 *
 * 
 *

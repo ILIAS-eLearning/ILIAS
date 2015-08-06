@@ -13,7 +13,7 @@ require_once 'Services/Export/classes/class.ilExportGUI.php';
  *               
  * @ingroup      ModulesTest
  *               
- * @ilCtrl_Calls ilTestExportGUI:
+
  */
 class ilTestExportGUI extends ilExportGUI
 {

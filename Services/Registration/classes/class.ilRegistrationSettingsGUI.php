@@ -29,7 +29,7 @@ require_once './Services/Registration/classes/class.ilRegistrationSettings.php';
 * @author Stefan Meyer <smeyer.ilias@gmx.de> 
 * @version $Id$
 *
-* @ilCtrl_Calls ilRegistrationSettingsGUI:
+
 * 
 * @ingroup ServicesRegistration
 */

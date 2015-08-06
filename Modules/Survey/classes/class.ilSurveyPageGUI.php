@@ -7,7 +7,7 @@
 * @author		Jörg Lützenkirchen <luetzenkirchen@leifos.com
 * @version  $Id: class.ilObjSurveyGUI.php 26720 2010-11-25 17:06:26Z jluetzen $
 *
-* @ilCtrl_Calls ilSurveyPageGUI:
+
 *
 * @ingroup ModulesSurvey
 */

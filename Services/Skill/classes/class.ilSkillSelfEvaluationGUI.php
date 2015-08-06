@@ -6,7 +6,7 @@
  *
  * @author Alex Killing <alex.kiling@gmx.de>
  * @version $Id$
- * @ilCtrl_Calls ilSkillSelfEvaluationGUI:
+
  * @ingroup ServicesSkill
  */
 class ilSkillSelfEvaluationGUI
