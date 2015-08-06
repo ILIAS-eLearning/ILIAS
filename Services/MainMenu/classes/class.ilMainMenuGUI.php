@@ -1095,6 +1095,17 @@ class ilMainMenuGUI
 	}
 
 	/**
+	 * Render awareness tool
+	 */
+	function renderAwareness()
+	{
+		include_once("./Services/Awareness/classes/class.ilAwarenessGUI.php");
+		$aw = ilAwarenessGUI::getInstance();
+
+		$this->tpl->setVariable("AWARENESS", $aw->getMainMenuHTML());
+	}
+
+	/**
 	 * Includes all buddy system/user connections related javascript code
 	 */
 	protected function populateWithBuddySystem()
