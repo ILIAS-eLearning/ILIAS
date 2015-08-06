@@ -156,9 +156,9 @@ class gevTrainerOperationByOrgUnitAndTrainerGUI extends catBasicReportGUI{
 	protected function buildReportTree($ref_id,$offset = "") {
 		$title =  gevOrgUnitUtils::getTitleByRefId($ref_id);
 		$children = $this->tree->getChildsByType($ref_id,'orgu');
-		$return = array("title"=>$offset.$title,"trainers"=>$this->pre_data[$title],"children"=>array());
+		$return = array("title"=>$title,"trainers"=>$this->pre_data[$title],"children"=>array());
 		
-		$offset .= "&nbsp;";
+		$offset .= "&nbsp;&nbsp;&nbsp;";
 
 		foreach ($return["trainers"] as &$trainers) {
 			$trainers["title"] = $offset.$trainers["title"];
@@ -171,7 +171,7 @@ class gevTrainerOperationByOrgUnitAndTrainerGUI extends catBasicReportGUI{
 		foreach ($return["children"] as $child) {
 			$return["sum"] = $this->sumMetaCategories(array($return["sum"],$child["sum"]));
 		}
-		$return["sum"]["title"] = $return["title"];
+		$return["sum"]["title"] = $offset."<b>".$return["title"]."</b>";
 		return $return;
 	}
 
@@ -193,11 +193,11 @@ class gevTrainerOperationByOrgUnitAndTrainerGUI extends catBasicReportGUI{
 			$auxh = 0;
 			$auxd = 0;
 			foreach ($arrays as $array) {
-				$auxh += $array[$meta_category."_h"];
-				$auxd += $array[$meta_category."_d"];
+				$auxh += $array[strtolower($meta_category)."_h"];
+				$auxd += $array[strtolower($meta_category)."_d"];
 			}
-			$return[$meta_category."_h"] = $auxh;
-			$return[$meta_category."_d"] = $auxd; 
+			$return[strtolower($meta_category)."_h"] = $auxh;
+			$return[strtolower($meta_category)."_d"] = $auxd; 
 		}
 		return $return;
 	}
