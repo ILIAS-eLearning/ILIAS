@@ -690,7 +690,8 @@ abstract class ilTEPViewGridBased extends ilTEPView
 				}
 			}
 
-			if ($crs_utils->hasTrainer($cur_user_id) || $crs_utils->hasAdmin($cur_user_id)) {
+			if ($crs_utils->hasTrainer($cur_user_id) || $crs_utils->hasAdmin($cur_user_id)
+				|| $crs_utils->canViewBookings($cur_user_id)) {
 				$memberlist_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-table-eye.png").'" />';
 				$ilCtrl->setParameterByClass("gevMemberListDeliveryGUI", "ref_id", $ref_id);
 				$actions .=  "<a href='".$ilCtrl->getLinkTargetByClass("gevMemberListDeliveryGUI", "trainer")
