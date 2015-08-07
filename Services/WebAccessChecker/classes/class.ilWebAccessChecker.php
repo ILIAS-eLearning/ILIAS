@@ -292,7 +292,9 @@ class ilWebAccessChecker {
 	 * @param ilWACException $e
 	 */
 	protected function handleAccessErrors(ilWACException $e) {
-		ilHTTP::STATUS(401);
+		if ($this->isSendStatusCode()) {
+			ilHTTP::STATUS(401);
+		}
 		if ($this->getPathObject()->isImage()) {
 			$this->deliverDummyImage();
 		}

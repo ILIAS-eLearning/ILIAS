@@ -1,4 +1,5 @@
 <?php
+require_once('./Services/Object/classes/class.ilObject2.php');
 
 /**
  * Class ilWACCheckingClass
