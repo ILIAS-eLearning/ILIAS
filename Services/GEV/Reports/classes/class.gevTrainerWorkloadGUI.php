@@ -102,7 +102,7 @@ class gevTrainerWorkloadGUI extends catBasicReportGUI{
 
 	protected function createTemplateFile() {
 		$str = fopen("Services/GEV/Reports/templates/default/"
-			."tpl.gev_trainer_wokload_row.html","w"); 
+			."tpl.gev_trainer_workload_row.html","w"); 
 		$tpl = '<tr class="{CSS_ROW}"><td></td>'."\n".'<td>{VAL_TITLE}</td>';
 		foreach($this->meta_categories as $meta_category => $categories) {
 			$tpl .= "\n".'<td align = "right">{VAL_'.strtoupper($meta_category).'_D}</td>';
