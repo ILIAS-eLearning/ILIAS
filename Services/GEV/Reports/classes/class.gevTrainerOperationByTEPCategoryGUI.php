@@ -84,7 +84,7 @@ class gevTrainerOperationByTEPCategoryGUI extends catBasicReportGUI{
 						->on("individual_days = id")
 					->left_join("hist_course hc")
 						->on("context_id = crs_id AND ht.category  = 'Training'")
-					->group_by("fullname")
+					->group_by("hu.user_id")
 					->compile();
 
 		$this->filter = catFilter::create()
