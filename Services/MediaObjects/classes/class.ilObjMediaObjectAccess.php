@@ -33,21 +33,27 @@ class ilObjMediaObjectAccess implements ilWACCheckingClass {
 			$oid = ilObjMediaObject::getParentObjectIdForUsage($usage, true);
 
 			// for content snippets we must get their usages and check them
-			if ($usage["type"] == "mep:pg") {
-				include_once("./Modules/MediaPool/classes/class.ilMediaPoolPage.php");
-				$usages2 = ilMediaPoolPage::lookupUsages($usage["id"]);
-				foreach ($usages2 as $usage2) {
-					$oid2 = ilObjMediaObject::getParentObjectIdForUsage($usage2, true);
-					if ($this->checkAccessMobUsage($usage2, $oid2)) {
+			switch ($usage["type"]) {
+				case "mep:pg":
+					include_once("./Modules/MediaPool/classes/class.ilMediaPoolPage.php");
+					$usages2 = ilMediaPoolPage::lookupUsages($usage["id"]);
+					foreach ($usages2 as $usage2) {
+						$oid2 = ilObjMediaObject::getParentObjectIdForUsage($usage2, true);
+						if ($this->checkAccessMobUsage($usage2, $oid2)) {
+							return true;
+						}
+					}
+					break;
+
+				default:
+					if ($this->checkAccessMobUsage($usage, $oid)) {
 						return true;
 					}
-				}
-			} else {
-				if ($this->checkAccessMobUsage($usage, $oid)) {
-					return true;
-				}
+					break;
 			}
 		}
+
+		exit;
 
 		return false;
 	}
@@ -194,7 +200,7 @@ class ilObjMediaObjectAccess implements ilWACCheckingClass {
 	 *
 	 * @return   boolean     access given (true/false)
 	 */
-	private function checkAccessTestQuestion($obj_id, $usage_id = 0) {
+	protected function checkAccessTestQuestion($obj_id, $usage_id = 0) {
 		global $ilAccess;
 
 		// give access if direct usage is readable
@@ -228,7 +234,7 @@ class ilObjMediaObjectAccess implements ilWACCheckingClass {
 	 *
 	 * @return   boolean     access given (true/false)
 	 */
-	private function checkAccessGlossaryTerm($obj_id, $page_id) {
+	protected function checkAccessGlossaryTerm($obj_id, $page_id) {
 		// give access if glossary is readable
 		if ($this->checkAccessObject($obj_id)) {
 			return true;
@@ -280,7 +286,7 @@ class ilObjMediaObjectAccess implements ilWACCheckingClass {
 	 *
 	 * @return   boolean     access given (true/false)
 	 */
-	private function checkAccessPortfolioPage($obj_id, $page_id) {
+	protected function checkAccessPortfolioPage($obj_id, $page_id) {
 		include_once "Modules/Portfolio/classes/class.ilPortfolioAccessHandler.php";
 		$access_handler = new ilPortfolioAccessHandler();
 		foreach ($this->check_users as $user_id) {
@@ -301,22 +307,19 @@ class ilObjMediaObjectAccess implements ilWACCheckingClass {
 	 *
 	 * @return   boolean     access given (true/false)
 	 */
-	private function checkAccessBlogPage($obj_id, $page_id) {
+	protected function checkAccessBlogPage($obj_id) {
+		global $ilUser;
 		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
 		$tree = new ilWorkspaceTree(0);
 		$node_id = $tree->lookupNodeId($obj_id);
-
-		// repository
 		if (! $node_id) {
 			return $this->checkAccessObject($obj_id);
-		} // workspace
-		else {
+		} else {
 			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
-			foreach ($this->check_users as $user_id) {
-				$access_handler = new ilWorkspaceAccessHandler($tree);
-				if ($access_handler->checkAccessOfUser($tree, $user_id, "read", "view", $node_id, "blog")) {
-					return true;
-				}
+
+			$access_handler = new ilWorkspaceAccessHandler($tree);
+			if ($access_handler->checkAccessOfUser($tree, $ilUser->getId(), "read", "view", $node_id, "blog")) {
+				return true;
 			}
 		}
 
@@ -324,7 +327,13 @@ class ilObjMediaObjectAccess implements ilWACCheckingClass {
 	}
 
 
-	private function checkAccessLearningObjectivePage($obj_id, $page_id) {
+	/**
+	 * @param $obj_id
+	 * @param $page_id
+	 *
+	 * @return bool
+	 */
+	protected function checkAccessLearningObjectivePage($obj_id, $page_id) {
 		include_once "Modules/Course/classes/class.ilCourseObjective.php";
 		$crs_obj_id = ilCourseObjective::_lookupContainerIdByObjectiveId($page_id);
 
