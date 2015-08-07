@@ -69,6 +69,12 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
 		
 		
 		$tpl->setCurrentBlock("accordion");
+		if ($this->showMyProgress()) {
+			$tpl->setVariable("ACCORDION_HIDE_CONTENT", "");
+		}
+		else {
+			$tpl->setVariable("ACCORDION_HIDE_CONTENT", "ilAccHideContent");
+		}
 		$tpl->setVariable("ACCORDION_CONTENT", $this->getAccordionContentHTML());
 		$tpl->setVariable("ACCORDION_OPTIONS", ilJsonUtil::encode($this->getAccordionOptions()));
 		$tpl->parseCurrentBlock();
@@ -115,6 +121,10 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
 	
 	protected function getTitleAndIconTarget(ilStudyProgrammeUserProgress $a_progress) {
 		return null;
+	}
+	
+	protected function showMyProgress() {
+		return $_GET["prg_progress_id"] == $this->progress->getId();
 	}
 	
 	protected function addJavaScript() {
