@@ -224,7 +224,7 @@ class ilAssFileUploadUploadsExporter
 	
 	private function getPassSubDirName($pass)
 	{
-		return $this->lng->txt('pass').'_'.$pass;
+		return $this->lng->txt('pass').'_'.($pass + 1);
 	}
 	
 	private function createFileUploadCollectionZipFile()
