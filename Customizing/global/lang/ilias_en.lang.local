@@ -1,0 +1,4 @@
+<!-- language file start -->
+cmps#:#cmps_uninstall#:#Uninstall
+cmps#:#cmps_uninstall_confirm#:#Are you sure you want to uninstall the plugin "%s"?
+cmps#:#cmps_plugin_uninstalled#:#The plugin has been uninstalled.

@@ -469,7 +469,7 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 		
 		$set = $ilDB->query("SELECT child".
 			" FROM tree".
-			" JOIN object_ref ref ON (tree.child = ref.ref_id)".
+			" JOIN object_reference ref ON (tree.child = ref.ref_id)".
 			" JOIN object_data od ON (od.obj_id = ref.obj_id)".
 			" WHERE tree.tree < ".$ilDB->quote(0, "integer").
 			" AND od.type = ".$ilDB->quote($a_type, "text"));
@@ -510,7 +510,7 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 			$ref_ids_in_trash = $this->findTypeInTrash($a_type);
 			if($ref_ids_in_trash)
 			{
-				$this->removeObjectsFromSystem($ref_ids_in_tree, true);
+				$this->removeObjectsFromSystem($ref_ids_in_tree);
 			}
 		}
 		
