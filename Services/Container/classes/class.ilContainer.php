@@ -459,7 +459,7 @@ class ilContainer extends ilObject
 	 * @return new refid if clone has finished or parameter ref id if cloning is still in progress
 	 */
 	// gev-patch start
-	public function cloneAllObject($session_id, $client_id, $new_type, $ref_id, $clone_source, $options, $soap_call = false, $ret_new_ref = false, $clone_owner_id = null)
+	public function cloneAllObject($session_id, $client_id, $new_type, $ref_id, $clone_source, $options, $soap_call = false, $ret_new_ref = false, $clone_owner_id = null, $response_timeout = 30)
 	// gev-patch end
 	{
 		global $ilLog;
@@ -509,7 +509,7 @@ class ilContainer extends ilObject
 		include_once 'Services/WebServices/SOAP/classes/class.ilSoapClient.php';
 
 		$soap_client = new ilSoapClient();
-		$soap_client->setResponseTimeout(30);
+		$soap_client->setResponseTimeout($response_timeout);
 		$soap_client->enableWSDL(true);
 
 		$ilLog->write(__METHOD__.': Trying to call Soap client...');
