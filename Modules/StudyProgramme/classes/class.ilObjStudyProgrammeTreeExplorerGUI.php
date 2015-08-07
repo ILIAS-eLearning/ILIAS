@@ -15,7 +15,7 @@ require_once("./Modules/StudyProgramme/classes/class.ilObjStudyProgrammeSettings
  */
 class ilObjStudyProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
 	protected $js_study_programme_path = "./Modules/StudyProgramme/templates/js/ilStudyProgramme.js";
-	protected $css_study_programme_path = "./Modules/StudyProgramme/templates/css/ilStudyProgramme.css";
+	protected $css_study_programme_path = "./Modules/StudyProgramme/templates/css/ilStudyProgrammeTree.css";
 
 	/**
 	 * @var array
