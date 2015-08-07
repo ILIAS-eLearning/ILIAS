@@ -45,7 +45,8 @@ class ilTestParticipantData
 			SELECT		ta.active_id,
 						ta.user_fi user_id,
 						ud.firstname,
-						ud.lastname
+						ud.lastname,
+						ud.login
 			FROM		tst_active ta
 			LEFT JOIN	usr_data ud
 			ON 			ud.usr_id = ta.user_fi
@@ -120,6 +121,15 @@ class ilTestParticipantData
 	public function getFormatedFullnameByActiveId($activeId)
 	{
 		return $this->buildFormatedFullname($this->byActiveId[$activeId]);
+	}
+
+	public function getFileSystemCompliantFullnameByActiveId($activeId)
+	{
+		$fullname = str_replace(' ', '', $this->byActiveId[$activeId]['lastname']);
+		$fullname .= '_'.str_replace(' ', '', $this->byActiveId[$activeId]['firstname']);
+		$fullname .= '_'.$this->byActiveId[$activeId]['login'];
+		
+		return ilUtil::getASCIIFilename($fullname);
 	}
 	
 	public function getOptionArray()
