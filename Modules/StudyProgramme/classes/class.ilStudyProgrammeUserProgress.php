@@ -634,8 +634,10 @@ class ilStudyProgrammeUserProgress {
 	/**
 	 * Get the progresses on the child nodes of this node for the same assignment
 	 * this progress belongs to.
+	 *
+	 * @return ilStudyProgrammeUserProgress[]
 	 */
-	protected function getChildrenProgress() {
+	public function getChildrenProgress() {
 		$prg = $this->getStudyProgramme();
 		if ($prg->getLPMode() == ilStudyProgramme::MODE_LP_COMPLETED) {
 			throw new ilException("ilStudyProgrammeUserProgress::getProgressChildren: "
