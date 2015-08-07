@@ -110,14 +110,24 @@ class ilWACSignedPath {
 	}
 
 
-	public function saveFolderToken() {
-		if ($this->getType() !== self::TYPE_FOLDER) {
-//			throw new ilWACException(ilWACException::WRONG_PATH_TYPE);
-		}
-		$expires = time() + self::getTokenMaxLifetimeInSeconds();
+	protected function saveFolderToken() {
 		$this->generateFolderToken();
 		setcookie($this->getTokenInstance()->getId(), $this->getTokenInstance()->getToken(), 0, '/');
-		setcookie($this->getTokenInstance()->getId() . '_ts', $expires, 0, '/');
+		setcookie($this->getTokenInstance()->getId() . '_ts', time() + self::getTokenMaxLifetimeInSeconds(), 0, '/');
+	}
+
+
+	/**
+	 * @return bool
+	 */
+	public function revalidatingFolderToken() {
+		if ($this->getType() !== self::TYPE_FOLDER) {
+			return false;
+		}
+		ilWACLog::getInstance()->write('revalidating folder token');
+		$this->saveFolderToken();
+
+		return true;
 	}
 
 

@@ -44,7 +44,7 @@ class ilWebAccessChecker {
 	/**
 	 * @var bool
 	 */
-	protected $revalidate_folder_tokens = false;
+	protected $revalidate_folder_tokens = true;
 	/**
 	 * @var bool
 	 */
@@ -136,9 +136,8 @@ class ilWebAccessChecker {
 		// Check if the whole secured folder has been signed
 		if ($ilWACSignedPath->isFolderSigned()) {
 			if ($ilWACSignedPath->isFolderTokenValid()) {
-				if ($this->isRevalidateFolderTokens()) {//} && $ilWACSignedPath->getType() == ilWACSignedPath::TYPE_FOLDER) {
-					ilWACLog::getInstance()->write('revalidating folder token');
-					$ilWACSignedPath->saveFolderToken();
+				if ($this->isRevalidateFolderTokens()) {
+					$ilWACSignedPath->revalidatingFolderToken();
 				}
 				$this->setChecked(true);
 				ilWACLog::getInstance()->write('checked using secure folder');
@@ -158,8 +157,7 @@ class ilWebAccessChecker {
 			if ($canBeDelivered) {
 				ilWACLog::getInstance()->write('checked using fallback');
 				if ($this->isRevalidateFolderTokens()) {
-					ilWACLog::getInstance()->write('revalidating folder token');
-					$ilWACSignedPath->saveFolderToken();
+					$ilWACSignedPath->revalidatingFolderToken();
 				}
 
 				$this->setChecked(true);
