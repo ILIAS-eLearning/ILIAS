@@ -69,7 +69,7 @@ class ilFileDelivery {
 	/**
 	 * @var bool
 	 */
-	protected $cache = false;
+	protected $cache = true;
 	/**
 	 * @var bool
 	 */
@@ -173,6 +173,9 @@ class ilFileDelivery {
 	}
 
 
+	/**
+	 * @description not supported
+	 */
 	public function deliverVirtual() {
 		$path_to_file = $this->getPathToFile();
 		if (strpos($path_to_file, './data/') === 0) {
@@ -259,7 +262,7 @@ class ilFileDelivery {
 	 * @return bool
 	 */
 	protected function detemineMimeType() {
-		$info = ilMimeTypeUtil::getMimeType($this->getPathToFile(), $this->getDownloadFileName());
+		$info = ilMimeTypeUtil::lookupMimeType($this->getPathToFile(), ilMimeTypeUtil::APPLICATION__OCTET_STREAM);
 		if ($info) {
 			$this->setMimeType($info);
 
