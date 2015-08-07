@@ -378,7 +378,7 @@ il.Accordion = {
 
 			$(a.clicked_acc).css("height", "auto");
 			if (a.reset_width) {
-				$(a.clicked_acc).css("width", options.width);
+				$(a.clicked_acc).css("width", a.width);
 			}
 
 			// set the currently shown accordion
