@@ -4,20 +4,35 @@ require_once("Services/GEV/Reports/classes/class.catFilter.php");
 require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
 require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+require_once("Services/Object/classes/class.ilObject.php");
 
 const MIN_ROW = "3991";
 const shift = "&nbsp;&nbsp;&nbsp;";
 
 class gevTrainerOperationByOrgUnitAndTrainerGUI extends catBasicReportGUI{
-	protected $meta_categories = array("Training"=>array("Training", "Veranstaltung / Tagung (Zentral)"));
+	protected $meta_categories;
 	protected $tree;
 	protected $orgu_utils;
 	protected $report_data;
-	protected $top_nodes = array(2271,2275);
+	protected $top_nodes;
+
 
 	public function __construct() {
 		global $tree;
 		$this->tree = $tree;
+		include_once "Services/GEV/Reports/config/cfg.tep_reports_config.php";
+		// $top_orgus in config
+		foreach ($top_orgus as $orgu_title) {
+			$obj_id = ilObject::_getIdsForTitle($orgu_title, 'orgu')[0];
+			
+			if($obj_id !== null) {
+				$this->top_nodes[] = gevObjectUtils::getRefId($obj_id);
+			}
+		}
+		// $meta_categories in config
+		$this->meta_categories = $meta_categories;
+
 		parent::__construct();
 
 		$this->createTemplateFile();
@@ -52,8 +67,8 @@ class gevTrainerOperationByOrgUnitAndTrainerGUI extends catBasicReportGUI{
 		$this->table->column("title", "title");
 
 		foreach($this->meta_categories as $meta_category => $categories) {
-			$this->table->column($meta_category."_d", $meta_category, true);
-			$this->table->column($meta_category."_h", "Std.", true);
+			$this->table->column(strtolower($meta_category."_d"), $meta_category, true);
+			$this->table->column(strtolower($meta_category."_h"), "Std.", true);
 		}
 		$this->table->template("tpl.gev_trainer_operation_by_orgu_and_trainer_row.html", 
 								"Services/GEV/Reports");
