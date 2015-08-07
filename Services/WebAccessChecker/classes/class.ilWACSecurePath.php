@@ -76,6 +76,14 @@ class ilWACSecurePath extends ActiveRecord {
 	 */
 	protected $checking_class = '';
 	/**
+	 * @var string
+	 *
+	 * @con_has_field  true
+	 * @con_fieldtype  integer
+	 * @con_length     1
+	 */
+	protected $in_sec_folder = false;
+	/**
 	 * @var bool
 	 */
 	protected $has_checking_instance = false;
@@ -134,6 +142,22 @@ class ilWACSecurePath extends ActiveRecord {
 	 */
 	public function setHasCheckingInstance($has_checking_instance) {
 		$this->has_checking_instance = $has_checking_instance;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getInSecFolder() {
+		return $this->in_sec_folder;
+	}
+
+
+	/**
+	 * @param string $in_sec_folder
+	 */
+	public function setInSecFolder($in_sec_folder) {
+		$this->in_sec_folder = $in_sec_folder;
 	}
 }
 

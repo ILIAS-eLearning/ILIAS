@@ -245,6 +245,7 @@ class ilObjDefReader extends ilSaxParser
 						$ilWACSecurePath->create();
 					}
 					$ilWACSecurePath->setCheckingClass($a_attribs["checking-class"]);
+					$ilWACSecurePath->setInSecFolder((bool)$a_attribs["in-sec-folder"]);
 					$ilWACSecurePath->setComponentDirectory(dirname($this->xml_file));
 					$ilWACSecurePath->update();
 
