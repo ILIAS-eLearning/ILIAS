@@ -45,20 +45,44 @@ class ilStudyProgrammeProgressListGUI {
 	
 	public function getHTML() {
 		if ($this->html === null) {
-			$programme = $this->progress->getStudyProgramme();
-			
 			$tpl = $this->getTemplate("Modules/StudyProgramme", static::$tpl_file, true, true);
-			$tpl->setVariable("TXT_TITLE", $programme->getTitle());
-			$tpl->setVariable("TXT_DESC", $programme->getDescription());
-			$tpl->setVariable("SRC_ICON", $this->getIconPath($programme->getId()));
-			$tpl->setVariable("ALT_ICON", $this->getAltIcon($programme->getId()));
-			$tpl->setVariable("HREF_TITLE", $this->getTargetForProgress($this->progress));
-			$tpl->setVariable("ICON_HREF", $this->getTargetForProgress($this->progress));
-			$tpl->setVariable("PROGRESS_BAR", $this->buildProgressBar($this->progress));
-			
+			$this->fillTemplate($tpl);
 			$this->html = $tpl->get();
 		}
 		return $this->html;
+	}
+	
+	protected function fillTemplate($tpl) {
+		$programme = $this->progress->getStudyProgramme();
+		
+		$title_and_icon_target = $this->getTitleAndIconTarget($this->progress);
+		
+		if ($title_and_icon_target) {
+			$tpl->setCurrentBlock("linked_icon");
+			$tpl->setVariable("SRC_ICON", $this->getIconPath($programme->getId()));
+			$tpl->setVariable("ALT_ICON", $this->getAltIcon($programme->getId()));
+			$tpl->setVariable("ICON_HREF", $title_and_icon_target);
+			$tpl->parseCurrentBlock();
+			
+			$tpl->setCurrentBlock("linked_title");
+			$tpl->setVariable("TXT_TITLE", $programme->getTitle());
+			$tpl->setVariable("HREF_TITLE", $title_and_icon_target);
+			$tpl->parseCurrentBlock();
+		}
+		else {
+			$tpl->setCurrentBlock("not_linked_icon");
+			$tpl->setVariable("SRC_ICON", $this->getIconPath($programme->getId()));
+			$tpl->setVariable("ALT_ICON", $this->getAltIcon($programme->getId()));
+			$tpl->parseCurrentBlock();
+			
+			$tpl->setCurrentBlock("not_linked_title");
+			$tpl->setVariable("TXT_TITLE", $programme->getTitle());
+			$tpl->parseCurrentBlock();
+		}
+		
+		
+		$tpl->setVariable("TXT_DESC", $programme->getDescription());
+		$tpl->setVariable("PROGRESS_BAR", $this->buildProgressBar($this->progress));
 	}
 	
 	protected function getTemplate($a_component, $a_file, $a_remove_unknown_vars, $a_remove_empty_blocks) {
@@ -73,7 +97,7 @@ class ilStudyProgrammeProgressListGUI {
 		return $this->il_lng->txt("icon")." ".$this->il_lng->txt("obj_prg");
 	}
 	
-	protected function getTargetForProgress(ilStudyProgrammeUserProgress $a_progress) {
+	protected function getTitleAndIconTarget(ilStudyProgrammeUserProgress $a_progress) {
 		$this->il_ctrl->setParameterByClass("ilPersonalDesktopGUI", "prg_progress_id", $a_progress->getId());
 		$link = $this->il_ctrl->getLinkTargetByClass("ilPersonalDesktopGUI", "jumpToStudyProgramme");
 		$this->il_ctrl->setParameterByClass("ilPersonalDesktopGUI", "prg_progress_id", null);

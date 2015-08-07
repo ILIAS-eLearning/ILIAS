@@ -20,8 +20,8 @@ class ilPDStudyProgrammeExpandableListGUI extends ilPDStudyProgrammeSimpleListGU
 	}
 
 	protected function new_ilStudyProgrammeAssignmentListGUI(ilStudyProgrammeUserAssignment $a_assignment) {
-		require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeProgressListGUI.php");
+		require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeExpandableProgressListGUI.php");
 		$progress = $a_assignment->getStudyProgramme()->getProgressForAssignment($a_assignment->getId());
-		return new ilStudyProgrammeProgressListGUI($progress);
+		return new ilStudyProgrammeExpandableProgressListGUI($progress);
 	}
 }
