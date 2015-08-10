@@ -23,6 +23,11 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
 	protected $js_added = false;
 	
 	/**
+	 * @var bool
+	 */
+	protected $css_added = false;
+	
+	/**
 	 * @var ilTemplate
 	 */
 	protected $il_tpl;
@@ -46,6 +51,7 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
 	
 	public function getHTML() {
 		$this->addJavaScript();
+		$this->addCSS();
 		return parent::getHTML();
 	}
 	
@@ -53,20 +59,24 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
 		require_once("./Services/JSON/classes/class.ilJsonUtil.php");
 		
 		parent::fillTemplate($tpl);
+		
+		if ($this->showMyProgress()) {
+			$tpl->setVariable("ACTIVE_HEAD", "il_PrgAccordionHeadActive");
+		}
 
 		$tpl->setVariable("ACCORDION_ID", 'id="'.$this->getAccordionId().'"');
-		
 		$tpl->setVariable("HREF_TITLE", "");
 		
 		$tpl->setCurrentBlock("expand");
 		$tpl->setVariable("EXP_ALT", $this->il_lng->txt("expand"));
-		$tpl->setVariable("EXP_IMG", $this->getExpandImageURL());
+		$tpl->setVariable("EXP_IMG", $this->getExpandedImageURL());
+		$tpl->setVariable("NOT_EXP_ALT", $this->il_lng->txt("expanded"));
+		$tpl->setVariable("NOT_EXP_IMG", $this->getNotExpandedImageURL());
 		$tpl->parseCurrentBlock();
 		
 		for($i = 0; $i < $this->getIndent(); $i++) {
 			$tpl->touchBlock("indent");
 		}
-		
 		
 		$tpl->setCurrentBlock("accordion");
 		if ($this->showMyProgress()) {
@@ -114,7 +124,12 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
 		return "prg_progress_".$this->progress->getId()."_".$this->getIndent();
 	}
 	
-	protected function getExpandImageURL() {
+	protected function getExpandedImageURL() {
+		require_once("Services/Utilities/classes/class.ilUtil.php");
+		return ilUtil::getImagePath("tree_exp.svg");
+	}
+	
+	protected function getNotExpandedImageURL() {
 		require_once("Services/Utilities/classes/class.ilUtil.php");
 		return ilUtil::getImagePath("tree_col.svg");
 	}
@@ -135,6 +150,16 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
 		include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
 		iljQueryUtil::initjQueryUI();
 		$this->il_tpl->addJavaScript("./Services/Accordion/js/accordion.js", true, 3);
+		$this->js_added = true;
+	}
+	
+	protected function addCSS() {
+		if ($this->css_added) {
+			return false;
+		}
+		
+		$this->il_tpl->addCSS("Modules/StudyProgramme/templates/css/ilStudyProgramme.css");
+		$this->css_added = true;
 	}
 }
 
