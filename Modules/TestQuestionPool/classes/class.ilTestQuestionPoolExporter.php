@@ -101,9 +101,11 @@ class ilTestQuestionPoolExporter extends ilXmlExporter
 
 		foreach($poolObjIds as $poolObjId)
 		{
-			foreach(ilObjTaxonomy::getUsageOfObject($poolObjId) as $taxId)
+			$taxonomies = ilObjTaxonomy::getUsageOfObject($poolObjId);
+
+			if(count($taxonomies))
 			{
-				$taxIds[$taxId] = $taxId;
+				$taxIds[$taxonomies[0]] = $taxonomies[0];
 			}
 		}
 
