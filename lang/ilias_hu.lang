@@ -1,7 +1,7 @@
 /* Copyright (c) 1998-2015 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
-* @author 5.1.x 2015-07-05 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
+* @author 5.1.x 2015-08-07 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
 * @author 4.2.2	Berecz Antónia <berecz@gdf.hu>
 * @module		language file Hungarian
 * @modulegroup	language
@@ -567,65 +567,65 @@ assessment#:#lacex_assImagemapQuestion_NumberOfResultExpression_d#:#A kérdés m
 assessment#:#lacex_assImagemapQuestion_ExclusiveResultExpression_e#:#R = *1,3,4*
 assessment#:#lacex_assImagemapQuestion_ExclusiveResultExpression_d#:#A kérdés megválaszolásához pontosan az első, a harmadik és a negyedik lehetőséget választották
 assessment#:#lacex_assNumeric_NumericResultExpression_e#:#R = #4.7#
-assessment#:#lacex_assNumeric_NumericResultExpression_d#:#The question was answered with the numeric value 4.7###
+assessment#:#lacex_assNumeric_NumericResultExpression_d#:#A kérdésre érkezett válasz értéke 4.7
 assessment#:#lacex_assOrderingQuestion_OrderingResultExpression_e#:#R = $2,5,1,4,3$
-assessment#:#lacex_assOrderingQuestion_OrderingResultExpression_d#:#The question's elements were ordered as follows: 2, 5, 1, 4, 3
+assessment#:#lacex_assOrderingQuestion_OrderingResultExpression_d#:#A kérdés elemeit a következő szerint rendezték: 2, 5, 1, 4, 3
 assessment#:#lacex_assOrderingHorizontal_OrderingResultExpression_e#:#R = $2,5,1,4,3$
-assessment#:#lacex_assOrderingHorizontal_OrderingResultExpression_d#:#The question's elements were ordered as follows: 2, 5, 1, 4, 3
+assessment#:#lacex_assOrderingHorizontal_OrderingResultExpression_d#:#A kérdés elemeit a következő szerint rendezték: 2, 5, 1, 4, 3
 assessment#:#lacex_assMatchingQuestion_MatchingResultExpression_e#:#R = ;1:2; & R = ;2:3; & R = ;3:1;
-assessment#:#lacex_assMatchingQuestion_MatchingResultExpression_d#:#The question's terms were assigned to defintions as follows: 1 => 2 and 2 => 3 and 3 => 1
-assessment#:#lacex_assTextSubset_StringResultExpression_e#:#R[2] = ~sodium chloride~
-assessment#:#lacex_assTextSubset_StringResultExpression_d#:#For the second answer option the answer „sodium chloride“ was entered
+assessment#:#lacex_assMatchingQuestion_MatchingResultExpression_d#:#A kérdés kifejezéseit a meghatározásokhoz a következő szerint rendelték össze: 1 => 2 és 2 => 3 és 3 => 1
+assessment#:#lacex_assTextSubset_StringResultExpression_e#:#R[2] = ~nátrium-klorid~
+assessment#:#lacex_assTextSubset_StringResultExpression_d#:#A második válaszlehetőségre a „nátrium-klorid” választ adták
 assessment#:#lacex_assFormulaQuestion_NumericResultExpression_e#:#R[1] = #3.14159#
-assessment#:#lacex_assFormulaQuestion_NumericResultExpression_d#:#The first answer option was answered with the numeric value 3.14159
+assessment#:#lacex_assFormulaQuestion_NumericResultExpression_d#:#Az első válaszra a 3.14159 számértéket adták válaszul 
 assessment#:#lacex_assClozeTest_NumericResultExpression_e#:#R[2] = #5#
-assessment#:#lacex_assClozeTest_NumericResultExpression_d#:#The second answer option is a numeric gap and was answered with the numeric value 5
-assessment#:#lacex_assClozeTest_StringResultExpression_1_e#:#R[1] = ~Monday~
-assessment#:#lacex_assClozeTest_StringResultExpression_1_d#:#The first answer option is a text gap and was answered with „Monday“
-assessment#:#lacex_assClozeTest_StringResultExpression_2_e#:#R[4] = ~Green~
-assessment#:#lacex_assClozeTest_StringResultExpression_2_d#:#The fourth answer option is a select gap and the option labeled as „Green“ was selected
+assessment#:#lacex_assClozeTest_NumericResultExpression_d#:#A második válaszlehetőség egy számrés és az 5 számértéket adták rá válaszul
+assessment#:#lacex_assClozeTest_StringResultExpression_1_e#:#R[1] = ~Hétfő~
+assessment#:#lacex_assClozeTest_StringResultExpression_1_d#:#A második válaszlehetőség egy szövegrés és a „Hétfő” szövegértéket adták rá válaszul
+assessment#:#lacex_assClozeTest_StringResultExpression_2_e#:#R[4] = ~Zöld~
+assessment#:#lacex_assClozeTest_StringResultExpression_2_d#:#A negyedik válaszlehetőség egy választásosrés és a „Zöld” feliratú lehetőséget választották válaszul
 assessment#:#lacex_assClozeTest_NumberOfResultExpression_e#:#R[4] = +2+
-assessment#:#lacex_assClozeTest_NumberOfResultExpression_d#:#The fourth answer option is a select gap and the second option was selected
-assessment#:#qpl_skill_point_eval_mode_quest_result#:#Question Result
-assessment#:#qpl_skill_point_eval_mode_solution_compare#:#Solution Compare
-assessment#:#qpl_skill_point_eval_by_quest_result#:#Evaluation of Competence Points by Question Result
-assessment#:#qpl_skill_point_eval_by_solution_compare#:#Evaluation of Competence Points by Solution Compare
+assessment#:#lacex_assClozeTest_NumberOfResultExpression_d#:#A negyedik válaszlehetőség egy választásosrés és a második lehetőséget választották válaszul
+assessment#:#qpl_skill_point_eval_mode_quest_result#:#Kérdéseredmény
+assessment#:#qpl_skill_point_eval_mode_solution_compare#:#Megoldás-összehasonlítás
+assessment#:#qpl_skill_point_eval_by_quest_result#:#Kompetenciapontszámok kiértékelése kérdéseredmény alapján
+assessment#:#qpl_skill_point_eval_by_solution_compare#:#Kompetenciapontszámok kiértékelése megoldás-összehasonlítás alapján
 assessment#:#tst_solution_compare_cfg#:#Megoldás összehasonlításához beállítások
 assessment#:#tst_sol_comp_expressions#:#Összehasonlító kifejezések
 assessment#:#ass_lac_hide_legend_btn#:#Jelmagyarázat elrejtése
 assessment#:#ass_lac_show_legend_btn#:#Jelmagyarázat megjelenítése
-assessment#:#ass_lac_validation_error#:#Errors occured while validating the conditional expression(s)!
+assessment#:#ass_lac_validation_error#:#Hiba a feltételes kifejezés(ek) validása során!
 assessment#:#ass_lac_expression#:#Kifejezés
-assessment#:#ass_lac_question_not_exist#:#The question with index "Q%s" does not exist in this set.
-assessment#:#ass_lac_question_not_reachable#:#The question with index "Q%s" is not reachable in this node.
-assessment#:#ass_lac_expression_not_supported#:#The Expression "%s" is not supported.
-assessment#:#ass_lac_operator_not_supported#:#The Operator "%s" is not supported.
-assessment#:#ass_lac_unable_to_parse_condition#:#The condition "%s" can not be validated.
-assessment#:#ass_lac_missing_bracket#:#There are not enough "%s"-Brackets in the condition.
-assessment#:#ass_lac_invalid_statement#:#The expression at position "%s" is not valid. Please check your input according to the supported expression (lásd jelmagyarázat).
-assessment#:#ass_lac_duplicate_element#:#Duplicate key "%s" in condition.
-assessment#:#ass_lac_answer_index_not_exist#:#The question with index "Q%s" does not have an answer with the index "%s".
-assessment#:#ass_lac_answer_index_not_exist_cur_qst#:#The current question does not have an answer with the index "%s".
-assessment#:#ass_lac_answer_value_not_exists#:#The value "%s" does not exist in question Q%s[%s].
-assessment#:#ass_lac_answer_value_not_exists_one_answer#:#The value "%s" does not exist in question Q%s.
-assessment#:#ass_lac_answer_value_not_exists_cur_qst#:#The value "%s" does not exist in the answer with index "%s" of current question.
-assessment#:#ass_lac_answer_value_not_exists_cur_qst_one_answer#:#The value "%s" does not exist in the current question.
-assessment#:#ass_lac_expression_not_supported_by_question#:#The question "Q%s" does not support the Expression "%s".
-assessment#:#ass_lac_expression_not_supported_by_cur_question#:#The current question does not support the Expression "%s".
-assessment#:#ass_lac_operator_not_supported_by_expression#:#The Operator "%s" can not be used in comparison with the expression "%s".
-assessment#:#tst_skill_triggerings_num_req_answers#:#Required Amount of Answers for Competence Triggers
-assessment#:#tst_skill_triggerings_num_req_answers_desc#:#Competences aren't triggered before this amount of answered questions contributes to the competence level calculation.
-assessment#:#qpl_qst_skl_usg_skill_col#:#Competence
-assessment#:#qpl_qst_skl_usg_numq_col#:#Number of Questions in Pool adressing this competence
-assessment#:#qpl_qst_skl_usg_sklpnt_col#:#Total Sum of Competence-Points per Competence
-assessment#:#tst_qst_skl_cfg_in_pool_hint_rndquestset#:#The Competence-Question-Assignment for tests with mode "%s" is to be done in the corresponding question pool(s):<br />%s<br /><br />The configuration of threshold values is to be done here in the test.
-assessment#:#tst_qst_skl_cfg_in_pool_hint_dynquestset#:#The Competence-Question-Assignment for tests with mode "%s" is to be done in the corresponding question pool:<br />%s<br /><br />The configuration of threshold values is to be done here in the test.
-assessment#:#qpl_qst_skl_selection_for_question_header#:#Compence Assignments for Question: %s
-assessment#:#tst_save_comp_points#:#Save Competence Points
-assessment#:#tst_msg_skl_qst_assign_points_saved#:#The competence points has been saved.
-assessment#:#tst_skl_level_thresholds_missing#:#There are missing thresholds for the relevant competences!
-assessment#:#tst_skl_level_thresholds_link#:#Configure Competence-Thresholds
-assessment#:#tst_skl_res_interpretation_hint_msg#:#Please consider that competence results from a single test has a limited significance. The more information is collected per competence, the merrier valid the significance will be. Should there are single competences without any entry, there is to less information collected.
+assessment#:#ass_lac_question_not_exist#:#'Q%s' indexű kérdés nincs a készletben.
+assessment#:#ass_lac_question_not_reachable#:#'Q%s' indexű kérdés nem érhető el ebben a csomópontban.
+assessment#:#ass_lac_expression_not_supported#:#'%s' kifejezés nem támogatott.
+assessment#:#ass_lac_operator_not_supported#:#'%s' művelet nem támogatott.
+assessment#:#ass_lac_unable_to_parse_condition#:#'%s' feltétel nem validálható.
+assessment#:#ass_lac_missing_bracket#:#Nincs elegendő '%s'-zárójel a feltételben.
+assessment#:#ass_lac_invalid_statement#:#'%s'. helyen lévő kifejezése nem megfelelő. Ellenőrizze bevitt adatai kifejezéseit (lásd jelmagyarázat).
+assessment#:#ass_lac_duplicate_element#:#'%s' duplikált kulcs a feltételben.
+assessment#:#ass_lac_answer_index_not_exist#:#'Q%s' indexű kérdéshez nincs '%s' indexű válasz.
+assessment#:#ass_lac_answer_index_not_exist_cur_qst#:#Ehhez a kérdéshez nincs '%s' indexű válasz.
+assessment#:#ass_lac_answer_value_not_exists#:#'%s' érték nincs a(z) Q%s[%s] kérdésben.
+assessment#:#ass_lac_answer_value_not_exists_one_answer#:#'%s' érték nincs a(z) Q%s kérdésben.
+assessment#:#ass_lac_answer_value_not_exists_cur_qst#:#'%s' érték nincs a válaszban ennek a kérdésnek a(z) '%s' indexével.
+assessment#:#ass_lac_answer_value_not_exists_cur_qst_one_answer#:#'%s' érték nincs ebben a kérdésben.
+assessment#:#ass_lac_expression_not_supported_by_question#:#'Q%s' kérdés nem támogatja a(z) '%s' kifejezést.
+assessment#:#ass_lac_expression_not_supported_by_cur_question#:#Ez a kérdés nem támogatja a(z) '%s' kifejezést.
+assessment#:#ass_lac_operator_not_supported_by_expression#:#'%s' művelet nem használható '%s' kifejezéssel összehasonlításban.
+assessment#:#tst_skill_triggerings_num_req_answers#:#Kompetencia felméréséhez szükséges válaszok száma
+assessment#:#tst_skill_triggerings_num_req_answers_desc#:#Kompetenciára nem váltunk át amíg a válaszok száma nem elegendő a kompetenciaszint számításához.
+assessment#:#qpl_qst_skl_usg_skill_col#:#Kompetencia
+assessment#:#qpl_qst_skl_usg_numq_col#:#Kérdésgyűjteményben lévő, erre a kompetenciára vonatkozó kérdések száma
+assessment#:#qpl_qst_skl_usg_sklpnt_col#:#Kompetenciapontszámok összege kérdésenként
+assessment#:#tst_qst_skl_cfg_in_pool_hint_rndquestset#:#A tesztek a kompetencia és kérdés összerendelése '%s' módon a megfelelő kérdésgyűjtemény(ek)ben történik:<br />%s<br /><br />A küszöbértékek  beállítása itt, a tesztben szükséges.
+assessment#:#tst_qst_skl_cfg_in_pool_hint_dynquestset#:#A tesztek a kompetencia és kérdés összerendelése '%s' módon a megfelelő kérdésgyűjteményben történik:<br />%s<br /><br />A küszöbértékek beállítása itt, a tesztben szükséges.
+assessment#:#qpl_qst_skl_selection_for_question_header#:#Kérdéshez rendelt kompetenciák: %s
+assessment#:#tst_save_comp_points#:#Kompetenciapontok mentése
+assessment#:#tst_msg_skl_qst_assign_points_saved#:#A kompetenciapontokat sikeresen mentette.
+assessment#:#tst_skl_level_thresholds_missing#:#Az érintett kompetenciákhoz hiányoznak a küszöbértékek!
+assessment#:#tst_skl_level_thresholds_link#:#Kompetencia-küszöbértékek beállítása
+assessment#:#tst_skl_res_interpretation_hint_msg#:#Kérjük vegye figyelembe, hogy a csupán egy tesztből kapott kompetenciaeredmények korlátozott jelentőséggel bírnak. Minél több információt sikerül gyűjteni kompetenciánként, annál jobb lesz az eredmény. Amennyiben egyszerű kompetenciához nincs bejegyzés, a kompetencia megállapításához túl kevés információ áll rendelkezésre.
 assessment#:#locked#:#Zárolva
 assessment#:#log_answer_changed_points#:#%s tesztkitöltő pontjainak manuális módosítása %d pontról %d pontra %s által
 assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#A felhasználó nem tud belépni a tesztbe, mert az egyidejű kitöltők száma elérte a maximumot.
