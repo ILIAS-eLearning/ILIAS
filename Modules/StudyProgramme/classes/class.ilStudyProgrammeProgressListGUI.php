@@ -10,7 +10,7 @@
  */
 
 class ilStudyProgrammeProgressListGUI {
-	protected static $tpl_file = "tpl.study_programme_progress_list_item.html";
+	protected static $tpl_file = "tpl.progress_list_item.html";
 	
 	/**
 	 * @var ilLanguage
