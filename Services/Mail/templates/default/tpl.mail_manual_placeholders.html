@@ -10,16 +10,25 @@
 </div>
 <!-- END placeholder_box -->
 <script>
-	$( '#context' ).off('change');
-	$( '#context' ).on('change', function() {
-		var value =  $('#context').val();
-		$.when(
-			$.ajax({
-				url: "{URL}" + "&context_id=" + value,
-				type: 'GET'
-			})
-		).then(function (placeholders) {
-			$('#placeholders_box').html(placeholders);
+	(function($) {
+		var $ctx = $('#context');
+		
+		var onCtxChange = function() {
+			var value = $ctx.val();
+			$.when(
+				$.ajax({
+					url: "{URL}" + "&context_id=" + value,
+					type: 'GET'
+				})
+			).then(function (placeholders) {
+				$('#placeholders_box').html(placeholders);
+			});
+		};
+
+		$ctx.off('change').on('change', onCtxChange);
+
+		$(document).ready(function () {
+			onCtxChange();
 		});
-	});
+	})(jQuery);
 </script>
