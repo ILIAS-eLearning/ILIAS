@@ -15650,3 +15650,5 @@ common#:#obj_prg_duplicate#:#Copy Study Programme
 common#:#obj_prg_select#:#-- Please select one Study Programme --
 common#:#obj_prg#:#Study Programme
 common#:#obj_prgs#:#Study Programmes
+trac#:#trac_mode_study_programme#:#Study Programme Completed
+trac#:#trac_mode_study_programme_info#:#The Study Programme has to be completed by a user to receive the Learning Progress 'Completed'.
