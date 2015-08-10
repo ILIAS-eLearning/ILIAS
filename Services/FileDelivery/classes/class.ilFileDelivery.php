@@ -549,7 +549,7 @@ class ilFileDelivery {
 				// (?) Shoud this be issued here, or should the first
 				// range be used? Or should the header be ignored and
 				// we output the whole content?
-				ilHTTP::STATUS(416);
+				ilHTTP::status(416);
 				header("Content-Range: bytes $start-$end/$size");
 				// (?) Echo some info to the client?
 				$this->close();
@@ -572,7 +572,7 @@ class ilFileDelivery {
 			$c_end = ($c_end > $end) ? $end : $c_end;
 			// Validate the requested range and return an error if it's not correct.
 			if ($c_start > $c_end || $c_start > $size - 1 || $c_end >= $size) {
-				ilHTTP::STATUS(416);
+				ilHTTP::status(416);
 				header("Content-Range: bytes $start-$end/$size");
 				// (?) Echo some info to the client?
 				$this->close();
@@ -582,7 +582,7 @@ class ilFileDelivery {
 			$end = $c_end;
 			$length = $end - $start + 1; // Calculate new content length
 			fseek($fp, $start);
-			ilHTTP::STATUS(206);
+			ilHTTP::status(206);
 		} // fim do if
 
 		// Notify the client the byte range we'll be outputting
@@ -664,7 +664,7 @@ class ilFileDelivery {
 			$this->setShowLastModified(true);
 			$this->setCachingHeaders();
 			if ($this->isNonModified()) {
-				ilHTTP::STATUS(304);
+				ilHTTP::status(304);
 				$this->close();
 			}
 		}
