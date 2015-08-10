@@ -10374,22 +10374,22 @@ div#il_startup_logo img {
 .ilToolbar li.ilToolbarGroup .navbar-text {
   margin-right: 0;
 }
-.ilToolbar .ilToolbarPrimaryItems {
+.ilToolbar .ilToolbarStickyItems {
   float: left;
   margin-left: 15px;
 }
-.ilToolbar .ilToolbarPrimaryItems.navbar-nav {
+.ilToolbar .ilToolbarStickyItems.navbar-nav {
   margin-top: 0;
   margin-bottom: 0;
 }
-.ilToolbar .ilToolbarPrimaryItems li {
+.ilToolbar .ilToolbarStickyItems li {
   float: left;
   margin-right: 15px;
 }
-.ilToolbar .ilToolbarPrimaryItems li .navbar-form {
+.ilToolbar .ilToolbarStickyItems li .navbar-form {
   border: 0;
 }
-.ilToolbar .ilToolbarPrimaryItems li.ilToolbarPrimaryItem {
+.ilToolbar .ilToolbarStickyItems li.ilToolbarStickyItem {
   border: 0;
 }
 @media (min-width: 768px) {
