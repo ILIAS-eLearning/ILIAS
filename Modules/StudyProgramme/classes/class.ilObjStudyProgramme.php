@@ -983,7 +983,7 @@ class ilObjStudyProgramme extends ilContainer {
 	public function getIdsOfUsersWithCompletedProgress() {
 		$returns = array();
 		foreach ($this->getProgresses() as $progress) {
-			if ($progress->isCompleted()) {
+			if ($progress->isSuccessful()) {
 				$returns[] = $progress->getUserId();
 			}
 		}
@@ -999,7 +999,7 @@ class ilObjStudyProgramme extends ilContainer {
 	public function getIdsOfUsersWithNotCompletedAndRelevantProgress() {
 		$returns = array();
 		foreach ($this->getProgresses() as $progress) {
-			if ($progress->isRelevant() && !$progress->isCompleted()) {
+			if ($progress->isRelevant() && !$progress->isSuccessful()) {
 				$returns[] = $progress->getUserId();
 			}
 		}
