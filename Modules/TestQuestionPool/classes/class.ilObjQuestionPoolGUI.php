@@ -632,6 +632,20 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$newObj->notify("new",$_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$newObj->getRefId());
 		}
 
+		if (is_file($_SESSION["qpl_import_dir"].'/'.$_SESSION["qpl_import_subdir"]."/manifest.xml"))
+		{
+			$fileName = $_SESSION["qpl_import_subdir"].'.zip';
+			$fullPath = $_SESSION["qpl_import_dir"].'/'.$fileName;
+			
+			include_once("./Services/Export/classes/class.ilImport.php");
+			$imp = new ilImport((int) $_GET["ref_id"]);
+			$map = $imp->getMapping();
+			$map->addMapping("Modules/TestQuestionPool", "qpl", "new_id", $newObj->getId());
+			$imp->importObject($newObj, $fullPath, $fileName, "qpl", "Modules/TestQuestionPool", true);
+			ilUtil::sendSuccess($this->lng->txt("object_imported"),true);
+			ilUtil::redirect("ilias.php?ref_id=".$newObj->getRefId()."&baseClass=ilObjQuestionPoolGUI");
+		}
+
 		// start parsing of QTI files
 		include_once "./Services/QTI/classes/class.ilQTIParser.php";
 		$qtiParser = new ilQTIParser($_SESSION["qpl_import_qti_file"], IL_MO_PARSE_QTI, $newObj->getId(), $_POST["ident"]);
