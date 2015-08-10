@@ -117,30 +117,38 @@ class ilMailTemplateGUI
 	protected function insertTemplate()
 	{
 		$form = $this->getTemplateForm();
-		$generic_context = new ilMailTemplateGenericContext();
-		if($form->checkInput() && $form->getInput('context') != $generic_context->getId() )
-		{
-			try
-			{
-				$context = ilMailTemplateService::getTemplateContextById($form->getInput('context'));
-				$template = new ilMailTemplate();
-				$template->setTitle($form->getInput('title'));
-				$template->setContext($context->getId());
-				$template->setLang($form->getInput('lang'));
-				$template->setSubject($form->getInput('m_subject'));
-				$template->setMessage($form->getInput('m_message'));
-				$template->insert();
 
-				ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
-				$this->ctrl->redirect($this, 'showTemplates');
-			}
-			catch(Exception $e)
-			{
-				$form->getItemByPostVar('context')->setAlert($this->lng->txt('mail_template_no_valid_context'));
-				ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
-			}
+		if(!$form->checkInput())
+		{
+			$form->setValuesByPost();
+			$this->showInsertTemplateForm($form);
+			return;
 		}
-		else
+
+		$generic_context = new ilMailTemplateGenericContext();
+		if($form->getInput('context') == $generic_context->getId())
+		{
+			$form->getItemByPostVar('context')->setAlert($this->lng->txt('mail_template_no_valid_context'));
+			$form->setValuesByPost();
+			$this->showInsertTemplateForm($form);
+			return;
+		}
+
+		try
+		{
+			$context = ilMailTemplateService::getTemplateContextById($form->getInput('context'));
+			$template = new ilMailTemplate();
+			$template->setTitle($form->getInput('title'));
+			$template->setContext($context->getId());
+			$template->setLang($form->getInput('lang'));
+			$template->setSubject($form->getInput('m_subject'));
+			$template->setMessage($form->getInput('m_message'));
+			$template->insert();
+
+			ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
+			$this->ctrl->redirect($this, 'showTemplates');
+		}
+		catch(Exception $e)
 		{
 			$form->getItemByPostVar('context')->setAlert($this->lng->txt('mail_template_no_valid_context'));
 			ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
@@ -183,26 +191,39 @@ class ilMailTemplateGUI
 		}
 
 		$form = $this->getTemplateForm();
-		if($form->checkInput())
+		if(!$form->checkInput())
 		{
-			try
-			{
-				$context = ilMailTemplateService::getTemplateContextById($form->getInput('context'));
-				$template->setTitle($form->getInput('title'));
-				$template->setContext($context->getId());
-				$template->setLang($form->getInput('lang'));
-				$template->setSubject($form->getInput('m_subject'));
-				$template->setMessage($form->getInput('m_message'));
-				$template->update();
+			$form->setValuesByPost();
+			$this->showEditTemplateForm($form);
+			return;
+		}
 
-				ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
-				$this->ctrl->redirect($this, 'showTemplates');
-			}
-			catch(Exception $e)
-			{
-				$form->getItemByPostVar('context')->setAlert($this->lng->txt('mail_template_no_valid_context'));
-				ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
-			}
+		$generic_context = new ilMailTemplateGenericContext();
+		if($form->getInput('context') == $generic_context->getId())
+		{
+			$form->getItemByPostVar('context')->setAlert($this->lng->txt('mail_template_no_valid_context'));
+			$form->setValuesByPost();
+			$this->showEditTemplateForm($form);
+			return;
+		}
+
+		try
+		{
+			$context = ilMailTemplateService::getTemplateContextById($form->getInput('context'));
+			$template->setTitle($form->getInput('title'));
+			$template->setContext($context->getId());
+			$template->setLang($form->getInput('lang'));
+			$template->setSubject($form->getInput('m_subject'));
+			$template->setMessage($form->getInput('m_message'));
+			$template->update();
+
+			ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
+			$this->ctrl->redirect($this, 'showTemplates');
+		}
+		catch(Exception $e)
+		{
+			$form->getItemByPostVar('context')->setAlert($this->lng->txt('mail_template_no_valid_context'));
+			ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
 		}
 
 		$form->setValuesByPost();
@@ -365,6 +386,7 @@ class ilMailTemplateGUI
 			$this->ctrl->redirect($this, 'showTemplates');
 		}
 
+		$default = array();
 		$generic_context = new ilMailTemplateGenericContext();
 		foreach($contexts as $ctx)
 		{
