@@ -219,7 +219,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			case "ilquestionpoolexportgui":
 				require_once 'Modules/TestQuestionPool/classes/class.ilQuestionPoolExportGUI.php';
 				$exp_gui = new ilQuestionPoolExportGUI($this);
-				$exp_gui->addFormat('zip', $this->lng->txt('qpl_export_xml'), $this, 'createExportQTI');
+				$exp_gui->addFormat('xml', $this->lng->txt('qpl_export_xml'));
 				$exp_gui->addFormat('xls', $this->lng->txt('qpl_export_excel'), $this, 'createExportExcel');
 				$ret = $this->ctrl->forwardCommand($exp_gui);
 				break;
@@ -1183,22 +1183,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			ilUtil::sendInfo($this->lng->txt("qpl_move_select_none"), true);
 		}
 		$this->ctrl->redirect($this, "questions");
-	}
-	
-	/**
-	* create export file
-	*/
-	function createExportQTI()
-	{
-		global $rbacsystem;
-		if ($rbacsystem->checkAccess("write", $_GET['ref_id']))
-		{
-			include_once("./Modules/TestQuestionPool/classes/class.ilQuestionpoolExport.php");
-			$question_ids =& $this->object->getAllQuestionIds();
-			$qpl_exp = new ilQuestionpoolExport($this->object, 'xml', $question_ids);
-			$qpl_exp->buildExportFile();
-			$this->ctrl->redirectByClass("ilquestionpoolexportgui", "");
-		}
 	}
 
 	function createExportExcel()
