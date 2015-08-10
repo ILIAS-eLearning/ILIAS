@@ -132,9 +132,6 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
 			return false;
 		}
 		
-		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
-		ilYuiUtil::initConnection();
-		
 		include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
 		iljQueryUtil::initjQueryUI();
 		$this->il_tpl->addJavaScript("./Services/Accordion/js/accordion.js", true, 3);
