@@ -975,6 +975,36 @@ class ilObjStudyProgramme extends ilContainer {
 		return array_unique($returns);
 	}
 	
+	/**
+	 * Get the ids of all users that have completed this programme.
+	 *
+	 * @return int[]
+	 */
+	public function getIdsOfUsersWithCompletedProgress() {
+		$returns = array();
+		foreach ($this->getProgresses() as $progress) {
+			if ($progress->isCompleted()) {
+				$returns[] = $progress->getUserId();
+			}
+		}
+		return array_unique($returns);
+	}
+	
+	/**
+	 * Get the ids of all users that have not completed this programme but
+	 * have a relevant progress on it.
+	 *
+	 * @return int[]
+	 */
+	public function getIdsOfUsersWithNotCompletedAndRelevantProgress() {
+		$returns = array();
+		foreach ($this->getProgresses() as $progress) {
+			if ($progress->isRelevant() && !$progress->isCompleted()) {
+				$returns[] = $progress->getUserId();
+			}
+		}
+		return array_unique($returns);
+	}
 	
 	////////////////////////////////////
 	// HELPERS
