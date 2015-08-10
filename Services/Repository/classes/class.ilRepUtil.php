@@ -527,8 +527,8 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 			
 			// basic operations
 			$ilDB->manipulate("DELETE FROM rbac_ta".
-				" WHERE typ_id = ".$ilDB->quote($type_id, "integer").
-				" AND ".$ilDB->in("ops_id", array(1, 2, 3, 4, 6), "", "integer"));
+				" WHERE typ_id = ".$ilDB->quote($type_id, "integer") /*.
+				" AND ".$ilDB->in("ops_id", array(1, 2, 3, 4, 6), "", "integer") */);
 			
 			// creation operation
 			$set = $ilDB->query("SELECT ops_id".
