@@ -167,45 +167,45 @@ class ilWebAccessChecker {
 		}
 
 		// Files in ^/data/.*/sec Folder can be checked automatically. this part will be refactored to the new registry method
-//		if ($ilWACSignedPath->getPathObject()->isInSecFolder()) {
-//			ilWACLog::getInstance()->write('this file is in sec folder');
-//			$component = substr($ilWACSignedPath->getPathObject()->getSecurePathId(), 2);
-//			$comp_dir = NULL;
-//			switch (true) {
-//				case ilComponent::lookupId(IL_COMP_MODULE, $component):
-//					$comp_dir = "Modules";
-//					break;
-//				case ilComponent::lookupId(IL_COMP_SERVICE, $component):
-//					$comp_dir = "Services";
-//					break;
-//			}
-//			if ($comp_dir) {
-//				$comp_class = "il" . $component . "WebAccessChecker";
-//				$comp_include = $comp_dir . "/" . $component . "/classes/class." . $comp_class . ".php";
-//				if (file_exists($comp_include)) {
-//					include_once $comp_include;
-//					if (class_exists($comp_class)) {
-//						$comp_inst = new $comp_class();
-//						if ($comp_inst instanceof ilComponentWebAccessChecker) {
-//							if ($comp_inst->isValidPath(explode('/', $ilWACSignedPath->getPathObject()->getPath()))) {
-//								$obj_id = $comp_inst->getRepositoryObjectId();
-//								global $ilAccess;
-//								$obj_type = ilObject::_lookupType($obj_id);
-//								$ref_ids = ilObject::_getAllReferences($obj_id);
-//								foreach ($ref_ids as $ref_id) {
-//									global $ilUser;
-//									if ($ilAccess->checkAccessOfUser($ilUser->getId(), "read", "view", $ref_id, $obj_type, $obj_id)) {
-//										$this->setChecked(true);
-//
-//										return true;
-//									}
-//								}
-//							}
-//						}
-//					}
-//				}
-//			}
-//		}
+		//		if ($ilWACSignedPath->getPathObject()->isInSecFolder()) {
+		//			ilWACLog::getInstance()->write('this file is in sec folder');
+		//			$component = substr($ilWACSignedPath->getPathObject()->getSecurePathId(), 2);
+		//			$comp_dir = NULL;
+		//			switch (true) {
+		//				case ilComponent::lookupId(IL_COMP_MODULE, $component):
+		//					$comp_dir = "Modules";
+		//					break;
+		//				case ilComponent::lookupId(IL_COMP_SERVICE, $component):
+		//					$comp_dir = "Services";
+		//					break;
+		//			}
+		//			if ($comp_dir) {
+		//				$comp_class = "il" . $component . "WebAccessChecker";
+		//				$comp_include = $comp_dir . "/" . $component . "/classes/class." . $comp_class . ".php";
+		//				if (file_exists($comp_include)) {
+		//					include_once $comp_include;
+		//					if (class_exists($comp_class)) {
+		//						$comp_inst = new $comp_class();
+		//						if ($comp_inst instanceof ilComponentWebAccessChecker) {
+		//							if ($comp_inst->isValidPath(explode('/', $ilWACSignedPath->getPathObject()->getPath()))) {
+		//								$obj_id = $comp_inst->getRepositoryObjectId();
+		//								global $ilAccess;
+		//								$obj_type = ilObject::_lookupType($obj_id);
+		//								$ref_ids = ilObject::_getAllReferences($obj_id);
+		//								foreach ($ref_ids as $ref_id) {
+		//									global $ilUser;
+		//									if ($ilAccess->checkAccessOfUser($ilUser->getId(), "read", "view", $ref_id, $obj_type, $obj_id)) {
+		//										$this->setChecked(true);
+		//
+		//										return true;
+		//									}
+		//								}
+		//							}
+		//						}
+		//					}
+		//				}
+		//			}
+		//		}
 
 		// none of the checking mechanisms could have been applied. no access
 		$this->setChecked(true);
@@ -296,7 +296,7 @@ class ilWebAccessChecker {
 	 */
 	protected function handleAccessErrors(ilWACException $e) {
 		if ($this->isSendStatusCode()) {
-			ilHTTP::STATUS(401);
+			ilHTTP::status(401);
 		}
 		if ($this->getPathObject()->isImage()) {
 			$this->deliverDummyImage();
@@ -320,7 +320,7 @@ class ilWebAccessChecker {
 	 * @param ilWACException $e
 	 */
 	protected function handleErrors(ilWACException $e) {
-		ilHTTP::STATUS(500);
+		ilHTTP::status(500);
 		echo $e->getMessage();
 	}
 

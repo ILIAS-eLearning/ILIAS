@@ -76,7 +76,7 @@ class ilHTTP {
 	 *
 	 * @throws ilException
 	 */
-	public static function STATUS($status) {
+	public static function status($status) {
 		if (! array_key_exists($status, self::$http_codes)) {
 			throw new ilException('Wrong HTTP-Status Code');
 		}

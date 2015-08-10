@@ -7,5 +7,5 @@
 
 chdir('../../');
 require_once('./Services/WebAccessChecker/classes/class.ilWebAccessChecker.php');
-ilWebAccessChecker::run(urldecode($_SERVER['REQUEST_URI']));
+ilWebAccessChecker::install();
 ?>
