@@ -13162,7 +13162,7 @@ forum#:#error_same_thread_ids#:#Es müssen zwei verschiedene Themen ausgewählt 
 forum#:#frm_merge_src#:#Ausgewähltes Thema: %s
 forum#:#frm_merge_target#:#Ziel: %s
 forum#:#merged_threads_successfully#:#Die selektierten Themen wurden erfolgreich zusammengeführt
-forum#:#switch_threads_for_merge#:#Das augewählte Thema ist älter als das Zielthema. Um eine sinnvolle Zusammenführung zu schaffen, werden Quell- und Zielthema getauscht.
+forum#:#switch_threads_for_merge#:#Das ausgewählte Thema ist älter als das Zielthema. Um eine sinnvolle Zusammenführung zu schaffen, werden Quell- und Zielthema getauscht.
 assessment#:#oq_btn_nest_terms#:#Zur Ansicht: Terme gliedern
 assessment#:#oq_btn_nest_pictures#:#Zur Ansicht: Bilder gliedern
 assessment#:#oq_btn_define_terms#:#Zur Ansicht: Terme anlegen
