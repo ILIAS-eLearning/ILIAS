@@ -960,6 +960,21 @@ class ilObjStudyProgramme extends ilContainer {
 		return ilStudyProgrammeUserProgress::getInstancesForProgram($this->getId());
 	}
 	
+	/**
+	 * Get the ids of all users that have a relevant progress at this programme.
+	 *
+	 * @return int[]
+	 */
+	public function getIdsOfUsersWithRelevantProgress() {
+		$returns = array();
+		foreach ($this->getProgresses() as $progress) {
+			if ($progress->isRelevant()) {
+				$returns[] = $progress->getUserId();
+			}
+		}
+		return array_unique($returns);
+	}
+	
 	
 	////////////////////////////////////
 	// HELPERS
