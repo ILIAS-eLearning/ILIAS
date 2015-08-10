@@ -73,12 +73,19 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
 		$tpl->setVariable("ACCORDION_ID", 'id="'.$this->getAccordionId().'"');
 		$tpl->setVariable("HREF_TITLE", "");
 		
-		$tpl->setCurrentBlock("expand");
-		$tpl->setVariable("EXP_ALT", $this->il_lng->txt("expand"));
-		$tpl->setVariable("EXP_IMG", $this->getExpandedImageURL());
-		$tpl->setVariable("NOT_EXP_ALT", $this->il_lng->txt("expanded"));
-		$tpl->setVariable("NOT_EXP_IMG", $this->getNotExpandedImageURL());
-		$tpl->parseCurrentBlock();
+		$content = $this->getAccordionContentHTML();
+		
+		if (trim($content)) {
+			$tpl->setCurrentBlock("expand");
+			$tpl->setVariable("EXP_ALT", $this->il_lng->txt("expand"));
+			$tpl->setVariable("EXP_IMG", $this->getExpandedImageURL());
+			$tpl->setVariable("NOT_EXP_ALT", $this->il_lng->txt("expanded"));
+			$tpl->setVariable("NOT_EXP_IMG", $this->getNotExpandedImageURL());
+			$tpl->parseCurrentBlock();
+		}
+		else {
+			$tpl->touchBlock("indent");
+		}
 		
 		for($i = 0; $i < $this->getIndent(); $i++) {
 			$tpl->touchBlock("indent");
@@ -91,7 +98,7 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
 		else {
 			$tpl->setVariable("ACCORDION_HIDE_CONTENT", "ilAccHideContent");
 		}
-		$tpl->setVariable("ACCORDION_CONTENT", $this->getAccordionContentHTML());
+		$tpl->setVariable("ACCORDION_CONTENT", $content);
 		$tpl->setVariable("ACCORDION_OPTIONS", ilJsonUtil::encode($this->getAccordionOptions()));
 		$tpl->parseCurrentBlock();
 	}
@@ -107,6 +114,9 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
 	
 	protected function getAccordionContentProgressesHTML() {
 		return implode("\n", array_map(function(ilStudyProgrammeUserProgress $progress) {
+			if (!$progress->isRelevant()) {
+				return "";
+			}
 			$gui = new ilStudyProgrammeExpandableProgressListGUI($progress);
 			$gui->setIndent($this->getIndent() + 1);
 			return $gui->getHTML();
