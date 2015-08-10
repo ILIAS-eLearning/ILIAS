@@ -59,6 +59,60 @@ class ilTestQuestionPoolExporter extends ilXmlExporter
 	}
 
 	/**
+	 * Get tail dependencies
+	 *
+	 * @param		string		entity
+	 * @param		string		target release
+	 * @param		array		ids
+	 * @return		array		array of array with keys "component", entity", "ids"
+	 */
+	public function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids)
+	{
+		if($a_entity == 'qpl')
+		{
+			$deps = array();
+
+			$taxIds = $this->getDependingTaxonomyIds($a_ids);
+
+			if(count($taxIds))
+			{
+				$deps[] = array(
+					'component' => 'Services/Taxonomy',
+					'entity' => 'tax',
+					'ids' => $taxIds
+				);
+			}
+
+			return $deps;
+		}
+
+		return parent::getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids);
+	}
+
+	/**
+	 * @param array $testObjIds
+	 * @return array $taxIds
+	 */
+	private function getDependingTaxonomyIds($poolObjIds)
+	{
+		include_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
+
+		$taxIds = array();
+
+		foreach($poolObjIds as $poolObjId)
+		{
+			$taxonomies = ilObjTaxonomy::getUsageOfObject($poolObjId);
+
+			if(count($taxonomies))
+			{
+				$taxIds[$taxonomies[0]] = $taxonomies[0];
+			}
+		}
+
+		return $taxIds;
+	}
+
+	/**
 	 * Returns schema versions that the component can export to.
 	 * ILIAS chooses the first one, that has min/max constraints which
 	 * fit to the target release. Please put the newest on top.
