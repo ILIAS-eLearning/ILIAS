@@ -171,7 +171,7 @@ class ilLearningProgressBaseGUI
 
 					if($has_read)
 					{
-						if(!$this->isAnonymized() && !in_array($this->obj_type, array('svy', 'tst', 'htlm', 'exc', 'sess', 'file')) && !($olp instanceof ilPluginLP))
+						if(!$this->isAnonymized() && !in_array($this->obj_type, array('svy', 'tst', 'htlm', 'exc', 'sess', 'file', 'prg')) && !($olp instanceof ilPluginLP))
 						{
 							$this->tabs_gui->addSubTabTarget("trac_matrix",
 															$this->ctrl->getLinkTargetByClass("illplistofobjectsgui", 'showUserObjectMatrix'),
