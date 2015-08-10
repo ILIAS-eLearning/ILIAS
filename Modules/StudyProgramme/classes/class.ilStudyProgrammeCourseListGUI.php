@@ -25,7 +25,7 @@ class ilStudyProgrammeCourseListGUI extends ilObjCourseListGUI {
 		$this->indent = $a_indent;
 	}
 	
-	public function getIndent($a_indent) {
+	public function getIndent() {
 		return $this->indent;
 	}
 	
