@@ -1,7 +1,7 @@
 <div {ACCORDION_ID}>
 	<div>
 		<div class="ilObjListRow il_PrgAccordionToggle">
-			<div class="ilCLI">
+			<div class="ilCLI {ACTIVE_HEAD}">
 				<div class="ilContainerListItemOuter">
 					<!-- BEGIN indent -->
 					<div class="ilContainerListItemCB">
@@ -13,7 +13,8 @@
 					<!-- END indent -->
 					<!-- BEGIN expand -->
 					<div class="ilContainerListItemCB">
-						<a onclick="{EXP_ACTION}"><img src="{EXP_IMG}" title="{EXP_ALT}" alt="{EXP_ALT}" /></a>
+						<img src="{EXP_IMG}" title="{EXP_ALT}" alt="{EXP_ALT}" class="il_PrgExpandedImage"/>
+						<img src="{NOT_EXP_IMG}" title="{NOT_EXP_ALT}" alt="{NOT_EXP_ALT}" class="il_PrgNotExpandedImage"/>
 					</div>
 					<!-- END expand -->
 
