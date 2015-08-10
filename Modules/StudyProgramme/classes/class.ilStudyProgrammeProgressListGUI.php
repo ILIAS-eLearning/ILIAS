@@ -106,8 +106,15 @@ class ilStudyProgrammeProgressListGUI {
 	
 	protected function buildProgressBar(ilStudyProgrammeUserProgress $a_progress) {
 		$tooltip_id = "prg_".$a_progress->getId();
-		$current_percent = (int)($a_progress->getCurrentAmountOfPoints() * 100 / $a_progress->getMaximumPossibleAmountOfPoints());
-		$required_percent = (int)($a_progress->getAmountOfPoints() * 100 / $a_progress->getMaximumPossibleAmountOfPoints());
+		if ($a_progress->getMaximumPossibleAmountOfPoints() > 0) {
+			$current_percent = (int)($a_progress->getCurrentAmountOfPoints() * 100 / $a_progress->getMaximumPossibleAmountOfPoints());
+			$required_percent = (int)($a_progress->getAmountOfPoints() * 100 / $a_progress->getMaximumPossibleAmountOfPoints());
+		}
+		else {
+			$current_percent = 100;
+			$required_percent = 100;
+		}
+		
 		return $this->buildProgressBarRaw($tooltip_id, $current_percent, $required_percent);
 	}
 
