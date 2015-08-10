@@ -46,12 +46,12 @@ class ilLPStatusStudyProgramme extends ilLPStatus
 		}
 		
 		foreach ($progresses as $progress) {
-			if ($progress->isCompleted()) {
-				return LPStatus::LP_STATUS_COMPLETED_NUM;
+			if ($progress->isSuccessful()) {
+				return ilLPStatus::LP_STATUS_COMPLETED_NUM;
 			}
 		}
 		
-		return LPStatus::LP_STATUS_IN_PROGRESS_NUM;
+		return ilLPStatus::LP_STATUS_IN_PROGRESS_NUM;
 	}
 }
 
