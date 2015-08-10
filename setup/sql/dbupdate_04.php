@@ -7806,3 +7806,8 @@ if($data['cnt'] > 0)
 }
 $ilDB->addPrimaryKey('mail_obj_data', array('obj_id'));
 ?>
+<#4586>	
+<?php
+require_once('./Services/GlobalCache/classes/Memcache/class.ilMemcacheServer.php');
+ilMemcacheServer::installDB();
+?>
