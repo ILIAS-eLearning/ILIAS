@@ -10,22 +10,30 @@ require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
 require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
 require_once("Services/Calendar/classes/class.ilDate.php");
-
+//array(3) { [0]=> string(8) "230:1502" [1]=> string(8) "230:1850" [2]=> string(9) "1510:1850" } 
 const MIN_ROW = "3991";
+const OP_TUTOR_IN_ORGU = 'tep_is_tutor';
 
 class gevTrainerWorkloadGUI extends catBasicReportGUI{
 	protected $meta_categories;
 	protected $norms;
+	protected $role_ops_filter;
+	protected $relevant_users;
+
 	public function __construct() {
 		include "Services/GEV/Reports/config/cfg.tep_reports_config.php";
 		// $meta_categories in config
 		$this->meta_categories = $meta_categories;
 		// $norms in config
 		$this->norms = $norms;
-		$this->createTemplateFile();
-		parent::__construct();
+		parent::__construct();	
+
+
+		//$this->createTemplateFile();
+	
+
 		$this->filter = catFilter::create()
-					->dateperiod( 	"period"
+				->dateperiod( 	"period"
 								 , $this->lng->txt("gev_period")
 								 , $this->lng->txt("gev_until")
 								 , "ht.begin_date"
@@ -34,6 +42,15 @@ class gevTrainerWorkloadGUI extends catBasicReportGUI{
 								 , date("Y")."-12-31"
 								 , false
 								 , " OR ht.hist_historic IS NULL"
+								 )
+				->multiselect( "org_unit"
+								 , $this->lng->txt("gev_report_filter_crs_region")
+								 , "orgu_title"
+								 , $this->getOrgus()
+								 , array()
+								 , ""
+								 , 200
+								 , 160	
 								 )
 				->static_condition("hu.hist_historic = 0")
 				->static_condition("ht.hist_historic = 0")
@@ -44,6 +61,9 @@ class gevTrainerWorkloadGUI extends catBasicReportGUI{
 				->action($this->ctrl->getLinkTarget($this, "view"))
 				->compile()
 				;
+
+		$this->getFilterForOperationInOrgu();
+		$this->getRelevantUsers();
 
 		$dates = $this->filter->get("period");
         foreach($dates as &$il_date_obj) {
@@ -103,7 +123,7 @@ class gevTrainerWorkloadGUI extends catBasicReportGUI{
 	protected function createTemplateFile() {
 		$str = fopen("Services/GEV/Reports/templates/default/"
 			."tpl.gev_trainer_workload_row.html","w"); 
-		$tpl = '<tr class="{CSS_ROW}"><td></td>'."\n".'<td>{VAL_TITLE}</td>';
+		$tpl = '<tr class="{CSS_ROW}"><td></td>'."\n".'<td>{VAL_FULLNAME}</td>';
 		foreach($this->meta_categories as $meta_category => $categories) {
 			$tpl .= "\n".'<td align = "right">{VAL_'.strtoupper($meta_category).'_D}</td>';
 			$tpl .= "\n".'<td align = "right">{VAL_'.strtoupper($meta_category).'_H}</td>';
@@ -112,6 +132,56 @@ class gevTrainerWorkloadGUI extends catBasicReportGUI{
 		$tpl .= "\n</tr>";
 		fwrite($str,$tpl);
 		fclose($str);
+	}
+
+	protected function getOrgus() {
+		$sql = "SELECT DISTINCT title FOM object_data "
+				." WHERE type = 'orgu'";
+		$res = $this->db->query($sql);
+		while($rec = $this->db->fetchAssoc($res)) {
+			$return[] = $rec["title"];
+		}
+		return $return;
+	}
+
+	protected function getFilterForOperationInOrgu() {
+		$sql = "SELECT CONCAT(oda.obj_id,':',rpa.rol_id) both_id , rpa.ops_id, rop.ops_id as chk FROM rbac_pa rpa"
+				."	JOIN rbac_operations rop"
+				."		ON rop.operation = ".$this->db->quote(OP_TUTOR_IN_ORGU,'text')
+				."		AND LOCATE(CONCAT(':',rop.ops_id,';'), rpa.ops_id) > 0"
+				."	JOIN object_reference ore "
+				."		ON rpa.ref_id = ore.ref_id"
+				."	JOIN object_data oda "
+				."		ON oda.obj_id = ore.obj_id AND oda.type = 'orgu'"
+				."	WHERE ore.deleted IS NULL";
+		$res = $this->db->query($sql);
+		$return = array();
+		while($rec = $this->db->fetchAssoc($res)) {
+			$perm_check = unserialize($rec['ops_id']);
+			if(in_array($rec["chk"], $perm_check)) {
+				$return[] = $rec['both_id'];
+			}
+		}
+		$this->role_ops_filter = $return;	
+	}
+
+	protected function getRelevantUsers() {
+		$sql = "SELECT DISTINCT usr_id FROM hist_userorgu huo "
+				."	LEFT JOIN hist_userrole hur "
+				."		ON huo.usr_id = hur.usr_id "
+				."		AND ".$this->db->in("CONCAT(huo.orgu_id,':',hur.rol_id)", $this->role_ops_filter, false, 'text')
+				."	WHERE (hur.rol_id IS NOT NULL OR ".$this->db->in("CONCAT(huo.orgu_id,':',huo.rol_id)",$this->role_ops_filter,false,'text').")";
+
+		$orgu_filter = $this->filter->get("org_unit");
+		if(count($orgu_filter) > 0) {
+			$sql .= " AND ".$this->db->in("huo.orgu_title", $orgu_filter, false, "text");	
+		}
+
+		$res = $this->db->query($sql);
+		while($res = $this->db->fetchAssoc($res)) {
+			$return[] = $res["usr_id"];
+		}
+		$this->relevant_users = $return;
 	}
 }
 ?>
