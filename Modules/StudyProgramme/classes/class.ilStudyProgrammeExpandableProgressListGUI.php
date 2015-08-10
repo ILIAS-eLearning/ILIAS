@@ -32,14 +32,20 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
 	 */
 	protected $il_tpl;
 	
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $il_rbacsystem;
+	
 	function __construct(ilStudyProgrammeUserProgress $a_progress) {
 		parent::__construct($a_progress);
 		
-		global $tpl;
+		global $tpl, $rbacsystem;
 		$this->il_tpl = $tpl;
+		$this->il_rbacsystem = $rbacsystem;
 	}
 	
-	public function getIndent($a_indent) {
+	public function getIndent() {
 		return $this->indent;
 	}
 	
@@ -91,11 +97,54 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
 	}
 	
 	protected function getAccordionContentHTML() {
+		if (!$this->progress->getStudyProgramme()->hasLPChildren()) {
+			return $this->getAccordionContentProgressesHTML();
+		}
+		else {
+			return $this->getAccordionContentCoursesHTML();
+		}
+	}
+	
+	protected function getAccordionContentProgressesHTML() {
 		return implode("\n", array_map(function(ilStudyProgrammeUserProgress $progress) {
 			$gui = new ilStudyProgrammeExpandableProgressListGUI($progress);
 			$gui->setIndent($this->getIndent() + 1);
 			return $gui->getHTML();
 		}, $this->progress->getChildrenProgress()));
+	}
+	
+	protected function getAccordionContentCoursesHTML() {
+		return implode("\n", array_map(function(ilObjCourseReference $object) {
+			require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeCourseListGUI.php");
+			require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeContainerObjectMock.php");
+			$course = ilObjectFactory::getInstanceByRefId($object->getTargetRefId());
+			$item_gui = new ilStudyProgrammeCourseListGUI();
+			$item_gui->enableComments(false);
+			$item_gui->enableTags(false);
+			$item_gui->enableIcon(true);
+			$item_gui->enableDelete(false);
+			$item_gui->enableCut(false);
+			$item_gui->enableCopy(false);
+			$item_gui->enablePayment(false);
+			$item_gui->enableLink(false);
+			$item_gui->enableInfoScreen(true);
+			$item_gui->enableSubscribe(true);
+			$item_gui->enableCheckbox(false);
+			$item_gui->enableDescription(true);
+			$item_gui->enableProperties(true);
+			$item_gui->enablePreconditions(true);
+			$item_gui->enableNoticeProperties(true);
+			$item_gui->enableCommands(true, true);
+			$item_gui->enableProgressInfo(true);
+			$item_gui->setContainerObject(new ilStudyProgrammeContainerObjectMock($course));
+			$item_gui->setIndent($this->getIndent() + 2);
+			return $item_gui->getListItemHTML
+				( $course->getRefId()
+				, $course->getId()
+				, $course->getTitle()
+				, $course->getDescription()
+				);
+		}, $this->progress->getStudyProgramme()->getLPChildren()));
 	}
 	
 	protected function getAccordionOptions() {
