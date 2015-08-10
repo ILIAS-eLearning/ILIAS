@@ -41,17 +41,27 @@ class ilLPStatusStudyProgramme extends ilLPStatus
 		require_once("Modules/StudyProgramme/classes/class.ilObjStudyProgramme.php");
 		$prg = new ilObjStudyProgramme($a_obj_id, false);
 		$progresses = $prg->getProgressesOf($a_user_id);
-		if (count($progresses) == 0) {
-			return null;
-		}
+		
+		$successful = false;
+		$relevant = false;
 		
 		foreach ($progresses as $progress) {
 			if ($progress->isSuccessful()) {
-				return ilLPStatus::LP_STATUS_COMPLETED_NUM;
+				$successful = true;
+				break;
+			}
+			if ($progress->isRelevant()) {
+				$relevant = true;
 			}
 		}
 		
-		return ilLPStatus::LP_STATUS_IN_PROGRESS_NUM;
+		if ($successful) {
+			return ilLPStatus::LP_STATUS_COMPLETED_NUM;
+		}
+		if ($relevant) {
+			return ilLPStatus::LP_STATUS_IN_PROGRESS_NUM;
+		}
+		return null;
 	}
 }
 
