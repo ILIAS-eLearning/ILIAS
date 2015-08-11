@@ -26,7 +26,7 @@ class ilStudyProgrammeIndividualPlanProgressListGUI extends ilStudyProgrammeExpa
 						  , $a_progress->getCurrentAmountOfPoints()
 						  , $a_progress->getAmountOfPoints()
 						  );
-		if (!$a_progress->canBeCompleted()) {
+		if (!$a_progress->canBeCompleted() && !$a_progress->isSuccessful()) {
 			return "<img src='".ilUtil::getImagePath("icon_alert.svg")."' alt='".$this->il_lng->txt("warning")."'>".$points;
 		}
 		else {
