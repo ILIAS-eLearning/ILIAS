@@ -13935,6 +13935,7 @@ dcl#:#fieldtitle_allow_chars#:#Allowed chars: %s
 dcl#:#add_value#:#Add New Entry
 common#:#objs_orgu#:#Organisational Unit
 common#:#obj_orgu#:#Organisational Unit
+common#:#obj_orgu_description#:#Creating and editing organisational structure
 orgu#:#view_learning_progress#:#View Learning Progress
 orgu#:#il_orgu_employee#:#Employee
 orgu#:#orgu_staff_deassign#:#Are you sure you want to deassign these users from this role?
