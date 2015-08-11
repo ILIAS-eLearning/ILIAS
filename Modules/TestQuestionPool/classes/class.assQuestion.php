@@ -322,6 +322,11 @@ abstract class assQuestion
 		$this->shuffler = $shuffler;
 	}
 
+	public function shufflerExists()
+	{
+		return $this->shuffler instanceof ilAssQuestionAnswerShuffler;
+	}
+
 	/**
 	 * @param \ilAssQuestionProcessLocker $processLocker
 	 */

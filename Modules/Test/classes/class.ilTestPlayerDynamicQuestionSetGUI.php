@@ -564,6 +564,8 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 				"", $this->testSession->getCurrentQuestionId()
 		);
 
+		$question_gui->object->setShuffler($this->buildQuestionAnswerShuffler());
+
 		if( !is_object($question_gui) )
 		{
 			global $ilLog;
