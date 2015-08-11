@@ -1338,7 +1338,7 @@
 			</xsl:if>
 		</xsl:when>
 		<!-- all internal links except inline mob vris -->
-		<xsl:when test="@Type != 'MediaObject' or @TargetFrame">
+		<xsl:when test="((@Type != 'MediaObject' or @TargetFrame) and @Type != 'User')">
 			<xsl:variable name="target" select="@Target"/>
 			<xsl:variable name="type" select="@Type"/>
 			<xsl:variable name="anchor" select="@Anchor"/>
@@ -1433,6 +1433,22 @@
 			</xsl:call-template>
 
 		</xsl:when>
+
+		<!-- user -->
+		<xsl:when test="@Type = 'User'">
+			<xsl:variable name="target" select="@Target"/>
+			<xsl:variable name="href" select="//IntLinkInfos/IntLinkInfo[@Type='User' and @Target=$target]/@LinkHref"/>
+			<xsl:if test="$href != ''">
+				<a class="ilc_link_IntLink">
+					<xsl:attribute name="href"><xsl:value-of select="$href"/></xsl:attribute>
+					<xsl:value-of select="//IntLinkInfos/IntLinkInfo[@Type='User' and @Target=$target]/@LinkContent"/>
+				</a>
+			</xsl:if>
+			<xsl:if test="$href = ''">
+				<xsl:value-of select="//IntLinkInfos/IntLinkInfo[@Type='User' and @Target=$target]/@LinkContent"/>
+			</xsl:if>
+		</xsl:when>
+
 	</xsl:choose>
 </xsl:template>
 

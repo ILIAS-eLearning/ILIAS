@@ -268,7 +268,7 @@ class ilPageContentGUI
 			$btpl->parseCurrentBlock();
 
 		}
-		
+
 		if ($this->getPageConfig()->getEnableKeywords())
 		{
 			$btpl->touchBlock("bb_kw_button");
