@@ -879,18 +879,47 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 		$result['id'] = (int) $this->getId();
 		$result['type'] = (string) $this->getQuestionType();
 		$result['title'] = (string) $this->getTitle();
-		$result['question'] =  $this->formatSAQuestion($this->getQuestion()) . '<br/>' . $this->getClozeText();
+		$replaced_quesiton_text =  $this->getLongMenuTextWithInputFieldsInsteadOfGaps();
+		$result['question'] =  $this->formatSAQuestion($this->getQuestion()) . '<br/>' .$replaced_quesiton_text;
 		$result['nr_of_tries'] = (int) $this->getNrOfTries();
 		$result['shuffle'] = (bool) $this->getShuffle();
 		$result['feedback'] = array(
 			"onenotcorrect" => $this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false),
 			"allcorrect" => $this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true)
 		);
-
-		$gaps = array();
 		
 		$mobs = ilObjMediaObject::_getMobsOfObject("qpl:html", $this->getId());
+		$result['answers'] = $this->getAnswers();
+		$result['correct_answers'] = $this->getCorrectAnswers();
 		$result['mobs'] = $mobs;
 		return json_encode($result);
+	}
+
+	private function getLongMenuTextWithInputFieldsInsteadOfGaps($user_solution = array(), $solution = false)
+	{
+		if($solution)
+		{
+			$options = 'disabled';
+		}
+		else
+		{
+			$options = 'class="long_menu_input"  name="answer[${1}]"';
+		}
+
+		$return_value =  preg_replace("/\\[".assLongMenu::GAP_PLACEHOLDER." (\\d+)\\]/",
+			'<input ' . $options . ' value="###${1}###">',
+			$this->getLongMenuTextValue(), -1, $count);
+
+		for($i = 0; $i <= $count; $i++)
+		{
+			$real_key = $i + 1;
+			$value = '';
+			if(array_key_exists($i,$user_solution))
+			{
+				$value = $user_solution[$i];
+			}
+			$return_value = preg_replace("/###". $real_key ."###/", $value , $return_value);
+		}
+		return $return_value;
 	}
 }

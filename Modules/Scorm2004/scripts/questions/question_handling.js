@@ -605,6 +605,46 @@ ilias.questions.initClozeTest = function(a_id) {
 	jQuery("div#"+a_id).html(parsed);
 };
 
+ilias.questions.initLongMenu = function(a_id) {
+
+	$($('.long_menu_input'), $('#' + a_id)).each(function ( index) {
+			var longest = questions[a_id].answers[index].reduce(function (a, b) { return a.length > b.length ? a : b; });
+			$( this).attr('size', longest.length);
+			$( this ).autocomplete({
+				source: questions[a_id].answers[index],
+				minLength: 0
+			});
+
+		});
+};
+ilias.questions.assLongMenu = function(a_id) {
+	var a_node = $('#' + a_id);
+	var node_nr = 0;
+	var value = '';
+	answers[a_id].wrong = 0;
+	answers[a_id].passed = true;
+	
+	for (var i=0;i<questions[a_id].correct_answers.length;i++)
+	{
+		node_nr = i + 1;
+		value = a_node.find("[name='answer[" + node_nr + "]']").val();
+		if($.inArray(value , questions[a_id].correct_answers[i][0]) === -1 )
+		{
+			answers[a_id].wrong++;
+		}
+	}
+	if(answers[a_id].wrong === 0)
+	{
+		answers[a_id].passed = true;
+	}
+	else
+	{
+		answers[a_id].passed = false;
+	}
+
+	ilias.questions.showFeedback(a_id);
+};
+
 ilias.questions.selectErrorText = function(a_id, node) {
 
 	if(questions[a_id].selected === undefined)
@@ -1058,6 +1098,26 @@ ilias.questions.showCorrectAnswers =function(a_id) {
 			}
 		break;
 		//end assClozeTest
+
+		case 'assLongMenu':
+			var a_node = $('#' + a_id);
+			var correct_solution = '';
+				for (var i=0;i<questions[a_id].correct_answers.length;i++)
+				{
+					node_nr = i + 1;
+					
+					a_node.find("[name='answer[" + node_nr + "]']").prop("disabled",true);
+					correct_solution = '';
+					for (var j=0;j<questions[a_id].correct_answers[i].length;j++)
+					{
+						correct_solution += questions[a_id].correct_answers[i][0][j] + ' or ';
+						console.log(i,j)
+					}
+					correct_solution = correct_solution.substring(0, correct_solution.length - 4);
+					a_node.find("[name='answer[" + node_nr + "]']").val(correct_solution);
+				}
+			break;
+		//end assLongMenu
 
 		case 'assTextSubset':
 			var a_node = jQuery('input[name="answers'+a_id+'[]"]');
