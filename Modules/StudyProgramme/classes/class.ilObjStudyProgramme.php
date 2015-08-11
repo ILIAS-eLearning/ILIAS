@@ -970,6 +970,20 @@ class ilObjStudyProgramme extends ilContainer {
 	}
 	
 	/**
+	 * Are there any users that have a relevant progress on this programme?
+	 *
+	 *@return bool
+	 */
+	public function hasRelevantProgresses() {
+		foreach ($this->getProgresses() as $progress) {
+			if ($progress->isRelevant()) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
 	 * Get the ids of all users that have a relevant progress at this programme.
 	 *
 	 * @return int[]
