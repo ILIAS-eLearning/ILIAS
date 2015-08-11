@@ -61,7 +61,7 @@ class ilLPStatusStudyProgramme extends ilLPStatus
 		if ($relevant) {
 			return ilLPStatus::LP_STATUS_IN_PROGRESS_NUM;
 		}
-		return null;
+		return ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
 	}
 }
 
