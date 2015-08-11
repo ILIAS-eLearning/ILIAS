@@ -101,6 +101,16 @@ class ilStudyProgrammeUserAssignment {
 	}
 	
 	/**
+	 * Get the progress on the root node of the programme.
+	 *
+	 * @throws ilException
+	 * @return ilStudyProgrammeUserProgress
+	 */
+	public function getRootProgress() {
+		return $this->getStudyProgramme()->getProgressForAssignment($this->getId());
+	}
+	
+	/**
 	 * Get the id of the user who is assigned.
 	 *
 	 * @return int

@@ -116,7 +116,7 @@ class ilStudyProgrammeProgressListGUI {
 			$required_percent = (int)($required_amount_of_points * 100 / $maximum_possible_amount_of_points);
 		}
 		else {
-			if ($a_progress->isSuccessfull()) {
+			if ($a_progress->isSuccessful()) {
 				$current_percent = 100;
 				$required_percent = 100;
 			}

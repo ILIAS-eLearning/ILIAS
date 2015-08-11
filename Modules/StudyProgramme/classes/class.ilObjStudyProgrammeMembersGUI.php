@@ -10,6 +10,7 @@
  *
  * @ilCtrl_Calls ilObjStudyProgrammeMembersGUI: ilRepositorySearchGUI
  * @ilCtrl_Calls ilObjStudyProgrammeMembersGUI: ilObjStudyProgrammeIndividualPlanGUI
+ * @ilCtrl_Calls ilObjStudyProgrammeMembersGUI: ilObjFileGUI
  */
 
 class ilObjStudyProgrammeMembersGUI {
