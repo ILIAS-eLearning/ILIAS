@@ -17,7 +17,12 @@ if($_SERVER['argc'] < 4)
 	die("Usage: cron.php username password client\n");
 }
 
-include_once './include/inc.header.php';
+try {
+	include_once './include/inc.header.php';
+} catch(ilLogException $exept) {
+	echo "NOT OK - can not open log file";
+	exit(2);
+}
 
 // Different Checks on cronjobs
 function is_running($job_data) {

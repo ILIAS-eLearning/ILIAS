@@ -38,6 +38,9 @@ class gevDecentralTrainingMailData extends ilMailData {
 			
 			require_once("Services/Link/classes/class.ilLink.php");
 			$this->booking_link = ilLink::_getLink($this->request->createdObjId(), 'gevcrsbookingtrainer');
+			$this->booking_link = str_replace( "orange.cat06.de"
+											 , "www.generali-onlineakademie.de"
+											 , $this->booking_link);
 		}
 		else {
 			require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");

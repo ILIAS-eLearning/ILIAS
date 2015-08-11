@@ -163,10 +163,16 @@ class gevDecentralTrainingCreationRequest {
 		$trgt_ref_id = $this->cloneTemplate($src_utils->getCourse());
 		
 		if (!$trgt_ref_id) {
-			$this->throwException("gevDecentralTrainingUtils::create: <br />"
-								 ."User has no permission to create training in the category with ref_id = ".$parent
-								 ." or user has no permission to copy template course with ref_id = ".$info["ref_id"]
-								 ." or anything unexpected happens in gevDecentralTrainingUtils::create.");
+			$this->throwException("gevDecentralTrainingUtils::create:\n"
+								 ."User ".$this->userId()."has no permission to create training in the category above the template course"
+								 ." or user has no permission to copy template course with obj_id = ".$this->template_obj_id
+								 ." or anything unexpected happens in gevDecentralTrainingUtils::create.\n"
+								 ."  Request Data:\n"
+								 ."     Id:            ".$this->requestId()."\n"
+								 ."     UserId:        ".$this->userId()."\n"
+								 ."     SessionId:     ".$this->sessionId()."\n"
+								 ."     TemplateObjId: ".$this->templateObjId()."\n"
+								 );
 		}
 		
 		$trgt_obj_id = $this->getObjectIdFor($trgt_ref_id);
@@ -261,6 +267,7 @@ class gevDecentralTrainingCreationRequest {
 									 , false
 									 , true
 									 , $this->user_id
+									 , 120
 									 );
 	}
 	
@@ -410,7 +417,7 @@ class gevDecentralTrainingCreationRequest {
 		global $ilias;
 		return $ilias->client_id;
 	}
-
+	
 	protected function getNewSessionId() {
 		require_once("Services/Authentication/classes/class.ilSession.php");
 		$session_id = $_COOKIE["PHPSESSID"];

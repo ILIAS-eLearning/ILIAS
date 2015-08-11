@@ -161,7 +161,8 @@ class gevCourseUtils {
 
 		if ($val = $ilDB->fetchAssoc($res)) {
 			$temp = explode("-", $val["m"]);
-			$num = intval($temp[2]) + 1;
+			$ind = count($temp) - 1;
+			$num = intval($temp[$ind]) + 1;
 		}
 		else {
 			$num = 1;
@@ -1779,6 +1780,7 @@ class gevCourseUtils {
 		$reference = $this->crs_id;
 		$today = date("Ymd");
 		$now = date("his");
+		$tnow = time();
 
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
@@ -1817,11 +1819,11 @@ class gevCourseUtils {
 		fwrite($wstream,"RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU\n");
 		fwrite($wstream,"END:STANDARD\n");
 		fwrite($wstream,"END:VTIMEZONE\n");
-		fwrite($wstream,"PRODID:http://www.generali.test.cat06.de/buildICAL::gevCourseUtils\n");
+		fwrite($wstream,"PRODID:http://www.generali-onlineakademie.de/buildICAL::gevCourseUtils".$tnow."\n");
 		fwrite($wstream,"METHOD:REQUEST\n");
 		fwrite($wstream,"BEGIN:VEVENT\n");
-		fwrite($wstream,"UID:".$reference."@cat06.de\n");
-		fwrite($wstream,"ORGANIZER;CN=\"".$admin."\":MAILTO:".$adminemail."\n");
+		fwrite($wstream,"UID:".$reference."@generali-onlineakademie.de\n");
+		fwrite($wstream,"ORGANIZER;CN=\"".$admin."(".$adminemail.")\"\n");
 		fwrite($wstream,"LOCATION:".$loc."\n");
 		fwrite($wstream,"SUMMARY:".$title."\n");
 		if($subtitle) {
