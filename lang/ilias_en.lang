@@ -15832,7 +15832,8 @@ prg#:#prg_update_from_plan_successful#:#Updated from current plan successfully!
 prg#:#prg_warning_img_alt#:#Warning!
 prg#:#prg_successful_img_alt#:#successful
 prg#:#prg_in_progress_img_alt#:#in progress
-prg#:#prg_progress_info#:#You have completed %1$d%%. The Study Programme is passed with %2$d%%.
+prg#:#prg_progress_info#:#You have %1$d%% points. The Study Programme is completed with %2$d%% points.
+prg#:#prg_progress_status#:# %1$d of %2$d Points
 common#:#obj_prg_duplicate#:#Copy Study Programme
 common#:#obj_prg_select#:#-- Please select one Study Programme --
 common#:#obj_prg#:#Study Programme

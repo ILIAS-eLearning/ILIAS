@@ -106,35 +106,60 @@ class ilStudyProgrammeProgressListGUI {
 	
 	protected function buildProgressBar(ilStudyProgrammeUserProgress $a_progress) {
 		$tooltip_id = "prg_".$a_progress->getId();
-		if ($a_progress->getMaximumPossibleAmountOfPoints() > 0) {
-			$current_percent = (int)($a_progress->getCurrentAmountOfPoints() * 100 / $a_progress->getMaximumPossibleAmountOfPoints());
-			$required_percent = (int)($a_progress->getAmountOfPoints() * 100 / $a_progress->getMaximumPossibleAmountOfPoints());
+		
+		$required_amount_of_points = $a_progress->getAmountOfPoints();
+		$maximum_possible_amount_of_points = $a_progress->getMaximumPossibleAmountOfPoints();
+		$current_amount_of_points = $a_progress->getCurrentAmountOfPoints();
+		
+		if ($maximum_possible_amount_of_points > 0) {
+			$current_percent = (int)($current_amount_of_points * 100 / $maximum_possible_amount_of_points);
+			$required_percent = (int)($required_amount_of_points * 100 / $maximum_possible_amount_of_points);
 		}
 		else {
-			$current_percent = 100;
-			$required_percent = 100;
+			if ($a_progress->isSuccessfull()) {
+				$current_percent = 100;
+				$required_percent = 100;
+			}
+			else {
+				$current_percent = 0;
+				$required_percent = 100;
+			}
 		}
 		
-		return $this->buildProgressBarRaw($tooltip_id, $current_percent, $required_percent);
+		$tt_txt = $this->buildToolTip($a_progress);
+		$progress_status = $this->buildProgressStatus($a_progress);
+		
+		return $this->buildProgressBarRaw($tooltip_id, $tt_txt, $current_percent, $required_percent, $progress_status);
+	}
+	
+	protected function buildToolTip(ilStudyProgrammeUserProgress $a_progress) {
+		return sprintf( $this->il_lng->txt("prg_progress_info")
+					  , $a_progress->getCurrentAmountOfPoints()
+					  , $a_progress->getAmountOfPoints()
+					  );
+	}
+	
+	protected function buildProgressStatus(ilStudyProgrammeUserProgress $a_progress) {
+		return sprintf( $this->il_lng->txt("prg_progress_status")
+					  , $a_progress->getCurrentAmountOfPoints()
+					  , $a_progress->getAmountOfPoints()
+					  );
 	}
 
-	protected function buildProgressBarRaw($a_tooltip_id, $a_result_in_percent, $a_limit_in_percent) {
+	protected function buildProgressBarRaw($a_tooltip_id, $a_tt_txt, $a_result_in_percent, $a_limit_in_percent, $a_progress_status = null) {
 		assert(is_string($a_tooltip_id));
+		assert(is_string($a_tt_txt));
 		assert(is_int($a_result_in_percent));
 		assert($a_result_in_percent >= 0);
 		assert($a_result_in_percent <= 100);
 		assert(is_int($a_limit_in_percent));
 		assert($a_limit_in_percent >= 0);
 		assert($a_limit_in_percent <= 100);
+		assert($a_progress_status === null || is_string($a_progress_status));
 		
 		// Shameless copy of ilContainerObjectiveGUI::buildObjectiveProgressBar with modifications.
 		// I wish i could just use it, but there are some crs specific things that aren't parametrized...
 		$tpl = new ilTemplate("tpl.objective_progressbar.html", true, true, "Services/Container");
-					
-		$tt_txt = sprintf( $this->il_lng->txt("prg_progress_info")
-						 , $a_result_in_percent
-						 , $a_limit_in_percent
-						 );
 		
 		if($a_result_in_percent >= $a_limit_in_percent) {
 			$bar_color = "#80f080";
@@ -154,8 +179,14 @@ class ilStudyProgrammeProgressListGUI {
 		$tpl->setVariable("TT_ID", $a_tooltip_id);
 		$tpl->parseCurrentBlock();
 		
+		if ($a_progress_status) {
+			$tpl->setCurrentBlock("statustxt_bl");
+			$tpl->setVariable("TXT_PROGRESS_STATUS", $a_progress_status);
+			$tpl->parseCurrentBlock();
+		}
+		
 		include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
-		ilTooltipGUI::addTooltip($a_tooltip_id, $tt_txt);
+		ilTooltipGUI::addTooltip($a_tooltip_id, $a_tt_txt);
 		
 		return $tpl->get();
 	}
