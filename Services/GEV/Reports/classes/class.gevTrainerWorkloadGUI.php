@@ -20,7 +20,7 @@ class gevTrainerWorkloadGUI extends catBasicReportGUI{
 	protected $role_ops_filter;
 	protected $relevant_users;
 	protected $orgu_filter;
-	protected $sum_row;
+	protected $sum_row = array();
 	protected $count_rows = 0;
 	protected $workload_meta;
 
@@ -79,26 +79,44 @@ class gevTrainerWorkloadGUI extends catBasicReportGUI{
 		$this->table = catReportTable::create();
 		$this->table->column("fullname", "name");
 
-		foreach($workload_meta as $meta_category => $categories) {
-			foreach ($categories as $category) {
-				$this->table->column($category,$workload_label[$category]);
-			}
-			if(count($categories)>1) {
-				$this->table->column($meta_category."_sum", "Summe ".$workload_label[$meta_category], false);
-			}
-			if(isset($workload_days_per_yead_norm[$meta_category])) {
-				$this->table->column($meta_category."_wload", "Auslastung ".$workload_label[$meta_category], false);				
-			}
-		}
-		$this->table->template("tpl.gev_trainer_workload_row.html", 
-								"Services/GEV/Reports");
+						foreach($workload_meta as $meta_category => $categories) {
+							foreach ($categories as $category) {
+								$this->table->column($category,$workload_label[$category]);
+							}
+							if(count($categories)>1) {
+								$this->table->column($meta_category."_sum", "Summe ".$workload_label[$meta_category], false);
+							}
+							if(isset($workload_days_per_yead_norm[$meta_category])) {
+								$this->table->column($meta_category."_wload", "Auslastung ".$workload_label[$meta_category], false);				
+							}
+						}
+						$this->table->template("tpl.gev_trainer_workload_row.html", 
+												"Services/GEV/Reports");
+
+
+		$this->table_sums = catReportTable::create();
+						foreach($workload_meta as $meta_category => $categories) {
+							foreach ($categories as $category) {
+								$this->table_sums->column($category,$workload_label[$category]);
+							}
+							if(count($categories)>1) {
+								$this->table_sums->column($meta_category."_sum", "Summe ".$workload_label[$meta_category], false);
+							}
+							if(isset($workload_days_per_yead_norm[$meta_category])) {
+								$this->table_sums->column($meta_category."_wload", "Auslastung ".$workload_label[$meta_category], false);				
+							}
+						}
+
+						$this->table_sums->template("tpl.gev_trainer_workload_sum_row.html", "Services/GEV/Reports");
+
+
 
 		$this->query = catReportQuery::create()
 				->select("hu.user_id")
 				->select_raw("CONCAT(hu.lastname, ', ', hu.firstname) as fullname")
 				->select_raw($this->db->quote($this->orgu_filter[0],"text")." as orgu_title");
 
-		foreach($workload_training_condition as $category => $condition) {
+		foreach($workload_training_conditions as $category => $condition) {
 			$this->query->select_raw($this->hoursPerConditionRatioNorm(" ht.category  = 'Training' AND ".$condition, 8, $category));
 		}
 
@@ -120,7 +138,7 @@ class gevTrainerWorkloadGUI extends catBasicReportGUI{
 	protected function transformResultRow($rec) {
 		$this->count_rows++;
 
-		foreach ($workload_meta as $meta_category => $categories) {
+		foreach ($this->workload_meta as $meta_category => $categories) {
 			if(count($categories)>1) {
 				$rec[$meta_category.'_sum'] = 0;
 				foreach ($categories as $category) {
@@ -157,7 +175,31 @@ class gevTrainerWorkloadGUI extends catBasicReportGUI{
 		$tpl = '<tr class="{CSS_ROW}"><td></td>'."\n".'<td>{VAL_FULLNAME}';
 		foreach($this->workload_meta as $meta_category => $categories) {
 			foreach ($categories as $category) {
-				$tpl .= "</td>\n".'<td align = "right">{VAL_'.$category.'}';
+				$tpl .= "</td>\n".'<td align = "right">{VAL_'.strtoupper($category).'}';
+			}
+			if(count($categories)>1) {
+				$class = "";
+				if(!isset($this->norms[$meta_category])) {
+					$class = 'class = "bordered"';
+				}
+				$tpl .= "</td>\n".'<td align = "right" '.$class.'>{VAL_'.strtoupper($meta_category).'_SUM}';
+			}
+			if(isset($this->norms[$meta_category])) {
+				$tpl.= "</td>\n".'<td align = "right" class = "bordered">{VAL_'.strtoupper($meta_category).'_WORKLOAD}';
+			}
+			
+		}
+		$tpl.= "</td>";
+		$tpl .= "\n</tr>";
+		fwrite($str,$tpl);
+		fclose($str);
+
+		$str = fopen("Services/GEV/Reports/templates/default/"
+			."tpl.gev_trainer_workload_sum_row.html","w"); 
+		$tpl = '<tr class="{CSS_ROW}"><td>';
+		foreach($this->workload_meta as $meta_category => $categories) {
+			foreach ($categories as $category) {
+				$tpl .= "</td>\n".'<td align = "right">{VAL_'.strtoupper($category).'}';
 			}
 			if(count($categories)>1) {
 				$class = "";
@@ -215,6 +257,43 @@ class gevTrainerWorkloadGUI extends catBasicReportGUI{
 			}
 		}
 	}
+
+		protected function renderView() {
+		$main_table = $this->renderTable();
+		return 	$this->renderSumTable()
+				.$main_table;
+	}
+
+
+	private function renderSumTable(){
+
+		$table = new catTableGUI($this, "view");
+		$table->setEnableTitle(false);
+		$table->setTopCommands(false);
+		$table->setEnableHeader(true);
+		$table->setRowTemplate(
+			$this->table_sums->row_template_filename, 
+			$this->table_sums->row_template_module
+		);
+
+		$table->addColumn("", "blank", "0px", false);
+		foreach ($this->table_sums->columns as $col) {
+			$table->addColumn( $col[2] ? $col[1] : $this->lng->txt($col[1])
+							 , $col[0]
+							 , $col[3]
+							 );
+		}		
+
+		if(count($this->sum_row) == 0) {
+			foreach(array_keys($this->table_sums->columns) as $field) {
+				$this->sum_row[$field] = 0;
+			}
+		}
+
+		$table->setData(array($this->sum_row));
+		return $table->getHtml();
+	}
+
 
 }
 ?>
