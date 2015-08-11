@@ -1006,7 +1006,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		else
 		{
 			$keys = array_keys($this->object->answers);
-			shuffle($keys);
+			$keys = $this->object->getShuffler()->shuffle($keys);
 		}
 		$_SESSION["ordering_keys"] = $keys;
 
