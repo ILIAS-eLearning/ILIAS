@@ -13662,6 +13662,10 @@ cld#:#cld_auth_failed_no_object_created#:#Authentication failed, no Cloud Object
 dcl#:#fieldtitle_allow_chars#:#Allowed chars: %s
 common#:#objs_orgu#:#Organisational Unit
 common#:#obj_orgu#:#Organisational Unit
+common#:#il_orgu_superior#:#Superior
+common#:#il_orgu_employee#:#Employee
+common#:#view_learning_progress#:#View Learning Progress
+common#:#view_learning_progress_rec#:#View Learning Progress of Unit incl. Subunits
 orgu#:#view_learning_progress#:#View Learning Progress
 orgu#:#il_orgu_employee#:#Employee
 orgu#:#orgu_staff_deassign#:#Are you sure you want to deassign these users from this role?
@@ -14288,6 +14292,8 @@ rbac#:#orgu_cat_administrate_users#:#User can create and administrate local user
 rbac#:#orgu_delete#:#User can move or delete Organisational Unit
 rbac#:#orgu_edit_permission#:#User can change permission settings
 rbac#:#rbac_create_orgu#:#Create Organisational Units
+rbac#:#orgu_copy#:#Copy Organisational Unit
+rbac#:#orgu_view_learning_progress_rec#:#View Learning Progress of Unit incl. Subunits
 prtf#:#prtf_page_element_teaser_skills#:#The portfolio will display your competence level here.
 prtf#:#prtf_page_element_teaser_blog_template#:#The portfolio will display a blog of your personal workspace here.
 prtf#:#prtf_page_element_teaser_consultation_hours#:#The portfolio will display a consultation hours calendar here.
