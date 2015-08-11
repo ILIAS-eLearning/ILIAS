@@ -351,6 +351,8 @@ class ilStudyProgrammeUserProgress {
 					   ->setCompletionBy(null)
 					   ->update();
 		
+		$this->refreshLPStatus();
+		
 		$this->updateParentStatus();
 		return $this;
 	}
@@ -562,6 +564,7 @@ class ilStudyProgrammeUserProgress {
 		}
 		
 		$this->progress->update();
+		$this->refreshLPStatus();
 		$this->updateParentStatus();
 	}
 
@@ -699,6 +702,11 @@ class ilStudyProgrammeUserProgress {
 			$actions[] = self::ACTION_MARK_ACCREDITED;
 		}
 		return $actions;
+	}
+
+	protected function refreshLPStatus() {
+		require_once("Services/Tracking/classes/class.ilLPStatusWrapper.php");
+		ilLPStatusWrapper::_refreshStatus($this->getStudyProgramme()->getId(), array($this->getUserId()));
 	}
 }
 
