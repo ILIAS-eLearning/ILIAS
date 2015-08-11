@@ -33,7 +33,7 @@ class ilObjStudyProgrammeListGUI extends ilObjectListGUI {
 	function init() {
 		$this->static_link_enabled = true;
 		$this->delete_enabled = true;
-		$this->cut_enabled = true;
+		$this->cut_enabled = false;
 		$this->info_screen_enabled = true;
 		$this->copy_enabled = false;
 		$this->subscribe_enabled = false;

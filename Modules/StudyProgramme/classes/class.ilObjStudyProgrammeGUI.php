@@ -196,15 +196,6 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 					case "cancel":
 						$this->$cmd();
 						break;
-					case "cut":
-						$this->cutObject();
-						break;
-					case 'performPasteIntoMultipleObjects':
-						$this->performPasteIntoMultipleObjectsObject();
-						break;
-					case "showPasteTree":
-						$this->showPasteTreeObject();
-						break;
 					case "delete":
 						$this->tabs_gui->clearTargets();
 						$this->tabs_gui->setBackTarget($this->lng->txt("back"), $this->ctrl->getLinkTarget($this));
