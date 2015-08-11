@@ -7,7 +7,7 @@ require_once 'Modules/TestQuestionPool/classes/feedback/class.ilAssConfigurableM
  *
  * @package     Modules/TestQuestionPool
  */
-class ilAssLongMenuFeedback  extends ilAssConfigurableMultiOptionQuestionFeedback
+class ilAssLongMenuFeedback  extends ilAssMultiOptionQuestionFeedback
 {
 
 	const SPECIFIC_QUESTION_TABLE_NAME = 'qpl_qst_lome';
@@ -22,12 +22,10 @@ class ilAssLongMenuFeedback  extends ilAssConfigurableMultiOptionQuestionFeedbac
 		return $this->questionOBJ->getAnswers();
 	}
 
-	protected function buildAnswerOptionLabel($index, $answer)
+	protected function buildAnswerOptionLabel($index, $answers)
 	{
 		$counter = $index + 1;
-		$caption = 'Longmenu '. $counter .':<i> ';
-		$caption .= $answer . '</i>';
-
+		$caption = 'Longmenu '. $counter ;
 		return $caption;
 	}
 }

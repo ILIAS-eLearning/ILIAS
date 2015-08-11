@@ -8,7 +8,7 @@ require_once './Modules/TestQuestionPool/interfaces/interface.iQuestionCondition
 require_once './Modules/TestQuestionPool/classes/class.ilUserQuestionResult.php';
 
 
-class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable, iQuestionCondition
+class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 {
 	private $answerType, $long_menu_text, $answers, $correct_answers, $json_structure, $ilDB;
 	private $specificFeedbackSetting;
@@ -209,6 +209,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
 		return false;
 	}
 
+
 	/**
 	 * Returns the maximum points, a learner can reach answering the question
 	 *
@@ -220,16 +221,19 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
 		$sum 		= 0;
 		$sum_post 	= 0;
 		$points = $this->getCorrectAnswers();
-		foreach($points as $add)
+		if($points)
 		{
-			$sum += $add[1];
+			foreach($points as $add)
+			{
+				$sum += $add[1];
+			}
 		}
 		$points_post = $this->getPointsArrayForAnswersFromPost();
 		foreach($points_post as $add)
 		{
 			$sum_post += $add;
 		}
-		if($sum != $sum_post)
+		if($sum_post != 0 && $sum != $sum_post )
 		{
 			$sum = $sum_post;
 		}
@@ -380,7 +384,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
 			$this->setQuestion(ilRTE::_replaceMediaObjectImageSrc($data['question_text'], 1));
 			$this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
 			$this->setLongMenuTextValue(ilRTE::_replaceMediaObjectImageSrc($data['long_menu_text'], 1));
-			$this->setCorrectAnswers($this->getCorrectAnswersForQuestionSolution($question_id));
+			$this->loadCorrectAnswerData($question_id);
 			if( isset($data['feedback_setting']) )
 			{
 				$this->setSpecificFeedbackSetting((int)$data['feedback_setting']);
@@ -395,7 +399,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
 		}
 
 		$this->loadCorrectAnswerData($question_id);
-		
+		$this->createArrayFromFile();
 		parent::loadFromDb($question_id);
 	}
 
@@ -680,20 +684,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
 		}
 		return $points;
 	}
-
-	/**
-	 * Returns the evaluation data, a learner has entered to answer the question
-	 *
-	 * @param      $active_id
-	 * @param null $pass
-	 *
-	 * @return array
-	 */
-	public function getReachedInformation($active_id, $pass = NULL)
-	{
-		//Todo implenent this
-	}
-
+	
 	/**
 	 * Saves the learners input of the question to the database.
 	 *
@@ -807,9 +798,8 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
 	 */
 	function getRTETextWithMediaObjects()
 	{
-		return parent::getRTETextWithMediaObjects();
+		return parent::getRTETextWithMediaObjects() . $this->getLongMenuTextValue();
 	}
-
 	/**
 	 * Creates an Excel worksheet for the detailed cumulated results of this question
 	 *
@@ -858,26 +848,6 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
 	public function getAvailableAnswerOptions($index = null)
 	{
 		return $this->createArrayFromFile();
-	}
-
-	/**
-	 * Get all available operations for a specific question
-	 * @param $expression
-	 * @internal param string $expression_type
-	 * @return array
-	 */
-	public function getOperators($expression)
-	{
-		// TODO: Implement getOperators() method.
-	}
-
-	/**
-	 * Get all available expression types for a specific question
-	 * @return array
-	 */
-	public function getExpressionTypes()
-	{
-		// TODO: Implement getExpressionTypes() method.
 	}
 	
 	public function isShuffleAnswersEnabled()
