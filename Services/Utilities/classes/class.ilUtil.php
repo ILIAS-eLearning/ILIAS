@@ -1699,9 +1699,17 @@ class ilUtil
 	* @static
 	* 
 	*/
-	public static function ilTempnam()
+	public static function ilTempnam($a_temp_path = null)
 	{
-		$temp_path = ilUtil::getDataDir() . "/temp";
+		if($a_temp_path === null )
+		{
+			$temp_path = ilUtil::getDataDir() . "/temp";
+		}
+		else
+		{
+			$temp_path = $a_temp_path;
+		}
+		
 		if (!is_dir($temp_path))
 		{
 			ilUtil::createDirectory($temp_path);

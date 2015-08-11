@@ -500,7 +500,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$question_object = assQuestion::_instanciateQuestion($_GET["qid"]);
 		if ( $question_object instanceof ilObjFileHandlingQuestionType )
 		{
-			$question_object->getFileUploadZIPFile($this->object->getTestId());
+			$question_object->deliverFileUploadZIPFile($this->object->getTestId(), $this->object->getTitle());
 		}
 		else
 		{
