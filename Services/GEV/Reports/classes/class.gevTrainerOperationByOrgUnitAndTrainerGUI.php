@@ -80,7 +80,7 @@ class gevTrainerOperationByOrgUnitAndTrainerGUI extends catBasicReportGUI{
 		$this->table->template("tpl.gev_trainer_operation_by_orgu_and_trainer_row.html", 
 								"Services/GEV/Reports");
 
-
+		$this->tpl->addCSS('Services/GEV/Reports/templates/css/report.css');
 
 	}
 
