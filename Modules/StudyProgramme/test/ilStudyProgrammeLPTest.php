@@ -165,6 +165,12 @@ class ilStudyProgrammeLPTest extends PHPUnit_Framework_TestCase {
 		
 		$node2_progress = array_shift($this->node2->getProgressesOf($user->getId()));
 		$node2_progress->markAccredited($USER_ID);
+		
+		$this->assertEquals( ilLPStatus::LP_STATUS_COMPLETED_NUM
+						   , ilLPStatusWrapper::_determineStatus($this->node2->getId(), $user->getId())
+						   );
+		
+		$node2_progress->unmarkAccredited();
 
 		$this->assertEquals( ilLPStatus::LP_STATUS_COMPLETED_NUM
 						   , ilLPStatusWrapper::_determineStatus($this->root->getId(), $user->getId())
@@ -172,7 +178,7 @@ class ilStudyProgrammeLPTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals( ilLPStatus::LP_STATUS_IN_PROGRESS_NUM
 						   , ilLPStatusWrapper::_determineStatus($this->node1->getId(), $user->getId())
 						   );
-		$this->assertEquals( ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM
+		$this->assertEquals( ilLPStatus::LP_STATUS_IN_PROGRESS_NUM
 						   , ilLPStatusWrapper::_determineStatus($this->node2->getId(), $user->getId())
 						   );
 	}
