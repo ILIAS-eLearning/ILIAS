@@ -56,7 +56,9 @@ class ilObjStudyProgrammeTest extends PHPUnit_Framework_TestCase {
 	}
 	
 	protected function tearDown() {
-		$this->root_object->delete();
+		if ($this->root_object) {
+			$this->root_object->delete();
+		}
 	}
 	
 	/**
@@ -583,5 +585,18 @@ class ilObjStudyProgrammeTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testCreatableSubObjectsRaisesOnNonProgramRef() {
 		ilObjStudyProgramme::getCreatableSubObjects(array(), 9);
+	}
+	
+	public function testDeleteRemovesEntriesInPrgSettings() {
+		$this->root_object->delete();
+		$this->root_object = null;
+		
+		global $ilDB;
+		$res = $ilDB->query( "SELECT COUNT(*) cnt "
+							." FROM ".ilStudyProgramme::returnDbTableName()
+							." WHERE obj_id = ".$this->root_object_obj_id
+							);
+		$rec = $ilDB->fetchAssoc($res);
+		$this->assertEquals(0, $rec["cnt"]);
 	}
 }
