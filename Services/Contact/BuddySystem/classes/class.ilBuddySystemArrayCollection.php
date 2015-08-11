@@ -186,7 +186,7 @@ abstract class ilBuddySystemArrayCollection implements ilBuddySystemCollection
 	/**
 	 * {@inheritDoc}
 	 */
-	public function filter(Callable $p)
+	public function filter(Closure $p)
 	{
 		return new static(array_filter($this->elements, $p));
 	}
