@@ -14,23 +14,23 @@ require_once("Services/Calendar/classes/class.ilDate.php");
 const MIN_ROW = "3991";
 const OP_TUTOR_IN_ORGU = 'tep_is_tutor';
 
+
 class gevTrainerWorkloadGUI extends catBasicReportGUI{
-	protected $meta_categories;
-	protected $norms;
+	protected $norms = array();
 	protected $role_ops_filter;
 	protected $relevant_users;
+	protected $orgu_filter;
+	protected $sum_row;
+	protected $count_rows = 0;
+	protected $workload_meta;
+
 
 	public function __construct() {
-		include "Services/GEV/Reports/config/cfg.tep_reports_config.php";
-		// $meta_categories in config
-		$this->meta_categories = $meta_categories;
-		// $norms in config
-		$this->norms = $norms;
+		include "Services/GEV/Reports/config/cfg.trainer_workload.php";
+		$this->workload_meta = $workload_meta;
 		parent::__construct();	
-
-
+		$this->relevant_users = $this->getRelevantUsers();
 		//$this->createTemplateFile();
-	
 
 		$this->filter = catFilter::create()
 				->dateperiod( 	"period"
@@ -55,15 +55,14 @@ class gevTrainerWorkloadGUI extends catBasicReportGUI{
 				->static_condition("hu.hist_historic = 0")
 				->static_condition("ht.hist_historic = 0")
 				->static_condition("ht.deleted = 0")
-				->static_condition("ht.user_id != 0")
-				->static_condition("ht.orgu_title != '-empty-'")
+				->static_condition($this->db->in("ht.user_id",$this->relevant_users,false,"text"))
 				->static_condition("ht.row_id > ".MIN_ROW)
 				->action($this->ctrl->getLinkTarget($this, "view"))
 				->compile()
 				;
 
-		$this->getFilterForOperationInOrgu();
-		$this->getRelevantUsers();
+		$this->orgu_filter = $this->filter->get("org_unit");
+
 
 		$dates = $this->filter->get("period");
         foreach($dates as &$il_date_obj) {
@@ -71,30 +70,39 @@ class gevTrainerWorkloadGUI extends catBasicReportGUI{
         }
 
        	$period_days = ($dates["end"] - $dates["start"])/86400+1;
+       	foreach ($workload_days_per_yead_norm as $meta_category => $days) {
+       		$this->norms[$meta_category] = $days*$period_days/365;
+       	}
 
-        foreach ($this->norms as $meta_category => &$norm) {
-			$norm["days"] = $period_days*$norm["days"]/30;
-			$norm["hours"] = $period_days*$norm["hours"]/30;
-		}
 
 		$this->table = catReportTable::create();
 		$this->table->column("fullname", "name");
 
-		foreach($this->meta_categories as $meta_category => $categories) {
-			$this->table->column(strtolower($meta_category."_d"), $meta_category, true);
-			$this->table->column(strtolower($meta_category."_h"), "Std.", true);
+		foreach($workload_meta as $meta_category => $categories) {
+			foreach ($categories as $category) {
+				$this->table->column($category,$workload_label[$category]);
+			}
+			if(count($categories)>1) {
+				$this->table->column($meta_category."_sum", "Summe ".$workload_label[$meta_category], false);
+			}
+			if(isset($workload_days_per_yead_norm[$meta_category])) {
+				$this->table->column($meta_category."_wload", "Auslastung ".$workload_label[$meta_category], false);				
+			}
 		}
 		$this->table->template("tpl.gev_trainer_workload_row.html", 
 								"Services/GEV/Reports");
 
 		$this->query = catReportQuery::create()
-				->distinct()
 				->select("hu.user_id")
-				->select_raw("CONCAT(hu.lastname, ', ', hu.firstname) as fullname");
+				->select_raw("CONCAT(hu.lastname, ', ', hu.firstname) as fullname")
+				->select_raw($this->db->quote($this->orgu_filter[0],"text")." as orgu_title");
 
-		foreach($this->meta_categories as $meta_category => $categories) {
-			$this->query->select_raw($this->daysPerTEPMetaCategoryRatio($categories, $this->norms[$meta_category]["days"], strtolower($meta_category)."_d"));
-			$this->query->select_raw($this->hoursPerTEPMetaCategoryRatio($categories, $this->norms[$meta_category]["hours"],strtolower($meta_category)."_h"));
+		foreach($workload_training_condition as $category => $condition) {
+			$this->query->select_raw($this->hoursPerConditionRatioNorm(" ht.category  = 'Training' AND ".$condition, 8, $category));
+		}
+
+		foreach($workload_tep_cats as $category => $tep_cats) {
+			$this->query->select_raw($this->hoursPerConditionRatioNorm($this->db->in('ht.category',$tep_cats,false,'text'), 8, $category));
 		}
 		$this->query->from("hist_tep ht")
 					->join("hist_user hu")
@@ -102,19 +110,41 @@ class gevTrainerWorkloadGUI extends catBasicReportGUI{
 					->join("hist_tep_individ_days htid")
 						->on("individual_days = id")
 					->left_join("hist_course hc")
-						->on("context_id = crs_id AND ht.category  = 'Training'")
+						->on("context_id = crs_id AND ht.category  = 'Training' AND hc.hist_historic = 0")
 					->group_by("hu.user_id")
 					->compile();
+
 	}
 
-	protected function daysPerTEPMetaCategoryRatio($categories, $norm, $name) {
-		$sql = "100 * SUM(IF(".$this->db->in('category',$categories,false,"text")." ,1,0))/"
-				.$this->db->quote($norm,"float")." as ".$name;
-		return $sql;
+	protected function transformResultRow($rec) {
+		$this->count_rows++;
+
+		foreach ($workload_meta as $meta_category => $categories) {
+			if(count($categories)>1) {
+				$rec[$meta_category.'_sum'] = 0;
+				foreach ($categories as $category) {
+					$this->sum_row[$category] += $rec[$category];
+					$rec[$meta_category.'_sum'] += $rec[$category];
+					$this->sum_row[$meta_category.'_sum'] += $rec[$meta_category.'_sum'];
+				}
+				if( isset($this->norms[$meta_category])) {
+					$rec[$meta_category.'_workload'] = 100*$rec[$meta_category.'_sum']/$this->norms[$meta_category];
+					$this->sum_row[$meta_category.'_workload'] += $rec[$meta_category.'_workload'];
+				}
+			} else {
+				$this->sum_row[$meta_category] += $rec[$meta_category];
+				if( isset($this->norms[$meta_category])) {
+					$rec[$meta_category.'_workload'] = 100*$rec[$meta_category]/$this->norms[$meta_category];
+					$this->sum_row[$meta_category.'_workload'] += $rec[$meta_category.'_workload'];
+				}
+			}
+		}
+
+		return $this->replaceEmpty($rec);
 	}
 
-	protected function hoursPerTEPMetaCategoryRatio($categories,$norm, $name) {
-		$sql = 	"100 * SUM(IF(".$this->db->in('category',$categories,false,"text")." ,
+	protected function hoursPerConditionRatioNorm($condition,$norm, $name) {
+		$sql = 	"SUM(IF(".$condition." ,
 			LEAST(CEIL( TIME_TO_SEC( TIMEDIFF( htid.end_time, htid.start_time ) )* htid.weight /720000) *2,8),0))/"
 			.$this->db->quote($norm,"float")." as ".$name;
 		return $sql;
@@ -135,7 +165,7 @@ class gevTrainerWorkloadGUI extends catBasicReportGUI{
 	}
 
 	protected function getOrgus() {
-		$sql = "SELECT DISTINCT title FOM object_data "
+		$sql = "SELECT DISTINCT title FROM object_data "
 				." WHERE type = 'orgu'";
 		$res = $this->db->query($sql);
 		while($rec = $this->db->fetchAssoc($res)) {
@@ -144,44 +174,34 @@ class gevTrainerWorkloadGUI extends catBasicReportGUI{
 		return $return;
 	}
 
-	protected function getFilterForOperationInOrgu() {
-		$sql = "SELECT CONCAT(oda.obj_id,':',rpa.rol_id) both_id , rpa.ops_id, rop.ops_id as chk FROM rbac_pa rpa"
-				."	JOIN rbac_operations rop"
-				."		ON rop.operation = ".$this->db->quote(OP_TUTOR_IN_ORGU,'text')
-				."		AND LOCATE(CONCAT(':',rop.ops_id,';'), rpa.ops_id) > 0"
+	protected function getRelevantUsers() {
+		$sql = 	"SELECT huo.usr_id, rpa.rol_id, rpa.ops_id, rop.ops_id AS chk "
+				."	FROM rbac_pa rpa"
+				."	JOIN rbac_operations rop "
+				."		ON rop.operation = ".$this->db->quote(OP_TUTOR_IN_ORGU,"text")
+				."			AND LOCATE( CONCAT( ':', rop.ops_id, ';' ) , rpa.ops_id ) >0 "
 				."	JOIN object_reference ore "
-				."		ON rpa.ref_id = ore.ref_id"
-				."	JOIN object_data oda "
-				."		ON oda.obj_id = ore.obj_id AND oda.type = 'orgu'"
-				."	WHERE ore.deleted IS NULL";
+				."		ON ore.ref_id = rpa.ref_id "
+				."	JOIN rbac_ua rua "
+				."		ON rua.rol_id = rpa.rol_id "
+				."	JOIN hist_userorgu huo "
+				."		ON `action` = 1 AND hist_historic =0 "
+				."			AND huo.usr_id = rua.usr_id "
+				."			AND ore.obj_id = huo.orgu_id ";
+
+		if(count($this->orgu_filter) > 0) {
+			$sql .= "	AND ".$this->db->in("huo.orgu_title", $this->orgu_filter, false, "text");	
+		}
+
 		$res = $this->db->query($sql);
-		$return = array();
+
 		while($rec = $this->db->fetchAssoc($res)) {
 			$perm_check = unserialize($rec['ops_id']);
 			if(in_array($rec["chk"], $perm_check)) {
-				$return[] = $rec['both_id'];
+				$this->relevant_users[] = $rec['usr_id'];
 			}
 		}
-		$this->role_ops_filter = $return;	
 	}
 
-	protected function getRelevantUsers() {
-		$sql = "SELECT DISTINCT usr_id FROM hist_userorgu huo "
-				."	LEFT JOIN hist_userrole hur "
-				."		ON huo.usr_id = hur.usr_id "
-				."		AND ".$this->db->in("CONCAT(huo.orgu_id,':',hur.rol_id)", $this->role_ops_filter, false, 'text')
-				."	WHERE (hur.rol_id IS NOT NULL OR ".$this->db->in("CONCAT(huo.orgu_id,':',huo.rol_id)",$this->role_ops_filter,false,'text').")";
-
-		$orgu_filter = $this->filter->get("org_unit");
-		if(count($orgu_filter) > 0) {
-			$sql .= " AND ".$this->db->in("huo.orgu_title", $orgu_filter, false, "text");	
-		}
-
-		$res = $this->db->query($sql);
-		while($res = $this->db->fetchAssoc($res)) {
-			$return[] = $res["usr_id"];
-		}
-		$this->relevant_users = $return;
-	}
 }
 ?>
