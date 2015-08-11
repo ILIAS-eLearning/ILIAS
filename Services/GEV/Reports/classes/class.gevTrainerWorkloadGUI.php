@@ -84,10 +84,10 @@ class gevTrainerWorkloadGUI extends catBasicReportGUI{
 								$this->table->column($category,$workload_label[$category]);
 							}
 							if(count($categories)>1) {
-								$this->table->column($meta_category."_sum", "Summe ".$workload_label[$meta_category], false);
+								$this->table->column($meta_category."_sum", "Summe ".$workload_label[$meta_category],true);
 							}
 							if(isset($workload_days_per_yead_norm[$meta_category])) {
-								$this->table->column($meta_category."_wload", "Auslastung ".$workload_label[$meta_category], false);				
+								$this->table->column($meta_category."_wload", "Auslastung ".$workload_label[$meta_category], true);				
 							}
 						}
 						$this->table->template("tpl.gev_trainer_workload_row.html", 
@@ -100,10 +100,10 @@ class gevTrainerWorkloadGUI extends catBasicReportGUI{
 								$this->table_sums->column($category,$workload_label[$category]);
 							}
 							if(count($categories)>1) {
-								$this->table_sums->column($meta_category."_sum", "Summe ".$workload_label[$meta_category], false);
+								$this->table_sums->column($meta_category."_sum", "Summe ".$workload_label[$meta_category], true);
 							}
 							if(isset($workload_days_per_yead_norm[$meta_category])) {
-								$this->table_sums->column($meta_category."_wload", "Auslastung ".$workload_label[$meta_category], false);				
+								$this->table_sums->column($meta_category."_wload", "Auslastung ".$workload_label[$meta_category], true);				
 							}
 						}
 
@@ -132,7 +132,7 @@ class gevTrainerWorkloadGUI extends catBasicReportGUI{
 						->on("context_id = crs_id AND ht.category  = 'Training' AND hc.hist_historic = 0")
 					->group_by("hu.user_id")
 					->compile();
-
+		$this->tpl->addCSS('Services/GEV/Reports/templates/css/report.css');
 	}
 
 	protected function transformResultRow($rec) {
@@ -180,12 +180,12 @@ class gevTrainerWorkloadGUI extends catBasicReportGUI{
 			if(count($categories)>1) {
 				$class = "";
 				if(!isset($this->norms[$meta_category])) {
-					$class = 'class = "bordered"';
+					$class = 'class = "bordered_left"';
 				}
 				$tpl .= "</td>\n".'<td align = "right" '.$class.'>{VAL_'.strtoupper($meta_category).'_SUM}';
 			}
 			if(isset($this->norms[$meta_category])) {
-				$tpl.= "</td>\n".'<td align = "right" class = "bordered">{VAL_'.strtoupper($meta_category).'_WORKLOAD}';
+				$tpl.= "</td>\n".'<td align = "right" class = "bordered_left">{VAL_'.strtoupper($meta_category).'_WORKLOAD}';
 			}
 			
 		}
@@ -204,12 +204,12 @@ class gevTrainerWorkloadGUI extends catBasicReportGUI{
 			if(count($categories)>1) {
 				$class = "";
 				if(!isset($this->norms[$meta_category])) {
-					$class = 'class = "bordered"';
+					$class = 'class = "bordered_left"';
 				}
 				$tpl .= "</td>\n".'<td align = "right" '.$class.'>{VAL_'.strtoupper($meta_category).'_SUM}';
 			}
 			if(isset($this->norms[$meta_category])) {
-				$tpl.= "</td>\n".'<td align = "right" class = "bordered">{VAL_'.strtoupper($meta_category).'_WORKLOAD}';
+				$tpl.= "</td>\n".'<td align = "right" class = "bordered_left">{VAL_'.strtoupper($meta_category).'_WORKLOAD}';
 			}
 			
 		}
@@ -266,11 +266,7 @@ class gevTrainerWorkloadGUI extends catBasicReportGUI{
 
 
 	private function renderSumTable(){
-
-		foreach($this->norms as $meta_category => $norm) {
-			$this->sum_row[$meta_category.'_workload'] = $this->sum_row[$meta_category.'_workload']/$this->count_rows;
-		}
-			
+		
 		$table = new catTableGUI($this, "view");
 		$table->setEnableTitle(false);
 		$table->setTopCommands(false);
@@ -291,6 +287,9 @@ class gevTrainerWorkloadGUI extends catBasicReportGUI{
 			foreach(array_keys($this->table_sums->columns) as $field) {
 				$this->sum_row[$field] = 0;
 			}
+		}
+		foreach($this->norms as $meta_category => $norm) {
+			$this->sum_row[$meta_category.'_workload'] = $this->sum_row[$meta_category.'_workload']/$this->count_rows;
 		}
 
 		$table->setData(array($this->sum_row));
