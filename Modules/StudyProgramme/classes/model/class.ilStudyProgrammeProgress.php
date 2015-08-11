@@ -270,7 +270,7 @@ class ilStudyProgrammeProgress extends ActiveRecord {
 	public function setAmountOfPoints($a_points) {
 		if (!is_numeric($a_points) || $a_points < 0) {
 			throw new ilException("ilStudyProgrammeProgress::setAmountOfPoints: "
-								 ."Expected a number > 0 as argument.");
+								 ."Expected a number >= 0 as argument, got '$a_points'");
 		}
 		
 		$this->points = (int)$a_points;
@@ -298,7 +298,7 @@ class ilStudyProgrammeProgress extends ActiveRecord {
 	public function setCurrentAmountOfPoints($a_points) {
 		if (!is_numeric($a_points) || $a_points < 0) {
 			throw new ilException("ilStudyProgrammeProgress::setCurrentAmountOfPoints: "
-								 ."Expected a number > 0 as argument.");
+								 ."Expected a number >= 0 as argument, got '$a_points'.");
 		}
 		
 		$this->points_cur = (int)$a_points;
