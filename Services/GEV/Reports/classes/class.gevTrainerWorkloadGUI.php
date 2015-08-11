@@ -55,7 +55,7 @@ class gevTrainerWorkloadGUI extends catBasicReportGUI{
 								 , "orgu_title"
 								 , $this->relevant_orgus
 								 , array()
-								 , ""
+								 , "OR TRUE"
 								 , 200
 								 , 160	
 								 )
@@ -67,9 +67,10 @@ class gevTrainerWorkloadGUI extends catBasicReportGUI{
 				->action($this->ctrl->getLinkTarget($this, "view"))
 				->compile()
 				;
-
+				
 		$this->orgu_filter = $this->filter->get("org_unit");
 		$this->getRelevantUsers();
+
 
 		$dates = $this->filter->get("period");
         foreach($dates as &$il_date_obj) {
@@ -133,7 +134,8 @@ class gevTrainerWorkloadGUI extends catBasicReportGUI{
 		}
 		$this->query->from("hist_tep ht")
 					->join("hist_user hu")
-						->on("ht.user_id = hu.user_id")
+						->on("ht.user_id = hu.user_id"
+								." AND ".$this->db->in("hu.user_id",$this->relevant_users,false,"integer"))
 					->join("hist_tep_individ_days htid")
 						->on("individual_days = id")
 					->left_join("hist_course hc")
@@ -277,10 +279,10 @@ class gevTrainerWorkloadGUI extends catBasicReportGUI{
 				."		ON `action` = 1 AND hist_historic =0 "
 				."			AND huo.usr_id = rua.usr_id "
 				."			AND ore.obj_id = huo.orgu_id ";
-
-		if(count($this->orgu_filter) > 0) {
-			$sql .= "	AND ".$this->db->in("huo.orgu_title", $this->orgu_filter, false, "text");	
+		if(count($this->orgu_filter)>0) {
+			$sql .= " 	AND ".$this->db->in('huo.orgu_title',$this->orgu_filter,false,'text');
 		}
+
 
 		$res = $this->db->query($sql);
 
