@@ -102,7 +102,9 @@ class ilStudyProgrammeLPTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals( ilLPStatus::LP_STATUS_IN_PROGRESS_NUM
 						   , ilLPStatusWrapper::_determineStatus($this->node1->getId(), $user->getId())
 						   );
-		$this->assertNull( ilLPStatusWrapper::_determineStatus($this->node2->getId(), $user->getId()));
+		$this->assertEquals( ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM
+						   , ilLPStatusWrapper::_determineStatus($this->node2->getId(), $user->getId())
+						   );
 	}
 	
 	public function testInitialProgressOutdated() {
@@ -122,7 +124,9 @@ class ilStudyProgrammeLPTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals( ilLPStatus::LP_STATUS_IN_PROGRESS_NUM
 						   , ilLPStatusWrapper::_determineStatus($this->node1->getId(), $user->getId())
 						   );
-		$this->assertNull( ilLPStatusWrapper::_determineStatus($this->node2->getId(), $user->getId()));
+		$this->assertEquals( ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM
+						   , ilLPStatusWrapper::_determineStatus($this->node2->getId(), $user->getId())
+						   );
 	}
 
 	public function testMarkAccredited() {
@@ -168,7 +172,7 @@ class ilStudyProgrammeLPTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals( ilLPStatus::LP_STATUS_IN_PROGRESS_NUM
 						   , ilLPStatusWrapper::_determineStatus($this->node1->getId(), $user->getId())
 						   );
-		$this->assertEquals( ilLPStatus::LP_STATUS_IN_PROGRESS_NUM
+		$this->assertEquals( ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM
 						   , ilLPStatusWrapper::_determineStatus($this->node2->getId(), $user->getId())
 						   );
 	}
@@ -192,7 +196,9 @@ class ilStudyProgrammeLPTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals( ilLPStatus::LP_STATUS_IN_PROGRESS_NUM
 						   , ilLPStatusWrapper::_determineStatus($this->node1->getId(), $user->getId())
 						   );
-		$this->assertNull(ilLPStatusWrapper::_determineStatus($this->node2->getId(), $user->getId()));
+		$this->assertEquals( ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM
+						   , ilLPStatusWrapper::_determineStatus($this->node2->getId(), $user->getId())
+						   );
 	}
 	
 	// Neues Moduls: Wird dem Studierenden-Studierenden inkl. Kurse, Punkte als "Nicht relevant" hinzugefügt.
@@ -210,6 +216,8 @@ class ilStudyProgrammeLPTest extends PHPUnit_Framework_TestCase {
 		
 		$node3_progress = array_shift($node3->getProgressesOf($user->getId()));
 		$this->assertNotNull($node3_progress);
-		$this->assertNull(ilLPStatusWrapper::_determineStatus($node3->getId(), $user->getId()));
+		$this->assertEquals( ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM
+						   , ilLPStatusWrapper::_determineStatus($node3->getId(), $user->getId())
+						   );
 	}
 }
