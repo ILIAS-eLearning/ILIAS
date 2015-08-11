@@ -65,7 +65,7 @@ class ilStudyProgrammeProgressListGUI {
 			$tpl->parseCurrentBlock();
 			
 			$tpl->setCurrentBlock("linked_title");
-			$tpl->setVariable("TXT_TITLE", $programme->getTitle());
+			$tpl->setVariable("TXT_TITLE", $this->getTitleForItem($programme));
 			$tpl->setVariable("HREF_TITLE", $title_and_icon_target);
 			$tpl->parseCurrentBlock();
 		}
@@ -76,13 +76,17 @@ class ilStudyProgrammeProgressListGUI {
 			$tpl->parseCurrentBlock();
 			
 			$tpl->setCurrentBlock("not_linked_title");
-			$tpl->setVariable("TXT_TITLE", $programme->getTitle());
+			$tpl->setVariable("TXT_TITLE", $this->getTitleForItem($programme));
 			$tpl->parseCurrentBlock();
 		}
 		
 		
 		$tpl->setVariable("TXT_DESC", $programme->getDescription());
 		$tpl->setVariable("PROGRESS_BAR", $this->buildProgressBar($this->progress));
+	}
+	
+	protected function getTitleForItem(ilObjStudyProgramme $a_programme) {
+		return $a_programme->getTitle();
 	}
 	
 	protected function getTemplate($a_component, $a_file, $a_remove_unknown_vars, $a_remove_empty_blocks) {

@@ -114,13 +114,17 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
 	
 	protected function getAccordionContentProgressesHTML() {
 		return implode("\n", array_map(function(ilStudyProgrammeUserProgress $progress) {
-			if (!$progress->isRelevant()) {
+			if (!$this->shouldShowSubProgress($progress)) {
 				return "";
 			}
 			$gui = $this->newSubItem($progress);
 			$gui->setIndent($this->getIndent() + 1);
 			return $gui->getHTML();
 		}, $this->progress->getChildrenProgress()));
+	}
+	
+	protected function shouldShowSubProgress(ilStudyProgrammeUserProgress $a_progress) {
+		return $a_progress->isRelevant();
 	}
 	
 	protected function newSubItem(ilStudyProgrammeUserProgress $a_progress) {
