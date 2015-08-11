@@ -1548,7 +1548,8 @@ class ilObjQuestionPool extends ilObject
 			"assOrderingHorizontal" => 7,
 			"assImagemapQuestion" => 8,
 			"assTextSubset" => 9,
-			"assErrorText" => 10
+			"assErrorText" => 10,
+			"assLongMenu" => 11
 			);
 		$satypes = array();
 		$qtypes = ilObjQuestionPool::_getQuestionTypes($all_tags);

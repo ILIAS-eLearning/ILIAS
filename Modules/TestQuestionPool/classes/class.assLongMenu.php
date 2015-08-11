@@ -868,4 +868,29 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 		parent::delete($original_id);
 		$this->clearFolder(false);
 	}
+
+	/**
+	 * Returns a JSON representation of the question
+	 */
+	public function toJSON()
+	{
+		include_once("./Services/RTE/classes/class.ilRTE.php");
+		$result = array();
+		$result['id'] = (int) $this->getId();
+		$result['type'] = (string) $this->getQuestionType();
+		$result['title'] = (string) $this->getTitle();
+		$result['question'] =  $this->formatSAQuestion($this->getQuestion()) . '<br/>' . $this->getClozeText();
+		$result['nr_of_tries'] = (int) $this->getNrOfTries();
+		$result['shuffle'] = (bool) $this->getShuffle();
+		$result['feedback'] = array(
+			"onenotcorrect" => $this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false),
+			"allcorrect" => $this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true)
+		);
+
+		$gaps = array();
+		
+		$mobs = ilObjMediaObject::_getMobsOfObject("qpl:html", $this->getId());
+		$result['mobs'] = $mobs;
+		return json_encode($result);
+	}
 }
