@@ -161,15 +161,4 @@ class ilAssQuestionPreviewSession
 			$contextSession[self::SESSION_SUBINDEX_RANDOMIZER_SEED] = null;
 		}
 	}
-
-	/**
-	 * @param $baseSession
-	 * @param $contextSession
-	 * @return mixed
-	 */
-	private function ensureSessionContextStructureExists($baseSession, $contextSession)
-	{
-
-		return $contextSession;
-	}
 }
