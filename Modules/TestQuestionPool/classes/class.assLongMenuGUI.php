@@ -96,7 +96,8 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 	{
 			$longmenu_text = ilUtil::stripSlashesRecursive($_POST['longmenu_text']);
 			$_POST['longmenu_text'] = $longmenu_text;
-			$this->object->setQuestion($_POST['question_text']);
+			//Todo change question to question_text after merge
+			$this->object->setQuestion($_POST['question']);
 			$this->object->setLongMenuTextValue($_POST["longmenu_text"]);
 			$this->saveTaxonomyAssignments();
 	}
