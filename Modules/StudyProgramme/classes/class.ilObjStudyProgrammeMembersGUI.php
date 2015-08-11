@@ -135,6 +135,10 @@ class ilObjStudyProgrammeMembersGUI {
 			$this->initSearchGUI();
 		}
 		
+		if (!$this->getStudyProgramme()->isActive()) {
+			ilUtil::sendInfo($this->lng->txt("prg_no_members_not_active"));
+		}
+		
 		$prg_id = ilObject::_lookupObjId($this->ref_id);
 		$table = new ilStudyProgrammeMembersTableGUI($prg_id, $this->ref_id, $this);
 		return $table->getHTML();
