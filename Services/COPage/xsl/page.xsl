@@ -7,7 +7,7 @@
 <xsl:output method="xml" omit-xml-declaration="yes" />
 <!-- <xsl:output method="html"/> -->
 
-<xsl:preserve-space elements="Paragraph Footnote Strong Accent Emph Comment Important Quotation Keyw Code ExtLink IntLink"/>
+<xsl:preserve-space elements="Paragraph Footnote Strong Accent Emph Comment Important Quotation Keyw Code ExtLink IntLink Sub Sup"/>
 
 <!-- changing the default template to output all unknown tags -->
 <xsl:template match="*">
@@ -1256,6 +1256,16 @@
 <!-- Code -->
 <xsl:template match="Code">
 	<code><xsl:apply-templates/></code>
+</xsl:template>
+
+<!-- Sup -->
+<xsl:template match="Sup">
+	<sup class="ilc_text_inline_Sup"><xsl:apply-templates/></sup>
+</xsl:template>
+
+<!-- Sub -->
+<xsl:template match="Sub">
+	<sub class="ilc_text_inline_Sub"><xsl:apply-templates/></sub>
 </xsl:template>
 
 <!-- Footnote (Links) -->

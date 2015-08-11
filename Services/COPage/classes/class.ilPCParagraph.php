@@ -540,7 +540,7 @@ echo htmlentities($a_text);*/
 		}
 		
 		// remove empty tags
-		$atags = array("com", "emp", "str", "fn", "quot", "code", "acc", "imp", "kw");
+		$atags = array("com", "emp", "str", "fn", "quot", "code", "acc", "imp", "kw", "sub", "sup");
 		foreach ($atags as $at)
 		{
 			$a_text = str_replace("[".$at."][/".$at."]", "", $a_text);
@@ -565,7 +565,11 @@ echo htmlentities($a_text);*/
 		$a_text = eregi_replace("\[\/imp\]","</Important>",$a_text);
 		$a_text = eregi_replace("\[kw\]","<Keyw>",$a_text);
 		$a_text = eregi_replace("\[\/kw\]","</Keyw>",$a_text);
-		
+		$a_text = eregi_replace("\[sup\]","<Sup>",$a_text);
+		$a_text = eregi_replace("\[\/sub\]","</Sub>",$a_text);
+		$a_text = eregi_replace("\[sup\]","<Sup>",$a_text);
+		$a_text = eregi_replace("\[\/sup\]","</Sup>",$a_text);
+
 		$a_text = self::intLinks2xml($a_text);
 
 		// external link
@@ -1052,6 +1056,10 @@ echo htmlentities($a_text);*/
 		$a_text = eregi_replace("</Important>","[/imp]",$a_text);
 		$a_text = eregi_replace("<Keyw>","[kw]",$a_text);
 		$a_text = eregi_replace("</Keyw>","[/kw]",$a_text);
+		$a_text = eregi_replace("<Sup>","[sup]",$a_text);
+		$a_text = eregi_replace("</Sup>","[/sup]",$a_text);
+		$a_text = eregi_replace("<Sub>","[sub]",$a_text);
+		$a_text = eregi_replace("</Sub>","[/sub]",$a_text);
 
 		// replace lists
 		if ($a_replace_lists)
@@ -1574,7 +1582,11 @@ if (!$a_wysiwyg)
 				}
 				$text = str_replace(array("<code>", "</code>"),
 					array("[code]", "[/code]"), $text);
-				
+				$text = str_replace(array('<sup class="ilc_text_inline_Sup">', "</sup>"),
+					array("[sup]", "[/sup]"), $text);
+				$text = str_replace(array('<sup class="ilc_text_inline_Sub">', "</sub>"),
+					array("[sub]", "[/sub]"), $text);
+
 				$text = str_replace("<code/>", "", $text);
 				$text = str_replace('<ul class="ilc_list_u_BulletedList"/>', "", $text);
 				$text = str_replace('<ul class="ilc_list_o_NumberedList"/>', "", $text);

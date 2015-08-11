@@ -28,7 +28,9 @@ class ilPageContentGUI
 
 	// common bb buttons (special ones are iln and wln)
 	protected static $common_bb_buttons = array(
-		"str" => "Strong", "emp" => "Emph", "imp" => "Important", "com" => "Comment",
+		"str" => "Strong", "emp" => "Emph", "imp" => "Important",
+		"sup" => "Sup", "sub" => "Sub",
+		"com" => "Comment",
 		"quot" => "Quotation", "acc" => "Accent", "code" => "Code", "tex" => "Tex",
 		"fn" => "Footnote", "xln" => "ExternalLink"
 		);

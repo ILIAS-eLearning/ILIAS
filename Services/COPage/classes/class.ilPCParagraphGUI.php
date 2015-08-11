@@ -350,7 +350,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		include_once("./Services/COPage/classes/class.ilPageContentGUI.php");
 		foreach (ilPageContentGUI::_getCommonBBButtons() as $bb => $cl)
 		{
-			if (!in_array($bb, array("code", "tex", "fn", "xln")))
+			if (!in_array($bb, array("code", "tex", "fn", "xln", "sub", "sup")))
 			{
 				$s_text = str_replace("[".$bb."]",
 					'<span class="ilc_text_inline_'.$cl.'">', $s_text);
@@ -362,6 +362,14 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		// code
 		$s_text = str_replace(array("[code]", "[/code]"),
 			array("<code>", "</code>"), $s_text);
+
+		// sup
+		$s_text = str_replace(array("[sup]", "[/sup]"),
+			array('<sup class="ilc_text_inline_Sup">', "</sup>"), $s_text);
+
+		// sub
+		$s_text = str_replace(array("[sub]", "[/sub]"),
+			array('<sub class="ilc_text_inline_Sub">', "</sub>"), $s_text);
 
 		return $s_text;
 	}
