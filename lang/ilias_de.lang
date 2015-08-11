@@ -15501,5 +15501,3 @@ style#:#sty_type_sub#:#Tiefgestellt
 style#:#sty_type_sup#:#Hochgestellt
 content#:#cont_text_sub#:#Tiefgestellt
 content#:#cont_text_sup#:#Hochgestellt
-adve#:#adve_auto_url_linking#:#URL Auto-Linking
-adve#:#adve_auto_url_linking_info#:#ILIAS durchsucht Textparagraphen nach URLs (z.B. "http://..") und verlinkt diese entsprechend automatisch.
