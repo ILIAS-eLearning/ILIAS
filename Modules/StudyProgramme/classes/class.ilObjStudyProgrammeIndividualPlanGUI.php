@@ -143,9 +143,22 @@ class ilObjStudyProgrammeIndividualPlanGUI {
 	protected function updateFromInput() {
 		require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeUserProgress.php");
 		
-		$updates = $this->getManualStatusUpdates();
 		$changed = false;
-		foreach ($updates as $prgrs_id => $status) {
+		
+		$changed = $this->updateStatus();
+		$changed = $this->updateRequiredPoints() || $changed;
+		
+		$this->ctrl->setParameter($this, "ass_id", $this->getAssignmentId());
+		if ($changed) {
+			$this->showSuccessMessage("update_successful");
+		}
+		$this->ctrl->redirect($this, "manage");
+	}
+	
+	protected function updateStatus() {
+		$status_updates = $this->getManualStatusUpdates();
+		$changed = false;
+		foreach ($status_updates as $prgrs_id => $status) {
 			$prgrs = ilStudyProgrammeUserProgress::getInstanceById($prgrs_id);
 			$cur_status = $prgrs->getStatus();
 			if ($status == self::MANUAL_STATUS_NONE && $cur_status == ilStudyProgrammeProgress::STATUS_ACCREDITED) {
@@ -165,11 +178,31 @@ class ilObjStudyProgrammeIndividualPlanGUI {
 				$changed = true;
 			}
 		}
-		$this->ctrl->setParameter($this, "ass_id", $this->getAssignmentId());
-		if ($changed) {
-			$this->showSuccessMessage("update_successful");
+		return $changed;
+	}
+	
+	protected function updateRequiredPoints() {
+		$points_updates = $this->getRequiredPointsUpdates();
+		$changed = false;
+		foreach ($points_updates as $prgrs_id => $required_points) {
+			$prgrs = ilStudyProgrammeUserProgress::getInstanceById($prgrs_id);
+			$cur_status = $prgrs->getStatus();
+			if ($cur_status != ilStudyProgrammeProgress::STATUS_IN_PROGRESS) {
+				continue;
+			}
+			$required_points = (int)$required_points;
+			if ($required_points < 0) {
+				$required_points = 0;
+			}
+			
+			if ($required_points == $prgrs->getAmountOfPoints()) {
+				continue;
+			}
+			
+			$prgrs->setRequiredAmountOfPoints($required_points);
+			$changed = true;
 		}
-		$this->ctrl->redirect($this, "manage");
+		return $changed;
 	}
 	
 	protected function showSuccessMessage($a_lng_var) {
@@ -184,6 +217,15 @@ class ilObjStudyProgrammeIndividualPlanGUI {
 		}
 		return $_POST[$post_var];
 	}
+	
+	protected function getRequiredPointsUpdates() {
+		$post_var = $this->getRequiredPointsPostVarTitle();
+		if (!array_key_exists($post_var, $_POST)) {
+			throw new ilException("Expected array $post_var in POST");
+		}
+		return $_POST[$post_var];
+	}
+	
 	
 	protected function buildFrame($tab, $content) {
 		$tpl = new ilTemplate("tpl.indivdual_plan_frame.html", true, true, "Modules/StudyProgramme");
@@ -223,6 +265,10 @@ class ilObjStudyProgrammeIndividualPlanGUI {
 	
 	public function getManualStatusPostVarTitle() {
 		return "status";
+	}
+	
+	public function getRequiredPointsPostVarTitle() {
+		return "required_points";
 	}
 	
 	public function getManualStatusNone() {

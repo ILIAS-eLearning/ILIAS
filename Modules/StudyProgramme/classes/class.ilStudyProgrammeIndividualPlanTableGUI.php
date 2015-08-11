@@ -66,7 +66,9 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI {
 		$this->tpl->setVariable("STATUS", ilStudyProgrammeUserProgress::statusToRepr($a_set["status"]));
 		$this->tpl->setVariable("TITLE", $a_set["title"]);
 		$this->tpl->setVariable("POINTS_CURRENT", $a_set["points_current"]);
-		$this->tpl->setVariable("POINTS_REQUIRED", $a_set["points_required"]);
+		$this->tpl->setVariable("POINTS_REQUIRED", $this->getRequiredPointsInput( $a_set["progress_id"]
+																				, $a_set["status"]
+																				, $a_set["points_required"]));
 		$this->tpl->setVariable("MANUAL_STATUS", $this->getManualStatusSelect($a_set["progress_id"], $a_set["status"]));
 		$this->tpl->setVariable("POSSIBLE", $a_set["possible"] ? $this->possible_image : $this->not_possible_image);
 		$this->tpl->setVariable("CHANGED_BY", $a_set["changed_by"]);
@@ -114,7 +116,7 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI {
 		$manual_status_accredited = $parent->getManualStatusAccredited();
 		
 		require_once("Services/Form/classes/class.ilSelectInputGUI.php");
-		$select = new ilSelectInputGUI("", "$status_title"."[$a_progress_id]");
+		$select = new ilSelectInputGUI("", $status_title."[$a_progress_id]");
 		$select->setOptions(array
 			( $manual_status_none => "-"
 			, $manual_status_accredited => $this->lng->txt("prg_status_accredited")
@@ -128,6 +130,20 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI {
 		}
 		
 		return $select->render();
+	}
+	
+	protected function getRequiredPointsInput($a_progress_id, $a_status, $a_points_required) {
+		if ( $a_status != ilStudyProgrammeProgress::STATUS_IN_PROGRESS) {
+			return $a_points_required;
+		}
+		
+		$required_points_title = $this->getParentObject()->getRequiredPointsPostVarTitle();
+		
+		require_once("Services/Form/classes/class.ilNumberInputGUI.php");
+		$input = new ilNumberInputGUI("", $required_points_title."[$a_progress_id]");
+		$input->setValue($a_points_required);
+		$input->setSize(5);
+		return $input->render();
 	}
 }
 
