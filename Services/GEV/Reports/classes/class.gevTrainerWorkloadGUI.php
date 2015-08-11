@@ -62,12 +62,11 @@ class gevTrainerWorkloadGUI extends catBasicReportGUI{
 				->static_condition("hu.hist_historic = 0")
 				->static_condition("ht.hist_historic = 0")
 				->static_condition("ht.deleted = 0")
-				->static_condition($this->db->in("ht.user_id",$this->relevant_users,false,"text"))
 				->static_condition("ht.row_id > ".MIN_ROW)
 				->action($this->ctrl->getLinkTarget($this, "view"))
 				->compile()
 				;
-				
+
 		$this->orgu_filter = $this->filter->get("org_unit");
 		$this->getRelevantUsers();
 
