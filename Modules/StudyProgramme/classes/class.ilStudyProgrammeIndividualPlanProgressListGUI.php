@@ -14,6 +14,10 @@ require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeExpandablePro
 class ilStudyProgrammeIndividualPlanProgressListGUI extends ilStudyProgrammeExpandableProgressListGUI {
 	protected function showMyProgress() {
 		// expand tree completely on start
+		return $this->progress->isRelevant();
+	}
+	
+	protected function shouldShowSubProgress(ilStudyProgrammeUserProgress $a_progress) {
 		return true;
 	}
 	
@@ -21,11 +25,16 @@ class ilStudyProgrammeIndividualPlanProgressListGUI extends ilStudyProgrammeExpa
 		return new ilStudyProgrammeIndividualPlanProgressListGUI($a_progress);
 	}
 	
+	protected function getTitleForItem(ilObjStudyProgramme $a_programme) {
+		$title = $a_programme->getTitle();
+		if (!$this->progress->isRelevant()) {
+			return "<s>".$title."</s>";
+		}
+		return $title;
+	}
+	
 	protected function buildProgressStatus(ilStudyProgrammeUserProgress $a_progress) {
-		$points =  sprintf( $this->il_lng->txt("prg_progress_status")
-						  , $a_progress->getCurrentAmountOfPoints()
-						  , $a_progress->getAmountOfPoints()
-						  );
+		$points =  parent::buildProgressStatus($a_progress);
 		if (!$a_progress->canBeCompleted() && !$a_progress->isSuccessful()) {
 			return "<img src='".ilUtil::getImagePath("icon_alert.svg")."' alt='".$this->il_lng->txt("warning")."'>".$points;
 		}
