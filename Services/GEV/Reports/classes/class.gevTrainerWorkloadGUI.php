@@ -81,10 +81,10 @@ class gevTrainerWorkloadGUI extends catBasicReportGUI{
 
 						foreach($workload_meta as $meta_category => $categories) {
 							foreach ($categories as $category) {
-								$this->table->column($category,$workload_label[$category]);
+								$this->table->column($category,$workload_label[$category], true);
 							}
 							if(count($categories)>1) {
-								$this->table->column($meta_category."_sum", "Summe ".$workload_label[$meta_category],true);
+								$this->table->column($meta_category."_sum", "Summe ".$workload_label[$meta_category], true);
 							}
 							if(isset($workload_days_per_yead_norm[$meta_category])) {
 								$this->table->column($meta_category."_wload", "Auslastung ".$workload_label[$meta_category], true);				
@@ -97,7 +97,7 @@ class gevTrainerWorkloadGUI extends catBasicReportGUI{
 		$this->table_sums = catReportTable::create();
 						foreach($workload_meta as $meta_category => $categories) {
 							foreach ($categories as $category) {
-								$this->table_sums->column($category,$workload_label[$category]);
+								$this->table_sums->column($category,$workload_label[$category], true);
 							}
 							if(count($categories)>1) {
 								$this->table_sums->column($meta_category."_sum", "Summe ".$workload_label[$meta_category], true);
@@ -144,16 +144,19 @@ class gevTrainerWorkloadGUI extends catBasicReportGUI{
 				foreach ($categories as $category) {
 					$this->sum_row[$category] += $rec[$category];
 					$rec[$meta_category.'_sum'] += $rec[$category];
+					$rec[$category] = number_format($rec[$category],2);
 				}
+				$rec[$meta_category.'_sum'] = number_format($rec[$meta_category.'_sum'],2);
 				$this->sum_row[$meta_category.'_sum'] += $rec[$meta_category.'_sum'];
 				if( isset($this->norms[$meta_category])) {
 					$rec[$meta_category.'_workload'] = $rec[$meta_category.'_sum']/$this->norms[$meta_category];
 					$this->sum_row[$meta_category.'_workload'] += $rec[$meta_category.'_workload'];
+					$rec[$meta_category.'_workload'] = number_format($rec[$meta_category.'_workload'],2);
 				}
 			} else {
 				$this->sum_row[$meta_category] += $rec[$meta_category];
 				if( isset($this->norms[$meta_category])) {
-					$rec[$meta_category.'_workload'] = $rec[$meta_category]/$this->norms[$meta_category];
+					$rec[$meta_category.'_workload'] = number_format($rec[$meta_category]/$this->norms[$meta_category],2);
 					$this->sum_row[$meta_category.'_workload'] += $rec[$meta_category.'_workload'];
 				}
 			}
@@ -289,7 +292,7 @@ class gevTrainerWorkloadGUI extends catBasicReportGUI{
 			}
 		}
 		foreach($this->norms as $meta_category => $norm) {
-			$this->sum_row[$meta_category.'_workload'] = $this->sum_row[$meta_category.'_workload']/$this->count_rows;
+			$this->sum_row[$meta_category.'_workload'] = number_format($this->sum_row[$meta_category.'_workload']/$this->count_rows,2);
 		}
 
 		$table->setData(array($this->sum_row));
