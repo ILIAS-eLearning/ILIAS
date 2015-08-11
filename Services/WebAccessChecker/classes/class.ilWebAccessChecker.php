@@ -87,20 +87,7 @@ class ilWebAccessChecker {
 		}
 	}
 
-
-	/**
-	 * @throws ilWACException
-	 *
-	 * @description remove after deploy
-	 */
-	public static function install() {
-		$obj = new self('tmp');
-		$obj->initILIAS();
-		require_once('./Services/WebAccessChecker/classes/class.ilWACSecurePath.php');
-		ilWACSecurePath::installDB();
-	}
-
-
+	
 	/**
 	 * ilWebAccessChecker constructor.
 	 *
