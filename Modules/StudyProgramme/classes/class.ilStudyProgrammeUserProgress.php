@@ -553,6 +553,9 @@ class ilStudyProgrammeUserProgress {
 		};
 		
 		$achieved_points = array_reduce(array_map($get_points, $this->getChildrenProgress()), $add);
+		if (!$achieved_points) {
+			$achieved_points = 0;
+		}
 		$successful = $achieved_points >= $this->getAmountOfPoints();
 		$status = $this->getStatus();
 		
