@@ -15,6 +15,7 @@ class ilWACException extends ilException {
 	const NO_CHECKING_INSTANCE = 9004;
 	const WRONG_PATH_TYPE = 9005;
 	const INITIALISATION_FAILED = 9006;
+	const DATA_DIR_NON_WRITEABLE = 9007;
 	const ACCESS_DENIED = 9010;
 	/**
 	 * @var array
@@ -27,6 +28,7 @@ class ilWACException extends ilException {
 		self::NO_CHECKING_INSTANCE => 'This path is not secured by a class',
 		self::ACCESS_DENIED => 'ACCESS DENIED: The requested file cannot be delivered.',
 		self::INITIALISATION_FAILED => 'An error occured during your request. Please reload the page.',
+		self::DATA_DIR_NON_WRITEABLE => 'The SALT cannot be written to your /data directory. Please check the write permissions on the webserver.',
 	);
 
 

@@ -9,9 +9,12 @@ require_once('class.ilWACSignedPath.php');
  */
 class ilWACToken {
 
-	protected static $SALT = 'f7c832ce6d8b64e46861a6c5b33e113664d4b25c';
 	const TYPE_FILE = ilWACSignedPath::TYPE_FILE;
 	const TYPE_FOLDER = ilWACSignedPath::TYPE_FOLDER;
+	/**
+	 * @var string
+	 */
+	protected static $SALT = '';
 	/**
 	 * @var string
 	 */
@@ -46,6 +49,7 @@ class ilWACToken {
 	 * @param $path
 	 */
 	protected function __construct($path) {
+		$this->initSalt();
 		$parts = parse_url($path);
 		$this->setPath($parts['path']);
 		$this->setSessionId(session_id() ? session_id() : '-');
@@ -57,10 +61,38 @@ class ilWACToken {
 
 
 	protected function generateToken() {
+		if (! self::getSALT()) {
+			$this->initSalt();
+		}
 		$token = implode('-', array( $this->getSessionId(), $this->getIp() ));
-		$token = $token * self::$SALT;
+		$token = $token * self::getSALT();
 		$token = sha1($token);
 		$this->setToken($token);
+	}
+
+
+	protected function initSalt() {
+		$salt = NULL;
+		@include_once('./data/wacsalt.php');
+		self::setSALT($salt ? $salt : '-');
+		if (self::getSALT()) {
+			return true;
+		}
+		$this->generateSaltFile();
+	}
+
+
+	public function generateSaltFile() {
+		if (is_file('./data/wacsalt.php')) {
+			unlink('./data/wacsalt.php');
+		}
+		$template = file_get_contents('./Services/WebAccessChecker/wacsalt.php.template');
+		$template = str_replace('INSERT_SALT', md5(time() * rand(1000, 9999)), $template);
+		if (is_writable('./data/')) {
+			file_put_contents('./data/wacsalt.php', $template);
+		} else {
+			throw new ilWACException(ilWACException::DATA_DIR_NON_WRITEABLE);
+		}
 	}
 
 
