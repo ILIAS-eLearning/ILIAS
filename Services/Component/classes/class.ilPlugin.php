@@ -911,13 +911,15 @@ abstract class ilPlugin
 	{
 	}
 
+
 	/**
 	 * Get plugin object.
 	 *
-	 * @param	string	$a_ctype	IL_COMP_MODULE | IL_COMP_SERVICE
-	 * @param	string	$a_cname	component name
-	 * @param	string	$a_sname	plugin slot name
-	 * @param	string	$a_pname	plugin name
+	 * @param    string $a_ctype IL_COMP_MODULE | IL_COMP_SERVICE
+	 * @param    string $a_cname component name
+	 * @param    string $a_sname plugin slot name
+	 * @param    string $a_pname plugin name
+	 * @return ilPlugin|null
 	 */
 	static function getPluginObject($a_ctype, $a_cname, $a_slot_id, $a_pname)
 	{

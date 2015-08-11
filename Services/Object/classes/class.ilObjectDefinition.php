@@ -132,7 +132,8 @@ class ilObjectDefinition// extends ilSaxParser
 			if ($pl_id != "" && ! isset($this->obj_data[$pl_id])) {
 				include_once("./Services/Repository/classes/class.ilRepositoryObjectPlugin.php");
 				$loc = ilPlugin::_getDirectory(IL_COMP_SERVICE, "Repository", "robj", $pl_name) . "/classes";
-
+				/** @var ilRepositoryObjectPlugin $plugin */
+				$plugin = ilPlugin::getPluginObject(IL_COMP_SERVICE, 'Repository', 'robj', $pl_name);
 				$this->obj_data[$pl_id] = array(
 					"name" => $pl_id,
 					"class_name" => $pl_name,
@@ -143,7 +144,7 @@ class ilObjectDefinition// extends ilSaxParser
 					"component" => "",
 					"translate" => "0",
 					"devmode" => "0",
-					"allow_link" => "1",
+					"allow_link" => $plugin->allowLink(),
 					"allow_copy" => "0",
 					"rbac" => "1",
 					"group" => NULL,
@@ -152,7 +153,8 @@ class ilObjectDefinition// extends ilSaxParser
 					'repository' => '1',
 					'workspace' => '0',
 					'administration' => '0',
-					"sideblock" => "0"
+					"sideblock" => "0",
+					'export' => '0',
 				);
 				$this->obj_data[$rec["id"]]["subobjects"] = array();
 
