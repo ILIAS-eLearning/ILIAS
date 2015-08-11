@@ -19,6 +19,7 @@ class gevTrainerWorkloadGUI extends catBasicReportGUI{
 	protected $norms = array();
 	protected $role_ops_filter;
 	protected $relevant_users;
+	protected $relevant_orgus;
 	protected $orgu_filter;
 	protected $sum_row = array();
 	protected $count_rows = 0;
@@ -30,7 +31,7 @@ class gevTrainerWorkloadGUI extends catBasicReportGUI{
 		$this->workload_meta = $workload_meta;
 		parent::__construct();	
 		$this->getRelevantUsers();
-
+		$this->getRelevantOrgus();
 		$this->filter = catFilter::create()
 				->dateperiod( 	"period"
 								 , $this->lng->txt("gev_period")
@@ -45,7 +46,7 @@ class gevTrainerWorkloadGUI extends catBasicReportGUI{
 				->multiselect( "org_unit"
 								 , $this->lng->txt("gev_report_filter_crs_region")
 								 , "orgu_title"
-								 , $this->getOrgus()
+								 , $this->relevant_orgus
 								 , array()
 								 , ""
 								 , 200
@@ -155,6 +156,7 @@ class gevTrainerWorkloadGUI extends catBasicReportGUI{
 				}
 			} else {
 				$this->sum_row[$meta_category] += $rec[$meta_category];
+				$rec[$meta_category] = number_format($rec[$meta_category],2);
 				if( isset($this->norms[$meta_category])) {
 					$rec[$meta_category.'_workload'] = number_format($rec[$meta_category]/$this->norms[$meta_category],2);
 					$this->sum_row[$meta_category.'_workload'] += $rec[$meta_category.'_workload'];
@@ -175,7 +177,7 @@ class gevTrainerWorkloadGUI extends catBasicReportGUI{
 	protected function createTemplateFile() {
 		$str = fopen("Services/GEV/Reports/templates/default/"
 			."tpl.gev_trainer_workload_row.html","w"); 
-		$tpl = '<tr class="{CSS_ROW}"><td></td>'."\n".'<td>{VAL_FULLNAME}';
+		$tpl = '<tr class="{CSS_ROW}"><td></td>'."\n".'<td class = "bordered_right" >{VAL_FULLNAME}';
 		foreach($this->workload_meta as $meta_category => $categories) {
 			foreach ($categories as $category) {
 				$tpl .= "</td>\n".'<td align = "right">{VAL_'.strtoupper($category).'}';
@@ -183,12 +185,12 @@ class gevTrainerWorkloadGUI extends catBasicReportGUI{
 			if(count($categories)>1) {
 				$class = "";
 				if(!isset($this->norms[$meta_category])) {
-					$class = 'class = "bordered_left"';
+					$class = 'class = "bordered_right"';
 				}
 				$tpl .= "</td>\n".'<td align = "right" '.$class.'>{VAL_'.strtoupper($meta_category).'_SUM}';
 			}
 			if(isset($this->norms[$meta_category])) {
-				$tpl.= "</td>\n".'<td align = "right" class = "bordered_left">{VAL_'.strtoupper($meta_category).'_WORKLOAD}';
+				$tpl.= "</td>\n".'<td align = "right" class = "bordered_right">{VAL_'.strtoupper($meta_category).'_WORKLOAD}';
 			}
 			
 		}
@@ -207,12 +209,12 @@ class gevTrainerWorkloadGUI extends catBasicReportGUI{
 			if(count($categories)>1) {
 				$class = "";
 				if(!isset($this->norms[$meta_category])) {
-					$class = 'class = "bordered_left"';
+					$class = 'class = "bordered_right"';
 				}
 				$tpl .= "</td>\n".'<td align = "right" '.$class.'>{VAL_'.strtoupper($meta_category).'_SUM}';
 			}
 			if(isset($this->norms[$meta_category])) {
-				$tpl.= "</td>\n".'<td align = "right" class = "bordered_left">{VAL_'.strtoupper($meta_category).'_WORKLOAD}';
+				$tpl.= "</td>\n".'<td align = "right" class = "bordered_right">{VAL_'.strtoupper($meta_category).'_WORKLOAD}';
 			}
 			
 		}
@@ -231,6 +233,29 @@ class gevTrainerWorkloadGUI extends catBasicReportGUI{
 		}
 		return $return;
 	}
+
+	protected function getRelevantOrgus() {
+		$sql = 	"SELECT DISTINCT oda.title , rpa.ops_id, rop.ops_id AS chk "
+				."	FROM rbac_pa rpa"
+				."	JOIN rbac_operations rop "
+				."		ON rop.operation = ".$this->db->quote(OP_TUTOR_IN_ORGU,"text")
+				."			AND LOCATE( CONCAT( ':', rop.ops_id, ';' ) , rpa.ops_id ) >0 "
+				."	JOIN object_reference ore "
+				."		ON ore.ref_id = rpa.ref_id "
+				."	JOIN object_data oda"
+				."		ON oda.obj_id = ore.obj_id";
+
+		$res = $this->db->query($sql);
+
+		while($rec = $this->db->fetchAssoc($res)) {
+			$perm_check = unserialize($rec['ops_id']);
+			if(in_array($rec["chk"], $perm_check)) {
+				$this->relevant_orgus[] = $rec['title'];
+			}
+		}
+		$this->relevant_orgus = array_unique($this->relevant_orgus);
+	}
+
 
 	protected function getRelevantUsers() {
 		$sql = 	"SELECT huo.usr_id, rpa.rol_id, rpa.ops_id, rop.ops_id AS chk "
@@ -259,9 +284,10 @@ class gevTrainerWorkloadGUI extends catBasicReportGUI{
 				$this->relevant_users[] = $rec['usr_id'];
 			}
 		}
+		$this->relevant_users = array_unique($this->relevant_users);
 	}
 
-		protected function renderView() {
+	protected function renderView() {
 		$main_table = $this->renderTable();
 		return 	$this->renderSumTable()
 				.$main_table;
