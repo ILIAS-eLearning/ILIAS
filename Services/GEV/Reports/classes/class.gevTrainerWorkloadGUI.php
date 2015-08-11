@@ -267,6 +267,10 @@ class gevTrainerWorkloadGUI extends catBasicReportGUI{
 
 	private function renderSumTable(){
 
+		foreach($this->norms as $meta_category => $norm) {
+			$this->sum_row[$meta_category.'_workload'] = $this->sum_row[$meta_category.'_workload']/$this->count_rows;
+		}
+			
 		$table = new catTableGUI($this, "view");
 		$table->setEnableTitle(false);
 		$table->setTopCommands(false);
@@ -283,7 +287,6 @@ class gevTrainerWorkloadGUI extends catBasicReportGUI{
 							 , $col[3]
 							 );
 		}		
-
 		if(count($this->sum_row) == 0) {
 			foreach(array_keys($this->table_sums->columns) as $field) {
 				$this->sum_row[$field] = 0;
