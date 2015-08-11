@@ -461,8 +461,8 @@ class ilStudyProgrammeUserProgress {
 		}
 		
 		$children_progress = $this->getChildrenProgress();
-		foreach ($children_progress as $prg) {
-			if (!$prg->canBeCompleted()) {
+		foreach ($children_progress as $progress) {
+			if (!$progress->canBeCompleted()) {
 				return false;
 			}
 		}
