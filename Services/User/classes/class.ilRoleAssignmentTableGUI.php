@@ -19,9 +19,12 @@ class ilRoleAssignmentTableGUI extends ilTable2GUI
 	*/
 	function __construct($a_parent_obj, $a_parent_cmd)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng;
+		global $ilCtrl, $lng, $ilAccess;
+
+		$lng->loadLanguageModule('rbac');
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
+
 		$this->setTitle($lng->txt("role_assignment"));
 		$this->setId("usrroleass");
 		$this->setDefaultOrderField("title");
