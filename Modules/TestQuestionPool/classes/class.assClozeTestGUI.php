@@ -848,7 +848,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 					break;
 				case CLOZE_SELECT:
 					$gaptemplate = new ilTemplate("tpl.il_as_qpl_cloze_question_gap_select.html", TRUE, TRUE, "Modules/TestQuestionPool");
-					foreach ($gap->getItems() as $item)
+					foreach ($gap->getItems($this->object->getShuffler()) as $item)
 					{
 						$gaptemplate->setCurrentBlock("select_gap_option");
 						$gaptemplate->setVariable("SELECT_GAP_VALUE", $item->getOrder());
@@ -1275,7 +1275,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 					break;
 				case CLOZE_SELECT:
 					$gaptemplate = new ilTemplate("tpl.il_as_qpl_cloze_question_gap_select.html", TRUE, TRUE, "Modules/TestQuestionPool");
-					foreach ($gap->getItems() as $item)
+					foreach ($gap->getItems($this->object->getShuffler()) as $item)
 					{
 						$gaptemplate->setCurrentBlock("select_gap_option");
 						$gaptemplate->setVariable("SELECT_GAP_VALUE", $item->getOrder());

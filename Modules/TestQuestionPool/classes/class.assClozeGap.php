@@ -94,11 +94,11 @@ class assClozeGap
 * @access public
 * @see $items
 */
-  function getItems() 
+  function getItems(ilAssQuestionAnswerShuffler $shuffler = null)
 	{
-		if ($this->shuffle)
+		if ($this->getShuffle() && $shuffler instanceof ilAssQuestionAnswerShuffler)
 		{
-			return $this->arrayShuffle($this->items);
+			return $shuffler->shuffle($this->items);
 		}
 		else
 		{
@@ -312,41 +312,6 @@ class assClozeGap
 	public function getShuffle()
 	{
 		return $this->shuffle;
-	}
-
-	/**
-	 * Shuffles the values of a given array
-	 *
-	 * Shuffles the values of a given array
-	 *
-	 * @param array $array An array which should be shuffled
-	 * @return array
-	 * @access public
-	 *
-	 * @TODO: Figure out why this method exists. (See note)
-	 * MBecker: PHP knows the function shuffle since 4.2 which is out
-	 * since April 2002. Still, Helmut built this function in
-	 * 2007 with rev. 13281 ... This needs investigation.
-	 */
-	function arrayShuffle($array)
-	{
-		mt_srand((double)microtime()*1000000);
-		$i = count($array);
-		if ($i > 0)
-		{
-			while(--$i)
-			{
-				$j = mt_rand(0, $i);
-				if ($i != $j)
-				{
-					// swap elements
-					$tmp = $array[$j];
-					$array[$j] = $array[$i];
-					$array[$i] = $tmp;
-				}
-			}
-		}
-		return $array;
 	}
 
 	/**
