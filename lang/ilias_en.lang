@@ -9378,7 +9378,7 @@ survey#:#cannot_switch_to_online_no_questions#:#The status cannot be changed to 
 survey#:#categories#:#Answers
 survey#:#category_delete_confirm#:#Are you sure you want to delete the following answers?
 survey#:#category_delete_select_none#:#Please check at least one answer to delete it!
-survey#:#category_nr_selected#:#Number of users that selected this answer
+survey#:#category_nr_selected#:#Number of selections
 survey#:#category#:#Answer
 survey#:#chart#:#Chart
 survey#:#check_category_to_save_phrase#:#You must have a least one answer to save a phrase!
@@ -9632,7 +9632,7 @@ survey#:#orientation#:#Orientation
 survey#:#outro#:#Concluding Remarks
 survey#:#percentage_of_entered_values#:#Percentage of users that entered this value
 survey#:#percentage_of_offered_answers#:#Percentage of offered answers
-survey#:#percentage_of_selections#:#Percentage of users that selected this answer
+survey#:#percentage_of_selections#:#Percentage of selections
 survey#:#phrase_added#:#Phrase added
 survey#:#phrase_saved#:#The phrase was saved successfully!
 survey#:#please_select#:#-- please select --

@@ -627,7 +627,7 @@ abstract class SurveyQuestionGUI
 		$chart->setYAxisToInteger(true);
 		
 		$data = $chart->getDataInstance(ilChartGrid::DATA_BARS);
-		$data->setLabel($this->lng->txt("users_answered"));
+		$data->setLabel($this->lng->txt("category_nr_selected"));
 		$data->setBarOptions(0.5, "center");
 		
 		$max = 5;
@@ -1152,6 +1152,59 @@ abstract class SurveyQuestionGUI
 		}
 		
 		$this->savePhrase(true);
+	}
+	
+	protected function renderStatisticsDetailsTable(array $a_head, array $a_rows, array $a_foot = null)
+	{
+		$html = array();
+		$html[] = '<div class="ilTableOuter table-responsive">';
+			$html[] = '<table class="table table-striped">';
+
+				$html[] = "<thead>";
+				$html[] = "<tr>";
+				foreach($a_head as $col)
+				{
+					$col = trim($col);
+					$html[] = "<th>";
+					$html[] = ($col != "") ? $col : "&nbsp;";
+					$html[] = "</th>";
+				}
+				$html[] = "</tr>";
+				$html[] = "</thead>";
+
+				$html[] = "<tbody>";
+				foreach($a_rows as $row)
+				{
+					$html[] = "<tr>";
+					foreach($row as $col)
+					{
+						$col = trim($col);
+						$html[] = "<td>";
+						$html[] = ($col != "") ? $col : "&nbsp;";
+						$html[] = "</td>";
+					}
+					$html[] = "</tr>";
+				}
+				$html[] = "</tbody>";
+				
+				if($a_foot)
+				{
+					$html[] = "<tfoot>";
+					$html[] = "<tr>";
+					foreach($a_foot as $col)
+					{
+						$col = trim($col);
+						$html[] = "<td>";
+						$html[] = ($col != "") ? $col : "&nbsp;";
+						$html[] = "</td>";
+					}
+					$html[] = "</tr>";
+					$html[] = "</tfoot>";
+				}
+				
+			$html[] = "</table>";
+		$html[] = "</div>";
+		return implode("\n", $html);
 	}
 }
 

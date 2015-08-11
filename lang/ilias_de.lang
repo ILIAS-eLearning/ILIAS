@@ -11138,7 +11138,7 @@ survey#:#categories#:#Antworten
 survey#:#category#:#Antwort
 survey#:#category_delete_confirm#:#Sind Sie sicher, dass Sie die folgende(n) Antwort(en) löschen wollen?
 survey#:#category_delete_select_none#:#Bitte wählen Sie mindestens eine Antwort aus, um den Löschvorgang durchzuführen!
-survey#:#category_nr_selected#:#Anzahl der Teilnehmer, die diese Antwort ausgewählt haben
+survey#:#category_nr_selected#:#Anzahl der Auswahlen
 survey#:#chart#:#Diagramm
 survey#:#check_category_to_save_phrase#:#Sie müssen mindestens eine Antwort auswählen, um eine Phrase speichern zu können!
 survey#:#codes#:#Zugangsschlüssel
@@ -11456,7 +11456,7 @@ survey#:#outro#:#Abschließende Bemerkung
 survey#:#participating_users#:#Teilnehmende Benutzer
 survey#:#percentage_of_entered_values#:#Prozentsatz der Benutzer, die diesen Wert ausgewählt haben
 survey#:#percentage_of_offered_answers#:#Prozentsatz der angebotenen Antworten
-survey#:#percentage_of_selections#:#Prozentsatz der Benutzer, die diese Antwort ausgewählt haben
+survey#:#percentage_of_selections#:#Anteil an den insgesamt ausgewählten Antwortoptionen in Prozent
 survey#:#phrase_added#:#Phrase hinzugefügt
 survey#:#phrase_new#:#Neue Phrase erstellen
 survey#:#phrase_saved#:#Die Phrase wurde erfolgreich gespeichert
