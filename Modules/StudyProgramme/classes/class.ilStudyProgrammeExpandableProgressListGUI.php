@@ -117,10 +117,14 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
 			if (!$progress->isRelevant()) {
 				return "";
 			}
-			$gui = new ilStudyProgrammeExpandableProgressListGUI($progress);
+			$gui = $this->newSubItem($progress);
 			$gui->setIndent($this->getIndent() + 1);
 			return $gui->getHTML();
 		}, $this->progress->getChildrenProgress()));
+	}
+	
+	protected function newSubItem(ilStudyProgrammeUserProgress $a_progress) {
+		return new ilStudyProgrammeExpandableProgressListGUI($a_progress);
 	}
 	
 	protected function getAccordionContentCoursesHTML() {
@@ -129,25 +133,8 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
 			require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeContainerObjectMock.php");
 			$course = ilObjectFactory::getInstanceByRefId($object->getTargetRefId());
 			$item_gui = new ilStudyProgrammeCourseListGUI();
-			$item_gui->enableComments(false);
-			$item_gui->enableTags(false);
-			$item_gui->enableIcon(true);
-			$item_gui->enableDelete(false);
-			$item_gui->enableCut(false);
-			$item_gui->enableCopy(false);
-			$item_gui->enablePayment(false);
-			$item_gui->enableLink(false);
-			$item_gui->enableInfoScreen(true);
-			$item_gui->enableSubscribe(true);
-			$item_gui->enableCheckbox(false);
-			$item_gui->enableDescription(true);
-			$item_gui->enableProperties(true);
-			$item_gui->enablePreconditions(true);
-			$item_gui->enableNoticeProperties(true);
-			$item_gui->enableCommands(true, true);
-			$item_gui->enableProgressInfo(true);
+			$this->configureItemGUI($item_gui);
 			$item_gui->setContainerObject(new ilStudyProgrammeContainerObjectMock($course));
-			$item_gui->setIndent($this->getIndent() + 2);
 			return $item_gui->getListItemHTML
 				( $course->getRefId()
 				, $course->getId()
@@ -155,6 +142,27 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
 				, $course->getDescription()
 				);
 		}, $this->progress->getStudyProgramme()->getLPChildren()));
+	}
+	
+	protected function configureItemGUI(ilStudyProgrammeCourseListGUI $a_item_gui) {
+		$a_item_gui->enableComments(false);
+		$a_item_gui->enableTags(false);
+		$a_item_gui->enableIcon(true);
+		$a_item_gui->enableDelete(false);
+		$a_item_gui->enableCut(false);
+		$a_item_gui->enableCopy(false);
+		$a_item_gui->enablePayment(false);
+		$a_item_gui->enableLink(false);
+		$a_item_gui->enableInfoScreen(true);
+		$a_item_gui->enableSubscribe(true);
+		$a_item_gui->enableCheckbox(false);
+		$a_item_gui->enableDescription(true);
+		$a_item_gui->enableProperties(true);
+		$a_item_gui->enablePreconditions(true);
+		$a_item_gui->enableNoticeProperties(true);
+		$a_item_gui->enableCommands(true, true);
+		$a_item_gui->enableProgressInfo(true);
+		$a_item_gui->setIndent($this->getIndent() + 2);
 	}
 	
 	protected function getAccordionOptions() {
