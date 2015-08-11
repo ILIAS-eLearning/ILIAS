@@ -29,8 +29,7 @@ class gevTrainerWorkloadGUI extends catBasicReportGUI{
 		include "Services/GEV/Reports/config/cfg.trainer_workload.php";
 		$this->workload_meta = $workload_meta;
 		parent::__construct();	
-		$this->relevant_users = $this->getRelevantUsers();
-		//$this->createTemplateFile();
+		$this->getRelevantUsers();
 
 		$this->filter = catFilter::create()
 				->dateperiod( 	"period"
@@ -71,8 +70,10 @@ class gevTrainerWorkloadGUI extends catBasicReportGUI{
 
        	$period_days = ($dates["end"] - $dates["start"])/86400+1;
        	foreach ($workload_days_per_yead_norm as $meta_category => $days) {
-       		$this->norms[$meta_category] = $days*$period_days/365;
+       		$this->norms[$meta_category] = $days*$period_days/36500;
        	}
+
+       	$this->createTemplateFile();
 
 
 		$this->table = catReportTable::create();
@@ -125,16 +126,16 @@ class gevTrainerWorkloadGUI extends catBasicReportGUI{
 				foreach ($categories as $category) {
 					$this->sum_row[$category] += $rec[$category];
 					$rec[$meta_category.'_sum'] += $rec[$category];
-					$this->sum_row[$meta_category.'_sum'] += $rec[$meta_category.'_sum'];
 				}
+				$this->sum_row[$meta_category.'_sum'] += $rec[$meta_category.'_sum'];
 				if( isset($this->norms[$meta_category])) {
-					$rec[$meta_category.'_workload'] = 100*$rec[$meta_category.'_sum']/$this->norms[$meta_category];
+					$rec[$meta_category.'_workload'] = $rec[$meta_category.'_sum']/$this->norms[$meta_category];
 					$this->sum_row[$meta_category.'_workload'] += $rec[$meta_category.'_workload'];
 				}
 			} else {
 				$this->sum_row[$meta_category] += $rec[$meta_category];
 				if( isset($this->norms[$meta_category])) {
-					$rec[$meta_category.'_workload'] = 100*$rec[$meta_category]/$this->norms[$meta_category];
+					$rec[$meta_category.'_workload'] = $rec[$meta_category]/$this->norms[$meta_category];
 					$this->sum_row[$meta_category.'_workload'] += $rec[$meta_category.'_workload'];
 				}
 			}
@@ -153,12 +154,24 @@ class gevTrainerWorkloadGUI extends catBasicReportGUI{
 	protected function createTemplateFile() {
 		$str = fopen("Services/GEV/Reports/templates/default/"
 			."tpl.gev_trainer_workload_row.html","w"); 
-		$tpl = '<tr class="{CSS_ROW}"><td></td>'."\n".'<td>{VAL_FULLNAME}</td>';
-		foreach($this->meta_categories as $meta_category => $categories) {
-			$tpl .= "\n".'<td align = "right">{VAL_'.strtoupper($meta_category).'_D}</td>';
-			$tpl .= "\n".'<td align = "right">{VAL_'.strtoupper($meta_category).'_H}</td>';
-			$i++;
+		$tpl = '<tr class="{CSS_ROW}"><td></td>'."\n".'<td>{VAL_FULLNAME}';
+		foreach($this->workload_meta as $meta_category => $categories) {
+			foreach ($categories as $category) {
+				$tpl .= "</td>\n".'<td align = "right">{VAL_'.$category.'}';
+			}
+			if(count($categories)>1) {
+				$class = "";
+				if(!isset($this->norms[$meta_category])) {
+					$class = 'class = "bordered"';
+				}
+				$tpl .= "</td>\n".'<td align = "right" '.$class.'>{VAL_'.strtoupper($meta_category).'_SUM}';
+			}
+			if(isset($this->norms[$meta_category])) {
+				$tpl.= "</td>\n".'<td align = "right" class = "bordered">{VAL_'.strtoupper($meta_category).'_WORKLOAD}';
+			}
+			
 		}
+		$tpl.= "</td>";
 		$tpl .= "\n</tr>";
 		fwrite($str,$tpl);
 		fclose($str);
