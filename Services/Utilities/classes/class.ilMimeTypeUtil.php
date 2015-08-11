@@ -1506,7 +1506,7 @@ class ilMimeTypeUtil {
 				if (! is_array(self::$suffix_map[$this->getSuffix()])) {
 					return self::$suffix_map[$this->getSuffix()];
 				} else {
-					self::$suffix_map[$this->getSuffix()][0];
+					return self::$suffix_map[$this->getSuffix()][0];
 				}
 			}
 		}

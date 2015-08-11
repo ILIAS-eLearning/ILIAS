@@ -134,7 +134,7 @@ class ilFileDelivery {
 		$parts = parse_url($path_to_file);
 		$this->setPathToFile(($parts['path']));
 		$this->detemineDeliveryType();
-		$this->detemineMimeType();
+		$this->determineMimeType();
 		$this->determineDownloadFileName();
 		$this->setHasContext(ilContext::getType() !== NULL);
 	}
@@ -190,6 +190,7 @@ class ilFileDelivery {
 
 
 	protected function deliverXSendfile() {
+		header('Content-type:');
 		header('X-Sendfile: ' . realpath($this->getPathToFile()));
 	}
 
@@ -263,9 +264,8 @@ class ilFileDelivery {
 	/**
 	 * @return bool
 	 */
-	protected function detemineMimeType() {
-		$info = ilMimeTypeUtil::lookupMimeType($this->getPathToFile(), ilMimeTypeUtil::APPLICATION__OCTET_STREAM);
-		if ($info) {
+	protected function determineMimeType() {
+		if ($info = ilMimeTypeUtil::lookupMimeType($this->getPathToFile(), ilMimeTypeUtil::APPLICATION__OCTET_STREAM)) {
 			$this->setMimeType($info);
 
 			return true;
