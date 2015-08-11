@@ -190,6 +190,7 @@ class ilFileDelivery {
 
 
 	protected function deliverXSendfile() {
+		$this->clearHeaders();
 		header('Content-type:');
 		header('X-Sendfile: ' . realpath($this->getPathToFile()));
 	}
@@ -265,7 +266,8 @@ class ilFileDelivery {
 	 * @return bool
 	 */
 	protected function determineMimeType() {
-		if ($info = ilMimeTypeUtil::lookupMimeType($this->getPathToFile(), ilMimeTypeUtil::APPLICATION__OCTET_STREAM)) {
+		$info = ilMimeTypeUtil::lookupMimeType($this->getPathToFile(), ilMimeTypeUtil::APPLICATION__OCTET_STREAM);
+		if ($info) {
 			$this->setMimeType($info);
 
 			return true;
@@ -631,7 +633,7 @@ class ilFileDelivery {
 		$http_if_modified_since = $_SERVER['HTTP_IF_MODIFIED_SINCE'];
 
 		switch (true) {
-			case (! isset($http_if_none_match) || ! isset($http_if_modified_since)):
+			case (! isset($_SERVER['HTTP_IF_NONE_MATCH']) || ! isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])):
 				return false;
 			case ($http_if_none_match != $this->getEtag()):
 				return false;
