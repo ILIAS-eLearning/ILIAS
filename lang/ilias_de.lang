@@ -15290,3 +15290,5 @@ sysc#:#sysc_task_tree_missing_reference#:#Fehlende Referenzen
 sysc#:#sysc_task_tree_missing_reference_desc#:#Sucht und repariert fehlende Objekt-Referenzen für Einträge im Magazinbaum.
 sysc#:#sysc_task_structure#:#Baumstruktur
 sysc#:#sysc_task_structure_desc#:#Analyiert und korrigiert die Struktur des Magazinbaums
+blog#:#blog_keywords_other#:#Sonstige Schlagwörter
+blog#:#blog_keywords_other_info#:#Diese Schlagwörter sind für andere Blog-Einträge vergeben worden.
