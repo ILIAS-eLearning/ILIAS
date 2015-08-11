@@ -188,6 +188,8 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 			case false:
 				$this->getSubTabs($cmd);
 				switch ($cmd) {
+					case "cancelDelete":
+						$cmd = "view";
 					case "create":
 					case "save":
 					case "view":
