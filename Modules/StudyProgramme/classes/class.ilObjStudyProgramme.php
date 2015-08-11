@@ -961,6 +961,15 @@ class ilObjStudyProgramme extends ilContainer {
 	}
 	
 	/**
+	 * Are there any users that have a progress on this programme?
+	 *
+	 * @return bool
+	 */
+	public function hasProgresses() {
+		return count($this->getProgresses()) > 0;
+	}
+	
+	/**
 	 * Get the ids of all users that have a relevant progress at this programme.
 	 *
 	 * @return int[]

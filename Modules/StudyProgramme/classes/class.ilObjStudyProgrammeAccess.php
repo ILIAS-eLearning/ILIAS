@@ -32,20 +32,20 @@ class ilObjStudyProgrammeAccess extends ilObjectAccess {
 	*/
 	function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
 	{
-		global $ilUser, $ilAccess;
-
 		if ($a_user_id == "")
 		{
 			$a_user_id = $ilUser->getId();
 		}
 
-		// add no access info item and return false if access is not granted
-		// $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $a_text, $a_data = "");
-		//
-		// for all RBAC checks use checkAccessOfUser instead the normal checkAccess-method:
-		// $rbacsystem->checkAccessOfUser($a_user_id, $a_permission, $a_ref_id)
+		if ($a_permission == "delete") {
+			require_once("Modules/StudyProgramme/classes/class.ilObjStudyProgramme.php");
+			$prg = ilObjStudyProgramme::getInstanceByRefId($a_ref_id);
+			if ($prg->hasProgresses()) {
+				return false;
+			}
+		}
 
-		return true;
+		return parent::_checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "");
 	}
 	
 	/**
