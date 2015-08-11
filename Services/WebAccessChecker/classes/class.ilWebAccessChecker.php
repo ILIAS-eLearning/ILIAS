@@ -91,7 +91,7 @@ class ilWebAccessChecker {
 	/**
 	 * @throws ilWACException
 	 *
-	 * remove after deploy
+	 * @description remove after deploy
 	 */
 	public static function install() {
 		$obj = new self('tmp');
@@ -116,8 +116,7 @@ class ilWebAccessChecker {
 	 * @throws ilWACException
 	 */
 	protected function check() {
-		ilWACLog::getInstance()->write(str_repeat('#', 100));
-		ilWACLog::getInstance()->write('Checking file: ' . $this->getPathObject()->getPathWithoutQuery());
+		ilWACLog::getInstance()->write('Checking File: ' . $this->getPathObject()->getPathWithoutQuery());
 		if (! $this->getPathObject()) {
 			throw new ilWACException(ilWACException::CODE_NO_PATH);
 		}
@@ -163,49 +162,13 @@ class ilWebAccessChecker {
 				$this->setChecked(true);
 
 				return true;
+			} else {
+				ilWACLog::getInstance()->write('checking-instance denied access');
+				$this->setChecked(true);
+
+				return false;
 			}
 		}
-
-		// Files in ^/data/.*/sec Folder can be checked automatically. this part will be refactored to the new registry method
-		//		if ($ilWACSignedPath->getPathObject()->isInSecFolder()) {
-		//			ilWACLog::getInstance()->write('this file is in sec folder');
-		//			$component = substr($ilWACSignedPath->getPathObject()->getSecurePathId(), 2);
-		//			$comp_dir = NULL;
-		//			switch (true) {
-		//				case ilComponent::lookupId(IL_COMP_MODULE, $component):
-		//					$comp_dir = "Modules";
-		//					break;
-		//				case ilComponent::lookupId(IL_COMP_SERVICE, $component):
-		//					$comp_dir = "Services";
-		//					break;
-		//			}
-		//			if ($comp_dir) {
-		//				$comp_class = "il" . $component . "WebAccessChecker";
-		//				$comp_include = $comp_dir . "/" . $component . "/classes/class." . $comp_class . ".php";
-		//				if (file_exists($comp_include)) {
-		//					include_once $comp_include;
-		//					if (class_exists($comp_class)) {
-		//						$comp_inst = new $comp_class();
-		//						if ($comp_inst instanceof ilComponentWebAccessChecker) {
-		//							if ($comp_inst->isValidPath(explode('/', $ilWACSignedPath->getPathObject()->getPath()))) {
-		//								$obj_id = $comp_inst->getRepositoryObjectId();
-		//								global $ilAccess;
-		//								$obj_type = ilObject::_lookupType($obj_id);
-		//								$ref_ids = ilObject::_getAllReferences($obj_id);
-		//								foreach ($ref_ids as $ref_id) {
-		//									global $ilUser;
-		//									if ($ilAccess->checkAccessOfUser($ilUser->getId(), "read", "view", $ref_id, $obj_type, $obj_id)) {
-		//										$this->setChecked(true);
-		//
-		//										return true;
-		//									}
-		//								}
-		//							}
-		//						}
-		//					}
-		//				}
-		//			}
-		//		}
 
 		// none of the checking mechanisms could have been applied. no access
 		$this->setChecked(true);
@@ -252,12 +215,12 @@ class ilWebAccessChecker {
 		if (! $this->isChecked()) {
 			throw new ilWACException(ilWACException::ACCESS_WITHOUT_CHECK);
 		}
-
 		switch ($this->getDisposition()) {
 			case ilFileDelivery::DISP_ATTACHMENT:
 				ilFileDelivery::deliverFileAttached($this->getPathObject()->getPath());
 				break;
 			case ilFileDelivery::DISP_INLINE:
+
 				if ($this->getPathObject()->isVideo()) {
 					ilWACLog::getInstance()->write('begin streaming');
 					ilFileDelivery::streamVideoInline($this->getPathObject()->getPath());

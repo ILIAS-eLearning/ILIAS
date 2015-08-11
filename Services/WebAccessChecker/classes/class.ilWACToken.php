@@ -14,7 +14,7 @@ class ilWACToken {
 	/**
 	 * @var string
 	 */
-	protected static $SALT = '';
+	protected static $SALT = '-';
 	/**
 	 * @var string
 	 */
@@ -47,12 +47,13 @@ class ilWACToken {
 
 	/**
 	 * @param $path
+	 *
+	 * @throws ilWACException
 	 */
 	protected function __construct($path) {
-		$this->initSalt();
 		$parts = parse_url($path);
 		$this->setPath($parts['path']);
-		$this->setSessionId(session_id() ? session_id() : '-');
+		$this->setSessionId($_COOKIE['PHPSESSID'] ? $_COOKIE['PHPSESSID'] : '-');
 		$this->setIp($_SERVER['REMOTE_ADDR']);
 		$this->setTimestamp(time());
 		$this->generateToken();
@@ -61,9 +62,7 @@ class ilWACToken {
 
 
 	protected function generateToken() {
-		if (! self::getSALT()) {
-			$this->initSalt();
-		}
+		$this->initSalt();
 		$token = implode('-', array( $this->getSessionId(), $this->getIp() ));
 		$token = $token * self::getSALT();
 		$token = sha1($token);
@@ -73,21 +72,22 @@ class ilWACToken {
 
 	protected function initSalt() {
 		$salt = NULL;
-		@include_once('./data/wacsalt.php');
-		self::setSALT($salt ? $salt : '-');
-		if (self::getSALT()) {
-			return true;
+		require('./data/wacsalt.php');
+		self::setSALT($salt);
+		if (! $salt) {
+			$this->generateSaltFile();
 		}
-		$this->generateSaltFile();
 	}
 
 
-	public function generateSaltFile() {
+	protected function generateSaltFile() {
 		if (is_file('./data/wacsalt.php')) {
 			unlink('./data/wacsalt.php');
 		}
 		$template = file_get_contents('./Services/WebAccessChecker/wacsalt.php.template');
-		$template = str_replace('INSERT_SALT', md5(time() * rand(1000, 9999)), $template);
+		$salt = md5(time() * rand(1000, 9999));
+		self::setSALT($salt);
+		$template = str_replace('INSERT_SALT', $salt, $template);
 		if (is_writable('./data/')) {
 			file_put_contents('./data/wacsalt.php', $template);
 		} else {

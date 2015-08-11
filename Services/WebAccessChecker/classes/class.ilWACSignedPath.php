@@ -31,6 +31,10 @@ class ilWACSignedPath {
 	 * @var int
 	 */
 	protected static $token_max_lifetime_in_seconds = 3;
+	/**
+	 * @var int
+	 */
+	protected static $cookie_max_lifetime_in_seconds = 30;
 
 
 	/**
@@ -112,8 +116,10 @@ class ilWACSignedPath {
 
 	protected function saveFolderToken() {
 		$this->generateFolderToken();
-		setcookie($this->getTokenInstance()->getId(), $this->getTokenInstance()->getToken(), 0, '/');
-		setcookie($this->getTokenInstance()->getId() . '_ts', time() + self::getTokenMaxLifetimeInSeconds(), 0, '/');
+		ilWACLog::getInstance()->write('save folder token for folder: ' . $this->getPathObject()->getSecurePath());
+		$cookie_livetime = self::getCookieMaxLifetimeInSeconds();
+		setcookie($this->getTokenInstance()->getId(), $this->getTokenInstance()->getToken(), time() + $cookie_livetime, '/');
+		setcookie($this->getTokenInstance()->getId() . '_ts', time() + self::getTokenMaxLifetimeInSeconds(), time() + $cookie_livetime, '/');
 	}
 
 
@@ -260,6 +266,22 @@ class ilWACSignedPath {
 	 */
 	public static function setTokenMaxLifetimeInSeconds($token_max_lifetime_in_seconds) {
 		self::$token_max_lifetime_in_seconds = $token_max_lifetime_in_seconds;
+	}
+
+
+	/**
+	 * @return int
+	 */
+	public static function getCookieMaxLifetimeInSeconds() {
+		return self::$cookie_max_lifetime_in_seconds;
+	}
+
+
+	/**
+	 * @param int $cookie_max_lifetime_in_seconds
+	 */
+	public static function setCookieMaxLifetimeInSeconds($cookie_max_lifetime_in_seconds) {
+		self::$cookie_max_lifetime_in_seconds = $cookie_max_lifetime_in_seconds;
 	}
 }
 
