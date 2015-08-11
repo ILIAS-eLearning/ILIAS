@@ -44,8 +44,9 @@ class ilAssQuestionAnswerShuffler
 		{
 			return $this->mtShuffle($array);
 		}
-		
-		return shuffle($array);
+
+		shuffle($array);
+		return $array;
 	}
 
 	private function initSeed($seed)
