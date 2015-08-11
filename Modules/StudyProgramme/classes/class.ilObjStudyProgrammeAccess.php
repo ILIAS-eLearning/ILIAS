@@ -40,7 +40,7 @@ class ilObjStudyProgrammeAccess extends ilObjectAccess {
 		if ($a_permission == "delete") {
 			require_once("Modules/StudyProgramme/classes/class.ilObjStudyProgramme.php");
 			$prg = ilObjStudyProgramme::getInstanceByRefId($a_ref_id);
-			if ($prg->hasProgresses()) {
+			if ($prg->hasRelevantProgresses()) {
 				return false;
 			}
 		}
