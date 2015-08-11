@@ -243,6 +243,11 @@ abstract class assQuestion
 	protected $step = null;
 	
 	protected $lastChange;
+
+	/**
+	 * @var ilAssQuestionAnswerShuffler
+	 */
+	protected $shuffler;
 	
 	/**
 	* assQuestion constructor
@@ -297,6 +302,24 @@ abstract class assQuestion
 		$this->questionActionCmd = 'handleQuestionAction';
 		
 		$this->lastChange = null;
+
+		$this->shuffler = null;
+	}
+
+	/**
+	 * @return ilAssQuestionAnswerShuffler
+	 */
+	public function getShuffler()
+	{
+		return $this->shuffler;
+	}
+
+	/**
+	 * @param ilAssQuestionAnswerShuffler $shuffler
+	 */
+	public function setShuffler(ilAssQuestionAnswerShuffler $shuffler)
+	{
+		$this->shuffler = $shuffler;
 	}
 
 	/**

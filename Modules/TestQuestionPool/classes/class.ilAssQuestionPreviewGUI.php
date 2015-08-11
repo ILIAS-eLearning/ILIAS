@@ -52,6 +52,11 @@ class ilAssQuestionPreviewGUI
 	protected $db;
 
 	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
 	 * @var assQuestionGUI
 	 */
 	protected $questionGUI;
@@ -76,13 +81,14 @@ class ilAssQuestionPreviewGUI
 	 */
 	protected $hintTracking;
 	
-	public function __construct(ilCtrl $ctrl, ilTabsGUI $tabs, ilTemplate $tpl, ilLanguage $lng, ilDB $db)
+	public function __construct(ilCtrl $ctrl, ilTabsGUI $tabs, ilTemplate $tpl, ilLanguage $lng, ilDB $db, ilObjUser $user)
 	{
 		$this->ctrl = $ctrl;
 		$this->tabs = $tabs;
 		$this->tpl = $tpl;
 		$this->lng = $lng;
 		$this->db = $db;
+		$this->user = $user;
 	}
 
 	public function initQuestion($questionId, $parentObjId)
@@ -204,6 +210,7 @@ class ilAssQuestionPreviewGUI
 	
 	private function resetCmd()
 	{
+		$this->previewSession->initRandomizerSeed();
 		$this->previewSession->resetRequestedHints();
 		$this->previewSession->setParticipantsSolution(null);
 		$this->previewSession->setInstantResponseActive(false);
@@ -259,6 +266,9 @@ class ilAssQuestionPreviewGUI
 		}
 
 		$this->questionGUI->setPreviewSession($this->previewSession);
+		$this->questionGUI->object->setShuffler($this->getQuestionAnswerShuffler(
+			$this->user, $this->questionGUI->object 
+		));
 		
 		$questionHtml = $this->questionGUI->getPreview(true, $this->isShowSpecificQuestionFeedbackRequired());
 		
@@ -401,5 +411,18 @@ class ilAssQuestionPreviewGUI
 		$this->ctrl->redirectByClass(
 			'ilAssQuestionHintRequestGUI', ilAssQuestionHintRequestGUI::CMD_SHOW_LIST
 		);
+	}
+
+	/**
+	 * @param ilObjUser $user
+	 * @param assQuestion $question
+	 * @return ilAssQuestionAnswerShuffler
+	 */
+	private function getQuestionAnswerShuffler(ilObjUser $user, assQuestion $question)
+	{
+		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionAnswerShuffler.php';
+		$shuffler = new ilAssQuestionAnswerShuffler();
+		$shuffler->setSeed($this->previewSession->getRandomizerSeed());
+		return $shuffler;
 	}
 }
