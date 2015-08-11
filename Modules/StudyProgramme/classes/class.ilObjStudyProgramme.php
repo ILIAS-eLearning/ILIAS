@@ -617,8 +617,8 @@ class ilObjStudyProgramme extends ilContainer {
 	 */
 	public function putInTree($a_parent_ref) {
 		$res = parent::putInTree($a_parent_ref);
-		
-		if (ilObject::_lookupType($a_parent_ref) == "prg") {
+
+		if (ilObject::_lookupType($a_parent_ref, true) == "prg") {
 			$par = ilObjStudyProgramme::getInstanceByRefId($a_parent_ref);
 			$par->nodeInserted($this);
 		}
