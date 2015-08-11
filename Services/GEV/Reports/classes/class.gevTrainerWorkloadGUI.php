@@ -37,7 +37,7 @@ class gevTrainerWorkloadGUI extends catBasicReportGUI{
 						->image("GEV_img/ico-head-edubio.png")
 						;
 
-		$this->getRelevantUsers();
+
 		$this->getRelevantOrgus();
 		$this->filter = catFilter::create()
 				->dateperiod( 	"period"
@@ -69,7 +69,7 @@ class gevTrainerWorkloadGUI extends catBasicReportGUI{
 				;
 
 		$this->orgu_filter = $this->filter->get("org_unit");
-
+		$this->getRelevantUsers();
 
 		$dates = $this->filter->get("period");
         foreach($dates as &$il_date_obj) {
