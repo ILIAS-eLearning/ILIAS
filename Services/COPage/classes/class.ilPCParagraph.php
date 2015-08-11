@@ -565,7 +565,7 @@ echo htmlentities($a_text);*/
 		$a_text = eregi_replace("\[\/imp\]","</Important>",$a_text);
 		$a_text = eregi_replace("\[kw\]","<Keyw>",$a_text);
 		$a_text = eregi_replace("\[\/kw\]","</Keyw>",$a_text);
-		$a_text = eregi_replace("\[sup\]","<Sup>",$a_text);
+		$a_text = eregi_replace("\[sub\]","<Sub>",$a_text);
 		$a_text = eregi_replace("\[\/sub\]","</Sub>",$a_text);
 		$a_text = eregi_replace("\[sup\]","<Sup>",$a_text);
 		$a_text = eregi_replace("\[\/sup\]","</Sup>",$a_text);
@@ -1584,7 +1584,7 @@ if (!$a_wysiwyg)
 					array("[code]", "[/code]"), $text);
 				$text = str_replace(array('<sup class="ilc_sup_Sup">', "</sup>"),
 					array("[sup]", "[/sup]"), $text);
-				$text = str_replace(array('<sup class="ilc_sub_Sub">', "</sub>"),
+				$text = str_replace(array('<sub class="ilc_sub_Sub">', "</sub>"),
 					array("[sub]", "[/sub]"), $text);
 
 				$text = str_replace("<code/>", "", $text);
