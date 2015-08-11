@@ -17,6 +17,7 @@ const shift = "&nbsp;&nbsp;&nbsp;";
 
 class gevTrainerOperationByOrgUnitAndTrainerGUI extends catBasicReportGUI{
 	protected $meta_categories;
+	protected $meta_categories_names;
 	protected $tree;
 	protected $orgu_utils;
 	protected $report_data;
@@ -26,7 +27,7 @@ class gevTrainerOperationByOrgUnitAndTrainerGUI extends catBasicReportGUI{
 	public function __construct() {
 		global $tree;
 		$this->tree = $tree;
-		include_once "Services/GEV/Reports/config/cfg.tep_reports_config.php";
+		include_once "Services/GEV/Reports/config/cfg.trainer_operation_by_trainer_and_orgu.php";
 		// $top_orgus in config
 		foreach ($top_orgus as $orgu_title) {
 			$obj_id = ilObject::_getIdsForTitle($orgu_title, 'orgu')[0];
@@ -37,6 +38,7 @@ class gevTrainerOperationByOrgUnitAndTrainerGUI extends catBasicReportGUI{
 		}
 		// $meta_categories in config
 		$this->meta_categories = $meta_categories;
+		$this->meta_category_names = $meta_category_names;
 
 		parent::__construct();
 
@@ -72,8 +74,8 @@ class gevTrainerOperationByOrgUnitAndTrainerGUI extends catBasicReportGUI{
 		$this->table->column("title", "title");
 
 		foreach($this->meta_categories as $meta_category => $categories) {
-			$this->table->column(strtolower($meta_category."_d"), $meta_category, true);
-			$this->table->column(strtolower($meta_category."_h"), "Std.", true);
+			$this->table->column($meta_category."_d", $this->meta_category_names[$meta_category], true);
+			$this->table->column($meta_category."_h", "Std.", true);
 		}
 		$this->table->template("tpl.gev_trainer_operation_by_orgu_and_trainer_row.html", 
 								"Services/GEV/Reports");
@@ -216,11 +218,11 @@ class gevTrainerOperationByOrgUnitAndTrainerGUI extends catBasicReportGUI{
 			$auxh = 0;
 			$auxd = 0;
 			foreach ($arrays as $array) {
-				$auxh += $array[strtolower($meta_category)."_h"];
-				$auxd += $array[strtolower($meta_category)."_d"];
+				$auxh += $array[$meta_category."_h"];
+				$auxd += $array[$meta_category."_d"];
 			}
-			$return[strtolower($meta_category)."_h"] = $auxh;
-			$return[strtolower($meta_category)."_d"] = $auxd; 
+			$return[$meta_category."_h"] = $auxh;
+			$return[$meta_category."_d"] = $auxd; 
 		}
 		return $return;
 	}
@@ -228,10 +230,10 @@ class gevTrainerOperationByOrgUnitAndTrainerGUI extends catBasicReportGUI{
 	protected function createTemplateFile() {
 		$str = fopen("Services/GEV/Reports/templates/default/"
 			."tpl.gev_trainer_operation_by_orgu_and_trainer_row.html","w"); 
-		$tpl = '<tr class="{CSS_ROW}"><td></td>'."\n".'<td>{VAL_TITLE}</td>';
+		$tpl = '<tr class="{CSS_ROW}"><td></td>'."\n".'<td class = "bordered_right">{VAL_TITLE}</td>';
 		foreach($this->meta_categories as $meta_category => $categories) {
 			$tpl .= "\n".'<td align = "right">{VAL_'.strtoupper($meta_category).'_D}</td>';
-			$tpl .= "\n".'<td align = "right">{VAL_'.strtoupper($meta_category).'_H}</td>';
+			$tpl .= "\n".'<td align = "right" class = "bordered_right">{VAL_'.strtoupper($meta_category).'_H}</td>';
 			$i++;
 		}
 		$tpl .= "\n</tr>";
