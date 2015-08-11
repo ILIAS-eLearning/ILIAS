@@ -15506,3 +15506,5 @@ style#:#sty_type_sub#:#Subscript
 style#:#sty_type_sup#:#Superscript
 content#:#cont_text_sub#:#Subscript
 content#:#cont_text_sup#:#Superscript
+adve#:#adve_auto_url_linking#:#URL Auto-Linking
+adve#:#adve_auto_url_linking_info#:#Tries to identify URLs like "http://.." in text paragraphs and automatically creates links around them.
