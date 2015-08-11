@@ -136,6 +136,15 @@ class gevMaillogGUI {
 			$this->ctrl->clearParametersByClass("vfCrsMailingGUI");
 		}
 		
+		if ($mail["mail_id"]) {
+			$this->ctrl->setParameter($this, "log_id", $mail["id"]);
+			$resend_link = $this->ctrl->getLinkTarget($this, "resendMail");
+			$this->ctrl->clearParameters($this);
+		}
+		else {
+			$resend_link = null;
+		}
+		
 		$this->ctrl->setParameter($this, "obj_id", $this->obj_id);
 		$view_gui = new ilMailViewGUI( $mail["occasion"]." ".($this->lng->txt("mailing_on"))." ".$moment
 									 , $this->ctrl->getLinkTarget($this, "showMaillog")
@@ -148,6 +157,7 @@ class gevMaillogGUI {
 									 , $mail["to"]
 									 , $mail["cc"]
 									 , $mail["bcc"]
+									 , $resend_link
 									 );
 		
 		$this->ctrl->setParameter($this, "obj_id", null);

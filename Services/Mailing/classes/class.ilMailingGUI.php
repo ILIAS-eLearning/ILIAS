@@ -287,7 +287,6 @@ abstract class ilMailingGUI {
 		}
 
 		$this->activateSubTab($cmd);
-
 		switch($cmd) {
 			case "showAttachments":
 			case "confirmRemoveAttachment":
@@ -311,6 +310,7 @@ abstract class ilMailingGUI {
 			case "showLog":
 			case "showLoggedMail":
 			case "deliverMailLogAttachment":
+			case "resendMail":
 				$this->$cmd();
 				break;
 
@@ -412,6 +412,7 @@ abstract class ilMailingGUI {
 			case "showLog":
 			case "showLoggedMail":
 			case "deliverMailLogAttachment":
+			case "resendMail":
 				$this->tabs->setSubTabActive("log");
 				break;
 
@@ -1465,6 +1466,15 @@ abstract class ilMailingGUI {
 			$this->ctrl->clearParametersByClass("vfCrsMailingGUI");
 		}
 		
+		if ($mail["mail_id"]) {
+			$this->ctrl->setParameter($this, "log_id", $mail["id"]);
+			$resend_link = $this->ctrl->getLinkTarget($this, "resendMail");
+			$this->ctrl->clearParameters($this);
+		}
+		else {
+			$resend_link = null;
+		}
+		
 		$view_gui = new ilMailViewGUI( $mail["occasion"]." ".($this->lng->txt("mailing_on"))." ".$moment
 									 , $this->ctrl->getLinkTarget($this, "showLog")
 									 , $mail["subject"]
@@ -1476,6 +1486,7 @@ abstract class ilMailingGUI {
 									 , $mail["to"]
 									 , $mail["cc"]
 									 , $mail["bcc"]
+									 , $resend_link
 									 );
 
 		$this->tpl->setContent($view_gui->getHTML());
@@ -1491,5 +1502,37 @@ abstract class ilMailingGUI {
 		$path = $this->getMailLog()->getPath($hash);
 
 		$this->deliverAttachmentFile($filename, $path);
+	}
+	
+	protected function resendMail() {
+		if($_GET["log_id"] === null or !is_numeric($_GET["log_id"])) {
+			$this->ctrl->redirect($this, "showLog");
+			exit();
+		}
+		
+		$mail_id = intval($_GET["log_id"]);
+		$mail = $this->getMailLog()->getEntry($mail_id);
+		
+		$matched = array();
+		
+		if (preg_match("/(.*)&lt;(.*)&gt;/", $mail["to"])) {
+			$recipient = array(array( "name" => $matched[1]
+									, "email" => $matched[2]
+									));
+			
+			$res = $this->getAutoMails()->send($mail["mail_id"], $_addresses, $this->getAutoMails()->getUserOccasion());
+		}
+		else {
+			$res = $this->lng->txt("no_mail_for_some_users");
+		}
+		
+		if ($res === true) {
+			ilUtil::sendSuccess($this->lng->txt("auto_mail_send_successfully"));
+		}
+		else {
+			ilUtil::sendFailure($res);
+		}
+		
+		$this->showLog();
 	}
 }

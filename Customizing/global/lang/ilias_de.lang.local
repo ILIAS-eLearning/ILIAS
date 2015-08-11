@@ -1230,3 +1230,4 @@ gev#:#gev_dec_training_save_request#:#Dezentrales Training anlegen
 gev#:#gev_dec_training_show_buildingblocks#:#Ablaufplan anzeigen
 gev#:#gev_dec_ready#:#Fertig
 gev#:#gev_dec_training_no_venue_error_msg#:#Bitte wählen Sie einen Veranstaltungsort.
+gev#:#gev_resend_mail#:#Mail erneut versenden

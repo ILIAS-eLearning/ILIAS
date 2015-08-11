@@ -4101,3 +4101,17 @@ if(!$ilDB->tableColumnExists('hist_usercoursestatus', 'gev_id')) {
 	$ilDB->dropTableColumn('hist_usercoursestatus', 'org_unit');
 
 ?>
+
+<#151>
+<?php
+
+	if(!$ilDB->tableColumnExists('mail_log', "mail_id")){
+		$ilDB->addTableColumn('mail_log', "mail_id", array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => false
+			)
+		);	
+	}
+
+?>

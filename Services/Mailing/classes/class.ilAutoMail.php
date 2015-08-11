@@ -294,7 +294,7 @@ abstract class ilAutoMail {
 	 */
 	protected function log($a_mail, $a_occasion) {
 		if ($this->logger !== null) {
-			$this->logger->log($a_mail, $a_occasion);
+			$this->logger->log($a_mail, $a_occasion, $this->getId());
 		}
 	}
 }
