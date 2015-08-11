@@ -30,6 +30,13 @@ class gevTrainerWorkloadGUI extends catBasicReportGUI{
 		include "Services/GEV/Reports/config/cfg.trainer_workload.php";
 		$this->workload_meta = $workload_meta;
 		parent::__construct();	
+
+				$this->title = catTitleGUI::create()
+						->title("gev_report_trainer_workload")
+						->subTitle("gev_report_trainer_workload_desc")
+						->image("GEV_img/ico-head-edubio.png")
+						;
+
 		$this->getRelevantUsers();
 		$this->getRelevantOrgus();
 		$this->filter = catFilter::create()
@@ -44,7 +51,7 @@ class gevTrainerWorkloadGUI extends catBasicReportGUI{
 								 , " OR ht.hist_historic IS NULL"
 								 )
 				->multiselect( "org_unit"
-								 , $this->lng->txt("gev_report_filter_crs_region")
+								 , $this->lng->txt("gev_org_unit_short")
 								 , "orgu_title"
 								 , $this->relevant_orgus
 								 , array()
@@ -183,14 +190,13 @@ class gevTrainerWorkloadGUI extends catBasicReportGUI{
 				$tpl .= "</td>\n".'<td align = "right">{VAL_'.strtoupper($category).'}';
 			}
 			if(count($categories)>1) {
-				$class = "";
 				if(!isset($this->norms[$meta_category])) {
-					$class = 'class = "bordered_right"';
+					$class .= " bordered_right";
 				}
-				$tpl .= "</td>\n".'<td align = "right" '.$class.'>{VAL_'.strtoupper($meta_category).'_SUM}';
+				$tpl .= "</td>\n".'<td align = "right" class = "'.$class.'">{VAL_'.strtoupper($meta_category).'_SUM}';
 			}
 			if(isset($this->norms[$meta_category])) {
-				$tpl.= "</td>\n".'<td align = "right" class = "bordered_right">{VAL_'.strtoupper($meta_category).'_WORKLOAD}';
+				$tpl.= "</td>\n".'<td align = "right" class = "bordered_right bold_content">{VAL_'.strtoupper($meta_category).'_WORKLOAD}';
 			}
 			
 		}
@@ -207,14 +213,14 @@ class gevTrainerWorkloadGUI extends catBasicReportGUI{
 				$tpl .= "</td>\n".'<td align = "right">{VAL_'.strtoupper($category).'}';
 			}
 			if(count($categories)>1) {
-				$class = "";
+				$class = "bold_content";
 				if(!isset($this->norms[$meta_category])) {
-					$class = 'class = "bordered_right"';
+					$class .= " bordered_right";
 				}
-				$tpl .= "</td>\n".'<td align = "right" '.$class.'>{VAL_'.strtoupper($meta_category).'_SUM}';
+				$tpl .= "</td>\n".'<td align = "right" class = "'.$class.'">{VAL_'.strtoupper($meta_category).'_SUM}';
 			}
 			if(isset($this->norms[$meta_category])) {
-				$tpl.= "</td>\n".'<td align = "right" class = "bordered_right">{VAL_'.strtoupper($meta_category).'_WORKLOAD}';
+				$tpl.= "</td>\n".'<td align = "right" class = "bordered_right bold_content">{VAL_'.strtoupper($meta_category).'_WORKLOAD}';
 			}
 			
 		}
