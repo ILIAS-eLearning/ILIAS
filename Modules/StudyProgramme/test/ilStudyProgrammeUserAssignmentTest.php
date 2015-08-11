@@ -43,7 +43,9 @@ class ilStudyProgrammeUserAssignmentTest extends PHPUnit_Framework_TestCase {
 	}
 	
 	protected function tearDown() {
-		$this->root->delete();
+		if ($this->root) {
+			$this->root->delete();
+		}
 	}
 
 	
@@ -228,4 +230,38 @@ class ilStudyProgrammeUserAssignmentTest extends PHPUnit_Framework_TestCase {
 		$this->assertContains($ass1->getId(), $ass_ids);
 		$this->assertContains($ass2->getId(), $ass_ids);
 	}
+	
+	public function testDeleteOfProgrammeRemovesEntriesInPrgUsrAssignment() {
+		$user1 = $this->newUser();
+		$this->root->setStatus(ilStudyProgramme::STATUS_ACTIVE);
+		$ass = $this->root->assignUser($user1->getId());
+
+		$root_id  = $this->root->getId();
+		$this->root->delete();
+		$this->root = null;
+		
+		global $ilDB;
+		$res = $ilDB->query( "SELECT COUNT(*) cnt "
+							." FROM ".ilStudyProgrammeAssignment::returnDbTableName()
+							." WHERE root_prg_id = ".$root_id
+							);
+		$rec = $ilDB->fetchAssoc($res);
+		$this->assertEquals(0, $rec["cnt"]);
+	}
+
+	public function testDeassignRemovesEntriesInPrgUsrAssignment() {
+		$user = $this->newUser();
+		$this->root->setStatus(ilStudyProgramme::STATUS_ACTIVE);
+		$ass1 = $this->root->assignUser($user->getId());
+		$ass1->deassign();
+		
+		global $ilDB;
+		$res = $ilDB->query( "SELECT COUNT(*) cnt "
+							." FROM ".ilStudyProgrammeAssignment::returnDbTableName()
+							." WHERE id = ".$ass1->getId()
+							);
+		$rec = $ilDB->fetchAssoc($res);
+		$this->assertEquals(0, $rec["cnt"]);
+	}
+	
 }
