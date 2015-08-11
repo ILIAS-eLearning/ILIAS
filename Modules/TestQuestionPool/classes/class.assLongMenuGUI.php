@@ -354,7 +354,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 		}
 		$question_output = $template->get();
 		$page_output = $this->outQuestionPage("", $is_postponed, $active_id, $question_output);
-		return $pageoutput;
+		return $page_output;
 	}
 
 	/**

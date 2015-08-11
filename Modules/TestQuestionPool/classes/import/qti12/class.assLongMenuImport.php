@@ -56,7 +56,10 @@ class assLongMenuImport extends assQuestionImport
 							$equals = $conditionvar->varequal[$order["index"]]->getContent();
 							$gapident = $conditionvar->varequal[$order["index"]]->getRespident();
 							$id = $this->getIdFromGapIdent($gapident);
-							$answers[$id][] = $equals;
+							if(!in_array($equals, $answers[$id]))
+							{
+								$answers[$id][] = $equals;
+							}
 							break;
 					}
 				}
