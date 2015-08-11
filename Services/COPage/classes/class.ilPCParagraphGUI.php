@@ -365,11 +365,11 @@ class ilPCParagraphGUI extends ilPageContentGUI
 
 		// sup
 		$s_text = str_replace(array("[sup]", "[/sup]"),
-			array('<sup class="ilc_text_inline_Sup">', "</sup>"), $s_text);
+			array('<sup class="ilc_sup_Sup">', "</sup>"), $s_text);
 
 		// sub
 		$s_text = str_replace(array("[sub]", "[/sub]"),
-			array('<sub class="ilc_text_inline_Sub">', "</sub>"), $s_text);
+			array('<sub class="ilc_sub_Sub">', "</sub>"), $s_text);
 
 		return $s_text;
 	}

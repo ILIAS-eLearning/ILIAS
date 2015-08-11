@@ -677,6 +677,10 @@
 <Style Tag="span" Type="text_inline" Class="Accent">
 	<StyleParameter Name="color" Value="#E000E0"/>
 </Style>
+<Style Tag="sup" Type="sup" Class="Sup">
+</Style>
+<Style Tag="sub" Type="sub" Class="Sub">
+</Style>
 
 <!-- Tabs -->
 <Style Tag="div" Type="va_cntr" Class="VAccordCntr">

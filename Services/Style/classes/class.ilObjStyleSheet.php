@@ -246,7 +246,7 @@ class ilObjStyleSheet extends ilObject
 	// style types and their super type
 	public static $style_super_types = array(
 		"text_block" => array("text_block", "heading1", "heading2", "heading3"),
-		"text_inline" => array("text_inline"),
+		"text_inline" => array("text_inline", "sub", "sup"),
 		"section" => array("section"),
 		"link" => array("link"),
 		"table" => array("table", "table_cell", "table_caption"),
@@ -286,6 +286,8 @@ class ilObjStyleSheet extends ilObject
 		"heading2" => "h2",
 		"heading3" => "h3",
 		"text_inline" => "span",
+		"sup" => "sup",
+		"sub" => "sub",
 		"section" => "div",
 		"link" => "a",
 		"table" => "table",
@@ -386,6 +388,8 @@ class ilObjStyleSheet extends ilObject
 			array("type" => "text_inline", "class" => "Strong"),
 			array("type" => "text_inline", "class" => "Accent"),
 			array("type" => "text_inline", "class" => "Important"),
+			array("type" => "sup", "class" => "Sup"),
+			array("type" => "sub", "class" => "Sub"),
 			array("type" => "link", "class" => "IntLink"),
 			array("type" => "link", "class" => "ExtLink"),
 			array("type" => "link", "class" => "FootnoteLink"),

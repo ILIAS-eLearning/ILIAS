@@ -2149,8 +2149,8 @@ function editParagraph(div_id, mode, switched)
 				Comment: {inline : 'span', classes : 'ilc_text_inline_Comment'},
 				Quotation: {inline : 'span', classes : 'ilc_text_inline_Quotation'},
 				Accent: {inline : 'span', classes : 'ilc_text_inline_Accent'},
-				Sup: {inline : 'sup', classes : 'ilc_text_inline_Sup'},
-				Sub: {inline : 'sub', classes : 'ilc_text_inline_Sub'}
+				Sup: {inline : 'sup', classes : 'ilc_sup_Sup'},
+				Sub: {inline : 'sub', classes : 'ilc_sub_Sub'}
 			},
 			/* not found in 4 code or docu (the configs for p/br are defaults for 3, so this should be ok) */
 			removeformat_selector : 'span,code',

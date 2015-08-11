@@ -1582,9 +1582,9 @@ if (!$a_wysiwyg)
 				}
 				$text = str_replace(array("<code>", "</code>"),
 					array("[code]", "[/code]"), $text);
-				$text = str_replace(array('<sup class="ilc_text_inline_Sup">', "</sup>"),
+				$text = str_replace(array('<sup class="ilc_sup_Sup">', "</sup>"),
 					array("[sup]", "[/sup]"), $text);
-				$text = str_replace(array('<sup class="ilc_text_inline_Sub">', "</sub>"),
+				$text = str_replace(array('<sup class="ilc_sub_Sub">', "</sub>"),
 					array("[sub]", "[/sub]"), $text);
 
 				$text = str_replace("<code/>", "", $text);
