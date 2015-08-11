@@ -1423,7 +1423,7 @@ class ilMimeTypeUtil {
 
 
 	/**
-	 * mime constructor.
+	 * @param $path_to_file
 	 */
 	protected function __construct($path_to_file) {
 		if (strpos($path_to_file, 'http://') || strpos($path_to_file, 'https://')) {
@@ -1569,5 +1569,3 @@ class ilMimeTypeUtil {
 		$this->suffix = $suffix;
 	}
 }
-
-?>
