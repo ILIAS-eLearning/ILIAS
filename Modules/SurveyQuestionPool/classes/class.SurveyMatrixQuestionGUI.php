@@ -1010,14 +1010,27 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		
 		$template->setCurrentBlock("detail_row");
 		$template->setVariable("TEXT_OPTION", $this->lng->txt("categories"));
-		$columns = "";
+		$table = array();
+		$idx = $selsum = 0;
 		foreach ($this->cumulated["TOTAL"]["variables"] as $key => $value)
 		{
-			$columns .= "<li>" . $value["title"] . ": n=" . $value["selected"] . 
-				" (" . sprintf("%.2f", 100*$value["percentage"]) . "%)</li>";
+			$table[] = array(
+				(++$idx).".",
+				$value["title"], 
+				$value["selected"], 
+				sprintf("%.2f", 100*$value["percentage"])."%"
+			);
+			$selsum += (int)$value["selected"];
 		}
-		$columns = "<ol>$columns</ol>";
-		$template->setVariable("TEXT_OPTION_VALUE", $columns);
+		$head = array(
+			"", 
+			$this->lng->txt("title"), 
+			$this->lng->txt("category_nr_selected"), 
+			$this->lng->txt("percentage_of_selections")
+		);
+		$foot = array(null, null, $selsum, null);
+		$template->setVariable("TEXT_OPTION_VALUE", 
+			$this->renderStatisticsDetailsTable($head, $table, $foot));
 		$template->parseCurrentBlock();
 				
 		// total chart 
@@ -1061,14 +1074,27 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 				
 				$template->setCurrentBlock("detail_row");
 				$template->setVariable("TEXT_OPTION", $this->lng->txt("categories"));
-				$columns = "";
+				$table = array();
+				$idx = $selsum = 0;
 				foreach ($value["variables"] as $cvalue)
-				{
-					$columns .= "<li>" . $cvalue["title"] . ": n=". $cvalue["selected"] . 
-						" (".sprintf("%.2f", 100*$cvalue["percentage"]) . "%)</li>";
+				{					
+					$table[] = array(
+						(++$idx).".",
+						$cvalue["title"], 
+						$cvalue["selected"], 
+						sprintf("%.2f", 100*$cvalue["percentage"])."%"
+					);
+					$selsum += (int)$cvalue["selected"];
 				}
-				$columns = "<ol>".$columns."</ol>";
-				$template->setVariable("TEXT_OPTION_VALUE", $columns);
+				$head = array(
+					"", 
+					$this->lng->txt("title"), 
+					$this->lng->txt("category_nr_selected"), 
+					$this->lng->txt("percentage_of_selections")
+				);
+				$foot = array(null, null, $selsum, null);
+				$template->setVariable("TEXT_OPTION_VALUE", 
+					$this->renderStatisticsDetailsTable($head, $table, $foot));
 				$template->parseCurrentBlock();
 				
 				// add text answers to detailed results
