@@ -77,7 +77,7 @@ class ilFileDelivery {
 	/**
 	 * @var bool
 	 */
-	protected static $DEBUG = true;
+	protected static $DEBUG = false;
 
 
 	/**
@@ -116,7 +116,9 @@ class ilFileDelivery {
 	 * @param null $download_file_name
 	 */
 	public static function deliverFileInline($path_to_file, $download_file_name = NULL) {
+
 		$obj = new self($path_to_file);
+
 		if ($download_file_name) {
 			$obj->setDownloadFileName($download_file_name);
 		}
