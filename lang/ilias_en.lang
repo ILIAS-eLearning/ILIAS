@@ -15500,3 +15500,9 @@ forum#:#selected_threads_closed#:#The selected threads has been closed
 forum#:#selected_threads_reopened#:#The selected threads has been reopened
 blog#:#blog_keywords_other#:#Other Keywords
 blog#:#blog_keywords_other_info#:#These keywords were set for other blog postings.
+content#:#cont_cc_sub#:#Subscript
+content#:#cont_cc_sup#:#Superscript
+style#:#sty_type_sub#:#Subscript
+style#:#sty_type_sup#:#Superscript
+content#:#cont_text_sub#:#Subscript
+content#:#cont_text_sup#:#Superscript

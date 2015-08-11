@@ -15495,3 +15495,9 @@ forum#:#selected_threads_closed#:#Die gewählten Themen wurden geschlossen
 forum#:#selected_threads_reopened#:#Die gewählten Themen wurden wiedereröffnet
 blog#:#blog_keywords_other#:#Sonstige Schlagwörter
 blog#:#blog_keywords_other_info#:#Diese Schlagwörter sind für andere Blog-Einträge vergeben worden.
+content#:#cont_cc_sub#:#Tiefgestellt
+content#:#cont_cc_sup#:#Hochgestellt
+style#:#sty_type_sub#:#Tiefgestellt
+style#:#sty_type_sup#:#Hochgestellt
+content#:#cont_text_sub#:#Tiefgestellt
+content#:#cont_text_sup#:#Hochgestellt

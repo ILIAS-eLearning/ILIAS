@@ -1073,22 +1073,22 @@
 	</xsl:if>
 	<xsl:choose>
 		<xsl:when test="not(@Characteristic)">
-			<xsl:attribute name="class">ilc_text_block_Standard</xsl:attribute>
+			<xsl:attribute name="class">ilc_Paragraph ilc_text_block_Standard</xsl:attribute>
 		</xsl:when>
 		<xsl:when test="@Characteristic = 'Headline1'">
-			<xsl:attribute name="class">ilc_heading1_Headline1</xsl:attribute>
+			<xsl:attribute name="class">ilc_Paragraph ilc_heading1_Headline1</xsl:attribute>
 			<xsl:comment>PageTocPH</xsl:comment>
 		</xsl:when>
 		<xsl:when test="@Characteristic = 'Headline2'">
-			<xsl:attribute name="class">ilc_heading2_Headline2</xsl:attribute>
+			<xsl:attribute name="class">ilc_Paragraph ilc_heading2_Headline2</xsl:attribute>
 			<xsl:comment>PageTocPH</xsl:comment>
 		</xsl:when>
 		<xsl:when test="@Characteristic = 'Headline3'">
-			<xsl:attribute name="class">ilc_heading3_Headline3</xsl:attribute>
+			<xsl:attribute name="class">ilc_Paragraph ilc_heading3_Headline3</xsl:attribute>
 			<xsl:comment>PageTocPH</xsl:comment>
 		</xsl:when>
 		<xsl:when test="not (@Characteristic = 'Code')">
-			<xsl:attribute name="class">ilc_text_block_<xsl:value-of select="@Characteristic"/></xsl:attribute>
+			<xsl:attribute name="class">ilc_Paragraph ilc_text_block_<xsl:value-of select="@Characteristic"/></xsl:attribute>
 		</xsl:when>
 	</xsl:choose>
 	<xsl:call-template name="EditReturnAnchors"/>
