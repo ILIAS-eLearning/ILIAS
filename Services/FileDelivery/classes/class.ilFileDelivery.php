@@ -22,7 +22,12 @@ class ilFileDelivery {
 	const DISP_ATTACHMENT = 'attachment';
 	const DISP_INLINE = 'inline';
 	const VIRTUAL_DATA = 'virtual-data';
+	const SECURED_DATA = 'secured-data';
 	const DATA = 'data';
+	/**
+	 * @var integer
+	 */
+	protected static $delivery_type_static = NULL;
 	/**
 	 * @var string
 	 */
@@ -117,7 +122,6 @@ class ilFileDelivery {
 	 * @param null $download_file_name
 	 */
 	public static function deliverFileInline($path_to_file, $download_file_name = NULL) {
-
 		$obj = new self($path_to_file);
 
 		if ($download_file_name) {
@@ -201,11 +205,11 @@ class ilFileDelivery {
 		$path_to_file = $this->getPathToFile();
 		$this->clearHeaders();
 		header('Content-type:');
-		if (strpos($path_to_file, './' . self::DATA . '/') === 0 && is_dir('./' . self::VIRTUAL_DATA)) {
-			$path_to_file = str_replace('./' . self::DATA . '/', '/' . self::VIRTUAL_DATA . '/', $path_to_file);
+		if (strpos($path_to_file, './' . self::DATA . '/') === 0 ) {
+			$path_to_file = str_replace('./' . self::DATA . '/', '/' . self::SECURED_DATA . '/', $path_to_file);
 		}
 
-		header('X-Accel-Redirect: ' . $path_to_file);
+		header('X-Accel-Redirect: ' . ($path_to_file));
 	}
 
 
@@ -298,7 +302,16 @@ class ilFileDelivery {
 	}
 
 
+	/**
+	 * @return bool
+	 */
 	protected function detemineDeliveryType() {
+		if (self::$delivery_type_static) {
+			ilWACLog::getInstance()->write('used cahced delivery type');
+			$this->setDeliveryType(self::$delivery_type_static);
+
+			return true;
+		}
 		if (function_exists('apache_get_modules') && in_array('mod_xsendfile', apache_get_modules())) {
 			$this->setDeliveryType(self::DELIVERY_METHOD_XSENDFILE);
 		}
@@ -309,6 +322,16 @@ class ilFileDelivery {
 				$this->setDeliveryType($override_delivery_type);
 			}
 		}
+
+		require_once('./Services/Environment/classes/class.ilRuntime.php');
+		$ilRuntime = ilRuntime::getInstance();
+		if ((! $ilRuntime->isFPM() && ! $ilRuntime->isHHVM()) && $this->getDeliveryType() == self::DELIVERY_METHOD_XACCEL) {
+			$this->setDeliveryType(self::DELIVERY_METHOD_PHP);
+		}
+
+		self::$delivery_type_static = $this->getDeliveryType();
+
+		return true;
 	}
 
 
