@@ -59,7 +59,7 @@ class ilMemcacheServer extends ActiveRecord {
 	 * @var string
 	 *
 	 * @con_has_field  true
-	 * @con_fieldtype  text
+	 * @con_fieldtype  integer
 	 * @con_length     1
 	 */
 	protected $status = self::STATUS_INACTIVE;
@@ -91,7 +91,7 @@ class ilMemcacheServer extends ActiveRecord {
 	 * @var string
 	 *
 	 * @con_has_field  true
-	 * @con_fieldtype  text
+	 * @con_fieldtype  integer
 	 * @con_length     1
 	 */
 	protected $flush_needed = false;
