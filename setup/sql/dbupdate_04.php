@@ -8247,3 +8247,57 @@ include_once("./Services/Migration/DBUpdate_3136/classes/class.ilDBUpdate3136.ph
 ilDBUpdate3136::addStyleClass("CarouselICont", "ca_icont", "div",
 	array());
 ?>
+<#4599>
+<?php
+
+if( !$ilDB->tableExists('member_noti') )
+{
+	$ilDB->createTable('member_noti', array(
+		'ref_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'nmode' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		)
+	));
+		
+	$ilDB->addPrimaryKey('member_noti', array('ref_id'));
+}
+
+?>
+<#4600>
+<?php
+
+if( !$ilDB->tableExists('member_noti_user') )
+{
+	$ilDB->createTable('member_noti_user', array(
+		'ref_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'user_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'status' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		)
+	));
+		
+	$ilDB->addPrimaryKey('member_noti_user', array('ref_id', 'user_id'));
+}
+
+?>

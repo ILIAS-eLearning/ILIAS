@@ -60,72 +60,76 @@ class ilMembershipCronNotifications extends ilCronJob
 		$setting = new ilSetting("cron");		
 		$last_run = $setting->get(get_class($this));
 				
-		// #10284 - we already did send today, do nothing
-		if($last_run == date("Y-m-d"))
-		{			
-			// #14005
-			$status_details = "Did already run today.";
-		}
-		else
+		// no last run?
+		if(!$last_run)
 		{
-			// gather objects and participants with notification setting
-			$objects = array();
-			$set = $ilDB->query("SELECT usr_id,keyword FROM usr_pref".
-				" WHERE ".$ilDB->like("keyword", "text", "grpcrs_ntf_%").
-				" AND value = ".$ilDB->quote("1", "text"));
-			while($row = $ilDB->fetchAssoc($set))
-			{
-				$ref_id = substr($row["keyword"], 11);
-				$type = ilObject::_lookupType($ref_id, true);
-				if($type)
-				{
-					$objects[$type][$ref_id][] = $row["usr_id"];
-				}
-			}
-
-			$counter = 0;
-			if(sizeof($objects))
-			{
-				$old_lng = $lng;
-
-				include_once "Services/News/classes/class.ilNewsItem.php";
-				foreach($objects as $type => $ref_ids)
-				{
-					// type is not needed for now
-					foreach($ref_ids as $ref_id => $user_ids)
-					{
-						// gather news per object
-						$news_item = new ilNewsItem();
-						if($news_item->checkNewsExistsForGroupCourse($ref_id))
-						{
-							foreach($user_ids as $user_id)
-							{
-								// gather news for user
-								$user_news = $news_item->getNewsForRefId($ref_id,
-									false, false, 1, false, false, false, false,
-									$user_id);
-								if($user_news)
-								{
-									$this->sendMail($user_id, $ref_id, $user_news);
-									$counter++;
-								}
-							}
-						}
-					}
-				}
-
-				$lng = $old_lng;
-			}
-
-			// save last run
-			$setting->set(get_class($this), date("Y-m-d")); 
-
-			if($counter)
-			{
-				$status = ilCronJobResult::STATUS_OK;
-			}			
+			$last_run = date("Y-m-d H:i:s", strtotime("yesterday"));
+			
+			$status_details = "No previous run found - starting from yesterday.";
+		}
+		// migration: used to be date-only value 
+		else if(strlen($last_run) == 10)
+		{
+			$last_run .= " 00:00:00";
+			
+			$status_details = "Switched from daily runs to open schedule.";			
 		}
 		
+		include_once "Services/Membership/classes/class.ilMembershipNotifications.php";
+		$objects = ilMembershipNotifications::getActiveUsersforAllObjects();
+		if(sizeof($objects))
+		{				
+			// gather news for each user over all objects
+			
+			$user_news_aggr = array();
+						
+			include_once "Services/News/classes/class.ilNewsItem.php";
+			foreach($objects as $ref_id => $user_ids)
+			{
+				// gather news per object
+				$news_item = new ilNewsItem();
+				if($news_item->checkNewsExistsForGroupCourse($ref_id, $last_run))
+				{
+					foreach($user_ids as $user_id)
+					{
+						// gather news for user
+						$user_news = $news_item->getNewsForRefId($ref_id,
+							false, false, $last_run, false, false, false, false,
+							$user_id);
+						if($user_news)
+						{
+							$user_news_aggr[$user_id][$ref_id] = $user_news;								
+						}
+					}
+				}				
+			}
+			unset($objects);
+
+
+			// send mails (1 max for each user)
+			
+			$old_lng = $lng;
+			$old_dt = ilDatePresentation::useRelativeDates();
+			ilDatePresentation::setUseRelativeDates(false);
+
+			if(sizeof($user_news_aggr))
+			{
+				foreach($user_news_aggr as $user_id => $user_news)
+				{
+					$this->sendMail($user_id, $user_news, $last_run);
+				}
+			
+				// mails were sent - set cron job status accordingly
+				$status = ilCronJobResult::STATUS_OK;							
+			}
+
+			ilDatePresentation::setUseRelativeDates($old_dt);
+			$lng = $old_lng;
+		}
+
+		// save last run
+		$setting->set(get_class($this), date("Y-m-d H:i:s")); 
+
 		$result = new ilCronJobResult();
 		$result->setStatus($status);	
 		
@@ -136,78 +140,204 @@ class ilMembershipCronNotifications extends ilCronJob
 		
 		return $result;
 	}
+	
+	protected function parseNewsItem(array $a_item, $a_is_sub = false)
+	{
+		global $lng;
+		
+		if(!$a_is_sub)
+		{
+			$title = ilNewsItem::determineNewsTitle(
+				$a_item["context_obj_type"],
+				$a_item["title"], 
+				$a_item["content_is_lang_var"], 
+				$a_item["agg_ref_id"], 
+				$a_item["aggregation"]
+			);					
+		}
+		else
+		{
+			$title = ilNewsItem::determineNewsTitle(
+				$a_item["context_obj_type"],
+				$a_item["title"], 
+				$a_item["content_is_lang_var"]
+			);										
+		}
+		
+		$content = ilNewsItem::determineNewsContent(
+			$a_item["context_obj_type"], 
+			$a_item["content"], 
+			$a_item["content_text_is_lang_var"]
+		);			
+		$item_obj_title = trim(ilObject::_lookupTitle($a_item["context_obj_id"]));	
+		$item_obj_type = $a_item["context_obj_type"];
+		
+		$title = trim($title);
+		$content = trim($content);
+		
+		$res = "";
+		switch($item_obj_type)
+		{
+			case "frm":
+				if(!$a_is_sub)
+				{
+					$res =  $lng->txt("obj_".$item_obj_type).
+						' "'.$item_obj_title.'": '.$title;	
+				}
+				else
+				{
+					$res .= '"'.$title.'": "'.$content.'"';
+				}
+				break;
+				
+			case "file":
+				if(!is_array($a_item["aggregation"]) ||
+					sizeof($a_item["aggregation"]) == 1)
+				{
+					$res =  $lng->txt("obj_".$item_obj_type).
+						' "'.$item_obj_title.'" - '.$title;	
+				}
+				else
+				{
+					$res = $title;
+				}
+				break;
+				
+			default:					
+				$res =  $lng->txt("obj_".$item_obj_type).
+					' "'.$item_obj_title.'"';	
+				if($title)
+				{
+					$res .= ': "'.$title.'"';
+				}
+				if($content)
+				{
+					$res .= ' - '.$content;
+				}
+				break;
+		}		
+		if($res)
+		{
+			$res = $a_is_sub 
+				? "- ".$res
+				: "* ".$res;
+		}
+		
+		// sub-items
+		$sub = null;
+		if($a_item["aggregation"])
+		{				
+			$do_sub = true;			
+			if($item_obj_type == "file" &&
+				sizeof($a_item["aggregation"]) == 1)
+			{
+				$do_sub = false;
+			}										
+			if($do_sub)
+			{
+				$sub = array();						
+				foreach($a_item["aggregation"] as $subitem)
+				{								
+					$res .= "\n ".$this->parseNewsItem($subitem, true);
+				}	
+			}
+		}
+	
+		return trim($res);
+	}
 
 	/**
-	 * Send news mail for 1 object and 1 user
+	 * Send news mail for 1 user and n objects
 	 *
 	 * @param int $a_user_id
-	 * @param int $a_ref_id
-	 * @param array $news
+	 * @param array $a_objects
+	 * @param string $a_last_run
 	 */
-	protected function sendMail($a_user_id, $a_ref_id, array $news)
+	protected function sendMail($a_user_id, array $a_objects, $a_last_run)
 	{
-		global $lng, $ilUser;
-
-		$obj_id = ilObject::_lookupObjId($a_ref_id);
-		$obj_type = ilObject::_lookupType($obj_id);
-						
+		global $lng, $ilUser, $ilClientIniFile, $tree;
+		
 		include_once "./Services/Notification/classes/class.ilSystemNotification.php";
 		$ntf = new ilSystemNotification();		
 		$ntf->setLangModules(array("crs", "news"));
-		$ntf->setRefId($a_ref_id);	
-		$ntf->setGotoLangId('url');
-		$ntf->setSubjectLangId('crs_subject_course_group_notification');
+		// no single object anymore
+		// $ntf->setRefId($a_ref_id);	
+		// $ntf->setGotoLangId('url');
+		// $ntf->setSubjectLangId('crs_subject_course_group_notification');
 		
 		// user specific language
 		$lng = $ntf->getUserLanguage($a_user_id);
-			
-		$obj_title = $lng->txt($obj_type)." \"".ilObject::_lookupTitle($obj_id)."\"";		
-		$ntf->setIntroductionDirect(sprintf($lng->txt("crs_intro_course_group_notification_for"), $obj_title));
 		
-		$subject = sprintf($lng->txt("crs_subject_course_group_notification"), $obj_title);
-		
-		// news summary
-		$counter = 1;
-		$txt = "";
-		foreach($news as $item)
-		{
-			$title = ilNewsItem::determineNewsTitle($item["context_obj_type"],
-				$item["title"], $item["content_is_lang_var"], $item["agg_ref_id"], 
-				$item["aggregation"]);
-			$content = ilNewsItem::determineNewsContent($item["context_obj_type"], 
-				$item["content"], $item["content_text_is_lang_var"]);
+		include_once './Services/Locator/classes/class.ilLocatorGUI.php';			
+		require_once "HTML/Template/ITX.php";
+		require_once "./Services/UICore/classes/class.ilTemplateHTMLITX.php";
+		require_once "./Services/UICore/classes/class.ilTemplate.php";
+		require_once "./Services/Link/classes/class.ilLink.php";
+				
+		$tmp = array();
+		foreach($a_objects as $parent_ref_id => $news)
+		{						
+			$parent = array();
 			
-			$obj_id = ilObject::_lookupObjId($item["ref_id"]);
-			$obj_title = ilObject::_lookupTitle($obj_id);
-			
-			// path
-			include_once './Services/Locator/classes/class.ilLocatorGUI.php';			
-			$cont_loc = new ilLocatorGUI();
-			$cont_loc->addContextItems($item["ref_id"], true);
-			$cont_loc->setTextOnly(true);
-			
-			// #9954/#10044
-			require_once "HTML/Template/ITX.php";
-			require_once "./Services/UICore/classes/class.ilTemplateHTMLITX.php";
-			require_once "./Services/UICore/classes/class.ilTemplate.php";
-			$loc = "[".$cont_loc->getHTML()."]";
-						
-			if($counter > 1)
+			// path		
+			$path = array();
+			foreach($tree->getPathId($parent_ref_id) as $node)
 			{
-				$txt .= $ntf->getBlockBorder();
-			}
-			$txt .= '#'.$counter." - ".$loc." ".$obj_title."\n\n";
-			$txt .= $title;
-			if($content)
-			{
-				$txt .= "\n".$content;
+				$path[] = $node;
 			}			
-			$txt .= "\n\n";
-
-			++$counter;
+			$path = implode("-", $path);		
+			
+			$parent_obj_id = ilObject::_lookupObjId($parent_ref_id);			
+			$parent_type = ilObject::_lookupType($parent_obj_id);
+			
+			$parent["title"] = $lng->txt("obj_".$parent_type).' "'.ilObject::_lookupTitle($parent_obj_id).'"';
+			$parent["url"] = "  ".$lng->txt("crs_course_group_notification_link")." ".ilLink::_getStaticLink($parent_ref_id);
+			
+			// news summary		
+			$parsed = array();
+			foreach($news as $item)
+			{
+				$parsed_item = $this->parseNewsItem($item);
+				$parsed[md5($parsed_item)] = $parsed_item; 				
+			}	
+			$parent["news"] = implode("\n", $parsed);
+			
+			$tmp[$path] = $parent;										
 		}
-		$ntf->addAdditionalInfo("news", $txt, true);
 		
+		ksort($tmp);
+		$counter = 0;
+		$obj_index = array();
+		foreach($tmp as $path => $item)
+		{			
+			$counter++;
+			
+			$txt .= $counter." ".$item["title"]."\n".
+				$item["url"]."\n\n".
+				$item["news"]."\n\n";
+			
+			$obj_index[] = $counter." ".$item["title"];
+		}				
+		
+		$intro = $lng->txt("crs_intro_course_group_notification_for")."\n".
+			sprintf(
+				$lng->txt("crs_intro_course_group_notification_period"), 
+				ilDatePresentation::formatDate(new ilDateTime($a_last_run, IL_CAL_DATETIME)),
+				ilDatePresentation::formatDate(new ilDateTime(time(), IL_CAL_UNIX))
+			);		
+		
+		$ntf->setIntroductionDirect($intro);
+		$ntf->addAdditionalInfo("crs_intro_course_group_notification_index", 
+			trim(implode("\n", $obj_index)),
+			true);
+		$ntf->addAdditionalInfo("", 
+			trim($txt), 
+			true);
+		
+		// :TODO: does it make sense to add client to subject?
+		$client = $ilClientIniFile->readVariable('client', 'name');
+		$subject = sprintf($lng->txt("crs_subject_course_group_notification"), $client);
+			
 		// #10044
 		$mail = new ilMail($ilUser->getId());
 		$mail->enableSOAP(false); // #10410

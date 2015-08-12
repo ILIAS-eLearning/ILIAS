@@ -10276,8 +10276,6 @@ trac#:#trac_learners_back#:#Back To Learners
 trac#:#trac_user_objects#:#Learning Objects for User
 content#:#cont_link_whole_picture#:#Link Whole Picture
 content#:#cont_edit_shape_whole_picture#:#Edit Shape (Whole Picture)
-common#:#settings_for_all_members#:#Notification activated for all course/group members
-common#:#settings_per_users#:#Settings per Course/Group Member
 user#:#enable_local_user_administration#:#Enable Local User Administration
 user#:#enable_local_user_administration_info#:#If enabled, local user accounts can be administrated in categories.
 user#:#restrict_user_access#:#Restricted Access to User Accounts
@@ -11296,7 +11294,6 @@ payment#:#show_shop_explorer#:#Show shop explorer
 payment#:#show_shop_explorer_info#:#This shop explorer simplifies the navigation within shop
 survey#:#survey_available_question_pools#:#Available Pools
 survey#:#survey_question_pool_title#:#Pool Title
-forum#:#user_decides_notification#:#Each user decides about notification
 common#:#allow_user_toggle_noti#:#Member is allowed to deactivate notification
 cntr#:#container_import_zip_file_invalid#:#The uploaded file is not a valid ILIAS export file. To upload a directory structure please use a file object.
 cntr#:#cntr_adopt_content#:#Adopt Content
@@ -12375,7 +12372,6 @@ assessment#:#tst_notify_manscoring_done_body_msg_subject#:#Manual Scoring for Te
 assessment#:#tst_notify_manscoring_done_body_msg_topic#:#Your test has been graded manually:
 assessment#:#tst_notify_manscoring_done_body_msg_reason#:#You have received this notification, because you participated in this test.
 crs#:#crs_subject_course_group_notification#:#Daily Mail for %s
-crs#:#crs_intro_course_group_notification_for#:#This is the daily news digest for: %s
 crs#:#crs_course_group_notification_link#:#Link:
 common#:#obj_lm_duplicate#:#Copy Learning Module
 blog#:#blog_edit_date#:#Edit Date
@@ -15519,3 +15515,15 @@ style#:#sty_ca_cntr_class#:#Carousel Container
 style#:#sty_ca_icntr_class#:#Carousel Item Container
 style#:#sty_ca_icont_class#:#Carousel Item Content
 style#:#sty_ca_ihead_class#:#Carousel Item Header
+membership#:#mem_force_notification#:#Notification per Mail
+membership#:#mem_force_notification_mode_self#:#Members have to manually activate notifcation
+membership#:#mem_force_notification_mode_blocked#:#Members will be notified automatically 
+membership#:#mem_force_notification_mode_all#:#Notification activated for all members (changeable)
+membership#:#mem_force_notification_mode_all_sub_blocked#:#Members can deactivate notifications
+membership#:#mem_force_notification_mode_custom#:#Custom
+common#:#settings_for_all_members#:#Members will be notified automatically 
+common#:#settings_per_users#:#For each member individual settings can be made 
+forum#:#user_decides_notification#:#Members have to manually activate notifications
+crs#:#crs_intro_course_group_notification_for#:#this is the news digest for your courses and groups, which have an active notification.
+crs#:#crs_intro_course_group_notification_period#:#This mail summarizes news from %1$s to %2$s.
+crs#:#crs_intro_course_group_notification_title#:#There are news for the following courses and groups:

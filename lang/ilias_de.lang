@@ -4895,9 +4895,7 @@ common#:#set_offline#:#Offline setzen
 common#:#set_online#:#Online stellen
 common#:#setSystemLanguage#:#Systemsprache ändern
 common#:#settings#:#Einstellungen
-common#:#settings_for_all_members#:#Benachrichtigung für alle Kurs-/Gruppenmitglieder aktiviert
 common#:#settings_for_new_members#:#Einstellungen für neue Mitglieder
-common#:#settings_per_users#:#Individuelle Einstellung für jedes Kurs-/Gruppenmitglied
 common#:#settings_saved#:#Die Einstellungen wurden gespeichert.
 common#:#setUserLanguage#:#Benutzersprache ändern
 common#:#shib#:#Shibboleth
@@ -6608,7 +6606,6 @@ crs#:#crs_info_reg_direct#:#Sie können diesem Kurs direkt beitreten.
 crs#:#crs_info_reg_password#:#Wenn Sie das Kurspasswort von einem Kursadministrator erhalten haben, können Sie in diesen Kurs beitreten.
 crs#:#crs_info_settings#:#Kursinfo
 crs#:#crs_info_start#:#Bitte bearbeiten Sie zunächst alle unten aufgeführten Materialien.<br/>Wenn Sie alle Objekte bearbeitet haben, werden weitere Kursinhalte für Sie freigeschaltet.
-crs#:#crs_intro_course_group_notification_for#:#Dies ist die tägliche Zusammenfassung der Mails für: %s
 crs#:#crs_item_availability_info#:#Wählen Sie diese Einstellung, um das Kursmaterial nur während eines bestimmten Zeitraumes verfügbar zu machen.
 crs#:#crs_item_presetting_info#:#Wählen Sie diese Einstellung, um den Lernenden eine Bearbeitungsdauer zu empfehlen.
 crs#:#crs_join_request#:#Abschicken
@@ -7957,7 +7954,6 @@ forum#:#thread#:#Thema
 forum#:#threads_moved_successfully#:#Die gewählten Themen wurden erfolgreich in ein anderes Forum verschoben.
 forum#:#topic_close#:#geschlossen
 forum#:#topics_please_select_one_action#:#Bitte wählen Sie eine Aktion aus.
-forum#:#user_decides_notification#:#Benutzer entscheidet selbst über Benachrichtigung
 grp#:#crs_add_grouping#:#Neue Mitgliedschaftsbeschränkung
 grp#:#crs_grouping_delete_sure#:#Sind Sie sicher, dass diese Mitgliedschaftsbeschränkung entfernt werden soll ?
 grp#:#crs_grouping_deleted#:#Die Mitgliedschaftsbeschränkung wurde gelöscht.
@@ -15514,3 +15510,15 @@ style#:#sty_ca_cntr_class#:#Carousel Container
 style#:#sty_ca_icntr_class#:#Carousel Item Container
 style#:#sty_ca_icont_class#:#Carousel Item Content
 style#:#sty_ca_ihead_class#:#Carousel Item Header
+membership#:#mem_force_notification#:#Benachrichtigung per Mail 
+membership#:#mem_force_notification_mode_self#:#Mitglieder müssen Benachrichtigungen aktivieren 
+membership#:#mem_force_notification_mode_blocked#:#Mitglieder werden automatisch benachrichtigt
+membership#:#mem_force_notification_mode_all#:#Aktiviert für alle Mitglieder (frei änderbar)
+membership#:#mem_force_notification_mode_all_sub_blocked#:#Mitglieder können Benachrichtigungen deaktivieren
+membership#:#mem_force_notification_mode_custom#:#Einstellungen für jedes Mitglied
+common#:#settings_for_all_members#:#Mitglieder werden automatisch benachrichtigt
+common#:#settings_per_users#:#Für jedes Mitglied können individuelle Voreinstellungen getroffen werden
+forum#:#user_decides_notification#:#Mitglieder müssen Benachrichtigungen selber aktivieren 
+crs#:#crs_intro_course_group_notification_for#:#dies ist die Zusammenfassung der Nachrichten aus Ihren Kursen und Gruppen, für die die automatische Benachrichtigung aktiviert wurde.
+crs#:#crs_intro_course_group_notification_period#:#Diese Mail umfasst Nachrichten für den Zeitraum von %1$s bis %2$s.
+crs#:#crs_intro_course_group_notification_index#:#Es gibt Nachrichten aus folgenden Kursen und Gruppen:

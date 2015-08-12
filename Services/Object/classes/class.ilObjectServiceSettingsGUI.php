@@ -113,6 +113,14 @@ class ilObjectServiceSettingsGUI
 				//$news->setOptionTitle($GLOBALS['lng']->txt('obj_tool_setting_news'));
 				$news->setInfo($GLOBALS['lng']->txt('obj_tool_setting_news_info'));
 				$form->addItem($news);
+				
+				if(in_array(ilObject::_lookupType($a_obj_id), array('crs', 'grp')))
+				{					
+					$ref_id = array_pop(ilObject::_getAllReferences($a_obj_id));
+					
+					include_once 'Services/Membership/classes/class.ilMembershipNotifications.php';
+					ilMembershipNotifications::addToSettingsForm($ref_id, null, $news);
+				}
 			}
 		}
 				
@@ -199,6 +207,14 @@ class ilObjectServiceSettingsGUI
 		{
 			include_once './Services/Container/classes/class.ilContainer.php';
 			ilContainer::_writeContainerSetting($a_obj_id,self::NEWS_VISIBILITY,(int) $form->getInput(self::NEWS_VISIBILITY));
+			
+			if(in_array(ilObject::_lookupType($a_obj_id), array('crs', 'grp')))
+			{					
+				$ref_id = array_pop(ilObject::_getAllReferences($a_obj_id));
+					
+				include_once "Services/Membership/classes/class.ilMembershipNotifications.php";
+				ilMembershipNotifications::importFromForm($ref_id, $form);
+			}
 		}
 		
 		// rating

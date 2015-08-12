@@ -525,11 +525,19 @@ class ilObjCourseGUI extends ilContainerGUI
 	 */
 	function saveNotificationObject()
 	{
-		global $ilUser;
-
-		$ilUser->setPref("grpcrs_ntf_".$this->ref_id, (bool)$_REQUEST["crs_ntf"]);
-		$ilUser->writePrefs();
-
+		include_once "Services/Membership/classes/class.ilMembershipNotifications.php";
+		$noti = new ilMembershipNotifications($this->ref_id);
+		if($noti->canCurrentUserEdit())
+		{
+			if((bool)$_REQUEST["crs_ntf"])
+			{
+				$noti->activateUser();
+			}
+			else
+			{
+				$noti->deactivateUser();
+			}
+		}
 		ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
 		$this->ctrl->redirect($this, "");
 	}
@@ -5129,9 +5137,11 @@ class ilObjCourseGUI extends ilContainerGUI
 			}
 			
 			// notification
-			if($ilSetting->get("crsgrp_ntf"))
+			include_once "Services/Membership/classes/class.ilMembershipNotifications.php";			
+			if(ilMembershipNotifications::isActive())
 			{
-				if(!$ilUser->getPref("grpcrs_ntf_".$this->ref_id))
+				$noti = new ilMembershipNotifications($this->ref_id);				
+				if(!$noti->isCurrentUserActive())
 				{
 					$lg->addHeaderIcon("not_icon",
 						ilUtil::getImagePath("notification_off.svg"),
@@ -5150,9 +5160,11 @@ class ilObjCourseGUI extends ilContainerGUI
 					$caption = "crs_deactivate_notification";
 				}
 
-				$lg->addCustomCommand($this->ctrl->getLinkTarget($this, "saveNotification"),
-					$caption);
-
+				if($noti->canCurrentUserEdit())
+				{
+					$lg->addCustomCommand($this->ctrl->getLinkTarget($this, "saveNotification"),
+						$caption);
+				}
 
 				$this->ctrl->setParameter($this, "crs_ntf", "");
 			}
