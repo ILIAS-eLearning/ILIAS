@@ -198,6 +198,7 @@ class ilDataCollectionRecordListTableGUI extends ilTable2GUI {
 			$ilCtrl->setParameterByClass("ildatacollectionfieldeditgui", "record_id", $record->getId());
 			$ilCtrl->setParameterByClass("ildatacollectionrecordviewgui", "record_id", $record->getId());
 			$ilCtrl->setParameterByClass("ildatacollectionrecordeditgui", "record_id", $record->getId());
+			$ilCtrl->setParameterByClass("ildatacollectionrecordeditgui", "mode", $this->mode);
 
 			if (ilDataCollectionRecordViewGUI::hasTableValidViewDefinition($this->table)) {
 				$record_data["_front"] = $ilCtrl->getLinkTargetByClass("ildatacollectionrecordviewgui", 'renderRecord');

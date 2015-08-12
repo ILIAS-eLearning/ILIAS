@@ -80,8 +80,9 @@ class ilDataCollectionRecordListGUI {
 	 * execute command
 	 */
 	public function executeCommand() {
+		global $ilCtrl;
+		$ilCtrl->saveParameter($this, 'mode');
 		$cmd = $this->ctrl->getCmd();
-
 		switch ($cmd) {
 			case 'listRecords':
 				$this->setSubTabs();
