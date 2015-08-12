@@ -7857,3 +7857,350 @@ $ilDB->addTableColumn("il_wiki_data", "link_md_values",array (
 	"default" => 0,
 ));
 ?>
+<#4589>
+<?php
+$mt_dup_query_num = "
+SELECT COUNT(*) cnt
+FROM (
+    SELECT child
+    FROM mail_tree
+    GROUP BY child
+    HAVING COUNT(*) > 1
+) duplicateMailFolderNodes
+";
+$res  = $ilDB->query($mt_dup_query_num);
+$data = $ilDB->fetchAssoc($res);
+
+$ilSetting = new ilSetting();
+$setting   = $ilSetting->get('mail_mt_dupl_warn_51x_shown', 0);
+if($data['cnt'] > 0 && !(int)$setting)
+{
+	echo "<pre>
+
+		Dear Administrator,
+
+		DO NOT REFRESH THIS PAGE UNLESS YOU HAVE READ THE FOLLOWING INSTRUCTIONS
+
+		The update process has been stopped due to a data consistency issue in table 'mail_tree'.
+		The values in field 'child' should be unique, but there are different values in field 'tree', associated to the same 'child'.
+		You have the opportunity to review the data and apply manual fixes on your own risk. The duplicates can be determined with the following SQL string:
+
+		SELECT * FROM mail_tree INNER JOIN (SELECT child FROM mail_tree GROUP BY child HAVING COUNT(*) > 1) duplicateMailFolderNodes ON duplicateMailFolderNodes.child = mail_tree.child
+
+		If you try to rerun the update process, this warning will be skipped.
+		The remaining duplicates will be removed automatically by the criteria documented below.
+		
+		1. ILIAS determines the relevant unique users for the duplicate entries (field: tree)
+		2. ILIAS ensures that the default folders (root, inbox, trash, drafts, sent, local) exist in table 'mail_obj_data'
+		3. For every affected user ILIAS deletes all records in table 'mail_tree'
+		4. For every affected user ILIAS creates a new root node in table 'mail_tree'
+		5. For every affected user ILIAS creates new nodes (inbox, trash, drafts, sent, local) below the root node
+		6. For every affected user ILIAS creates new nodes for the custom folters below the 'local' folder
+
+		Please ensure to backup your current database before reloading this page or executing the database update in general.
+		Furthermore disable your client while executing the following 3 update steps.
+
+		Best regards,
+		The mail system maintainer
+		
+	</pre>";
+
+	$ilSetting->set('mail_mt_dupl_warn_51x_shown', 1);
+	exit();
+}
+
+if($data['cnt'] > 0)
+{
+	if(!$ilDB->tableExists('mail_tree_migr'))
+	{
+		$ilDB->createTable('mail_tree_migr', array(
+			'usr_id' => array(
+				'type'    => 'integer',
+				'length'  => 4,
+				'notnull' => true,
+				'default' => 0
+			)
+		));
+		$ilDB->addPrimaryKey('mail_tree_migr', array('usr_id'));
+	}
+}
+?>
+<#4590>
+<?php
+if($ilDB->tableExists('mail_tree_migr'))
+{
+	$db_step = $nr;
+
+	$ps_create_mtmig_rec = $ilDB->prepareManip(
+		"INSERT INTO mail_tree_migr (usr_id) VALUES(?)",
+		array('integer')
+	);
+
+	$mt_dup_query = "
+	SELECT DISTINCT mail_tree.tree
+	FROM mail_tree
+	INNER JOIN (
+		SELECT child
+		FROM mail_tree
+		GROUP BY child
+		HAVING COUNT(*) > 1
+	) duplicateMailFolderNodes ON duplicateMailFolderNodes.child = mail_tree.child
+	LEFT JOIN mail_tree_migr ON mail_tree_migr.usr_id = mail_tree.tree
+	WHERE mail_tree_migr.usr_id IS NULL
+	";
+	$res = $ilDB->query($mt_dup_query);
+	while($row = $ilDB->fetchAssoc($res))
+	{
+		$ilDB->execute($ps_create_mtmig_rec, array($row['tree']));
+
+		$GLOBALS['ilLog']->write(sprintf(
+			"DB Step %s: Detected duplicate entries (field: child) in table 'mail_tree' for user (field: tree) %s .",
+			$db_step, $row['tree']
+		));
+	}
+}
+?>
+<#4591>
+<?php
+if($ilDB->tableExists('mail_tree_migr'))
+{
+	$db_step = $nr;
+
+	$ps_del_tree_entries = $ilDB->prepareManip(
+		"DELETE FROM mail_tree WHERE tree = ?",
+		array('integer')
+	);
+
+	$ps_sel_fold_entries = $ilDB->prepare(
+		"SELECT obj_id, title, m_type FROM mail_obj_data WHERE user_id = ?",
+		array('integer')
+	);
+
+	$default_folders_title_to_type_map = array(
+		'a_root'   => 'root',
+		'b_inbox'  => 'inbox',
+		'c_trash'  => 'trash',
+		'd_drafts' => 'drafts',
+		'e_sent'   => 'sent',
+		'z_local'  => 'local'
+	);
+	$default_folder_type_to_title_map = array_flip($default_folders_title_to_type_map);
+
+	$ps_in_fold_entry = $ilDB->prepareManip(
+		"INSERT INTO mail_obj_data (obj_id, user_id, title, m_type) VALUES(?, ?, ?, ?)",
+		array('integer','integer', 'text', 'text')
+	);
+	
+	$ps_in_tree_entry = $ilDB->prepareManip(
+		"INSERT INTO mail_tree (tree, child, parent, lft, rgt, depth) VALUES(?, ?, ?, ?, ?, ?)",
+		array('integer', 'integer', 'integer', 'integer', 'integer', 'integer')
+	);
+	
+	$ps_sel_tree_entry = $ilDB->prepare(
+		"SELECT rgt, lft, parent FROM mail_tree WHERE child = ? AND tree = ?",
+		array('integer', 'integer')
+	);
+
+	$ps_up_tree_entry = $ilDB->prepareManip(
+		"UPDATE mail_tree SET lft = CASE WHEN lft > ? THEN lft + 2 ELSE lft END, rgt = CASE WHEN rgt >= ? THEN rgt + 2 ELSE rgt END WHERE tree = ?",
+		array('integer', 'integer', 'integer')
+	);
+
+	$ps_del_mtmig_rec = $ilDB->prepareManip(
+		"DELETE FROM mail_tree_migr WHERE usr_id = ?",
+		array('integer')
+	);
+
+	$res = $ilDB->query("SELECT usr_id FROM mail_tree_migr");
+	$num = $ilDB->numRows($res);
+
+	$GLOBALS['ilLog']->write(sprintf(
+		"DB Step %s: Found %s duplicates in table 'mail_tree'.",
+		$db_step, $num
+	));
+
+	$i = 0;
+	while($row = $ilDB->fetchAssoc($res))
+	{
+		++$i;
+
+		$usr_id = $row['usr_id'];
+
+		$ilDB->execute($ps_del_tree_entries, array($usr_id));
+		$GLOBALS['ilLog']->write(sprintf(
+			"DB Step %s: Started 'mail_tree' migration for user %s. Deleted all records referring this user (field: tree)",
+			$db_step, $usr_id
+		));
+
+		$fold_res = $ilDB->execute($ps_sel_fold_entries, array($usr_id));
+		$user_folders         = array();
+		$user_default_folders = array();
+		while($fold_row = $ilDB->fetchAssoc($fold_res))
+		{
+			$user_folders[$fold_row['obj_id']] = $fold_row;
+			if(isset($default_folder_type_to_title_map[strtolower($fold_row['m_type'])]))
+			{
+				$user_default_folders[$fold_row['m_type']] = $fold_row['title'];
+			}
+		}
+
+		// Create missing default folders
+		$folders_to_create = array_diff_key($default_folder_type_to_title_map, $user_default_folders);
+		foreach($folders_to_create as $type => $title)
+		{
+			$folder_id = $ilDB->nextId('mail_obj_data');
+			$ilDB->execute($ps_in_fold_entry, array($folder_id, $usr_id, $title, $type));
+
+			$user_folders[$folder_id] = array(
+				'obj_id' => $folder_id,
+				'user_id'=> $usr_id,
+				'title'  => $title,
+				'm_type' => $type
+			);
+			$GLOBALS['ilLog']->write(sprintf(
+				"DB Step %s, iteration %s: Created 'mail_obj_data' record (missing folder type): %s, %s, %s, %s .",
+				$db_step, $i, $folder_id, $usr_id, $title, $type
+			));
+		}		
+
+		// Create a new root folder node
+		$root_id  = null;
+		foreach($user_folders as $folder_id => $data)
+		{
+			if('root' != $data['m_type'])
+			{
+				continue;
+			}
+
+			$root_id = $folder_id;
+			$ilDB->execute($ps_in_tree_entry, array($usr_id, $root_id, 0, 1, 2, 1));
+
+			$GLOBALS['ilLog']->write(sprintf(
+				"DB Step %s, iteration %s: Created root node with id %s for user %s in 'mail_tree'.",
+				$db_step, $i, $root_id, $usr_id
+			));
+			break;
+		}
+
+		if(!$root_id)
+		{
+			// Did not find root folder, skip user and move to the next one
+			$GLOBALS['ilLog']->write(sprintf(
+				"DB Step %s, iteration %s: No root folder found for user %s . Skipped user.",
+				$db_step, $i, $usr_id
+			));
+			continue;
+		}
+
+		$custom_folder_root_id = null;
+		// Create all default folders below 'root'
+		foreach($user_folders as $folder_id => $data)
+		{
+			if('root' == $data['m_type'] || !isset($default_folder_type_to_title_map[strtolower($data['m_type'])]))
+			{
+				continue;
+			}
+
+			if(null === $custom_folder_root_id && 'local' == $data['m_type'])
+			{
+				$custom_folder_root_id = $folder_id;
+			}
+
+			$res_parent = $ilDB->execute($ps_sel_tree_entry, array($root_id, $usr_id));
+			$parent_row = $ilDB->fetchAssoc($res_parent);
+
+			$right = $parent_row['rgt'];
+			$lft   = $right;
+			$rgt   = $right + 1;
+
+			$ilDB->execute($ps_up_tree_entry, array($right, $right, $usr_id));
+			$ilDB->execute($ps_in_tree_entry, array($usr_id, $folder_id, $root_id, $lft, $rgt, 2));
+			$GLOBALS['ilLog']->write(sprintf(
+				"DB Step %s, iteration %s: Created node with id %s (lft: %s | rgt: %s) for user % in 'mail_tree'.",
+				$db_step, $i, $folder_id, $lft, $rgt, $usr_id
+			));
+
+		}
+
+		if(!$custom_folder_root_id)
+		{
+			// Did not find custom folder root, skip user and move to the next one
+			$GLOBALS['ilLog']->write(sprintf(
+				"DB Step %s, iteration %s: No custom folder root found for user %s . Skipped user.",
+				$db_step, $i, $usr_id
+			));
+			continue;
+		}
+
+		// Create all custom folders below 'local'
+		foreach($user_folders as $folder_id => $data)
+		{
+			if(isset($default_folder_type_to_title_map[strtolower($data['m_type'])]))
+			{
+				continue;
+			}
+
+			$res_parent = $ilDB->execute($ps_sel_tree_entry, array($custom_folder_root_id, $usr_id));
+			$parent_row = $ilDB->fetchAssoc($res_parent);
+
+			$right = $parent_row['rgt'];
+			$lft   = $right;
+			$rgt   = $right + 1;
+
+			$ilDB->execute($ps_up_tree_entry, array($right, $right, $usr_id));
+			$ilDB->execute($ps_in_tree_entry, array($usr_id, $folder_id, $custom_folder_root_id, $lft, $rgt, 3));
+			$GLOBALS['ilLog']->write(sprintf(
+				"DB Step %s, iteration %s: Created custom folder node with id %s (lft: %s | rgt: %s) for user % in 'mail_tree'.",
+				$db_step, $i, $folder_id, $lft, $rgt, $usr_id
+			));
+		}
+
+		// Tree completely created, remove migration record
+		$ilDB->execute($ps_del_mtmig_rec, array($usr_id));
+
+		$GLOBALS['ilLog']->write(sprintf(
+			"DB Step %s, iteration %s: Finished 'mail_tree' migration for user %s .",
+			$db_step, $i, $usr_id
+		));
+	}
+
+	$res = $ilDB->query("SELECT usr_id FROM mail_tree_migr");
+	$num = $ilDB->numRows($res);
+	if($num > 0)
+	{
+		throw new ilException("There are still duplicate entries in table 'mail_tree'. Please execute this database update step again.");
+	}
+}
+?>
+<#4592>
+<?php
+if($ilDB->tableExists('mail_tree_migr'))
+{
+	$ilDB->dropTable('mail_tree_migr');
+}
+
+$ilSetting = new ilSetting();
+$ilSetting->delete('mail_mt_dupl_warn_51x_shown');
+
+$mt_dup_query_num = "
+SELECT COUNT(*) cnt
+FROM (
+	SELECT child
+	FROM mail_tree
+	GROUP BY child
+	HAVING COUNT(*) > 1
+) duplicateMailFolderNodes
+";
+$res  = $ilDB->query($mt_dup_query_num);
+$data = $ilDB->fetchAssoc($res);
+if($data['cnt'] > 0)
+{
+	throw new ilException("There are still duplicate entries in table 'mail_tree'. Please execute database update step 4589 again. Execute the following SQL string manually: UPDATE settings SET value = 4588 WHERE keyword = 'db_version'; ");
+}
+
+$ilDB->addPrimaryKey('mail_tree', array('child'));
+?>
+<#4593>
+<?php
+$ilDB->dropIndex('mail_tree', 'i1');
+?>
