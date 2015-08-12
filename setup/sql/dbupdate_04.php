@@ -7819,3 +7819,12 @@ ilDBUpdate3136::addStyleClass("Sup", "sup", "sup",
 ilDBUpdate3136::addStyleClass("Sub", "sub", "sub",
 	array());
 ?>
+<#4588>
+<?php
+$ilDB->addTableColumn("il_wiki_data", "link_md_values",array (
+	"type" => "integer",
+	"length" => 1,
+	"notnull" => false,
+	"default" => 0,
+));
+?>
