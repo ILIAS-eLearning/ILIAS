@@ -17,7 +17,7 @@ class ilADTEnumPresentationBridge extends ilADTPresentationBridge
 			$value = $this->getADT()->getSelection();
 			if(array_key_exists($value, $options))
 			{
-				$this->decorate($options[$value]);
+				return $this->decorate($options[$value]);
 			}			
 		}
 	}
