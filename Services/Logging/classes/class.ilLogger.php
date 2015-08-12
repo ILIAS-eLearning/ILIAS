@@ -106,8 +106,13 @@ abstract class ilLogger
 	 * @param type $a_message
 	 * @throws \Exception
 	 */
-	public function logStack($a_level, $a_message = '')
+	public function logStack($a_level = null, $a_message = '')
 	{
+		if(is_null($a_level))
+		{
+			$a_level = ilLogLevel::INFO;
+		}
+		
 		try {
 			throw new \Exception($a_message);
 		} 

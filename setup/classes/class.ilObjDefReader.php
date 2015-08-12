@@ -217,6 +217,11 @@ class ilObjDefReader extends ilSaxParser
 						$ilDB->quote($a_attribs["amet"], "integer").
 						")");
 					break;
+				
+				case 'logging':
+					include_once './Services/Logging/classes/class.ilLogComponentLevels.php';
+					ilLogComponentLevels::updateFromXML($a_attribs['id']);
+					break;
 			}
 		}
 	}
