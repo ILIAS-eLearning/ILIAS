@@ -613,7 +613,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		// shuffle output
 		$terms = $this->object->getTerms();
 		$definitions = $this->object->getDefinitions();
-		switch ($this->object->getShuffle() && $this->object->shufflerExists())
+		switch ($this->object->getShuffle())
 		{
 			case 1:
 				$terms = $this->object->getShuffler()->shuffle($terms);
@@ -795,7 +795,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
 		$terms = $this->object->getTerms();
 		$definitions = $this->object->getDefinitions();
-		switch ($this->object->getShuffle() && $this->object->shufflerExists())
+		switch ($this->object->getShuffle())
 		{
 			case 1:
 				$terms = $this->object->getShuffler()->shuffle($terms);

@@ -303,7 +303,8 @@ abstract class assQuestion
 		
 		$this->lastChange = null;
 
-		$this->shuffler = null;
+		require_once 'Services/Randomization/classes/class.ilArrayElementOrderKeeper.php';
+		$this->shuffler = new ilArrayElementOrderKeeper();
 	}
 
 	/**
@@ -320,11 +321,6 @@ abstract class assQuestion
 	public function setShuffler(ilArrayElementShuffler $shuffler)
 	{
 		$this->shuffler = $shuffler;
-	}
-
-	public function shufflerExists()
-	{
-		return $this->shuffler instanceof ilArrayElementShuffler;
 	}
 
 	/**

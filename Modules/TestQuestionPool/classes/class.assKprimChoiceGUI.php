@@ -710,7 +710,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 	{
 		$choiceKeys = array_keys($this->object->getAnswers());
 
-		if( $this->object->isShuffleAnswersEnabled() && $this->object->shufflerExists() )
+		if( $this->object->isShuffleAnswersEnabled() )
 		{
 			$choiceKeys = $this->object->getShuffler()->shuffle($choiceKeys);
 		}

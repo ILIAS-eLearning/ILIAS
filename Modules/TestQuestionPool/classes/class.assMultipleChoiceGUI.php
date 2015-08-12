@@ -664,7 +664,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 	{
 		$choiceKeys = array_keys($this->object->answers);
 
-		if( $this->object->getShuffle() && $this->object->shufflerExists() )
+		if( $this->object->getShuffle() )
 		{
 			$choiceKeys = $this->object->getShuffler()->shuffle($choiceKeys);
 		}

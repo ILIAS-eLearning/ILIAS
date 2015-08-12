@@ -85,25 +85,20 @@ class assClozeGap
 		$this->type = $a_type;
 	}
 
-/**
-* Gets the items of a cloze gap
-* 
-* Gets the items of a cloze gap
-*
-* @return array The list of items
-* @access public
-* @see $items
-*/
-  function getItems(ilArrayElementShuffler $shuffler = null)
+	/**
+	 * Gets the items of a cloze gap
+	 *
+	 * @param ilArrayElementShuffler $shuffler
+	 * @return array The list of items
+	 */
+	public function getItems(ilArrayElementShuffler $shuffler)
 	{
-		if ($this->getShuffle() && $shuffler instanceof ilArrayElementShuffler)
+		if ($this->getShuffle())
 		{
 			return $shuffler->shuffle($this->items);
 		}
-		else
-		{
-			return $this->items;
-		}
+		
+		return $this->items;
 	}
 
 	/**
