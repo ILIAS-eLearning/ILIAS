@@ -41,7 +41,7 @@ class ilArrayElementShuffler
 	/**
 	 * @return integer
 	 */
-	public static function buildRandomSeed()
+	public function buildRandomSeed()
 	{
 		list($usec, $sec) = explode(' ', microtime());
 		return (int)($sec + ($usec * 100000));
