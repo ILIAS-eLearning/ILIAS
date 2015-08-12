@@ -373,7 +373,7 @@ class ilPCTabs extends ilPageContent
 	 */
 	static function getLangVars()
 	{
-		return array("pc_vacc", "pc_hacc");
+		return array("pc_vacc", "pc_hacc", "pc_carousel");
 	}
 
 

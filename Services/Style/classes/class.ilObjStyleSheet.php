@@ -3507,7 +3507,7 @@ class ilObjStyleSheet extends ilObject
 		
 		$tag = "<StyleTemplates>";
 		
-		$ttypes = array("table", "vaccordion", "haccordion");
+		$ttypes = array("table", "vaccordion", "haccordion", "carousel");
 		
 		foreach ($ttypes as $ttype)
 		{
