@@ -46,6 +46,7 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		// No Menu during registration or on makler page
 		$basename = basename($_SERVER["PHP_SELF"]);
 		if (   $basename == "gev_registration.php"
+			|| $basename == "gev_logindata.php"
 			|| $basename == "makler.php" ) {
 			return;
 		}
