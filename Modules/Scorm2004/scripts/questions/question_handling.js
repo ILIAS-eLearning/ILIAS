@@ -1111,10 +1111,10 @@ ilias.questions.showCorrectAnswers =function(a_id) {
 					for (var j=0;j<questions[a_id].correct_answers[i].length;j++)
 					{
 						correct_solution += questions[a_id].correct_answers[i][0][j] + ' or ';
-						console.log(i,j)
 					}
 					correct_solution = correct_solution.substring(0, correct_solution.length - 4);
 					a_node.find("[name='answer[" + node_nr + "]']").val(correct_solution);
+					a_node.find("[name='answer[" + node_nr + "]']").attr('size', correct_solution.length);
 				}
 			break;
 		//end assLongMenu
