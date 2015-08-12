@@ -183,6 +183,27 @@ class ilBookingScheduleGUI
 		$deadline->setSize(3);
 		$deadline->setMaxLength(3);
 		$form_gui->addItem($deadline);
+		
+		if ($a_mode == "edit")
+		{			
+			include_once 'Modules/BookingManager/classes/class.ilBookingSchedule.php';
+			$schedule = new ilBookingSchedule($id);
+		}		
+		
+		$av = new ilFormSectionHeaderGUI();
+		$av->setTitle($lng->txt("obj_activation_list_gui"));
+		$form_gui->addItem($av);
+		
+		
+		$from = new ilDateTimeInputGUI($lng->txt("from"), "from");
+		$from->enableDateActivation("", "from_tgl", $schedule ? is_object($schedule->getAvailabilityFrom()) : false);
+		$from->setShowTime(true);
+		$form_gui->addItem($from);
+		
+		$to = new ilDateTimeInputGUI($lng->txt("to"), "to");
+		$to->enableDateActivation("", "to_tgl", $schedule ? is_object($schedule->getAvailabilityTo()) : false);
+		$to->setShowTime(true);
+		$form_gui->addItem($to);
 	
 		if ($a_mode == "edit")
 		{
@@ -196,6 +217,8 @@ class ilBookingScheduleGUI
 			$schedule = new ilBookingSchedule($id);
 			$title->setValue($schedule->getTitle());
 			$deadline->setValue($schedule->getDeadline());
+			$from->setDate($schedule->getAvailabilityFrom());
+			$to->setDate($schedule->getAvailabilityTo());
 
 			/*
 			if($schedule->getRaster())
@@ -323,6 +346,14 @@ class ilBookingScheduleGUI
 		$schedule->setTitle($form->getInput("title"));
 		$schedule->setPoolId($ilObjDataCache->lookupObjId($this->ref_id));
 		$schedule->setDeadline($form->getInput("deadline"));
+		
+		$from = $form->getItemByPostVar("from");
+		$from_tgl = $from->getActivationPostVar();		
+		$schedule->setAvailabilityFrom($_POST[$from_tgl] ? $from->getDate(): null);
+		
+		$to = $form->getItemByPostVar("to");
+		$to_tgl = $to->getActivationPostVar();		
+		$schedule->setAvailabilityTo($_POST[$to_tgl] ? $to->getDate(): null);
 
 		/*
 		if($form->getInput("type") == "flexible")

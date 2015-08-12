@@ -20,6 +20,8 @@ class ilBookingSchedule
 	protected $auto_break;	// int
 	protected $deadline;	// int
 	protected $definition;  // array
+	protected $av_from;		// ildatetime
+	protected $av_to;		// ildatetime
 
 	/**
 	 * Constructor
@@ -177,6 +179,46 @@ class ilBookingSchedule
 	{
 		return $this->definition;
 	}
+	
+	/**
+	 * Set availability start
+	 * 
+	 * @param ilDateTime $a_date
+	 */
+	function setAvailabilityFrom(ilDateTime $a_date = null)
+	{
+		$this->av_from = $a_date;
+	}
+	
+	/**
+	 * Get availability start
+	 * 
+	 * @return ilDateTime 
+	 */
+	function getAvailabilityFrom()
+	{
+		return $this->av_from;
+	}
+	
+	/**
+	 * Set availability end
+	 * 
+	 * @param ilDateTime $a_date
+	 */
+	function setAvailabilityTo(ilDateTime $a_date = null)
+	{
+		$this->av_to = $a_date;
+	}
+	
+	/**
+	 * Get availability end
+	 * 
+	 * @return ilDateTime 
+	 */
+	function getAvailabilityTo()
+	{
+		return $this->av_to;
+	}
 
 	/**
 	 * Get dataset from db
@@ -188,12 +230,14 @@ class ilBookingSchedule
 		if($this->id)
 		{
 			$set = $ilDB->query('SELECT title,raster,rent_min,rent_max,auto_break,'.
-				'deadline'.
+				'deadline,av_from,av_to'.
 				' FROM booking_schedule'.
 				' WHERE booking_schedule_id = '.$ilDB->quote($this->id, 'integer'));
 			$row = $ilDB->fetchAssoc($set);
 			$this->setTitle($row['title']);
 			$this->setDeadline($row['deadline']);
+			$this->setAvailabilityFrom($row['av_from'] ? new ilDateTime($row['av_from'], IL_CAL_UNIX) : null);
+			$this->setAvailabilityTo($row['av_to'] ? new ilDateTime($row['av_to'], IL_CAL_UNIX) : null);
 			if($row['raster'])
 			{
 				$this->setRaster($row['raster']);
@@ -230,13 +274,21 @@ class ilBookingSchedule
 
 		$this->id = $ilDB->nextId('booking_schedule');
 
+		$av_from = ($this->getAvailabilityFrom() && !$this->getAvailabilityFrom()->isNull())
+			? $this->getAvailabilityFrom()->get(IL_CAL_UNIX)
+			: null;
+		$av_to = ($this->getAvailabilityTo() && !$this->getAvailabilityTo()->isNull())
+			? $this->getAvailabilityTo()->get(IL_CAL_UNIX)
+			: null;
+
 		$ilDB->manipulate('INSERT INTO booking_schedule'.
 			' (booking_schedule_id,title,pool_id,raster,rent_min,rent_max,auto_break,'.
-			'deadline)'.
+			'deadline,av_from,av_to)'.
 			' VALUES ('.$ilDB->quote($this->id, 'integer').','.$ilDB->quote($this->getTitle(), 'text').
 			','.$ilDB->quote($this->getPoolId(), 'integer').','.$ilDB->quote($this->getRaster(), 'integer').
 			','.$ilDB->quote($this->getMinRental(), 'integer').','.$ilDB->quote($this->getMaxRental(), 'integer').
-			','.$ilDB->quote($this->getAutoBreak(), 'integer').','.$ilDB->quote($this->getDeadline(), 'integer').')');
+			','.$ilDB->quote($this->getAutoBreak(), 'integer').','.$ilDB->quote($this->getDeadline(), 'integer').
+			','.$ilDB->quote($av_from, 'integer').','.$ilDB->quote($av_to, 'integer').')');
 
 		$this->saveDefinition();
 		
@@ -256,6 +308,13 @@ class ilBookingSchedule
 			return false;
 		}
 
+		$av_from = ($this->getAvailabilityFrom() && !$this->getAvailabilityFrom()->isNull())
+			? $this->getAvailabilityFrom()->get(IL_CAL_UNIX)
+			: null;
+		$av_to = ($this->getAvailabilityTo() && !$this->getAvailabilityTo()->isNull())
+			? $this->getAvailabilityTo()->get(IL_CAL_UNIX)
+			: null;
+		
 		$ilDB->manipulate('UPDATE booking_schedule'.
 			' SET title = '.$ilDB->quote($this->getTitle(), 'text').
 			', pool_id = '.$ilDB->quote($this->getPoolId(), 'integer').
@@ -264,6 +323,8 @@ class ilBookingSchedule
 			', rent_max = '.$ilDB->quote($this->getMaxRental(), 'integer').
 			', auto_break = '.$ilDB->quote($this->getAutoBreak(), 'integer').
 			', deadline = '.$ilDB->quote($this->getDeadline(), 'integer').
+			', av_from = '.$ilDB->quote($av_from, 'integer').
+			', av_to = '.$ilDB->quote($av_to, 'integer').
 			' WHERE booking_schedule_id = '.$ilDB->quote($this->id, 'integer'));
 
 		$this->saveDefinition();
@@ -280,6 +341,8 @@ class ilBookingSchedule
 		$new_obj->setAutoBreak($this->getAutoBreak());
 		$new_obj->setDeadline($this->getDeadline());
 		$new_obj->setDefinition($this->getDefinition());
+		$new_obj->setAvailabilityFrom($this->getAvailabilityFrom());
+		$new_obj->setAvailabilityTo($this->getAvailabilityTo());
 		return $new_obj->save();	
 	}
 

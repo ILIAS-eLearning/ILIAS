@@ -75,6 +75,33 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 		include_once 'Modules/BookingManager/classes/class.ilBookingObject.php';
 		$data = ilBookingObject::getList($this->pool_id);
 		
+		// check schedule availability
+		if($this->has_schedule)
+		{
+			include_once 'Modules/BookingManager/classes/class.ilBookingSchedule.php';
+			$now = time();
+			$limit = strtotime("+1year");
+			foreach($data as $idx => $item)
+			{
+				$schedule = new ilBookingSchedule($item["schedule_id"]);
+				$av_from = ($schedule->getAvailabilityFrom() && !$schedule->getAvailabilityFrom()->isNull())
+					? $schedule->getAvailabilityFrom()->get(IL_CAL_UNIX)
+					: null;
+				$av_to = ($schedule->getAvailabilityTo() && !$schedule->getAvailabilityTo()->isNull())
+					? $schedule->getAvailabilityTo()->get(IL_CAL_UNIX)
+					: null;
+				if(($av_from && $av_from > $limit) ||
+					($av_to && $av_to < $now))
+				{
+					unset($data[$idx]);
+				}
+				if($av_from > $now)
+				{
+					$data[$idx]["not_yet"] = ilDatePresentation::formatDate(new ilDate($av_from, IL_CAL_UNIX));
+				}
+			}
+		}
+		
 		include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';
 		foreach($data as $item)
 		{
@@ -125,6 +152,11 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 
 	    $this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
 	    $this->tpl->setVariable("TXT_DESC", nl2br($a_set["description"]));
+		
+		if($a_set["not_yet"])
+		{
+			$this->tpl->setVariable("NOT_YET", $a_set["not_yet"]);
+		}
 		
 		if(!$this->has_schedule)		
 		{												

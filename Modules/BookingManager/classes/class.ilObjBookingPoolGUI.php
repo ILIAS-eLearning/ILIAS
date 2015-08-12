@@ -503,10 +503,28 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		$map = array('mo', 'tu', 'we', 'th', 'fr', 'sa', 'su');
 		$definition = $schedule->getDefinition();
 		
+		$av_from = ($schedule->getAvailabilityFrom() && !$schedule->getAvailabilityFrom()->isNull())
+			? $schedule->getAvailabilityFrom()->get(IL_CAL_UNIX)
+			: null;
+		$av_to = ($schedule->getAvailabilityTo() && !$schedule->getAvailabilityTo()->isNull())
+			? $schedule->getAvailabilityTo()->get(IL_CAL_UNIX)
+			: null;
+		
 		$has_open_slot = false;
 		foreach(ilCalendarUtil::_buildWeekDayList($seed,$week_start)->get() as $date)
 		{
 			$date_info = $date->get(IL_CAL_FKT_GETDATE,'','UTC');
+			
+			if($av_from || 
+				$av_to)
+			{
+				$today = $date->get(IL_CAL_UNIX);				
+				if($av_from > $today ||
+					$av_to < $today)
+				{
+					continue;
+				}
+			}
 
 			$slots = array();
 			if(isset($definition[$map[$date_info['isoday']-1]]))
