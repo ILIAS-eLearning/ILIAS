@@ -267,7 +267,7 @@ class gevDecentralTrainingCreationRequest {
 									 , false
 									 , true
 									 , $this->user_id
-									 , 120
+									 , 600
 									 );
 	}
 	
