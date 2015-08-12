@@ -263,8 +263,7 @@ abstract class ilComponent
 		
 		//return $rec["id"];
 	}
-
-
+	
 	/**
 	 * @param $a_type
 	 * @param $a_name

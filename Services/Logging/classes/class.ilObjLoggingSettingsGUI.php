@@ -302,6 +302,39 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
 		$GLOBALS['tpl']->setContent($table->getHTML());
 		
 	}
+	
+	/**
+	 * Save form
+	 */
+	protected function saveComponentLevels()
+	{
+		ilLoggerFactory::getLogger('log')->dump($_POST,  ilLogLevel::DEBUG);
+		
+		foreach($_POST['level'] as $component_id => $value)
+		{
+			ilLoggerFactory::getLogger('log')->debug($component_id);
+			ilLoggerFactory::getLogger('log')->debug($value);
+			include_once './Services/Logging/classes/class.ilLogComponentLevel.php';
+			$level = new ilLogComponentLevel($component_id);
+			$level->setLevel($value);
+			$level->update();
+		}
+		
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'),TRUE);
+		$this->ctrl->redirect($this, 'components');
+	}
+	
+	protected function resetComponentLevels()
+	{
+		foreach(ilLogComponentLevels::getInstance()->getLogComponents() as $component)
+		{
+			$component->setLevel(null);
+			$component->update();
+		}
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'),TRUE);
+		$this->ctrl->redirect($this, 'components');
+		
+	}
 
 }
 ?>

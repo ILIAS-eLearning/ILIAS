@@ -31,6 +31,10 @@ class ilLogComponentTableGUI extends ilTable2GUI
 	 */
 	public function init()
 	{
+		global $ilCtrl;
+		
+		$this->setFormAction($ilCtrl->getFormAction($this->getParentObject()));
+		
 		$this->settings = ilLoggingSettings::getInstance();
 		
 		$this->setRowTemplate('tpl.log_component_row.html','Services/Logging');
@@ -57,16 +61,21 @@ class ilLogComponentTableGUI extends ilTable2GUI
 	 */
 	public function parse()
 	{
-		$all_components = ilLoggingSettings::readLogComponents();
-
-		ilLoggerFactory::getLogger('log')->dump($all_components,  ilLogLevel::DEBUG);
 		
+		include_once './Services/Logging/classes/class.ilLogComponentLevels.php';
+		$components = ilLogComponentLevels::getInstance()->getLogComponents();
+
+		ilLoggerFactory::getLogger('log')->dump($components,  ilLogLevel::DEBUG);
+
 		$rows = array();
-		foreach($all_components as $component_id => $component_name)
+		foreach($components as $component)
 		{
-			$row['id'] = $component_id;
-			$row['component'] = $component_name;
-			$row['level'] = $this->getSettings()->getLevel();
+			$row['id'] = $component->getComponentId();
+			$row['component'] = $this->lookupComponentName($component->getComponentId());
+			ilLoggerFactory::getLogger('log')->debug($component->getComponentId());
+			$row['level'] = ($component->getLevel() ? $component->getLevel() : $this->getSettings()->getLevel());
+			
+			
 			
 			$rows[] = $row;
 		}
@@ -86,6 +95,37 @@ class ilLogComponentTableGUI extends ilTable2GUI
 	{
 		$this->tpl->setVariable('CNAME',$a_set['component']);
 		
+		include_once './Services/Form/classes/class.ilSelectInputGUI.php';
+		$levels = new ilSelectInputGUI('', 'level['.$a_set['id'].']');
+		$levels->setOptions(ilLogLevel::getLevelOptions());
+		$levels->setValue($a_set['level']);
+		
+		$this->tpl->setVariable('C_SELECT_LEVEL',$levels->render());
+		
+		
 	}
+	
+	/**
+	 * lookup component name
+	 * @global type $ilDB
+	 * @param type $a_component_id
+	 * @return type
+	 */
+	public function lookupComponentName($a_component_id)
+	{
+		global $ilDB;
+		
+		$query = 'SELECT name from il_component '.
+				'WHERE id = '.$ilDB->quote($a_component_id,'text');
+		
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return $row->name;
+		}
+	}
+
+
+	
 }
 ?>

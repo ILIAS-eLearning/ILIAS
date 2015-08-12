@@ -58,19 +58,27 @@ class ilLoggingSettings
 		return self::$instance = new self();
 	}
 	
+	/**
+	 * Get level by component
+	 * @param type $a_component_id
+	 * @return type
+	 * @todo better performance
+	 */
 	public function getLevelByComponent($a_component_id)
 	{
-		switch($a_component_id) 
+		include_once './Services/Logging/classes/class.ilLogComponentLevels.php';
+		$levels = ilLogComponentLevels::getInstance()->getLogComponents();
+		foreach($levels as $level)
 		{
-			case 'root':
-				return ilLogLevel::INFO;
-				
-			case 'log':
-				return ilLogLevel::DEBUG;
-				
-			default:
-				return $this->getLevel();
+			if($level->getComponentId() == $a_component_id)
+			{
+				if($level->getLevel())
+				{
+					return $level->getLevel();
+				}
+			}
 		}
+		return $this->getLevel();
 	}
 	
 	/**
@@ -87,7 +95,7 @@ class ilLoggingSettings
 	 */
 	public function getLevel()
 	{
-		return ilLogLevel::INFO;
+		return $this->level;
 	}
 	
 	/**
@@ -196,24 +204,6 @@ class ilLoggingSettings
 		$this->browser_users = $users;
 	}
 	
-	/**
-	 * 
-	 * @global type $ilDB
-	 */
-	public static function readLogComponents()
-	{
-		global $ilDB;
-		
-		$query = 'SELECT * FROM il_component ';
-		$res = $ilDB->query($query);
-		
-		$components = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$components[$row->id] = $row->name;
-		}
-		return $components;
-	}
 
 	/**
 	 * Update setting
