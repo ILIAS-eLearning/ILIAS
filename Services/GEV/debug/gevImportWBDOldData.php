@@ -70,6 +70,21 @@ $CORRECTIONS = array(
 			'Privat-Sach-/Schadenversicherung' => 'Privat-Sach-/Schadenversicherung'
 		);
 
+$LERNART = array(
+		'Blended Learning' => 'Virtuelles Training',
+		'gesteuertes E-Learning' => 'Virtuelles Training',
+		'Virtuelle Sitzung' => 'Virtuelles Training',
+
+		'Einzeltraining' => 'Präsenztraining',
+		'Präsenz-Veranstaltung' => 'Präsenztraining',
+		'Präsenzveranstaltung' => 'Präsenztraining',
+		'Präsenzverantaltung' => 'Präsenztraining',
+		'Spezialistenschulung Präsenztraining' => 'Präsenztraining',
+
+		'Onlinetraining' => 'Selbstlernkurs',
+		'selbstgesteuertes E-Learning' => 'Selbstlernkurs'
+	);
+
 
 
 function printToTable($ar){
@@ -281,10 +296,10 @@ class gevImportOldData {
 		$title = $rec['Titel'];
 		
 		$type = $rec['Lernart']; //validate/check/map
+		$type = $LERNART[$type];
+
 		$wbd_topic = $rec['Inhalt']; //validate/check/map
-
 		$wbd_topic = $CORRECTIONS[$wbd_topic];
-
 
 		$begin_date = date('Y-m-d', strtotime($rec['Beginn']));
 		$end_date = date('Y-m-d', strtotime($rec['Ende']));
