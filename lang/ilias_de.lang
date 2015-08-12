@@ -14586,6 +14586,7 @@ rbac#:#orgu_delete#:#Organisationseinheit löschen oder verschieben
 rbac#:#orgu_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#rbac_create_orgu#:#Organisationseinheiten anlegen
 rbac#:#orgu_copy#:#Organisationseinheit kopieren
+rbac#:#orgu_view_learning_progress_rec#:#Lernfortschritt rekursiv einsehen
 book#:#book_post_booking_text_info#:#Verwenden Sie [PERIOD] und [OBJECT], um Buchungsdetails zum Infotext hinzuzufügen.
 blog#:#blog_abstract_shorten#:#Auszug kürzen
 blog#:#blog_abstract_shorten_length#:#Maximale Länge
@@ -15331,8 +15332,6 @@ mob#:#mob_object#:#Objekt
 content#:#cont_qtries_info#:#Standardwert "Anzahl der Versuche" für neu angelegte Fragen.
 lm#:#lm_copy#:#ILIAS-Lernmodul kopieren
 content#:#cont_settings#:#Lernmoduleinstellungen
-rbac#:#orgu_view_learning_progress_rec#:#Lernfortschritt rekursiv einsehen
-rbac#:#orgu_copy#:#Organisationseinheit kopieren
 exc#:#exc_no_team_yet_notice#:#Sie gehören noch keinem Team an!
 prtf#:#prtf_edit_embedded_blog#:#Blog "%s" bearbeiten
 exc#:#exc_manage_team#:#Team verwalten
