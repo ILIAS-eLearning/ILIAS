@@ -447,7 +447,10 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		}
 		
 		$question_gui = $this->object->createQuestionGUI("", $questionId);
-		$question_gui->object->setShuffler($this->buildQuestionAnswerShuffler());
+		
+		$question_gui->object->setShuffler(
+			$this->buildQuestionAnswerShuffler($question_gui->object->getId())
+		);
 		
 		if( !is_object($question_gui) )
 		{

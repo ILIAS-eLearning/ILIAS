@@ -94,9 +94,9 @@ class assClozeGap
 * @access public
 * @see $items
 */
-  function getItems(ilAssQuestionAnswerShuffler $shuffler = null)
+  function getItems(ilArrayElementShuffler $shuffler = null)
 	{
-		if ($this->getShuffle() && $shuffler instanceof ilAssQuestionAnswerShuffler)
+		if ($this->getShuffle() && $shuffler instanceof ilArrayElementShuffler)
 		{
 			return $shuffler->shuffle($this->items);
 		}

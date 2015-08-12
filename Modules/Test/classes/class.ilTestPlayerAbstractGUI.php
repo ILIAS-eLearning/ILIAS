@@ -1961,14 +1961,18 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		
 		return $this->lng->txt("save_introduction");
 	}
-	
-	protected function buildQuestionAnswerShuffler()
+
+	/**
+	 * @param $questionId
+	 * @return ilArrayElementShuffler
+	 */
+	protected function buildQuestionAnswerShuffler($questionId)
 	{
-		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionAnswerShuffler.php';
-		$shuffler = new ilAssQuestionAnswerShuffler();
+		require_once 'Services/Randomization/classes/class.ilArrayElementShuffler.php';
+		$shuffler = new ilArrayElementShuffler();
 		
 		$shuffler->setSeed(
-			$this->object->getId().$this->testSession->getActiveId().$this->testSession->getPass()
+			$questionId.$this->testSession->getActiveId().$this->testSession->getPass()
 		);
 		
 		return $shuffler;

@@ -210,11 +210,11 @@ class ilAssQuestionPreviewGUI
 	
 	private function resetCmd()
 	{
-		$this->previewSession->initRandomizerSeed();
-		$this->previewSession->resetRequestedHints();
+		$this->previewSession->setRandomizerSeed(null);
 		$this->previewSession->setParticipantsSolution(null);
+		$this->previewSession->resetRequestedHints();
 		$this->previewSession->setInstantResponseActive(false);
-		
+
 		ilUtil::sendInfo($this->lng->txt('qst_preview_reset_msg'), true);
 		
 		$this->ctrl->redirect($this, self::CMD_SHOW);
@@ -266,9 +266,7 @@ class ilAssQuestionPreviewGUI
 		}
 
 		$this->questionGUI->setPreviewSession($this->previewSession);
-		$this->questionGUI->object->setShuffler($this->getQuestionAnswerShuffler(
-			$this->user, $this->questionGUI->object 
-		));
+		$this->questionGUI->object->setShuffler($this->getQuestionAnswerShuffler());
 		
 		$questionHtml = $this->questionGUI->getPreview(true, $this->isShowSpecificQuestionFeedbackRequired());
 		
@@ -414,15 +412,20 @@ class ilAssQuestionPreviewGUI
 	}
 
 	/**
-	 * @param ilObjUser $user
-	 * @param assQuestion $question
-	 * @return ilAssQuestionAnswerShuffler
+	 * @return ilArrayElementShuffler
 	 */
-	private function getQuestionAnswerShuffler(ilObjUser $user, assQuestion $question)
+	private function getQuestionAnswerShuffler()
 	{
-		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionAnswerShuffler.php';
-		$shuffler = new ilAssQuestionAnswerShuffler();
-		$shuffler->setSeed($this->previewSession->getRandomizerSeed());
+		require_once 'Services/Randomization/classes/class.ilArrayElementShuffler.php';
+		$shuffler = new ilArrayElementShuffler();
+		
+		if( !$this->previewSession->randomizerSeedExists() )
+		{
+			$this->previewSession->setRandomizerSeed($shuffler->buildRandomSeed());
+		}
+		
+		$shuffler->setSeed($this->previewSession->getRandomizerSeed());		
+		
 		return $shuffler;
 	}
 }

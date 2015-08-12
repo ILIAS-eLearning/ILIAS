@@ -245,7 +245,7 @@ abstract class assQuestion
 	protected $lastChange;
 
 	/**
-	 * @var ilAssQuestionAnswerShuffler
+	 * @var ilArrayElementShuffler
 	 */
 	protected $shuffler;
 	
@@ -307,7 +307,7 @@ abstract class assQuestion
 	}
 
 	/**
-	 * @return ilAssQuestionAnswerShuffler
+	 * @return ilArrayElementShuffler
 	 */
 	public function getShuffler()
 	{
@@ -315,16 +315,16 @@ abstract class assQuestion
 	}
 
 	/**
-	 * @param ilAssQuestionAnswerShuffler $shuffler
+	 * @param ilArrayElementShuffler $shuffler
 	 */
-	public function setShuffler(ilAssQuestionAnswerShuffler $shuffler)
+	public function setShuffler(ilArrayElementShuffler $shuffler)
 	{
 		$this->shuffler = $shuffler;
 	}
 
 	public function shufflerExists()
 	{
-		return $this->shuffler instanceof ilAssQuestionAnswerShuffler;
+		return $this->shuffler instanceof ilArrayElementShuffler;
 	}
 
 	/**

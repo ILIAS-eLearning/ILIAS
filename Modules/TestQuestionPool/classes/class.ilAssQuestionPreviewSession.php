@@ -29,11 +29,6 @@ class ilAssQuestionPreviewSession
 	public function init()
 	{
 		$this->ensureSessionStructureExists();
-		
-		if( !$this->randomizerSeedExists() )
-		{
-			$this->initRandomizerSeed();
-		}
 	}
 	
 	public function getUserId()
@@ -109,25 +104,19 @@ class ilAssQuestionPreviewSession
 		$this->saveSessionValue(self::SESSION_SUBINDEX_REQUESTED_HINTS, array());
 	}
 	
-	public function initRandomizerSeed()
+	public function setRandomizerSeed($seed)
 	{
-		$this->saveSessionValue(self::SESSION_SUBINDEX_RANDOMIZER_SEED, $this->buildRandomizerSeed());
+		$this->saveSessionValue(self::SESSION_SUBINDEX_RANDOMIZER_SEED, $seed);
 	}
 	
 	public function getRandomizerSeed()
 	{
 		return $this->readSessionValue(self::SESSION_SUBINDEX_RANDOMIZER_SEED);
 	}
-	
-	private function randomizerSeedExists()
+
+	public function randomizerSeedExists()
 	{
-		return (bool)$this->getRandomizerSeed();
-	}
-	
-	private function buildRandomizerSeed()
-	{
-		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionAnswerShuffler.php';
-		return ilAssQuestionAnswerShuffler::buildRandomSeed();
+		return ($this->getRandomizerSeed() !== null);
 	}
 
 	private function ensureSessionStructureExists()
