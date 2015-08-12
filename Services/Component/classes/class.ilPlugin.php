@@ -842,7 +842,55 @@ abstract class ilPlugin
 	protected function afterDeactivation()
 	{
 	}
+	
+	
+	protected function beforeUninstall()
+	{
+		// plugin-specific
+		// false would indicate that anything went wrong
+		return true; 
+	}
+	
+	final function uninstall()
+	{
+		global $ilDB;
+	
+		if($this->beforeUninstall())
+		{
+			// remove all language entries (see ilObjLanguage)
+			// see updateLanguages
+			$prefix = $this->getPrefix();
+			if($prefix)
+			{
+				$ilDB->manipulate("DELETE FROM lng_data".
+					" WHERE module = ".$ilDB->quote($prefix, "text"));		
+				$ilDB->manipulate("DELETE FROM lng_modules".
+					" WHERE module = ".$ilDB->quote($prefix, "text"));
+			}
+			
+			// db version is kept in il_plugin - will be deleted, too						
+			
+			$q = "DELETE FROM il_plugin".
+				" WHERE component_type = ".$ilDB->quote($this->getComponentType(), "text").
+				" AND component_name = ".$ilDB->quote($this->getComponentName(), "text").
+				" AND slot_id = ".$ilDB->quote($this->getSlotId(), "text").
+				" AND name = ".$ilDB->quote($this->getPluginName(), "text");
+			$ilDB->manipulate($q);
 
+			$this->afterUninstall();
+			
+			ilCachedComponentData::flush();
+			return true;
+		}		
+
+		return false;
+	}
+	
+	protected function afterUninstall()
+	{
+		// plugin-specific
+	}
+			
 	/**
 	 * Update plugin
 	 */
