@@ -210,6 +210,14 @@ class ilUserTableGUI extends ilTable2GUI
 			}
 		}
 
+		//#13221 don't show all users if user filter is empty!
+		if(!count($user_filter))
+		{
+			$this->setMaxCount(0);
+			$this->setData(array());
+			return;
+		}
+
 		include_once("./Services/User/classes/class.ilUserQuery.php");
 		
 		$additional_fields = $this->getSelectedColumns();
