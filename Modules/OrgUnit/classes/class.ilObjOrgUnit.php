@@ -465,8 +465,12 @@ class ilObjOrgUnit extends ilContainer {
 	 * @access    public
 	 * @return    string        object description
 	 */
-	function getLongDescription() {
-		return $this->lng->txt("obj_orgu_description");
+	public function getLongDescription() {
+		if (parent::getTitle() == "__OrgUnitAdministration") {
+			return $this->lng->txt("obj_orgu_description");
+		} else {
+			return parent::getLongDescription();
+		}
 	}
 
 
