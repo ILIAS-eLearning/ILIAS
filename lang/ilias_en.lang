@@ -15510,3 +15510,6 @@ style#:#sty_type_sub#:#Subscript
 style#:#sty_type_sup#:#Superscript
 content#:#cont_text_sub#:#Subscript
 content#:#cont_text_sup#:#Superscript
+cmps#:#cmps_uninstall#:#Uninstall
+cmps#:#cmps_uninstall_confirm#:#Are you sure you want to uninstall the plugin "%s"?
+cmps#:#cmps_plugin_uninstalled#:#The plugin has been uninstalled.
