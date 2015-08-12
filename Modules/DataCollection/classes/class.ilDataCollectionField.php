@@ -955,7 +955,8 @@ class ilDataCollectionField
 		$length = ilDataCollectionField::PROPERTYID_LENGTH;
 		$regex_id = ilDataCollectionField::PROPERTYID_REGEX;
 		$url = ilDataCollectionField::PROPERTYID_URL;
-		
+
+		include_once 'Services/Utilities/classes/class.ilStr.php';
 		if($this->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_TEXT)
 		{
 			$regex = $properties[$regex_id];
@@ -963,7 +964,7 @@ class ilDataCollectionField
 				$regex = "/".$regex;
 			if(substr($regex, -1) != "/")
 				$regex .= "/";
-			if($properties[$length] < mb_strlen($value, 'UTF-8') && is_numeric($properties[$length]))
+			if($properties[$length] < ilStr::strLen($value) && is_numeric($properties[$length]))
 				throw new ilDataCollectionInputException(ilDataCollectionInputException::LENGTH_EXCEPTION);
 			if(!($properties[$regex_id] == NULL || @preg_match($regex, $value)))
 				throw new ilDataCollectionInputException(ilDataCollectionInputException::REGEX_EXCEPTION);
