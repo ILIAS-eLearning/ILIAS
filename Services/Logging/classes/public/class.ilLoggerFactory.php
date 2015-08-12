@@ -9,6 +9,8 @@ use Monolog\Handler\StreamHandler;
 use Monolog\Handler\BrowserConsoleHandler;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Processor\PsrLogMessageProcessor;
+use Monolog\Handler\FingersCrossedHandler;
+use Monolog\Handler\FingersCrossed\ErrorLevelActivationStrategy;
 
 
 /**
@@ -30,6 +32,8 @@ class ilLoggerFactory
 	
 	private static $instance = null;
 	
+	private $settings = null;
+	
 	private $enabled = FALSE;
 	private $loggers = array();
 	
@@ -42,7 +46,7 @@ class ilLoggerFactory
 	 * 
 	 * @return ilLoggerFactory
 	 */
-	protected static function getInstance()
+	public static function getInstance()
 	{
 		if(!static::$instance)
 		{
@@ -75,10 +79,52 @@ class ilLoggerFactory
 	}
 	
 	/**
+	 * Init user specific log options
+	 * @param type $a_login
+	 * @return boolean
+	 */
+	public function initUser($a_login)
+	{
+		if(!$this->getSettings()->isBrowserLogEnabledForUser($a_login))
+		{
+			return TRUE;
+		}
+		
+		foreach($this->loggers as $a_component_id => $logger)
+		{
+			$browser_handler = new BrowserConsoleHandler();
+			$browser_handler->setLevel($this->getSettings()->getLevelByComponent($a_component_id));
+			$browser_handler->setFormatter(new LineFormatter(static::DEFAULT_FORMAT, 'Y-m-d H:i:s.u',TRUE,TRUE));
+			
+			$logger->getLogger()->pushHandler($browser_handler);
+		}
+	}
+	
+	/**
+	 * Get settigns
+	 * @return ilLoggingSettings
+	 */
+	public function getSettings()
+	{
+		return $this->settings;
+	}
+	
+	/**
+	 * 
+	 * @return ilComponentLogger[]
+	 */
+	protected function getLoggers()
+	{
+		return $this->loggers;
+	}
+	
+	/**
 	 * Init factory
 	 */
 	protected function init()
 	{
+		include_once './Services/Logging/classes/class.ilLoggingSettings.php';
+		$this->settings = ilLoggingSettings::getInstance();
 		$this->enabled = ILIAS_LOG_ENABLED;
 	}
 	
@@ -106,29 +152,53 @@ class ilLoggerFactory
 				
 		}
 		
+		// standard stream handler
 		$stream_handler = new StreamHandler(ILIAS_LOG_DIR.'/'.ILIAS_LOG_FILE,TRUE);
+		$stream_handler->setLevel($this->getSettings()->getLevelByComponent($a_component_id));
+		
+		// format lines
 		$line_formatter = new LineFormatter(static::DEFAULT_FORMAT, 'Y-m-d H:i:s.u',TRUE,TRUE);
 		$stream_handler->setFormatter($line_formatter);
+		
+		if($this->getSettings()->isCacheEnabled())
+		{
+			// add new finger crossed handler
+			$finger_crossed_handler = new FingersCrossedHandler(
+					$stream_handler,
+					new ErrorLevelActivationStrategy($this->getSettings()->getCacheLevel()),
+					10
+			);
+			$logger->pushHandler($finger_crossed_handler);
+		}
+		else
+		{
+			$logger->pushHandler($stream_handler);
+		}
+		
+		if($GLOBALS['ilUser'] instanceof ilObjUser)
+		{
+			if($this->getSettings()->isBrowserLogEnabledForUser($GLOBALS['ilUser']->getLogin()))
+			{
+				$browser_handler = new BrowserConsoleHandler();
+				$browser_handler->setLevel($this->getSettings()->getLevelByComponent($a_component_id));
+				$browser_handler->setFormatter($line_formatter);
+				$logger->pushHandler($browser_handler);
+			}
+		}
+		
 
-		$logger->pushHandler($stream_handler);
-		
-		
-		// browdser handler
-		$browser_handler = new BrowserConsoleHandler();
-		$browser_handler->setFormatter($line_formatter);
-		
-		$logger->pushHandler($browser_handler);
+		// suid log
 		$logger->pushProcessor(function ($record) { 
 			$record['suid'] = substr(session_id(),0,5);
 			return $record;
 		});
-		
-		//$logger->pushProcessor(new PsrLogMessageProcessor());
-		
+
+		// append trace 
 		include_once './Services/Logging/classes/extensions/class.ilTraceProcessor.php';
 		$logger->pushProcessor(new ilTraceProcessor(ilLogLevel::DEBUG));
 		
-		
+				
+		// register new logger
 		include_once './Services/Logging/classes/class.ilComponentLogger.php';
 		$this->loggers[$a_component_id] = new ilComponentLogger($logger);
 		
@@ -140,7 +210,10 @@ class ilLoggerFactory
 	 */
 	public function __destruct()
 	{
-		$this->getRootLogger()->writeMemoryPeakUsage(ilLogLevel::DEBUG);
+		if($this->getSettings()->isMemoryUsageEnabled())
+		{
+			$this->getRootLogger()->writeMemoryPeakUsage(ilLogLevel::DEBUG);
+		}
 	}
 }
 ?>

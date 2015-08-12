@@ -587,6 +587,10 @@ class ilInitialisation
 		{
 			$ilUser->setId($uid);	
 			$ilUser->read();
+			
+			// init console log handler
+			include_once './Services/Logging/classes/public/class.ilLoggerFactory.php';
+			ilLoggerFactory::getInstance()->initUser($ilUser->getLogin());
 		}
 		else
 		{
@@ -1034,14 +1038,13 @@ class ilInitialisation
 			self::handleDevMode();
 		}						
 	
-		self::initLog();		
 
 		self::handleMaintenanceMode();
 
 		self::initDatabase();
 		
-		
-		// --- needs database
+		// moved after databases 
+		self::initLog();		
 		
 		self::initGlobal("ilAppEventHandler", "ilAppEventHandler",
 			"./Services/EventHandling/classes/class.ilAppEventHandler.php");

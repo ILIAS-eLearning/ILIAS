@@ -7,7 +7,6 @@ include_once './Services/Logging/classes/public/class.ilLogLevel.php';
 
 use Monolog\Logger;
 use Monolog\Processor\MemoryPeakUsageProcessor;
-use Monolog\Processor\IntrospectionProcessor;
 
 
 /**
@@ -77,7 +76,7 @@ abstract class ilLogger
 	 * Get logger instance
 	 * @return \Logger
 	 */
-	protected function getLogger()
+	public function getLogger()
 	{
 		return $this->logger;
 	}
