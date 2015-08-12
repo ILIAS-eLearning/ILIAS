@@ -7806,10 +7806,39 @@ if($data['cnt'] > 0)
 }
 $ilDB->addPrimaryKey('mail_obj_data', array('obj_id'));
 ?>
-<#4586>	
+<#4586>
 <?php
-require_once('./Services/GlobalCache/classes/Memcache/class.ilMemcacheServer.php');
-ilMemcacheServer::installDB();
+$fields = array(
+	'id' => array(
+		'type' => 'integer',
+		'length' => '8',
+		),
+	'status' => array(
+		'type' => 'integer',
+		'length' => '1',
+		),
+	'host' => array(
+		'type' => 'text',
+		'length' => '256',
+		),
+	'port' => array(
+		'type' => 'integer',
+		'length' => '8',
+		),
+	'weight' => array(
+		'type' => 'integer',
+		'length' => '2',
+		),
+	'flush_needed' => array(
+		'type' => 'integer',
+		'length' => '1',
+		),
+	);
+if (! $ilDB->tableExists('il_gc_memcache_server')) {
+	$ilDB->createTable('il_gc_memcache_server', $fields);
+	$ilDB->addPrimaryKey('il_gc_memcache_server', array( 'id' ));
+	$ilDB->createSequence('il_gc_memcache_server');
+}
 ?>
 <#4587>
 <?php
