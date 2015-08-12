@@ -48,6 +48,15 @@ class ilArrayElementShuffler
 	}
 
 	/**
+	 * @param string $string
+	 * @return integer
+	 */
+	public function buildSeedFromString($string)
+	{
+		return hexdec(substr(md5($string), 0, 10));
+	}
+
+	/**
 	 * @param array $array
 	 * @return array
 	 */
