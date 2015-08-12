@@ -4127,3 +4127,8 @@ if(!$ilDB->tableColumnExists('hist_usercoursestatus', 'gev_id')) {
 		);	
 	}
 ?>
+
+<#153>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
