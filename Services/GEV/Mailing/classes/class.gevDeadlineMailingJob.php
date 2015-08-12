@@ -4,6 +4,7 @@ require_once("Services/Cron/classes/class.ilCronManager.php");
 require_once("Services/Cron/classes/class.ilCronJob.php");
 require_once("Services/Cron/classes/class.ilCronJobResult.php");
 require_once("Services/Calendar/classes/class.ilDateTime.php");
+require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 
 
 class gevDeadlineMailingJob extends ilCronJob {
@@ -54,12 +55,13 @@ class gevDeadlineMailingJob extends ilCronJob {
 	}
 	
 	static public function isMailSend($a_crs_id, $a_mail_id) {
-		
-		$res = $this->db->query("SELECT COUNT(*) cnt FROM gev_crs_dl_mail_cron ".
-						    " WHERE crs_id = ".$this->db->quote($a_crs_id, "integer").
-						    "   AND title = ".$this->db->quote($a_mail_id, "text").
+		global $ilDB;
+
+		$res = $ilDB->query("SELECT COUNT(*) cnt FROM gev_crs_dl_mail_cron ".
+						    " WHERE crs_id = ".$ilDB->quote($a_crs_id, "integer").
+						    "   AND title = ".$ilDB->quote($a_mail_id, "text").
 						    "   AND NOT send_at IS NULL");
-		$rec = $this->db->fetchAssoc($res);
+		$rec = $ilDB->fetchAssoc($res);
 		return $rec["cnt"] > 0;
 	}
 	
@@ -69,7 +71,7 @@ class gevDeadlineMailingJob extends ilCronJob {
 		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 		
 		$this->initCronMailData();
-		
+
 		$end_date_field_id = gevSettings::getInstance()->getAMDFieldId(gevSettings::CRS_AMD_END_DATE);
 		$start_date_field_id = gevSettings::getInstance()->getAMDFieldId(gevSettings::CRS_AMD_START_DATE);
 		$is_template_field_id = gevSettings::getInstance()->getAMDFieldId(gevSettings::CRS_AMD_IS_TEMPLATE);
@@ -110,6 +112,7 @@ class gevDeadlineMailingJob extends ilCronJob {
 		
 		while ($rec = $this->db->fetchAssoc($res)) {
 			$crs_id = $rec["obj_id"];
+			$crs_utils = gevCourseUtils::getInstance($crs_id);
 			$this->log->write("ilDeadlineMailingJob::run: Checking course ".$crs_id.".");
 			$auto_mails = new gevCrsAutoMails($crs_id);
 			
@@ -127,6 +130,12 @@ class gevDeadlineMailingJob extends ilCronJob {
 			// send the mails that need to be send and store the fact, the mails where send, in the
 			// deadline mailing table.
 			foreach ($mails_to_send as $key) {
+				//if it is a decentral training do not send any invitations
+				if($key === "invitation" && $crs_utils->isDecentralTraining()) {
+					$this->setIsSend($crs_id, $key);
+					continue;
+				}
+
 				$mail = $auto_mails->getAutoMail($key);
 				$scheduled_time = $mail->getScheduledFor();
 				
@@ -154,12 +163,14 @@ class gevDeadlineMailingJob extends ilCronJob {
 					$this->log->write("ilDeadlineMailingJob:run: No need to send Mail.");
 				}
 				
-				$this->db->manipulate("INSERT INTO gev_crs_dl_mail_cron (crs_id, title, send_at) VALUES ".
+				/*$this->db->manipulate("INSERT INTO gev_crs_dl_mail_cron (crs_id, title, send_at) VALUES ".
 								  "    ( ".$this->db->quote($crs_id, "integer").
 								  "    , ".$this->db->quote($key, "text").
 								  "    , NOW()".
 								  "    )"
-								 );
+								 );*/
+				$this->setIsSend($crs_id, $key);
+			
 				ilCronManager::ping($this->getId());
 			}
 			
@@ -174,6 +185,15 @@ class gevDeadlineMailingJob extends ilCronJob {
 
 		$cron_result->setStatus(ilCronJobResult::STATUS_OK);
 		return $cron_result;
+	}
+
+	private function setIsSend($a_crs_id, $a_key) {
+		$this->db->manipulate("INSERT INTO gev_crs_dl_mail_cron (crs_id, title, send_at) VALUES ".
+								  "    ( ".$this->db->quote($a_crs_id, "integer").
+								  "    , ".$this->db->quote($a_key, "text").
+								  "    , NOW()".
+								  "    )"
+								 );
 	}
 }
 
