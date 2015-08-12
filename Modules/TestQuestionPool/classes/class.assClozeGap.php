@@ -359,7 +359,7 @@ class assClozeGap
 		return $keys;
 	}
 	
-	function getBestSolutionOutput()
+	function getBestSolutionOutput(ilArrayElementShuffler $shuffler)
 	{
 		global $lng;
 		switch ($this->getType())
@@ -367,7 +367,7 @@ class assClozeGap
 			case CLOZE_TEXT:
 			case CLOZE_SELECT:
 				$best_solutions = array();
-				foreach ($this->getItems() as $answer)
+				foreach ($this->getItems($shuffler) as $answer)
 				{
 					if (is_array($best_solutions[$answer->getPoints()]))
 					{
@@ -387,7 +387,7 @@ class assClozeGap
 			case CLOZE_NUMERIC:
 				$maxpoints = 0;
 				$foundvalue = "";
-				foreach ($this->getItems() as $answer)
+				foreach ($this->getItems($shuffler) as $answer)
 				{
 					if ($answer->getPoints() >= $maxpoints)
 					{

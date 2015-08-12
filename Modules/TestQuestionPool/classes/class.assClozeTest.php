@@ -351,7 +351,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 	protected function saveClozeGapItemsToDb($gap, $key)
 	{
 		global $ilDB;
-		foreach ($gap->getItems() as $item)
+		foreach ($gap->getItems($this->getShuffler()) as $item)
 		{
 			$query   = "";
 			$next_id = $ilDB->nextId( 'qpl_a_cloze' );
@@ -850,7 +850,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 				if ($gap->getType() == CLOZE_TEXT)
 				{
 					$gap_max_points = 0;
-					foreach ($gap->getItems() as $item)
+					foreach ($gap->getItems($this->getShuffler()) as $item)
 					{
 						if ($item->getPoints() > $gap_max_points)
 						{
@@ -862,7 +862,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 				else if ($gap->getType() == CLOZE_SELECT)
 				{
 					$srpoints = 0;
-					foreach ($gap->getItems() as $item)
+					foreach ($gap->getItems($this->getShuffler()) as $item)
 					{
 						if ($item->getPoints() > $srpoints)
 						{
@@ -874,7 +874,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 				else if ($gap->getType() == CLOZE_NUMERIC)
 				{
 					$numpoints = 0;
-					foreach ($gap->getItems() as $item)
+					foreach ($gap->getItems($this->getShuffler()) as $item)
 					{
 						if ($item->getPoints() > $numpoints)
 						{
@@ -1501,7 +1501,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 		if (array_key_exists($gap_index, $this->gaps))
 		{
 			$gap =& $this->gaps[$gap_index];
-			foreach ($gap->getItems() as $answer) 
+			foreach ($gap->getItems($this->getShuffler()) as $answer) 
 			{
 				if ($answer->getPoints() > $gap_max_points)
 				{
@@ -1606,7 +1606,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 		foreach ($this->getGaps() as $key => $gap)
 		{
 			$items = array();
-			foreach ($gap->getItems() as $item)
+			foreach ($gap->getItems($this->getShuffler()) as $item)
 			{				
 				$jitem = array();
 				$jitem['points'] = $item->getPoints();
