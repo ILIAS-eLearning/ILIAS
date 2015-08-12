@@ -4113,5 +4113,17 @@ if(!$ilDB->tableColumnExists('hist_usercoursestatus', 'gev_id')) {
 			)
 		);	
 	}
+?>
 
+<#152>
+<?php
+
+	if(!$ilDB->tableColumnExists('mail_log', "recipient_id")){
+		$ilDB->addTableColumn('mail_log', "recipient_id", array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false
+			)
+		);	
+	}
 ?>
