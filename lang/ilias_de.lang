@@ -15501,5 +15501,3 @@ style#:#sty_type_sub#:#Tiefgestellt
 style#:#sty_type_sup#:#Hochgestellt
 content#:#cont_text_sub#:#Tiefgestellt
 content#:#cont_text_sup#:#Hochgestellt
-wiki#:#wiki_link_md_values#:#Automatische Verlinkung
-wiki#:#wiki_link_md_values_info#:#Verlinkt automatisch Eigenschaftenwerte im Seitenblock mit gleichlautenden Wikiseiten (wenn vorhanden).
