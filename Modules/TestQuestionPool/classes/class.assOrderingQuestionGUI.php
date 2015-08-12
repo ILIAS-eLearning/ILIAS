@@ -866,7 +866,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		$keys = array_keys($this->object->answers);
 		if($shuffleAnswers)
 		{
-			shuffle($keys);
+			$keys = $this->object->getShuffler()->shuffle($keys);
 		}
 
 		if ($this->object->getOrderingType() == OQ_NESTED_TERMS || $this->object->getOrderingType() == OQ_NESTED_PICTURES)
