@@ -6,7 +6,7 @@
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
  *
- * @package     Modules/TestQuestionPool
+ * @package     Services/Randomization
  */
 class ilArrayElementShuffler
 {
