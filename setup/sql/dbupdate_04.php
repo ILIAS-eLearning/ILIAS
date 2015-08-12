@@ -8223,3 +8223,27 @@ $ilDB->dropIndex('mail_tree', 'i1');
 		));
 	}
 ?>
+<#4595>
+<?php
+include_once("./Services/Migration/DBUpdate_3136/classes/class.ilDBUpdate3136.php");
+ilDBUpdate3136::addStyleClass("CarouselCntr", "ca_cntr", "div",
+	array());
+?>
+<#4596>
+<?php
+include_once("./Services/Migration/DBUpdate_3136/classes/class.ilDBUpdate3136.php");
+ilDBUpdate3136::addStyleClass("CarouselICntr", "ca_icntr", "div",
+	array());
+?>
+<#4597>
+<?php
+include_once("./Services/Migration/DBUpdate_3136/classes/class.ilDBUpdate3136.php");
+ilDBUpdate3136::addStyleClass("CarouselIHead", "ca_ihead", "div",
+	array());
+?>
+<#4598>
+<?php
+include_once("./Services/Migration/DBUpdate_3136/classes/class.ilDBUpdate3136.php");
+ilDBUpdate3136::addStyleClass("CarouselICont", "ca_icont", "div",
+	array());
+?>

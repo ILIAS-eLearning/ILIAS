@@ -15508,3 +15508,9 @@ content#:#cont_text_sup#:#Hochgestellt
 cmps#:#cmps_uninstall#:#Deinstallieren
 cmps#:#cmps_uninstall_confirm#:#Wollen Sie wirklich das Plugin "%s" deinstallieren? 
 cmps#:#cmps_plugin_uninstalled#:#Das Plugin wurde deinstalliert.
+content#:#cont_pc_carousel#:#Karussell
+style#:#sty_carousel_templates#:#Karussell Templates
+style#:#sty_ca_cntr_class#:#Carousel Container
+style#:#sty_ca_icntr_class#:#Carousel Item Container
+style#:#sty_ca_icont_class#:#Carousel Item Content
+style#:#sty_ca_ihead_class#:#Carousel Item Header

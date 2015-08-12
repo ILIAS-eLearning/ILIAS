@@ -1607,8 +1607,15 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		$a_class = $c[0];
 		
 		$ex_tpl = new ilTemplate("tpl.style_example.html", true, true, "Services/Style");
-		
-		$ex_tpl->setCurrentBlock("Example_".$a_type);
+
+		if ($ex_tpl->blockExists("Example_".$a_type))
+		{
+			$ex_tpl->setCurrentBlock("Example_".$a_type);
+		}
+		else
+		{
+			$ex_tpl->setCurrentBlock("Example_default");
+		}
 		$ex_tpl->setVariable("EX_CLASS", "ilc_".$a_type."_".$a_class);
 		$ex_tpl->setVariable("EX_TEXT", "ABC abc 123");
 		if (in_array($a_type, array("media_cont", "qimg")))

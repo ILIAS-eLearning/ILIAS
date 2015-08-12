@@ -15513,3 +15513,9 @@ content#:#cont_text_sup#:#Superscript
 cmps#:#cmps_uninstall#:#Uninstall
 cmps#:#cmps_uninstall_confirm#:#Are you sure you want to uninstall the plugin "%s"?
 cmps#:#cmps_plugin_uninstalled#:#The plugin has been uninstalled.
+content#:#cont_pc_carousel#:#Carousel
+style#:#sty_carousel_templates#:#Carousel Templates
+style#:#sty_ca_cntr_class#:#Carousel Container
+style#:#sty_ca_icntr_class#:#Carousel Item Container
+style#:#sty_ca_icont_class#:#Carousel Item Content
+style#:#sty_ca_ihead_class#:#Carousel Item Header

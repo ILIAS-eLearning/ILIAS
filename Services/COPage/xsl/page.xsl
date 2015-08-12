@@ -3388,7 +3388,10 @@
 	<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_vacc']/@value"/></xsl:with-param></xsl:call-template>
 	</xsl:if>
 	<xsl:if test="@Type = 'HorizontalAccordion'">
-	<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_hacc']/@value"/></xsl:with-param></xsl:call-template>
+		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_hacc']/@value"/></xsl:with-param></xsl:call-template>
+	</xsl:if>
+	<xsl:if test="@Type = 'Carousel'">
+		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_carousel']/@value"/></xsl:with-param></xsl:call-template>
 	</xsl:if>
 	<xsl:variable name="ttemp" select="@Template"/>
 	<xsl:call-template name="EditReturnAnchors"/>
@@ -3408,7 +3411,10 @@
 			</xsl:choose>
 		</xsl:variable>
 		<xsl:if test="@Type = 'VerticalAccordion' and $cwidth != 'null'">
-		<xsl:attribute name="style">width: <xsl:value-of select="$cwidth" />px; <xsl:value-of select="$halign" /><xsl:if test="$mode='edit'"> background-color:white;</xsl:if></xsl:attribute>
+			<xsl:attribute name="style">width: <xsl:value-of select="$cwidth" />px; <xsl:value-of select="$halign" /><xsl:if test="$mode='edit'"> background-color:white;</xsl:if></xsl:attribute>
+		</xsl:if>
+		<xsl:if test="@Type = 'Carousel' and $cwidth != 'null'">
+			<xsl:attribute name="style">width: <xsl:value-of select="$cwidth" />px; <xsl:value-of select="$halign" /></xsl:attribute>
 		</xsl:if>
 		<xsl:variable name="cheight">
 			<xsl:choose>
@@ -3436,13 +3442,19 @@
 				<xsl:attribute name = "class">ilc_ha_cntr_<xsl:value-of select = "//StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='ha_cntr']/@Value"/></xsl:attribute>
 			</xsl:if>
 		</xsl:when>
+		<xsl:when test="@Type = 'Carousel'">
+			<xsl:attribute name="class">ilc_ca_cntr_CarouselCntr owl-carousel</xsl:attribute>
+			<xsl:attribute name="id">ilc_accordion_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Tabs" level="any" /></xsl:attribute>
+		</xsl:when>
 		</xsl:choose>
 			<xsl:apply-templates select="Tab">
 				<xsl:with-param name="cwidth" select="$cwidth" />
 				<xsl:with-param name="cheight" select="$cheight" />
 				<xsl:with-param name="ttemp" select="$ttemp" />
 			</xsl:apply-templates>
-			<div style="clear:both;"><xsl:comment>Break</xsl:comment></div>
+			<xsl:if test="@Type != 'Carousel'">
+				<div style="clear:both;"><xsl:comment>Break</xsl:comment></div>
+			</xsl:if>
 		</div>
 		<!-- command selectbox -->
 		<xsl:if test="$mode = 'edit'">
@@ -3488,24 +3500,46 @@
 			</script>
 			</xsl:if>
 			<xsl:if test="@Type = 'HorizontalAccordion'">
-			<script type="text/javascript">
-				$(function () {
+				<script type="text/javascript">
+					$(function () {
 					il.Accordion.add({
-						id: 'ilc_accordion_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Tabs" level="any" />',
-						toggle_class: 'il_HAccordionToggleDef',
-						toggle_act_class: 'il_HAccordionToggleActiveDef',
-						content_class: 'il_HAccordionContentDef',
-						width: <xsl:value-of select="$cwidth" />,
-						height: null,
-						orientation: 'horizontal',
-						behaviour: '<xsl:value-of select="@Behavior"/>',
-						save_url: '',
-						active_head_class: 'ilc_ha_iheada_HAccordIHeadActive',
-						int_id: '',
-						multi: false
-						});
+					id: 'ilc_accordion_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Tabs" level="any" />',
+					toggle_class: 'il_HAccordionToggleDef',
+					toggle_act_class: 'il_HAccordionToggleActiveDef',
+					content_class: 'il_HAccordionContentDef',
+					width: <xsl:value-of select="$cwidth" />,
+					height: null,
+					orientation: 'horizontal',
+					behaviour: '<xsl:value-of select="@Behavior"/>',
+					save_url: '',
+					active_head_class: 'ilc_ha_iheada_HAccordIHeadActive',
+					int_id: '',
+					multi: false
 					});
-			</script>
+					});
+				</script>
+			</xsl:if>
+			<xsl:if test="@Type = 'Carousel'">
+				<script type="text/javascript">
+					$(function () {
+					il.Accordion.add({
+					id: 'ilc_accordion_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Tabs" level="any" />',
+					toggle_class: '',
+					toggle_act_class: '',
+					content_class: '',
+					width: <xsl:value-of select="$cwidth" />,
+					height: null,
+					orientation: 'carousel',
+					behaviour: 'Carousel',
+					save_url: '',
+					active_head_class: '',
+					int_id: '',
+					multi: false,
+					auto_anim_wait: <xsl:value-of select="number(@AutoAnimWait)" />,
+					random_start: <xsl:value-of select="number(@RandomStart)" />
+					});
+					});
+				</script>
 			</xsl:if>
 		</xsl:if>
 	</div>
@@ -3530,13 +3564,16 @@
 			<xsl:attribute name = "class">ilc_va_icntr_<xsl:value-of select = "//StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='va_icntr']/@Value"/></xsl:attribute>
 		</xsl:if>
 	</xsl:when>
-	<xsl:when test="../@Type = 'HorizontalAccordion'">
-		<xsl:attribute name="class">ilc_ha_icntr_HAccordICntr</xsl:attribute>
-		<xsl:attribute name="style">float:left;</xsl:attribute>
-		<xsl:if test="../@Template and //StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='ha_icntr']/@Value">
-			<xsl:attribute name = "class">ilc_ha_icntr_<xsl:value-of select = "//StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='ha_icntr']/@Value"/></xsl:attribute>
-		</xsl:if>
-	</xsl:when>
+		<xsl:when test="../@Type = 'HorizontalAccordion'">
+			<xsl:attribute name="class">ilc_ha_icntr_HAccordICntr</xsl:attribute>
+			<xsl:attribute name="style">float:left;</xsl:attribute>
+			<xsl:if test="../@Template and //StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='ha_icntr']/@Value">
+				<xsl:attribute name = "class">ilc_ha_icntr_<xsl:value-of select = "//StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='ha_icntr']/@Value"/></xsl:attribute>
+			</xsl:if>
+		</xsl:when>
+		<xsl:when test="../@Type = 'Carousel'">
+			<xsl:attribute name="class">ilc_ca_icntr_CarouselICntr</xsl:attribute>
+		</xsl:when>
 	</xsl:choose>
 	
 	<!-- Caption -->
@@ -3566,6 +3603,9 @@
 			<xsl:if test="../@Template and //StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='ha_ihead']/@Value">
 				<xsl:attribute name = "class">ilc_ha_ihead_<xsl:value-of select = "//StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='ha_ihead']/@Value"/></xsl:attribute>
 			</xsl:if>
+		</xsl:when>
+		<xsl:when test="../@Type = 'Carousel'">
+			<xsl:attribute name="class">ilc_ca_ihead_CarouselIHead</xsl:attribute>
 		</xsl:when>
 		</xsl:choose>
 		<xsl:attribute name="style"><xsl:if test="$cheight != 'null' and $mode != 'edit' and ../@Type = 'HorizontalAccordion'">height: <xsl:value-of select="$cheight" />px;</xsl:if></xsl:attribute>
@@ -3658,6 +3698,9 @@
 				<xsl:if test="../@Template and //StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='ha_icont']/@Value">
 					<xsl:attribute name = "class">ilc_ha_icont_<xsl:value-of select = "//StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='ha_icont']/@Value"/></xsl:attribute>
 				</xsl:if>
+			</xsl:when>
+			<xsl:when test="../@Type = 'Carousel'">
+				<xsl:attribute name="class">ilc_ca_icont_CarouselICont</xsl:attribute>
 			</xsl:when>
 			</xsl:choose>
 			<xsl:attribute name="style"><xsl:value-of select="$cstyle" /></xsl:attribute>
