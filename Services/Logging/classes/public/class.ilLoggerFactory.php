@@ -8,7 +8,6 @@ use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\BrowserConsoleHandler;
 use Monolog\Formatter\LineFormatter;
-use Monolog\Processor\PsrLogMessageProcessor;
 use Monolog\Handler\FingersCrossedHandler;
 use Monolog\Handler\FingersCrossed\ErrorLevelActivationStrategy;
 
@@ -166,7 +165,7 @@ class ilLoggerFactory
 			$finger_crossed_handler = new FingersCrossedHandler(
 					$stream_handler,
 					new ErrorLevelActivationStrategy($this->getSettings()->getCacheLevel()),
-					10
+					1000
 			);
 			$logger->pushHandler($finger_crossed_handler);
 		}
