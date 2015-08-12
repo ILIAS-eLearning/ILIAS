@@ -129,7 +129,11 @@ class gevTrainerWorkloadGUI extends catBasicReportGUI{
 		}
 
 		foreach($workload_tep_cats as $category => $tep_cats) {
-			$this->query->select_raw($this->hoursPerConditionRatioNorm($this->db->in('ht.category',$tep_cats,false,'text'), 8, $category));
+			if(in_array($category, $workload_fullday)) {
+				$this->query->select_raw($this->fullDay($this->db->in('ht.category',$tep_cats,false,'text'), $category));
+			} else {
+				$this->query->select_raw($this->hoursPerConditionRatioNorm($this->db->in('ht.category',$tep_cats,false,'text'), 8, $category));
+			}
 		}
 		$this->query->from("hist_tep ht")
 					->join("hist_user hu")
@@ -182,6 +186,12 @@ class gevTrainerWorkloadGUI extends catBasicReportGUI{
 		return $sql;
 	}
 
+	protected function fullDay($condition, $name) {
+		$sql = 	"SUM(IF(".$condition." ,
+			1,0)) as ".$name;
+		return $sql;
+	}
+
 	protected function createTemplateFile() {
 		$str = fopen("Services/GEV/Reports/templates/default/"
 			."tpl.gev_trainer_workload_row.html","w"); 
@@ -191,6 +201,7 @@ class gevTrainerWorkloadGUI extends catBasicReportGUI{
 				$tpl .= "</td>\n".'<td align = "right">{VAL_'.strtoupper($category).'}';
 			}
 			if(count($categories)>1) {
+				$class = "bold_content";
 				if(!isset($this->norms[$meta_category])) {
 					$class .= " bordered_right";
 				}
