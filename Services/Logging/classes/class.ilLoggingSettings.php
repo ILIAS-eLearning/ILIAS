@@ -23,6 +23,9 @@ class ilLoggingSettings
 	private $cache = FALSE;
 	private $cache_level = null;
 	private $memory_usage = FALSE;
+	private $browser = FALSE;
+	private $browser_users = array();
+	
 	
 	
 	/**
@@ -32,11 +35,12 @@ class ilLoggingSettings
 	 */
 	private function __construct()
 	{
+		global $ilDB;
+		
 		$this->level = ilLogLevel::INFO;
 		$this->cache_level = ilLogLevel::DEBUG;
 		
 		$this->storage = new ilSetting('logging');
-		
 		$this->read();
 	}
 
@@ -52,6 +56,21 @@ class ilLoggingSettings
 			return self::$instance;
 		}
 		return self::$instance = new self();
+	}
+	
+	public function getLevelByComponent($a_component_id)
+	{
+		switch($a_component_id) 
+		{
+			case 'root':
+				return ilLogLevel::INFO;
+				
+			case 'log':
+				return ilLogLevel::DEBUG;
+				
+			default:
+				return $this->getLevel();
+		}
 	}
 	
 	/**
@@ -130,7 +149,52 @@ class ilLoggingSettings
 		return $this->memory_usage;
 	}
 	
+	/**
+	 * Check if browser log is enabled
+	 * @return type
+	 */
+	public function isBrowserLogEnabled()
+	{
+		return $this->browser;
+	}
 	
+	
+	/**
+	 * Check if browser log is enabled for user
+	 * @param type $a_login
+	 * @return boolean
+	 */
+	public function isBrowserLogEnabledForUser($a_login)
+	{
+		if(!$this->isBrowserLogEnabled())
+		{
+			return FALSE;
+		}
+		if(in_array($a_login, $this->getBrowserLogUsers()))
+		{
+			return TRUE;
+		}
+		return FALSE;
+	}
+	
+	/**
+	 * Enable browser log
+	 * @param type $a_stat
+	 */
+	public function enableBrowserLog($a_stat)
+	{
+		$this->browser = $a_stat;
+	}
+	
+	public function getBrowserLogUsers()
+	{
+		return $this->browser_users;
+	}
+	
+	public function setBrowserUsers(array $users)
+	{
+		$this->browser_users = $users;
+	}
 	
 	/**
 	 * 
@@ -160,6 +224,8 @@ class ilLoggingSettings
 		$this->getStorage()->set('cache', (int) $this->isCacheEnabled());
 		$this->getStorage()->set('cache_level', $this->getCacheLevel());
 		$this->getStorage()->set('memory_usage', $this->isMemoryUsageEnabled());
+		$this->getStorage()->set('browser',$this->isBrowserLogEnabled());
+		$this->getStorage()->set('browser_users', serialize($this->getBrowserLogUsers()));
 	}
 
 	
@@ -174,6 +240,8 @@ class ilLoggingSettings
 		$this->enableCaching($this->getStorage()->get('cache',$this->cache));
 		$this->setCacheLevel($this->getStorage()->get('cache_level',$this->cache_level));
 		$this->enableMemoryUsage($this->getStorage()->get('memory_usage', $this->memory_usage));
+		$this->enableBrowserLog($this->getStorage()->get('browser',$this->browser));
+		$this->setBrowserUsers(unserialize($this->getStorage()->get('browser_users',  serialize($this->browser_users))));
 	}
 }
 ?>

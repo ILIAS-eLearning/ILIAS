@@ -26,6 +26,9 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
 	protected $settings;
 	
 	
+	protected $log;
+	
+	
 
 	/**
 	 * Constructor
@@ -48,6 +51,19 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
 
 		$this->initSettings();
 		$this->lng->loadLanguageModule('logging');
+		
+		include_once './Services/Logging/classes/public/class.ilLoggerFactory.php';
+		$this->log = ilLoggerFactory::getLogger('log');
+		
+	}
+	
+	/**
+	 * 
+	 * @return ilLogger
+	 */
+	public function getLogger()
+	{
+		return $this->log;
 	}
 
 	/**
@@ -131,12 +147,21 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
 		include_once("Services/Logging/classes/class.ilLoggingSettings.php");
 		$this->settings = ilLoggingSettings::getInstance();
 	}
+	
+	/**
+	 * Get log settings
+	 * @return ilLogSettings
+	 */
+	public function getSettings()
+	{
+		return $this->settings;
+	}
 
 	/**
 	 * Show settings
 	 * @access	public
 	 */
-	public function settings()
+	public function settings(ilPropertyFormGUI $form = null)
 	{
 		global $ilAccess,$ilErr;
 
@@ -148,16 +173,22 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
 		$this->tabs_gui->setTabActive(static::SECTION_SETTINGS);
 		$this->setSubTabs(static::SUB_SECTION_MAIN);
 		
-		$this->initFormSettings();
-		$this->tpl->setContent($this->form->getHTML());
-		return true;
+		if(!$form instanceof ilPropertyFormGUI)
+		{
+			$form = $this->initFormSettings();
+		}
+		$this->tpl->setContent($form->getHTML());
+
+		$this->getLogger()->debug('Currrent level is '.$this->getSettings()->getLevel());
+		
+		return TRUE;
 	}
 
 	/**
 	 * Save settings
 	 * @access	public
 	 */
-	public function updateSettingsObject()
+	public function updateSettings()
 	{
 		include_once 'Services/WebServices/RPC/classes/class.ilRPCServerSettings.php';
 
@@ -167,15 +198,32 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
+		
 
-		$this->settings->set((int) $_POST['']);
+		$form = $this->initFormSettings();
+		if($form->checkInput())
+		{
+			$this->getSettings()->setLevel($form->getInput('level'));
+			$this->getSettings()->enableCaching($form->getInput('cache'));
+			$this->getSettings()->setCacheLevel($form->getInput('cache_level'));
+			$this->getSettings()->enableMemoryUsage($form->getInput('memory'));
+			$this->getSettings()->enableBrowserLog($form->getInput('browser'));
+			$this->getSettings()->setBrowserUsers($form->getInput('browser_users'));
+			
+			$this->getLogger()->info(print_r($form->getInput('browser_users'),TRUE));
+			
+			$this->getSettings()->update();
+			
+			ilUtil::sendSuccess($this->lng->txt('settings_saved'),TRUE);
+			$this->ctrl->redirect($this,'settings');
+			return TRUE;
+		}
+		
+		ilUtil::sendFailure($this->lng->txt('err_check_input'));
+		$form->setValuesByPost();
+		$this->settings($form);
 
-		$this->settings->update();
-
-		ilUtil::sendInfo($this->lng->txt('settings_saved'),true);
-		$this->ctrl->redirect($this,'settings');
-
-		return true;
+		return TRUE;
 	}
 
 	/**
@@ -184,16 +232,57 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
 	 */
 	protected function initFormSettings()
 	{
-		global $lng,$ilDB;
+		global $lng,$ilDB, $ilAccess;
 
 		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
 		include_once './Services/Search/classes/class.ilSearchSettings.php';
-
-		$this->form = new ilPropertyFormGUI();
-		$this->form->setFormAction($this->ctrl->getFormAction($this,'updateSettings'));
-		$this->form->addCommandButton('updateSettings',$this->lng->txt('save'));
-		$this->form->setTitle($this->lng->txt('logs_settings'));
 		
+		$form = new ilPropertyFormGUI();
+		$form->setTitle($this->lng->txt('logs_settings'));
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		
+		if($ilAccess->checkAccess('write','',$this->object->getRefId()))
+		{
+			$form->addCommandButton('updateSettings', $this->lng->txt('save'));
+		}
+
+		$level = new ilSelectInputGUI($this->lng->txt('logging_log_level'),'level');
+		$level->setOptions(ilLogLevel::getLevelOptions());
+		$level->setValue($this->getSettings()->getLevel());
+		$form->addItem($level);
+		
+		$cache = new ilCheckboxInputGUI($this->lng->txt('log_cache'), 'cache');
+		$cache->setValue(1);
+		$cache->setChecked($this->getSettings()->isCacheEnabled());
+		$form->addItem($cache);
+		
+		$cache_level = new ilSelectInputGUI($this->lng->txt('log_cache_level'), 'cache_level');
+		$cache_level->setOptions(ilLogLevel::getLevelOptions());
+		$cache_level->setValue($this->getSettings()->getCacheLevel());
+		$cache->addSubItem($cache_level);
+		
+		$memory = new ilCheckboxInputGUI($this->lng->txt('log_memory'),'memory');
+		$memory->setValue(1);
+		$memory->setChecked($this->getSettings()->isMemoryUsageEnabled());
+		$form->addItem($memory);
+		
+		// Browser handler
+		$browser = new ilCheckboxInputGUI($this->lng->txt('log_browser'),'browser');
+		$browser->setValue(1);
+		$browser->setChecked($this->getSettings()->isBrowserLogEnabled());
+		$form->addItem($browser);
+		
+		// users
+		$users = new ilTextInputGUI($this->lng->txt('log_browser_users'), 'browser_users');
+		$users->setMulti(TRUE);
+		$users->setMultiValues($this->getSettings()->getBrowserLogUsers());
+		
+		$this->getLogger()->debug(print_r($this->getSettings()->getBrowserLogUsers(),TRUE));
+		
+		$browser->addSubItem($users);
+		
+		
+		return $form;
 	}
 	
 	

@@ -22,6 +22,30 @@ class ilLogLevel
 	const CRITICAL = 500;
 	const ALERT = 550;
 	const EMERGENCY = 600;
+
 	
+	
+	/**
+	 * Get log level options
+	 * @return type
+	 */
+	public static function getLevelOptions()
+	{
+		global $lng;
+		
+		return array(
+			self::DEBUG => $lng->txt('log_level_debug'),
+			self::INFO => $lng->txt('log_level_info'),
+			self::NOTICE => $lng->txt('log_level_notice'),
+			self::WARNING => $lng->txt('log_level_warning'),
+			self::ERROR => $lng->txt('log_level_error'),
+			self::CRITICAL => $lng->txt('log_level_critical'),
+			self::ALERT => $lng->txt('log_level_alert'),
+			self::EMERGENCY => $lng->txt('log_level_emergency')
+		);
+			
+	}
 }
+
+
 ?>
