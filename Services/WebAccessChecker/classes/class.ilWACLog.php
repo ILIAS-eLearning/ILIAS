@@ -53,6 +53,7 @@ class ilWACLog extends ilLog {
 	public function __destruct() {
 		if ($this->getStack()) {
 			parent::write(str_repeat('#', 100));
+			parent::write('PID: ' . $this->getPid());
 			foreach ($this->getStack() as $msg) {
 				parent::write($msg);
 			}
