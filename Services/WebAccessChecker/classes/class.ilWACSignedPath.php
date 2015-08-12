@@ -50,9 +50,7 @@ class ilWACSignedPath {
 			throw new ilWACException(ilWACException::CODE_NO_TYPE);
 		}
 
-		$token = ilWACToken::getInstance($this->getPathObject()->getPath());
-
-		$this->setTokenInstance($token);
+		$this->setTokenInstance(new ilWACToken($this->getPathObject()->getPath(), $this->getPathObject()->getClient()));
 	}
 
 
@@ -249,7 +247,8 @@ class ilWACSignedPath {
 
 
 	protected function generateFolderToken() {
-		$this->setTokenInstance(ilWACToken::getInstance($this->getPathObject()->getSecurePath()));
+		//		$this->setTokenInstance(ilWACToken::getInstance($this->getPathObject()->getSecurePath()));
+		$this->setTokenInstance(new ilWACToken($this->getPathObject()->getSecurePath(), $this->getPathObject()->getClient()));
 	}
 
 

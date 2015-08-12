@@ -14,7 +14,7 @@ class ilWACToken {
 	/**
 	 * @var string
 	 */
-	protected static $SALT = '-';
+	protected static $SALT = '';
 	/**
 	 * @var string
 	 */
@@ -43,6 +43,10 @@ class ilWACToken {
 	 * @var string
 	 */
 	protected $id = '';
+	/**
+	 * @var string
+	 */
+	protected $client = '';
 
 
 	/**
@@ -50,7 +54,8 @@ class ilWACToken {
 	 *
 	 * @throws ilWACException
 	 */
-	protected function __construct($path) {
+	public function __construct($path, $client) {
+		$this->setClient($client);
 		$parts = parse_url($path);
 		$this->setPath($parts['path']);
 		$this->setSessionId($_COOKIE['PHPSESSID'] ? $_COOKIE['PHPSESSID'] : '-');
@@ -70,9 +75,39 @@ class ilWACToken {
 	}
 
 
+	/**
+	 * @return string
+	 * @throws ilWACException
+	 */
+	protected function getSaltFilePath() {
+		static $salt_file;
+		//		$salt_file = './data/wacsalt.php'; // FSX: most performant way, has to be discussed at JF
+		if (! $salt_file) {
+			require_once('./Services/Init/classes/class.ilIniFile.php');
+			$ilIniFile = new ilIniFile('./ilias.ini.php');
+			$ilIniFile->read();
+
+			$directory = realpath($ilIniFile->readVariable('clients', 'datadir')) . '/' . $this->getClient();
+
+			if (! $this->getClient() || ! is_writable($directory)) {
+				throw new ilWACException(ilWACException::DATA_DIR_NON_WRITEABLE);
+			}
+			$salt_file = $directory . '/wacsalt.php';
+		}
+
+		return $salt_file;
+	}
+
+
 	protected function initSalt() {
+		if (self::getSALT()) {
+			return true;
+		}
 		$salt = NULL;
-		require('./data/wacsalt.php');
+		//		$microtime = microtime(true);
+		include($this->getSaltFilePath());
+		//		$end_microtim = microtime(true)-$microtime;
+		//		file_put_contents('./time.csv', $end_microtim."\n", FILE_APPEND);
 		self::setSALT($salt);
 		if (! $salt) {
 			$this->generateSaltFile();
@@ -81,30 +116,28 @@ class ilWACToken {
 
 
 	protected function generateSaltFile() {
-		if (is_file('./data/wacsalt.php')) {
-			unlink('./data/wacsalt.php');
+		if (is_file($this->getSaltFilePath())) {
+			unlink($this->getSaltFilePath());
 		}
 		$template = file_get_contents('./Services/WebAccessChecker/wacsalt.php.template');
-		$salt = md5(time() * rand(1000, 9999));
+		$salt = md5(time() * rand(1000, 9999) . $this->getSaltFilePath());
 		self::setSALT($salt);
 		$template = str_replace('INSERT_SALT', $salt, $template);
-		if (is_writable('./data/')) {
-			file_put_contents('./data/wacsalt.php', $template);
+		if (is_writable(dirname($this->getSaltFilePath()))) {
+			file_put_contents($this->getSaltFilePath(), $template);
 		} else {
 			throw new ilWACException(ilWACException::DATA_DIR_NON_WRITEABLE);
 		}
 	}
 
-
-	/**
-	 * @param $path
-	 *
-	 * @return ilWACToken
-	 */
-	public static function getInstance($path) {
-		return new self($path);
-	}
-
+	//	/**
+	//	 * @param $path
+	//	 *
+	//	 * @return ilWACToken
+	//	 */
+	//	public static function getInstance($path) {
+	//		return new self($path);
+	//	}
 
 	/**
 	 * @return string
@@ -231,6 +264,22 @@ class ilWACToken {
 	 */
 	public static function setSALT($SALT) {
 		self::$SALT = $SALT;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getClient() {
+		return $this->client;
+	}
+
+
+	/**
+	 * @param string $client
+	 */
+	public function setClient($client) {
+		$this->client = $client;
 	}
 }
 
