@@ -198,15 +198,15 @@ class ilWikiAdvMetaDataBlockGUI extends ilBlockGUI
 				{
 					$value->setSize("100%", "200px");
 				}
-
-				$value = $value->getHTML();
-
+				
 				// auto link values
-				if ($auto_link)
+				if ($auto_link &&
+					in_array($element->getType(), array("MultiEnum", "Enum", "Text")))
 				{
-					$value = $this->decorateValue($element, $value);
+					$value->setDecoratorCallBack(array($this, "decorateValue"));
 				}
 
+				$value = $value->getHTML();
 			}
 			$btpl->setVariable("VALUE", $value);
 			$btpl->parseCurrentBlock();										
@@ -244,21 +244,17 @@ class ilWikiAdvMetaDataBlockGUI extends ilBlockGUI
 	/**
 	 * Decorate a value
 	 *
-	 * @param ilADT $a_element adt element
 	 * @param string $a_value value
 	 * @return string decorated value (includes HTML)
 	 */
-	function decorateValue(ilADT $a_element, $a_value)
-	{
-		if (in_array($a_element->getType(), array("MultiEnum", "Enum", "Text")))
+	function decorateValue($a_value)
+	{		
+		include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
+		if (ilWikiPage::_wikiPageExists($this->obj_id, $a_value))
 		{
-			include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
-			if (ilWikiPage::_wikiPageExists($this->obj_id, $a_value))
-			{
-				$url = ilObjWikiGUI::getGotoLink($this->ref_id, $a_value);
-				return "<a href='".$url."'>".$a_value."</a>";
-			}
-		}
+			$url = ilObjWikiGUI::getGotoLink($this->ref_id, $a_value);
+			return "<a href='".$url."'>".$a_value."</a>";
+		}		
 
 		return $a_value;
 	}

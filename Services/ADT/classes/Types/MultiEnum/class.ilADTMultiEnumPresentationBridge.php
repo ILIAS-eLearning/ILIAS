@@ -17,8 +17,11 @@ class ilADTMultiEnumPresentationBridge extends ilADTPresentationBridge
 			
 			$options = $this->getADT()->getCopyOfDefinition()->getOptions();
 			foreach($this->getADT()->getSelections() as $value)
-			{
-				$res[] = $options[$value];
+			{				
+				if(array_key_exists($value, $options))
+				{
+					$res[] = $this->decorate($options[$value]);					
+				}
 			}
 						
 			return implode(", ", $res);

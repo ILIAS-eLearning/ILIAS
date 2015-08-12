@@ -36,7 +36,7 @@ class ilADTGroupPresentationBridge extends ilADTPresentationBridge
 		$this->prepareElements();
 		foreach($this->elements as $element)
 		{
-			$res[] = $element->getHTML();
+			$res[] = $this->decorate($element->getHTML());
 		}
 		
 		if(sizeof($res))
