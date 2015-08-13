@@ -37,8 +37,9 @@ class ilWACLog extends ilLog {
 		if (ilWebAccessChecker::isDEBUG()) {
 			if (! isset(self::$instances[$key])) {
 				$ilIliasIniFile = new ilIniFile('./ilias.ini.php');
-				$ilIliasIniFile->read();;
-				$instance = new self($ilIliasIniFile->readVariable('clients', 'datadir'), self::WAC_LOG);
+				$ilIliasIniFile->read();
+				//				$instance = new self($ilIliasIniFile->readVariable('log', 'path'), self::WAC_LOG);
+				$instance = new self($ilIliasIniFile->readVariable('log', 'path'), $ilIliasIniFile->readVariable('log', 'file'), 'WAC');
 				$instance->setPid($key);
 				self::$instances[$key] = $instance;
 			}
@@ -52,12 +53,11 @@ class ilWACLog extends ilLog {
 
 	public function __destruct() {
 		if ($this->getStack()) {
-			parent::write(str_repeat('#', 100));
+			parent::write('WebAccessChecker Request ' . str_repeat('#', 50));
 			parent::write('PID: ' . $this->getPid());
 			foreach ($this->getStack() as $msg) {
 				parent::write($msg);
 			}
-			parent::write(str_repeat('#', 100));
 		}
 	}
 
