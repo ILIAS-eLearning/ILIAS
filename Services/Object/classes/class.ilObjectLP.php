@@ -103,8 +103,7 @@ class ilObjectLP
 
 				case "prg":
 					include_once "Modules/StudyProgramme/classes/class.ilStudyProgrammeLP.php";
-					$instance = new ilStudyProgrammeLP($a_obj_id);
-					break;
+					return "ilStudyProgrammeLP";
 
 				// plugin
 				case $objDefinition->isPluginTypeName($a_type):

@@ -8747,3 +8747,7 @@ ilStudyProgrammeType::installDB();
 ilStudyProgrammeTypeTranslation::installDB();
 
 ?>
+<#4623>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
