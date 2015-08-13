@@ -205,6 +205,8 @@ class ilLDAPUserSynchronisation
 	{
 		#$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($this->getUserData(),true));
 
+		include_once './Services/User/classes/class.ilUserCreationContext.php';
+		ilUserCreationContext::getInstance()->addContext(ilUserCreationContext::CONTEXT_REGISTRATION);
 
 		include_once 'Services/LDAP/classes/class.ilLDAPAttributeToUser.php';
 		$update = new ilLDAPAttributeToUser($this->getServer());
