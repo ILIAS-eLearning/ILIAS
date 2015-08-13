@@ -33,10 +33,15 @@ class ilWACException extends ilException {
 
 
 	/**
-	 * @param int $code
+	 * @param string $code
+	 * @param string $additional_message
 	 */
-	public function __construct($code) {
-		parent::__construct(self::$messages[$code], $code);
+	public function __construct($code, $additional_message = '') {
+		$message = self::$messages[$code];
+		if ($additional_message) {
+			$message = $message . ': ' . $additional_message;
+		}
+		parent::__construct($message, $code);
 	}
 }
 

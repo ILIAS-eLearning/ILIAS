@@ -90,7 +90,7 @@ class ilWACToken {
 			$directory = realpath($ilIniFile->readVariable('clients', 'datadir')) . '/' . $this->getClient();
 
 			if (! $this->getClient() || ! is_writable($directory)) {
-				throw new ilWACException(ilWACException::DATA_DIR_NON_WRITEABLE);
+				throw new ilWACException(ilWACException::DATA_DIR_NON_WRITEABLE, $directory);
 			}
 			$salt_file = $directory . '/wacsalt.php';
 		}
@@ -126,7 +126,7 @@ class ilWACToken {
 		if (is_writable(dirname($this->getSaltFilePath()))) {
 			file_put_contents($this->getSaltFilePath(), $template);
 		} else {
-			throw new ilWACException(ilWACException::DATA_DIR_NON_WRITEABLE);
+			throw new ilWACException(ilWACException::DATA_DIR_NON_WRITEABLE, $this->getSaltFilePath());
 		}
 	}
 
