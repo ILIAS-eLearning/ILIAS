@@ -998,6 +998,11 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 	{
 		global $lng;
 		
+		// :TODO:
+		// waiting for merge
+		return;
+				
+		
 		$tpl = new ilTemplate("tpl.objective_progressbar.html", true, true, "Services/Container");
 		
 		$tooltip_id = "crsobjtvusr_".$a_objective_id."_".$a_lo_result["type"]."_".((int)$a_sub);
@@ -1005,7 +1010,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 		{
 			$tooltip_id .= "_".$a_tt_suffix;			
 		}
-					
+							
 		$tt_txt = sprintf($lng->txt("crs_loc_tt_info"),
 			$a_lo_result["result_perc"], $a_lo_result["limit_perc"]);
 		
@@ -1018,24 +1023,48 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 		}
 		*/ 
 		
-		$next_step = $progress_txt = $bar_color = null;
-	
+		include_once './Modules/Course/classes/Objectives/class.ilLOUtils.php';
+		include_once './Modules/Course/classes/Objectives/class.ilLOSettings.php';
+		
+		$next_step = $progress_txt = $bar_color = $test_url = $initial_sub = null;
+		
 		// qualifying test
-		if($a_lo_result["type"] == ilLOUserResults::TYPE_QUALIFIED)
+		if($a_lo_result["type"] == ilLOUserResults::TYPE_QUALIFIED ||
+			($a_lo_result['type'] == ilLOUserResults::TYPE_INITIAL &&
+			ilLOSettings::getInstanceByObjId($a_lo_result['course_id'])->isInitialTestQualifying()))
 		{
 			$progress_txt = $lng->txt("crs_loc_progress_result_qtest");
-			$tt_txt = $lng->txt("crs_loc_tab_qtest").": ".$tt_txt;						
-										
+			$tt_txt = $lng->txt("crs_loc_tab_qtest").": ".$tt_txt;	
+			
+			// link to test statistics
+			if($a_lo_result["type"] == ilLOUserResults::TYPE_QUALIFIED &&
+				$a_lo_result["qtest"])
+			{
+				$test_url = ilLOUtils::getTestResultLinkForUser($a_lo_result["qtest"], $a_lo_result["user_id"]);					
+			}
+			else if($a_lo_result["itest"])
+			{
+				$test_url = ilLOUtils::getTestResultLinkForUser($a_lo_result["itest"], $a_lo_result["user_id"]);		
+			}
+																				
 			if($a_lo_result["status"] == ilLOUserResults::STATUS_COMPLETED)
 			{			
 				$next_step = $lng->txt("crs_loc_progress_objective_complete");		
-				$bar_color = "#80f080";
+				$bar_color = "ilCourseObjectiveProgressBarCompleted";		
+				
+				if($a_lo_result["type"] == ilLOUserResults::TYPE_QUALIFIED && 
+					$a_has_initial_test &&
+					is_array($a_lo_result["initial"]))
+				{
+					$a_lo_result["initial"]["itest"] = $a_lo_result["itest"];
+					$initial_sub = self::buildObjectiveProgressBar(true, $a_objective_id, $a_lo_result["initial"], true, true, $a_tt_suffix);
+				}
 			}
 			else
 			{
 				$next_step = $lng->txt("crs_loc_progress_do_qualifying_again");
-				$bar_color = "#f08080";
-			}
+				$bar_color = "ilCourseObjectiveProgressBarFailed";											
+			}			
 		}					
 		// initial test
 		else 
@@ -1043,9 +1072,15 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 			if($a_lo_result["status"])
 			{									
 				$progress_txt = $lng->txt("crs_loc_progress_result_itest");
-				$tt_txt = $lng->txt("crs_loc_tab_itest").": ".$tt_txt;		
+				$tt_txt = $lng->txt("crs_loc_tab_itest").": ".$tt_txt;	
 				
-				$bar_color = "#aaa";
+				// link to test statistics
+				if($a_lo_result["itest"])
+				{
+					$test_url = ilLOUtils::getTestResultLinkForUser($a_lo_result["itest"], $a_lo_result["user_id"]);	
+				}
+				
+				$bar_color = "ilCourseObjectiveProgressBarNeutral";
 									
 				if($a_lo_result["status"] == ilLOUserResults::STATUS_COMPLETED)
 				{
@@ -1072,29 +1107,32 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 		
 		if($progress_txt)
 		{
-			$tpl->setCurrentBlock("statustxt_bl");
-			$tpl->setVariable("TXT_PROGRESS_STATUS", $progress_txt);				
+			
+			if($test_url)
+			{
+				$tpl->setCurrentBlock("statustxt_bl");
+				$tpl->setVariable("TXT_PROGRESS_STATUS", $progress_txt);				
+				$tpl->setVariable("URL_TEST", $test_url);	
+			}
+			else
+			{			
+				$tpl->setCurrentBlock("statustxt_no_link_bl");
+				$tpl->setVariable("TXT_PROGRESS_STATUS_NO_LINK", $progress_txt);								
+			}
+					
 			$tpl->parseCurrentBlock();	
 		}
 		
 		if($bar_color)
 		{			
-			if($a_lo_result["limit_perc"])
-			{
-				$limit_pos = (121-ceil(125/100*$a_lo_result["limit_perc"]))*-1;
-			}
-			else
-			{
-				$limit_pos = -121;
-			}
+			$limit_pos = (99-(int)$a_lo_result["limit_perc"])*-1;
 			
 			$tpl->setCurrentBlock("statusbar_bl");
 			$tpl->setVariable("PERC_STATUS", $a_lo_result["result_perc"]);
 			$tpl->setVariable("LIMIT_POS", $limit_pos);
 			$tpl->setVariable("PERC_WIDTH", $perc_resize);
-			$tpl->setVariable("PERC_COLOR", $bar_color);
-			$tpl->setVariable("BG_COLOR", "#fff");
-			$tpl->setVariable("TT_ID", $tooltip_id);
+			$tpl->setVariable("PERC_COLOR", $bar_color);			
+			$tpl->setVariable("TT_ID", $tooltip_id);				
 			$tpl->parseCurrentBlock();
 		}
 		
@@ -1104,11 +1142,24 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 			$tpl->setVariable("TXT_NEXT_STEP", $next_step);				
 			$tpl->parseCurrentBlock();
 		}
-
+		
 		if($tt_txt)
-		{
+		{			
 			include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
 			ilTooltipGUI::addTooltip($tooltip_id, $tt_txt);
+		}
+		
+		if($initial_sub)
+		{
+			if($a_list_mode)
+			{
+				$tpl->setVariable("SUB_STYLE", ' style="padding-left: 30px;"');
+			}
+			else
+			{
+				$tpl->setVariable("SUB_STYLE", ' style="padding-left: 10px;"');
+			}		
+			$tpl->setVariable("SUB_INIT", $initial_sub);	
 		}
 		
 		return $tpl->get();
