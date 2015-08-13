@@ -51,6 +51,7 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
 
 		$this->initSettings();
 		$this->lng->loadLanguageModule('logging');
+		$this->lng->loadLanguageModule('log');
 		
 		include_once './Services/Logging/classes/public/class.ilLoggerFactory.php';
 		$this->log = ilLoggerFactory::getLogger('log');
@@ -246,12 +247,12 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
 			$form->addCommandButton('updateSettings', $this->lng->txt('save'));
 		}
 
-		$level = new ilSelectInputGUI($this->lng->txt('logging_log_level'),'level');
+		$level = new ilSelectInputGUI($this->lng->txt('log_log_level'),'level');
 		$level->setOptions(ilLogLevel::getLevelOptions());
 		$level->setValue($this->getSettings()->getLevel());
 		$form->addItem($level);
 		
-		$cache = new ilCheckboxInputGUI($this->lng->txt('log_cache'), 'cache');
+		$cache = new ilCheckboxInputGUI($this->lng->txt('log_cache_'), 'cache');
 		$cache->setValue(1);
 		$cache->setChecked($this->getSettings()->isCacheEnabled());
 		$form->addItem($cache);
