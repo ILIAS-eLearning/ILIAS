@@ -519,8 +519,11 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 					break;
 
 				case 3:
-					$row_title = ilUtil::prepareFormOutput($rowobj->title).
-						' <span class="questionLabel">('.ilUtil::prepareFormOutput($rowobj->label).')</span>';
+					$row_title = ilUtil::prepareFormOutput($rowobj->title);
+					if(trim($rowobj->label))
+					{
+						$row_title .= ' <span class="questionLabel">('.ilUtil::prepareFormOutput($rowobj->label).')</span>';
+					}
 					break;
 			}
 			$tplrow->setVariable("TEXT_ROW", $row_title);

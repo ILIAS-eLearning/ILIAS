@@ -11267,7 +11267,6 @@ survey#:#exp_type_csv#:#Durch Komma getrennte Werte (CSV)
 survey#:#exp_type_excel#:#Microsoft Excel
 survey#:#export_all_survey_codes#:#Alle Zugangsschlüssel exportieren
 survey#:#export_data_as#:#Exportieren als
-survey#:#export_label_only#:#Nur Labels exportieren
 survey#:#export_title_label#:#Titel und Label exportieren
 survey#:#export_title_only#:#Nur Titel exportieren
 survey#:#external_mails_import#:#Externe Empfänger von Zugangsschlüsseln importieren
