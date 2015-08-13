@@ -1271,7 +1271,7 @@ class ilSurveyEditorGUI
 		{
 			$_POST["export_label"] = $this->object->getShowQuestionTitles();
 		}
-		$current_title = (int)$_POST["export_label"];
+		$current_title = (int)$_REQUEST["export_label"];
 		
 		include_once "Services/Form/classes/class.ilSelectInputGUI.php";
 		$label = new ilSelectInputGUI($this->lng->txt("title")."/".$this->lng->txt("label"), "export_label");
@@ -1299,9 +1299,11 @@ class ilSurveyEditorGUI
 		include_once './Services/WebServices/RPC/classes/class.ilRPCServerSettings.php';
 		if(ilRPCServerSettings::getInstance()->isEnabled())
 		{
+			$this->ctrl->setParameter($this, "export_label", $current_title);
 			$this->ctrl->setParameter($this, "pdf", "1");
 			$pdf_url = $this->ctrl->getLinkTarget($this, "printView");
 			$this->ctrl->setParameter($this, "pdf", "");
+			$this->ctrl->setParameter($this, "export_label", "");
 			
 			$button = ilLinkButton::getInstance();
 			$button->setCaption("pdf_export");								
