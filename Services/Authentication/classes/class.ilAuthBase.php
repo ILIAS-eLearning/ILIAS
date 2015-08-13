@@ -36,6 +36,8 @@ abstract class ilAuthBase
 	// TODO: Find another solution
 	protected $sub_status = null;
 	
+	protected $exceeded_user_name;
+	
 	/**
 	 * Returns true, if the current auth mode allows redirects to e.g 
 	 * the login screen, public section ... 
@@ -125,6 +127,8 @@ abstract class ilAuthBase
 				if(!$user->checkTimeLimit())
 				{
 					$this->status = AUTH_USER_TIME_LIMIT_EXCEEDED;
+					// #16327
+					$this->exceeded_user_name = $this->getUserName();
 					$a_auth->logout();
 					return;
 				}
@@ -261,5 +265,9 @@ abstract class ilAuthBase
 		return $this->getContainer()->logoutObserver($a_username,$a_auth);
 	}
 	
+	public function getExceededUserName()
+	{
+		return $this->exceeded_user_name;
+	}
 }
 ?>
