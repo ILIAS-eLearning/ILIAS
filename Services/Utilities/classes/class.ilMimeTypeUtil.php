@@ -453,6 +453,7 @@ class ilMimeTypeUtil {
 	const APPLICATION__ZIP = 'application/zip';
 	const MULTIPART__X_ZIP = 'multipart/x-zip';
 	const TEXT__X_SCRIPT_ZSH = 'text/x-script.zsh';
+	const APPLICATION__XHTML_XML = 'application/xhtml+xml';
 	/**
 	 * @var array
 	 */
@@ -1374,6 +1375,7 @@ class ilMimeTypeUtil {
 			self::APPLICATION__X_EXCEL,
 			self::APPLICATION__X_MSEXCEL,
 		),
+		'xhtml' => self::APPLICATION__XHTML_XML,
 		'xm' => self::AUDIO__XM,
 		'xml' => array(
 			self::TEXT__XML,
