@@ -154,6 +154,7 @@ class gevTrainerOperationByTEPCategoryGUI extends catBasicReportGUI{
 						->static_condition($min_row_condition) 
 						->action($this->ctrl->getLinkTarget($this, "view"))
 						->compile();
+		$this->tpl->addCSS('Services/GEV/Reports/templates/css/report.css');
 
 	}
 
