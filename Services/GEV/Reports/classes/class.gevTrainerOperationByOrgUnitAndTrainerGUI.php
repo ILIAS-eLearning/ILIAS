@@ -131,7 +131,7 @@ class gevTrainerOperationByOrgUnitAndTrainerGUI extends catBasicReportGUI{
 			"SUM(IF(".$this->db->in('category',$categories,false,"text")." ,"
 			."	IF(htid.end_time IS NOT NULL AND htid.start_time IS NOT NULL,"
 			."			LEAST(CEIL( TIME_TO_SEC( TIMEDIFF( htid.end_time, htid.start_time ) )* htid.weight /720000) *2,8),"
-			."			8)"
+			."			LEAST(CEIL( 28800* htid.weight /720000) *2,8))"
 			."	,0)) as ".$name;
 		return $sql;
 	}
