@@ -10,8 +10,8 @@ require_once 'Modules/Forum/classes/class.ilForum.php';
 require_once 'Modules/Forum/classes/class.ilForumTopic.php';
 require_once 'Services/RTE/classes/class.ilRTE.php';
 require_once 'Services/PersonalDesktop/interfaces/interface.ilDesktopItemHandling.php';
+require_once 'Modules/Forum/classes/class.ilForumMailNotification.php';
 require_once 'Services/UIComponent/SplitButton/classes/class.ilSplitButtonGUI.php';
-
 
 /**
  * Class ilObjForumGUI
@@ -1718,35 +1718,35 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 				// FINALLY SEND MESSAGE
 				if ($this->ilias->getSetting("forum_notification") == 1 && (int)$status )
 				{
-					$objPost =  new ilForumPost((int)$newPost, $this->is_moderator);
+					$objPost = new ilForumPost((int)$newPost, $this->is_moderator);
 
-					$post_data = $objPost->getDataAsArray();
-					$titles = $this->getTitlesByRefId(array($this->object->getRefId()));
-					$post_data["top_name"] = $titles[0];
-					$post_data["ref_id"] = $this->object->getRefId();
-					
-					$frm->__sendMessage($objPost->getParentId(), $post_data);
-					
-					$frm->sendForumNotifications($post_data);
-					$frm->sendThreadNotifications($post_data);
-				}
-				
-				$message = '';
-				if(!$this->is_moderator && !$status)
-				{
-					$message .= $lng->txt('forums_post_needs_to_be_activated');
-				}
-				else
-				{
-					$message .= $lng->txt('forums_post_new_entry');
-				}
+					$GLOBALS['ilAppEventHandler']->raise(
+						'Modules/Forum',
+						'createdPost',
+						array(
+							'ref_id'            => $this->object->getRefId(),
+							'post'              => new ilForumPost($newPost),
+							'notify_moderators' => (bool)$send_activation_mail
+						)
+					);
 
-				$_SESSION['frm'][(int)$_GET['thr_pk']]['openTreeNodes'][] = (int)$this->objCurrentPost->getId();
+					$message = '';
+					if(!$this->is_moderator && !$status)
+					{
+						$message .= $lng->txt('forums_post_needs_to_be_activated');
+					}
+					else
+					{
+						$message .= $lng->txt('forums_post_new_entry');
+					}
 
-				ilUtil::sendSuccess($message, true);
-				$this->ctrl->setParameter($this, 'pos_pk', $newPost);
-				$this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentPost->getThreadId());
-				$this->ctrl->redirect($this, 'viewThread');
+					$_SESSION['frm'][(int)$_GET['thr_pk']]['openTreeNodes'][] = (int)$this->objCurrentPost->getId();
+
+					ilUtil::sendSuccess($message, true);
+					$this->ctrl->setParameter($this, 'pos_pk', $newPost);
+					$this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentPost->getThreadId());
+					$this->ctrl->redirect($this, 'viewThread');
+				}
 			}
 			else
 			{
@@ -1755,7 +1755,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 				   $ilUser->getId() == ANONYMOUS_USER_ID)
 				{
 				   	$this->ilias->raiseError($lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
-				}
+					}				
 
 				// remove usage of deleted media objects
 				include_once 'Services/MediaObjects/classes/class.ilObjMediaObject.php';
@@ -1843,16 +1843,20 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 					{
 						$oFDForum->unlinkFilesByMD5Filenames($file2delete);
 					}
+
+					$GLOBALS['ilAppEventHandler']->raise(
+						'Modules/Forum',
+						'updatedPost',
+						array(
+							'ref_id'            => $this->object->getRefId(),
+							'post'              => $this->objCurrentPost,
+							'notify_moderators' => (bool)$send_activation_mail
+						)
+					);
+	
+					ilUtil::sendSuccess($lng->txt('forums_post_modified'), true);
 				}
 
-				if (!$status && $send_activation_mail)
-				{
-					$pos_data = $this->objCurrentPost->getDataAsArray();
-					$pos_data["top_name"] = $this->object->getTitle();
-					$frm->sendPostActivationNotification($pos_data);
-				}
-
-				ilUtil::sendSuccess($lng->txt('forums_post_modified'), true);
 				$this->ctrl->setParameter($this, 'pos_pk', $this->objCurrentPost->getId());
 				$this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentPost->getThreadId());
 				$this->ctrl->setParameter($this, 'viewmode', $_SESSION['viewmode']);
@@ -2311,14 +2315,16 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			// form processing (censor)			
 			if(!$this->objCurrentTopic->isClosed() && $_GET['action'] == 'ready_censor')
 			{
+				$cens_message = $this->handleFormInput($_POST['formData']['cens_message']);
+				
 				if(($_POST['confirm'] != '' || $_POST['no_cs_change'] != '') && $_GET['action'] == 'ready_censor')
 				{
-					$frm->postCensorship($this->handleFormInput($_POST['formData']['cens_message']), $this->objCurrentPost->getId(), 1);
+					$frm->postCensorship($cens_message, $this->objCurrentPost->getId(), 1);
 					ilUtil::sendSuccess($this->lng->txt('frm_censorship_applied'));
 				}
 				else if(($_POST['cancel'] != '' || $_POST['yes_cs_change'] != '') && $_GET['action'] == 'ready_censor')
 				{
-					$frm->postCensorship($this->handleFormInput($_POST['formData']['cens_message']), $this->objCurrentPost->getId());
+					$frm->postCensorship($cens_message, $this->objCurrentPost->getId());
 					ilUtil::sendSuccess($this->lng->txt('frm_censorship_revoked'));
 				}
 			}
@@ -3766,18 +3772,16 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 				}
 			}
 			
-			if($this->ilias->getSetting('forum_notification') == 1)
-			{
-				// send notification about new topic
-				$objPost =  new ilForumPost((int)$newPost, $this->is_moderator);
-				$post_data = array();
-				$post_data = $objPost->getDataAsArray();
-				$titles = $this->getTitlesByRefId(array($this->object->getRefId()));
-				$post_data["top_name"] = $titles[0];
-				$post_data["ref_id"] =$this->object->getRefId();
+			$GLOBALS['ilAppEventHandler']->raise(
+				'Modules/Forum',
+				'createdPost',
+				array(
+					'ref_id'            => $this->object->getRefId(),
+					'post'              => new ilForumPost($newPost),
+					'notify_moderators' => !$status
+				)
+			);
 				
-				$frm->sendForumNotifications($post_data);
-			}
 			if(!$a_prevent_redirect)
 			{
 				ilUtil::sendSuccess($this->lng->txt('forums_thread_new_entry'), true);

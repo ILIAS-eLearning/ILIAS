@@ -15527,3 +15527,23 @@ forum#:#user_decides_notification#:#Members have to manually activate notificati
 crs#:#crs_intro_course_group_notification_for#:#this is the news digest for your courses and groups, which have an active notification.
 crs#:#crs_intro_course_group_notification_period#:#This mail summarizes news from %1$s to %2$s.
 crs#:#crs_intro_course_group_notification_title#:#There are news for the following courses and groups:
+forum#:#post_deleted_by#:#following posting in forum "%2$s" was deleted by "%1$s":
+forum#:#content_deleted_post#:#Content of the deleted posting:
+forum#:#post_updated_by#:#subsequently edited posting in forum by "%1$s": "%2$s"
+forum#:#content_post_updated#:#Content of the edited posting:
+forum#:#post_censored_by#:#censored posting in forum "%2$s" by "%1$s":
+forum#:#content_censored_post#:#Content of the censored posting:
+forum#:#forums_notification_show_frm#:#Show forum: %s
+forum#:#thread_deleted_by#:#following thread in forum "%2$s"was deleted by "%1$s":
+forum#:#content_deleted_thread#:#Content of the deleted thread:
+forum#:#post_uncensored_by#:#a posting was uncensored by "%1$s"
+forum#:#frm_noti_message#:#Message:
+forum#:#frm_noti_new_post#:#a new posting was created in forum "%1$s".
+forum#:#frm_noti_subject_new_post#:#New posting in forum "%1$s", thread "%2$s"
+forum#:#frm_noti_subject_del_thread#:#Thread "%2$s" deleted in forum "%1$s"
+forum#:#frm_noti_subject_act_post#:#Posting activated in forum "%1$s", thread "%2$s"
+forum#:#frm_noti_subject_answ_post#:#Posting answered in forum "%1$s", thread "%2$s"
+forum#:#frm_noti_subject_upt_post#:#Posting modified in forum "%1$s", thread "%2$s"
+forum#:#frm_noti_subject_cens_post#:#Posting censored in forum "%1$s", thread "%2$s"
+forum#:#frm_noti_subject_uncens_post#:#Posting uncensored in forum "%1$s", thread "%2$s"
+forum#:#frm_noti_subject_del_post#:#Posting deleted in forum "%1$s", thread "%2$s"

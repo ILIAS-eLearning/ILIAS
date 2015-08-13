@@ -35,6 +35,8 @@ class ilForumPost
 	
 	private $censorship_comment = '';
 	
+	private $censored_date = '0000-00-00 00:00:00';
+	
 	private $notification = 0;
 	
 	private $import_name = '';
@@ -142,6 +144,7 @@ class ilForumPost
 					'pos_update'	=> array('timestamp', $this->changedate),
 					'update_user'	=> array('integer', $this->user_id_update),
 					'pos_cens'		=> array('integer', $this->censored),
+					'pos_cens_date' => array('timestamp', $this->censored_date),
 					'pos_cens_com'	=> array('text', $this->censorship_comment),
 					'notify'		=> array('integer', (int)$this->notification),
 					'pos_status'	=> array('integer', (int)$this->status)
@@ -162,67 +165,6 @@ class ilForumPost
 		}
 		
 		return false;
-	}
-	
-	public function getDataAsArray()
-	{			
-		$data = array(
-			'pos_pk'              => $this->id,
-			'pos_top_fk'          => $this->forum_id,
-			'pos_thr_fk'          => $this->thread_id,
-			'pos_display_user_id' => $this->display_user_id,
-			'pos_usr_alias'       => $this->user_alias,
-			'title'               => $this->fullname,
-			'loginname'           => $this->loginname,
-			'pos_message'         => $this->message,
-			'pos_subject'         => $this->subject,
-			'pos_cens_com'        => $this->censorship_comment,
-			'pos_cens'            => $this->censored,
-			'pos_date'            => $this->createdate,
-			'pos_update'          => $this->changedate,
-			'update_user'         => $this->user_id_update,
-			'notify'              => $this->notification,
-			'import_name'         => $this->import_name,
-			'pos_status'          => $this->status,
-			'pos_author_id'       => $this->pos_author_id,
-			'is_author_moderator' => $this->is_author_moderator	
-		);
-		
-		return $data;
-	}
-	
-	public function getDataAsArrayForExplorer()
-	{			
-		$data = array(
-			'pos_pk'        => $this->id,
-			'child'         => $this->id,
-			'author'        => $this->display_user_id,
-			'alias'         => $this->user_alias,
-			'title'         => $this->fullname,
-			'loginname'     => $this->loginname,
-			'type'          => 'post',
-			'message'       => $this->message,
-			'subject'       => $this->subject,
-			'pos_cens_com'  => $this->censorship_comment,
-			'pos_cens'      => $this->censored,
-			'date'          => $this->createdate,
-			'create_date'   => $this->createdate,
-			'update'        => $this->changedate,
-			'update_user'   => $this->user_id_update,
-			'tree'          => $this->thread_id,
-			'parent'        => $this->parent_id,
-			'lft'           => $this->lft,
-			'rgt'           => $this->rgt,
-			'depth'         => $this->depth,
-			'id'            => $this->tree_id,
-			'notify'        => $this->notification,
-			'import_name'   => $this->import_name,
-			'pos_status'    => $this->status,
-			'pos_author_id' => $this->pos_author_id,
-			'is_author_moderator' => $this->is_author_moderator
-		);
-		
-		return $data;
 	}
 	
 	private function read()
@@ -249,6 +191,7 @@ class ilForumPost
 				$this->changedate         = $row->pos_update;
 				$this->user_id_update     = $row->update_user;
 				$this->censored           = $row->pos_cens;
+				$this->censored_date      = $row->pos_cens_date;
 				$this->censorship_comment = $row->pos_cens_com;
 				$this->notification       = $row->notify;
 				$this->import_name        = $row->import_name;
@@ -722,6 +665,22 @@ class ilForumPost
 		$this->is_author_moderator = $is_author_moderator;
 	}
 
+	/**
+	 * @return string
+	 */
+	public function getCensoredDate()
+	{
+		return $this->censored_date;
+	}
+
+	/**
+	 * @param string $censored_date
+	 */
+	public function setCensoredDate($censored_date)
+	{
+		$this->censored_date = $censored_date;
+	}
+	
 	public function assignData($row)
 	{
 		$this->setUserAlias($row['pos_usr_alias']);
@@ -733,6 +692,7 @@ class ilForumPost
 		$this->setChangeDate($row['pos_update']);
 		$this->setUpdateUserId($row['update_user']);
 		$this->setCensorship($row['pos_cens']);
+		$this->setCensoredDate($row['pos_cens_date']);
 		$this->setCensorshipComment($row['pos_cens_com']);
 		$this->setNotification($row['notify']);
 		$this->setImportName($row['import_name']);
@@ -757,5 +717,6 @@ class ilForumPost
 		array('pos_thr_fk' => array('integer', $target_thread_id)),
 		array('pos_thr_fk' => array('integer', $source_thread_id)));
 	}
+	
 }
 ?>
