@@ -1235,3 +1235,5 @@ gev#:#gev_forget_passwort#:#Passwort vergessen
 gev#:#gev_forget_username#:#Benutzername vergessen
 gev#:#gev_forget_psswd_login_pretext#:#Hier haben Sie die Möglichkeit sich Ihren Benutzernamen oder Ihr Passwort zusenden zu lassen.
 gev#:#gev_forget_psswd_login#:#Benutzername / Passwort vergessen
+gev#:#gev_mytrainingsap_legend_signature_list#:#Unterschriftenliste
+gev#:#gev_maillog#:#Maillog
