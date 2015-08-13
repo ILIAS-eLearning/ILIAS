@@ -279,6 +279,16 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 		
 		$lucene = new ilRadioOption($this->lng->txt('search_lucene'),ilSearchSettings::LUCENE_SEARCH,$this->lng->txt('java_server_info'));
 		$type->addOption($lucene);
+
+		$inactive_user = new ilCheckboxInputGUI($this->lng->txt('search_show_inactive_user'), 'inactive_user');
+		$inactive_user->setInfo($this->lng->txt('search_show_inactive_user_info'));
+		$inactive_user->setChecked($settings->isInactiveUserVisible());
+		$this->form->addItem($inactive_user);
+
+		$limited_user = new ilCheckboxInputGUI($this->lng->txt('search_show_limited_user'), 'limited_user');
+		$limited_user->setInfo($this->lng->txt('search_show_limited_user_info'));
+		$limited_user->setChecked($settings->isLimitedUserVisible());
+		$this->form->addItem($limited_user);
 	}
 	
 	
@@ -324,6 +334,10 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 
 		$settings->setHideAdvancedSearch($_POST['hide_adv_search']);
 		$settings->setAutoCompleteLength($_POST['auto_complete_length']);
+
+		$settings->showInactiveUser($_POST["inactive_user"]);
+		$settings->showLimitedUser($_POST["limited_user"]);
+
 
 		$settings->update();
 

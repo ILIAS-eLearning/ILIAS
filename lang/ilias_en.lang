@@ -15547,3 +15547,7 @@ forum#:#frm_noti_subject_upt_post#:#Posting modified in forum "%1$s", thread "%2
 forum#:#frm_noti_subject_cens_post#:#Posting censored in forum "%1$s", thread "%2$s"
 forum#:#frm_noti_subject_uncens_post#:#Posting uncensored in forum "%1$s", thread "%2$s"
 forum#:#frm_noti_subject_del_post#:#Posting deleted in forum "%1$s", thread "%2$s"
+search#:#search_show_inactive_user#:#Show Inactive Users
+search#:#search_show_inactive_user_info#:#If enabled, the user search will show inactive users.
+search#:#search_show_limited_user#:#Show Limited Users
+search#:#search_show_limited_user_info#:#If enabled, the user search will show users with limited access and outside their allowed time period.

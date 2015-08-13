@@ -49,6 +49,7 @@ class ilRepositorySearchGUI
 	protected $search_title = '';
 	
 	var $search_type = 'usr';
+	protected $user_limitations = true;
 
 	/**
 	* Constructor
@@ -253,6 +254,8 @@ class ilRepositorySearchGUI
 		$auto->setSearchFields($a_fields);
 		$auto->setResultField($result_field);
 		$auto->enableFieldSearchableCheck(true);
+		$auto->setUserLimitations($this->getUserLimitations());
+
 		echo $auto->getList($_REQUEST['term']);
 		exit();
 	}
@@ -928,6 +931,7 @@ class ilRepositorySearchGUI
 			$table->addMultiCommand('addUser', $this->lng->txt('btn_add'));
 		}
 		$table->parseUserIds($a_usr_ids);
+		$table->setUserLimitations($this->getUserLimitations());
 		
 		$this->tpl->setVariable('RES_TABLE',$table->getHTML());
 	}
@@ -1094,6 +1098,25 @@ class ilRepositorySearchGUI
 
 		$this->ctrl->setParameter($this->callback["class"], "obj", implode(";", $_POST["obj"]));
 		$this->ctrl->redirect($this->callback["class"], $this->callback["method"]);
+	}
+
+	/**
+	 * allow user limitations like inactive and access limitations
+	 *
+	 * @param bool $a_limitations
+	 */
+	public function setUserLimitations($a_limitations)
+	{
+		$this->user_limitations = (bool) $a_limitations;
+	}
+
+	/**
+	 * allow user limitations like inactive and access limitations
+	 * @return bool
+	 */
+	public function getUserLimitations()
+	{
+		return $this->user_limitations;
 	}
 }
 ?>
