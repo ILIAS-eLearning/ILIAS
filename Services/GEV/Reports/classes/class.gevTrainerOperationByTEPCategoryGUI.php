@@ -230,8 +230,12 @@ class gevTrainerOperationByTEPCategoryGUI extends catBasicReportGUI{
 
 	protected function hoursPerTEPCategory($category, $name) {
 		$sql = 
-		"SUM(IF(category = ".$this->db->quote($category,"text")." ,
-			LEAST(CEIL( TIME_TO_SEC( TIMEDIFF( end_time, start_time ) )* weight /720000) *2,8),0)) as ".$name;
+		"SUM(IF(category = ".$this->db->quote($category,"text")." ,"
+		."		IF(htid.end_time IS NOT NULL AND htid.start_time IS NOT NULL,"
+		."			LEAST(CEIL( TIME_TO_SEC( TIMEDIFF( end_time, start_time ) )* weight /720000) *2,8),"
+		."			LEAST(CEIL( 28800* htid.weight /720000) *2,8)"
+		."		)".
+		."	,0)) as ".$name;
 		return $sql;
 	}
 }
