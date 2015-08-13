@@ -12,23 +12,24 @@
 <script>
 	(function($) {
 		var $ctx = $('#context');
-		
-		var onCtxChange = function() {
-			var value = $ctx.val();
-			$.when(
-				$.ajax({
-					url: "{URL}" + "&context_id=" + value,
-					type: 'GET'
-				})
-			).then(function (placeholders) {
-				$('#placeholders_box').html(placeholders);
+		if ($ctx.size() == 1) {
+			var onCtxChange = function () {
+				var value = $ctx.val();
+				if (value) {
+					$.ajax({
+						url: "{URL}" + "&context_id=" + value,
+						type: 'GET'
+					}).done(function (placeholders) {
+						$('#placeholders_box').html(placeholders);
+					});
+				}
+			};
+
+			$ctx.off('change').on('change', onCtxChange);
+
+			$(document).ready(function () {
+				onCtxChange();
 			});
-		};
-
-		$ctx.off('change').on('change', onCtxChange);
-
-		$(document).ready(function () {
-			onCtxChange();
-		});
+		}
 	})(jQuery);
 </script>

@@ -888,4 +888,19 @@ class ilMailFormGUI
 		$this->ctrl->setParameterByClass('ilmailinglistsgui', 'ref', 'mail');
 		$this->ctrl->redirectByClass('ilmailinglistsgui');
 	}
+
+	public function getAjaxPlaceholdersById()
+	{
+		$context_id = ilUtil::stripSlashes($_GET['context_id']);
+		require_once 'Services/Mail/classes/class.ilMailTemplateService.php';
+		require_once 'Services/Mail/classes/Form/class.ilManualPlaceholderInputGUI.php';
+		$placeholders = new ilManualPlaceholderInputGUI($this->ctrl->getLinkTarget($this, 'getAjaxPlaceholdersById', '', true, false));
+		$context = ilMailTemplateService::getTemplateContextById($context_id);
+		foreach($context->getPlaceholders() as $key => $value)
+		{
+			$placeholders->addPlaceholder($value['placeholder'], $value['label'] );
+		}
+		$placeholders->render(true);
+		exit();
+	}
 }
