@@ -1884,8 +1884,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	
 	protected function buildQuestionNavigationGUI($questionId)
 	{
-		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionNavigationGUI.php';
-		$navigationGUI = new ilAssQuestionNavigationGUI($this->lng);
+		require_once 'Modules/Test/classes/class.ilTestQuestionNavigationGUI.php';
+		$navigationGUI = new ilTestQuestionNavigationGUI($this->lng);
 
 		switch( 1 )
 		{

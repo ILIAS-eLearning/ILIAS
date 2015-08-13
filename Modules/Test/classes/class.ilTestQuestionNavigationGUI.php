@@ -8,7 +8,7 @@
  *
  * @package     Modules/TestQuestionPool
  */
-class ilAssQuestionNavigationGUI
+class ilTestQuestionNavigationGUI
 {
 	/**
 	 * @var ilLanguage
@@ -242,7 +242,7 @@ class ilAssQuestionNavigationGUI
 	private function getTemplate()
 	{
 		return new ilTemplate(
-			'tpl.ass_question_navigation.html', true, true, 'Modules/TestQuestionPool'
+			'tpl.tst_question_navigation.html', true, true, 'Modules/Test'
 		);
 	}
 

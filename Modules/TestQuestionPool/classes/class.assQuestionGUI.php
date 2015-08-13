@@ -61,7 +61,7 @@ abstract class assQuestionGUI
 	private $questionHeaderBlockBuilder;
 
 	/**
-	 * @var ilAssQuestionNavigationGUI
+	 * @var ilTestQuestionNavigationGUI
 	 */
 	private $navigationGUI;
 	
@@ -131,7 +131,7 @@ abstract class assQuestionGUI
 	}
 
 	/**
-	 * @return ilAssQuestionNavigationGUI
+	 * @return ilTestQuestionNavigationGUI
 	 */
 	public function getNavigationGUI()
 	{
@@ -139,7 +139,7 @@ abstract class assQuestionGUI
 	}
 
 	/**
-	 * @param ilAssQuestionNavigationGUI $navigationGUI
+	 * @param ilTestQuestionNavigationGUI $navigationGUI
 	 */
 	public function setNavigationGUI($navigationGUI)
 	{
