@@ -200,10 +200,10 @@ class gevTrainerOperationByTEPCategoryGUI extends catBasicReportGUI{
 		$i=1;
 		$str = fopen("Services/GEV/Reports/templates/default/"
 			."tpl.gev_trainer_operation_by_template_category_row.html","w"); 
-		$tpl = '<tr class="{CSS_ROW}"><td></td>'."\n".'<td>{VAL_FULLNAME}</td>';
+		$tpl = '<tr class="{CSS_ROW}"><td></td>'."\n".'<td class = "bordered_right">{VAL_FULLNAME}</td>';
 		foreach($categories as $category) {
 			$tpl .= "\n".'<td align = "right">{VAL_CAT'."$i".'}</td>';
-			$tpl .= "\n".'<td align = "right">{VAL_CATH'."$i".'}</td>';
+			$tpl .= "\n".'<td align = "right" class = "bordered_right">{VAL_CATH'."$i".'}</td>';
 			$i++;
 		}
 		$tpl .= "\n</tr>";
