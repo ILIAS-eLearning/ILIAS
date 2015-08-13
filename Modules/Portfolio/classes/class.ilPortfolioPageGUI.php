@@ -205,26 +205,29 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 			);
 			
 		foreach($parts as $type => $def)
-		{	
+		{				
 			// #15732 - allow optional parts
-			$parts = array();
+			$def_parts = array();
 			foreach($def as $part)
 			{
-				if(substr($part, -1) != "*")
+				$is_opt = (substr($part, -1) == "*");
+				if(!$is_opt)
 				{
-					$end_marker = "+";
+					$def_parts[] = "#";
+					$end_marker = "+";					
 				}
 				else
 				{
+					$def_parts[] = "#*";
 					$end_marker = "*";
-					$part = substr($part, 0, -1);
+					$part = substr($part, 0, -1);					
 				}
-				$parts[] = "([".$part."]".$end_marker.")";			
+				$def_parts[] = "([".$part."]".$end_marker.")";					
 			}						
-			$def = implode("#", $parts);	
+			$def = implode("", $def_parts);	
 			
 			if(preg_match_all(
-				"/".$this->pl_start.$type."#".$def.$this->pl_end."/", 
+				"/".$this->pl_start.$type.$def.$this->pl_end."/", 
 				$a_output, $blocks))
 			{					
 				foreach($blocks[0] as $idx => $block)
