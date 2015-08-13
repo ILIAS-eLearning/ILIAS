@@ -287,12 +287,11 @@ class ilObjMediaObjectAccess implements ilWACCheckingClass {
 	 * @return   boolean     access given (true/false)
 	 */
 	protected function checkAccessPortfolioPage($obj_id, $page_id) {
+		global $ilUser;
 		include_once "Modules/Portfolio/classes/class.ilPortfolioAccessHandler.php";
 		$access_handler = new ilPortfolioAccessHandler();
-		foreach ($this->check_users as $user_id) {
-			if ($access_handler->checkAccessOfUser($user_id, "read", "view", $obj_id, "prtf")) {
-				return true;
-			}
+		if ($access_handler->checkAccessOfUser($ilUser->getId(), "read", "view", $obj_id, "prtf")) {
+			return true;
 		}
 
 		return false;
