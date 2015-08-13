@@ -1882,6 +1882,17 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		return $this->lng->txt("save_introduction");
 	}
 	
+	protected function buildTestNavigationToolbarGUI()
+	{
+		$navigationToolbarGUI = new ilTestNavigationToolbarGUI($this->ctrl, $this->lng);
+		
+		$navigationToolbarGUI->setSuspendTestEnabled(true);
+		
+		$navigationToolbarGUI->build();
+		
+		return $navigationToolbarGUI;
+	}
+	
 	protected function buildQuestionNavigationGUI($questionId)
 	{
 		require_once 'Modules/Test/classes/class.ilTestQuestionNavigationGUI.php';
