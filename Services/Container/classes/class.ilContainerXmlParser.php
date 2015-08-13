@@ -18,6 +18,9 @@ class ilContainerXmlParser
 	private $xml = '';
 	
 	private $sxml = null;
+	private $root_id = 0;
+	
+	static public $style_map = array();
 
 	/**
 	 * Constructor
@@ -38,9 +41,10 @@ class ilContainerXmlParser
 		return $this->mapping;
 	}
 	
-	public function parse()
+	public function parse($a_root_id)
 	{
 		$this->sxml = simplexml_load_string($this->xml);
+		$this->root_id = $a_root_id;
 		
 		foreach($this->sxml->Item as $item)
 		{
@@ -56,12 +60,27 @@ class ilContainerXmlParser
 	 */
 	protected function initItem($item, $a_parent_node)
 	{
+		global $ilSetting;
+		
 		$title = (string) $item['Title'];
 		$ref_id = (string) $item['RefId'];
 		$obj_id = (string) $item['Id'];
 		$type = (string) $item['Type'];
 
-		$new_ref = $this->createObject($ref_id,$obj_id,$type,$title,$a_parent_node);	
+		if($obj_id == $this->root_id)
+		{
+			// if container without subitems a dummy container has already been created
+			// see ilImportContainer::createDummy()			
+			$new_ref = $this->mapping->getMapping('Services/Container', 'refs', 0);
+			
+			// see below and ilContainerImporter::finalProcessing()
+			$this->mapping->addMapping('Services/Container','objs', $obj_id, ilObject::_lookupObjId($new_ref));
+		}
+		
+		if(!$new_ref)
+		{
+			$new_ref = $this->createObject($ref_id,$obj_id,$type,$title,$a_parent_node);	
+		}
 
 		// Course item information		
 		foreach($item->Timing as $timing)
@@ -73,6 +92,28 @@ class ilContainerXmlParser
 		{
 			$this->initItem($subitem, $new_ref);
 		}
+			
+		$new_obj_id = $this->mapping->getMapping('Services/Container', 'objs', $obj_id);
+			
+		// style
+		if((int)$item['Style'])
+		{
+			self::$style_map[(int)$item['Style']][] = $new_obj_id;
+		}
+		
+		// pages
+		if($ilSetting->get('enable_cat_page_edit', false))
+		{								
+			if((bool)$item['Page'])
+			{			
+				$this->mapping->addMapping('Services/COPage', 'pg', 'cont:'.$obj_id, 'cont:'.$new_obj_id);		
+			}
+			
+			if((bool)$item['StartPage'])
+			{				
+				$this->mapping->addMapping('Services/COPage', 'pg', 'cstr:'.$obj_id, 'cstr:'.$new_obj_id);		
+			}			
+		}		
 	}
 	
 	/**
