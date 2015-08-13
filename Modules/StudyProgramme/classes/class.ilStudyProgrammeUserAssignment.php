@@ -130,6 +130,12 @@ class ilStudyProgrammeUserAssignment {
 	 * Delete the assignment from database.
 	 */
 	public function delete() {
+		require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeUserProgress.php");
+		$progresses = ilStudyProgrammeUserProgress::getInstancesForAssignment($this->getId());
+		foreach ($progresses as $progress) {
+			$progress->delete();
+		}
+		
 		$this->assignment->delete();
 	}
 	
