@@ -77,6 +77,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				include_once('./Services/Search/classes/class.ilRepositorySearchGUI.php');
 				$user_search =& new ilRepositorySearchGUI();
 				$user_search->enableSearchableCheck(false);
+				$user_search->setUserLimitations(false);
 				$user_search->setCallback(
 					$this,
 					'searchResultHandler',

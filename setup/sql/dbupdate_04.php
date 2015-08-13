@@ -8301,3 +8301,163 @@ if( !$ilDB->tableExists('member_noti_user') )
 }
 
 ?>
+<#4601>
+<?php
+if(!$ilDB->tableColumnExists('frm_posts', 'pos_cens_date'))
+{
+	$ilDB->addTableColumn('frm_posts', 'pos_cens_date', array(
+			'type'    => 'timestamp',
+			'notnull' => false)
+	);
+}
+?>
+<#4602>
+<?php
+if(!$ilDB->tableExists('frm_posts_deleted'))
+{
+	$ilDB->createTable('frm_posts_deleted',
+		array(
+			'deleted_id'          => array(
+				'type'    => 'integer',
+				'length'  => 4,
+				'notnull' => true
+			),
+			'deleted_date'        => array(
+				'type'    => 'timestamp',
+				'notnull' => true
+			),
+			'deleted_by'          => array(
+				'type'    => 'text',
+				'length'  => 255,
+				'notnull' => true
+			),
+			'forum_title'         => array(
+				'type'    => 'text',
+				'length'  => 255,
+				'notnull' => true
+			),
+			'thread_title'        => array(
+				'type'    => 'text',
+				'length'  => 255,
+				'notnull' => true
+			),
+			'post_title'          => array(
+				'type'    => 'text',
+				'length'  => 255,
+				'notnull' => true
+			),
+			'post_message'        => array(
+				'type'    => 'clob',
+				'notnull' => true
+			),
+			'post_date'           => array(
+				'type'    => 'timestamp',
+				'notnull' => true
+			),
+			'obj_id'              => array(
+				'type'    => 'integer',
+				'length'  => 4,
+				'notnull' => true
+			),
+			'ref_id'              => array(
+				'type'    => 'integer',
+				'length'  => 4,
+				'notnull' => true
+			),
+			'thread_id'           => array(
+				'type'    => 'integer',
+				'length'  => 4,
+				'notnull' => true
+			),
+			'forum_id'            => array(
+				'type'    => 'integer',
+				'length'  => 4,
+				'notnull' => true
+			),
+			'pos_display_user_id' => array(
+				'type'    => 'integer',
+				'length'  => 4,
+				'notnull' => true,
+				'default' => 0
+			),
+			'pos_usr_alias'       => array(
+				'type'    => 'text',
+				'length'  => 255,
+				'notnull' => false
+			)
+		));
+
+	$ilDB->addPrimaryKey('frm_posts_deleted', array('deleted_id'));
+	$ilDB->createSequence('frm_posts_deleted');
+}
+?>
+<#4603>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#4604>
+<?php
+if(!$ilDB->tableColumnExists('frm_posts_deleted','is_thread_deleted'))
+{
+	$ilDB->addTableColumn('frm_posts_deleted', 'is_thread_deleted', array(
+			'type'    => 'integer',
+			'length'  => 1,
+			'notnull' => true,
+			'default' => 0)
+	);
+}
+?>
+<#4605>
+<?php
+
+$res = $ilDB->query("SELECT a.id, a.tpl_id, od.obj_id , od.title FROM ".
+	"(didactic_tpl_a a JOIN ".
+	"(didactic_tpl_alr alr JOIN ".
+	"object_data od ".
+	"ON (alr.role_template_id = od.obj_id)) ".
+	"ON ( a.id = alr.action_id)) ".
+	"WHERE a.type_id = " . $ilDB->quote(2,'integer'));
+
+$names = array();
+$templates = array();
+
+while($row = $ilDB->fetchAssoc($res))
+{
+	$names[$row["tpl_id"]][$row["id"]] = array(
+		"action_id" => $row["id"],
+		"role_template_id" => $row["obj_id"],
+		"role_title" => $row["title"]);
+
+	$templates[$row["tpl_id"]] = $row["tpl_id"];
+}
+
+$res = $ilDB->query("SELECT * FROM didactic_tpl_objs");
+
+while($row = $ilDB->fetchAssoc($res))
+{
+	if(in_array($row["tpl_id"],$templates))
+	{
+		$roles = array();
+		$rol_res = $ilDB->query("SELECT rol_id FROM rbac_fa ".
+			"WHERE parent = ".$ilDB->quote($row["ref_id"],'integer'). " AND assign = ".$ilDB->quote('y','text'));
+
+		while($rol_row = $ilDB->fetchObject($rol_res))
+		{
+			$roles[] = $rol_row->rol_id;
+		}
+
+		foreach($names[$row["tpl_id"]] as $name)
+		{
+			$concat = $ilDB->concat(array(
+				array("title", "text"),
+				array($ilDB->quote("_".$row["ref_id"], "text"), "text")
+			), false);
+
+			$ilDB->manipulate("UPDATE object_data".
+				" SET title = ".$concat .
+				" WHERE ".$ilDB->in("obj_id",$roles, "", "integer").
+				" AND title = " . $ilDB->quote($name['role_title']));
+		}
+	}
+}
+?>

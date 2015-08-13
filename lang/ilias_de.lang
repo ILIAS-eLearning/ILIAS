@@ -15522,3 +15522,27 @@ forum#:#user_decides_notification#:#Mitglieder müssen Benachrichtigungen selber
 crs#:#crs_intro_course_group_notification_for#:#dies ist die Zusammenfassung der Nachrichten aus Ihren Kursen und Gruppen, für die die automatische Benachrichtigung aktiviert wurde.
 crs#:#crs_intro_course_group_notification_period#:#Diese Mail umfasst Nachrichten für den Zeitraum von %1$s bis %2$s.
 crs#:#crs_intro_course_group_notification_index#:#Es gibt Nachrichten aus folgenden Kursen und Gruppen:
+forum#:#post_deleted_by#:#folgender Beitrag im Forum "%2$s" wurde von "%1$s" gelöscht:
+forum#:#content_deleted_post#:#Inhalt des gelöschten Beitrags:
+forum#:#post_updated_by#:#folgender Beitrag im Forum "%2$s" wurde von "%1$s" geändert
+forum#:#content_post_updated#:#Inhalt des geänderten Beitrags:
+forum#:#post_censored_by#:#folgender Beitrag im Forum "%2$s" wurde von "%1$s" zensiert:
+forum#:#content_censored_post#:#Inhalt des zensierten Beitrags:
+forum#:#forums_notification_show_frm#:#Zum Forum gehen: %s
+forum#:#thread_deleted_by#:#folgendes Thema im Forum "%2$s" wurde von "%1$s" gelöscht:
+forum#:#content_deleted_thread#:#Inhalt des gelöschten Themas:
+forum#:#post_uncensored_by#:#für folgenden Beitrag wurde die Zensur von "%1$s" aufgehoben:
+forum#:#frm_noti_message#:#Nachricht:
+forum#:#frm_noti_new_post#:#es wurde ein neuer Beitrag im Forum "%1$s" erstellt.
+forum#:#frm_noti_subject_new_post#:#Neuer Beitrag im Forum "%1$s" zum Thema "%2$s"
+forum#:#frm_noti_subject_del_thread#:#Thema "%2$s" im Forum "%1$s" gelöscht
+forum#:#frm_noti_subject_act_post#:#Beitrag im Forum "%1$s" zum Thema "%2$s" gelöscht
+forum#:#frm_noti_subject_answ_post#:#Beitrag im Forum "%1$s" zum Thema "%2$s" gelöscht
+forum#:#frm_noti_subject_upt_post#:#Beitrag im Forum "%1$s" zum Thema "%2$s" geändert
+forum#:#frm_noti_subject_cens_post#:#Beitrag im Forum "%1$s" zum Thema "%2$s" zensiert
+forum#:#frm_noti_subject_uncens_post#:#Zensur aufgehoben für einen Beitrag im Forum "%1$s" zum Thema "%2$s"
+forum#:#frm_noti_subject_del_post#:#Beitrag im Forum "%1$s" zum Thema "%2$s" gelöscht
+search#:#search_show_inactive_user#:#Zeige Inaktive Benutzer
+search#:#search_show_inactive_user_info#:#Inaktive Benutzer werden in der Benutzersuche angezeigt.
+search#:#search_show_limited_user#:#Zeige Begrenzte Benutzer
+search#:#search_show_limited_user_info#:#Benutzer mit begrenztem Zugang, die außerhalb ihrer zeitlichen Begrenzung sind werden in der Benutzersuche angezeigt.

@@ -164,6 +164,12 @@ class ilAccountRegistrationGUI
 			{
 				$custom_fields["udf_".$definition['field_id']]->setRequired(true);
 			}
+
+			if($definition['field_type'] == UDF_TYPE_SELECT && !$user_defined_data["f_".$field_id])
+			{
+				$options = array(""=>$lng->txt("please_select")) + $custom_fields["udf_".$definition['field_id']]->getOptions();
+				$custom_fields["udf_".$definition['field_id']]->setOptions($options);
+			}
 		}
 
 		// standard fields
