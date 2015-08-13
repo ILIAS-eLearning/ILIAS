@@ -827,8 +827,6 @@ class ilObjStudyProgramme extends ilContainer {
 								 ."program '".$this->getId()."'.");
 		}
 		
-		$ass_id = $a_assignment->getId();
-		
 		ilStudyProgrammeEvents::userDeassigned($a_assignment);
 		
 		$a_assignment->delete();
