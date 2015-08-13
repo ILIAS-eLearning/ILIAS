@@ -15570,3 +15570,7 @@ exc#:#exc_criteria_catalogue_default#:#Kein Katalog
 exc#:#exc_peer_review_text#:#Texteingabe
 exc#:#exc_crit_cat_protected_assignment#:#Aktives Peer-Feedback
 exc#:#exc_crit_cat_protected_assignment_info#:#Kriterienkataloge von Übungseinheiten mit aktivem Peer-Feedback können nicht mehr bearbeitet werden.
+survey#:#export_label_only#:#Nur Label exportieren
+survey#:#svy_print_title_only#:#Nur Titel anzeigen
+survey#:#svy_print_label_only#:#Nur Label anzeigen
+survey#:#svy_print_title_label#:#Titel und Label anzeigen

@@ -1266,7 +1266,29 @@ class ilSurveyEditorGUI
 		global $ilToolbar;
 		
 		$this->questionsSubtabs("print");
+			
+		if(!isset($_POST["export_label"]))
+		{
+			$_POST["export_label"] = $this->object->getShowQuestionTitles();
+		}
+		$current_title = (int)$_REQUEST["export_label"];
 		
+		include_once "Services/Form/classes/class.ilSelectInputGUI.php";
+		$label = new ilSelectInputGUI($this->lng->txt("title")."/".$this->lng->txt("label"), "export_label");
+		$label->setOptions(array(
+			0 => $this->lng->txt('none'), 
+			1 => $this->lng->txt('svy_print_title_only'), 
+			2 => $this->lng->txt('svy_print_label_only'), 			
+			3 => $this->lng->txt('svy_print_title_label')
+			));
+		$label->setValue($current_title);
+		$ilToolbar->addInputItem($label, true);
+		
+		$ilToolbar->setFormAction($this->ctrl->getFormAction($this, "printView"));
+		$ilToolbar->addFormButton($this->lng->txt("show"), "printView");
+		
+		$ilToolbar->addSeparator();
+	
 		include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
 		$button = ilLinkButton::getInstance();
 		$button->setCaption("print");								
@@ -1277,9 +1299,11 @@ class ilSurveyEditorGUI
 		include_once './Services/WebServices/RPC/classes/class.ilRPCServerSettings.php';
 		if(ilRPCServerSettings::getInstance()->isEnabled())
 		{
+			$this->ctrl->setParameter($this, "export_label", $current_title);
 			$this->ctrl->setParameter($this, "pdf", "1");
 			$pdf_url = $this->ctrl->getLinkTarget($this, "printView");
 			$this->ctrl->setParameter($this, "pdf", "");
+			$this->ctrl->setParameter($this, "export_label", "");
 			
 			$button = ilLinkButton::getInstance();
 			$button->setCaption("pdf_export");								
@@ -1308,7 +1332,7 @@ class ilSurveyEditorGUI
 							$template->parseCurrentBlock();
 						}
 						$template->setCurrentBlock("question");
-						$template->setVariable("QUESTION_DATA", $questionGUI->getPrintView($this->object->getShowQuestionTitles(), $question["questionblock_show_questiontext"], $this->object->getSurveyId()));
+						$template->setVariable("QUESTION_DATA", $questionGUI->getPrintView($current_title, $question["questionblock_show_questiontext"], $this->object->getSurveyId()));
 						$template->parseCurrentBlock();
 					}
 				}

@@ -15575,3 +15575,6 @@ exc#:#exc_criteria_catalogue_default#:#No Catalogue
 exc#:#exc_peer_review_text#:#Text Input
 exc#:#exc_crit_cat_protected_assignment#:#Active Peer Feedback
 exc#:#exc_crit_cat_protected_assignment_info#:#Criteria catalogues of assignments with active peer feedback cannot be edited anymore.
+survey#:#svy_print_title_only#:#Show only titles
+survey#:#svy_print_label_only#:#Show only labels
+survey#:#svy_print_title_label#:#Show titles and labels
