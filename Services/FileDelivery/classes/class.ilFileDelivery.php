@@ -25,6 +25,13 @@ class ilFileDelivery {
 	const SECURED_DATA = 'secured-data';
 	const DATA = 'data';
 	/**
+	 * @var array
+	 */
+	protected static $self_streaming_methods = array(
+		self::DELIVERY_METHOD_XSENDFILE,
+		self::DELIVERY_METHOD_XACCEL
+	);
+	/**
 	 * @var integer
 	 */
 	protected static $delivery_type_static = NULL;
@@ -146,7 +153,9 @@ class ilFileDelivery {
 
 
 	public function stream() {
-		$this->setDeliveryType(self::DELIVERY_METHOD_PHP_CHUNKED);
+		if (! in_array($this->getDeliveryType(), self::$self_streaming_methods)) {
+			$this->setDeliveryType(self::DELIVERY_METHOD_PHP_CHUNKED);
+		}
 		$this->deliver();
 	}
 
@@ -154,7 +163,6 @@ class ilFileDelivery {
 	public function deliver() {
 		$this->checkCache();
 		$this->setGeneralHeaders();
-
 		switch ($this->getDeliveryType()) {
 			default:
 				$this->deliverPHP();
@@ -205,7 +213,7 @@ class ilFileDelivery {
 		$path_to_file = $this->getPathToFile();
 		$this->clearHeaders();
 		header('Content-type:');
-		if (strpos($path_to_file, './' . self::DATA . '/') === 0 ) {
+		if (strpos($path_to_file, './' . self::DATA . '/') === 0) {
 			$path_to_file = str_replace('./' . self::DATA . '/', '/' . self::SECURED_DATA . '/', $path_to_file);
 		}
 
