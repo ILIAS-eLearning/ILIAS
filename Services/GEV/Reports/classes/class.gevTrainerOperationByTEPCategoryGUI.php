@@ -234,7 +234,7 @@ class gevTrainerOperationByTEPCategoryGUI extends catBasicReportGUI{
 		."		IF(htid.end_time IS NOT NULL AND htid.start_time IS NOT NULL,"
 		."			LEAST(CEIL( TIME_TO_SEC( TIMEDIFF( end_time, start_time ) )* weight /720000) *2,8),"
 		."			LEAST(CEIL( 28800* htid.weight /720000) *2,8)"
-		."		)".
+		."		)"
 		."	,0)) as ".$name;
 		return $sql;
 	}
