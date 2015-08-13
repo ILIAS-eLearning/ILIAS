@@ -87,7 +87,7 @@ class ilWebAccessChecker {
 		}
 	}
 
-	
+
 	/**
 	 * ilWebAccessChecker constructor.
 	 *
@@ -202,19 +202,15 @@ class ilWebAccessChecker {
 		if (! $this->isChecked()) {
 			throw new ilWACException(ilWACException::ACCESS_WITHOUT_CHECK);
 		}
-		switch ($this->getDisposition()) {
-			case ilFileDelivery::DISP_ATTACHMENT:
-				ilFileDelivery::deliverFileAttached($this->getPathObject()->getPath());
-				break;
-			case ilFileDelivery::DISP_INLINE:
 
-				if ($this->getPathObject()->isVideo()) {
-					ilWACLog::getInstance()->write('begin streaming');
-					ilFileDelivery::streamVideoInline($this->getPathObject()->getPath());
-				} else {
-					ilFileDelivery::deliverFileInline($this->getPathObject()->getPath());
-				}
-				break;
+		$ilFileDelivery = new ilFileDelivery($this->getPathObject()->getPath());
+		$ilFileDelivery->setDisposition($this->getDisposition());
+		ilWACLog::getInstance()->write('Deliver file using ' . $ilFileDelivery->getDeliveryType());
+		if ($this->getPathObject()->isVideo()) {
+			ilWACLog::getInstance()->write('begin streaming');
+			$ilFileDelivery->stream();
+		} else {
+			$ilFileDelivery->deliver();
 		}
 	}
 
