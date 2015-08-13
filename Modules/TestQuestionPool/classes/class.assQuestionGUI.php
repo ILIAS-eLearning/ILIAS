@@ -59,6 +59,11 @@ abstract class assQuestionGUI
 	 * @var ilQuestionHeaderBlockBuilder
 	 */
 	private $questionHeaderBlockBuilder;
+
+	/**
+	 * @var ilAssQuestionNavigationGUI
+	 */
+	private $navigationGUI;
 	
 	/**
 	* assQuestionGUI constructor
@@ -89,6 +94,8 @@ abstract class assQuestionGUI
 		$this->selfassessmenteditingmode = false;
 		$this->new_id_listeners = array();
 		$this->new_id_listener_cnt = 0;
+		
+		$this->navigationGUI = null;
 	}
 
 	/**
@@ -121,6 +128,22 @@ abstract class assQuestionGUI
 	function getType()
 	{
 		return $this->getQuestionType();
+	}
+
+	/**
+	 * @return ilAssQuestionNavigationGUI
+	 */
+	public function getNavigationGUI()
+	{
+		return $this->navigationGUI;
+	}
+
+	/**
+	 * @param ilAssQuestionNavigationGUI $navigationGUI
+	 */
+	public function setNavigationGUI($navigationGUI)
+	{
+		$this->navigationGUI = $navigationGUI;
 	}
 	
 	public function setTaxonomyIds($taxonomyIds)
@@ -311,6 +334,11 @@ abstract class assQuestionGUI
 	*/
 	function outQuestionPage($a_temp_var, $a_postponed = false, $active_id = "", $html = "")
 	{
+		if( $this->getNavigationGUI() )
+		{
+			$html .= $this->getNavigationGUI()->getHTML();
+		}
+		
 		$postponed = "";
 		if ($a_postponed)
 		{

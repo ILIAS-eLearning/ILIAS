@@ -1757,84 +1757,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$this->ctrl->redirectByClass('ilAssQuestionHintRequestGUI', ilAssQuestionHintRequestGUI::CMD_CONFIRM_REQUEST);
 	}
 	
-	/**
-	 * renders the elements for the question related navigation
-	 * 
-	 * @access private
-	 * @global ilTemplate $tpl
-	 * @global ilLanguage $lng
-	 * @param assQuestionGUI $questionGUI 
-	 */
-	protected function fillQuestionRelatedNavigation(assQuestionGUI $questionGUI)
-	{
-		global $tpl, $lng;
-		
-		$parseQuestionRelatedNavigation = false;
-		
-		switch( 1 )
-		{
-			case $this->object->getSpecificAnswerFeedback():
-			case $this->object->getGenericAnswerFeedback():
-			case $this->object->getAnswerFeedbackPoints():
-			case $this->object->getInstantFeedbackSolution():
-			
-				$tpl->setCurrentBlock("direct_feedback");
-				$tpl->setVariable("CMD_SHOW_INSTANT_RESPONSE", 'showInstantResponse');
-				$tpl->setVariable("TEXT_SHOW_INSTANT_RESPONSE", $lng->txt("check"));
-				$tpl->parseCurrentBlock();
-
-				$parseQuestionRelatedNavigation = true;
-		}
-		
-		if( $this->object->isOfferingQuestionHintsEnabled() )
-		{
-			$questionId = $questionGUI->object->getId();
-			$activeId = $this->testSession->getActiveId();
-			$pass = $this->testSession->getPass();
-
-			require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintTracking.php';
-			$questionHintTracking = new ilAssQuestionHintTracking($questionId, $activeId, $pass);
-			
-			$requestsExist = $questionHintTracking->requestsExist();
-			$requestsPossible = $questionHintTracking->requestsPossible();
-			
-			if( $requestsPossible )
-			{
-				if( $requestsExist )
-				{
-					$buttonText = $lng->txt("button_request_next_question_hint");
-				}
-				else
-				{
-					$buttonText = $lng->txt("button_request_question_hint");
-				}
-
-				$tpl->setCurrentBlock("button_request_next_question_hint");
-				$tpl->setVariable("CMD_REQUEST_NEXT_QUESTION_HINT", 'confirmHintRequest');
-				$tpl->setVariable("TEXT_REQUEST_NEXT_QUESTION_HINT", $buttonText);
-				$tpl->parseCurrentBlock();
-
-				$parseQuestionRelatedNavigation = true;
-			}
-
-			if( $requestsExist )
-			{
-				$tpl->setCurrentBlock("button_show_requested_question_hints");
-				$tpl->setVariable("CMD_SHOW_REQUESTED_QUESTION_HINTS", 'showRequestedHintList');
-				$tpl->setVariable("TEXT_SHOW_REQUESTED_QUESTION_HINTS", $lng->txt("button_show_requested_question_hints"));
-				$tpl->parseCurrentBlock();
-
-				$parseQuestionRelatedNavigation = true;
-			}
-		}
-		
-		if( $parseQuestionRelatedNavigation )
-		{
-			$tpl->setCurrentBlock("question_related_navigation");
-			$tpl->parseCurrentBlock();
-		}
-	}
-	
 	abstract protected function isFirstPageInSequence($sequence);
 	
 	abstract protected function isLastQuestionInSequence(assQuestionGUI $questionGUI);
@@ -1849,8 +1771,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	abstract protected function previousQuestionCmd();
 	
 	abstract protected function postponeQuestionCmd();
-	
-	
 	
 	protected function getMarkedQuestions()
 	{
@@ -1960,5 +1880,42 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		}
 		
 		return $this->lng->txt("save_introduction");
+	}
+	
+	protected function buildQuestionNavigationGUI($questionId)
+	{
+		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionNavigationGUI.php';
+		$navigationGUI = new ilAssQuestionNavigationGUI($this->lng);
+
+		switch( 1 )
+		{
+			case $this->object->getSpecificAnswerFeedback():
+			case $this->object->getGenericAnswerFeedback():
+			case $this->object->getAnswerFeedbackPoints():
+			case $this->object->getInstantFeedbackSolution():
+
+				$navigationGUI->setInstantFeedbackCommand('showInstantResponse');
+		}
+
+		if( $this->object->isOfferingQuestionHintsEnabled() )
+		{
+			$activeId = $this->testSession->getActiveId();
+			$pass = $this->testSession->getPass();
+
+			require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintTracking.php';
+			$questionHintTracking = new ilAssQuestionHintTracking($questionId, $activeId, $pass);
+
+			if( $questionHintTracking->requestsPossible() )
+			{
+				$navigationGUI->setRequestHintCommand('confirmHintRequest');
+			}
+
+			if( $questionHintTracking->requestsExist() )
+			{
+				$navigationGUI->setShowHintsCommand('showRequestedHintList');
+			}
+		}
+		
+		return $navigationGUI;
 	}
 }

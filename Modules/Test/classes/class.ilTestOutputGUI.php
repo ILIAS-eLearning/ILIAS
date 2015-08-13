@@ -523,6 +523,10 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		}
 		else
 		{
+			$question_gui->setNavigationGUI($this->buildQuestionNavigationGUI(
+				$this->object->getId()
+			));
+			
 			// Answer specific feedback is rendered into the display of the test question with in the concrete question types outQuestionForTest-method.
 			// Notation of the params prior to getting rid of this crap in favor of a class
 			$question_gui->outQuestionForTest(
@@ -537,8 +541,6 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 			// have the possibility to embed the specific feedback into their output while maintaining compatibility to
 			// questions, which do not have such facilities. E.g. there can be no "specific inline feedback" for essay
 			// questions, while the multiple-choice questions do well.
-
-			$this->fillQuestionRelatedNavigation($question_gui);
 		}
 
 		if ($directfeedback)
