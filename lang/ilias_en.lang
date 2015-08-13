@@ -15364,7 +15364,6 @@ dcl#:#dcl_notification_info#:#Enables the individual notification feature for us
 administration#:#adm_missing_entries#:#Missing Entries
 administration#:#adm_missing_entry_add_action#:#Add
 administration#:#adm_missing_entry_add#:#Add New Entry
-<<<<<<< HEAD
 trac#:#trac_mode_survey_finished#:#Survey Finished
 trac#:#trac_mode_survey_finished_info#:#The survey has to be finished by an user to receive the status 'Completed'.
 crs#:#crs_usr_agreement#:#User Agreement
