@@ -1277,9 +1277,9 @@ class ilSurveyEditorGUI
 		$label = new ilSelectInputGUI($this->lng->txt("title")."/".$this->lng->txt("label"), "export_label");
 		$label->setOptions(array(
 			0 => $this->lng->txt('none'), 
-			1 => $this->lng->txt('export_title_only'), 
-			2 => $this->lng->txt('export_label_only'), 			
-			3 => $this->lng->txt('export_title_label')
+			1 => $this->lng->txt('svy_print_title_only'), 
+			2 => $this->lng->txt('svy_print_label_only'), 			
+			3 => $this->lng->txt('svy_print_title_label')
 			));
 		$label->setValue($current_title);
 		$ilToolbar->addInputItem($label, true);
