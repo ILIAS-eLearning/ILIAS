@@ -141,9 +141,48 @@ class ilMembershipCronNotifications extends ilCronJob
 		return $result;
 	}
 	
-	protected function parseNewsItem(array $a_item, $a_is_sub = false)
+	/**
+	 * Convert news item to summary html
+	 * 
+	 * @param int $a_parent_ref_id
+	 * @param array $a_filter_map
+	 * @param array $a_item
+	 * @param bool $a_is_sub
+	 * @return string
+	 */
+	protected function parseNewsItem($a_parent_ref_id, array &$a_filter_map, array $a_item, $a_is_sub = false)
 	{
 		global $lng;
+		
+		$wrong_parent = (array_key_exists($a_item["id"], $a_filter_map) &&
+				$a_parent_ref_id != $a_filter_map[$a_item["id"]]);		
+		
+		$item_obj_title = trim(ilObject::_lookupTitle($a_item["context_obj_id"]));	
+		$item_obj_type = $a_item["context_obj_type"];
+		
+		// sub-items
+		$sub = null;
+		if($a_item["aggregation"])
+		{				
+			$do_sub = true;			
+			if($item_obj_type == "file" &&
+				sizeof($a_item["aggregation"]) == 1)
+			{
+				$do_sub = false;
+			}										
+			if($do_sub)
+			{
+				$sub = array();						
+				foreach($a_item["aggregation"] as $subitem)
+				{								
+					$sub_res = $this->parseNewsItem($a_parent_ref_id, $a_filter_map, $subitem, true);
+					if($sub_res)
+					{
+						$sub[md5($sub_res)] = $sub_res;
+					}
+				}				
+			}
+		}
 		
 		if(!$a_is_sub)
 		{
@@ -169,8 +208,6 @@ class ilMembershipCronNotifications extends ilCronJob
 			$a_item["content"], 
 			$a_item["content_text_is_lang_var"]
 		);			
-		$item_obj_title = trim(ilObject::_lookupTitle($a_item["context_obj_id"]));	
-		$item_obj_type = $a_item["context_obj_type"];
 		
 		$title = trim($title);
 		$content = trim($content);
@@ -179,71 +216,124 @@ class ilMembershipCronNotifications extends ilCronJob
 		switch($item_obj_type)
 		{
 			case "frm":
-				if(!$a_is_sub)
+				if(!$wrong_parent)
 				{
-					$res =  $lng->txt("obj_".$item_obj_type).
-						' "'.$item_obj_title.'": '.$title;	
-				}
-				else
-				{
-					$res .= '"'.$title.'": "'.$content.'"';
+					if(!$a_is_sub)
+					{
+						$res =  $lng->txt("obj_".$item_obj_type).
+							' "'.$item_obj_title.'": '.$title;	
+					}
+					else
+					{
+						$res .= '"'.$title.'": "'.$content.'"';
+					}
 				}
 				break;
 				
 			case "file":
-				if(!is_array($a_item["aggregation"]) ||
-					sizeof($a_item["aggregation"]) == 1)
+				if(!$a_is_sub ||
+					!$wrong_parent)
 				{
-					$res =  $lng->txt("obj_".$item_obj_type).
-						' "'.$item_obj_title.'" - '.$title;	
-				}
-				else
-				{
-					$res = $title;
-				}
+					if(!is_array($a_item["aggregation"]) ||
+						sizeof($a_item["aggregation"]) == 1)
+					{
+						$res =  $lng->txt("obj_".$item_obj_type).
+							' "'.$item_obj_title.'" - '.$title;	
+					}
+					else
+					{
+						// if files were removed from aggregation update summary count
+						$title = str_replace(
+							" ".sizeof($a_item["aggregation"])." ", 
+							" ".sizeof($sub)." ", 
+							$title
+						);													
+						$res = $title;												
+					}
+				}				
 				break;
 				
-			default:					
-				$res =  $lng->txt("obj_".$item_obj_type).
-					' "'.$item_obj_title.'"';	
-				if($title)
+			default:			
+				if(!$wrong_parent)
 				{
-					$res .= ': "'.$title.'"';
-				}
-				if($content)
-				{
-					$res .= ' - '.$content;
+					$res = $lng->txt("obj_".$item_obj_type).
+						' "'.$item_obj_title.'"';	
+					if($title)
+					{
+						$res .= ': "'.$title.'"';
+					}
+					if($content)
+					{
+						$res .= ' - '.$content;
+					}
 				}
 				break;
-		}		
+		}	
+		
 		if($res)
 		{
 			$res = $a_is_sub 
 				? "- ".$res
-				: "* ".$res;
+				: "# ".$res;
 		}
 		
-		// sub-items
-		$sub = null;
-		if($a_item["aggregation"])
-		{				
-			$do_sub = true;			
-			if($item_obj_type == "file" &&
-				sizeof($a_item["aggregation"]) == 1)
+		if(sizeof($sub))
+		{		
+			$res .= "\n".implode("\n", $sub);						
+		}
+		
+		return trim($res);
+	}
+	
+	/**
+	 * Filter duplicate news items from structure
+	 * 
+	 * @param array $a_objects
+	 * @return array
+	 */
+	protected function filterDuplicateItems(array $a_objects)
+	{
+		global $tree;
+		
+		$parent_map = $news_map = $parsed_map = array();
+		
+		// gather news ref ids and news parent ref ids
+		foreach($a_objects as $parent_ref_id => $news)
+		{		
+			foreach($news as $item)
 			{
-				$do_sub = false;
-			}										
-			if($do_sub)
-			{
-				$sub = array();						
-				foreach($a_item["aggregation"] as $subitem)
-				{								
-					$res .= "\n ".$this->parseNewsItem($subitem, true);
-				}	
+				$news_map[$item["id"]] = $item["ref_id"];
+				$parent_map[$item["id"]][$parent_ref_id] = $parent_ref_id;
+				
+				if($item["aggregation"])
+				{	
+					foreach($item["aggregation"] as $subitem)
+					{	
+						$news_map[$subitem["id"]] = $subitem["ref_id"];
+						$parent_map[$subitem["id"]][$parent_ref_id] = $parent_ref_id;
+					}
+				}
 			}
 		}
-	
-		return trim($res);
+		// if news has multiple parents find "lowest" parent in path
+		foreach($parent_map as $news_id => $parents)
+		{		
+			if(sizeof($parents) > 1)
+			{
+				$path = $tree->getPathId($news_map[$news_id]);
+				$lookup = array_flip($path);				
+				
+				$level = 0;
+				foreach($parents as $parent_ref_id)
+				{
+					$level = max($level, $lookup[$parent_ref_id]);
+				}
+				
+				$parsed_map[$news_id] = $path[$level];
+			}			
+		}
+		
+		return $parsed_map;
 	}
 
 	/**
@@ -273,8 +363,10 @@ class ilMembershipCronNotifications extends ilCronJob
 		require_once "./Services/UICore/classes/class.ilTemplateHTMLITX.php";
 		require_once "./Services/UICore/classes/class.ilTemplate.php";
 		require_once "./Services/Link/classes/class.ilLink.php";
-				
-		$tmp = array();
+			
+		$filter_map = $this->filterDuplicateItems($a_objects);		
+		
+		$tmp = array();		
 		foreach($a_objects as $parent_ref_id => $news)
 		{						
 			$parent = array();
@@ -297,8 +389,11 @@ class ilMembershipCronNotifications extends ilCronJob
 			$parsed = array();
 			foreach($news as $item)
 			{
-				$parsed_item = $this->parseNewsItem($item);
-				$parsed[md5($parsed_item)] = $parsed_item; 				
+				$parsed_item = $this->parseNewsItem($parent_ref_id, $filter_map, $item);
+				if($parsed_item)
+				{
+					$parsed[md5($parsed_item)] = $parsed_item; 				
+				}
 			}	
 			$parent["news"] = implode("\n", $parsed);
 			
