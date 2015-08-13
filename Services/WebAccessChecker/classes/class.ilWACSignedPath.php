@@ -165,6 +165,9 @@ class ilWACSignedPath {
 			return '';
 		}
 		$ilWACPath = new ilWACPath($path_to_file);
+		if(!$ilWACPath->getClient()) {
+			return $path_to_file;
+		}
 		$obj = new self($ilWACPath);
 		$obj->setType(self::TYPE_FILE);
 		$obj->generateTokenInstance();
