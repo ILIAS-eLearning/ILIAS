@@ -274,6 +274,7 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
 		
 		// users
 		$users = new ilTextInputGUI($this->lng->txt('log_browser_users'), 'browser_users');
+		$users->setValue(current($this->getSettings()->getBrowserLogUsers()));
 		$users->setMulti(TRUE);
 		$users->setMultiValues($this->getSettings()->getBrowserLogUsers());
 		
