@@ -584,6 +584,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 			ilLPObjSettings::LP_MODE_VISITS, 
 			// ilLPObjSettings::LP_MODE_OBJECTIVES, 
 			ilLPObjSettings::LP_MODE_SCORM,
+			ilLPObjSettings::LP_MODE_VISITED_PAGES,
 			ilLPObjSettings::LP_MODE_TEST_PASSED)))
 		{
 			return true;

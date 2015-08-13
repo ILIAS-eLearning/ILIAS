@@ -54,6 +54,25 @@ class ilLMTree extends ilTree
 		return $this->use_cache;
 	}
 
+	
+	public function getLastActivePage()
+	{
+		global $ilDB;
+		
+		$ilDB->setLimit(1);
+		
+		$sql = "SELECT lm_data.obj_id".
+			" FROM lm_data".
+			" JOIN lm_tree ON (lm_tree.child = lm_data.obj_id)".
+			" JOIN page_object ON (page_object.page_id = lm_data.obj_id AND page_object.parent_type = ".$ilDB->quote("lm", "text").")".
+			" WHERE lm_tree.lm_id = ".$ilDB->quote($this->tree_id, "integer").
+			" AND lm_data.type = ".$ilDB->quote("pg", "text").
+			" AND page_object.active = ".$ilDB->quote(1, "integer").
+			" ORDER BY lm_tree.rgt DESC";
+		$set = $ilDB->query($sql);
+		$row = $ilDB->fetchAssoc($set);		
+		return (int)$row["obj_id"];
+	}
 
 }
 
