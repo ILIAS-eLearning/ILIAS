@@ -265,7 +265,7 @@ class ilStartUpGUI
 
 				case AUTH_USER_TIME_LIMIT_EXCEEDED:
 					ilSession::setClosingContext(ilSession::SESSION_CLOSE_TIME);
-					$username = $ilAuth->getUsername();
+					$username = $ilAuth->getExceededUserName(); // #16327
 					$ilAuth->logout();
 
 					// user could reactivate by code?
