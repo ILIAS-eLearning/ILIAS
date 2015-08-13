@@ -4060,7 +4060,7 @@
 
 <!-- My courses data -->
 <xsl:template match="MyCourses">
-	{{{{{MyCourses<xsl:if test="$mode = 'edit'">Teaser</xsl:if>#<xsl:value-of select="@User"/>}}}}}
+	{{{{{MyCourses<xsl:if test="$mode = 'edit'">Teaser</xsl:if>#<xsl:value-of select="@User"/>#<xsl:value-of select="@Sort"/>}}}}}
 	<xsl:if test="$mode = 'edit'">
 		<!-- <xsl:value-of select="../@HierId"/> -->
 		<xsl:if test="$javascript='disable'">
@@ -4073,7 +4073,7 @@
 		<xsl:call-template name="EditMenu">
 			<xsl:with-param name="hier_id" select="../@HierId" />
 			<xsl:with-param name="pc_id" select="../@PCID" />
-			<xsl:with-param name="edit">d</xsl:with-param>
+			<xsl:with-param name="edit">y</xsl:with-param>
 		</xsl:call-template>
 	</xsl:if>
 </xsl:template>

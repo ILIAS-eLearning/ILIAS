@@ -994,13 +994,17 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 		return $res;
 	}
 	
-	public static function buildObjectiveProgressBar($a_has_initial_test, $a_objective_id, array $a_lo_result, $a_list_mode = false)
+	public static function buildObjectiveProgressBar($a_has_initial_test, $a_objective_id, array $a_lo_result, $a_list_mode = false, $a_sub = false, $a_tt_suffix = null)
 	{
 		global $lng;
 		
 		$tpl = new ilTemplate("tpl.objective_progressbar.html", true, true, "Services/Container");
 		
-		$tooltip_id = "crsobjtvusr_".$a_objective_id;
+		$tooltip_id = "crsobjtvusr_".$a_objective_id."_".$a_lo_result["type"]."_".((int)$a_sub);
+		if($a_tt_suffix !== null)
+		{
+			$tooltip_id .= "_".$a_tt_suffix;			
+		}
 					
 		$tt_txt = sprintf($lng->txt("crs_loc_tt_info"),
 			$a_lo_result["result_perc"], $a_lo_result["limit_perc"]);
@@ -1127,6 +1131,9 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 		// $tpl->setVariable("ICON_TXT", $this->lng->txt("icon")." ".$this->lng->txt("crs_objectives"));
 		$tpl->setVariable("TITLE", $this->lng->txt("crs_loc_learning_objective").": ".trim($a_objective->getTitle()));
 		$tpl->setVariable("DESCRIPTION", nl2br(trim($a_objective->getDescription())));
+		
+		// #15510
+		$tpl->setVariable("ANCHOR_ID", "objtv_acc_".$a_objective->getObjectiveId());
 				
 		return $tpl->get();
 	}

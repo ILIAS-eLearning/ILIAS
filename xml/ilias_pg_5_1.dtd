@@ -492,6 +492,7 @@ col or row span. -->
 <!ELEMENT MyCourses EMPTY>
 <!ATTLIST MyCourses
 	User CDATA #REQUIRED
+	Sort CDATA #REQUIRED
 >
 
 <!ELEMENT AMDPageList EMPTY>

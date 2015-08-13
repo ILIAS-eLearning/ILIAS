@@ -1,9 +1,19 @@
 <h3>{TITLE}</h3>
 <div class="il_Description_no_margin">{INFO}</div>
-<p>
-	<ul class="il_Explorer">	
+<div class="ilFloatRight form-inline">
+	<form method="post" action="{SORT_FORM}">
+		{SORT_SELECT}
+	</form>
+</div>
+<br class="ilClearFloat" />
+<p class="ilPCMyCourses">
+	<ul class="il_Explorer ilPCMyCoursesCourseList">	
 		<!-- BEGIN course_bl -->
-		<li style="margin-bottom:20px">
+		<li>
+			<!-- BEGIN path_bl -->
+			<div class="ilPCMyCoursesPath">{PATH}</div>
+			<!-- END path_bl -->
+			<a class="{TOGGLE_CLASS}" href="#"{NO_TOGGLE}><img src="templates/default/images/tree_col.svg" /></a>
 			<img src="{CRS_ICON_URL}" alt="{CRS_ICON_ALT}" title="{CRS_ICON_ALT}" />
 			<!-- BEGIN course_link_bl -->
 			<a href="{COURSE_LINK_URL}">{COURSE_LINK_TITLE}</a>
@@ -18,16 +28,21 @@
 			<br class="ilClearFloat" />
 			<!-- END lp_bl -->				
 			<!-- BEGIN objectives_bl -->
-			<ul class="il_Explorer">
+			<ul class="il_Explorer ilPCMyCoursesObjectiveList" id="objtvlst_{OBJTV_LIST_CRS_ID}" style="display:none">
 				<!-- BEGIN objective_bl -->
-				<li style="margin-top:5px; margin-left: 15px;">
+				<li>
 					<img src="{OBJTV_ICON_URL}" alt="{OBJTV_ICON_ALT}" title="{OBJTV_ICON_ALT}" />
-					{OBJECTIVE_TITLE}		
+					<!-- BEGIN objective_link_bl -->
+					<a href="{OBJECTIVE_LINK_URL}" id="{OBJECTIVE_LINK_ID}">{OBJECTIVE_LINK_TITLE}</a>					
+					<!-- END objective_link_bl -->
+					<!-- BEGIN objective_nolink_bl -->
+					{OBJECTIVE_NOLINK_TITLE}	
+					<!-- END objective_nolink_bl -->
 					<!-- BEGIN lp_objtv_bl -->		
 					<div class="ilFloatRight">
 						<img src="{LP_OBJTV_ICON_URL}" alt="{LP_OBJTV_ICON_ALT}" title="{LP_OBJTV_ICON_ALT}" /> 
 						{LP_OBJTV_PROGRESS}				
-					</div>
+					</div>					
 					<br class="ilClearFloat" />
 					<!-- END lp_objtv_bl -->									
 				</li>

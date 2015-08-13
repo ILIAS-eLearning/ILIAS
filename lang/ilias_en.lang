@@ -15578,3 +15578,7 @@ exc#:#exc_crit_cat_protected_assignment_info#:#Criteria catalogues of assignment
 survey#:#svy_print_title_only#:#Show only titles
 survey#:#svy_print_label_only#:#Show only labels
 survey#:#svy_print_title_label#:#Show titles and labels
+content#:#cont_mycourses_sortorder#:#Default Sorting
+content#:#cont_mycourses_sortorder_alphabetical#:#Alphabetical
+content#:#cont_mycourses_sortorder_location#:#By Location
+content#:#cont_mycourses_sortorder_info#:#This is a default setting. Every user can choose a personal order which affects all "My Courses"-elements of any portfolio.
