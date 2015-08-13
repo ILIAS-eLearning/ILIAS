@@ -25,6 +25,22 @@ class ilLogLevel
 
 	
 	
+	public static function getLevels()
+	{
+		return array(
+			self::DEBUG,
+			self::INFO,
+			self::NOTICE,
+			self::WARNING,
+			self::ERROR,
+			self::CRITICAL,
+			self::ALERT,
+			self::EMERGENCY
+		);
+		
+	}
+
+
 	/**
 	 * Get log level options
 	 * @return type
