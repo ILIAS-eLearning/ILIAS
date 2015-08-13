@@ -3,6 +3,7 @@
 
 include_once("./Services/Table/classes/class.ilTable2GUI.php");
 include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
+include_once("./Modules/Exercise/classes/class.ilExAssignmentMemberStatus.php");
 
 /**
 * Exercise participant table
@@ -20,7 +21,7 @@ class ilExGradesTableGUI extends ilTable2GUI
 	*/
 	function __construct($a_parent_obj, $a_parent_cmd, $a_exc, $a_mem_obj)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng;
+		global $ilCtrl, $lng;
 		
 		$this->exc = $a_exc;
 		$this->exc_id = $this->exc->getId();
@@ -41,7 +42,7 @@ class ilExGradesTableGUI extends ilTable2GUI
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		
 		$this->setData($data);
-		$this->ass_data = ilExAssignment::getAssignmentDataOfExercise($this->exc_id);
+		$this->ass_data = ilExAssignment::getInstancesByExercise($this->exc_id);
 		
 //var_dump($data);
 		$this->setTitle($lng->txt("exc_grades"));
@@ -53,20 +54,21 @@ class ilExGradesTableGUI extends ilTable2GUI
 		$cnt = 1;
 		foreach ($this->ass_data as $ass)
 		{
-			$ilCtrl->setParameter($this->parent_obj, "ass_id", $ass["id"]);
+			$ilCtrl->setParameter($this->parent_obj, "ass_id", $ass->getId());
 			$cnt_str = '<a href="'.$ilCtrl->getLinkTarget($this->parent_obj, "members").'">'.$cnt.'</a>';
-			if ($ass["mandatory"])
+			if ($ass->getMandatory())
 			{
-				$this->addColumn("<u>".$cnt_str."</u>", "", "", false, "", $ass["title"]." ".
+				$this->addColumn("<u>".$cnt_str."</u>", "", "", false, "", $ass->getTitle()." ".
 					"(".$lng->txt("exc_mandatory").")");
 			}
 			else
 			{
-				$this->addColumn($cnt_str, "", "", false, "", $ass["title"]);
+				$this->addColumn($cnt_str, "", "", false, "", $ass->getTitle());
 			}
 			$cnt++;
-		}
+		}		
 		$ilCtrl->setParameter($this->parent_obj, "ass_id", "");
+		
 		$this->addColumn($this->lng->txt("exc_total_exc"), "");
 		$this->addColumn($this->lng->txt("exc_comment_for_learner"), "", "1%");
 		
@@ -109,29 +111,27 @@ class ilExGradesTableGUI extends ilTable2GUI
 	{
 		global $lng, $ilCtrl;
 
-
 		$user_id = $d["user_id"];
+		
+		$ilCtrl->setParameter($this->parent_obj, "member_id", $user_id);
 		
 		foreach ($this->ass_data as $ass)
 		{
+			$member_status = new ilExAssignmentMemberStatus($ass->getId(), $user_id);
+			
 			// grade
 			$this->tpl->setCurrentBlock("grade");
-			$status = ilExAssignment::lookupStatusOfUser($ass["id"], $user_id);
+			$status = $member_status->getStatus();
 			$this->tpl->setVariable("SEL_".strtoupper($status), ' selected="selected" ');
 			$this->tpl->setVariable("TXT_NOTGRADED", $lng->txt("exc_notgraded"));
 			$this->tpl->setVariable("TXT_PASSED", $lng->txt("exc_passed"));
-			$this->tpl->setVariable("TXT_FAILED", $lng->txt("exc_failed"));
-			switch($status)
-			{
-				case "passed": 	$pic = "scorm/passed.svg"; break;
-				case "failed":	$pic = "scorm/failed.svg"; break;
-				default: 		$pic = "scorm/not_attempted.svg"; break;
-			}
+			$this->tpl->setVariable("TXT_FAILED", $lng->txt("exc_failed"));			
+			$pic = $member_status->getStatusIcon();
 			$this->tpl->setVariable("IMG_STATUS", ilUtil::getImagePath($pic));
 			$this->tpl->setVariable("ALT_STATUS", $lng->txt("exc_".$status));
 			
 			// mark
-			$mark = ilExAssignment::lookupMarkOfUser($ass["id"], $user_id);
+			$mark = $member_status->getMark();
 			$this->tpl->setVariable("VAL_ONLY_MARK", $mark);
 			
 			$this->tpl->parseCurrentBlock();
@@ -175,8 +175,7 @@ class ilExGradesTableGUI extends ilTable2GUI
 		// name
 		$this->tpl->setVariable("TXT_NAME",
 			$d["lastname"].", ".$d["firstname"]." [".$d["login"]."]");
-		$this->tpl->setVariable("VAL_ID", $user_id);
-		$ilCtrl->setParameter($this->parent_obj, "part_id", $user_id);
+		$this->tpl->setVariable("VAL_ID", $user_id);	
 		$this->tpl->setVariable("LINK_NAME",
 			$ilCtrl->getLinkTarget($this->parent_obj, "showParticipant"));
 		
@@ -185,6 +184,8 @@ class ilExGradesTableGUI extends ilTable2GUI
 		$c = ilLPMarks::_lookupComment($user_id, $this->exc_id);
 		$this->tpl->setVariable("VAL_COMMENT",
 			ilUtil::prepareFormOutput($c));
+		
+		$ilCtrl->setParameter($this->parent_obj, "member_id", "");
 	}
 
 }

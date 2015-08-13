@@ -15548,3 +15548,62 @@ search#:#search_show_limited_user#:#Zeige Begrenzte Benutzer
 search#:#search_show_limited_user_info#:#Benutzer mit begrenztem Zugang, die außerhalb ihrer zeitlichen Begrenzung sind werden in der Benutzersuche angezeigt.
 trac#:#trac_mode_visited_pages#:#Besuchte Seiten
 trac#:#trac_mode_visited_pages_info#:#Nutzer, die alle Seiten besucht haben, erhalten den Status 'Bearbeitet'.
+exc#:#exc_peer_review_given#:#Gegebenes Feedback zeigen
+exc#:#exc_peer_review_show_received_none#:#Sie haben kein Feedback erhalten.
+exc#:#exc_peer_review_min_chars_tgl#:#Mindestlänge
+exc#:#exc_peer_review_min_chars#:#Mindestanzahl Zeichen
+exc#:#exc_peer_review_min_chars_info#:#Die nötige Anzahl Zeichen für ein gültiges Feedback.
+exc#:#exc_peer_review_chars_invalid#:#Sie haben noch nicht die erforderliche Länge des Textes von %s Zeichen in mind. einem Feedback erreicht.
+exc#:#exc_peer_review_show_missing#:#Sie können das erhaltene Feedback nicht einsehen, da Sie zu wenig Feedback gegeben haben.
+exc#:#exc_peer_review_simple_unlock#:#Anzeige der erhaltenen Bewertungen
+exc#:#exc_peer_review_simple_unlock_active#:#Nach Abgabe einer Bewertung
+exc#:#exc_peer_review_simple_unlock_inactive#:#Nach Abgabe aller Bewertungen
+exc#:#exc_peer_review_min_number#:#Anzahl der Bewertungen je Teilnehmer
+exc#:#exc_peer_review_completion#:#Bestimmung des Status "Bestanden"
+exc#:#exc_peer_review_completion_none#:#Peer-Feedback ist optional
+exc#:#exc_peer_review_completion_none_info#:#Die Übungseinheit wird automatisch nach der Einreichung auf "Bestanden" gesetzt, egal ob Feedbacks gegeben wurden oder nicht. 
+exc#:#exc_peer_review_completion_one#:#Mindestens ein Feedback 
+exc#:#exc_peer_review_completion_one_info#:#Die Übungseinheit wird automatisch auf "Bestanden" gesetzt, nachdem eine Lösung eingereicht wurde und mindestens ein Feedback gegeben wurde. 
+exc#:#exc_peer_review_completion_all#:#Alle geforderten Feedbacks 
+exc#:#exc_peer_review_completion_all_info#:#Die Übungseinheit wird automatisch auf "Bestanden" gesetzt, nachdem eine Lösung eingereicht wurde und die Anzahl der geforderten Feedback gegeben wurde. 
+exc#:#exc_team_multi_create#:#Team erstellen
+exc#:#exc_team_multi_dissolve#:#Team(s) auflösen
+exc#:#exc_team_management_tutor#:#Team-Management durch Tutoren
+exc#:#exc_team_management_tutor_info#:#Bei Aktivierung dieser Option könne Teilnehmer ihre Teams nicht selbst organisieren.
+exc#:#exc_no_team_yet_info_tutor#:#Teams werden von den Übungstutoren verwaltet.
+exc#:#exc_max_file#:#Maximale Dateianzahl
+exc#:#exc_max_file_info#:#Nach Erreichen des Limits können Teilnehmer keine weiteren Dateien hochladen.
+exc#:#exc_max_file_tgl#:#Uploads begrenzen
+exc#:#exc_max_file_reached#:#Sie können maximal %s Dateien hochladen.
+exc#:#exc_deadline_extended#:#Karenzzeit
+exc#:#exc_deadline_extended_info#:#Im Zeitraum zwischen dem Abgabetermin und dem Ende der Karenzzeit können verspätete Abgaben vorgenommen werden.
+exc#:#exc_late_submission_warning#:#Abgaben nach %s werden als verspätet gekennzeichnet.
+exc#:#exc_late_submission#:#Verspätete Abgabe
+exc#:#exc_adopt_group_teams#:#Teams aus Gruppen bilden
+exc#:#exc_adopt_group_teams_no_members#:#Keine Mitglieder
+exc#:#exc_adopt_group_teams_conflict#:#Benutzer "%1$s" ist bereits in Gruppe "%2$s" gewählt.
+exc#:#exc_adopt_group_teams_added#:#%s Benutzer wurden hinzugefügt.
+exc#:#exc_adopt_group_teams_blocked#:#%s Benutzer waren bereits vorhanden.
+exc#:#exc_deadline_ext_mismatch#:#Die Karenzzeit muss nach dem Abgabetermin enden.
+exc#:#exc_peer_review_ass_setting_info#:#Nachdem der Abgabetermin und ggfs. die Karenzzeit verstrichen sind, können Teilnehmer ihre Arbeitsergebnisse gegenseitig bewerten.
+exc#:#exc_peer_review_min_number#:#Geforderte Anzahl von Feedbacks
+exc#:#exc_peer_review_min_number_info#:#Anzahl von Feedback, die ein Teilnehmer den Peers geben muss. Sollte die Anzahl der geforderten Feedbacks die Anzahl der tatsächlichen Einreichungen übersteigen, wird die geforderte Anzahl automatisch auf die Anzahl der tatsächlichen Einreichungen reduziert.
+exc#:#exc_criteria_catalogues#:#Kriterienkataloge
+exc#:#exc_add_criteria_catalogue#:#Katalog hinzufügen
+exc#:#exc_criterias#:#Kriterien
+exc#:#exc_criteria_catalogue_create_form#:#Neuen Katalog hinzufügen
+exc#:#exc_criteria_catalogue_update_form#:#Katalog bearbeiten
+exc#:#exc_criteria_catalogue_deletion_confirmation#:#Wollen Sie wirklich die folgenden Kriterienkataloge löschen?
+exc#:#exc_edit_criterias#:#Kriterien bearbeiten
+exc#:#exc_add_criteria#:#Kriterium hinzufügen
+exc#:#exc_criteria_create_form#:#Neues Kriterium hinzufügen
+exc#:#exc_criteria_update_form#:#Kriterium bearbeiten
+exc#:#exc_criteria_deletion_confirmation#:#Wollen Sie wirklich die folgenden Kriterien löschen?
+exc#:#exc_criteria_type_bool#:#Erfüllt Ja/Nein
+exc#:#exc_criteria_type_rating#:#5-Sterne-Bewertung
+exc#:#exc_criteria_type_text#:#Text
+exc#:#exc_criteria_type_file#:#Dateiupload
+exc#:#exc_criteria_catalogue_default#:#Kein Katalog
+exc#:#exc_peer_review_text#:#Texteingabe
+exc#:#exc_crit_cat_protected_assignment#:#Aktives Peer-Feedback
+exc#:#exc_crit_cat_protected_assignment_info#:#Kriterienkataloge von Übungseinheiten mit aktivem Peer-Feedback können nicht mehr bearbeitet werden.

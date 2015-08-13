@@ -8461,3 +8461,240 @@ while($row = $ilDB->fetchAssoc($res))
 	}
 }
 ?>
+<#4606>
+<?php
+if(!$ilDB->tableColumnExists('exc_assignment','peer_char'))
+{
+	$ilDB->addTableColumn('exc_assignment', 'peer_char', array(
+		'type' => 'integer',
+		'length' => 2,
+		'notnull' => false
+	));
+}
+?>
+<#4607>
+<?php
+if(!$ilDB->tableColumnExists('exc_assignment','peer_unlock'))
+{
+	$ilDB->addTableColumn('exc_assignment', 'peer_unlock', array(
+		'type' => 'integer',
+		'length' => 1,
+		'notnull' => true,
+		'default' => 0
+	));
+}
+?>
+<#4608>
+<?php
+if(!$ilDB->tableColumnExists('exc_assignment','peer_valid'))
+{
+	$ilDB->addTableColumn('exc_assignment', 'peer_valid', array(
+		'type' => 'integer',
+		'length' => 1,
+		'notnull' => true,
+		'default' => 1
+	));
+}
+?>
+<#4609>
+<?php
+if(!$ilDB->tableColumnExists('exc_assignment','team_tutor'))
+{
+	$ilDB->addTableColumn('exc_assignment', 'team_tutor', array(
+		'type' => 'integer',
+		'length' => 1,
+		'notnull' => true,
+		'default' => 0
+	));
+}
+?>
+<#4610>
+<?php
+if(!$ilDB->tableColumnExists('exc_assignment','max_file'))
+{
+	$ilDB->addTableColumn('exc_assignment', 'max_file', array(
+		'type' => 'integer',
+		'length' => 1,
+		'notnull' => false
+	));
+}
+?>
+<#4611>
+<?php
+if(!$ilDB->tableColumnExists('exc_assignment','deadline2'))
+{
+	$ilDB->addTableColumn('exc_assignment', 'deadline2', array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => false
+	));
+}
+?>
+<#4612>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#4613>
+<?php
+if(!$ilDB->tableColumnExists('exc_returned','late'))
+{
+	$ilDB->addTableColumn('exc_returned', 'late', array(
+		'type' => 'integer',
+		'length' => 1,
+		'notnull' => true,
+		'default' => 0
+	));
+}
+?>
+<#4614>
+<?php
+
+if(!$ilDB->tableExists('exc_crit_cat'))
+{
+	$ilDB->createTable('exc_crit_cat', array(
+		'id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'parent' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'title' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => false
+		),
+		'pos' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		)
+	));	
+	$ilDB->addPrimaryKey('exc_crit_cat',array('id'));
+	$ilDB->createSequence('exc_crit_cat');
+}
+
+?>
+<#4615>
+<?php
+
+if(!$ilDB->tableExists('exc_crit'))
+{
+	$ilDB->createTable('exc_crit', array(
+		'id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'parent' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'type' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => false
+		),
+		'title' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => false
+		),
+		'descr' => array(
+			'type' => 'text',
+			'length' => 1000,
+			'notnull' => false
+		),
+		'pos' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		)
+	));	
+	$ilDB->addPrimaryKey('exc_crit',array('id'));
+	$ilDB->createSequence('exc_crit');
+}
+
+?>
+<#4616>
+<?php
+
+if(!$ilDB->tableColumnExists('exc_crit','required'))
+{
+	$ilDB->addTableColumn('exc_crit', 'required', array(
+		'type' => 'integer',
+		'length' => 1,
+		'notnull' => true,
+		'default' => 0
+	));
+}
+
+?>
+<#4617>
+<?php
+
+if(!$ilDB->tableColumnExists('exc_crit','def'))
+{
+	$ilDB->addTableColumn('exc_crit', 'def', array(
+		'type' => 'text',
+		'length' => 4000,
+		'notnull' => false
+	));
+}
+
+?>
+<#4618>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#4619>
+<?php
+
+if(!$ilDB->tableColumnExists('exc_assignment','peer_text'))
+{
+	$ilDB->addTableColumn('exc_assignment', 'peer_text', array(
+		'type' => 'integer',
+		'length' => 1,
+		'notnull' => true,
+		'default' => 1
+	));
+}
+
+?>
+<#4620>
+<?php
+
+if(!$ilDB->tableColumnExists('exc_assignment','peer_rating'))
+{
+	$ilDB->addTableColumn('exc_assignment', 'peer_rating', array(
+		'type' => 'integer',
+		'length' => 1,
+		'notnull' => true,
+		'default' => 1
+	));
+}
+
+?>
+<#4621>
+<?php
+
+if(!$ilDB->tableColumnExists('exc_assignment','peer_crit_cat'))
+{
+	$ilDB->addTableColumn('exc_assignment', 'peer_crit_cat', array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => false
+	));
+}
+
+?>

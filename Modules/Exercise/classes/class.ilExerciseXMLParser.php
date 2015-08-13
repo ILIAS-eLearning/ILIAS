@@ -3,7 +3,7 @@
 
 include_once 'classes/class.ilSaxParser.php';
 include_once 'Services/Tracking/classes/class.ilChangeEvent.php';
-include_once 'Modules/Exercise/exceptions/class.ilExerciseException.php';
+include_once 'Modules/Exercise/classes/class.ilExerciseException.php';
 include_once 'Modules/Exercise/classes/class.ilExerciseXMLWriter.php';
 
 /**
@@ -324,24 +324,26 @@ class ilExerciseXMLParser extends ilSaxParser
 	 * @param int $usr_id
 	 */
 	private function updateMarking($usr_id) {
+		
+		$member_status = $this->assignment->getMemberStatus($usr_id);		
 	    if (isset($this->mark)) 
 	    {			
-			ilExAssignment::updateMarkOfUser($this->assignment->getId(), $usr_id, ilUtil::stripSlashes($this->mark));
+			$member_status->setMark(ilUtil::stripSlashes($this->mark));
 	    }
 		if (isset($this->comment))
 		{
-
-			ilExAssignment::updateCommentForUser($this->assignment->getId(), $usr_id, ilUtil::stripSlashes($this->comment));
+			$member_status->setComment(ilUtil::stripSlashes($this->comment));
 		}
-	    
-	    //$memberObject = $this->exercise->members_obj;
-	    if (isset ( $this->status )){
-	    	
-			ilExAssignment::updateStatusOfUser ( $this->assignment->getId (), $usr_id, ilUtil::stripSlashes ( $this->status ) );
+	    if (isset($this->status))
+		{	    	
+			$member_status->setStatus(ilUtil::stripSlashes($this->status));
 	    }
-	    if (isset($this->notice)){
-			 ilExAssignment::updateNoticeForUser($this->assignment->getId(), $usr_id, ilUtil::stripSlashes($this->notice));
+	    if (isset($this->notice))
+		{
+			$member_status->setNotice(ilUtil::stripSlashes($this->notice));
 	    }
+		$member_status->update();
+		
 	    // reset variables
 	    $this->mark = null;
 	    $this->status = null;

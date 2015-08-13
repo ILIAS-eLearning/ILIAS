@@ -1,39 +1,14 @@
 <tr class="{CSS_ROW}">
   <td class="std" valign="top">
 	{VAL_SEQ}
-  </td>
-  <!-- BEGIN submission_bl -->
-  <td class="std" valign="top">	
-	 <span class="small">{TXT_LAST_SUBMISSION}: {VAL_LAST_SUBMISSION}<br />
-	 {TXT_SUBMITTED_FILES}: {VAL_SUBMITTED_FILES} &nbsp;</span>
-	 <!-- BEGIN download_link -->
-	 <a class="il_ContainerItemCommand" href="{LINK_DOWNLOAD}">{TXT_DOWNLOAD}</a>
-	 <!-- END download_link -->
-	 <!-- BEGIN download_new_link -->
-	 <a class="il_ContainerItemCommand" href="{LINK_NEW_DOWNLOAD}">{TXT_NEW_DOWNLOAD}</a>
-	 <!-- END download_new_link -->		
-  </td>
-  <!-- END submission_bl -->
-  <td class="std" valign="top">
-	  <div id="{ID_RATING}">{VAL_RATING}</div>
-  </td>
-  <td class="std" valign="top">
-	  <!-- BEGIN pcomment_edit_bl -->
-	  <textarea id="excpr_{VAL_ID}" name="pc[{VAL_ID}]" cols="55" rows="5" wrap="virtual">{VAL_PCOMMENT_EDIT}</textarea>
-	  <!-- END pcomment_edit_bl -->
-	  <!-- BEGIN file_edit_bl -->
-	  <div class="small"><a href="{FILE_EDIT_URL}" class="il_ContainerItemCommand2">{FILE_EDIT_CAPTION}</a></div>
-	  <!-- END file_edit_bl -->
-	  <!-- BEGIN pcomment_static_bl -->
-	  {VAL_PCOMMENT_STATIC}
-	  <!-- END pcomment_static_bl -->
-	  <!-- BEGIN file_static_bl -->
-	  <div>
-		  <a href="{FILE_URL}">{FILE_NAME}</a>  
-	  </div>
-	  <!-- END file_static_bl -->
   </td> 
   <td class="std" valign="top"> 
 	  {VAL_TSTAMP}
+  </td>
+  <td class="std" valign="top"> 
+	  {VAL_STATUS}
+  </td>
+  <td class="std" valign="top"> 
+	  <a href="{URL_ACTION}">{TXT_ACTION}</a>
   </td>
 </tr>

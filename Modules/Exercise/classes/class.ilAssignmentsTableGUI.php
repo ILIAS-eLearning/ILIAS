@@ -18,12 +18,12 @@ class ilAssignmentsTableGUI extends ilTable2GUI
 	/**
 	* Constructor
 	*/
-	function __construct($a_parent_obj, $a_parent_cmd, $a_exc)
+	function __construct($a_parent_obj, $a_parent_cmd, $a_exc_id)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng;
+		global $ilCtrl, $lng;
 		
-		$this->exc = $a_exc;
-		$this->setId("excass".$a_exc->getId());
+		$this->exc_id = $a_exc_id;
+		$this->setId("excass".$this->exc_id);
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 	
@@ -73,15 +73,16 @@ class ilAssignmentsTableGUI extends ilTable2GUI
 			);
 		
 		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
-		$data = ilExAssignment::getAssignmentDataOfExercise($this->exc->getId());
+		include_once("./Modules/Exercise/classes/class.ilExPeerReview.php");
+		$data = ilExAssignment::getAssignmentDataOfExercise($this->exc_id);
 		foreach($data as $idx => $row)
 		{
 			// #14450
 			if($row["peer"])
 			{
 				$data[$idx]["peer_invalid"] = true;		
-				$ass = new ilExAssignment($row["id"]);
-				$peer_reviews = $ass->validatePeerReviewGroups();
+				$peer_review = new ilExPeerReview(new ilExAssignment($row["id"]));
+				$peer_reviews = $peer_review->validatePeerReviewGroups();
 				$data[$idx]["peer_invalid"] = $peer_reviews["invalid"];			
 			}
 			
@@ -111,8 +112,12 @@ class ilAssignmentsTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("ID", $d["id"]);
 		if ($d["deadline"] > 0)
 		{
-			$this->tpl->setVariable("TXT_DEADLINE",
-				ilDatePresentation::formatDate(new ilDateTime($d["deadline"],IL_CAL_UNIX)));
+			$dl = ilDatePresentation::formatDate(new ilDateTime($d["deadline"],IL_CAL_UNIX));
+			if($d["deadline2"] > 0)
+			{
+				$dl .= "<br />(".ilDatePresentation::formatDate(new ilDateTime($d["deadline2"],IL_CAL_UNIX)).")";
+			}
+			$this->tpl->setVariable("TXT_DEADLINE", $dl);
 		}
 		if ($d["start_time"] > 0)
 		{
@@ -144,7 +149,7 @@ class ilAssignmentsTableGUI extends ilTable2GUI
 						
 			$this->tpl->setVariable("TXT_PEER_OVERVIEW", $lng->txt("exc_peer_review_overview"));
 			$this->tpl->setVariable("CMD_PEER_OVERVIEW", 
-				$ilCtrl->getLinkTarget($this->parent_obj, "showPeerReviewOverview"));
+				$ilCtrl->getLinkTargetByClass("ilexpeerreviewgui", "showPeerReviewOverview"));
 		}
 		else
 		{

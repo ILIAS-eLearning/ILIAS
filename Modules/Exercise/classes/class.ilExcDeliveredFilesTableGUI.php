@@ -13,31 +13,27 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
  */
 class ilExcDeliveredFilesTableGUI extends ilTable2GUI
 {
+	protected $submission; // [ilExSubmission]
 	
 	/**
 	* Constructor
 	*/
-	function __construct($a_parent_obj, $a_parent_cmd, $a_exc, $a_ass_id)
+	function __construct($a_parent_obj, $a_parent_cmd, ilExSubmission $a_submission)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng;
-		
-		$this->exercise = $a_exc;
-		$this->ass_id = $a_ass_id;		// assignment id
-		$this->exc_id = $a_exc->getId();
-		
-		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
-		$this->ass = new ilExAssignment($this->ass_id);
+		global $ilCtrl, $lng;
+			
+		$this->submission = $a_submission;
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
-		$this->setData($this->getDeliveredFiles());
+		$this->setData($this->submission->getFiles());
 		$this->setTitle($this->lng->txt("already_delivered_files")." - ".
-			$this->ass->getTitle());
+			$this->submission->getAssignment()->getTitle());
 		$this->setLimit(9999);
 		
 		$this->addColumn($this->lng->txt(""), "", "1", 1);
 		$this->addColumn($this->lng->txt("filename"), "filetitle");
 		
-		if($this->ass->getType() == ilExAssignment::TYPE_UPLOAD_TEAM)
+		if($this->submission->getAssignment()->getType() == ilExAssignment::TYPE_UPLOAD_TEAM)
 		{
 			// #11957
 			$this->lng->loadLanguageModule("file");
@@ -47,6 +43,12 @@ class ilExcDeliveredFilesTableGUI extends ilTable2GUI
 		
 		$this->addColumn($this->lng->txt("date"), "timestamp14");
 		
+		if($this->submission->getAssignment()->getExtendedDeadline())
+		{
+			$this->addColumn($this->lng->txt("exc_late_submission"), "late");
+		}
+		
+		$this->addColumn($this->lng->txt("action"));		
 		$this->setDefaultOrderField("filetitle");
 		
 		$this->setEnableHeader(true);
@@ -55,34 +57,18 @@ class ilExcDeliveredFilesTableGUI extends ilTable2GUI
 		$this->disable("footer");
 		$this->setEnableTitle(true);
 
-		if (mktime() < $this->ass->getDeadline() || ($this->ass->getDeadline() == 0))
+		if ($this->submission->canSubmit())
 		{
 			$this->addMultiCommand("confirmDeleteDelivered", $lng->txt("delete"));
-		}
-		$this->addMultiCommand("download", $lng->txt("download"));				
+		}			
 	}
 
-	/**
-	 * Get delivered files
-	 *
-	 * @param
-	 * @return
-	 */
-	function getDeliveredFiles()
-	{
-		global $ilUser;
-		
-		$files = ilExAssignment::getDeliveredFiles($this->exc_id, $this->ass_id,
-			$ilUser->getId());
-		return $files;
-	}
-	
 	/**
 	* Fill table row
 	*/
 	protected function fillRow($file)
 	{
-		global $lng;
+		global $ilCtrl;
 
 		$this->tpl->setVariable("FILE_ID", $file["returned_id"]);
 		$this->tpl->setVariable("DELIVERED_FILE", $file["filetitle"]);
@@ -90,11 +76,26 @@ class ilExcDeliveredFilesTableGUI extends ilTable2GUI
 		$date = new ilDateTime($file['timestamp14'],IL_CAL_TIMESTAMP);
 		$this->tpl->setVariable("DELIVERED_DATE", ilDatePresentation::formatDate($date));
 		
-		if($this->ass->getType() == ilExAssignment::TYPE_UPLOAD_TEAM)
+		if($this->submission->getAssignment()->getType() == ilExAssignment::TYPE_UPLOAD_TEAM)
 		{
 			$this->tpl->setVariable("DELIVERED_OWNER",
 				ilUserUtil::getNamePresentation($file["owner_id"]));
 		}
+		
+		if($this->submission->getAssignment()->getExtendedDeadline())
+		{
+			$this->tpl->setVariable("DELIVERED_LATE", ($file["late"])
+				? '<span class="warning">'.$this->lng->txt("yes").'</span>'
+				: $this->lng->txt("no"));					
+		}
+		
+		// #16164 - download
+		$ilCtrl->setParameter($this->getParentObject(), "delivered", $file["returned_id"]);
+		$url = $ilCtrl->getLinkTarget($this->getParentObject(), "download");
+		$ilCtrl->setParameter($this->getParentObject(), "delivered", "");
+		$this->tpl->setVariable("ACTION_TXT", $this->lng->txt("download"));
+		$this->tpl->setVariable("ACTION_URL", $url);
+		
 	}
 
 }
