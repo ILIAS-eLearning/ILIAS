@@ -4373,6 +4373,29 @@ class ilObjUser extends ilObject
 					  ilFormat::formatUnixTime($this->getTimeLimitUntil(), true)."\n");
 			*/
 		}
+
+		include_once './Services/User/classes/class.ilUserDefinedFields.php';
+		/**
+		 * @var ilUserDefinedFields $user_defined_fields
+		 */
+		$user_defined_fields = ilUserDefinedFields::_getInstance();
+		$user_defined_data = $this->getUserDefinedData();
+
+		foreach($user_defined_fields->getDefinitions() as $field_id => $definition)
+		{
+			$data = $user_defined_data["f_".$field_id];
+			if(strlen($data))
+			{
+				if($definition['field_type'] ==  UDF_TYPE_WYSIWYG)
+				{
+					$data = preg_replace('/\<br(\s*)?\/?\>/i', "\n", $data);
+					$data = strip_tags($data);
+				}
+
+				$body .= $definition['field_name'].': '. $data . "\n";
+			}
+		}
+
 		return $body;
 	}
 
