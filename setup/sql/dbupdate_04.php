@@ -8806,3 +8806,14 @@ if (!$ilDB->tableColumnExists('adv_md_record', 'parent_obj'))
 		)
 	);
 ?>
+<#4629>
+<?php
+if(!$ilDB->tableColumnExists('skl_user_skill_level', 'unique_identifier'))
+{
+    $ilDB->addTableColumn('skl_user_skill_level', 'unique_identifier', array(
+        'type' => 'text',
+        'length' => 80,
+        'notnull' => false
+    ));
+}
+?>
