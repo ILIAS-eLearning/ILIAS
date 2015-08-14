@@ -8758,3 +8758,7 @@ if (!$ilDB->tableColumnExists('adv_md_record', 'parent_obj'))
 }
 	
 ?>
+<#4626>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
