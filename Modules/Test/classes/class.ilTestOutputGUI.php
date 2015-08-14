@@ -528,7 +528,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		else
 		{
 			$question_gui->setNavigationGUI($this->buildQuestionNavigationGUI(
-				$this->object->getId()
+				$question_gui->object->getId()
 			));
 			
 			// Answer specific feedback is rendered into the display of the test question with in the concrete question types outQuestionForTest-method.
@@ -616,28 +616,6 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		else
 		{
 			$this->populateNextButtonsLeadingToQuestion();
-		}
-
-		if ($this->object->getShowMarker())
-		{
-			include_once "./Modules/Test/classes/class.ilObjTest.php";
-			$solved_array = ilObjTest::_getSolvedQuestions($this->testSession->getActiveId(), $question_gui->object->getId());
-			$solved = 0;
-			
-			if (count ($solved_array) > 0) 
-			{
-				$solved = array_pop($solved_array);
-				$solved = $solved["solved"];
-			}
-			
-			if ($solved==1) 
-			{
-				$this->populateQuestionMarkingBlockAsMarked();
-			} 
-			else 
-			{
-				$this->populateQuestionMarkingBlockAsUnmarked();
-			}
 		}
 		
 		$this->populateCharSelector();

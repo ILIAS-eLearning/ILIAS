@@ -31,13 +31,23 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
 	/**
 	 * @var bool
 	 */
-	private $suspendTestEnabled = false;
+	private $suspendTestButtonEnabled = false;
 
 	/**
 	 * @var bool
 	 */
-	private $questionListEnabled = false;
+	private $questionListButtonEnabled = false;
 
+	/**
+	 * @var bool
+	 */
+	private $questionTreeButtonEnabled = false;
+
+	/**
+	 * @var bool
+	 */
+	private $questionTreeVisible = false;
+	
 	/**
 	 * @param ilCtrl $ctrl
 	 * @param ilLanguage $lng
@@ -55,45 +65,82 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
 	/**
 	 * @return boolean
 	 */
-	public function isSuspendTestEnabled()
+	public function isSuspendTestButtonEnabled()
 	{
-		return $this->suspendTestEnabled;
+		return $this->suspendTestButtonEnabled;
 	}
 
 	/**
-	 * @param boolean $suspendTestEnabled
+	 * @param boolean $suspendTestButtonEnabled
 	 */
-	public function setSuspendTestEnabled($suspendTestEnabled)
+	public function setSuspendTestButtonEnabled($suspendTestButtonEnabled)
 	{
-		$this->suspendTestEnabled = $suspendTestEnabled;
+		$this->suspendTestButtonEnabled = $suspendTestButtonEnabled;
 	}
 
 	/**
 	 * @return boolean
 	 */
-	public function isQuestionListEnabled()
+	public function isQuestionListButtonEnabled()
 	{
-		return $this->questionListEnabled;
+		return $this->questionListButtonEnabled;
 	}
 
 	/**
-	 * @param boolean $questionListEnabled
+	 * @param boolean $questionListButtonEnabled
 	 */
-	public function setQuestionListEnabled($questionListEnabled)
+	public function setQuestionListButtonEnabled($questionListButtonEnabled)
 	{
-		$this->questionListEnabled = $questionListEnabled;
+		$this->questionListButtonEnabled = $questionListButtonEnabled;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isQuestionTreeButtonEnabled()
+	{
+		return $this->questionTreeButtonEnabled;
+	}
+
+	/**
+	 * @param boolean $questionTreeButtonEnabled
+	 */
+	public function setQuestionTreeButtonEnabled($questionTreeButtonEnabled)
+	{
+		$this->questionTreeButtonEnabled = $questionTreeButtonEnabled;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isQuestionTreeVisible()
+	{
+		return $this->questionTreeVisible;
+	}
+
+	/**
+	 * @param boolean $questionTreeVisible
+	 */
+	public function setQuestionTreeVisible($questionTreeVisible)
+	{
+		$this->questionTreeVisible = $questionTreeVisible;
 	}
 	
 	public function build()
 	{
-		if( $this->isSuspendTestEnabled() )
+		if( $this->isSuspendTestButtonEnabled() )
 		{
 			$this->addSuspendTestButton();
 		}
 		
-		if( $this->isQuestionListEnabled() )
+		if( $this->isQuestionListButtonEnabled() )
 		{
 			$this->addQuestionListButton();
+		}
+
+		if( $this->isQuestionTreeButtonEnabled() )
+		{
+			$this->addQuestionTreeButton();
 		}
 	}
 	
@@ -110,6 +157,21 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
 		$btn = ilSubmitButton::getInstance();
 		$btn->setCommand('showQuestionList');
 		$btn->setCaption('question_summary');
+		$this->addButtonInstance($btn);
+	}
+	
+	private function addQuestionTreeButton()
+	{
+		$btn = ilSubmitButton::getInstance();
+		$btn->setCommand('togglesidelist');
+		if( $this->isQuestionTreeVisible() )
+		{
+			$btn->setCaption('tst_hide_side_list');
+		}
+		else
+		{
+			$btn->setCaption('tst_show_side_list');
+		}
 		$this->addButtonInstance($btn);
 	}
 }

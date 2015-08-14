@@ -51,9 +51,19 @@ class ilTestQuestionNavigationGUI
 	private $hintRequestsExist = false;
 
 	/**
+	 * @var string
+	 */
+	private $questionMarkCommand = '';
+
+	/**
 	 * @var bool
 	 */
-	private $buttonRendered = false;
+	private $questionMarked = false;
+
+	/**
+	 * @var bool
+	 */
+	private $anythingRendered = false;
 	
 	/**
 	 * @param ilLanguage $lng
@@ -176,19 +186,51 @@ class ilTestQuestionNavigationGUI
 	}
 
 	/**
+	 * @return string
+	 */
+	public function getQuestionMarkCommand()
+	{
+		return $this->questionMarkCommand;
+	}
+
+	/**
+	 * @param string $questionMarkCommand
+	 */
+	public function setQuestionMarkCommand($questionMarkCommand)
+	{
+		$this->questionMarkCommand = $questionMarkCommand;
+	}
+
+	/**
 	 * @return boolean
 	 */
-	public function isAnyButtonRendered()
+	public function isQuestionMarked()
 	{
-		return $this->buttonRendered;
+		return $this->questionMarked;
+	}
+
+	/**
+	 * @param boolean $questionMarked
+	 */
+	public function setQuestionMarked($questionMarked)
+	{
+		$this->questionMarked = $questionMarked;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isAnythingRendered()
+	{
+		return $this->anythingRendered;
 	}
 
 	/**
 	 * @param boolean $buttonRendered
 	 */
-	public function setButtonRendered()
+	public function setAnythingRendered()
 	{
-		$this->buttonRendered = true;
+		$this->anythingRendered = true;
 	}
 	
 	/**
@@ -200,40 +242,90 @@ class ilTestQuestionNavigationGUI
 		
 		if( $this->getEditAnswerCommand() )
 		{
-			$this->renderEditAnswerCommandButton($tpl);
+			$this->renderButton(
+				$tpl, $this->getEditAnswerCommand(), $this->lng->txt('edit_answer')
+			);
 		}
 		
 		if( $this->getSubmitAnswerCommand() )
 		{
-			$this->renderSubmitAnswerCommandButton($tpl);
+			$this->renderButton(
+				$tpl, $this->getSubmitAnswerCommand(), $this->lng->txt('submit_answer')
+			);
 		}
 
 		if( $this->getDiscardAnswerCommand() )
 		{
-			$this->renderDiscardAnswerCommandButton($tpl);
+			$this->renderButton(
+				$tpl, $this->getDiscardAnswerCommand(), $this->lng->txt('discard_answer')
+			);
 		}
 
 		if( $this->getInstantFeedbackCommand() )
 		{
-			$this->renderInstantFeedbackCommandButton($tpl);
+			$this->renderButton(
+				$tpl, $this->getInstantFeedbackCommand(), $this->lng->txt('check')
+			);
 		}
 
 		if( $this->getRequestHintCommand() )
 		{
-			$this->renderRequestHintCommandButton($tpl);
+			$this->renderButton(
+				$tpl, $this->getRequestHintCommand(), $this->getRequestHintButtonLabel()
+			);
 		}
 
 		if( $this->getShowHintsCommand() )
 		{
-			$this->renderShowHintsCommandButton($tpl);
+			$this->renderButton(
+				$tpl, $this->getShowHintsCommand(), $this->lng->txt('button_show_requested_question_hints')
+			);
+		}
+
+		if( $this->getQuestionMarkCommand() )
+		{
+			$this->renderIcon(
+				$tpl, $this->getQuestionMarkCommand(), $this->getQuestionMarkIconSource(),
+				$this->getQuestionMarkIconLabel(), 'ilTstMarkQuestionButton'
+			);
 		}
 		
-		if( $this->isAnyButtonRendered() )
+		if( $this->isAnythingRendered() )
 		{
 			$this->parseNavigation($tpl);
 		}
 		
 		return $tpl->get();
+	}
+	
+	private function getRequestHintButtonLabel()
+	{
+		if( $this->hintRequestsExist() )
+		{
+			return $this->lng->txt("button_request_next_question_hint");
+		}
+		
+		return $this->lng->txt("button_request_question_hint");
+	}
+
+	private function getQuestionMarkIconLabel()
+	{
+		if( $this->isQuestionMarked() )
+		{
+			return $this->lng->txt('tst_remove_mark');
+		}
+
+		return $this->lng->txt('tst_question_mark');
+	}
+
+	private function getQuestionMarkIconSource()
+	{
+		if( $this->isQuestionMarked() )
+		{
+			return ilUtil::getImagePath('marked.svg');
+		}
+
+		return ilUtil::getImagePath('marked_.svg');
 	}
 
 	/**
@@ -249,89 +341,29 @@ class ilTestQuestionNavigationGUI
 	/**
 	 * @param ilTemplate $tpl
 	 */
-	private function renderEditAnswerCommandButton(ilTemplate $tpl)
+	private function renderButton(ilTemplate $tpl, $command, $label)
 	{
-		$tpl->setCurrentBlock("edit_answer");
-		$tpl->setVariable("CMD_EDIT_ANSWER", $this->getEditAnswerCommand());
-		$tpl->setVariable("TEXT_EDIT_ANSWER", $this->lng->txt('edit_answer'));
+		$tpl->setCurrentBlock("submit_button");
+		$tpl->setVariable("SUBMIT_BTN_CMD", $command);
+		$tpl->setVariable("SUBMIT_BTN_TEXT", $label);
 		$tpl->parseCurrentBlock();
 
-		$this->setButtonRendered();
+		$this->setAnythingRendered();
 	}
 
 	/**
 	 * @param ilTemplate $tpl
 	 */
-	private function renderSubmitAnswerCommandButton(ilTemplate $tpl)
+	private function renderIcon(ilTemplate $tpl, $command, $iconSrc, $label, $cssClass)
 	{
-		$tpl->setCurrentBlock("submit_answer");
-		$tpl->setVariable("CMD_SUBMIT_ANSWER", $this->getSubmitAnswerCommand());
-		$tpl->setVariable("TEXT_SUBMIT_ANSWER", $this->lng->txt('submit_answer'));
+		$tpl->setCurrentBlock("submit_icon");
+		$tpl->setVariable("SUBMIT_ICON_CMD", $command);
+		$tpl->setVariable("SUBMIT_ICON_SRC", $iconSrc);
+		$tpl->setVariable("SUBMIT_ICON_TEXT", $label);
+		$tpl->setVariable("SUBMIT_ICON_CLASS", $cssClass);
 		$tpl->parseCurrentBlock();
 
-		$this->setButtonRendered();
-	}
-
-	/**
-	 * @param ilTemplate $tpl
-	 */
-	private function renderDiscardAnswerCommandButton(ilTemplate $tpl)
-	{
-		$tpl->setCurrentBlock("discard_answer");
-		$tpl->setVariable("CMD_DISCARD_ANSWER", $this->getDiscardAnswerCommand());
-		$tpl->setVariable("TEXT_DISCARD_ANSWER", $this->lng->txt('discard_answer'));
-		$tpl->parseCurrentBlock();
-
-		$this->setButtonRendered();
-	}
-
-	/**
-	 * @param ilTemplate $tpl
-	 */
-	private function renderInstantFeedbackCommandButton(ilTemplate $tpl)
-	{
-		$tpl->setCurrentBlock("direct_feedback");
-		$tpl->setVariable("CMD_SHOW_INSTANT_RESPONSE", $this->getInstantFeedbackCommand());
-		$tpl->setVariable("TEXT_SHOW_INSTANT_RESPONSE", $this->lng->txt('check'));
-		$tpl->parseCurrentBlock();
-		
-		$this->setButtonRendered();
-	}
-
-	/**
-	 * @param ilTemplate $tpl
-	 */
-	private function renderRequestHintCommandButton(ilTemplate $tpl)
-	{
-		$tpl->setCurrentBlock("button_request_next_question_hint");
-		$tpl->setVariable("CMD_REQUEST_NEXT_QUESTION_HINT", $this->getRequestHintCommand());
-		$tpl->setVariable("TEXT_REQUEST_NEXT_QUESTION_HINT", $this->getRequestHintButtonLabel());
-		$tpl->parseCurrentBlock();
-		
-		$this->setButtonRendered();
-	}
-	
-	private function getRequestHintButtonLabel()
-	{
-		if( $this->hintRequestsExist() )
-		{
-			return $this->lng->txt("button_request_next_question_hint");
-		}
-		
-		return $this->lng->txt("button_request_question_hint");
-	}
-
-	/**
-	 * @param ilTemplate $tpl
-	 */
-	private function renderShowHintsCommandButton(ilTemplate $tpl)
-	{
-		$tpl->setCurrentBlock("button_show_requested_question_hints");
-		$tpl->setVariable("CMD_SHOW_REQUESTED_QUESTION_HINTS", $this->getShowHintsCommand());
-		$tpl->setVariable("TEXT_SHOW_REQUESTED_QUESTION_HINTS", $this->lng->txt("button_show_requested_question_hints"));
-		$tpl->parseCurrentBlock();
-
-		$this->setButtonRendered();
+		$this->setAnythingRendered();
 	}
 
 	/**

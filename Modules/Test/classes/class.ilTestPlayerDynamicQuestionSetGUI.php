@@ -745,28 +745,6 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 			$this->populateQuestionSelectionButtons();
 		}
 		
-		if ($this->object->getShowMarker())
-		{
-			include_once "./Modules/Test/classes/class.ilObjTest.php";
-			$solved_array = ilObjTest::_getSolvedQuestions($this->testSession->getActiveId(), $question_gui->object->getId());
-			$solved = 0;
-			
-			if (count ($solved_array) > 0) 
-			{
-				$solved = array_pop($solved_array);
-				$solved = $solved["solved"];
-			}
-			
-			if ($solved==1) 
-			{
-				$this->populateQuestionMarkingBlockAsMarked();
-			} 
-			else 
-			{
-				$this->populateQuestionMarkingBlockAsUnmarked();
-			}
-		}
-		
 		$this->populateCharSelector();
 
 		if ($this->object->getJavaScriptOutput())

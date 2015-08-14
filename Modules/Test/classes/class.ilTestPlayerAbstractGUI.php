@@ -191,24 +191,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			$this->populatePreviousButtonsLeadingToQuestion();
 		}
 	}
-
-	protected function populateQuestionMarkingBlockAsUnmarked()
-	{
-		$this->tpl->setCurrentBlock( "isnotmarked" );
-		$this->tpl->setVariable( "CMD_UNMARKED", 'markQuestion' );
-		$this->tpl->setVariable( "IMAGE_UNMARKED", ilUtil::getImagePath( "marked_.svg" ) );
-		$this->tpl->setVariable( "TEXT_UNMARKED", $this->lng->txt( "tst_question_mark" ) );
-		$this->tpl->parseCurrentBlock();
-	}
-
-	protected function populateQuestionMarkingBlockAsMarked()
-	{
-		$this->tpl->setCurrentBlock( "ismarked" );
-		$this->tpl->setVariable( "CMD_MARKED", 'unmarkQuestion' );
-		$this->tpl->setVariable( "IMAGE_MARKED", ilUtil::getImagePath( "marked.svg" ) );
-		$this->tpl->setVariable( "TEXT_MARKED", $this->lng->txt( "tst_remove_mark" ) );
-		$this->tpl->parseCurrentBlock();
-	}
 	
 	protected function populateNextButtonsLeadingToQuestion()
 	{
@@ -451,20 +433,14 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	{
 		global $ilUser;
 
-		$show_side_list = $ilUser->getPref('side_list_of_questions');
-		$this->tpl->setCurrentBlock('view_sidelist');
-		$this->tpl->setVariable('IMAGE_SIDELIST',
-			($show_side_list) ? ilUtil::getImagePath('view_remove.png'
-			) : ilUtil::getImagePath('view_choose.png')
-		);
-		$this->tpl->setVariable('TEXT_SIDELIST',
-			($show_side_list) ? $this->lng->txt('tst_hide_side_list'
-			) : $this->lng->txt('tst_show_side_list')
-		);
-		$this->tpl->parseCurrentBlock();
-		if($show_side_list)
+		$sideListActive = $ilUser->getPref('side_list_of_questions');
+
+		if($sideListActive)
 		{
-			$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "ta_split.css", "Modules/Test"), "screen");
+			$this->tpl->addCss(
+				ilUtil::getStyleSheetLocation("output", "ta_split.css", "Modules/Test"), "screen"
+			);
+			
 			$this->outQuestionSummaryCmd(false);
 		}
 	}
@@ -1859,12 +1835,16 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	
 	protected function buildTestNavigationToolbarGUI()
 	{
+		global $ilUser;
+		
 		require_once 'Modules/Test/classes/class.ilTestNavigationToolbarGUI.php';
 		$navigationToolbarGUI = new ilTestNavigationToolbarGUI($this->ctrl, $this->lng, $this);
 		
-		$navigationToolbarGUI->setSuspendTestEnabled($this->object->getShowCancel());
-		$navigationToolbarGUI->setQuestionListEnabled($this->object->getListOfQuestions());
-		
+		$navigationToolbarGUI->setSuspendTestButtonEnabled($this->object->getShowCancel());
+		$navigationToolbarGUI->setQuestionListButtonEnabled($this->object->getListOfQuestions());
+		$navigationToolbarGUI->setQuestionTreeButtonEnabled($this->object->getListOfQuestions());
+		$navigationToolbarGUI->setQuestionTreeVisible($ilUser->getPref('side_list_of_questions'));
+
 		$navigationToolbarGUI->build();
 		
 		return $navigationToolbarGUI;
@@ -1875,6 +1855,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		require_once 'Modules/Test/classes/class.ilTestQuestionNavigationGUI.php';
 		$navigationGUI = new ilTestQuestionNavigationGUI($this->lng);
 
+		// feedback
 		switch( 1 )
 		{
 			case $this->object->getSpecificAnswerFeedback():
@@ -1885,6 +1866,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 				$navigationGUI->setInstantFeedbackCommand('showInstantResponse');
 		}
 
+		// hints
 		if( $this->object->isOfferingQuestionHintsEnabled() )
 		{
 			$activeId = $this->testSession->getActiveId();
@@ -1901,6 +1883,31 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			if( $questionHintTracking->requestsExist() )
 			{
 				$navigationGUI->setShowHintsCommand('showRequestedHintList');
+			}
+		}
+		
+		// marking
+		if ($this->object->getShowMarker())
+		{
+			include_once "./Modules/Test/classes/class.ilObjTest.php";
+			$solved_array = ilObjTest::_getSolvedQuestions($this->testSession->getActiveId(), $questionId);
+			$solved = 0;
+
+			if (count ($solved_array) > 0)
+			{
+				$solved = array_pop($solved_array);
+				$solved = $solved["solved"];
+			}
+
+			if ($solved==1)
+			{
+				$navigationGUI->setQuestionMarkCommand('unmarkQuestion');
+				$navigationGUI->setQuestionMarked(true);
+			}
+			else
+			{
+				$navigationGUI->setQuestionMarkCommand('markQuestion');
+				$navigationGUI->setQuestionMarked(false);
 			}
 		}
 		
