@@ -27,6 +27,12 @@ class ilContainerPageConfig extends ilPageConfig
 		$this->setEnablePCType("Resources", true);
 		$this->setMultiLangSupport(true);
 		$this->setSinglePageMode(true);
+
+		$mset = new ilSetting("mobs");
+		if ($mset->get("mep_activate_pages"))
+		{
+			$this->setEnablePCType("ContentInclude", true);
+		}
 	}
 	
 }
