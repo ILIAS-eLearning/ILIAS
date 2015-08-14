@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
+require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -66,7 +67,7 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
 	{
 		$btn = ilLinkButton::getInstance();
 		$btn->setUrl($this->ctrl->getLinkTargetByClass('ilObjTestGUI'));
-		$btn->setCaption($this->lng->txt('suspend_test'));
+		$btn->setCaption('cancel_test');
 		$this->addButtonInstance($btn);
 	}
 }

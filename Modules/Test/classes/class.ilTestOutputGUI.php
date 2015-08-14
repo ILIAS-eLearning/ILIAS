@@ -495,6 +495,8 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		{
 			$answer_feedback = TRUE;
 		}
+		
+		$this->populateTestNavigationToolbar($this->buildTestNavigationToolbarGUI());
 
 		if( $this->isParticipantsAnswerFixed($questionId) )
 		{

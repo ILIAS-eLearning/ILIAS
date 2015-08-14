@@ -173,6 +173,13 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		return $show_question_inline_score;
 	}
 
+	protected function populateTestNavigationToolbar(ilTestNavigationToolbarGUI $toolbarGUI)
+	{
+		$this->tpl->setCurrentBlock('test_nav_toolbar');
+		$this->tpl->setVariable('TEST_NAV_TOOLBAR', $toolbarGUI->getHTML());
+		$this->tpl->parseCurrentBlock();
+	}
+	
 	protected function populatePreviousButtons($sequence)
 	{
 		if ($this->isFirstPageInSequence( $sequence ))
@@ -1884,6 +1891,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	
 	protected function buildTestNavigationToolbarGUI()
 	{
+		require_once 'Modules/Test/classes/class.ilTestNavigationToolbarGUI.php';
 		$navigationToolbarGUI = new ilTestNavigationToolbarGUI($this->ctrl, $this->lng);
 		
 		$navigationToolbarGUI->setSuspendTestEnabled(true);
