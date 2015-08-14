@@ -415,7 +415,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 	/**
 	 * Creates the learners output of a question
 	 */
-	protected function outWorkingForm($sequence = "", $test_id, $postpone_allowed, $directfeedback = false)
+	protected function outWorkingForm($sequence = "", $test_id, $directfeedback = false)
 	{
 		global $ilUser;
 		
@@ -598,11 +598,6 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		}
 
 		$this->populatePreviousButtons( $sequence );
-
-		if ($postpone_allowed && !$is_postponed)
-		{
-			$this->populatePostponeButtons();
-		}
 
 		if ($this->isLastQuestionInSequence( $question_gui ))
 		{

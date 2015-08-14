@@ -549,7 +549,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 	/**
 	 * Creates the learners output of a question
 	 */
-	protected function outWorkingForm($sequence = "", $test_id, $postpone_allowed, $directfeedback = false)
+	protected function outWorkingForm($sequence = "", $test_id, $directfeedback = false)
 	{
 		global $ilUser;
 		
@@ -720,11 +720,6 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		}
 
 		$this->populatePreviousButtons( $this->testSession->getCurrentQuestionId() );
-
-		if( $postpone_allowed )
-		{
-			$this->populatePostponeButtons();
-		}
 
 		if ($this->isLastQuestionInSequence( $question_gui ))
 		{

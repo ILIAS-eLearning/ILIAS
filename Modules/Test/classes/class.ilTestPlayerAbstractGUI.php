@@ -123,7 +123,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
 	abstract protected function canSaveResult();
 
-	abstract protected function outWorkingForm($sequence = "", $test_id, $postpone_allowed, $directfeedback = false);
+	abstract protected function outWorkingForm($sequence = "", $test_id, $directfeedback = false);
 
 	/**
 	* Creates the introduction page for a test
@@ -310,27 +310,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
-	protected function populatePostponeButtons()
-	{
-		$this->populateUpperPostponeButtonBlock();
-		$this->populateLowerPostponeButtonBlock();
-	}
-
-	protected function populateLowerPostponeButtonBlock()
-	{
-		$this->tpl->setCurrentBlock( "postpone_bottom" );
-		$this->tpl->setVariable( "CMD_POSTPONE", 'postponeQuestion' );
-		$this->tpl->setVariable( "BTN_POSTPONE", $this->lng->txt( "postpone" ) );
-		$this->tpl->parseCurrentBlock();
-	}
-
-	protected function populateUpperPostponeButtonBlock()
-	{
-		$this->tpl->setCurrentBlock( "postpone" );
-		$this->tpl->setVariable( "CMD_POSTPONE", 'postponeQuestion' );
-		$this->tpl->setVariable( "BTN_POSTPONE", $this->lng->txt( "postpone" ) );
-		$this->tpl->parseCurrentBlock();
-	}
 
 	protected function populatePreviousButtonsLeadingToQuestion()
 	{
@@ -1116,8 +1095,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$this->tpl->setVariable("FORM_TIMESTAMP", time());
 		
 		$this->tpl->setVariable("PAGETITLE", "- " . $this->object->getTitle());
-				
-		$postpone = ( $this->object->getSequenceSettings() == TEST_POSTPONE );
 		
 		if ($this->object->isShowExamIdInTestPassEnabled() && !$this->object->getKioskMode())
 		{
@@ -1129,7 +1106,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			$this->tpl->parseCurrentBlock();
 		}				
 		
-		$this->outWorkingForm($this->sequence, $this->object->getTestId(), $postpone, $directfeedback);
+		$this->outWorkingForm($this->sequence, $this->object->getTestId(), $directfeedback);
 	}
 
 /**
