@@ -459,9 +459,9 @@ class ilMimeTypeUtil {
 	 * @var array
 	 */
 	protected static $suffix_map = array(
-		'3gp' => self::VIDEO__3_GPP,
 		'3dm' => self::X_WORLD__X_3DMF,
 		'3dmf' => self::X_WORLD__X_3DMF,
+		'3gp' => self::VIDEO__3_GPP,
 		'a' => self::APPLICATION__OCTET_STREAM,
 		'aab' => self::APPLICATION__X_AUTHORWARE_BIN,
 		'aam' => self::APPLICATION__X_AUTHORWARE_MAP,
@@ -492,11 +492,11 @@ class ilMimeTypeUtil {
 			self::APPLICATION__ARJ,
 			self::APPLICATION__OCTET_STREAM
 		),
-		'asd' => self::VIDEO__X_MS_ASF,
 		'art' => self::IMAGE__X_JG,
+		'asd' => self::VIDEO__X_MS_ASF,
 		'asf' => self::VIDEO__X_MS_ASF,
-		'asn' => self::APPLICATION__ASTOUND,
 		'asm' => self::TEXT__X_ASM,
+		'asn' => self::APPLICATION__ASTOUND,
 		'asp' => self::TEXT__ASP,
 		'asx' => array(
 			self::VIDEO__X_MS_ASF,
@@ -564,7 +564,10 @@ class ilMimeTypeUtil {
 			self::APPLICATION__JAVA_BYTE_CODE,
 			self::APPLICATION__X_JAVA_CLASS,
 		),
-		'com' => array( self::APPLICATION__OCTET_STREAM, self::TEXT__PLAIN, ),
+		'com' => array(
+			self::APPLICATION__OCTET_STREAM,
+			self::TEXT__PLAIN,
+		),
 		'conf' => self::TEXT__PLAIN,
 		'cpio' => self::APPLICATION__X_CPIO,
 		'cpp' => self::TEXT__X_C,
@@ -602,7 +605,9 @@ class ilMimeTypeUtil {
 			self::VIDEO__X_DL,
 		),
 		'doc' => self::APPLICATION__MSWORD,
+		'docx' => self::APPLICATION__VND_OPENXMLFORMATS_OFFICEDOCUMENT_WORDPROCESSINGML_DOCUMENT,
 		'dot' => self::APPLICATION__MSWORD,
+		'dotx' => self::APPLICATION__VND_OPENXMLFORMATS_OFFICEDOCUMENT_WORDPROCESSINGML_TEMPLATE,
 		'dp' => self::APPLICATION__COMMONGROUND,
 		'drw' => self::APPLICATION__DRAFTING,
 		'dump' => self::APPLICATION__OCTET_STREAM,
@@ -635,7 +640,6 @@ class ilMimeTypeUtil {
 			self::TEXT__PLAIN,
 			'f' => self::TEXT__X_FORTRAN,
 		),
-		'flv' => self::VIDEO__X_FLV,
 		'f77' => self::TEXT__X_FORTRAN,
 		'f90' => array(
 			self::TEXT__PLAIN,
@@ -651,6 +655,7 @@ class ilMimeTypeUtil {
 			self::VIDEO__X_FLI,
 		),
 		'flo' => self::IMAGE__FLORIAN,
+		'flv' => self::VIDEO__X_FLV,
 		'flx' => self::TEXT__VND_FMI_FLEXSTOR,
 		'fmf' => self::VIDEO__X_ATOMIC3D_FEATURE,
 		'for' => array(
@@ -826,6 +831,7 @@ class ilMimeTypeUtil {
 		'm2a' => self::AUDIO__MPEG,
 		'm2v' => self::VIDEO__MPEG,
 		'm3u' => self::AUDIO__X_MPEQURL,
+		'm4v' => self::VIDEO__MP_4,
 		'man' => self::APPLICATION__X_TROFF_MAN,
 		'map' => self::APPLICATION__X_NAVIMAP,
 		'mar' => self::TEXT__PLAIN,
@@ -894,13 +900,11 @@ class ilMimeTypeUtil {
 			self::VIDEO__MPEG,
 			self::VIDEO__X_MPEG,
 		),
+		'mp4' => self::VIDEO__MP_4,
 		'mpa' => array(
 			self::AUDIO__MPEG,
 			self::VIDEO__MPEG,
 		),
-		'mp4' => self::VIDEO__MP_4,
-		'm4v' => self::VIDEO__MP_4,
-		'mv4' => self::VIDEO__MP_4,
 		'mpc' => self::APPLICATION__X_PROJECT,
 		'mpe' => self::VIDEO__MPEG,
 		'mpeg' => self::VIDEO__MPEG,
@@ -916,6 +920,7 @@ class ilMimeTypeUtil {
 		'mrc' => self::APPLICATION__MARC,
 		'ms' => self::APPLICATION__X_TROFF_MS,
 		'mv' => self::VIDEO__X_SGI_MOVIE,
+		'mv4' => self::VIDEO__MP_4,
 		'my' => self::AUDIO__MAKE,
 		'mzz' => self::APPLICATION__X_VND_AUDIOEXPLOSION_MZZ,
 		'nap' => self::IMAGE__NAPLPS,
@@ -929,6 +934,9 @@ class ilMimeTypeUtil {
 		'nvd' => self::APPLICATION__X_NAVIDOC,
 		'o' => self::APPLICATION__OCTET_STREAM,
 		'oda' => self::APPLICATION__ODA,
+		'oga' => self::AUDIO__OGG,
+		'ogg' => self::APPLICATION__OGG,
+		'ogv' => self::VIDEO__OGG,
 		'omc' => self::APPLICATION__X_OMC,
 		'omcd' => self::APPLICATION__X_OMCDATAMAKER,
 		'omcr' => self::APPLICATION__X_OMCREGERATOR,
@@ -995,6 +1003,7 @@ class ilMimeTypeUtil {
 			self::APPLICATION__MSPOWERPOINT,
 			self::APPLICATION__VND_MS_POWERPOINT,
 		),
+		'potx' => self::APPLICATION__VND_OPENXMLFORMATS_OFFICEDOCUMENT_PRESENTATIONML_TEMPLATE,
 		'pov' => self::MODEL__X_POV,
 		'ppa' => self::APPLICATION__VND_MS_POWERPOINT,
 		'ppm' => self::IMAGE__X_PORTABLE_PIXMAP,
@@ -1002,12 +1011,14 @@ class ilMimeTypeUtil {
 			self::APPLICATION__MSPOWERPOINT,
 			self::APPLICATION__VND_MS_POWERPOINT,
 		),
+		'ppsx' => self::APPLICATION__VND_OPENXMLFORMATS_OFFICEDOCUMENT_PRESENTATIONML_SLIDESHOW,
 		'ppt' => array(
 			self::APPLICATION__MSPOWERPOINT,
 			self::APPLICATION__POWERPOINT,
 			self::APPLICATION__VND_MS_POWERPOINT,
 			self::APPLICATION__X_MSPOWERPOINT,
 		),
+		'pptx' => self::APPLICATION__VND_OPENXMLFORMATS_OFFICEDOCUMENT_PRESENTATIONML_PRESENTATION,
 		'ppz' => self::APPLICATION__MSPOWERPOINT,
 		'pre' => self::APPLICATION__X_FREELANCE,
 		'prt' => self::APPLICATION__PRO_ENG,
@@ -1125,6 +1136,7 @@ class ilMimeTypeUtil {
 		'skp' => self::APPLICATION__X_KOAN,
 		'skt' => self::APPLICATION__X_KOAN,
 		'sl' => self::APPLICATION__X_SEELOGO,
+		'sldx' => self::APPLICATION__VND_OPENXMLFORMATS_OFFICEDOCUMENT_PRESENTATIONML_SLIDE,
 		'smi' => self::APPLICATION__SMIL,
 		'smil' => self::APPLICATION__SMIL,
 		'snd' => array(
@@ -1136,9 +1148,6 @@ class ilMimeTypeUtil {
 			self::APPLICATION__X_PKCS7_CERTIFICATES,
 			self::TEXT__X_SPEECH,
 		),
-		'ogg' => self::APPLICATION__OGG,
-		'oga' => self::AUDIO__OGG,
-		'ogv' => self::VIDEO__OGG,
 		'spl' => self::APPLICATION__FUTURESPLASH,
 		'spr' => self::APPLICATION__X_SPRITE,
 		'sprite' => self::APPLICATION__X_SPRITE,
@@ -1225,6 +1234,7 @@ class ilMimeTypeUtil {
 		'vda' => self::APPLICATION__VDA,
 		'vdo' => self::VIDEO__VDO,
 		'vew' => self::APPLICATION__GROUPWISE,
+		'vimeo' => self::VIDEO__VIMEO,
 		'viv' => array(
 			self::VIDEO__VIVO,
 			self::VIDEO__VND_VIVO,
@@ -1265,24 +1275,23 @@ class ilMimeTypeUtil {
 		'web' => self::APPLICATION__VND_XARA,
 		'wiz' => self::APPLICATION__MSWORD,
 		'wk1' => self::APPLICATION__X_123,
+		'wm' => self::VIDEO__X_MS_WM,
+		'wma' => self::AUDIO__X_MS_WMA,
+		'wmd' => self::VIDEO__X_MS_WMD,
 		'wmf' => self::WINDOWS__METAFILE,
 		'wml' => self::TEXT__VND_WAP_WML,
 		'wmlc' => self::APPLICATION__VND_WAP_WMLC,
 		'wmls' => self::TEXT__VND_WAP_WMLSCRIPT,
 		'wmlsc' => self::APPLICATION__VND_WAP_WMLSCRIPTC,
+		'wmv' => self::VIDEO__X_MS_WMV,
+		'wmx' => self::VIDEO__X_MS_WMX,
+		'wmz' => self::VIDEO__X_MS_WMZ,
 		'word' => self::APPLICATION__MSWORD,
 		'wp' => self::APPLICATION__WORDPERFECT,
 		'wp5' => array(
 			self::APPLICATION__WORDPERFECT,
 			self::APPLICATION__WORDPERFECT6_0,
 		),
-		'wm' => self::VIDEO__X_MS_WM,
-		'wma' => self::AUDIO__X_MS_WMA,
-		'wmd' => self::VIDEO__X_MS_WMD,
-		'wmv' => self::VIDEO__X_MS_WMV,
-		'wmx' => self::VIDEO__X_MS_WMX,
-		'wmz' => self::VIDEO__X_MS_WMZ,
-		'wvx' => self::VIDEO__X_MS_WVX,
 		'wp6' => self::APPLICATION__WORDPERFECT,
 		'wpd' => array(
 			self::APPLICATION__WORDPERFECT,
@@ -1305,6 +1314,8 @@ class ilMimeTypeUtil {
 		'wsc' => self::TEXT__SCRIPLET,
 		'wsrc' => self::APPLICATION__X_WAIS_SOURCE,
 		'wtk' => self::APPLICATION__X_WINTALK,
+		'wvx' => self::VIDEO__X_MS_WVX,
+		'x-png' => self::IMAGE__PNG,
 		'xbm' => array(
 			self::IMAGE__X_XBITMAP,
 			self::IMAGE__X_XBM,
@@ -1312,6 +1323,7 @@ class ilMimeTypeUtil {
 		),
 		'xdr' => self::VIDEO__X_AMT_DEMORUN,
 		'xgz' => self::XGL__DRAWING,
+		'xhtml' => self::APPLICATION__XHTML_XML,
 		'xif' => self::IMAGE__VND_XIFF,
 		'xl' => self::APPLICATION__EXCEL,
 		'xla' => array(
@@ -1319,6 +1331,7 @@ class ilMimeTypeUtil {
 			self::APPLICATION__X_EXCEL,
 			self::APPLICATION__X_MSEXCEL,
 		),
+		'xlam' => self::APPLICATION__VND_MS_EXCEL_ADDIN_MACRO_ENABLED_12,
 		'xlb' => array(
 			self::APPLICATION__EXCEL,
 			self::APPLICATION__VND_MS_EXCEL,
@@ -1347,26 +1360,19 @@ class ilMimeTypeUtil {
 			self::APPLICATION__VND_MS_EXCEL,
 			self::APPLICATION__X_EXCEL,
 		),
-		'xlsx' => self::APPLICATION__VND_OPENXMLFORMATS_OFFICEDOCUMENT_SPREADSHEETML_SHEET,
-		'xltx' => self::APPLICATION__VND_OPENXMLFORMATS_OFFICEDOCUMENT_SPREADSHEETML_TEMPLATE,
-		'potx' => self::APPLICATION__VND_OPENXMLFORMATS_OFFICEDOCUMENT_PRESENTATIONML_TEMPLATE,
-		'ppsx' => self::APPLICATION__VND_OPENXMLFORMATS_OFFICEDOCUMENT_PRESENTATIONML_SLIDESHOW,
-		'pptx' => self::APPLICATION__VND_OPENXMLFORMATS_OFFICEDOCUMENT_PRESENTATIONML_PRESENTATION,
-		'sldx' => self::APPLICATION__VND_OPENXMLFORMATS_OFFICEDOCUMENT_PRESENTATIONML_SLIDE,
-		'docx' => self::APPLICATION__VND_OPENXMLFORMATS_OFFICEDOCUMENT_WORDPROCESSINGML_DOCUMENT,
-		'dotx' => self::APPLICATION__VND_OPENXMLFORMATS_OFFICEDOCUMENT_WORDPROCESSINGML_TEMPLATE,
-		'xlam' => self::APPLICATION__VND_MS_EXCEL_ADDIN_MACRO_ENABLED_12,
-		'xlsb' => self::APPLICATION__VND_MS_EXCEL_SHEET_BINARY_MACRO_ENABLED_12,
 		'xls' => array(
 			self::APPLICATION__EXCEL,
 			self::APPLICATION__VND_MS_EXCEL,
 			self::APPLICATION__X_EXCEL,
 			self::APPLICATION__X_MSEXCEL,
 		),
+		'xlsb' => self::APPLICATION__VND_MS_EXCEL_SHEET_BINARY_MACRO_ENABLED_12,
+		'xlsx' => self::APPLICATION__VND_OPENXMLFORMATS_OFFICEDOCUMENT_SPREADSHEETML_SHEET,
 		'xlt' => array(
 			self::APPLICATION__EXCEL,
 			self::APPLICATION__X_EXCEL,
 		),
+		'xltx' => self::APPLICATION__VND_OPENXMLFORMATS_OFFICEDOCUMENT_SPREADSHEETML_TEMPLATE,
 		'xlv' => array(
 			self::APPLICATION__EXCEL,
 			self::APPLICATION__X_EXCEL,
@@ -1377,7 +1383,6 @@ class ilMimeTypeUtil {
 			self::APPLICATION__X_EXCEL,
 			self::APPLICATION__X_MSEXCEL,
 		),
-		'xhtml' => self::APPLICATION__XHTML_XML,
 		'xm' => self::AUDIO__XM,
 		'xml' => array(
 			self::TEXT__XML,
@@ -1389,13 +1394,14 @@ class ilMimeTypeUtil {
 			self::IMAGE__XPM,
 			self::IMAGE__X_XPIXMAP,
 		),
-		'x-png' => self::IMAGE__PNG,
+		'xsl' => self::APPLICATION__XML,
 		'xsr' => self::VIDEO__X_AMT_SHOWRUN,
 		'xwd' => array(
 			self::IMAGE__X_XWD,
 			self::IMAGE__X_XWINDOWDUMP,
 		),
 		'xyz' => self::CHEMICAL__X_PDB,
+		'youtube' => self::VIDEO__YOUTUBE,
 		'z' => array(
 			self::APPLICATION__X_COMPRESS,
 			self::APPLICATION__X_COMPRESSED,
@@ -1408,9 +1414,6 @@ class ilMimeTypeUtil {
 		),
 		'zoo' => self::APPLICATION__OCTET_STREAM,
 		'zsh' => self::TEXT__X_SCRIPT_ZSH,
-		'youtube' => self::VIDEO__YOUTUBE,
-		'vimeo' => self::VIDEO__VIMEO,
-		'xsl' => self::APPLICATION__XML,
 	);
 	/**
 	 * @var string
@@ -1424,6 +1427,10 @@ class ilMimeTypeUtil {
 	 * @var bool
 	 */
 	protected $external = false;
+	/**
+	 * @var string
+	 */
+	protected $fallback = self::APPLICATION__OCTET_STREAM;
 
 
 	/**
@@ -1485,17 +1492,16 @@ class ilMimeTypeUtil {
 	 */
 	public static function lookupMimeType($path_to_file, $fallback = self::APPLICATION__OCTET_STREAM) {
 		$obj = new self($path_to_file);
+		$obj->setFallback($fallback);
 
-		return $obj->get($fallback);
+		return $obj->get();
 	}
 
 
 	/**
-	 * @param string $fallback
-	 *
-	 * @return string
+	 * @return mixed|string
 	 */
-	public function get($fallback = self::APPLICATION__OCTET_STREAM) {
+	public function get() {
 		if ($this->isExternal()) {
 			if (is_int(strpos($this->getPath(), 'youtube.'))) {
 				return self::VIDEO__YOUTUBE;
@@ -1522,7 +1528,7 @@ class ilMimeTypeUtil {
 			return $info;
 		}
 
-		return $fallback;
+		return $this->getFallback();
 	}
 
 
@@ -1571,5 +1577,21 @@ class ilMimeTypeUtil {
 	 */
 	public function setSuffix($suffix) {
 		$this->suffix = $suffix;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getFallback() {
+		return $this->fallback;
+	}
+
+
+	/**
+	 * @param string $fallback
+	 */
+	public function setFallback($fallback) {
+		$this->fallback = $fallback;
 	}
 }
