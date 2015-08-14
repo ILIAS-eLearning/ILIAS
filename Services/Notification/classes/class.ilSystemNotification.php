@@ -221,12 +221,17 @@ class ilSystemNotification extends ilMailNotification
 			{
 				if(!$item[1])
 				{
-					$this->appendBody($this->getLanguageText($lang_id).": ".
-						$item[0]."\n");						
+					$caption = $lang_id 
+						? $this->getLanguageText($lang_id).": "
+						: "";					
+					$this->appendBody($caption.$item[0]."\n");						
 				}				
 				else
 				{
-					$this->appendBody("\n".$this->getLanguageText($lang_id)."\n".
+					$caption = $lang_id 
+						? $this->getLanguageText($lang_id)."\n"
+						: "";		
+					$this->appendBody("\n".$caption.
 						$this->getBlockBorder().
 						$item[0]."\n".
 						$this->getBlockBorder()."\n");	

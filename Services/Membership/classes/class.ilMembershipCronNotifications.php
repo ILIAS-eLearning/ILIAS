@@ -407,11 +407,11 @@ class ilMembershipCronNotifications extends ilCronJob
 		{			
 			$counter++;
 			
-			$txt .= $counter." ".$item["title"]."\n".
+			$txt .= "(".$counter.") ".$item["title"]."\n".
 				$item["url"]."\n\n".
 				$item["news"]."\n\n";
 			
-			$obj_index[] = $counter." ".$item["title"];
+			$obj_index[] = "(".$counter.") ".$item["title"];
 		}				
 		
 		$intro = $lng->txt("crs_intro_course_group_notification_for")."\n".
