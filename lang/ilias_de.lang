@@ -13045,7 +13045,6 @@ survey#:#svy_activation_online_info#:#Nur wenn die Umfrage online ist, können B
 survey#:#svy_availability_limitless_info#:#Wählen Sie diese Einstellung, um die Umfrage unbegrenzt freizuschalten.
 survey#:#svy_availability_until_info#:#Wählen Sie diese Einstellung, um die Umfrage nur während eines definierten Zeitraums freizuschalten.
 survey#:#svy_activation_limited_visibility_info#:#Außerhalb des angegebenen Zeitraums wird nur der Titel der Umfrage angezeigt, die Fragen sind nicht zugänglich.
-blog#:#blog_contributors#:#Blog-Autoren
 blog#:#blog_add_contributor#:#Autor hinzufügen
 blog#:#blog_search_users#:#Benutzer suchen
 common#:#il_blog_contributor#:#Blog-Autor

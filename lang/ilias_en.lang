@@ -13049,7 +13049,6 @@ survey#:#svy_activation_online_info#:#Only if a survey is online, users can part
 survey#:#svy_availability_limitless_info#:#Choose this mode for making the survey available limitless.
 survey#:#svy_availability_until_info#:#Choose this mode for making the survey available for a fixed period of time.
 survey#:#svy_activation_limited_visibility_info#:#Outside the indicated period, only the title of the survey will be displayed while the question are not accessible.
-blog#:#blog_contributors#:#Contributors
 blog#:#blog_add_contributor#:#Add Contributor
 blog#:#blog_search_users#:#Search Users
 common#:#il_blog_contributor#:#Blog Contributor
