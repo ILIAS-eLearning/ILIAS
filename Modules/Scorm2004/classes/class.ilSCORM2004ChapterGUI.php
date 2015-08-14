@@ -12,7 +12,7 @@ require_once("./Modules/Scorm2004/classes/class.ilSCORM2004Chapter.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @ilCtrl_Calls ilSCORM2004ChapterGUI: ilMDEditorGUI, ilNoteGUI
+* @ilCtrl_Calls ilSCORM2004ChapterGUI: ilObjectMetaDataGUI, ilNoteGUI
 *
 * @ingroup ModulesScorm2004
 */
@@ -63,14 +63,13 @@ class ilSCORM2004ChapterGUI extends ilSCORM2004NodeGUI
 				}
 				break;
 
-			case 'ilmdeditorgui':
+			case 'ilobjectmetadatagui':
 				$this->setTabs();
 				$this->setLocator();
-				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
-
-				$md_gui =& new ilMDEditorGUI($this->slm_object->getID(),
-					$this->node_object->getId(), $this->node_object->getType());
-				$md_gui->addObserver($this->node_object,'MDUpdateListener','General');
+				include_once 'Services/Object/classes/class.ilObjectMetaDataGUI.php';
+				$md_gui = new ilObjectMetaDataGUI($this->slm_object, 
+					$this->node_object->getType(), $this->node_object->getId());					
+				$md_gui->addMDObserver($this->node_object,'MDUpdateListener','General');
 				$ilCtrl->forwardCommand($md_gui);
 				break;
 
@@ -98,11 +97,18 @@ class ilSCORM2004ChapterGUI extends ilSCORM2004NodeGUI
 		$ilTabs->addTarget("sahs_properties",
 			 $ilCtrl->getLinkTarget($this,'showProperties'),
 			 "showProperties", get_class($this));
-*/
+*/		
 		// metadata
-		$ilTabs->addTarget("meta_data",
-			 $ilCtrl->getLinkTargetByClass("ilmdeditorgui",''),
-			 "", "ilmdeditorgui");
+		include_once "Services/Object/classes/class.ilObjectMetaDataGUI.php";
+		$mdgui = new ilObjectMetaDataGUI($this->slm_object, 
+					$this->node_object->getType(), $this->node_object->getId());					
+		$mdtab = $mdgui->getTab();
+		if($mdtab)
+		{
+			$ilTabs->addTarget("meta_data",
+				 $mdtab,
+				 "", "ilmdeditorgui");
+		}
 			 
 		$tpl->setTitleIcon(ilUtil::getImagePath("icon_chap.svg"));
 		$tpl->setTitle(

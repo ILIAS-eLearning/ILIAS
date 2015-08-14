@@ -84,19 +84,18 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 
 				break;
 
-			case 'ilmdeditorgui':
+			case 'ilobjectmetadatagui':
 				if(!$ilAccess->checkAccess('write','',$this->object->getRefId()))
 				{
 					$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->WARNING);
 				}
 				
 				$this->addHeaderAction();
-				$this->addLocations();
-				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
+				$this->addLocations();				
 				$this->setTabs("meta");
-				$md_gui =& new ilMDEditorGUI($this->object->getId(), 0, $this->object->getType());
-				$md_gui->addObserver($this->object,'MDUpdateListener','General');
-
+				
+				include_once 'Services/Object/classes/class.ilObjectMetaDataGUI.php';
+				$md_gui = new ilObjectMetaDataGUI($this->object);					
 				$this->ctrl->forwardCommand($md_gui);
 				break;
 
@@ -2702,9 +2701,15 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		}
 
 		// meta data
-		$ilTabs->addTab("meta",
-			$lng->txt("meta_data"),
-			$this->ctrl->getLinkTargetByClass('ilmdeditorgui',''));
+		include_once "Services/Object/classes/class.ilObjectMetaDataGUI.php";
+		$mdgui = new ilObjectMetaDataGUI($this->object);					
+		$mdtab = $mdgui->getTab();
+		if($mdtab)
+		{		
+			$ilTabs->addTab("meta",
+				$lng->txt("meta_data"),
+				$mdtab);
+		}
 
 		if ($this->object->getType() == "lm")
 		{				

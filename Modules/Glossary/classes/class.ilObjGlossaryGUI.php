@@ -20,6 +20,7 @@ require_once("./Services/COPage/classes/class.ilPCParagraph.php");
 * @ilCtrl_Calls ilObjGlossaryGUI: ilGlossaryTermGUI, ilMDEditorGUI, ilPermissionGUI
 * @ilCtrl_Calls ilObjGlossaryGUI: ilInfoScreenGUI, ilCommonActionDispatcherGUI, ilObjStyleSheetGUI
 * @ilCtrl_Calls ilObjGlossaryGUI: ilObjTaxonomyGUI, ilExportGUI, ilObjectCopyGUI
+* @ilCtrl_Calls ilObjGlossaryGUI: ilObjectMetaDataGUI
 * 
 * @ingroup ModulesGlossary
 */
@@ -80,7 +81,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 		switch ($next_class)
 		{
-			case 'ilmdeditorgui':
+			case 'ilobjectmetadatagui';
 				$this->checkPermission("write");
 				
 				$this->getTemplate();
@@ -88,14 +89,12 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				$this->setLocator();
 				$this->addHeaderAction();
 
-				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
-
-				$md_gui =& new ilMDEditorGUI($this->object->getId(), 0, $this->object->getType());
-				$md_gui->addObserver($this->object,'MDUpdateListener','General');
-
+				$this->tabs_gui->activateTab('meta_data');
+				include_once 'Services/Object/classes/class.ilObjectMetaDataGUI.php';
+				$md_gui = new ilObjectMetaDataGUI($this->object, 'term');	
 				$this->ctrl->forwardCommand($md_gui);
 				break;
-
+			
 			case "ilglossarytermgui":
 				$this->getTemplate();
 //				$this->quickList();
@@ -692,13 +691,22 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			}
 			
 			$down->setChecked($this->object->isActiveDownloads());
+			
+			// additional features
+			$feat = new ilFormSectionHeaderGUI();
+			$feat->setTitle($this->lng->txt('obj_features'));
+			$this->form->addItem($feat);
+
+			include_once './Services/Container/classes/class.ilContainer.php';
+			include_once './Services/Object/classes/class.ilObjectServiceSettingsGUI.php';
+			ilObjectServiceSettingsGUI::initServiceSettingsForm(
+					$this->object->getId(),
+					$this->form,
+					array(						
+						ilObjectServiceSettingsGUI::CUSTOM_METADATA
+					)
+				);		
 		}		
-		
-		// advanced metadata
-		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
-		$record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_REC_SELECTION,'glo',$this->object->getId(), "term");
-		$record_gui->setPropertyForm($this->form);
-		$record_gui->parseRecordSelection($this->lng->txt("glo_add_term_properties"));
 		
 		// sort columns, if adv fields are given
 		include_once("./Modules/Glossary/classes/class.ilGlossaryAdvMetaDataAdapter.php");
@@ -754,10 +762,14 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			include_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");
 			ilGlossaryDefinition::setShortTextsDirty($this->object->getId());
 
-			// update metadata record selection
-			include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
-			$record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_REC_SELECTION,'glo',$this->object->getId(), "term");
-			$record_gui->saveSelection();
+			include_once './Services/Object/classes/class.ilObjectServiceSettingsGUI.php';
+			ilObjectServiceSettingsGUI::updateServiceSettingsForm(
+				$this->object->getId(),
+				$this->form,
+				array(
+					ilObjectServiceSettingsGUI::CUSTOM_METADATA
+				)
+			);
 			
 			// Update ecs export settings
 			include_once 'Modules/Glossary/classes/class.ilECSGlossarySettings.php';	
@@ -1390,12 +1402,17 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			$tabs_gui->addTarget("settings",
 				$this->ctrl->getLinkTarget($this, "properties"), "properties",
 				get_class($this));
-
+			
 			// meta data
-			$tabs_gui->addTarget("meta_data",
-				 $this->ctrl->getLinkTargetByClass('ilmdeditorgui','listSection'),
-				 "", "ilmdeditorgui");
-
+			include_once "Services/Object/classes/class.ilObjectMetaDataGUI.php";
+			$mdgui = new ilObjectMetaDataGUI($this->object, "term");					
+			$mdtab = $mdgui->getTab();
+			if($mdtab)
+			{
+				$tabs_gui->addTarget("meta_data", $mdtab,
+					"", "ilobjectmetadatagui");
+			}
+			
 			// export
 			/*$tabs_gui->addTarget("export",
 				 $this->ctrl->getLinkTarget($this, "exportList"),

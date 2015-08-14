@@ -2068,7 +2068,6 @@ class ilObjectGUI
 			$a_new_obj->update();
 		}		
 	}
-
 } // END class.ilObjectGUI (3.10: 2896 loc)
 
 ?>

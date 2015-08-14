@@ -11,7 +11,7 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
 * $Id$
 *
 * @ilCtrl_Calls ilObjCourseGUI: ilCourseRegistrationGUI, ilShopPurchaseGUI, ilCourseObjectivesGUI
-* @ilCtrl_Calls ilObjCourseGUI: ilObjCourseGroupingGUI, ilMDEditorGUI, ilInfoScreenGUI, ilLearningProgressGUI, ilPermissionGUI
+* @ilCtrl_Calls ilObjCourseGUI: ilObjCourseGroupingGUI, ilInfoScreenGUI, ilLearningProgressGUI, ilPermissionGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilRepositorySearchGUI, ilConditionHandlerGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilCourseContentGUI, ilPublicUserProfileGUI, ilMemberExportGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilObjectCustomUserFieldsGUI, ilMemberAgreementGUI, ilSessionOverviewGUI
@@ -20,7 +20,7 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
 * @ilCtrl_Calls ilObjCourseGUI: ilCourseParticipantsGroupsGUI, ilExportGUI, ilCommonActionDispatcherGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilDidacticTemplateGUI, ilCertificateGUI, ilObjectServiceSettingsGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilContainerStartObjectsGUI, ilContainerStartObjectsPageGUI
-* @ilCtrl_Calls ilObjCourseGUI: ilLOPageGUI
+* @ilCtrl_Calls ilObjCourseGUI: ilLOPageGUI, ilObjectMetaDataGUI
 *
 * @extends ilContainerGUI
 */
@@ -946,7 +946,8 @@ class ilObjCourseGUI extends ilContainerGUI
 					ilObjectServiceSettingsGUI::CALENDAR_VISIBILITY,
 					ilObjectServiceSettingsGUI::NEWS_VISIBILITY,
 					ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,				
-					ilObjectServiceSettingsGUI::TAG_CLOUD
+					ilObjectServiceSettingsGUI::TAG_CLOUD,
+					ilObjectServiceSettingsGUI::CUSTOM_METADATA
 				)
 			);
 			
@@ -1311,7 +1312,8 @@ class ilObjCourseGUI extends ilContainerGUI
 					ilObjectServiceSettingsGUI::CALENDAR_VISIBILITY,
 					ilObjectServiceSettingsGUI::NEWS_VISIBILITY,
 					ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,
-					ilObjectServiceSettingsGUI::TAG_CLOUD
+					ilObjectServiceSettingsGUI::TAG_CLOUD,
+					ilObjectServiceSettingsGUI::CUSTOM_METADATA
 				)
 			);
 
@@ -3269,13 +3271,19 @@ class ilObjCourseGUI extends ilContainerGUI
 			"", "illicenseoverviewgui");
 		}
 
-		// lom meta data
+		// meta data
 		if ($ilAccess->checkAccess('write','',$this->ref_id))
 		{
-			$tabs_gui->addTarget("meta_data",
-								 $this->ctrl->getLinkTargetByClass(array('ilobjcoursegui','ilmdeditorgui'),'listSection'),
-								 "",
-								 "ilmdeditorgui");
+			include_once "Services/Object/classes/class.ilObjectMetaDataGUI.php";
+			$mdgui = new ilObjectMetaDataGUI($this->object);					
+			$mdtab = $mdgui->getTab();
+			if($mdtab)
+			{
+				$tabs_gui->addTarget("meta_data",
+									 $mdtab,
+									 "",
+									 "ilobjectmetadatagui");
+			}
 		}
 		
 		if($ilAccess->checkAccess('write','',$this->object->getRefId()))
@@ -4175,22 +4183,18 @@ class ilObjCourseGUI extends ilContainerGUI
 			case "ilinfoscreengui":
 				$this->infoScreen();	// forwards command
 				break;
-
-			case 'ilmdeditorgui':				
+			
+			case 'ilobjectmetadatagui';
 				if(!$ilAccess->checkAccess('write','',$this->object->getRefId()))
 				{
 					$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->WARNING);
 				}
-
-				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
-
-				$md_gui =& new ilMDEditorGUI($this->object->getId(), 0, $this->object->getType());
-				$md_gui->addObserver($this->object,'MDUpdateListener','General');
-
-				$this->ctrl->forwardCommand($md_gui);
 				$this->tabs_gui->setTabActive('meta_data');
+				include_once 'Services/Object/classes/class.ilObjectMetaDataGUI.php';
+				$md_gui = new ilObjectMetaDataGUI($this->object);	
+				$this->ctrl->forwardCommand($md_gui);
 				break;
-
+				
 			case 'ilcourseregistrationgui':
 				$this->ctrl->setReturn($this,'');
 				$this->tabs_gui->setTabActive('join');

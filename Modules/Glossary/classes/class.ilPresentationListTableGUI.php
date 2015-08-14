@@ -90,7 +90,6 @@ class ilPresentationListTableGUI extends ilTable2GUI
 		// advanced metadata
 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
 		$this->record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_FILTER,'glo',$this->glossary->getId(),'term');
-		$this->record_gui->setSelectedOnly(true);
 		$this->record_gui->setTableGUI($this);
 		$this->record_gui->parse();
 		//$this->setDefaultOrderField("login");

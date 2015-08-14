@@ -385,6 +385,16 @@ class ilGlossaryPresentationGUI
 
 			$tpl->setTitleIcon(ilUtil::getImagePath("icon_glo.svg"));
 			$tpl->setTitle($this->lng->txt("cont_term").": ".$term->getTerm());
+			
+			// advmd block
+			$cmd = null;
+			if($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
+			{
+				$cmd = array("edit" => $this->ctrl->getLinkTargetByClass(array("ilglossaryeditorgui", "ilobjglossarygui", "ilglossarytermgui", "ilobjectmetadatagui"), ""));				
+			}
+			include_once "Services/Object/classes/class.ilObjectMetaDataGUI.php";
+			$mdgui = new ilObjectMetaDataGUI($this->glossary, "term", $term->getId());		
+			$tpl->setRightContent($mdgui->getBlockHTML($cmd));
 
 			// load template for table
 			$tpl->addBlockfile("ADM_CONTENT", "def_list", "tpl.glossary_definition_list.html", "Modules/Glossary");

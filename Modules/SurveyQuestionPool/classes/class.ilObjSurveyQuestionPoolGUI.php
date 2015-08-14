@@ -32,7 +32,7 @@ include_once "./Services/Object/classes/class.ilObjectGUI.php";
 * @ilCtrl_Calls ilObjSurveyQuestionPoolGUI: SurveySingleChoiceQuestionGUI, SurveyTextQuestionGUI
 * @ilCtrl_Calls ilObjSurveyQuestionPoolGUI: SurveyMatrixQuestionGUI
 * @ilCtrl_Calls ilObjSurveyQuestionPoolGUI: ilSurveyPhrasesGUI, ilInfoScreenGUI
-* @ilCtrl_Calls ilObjSurveyQuestionPoolGUI: ilMDEditorGUI, ilPermissionGUI, ilObjectCopyGUI
+* @ilCtrl_Calls ilObjSurveyQuestionPoolGUI: ilObjectMetaDataGUI, ilPermissionGUI, ilObjectCopyGUI
 * @ilCtrl_Calls ilObjSurveyQuestionPoolGUI: ilCommonActionDispatcherGUI
 *
 * @extends ilObjectGUI
@@ -95,16 +95,13 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		}
 		switch($next_class)
 		{
-			case 'ilmdeditorgui':
+			case 'ilobjectmetadatagui':
 				if(!$ilAccess->checkAccess('write','',$this->object->getRefId()))
 				{
 					$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->WARNING);
-				}
-				
-				include_once "./Services/MetaData/classes/class.ilMDEditorGUI.php";
-				$md_gui =& new ilMDEditorGUI($this->object->getId(), 0, $this->object->getType());
-				$md_gui->addObserver($this->object,'MDUpdateListener','General');
-
+				}				
+				include_once 'Services/Object/classes/class.ilObjectMetaDataGUI.php';
+				$md_gui = new ilObjectMetaDataGUI($this->object);	
 				$this->ctrl->forwardCommand($md_gui);
 				break;
 
@@ -810,7 +807,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		{
 			case "":
 			case "ilpermissiongui":
-			case "ilmdeditorgui":
+			case "ilobjectmetadatagui":
 			case "ilsurveyphrasesgui":
 				break;
 			default:
@@ -869,9 +866,15 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 				 "ilsurveyphrasesgui", "");
 				 
 			// meta data
-			$tabs_gui->addTarget("meta_data",
-				 $this->ctrl->getLinkTargetByClass('ilmdeditorgui','listSection'),
-				 "", "ilmdeditorgui");
+			include_once "Services/Object/classes/class.ilObjectMetaDataGUI.php";
+			$mdgui = new ilObjectMetaDataGUI($this->object);					
+			$mdtab = $mdgui->getTab();
+			if($mdtab)
+			{			
+				$tabs_gui->addTarget("meta_data",
+					$mdtab,
+					"", "ilmdeditorgui");
+			}
 				 
 			// export
 			$tabs_gui->addTarget("export",

@@ -12,7 +12,7 @@ require_once ("./Modules/Glossary/classes/class.ilGlossaryDefPageGUI.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @ilCtrl_Calls ilTermDefinitionEditorGUI: ilGlossaryDefPageGUI, ilMDEditorGUI
+* @ilCtrl_Calls ilTermDefinitionEditorGUI: ilGlossaryDefPageGUI
 *
 * @ingroup ModulesGlossary
 */
@@ -126,9 +126,7 @@ class ilTermDefinitionEditorGUI
 					$md_gen->update();
 				}
 
-				$page_gui->activateMetaDataEditor($this->glossary->getId(),
-					$this->definition->getId(), "gdf");
-				//	$this->obj, "MDUpdateListener");
+				$page_gui->activateMetaDataEditor($this->glossary, "gdf", $this->definition->getId());
 				
 				$page_gui->setSourcecodeDownloadScript("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=".$_GET["ref_id"]);
 				$page_gui->setFullscreenLink("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;cmd=fullscreen&amp;ref_id=".$_GET["ref_id"]);

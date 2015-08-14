@@ -15580,3 +15580,14 @@ rbac#:#redact#:#Redigieren
 common#:#il_blog_editor#:#Blog-Editor
 rbac#:#blog_redact#:#Benutzer darf alle Einträge bearbeiten
 blog#:#blog_contributors#:#Mitwirkende
+meta#:#meta_obj_type_inactive#:#Inaktiv
+meta#:#meta_obj_type_mandatory#:#Verpflichtend
+meta#:#meta_obj_type_optional#:#Optional
+common#:#obj_tool_setting_custom_metadata#:#Benutzerdefinierte Metadaten
+common#:#obj_tool_setting_custom_metadata_info#:#Wenn aktiviert können Metadaten konfiguriert werden.
+meta#:#meta_section#:#Bereich
+meta#:#meta_tab_lom#:#LOM
+meta#:#meta_tab_advmd#:#Benutzerdefinierte Metadaten
+meta#:#meta_tab_advmd_def#:#Benutzerdefinierte Metadaten Definition
+meta#:#meta_global#:#Global
+wiki#:#wiki_unhide_meta_adv_records#:#Zusätzliche Eigenschaften anzeigen

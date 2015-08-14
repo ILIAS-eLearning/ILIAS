@@ -101,10 +101,9 @@ class ilSCORM2004PageNodeGUI extends ilSCORM2004NodeGUI
 				$page_gui->setLinkParams("ref_id=".$this->slm_object->getRefId());				
 				$tpl->setTitleIcon(ilUtil::getImagePath("icon_pg.svg"));
 				
-				$page_gui->activateMetaDataEditor($this->slm_object->getID(),
-					$this->node_object->getId(), $this->node_object->getType(),
-					$this->node_object,'MDUpdateListener');
-
+				$page_gui->activateMetaDataEditor($this->slm_object,
+					$this->node_object->getType(), $this->node_object->getId(),
+					$this->node_object, 'MDUpdateListener');
 				
 				$ret = $ilCtrl->forwardCommand($page_gui);
 				$this->setTabs();

@@ -202,7 +202,6 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 				//                $info = new ilInfoScreenGUI($this);
 				//                $amd_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_INFO, 'orgu', $this->object->getId(), 'orgu_type', $this->object->getOrgUnitTypeId());
 				//                $amd_gui->setInfoObject($info);
-				//                $amd_gui->setSelectedOnly(true);
 				//                $amd_gui->parse();
 				//                $this->ctrl->forwardCommand($info);
 				break;
@@ -532,7 +531,6 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 		$form = $this->initAdvancedSettingsForm();
 		$gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_EDITOR, 'orgu', $this->object->getId(), 'orgu_type', $this->object->getOrgUnitTypeId());
 		$gui->setPropertyForm($form);
-		$gui->setSelectedOnly(true);
 		$gui->parse();
 		$this->tpl->setContent($form->getHTML());
 	}
@@ -549,7 +547,6 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 		$form = $this->initAdvancedSettingsForm();
 		$gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_EDITOR, 'orgu', $this->object->getId(), 'orgu_type', $this->object->getOrgUnitTypeId());
 		$gui->setPropertyForm($form);
-		$gui->setSelectedOnly(true);
 		$form->checkInput();
 		$gui->parse();
 		if ($gui->importEditFormPostValues()) {

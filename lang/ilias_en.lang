@@ -13051,7 +13051,7 @@ survey#:#svy_availability_until_info#:#Choose this mode for making the survey av
 survey#:#svy_activation_limited_visibility_info#:#Outside the indicated period, only the title of the survey will be displayed while the question are not accessible.
 blog#:#blog_add_contributor#:#Add Contributor
 blog#:#blog_search_users#:#Search Users
-common#:#il_blog_contributor#:#Blog Contributor
+common#:#il_blog_contributor#:#Blog-Contributor
 rbac#:#blog_contribute#:#User can contribute
 blog#:#blog_contribute_other_roles#:#In addition to the list of ‘Contributors’, users with one of the following roles can also add postings: %s
 dcl#:#dcl_no_content_warning#:#Attention, the Data Collection is online but does not have content yet!
@@ -15585,3 +15585,14 @@ rbac#:#redact#:#Redact
 common#:#il_blog_editor#:#Blog-Editor
 rbac#:#blog_redact#:#User can edit all postings
 blog#:#blog_contributors#:#Blog-Contributors
+meta#:#meta_obj_type_inactive#:#Not Used
+meta#:#meta_obj_type_mandatory#:#Mandatory
+meta#:#meta_obj_type_optional#:#Optional
+common#:#obj_tool_setting_custom_metadata#:#Custom Metadata
+common#:#obj_tool_setting_custom_metadata_info#:#If activated metadata can be configured.
+meta#:#meta_section#:#Section
+meta#:#meta_tab_lom#:#LOM
+meta#:#meta_tab_advmd#:#Custom Metadata
+meta#:#meta_tab_advmd_def#:#Custom Metadata Definition
+meta#:#meta_global#:#Global
+wiki#:#wiki_unhide_meta_adv_records#:#Show additional properties

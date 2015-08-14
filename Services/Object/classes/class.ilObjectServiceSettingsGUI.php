@@ -19,6 +19,7 @@ class ilObjectServiceSettingsGUI
 	const INFO_TAB_VISIBILITY = 'cont_show_info_tab';
 	const TAXONOMIES = 'cont_taxonomies';
 	const TAG_CLOUD = 'cont_tag_cloud';
+	const CUSTOM_METADATA = 'cont_custom_md';
 	
 	private $gui = null;
 	private $modes = array();
@@ -123,6 +124,20 @@ class ilObjectServiceSettingsGUI
 				}
 			}
 		}
+		
+		// (local) custom metadata
+		if(in_array(self::CUSTOM_METADATA, $services))
+		{						
+			$md = new ilCheckboxInputGUI($GLOBALS['lng']->txt('obj_tool_setting_custom_metadata'), self::CUSTOM_METADATA);
+			$md->setInfo($GLOBALS['lng']->txt('obj_tool_setting_custom_metadata_info'));
+			$md->setValue(1);		
+			$md->setChecked(ilContainer::_lookupContainerSetting(
+						$a_obj_id,
+						self::CUSTOM_METADATA,
+						false
+				));
+			$form->addItem($md);									
+		}		
 				
 		// tag cloud
 		if(in_array(self::TAG_CLOUD, $services))
@@ -236,6 +251,13 @@ class ilObjectServiceSettingsGUI
 		{
 			include_once './Services/Container/classes/class.ilContainer.php';
 			ilContainer::_writeContainerSetting($a_obj_id,self::TAG_CLOUD,(int) $form->getInput(self::TAG_CLOUD));
+		}
+		
+		// (local) custom metadata
+		if(in_array(self::CUSTOM_METADATA, $services))
+		{
+			include_once './Services/Container/classes/class.ilContainer.php';
+			ilContainer::_writeContainerSetting($a_obj_id,self::CUSTOM_METADATA,(int) $form->getInput(self::CUSTOM_METADATA));
 		}
 		
 		return true;

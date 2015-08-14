@@ -14,7 +14,7 @@ require_once("./Modules/Scorm2004/classes/seq_editor/class.ilSCORM2004Objective.
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
  *
- * @ilCtrl_Calls ilSCORM2004ScoGUI: ilMDEditorGUI, ilNoteGUI, ilPCQuestionGUI, ilSCORM2004PageGUI
+ * @ilCtrl_Calls ilSCORM2004ScoGUI: ilObjectMetaDataGUI, ilNoteGUI, ilPCQuestionGUI, ilSCORM2004PageGUI
  *
  * @ingroup ModulesScorm2004
  */
@@ -70,14 +70,13 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 				}
 				break;
 
-			case 'ilmdeditorgui':
+			case 'ilobjectmetadatagui':
 				$this->setTabs();
 				$this->setLocator();
-				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
-
-				$md_gui =& new ilMDEditorGUI($this->slm_object->getID(),
-					$this->node_object->getId(), $this->node_object->getType());
-				$md_gui->addObserver($this->node_object,'MDUpdateListener','General');
+								include_once 'Services/Object/classes/class.ilObjectMetaDataGUI.php';
+				$md_gui = new ilObjectMetaDataGUI($this->slm_object,
+					$this->node_object->getType(), $this->node_object->getId());					
+				$md_gui->addMDObserver($this->node_object,'MDUpdateListener','General');
 				$ilCtrl->forwardCommand($md_gui);
 				break;
 				
@@ -310,9 +309,16 @@ die("deprecated");
 			 "sco_resources", get_class($this));
 		
 		// metadata
-		$ilTabs->addTarget("meta_data",
-		$ilCtrl->getLinkTargetByClass("ilmdeditorgui",''),
-			 "", "ilmdeditorgui");
+		include_once "Services/Object/classes/class.ilObjectMetaDataGUI.php";
+		$mdgui = new ilObjectMetaDataGUI($this->slm_object,
+			$this->node_object->getType(), $this->node_object->getId());				
+		$mdtab = $mdgui->getTab();
+		if($mdtab)
+		{
+			$ilTabs->addTarget("meta_data",
+				$mdtab,
+				 "", "ilmdeditorgui");
+		}
 		
 		// export
 		$ilTabs->addTarget("export",
