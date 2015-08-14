@@ -507,5 +507,18 @@ class ilSCORM2004NodeGUI
 			"node_".ilSCORM2004OrganizationHFormGUI::getPostNodeId());
 	}
 
+	/**
+	 * Insert scos from clipboard
+	 */
+	function insertLMChapterClip()
+	{
+		global $ilCtrl, $ilUser;
+
+		$this->setLocator();
+		$this->setTabs();
+		$this->getParentGUI()->insertLMChapterClip();
+	}
+
+
 }
 ?>

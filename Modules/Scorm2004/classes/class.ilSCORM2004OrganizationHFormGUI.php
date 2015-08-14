@@ -34,6 +34,9 @@ class ilSCORM2004OrganizationHFormGUI extends ilHierarchyFormGUI
 	{
 		global $lng, $ilUser;
 
+		// @todo: move this to a service since it can be used here, too
+		include_once("./Modules/LearningModule/classes/class.ilEditClipboard.php");
+
 		include_once("./Services/Style/classes/class.ilPageLayout.php");
 		$page_layouts = (count(ilPageLayout::activeLayouts()) > 0);
 		$special_pages = (count(ilPageLayout::activeLayouts(true)) > 0);
@@ -65,6 +68,11 @@ class ilSCORM2004OrganizationHFormGUI extends ilHierarchyFormGUI
 						$cmds[] = array("text" => $lng->txt("sahs_insert_page_from_clip"),
 							"cmd" => "insertPageClip", "as_subitem" => true);
 					}
+					if (($ilUser->clipboardHasObjectsOfType("pg") && ilEditClipboard::getAction() == "copy"))
+					{
+						$cmds[] = array("text" => $lng->txt("sahs_insert_pg_from_clip"),
+							"cmd" => "insertPageClip", "as_subitem" => true);
+					}
 				}
 				else
 				{
@@ -81,6 +89,11 @@ class ilSCORM2004OrganizationHFormGUI extends ilHierarchyFormGUI
 					if ($ilUser->clipboardHasObjectsOfType("page"))
 					{
 						$cmds[] = array("text" => $lng->txt("sahs_insert_page_from_clip"),
+							"cmd" => "insertPageClip");
+					}
+					if (($ilUser->clipboardHasObjectsOfType("pg") && ilEditClipboard::getAction() == "copy"))
+					{
+						$cmds[] = array("text" => $lng->txt("sahs_insert_pg_from_clip"),
 							"cmd" => "insertPageClip");
 					}
 				}
@@ -121,6 +134,18 @@ class ilSCORM2004OrganizationHFormGUI extends ilHierarchyFormGUI
 							"cmd" => "insertAssetClip", "as_subitem" => true);
 					}
 				}
+
+				// insert chapter from learning module
+				if ($ilUser->clipboardHasObjectsOfType("st") && ilEditClipboard::getAction() == "copy")
+				{
+					$cmds[] = array("text" => $lng->txt("sahs_insert_st_from_clip"),
+						"cmd" => "insertLMChapterClip", "as_subitem" => false);
+					if (count($a_childs) == 0)
+					{
+						$cmds[] = array("text" => $lng->txt("sahs_insert_st_from_clip_inside_chap"),
+							"cmd" => "insertLMChapterClip", "as_subitem" => true);
+					}
+				}
 			}
 			
 			// sco/asset inserts... after sco/assets
@@ -152,6 +177,13 @@ class ilSCORM2004OrganizationHFormGUI extends ilHierarchyFormGUI
 							"cmd" => "insertChapterClip");
 					}
 				}
+
+				// insert chapter from learning module
+				if ($ilUser->clipboardHasObjectsOfType("st") && ilEditClipboard::getAction() == "copy")
+				{
+					$cmds[] = array("text" => $lng->txt("sahs_insert_st_from_clip"),
+						"cmd" => "insertLMChapterClip");
+				}
 			}
 			//if ($a_node["type"] == "chap")
 			//{
@@ -167,7 +199,15 @@ class ilSCORM2004OrganizationHFormGUI extends ilHierarchyFormGUI
 					$cmds[] = array("text" => $lng->txt("sahs_insert_chap_from_clip"),
 						"cmd" => "insertChapterClip");
 				}
-				
+
+				// insert chapter from learning module
+				/*
+				if ($ilUser->clipboardHasObjectsOfType("st") && ilEditClipboard::getAction() == "copy")
+				{
+					$cmds[] = array("text" => $lng->txt("sahs_insert_st_from_clip"),
+						"cmd" => "insertLMChapterClip");
+				}*/
+
 				//check if parent chaper has sequencing scenario
 			//	$cmds[] = array("text" => $lng->txt("sahs_insert_scenario"), "cmd" => "insertScenarioGUI", "multi" => 0);
 				
@@ -200,7 +240,15 @@ class ilSCORM2004OrganizationHFormGUI extends ilHierarchyFormGUI
 					$cmds[] = array("text" => $lng->txt("sahs_insert_chap_from_clip"),
 						"cmd" => "insertChapterClip");
 				}
-			//	$cmds[] = array("text" => $lng->txt("sahs_insert_scenario"), "cmd" => "insertScenarioGUI", "multi" => 0);
+
+				// insert chapter from learning module
+				if ($ilUser->clipboardHasObjectsOfType("st") && ilEditClipboard::getAction() == "copy")
+				{
+					$cmds[] = array("text" => $lng->txt("sahs_insert_st_from_clip"),
+						"cmd" => "insertLMChapterClip");
+				}
+
+				//	$cmds[] = array("text" => $lng->txt("sahs_insert_scenario"), "cmd" => "insertScenarioGUI", "multi" => 0);
 			}
 			if ($a_node["type"] == "chap" || $a_node["type"] == "seqc")
 			{
@@ -215,6 +263,12 @@ class ilSCORM2004OrganizationHFormGUI extends ilHierarchyFormGUI
 				{
 					$cmds[] = array("text" => $lng->txt("sahs_insert_ass_from_clip"),
 						"cmd" => "insertAssetClip");
+				}
+				// insert chapter from learning module
+				if ($ilUser->clipboardHasObjectsOfType("st") && ilEditClipboard::getAction() == "copy")
+				{
+					$cmds[] = array("text" => $lng->txt("sahs_insert_st_from_clip"),
+						"cmd" => "insertLMChapterClip");
 				}
 			}
 			if ($a_node["type"] == "sco" || $a_node["type"] == "ass")
@@ -234,6 +288,11 @@ class ilSCORM2004OrganizationHFormGUI extends ilHierarchyFormGUI
 					$cmds[] = array("text" => $lng->txt("sahs_insert_page_from_clip"),
 						"cmd" => "insertPageClip");
 				}
+				if (($ilUser->clipboardHasObjectsOfType("pg") && ilEditClipboard::getAction() == "copy"))
+				{
+					$cmds[] = array("text" => $lng->txt("sahs_insert_pg_from_clip"),
+						"cmd" => "insertPageClip");
+				}
 			}
 
 /*			if ($a_childs["type"] == "")
@@ -250,7 +309,7 @@ class ilSCORM2004OrganizationHFormGUI extends ilHierarchyFormGUI
 	*/
 	function nodeAllowsChilds($a_node)
 	{
-		if ($a_node["type"] == "pg")
+		if ($a_node["type"] == "pg" || $a_node["type"] == "page")
 		{
 			return false;
 		}

@@ -2725,7 +2725,7 @@ common#:#chat_enter_public_room_tooltip#:#In den öffentlichen Chatraum eintrete
 common#:#chat_invite_public_room_tooltip#:#In den öffentlichen Chatraum einladen.
 chatroom#:#chat_settings#:#Chat-Einstellungen
 common#:#chat_users_active#:#Aktive Benutzer
-common#:#check#:#Rückmeldung anfordern
+common#:#check#:#Prüfen
 common#:#check_all#:#Alle auswählen
 common#:#check_langfile#:#Bitte überprüfen Sie die Sprachdatei!
 common#:#check_languages#:#Alle Sprachen überprüfen
@@ -15592,3 +15592,8 @@ meta#:#meta_global#:#Global
 wiki#:#wiki_unhide_meta_adv_records#:#Zusätzliche Eigenschaften anzeigen
 prtf#:#prtf_back_to_portfolio_owner#:#Portfolio bearbeiten
 blog#:#blog_back_to_blog_owner#:#Blog bearbeiten
+content#:#cont_assign_to_parent#:#Dem übergordneten Knoten zuordnen
+content#:#cont_type_not_allowed#:#Dieses Element ist an dieser Stelle nicht erlaubt
+content#:#sahs_insert_st_from_clip#:#Kapitel aus ILIAS Lernmodul importieren
+content#:#sahs_insert_st_from_clip_inside_chap#:#Kapitel aus ILIAS Lernmodul importieren (innerhalb eines Kapitels)
+content#:#sahs_insert_pg_from_clip#:#Seiten aus ILIAS Lernmodul importieren

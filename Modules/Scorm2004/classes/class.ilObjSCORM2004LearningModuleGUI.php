@@ -2610,6 +2610,78 @@ $this->ctrl->redirect($this, "properties");
 			"node_".ilSCORM2004OrganizationHFormGUI::getPostNodeId());
 	}
 
+	/**
+	 * Insert chapter from clipboard
+	 */
+	function insertLMChapterClip($a_confirm = false, $a_perform = false)
+	{
+		global $ilCtrl, $tpl, $ilToolbar, $ilCtrl, $lng, $ilTabs;
+
+		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004OrganizationHFormGUI.php");
+
+
+		$pf = "";
+		foreach (ilSCORM2004OrganizationHFormGUI::getPostFields() as $f => $v)
+		{
+			$pf.= '<input type="hidden" name="'.$f.'" value="'.$v.'" />';
+		}
+		if ($a_confirm && is_array($_POST["node"]))
+		{
+			foreach ($_POST["node"] as $f => $v)
+			{
+				$pf.= '<input type="hidden" name="node['.$f.']" value="'.$v.'" />';
+			}
+		}
+
+
+		$node_id = ilSCORM2004OrganizationHFormGUI::getPostNodeId();
+		$first_child = ilSCORM2004OrganizationHFormGUI::getPostFirstChild();
+
+		include_once("./Modules/Scorm2004/classes/class.ilLMChapterImportForm.php");
+		$form = new ilLMChapterImportForm($this->object, $node_id, $first_child, $a_confirm);
+		$tpl->setContent($form->getHTML().$pf."</form>");
+
+		$ilTabs->clearTargets();
+		$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
+		if ($a_confirm)
+		{
+			if ($form->isCorrect())
+			{
+				$ilToolbar->addFormButton($lng->txt("insert"), "performLMChapterInsert");
+			}
+			$ilToolbar->addFormButton($lng->txt("back"), "insertLMChapterClip");
+		}
+		else
+		{
+			$ilToolbar->addFormButton($lng->txt("check"), "confirmLMChapterInsert");
+		}
+		$ilToolbar->addFormButton($lng->txt("cancel"), "showOrganization");
+		$ilToolbar->setCloseFormTag(false);
+
+	}
+
+	/**
+	 * Confirm lm chapter insert
+	 */
+	function confirmLMChapterInsert()
+	{
+		$this->insertLMChapterClip(true);
+	}
+
+	/**
+	 * Perform lm chapter insert
+	 */
+	function performLMChapterInsert()
+	{
+		$node_id = ilSCORM2004OrganizationHFormGUI::getPostNodeId();
+		$first_child = ilSCORM2004OrganizationHFormGUI::getPostFirstChild();
+
+		include_once("./Modules/Scorm2004/classes/class.ilLMChapterImportForm.php");
+		$form = new ilLMChapterImportForm($this->object, $node_id, $first_child);
+		$form->performInserts();
+		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+		$this->ctrl->redirect($this, "showOrganization");
+	}
 
 	function exportScorm2004_4th()
 	{

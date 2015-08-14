@@ -1170,5 +1170,19 @@ class ilHierarchyFormGUI extends ilFormGUI
 		return parent::getHTML().$this->getLegend();
 	}
 
+	/**
+	 * Get all post fields
+	 */
+	static function getPostFields()
+	{
+		return array (
+			"il_hform_node" => $_POST["il_hform_node"],
+			"il_hform_fc" => $_POST["il_hform_fc"],
+			"il_hform_as_subitem" => $_POST["il_hform_as_subitem"],
+			"il_hform_multi" => $_POST["il_hform_multi"],
+			"il_hform_source_id" => $_POST["il_hform_source_id"],
+			"il_hform_target_id" => $_POST["il_hform_target_id"]
+		);
+	}
 	
 }

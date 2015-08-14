@@ -15596,4 +15596,9 @@ meta#:#meta_tab_advmd_def#:#Custom Metadata Definition
 meta#:#meta_global#:#Global
 wiki#:#wiki_unhide_meta_adv_records#:#Show additional properties
 prtf#:#prtf_back_to_portfolio_owner#:#Edit Portfolio 
-blog#:#blog_back_to_blog_owner#:#Edit Blog 
+blog#:#blog_back_to_blog_owner#:#Edit Blog
+content#:#cont_assign_to_parent#:#Assign to Parent
+content#:#cont_type_not_allowed#:#Content type not allowed at this position
+content#:#sahs_insert_st_from_clip#:#Import Chapters from ILIAS Learning Module
+content#:#sahs_insert_st_from_clip_inside_chap#:#Import Chapters from ILIAS Learning Module (inside chapter)
+content#:#sahs_insert_pg_from_clip#:#Import Pages from ILIAS Learning Module

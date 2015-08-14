@@ -321,6 +321,47 @@ class ilSCORM2004Page extends ilPageObject
 		}
 //exit;
 	}
-	
+
+	/**
+	 * Remove invalid links
+	 *
+	 * @param
+	 * @return
+	 */
+	function removeInvalidLinks()
+	{
+		$this->buildDom();
+
+		// find all Keyw tags
+		$xpath = new DOMXPath($this->getDomDoc());
+		$nodes = $xpath->query('//Paragraph//IntLink');
+		$to_del = array();
+		foreach($nodes as $node)
+		{
+			if (in_array($node->getAttribute("Type"), array("File", "GlossaryItem")))
+			{
+				continue;
+			}
+			$to_del[] = $node;
+			$parent = $node->parentNode;
+			$childs = array();
+			foreach ($node->childNodes as $c)
+			{
+				$childs[] = $c;
+			}
+			foreach ($childs as $c)
+			{
+				$node->removeChild($c);
+				$parent->insertBefore($c, $node);
+			}
+		}
+		foreach ($to_del as $n)
+		{
+			$p = $n->parentNode;
+			$p->removeChild($n);
+		}
+		$this->update();
+	}
+
 }
 ?>

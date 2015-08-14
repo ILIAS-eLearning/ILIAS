@@ -3549,7 +3549,7 @@ class ilObjUser extends ilObject
 				$obj["title"] = ilObject::_lookupTitle($obj["item_id"]);
 			}
 			$objects[] = array ("id" => $obj["item_id"],
-				"type" => $obj["type"], "title" => $obj["title"]);
+				"type" => $obj["type"], "title" => $obj["title"], "insert_time" => $obj["insert_time"]);
 		}
 		return $objects;
 	}
