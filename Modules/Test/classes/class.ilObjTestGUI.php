@@ -17,7 +17,7 @@ require_once './Modules/Test/classes/class.ilTestExpressPage.php';
  * 
  * @version		$Id$
  *
- * @ilCtrl_Calls ilObjTestGUI: ilObjCourseGUI, ilMDEditorGUI, ilCertificateGUI, ilPermissionGUI
+ * @ilCtrl_Calls ilObjTestGUI: ilObjCourseGUI, ilObjectMetaDataGUI, ilCertificateGUI, ilPermissionGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestPlayerFixedQuestionSetGUI, ilTestPlayerRandomQuestionSetGUI, ilTestPlayerDynamicQuestionSetGUI
  * @ilCtrl_Calls ilObjTestGUI: ilLearningProgressGUI, ilMarkSchemaGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestEvaluationGUI, ilAssGenFeedbackPageGUI, ilAssSpecFeedbackPageGUI
@@ -180,7 +180,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->addHeaderAction();
 				$this->infoScreen(); // forwards command
 				break;
-			case 'ilmdeditorgui':
+			case 'ilobjectmetadatagui':
 				if(!$ilAccess->checkAccess('write', '', $this->object->getRefId()))
 				{
 					$ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->WARNING);
@@ -188,10 +188,8 @@ class ilObjTestGUI extends ilObjectGUI
 
 				$this->prepareOutput();
 				$this->addHeaderAction();
-				require_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
-				$md_gui =& new ilMDEditorGUI($this->object->getId(), 0, $this->object->getType());
-				$md_gui->addObserver($this->object, 'MDUpdateListener', 'General');
-
+				include_once 'Services/Object/classes/class.ilObjectMetaDataGUI.php';
+				$md_gui = new ilObjectMetaDataGUI($this->object);	
 				$this->ctrl->forwardCommand($md_gui);
 				break;
 
@@ -717,7 +715,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->show();
 		}
 	}
-	
+
 	private function questionsTabGatewayObject()
 	{
 		switch( $this->object->getQuestionSetType() )
@@ -4340,12 +4338,18 @@ class ilObjTestGUI extends ilObjectGUI
 					 "history", "");
                              }
 
-                             if (!in_array('meta_data', $hidden_tabs)) {
-				// meta data
-				$tabs_gui->addTarget("meta_data",
-					 $this->ctrl->getLinkTargetByClass('ilmdeditorgui','listSection'),
-					 "", "ilmdeditorgui");
-                             }
+                if (!in_array('meta_data', $hidden_tabs)) {
+					// meta data
+					include_once "Services/Object/classes/class.ilObjectMetaDataGUI.php";
+					$mdgui = new ilObjectMetaDataGUI($this->object);					
+					$mdtab = $mdgui->getTab();
+					if($mdtab)
+					{
+						$tabs_gui->addTarget("meta_data",
+							 $mdtab,
+							 "", "ilmdeditorgui");
+					}
+                }
 
 				if(!in_array('export', $hidden_tabs))
 				{

@@ -479,7 +479,7 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
 
 		switch( $nextClass )
 		{
-			case 'ilmdeditorgui':
+			case 'ilobjectmetadatagui':
 			case 'ilpermissiongui':
 
 				return true;

@@ -476,7 +476,7 @@ class ilObjTestDynamicQuestionSetConfig extends ilTestQuestionSetConfig
 		{
 			case 'ilobjtestdynamicquestionsetconfiggui':
 
-			case 'ilmdeditorgui':
+			case 'ilobjectmetadatagui':
 			case 'ilpermissiongui':
 
 				return true;
