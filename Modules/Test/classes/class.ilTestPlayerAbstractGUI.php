@@ -410,25 +410,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
-	protected function populateCharSelector()
-	{
-		global $ilSetting;
-		if ($ilSetting->get('char_selector_availability') > 0)
-		{
-			require_once 'Services/UIComponent/CharSelector/classes/class.ilCharSelectorGUI.php';
-			$char_selector = ilCharSelectorGUI::_getCurrentGUI($this->object);
-			if ($char_selector->getConfig()->getAvailability() == ilCharSelectorConfig::ENABLED)
-			{
-				$char_selector->addToPage();
-				$this->tpl->setCurrentBlock('char_selector');
-                $this->tpl->setVariable("CHAR_SELECTOR_IMAGE", ilUtil::getImagePath('icon_omega_test.svg','Services/UIComponent/CharSelector'));
-				$this->tpl->setVariable("CHAR_SELECTOR_TEXT", $this->lng->txt('char_selector'));
-				$this->tpl->setVariable("CHAR_SELECTOR_TEMPLATE", $char_selector->getSelectorHtml());
-				$this->tpl->parseCurrentBlock();
-			}
-		}
-	}
-
 	protected function showSideList()
 	{
 		global $ilUser;
@@ -1832,10 +1813,32 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		
 		return $this->lng->txt("save_introduction");
 	}
-	
-	protected function buildTestNavigationToolbarGUI()
+
+	protected function populateCharSelector()
 	{
-		global $ilUser;
+		global $ilSetting;
+		
+		if ($ilSetting->get('char_selector_availability') > 0)
+		{
+			require_once 'Services/UIComponent/CharSelector/classes/class.ilCharSelectorGUI.php';
+			$char_selector = ilCharSelectorGUI::_getCurrentGUI($this->object);
+			if ($char_selector->getConfig()->getAvailability() == ilCharSelectorConfig::ENABLED)
+			{
+				$char_selector->addToPage();
+				$this->tpl->setCurrentBlock('char_selector');
+				$this->tpl->setVariable("CHAR_SELECTOR_TEMPLATE", $char_selector->getSelectorHtml());
+				$this->tpl->parseCurrentBlock();
+				
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	protected function buildTestNavigationToolbarGUI($charSelectorAvailable)
+	{
+		global $ilUser, $ilSetting;
 		
 		require_once 'Modules/Test/classes/class.ilTestNavigationToolbarGUI.php';
 		$navigationToolbarGUI = new ilTestNavigationToolbarGUI($this->ctrl, $this->lng, $this);
@@ -1844,6 +1847,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$navigationToolbarGUI->setQuestionListButtonEnabled($this->object->getListOfQuestions());
 		$navigationToolbarGUI->setQuestionTreeButtonEnabled($this->object->getListOfQuestions());
 		$navigationToolbarGUI->setQuestionTreeVisible($ilUser->getPref('side_list_of_questions'));
+		$navigationToolbarGUI->setCharSelectorButtonEnabled($charSelectorAvailable);
 
 		$navigationToolbarGUI->build();
 		

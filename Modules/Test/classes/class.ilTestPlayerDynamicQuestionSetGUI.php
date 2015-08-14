@@ -618,8 +618,10 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 			$answer_feedback = TRUE;
 		}
 
+		$charSelectorAvailable = $this->populateCharSelector();
+
 		$this->populateTestNavigationToolbar(
-			$this->buildTestNavigationToolbarGUI()
+			$this->buildTestNavigationToolbarGUI($charSelectorAvailable)
 		);
 
 		if( $this->isParticipantsAnswerFixed($this->testSession->getCurrentQuestionId()) )
@@ -744,8 +746,6 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		{
 			$this->populateQuestionSelectionButtons();
 		}
-		
-		$this->populateCharSelector();
 
 		if ($this->object->getJavaScriptOutput())
 		{

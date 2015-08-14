@@ -495,9 +495,11 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		{
 			$answer_feedback = TRUE;
 		}
+
+		$charSelectorAvailable = $this->populateCharSelector();
 		
 		$this->populateTestNavigationToolbar(
-			$this->buildTestNavigationToolbarGUI()
+			$this->buildTestNavigationToolbarGUI($charSelectorAvailable)
 		);
 
 		if( $this->isParticipantsAnswerFixed($questionId) )
@@ -617,8 +619,6 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		{
 			$this->populateNextButtonsLeadingToQuestion();
 		}
-		
-		$this->populateCharSelector();
 		
 		if ($this->object->getJavaScriptOutput())
 		{

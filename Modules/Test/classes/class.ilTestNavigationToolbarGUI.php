@@ -47,6 +47,11 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
 	 * @var bool
 	 */
 	private $questionTreeVisible = false;
+
+	/**
+	 * @var bool
+	 */
+	private $charSelectorButtonEnabled = false;
 	
 	/**
 	 * @param ilCtrl $ctrl
@@ -125,6 +130,22 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
 	{
 		$this->questionTreeVisible = $questionTreeVisible;
 	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isCharSelectorButtonEnabled()
+	{
+		return $this->charSelectorButtonEnabled;
+	}
+
+	/**
+	 * @param boolean $charSelectorButtonEnabled
+	 */
+	public function setCharSelectorButtonEnabled($charSelectorButtonEnabled)
+	{
+		$this->charSelectorButtonEnabled = $charSelectorButtonEnabled;
+	}
 	
 	public function build()
 	{
@@ -141,6 +162,11 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
 		if( $this->isQuestionTreeButtonEnabled() )
 		{
 			$this->addQuestionTreeButton();
+		}
+
+		if( $this->isCharSelectorButtonEnabled() )
+		{
+			$this->addCharSelectorButton();
 		}
 	}
 	
@@ -172,6 +198,15 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
 		{
 			$btn->setCaption('tst_show_side_list');
 		}
+		$this->addButtonInstance($btn);
+	}
+
+	private function addCharSelectorButton()
+	{
+		$btn = ilLinkButton::getInstance();
+		$btn->setId('charselectorbutton');
+		$btn->addCSSClass('ilCharSelectorToggle');
+		$btn->setCaption('char_selector_btn_label');
 		$this->addButtonInstance($btn);
 	}
 }

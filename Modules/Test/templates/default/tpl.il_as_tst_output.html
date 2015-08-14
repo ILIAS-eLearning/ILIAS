@@ -13,6 +13,7 @@
 </div>
 <!-- END enableprocessingtime -->
 <input type="hidden" name="formtimestamp" value="{FORM_TIMESTAMP}" />
+<!-- BEGIN char_selector -->{CHAR_SELECTOR_TEMPLATE}<!-- END char_selector -->
 <!-- BEGIN test_nav_toolbar -->{TEST_NAV_TOOLBAR}<!-- END test_nav_toolbar -->
 <table class="fullwidth">
 	<tr>
@@ -20,12 +21,6 @@
 <!-- BEGIN prev -->
 		<input type="submit" class="btn btn-default" name="cmd[{CMD_PREV}]" value="{BTN_PREV}" id="prevbutton" />
 <!-- END prev -->
-	</td>
-	<td align="center" width="1" class="submit">
-		<!-- BEGIN char_selector -->
-		<input type="submit" class="btn btn-default ilCharSelectorToggle" value="&nbsp;Ω&nbsp;" id="charselectorbutton" />
-		{CHAR_SELECTOR_TEMPLATE}
-		<!-- END char_selector -->
 	</td>
 	<td align="right" width="33%" class="submit">
 <!-- BEGIN postpone -->
