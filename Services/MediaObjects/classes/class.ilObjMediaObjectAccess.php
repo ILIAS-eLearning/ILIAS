@@ -53,8 +53,6 @@ class ilObjMediaObjectAccess implements ilWACCheckingClass {
 			}
 		}
 
-		exit;
-
 		return false;
 	}
 
