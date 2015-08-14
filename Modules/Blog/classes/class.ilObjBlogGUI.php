@@ -1037,9 +1037,11 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$ilLocator->clearItems();
 		$tpl->setLocator();
 		
+		$back_caption = "";
+		
 		// back (edit)
 		if($owner == $ilUser->getId())
-		{					
+		{											
 			// from shared/deeplink		
 			if($this->id_type == self::WORKSPACE_NODE_ID)
 			{	
@@ -1060,8 +1062,10 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 					$this->ctrl->setParameterByClass("ilblogpostinggui", "blpg", $_GET["blpg"]);
 					$back = $this->ctrl->getLinkTargetByClass("ilblogpostinggui", "preview");
 				}
-				$this->ctrl->setParameter($this, "prvm", $prvm);
+				$this->ctrl->setParameter($this, "prvm", $prvm);								
 			}
+			
+			$back_caption = $this->lng->txt("blog_back_to_blog_owner");
 		}
 		// back 
 		else if($ilUser->getId() && $ilUser->getId() != ANONYMOUS_USER_ID)
@@ -1075,6 +1079,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			else if($this->mayContribute())
 			{
 				$back = $this->ctrl->getLinkTarget($this, "");
+				$back_caption = $this->lng->txt("blog_back_to_blog_owner");
 			}
 			// listgui / parent container
 			else
@@ -1088,7 +1093,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		
 		global $ilMainMenu;
 		$ilMainMenu->setMode(ilMainMenuGUI::MODE_TOPBAR_ONLY);		
-		$ilMainMenu->setTopBarBack($back);
+		$ilMainMenu->setTopBarBack($back, $back_caption);
 		
 		$this->renderFullscreenHeader($tpl, $owner);
 			

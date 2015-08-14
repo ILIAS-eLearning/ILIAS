@@ -578,6 +578,8 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		{
 			$this->tpl->setLoginTargetPar("prtf_".$this->object->getId()."_".$current_page);
 		}
+		
+		$back_caption = "";
 						
 		// public profile
 		if($_REQUEST["back_url"])
@@ -610,12 +612,13 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 			else
 			{
 				$back = $this->ctrl->getLinkTarget($this, "view");
+				$back_caption = $this->lng->txt("prtf_back_to_portfolio_owner");
 			}
 		}
 		
 		global $ilMainMenu;
 		$ilMainMenu->setMode(ilMainMenuGUI::MODE_TOPBAR_ONLY);		
-		$ilMainMenu->setTopBarBack($back);
+		$ilMainMenu->setTopBarBack($back, $back_caption);
 		
 		// render tabs
 		$current_blog = null;
