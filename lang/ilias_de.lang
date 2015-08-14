@@ -1840,7 +1840,7 @@ blog#:#blog_changed_by#:#Letzte Änderung durch
 blog#:#blog_comments#:#Kommentare
 blog#:#blog_draft#:#Entwurf
 blog#:#blog_draft_info#:#Dieser Eintrag ist als Entwurf nur für den Autor sichtbar.
-blog#:#blog_edit#:#Blog editieren
+blog#:#blog_edit#:#Blog bearbeiten
 blog#:#blog_enable_notes#:#Öffentliche Kommentare
 blog#:#blog_exercise_info#:#Dieses Blog ist der Übungseinheit "%s" in der Übung "%s" zugeordnet.
 blog#:#blog_exercise_submitted_info#:#Ihre letzte Einreichung war am %s. Bitte prüfen Sie die Export-Datei: %s.
