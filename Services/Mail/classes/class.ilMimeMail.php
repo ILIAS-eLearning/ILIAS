@@ -356,20 +356,12 @@ class ilMimeMail
 			$directory = './Customizing/global/skin/'.$style.'/Services/Mail/img/';
 		}
 
-<<<<<<< HEAD
-		if(!$this->body) $this->body  = ' ';
-		$mail->Body    = str_replace( '{PLACEHOLDER}', nl2br( $this->body ), $bracket );
-=======
 		if(!$this->body)
 		{
 			$this->body  = ' ';
 		}
 
 		$mail->Body    = str_replace( '{PLACEHOLDER}', nl2br( ilUtil::makeClickable( $this->body ) ), $bracket );
-<<<<<<< HEAD
->>>>>>> 1ec4898... #16388
-=======
->>>>>>> 1ec4898... #16388
 		$mail->AltBody = $this->body;
 
 		$directory_handle  = @opendir($directory);
