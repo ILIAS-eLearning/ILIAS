@@ -216,6 +216,9 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 						//$this->setSubTabsSettings('edit_advanced_settings');
 						$this->updateAdvancedSettings();
 						break;
+					case "infoScreen":
+						$this->ctrl->redirectByClass("ilInfoScreenGUI", "showSummary");
+						break;
 					/*case 'editSettings':
 						$this->tabs_gui->setTabActive("settings");
 						$this->setSubTabsSettings('edit_settings');
@@ -465,22 +468,18 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 	}
 
 	protected function denyAccessIfNotAnyOf($a_perms) {
-		$deny = true;
 		foreach ($a_perms as $perm) {
 			if ($this->checkAccess($perm)) {
-				$deny = false;
+				return;
 			}
-			break;
 		}
 		
-		if ($deny) {
-			if ($this->checkAccess("visible")) {
-				ilUtil::sendFailure($this->lng->txt("msg_no_perm_read"));
-				$this->ctrl->redirectByClass('ilinfoscreengui', '');
-			}
-
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"), $this->ilias->error_obj->WARNING);
+		if ($this->checkAccess("visible")) {
+			ilUtil::sendFailure($this->lng->txt("msg_no_perm_write"));
+			$this->ctrl->redirectByClass('ilinfoscreengui', '');
 		}
+
+		$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"), $this->ilias->error_obj->WARNING);
 	}
 	
 	const TAB_VIEW_CONTENT = "view_content";
