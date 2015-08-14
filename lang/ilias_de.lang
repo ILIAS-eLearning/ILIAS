@@ -15577,3 +15577,7 @@ content#:#cont_mycourses_sortorder#:#Standardsortierung
 content#:#cont_mycourses_sortorder_alphabetical#:#Alphabetisch
 content#:#cont_mycourses_sortorder_location#:#Nach Ort
 content#:#cont_mycourses_sortorder_info#:#Dies ist die Default-Einstellung. Jeder Benutzer kann eine eigene Sortierung wählen, die für alle "Meine Kurse"-Elemente sämtlicher Portfolios gilt.
+rbac#:#redact#:#Redigieren
+common#:#il_blog_editor#:#Blog-Editor
+rbac#:#blog_redact#:#Benutzer darf alle Einträge bearbeiten
+blog#:#blog_contributors#:#Mitwirkende

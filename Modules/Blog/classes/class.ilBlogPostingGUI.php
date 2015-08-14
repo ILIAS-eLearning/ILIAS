@@ -282,15 +282,29 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		if(($this->getOutputMode() == "preview" || $this->getOutputMode() == "offline") 
 			&& !$this->getAbstractOnly() && $this->add_date)
 		{			
+			$author = "";
 			if(!$this->isInWorkspace())		
 			{
-				$author = "";
+				$authors = array();
 				$author_id = $this->getBlogPosting()->getAuthor();
 				if($author_id)
 				{
 					include_once "Services/User/classes/class.ilUserUtil.php";
-					$author = ilUserUtil::getNamePresentation($author_id)." - ";
+					$authors[] = ilUserUtil::getNamePresentation($author_id);
 				}		
+								
+				foreach(ilBlogPosting::getPageContributors("blp", $this->getBlogPosting()->getId()) as $editor)
+				{
+					if($editor["user_id"] != $author_id)
+					{
+						$authors[] = ilUserUtil::getNamePresentation($editor["user_id"]);
+					}
+				}
+				
+				if($authors)
+				{
+					$author = implode(", ", $authors)." - ";
+				}
 			}
 			
 			// prepend creation date

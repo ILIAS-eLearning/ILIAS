@@ -450,6 +450,46 @@ class ilDBUpdateNewObjectType
 		
 		return true;
 	}
+	
+	/**
+	 * Add new RBAC template
+	 * 
+	 * @param string $a_obj_type
+	 * @param string $a_id
+	 * @param string $a_description
+	 * @param int|array $a_op_ids
+	 */
+	public static function addRBACTemplate($a_obj_type, $a_id, $a_description, $a_op_ids)
+	{
+		global $ilDB;
+		
+		$new_tpl_id = $ilDB->nextId('object_data');
+
+		$ilDB->manipulateF("INSERT INTO object_data (obj_id, type, title, description,".
+			" owner, create_date, last_update) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+			array("integer", "text", "text", "text", "integer", "timestamp", "timestamp"),
+			array($new_tpl_id, "rolt", $a_id, $a_description, -1, ilUtil::now(), ilUtil::now()));
+				
+		$ilDB->manipulateF("INSERT INTO rbac_fa (rol_id, parent, assign, protected)".
+			" VALUES (%s, %s, %s, %s)", 
+			array("integer", "integer", "text", "text"),
+			array($new_tpl_id, 8, "n", "n"));
+		
+		if($a_op_ids)
+		{
+			if(!is_array($a_op_ids))
+			{
+				$a_op_ids = array($a_op_ids);
+			}
+			foreach($a_op_ids as $op_id)
+			{
+				$ilDB->manipulateF("INSERT INTO rbac_templates (rol_id, type, ops_id, parent)".
+				" VALUES (%s, %s, %s, %s)", 
+				array("integer", "text", "integer", "integer"),
+				array($new_tpl_id, $a_obj_type, $op_id, 8));
+			}
+		}
+	}
 }
 
 ?>
