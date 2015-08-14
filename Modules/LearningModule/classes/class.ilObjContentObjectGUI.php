@@ -3437,6 +3437,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		{
 			$_GET["baseClass"] = "ilLMPresentationGUI";
 			$_GET["ref_id"] = $a_target;
+			$_GET["cmd"] = "resume";
 			include("ilias.php");
 			exit;
 		} else if ($ilAccess->checkAccess("visible", "", $a_target))
