@@ -15602,3 +15602,5 @@ content#:#cont_type_not_allowed#:#Content type not allowed at this position
 content#:#sahs_insert_st_from_clip#:#Import Chapters from ILIAS Learning Module
 content#:#sahs_insert_st_from_clip_inside_chap#:#Import Chapters from ILIAS Learning Module (inside chapter)
 content#:#sahs_insert_pg_from_clip#:#Import Pages from ILIAS Learning Module
+content#:#cont_active_from#:#Activation Start
+content#:#cont_active_to#:#Activation End

@@ -311,6 +311,8 @@ col or row span. -->
 <!ELEMENT Section (PageContent*)>
 <!ATTLIST Section
 	Characteristic CDATA #IMPLIED
+	ActiveFrom CDATA #IMPLIED
+	ActiveTo CDATA #IMPLIED
 	PCID CDATA #IMPLIED
 >
 

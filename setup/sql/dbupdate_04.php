@@ -8762,3 +8762,47 @@ if (!$ilDB->tableColumnExists('adv_md_record', 'parent_obj'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#4627>
+<?php
+	if (!$ilDB->tableExists("copg_section_timings"))
+	{
+		$fields = array (
+			'pm_id'    => array ('type' => 'integer', 'length'  => 4,'notnull' => true, 'default' => 0),
+			'pm_title'   => array ('type' => 'text', 'notnull' => true, 'length' => 60, 'fixed' => false),
+			'pm_enabled'    => array ('type' => 'integer', 'length'  => 1,"notnull" => true,"default" => 0),
+			'save_usr_adr'  => array ('type' => 'integer', 'length'  => 1,"notnull" => true,"default" => 0)
+		);
+
+
+		$fields = array(
+			"page_id" => array (
+				"type" => "integer",
+				"length" => 4,
+				"notnull" => true
+			),
+			"parent_type" => array (
+				"type" => "text",
+				"length" => 10,
+				"notnull" => true
+			),
+			"utc_ts" => array (
+				"type" => "timestamp",
+				"notnull" => true
+			)
+		);
+
+		$ilDB->createTable("copg_section_timings", $fields);
+	}
+?>
+<#4628>
+<?php
+	$ilDB->dropTableColumn("copg_section_timings", "utc_ts");
+	$ilDB->addTableColumn('copg_section_timings', 'unix_ts',
+		array(
+			"type"    => "integer",
+			"notnull" => true,
+			"length"  => 4,
+			"default" => 0
+		)
+	);
+?>

@@ -1664,7 +1664,9 @@ return;
 			: ilPlayerUtil::getFlashVideoPlayerFilename(true);
 			
 		$cfg = $this->getPageConfig();
-		
+
+		$current_ts = time();
+
 		// added UTF-8 encoding otherwise umlaute are converted too
 		include_once("./Services/Maps/classes/class.ilMapUtil.php");
 		$params = array ('mode' => $this->getOutputMode(), 'pg_title' => htmlentities($pg_title,ENT_QUOTES,"UTF-8"),
@@ -1713,7 +1715,8 @@ return;
 						 'enable_consultation_hours' =>  $cfg->getEnablePCType("ConsultationHours") ? "y" : "n",
 						 'enable_my_courses' =>  $cfg->getEnablePCType("MyCourses") ? "y" : "n",
 						 'enable_amd_page_list' =>  $cfg->getEnablePCType("AMDPageList") ? "y" : "n",
-						 'flv_video_player' => $flv_video_player
+						 'flv_video_player' => $flv_video_player,
+						 'current_ts' => $current_ts
 						);
 		if($this->link_frame != "")		// todo other link types
 			$params["pg_frame"] = $this->link_frame;
@@ -1725,8 +1728,13 @@ return;
 		// ensure no cache hit, if included files/media objects have been changed
 		$params["incl_elements_date"] = $this->obj->getLastUpdateOfIncludedElements();
 
+
+		// should be modularized
+		include_once("./Services/COPage/classes/class.ilPCSection.php");
+		$md5_adds = ilPCSection::getCacheTriggerString($this->getPageObject());
+
 		// run xslt
-		$md5 = md5(serialize($params).$link_xml.$template_xml);
+		$md5 = md5(serialize($params).$link_xml.$template_xml.$md5_adds);
 		
 //$a = microtime();
 		

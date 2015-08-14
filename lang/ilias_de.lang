@@ -15597,3 +15597,5 @@ content#:#cont_type_not_allowed#:#Dieses Element ist an dieser Stelle nicht erla
 content#:#sahs_insert_st_from_clip#:#Kapitel aus ILIAS Lernmodul importieren
 content#:#sahs_insert_st_from_clip_inside_chap#:#Kapitel aus ILIAS Lernmodul importieren (innerhalb eines Kapitels)
 content#:#sahs_insert_pg_from_clip#:#Seiten aus ILIAS Lernmodul importieren
+content#:#cont_active_from#:#Aktiv ab
+content#:#cont_active_to#:#Aktiv bis
