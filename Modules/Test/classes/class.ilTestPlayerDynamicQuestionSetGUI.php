@@ -618,6 +618,10 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 			$answer_feedback = TRUE;
 		}
 
+		$this->populateTestNavigationToolbar(
+			$this->buildTestNavigationToolbarGUI()
+		);
+
 		if( $this->isParticipantsAnswerFixed($this->testSession->getCurrentQuestionId()) )
 		{
 			$solutionoutput = $question_gui->getSolutionOutput(
@@ -719,11 +723,6 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		{
 			$this->populatePostponeButtons();
 		}
-
-		if ($this->object->getShowCancel()) 
-		{
-			$this->populateCancelButtonBlock();
-		}		
 
 		if ($this->isLastQuestionInSequence( $question_gui ))
 		{

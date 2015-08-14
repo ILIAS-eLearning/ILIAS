@@ -496,7 +496,9 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 			$answer_feedback = TRUE;
 		}
 		
-		$this->populateTestNavigationToolbar($this->buildTestNavigationToolbarGUI());
+		$this->populateTestNavigationToolbar(
+			$this->buildTestNavigationToolbarGUI()
+		);
 
 		if( $this->isParticipantsAnswerFixed($questionId) )
 		{
@@ -599,16 +601,6 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		{
 			$this->populatePostponeButtons();
 		}
-		
-		if ($this->object->getListOfQuestions()) 
-		{
-			$this->populateSummaryButtons();
-		}
-
-		if ($this->object->getShowCancel()) 
-		{
-			$this->populateCancelButtonBlock();
-		}		
 
 		if ($this->isLastQuestionInSequence( $question_gui ))
 		{

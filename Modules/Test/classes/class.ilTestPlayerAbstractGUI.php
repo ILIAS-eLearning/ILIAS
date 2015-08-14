@@ -306,38 +306,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
-	protected function populateCancelButtonBlock()
-	{
-		$this->tpl->setCurrentBlock('cancel_test');
-		$this->tpl->setVariable('TEXT_CANCELTEST', $this->lng->txt('cancel_test'));
-		$this->ctrl->setParameterByClass(get_class($this), 'cancelTest', 'true');
-		$this->tpl->setVariable('HREF_CANCELTEXT', $this->ctrl->getLinkTargetByClass(get_class($this), 'outIntroductionPage'));
-		$this->ctrl->setParameterByClass(get_class($this), 'cancelTest', null);
-		$this->tpl->parseCurrentBlock();
-	}
-
-	protected function populateSummaryButtons()
-	{
-		$this->populateUpperSummaryButtonBlock();
-		$this->populateLowerSummaryButtonBlock();
-	}
-
-	protected function populateLowerSummaryButtonBlock()
-	{
-		$this->tpl->setCurrentBlock( "summary_bottom" );
-		$this->tpl->setVariable( "CMD_SUMMARY", 'showQuestionList' );
-		$this->tpl->setVariable( "BTN_SUMMARY", $this->lng->txt( "question_summary" ) );
-		$this->tpl->parseCurrentBlock();
-	}
-
-	protected function populateUpperSummaryButtonBlock()
-	{
-		$this->tpl->setCurrentBlock( "summary" );
-		$this->tpl->setVariable( "CMD_SUMMARY", 'showQuestionList' );
-		$this->tpl->setVariable( "BTN_SUMMARY", $this->lng->txt( "question_summary" ) );
-		$this->tpl->parseCurrentBlock();
-	}
-
 	protected function populateQuestionSelectionButtons()
 	{
 		$this->populateUpperQuestionSelectionButtonBlock();
@@ -1892,9 +1860,10 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	protected function buildTestNavigationToolbarGUI()
 	{
 		require_once 'Modules/Test/classes/class.ilTestNavigationToolbarGUI.php';
-		$navigationToolbarGUI = new ilTestNavigationToolbarGUI($this->ctrl, $this->lng);
+		$navigationToolbarGUI = new ilTestNavigationToolbarGUI($this->ctrl, $this->lng, $this);
 		
-		$navigationToolbarGUI->setSuspendTestEnabled(true);
+		$navigationToolbarGUI->setSuspendTestEnabled($this->object->getShowCancel());
+		$navigationToolbarGUI->setQuestionListEnabled($this->object->getListOfQuestions());
 		
 		$navigationToolbarGUI->build();
 		
