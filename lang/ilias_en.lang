@@ -15604,3 +15604,11 @@ content#:#sahs_insert_st_from_clip_inside_chap#:#Import Chapters from ILIAS Lear
 content#:#sahs_insert_pg_from_clip#:#Import Pages from ILIAS Learning Module
 content#:#cont_active_from#:#Activation Start
 content#:#cont_active_to#:#Activation End
+pd#:#pd_comments_notification#:#General notification about all comments
+pd#:#pd_comments_notification_info#:#Comma separated list of accounts that are notified for each comment
+note#:#note_comment_notification_subject#:#A comment has been added to "%s"
+note#:#note_comment_notification_subjectc#:#A comment has been changed in "%s"
+note#:#note_comment_notification_salutation#:#Hello %s,
+note#:#note_by#:#By
+note#:#note_comment_notification_link#:#Link
+note#:#note_comment_text#:#Text

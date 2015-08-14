@@ -15599,3 +15599,11 @@ content#:#sahs_insert_st_from_clip_inside_chap#:#Kapitel aus ILIAS Lernmodul imp
 content#:#sahs_insert_pg_from_clip#:#Seiten aus ILIAS Lernmodul importieren
 content#:#cont_active_from#:#Aktiv ab
 content#:#cont_active_to#:#Aktiv bis
+pd#:#pd_comments_notification#:#Generelle Benachrichtigung über alle Kommentare
+pd#:#pd_comments_notification_info#:#Kommagetrennte Liste von Benutzeraccounts, welche jeden Kommentar als e-Mail erhalten.
+note#:#note_comment_notification_subject#:#Ein neuer Kommentar wurde hinzugefügt zu "%s".
+note#:#note_comment_notification_subjectc#:#Ein Kommentar wurde geändert in "%s".
+note#:#note_comment_notification_salutation#:#Hallo %s,
+note#:#note_by#:#Von
+note#:#note_comment_notification_link#:#Link
+note#:#note_comment_text#:#Text
