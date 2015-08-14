@@ -16,6 +16,7 @@ require_once "./Modules/Wiki/classes/class.ilObjWiki.php";
 * @ilCtrl_Calls ilObjWikiGUI: ilPublicUserProfileGUI, ilObjStyleSheetGUI
 * @ilCtrl_Calls ilObjWikiGUI: ilExportGUI, ilCommonActionDispatcherGUI
 * @ilCtrl_Calls ilObjWikiGUI: ilRatingGUI, ilWikiPageTemplateGUI, ilWikiStatGUI
+* @ilCtrl_Calls ilObjWikiGUI: ilRepositoryObjectSearchGUI
 */
 class ilObjWikiGUI extends ilObjectGUI
 {
@@ -181,6 +182,20 @@ class ilObjWikiGUI extends ilObjectGUI
 				include_once("./Modules/Wiki/classes/class.ilWikiPageTemplateGUI.php");
 				$wptgui = new ilWikiPageTemplateGUI($this);
 				$this->ctrl->forwardCommand($wptgui);
+				break;
+			
+			case 'ilrepositoryobjectsearchgui':
+				$this->addHeaderAction();
+				$this->setSideBlock();
+				$ilTabs->setTabActive("wiki_search_results");
+				$ilCtrl->setReturn($this,'preview');
+				include_once './Services/Search/classes/class.ilRepositoryObjectSearchGUI.php';
+				$search_gui = new ilRepositoryObjectSearchGUI(
+						$this->object->getRefId(),
+						$this,
+						'preview'
+				);
+				$ilCtrl->forwardCommand($search_gui);
 				break;
 
 			default:
@@ -471,12 +486,11 @@ class ilObjWikiGUI extends ilObjectGUI
 		global $ilCtrl, $ilAccess, $ilTabs, $lng, $ilHelp;
 		
 		$ilHelp->setScreenIdComponent("wiki");
-
 		
 		// wiki tabs
 		if (in_array($ilCtrl->getCmdClass(), array("", "ilobjwikigui",
 			"ilinfoscreengui", "ilpermissiongui", "ilexportgui", "ilratingcategorygui",
-			"ilwikistatgui", "ilwikipagetemplategui"
+			"ilwikistatgui", "ilwikipagetemplategui",'ilrepositoryobjectsearchgui'
 			)))
 		{	
 			if ($_GET["page"] != "")
@@ -1233,9 +1247,12 @@ class ilObjWikiGUI extends ilObjectGUI
 		}
 
 		// search block
-		include_once("./Modules/Wiki/classes/class.ilWikiSearchBlockGUI.php");
-		$wiki_search_block = new ilWikiSearchBlockGUI();
-		$rcontent = $wiki_search_block->getHTML();
+		include_once './Services/Search/classes/class.ilRepositoryObjectSearchGUI.php';
+		$rcontent = ilRepositoryObjectSearchGUI::getSearchBlockHTML($lng->txt('wiki_search'));
+		
+		#include_once("./Modules/Wiki/classes/class.ilWikiSearchBlockGUI.php");
+		#$wiki_search_block = new ilWikiSearchBlockGUI();
+		#$rcontent = $wiki_search_block->getHTML();
 
 		// quick navigation
 		if ($a_wpg_id > 0)
