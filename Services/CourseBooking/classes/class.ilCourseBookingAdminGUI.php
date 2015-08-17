@@ -234,10 +234,10 @@ class ilCourseBookingAdminGUI
 	{
 		global $ilToolbar, $ilCtrl, $lng, $tpl;
 		
-		$this->setTabs("listBookings");		
+		$this->setTabs("listBookings");
 				
 		if($this->isBookingAllowed())
-		{				
+		{
 			$bookings = ilCourseBookings::getInstance($this->getCourse());
 			if($bookings->isWaitingListActivated())
 			{
@@ -267,7 +267,7 @@ class ilCourseBookingAdminGUI
 			$ilToolbar->addSeparator();
 
 			$ilToolbar->addButton($lng->txt("crsbook_admin_add_org_unit"),
-				$ilCtrl->getLinkTarget($this, "addOrgUnit"));			
+				$ilCtrl->getLinkTarget($this, "addOrgUnit"));
 		}		
 		
 		require_once "Services/CourseBooking/classes/class.ilCourseBookingMembersTableGUI.php";

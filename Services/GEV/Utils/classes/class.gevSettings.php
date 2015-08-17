@@ -116,7 +116,15 @@ class gevSettings {
 	const CRS_AMD_WEBEX_PASSWORD_TUTOR	= "crs_amd_webex_password_tutor";		// these are general webinar tutor password
 	const CRS_AMD_WEBEX_VC_CLASS_TYPE = "crs_amd_webex_vc_class_type"; // type of the virtual class
 	const CRS_AMD_WEBEX_LOGIN_TUTOR = "crs_amd_webex_login_tutor"; // type of the virtual class
+
+	const CRS_AMD_VC_LINK		= "crs_amd_vc_link";			// these are new general webinar links now
+	const CRS_AMD_VC_PASSWORD	= "crs_amd_vc_password";		// these are new general webinar passwords now
+	const CRS_AMD_VC_PASSWORD_TUTOR	= "crs_amd_vc_password_tutor";		// these are new general webinar tutor password
+	const CRS_AMD_VC_CLASS_TYPE = "crs_amd_vc_class_type"; // new type of the virtual class
+	const CRS_AMD_VC_LOGIN_TUTOR = "crs_amd_vc_login_tutor"; // new type of the virtual class
+
 	const CRS_AMD_CSN_LINK			= "crs_amd_csn_link";	// this is not used anymore
+
 	// Organisationseinheit TEP
 	const CRS_AMD_TEP_ORGU			= "crs_amd_tep_orgu";
 

@@ -270,10 +270,10 @@ class ilTEPHistorizingAppEventListener
 						== $a_entry->getEnd()->get(IL_CAL_DATE);
 
 			$tmp = explode(" ", $a_entry->getStart()->get(IL_CAL_DATETIME));
-			$start_time = $tmp[1];
+			$start_time = substr($tmp[1], 0, 5);
 
 			$tmp = explode(" ", $a_entry->getEnd()->get(IL_CAL_DATETIME));
-			$end_time = $tmp[1];
+			$end_time = substr($tmp[1], 0, 5);
 			
 			foreach ($all_op_days as $uid => $op_days) {
 				$amount_op_days = count($op_days);

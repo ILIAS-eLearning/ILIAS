@@ -260,8 +260,13 @@ abstract class ilAutoMail {
 			if (!$mail->Send()) {
 				$ilLog->write("ilMail::send: PHPMailer-error when sending ".$this->getId().": ".$mail->ErrorInfo);
 			}
-
-			$this->log($mail_data, $a_occasion);
+		
+			if (is_numeric($recipient)) {
+				$this->log($mail_data, $a_occasion, $recipient);
+			}
+			else {
+				$this->log($mail_data, $a_occasion);
+			}
 		}
 
 		if ($no_mails) {
@@ -292,9 +297,9 @@ abstract class ilAutoMail {
 	 * @param string $a_occasion The occasion of the mail sending passed to
 	 *                           the logger.
 	 */
-	protected function log($a_mail, $a_occasion) {
+	protected function log($a_mail, $a_occasion, $a_recipient_id = null) {
 		if ($this->logger !== null) {
-			$this->logger->log($a_mail, $a_occasion);
+			$this->logger->log($a_mail, $a_occasion, $this->getId(), $a_recipient_id);
 		}
 	}
 }

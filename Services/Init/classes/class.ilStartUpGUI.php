@@ -2011,6 +2011,7 @@ class ilStartUpGUI
 			$template_file = $a_tmpl;
 			$template_dir  = 'Services/Init';
 		}
+
 		$tpl->addBlockFile('STARTUP_CONTENT', 'startup_content', $template_file, $template_dir);
 	}
 }

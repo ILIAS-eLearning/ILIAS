@@ -14,7 +14,7 @@ class ilCourseBookingMembersTableGUI extends ilTable2GUI
 	protected $has_waiting; // [bool]
 	protected $cancel_deadline_expired; // [bool]
 	protected $perm_cancel_others; // [bool]
-	protected $perm_book_others; // [bool]	
+	protected $perm_book_others; // [bool]
 	// gev-patch start
 	private $course;
 	// gev-patch end
@@ -31,7 +31,11 @@ class ilCourseBookingMembersTableGUI extends ilTable2GUI
 	{
 		global $ilCtrl, $ilUser;
 		
-		parent::__construct($a_parent_obj, $a_parent_cmd);			
+		//gev-patch start
+		$this->setId("crs_booking");
+		//gev-patch end
+
+		parent::__construct($a_parent_obj, $a_parent_cmd);
 		
 		// gev-patch start
 		$this->course = $a_course;
@@ -39,6 +43,9 @@ class ilCourseBookingMembersTableGUI extends ilTable2GUI
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 		$this->user = &$ilUser;
 		$this->userUtils = gevUserUtils::getInstance($this->user->getId());
+
+		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		$this->crs_utils = gevCourseUtils::getInstance($this->course->getId());
 		// gev-patch end
 
 		$bookings = ilCourseBookings::getInstance($a_course);
@@ -75,7 +82,13 @@ class ilCourseBookingMembersTableGUI extends ilTable2GUI
 		$this->setRowTemplate("tpl.members_row.html", "Services/CourseBooking");
 		$this->setFormAction($ilCtrl->getFormAction($this->getParentObject(), $this->getParentCmd()));	
 		
+		//gev-patch start
+		$this->setExternalSegmentation(true);
+		$this->setMaxCount(count($this->crs_utils->getBookedUser()));
+		$this->determineOffsetAndOrder();
+		$this->setShowRowsSelector(true);
 		$this->getItems($a_course, !($a_perm instanceof ilCourseBookingPermissions));
+		//gev-patch end
 	}
 
 	/**
@@ -97,7 +110,7 @@ class ilCourseBookingMembersTableGUI extends ilTable2GUI
 		
 		ilDatePresentation::setUseRelativeDates(false);
 		
-		foreach(ilCourseBooking::getCourseTableData($a_course->getId(), $a_show_cancellations) as $item)
+		foreach(ilCourseBooking::getCourseTableData($a_course->getId(),$this->getOffset(),$this->getLimit(), $a_show_cancellations) as $item)
 		{			
 			$data[] = array(
 				"id" => $item["user_id"]
@@ -114,7 +127,6 @@ class ilCourseBookingMembersTableGUI extends ilTable2GUI
 					" ".$item["status_changed_by_txt"]
 			);
 		}
-	
 		$this->setData($data);
 	}
 	

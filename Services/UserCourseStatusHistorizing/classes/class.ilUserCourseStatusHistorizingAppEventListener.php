@@ -217,7 +217,6 @@ class ilUserCourseStatusHistorizingAppEventListener
 			'booking_status'					=> self::$ilUserCourseStatusHistorizingHelper->getBookingStatusOf($user_id, $course_id),
 			'participation_status'				=> self::$ilUserCourseStatusHistorizingHelper->getParticipationStatusOf($user_id, $course_id),
 			'okz'								=> self::$ilUserHistorizingHelper->getOKZOf($user_id),
-			'org_unit'							=> self::$ilUserHistorizingHelper->getOrgUnitOf($user_id),
 			'begin_date'						=> $begin_date,
 			'end_date'							=> $end_date,
 			'overnights'						=> self::$ilUserCourseStatusHistorizingHelper->getOvernightsOf($user_id, $course_id),

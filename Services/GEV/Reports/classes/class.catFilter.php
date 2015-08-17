@@ -645,7 +645,7 @@ class catMultiSelectFilter {
 		else if (count($a_conf) === 9) {
 			$a_conf[] = "text"; // type
 		}
-		
+
 		return $a_conf;
 	}
 	
@@ -693,9 +693,9 @@ class catMultiSelectFilter {
 			foreach($a_conf[3] as $field) {
 				$stmts[] = $ilDB->in(catFilter::quoteDBId($field), $a_pars, false, $a_conf[9]);
 			}
-			return "(".implode(" OR ", $stmts).")";
+			return "(".implode(" OR ", $stmts)."  ".$a_conf[6].")";
 		}
-		return $ilDB->in(catFilter::quoteDBId($a_conf[3]), $a_pars, false, $a_conf[9]);
+		return "(".$ilDB->in(catFilter::quoteDBId($a_conf[3]), $a_pars, false, $a_conf[9])." ".$a_conf[6].")";
 	}
 	
 	public function get($a_pars) {

@@ -4062,3 +4062,73 @@ if(!$ilDB->tableColumnExists('hist_usercoursestatus', 'gev_id')) {
 			"notnull" => false
 	));
 ?>
+
+<#148> 
+<?php
+
+	$ilDB->renameTableColumn('hist_course', 'webex_vc_type', 'virtual_classroom_type');
+
+?>
+
+<#149>
+<?php
+	require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+	
+	$ilDB->manipulate("UPDATE settings SET keyword = ".$ilDB->quote(gevSettings::CRS_AMD_VC_LINK,"text")
+		." WHERE keyword = ".$ilDB->quote(gevSettings::CRS_AMD_WEBEX_LINK,"text"));
+
+	$ilDB->manipulate("UPDATE settings SET keyword = ".$ilDB->quote(gevSettings::CRS_AMD_VC_PASSWORD,"text")
+		." WHERE keyword = ".$ilDB->quote(gevSettings::CRS_AMD_WEBEX_PASSWORD,"text"));
+
+	$ilDB->manipulate("UPDATE settings SET keyword = ".$ilDB->quote(gevSettings::CRS_AMD_VC_PASSWORD_TUTOR,"text")
+		." WHERE keyword = ".$ilDB->quote(gevSettings::CRS_AMD_WEBEX_PASSWORD_TUTOR,"text"));
+
+	$ilDB->manipulate("UPDATE settings SET keyword = ".$ilDB->quote(gevSettings::CRS_AMD_VC_CLASS_TYPE,"text")
+		." WHERE keyword = ".$ilDB->quote(gevSettings::CRS_AMD_WEBEX_VC_CLASS_TYPE,"text"));
+
+	$ilDB->manipulate("UPDATE settings SET keyword = ".$ilDB->quote(gevSettings::CRS_AMD_VC_LOGIN_TUTOR,"text")
+		." WHERE keyword = ".$ilDB->quote(gevSettings::CRS_AMD_WEBEX_LOGIN_TUTOR,"text"));
+
+	require_once "Customizing/class.ilCustomInstaller.php";
+	ilCustomInstaller::initPluginEnv();
+	ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "AdvancedMetaData", "amdc", "CourseAMD");
+
+?>
+
+<#150>
+<?php
+	
+	$ilDB->dropTableColumn('hist_usercoursestatus', 'org_unit');
+
+?>
+
+<#151>
+<?php
+
+	if(!$ilDB->tableColumnExists('mail_log', "mail_id")){
+		$ilDB->addTableColumn('mail_log', "mail_id", array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => false
+			)
+		);	
+	}
+?>
+
+<#152>
+<?php
+
+	if(!$ilDB->tableColumnExists('mail_log', "recipient_id")){
+		$ilDB->addTableColumn('mail_log', "recipient_id", array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false
+			)
+		);	
+	}
+?>
+
+<#153>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

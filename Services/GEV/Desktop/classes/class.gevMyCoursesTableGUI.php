@@ -133,11 +133,11 @@ class gevCoursesTableGUI extends catAccordionTableGUI {
 		if ( $a_set["start_date"] && $a_set["end_date"] && $a_set["crs_amd_schedule"] ) {
 			$show_webex_link = gevCourseUtils::timeWithinCourse(
 				time() - $offset , self::CUM_TEMPORE_MIN, $a_set["start_date"], $a_set["end_date"], $a_set["crs_amd_schedule"]
-			) && ($crs_utils->getWebExlink()!==null);
+			) && ($crs_utils->getVirtualClassLink()!==null);
 		}
 
 		if ($show_webex_link ) {
-			$action .= '&nbsp;<a href="'.$crs_utils->getWebExlink().'" target="_blank">'.$this->virtualclass_img.'</a>';
+			$action .= '&nbsp;<a href="'.$crs_utils->getVirtualClassLink().'" target="_blank">'.$this->virtualclass_img.'</a>';
 		}
 
 		$action = ltrim($action,"&nbsp;");

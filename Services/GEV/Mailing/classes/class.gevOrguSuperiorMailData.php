@@ -68,6 +68,11 @@ class gevOrguSuperiorMailData extends ilMailData {
 		}
 
 		$this->end_timestamp = $end_date->getTimestamp();
+
+		//test date
+		/*$this->end_date_str = "2015-08-03";
+		$end_date = new DateTime($this->end_date_str." 23:59:59");
+		$this->end_timestamp = $end_date->getTimestamp();*/
 	}
 	
 	function hasCarbonCopyRecipients() {
@@ -147,16 +152,19 @@ class gevOrguSuperiorMailData extends ilMailData {
 		$ret .= $this->getFullInfoEachUser($user_data["gebucht"],"Keine Buchungen gefunden.");
 
 		$ret .= "\n\n<h3>Buchungen auf Warteliste:</h3>\n\n";
-		$ret .= $this->getFullInfoEachUser($user_data["auf Warteliste"],"Keine Buchungen auf Warteliste gefunden.");
+		$ret .= $this->getFullInfoEachUser($user_data["auf_Warteliste"],"Keine Buchungen auf Warteliste gefunden.");
 
 		$ret .= "\n\n<h3>kostenfreie Stornierungen:</h3>\n\n";
-		$ret .= $this->getSmallInfoEachUser($user_data["kostenfrei storniert"],"Keine kostenfreie Stornierungen gefunden.");
+		$ret .= $this->getSmallInfoEachUser($user_data["kostenfrei_storniert"],"Keine kostenfreie Stornierungen gefunden.");
 
 		$ret .= "\n\n<h3>kostenpflichtige Stornierungen:</h3>\n\n";
-		$ret .= $this->getSmallInfoEachUser($user_data["kostenpflichtig storniert"],"Keine kostenpflichtige Stornierungen gefunden.");
+		$ret .= $this->getSmallInfoEachUser($user_data["kostenpflichtig_storniert"],"Keine kostenpflichtige Stornierungen gefunden.");
 		
 		$ret .= "\n\n<h3>erfolgreiche Teilnahmen:</h3>\n\n";
 		$ret .= $this->getSmallInfoEachUser($user_data["teilgenommen"],"Keine erfolgreiche Teilnahmen gefunden.");
+
+		$ret .= "\n\n<h3>unentschuldigtes Fehlen:</h3>\n\n";
+		$ret .= $this->getSmallInfoEachUser($user_data["fehlt_ohne_Absage"],"Keine erfolgreiche Teilnahmen gefunden.");
 
 		if(!$a_markup) {
 			$ret = strip_tags($ret);

@@ -681,29 +681,31 @@ abstract class ilTEPViewGridBased extends ilTEPView
 			
 			$actions = "";
 			if($crs_utils->isVirtualTraining()) {
-				if($crs_utils->getWebExLoginTutor()) {
-					$actions .= "VC Login: ".$crs_utils->getWebExLoginTutor()."<br />";
+				if($crs_utils->getVirtualClassLoginTutor()) {
+					$actions .= "VC Login: ".$crs_utils->getVirtualClassLoginTutor()."<br />";
 				}
 
-				if($crs_utils->getWebExPasswordTutor()) {
-					$actions .= "VC Passwort: ".$crs_utils->getWebExPasswordTutor()."<br /><br />";
+				if($crs_utils->getVirtualClassPasswordTutor()) {
+					$actions .= "VC Passwort: ".$crs_utils->getVirtualClassPasswordTutor()."<br /><br />";
 				}
 			}
 
-			if ($crs_utils->hasTrainer($cur_user_id) || $crs_utils->hasAdmin($cur_user_id)) {
+			if ($crs_utils->hasTrainer($cur_user_id) || $crs_utils->hasAdmin($cur_user_id)
+				|| $crs_utils->canViewBookings($cur_user_id)) {
 				$memberlist_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-table-eye.png").'" />';
 				$ilCtrl->setParameterByClass("gevMemberListDeliveryGUI", "ref_id", $ref_id);
 				$actions .=  "<a href='".$ilCtrl->getLinkTargetByClass("gevMemberListDeliveryGUI", "trainer")
 							."' title='".$lng->txt("gev_mytrainingsap_legend_memberlist")."'>".$memberlist_img."</a>&nbsp;";
 				$ilCtrl->setParameterByClass("gevMemberListDeliveryGUI", "ref_id", null);
 			}
-			/*if ($crs_utils->hasTrainer($cur_user_id) || $crs_utils->hasAdmin($cur_user_id)) {
+			if (!in_array($crs_utils->getType(), array("Webinar", "Spezialistenschulung Webinar"))
+					&& $crs_utils->canViewBookings($cur_user_id)) {
 				$signatures_img = '<img src="'.ilUtil::getImagePath("GEV_img/icon-table-signature.png").'" />';
 				$ilCtrl->setParameterByClass("gevMemberListDeliveryGUI", "ref_id", $ref_id);
 				$actions .=  "<a href='".$ilCtrl->getLinkTargetByClass("gevMemberListDeliveryGUI", "download_signature_list")
 							."' title='".$lng->txt("gev_mytrainingsap_legend_signature_list")."'>".$signatures_img."</a>&nbsp;";
 				$ilCtrl->setParameterByClass("gevMemberListDeliveryGUI", "ref_id", null);
-			}*/
+			}
 			$ilCtrl->setParameterByClass("ilTEPGUI", "ref_id", $ref_id);
 			$ilCtrl->setParameterByClass("ilTEPGUI", "crs_id", $crs_id);
 			if ( $crs_utils->canModifyParticipationStatus($cur_user_id)) {
@@ -721,16 +723,17 @@ abstract class ilTEPViewGridBased extends ilTEPView
 				$actions .=  "<a href='".$ilCtrl->getLinkTargetByClass("ilTEPGUI", "showBookings")
 							."' title='".$lng->txt("gev_mytrainingsap_legend_view_bookings")."'>".$bookings_img."</a>&nbsp;";
 			}
-			if($crs_utils->getWebExLink() !== null) {
+			if($crs_utils->getVirtualClassLink() !== null) {
 				$vc_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-classroom.png").'" />';
-				$actions .=  "<a href='".$crs_utils->getWebExLink()
+				$actions .=  "<a href='".$crs_utils->getVirtualClassLink()
 							."' title='".$lng->txt("gev_virtual_class")."' target='_blank'>".$vc_img."</a>&nbsp;";
 			}
 
 			$ilCtrl->setParameterByClass("gevMaillogGUI", "obj_id", $a_set["obj_id"]);
 			$ilCtrl->setParameterByClass("ilTEPGUI", "obj_id", $a_set["obj_id"]);
 			$maillog_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-invitation.png").'" />';
-			$actions .= '<a href="'.$ilCtrl->getLinkTargetByClass("gevMaillogGUI", "showMaillog").'">'.$maillog_img.'</a>';
+			$actions .= '<a href="'.$ilCtrl->getLinkTargetByClass("gevMaillogGUI", "showMaillog").'"'
+						.' title="'.$lng->txt("gev_maillog").'">'.$maillog_img.'</a>';
 			$ilCtrl->clearParametersByClass("gevMaillogGUI");
 
 			

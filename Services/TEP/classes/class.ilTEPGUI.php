@@ -192,6 +192,7 @@ class ilTEPGUI
 						break;
 					case "showMaillog":
 					case "showLoggedMail":
+					case "resendMail":
 						require_once("Services/GEV/Mailing/classes/class.gevMaillogGUI.php");
 						$gui = new gevMaillogGUI("iltepgui");
 						$ret = $ilCtrl->forwardCommand($gui);

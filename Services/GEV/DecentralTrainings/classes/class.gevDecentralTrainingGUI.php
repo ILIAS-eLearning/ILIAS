@@ -746,8 +746,8 @@ class gevDecentralTrainingGUI {
 					, "time" => null
 					, "venue" => $crs_utils->getVenueId()
 					, "venue_free_text" => $crs_utils->getVenueFreeText()
-					, "webinar_link" => $crs_utils->getWebExLink()
-					, "webinar_password" => $crs_utils->getWebExPassword()
+					, "webinar_link" => $crs_utils->getVirtualClassLink()
+					, "webinar_password" => $crs_utils->getVirtualClassPassword()
 					, "orgu_id" => $crs_utils->getTEPOrguId()
 					, "invitation_preview" => $crs_utils->getInvitationMailPreview()
 					, "orgaInfo" => $crs_utils->getOrgaInfo()
@@ -978,13 +978,13 @@ class gevDecentralTrainingGUI {
 					, "time" => null
 					, "venue" => $crs_utils->getVenueId()
 					, "venue_free_text" => $crs_utils->getVenueFreeText()
-					, "webinar_link" => $crs_utils->getWebExLink()
-					, "webinar_password" => $crs_utils->getWebExPassword()
+					, "webinar_link" => $crs_utils->getVirtualClassLink()
+					, "webinar_password" => $crs_utils->getVirtualClassPassword()
 					, "orgu_id" => $crs_utils->getTEPOrguId()
 					, "invitation_preview" => $crs_utils->getInvitationMailPreview()
 					, "orgaInfo" => $crs_utils->getOrgaInfo()
 					, "credit_points" => $crs_utils->getCreditPoints()
-					, "webinar_vc_type" => $crs_utils->getWebExVirtualClassType()
+					, "webinar_vc_type" => $crs_utils->getVirtualClassType()
 					, "training_category" => $crs_utils->getTopics()
 					, "target_groups" => $crs_utils->getTargetGroup()
 					, "gdv_topic" => $crs_utils->getWBDTopic()
@@ -1124,7 +1124,7 @@ class gevDecentralTrainingGUI {
 		$form->addItem($ltype);
 
 		if ($crs_utils->isWebinar()) {
-			//$vc_type_options = $amd_utils->getOptions(gevSettings::CRS_AMD_WEBEX_VC_CLASS_TYPE);
+			//$vc_type_options = $amd_utils->getOptions(gevSettings::CRS_AMD_VC_CLASS_TYPE);
 			// For now we'll only allow csn and webex
 			$vc_type_options = array("CSN"=>"CSN","Webex"=>"Webex");
 			$webinar_vc_type = new ilSelectInputGUI($this->lng->txt("gev_dec_training_vc_type"),"webinar_vc_type");

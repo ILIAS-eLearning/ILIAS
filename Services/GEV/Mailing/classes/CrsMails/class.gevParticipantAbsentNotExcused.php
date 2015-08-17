@@ -24,7 +24,15 @@ class gevParticipantAbsentNotExcused extends gevCrsAutoMail {
 	}
 	
 	public function getCC($a_recipient) {
-		return array();
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+
+		if (!$this->checkUserID($a_recipient)) {
+			return array();
+		}
+
+		$superior_ids = gevUserUtils::getInstance($a_recipient)->getDirectSuperiors();
+
+		return $superior_ids;
 	}
 
 	public function getMail($a_recipient) {

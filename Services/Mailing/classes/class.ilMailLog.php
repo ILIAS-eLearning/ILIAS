@@ -135,7 +135,8 @@ class ilMailLog {
 	 *					  responsible for.
 	 */
 	public function getEntry($a_id) {
-		$result = $this->db->query("SELECT id, moment, occasion, subject, message, attachments, mail_from 'from', mail_to 'to', cc, bcc
+		$result = $this->db->query("SELECT id, moment, occasion, subject, message, attachments, mail_from 'from'
+										 , mail_to 'to', cc, bcc, mail_id, recipient_id
 									FROM mail_log
 									WHERE id = ".$this->db->quote($a_id, "integer")."
 									  AND obj_id = ".$this->db->quote($this->obj_id, "integer"));
@@ -172,7 +173,7 @@ class ilMailLog {
 	 * @param Array $a_mail Array containing mail data.
 	 * @param string $a_occasion The occasion that led to sending of the mail.
 	 */
-	public function log($a_mail, $a_occasion) {
+	public function log($a_mail, $a_occasion, $a_mail_id = null, $a_recipient_id = null) {
 		$storage = $this->getStorage();
 
 		$attachments = array();
@@ -189,8 +190,10 @@ class ilMailLog {
 
 		$id = $this->db->nextID("mail_log");
 
-		$query = "INSERT INTO mail_log (id, obj_id, moment, occasion, mail_from, mail_to, cc, bcc, subject, message, attachments)
-				  VALUES ".
+		$query = "INSERT INTO mail_log (id, obj_id, moment, occasion, mail_from, mail_to".
+				 "                     , cc, bcc, subject, message, attachments, mail_id".
+				 "                     , recipient_id)".
+				 " VALUES ".
 				"(" .$this->db->quote($id, "integer").", "
 					.$this->db->quote($this->obj_id, "integer").", "
 					.$this->db->quote(time(), "integer").", "
@@ -201,7 +204,9 @@ class ilMailLog {
 					.$this->db->quote($bcc, "text").", "
 					.$this->db->quote($a_mail["subject"], "text").", "
 					.$this->db->quote((strlen($a_mail["message_html"]) > 0) ? $a_mail["message_html"] : $a_mail["message_plain"], "text").", "
-					.$this->db->quote($attachments, "text").
+					.$this->db->quote($attachments, "text").", "
+					.$this->db->quote($a_mail_id, "text").","
+					.$this->db->quote($a_recipient_id, "text").
 				")";
 
 		$this->db->manipulate($query);

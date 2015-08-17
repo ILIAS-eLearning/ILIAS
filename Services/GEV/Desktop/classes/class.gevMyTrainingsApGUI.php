@@ -80,6 +80,7 @@ class gevMyTrainingsApGUI {
 				break;
 			case "showMaillog":
 			case "showLoggedMail":
+			case "resendMail":
 				require_once("Services/GEV/Mailing/classes/class.gevMaillogGUI.php");
 				$gui = new gevMaillogGUI("mytrainigsapgui");
 				$ret = $this->ctrl->forwardCommand($gui);

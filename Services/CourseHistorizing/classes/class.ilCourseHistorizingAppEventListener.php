@@ -145,7 +145,7 @@ class ilCourseHistorizingAppEventListener
 			'edu_program'						=> self::$ilCourseHistorizingHelper->getEduProgramOf($parameter),
 			'is_online'							=> self::$ilCourseHistorizingHelper->isOnline($parameter),
 			'dbv_hot_topic'						=> self::$ilCourseHistorizingHelper->getDBVHotTopicOf($parameter),
-			'webex_vc_type'						=> self::$ilCourseHistorizingHelper->getWebExVCType($parameter)
+			'virtual_classroom_type'			=> self::$ilCourseHistorizingHelper->getVirtualClassroomType($parameter)
 		);
 
 		$deadline_data = self::$ilCourseHistorizingHelper->getDeadlineDataOf($parameter);

@@ -44,6 +44,7 @@ class gevMaillogGUI {
 		switch($cmd) {
 			case "showMaillog":
 			case "showLoggedMail":
+			case "resendMail":
 				$this->$cmd();
 		}
 	}
@@ -136,6 +137,16 @@ class gevMaillogGUI {
 			$this->ctrl->clearParametersByClass("vfCrsMailingGUI");
 		}
 		
+		if ($mail["mail_id"] && $mail["recipient_id"]) {
+			$this->ctrl->setParameter($this, "log_id", $mail["id"]);
+			$this->ctrl->setParameter($this, "obj_id", $this->obj_id);
+			$resend_link = $this->ctrl->getLinkTarget($this, "resendMail");
+			$this->ctrl->clearParameters($this);
+		}
+		else {
+			$resend_link = null;
+		}
+		
 		$this->ctrl->setParameter($this, "obj_id", $this->obj_id);
 		$view_gui = new ilMailViewGUI( $mail["occasion"]." ".($this->lng->txt("mailing_on"))." ".$moment
 									 , $this->ctrl->getLinkTarget($this, "showMaillog")
@@ -148,11 +159,35 @@ class gevMaillogGUI {
 									 , $mail["to"]
 									 , $mail["cc"]
 									 , $mail["bcc"]
+									 , $resend_link
 									 );
 		
 		$this->ctrl->setParameter($this, "obj_id", null);
 		
 		$this->tpl->setContent($view_gui->getHTML());
+	}
+	
+	protected function resendMail() {
+		if($_GET["log_id"] === null or !is_numeric($_GET["log_id"])) {
+			$this->ctrl->redirect($this, "showLog");
+			exit();
+		}
+		
+		$mail_id = intval($_GET["log_id"]);
+		$mail = $this->getMailLog()->getEntry($mail_id);
+		
+		require_once("Services/GEV/Mailing/classes/class.gevCrsAutoMails.php");
+		$auto_mails = new gevCrsAutoMails($this->obj_id);
+		$res = $auto_mails->send($mail["mail_id"], array($mail["recipient_id"]), $auto_mails->getUserOccasion());
+		
+		if ($res === true) {
+			ilUtil::sendSuccess($this->lng->txt("auto_mail_send_successfully"));
+		}
+		else {
+			ilUtil::sendFailure($res);
+		}
+		
+		$this->showMaillog();
 	}
 }
 

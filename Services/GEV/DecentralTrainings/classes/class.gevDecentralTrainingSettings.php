@@ -182,15 +182,15 @@ class gevDecentralTrainingSettings {
 
 		$crs_utils->setVenueId($this->venueObjId());
 		$crs_utils->setVenueFreeText($this->venueText());
-		$crs_utils->setWebExLink($this->webinarLink());
-		$crs_utils->setWebExPassword($this->webinarPassword());
+		$crs_utils->setVirtualClassLink($this->webinarLink());
+		$crs_utils->setVirtualClassPassword($this->webinarPassword());
 		$crs_utils->setOrgaInfo($this->orgaInfo());
 
 		if ($this->title() !== null) {
 			$crs->setTitle($this->title());
 		}
 		if ($this->vcType() !== null) {
-			$crs_utils->setVCType($this->vcType());
+			$crs_utils->setVirtualClassType($this->vcType());
 		}
 		if ($this->trainingCategory() !== null) {
 			$crs_utils->setTrainingCategory($this->trainingCategory());
