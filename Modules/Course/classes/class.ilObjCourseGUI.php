@@ -156,13 +156,13 @@ class ilObjCourseGUI extends ilContainerGUI
 	 */
 	protected function afterImport(ilObject $a_new_object)
 	{
-		global $ilUser;
+		global $ilUser, $ilSetting;
 		
 		// #11895
 		include_once './Modules/Course/classes/class.ilCourseParticipants.php';
 		$part = ilCourseParticipants::_getInstanceByObjId($a_new_object->getId());
 		$part->add($ilUser->getId(), ilCourseConstants::CRS_ADMIN);
-		$part->updateNotification($ilUser->getId(), 1);
+		$part->updateNotification($ilUser->getId(), $ilSetting->get('mail_crs_admin_notification', true));
 
 		parent::afterImport($a_new_object);
 	}
@@ -1622,10 +1622,10 @@ class ilObjCourseGUI extends ilContainerGUI
 	*/
 	protected function afterSave(ilObject $a_new_object)
 	{
-		global $rbacadmin, $ilUser;
+		global $rbacadmin, $ilUser, $ilSetting;
 		
 		$a_new_object->getMemberObject()->add($ilUser->getId(),IL_CRS_ADMIN);
-		$a_new_object->getMemberObject()->updateNotification($ilUser->getId(),1);
+		$a_new_object->getMemberObject()->updateNotification($ilUser->getId(),$ilSetting->get('mail_crs_admin_notification', true));
 		$a_new_object->update();
 		
 		// BEGIN ChangeEvent: Record write event.
