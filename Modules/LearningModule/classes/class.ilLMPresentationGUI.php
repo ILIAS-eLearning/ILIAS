@@ -351,14 +351,17 @@ class ilLMPresentationGUI
 	{		
 		global $ilUser;
 		
-		include_once("./Modules/LearningModule/classes/class.ilObjLearningModuleAccess.php");
-		$last_accessed_page = ilObjLearningModuleAccess::_getLastAccessedPage((int)$_GET["ref_id"], $ilUser->getId());
-		
-		// if last accessed page was final page do nothing, start over
-		if($last_accessed_page &&
-			$last_accessed_page != $this->lm_tree->getLastActivePage())
-		{					
-			$_GET["obj_id"] = $last_accessed_page;
+		if ($ilUser->getId() != ANONYMOUS_USER_ID)
+		{
+			include_once("./Modules/LearningModule/classes/class.ilObjLearningModuleAccess.php");
+			$last_accessed_page = ilObjLearningModuleAccess::_getLastAccessedPage((int)$_GET["ref_id"], $ilUser->getId());
+
+			// if last accessed page was final page do nothing, start over
+			if($last_accessed_page &&
+				$last_accessed_page != $this->lm_tree->getLastActivePage())
+			{					
+				$_GET["obj_id"] = $last_accessed_page;
+			}
 		}
 			
 		$this->layout();

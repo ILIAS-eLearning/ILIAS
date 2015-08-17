@@ -52,15 +52,7 @@ class ilObjContentObjectAccess extends ilObjectAccess
 				}
 				break;
 				
-			case "continue":
-			
-				// no continue command for anonymous user
-				if ($ilUser->getId() == ANONYMOUS_USER_ID)
-				{
-					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("lm_no_continue_for_anonym"));
-					return false;
-				}
-				
+			case "continue":				
 				if(!$rbacsystem->checkAccessOfUser($a_user_id,'write',$a_ref_id))
 				{
 					if(!ilObjContentObjectAccess::_lookupOnline($a_obj_id))
@@ -68,12 +60,22 @@ class ilObjContentObjectAccess extends ilObjectAccess
 						$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
 						return false;
 					}
-					if (ilObjContentObjectAccess::_getLastAccessedPage($a_ref_id,$a_user_id) <= 0)
-					{
-						$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("not_accessed_yet"));
-						return false;
-					}
 				}
+				
+				// continue is now default and works all the time
+				// see ilLMPresentationGUI::resume()
+				/*
+				if ($ilUser->getId() == ANONYMOUS_USER_ID)
+				{
+					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("lm_no_continue_for_anonym"));
+					return false;
+				}													
+				if (ilObjContentObjectAccess::_getLastAccessedPage($a_ref_id,$a_user_id) <= 0)
+				{
+					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("not_accessed_yet"));
+					return false;
+				}					 
+				*/				
 				break;
 				
 			// for permission query feature
