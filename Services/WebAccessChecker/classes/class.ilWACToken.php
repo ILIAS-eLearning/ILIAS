@@ -77,23 +77,9 @@ class ilWACToken {
 
 	/**
 	 * @return string
-	 * @throws ilWACException
 	 */
 	protected function getSaltFilePath() {
-		static $salt_file;
-		//		$salt_file = './data/wacsalt.php'; // FSX: most performant way, has to be discussed at JF
-		if (! $salt_file) {
-			require_once('./Services/Init/classes/class.ilIniFile.php');
-			$ilIniFile = new ilIniFile('./ilias.ini.php');
-			$ilIniFile->read();
-
-			$directory = realpath($ilIniFile->readVariable('clients', 'datadir')) . '/' . $this->getClient();
-
-			if (! $this->getClient() || ! is_writable($directory)) {
-				throw new ilWACException(ilWACException::DATA_DIR_NON_WRITEABLE, $directory);
-			}
-			$salt_file = $directory . '/wacsalt.php';
-		}
+		$salt_file = './data/wacsalt.php';
 
 		return $salt_file;
 	}
