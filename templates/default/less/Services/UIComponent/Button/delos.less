@@ -66,7 +66,6 @@ button.btn:not(.btn-link) > span:first-child:not(:empty) {
   }
 }
 
-
 /* old stuff */
 
 input.ilSubmitInactive, input.ilSubmitInactive:hover, input.ilSubmitInactive:active,
@@ -75,4 +74,9 @@ a.ilSubmitInactive, a.ilSubmitInactive:hover , a.ilSubmitInactive:active {
 	background-color: #b0b0b0;
 	border-color: #b0b0b0;
 	cursor: default;
+}
+
+// #16322
+button > .glyphicon {
+   pointer-events: none;
 }
