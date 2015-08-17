@@ -15487,8 +15487,7 @@ common#:#settings_for_all_members#:#Members will be notified automatically
 common#:#settings_per_users#:#For each member individual settings can be made 
 forum#:#user_decides_notification#:#Members have to manually activate notifications
 crs#:#crs_intro_course_group_notification_for#:#this is the news digest for your courses and groups, which have an active notification.
-crs#:#crs_intro_course_group_notification_period#:#This mail summarizes news from %1$s to %2$s.
-crs#:#crs_intro_course_group_notification_title#:#There are news for the following courses and groups:
+crs#:#crs_intro_course_group_notification_index#:#There are news for the period of %1$s to %2$s for the following courses and groups:
 forum#:#post_deleted_by#:#following posting in forum "%2$s" was deleted by "%1$s":
 forum#:#content_deleted_post#:#Content of the deleted posting:
 forum#:#post_updated_by#:#subsequently edited posting in forum by "%1$s": "%2$s"

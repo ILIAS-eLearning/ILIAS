@@ -15481,8 +15481,7 @@ common#:#settings_for_all_members#:#Mitglieder werden automatisch benachrichtigt
 common#:#settings_per_users#:#Für jedes Mitglied können individuelle Voreinstellungen getroffen werden
 forum#:#user_decides_notification#:#Mitglieder müssen Benachrichtigungen selber aktivieren 
 crs#:#crs_intro_course_group_notification_for#:#dies ist die Zusammenfassung der Nachrichten aus Ihren Kursen und Gruppen, für die die automatische Benachrichtigung aktiviert wurde.
-crs#:#crs_intro_course_group_notification_period#:#Diese Mail umfasst Nachrichten für den Zeitraum von %1$s bis %2$s.
-crs#:#crs_intro_course_group_notification_index#:#Es gibt Nachrichten aus folgenden Kursen und Gruppen:
+crs#:#crs_intro_course_group_notification_index#:#Es gibt Nachrichten aus folgenden Kursen und Gruppen für den Zeitraum von %1$s bis %2$s:
 forum#:#post_deleted_by#:#folgender Beitrag im Forum "%2$s" wurde von "%1$s" gelöscht:
 forum#:#content_deleted_post#:#Inhalt des gelöschten Beitrags:
 forum#:#post_updated_by#:#folgender Beitrag im Forum "%2$s" wurde von "%1$s" geändert
