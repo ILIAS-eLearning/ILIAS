@@ -117,7 +117,12 @@ class ilRbacSystem
 		// Owners do always have full access to their objects
 		// Excluded are the permissions create and perm
 		// This method call return all operations that are NOT granted by the owner status 
-		if(!$a_operations = $this->__filterOwnerPermissions($a_user_id,$a_operations,$a_ref_id))
+// BEGIN PATCH HSLU ENABLE OWNER
+        require_once 'Services/AccessControl/classes/class.ilPostboxHelper.php';
+        $isPostbox=ilPostboxHelper::_createBildName($a_ref_id,'default');
+        if($isPostbox=='drop' AND !$a_operations = $this->__filterOwnerPermissions($a_user_id,$a_operations,$a_ref_id))
+        //if(!$a_operations = $this->__filterOwnerPermissions($a_user_id,$a_operations,$a_ref_id))
+// END PATCH HSLU ENABLE OWNER
 		{
 			// Store positive outcome in cache.
 			// Note: we only cache up to 1000 results to avoid memory overflows

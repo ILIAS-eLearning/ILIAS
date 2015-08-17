@@ -1502,6 +1502,11 @@ class ilObjectListGUI
 		if ($this->type == "sahs" && $this->offline_mode) {
 			return $this->type . "_offline";	
 		}
+		//BEGIN PATCH HSLU Anderes Bildli für Briefchaschte
+        require_once 'Services/AccessControl/classes/class.ilPostboxHelper.php';
+        return ilPostboxHelper::_createBildName($this->ref_id,$this->type);
+        //return $this->type;
+		//END PATCH HSLU Anderes Bildli für Briefchaschte
 		return $this->type;
 	}
 	// END WebDAV: Visualize object state in its icon.

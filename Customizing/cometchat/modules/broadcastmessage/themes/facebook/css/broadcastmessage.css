@@ -1,0 +1,292 @@
+/*
+ * CometChat
+ * Copyright (c) 2014 Inscripts - support@cometchat.com | http://www.cometchat.com | http://www.inscripts.com
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-weight: inherit;
+	font-style: inherit;
+	font-size: 100%;
+	font-family: inherit;
+	vertical-align: baseline;
+}
+
+html, body {
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	overflow: hidden;
+	background: <?php echo $themeSettings['tab_background'];?>;
+	direction: <?php echo $dir;?>;
+}
+
+.placeholder
+{
+  color: #aaaaaa !important;
+}
+
+.container {
+	font-family: 'Lucida Grande', Verdana, Arial, 'Bitstream Vera Sans', sans-serif;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: normal;
+	margin: 0 auto;
+	background: <?php echo $themeSettings['tab_background'];?>;
+}
+
+.container_title {
+	background-color: <?php echo $themeSettings['tab_title_background'];?> !important;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='<?php echo $themeSettings['tab_title_gradient_start'];?>', endColorstr='<?php echo $themeSettings['tab_title_gradient_end'];?>');
+	background: -webkit-gradient(linear, left top, left bottom, from(<?php echo $themeSettings['tab_title_gradient_start'];?>), to(<?php echo $themeSettings['tab_title_gradient_end'];?>));
+	background: -moz-linear-gradient(top, <?php echo $themeSettings['tab_title_gradient_start'];?>, <?php echo $themeSettings['tab_title_gradient_end'];?>);
+	background: -ms-linear-gradient(top, <?php echo $themeSettings['tab_title_gradient_start'];?>, <?php echo $themeSettings['tab_title_gradient_end'];?>);
+	background: -o-linear-gradient(top, <?php echo $themeSettings['tab_title_gradient_start'];?>, <?php echo $themeSettings['tab_title_gradient_end'];?>);
+	border-left: 1px solid <?php echo $themeSettings['tab_title_border'];?>;
+	border-right: 1px solid <?php echo $themeSettings['tab_title_border'];?>;
+	border-top: 1px solid <?php echo $themeSettings['tab_title_border'];?>;
+	color: <?php echo $themeSettings['tab_title_color'];?>;
+	font-family: <?php echo $themeSettings['tab_title_font_family'];?>;
+	font-size: <?php echo $themeSettings['tab_title_font_size_large'];?>;
+	padding: 5px;
+	font-weight: bold;
+	padding-left: 10px;
+	padding-bottom: 6px;
+	text-shadow: 1px 1px 0 <?php echo $themeSettings['tab_title_text_background'];?>;
+}
+
+.container_body {
+	border-left: 1px solid <?php echo $themeSettings['tab_border'];?>;
+	border-bottom: 1px solid <?php echo $themeSettings['tab_border_light'];?>;
+	border-right: 1px solid <?php echo $themeSettings['tab_border'];?>;
+	background-color: <?php echo $themeSettings['tab_background'];?>;
+	color: <?php echo $themeSettings['tab_color'];?>;
+	font-family: <?php echo $themeSettings['tab_font_family'];?>;
+	font-size: <?php echo $themeSettings['tab_font_size'];?>;
+	padding: 10px 10px;
+	height: 110px;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+.container_body.embed {
+	border: 0px;
+	padding: 10px;
+}
+
+.container_title.embed {
+	display: none;
+}
+
+.invite_1 {
+	cursor: pointer;
+	position: relative;
+	height: 30px;
+	float: left;
+	width: 168px;
+	border: 1px dotted <?php echo $themeSettings['tab_border_light'];?>;
+	padding: 2px;
+	margin: 3px;
+}
+
+.invite_2 {
+	float: left;
+}
+
+.invite_3 {
+	float: left;
+	padding-<?php echo $left;?>: 10px;
+	max-width: 100px;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+.invite_4 {
+	position: absolute;
+	right: 4px;
+	top: 4px;
+}
+
+.invite_5 {
+	color: <?php echo $themeSettings['tab_sub_color'];?>;
+}
+.invite_name{
+	text-overflow: ellipsis;
+	overflow: hidden;
+	width: 100px;
+	float: left;
+	white-space:nowrap;
+}
+
+.invitebutton {
+	background-color: <?php echo $themeSettings['tab_title_background'];?> !important;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='<?php echo $themeSettings['tab_title_gradient_start'];?>', endColorstr='<?php echo $themeSettings['tab_title_gradient_end'];?>');
+	background: -webkit-gradient(linear, left top, left bottom, from(<?php echo $themeSettings['tab_title_gradient_start'];?>), to(<?php echo $themeSettings['tab_title_gradient_end'];?>));
+	background: -moz-linear-gradient(top, <?php echo $themeSettings['tab_title_gradient_start'];?>, <?php echo $themeSettings['tab_title_gradient_end'];?>);
+	background: -ms-linear-gradient(top, <?php echo $themeSettings['tab_title_gradient_start'];?>, <?php echo $themeSettings['tab_title_gradient_end'];?>);
+	background: -o-linear-gradient(top, <?php echo $themeSettings['tab_title_gradient_start'];?>, <?php echo $themeSettings['tab_title_gradient_end'];?>);
+	border: 1px solid <?php echo $themeSettings['tab_title_border'];?>;
+	color: <?php echo $themeSettings['tab_title_color'];?>;
+	cursor: pointer;
+	font-family: <?php echo $themeSettings['tab_title_font_family'];?>;
+	font-size: <?php echo $themeSettings['tab_font_size'];?>;
+	font-weight: bold;
+	padding: 3px;
+	-moz-border-radius-topleft: 3px;
+	-moz-border-radius-topright: 3px;
+	-moz-border-radius-bottomleft: 3px;
+	-moz-border-radius-bottomright: 3px;
+	-webkit-border-top-left-radius: 3px;
+	-webkit-border-top-right-radius: 3px;
+	-webkit-border-bottom-left-radius: 3px;
+	-webkit-border-bottom-right-radius: 3px;
+	border-top-left-radius: 3px;
+	border-top-right-radius: 3px;
+	border-bottom-left-radius: 3px;
+	border-bottom-right-radius: 3px;
+}
+
+.container_sub {
+	border-left: 1px solid <?php echo $themeSettings['tab_border'];?>;
+	border-bottom: 1px solid <?php echo $themeSettings['tab_border'];?>;
+	border-right: 1px solid <?php echo $themeSettings['tab_border'];?>;
+	color: <?php echo $themeSettings['tab_sub_color'];?>;
+	padding: 5px;
+}
+
+.container_sub.embed {
+	border: 0px;
+	margin-top: 5px;
+}
+
+.container_body.embed {
+	height: 130px;
+}
+
+.containermessage {
+	font-family: <?php echo $themeSettings['tab_title_font_family'];?>;
+	font-size: <?php echo $themeSettings['tab_title_font_size_large'];?>;
+        padding: 10px;
+}
+
+
+.cometchat_tabcontentinput {
+	padding: 4px 10px 0px 25px;
+	border: 0px;
+	border-top: 1px solid #CCCCCC;
+	background: url(themes/<?php echo $theme;?>/images/cometchat.png) #FFFFFF no-repeat top left;
+	background-position: 5px -24px;
+	outline: none;
+	overflow: hidden;
+	bottom: 0px;
+}
+
+.cometchat_textarea {
+	border: 0px;
+	height: 16px;
+	overflow: hidden;
+	font-family: <?php echo $themeSettings['tab_font_family'];?>;
+	font-size: <?php echo $themeSettings['tab_font_size'];?>;
+	color: <?php echo $themeSettings['tab_color_self'];?>;
+	background: #FFFFFF;
+	outline:none;
+	resize: none;
+}
+
+.inviteuserboxes{
+	height: 212px;
+	padding-left: 11px;
+	width: 100% !important;
+}
+
+.broadcastMessage_textarea_container{
+	position: fixed;
+	width: 100%;
+	bottom:0px;
+}
+
+#cometchat_broadcastMessage_textarea{
+	width: 100%;
+}
+
+#cc_refreshbroadcastusers{
+	display: inline-block;
+}
+
+#cc_selectallusers{
+	display: inline-block;
+	margin-left: 3px;
+}
+
+#cc_deselectallusers{
+	margin-left: 3px;
+	display:none;
+}
+
+#cc_refreshbroadcastusers:hover,#cc_selectallusers:hover,#cc_deselectallusers:hover{
+	cursor:pointer;
+	text-decoration: underline;
+}
+
+.cc_broadcasttopbar{
+	line-height: 25px;
+	text-align: right;
+	padding-right: 15px;
+	color: #111111;
+	background: #FFFFFF;
+	border-bottom: 1px solid #ccc;
+}
+
+#cometchat_broadcastsearchbar{
+	display: block;
+	text-align: center;
+	padding: 3px;
+	border-bottom: 1px solid #ccc;
+	height: 23px;
+	background: #FFFFFF;
+}
+
+.cometchat_broadcastsearch{
+	border: 1px solid #CCCCCC;
+	color: #111111;
+	background: #FFFFFF;
+	font-family: 'lucida grande',tahoma,verdana,arial,sans-serif;
+	font-size: 11px; outline: none;
+	overflow-x: hidden;
+	overflow-y: auto; padding: 4px;
+	width: 95%;
+}
+
+.ccbroadcastnotif{
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	background: #efe;
+	position: fixed;
+	width: 80%;
+	top: 45%;
+	font-size: 13px;
+	left: 10%;
+	border: 1px solid #ccc;
+	z-index: 100;
+	box-shadow: 6px 6px 5px #888888;
+	display: none;
+}
+
+.cometchat_tabcontentsubmit{
+	height: 28px;
+	width: 25px;
+	position: absolute;
+	cursor: pointer;
+}

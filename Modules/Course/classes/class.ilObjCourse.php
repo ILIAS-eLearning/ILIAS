@@ -62,6 +62,10 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	
 	private $mail_members = ilCourseConstants::MAIL_ALLOWED_ALL;
 	
+	//BEGIN PATCH HSLU
+	private $activation_type = IL_CRS_ACTIVATION_UNLIMITED;
+	//END PATCH HSLU
+	
 	/**
 	 *
 	 * 
@@ -1286,7 +1290,8 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 			$ilDB->quote($this->getContactPhone() ,'text').", ".
 			$ilDB->quote($this->getContactEmail() ,'text').", ".
 			$ilDB->quote($this->getContactConsultation() ,'text').", ".
-			$ilDB->quote(0 ,'integer').", ".
+			//BEGIN PATCH HSLU DEFAULT ONLINE
+			//$ilDB->quote(0 ,'integer').", ".
 			$ilDB->quote($this->getActivationStart() ,'integer').", ".
 			$ilDB->quote($this->getActivationEnd() ,'integer').", ".
 			$ilDB->quote(IL_CRS_SUBSCRIPTION_DEACTIVATED ,'integer').", ".

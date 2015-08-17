@@ -1,0 +1,160 @@
+/*
+ * CometChat
+ * Copyright (c) 2014 Inscripts - support@cometchat.com | http://www.cometchat.com | http://www.inscripts.com
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-weight: inherit;
+	font-style: inherit;
+	font-size: 100%;
+	font-family: inherit;
+	vertical-align: baseline;
+}
+
+html, body {
+	overflow: hidden;
+	background: <?php echo $themeSettings['left_content_background'];?>;
+	direction: <?php echo $dir;?>;
+}
+
+ul {
+  float: left;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  padding-<?php echo $left;?>: 15px;
+}
+
+
+li:before {
+    background: url("themes/<?php echo $theme;?>/images/bullet.png") no-repeat scroll rgba(0, 0, 0, 0);
+    content: "";
+    height: 10px;
+    position: absolute;
+    left: -8px;
+    top: 2px;
+    width: 10px;
+    background-position: 0 1px;
+    <?php if ($rtl):?>
+    background-position: 0 -8px;
+    right: -13px;
+    left: 0;
+    <?php endif;?>
+}
+
+li {
+  position: relative;
+  float: left;
+  width: 130px;
+  margin: 0;
+  height: 20px;
+  padding: 0px;
+  cursor: pointer;
+}
+
+.container {
+	width:98%;
+	margin:0 auto;
+	margin-top: 5px;
+}
+
+.container_title {
+	background-color: <?php echo $themeSettings['left_header_background'];?>;
+	color: <?php echo $themeSettings['left_header_color'];?>;
+	font-family: <?php echo $themeSettings['left_header_font_family'];?>;
+	font-size: <?php echo $themeSettings['left_header_font_size_small'];?>;
+	border-left: 1px solid <?php echo $themeSettings['left_content_border_light'];?>;
+	border-right: 1px solid <?php echo $themeSettings['left_content_border_light'];?>;
+	border-top: 1px solid <?php echo $themeSettings['left_content_border_light'];?>;
+
+	padding: 5px;
+	font-weight: bold;
+	padding-left: 10px;
+	padding-bottom: 6px;
+
+}
+
+.container_body {
+	border-left: 1px solid <?php echo $themeSettings['left_content_border_light'];?>;
+	border-bottom: 1px solid <?php echo $themeSettings['left_content_border_light'];?>;
+	border-right: 1px solid <?php echo $themeSettings['left_content_border_light'];?>;
+	background-color: <?php echo $themeSettings['left_content_background'];?>;
+	color: <?php echo $themeSettings['left_content_color'];?>;
+	font-family: <?php echo $themeSettings['left_content_font_family'];?>;
+	font-size: <?php echo $themeSettings['left_header_font_size_small'];?>;
+	padding: 5px;
+	font-weight: normal;
+	padding: 10px 10px;
+}
+
+.container_body.embed {
+	border: 0px;
+	padding: 10px;
+}
+
+.container_title.embed {
+	display: none;
+}
+
+#transliteratebox {
+	width: 390px;
+	height: 115px;
+	border: 1px solid <?php echo $themeSettings['left_content_border_light'];?>;
+}
+
+a {
+	color: <?php echo $themeSettings['left_header_background'];?>;
+	font-family: <?php echo $themeSettings['left_header_font_family'];?>;
+	font-size: <?php echo $themeSettings['left_header_font_size'];?>;
+}
+
+#send {
+	margin-top: 5px;
+	float: left;
+}
+
+#change {
+	float:right;
+	padding: 5px;
+	padding-right: 10px;
+}
+
+.button {
+	background-color: <?php echo $themeSettings['left_header_background'];?>;
+	color: <?php echo $themeSettings['left_header_color'];?>;
+	font-family: <?php echo $themeSettings['left_header_font_family'];?>;
+	font-size: <?php echo $themeSettings['left_header_font_size_small'];?>;
+	cursor: pointer;
+	font-weight: bold;
+	padding: 7px;
+	outline: 0;
+	border: 0;
+	-moz-border-radius-topleft: 3px;
+	-moz-border-radius-topright: 3px;
+	-moz-border-radius-bottomleft: 3px;
+	-moz-border-radius-bottomright: 3px;
+	-webkit-border-top-left-radius: 3px;
+	-webkit-border-top-right-radius: 3px;
+	-webkit-border-bottom-left-radius: 3px;
+	-webkit-border-bottom-right-radius: 3px;
+	border-top-left-radius: 3px;
+	border-top-right-radius: 3px;
+	border-bottom-left-radius: 3px;
+	border-bottom-right-radius: 3px;
+}
+
+textarea {
+    resize: none;
+}

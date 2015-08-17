@@ -1,0 +1,81 @@
+<?php
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/* LANGUAGE */
+
+$chatrooms_language[100] = '聊天室';
+$chatrooms_language[0] = '请登录以使用我们的聊天室。';
+$chatrooms_language[1] = '请选择您想要加入的公共/私人聊天室';
+$chatrooms_language[2] = '创建聊天室';
+$chatrooms_language[3] = '大厅';
+$chatrooms_language[4] = '<a href="javascript:void(0);" onclick="javascript:jqcc.cometchat.leaveChatroom()">留有餘地</a>';
+$chatrooms_language[5] = '需邀请进入的房间不会显示在大厅中';
+$chatrooms_language[6] = '我';
+$chatrooms_language[7] = ':  ';
+$chatrooms_language[8] = '请输入聊天室密码';
+$chatrooms_language[9] = '独立窗口';
+$chatrooms_language[10] = '关闭的弹出';
+$chatrooms_language[11] = '一个的弹出会话已经在进行中或其他聊天室窗口打开。请关闭其他窗口继续。';
+$chatrooms_language[12] = '点击此处重试';
+$chatrooms_language[13] = ' 已离开聊天室';
+$chatrooms_language[14] = ' 已进入聊天室';
+$chatrooms_language[15] = '即将关闭窗口';
+$chatrooms_language[16] = '已成功邀请用户';
+$chatrooms_language[17] = '用户邀请成功！';
+$chatrooms_language[18] = '已邀请您进入一间聊天室。';
+$chatrooms_language[19] = '单击这里进入';
+$chatrooms_language[20] = '邀请用户';
+$chatrooms_language[21] = '请选择用户';
+$chatrooms_language[22] = '邀请用户';
+$chatrooms_language[23] = '密码不正确。请重试。';
+$chatrooms_language[24] = '<img src="lock.png">';
+$chatrooms_language[25] = '<img src="user.png">';
+$chatrooms_language[26] = '请输入密码';
+$chatrooms_language[27] = '名称';
+$chatrooms_language[28] = '类型';
+$chatrooms_language[29] = '公共房间';
+$chatrooms_language[30] = '密码保护房间';
+$chatrooms_language[31] = '需邀请房间';
+$chatrooms_language[32] = '密码';
+$chatrooms_language[33] = '创建房间';
+$chatrooms_language[34] = '在线';
+$chatrooms_language[35] = '聊天室';
+$chatrooms_language[36] = '您已被踢出這個聊天室。';
+$chatrooms_language[37] = '對不起，你是從這個聊天室被取締。';
+$chatrooms_language[38] = '這間客房名稱不可用。';
+$chatrooms_language[39] = '<span id="unbanuser">| <a  href="javascript:void(0);" onclick="javascript:jqcc.cometchat.unbanChatroomUser()">用戶解除禁止</a></span>';
+$chatrooms_language[40] = '踢';
+$chatrooms_language[41] = '禁令';
+$chatrooms_language[42] = '瀏覽個人資料';
+$chatrooms_language[43] = '私人聊天';
+$chatrooms_language[44] = '有沒有用戶解除禁止。';
+$chatrooms_language[45] = '對不起，沒有可用的用戶，此刻邀請。';
+$chatrooms_language[46] = '刪除';
+$chatrooms_language[47] = '你要確定你要刪除這條消息？';
+$chatrooms_language[48] = '<a href="javascript:void(0);" onclick="javascript:jqcc.cometchat.inviteChatroomUser()">邀請用戶</a>';
+$chatrooms_language[49] = '請不要在垃圾郵件聊天室';
+$chatrooms_language[50] = '請輸入房間名稱。';
+$chatrooms_language[51] = '取消';
+$chatrooms_language[52] = '新';
+$chatrooms_language[53] = '没有聊天室游戏动漫';
+$chatrooms_language[54] = '创建聊天室...';
+$chatrooms_language[55] = '房间已被删除。';
+$chatrooms_language[56] = '该房间已被成功删除';
+$chatrooms_language[57] = '您没有权限删除的聊天室';
+$chatrooms_language[58] = '删除这个房间。';
+$chatrooms_language[59] = '你确定你要删除这个聊天室？';
+$chatrooms_language[60] = '查找聊天室';
+$chatrooms_language[61] = '用户';
+$chatrooms_language[62] = '版主';
+$chatrooms_language[63] = '输入聊天室的名字';
+$chatrooms_language[64] = '输入您的留言';
+$chatrooms_language[65] = '点击这里';
+$chatrooms_language[66] = '登录使用社交验证。';
+$chatrooms_language[67] = '邀请用户';
+$chatrooms_language[68] = '取消禁播用户';
+$chatrooms_language[69] = '聊天室插件';
+$chatrooms_language[70] = '聊天室用户选项';
+$chatrooms_language[71] = '聊天室用户';
+$chatrooms_language[72] = '留有余地';
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -1,0 +1,12 @@
+/*
+ * CometChat 
+ * Copyright (c) 2014 Inscripts - support@cometchat.com | http://www.cometchat.com | http://www.inscripts.com
+*/
+
+html, body {
+	background: <?php echo $themeSettings['tab_background'];?>;
+	direction: <?php echo $dir;?>;
+	overflow: hidden;
+	width: 500px;
+	height:100%;
+}

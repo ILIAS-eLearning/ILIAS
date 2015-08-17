@@ -1,0 +1,141 @@
+/*
+* CometChat
+* Copyright (c) 2014 Inscripts - support@cometchat.com | http://www.cometchat.com | http://www.inscripts.com
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-weight: inherit;
+	font-style: inherit;
+	font-size: 100%;
+	font-family: inherit;
+	vertical-align: baseline;
+	font-family: <?php echo $themeSettings['left_header_font_family'];?>;
+	font-size: <?php echo $themeSettings['left_header_font_size_small'];?>;
+}
+
+
+html, body {
+	overflow: hidden;
+	background: <?php echo $themeSettings['left_content_background'];?>;
+	direction: <?php echo $dir;?>;
+}
+
+.container {
+	width: 98%;
+	margin: 0 auto;
+	margin-top: 5px;
+}
+
+.container_title {
+	background-color: <?php echo $themeSettings['left_header_background'];?>;
+	color: <?php echo $themeSettings['left_header_color'];?>;
+	font-family: <?php echo $themeSettings['left_header_font_family'];?>;
+	font-size: <?php echo $themeSettings['left_header_font_size_small'];?>;
+	border-left: 1px solid <?php echo $themeSettings['left_content_border_light'];?>;
+	border-right: 1px solid <?php echo $themeSettings['left_content_border_light'];?>;
+	border-top: 1px solid <?php echo $themeSettings['left_content_border_light'];?>;
+	padding: 5px;
+	padding: 5px;
+	font-weight: bold;
+	padding-left: 10px;
+	padding-bottom: 6px;
+}
+
+.container_body {
+	border-left: 1px solid <?php echo $themeSettings['left_content_border_light'];?>;
+	border-bottom: 1px solid <?php echo $themeSettings['left_content_border_light'];?>;
+	border-right: 1px solid <?php echo $themeSettings['left_content_border_light'];?>;
+	background-color: <?php echo $themeSettings['left_content_background'];?>;
+	color: <?php echo $themeSettings['left_content_color'];?>;
+	font-family: <?php echo $themeSettings['left_content_font_family'];?>;
+	font-size: <?php echo $themeSettings['left_header_font_size_small'];?>;
+	padding: 10px 10px;
+}
+
+#reportbox {
+	width: 390px;
+	height: 115px;
+	border: 1px solid <?php echo $themeSettings['left_content_border_light'];?>;
+}
+
+#send {
+	margin-top: 5px;
+	float: left;
+}
+
+.container_body.embed {
+	border: 0px;
+	padding: 10px;
+}
+
+.container_title.embed {
+	display: none;
+}
+
+.reportbutton {
+	background-color: <?php echo $themeSettings['left_header_background'];?>;
+	color: <?php echo $themeSettings['left_header_color'];?>;
+	font-family: <?php echo $themeSettings['left_header_font_family'];?>;
+	font-size: <?php echo $themeSettings['left_header_font_size_small'];?>;
+	cursor: pointer;
+	font-weight: bold;
+	padding: 7px;
+	border: 0;
+	outline: 0;
+	-moz-border-radius-topleft: 3px;
+	-moz-border-radius-topright: 3px;
+	-moz-border-radius-bottomleft: 3px;
+	-moz-border-radius-bottomright: 3px;
+	-webkit-border-top-left-radius: 3px;
+	-webkit-border-top-right-radius: 3px;
+	-webkit-border-bottom-left-radius: 3px;
+	-webkit-border-bottom-right-radius: 3px;
+	border-top-left-radius: 3px;
+	border-top-right-radius: 3px;
+	border-bottom-left-radius: 3px;
+	border-bottom-right-radius: 3px;
+}
+
+.container_title.webapp {
+	font-size: 37px;
+	height:47px;
+}
+
+.reportbox.webapp {
+	height:300px !important;
+	font-size:30px;
+	width:100% !important;
+}
+
+.reportbutton.webapp {
+	height:48px;
+	font-size:30px;
+}
+
+.send.webapp {
+	margin-top: 0px !important;
+}
+
+.report.webapp {
+	font-size:30px;
+}
+
+.sendwrapper.webapp {
+	position:relative;
+	top:4px;
+}
+
+textarea {
+    resize: none;
+}

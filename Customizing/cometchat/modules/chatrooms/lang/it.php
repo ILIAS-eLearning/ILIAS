@@ -1,0 +1,81 @@
+<?php
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/* LANGUAGE */
+
+$chatrooms_language[100] = 'Chat';
+$chatrooms_language[0] = 'È necessario effettuare l\'accesso per usare le chat.';
+$chatrooms_language[1] = 'Selezionare una chat pubblica o privata in cui si desidera entrare';
+$chatrooms_language[2] = 'Crea Chat';
+$chatrooms_language[3] = 'Sala d\'attesa';
+$chatrooms_language[4] = '<a href="javascript:void(0);" onclick="javascript:jqcc.cometchat.leaveChatroom()">lasciare spazio</a>';
+$chatrooms_language[5] = 'Le chat a invito non compariranno nella sala d&#39;attesa';
+$chatrooms_language[6] = 'Io';
+$chatrooms_language[7] = ':  ';
+$chatrooms_language[8] = 'Inserire la password per la chat';
+$chatrooms_language[9] = 'Finestra separata';
+$chatrooms_language[10] = 'Chiudi popout';
+$chatrooms_language[11] = 'Una sessione popout è già in corso o in un\'altra finestra chat è aperta. Si prega di chiudere le altre finestre per continuare.';
+$chatrooms_language[12] = 'Click here to retry';
+$chatrooms_language[13] = ' ha lasciato la chat';
+$chatrooms_language[14] = ' si è unito alla chat';
+$chatrooms_language[15] = 'Finestra in chiusura';
+$chatrooms_language[16] = 'Gli utenti sono stati invitati con successo';
+$chatrooms_language[17] = 'Utenti Invitati Con successo!';
+$chatrooms_language[18] = 'ti ha invitato a partecipare a una chat. ';
+$chatrooms_language[19] = 'Fai clic qui per partecipare';
+$chatrooms_language[20] = 'Invita Utenti';
+$chatrooms_language[21] = 'Selezionare utenti';
+$chatrooms_language[22] = 'Invita Utenti';
+$chatrooms_language[23] = 'Password errata. Riprovare.';
+$chatrooms_language[24] = '<img src="lock.png">';
+$chatrooms_language[25] = '<img src="user.png">';
+$chatrooms_language[26] = 'Inserire una password';
+$chatrooms_language[27] = 'Nome';
+$chatrooms_language[28] = 'Tipo';
+$chatrooms_language[29] = 'Chat pubblica';
+$chatrooms_language[30] = 'Chat protetta da password';
+$chatrooms_language[31] = 'Chat con Invito';
+$chatrooms_language[32] = 'Password';
+$chatrooms_language[33] = 'Create chat';
+$chatrooms_language[34] = 'online';
+$chatrooms_language[35] = 'Chat';
+$chatrooms_language[36] = 'Sei stato espulso da questa stanza.';
+$chatrooms_language[37] = 'Ci dispiace, sei bannato da questa stanza.';
+$chatrooms_language[38] = 'Questo nome camera non è disponibile.';
+$chatrooms_language[39] = '<span id="unbanuser">| <a  href="javascript:void(0);" onclick="javascript:jqcc.cometchat.unbanChatroomUser()">utenti unban</a></span>';
+$chatrooms_language[40] = 'Calcio';
+$chatrooms_language[41] = 'Bando';
+$chatrooms_language[42] = 'Visita Profilo';
+$chatrooms_language[43] = 'Chat privata';
+$chatrooms_language[44] = 'Non ci sono utenti di rimuovere i ban.';
+$chatrooms_language[45] = 'Spiacenti, non ci sono utenti disponibili al momento per invitare.';
+$chatrooms_language[46] = 'cancellare';
+$chatrooms_language[47] = 'Sei vuoi sicuro di voler eliminare questo messaggio?';
+$chatrooms_language[48] = '<a href="javascript:void(0);" onclick="javascript:jqcc.cometchat.inviteChatroomUser()">Invitare gli utenti</a>';
+$chatrooms_language[49] = 'Si prega di non spam in chat';
+$chatrooms_language[50] = 'Inserisci il nome della stanza.';
+$chatrooms_language[51] = 'Cancellare';
+$chatrooms_language[52] = 'nuovo';
+$chatrooms_language[53] = 'No chat disponibile';
+$chatrooms_language[54] = 'Creazione di chatroom';
+$chatrooms_language[55] = 'La stanza è stata eliminata.';
+$chatrooms_language[56] = 'La stanza è stata eliminata con successo';
+$chatrooms_language[57] = 'Non si dispone di autorizzazioni per eliminare la chatroom';
+$chatrooms_language[58] = 'Elimina questa stanza.';
+$chatrooms_language[59] = 'Sei sicuro di voler eliminare questo chatroom?';
+$chatrooms_language[60] = 'Trova una chatroom';
+$chatrooms_language[61] = 'Utenti';
+$chatrooms_language[62] = 'Moderatori';
+$chatrooms_language[63] = 'Immettere il nome per Chatroom';
+$chatrooms_language[64] = 'Inserisci qui il tuo messaggio';
+$chatrooms_language[65] = 'clicca qui';
+$chatrooms_language[66] = 'effettuare il login utilizzando Social Auth.';
+$chatrooms_language[67] = 'Invitare gli utenti';
+$chatrooms_language[68] = 'Utenti unban';
+$chatrooms_language[69] = 'Chatroom Plugin';
+$chatrooms_language[70] = 'Opzioni utente Chatroom';
+$chatrooms_language[71] = 'Utenti Chatroom';
+$chatrooms_language[72] = 'Lasciare spazio';
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -1,0 +1,48 @@
+<IfModule mod_rewrite.c>
+ RewriteEngine Off
+</IfModule>
+
+<IfModule mod_headers.c>
+ <FilesMatch "\.(gif|jpg|png|css|swf|php)$">
+  Header add "Expires" "Mon, 28 Jul 2014 23:30:00 GMT"
+  Header add "Cache-Control" "max-age=31536000"
+ </FilesMatch>
+</IfModule>
+
+<IfModule mod_expires.c>
+ ExpiresActive On
+ ExpiresDefault A604800
+ ExpiresByType text/css A604800
+ ExpiresByType image/gif A604800
+ ExpiresByType image/png A604800
+ ExpiresByType image/jpeg A604800
+ ExpiresByType application/x-shockwave-flash A604800
+</IfModule>
+
+RewriteEngine On
+RewriteRule .*\.(js|css)$ - [F]
+RewriteBase /
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} /(.*)/desktop/(.*)/? [NC]
+RewriteRule .* %1/extensions/desktop/%2
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} /(.*)/mobile/(.*)/? [NC]
+RewriteRule .* %1/extensions/mobile/%2
+
+RewriteEngine On
+
+## Begin - Rewrite rules to block out some common exploits.
+# If you experience problems on your site block out the operations listed below
+# This attempts to block the most common type of exploit `attempts` to cometchat!
+
+# Block out any script that includes a javascript: in URL.
+RewriteCond %{QUERY_STRING} (javascript:).*(\;) [NC,OR]
+# Block out any script that includes a <script> tag in URL.
+RewriteCond %{QUERY_STRING} (<|%3C)([^s]*s)+cript.*(>|%3E) [NC]
+# Return 403 Forbidden header
+RewriteRule .* - [F]
+#
+## End - Rewrite rules to block out some common exploits.

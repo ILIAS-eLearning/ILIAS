@@ -1,0 +1,75 @@
+END USER LICENSE AGREEMENT
+
+1. AGREEMENT
+1.1. By purchasing CometChat you agree to the terms and conditions outlined in this agreement.
+1.2. We reserve the right to make changes to this agreement without notice. It is your obligation to obtain and revisit this agreement periodically to review for any changes.
+1.3. We have included headings in this agreement only for convenience. These headings shall not affect the construction or interpretation of this agreement. 
+
+2. LIMITATION OF LIABILITY
+2.1. You agree to use CometChat entirely at your own risk.
+2.2. All conditions, terms, representations and warranties relating to the products supplied under this agreement, whether imposed by statute or operation of law or otherwise, that are not expressly stated in these terms and conditions including, without limitation, the implied warranty of satisfactory quality and fitness for a particular purpose are hereby excluded, subject always to sub clause.
+2.3. Our total aggregate liability to you for any claim in contract, negligence or otherwise arising out of or in connection with the provision of the services shall be strictly limited to the charges paid by you for the services that are the subject of any claim made.
+2.4. In no event will a claim by brought unless you have notified us of the claim within one year of it arising.
+2.5. We disclaim all warranties of merchantability and fitness for a particular purpose. In no event will we be held liable for any loss (data, economic or otherwise) or other commercial damage, including but not limited to special, incidental, consequential or other damages, direct or indirect. 
+
+3. INDEMNIFICATION
+3.1. You agree to defend, indemnify and hold harmless Inscripts against liabilities arising out of:
+3.1.1. Any injury to person or property caused by any products or services sold or distributed by Inscripts;
+3.1.2. Any material supplied by you infringing or allegedly infringing on the proprietary rights of a third party;
+3.1.3. Copyright infringement and
+3.1.4. Any defective products or services sold to customer.
+3.2. You agree to defend, indemnify, save and hold Inscripts harmless from any and all demands, liabilities, losses, costs and claims, including reasonable legal fees asserted against Inscripts, its agents, its customers, officers and employees, that may arise or result from any service provided or performed or agreed to be performed or any product sold by customer, its agents, employees or assignees.
+3.3. Inscripts will be the sole arbitrator of this policy. 
+
+4. OWNERSHIP AND LIMITATIONS OF USE
+4.1. You may copy the product for back-up and archival purposes, provided that the original and each copy are kept in your possession and that your installation and use of product does not exceed that allowed in this agreement.
+4.2. We do not guarantee that your product will be available for download from our servers to you for a period longer than 30 days following your last purchase. Your last purchase in this respect shall be considered to be when you purchased.
+4.3. You may not give, sell, distribute, sub-license, time share, lease or lend any portion of the product or documentation to anyone.
+4.4. You may not place the product onto a server so that it is accessible via a public network such as the Internet for distribution purposes. We retain all rights to distribute the product under its own license.
+4.5. You may not use the source code in whole or part in any other software or product.
+4.6. The URL of the site where the product is running must be submitted to CometChat and all keys obtained must be used only for the domains they are allowed for.
+4.7. You are required to preserve CometChat's copyright information intact; this includes the text and link on the footer of each page rendered by the products.
+4.8. Each license of CometChat allows you to install one instance of the product and point up to one domain name to the installation of the product.
+
+5. MODIFICATION OF THE PRODUCT
+5.1. You are allowed to modify and adapt the products under the terms outlined here.
+5.2. We will not provide support for any additions or modifications you make to the product's source code. We do not guarantee that we will provide support for a product installation with source code modifications made by anyone other than CometChat's software engineers.
+5.3. You are allowed to modify and adapt the code as per your requirements.
+5.4. You are not allowed to distribute the modifications.
+
+6. LICENSE ACTIVATION
+
+6.1. Submitting the domain name is the functional equivalant of opening boxed software purchased from a computer store - opening the software to reveal the license key invalidates your entitlement to any refund. Likewise, activating your license with us invalidates your entitlement to any refund.
+6.2. A license is considered active when the installation domain name is submitted to us via the members area. This will generate a license.php license file, which is required for the product to function and will tie your installation to the domain entered.
+6.3. After you submit this domain name, you will not be entitled to a refund for your purchase.
+6.4. We do not guarantee to be able to change the domain name you have entered here.
+6.5. When installing the software your license information (the information you have already recorded in your customer area) is sent to CometChat's servers for verification. We do not receive or record any other usage data about you or your chat conversations, and the information is only used for the purposes of license verification.
+
+7. REFUND POLICY
+7.1. We will not honor a refund request for products whose license has been activated.
+7.2. We cannot guarantee a refund if any failures related to the product are the result of 'the environment' - i.e. the server software, hardware and network onto which the product has been installed.
+7.3. Where payment has been made by credit or debit card, refunds will be made to the same named credit or debit card.
+7.4. Where payment has been made by PayPal, refunds will be made to the same PayPal account only. 
+
+8. PURCHASING AND PAYMENTS
+8.1. Full payment (including renewals) is required before any service is rendered.
+8.2. We reserve the right to refuse service to anyone.
+8.3. We reserve the right to change pricing at any time although all pricing is guaranteed for the period of pre-payment.
+8.4. Any due notices, invoices, receipts and billing reminders will be sent by electronic mail only.
+8.5. Without prejudice to our other rights and remedies under this agreement, if any balance owed is not paid on or before the due date, we will be entitled to suspend/terminate services to you. 
+
+9. SUSPENSION, CANCELLATION AND TERMINATION
+9.1. We reserve the right to suspend or terminate the services and/or this agreement at any time.
+9.2. If you fail to use the product in accordance with the terms and conditions of this license agreement, it constitutes a breach of the agreement, and your license to use the program is revoked. In this case, we reserve the right to terminate your license and this agreement.
+9.3. This license agreement takes effect upon your use of the product and remains effective until terminated. We retain the right to terminate your license to use the product at any time, if in its sole discretion, you are not abiding by the terms of the agreement, including, but not limited to, obscuring or removing any link or copyright notice as specified in this agreement.
+9.4. You agree, on termination of this license, to destroy all copies and all components of the product and documentation in your possession. If you continue to use the product after we give you written notice of termination of your license, you hereby agree to accept an injunction to enjoin you from its further use, and to pay all costs, including reasonable attorneys fees, to enforce our revocation of your license, and any damages we suffer by because of your misuse of the product. 
+
+10. SERVICE LEVEL AGREEMENT
+
+10.1. SUPPORT
+10.1.1. We reserve the right to redefine and change at any time the limitations of support.
+10.1.2. Support is available via a ticket submitted from the customer area
+10.1.3. Support is only available to customers whose support and upgrades subscription is up to date.
+10.1.4. As a guideline, you can expect to us to do our utmost to ensure that the product is functional, relative to our development cycle.
+10.1.5. We will charge additional fees for modifications or customizations of the product.
+10.1.6. We reserve the right to refuse anyone support. 

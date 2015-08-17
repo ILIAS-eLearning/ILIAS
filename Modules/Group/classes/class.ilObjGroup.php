@@ -48,7 +48,10 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 	const MAIL_ALLOWED_TUTORS = 2;
 	
 	protected $information;
-	protected $group_type = null;
+//BEGIN PATCH HSLU default closed group
+    //protected $group_type = null;
+    protected $group_type = GRP_TYPE_CLOSED;
+//END PATCH HSLU default closed group
 	protected $reg_type = GRP_REGISTRATION_DIRECT;
 	protected $reg_enabled = true;
 	protected $reg_unlimited = true;

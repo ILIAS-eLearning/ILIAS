@@ -1,0 +1,81 @@
+<?php
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/* LANGUAGE */
+
+$chatrooms_language[100] = 'غرف الدردشة';
+$chatrooms_language[0] = 'يرجى الدخول من أجل استخدام غرف الدردشة';
+$chatrooms_language[1] = 'من فضلك اختر غرفة دردشة عامة/خاصة تحب الانضمام لها';
+$chatrooms_language[2] = 'إنشاء غرفة دردشة';
+$chatrooms_language[3] = 'القاعة';
+$chatrooms_language[4] = '<a href="javascript:void(0);" onclick="javascript:jqcc.cometchat.leaveChatroom()">تترك مجالا</a>';
+$chatrooms_language[5] = 'غرف الدعوات الحصرية لن يتم عرضها في القاعة';
+$chatrooms_language[6] = 'أنا';
+$chatrooms_language[7] = ':  ';
+$chatrooms_language[8] = 'من فضلك أدخل كلمة المرور لغرفة الدردشة';
+$chatrooms_language[9] = 'نافذة مستقلة';
+$chatrooms_language[10] = 'ببيوت قريب';
+$chatrooms_language[11] = 'جلسة ببيوت هي بالفعل في التقدم أو نافذة غرف الدردشة آخر مفتوح. الرجاء إغلاق نوافذ أخرى للمتابعة.';
+$chatrooms_language[12] = 'انقر هنا لإعادة المحاولة';
+$chatrooms_language[13] = ' غادر غرفة الدردشة';
+$chatrooms_language[14] = ' انضم إلى غرفة الدردشة';
+$chatrooms_language[15] = 'سوف يتم إغلاق النافذة في وقت قصير';
+$chatrooms_language[16] = 'لقد تمت بنجاح دعوة المستخدمين';
+$chatrooms_language[17] = 'تمت دعوة المستخدمين!';
+$chatrooms_language[18] = ' قام بدعوتك للانضمام إلى غرفة دردشة.';
+$chatrooms_language[19] = 'اضغط هنا للانضمام';
+$chatrooms_language[20] = 'دعوة مستخدمين';
+$chatrooms_language[21] = 'من فضلك اختر مستخدمين';
+$chatrooms_language[22] = 'دعوة مستخدمين';
+$chatrooms_language[23] = 'كلمة مرور خاطئة. من فضلك حاول مرة أخرى.';
+$chatrooms_language[24] = '<img src="lock.png">';
+$chatrooms_language[25] = '<img src="user.png">';
+$chatrooms_language[26] = 'من فضلك أدخل كلمة مرور';
+$chatrooms_language[27] = 'الاسم';
+$chatrooms_language[28] = 'النوع';
+$chatrooms_language[29] = 'غرفة عامة';
+$chatrooms_language[30] = 'غرفة بكلمة مرور';
+$chatrooms_language[31] = 'غرفة دعوات حصرية';
+$chatrooms_language[32] = 'كلمة المرور';
+$chatrooms_language[33] = 'إنشاء الغرفة';
+$chatrooms_language[34] = 'متصل';
+$chatrooms_language[35] = 'غرف الدردشة';
+$chatrooms_language[36] = 'كنت قد بدأت من هذه غرف الدردشة.';
+$chatrooms_language[37] = 'آسف، كنت ممنوعة من هذا غرف الدردشة.';
+$chatrooms_language[38] = 'هذا الاسم الغرفة ليست متاحة.';
+$chatrooms_language[39] = '<span id="unbanuser">| <a  href="javascript:void(0);" onclick="javascript:jqcc.cometchat.unbanChatroomUser()">مستخدمين رفع الحظر</a></span>';
+$chatrooms_language[40] = 'ركلة';
+$chatrooms_language[41] = 'حظر';
+$chatrooms_language[42] = 'زيارة الملف الشخصي';
+$chatrooms_language[43] = 'دردشة خاصة';
+$chatrooms_language[44] = 'هناك مستخدمين رفع الحظر.';
+$chatrooms_language[45] = 'آسف، لا توجد المستخدمين المتاحة في الوقت الراهن لدعوة.';
+$chatrooms_language[46] = 'حذف';
+$chatrooms_language[47] = 'هل تريد متأكد أنك تريد حذف هذه الرسالة؟';
+$chatrooms_language[48] = '<a href="javascript:void(0);" onclick="javascript:jqcc.cometchat.inviteChatroomUser()">دعوة المستخدمين</a>';
+$chatrooms_language[49] = 'من فضلك لا البريد المزعج في غرف الدردشة';
+$chatrooms_language[50] = 'الرجاء إدخال اسم الغرفة.';
+$chatrooms_language[51] = 'إلغاء';
+$chatrooms_language[52] = 'جديد';
+$chatrooms_language[53] = 'لا غرف الدردشة الأجهزة المتوفرة';
+$chatrooms_language[54] = 'إنشاء غرف الدردشة ...';
+$chatrooms_language[55] = 'لقد تم حذف الغرفة.';
+$chatrooms_language[56] = 'تم حذف غرفة بنجاح';
+$chatrooms_language[57] = 'ليس لديك أذونات لحذف غرف الدردشة';
+$chatrooms_language[58] = 'حذف هذه الغرفة.';
+$chatrooms_language[59] = 'هل أنت متأكد أنك تريد حذف هذه غرف الدردشة؟';
+$chatrooms_language[60] = 'العثور على غرف الدردشة';
+$chatrooms_language[61] = 'المستخدمين';
+$chatrooms_language[62] = 'المشرفون';
+$chatrooms_language[63] = 'أدخل اسم لغرف الدردشة';
+$chatrooms_language[64] = 'اكتب رسالتك هنا';
+$chatrooms_language[65] = 'اضغط هنا';
+$chatrooms_language[66] = 'ل تسجيل الدخول باستخدام مصادقة الاجتماعية .';
+$chatrooms_language[67] = 'دعوة المستخدمين';
+$chatrooms_language[68] = 'للمستخدمين رفع الحظر';
+$chatrooms_language[69] = 'غرف الدردشة الإضافات';
+$chatrooms_language[70] = 'خيارات المستخدم غرف الدردشة';
+$chatrooms_language[71] = 'مستخدمي غرف الدردشة';
+$chatrooms_language[72] = 'غرفة إجازة';
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

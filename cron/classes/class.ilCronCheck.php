@@ -139,6 +139,22 @@ class ilCronCheck
 		$this->default_tasks = array(				
 				'ilCronValidator::check'
 		);
+		
+//BEGIN PATCH HSLU delete big files
+		//$this->default_tasks[]='ilCronBigfiles::start';
+//END PATCH HSLU Cron Evento
+//BEGIN PATCH HSLU Cron Evento
+		$this->default_tasks[]='ilCronEvento::start';
+		$eventoEnabled=true;
+		if(date('H')!='4') $eventoEnabled=false;
+		if(stristr($_SERVER['argv'][4],'evento')!==FALSE) $eventoEnabled=true;
+//END PATCH HSLU Cron Evento
+//BEGIN PATCH HSLU Cron Milestoner
+		$this->default_tasks[]='ilCronMilestoner::start';
+		$milestonerEnabled=true;
+		if(date('H')!='4') $milestonerEnabled=false;
+		if(stristr($_SERVER['argv'][4],'milestoner')!==FALSE) $milestonerEnabled=true;
+//END PATCH HSLU Cron Milestoner	
 
 		$this->possible_tasks = array(
 
@@ -150,6 +166,31 @@ class ilCronCheck
 					'condition'		=> ($ilias->getSetting('systemcheck_cron') == 1)
 				)	
 		);
+		
+//BEGIN PATCH HSLU Big Files
+		$this->possible_tasks['ilCronBigfiles::start'] = array(
+			'classname'		=> 'ilCronBigfiles',
+			'method'		=> 'start',
+			'location'		=> 'cron',
+			'condition'		=> 1
+		);
+//END PATCH HSLU Big Files
+//BEGIN PATCH HSLU Cron Evento
+		$this->possible_tasks['ilCronEvento::start'] = array(
+			'classname'		=> 'ilCronEvento',
+			'method'		=> 'start',
+			'location'		=> 'cron',
+			'condition'		=> $eventoEnabled
+		);
+//END PATCH HSLU Cron Evento
+//BEGIN PATCH HSLU Cron Milestoner
+		$this->possible_tasks['ilCronMilestoner::start'] = array(
+			'classname'		=> 'ilCronMilestoner',
+			'method'		=> 'start',
+			'location'		=> 'cron',
+			'condition'		=> $milestonerEnabled
+		);
+//END PATCH HSLU Cron Milestoner
 	}	
 }
 ?>
