@@ -8717,10 +8717,10 @@ if($blog_type_id)
 <#4623>
 <?php
 
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
 $redact_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('redact');
 if($redact_ops_id)
 {
-	include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
 	ilDBUpdateNewObjectType::addRBACTemplate('blog', 'il_blog_editor', 'Editor template for blogs', 
 		array(
 			ilDBUpdateNewObjectType::RBAC_OP_VISIBLE,
