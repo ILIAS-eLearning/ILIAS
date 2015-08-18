@@ -77,6 +77,9 @@ class ilObjectSearchFactory
 			case 'frm':
 				return self::_getForumSearchInstance($a_query_parser);
 				
+			case 'lm':
+				return self::_getLMContentSearchInstance($a_query_parser);
+				
 			default:
 				return self::_getObjectSearchInstance($a_query_parser);
 		}
