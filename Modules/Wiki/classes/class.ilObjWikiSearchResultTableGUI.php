@@ -22,6 +22,8 @@ class ilObjWikiSearchResultTableGUI extends ilRepositoryObjectSearchResultTableG
 	{
 		global $ilCtrl;
 		
+		$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($this->getResults()->getResults(),TRUE));
+		
 		$rows = array();
 		foreach($this->getResults()->getResults() as $result_set)
 		{
@@ -35,6 +37,9 @@ class ilObjWikiSearchResultTableGUI extends ilRepositoryObjectSearchResultTableG
 					ilWikiUtil::makeUrlTitle($row['title'])
 			);
 			$row['link'] = $ilCtrl->getLinkTargetByClass('ilwikipagegui','preview');
+			
+			$row['relevance'] = $result_set['relevance'];
+			$row['content'] = $result_set['content'];
 			
 			$rows[] = $row;
 		}
@@ -50,6 +55,15 @@ class ilObjWikiSearchResultTableGUI extends ilRepositoryObjectSearchResultTableG
 	{
 		$this->tpl->setVariable('HREF_ITEM', $a_set['link']);
 		$this->tpl->setVariable('TXT_ITEM_TITLE',$a_set['title']);
+		
+		if($this->getSettings()->enabledLucene())
+		{
+			$this->tpl->setVariable('RELEVANCE', $this->getRelevanceHTML($a_set['relevance']));
+		}
+		if(strlen($a_set['content']))
+		{
+			$this->tpl->setVariable('HIGHLIGHT_CONTENT',$a_set['content']);
+		}
 	}
 }
 ?>

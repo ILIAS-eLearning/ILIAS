@@ -71,7 +71,15 @@ abstract class ilRepositoryObjectSearchResultTableGUI extends ilTable2GUI
 	{
 		global $ilCtrl, $lng;
 		
-		$this->addColumn($lng->txt("obj_title"), "", "100%");
+		if($this->getSettings()->enabledLucene())
+		{
+			$this->addColumn($lng->txt("obj_title"), "title", "80%");
+			$this->addColumn($lng->txt("relevance"), "relevance", "20%");
+		}
+		else
+		{
+			$this->addColumn($lng->txt("obj_title"), "", "100%");
+		}
 		$this->setEnableHeader(true);
 		$this->setFormAction($ilCtrl->getFormAction($this->getParentObject()));
 		$this->setRowTemplate('tpl.repository_object_search_result_row.html','Services/Search');
@@ -85,6 +93,26 @@ abstract class ilRepositoryObjectSearchResultTableGUI extends ilTable2GUI
 	 * Parse search result set and call set data
 	 */
 	abstract public function parse();
+	
+	
+	/**
+	 * Get relevance html
+	 */
+	public function getRelevanceHTML($a_rel)
+	{
+		$tpl = new ilTemplate('tpl.lucene_relevance.html',true,true,'Services/Search');
+		
+		include_once "Services/UIComponent/ProgressBar/classes/class.ilProgressBar.php";
+		$pbar = ilProgressBar::getInstance();
+		$pbar->setCurrent($a_rel);
+		
+		$tpl->setCurrentBlock('relevance');
+		$tpl->setVariable('REL_PBAR', $pbar->render());		
+		$tpl->parseCurrentBlock();
+		
+		return $tpl->get();
+	}
+	
 	
 }
 ?>

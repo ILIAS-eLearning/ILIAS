@@ -109,7 +109,25 @@ class ilRepositoryObjectDetailSearch
 		
 		include_once './Services/Search/classes/Lucene/class.ilLuceneSearcher.php';
 		$searcher = ilLuceneSearcher::getInstance($qp);
-		return $searcher->highlight(array($this->getObjId()));
+		$searcher->highlight(array($this->getObjId()));
+		
+		include_once './Services/Search/classes/class.ilRepositoryObjectDetailSearchResult.php';
+		$detail_search_result = new ilRepositoryObjectDetailSearchResult();
+		
+		$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($searcher->getHighlighter(),TRUE));
+		
+		foreach($searcher->getHighlighter()->getSubItemIds($this->getObjId()) as $sub_id)
+		{
+			$detail_search_result->addResultSet(
+				array(
+					'obj_id' => $this->getObjId(),
+					'item_id' => $sub_id,
+					'relevance' => $searcher->getHighlighter()->getRelevance($this->getObjId(),$sub_id),
+					'content' => $searcher->getHighlighter()->getContent($this->getObjId(),$sub_id)
+				)
+			);
+		}
+		return $detail_search_result;
 	}
 	
 	
@@ -157,14 +175,16 @@ class ilRepositoryObjectDetailSearch
 		
 		foreach($search_result->getEntries() as $entry)
 		{
-			$detail_search_result->addResultSet(
-					array(
-						'obj_id' => $entry['obj_id'],
-						'item_id' => $entry['child']
-					)
-			);
+			foreach((array) $entry['child'] as $child)
+			{
+				$detail_search_result->addResultSet(
+						array(
+							'obj_id' => $entry['obj_id'],
+							'item_id' => $child
+						)
+				);
+			}
 		}
-		
 		return $detail_search_result;
 	}
 }
