@@ -183,7 +183,9 @@ class ilStudyProgrammeType extends ActiveRecord {
 		}
 
 		$this->setOwner($this->user->getId());
-		$this->setCreateDate(new ilDateTime(time(), IL_CAL_UNIX));
+		$now = new ilDateTime(time(), IL_CAL_UNIX);
+		$this->setCreateDate($now);
+		$this->setLastUpdate($now);
 
 		parent::create();
 
