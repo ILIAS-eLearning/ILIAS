@@ -180,16 +180,15 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$this->tpl->parseCurrentBlock();
 	}
 	
-	protected function populatePreviousButtons($sequence)
+	protected function populatePreviousButtons()
 	{
-		if ($this->isFirstPageInSequence( $sequence ))
-		{
-			$this->populatePreviousButtonsLeadingToIntroduction();
-		}
-		else
-		{
-			$this->populatePreviousButtonsLeadingToQuestion();
-		}
+		$this->populateUpperPreviousButtonBlock(
+			'previousQuestion', $this->lng->txt( "save_previous" )
+		);
+		
+		$this->populateLowerPreviousButtonBlock(
+			'previousQuestion', $this->lng->txt( "save_previous" )
+		);
 	}
 	
 	protected function populateNextButtonsLeadingToQuestion()
@@ -308,27 +307,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$this->tpl->setVariable( "CMD_SUMMARY", 'showQuestionSelection' );
 		$this->tpl->setVariable( "BTN_SUMMARY", $this->lng->txt( "tst_change_dyn_test_question_selection" ) );
 		$this->tpl->parseCurrentBlock();
-	}
-
-
-	protected function populatePreviousButtonsLeadingToQuestion()
-	{
-		$this->populateUpperPreviousButtonBlock(
-				'previousQuestion', $this->lng->txt( "save_previous" )
-		);
-		$this->populateLowerPreviousButtonBlock(
-				'previousQuestion', $this->lng->txt( "save_previous" )
-		);
-	}
-
-	protected function populatePreviousButtonsLeadingToIntroduction()
-	{
-		$this->populateUpperPreviousButtonBlock(
-				'previousQuestion', $this->getIntroductionPageButtonLabel()
-		);
-		$this->populateLowerPreviousButtonBlock(
-				'previousQuestion', $this->getIntroductionPageButtonLabel()
-		);
 	}
 
 	protected function populateLowerPreviousButtonBlock($cmd, $label)
@@ -1776,19 +1754,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	protected function performCustomRedirect()
 	{
 		return;
-	}
-
-	/**
-	 * @return string
-	 */
-	protected function getIntroductionPageButtonLabel()
-	{
-		if( $this->testSession->isObjectiveOriented() )
-		{
-			return $this->lng->txt("save_back_to_objective_container");
-		}
-		
-		return $this->lng->txt("save_introduction");
 	}
 
 	/**

@@ -719,7 +719,10 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 			}
 		}
 
-		$this->populatePreviousButtons( $this->testSession->getCurrentQuestionId() );
+		if( !$this->isFirstPageInSequence($this->testSession->getCurrentQuestionId()) )
+		{
+			$this->populatePreviousButtons();
+		}
 
 		if ($this->isLastQuestionInSequence( $question_gui ))
 		{
@@ -784,8 +787,11 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 	private function outCurrentlyFinishedPage()
 	{
 		$this->prepareTestPageOutput();
-		
-		$this->populatePreviousButtons( $this->testSession->getCurrentQuestionId() );
+
+		if( !$this->isFirstPageInSequence($this->testSession->getCurrentQuestionId()) )
+		{
+			$this->populatePreviousButtons();
+		}
 			
 		if ($this->object->getKioskMode())
 		{
@@ -951,14 +957,9 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 	}
 
 
-	protected function populatePreviousButtons($sequence)
+	protected function populatePreviousButtons()
 	{
 		if( !$this->dynamicQuestionSetConfig->isPreviousQuestionsListEnabled() )
-		{
-			return;
-		}
-		
-		if( $this->isFirstPageInSequence($sequence) )
 		{
 			return;
 		}
