@@ -22,6 +22,7 @@ class gevTrainerOperationByOrgUnitAndTrainerGUI extends catBasicReportGUI{
 	protected $orgu_utils;
 	protected $report_data;
 	protected $top_nodes;
+	protected $tutor_filter;
 
 
 	public function __construct() {
@@ -42,9 +43,18 @@ class gevTrainerOperationByOrgUnitAndTrainerGUI extends catBasicReportGUI{
 
 		parent::__construct();
 
-		$this->createTemplateFile();
+		//$this->createTemplateFile();
 
 		$this->filter = catFilter::create()
+						->multiselect(	"tutor_name"
+										 , $this->lng->txt("il_crs_tutor") 
+										 , "hu.firstname"
+										 , $this->getTEPTutors()
+										 , array()
+										 , " OR TRUE "
+										 , 300
+										 , 160	
+										 )
 						->dateperiod( 	"period"
 										 , $this->lng->txt("gev_period")
 										 , $this->lng->txt("gev_until")
@@ -64,6 +74,8 @@ class gevTrainerOperationByOrgUnitAndTrainerGUI extends catBasicReportGUI{
 						->action($this->ctrl->getLinkTarget($this, "view"))
 						->compile()
 						;
+
+		$this->tutor_filter = $this->filter->get("tutor_name");
 
 		$this->title = catTitleGUI::create()
 						->title("gev_report_trainer_operation_by_orgu_trainer")
@@ -97,8 +109,11 @@ class gevTrainerOperationByOrgUnitAndTrainerGUI extends catBasicReportGUI{
 				."		ON ht.user_id = hu.user_id\n"
 				."	JOIN hist_tep_individ_days htid\n"
 				."		ON ht.individual_days = htid.id\n"
-				."	".$this->queryWhere()."\n"
-				."	GROUP BY ht.orgu_title, ht.user_id";
+				."	".$this->queryWhere()."\n";
+		if(count($this->tutor_filter)>0) {
+			$sql .="	AND ".$this->db->in("CONCAT(lastname, ', ',firstname)", $this->tutor_filter, false, "text")."\n";
+		}
+		$sql .=	"	GROUP BY ht.orgu_title, ht.user_id";
 
 		$this->pre_data = array();
 		$res = $this->db->query($sql);
@@ -243,6 +258,20 @@ class gevTrainerOperationByOrgUnitAndTrainerGUI extends catBasicReportGUI{
 		fwrite($str,$tpl);
 		fclose($str);
 	}
+
+	protected function getTEPTutors() {
+		$sql = 	"SELECT DISTINCT CONCAT(hu.lastname,', ',hu.firstname) as fullname FROM hist_tep ht \n"
+				."	JOIN hist_user hu ON hu.user_id = ht.user_id \n"
+				."	WHERE ht.hist_historic = 0 AND hu.hist_historic = 0"
+				."		AND ht.row_id > ".$this->db->quote(MIN_ROW);
+		$res = $this->db->query($sql);
+		$return = array();
+		while($rec = $this->db->fetchAssoc($res)) {
+			$return[] =  $rec["fullname"];
+		}
+		return $return;
+	}
+
 
 
 	protected function _process_xls_title($val) {
