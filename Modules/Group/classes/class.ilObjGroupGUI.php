@@ -2378,11 +2378,23 @@ class ilObjGroupGUI extends ilContainerGUI
 			}
 			if ($this->object->isMembershipLimited()) 
 			{
-				$info->addProperty($this->lng->txt("mem_free_places"),
-								   max(0,$this->object->getMaxMembers() - $this->object->members_obj->getCountMembers()));
-				
+				if($this->object->getMinMembers())
+				{
+					$info->addProperty($this->lng->txt("mem_min_users"), 
+						$this->object->getMinMembers());
+				}
+				if($this->object->getMaxMembers())
+				{
+					$info->addProperty($this->lng->txt("mem_free_places"),
+									   max(0,$this->object->getMaxMembers() - $this->object->members_obj->getCountMembers()));
+				}				
 			}
-
+			
+			if($this->object->getCancellationEnd())
+			{			
+				$info->addProperty($this->lng->txt('grp_cancellation_end'),
+					ilDatePresentation::formatDate( $this->object->getCancellationEnd()));
+			}
 		}
 		
 		// Confirmation
@@ -2635,6 +2647,16 @@ class ilObjGroupGUI extends ilContainerGUI
 
 			$time_limit->addSubItem($dur);
 			$this->form->addItem($time_limit);
+			
+			// cancellation limit		
+			$cancel = new ilDateTimeInputGUI($this->lng->txt('grp_cancellation_end'), 'cancel_end');
+			$cancel_end = $this->object->getCancellationEnd();
+			$cancel->enableDateActivation('', 'cancel_end_tgl', (bool)$cancel_end);
+			if($cancel_end)
+			{
+				$cancel->setDate($cancel_end);
+			}
+			$this->form->addItem($cancel);
 
 			// max member
 			$lim = new ilCheckboxInputGUI($this->lng->txt('reg_grp_max_members_short'),'registration_membership_limited');
@@ -2642,6 +2664,12 @@ class ilObjGroupGUI extends ilContainerGUI
 //			$lim->setOptionTitle($this->lng->txt('reg_grp_max_members'));
 			$lim->setChecked($this->object->isMembershipLimited());
 
+			$min = new ilTextInputGUI($this->lng->txt('reg_grp_min_members'),'registration_min_members');
+			$min->setSize(3);
+			$min->setMaxLength(4);
+			$min->setValue($this->object->getMinMembers() ? $this->object->getMinMembers() : '');
+			// $min->setInfo($this->lng->txt('reg_grp_min_members_info'));			
+			$lim->addSubItem($min);
 
 			$max = new ilTextInputGUI($this->lng->txt('reg_grp_max_members'),'registration_max_members');
 			$max->setValue($this->object->getMaxMembers() ? $this->object->getMaxMembers() : '');
@@ -2651,6 +2679,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			$max->setInfo($this->lng->txt('grp_reg_max_members_info'));
 			$lim->addSubItem($max);
 
+			/*
 			$wait = new ilCheckboxInputGUI($this->lng->txt('grp_waiting_list'),'waiting_list');
 			$wait->setValue(1);
 			//$wait->setOptionTitle($this->lng->txt('grp_waiting_list'));
@@ -2658,6 +2687,34 @@ class ilObjGroupGUI extends ilContainerGUI
 			$wait->setChecked($this->object->isWaitingListEnabled() ? true : false);
 			$lim->addSubItem($wait);
 			$this->form->addItem($lim);
+			*/
+			 
+			$wait = new ilRadioGroupInputGUI($this->lng->txt('grp_waiting_list'), 'waiting_list');
+			
+			$option = new ilRadioOption($this->lng->txt('none'), 0);
+			$wait->addOption($option);
+			
+			$option = new ilRadioOption($this->lng->txt('grp_waiting_list_no_autofill'), 1);
+			$option->setInfo($this->lng->txt('grp_waiting_list_info'));
+			$wait->addOption($option);
+			
+			$option = new ilRadioOption($this->lng->txt('grp_waiting_list_autofill'), 2);
+			$option->setInfo($this->lng->txt('grp_waiting_list_autofill_info'));
+			$wait->addOption($option);
+			
+			if($this->object->hasWaitingListAutoFill())
+			{
+				$wait->setValue(2);
+			}
+			else if($this->object->isWaitingListEnabled())
+			{
+				$wait->setValue(1);
+			}
+			
+			$lim->addSubItem($wait);
+			
+			$this->form->addItem($lim);			
+			
 
 			// Group presentation
 			$hasParentMembership = 
@@ -2805,12 +2862,25 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->object->setRegistrationStart($this->loadDate('start'));
 		$this->object->setRegistrationEnd($this->loadDate('end'));
 		$this->object->enableMembershipLimitation((bool) $_POST['registration_membership_limited']);
-		$this->object->setMaxMembers((int) $_POST['registration_max_members']);
-		$this->object->enableWaitingList((bool) $_POST['waiting_list']);
+		$this->object->setMinMembers((int) $_POST['registration_min_members']);
+		$this->object->setMaxMembers((int) $_POST['registration_max_members']);		
 		$this->object->enableRegistrationAccessCode((bool) $_POST['reg_code_enabled']);
 		$this->object->setRegistrationAccessCode(ilUtil::stripSlashes($_POST['reg_code']));
 		$this->object->setViewMode(ilUtil::stripSlashes($_POST['view_mode']));
 		$this->object->setMailToMembersType((int) $_POST['mail_type']);
+		
+		$cancel_end = $this->form->getItemByPostVar("cancel_end");
+		if($_POST[$cancel_end->getActivationPostVar()])
+		{
+			$dt = $cancel_end->getDate()->get(IL_CAL_DATETIME);
+			$this->object->setCancellationEnd(new ilDate($dt, IL_CAL_DATETIME));
+		}
+		else
+		{
+			$this->object->setCancellationEnd(null);
+		}
+		
+		$this->object->enableWaitingList((bool) $_POST['waiting_list']);
 		
 		return true;
 	}

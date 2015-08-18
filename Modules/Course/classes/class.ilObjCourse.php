@@ -62,9 +62,9 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	
 	private $mail_members = ilCourseConstants::MAIL_ALLOWED_ALL;
 	
-	protected $crs_start; // [ilDateTime]
-	protected $crs_end; // [ilDateTime]
-	protected $leave_end; // [ilDateTime]
+	protected $crs_start; // [ilDate]
+	protected $crs_end; // [ilDate]
+	protected $leave_end; // [ilDate]
 	protected $min_members; // [int]
 	protected $auto_fill_from_waiting; // [bool]
 	
@@ -854,12 +854,12 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		$this->crs_start = $a_value;
 	}
 	
-	function getCourseStart(ilDateTime $a_value = null)
+	function getCourseStart(ilDate $a_value = null)
 	{		
 		return $this->crs_start;
 	}
 	
-	function setCourseEnd(ilDateTime $a_value = null)
+	function setCourseEnd(ilDate $a_value = null)
 	{		
 		$this->crs_end = $a_value;
 	}
@@ -1458,8 +1458,8 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 			$this->setAutoNotification($row->auto_notification == 1 ? true : false);
 			$this->setStatusDetermination((int) $row->status_dt);
 			$this->setMailToMembersType($row->mail_members_type);
-			$this->setCourseStart($row->crs_start ? new ilDateTime($row->crs_start, IL_CAL_UNIX) : null);
-			$this->setCourseEnd($row->crs_end ? new ilDateTime($row->crs_end, IL_CAL_UNIX) : null);
+			$this->setCourseStart($row->crs_start ? new ilDate($row->crs_start, IL_CAL_UNIX) : null);
+			$this->setCourseEnd($row->crs_end ? new ilDate($row->crs_end, IL_CAL_UNIX) : null);
 			$this->setCancellationEnd($row->leave_end ? new ilDate($row->leave_end, IL_CAL_UNIX) : null);
 			$this->setWaitingListAutoFill($row->auto_wait);
 			$this->setSubscriptionMinMembers($row->min_members ? $row->min_members : null);			
@@ -2174,6 +2174,46 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 			return ilContainer::SORT_MANUAL;
 		}
 		return parent::getOrderType();
+	}
+	
+	// :TODO: attach to unsubscribe event
+	public function handleAutoFill()
+	{	
+		if($this->enabledWaitingList() &&
+			$this->hasWaitingListAutoFill())
+		{
+			$max = $this->getSubscriptionMaxMembers();
+			$now = ilCourseParticipants::lookupNumberOfMembers($this->getRefId());
+			if($max > $now)
+			{
+				// see assignFromWaitingListObject()
+				include_once('./Modules/Course/classes/class.ilCourseWaitingList.php');
+				$waiting_list = new ilCourseWaitingList($this->getId());
+
+				foreach($waiting_list->getUserIds() as $user_id)
+				{
+					if(!$tmp_obj = ilObjectFactory::getInstanceByObjId($user_id,false))
+					{
+						continue;
+					}
+					if($this->getMembersObject()->isAssigned($user_id))
+					{
+						continue;
+					}
+					$this->getMembersObject()->add($user_id,IL_CRS_MEMBER);
+					$this->getMembersObject()->sendNotification($this->getMembersObject()->NOTIFY_ACCEPT_USER,$user_id);
+					$waiting_list->removeFromList($user_id);
+
+					$this->checkLPStatusSync($user_id);
+
+					$now++;
+					if($now >= $max)
+					{
+						break;
+					}
+				}
+			}
+		}		
 	}
 	
 	public static function mayLeave($a_course_id, $a_user_id = null, &$a_date = null)

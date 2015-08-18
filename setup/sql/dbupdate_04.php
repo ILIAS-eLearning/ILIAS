@@ -8874,3 +8874,37 @@ if(!$ilDB->tableColumnExists('skl_user_skill_level', 'unique_identifier'))
 		));
 	}
 ?>
+<#4635>
+<?php
+	if (!$ilDB->tableColumnExists('grp_settings', 'registration_min_members'))
+	{
+		$ilDB->addTableColumn('grp_settings', 'registration_min_members', array(
+			"type" => "integer",
+			"notnull" => false,
+			"length" => 2
+		));
+	}
+?>
+<#4636>
+<?php
+	if (!$ilDB->tableColumnExists('grp_settings', 'leave_end'))
+	{
+		$ilDB->addTableColumn('grp_settings', 'leave_end', array(
+			"type" => "integer",
+			"notnull" => false,
+			"length" => 4
+		));
+	}
+?>
+<#4637>
+<?php
+	if (!$ilDB->tableColumnExists('grp_settings', 'auto_wait'))
+	{
+		$ilDB->addTableColumn('grp_settings', 'auto_wait', array(
+			"type" => "integer",
+			"notnull" => true,
+			"length" => 1,
+			"default" => 0
+		));
+	}
+?>

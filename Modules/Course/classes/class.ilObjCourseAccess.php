@@ -184,6 +184,10 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 					return false;
 				}
 				break;
+				
+			case 'leave':
+				include_once './Modules/Course/classes/class.ilObjCourse.php';
+				return ilObjCourse::mayLeave($a_obj_id, $a_user_id);
 		}
 		return true;
 	}
@@ -464,8 +468,8 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 			$info['reg_info_list_prop']['value'] = $lng->txt('crs_list_reg_noreg');
 		}
 		
-		if($info['reg_info_mem_limit'] && $registration_possible)
-		{
+		if($info['reg_info_mem_limit'] && $info['reg_info_max_members'] && $registration_possible)
+		{		
 			// Check if users are on waiting list
 			// @todo
 			

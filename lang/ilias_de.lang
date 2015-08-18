@@ -15632,3 +15632,14 @@ common#:#mem_cron_min_members#:#Kurs/Gruppe: Prüfung der minimalen Teilnehmerza
 common#:#mem_cron_min_members_info#:#Die Administratoren werden benachrichtigt sofern die minimale Anzahl nicht erreicht wird.
 crs#:#crs_cancellation_end_rbac_info#:#Das Stornierungsende wurde am %s erreicht, ein Austritt ist nicht mehr möglich.
 common#:#mem_min_users#:#Minimale Teilnehmeranzahl
+grp#:#grp_wrong_min_max_members#:#Bitte überprüfen Sie Ihre Eingabe für die mnimale und maximale Teilnehmeranzahl.
+grp#:#reg_grp_min_members#:#Minimale Anzahl
+grp#:#grp_cancellation_end#:#Stornierungsende
+grp#:#grp_cancellation_end_rbac_info#:#Das Stornierungsende wurde am %s erreicht, ein Austritt ist nicht mehr möglich.
+sess#:#sess_reg_min_members#:#Minimale Teilnehmeranzahl
+sess#:#sess_reg_min_members_info#:#Eine minimale Zahl an Teilnehmern muss sich registrieren.
+common#:#mem_cron_min_members_subject#:#Kurs/Gruppe: Prüfung der minimalen Teilnehmerzahl
+common#:#mem_cron_min_members_intro#:#Die folgenden Kurse und Gruppen erreichen aktuell nicht die minimale Teilnehmerzahl.
+grp#:#grp_waiting_list_autofill#:#Mit automatischem Aufrücken
+grp#:#grp_waiting_list_no_autofill#:#Ohne automatisches Aufrücken
+grp#:#grp_waiting_list_autofill_info#:#Teilnehmer rücken automatisch bei Stornierungen von der Warteliste nach.

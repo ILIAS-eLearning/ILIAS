@@ -472,14 +472,39 @@ class ilObjCourseGUI extends ilContainerGUI
 			}
 			if ($this->object->isSubscriptionMembershipLimited()) 
 			{
-				include_once './Services/Membership/classes/class.ilParticipants.php';
-				$info->addProperty(
-					$this->lng->txt("mem_free_places"),
-					max(
-						0,
-						$this->object->getSubscriptionMaxMembers() - ilParticipants::lookupNumberOfMembers($this->object->getRefId()))
-				);
+				if($this->object->getSubscriptionMinMembers())
+				{				
+					$info->addProperty(
+						$this->lng->txt("mem_min_users"),
+						$this->object->getSubscriptionMinMembers()
+					);
+				}		
+				if($this->object->getSubscriptionMaxMembers())
+				{
+					include_once './Services/Membership/classes/class.ilParticipants.php';
+					$info->addProperty(
+						$this->lng->txt("mem_free_places"),
+						max(
+							0,
+							$this->object->getSubscriptionMaxMembers() - ilParticipants::lookupNumberOfMembers($this->object->getRefId()))
+					);
+				}
 			}
+		}
+		
+		if($this->object->getCancellationEnd())
+		{		
+			$info->addProperty($this->lng->txt('crs_cancellation_end'),
+				ilDatePresentation::formatDate( $this->object->getCancellationEnd()));
+		}
+				
+		if($this->object->getCourseStart())
+		{	
+			$info->addProperty($this->lng->txt('crs_period'),
+				ilDatePresentation::formatPeriod(
+					$this->object->getCourseStart(),
+					$this->object->getCourseEnd()
+			));
 		}
 		
 		// archive
@@ -891,6 +916,8 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->object->setSubscriptionMaxMembers((int) $_POST['subscription_max']);		
 		$this->object->setSubscriptionMinMembers((int)$_POST['subscription_min']);
 		
+		$old_autofill = $this->object->hasWaitingListAutoFill();
+		
 		switch((int) $_POST['waiting_list'])
 		{
 			case 2:
@@ -970,6 +997,13 @@ class ilObjCourseGUI extends ilContainerGUI
 		if($this->object->validate())
 		{
 			$this->object->update();
+			
+			// if autofill has been activated trigger process
+			if(!$old_autofill &&
+				$this->object->hasWaitingListAutoFill())
+			{
+				$this->object->handleAutoFill();
+			}
 			
 			// BEGIN ChangeEvent: Record write event
 			require_once('Services/Tracking/classes/class.ilChangeEvent.php');
@@ -1090,11 +1124,30 @@ class ilObjCourseGUI extends ilContainerGUI
 		$desc->setRows(2);
 		$desc->setCols(40);
 		$form->addItem($desc);
-
+		
 		// Show didactic template type
 		$this->initDidacticTemplate($form);
 		
+		// period
+		$cdur_tgl = new ilCheckboxInputGUI($this->lng->txt('crs_period'),'period_tgl');
+		$cdur_tgl->setChecked($this->object->getCourseStart());
+		$form->addItem($cdur_tgl);
 		
+			include_once "Services/Form/classes/class.ilDateDurationInputGUI.php";
+			$cdur = new ilDateDurationInputGUI('', 'period');			
+			$cdur->setStartText($this->lng->txt('crs_start'));			
+			$cdur->setEndText($this->lng->txt('crs_end'));	
+			if($this->object->getCourseStart())
+			{
+				$cdur->setStart($this->object->getCourseStart());
+			}		
+			if($this->object->getCourseStart())
+			{
+				$cdur->setEnd($this->object->getCourseEnd());
+			}	
+			$cdur_tgl->addSubItem($cdur);			
+		
+			
 		// activation/availability
 		
 		$this->lng->loadLanguageModule('rep');
@@ -1295,26 +1348,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$pres = new ilFormSectionHeaderGUI();
 		$pres->setTitle($this->lng->txt('crs_view_mode'));
 		
-		$form->addItem($pres);
-		
-		$cdur_tgl = new ilCheckboxInputGUI($this->lng->txt('crs_period'),'period_tgl');
-		$cdur_tgl->setChecked($this->object->getCourseStart());
-		$form->addItem($cdur_tgl);
-		
-			include_once "Services/Form/classes/class.ilDateDurationInputGUI.php";
-			$cdur = new ilDateDurationInputGUI('', 'period');
-			$cdur->setShowTime(true);				
-			$cdur->setStartText($this->lng->txt('crs_start'));			
-			$cdur->setEndText($this->lng->txt('crs_end'));	
-			if($this->object->getCourseStart())
-			{
-				$cdur->setStart($this->object->getCourseStart());
-			}		
-			if($this->object->getCourseStart())
-			{
-				$cdur->setEnd($this->object->getCourseEnd());
-			}	
-			$cdur_tgl->addSubItem($cdur);			
+		$form->addItem($pres);		
 		
 		// presentation type
 		$view_type = new ilRadioGroupInputGUI($this->lng->txt('crs_presentation_type'),'view_mode');

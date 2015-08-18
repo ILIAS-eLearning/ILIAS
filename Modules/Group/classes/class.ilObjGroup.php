@@ -56,8 +56,11 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 	protected $reg_end = null;
 	protected $reg_password = '';
 	protected $reg_membership_limitation = false;
+	protected $reg_min_members = 0;
 	protected $reg_max_members = 0;
 	protected $waiting_list = false;
+	protected $auto_fill_from_waiting; // [bool]
+	protected $leave_end; // [ilDate]
 	
 	
 	// Map
@@ -341,6 +344,28 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 	}
 
 	/**
+	 * set min members
+	 *
+	 * @access public
+	 * @param int min members
+	 */
+	public function setMinMembers($a_max)
+	{
+		$this->reg_min_members = $a_max;
+	}
+	
+	/**
+	 * get min members
+	 *
+	 * @access public
+	 * @return
+	 */
+	public function getMinMembers()
+	{
+		return $this->reg_min_members;
+	}
+
+	/**
 	 * set max members
 	 *
 	 * @access public
@@ -384,6 +409,16 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 	public function isWaitingListEnabled()
 	{
 		return $this->waiting_list;
+	}
+	
+	function setWaitingListAutoFill($a_value)
+	{
+		$this->auto_fill_from_waiting = (bool)$a_value;
+	}
+	
+	function hasWaitingListAutoFill()
+	{
+		return (bool)$this->auto_fill_from_waiting;
 	}
 	
 	/**
@@ -523,8 +558,15 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		return $this->mail_members;
 	}
 	
-
+	function setCancellationEnd(ilDate $a_value = null)
+	{		
+		$this->leave_end = $a_value;
+	}
 	
+	function getCancellationEnd()
+	{		
+		return $this->leave_end;
+	}	
 	
 	/**
 	 * validate group settings
@@ -553,9 +595,20 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		{
 			$ilErr->appendMessage($this->lng->txt(self::ERR_WRONG_REG_TIME_LIMIT));
 		}
-		if($this->isMembershipLimited() and (!is_numeric($this->getMaxMembers()) or $this->getMaxMembers() <= 0))
+		if($this->isMembershipLimited())
 		{
-			$ilErr->appendMessage($this->lng->txt(self::ERR_WRONG_MAX_MEMBERS));
+			if($this->getMinMembers() <= 0 && $this->getMaxMembers() <= 0)
+			{
+				$ilErr->appendMessage($this->lng->txt(self::ERR_WRONG_MIN_MAX_MEMBERS));
+			}
+			if($this->getMaxMembers() <= 0 && $this->isWaitingListEnabled())
+			{
+				$ilErr->appendMessage($this->lng->txt(self::ERR_WRONG_MAX_MEMBERS));
+			}
+			if($this->getMaxMembers() > 0 && $this->getMinMembers() > $this->getMaxMembers())
+			{
+				$ilErr->appendMessage($this->lng->txt(self::ERR_WRONG_MIN_MAX_MEMBERS));
+			}
 		}
 		return strlen($ilErr->getMessage()) == 0;
 	}
@@ -577,7 +630,8 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 
 		$query = "INSERT INTO grp_settings (obj_id,information,grp_type,registration_type,registration_enabled,".
 			"registration_unlimited,registration_start,registration_end,registration_password,registration_mem_limit,".
-			"registration_max_members,waiting_list,latitude,longitude,location_zoom,enablemap,reg_ac_enabled,reg_ac,view_mode,mail_members_type) ".
+			"registration_max_members,waiting_list,latitude,longitude,location_zoom,enablemap,reg_ac_enabled,reg_ac,view_mode,mail_members_type,".
+			"leave_end,registration_min_members,auto_wait) ".
 			"VALUES(".
 			$ilDB->quote($this->getId() ,'integer').", ".
 			$ilDB->quote($this->getInformation() ,'text').", ".
@@ -598,7 +652,10 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 			$ilDB->quote($this->isRegistrationAccessCodeEnabled(),'integer').', '.
 			$ilDB->quote($this->getRegistrationAccessCode(),'text').', '.
 			$ilDB->quote($this->getViewMode(false),'integer').', '.
-			$ilDB->quote($this->getMailToMembersType(),'integer').' '.
+			$ilDB->quote($this->getMailToMembersType(),'integer').', '.				
+			$ilDB->quote(($this->getCancellationEnd() && !$this->getCancellationEnd()->isNull()) ? $this->getCancellationEnd()->get(IL_CAL_UNIX) : null, 'integer').', '.			
+			$ilDB->quote($this->getMinMembers(),'integer').', '.
+			$ilDB->quote($this->hasWaitingListAutoFill(),'integer').' '.
 			")";
 		$res = $ilDB->manipulate($query);
 
@@ -643,7 +700,10 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 			'reg_ac_enabled = '.$ilDB->quote($this->isRegistrationAccessCodeEnabled(),'integer').', '.
 			'reg_ac = '.$ilDB->quote($this->getRegistrationAccessCode(),'text').', '.
 			'view_mode = '.$ilDB->quote($this->getViewMode(false),'integer').', '.
-			'mail_members_type = '.$ilDB->quote($this->getMailToMembersType(),'integer').' '.
+			'mail_members_type = '.$ilDB->quote($this->getMailToMembersType(),'integer').' '.				
+			'leave_end = '.$ilDB->quote(($this->getCancellationEnd() && !$this->getCancellationEnd()->isNull()) ? $this->getCancellationEnd()->get(IL_CAL_UNIX) : null, 'integer').', '.			
+			"registration_min_members = ".$ilDB->quote($this->getMinMembers() ,'integer').", ".
+			"auto_wait = ".$ilDB->quote($this->hasWaitingListAutoFill() ,'integer').", ".
 			"WHERE obj_id = ".$ilDB->quote($this->getId() ,'integer')." ";
 		$res = $ilDB->manipulate($query);
 		
@@ -723,7 +783,10 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 			$this->enableRegistrationAccessCode($row->reg_ac_enabled);
 			$this->setRegistrationAccessCode($row->reg_ac);
 			$this->setViewMode($row->view_mode);
-			$this->setMailToMembersType($row->mail_members_type);
+			$this->setMailToMembersType($row->mail_members_type);			
+			$this->setCancellationEnd($row->leave_end ? new ilDate($row->leave_end, IL_CAL_UNIX) : null);
+			$this->setMinMembers($row->registration_min_members);
+			$this->setWaitingListAutoFill($row->auto_wait);			
 		}
 		$this->initParticipants();
 		
@@ -771,6 +834,10 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 
 		$new_obj->setViewMode($this->getViewMode());
 		$new_obj->setMailToMembersType($this->getMailToMembersType());
+		
+		$new_obj->setCancellationEnd($this->getCancellationEnd());
+		$new_obj->setMinMembers($this->getMinMembers());
+		$new_obj->setWaitingListAutoFill($this->hasWaitingListAutoFill());
 		
 		$new_obj->update();
 		

@@ -15637,3 +15637,14 @@ common#:#mem_cron_min_members#:#Course/Group: Minimum Members Check
 common#:#mem_cron_min_members_info#:#The administrators will be notified if the minimum number is not met.
 crs#:#crs_cancellation_end_rbac_info#:#The cancellation deadline was met on %s, a cancellation is not possible anymore.
 common#:#mem_min_users#:#Minimum of Users
+grp#:#grp_wrong_min_max_members#:#Please check the minimum and maximum number of users.
+grp#:#reg_grp_min_members#:#Minimum Number of Members
+grp#:#grp_cancellation_end#:#Cancellation Limit
+grp#:#grp_cancellation_end_rbac_info#:#The cancellation deadline was met on %s, a cancellation is not possible anymore.
+sess#:#sess_reg_min_members#:#Minimum of Users
+sess#:#sess_reg_min_members_info#:#A minimum number of users has to register.
+common#:#mem_cron_min_members_subject#:#Course/Group: Minimum Members Check
+common#:#mem_cron_min_members_intro#:#The following courses and groups do not meet the minimum number of members (yet).
+grp#:#grp_waiting_list_no_autofill#:#Without Auto-Fill
+grp#:#grp_waiting_list_autofill#:#With Auto-Fill
+grp#:#grp_waiting_list_autofill_info#:#Participants are recruited from the waiting list automatically on cancellations.
