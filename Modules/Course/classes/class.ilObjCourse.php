@@ -2255,9 +2255,11 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		$set = $ilDB->query("SELECT obj_id, min_members".
 			" FROM crs_settings".
 			" WHERE min_members > ".$ilDB->quote(0, "integer").
-			" AND sub_end IS NOT NULL".
-			" AND sub_end < ".$ilDB->quote($now, "integer").
-			/* " AND cancel_end_noti IS NULL". */
+			" AND ((leave_end IS NOT NULL".
+				" AND leave_end < ".$ilDB->quote($now, "text").")".
+				" OR (leave_end IS NULL".
+				" AND sub_end IS NOT NULL".
+				" AND sub_end < ".$ilDB->quote($now, "text")."))".
 			" AND (crs_start IS NULL OR crs_start > ".$ilDB->quote($now, "integer").")");
 		while($row = $ilDB->fetchAssoc($set))
 		{

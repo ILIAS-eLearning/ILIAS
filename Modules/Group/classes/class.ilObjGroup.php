@@ -2129,10 +2129,13 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		
 		$set = $ilDB->query("SELECT obj_id, registration_min_members".
 			" FROM grp_settings".
-			" WHERE registration_end IS NOT NULL".
-			" AND registration_end < ".$ilDB->quote($now, "text").
-			" AND registration_min_members > ".$ilDB->quote(0, "integer")
-			/* " AND cancel_end_noti IS NULL".*/
+			" WHERE registration_min_members > ".$ilDB->quote(0, "integer").
+			" AND ((leave_end IS NOT NULL".
+				" AND leave_end < ".$ilDB->quote($now, "text").")".
+				" OR (leave_end IS NULL".
+				" AND registration_end IS NOT NULL".
+				" AND registration_end < ".$ilDB->quote($now, "text")."))"
+			// :TODO: there is no group start ?!
 			/* " AND (grp_start IS NULL OR grp_start > ".$ilDB->quote($now, "integer").")" */);
 		while($row = $ilDB->fetchAssoc($set))
 		{
