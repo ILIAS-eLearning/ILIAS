@@ -421,6 +421,66 @@ class ilLanguage
 		return $this->lang_user;
 	}
 
-	
-} // END class.Language
-?>
+	/**
+	 * Builds the global language object
+	 * @return self
+	 */
+	public static function getGlobalInstance()
+	{
+		/**
+		 * @var $ilUser    ilObjUser
+		 * @var $ilSetting ilSetting
+		 */
+		global $ilUser, $ilSetting;
+
+		if(!ilSession::get('lang') && !$_GET['lang'])
+		{
+			if(
+				$ilUser instanceof ilObjUser &&
+				(!$ilUser->getId() || $ilUser->isAnonymous())
+			)
+			{
+				require_once 'Services/Language/classes/class.ilLanguageDetection.php';
+				$language_detection = new ilLanguageDetection();
+				$language           = $language_detection->detect();
+
+				$ilUser->setPref('language', $language);
+				$_GET['lang'] = $language;
+			}
+		}
+
+		if(isset($_POST['change_lang_to']) && $_POST['change_lang_to'] != "")
+		{
+			$_GET['lang'] = ilUtil::stripSlashes($_POST['change_lang_to']);
+		}
+
+		// prefer personal setting when coming from login screen
+		// Added check for ilUser->getId > 0 because it is 0 when the language is changed and the terms of service should be displayed
+		if(
+			$ilUser instanceof ilObjUser &&
+			($ilUser->getId() && !$ilUser->isAnonymous())
+		)
+		{
+			ilSession::set('lang', $ilUser->getPref('language'));
+		}
+
+		ilSession::set('lang', (isset($_GET['lang']) && $_GET['lang']) ? $_GET['lang'] : ilSession::get('lang'));
+
+		// check whether lang selection is valid
+		$langs = self::getInstalledLanguages();
+		if(!in_array(ilSession::get('lang'), $langs))
+		{
+			if($ilSetting instanceof ilSetting && $ilSetting->get('language') != '')
+			{
+				ilSession::set('lang', $ilSetting->get('language'));
+			}
+			else
+			{
+				ilSession::set('lang', $langs[0]);
+			}
+		}
+		$_GET['lang'] = ilSession::get('lang');
+
+		return new self(ilSession::get('lang'));
+	}
+}

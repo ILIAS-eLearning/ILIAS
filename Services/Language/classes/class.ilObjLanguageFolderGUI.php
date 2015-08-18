@@ -29,6 +29,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 		$this->type = "lngf";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, false);
 		$_GET["sort_by"] = "language";
+		$this->lng->loadLanguageModule('lng');
 	}
 
 	/**
@@ -73,6 +74,15 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 			{
 				$ilToolbar->addButton($lng->txt("enable_ext_lang_maint"),
 					$this->ctrl->getLinkTarget($this, "enableExtendedLanguageMaintenance"));
+			}
+
+			if(!$ilSetting->get('lang_detection'))
+			{
+				$ilToolbar->addButton($lng->txt('lng_enable_language_detection'), $this->ctrl->getLinkTarget($this, 'enableLanguageDetection'));
+			}
+			else
+			{
+				$ilToolbar->addButton($lng->txt('lng_disable_language_detection'),	$this->ctrl->getLinkTarget($this, 'disableLanguageDetection'));
 			}
 		}
 
@@ -563,6 +573,34 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 		);
 	}
 
-	
+	/**
+	 *
+	 */
+	protected function disableLanguageDetectionObject()
+	{
+		/**
+		 * @var $ilSetting ilSetting
+		 */
+		global $ilSetting;
+
+		$ilSetting->set('lang_detection', 0);
+		ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
+		$this->viewObject();
+	}
+
+	/**
+	 *
+	 */
+	protected function enableLanguageDetectionObject()
+	{
+		/**
+		 * @var $ilSetting ilSetting
+		 */
+		global $ilSetting;
+
+		$ilSetting->set('lang_detection', 1);
+		ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
+		$this->viewObject();
+	}
 } // END class.ilObjLanguageFolderGUI
 ?>
