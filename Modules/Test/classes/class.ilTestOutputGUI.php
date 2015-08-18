@@ -602,7 +602,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 			$this->populatePreviousButtons();
 		}
 
-		if ($this->isLastQuestionInSequence( $question_gui ))
+		if( !$this->isLastQuestionInSequence($question_gui) )
 		{
 			$this->populateNextButtons();
 		}
