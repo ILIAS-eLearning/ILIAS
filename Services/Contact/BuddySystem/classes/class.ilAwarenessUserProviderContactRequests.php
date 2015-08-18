@@ -65,4 +65,15 @@ class ilAwarenessUserProviderContactRequests extends ilAwarenessUserProvider
 		$buddylist = ilBuddyList::getInstanceByGlobalUser();
 		return $buddylist->getRequestRelationsForOwner()->getKeys();
 	}
+
+	/**
+	 * Is highlighted
+	 *
+	 * @return bool return true, if user group should be highlighted (using extra highlighted number)
+	 */
+	function isHighlighted()
+	{
+		return true;
+	}
+
 }
