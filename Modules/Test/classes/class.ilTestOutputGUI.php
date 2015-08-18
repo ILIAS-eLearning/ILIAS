@@ -496,7 +496,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 			$answer_feedback = TRUE;
 		}
 
-		$charSelectorAvailable = $this->populateCharSelector();
+		$charSelectorAvailable = $this->populateCharSelectorIfRequired();
 		
 		$this->populateTestNavigationToolbar(
 			$this->buildTestNavigationToolbarGUI($charSelectorAvailable)

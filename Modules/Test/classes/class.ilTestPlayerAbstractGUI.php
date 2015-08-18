@@ -1791,7 +1791,10 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		return $this->lng->txt("save_introduction");
 	}
 
-	protected function populateCharSelector()
+	/**
+	 * @return bool $charSelectorAvailable
+	 */
+	protected function populateCharSelectorIfRequired()
 	{
 		global $ilSetting;
 		
