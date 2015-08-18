@@ -188,12 +188,12 @@ class ilObjWikiGUI extends ilObjectGUI
 				$this->addHeaderAction();
 				$this->setSideBlock();
 				$ilTabs->setTabActive("wiki_search_results");
-				$ilCtrl->setReturn($this,'preview');
+				$ilCtrl->setReturn($this,'view');
 				include_once './Services/Search/classes/class.ilRepositoryObjectSearchGUI.php';
 				$search_gui = new ilRepositoryObjectSearchGUI(
 						$this->object->getRefId(),
 						$this,
-						'preview'
+						'view'
 				);
 				$ilCtrl->forwardCommand($search_gui);
 				break;

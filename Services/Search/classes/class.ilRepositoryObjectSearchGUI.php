@@ -21,6 +21,8 @@ class ilRepositoryObjectSearchGUI
 	private $parent_obj;
 	private $parent_cmd;
 	
+	
+	
 	/**
 	 * Constructor
 	 */
@@ -129,28 +131,56 @@ class ilRepositoryObjectSearchGUI
 	/**
 	 * Perform search lucene or direct search
 	 */
-	function performSearch()
+	protected function performSearch()
 	{
-		global $tpl, $ilTabs, $ilCtrl, $lng;
+		include_once './Services/Search/classes/class.ilRepositoryObjectDetailSearch.php';
 		
-		include_once("./Modules/Wiki/classes/class.ilWikiSearchResultsTableGUI.php");
-		
-		$ilTabs->setTabActive("wiki_search_results");
-		
-		if(trim($_POST["search_term"]) == "")
+		try
 		{
-			ilUtil::sendFailure($lng->txt("wiki_please_enter_search_term"), true);
-			$this->getCtrl()->returnToParent($this);
+			$search = new ilRepositoryObjectDetailSearch(ilObject::_lookupObjId($this->getRefId()));
+			$search->setQueryString(ilUtil::stripSlashes($_POST['search_term']));
+			$result = $search->performSearch();
 		}
+		catch(Exception $e)
+		{
+			ilUtil::sendFailure($e->getMessage(),TRUE);
+			$this->getCtrl()->returnToParent($this);
+			return FALSE;
+		}
+		// @todo: add a factory to allow overwriting of search result presentation
+		$result_table = $this->getResultTableInstance();
+		$result_table->setSearchTerm(ilUtil::stripSlashes($_POST['search_term']));
+		$result_table->setResults($result);
 		
-		$search_results = ilObjWiki::_performSearch($this->object->getId(),
-			ilUtil::stripSlashes($_POST["search_term"]));
-		$table_gui = new ilWikiSearchResultsTableGUI($this, "performSearch",
-			$this->object->getId(), $search_results, $_POST["search_term"]);
-			
-		$tpl->setContent($table_gui->getHTML());
+		$result_table->init();
+		$result_table->parse();
+		
+		$GLOBALS['tpl']->setContent($result_table->getHTML());
 	}
 	
-	
+	/**
+	 * Get result table instance 
+	 * @global type $objDefinition
+	 * @return type
+	 */
+	public function getResultTableInstance()
+	{
+		global $objDefinition;
+		
+
+		$class = $objDefinition->getClassName($this->getObject()->getType());
+		$location = $objDefinition->getLocation($this->getObject()->getType());
+		$full_class = "ilObj".$class."SearchResultTableGUI";
+		
+		if(include_once($location."/class.".$full_class.".php"))
+		{
+			return new $full_class(
+					$this,
+					'performSearch',
+					$this->getRefId()
+			);
+		}
+		
+	}	
 }
 ?>
