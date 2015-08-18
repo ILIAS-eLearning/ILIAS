@@ -2,5 +2,6 @@
 <service xmlns="http://www.w3.org" version="$Id$" id="mmbr">	
 	<crons>
 		<cron id="mem_notification" class="ilMembershipCronNotifications" />
+		<cron id="mem_min_members" class="ilMembershipCronMinMembers" />
 	</crons>
 </service>
