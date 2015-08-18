@@ -169,6 +169,7 @@ class ilAdvancedMDRecord
 			$types[] = $at;
 		}
 
+		sort($types);
 		return $types;
 	}
 	

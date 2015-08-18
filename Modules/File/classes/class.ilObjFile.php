@@ -785,6 +785,12 @@ class ilObjFile extends ilObject2
 		require_once("./Services/History/classes/class.ilHistory.php");
 		ilHistory::_copyEntriesForObject($this->getId(),$a_new_obj->getId());
 		
+		// Copy learning progress settings
+		include_once('Services/Tracking/classes/class.ilLPObjSettings.php');
+		$obj_settings = new ilLPObjSettings($this->getId());
+		$obj_settings->cloneSettings($a_new_obj->getId());
+		unset($obj_settings);
+		
 		// add news notification
 		$a_new_obj->addNewsNotification("file_created");
 

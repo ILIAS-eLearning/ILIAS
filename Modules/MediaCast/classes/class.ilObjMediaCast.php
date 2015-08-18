@@ -530,6 +530,12 @@ class ilObjMediaCast extends ilObject
 		$this->copyItems($new_obj);
 		
 		// copy order!?
+		
+		// clone LP settings
+		include_once('./Services/Tracking/classes/class.ilLPObjSettings.php');
+		$obj_settings = new ilLPObjSettings($this->getId());
+		$obj_settings->cloneSettings($new_obj->getId());
+		unset($obj_settings);
 
 		return $new_obj;
 	}
