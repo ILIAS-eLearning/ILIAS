@@ -43,6 +43,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 	const ERR_MISSING_PASSWORD = 'grp_missing_password';
 	const ERR_WRONG_MAX_MEMBERS = 'grp_wrong_max_members';
 	const ERR_WRONG_REG_TIME_LIMIT = 'grp_wrong_reg_time_limit';
+	const ERR_WRONG_MIN_MAX_MEMBERS = 'grp_wrong_min_max_members';
 	
 	const MAIL_ALLOWED_ALL = 1;
 	const MAIL_ALLOWED_TUTORS = 2;
@@ -700,11 +701,11 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 			'reg_ac_enabled = '.$ilDB->quote($this->isRegistrationAccessCodeEnabled(),'integer').', '.
 			'reg_ac = '.$ilDB->quote($this->getRegistrationAccessCode(),'text').', '.
 			'view_mode = '.$ilDB->quote($this->getViewMode(false),'integer').', '.
-			'mail_members_type = '.$ilDB->quote($this->getMailToMembersType(),'integer').' '.				
+			'mail_members_type = '.$ilDB->quote($this->getMailToMembersType(),'integer').', '.				
 			'leave_end = '.$ilDB->quote(($this->getCancellationEnd() && !$this->getCancellationEnd()->isNull()) ? $this->getCancellationEnd()->get(IL_CAL_UNIX) : null, 'integer').', '.			
 			"registration_min_members = ".$ilDB->quote($this->getMinMembers() ,'integer').", ".
-			"auto_wait = ".$ilDB->quote($this->hasWaitingListAutoFill() ,'integer').", ".
-			"WHERE obj_id = ".$ilDB->quote($this->getId() ,'integer')." ";
+			"auto_wait = ".$ilDB->quote($this->hasWaitingListAutoFill() ,'integer')." ".
+			"WHERE obj_id = ".$ilDB->quote($this->getId() ,'integer');
 		$res = $ilDB->manipulate($query);
 		
 		$ilAppEventHandler->raise('Modules/Group',
@@ -2051,6 +2052,104 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		$part->sendNotification($part->TYPE_NOTIFICATION_REGISTRATION, $a_user_id);
 		return true;
 	}	
+	
+	// :TODO: attach to unsubscribe event
+	public function handleAutoFill()
+	{	
+		if($this->isWaitingListEnabled() &&
+			$this->hasWaitingListAutoFill())
+		{
+			$max = $this->getMaxMembers();
+			$now = ilGroupParticipants::lookupNumberOfMembers($this->getRefId());
+			if($max > $now)
+			{
+				// see assignFromWaitingListObject()
+				include_once('./Modules/Group/classes/class.ilGroupWaitingList.php');
+				$waiting_list = new ilGroupWaitingList($this->getId());
+
+				foreach($waiting_list->getUserIds() as $user_id)
+				{
+					if(!$tmp_obj = ilObjectFactory::getInstanceByObjId($user_id,false))
+					{
+						continue;
+					}
+					if($this->getMembersObject()->isAssigned($user_id))
+					{
+						continue;
+					}
+					$this->getMembersObject()->add($user_id,IL_CRS_MEMBER);
+					$this->getMembersObject()->sendNotification($this->getMembersObject()->NOTIFY_ACCEPT_USER,$user_id);
+					$waiting_list->removeFromList($user_id);
+
+					$now++;
+					if($now >= $max)
+					{
+						break;
+					}
+				}
+			}
+		}		
+	}	
+	
+	public static function mayLeave($a_group_id, $a_user_id = null, &$a_date = null)
+	{
+		global $ilUser, $ilDB;
+		
+		if(!$a_user_id)
+		{
+			$a_user_id = $ilUser->getId();
+		}
+		
+		$set = $ilDB->query("SELECT leave_end".
+			" FROM grp_settings".
+			" WHERE obj_id = ".$ilDB->quote($a_group_id, "integer"));
+		$row = $ilDB->fetchAssoc($set);		
+		if($row && $row["leave_end"])
+		{
+			// timestamp to date
+			$limit = date("Ymd", $row["leave_end"]);			
+			if($limit < date("Ymd"))
+			{
+				$a_date = new ilDate(date("Y-m-d", $row["leave_end"]), IL_CAL_DATE);		
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public static function findGroupsWithNotEnoughMembers()
+	{
+		global $ilDB;
+		
+		$res = array();
+		
+		$now = date("Y-m-d H:i:s");
+		
+		include_once "Modules/Group/classes/class.ilGroupParticipants.php";
+		
+		$set = $ilDB->query("SELECT obj_id, registration_min_members".
+			" FROM grp_settings".
+			" WHERE registration_end IS NOT NULL".
+			" AND registration_end < ".$ilDB->quote($now, "text").
+			" AND registration_min_members > ".$ilDB->quote(0, "integer")
+			/* " AND cancel_end_noti IS NULL".*/
+			/* " AND (grp_start IS NULL OR grp_start > ".$ilDB->quote($now, "integer").")" */);
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			$part = new ilGroupParticipants($row["obj_id"]);			
+			$reci = $part->getNotificationRecipients();
+			if(sizeof($reci))
+			{
+				$missing = (int)$row["registration_min_members"]-$part->getCountMembers();
+				if($missing > 0)
+				{
+					$res[$row["obj_id"]] = array($missing, $reci);		
+				}
+			}			
+		}
+		
+		return $res;
+	}
 	
 } //END class.ilObjGroup
 ?>
