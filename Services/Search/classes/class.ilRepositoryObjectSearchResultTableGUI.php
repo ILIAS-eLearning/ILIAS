@@ -75,6 +75,7 @@ abstract class ilRepositoryObjectSearchResultTableGUI extends ilTable2GUI
 		global $ilCtrl, $lng;
 		
 		$this->setEnableHeader(true);
+		$this->setShowRowsSelector(FALSE);
 		$this->setFormAction($ilCtrl->getFormAction($this->getParentObject()));
 		$this->setLimit(0);
 		
@@ -92,8 +93,10 @@ abstract class ilRepositoryObjectSearchResultTableGUI extends ilTable2GUI
 		if($this->getSettings()->enabledLucene())
 		{
 			$lng->loadLanguageModule('search');
-			$this->addColumn($lng->txt("title"), "title", "80%");
-			$this->addColumn($lng->txt("lucene_relevance_short"), "relevance", "20%");
+			#$this->addColumn($lng->txt("title"), "title", "80%");
+			#$this->addColumn($lng->txt("lucene_relevance_short"), "relevance", "20%");
+			$this->addColumn($lng->txt("title"), "", "80%");
+			$this->addColumn($lng->txt("lucene_relevance_short"), "", "20%");
 		}
 		else
 		{
