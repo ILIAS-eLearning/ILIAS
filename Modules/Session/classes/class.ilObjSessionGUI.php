@@ -810,7 +810,9 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	public function updateObject()
 	{
 		global $ilErr;
-
+		
+		$old_autofill = $this->object->hasWaitingListAutoFill();
+		
 		$this->load();
 		$this->initForm('edit');
 		
@@ -830,9 +832,16 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		}
 		// Update event
 		$this->object->update();
-		$this->object->getFirstAppointment()->update();
+		$this->object->getFirstAppointment()->update();				
 		
 		$this->handleFileUpload();
+		
+		// if autofill has been activated trigger process
+		if(!$old_autofill &&
+			$this->object->hasWaitingListAutoFill())
+		{
+			$this->object->handleAutoFill();
+		}
 		
 		ilUtil::sendSuccess($this->lng->txt('event_updated'),true);
 		$this->ctrl->redirect($this,'edit');
@@ -1727,9 +1736,27 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->object->setDetails(ilUtil::stripSlashes($_POST['details']));
 		
 		$this->object->setRegistrationType((int) $_POST['registration_type']);
+		$this->object->setRegistrationMinUsers((int) $_POST['registration_min_members']);
 		$this->object->setRegistrationMaxUsers((int) $_POST['registration_max_members']);
-		$this->object->enableRegistrationUserLimit((int) $_POST['registration_membership_limited']);
-		$this->object->enableRegistrationWaitingList((int) $_POST['waiting_list']);
+		$this->object->enableRegistrationUserLimit((int) $_POST['registration_membership_limited']);		
+		
+		switch((int) $_POST['waiting_list'])
+		{
+			case 2:
+				$this->object->enableRegistrationWaitingList(true);
+				$this->object->setWaitingListAutoFill(true);
+				break;
+			
+			case 1:
+				$this->object->enableRegistrationWaitingList(true);
+				$this->object->setWaitingListAutoFill(false);
+				break;
+			
+			default:
+				$this->object->enableRegistrationWaitingList(false);
+				$this->object->setWaitingListAutoFill(false);
+				break;
+		}
 	}
 
 	/**

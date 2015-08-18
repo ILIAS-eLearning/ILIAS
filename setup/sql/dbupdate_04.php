@@ -8908,3 +8908,26 @@ if(!$ilDB->tableColumnExists('skl_user_skill_level', 'unique_identifier'))
 		));
 	}
 ?>
+<#4638>
+<?php
+	if (!$ilDB->tableColumnExists('event', 'reg_min_users'))
+	{
+		$ilDB->addTableColumn('event', 'reg_min_users', array(
+			"type" => "integer",
+			"notnull" => false,
+			"length" => 2
+		));
+	}
+?>
+<#4639>
+<?php
+	if (!$ilDB->tableColumnExists('event', 'reg_auto_wait'))
+	{
+		$ilDB->addTableColumn('event', 'reg_auto_wait', array(
+			"type" => "integer",
+			"notnull" => true,
+			"length" => 1,
+			"default" => 0
+		));
+	}
+?>

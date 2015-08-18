@@ -15648,3 +15648,8 @@ common#:#mem_cron_min_members_intro#:#The following courses and groups do not me
 grp#:#grp_waiting_list_no_autofill#:#Without Auto-Fill
 grp#:#grp_waiting_list_autofill#:#With Auto-Fill
 grp#:#grp_waiting_list_autofill_info#:#Participants are recruited from the waiting list automatically on cancellations.
+sess#:#sess_reg_waiting_list_none#:#None
+sess#:#sess_reg_waiting_list_no_autofill#:#Without Auto-Fill
+sess#:#sess_reg_waiting_list_no_autofill_info#:#If the maximum number of users is exceeded, new registrations will be placed on a waiting list.
+sess#:#sess_reg_waiting_list_autofill#:#With Auto-Fill
+sess#:#sess_reg_waiting_list_autofill_info#:#Participants are recruited from the waiting list automatically on cancellations.
