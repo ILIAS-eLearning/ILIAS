@@ -363,7 +363,7 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 		{
 			// details for containers and collections
 			if($this->has_collection ||
-				in_array($this->type, array("crs", "grp", "cat", "fold")))
+				in_array($this->type, array("crs", "grp", "cat", "fold", "mcst")))
 			{
 				$this->tpl->setCurrentBlock("item_command");
 				$this->tpl->setVariable("HREF_COMMAND", $ilCtrl->getLinkTargetByClass("illplistofobjectsgui", "userdetails"));

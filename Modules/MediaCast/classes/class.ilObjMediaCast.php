@@ -570,5 +570,17 @@ class ilObjMediaCast extends ilObject
 		}
 	}
 	
+	public function handleLPUpdate($a_user_id, $a_mob_id)
+	{			
+		// using read events to persist mob status
+		require_once 'Services/Tracking/classes/class.ilChangeEvent.php';						
+		ilChangeEvent::_recordReadEvent("mob", $this->getRefId(),
+			$a_mob_id, $a_user_id);					
+		
+		// trigger LP update
+		require_once 'Services/Tracking/classes/class.ilLPStatusWrapper.php';
+		ilLPStatusWrapper::_updateStatus($this->getId(), $a_user_id);		
+	}
 }
+
 ?>

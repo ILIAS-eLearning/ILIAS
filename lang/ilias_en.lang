@@ -15613,3 +15613,11 @@ note#:#note_comment_notification_link#:#Link
 note#:#note_comment_text#:#Text
 lng#:#lng_enable_language_detection#:#Enable Language Detection
 lng#:#lng_disable_language_detection#:#Disable Language Detection
+trac#:#trac_mode_downloaded#:#Downloaded
+trac#:#trac_mode_downloaded_info#:#The learning progress is determined by the download status of the file.
+trac#:#trac_mode_collection_mobs#:#Collection of Media Objects
+trac#:#trac_mode_collection_mobs_info#:#The learning progress status will be determined by the viewing status of selected media objects.
+trac#:#trac_lp_determination_info_mob#:#Select the items that determine the overall learning progress status of the Mediacast
+trac#:#trac_lp_settings_info_parent_container#:#Learning Progress of Parent Objects
+trac#:#trac_lp_settings_info_parent_usage#:#Determines Learning Progress
+trac#:#trac_lp_settings_info_parent_group#:#Other objects in grouping

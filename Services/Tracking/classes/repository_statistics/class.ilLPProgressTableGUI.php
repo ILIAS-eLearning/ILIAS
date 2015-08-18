@@ -176,6 +176,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 				
 				case ilLPObjSettings::LP_MODE_COLLECTION_MANUAL:
 				case ilLPObjSettings::LP_MODE_COLLECTION_TLT:				
+				case ilLPObjSettings::LP_MODE_COLLECTION_MOBS:
 					$data = ilTrQuery::getSubItemsStatusForUser($this->tracked_user->getId(), $this->parent_obj_id, $obj_ids);					
 					break;
 				

@@ -356,12 +356,13 @@ class ilLPTableBaseGUI extends ilTable2GUI
 		$options['crs'] = $lng->txt('objs_crs');
 		$options['grp'] = $lng->txt('objs_grp');
 		$options['exc'] = $lng->txt('objs_exc');
+		$options['file'] = $lng->txt('objs_file');
+		$options['mcst'] = $lng->txt('objs_mcst');
 		$options['svy'] = $lng->txt('objs_svy');		
 		$options['tst'] = $lng->txt('objs_tst');		
 		
 		if($a_allow_undefined_lp)
-		{
-			$options["file"] = $lng->txt("objs_file");
+		{			
 			$options["webr"] = $lng->txt("objs_webr");
 			$options["wiki"] = $lng->txt("objs_wiki");
 		}
@@ -425,7 +426,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 				break;
 
 			case "spent_seconds":
-				if(in_array($type, array("exc")))
+				if(in_array($type, array("exc", "file", "mcst")))
 				{
 					$value = "-";
 				}

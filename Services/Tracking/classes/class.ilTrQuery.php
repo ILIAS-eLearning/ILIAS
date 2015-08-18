@@ -193,7 +193,8 @@ class ilTrQuery
 		
 		switch(ilObject::_lookupType($a_parent_obj_id))
 		{
-			case "lm":				
+			case "lm":	
+			case "mcst":	
 				include_once './Services/Object/classes/class.ilObjectLP.php';
 				$olp = ilObjectLP::getInstance($a_parent_obj_id);
 				$collection = $olp->getCollectionInstance();
@@ -1324,6 +1325,7 @@ class ilTrQuery
 				
 			case ilLPObjSettings::LP_MODE_COLLECTION_MANUAL:				
 			case ilLPObjSettings::LP_MODE_COLLECTION_TLT:
+			case ilLPObjSettings::LP_MODE_COLLECTION_MOBS:
 				include_once "Services/Tracking/classes/class.ilLPStatusFactory.php";
 				$status_coll_tlt = ilLPStatusFactory::_getInstance($a_parent_obj_id, $mode);
 				$subitems = $status_coll_tlt->_getStatusInfo($a_parent_obj_id);

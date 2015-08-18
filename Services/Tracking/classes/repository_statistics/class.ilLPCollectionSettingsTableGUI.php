@@ -249,12 +249,20 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
 				
 				$this->addCommandButton('updateTLT', $this->lng->txt('save'));
 				break;
+			
+			case ilLPObjSettings::LP_MODE_COLLECTION_MOBS:
+				$this->setRowTemplate('tpl.lp_collection_subitem_row.html', 'Services/Tracking');				
+				$this->setTitle($this->lng->txt('trac_lp_determination'));
+				$this->lng->loadLanguageModule('cognoslp');
+				$this->setDescription($this->lng->txt('cognoslp_trac_lp_determination_info_mob'));
+				break;
 		}
 
 		$this->addColumn('','','1px');
 		$this->addColumn($this->lng->txt('item'), 'title', '50%');
 		
 		if($this->getMode() != ilLPObjSettings::LP_MODE_SCORM &&
+			$this->getMode() != ilLPObjSettings::LP_MODE_COLLECTION_MOBS &&
 			$this->getMode() != ilLPObjSettings::LP_MODE_COLLECTION_MANUAL && 
 			$this->getMode() != ilLPObjSettings::LP_MODE_COLLECTION_TLT)
 		{

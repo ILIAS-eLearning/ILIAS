@@ -15608,3 +15608,11 @@ note#:#note_comment_notification_link#:#Link
 note#:#note_comment_text#:#Text
 lng#:#lng_enable_language_detection#:#Aktiviere automatische Spracherkennung
 lng#:#lng_disable_language_detection#:#Deaktiviere automatische Spracherkennung
+trac#:#trac_mode_downloaded#:#Heruntergeladen
+trac#:#trac_mode_downloaded_info#:#Der Lernstand wird über das Herunterladen der Datei bestimmt.
+trac#:#trac_mode_collection_mobs#:#Auswahl an Medien-Objekten
+trac#:#trac_mode_collection_mobs_info#:#Der Lernfortschritt wird automatisch aus der Anzahl der betrachteten Medienobjekte ermittelt.
+trac#:#trac_lp_determination_info_mob#:#Auswahl der Medienobjekte, anhand derer der Gesamtstatus des Mediacast ermittelt wird.
+trac#:#trac_lp_settings_info_parent_container#:#Lernfortschritt übergeordneter Objekte
+trac#:#trac_lp_settings_info_parent_usage#:#Bestimmt Lernfortschritt
+trac#:#trac_lp_settings_info_parent_group#:#Andere Objekte in der Gruppierung

@@ -85,6 +85,8 @@ il.MediaObjects = {
 					il.Lightbox.loadWrapperToLightbox($(t).parent().attr('id'), "media_lightbox");
 					//video_el_wrap.removeClass('ilNoDisplay');
 					il.MediaObjects.current_player_id = img_el.attr('id');
+					
+					il.MediaObjects.playerStarted(il.MediaObjects.current_player_id);
 				}
 			}
 		}

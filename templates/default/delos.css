@@ -10440,7 +10440,7 @@ button.btn:not(.btn-link) > span:first-child:not(:empty) {
 }
 */
 .btn-default {
-  color: #ffffff;
+  color: white;
   background-color: #708bae;
   border-color: #708bae;
 }
@@ -10449,7 +10449,7 @@ button.btn:not(.btn-link) > span:first-child:not(:empty) {
 .btn-default:active,
 .btn-default.active,
 .open > .dropdown-toggle.btn-default {
-  color: #ffffff;
+  color: white;
   background-color: #557196;
   border-color: #526c90;
 }
@@ -10478,10 +10478,10 @@ fieldset[disabled] .btn-default.active {
 }
 .btn-default .badge {
   color: #708bae;
-  background-color: #ffffff;
+  background-color: white;
 }
 .btn-primary {
-  color: #ffffff;
+  color: white;
   background-color: #6ea03c;
   border-color: #6ea03c;
 }
@@ -10490,7 +10490,7 @@ fieldset[disabled] .btn-default.active {
 .btn-primary:active,
 .btn-primary.active,
 .open > .dropdown-toggle.btn-primary {
-  color: #ffffff;
+  color: white;
   background-color: #557b2e;
   border-color: #4f732b;
 }
@@ -10519,11 +10519,11 @@ fieldset[disabled] .btn-primary.active {
 }
 .btn-primary .badge {
   color: #6ea03c;
-  background-color: #ffffff;
+  background-color: white;
 }
 .btn-info {
   color: #557196;
-  background-color: #ffffff;
+  background-color: white;
   border-color: #c2cddc;
 }
 .btn-info:hover,
@@ -10555,11 +10555,11 @@ fieldset[disabled] .btn-info:active,
 .btn-info.disabled.active,
 .btn-info[disabled].active,
 fieldset[disabled] .btn-info.active {
-  background-color: #ffffff;
+  background-color: white;
   border-color: #c2cddc;
 }
 .btn-info .badge {
-  color: #ffffff;
+  color: white;
   background-color: #557196;
 }
 .btn-link {
@@ -10599,6 +10599,9 @@ a.ilSubmitInactive:active {
 .btn-split.dropdown-toggle:focus,
 .btn-split.dropdown-toggle:active {
   border-left: 1px solid white;
+}
+button > .glyphicon {
+  pointer-events: none;
 }
 /* Services/Rating */
 img.ilRatingIcon {

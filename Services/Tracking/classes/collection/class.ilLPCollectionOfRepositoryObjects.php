@@ -67,6 +67,8 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
 						case 'sahs':
 						case 'lm':
 						case 'tst':
+						case 'file':
+						case 'mcst':
 						case 'htlm':
 						case 'svy':
 							if(!$a_full_data)
