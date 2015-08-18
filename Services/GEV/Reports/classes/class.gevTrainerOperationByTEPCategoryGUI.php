@@ -55,7 +55,7 @@ class gevTrainerOperationByTEPCategoryGUI extends catBasicReportGUI{
 		$this->table = catReportTable::create();
 		$this->table->column("fullname", "name");
 		$categories = $this->getCategories();
-		//$this->createTemplateFile($categories);
+		$this->createTemplateFile($categories);
 
 		$i = 1;
 		foreach($categories as $category) {

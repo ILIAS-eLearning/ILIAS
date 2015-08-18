@@ -60,9 +60,9 @@ class gevTrainerOperationByOrgUnitAndTrainerGUI extends catBasicReportGUI{
 						->multiselect( 	"org_unit"
 										 , $this->lng->txt("gev_org_unit_short")
 										 , "ht.orgu_title"
-										 , $this->getOrgusForFilter($top_nodes)
+										 , $this->getOrgusForFilter($this->top_nodes)
 										 , array()
-										 , ""
+										 , " OR TRUE "
 										 , 300
 										 , 160
 										 )
@@ -92,15 +92,17 @@ class gevTrainerOperationByOrgUnitAndTrainerGUI extends catBasicReportGUI{
 		$this->tutor_filtered = count($this->tutor_filter);
 
 		$this->orgu_filter = $this->filter->get("org_unit");
+		if($this->orgu_filter) {
+			$this->top_nodes = array();
 
-		foreach ($this->orgu_filter as $orgu_title) {
-			$obj_id = ilObject::_getIdsForTitle($orgu_title, 'orgu')[0];
+			foreach ($this->orgu_filter as $orgu_title) {
+				$obj_id = ilObject::_getIdsForTitle($orgu_title, 'orgu')[0];
 			
-			if($obj_id !== null) {
-				$this->top_nodes[] = gevObjectUtils::getRefId($obj_id);
+				if($obj_id !== null) {
+					$this->top_nodes[] = gevObjectUtils::getRefId($obj_id);
+				}
 			}
 		}
-
 		$this->title = catTitleGUI::create()
 						->title("gev_report_trainer_operation_by_orgu_trainer")
 						->subTitle("gev_report_trainer_operation_by_orgu_trainer_desc")
@@ -199,7 +201,8 @@ class gevTrainerOperationByOrgUnitAndTrainerGUI extends catBasicReportGUI{
 		foreach ($all_sup_orgus_ref as &$orgu) {
 		 	$orgu =  gevOrgUnitUtils::getTitleByRefId($orgu);
 		}
-		return asort($all_sup_orgus_ref);
+		asort($all_sup_orgus_ref);
+		return $all_sup_orgus_ref;
 	}
 
 	protected function getTopSuperiorNodesOfUser($below_orgus = null) {
