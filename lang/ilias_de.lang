@@ -15606,3 +15606,5 @@ note#:#note_comment_notification_salutation#:#Hallo %s,
 note#:#note_by#:#Von
 note#:#note_comment_notification_link#:#Link
 note#:#note_comment_text#:#Text
+lng#:#lng_enable_language_detection#:#Aktiviere automatische Spracherkennung
+lng#:#lng_disable_language_detection#:#Deaktiviere automatische Spracherkennung

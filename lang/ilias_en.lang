@@ -15611,3 +15611,5 @@ note#:#note_comment_notification_salutation#:#Hello %s,
 note#:#note_by#:#By
 note#:#note_comment_notification_link#:#Link
 note#:#note_comment_text#:#Text
+lng#:#lng_enable_language_detection#:#Enable Language Detection
+lng#:#lng_disable_language_detection#:#Disable Language Detection
