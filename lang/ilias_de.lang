@@ -15546,3 +15546,7 @@ search#:#search_show_inactive_user#:#Zeige Inaktive Benutzer
 search#:#search_show_inactive_user_info#:#Inaktive Benutzer werden in der Benutzersuche angezeigt.
 search#:#search_show_limited_user#:#Zeige Begrenzte Benutzer
 search#:#search_show_limited_user_info#:#Benutzer mit begrenztem Zugang, die außerhalb ihrer zeitlichen Begrenzung sind werden in der Benutzersuche angezeigt.
+mail#:#mail_enable_crs_admin_notification#:#Standardwert Benachrichtigung neue Mitglieder
+mail#:#mail_enable_grp_admin_notification#:#Standardwert Benachrichtigung
+mail#:#mail_enable_crs_admin_notification_info#:#Standardwert für die Einstellung "Benachrichtigung über neue Mitglieder" im Reiter "Mitglieder" für administratoren in neuen Kursen.
+mail#:#mail_enable_grp_admin_notification_info#:#Standardwert für die Einstellung "Benachrichtigung" im Reiter "Mitglieder" für administratoren in neuen Gruppen.
