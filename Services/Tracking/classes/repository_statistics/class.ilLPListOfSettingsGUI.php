@@ -484,6 +484,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 			
 			$tpl = new ilTemplate("tpl.lp_obj_settings_tree_info.html", true, true, "Services/Tracking");
 			
+			$margin = 0;
 			foreach($coll as $parent_ref_id => $parts)
 			{								
 				if($parts["group"])
@@ -551,8 +552,10 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 				$tpl->setVariable("PARENT_STYLE", $node["lp"] 
 					? ''
 					: ' class="ilLPParentInfoListLPUnsupported"');																				
+				$tpl->setVariable("MARGIN", $margin);																				
 				$tpl->parseCurrentBlock();
-
+				
+				$margin += 25;
 			}
 			
 			include_once "Services/UIComponent/Panel/classes/class.ilPanelGUI.php";

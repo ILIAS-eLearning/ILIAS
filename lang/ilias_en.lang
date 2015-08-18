@@ -15621,3 +15621,4 @@ trac#:#trac_lp_determination_info_mob#:#Select the items that determine the over
 trac#:#trac_lp_settings_info_parent_container#:#Learning Progress of Parent Objects
 trac#:#trac_lp_settings_info_parent_usage#:#Determines Learning Progress
 trac#:#trac_lp_settings_info_parent_group#:#Other objects in grouping
+book#:#book_bobj#:#Booking Object

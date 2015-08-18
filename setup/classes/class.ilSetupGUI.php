@@ -3671,6 +3671,17 @@ else
 			$this->displayTools();
 			return;
 		}
+		
+		// init timezone		
+		$tz = $this->setup->ini->readVariable("server","timezone");
+		if ($tz != "")
+		{
+			if (function_exists('date_default_timezone_set'))
+			{
+				date_default_timezone_set($tz);
+			}
+			define ("IL_TIMEZONE", $tz);
+		}		
 
 		// referencing does not work in dbupdate-script
 		$GLOBALS["ilDB"] = $this->setup->getClient()->getDB();

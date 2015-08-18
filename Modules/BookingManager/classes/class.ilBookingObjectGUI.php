@@ -73,6 +73,24 @@ class ilBookingObjectGUI
 		$table = new ilBookingObjectsTableGUI($this, 'render', $this->ref_id, $this->pool_id, $this->pool_has_schedule, $this->pool_overall_limit);
 		$tpl->setContent($bar.$table->getHTML());
 	}
+	
+	function applyFilter()
+	{
+		include_once 'Modules/BookingManager/classes/class.ilBookingObjectsTableGUI.php';
+		$table = new ilBookingObjectsTableGUI($this, 'render', $this->ref_id, $this->pool_id, $this->pool_has_schedule, $this->pool_overall_limit, $this->repo_parent, $this->repo_parent_call);
+		$table->resetOffset();
+		$table->writeFilterToSession();
+		$this->render();
+	}
+	
+	function resetFilter()
+	{
+		include_once 'Modules/BookingManager/classes/class.ilBookingObjectsTableGUI.php';
+		$table = new ilBookingObjectsTableGUI($this, 'render', $this->ref_id, $this->pool_id, $this->pool_has_schedule, $this->pool_overall_limit, $this->repo_parent, $this->repo_parent_call);
+		$table->resetOffset();
+		$table->resetFilter();
+		$this->render();
+	}
 
 	/**
 	 * Render creation form
@@ -168,6 +186,11 @@ class ilBookingObjectGUI
 		if ($a_mode == "edit")
 		{
 			$form_gui->setTitle($lng->txt("book_edit_object"));
+			
+			include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
+			$this->record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_EDITOR, "book", $this->pool_id, "bobj", $id);
+			$this->record_gui->setPropertyForm($form_gui);			
+			$this->record_gui->parse();
 
 			$item = new ilHiddenInputGUI('object_id');
 			$item->setValue($id);
@@ -270,48 +293,61 @@ class ilBookingObjectGUI
 		$form = $this->initForm('edit', (int)$_POST['object_id']);
 		if($form->checkInput())
 		{
-			include_once 'Modules/BookingManager/classes/class.ilBookingObject.php';
-			$obj = new ilBookingObject((int)$_POST['object_id']);
-			$obj->setTitle($form->getInput("title"));
-			$obj->setDescription($form->getInput("desc"));
-			$obj->setNrOfItems($form->getInput("items"));
-			$obj->setPostText($form->getInput("post_text"));	
-			
-			$file = $form->getItemByPostVar("file");						
-			if($_FILES["file"]["tmp_name"]) 
+			$valid = true;
+			if($this->record_gui &&
+				!$this->record_gui->importEditFormPostValues())
 			{
-				$obj->uploadFile($_FILES["file"]);
-			}
-			else if($file->getDeletionFlag())
-			{
-				$obj->deleteFile();
-			}		
-			
-			$pfile = $form->getItemByPostVar("post_file");						
-			if($_FILES["post_file"]["tmp_name"]) 
-			{
-				$obj->uploadPostFile($_FILES["post_file"]);
-			}
-			else if($pfile->getDeletionFlag())
-			{
-				$obj->deletePostFile();
-			}		
-			
-			if($this->pool_has_schedule)
-			{
-				$obj->setScheduleId($form->getInput("schedule"));
+				$valid = false;
 			}
 			
-			$obj->update();
+			if($valid)
+			{			
+				include_once 'Modules/BookingManager/classes/class.ilBookingObject.php';
+				$obj = new ilBookingObject((int)$_POST['object_id']);
+				$obj->setTitle($form->getInput("title"));
+				$obj->setDescription($form->getInput("desc"));
+				$obj->setNrOfItems($form->getInput("items"));
+				$obj->setPostText($form->getInput("post_text"));	
 
-			ilUtil::sendSuccess($lng->txt("book_object_updated"));
-			$this->render();
+				$file = $form->getItemByPostVar("file");						
+				if($_FILES["file"]["tmp_name"]) 
+				{
+					$obj->uploadFile($_FILES["file"]);
+				}
+				else if($file->getDeletionFlag())
+				{
+					$obj->deleteFile();
+				}		
+
+				$pfile = $form->getItemByPostVar("post_file");						
+				if($_FILES["post_file"]["tmp_name"]) 
+				{
+					$obj->uploadPostFile($_FILES["post_file"]);
+				}
+				else if($pfile->getDeletionFlag())
+				{
+					$obj->deletePostFile();
+				}		
+
+				if($this->pool_has_schedule)
+				{
+					$obj->setScheduleId($form->getInput("schedule"));
+				}
+
+				$obj->update();
+				
+				if($this->record_gui)
+				{
+					$this->record_gui->writeEditForm();
+				}
+
+				ilUtil::sendSuccess($lng->txt("book_object_updated"));
+				$this->render();
+			}
 		}
-		else
-		{
-			$form->setValuesByPost();
-			$tpl->setContent($form->getHTML());
-		}
+		
+		$form->setValuesByPost();
+		$tpl->setContent($form->getHTML());	
 	}
 
 	/**

@@ -414,7 +414,7 @@ class ilAdvancedMDValues
 	 */
 	static public function queryForRecords($a_obj_id, $a_subtype, $a_records, $a_obj_id_key, $a_obj_subid_key, array $a_amet_filter = null)
 	{	
-		$result = array();
+		$results = array();
 		
 		if (!is_array($a_obj_id))
 		{
