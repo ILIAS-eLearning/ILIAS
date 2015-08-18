@@ -114,18 +114,19 @@ class ilRepositoryObjectDetailSearch
 		include_once './Services/Search/classes/class.ilRepositoryObjectDetailSearchResult.php';
 		$detail_search_result = new ilRepositoryObjectDetailSearchResult();
 		
-		$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($searcher->getHighlighter(),TRUE));
-		
-		foreach($searcher->getHighlighter()->getSubItemIds($this->getObjId()) as $sub_id)
+		if($searcher->getHighlighter() instanceof ilLuceneHighlighterResultParser)
 		{
-			$detail_search_result->addResultSet(
-				array(
-					'obj_id' => $this->getObjId(),
-					'item_id' => $sub_id,
-					'relevance' => $searcher->getHighlighter()->getRelevance($this->getObjId(),$sub_id),
-					'content' => $searcher->getHighlighter()->getContent($this->getObjId(),$sub_id)
-				)
-			);
+			foreach($searcher->getHighlighter()->getSubItemIds($this->getObjId()) as $sub_id)
+			{
+				$detail_search_result->addResultSet(
+					array(
+						'obj_id' => $this->getObjId(),
+						'item_id' => $sub_id,
+						'relevance' => $searcher->getHighlighter()->getRelevance($this->getObjId(),$sub_id),
+						'content' => $searcher->getHighlighter()->getContent($this->getObjId(),$sub_id)
+					)
+				);
+			}
 		}
 		return $detail_search_result;
 	}
