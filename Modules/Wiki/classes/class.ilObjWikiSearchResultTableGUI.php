@@ -14,15 +14,12 @@ include_once './Services/Search/classes/class.ilRepositoryObjectSearchResultTabl
  */
 class ilObjWikiSearchResultTableGUI extends ilRepositoryObjectSearchResultTableGUI
 {
-
 	/**
 	 * Parse results and call setDatea
 	 */
 	public function parse()
 	{
 		global $ilCtrl;
-		
-		$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($this->getResults()->getResults(),TRUE));
 		
 		$rows = array();
 		foreach($this->getResults()->getResults() as $result_set)

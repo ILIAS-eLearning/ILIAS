@@ -69,23 +69,44 @@ abstract class ilRepositoryObjectSearchResultTableGUI extends ilTable2GUI
 	 */
 	public function init()
 	{
+		$this->initColumns();
+		$this->initRowTemplate();
+		
 		global $ilCtrl, $lng;
 		
-		if($this->getSettings()->enabledLucene())
-		{
-			$this->addColumn($lng->txt("obj_title"), "title", "80%");
-			$this->addColumn($lng->txt("relevance"), "relevance", "20%");
-		}
-		else
-		{
-			$this->addColumn($lng->txt("obj_title"), "", "100%");
-		}
 		$this->setEnableHeader(true);
 		$this->setFormAction($ilCtrl->getFormAction($this->getParentObject()));
-		$this->setRowTemplate('tpl.repository_object_search_result_row.html','Services/Search');
 		$this->setLimit(0);
 		
 		$this->setTitle($lng->txt('search_results').' "'.str_replace(array('"'), '', $this->getSearchTerm()).'"');
+	}
+
+	/**
+	 * Init columns
+	 */
+	protected function initColumns()
+	{
+		global $lng;
+		
+		
+		if($this->getSettings()->enabledLucene())
+		{
+			$lng->loadLanguageModule('search');
+			$this->addColumn($lng->txt("title"), "title", "80%");
+			$this->addColumn($lng->txt("lucene_relevance_short"), "relevance", "20%");
+		}
+		else
+		{
+			$this->addColumn($lng->txt("title"), "", "100%");
+		}
+	}
+
+	/**
+	 * init row template
+	 */
+	protected function initRowTemplate()
+	{
+		$this->setRowTemplate('tpl.repository_object_search_result_row.html','Services/Search');
 	}
 	
 	
