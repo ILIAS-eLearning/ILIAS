@@ -196,6 +196,9 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 		$tpl->setVariable("INFO_TEXT_UPLOAD",	$this->lng->txt('INFO_TEXT_UPLOAD'));
 		$tpl->setVariable("INFO_TEXT_GAP", 		$this->lng->txt('INFO_TEXT_GAP'));
 		$tpl->setVariable("MANUAL_EDITING", 	$this->lng->txt('MANUAL_EDITING'));
+		require_once("Services/Form/classes/class.ilTagInputGUI.php");
+		$tag_input = new ilTagInputGUI();
+		$tpl->setVariable("TAGGING_PROTOTYPE", 	$tag_input->render('', true));
 		$tpl->setVariable("MY_MODAL", 			$modal->getHTML());
 		$tpl->parseCurrentBlock();
 		$button = new ilCustomInputGUI('&nbsp;','');

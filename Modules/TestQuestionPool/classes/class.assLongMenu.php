@@ -494,15 +494,8 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 	function getCorrectAnswersAsJson()
 	{
 		//Todo: remove workaround and return the real correct answers
-		$answers = $this->createArrayFromFile();
-		$return_array = array();
-		foreach( $answers as $key => $value )
-		{
-			$val1 = $value[rand(0, sizeof($value) / 2)];
-			$val2 = $value[rand(0, sizeof($value) / 2)];
-			$return_array[(int) $key] = array(0 => array($val1, $val2));
-		}
-		return json_encode($return_array);
+		$this->loadCorrectAnswerData($this->getId());
+		return $this->getJsonStructure();
 	}
 	
 	private function fillPseudoPostForCopy($src_id)
@@ -895,7 +888,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 		return json_encode($result);
 	}
 
-	private function getLongMenuTextWithInputFieldsInsteadOfGaps($user_solution = array(), $solution = false)
+	public function getLongMenuTextWithInputFieldsInsteadOfGaps($user_solution = array(), $solution = false)
 	{
 		if($solution)
 		{
