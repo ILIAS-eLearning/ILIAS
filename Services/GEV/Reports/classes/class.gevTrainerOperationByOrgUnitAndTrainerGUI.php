@@ -76,6 +76,7 @@ class gevTrainerOperationByOrgUnitAndTrainerGUI extends catBasicReportGUI{
 						;
 
 		$this->tutor_filter = $this->filter->get("tutor_name");
+		$this->tutor_filtered = count($this->tutor_filter) > 0 ? true : false;
 
 		$this->title = catTitleGUI::create()
 						->title("gev_report_trainer_operation_by_orgu_trainer")
@@ -211,7 +212,11 @@ class gevTrainerOperationByOrgUnitAndTrainerGUI extends catBasicReportGUI{
 
 		$return["sum"] = $this->sumMetaCategories($return["trainers"]);
 
-		foreach ($return["children"] as $child) {
+		foreach ($return["children"] as $child_nr => $child) {
+			if($child["sum"] == 0 && $this->tutor_filtered) {
+				unset($return["children"][$child_nr]);
+				continue;
+			}
 			$return["sum"] = $this->sumMetaCategories(array($return["sum"],$child["sum"]));
 		}
 		$return["sum"]["title"] = $offset."<b>".$return["title"]."</b>";
@@ -269,6 +274,7 @@ class gevTrainerOperationByOrgUnitAndTrainerGUI extends catBasicReportGUI{
 		while($rec = $this->db->fetchAssoc($res)) {
 			$return[] =  $rec["fullname"];
 		}
+		asort($return);
 		return $return;
 	}
 
