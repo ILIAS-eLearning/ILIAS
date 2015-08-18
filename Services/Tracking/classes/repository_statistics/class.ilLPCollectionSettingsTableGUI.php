@@ -253,8 +253,7 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
 			case ilLPObjSettings::LP_MODE_COLLECTION_MOBS:
 				$this->setRowTemplate('tpl.lp_collection_subitem_row.html', 'Services/Tracking');				
 				$this->setTitle($this->lng->txt('trac_lp_determination'));
-				$this->lng->loadLanguageModule('cognoslp');
-				$this->setDescription($this->lng->txt('cognoslp_trac_lp_determination_info_mob'));
+				$this->setDescription($this->lng->txt('trac_lp_determination_info_mob'));
 				break;
 		}
 

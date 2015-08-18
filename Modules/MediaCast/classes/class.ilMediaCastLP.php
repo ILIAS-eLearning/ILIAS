@@ -1,5 +1,4 @@
 <?php
-// cognos-blu-patch: begin
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Object/classes/class.ilObjectLP.php';
@@ -27,4 +26,3 @@ class ilMediaCastLP extends ilObjectLP
 		);
 	}
 }
-// cognos-blu-patch: end

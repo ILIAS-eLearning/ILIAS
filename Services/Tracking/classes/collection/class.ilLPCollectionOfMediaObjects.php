@@ -1,6 +1,4 @@
 <?php
-// cognos-blu-patch: begin 
-
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once "Services/Tracking/classes/collection/class.ilLPCollection.php";
@@ -63,5 +61,4 @@ class ilLPCollectionOfMediaObjects extends ilLPCollection
 	}
 }
 
-// cognos-blu-patch: end
 ?>

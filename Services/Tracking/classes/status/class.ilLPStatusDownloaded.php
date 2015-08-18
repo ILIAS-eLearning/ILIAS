@@ -1,5 +1,4 @@
 <?php
-// cognos-blu-patch: begin
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
@@ -64,4 +63,3 @@ class ilLPStatusDownloaded extends ilLPStatus
 		return $status;
 	}
 }
-// cognos-blu-patch: end

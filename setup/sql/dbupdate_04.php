@@ -8817,3 +8817,7 @@ if(!$ilDB->tableColumnExists('skl_user_skill_level', 'unique_identifier'))
     ));
 }
 ?>
+<#4630>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

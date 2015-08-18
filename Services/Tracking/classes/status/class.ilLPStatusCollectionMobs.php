@@ -1,5 +1,4 @@
 <?php
-// cognos-blu-patch: begin
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Tracking/classes/class.ilLPStatus.php';
@@ -154,31 +153,9 @@ class ilLPStatusCollectionMobs extends ilLPStatus
 				{
 					$status = self::LP_STATUS_COMPLETED_NUM;
 				}
-			}
-															
-			// handle collection details
-			
-			$coll_details = array(
-				self::LP_STATUS_NOT_ATTEMPTED_NUM => 0
-				,self::LP_STATUS_IN_PROGRESS_NUM => 0
-				,self::LP_STATUS_COMPLETED_NUM => 0
-				,self::LP_STATUS_FAILED_NUM => 0
-			);
-			foreach($items as $mob_id)
-			{
-				if(in_array($mob_id, $found))
-				{
-					$coll_details[self::LP_STATUS_COMPLETED_NUM]++;
-				}
-				else
-				{
-					$coll_details[self::LP_STATUS_NOT_ATTEMPTED_NUM]++;
-				}
 			}			
-			ilLPCollection::updateDetailsForUser($a_obj_id, $a_user_id, $coll_details);
 		}
 		
 		return $status;
 	}
 }
-// cognos-blu-patch: end
