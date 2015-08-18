@@ -496,6 +496,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->form->checkInput();
 		
 		$old_type = $this->object->getGroupType();
+		$old_autofill = $this->object->hasWaitingListAutoFill();
 		
 		$this->load();
 		$ilErr->setMessage('');
@@ -534,6 +535,13 @@ class ilObjGroupGUI extends ilContainerGUI
 			
 		// Save sorting
 		$this->saveSortingSettings($this->form);
+		
+		// if autofill has been activated trigger process
+		if(!$old_autofill &&
+			$this->object->hasWaitingListAutoFill())
+		{
+			$this->object->handleAutoFill();
+		}
 
 		// BEGIN ChangeEvents: Record update Object.
 		require_once('Services/Tracking/classes/class.ilChangeEvent.php');
@@ -2880,7 +2888,23 @@ class ilObjGroupGUI extends ilContainerGUI
 			$this->object->setCancellationEnd(null);
 		}
 		
-		$this->object->enableWaitingList((bool) $_POST['waiting_list']);
+		switch((int)$_POST['waiting_list'])
+		{
+			case 2:
+				$this->object->enableWaitingList(true);
+				$this->object->setWaitingListAutoFill(true);
+				break;
+			
+			case 1:
+				$this->object->enableWaitingList(true);
+				$this->object->setWaitingListAutoFill(false);
+				break;
+			
+			default:
+				$this->object->enableWaitingList(false);
+				$this->object->setWaitingListAutoFill(false);
+				break;
+		}
 		
 		return true;
 	}

@@ -220,6 +220,11 @@ class ilGroupXMLParser extends ilSaxParser
 				include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
 				ilContainerSortingSettings::_importContainerSortingSettings($a_attribs, $this->group_obj->getId());
 				break;
+			
+			case 'WaitingListAutoFill':
+			case 'CancellationEnd':
+			case 'MinMembers':
+				break;		
 		}
 	}
 
@@ -283,6 +288,24 @@ class ilGroupXMLParser extends ilSaxParser
 						$this->cdata);
 				}
 				break;
+				
+			case 'WaitingListAutoFill':
+				$this->group_data['auto_wait'] = trim($this->cdata);				
+				break;
+			
+			case 'CancellationEnd':
+				if((int)$this->cdata)
+				{
+					$this->group_data['cancel_end'] = new ilDateTime((int)$this->cdata, IL_CAL_UNIX);						
+				}
+				break;
+				
+			case 'MinMembers':
+				if((int)$this->cdata)
+				{
+					$this->group_data['min_members'] = (int)$this->cdata;								
+				}
+				break;				
 		}
 		$this->cdata = '';
 	}
@@ -413,6 +436,9 @@ class ilGroupXMLParser extends ilSaxParser
 		$this->group_obj->setMaxMembers($this->group_data['max_members'] ? $this->group_data['max_members'] : 0);
 		$this->group_obj->enableWaitingList($this->group_data['waiting_list_enabled']);
 		
+		$this->group_obj->setWaitingListAutoFill($this->group_data['auto_wait']);
+		$this->group_obj->setCancellationEnd($this->group_data['cancel_end']);
+		$this->group_obj->setMinMembers($this->group_data['min_members']);		
 		
 		if ($this->mode == ilGroupXMLParser::$CREATE)
 		{
