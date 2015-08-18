@@ -15622,3 +15622,18 @@ trac#:#trac_lp_settings_info_parent_container#:#Learning Progress of Parent Obje
 trac#:#trac_lp_settings_info_parent_usage#:#Determines Learning Progress
 trac#:#trac_lp_settings_info_parent_group#:#Other objects in grouping
 book#:#book_bobj#:#Booking Object
+crs#:#crs_subscription_min_members#:#Minimum Number
+crs#:#crs_subscription_min_members_info#:#See cron job "Cancellation Limit".
+crs#:#crs_waiting_list_no_autofill#:#Without Auto-Fill
+crs#:#crs_waiting_list_autofill#:#With Auto-Fill
+crs#:#crs_waiting_list_autofill_info#:#Participants are recruited from the waiting list automatically on cancellations.
+crs#:#crs_cancellation_end#:#Cancellation Limit
+crs#:#crs_period#:#Course Period
+crs#:#crs_course_period_not_valid#:#The course period is not valid.
+crs#:#crs_max_and_min_members_needed#:#Set a minimum or maximum number of members - or both.
+crs#:#crs_max_members_needed#:#A maximum number of members is needed for the waiting list feature.
+crs#:#crs_max_and_min_members_invalid#:#The minimum number must be smaller than the maximum number of members.
+common#:#mem_cron_min_members#:#Course/Group: Minimum Members Check
+common#:#mem_cron_min_members_info#:#The administrators will be notified if the minimum number is not met.
+crs#:#crs_cancellation_end_rbac_info#:#The cancellation deadline was met on %s, a cancellation is not possible anymore.
+common#:#mem_min_users#:#Minimum of Users

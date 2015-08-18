@@ -873,14 +873,56 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->object->setSubscriptionStart($sub_period->getStart()->get(IL_CAL_UNIX));
 		$this->object->setSubscriptionEnd($sub_period->getEnd()->get(IL_CAL_UNIX));
 		
-		$this->object->enableSubscriptionMembershipLimitation((int) $_POST['subscription_membership_limitation']);		
-		$this->object->setSubscriptionMaxMembers((int) $_POST['subscription_max']);
-		
 		$this->object->enableRegistrationAccessCode((int) $_POST['reg_code_enabled']);
 		$this->object->setRegistrationAccessCode(ilUtil::stripSlashes($_POST['reg_code']));
 		
-		$this->object->enableWaitingList((int) $_POST['waiting_list']);
+		$cancel_end = $form->getItemByPostVar("cancel_end");
+		if($_POST[$cancel_end->getActivationPostVar()])
+		{
+			$dt = $cancel_end->getDate()->get(IL_CAL_DATETIME);
+			$this->object->setCancellationEnd(new ilDate($dt, IL_CAL_DATETIME));
+		}
+		else
+		{
+			$this->object->setCancellationEnd(null);
+		}
+				
+		$this->object->enableSubscriptionMembershipLimitation((int) $_POST['subscription_membership_limitation']);		
+		$this->object->setSubscriptionMaxMembers((int) $_POST['subscription_max']);		
+		$this->object->setSubscriptionMinMembers((int)$_POST['subscription_min']);
+		
+		switch((int) $_POST['waiting_list'])
+		{
+			case 2:
+				$this->object->enableWaitingList(true);
+				$this->object->setWaitingListAutoFill(true);
+				break;
+			
+			case 1:
+				$this->object->enableWaitingList(true);
+				$this->object->setWaitingListAutoFill(false);
+				break;
+			
+			default:
+				$this->object->enableWaitingList(false);
+				$this->object->setWaitingListAutoFill(false);
+				break;
+		}
+				
 		#$this->object->setSubscriptionNotify((int) $_POST['subscription_notification']);
+				
+		if((bool)$_POST["period_tgl"])
+		{
+			$crs_period = $form->getItemByPostVar("period");				
+			$this->object->setCourseStart($crs_period->getStart());
+			$this->object->setCourseEnd($crs_period->getEnd());
+		}		
+		else
+		{
+			$this->object->setCourseStart(null);
+			$this->object->setCourseEnd(null);
+		}
+				
 		$this->object->setViewMode((int) $_POST['view_mode']);
 
 		if($this->object->getViewMode() == IL_CRS_VIEW_TIMING)
@@ -925,7 +967,6 @@ class ilObjCourseGUI extends ilContainerGUI
 			}
 		}	
 
-		
 		if($this->object->validate())
 		{
 			$this->object->update();
@@ -1173,11 +1214,29 @@ class ilObjCourseGUI extends ilContainerGUI
 		$time_limit->addSubItem($sdur);
 		$form->addItem($time_limit);
 		
+		// cancellation limit		
+		$cancel = new ilDateTimeInputGUI($this->lng->txt('crs_cancellation_end'), 'cancel_end');
+		$cancel_end = $this->object->getCancellationEnd();
+		$cancel->enableDateActivation('', 'cancel_end_tgl', (bool)$cancel_end);
+		if($cancel_end)
+		{
+			$cancel->setDate($cancel_end);
+		}
+		$form->addItem($cancel);
 		
 		// Max members
 		$lim = new ilCheckboxInputGUI($this->lng->txt('crs_subscription_max_members_short'),'subscription_membership_limitation');
 		$lim->setValue(1);
 		$lim->setChecked($this->object->isSubscriptionMembershipLimited());
+		
+			$min = new ilTextInputGUI('','subscription_min');
+			$min->setSubmitFormOnEnter(true);
+			$min->setSize(4);
+			$min->setMaxLength(4);
+			$min->setValue($this->object->getSubscriptionMinMembers() ? $this->object->getSubscriptionMinMembers() : '');
+			$min->setTitle($this->lng->txt('crs_subscription_min_members'));
+			$min->setInfo($this->lng->txt('crs_subscription_min_members_info'));			
+			$lim->addSubItem($min);
 		
 			$max = new ilTextInputGUI('','subscription_max');
 			$max->setSubmitFormOnEnter(true);
@@ -1189,10 +1248,46 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		$lim->addSubItem($max);
 		
+			/*
 			$wait = new ilCheckboxInputGUI($this->lng->txt('crs_waiting_list'),'waiting_list');
 			$wait->setChecked($this->object->enabledWaitingList());
 			$wait->setInfo($this->lng->txt('crs_wait_info'));
 			$lim->addSubItem($wait);
+			
+			$wait = new ilCheckboxInputGUI($this->lng->txt('crs_waiting_list'),'waiting_list');
+			$wait->setChecked($this->object->enabledWaitingList());
+			$wait->setInfo($this->lng->txt('crs_wait_info'));
+			$lim->addSubItem($wait);
+			
+			$auto = new ilCheckboxInputGUI($this->lng->txt('crs_waiting_list_autofill'), 'auto_wait');
+			$auto->setChecked($this->object->hasWaitingListAutoFill());
+			$auto->setInfo($this->lng->txt('crs_waiting_list_autofill_info'));
+			$wait->addSubItem($auto);
+			*/
+		
+			$wait = new ilRadioGroupInputGUI($this->lng->txt('crs_waiting_list'), 'waiting_list');
+			
+			$option = new ilRadioOption($this->lng->txt('none'), 0);
+			$wait->addOption($option);
+			
+			$option = new ilRadioOption($this->lng->txt('crs_waiting_list_no_autofill'), 1);
+			$option->setInfo($this->lng->txt('crs_wait_info'));
+			$wait->addOption($option);
+			
+			$option = new ilRadioOption($this->lng->txt('crs_waiting_list_autofill'), 2);
+			$option->setInfo($this->lng->txt('crs_waiting_list_autofill_info'));
+			$wait->addOption($option);
+			
+			if($this->object->hasWaitingListAutoFill())
+			{
+				$wait->setValue(2);
+			}
+			else if($this->object->enabledWaitingList())
+			{
+				$wait->setValue(1);
+			}
+			
+		$lim->addSubItem($wait);
 		
 		$form->addItem($lim);
 	
@@ -1201,6 +1296,25 @@ class ilObjCourseGUI extends ilContainerGUI
 		$pres->setTitle($this->lng->txt('crs_view_mode'));
 		
 		$form->addItem($pres);
+		
+		$cdur_tgl = new ilCheckboxInputGUI($this->lng->txt('crs_period'),'period_tgl');
+		$cdur_tgl->setChecked($this->object->getCourseStart());
+		$form->addItem($cdur_tgl);
+		
+			include_once "Services/Form/classes/class.ilDateDurationInputGUI.php";
+			$cdur = new ilDateDurationInputGUI('', 'period');
+			$cdur->setShowTime(true);				
+			$cdur->setStartText($this->lng->txt('crs_start'));			
+			$cdur->setEndText($this->lng->txt('crs_end'));	
+			if($this->object->getCourseStart())
+			{
+				$cdur->setStart($this->object->getCourseStart());
+			}		
+			if($this->object->getCourseStart())
+			{
+				$cdur->setEnd($this->object->getCourseEnd());
+			}	
+			$cdur_tgl->addSubItem($cdur);			
 		
 		// presentation type
 		$view_type = new ilRadioGroupInputGUI($this->lng->txt('crs_presentation_type'),'view_mode');

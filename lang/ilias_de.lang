@@ -15617,3 +15617,18 @@ trac#:#trac_lp_settings_info_parent_container#:#Lernfortschritt übergeordneter 
 trac#:#trac_lp_settings_info_parent_usage#:#Bestimmt Lernfortschritt
 trac#:#trac_lp_settings_info_parent_group#:#Andere Objekte in der Gruppierung
 book#:#book_bobj#:#Buchungsobjekt
+crs#:#crs_subscription_min_members#:#Minimale Anzahl
+crs#:#crs_subscription_min_members_info#:#Siehe Cron-Job "Stornierungsende"
+crs#:#crs_waiting_list_autofill#:#Mit automatischem Aufrücken
+crs#:#crs_waiting_list_no_autofill#:#Ohne automatisches Aufrücken
+crs#:#crs_waiting_list_autofill_info#:#Teilnehmer rücken automatisch bei Stornierungen von der Warteliste nach.
+crs#:#crs_cancellation_end#:#Stornierungsende
+crs#:#crs_period#:#Kurszeitraum
+crs#:#crs_course_period_not_valid#:#DerKurszeitraum ist nicht gültig.
+crs#:#crs_max_and_min_members_needed#:#Setzen Sie eine minimale oder maximale Anzahl - oder beides.
+crs#:#crs_max_members_needed#:#Für die Warteliste wird eine maximale Anzahl Mitglieder benötigt.
+crs#:#crs_max_and_min_members_invalid#:#Die minimale Anzahl muss kleiner als die maximale Anzahl sein.
+common#:#mem_cron_min_members#:#Kurs/Gruppe: Prüfung der minimalen Teilnehmerzahl
+common#:#mem_cron_min_members_info#:#Die Administratoren werden benachrichtigt sofern die minimale Anzahl nicht erreicht wird.
+crs#:#crs_cancellation_end_rbac_info#:#Das Stornierungsende wurde am %s erreicht, ein Austritt ist nicht mehr möglich.
+common#:#mem_min_users#:#Minimale Teilnehmeranzahl

@@ -8821,3 +8821,56 @@ if(!$ilDB->tableColumnExists('skl_user_skill_level', 'unique_identifier'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#4631>
+<?php
+	if (!$ilDB->tableColumnExists('crs_settings', 'crs_start'))
+	{
+		$ilDB->addTableColumn('crs_settings', 'crs_start', array(
+			"type" => "integer",
+			"notnull" => false,
+			"length" => 4
+		));
+	}
+	if (!$ilDB->tableColumnExists('crs_settings', 'crs_end'))
+	{
+		$ilDB->addTableColumn('crs_settings', 'crs_end', array(
+			"type" => "integer",
+			"notnull" => false,
+			"length" => 4
+		));
+	}
+?>
+<#4632>
+<?php
+	if (!$ilDB->tableColumnExists('crs_settings', 'leave_end'))
+	{
+		$ilDB->addTableColumn('crs_settings', 'leave_end', array(
+			"type" => "integer",
+			"notnull" => false,
+			"length" => 4
+		));
+	}
+?>
+<#4633>
+<?php
+	if (!$ilDB->tableColumnExists('crs_settings', 'auto_wait'))
+	{
+		$ilDB->addTableColumn('crs_settings', 'auto_wait', array(
+			"type" => "integer",
+			"notnull" => true,
+			"length" => 1,
+			"default" => 0
+		));
+	}
+?>
+<#4634>
+<?php
+	if (!$ilDB->tableColumnExists('crs_settings', 'min_members'))
+	{
+		$ilDB->addTableColumn('crs_settings', 'min_members', array(
+			"type" => "integer",
+			"notnull" => false,
+			"length" => 2
+		));
+	}
+?>
