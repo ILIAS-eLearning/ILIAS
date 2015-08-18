@@ -726,18 +726,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 
 		if ($this->isLastQuestionInSequence( $question_gui ))
 		{
-			if ($this->object->getListOfQuestionsEnd()) 
-			{
-				$this->populateNextButtonsLeadingToSummary();				
-			} 
-			else 
-			{
-				$this->populateNextButtonsLeadingToEndOfTest();
-			}
-		}
-		else
-		{
-			$this->populateNextButtonsLeadingToQuestion();
+			$this->populateNextButtons();
 		}
 		
 		if( $this->dynamicQuestionSetConfig->isAnyQuestionFilterEnabled() )

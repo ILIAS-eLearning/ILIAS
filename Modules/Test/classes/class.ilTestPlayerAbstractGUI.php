@@ -191,13 +191,13 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		);
 	}
 	
-	protected function populateNextButtonsLeadingToQuestion()
+	protected function populateNextButtons()
 	{
-		$this->populateUpperNextButtonBlockLeadingToQuestion();
-		$this->populateLowerNextButtonBlockLeadingToQuestion();
+		$this->populateUpperNextButtonBlock();
+		$this->populateLowerNextButtonBlock();
 	}
 
-	protected function populateLowerNextButtonBlockLeadingToQuestion()
+	protected function populateLowerNextButtonBlock()
 	{
 		$button = ilSubmitButton::getInstance();
 		$button->setPrimary( true );
@@ -210,76 +210,12 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
-	protected function populateUpperNextButtonBlockLeadingToQuestion()
+	protected function populateUpperNextButtonBlock()
 	{
 		$button = ilSubmitButton::getInstance();
 		$button->setPrimary( true );
 		$button->setCommand( 'nextQuestion' );
 		$button->setCaption( 'save_next' );
-		$button->setId( 'nextbutton' );
-
-		$this->tpl->setCurrentBlock( "next" );
-		$this->tpl->setVariable( "BTN_NEXT", $button->render());
-		$this->tpl->parseCurrentBlock();
-	}
-
-	protected function populateNextButtonsLeadingToEndOfTest()
-	{
-		$this->populateUpperNextButtonBlockLeadingToEndOfTest();
-		$this->populateLowerNextButtonBlockLeadingToEndOfTest();
-	}
-
-	protected function populateLowerNextButtonBlockLeadingToEndOfTest()
-	{
-		$button = ilSubmitButton::getInstance();
-		$button->setPrimary( true );
-		$button->setCommand( 'nextQuestion' );
-		$button->setCaption( 'save_finish' );
-		$button->setId( 'bottomnextbutton' );
-
-		$this->tpl->setCurrentBlock( "next_bottom" );
-		$this->tpl->setVariable( "BTN_NEXT", $button->render());
-		$this->tpl->parseCurrentBlock();
-	}
-
-	protected function populateUpperNextButtonBlockLeadingToEndOfTest()
-	{
-		$button = ilSubmitButton::getInstance();
-		$button->setPrimary( true );
-		$button->setCommand( 'nextQuestion' );
-		$button->setCaption( 'save_finish' );
-		$button->setId( 'nextbutton' );
-
-		$this->tpl->setCurrentBlock( "next" );
-		$this->tpl->setVariable( "BTN_NEXT", $button->render());
-		$this->tpl->parseCurrentBlock();
-	}
-
-	protected function populateNextButtonsLeadingToSummary()
-	{
-		$this->populateUpperNextButtonBlockLeadingToSummary();
-		$this->populateLowerNextButtonBlockLeadingToSummary();
-	}
-
-	protected function populateLowerNextButtonBlockLeadingToSummary()
-	{
-		$button = ilSubmitButton::getInstance();
-		$button->setPrimary( true );
-		$button->setCommand( 'nextQuestion' );
-		$button->setCaption( 'question_summary' );
-		$button->setId( 'bottomnextbutton' );
-
-		$this->tpl->setCurrentBlock( "next_bottom" );
-		$this->tpl->setVariable( "BTN_NEXT", $button->render());
-		$this->tpl->parseCurrentBlock();
-	}
-
-	protected function populateUpperNextButtonBlockLeadingToSummary()
-	{
-		$button = ilSubmitButton::getInstance();
-		$button->setPrimary( true );
-		$button->setCommand( 'nextQuestion' );
-		$button->setCaption( 'question_summary' );
 		$button->setId( 'nextbutton' );
 
 		$this->tpl->setCurrentBlock( "next" );
@@ -1793,6 +1729,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$navigationToolbarGUI->setQuestionTreeButtonEnabled($this->object->getListOfQuestions());
 		$navigationToolbarGUI->setQuestionTreeVisible($ilUser->getPref('side_list_of_questions'));
 		$navigationToolbarGUI->setCharSelectorButtonEnabled($charSelectorAvailable);
+		
+		// finish button must respect $this->object->getListOfQuestionsEnd()
 
 		$navigationToolbarGUI->build();
 		
