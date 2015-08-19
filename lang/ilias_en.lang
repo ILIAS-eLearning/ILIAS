@@ -15656,3 +15656,4 @@ sess#:#sess_reg_waiting_list_autofill_info#:#Participants are recruited from the
 grp#:#grp_cancellation_end_info#:#From this date on particiants cannot unsubscribe anymore.
 crs#:#crs_cancellation_end_info#:#From this date on particiants cannot unsubscribe anymore.
 crs#:#crs_period_info#:#Start to end date of the course
+meta#:#md_adv_deleted_fields#:#The fields have been deleted.

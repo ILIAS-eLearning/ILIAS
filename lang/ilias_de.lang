@@ -15651,3 +15651,4 @@ sess#:#sess_reg_waiting_list_autofill_info#:#Teilnehmer rücken automatisch bei 
 grp#:#grp_cancellation_end_info#:#Ab diesem Datum können Teilnehmer nicht mehr die Kursmitgliedschaft beenden.
 crs#:#crs_cancellation_end_info#:#Ab diesem Datum können Teilnehmer nicht mehr die Kursmitgliedschaft beenden.
 crs#:#crs_period_info#:#Start- und Enddatum des Kurses
+meta#:#md_adv_deleted_fields#:#Die Felder wurden gelöscht.
