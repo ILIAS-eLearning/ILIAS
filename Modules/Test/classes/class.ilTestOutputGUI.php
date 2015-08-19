@@ -26,6 +26,8 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 	{
 		global $ilUser, $ilDB, $ilPluginAdmin, $lng, $ilTabs;
 
+		$this->checkReadAccess();
+
 		$ilTabs->clearTargets();
 		
 		$cmd = $this->ctrl->getCmd();
@@ -67,6 +69,8 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		switch($next_class)
 		{
 			case 'ilassquestionpagegui':
+
+				$this->checkTestExecutable();
 				
 				$questionId = $this->testSequence->getQuestionForSequence( $this->calculateSequence() );
 				
@@ -76,13 +80,18 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 				break;
 			
 			case 'iltestsubmissionreviewgui':
+				
+				$this->checkTestExecutable();
+				
 				require_once './Modules/Test/classes/class.ilTestSubmissionReviewGUI.php';
 				$gui = new ilTestSubmissionReviewGUI($this, $this->object, $this->testSession);
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;
 			
 			case 'ilassquestionhintrequestgui':
-				
+
+				$this->checkTestExecutable();
+
 				$questionGUI = $this->object->createQuestionGUI(
 					"", $this->testSequence->getQuestionForSequence( $this->calculateSequence() )
 				);
@@ -100,12 +109,18 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 				break;
 			
 			case 'iltestsignaturegui':
+				
+				$this->checkTestExecutable();
+				
 				require_once './Modules/Test/classes/class.ilTestSignatureGUI.php';
 				$gui = new ilTestSignatureGUI($this);
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;
 			
 			case 'iltestpasswordprotectiongui':
+
+				$this->checkTestExecutable();
+
 				require_once 'Modules/Test/classes/class.ilTestPasswordProtectionGUI.php';
 				$gui = new ilTestPasswordProtectionGUI($this->ctrl, $this->tpl, $this->lng, $this, $this->passwordChecker);
 				$ret = $this->ctrl->forwardCommand($gui);
@@ -113,49 +128,83 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
 			default:
 				
+				if( $this->isTestExecutionCommand($cmd) )
+				{
+					$this->checkTestExecutable();
+				}
+				
 				$cmd .= 'Cmd';
 				$ret =& $this->$cmd();
 				break;
 		}
 		return $ret;
 	}
+	
+	protected function isTestExecutionCommand($cmd)
+	{
+		return true;
+	}
 
 	protected function startTestCmd()
 	{
-		$_GET['activecommand'] = 'start';
-		$this->redirectQuestionCmd();
-	}
+		global $ilUser;
 
-	/**
-	 * Go to the next question
-	 */
-	protected function nextQuestionCmd()
-	{
-		$questionId = $this->testSequence->getQuestionForSequence($_GET["sequence"]);
+		$_SESSION['tst_pass_finish'] = 0;
 
-		if( !$this->isParticipantsAnswerFixed($questionId) )
+		// ensure existing test session
+		$this->testSession->setUserId($ilUser->getId());
+		$this->testSession->setAnonymousId($_SESSION["tst_access_code"][$this->object->getTestId()]);
+		$this->testSession->setObjectiveOrientedContainerId($this->getObjectiveOrientedContainerId());
+		$this->testSession->saveToDb();
+
+		$active_id = $this->testSession->getActiveId();
+		$this->ctrl->setParameter($this, "active_id", $active_id);
+
+		$shuffle = $this->object->getShuffleQuestions();
+		if ($this->object->isRandomTest())
 		{
-			$this->saveQuestionSolution();
-		}
-		
-		$this->ctrl->setParameter($this, "activecommand", "next");
-		$this->ctrl->redirect($this, "redirectQuestion");
-	}
+			$this->generateRandomTestPassForActiveUser();
 
-	/**
-	 * Go to the previous question
-	 */
-	protected function previousQuestionCmd()
-	{
-		$questionId = $this->testSequence->getQuestionForSequence($_GET["sequence"]);
-
-		if( !$this->isParticipantsAnswerFixed($questionId) )
-		{
-			$this->saveQuestionSolution();
+			$this->object->loadQuestions();
+			$shuffle = FALSE; // shuffle is already done during the creation of the random questions
 		}
 
-		$this->ctrl->setParameter($this, "activecommand", "previous");
-		$this->ctrl->redirect($this, "redirectQuestion");
+		assQuestion::_updateTestPassResults(
+			$active_id, $this->testSession->getPass(), $this->object->areObligationsEnabled(), null, $this->object->id
+		);
+
+		// ensure existing test sequence
+		if( !$this->testSequence->hasSequence() )
+		{
+			$this->testSequence->createNewSequence($this->object->getQuestionCount(), $shuffle);
+			$this->testSequence->saveToDb();
+		}
+
+		if( $this->testSession->isObjectiveOriented() )
+		{
+			$this->testSequence->loadFromDb();
+			$this->testSequence->loadQuestions();
+
+			$this->filterTestSequenceByObjectives(
+				$this->testSession, $this->testSequence
+			);
+		}
+
+		$active_time_id = $this->object->startWorkingTime(
+			$this->testSession->getActiveId(), $this->testSession->getPass()
+		);
+		$_SESSION["active_time_id"] = $active_time_id;
+
+		if ($this->object->getListOfQuestionsStart())
+		{
+			$this->ctrl->redirect($this, 'outQuestionSummary');
+		}
+
+		$this->ctrl->saveParameter($this, "tst_javascript");
+
+		$this->ctrl->setParameter($this, 'sequence', $this->sequence);
+
+		$this->ctrl->redirect($this, 'showQuestion');
 	}
 
 	/**
@@ -169,15 +218,6 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 	{
 		global $ilUser;
 
-		// check the test restrictions to access the test in case one
-		// of the test navigation commands was called by an external script
-		// e.g. $ilNavigationHistory
-		$executable = $this->object->isExecutable($this->testSession, $ilUser->getId());
-		if (!$executable["executable"])
-		{
-			ilUtil::sendInfo($executable["errormessage"], TRUE);
-			$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
-		}
 		switch ($_GET["activecommand"])
 		{
 			case "next":
@@ -273,60 +313,6 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 				$this->ctrl->redirect($this, "outObligationsOnlySummary");
 				break;
 			case "start":
-				$_SESSION['tst_pass_finish'] = 0;
-
-				// ensure existing test session
-				$this->testSession->setUserId($ilUser->getId());
-				$this->testSession->setAnonymousId($_SESSION["tst_access_code"][$this->object->getTestId()]);
-				$this->testSession->setObjectiveOrientedContainerId($this->getObjectiveOrientedContainerId());
-				$this->testSession->saveToDb();
-				
-				$active_id = $this->testSession->getActiveId();
-				$this->ctrl->setParameter($this, "active_id", $active_id);
-				$shuffle = $this->object->getShuffleQuestions();
-				if ($this->object->isRandomTest())
-				{
-					$this->generateRandomTestPassForActiveUser();
-
-					$this->object->loadQuestions();
-					$shuffle = FALSE; // shuffle is already done during the creation of the random questions
-				}
-
-				assQuestion::_updateTestPassResults(
-					$active_id, $this->testSession->getPass(), $this->object->areObligationsEnabled(), null, $this->object->id
-				);
-
-				// ensure existing test sequence
-				if( !$this->testSequence->hasSequence() )
-				{
-					$this->testSequence->createNewSequence($this->object->getQuestionCount(), $shuffle);
-					$this->testSequence->saveToDb();
-				}
-
-				if( $this->testSession->isObjectiveOriented() )
-				{
-					$this->testSequence->loadFromDb();
-					$this->testSequence->loadQuestions();
-					
-					$this->filterTestSequenceByObjectives(
-						$this->testSession, $this->testSequence
-					);
-				}
-				
-				$active_time_id = $this->object->startWorkingTime($this->testSession->getActiveId(), $this->testSession->getPass());
-				$_SESSION["active_time_id"] = $active_time_id;
-				if ($this->object->getListOfQuestionsStart())
-				{
-					$this->ctrl->setParameter($this, "activecommand", "summary");
-					$this->ctrl->redirect($this, "redirectQuestion");
-				}
-				else
-				{
-					$this->ctrl->setParameter($this, "sequence", $this->sequence);
-					$this->ctrl->setParameter($this, "activecommand", "gotoquestion");
-					$this->ctrl->saveParameter($this, "tst_javascript");
-					$this->ctrl->redirect($this, "redirectQuestion");
-				}
 				break;
 			case "resume":
 				$_SESSION['tst_pass_finish'] = 0;
@@ -383,22 +369,17 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 			case "back":
 			case "gotoquestion":
 			default:
-				$_SESSION['tst_pass_finish'] = 0;
-				if (array_key_exists("tst_javascript", $_GET))
-				{
-					$ilUser->writePref("tst_javascript", $_GET["tst_javascript"]);
-				}
-				$this->sequence = $this->calculateSequence();	
-				if (strlen($_GET['gotosequence'])) $this->sequence = $_GET['gotosequence'];
-				$this->testSession->setLastSequence($this->sequence);
-				$this->testSession->saveToDb();
-				$this->outTestPage(false);
 				break;
 		}
 	}
 	
 	private function isValidSequenceElement($sequenceElement)
 	{
+		if( $sequenceElement === false )
+		{
+			return false;
+		}
+		
 		if( $sequenceElement < 1 )
 		{
 			return false;
@@ -412,9 +393,6 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		return true;
 	}
 
-	/**
-	 * Creates the learners output of a question
-	 */
 	protected function outWorkingForm($sequence = "", $test_id, $directfeedback = false)
 	{
 		global $ilUser;
@@ -499,7 +477,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		$charSelectorAvailable = $this->populateCharSelectorIfRequired();
 		
 		$this->populateTestNavigationToolbar(
-			$this->buildTestNavigationToolbarGUI($charSelectorAvailable)
+			$this->buildTestNavigationToolbarGUI($charSelectorAvailable, true)
 		);
 
 		if( $this->isParticipantsAnswerFixed($questionId) )
@@ -529,7 +507,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		}
 		else
 		{
-			$question_gui->setNavigationGUI($this->buildQuestionNavigationGUI(
+			$question_gui->setNavigationGUI($this->buildEditableStateQuestionNavigationGUI(
 				$question_gui->object->getId()
 			));
 			
@@ -644,6 +622,72 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		    $this->tpl->touchBlock('question_obligatory');
 		    $this->tpl->setVariable('QUESTION_OBLIGATORY', $this->lng->txt('required_field'));
 		}
+	}
+	
+	protected function showQuestionCmd()
+	{
+		$_SESSION['tst_pass_finish'] = 0;
+
+		$this->sequence = $this->getSequenceElementParameter();
+
+		if (strlen($_GET['gotosequence'])) $this->sequence = $_GET['gotosequence'];
+
+		$this->testSession->setLastSequence($this->sequence);
+		$this->testSession->saveToDb();
+		
+		$this->prepareTestPage();
+
+		$this->outWorkingForm($this->sequence, $this->object->getTestId(), $directfeedback = false);
+	}
+
+	protected function editSolutionCmd()
+	{
+
+	}
+
+	protected function submitSolutionCmd()
+	{
+		if (array_key_exists("save_error", $_GET))
+		{
+			if ($_GET["save_error"] == 1)
+			{
+				// return to editable view
+			}
+		}
+	}
+
+	protected function discardSolutionCmd()
+	{
+
+	}
+
+	protected function nextQuestionCmd()
+	{
+		$sequenceElement = $this->testSequence->getNextSequence(
+			$this->getSequenceElementParameter()
+		);
+
+		$this->testSession->setLastSequence($sequenceElement);
+		$this->testSession->saveToDb();
+
+		$this->ctrl->redirect($this, 'showQuestion');
+	}
+
+	protected function previousQuestionCmd()
+	{
+		$sequenceElement = $this->testSequence->getPreviousSequence(
+			$this->getSequenceElementParameter()
+		);
+
+		$this->testSession->setLastSequence($sequenceElement);
+		$this->testSession->saveToDb();
+
+		$this->ctrl->redirect($this, 'showQuestion');
+	}
+	
+	protected function getSequenceElementParameter()
+	{
+		return $_GET['sequence'];
 	}
 
 	protected function isFirstPageInSequence($sequence)

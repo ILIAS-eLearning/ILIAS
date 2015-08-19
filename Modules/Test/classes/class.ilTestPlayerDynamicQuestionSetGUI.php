@@ -621,7 +621,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		$charSelectorAvailable = $this->populateCharSelectorIfRequired();
 
 		$this->populateTestNavigationToolbar(
-			$this->buildTestNavigationToolbarGUI($charSelectorAvailable)
+			$this->buildTestNavigationToolbarGUI($charSelectorAvailable, true)
 		);
 
 		if( $this->isParticipantsAnswerFixed($this->testSession->getCurrentQuestionId()) )
@@ -651,7 +651,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		}
 		else
 		{
-			$question_gui->setNavigationGUI($this->buildQuestionNavigationGUI(
+			$question_gui->setNavigationGUI($this->buildEditableStateQuestionNavigationGUI(
 				$question_gui->object->getId()
 			));
 			
@@ -775,7 +775,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 
 	private function outCurrentlyFinishedPage()
 	{
-		$this->prepareTestPageOutput();
+		$this->initTestPageTemplate();
 
 		if( !$this->isFirstPageInSequence($this->testSession->getCurrentQuestionId()) )
 		{

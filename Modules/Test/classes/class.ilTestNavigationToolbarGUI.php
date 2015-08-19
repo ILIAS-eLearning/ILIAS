@@ -57,6 +57,11 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
 	 * @var string
 	 */
 	private $finishTestCommand = '';
+
+	/**
+	 * @var bool
+	 */
+	private $disabledStateEnabled = false;
 	
 	/**
 	 * @param ilCtrl $ctrl
@@ -167,6 +172,22 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
 	{
 		$this->finishTestCommand = $finishTestCommand;
 	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isDisabledStateEnabled()
+	{
+		return $this->disabledStateEnabled;
+	}
+
+	/**
+	 * @param boolean $disabledStateEnabled
+	 */
+	public function setDisabledStateEnabled($disabledStateEnabled)
+	{
+		$this->disabledStateEnabled = $disabledStateEnabled;
+	}
 	
 	public function build()
 	{
@@ -198,6 +219,7 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
 		$btn = ilSubmitButton::getInstance();
 		$btn->setCommand('outIntroductionPage');
 		$btn->setCaption('cancel_test');
+		$btn->setDisabled($this->isDisabledStateEnabled());
 		$this->addButtonInstance($btn);
 	}
 	
@@ -206,6 +228,7 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
 		$btn = ilSubmitButton::getInstance();
 		$btn->setCommand('showQuestionList');
 		$btn->setCaption('question_summary');
+		$btn->setDisabled($this->isDisabledStateEnabled());
 		$this->addButtonInstance($btn);
 	}
 	
@@ -221,6 +244,7 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
 		{
 			$btn->setCaption('tst_show_side_list');
 		}
+		$btn->setDisabled($this->isDisabledStateEnabled());
 		$this->addButtonInstance($btn);
 	}
 
@@ -230,6 +254,7 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
 		$btn->setId('charselectorbutton');
 		$btn->addCSSClass('ilCharSelectorToggle');
 		$btn->setCaption('char_selector_btn_label');
+		$btn->setDisabled($this->isDisabledStateEnabled());
 		$this->addButtonInstance($btn);
 	}
 	
@@ -238,6 +263,7 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
 		$btn = ilSubmitButton::getInstance();
 		$btn->setCommand($this->getFinishTestCommand());
 		$btn->setCaption('finish_test');
+		$btn->setDisabled($this->isDisabledStateEnabled());
 		$this->addButtonInstance($btn);
 	}
 }

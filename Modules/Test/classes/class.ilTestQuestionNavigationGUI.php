@@ -18,17 +18,17 @@ class ilTestQuestionNavigationGUI
 	/**
 	 * @var string
 	 */
-	private $editAnswerCommand = '';
+	private $editSolutionCommand = '';
 
 	/**
 	 * @var string
 	 */
-	private $submitAnswerCommand = '';
+	private $submitSolutionCommand = '';
 
 	/**
 	 * @var string
 	 */
-	private $discardAnswerCommand = '';
+	private $discardSolutionCommand = '';
 
 	/**
 	 * @var string
@@ -76,49 +76,49 @@ class ilTestQuestionNavigationGUI
 	/**
 	 * @return string
 	 */
-	public function getEditAnswerCommand()
+	public function getEditSolutionCommand()
 	{
-		return $this->editAnswerCommand;
+		return $this->editSolutionCommand;
 	}
 
 	/**
-	 * @param string $editAnswerCommand
+	 * @param string $editSolutionCommand
 	 */
-	public function setEditAnswerCommand($editAnswerCommand)
+	public function setEditSolutionCommand($editSolutionCommand)
 	{
-		$this->editAnswerCommand = $editAnswerCommand;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getSubmitAnswerCommand()
-	{
-		return $this->submitAnswerCommand;
-	}
-
-	/**
-	 * @param string $submitAnswerCommand
-	 */
-	public function setSubmitAnswerCommand($submitAnswerCommand)
-	{
-		$this->submitAnswerCommand = $submitAnswerCommand;
+		$this->editSolutionCommand = $editSolutionCommand;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getDiscardAnswerCommand()
+	public function getSubmitSolutionCommand()
 	{
-		return $this->discardAnswerCommand;
+		return $this->submitSolutionCommand;
 	}
 
 	/**
-	 * @param string $discardAnswerCommand
+	 * @param string $submitSolutionCommand
 	 */
-	public function setDiscardAnswerCommand($discardAnswerCommand)
+	public function setSubmitSolutionCommand($submitSolutionCommand)
 	{
-		$this->discardAnswerCommand = $discardAnswerCommand;
+		$this->submitSolutionCommand = $submitSolutionCommand;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getDiscardSolutionCommand()
+	{
+		return $this->discardSolutionCommand;
+	}
+
+	/**
+	 * @param string $discardSolutionCommand
+	 */
+	public function setDiscardSolutionCommand($discardSolutionCommand)
+	{
+		$this->discardSolutionCommand = $discardSolutionCommand;
 	}
 
 	/**
@@ -240,24 +240,24 @@ class ilTestQuestionNavigationGUI
 	{
 		$tpl = $this->getTemplate();
 		
-		if( $this->getEditAnswerCommand() )
+		if( $this->getEditSolutionCommand() )
 		{
 			$this->renderButton(
-				$tpl, $this->getEditAnswerCommand(), $this->lng->txt('edit_answer')
+				$tpl, $this->getEditSolutionCommand(), $this->lng->txt('edit_answer')
 			);
 		}
 		
-		if( $this->getSubmitAnswerCommand() )
+		if( $this->getSubmitSolutionCommand() )
 		{
 			$this->renderButton(
-				$tpl, $this->getSubmitAnswerCommand(), $this->lng->txt('submit_answer')
+				$tpl, $this->getSubmitSolutionCommand(), $this->lng->txt('submit_answer')
 			);
 		}
 
-		if( $this->getDiscardAnswerCommand() )
+		if( $this->getDiscardSolutionCommand() )
 		{
 			$this->renderButton(
-				$tpl, $this->getDiscardAnswerCommand(), $this->lng->txt('discard_answer')
+				$tpl, $this->getDiscardSolutionCommand(), $this->lng->txt('discard_answer')
 			);
 		}
 

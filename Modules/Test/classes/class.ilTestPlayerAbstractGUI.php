@@ -57,6 +57,28 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		
 		$this->processLocker = null;
 	}
+
+	protected function checkReadAccess()
+	{
+		global $rbacsystem;
+
+		if(!$rbacsystem->checkAccess("read", $this->object->getRefId()))
+		{
+			// only with read access it is possible to run the test
+			$this->ilias->raiseError($this->lng->txt("cannot_execute_test"), $this->ilias->error_obj->MESSAGE);
+		}
+	}
+
+	protected function checkTestExecutable()
+	{
+		$executable = $this->object->isExecutable($this->testSession, $this->testSession->getUserId());
+		
+		if( !$executable['executable'] )
+		{
+			ilUtil::sendInfo($executable['errormessage'], true);
+			$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
+		}
+	}
 	
 	protected function ensureExistingTestSession(ilTestSession $testSession)
 	{
@@ -476,32 +498,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		}
 	}
 
-	/**
-	 * Calculates the sequence to determine the next question
-	 */
-	public function calculateSequence() 
-	{
-		$sequence = $_GET["sequence"];
-		if (!$sequence) $sequence = $this->testSequence->getFirstSequence();
-		if (array_key_exists("save_error", $_GET))
-		{
-			if ($_GET["save_error"] == 1)
-			{
-				return $sequence;
-			}
-		}
-		switch ($_GET["activecommand"])
-		{
-			case "next":
-				$sequence = $this->testSequence->getNextSequence($sequence);
-				break;
-			case "previous":
-				$sequence = $this->testSequence->getPreviousSequence($sequence);
-				break;
-		}
-		return $sequence;
-	}
-
 	function redirectAfterAutosaveCmd()
 	{
 		$active_id = $this->testSession->getActiveId();
@@ -638,7 +634,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
 	function finishTestCmd($requires_confirmation = true)
 	{
-		global $ilUser, $ilAuth;
+		global $ilAuth;
 
 		unset($_SESSION["tst_next"]);
 
@@ -964,20 +960,11 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		return $template->get();
 	}
 	
-	/**
-	 * Outputs the question of the active sequence
-	 */
-	function outTestPage($directfeedback)
+	protected function prepareTestPage()
 	{
-		global $rbacsystem, $ilUser;
+		global $ilUser;
 
-		$this->prepareTestPageOutput();
-		
-		if (!$rbacsystem->checkAccess("read", $this->object->getRefId())) 
-		{
-			// only with read access it is possible to run the test
-			$this->ilias->raiseError($this->lng->txt("cannot_execute_test"),$this->ilias->error_obj->MESSAGE);
-		}
+		$this->initTestPageTemplate();
 		
 		if ($this->isMaxProcessingTimeReached())
 		{
@@ -1018,11 +1005,18 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			));
 			$this->tpl->setVariable('EXAM_ID_TXT', $this->lng->txt('exam_id'));
 			$this->tpl->parseCurrentBlock();
-		}				
-		
-		$this->outWorkingForm($this->sequence, $this->object->getTestId(), $directfeedback);
+		}
 	}
 
+	abstract protected function showQuestionCmd();
+
+	abstract protected function editSolutionCmd();
+
+	abstract protected function submitSolutionCmd();
+
+	abstract protected function discardSolutionCmd();
+
+	abstract protected function startTestCmd();
 /**
 * check access restrictions like client ip, partipating user etc.
 *
@@ -1286,7 +1280,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		{
 			$this->ctrl->setParameter($this, "sequence", $value["sequence"]);
 			
-			$href = $this->ctrl->getLinkTargetByClass(get_class($this), "gotoQuestion");
+			$href = $this->ctrl->getLinkTargetByClass(get_class($this), "showQuestion");
 			
 			$this->tpl->setVariable("VALUE_QUESTION_TITLE", "<a href=\"".$this->ctrl->getLinkTargetByClass(get_class($this), "gotoQuestion")."\">" . $this->object->getQuestionTitle($value["title"]) . "</a>");
 			
@@ -1627,7 +1621,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		}
 	}
 	
-	protected function prepareTestPageOutput()
+	protected function initTestPageTemplate()
 	{
 		$this->tpl->addBlockFile(
 			$this->getContentBlockName(), 'adm_content', 'tpl.il_as_tst_output.html', 'Modules/Test'
@@ -1717,7 +1711,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		return false;
 	}
 	
-	protected function buildTestNavigationToolbarGUI($charSelectorAvailable)
+	protected function buildTestNavigationToolbarGUI($charSelectorAvailable, $isEditState)
 	{
 		global $ilUser, $ilSetting;
 		
@@ -1731,16 +1725,34 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$navigationToolbarGUI->setCharSelectorButtonEnabled($charSelectorAvailable);
 		$navigationToolbarGUI->setFinishTestCommand($this->getFinishTestCommand());
 
+		$navigationToolbarGUI->setDisabledStateEnabled($isEditState);
+		
 		$navigationToolbarGUI->build();
 		
 		return $navigationToolbarGUI;
 	}
+
+	protected function buildReadOnlyStateQuestionNavigationGUI($questionId)
+	{
+		require_once 'Modules/Test/classes/class.ilTestQuestionNavigationGUI.php';
+		$navigationGUI = new ilTestQuestionNavigationGUI($this->lng);
+		
+		$navigationGUI->setEditSolutionCommand('editSolution');
+		
+		// marking
+		$this->populateMarkerConfigToQuestionNavigationGUI($navigationGUI, $questionId);
+
+		return $navigationGUI;
+	}
 	
-	protected function buildQuestionNavigationGUI($questionId)
+	protected function buildEditableStateQuestionNavigationGUI($questionId)
 	{
 		require_once 'Modules/Test/classes/class.ilTestQuestionNavigationGUI.php';
 		$navigationGUI = new ilTestQuestionNavigationGUI($this->lng);
 
+		$navigationGUI->setSubmitSolutionCommand('submitSolution');
+		$navigationGUI->setDiscardSolutionCommand('discardSolution');
+		
 		// feedback
 		switch( 1 )
 		{
@@ -1771,33 +1783,41 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 				$navigationGUI->setShowHintsCommand('showRequestedHintList');
 			}
 		}
-		
+
 		// marking
-		if ($this->object->getShowMarker())
+		$this->populateMarkerConfigToQuestionNavigationGUI($navigationGUI, $questionId);
+
+		return $navigationGUI;
+	}
+
+	/**
+	 * @param integer $questionId
+	 * @param ilTestQuestionNavigationGUI $navigationGUI
+	 */
+	protected function populateMarkerConfigToQuestionNavigationGUI(ilTestQuestionNavigationGUI $navigationGUI, $questionId)
+	{
+		if($this->object->getShowMarker())
 		{
 			include_once "./Modules/Test/classes/class.ilObjTest.php";
 			$solved_array = ilObjTest::_getSolvedQuestions($this->testSession->getActiveId(), $questionId);
 			$solved = 0;
 
-			if (count ($solved_array) > 0)
+			if(count($solved_array) > 0)
 			{
 				$solved = array_pop($solved_array);
 				$solved = $solved["solved"];
 			}
 
-			if ($solved==1)
+			if($solved == 1)
 			{
 				$navigationGUI->setQuestionMarkCommand('unmarkQuestion');
 				$navigationGUI->setQuestionMarked(true);
-			}
-			else
+			} else
 			{
 				$navigationGUI->setQuestionMarkCommand('markQuestion');
 				$navigationGUI->setQuestionMarked(false);
 			}
 		}
-		
-		return $navigationGUI;
 	}
 
 	/**
