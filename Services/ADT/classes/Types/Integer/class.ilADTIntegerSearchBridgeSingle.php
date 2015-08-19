@@ -10,6 +10,18 @@ class ilADTIntegerSearchBridgeSingle extends ilADTSearchBridgeSingle
 	}
 	
 	
+	// table2gui / filter	
+	
+	public function loadFilter()
+	{
+		$value = $this->readFilter();
+		if($value !== null)
+		{
+			$this->getADT()->setNumber($value);
+		}
+	}
+	
+	
 	// form
 	
 	public function addToForm()
@@ -89,7 +101,7 @@ class ilADTIntegerSearchBridgeSingle extends ilADTSearchBridgeSingle
 		$a_value = unserialize($a_value);
 		if(is_array($a_value))
 		{
-			$this->getLowerADT()->setNumber($a_value[0]);			
+			$this->getADT()->setNumber($a_value[0]);			
 		}		
 	}
 }
