@@ -388,8 +388,6 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 	{
 		global $ilUser;
 
-		$test_id = $this->object->getTestId();
-		
 		if( !$this->isValidSequenceElement($sequence) )
 		{
 			$sequence = $this->testSequence->getFirstSequence();
@@ -443,7 +441,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
 		$is_postponed = $this->testSequence->isPostponedQuestion($question_gui->object->getId());
 		$this->ctrl->setParameter($this, "sequence", "$sequence");
-		$formaction = $this->ctrl->getFormAction($this, "gotoQuestion");
+		$formaction = $this->ctrl->getFormAction($this);
 
 		$question_gui->setSequenceNumber($this->testSequence->getPositionOfSequence($sequence));
 		$question_gui->setQuestionCount($this->testSequence->getUserQuestionCount());
@@ -618,7 +616,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		$_SESSION['tst_pass_finish'] = 0;
 
 		$sequenceElement = $this->getSequenceElementParameter();
-		$presentationMode = $this->getPresentationModeParameter();
+		$presentationMode = $this->determinePresentationMode();
 		$instantResponse = false;
 
 		$this->testSession->setLastSequence($sequenceElement);
@@ -626,12 +624,12 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
 		switch($presentationMode)
 		{
-			case ilTestSession::PRESENTATION_MODE_VIEW:
+			case ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW:
 
 				$this->showQuestionViewable($sequenceElement, $instantResponse);
 				break;
 
-			case ilTestSession::PRESENTATION_MODE_EDIT:
+			case ilTestPlayerAbstractGUI::PRESENTATION_MODE_EDIT:
 
 				$this->showQuestionEditable($sequenceElement, $instantResponse);
 				break;
@@ -703,12 +701,34 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 	
 	protected function getSequenceElementParameter()
 	{
-		return $_GET['sequence'];
+		if( isset($_GET['sequence']) )
+		{
+			return $_GET['sequence'];
+		}
+
+		return null;
 	}
 
 	protected function getPresentationModeParameter()
 	{
-		return $_GET['pmode'];
+		if( isset($_GET['pmode']) )
+		{
+			return $_GET['pmode'];
+		}
+
+		return null;
+	}
+
+	protected function determinePresentationMode()
+	{
+		$presentationMode = $this->getPresentationModeParameter();
+
+		if( $presentationMode === null )
+		{
+			$presentationMode = $this->getDefaultPresentationMode();
+		}
+
+		return $presentationMode;
 	}
 
 	protected function isFirstPageInSequence($sequence)

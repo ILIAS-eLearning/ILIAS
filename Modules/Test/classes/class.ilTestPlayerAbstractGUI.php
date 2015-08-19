@@ -25,6 +25,9 @@ require_once './Services/UIComponent/Button/classes/class.ilSubmitButton.php';
  */
 abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 {
+	const PRESENTATION_MODE_VIEW = 'view';
+	const PRESENTATION_MODE_EDIT = 'edit';
+
 	var $ref_id;
 	var $saveResult;
 	var $sequence;
@@ -105,6 +108,11 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$processLockerFactory->setActiveId($activeId);
 		
 		$this->processLocker = $processLockerFactory->getLocker();
+	}
+
+	protected function getDefaultPresentationMode()
+	{
+		return ilTestPlayerAbstractGUI::PRESENTATION_MODE_EDIT;
 	}
 
 	/**
