@@ -24,7 +24,7 @@ class gevDBVUtils {
 		$this->ilias = &$ilias;
 		$this->log = &$ilLog;
 		$this->appEventHandler = &$ilAppEventHandler;
-		$this->orgu_tree = lObjOrgUnitTree::_getInstance();
+		$this->orgu_tree = ilObjOrgUnitTree::_getInstance();
 		
 		$this->gev_settings = gevSettings::getInstance();
 
