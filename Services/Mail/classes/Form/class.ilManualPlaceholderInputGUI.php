@@ -70,13 +70,13 @@ class ilManualPlaceholderInputGUI extends ilSubEnabledFormPropertyGUI
 				$subtpl->parseCurrentBlock();
 			}
 		}
-		$subtpl->setVariable('URL', $this->url);
 		if($ajax)
 		{
 			return $subtpl->show();
 		}
 		else
 		{
+			$subtpl->setVariable('URL', $this->url);
 			return $subtpl->get();
 		}
 

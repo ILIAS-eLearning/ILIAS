@@ -9,6 +9,7 @@
 	</div>
 </div>
 <!-- END placeholder_box -->
+<!-- BEGIN js_block -->
 <script>
 	(function($) {
 		var $ctx = $('#context');
@@ -27,9 +28,8 @@
 
 			$ctx.off('change').on('change', onCtxChange);
 
-			$(document).ready(function () {
-				onCtxChange();
-			});
+			$(document).ready(onCtxChange);
 		}
 	})(jQuery);
 </script>
+<!-- END js_block -->
