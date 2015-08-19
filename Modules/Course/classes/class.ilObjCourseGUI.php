@@ -1130,14 +1130,14 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		// period
 		$cdur_tgl = new ilCheckboxInputGUI($this->lng->txt('crs_period'),'period_tgl');
+		$cdur_tgl->setInfo($this->lng->txt('crs_period_info'));
 		$cdur_tgl->setChecked($this->object->getCourseStart());
 		$form->addItem($cdur_tgl);
 		
 			include_once "Services/Form/classes/class.ilDateDurationInputGUI.php";
 			$cdur = new ilDateDurationInputGUI('', 'period');			
 			$cdur->setStartText($this->lng->txt('crs_start'));			
-			$cdur->setEndText($this->lng->txt('crs_end'));	
-			$cdur->setInfo($this->lng->txt('crs_period_info'));
+			$cdur->setEndText($this->lng->txt('crs_end'));				
 			if($this->object->getCourseStart())
 			{
 				$cdur->setStart($this->object->getCourseStart());
