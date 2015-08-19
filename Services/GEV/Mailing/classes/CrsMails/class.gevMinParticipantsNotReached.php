@@ -3,23 +3,23 @@
 require_once("Services/GEV/Mailing/classes/class.gevCrsAutoMail.php");
 
 class gevMinParticipantsNotReached extends gevCrsAutoMail {
-	const DAYS_BEFORE_COURSE_START = 31;
+	const DAYS_BEFORE_COURSE_START = 29;
 	
 	public function getTitle() {
 		return "Info Admin";
 	}
 	
 	public function _getDescription() {
-		// Mail is send after the 31th day before training is over.
-		// Thus we need to subtract, since after the 31th day is on the
-		// 30th day.
+		// Mail is send after the 29th day before training is over.
+		// Thus we need to subtract, since after the 29th day is on the
+		// 28th day.
 		return (self::DAYS_BEFORE_COURSE_START - 1)." Tage vor Trainingsbeginn wenn Mindesteilnahmerzahl nicht erreicht";
 	}
 	
 	public function getScheduledFor() {
 		$date = $this->getCourseUtils()->getStartDate();
 		if ($date !== null) {
-			$date->increment(IL_CAL_DAY, -1 * self::DAYS_BEFORE_COURSE_START);
+			$date->increment(IL_CAL_DAY, -1 * static::DAYS_BEFORE_COURSE_START);
 		}
 		return $date;
 	}
