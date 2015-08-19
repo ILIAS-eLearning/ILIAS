@@ -622,6 +622,11 @@ class ilObjectLP
 		
 		return $res;
 	}
+	
+	public function getMailTemplateId()
+	{
+		// type-specific
+	}
 }
 
 ?>

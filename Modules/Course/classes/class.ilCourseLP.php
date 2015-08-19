@@ -90,6 +90,14 @@ class ilCourseLP extends ilObjectLP
 		
 		return true;
 	}
+	
+	public function getMailTemplateId()
+	{			
+		/*
+		include_once './Modules/Course/classes/class.ilCourseMailTemplateTutorContext.php';
+		return ilCourseMailTemplateTutorContext::ID;		 				 
+		*/
+	}
 }
 
 ?>

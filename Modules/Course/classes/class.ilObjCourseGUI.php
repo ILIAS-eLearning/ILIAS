@@ -391,8 +391,22 @@ class ilObjCourseGUI extends ilContainerGUI
 			foreach ($emails as $email) {
 				$email = trim($email);
 				$etpl = new ilTemplate("tpl.crs_contact_email.html", true, true , 'Modules/Course');
-                $etpl->setVariable("EMAIL_LINK", ilMailFormCall::getLinkTarget($info, 'showSummary', array(),
-					array('type' => 'new', 'rcp_to' => $email,'sig' => $this->createMailSignature())));
+				$etpl->setVariable(
+					"EMAIL_LINK",
+					ilMailFormCall::getLinkTarget(
+						$info, 'showSummary', array(),
+						array(
+							'type'   => 'new',
+							'rcp_to' => $email,
+							'sig' => $this->createMailSignature()
+						),
+						array(
+							ilMailFormCall::CONTEXT_KEY => 'crs_context_member_manual',
+							'ref_id' => $this->object->getRefId(),
+							'ts'     => time()
+						)
+					)
+				);              
 				$etpl->setVariable("CONTACT_EMAIL", $email);				
 				$mailString .= $etpl->get()."<br />";
 			}

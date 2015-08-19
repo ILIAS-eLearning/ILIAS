@@ -22,4 +22,7 @@
 			<parent id="wfld">wfld</parent>
 		</object>
 	</objects>
+	<mailtemplates>
+		<context id="sahs_context_lp" class="ilScormMailTemplateLPContext" />		
+	</mailtemplates>
 </module>

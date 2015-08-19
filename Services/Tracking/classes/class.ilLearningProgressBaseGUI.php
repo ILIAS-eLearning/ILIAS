@@ -466,7 +466,7 @@ class ilLearningProgressBaseGUI
 				if($progress['access_time'])
 				{
 					$info->addProperty($this->lng->txt('last_access'),
-						ilDatePresentation::formatDate(new ilDateTime($progress['access_time'],IL_CAL_DATETIME)));
+						ilDatePresentation::formatDate(new ilDateTime($progress['access_time'],IL_CAL_UNIX)));
 				}
 				else
 				{
