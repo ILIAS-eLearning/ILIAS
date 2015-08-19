@@ -2404,7 +2404,7 @@ class gevUserUtils {
 	public function getUVGBDOrCPoolNames() {
 		$names = array();
 		$dbv_utils = gevDBVUtils::getInstance();
-		foreach ($dbv_utils->getUVGOrgUnitObjIdsIOf() as $obj_id) {
+		foreach ($dbv_utils->getUVGOrgUnitObjIdsIOf($this->getId()) as $obj_id) {
 			$uvg_top_level_orgu_obj_id = $dbv_utils->getUVGTopLevelOrguIdFor($obj_id);
 			$names[] = ilObject::_lookupTitle($uvg_top_level_orgu_obj_id);
 		}
