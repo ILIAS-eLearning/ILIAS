@@ -13,6 +13,7 @@
 require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 require_once("Services/GEV/Utils/classes/class.gevUVGOrgUnits.php");
 require_once("Modules/OrgUnit/classes/PersonalOrgUnit/class.ilPersonalOrgUnits.php");
+require_once("Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php");
 
 class gevDBVUtils {
 	static $instance;
@@ -23,6 +24,7 @@ class gevDBVUtils {
 		$this->ilias = &$ilias;
 		$this->log = &$ilLog;
 		$this->appEventHandler = &$ilAppEventHandler;
+		$this->orgu_tree = lObjOrgUnitTree::_getInstance();
 		
 		$this->gev_settings = gevSettings::getInstance();
 
@@ -217,8 +219,39 @@ class gevDBVUtils {
 		return $this->pou->getEmployeesOf($a_dbv_id);
 	} 
 
+	/**
+	 * Gibt eine Liste aller ObjIds von Organisationseinheiten unterhalb von UVG in 
+	 * denen der Benutzer Mitglied ist.
+	 *
+	 * @param 	int			$a_user_id
+	 * @param	array[]		obj_ids der Organisationseinheiten
+	 */
+	public function getUVGOrgUnitObjIdsIOf($a_user_id) {
+		return $this->orgu_tree->getOrgUnitOfUser($a_user_id, $this->pou->getBaseRefId(), true);
+	}
 
-
+	/**
+	 * Gibt die ObjId der Organisationseinheit auf der Ebene direkt unterhalb von
+	 * UVG zurück, zu der die gegebene Organisationseinheit gehört.
+	 *
+	 * @param	int			$a_orgu_obj_id
+	 * @throws	ilException					Wenn die gegebene Organisationseinheit 
+	 *										nicht zum UVG gehört.
+	 * @return	int							obj_id
+	 */
+	public function getUVGTopLevelOrguIdFor($a_orgu_obj_id) {
+		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+		$uvg_children = $this->orgu_tree->getChildren($this->pou->getBaseRefId());
+		$orgu_ref_id = gevObjectUtils::getRefId($a_orgu_obj_id);
+		$parent_ref_id = $this->orgu_tree->getParent($orgu_ref_id);
+		if (in_array($orgu_ref_id, $uvg_children)) {
+			return $a_orgu_obj_id;
+		}
+		if (!in_array($parent_ref_id, $uvg_children)) {
+			throw new ilException("Parent of $orgu_ref_id is no children of UVG");
+		}
+		return gevObjectUtils::getObjId($parent_ref_id);
+	}
 }
 
 ?>

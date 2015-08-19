@@ -1949,7 +1949,7 @@ class gevCourseUtils {
 								return $names["firstname"]." ".$names["lastname"];
 							 }, $dbvs);
 				
-				$worksheet->write($row, 0 , $user_utils->getBDFromIV(), $format_wrap);
+				$worksheet->write($row, 0 , $user_utils->getUVGBDOrCPoolNames(), $format_wrap);
 				$worksheet->write($row, 1, implode(", ", $dbv_names), $format_wrap);
 				$worksheet->write($row, 2 , $user_utils->getCompanyName(), $format_wrap);
 				$worksheet->write($row, 3 , $user_utils->getLastname(), $format_wrap);

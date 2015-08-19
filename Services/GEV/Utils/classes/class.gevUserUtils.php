@@ -2233,11 +2233,6 @@ class gevUserUtils {
 		return $this->udf_utils->setField($this->user_id, gevSettings::USR_WBD_STATUS, $a_state);
 	}
 	
-
-
-
-
-
 	static public function isValidBWVId($a_id) {
 		return 1 == preg_match("/\d{8}-.{6}-../", $a_id);
 	}
@@ -2406,45 +2401,14 @@ class gevUserUtils {
 		return false;
 	}
 
-	public function getBDFromIV() {
-
-		global $ilClientIniFile;
-		global $ilDB;
-
-		$host = $ilClientIniFile->readVariable('shadowdb', 'host');
-		$user = $ilClientIniFile->readVariable('shadowdb', 'user');
-		$pass = $ilClientIniFile->readVariable('shadowdb', 'pass');
-		$name = $ilClientIniFile->readVariable('shadowdb', 'name');
-
-		$mysql = mysql_connect($host, $user, $pass) 
-				or die( "MySQL: ".mysql_error()." ### "
-						." Is the shadowdb initialized?"
-						." Are the settings for the shadowdb initialized in the client.ini.php?"
-					  );
-		mysql_select_db($name, $mysql);
-		mysql_set_charset('utf8', $mysql);
-
-		$agent_key = $this->getJobNumber();
-
-		$sql = 	 "SELECT `ivimport_orgunit`.`name`"
-				."  FROM `ivimport_stelle`"
-				."  INNER JOIN `ivimport_orgunit`"
-				."          ON `ivimport_orgunit`.`id` = `ivimport_stelle`.`sql_org_unit_id`"
-				." WHERE `ivimport_stelle`.`stellennummer` = ".$ilDB->quote($agent_key,"text");
-		
-		$data = mysql_query($sql);
-		$data = mysql_fetch_assoc($data);
-
-		// Shorten Name
-		$name = $data["name"];
-		$matches = array();
-		if (preg_match("/^Generali Versicherung AG (.*)$/", $name, $matches)) {
-			$name = $matches[1];
+	public function getUVGBDOrCPoolNames() {
+		$names = array();
+		$dbv_utils = gevDBVUtils::getInstance();
+		foreach ($dbv_utils->getUVGOrgUnitObjIdsIOf() as $obj_id) {
+			$uvg_top_level_orgu_obj_id = $dbv_utils->getUVGTopLevelOrguIdFor($obj_id);
+			$names[] = ilObject::_lookupTitle($uvg_top_level_orgu_obj_id);
 		}
-		if (preg_match("/^Bereichsdirektion (.*)$/", $name, $matches)) {
-			$name = "BD ".$matches[1];
-		}
-		return $name;
+		return $names;
 	}
 
 	/*
