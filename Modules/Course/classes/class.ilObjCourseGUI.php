@@ -115,25 +115,38 @@ class ilObjCourseGUI extends ilContainerGUI
 			));
 		}
 		
-
 		if (!count($_POST["member"]))
 		{
 			ilUtil::sendFailure($this->lng->txt("no_checkbox"));
 			$this->membersObject();
 			return false;
 		}
+		
 		foreach($_POST["member"] as $usr_id)
 		{
 			$rcps[] = ilObjUser::_lookupLogin($usr_id);
 		}
+		
         require_once 'Services/Mail/classes/class.ilMailFormCall.php';
-		ilUtil::redirect(ilMailFormCall::getRedirectTarget($this, 'members',
-			array(), 
-			array(
-				'type' => 'new', 
-				'rcp_to' => implode(',',$rcps),
-				'sig'	=> $this->createMailSignature()
-		)));
+		// include_once './Modules/Course/classes/class.ilCourseMailTemplateTutorContext.php';
+		
+		ilUtil::redirect(
+			ilMailFormCall::getRedirectTarget(
+				$this, 
+				'members',
+				array(),
+				array(
+					'type'   => 'new',
+					'rcp_to' => implode(',',$rcps),
+					'sig' => $this->createMailSignature()
+				),
+				array(
+					// ilMailFormCall::CONTEXT_KEY => ilCourseMailTemplateTutorContext::ID,
+					'ref_id' => $this->object->getRefId(),
+					'ts'     => time()
+				)
+			)
+		);		
 	}
 	
 	/**
@@ -386,7 +399,9 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 		if($this->object->getContactEmail())
 		{
+			// include_once './Modules/Course/classes/class.ilCourseMailTemplateMemberContext.php';
             require_once 'Services/Mail/classes/class.ilMailFormCall.php';
+			
 			$emails = split(",",$this->object->getContactEmail());
 			foreach ($emails as $email) {
 				$email = trim($email);
@@ -401,7 +416,7 @@ class ilObjCourseGUI extends ilContainerGUI
 							'sig' => $this->createMailSignature()
 						),
 						array(
-							ilMailFormCall::CONTEXT_KEY => 'crs_context_member_manual',
+							// ilMailFormCall::CONTEXT_KEY => ilCourseMailTemplateMemberContext::ID,
 							'ref_id' => $this->object->getRefId(),
 							'ts'     => time()
 						)
