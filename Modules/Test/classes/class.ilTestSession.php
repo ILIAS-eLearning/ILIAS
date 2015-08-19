@@ -48,6 +48,11 @@ class ilTestSession
 	var $lastsequence;
 
 	/**
+	 * @var string
+	 */
+	protected $lastPresentationMode;
+
+	/**
 	* Indicates if the test was submitted already
 	*
 	* @var boolean
@@ -400,15 +405,31 @@ class ilTestSession
 	{
 		return $this->anonymous_id;
 	}
-	
-	function setLastSequence($lastsequence)
+
+	public function setLastSequence($lastsequence)
 	{
 		$this->lastsequence = $lastsequence;
 	}
 	
-	function getLastSequence()
+	public function getLastSequence()
 	{
 		return $this->lastsequence;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getLastPresentationMode()
+	{
+		return $this->lastPresentationMode;
+	}
+
+	/**
+	 * @param string $lastPresentationMode
+	 */
+	public function setLastPresentationMode($lastPresentationMode)
+	{
+		$this->lastPresentationMode = $lastPresentationMode;
 	}
 	
 	function setPass($pass)

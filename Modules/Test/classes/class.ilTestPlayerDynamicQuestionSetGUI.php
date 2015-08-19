@@ -549,9 +549,11 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 	/**
 	 * Creates the learners output of a question
 	 */
-	protected function outWorkingForm($sequence = "", $test_id, $directfeedback = false)
+	protected function outWorkingForm($sequence, $directfeedback)
 	{
 		global $ilUser;
+
+		$test_id = $this->object->getTestId();
 		
 		$_SESSION["active_time_id"] = $this->object->startWorkingTime(
 				$this->testSession->getActiveId(), $this->testSession->getPass()

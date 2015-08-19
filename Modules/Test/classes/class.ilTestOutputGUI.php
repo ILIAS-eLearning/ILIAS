@@ -24,7 +24,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 	 */
 	public function executeCommand()
 	{
-		global $ilUser, $ilDB, $ilPluginAdmin, $lng, $ilTabs;
+		global $ilDB, $ilPluginAdmin, $lng, $ilTabs;
 
 		$this->checkReadAccess();
 
@@ -35,16 +35,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		
 		$this->ctrl->saveParameter($this, "sequence");
 		$this->ctrl->saveParameter($this, "active_id");
-		
-		if (preg_match("/^gotoquestion_(\\d+)$/", $cmd, $matches))
-		{
-			$cmd = "gotoquestion";
-			if (strlen($matches[1]))
-			{
-				$this->ctrl->setParameter($this, 'gotosequence', $matches[1]);
-			}
-		}
-		
+
 		$testSessionFactory = new ilTestSessionFactory($this->object);
 		$this->testSession = $testSessionFactory->getSession($_GET['active_id']);
 		
@@ -73,21 +64,21 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 				$this->checkTestExecutable();
 				
 				$questionId = $this->testSequence->getQuestionForSequence( $this->calculateSequence() );
-				
+
 				require_once "./Modules/TestQuestionPool/classes/class.ilAssQuestionPageGUI.php";
 				$page_gui = new ilAssQuestionPageGUI($questionId);
 				$ret = $this->ctrl->forwardCommand($page_gui);
 				break;
-			
+
 			case 'iltestsubmissionreviewgui':
-				
+
 				$this->checkTestExecutable();
-				
+
 				require_once './Modules/Test/classes/class.ilTestSubmissionReviewGUI.php';
 				$gui = new ilTestSubmissionReviewGUI($this, $this->object, $this->testSession);
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;
-			
+
 			case 'ilassquestionhintrequestgui':
 
 				$this->checkTestExecutable();
@@ -103,20 +94,20 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
 				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintRequestGUI.php';
 				$gui = new ilAssQuestionHintRequestGUI($this, 'redirectQuestion', $questionGUI, $questionHintTracking);
-				
+
 				$ret = $this->ctrl->forwardCommand($gui);
-				
+
 				break;
-			
+
 			case 'iltestsignaturegui':
-				
+
 				$this->checkTestExecutable();
-				
+
 				require_once './Modules/Test/classes/class.ilTestSignatureGUI.php';
 				$gui = new ilTestSignatureGUI($this);
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;
-			
+
 			case 'iltestpasswordprotectiongui':
 
 				$this->checkTestExecutable();
@@ -127,19 +118,19 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 				break;
 
 			default:
-				
+
 				if( $this->isTestExecutionCommand($cmd) )
 				{
 					$this->checkTestExecutable();
 				}
-				
+
 				$cmd .= 'Cmd';
 				$ret =& $this->$cmd();
 				break;
 		}
 		return $ret;
 	}
-	
+
 	protected function isTestExecutionCommand($cmd)
 	{
 		return true;
@@ -204,7 +195,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
 		$this->ctrl->setParameter($this, 'sequence', $this->sequence);
 
-		$this->ctrl->redirect($this, 'showQuestion');
+		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
 	}
 
 	/**
@@ -226,7 +217,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 				{
 					if ($this->object->getListOfQuestionsEnd())
 					{
-						
+
 						$allObligationsAnswered = ilObjTest::allObligationsAnswered(
 								$this->testSession->getTestId(),
 								$this->testSession->getActiveId(),
@@ -237,7 +228,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 						{
 							$this->ctrl->redirect($this, "outQuestionSummaryWithObligationsInfo");
 						}
-						
+
 						$this->outQuestionSummaryCmd();
 					}
 					else
@@ -276,7 +267,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 				$this->outTestPage(false);
 				break;
 			case "setmarked":
-				$this->sequence = $this->calculateSequence();	
+				$this->sequence = $this->calculateSequence();
 				$this->testSession->setLastSequence($this->sequence);
 				$this->testSession->saveToDb();
 				$q_id  = $this->testSequence->getQuestionForSequence($_GET["sequence"]);
@@ -284,7 +275,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 				$this->outTestPage(false);
 				break;
 			case "resetmarked":
-				$this->sequence = $this->calculateSequence();	
+				$this->sequence = $this->calculateSequence();
 				$this->testSession->setLastSequence($this->sequence);
 				$this->testSession->saveToDb();
 				$q_id  = $this->testSequence->getQuestionForSequence($_GET["sequence"]);
@@ -292,13 +283,13 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 				$this->outTestPage(false);
 				break;
 			case "directfeedback":
-				$this->sequence = $this->calculateSequence();	
+				$this->sequence = $this->calculateSequence();
 				$this->testSession->setLastSequence($this->sequence);
 				$this->testSession->saveToDb();
 				$this->outTestPage(true);
 				break;
 			case "handleQuestionAction":
-				$this->sequence = $this->calculateSequence();	
+				$this->sequence = $this->calculateSequence();
 				$this->testSession->setLastSequence($this->sequence);
 				$this->testSession->saveToDb();
 				$this->outTestPage(false);
@@ -393,9 +384,11 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		return true;
 	}
 
-	protected function outWorkingForm($sequence = "", $test_id, $directfeedback = false)
+	protected function outWorkingForm($sequence, $directfeedback)
 	{
 		global $ilUser;
+
+		$test_id = $this->object->getTestId();
 		
 		if( !$this->isValidSequenceElement($sequence) )
 		{
@@ -437,9 +430,8 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 			
 			$ilLog->logStack('INV SEQ');
 			
-			$this->ctrl->setParameter($this, 'gotosequence', $this->testSequence->getFirstSequence());
-			$this->ctrl->setParameter($this, 'activecommand', 'gotoquestion');
-			$this->ctrl->redirect($this, 'redirectQuestion');
+			$this->ctrl->setParameter($this, 'sequence', $this->testSequence->getFirstSequence());
+			$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
 		}
 		
 		$question_gui->setTargetGui($this);
@@ -610,9 +602,6 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		if ($question_gui->isAutosaveable()&& $this->object->getAutosave())
 		{
 			$this->tpl->touchBlock('autosave');
-			//$this->tpl->setVariable("BTN_SAVE", "Zwischenspeichern");
-			//$this->tpl->setVariable("CMD_SAVE", "gotoquestion_{$sequence}");
-			//$this->tpl->setVariable("AUTOSAVEFORMACTION", str_replace("&amp;", "&", $this->ctrl->getFormAction($this)));
 			$this->tpl->setVariable("AUTOSAVEFORMACTION", str_replace("&amp;", "&", $this->ctrl->getLinkTarget($this, "autosave")));
 			$this->tpl->setVariable("AUTOSAVEINTERVAL", $this->object->getAutosaveIval());
 		}
@@ -628,21 +617,43 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 	{
 		$_SESSION['tst_pass_finish'] = 0;
 
-		$this->sequence = $this->getSequenceElementParameter();
+		$sequenceElement = $this->getSequenceElementParameter();
+		$presentationMode = $this->getPresentationModeParameter();
+		$instantResponse = false;
 
-		if (strlen($_GET['gotosequence'])) $this->sequence = $_GET['gotosequence'];
-
-		$this->testSession->setLastSequence($this->sequence);
+		$this->testSession->setLastSequence($sequenceElement);
 		$this->testSession->saveToDb();
-		
-		$this->prepareTestPage();
 
-		$this->outWorkingForm($this->sequence, $this->object->getTestId(), $directfeedback = false);
+		switch($presentationMode)
+		{
+			case ilTestSession::PRESENTATION_MODE_VIEW:
+
+				$this->showQuestionViewable($sequenceElement, $instantResponse);
+				break;
+
+			case ilTestSession::PRESENTATION_MODE_EDIT:
+
+				$this->showQuestionEditable($sequenceElement, $instantResponse);
+				break;
+		}
+	}
+
+	protected function showQuestionViewable($sequenceElement, $instantResponse)
+	{
+
+	}
+
+	protected function showQuestionEditable($sequenceElement, $instantResponse)
+	{
+		$directfeedback = $instantResponse;
+
+		$this->prepareTestPage();
+		$this->outWorkingForm($sequenceElement, $directfeedback);
 	}
 
 	protected function editSolutionCmd()
 	{
-
+		// set edit state for question and redirect to showQuestion
 	}
 
 	protected function submitSolutionCmd()
@@ -654,6 +665,11 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 				// return to editable view
 			}
 		}
+
+		// save solution !!!
+
+		// set read only state for question
+		// redirect to showQuestion OR nextQuestion
 	}
 
 	protected function discardSolutionCmd()
@@ -670,7 +686,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		$this->testSession->setLastSequence($sequenceElement);
 		$this->testSession->saveToDb();
 
-		$this->ctrl->redirect($this, 'showQuestion');
+		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
 	}
 
 	protected function previousQuestionCmd()
@@ -682,12 +698,17 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		$this->testSession->setLastSequence($sequenceElement);
 		$this->testSession->saveToDb();
 
-		$this->ctrl->redirect($this, 'showQuestion');
+		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
 	}
 	
 	protected function getSequenceElementParameter()
 	{
 		return $_GET['sequence'];
+	}
+
+	protected function getPresentationModeParameter()
+	{
+		return $_GET['pmode'];
 	}
 
 	protected function isFirstPageInSequence($sequence)

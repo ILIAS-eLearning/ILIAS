@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
+require_once './Modules/Test/classes/class.ilTestPlayerCommands.php';
 require_once './Modules/Test/classes/class.ilTestServiceGUI.php';
 require_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
 require_once './Services/UIComponent/Button/classes/class.ilSubmitButton.php';
@@ -145,7 +146,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
 	abstract protected function canSaveResult();
 
-	abstract protected function outWorkingForm($sequence = "", $test_id, $directfeedback = false);
+	abstract protected function outWorkingForm($sequenceElement, $instantResponse);
 
 	/**
 	* Creates the introduction page for a test
@@ -1280,7 +1281,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		{
 			$this->ctrl->setParameter($this, "sequence", $value["sequence"]);
 			
-			$href = $this->ctrl->getLinkTargetByClass(get_class($this), "showQuestion");
+			$href = $this->ctrl->getLinkTargetByClass(get_class($this), ilTestPlayerCommands::SHOW_QUESTION);
 			
 			$this->tpl->setVariable("VALUE_QUESTION_TITLE", "<a href=\"".$this->ctrl->getLinkTargetByClass(get_class($this), "gotoQuestion")."\">" . $this->object->getQuestionTitle($value["title"]) . "</a>");
 			
@@ -1330,7 +1331,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		
 		if( $fullpage )
 		{
-			include_once "./Modules/Test/classes/tables/class.ilListOfQuestionsTableGUI.php";
+			include_once "./Modules/Test/classes/tables/class.ilListOfQuestions.php";
 			$table_gui = new ilListOfQuestionsTableGUI($this, 'backFromSummary');
 			
 			$table_gui->setShowPointsEnabled( !$this->object->getTitleOutput() );
