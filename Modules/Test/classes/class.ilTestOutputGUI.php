@@ -384,7 +384,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		return true;
 	}
 
-	protected function outWorkingForm($sequence, $directfeedback)
+	protected function outWorkingForm($sequence, $presentationMode, $directfeedback)
 	{
 		global $ilUser;
 
@@ -409,26 +409,9 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		
 		$question_gui = $this->object->createQuestionGUI("", $questionId);
 		
-		if( !is_object($question_gui) )
+		if( !($question_gui instanceof assQuestionGUI) )
 		{
-			global $ilLog;
-
-			$ilLog->write(
-				"INV SEQ: active={$this->testSession->getActiveId()} qId=$questionId seq=$sequence "
-				.serialize($this->testSequence)
-			);
-			
-			$ilLog->logStack('INV SEQ');
-			
-			$this->ctrl->setParameter($this, 'sequence', $this->testSequence->getFirstSequence());
-			$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
-		}
-		
-		$question_gui->setTargetGui($this);
-
-		if ($this->object->getJavaScriptOutput())
-		{
-			$question_gui->object->setOutputType(OUTPUT_JAVASCRIPT);
+			$this->handleTearsAndAngerQuestionIsNull($sequence, $questionId);
 		}
 
 		$is_postponed = $this->testSequence->isPostponedQuestion($question_gui->object->getId());
@@ -437,8 +420,9 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
 		$question_gui->setSequenceNumber($this->testSequence->getPositionOfSequence($sequence));
 		$question_gui->setQuestionCount($this->testSequence->getUserQuestionCount());
-		
-		
+		$question_gui->setTargetGui($this);
+		$question_gui->object->setOutputType(OUTPUT_JAVASCRIPT);
+
 		// output question
 		$user_post_solution = FALSE;
 		if (array_key_exists("previouspost", $_SESSION))
@@ -557,38 +541,10 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 			}
 		}
 
-		if( !$this->isFirstPageInSequence($sequence) )
-		{
-			$this->populatePreviousButtons();
-		}
-
-		if( !$this->isLastQuestionInSequence($question_gui) )
-		{
-			$this->populateNextButtons();
-		}
-		
-		if ($this->object->getJavaScriptOutput())
-		{
-			$this->tpl->setVariable("JAVASCRIPT_TITLE", $this->lng->txt("disable_javascript"));
-			$this->ctrl->setParameter($this, "tst_javascript", "0");
-			$this->tpl->setVariable("JAVASCRIPT_URL", $this->ctrl->getLinkTarget($this, "gotoQuestion"));
-		}
-		else
-		{
-			$this->tpl->setVariable("JAVASCRIPT_TITLE", $this->lng->txt("enable_javascript"));
-			$this->ctrl->setParameter($this, "tst_javascript", "1");
-			$this->tpl->setVariable("JAVASCRIPT_URL", $this->ctrl->getLinkTarget($this, "gotoQuestion"));
-		}
-
-		if ($question_gui->object->supportsJavascriptOutput())
-		{
-			$this->tpl->touchBlock("jsswitch");
-		}
+		$this->populateQuestionNavigation($sequence);
 
 		$this->tpl->addJavaScript(ilUtil::getJSLocation("autosave.js", "Modules/Test"));
-		
 		$this->tpl->setVariable("AUTOSAVE_URL", $this->ctrl->getFormAction($this, "autosave", "", true));
-
 		if ($question_gui->isAutosaveable()&& $this->object->getAutosave())
 		{
 			$this->tpl->touchBlock('autosave');
@@ -717,14 +673,14 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		return null;
 	}
 
-	protected function isFirstPageInSequence($sequence)
+	protected function isFirstPageInSequence($sequenceElement)
 	{
-		return $sequence == $this->testSequence->getFirstSequence();
+		return $sequenceElement == $this->testSequence->getFirstSequence();
 	}
 
-	protected function isLastQuestionInSequence(assQuestionGUI $question_gui)
+	protected function isLastQuestionInSequence($sequenceElement)
 	{
-		return $this->testSequence->getQuestionForSequence($this->testSequence->getLastSequence()) == $question_gui->object->getId();
+		return $sequenceElement == $this->testSequence->getLastSequence();
 	}
 
 	/**
@@ -978,5 +934,26 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		$redirectTarget = ilLink::_getLink($containerRefId);
 
 		ilUtil::redirect($redirectTarget);
+	}
+
+	/**
+	 * @param $sequence
+	 * @param $questionId
+	 * @param $ilLog
+	 */
+	protected function handleTearsAndAngerQuestionIsNull($sequence, $questionId, $ilLog)
+	{
+		global $ilLog;
+
+		$ilLog->write("INV SEQ:"
+			."active={$this->testSession->getActiveId()} "
+			."qId=$questionId seq=$sequence "
+			. serialize($this->testSequence)
+		);
+
+		$ilLog->logStack('INV SEQ');
+
+		$this->ctrl->setParameter($this, 'sequence', $this->testSequence->getFirstSequence());
+		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
 	}
 }

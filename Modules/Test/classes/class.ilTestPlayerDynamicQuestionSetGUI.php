@@ -842,12 +842,12 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 
 	}
 	
-	protected function isFirstPageInSequence($sequence)
+	protected function isFirstPageInSequence($sequenceElement)
 	{
 		return !$this->testSequence->trackedQuestionExists();
 	}
 
-	protected function isLastQuestionInSequence(assQuestionGUI $questionGUI)
+	protected function isLastQuestionInSequence($sequenceElement)
 	{
 		return false; // always
 	}

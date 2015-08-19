@@ -154,7 +154,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
 	abstract protected function canSaveResult();
 
-	abstract protected function outWorkingForm($sequenceElement, $instantResponse);
+	abstract protected function outWorkingForm($sequenceElement, $presentationMode, $instantResponse);
 
 	/**
 	* Creates the introduction page for a test
@@ -210,7 +210,20 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$this->tpl->setVariable('TEST_NAV_TOOLBAR', $toolbarGUI->getHTML());
 		$this->tpl->parseCurrentBlock();
 	}
-	
+
+	protected function populateQuestionNavigation($sequence)
+	{
+		if( !$this->isFirstPageInSequence($sequence) )
+		{
+			$this->populatePreviousButtons();
+		}
+
+		if( !$this->isLastQuestionInSequence($sequence) )
+		{
+			$this->populateNextButtons();
+		}
+	}
+
 	protected function populatePreviousButtons()
 	{
 		$this->populateUpperPreviousButtonBlock(
@@ -1585,9 +1598,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$this->ctrl->redirectByClass('ilAssQuestionHintRequestGUI', ilAssQuestionHintRequestGUI::CMD_CONFIRM_REQUEST);
 	}
 	
-	abstract protected function isFirstPageInSequence($sequence);
+	abstract protected function isFirstPageInSequence($sequenceElement);
 	
-	abstract protected function isLastQuestionInSequence(assQuestionGUI $questionGUI);
+	abstract protected function isLastQuestionInSequence($sequenceElement);
 	
 	
 	abstract protected function handleQuestionActionCmd();
