@@ -15653,3 +15653,6 @@ sess#:#sess_reg_waiting_list_no_autofill#:#Without Auto-Fill
 sess#:#sess_reg_waiting_list_no_autofill_info#:#If the maximum number of users is exceeded, new registrations will be placed on a waiting list.
 sess#:#sess_reg_waiting_list_autofill#:#With Auto-Fill
 sess#:#sess_reg_waiting_list_autofill_info#:#Participants are recruited from the waiting list automatically on cancellations.
+grp#:#grp_cancellation_end_info#:#From this date on particiants cannot unsubscribe anymore.
+crs#:#crs_cancellation_end_info#:#From this date on particiants cannot unsubscribe anymore.
+crs#:#crs_period_info#:#Start to end date of the course

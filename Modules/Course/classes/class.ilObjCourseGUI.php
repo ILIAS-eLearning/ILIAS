@@ -1137,6 +1137,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			$cdur = new ilDateDurationInputGUI('', 'period');			
 			$cdur->setStartText($this->lng->txt('crs_start'));			
 			$cdur->setEndText($this->lng->txt('crs_end'));	
+			$cdur->setInfo($this->lng->txt('crs_period_info'));
 			if($this->object->getCourseStart())
 			{
 				$cdur->setStart($this->object->getCourseStart());
@@ -1269,6 +1270,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		// cancellation limit		
 		$cancel = new ilDateTimeInputGUI($this->lng->txt('crs_cancellation_end'), 'cancel_end');
+		$cancel->setInfo($this->lng->txt('crs_cancellation_end_info'));
 		$cancel_end = $this->object->getCancellationEnd();
 		$cancel->enableDateActivation('', 'cancel_end_tgl', (bool)$cancel_end);
 		if($cancel_end)

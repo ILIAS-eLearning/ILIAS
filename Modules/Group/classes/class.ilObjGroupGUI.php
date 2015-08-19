@@ -2658,6 +2658,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			
 			// cancellation limit		
 			$cancel = new ilDateTimeInputGUI($this->lng->txt('grp_cancellation_end'), 'cancel_end');
+			$cancel->setInfo($this->lng->txt('grp_cancellation_end_info'));
 			$cancel_end = $this->object->getCancellationEnd();
 			$cancel->enableDateActivation('', 'cancel_end_tgl', (bool)$cancel_end);
 			if($cancel_end)
