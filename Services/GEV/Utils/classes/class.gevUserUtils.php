@@ -242,10 +242,21 @@ class gevUserUtils {
 	}
 	
 	static public function getInstance($a_user_id) {
+
+		if($a_user_id === null) {
+			throw new Exception("gevUserUtils::getInstance: ".
+									"No User ID given.");
+		}
+
+		if(!self::userIdExists($a_user_id)) {
+			throw new Exception("gevUserUtils::getInstance: ".
+									"User with ID ".$a_user_id." does not exist.");
+		}
+
 		if (array_key_exists($a_user_id, self::$instances)) {
 			return self::$instances[$a_user_id];
 		}
-		
+
 		self::$instances[$a_user_id] = new gevUserUtils($a_user_id);
 		return self::$instances[$a_user_id];
 	}
@@ -263,6 +274,19 @@ class gevUserUtils {
 		else {
 			return self::getInstanceByObj($a_user);
 		}
+	}
+
+	static public function userIdExists($a_user_id) {
+		global $ilDB;
+
+		$sql = "SELECT count(usr_id) FROM usr_data WHERE usr_id = ".$ilDB->quote($a_user_id, "integer");
+		$res = $ilDB->query($sql);
+
+		if($ilDB->numRows($res) == 0) {
+			return false;
+		}
+
+		return true;
 	}
 	
 	public function getNextCourseId() {
