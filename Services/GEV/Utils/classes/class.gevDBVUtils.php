@@ -227,7 +227,10 @@ class gevDBVUtils {
 	 * @param	array[]		obj_ids der Organisationseinheiten
 	 */
 	public function getUVGOrgUnitObjIdsIOf($a_user_id) {
-		return $this->orgu_tree->getOrgUnitOfUser($a_user_id, $this->pou->getBaseRefId(), true);
+		return array_map(function($a_ref_id) {
+			return ilObject::_lookupObjId($a_ref_id);
+		}
+		, $this->orgu_tree->getOrgUnitOfUser($a_user_id, $this->pou->getBaseRefId()));
 	}
 
 	/**
