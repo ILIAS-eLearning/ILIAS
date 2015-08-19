@@ -849,12 +849,12 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		return $this->enablemap;
 	}
 	
-	function setCourseStart(ilDateTime $a_value = null)
+	function setCourseStart(ilDate $a_value = null)
 	{		
 		$this->crs_start = $a_value;
 	}
 	
-	function getCourseStart(ilDate $a_value = null)
+	function getCourseStart()
 	{		
 		return $this->crs_start;
 	}
@@ -864,7 +864,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		$this->crs_end = $a_value;
 	}
 	
-	function getCourseEnd(ilDateTime $a_value = null)
+	function getCourseEnd()
 	{		
 		return $this->crs_end;
 	}

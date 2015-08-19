@@ -675,7 +675,7 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 			case 'CancellationEnd':
 				if((int)$this->cdata)
 				{
-					$this->course_obj->setCancellationEnd(new ilDateTime((int)$this->cdata, IL_CAL_UNIX));
+					$this->course_obj->setCancellationEnd(new ilDate((int)$this->cdata, IL_CAL_UNIX));
 				}
 				break;
 				
