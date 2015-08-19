@@ -2509,6 +2509,58 @@ class gevUserUtils {
 
 	 	return $actions;
 	}
+
+	public function seeBiproAgent() {
+		$roles = array("Administrator"
+					   ,"Admin-Voll"
+					   ,"Admin-eingeschraenkt"
+					   ,"Admin-Ansicht"
+					   ,"OD/BD"
+					   ,"FD"
+					   ,"UA"
+					   ,"HA 84"
+					   ,"BA 84"
+					   ,"Org PV 59"
+					   ,"PV 59"
+					   ,"AVL"
+					   ,"ID FK"
+					   ,"ID MA"
+					   ,"OD/FD/BD ID"
+					   ,"Agt-ID"
+					   ,"NFK"
+					   ,"FDA"
+					   ,"int. Trainer"
+					   ,"OD-Betreuer"
+					   ,"DBV UVG"
+					   ,"DBV EVG"
+					   ,"DBV-Fin-UVG"
+					   ,"Key-Accounter"
+					   ,"RTL"
+					);
+
+		return $this->hasRoleIn($roles);
+	}
+
+	public function seeBiproSuperior() {
+		$roles = array("Administrator"
+					   ,"Admin-Voll"
+					   ,"Admin-eingeschraenkt"
+					   ,"Admin-Ansicht"
+					   ,"OD/BD"
+					   ,"FD"
+					   ,"UA"
+					   ,"AVL"
+					   ,"ID FK"
+					   ,"NFK"
+					   ,"FDA"
+					   ,"int. Trainer"
+					   ,"OD-Betreuer"
+					   ,"Key-Accounter"
+					   ,"RTL"
+					);
+		
+		return $this->hasRoleIn($roles);
+	}
 }
 
 ?>
