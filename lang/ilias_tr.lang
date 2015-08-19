@@ -797,7 +797,7 @@ assessment#:#result_unsuccessful_saved#:#Soru sonuçları kaydedilirken bir hata
 assessment#:#save_before_upload_imagemap#:#Resim haritası yüklemeden önce değişiklikleri uygulamalısınız!
 assessment#:#save_before_upload_javaapplet#:#Java applet yüklemeden önce değişiklikleri uygulamalısınız!
 assessment#:#save_edit#:#Kaydet ve İçerik Düzenle
-assessment#:#save_finish#:#Testi Bitir
+assessment#:#finish_test#:#Testi Bitir
 assessment#:#save_introduction#:#Başlangıca Git
 assessment#:#save_next#:#Sonraki
 assessment#:#save_previous#:#Önceki

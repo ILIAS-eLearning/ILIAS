@@ -52,6 +52,11 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
 	 * @var bool
 	 */
 	private $charSelectorButtonEnabled = false;
+
+	/**
+	 * @var string
+	 */
+	private $finishTestCommand = '';
 	
 	/**
 	 * @param ilCtrl $ctrl
@@ -146,6 +151,22 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
 	{
 		$this->charSelectorButtonEnabled = $charSelectorButtonEnabled;
 	}
+
+	/**
+	 * @return string
+	 */
+	public function getFinishTestCommand()
+	{
+		return $this->finishTestCommand;
+	}
+
+	/**
+	 * @param string $finishTestCommand
+	 */
+	public function setFinishTestCommand($finishTestCommand)
+	{
+		$this->finishTestCommand = $finishTestCommand;
+	}
 	
 	public function build()
 	{
@@ -168,6 +189,8 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
 		{
 			$this->addCharSelectorButton();
 		}
+		
+		$this->addFinishTestButton();
 	}
 	
 	private function addSuspendTestButton()
@@ -207,6 +230,14 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
 		$btn->setId('charselectorbutton');
 		$btn->addCSSClass('ilCharSelectorToggle');
 		$btn->setCaption('char_selector_btn_label');
+		$this->addButtonInstance($btn);
+	}
+	
+	private function addFinishTestButton()
+	{
+		$btn = ilSubmitButton::getInstance();
+		$btn->setCommand($this->getFinishTestCommand());
+		$btn->setCaption('finish_test');
 		$this->addButtonInstance($btn);
 	}
 }

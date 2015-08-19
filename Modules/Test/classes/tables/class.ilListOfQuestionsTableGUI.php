@@ -101,7 +101,7 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
 		if( !$this->areObligationsNotAnswered() )
 		{
 			$button = ilSubmitButton::getInstance();
-			$button->setCaption('save_finish');
+			$button->setCaption('finish_test');
 			$button->setCommand('finishTest');
 			$this->addCommandButtonInstance($button);
 		}

@@ -637,7 +637,7 @@ assessment#:#result_unsuccessful_saved#:#在保存题目结果的时候出现了
 assessment#:#save_before_upload_imagemap#:#在您上传一张图片之前必须保存您已修改的内容！
 assessment#:#save_before_upload_javaapplet#:#在您上传一个java applet之前必须保存您已修改的内容！
 assessment#:#save_edit#:#编辑内容并保存
-assessment#:#save_finish#:#完成测试并保存
+assessment#:#finish_test#:#完成测试并保存
 assessment#:#save_introduction#:#保存并跳转到引言(introduction)
 assessment#:#save_next#:#保存并跳转到下一题
 assessment#:#save_previous#:#保存并跳转到上一题

@@ -1729,8 +1729,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$navigationToolbarGUI->setQuestionTreeButtonEnabled($this->object->getListOfQuestions());
 		$navigationToolbarGUI->setQuestionTreeVisible($ilUser->getPref('side_list_of_questions'));
 		$navigationToolbarGUI->setCharSelectorButtonEnabled($charSelectorAvailable);
-		
-		// finish button must respect $this->object->getListOfQuestionsEnd()
+		$navigationToolbarGUI->setFinishTestCommand($this->getFinishTestCommand());
 
 		$navigationToolbarGUI->build();
 		
@@ -1799,5 +1798,30 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		}
 		
 		return $navigationGUI;
+	}
+
+	/**
+	 * @return string
+	 */
+	protected function getFinishTestCommand()
+	{
+		if( !$this->object->getListOfQuestionsEnd() )
+		{
+			return 'finishTest';
+		}
+		
+		if( $this->object->areObligationsEnabled() )
+		{
+			$allObligationsAnswered = ilObjTest::allObligationsAnswered(
+				$this->testSession->getTestId(), $this->testSession->getActiveId(), $this->testSession->getPass()
+			);
+			
+			if( !$allObligationsAnswered )
+			{
+				return 'outQuestionSummaryWithObligationsInfo';
+			}
+		}
+
+		return 'outQuestionSummary';
 	}
 }
