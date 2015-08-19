@@ -18,7 +18,8 @@ class gevFooterLinks {
 			$uutils = gevUserUtils::getInstance($user_id);
 		}
 
-		return array(/*BiProgramm Agent*/		array("link" => "./static_pages.php?tpl=gszbernried"
+		return array(/*BiProgramm Agent*/		array("link" => "./Customizing/global/skin/genv/static/documents/"
+										  					   ."Weiterbildungsprogramme_2015_Vermittler.pdf"
 														 ,"desc" => "gev_footer_bipro_agent"
 									 					 ,"display" => function() use ($uutils) {
 									 					 						if($uutils) {
@@ -29,7 +30,8 @@ class gevFooterLinks {
 									 					 						}
 														 					}
 													),
-					 /*BiProgramm Superior*/ 	array("link" => "./static_pages.php?tpl=gszbernried"
+					 /*BiProgramm Superior*/ 	array("link" => "./Customizing/global/skin/genv/static/documents/"
+										  					   ."Weiterbildungsprogramme_2015_Fuehrungskraefte.pdf"
 													 ,"desc" => "gev_footer_bipro_superior"
 								 					 ,"display" => function() use ($uutils) {
 																			if($uutils) {
