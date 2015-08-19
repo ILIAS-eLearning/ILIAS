@@ -974,7 +974,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		global $ilUser;
 
 		$this->initTestPageTemplate();
-		
+		$this->populateContentStyleBlock();
+		$this->populateSyntaxStyleBlock();
+
 		if ($this->isMaxProcessingTimeReached())
 		{
 			$this->maxProcessingTimeReached();
@@ -1339,7 +1341,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		
 		if( $fullpage )
 		{
-			include_once "./Modules/Test/classes/tables/class.ilListOfQuestions.php";
+			include_once "./Modules/Test/classes/tables/class.ilListOfQuestionsTableGUI.php";
 			$table_gui = new ilListOfQuestionsTableGUI($this, 'backFromSummary');
 			
 			$table_gui->setShowPointsEnabled( !$this->object->getTitleOutput() );

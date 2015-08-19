@@ -32,8 +32,9 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		
 		$cmd = $this->ctrl->getCmd();
 		$next_class = $this->ctrl->getNextClass($this);
-		
+
 		$this->ctrl->saveParameter($this, "sequence");
+		$this->ctrl->saveParameter($this, "pmode");
 		$this->ctrl->saveParameter($this, "active_id");
 
 		$testSessionFactory = new ilTestSessionFactory($this->object);
@@ -186,14 +187,13 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		);
 		$_SESSION["active_time_id"] = $active_time_id;
 
+		$this->ctrl->setParameter($this, 'sequence', $this->testSequence->getFirstSequence());
+		$this->ctrl->setParameter($this, 'pmode', $this->getDefaultPresentationMode());
+
 		if ($this->object->getListOfQuestionsStart())
 		{
-			$this->ctrl->redirect($this, 'outQuestionSummary');
+			$this->ctrl->redirect($this, ilTestPlayerCommands::QUESTION_SUMMARY);
 		}
-
-		$this->ctrl->saveParameter($this, "tst_javascript");
-
-		$this->ctrl->setParameter($this, 'sequence', $this->sequence);
 
 		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
 	}
@@ -388,17 +388,9 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 	{
 		global $ilUser;
 
-		if( !$this->isValidSequenceElement($sequence) )
-		{
-			$sequence = $this->testSequence->getFirstSequence();
-		}
-		
-		$_SESSION["active_time_id"]= $this->object->startWorkingTime($this->testSession->getActiveId(), 
-																	 $this->testSession->getPass()
+		$_SESSION["active_time_id"]= $this->object->startWorkingTime(
+			$this->testSession->getActiveId(), $this->testSession->getPass()
 		);
-
-		$this->populateContentStyleBlock();
-		$this->populateSyntaxStyleBlock();
 
 		if ($this->object->getListOfQuestions())
 		{
@@ -440,7 +432,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		}
 
 		$is_postponed = $this->testSequence->isPostponedQuestion($question_gui->object->getId());
-		$this->ctrl->setParameter($this, "sequence", "$sequence");
+		$this->ctrl->setParameter($this, "sequence", $sequence);
 		$formaction = $this->ctrl->getFormAction($this);
 
 		$question_gui->setSequenceNumber($this->testSequence->getPositionOfSequence($sequence));
@@ -616,10 +608,16 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		$_SESSION['tst_pass_finish'] = 0;
 
 		$sequenceElement = $this->getSequenceElementParameter();
-		$presentationMode = $this->determinePresentationMode();
+		$presentationMode = $this->getPresentationModeParameter();
 		$instantResponse = false;
 
+		if( !$this->isValidSequenceElement($sequenceElement) )
+		{
+			$sequenceElement = $this->testSequence->getFirstSequence();
+		}
+
 		$this->testSession->setLastSequence($sequenceElement);
+		$this->testSession->setLastPresentationMode($presentationMode);
 		$this->testSession->saveToDb();
 
 		switch($presentationMode)
@@ -681,8 +679,8 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 			$this->getSequenceElementParameter()
 		);
 
-		$this->testSession->setLastSequence($sequenceElement);
-		$this->testSession->saveToDb();
+		$this->ctrl->setParameter($this, 'sequence', $sequenceElement);
+		$this->ctrl->setParameter($this, 'pmode', $this->getDefaultPresentationMode());
 
 		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
 	}
@@ -693,8 +691,8 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 			$this->getSequenceElementParameter()
 		);
 
-		$this->testSession->setLastSequence($sequenceElement);
-		$this->testSession->saveToDb();
+		$this->ctrl->setParameter($this, 'sequence', $sequenceElement);
+		$this->ctrl->setParameter($this, 'pmode', $this->getDefaultPresentationMode());
 
 		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
 	}
@@ -717,18 +715,6 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		}
 
 		return null;
-	}
-
-	protected function determinePresentationMode()
-	{
-		$presentationMode = $this->getPresentationModeParameter();
-
-		if( $presentationMode === null )
-		{
-			$presentationMode = $this->getDefaultPresentationMode();
-		}
-
-		return $presentationMode;
 	}
 
 	protected function isFirstPageInSequence($sequence)

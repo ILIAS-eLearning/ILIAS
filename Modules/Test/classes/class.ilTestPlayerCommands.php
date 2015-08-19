@@ -12,5 +12,7 @@ class ilTestPlayerCommands
 {
 	const SHOW_QUESTION = 'showQuestion';
 
+	const QUESTION_SUMMARY = 'outQuestionSummary';
+
 	const FINISH_TEST = 'finishTest';
 }
