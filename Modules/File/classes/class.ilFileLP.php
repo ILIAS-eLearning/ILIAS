@@ -15,7 +15,7 @@ class ilFileLP extends ilObjectLP
 	 */
 	public function getDefaultMode()
 	{
-		return ilLPObjSettings::LP_MODE_DOWNLOADED;
+		return ilLPObjSettings::LP_MODE_DEACTIVATED;
 	}
 
 	public function getValidModes()
