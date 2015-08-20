@@ -902,6 +902,9 @@ assessment#:#save_edit#:#Speichern und Inhalt bearbeiten
 assessment#:#finish_test#:#Test beenden
 assessment#:#next_question#:#Weiter
 assessment#:#previous_question#:#Zurück
+assessment#:#submit_answer#:#Antwort einreichen
+assessment#:#discard_answer#:#Antwort verwerfen
+assessment#:#edit_answer#:#Antwort bearbeiten
 assessment#:#save_text_answer_points#:#Punkte der Textfragen speichern
 assessment#:#saveOrder#:#Sortierung abspeichern
 assessment#:#saveOrderAndObligations#:#Sortierung und Obligationen abspeichern
