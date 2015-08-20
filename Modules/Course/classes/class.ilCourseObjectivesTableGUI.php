@@ -283,16 +283,6 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
 				$this->ctrl->getLinkTargetByClass('ilcourseobjectivesgui', 'finalTestAssignment')
 		);
 		
-		if($this->getSettings()->isQualifiedTestPerObjectiveVisible())
-		{
-			$this->ctrl->setParameterByClass('ilconditionhandlerinterface','objective_id',$a_set['id']);
-			$alist->addItem(
-					$this->lng->txt('preconditions'),
-					'',
-					$this->ctrl->getLinkTargetByClass('ilconditionhandlerinterface','listConditions')
-			);
-		}
-		
 		$this->ctrl->setParameterByClass('illopagegui','objective_id',$a_set['id']);
 		$alist->addItem(
 				$this->lng->txt('edit_page'),

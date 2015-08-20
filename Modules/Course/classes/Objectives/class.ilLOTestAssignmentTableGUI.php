@@ -16,8 +16,13 @@ include_once './Modules/Course/exceptions/class.ilLOInvalidConfiguationException
 */
 class ilLOTestAssignmentTableGUI extends ilTable2GUI
 {
+	const TYPE_MULTIPLE_ASSIGNMENTS = 1;
+	const TYPE_SINGLE_ASSIGNMENTS = 2;
+	
 	private $test_type = 0;
+	private $assignment_type = self::TYPE_SINGLE_ASSIGNMENTS;
 	private $settings = NULL;
+	private $container_id = 0;
 	
 	
 	/**
@@ -26,9 +31,12 @@ class ilLOTestAssignmentTableGUI extends ilTable2GUI
 	 * @param type $a_parent_cmd
 	 * @param type $a_test_type
 	 */
-	public function __construct($a_parent_obj, $a_parent_cmd, $a_container_id, $a_test_type)
+	public function __construct($a_parent_obj, $a_parent_cmd, $a_container_id, $a_test_type, $a_assignment_type = self::TYPE_SINGLE_ASSIGNMENTS)
 	{
 		$this->test_type = $a_test_type;
+		$this->assignment_type = $a_assignment_type;
+		$this->container_id = $a_container_id;
+		
 		$this->setId('obj_loc_'.$a_container_id);
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		
@@ -44,6 +52,11 @@ class ilLOTestAssignmentTableGUI extends ilTable2GUI
 		return $this->settings;
 	}
 	
+	public function getAssignmentType()
+	{
+		return $this->assignment_type;
+	}
+	
 	/**
 	 * Init table
 	 */
@@ -51,16 +64,31 @@ class ilLOTestAssignmentTableGUI extends ilTable2GUI
 	{
 		$this->addColumn('','', '20px');
 		$this->addColumn($this->lng->txt('title'),'title');
+		
+		if($this->getAssignmentType() == self::TYPE_MULTIPLE_ASSIGNMENTS)
+		{
+			$this->addColumn($this->lng->txt('crs_objectives'), 'objective');
+		}
+		
 		$this->addColumn($this->lng->txt('crs_loc_tbl_tst_type'),'ttype');
 		$this->addColumn($this->lng->txt('crs_loc_tbl_tst_qst_qpl'),'qstqpl');
 		
-		$this->addMultiCommand('confirmDeleteTest', $this->lng->txt('crs_loc_delete_assignment'));
 			 
 		$this->setRowTemplate("tpl.crs_loc_tst_row.html","Modules/Course");
 		$this->setFormAction($GLOBALS['ilCtrl']->getFormAction($this->getParentObject()));
 		
-		$this->setDefaultOrderField('title');
-		$this->setDefaultOrderDirection('asc');
+		if($this->getAssignmentType() == self::TYPE_MULTIPLE_ASSIGNMENTS)
+		{
+			$this->addMultiCommand('confirmDeleteTests', $this->lng->txt('crs_loc_delete_assignment'));
+			$this->setDefaultOrderField('objective');
+			$this->setDefaultOrderDirection('asc');
+		}
+		else
+		{
+			$this->addMultiCommand('confirmDeleteTest', $this->lng->txt('crs_loc_delete_assignment'));
+			$this->setDefaultOrderField('title');
+			$this->setDefaultOrderDirection('asc');
+		}
 	}
 	
 	/**
@@ -71,7 +99,14 @@ class ilLOTestAssignmentTableGUI extends ilTable2GUI
 	{
 		global $ilCtrl;
 		
-		$this->tpl->setVariable('VAL_ID',$set['ref_id']);
+		if($this->getAssignmentType() == self::TYPE_MULTIPLE_ASSIGNMENTS)
+		{
+			$this->tpl->setVariable('VAL_ID',$set['assignment_id']);
+		}
+		else
+		{
+			$this->tpl->setVariable('VAL_ID',$set['ref_id']);
+		}
 		$this->tpl->setVariable('VAL_TITLE',$set['title']);
 		include_once './Services/Link/classes/class.ilLink.php';
 		
@@ -81,6 +116,13 @@ class ilLOTestAssignmentTableGUI extends ilTable2GUI
 				'TITLE_LINK',
 				$ilCtrl->getLinkTargetByClass('ilobjtestgui')
 		);
+		
+		if($this->getAssignmentType() == self::TYPE_MULTIPLE_ASSIGNMENTS)
+		{
+			$this->tpl->setCurrentBlock('objectives');
+			$this->tpl->setVariable('VAL_OBJECTIVE',(string) $set['objective']);
+			$this->tpl->parseCurrentBlock();
+		}
 				
 		
 		
@@ -117,11 +159,51 @@ class ilLOTestAssignmentTableGUI extends ilTable2GUI
 		}
 	}
 	
+	public function parseMultipleAssignments()
+	{
+		include_once './Modules/Course/classes/Objectives/class.ilLOTestAssignments.php';
+		$assignments = ilLOTestAssignments::getInstance($this->container_id);
+		
+		$available = $assignments->getAssignmentsByType($this->test_type);
+		$data = array();
+		foreach($available as $assignment)
+		{
+			try
+			{
+				$tmp = $this->doParse($assignment->getTestRefId(),$assignment->getObjectiveId());
+			}
+			catch(ilLOInvalidConfigurationException $e)
+			{
+				$assignment->delete();
+				continue;
+			}
+			if($tmp)
+			{
+				// add assignment id
+				$tmp['assignment_id'] = $assignment->getAssignmentId();
+				$data[] = $tmp;
+			}
+		}
+		
+		$this->setData($data);
+	}
+	
+	/**
+	 * Parse single test assignment
+	 * @param type $a_tst_ref_id
+	 * @return boolean
+	 */
+	public function parse($a_tst_ref_id)
+	{
+		$this->setData(array($this->doParse($a_tst_ref_id)));
+		return TRUE;
+	}
+	
 	/**
 	 * Parse test
 	 * throws ilLOInvalidConfigurationException in case assigned test cannot be found.
 	 */
-	public function parse($a_tst_ref_id)
+	protected function doParse($a_tst_ref_id, $a_objective_id = 0)
 	{
 		include_once './Modules/Test/classes/class.ilObjTest.php';
 		$tst = ilObjectFactory::getInstanceByRefId($a_tst_ref_id,false);
@@ -134,6 +216,13 @@ class ilLOTestAssignmentTableGUI extends ilTable2GUI
 		$tst_data['title'] = $tst->getTitle();
 		$tst_data['description'] = $tst->getLongDescription();
 		$tst_data['ttype'] = $tst->getQuestionSetType();
+
+		
+		if($this->getAssignmentType() == self::TYPE_MULTIPLE_ASSIGNMENTS)
+		{
+			include_once './Modules/Course/classes/class.ilCourseObjective.php';
+			$tst_data['objective'] = ilCourseObjective::lookupObjectiveTitle($a_objective_id);
+		}
 		
 		switch($tst->getQuestionSetType())
 		{
@@ -188,9 +277,7 @@ class ilLOTestAssignmentTableGUI extends ilTable2GUI
 				}
 				break;
 		}
-		
-		
-		$this->setData(array($tst_data));
+		return $tst_data;
 	}
 }
 ?>
