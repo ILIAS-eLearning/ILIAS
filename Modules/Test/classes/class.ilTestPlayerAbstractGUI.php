@@ -1682,7 +1682,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	
 	protected function buildTestNavigationToolbarGUI($charSelectorAvailable, $isEditState)
 	{
-		global $ilUser, $ilSetting;
+		global $ilUser;
 		
 		require_once 'Modules/Test/classes/class.ilTestNavigationToolbarGUI.php';
 		$navigationToolbarGUI = new ilTestNavigationToolbarGUI($this->ctrl, $this->lng, $this);
@@ -1691,7 +1691,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$navigationToolbarGUI->setQuestionListButtonEnabled($this->object->getListOfQuestions());
 		$navigationToolbarGUI->setQuestionTreeButtonEnabled($this->object->getListOfQuestions());
 		$navigationToolbarGUI->setQuestionTreeVisible($ilUser->getPref('side_list_of_questions'));
-		$navigationToolbarGUI->setCharSelectorButtonEnabled($charSelectorAvailable);
 		$navigationToolbarGUI->setFinishTestCommand($this->getFinishTestCommand());
 
 		$navigationToolbarGUI->setDisabledStateEnabled($isEditState);
@@ -1707,12 +1706,35 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$navigationGUI = new ilTestQuestionNavigationGUI($this->lng);
 		
 		$navigationGUI->setEditSolutionCommand('editSolution');
-		$this->populateMarkerConfigToQuestionNavigationGUI($navigationGUI, $questionId);
+
+		if($this->object->getShowMarker())
+		{
+			include_once "./Modules/Test/classes/class.ilObjTest.php";
+			$solved_array = ilObjTest::_getSolvedQuestions($this->testSession->getActiveId(), $questionId);
+			$solved = 0;
+
+			if(count($solved_array) > 0)
+			{
+				$solved = array_pop($solved_array);
+				$solved = $solved["solved"];
+			}
+
+			if($solved == 1)
+			{
+				$navigationGUI->setQuestionMarkCommand('unmarkQuestion');
+				$navigationGUI->setQuestionMarked(true);
+			}
+			else
+			{
+				$navigationGUI->setQuestionMarkCommand('markQuestion');
+				$navigationGUI->setQuestionMarked(false);
+			}
+		}
 
 		return $navigationGUI;
 	}
 	
-	protected function buildEditableStateQuestionNavigationGUI($questionId)
+	protected function buildEditableStateQuestionNavigationGUI($questionId, $charSelectorAvailable)
 	{
 		require_once 'Modules/Test/classes/class.ilTestQuestionNavigationGUI.php';
 		$navigationGUI = new ilTestQuestionNavigationGUI($this->lng);
@@ -1751,37 +1773,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			}
 		}
 
+		$navigationGUI->setCharSelectorButtonEnabled($charSelectorAvailable);
+
 		return $navigationGUI;
-	}
-
-	/**
-	 * @param integer $questionId
-	 * @param ilTestQuestionNavigationGUI $navigationGUI
-	 */
-	protected function populateMarkerConfigToQuestionNavigationGUI(ilTestQuestionNavigationGUI $navigationGUI, $questionId)
-	{
-		if($this->object->getShowMarker())
-		{
-			include_once "./Modules/Test/classes/class.ilObjTest.php";
-			$solved_array = ilObjTest::_getSolvedQuestions($this->testSession->getActiveId(), $questionId);
-			$solved = 0;
-
-			if(count($solved_array) > 0)
-			{
-				$solved = array_pop($solved_array);
-				$solved = $solved["solved"];
-			}
-
-			if($solved == 1)
-			{
-				$navigationGUI->setQuestionMarkCommand('unmarkQuestion');
-				$navigationGUI->setQuestionMarked(true);
-			} else
-			{
-				$navigationGUI->setQuestionMarkCommand('markQuestion');
-				$navigationGUI->setQuestionMarked(false);
-			}
-		}
 	}
 
 	/**

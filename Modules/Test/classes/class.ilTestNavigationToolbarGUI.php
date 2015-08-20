@@ -49,11 +49,6 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
 	private $questionTreeVisible = false;
 
 	/**
-	 * @var bool
-	 */
-	private $charSelectorButtonEnabled = false;
-
-	/**
 	 * @var string
 	 */
 	private $finishTestCommand = '';
@@ -142,22 +137,6 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
 	}
 
 	/**
-	 * @return boolean
-	 */
-	public function isCharSelectorButtonEnabled()
-	{
-		return $this->charSelectorButtonEnabled;
-	}
-
-	/**
-	 * @param boolean $charSelectorButtonEnabled
-	 */
-	public function setCharSelectorButtonEnabled($charSelectorButtonEnabled)
-	{
-		$this->charSelectorButtonEnabled = $charSelectorButtonEnabled;
-	}
-
-	/**
 	 * @return string
 	 */
 	public function getFinishTestCommand()
@@ -206,11 +185,6 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
 			$this->addQuestionTreeButton();
 		}
 
-		if( $this->isCharSelectorButtonEnabled() )
-		{
-			$this->addCharSelectorButton();
-		}
-		
 		$this->addFinishTestButton();
 	}
 	
@@ -248,16 +222,6 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
 		$this->addButtonInstance($btn);
 	}
 
-	private function addCharSelectorButton()
-	{
-		$btn = ilLinkButton::getInstance();
-		$btn->setId('charselectorbutton');
-		$btn->addCSSClass('ilCharSelectorToggle');
-		$btn->setCaption('char_selector_btn_label');
-		$btn->setDisabled($this->isDisabledStateEnabled());
-		$this->addButtonInstance($btn);
-	}
-	
 	private function addFinishTestButton()
 	{
 		$btn = ilSubmitButton::getInstance();

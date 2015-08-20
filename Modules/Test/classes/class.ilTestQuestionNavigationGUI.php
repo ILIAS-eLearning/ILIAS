@@ -378,4 +378,16 @@ class ilTestQuestionNavigationGUI
 		$tpl->setCurrentBlock('question_related_navigation');
 		$tpl->parseCurrentBlock();
 	}
+
+	private function renderCharSelectorButton(ilTemplate $tpl)
+	{
+		$button = ilLinkButton::getInstance();
+		$button->setId('charselectorbutton');
+		$button->addCSSClass('ilCharSelectorToggle');
+		$button->setCaption('char_selector_btn_label');
+
+		$tpl->setCurrentBlock("submit_button");
+		$tpl->setVariable("SUBMIT_BTN", $button->render());
+		$tpl->parseCurrentBlock();
+	}
 }
