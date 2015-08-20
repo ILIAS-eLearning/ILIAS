@@ -9105,3 +9105,20 @@ while ($rec = $ilDB->fetchAssoc($set))
 		")");
 }
 ?>
+<#4648>
+<?php
+$ilDB->query('ALTER TABLE il_dcl_record_field ADD INDEX (record_id)');
+$ilDB->query('ALTER TABLE il_dcl_record_field ADD INDEX (field_id)');
+$ilDB->query('ALTER TABLE il_dcl_record ADD INDEX (table_id)');
+$ilDB->query('ALTER TABLE il_dcl_stloc1_value ADD INDEX (record_field_id)');
+$ilDB->query('ALTER TABLE il_dcl_stloc2_value ADD INDEX (record_field_id)');
+$ilDB->query('ALTER TABLE il_dcl_stloc3_value ADD INDEX (record_field_id)');
+$ilDB->query('ALTER TABLE il_dcl_field ADD INDEX (table_id)');
+$ilDB->query('ALTER TABLE il_dcl_field_prop ADD INDEX (field_id)');
+$ilDB->query('ALTER TABLE il_dcl_field_prop ADD INDEX (datatype_prop_id)');
+$ilDB->query('ALTER TABLE il_dcl_viewdefinition ADD INDEX (view_id)');
+$ilDB->query('ALTER TABLE il_dcl_view ADD INDEX (table_id)');
+$ilDB->query('ALTER TABLE il_dcl_view ADD INDEX (type)');
+$ilDB->query('ALTER TABLE il_dcl_data ADD INDEX (main_table_id)');
+$ilDB->query('ALTER TABLE il_dcl_table ADD INDEX (obj_id)');
+?>
