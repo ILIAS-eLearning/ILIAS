@@ -450,13 +450,19 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 			$this->populateInstantResponseBlocks($questionGui);
 		}
 
-		$this->populateQuestionNavigation($presentationMode, $sequenceElement);
+		$this->populateQuestionNavigation(
+			$sequenceElement, $presentationMode == ilTestPlayerAbstractGUI::PRESENTATION_MODE_EDIT
+		);
 		$this->populateIntermediateSolutionSaver($questionGui);
 		$this->populateObligationIndicatorIfRequired($questionGui);
 	}
 
 	protected function showQuestionViewable(assQuestionGUI $questionGui)
 	{
+		$questionGui->setNavigationGUI($this->buildReadOnlyStateQuestionNavigationGUI(
+			$questionGui->object->getId()
+		));
+		
 		$solutionoutput = $questionGui->getSolutionOutput(
 			$this->testSession->getActiveId(), 	#active_id
 			null, 								#pass
@@ -491,7 +497,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 			$instantResponse && $this->object->getSpecificAnswerFeedback()
 		);
 
-		if ( isset($_SESSION['previouspost']) )
+		if( isset($_GET['save_error']) && $_GET['save_error'] == 1 && isset($_SESSION['previouspost']) )
 		{
 			$userPostSolution = $_SESSION['previouspost'];
 			unset($_SESSION['previouspost']);
@@ -519,28 +525,33 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
 	protected function editSolutionCmd()
 	{
-		// set edit state for question and redirect to showQuestion
+		$this->ctrl->setParameter($this, 'pmode', ilTestPlayerAbstractGUI::PRESENTATION_MODE_EDIT);
+		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
 	}
 
 	protected function submitSolutionCmd()
 	{
-		if (array_key_exists("save_error", $_GET))
+		if( $this->saveQuestionSolution() )
 		{
-			if ($_GET["save_error"] == 1)
-			{
-				// return to editable view
-			}
+			$this->ctrl->setParameter($this, 'pmode', ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW);
 		}
 
-		// save solution !!!
-
-		// set read only state for question
-		// redirect to showQuestion OR nextQuestion
+		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
 	}
 
 	protected function discardSolutionCmd()
 	{
+		// remove existing solution
+		// reset answered state
 
+		$sequenceElement = $this->testSequence->getNextSequence(
+			$this->getSequenceElementParameter()
+		);
+
+		$this->ctrl->setParameter($this, 'sequence', $sequenceElement);
+		$this->ctrl->setParameter($this, 'pmode', $this->getDefaultPresentationMode());
+
+		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
 	}
 
 	protected function nextQuestionCmd()

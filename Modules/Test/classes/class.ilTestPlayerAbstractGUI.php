@@ -243,7 +243,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	{
 		$button = ilLinkButton::getInstance();
 		$button->setPrimary( $disabled ? false : true );
-		$button->setUrl($this->ctrl->getLinkTarget($this, ilTestPlayerCommands::PREVIOUS_QUESTION));
+		$button->setUrl($this->ctrl->getLinkTarget($this, ilTestPlayerCommands::NEXT_QUESTION));
 		$button->setCaption('next_question');
 		$button->setId('bottomnextbutton');
 		$button->setDisabled($disabled);
@@ -257,7 +257,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	{
 		$button = ilLinkButton::getInstance();
 		$button->setPrimary( $disabled ? false : true );
-		$button->setUrl($this->ctrl->getLinkTarget($this, ilTestPlayerCommands::PREVIOUS_QUESTION));
+		$button->setUrl($this->ctrl->getLinkTarget($this, ilTestPlayerCommands::NEXT_QUESTION));
 		$button->setCaption('next_question');
 		$button->setId('nextbutton');
 		$button->setDisabled($disabled);
@@ -1752,9 +1752,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 				$navigationGUI->setShowHintsCommand('showRequestedHintList');
 			}
 		}
-
-		// marking
-		$this->populateMarkerConfigToQuestionNavigationGUI($navigationGUI, $questionId);
 
 		return $navigationGUI;
 	}
