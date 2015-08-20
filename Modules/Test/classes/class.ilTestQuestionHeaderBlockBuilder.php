@@ -51,6 +51,11 @@ class ilTestQuestionHeaderBlockBuilder implements ilQuestionHeaderBlockBuilder
 	 */
 	protected $questionObligatory;
 
+	/**
+	 * @var string
+	 */
+	protected $questionRelatedObjectives;
+
 	function __construct(ilLanguage $lng)
 	{
 		$this->lng = $lng;
@@ -62,6 +67,7 @@ class ilTestQuestionHeaderBlockBuilder implements ilQuestionHeaderBlockBuilder
 		$this->questionCount = 0;
 		$this->questionPostponed = false;
 		$this->questionObligatory = false;
+		$this->questionRelatedObjectives = '';
 	}
 
 	/**
@@ -175,6 +181,22 @@ class ilTestQuestionHeaderBlockBuilder implements ilQuestionHeaderBlockBuilder
 	{
 		$this->questionObligatory = $questionObligatory;
 	}
+
+	/**
+	 * @return string
+	 */
+	public function getQuestionRelatedObjectives()
+	{
+		return $this->questionRelatedObjectives;
+	}
+
+	/**
+	 * @param string $questionRelatedObjectives
+	 */
+	public function setQuestionRelatedObjectives($questionRelatedObjectives)
+	{
+		$this->questionRelatedObjectives = $questionRelatedObjectives;
+	}
 	
 	protected function buildQuestionPositionString()
 	{
@@ -211,6 +233,17 @@ class ilTestQuestionHeaderBlockBuilder implements ilQuestionHeaderBlockBuilder
 		
 		return '';
 	}
+	
+	protected function buildQuestionRelatedObjectivesString()
+	{
+		if( strlen($this->getQuestionRelatedObjectives()) )
+		{
+			$label = $this->lng->txt('tst_res_lo_objectives_header');
+			return '<div class="ilTestQuestionRelatedObjectivesInfo">'.$label.': '.$this->getQuestionRelatedObjectives();
+		}
+		
+		return '';
+	}
 
 	public function getHTML()
 	{
@@ -239,6 +272,8 @@ class ilTestQuestionHeaderBlockBuilder implements ilQuestionHeaderBlockBuilder
 				$headerBlock .= $this->buildQuestionPointsString();
 				$headerBlock .= $this->buildQuestionObligatoryString();
 		}
+
+		$headerBlock .= $this->buildQuestionRelatedObjectivesString();
 
 		return $headerBlock;
 	}

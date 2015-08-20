@@ -506,6 +506,16 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		$headerBlockBuilder->setQuestionObligatory(
 			$this->object->areObligationsEnabled() && ilObjTest::isQuestionObligatory($this->object->getId())
 		);
+		if( $this->testSession->isObjectiveOriented() )
+		{
+			require_once 'Modules/Course/classes/Objectives/class.ilLOTestQuestionAdapter.php';
+			$objectivesAdapter = ilLOTestQuestionAdapter::getInstance($this->testSession);
+			$objectivesAdapter->buildQuestionRelatedObjectiveList($this->questionRelatedObjectivesList);
+			$this->questionRelatedObjectivesList->loadObjectivesTitles();
+			
+			$objectivesString = $this->questionRelatedObjectivesList->getQuestionRelatedObjectiveTitle($questionId);
+			$headerBlockBuilder->setQuestionRelatedObjectives($objectivesString);
+		}
 		$question_gui->setQuestionHeaderBlockBuilder($headerBlockBuilder);
 		
 		// output question

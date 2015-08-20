@@ -131,6 +131,13 @@ div.ilc_Question {
 	border-color: #000000;
 }
 
+.ilTestQuestionRelatedObjectivesInfo
+{
+    font-size: 0.7em;
+    font-style: italic;
+    margin: 5px 0;
+}
+
 .questionPrintview {
 	border: 1px solid #C0C0C0;
 	padding: 0.25em;
