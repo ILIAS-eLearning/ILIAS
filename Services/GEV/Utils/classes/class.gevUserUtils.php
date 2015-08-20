@@ -242,10 +242,9 @@ class gevUserUtils {
 	}
 	
 	static public function getInstance($a_user_id) {
-
 		if($a_user_id === null) {
 			throw new Exception("gevUserUtils::getInstance: ".
-									"No User ID given.");
+								"No Usersdfsdfsdf ID given.");
 		}
 
 		if(!self::userIdExists($a_user_id)) {
@@ -1681,7 +1680,7 @@ class gevUserUtils {
 			   ."              )"
 			   ."       )"
 			   ;
-			
+		
 		$res = $this->db->query($sql);
 		if ($rec = $this->db->fetchAssoc($res)) {
 			return $rec["cnt"] == 0;
