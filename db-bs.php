@@ -72,7 +72,7 @@ if($ilDB->tableExists('addressbook'))
 		INNER JOIN addressbook a2 ON a2.user_id = ud2.usr_id AND a2.login = ud1.login
 		WHERE ud1.usr_id != ud2.usr_id
 	";
-	$res = $ilDB->query($res);
+	$res = $ilDB->query($query);
 	while($row = $ilDB->fetchAssoc($res))
 	{
 		$this->db->replace(
@@ -93,7 +93,7 @@ if($ilDB->tableExists('addressbook'))
 				'buddy_usr_id' => array('integer', $row['u1'])
 			),
 			array(
-				'twes' => array('integer', time())
+				'ts' => array('integer', time())
 			)
 		);
 	}
@@ -107,7 +107,7 @@ if($ilDB->tableExists('addressbook'))
 		WHERE a2.addr_id IS NULL AND ud1.usr_id != ud2.usr_id
 	";
 	$res = $ilDB->query($query);
-	while($row = $ilDB->fetchAssoc($query))
+	while($row = $ilDB->fetchAssoc($res))
 	{
 		$this->db->replace(
 			'buddylist_requests',
@@ -121,6 +121,7 @@ if($ilDB->tableExists('addressbook'))
 			)
 		);
 	}
+
 	$ilDB->dropTable('addressbook');
 }
 if($ilDB->sequenceExists('addressbook'))
