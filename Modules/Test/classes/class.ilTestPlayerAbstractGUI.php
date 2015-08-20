@@ -154,8 +154,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
 	abstract protected function canSaveResult();
 
-	abstract protected function outWorkingForm($sequenceElement, $presentationMode, $instantResponse);
-
 	/**
 	* Creates the introduction page for a test
 	*
@@ -981,7 +979,10 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		}
 		return $template->get();
 	}
-	
+
+	/**
+	 * @return string $formAction
+	 */
 	protected function prepareTestPage()
 	{
 		global $ilUser;
@@ -1016,8 +1017,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		{
 			$this->outProcessingTime($this->testSession->getActiveId());
 		}
-
-		$this->tpl->setVariable("FORM_TIMESTAMP", time());
 		
 		$this->tpl->setVariable("PAGETITLE", "- " . $this->object->getTitle());
 		
@@ -1030,6 +1029,23 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			$this->tpl->setVariable('EXAM_ID_TXT', $this->lng->txt('exam_id'));
 			$this->tpl->parseCurrentBlock();
 		}
+
+		if ($this->object->getListOfQuestions())
+		{
+			$this->showSideList();
+		}
+
+		$charSelectorAvailable = $this->populateCharSelectorIfRequired();
+
+		$this->populateTestNavigationToolbar(
+			$this->buildTestNavigationToolbarGUI($charSelectorAvailable, true)
+		);
+
+		$formAction = $this->ctrl->getFormAction($this);
+		$this->tpl->setVariable('FORMACTION', $formAction);
+		$this->tpl->setVariable("FORM_TIMESTAMP", time());
+		
+		return $formAction;
 	}
 
 	abstract protected function showQuestionCmd();
@@ -1867,5 +1883,83 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		}
 
 		return 'outQuestionSummary';
+	}
+
+	/**
+	 * @param assQuestionGUI $questionGui
+	 */
+	protected function populateIntermediateSolutionSaver(assQuestionGUI $questionGui)
+	{
+		$this->tpl->addJavaScript(ilUtil::getJSLocation("autosave.js", "Modules/Test"));
+		$this->tpl->setVariable("AUTOSAVE_URL", $this->ctrl->getFormAction($this, "autosave", "", true));
+
+		if( $questionGui->isAutosaveable() && $this->object->getAutosave() )
+		{
+			$this->tpl->touchBlock('autosave');
+			$this->tpl->setVariable("AUTOSAVEFORMACTION", $this->ctrl->getLinkTarget($this, 'autosave', '', false, false));
+			$this->tpl->setVariable("AUTOSAVEINTERVAL", $this->object->getAutosaveIval());
+		}
+	}
+
+	/**
+	 * @param assQuestionGUI $questionGui
+	 */
+	protected function populateObligationIndicatorIfRequired(assQuestionGUI $questionGui)
+	{
+		if($this->object->areObligationsEnabled() && ilObjTest::isQuestionObligatory($questionGui->object->getId()))
+		{
+			$this->tpl->touchBlock('question_obligatory');
+			$this->tpl->setVariable('QUESTION_OBLIGATORY', $this->lng->txt('required_field'));
+		}
+	}
+
+	/**
+	 * @param assQuestionGUI $questionGui
+	 */
+	protected function populateInstantResponseBlocks(assQuestionGUI $questionGui)
+	{
+		// This controls if the solution should be shown.
+		// It gets the parameter "Scoring and Results" -> "Instant Feedback" -> "Show Solutions"			
+		if($this->object->getInstantFeedbackSolution())
+		{
+			$show_question_inline_score = $this->determineInlineScoreDisplay();
+
+			// Notation of the params prior to getting rid of this crap in favor of a class
+			$solutionoutput = $questionGui->getSolutionOutput($this->testSession->getActiveId(),    #active_id
+				NULL,                                                #pass
+				FALSE,                                                #graphical_output
+				$show_question_inline_score,                        #result_output
+				FALSE,                                                #show_question_only
+				FALSE,                                                #show_feedback
+				TRUE,                                                #show_correct_solution
+				FALSE,                                                #show_manual_scoring
+				FALSE                                                #show_question_text
+			);
+			$this->populateSolutionBlock($solutionoutput);
+		}
+
+		// This controls if the score should be shown.
+		// It gets the parameter "Scoring and Results" -> "Instant Feedback" -> "Show Results (Only Points)"				
+		if($this->object->getAnswerFeedbackPoints())
+		{
+			$reachedPoints = $questionGui->object->getAdjustedReachedPoints($this->testSession->getActiveId(), NULL);
+			$maxPoints = $questionGui->object->getMaximumPoints();
+
+			$this->populateScoreBlock($reachedPoints, $maxPoints);
+		}
+
+		// This controls if the generic feedback should be shown.
+		// It gets the parameter "Scoring and Results" -> "Instant Feedback" -> "Show Solutions"				
+		if($this->object->getGenericAnswerFeedback())
+		{
+			$this->populateGenericFeedbackBlock($questionGui);
+		}
+
+		// This controls if the specific feedback should be shown.
+		// It gets the parameter "Scoring and Results" -> "Instant Feedback" -> "Show Answer-Specific Feedback"
+		if($this->object->getSpecificAnswerFeedback())
+		{
+			$this->populateSpecificFeedbackBlock($questionGui);
+		}
 	}
 }

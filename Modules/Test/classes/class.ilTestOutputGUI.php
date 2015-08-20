@@ -383,185 +383,16 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		
 		return true;
 	}
-
-	protected function outWorkingForm($sequence, $presentationMode, $directfeedback)
+	
+	protected function showQuestionCmd()
 	{
-		global $ilUser;
+		$_SESSION['tst_pass_finish'] = 0;
 
 		$_SESSION["active_time_id"]= $this->object->startWorkingTime(
 			$this->testSession->getActiveId(), $this->testSession->getPass()
 		);
 
-		if ($this->object->getListOfQuestions())
-		{
-			$this->showSideList();
-		}
-
-		$questionId = $this->testSequence->getQuestionForSequence($sequence);
-		
-		if( !(int)$questionId && $this->testSession->isObjectiveOriented() )
-		{
-			ilUtil::sendFailure(
-				sprintf($this->lng->txt('tst_objective_oriented_test_pass_without_questions'), $this->object->getTitle()), true
-			);
-			$this->performCustomRedirect();
-		}
-		
-		$question_gui = $this->object->createQuestionGUI("", $questionId);
-		
-		if( !($question_gui instanceof assQuestionGUI) )
-		{
-			$this->handleTearsAndAngerQuestionIsNull($sequence, $questionId);
-		}
-
-		$is_postponed = $this->testSequence->isPostponedQuestion($question_gui->object->getId());
-		$this->ctrl->setParameter($this, "sequence", $sequence);
-		$formaction = $this->ctrl->getFormAction($this);
-
-		$question_gui->setSequenceNumber($this->testSequence->getPositionOfSequence($sequence));
-		$question_gui->setQuestionCount($this->testSequence->getUserQuestionCount());
-		$question_gui->setTargetGui($this);
-		$question_gui->object->setOutputType(OUTPUT_JAVASCRIPT);
-
-		// output question
-		$user_post_solution = FALSE;
-		if (array_key_exists("previouspost", $_SESSION))
-		{
-			$user_post_solution = $_SESSION["previouspost"];
-			unset($_SESSION["previouspost"]);
-		}
-
-		// Determine $answer_feedback: It should hold a boolean stating if answer-specific-feedback is to be given.
-		// It gets the parameter "Scoring and Results" -> "Instant Feedback" -> "Show Answer-Specific Feedback"
-		// $directfeedback holds a boolean stating if the instant feedback was requested using the "Check" button.
-		$answer_feedback = FALSE;
-		if (($directfeedback) && ($this->object->getSpecificAnswerFeedback()))
-		{
-			$answer_feedback = TRUE;
-		}
-
-		$charSelectorAvailable = $this->populateCharSelectorIfRequired();
-		
-		$this->populateTestNavigationToolbar(
-			$this->buildTestNavigationToolbarGUI($charSelectorAvailable, true)
-		);
-
-		if( $this->isParticipantsAnswerFixed($questionId) )
-		{
-			$solutionoutput = $question_gui->getSolutionOutput(
-				$this->testSession->getActiveId(), 	#active_id
-				NULL, 												#pass
-				FALSE, 												#graphical_output
-				false,				#result_output
-				true, 												#show_question_only
-				FALSE,												#show_feedback
-				false, 												#show_correct_solution
-				FALSE, 												#show_manual_scoring
-				true												#show_question_text
-			);
-
-			$pageoutput = $question_gui->outQuestionPage(
-				"", $this->testSequence->isPostponedQuestion($questionId),
-				$this->testSession->getActiveId(),
-				$solutionoutput
-			);
-			
-			$this->tpl->setVariable("QUESTION_OUTPUT", $pageoutput);
-			$this->tpl->setVariable("FORMACTION", $formaction);
-
-			$directfeedback = true;
-		}
-		else
-		{
-			$question_gui->setNavigationGUI($this->buildEditableStateQuestionNavigationGUI(
-				$question_gui->object->getId()
-			));
-			
-			// Answer specific feedback is rendered into the display of the test question with in the concrete question types outQuestionForTest-method.
-			// Notation of the params prior to getting rid of this crap in favor of a class
-			$question_gui->outQuestionForTest(
-				$formaction, 										#form_action
-				$this->testSession->getActiveId(), 	#active_id
-				NULL, 												#pass
-				$is_postponed, 										#is_postponed
-				$user_post_solution, 								#user_post_solution
-				$answer_feedback									#answer_feedback == inline_specific_feedback
-			);
-			// The display of specific inline feedback and specific feedback in an own block is to honor questions, which
-			// have the possibility to embed the specific feedback into their output while maintaining compatibility to
-			// questions, which do not have such facilities. E.g. there can be no "specific inline feedback" for essay
-			// questions, while the multiple-choice questions do well.
-		}
-
-		if ($directfeedback)
-		{
-			// This controls if the solution should be shown.
-			// It gets the parameter "Scoring and Results" -> "Instant Feedback" -> "Show Solutions"			
-			if ($this->object->getInstantFeedbackSolution())
-			{
-				$show_question_inline_score = $this->determineInlineScoreDisplay();
-				
-				// Notation of the params prior to getting rid of this crap in favor of a class
-				$solutionoutput = $question_gui->getSolutionOutput(
-					$this->testSession->getActiveId(), 	#active_id
-					NULL, 												#pass
-					FALSE, 												#graphical_output
-					$show_question_inline_score,						#result_output
-					FALSE, 												#show_question_only
-					FALSE,												#show_feedback
-					TRUE, 												#show_correct_solution
-					FALSE, 												#show_manual_scoring
-					FALSE												#show_question_text
-				);
-				$this->populateSolutionBlock( $solutionoutput );
-			}
-			
-			// This controls if the score should be shown.
-			// It gets the parameter "Scoring and Results" -> "Instant Feedback" -> "Show Results (Only Points)"				
-			if ($this->object->getAnswerFeedbackPoints())
-			{
-				$reachedPoints = $question_gui->object->getAdjustedReachedPoints($this->testSession->getActiveId(), NULL);
-				$maxPoints = $question_gui->object->getMaximumPoints();
-
-				$this->populateScoreBlock( $reachedPoints, $maxPoints );
-			}
-			
-			// This controls if the generic feedback should be shown.
-			// It gets the parameter "Scoring and Results" -> "Instant Feedback" -> "Show Solutions"				
-			if ($this->object->getGenericAnswerFeedback())
-			{
-				$this->populateGenericFeedbackBlock( $question_gui );
-			}
-			
-			// This controls if the specific feedback should be shown.
-			// It gets the parameter "Scoring and Results" -> "Instant Feedback" -> "Show Answer-Specific Feedback"
-			if ($this->object->getSpecificAnswerFeedback())
-			{
-				$this->populateSpecificFeedbackBlock( $question_gui );				
-			}
-		}
-
-		$this->populateQuestionNavigation($sequence);
-
-		$this->tpl->addJavaScript(ilUtil::getJSLocation("autosave.js", "Modules/Test"));
-		$this->tpl->setVariable("AUTOSAVE_URL", $this->ctrl->getFormAction($this, "autosave", "", true));
-		if ($question_gui->isAutosaveable()&& $this->object->getAutosave())
-		{
-			$this->tpl->touchBlock('autosave');
-			$this->tpl->setVariable("AUTOSAVEFORMACTION", str_replace("&amp;", "&", $this->ctrl->getLinkTarget($this, "autosave")));
-			$this->tpl->setVariable("AUTOSAVEINTERVAL", $this->object->getAutosaveIval());
-		}
-		
-		if( $this->object->areObligationsEnabled() && ilObjTest::isQuestionObligatory($question_gui->object->getId()) )
-		{
-		    $this->tpl->touchBlock('question_obligatory');
-		    $this->tpl->setVariable('QUESTION_OBLIGATORY', $this->lng->txt('required_field'));
-		}
-	}
-	
-	protected function showQuestionCmd()
-	{
-		$_SESSION['tst_pass_finish'] = 0;
+		$formAction = $this->prepareTestPage();
 
 		$sequenceElement = $this->getSequenceElementParameter();
 		$presentationMode = $this->getPresentationModeParameter();
@@ -576,31 +407,117 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		$this->testSession->setLastPresentationMode($presentationMode);
 		$this->testSession->saveToDb();
 
+		$questionId = $this->testSequence->getQuestionForSequence($sequenceElement);
+
+		if( !(int)$questionId && $this->testSession->isObjectiveOriented() )
+		{
+			ilUtil::sendFailure(
+				sprintf($this->lng->txt('tst_objective_oriented_test_pass_without_questions'), $this->object->getTitle()), true
+			);
+			
+			$this->performCustomRedirect();
+		}
+
+		if( $this->isParticipantsAnswerFixed($questionId) )
+		{
+			$presentationMode = ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW;
+			$instantResponse = true;
+		}
+
+		$questionGui = $this->object->createQuestionGUI("", $questionId);
+		$questionGui->setSequenceNumber($this->testSequence->getPositionOfSequence($sequenceElement));
+		$questionGui->setQuestionCount($this->testSequence->getUserQuestionCount());
+		$questionGui->setTargetGui($this);
+		$questionGui->object->setOutputType(OUTPUT_JAVASCRIPT);
+
+		if( !($questionGui instanceof assQuestionGUI) )
+		{
+			$this->handleTearsAndAngerQuestionIsNull($sequenceElement, $questionId);
+		}
+
 		switch($presentationMode)
 		{
 			case ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW:
 
-				$this->showQuestionViewable($sequenceElement, $instantResponse);
+				$this->showQuestionViewable($questionGui);
 				break;
 
 			case ilTestPlayerAbstractGUI::PRESENTATION_MODE_EDIT:
 
-				$this->showQuestionEditable($sequenceElement, $instantResponse);
+				$this->showQuestionEditable($questionGui, $instantResponse, $formAction);
 				break;
 		}
+
+		if ($instantResponse)
+		{
+			$this->populateInstantResponseBlocks($questionGui);
+		}
+
+		$this->populateQuestionNavigation($sequenceElement);
+		$this->populateIntermediateSolutionSaver($questionGui);
+		$this->populateObligationIndicatorIfRequired($questionGui);
 	}
 
-	protected function showQuestionViewable($sequenceElement, $instantResponse)
+	protected function showQuestionViewable(assQuestionGUI $questionGui)
 	{
+		$solutionoutput = $questionGui->getSolutionOutput(
+			$this->testSession->getActiveId(), 	#active_id
+			NULL, 								#pass
+			FALSE, 								#graphical_output
+			false,								#result_output
+			true, 								#show_question_only
+			FALSE,								#show_feedback
+			false, 								#show_correct_solution
+			FALSE, 								#show_manual_scoring
+			true								#show_question_text
+		);
 
+		$pageoutput = $questionGui->outQuestionPage(
+			"",
+			$this->testSequence->isPostponedQuestion($questionGui->object->getId()),
+			$this->testSession->getActiveId(),
+			$solutionoutput
+		);
+
+		$this->tpl->setVariable('QUESTION_OUTPUT', $pageoutput);
 	}
 
-	protected function showQuestionEditable($sequenceElement, $instantResponse)
+	protected function showQuestionEditable(assQuestionGUI $questionGui, $instantResponse, $formAction)
 	{
-		$directfeedback = $instantResponse;
+		$questionGui->setNavigationGUI($this->buildEditableStateQuestionNavigationGUI(
+			$questionGui->object->getId()
+		));
 
-		$this->prepareTestPage();
-		$this->outWorkingForm($sequenceElement, $directfeedback);
+		$isPostponed = $this->testSequence->isPostponedQuestion($questionGui->object->getId());
+
+		$answerFeedbackEnabled = (
+			$instantResponse && $this->object->getSpecificAnswerFeedback()
+		);
+
+		if ( isset($_SESSION['previouspost']) )
+		{
+			$userPostSolution = $_SESSION['previouspost'];
+			unset($_SESSION['previouspost']);
+		}
+		else
+		{
+			$userPostSolution = false;
+		}
+
+		// Answer specific feedback is rendered into the display of the test question with in the concrete question types outQuestionForTest-method.
+		// Notation of the params prior to getting rid of this crap in favor of a class
+		$questionGui->outQuestionForTest(
+			$formAction, 							#form_action
+			$this->testSession->getActiveId(),		#active_id
+			NULL, 									#pass
+			$isPostponed, 							#is_postponed
+			$userPostSolution, 						#user_post_solution
+			$answerFeedbackEnabled					#answer_feedback == inline_specific_feedback
+		);
+		// The display of specific inline feedback and specific feedback in an own block is to honor questions, which
+		// have the possibility to embed the specific feedback into their output while maintaining compatibility to
+		// questions, which do not have such facilities. E.g. there can be no "specific inline feedback" for essay
+		// questions, while the multiple-choice questions do well.
 	}
 
 	protected function editSolutionCmd()
