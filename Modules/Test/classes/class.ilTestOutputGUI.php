@@ -392,8 +392,6 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 			$this->testSession->getActiveId(), $this->testSession->getPass()
 		);
 
-		$formAction = $this->prepareTestPage();
-
 		$sequenceElement = $this->getSequenceElementParameter();
 		$presentationMode = $this->getPresentationModeParameter();
 		$instantResponse = false;
@@ -423,13 +421,16 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 			$presentationMode = ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW;
 			$instantResponse = true;
 		}
-
+		
 		$questionGui = $this->buildQuestionGUI($questionId, $sequenceElement);
 
 		if( !($questionGui instanceof assQuestionGUI) )
 		{
-			$this->handleTearsAndAngerQuestionIsNull($sequenceElement, $questionId);
+			$this->handleTearsAndAngerQuestionIsNull($questionId, $sequenceElement);
 		}
+
+		$formAction = $this->ctrl->getFormAction($this);
+		$this->prepareTestPage($presentationMode, $formAction);
 
 		switch($presentationMode)
 		{
@@ -449,7 +450,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 			$this->populateInstantResponseBlocks($questionGui);
 		}
 
-		$this->populateQuestionNavigation($sequenceElement);
+		$this->populateQuestionNavigation($presentationMode, $sequenceElement);
 		$this->populateIntermediateSolutionSaver($questionGui);
 		$this->populateObligationIndicatorIfRequired($questionGui);
 	}
@@ -854,13 +855,13 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 	 * @param $questionId
 	 * @param $ilLog
 	 */
-	protected function handleTearsAndAngerQuestionIsNull($sequence, $questionId)
+	protected function handleTearsAndAngerQuestionIsNull($questionId, $sequenceElement)
 	{
 		global $ilLog;
 
 		$ilLog->write("INV SEQ:"
 			."active={$this->testSession->getActiveId()} "
-			."qId=$questionId seq=$sequence "
+			."qId=$questionId seq=$sequenceElement "
 			. serialize($this->testSequence)
 		);
 

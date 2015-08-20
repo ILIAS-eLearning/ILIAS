@@ -799,8 +799,8 @@ assessment#:#save_before_upload_javaapplet#:#Java applet yüklemeden önce deği
 assessment#:#save_edit#:#Kaydet ve İçerik Düzenle
 assessment#:#finish_test#:#Testi Bitir
 assessment#:#save_introduction#:#Başlangıca Git
-assessment#:#save_next#:#Sonraki
-assessment#:#save_previous#:#Önceki
+assessment#:#next_question#:#Sonraki
+assessment#:#previous_question#:#Önceki
 assessment#:#save_text_answer_points#:#Deneme Puanları Kaydet
 assessment#:#saveOrder#:#Sıralama Kaydet
 assessment#:#saveOrderAndObligations#:#Sıralama ve Yükümlülükleri Kaydet

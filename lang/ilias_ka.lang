@@ -799,8 +799,8 @@ assessment#:#save_before_upload_javaapplet#:#თქვენ უნდა გა
 assessment#:#save_edit#:#შევინახოთ და დავარედაქტიროთ შინაარსი
 assessment#:#finish_test#:#ტესტის დასრულება
 assessment#:#save_introduction#:#წავიდეთ წინასიტყვაობასთან
-assessment#:#save_next#:#შემდეგეი
-assessment#:#save_previous#:#წინა
+assessment#:#next_question#:#შემდეგეი
+assessment#:#previous_question#:#წინა
 assessment#:#save_text_answer_points#:#შევინახოთ ესსეს ქულები
 assessment#:#saveOrder#:#თანმიმდევრობის შენახვა
 assessment#:#saveOrderAndObligations#:#Save Order and Obligations

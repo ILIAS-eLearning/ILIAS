@@ -786,8 +786,8 @@ assessment#:#save_edit#:#Tartalom mentése és előnézet
 assessment#:#finish_test#:#Teszt befejezése
 assessment#:#save_introduction#:#Ugrás a bevezető üzenethez
 assessment#:#save_back_to_objective_container#:#Ugrás a kurzushoz
-assessment#:#save_next#:#Következő
-assessment#:#save_previous#:#Előző
+assessment#:#next_question#:#Következő
+assessment#:#previous_question#:#Előző
 assessment#:#save_text_answer_points#:#Esszé pontjainak mentése
 assessment#:#scored_pass#:#Értékelt kitöltés
 assessment#:#scoring#:#Pontozás és eredmények

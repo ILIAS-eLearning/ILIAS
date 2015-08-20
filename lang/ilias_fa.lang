@@ -760,8 +760,8 @@ assessment#:#save_before_upload_javaapplet#:#You must apply your changes before 
 assessment#:#save_edit#:#ذخیره و ویرایش محتوا
 assessment#:#finish_test#:#تمام کردن تست
 assessment#:#save_introduction#:#برو به معرفی
-assessment#:#save_next#:#Next
-assessment#:#save_previous#:#Previous
+assessment#:#next_question#:#Next
+assessment#:#previous_question#:#Previous
 assessment#:#save_text_answer_points#:#Save Essay Points
 assessment#:#saveOrder#:#ذخیره ترتیب
 assessment#:#scored_pass#:#دوره امتیازدهی شده

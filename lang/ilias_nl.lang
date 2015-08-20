@@ -1048,8 +1048,8 @@ assessment#:#save_before_upload_javaapplet#:#Je moet wijzigingen aanbrengen voor
 assessment#:#save_edit#:#Opslaan en wijzig inhoud
 assessment#:#finish_test#:#Sla toets op en sluit toets af
 assessment#:#save_introduction#:#Sla op en ga naar introductie
-assessment#:#save_next#:#Sla op en ga naar volgende vraag
-assessment#:#save_previous#:#Sla op en ga naar vorige vraag
+assessment#:#next_question#:#Sla op en ga naar volgende vraag
+assessment#:#previous_question#:#Sla op en ga naar vorige vraag
 assessment#:#save_text_answer_points#:#Sla kort antwoord vraag punten op
 assessment#:#scored_pass#:#score geslaagd
 assessment#:#score_partsol_enabled#:#Scoren van gedeeltelijke oplossingen

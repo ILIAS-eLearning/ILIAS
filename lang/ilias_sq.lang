@@ -405,8 +405,8 @@ assessment#:#save_before_upload_javaapplet#:#Duhet të aplikoni ndryshimet para 
 assessment#:#save_edit#:#Ruaj dhe Edito përmbajtjen
 assessment#:#finish_test#:#Përfundo testin
 assessment#:#save_introduction#:#Shko te parathënia
-assessment#:#save_next#:#Vazhdo
-assessment#:#save_previous#:#Mbrapa
+assessment#:#next_question#:#Vazhdo
+assessment#:#previous_question#:#Mbrapa
 assessment#:#save_text_answer_points#:#Ruaj pikët e pyetjes tekstuale###25 Jun 2005 content changed
 assessment#:#scored_pass#:#Scored pass###10 Jul 2006 new variable
 assessment#:#search_found_groups#:#Grupe të gjetura

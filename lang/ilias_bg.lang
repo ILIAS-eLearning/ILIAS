@@ -345,8 +345,8 @@ assessment#:#save_before_upload_javaapplet#:#Трябва да приложит�
 assessment#:#save_edit#:#Съхранение и редактиране на съдържанието
 assessment#:#finish_test#:#Завършване на теста
 assessment#:#save_introduction#:#Към въведението
-assessment#:#save_next#:#Следващ
-assessment#:#save_previous#:#Предишен
+assessment#:#next_question#:#Следващ
+assessment#:#previous_question#:#Предишен
 assessment#:#save_text_answer_points#:#Съхраняване на точките от текстови въпрос
 assessment#:#search_found_groups#:#Намерени групи
 assessment#:#search_found_users#:#Намерени потребители

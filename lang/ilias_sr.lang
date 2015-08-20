@@ -405,8 +405,8 @@ assessment#:#save_before_upload_javaapplet#:#Morate prihvatiti vaše izmene pre 
 assessment#:#save_edit#:#Sacuvaj i izmeni sadržaj
 assessment#:#finish_test#:#Završi test
 assessment#:#save_introduction#:#Idi na uvod
-assessment#:#save_next#:#Sledece
-assessment#:#save_previous#:#Prethodno
+assessment#:#next_question#:#Sledece
+assessment#:#previous_question#:#Prethodno
 assessment#:#save_text_answer_points#:#Sacuvaj smisao teksta pitanja###25 Jun 2005 content changed
 assessment#:#scored_pass#:#Scored pass###10 Jul 2006 new variable
 assessment#:#search_found_groups#:#Pronadi grupe

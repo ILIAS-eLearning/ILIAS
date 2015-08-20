@@ -405,8 +405,8 @@ assessment#:#save_before_upload_javaapplet#:#Trebuie sa operati schimbari inaint
 assessment#:#save_edit#:#Salvati si editati continutul
 assessment#:#finish_test#:#Terminati testul
 assessment#:#save_introduction#:#Intoarcere la introducere
-assessment#:#save_next#:#Urmatorul
-assessment#:#save_previous#:#Anteriorul
+assessment#:#next_question#:#Urmatorul
+assessment#:#previous_question#:#Anteriorul
 assessment#:#save_text_answer_points#:#Salvati punctele obtinute la intrebarile din test
 assessment#:#scored_pass#:#Scored pass###10 Jul 2006 new variable
 assessment#:#search_found_groups#:#Grupuri gasite

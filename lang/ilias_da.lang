@@ -3124,8 +3124,8 @@ assessment#:#save_edit#:#Gem og ændre indhold
 assessment#:#mark_tst_ects#:#Din ECTS karakter er &quot;[markects]&quot;
 assessment#:#finish_test#:#Afslut testen
 assessment#:#save_introduction#:#Gå til introduktion
-assessment#:#save_next#:#Næste
-assessment#:#save_previous#:#Tidligere
+assessment#:#next_question#:#Næste
+assessment#:#previous_question#:#Tidligere
 assessment#:#save_text_answer_points#:#Gem point i tekstspørgsmål
 assessment#:#scored_pass#:#Scoret forsøg
 assessment#:#scoring#:#Scoring###25 10 2006 new variable

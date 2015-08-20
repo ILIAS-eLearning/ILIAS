@@ -1073,8 +1073,8 @@ assessment#:#save_before_upload_javaapplet#:#Muudatused tuleb enne java apleti �
 assessment#:#save_edit#:#Salvesta ja muuda sisu
 assessment#:#finish_test#:#Lõpeta test
 assessment#:#save_introduction#:#Mine sissejuhatusse
-assessment#:#save_next#:#Järgmine
-assessment#:#save_previous#:#Eelmine
+assessment#:#next_question#:#Järgmine
+assessment#:#previous_question#:#Eelmine
 assessment#:#save_text_answer_points#:#Salvesta essee punktid
 assessment#:#saved_adjustment#:#Changes saved.
 assessment#:#saveOrder#:#Salvesta järjekord

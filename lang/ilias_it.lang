@@ -799,8 +799,8 @@ assessment#:#save_before_upload_javaapplet#:#Devi salvare le modifiche prima di 
 assessment#:#save_edit#:#Salva e vedi il contenuto
 assessment#:#finish_test#:#Finisci il test
 assessment#:#save_introduction#:#Torna all'introduzione
-assessment#:#save_next#:#Domanda successiva
-assessment#:#save_previous#:#Domanda precedente
+assessment#:#next_question#:#Domanda successiva
+assessment#:#previous_question#:#Domanda precedente
 assessment#:#save_text_answer_points#:#Salva i punti della domanda
 assessment#:#saveOrder#:#Ordine di salvataggio
 assessment#:#saveOrderAndObligations#:#Salva Ordine e Obblighi

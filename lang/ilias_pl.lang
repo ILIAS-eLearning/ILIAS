@@ -808,8 +808,8 @@ assessment#:#save_before_upload_javaapplet#:#Musisz zastosować zmiany przed za�
 assessment#:#save_edit#:#Modyfikuj i Zapisz zawartość
 assessment#:#finish_test#:#Zachowaj i zakończ test
 assessment#:#save_introduction#:#Zachowaj i przejdź do wstępu
-assessment#:#save_next#:#Zachowaj i przejdź do następnego pytania
-assessment#:#save_previous#:#Zachowaj i przejdź do poprzedniego pytania
+assessment#:#next_question#:#Zachowaj i przejdź do następnego pytania
+assessment#:#previous_question#:#Zachowaj i przejdź do poprzedniego pytania
 assessment#:#save_text_answer_points#:#Zapisz punkty pytania tekstowego
 assessment#:#saveOrder#:#Zapisz Kolejność
 assessment#:#saveOrderAndObligations#:#Save Order and Obligations

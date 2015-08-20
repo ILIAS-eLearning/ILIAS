@@ -355,8 +355,8 @@ assessment#:#save_before_upload_javaapplet#:#Bạn phải áp dụng những tha
 assessment#:#save_edit#:#Ghi và sửa nội dung
 assessment#:#finish_test#:#Kết thúc bài kiểm tra
 assessment#:#save_introduction#:#Đi đến phần giới thiệu
-assessment#:#save_next#:#Tiếp theo
-assessment#:#save_previous#:#Trước
+assessment#:#next_question#:#Tiếp theo
+assessment#:#previous_question#:#Trước
 assessment#:#save_text_answer_points#:#Ghi điểm câu hỏi văn bản
 assessment#:#search_found_groups#:#Các nhóm tìm thấy
 assessment#:#search_found_users#:#Những người sử dụng tìm thấy

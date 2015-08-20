@@ -799,8 +799,8 @@ assessment#:#save_before_upload_javaapplet#:#You must apply your changes before 
 assessment#:#save_edit#:#Save and Edit Content
 assessment#:#finish_test#:#Finish the Test
 assessment#:#save_introduction#:#Go to Introduction
-assessment#:#save_next#:#التالي
-assessment#:#save_previous#:#Previous
+assessment#:#next_question#:#التالي
+assessment#:#previous_question#:#Previous
 assessment#:#save_text_answer_points#:#Save Essay Points
 assessment#:#saveOrder#:#Save Order
 assessment#:#saveOrderAndObligations#:#Save Order and Obligations

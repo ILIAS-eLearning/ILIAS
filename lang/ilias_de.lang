@@ -900,8 +900,8 @@ assessment#:#save_before_upload_imagemap#:#Sie müssen Ihre Änderungen speicher
 assessment#:#save_before_upload_javaapplet#:#Sie müssen Ihre Änderungen speichern, bevor Sie ein Java-Applet hochladen können!
 assessment#:#save_edit#:#Speichern und Inhalt bearbeiten
 assessment#:#finish_test#:#Test beenden
-assessment#:#save_next#:#Weiter
-assessment#:#save_previous#:#Zurück
+assessment#:#next_question#:#Weiter
+assessment#:#previous_question#:#Zurück
 assessment#:#save_text_answer_points#:#Punkte der Textfragen speichern
 assessment#:#saveOrder#:#Sortierung abspeichern
 assessment#:#saveOrderAndObligations#:#Sortierung und Obligationen abspeichern

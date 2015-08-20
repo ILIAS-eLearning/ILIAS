@@ -11,6 +11,8 @@
 class ilTestPlayerCommands
 {
 	const SHOW_QUESTION = 'showQuestion';
+	const PREVIOUS_QUESTION = 'previousQuestion';
+	const NEXT_QUESTION = 'nextQuestion';
 
 	const QUESTION_SUMMARY = 'outQuestionSummary';
 

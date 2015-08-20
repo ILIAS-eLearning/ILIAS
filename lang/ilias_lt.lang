@@ -404,8 +404,8 @@ assessment#:#save_before_upload_javaapplet#:#Prieš įkeldami Java apletą priva
 assessment#:#save_edit#:#Išsaugoti ir redaguoti turinį
 assessment#:#finish_test#:#Baigti testą
 assessment#:#save_introduction#:#Eiti į įvadinę dalį
-assessment#:#save_next#:#Kitas
-assessment#:#save_previous#:#Ankstesnis
+assessment#:#next_question#:#Kitas
+assessment#:#previous_question#:#Ankstesnis
 assessment#:#save_text_answer_points#:#Išsaugoti esė taškus
 assessment#:#scored_pass#:#Įvertintas bandymas
 assessment#:#search_found_groups#:#Rasta grupių

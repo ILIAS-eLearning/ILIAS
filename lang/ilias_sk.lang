@@ -676,8 +676,8 @@ assessment#:#save_before_upload_javaapplet#:#Před uložením apletu Java musít
 assessment#:#save_edit#:#Uložit a upravit obsah
 assessment#:#finish_test#:#Ukončit test
 assessment#:#save_introduction#:#Přejít na úvod
-assessment#:#save_next#:#Další
-assessment#:#save_previous#:#Předchozí
+assessment#:#next_question#:#Další
+assessment#:#previous_question#:#Předchozí
 assessment#:#save_text_answer_points#:#Uložit body za pojednání
 assessment#:#scored_pass#:#Bodovaný průchod
 assessment#:#scoring#:#Bodování a výsledky

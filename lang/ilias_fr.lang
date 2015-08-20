@@ -969,8 +969,8 @@ assessment#:#save_before_upload_javaapplet#:#Vous devez appliquer vos changement
 assessment#:#save_edit#:#Enregistrer et éditer le contenu
 assessment#:#finish_test#:#Terminer le Test
 assessment#:#save_introduction#:#Introduction
-assessment#:#save_next#:#Suivant
-assessment#:#save_previous#:#Précédent
+assessment#:#next_question#:#Suivant
+assessment#:#previous_question#:#Précédent
 assessment#:#save_text_answer_points#:#Enregistrer les points des questions texte
 assessment#:#saved_adjustment#:#Enregistré.
 assessment#:#saveOrder#:#Enregistrer l'Ordre
