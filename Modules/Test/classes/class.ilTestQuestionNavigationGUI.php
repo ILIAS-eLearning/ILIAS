@@ -243,28 +243,28 @@ class ilTestQuestionNavigationGUI
 		if( $this->getEditSolutionCommand() )
 		{
 			$this->renderButton(
-				$tpl, $this->getEditSolutionCommand(), $this->lng->txt('edit_answer')
+				$tpl, $this->getEditSolutionCommand(), 'edit_answer', true
 			);
 		}
 		
 		if( $this->getSubmitSolutionCommand() )
 		{
 			$this->renderButton(
-				$tpl, $this->getSubmitSolutionCommand(), $this->lng->txt('submit_answer')
+				$tpl, $this->getSubmitSolutionCommand(), 'submit_answer', true
 			);
 		}
 
 		if( $this->getDiscardSolutionCommand() )
 		{
 			$this->renderButton(
-				$tpl, $this->getDiscardSolutionCommand(), $this->lng->txt('discard_answer')
+				$tpl, $this->getDiscardSolutionCommand(), 'discard_answer'
 			);
 		}
 
 		if( $this->getInstantFeedbackCommand() )
 		{
 			$this->renderButton(
-				$tpl, $this->getInstantFeedbackCommand(), $this->lng->txt('check')
+				$tpl, $this->getInstantFeedbackCommand(), 'check'
 			);
 		}
 
@@ -278,7 +278,7 @@ class ilTestQuestionNavigationGUI
 		if( $this->getShowHintsCommand() )
 		{
 			$this->renderButton(
-				$tpl, $this->getShowHintsCommand(), $this->lng->txt('button_show_requested_question_hints')
+				$tpl, $this->getShowHintsCommand(), 'button_show_requested_question_hints'
 			);
 		}
 
@@ -341,11 +341,15 @@ class ilTestQuestionNavigationGUI
 	/**
 	 * @param ilTemplate $tpl
 	 */
-	private function renderButton(ilTemplate $tpl, $command, $label)
+	private function renderButton(ilTemplate $tpl, $command, $label, $primary = false)
 	{
+		$button = ilSubmitButton::getInstance();
+		$button->setCommand($command);
+		$button->setCaption($label);
+		$button->setPrimary($primary);
+		
 		$tpl->setCurrentBlock("submit_button");
-		$tpl->setVariable("SUBMIT_BTN_CMD", $command);
-		$tpl->setVariable("SUBMIT_BTN_TEXT", $label);
+		$tpl->setVariable("SUBMIT_BTN", $button->render());
 		$tpl->parseCurrentBlock();
 
 		$this->setAnythingRendered();
