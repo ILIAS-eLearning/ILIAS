@@ -140,6 +140,7 @@ class ilDataCollectionNReferenceField extends ilDataCollectionReferenceField {
 		$cut = false;
 		$tpl = new ilTemplate("tpl.reference_hover.html", true, true, "Modules/DataCollection");
 		$tpl->setCurrentBlock("reference_list");
+		$elements = array();
 		foreach ($values as $value) {
 			$ref_record = ilDataCollectionCache::getRecordCache($value);
 			if (!$ref_record->getTableId() OR !$record_field->getField() OR !$record_field->getField()->getTableId()) {
@@ -147,16 +148,60 @@ class ilDataCollectionNReferenceField extends ilDataCollectionReferenceField {
 				$record_field->setValue(NULL);
 				$record_field->doUpdate();
 			} else {
-				if ((strlen($html) < $this->max_reference_length)) {
-					$html .= $ref_record->getRecordFieldHTML($this->getField()->getFieldRef()) . ", ";
-				} else {
-					$cut = true;
-				}
-				$tpl->setCurrentBlock("reference");
-				$tpl->setVariable("CONTENT", $ref_record->getRecordFieldHTML($this->getField()->getFieldRef()));
-				$tpl->parseCurrentBlock();
+				$elements[] = $ref_record->getRecordFieldHTML($this->getField()->getFieldRef());
 			}
 		}
+
+		//sort fetched elements
+		$ref_record_field = $ref_record->getRecordField($this->getField()->getFieldRef());
+		if ($ref_record_field) {
+			$datatype = $ref_record_field->getField()->getDatatype()->getTitle();
+			if ($datatype == 'datetime') {
+				$tmp = array();
+				foreach ($elements as $element) {
+					$timestamp = strtotime($element);
+					$tmp[$timestamp] = $element;
+				}
+				$elements = $tmp;
+				ksort($elements);
+			} elseif ($datatype == 'file') {
+				$tmp = array();
+				foreach ($elements as $element) {
+					$key = strip_tags($element);
+					$tmp[$key] = $element;
+				}
+				$elements = $tmp;
+				uksort($elements, 'strnatcasecmp');
+			} elseif ($datatype == 'mob') {
+				$tmp = array();
+				foreach ($elements as $element) {
+					$doc = new DOMDocument();
+					$doc->loadHTML($element);
+					$imageTag = $doc->getElementsByTagName('img')->item(0);
+					if ($imageTag) {
+						$tmp[pathinfo($imageTag->getAttribute('src'), PATHINFO_FILENAME)] = $element;
+					} else {
+						$tmp[$element] = $element;
+					}
+				}
+				$elements = $tmp;
+				uksort($elements, 'strnatcasecmp');
+			} else {
+				asort($elements);
+			}
+		}
+		//concat
+		foreach($elements as $element) {
+			if ((strlen($html) < $this->max_reference_length)) {
+				$html .= $element . ", ";
+			} else {
+				$cut = true;
+			}
+			$tpl->setCurrentBlock("reference");
+			$tpl->setVariable("CONTENT", $element);
+			$tpl->parseCurrentBlock();
+		}
+
 		$html = substr($html, 0, - 2);
 		if ($cut) {
 			$html .= "...";

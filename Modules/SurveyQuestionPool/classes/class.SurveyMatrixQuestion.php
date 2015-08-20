@@ -1108,11 +1108,10 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	function saveUserInput($post_data, $active_id, $a_return = false)
 	{
 		global $ilDB;
+		
+		$answer_data = array();
 
-		if($a_return)
-		{
-			$return_data = array();
-		}
+		// gather data		
 		switch ($this->getSubtype())
 		{
 			case 0:
@@ -1120,57 +1119,55 @@ class SurveyMatrixQuestion extends SurveyQuestion
 				{
 					if (preg_match("/matrix_" . $this->getId() . "_(\d+)/", $key, $matches))
 					{
-						$other_value = (array_key_exists('matrix_other_' . $this->getId() . '_' . $matches[1], $post_data)) ? ($post_data['matrix_other_' . $this->getId() . '_' . $matches[1]]) : null;					
-						if(!$a_return)
+						if(strlen($value))
 						{
-							$next_id = $ilDB->nextId('svy_answer');							
-							$affectedRows = $ilDB->manipulateF("INSERT INTO svy_answer (answer_id, question_fi, active_fi, value, textanswer, rowvalue, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
-								array('integer','integer','integer','float','text','integer','integer'),
-								array($next_id, $this->getId(), $active_id, $value, $other_value, $matches[1], time())
-							);
-						}
-						else
-						{
-							$return_data[] = array("value"=>$value, 
+							$other_value = (array_key_exists('matrix_other_' . $this->getId() . '_' . $matches[1], $post_data)) 
+								? ($post_data['matrix_other_' . $this->getId() . '_' . $matches[1]]) 
+								: null;											
+							$answer_data[] = array("value"=>$value, 
 								"textanswer"=>$other_value, 
-								"rowvalue"=>$matches[1]);
+								"rowvalue"=>$matches[1]);			
 						}
 					}
 				}
 				break;
+				
 			case 1:
 				foreach ($post_data as $key => $value)
 				{
 					if (preg_match("/matrix_" . $this->getId() . "_(\d+)/", $key, $matches))
 					{
-						$other_value = (array_key_exists('matrix_other_' . $this->getId() . '_' . $matches[1], $post_data)) ? ($post_data['matrix_other_' . $this->getId() . '_' . $matches[1]]) : null;
+						$other_value = (array_key_exists('matrix_other_' . $this->getId() . '_' . $matches[1], $post_data)) 
+							? ($post_data['matrix_other_' . $this->getId() . '_' . $matches[1]]) 
+							: null;
 						foreach ($value as $checked)
-						{
-							if (strlen($checked))
-							{
-								if(!$a_return)
-								{
-									$next_id = $ilDB->nextId('svy_answer');
-									$affectedRows = $ilDB->manipulateF("INSERT INTO svy_answer (answer_id, question_fi, active_fi, value, textanswer, rowvalue, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
-										array('integer','integer','integer','float','text','integer','integer'),
-										array($next_id, $this->getId(), $active_id, $checked, $other_value, $matches[1], time())
-									);
-								}
-								else
-								{
-									$return_data[] = array("value"=>$checked, 
-										"textanswer"=>$other_value, 
-										"rowvalue"=>$matches[1]);
-								}
-							}
+						{							
+							$answer_data[] = array("value"=>$checked, 
+								"textanswer"=>$other_value, 
+								"rowvalue"=>$matches[1]);															
 						}
 					}
 				}
 				break;
 		}
-		if($a_return)
+		
+		if ($a_return)
 		{
-			return $return_data;
+			return $answer_data;
+		}
+			
+		// #16387 - only if any input		
+		if(sizeof($answer_data))
+		{						
+			// save data
+			foreach ($answer_data as $item)
+			{						
+				$next_id = $ilDB->nextId('svy_answer');							
+				$affectedRows = $ilDB->manipulateF("INSERT INTO svy_answer (answer_id, question_fi, active_fi, value, textanswer, rowvalue, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+					array('integer','integer','integer','float','text','integer','integer'),
+					array($next_id, $this->getId(), $active_id, $item['value'], $item['textanswer'], $item['rowvalue'], time())
+				);						
+			}			
 		}
 	}
 
@@ -1198,7 +1195,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	* @return integer The number of users
 	* @access public
 	*/
-	function getNrOfUsersAnswered($survey_id, $finished_ids = null)
+	function getNrOfUsersAnswered($survey_id, $finished_ids = null, $rowindex = null)
 	{
 		global $ilDB;
 		
@@ -1206,11 +1203,15 @@ class SurveyMatrixQuestion extends SurveyQuestion
 			" FROM svy_answer".
 			" JOIN svy_finished ON (svy_finished.finished_id = svy_answer.active_fi)".
 			" WHERE svy_answer.question_fi = ".$ilDB->quote($this->getId(), "integer").
-			" AND svy_finished.survey_fi = ".$ilDB->quote($survey_id, "integer");		
+			" AND svy_finished.survey_fi = ".$ilDB->quote($survey_id, "integer");				
 		if($finished_ids)
 		{
 			$sql .= " AND ".$ilDB->in("svy_finished.finished_id", $finished_ids, "", "integer");
 		}				
+		if($rowindex)
+		{
+			$sql .= " AND rowvalue = ".$ilDB->quote($rowindex, "integer");
+		}
 		
 		$result = $ilDB->query($sql);
 		$found = array();
@@ -1272,9 +1273,9 @@ class SurveyMatrixQuestion extends SurveyQuestion
 				end($cumulated);
 				break;
 		}
-		$numrows = $result->numRows();
-		$result_array["USERS_ANSWERED"] = $this->getNrOfUsersAnswered($survey_id, $finished_ids);
-		$result_array["USERS_SKIPPED"] = $nr_of_users - $this->getNrOfUsersAnswered($survey_id, $finished_ids);
+		$numrows = $result->numRows();		
+		$result_array["USERS_ANSWERED"] = $this->getNrOfUsersAnswered($survey_id, $finished_ids, $rowindex);
+		$result_array["USERS_SKIPPED"] = $nr_of_users - $result_array["USERS_ANSWERED"];
 
 		if(sizeof($cumulated))
 		{

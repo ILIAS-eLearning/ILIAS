@@ -1342,7 +1342,7 @@ class ilDataCollectionTable {
 			if ($id == 'owner' || $id == 'last_edit_by') {
 				$join_str .= "LEFT JOIN usr_data AS sort_usr_data_{$id} ON (sort_usr_data_{$id}.usr_id = record.{$id})";
 				$select_str .= " sort_usr_data_{$id}.login AS field_{$id},";
-			} else {
+			} elseif ($id != 'comments') {
 				$select_str .= " record.{$id} AS field_{$id},";
 			}
 		} else {
@@ -1538,14 +1538,19 @@ class ilDataCollectionTable {
 		}
 
 		// Build the query string
-		$sql = "SELECT DISTINCT record.id, record.owner, ";
+		$sql = "SELECT DISTINCT record.id, record.owner";
+		if($select_str) {
+			$sql .= ', ';
+		}
 		$sql .= rtrim($select_str, ',') . " FROM il_dcl_record AS record ";
 		$sql .= $join_str;
 		$sql .= " WHERE record.table_id = " . $ilDB->quote($this->getId(), 'integer') . $where_additions;
 		if ($has_nref) {
 			$sql .= " GROUP BY record.id";
 		}
-		$sql .= " ORDER BY field_{$id} {$direction}";
+		if($id != 'comments') {
+			$sql .= " ORDER BY field_{$id} {$direction}";
+		}
 		$set = $ilDB->query($sql);
 		$total_record_ids = array();
 		// Save record-ids in session to enable prev/next links in detail view
