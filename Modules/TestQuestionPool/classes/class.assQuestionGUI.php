@@ -311,75 +311,21 @@ abstract class assQuestionGUI
 	*/
 	function outQuestionPage($a_temp_var, $a_postponed = false, $active_id = "", $html = "")
 	{
-		$postponed = "";
-		if ($a_postponed)
-		{
-			$postponed = " (" . $this->lng->txt("postponed") . ")";
-		}
+		$this->lng->loadLanguageModule("content");
 
 		include_once("./Modules/TestQuestionPool/classes/class.ilAssQuestionPageGUI.php");
-		$this->lng->loadLanguageModule("content");
 		$page_gui = new ilAssQuestionPageGUI($this->object->getId());
+		$page_gui->setOutputMode("presentation");
 		$page_gui->setTemplateTargetVar($a_temp_var);
-		if (strlen($html))
+
+		if( strlen($html) )
 		{
 			$page_gui->setQuestionHTML(array($this->object->getId() => $html));
 		}
-		$page_gui->setOutputMode("presentation");
 
-		include_once "./Modules/Test/classes/class.ilObjTest.php";
-		$title_output = ilObjTest::_getTitleOutput($active_id);
-		
-		if( $this->object->areObligationsToBeConsidered() && ilObjTest::isQuestionObligatory($this->object->getId()) )
-		{
-			$obligatoryString = '([-_-])';
-		}
-		else
-		{
-			$obligatoryString = '';
-		}
+		$page_gui->setPresentationTitle($this->questionHeaderBlockBuilder->getHTML());
 
-		switch ($title_output)
-		{
-			case 1:
-				$page_gui->setPresentationTitle(sprintf($this->lng->txt("tst_position"), $this->getSequenceNumber(), $this->getQuestionCount())." - ".$this->object->getTitle().$postponed . $obligatoryString);
-				break;
-			case 2:
-				$page_gui->setPresentationTitle(sprintf($this->lng->txt("tst_position"), $this->getSequenceNumber(), $this->getQuestionCount()).$postponed . $obligatoryString);
-				break;
-			case 0:
-			default:
-				if( !is_null($this->questionHeaderBlockBuilder) )
-				{
-					$questionBlockHeader = $this->questionHeaderBlockBuilder->getHTML();
-				}
-				else
-				{
-					$maxpoints = $this->object->getMaximumPoints();
-					if ($maxpoints == 1)
-					{
-						$maxpoints = " (".$maxpoints." ".$this->lng->txt("point").")";
-					}
-					else
-					{
-						$maxpoints = " (".$maxpoints." ".$this->lng->txt("points").")";
-					}
-					$questionBlockHeader = sprintf($this->lng->txt("tst_position"), $this->getSequenceNumber(), $this->getQuestionCount())." - ".$this->object->getTitle().$postponed.$maxpoints  . $obligatoryString;
-				}
-
-				$page_gui->setPresentationTitle($questionBlockHeader);
-				break;
-		}
-		$presentation = $page_gui->presentation();
-		if (strlen($maxpoints)) $presentation = str_replace($maxpoints, "<em>$maxpoints</em>", $presentation);
-		if (strlen($obligatoryString))
-		{
-			$replacement	='<br><span class="obligatory" style="font-size:small">'.
-				$this->lng->txt("tst_you_have_to_answer_this_question").'</span>';
-			$presentation 	= str_replace($obligatoryString, $replacement, $presentation);
-		}
-		$presentation = preg_replace("/src=\"\\.\\//ims", "src=\"" . ILIAS_HTTP_PATH . "/", $presentation);
-		return $presentation;
+		return $page_gui->presentation();
 	}
 	
 	/**

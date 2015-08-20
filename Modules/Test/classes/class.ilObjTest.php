@@ -5541,7 +5541,7 @@ function getAnswerFeedbackPoints()
 *
 * @param integer $question_type The question type of the question
 * @param integer $question_id The question id of the question, if available
-* @return object The question GUI instance
+* @return assQuestionGUI $questionGUI The question GUI instance
 * @access	public
 */
   function &createQuestionGUI($question_type, $question_id = -1)
@@ -5558,8 +5558,6 @@ function getAnswerFeedbackPoints()
 		
 		$question_type_gui = assQuestion::getGuiClassNameByQuestionType($question_type);
 		$question = new $question_type_gui();
-		
-		$question->object->setObligationsToBeConsidered( $this->areObligationsEnabled() );
 		
 		if ($question_id > 0)
 		{

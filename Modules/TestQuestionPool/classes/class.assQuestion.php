@@ -160,14 +160,6 @@ abstract class assQuestion
 	 * (Web) Path to images
 	 */
 	private $export_image_path;
-	
-	/**
-	 * this flag stores the fact wether obligations
-	 * are to be considered or not
-	 *
-	 * @var bool
-	 */
-	private $obligationsToBeConsidered = false;
 
 	/**
 	 * An external id of a qustion
@@ -4211,26 +4203,6 @@ abstract class assQuestion
 	public static function isObligationPossible($questionId)
 	{
 		return false;
-	}
-	
-	/**
-	 * sets the flag wether obligations are to be considered or not
-	 *
-	 * @param bool $obligationsToBeConsidered
-	 */
-	public function setObligationsToBeConsidered($obligationsToBeConsidered = true)
-	{
-		$this->obligationsToBeConsidered = (bool)$obligationsToBeConsidered;
-	}
-	
-	/**
-	 * gets the flag wether obligations are to be considered or not
-	 *
-	 * @return bool $obligationsToBeConsidered
-	 */
-	public function areObligationsToBeConsidered()
-	{
-		return (bool)$this->obligationsToBeConsidered;
 	}
 	
 	public function isAutosaveable()

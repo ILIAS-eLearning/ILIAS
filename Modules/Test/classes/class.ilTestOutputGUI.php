@@ -495,7 +495,18 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
 		$question_gui->setSequenceNumber($this->testSequence->getPositionOfSequence($sequence));
 		$question_gui->setQuestionCount($this->testSequence->getUserQuestionCount());
-		
+
+		require_once 'Modules/Test/classes/class.ilTestQuestionHeaderBlockBuilder.php';
+		$headerBlockBuilder = new ilTestQuestionHeaderBlockBuilder($this->lng);
+		$headerBlockBuilder->setHeaderMode($this->object->getTitleOutput());
+		$headerBlockBuilder->setQuestionTitle($question_gui->object->getTitle());
+		$headerBlockBuilder->setQuestionPosition($this->testSequence->getPositionOfSequence($sequence));
+		$headerBlockBuilder->setQuestionCount($this->testSequence->getUserQuestionCount());
+		$headerBlockBuilder->setQuestionPostponed($this->testSequence->isPostponedQuestion($questionId));
+		$headerBlockBuilder->setQuestionObligatory(
+			$this->object->areObligationsEnabled() && ilObjTest::isQuestionObligatory($this->object->getId())
+		);
+		$question_gui->setQuestionHeaderBlockBuilder($headerBlockBuilder);
 		
 		// output question
 		$user_post_solution = FALSE;
