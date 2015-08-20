@@ -92,11 +92,9 @@ class ilCourseLP extends ilObjectLP
 	}
 	
 	public function getMailTemplateId()
-	{			
-		/*
+	{					
 		include_once './Modules/Course/classes/class.ilCourseMailTemplateTutorContext.php';
-		return ilCourseMailTemplateTutorContext::ID;		 				 
-		*/
+		return ilCourseMailTemplateTutorContext::ID;		 				 		
 	}
 }
 

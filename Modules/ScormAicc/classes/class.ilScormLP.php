@@ -122,11 +122,9 @@ class ilScormLP extends ilObjectLP
 	}
 	
 	public function getMailTemplateId()
-	{	
-		/*
+	{			
 		include_once './Modules/ScormAicc/classes/class.ilScormMailTemplateLPContext.php';
-		return ilScormMailTemplateLPContext::ID;		 			 
-		*/
+		return ilScormMailTemplateLPContext::ID;		 			 		
 	}
 }
 

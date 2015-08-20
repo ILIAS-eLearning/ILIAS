@@ -128,7 +128,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 		
         require_once 'Services/Mail/classes/class.ilMailFormCall.php';
-		// include_once './Modules/Course/classes/class.ilCourseMailTemplateTutorContext.php';
+		include_once './Modules/Course/classes/class.ilCourseMailTemplateTutorContext.php';
 		
 		ilUtil::redirect(
 			ilMailFormCall::getRedirectTarget(
@@ -141,7 +141,7 @@ class ilObjCourseGUI extends ilContainerGUI
 					'sig' => $this->createMailSignature()
 				),
 				array(
-					// ilMailFormCall::CONTEXT_KEY => ilCourseMailTemplateTutorContext::ID,
+					ilMailFormCall::CONTEXT_KEY => ilCourseMailTemplateTutorContext::ID,
 					'ref_id' => $this->object->getRefId(),
 					'ts'     => time()
 				)
@@ -399,7 +399,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 		if($this->object->getContactEmail())
 		{
-			// include_once './Modules/Course/classes/class.ilCourseMailTemplateMemberContext.php';
+			include_once './Modules/Course/classes/class.ilCourseMailTemplateMemberContext.php';
             require_once 'Services/Mail/classes/class.ilMailFormCall.php';
 			
 			$emails = split(",",$this->object->getContactEmail());
@@ -416,7 +416,7 @@ class ilObjCourseGUI extends ilContainerGUI
 							'sig' => $this->createMailSignature()
 						),
 						array(
-							// ilMailFormCall::CONTEXT_KEY => ilCourseMailTemplateMemberContext::ID,
+							ilMailFormCall::CONTEXT_KEY => ilCourseMailTemplateMemberContext::ID,
 							'ref_id' => $this->object->getRefId(),
 							'ts'     => time()
 						)
