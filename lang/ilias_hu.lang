@@ -1,7 +1,7 @@
 /* Copyright (c) 1998-2015 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file ...
-* @author 4.4.x 2015-08-06 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
+* @author 4.4.x 2015-08-15 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
 * @author 4.2.2	Berecz Antónia <berecz@gdf.hu>
 * @module		language file Hungarian
 * @modulegroup	language
@@ -13662,8 +13662,12 @@ cld#:#cld_auth_failed_no_object_created#:#Hitelesítés sikertelen, Felhőobjekt
 dcl#:#fieldtitle_allow_chars#:#Megengedett karakterek: %s
 common#:#objs_orgu#:#Szervezeti egységek
 common#:#obj_orgu#:#Szervezeti egység
+common#:#il_orgu_superior#:#Felettes
+common#:#il_orgu_employee#:#Beosztott
+common#:#view_learning_progress#:#Tanulási haladás megjelenítése
+common#:#view_learning_progress_rec#:#Egység és alegységei Tanulási haladásának megjelenítése
 orgu#:#view_learning_progress#:#Tanulási haladás megjelenítése
-orgu#:#il_orgu_employee#:#Alkalmazott
+orgu#:#il_orgu_employee#:#Beosztott
 orgu#:#orgu_staff_deassign#:#Biztos, hogy eltávolítja a felhasználókat a mintából?
 orgu#:#deassign_user_successful#:#Felhasználó sikeresen eltávolítva a csoportból.
 orgu#:#il_orgu_superior#:#Felettes
@@ -13671,13 +13675,13 @@ orgu#:#orgu_staff#:#Személyi állomány
 orgu#:#orgu_view_learning_progress_rec#:#Tanulási haladás objektumainak rekurzív megjelenítése
 orgu#:#Staff#:#Személyi állomány
 orgu#:#orgu_edit#:#Szerkeszt
-orgu#:#employee#:#Alkalmazott
+orgu#:#employee#:#Beosztott
 orgu#:#superior#:#Felettes
 orgu#:#Actions#:#Műveletek
 orgu#:#show_learning_progress#:#Tanulási haladás megjelenítése
 orgu#:#users_successfuly_added#:#Felhasználó sikeresen hozzáadva.
 orgu#:#change_to_superior#:#Legyen felettes
-orgu#:#change_to_employee#:#Legyen alkalmazott
+orgu#:#change_to_employee#:#Legyen beosztott
 orgu#:#user_changed_successful#:#Változtatás sikeresen megtörtént.
 orgu#:#ou_id_type_not_valid#:#Az ou_id típusa nem érvényes. Érvényes típusok: 'reference_id' vagy 'external_id'.
 orgu#:#ou_parent_id_not_valid#:#Az ou_parent_id nem található.
@@ -13691,8 +13695,8 @@ orgu#:#orgu_add#:#Szervezeti egység hozzáadása
 orgu#:#orgu_import#:#Szervezeti egység importálása
 orgu#:#orgu_copy#:#Szervezeti egység másolása
 orgu#:#obj_orgu_duplicate#:#Szervezeti egység duplikálása
-orgu#:#local_staff#:#%s alkalmazottjai
-orgu#:#rec_staff#:#%s alkalmazottjai rekurzívan
+orgu#:#local_staff#:#%s beosztottjai
+orgu#:#rec_staff#:#%s beosztottjai rekurzívan
 orgu#:#placeholder#:#...
 orgu#:#simple_import#:#Egyszerű XML Import
 orgu#:#simple_xml#:#Egyszerű XML Export
@@ -14134,7 +14138,7 @@ wiki#:#wiki_rate_overall#:#Wiki értékelése
 content#:#lm_rating#:#Tananyag értékelése
 rating#:#rating_remove#:#Értékelés eltávolítása
 content#:#lm_rate_page#:#Oldal értékelése
-rbac#:#il_orgu_employee#:#Szervezeti egység alkalmazottja
+rbac#:#il_orgu_employee#:#Szervezeti egység beosztottja
 rbac#:#il_orgu_superior#:#Szervezeti egység felettese
 obj#:#obj_tool_setting_info_tab_info#:#Az 'Információ' fül látszódjon.
 common#:#obj_tool_setting_news_info#:#A 'Hír' blokk megjelenik a 'Tartalom' fül alatt.
@@ -14288,6 +14292,8 @@ rbac#:#orgu_cat_administrate_users#:#A felhasználó létrehozhat és helyi ILIA
 rbac#:#orgu_delete#:#A felhasználó mozgathatja és törölheti a Szervezeti egységet
 rbac#:#orgu_edit_permission#:#A felhasználó megváltoztathatja a jogosultsági beállításokat
 rbac#:#rbac_create_orgu#:#Szervezeti egységek létrehozása
+rbac#:#orgu_copy#:#Szervezeti egység másolása
+rbac#:#orgu_view_learning_progress_rec#:#Egység és alegységei Tanulási haladásának megjelenítése
 prtf#:#prtf_page_element_teaser_skills#:#A portfólió a kompetenciaszintedet itt fogja megjeleníteni.
 prtf#:#prtf_page_element_teaser_blog_template#:#A portfólió a magánterülete blogját itt fogja megjeleníteni.
 prtf#:#prtf_page_element_teaser_consultation_hours#:#A portfólió a konzultációs időpontok naptárát itt fogja megjeleníteni.
