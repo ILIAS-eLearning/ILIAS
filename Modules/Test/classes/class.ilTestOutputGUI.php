@@ -441,7 +441,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 			case ilTestPlayerAbstractGUI::PRESENTATION_MODE_EDIT:
 
 				$this->showQuestionEditable($questionGui, $instantResponse, $formAction);
-				break;git statusgit status
+				break;
 		}
 
 		if ($instantResponse)
