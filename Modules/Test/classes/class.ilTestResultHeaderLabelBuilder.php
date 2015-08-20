@@ -336,4 +336,16 @@ class ilTestResultHeaderLabelBuilder
 	{
 		return sprintf($this->lng->txt('tst_res_lo_try_n'), $attemptNumber);
 	}
+	
+	public function getListOfAnswersHeaderLabel($attemptNumber)
+	{
+		$langVar = 'tst_eval_results_by_pass';
+
+		if( $this->getObjectiveOrientedContainerId() )
+		{
+			$langVar = 'tst_eval_results_by_pass_lo';
+		}
+
+		return sprintf($this->lng->txt($langVar), $attemptNumber);
+	}
 }

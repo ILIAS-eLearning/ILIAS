@@ -325,7 +325,7 @@ class ilTestServiceGUI
 	 * @return string HTML code of the list of answers
 	 * @access public
 	 */
-	function getPassListOfAnswers(&$result_array, $active_id, $pass, $show_solutions = FALSE, $only_answered_questions = FALSE, $show_question_only = FALSE, $show_reached_points = FALSE, $anchorNav = false, ilTestQuestionRelatedObjectivesList $objectivesList = null)
+	function getPassListOfAnswers(&$result_array, $active_id, $pass, $show_solutions = FALSE, $only_answered_questions = FALSE, $show_question_only = FALSE, $show_reached_points = FALSE, $anchorNav = false, ilTestQuestionRelatedObjectivesList $objectivesList = null, ilTestResultHeaderLabelBuilder $testResultHeaderLabelBuilder = null)
 	{
 		$maintemplate = new ilTemplate("tpl.il_as_tst_list_of_answers.html", TRUE, TRUE, "Modules/Test");
 
@@ -401,7 +401,7 @@ class ilTestServiceGUI
 				}
 			}
 		}
-		$maintemplate->setVariable("RESULTS_OVERVIEW", sprintf($this->lng->txt("tst_eval_results_by_pass"), $pass + 1));
+		$maintemplate->setVariable("RESULTS_OVERVIEW", $testResultHeaderLabelBuilder->getListOfAnswersHeaderLabel($pass + 1));
 		return $maintemplate->get();
 	}
 	

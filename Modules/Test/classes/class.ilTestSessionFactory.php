@@ -14,7 +14,7 @@ class ilTestSessionFactory
 	 * @var ilTestSession|ilTestSessionDynamicQuestionSet
 	 */
 	private $testSession = array();
-
+	
 	/**
 	 * object instance of current test
 	 * @var ilObjTest
@@ -33,6 +33,7 @@ class ilTestSessionFactory
 	/**
 	 * temporarily bugfix for resetting the state of this singleton
 	 * smeyer
+	 * --> BH: not required anymore
 	 */
 	public function reset()
 	{

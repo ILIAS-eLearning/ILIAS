@@ -12137,13 +12137,13 @@ function getAnswerFeedbackPoints()
 		// end-patch lok
 	}
 	
-	public static function isParticipantsLastPassActive($testObjId, $userId)
+	public static function isParticipantsLastPassActive($testRefId, $userId)
 	{
 		global $ilDB, $lng, $ilPluginAdmin;
 
 		/* @var ilObjTest $testOBJ */
 
-		$testOBJ = ilObjectFactory::getInstanceByRefId($testObjId,false);
+		$testOBJ = ilObjectFactory::getInstanceByRefId($testRefId,false);
 		
 		
 		$activeId = $testOBJ->getActiveIdOfUser($userId);

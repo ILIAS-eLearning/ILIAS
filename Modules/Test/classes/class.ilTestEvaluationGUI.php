@@ -1159,7 +1159,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		{
 			$list_of_answers = $this->getPassListOfAnswers(
 				$result_array, $active_id, $pass, $this->object->getShowSolutionListComparison(),
-				false, false, false, true, $objectivesList
+				false, false, false, true, $objectivesList, $testResultHeaderLabelBuilder
 			);
 			$tpl->setVariable("LIST_OF_ANSWERS", $list_of_answers);
 		}
