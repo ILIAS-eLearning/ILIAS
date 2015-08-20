@@ -1707,8 +1707,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$navigationGUI = new ilTestQuestionNavigationGUI($this->lng);
 		
 		$navigationGUI->setEditSolutionCommand('editSolution');
-		
-		// marking
 		$this->populateMarkerConfigToQuestionNavigationGUI($navigationGUI, $questionId);
 
 		return $navigationGUI;
