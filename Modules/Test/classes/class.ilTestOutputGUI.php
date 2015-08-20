@@ -424,11 +424,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 			$instantResponse = true;
 		}
 
-		$questionGui = $this->object->createQuestionGUI("", $questionId);
-		$questionGui->setSequenceNumber($this->testSequence->getPositionOfSequence($sequenceElement));
-		$questionGui->setQuestionCount($this->testSequence->getUserQuestionCount());
-		$questionGui->setTargetGui($this);
-		$questionGui->object->setOutputType(OUTPUT_JAVASCRIPT);
+		$questionGui = $this->buildQuestionGUI($questionId, $sequenceElement);
 
 		if( !($questionGui instanceof assQuestionGUI) )
 		{
@@ -445,7 +441,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 			case ilTestPlayerAbstractGUI::PRESENTATION_MODE_EDIT:
 
 				$this->showQuestionEditable($questionGui, $instantResponse, $formAction);
-				break;
+				break;git statusgit status
 		}
 
 		if ($instantResponse)
@@ -462,13 +458,13 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 	{
 		$solutionoutput = $questionGui->getSolutionOutput(
 			$this->testSession->getActiveId(), 	#active_id
-			NULL, 								#pass
-			FALSE, 								#graphical_output
+			null, 								#pass
+			false, 								#graphical_output
 			false,								#result_output
 			true, 								#show_question_only
-			FALSE,								#show_feedback
+			false,								#show_feedback
 			false, 								#show_correct_solution
-			FALSE, 								#show_manual_scoring
+			false, 								#show_manual_scoring
 			true								#show_question_text
 		);
 
@@ -858,7 +854,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 	 * @param $questionId
 	 * @param $ilLog
 	 */
-	protected function handleTearsAndAngerQuestionIsNull($sequence, $questionId, $ilLog)
+	protected function handleTearsAndAngerQuestionIsNull($sequence, $questionId)
 	{
 		global $ilLog;
 
@@ -872,5 +868,20 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
 		$this->ctrl->setParameter($this, 'sequence', $this->testSequence->getFirstSequence());
 		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
+	}
+
+	/**
+	 * @param $questionId
+	 * @param $sequenceElement
+	 * @return object
+	 */
+	protected function buildQuestionGUI($questionId, $sequenceElement)
+	{
+		$questionGui = $this->object->createQuestionGUI("", $questionId);
+		$questionGui->setSequenceNumber($this->testSequence->getPositionOfSequence($sequenceElement));
+		$questionGui->setQuestionCount($this->testSequence->getUserQuestionCount());
+		$questionGui->setTargetGui($this);
+		$questionGui->object->setOutputType(OUTPUT_JAVASCRIPT);
+		return $questionGui;
 	}
 }
