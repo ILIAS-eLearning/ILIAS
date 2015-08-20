@@ -1342,6 +1342,9 @@ class ilDataCollectionTable {
 			if ($id == 'owner' || $id == 'last_edit_by') {
 				$join_str .= "LEFT JOIN usr_data AS sort_usr_data_{$id} ON (sort_usr_data_{$id}.usr_id = record.{$id})";
 				$select_str .= " sort_usr_data_{$id}.login AS field_{$id},";
+			} elseif ($id == 'comments') {
+				$join_str .= "LEFT JOIN note ON (note.rep_obj_id = " . $ilDB->quote($this->getId(), 'integer') . " AND note.obj_id = record.id AND obj_type = 'dcl') ";
+				$select_str .= " note.id AS note";
 			} else {
 				$select_str .= " record.{$id} AS field_{$id},";
 			}
@@ -1545,7 +1548,9 @@ class ilDataCollectionTable {
 		if ($has_nref) {
 			$sql .= " GROUP BY record.id";
 		}
-		$sql .= " ORDER BY field_{$id} {$direction}";
+		if($id != 'comments') {
+			$sql .= " ORDER BY field_{$id} {$direction}";
+		}
 		$set = $ilDB->query($sql);
 		$total_record_ids = array();
 		// Save record-ids in session to enable prev/next links in detail view
