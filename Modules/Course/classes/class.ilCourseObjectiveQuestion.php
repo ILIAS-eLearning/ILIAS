@@ -891,8 +891,6 @@ class ilCourseObjectiveQuestion
 				'AND obj_id = '.$ilDB->quote($a_test_id,'integer');
 		$res = $ilDB->query($query);
 		
-		$GLOBALS['ilLog']->write($query);
-		
 		$questions = array();
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{

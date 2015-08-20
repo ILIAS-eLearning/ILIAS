@@ -79,7 +79,14 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
 			$this->addColumn($this->lng->txt('crs_objective_self_assessment'),'self');
 		}
 		// end-patch lok
-	 	$this->addColumn($this->lng->txt('crs_objective_final_test'),'final');
+		if($this->getSettings()->getQualifyingTestType() == ilLOSettings::TYPE_QUALIFYING_SELECTED)
+		{
+			$this->addColumn($this->lng->txt('crs_objective_tbl_col_final_tsts'),'final');
+		}
+		else
+		{
+			$this->addColumn($this->lng->txt('crs_objective_final_test'),'final');
+		}
 	 	$this->addColumn($this->lng->txt(''),'5em');
 	 	
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
@@ -123,6 +130,8 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
+		$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($a_set,TRUE));
+		
 		$this->tpl->setVariable('VAL_ID',$a_set['id']);
 		$this->tpl->setVariable('VAL_POSITION',$a_set['position']);
 		
@@ -226,20 +235,40 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
 		// end-patch lok
 
 		// final test questions
-		foreach((array) $a_set['final'] as $test)
+		if($this->getSettings()->getQualifyingTestType() == ilLOSettings::TYPE_QUALIFYING_SELECTED)
 		{
-			foreach((array) $test['questions'] as $question)
+			if($a_set['final'])
 			{
-				$this->tpl->setCurrentBlock('final_qst_row');
-				$this->tpl->setVariable('FINAL_QST_TITLE',$question['title']);
+				$obj_id = ilObject::_lookupObjId($a_set['final']);
+				$this->tpl->setCurrentBlock('final_test_per_objective');
+				$this->tpl->setVariable('FT_IMG', ilObject::_getIcon($obj_id, 'tiny'));
+				$this->tpl->setVariable('FT_ALT', $this->lng->txt('obj_tst'));
+				$this->tpl->setVariable('FT_TITLE',ilObject::_lookupTitle($obj_id));
 				$this->tpl->parseCurrentBlock();
 			}
-			// begin-patch lok
-			#$this->tpl->setCurrentBlock('final_test_row');
-			#$this->tpl->setVariable('FINAL_TST_ALT',$this->lng->txt('obj_tst'));
-			#$this->tpl->setVariable('FINAL_TST_TITLE',ilObject::_lookupTitle($test['obj_id']));
-			#$this->tpl->parseCurrentBlock();	
-			// end-patch lok
+			else
+			{
+				$this->tpl->touchBlock('final_test_per_objective');
+			}
+		}
+		else
+		{
+			foreach((array) $a_set['final'] as $test)
+			{
+				foreach((array) $test['questions'] as $question)
+				{
+					$this->tpl->setCurrentBlock('final_qst_row');
+					$this->tpl->setVariable('FINAL_QST_TITLE',$question['title']);
+					$this->tpl->parseCurrentBlock();
+				}
+				// begin-patch lok
+				#$this->tpl->setCurrentBlock('final_test_row');
+				#$this->tpl->setVariable('FINAL_TST_IMG',ilUtil::getImagePath('icon_tst_s.png'));
+				#$this->tpl->setVariable('FINAL_TST_ALT',$this->lng->txt('obj_tst'));
+				#$this->tpl->setVariable('FINAL_TST_TITLE',ilObject::_lookupTitle($test['obj_id']));
+				#$this->tpl->parseCurrentBlock();	
+				// end-patch lok
+			}
 		}
 		
 		// begin-patch lok
@@ -386,7 +415,28 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
 			
 			// final test questions
 			// begin-patch lok
-			if($this->getSettings()->getQualifiedTest())
+			// single test assignments
+			if($this->getSettings()->getQualifyingTestType() == ilLOSettings::TYPE_QUALIFYING_SELECTED)
+			{
+				include_once './Modules/Course/classes/Objectives/class.ilLOTestAssignments.php';
+				$assignments = ilLOTestAssignments::getInstance($this->course_obj->getId());
+				$assignment = $assignments->getAssignmentByObjective($objective_id);
+			
+				$objective_data['final'] = 0;
+				if($assignment instanceof ilLOTestAssignment)
+				{
+					$test_id = $assignment->getTestRefId();
+
+					include_once './Services/Object/classes/class.ilObjectFactory.php';
+					$factory = new ilObjectFactory();
+					$test_candidate = $factory->getInstanceByRefId($test_id,FALSE);
+					if($test_candidate instanceof ilObjTest) 
+					{
+						$objective_data['final'] = $test_id;
+					}
+				}
+			}
+			elseif($this->getSettings()->getQualifiedTest())
 			{
 				if(ilLOUtils::lookupRandomTest(ilObject::_lookupObjId($this->getSettings()->getQualifiedTest())))
 				{

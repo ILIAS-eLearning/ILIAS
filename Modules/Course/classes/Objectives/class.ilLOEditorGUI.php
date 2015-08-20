@@ -685,15 +685,17 @@ class ilLOEditorGUI
 	 */
 	protected function testAssignment(ilPropertyFormGUI $form = null)
 	{
-		$this->ctrl->setParameter($this,'tt',(int) $_REQUEST['tt']);
+		$this->setTestType((int) $_REQUEST['tt']);
+		$this->ctrl->setParameter($this,'tt',$this->getTestType());
+
 		switch($this->getTestType())
 		{
 			case ilLOSettings::TYPE_TEST_INITIAL:
-				$GLOBALS['ilTabs']->activateSubTab('itest');
+				$GLOBALS['ilTabs']->activateSubTab('itests');
 				break;
 			
 			case ilLOSettings::TYPE_TEST_QUALIFIED:
-				$GLOBALS['ilTabs']->activateSubTab('qtest');
+				$GLOBALS['ilTabs']->activateSubTab('qtests');
 				break;
 		}
 		if(!$form instanceof ilPropertyFormGUI)
@@ -809,9 +811,6 @@ class ilLOEditorGUI
 
 		// title
 		$ti = new ilTextInputGUI($this->lng->txt("title"), "title");
-		$ti->setValue(
-				ilObject::_lookupTitle(ilObject::_lookupObjId($this->getSettings()->getTestByType($this->getTestType())))
-		);
 		$ti->setMaxLength(128);
 		$ti->setSize(40);
 		$ti->setRequired(true);
@@ -819,9 +818,6 @@ class ilLOEditorGUI
 
 		// description
 		$ta = new ilTextAreaInputGUI($this->lng->txt("description"), "desc");
-		$ta->setValue(
-				ilObject::_lookupDescription(ilObject::_lookupObjId($this->getSettings()->getTestByType($this->getTestType())))
-		);
 		$ta->setCols(40);
 		$ta->setRows(2);
 		$new->addSubItem($ta);
@@ -831,11 +827,6 @@ class ilLOEditorGUI
 		$this->lng->loadLanguageModule('assessment');
 		$qst = new ilRadioGroupInputGUI($this->lng->txt('tst_question_set_type'),'qtype');
 		$qst->setRequired(true);
-		$qst->setValue(
-				$this->getSettings()->isRandomTestType($this->getTestType()) ? 
-				ilObjTest::QUESTION_SET_TYPE_RANDOM:
-				ilObjTest::QUESTION_SET_TYPE_FIXED
-		);
 		
 		$random = new ilRadioOption(
 				$this->lng->txt('tst_question_set_type_random'),
@@ -901,8 +892,7 @@ class ilLOEditorGUI
 			$objective->setRequired(TRUE);
 			$objective->setOptions($options);
 			$form->addItem($objective);
-		}
-		
+		}	
 		
 		return $form;
 	}

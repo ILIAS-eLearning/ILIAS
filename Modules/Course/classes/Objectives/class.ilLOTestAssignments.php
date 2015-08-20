@@ -71,6 +71,23 @@ class ilLOTestAssignments
 		}
 		return $by_type;
 	}
+	
+	/**
+	 * Get assignment by objective
+	 * @param type $a_objective_id
+	 * @return ilLOTestAssignment
+	 */
+	public function getAssignmentByObjective($a_objective_id)
+	{
+		foreach($this->assignments as $assignment)
+		{
+			if($assignment->getObjectiveId() == $a_objective_id)
+			{
+				return $assignment;
+			}
+		}
+		return FALSE;
+	}
 
 	/**
 	 * Read assignments
