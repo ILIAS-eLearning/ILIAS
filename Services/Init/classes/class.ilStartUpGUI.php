@@ -1136,7 +1136,7 @@ class ilStartUpGUI
 	{
 		global $tpl, $ilSetting, $ilAuth, $lng, $ilIliasIniFile;
 
-		ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);		
+		ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);
 		$ilAuth->logout();
 		session_destroy();
 
@@ -1144,7 +1144,9 @@ class ilStartUpGUI
 		$client_id = $_COOKIE["ilClientId"];
 		ilUtil::setCookie("ilClientId","");
 
-		$this->showLogin();
+		ilUtil::redirect("ilias.php");
+
+		//$this->showLogin();
 
 /*
 		//instantiate logout template
