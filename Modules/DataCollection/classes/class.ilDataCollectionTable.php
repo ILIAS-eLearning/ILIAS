@@ -1342,10 +1342,7 @@ class ilDataCollectionTable {
 			if ($id == 'owner' || $id == 'last_edit_by') {
 				$join_str .= "LEFT JOIN usr_data AS sort_usr_data_{$id} ON (sort_usr_data_{$id}.usr_id = record.{$id})";
 				$select_str .= " sort_usr_data_{$id}.login AS field_{$id},";
-			} elseif ($id == 'comments') {
-				$join_str .= "LEFT JOIN note ON (note.rep_obj_id = " . $ilDB->quote($this->getId(), 'integer') . " AND note.obj_id = record.id AND obj_type = 'dcl') ";
-				$select_str .= " note.id AS note";
-			} else {
+			} elseif ($id != 'comments') {
 				$select_str .= " record.{$id} AS field_{$id},";
 			}
 		} else {
@@ -1541,7 +1538,10 @@ class ilDataCollectionTable {
 		}
 
 		// Build the query string
-		$sql = "SELECT DISTINCT record.id, record.owner, ";
+		$sql = "SELECT DISTINCT record.id, record.owner";
+		if($select_str) {
+			$sql .= ', ';
+		}
 		$sql .= rtrim($select_str, ',') . " FROM il_dcl_record AS record ";
 		$sql .= $join_str;
 		$sql .= " WHERE record.table_id = " . $ilDB->quote($this->getId(), 'integer') . $where_additions;
