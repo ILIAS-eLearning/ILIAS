@@ -115,6 +115,10 @@ abstract class ilMailTemplateContext
 	public function resolvePlaceholder($placeholder_id, array $context_parameters, ilObjUser $recipient, $html_markup = false)
 	{
 		$this->initLanguage($recipient);
+		
+		// switch to user lang
+		$old_lang = ilDatePresentation::getLanguage();
+		ilDatePresentation::setLanguage($this->getLanguage());
 
 		$resolved = null;
 		if('mail_salutation' == $placeholder_id)
@@ -152,9 +156,12 @@ abstract class ilMailTemplateContext
 			$resolved = CLIENT_NAME;
 		}
 		else
-		{
+		{						
 			$resolved = $this->resolveSpecificPlaceholder($placeholder_id, $context_parameters, $recipient, $html_markup);
 		}
+		
+		// reset to global lang
+		ilDatePresentation::setLanguage($old_lang);
 
 		return $resolved;
 	}

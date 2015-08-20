@@ -135,7 +135,7 @@ class ilScormMailTemplateLPContext extends ilMailTemplateContext
 				{
 					$status = ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
 				}
-				return ilLearningProgressBaseGUI::_getStatusText($status);								
+				return ilLearningProgressBaseGUI::_getStatusText($status, $this->getLanguage());								
 				
 			case 'sahs_mark':				
 				include_once './Services/Tracking/classes/class.ilLPMarks.php';
@@ -150,7 +150,7 @@ class ilScormMailTemplateLPContext extends ilMailTemplateContext
 					if(isset($progress['spent_seconds']))
 					{
 						include_once './Services/Utilities/classes/class.ilFormat.php';
-						return ilFormat::_secondsToString($progress['spent_seconds']);
+						return ilFormat::_secondsToString($progress['spent_seconds'], false, $this->getLanguage());
 					}
 				}
 				break;
