@@ -9070,3 +9070,38 @@ if(!$ilDB->tableColumnExists('mail', 'tpl_ctx_params'))
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#4646>
+<?php
+if(!$ilDB->tableExists('itgr_data'))
+{
+	$ilDB->createTable('itgr_data', array(
+		'id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'hide_title' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		)
+	));
+
+	$ilDB->addPrimaryKey('itgr_data',array('id'));
+}
+?>
+<#4647>
+<?php
+$set = $ilDB->query("SELECT * FROM object_data ".
+	" WHERE type = ".$ilDB->quote("itgr", "text")
+	);
+while ($rec = $ilDB->fetchAssoc($set))
+{
+	$ilDB->manipulate("INSERT INTO itgr_data ".
+		"(id, hide_title) VALUES (".
+		$ilDB->quote($rec["obj_id"], "integer").",".
+		$ilDB->quote(0, "integer").
+		")");
+}
+?>
