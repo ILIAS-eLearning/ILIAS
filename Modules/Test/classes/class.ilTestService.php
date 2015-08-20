@@ -188,5 +188,57 @@ class ilTestService
 		$assessmentSetting = new ilSetting("assessment");
 		$assessmentSetting->set("manscoring_done_" . $activeId, (bool)$manScoringDone);
 	}
+
+	/**
+	 * @param ilTestSequence $testSequence
+	 * @param $obligationsFilter
+	 * @return array
+	 */
+	public function getQuestionSummaryData(ilTestSequence $testSequence, $obligationsFilter)
+	{
+		$result_array = $testSequence->getSequenceSummary($obligationsFilter);
+
+		$marked_questions = array();
+
+		if($this->object->getShowMarker())
+		{
+			include_once "./Modules/Test/classes/class.ilObjTest.php";
+			$marked_questions = ilObjTest::_getSolvedQuestions($testSequence->getActiveId());
+		}
+
+		$data = array();
+
+		foreach($result_array as $key => $value)
+		{
+			$description = "";
+			if($this->object->getListOfQuestionsDescription())
+			{
+				$description = $value["description"];
+			}
+
+			$points = "";
+			if(!$this->object->getTitleOutput())
+			{
+				$points = $value["points"];
+			}
+
+			$marked = false;
+			if(count($marked_questions))
+			{
+				if(array_key_exists($value["qid"], $marked_questions))
+				{
+					$obj = $marked_questions[$value["qid"]];
+					if($obj["solved"] == 1)
+					{
+						$marked = true;
+					}
+				}
+			}
+
+			array_push($data, array('order' => $value["nr"], 'title' => $this->object->getQuestionTitle($value["title"]), 'description' => $description, 'worked_through' => ($value["worked_through"]) ? true : false, 'postponed' => ($value["postponed"]) ? $this->lng->txt("postponed") : '', 'points' => $points, 'marked' => $marked, 'sequence' => $value["sequence"], 'obligatory' => $value['obligatory'], 'isAnswered' => $value['isAnswered']));
+		}
+
+		return $data;
+	}
 }
 

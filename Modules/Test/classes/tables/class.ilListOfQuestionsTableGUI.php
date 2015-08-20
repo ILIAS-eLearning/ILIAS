@@ -3,6 +3,7 @@
 
 
 include_once('./Services/Table/classes/class.ilTable2GUI.php');
+require_once 'Modules/Test/classes/class.ilTestPlayerCommands.php';
 
 /**
 *
@@ -119,7 +120,7 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
 		if ($this->isShowPointsEnabled())
 		{
 			$this->tpl->setCurrentBlock('points');
-			$this->tpl->setVariable("POINTS", $data['points']);
+			$this->tpl->setVariable("POINTS", $data['points'].'&nbsp;'.$this->lng->txt("points_short"));
 			$this->tpl->parseCurrentBlock();
 		}
 		if (strlen($data['description']))
@@ -163,10 +164,12 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
 			else $OBLIGATORY = '';
 			$this->tpl->setVariable("QUESTION_OBLIGATORY", $OBLIGATORY);
 		}
+
+		$href = $this->ctrl->getLinkTarget($this->parent_obj, ilTestPlayerCommands::SHOW_QUESTION);
 		
 		$this->tpl->setVariable("ORDER", $data['order']);
 		$this->tpl->setVariable("TITLE", ilUtil::prepareFormOutput($data['title']));
-		$this->tpl->setVariable("HREF", $data['href']);
+		$this->tpl->setVariable("HREF", $href);
 		$this->tpl->setVariable("POSTPONED", $data['postponed']);
 		if ($data["worked_through"])
 		{

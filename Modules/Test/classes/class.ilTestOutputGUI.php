@@ -430,7 +430,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		}
 
 		$formAction = $this->ctrl->getFormAction($this);
-		$this->prepareTestPage($presentationMode, $formAction);
+		$this->prepareTestPage($presentationMode, $sequenceElement, $formAction);
 
 		switch($presentationMode)
 		{

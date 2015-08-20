@@ -411,24 +411,13 @@ ul.shortlist li.active {
 	font-weight: bold;
 }
 
-div.shortlist input[type="submit"]
+ul.shortlist li.listEntry a,
 {
-	background-color: transparent;
 	text-decoration:none;
 	color:#0033AA;
-	border: none;
-	font-size: 100%;
-	display: block;
-	white-space: normal;
-	text-align: left;
 }
 
-div.shortlist input[type="submit"].active
-{
-	font-weight: bold;
-}
-
-div.shortlist input[type="submit"]:hover
+ul.shortlist li.listEntry a:hover
 {
 	text-decoration: underline;
 }

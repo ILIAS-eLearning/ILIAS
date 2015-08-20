@@ -46,6 +46,11 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	protected $processLocker;
 
 	/**
+	 * @var ilTestSequence|ilTestSequenceDynamicQuestionSet
+	 */
+	protected $testSequence = null;
+
+	/**
 	* ilTestOutputGUI constructor
 	*
 	* @param ilObjTest $a_object
@@ -350,22 +355,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$this->tpl->setVariable( "CORRECT_SOLUTION", $this->lng->txt( "tst_best_solution_is" ) );
 		$this->tpl->setVariable( "QUESTION_FEEDBACK", $solutionoutput );
 		$this->tpl->parseCurrentBlock();
-	}
-
-	protected function showSideList()
-	{
-		global $ilUser;
-
-		$sideListActive = $ilUser->getPref('side_list_of_questions');
-
-		if($sideListActive)
-		{
-			$this->tpl->addCss(
-				ilUtil::getStyleSheetLocation("output", "ta_split.css", "Modules/Test"), "screen"
-			);
-			
-			$this->outQuestionSummaryCmd(false);
-		}
 	}
 	
 	protected function populateSyntaxStyleBlock()
@@ -990,7 +979,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	/**
 	 * @return string $formAction
 	 */
-	protected function prepareTestPage($presentationMode, $formAction)
+	protected function prepareTestPage($presentationMode, $sequenceElement, $formAction)
 	{
 		global $ilUser;
 
@@ -1017,8 +1006,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		
 		$this->tpl->setVariable("TEST_ID", $this->object->getTestId());
 		$this->tpl->setVariable("LOGIN", $ilUser->getLogin());
-		$this->tpl->setVariable("SEQ_ID", $this->sequence);
-		$this->tpl->setVariable("QUEST_ID", $this->testSequence->questions[$this->sequence]);
+		$this->tpl->setVariable("SEQ_ID", $sequenceElement);
+		$this->tpl->setVariable("QUEST_ID", $this->testSequence->getQuestionForSequence($sequenceElement));
 		 		
 		if ($this->object->getEnableProcessingTime())
 		{
@@ -1039,7 +1028,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
 		if ($this->object->getListOfQuestions())
 		{
-			$this->showSideList();
+			$this->showSideList($presentationMode, $sequenceElement);
 		}
 
 		$charSelectorAvailable = $this->populateCharSelectorIfRequired();
@@ -1282,6 +1271,30 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$this->tpl->setVariable("CONTENT_BLOCK", $template->get());
 		$this->tpl->parseCurrentBlock();
 	}
+
+	protected function showSideList($presentationMode, $currentSequenceElement)
+	{
+		global $ilUser;
+
+		$sideListActive = $ilUser->getPref('side_list_of_questions');
+
+		if($sideListActive)
+		{
+			$this->tpl->addCss(
+				ilUtil::getStyleSheetLocation("output", "ta_split.css", "Modules/Test"), "screen"
+			);
+
+			$questionSummaryData = $this->service->getQuestionSummaryData($this->testSequence, false);
+
+			require_once 'Modules/Test/classes/class.ilTestQuestionSideListGUI.php';
+			$questionSideListGUI = new ilTestQuestionSideListGUI($this->ctrl, $this->lng);
+			$questionSideListGUI->setTargetGUI($this);
+			$questionSideListGUI->setQuestionSummaryData($questionSummaryData);
+			$questionSideListGUI->setCurrentSequenceElement($currentSequenceElement);
+			$questionSideListGUI->setDisabled($presentationMode == self::PRESENTATION_MODE_EDIT);
+			$this->tpl->setVariable('LIST_OF_QUESTIONS', $questionSideListGUI->getHTML());
+		}
+	}
 	
 	/**
 	 * Output of a summary of all test questions for test participants
@@ -1298,11 +1311,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			ilUtil::sendFailure($this->lng->txt('not_all_obligations_answered'));
 		}
 		
-		$active_id = $this->testSession->getActiveId();
-		$result_array = & $this->testSequence->getSequenceSummary($obligationsFilter);
-		
-		$marked_questions = array();
-		
 		if( $this->object->getKioskMode() && $fullpage )
 		{
 			$head = $this->getKioskHead();
@@ -1313,64 +1321,10 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 				$this->tpl->parseCurrentBlock();
 			}
 		}
-		
-		if( $this->object->getShowMarker() )
-		{
-			include_once "./Modules/Test/classes/class.ilObjTest.php";
-			$marked_questions = ilObjTest::_getSolvedQuestions($active_id);
-		}
-		
-		$data = array();
-		
-		foreach( $result_array as $key => $value )
-		{
-			$this->ctrl->setParameter($this, "sequence", $value["sequence"]);
-			
-			$href = $this->ctrl->getLinkTargetByClass(get_class($this), ilTestPlayerCommands::SHOW_QUESTION);
-			
-			$this->tpl->setVariable("VALUE_QUESTION_TITLE", "<a href=\"".$this->ctrl->getLinkTargetByClass(get_class($this), "gotoQuestion")."\">" . $this->object->getQuestionTitle($value["title"]) . "</a>");
-			
-			$this->ctrl->setParameter($this, "sequence", $_GET["sequence"]);
-			
-			$description = "";
-			if( $this->object->getListOfQuestionsDescription() )
-			{
-				$description = $value["description"];
-			}
-			
-			$points = "";
-			if( !$this->object->getTitleOutput() )
-			{
-				$points = $value["points"]."&nbsp;".$this->lng->txt("points_short");
-			}
-			
-			$marked = false;
-			if( count($marked_questions) )
-			{
-				if( array_key_exists($value["qid"], $marked_questions) )
-				{
-					$obj = $marked_questions[$value["qid"]];
-					if( $obj["solved"] == 1 )
-					{
-						$marked = true;
-					}
-				} 
-			}
-			
-			array_push($data, array(
-				'order' => $value["nr"],
-				'href' => $href,
-				'title' => $this->object->getQuestionTitle($value["title"]),
-				'description' => $description,
-				'worked_through' => ($value["worked_through"]) ? true : false,
-				'postponed' => ($value["postponed"]) ? $this->lng->txt("postponed") : '',
-				'points' => $points,
-				'marked' => $marked,
-				'sequence' => $value["sequence"],
-				'obligatory' => $value['obligatory'],
-				'isAnswered' => $value['isAnswered']
-			));
-		}
+
+
+		$active_id = $this->testSession->getActiveId();
+		$questionSummaryData = $this->service->getQuestionSummaryData($this->testSequence, $obligationsFilter);
 		
 		$this->ctrl->setParameter($this, "sequence", $_GET["sequence"]);
 		
@@ -1387,7 +1341,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
 			$table_gui->init();
 				
-			$table_gui->setData($data);
+			$table_gui->setData($questionSummaryData);
 
 			$this->tpl->setVariable('TABLE_LIST_OF_QUESTIONS', $table_gui->getHTML());	
 			
@@ -1395,37 +1349,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			{
 				$this->outProcessingTime($active_id);
 			}
-		}
-		else
-		{
-			$template = new ilTemplate('tpl.il_as_tst_list_of_questions_short.html', true, true, 'Modules/Test');
-			
-			foreach( $data as $row )
-			{
-				if( strlen($row['description']) )
-				{
-					$template->setCurrentBlock('description');
-					$template->setVariable("DESCRIPTION", $row['description']);
-					$template->parseCurrentBlock();
-				}
-				
-				$active = ($row['sequence'] == $this->sequence) ? ' active' : '';
-				
-				$template->setCurrentBlock('item');
-				$template->setVariable('CLASS', ($row['walked_through']) ? ('answered'.$active) : ('unanswered'.$active));
-				$template->setVariable('ITEM', ilUtil::prepareFormOutput($row['title']));
-				$template->setVariable('SEQUENCE', $row['sequence']);
-				$template->parseCurrentBlock();
-			}
-
-			require_once 'Services/UIComponent/Panel/classes/class.ilPanelGUI.php';
-			$panel = ilPanelGUI::getInstance();
-			$panel->setHeadingStyle(ilPanelGUI::HEADING_STYLE_SUBHEADING);
-			$panel->setPanelStyle(ilPanelGUI::PANEL_STYLE_SECONDARY);
-			$panel->setHeading($this->lng->txt('list_of_questions'));
-			$panel->setBody($template->get());
-
-			$this->tpl->setVariable('LIST_OF_QUESTIONS', $panel->getHTML());
 		}
 	}
 	
