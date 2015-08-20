@@ -20,6 +20,11 @@ require_once './Modules/Test/classes/class.ilTestPlayerAbstractGUI.php';
 abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 {
 	/**
+	 * @var ilTestQuestionRelatedObjectivesList
+	 */
+	protected $questionRelatedObjectivesList;
+	
+	/**
 	 * Execute Command
 	 */
 	public function executeCommand()
@@ -56,6 +61,10 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		$this->testSequence = $testSequenceFactory->getSequence($this->testSession);
 		$this->testSequence->loadFromDb();
 		$this->testSequence->loadQuestions();
+
+		require_once 'Modules/Test/classes/class.ilTestQuestionRelatedObjectivesList.php';
+		$this->questionRelatedObjectivesList = new ilTestQuestionRelatedObjectivesList();
+		$this->questionRelatedObjectivesList->setQuestionIds($this->testSequence->getQuestionIds());
 
 		include_once 'Services/jQuery/classes/class.iljQueryUtil.php';
 		iljQueryUtil::initjQuery();
@@ -309,9 +318,15 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 				{
 					$this->testSequence->loadFromDb();
 					$this->testSequence->loadQuestions();
+
+					require_once 'Modules/Course/classes/Objectives/class.ilLOTestQuestionAdapter.php';
+					$objectivesAdapter = ilLOTestQuestionAdapter::getInstance($this->testSession);
 					
-					$this->filterTestSequenceByObjectives(
-						$this->testSession, $this->testSequence
+					$objectivesAdapter->notifyTestStart($this->testSession, $this->object->getId());
+					$objectivesAdapter->prepareTestPass($this->testSession, $this->testSequence);
+					
+					$objectivesAdapter->buildQuestionRelatedObjectiveList(
+						$this->questionRelatedObjectivesList
 					);
 				}
 				
@@ -474,6 +489,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		}
 
 		$is_postponed = $this->testSequence->isPostponedQuestion($question_gui->object->getId());
+		$is_optional = $this->testSequence->isQuestionOptional($question_gui->object->getId());
 		$this->ctrl->setParameter($this, "sequence", "$sequence");
 		$formaction = $this->ctrl->getFormAction($this, "gotoQuestion");
 
@@ -757,9 +773,9 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
 				if( $this->testSession->isObjectiveOriented() )
 				{
-					$this->updateContainerObjectivesWithAnsweredQuestion(
-						$this->testSession, $this->testSequence, $question_gui->object
-					);
+					require_once 'Modules/Course/classes/Objectives/class.ilLOTestQuestionAdapter.php';
+					$objectivesAdapter = ilLOTestQuestionAdapter::getInstance($this->testSession);
+					$objectivesAdapter->updateQuestionResult($this->testSession, $question_gui->object);
 				}
 				
 				if( $this->object->isSkillServiceToBeConsidered() )
@@ -920,24 +936,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 	protected function getObjectiveOrientedContainerId()
 	{
 		require_once 'Modules/Course/classes/Objectives/class.ilLOSettings.php';
-		
 		return (int)ilLOSettings::isObjectiveTest($this->testSession->getRefId());
-	}
-	
-	protected function filterTestSequenceByObjectives(ilTestSession $testSession, ilTestSequence $testSequence)
-	{
-		require_once 'Modules/Course/classes/Objectives/class.ilLOTestQuestionAdapter.php';
-		
-		ilLOTestQuestionAdapter::filterQuestions($testSession, $testSequence);
-	}
-	
-	protected function updateContainerObjectivesWithAnsweredQuestion(ilTestSession $testSession, ilTestSequence $testSequence, assQuestion $question)
-	{
-		require_once 'Modules/Course/classes/Objectives/class.ilLOTestQuestionAdapter.php';
-
-		ilLOTestQuestionAdapter::updateObjectiveStatus($testSession, $testSequence, $question);
-
-		$testSequence->saveToDb();
 	}
 	
 	protected function customRedirectRequired()

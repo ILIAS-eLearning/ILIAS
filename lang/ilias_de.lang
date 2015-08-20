@@ -344,6 +344,15 @@ assessment#:#applet_new_parameter#:#Neuer Parameter
 assessment#:#applet_parameter#:#Parameter
 assessment#:#applet_parameters#:#Applet-Parameter
 assessment#:#apply#:#Übernehmen
+assessment#:#tst_res_lo_objectives_header#:#Relevante Lernziele
+assessment#:#tst_res_lo_try_header#:#Versuch
+assessment#:#tst_res_lo_try_n#:#%s. Versuch
+assessment#:#tst_pass_overview_header_lo_initial_all_objectives#:#Einstiegstestergebnisse<br />zu den Lernzielen im Kurs %s
+assessment#:#tst_pass_overview_header_lo_initial_per_objective#:#Einstiegstestergebnisse<br />zum Lernziel %s im Kurs %s
+assessment#:#tst_pass_overview_header_lo_qualifying_all_objectives#:#Qualifizierende Testergebnisse<br />zu den Lernzielen im Kurs %s
+assessment#:#tst_pass_overview_header_lo_qualifying_per_objective#:#Qualifizierende Testergebnisse<br />zum Lernziel %s im Kurs %s
+assessment#:#tst_pass_details_header_lo_initial#:#Einstiegsergebnisse zu den Lernzielen<br />%s - %s
+assessment#:#tst_pass_details_header_lo_qualifying#:#Qualifizierende Ergebnisse zu den Lernzielen<br />%s - %s
 assessment#:#ass_completion_by_submission#:#Bestehen durch Abgabe
 assessment#:#ass_completion_by_submission_info#:#Falls aktiviert, führt die Abgabe einer Lösungsdatei zur Vergabe der Maximalpunktzahl für diese Frage. Die Bewertung kann jederzeit manuell angepasst werden. Das Ändern dieser Einstellung hat keine nachträglichen Auswirkungen auf bereits eingereichte Lösungen.
 assessment#:#ass_create_export_file#:#Erstelle Exportdatei

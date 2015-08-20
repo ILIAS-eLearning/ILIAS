@@ -24,6 +24,11 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
 	protected $pdf_view = false;
 
 	/**
+	 * @var bool
+	 */
+	protected $objectiveOrientedPresentationEnabled = false;
+
+	/**
 	 * @param        $parent
 	 * @param string $cmd
 	 * @param int    $context
@@ -49,8 +54,12 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
 		}
 		$this->disable('sort');
 
-		$this->initColumns();
 		$this->setRowTemplate('tpl.il_as_tst_pass_overview_row.html', 'Modules/Test');
+	}
+	
+	public function init()
+	{
+		$this->initColumns();
 	}
 
 	/**
@@ -85,12 +94,40 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
 			$row['percentage'] = sprintf('%.2f', $row['percentage']) . '%';
 		}
 
-		if($this->pdf_view && array_key_exists('pass_details', $row))
+		// fill columns
+		
+		if( !$this->isObjectiveOrientedPresentationEnabled() )
 		{
-			unset($row['pass_details']);
+			$this->tpl->setVariable('VAL_SCORED', $row['scored']);
+			$this->tpl->setVariable('VAL_PASS', $row['pass']);
+		}
+		
+		$this->tpl->setVariable('VAL_DATE', $row['date']);
+
+		if( $this->isObjectiveOrientedPresentationEnabled() )
+		{
+			$this->tpl->setVariable('VAL_LO_OBJECTIVES', $row['objectivesList']->getUniqueObjectivesString());
+			
+			$this->tpl->setVariable('VAL_LO_TRY', sprintf(
+				$this->lng->txt('tst_res_lo_try_n'), $row['pass']
+			));
 		}
 
-		parent::fillRow($row);
+		$this->tpl->setVariable('VAL_ANSWERED', $row['answered']);
+		
+		if( isset($row['hints']) )
+		{			
+			$this->tpl->setVariable('VAL_HINTS', $row['hints']);
+		}
+		
+		$this->tpl->setVariable('VAL_REACHED', $row['reached']);
+
+		$this->tpl->setVariable('VAL_PERCENTAGE', $row['percentage']);
+
+		if(!$this->pdf_view)
+		{
+			$this->tpl->setVariable('VAL_PASS_DETAILS', $row['pass_details']);
+		}
 	}
 
 	/**
@@ -98,12 +135,24 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
 	 */
 	protected function initColumns()
 	{
-		if(self::CONTEXT_LONG == $this->getContext())
+		if(self::CONTEXT_LONG == $this->getContext() && !$this->isObjectiveOrientedPresentationEnabled())
 		{
 			$this->addColumn($this->lng->txt('scored_pass'), '', '150');
 		}
-		$this->addColumn($this->lng->txt('pass'), '', '1%');
+		
+		if( !$this->isObjectiveOrientedPresentationEnabled() )
+		{
+			$this->addColumn($this->lng->txt('pass'), '', '1%');
+		}
+		
 		$this->addColumn($this->lng->txt('date'));
+		
+		if( $this->isObjectiveOrientedPresentationEnabled() )
+		{
+			$this->addColumn($this->lng->txt('tst_res_lo_objectives_header'), '');
+			$this->addColumn($this->lng->txt('tst_res_lo_try_header'), '');
+		}
+		
 		if(self::CONTEXT_LONG == $this->getContext())
 		{
 			$this->addColumn($this->lng->txt('tst_answered_questions'));
@@ -119,5 +168,21 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
 		{
 			$this->addColumn('', '', '10%' );
 		}
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isObjectiveOrientedPresentationEnabled()
+	{
+		return $this->objectiveOrientedPresentationEnabled;
+	}
+
+	/**
+	 * @param boolean $objectiveOrientedPresentationEnabled
+	 */
+	public function setObjectiveOrientedPresentationEnabled($objectiveOrientedPresentationEnabled)
+	{
+		$this->objectiveOrientedPresentationEnabled = $objectiveOrientedPresentationEnabled;
 	}
 }

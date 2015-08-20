@@ -58,6 +58,11 @@ class ilTestSequence
 	private $newlyCheckedQuestion;
 
 	/**
+	 * @var array
+	 */
+	private $optionalQuestions;
+	
+	/**
 	* ilTestSequence constructor
 	*
 	* The constructor takes possible arguments an creates an instance of 
@@ -79,6 +84,8 @@ class ilTestSequence
 		
 		$this->alreadyCheckedQuestions = array();
 		$this->newlyCheckedQuestion = null;
+		
+		$this->optionalQuestions = array();
 	}
 	
 	function getActiveId()
@@ -131,6 +138,7 @@ class ilTestSequence
 	{
 		$this->loadQuestionSequence();
 		$this->loadCheckedQuestions();
+		$this->loadOptionalQuestions();
 	}
 	
 	private function loadQuestionSequence()
@@ -168,6 +176,20 @@ class ilTestSequence
 		}
 	}
 	
+	private function loadOptionalQuestions()
+	{
+		global $ilDB;
+
+		$res = $ilDB->queryF("SELECT question_fi FROM tst_seq_qst_optional WHERE active_fi = %s AND pass = %s",
+			array('integer','integer'), array($this->active_id, $this->pass)
+		);
+
+		while( $row = $ilDB->fetchAssoc($res) )
+		{
+			$this->optionalQuestions[ $row['question_fi'] ] = $row['question_fi'];
+		}
+	}
+	
 	/**
 	* Saves the sequence data for a given pass to the database
 	*
@@ -177,6 +199,7 @@ class ilTestSequence
 	{
 		$this->saveQuestionSequence();
 		$this->saveNewlyCheckedQuestion();
+		$this->saveOptionalQuestions();
 	}
 	
 	private function saveQuestionSequence()
@@ -222,6 +245,30 @@ class ilTestSequence
 				'active_fi' => array('integer', (int)$this->active_id),
 				'pass' => array('integer', (int)$this->pass),
 				'question_fi' => array('integer', (int)$this->newlyCheckedQuestion)
+			), array());
+		}
+	}
+
+	/**
+	 * @global ilDB $ilDB
+	 */
+	private function saveOptionalQuestions()
+	{
+		global $ilDB;
+		
+		$NOT_IN_questions = $ilDB->in('question_fi', $this->optionalQuestions, true, 'integer');
+		
+		$ilDB->queryF(
+			"DELETE FROM tst_seq_qst_optional WHERE active_fi = %s AND pass = %s AND $NOT_IN_questions",
+			array('integer', 'integer'), array($this->active_id, $this->pass)
+		);
+
+		foreach($this->optionalQuestions as $questionId)
+		{
+			$ilDB->replace('tst_seq_qst_optional', array(
+				'active_fi' => array('integer', (int)$this->active_id),
+				'pass' => array('integer', (int)$this->pass),
+				'question_fi' => array('integer', (int)$questionId)
 			), array());
 		}
 	}
@@ -644,6 +691,26 @@ class ilTestSequence
 	public function questionExists($questionId)
 	{
 		return in_array($questionId, $this->questions);
+	}
+
+	public function setQuestionOptional($questionId)
+	{
+		$this->optionalQuestions[$questionId] = $questionId;
+	}
+
+	public function isQuestionOptional($questionId)
+	{
+		return isset($this->optionalQuestions[$questionId]);
+	}
+	
+	public function hasOptionalQuestions()
+	{
+		return (bool)count($this->optionalQuestions);
+	}
+	
+	public function clearOptionalQuestions()
+	{
+		$this->optionalQuestions = array();
 	}
 }
 

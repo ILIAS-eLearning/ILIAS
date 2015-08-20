@@ -246,6 +246,15 @@ assessment#:#applet_new_parameter#:#New Parameter
 assessment#:#applet_parameter#:#Parameter
 assessment#:#applet_parameters#:#Applet Parameters
 assessment#:#apply#:#Apply
+assessment#:#tst_res_lo_objectives_header#:#Relevant Learning Objectives
+assessment#:#tst_res_lo_try_header#:#Attempt
+assessment#:#tst_res_lo_try_n#:#Attempt %s
+assessment#:#tst_pass_overview_header_lo_initial_all_objectives#:#Initial Test Results<br />for the Learning Objectives within the Course %s
+assessment#:#tst_pass_overview_header_lo_initial_per_objective#:#Initial Test Results<br />for the Learning Objectives %s within the Course %s
+assessment#:#tst_pass_overview_header_lo_qualifying_all_objectives#:#Qualifying Test Results<br />for the Learning Objectives within the Course %s
+assessment#:#tst_pass_overview_header_lo_qualifying_per_objective#:#Qualifying Test Results<br />for the Learning Objectives %s within the Course %s
+assessment#:#tst_pass_details_header_lo_initial#:#Initial Test Results for the Learning Objectives<br />%s - %s
+assessment#:#tst_pass_details_header_lo_qualifying#:#Qualifying Test Results for the Learning Objectives<br />%s - %s
 assessment#:#ass_create_export_file#:#Create Test Export File
 assessment#:#ass_create_export_test_results#:#Create Test Results Export File
 assessment#:#ass_create_export_test_archive#:#Create Test Archive File
