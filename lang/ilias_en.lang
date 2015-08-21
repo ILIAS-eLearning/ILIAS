@@ -15701,3 +15701,14 @@ mep#:#mep_trans_import_info#:#If you exported this module as XML/Master Language
 mep#:#mep_import_trans#:#Import Translation
 mep#:#mep_import_lang#:#Target Language
 content#:#cont_snippet_from_another_installation#:#Snippet comes from another installation.
+rbac#:#edit_wiki_navigation#:#Edit Navigation
+rbac#:#delete_wiki_pages#:#Delete Pages
+rbac#:#activate_wiki_protection#:#Set Read-Only
+obj#:#obj_permission_settings#:#Permission Settings
+rbac#:#rbac_permissions#:#Permissions
+rbac#:#wiki_html_export#:#Export HTML
+wiki#:#wiki_html_export#:#HTML exportieren
+rbac#:#wiki_edit_wiki_navigation#:#Edit Wiki Navigation
+rbac#:#wiki_delete_wiki_pages#:#Delete Wiki Pages
+rbac#:#wiki_activate_wiki_protection#:#Set Wiki Pages to Read-Only
+rbac#:#wiki_wiki_html_export#:#Export Wiki as HTML
