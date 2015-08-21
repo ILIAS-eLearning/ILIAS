@@ -294,14 +294,17 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
 		// settings
 		if ($ilAccess->checkAccess('write', "", $_GET["ref_id"]))
 		{
-//			$actions[] = array(
-//				"txt" => $lng->txt("settings"),
-//				"href" => $ilCtrl->getLinkTargetByClass("ilobjwikigui", "editSettings")
-//				);
 			$actions[] = array(
 				"txt" => $lng->txt("wiki_contributors"),
 				"href" => $ilCtrl->getLinkTargetByClass("ilobjwikigui", "listContributors")
 				);
+
+			$actions[] = array(
+				"txt" => $lng->txt("wiki_html_export"),
+				"id" => "il_wiki_user_export",
+				"href" => $ilCtrl->getLinkTargetByClass("ilobjwikigui", "exportHTMLUser")
+			);
+
 		}
 
 		// manage
@@ -325,6 +328,10 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
 			$tpl->setCurrentBlock("action");
 			$tpl->setVariable("HREF", $a["href"]);
 			$tpl->setVariable("TXT", $a["txt"]);
+			if ($a["id"] != "")
+			{
+				$tpl->setVariable("ACT_ID", "id='".$a["id"]."'");
+			}
 			$tpl->parseCurrentBlock();
 
 			$tpl->touchBlock("item");
