@@ -78,17 +78,11 @@ class ilTestAnswerOptionalQuestionsConfirmationGUI extends ilConfirmationGUI
 	
 	private function buildHeaderText($isFixedTest)
 	{
-		$text = $this->lng->txt('tst_confirm_optional_questions');
-		
 		if($isFixedTest)
 		{
-			$text .= ' '.$this->lng->txt('tst_optional_questions_fixed_test');
+			return $this->lng->txt('tst_optional_questions_confirmation_fixed_test');
 		}
-		else
-		{
-			$text .= ' '.$this->lng->txt('tst_optional_questions_non_fixed_test');
-		}
-		
-		return $text;
+
+		return $this->lng->txt('tst_optional_questions_confirmation_non_fixed_test');
 	}
 } 
