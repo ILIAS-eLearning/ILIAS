@@ -67,9 +67,9 @@ class ilTestServiceGUI
 	protected $participantData;
 
 	/**
-	 * @var integer
+	 * @var ilTestObjectiveOrientedContainer
 	 */
-	protected $objectiveOrientedContainerRefId;
+	private $objectiveOrientedContainer;
 	
 	/**
 	 * The constructor takes the test object reference as parameter 
@@ -98,7 +98,7 @@ class ilTestServiceGUI
 		require_once 'Modules/Test/classes/class.ilTestSequenceFactory.php';
 		$this->testSequenceFactory = new ilTestSequenceFactory($ilDB, $lng, $ilPluginAdmin, $this->object);
 
-		$this->objectiveOrientedContainerRefId = null;
+		$this->objectiveOrientedContainer = null;
 	}
 
 	/**
@@ -116,16 +116,21 @@ class ilTestServiceGUI
 	{
 		return $this->participantData;
 	}
-	
-	protected function determineObjectiveContainer()
+
+	/**
+	 * @param ilTestObjectiveOrientedContainer $objectiveOrientedContainer
+	 */
+	public function setObjectiveOrientedContainer(ilTestObjectiveOrientedContainer $objectiveOrientedContainer)
 	{
-		require_once 'Modules/Course/classes/Objectives/class.ilLOSettings.php';
-		$this->objectiveOrientedContainerRefId = ilLOSettings::isObjectiveTest($this->object->getRefId());
+		$this->objectiveOrientedContainer = $objectiveOrientedContainer;
 	}
-	
-	protected function objectiveOrientedPresentationRequired()
+
+	/**
+	 * @return ilTestObjectiveOrientedContainer
+	 */
+	public function getObjectiveOrientedContainer()
 	{
-		return (bool)$this->objectiveOrientedContainerRefId;
+		return $this->objectiveOrientedContainer;
 	}
 	
 	/**
@@ -198,7 +203,7 @@ class ilTestServiceGUI
 
 		$considerHiddenQuestions = true;
 		
-		if( $this->objectiveOrientedPresentationRequired() )
+		if( $this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired() )
 		{
 			$table->setObjectiveOrientedPresentationEnabled(true);
 			
@@ -225,7 +230,7 @@ class ilTestServiceGUI
 		{
 			$row = array();
 			
-			if( $this->objectiveOrientedPresentationRequired() )
+			if( $this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired() )
 			{
 				$testSequence = $this->testSequenceFactory->getSequenceByPass($testSession, $pass);
 				$testSequence->loadFromDb();

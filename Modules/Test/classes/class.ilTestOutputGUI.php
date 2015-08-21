@@ -288,7 +288,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 				// ensure existing test session
 				$this->testSession->setUserId($ilUser->getId());
 				$this->testSession->setAnonymousId($_SESSION["tst_access_code"][$this->object->getTestId()]);
-				$this->testSession->setObjectiveOrientedContainerId($this->getObjectiveOrientedContainerId());
+				$this->testSession->setObjectiveOrientedContainerId($this->getObjectiveOrientedContainer()->getObjId());
 				$this->testSession->saveToDb();
 				
 				$active_id = $this->testSession->getActiveId();
@@ -955,27 +955,6 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		}
 		
 		$this->processLocker->releaseRandomPassBuildLock();
-	}
-
-	protected function getObjectiveOrientedContainerId()
-	{
-		require_once 'Modules/Course/classes/Objectives/class.ilLOSettings.php';
-		return (int)ilLOSettings::isObjectiveTest($this->testSession->getRefId());
-	}
-	
-	protected function customRedirectRequired()
-	{
-		return $this->testSession->isObjectiveOriented();
-	}
-	
-	protected function performCustomRedirect()
-	{
-		$containerRefId = current(ilObject::_getAllReferences($this->testSession->getObjectiveOrientedContainerId()));
-		
-		require_once 'Services/Link/classes/class.ilLink.php';
-		$redirectTarget = ilLink::_getLink($containerRefId);
-
-		ilUtil::redirect($redirectTarget);
 	}
 	
 	protected function adoptUserSolutionsFromPreviousPass()

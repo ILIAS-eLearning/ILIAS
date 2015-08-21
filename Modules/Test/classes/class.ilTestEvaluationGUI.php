@@ -44,8 +44,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	 */
 	public function &executeCommand()
 	{
-		$this->determineObjectiveContainer();
-
 		$cmd = $this->ctrl->getCmd();
 		$next_class = $this->ctrl->getNextClass($this);
 		$this->ctrl->saveParameter($this, "sequence");
@@ -1052,6 +1050,13 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$ilTabs->setBackTarget($this->lng->txt('tst_results_back_overview'), $this->ctrl->getLinkTarget($this, 'outUserResultsOverview'));
 		}
 
+		if( $this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired() )
+		{
+			require_once 'Services/Link/classes/class.ilLink.php';
+			$courseLink = ilLink::_getLink($this->getObjectiveOrientedContainer()->getRefId());
+			$ilTabs->setBack2Target($this->lng->txt('back_to_objective_container'), $courseLink);
+		}
+
 		$testSession = $this->testSessionFactory->getSession();
 
 		if( !$this->object->getShowPassDetails() )
@@ -1077,7 +1082,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
 		$objectivesList = null;
 		
-		if( $this->objectiveOrientedPresentationRequired() )
+		if( $this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired() )
 		{
 			$testSequence = $this->testSequenceFactory->getSequenceByPass($testSession, $pass);
 			$testSequence->loadFromDb();
@@ -1143,7 +1148,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			}
 		}
 
-		if( !$this->objectiveOrientedPresentationRequired() &&
+		if( !$this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired() &&
 			$this->isGradingMessageRequired() && $this->object->getNrOfTries() == 1 )
 		{
 			$tpl->setCurrentBlock('grading_message');
@@ -1171,7 +1176,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
 		$uname = $this->object->userLookupFullName($user_id, TRUE);
 		$user_data = $this->getResultsUserdata($testSession, $active_id, TRUE);
-		if( !$this->objectiveOrientedPresentationRequired() )
+		if( !$this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired() )
 		{
 			if($this->object->getAnonymity())
 			{
@@ -1213,6 +1218,13 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$this->lng->txt('tst_results_back_introduction'),
 			$this->ctrl->getLinkTargetByClass('ilObjTestGUI', 'infoScreen')
 		);
+
+		if( $this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired() )
+		{
+			require_once 'Services/Link/classes/class.ilLink.php';
+			$courseLink = ilLink::_getLink($this->getObjectiveOrientedContainer()->getRefId());
+			$ilTabs->setBack2Target($this->lng->txt('back_to_objective_container'), $courseLink);
+		}
 
 		$testSession = $this->testSessionFactory->getSession();
 		$active_id = $testSession->getActiveId();
@@ -1257,7 +1269,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
 		require_once 'Modules/Test/classes/class.ilTestResultHeaderLabelBuilder.php';
 		$testResultHeaderLabelBuilder = new ilTestResultHeaderLabelBuilder($this->lng, $ilObjDataCache);
-		if( $this->objectiveOrientedPresentationRequired() )
+		if( $this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired() )
 		{
 			$testResultHeaderLabelBuilder->setObjectiveOrientedContainerId($testSession->getObjectiveOrientedContainerId());
 			$testResultHeaderLabelBuilder->setUserId($testSession->getUserId());
@@ -1272,7 +1284,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
 		$user_data = $this->getResultsUserdata($testSession, $active_id, TRUE);
 
-		if( !$this->objectiveOrientedPresentationRequired() )
+		if( !$this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired() )
 		{
 			if ($this->object->getAnonymity())
 			{
@@ -1454,7 +1466,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
 		$questionId = (int)$_GET['evaluation'];
 
-		if( $this->objectiveOrientedPresentationRequired() )
+		if( $this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired() )
 		{
 			$testSequence = $this->testSequenceFactory->getSequenceByPass($testSession, $pass);
 			$testSequence->loadFromDb();
@@ -1478,6 +1490,13 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		global $ilTabs;
 
 		$ilTabs->setBackTarget($this->lng->txt("tst_back_to_pass_details"), $this->ctrl->getLinkTarget($this, 'outUserPassDetails'));
+
+		if( $this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired() )
+		{
+			require_once 'Services/Link/classes/class.ilLink.php';
+			$courseLink = ilLink::_getLink($this->getObjectiveOrientedContainer()->getRefId());
+			$ilTabs->setBack2Target($this->lng->txt('back_to_objective_container'), $courseLink);
+		}
 
 		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 		$this->tpl->setCurrentBlock("ContentStyle");

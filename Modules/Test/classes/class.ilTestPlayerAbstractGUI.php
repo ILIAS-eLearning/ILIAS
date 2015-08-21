@@ -40,7 +40,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	 * @var ilTestProcessLocker
 	 */
 	protected $processLocker;
-
+	
 	/**
 	 * @var ilTestSession
 	 */
@@ -154,11 +154,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	*/
 	public function outIntroductionPageCmd()
 	{
-		if( $this->customRedirectRequired() )
-		{
-			$this->performCustomRedirect();
-		}
-		
 		$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen"); 
 	}
 
@@ -957,12 +952,12 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$lastFinishedPass = $this->testSession->getLastFinishedPass();
 
 		// handle test signature
-
 		if ( $this->isTestSignRedirectRequired($activeId, $lastFinishedPass) )
 		{
 			$this->ctrl->redirectByClass('ilTestSignatureGUI', 'invokeSignaturePlugin');
 		}
 
+		// show final statement
 		if(!$_GET['skipfinalstatement'])
 		{
 			if ($this->object->getShowFinalStatement())
@@ -989,13 +984,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			}
 		}
 
-		// custom after test redirect (ilTestOutput - objective oriented sessions)
-		if( $this->customRedirectRequired() )
-		{
-			$this->performCustomRedirect();
-		}
-
-		// default redirect (pass results)
+		// default redirect (pass overview when enabled, otherwise infoscreen)
 		$this->redirectBackCmd();
 	}
 
@@ -1973,27 +1962,12 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
 		return true;
 	}
-	
-	protected function customRedirectRequired()
-	{
-		return false;
-	}
-
-	protected function performCustomRedirect()
-	{
-		return;
-	}
 
 	/**
 	 * @return string
 	 */
 	protected function getIntroductionPageButtonLabel()
 	{
-		if( $this->testSession->isObjectiveOriented() )
-		{
-			return $this->lng->txt("save_back_to_objective_container");
-		}
-		
 		return $this->lng->txt("save_introduction");
 	}
 
