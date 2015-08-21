@@ -163,6 +163,14 @@ class ilLOSettings
 	}
 	
 	/**
+	 * Check if separate qualified tests are configured
+	 */
+	public function hasSeparateQualifiedTests()
+	{
+		return $this->getQualifyingTestType() == self::TYPE_QUALIFYING_SELECTED;
+	}
+	
+	/**
 	 * Check if test ref_id is used in an objective course
 	 * @param int ref_id
 	 */

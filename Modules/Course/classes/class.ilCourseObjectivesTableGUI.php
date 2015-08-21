@@ -313,7 +313,7 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
 				$this->ctrl->getLinkTargetByClass('ilcourseobjectivesgui', 'materialAssignment')
 		);
 		// itest
-		if($this->getSettings()->worksWithInitialTest())
+		if($this->getSettings()->worksWithInitialTest() && !$this->getSettings()->hasSeparateInitialTests())
 		{
 			$alist->addItem(
 					$this->lng->txt('crs_objective_action_itest'),
@@ -322,11 +322,23 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
 			);
 		}
 		// qtest
-		$alist->addItem(
-				$this->lng->txt('crs_objective_action_qtest'),
-				'', 
-				$this->ctrl->getLinkTargetByClass('ilcourseobjectivesgui', 'finalTestAssignment')
-		);
+		if($this->getSettings()->hasSeparateQualifiedTests())
+		{
+			#$alist->addItem(
+			#		$this->lng->txt('crs_objective_action_qtest_sep'),
+			#		'', 
+			#		$this->ctrl->getLinkTargetByClass('ilcourseobjectivesgui', 'finalSeparatedTestAssignment')
+			#);
+		}
+		else
+		{
+			$alist->addItem(
+					$this->lng->txt('crs_objective_action_qtest'),
+					'', 
+					$this->ctrl->getLinkTargetByClass('ilcourseobjectivesgui', 'finalTestAssignment')
+			);
+			
+		}
 		
 		$this->ctrl->setParameterByClass('illopagegui','objective_id',$a_set['id']);
 		$alist->addItem(
