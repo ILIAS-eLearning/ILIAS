@@ -64,7 +64,6 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
 		require_once 'Modules/Test/classes/class.ilTestQuestionRelatedObjectivesList.php';
 		$this->questionRelatedObjectivesList = new ilTestQuestionRelatedObjectivesList();
-		$this->questionRelatedObjectivesList->setQuestionIds($this->testSequence->getQuestionIds());
 
 		include_once 'Services/jQuery/classes/class.iljQueryUtil.php';
 		iljQueryUtil::initjQuery();
@@ -324,7 +323,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 					
 					$objectivesAdapter->notifyTestStart($this->testSession, $this->object->getId());
 					$objectivesAdapter->prepareTestPass($this->testSession, $this->testSequence);
-					$objectivesAdapter->buildQuestionRelatedObjectiveList($this->questionRelatedObjectivesList);
+					$objectivesAdapter->buildQuestionRelatedObjectiveList($this->testSequence, $this->questionRelatedObjectivesList);
 
 					if( $this->testSequence->hasOptionalQuestions() )
 					{

@@ -106,7 +106,7 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
 
 		if( $this->isObjectiveOrientedPresentationEnabled() )
 		{
-			$this->tpl->setVariable('VAL_LO_OBJECTIVES', $row['objectivesList']->getUniqueObjectivesString());
+			$this->tpl->setVariable('VAL_LO_OBJECTIVES', $row['objectives']);
 			
 			$this->tpl->setVariable('VAL_LO_TRY', sprintf(
 				$this->lng->txt('tst_res_lo_try_n'), $row['pass']

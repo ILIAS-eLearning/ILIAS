@@ -81,4 +81,21 @@ class ilTestQuestionRelatedObjectivesList
 	{
 		return implode(', ', $this->objectivesTitles);
 	}
-} 
+
+	public function getUniqueObjectivesStringForQuestions($questionIds)
+	{
+		$objectiveTitles = array();
+
+		foreach( $this->objectivesByQuestion as $questionId => $objectiveId )
+		{
+			if( !in_array($questionId, $questionIds) )
+			{
+				continue;
+			}
+
+			$objectiveTitles[$objectiveId] = $this->objectivesTitles[$objectiveId];
+		}
+		
+		return implode(', ', $objectiveTitles);
+	}
+}
