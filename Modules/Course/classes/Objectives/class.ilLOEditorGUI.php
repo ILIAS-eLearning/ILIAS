@@ -508,7 +508,6 @@ class ilLOEditorGUI
 					$this->getParentObject()->getId(),
 					$this->getTestType()
 			);
-			$table->setTitle($this->lng->txt('crs_loc_tst_assignment'));
 			$table->init();
 			$table->parse(ilLOSettings::getInstanceByObjId($this->getParentObject()->getId())->getTestByType($this->getTestType()));
 			$GLOBALS['tpl']->setContent($table->getHTML());

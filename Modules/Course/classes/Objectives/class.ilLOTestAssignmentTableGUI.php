@@ -41,6 +41,52 @@ class ilLOTestAssignmentTableGUI extends ilTable2GUI
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		
 		$this->settings = ilLOSettings::getInstanceByObjId($a_container_id);
+		$this->initTitle();
+		$this->setTopCommands(FALSE);
+		
+	}
+	
+	public function initTitle()
+	{
+		switch($this->test_type)
+		{
+			case ilLOSettings::TYPE_TEST_INITIAL:
+				if($this->getAssignmentType() == self::TYPE_SINGLE_ASSIGNMENTS)
+				{
+					if($this->getSettings()->isInitialTestQualifying())
+					{
+						$this->setTitle($this->lng->txt('crs_loc_settings_tbl_its_q_all'));
+					}
+					else
+					{
+						$this->setTitle($this->lng->txt('crs_loc_settings_tbl_its_nq_all'));
+					}
+				}
+				else
+				{
+					if($this->getSettings()->isInitialTestQualifying())
+					{
+						$this->setTitle($this->lng->txt('crs_loc_settings_tbl_it_q'));
+					}
+					else
+					{
+						$this->setTitle($this->lng->txt('crs_loc_settings_tbl_it_nq'));
+					}
+				}
+				break;
+				
+				
+			case ilLOSettings::TYPE_TEST_QUALIFIED:
+				if($this->getAssignmentType() == self::TYPE_SINGLE_ASSIGNMENTS)
+				{
+					$this->setTitle($this->lng->txt('crs_loc_settings_tbl_qts_all'));
+				}
+				else
+				{
+					$this->setTitle($this->lng->txt('crs_loc_settings_tbl_qt'));
+				}
+				break;
+		}
 	}
 	
 	/**
