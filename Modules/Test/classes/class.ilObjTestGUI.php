@@ -4666,7 +4666,7 @@ class ilObjTestGUI extends ilObjectGUI
 	public function copyQuestionsToPoolObject()
 	{
 		$this->copyQuestionsToPool($_REQUEST['q_id'], $_REQUEST['sel_qpl']);
-		$this->backObject();
+		$this->ctrl->redirect($this, 'questions');
 	}
 
 	public function copyQuestionsToPool($questionIds, $qplId)
@@ -4727,7 +4727,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$questionInstance->setNewOriginalId($newId);
 		}
 
-		$this->backObject();
+		$this->ctrl->redirect($this, 'questions');
 	}
 
 	private function getQuestionpoolCreationForm()
@@ -4793,7 +4793,7 @@ class ilObjTestGUI extends ilObjectGUI
 				if($type !== 'tst')
 				{
 					ilUtil::sendFailure($lng->txt('tst_link_only_unassigned'), true);
-					$this->backObject();
+					$this->ctrl->redirect($this, 'questions');
 					return;
 				}
 			}
