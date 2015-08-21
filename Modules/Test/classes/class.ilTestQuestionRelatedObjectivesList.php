@@ -13,11 +13,6 @@ class ilTestQuestionRelatedObjectivesList
 	/**
 	 * @var array
 	 */
-	protected $questionIds;
-	
-	/**
-	 * @var array
-	 */
 	protected $objectivesByQuestion;
 
 	/**
@@ -27,25 +22,8 @@ class ilTestQuestionRelatedObjectivesList
 	
 	public function __construct()
 	{
-		$this->questionIds = array();
 		$this->objectivesByQuestion = array();
 		$this->objectivesTitles = array();
-	}
-
-	/**
-	 * @return array
-	 */
-	public function getQuestionIds()
-	{
-		return $this->questionIds;
-	}
-
-	/**
-	 * @param array $questionIds
-	 */
-	public function setQuestionIds($questionIds)
-	{
-		$this->questionIds = $questionIds;
 	}
 
 	/**

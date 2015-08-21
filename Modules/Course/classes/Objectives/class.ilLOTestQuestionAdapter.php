@@ -58,12 +58,12 @@ class ilLOTestQuestionAdapter
 		$this->updateQuestions($a_test_session, $a_test_sequence);
 
 		// TODO: following if requires real condition
-		if($markQuestionsOptionalWhenRelatedToPassedObjective = true)
+		if($markQuestionsOptionalWhenRelatedToPassedObjective = false)
 		{
 			$this->setQuestionsOptional($a_test_sequence);
 		}
 		// TODO: following if requires real condition
-		elseif($hideQuestionsWhenRelatedToPassedObjective = false)
+		elseif($hideQuestionsWhenRelatedToPassedObjective = true)
 		{
 			$this->hideQuestions($a_test_sequence);
 		}
@@ -82,20 +82,36 @@ class ilLOTestQuestionAdapter
 	 * @param ilTestSequence $a_test_sequence
 	 * @param ilTestQuestionRelatedObjectivesList $a_objectives_list
 	 */
-	public function buildQuestionRelatedObjectiveList(ilTestQuestionRelatedObjectivesList $a_objectives_list)
+	public function buildQuestionRelatedObjectiveList(ilTestSequence $a_test_sequence, ilTestQuestionRelatedObjectivesList $a_objectives_list)
 	{
-		foreach( $a_objectives_list->getQuestionIds() as $qid )
+		foreach( $a_test_sequence->getQuestionIds() as $questionId )
 		{
-			foreach( $this->run as $run )
+			if( $a_test_sequence instanceof ilTestSequenceFixedQuestionSet )
 			{
-				/* @var ilLOTestRun $run */
-
-				if( $run->questionExists($qid) )
-				{
-					$a_objectives_list->addQuestionRelatedObjective($qid, $run->getObjectiveId());
-				}
+				$objectiveId = $this->lookupObjectiveIdByFixedQuestionId($questionId);
 			}
+			elseif( $a_test_sequence instanceof ilTestSequenceRandomQuestionSet )
+			{
+				$definitionId = $a_test_sequence->getResponsibleSourcePoolDefinitionId($questionId);
+				$objectiveId = $this->lookupObjectiveIdByRandomQuestionSelectionDefinitionId($definitionId);
+			}
+
+			$a_objectives_list->addQuestionRelatedObjective($questionId, $objectiveId);
 		}
+	}
+
+	protected function lookupObjectiveIdByFixedQuestionId($a_question_id)
+	{
+		// TODO: determine objective id related to fixed question id
+		$objectiveId = 0;
+		return $objectiveId;
+	}
+
+	protected function addRandomQuestionRelatedObjective($a_definition_id)
+	{
+		// TODO: determine objective id related to random question selection definition id
+		$objectiveId = 0;
+		return $objectiveId;
 	}
 	
 	protected function getUserId()

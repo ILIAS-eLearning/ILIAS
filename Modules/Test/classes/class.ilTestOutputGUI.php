@@ -495,7 +495,6 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
 		$is_postponed = $this->testSequence->isPostponedQuestion($question_gui->object->getId());
 		$is_optional = $this->testSequence->isQuestionOptional($question_gui->object->getId());
-		$this->ctrl->setParameter($this, "sequence", "$sequence");
 		$formaction = $this->ctrl->getFormAction($this, "gotoQuestion");
 
 		$question_gui->setSequenceNumber($this->testSequence->getPositionOfSequence($sequence));

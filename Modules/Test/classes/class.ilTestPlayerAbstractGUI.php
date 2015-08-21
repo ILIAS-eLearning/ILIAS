@@ -1190,14 +1190,12 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			$this->endingTimeReached();
 			return;
 		}
-		
+
+		$this->ctrl->setParameter($this, "sequence", $this->sequence);
+
 		if( $this->isOptionalQuestionAnsweringConfirmationRequired($this->sequence) )
 		{
 			$this->showAnswerOptionalQuestionsConfirmation();
-			
-			vd($this->testSequence->questions);
-			vd($this->testSequence->sequencedata);
-			vd($this->sequence);
 			return;
 		}
 

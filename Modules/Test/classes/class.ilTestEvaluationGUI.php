@@ -1069,6 +1069,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
 		$this->ctrl->saveParameter($this, "pass");
 		$pass = $_GET["pass"];
+		
+		$considerHiddenQuestions = true;
 
 		require_once 'Modules/Test/classes/class.ilTestResultHeaderLabelBuilder.php';
 		$testResultHeaderLabelBuilder = new ilTestResultHeaderLabelBuilder($this->lng, $ilObjDataCache);
@@ -1094,9 +1096,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$testResultHeaderLabelBuilder->setTestObjId($this->object->getId());
 			$testResultHeaderLabelBuilder->setTestRefId($this->object->getRefId());
 			$testResultHeaderLabelBuilder->initObjectiveOrientedMode();
+
+			$considerHiddenQuestions = false;
 		}
 		
-		$result_array = $this->getFilteredTestResult($active_id, $pass);
+		$result_array = $this->getFilteredTestResult($active_id, $pass, $considerHiddenQuestions);
 
 		$command_solution_details = "";
 		if ($this->object->getShowSolutionDetails())
@@ -1917,7 +1921,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$this->redirectToPassDeletionContext($_POST['context']);
 	}
 
-	protected function getFilteredTestResult($active_id, $pass)
+	protected function getFilteredTestResult($active_id, $pass, $considerHiddenQuestions)
 	{
 		global $ilDB, $ilPluginAdmin;
 
@@ -1955,7 +1959,9 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
 		$filteredTestResult = array();
 
-		foreach($this->object->getTestResult($active_id, $pass) as $resultItemKey => $resultItemValue)
+		$resultData = $this->object->getTestResult($active_id, $pass, false, $considerHiddenQuestions);
+		
+		foreach($resultData as $resultItemKey => $resultItemValue)
 		{
 			if($resultItemKey === 'test' || $resultItemKey === 'pass')
 			{

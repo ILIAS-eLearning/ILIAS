@@ -195,6 +195,8 @@ class ilTestServiceGUI
 			$short ? ilTestPassOverviewTableGUI::CONTEXT_SHORT : ilTestPassOverviewTableGUI::CONTEXT_LONG,
 			(isset($_GET['pdf']) && $_GET['pdf'] == 1)
 		);
+
+		$considerHiddenQuestions = true;
 		
 		if( $this->objectiveOrientedPresentationRequired() )
 		{
@@ -202,6 +204,8 @@ class ilTestServiceGUI
 			
 			require_once 'Modules/Course/classes/Objectives/class.ilLOTestQuestionAdapter.php';
 			$objectivesAdapter = ilLOTestQuestionAdapter::getInstance($testSession);
+
+			$considerHiddenQuestions = false;
 		}
 		
 		$table->init();
@@ -226,15 +230,13 @@ class ilTestServiceGUI
 				$testSequence = $this->testSequenceFactory->getSequenceByPass($testSession, $pass);
 				$testSequence->loadFromDb();
 				$testSequence->loadQuestions();
-				$row['objectivesList'] = $this->buildQuestionRelatedObjectivesList(
-					$objectivesAdapter, $testSequence->getQuestionIds()
-				);
+				$row['objectivesList'] = $this->buildQuestionRelatedObjectivesList($objectivesAdapter, $testSequence);
 				$row['objectivesList']->loadObjectivesTitles();
 			}
 
 				if(!$short)
 				{
-					$result_array =& $this->object->getTestResult($active_id, $pass);
+					$result_array =& $this->object->getTestResult($active_id, $pass, false, $considerHiddenQuestions);
 					if(!$result_array['pass']['total_max_points'])
 					{
 						$percentage = 0;
@@ -959,14 +961,12 @@ class ilTestServiceGUI
 		return $gradingMessageBuilder->getMessage();
 	}
 	
-	protected function buildQuestionRelatedObjectivesList(ilLOTestQuestionAdapter $objectivesAdapter, $questionIds)
+	protected function buildQuestionRelatedObjectivesList(ilLOTestQuestionAdapter $objectivesAdapter, ilTestSequence $testSequence)
 	{
 		require_once 'Modules/Test/classes/class.ilTestQuestionRelatedObjectivesList.php';
 		$questionRelatedObjectivesList = new ilTestQuestionRelatedObjectivesList();
-
-		$questionRelatedObjectivesList->setQuestionIds($questionIds);
 			
-		$objectivesAdapter->buildQuestionRelatedObjectiveList($questionRelatedObjectivesList);
+		$objectivesAdapter->buildQuestionRelatedObjectiveList($testSequence, $questionRelatedObjectivesList);
 		
 		return $questionRelatedObjectivesList;
 	}

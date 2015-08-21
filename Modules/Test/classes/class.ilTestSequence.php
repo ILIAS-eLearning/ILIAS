@@ -66,6 +66,11 @@ class ilTestSequence
 	 * @var bool
 	 */
 	private $answeringOptionalQuestionsConfirmed;
+
+	/**
+	 * @var bool
+	 */
+	private $considerHiddenQuestionsEnabled;
 	
 	/**
 	* ilTestSequence constructor
@@ -92,6 +97,8 @@ class ilTestSequence
 		
 		$this->optionalQuestions = array();
 		$this->answeringOptionalQuestionsConfirmed = false;
+		
+		$this->considerHiddenQuestionsEnabled = false;
 	}
 	
 	function getActiveId()
@@ -407,22 +414,42 @@ class ilTestSequence
 	
 	function getOrderedSequence()
 	{
-		return array_keys($this->questions);
+		$sequenceKeys = array();
+		
+		foreach(array_keys($this->questions) as $sequenceKey)
+		{
+			if( $this->isConsiderHiddenQuestionsEnabled() || !$this->isHiddenSequence($sequenceKey) )
+			{
+				$sequenceKeys[] = $sequenceKey;
+			}
+		}
+		
+		return $sequenceKeys;
 	}
 	
 	function getOrderedSequenceQuestions()
 	{
-		return $this->questions;
+		$questions = array();
+		
+		foreach($this->questions as $questionId)
+		{
+			if( $this->isConsiderHiddenQuestionsEnabled() || !$this->isHiddenQuestion($questionId) )
+			{
+				$questions[] = $questionId;
+			}
+		}
+		
+		return $questions;
 	}
 	
 	function getUserSequence()
 	{
-		return $this->getCorrectedSequence(TRUE);
+		return $this->getCorrectedSequence();
 	}
 
 	function getUserSequenceQuestions()
 	{
-		$seq = $this->getCorrectedSequence(TRUE);
+		$seq = $this->getCorrectedSequence();
 		$found = array();
 		foreach ($seq as $sequence)
 		{
@@ -431,10 +458,10 @@ class ilTestSequence
 		return $found;
 	}
 
-	protected function getCorrectedSequence($with_hidden_questions = FALSE)
+	protected function getCorrectedSequence()
 	{
 		$correctedsequence = $this->sequencedata["sequence"];
-		if (!$with_hidden_questions)
+		if( !$this->isConsiderHiddenQuestionsEnabled() )
 		{
 			if (is_array($this->sequencedata["hidden"]))
 			{
@@ -760,6 +787,22 @@ class ilTestSequence
 	public function setAnsweringOptionalQuestionsConfirmed($answeringOptionalQuestionsConfirmed)
 	{
 		$this->answeringOptionalQuestionsConfirmed = $answeringOptionalQuestionsConfirmed;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isConsiderHiddenQuestionsEnabled()
+	{
+		return $this->considerHiddenQuestionsEnabled;
+	}
+
+	/**
+	 * @param boolean $considerHiddenQuestionsEnabled
+	 */
+	public function setConsiderHiddenQuestionsEnabled($considerHiddenQuestionsEnabled)
+	{
+		$this->considerHiddenQuestionsEnabled = $considerHiddenQuestionsEnabled;
 	}
 }
 
