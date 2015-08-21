@@ -84,11 +84,11 @@ class ilWikiImportantPagesBlockGUI extends ilBlockGUI
 	*/
 	function getHTML($a_export = false)
 	{
-		global $ilCtrl, $lng, $ilUser, $ilAccess;
+		global $ilCtrl, $lng;
 
 		$this->export = $a_export;
-		
-		if (!$this->export && $ilAccess->checkAccess("write", "", $_GET["ref_id"]))
+
+		if (!$this->export && ilWikiPerm::check("edit_wiki_navigation", $_GET["ref_id"]))
 		{
 			$this->addBlockCommand(
 				$ilCtrl->getLinkTargetByClass("ilobjwikigui", "editImportantPages"),
@@ -152,29 +152,6 @@ class ilWikiImportantPagesBlockGUI extends ilBlockGUI
 		}
 		
 		$this->setDataSection($list->getHTML());
-return;
-		// old style
-
-		// the start page
-		$tpl->setCurrentBlock("item");
-		$title = ilWikiPage::lookupTitle($p["page_id"]);
-		$tpl->setVariable("ITEM_TITLE", $lng->txt("wiki_start_page"));
-		$tpl->setVariable("PAD", (int) 5 + (0 * 20));
-		$tpl->setVariable("ITEM_HREF", $ilCtrl->getLinkTargetByClass("ilobjwikigui", "gotoStartPage"));
-		$tpl->parseCurrentBlock();
-
-		$ipages = ilObjWiki::_lookupImportantPagesList(ilObject::_lookupObjId($_GET["ref_id"]));
-		foreach ($ipages as $p)
-		{
-			$tpl->setCurrentBlock("item");
-			$title = ilWikiPage::lookupTitle($p["page_id"]);
-			$tpl->setVariable("ITEM_TITLE", $title);
-			$tpl->setVariable("PAD", (int) 5 + ($p["indent"] * 20));
-			$tpl->setVariable("ITEM_HREF", ilObjWikiGUI::getGotoLink($_GET["ref_id"], $title));
-			$tpl->parseCurrentBlock();
-		}
-
-		$this->setDataSection($tpl->get());
 	}
 }
 

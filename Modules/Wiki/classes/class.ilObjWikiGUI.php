@@ -17,6 +17,7 @@ require_once "./Modules/Wiki/classes/class.ilObjWiki.php";
 * @ilCtrl_Calls ilObjWikiGUI: ilExportGUI, ilCommonActionDispatcherGUI
 * @ilCtrl_Calls ilObjWikiGUI: ilRatingGUI, ilWikiPageTemplateGUI, ilWikiStatGUI
 * @ilCtrl_Calls ilObjWikiGUI: ilObjectMetaDataGUI
+* @ilCtrl_Calls ilObjWikiGUI: ilSettingsPermissionGUI
 */
 class ilObjWikiGUI extends ilObjectGUI
 {
@@ -31,6 +32,7 @@ class ilObjWikiGUI extends ilObjectGUI
 		$this->type = "wiki";
 		
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
+		$lng->loadLanguageModule("obj");
 		$lng->loadLanguageModule("wiki");
 		
 		if ($_GET["page"] != "")
@@ -70,8 +72,21 @@ class ilObjWikiGUI extends ilObjectGUI
 				$perm_gui =& new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
-			
-			case 'ilwikipagegui':				
+
+			case 'ilsettingspermissiongui':
+				$this->checkPermission("write");
+				$this->addHeaderAction();
+				$ilTabs->activateTab("settings");
+				$this->setSettingsSubTabs("permission_settings");
+				include_once("Services/AccessControl/classes/class.ilSettingsPermissionGUI.php");
+				$perm_gui = new ilSettingsPermissionGUI($this);
+				$perm_gui->setPermissions(array("edit_wiki_navigation", "delete_wiki_pages", "activate_wiki_protection"));
+				$perm_gui->setRoleRequiredPermissions(array("edit_content"));
+				$perm_gui->setRoleProhibitedPermissions(array("write"));
+				$ret = $this->ctrl->forwardCommand($perm_gui);
+				break;
+
+			case 'ilwikipagegui':
 				$this->checkPermission("read");
 				include_once("./Modules/Wiki/classes/class.ilWikiPageGUI.php");
 				$wpage_gui = ilWikiPageGUI::getGUIForTitle($this->object->getId(),
@@ -488,7 +503,7 @@ class ilObjWikiGUI extends ilObjectGUI
 		// wiki tabs
 		if (in_array($ilCtrl->getCmdClass(), array("", "ilobjwikigui",
 			"ilinfoscreengui", "ilpermissiongui", "ilexportgui", "ilratingcategorygui",
-			"ilwikistatgui", "ilwikipagetemplategui", "iladvancedmdsettingsgui", 
+			"ilwikistatgui", "ilwikipagetemplategui", "iladvancedmdsettingsgui", "ilsettingspermissiongui"
 			)))
 		{	
 			if ($_GET["page"] != "")
@@ -519,7 +534,7 @@ class ilObjWikiGUI extends ilObjectGUI
 			{
 				$ilTabs->addTab("settings",
 					$lng->txt("settings"),
-					$this->ctrl->getLinkTarget($this, "editSettings"));				
+					$this->ctrl->getLinkTarget($this, "editSettings"));
 							
 				// metadata
 				include_once "Services/Object/classes/class.ilObjectMetaDataGUI.php";
@@ -575,13 +590,18 @@ class ilObjWikiGUI extends ilObjectGUI
 
 		if (in_array($a_active,
 			array("general_settings", "style", "imp_pages", "rating_categories",
-			"page_templates", "advmd")))
+			"page_templates", "advmd", "permission_settings")))
 		{
 			// general properties
 			$ilTabs->addSubTab("general_settings",
 				$lng->txt("wiki_general_settings"),
 				$ilCtrl->getLinkTarget($this, 'editSettings'));
-			
+
+			// permission settings
+			$ilTabs->addSubTab("permission_settings",
+				$lng->txt("obj_permission_settings"),
+				$this->ctrl->getLinkTargetByClass("ilsettingspermissiongui", ""));
+
 			// style properties
 			$ilTabs->addSubTab("style",
 				$lng->txt("wiki_style"),
@@ -1663,7 +1683,7 @@ class ilObjWikiGUI extends ilObjectGUI
 	{
 		global $tpl, $ilToolbar, $ilTabs, $lng, $ilCtrl;
 
-		$this->checkPermission("write");
+		$this->checkPermission("edit_wiki_navigation");
 
 		ilUtil::sendInfo($lng->txt("wiki_navigation_info"));
 		
@@ -1716,7 +1736,7 @@ class ilObjWikiGUI extends ilObjectGUI
 	{
 		global $ilCtrl, $lng;
 
-		$this->checkPermission("write");
+		$this->checkPermission("edit_wiki_navigation");
 
 		if ($_POST["imp_page_id"] > 0)
 		{
@@ -1766,7 +1786,7 @@ class ilObjWikiGUI extends ilObjectGUI
 	{
 		global $ilCtrl, $lng;
 
-		$this->checkPermission("write");
+		$this->checkPermission("edit_wiki_navigation");
 
 		if (is_array($_POST["imp_page_id"]))
 		{
@@ -1786,7 +1806,7 @@ class ilObjWikiGUI extends ilObjectGUI
 	{
 		global $ilCtrl, $lng;
 
-		$this->checkPermission("write");
+		$this->checkPermission("edit_wiki_navigation");
 
 		$this->object->saveOrderingAndIndentation($_POST["ord"], $_POST["indent"]);
 		ilUtil::sendSuccess($lng->txt("wiki_ordering_and_indent_saved"), true);
@@ -1800,7 +1820,7 @@ class ilObjWikiGUI extends ilObjectGUI
 	{
 		global $ilCtrl, $lng;
 
-		$this->checkPermission("write");
+		$this->checkPermission("edit_wiki_navigation");
 
 		if (!is_array($_POST["imp_page_id"]) || count($_POST["imp_page_id"]) != 1)
 		{
@@ -1958,6 +1978,31 @@ class ilObjWikiGUI extends ilObjectGUI
 		$ilCtrl->redirectByClass("ilwikipagegui", "preview");
 	}
 
+	/**
+	 * Check permission
+	 *
+	 * @param string $a_perm
+	 * @param string $a_cmd
+	 * @param string $a_type
+	 * @param int $a_ref_id
+	 * @return bool
+	 */
+	protected function checkPermissionBool($a_perm, $a_cmd = "", $a_type = "", $a_ref_id = null)
+	{
+		if($a_perm == "create")
+		{
+			return parent::checkPermissionBool($a_perm, $a_cmd, $a_type, $a_ref_id);
+		}
+		else
+		{
+			if (!$a_ref_id)
+			{
+				$a_ref_id = $this->object->getRefId();
+			}
+			include_once("./Modules/Wiki/classes/class.ilWikiPerm.php");
+			return ilWikiPerm::check($a_perm, $a_ref_id, $a_cmd);
+		}
+	}
 
 }
 
