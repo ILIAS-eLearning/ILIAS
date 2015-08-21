@@ -194,6 +194,8 @@ class ilLOUtils
 	
 	public static function hasActiveRun($a_container_id, $a_test_ref_id, $a_objective_id)
 	{
+		return FALSE;
+		
 		// check if pass exists
 		include_once './Modules/Test/classes/class.ilObjTest.php';
 		if(

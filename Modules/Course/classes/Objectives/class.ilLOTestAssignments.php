@@ -103,6 +103,28 @@ class ilLOTestAssignments
 		}
 		return $by_type;
 	}
+	
+	/**
+	 * Get all assigned tests
+	 * @return type
+	 */
+	public function getTests()
+	{
+		$tests = array();
+		if($this->getSettings()->getInitialTest())
+		{
+			$tests[] = $this->getSettings()->getInitialTest();
+		}
+		if($this->getSettings()->getQualifiedTest())
+		{
+			$tests[] = $this->getSettings()->getQualifiedTest();
+		}
+		foreach($this->assignments as $assignment)
+		{
+			$tests[] = $assignment->getTestRefId();
+		}
+		return $tests;
+	}
 
 	/**
 	 * 

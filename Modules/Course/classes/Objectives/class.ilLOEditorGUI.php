@@ -789,10 +789,13 @@ class ilLOEditorGUI
 	 */
 	protected function getAssignableTests()
 	{
+		include_once './Modules/Course/classes/Objectives/class.ilLOTestAssignments.php';
+		$assignments = ilLOTestAssignments::getInstance($this->getParentObject()->getId());
+
 		$tests = array();
 		foreach($GLOBALS['tree']->getChildsByType($this->getParentObject()->getRefId(),'tst') as $tree_node)
 		{
-			if(!in_array($tree_node['child'], $this->getSettings()->getTests()))
+			if(!in_array($tree_node['child'], $assignments->getTests()))
 			{
 				$tests[] = $tree_node['child'];
 			}
@@ -918,8 +921,12 @@ class ilLOEditorGUI
 		
 		$form->addItem($cr_mode);
 		
+		
 		if($a_as_multi_assignment)
 		{
+			include_once './Modules/Course/classes/Objectives/class.ilLOTestAssignments.php';
+			$assignments = ilLOTestAssignments::getInstance($this->getParentObject()->getId());
+			
 			include_once './Modules/Course/classes/class.ilCourseObjective.php';
 			$objective_ids = ilCourseObjective::_getObjectiveIds($this->getParentObject()->getId(), FALSE);
 
@@ -927,7 +934,11 @@ class ilLOEditorGUI
 			$options[0] = $this->lng->txt('select_one');
 			foreach($objective_ids as $oid)
 			{
-				$options[$oid] = ilCourseObjective::lookupObjectiveTitle($oid);
+				$already_assigned_tst = $assignments->getTestByObjective($oid, $this->getTestType());
+				if(!$already_assigned_tst)
+				{
+					$options[$oid] = ilCourseObjective::lookupObjectiveTitle($oid);
+				}
 			}
 			
 			$objective = new ilSelectInputGUI($this->lng->txt('crs_objectives'),'objective');
