@@ -206,7 +206,7 @@ class ilCourseObjectiveResult
 				"AND user_id = ".$ilDB->quote($this->getUserId())."";
 			$res = $ilDB->manipulate($query);
 			
-			$query = "DELETE FROM ilLOUserResults ".
+			$query = "DELETE FROM loc_user_results ".
 				"WHERE ".$ilDB->in('objective_id',$objectives,false,'integer').' '.
 				"AND user_id = ".$ilDB->quote($this->getUserId())."";
 		}

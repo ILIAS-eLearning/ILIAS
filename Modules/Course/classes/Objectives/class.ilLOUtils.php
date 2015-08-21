@@ -13,7 +13,7 @@ class ilLOUtils
 	/**
 	 * Check if objective is completed
 	 */
-	public static function isCompleted($a_cont_oid, $a_test_rid, $a_objective_id, $max_points, $reached,$limit_perc)
+	public static function isCompleted($a_cont_oid, $a_test_rid, $a_objective_id, $max_points, $reached, $limit_perc)
 	{
 		include_once './Modules/Course/classes/Objectives/class.ilLOSettings.php';
 		$settings = ilLOSettings::getInstanceByObjId($a_cont_oid);
@@ -31,13 +31,15 @@ class ilLOUtils
 		}
 		else
 		{
+			$required_perc = self::lookupObjectiveRequiredPercentage($a_cont_oid, $a_objective_id, $a_test_rid, $max_points);
+			
 			if(!$max_points)
 			{
 				return TRUE;
 			}
 			else
 			{
-				return ($reached / $max_points * 100) >= $limit_perc;
+				return ($reached / $max_points * 100) >= $required_perc;
 			}
 		}
 	}

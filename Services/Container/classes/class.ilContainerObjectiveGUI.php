@@ -1036,10 +1036,14 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 		
 		$next_step = $progress_txt = $bar_color = $test_url = $initial_sub = null;
 		
+		
+		include_once './Modules/Course/classes/Objectives/class.ilLOSettings.php';
 		// qualifying test
-		if($a_lo_result["type"] == ilLOUserResults::TYPE_QUALIFIED ||
-			($a_lo_result['type'] == ilLOUserResults::TYPE_INITIAL &&
-			ilLOSettings::getInstanceByObjId($a_lo_result['course_id'])->isInitialTestQualifying()))
+		if(
+				$a_lo_result["type"] == ilLOUserResults::TYPE_QUALIFIED or
+				($a_lo_result['type'] == ilLOUserResults::TYPE_INITIAL and 
+				ilLOSettings::getInstanceByObjId($a_lo_result['course_id'])->isInitialTestQualifying())
+		)
 		{
 			$progress_txt = $lng->txt("crs_loc_progress_result_qtest");
 			$tt_txt = $lng->txt("crs_loc_tab_qtest").": ".$tt_txt;	

@@ -381,7 +381,7 @@ class ilLOTestQuestionAdapter
 				$ur->saveObjectiveResult(
 						$run->getObjectiveId(), 
 						$this->getAssignments()->getTypeByTest($session->getRefId()),
-						ilLOUtils::isCompleted(
+						$comp = ilLOUtils::isCompleted(
 								$this->container_id, 
 								$session->getRefId(), 
 								$run->getObjectiveId(),
@@ -394,6 +394,7 @@ class ilLOTestQuestionAdapter
 						$old_result['is_final']
 				);
 				$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($run->getResult(),true));
+				$GLOBALS['ilLog']->write(__METHOD__.'!!!!!!!!!!!!!!!!!!!!: '.print_r($comp,TRUE));
 				
 				include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
 				ilLPStatusWrapper::_updateStatus($this->container_id,$this->user_id);
