@@ -212,36 +212,6 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		switch ($_GET["activecommand"])
 		{
 			case "next":
-				$this->sequence = $this->calculateSequence();
-				if ($this->sequence === FALSE)
-				{
-					if ($this->object->getListOfQuestionsEnd())
-					{
-
-						$allObligationsAnswered = ilObjTest::allObligationsAnswered(
-								$this->testSession->getTestId(),
-								$this->testSession->getActiveId(),
-								$this->testSession->getPass()
-						);
-
-						if( $this->object->areObligationsEnabled() && !$allObligationsAnswered )
-						{
-							$this->ctrl->redirect($this, "outQuestionSummaryWithObligationsInfo");
-						}
-
-						$this->outQuestionSummaryCmd();
-					}
-					else
-					{
-						$this->ctrl->redirect($this, "finishTest");
-					}
-				}
-				else
-				{
-					$this->testSession->setLastSequence($this->sequence);
-					$this->testSession->saveToDb();
-					$this->outTestPage(false);
-				}
 				break;
 			case "previous":
 				break;
