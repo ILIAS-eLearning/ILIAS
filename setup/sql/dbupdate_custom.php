@@ -194,5 +194,13 @@ if(!$ilDB->tableColumnExists('loc_settings','passed_obj_mode'))
 ?>
 
 
+<#13>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
 
+<<<<<<< .working
 >>>>>>> .merge-rechts.r57038
+=======
+
+>>>>>>> .merge-rechts.r57653

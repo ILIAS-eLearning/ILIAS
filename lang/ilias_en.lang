@@ -713,6 +713,12 @@ assessment#:#tst_msg_rand_quest_set_no_src_pool_defs#:#A test with a random set 
 assessment#:#tst_msg_rand_quest_set_incomplete_quest_amount_cfg#:#A test with a random set of questions is not possible without a correctly defined amount of questions.
 assessment#:#tst_msg_rand_quest_set_no_pools_available#:#Currently you cannot add new rules for the question selection, because there are no question pools available.
 assessment#:#tst_msg_rand_quest_set_change_quest_amount_here#:#You can change the question amount here: %s
+assessment#:#tst_wf_info_optional_question#:#This question relates to an allready passed learning objective.
+assessment#:#tst_wf_info_answer_adopted_from_prev_pass#:#Your answer from a previous attempt was adopted.
+assessment#:#tst_wf_info_answer_not_adopted#:#There was no answer from previous attempts adopted, so you have to workthru this question, because otherwise your learning objective result will be degraded.
+assessment#:#tst_confirm_optional_questions#:#Die nächste Frage gehört zu einem bereits bestanden Lernziel.
+assessment#:#tst_optional_questions_fixed_test#:#Ihre Antworten aus früheren Versuchen wurden übernommen. Sie können diese Antworten überarbeiten um ihre Ergebnisse zu verbessern, aber wenn sie ihre Antworten verändern können sie ihre Ergebnisse auch verschlechtern.
+assessment#:#tst_optional_questions_non_fixed_test#:#Ihre Antworten aus früheren Versuchen wurden NICHT übernommen. Wenn sie sich entshceiden fortzufahren müssen sie diese Fragen beantworten da sich ihr Ergebnis sonst verschlechtern wird. Wenn sie zurück auf die letzte Frage wechseln können sie den Test ohne die Beantwortung der optionalen Fragen verlassen.
 assessment#:#tst_rnd_quest_set_cfg_pool_form#:#Rule for Selection of Questions
 assessment#:#tst_inp_source_pool_label#:#Question Pool
 assessment#:#tst_inp_source_pool_filter_tax#:#Taxonomy Filter

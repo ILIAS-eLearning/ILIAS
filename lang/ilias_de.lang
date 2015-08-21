@@ -830,6 +830,12 @@ assessment#:#tst_msg_rand_quest_set_no_src_pool_defs#:#Um einen Test mit zufäll
 assessment#:#tst_msg_rand_quest_set_incomplete_quest_amount_cfg#:#Ohne die Angabe einer Fragenanzahl kann kein Test mit zufälliger Fragenauswahl erzeugt werden.
 assessment#:#tst_msg_rand_quest_set_no_pools_available#:#Aktuell können Sie keine neuen Regeln für die Fragenauswahl hinzufügen, da keine Fragenpools zur Verfügung stehen.
 assessment#:#tst_msg_rand_quest_set_change_quest_amount_here#:#Sie können die Fragenanzahl hier einstellen: %s
+assessment#:#tst_wf_info_optional_question#:#Diese Frage gehört zu einem bereits bestandenen Lernziel.
+assessment#:#tst_wf_info_answer_adopted_from_prev_pass#:#Ihre Antwort aus einem früheren Versuch wurde übernommen.
+assessment#:#tst_wf_info_answer_not_adopted#:#Es wurde aus früheren Versuchen keine Antwort übernommen, daher müssen sie diese Frage bearbeiten, andernfalls wird sich ihr Lernzielergebnis verschlechtern.
+assessment#:#tst_confirm_optional_questions#:#The next question relates to an allready passed learning objective.
+assessment#:#tst_optional_questions_fixed_test#:#Your answers from previous attempts were adopted. You can change your answers to improve yor results, but if you change them you can allready degrade your results.
+assessment#:#tst_optional_questions_non_fixed_test#:#Your answers in previous attempts were NOT adopted. If you decide to go ahead you have to answer these questions for not degrading your results. If you go back you can leave the test without answering these questions.
 assessment#:#tst_inp_source_pool_label#:#Fragenpool
 assessment#:#tst_inp_source_pool_filter_tax#:#Taxonomiefilter
 assessment#:#tst_inp_source_pool_no_tax_filter#:#Verwende keine Taxonomie als Filter

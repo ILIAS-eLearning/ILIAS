@@ -822,15 +822,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$confirmation->setConfirm($this->lng->txt("tst_finish_confirm_button"), 'confirmFinish');
 		$confirmation->setCancel($this->lng->txt("tst_finish_confirm_cancel_button"), 'backConfirmFinish');
 
-		if($this->object->getKioskMode())
-		{
-			$this->tpl->addBlockfile($this->getContentBlockName(), 'content', "tpl.il_as_tst_kiosk_mode_content.html", "Modules/Test");
-			$this->tpl->setContent($confirmation->getHtml());
-		}
-		else
-		{
-			$this->tpl->setVariable($this->getContentBlockName(), $confirmation->getHtml());
-		}
+		$this->populateHelperGuiContent($confirmation);
 	}
 
 	function finishTestCmd($requires_confirmation = true)
@@ -2069,9 +2061,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$confirmation->setCancelCmd('cancelAnswerOptionalQuestions');
 		$confirmation->setConfirmCmd('confirmAnswerOptionalQuestions');
 
-		$confirmation->build();
+		$confirmation->build($this->object->isFixedTest());
 		
-		$this->tpl->setVariable($this->getContentBlockName(), $this->ctrl->getHTML($confirmation));
+		$this->populateHelperGuiContent($confirmation);
 	}
 	
 	protected function confirmAnswerOptionalQuestionsCmd()
@@ -2095,5 +2087,20 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		}
 
 		$this->ctrl->redirect($this, 'redirectQuestion');
+	}
+
+	/**
+	 * @param $helperGui
+	 */
+	protected function populateHelperGuiContent($helperGui)
+	{
+		if($this->object->getKioskMode())
+		{
+			$this->tpl->addBlockfile($this->getContentBlockName(), 'content', "tpl.il_as_tst_kiosk_mode_content.html", "Modules/Test");
+			$this->tpl->setContent($this->ctrl->getHTML($helperGui));
+		} else
+		{
+			$this->tpl->setVariable($this->getContentBlockName(), $this->ctrl->getHTML($helperGui));
+		}
 	}
 }

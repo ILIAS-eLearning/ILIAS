@@ -494,7 +494,8 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		}
 
 		$is_postponed = $this->testSequence->isPostponedQuestion($question_gui->object->getId());
-		$is_optional = $this->testSequence->isQuestionOptional($question_gui->object->getId());
+		
+		$this->ctrl->setParameter($this, "sequence", "$sequence");
 		$formaction = $this->ctrl->getFormAction($this, "gotoQuestion");
 
 		$question_gui->setSequenceNumber($this->testSequence->getPositionOfSequence($sequence));
@@ -538,6 +539,22 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		if (($directfeedback) && ($this->object->getSpecificAnswerFeedback()))
 		{
 			$answer_feedback = TRUE;
+		}
+		
+		if( $this->testSequence->isQuestionOptional($question_gui->object->getId()) )
+		{
+			$info = $this->lng->txt('tst_wf_info_optional_question');
+			
+			if( $this->object->isFixedTest() )
+			{
+				$info .= ' '.$this->lng->txt('tst_wf_info_answer_adopted_from_prev_pass');
+			}
+			else
+			{
+				$info .= ' '.$this->lng->txt('tst_wf_info_answer_not_adopted');
+			}
+			
+			ilUtil::sendInfo($info);
 		}
 
 		if( $this->isParticipantsAnswerFixed($questionId) )
