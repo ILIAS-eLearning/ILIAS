@@ -503,6 +503,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		$headerBlockBuilder = new ilTestQuestionHeaderBlockBuilder($this->lng);
 		$headerBlockBuilder->setHeaderMode($this->object->getTitleOutput());
 		$headerBlockBuilder->setQuestionTitle($question_gui->object->getTitle());
+		$headerBlockBuilder->setQuestionPoints($question_gui->object->getPoints());
 		$headerBlockBuilder->setQuestionPosition($this->testSequence->getPositionOfSequence($sequence));
 		$headerBlockBuilder->setQuestionCount($this->testSequence->getUserQuestionCount());
 		$headerBlockBuilder->setQuestionPostponed($this->testSequence->isPostponedQuestion($questionId));
