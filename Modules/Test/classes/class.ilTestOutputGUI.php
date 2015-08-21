@@ -244,17 +244,6 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 				}
 				break;
 			case "previous":
-				$this->sequence = $this->calculateSequence();
-				$this->testSession->setLastSequence($this->sequence);
-				$this->testSession->saveToDb();
-				if ($this->sequence === FALSE)
-				{
-					$this->ctrl->redirect($this, "outIntroductionPage");
-				}
-				else
-				{
-					$this->outTestPage(false);
-				}
 				break;
 			case "postpone":
 				$this->sequence = $this->calculateSequence();
@@ -283,10 +272,6 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 				$this->outTestPage(false);
 				break;
 			case "directfeedback":
-				$this->sequence = $this->calculateSequence();
-				$this->testSession->setLastSequence($this->sequence);
-				$this->testSession->saveToDb();
-				$this->outTestPage(true);
 				break;
 			case "handleQuestionAction":
 				$this->sequence = $this->calculateSequence();
@@ -394,7 +379,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
 		$sequenceElement = $this->getSequenceElementParameter();
 		$presentationMode = $this->getPresentationModeParameter();
-		$instantResponse = false;
+		$instantResponse = $this->getInstantResponseParameter();
 
 		if( !$this->isValidSequenceElement($sequenceElement) )
 		{
@@ -598,6 +583,16 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		return null;
 	}
 
+	protected function getInstantResponseParameter()
+	{
+		if( isset($_GET['instresp']) )
+		{
+			return $_GET['instresp'];
+		}
+
+		return null;
+	}
+
 	protected function isFirstPageInSequence($sequenceElement)
 	{
 		return $sequenceElement == $this->testSequence->getFirstSequence();
@@ -694,8 +689,8 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 			$this->testSequence->saveToDb();
 		}
 		
-		$this->ctrl->setParameter($this, "activecommand", "directfeedback");
-		$this->ctrl->redirect($this, "redirectQuestion");
+		$this->ctrl->setParameter($this, 'instresp', 1);
+		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
 	}
 
 	protected function showQuestionListCmd()
