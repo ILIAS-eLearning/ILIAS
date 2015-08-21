@@ -244,27 +244,35 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 		);
 		$this->createFileFromArray();
 	}
-	
+
 	public function saveAnswerSpecificDataToDb()
 	{
 		$this->clearAnswerSpecificDataFromDb($this->getId());
-		$type = $this->getAnswerType();
+		$type_array = $this->getAnswerType();
 		foreach($this->getCorrectAnswers() as $gap_number => $gap)
 		{
 			foreach($gap[0] as $position => $answer)
 			{
+				if($type_array == null)
+				{
+					$type = $gap[2];
+				}
+				else
+				{
+					$type = $type_array[$gap_number];
+				}
 				$this->db->replace(
-					$this->getAnswerTableName(),
-					array(
-						'question_fi' => array('integer', (int)$this->getId()),
-						'gap_number'  => array('integer', (int)$gap_number),
-						'position'    => array('integer', (int)$position)
-					),
-					array(
-						'answer_text' => array('text', $answer),
-						'points'      => array('float', $gap[1]), 
-						'type'        => array('integer', (int)  $type[$gap_number])
-					)
+						$this->getAnswerTableName(),
+						array(
+								'question_fi' => array('integer', (int)$this->getId()),
+								'gap_number'  => array('integer', (int)$gap_number),
+								'position'    => array('integer', (int)$position)
+						),
+						array(
+								'answer_text' => array('text', $answer),
+								'points'      => array('float', $gap[1]),
+								'type'        => array('integer', (int)  $type)
+						)
 				);
 			}
 		}
