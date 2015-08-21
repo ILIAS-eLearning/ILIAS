@@ -137,6 +137,25 @@ class ilLOTestAssignments
 		return 0;
 	}
 	
+	public function isSeparateTest($a_test_ref_id)
+	{
+		if(!$this->getSettings()->hasSeparateInitialTests())
+		{
+			if($this->getSettings()->getInitialTest() == $a_test_ref_id)
+			{
+				return FALSE;
+			}
+		}
+		if($this->getSettings()->hasSeparateQualifiedTests())
+		{
+			if($this->getSettings()->getQualifiedTest() == $a_test_ref_id)
+			{
+				return FALSE;
+			}
+		}
+		return TRUE;
+	}
+	
 	/**
 	 * Get test type by test id
 	 * @param type $a_test_ref_id

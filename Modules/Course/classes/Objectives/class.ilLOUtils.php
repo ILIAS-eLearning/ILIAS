@@ -48,19 +48,36 @@ class ilLOUtils
 	 * @param type $a_objective_id
 	 * @param type $a_test_type
 	 */
-	public static function lookupObjectiveRequiredPercentage($a_container_id, $a_objective_id, $a_test_type, $a_max_points)
+	public static function lookupObjectiveRequiredPercentage($a_container_id, $a_objective_id, $a_test_ref_id, $a_max_points)
 	{
 		include_once './Modules/Course/classes/Objectives/class.ilLOSettings.php';
 		$settings = ilLOSettings::getInstanceByObjId($a_container_id);
 		
-		if($a_test_type == ilLOSettings::TYPE_TEST_QUALIFIED)
+		include_once './Modules/Course/classes/Objectives/class.ilLOTestAssignments.php';
+		$assignments = ilLOTestAssignments::getInstance($a_container_id);
+		$a_test_type = $assignments->getTypeByTest($a_test_ref_id);
+		
+		if($assignments->isSeparateTest($a_test_ref_id))
 		{
-			$tst_ref_id = $settings->getQualifiedTest();
+			include_once './Services/Object/classes/class.ilObjectFactory.php';
+			$factory = new ilObjectFactory();
+			$tst = $factory->getInstanceByRefId($a_test_ref_id, FALSE);
+			if($tst instanceof ilObjTest)
+			{
+				$schema = $tst->getMarkSchema();
+				foreach($schema->getMarkSteps() as $mark)
+				{
+					if($mark->getPassed())
+					{
+						return (int) $mark->getMinimumLevel();
+					}
+				}
+			}
 		}
-		else
-		{
-			$tst_ref_id = $settings->getInitialTest();
-		}
+		
+		
+		
+		$tst_ref_id = $a_test_ref_id;
 		if(self::lookupRandomTest(ilObject::_lookupObjId($tst_ref_id)))
 		{
 			include_once './Modules/Course/classes/Objectives/class.ilLORandomTestQuestionPools.php';

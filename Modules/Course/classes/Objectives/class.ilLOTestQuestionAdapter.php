@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once './Modules/Course/classes/Objectives/class.ilLOSettings.php';
+include_once './Modules/Course/classes/Objectives/class.ilLOTestAssignments.php';
 
 /**
  * Test question filter
@@ -12,6 +13,7 @@ include_once './Modules/Course/classes/Objectives/class.ilLOSettings.php';
 class ilLOTestQuestionAdapter
 {
 	protected $settings = NULL;
+	protected $assignments = null;
 	
 	protected $user_id = 0;
 	protected $container_id = 0;
@@ -29,6 +31,7 @@ class ilLOTestQuestionAdapter
 		$this->container_id = $a_course_id;
 		
 		$this->settings = ilLOSettings::getInstanceByObjId($this->container_id);
+		$this->assignments = ilLOTestAssignments::getInstance($this->container_id);
 	}
 	
 	/**
@@ -158,11 +161,11 @@ class ilLOTestQuestionAdapter
 
 		if($this->getSettings()->getPassedObjectiveMode() == ilLOSettings::MARK_PASSED_OBJECTIVE_QST)
 		{
-			$this->setQuestionsOptional($a_test_sequence);
+			#$this->setQuestionsOptional($a_test_sequence);
 		}
 		elseif($this->getSettings()->getPassedObjectiveMode() == ilLOSettings::HIDE_PASSED_OBJECTIVE_QST)
 		{
-			$this->hideQuestions($a_test_sequence);
+			#$this->hideQuestions($a_test_sequence);
 		}
 
 		$this->storeTestRun();
@@ -232,6 +235,15 @@ class ilLOTestQuestionAdapter
 	}
 	
 	/**
+	 * 
+	 * @return ilLOTestAssignments
+	 */
+	protected function getAssignments()
+	{
+		return $this->assignments;
+	}
+	
+	/**
 	 * init user result
 	 */
 	protected function initUserResult(ilTestSession $session)
@@ -253,9 +265,7 @@ class ilLOTestQuestionAdapter
 					$this->container_id, 
 					$this->user_id, 
 					$run->getObjectiveId(),
-					($this->getSettings()->getQualifiedTest() == $session->getRefId()) ? 
-						ilLOUserResults::TYPE_QUALIFIED :
-						ilLOUserResults::TYPE_INITIAL
+					$this->getAssignments()->getTypeByTest($session->getRefId())
 			);
 			
 			include_once './Modules/Course/classes/Objectives/class.ilLOUtils.php';
@@ -263,9 +273,7 @@ class ilLOTestQuestionAdapter
 			$limit = ilLOUtils::lookupObjectiveRequiredPercentage(
 					$this->container_id, 
 					$run->getObjectiveId(),
-					($this->getSettings()->getQualifiedTest() == $session->getRefId()) ?
-						ilLOSettings::TYPE_TEST_QUALIFIED :
-						ilLOSettings::TYPE_TEST_INITIAL,
+					$session->getRefId(),
 					$run->getMaxPoints()
 			);
 
@@ -285,10 +293,8 @@ class ilLOTestQuestionAdapter
 			
 			$ur = new ilLOUserResults($this->container_id,$this->user_id);
 			$ur->saveObjectiveResult(
-					$run->getObjectiveId(), 
-					($this->getSettings()->getQualifiedTest() == $session->getRefId()) ?
-						ilLOUserResults::TYPE_QUALIFIED :
-						ilLOUserResults::TYPE_INITIAL,
+					$run->getObjectiveId(),
+					$this->getAssignments()->getTypeByTest($session->getRefId()),
 					$old_result['status'],
 					$old_result['result_perc'],
 					$limit,
@@ -305,11 +311,12 @@ class ilLOTestQuestionAdapter
 	 */
 	protected function isQualifiedStartRun(ilTestSession $session)
 	{
-		if($session->getRefId() == $this->getSettings()->getInitialTest())
+		if($this->getAssignments()->getTypeByTest($session->getRefId()) == ilLOSettings::TYPE_TEST_INITIAL)
 		{
-			$GLOBALS['ilLog']->write(__METHOD__.': is intial');
+			$GLOBALS['ilLog']->write(__METHOD__.': is initial');
 			return false;
 		}
+		
 		if($session->getRefId() != $this->getSettings()->getQualifiedTest())
 		{
 			$GLOBALS['ilLog']->write(__METHOD__.': is not qualified');
@@ -367,17 +374,13 @@ class ilLOTestQuestionAdapter
 						$this->container_id, 
 						$this->user_id, 
 						$run->getObjectiveId(),
-						($this->getSettings()->getQualifiedTest() == $session->getRefId()) ? 
-							ilLOUserResults::TYPE_QUALIFIED :
-							ilLOUserResults::TYPE_INITIAL
+						$this->getAssignments()->getTypeByTest($session->getRefId())
 				);
 				
 				$ur = new ilLOUserResults($this->container_id,$this->user_id);
 				$ur->saveObjectiveResult(
 						$run->getObjectiveId(), 
-						($this->getSettings()->getQualifiedTest() == $session->getRefId()) ?
-							ilLOUserResults::TYPE_QUALIFIED :
-							ilLOUserResults::TYPE_INITIAL,
+						$this->getAssignments()->getTypeByTest($session->getRefId()),
 						ilLOUtils::isCompleted(
 								$this->container_id, 
 								$session->getRefId(), 
@@ -457,16 +460,42 @@ class ilLOTestQuestionAdapter
 
 	protected function updateQuestions(ilTestSession $session, ilTestSequence $seq)
 	{
+		if($this->getAssignments()->isSeparateTest($session->getRefId()))
+		{
+			return $this->updateSeparateTestQuestions($session, $seq);
+		}
 		if($seq instanceof ilTestSequenceFixedQuestionSet)
 		{
-			$this->updateFixedQuestions($session, $seq);
+			return $this->updateFixedQuestions($session, $seq);
 		}
 		if($seq instanceof ilTestSequenceRandomQuestionSet)
 		{
-			$this->updateRandomQuestions($session, $seq);
+			return $this->updateRandomQuestions($session, $seq);
 		}
 		
 	}
+	
+	/**
+	 * Update questions for separate tests
+	 * @param ilTestSession $session
+	 * @param ilTestSequence $seq
+	 */
+	protected function updateSeparateTestQuestions(ilTestSession $session, ilTestSequence $seq)
+	{
+		foreach($this->run as $tst_run)
+		{
+			$tst_run->clearQuestions();
+			$points = 0;
+			foreach($seq->getQuestionIds() as $idx => $qst_id)
+			{
+				$tst_run->addQuestion($qst_id);
+				include_once './Modules/Course/classes/class.ilCourseObjectiveQuestion.php';
+				$points += ilCourseObjectiveQuestion::_lookupMaximumPointsOfQuestion($qst_id);
+			}
+			$tst_run->setMaxPoints($points);
+		}
+	}
+	
 	
 	protected function updateFixedQuestions(ilTestSession $session, ilTestSequence $seq)
 	{
@@ -478,7 +507,6 @@ class ilLOTestQuestionAdapter
 					ilObject::_lookupObjId($session->getRefId()),
 					$tst_run->getObjectiveId()
 			);
-			#$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($qst,true));
 			$points = 0;
 			foreach($qst as $id)
 			{

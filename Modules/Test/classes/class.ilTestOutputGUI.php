@@ -513,7 +513,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		{
 			require_once 'Modules/Course/classes/Objectives/class.ilLOTestQuestionAdapter.php';
 			$objectivesAdapter = ilLOTestQuestionAdapter::getInstance($this->testSession);
-			$objectivesAdapter->buildQuestionRelatedObjectiveList($this->questionRelatedObjectivesList);
+			$objectivesAdapter->buildQuestionRelatedObjectiveList($this->testSequence,$this->questionRelatedObjectivesList);
 			$this->questionRelatedObjectivesList->loadObjectivesTitles();
 			
 			$objectivesString = $this->questionRelatedObjectivesList->getQuestionRelatedObjectiveTitle($questionId);

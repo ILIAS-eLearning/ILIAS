@@ -5220,10 +5220,9 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		include_once './Modules/Course/classes/Objectives/class.ilLOTestRun.php';
 		include_once './Modules/Course/classes/Objectives/class.ilLOSettings.php';
-		ilLOTestRun::deleteRun(
+		ilLOTestRun::deleteRuns(
 			$this->object->getId(), 
-				$GLOBALS['ilUser']->getId(),
-				ilObject::_lookupObjId(ilLOSettings::getInstanceByObjId($this->object->getId())->getQualifiedTest())
+				$GLOBALS['ilUser']->getId()
 		);
 		
 		include_once './Modules/Course/classes/class.ilCourseObjectiveResult.php';
