@@ -155,6 +155,14 @@ class ilLOSettings
 	}
 	
 	/**
+	 * Check if separate initial test are configured
+	 */
+	public function hasSeparateInitialTests()
+	{
+		return $this->getInitialTestType() == self::TYPE_INITIAL_PLACEMENT_SELECTED || $this->getInitialTestType() == self::TYPE_INITIAL_QUALIFYING_SELECTED;
+	}
+	
+	/**
 	 * Check if test ref_id is used in an objective course
 	 * @param int ref_id
 	 */

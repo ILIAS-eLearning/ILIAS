@@ -380,14 +380,15 @@ class ilLOEditorGUI
 	 */
 	protected function testsOverview()
 	{
+		$this->setTestType((int) $_REQUEST['tt']);
+		$this->ctrl->setParameter($this,'tt',$this->getTestType());
+
 		$GLOBALS['ilToolbar']->setFormAction($this->ctrl->getFormAction($this));
 		$GLOBALS['ilToolbar']->addButton(
 				$this->lng->txt('crs_loc_btn_new_assignment'),
 				$this->ctrl->getLinkTarget($this,'testAssignment')
 		);
 		
-		$this->setTestType((int) $_REQUEST['tt']);
-		$this->ctrl->setParameter($this,'tt',$this->getTestType());
 		
 		$settings = ilLOSettings::getInstanceByObjId($this->getParentObject()->getId());
 		switch($this->getTestType())

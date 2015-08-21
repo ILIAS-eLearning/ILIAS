@@ -75,13 +75,17 @@ class ilLOTestAssignments
 	/**
 	 * Get assignment by objective
 	 * @param type $a_objective_id
+	 * @param type initial or final
 	 * @return ilLOTestAssignment
 	 */
-	public function getAssignmentByObjective($a_objective_id)
+	public function getAssignmentByObjective($a_objective_id, $a_type)
 	{
 		foreach($this->assignments as $assignment)
 		{
-			if($assignment->getObjectiveId() == $a_objective_id)
+			if(
+				($assignment->getObjectiveId() == $a_objective_id) &&
+				($assignment->getAssignmentType() == $a_type)
+			)
 			{
 				return $assignment;
 			}
