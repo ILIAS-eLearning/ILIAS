@@ -10,6 +10,8 @@
  */
 class ilMediaPoolItem
 {
+	protected $import_id;
+
 	/**
 	 * Construtor
 	 *
@@ -85,6 +87,26 @@ class ilMediaPoolItem
 	}
 
 	/**
+	 * Set import id
+	 *
+	 * @param string $a_val import id	
+	 */
+	function setImportId($a_val)
+	{
+		$this->import_id = $a_val;
+	}
+	
+	/**
+	 * Get import id
+	 *
+	 * @return string import id
+	 */
+	function getImportId()
+	{
+		return $this->import_id;
+	}
+	
+	/**
 	 * Set title
 	 *
 	 * @param	string	title
@@ -113,11 +135,12 @@ class ilMediaPoolItem
 		
 		$nid = $ilDB->nextId("mep_item");
 		$ilDB->manipulate("INSERT INTO mep_item ".
-			"(obj_id, type, foreign_id, title) VALUES (".
+			"(obj_id, type, foreign_id, title, import_id) VALUES (".
 			$ilDB->quote($nid, "integer").",".
 			$ilDB->quote($this->getType(), "text").",".
 			$ilDB->quote($this->getForeignId(), "integer").",".
-			$ilDB->quote($this->getTitle(), "text").
+			$ilDB->quote($this->getTitle(), "text").",".
+			$ilDB->quote($this->getImportId(), "text").
 			")");
 		$this->setId($nid);
 	}
@@ -137,6 +160,7 @@ class ilMediaPoolItem
 			$this->setType($rec["type"]);
 			$this->setForeignId($rec["foreign_id"]);
 			$this->setTitle($rec["title"]);
+			$this->setImportId($rec["import_id"]);
 		}
 	}
 	
@@ -154,6 +178,7 @@ class ilMediaPoolItem
 			" type = ".$ilDB->quote($this->getType(), "text").",".
 			" foreign_id = ".$ilDB->quote($this->getForeignId(), "integer").",".
 			" title = ".$ilDB->quote($this->getTitle(), "text").
+			" import_id = ".$ilDB->quote($this->getImportId(), "text").
 			" WHERE obj_id = ".$ilDB->quote($this->getId(), "integer")
 			);
 	}

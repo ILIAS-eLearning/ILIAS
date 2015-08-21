@@ -353,10 +353,10 @@ abstract class ilPageObject
 	 * @param int $a_id page id
 	 * @param string $a_lang language code, if empty language independent existence is checked
 	 */
-	static function _exists($a_parent_type, $a_id, $a_lang = "")
+	static function _exists($a_parent_type, $a_id, $a_lang = "", $a_no_cache = false)
 	{
 		global $ilDB;
-		if (isset(self::$exists[$a_parent_type.":".$a_id.":".$a_lang]))
+		if (!$a_no_cache && isset(self::$exists[$a_parent_type.":".$a_id.":".$a_lang]))
 		{
 			return self::$exists[$a_parent_type.":".$a_id.":".$a_lang];
 		}
@@ -1888,8 +1888,10 @@ abstract class ilPageObject
 	 * (after import)
 	 */
 	// @todo: possible to improve this?
-	function resolveIntLinks()
+	function resolveIntLinks($a_link_map = null)
 	{
+		$changed = false;
+
 		// resolve normal internal links
 		$xpc = xpath_new_context($this->dom);
 		$path = "//IntLink";
@@ -1898,11 +1900,24 @@ abstract class ilPageObject
 		{
 			$target = $res->nodeset[$i]->get_attribute("Target");
 			$type = $res->nodeset[$i]->get_attribute("Type");
-			
-			$new_target = ilInternalLink::_getIdForImportId($type, $target);
+
+			if ($a_link_map == null)
+			{
+				$new_target = ilInternalLink::_getIdForImportId($type, $target);
+			}
+			else
+			{
+				$nt = explode("_", $a_link_map[$target]);
+				$new_target = false;
+				if ($nt[1] == IL_INST_ID)
+				{
+					$new_target = "il__".$nt[2]."_".$nt[3];
+				}
+			}
 			if ($new_target !== false)
 			{
 				$res->nodeset[$i]->set_attribute("Target", $new_target);
+				$changed = true;
 			}
 			else		// check wether link target is same installation
 			{
@@ -1912,7 +1927,8 @@ abstract class ilPageObject
 					$new_target = ilInternalLink::_removeInstFromTarget($target);
 					if (ilInternalLink::_exists($type, $new_target))
 					{
-						$res->nodeset[$i]->set_attribute("Target", $new_target);	
+						$res->nodeset[$i]->set_attribute("Target", $new_target);
+						$changed = true;
 					}
 				}
 			}
@@ -1933,6 +1949,7 @@ abstract class ilPageObject
 			$mob_id = $id_arr[count($id_arr) - 1];
 			ilMediaItem::_resolveMapAreaLinks($mob_id);
 		}
+		return $changed;
 	}
 
 	/**
@@ -1942,7 +1959,7 @@ abstract class ilPageObject
 	 * @param	array		mapping array
 	 */
 	 // @todo: move to media classes?
-	function resolveMediaAliases($a_mapping)
+	function resolveMediaAliases($a_mapping, $a_reuse_existing_by_import = false)
 	{
 		// resolve normal internal links
 		$xpc = xpath_new_context($this->dom);
@@ -1956,7 +1973,18 @@ abstract class ilPageObject
 			$old_id = $old_id[count($old_id) - 1];
 			if ($a_mapping[$old_id] > 0)
 			{
-				$res->nodeset[$i]->set_attribute("OriginId", "il__mob_".$a_mapping[$old_id]);
+				$new_id = $a_mapping[$old_id];
+				if ($a_reuse_existing_by_import)
+				{
+					$import_id = ilObject::_lookupImportId($new_id);
+					$imp = explode("_", $import_id);
+					if ($imp[1] == IL_INST_ID && $imp[2] == "mob" && ilObject::_lookupType($imp[3]) == "mob")
+					{
+						$new_id = $imp[3];
+					}
+				}
+
+				$res->nodeset[$i]->set_attribute("OriginId", "il__mob_".$new_id);
 				$changed = true;
 			}
 		}
@@ -3633,6 +3661,20 @@ abstract class ilPageObject
 				$new_id = "il_".$a_inst."_".substr($qref, 4, strlen($qref) - 4);
 //echo "<br>setting:".$new_id;
 				$res->nodeset[$i]->set_attribute("QRef", $new_id);
+			}
+		}
+		unset($xpc);
+
+		// insert inst id into content snippets
+		$xpc = xpath_new_context($this->dom);
+		$path = "//ContentInclude";
+		$res =& xpath_eval($xpc, $path);
+		for($i = 0; $i < count($res->nodeset); $i++)
+		{
+			$ci = $res->nodeset[$i]->get_attribute("InstId");
+			if ($ci == "")
+			{
+				$res->nodeset[$i]->set_attribute("InstId", $a_inst);
 			}
 		}
 		unset($xpc);

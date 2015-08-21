@@ -12,6 +12,7 @@ abstract class ilXmlExporter
 {
 	protected $dir_relative;
 	protected $dir_absolute;
+	protected $exp;
 
 	/**
 	 * Constructor
@@ -22,6 +23,26 @@ abstract class ilXmlExporter
 	public function __construct()
 	{
 
+	}
+
+	/**
+	 * Set export object
+	 *
+	 * @param ilExport $a_exp export object
+	 */
+	function setExport(ilExport $a_exp)
+	{
+		$this->exp = $a_exp;
+	}
+
+	/**
+	 * Get export
+	 *
+	 * @return ilExport export object
+	 */
+	function getExport()
+	{
+		return $this->exp;
 	}
 
 	/**

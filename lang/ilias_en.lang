@@ -15681,3 +15681,23 @@ mail#:#mail_template_client#:#Text Template
 mail#:#mail_template_client_info#:#Choose one of the available text templates and make use of it's placeholders. If you choose a text template, body and subject of this form (if defined in the text template) will be replaced.
 itgr#:#itgr_hide_title#:#Hide Title
 itgr#:#itgr_hide_title_info#:#Hides title of item group in presentation for learner.
+content#:#cont_all_languages#:#All Languages
+mob#:#mob_upload_multi_srt#:#Upload as ZIP
+mob#:#mob_upload_multi_srt_howto#:#The .zip file should contain no subdirectory, all .srt files should be located on the top level. The file names should end with "_&lt;lang code&gt;.srt" where lang code is e.g. "en", "it", "de".
+mob#:#mob_file_could_not_be_uploaded#:#File could not be uploaded.
+mob#:#mob_multi_srt_files#:#SRT Files
+content#:#cont_subtitle_files#:#Media Subtitles
+content#:#cont_upload_multi_srt_howto#:#This feature allows you to upload multiple subtitle (srt) files in a zip file for all media objects of the learning module. Your .zip file should contain all .srt files on the top level (no subdirectories). The file names should end with "_&lt;lang code&gt;.srt" where lang code is e.g. "en", "it", "de". The rest of the filename should correspond to the name of the video file, e.g. "my_video.mp4" -> "my_video_en.srt".
+content#:#cont_moved_srt_files#:#Moved subtitles files to media objects.
+content#:#cont_subtitle_file#:#SRT ZIP File
+content#:#cont_multi_srt_files#:#SRT Files
+content#:#cont_master_language_only#:#Master Language for Translation
+content#:#cont_import#:#Import
+content#:#cont_trans_import_info#:#If you exported this module as XML/Master Language for Translation to another installation, you can now re-import translated export files from this second installation here.
+content#:#cont_import_trans#:#Import Translation
+content#:#cont_import_lang#:#Target Language
+mep#:#mep_master_language_only#:#Master Language for Translation
+mep#:#mep_trans_import_info#:#If you exported this module as XML/Master Language for Translation to another installation, you can now re-import translated export files from this second installation here.
+mep#:#mep_import_trans#:#Import Translation
+mep#:#mep_import_lang#:#Target Language
+content#:#cont_snippet_from_another_installation#:#Snippet comes from another installation.

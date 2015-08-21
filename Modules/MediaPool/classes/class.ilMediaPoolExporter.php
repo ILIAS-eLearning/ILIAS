@@ -23,6 +23,13 @@ class ilMediaPoolExporter extends ilXmlExporter
 		$this->ds = new ilMediaPoolDataSet();
 		$this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
 		$this->ds->setDSPrefix("ds");
+		$this->config = $this->getExport()->getConfig("Modules/MediaPool");
+		if ($this->config->getMasterLanguageOnly())
+		{
+			$conf = $this->getExport()->getConfig("Services/COPage");
+			$conf->setMasterLanguageOnly(true);
+			$this->ds->setMasterLanguageOnly(true);
+		}
 	}
 
 	/**
@@ -47,6 +54,11 @@ class ilMediaPoolExporter extends ilXmlExporter
 			{
 				$mob_ids[] = $m;
 			}
+		}
+
+		if ($this->config->getMasterLanguageOnly())
+		{
+			return array();
 		}
 
 		return array (
@@ -113,13 +125,19 @@ class ilMediaPoolExporter extends ilXmlExporter
 	function getValidSchemaVersions($a_entity)
 	{
 		return array (
+			"5.1.0" => array(
+				"namespace" => "http://www.ilias.de/Modules/MediaPool/mep/5_1",
+				"xsd_file" => "ilias_mep_5_1.xsd",
+				"uses_dataset" => true,
+				"min" => "5.1.0",
+				"max" => ""),
 			"4.1.0" => array(
 				"namespace" => "http://www.ilias.de/Modules/MediaPool/mep/4_1",
 				"xsd_file" => "ilias_mep_4_1.xsd",
 				"uses_dataset" => true,
 				"min" => "4.1.0",
 				"max" => "")
-		);
+				);
 	}
 
 }
