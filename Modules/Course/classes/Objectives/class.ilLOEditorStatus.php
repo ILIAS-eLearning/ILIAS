@@ -399,7 +399,7 @@ class ilLOEditorStatus
 				{
 					if($a_set_errors)
 					{
-						$this->appendFailure(self::SECTION_ITEST, 'crs_loc_err_stat_no_it');
+						$this->appendFailure(self::SECTION_ITES, 'crs_loc_err_stat_no_it');
 					}
 					return FALSE;
 				}
