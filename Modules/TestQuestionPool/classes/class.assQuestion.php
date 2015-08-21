@@ -1106,7 +1106,7 @@ abstract class assQuestion
 	 * @param integer $pass Test pass
 	 * @return boolean $status
 	 */
-	abstract public function saveWorkingData($active_id, $pass = NULL);
+	abstract public function saveWorkingData($active_id, $pass = NULL, $intermediate = false);
 
 	/**
 	 * Reworks the allready saved working data if neccessary
@@ -1117,7 +1117,7 @@ abstract class assQuestion
 	 * @param integer $pass
 	 * @param boolean $obligationsAnswered
 	 */
-	abstract protected function reworkWorkingData($active_id, $pass, $obligationsAnswered);
+	abstract protected function reworkWorkingData($active_id, $pass, $obligationsAnswered, $intermediate);
 
 	protected function savePreviewData(ilAssQuestionPreviewSession $previewSession)
 	{
@@ -4351,26 +4351,44 @@ abstract class assQuestion
 	 *
 	 * @param int $active_id
 	 * @param int $pass
+	 * @param bool|true $authorized
+	 * @global ilDB $ilDB
 	 *
 	 * @return object
 	 */
-	protected function getCurrentSolutionResultSet($active_id, $pass)
+	protected function getCurrentSolutionResultSet($active_id, $pass, $authorized = true)
 	{
-		/** @var ilDB $ilDB */
 		global $ilDB;
 
 		if($this->getStep() !== NULL)
 		{
-			return $ilDB->queryF("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s AND step = %s",
-				array('integer','integer','integer', 'integer'),
-				array($active_id, $this->getId(), $pass, $this->getStep())
+			$query = "
+				SELECT *
+				FROM tst_solutions
+				WHERE active_fi = %s
+				AND question_fi = %s
+				AND pass = %s
+				AND step = %s
+				AND authorized = %s
+			";
+
+			return $ilDB->queryF($query, array('integer', 'integer', 'integer', 'integer', 'integer'),
+				array($active_id, $this->getId(), $pass, $this->getStep(), (int)$authorized)
 			);	
 		}
 		else
 		{
-			return $ilDB->queryF("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-				array('integer','integer','integer'),
-				array($active_id, $this->getId(), $pass)
+			$query = "
+				SELECT *
+				FROM tst_solutions
+				WHERE active_fi = %s
+				AND question_fi = %s
+				AND pass = %s
+				AND authorized = %s
+			";
+
+			return $ilDB->queryF($query, array('integer', 'integer', 'integer', 'integer'),
+				array($active_id, $this->getId(), $pass, (int)$authorized)
 			);
 		}
 
@@ -4379,31 +4397,44 @@ abstract class assQuestion
 	/**
 	 * @param int $active_id
 	 * @param int $pass
+	 * @param bool|true $authorized
+	 * @global ilDB $ilDB
 	 *
 	 * @return int
 	 */
-	protected function removeCurrentSolution($active_id, $pass)
+	protected function removeCurrentSolution($active_id, $pass, $authorized = true)
 	{
-		/**
-		 * @var ilDB $ilDB
-		 */
 		global $ilDB;
 
 		if($this->getStep() !== NULL)
 		{
-			return $ilDB->manipulateF("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s AND step = %s",
-				array('integer','integer','integer', 'integer'),
-				array($active_id, $this->getId(), $pass, $this->getStep())
+			$query = "
+				DELETE FROM tst_solutions
+				WHERE active_fi = %s
+				AND question_fi = %s
+				AND pass = %s
+				AND step = %s
+				AND authorized = %s
+			";
+
+			return $ilDB->manipulateF($query, array('integer', 'integer', 'integer', 'integer', 'integer'),
+				array($active_id, $this->getId(), $pass, $this->getStep(), (int)$authorized)
 			);	
 		}
 		else
 		{
-			return $ilDB->manipulateF("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-				array('integer','integer','integer'),
-				array($active_id, $this->getId(), $pass)
+			$query = "
+				DELETE FROM tst_solutions
+				WHERE active_fi = %s
+				AND question_fi = %s
+				AND pass = %s
+				AND authorized = %s
+			";
+
+			return $ilDB->manipulateF($query, array('integer', 'integer', 'integer', 'integer'),
+				array($active_id, $this->getId(), $pass, (int)$authorized)
 			);
 		}
-
 	}
 
 	/**
@@ -4411,12 +4442,13 @@ abstract class assQuestion
 	 * @param int $pass
 	 * @param mixed $value1
 	 * @param mixed $value2
+	 * @param bool|true $authorized
+	 * @global ilDB $ilDB
 	 *
 	 * @return int
 	 */
-	public function saveCurrentSolution($active_id, $pass, $value1, $value2)
+	public function saveCurrentSolution($active_id, $pass, $value1, $value2, $authorized = true)
 	{
-		/** @var ilDB $ilDB */
 		global $ilDB;
 
 		$next_id = $ilDB->nextId("tst_solutions");
@@ -4428,7 +4460,8 @@ abstract class assQuestion
 			"value1" => array("clob", $value1),
 			"value2" => array("clob", $value2),
 			"pass" => array("integer", $pass),
-			"tstamp" => array("integer", time())
+			"tstamp" => array("integer", time()),
+			'authorized' => array('integer', (int)$authorized)
 		);
 
 		if( $this->getStep() !== null )
@@ -4436,9 +4469,38 @@ abstract class assQuestion
 			$fieldData['step'] = array("integer", $this->getStep());
 		}
 
-		$aff = $ilDB->insert("tst_solutions", $fieldData);
-		
-		return $aff;
+		return $ilDB->insert("tst_solutions", $fieldData);
+	}
+
+	/**
+	 * @param int $active_id
+	 * @param int $pass
+	 * @param mixed $value1
+	 * @param mixed $value2
+	 * @param bool|true $authorized
+	 * @global ilDB $ilDB
+	 *
+	 * @return int
+	 */
+	public function updateCurrentSolution($solutionId, $value1, $value2, $authorized = true)
+	{
+		global $ilDB;
+
+		$fieldData = array(
+			"value1" => array("clob", $value1),
+			"value2" => array("clob", $value2),
+			"tstamp" => array("integer", time()),
+			'authorized' => array('integer', (int)$authorized)
+		);
+
+		if( $this->getStep() !== null )
+		{
+			$fieldData['step'] = array("integer", $this->getStep());
+		}
+
+		return $ilDB->update("tst_solutions", $fieldData, array(
+			'solution_id' => array('integer', $solutionId)
+		));
 	}
 
 
