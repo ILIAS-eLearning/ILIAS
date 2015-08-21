@@ -168,6 +168,8 @@ class ilCourseObjectiveMaterials
 	{
 		global $tree,$ilDB;
 		
+		$container_obj_id = ilObject::_lookupObjId($a_container_id);
+		
 		$all_materials = $tree->getSubTree($tree->getNodeData($a_container_id),true);
 		$all_materials = ilUtil::sortArray($all_materials,'title','asc');
 		
@@ -177,7 +179,10 @@ class ilCourseObjectiveMaterials
 			switch($material['type'])
 			{
 				case 'tst':
-					if(ilLOSettings::getInstanceByObjId($a_container_id)->isObjectiveTest($material['child']))
+					
+					include_once './Modules/Course/classes/class.ilCourseObjectiveMaterials.php';
+					$type = ilLOTestAssignments::getInstance($container_obj_id)->getTypeByTest($material['child']);
+					if($type != ilLOSettings::TYPE_TEST_UNDEFINED)
 					{
 						continue;
 					}
