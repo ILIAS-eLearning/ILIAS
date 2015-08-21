@@ -450,14 +450,13 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 				if(!$a_is_manage)
 				{
 					// if test object is qualified or initial do not show here
-					if($this->objective_map["test_i"] && $item_data["child"] == $this->objective_map["test_i"])
+					include_once './Modules/Course/classes/Objectives/class.ilLOTestAssignments.php';
+					include_once './Modules/Course/classes/Objectives/class.ilLOSettings.php';
+					$assignments = ilLOTestAssignments::getInstance($this->getContainerObject()->getId());
+					if($assignments->getTypeByTest($item_data['child']) != ilLOSettings::TYPE_TEST_UNDEFINED)
 					{
 						continue;
 					}
-					if($this->objective_map["test_q"] && $item_data["child"] == $this->objective_map["test_q"])
-					{
-						continue;
-					}	
 				}
 				
 				if($this->rendered_items[$item_data["child"]] !== true &&

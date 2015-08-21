@@ -269,14 +269,15 @@ class ilLOEditorStatus
 					'testsOverview' :
 					'testOverview';
 			
-			
-			$list->addEntry($this->lng->txt('crs_objective_status_itest'),
-				$this->ctrl->getLinkTarget($this->getCmdClass(),$command),
-				$done
-					? ilChecklistGUI::STATUS_OK
-					: ilChecklistGUI::STATUS_NOT_OK,
-				($this->section == self::SECTION_ITES),
-				$this->getErrorMessages(self::SECTION_ITES)
+			$this->ctrl->setParameter($this->getCmdClass(),'tt',  ilLOSettings::TYPE_TEST_INITIAL);
+			$list->addEntry(
+					$this->lng->txt('crs_objective_status_itest'),
+					$this->ctrl->getLinkTarget($this->getCmdClass(),$command),
+					$done
+						? ilChecklistGUI::STATUS_OK
+						: ilChecklistGUI::STATUS_NOT_OK,
+					($this->section == self::SECTION_ITES),
+					$this->getErrorMessages(self::SECTION_ITES)
 			);
 		}
 
@@ -288,8 +289,7 @@ class ilLOEditorStatus
 				'testsOverview' :
 				'testOverview';
 
-		$this->ctrl->setParameter($this->getCmdClass(),'tt', 2);
-
+		$this->ctrl->setParameter($this->getCmdClass(),'tt',  ilLOSettings::TYPE_TEST_QUALIFIED);
 		$list->addEntry($this->lng->txt('crs_objective_status_qtest'),
 			$this->ctrl->getLinkTarget($this->getCmdClass(),$command),
 			$done

@@ -219,6 +219,16 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
 					$this->tpl->setVariable('IT_IMG', ilObject::_getIcon($obj_id, 'tiny'));
 					$this->tpl->setVariable('IT_ALT', $this->lng->txt('obj_tst'));
 					$this->tpl->setVariable('IT_TITLE',ilObject::_lookupTitle($obj_id));
+					$this->tpl->setVariable('IT_TITLE_LINK',  ilLink::_getLink($a_set['initial']));
+					
+					include_once './Services/Link/classes/class.ilLink.php';
+					$this->ctrl->setParameterByClass('ilobjtestgui','ref_id',$a_set['initial']);
+					$this->ctrl->setParameterByClass('ilobjtestgui','cmd','questionsTabGateway');
+					$this->tpl->setVariable(
+							'IT_TITLE_LINK',
+							$this->ctrl->getLinkTargetByClass('ilobjtestgui')
+					);
+										
 					$this->tpl->parseCurrentBlock();
 				}
 				else
@@ -260,6 +270,16 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
 				$this->tpl->setVariable('FT_IMG', ilObject::_getIcon($obj_id, 'tiny'));
 				$this->tpl->setVariable('FT_ALT', $this->lng->txt('obj_tst'));
 				$this->tpl->setVariable('FT_TITLE',ilObject::_lookupTitle($obj_id));
+				
+				include_once './Services/Link/classes/class.ilLink.php';
+				$this->ctrl->setParameterByClass('ilobjtestgui','ref_id',$a_set['final']);
+				$this->ctrl->setParameterByClass('ilobjtestgui','cmd','questionsTabGateway');
+				$this->tpl->setVariable(
+						'FT_TITLE_LINK',
+						$this->ctrl->getLinkTargetByClass('ilobjtestgui')
+				);
+				
+				
 				$this->tpl->parseCurrentBlock();
 			}
 			else
