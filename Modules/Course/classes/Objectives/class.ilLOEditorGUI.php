@@ -248,6 +248,7 @@ class ilLOEditorGUI
 			
 			$settings->setQualifyingTestType($form->getInput('qttype'));
 			$settings->resetResults($form->getInput('reset'));
+			$settings->setPassedObjectiveMode($form->getInput('passed_mode'));
 
 			if($form->getInput('qttype') == ilLOSettings::TYPE_QUALIFYING_ALL)
 			{
@@ -331,6 +332,20 @@ class ilLOEditorGUI
 		$start_q->setChecked($this->getSettings()->isQualifyingTestStart());
 		$type_qa->addSubItem($start_q);
 		
+		$passed_mode = new ilRadioGroupInputGUI($this->lng->txt('crs_loc_settings_passed_mode'),'passed_mode');
+		$passed_mode->setValue($this->getSettings()->getPassedObjectiveMode());
+		
+		$passed_mode->addOption(
+				new ilRadioOption(
+						$this->lng->txt('crs_loc_settings_passed_mode_hide'), 
+						ilLOSettings::HIDE_PASSED_OBJECTIVE_QST)
+		);
+		$passed_mode->addOption(
+				new ilRadioOption(
+						$this->lng->txt('crs_loc_settings_passed_mode_mark'), 
+						ilLOSettings::MARK_PASSED_OBJECTIVE_QST)
+		);
+		$type_qa->addSubItem($passed_mode);
 		
 		$type_qs = new ilRadioOption($this->lng->txt('crs_loc_settings_type_q_selected'), ilLOSettings::TYPE_QUALIFYING_SELECTED);
 		$qt_selector->addOption($type_qs);

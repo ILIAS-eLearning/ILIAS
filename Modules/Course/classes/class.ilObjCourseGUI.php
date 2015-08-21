@@ -5433,7 +5433,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	}
 	
 	/**
-	 * 
+	 * Test redirection will be moved lo adapter
 	 */
 	protected function redirectLocToTestObject($a_force_new_run = NULL)
 	{
@@ -5442,15 +5442,16 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		include_once './Modules/Course/classes/Objectives/class.ilLOUserResults.php';
 		include_once './Modules/Course/classes/Objectives/class.ilLOSettings.php';
+		include_once './Modules/Course/classes/Objectives/class.ilLOTestAssignments.php';
+		
+		$assignments = ilLOTestAssignments::getInstance($this->object->getId());
+		$type = $assignments->getTypeByTest($test_id);
+		
+		
 		$res = new ilLOUserResults(
 				$this->object->getId(),
 				$GLOBALS['ilUser']->getId());
-		$passed = $res->getCompletedObjectiveIdsByType(
-			(ilLOSettings::getInstanceByObjId(
-					$this->object->getId())->getQualifiedTest() == $test_id) ?
-						ilLOUserResults::TYPE_QUALIFIED :
-						ilLOUserResults::TYPE_INITIAL
-		);
+		$passed = $res->getCompletedObjectiveIdsByType($type);
 
 		if($objective_id)
 		{

@@ -200,5 +200,6 @@ class ilLOUtils
 		}
 		return false;
 	}
+	
 }
 ?>

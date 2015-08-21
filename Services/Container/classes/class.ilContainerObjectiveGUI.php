@@ -885,7 +885,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 			{
 				$acc_content[] = $this->renderTest(
 						$this->getTestAssignments()->getTestByObjective($a_objective_id, ilLOSettings::TYPE_TEST_INITIAL), 
-						$a_objective_id, 
+						$a_objective_id,
 						true, 
 						false, 
 						$a_lo_result);

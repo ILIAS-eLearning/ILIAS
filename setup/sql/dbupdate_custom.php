@@ -129,3 +129,70 @@ if(!$ilDB->tableExists('loc_tst_assignments'))
 }
 ?>
 
+<<<<<<< .working
+=======
+<#8>
+<?php
+if( !$ilDB->tableExists('tst_seq_qst_optional') )
+{
+	$ilDB->createTable('tst_seq_qst_optional', array(
+		'active_fi' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'pass' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'question_fi' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		)
+	));
+}
+?>
+
+<#9>
+<?php
+if( !$ilDB->tableColumnExists('tst_sequence', 'ans_opt_confirmed') )
+{
+	$ilDB->addTableColumn('tst_sequence', 'ans_opt_confirmed', array(
+		'type' => 'integer',
+		'length' => 1,
+		'notnull' => true,
+		'default' => 0
+	));
+}
+?>
+
+<#10>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+
+<#11>
+<?php
+
+if(!$ilDB->tableColumnExists('loc_settings','passed_obj_mode')) 
+{
+    $ilDB->addTableColumn(
+        'loc_settings',
+        'passed_obj_mode',
+        array(
+            'type' => 'integer',
+			'length' => 1,
+            'notnull' => false,
+            'default' => 1
+        ));
+}
+?>
+
+
+
+>>>>>>> .merge-rechts.r57038

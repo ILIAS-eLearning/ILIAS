@@ -45,6 +45,24 @@ class ilLOTestAssignments
 		return self::$instances[$a_container_id] = new self($a_container_id);
 	}
 	
+	/**
+	 * 
+	 * @param type $a_test_ref_id
+	 */
+	public static function lookupContainerForTest($a_test_ref_id)
+	{
+		global $ilDB;
+		
+		$query = 'SELECT container_id FROM loc_tst_assignments '.
+				'WHERE tst_ref_id = '.$ilDB->quote($a_test_ref_id,'integer');
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return $row->container_id;
+		}
+		return 0;
+	}
+	
 	public function getContainerId()
 	{
 		return $this->container_id;
@@ -110,7 +128,7 @@ class ilLOTestAssignments
 				}
 				break;
 		}
-		
+				
 		$assignment = $this->getAssignmentByObjective($a_objective_id, $a_type);
 		if($assignment)
 		{
@@ -118,6 +136,51 @@ class ilLOTestAssignments
 		}
 		return 0;
 	}
+	
+	/**
+	 * Get test type by test id
+	 * @param type $a_test_ref_id
+	 */
+	public function getTypeByTest($a_test_ref_id)
+	{
+		if($this->getSettings()->worksWithInitialTest() && !$this->getSettings()->hasSeparateInitialTests())
+		{
+			if($this->getSettings()->getInitialTest() == $a_test_ref_id)
+			{
+				return ilLOSettings::TYPE_TEST_INITIAL;
+			}
+		}
+		elseif($this->getSettings()->worksWithInitialTest())
+		{
+			foreach($this->assignments as $assignment)
+			{
+				if($assignment->getTestRefId() == $a_test_ref_id)
+				{
+					return ilLOSettings::TYPE_TEST_INITIAL;
+				}
+			}
+			
+		}
+		if(!$this->getSettings()->hasSeparateQualifiedTests())
+		{
+			if($this->getSettings()->getQualifiedTest() == $a_test_ref_id)
+			{
+				return ilLOSettings::TYPE_TEST_QUALIFIED;
+			}
+		}
+		else
+		{
+			foreach($this->assignments as $assignment)
+			{
+				if($assignment->getTestRefId() == $a_test_ref_id)
+				{
+					return ilLOSettings::TYPE_TEST_QUALIFIED;
+				}
+			}
+		}
+		return ilLOSettings::TYPE_TEST_UNDEFINED;
+	}
+	
 	
 	/**
 	 * Get assignment by objective

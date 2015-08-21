@@ -186,6 +186,8 @@ class ilObjTestListGUI extends ilObjectListGUI
 	// begin-patch lok
 	protected function modifyTitleLink($a_default_link)
 	{
+		return parent::modifyTitleLink($a_default_link);
+		
 		include_once './Modules/Course/classes/Objectives/class.ilLOSettings.php';
 		$id = ilLOSettings::isObjectiveTest($this->ref_id);
 		
