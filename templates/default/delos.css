@@ -9688,6 +9688,39 @@ li.smallPad {
 .ilCrsObjAcc {
   margin-bottom: 10px;
 }
+/* LOK progress bars */
+.ilCourseObjectiveProgressBar {
+  padding-right: 5px;
+  float: right;
+}
+.ilCourseObjectiveProgressBarContainer {
+  float: right;
+  padding-left: 10px;
+}
+.ilCourseObjectiveProgressBarContainer > .progress {
+  margin: 5px 0 0;
+  border: 1px solid #BBB;
+  background-color: white;
+}
+.ilCourseObjectiveProgressBarContainer > .progress > .progress-bar {
+  box-shadow: none;
+}
+.ilCourseObjectiveProgressBarLimit {
+  float: right;
+  position: relative;
+  border-right: 2px dotted #888;
+  height: 20px;
+  margin-top: -17px;
+}
+.ilCourseObjectiveProgressBarNeutral {
+  background-color: #888;
+}
+.ilCourseObjectiveProgressBarCompleted {
+  background-color: #60B060;
+}
+.ilCourseObjectiveProgressBarFailed {
+  background-color: #B06060;
+}
 /* Modules/Chatroom */
 .ilValignBottom {
   vertical-align: bottom;
@@ -10791,6 +10824,22 @@ div.ilChecklist ul li img {
 }
 .ilFileUploadEntryOptions label.control-label {
   padding-top: 3px;
+}
+/* Modules/Portfolio */
+ul.ilPCMyCoursesCourseList > li {
+  margin-bottom: 10px;
+}
+ul.ilPCMyCoursesObjectiveList > li {
+  margin-top: 5px;
+  margin-left: 15px;
+}
+a.ilPCMyCoursesToggle {
+  outline: 0;
+}
+div.ilPCMyCoursesPath {
+  margin-bottom: 10px;
+  font-size: 90%;
+  /* font-style: italic; */
 }
 .noMargin {
   margin: 0;
