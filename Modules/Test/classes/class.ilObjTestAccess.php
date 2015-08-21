@@ -417,6 +417,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
 				"default" => true),
 			//array("permission" => "write", "cmd" => "", "lang_var" => "edit"),
 			array("permission" => "tst_statistics", "cmd" => "outEvaluation", "lang_var" => "tst_statistical_evaluation"),
+			array("permission" => "read", "cmd" => "userResultsGateway", "lang_var" => "tst_test_results")
 		);
 		
 		return $commands;

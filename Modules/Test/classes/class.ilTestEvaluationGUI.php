@@ -1219,7 +1219,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$user_id = $ilUser->getId();
 		$uname = $this->object->userLookupFullName($user_id, TRUE);
 
-		if( !$this->object->canShowTestResults($testSession, $ilUser->getId()) )
+		if( !$this->object->canShowTestResults($testSession) )
 		{
 			$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
 		}

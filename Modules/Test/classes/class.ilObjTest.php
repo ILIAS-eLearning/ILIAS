@@ -8414,9 +8414,9 @@ function getAnswerFeedbackPoints()
 		return $result;
 	}
 
-	function canShowTestResults($testSession, $user_id)
+	function canShowTestResults($testSession)
 	{
-		$active_id = $this->getActiveIdOfUser($user_id);
+		$active_id = $testSession->getActiveId();
 		if ($active_id > 0)
 		{
 			$starting_time = $this->getStartingTimeOfUser($active_id);
@@ -10355,7 +10355,7 @@ function getAnswerFeedbackPoints()
 	*/
 	function canShowCertificate($testSession, $user_id, $active_id)
 	{
-		if ($this->canShowTestResults($testSession, $user_id))
+		if ($this->canShowTestResults($testSession))
 		{
 			include_once "./Services/Certificate/classes/class.ilCertificate.php";
 			include_once "./Modules/Test/classes/class.ilTestCertificateAdapter.php";

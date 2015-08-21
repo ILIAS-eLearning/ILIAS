@@ -48,7 +48,7 @@ class ilTestSessionFactory
 	 */
 	public function getSession($activeId = null)
 	{
-		if($activeId === null || $this->testSession[$activeId] === null)
+		if( $activeId === null || $this->testSession[$activeId] === null)
 		{
 			$testSession = $this->getNewTestSessionObject();
 
