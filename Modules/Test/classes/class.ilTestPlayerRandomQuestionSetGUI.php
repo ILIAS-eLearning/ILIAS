@@ -32,7 +32,7 @@ class ilTestPlayerRandomQuestionSetGUI extends ilTestOutputGUI
 
 		$questionList->setQuestionInstanceTypeFilter(ilAssQuestionList::QUESTION_INSTANCE_TYPE_DUPLICATES);
 
-		$questionList->setQuestionIdsFilter($this->testSequence->getQuestionIds());
+		$questionList->setIncludeQuestionIdsFilter($this->testSequence->getQuestionIds());
 
 		return $questionList;
 	}
