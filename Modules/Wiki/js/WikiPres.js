@@ -49,6 +49,7 @@ il.Wiki.Pres = {
 				window.setTimeout(t.updateProgress, 1000);
 			} else {
 				window.location.href = t.url + "&cmd=downloadUserHTMLExport";
+				$("#il_wiki_export_progress").remove();
 			}
 		}
 	}
