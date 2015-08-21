@@ -389,8 +389,11 @@ class ilCOPageHTMLExport
 	 * @param
 	 * @return
 	 */
-	function exportPageElements()
+	function exportPageElements($a_update_callback = null)
 	{
+		$total = count($this->mobs) + count($this->files) + count($this->files_direct);
+		$cnt = 0;
+
 		// export all media objects
 		$linked_mobs = array();
 		foreach ($this->mobs as $mob)
@@ -398,6 +401,11 @@ class ilCOPageHTMLExport
 			if (ilObject::_exists($mob) && ilObject::_lookupType($mob) == "mob")
 			{
 				$this->exportHTMLMOB($mob, $linked_mobs);
+			}
+			if (is_callable($a_update_callback))
+			{
+				$cnt++;
+				$a_update_callback($total, $cnt);
 			}
 		}
 		$linked_mobs2 = array();				// mobs linked in link areas
@@ -413,12 +421,22 @@ class ilCOPageHTMLExport
 		foreach ($this->files as $file)
 		{
 			$this->exportHTMLFile($file);
+			if (is_callable($a_update_callback))
+			{
+				$cnt++;
+				$a_update_callback($total, $cnt);
+			}
 		}
 		
 		// export all files (which are not objects
 		foreach ($this->files_direct as $file_id => $attr)
 		{			
 			$this->exportHTMLFileDirect($file_id, $attr[0], $attr[1]);
+			if (is_callable($a_update_callback))
+			{
+				$cnt++;
+				$a_update_callback($total, $cnt);
+			}
 		}
 	}
 	

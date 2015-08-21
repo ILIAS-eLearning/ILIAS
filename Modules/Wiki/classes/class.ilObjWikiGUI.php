@@ -80,7 +80,8 @@ class ilObjWikiGUI extends ilObjectGUI
 				$this->setSettingsSubTabs("permission_settings");
 				include_once("Services/AccessControl/classes/class.ilSettingsPermissionGUI.php");
 				$perm_gui = new ilSettingsPermissionGUI($this);
-				$perm_gui->setPermissions(array("edit_wiki_navigation", "delete_wiki_pages", "activate_wiki_protection"));
+				$perm_gui->setPermissions(array("edit_wiki_navigation", "delete_wiki_pages", "activate_wiki_protection",
+					"wiki_html_export"));
 				$perm_gui->setRoleRequiredPermissions(array("edit_content"));
 				$perm_gui->setRoleProhibitedPermissions(array("write"));
 				$ret = $this->ctrl->forwardCommand($perm_gui);
@@ -1846,7 +1847,7 @@ class ilObjWikiGUI extends ilObjectGUI
 	function exportHTML()
 	{
 		require_once("./Modules/Wiki/classes/class.ilWikiHTMLExport.php");
-		$cont_exp = new ilWikiHTMLExport($this);
+		$cont_exp = new ilWikiHTMLExport($this->object);
 		$cont_exp->buildExportFile();
 	}
 	
@@ -2007,16 +2008,27 @@ class ilObjWikiGUI extends ilObjectGUI
 		}
 	}
 
+
+	//
+	// User HTML Export
+	//
+
 	/**
 	 * Export html (as user)
-	 *
-	 * @param
-	 * @return
 	 */
-	function exportHTMLUserObject()
+	function initUserHTMLExportObject()
 	{
-		//sleep(5);
-		//ilUtil::deliverFile("ilias.ini.php", "ilias.ini.php");
+		$this->checkPermission("wiki_html_export");
+		$this->object->initUserHTMLExport();
+	}
+
+	/**
+	 * Export html (as user)
+	 */
+	function startUserHTMLExportObject()
+	{
+		$this->checkPermission("wiki_html_export");
+		$this->object->startUserHTMLExport();
 	}
 
 	/**
@@ -2024,8 +2036,28 @@ class ilObjWikiGUI extends ilObjectGUI
 	 */
 	function getUserHTMLExportProgressObject()
 	{
-		echo "<div>".rand(1,20)."</div>";
+		$this->checkPermission("wiki_html_export");
+		$p =  $this->object->getUserHTMLExportProgress();
+
+		include_once("./Services/UIComponent/ProgressBar/classes/class.ilProgressBar.php");
+		$pb = ilProgressBar::getInstance();
+		$pb->setCurrent($p["progress"]);
+
+		$r = new stdClass();
+		$r->progressBar = $pb->render();
+		$r->status = $p["status"];
+		include_once("./Services/JSON/classes/class.ilJsonUtil.php");
+		echo (ilJsonUtil::encode($r));
 		exit;
+	}
+
+	/**
+	 * Download user html export file
+	 */
+	function downloadUserHTMLExportObject()
+	{
+		$this->checkPermission("wiki_html_export");
+		$this->object->deliverUserHTMLExport();
 	}
 
 

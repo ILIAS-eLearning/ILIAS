@@ -298,13 +298,16 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
 				"txt" => $lng->txt("wiki_contributors"),
 				"href" => $ilCtrl->getLinkTargetByClass("ilobjwikigui", "listContributors")
 				);
+		}
 
+		// manage
+		if (ilWikiPerm::check("wiki_html_export", $_GET["ref_id"]))
+		{
 			$actions[] = array(
 				"txt" => $lng->txt("wiki_html_export"),
 				"id" => "il_wiki_user_export",
-				"href" => $ilCtrl->getLinkTargetByClass("ilobjwikigui", "exportHTMLUser")
+				"href" => $ilCtrl->getLinkTargetByClass("ilobjwikigui", "initUserHTMLExport")
 			);
-
 		}
 
 		// manage

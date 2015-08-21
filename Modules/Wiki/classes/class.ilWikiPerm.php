@@ -32,6 +32,9 @@ class ilWikiPerm
 			case "activate_wiki_protection":
 				return ($ilAccess->checkAccess("write", "", $a_ref_id)
 					|| $ilAccess->checkAccess("activate_wiki_protection", "", $a_ref_id));
+			case "wiki_html_export":
+				return ($ilAccess->checkAccess("write", "", $a_ref_id)
+					|| $ilAccess->checkAccess("wiki_html_export", "", $a_ref_id));
 		}
 		return $ilAccess->checkAccess($a_perm, $a_cmd, $a_ref_id);
 	}

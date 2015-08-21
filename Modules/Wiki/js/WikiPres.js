@@ -19,8 +19,17 @@ il.Wiki.Pres = {
 	startHTMLExport: function () {
 		var t = il.Wiki.Pres;
 
-		il.Util.sendAjaxGetRequestToUrl(t.url + "&cmd=initUserHTMLExport", {}, {}, function () {
-
+		il.Util.sendAjaxGetRequestToUrl(t.url + "&cmd=initUserHTMLExport", {}, {}, function (o) {
+			var t = il.Wiki.Pres;
+			console.log(o.responseText);
+			if (o.responseText == 2) {
+				window.location.href = t.url + "&cmd=downloadUserHTMLExport";
+			} else {
+				il.Util.sendAjaxGetRequestToUrl(t.url + "&cmd=startUserHTMLExport", {}, {}, function () {
+				});
+				var t = il.Wiki.Pres;
+				t.updateProgress();
+			}
 		});
 	},
 
@@ -34,8 +43,13 @@ il.Wiki.Pres = {
 		var t = il.Wiki.Pres;
 
 		if(o.responseText !== undefined) {
-			$("#il_wiki_export_progress").html(o.responseText);
-			window.setTimeout(t.updateProgress, 1000);
+			var s = JSON.parse(o.responseText);
+			$("#il_wiki_export_progress").html(s.progressBar);
+			if (s.status != 0) {
+				window.setTimeout(t.updateProgress, 1000);
+			} else {
+				window.location.href = t.url + "&cmd=downloadUserHTMLExport";
+			}
 		}
 	}
 };

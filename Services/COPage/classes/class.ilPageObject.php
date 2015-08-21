@@ -5094,5 +5094,35 @@ abstract class ilPageObject
 	{
 		return array();
 	}
+
+	/**
+	 * Get all pages for parent object
+	 *
+	 * @param string	$a_parent_type Parent Type
+	 * @param int		$a_parent_id Parent ID
+	 * @param string	$a_lang language
+	 */
+	static function getLastChangeByParent($a_parent_type, $a_parent_id, $a_lang = "")
+	{
+		global $ilDB;
+
+		$and_lang = "";
+		if ($a_lang != "")
+		{
+			$and_lang = " AND lang = ".$ilDB->quote($a_lang, "text");
+		}
+
+		$ilDB->setLimit(1);
+		$q = "SELECT last_change FROM page_object ".
+			" WHERE parent_id = ".$ilDB->quote($a_parent_id, "integer").
+			" AND parent_type = ".$ilDB->quote($a_parent_type, "text").$and_lang.
+			" ORDER BY last_change DESC";
+
+		$set = $ilDB->query($q);
+		$rec = $ilDB->fetchAssoc($set);
+
+		return $rec["last_change"];
+	}
+
 }
 ?>

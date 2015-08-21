@@ -10,18 +10,40 @@
  */
 class ilWikiHTMLExport
 {
-	protected $wiki_gui;
+	protected $wiki;
+	const MODE_DEFAULT = "html";
+	const MODE_USER = "user_html";
+	protected $mode = self::MODE_DEFAULT;
 
 	/**
-	 * Constructir
+	 * Constructor
 	 *
 	 * @param
 	 * @return
 	 */
-	function __construct($a_wiki_gui)
+	function __construct($a_wiki)
 	{
-		$this->wiki_gui = $a_wiki_gui;
-		$this->wiki = $a_wiki_gui->object;
+		$this->wiki = $a_wiki;
+	}
+	
+	/**
+	 * Set mode 
+	 *
+	 * @param int $a_val MODE_DEFAULT|MODE_USER	
+	 */
+	function setMode($a_val)
+	{
+		$this->mode = $a_val;
+	}
+	
+	/**
+	 * Get mode 
+	 *
+	 * @return int MODE_DEFAULT|MODE_USER
+	 */
+	function getMode()
+	{
+		return $this->mode;
 	}
 
 	/**
@@ -32,17 +54,36 @@ class ilWikiHTMLExport
 	 */
 	function buildExportFile()
 	{
-		global $ilias;
+		if ($this->getMode() == self::MODE_USER)
+		{
+			global $ilDB, $ilUser;
+			include_once("./Modules/Wiki/classes/class.ilWikiUserHTMLExport.php");
+			$this->user_html_exp = new ilWikiUserHTMLExport($this->wiki, $ilDB, $ilUser);
+		}
+
+		$ascii_name = str_replace(" ", "_", ilUtil::getASCIIFilename($this->wiki->getTitle()));
 
 		// create export file
 		include_once("./Services/Export/classes/class.ilExport.php");
-		ilExport::_createExportDirectory($this->wiki->getId(), "html", "wiki");
+		ilExport::_createExportDirectory($this->wiki->getId(), $this->getMode(), "wiki");
 		$exp_dir =
-			ilExport::_getExportDirectory($this->wiki->getId(), "html", "wiki");
+			ilExport::_getExportDirectory($this->wiki->getId(), $this->getMode(), "wiki");
 
-		$this->subdir = $this->wiki->getType()."_".$this->wiki->getId();
+		if ($this->getMode() == self::MODE_USER)
+		{
+			ilUtil::delDir($exp_dir, true);
+		}
+
+		if ($this->getMode() == self::MODE_USER)
+		{
+			$this->subdir = $ascii_name;
+		}
+		else
+		{
+			$this->subdir = $this->wiki->getType()."_".$this->wiki->getId();
+		}
 		$this->export_dir = $exp_dir."/".$this->subdir;
-
+//echo "+".$this->export_dir."+";
 		// initialize temporary target directory
 		ilUtil::delDir($this->export_dir);
 		ilUtil::makeDir($this->export_dir);
@@ -65,14 +106,17 @@ class ilWikiHTMLExport
 		// export pages
 		$this->exportHTMLPages();
 
+		$date = time();
+		$zip_file_name = ($this->getMode() == self::MODE_USER)
+			? $ascii_name.".zip"
+			: $date."__".IL_INST_ID."__".$this->wiki->getType()."_".$this->wiki->getId().".zip";
+
 		// zip everything
 		if (true)
 		{
 			// zip it all
-			$date = time();
-			$zip_file = ilExport::_getExportDirectory($this->wiki->getId(), "html", "wiki").
-				"/".$date."__".IL_INST_ID."__".
-				$this->wiki->getType()."_".$this->wiki->getId().".zip";
+			$zip_file = ilExport::_getExportDirectory($this->wiki->getId(), $this->getMode(), "wiki").
+				"/".$zip_file_name;
 			ilUtil::zip($this->export_dir, $zip_file);
 			ilUtil::delDir($this->export_dir);
 		}
@@ -89,6 +133,7 @@ class ilWikiHTMLExport
 
 		include_once("./Services/COPage/classes/class.ilPageContentUsage.php");
 		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+		$cnt = 0;
 		foreach ($pages as $page)
 		{
 			if (ilWikiPage::_exists("wpg", $page["id"]))
@@ -96,9 +141,30 @@ class ilWikiHTMLExport
 				$this->exportPageHTML($page["id"]);
 				$this->co_page_html_export->collectPageElements("wpg:pg", $page["id"]);
 			}
+//sleep(2);
+			if ($this->getMode() == self::MODE_USER)
+			{
+				$cnt++;
+				$this->user_html_exp->updateStatus((int) (50 / count($pages) * $cnt) ,ilWikiUserHTMLExport::RUNNING);
+			}
+
 		}
-		$this->co_page_html_export->exportPageElements();
+		$this->co_page_html_export->exportPageElements($this->updateUserHTMLStatusForPageElements);
 	}
+
+	/**
+	 * Callback for updating the export status during elements export (media objects, files, ...)
+	 *
+	 * @param
+	 */
+	function updateUserHTMLStatusForPageElements($a_total, $a_cnt)
+	{
+		if ($this->getMode() == self::MODE_USER)
+		{
+			$this->user_html_exp->updateStatus((int) 50 + (50 / count($a_total) * $a_cnt) ,ilWikiUserHTMLExport::RUNNING);
+		}
+	}
+
 
 	/**
 	 * Export page html
@@ -171,6 +237,27 @@ class ilWikiHTMLExport
 		}
 	}
 
+	/**
+	 * Get user export file
+	 *
+	 * @param
+	 * @return
+	 */
+	function getUserExportFile()
+	{
+		include_once("./Services/Export/classes/class.ilExport.php");
+		$exp_dir =
+			ilExport::_getExportDirectory($this->wiki->getId(), $this->getMode(), "wiki");
+
+		foreach (new DirectoryIterator($exp_dir) as $fileInfo)
+		{
+			if (pathinfo($fileInfo->getFilename(),PATHINFO_EXTENSION) == "zip")
+			{
+				return $exp_dir."/".$fileInfo->getFilename();
+			}
+		}
+		return false;
+	}
 
 
 }
