@@ -181,18 +181,18 @@ class ilLOTestQuestionAdapter
 	 * @param ilTestSequence $a_test_sequence
 	 * @param ilTestQuestionRelatedObjectivesList $a_objectives_list
 	 */
-	public function buildQuestionRelatedObjectiveList(ilTestSequence $a_test_sequence, ilTestQuestionRelatedObjectivesList $a_objectives_list)
+	public function buildQuestionRelatedObjectiveList(ilTestQuestionSequence $a_test_sequence, ilTestQuestionRelatedObjectivesList $a_objectives_list)
 	{
 		foreach( $a_test_sequence->getQuestionIds() as $questionId )
 		{
-			if( $a_test_sequence instanceof ilTestSequenceFixedQuestionSet )
-			{
-				$objectiveId = $this->lookupObjectiveIdByFixedQuestionId($questionId);
-			}
-			elseif( $a_test_sequence instanceof ilTestSequenceRandomQuestionSet )
+			if( $a_test_sequence instanceof ilTestRandomQuestionSequence )
 			{
 				$definitionId = $a_test_sequence->getResponsibleSourcePoolDefinitionId($questionId);
 				$objectiveId = $this->lookupObjectiveIdByRandomQuestionSelectionDefinitionId($definitionId);
+			}
+			else
+			{
+				$objectiveId = $this->lookupObjectiveIdByFixedQuestionId($questionId);
 			}
 
 			if($objectiveId)

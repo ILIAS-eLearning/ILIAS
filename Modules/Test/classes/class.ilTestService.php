@@ -188,5 +188,66 @@ class ilTestService
 		$assessmentSetting = new ilSetting("assessment");
 		$assessmentSetting->set("manscoring_done_" . $activeId, (bool)$manScoringDone);
 	}
+	
+	public function buildVirtualSequence(ilTestSession $testSession)
+	{
+		global $ilDB, $lng, $ilPluginAdmin;
+
+		require_once 'Modules/Test/classes/class.ilTestVirtualSequence.php';
+		$testSequenceFactory = new ilTestSequenceFactory($ilDB, $lng, $ilPluginAdmin, $this->object);
+
+		if( $this->object->isRandomTest() )
+		{
+			require_once 'Modules/Test/classes/class.ilTestVirtualSequenceRandomQuestionSet.php';
+			$virtualSequence = new ilTestVirtualSequenceRandomQuestionSet($ilDB, $this->object, $testSequenceFactory);
+		}
+		else
+		{
+			require_once 'Modules/Test/classes/class.ilTestVirtualSequence.php';
+			$virtualSequence = new ilTestVirtualSequence($ilDB, $this->object, $testSequenceFactory);
+		}
+
+		$virtualSequence->setActiveId($testSession->getActiveId());
+
+		$virtualSequence->init();
+		
+		return $virtualSequence;
+	}
+	
+	public function getVirtualSequenceUserResults(ilTestVirtualSequence $virtualSequence)
+	{
+		$resultsByPass = array();
+		
+		foreach($virtualSequence->getUniquePasses() as $pass)
+		{
+			$results = $this->object->getTestResult(
+				$virtualSequence->getActiveId(), $pass, false, true, true
+			);
+
+			$resultsByPass[$pass] = $results;
+		}
+		
+		$virtualPassResults = array();
+		
+		foreach($virtualSequence->getQuestionsPassMap() as $questionId => $pass)
+		{
+			foreach($resultsByPass[$pass] as $key => $questionResult)
+			{
+				if($key === 'test' || $key === 'pass')
+				{
+					continue;
+				}
+				
+				if($questionResult['qid'] == $questionId)
+				{
+					$questionResult['pass'] = $pass;
+					$virtualPassResults[$questionId] = $questionResult;
+					break;
+				}
+			}
+		}
+		
+		return $virtualPassResults;
+	}
 }
 

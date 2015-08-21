@@ -20,7 +20,8 @@ require_once './Modules/Test/classes/class.ilTestExpressPage.php';
  * @ilCtrl_Calls ilObjTestGUI: ilObjCourseGUI, ilObjectMetaDataGUI, ilCertificateGUI, ilPermissionGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestPlayerFixedQuestionSetGUI, ilTestPlayerRandomQuestionSetGUI, ilTestPlayerDynamicQuestionSetGUI
  * @ilCtrl_Calls ilObjTestGUI: ilLearningProgressGUI, ilMarkSchemaGUI
- * @ilCtrl_Calls ilObjTestGUI: ilTestEvaluationGUI, ilAssGenFeedbackPageGUI, ilAssSpecFeedbackPageGUI
+ * @ilCtrl_Calls ilObjTestGUI: ilTestEvaluationGUI, ilTestEvalObjectiveOrientedGUI
+ * @ilCtrl_Calls ilObjTestGUI: ilAssGenFeedbackPageGUI, ilAssSpecFeedbackPageGUI
  * @ilCtrl_Calls ilObjTestGUI: ilInfoScreenGUI, ilShopPurchaseGUI, ilObjectCopyGUI, ilTestScoringGUI
  * @ilCtrl_Calls ilObjTestGUI: ilRepositorySearchGUI, ilScoringAdjustmentGUI, ilTestExportGUI
  * @ilCtrl_Calls ilObjTestGUI: assMultipleChoiceGUI, assClozeTestGUI, assMatchingQuestionGUI
@@ -231,6 +232,10 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->forwardToEvaluationGUI();
 				break;
 
+			case "iltestevalobjectiveorientedgui":
+				$this->forwardToEvalObjectiveOrientedGUI();
+				break;
+
 			case "iltestservicegui":
 				$this->prepareOutput();
 				$this->addHeaderAction();
@@ -370,6 +375,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$gui->setQuestionList($questionList);
 				$gui->setTestSession($testSession);
 				$gui->setTestResults($testResults);
+				$gui->setObjectiveOrientedContainer($this->getObjectiveOrientedContainer());
 				$this->ctrl->forwardCommand($gui);
 				break;
 
@@ -748,16 +754,28 @@ class ilObjTestGUI extends ilObjectGUI
 		
 		$this->forwardToEvaluationGUI();
 	}
-	
+
 	private function forwardToEvaluationGUI()
 	{
 		$this->prepareOutput();
 		$this->addHeaderAction();
-		
+
 		require_once 'Modules/Test/classes/class.ilTestEvaluationGUI.php';
 		$gui = new ilTestEvaluationGUI($this->object);
 		$gui->setObjectiveOrientedContainer($this->getObjectiveOrientedContainer());
-		
+
+		$this->ctrl->forwardCommand($gui);
+	}
+
+	private function forwardToEvalObjectiveOrientedGUI()
+	{
+		$this->prepareOutput();
+		$this->addHeaderAction();
+
+		require_once 'Modules/Test/classes/class.ilTestEvalObjectiveOrientedGUI.php';
+		$gui = new ilTestEvalObjectiveOrientedGUI($this->object);
+		$gui->setObjectiveOrientedContainer($this->getObjectiveOrientedContainer());
+
 		$this->ctrl->forwardCommand($gui);
 	}
 
@@ -4094,18 +4112,16 @@ class ilObjTestGUI extends ilObjectGUI
 		// for local use in this fucking sledge hammer method
 		$curUserHasWriteAccess = $ilAccess->checkAccess("write", "", $this->ref_id);
 
-		if( $this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired() )
-		{
-			require_once 'Services/Link/classes/class.ilLink.php';
-			$courseLink = ilLink::_getLink($this->getObjectiveOrientedContainer()->getRefId());
-			$tabs_gui->setBackTarget($this->lng->txt('back_to_objective_container'), $courseLink);
-		}
-
 		switch($this->ctrl->getCmdClass())
 		{
+			// no tabs .. no subtabs .. during test pass
 			case 'iltestoutputgui':
-				
-				return; // no tabs .. no subtabs .. during test pass
+
+			// tab handling happens within GUIs
+			case 'iltestevaluationgui':
+			case 'iltestevalobjectiveorientedgui':
+
+				return;
 				
 			case 'ilmarkschemagui':
 			case 'ilobjtestsettingsgeneralgui':
@@ -4118,8 +4134,15 @@ class ilObjTestGUI extends ilObjectGUI
 				
 				break;
 		}
-		
-		switch ($this->ctrl->getCmd())
+
+		if( $this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired() )
+		{
+			require_once 'Services/Link/classes/class.ilLink.php';
+			$courseLink = ilLink::_getLink($this->getObjectiveOrientedContainer()->getRefId());
+			$tabs_gui->setBackTarget($this->lng->txt('back_to_objective_container'), $courseLink);
+		}
+
+		switch($this->ctrl->getCmd())
 		{
 			case "resume":
 			case "previous":

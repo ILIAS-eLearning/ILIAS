@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once 'Modules/Test/interfaces/interface.ilTestQuestionSequence.php';
+
 /**
 * Test sequence handler
 *
@@ -10,7 +12,7 @@
 * @version	$Id$
 * @ingroup ModulesTest
 */
-class ilTestSequence
+class ilTestSequence implements ilTestQuestionSequence
 {
 	/**
 	* An array containing the sequence data
@@ -71,6 +73,11 @@ class ilTestSequence
 	 * @var bool
 	 */
 	private $considerHiddenQuestionsEnabled;
+
+	/**
+	 * @var bool
+	 */
+	private $considerOptionalQuestionsEnabled;
 	
 	/**
 	* ilTestSequence constructor
@@ -99,6 +106,7 @@ class ilTestSequence
 		$this->answeringOptionalQuestionsConfirmed = false;
 		
 		$this->considerHiddenQuestionsEnabled = false;
+		$this->considerOptionalQuestionsEnabled = true;
 	}
 	
 	function getActiveId()
@@ -418,10 +426,17 @@ class ilTestSequence
 		
 		foreach(array_keys($this->questions) as $sequenceKey)
 		{
-			if( $this->isConsiderHiddenQuestionsEnabled() || !$this->isHiddenSequence($sequenceKey) )
+			if( $this->isHiddenSequence($sequenceKey) && !$this->isConsiderHiddenQuestionsEnabled() )
 			{
-				$sequenceKeys[] = $sequenceKey;
+				continue;
 			}
+			
+			if( $this->isSequenceOptional($sequenceKey) && !$this->isConsiderOptionalQuestionsEnabled() )
+			{
+				continue;
+			}
+			
+			$sequenceKeys[] = $sequenceKey;
 		}
 		
 		return $sequenceKeys;
@@ -433,10 +448,17 @@ class ilTestSequence
 		
 		foreach($this->questions as $questionId)
 		{
-			if( $this->isConsiderHiddenQuestionsEnabled() || !$this->isHiddenQuestion($questionId) )
+			if( $this->isHiddenQuestion($questionId) && !$this->isConsiderHiddenQuestionsEnabled() )
 			{
-				$questions[] = $questionId;
+				continue;
 			}
+			
+			if( $this->isQuestionOptional($questionId) && !$this->isConsiderOptionalQuestionsEnabled() )
+			{
+				continue;
+			}
+			
+			$questions[] = $questionId;
 		}
 		
 		return $questions;
@@ -457,6 +479,27 @@ class ilTestSequence
 		}
 		return $found;
 	}
+	
+	private function ensureQuestionNotInSequence($sequence, $questionId)
+	{
+		$questionKey = array_search($questionId, $this->questions);
+		
+		if( $questionKey === false )
+		{
+			return $sequence;
+		}
+		
+		$sequenceKey = array_search($questionKey, $sequence);
+		
+		if( $sequenceKey === FALSE )
+		{
+			return $sequence;
+		}
+
+		unset($sequence[$sequenceKey]);
+		
+		return $sequence;
+	}
 
 	protected function getCorrectedSequence()
 	{
@@ -467,16 +510,15 @@ class ilTestSequence
 			{
 				foreach ($this->sequencedata["hidden"] as $question_id)
 				{
-					$foundsequence = array_search($question_id, $this->questions);
-					if ($foundsequence !== FALSE)
-					{
-						$sequencekey = array_search($foundsequence, $correctedsequence);
-						if ($sequencekey !== FALSE)
-						{
-							unset($correctedsequence[$sequencekey]);
-						}
-					}
+					$correctedsequence = $this->ensureQuestionNotInSequence($correctedsequence, $question_id);
 				}
+			}
+		}
+		if( !$this->isConsiderOptionalQuestionsEnabled() )
+		{
+			foreach($this->optionalQuestions as $questionId)
+			{
+				$correctedsequence = $this->ensureQuestionNotInSequence($correctedsequence, $questionId);
 			}
 		}
 		if (is_array($this->sequencedata["postponed"]))
@@ -803,6 +845,22 @@ class ilTestSequence
 	public function setConsiderHiddenQuestionsEnabled($considerHiddenQuestionsEnabled)
 	{
 		$this->considerHiddenQuestionsEnabled = $considerHiddenQuestionsEnabled;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isConsiderOptionalQuestionsEnabled()
+	{
+		return $this->considerOptionalQuestionsEnabled;
+	}
+
+	/**
+	 * @param boolean $considerOptionalQuestionsEnabled
+	 */
+	public function setConsiderOptionalQuestionsEnabled($considerOptionalQuestionsEnabled)
+	{
+		$this->considerOptionalQuestionsEnabled = $considerOptionalQuestionsEnabled;
 	}
 }
 

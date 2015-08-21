@@ -46,12 +46,20 @@ class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
 			array('name' => 'ass_log', 'type' => ilDB::LOCK_WRITE, 'sequence' => true)
 		);
 	}
-	
+
 	private function getTablesUsedDuringSolutionUpdate()
 	{
 		return array(
 			array('name' => 'tst_solutions', 'type' => ilDB::LOCK_WRITE),
 			array('name' => 'tst_solutions', 'type' => ilDB::LOCK_WRITE, 'sequence' => true)
+		);
+	}
+
+	private function getTablesUsedDuringResultUpdate()
+	{
+		return array(
+			array('name' => 'tst_test_result', 'type' => ilDB::LOCK_WRITE),
+			array('name' => 'tst_test_result', 'type' => ilDB::LOCK_WRITE, 'sequence' => true)
 		);
 	}
 
@@ -74,9 +82,9 @@ class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
 
 	public function requestUserSolutionAdoptLock()
 	{
-		$this->db->lockTables(
-			$this->getTablesUsedDuringSolutionUpdate()
-		);
+		$this->db->lockTables(array_merge(
+			$this->getTablesUsedDuringSolutionUpdate(), $this->getTablesUsedDuringResultUpdate()
+		));
 	}
 
 	public function releaseUserSolutionAdoptLock()
@@ -86,10 +94,9 @@ class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
 
 	public function requestUserQuestionResultUpdateLock()
 	{
-		$this->db->lockTables(array(
-			array('name' => 'tst_test_result', 'type' => ilDB::LOCK_WRITE),
-			array('name' => 'tst_test_result', 'type' => ilDB::LOCK_WRITE, 'sequence' => true)
-		));
+		$this->db->lockTables(
+			$this->getTablesUsedDuringResultUpdate()
+		);
 	}
 
 	public function releaseUserQuestionResultUpdateLock()

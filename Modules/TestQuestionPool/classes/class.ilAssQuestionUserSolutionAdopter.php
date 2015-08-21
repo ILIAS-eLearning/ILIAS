@@ -26,6 +26,21 @@ class ilAssQuestionUserSolutionAdopter
 	protected static $preparedInsertSolutionRecordStatement = null;
 
 	/**
+	 * @var ressource
+	 */
+	protected static $preparedDeleteResultRecordStatement = null;
+
+	/**
+	 * @var ressource
+	 */
+	protected static $preparedSelectResultRecordStatement = null;
+
+	/**
+	 * @var ressource
+	 */
+	protected static $preparedInsertResultRecordStatement = null;
+
+	/**
 	 * @var ilDB
 	 */
 	protected $db;
@@ -148,11 +163,21 @@ class ilAssQuestionUserSolutionAdopter
 			$processLocker = $this->processLockerFactory->getLocker();
 
 			$processLocker->requestUserSolutionAdoptLock();
-
-			$this->resetTargetSolution($questionId);
-			$this->adoptSourceSolution($questionId);
-
+			$this->adoptQuestionAnswer($questionId);
 			$processLocker->releaseUserSolutionAdoptLock();
+		}
+	}
+
+	protected function adoptQuestionAnswer($questionId)
+	{
+		$this->resetTargetSolution($questionId);
+		$this->resetTargetResult($questionId);
+
+		$sourcePass = $this->adoptSourceSolution($questionId);
+
+		if( $sourcePass !== null )
+		{
+			$this->adoptSourceResult($questionId, $sourcePass);
 		}
 	}
 
@@ -164,22 +189,30 @@ class ilAssQuestionUserSolutionAdopter
 		);
 	}
 
+	protected function resetTargetResult($questionId)
+	{
+		$this->db->execute(
+			$this->getPreparedDeleteResultRecordStatement(),
+			array($this->getActiveId(), $questionId, $this->getTargetPass())
+		);
+	}
+
 	protected function adoptSourceSolution($questionId)
 	{
 		$res = $this->db->execute(
 			$this->getPreparedSelectSolutionRecordsStatement(),
 			array($this->getActiveId(), $questionId, $this->getTargetPass())
 		);
-		
-		$currentPass = null;
+
+		$sourcePass = null;
 		
 		while($row = $this->db->fetchAssoc($res))
 		{
-			if($currentPass === null)
+			if($sourcePass === null)
 			{
-				$currentPass = $row['pass'];
+				$sourcePass = $row['pass'];
 			}
-			elseif($row['pass'] < $currentPass)
+			elseif($row['pass'] < $sourcePass)
 			{
 				break;
 			}
@@ -191,6 +224,25 @@ class ilAssQuestionUserSolutionAdopter
 				$row['points'], $row['value1'], $row['value2']
 			));
 		}
+		
+		return $sourcePass;
+	}
+	
+	protected function adoptSourceResult($questionId, $sourcePass)
+	{
+		$res = $this->db->execute(
+			$this->getPreparedSelectResultRecordStatement(),
+			array($this->getActiveId(), $questionId, $sourcePass)
+		);
+
+		$row = $this->db->fetchAssoc($res);
+
+		$resultId = $this->db->nextId('tst_test_result');
+
+		$this->db->execute($this->getPreparedInsertResultRecordStatement(), array(
+			$resultId, $this->getActiveId(), $questionId, $this->getTargetPass(), time(),
+			$row['points'], $row['manual'], $row['hint_count'], $row['hint_points'], $row['answered']
+		));
 	}
 
 	protected function getPreparedDeleteSolutionRecordsStatement()
@@ -241,5 +293,56 @@ class ilAssQuestionUserSolutionAdopter
 		}
 
 		return self::$preparedInsertSolutionRecordStatement;
+	}
+
+	protected function getPreparedDeleteResultRecordStatement()
+	{
+		if( self::$preparedDeleteResultRecordStatement === null )
+		{
+			self::$preparedDeleteResultRecordStatement = $this->db->prepareManip(
+				"DELETE FROM tst_test_result WHERE active_fi = ? AND question_fi = ? AND pass = ?",
+				array('integer', 'integer', 'integer')
+			);
+		}
+
+		return self::$preparedDeleteResultRecordStatement;
+	}
+
+	protected function getPreparedSelectResultRecordStatement()
+	{
+		if( self::$preparedSelectResultRecordStatement === null )
+		{
+			$query = "
+				SELECT points, manual, hint_count, hint_points, answered FROM tst_test_result
+				WHERE active_fi = ? AND question_fi = ? AND pass = ?
+			";
+
+			self::$preparedSelectResultRecordStatement = $this->db->prepare(
+				$query,	array('integer', 'integer', 'integer')
+			);
+		}
+
+		return self::$preparedSelectResultRecordStatement;
+	}
+
+	protected function getPreparedInsertResultRecordStatement()
+	{
+		if( self::$preparedInsertResultRecordStatement === null )
+		{
+			$query = "
+				INSERT INTO tst_test_result (
+					test_result_id, active_fi, question_fi, pass, tstamp,
+					points, manual, hint_count, hint_points, answered
+				) VALUES (
+					?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+				)
+			";
+
+			self::$preparedInsertResultRecordStatement = $this->db->prepareManip(
+				$query, array('integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'integer')
+			);
+		}
+
+		return self::$preparedInsertResultRecordStatement;
 	}
 } 

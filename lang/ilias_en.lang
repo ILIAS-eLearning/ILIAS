@@ -254,7 +254,9 @@ assessment#:#tst_pass_overview_header_lo_initial_per_objective#:#Initial Test Re
 assessment#:#tst_pass_overview_header_lo_qualifying_all_objectives#:#Qualifying Test Results<br />for the Learning Objectives within the Course %s
 assessment#:#tst_pass_overview_header_lo_qualifying_per_objective#:#Qualifying Test Results<br />for the Learning Objectives %s within the Course %s
 assessment#:#tst_pass_details_header_lo_initial#:#Initial Test Results for the Learning Objectives<br />%s - %s
+assessment#:#tst_virtual_pass_header_lo_initial#:#Initial Test Results for the Learning Objectives<br />%s
 assessment#:#tst_pass_details_header_lo_qualifying#:#Qualifying Test Results for the Learning Objectives<br />%s - %s
+assessment#:#tst_virtual_pass_header_lo_qualifying#:#Qualifying Test Results for the Learning Objectives<br />%s
 assessment#:#ass_create_export_file#:#Create Test Export File
 assessment#:#ass_create_export_test_results#:#Create Test Results Export File
 assessment#:#ass_create_export_test_archive#:#Create Test Archive File
@@ -718,6 +720,8 @@ assessment#:#tst_wf_info_answer_adopted_from_prev_pass#:#Your answer from a prev
 assessment#:#tst_wf_info_answer_not_adopted#:#There was no answer from previous attempts adopted, so you have to workthru this question, because otherwise your learning objective result will be degraded.
 assessment#:#tst_optional_questions_confirmation_fixed_test#:#<b>Question related to allready passed learning objectives were answered in previous passes.</b><br /><br />You want to navigate to a question, that relates to an allready passed learning objective.<br />You can choose:<br /><br />I you proceed, you can work on or simply review these questions. If you change your answers that were adopted from previous passes, you can also degrade your learning objective result.<br /><br />If you decide to not work on or review these questions, you can go back. The questions will be considered in the evaluation in every case.
 assessment#:#tst_optional_questions_confirmation_non_fixed_test#:#<b>Question related to allready passed learning objectives are optional.</b><br /><br />You want to navigate to a question, that relates to an allready passed learning objective.<br />You can choose:<br /><br />I you proceed, you can work on these questions. Your answers from previous attempts were not adopted, since new random questions were selected for this attempt. With working on this questions you can also degrade your learning objective result.<br /><br />If you decide to not work on these questions, you can go back. In this case these questions won't be considered in the evaluation.
+assessment#:#tst_tab_results_pass_oriented#:#Results by Attempts
+assessment#:#tst_tab_results_objective_oriented#:#Results by Learning Objectives
 assessment#:#tst_rnd_quest_set_cfg_pool_form#:#Rule for Selection of Questions
 assessment#:#tst_inp_source_pool_label#:#Question Pool
 assessment#:#tst_inp_source_pool_filter_tax#:#Taxonomy Filter
@@ -771,6 +775,8 @@ assessment#:#participants_invitation#:#Manually Selected Participants
 assessment#:#participants#:#Participants
 assessment#:#pass_finished#:#%s pass
 assessment#:#pass#:#Pass
+assessment#:#tst_attempt#:#Attempt
+assessment#:#tst_back_to_virtual_pass#:#Back to Questionoverview
 assessment#:#passed_official#:#passed
 assessment#:#passed_only#:#Passed Tests Only
 assessment#:#passed_short#:#passed
@@ -1010,6 +1016,7 @@ assessment#:#tst_eval_no_anonymous_aggregation#:#No one has entered the test yet
 assessment#:#tst_eval_question_points#:#Question Results for Pass %s
 assessment#:#tst_eval_results_by_pass#:#List of Answers for Pass %s
 assessment#:#tst_eval_results_by_pass_lo#:#List of Answers for Attempt %s
+assessment#:#tst_eval_results_lo#:#List of Answers
 assessment#:#tst_eval_show_answer#:#Show Answer
 assessment#:#tst_eval_total_finished_average_time#:#Average test processing time
 assessment#:#tst_eval_total_finished#:#Total finished tests (Users that used up all possible passes.)

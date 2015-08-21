@@ -352,7 +352,9 @@ assessment#:#tst_pass_overview_header_lo_initial_per_objective#:#Einstiegstester
 assessment#:#tst_pass_overview_header_lo_qualifying_all_objectives#:#Qualifizierende Testergebnisse<br />zu den Lernzielen im Kurs %s
 assessment#:#tst_pass_overview_header_lo_qualifying_per_objective#:#Qualifizierende Testergebnisse<br />zum Lernziel %s im Kurs %s
 assessment#:#tst_pass_details_header_lo_initial#:#Einstiegsergebnisse zu den Lernzielen<br />%s - %s
+assessment#:#tst_virtual_pass_header_lo_initial#:#Einstiegsergebnisse zu den Lernzielen<br />%s
 assessment#:#tst_pass_details_header_lo_qualifying#:#Qualifizierende Ergebnisse zu den Lernzielen<br />%s - %s
+assessment#:#tst_virtual_pass_header_lo_qualifying#:#Qualifizierende Ergebnisse zu den Lernzielen<br />%s
 assessment#:#ass_completion_by_submission#:#Bestehen durch Abgabe
 assessment#:#ass_completion_by_submission_info#:#Falls aktiviert, führt die Abgabe einer Lösungsdatei zur Vergabe der Maximalpunktzahl für diese Frage. Die Bewertung kann jederzeit manuell angepasst werden. Das Ändern dieser Einstellung hat keine nachträglichen Auswirkungen auf bereits eingereichte Lösungen.
 assessment#:#ass_create_export_file#:#Erstelle Exportdatei
@@ -835,6 +837,8 @@ assessment#:#tst_wf_info_answer_adopted_from_prev_pass#:#Ihre Antwort aus einem 
 assessment#:#tst_wf_info_answer_not_adopted#:#Es wurde aus früheren Versuchen keine Antwort übernommen, daher müssen sie diese Frage bearbeiten, andernfalls wird sich ihr Lernzielergebnis verschlechtern.
 assessment#:#tst_optional_questions_confirmation_fixed_test#:#<b>Fragen zu bereits erfolgreich bearbeiteten Lernzielen sind in vorherigen Versuchen erfolgreich beantwortet worden.</b><br /><br />Sie wollen nun zu einer Frage wechseln, welche zu einem bereits bestandenen Lernziel gehört.<br />Sie können wählen:<br /><br />Wenn Sie fortfahren, können Sie die Fragen zu diesen Lernzielen erneut bearbeiten oder nur einsehen. Wenn Sie die aus früheren Versuchen übernommenen Antworten nicht verändern, können Sie Ihr Lernzielergebnis auch nicht verschlechtern.<br /><br />Wenn Sie die Fragen nicht erneut bearbeiten oder einsehen möchten, können Sie zurück gehen. Die Fragen werden in jedem Fall in der Auswertung berücksichtigt.
 assessment#:#tst_optional_questions_confirmation_non_fixed_test#:#<b>Fragen zu bereits erfolgreich bearbeiteten Lernzielen sind optional.</b><br /><br />Sie wollen nun zu einer Frage wechseln, welche zu einem bereits bestandenen Lernziel gehört.<br />Sie können wählen:<br /><br />Wenn Sie fortfahren, können Sie die Fragen zu diesen Lernzielen bearbeiten. Da für diesen Versuch aber neue Fragen ausgewählt wurden, wurden Ihre Antworten aus vorherigen Versuchen nicht übernommen. Sie können sich bei erneuter Bearbeitung der Fragen Ihr Lernzielergebnis auch verschlechtern.<br /><br />Wenn Sie die Fragen nicht erneut bearbeiten möchten können Sie zurück gehen. Die Fragen werden dann in der Auswertung nicht berücksichtigt.
+assessment#:#tst_tab_results_pass_oriented#:#Ergebnisse nach Versuchen
+assessment#:#tst_tab_results_objective_oriented#:#Ergebnisse nach Lernzielen
 assessment#:#tst_inp_source_pool_label#:#Fragenpool
 assessment#:#tst_inp_source_pool_filter_tax#:#Taxonomiefilter
 assessment#:#tst_inp_source_pool_no_tax_filter#:#Verwende keine Taxonomie als Filter
@@ -885,6 +889,8 @@ assessment#:#participants_invitation#:#Nur ausgewählte Teilnehmer
 assessment#:#participants_invitation_description#:#Der Test kann nur von den Benutzern durchgeführt werden, die im Reiter "Teilnehmer" hinzugefügt wurden.
 assessment#:#participants_invitation_search_introduction#:#Um feste Teilnehmer zu diesem Test einzuladen, geben Sie bitte die gewünschten Namen in das untere Suchfeld ein und wählen Sie dann aus den Ergebnissen die festen Teilnehmer aus, die Sie einladen wollen. Alle festen Teilnehmer werden in die benachbarte Rubrik &quot;Daten der Teilnehmer&quot; hinzugefügt
 assessment#:#pass#:#Durchlauf
+assessment#:#tst_attempt#:#Versuch
+assessment#:#tst_back_to_virtual_pass#:#Zurück zur Fragenübersicht
 assessment#:#pass_finished#:#%s Durchlauf
 assessment#:#passed_official#:#bestanden
 assessment#:#passed_only#:#Nur bestandene Tests
@@ -1159,6 +1165,7 @@ assessment#:#tst_eval_no_anonymous_aggregation#:#Der Test wurde bislang noch von
 assessment#:#tst_eval_question_points#:#Fragenergebnisse für Testdurchlauf %s
 assessment#:#tst_eval_results_by_pass#:#Detaillierte Testergebnisse für Testdurchlauf %s
 assessment#:#tst_eval_results_by_pass_lo#:#Detaillierte Testergebnisse für den %s. Versuch
+assessment#:#tst_eval_results_lo#:#Detaillierte Testergebnisse
 assessment#:#tst_eval_show_answer#:#Antwort anzeigen
 assessment#:#tst_eval_total_finished#:#Gesamtzahl aller beendeten Tests (Benutzer, die maximale Anzahl Passes eingereicht haben.)
 assessment#:#tst_eval_total_finished_average_time#:#Mittlere Bearbeitungsdauer aller Tests

@@ -205,6 +205,7 @@ class ilTestSkillEvaluationGUI
 
 		return $gui;
 	}
+<<<<<<< .working
 
 	private function isTestResultButtonRequired()
 	{
@@ -214,7 +215,19 @@ class ilTestSkillEvaluationGUI
 		{
 			return false;
 		}
+=======
 
+	private function isTestResultButtonRequired()
+	{
+		$testSession = $this->testSessionFactory->getSession();
+		
+		if( !$this->testOBJ->canShowTestResults($testSession) )
+		{
+			return false;
+		}
+>>>>>>> .merge-rechts.r57978
+
+<<<<<<< .working
 		require_once 'Modules/Test/classes/class.ilTestPassesSelector.php';
 		$testPassesSelector = new ilTestPassesSelector($this->db, $testOBJ);
 		$testPassesSelector->setActiveId($this->testSession->getActiveId());
@@ -228,6 +241,21 @@ class ilTestSkillEvaluationGUI
 		return true;
 	}
 
+=======
+		require_once 'Modules/Test/classes/class.ilTestPassesSelector.php';
+		$testPassesSelector = new ilTestPassesSelector($this->db, $this->testOBJ);
+		$testPassesSelector->setActiveId($testSession->getActiveId());
+		$testPassesSelector->setLastFinishedPass($testSession->getLastFinishedPass());
+
+		if( !count($testPassesSelector->getReportablePasses()) )
+		{
+			return false;
+		}
+		
+		return true;
+	}
+
+>>>>>>> .merge-rechts.r57978
 	private function buildPersonalSkillsGUI($usrId, $selectedSkillProfileId)
 	{
 		$availableSkills = $this->skillEvaluation->getUniqueAssignedSkillsForPersonalSkillGUI();

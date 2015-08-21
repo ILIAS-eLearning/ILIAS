@@ -77,7 +77,7 @@ class ilTestSequenceFactory
 	 * 
 	 * @param integer $activeId
 	 * @param integer $pass
-	 * @return ilTestSequence|ilTestSequenceDynamicQuestionSet
+	 * @return ilTestSequenceFixedQuestionSet|ilTestSequenceRandomQuestionSet|ilTestSequenceDynamicQuestionSet
 	 */
 	public function getSequenceByActiveIdAndPass($activeId, $pass)
 	{

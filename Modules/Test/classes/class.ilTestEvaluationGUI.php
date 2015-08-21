@@ -1,7 +1,6 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 require_once './Modules/Test/classes/class.ilTestServiceGUI.php';
 require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintTracking.php';
 
@@ -60,6 +59,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				break;
 
 			default:
+				$this->handleTabs('results_pass_oriented');
 				$ret =& $this->$cmd();
 				break;
 		}
@@ -846,13 +846,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			);
 		}
 
-		if( $this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired() )
-		{
-			require_once 'Services/Link/classes/class.ilLink.php';
-			$courseLink = ilLink::_getLink($this->getObjectiveOrientedContainer()->getRefId());
-			$ilTabs->setBack2Target($this->lng->txt('back_to_objective_container'), $courseLink);
-		}
-
 		require_once 'Modules/Test/classes/class.ilTestResultHeaderLabelBuilder.php';
 		$testResultHeaderLabelBuilder = new ilTestResultHeaderLabelBuilder($this->lng, $ilObjDataCache);
 
@@ -887,9 +880,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
 		$template = new ilTemplate("tpl.il_as_tst_pass_details_overview_participants.html", TRUE, TRUE, "Modules/Test");
 
-		require_once 'Modules/Test/classes/toolbars/class.ilTestResultsToolbarGUI.php';
-		$toolbar = new ilTestResultsToolbarGUI($this->ctrl, $this->tpl, $this->lng);
-
+		$toolbar = $this->buildUserTestResultsToolbarGUI();
+			
 		$this->ctrl->setParameter($this, 'pdf', '1');
 		$toolbar->setPdfExportLinkTarget( $this->ctrl->getLinkTarget($this, 'outParticipantsPassDetails') );
 		$this->ctrl->setParameter($this, 'pdf', '');
@@ -1005,18 +997,10 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$this->lng->txt('back'), $this->ctrl->getLinkTargetByClass('ilobjtestgui', 'participants')
 		);
 
-		if( $this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired() )
-		{
-			require_once 'Services/Link/classes/class.ilLink.php';
-			$courseLink = ilLink::_getLink($this->getObjectiveOrientedContainer()->getRefId());
-			$ilTabs->setBack2Target($this->lng->txt('back_to_objective_container'), $courseLink);
-		}
-
 		$template = new ilTemplate("tpl.il_as_tst_pass_overview_participants.html", TRUE, TRUE, "Modules/Test");
 
-		require_once 'Modules/Test/classes/toolbars/class.ilTestResultsToolbarGUI.php';
-		$toolbar = new ilTestResultsToolbarGUI($this->ctrl, $this->tpl, $this->lng);
-
+		$toolbar = $this->buildUserTestResultsToolbarGUI();
+		
 		$this->ctrl->setParameter($this, 'pdf', '1');
 		$toolbar->setPdfExportLinkTarget( $this->ctrl->getLinkTarget($this, __FUNCTION__) );
 		$this->ctrl->setParameter($this, 'pdf', '');
@@ -1118,13 +1102,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$ilTabs->setBackTarget($this->lng->txt('tst_results_back_overview'), $this->ctrl->getLinkTarget($this, 'outUserResultsOverview'));
 		}
 
-		if( $this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired() )
-		{
-			require_once 'Services/Link/classes/class.ilLink.php';
-			$courseLink = ilLink::_getLink($this->getObjectiveOrientedContainer()->getRefId());
-			$ilTabs->setBack2Target($this->lng->txt('back_to_objective_container'), $courseLink);
-		}
-
 		$testSession = $this->testSessionFactory->getSession();
 
 		if( !$this->object->getShowPassDetails() )
@@ -1147,12 +1124,22 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$testResultHeaderLabelBuilder = new ilTestResultHeaderLabelBuilder($this->lng, $ilObjDataCache);
 
 		$objectivesList = null;
+
+		$considerHiddenQuestions = true;
+		$considerOptionalQuestions = true;
 		
 		if( $this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired() )
 		{
+			$considerHiddenQuestions = false;
+			
 			$testSequence = $this->testSequenceFactory->getSequenceByActiveIdAndPass($active_id, $pass);
 			$testSequence->loadFromDb();
 			$testSequence->loadQuestions();
+			
+			if( $this->object->isRandomTest() && !$testSequence->isAnsweringOptionalQuestionsConfirmed() )
+			{
+				$considerOptionalQuestions = false;
+			}
 
 			require_once 'Modules/Course/classes/Objectives/class.ilLOTestQuestionAdapter.php';
 			$objectivesAdapter = ilLOTestQuestionAdapter::getInstance($testSession);
@@ -1167,9 +1154,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$testResultHeaderLabelBuilder->initObjectiveOrientedMode();
 		}
 		
-		$result_array = $this->getFilteredTestResult(
-			$active_id, $pass, !$this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired()
-		);
+		$result_array = $this->getFilteredTestResult($active_id, $pass, $considerHiddenQuestions, $considerOptionalQuestions);
 
 		$command_solution_details = "";
 		if ($this->object->getShowSolutionDetails())
@@ -1182,8 +1167,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
 		if( !$this->isPdfDeliveryRequest() )
 		{
-			require_once 'Modules/Test/classes/toolbars/class.ilTestResultsToolbarGUI.php';
-			$toolbar = new ilTestResultsToolbarGUI($this->ctrl, $this->tpl, $this->lng);
+			$toolbar = $this->buildUserTestResultsToolbarGUI();
 
 			$this->ctrl->setParameter($this, 'pdf', '1');
 			$toolbar->setPdfExportLinkTarget( $this->ctrl->getLinkTarget($this, 'outUserPassDetails') );
@@ -1285,13 +1269,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$this->ctrl->getLinkTargetByClass('ilObjTestGUI', 'infoScreen')
 		);
 
-		if( $this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired() )
-		{
-			require_once 'Services/Link/classes/class.ilLink.php';
-			$courseLink = ilLink::_getLink($this->getObjectiveOrientedContainer()->getRefId());
-			$ilTabs->setBack2Target($this->lng->txt('back_to_objective_container'), $courseLink);
-		}
-
 		$testSession = $this->testSessionFactory->getSession();
 		$active_id = $testSession->getActiveId();
 		$user_id = $ilUser->getId();
@@ -1305,8 +1282,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$templatehead = new ilTemplate("tpl.il_as_tst_results_participants.html", TRUE, TRUE, "Modules/Test");
 		$template = new ilTemplate("tpl.il_as_tst_results_participant.html", TRUE, TRUE, "Modules/Test");
 
-		require_once 'Modules/Test/classes/toolbars/class.ilTestResultsToolbarGUI.php';
-		$toolbar = new ilTestResultsToolbarGUI($this->ctrl, $this->tpl, $this->lng);
+		$toolbar = $this->buildUserTestResultsToolbarGUI();
 
 		$this->ctrl->setParameter($this, 'pdf', '1');
 		$toolbar->setPdfExportLinkTarget( $this->ctrl->getLinkTarget($this, 'outUserResultsOverview') );
@@ -1522,93 +1498,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		{
 			$this->outTestResults(false);
 		}
-	}
-
-	/**
-	* Creates an output of the solution of an answer compared to the correct solution
-	*
-	* @access public
-	*/
-	function outCorrectSolution()
-	{
-		if( !$this->object->getShowSolutionDetails() )
-		{
-			ilUtil::sendInfo($this->lng->txt("no_permission"), true);
-			$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
-		}
-
-		$testSession = $this->testSessionFactory->getSession();
-		$activeId = $testSession->getActiveId();
-		
-		if( !($activeId > 0) )
-		{
-			$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
-		}
-
-		if( !$this->object->canShowTestResults($testSession, $testSession->getUserId()) )
-		{
-			$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
-		}
-
-		$this->ctrl->saveParameter($this, "pass");
-		$pass = (int)$_GET['pass'];
-
-		$testSequence = $this->testSequenceFactory->getSequenceByPass($testSession, $pass);
-		$testSequence->loadFromDb();
-		$testSequence->loadQuestions();
-
-		$questionId = (int)$_GET['evaluation'];
-
-		if( $this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired() )
-		{
-			$testSequence = $this->testSequenceFactory->getSequenceByActiveIdAndPass($activeId, $pass);
-			$testSequence->loadFromDb();
-			$testSequence->loadQuestions();
-			
-			require_once 'Modules/Course/classes/Objectives/class.ilLOTestQuestionAdapter.php';
-			$objectivesAdapter = ilLOTestQuestionAdapter::getInstance($testSession);
-			$objectivesList = $this->buildQuestionRelatedObjectivesList($objectivesAdapter, $testSequence);
-			$objectivesList->loadObjectivesTitles();
-		}
-		else
-		{
-			$objectivesList = null;
-		}
-		
-		if( !$testSequence->questionExists($questionId) )
-		{
-			$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
-		}
-		
-		global $ilTabs;
-
-		$ilTabs->setBackTarget($this->lng->txt("tst_back_to_pass_details"), $this->ctrl->getLinkTarget($this, 'outUserPassDetails'));
-
-		if( $this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired() )
-		{
-			require_once 'Services/Link/classes/class.ilLink.php';
-			$courseLink = ilLink::_getLink($this->getObjectiveOrientedContainer()->getRefId());
-			$ilTabs->setBack2Target($this->lng->txt('back_to_objective_container'), $courseLink);
-		}
-
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
-		$this->tpl->setCurrentBlock("ContentStyle");
-		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", ilObjStyleSheet::getContentStylePath(0));
-		$this->tpl->parseCurrentBlock();
-
-		$this->tpl->setCurrentBlock("SyntaxStyle");
-		$this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET", ilObjStyleSheet::getSyntaxStylePath());
-		$this->tpl->parseCurrentBlock();
-
-		$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
-		if ($this->object->getShowSolutionAnswersOnly())
-		{
-			$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print_hide_content.css", "Modules/Test"), "print");
-		}
-
-		$solution = $this->getCorrectSolutionOutput($questionId, $activeId, $pass, $objectivesList);
-
-		$this->tpl->setContent($solution);
 	}
 
 	/**

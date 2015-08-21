@@ -200,7 +200,22 @@ $ilCtrlStructureReader->getStructure();
 ?>
 
 <<<<<<< .working
+<<<<<<< .working
 >>>>>>> .merge-rechts.r57038
 =======
+=======
+<#14>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+>>>>>>> .merge-rechts.r57978
 
+<<<<<<< .working
 >>>>>>> .merge-rechts.r57653
+=======
+<#15>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+
+>>>>>>> .merge-rechts.r57978

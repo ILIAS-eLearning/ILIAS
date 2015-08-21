@@ -348,4 +348,27 @@ class ilTestResultHeaderLabelBuilder
 
 		return sprintf($this->lng->txt($langVar), $attemptNumber);
 	}
+	
+	public function getVirtualListOfAnswersHeaderLabel()
+	{
+		return $this->lng->txt('tst_eval_results_lo');
+	}
+	
+	public function getVirtualPassDetailsHeaderLabel($objectivesString)
+	{
+		if( $this->isInitialTest() )
+		{
+			return sprintf(
+				$this->lng->txt('tst_virtual_pass_header_lo_initial'), $objectivesString
+			);
+		}
+		elseif( $this->isQualifyingTest() )
+		{
+			return sprintf(
+				$this->lng->txt('tst_virtual_pass_header_lo_qualifying'), $objectivesString
+			);
+		}
+		
+		return '';
+	}
 }
