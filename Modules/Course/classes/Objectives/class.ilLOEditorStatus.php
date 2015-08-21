@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+include_once './Modules/Course/classes/Objectives/class.ilLOTestAssignments.php';
+
 /**
  * Presentation of the status of single steps during the configuration process.
  * 
@@ -26,6 +28,7 @@ class ilLOEditorStatus
 	protected $objectives = array();
 
 	protected $settings = NULL;
+	protected $assignments = null;
 	protected $parent_obj = NULL;
 	protected $cmd_class = NULL;
 	protected $html = '';
@@ -42,6 +45,7 @@ class ilLOEditorStatus
 	{
 		$this->parent_obj = $a_parent;
 		$this->settings = ilLOSettings::getInstanceByObjId($this->getParentObject()->getId());
+		$this->assignments = ilLOTestAssignments::getInstance($this->getParentObject()->getId());
 		
 		$this->ctrl = $GLOBALS['ilCtrl'];
 		$this->lng = $GLOBALS['lng'];
@@ -63,11 +67,24 @@ class ilLOEditorStatus
 		return self::$instance = new self($a_parent);
 	}
 	
+	/**
+	 * @return array
+	 */
 	public function getObjectives()
 	{
 		return $this->objectives;
 	}
 	
+	/**
+	 * 
+	 * @return ilLOTestAssignments
+	 */
+	public function getAssignments()
+	{
+		return $this->assignments;
+	}
+
+
 	/**
 	 * Set current section
 	 * @param type $a_section
@@ -345,8 +362,31 @@ class ilLOEditorStatus
 		return false;
 	}
 	
+	/**
+	 * Get initial test status
+	 * @param type $a_set_errors
+	 * @return boolean
+	 */
 	protected function getInitialTestStatus($a_set_errors = true)
 	{
+		if($this->getSettings()->hasSeparateInitialTests())
+		{
+			foreach($this->getObjectives() as $objective_id)
+			{
+				$tst_ref = $this->getAssignments()->getTestByObjective($objective_id, ilLOSettings::TYPE_TEST_INITIAL);
+				if(!$GLOBALS['tree']->isInTree($tst_ref))
+				{
+					if($a_set_errors)
+					{
+						$this->appendFailure(self::SECTION_ITEST, 'crs_loc_err_stat_no_it');
+					}
+					return FALSE;
+				}
+			}
+			return TRUE;
+		}
+		
+		
 		$tst_ref = $this->getSettings()->getInitialTest();
 		if(!$GLOBALS['tree']->isInTree($tst_ref))
 		{
@@ -354,13 +394,34 @@ class ilLOEditorStatus
 			{
 				$this->appendFailure(self::SECTION_ITES, 'crs_loc_err_stat_no_it');
 			}
-			return false;
+			return FALSE;
 		}
-		return true;
+		return TRUE;
 	}
 	
+	/**
+	 * Check status of qualified test
+	 * @param type $a_set_errors
+	 * @return boolean
+	 */
 	protected function getQualifiedTestStatus($a_set_errors = true)
 	{
+		if($this->getSettings()->hasSeparateQualifiedTests())
+		{
+			foreach($this->getObjectives() as $objective_id)
+			{
+				$tst_ref = $this->getAssignments()->getTestByObjective($objective_id, ilLOSettings::TYPE_TEST_QUALIFIED);
+				if(!$GLOBALS['tree']->isInTree($tst_ref))
+				{
+					if($a_set_errors)
+					{
+						$this->appendFailure(self::SECTION_QTEST, 'crs_loc_err_stat_no_qt');
+					}
+					return FALSE;
+				}
+			}
+			return TRUE;
+		}
 		$tst_ref = $this->getSettings()->getQualifiedTest();
 		if(!$GLOBALS['tree']->isInTree($tst_ref))
 		{
@@ -443,7 +504,7 @@ class ilLOEditorStatus
 			}
 		}
 		// check for assigned initial test questions
-		if($this->getSettings()->worksWithInitialTest())
+		if($this->getSettings()->worksWithInitialTest() && !$this->getSettings()->hasSeparateInitialTests())
 		{
 			// check for assigned questions
 			if(!$this->lookupQuestionsAssigned($this->getSettings()->getInitialTest()))
@@ -456,7 +517,7 @@ class ilLOEditorStatus
 			}
 		}
 		// check for assigned questions
-		if(!$this->lookupQuestionsAssigned($this->getSettings()->getQualifiedTest()))
+		if(!$this->getSettings()->hasSeparateQualifiedTests() and !$this->lookupQuestionsAssigned($this->getSettings()->getQualifiedTest()))
 		{
 			if($a_set_errors)
 			{
@@ -465,6 +526,8 @@ class ilLOEditorStatus
 			return false;
 		}
 		
+		// @deprecated
+		/*
 		if(!$this->checkNumberOfTries())
 		{
 			if($a_set_errors)
@@ -473,8 +536,7 @@ class ilLOEditorStatus
 			}
 			return false;
 		}
-		
-		
+		*/
 		
 		return true;
 	}

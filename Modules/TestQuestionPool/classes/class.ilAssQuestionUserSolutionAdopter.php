@@ -211,7 +211,7 @@ class ilAssQuestionUserSolutionAdopter
 		if( self::$preparedSelectSolutionRecordsStatement === null )
 		{
 			self::$preparedSelectSolutionRecordsStatement = $this->db->prepare(
-				"SELECT FROM tst_solutions WHERE active_fi = ? AND question_fi = ? AND pass < ? ORDER BY pass DESC",
+				"SELECT * FROM tst_solutions WHERE active_fi = ? AND question_fi = ? AND pass < ? ORDER BY pass DESC",
 				array('integer', 'integer', 'integer')
 			);
 		}

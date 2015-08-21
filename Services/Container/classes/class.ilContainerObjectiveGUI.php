@@ -42,6 +42,8 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 	
 	private $output_html = '';
 	
+	private $test_assignments = null;
+	
 	/**
 	 * Constructor
 	 *
@@ -57,7 +59,27 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 		parent::__construct($a_container_gui);
 		
 		$this->initDetails();
+		$this->initTestAssignments();
 	}
+	
+	/**
+	 * Get test assignments object
+	 * @return ilLOTestAssignments
+	 */
+	public function getTestAssignments()
+	{
+		return $this->test_assignments;
+	}
+	
+	/**
+	 * @return ilLOSettings
+	 */
+	public function getSettings()
+	{
+		return $this->loc_settings;
+	}
+	
+	
 	
 	/**
 	 * get details level
@@ -70,14 +92,6 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 	{
 		// no details anymore
 		return self::DETAILS_ALL;
-		
-		/*
-		if($a_objective_id == $this->force_details)
-		{
-			return self::DETAILS_ALL;
-		}
-		return $this->details_level;		 
-		*/
 	}
 	
 	/**
@@ -867,20 +881,42 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 			$acc_content = $sort_content;
 			
 			$initial_shown = false;
+			if($this->getSettings()->hasSeparateInitialTests() and !$a_lo_result['initial_status'])
+			{
+				$acc_content[] = $this->renderTest(
+						$this->getTestAssignments()->getTestByObjective($a_objective_id, ilLOSettings::TYPE_TEST_INITIAL), 
+						$a_objective_id, 
+						true, 
+						false, 
+						$a_lo_result);
+				$initial_shown = TRUE;
+			}
+			elseif($this->getSettings()->hasSeparateQualifiedTests())
+			{
+				$acc_content[] = $this->renderTest(
+						$this->getTestAssignments()->getTestByObjective($a_objective_id, ilLOSettings::TYPE_TEST_QUALIFIED),
+						$a_objective_id, 
+						false, 
+						false, 
+						$a_lo_result);
+			}
+			
+			
+			/*
 			if($this->loc_settings->getInitialTest() &&
 				$this->loc_settings->getType() == ilLOSettings::LOC_INITIAL_SEL &&
-				!$a_lo_result["initial_status"])
+				!$a_lo_risult["initial_status"])
 			{
 				$acc_content[] = $this->renderTest($this->loc_settings->getInitialTest(), $a_objective_id, true, false, $a_lo_result);
 				$initial_shown = true;
 			}	
-			
 			if(!$initial_shown &&
 				$this->loc_settings->getQualifiedTest() && 
 				$this->loc_settings->isQualifiedTestPerObjectiveVisible())
 			{
 				$acc_content[] = $this->renderTest($this->loc_settings->getQualifiedTest(), $a_objective_id, false, false, $a_lo_result);
 			}
+			*/
 			
 			$co_page = null;
 			include_once("./Services/COPage/classes/class.ilPageUtil.php");
@@ -922,40 +958,12 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 		// no details
 		return;
 		
-		/*
-		if(isset($_GET['details_level']))
-		{
-			$this->details_level = (int) $_GET['details_level'];
-			ilObjUser::_writePref($ilUser->getId(),'crs_objectives_details',$this->details_level);
-		}
-		else
-		{
-			$this->details_level = $ilUser->getPref('crs_objectives_details') ? $ilUser->getPref('crs_objectives_details') : self::DETAILS_TITLE;
-		}
-		if(isset($_GET['objective_details']))
-		{
-			$this->force_details = (int) $_GET['objective_details'];
-			ilObjUser::_writePref($ilUser->getId(),'crs_objectives_force_details_'.$this->getContainerObject()->getId(),$this->force_details);
-		}
-		elseif($details_id = $ilUser->getPref('crs_objectives_force_details_'.$this->getContainerObject()->getId()))
-		{
-			$this->force_details = $details_id;
-		}
-		else
-		{
-			include_once './Modules/Course/classes/class.ilCourseObjective.php';
-			include_once('./Modules/Course/classes/class.ilCourseObjectiveResultCache.php');
-			foreach(ilCourseObjective::_getObjectiveIds($this->getContainerObject()->getId()) as $objective_id)
-			{
-				if(ilCourseObjectiveResultCache::isSuggested($ilUser->getId(),$this->getContainerObject()->getId(),$objective_id))
-				{
-					$this->force_details = $objective_id;
-					break;
-				}
-			}
-		}
-		return true;		 
-		*/
+	}
+	
+	protected function initTestAssignments()
+	{
+		include_once './Modules/Course/classes/Objectives/class.ilLOTestAssignments.php';
+		$this->test_assignments = ilLOTestAssignments::getInstance($this->getContainerObject()->getId());
 	}
 	
 	protected function parseLOUserResults()

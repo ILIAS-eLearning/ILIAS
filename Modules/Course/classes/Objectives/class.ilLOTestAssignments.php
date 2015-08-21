@@ -14,6 +14,8 @@ class ilLOTestAssignments
 	private $container_id = 0;
 	private $assignments = array();
 	
+	private $settings = null;
+	
 	
 	/**
 	 * Constructor
@@ -22,9 +24,12 @@ class ilLOTestAssignments
 	public function __construct($a_container_id)
 	{
 		$this->container_id = $a_container_id;
+		
+		include_once './Modules/Course/classes/Objectives/class.ilLOSettings.php';
+		$this->settings = ilLOSettings::getInstanceByObjId($a_container_id);
 		$this->readTestAssignments();
+		
 	}
-	
 	
 	/**
 	 * Get instance by container id
@@ -43,6 +48,15 @@ class ilLOTestAssignments
 	public function getContainerId()
 	{
 		return $this->container_id;
+	}
+	
+	/**
+	 * get objective settings
+	 * @return ilLOSettings
+	 */
+	public function getSettings()
+	{
+		return $this->settings;
 	}
 
 	/**
@@ -71,6 +85,39 @@ class ilLOTestAssignments
 		}
 		return $by_type;
 	}
+
+	/**
+	 * 
+	 * @param type $a_objective_id
+	 * @param type $a_type
+	 * @return int
+	 */
+	public function getTestByObjective($a_objective_id, $a_type)
+	{
+		switch($a_type)
+		{
+			case ilLOSettings::TYPE_TEST_INITIAL:
+				if(!$this->getSettings()->hasSeparateInitialTests())
+				{
+					return $this->getSettings()->getInitialTest();
+				}
+				break;
+				
+			case ilLOSettings::TYPE_TEST_QUALIFIED:
+				if(!$this->getSettings()->hasSeparateQualifiedTests())
+				{
+					return $this->getSettings()->getQualifiedTest();
+				}
+				break;
+		}
+		
+		$assignment = $this->getAssignmentByObjective($a_objective_id, $a_type);
+		if($assignment)
+		{
+			return $assignment->getTestRefId();
+		}
+		return 0;
+	}
 	
 	/**
 	 * Get assignment by objective
@@ -80,6 +127,7 @@ class ilLOTestAssignments
 	 */
 	public function getAssignmentByObjective($a_objective_id, $a_type)
 	{
+		
 		foreach($this->assignments as $assignment)
 		{
 			if(
