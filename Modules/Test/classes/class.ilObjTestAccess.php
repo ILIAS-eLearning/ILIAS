@@ -917,6 +917,20 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
 
 		return $result->numRows() == 1;
 	}
-}
 
-?>
+	public static function visibleUserResultExists($testObjId, $userId)
+	{
+		$testOBJ = ilObjectFactory::getInstanceByObjId($testObjId, false);
+
+		if( !($testOBJ instanceof ilObjTest) )
+		{
+			return false;
+		}
+
+		require_once 'Modules/Test/classes/class.ilTestSessionFactory.php';
+		$testSessionFactory = new ilTestSessionFactory($testOBJ);
+		$testSession = $testSessionFactory->getSessionByUserId($userId);
+
+		return $testOBJ->canShowTestResults($testSession);
+	}
+}

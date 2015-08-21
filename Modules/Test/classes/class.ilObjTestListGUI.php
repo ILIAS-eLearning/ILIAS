@@ -169,13 +169,20 @@ class ilObjTestListGUI extends ilObjectListGUI
 	
 	private function handleUserResultsCommand($commands)
 	{
+		global $ilUser;
+		
 		if( !$this->isObjectiveTest() )
 		{
 			$commands = $this->removeUserResultsCommand($commands);
 		}
-		elseif( !$this->visibleUserResultsExists() )
+		else
 		{
-			$commands = $this->removeUserResultsCommand($commands);
+			require_once 'Modules/Test/classes/class.ilObjTestAccess.php';
+			
+			if( !ilObjTestAccess::visibleUserResultExists($this->obj_id, $ilUser->getId()) )
+			{
+				$commands = $this->removeUserResultsCommand($commands);
+			}
 		}
 		
 		return $commands;
@@ -185,22 +192,6 @@ class ilObjTestListGUI extends ilObjectListGUI
 	{
 		require_once 'Modules/Course/classes/Objectives/class.ilLOSettings.php';
 		return ilLOSettings::isObjectiveTest($this->ref_id);
-	}
-	
-	private function visibleUserResultsExists()
-	{
-		$testOBJ = ilObjectFactory::getInstanceByObjId($this->obj_id, false);
-		
-		if( !($testOBJ instanceof ilObjTest) )
-		{
-			return false;
-		}
-
-		require_once 'Modules/Test/classes/class.ilTestSessionFactory.php';
-		$testSessionFactory = new ilTestSessionFactory($testOBJ);
-		$testSession = $testSessionFactory->getSession();
-
-		return $testOBJ->canShowTestResults($testSession);
 	}
 
 	private function removeUserResultsCommand($commands)
