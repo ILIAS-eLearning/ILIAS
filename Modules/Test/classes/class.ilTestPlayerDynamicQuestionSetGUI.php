@@ -620,10 +620,8 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 			$answer_feedback = TRUE;
 		}
 
-		$charSelectorAvailable = $this->populateCharSelectorIfRequired();
-
 		$this->populateTestNavigationToolbar(
-			$this->buildTestNavigationToolbarGUI($charSelectorAvailable, true)
+			$this->buildTestNavigationToolbarGUI(true)
 		);
 
 		if( $this->isParticipantsAnswerFixed($this->testSession->getCurrentQuestionId()) )
@@ -654,7 +652,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		else
 		{
 			$question_gui->setNavigationGUI($this->buildEditableStateQuestionNavigationGUI(
-				$question_gui->object->getId()
+				$question_gui->object->getId(), $this->populateCharSelectorIfRequired()
 			));
 			
 			// Answer specific feedback is rendered into the display of the test question with in the concrete question types outQuestionForTest-method.

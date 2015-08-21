@@ -488,7 +488,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 	protected function showQuestionEditable(assQuestionGUI $questionGui, $instantResponse, $formAction)
 	{
 		$questionGui->setNavigationGUI($this->buildEditableStateQuestionNavigationGUI(
-			$questionGui->object->getId()
+			$questionGui->object->getId(), $this->populateCharSelectorIfRequired()
 		));
 
 		$isPostponed = $this->testSequence->isPostponedQuestion($questionGui->object->getId());

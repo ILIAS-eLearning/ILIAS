@@ -63,6 +63,11 @@ class ilTestQuestionNavigationGUI
 	/**
 	 * @var bool
 	 */
+	private $charSelectorEnabled = false;
+
+	/**
+	 * @var bool
+	 */
 	private $anythingRendered = false;
 	
 	/**
@@ -232,6 +237,22 @@ class ilTestQuestionNavigationGUI
 	{
 		$this->anythingRendered = true;
 	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isCharSelectorEnabled()
+	{
+		return $this->charSelectorEnabled;
+	}
+
+	/**
+	 * @param boolean $charSelectorEnabled
+	 */
+	public function setCharSelectorEnabled($charSelectorEnabled)
+	{
+		$this->charSelectorEnabled = $charSelectorEnabled;
+	}
 	
 	/**
 	 * @return string
@@ -288,6 +309,11 @@ class ilTestQuestionNavigationGUI
 				$tpl, $this->getQuestionMarkCommand(), $this->getQuestionMarkIconSource(),
 				$this->getQuestionMarkIconLabel(), 'ilTstMarkQuestionButton'
 			);
+		}
+		
+		if( $this->isCharSelectorEnabled() )
+		{
+			$this->renderCharSelectorButton($tpl);
 		}
 		
 		if( $this->isAnythingRendered() )

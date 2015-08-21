@@ -1031,12 +1031,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			$this->showSideList($presentationMode, $sequenceElement);
 		}
 
-		$charSelectorAvailable = $this->populateCharSelectorIfRequired();
-
 		$this->populateTestNavigationToolbar(
-			$this->buildTestNavigationToolbarGUI(
-				$charSelectorAvailable, $presentationMode == self::PRESENTATION_MODE_EDIT
-			)
+			$this->buildTestNavigationToolbarGUI($presentationMode == self::PRESENTATION_MODE_EDIT)
 		);
 
 		$this->tpl->setVariable('FORMACTION', $formAction);
@@ -1680,7 +1676,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		return false;
 	}
 	
-	protected function buildTestNavigationToolbarGUI($charSelectorAvailable, $isEditState)
+	protected function buildTestNavigationToolbarGUI($isEditState)
 	{
 		global $ilUser;
 		
@@ -1773,7 +1769,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			}
 		}
 
-		$navigationGUI->setCharSelectorButtonEnabled($charSelectorAvailable);
+		$navigationGUI->setCharSelectorEnabled($charSelectorAvailable);
 
 		return $navigationGUI;
 	}
