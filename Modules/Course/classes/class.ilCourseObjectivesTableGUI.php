@@ -214,6 +214,7 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
 			{
 				if($a_set['initial'])
 				{
+					include_once './Services/Link/classes/class.ilLink.php';
 					$obj_id = ilObject::_lookupObjId($a_set['initial']);
 					$this->tpl->setCurrentBlock('initial_test_per_objective');
 					$this->tpl->setVariable('IT_IMG', ilObject::_getIcon($obj_id, 'tiny'));
