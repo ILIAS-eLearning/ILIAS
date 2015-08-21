@@ -58,7 +58,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		$this->initProcessLocker($this->testSession->getActiveId());
 		
 		$testSequenceFactory = new ilTestSequenceFactory($ilDB, $lng, $ilPluginAdmin, $this->object);
-		$this->testSequence = $testSequenceFactory->getSequence($this->testSession);
+		$this->testSequence = $testSequenceFactory->getSequenceByTestSession($this->testSession);
 		$this->testSequence->loadFromDb();
 		$this->testSequence->loadQuestions();
 
@@ -88,6 +88,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 			case 'iltestsubmissionreviewgui':
 				require_once './Modules/Test/classes/class.ilTestSubmissionReviewGUI.php';
 				$gui = new ilTestSubmissionReviewGUI($this, $this->object, $this->testSession);
+				$gui->setObjectiveOrientedContainer($this->getObjectiveOrientedContainer());
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;
 			
