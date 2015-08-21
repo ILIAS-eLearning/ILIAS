@@ -25,6 +25,13 @@ class ilMediaObjectsImporter extends ilXmlImporter
 		$this->ds = new ilMediaObjectDataSet();
 		$this->ds->setDSPrefix("ds");
 		$this->ds->setImportDirectory($this->getImportDirectory());
+
+
+		$this->config = $this->getImport()->getConfig("Services/MediaObjects");
+		if ($this->config->getUsePreviousImportIds())
+		{
+			$this->ds->setUsePreviousImportIds(true);
+		}
 	}
 
 	/**

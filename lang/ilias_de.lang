@@ -15698,3 +15698,33 @@ mail#:#mail_template_client#:#Textvorlage
 mail#:#mail_template_client_info#:#Wählen Sie zwischen einer der verfügbaren Textvorlagen. Sie haben die Möglichkeit, die durch die Textvorlage angebotenen Platzhalter zu nutzen. Beim Wahl einer Textvorlage werden Nachrichte und Betreff in diesem Formular (falls in der Vorlage definiert) ersetzt.
 itgr#:#itgr_hide_title#:#Titel verbergen
 itgr#:#itgr_hide_title_info#:#Der Titel des Objektblocks wird in der Präsentation für Lerner nicht angezeigt.
+content#:#cont_all_languages#:#All Languages
+mob#:#mob_upload_multi_srt#:#Upload as ZIP
+mob#:#mob_upload_multi_srt_howto#:#The .zip file should contain no subdirectory, all .srt files should be located on the top level. The file names should end with "_&lt;lang code&gt;.srt" where lang code is e.g. "en", "it", "de".
+mob#:#mob_file_could_not_be_uploaded#:#File could not be uploaded.
+mob#:#mob_multi_srt_files#:#SRT Files
+content#:#cont_subtitle_files#:#Media Subtitles
+content#:#cont_upload_multi_srt_howto#:#This feature allows you to upload multiple subtitle (srt) files in a zip file for all media objects of the learning module. Your .zip file should contain all .srt files on the top level (no subdirectories). The file names should end with "_&lt;lang code&gt;.srt" where lang code is e.g. "en", "it", "de". The rest of the filename should correspond to the name of the video file, e.g. "my_video.mp4" -> "my_video_en.srt".
+content#:#cont_moved_srt_files#:#Moved subtitles files to media objects.
+content#:#cont_subtitle_file#:#SRT ZIP File
+content#:#cont_multi_srt_files#:#SRT Files
+content#:#cont_master_language_only#:#Master Language for Translation
+content#:#cont_import#:#Import
+content#:#cont_trans_import_info#:#If you exported this module as XML/Master Language for Translation to another installation, you can now re-import translated export files from this second installation here.
+content#:#cont_import_trans#:#Import Translation
+content#:#cont_import_lang#:#Target Language
+mep#:#mep_master_language_only#:#Master Language for Translation
+mep#:#mep_trans_import_info#:#If you exported this module as XML/Master Language for Translation to another installation, you can now re-import translated export files from this second installation here.
+mep#:#mep_import_trans#:#Import Translation
+mep#:#mep_import_lang#:#Target Language
+content#:#cont_snippet_from_another_installation#:#Snippet comes from another installation.
+rbac#:#edit_wiki_navigation#:#Navigation bearbeiten
+rbac#:#delete_wiki_pages#:#Seite löschen
+rbac#:#activate_wiki_protection#:#Schreibschutz aktivieren
+obj#:#obj_permission_settings#:#Permission Settings
+rbac#:#wiki_html_export#:#HTML exportieren
+wiki#:#wiki_html_export#:#HTML exportieren
+rbac#:#wiki_edit_wiki_navigation#:#Wiki-Navigation bearbeiten
+rbac#:#wiki_delete_wiki_pages#:#Wikiseiten löschen
+rbac#:#wiki_activate_wiki_protection#:#Schreibschutz für einzelne Wikiseiten aktivieren
+rbac#:#wiki_wiki_html_export#:#Wiki nach HTML exportieren

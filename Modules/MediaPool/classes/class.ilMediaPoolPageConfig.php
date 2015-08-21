@@ -20,6 +20,7 @@ class ilMediaPoolPageConfig extends ilPageConfig
 	{
 		$this->setEnableInternalLinks(false);
 		$this->setPreventHTMLUnmasking(false);
+		$this->setMultiLangSupport(true);
 	}
 	
 }

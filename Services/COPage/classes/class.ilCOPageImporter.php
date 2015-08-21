@@ -20,6 +20,7 @@ class ilCOPageImporter extends ilXmlImporter
 		include_once("./Services/COPage/classes/class.ilCOPageDataSet.php");
 		$this->ds = new ilCOPageDataSet();
 		$this->ds->setDSPrefix("ds");
+		$this->config = $this->getImport()->getConfig("Services/COPage");
 	}
 	
 	
@@ -49,11 +50,53 @@ class ilCOPageImporter extends ilXmlImporter
 				if (count($id) == 2)
 				{
 					include_once("./Services/COPage/classes/class.ilPageObjectFactory.php");
-					$new_page = ilPageObjectFactory::getInstance($id[0]);
-					$new_page->setId($id[1]);
-					$new_page->setXMLContent($a_xml);
-					//$new_page->saveMobUsage($a_xml); (will be done in final processing)
-					$new_page->createFromXML();
+
+					while (substr($a_xml, 0, 11) == "<PageObject")
+					{
+						$l1 = strpos($a_xml, ">");
+						$lstr = substr($a_xml, 11, $l1-11);
+						$lstr = str_replace("Language", "", $lstr);
+						$lstr = str_replace(" ", "", $lstr);
+						$lstr = str_replace("=", "", $lstr);
+						$lstr = str_replace('"', "", $lstr);
+
+						$p = strpos($a_xml, "</PageObject>") + 13;
+						$next_xml = "<PageObject>".substr($a_xml, $l1+1, $p - $l1 -1);
+
+						if ($this->config->getForceLanguage() != "")
+						{
+							$lstr = $this->config->getForceLanguage();
+						}
+						if ($lstr == "")
+						{
+							$lstr = "-";
+						}
+
+						if ($this->config->getUpdateIfExists() && ilPageObject::_exists($id[0], $id[1], $lstr))
+						{
+							$page = ilPageObjectFactory::getInstance($id[0], $id[1], 0, $lstr);
+							$page->setXMLContent($next_xml);
+							$page->updateFromXML();
+						}
+						else
+						{
+							$new_page = ilPageObjectFactory::getInstance($id[0]);
+							$new_page->setId($id[1]);
+							if ($lstr != "" && $lstr != "-")
+							{
+								$new_page->setLanguage($lstr);
+							}
+							$new_page->setXMLContent($next_xml);
+							$new_page->createFromXML();
+						}
+
+						$a_xml = substr($a_xml, $p);
+						if ($lstr == "")
+						{
+							$lstr = "-";
+						}
+						$a_mapping->addMapping("Services/COPage", "pgl", $a_id.":".$lstr, $pg_id.":".$lstr);
+					}
 				}
 			}
 		}
@@ -66,33 +109,37 @@ class ilCOPageImporter extends ilXmlImporter
 	 */
 	function finalProcessing($a_mapping)
 	{
-		$pages = $a_mapping->getMappingsOfEntity("Services/COPage", "pg");
+		$pages = $a_mapping->getMappingsOfEntity("Services/COPage", "pgl");
 		$media_objects = $a_mapping->getMappingsOfEntity("Services/MediaObjects", "mob");
 		$file_objects = $a_mapping->getMappingsOfEntity("Modules/File", "file");
-		if (count($media_objects) > 0 || count($file_objects) > 0)
-		{
+		//if (count($media_objects) > 0 || count($file_objects) > 0)
+		//{
 			foreach ($pages as $p)
 			{
 				$id = explode(":", $p);
-				if (count($id) == 2)
+				if (count($id) == 3)
 				{
 					include_once("./Services/COPage/classes/class.ilPageObject.php");
-					if (ilPageObject::_exists($id[0], $id[1]))
+					if (ilPageObject::_exists($id[0], $id[1], $id[2], true))
 					{
 						include_once("./Services/COPage/classes/class.ilPageObjectFactory.php");
-						$new_page = ilPageObjectFactory::getInstance($id[0], $id[1]);
+						$new_page = ilPageObjectFactory::getInstance($id[0], $id[1], 0, $id[2]);
 						$new_page->buildDom();
-						$med = $new_page->resolveMediaAliases($media_objects);
+						$med = $new_page->resolveMediaAliases($media_objects, $this->config->getReuseOriginallyExportedMedia());
 						$fil = $new_page->resolveFileItems($file_objects);
-	
-						if ($med || $fil)
+						$il = false;
+						if (!$this->config->getSkipInternalLinkResolve())
+						{
+							$il = $new_page->resolveIntLinks();
+						}
+						if ($med || $fil || $il)
 						{
 							$new_page->update(false, true);
 						}
 					}
 				}
 			}
-		}
+		//}
 	}
 }
 

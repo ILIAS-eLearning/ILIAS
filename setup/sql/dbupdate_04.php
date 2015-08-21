@@ -9122,6 +9122,158 @@ $ilDB->query('ALTER TABLE il_dcl_view ADD INDEX (type)');
 $ilDB->query('ALTER TABLE il_dcl_data ADD INDEX (main_table_id)');
 $ilDB->query('ALTER TABLE il_dcl_table ADD INDEX (obj_id)');
 ?>
+<#4649>
+<?php
+if (!$ilDB->tableColumnExists("content_object", "for_translation"))
+{
+	$ilDB->addTableColumn("content_object", "for_translation", array(
+		"type" => "integer",
+		"notnull" => true,
+		"length" => 1,
+		"default" => 0));
+}
+?>
+<#4650>
+<?php
+$set = $ilDB->query("SELECT * FROM mep_item JOIN mep_tree ON (mep_item.obj_id = mep_tree.child) ".
+	" WHERE mep_item.type = ".$ilDB->quote("pg", "text")
+	);
+while ($rec = $ilDB->fetchAssoc($set))
+{
+	$q = "UPDATE page_object SET ".
+		" parent_id = ".$ilDB->quote($rec["mep_id"], "integer").
+		" WHERE parent_type = ".$ilDB->quote("mep", "text").
+		" AND page_id = ".$ilDB->quote($rec["obj_id"], "integer");
+	//echo "<br>".$q;
+	$ilDB->manipulate($q);
+}
+?>
+<#4651>
+<?php
+if (!$ilDB->tableColumnExists("mep_data", "for_translation"))
+{
+	$ilDB->addTableColumn("mep_data", "for_translation", array(
+		"type" => "integer",
+		"notnull" => true,
+		"length" => 1,
+		"default" => 0));
+}
+?>
+<#4652>
+<?php
+if (!$ilDB->tableColumnExists("mep_item", "import_id"))
+{
+	$ilDB->addTableColumn("mep_item", "import_id", array(
+		"type" => "text",
+		"notnull" => false,
+		"length" => 50));
+}
+?>
+<#4653>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#4654>
+<?php
+
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+$wiki_type_id = ilDBUpdateNewObjectType::getObjectTypeId('wiki');
+if($wiki_type_id)
+{
+	$new_ops_id = ilDBUpdateNewObjectType::addCustomRBACOperation('edit_wiki_navigation', 'Edit Wiki Navigation', 'object', 3220);
+	if($new_ops_id)
+	{
+		ilDBUpdateNewObjectType::addRBACOperation($wiki_type_id, $new_ops_id);
+	}
+}
+?>
+<#4655>
+<?php
+
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+$wiki_type_id = ilDBUpdateNewObjectType::getObjectTypeId('wiki');
+if($wiki_type_id)
+{
+	$new_ops_id = ilDBUpdateNewObjectType::addCustomRBACOperation('delete_wiki_pages', 'Delete Wiki Pages', 'object', 3300);
+	if($new_ops_id)
+	{
+		ilDBUpdateNewObjectType::addRBACOperation($wiki_type_id, $new_ops_id);
+	}
+}
+
+?>
+<#4656>
+<?php
+
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+$wiki_type_id = ilDBUpdateNewObjectType::getObjectTypeId('wiki');
+if($wiki_type_id)
+{
+	$new_ops_id = ilDBUpdateNewObjectType::addCustomRBACOperation('activate_wiki_protection', 'Set Read-Only', 'object', 3240);
+	if($new_ops_id)
+	{
+		ilDBUpdateNewObjectType::addRBACOperation($wiki_type_id, $new_ops_id);
+	}
+}
+
+?>
+<#4657>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#4658>
+<?php
+	if(!$ilDB->tableExists('wiki_user_html_export') )
+	{
+		$ilDB->createTable('wiki_user_html_export', array(
+			'wiki_id' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true
+			),
+			'usr_id' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true
+			),
+			'progress' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true
+			),
+			'start_ts' => array(
+				'type' => 'timestamp',
+				'notnull' => false
+			),
+			'status' => array(
+				'type' => 'integer',
+				'length' => 1,
+				'notnull' => true,
+				'default' => 0
+			)
+		));
+		$ilDB->addPrimaryKey('wiki_user_html_export', array('wiki_id'));
+	}
+?>
+<#4659>
+<?php
+
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+$wiki_type_id = ilDBUpdateNewObjectType::getObjectTypeId('wiki');
+if($wiki_type_id)
+{
+	$new_ops_id = ilDBUpdateNewObjectType::addCustomRBACOperation('wiki_html_export', 'Wiki HTML Export', 'object', 3242);
+	if($new_ops_id)
+	{
+		ilDBUpdateNewObjectType::addRBACOperation($wiki_type_id, $new_ops_id);
+	}
+}
+
+?>
 
 <#4660>
 <?php
@@ -9271,5 +9423,3 @@ if(!$ilDB->tableColumnExists('loc_settings','passed_obj_mode'))
         ));
 }
 ?>
-
-

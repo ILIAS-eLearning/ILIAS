@@ -12,15 +12,17 @@
 <!-- BEGIN js_block -->
 <script>
 	(function($) {
-		var $ctx = $('#context');
-		if ($ctx.size() == 1) {
+		var $ctx = $("input[name=context]:radio");
+		if ($ctx.size() > 0) {
 			var onCtxChange = function () {
-				var value = $ctx.val();
+				var value = $ctx.filter(function() {
+					return $(this).prop("checked");
+				}).val();
 				if (value) {
 					$.ajax({
 						url: "{URL}" + "&context_id=" + value,
 						type: 'GET'
-					}).done(function (placeholders) {
+					}).done(function(placeholders) {
 						$('#placeholders_box').html(placeholders);
 					});
 				}

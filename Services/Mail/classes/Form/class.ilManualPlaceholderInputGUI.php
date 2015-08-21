@@ -72,7 +72,8 @@ class ilManualPlaceholderInputGUI extends ilSubEnabledFormPropertyGUI
 		}
 		if($ajax)
 		{
-			return $subtpl->show();
+			echo $subtpl->get();
+			exit();
 		}
 		else
 		{

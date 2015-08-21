@@ -24,6 +24,7 @@
 abstract class ilDataSet
 {
 	var $dircnt;
+	protected $current_installation_id = "";
 	
 	const EXPORT_NO_INST_ID = 1;
 	const EXPORT_ID_ILIAS_LOCAL = 2;
@@ -534,6 +535,26 @@ abstract class ilDataSet
 	function getImport()
 	{
 		return $this->import;
+	}
+
+	/**
+	 * Set current installation id
+	 *
+	 * @param string $a_val current installation id
+	 */
+	function setCurrentInstallationId($a_val)
+	{
+		$this->current_installation_id = $a_val;
+	}
+
+	/**
+	 * Get current installation id
+	 *
+	 * @return string current installation id
+	 */
+	function getCurrentInstallationId()
+	{
+		return $this->current_installation_id;
 	}
 	
 	/**
