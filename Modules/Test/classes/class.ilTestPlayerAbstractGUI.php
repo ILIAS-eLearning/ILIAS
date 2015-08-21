@@ -597,19 +597,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	}
 
 	/**
-	 * Go to the question with the active sequence
-	 */
-	protected function gotoQuestionCmd()
-	{
-		if (is_array($_POST) && count($_POST) > 0) $this->saveQuestionSolution();
-		$this->ctrl->setParameter($this, "sequence", $_GET["sequence"]);
-		$this->ctrl->setParameter($this, "activecommand", "gotoquestion");
-		$this->ctrl->saveParameter($this, "tst_javascript");
-		if (strlen($_GET['qst_selection'])) $_SESSION['qst_selection'] = $_GET['qst_selection'];
-		$this->ctrl->redirect($this, "redirectQuestion");
-	}
-
-	/**
 	 * Go back to the last active question from the summary
 	 *
 	 * Go back to the last active question from the summary

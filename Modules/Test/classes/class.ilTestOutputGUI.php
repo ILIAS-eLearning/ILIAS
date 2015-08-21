@@ -613,7 +613,9 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
 	protected function showInstantResponseCmd()
 	{
-		$questionId = $this->testSequence->getQuestionForSequence($_GET["sequence"]);
+		$questionId = $this->testSequence->getQuestionForSequence(
+			$this->getSequenceElementParameter()
+		);
 		
 		if( !$this->isParticipantsAnswerFixed($questionId) )
 		{
@@ -629,12 +631,9 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
 	protected function showQuestionListCmd()
 	{
-		$questionId = $this->testSequence->getQuestionForSequence($_GET["sequence"]);
-
-		if( !$this->isParticipantsAnswerFixed($questionId) )
-		{
-			$this->saveQuestionSolution();
-		}
+		$questionId = $this->testSequence->getQuestionForSequence(
+			$this->getSequenceElementParameter()
+		);
 
 		if ($this->saveResult == FALSE)
 		{
