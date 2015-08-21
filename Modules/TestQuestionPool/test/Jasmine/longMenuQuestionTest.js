@@ -1,4 +1,7 @@
 function debugPrinter(){}
+var ilBootstrapTaggingOnLoad = {};
+ilBootstrapTaggingOnLoad.Init = function(){}
+$.fn.tagsinput = function(){};
 describe("LongMenuQuestion", function() {
 	beforeEach(function () {
 		loadFixtures('longMenuQuestion.html');
@@ -189,7 +192,7 @@ describe("LongMenuQuestion", function() {
 		it("should slice in new question object in empty array", function () {
 			longMenuQuestion.protect.sliceInNewQuestionPart(0);
 			expect(longMenuQuestion.answers).toEqual( [[],[]]);
-			expect(longMenuQuestion.questionParts.list).toEqual([{0:[]},[[]]]);
+			expect(longMenuQuestion.questionParts.list).toEqual([[[], '0', '1' ], [[]]]);
 		});
 		it("should slice in new question object in populated array", function () {
 			longMenuQuestion.questionParts = {
@@ -203,7 +206,7 @@ describe("LongMenuQuestion", function() {
 			longMenuQuestion.answers = [[1]];
 			longMenuQuestion.protect.sliceInNewQuestionPart(0);
 			expect(longMenuQuestion.answers).toEqual([[],[1]]);
-			expect(longMenuQuestion.questionParts.list).toEqual([{0:[]},[[1,2,3]]]);
+			expect(longMenuQuestion.questionParts.list).toEqual([[[], '0', '1' ], [[1, 2, 3]]]);
 		});
 	});
 
@@ -384,7 +387,7 @@ describe("LongMenuQuestion", function() {
 				expect($._data( $(".save-modal")[0], "events")).toBeUndefined();
 			});
 			it("there should be events after calling the function", function () {
-				longMenuQuestion.protect.appendSaveModalButtonEvent();
+				longMenuQuestion.protect.appendSaveModalButtonEventCorrectAnswers();
 				expect($._data( $(".save-modal")[0], "events")['click'].length).toEqual(1);
 			});
 		});
@@ -571,7 +574,7 @@ describe("LongMenuQuestion", function() {
 			it("there should be a value change after the save action", function () {
 				$('.test_dummy').html('<input class="answerlist" value="abc"/><input class="answerlist" value="adbc"/><input class="answerlist" value="aadbc"/>');
 				expect(longMenuQuestion.answers[0].length).toEqual(1);
-				longMenuQuestion.protect.saveModalEvent();
+				longMenuQuestion.protect.saveModalEventAnswers();
 				expect(longMenuQuestion.answers[0].length).toEqual(3);
 			});
 		});

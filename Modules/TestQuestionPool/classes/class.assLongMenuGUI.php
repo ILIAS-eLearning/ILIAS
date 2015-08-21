@@ -1,12 +1,5 @@
 <?php
-/**
- * @author		Björn Heyser <bheyser@databay.de>
- * @version		$Id$
- *
- * @package     Modules/TestQuestionPool
- *
- * @ilCtrl_Calls assLongMenuGUI: ilPropertyFormGUI
- */
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once './Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
 require_once './Modules/TestQuestionPool/interfaces/interface.ilGuiQuestionScoringAdjustable.php';
@@ -76,6 +69,8 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 	{
 		$form = $this->buildEditForm();
 		$form->setValuesByPost();
+		$this->writeQuestionGenericPostData();
+		$this->writeQuestionSpecificPostData($form);
 		$custom_check = $this->object->checkQuestionCustomPart();
 		if( !$form->checkInput() ||  !$custom_check)
 		{
@@ -86,16 +81,16 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 			$this->editQuestion($form);
 			return 1;
 		}
-		$this->writeQuestionGenericPostData();
-		$this->writeQuestionSpecificPostData($form);
 		$this->saveTaxonomyAssignments();
 		return 0;
 	}
 
 	public function writeQuestionSpecificPostData(ilPropertyFormGUI $form)
 	{
-			$longmenu_text = ilUtil::stripSlashesRecursive($_POST['longmenu_text']);
-			$_POST['longmenu_text'] = $longmenu_text;
+			$this->object->setLongMenuTextValue(ilUtil::stripSlashesRecursive($_POST['longmenu_text']));
+			$this->object->setAnswers(json_decode(ilUtil::stripSlashesRecursive($_POST['hidden_text_files'])));
+			$this->object->setCorrectAnswers(json_decode(ilUtil::stripSlashesRecursive($_POST['hidden_correct_answers'])));
+			$this->object->setAnswerType(ilUtil::stripSlashesRecursive($_POST['long_menu_type']));
 			//Todo change question to question_text after merge
 			$this->object->setQuestion($_POST['question']);
 			$this->object->setLongMenuTextValue($_POST["longmenu_text"]);
@@ -179,27 +174,52 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 		//$modal->setBackdrop(ilModalGUI::BACKDROP_OFF);
 		$modal->setBody('');
 		
-		$hidden = new ilHiddenInputGUI('hidden_text_files');
-		$form->addItem($hidden);
+		$hidden_text = new ilHiddenInputGUI('hidden_text_files');
+		$form->addItem($hidden_text);
 
-		$hidden2 = new ilHiddenInputGUI('hidden_correct_answers');
-		$form->addItem($hidden2);
+		$hidden_correct = new ilHiddenInputGUI('hidden_correct_answers');
+		$form->addItem($hidden_correct);
 		
 		$tpl = new ilTemplate("tpl.il_as_qpl_long_menu_gap.html", TRUE, TRUE, "Modules/TestQuestionPool");
-		$tpl->setVariable('CORRECT_ANSWERS', 	$this->object->getJsonStructure());
-		$tpl->setVariable('ALL_ANSWERS', 		$this->object->getAnswersObject());
+		if(is_array($_POST) && array_key_exists('hidden_text_files', $_POST))
+		{
+			$tpl->setVariable('CORRECT_ANSWERS', 	$_POST['hidden_correct_answers']);
+			$tpl->setVariable('ALL_ANSWERS', 		$_POST['hidden_text_files']);
+		}
+		else
+		{
+			$tpl->setVariable('CORRECT_ANSWERS', 	$this->object->getJsonStructure());
+			$tpl->setVariable('ALL_ANSWERS', 		$this->object->getAnswersObject());
+		}
 		$tpl->setVariable('GAP_PLACEHOLDER', 	assLongMenu::GAP_PLACEHOLDER);
 		$tpl->setVariable('SELECT_BOX', 		$this->lng->txt('insert_gap'));
-		$tpl->setVariable("SELECT", 			$this->lng->txt('select'));
-		$tpl->setVariable("TEXT", 				$this->lng->txt('text'));
+		$tpl->setVariable("SELECT", 			$this->lng->txt('answers_select'));
+		$tpl->setVariable("TEXT", 				$this->lng->txt('answers_text_box'));
 		$tpl->setVariable("POINTS", 			$this->lng->txt('points'));
-		$tpl->setVariable("INFO_TEXT_UPLOAD",	$this->lng->txt('INFO_TEXT_UPLOAD'));
-		$tpl->setVariable("INFO_TEXT_GAP", 		$this->lng->txt('INFO_TEXT_GAP'));
-		$tpl->setVariable("MANUAL_EDITING", 	$this->lng->txt('MANUAL_EDITING'));
+		$tpl->setVariable("INFO_TEXT_UPLOAD",	$this->lng->txt('info_text_upload'));
+		$tpl->setVariable("MANUAL_EDITING", 	$this->lng->txt('manual_editing'));
 		require_once("Services/Form/classes/class.ilTagInputGUI.php");
 		$tag_input = new ilTagInputGUI();
-		$tpl->setVariable("TAGGING_PROTOTYPE", 	$tag_input->render('', true));
+		$tag_input->setTypeAhead(true);
+		$tag_input->setPostVar('taggable');
+		$tag_input->setJsSelfInit(false);
+		$tpl->setVariable("TAGGING_PROTOTYPE", 	$tag_input->render(''));
+		
 		$tpl->setVariable("MY_MODAL", 			$modal->getHTML());
+		
+		//Todo: remove begin
+		$tag_input = new ilTagInputGUI('Example Tag Input');
+		$tag_input->setTypeAhead(true);
+		$tag_input->setTypeAheadList(array('Tag 1', 'Tag 2', 'Tag 3'));
+		$tag_input->setOptions(array('Tag 1'));
+		$tag_input->setPostVar('tags');
+		$form->addItem($tag_input);
+		
+		$tag_input = new ilTagInputGUI('Example Tag Input');
+		$tag_input->setOptions(array('Tag 5', 'Tag 7'));
+		$tag_input->setPostVar('tags2');
+		$form->addItem($tag_input);
+		//Todo: remove end
 		$tpl->parseCurrentBlock();
 		$button = new ilCustomInputGUI('&nbsp;','');
 		$button->setHtml($tpl->get());
@@ -257,7 +277,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 		{
 			$correct_solution = $this->object->getCorrectAnswersForQuestionSolution($this->object->getId());
 		}
-		$template->setVariable('LONGMENU_TEXT_SOLUTION', $this->object->getLongMenuTextWithInputFieldsInsteadOfGaps($correct_solution, true));
+		$template->setVariable('LONGMENU_TEXT_SOLUTION', $this->getLongMenuTextWithInputFieldsInsteadOfGaps($correct_solution, true));
 		$solution_template = new ilTemplate("tpl.il_as_tst_solution_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
 		$question_output = $template->get();
 		$feedback = '';
@@ -294,7 +314,8 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 		$question_text = $this->object->getQuestion();
 		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($question_text, TRUE));
 		$template->setVariable("ANSWER_OPTIONS_JSON", json_encode($this->object->getAvailableAnswerOptions()));
-		$template->setVariable('LONGMENU_TEXT', $this->object->getLongMenuTextWithInputFieldsInsteadOfGaps($user_solution));
+		$template->setVariable('AUTOCOMPLETE_LENGTH',assLongMenu::MIN_LENGTH_AUTOCOMPLETE);
+		$template->setVariable('LONGMENU_TEXT', $this->getLongMenuTextWithInputFieldsInsteadOfGaps($user_solution));
 
 		$question_output = $template->get();
 		if (!$show_question_only)
@@ -308,12 +329,9 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 	
 	function getTestOutput($active_id,
 						   $pass = NULL,
-						   $is_postponed = FALSE,
-						   $use_post_solutions = FALSE,
-						   $showInlineFeedback = FALSE
+						   $is_postponed = FALSE
 	)
 	{
-		//Todo: implement $use_post_solutions && $showInlineFeedback
 		$user_solution = $this->getUserSolution($active_id, $pass);
 
 		// generate the question output
@@ -323,12 +341,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 		$question_text = $this->object->getQuestion();
 		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($question_text, TRUE));
 		$template->setVariable("ANSWER_OPTIONS_JSON", json_encode($this->object->getAvailableAnswerOptions()));
-		$template->setVariable('LONGMENU_TEXT', $this->object->getLongMenuTextWithInputFieldsInsteadOfGaps($user_solution));
-		if( $showInlineFeedback )
-		{
-			//Todo: fix this
-			$this->populateSpecificFeedbackInline($user_solution, $answer_id, $template);
-		}
+		$template->setVariable('LONGMENU_TEXT', $this->getLongMenuTextWithInputFieldsInsteadOfGaps($user_solution));
 		$question_output = $template->get();
 		$page_output = $this->outQuestionPage("", $is_postponed, $active_id, $question_output);
 		return $page_output;
@@ -415,58 +428,30 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 
 	function getSpecificFeedbackOutput($active_id, $pass)
 	{
-		$output = "";
-		return $this->object->prepareTextareaOutput($output, TRUE);
+		if( !$this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation($this->object->getId(), 0) )
+		{
+			return '';
+		}
+
+		$feedback = '<table class="test_specific_feedback"><tbody>';
+		$gaps = $this->object->getCorrectAnswers();
+		foreach ($gaps as $index => $answer)
+		{
+			$caption = assLongMenu::GAP_PLACEHOLDER . ' ';
+			$caption .= $index + 1 .': ';
+
+			$feedback .= '<tr><td>';
+
+			$feedback .= $caption .'</td><td>';
+			$feedback .= $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation(
+					$this->object->getId(), $index
+				) . '</td> </tr>';
+		}
+		$feedback .= '</tbody></table>';
+		return $this->object->prepareTextareaOutput($feedback, TRUE);
 	}
 
-	private function populateSpecificFeedbackInline($user_solution, $answer_id, $template)
-	{
-		require_once 'Modules/TestQuestionPool/classes/feedback/class.ilAssConfigurableMultiOptionQuestionFeedback.php';
-
-		if($this->object->getSpecificFeedbackSetting() == ilAssConfigurableMultiOptionQuestionFeedback::FEEDBACK_SETTING_CHECKED)
-		{
-			foreach($user_solution as $mc_solution)
-			{
-				if(strcmp($mc_solution, $answer_id) == 0)
-				{
-					$fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation($this->object->getId(), $answer_id);
-					if(strlen($fb))
-					{
-						$template->setCurrentBlock("feedback");
-						$template->setVariable("FEEDBACK", $this->object->prepareTextareaOutput($fb, true));
-						$template->parseCurrentBlock();
-					}
-				}
-			}
-		}
-
-		if($this->object->getSpecificFeedbackSetting() == ilAssConfigurableMultiOptionQuestionFeedback::FEEDBACK_SETTING_ALL)
-		{
-			$fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation($this->object->getId(), $answer_id);
-			if(strlen($fb))
-			{
-				$template->setCurrentBlock("feedback");
-				$template->setVariable("FEEDBACK", $this->object->prepareTextareaOutput($fb, true));
-				$template->parseCurrentBlock();
-			}
-		}
-
-		if($this->object->getSpecificFeedbackSetting() == ilAssConfigurableMultiOptionQuestionFeedback::FEEDBACK_SETTING_CORRECT)
-		{
-			$answer = $this->object->getAnswer($answer_id);
-
-			if($answer->getPoints() > 0)
-			{
-				$fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation($this->object->getId(), $answer_id);
-				if(strlen($fb))
-				{
-					$template->setCurrentBlock("feedback");
-					$template->setVariable("FEEDBACK", $this->object->prepareTextareaOutput($fb, true));
-					$template->parseCurrentBlock();
-				}
-			}
-		}
-	}
+	
 	/**
 	 * Returns a list of postvars which will be suppressed in the form output when used in scoring adjustment.
 	 * The form elements will be shown disabled, so the users see the usual form but can only edit the settings, which
@@ -493,5 +478,87 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 	{
 		// Empty implementation here since a feasible way to aggregate answer is not known.
 		return ''; //print_r($relevant_answers,true);
+	}
+
+	public function getLongMenuTextWithInputFieldsInsteadOfGaps($user_solution = array(), $solution = false)
+	{
+		$return_value = '';
+		$text_array = preg_split("/\\[".assLongMenu::GAP_PLACEHOLDER." (\\d+)\\]/", $this->object->getLongMenuTextValue());
+		$correct_answers = $this->object->getCorrectAnswers();
+		$answers = $this->object->getAnswers();
+		foreach($text_array as $key => $value)
+		{
+			$user_value = '';
+			$return_value .= $value;
+			if($key < sizeof($text_array) - 1 )
+			{
+				if($correct_answers[$key][2] == assLongMenu::ANSWER_TYPE_TEXT_VAL)
+				{
+					if(array_key_exists($key,$user_solution))
+					{
+						$user_value = $user_solution[$key];
+					}
+					$return_value .=  $this->getTextGapTemplate($key, $user_value, $solution);
+				}
+				else if($correct_answers[$key][2] == assLongMenu::ANSWER_TYPE_SELECT_VAL)
+				{
+					if(array_key_exists($key,$user_solution))
+					{
+						$user_value = $user_solution[$key];
+					}
+					$return_value .=  $this->getSelectGapTemplate($key, $answers[$key], $user_value, $solution);
+				}
+			}
+		}
+		return $return_value;
+	}
+
+	private function getTextGapTemplate($key, $value, $solution)
+	{
+		$tpl = new ilTemplate("tpl.il_as_qpl_long_menu_text_gap.html", TRUE, TRUE, "Modules/TestQuestionPool");
+		if($solution)
+		{
+			$tpl->setVariable('DISABLED', 'disabled');
+			$tpl->setVariable('JS_IGNORE', '_ignore');
+		}
+		$tpl->setVariable('VALUE', $value);
+		$tpl->setVariable('KEY', $key);
+		return $tpl->get();
+	}
+	
+	private function getSelectGapTemplate($key, $answers, $user_value, $solution)
+	{
+		$tpl = new ilTemplate("tpl.il_as_qpl_long_menu_select_gap.html", TRUE, TRUE, "Modules/TestQuestionPool");
+		$tpl->setVariable('KEY', $key);
+		if($solution)
+		{
+			$tpl->setVariable('DISABLED', 'disabled');
+			$tpl->setVariable('JS_IGNORE', '_ignore');
+			$tpl->setCurrentBlock('best_solution');
+			if($user_value == -1)
+			{
+				$tpl->setVariable("SOLUTION", $this->lng->txt("please_select"));
+			}
+			else
+			{
+				$tpl->setVariable('SOLUTION', $user_value);
+			}
+			$tpl->parseCurrentBlock();
+		}
+		else
+		{
+			$tpl->setVariable("PLEASE_SELECT", $this->lng->txt("please_select"));
+			foreach($answers as $value)
+			{
+				$tpl->setCurrentBlock('select_option');
+				$tpl->setVariable('VALUE', $value);
+				if($value == $user_value)
+				{
+					$tpl->setVariable('SELECTED', 'selected');
+				}
+				$tpl->parseCurrentBlock();
+			}
+		}
+		return $tpl->get();
 	}
 }

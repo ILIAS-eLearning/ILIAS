@@ -1,6 +1,6 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 /**
 * This class represents a tag list property in a property form.
 *
@@ -10,9 +10,118 @@
 */
 class ilTagInputGUI extends ilSubEnabledFormPropertyGUI
 {
-	protected $cust_attr = array();
-	protected $options = array();
-	protected $value;
+	protected $options 					= array();
+	protected $max_tags					= 0;
+	protected $max_chars				= 0;
+	protected $allow_duplicates			= false;
+	protected $js_self_init				= true;
+	
+	protected $type_ahead 				= false;
+	protected $type_ahead_ignore_case	= true;
+	protected $type_ahead_list			= array();
+	protected $type_ahead_min_length	= 2;
+	protected $type_ahead_limit 		= 30;
+	protected $type_ahead_highlight 	= true;
+
+	/**
+	 * @param int $max_tags
+	 */
+	public function setMaxTags($max_tags)
+	{
+		$this->max_tags = $max_tags;
+	}
+	
+	/**
+	 * @param int $max_chars
+	 */
+	public function setMaxChars($max_chars)
+	{
+		$this->max_chars = $max_chars;
+	}
+
+	/**
+	 * @param boolean $allow_duplicates
+	 */
+	public function setAllowDuplicates($allow_duplicates)
+	{
+		$this->allow_duplicates = $allow_duplicates;
+	}
+
+	/**
+	 * @param boolean $js_self_init
+	 */
+	public function setJsSelfInit($js_self_init)
+	{
+		$this->js_self_init = $js_self_init;
+	}
+	
+	/**
+	 * @param boolean $type_ahead
+	 */
+	public function setTypeAhead($type_ahead)
+	{
+		$this->type_ahead = $type_ahead;
+	}
+	
+	/**
+	 * @param boolean $type_ahead_ignore_case
+	 */
+	public function setTypeAheadIgnoreCase($type_ahead_ignore_case)
+	{
+		$this->type_ahead_ignore_case = $type_ahead_ignore_case;
+	}
+	
+	/**
+	 * @param int $min_length
+	 */
+	public function setTypeAheadMinLength($min_length)
+	{
+		$this->type_ahead_min_length = $min_length;
+	}
+	
+	/**
+	 * @param int $limit
+	 */
+	public function setTypeAheadLimit($limit)
+	{
+		$this->type_ahead_limit = $limit;
+	}
+	
+	/**
+	 * @param boolean $highlight
+	 */
+	public function setTypeAheadHighlight($highlight)
+	{
+		$this->type_ahead_highlight = $highlight;
+	}
+
+	/**
+	 * @param array $type_ahead_list
+	 */
+	public function setTypeAheadList($type_ahead_list)
+	{
+		$this->type_ahead_list = $type_ahead_list;
+	}
+
+	/**
+	 * Set Options.
+	 *
+	 * @param	array	$a_options	Options.
+	 */
+	function setOptions($a_options)
+	{
+		$this->options = $a_options;
+	}
+
+	/**
+	 * Get Options.
+	 *
+	 * @return	array	Options. Array
+	 */
+	function getOptions()
+	{
+		return $this->options ? $this->options : array();
+	}
 	
 	/**
 	* Constructor
@@ -23,54 +132,13 @@ class ilTagInputGUI extends ilSubEnabledFormPropertyGUI
 	function __construct($a_title = "", $a_postvar = "")
 	{
 		parent::__construct($a_title, $a_postvar);
-		$this->setType("select");
-	}
+		$this->setType("tag_input");
+		global $tpl;
+		$tpl->addJavaScript('./Services/Form/js/bootstrap-tagsinput_2015_25_03.js');
+		$tpl->addJavaScript('./Services/Form/js/typeahead_0.11.1.js');
+		$tpl->addCss('./Services/Form/css/bootstrap-tagsinput_2015_25_03.css');
 
-	/**
-	* Set Options.
-	*
-	* @param	array	$a_options	Options. Array ("value" => "option_text")
-	*/
-	function setOptions($a_options)
-	{
-		$this->options = $a_options;
 	}
-
-	/**
-	* Get Options.
-	*
-	* @return	array	Options. Array ("value" => "option_text")
-	*/
-	function getOptions()
-	{
-		return $this->options ? $this->options : array();
-	}
-
-	/**
-	* Set Value.
-	*
-	* @param	string	$a_value	Value
-	*/
-	function setValue($a_value)
-	{
-		if($this->getMulti() && is_array($a_value))
-		{						
-			$this->setMultiValues($a_value);	
-			$a_value = array_shift($a_value);		
-		}	
-		$this->value = $a_value;
-	}
-
-	/**
-	* Get Value.
-	*
-	* @return	string	Value
-	*/
-	function getValue()
-	{
-		return $this->value;
-	}
-	
 	
 	/**
 	* Set value by array
@@ -79,7 +147,7 @@ class ilTagInputGUI extends ilSubEnabledFormPropertyGUI
 	*/
 	function setValueByArray($a_values)
 	{		
-		$this->setValue($a_values[$this->getPostVar()]);
+		$this->setOptions($a_values[$this->getPostVar()]);
 		foreach($this->getSubItems() as $item)
 		{
 			$item->setValueByArray($a_values);
@@ -96,26 +164,22 @@ class ilTagInputGUI extends ilSubEnabledFormPropertyGUI
 		global $lng;
 
 		$valid = true;
-		if(!$this->getMulti())
-		{
-			$_POST[$this->getPostVar()] = ilUtil::stripSlashes($_POST[$this->getPostVar()]);
-			if($this->getRequired() && trim($_POST[$this->getPostVar()]) == "")
-			{
-				$valid = false;
-			}
-		}
-		else
+		if(array_key_exists($this->getPostVar(), $_POST))
 		{
 			foreach($_POST[$this->getPostVar()] as $idx => $value)
 			{
 				$_POST[$this->getPostVar()][$idx] = ilUtil::stripSlashes($value);
-			}		
+			}
 			$_POST[$this->getPostVar()] = array_unique($_POST[$this->getPostVar()]);
 
 			if($this->getRequired() && !trim(implode("", $_POST[$this->getPostVar()])))
 			{
 				$valid = false;
 			}
+		}
+		else if($this->getRequired())
+		{
+			$valid = false;
 		}
 		if (!$valid)
 		{
@@ -124,90 +188,60 @@ class ilTagInputGUI extends ilSubEnabledFormPropertyGUI
 		}
 		return $this->checkSubItemsInput();
 	}
-	
-	public function addCustomAttribute($a_attr)
-	{
-		$this->cust_attr[] = $a_attr;
-	}
-	
-	public function getCustomAttributes()
-	{
-		return (array) $this->cust_attr;
-	}
 
 	/**
-	* Render item
-	*/
-	function render($a_mode = "", $js_load = false)
+	 * @param string    $a_mode
+	 * @return string
+	 */
+	function render($a_mode = "")
 	{
-		$tpl = new ilTemplate("tpl.prop_tag.html", true, true, "Services/Form");
-		$tpl->setVariable('JAVASCRIPT_TAGS','./Services/Form/js/bootstrap-tagsinput_2015_25_03.js');
-		$tpl->setVariable('JAVASCRIPT_TYPEAHEAD','./Services/Form/js/typeahead_0.11.1.js');
-		$tpl->setVariable('CSS','./Services/Form/css/bootstrap-tagsinput_2015_25_03.css');
 
-		foreach($this->getCustomAttributes() as $attr)
+		if($this->type_ahead)
 		{
-			$tpl->setCurrentBlock('cust_attr');
-			$tpl->setVariable('CUSTOM_ATTR',$attr);
-			$tpl->parseCurrentBlock();
+			$tpl = new ilTemplate("tpl.prop_tag_typeahead.html", true, true, "Services/Form");
+			$tpl->setVariable("MIN_LENGTH", $this->type_ahead_min_length);
+			$tpl->setVariable("LIMIT", $this->type_ahead_limit);
+			$tpl->setVariable("HIGHLIGHT", $this->type_ahead_highlight);
+			if($this->type_ahead_ignore_case)
+			{
+				$tpl->setVariable("CASE", 'i');
+			}
+			$tpl->setVariable("TERMS", json_encode($this->type_ahead_list));
 		}
-		// determin value to select. Due to accessibility reasons we
-		// should always select a value (per default the first one)
-		$first = true;
-		foreach($this->getOptions() as $option_value => $option_text)
+		else
 		{
-			if ($first)
-			{
-				$sel_value = $option_value;
-			}
-			$first = false;
-			if ((string) $option_value == (string) $this->getValue())
-			{
-				$sel_value = $option_value;
-			}
+			$tpl = new ilTemplate("tpl.prop_tag.html", true, true, "Services/Form");
 		}
+
+		$tpl->setVariable("MAXTAGS", $this->max_tags);
+		$tpl->setVariable("MAXCHARS", $this->max_chars);
+		$tpl->setVariable("ALLOW_DUPLICATES", $this->allow_duplicates);
+		
 		foreach($this->getOptions() as $option_value => $option_text)
 		{
 			$tpl->setCurrentBlock("prop_select_option");
 			$tpl->setVariable("VAL_SELECT_OPTION", ilUtil::prepareFormOutput($option_text));
-			if((string) $sel_value == (string) $option_text)
-			{
-				$tpl->setVariable("CHK_SEL_OPTION",
-					'selected="selected"');
-			}
 			$tpl->setVariable("TXT_SELECT_OPTION", $option_text);
 			$tpl->parseCurrentBlock();
 		}
-		$tpl->setVariable("ID", 'taggable');//$this->getFieldId());
 		
-		$postvar = $this->getPostVar();		
-		if($this->getMulti() && substr($postvar, -2) != "[]")
-		{
-			$postvar .= "[]";
-		}
+		$tpl->setVariable("ID", $this->getFieldId());
 					
-			$tpl->setVariable("POST_VAR", $postvar);
+		$tpl->setVariable("POST_VAR", $this->getPostVar() . "[]");
 		
-		// multi icons
-		if($this->getMulti() && !$a_mode && !$this->getDisabled())
+		if($this->js_self_init)
 		{
-			$tpl->touchBlock("inline_in_bl");
-			$tpl->setVariable("MULTI_ICONS", $this->getMultiIconsHTML());			
-		}
-		if(!$js_load)
-		{
-			$tpl->setCurrentBlock("initilize_on_page_load");
+			$tpl->setCurrentBlock("initialize_on_page_load");
 			$tpl->parseCurrentBlock();
 		}
+		$tpl->setVariable("ID",$this->getFieldId());
 		return $tpl->get();
 	}
-	
+
 	/**
-	* Insert property html
-	*
-	* @return	int	Size
-	*/
-	function insert(&$a_tpl)
+	 * @param $a_tpl
+	 */
+	function insert($a_tpl)
 	{
 		$a_tpl->setCurrentBlock("prop_generic");
 		$a_tpl->setVariable("PROP_GENERIC", $this->render());

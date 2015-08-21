@@ -5,10 +5,10 @@ var longMenuQuestion = (function () {
 	var pub = {},
 	    pro = {},
 	    pri = {};
-	var new_question_part = { 0 : [] };
 	var temp_answers = [];
 	pub.questionParts = []; 
 	pub.answers = [];
+	pri.inlineSelection = false;
 
 	pro.buildAndInitGapWizard = function()
 	{
@@ -73,6 +73,7 @@ var longMenuQuestion = (function () {
 			pub.questionParts.list = list;
 		}
 		pro.redrawFormParts();
+		pro.syncWithHiddenTextField();
 		debugPrinter('consistency check');
 	};
 	
@@ -89,10 +90,15 @@ var longMenuQuestion = (function () {
 				.html(pub.questionParts.replacement_word + ' ' + title);
 			pro.appendSelectBox(footer_class, index);
 			pro.appendAnswersOverview(footer_class, index);
+			if(pri.inlineSelection)
+			{
+				pro.buildCorrectAnswersFormInPage(index);
+			}
 		});
 		pro.benchmarkCallsDummyNotForUsage('appendFormParts', t0);
 		footer_class.appendTo( '#form_assLongMenu');
 		pro.addEditListeners();
+		pro.addPointsListener();
 	};
 
 	pro.appendSelectBox = function (footer_class, index)  {
@@ -100,6 +106,7 @@ var longMenuQuestion = (function () {
 		footer_class.parent().append($('#layout_dummy_select').clone().attr({'id': id}).addClass('longmenu'));
 		var selector = $('#' + id);
 		selector.find('label').html(long_menu_language.type);
+		selector.find('.form-control').attr('name', 'long_menu_type[]').val(pub.questionParts.list[index][2]);
 	};
 
 	pro.appendAnswersOverview = function(footer_class, index)  {
@@ -116,7 +123,7 @@ var longMenuQuestion = (function () {
 		var id = 'points_' + index;
 		var name = 'points[' + index + ']';
 		footer_class.parent().append($('#layout_dummy_points').clone().attr({'id': id}).addClass('longmenu'));
-		$('#' + id).find('input').attr('name' , name).addClass('points').val(pub.questionParts.list[index][1]);
+		$('#' + id).find('input').attr({'name' : name, 'data-id' : index}).addClass('points').val(pub.questionParts.list[index][1]);
 	};
 
 	pro.buildAnswerOverview = function (question_id)  {
@@ -148,12 +155,23 @@ var longMenuQuestion = (function () {
 		return html;
 	};
 
+	pro.addPointsListener = function()  {
+		$( '.points' ).on( 'blur', function() {
+			var question_id = parseInt($(this).attr('data-id'), 10);
+			pub.questionParts.list[question_id][1] = $(this).val();
+			pro.syncWithHiddenTextField();
+		});
+	};
+
 	pro.addEditListeners = function()  {
 		$( '.answer_options' ).on( 'click', function() {
 			pro.answerOptionsClickFunction($(this));
 		});
 		$( '.correct_answers' ).on( 'click', function() {
-			pro.correctAnswersClickFunction($(this));
+			if(!pri.inlineSelection)
+			{
+				pro.correctAnswersClickFunction($(this));
+			}
 		});
 	};
 	
@@ -187,66 +205,43 @@ var longMenuQuestion = (function () {
 		pro.appendModalTitle(long_menu_language.correct_answers, gap_id);
 		$('.modal-body').html('');
 		$('#ilGapModal').modal('show');
-		pro.buildCorrectAnswersForm(gap_id);
+		pro.buildCorrectAnswersFormInModal(gap_id);
 	};
 
-	pri.substringMatcher = function(strs) {
-		return function findMatches(q, cb) {
-			var matches, substringRegex;
-
-			// an array that will be populated with substring matches
-			matches = [];
-
-			// regex used to determine if a string contains the substring `q`
-			substringRegex = new RegExp(q, 'i');
-
-			// iterate through the pool of strings and for any string that
-			// contains the substring `q`, add it to the `matches` array
-			$.each(strs, function(i, str) {
-				if (substringRegex.test(str)) {
-					matches.push(str);
-				}
-			});
-
-			cb(matches);
-		};
-	};
-	
-	pro.buildCorrectAnswersForm = function(gap_id)
+	pro.buildCorrectAnswersFormInModal = function(gap_id)
 	{
 		var dom_object = $('#taggable').clone().attr('id', 'tagsinput');
-		var terms = pub.answers[gap_id];
 		$('.modal-body').append(dom_object);
-
-			$('#tagsinput').tagsinput({
-				typeaheadjs: {
-					hint: true,
-					highlight: true,
-					source: pri.substringMatcher(terms),
-					limit: 30
-				},
-				freeInput:   false,
-				confirmKeys: [13, 44]
-			});
-		$.each(pub.questionParts.list[gap_id][0] , function( index) {
+		ilBootstrapTaggingOnLoad.id = '#tagsinput';
+		ilBootstrapTaggingOnLoad.terms = pub.answers[gap_id];
+		ilBootstrapTaggingOnLoad.Init();
+		$.each(pub.questionParts.list[gap_id][0] , function( index ) {
 			$('#tagsinput').tagsinput('add', pub.questionParts.list[gap_id][0][index]);
 		});
 		$('.modal-body').append($('#layout_dummy_buttons').clone().attr('id', '').html());
 		pro.appendSaveModalButtonEventCorrectAnswers();
 		pro.appendCancelModalButtonEvent();
-		pri.preventFormSubmissionOnEnterInTypeahead();
 	};
-	
-	pri.preventFormSubmissionOnEnterInTypeahead = function()
+
+	pro.buildCorrectAnswersFormInPage = function()
 	{
-		$(document).ready(function() {
-			$('.twitter-typeahead').keydown(function(event){
-				if( (event.keyCode == 13)) {
-					event.preventDefault();
-					return false;
-				}
+		$('.correct_answers').each(function( index ) {
+			var gap_id = $(this).attr('data-id');
+			var dom_object = $('#taggable').clone().attr('id', 'tagsinput_' + gap_id);
+			$(this).parent().html(dom_object);
+			ilBootstrapTaggingOnLoad.id = '#tagsinput_' + gap_id;
+			ilBootstrapTaggingOnLoad.terms = pub.answers[gap_id];
+			ilBootstrapTaggingOnLoad.callbackItemAdded = function ()
+				{
+					pub.questionParts.list[gap_id][0] = $('#tagsinput_' + gap_id).val();
+					pro.syncWithCorrectAnswers(gap_id);
+					pro.syncWithHiddenTextField();
+				};
+			ilBootstrapTaggingOnLoad.Init();
+			$.each(pub.questionParts.list[gap_id][0], function (index) {
+				$('#tagsinput_' + gap_id).tagsinput('add', pub.questionParts.list[gap_id][0][index]);
 			});
-		});	
+		});
 	};
 	
 	pro.appendUploadButtons = function()
@@ -428,8 +423,13 @@ var longMenuQuestion = (function () {
 
 	pro.saveModalEventCorrectAnswers = function()
 	{
-		var question_id = $('.modal-title').attr('data-id');
-		pub.questionParts.list[question_id][0] = $('#tagsinput').val();
+		var question_id = parseInt($('.modal-title').attr('data-id'), 10);
+		var elements    =  $('#tagsinput').val();
+		if(elements === null)
+		{
+			elements = [];
+		}
+		pub.questionParts.list[question_id][0] = elements;
 		pro.syncWithCorrectAnswers(question_id);
 		pro.syncWithHiddenTextField();
 		pro.redrawFormParts();
@@ -462,12 +462,16 @@ var longMenuQuestion = (function () {
 	{
 		var to_remove = [];
 		var t0 = pro.benchmarkCallsDummyNotForUsage('syncWithCorrectAnswers');
-		$.each(pub.questionParts.list[question_id][0] , function( index, value ) {
-			if ($.inArray(value, pub.answers[question_id]) === -1 )
-			{
-				to_remove.push(index);
-			}
-		});
+		if(longMenuQuestion.questionParts.list[question_id][0].length > 0)
+		{
+			$.each(pub.questionParts.list[question_id][0] , function( index, value ) {
+				if ($.inArray(value, pub.answers[question_id]) === -1 )
+				{
+					to_remove.push(index);
+				}
+			});
+		}
+
 		pro.removeNonExistingCorrectAnswersByKey(question_id, to_remove);
 		pro.benchmarkCallsDummyNotForUsage('syncWithCorrectAnswers', t0);
 	};
@@ -512,9 +516,10 @@ var longMenuQuestion = (function () {
 
 	pro.sliceInNewQuestionPart = function (gap_id)
 	{
-		pub.questionParts.list.splice(gap_id, 0, new_question_part);
+		pub.questionParts.list.splice(gap_id, 0,  [[], '0', '1']);
 		pub.answers.splice(gap_id,0,[]);
 		pro.redrawFormParts();
+		pro.syncWithHiddenTextField();
 	};
 
 	pro.readSingleFile = function (evt){
@@ -581,7 +586,7 @@ var longMenuQuestion = (function () {
 		{
 			pub.questionParts.list = [];
 		}
-		pub.questionParts.list[gap_id] = [[], 0];
+		pub.questionParts.list[gap_id] = [[], '0', '1'];
 	};
 	
 	//Public property

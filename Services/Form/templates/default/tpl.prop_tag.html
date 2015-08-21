@@ -1,11 +1,8 @@
 <div class="movable_prototype">
-	<script src="{JAVASCRIPT_TAGS}"></script>
-	<script src="{JAVASCRIPT_TYPEAHEAD}"></script>
-	<link rel="stylesheet" type="text/css" href="{CSS}">
 	<!-- BEGIN inline_in_bl -->
 	<div class="form-inline">
 	<!-- END inline_in_bl -->	
-		<select class="form-control" multiple id="{ID}" name="{POST_VAR}" <!-- BEGIN cust_attr -->{CUSTOM_ATTR}<!-- END cust_attr --> {DISABLED}>
+		<select class="form-control" multiple id="{ID}" name="{POST_VAR}" {DISABLED}>
 		<!-- BEGIN prop_select_option -->
 		<option value="{VAL_SELECT_OPTION}" {CHK_SEL_OPTION}>{TXT_SELECT_OPTION}</option>
 		<!-- END prop_select_option -->
@@ -14,37 +11,12 @@
 	</div>
 	<!-- END inline_out_bl -->
 </div>
-<!-- BEGIN initilize_on_page_load -->
+<!-- BEGIN initialize_on_page_load -->
 <script>
-	var ilBootstrapTaggingOnLoad = function(id)
-	{
-		var terms = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California',
-					 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii',
-					 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana',
-					 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota',
-					 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire',
-					 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota',
-					 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island',
-					 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont',
-					 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'
-		];
-		var bloodhound = new Bloodhound({
-			datumTokenizer: Bloodhound.tokenizers.whitespace,
-			queryTokenizer: Bloodhound.tokenizers.whitespace,
-			local: terms
-
+		$('#{ID}').tagsinput({
+			maxTags	  : {MAXTAGS},
+			maxChars  : {MAXCHARS},
+			allowDuplicates : "{ALLOW_DUPLICATES}"
 		});
-		bloodhound.initialize();
-
-		$(id).tagsinput({
-			typeaheadjs: {
-				highlight: true,
-				hint: true,
-				source: bloodhound.ttAdapter()
-			},
-			freeInput : false
-		});
-	};
-	ilBootstrapTaggingOnLoad('#{ID}');
 </script>
-<!-- END initilize_on_page_load -->
+<!-- END initialize_on_page_load -->

@@ -12,10 +12,26 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 {
 	private $answerType, $long_menu_text, $answers, $correct_answers, $json_structure, $ilDB;
 	private $specificFeedbackSetting;
+	
+	const ANSWER_TYPE_SELECT_VAL	= 0;
+	const ANSWER_TYPE_TEXT_VAL		= 1;
+	const GAP_PLACEHOLDER			= 'Longmenu';
+	const MIN_LENGTH_AUTOCOMPLETE 	= 0;
 
-	const ANSWER_TYPE_SELECT 	= 'select';
-	const ANSWER_TYPE_TEXT_BOX	= 'text_box';
-	const GAP_PLACEHOLDER		= 'Longmenu';
+	function __construct(
+		$title 		= "",
+		$comment 	= "",
+		$author 	= "",
+		$owner 		= -1,
+		$question 	= ""
+	)
+	{
+		require_once 'Modules/TestQuestionPool/classes/feedback/class.ilAssConfigurableMultiOptionQuestionFeedback.php';
+		$this->specificFeedbackSetting = ilAssConfigurableMultiOptionQuestionFeedback::FEEDBACK_SETTING_ALL;
+		parent::__construct($title, $comment, $author, $owner, $question);
+		global $ilDB;
+		$this->ilDB = $ilDB;
+	}
 	
 	/**
 	 * @return mixed
@@ -26,6 +42,14 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 	}
 
 	/**
+	 * @param mixed $answerType
+	 */
+	public function setAnswerType($answerType)
+	{
+		$this->answerType = $answerType;
+	}
+	
+	/**
 	 * @return mixed
 	 */
 	public function getCorrectAnswers()
@@ -33,9 +57,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 		return $this->correct_answers;
 	}
 
-	/**
-	 * @param mixed $correct_snswers
-	 */
+
 	public function setCorrectAnswers($correct_answers)
 	{
 		$this->correct_answers = $correct_answers;
@@ -63,14 +85,6 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 		}
 	}
 
-	/**
-	 * @param mixed $answerType
-	 */
-	public function setAnswerType($answerType)
-	{
-		$this->answerType = $answerType;
-	}
-
 	function setLongMenuTextValue($long_menu_text = "")
 	{
 		$this->long_menu_text = $long_menu_text;
@@ -80,7 +94,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 	{
 		return $this->long_menu_text;
 	}
-
+		
 	public function setAnswers($answers)
 	{
 		$this->answers = $answers;
@@ -107,18 +121,6 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 		$this->json_structure = $json_structure;
 	}
 	
-	/**
-	 * @param ilLanguage $lng
-	 * @return array
-	 */
-	public function getAnswerTypeSelectOptions(ilLanguage $lng)
-	{
-		return array(
-			self::ANSWER_TYPE_SELECT => $lng->txt('answers_select'),
-			self::ANSWER_TYPE_TEXT_BOX => $lng->txt('answers_text_box')
-		);
-	}
-	
 	public function setSpecificFeedbackSetting($specificFeedbackSetting)
 	{
 		$this->specificFeedbackSetting = $specificFeedbackSetting;
@@ -127,21 +129,6 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 	public function getSpecificFeedbackSetting()
 	{
 		return $this->specificFeedbackSetting;
-	}
-	
-	function __construct(
-		$title 		= "",
-		$comment 	= "",
-		$author 	= "",
-		$owner 		= -1,
-		$question 	= ""
-	)
-	{
-		require_once 'Modules/TestQuestionPool/classes/feedback/class.ilAssConfigurableMultiOptionQuestionFeedback.php';
-		$this->specificFeedbackSetting = ilAssConfigurableMultiOptionQuestionFeedback::FEEDBACK_SETTING_ALL;
-		parent::__construct($title, $comment, $author, $owner, $question);
-		global $ilDB;
-		$this->ilDB = $ilDB;
 	}
 	
 	public function isComplete()
@@ -169,24 +156,33 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 
 	public function checkQuestionCustomPart()
 	{
-		$this->getCorrectAnswersFromJson();
-		$hidden_text_files 	= json_decode(ilUtil::stripSlashesRecursive($_POST['hidden_text_files']));
-		$points 			= $this->getPointsArrayForAnswersFromPost();
-		if( sizeof($this->getCorrectAnswers()) == 0 || sizeof($hidden_text_files) == 0 || $points == '' )
+		$hidden_text_files 	= $this->getAnswers();
+		$correct_answers	= $this->getCorrectAnswers();
+		$points 			= array();
+		if( sizeof($correct_answers) == 0 || sizeof($hidden_text_files) == 0 )
 		{
 			return false;
 		}
-		if(sizeof($this->getCorrectAnswers()) != sizeof($points) || sizeof($this->getCorrectAnswers()) != sizeof($hidden_text_files))
+		if(sizeof($correct_answers) != sizeof($hidden_text_files))
 		{
 			return false;
 		}
-		foreach($this->getCorrectAnswers() as $key => $correct_answers_row)
+		foreach($correct_answers as $key => $correct_answers_row)
 		{
 			if($this->correctAnswerDoesNotExistInAnswerOptions($correct_answers_row, $hidden_text_files[$key]))
 			{
 				return false;
 			}
+			if($correct_answers_row[1] > 0)
+			{
+				array_push($points, $correct_answers_row[1]);
+			}
 		}
+		if(sizeof($correct_answers) != sizeof($points))
+		{
+			return false;
+		}
+		
 		foreach($points as $row)
 		{
 			if($row <= 0)
@@ -219,7 +215,6 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 	function getMaximumPoints()
 	{
 		$sum 		= 0;
-		$sum_post 	= 0;
 		$points = $this->getCorrectAnswers();
 		if($points)
 		{
@@ -227,15 +222,6 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 			{
 				$sum += $add[1];
 			}
-		}
-		$points_post = $this->getPointsArrayForAnswersFromPost();
-		foreach($points_post as $add)
-		{
-			$sum_post += $add;
-		}
-		if($sum_post != 0 && $sum != $sum_post )
-		{
-			$sum = $sum_post;
 		}
 		return $sum;
 	}
@@ -259,33 +245,10 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 		$this->createFileFromArray();
 	}
 	
-	private function getCorrectAnswersFromJson()
-	{
-		$clean_post 	= ilUtil::stripSlashes($_POST['hidden_correct_answers']);
-		$correct_answers = json_decode($clean_post);
-		$this->setCorrectAnswers($correct_answers);
-	}
-
-	private function getPointsArrayForAnswersFromPost()
-	{
-		$points_array 	= array();
-		$clean_post 	= ilUtil::stripSlashesRecursive($_POST['points']);
-		if($clean_post !== '')
-		{
-			foreach($clean_post as $gap_number => $points)
-			{
-				$points_array[$gap_number] = (float) $points;
-			}
-		}
-		return $points_array;
-	}
-
 	public function saveAnswerSpecificDataToDb()
 	{
 		$this->clearAnswerSpecificDataFromDb($this->getId());
-		$points = $this->getPointsArrayForAnswersFromPost();
-		$this->getCorrectAnswersFromJson();
-		
+		$type = $this->getAnswerType();
 		foreach($this->getCorrectAnswers() as $gap_number => $gap)
 		{
 			foreach($gap[0] as $position => $answer)
@@ -299,7 +262,8 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 					),
 					array(
 						'answer_text' => array('text', $answer),
-						'points'      => array('text', $points[$gap_number])
+						'points'      => array('float', $gap[1]), 
+						'type'        => array('integer', (int)  $type[$gap_number])
 					)
 				);
 			}
@@ -308,7 +272,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 	
 	private function createFileFromArray()
 	{
-		$array = json_decode(ilUtil::stripSlashes($_POST['hidden_text_files']));
+		$array = $this->getAnswers();
 		$this->clearFolder();
 		foreach($array as $gap => $values)
 		{
@@ -413,8 +377,9 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 		$correct_answers	= array();
 		while($data = $this->ilDB->fetchAssoc($res))
 		{
-			$correct_answers[$data['gap_number']][0][$data['position']] = $data['answer_text'];
-			$correct_answers[$data['gap_number']][1] = $data['points'];
+			$correct_answers[$data['gap_number']][0][$data['position']]	= $data['answer_text'];
+			$correct_answers[$data['gap_number']][1]					= $data['points'];
+			$correct_answers[$data['gap_number']][2]					= $data['type'];
 		}
 		$this->setJsonStructure(json_encode($correct_answers));
 		$this->setCorrectAnswers($correct_answers);
@@ -457,20 +422,6 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 		return $correct_answers;
 	}
 	
-	private function loadPoints($question_id)
-	{
-		$points = array();
-		$res = $this->db->queryF(
-			'SELECT points FROM  ' . $this->getAnswerTableName() .' WHERE question_fi = %s GROUP BY gap_number, points',
-			array('integer'), array($question_id)
-		);
-		while($data = $this->ilDB->fetchAssoc($res))
-		{
-			$points[] = $data['points'];
-		}
-		return $points;
-	}
-
 	private function getPointsForGap($question_id, $gap_id)
 	{
 		$points = 0;
@@ -488,23 +439,15 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 	
 	function getAnswersObject()
 	{
-		return json_encode($this->createArrayFromFile());
+			return json_encode($this->createArrayFromFile());
 	}
 	
 	function getCorrectAnswersAsJson()
 	{
-		//Todo: remove workaround and return the real correct answers
 		$this->loadCorrectAnswerData($this->getId());
 		return $this->getJsonStructure();
 	}
 	
-	private function fillPseudoPostForCopy($src_id)
-	{
-		$_POST['hidden_text_files'] 		= $this->getAnswersObject();
-		$_POST['hidden_correct_answers'] 	= $this->getCorrectAnswersAsJson();
-		$_POST['points'] 					= $this->loadPoints($src_id);
-	}
-
 	function duplicate($for_test = true, $title = "", $author = "", $owner = "", $testObjId = null)
 	{
 
@@ -517,8 +460,6 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 		// duplicate the question in database
 		$this_id = $this->getId();
 		$thisObjId = $this->getObjId();
-
-		$this->fillPseudoPostForCopy($this_id);
 
 		$clone = $this;
 		include_once ("./Modules/TestQuestionPool/classes/class.assQuestion.php");
@@ -567,7 +508,6 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 			// The question has not been saved. It cannot be duplicated
 			return;
 		}
-		$this->fillPseudoPostForCopy($this->id);
 		// duplicate the question in database
 		$clone = $this;
 		include_once ("./Modules/TestQuestionPool/classes/class.assQuestion.php");
@@ -600,7 +540,6 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 		include_once ("./Modules/TestQuestionPool/classes/class.assQuestion.php");
 
 		$sourceQuestionId = $this->id;
-		$this->fillPseudoPostForCopy($this->id);
 		$sourceParentId = $this->getObjId();
 
 		// duplicate the question in database
@@ -735,7 +674,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 		
 		foreach($answer as $key => $value)
 		{
-			$solutionSubmit[$key - 1] = $value;
+			$solutionSubmit[$key] = $value;
 		}
 
 		return $solutionSubmit;
@@ -807,7 +746,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 	 */
 	public function setExportDetailsXLS(&$worksheet, $startrow, $active_id, $pass, &$format_title, &$format_bold)
 	{
-		//Todo implement
+
 	}
 	
 	/**
@@ -872,7 +811,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 		$result['id'] = (int) $this->getId();
 		$result['type'] = (string) $this->getQuestionType();
 		$result['title'] = (string) $this->getTitle();
-		$replaced_quesiton_text =  $this->getLongMenuTextWithInputFieldsInsteadOfGaps();
+		$replaced_quesiton_text =  $this->getLongMenuTextValue();
 		$result['question'] =  $this->formatSAQuestion($this->getQuestion()) . '<br/>' .$replaced_quesiton_text;
 		$result['nr_of_tries'] = (int) $this->getNrOfTries();
 		$result['shuffle'] = (bool) $this->getShuffle();
@@ -886,33 +825,5 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 		$result['correct_answers'] = $this->getCorrectAnswers();
 		$result['mobs'] = $mobs;
 		return json_encode($result);
-	}
-
-	public function getLongMenuTextWithInputFieldsInsteadOfGaps($user_solution = array(), $solution = false)
-	{
-		if($solution)
-		{
-			$options = 'disabled';
-		}
-		else
-		{
-			$options = 'class="long_menu_input"  name="answer[${1}]"';
-		}
-
-		$return_value =  preg_replace("/\\[".assLongMenu::GAP_PLACEHOLDER." (\\d+)\\]/",
-			'<input ' . $options . ' value="###${1}###">',
-			$this->getLongMenuTextValue(), -1, $count);
-
-		for($i = 0; $i <= $count; $i++)
-		{
-			$real_key = $i + 1;
-			$value = '';
-			if(array_key_exists($i,$user_solution))
-			{
-				$value = $user_solution[$i];
-			}
-			$return_value = preg_replace("/###". $real_key ."###/", $value , $return_value);
-		}
-		return $return_value;
 	}
 }

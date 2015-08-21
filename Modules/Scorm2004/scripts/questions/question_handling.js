@@ -607,6 +607,31 @@ ilias.questions.initClozeTest = function(a_id) {
 
 ilias.questions.initLongMenu = function(a_id) {
 
+	var text = $('#' + a_id).html().split(/\[Longmenu \d\]/);
+	var replaced_text = '';
+	for(var key in text){
+		replaced_text += text[key];
+		if(key < text.length - 1 )
+		{
+			if(questions[a_id].correct_answers[key][2] == 1)
+			{
+				replaced_text += '<input class="long_menu_input" name="answer[' + key + ']" value=""/>';
+			}
+			else
+			{
+				replaced_text += '<select class="long_menu_input_js_ignore" name="answer[' + key + ']">';
+				replaced_text += '<option value=""></option>';
+				for(var answer_id in questions[a_id].answers[key])
+				{
+					replaced_text += '<option value="' + questions[a_id].answers[key][answer_id] + '">' 
+										+ questions[a_id].answers[key][answer_id] + '</option>';
+				}
+				replaced_text += '</select><input disabled class="hidden" id="solution_' + key + '"/>';
+			}
+		}
+	};
+	$('#' + a_id).html(replaced_text);
+	
 	$($('.long_menu_input'), $('#' + a_id)).each(function ( index) {
 			var longest = questions[a_id].answers[index].reduce(function (a, b) { return a.length > b.length ? a : b; });
 			$( this).attr('size', longest.length);
@@ -619,15 +644,13 @@ ilias.questions.initLongMenu = function(a_id) {
 };
 ilias.questions.assLongMenu = function(a_id) {
 	var a_node = $('#' + a_id);
-	var node_nr = 0;
 	var value = '';
 	answers[a_id].wrong = 0;
 	answers[a_id].passed = true;
 	
 	for (var i=0;i<questions[a_id].correct_answers.length;i++)
 	{
-		node_nr = i + 1;
-		value = a_node.find("[name='answer[" + node_nr + "]']").val();
+		value = a_node.find("[name='answer[" + i + "]']").val();
 		if($.inArray(value , questions[a_id].correct_answers[i][0]) === -1 )
 		{
 			answers[a_id].wrong++;
@@ -1104,17 +1127,24 @@ ilias.questions.showCorrectAnswers =function(a_id) {
 			var correct_solution = '';
 				for (var i=0;i<questions[a_id].correct_answers.length;i++)
 				{
-					node_nr = i + 1;
-					
-					a_node.find("[name='answer[" + node_nr + "]']").prop("disabled",true);
+					a_node.find("[name='answer[" + i + "]']").prop("disabled",true);
 					correct_solution = '';
-					for (var j=0;j<questions[a_id].correct_answers[i].length;j++)
+					for (var j=0;j<questions[a_id].correct_answers[i][0].length;j++)
 					{
 						correct_solution += questions[a_id].correct_answers[i][0][j] + ' or ';
 					}
 					correct_solution = correct_solution.substring(0, correct_solution.length - 4);
-					a_node.find("[name='answer[" + node_nr + "]']").val(correct_solution);
-					a_node.find("[name='answer[" + node_nr + "]']").attr('size', correct_solution.length);
+					if(questions[a_id].correct_answers[i][2] == 1)
+					{
+						a_node.find("[name='answer[" + i + "]']").val(correct_solution);
+						a_node.find("[name='answer[" + i + "]']").attr('size', correct_solution.length);
+					}
+					else
+					{
+						a_node.find("[name='answer[" + i + "]']").hide();
+						a_node.find("[id=solution_" + i + "]").removeClass('hidden');
+						a_node.find("[id=solution_" + i + "]").val(correct_solution).attr('size', correct_solution.length);
+					}
 				}
 			break;
 		//end assLongMenu

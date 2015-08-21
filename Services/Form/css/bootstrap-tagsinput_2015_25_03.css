@@ -16,10 +16,9 @@
 	box-shadow: none;
 	outline: none;
 	background-color: transparent;
-	padding: 0 6px;
+	padding-left: 10px;
 	margin: 0;
 	width: auto;
-	max-width: inherit;
 }
 .bootstrap-tagsinput.form-control input::-moz-placeholder {
 	color: #777;
@@ -93,6 +92,8 @@
 	-webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
 	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
 	background-clip: padding-box;
+	overflow-x: hidden;
+	max-height: 400px;
 }
 .tt-suggestion > p {
 	display: block;
@@ -109,5 +110,8 @@
 	color: #ffffff;
 	text-decoration: none;
 	outline: 0;
-	background-color: #428bca;
+	background-color: #708BAE;
+}
+.label-info, .tt-suggestion:hover, .tt-suggestion:focus, .tt-cursor {
+	background-color:#708BAE !important;
 }

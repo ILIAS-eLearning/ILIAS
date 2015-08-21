@@ -24,7 +24,7 @@
 <script>
 	function debugPrinter(message)
 	{
-		if(true)
+		if(false)
 		{
 			console.log(message)
 		}
@@ -72,9 +72,9 @@
 		<label for="" class="col-sm-3 control-label"></label>
 		<div class="col-sm-9">
 			<div class="form-inline">
-				<select name="Estimated[hh]" class=" form-control " size="0">
-					<option value="select" selected="selected">{SELECT}</option>
-					<option value="text">{TEXT}</option>
+				<select name="proto_type" class="form-control" size="0">
+					<option value="0" selected="selected">{SELECT}</option>
+					<option value="1">{TEXT}</option>
 				</select>
 			</div>
 		</div>
@@ -93,8 +93,8 @@
 	</div>
 	<div class="form-group" id="layout_dummy_buttons">
 			<div class="modal-submit">
-				<input type="submit" class="btn btn-default cancel-modal" value="{Cancel}cancel" />
 				<input type="submit" class="btn btn-default save-modal" value="{Save}save" />
+				<input type="submit" class="btn btn-default cancel-modal" value="{Cancel}cancel" />
 			</div>
 	</div>
 	<div class="layout_dummy_help-block">
