@@ -536,7 +536,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$result = "";
 		if (is_array($_POST) && count($_POST) > 0)
 		{
-			$res = $this->saveQuestionSolution(TRUE);
+			$res = $this->saveQuestionSolution(true, TRUE);
 			if ($res)
 			{
 				$result = $this->lng->txt("autosave_success");

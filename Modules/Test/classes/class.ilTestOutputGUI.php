@@ -550,7 +550,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 	/**
 	 * saves the user input of a question
 	 */
-	public function saveQuestionSolution($force = FALSE)
+	public function saveQuestionSolution($intermediate = false, $force = false)
 	{
 		$this->updateWorkingTime();
 		$this->saveResult = FALSE;
@@ -574,8 +574,6 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 			$q_id = $this->testSequence->getQuestionForSequence($_GET["sequence"]);
 			if (is_numeric($q_id) && (int)$q_id) 
 			{
-				global $ilUser;
-				
 				$question_gui = $this->object->createQuestionGUI("", $q_id);
 				if ($this->object->getJavaScriptOutput())
 				{
@@ -588,14 +586,10 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 					$pass = $this->object->_getPass($active_id);
 				}
 				$this->saveResult = $question_gui->object->persistWorkingState(
-						$active_id, $pass, $this->object->areObligationsEnabled()
+						$active_id, $pass, $this->object->areObligationsEnabled(), $intermediate
 				);
 
-				// update learning progress (is done in ilTestSession)
-				//include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
-				//ilLPStatusWrapper::_updateStatus($this->object->getId(), $ilUser->getId());
-
-				if( $this->testSession->isObjectiveOriented() )
+				if( !$intermediate && $this->testSession->isObjectiveOriented() )
 				{
 					$this->updateContainerObjectivesWithAnsweredQuestion(
 						$this->testSession, $this->testSequence, $question_gui->object
@@ -603,11 +597,13 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 				}
 			}
 		}
+
 		if ($this->saveResult == FALSE)
 		{
 			$this->ctrl->setParameter($this, "save_error", "1");
 			$_SESSION["previouspost"] = $_POST;
 		}
+
 		return $this->saveResult;
 	}
 
@@ -619,7 +615,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		
 		if( !$this->isParticipantsAnswerFixed($questionId) )
 		{
-			$this->saveQuestionSolution();
+			$this->saveQuestionSolution(true);
 			
 			$this->testSequence->setQuestionChecked($questionId);
 			$this->testSequence->saveToDb();
