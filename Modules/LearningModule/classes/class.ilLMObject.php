@@ -1511,11 +1511,13 @@ class ilLMObject
 		
 		if ($a_node["type"] == "st")
 		{
+			include_once './Modules/LearningModule/classes/class.ilStructureObject.php';
 			return ilStructureObject::_getPresentationTitle($a_node["child"],
 				$a_include_numbers, $a_time_scheduled_activation, $a_lm_id, $a_lang);
 		}
 		else
 		{
+			include_once './Modules/LearningModule/classes/class.ilLMPageObject.php';
 			return ilLMPageObject::_getPresentationTitle($a_node["child"],
 				$a_mode, $a_include_numbers, $a_time_scheduled_activation,
 				$a_force_content, $a_lm_id, $a_lang);

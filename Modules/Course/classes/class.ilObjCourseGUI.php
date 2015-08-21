@@ -4670,7 +4670,20 @@ class ilObjCourseGUI extends ilContainerGUI
 				include_once './Services/Container/classes/class.ilContainerStartObjectsGUI.php';
 				$stgui = new ilContainerStartObjectsGUI($this->object);
 				$this->ctrl->forwardCommand($stgui);
-				break;			
+				break;		
+			
+			case 'illomembertestresultgui':
+				include_once './Modules/Course/classes/Objectives/class.ilLOMemberTestResultGUI.php';
+				$GLOBALS['ilCtrl']->setReturn($this, 'members');
+				$GLOBALS['ilTabs']->clearTargets();
+				$GLOBALS['ilTabs']->setBackTarget(
+					$GLOBALS['lng']->txt('back'),
+					$GLOBALS['ilCtrl']->getLinkTarget($this,'members')
+				);
+				
+				$result_view = new ilLOMemberTestResultGUI($this, $this->object, (int) $_REQUEST['uid']);
+				$this->ctrl->forwardCommand($result_view);
+				break;
 
             default:
 /*                if(!$this->creation_mode)
