@@ -61,6 +61,11 @@ class ilTestSequence
 	 * @var array
 	 */
 	private $optionalQuestions;
+
+	/**
+	 * @var bool
+	 */
+	private $answeringOptionalQuestionsConfirmed;
 	
 	/**
 	* ilTestSequence constructor
@@ -86,6 +91,7 @@ class ilTestSequence
 		$this->newlyCheckedQuestion = null;
 		
 		$this->optionalQuestions = array();
+		$this->answeringOptionalQuestionsConfirmed = false;
 	}
 	
 	function getActiveId()
@@ -159,6 +165,8 @@ class ilTestSequence
 			if (!is_array($this->sequencedata["sequence"])) $this->sequencedata["sequence"] = array();
 			if (!is_array($this->sequencedata["postponed"])) $this->sequencedata["postponed"] = array();
 			if (!is_array($this->sequencedata["hidden"])) $this->sequencedata["hidden"] = array();
+			
+			$this->setAnsweringOptionalQuestionsConfirmed((bool)$row['ans_opt_confirmed']);
 		}
 	}
 	
@@ -228,7 +236,8 @@ class ilTestSequence
 			"sequence" => array("clob", serialize($this->sequencedata["sequence"])),
 			"postponed" => array("text", $postponed),
 			"hidden" => array("text", $hidden),
-			"tstamp" => array("integer", time())
+			"tstamp" => array("integer", time()),
+			'ans_opt_confirmed' => array('integer', (int)$this->isAnsweringOptionalQuestionsConfirmed())
 		));
 	}
 
@@ -735,6 +744,22 @@ class ilTestSequence
 		{
 			$this->sequencedata['sequence'][$index] = $sequenceKey;
 		}
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isAnsweringOptionalQuestionsConfirmed()
+	{
+		return $this->answeringOptionalQuestionsConfirmed;
+	}
+
+	/**
+	 * @param boolean $answeringOptionalQuestionsConfirmed
+	 */
+	public function setAnsweringOptionalQuestionsConfirmed($answeringOptionalQuestionsConfirmed)
+	{
+		$this->answeringOptionalQuestionsConfirmed = $answeringOptionalQuestionsConfirmed;
 	}
 }
 
