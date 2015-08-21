@@ -214,18 +214,21 @@ class ilLOSettings
 		$new_settings = self::getInstanceByObjId($a_new_container_id);
 		
 		$new_settings->setType($settings->getType());
-		$new_settings->setGeneralQualifiedTestVisibility($settings->isGeneralQualifiedTestVisible());
-		$new_settings->setQualifiedTestPerObjectiveVisibility($settings->isQualifiedTestPerObjectiveVisible());
+		$new_settings->setInitialTestType($settings->getInitialTestType());
+		$new_settings->setQualifyingTestType($settings->getQualifyingTestType());
 		$new_settings->resetResults($settings->isResetResultsEnabled());
+		$new_settings->setPassedObjectiveMode($settings->getPassedObjectiveMode());
 		
 		if($settings->getInitialTest() and array_key_exists($settings->getInitialTest(), $mappings))
 		{
 			$new_settings->setInitialTest($mappings[$settings->getInitialTest()]);
+			$new_settings->setInitialTestAsStart($new_settings->isInitialTestStart());
 		}
 		
 		if($settings->getQualifiedTest() and array_key_exists($settings->getQualifiedTest(), $mappings))
 		{
 			$new_settings->setQualifiedTest($mappings[$settings->getQualifiedTest()]);
+			$new_settings->setQualifyingTestAsStart($settings->isQualifyingTestStart());
 		}
 		
 		$new_settings->create();

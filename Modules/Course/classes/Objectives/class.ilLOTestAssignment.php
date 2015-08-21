@@ -172,5 +172,29 @@ class ilLOTestAssignment
 		}
 		return TRUE;
 	}
+	
+	/**
+	 * Clone assignments
+	 * @param type $a_target_id
+	 * @param type $a_copy_id
+	 */
+	public function cloneSettings($a_copy_id, $a_target_id, $a_objective_id)
+	{
+		include_once './Services/CopyWizard/classes/class.ilCopyWizardOptions.php';
+		$options = ilCopyWizardOptions::_getInstance($a_copy_id);
+		$mappings = $options->getMappings();
+		
+		if(!array_key_exists($this->getTestRefId(), $mappings))
+		{
+			return FALSE;
+		}
+		
+		$copy = new ilLOTestAssignment();
+		$copy->setContainerId($a_target_id);
+		$copy->setAssignmentType($this->getAssignmentType());
+		$copy->setObjectiveId($a_objective_id);
+		$copy->setTestRefId($mappings[$this->getTestRefId()]);
+		$copy->create();
+	}
 }
 ?>

@@ -985,6 +985,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		include_once('Services/Object/classes/class.ilObjectActivation.php');
 		ilObjectActivation::cloneDependencies($this->getRefId(),$a_target_id,$a_copy_id);
 		
+		// clone objective settings
 		include_once './Modules/Course/classes/Objectives/class.ilLOSettings.php';
 		ilLOSettings::cloneSettings($a_copy_id, $this->getId(), ilObject::_lookupObjId($a_target_id));
 
