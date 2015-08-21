@@ -490,12 +490,19 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
 	protected function discardSolutionCmd()
 	{
-		// remove existing solution
+		$sequenceElement = $this->getSequenceElementParameter();
+
+		$guestionGUI = $this->buildQuestionGUI(
+			$this->testSequence->getQuestionForSequence($sequenceElement), $sequenceElement
+		);
+
+		$guestionGUI->object->removeExistingSolutions(
+			$this->testSession->getActiveId(), $this->testSession->getPass()
+		);
+
 		// reset answered state
 
-		$sequenceElement = $this->testSequence->getNextSequence(
-			$this->getSequenceElementParameter()
-		);
+		$sequenceElement = $this->testSequence->getNextSequence($sequenceElement);
 
 		$this->ctrl->setParameter($this, 'sequence', $sequenceElement);
 		$this->ctrl->setParameter($this, 'pmode', $this->getDefaultPresentationMode());

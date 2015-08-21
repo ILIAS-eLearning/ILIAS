@@ -1106,7 +1106,7 @@ abstract class assQuestion
 	 * @param integer $pass Test pass
 	 * @return boolean $status
 	 */
-	abstract public function saveWorkingData($active_id, $pass = NULL, $intermediate = false);
+	//abstract public function saveWorkingData($active_id, $pass = NULL, $intermediate = false);
 
 	/**
 	 * Reworks the allready saved working data if neccessary
@@ -1117,7 +1117,7 @@ abstract class assQuestion
 	 * @param integer $pass
 	 * @param boolean $obligationsAnswered
 	 */
-	abstract protected function reworkWorkingData($active_id, $pass, $obligationsAnswered, $intermediate);
+	//abstract protected function reworkWorkingData($active_id, $pass, $obligationsAnswered, $intermediate);
 
 	protected function savePreviewData(ilAssQuestionPreviewSession $previewSession)
 	{
@@ -4395,6 +4395,21 @@ abstract class assQuestion
 	}
 
 	/**
+	 * @param $solutionId
+	 * @global ilDB $ilDB
+	 *
+	 * @return int
+	 */
+	protected function removeSolutionRecordById($solutionId)
+	{
+		global $ilDB;
+
+		return $ilDB->manipulateF("DELETE FROM tst_solutions WHERE solution_id = %s",
+			array('integer'), array($solutionId)
+		);
+	}
+
+	/**
 	 * @param int $active_id
 	 * @param int $pass
 	 * @param bool|true $authorized
@@ -4563,5 +4578,21 @@ abstract class assQuestion
 			$sec += $time_array[2];
 		}
 		return $sec;
+	}
+
+	public function removeExistingSolutions($activeId, $pass)
+	{
+		global $ilDB;
+
+		$query = "
+			DELETE FROM tst_solutions
+			WHERE active_fi = %s
+			AND question_fi = %s
+			AND pass = %s
+		";
+
+		return $ilDB->manipulateF($query, array('integer', 'integer', 'integer'),
+			array($activeId, $this->getId(), $pass)
+		);
 	}
 }
