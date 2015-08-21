@@ -436,13 +436,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	/**
 	 * Resume a test at the last position
 	 */
-	protected function resumePlayerCmd()
-	{
-		$this->handleUserSettings();
-
-		$this->ctrl->setParameter($this, "activecommand", "resume");
-		$this->ctrl->redirect($this, "redirectQuestion");
-	}
+	abstract protected function resumePlayerCmd();
 
 	/**
 	 * Start a test for the first time after a redirect

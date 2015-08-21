@@ -228,12 +228,6 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 			case "setmarked":
 				break;
 			case "resetmarked":
-				$this->sequence = $this->calculateSequence();
-				$this->testSession->setLastSequence($this->sequence);
-				$this->testSession->saveToDb();
-				$q_id  = $this->testSequence->getQuestionForSequence($_GET["sequence"]);
-				$this->object->setQuestionSetSolved(0, $q_id, $ilUser->getId());
-				$this->outTestPage(false);
 				break;
 			case "directfeedback":
 				break;
@@ -255,50 +249,6 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 			case "start":
 				break;
 			case "resume":
-				$_SESSION['tst_pass_finish'] = 0;
-				$active_id = $this->testSession->getActiveId();
-				$this->ctrl->setParameter($this, "active_id", $active_id);
-
-				if ($this->object->isRandomTest())
-				{
-					if (!$this->testSequence->hasRandomQuestionsForPass($active_id, $this->testSession->getPass()))
-					{
-						// create a new set of random questions
-						$this->generateRandomTestPassForActiveUser();
-					}
-				}
-				$shuffle = $this->object->getShuffleQuestions();
-				if ($this->object->isRandomTest())
-				{
-					$shuffle = FALSE;
-				}
-
-				assQuestion::_updateTestPassResults(
-					$active_id, $this->testSession->getPass(), $this->object->areObligationsEnabled(), null, $this->object->id
-				);
-
-				// ensure existing test sequence
-				if( !$this->testSequence->hasSequence() )
-				{
-					$this->testSequence->createNewSequence($this->object->getQuestionCount(), $shuffle);
-					$this->testSequence->saveToDb();
-				}
-
-				$this->sequence = $this->testSession->getLastSequence();
-				$active_time_id = $this->object->startWorkingTime($active_id, $this->testSession->getPass());
-				$_SESSION["active_time_id"] = $active_time_id;
-				if ($this->object->getListOfQuestionsStart())
-				{
-					$this->ctrl->setParameter($this, "activecommand", "summary");
-					$this->ctrl->redirect($this, "redirectQuestion");
-				}
-				else
-				{
-					$this->ctrl->setParameter($this, "sequence", $this->sequence);
-					$this->ctrl->setParameter($this, "activecommand", "gotoquestion");
-					$this->ctrl->saveParameter($this, "tst_javascript");
-					$this->ctrl->redirect($this, "redirectQuestion");
-				}
 				break;
 				
 			case 'test_submission_overview':
@@ -826,5 +776,55 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		$questionGui->setTargetGui($this);
 		$questionGui->object->setOutputType(OUTPUT_JAVASCRIPT);
 		return $questionGui;
+	}
+
+	/**
+	 * Resume a test at the last position
+	 */
+	protected function resumePlayerCmd()
+	{
+		$this->handleUserSettings();
+
+		$active_id = $this->testSession->getActiveId();
+		$this->ctrl->setParameter($this, "active_id", $active_id);
+
+		$active_time_id = $this->object->startWorkingTime($active_id, $this->testSession->getPass());
+		$_SESSION["active_time_id"] = $active_time_id;
+		$_SESSION['tst_pass_finish'] = 0;
+
+		if ($this->object->isRandomTest())
+		{
+			if (!$this->testSequence->hasRandomQuestionsForPass($active_id, $this->testSession->getPass()))
+			{
+				// create a new set of random questions
+				$this->generateRandomTestPassForActiveUser();
+			}
+		}
+
+		$shuffle = $this->object->getShuffleQuestions();
+		if ($this->object->isRandomTest())
+		{
+			$shuffle = FALSE;
+		}
+
+		assQuestion::_updateTestPassResults(
+			$active_id, $this->testSession->getPass(), $this->object->areObligationsEnabled(), null, $this->object->id
+		);
+
+		// ensure existing test sequence
+		if( !$this->testSequence->hasSequence() )
+		{
+			$this->testSequence->createNewSequence($this->object->getQuestionCount(), $shuffle);
+			$this->testSequence->saveToDb();
+		}
+
+		if ($this->object->getListOfQuestionsStart())
+		{
+			$this->ctrl->redirect($this, ilTestPlayerCommands::QUESTION_SUMMARY);
+		}
+		
+		$this->ctrl->setParameter($this, 'sequence', $this->testSession->getLastSequence());
+		$this->ctrl->setParameter($this, 'pmode', $this->testSession->getLastPresentationMode());
+		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
 	}
 }
