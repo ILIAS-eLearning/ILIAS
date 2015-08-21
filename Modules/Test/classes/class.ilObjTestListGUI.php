@@ -188,6 +188,7 @@ class ilObjTestListGUI extends ilObjectListGUI
 	{
 		return parent::modifyTitleLink($a_default_link);
 		
+		/*
 		include_once './Modules/Course/classes/Objectives/class.ilLOSettings.php';
 		$id = ilLOSettings::isObjectiveTest($this->ref_id);
 		
@@ -205,6 +206,7 @@ class ilObjTestListGUI extends ilObjectListGUI
 			$this->ctrl->clearParametersByClass('ilrepositorygui');
 		}
 		return parent::modifyTitleLink($cmd_link);
+		 */
 	}
 	// end-patch lok
 
