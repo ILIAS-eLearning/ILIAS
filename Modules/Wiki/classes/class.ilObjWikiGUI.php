@@ -220,7 +220,10 @@ class ilObjWikiGUI extends ilObjectGUI
 				$cmd .= "Object";
 				if ($cmd != "infoScreenObject")
 				{
-					$this->checkPermission("read");
+					if (!in_array($cmd, array("createObject", "saveObject")))
+					{
+						$this->checkPermission("read");
+					}
 				}
 				else
 				{
