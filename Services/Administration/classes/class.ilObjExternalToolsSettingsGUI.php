@@ -595,7 +595,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 				$this->tabs_gui->setTabActive('settings');
 				if(!$cmd || $cmd == 'view')
 				{
-					$cmd = "editSocialBookmarks";
+					$cmd = "editMaps";
 				}
 				$cmd .= "Object";
 				$this->$cmd();
