@@ -146,7 +146,7 @@ class ilLOTestAssignments
 				return FALSE;
 			}
 		}
-		if($this->getSettings()->hasSeparateQualifiedTests())
+		if(!$this->getSettings()->hasSeparateQualifiedTests())
 		{
 			if($this->getSettings()->getQualifiedTest() == $a_test_ref_id)
 			{

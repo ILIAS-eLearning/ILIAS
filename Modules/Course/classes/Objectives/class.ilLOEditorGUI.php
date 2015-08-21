@@ -214,6 +214,22 @@ class ilLOEditorGUI
 	}
 	
 	/**
+	 * Delete assignments
+	 * @param type $a_type
+	 */
+	protected function deleteAssignments($a_type)
+	{
+		include_once './Modules/Course/classes/Objectives/class.ilLOTestAssignments.php';
+		$assignments = ilLOTestAssignments::getInstance($this->getParentObject()->getId());
+		foreach($assignments->getAssignmentsByType($a_type) as $assignment)
+		{
+			$assignment->delete();
+		}
+		return;
+	}
+
+
+	/**
 	 * 
 	 */
 	protected function saveSettings()
@@ -227,22 +243,28 @@ class ilLOEditorGUI
 			{
 				case ilLOSettings::TYPE_INITIAL_PLACEMENT_ALL:
 					$settings->setInitialTestAsStart($form->getInput('start_ip'));
+					$this->deleteAssignments(ilLOSettings::TYPE_TEST_INITIAL);
 					break;
 				
 				case ilLOSettings::TYPE_INITIAL_PLACEMENT_SELECTED:
 					$settings->setInitialTestAsStart(FALSE);
+					$settings->setInitialTest(0);
 					break;
 				
 				case ilLOSettings::TYPE_INITIAL_QUALIFYING_ALL:
 					$settings->setInitialTestAsStart($form->getInput('start_iq'));
+					$this->deleteAssignments(ilLOSettings::TYPE_TEST_INITIAL);
 					break;
 					
 				case ilLOSettings::TYPE_INITIAL_QUALIFYING_SELECTED:
 					$settings->setInitialTestAsStart(FALSE);
+					$settings->setInitialTest(0);
 					break;
 				
 				case ilLOSettings::TYPE_INITIAL_NONE:
 					$settings->setInitialTestAsStart(FALSE);
+					$settings->setInitialTest(0);
+					$this->deleteAssignments(ilLOSettings::TYPE_TEST_INITIAL);
 					break;
 			}
 			
@@ -253,6 +275,10 @@ class ilLOEditorGUI
 			if($form->getInput('qttype') == ilLOSettings::TYPE_QUALIFYING_ALL)
 			{
 				$settings->setQualifyingTestAsStart($form->getInput('start_q'));
+			}
+			if($form->getInput('qttype') == ilLOSettings::TYPE_QUALIFYING_SELECTED)
+			{
+				$settings->setQualifiedTest(0);
 			}
 			
 			if(

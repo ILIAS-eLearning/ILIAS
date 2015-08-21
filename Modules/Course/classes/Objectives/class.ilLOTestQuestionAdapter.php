@@ -89,8 +89,8 @@ class ilLOTestQuestionAdapter
 		$passed_objectives = array();
 		include_once './Modules/Course/classes/Objectives/class.ilLOUserResults.php';
 		$results = new ilLOUserResults($a_container_id,$a_user_id);
-		$passed = $results->getCompletedObjectiveIdsByType($test_type);
 		
+		$passed = $results->getCompletedObjectiveIds();
 		$GLOBALS['ilLog']->write(__METHOD__.': Passed objectives are '.print_r($passed,TRUE).' test_type = '.$test_type);
 		
 		
@@ -161,11 +161,11 @@ class ilLOTestQuestionAdapter
 
 		if($this->getSettings()->getPassedObjectiveMode() == ilLOSettings::MARK_PASSED_OBJECTIVE_QST)
 		{
-			#$this->setQuestionsOptional($a_test_sequence);
+			$this->setQuestionsOptional($a_test_sequence);
 		}
 		elseif($this->getSettings()->getPassedObjectiveMode() == ilLOSettings::HIDE_PASSED_OBJECTIVE_QST)
 		{
-			#$this->hideQuestions($a_test_sequence);
+			$this->hideQuestions($a_test_sequence);
 		}
 
 		$this->storeTestRun();
@@ -463,14 +463,17 @@ class ilLOTestQuestionAdapter
 	{
 		if($this->getAssignments()->isSeparateTest($session->getRefId()))
 		{
+			$GLOBALS['ilLog']->write(__METHOD__.': separate run');
 			return $this->updateSeparateTestQuestions($session, $seq);
 		}
 		if($seq instanceof ilTestSequenceFixedQuestionSet)
 		{
+			$GLOBALS['ilLog']->write(__METHOD__.': fixed run');
 			return $this->updateFixedQuestions($session, $seq);
 		}
 		if($seq instanceof ilTestSequenceRandomQuestionSet)
 		{
+			$GLOBALS['ilLog']->write(__METHOD__.': random run');
 			return $this->updateRandomQuestions($session, $seq);
 		}
 		

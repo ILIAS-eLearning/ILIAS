@@ -295,8 +295,22 @@ class ilLOUserResults
 	 * @return array objective-ids
 	 */
 	public function getCompletedObjectiveIds()
-	{		
-		return $this->findObjectiveIds(self::TYPE_QUALIFIED, self::STATUS_COMPLETED);		
+	{
+		include_once './Modules/Course/classes/Objectives/class.ilLOSettings.php';
+		$settings = ilLOSettings::getInstanceByObjId($this->course_obj_id);
+		
+		if(!$settings->isInitialTestQualifying() or !$settings->worksWithInitialTest())
+		{
+			return $this->findObjectiveIds(self::TYPE_QUALIFIED, self::STATUS_COMPLETED);
+		}
+		
+		// qualifying initial
+		return array_unique(
+			array_merge(
+					$this->findObjectiveIds(self::TYPE_INITIAL, self::STATUS_COMPLETED),
+					$this->findObjectiveIds(self::TYPE_QUALIFIED, self::STATUS_COMPLETED)
+			)
+		);
 	}
 	
 	/**
