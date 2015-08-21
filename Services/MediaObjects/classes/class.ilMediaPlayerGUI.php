@@ -456,11 +456,14 @@ class ilMediaPlayerGUI
 			include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
 			$mp_tpl->setVariable("ICLOSE", ilGlyphGUI::get(ilGlyphGUI::CLOSE));
 			
-			$height = $this->getDisplayHeight();
-			$width = $this->getDisplayWidth();
- 
-			$mp_tpl->setVariable("IHEIGHT", $height);
-			$mp_tpl->setVariable("IWIDTH", $width);
+			if($this->event_callback_url)
+			{
+				$mp_tpl->setVariable("IMG_CALLBACK_URL", $this->event_callback_url);
+				$mp_tpl->setVariable("IMG_CALLBACK_PLAYER_NR", $this->id."_".$this->current_nr);
+			}
+			
+			$mp_tpl->setVariable("IHEIGHT", $this->getDisplayHeight());
+			$mp_tpl->setVariable("IWIDTH", $this->getDisplayWidth());
 			$mp_tpl->parseCurrentBlock();
 			
 			return $mp_tpl->get();

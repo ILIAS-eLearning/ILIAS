@@ -403,28 +403,32 @@ class ilMembershipCronNotifications extends ilCronJob
 		ksort($tmp);
 		$counter = 0;
 		$obj_index = array();
+		$txt = "";
 		foreach($tmp as $path => $item)
 		{			
 			$counter++;
 			
-			$txt .= $counter." ".$item["title"]."\n".
+			$txt .= "(".$counter.") ".$item["title"]."\n".
 				$item["url"]."\n\n".
 				$item["news"]."\n\n";
 			
-			$obj_index[] = $counter." ".$item["title"];
+			$obj_index[] = "(".$counter.") ".$item["title"];
 		}				
 		
-		$intro = $lng->txt("crs_intro_course_group_notification_for")."\n".
-			sprintf(
-				$lng->txt("crs_intro_course_group_notification_period"), 
-				ilDatePresentation::formatDate(new ilDateTime($a_last_run, IL_CAL_DATETIME)),
-				ilDatePresentation::formatDate(new ilDateTime(time(), IL_CAL_UNIX))
-			);		
+		$ntf->setIntroductionLangId("crs_intro_course_group_notification_for");
 		
-		$ntf->setIntroductionDirect($intro);
-		$ntf->addAdditionalInfo("crs_intro_course_group_notification_index", 
+		// index
+		$period = sprintf(
+			$lng->txt("crs_intro_course_group_notification_index"), 
+			ilDatePresentation::formatDate(new ilDateTime($a_last_run, IL_CAL_DATETIME)),
+			ilDatePresentation::formatDate(new ilDateTime(time(), IL_CAL_UNIX))
+		);				
+		$ntf->addAdditionalInfo($period, 
 			trim(implode("\n", $obj_index)),
+			true,
 			true);
+		
+		// object list
 		$ntf->addAdditionalInfo("", 
 			trim($txt), 
 			true);

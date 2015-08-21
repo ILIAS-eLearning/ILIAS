@@ -575,21 +575,31 @@ class ilMembershipNotifications
 			
 			// set current mode
 			$current_mode = $noti->getMode();
-			switch($current_mode)
+			$has_changeable_cb = ($noti->isValidMode(self::MODE_ALL_BLOCKED) &&
+				$noti->isValidMode(self::MODE_ALL));			
+			if(!$has_changeable_cb)
 			{
-				case self::MODE_ALL:
-					if($noti->isValidMode(self::MODE_ALL_BLOCKED))
-					{
+				$force_noti->setValue($current_mode);
+			}
+			else 
+			{
+				switch($current_mode)
+				{
+					case self::MODE_SELF:
+						$force_noti->setValue($current_mode);
+						$changeable->setChecked(true); // checked as "default" on selection of parent
+						break;
+					
+					case self::MODE_ALL_BLOCKED:
+						$force_noti->setValue($current_mode);
+						break;
+					
+					case self::MODE_ALL:
 						$force_noti->setValue(self::MODE_ALL_BLOCKED);
 						$changeable->setChecked(true);
 						break;
-					}
-					// fallthrough
-			
-				default:
-					$force_noti->setValue($current_mode);
-					break;
-			}						
+				}				
+			}					
 		}
 	}
 	
@@ -604,21 +614,32 @@ class ilMembershipNotifications
 		if(self::isActive() &&
 			$a_ref_id)
 		{			
+			$noti = new self($a_ref_id);
+			$has_changeable_cb = ($noti->isValidMode(self::MODE_ALL_BLOCKED) &&
+				$noti->isValidMode(self::MODE_ALL));
+			$changeable = null;
 			if(!$a_form)
 			{
 				$mode = (int)$_POST["force_noti"];
-				$changeable = (int)$_POST["force_noti_allblk"];
+				if($has_changeable_cb)
+				{
+					$changeable = (int)$_POST["force_noti_allblk"];
+				}
 			}
 			else
 			{
 				$mode = $a_form->getInput("force_noti");
-				$changeable = $a_form->getInput("force_noti_allblk");
+				if($has_changeable_cb)
+				{
+					$changeable = $a_form->getInput("force_noti_allblk");
+				}
 			}							
-			if($changeable)
+			// checkbox (all) is subitem of all_blocked
+			if($changeable &&
+				$mode == self::MODE_ALL_BLOCKED)
 			{
 				$mode = self::MODE_ALL;
-			}
-			$noti = new self($a_ref_id);
+			}			
 			$noti->switchMode($mode);			
 		}
 	}

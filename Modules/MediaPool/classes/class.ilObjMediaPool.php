@@ -21,6 +21,7 @@ require_once("./Modules/MediaPool/classes/class.ilMediaPoolItem.php");
 class ilObjMediaPool extends ilObject
 {
 	var $tree;
+	var $for_translation = 0;
 
 	/**
 	* Constructor
@@ -74,7 +75,27 @@ class ilObjMediaPool extends ilObject
 	{
 		return $this->default_height;
 	}
-	
+
+	/**
+	 * Set for translation
+	 *
+	 * @param bool $a_val lm has been imported for translation purposes
+	 */
+	function setForTranslation($a_val)
+	{
+		$this->for_translation = $a_val;
+	}
+
+	/**
+	 * Get for translation
+	 *
+	 * @return bool lm has been imported for translation purposes
+	 */
+	function getForTranslation()
+	{
+		return $this->for_translation;
+	}
+
 	/**
 	* Read pool data
 	*/
@@ -91,6 +112,7 @@ class ilObjMediaPool extends ilObject
 		{
 			$this->setDefaultWidth($rec["default_width"]);
 			$this->setDefaultHeight($rec["default_height"]);
+			$this->setForTranslation($rec["for_translation"]);
 		}
 		$this->tree = ilObjMediaPool::getPoolTree($this->getId());
 	}
@@ -122,10 +144,11 @@ class ilObjMediaPool extends ilObject
 		parent::create();
 
 		$ilDB->manipulate("INSERT INTO mep_data ".
-			"(id, default_width, default_height) VALUES (".
+			"(id, default_width, default_height, for_translation) VALUES (".
 			$ilDB->quote($this->getId(), "integer").", ".
 			$ilDB->quote($this->getDefaultWidth(), "integer").", ".
-			$ilDB->quote($this->getDefaultHeight(), "integer").
+			$ilDB->quote($this->getDefaultHeight(), "integer").", ".
+			$ilDB->quote($this->getForTranslation(), "integer").
 			")");
 
 		$this->createMepTree();
@@ -173,7 +196,8 @@ class ilObjMediaPool extends ilObject
 		// put here object specific stuff
 		$ilDB->manipulate("UPDATE mep_data SET ".
 			" default_width = ".$ilDB->quote($this->getDefaultWidth(), "integer").",".
-			" default_height = ".$ilDB->quote($this->getDefaultHeight(), "integer").
+			" default_height = ".$ilDB->quote($this->getDefaultHeight(), "integer").",".
+			" for_translation = ".$ilDB->quote($this->getForTranslation(), "integer")." ".
 			" WHERE id = ".$ilDB->quote($this->getId(), "integer")
 			);
 
@@ -713,6 +737,23 @@ class ilObjMediaPool extends ilObject
 			$this->copyTreeContent($a_new_obj, $item->getId(), $node["child"]);
 		}
 	}
-	
+
+	/**
+	 * Export
+	 *
+	 * @param
+	 */
+	function exportXML($a_master_only = false)
+	{
+		if ($a_master_only)
+		{
+			include_once("./Services/Export/classes/class.ilExport.php");
+			$exp = new ilExport();
+			$conf = $exp->getConfig("Modules/MediaPool");
+			$conf->setMasterLanguageOnly(true);
+			$exp->exportObject($this->getType(),$this->getId(), "4.4.0");
+		}
+	}
+
 }
 ?>

@@ -21,9 +21,9 @@ class ilCronManagerTableGUI extends ilTable2GUI
 	{
 		global $ilCtrl, $lng;
 		
-		parent::__construct($a_parent_obj, $a_parent_cmd);
+		$this->setId("crnmng"); // #14526 / #16391
 		
-		$this->setId("crnmng"); // #14526
+		parent::__construct($a_parent_obj, $a_parent_cmd);
 		
 		$this->addColumn("", "", 1);
 		$this->addColumn($this->lng->txt("cron_job_id"), "title");

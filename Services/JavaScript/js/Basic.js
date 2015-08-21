@@ -272,6 +272,16 @@ il.Util = {
 				window.print();
 			}
 		}
+	},
+
+	// see http://stackoverflow.com/questions/1144783/replacing-all-occurrences-of-a-string-in-javascript
+	escapeRegExp: function (string) {
+		return string.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
+	},
+
+	// see http://stackoverflow.com/questions/1144783/replacing-all-occurrences-of-a-string-in-javascript
+	replaceAll: function (string, find, replace) {
+		return string.replace(new RegExp(il.Util.escapeRegExp(find), 'g'), replace);
 	}
 }
 

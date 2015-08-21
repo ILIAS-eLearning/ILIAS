@@ -345,6 +345,34 @@ class ilObjBookingPool extends ilObject
 	{
 		return $this->overall_limit;
 	}
+	
+	
+	//
+	// advanced metadata
+	// 
+	
+	public static function getAdvancedMDFields($a_glossary_id)
+	{	
+		$fields = array();
+		
+		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
+		$recs = ilAdvancedMDRecord::_getSelectedRecordsByObject("book", $a_glossary_id, "bobj");
+
+		foreach($recs as $record_obj)
+		{
+			include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
+			foreach (ilAdvancedMDFieldDefinition::getInstancesByRecordId($record_obj->getRecordId()) as $def)
+			{
+				$fields[$def->getFieldId()] = array(
+					"id" => $def->getFieldId(),
+					"title" => $def->getTitle(),
+					"type" => $def->getType()
+				);
+			}
+		}
+
+		return $fields;
+	}
 }
 
 ?>

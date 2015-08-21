@@ -42,6 +42,8 @@ class ilLPObjSettings
 	const LP_MODE_QUESTIONS = 17;
 	const LP_MODE_SURVEY_FINISHED = 18;
 	const LP_MODE_VISITED_PAGES = 19;
+	const LP_MODE_DOWNLOADED = 20;
+	const LP_MODE_COLLECTION_MOBS = 21;
 
 	const LP_DEFAULT_VISITS = 30; // ???
 	
@@ -105,6 +107,12 @@ class ilLPObjSettings
 		
 		,self::LP_MODE_VISITED_PAGES => array('ilLPStatusVisitedPages', 
 			'trac_mode_visited_pages', 'trac_mode_visited_pages_info') 
+		
+		,self::LP_MODE_DOWNLOADED => array('ilLPStatusDownloaded', 
+			'trac_mode_downloaded', 'trac_mode_downloaded_info')
+		
+		,self::LP_MODE_COLLECTION_MOBS => array('ilLPStatusCollectionMobs', 
+			'trac_mode_collection_mobs', 'trac_mode_collection_mobs_info')
 	);
 
 	function ilLPObjSettings($a_obj_id)

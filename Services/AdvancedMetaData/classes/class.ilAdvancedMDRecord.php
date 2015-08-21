@@ -169,6 +169,7 @@ class ilAdvancedMDRecord
 			$types[] = $at;
 		}
 
+		sort($types);
 		return $types;
 	}
 	
@@ -268,6 +269,9 @@ class ilAdvancedMDRecord
 		{
 			$query .= " AND optional =".$ilDB->quote(1, 'integer');
 		}
+		
+		// #16428
+		$query .= "ORDER by parent_obj DESC, record_id";
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))

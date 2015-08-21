@@ -8717,10 +8717,10 @@ if($blog_type_id)
 <#4623>
 <?php
 
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
 $redact_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('redact');
 if($redact_ops_id)
 {
-	include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
 	ilDBUpdateNewObjectType::addRBACTemplate('blog', 'il_blog_editor', 'Editor template for blogs', 
 		array(
 			ilDBUpdateNewObjectType::RBAC_OP_VISIBLE,
@@ -8759,6 +8759,417 @@ if (!$ilDB->tableColumnExists('adv_md_record', 'parent_obj'))
 	
 ?>
 <#4626>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#4627>
+<?php
+	if (!$ilDB->tableExists("copg_section_timings"))
+	{
+		$fields = array (
+			'pm_id'    => array ('type' => 'integer', 'length'  => 4,'notnull' => true, 'default' => 0),
+			'pm_title'   => array ('type' => 'text', 'notnull' => true, 'length' => 60, 'fixed' => false),
+			'pm_enabled'    => array ('type' => 'integer', 'length'  => 1,"notnull" => true,"default" => 0),
+			'save_usr_adr'  => array ('type' => 'integer', 'length'  => 1,"notnull" => true,"default" => 0)
+		);
+
+
+		$fields = array(
+			"page_id" => array (
+				"type" => "integer",
+				"length" => 4,
+				"notnull" => true
+			),
+			"parent_type" => array (
+				"type" => "text",
+				"length" => 10,
+				"notnull" => true
+			),
+			"utc_ts" => array (
+				"type" => "timestamp",
+				"notnull" => true
+			)
+		);
+
+		$ilDB->createTable("copg_section_timings", $fields);
+	}
+?>
+<#4628>
+<?php
+	$ilDB->dropTableColumn("copg_section_timings", "utc_ts");
+	$ilDB->addTableColumn('copg_section_timings', 'unix_ts',
+		array(
+			"type"    => "integer",
+			"notnull" => true,
+			"length"  => 4,
+			"default" => 0
+		)
+	);
+?>
+<#4629>
+<?php
+if(!$ilDB->tableColumnExists('skl_user_skill_level', 'unique_identifier'))
+{
+    $ilDB->addTableColumn('skl_user_skill_level', 'unique_identifier', array(
+        'type' => 'text',
+        'length' => 80,
+        'notnull' => false
+    ));
+}
+?>
+<#4630>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#4631>
+<?php
+	if (!$ilDB->tableColumnExists('crs_settings', 'crs_start'))
+	{
+		$ilDB->addTableColumn('crs_settings', 'crs_start', array(
+			"type" => "integer",
+			"notnull" => false,
+			"length" => 4
+		));
+	}
+	if (!$ilDB->tableColumnExists('crs_settings', 'crs_end'))
+	{
+		$ilDB->addTableColumn('crs_settings', 'crs_end', array(
+			"type" => "integer",
+			"notnull" => false,
+			"length" => 4
+		));
+	}
+?>
+<#4632>
+<?php
+	if (!$ilDB->tableColumnExists('crs_settings', 'leave_end'))
+	{
+		$ilDB->addTableColumn('crs_settings', 'leave_end', array(
+			"type" => "integer",
+			"notnull" => false,
+			"length" => 4
+		));
+	}
+?>
+<#4633>
+<?php
+	if (!$ilDB->tableColumnExists('crs_settings', 'auto_wait'))
+	{
+		$ilDB->addTableColumn('crs_settings', 'auto_wait', array(
+			"type" => "integer",
+			"notnull" => true,
+			"length" => 1,
+			"default" => 0
+		));
+	}
+?>
+<#4634>
+<?php
+	if (!$ilDB->tableColumnExists('crs_settings', 'min_members'))
+	{
+		$ilDB->addTableColumn('crs_settings', 'min_members', array(
+			"type" => "integer",
+			"notnull" => false,
+			"length" => 2
+		));
+	}
+?>
+<#4635>
+<?php
+	if (!$ilDB->tableColumnExists('grp_settings', 'registration_min_members'))
+	{
+		$ilDB->addTableColumn('grp_settings', 'registration_min_members', array(
+			"type" => "integer",
+			"notnull" => false,
+			"length" => 2
+		));
+	}
+?>
+<#4636>
+<?php
+	if (!$ilDB->tableColumnExists('grp_settings', 'leave_end'))
+	{
+		$ilDB->addTableColumn('grp_settings', 'leave_end', array(
+			"type" => "integer",
+			"notnull" => false,
+			"length" => 4
+		));
+	}
+?>
+<#4637>
+<?php
+	if (!$ilDB->tableColumnExists('grp_settings', 'auto_wait'))
+	{
+		$ilDB->addTableColumn('grp_settings', 'auto_wait', array(
+			"type" => "integer",
+			"notnull" => true,
+			"length" => 1,
+			"default" => 0
+		));
+	}
+?>
+<#4638>
+<?php
+	if (!$ilDB->tableColumnExists('event', 'reg_min_users'))
+	{
+		$ilDB->addTableColumn('event', 'reg_min_users', array(
+			"type" => "integer",
+			"notnull" => false,
+			"length" => 2
+		));
+	}
+?>
+<#4639>
+<?php
+	if (!$ilDB->tableColumnExists('event', 'reg_auto_wait'))
+	{
+		$ilDB->addTableColumn('event', 'reg_auto_wait', array(
+			"type" => "integer",
+			"notnull" => true,
+			"length" => 1,
+			"default" => 0
+		));
+	}
+?>
+<#4640>
+<?php
+if(!$ilDB->tableExists('mail_man_tpl'))
+{
+	$ilDB->createTable('mail_man_tpl', array(
+		'tpl_id'    => array(
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'title'     => array(
+			'type'    => 'text',
+			'length'  => 255,
+			'notnull' => true
+		),
+		'context'   => array(
+			'type'    => 'text',
+			'length'  => 100,
+			'notnull' => true
+		),
+		'lang'      => array(
+			'type'    => 'text',
+			'length'  => 2,
+			'notnull' => true
+		),
+		'm_subject' => array(
+			'type'    => 'text',
+			'length'  => 255,
+			'notnull' => false,
+			'default' => null
+		),
+		'm_message' => array(
+			'type'    => 'clob',
+			'notnull' => false,
+			'default' => null
+		)
+	));
+
+	$ilDB->addPrimaryKey('mail_man_tpl', array('tpl_id'));
+	$ilDB->createSequence('mail_man_tpl');
+}
+?>
+<#4641>
+<?php
+if(!$ilDB->tableExists('mail_tpl_ctx'))
+{
+	$ilDB->createTable('mail_tpl_ctx', array(
+		'id'             => array(
+			'type'    => 'text',
+			'length'  => 100,
+			'notnull' => true
+		),
+		'component'      => array(
+			'type'    => 'text',
+			'length'  => 100,
+			'notnull' => true
+		),
+		'class' => array(
+			'type'    => 'text',
+			'length'  => 100,
+			'notnull' => true
+		),
+		'path'           => array(
+			'type'    => 'text',
+			'length'  => 4000,
+			'notnull' => false,
+			'default' => null
+		)
+	));
+	$ilDB->addPrimaryKey('mail_tpl_ctx', array('id'));
+}
+?>
+<#4642>
+<?php
+$ilDB->addIndex('mail_man_tpl', array('context'), 'i1');
+?>
+<#4643>
+<?php
+if(!$ilDB->tableColumnExists('mail_saved', 'tpl_ctx_id'))
+{
+	$ilDB->addTableColumn(
+		'mail_saved',
+		'tpl_ctx_id',
+		array(
+			'type'    => 'text',
+			'length'  => '100',
+			'notnull' => false,
+			'default' => null
+		)
+	);
+}
+
+if(!$ilDB->tableColumnExists('mail_saved', 'tpl_ctx_params'))
+{
+	$ilDB->addTableColumn(
+		'mail_saved',
+		'tpl_ctx_params',
+		array(
+			'type'    => 'blob',
+			'notnull' => false,
+			'default' => null
+		)
+	);
+}
+?>
+<#4644>
+<?php
+if(!$ilDB->tableColumnExists('mail', 'tpl_ctx_id'))
+{
+	$ilDB->addTableColumn(
+		'mail',
+		'tpl_ctx_id',
+		array(
+			'type'    => 'text',
+			'length'  => '100',
+			'notnull' => false,
+			'default' => null
+		)
+	);
+}
+
+if(!$ilDB->tableColumnExists('mail', 'tpl_ctx_params'))
+{
+	$ilDB->addTableColumn(
+		'mail',
+		'tpl_ctx_params',
+		array(
+			'type'    => 'blob',
+			'notnull' => false,
+			'default' => null
+		)
+	);
+}
+?>
+<#4645>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#4646>
+<?php
+if(!$ilDB->tableExists('itgr_data'))
+{
+	$ilDB->createTable('itgr_data', array(
+		'id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'hide_title' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		)
+	));
+
+	$ilDB->addPrimaryKey('itgr_data',array('id'));
+}
+?>
+<#4647>
+<?php
+$set = $ilDB->query("SELECT * FROM object_data ".
+	" WHERE type = ".$ilDB->quote("itgr", "text")
+	);
+while ($rec = $ilDB->fetchAssoc($set))
+{
+	$ilDB->manipulate("INSERT INTO itgr_data ".
+		"(id, hide_title) VALUES (".
+		$ilDB->quote($rec["obj_id"], "integer").",".
+		$ilDB->quote(0, "integer").
+		")");
+}
+?>
+<#4648>
+<?php
+$ilDB->query('ALTER TABLE il_dcl_record_field ADD INDEX (record_id)');
+$ilDB->query('ALTER TABLE il_dcl_record_field ADD INDEX (field_id)');
+$ilDB->query('ALTER TABLE il_dcl_record ADD INDEX (table_id)');
+$ilDB->query('ALTER TABLE il_dcl_stloc1_value ADD INDEX (record_field_id)');
+$ilDB->query('ALTER TABLE il_dcl_stloc2_value ADD INDEX (record_field_id)');
+$ilDB->query('ALTER TABLE il_dcl_stloc3_value ADD INDEX (record_field_id)');
+$ilDB->query('ALTER TABLE il_dcl_field ADD INDEX (table_id)');
+$ilDB->query('ALTER TABLE il_dcl_field_prop ADD INDEX (field_id)');
+$ilDB->query('ALTER TABLE il_dcl_field_prop ADD INDEX (datatype_prop_id)');
+$ilDB->query('ALTER TABLE il_dcl_viewdefinition ADD INDEX (view_id)');
+$ilDB->query('ALTER TABLE il_dcl_view ADD INDEX (table_id)');
+$ilDB->query('ALTER TABLE il_dcl_view ADD INDEX (type)');
+$ilDB->query('ALTER TABLE il_dcl_data ADD INDEX (main_table_id)');
+$ilDB->query('ALTER TABLE il_dcl_table ADD INDEX (obj_id)');
+?>
+<#4649>
+<?php
+if (!$ilDB->tableColumnExists("content_object", "for_translation"))
+{
+	$ilDB->addTableColumn("content_object", "for_translation", array(
+		"type" => "integer",
+		"notnull" => true,
+		"length" => 1,
+		"default" => 0));
+}
+?>
+<#4650>
+<?php
+$set = $ilDB->query("SELECT * FROM mep_item JOIN mep_tree ON (mep_item.obj_id = mep_tree.child) ".
+	" WHERE mep_item.type = ".$ilDB->quote("pg", "text")
+	);
+while ($rec = $ilDB->fetchAssoc($set))
+{
+	$q = "UPDATE page_object SET ".
+		" parent_id = ".$ilDB->quote($rec["mep_id"], "integer").
+		" WHERE parent_type = ".$ilDB->quote("mep", "text").
+		" AND page_id = ".$ilDB->quote($rec["obj_id"], "integer");
+	//echo "<br>".$q;
+	$ilDB->manipulate($q);
+}
+?>
+<#4651>
+<?php
+if (!$ilDB->tableColumnExists("mep_data", "for_translation"))
+{
+	$ilDB->addTableColumn("mep_data", "for_translation", array(
+		"type" => "integer",
+		"notnull" => true,
+		"length" => 1,
+		"default" => 0));
+}
+?>
+<#4652>
+<?php
+if (!$ilDB->tableColumnExists("mep_item", "import_id"))
+{
+	$ilDB->addTableColumn("mep_item", "import_id", array(
+		"type" => "text",
+		"notnull" => false,
+		"length" => 50));
+}
+?>
+<#4653>
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>

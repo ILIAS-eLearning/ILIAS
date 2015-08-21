@@ -81,6 +81,11 @@ function ilInitMap(id, latitude, longitude, zoom, type_control,
 	}
 
 	ilMap[id] = map;
+	
+	// if map is in subform we have to redraw on subform activation
+	$("#"+id).closest("form").on("subform_activated", function() {
+		google.maps.event.trigger(map, 'resize');
+	});
 }
 
 /**

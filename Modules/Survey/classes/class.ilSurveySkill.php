@@ -389,9 +389,7 @@ class ilSurveySkill
 			}
 		}
 
-		// patch optes start
-		// write self evaluation,
-		/*
+		// write self evaluation
 		$new_levels = $this->determineSkillLevelsForAppraisee($a_app_id, true);
 		foreach ($new_levels as $nl)
 		{
@@ -400,8 +398,7 @@ class ilSurveySkill
 				ilBasicSkill::writeUserSkillLevelStatus($nl["new_level_id"],
 					$a_app_id, $this->survey->getRefId(), $nl["tref_id"], ilBasicSkill::ACHIEVED, true, 1);
 			}
-		}*/
-		// patch optes end
+		}
 	}
 	
 }

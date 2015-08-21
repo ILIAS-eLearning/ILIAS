@@ -12,6 +12,7 @@ require_once "./Services/Object/classes/class.ilObjectGUI.php";
 * 
 * @ilCtrl_Calls ilObjMediaCastGUI: ilPermissionGUI, ilInfoScreenGUI, ilExportGUI
 * @ilCtrl_Calls ilObjMediaCastGUI: ilCommonActionDispatcherGUI
+* @ilCtrl_Calls ilObjMediaCastGUI: ilLearningProgressGUI
 * @ilCtrl_IsCalledBy ilObjMediaCastGUI: ilRepositoryGUI, ilAdministrationGUI
 */
 class ilObjMediaCastGUI extends ilObjectGUI
@@ -91,6 +92,18 @@ class ilObjMediaCastGUI extends ilObjectGUI
 				include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
 				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
 				$this->ctrl->forwardCommand($gui);
+				break;
+			
+			case "illearningprogressgui":
+				$ilTabs->activateTab('learning_progress');
+				require_once 'Services/Tracking/classes/class.ilLearningProgressGUI.php';
+				$new_gui =& new ilLearningProgressGUI(
+					ilLearningProgressGUI::LP_CONTEXT_REPOSITORY,
+					$this->object->getRefId(),
+					$_GET['user_id'] ? $_GET['user_id'] : $ilUser->getId()
+				);
+				$this->ctrl->forwardCommand($new_gui);
+				$this->tabs_gui->setTabActive('learning_progress');
 				break;
 		
 			default:
@@ -941,6 +954,11 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		{
 			$ilCtrl->redirect($this, "listItems");
 		}
+		else
+		{
+			global $ilUser;
+			$this->object->handleLPUpdate($ilUser->getId(), $news_item->getMobId());
+		}
 		exit;
 	}
 	
@@ -1069,6 +1087,16 @@ class ilObjMediaCastGUI extends ilObjectGUI
 			$ilTabs->addTab("id_settings",
 				$lng->txt("settings"),
 				$this->ctrl->getLinkTarget($this, "editSettings"));
+		}
+		
+		require_once 'Services/Tracking/classes/class.ilLearningProgressAccess.php';
+		if(ilLearningProgressAccess::checkAccess($this->object->getRefId()))
+		{
+			$ilTabs->addTab(
+				'learning_progress',
+				$lng->txt('learning_progress'),
+				$this->ctrl->getLinkTargetByClass(array(__CLASS__, 'illearningprogressgui'),'')
+			);
 		}
 
 		// export
@@ -1475,6 +1503,13 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	 */
 	function showContentObject()
 	{
+		global $ilUser;
+		
+		// need read events for parent for LP statistics
+		require_once 'Services/Tracking/classes/class.ilChangeEvent.php';						
+		ilChangeEvent::_recordReadEvent("mcst", $this->object->getRefId(),
+			$this->object->getId(), $ilUser->getId());		
+		
 		if ($this->object->getViewMode() == ilObjMediaCast::VIEW_GALLERY)
 		{
 			$this->showGallery();
@@ -1708,6 +1743,13 @@ class ilObjMediaCastGUI extends ilObjectGUI
 			include_once("./Services/News/classes/class.ilNewsItem.php");
 			$item = new ilNewsItem($news_id);
 			$item->increasePlayCounter();
+			
+			$mob_id = $item->getMobId();
+			if($mob_id)
+			{						
+				global $ilUser;
+				$this->object->handleLPUpdate($ilUser->getId(), $mob_id);
+			}
 		}
 		exit;
 	}

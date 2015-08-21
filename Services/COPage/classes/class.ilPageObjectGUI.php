@@ -1664,7 +1664,9 @@ return;
 			: ilPlayerUtil::getFlashVideoPlayerFilename(true);
 			
 		$cfg = $this->getPageConfig();
-		
+
+		$current_ts = time();
+
 		// added UTF-8 encoding otherwise umlaute are converted too
 		include_once("./Services/Maps/classes/class.ilMapUtil.php");
 		$params = array ('mode' => $this->getOutputMode(), 'pg_title' => htmlentities($pg_title,ENT_QUOTES,"UTF-8"),
@@ -1713,7 +1715,8 @@ return;
 						 'enable_consultation_hours' =>  $cfg->getEnablePCType("ConsultationHours") ? "y" : "n",
 						 'enable_my_courses' =>  $cfg->getEnablePCType("MyCourses") ? "y" : "n",
 						 'enable_amd_page_list' =>  $cfg->getEnablePCType("AMDPageList") ? "y" : "n",
-						 'flv_video_player' => $flv_video_player
+						 'flv_video_player' => $flv_video_player,
+						 'current_ts' => $current_ts
 						);
 		if($this->link_frame != "")		// todo other link types
 			$params["pg_frame"] = $this->link_frame;
@@ -1725,8 +1728,13 @@ return;
 		// ensure no cache hit, if included files/media objects have been changed
 		$params["incl_elements_date"] = $this->obj->getLastUpdateOfIncludedElements();
 
+
+		// should be modularized
+		include_once("./Services/COPage/classes/class.ilPCSection.php");
+		$md5_adds = ilPCSection::getCacheTriggerString($this->getPageObject());
+
 		// run xslt
-		$md5 = md5(serialize($params).$link_xml.$template_xml);
+		$md5 = md5(serialize($params).$link_xml.$template_xml.$md5_adds);
 		
 //$a = microtime();
 		
@@ -2603,13 +2611,13 @@ return;
 			$param = substr($a_html, $start + 20, $end - $start - 20);
 			$param = explode(";", $param);
 
-			if ($param[0] == "mep" && is_numeric($param[1]) && $param[2] <= 0)
+			if ($param[0] == "mep" && is_numeric($param[1]))
 			{
 				include_once("./Modules/MediaPool/classes/class.ilMediaPoolPageGUI.php");
 
-				if (ilMediaPoolPage::_exists($param[1]))
+				if (($param[2] <= 0 || $param[2] == IL_INST_ID) && ilMediaPoolPage::_exists($param[1]))
 				{
-					$page_gui = new ilMediaPoolPageGUI($param[1], 0, true, "-");
+					$page_gui = new ilMediaPoolPageGUI($param[1], 0, true, $this->getLanguage());
 					if ($this->getOutputMode() != "offline")
 					{
 						$page_gui->setFileDownloadLink($this->determineFileDownloadLink());
@@ -2627,7 +2635,14 @@ return;
 				{
 					if ($this->getOutputMode() == "edit")
 					{
-						$html = "// ".$lng->txt("cont_missing_snippet")." //";
+						if ($param[2] <= 0)
+						{
+							$html = "// ".$lng->txt("cont_missing_snippet")." //";
+						}
+						else
+						{
+							$html = "// ".$lng->txt("cont_snippet_from_another_installation")." //";
+						}
 					}
 				}
 				$h2 = substr($a_html, 0, $start).
@@ -2636,6 +2651,7 @@ return;
 				$a_html = $h2;
 				$i++;
 			}
+
 			$start = strpos($a_html, "{{{{{ContentInclude;", $start + 5);
 			$end = 0;
 			if (is_int($start))
@@ -3704,7 +3720,11 @@ return;
 		global $ilCtrl;
 		
 		$l = ilUtil::stripSlashes($_GET["totransl"]);
-		$this->getPageObject()->copyPageToTranslation($l);
+
+		include_once("./Services/COPage/classes/class.ilPageObjectFactory.php");
+		$p = ilPageObjectFactory::getInstance($this->getPageObject()->getParentType(),
+			$this->getPageObject()->getId(), 0, "-");
+		$p->copyPageToTranslation($l);
 		$ilCtrl->setParameter($this, "transl", $l);
 		$ilCtrl->redirect($this, "edit");
 	}

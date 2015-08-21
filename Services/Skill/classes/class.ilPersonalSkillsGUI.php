@@ -1441,7 +1441,7 @@ $bs["tref"] = $bs["tref_id"];
 	 */
 	function renderObjectEvalRow($a_tpl, $a_levels, $a_level_entry)
 	{
-		global $lng;
+		global $lng, $ilAccess;
 
 		$se_level = $a_level_entry["level_id"];
 		
@@ -1489,6 +1489,13 @@ $bs["tref"] = $bs["tref_id"];
 			$title = ($a_level_entry["trigger_obj_id"] > 0 && $a_level_entry["self_eval"] == 1)
 				? $a_level_entry["trigger_title"]." (".$lng->txt("skmg_self_evaluation").")"
 				: $a_level_entry["trigger_title"];
+		}
+
+		if ($a_level_entry["trigger_ref_id"] > 0
+			&& $ilAccess->checkAccess("read", "", $a_level_entry["trigger_ref_id"]))
+		{
+			include_once("./Services/Link/classes/class.ilLink.php");
+			$title = "<a href='".ilLink::_getLink($a_level_entry["trigger_ref_id"])."'>".$title."</a>";
 		}
 
 		$a_tpl->setVariable("TXT_VAL_TITLE", $title.

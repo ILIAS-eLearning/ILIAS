@@ -420,5 +420,40 @@ class ilPCMediaObject extends ilPageContent
 		return $usages;
 	}
 
+	/**
+	 * Modify page content after xsl
+	 *
+	 * @param string $a_output
+	 * @return string
+	 */
+	function modifyPageContentPostXsl($a_html, $a_mode)
+	{
+		global $ilUser;
+
+		if ($a_mode == "offline")
+		{
+			$page = $this->getPage();
+
+			$mob_ids = ilObjMediaObject::_getMobsOfObject(
+				$page->getParentType().":pg", $page->getId(), 0, $page->getLanguage());
+			foreach ($mob_ids as $mob_id)
+			{
+				$mob = new ilObjMediaObject($mob_id);
+				$srts = $mob->getSrtFiles();
+				foreach ($srts as $srt)
+				{
+					if ($ilUser->getLanguage() == $srt["language"])
+					{
+						$srt_content = file_get_contents(ilObjMediaObject::_getDirectory($mob->getId())."/".$srt["full_path"]);
+						$a_html = str_replace("[[[[[mobsubtitle;il__mob_".$mob->getId()."_Standard]]]]]", $srt_content, $a_html);
+					}
+				}
+			}
+		}
+
+		return $a_html;
+	}
+
+
 }
 ?>

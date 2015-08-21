@@ -29,9 +29,10 @@ class ilObjSession extends ilObject
 	
 	protected $reg_type = ilMembershipRegistrationSettings::TYPE_NONE;
 	protected $reg_limited = 0;
+	protected $reg_min_users = 0;
 	protected $reg_limited_users = 0;
 	protected $reg_waiting_list = 0;
-
+	protected $reg_waiting_list_autofill; // [bool]
 
 	protected $appointments;
 	protected $files = array();
@@ -276,6 +277,16 @@ class ilObjSession extends ilObject
 		$this->reg_limited = $a_limit;
 	}
 	
+	public function getRegistrationMinUsers()
+	{
+		return $this->reg_min_users;
+	}
+	
+	public function setRegistrationMinUsers($a_users)
+	{
+		$this->reg_min_users = $a_users;
+	}
+	
 	public function getRegistrationMaxUsers()
 	{
 		return $this->reg_limited_users;
@@ -296,7 +307,15 @@ class ilObjSession extends ilObject
 		$this->reg_waiting_list = $a_stat;
 	}
 	
+	public function setWaitingListAutoFill($a_value)
+	{
+		$this->reg_waiting_list_autofill = (bool)$a_value;
+	}
 	
+	public function hasWaitingListAutoFill()
+	{
+		return (bool)$this->reg_waiting_list_autofill;
+	}
 	
 	/**
 	 * is registration enabled
@@ -441,6 +460,8 @@ class ilObjSession extends ilObject
 		$new_obj->setRegistrationType($this->getRegistrationType());
 		$new_obj->enableRegistrationUserLimit($this->isRegistrationUserLimitEnabled());
 		$new_obj->enableRegistrationWaitingList($this->isRegistrationWaitingListEnabled());
+		$new_obj->setWaitingListAutoFill($this->hasWaitingListAutoFill());
+		$new_obj->setRegistrationMinUsers($this->getRegistrationMinUsers());
 		$new_obj->setRegistrationMaxUsers($this->getRegistrationMaxUsers());
 		
 		$new_obj->update();
@@ -486,7 +507,7 @@ class ilObjSession extends ilObject
 		
 		$next_id = $ilDB->nextId('event');
 		$query = "INSERT INTO event (event_id,obj_id,location,tutor_name,tutor_phone,tutor_email,details,registration, ".
-			'reg_type, reg_limit_users, reg_limited,reg_waiting_list) '.
+			'reg_type, reg_limit_users, reg_limited, reg_waiting_list, reg_min_users, reg_auto_wait) '.
 			"VALUES( ".
 			$ilDB->quote($next_id,'integer').", ".
 			$this->db->quote($this->getId() ,'integer').", ".
@@ -499,7 +520,9 @@ class ilObjSession extends ilObject
 			$this->db->quote($this->getRegistrationType(),'integer').', '.
 			$this->db->quote($this->getRegistrationMaxUsers(),'integer').', '.
 			$this->db->quote($this->isRegistrationUserLimitEnabled(),'integer').', '.
-			$this->db->quote($this->isRegistrationWaitingListEnabled(),'integer').' '.
+			$this->db->quote($this->isRegistrationWaitingListEnabled(),'integer').', '.
+			$this->db->quote($this->getRegistrationMinUsers(),'integer').', '.
+			$this->db->quote($this->hasWaitingListAutoFill(),'integer').' '.
 			")";
 		$res = $ilDB->manipulate($query);
 		$this->event_id = $next_id;
@@ -539,7 +562,9 @@ class ilObjSession extends ilObject
 			"reg_type = ".$this->db->quote($this->getRegistrationType() ,'integer').", ".
 			"reg_limited = ".$this->db->quote($this->isRegistrationUserLimitEnabled() ,'integer').", ".
 			"reg_limit_users = ".$this->db->quote($this->getRegistrationMaxUsers() ,'integer').", ".
-			"reg_waiting_list = ".$this->db->quote($this->isRegistrationWaitingListEnabled(),'integer')." ".
+			"reg_min_users = ".$this->db->quote($this->getRegistrationMinUsers() ,'integer').", ".
+			"reg_waiting_list = ".$this->db->quote($this->isRegistrationWaitingListEnabled(),'integer').", ".
+			"reg_auto_wait = ".$this->db->quote($this->hasWaitingListAutoFill(),'integer')." ".
 			"WHERE obj_id = ".$this->db->quote($this->getId() ,'integer')." ";
 		$res = $ilDB->manipulate($query);
 		
@@ -619,7 +644,9 @@ class ilObjSession extends ilObject
 			$this->setRegistrationType($row->reg_type);
 			$this->enableRegistrationUserLimit($row->reg_limited);
 			$this->enableRegistrationWaitingList($row->reg_waiting_list);
+			$this->setWaitingListAutoFill($row->reg_auto_wait);
 			$this->setRegistrationMaxUsers($row->reg_limit_users);
+			$this->setRegistrationMinUsers($row->reg_min_users);
 			$this->event_id = $row->event_id;
 		}
 
@@ -690,6 +717,44 @@ class ilObjSession extends ilObject
 		}
 	}
 	
+	// :TODO: attach to unsubscribe event
+	// move to Services/Membership?
+	public function handleAutoFill()
+	{	
+		if($this->isRegistrationWaitingListEnabled() &&
+			$this->hasWaitingListAutoFill())
+		{
+			$max = $this->getRegistrationMaxUsers();
+			$now = ilSessionParticipants::lookupNumberOfMembers($this->getRefId());
+			if($max > $now)
+			{
+				// see assignFromWaitingListObject()
+				include_once('./Modules/Session/classes/class.ilSessionWaitingList.php');
+				$waiting_list = new ilSessionWaitingList($this->getId());
+
+				foreach($waiting_list->getUserIds() as $user_id)
+				{
+					if(!$tmp_obj = ilObjectFactory::getInstanceByObjId($user_id,false))
+					{
+						continue;
+					}
+					if($this->getMembersObject()->isAssigned($user_id))
+					{
+						continue;
+					}
+					$this->getMembersObject()->add($user_id,IL_CRS_MEMBER);
+					$this->getMembersObject()->sendNotification($this->getMembersObject()->NOTIFY_ACCEPT_USER,$user_id);
+					$waiting_list->removeFromList($user_id);
+
+					$now++;
+					if($now >= $max)
+					{
+						break;
+					}
+				}
+			}
+		}		
+	}
 }
 
 ?>

@@ -30,16 +30,13 @@ class ilContObjectExport
 	{
 		global $ilErr, $ilDB, $ilias;
 
-		$this->cont_obj =& $a_cont_obj;
+		$this->cont_obj = $a_cont_obj;
 
-		$this->err =& $ilErr;
-		$this->ilias =& $ilias;
-		$this->db =& $ilDB;
+		$this->err = $ilErr;
+		$this->db = $ilDB;
 		$this->mode = $a_mode;
 		$this->lang = $a_lang;
 
-		$settings = $this->ilias->getAllSettings();
-		//$this->inst_id = $settings["inst_id"];
 		$this->inst_id = IL_INST_ID;
 
 		$date = time();
@@ -91,7 +88,7 @@ class ilContObjectExport
 	*   @access public
 	*   @return
 	*/
-	function buildExportFile()
+	function buildExportFile($a_master_only = false)
 	{
 		switch ($this->mode)
 		{
@@ -108,7 +105,7 @@ class ilContObjectExport
 				break;
 
 			default:
-				return $this->buildExportFileXML();
+				return $this->buildExportFileXML($a_master_only);
 				break;
 		}
 	}
@@ -116,9 +113,19 @@ class ilContObjectExport
 	/**
 	* build xml export file
 	*/
-	function buildExportFileXML()
+	function buildExportFileXML($a_master_only = false)
 	{
 		global $ilBench;
+
+		if ($a_master_only)
+		{
+			include_once("./Services/Export/classes/class.ilExport.php");
+			$exp = new ilExport();
+			$conf = $exp->getConfig("Modules/LearningModule");
+			$conf->setMasterLanguageOnly(true);
+			$exp->exportObject($this->cont_obj->getType(),$this->cont_obj->getId(), "5.1.0");
+			return;
+		}
 
 		$ilBench->start("ContentObjectExport", "buildExportFile");
 

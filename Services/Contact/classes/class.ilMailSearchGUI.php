@@ -118,7 +118,9 @@ class ilMailSearchGUI
 			$mail_data["m_email"],
 			$mail_data["m_subject"],
 			$mail_data["m_message"],
-			$mail_data["use_placeholders"]
+			$mail_data["use_placeholders"],
+			$mail_data['tpl_ctx_id'],
+			$mail_data['tpl_ctx_params']
 		);
 	}
 	

@@ -115,25 +115,38 @@ class ilObjCourseGUI extends ilContainerGUI
 			));
 		}
 		
-
 		if (!count($_POST["member"]))
 		{
 			ilUtil::sendFailure($this->lng->txt("no_checkbox"));
 			$this->membersObject();
 			return false;
 		}
+		
 		foreach($_POST["member"] as $usr_id)
 		{
 			$rcps[] = ilObjUser::_lookupLogin($usr_id);
 		}
+		
         require_once 'Services/Mail/classes/class.ilMailFormCall.php';
-		ilUtil::redirect(ilMailFormCall::getRedirectTarget($this, 'members',
-			array(), 
-			array(
-				'type' => 'new', 
-				'rcp_to' => implode(',',$rcps),
-				'sig'	=> $this->createMailSignature()
-		)));
+		include_once './Modules/Course/classes/class.ilCourseMailTemplateTutorContext.php';
+		
+		ilUtil::redirect(
+			ilMailFormCall::getRedirectTarget(
+				$this, 
+				'members',
+				array(),
+				array(
+					'type'   => 'new',
+					'rcp_to' => implode(',',$rcps),
+					'sig' => $this->createMailSignature()
+				),
+				array(
+					ilMailFormCall::CONTEXT_KEY => ilCourseMailTemplateTutorContext::ID,
+					'ref_id' => $this->object->getRefId(),
+					'ts'     => time()
+				)
+			)
+		);		
 	}
 	
 	/**
@@ -386,13 +399,29 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 		if($this->object->getContactEmail())
 		{
+			include_once './Modules/Course/classes/class.ilCourseMailTemplateMemberContext.php';
             require_once 'Services/Mail/classes/class.ilMailFormCall.php';
+			
 			$emails = split(",",$this->object->getContactEmail());
 			foreach ($emails as $email) {
 				$email = trim($email);
 				$etpl = new ilTemplate("tpl.crs_contact_email.html", true, true , 'Modules/Course');
-                $etpl->setVariable("EMAIL_LINK", ilMailFormCall::getLinkTarget($info, 'showSummary', array(),
-					array('type' => 'new', 'rcp_to' => $email,'sig' => $this->createMailSignature())));
+				$etpl->setVariable(
+					"EMAIL_LINK",
+					ilMailFormCall::getLinkTarget(
+						$info, 'showSummary', array(),
+						array(
+							'type'   => 'new',
+							'rcp_to' => $email,
+							'sig' => $this->createMailSignature()
+						),
+						array(
+							ilMailFormCall::CONTEXT_KEY => ilCourseMailTemplateMemberContext::ID,
+							'ref_id' => $this->object->getRefId(),
+							'ts'     => time()
+						)
+					)
+				);              
 				$etpl->setVariable("CONTACT_EMAIL", $email);				
 				$mailString .= $etpl->get()."<br />";
 			}
@@ -472,14 +501,39 @@ class ilObjCourseGUI extends ilContainerGUI
 			}
 			if ($this->object->isSubscriptionMembershipLimited()) 
 			{
-				include_once './Services/Membership/classes/class.ilParticipants.php';
-				$info->addProperty(
-					$this->lng->txt("mem_free_places"),
-					max(
-						0,
-						$this->object->getSubscriptionMaxMembers() - ilParticipants::lookupNumberOfMembers($this->object->getRefId()))
-				);
+				if($this->object->getSubscriptionMinMembers())
+				{				
+					$info->addProperty(
+						$this->lng->txt("mem_min_users"),
+						$this->object->getSubscriptionMinMembers()
+					);
+				}		
+				if($this->object->getSubscriptionMaxMembers())
+				{
+					include_once './Services/Membership/classes/class.ilParticipants.php';
+					$info->addProperty(
+						$this->lng->txt("mem_free_places"),
+						max(
+							0,
+							$this->object->getSubscriptionMaxMembers() - ilParticipants::lookupNumberOfMembers($this->object->getRefId()))
+					);
+				}
 			}
+		}
+		
+		if($this->object->getCancellationEnd())
+		{		
+			$info->addProperty($this->lng->txt('crs_cancellation_end'),
+				ilDatePresentation::formatDate( $this->object->getCancellationEnd()));
+		}
+				
+		if($this->object->getCourseStart())
+		{	
+			$info->addProperty($this->lng->txt('crs_period'),
+				ilDatePresentation::formatPeriod(
+					$this->object->getCourseStart(),
+					$this->object->getCourseEnd()
+			));
 		}
 		
 		// archive
@@ -873,14 +927,58 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->object->setSubscriptionStart($sub_period->getStart()->get(IL_CAL_UNIX));
 		$this->object->setSubscriptionEnd($sub_period->getEnd()->get(IL_CAL_UNIX));
 		
-		$this->object->enableSubscriptionMembershipLimitation((int) $_POST['subscription_membership_limitation']);		
-		$this->object->setSubscriptionMaxMembers((int) $_POST['subscription_max']);
-		
 		$this->object->enableRegistrationAccessCode((int) $_POST['reg_code_enabled']);
 		$this->object->setRegistrationAccessCode(ilUtil::stripSlashes($_POST['reg_code']));
 		
-		$this->object->enableWaitingList((int) $_POST['waiting_list']);
+		$cancel_end = $form->getItemByPostVar("cancel_end");
+		if($_POST[$cancel_end->getActivationPostVar()])
+		{
+			$dt = $cancel_end->getDate()->get(IL_CAL_DATETIME);
+			$this->object->setCancellationEnd(new ilDate($dt, IL_CAL_DATETIME));
+		}
+		else
+		{
+			$this->object->setCancellationEnd(null);
+		}
+				
+		$this->object->enableSubscriptionMembershipLimitation((int) $_POST['subscription_membership_limitation']);		
+		$this->object->setSubscriptionMaxMembers((int) $_POST['subscription_max']);		
+		$this->object->setSubscriptionMinMembers((int)$_POST['subscription_min']);
+		
+		$old_autofill = $this->object->hasWaitingListAutoFill();
+		
+		switch((int) $_POST['waiting_list'])
+		{
+			case 2:
+				$this->object->enableWaitingList(true);
+				$this->object->setWaitingListAutoFill(true);
+				break;
+			
+			case 1:
+				$this->object->enableWaitingList(true);
+				$this->object->setWaitingListAutoFill(false);
+				break;
+			
+			default:
+				$this->object->enableWaitingList(false);
+				$this->object->setWaitingListAutoFill(false);
+				break;
+		}
+				
 		#$this->object->setSubscriptionNotify((int) $_POST['subscription_notification']);
+				
+		if((bool)$_POST["period_tgl"])
+		{
+			$crs_period = $form->getItemByPostVar("period");				
+			$this->object->setCourseStart($crs_period->getStart());
+			$this->object->setCourseEnd($crs_period->getEnd());
+		}		
+		else
+		{
+			$this->object->setCourseStart(null);
+			$this->object->setCourseEnd(null);
+		}
+				
 		$this->object->setViewMode((int) $_POST['view_mode']);
 
 		if($this->object->getViewMode() == IL_CRS_VIEW_TIMING)
@@ -925,10 +1023,16 @@ class ilObjCourseGUI extends ilContainerGUI
 			}
 		}	
 
-		
 		if($this->object->validate())
 		{
 			$this->object->update();
+			
+			// if autofill has been activated trigger process
+			if(!$old_autofill &&
+				$this->object->hasWaitingListAutoFill())
+			{
+				$this->object->handleAutoFill();
+			}
 			
 			// BEGIN ChangeEvent: Record write event
 			require_once('Services/Tracking/classes/class.ilChangeEvent.php');
@@ -1049,11 +1153,31 @@ class ilObjCourseGUI extends ilContainerGUI
 		$desc->setRows(2);
 		$desc->setCols(40);
 		$form->addItem($desc);
-
+		
 		// Show didactic template type
 		$this->initDidacticTemplate($form);
 		
+		// period
+		$cdur_tgl = new ilCheckboxInputGUI($this->lng->txt('crs_period'),'period_tgl');
+		$cdur_tgl->setInfo($this->lng->txt('crs_period_info'));
+		$cdur_tgl->setChecked($this->object->getCourseStart());
+		$form->addItem($cdur_tgl);
 		
+			include_once "Services/Form/classes/class.ilDateDurationInputGUI.php";
+			$cdur = new ilDateDurationInputGUI('', 'period');			
+			$cdur->setStartText($this->lng->txt('crs_start'));			
+			$cdur->setEndText($this->lng->txt('crs_end'));				
+			if($this->object->getCourseStart())
+			{
+				$cdur->setStart($this->object->getCourseStart());
+			}		
+			if($this->object->getCourseStart())
+			{
+				$cdur->setEnd($this->object->getCourseEnd());
+			}	
+			$cdur_tgl->addSubItem($cdur);			
+		
+			
 		// activation/availability
 		
 		$this->lng->loadLanguageModule('rep');
@@ -1173,11 +1297,30 @@ class ilObjCourseGUI extends ilContainerGUI
 		$time_limit->addSubItem($sdur);
 		$form->addItem($time_limit);
 		
+		// cancellation limit		
+		$cancel = new ilDateTimeInputGUI($this->lng->txt('crs_cancellation_end'), 'cancel_end');
+		$cancel->setInfo($this->lng->txt('crs_cancellation_end_info'));
+		$cancel_end = $this->object->getCancellationEnd();
+		$cancel->enableDateActivation('', 'cancel_end_tgl', (bool)$cancel_end);
+		if($cancel_end)
+		{
+			$cancel->setDate($cancel_end);
+		}
+		$form->addItem($cancel);
 		
 		// Max members
 		$lim = new ilCheckboxInputGUI($this->lng->txt('crs_subscription_max_members_short'),'subscription_membership_limitation');
 		$lim->setValue(1);
 		$lim->setChecked($this->object->isSubscriptionMembershipLimited());
+		
+			$min = new ilTextInputGUI('','subscription_min');
+			$min->setSubmitFormOnEnter(true);
+			$min->setSize(4);
+			$min->setMaxLength(4);
+			$min->setValue($this->object->getSubscriptionMinMembers() ? $this->object->getSubscriptionMinMembers() : '');
+			$min->setTitle($this->lng->txt('crs_subscription_min_members'));
+			$min->setInfo($this->lng->txt('crs_subscription_min_members_info'));			
+			$lim->addSubItem($min);
 		
 			$max = new ilTextInputGUI('','subscription_max');
 			$max->setSubmitFormOnEnter(true);
@@ -1189,10 +1332,46 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		$lim->addSubItem($max);
 		
+			/*
 			$wait = new ilCheckboxInputGUI($this->lng->txt('crs_waiting_list'),'waiting_list');
 			$wait->setChecked($this->object->enabledWaitingList());
 			$wait->setInfo($this->lng->txt('crs_wait_info'));
 			$lim->addSubItem($wait);
+			
+			$wait = new ilCheckboxInputGUI($this->lng->txt('crs_waiting_list'),'waiting_list');
+			$wait->setChecked($this->object->enabledWaitingList());
+			$wait->setInfo($this->lng->txt('crs_wait_info'));
+			$lim->addSubItem($wait);
+			
+			$auto = new ilCheckboxInputGUI($this->lng->txt('crs_waiting_list_autofill'), 'auto_wait');
+			$auto->setChecked($this->object->hasWaitingListAutoFill());
+			$auto->setInfo($this->lng->txt('crs_waiting_list_autofill_info'));
+			$wait->addSubItem($auto);
+			*/
+		
+			$wait = new ilRadioGroupInputGUI($this->lng->txt('crs_waiting_list'), 'waiting_list');
+			
+			$option = new ilRadioOption($this->lng->txt('none'), 0);
+			$wait->addOption($option);
+			
+			$option = new ilRadioOption($this->lng->txt('crs_waiting_list_no_autofill'), 1);
+			$option->setInfo($this->lng->txt('crs_wait_info'));
+			$wait->addOption($option);
+			
+			$option = new ilRadioOption($this->lng->txt('crs_waiting_list_autofill'), 2);
+			$option->setInfo($this->lng->txt('crs_waiting_list_autofill_info'));
+			$wait->addOption($option);
+			
+			if($this->object->hasWaitingListAutoFill())
+			{
+				$wait->setValue(2);
+			}
+			else if($this->object->enabledWaitingList())
+			{
+				$wait->setValue(1);
+			}
+			
+		$lim->addSubItem($wait);
 		
 		$form->addItem($lim);
 	
@@ -1200,7 +1379,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$pres = new ilFormSectionHeaderGUI();
 		$pres->setTitle($this->lng->txt('crs_view_mode'));
 		
-		$form->addItem($pres);
+		$form->addItem($pres);		
 		
 		// presentation type
 		$view_type = new ilRadioGroupInputGUI($this->lng->txt('crs_presentation_type'),'view_mode');

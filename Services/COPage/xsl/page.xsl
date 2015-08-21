@@ -88,6 +88,7 @@
 <xsl:param name="enable_consultation_hours"/>
 <xsl:param name="enable_my_courses"/>
 <xsl:param name="enable_amd_page_list"/>
+<xsl:param name="current_ts"/>
 
 <xsl:template match="PageObject">
 	<xsl:if test="$mode != 'edit'">
@@ -2918,6 +2919,14 @@
 					</param>
 				</object>
 			</video>
+			<!-- subtitle workaround -->
+			<xsl:if test="$mode = 'offline'" >
+				<xsl:for-each select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Subtitle">
+					<xsl:if test = "@Default = 'true'">
+						<div class="ilMobSubtitleText" style="display:none;"><xsl:attribute name="name"><xsl:value-of select="$cmobid"/>_<xsl:value-of select="$curPurpose"/></xsl:attribute>[[[[[mobsubtitle;<xsl:value-of select="$cmobid"/>_<xsl:value-of select="$curPurpose"/>]]]]]</div>
+					</xsl:if>
+				</xsl:for-each>
+			</xsl:if>
 		</xsl:when>
 
 		<!-- all other mime types: output standard object/embed tag -->
@@ -3208,51 +3217,58 @@
 </xsl:template>
 
 <!-- Section -->
-<xsl:template match="Section">
-	<!-- Label -->
-	<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_sec']/@value"/></xsl:with-param></xsl:call-template>
-	<div>
-		<xsl:if test="@Characteristic">
-			<xsl:if test="substring(@Characteristic, 1, 4) = 'ilc_'">
-				<xsl:attribute name="class">ilc_section_<xsl:value-of select="substring-after(@Characteristic, 'ilc_')"/></xsl:attribute>
-			</xsl:if>
-			<xsl:if test="substring(@Characteristic, 1, 4) != 'ilc_'">
-				<xsl:attribute name="class">ilc_section_<xsl:value-of select="@Characteristic"/></xsl:attribute>
-			</xsl:if>
+	<xsl:template match="Section">
+		<!-- Label -->
+		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_sec']/@value"/></xsl:with-param></xsl:call-template>
+		<xsl:if test="($mode = 'edit') or ((not(@ActiveFrom) or (@ActiveFrom &lt; $current_ts)) and (not(@ActiveTo) or (@ActiveTo &gt; $current_ts)))">
+			<div>
+				<xsl:if test="@Characteristic">
+					<xsl:if test="substring(@Characteristic, 1, 4) = 'ilc_'">
+						<xsl:attribute name="class">ilc_section_<xsl:value-of select="substring-after(@Characteristic, 'ilc_')"/></xsl:attribute>
+					</xsl:if>
+					<xsl:if test="substring(@Characteristic, 1, 4) != 'ilc_'">
+						<xsl:attribute name="class">ilc_section_<xsl:value-of select="@Characteristic"/></xsl:attribute>
+					</xsl:if>
+				</xsl:if>
+				<xsl:if test="$mode = 'edit'">
+					<xsl:attribute name="style">min-height: 60px; height: auto !important; height: 60px; position:static;</xsl:attribute>
+				</xsl:if>
+				<xsl:call-template name="EditReturnAnchors"/>
+				<!-- command selectbox -->
+				<xsl:if test="$mode = 'edit'">
+					<xsl:call-template name="DropArea">
+						<xsl:with-param name="hier_id"><xsl:value-of select="@HierId"/></xsl:with-param>
+						<xsl:with-param name="pc_id"><xsl:value-of select="@PCID"/></xsl:with-param>
+					</xsl:call-template>
+				</xsl:if>
+				<xsl:if test="($mode = 'edit')">
+					<xsl:if test="@ActiveFrom or @ActiveTo">
+						<div style="text-align:right;" class="small">{{{{{Section;ActiveFrom;<xsl:value-of select="@ActiveFrom"/>;ActiveTo;<xsl:value-of select="@ActiveTo"/>}}}}}</div>
+					</xsl:if>
+				</xsl:if>
+				<xsl:apply-templates/>
+				<xsl:if test="$mode = 'edit'">
+					<!-- <xsl:value-of select="../@HierId"/> -->
+					<xsl:if test="$javascript='disable'">
+						<br />
+						<input type="checkbox" name="target[]">
+							<xsl:attribute name="value"><xsl:value-of select="../@HierId"/>:<xsl:value-of select="../@PCID"/>
+							</xsl:attribute>
+						</input>
+					</xsl:if>
+					<xsl:call-template name="EditMenu">
+						<xsl:with-param name="hier_id" select="../@HierId" />
+						<xsl:with-param name="pc_id" select="../@PCID" />
+						<xsl:with-param name="edit">y</xsl:with-param>
+					</xsl:call-template>
+				</xsl:if>
+				<xsl:if test="$mode = 'edit'">
+					<br />
+				</xsl:if>
+				<xsl:comment>Break</xsl:comment>
+			</div>
 		</xsl:if>
-		<xsl:if test="$mode = 'edit'">
-			<xsl:attribute name="style">min-height: 60px; height: auto !important; height: 60px; position:static;</xsl:attribute>
-		</xsl:if>
-		<xsl:call-template name="EditReturnAnchors"/>
-		<!-- command selectbox -->
-		<xsl:if test="$mode = 'edit'">
-			<xsl:call-template name="DropArea">
-				<xsl:with-param name="hier_id"><xsl:value-of select="@HierId"/></xsl:with-param>
-				<xsl:with-param name="pc_id"><xsl:value-of select="@PCID"/></xsl:with-param>
-			</xsl:call-template>
-		</xsl:if>
-		<xsl:apply-templates/>
-		<xsl:if test="$mode = 'edit'">
-			<!-- <xsl:value-of select="../@HierId"/> -->
-			<xsl:if test="$javascript='disable'">
-				<br />
-				<input type="checkbox" name="target[]">
-					<xsl:attribute name="value"><xsl:value-of select="../@HierId"/>:<xsl:value-of select="../@PCID"/>
-					</xsl:attribute>
-				</input>
-			</xsl:if>
-			<xsl:call-template name="EditMenu">
-				<xsl:with-param name="hier_id" select="../@HierId" />
-				<xsl:with-param name="pc_id" select="../@PCID" />
-				<xsl:with-param name="edit">y</xsl:with-param>
-			</xsl:call-template>
-		</xsl:if>
-		<xsl:if test="$mode = 'edit'">
-			<br />
-		</xsl:if>
-		<xsl:comment>Break</xsl:comment>
-	</div>
-</xsl:template>
+	</xsl:template>
 
 <!-- Resources -->
 <xsl:template match="Resources">

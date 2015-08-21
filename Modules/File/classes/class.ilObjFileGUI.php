@@ -14,6 +14,7 @@ require_once "./Modules/File/classes/class.ilObjFileAccess.php";
 *
 * @ilCtrl_Calls ilObjFileGUI: ilObjectMetaDataGUI, ilInfoScreenGUI, ilPermissionGUI, ilShopPurchaseGUI, ilObjectCopyGUI
 * @ilCtrl_Calls ilObjFileGUI: ilExportGUI, ilWorkspaceAccessGUI, ilPortfolioPageGUI, ilCommonActionDispatcherGUI
+* @ilCtrl_Calls ilObjFileGUI: ilLearningProgressGUI
 *
 * @ingroup ModulesFile
 */
@@ -141,6 +142,18 @@ class ilObjFileGUI extends ilObject2GUI
 				include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
 				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
 				$this->ctrl->forwardCommand($gui);
+				break;
+			
+			case "illearningprogressgui":
+				$ilTabs->activateTab('learning_progress');
+				require_once 'Services/Tracking/classes/class.ilLearningProgressGUI.php';
+				$new_gui =& new ilLearningProgressGUI(
+					ilLearningProgressGUI::LP_CONTEXT_REPOSITORY,
+					$this->object->getRefId(),
+					$_GET['user_id'] ? $_GET['user_id'] : $ilUser->getId()
+				);
+				$this->ctrl->forwardCommand($new_gui);
+				$this->tabs_gui->setTabActive('learning_progress');
 				break;
 			
 			default:
@@ -684,6 +697,9 @@ class ilObjFileGUI extends ilObject2GUI
 			ilChangeEvent::_recordReadEvent($this->object->getType(), $this->object->getRefId(),
 				$this->object->getId(), $ilUser->getId());			
 			// END ChangeEvent: Record read event.
+			
+			require_once 'Services/Tracking/classes/class.ilLPStatusWrapper.php';
+			ilLPStatusWrapper::_updateStatus($this->object->getId(), $ilUser->getId());
 
 			$this->object->sendFile($_GET["hist_id"]);
 		}
@@ -896,6 +912,16 @@ class ilObjFileGUI extends ilObject2GUI
 			$ilTabs->addTab("id_versions",
 				$lng->txt("versions"),
 				$this->ctrl->getLinkTarget($this, "versions"));
+		}
+		
+		require_once 'Services/Tracking/classes/class.ilLearningProgressAccess.php';
+		if(ilLearningProgressAccess::checkAccess($this->object->getRefId()))
+		{
+			$ilTabs->addTab(
+				'learning_progress',
+				$lng->txt('learning_progress'),
+				$this->ctrl->getLinkTargetByClass(array(__CLASS__, 'illearningprogressgui'),'')
+			);
 		}
 
 		// meta data

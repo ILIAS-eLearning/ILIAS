@@ -1,0 +1,37 @@
+<!-- BEGIN placeholder_box -->
+<div class="option_value" id="placeholders_box">
+	<div class="il_Description">
+		<b>{TXT_USE_PLACEHOLDERS}</b>:<br />
+		{TXT_PLACEHOLDERS_ADVISE}<br />
+		<!-- BEGIN man_placeholder -->
+		<b><a href="#" onclick="insertTextIntoTextField(this.innerHTML, 'm_message'); return false;">[{MANUAL_PLACEHOLDER}]</a></b>: {TXT_MANUAL_PLACEHOLDER}<br />
+		<!-- END man_placeholder -->
+	</div>
+</div>
+<!-- END placeholder_box -->
+<!-- BEGIN js_block -->
+<script>
+	(function($) {
+		var $ctx = $("input[name=context]:radio");
+		if ($ctx.size() > 0) {
+			var onCtxChange = function () {
+				var value = $ctx.filter(function() {
+					return $(this).prop("checked");
+				}).val();
+				if (value) {
+					$.ajax({
+						url: "{URL}" + "&context_id=" + value,
+						type: 'GET'
+					}).done(function(placeholders) {
+						$('#placeholders_box').html(placeholders);
+					});
+				}
+			};
+
+			$ctx.off('change').on('change', onCtxChange);
+
+			$(document).ready(onCtxChange);
+		}
+	})(jQuery);
+</script>
+<!-- END js_block -->

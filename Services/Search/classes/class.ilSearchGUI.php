@@ -93,6 +93,7 @@ class ilSearchGUI extends ilSearchBaseGUI
 				
 			case 'ilobjectcopygui':
 				$this->prepareOutput();
+				$this->ctrl->setReturn($this,'');
 				include_once './Services/Object/classes/class.ilObjectCopyGUI.php';
 				$cp = new ilObjectCopyGUI($this);
 				$this->ctrl->forwardCommand($cp);

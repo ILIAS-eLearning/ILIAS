@@ -52,11 +52,8 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
 			$tabs_gui->addTarget("settings",
-//				$this->ctrl->getLinkTarget($this, "view"), 
-//				array("view","editDelicious", "editGoogleMaps","editMathJax", ""), "", "");
-			
-				$this->ctrl->getLinkTarget($this, "editSocialBookmarks"),
-				array("editDelicious", "editMaps","editMathJax", ""), "", "");
+				$this->ctrl->getLinkTarget($this, "view"),
+				array("editMaps", "editMathJax", "editSocialBookmarks", ""), "", "");
 			$this->lng->loadLanguageModule('ecs');
 		}
 
@@ -554,21 +551,9 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 	// init sub tabs
 	function __initSubTabs($a_cmd)
 	{
-//		$overview = ($a_cmd == 'view' or $a_cmd == '') ? true : false;
-		//$delicious = ($a_cmd == 'editDelicious') ? true : false;
-		
-		if($a_cmd == 'view' || $a_cmd == '') 
-		{
-			$a_cmd = 'editSocialBookmarks';
-		}
-		$socialbookmarks = ($a_cmd == 'editSocialBookmarks') ? true : false;
 		$maps = ($a_cmd == 'editMaps') ? true : false;
 		$mathjax = ($a_cmd == 'editMathJax') ? true : false;
-
-//		$this->tabs_gui->addSubTabTarget("overview", $this->ctrl->getLinkTarget($this, "view"),
-//										 "", "", "", $overview);
-		/*$this->tabs_gui->addSubTabTarget("delic_extt_delicious", $this->ctrl->getLinkTarget($this, "editDelicious"),
-											"", "", "", $delicious);*/
+		$socialbookmarks = ($a_cmd == 'editSocialBookmarks') ? true : false;
 
 		$this->tabs_gui->addSubTabTarget("maps_extt_maps", $this->ctrl->getLinkTarget($this, "editMaps"),
 										 "", "", "", $maps);
@@ -610,7 +595,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 				$this->tabs_gui->setTabActive('settings');
 				if(!$cmd || $cmd == 'view')
 				{
-					$cmd = "editSocialBookmarks";
+					$cmd = "editMaps";
 				}
 				$cmd .= "Object";
 				$this->$cmd();

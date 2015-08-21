@@ -147,9 +147,9 @@ class ilObjMailGUI extends ilObjectGUI
 	
 	public function saveObject()
 	{
-		global $ilAccess,$ilSetting;
+		global $rbacsystem, $ilSetting;
 		
-		if(!$ilAccess->checkAccess('write,read', '', $this->object->getRefId()))
+		if(!$rbacsystem->checkAccess('write', $this->object->getRefId()))
 		{
 			$this->ilias->raiseError($this->lng->txt('msg_no_perm_write'), $this->ilias->error_obj->WARNING);
 		}
@@ -292,6 +292,11 @@ class ilObjMailGUI extends ilObjectGUI
 	
 	function &executeCommand()
 	{
+		/**
+		 * @var $rbacsystem ilRbacSystem
+		 */
+		global $rbacsystem;
+
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 		$this->prepareOutput();
@@ -302,6 +307,16 @@ class ilObjMailGUI extends ilObjectGUI
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$perm_gui =& new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
+				break;
+
+			case 'ilmailtemplategui':
+				if(!$rbacsystem->checkAccess('write', $this->object->getRefId()))
+				{
+					$this->ilias->raiseError($this->lng->txt('msg_no_perm_write'), $this->ilias->error_obj->WARNING);
+				}
+
+				require_once 'Services/Mail/classes/class.ilMailTemplateGUI.php';
+				$this->ctrl->forwardCommand(new ilMailTemplateGUI());
 				break;
 
 			default:
@@ -323,18 +338,24 @@ class ilObjMailGUI extends ilObjectGUI
 	}
 	
 	/**
-	* get tabs
-	* @access	public
-	* @param	object	tabs gui object
+	 * @param ilTabsGUI  $tabs_gui
 	*/
-	function getTabs(&$tabs_gui)
+	public function getTabs(ilTabsGUI $tabs_gui)
 	{
+		/**
+		 * @var $rbacsystem ilRbacSystem
+		 */
 		global $rbacsystem;
 
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
 			$tabs_gui->addTarget("settings",
 				$this->ctrl->getLinkTarget($this, "view"), array("view", 'save', ""), "", "");
+		}
+
+		if($rbacsystem->checkAccess('write', $this->object->getRefId()))
+		{
+			$tabs_gui->addTarget('mail_templates', $this->ctrl->getLinkTargetByClass('ilmailtemplategui', 'showTemplates'), '', 'ilmailtemplategui');
 		}
 
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))

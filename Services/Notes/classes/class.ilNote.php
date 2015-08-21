@@ -279,6 +279,8 @@ class ilNote
 			"creation_date" => array("timestamp", $cd),
 			"no_repository" => array("integer", $this->no_repository)
 			));
+
+		$this->sendNotifications();
 		
 		$this->creation_date = ilNote::_lookupCreationDate($this->getId());
 	}
@@ -315,6 +317,8 @@ class ilNote
 			));
 		
 		$this->update_date = ilNote::_lookupUpdateDate($this->getId());
+
+		$this->sendNotifications(true);
 	}
 
 	function read()
@@ -783,6 +787,136 @@ class ilNote
 		}
 
 		return $activations;
+	}
+
+
+	/**
+	 * Send notifications
+	 */
+	function sendNotifications($a_changed = false)
+	{
+		global $ilSetting, $ilAccess;
+
+		// no notifications for notes
+		if ($this->getType() == IL_NOTE_PRIVATE)
+		{
+			return;
+		}
+
+		$recipients = $ilSetting->get("comments_noti_recip");
+		$recipients = explode(",", $recipients);
+
+		// blog: blog_id, 0, "blog"
+		// lm: lm_id, page_id, "pg" (ok)
+		// sahs: sahs_id, node_id, node_type
+		// info_screen: obj_id, 0, obj_type (ok)
+		// portfolio: port_id, page_id, "portfolio_page" (ok)
+		// wiki: wiki_id, wiki_page_id, "wpg" (ok)
+
+		$obj = $this->getObject();
+		$rep_obj_id = $obj["rep_obj_id"];
+		$sub_obj_id = $obj["obj_id"];
+		$type = $obj["obj_type"];
+
+		include_once("./Services/Language/classes/class.ilLanguageFactory.php");
+		include_once("./Services/User/classes/class.ilUserUtil.php");
+		include_once("./Services/Mail/classes/class.ilMail.php");
+
+		// repository objects, no blogs
+		$ref_ids = array();
+		if (($sub_obj_id == 0 and $type != "blp") ||
+			in_array($type, array("pg", "wpg")))
+		{
+			$obj_title = ilObject::_lookupTitle($rep_obj_id);
+			$type_lv = "obj_".$type;
+			$ref_ids = ilObject::_getAllReferences($rep_obj_id);
+		}
+
+		if ($type == "wpg")
+		{
+			$type_lv = "obj_wiki";
+		}
+		if ($type == "pg")
+		{
+			$type_lv = "obj_lm";
+		}
+		if ($type == "blp")
+		{
+			$obj_title = ilObject::_lookupTitle($rep_obj_id);
+			$type_lv = "obj_blog";
+		}
+		if ($type == "pfpg")
+		{
+			$obj_title = ilObject::_lookupTitle($rep_obj_id);
+			$type_lv = "portfolio";
+		}
+
+		include_once("./Services/Link/classes/class.ilLink.php");
+		foreach($recipients as $r)
+		{
+			$login = trim($r);
+			if (($user_id = ilObjUser::_lookupId($login)) > 0)
+			{
+				$link = "";
+				foreach ($ref_ids as $r)
+				{
+					if ($ilAccess->checkAccessOfUser($user_id, "read", "", $r))
+					{
+						if ($sub_obj_id == 0 and $type != "blog")
+						{
+							$link = ilLink::_getLink($r);
+						}
+						else if ($type == "wpg")
+						{
+							include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
+							include_once("./Modules/Wiki/classes/class.ilWikiUtil.php");
+							$title = ilWikiPage::lookupTitle($sub_obj_id);
+							$link = ilLink::_getStaticLink($r, "wiki",
+								true, "_".ilWikiUtil::makeUrlTitle($title));
+						}
+						else if ($type == "pg")
+						{
+							$link = ILIAS_HTTP_PATH.'/goto.php?client_id='.CLIENT_ID."&target=pg_".$sub_obj_id."_".$r;
+						}
+					}
+				}
+				if ($type == "blp")
+				{
+					// todo
+				}
+				if ($type == "pfpg")
+				{
+					$link = ILIAS_HTTP_PATH.'/goto.php?client_id='.CLIENT_ID."&target=prtf_".$rep_obj_id;
+				}
+
+				// use language of recipient to compose message
+				$ulng = ilLanguageFactory::_getLanguageOfUser($user_id);
+				$ulng->loadLanguageModule('note');
+
+				if ($a_changed)
+				{
+					$subject = sprintf($ulng->txt('note_comment_notification_subjectc'), $obj_title." (".$ulng->txt($type_lv).")");
+				}
+				else
+				{
+					$subject = sprintf($ulng->txt('note_comment_notification_subject'), $obj_title." (".$ulng->txt($type_lv).")");
+				}
+				$message = sprintf($ulng->txt('note_comment_notification_salutation'), ilObjUser::_lookupFullname($user_id))."\n\n";
+
+				$message .= $ulng->txt('note_by').": ".ilUserUtil::getNamePresentation($this->getAuthor())."\n\n";
+				if ($link != "")
+				{
+					$message .= $ulng->txt('note_comment_notification_link').": ".$link."\n\n";
+				}
+				$message .= $ulng->txt('note_comment_text').": ".$this->getText()."\n\n";
+
+				$mail_obj = new ilMail(ANONYMOUS_USER_ID);
+				$mail_obj->appendInstallationSignature(true);
+				$mail_obj->sendMail(ilObjUser::_lookupLogin($user_id),
+					"", "", $subject, $message, array(), array("system"));
+			}
+		}
+
 	}
 
 }

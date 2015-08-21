@@ -163,14 +163,20 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 		
 		$comm_del_tutor =  new ilCheckboxInputGUI($lng->txt("pd_enable_comments_del_tutor"), "comm_del_tutor");
 		$comm_del_tutor->setChecked($ilSetting->get("comments_del_tutor", 1));
-		$cb_prop->addSubItem($comm_del_tutor);		
-		
+		$cb_prop->addSubItem($comm_del_tutor);
+
+		$ti = new ilTextInputGUI($this->lng->txt("pd_comments_notification"), "comments_noti_recip");
+		$ti->setValue($ilSetting->get("comments_noti_recip"));
+		$ti->setMaxLength(200);
+		$ti->setInfo($this->lng->txt("pd_comments_notification_info"));
+		$cb_prop->addSubItem($ti);
+
 		// Enable Chatviewer
 		$cb_prop = new ilCheckboxInputGUI($lng->txt("pd_enable_chatviewer"), "block_activated_chatviewer");
 		$cb_prop->setValue("1");
 		$cb_prop->setChecked(($ilSetting->get("block_activated_chatviewer")));
 		$form->addItem($cb_prop);
-		
+
 		// Enable block moving
 		$cb_prop = new ilCheckboxInputGUI($lng->txt("pd_enable_block_moving"),
 			"enable_block_moving");
@@ -270,8 +276,9 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 		$ilSetting->set("disable_comments", (int) ($_POST["enable_comments"] ? 0 : 1));
 	
 		$ilSetting->set("comments_del_user", (int) ($_POST["comm_del_user"] ? 1 : 0));
-		$ilSetting->set("comments_del_tutor", (int) ($_POST["comm_del_tutor"] ? 1 : 0));			
-		
+		$ilSetting->set("comments_del_tutor", (int) ($_POST["comm_del_tutor"] ? 1 : 0));
+		$ilSetting->set("comments_noti_recip", ilUtil::stripSlashes($_POST["comments_noti_recip"]));
+
 		$ilSetting->set("block_activated_chatviewer", (int) ($_POST["block_activated_chatviewer"]));		
 		
 		$ilSetting->set("block_activated_pdusers", $_POST["block_activated_pdusers"]);

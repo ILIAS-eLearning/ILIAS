@@ -180,7 +180,7 @@ class ilPCContentInclude extends ilPageContent
 		ilPageContentUsage::deleteAllUsages("incl", $a_page->getParentType().":pg", $a_page->getId(), $a_old_nr, $a_page->getLanguage());
 		foreach($ci_ids as $ci_id)
 		{
-			if ((int) $ci_id["inst_id"] <= 0)
+			if ((int) $ci_id["inst_id"] <= 0 || $ci_id["inst_id"] == IL_INST_ID)
 			{
 				ilPageContentUsage::saveUsage("incl", $ci_id["id"], $a_page->getParentType().":pg", $a_page->getId(), $a_old_nr,
 					$a_page->getLanguage());
