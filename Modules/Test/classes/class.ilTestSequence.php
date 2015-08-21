@@ -717,6 +717,25 @@ class ilTestSequence
 	{
 		$this->optionalQuestions = array();
 	}
+	
+	public function reorderOptionalQuestionsToSequenceEnd()
+	{
+		$optionalSequenceKeys = array();
+		
+		foreach($this->sequencedata['sequence'] as $index => $sequenceKey)
+		{
+			if( $this->isQuestionOptional($this->getQuestionForSequence($sequenceKey)) )
+			{
+				$optionalSequenceKeys[$index] = $sequenceKey;
+				unset($this->sequencedata['sequence'][$index]);
+			}
+		}
+		
+		foreach($optionalSequenceKeys as $index => $sequenceKey)
+		{
+			$this->sequencedata['sequence'][$index] = $sequenceKey;
+		}
+	}
 }
 
 ?>
