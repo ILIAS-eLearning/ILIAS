@@ -49,6 +49,12 @@ abstract class ilMailTemplateContext
 	abstract public function getTitle();
 
 	/**
+	 * Returns a translated description (depending on the current language) which is displayed in the user interface
+	 * @return string
+	 */
+	abstract public function getDescription();
+
+	/**
 	 * Return an array of placeholders
 	 * @return array
 	 */
