@@ -973,10 +973,9 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		{
 			// #13373
 			$lo_results = $this->parseLOUserResults($a_obj_id, $a_user_id);
-			
-			// :TODO: waiting for merge
-			// include_once "Modules/Course/classes/Objectives/class.ilLOTestAssignments.php";
-			// $lo_ass = ilLOTestAssignments::getInstance($a_obj_id);
+					
+			include_once "Modules/Course/classes/Objectives/class.ilLOTestAssignments.php";
+			$lo_ass = ilLOTestAssignments::getInstance($a_obj_id);
 
 			$tmp = array();
 
@@ -988,10 +987,9 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 				$tmp[$objective_id] = array(
 					"id" => $objective_id,
 					"title" => $title["title"],
-					"desc" => $title["description"],
-					// :TODO: waiting for merge
-					// "itest" => $lo_ass->getTestByObjective($objective_id, ilLOSettings::TYPE_TEST_INITIAL),
-					// "qtest" => $lo_ass->getTestByObjective($objective_id, ilLOSettings::TYPE_TEST_QUALIFIED)
+					"desc" => $title["description"],					
+					"itest" => $lo_ass->getTestByObjective($objective_id, ilLOSettings::TYPE_TEST_INITIAL),
+					"qtest" => $lo_ass->getTestByObjective($objective_id, ilLOSettings::TYPE_TEST_QUALIFIED)
 				);
 				
 				if(array_key_exists($objective_id, $lo_results))

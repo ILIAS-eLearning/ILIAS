@@ -174,6 +174,14 @@ class ilLOSettings
 	{
 		return $this->getQualifyingTestType() == self::TYPE_QUALIFYING_SELECTED;
 	}
+
+	/**
+	 *  Check if initial test is qualifying*
+	 */
+	public function isInitialTestQualifying()
+	{
+		return $this->getInitialTestType() == self::TYPE_INITIAL_QUALIFYING_ALL || $this->getInitialTestType() == self::TYPE_INITIAL_QUALIFYING_SELECTED;
+	}
 	
 	/**
 	 * Check if test ref_id is used in an objective course
@@ -287,6 +295,15 @@ class ilLOSettings
 	public function setPassedObjectiveMode($a_mode)
 	{
 		$this->passed_objective_mode = $a_mode;
+	}
+	
+	/**
+	 * Check if initial test for all objectives is visible
+	 * @return bool
+	 */
+	public function isGeneralInitialTestVisible()
+	{
+		return $this->getInitialTestType() == self::TYPE_INITIAL_PLACEMENT_ALL || $this->getInitialTestType() == self::TYPE_INITIAL_QUALIFYING_ALL;
 	}
 	
 	/**

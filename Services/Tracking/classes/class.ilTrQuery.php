@@ -88,12 +88,12 @@ class ilTrQuery
 		}
 	}
 
-	function getObjectivesStatusForUser($a_user_id, array $a_objective_ids)
+	function getObjectivesStatusForUser($a_user_id, $a_obj_id, array $a_objective_ids)
 	{
 		global $ilDB;
 						
 		include_once "Modules/Course/classes/Objectives/class.ilLOUserResults.php";								
-		$lo_lp_status = ilLOUserResults::getObjectiveStatusForLP($a_user_id, $a_objective_ids);
+		$lo_lp_status = ilLOUserResults::getObjectiveStatusForLP($a_user_id, $a_obj_id, $a_objective_ids);
 		
 		$query =  "SELECT crs_id, crs_objectives.objective_id AS obj_id, title,".$ilDB->quote("lobj", "text")." AS type".
 			" FROM crs_objectives".			
