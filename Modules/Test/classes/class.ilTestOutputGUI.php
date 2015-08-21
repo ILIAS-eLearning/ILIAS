@@ -226,12 +226,6 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 				$this->outTestPage(false);
 				break;
 			case "setmarked":
-				$this->sequence = $this->calculateSequence();
-				$this->testSession->setLastSequence($this->sequence);
-				$this->testSession->saveToDb();
-				$q_id  = $this->testSequence->getQuestionForSequence($_GET["sequence"]);
-				$this->object->setQuestionSetSolved(1, $q_id, $ilUser->getId());
-				$this->outTestPage(false);
 				break;
 			case "resetmarked":
 				$this->sequence = $this->calculateSequence();
@@ -531,36 +525,6 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		$this->ctrl->setParameter($this, 'pmode', $this->getDefaultPresentationMode());
 
 		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
-	}
-	
-	protected function getSequenceElementParameter()
-	{
-		if( isset($_GET['sequence']) )
-		{
-			return $_GET['sequence'];
-		}
-
-		return null;
-	}
-
-	protected function getPresentationModeParameter()
-	{
-		if( isset($_GET['pmode']) )
-		{
-			return $_GET['pmode'];
-		}
-
-		return null;
-	}
-
-	protected function getInstantResponseParameter()
-	{
-		if( isset($_GET['instresp']) )
-		{
-			return $_GET['instresp'];
-		}
-
-		return null;
 	}
 
 	protected function isFirstPageInSequence($sequenceElement)

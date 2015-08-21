@@ -573,9 +573,13 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	 */
 	protected function markQuestionCmd()
 	{
-		$this->saveQuestionSolution();
-		$this->ctrl->setParameter($this, "activecommand", "setmarked");
-		$this->ctrl->redirect($this, "redirectQuestion");
+		$questionId  = $this->testSequence->getQuestionForSequence(
+			$this->getSequenceElementParameter()
+		);
+		
+		$this->object->setQuestionSetSolved(1, $questionId, $this->testSession->getUserId());
+		
+		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
 	}
 
 	/**
@@ -583,9 +587,13 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	 */
 	protected function unmarkQuestionCmd()
 	{
-		$this->saveQuestionSolution();
-		$this->ctrl->setParameter($this, "activecommand", "resetmarked");
-		$this->ctrl->redirect($this, "redirectQuestion");
+		$questionId  = $this->testSequence->getQuestionForSequence(
+			$this->getSequenceElementParameter()
+		);
+
+		$this->object->setQuestionSetSolved(0, $questionId, $this->testSession->getUserId());
+
+		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
 	}
 
 	/**
@@ -1875,5 +1883,35 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		{
 			$this->populateSpecificFeedbackBlock($questionGui);
 		}
+	}
+
+	protected function getSequenceElementParameter()
+	{
+		if( isset($_GET['sequence']) )
+		{
+			return $_GET['sequence'];
+		}
+
+		return null;
+	}
+
+	protected function getPresentationModeParameter()
+	{
+		if( isset($_GET['pmode']) )
+		{
+			return $_GET['pmode'];
+		}
+
+		return null;
+	}
+
+	protected function getInstantResponseParameter()
+	{
+		if( isset($_GET['instresp']) )
+		{
+			return $_GET['instresp'];
+		}
+
+		return null;
 	}
 }
