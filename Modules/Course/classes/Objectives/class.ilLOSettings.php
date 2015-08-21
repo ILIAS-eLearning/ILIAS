@@ -426,7 +426,7 @@ class ilLOSettings
 		global $ilDB;
 		
 		$query = 'INSERT INTO loc_settings '.
-				'(obj_id, it_type,itest,qtest,it_start,qt_type,qt_start,reset_results) VALUES ( '.
+				'(obj_id, it_type,itest,qtest,it_start,qt_type,qt_start,reset_results,passed_obj_mode) VALUES ( '.
 				$ilDB->quote($this->getObjId(),'integer').', '.
 				$ilDB->quote($this->getInitialTestType(),'integer').', '.
 				$ilDB->quote($this->getInitialTest(),'integer').', '.

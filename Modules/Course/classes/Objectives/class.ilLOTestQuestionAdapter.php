@@ -201,18 +201,17 @@ class ilLOTestQuestionAdapter
 			}
 		}
 	}
+	
+	protected function lookupObjectiveIdByRandomQuestionSelectionDefinitionId($a_id)
+	{
+		include_once './Modules/Course/classes/Objectives/class.ilLORandomTestQuestionPools.php';
+		return ilLORandomTestQuestionPools::lookupObjectiveIdBySequence($this->getContainerId(),$a_id);
+	}
 
 	protected function lookupObjectiveIdByFixedQuestionId($a_question_id)
 	{
 		include_once './Modules/Course/classes/class.ilCourseObjectiveQuestion.php';
 		return ilCourseObjectiveQuestion::lookupObjectiveOfQuestion($a_question_id);
-	}
-
-	protected function addRandomQuestionRelatedObjective($a_definition_id)
-	{
-		// TODO: determine objective id related to random question selection definition id
-		$objectiveId = 0;
-		return $objectiveId;
 	}
 	
 	protected function getUserId()

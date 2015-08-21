@@ -1231,7 +1231,7 @@ class ilLOEditorGUI
 			{
 				include_once './Modules/Course/classes/class.ilCourseObjective.php';
 				$obj = new ilCourseObjective($this->getParentObject());
-				$obj->setActive(false);
+				$obj->setActive(TRUE);
 				$obj->setTitle($title);
 				$obj->add();
 			}

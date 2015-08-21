@@ -68,6 +68,24 @@ class ilLORandomTestQuestionPools
 		return 0;
 		
 	}
+	
+	/**
+	 * Lookup objective id by sequence
+	 */
+	public static function lookupObjectiveIdBySequence($a_container_id, $a_seq_id)
+	{
+		global $ilDB;
+		
+		$query = 'SELECT objective_id FROM loc_rnd_qpl '.
+				'WHERE container_id = '.$ilDB->quote($a_container_id,'integer').' '.
+				'AND qp_seq = '.$ilDB->quote($a_seq_id,'integer');
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return $row->objective_id;
+		}
+		return 0;
+	}
 
 
 	public function setContainerId($a_id)
