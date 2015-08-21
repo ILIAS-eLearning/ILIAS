@@ -707,7 +707,12 @@ class ilTestSequence
 	{
 		return (bool)count($this->optionalQuestions);
 	}
-	
+
+	public function getOptionalQuestions()
+	{
+		return $this->optionalQuestions;
+	}
+
 	public function clearOptionalQuestions()
 	{
 		$this->optionalQuestions = array();

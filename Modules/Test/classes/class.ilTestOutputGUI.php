@@ -324,10 +324,12 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 					
 					$objectivesAdapter->notifyTestStart($this->testSession, $this->object->getId());
 					$objectivesAdapter->prepareTestPass($this->testSession, $this->testSequence);
-					
-					$objectivesAdapter->buildQuestionRelatedObjectiveList(
-						$this->questionRelatedObjectivesList
-					);
+					$objectivesAdapter->buildQuestionRelatedObjectiveList($this->questionRelatedObjectivesList);
+
+					if( $this->testSequence->hasOptionalQuestions() )
+					{
+						$this->adoptUserSolutionsFromPreviousPass();
+					}
 				}
 				
 				$active_time_id = $this->object->startWorkingTime($this->testSession->getActiveId(), $this->testSession->getPass());
@@ -973,5 +975,25 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		$redirectTarget = ilLink::_getLink($containerRefId);
 
 		ilUtil::redirect($redirectTarget);
+	}
+	
+	protected function adoptUserSolutionsFromPreviousPass()
+	{
+		global $ilDB, $ilUser;
+		
+		$assSettings = new ilSetting('assessment');
+
+		include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
+		$isAssessmentLogEnabled = ilObjAssessmentFolder::_enabledAssessmentLogging();
+
+		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionUserSolutionAdopter.php';
+		$userSolutionAdopter = new ilAssQuestionUserSolutionAdopter($ilDB, $assSettings, $isAssessmentLogEnabled);
+
+		$userSolutionAdopter->setUserId($ilUser->getId());
+		$userSolutionAdopter->setActiveId($this->testSession->getActiveId());
+		$userSolutionAdopter->setTargetPass($this->testSequence->getPass());
+		$userSolutionAdopter->setQuestionIds($this->testSequence->getOptionalQuestions());
+
+		$userSolutionAdopter->perform();
 	}
 }

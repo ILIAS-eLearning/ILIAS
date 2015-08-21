@@ -11,7 +11,7 @@ require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionProcessLocker.
  */
 class ilAssQuestionProcessLockerFile extends ilAssQuestionProcessLocker
 {
-	const PROCESS_NAME_PERSIST_WORKING_STATE = 'persistWorkingState';
+	const PROCESS_NAME_QUESTION_WORKING_STATE_UPDATE = 'questionWorkingStateUpdate';
 	
 	/**
 	 * @var ilAssQuestionProcessLockFileStorage
@@ -34,12 +34,22 @@ class ilAssQuestionProcessLockerFile extends ilAssQuestionProcessLocker
 
 	public function requestPersistWorkingStateLock()
 	{
-		$this->requestLock(self::PROCESS_NAME_PERSIST_WORKING_STATE);
+		$this->requestLock(self::PROCESS_NAME_QUESTION_WORKING_STATE_UPDATE);
 	}
 
 	public function releasePersistWorkingStateLock()
 	{
-		$this->releaseLock(self::PROCESS_NAME_PERSIST_WORKING_STATE);
+		$this->releaseLock(self::PROCESS_NAME_QUESTION_WORKING_STATE_UPDATE);
+	}
+
+	public function requestUserSolutionAdoptLock()
+	{
+		$this->requestLock(self::PROCESS_NAME_QUESTION_WORKING_STATE_UPDATE);
+	}
+
+	public function releaseUserSolutionAdoptLock()
+	{
+		$this->releaseLock(self::PROCESS_NAME_QUESTION_WORKING_STATE_UPDATE);
 	}
 	
 	private function requestLock($processName)

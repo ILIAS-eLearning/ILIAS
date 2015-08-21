@@ -46,13 +46,18 @@ class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
 			array('name' => 'ass_log', 'type' => ilDB::LOCK_WRITE, 'sequence' => true)
 		);
 	}
-
-	public function requestUserSolutionUpdateLock()
+	
+	private function getTablesUsedDuringSolutionUpdate()
 	{
-		$tables = array(
+		return array(
 			array('name' => 'tst_solutions', 'type' => ilDB::LOCK_WRITE),
 			array('name' => 'tst_solutions', 'type' => ilDB::LOCK_WRITE, 'sequence' => true)
 		);
+	}
+
+	public function requestUserSolutionUpdateLock()
+	{
+		$tables = $this->getTablesUsedDuringSolutionUpdate();
 		
 		if( $this->isAssessmentLogEnabled() )
 		{
@@ -63,6 +68,18 @@ class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
 	}
 
 	public function releaseUserSolutionUpdateLock()
+	{
+		$this->db->unlockTables();
+	}
+
+	public function requestUserSolutionAdoptLock()
+	{
+		$this->db->lockTables(
+			$this->getTablesUsedDuringSolutionUpdate()
+		);
+	}
+
+	public function releaseUserSolutionAdoptLock()
 	{
 		$this->db->unlockTables();
 	}
