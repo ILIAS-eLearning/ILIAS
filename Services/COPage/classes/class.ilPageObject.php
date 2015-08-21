@@ -4468,6 +4468,7 @@ abstract class ilPageObject
 		$c = array();
 		foreach ($contributors as $k => $co)
 		{
+			include_once "Services/User/classes/class.ilObjUser.php";
 			$name = ilObjUser::_lookupName($k);
 			$c[] = array("user_id" => $k, "pages" => $co,
 				"lastname" => $name["lastname"], "firstname" => $name["firstname"]);
