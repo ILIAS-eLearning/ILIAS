@@ -569,7 +569,7 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 	 * @param boolean $returndetails (deprecated !!)
 	 * @return integer/array $points/$details (array $details is deprecated !!)
 	 */
-	public function calculateReachedPoints($active_id, $pass = NULL, $returndetails = FALSE)
+	public function calculateReachedPoints($active_id, $pass = NULL, $authorizedSolution = true, $returndetails = FALSE)
 	{
 		if( $returndetails )
 		{
@@ -583,7 +583,7 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 		{
 			$pass = $this->getSolutionMaxPass($active_id);
 		}
-		$result = $this->getCurrentSolutionResultSet($active_id, $pass);
+		$result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorizedSolution);
 		while ($data = $ilDB->fetchAssoc($result))
 		{
 			if (strcmp($data["value1"], "") != 0)
