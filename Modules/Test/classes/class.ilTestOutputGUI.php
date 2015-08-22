@@ -321,7 +321,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 			$instantResponse = true;
 		}
 		
-		$questionGui = $this->buildQuestionGUI($questionId, $sequenceElement);
+		$questionGui = $this->getQuestionGuiInstance($questionId, $sequenceElement);
 
 		if( !($questionGui instanceof assQuestionGUI) )
 		{
@@ -346,7 +346,9 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
 		if ($instantResponse)
 		{
-			$this->populateInstantResponseBlocks($questionGui);
+			$this->populateInstantResponseBlocks(
+				$questionGui, $presentationMode == ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW
+			);
 		}
 
 		$this->populateQuestionNavigation(
@@ -435,8 +437,16 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
 	protected function submitSolutionCmd()
 	{
-		if( $this->saveQuestionSolution() )
+		if( $this->saveQuestionSolution(true, false) )
 		{
+			$questionId = $this->testSequence->getQuestionForSequence(
+				$this->getSequenceElementParameter()
+			);
+			
+			$this->getQuestionInstance($questionId)->removeIntermediateSolution(
+				$this->testSession->getActiveId(), $this->testSession->getPass()
+			);
+			
 			$this->ctrl->setParameter($this, 'pmode', ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW);
 		}
 
@@ -447,7 +457,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 	{
 		$sequenceElement = $this->getSequenceElementParameter();
 
-		$guestionGUI = $this->buildQuestionGUI(
+		$guestionGUI = $this->getQuestionGuiInstance(
 			$this->testSequence->getQuestionForSequence($sequenceElement), $sequenceElement
 		);
 
@@ -512,7 +522,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 	/**
 	 * saves the user input of a question
 	 */
-	public function saveQuestionSolution($intermediate = false, $force = false)
+	public function saveQuestionSolution($authorized = true, $force = false)
 	{
 		$this->updateWorkingTime();
 		$this->saveResult = FALSE;
@@ -536,25 +546,22 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 			$q_id = $this->testSequence->getQuestionForSequence($_GET["sequence"]);
 			if (is_numeric($q_id) && (int)$q_id) 
 			{
+				$questionOBJ = $this->getQuestionInstance($q_id);
 				$question_gui = $this->object->createQuestionGUI("", $q_id);
-				if ($this->object->getJavaScriptOutput())
-				{
-					$question_gui->object->setOutputType(OUTPUT_JAVASCRIPT);
-				}
 				$pass = NULL;
 				$active_id = $this->testSession->getActiveId();
 				if ($this->object->isRandomTest())
 				{
 					$pass = $this->object->_getPass($active_id);
 				}
-				$this->saveResult = $question_gui->object->persistWorkingState(
-						$active_id, $pass, $this->object->areObligationsEnabled(), $intermediate
+				$this->saveResult = $questionOBJ->persistWorkingState(
+						$active_id, $pass, $this->object->areObligationsEnabled(), $authorized
 				);
 
-				if( !$intermediate && $this->testSession->isObjectiveOriented() )
+				if( $authorized && $this->testSession->isObjectiveOriented() )
 				{
 					$this->updateContainerObjectivesWithAnsweredQuestion(
-						$this->testSession, $this->testSequence, $question_gui->object
+						$this->testSession, $this->testSequence, $questionOBJ
 					);
 				}
 			}
@@ -577,7 +584,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		
 		if( !$this->isParticipantsAnswerFixed($questionId) )
 		{
-			$this->saveQuestionSolution(true);
+			$this->saveQuestionSolution(false);
 			
 			$this->testSequence->setQuestionChecked($questionId);
 			$this->testSequence->saveToDb();
@@ -773,7 +780,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 	 * @param $sequenceElement
 	 * @return object
 	 */
-	protected function buildQuestionGUI($questionId, $sequenceElement)
+	protected function getQuestionGuiInstance($questionId, $sequenceElement)
 	{
 		$questionGui = $this->object->createQuestionGUI("", $questionId);
 		$questionGui->setSequenceNumber($this->testSequence->getPositionOfSequence($sequenceElement));

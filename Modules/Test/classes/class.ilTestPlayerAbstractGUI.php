@@ -155,7 +155,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	/**
 	 * saves the user input of a question
 	 */
-	abstract public function saveQuestionSolution($force = FALSE);
+	abstract public function saveQuestionSolution($authorized = true, $force = false);
 
 	abstract protected function canSaveResult();
 
@@ -530,7 +530,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$result = "";
 		if (is_array($_POST) && count($_POST) > 0)
 		{
-			$res = $this->saveQuestionSolution(true, TRUE);
+			$res = $this->saveQuestionSolution(false, true);
 			if ($res)
 			{
 				$result = $this->lng->txt("autosave_success");
@@ -1819,7 +1819,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	/**
 	 * @param assQuestionGUI $questionGui
 	 */
-	protected function populateInstantResponseBlocks(assQuestionGUI $questionGui)
+	protected function populateInstantResponseBlocks(assQuestionGUI $questionGui, $authorizedSolution)
 	{
 		// This controls if the solution should be shown.
 		// It gets the parameter "Scoring and Results" -> "Instant Feedback" -> "Show Solutions"			
@@ -1845,7 +1845,10 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		// It gets the parameter "Scoring and Results" -> "Instant Feedback" -> "Show Results (Only Points)"				
 		if($this->object->getAnswerFeedbackPoints())
 		{
-			$reachedPoints = $questionGui->object->getAdjustedReachedPoints($this->testSession->getActiveId(), NULL);
+			$reachedPoints = $questionGui->object->getAdjustedReachedPoints(
+				$this->testSession->getActiveId(), NULL, $authorizedSolution
+			);
+			
 			$maxPoints = $questionGui->object->getMaximumPoints();
 
 			$this->populateScoreBlock($reachedPoints, $maxPoints);
@@ -1894,5 +1897,40 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		}
 
 		return null;
+	}
+
+	/**
+	 * @var array[assQuestion]
+	 */
+	private $cachedQuestionObjects = array();
+	
+	/**
+	 * @param $questionId
+	 * @return assQuestion
+	 */
+	protected function getQuestionInstance($questionId, $fromCache = true)
+	{
+		global $ilDB, $ilUser;
+		
+		if( !$fromCache || !isset($this->cachedQuestionObjects[$questionId]) )
+		{
+			$questionOBJ = assQuestion::_instantiateQuestion($questionId);
+
+			$assSettings = new ilSetting('assessment');
+			require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionProcessLockerFactory.php';
+			$processLockerFactory = new ilAssQuestionProcessLockerFactory($assSettings, $ilDB);
+			$processLockerFactory->setQuestionId($questionOBJ->getId());
+			$processLockerFactory->setUserId($ilUser->getId());
+			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
+			$processLockerFactory->setAssessmentLogEnabled(ilObjAssessmentFolder::_enabledAssessmentLogging());
+			$questionOBJ->setProcessLocker($processLockerFactory->getLocker());
+
+			$questionOBJ->setObligationsToBeConsidered($this->object->areObligationsEnabled());
+			$questionOBJ->setOutputType(OUTPUT_JAVASCRIPT);
+
+			$this->cachedQuestionObjects[$questionId] = $questionOBJ;
+		}
+		
+		return $this->cachedQuestionObjects[$questionId];
 	}
 }

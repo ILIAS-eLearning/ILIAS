@@ -921,7 +921,7 @@ abstract class assQuestion
          * @param integer $pass
          * @return integer $reached_points 
          */
-        final public function getAdjustedReachedPoints($active_id, $pass = NULL)
+        final public function getAdjustedReachedPoints($active_id, $pass = NULL, $authorizedSolution = true)
         {
             if (is_null($pass))
             {
@@ -930,7 +930,7 @@ abstract class assQuestion
             }
             
             // determine reached points for submitted solution
-            $reached_points = $this->calculateReachedPoints($active_id, $pass);
+            $reached_points = $this->calculateReachedPoints($active_id, $pass, $authorizedSolution);
 			
 			
 
@@ -1068,7 +1068,7 @@ abstract class assQuestion
 	 * @param integer $active_id Active id of the user
 	 * @param integer $pass Test pass
 	 */
-	final public function persistWorkingState($active_id, $pass = NULL, $obligationsEnabled = false)
+	final public function persistWorkingState($active_id, $pass = NULL, $obligationsEnabled = false, $authorized = true)
 	{
 		if( $pass === null )
 		{
@@ -1078,11 +1078,14 @@ abstract class assQuestion
 		
 		$this->getProcessLocker()->requestPersistWorkingStateLock();
 		
-		$saveStatus = $this->saveWorkingData($active_id, $pass);
+		$saveStatus = $this->saveWorkingData($active_id, $pass, $authorized);
 		
-		$this->calculateResultsFromSolution($active_id, $pass, $obligationsEnabled);
+		if( $authorized )
+		{
+			$this->calculateResultsFromSolution($active_id, $pass, $obligationsEnabled);
+		}
 		
-		$this->reworkWorkingData($active_id, $pass, $obligationsEnabled);
+		$this->reworkWorkingData($active_id, $pass, $obligationsEnabled, $authorized);
 
 		$this->getProcessLocker()->releasePersistWorkingStateLock();
 		
@@ -1106,7 +1109,7 @@ abstract class assQuestion
 	 * @param integer $pass Test pass
 	 * @return boolean $status
 	 */
-	//abstract public function saveWorkingData($active_id, $pass = NULL, $intermediate = false);
+	abstract public function saveWorkingData($active_id, $pass = NULL, $intermediate = false);
 
 	/**
 	 * Reworks the allready saved working data if neccessary
@@ -1533,43 +1536,68 @@ abstract class assQuestion
 		return str_replace(ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH), ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
 	}
 	
+	public function getUserSolutionPreferingIntermediate($active_id, $pass = NULL)
+	{
+		$solution = $this->getSolutionValues($active_id, $pass, false);
+		
+		if( !count($solution) )
+		{
+			$solution = $this->getSolutionValues($active_id, $pass, true);
+		}
+		
+		return $solution;
+	}
+	
 	/**
 	* Loads solutions of a given user from the database an returns it
-	*
-	* @param integer $test_id The database id of the test containing this question
-	* @access public
-	* @see $answers
 	*/
-	function &getSolutionValues($active_id, $pass = NULL)
+	public function getSolutionValues($active_id, $pass = NULL, $authorized = true)
 	{
 		global $ilDB;
-
-		$values = array();
 		
 		if (is_null($pass))
 		{
 			$pass = $this->getSolutionMaxPass($active_id);
 		}
 
-		$result = null;
 		if( $this->getStep() !== NULL )
 		{
-			$result = $ilDB->queryF("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s AND step = %s ORDER BY solution_id",
-				array('integer','integer','integer', 'integer'),
-				array($active_id, $this->getId(), $pass, $this->getStep())
+			$query = "
+				SELECT *
+				FROM tst_solutions
+				WHERE active_fi = %s
+				AND question_fi = %s
+				AND pass = %s
+				AND step = %s
+				AND authorized = %s
+				ORDER BY solution_id";
+			
+			$result = $ilDB->queryF($query, array('integer', 'integer', 'integer', 'integer', 'integer'),
+				array($active_id, $this->getId(), $pass, $this->getStep(), (int)$authorized)
 			);	
 		}
 		else
 		{
-			$result = $ilDB->queryF("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s ORDER BY solution_id",
-				array('integer','integer','integer'),
-				array($active_id, $this->getId(), $pass)
+			$query = "
+				SELECT *
+				FROM tst_solutions
+				WHERE active_fi = %s
+				AND question_fi = %s 
+		  		AND pass = %s
+				AND authorized = %s
+				ORDER BY solution_id
+			";
+			
+			$result = $ilDB->queryF($query, array('integer', 'integer', 'integer', 'integer'),
+				array($active_id, $this->getId(), $pass, (int)$authorized)
 			);
 		}
 
-		while	($row = $ilDB->fetchAssoc($result))
+		$values = array();
+
+		while( $row = $ilDB->fetchAssoc($result) )
 		{
-			array_push($values, $row);
+			$values[] = $row;
 		}
 
 		return $values;
@@ -3096,7 +3124,7 @@ abstract class assQuestion
 	 * @param boolean $returndetails (deprecated !!)
 	 * @return integer/array $points/$details (array $details is deprecated !!)
 	 */
-	abstract public function calculateReachedPoints($active_id, $pass = NULL, $returndetails = FALSE);
+	abstract public function calculateReachedPoints($active_id, $pass = NULL, $authorizedSolution = true, $returndetails = FALSE);
 
 	public function calculateReachedPointsFromPreviewSession(ilAssQuestionPreviewSession $previewSession)
 	{
@@ -4417,7 +4445,20 @@ abstract class assQuestion
 	 *
 	 * @return int
 	 */
-	protected function removeCurrentSolution($active_id, $pass, $authorized = true)
+	public function removeIntermediateSolution($active_id, $pass)
+	{
+		return $this->removeCurrentSolution($active_id, $pass, false);
+	}
+
+	/**
+	 * @param int $active_id
+	 * @param int $pass
+	 * @param bool|true $authorized
+	 * @global ilDB $ilDB
+	 *
+	 * @return int
+	 */
+	public function removeCurrentSolution($active_id, $pass, $authorized = true)
 	{
 		global $ilDB;
 
