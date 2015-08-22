@@ -1972,6 +1972,14 @@ abstract class assQuestionGUI
 		$this->tpl->setVariable("FORMACTION", $formaction);
 		$this->tpl->setVariable("ENCTYPE", 'enctype="'.$this->getFormEncodingType().'"');
 	}
+	
+	abstract public function getTestOutput(
+		$active_id,
+		$pass,
+		$is_question_postponed,
+		$user_post_solutions,
+		$show_specific_inline_feedback
+	);
 
 	protected function getFormEncodingType()
 	{
