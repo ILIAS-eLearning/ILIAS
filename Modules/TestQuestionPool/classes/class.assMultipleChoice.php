@@ -569,7 +569,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 	 * @throws ilTestException
 	 * @return integer|array $points/$details (array $details is deprecated !!)
 	 */
-	public function calculateReachedPoints($active_id, $pass = NULL, $returndetails = FALSE)
+	public function calculateReachedPoints($active_id, $pass = NULL, $authorizedSolution = true, $returndetails = FALSE)
 	{
 		if( $returndetails )
 		{
@@ -583,7 +583,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 		{
 			$pass = $this->getSolutionMaxPass($active_id);
 		}
-		$result = $this->getCurrentSolutionResultSet($active_id, $pass);
+		$result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorizedSolution);
 		while ($data = $ilDB->fetchAssoc($result))
 		{
 			if (strcmp($data["value1"], "") != 0)
@@ -605,7 +605,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 	 *                      
 	 * @return boolean $status
 	 */
-	public function saveWorkingData($active_id, $pass = NULL)
+	public function saveWorkingData($active_id, $pass = NULL, $authorized = true)
 	{
 		/** @var $ilDB ilDB */
 		global $ilDB;
@@ -620,7 +620,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 		
 		$this->getProcessLocker()->requestUserSolutionUpdateLock();
 
-		$this->removeCurrentSolution($active_id, $pass);
+		$this->removeCurrentSolution($active_id, $pass, $authorized);
 
 		$solutionSubmit = $this->getSolutionSubmit();
 		
@@ -628,7 +628,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 		{
 			if (strlen($value))
 			{
-				$this->saveCurrentSolution($active_id, $pass, $value, null);
+				$this->saveCurrentSolution($active_id, $pass, $value, null, $authorized);
 				$entered_values++;
 			}
 		}

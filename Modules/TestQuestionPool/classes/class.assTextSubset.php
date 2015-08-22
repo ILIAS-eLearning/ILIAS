@@ -537,7 +537,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
 	 * @param boolean $returndetails (deprecated !!)
 	 * @return integer/array $points/$details (array $details is deprecated !!)
 	 */
-	public function calculateReachedPoints($active_id, $pass = NULL, $returndetails = FALSE)
+	public function calculateReachedPoints($active_id, $pass = NULL, $authorizedSolution = true, $returndetails = FALSE)
 	{
 		if( $returndetails )
 		{
@@ -551,7 +551,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
 		{
 			$pass = $this->getSolutionMaxPass($active_id);
 		}
-		$result = $this->getCurrentSolutionResultSet($active_id, $pass);
+		$result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorizedSolution);
 		
 		$enteredTexts = array();
 		while ($data = $ilDB->fetchAssoc($result))
@@ -594,7 +594,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
 	 * @param integer $pass Test pass
 	 * @return boolean $status
 	 */
-	public function saveWorkingData($active_id, $pass = NULL)
+	public function saveWorkingData($active_id, $pass = NULL, $authorized = true)
 	{
 		global $ilDB;
 		global $ilUser;
@@ -608,7 +608,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
 
 		$this->getProcessLocker()->requestUserSolutionUpdateLock();
 
-		$affectedRows = $this->removeCurrentSolution($active_id, $pass);
+		$affectedRows = $this->removeCurrentSolution($active_id, $pass, $authorized);
 
 		$solutionSubmit = $this->getSolutionSubmit();
 		
@@ -616,7 +616,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
 		{
 			if (strlen($value))
 			{
-				$this->saveCurrentSolution($active_id, $pass, $value, null);
+				$this->saveCurrentSolution($active_id, $pass, $value, null, $authorized);
 				$entered_values++;
 			}
 		}

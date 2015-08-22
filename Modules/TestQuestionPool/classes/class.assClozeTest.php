@@ -1231,7 +1231,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 	 * @param boolean $returndetails (deprecated !!)
 	 * @return integer/array $points/$details (array $details is deprecated !!)
 	 */
-	public function calculateReachedPoints($active_id, $pass = NULL, $returndetails = FALSE)
+	public function calculateReachedPoints($active_id, $pass = NULL, $authorized = true, $returndetails = FALSE)
 	{
 		global $ilDB;
 		
@@ -1240,7 +1240,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 			$pass = $this->getSolutionMaxPass($active_id);
 		}
 
-		$result = $this->getCurrentSolutionResultSet($active_id, $pass);
+		$result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorized);
 		$user_result = array();
 		while ($data = $ilDB->fetchAssoc($result)) 
 		{
@@ -1301,7 +1301,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 	 * @param integer $pass Test pass
 	 * @return boolean $status
 	 */
-	public function saveWorkingData($active_id, $pass = NULL) 
+	public function saveWorkingData($active_id, $pass = NULL, $authorized = true) 
 	{
 		global $ilDB;
 		global $ilUser;
@@ -1313,7 +1313,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 		
 		$this->getProcessLocker()->requestUserSolutionUpdateLock();
 
-		$affectedRows = $this->removeCurrentSolution($active_id, $pass);
+		$affectedRows = $this->removeCurrentSolution($active_id, $pass, $authorized);
 
 		$entered_values = 0;
 		
@@ -1327,7 +1327,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 				{
 					if (!(($gap->getType() == CLOZE_SELECT) && ($value == -1)))
 					{
-						$affectedRows = $this->saveCurrentSolution($active_id,$pass, $val1, $value);
+						$affectedRows = $this->saveCurrentSolution($active_id,$pass, $val1, $value, $authorized);
 						$entered_values++;
 					}
 				}
