@@ -352,7 +352,12 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		$this->populateQuestionNavigation(
 			$sequenceElement, $presentationMode == ilTestPlayerAbstractGUI::PRESENTATION_MODE_EDIT
 		);
-		$this->populateIntermediateSolutionSaver($questionGui);
+		
+		if( $presentationMode == ilTestPlayerAbstractGUI::PRESENTATION_MODE_EDIT )
+		{
+			$this->populateIntermediateSolutionSaver($questionGui);
+		}
+
 		$this->populateObligationIndicatorIfRequired($questionGui);
 	}
 
