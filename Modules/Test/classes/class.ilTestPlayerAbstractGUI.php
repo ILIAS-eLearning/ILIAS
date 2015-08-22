@@ -968,7 +968,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	/**
 	 * @return string $formAction
 	 */
-	protected function prepareTestPage($presentationMode, $sequenceElement, $formAction)
+	protected function prepareTestPage($presentationMode, $sequenceElement)
 	{
 		global $ilUser;
 
@@ -1023,9 +1023,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$this->populateTestNavigationToolbar(
 			$this->buildTestNavigationToolbarGUI($presentationMode == self::PRESENTATION_MODE_EDIT)
 		);
-
-		$this->tpl->setVariable('FORMACTION', $formAction);
-		$this->tpl->setVariable("FORM_TIMESTAMP", time());
 	}
 
 	abstract protected function showQuestionCmd();

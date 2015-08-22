@@ -232,10 +232,6 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 			case "directfeedback":
 				break;
 			case "handleQuestionAction":
-				$this->sequence = $this->calculateSequence();
-				$this->testSession->setLastSequence($this->sequence);
-				$this->testSession->saveToDb();
-				$this->outTestPage(false);
 				break;
 			case "summary":
 				$this->ctrl->redirect($this, "outQuestionSummary");
@@ -328,14 +324,15 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 			$this->handleTearsAndAngerQuestionIsNull($questionId, $sequenceElement);
 		}
 
+		$this->prepareTestPage($presentationMode, $sequenceElement);
+
 		$formAction = $this->ctrl->getFormAction($this);
-		$this->prepareTestPage($presentationMode, $sequenceElement, $formAction);
 
 		switch($presentationMode)
 		{
 			case ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW:
 
-				$this->showQuestionViewable($questionGui);
+				$this->showQuestionViewable($questionGui, $formAction);
 				break;
 
 			case ilTestPlayerAbstractGUI::PRESENTATION_MODE_EDIT:
@@ -363,7 +360,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		$this->populateObligationIndicatorIfRequired($questionGui);
 	}
 
-	protected function showQuestionViewable(assQuestionGUI $questionGui)
+	protected function showQuestionViewable(assQuestionGUI $questionGui, $formAction)
 	{
 		$questionGui->setNavigationGUI($this->buildReadOnlyStateQuestionNavigationGUI(
 			$questionGui->object->getId()
@@ -389,6 +386,10 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		);
 
 		$this->tpl->setVariable('QUESTION_OUTPUT', $pageoutput);
+		
+		$this->tpl->setVariable("FORMACTION", $formAction);
+		$this->tpl->setVariable("ENCTYPE", 'enctype="'.$questionGui->getFormEncodingType().'"');
+		$this->tpl->setVariable("FORM_TIMESTAMP", time());
 	}
 
 	protected function showQuestionEditable(assQuestionGUI $questionGui, $instantResponse, $formAction)
@@ -638,16 +639,17 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
 	protected function handleQuestionActionCmd()
 	{
-		$questionId = $this->testSequence->getQuestionForSequence($_GET["sequence"]);
+		$questionId = $this->testSequence->getQuestionForSequence(
+			$this->getSequenceElementParameter()
+		);
 
 		if( !$this->isParticipantsAnswerFixed($questionId) )
 		{
 			$this->updateWorkingTime();
-			$this->saveQuestionSolution();
+			$this->saveQuestionSolution(false);
 		}
 
-		$this->ctrl->setParameter($this, 'activecommand', 'handleQuestionAction');
-		$this->ctrl->redirect($this, 'redirectQuestion');
+		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
 	}
 
 	protected function performTearsAndAngerBrokenConfessionChecks()

@@ -1971,6 +1971,7 @@ abstract class assQuestionGUI
 		$this->tpl->setVariable("QUESTION_OUTPUT", $test_output);
 		$this->tpl->setVariable("FORMACTION", $formaction);
 		$this->tpl->setVariable("ENCTYPE", 'enctype="'.$this->getFormEncodingType().'"');
+		$this->tpl->setVariable("FORM_TIMESTAMP", time());
 	}
 	
 	abstract public function getTestOutput(
@@ -1981,7 +1982,7 @@ abstract class assQuestionGUI
 		$show_specific_inline_feedback
 	);
 
-	protected function getFormEncodingType()
+	public function getFormEncodingType()
 	{
 		return self::FORM_ENCODING_URLENCODE;
 	}

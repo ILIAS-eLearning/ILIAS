@@ -432,17 +432,15 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
 	function outQuestionForTest($formaction, $active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE, $show_feedback = FALSE)
 	{
-		// TODO - BEGIN: what exactly is done here? cant we use the parent method? 
-
 		require_once './Modules/Test/classes/class.ilObjTest.php';
 		if (!ilObjTest::_getUsePreviousAnswers($active_id, true))
 		{
 			$pass = ilObjTest::_getPass($active_id);
-			$info =& $this->object->getSolutionValues($active_id, $pass);
+			$info = $this->object->getUserSolutionPreferingIntermediate($active_id, $pass);
 		}
 		else
 		{
-			$info =& $this->object->getSolutionValues($active_id, NULL);
+			$info = $this->object->getUserSolutionPreferingIntermediate($active_id, NULL);
 		}
 
 		if (count($info))
@@ -456,8 +454,8 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		$test_output = $this->getTestOutput($active_id, $pass, $is_postponed, $use_post_solutions, $show_feedback);
 		$this->tpl->setVariable("QUESTION_OUTPUT", $test_output);
 		$this->tpl->setVariable("FORMACTION", $formaction);
-
-		// TODO - END: what exactly is done here? cant we use the parent method? 
+		$this->tpl->setVariable("ENCTYPE", 'enctype="'.$this->getFormEncodingType().'"');
+		$this->tpl->setVariable("FORM_TIMESTAMP", time());
 	}
 
 	/**
@@ -714,7 +712,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			{
 				if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
 			}
-			$solutions =& $this->object->getSolutionValues($active_id, $pass);
+			$solutions = $this->object->getUserSolutionPreferingIntermediate($active_id, $pass);
 			include_once "./Modules/TestQuestionPool/classes/class.ilImagemapPreview.php";
 			$preview = new ilImagemapPreview($this->object->getImagePath().$this->object->getImageFilename());
 			foreach ($solutions as $idx => $solution_value)
