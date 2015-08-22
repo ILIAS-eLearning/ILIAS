@@ -1109,7 +1109,7 @@ abstract class assQuestion
 	 * @param integer $pass Test pass
 	 * @return boolean $status
 	 */
-	abstract public function saveWorkingData($active_id, $pass = NULL, $intermediate = false);
+	abstract public function saveWorkingData($active_id, $pass = NULL, $authorized = true);
 
 	/**
 	 * Reworks the allready saved working data if neccessary
