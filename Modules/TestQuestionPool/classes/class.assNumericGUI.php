@@ -290,7 +290,7 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
 			{
 				if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
 			}
-			$solutions =& $this->object->getSolutionValues($active_id, $pass);
+			$solutions = $this->object->getUserSolutionPreferingIntermediate($active_id, $pass);
 		}
 		
 		// generate the question output
