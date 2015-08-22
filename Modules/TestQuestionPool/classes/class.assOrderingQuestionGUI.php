@@ -986,7 +986,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		return $randomIdToAnswerMap;
 	}
 
-	function getTestOutput($active_id, $pass = NULL, $is_postponed = FALSE, $user_post_solution = FALSE)
+	function getTestOutput($active_id, $pass = NULL, $is_postponed = FALSE, $user_post_solution = FALSE, $inlineFeedback = false)
 	{
 		global $tpl;
 		
@@ -1051,7 +1051,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 					if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
 				}
 
-				$solutions =& $this->object->getSolutionValues($active_id, $pass);
+				$solutions = $this->object->getUserSolutionPreferingIntermediate($active_id, $pass);
 
 				if( count($solutions) )
 				{
@@ -1127,7 +1127,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 				}
 				else
 				{
-					$solutions =& $this->object->getSolutionValues($active_id, $pass);
+					$solutions = $this->object->getUserSolutionPreferingIntermediate($active_id, $pass);
 				}
 
 				$jssolutions = array();
