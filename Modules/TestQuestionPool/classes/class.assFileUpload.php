@@ -452,22 +452,27 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 	*
 	* @return array Results
 	*/
-	public function getUploadedFiles($active_id, $pass = null)
+	public function getUploadedFiles($active_id, $pass = null, $authorized = true)
 	{
 		global $ilDB;
+		
 		if (is_null($pass))
 		{
 			$pass = $this->getSolutionMaxPass($active_id);
 		}
-		$result = $ilDB->queryF("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s ORDER BY tstamp",
-			array("integer", "integer", "integer"),
-			array($active_id, $this->getId(), $pass)
+		
+		$result = $ilDB->queryF("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s AND authorized = %s ORDER BY tstamp",
+			array("integer", "integer", "integer", 'integer'),
+			array($active_id, $this->getId(), $pass, (int)$authorized)
 		);
+		
 		$found = array();
+		
 		while ($data = $ilDB->fetchAssoc($result))
 		{
 			array_push($found, $data);
 		}
+		
 		return $found;
 	}
 	
@@ -764,9 +769,9 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 	 * @param integer $pass
 	 * @param boolean $obligationsAnswered
 	 */
-	protected function reworkWorkingData($active_id, $pass, $obligationsAnswered)
+	protected function reworkWorkingData($active_id, $pass, $obligationsAnswered, $authorized)
 	{
-		$this->handleSubmission($active_id, $pass, $obligationsAnswered);
+		$this->handleSubmission($active_id, $pass, $obligationsAnswered, $authorized);
 	}
 	
 	/**
@@ -778,15 +783,18 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 	 * @param	integer
 	 * @access	protected
 	 */
-	protected function handleSubmission($active_id, $pass, $obligationsAnswered)
+	protected function handleSubmission($active_id, $pass, $obligationsAnswered, $authorized)
 	{
-		global $ilObjDataCache;		
+		if(!$authorized)
+		{
+			return;
+		}
 
 		if($this->isCompletionBySubmissionEnabled())
 		{
 			$maxpoints = assQuestion::_getMaximumPoints($this->getId());
 	
-			if($this->getUploadedFiles($active_id, $pass))
+			if($this->getUploadedFiles($active_id, $pass, $authorized))
 			{
 				$points = $maxpoints;	
 			}
