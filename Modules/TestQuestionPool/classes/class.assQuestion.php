@@ -4639,7 +4639,7 @@ abstract class assQuestion
 	
 	public function resultRecordExist($activeId, $pass)
 	{
-		global $ilDB
+		global $ilDB;
 		
 		$query = "
 			SELECT COUNT(*) cnt
@@ -4658,7 +4658,7 @@ abstract class assQuestion
 
 	public function removeResultRecord($activeId, $pass)
 	{
-		global $ilDB
+		global $ilDB;
 		
 		$query = "
 			DELETE FROM tst_test_result
