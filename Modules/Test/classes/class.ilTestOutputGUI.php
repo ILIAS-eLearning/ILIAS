@@ -197,67 +197,6 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
 		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
 	}
-
-	/**
-	 * Called when a user answered a question to perform a redirect after POST.
-	 * This is called for security reasons to prevent users sending a form twice.
-	 * --> description up to date ??
-	 *
-	 * @access public
-	 */
-	protected function redirectQuestionCmd()
-	{
-		global $ilUser;
-
-		switch ($_GET["activecommand"])
-		{
-			case "next":
-				break;
-			case "previous":
-				break;
-			case "postpone":
-				$this->sequence = $this->calculateSequence();
-				$nextSequence = $this->testSequence->getNextSequence($this->sequence);
-				$this->testSequence->postponeSequence($this->sequence);
-				$this->testSequence->saveToDb();
-				$this->testSession->setLastSequence($nextSequence);
-				$this->testSession->saveToDb();
-				$this->sequence = $nextSequence;
-				$this->outTestPage(false);
-				break;
-			case "setmarked":
-				break;
-			case "resetmarked":
-				break;
-			case "directfeedback":
-				break;
-			case "handleQuestionAction":
-				break;
-			case "summary":
-				$this->ctrl->redirect($this, "outQuestionSummary");
-				break;
-			case "summary_obligations":
-				$this->ctrl->redirect($this, "outQuestionSummaryWithObligationsInfo");
-				break;
-			case "summary_obligations_only":
-				$this->ctrl->redirect($this, "outObligationsOnlySummary");
-				break;
-			case "start":
-				break;
-			case "resume":
-				break;
-				
-			case 'test_submission_overview':
-				require_once './Modules/Test/classes/class.ilTestSubmissionReviewGUI.php';
-				$this->ctrl->redirectByClass('ilTestSubmissionReviewGUI', "show");
-				break;
-			
-			case "back":
-			case "gotoquestion":
-			default:
-				break;
-		}
-	}
 	
 	private function isValidSequenceElement($sequenceElement)
 	{
@@ -468,7 +407,12 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
 		// reset answered state
 
+		$this->testSequence->postponeSequence($sequenceElement);
+		$this->testSequence->saveToDb();
+
 		$sequenceElement = $this->testSequence->getNextSequence($sequenceElement);
+		$this->testSession->setLastSequence($sequenceElement);
+		$this->testSession->saveToDb();
 
 		$this->ctrl->setParameter($this, 'sequence', $sequenceElement);
 		$this->ctrl->setParameter($this, 'pmode', $this->getDefaultPresentationMode());
@@ -616,24 +560,6 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 	protected function showQuestionListWithoutSavingCmd()
 	{
 		$this->ctrl->setParameter($this, "activecommand", "summary");
-		$this->ctrl->redirect($this, "redirectQuestion");
-	}
-
-	/**
-	 * Postpone a question to the end of the test
-	 *
-	 * @access public
-	 */
-	protected function postponeQuestionCmd()
-	{
-		$questionId = $this->testSequence->getQuestionForSequence($_GET["sequence"]);
-
-		if( !$this->isParticipantsAnswerFixed($questionId) )
-		{
-			$this->saveQuestionSolution();
-		}
-
-		$this->ctrl->setParameter($this, "activecommand", "postpone");
 		$this->ctrl->redirect($this, "redirectQuestion");
 	}
 

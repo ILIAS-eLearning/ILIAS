@@ -665,22 +665,20 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		{
 			if( $this->object->getListOfQuestions() )
 			{
-				$_GET['activecommand'] = 'summary_obligations';
+				$this->ctrl->redirect($this, "outQuestionSummaryWithObligationsInfo");
 			}
 			else
 			{
-				$_GET['activecommand'] = 'summary_obligations_only';
+				$this->ctrl->redirect($this, "outObligationsOnlySummary");
 			}
 
-			$this->redirectQuestionCmd();
 			return;
 		}
 
 		// Examview enabled & !reviewed & requires_confirmation? test_submission_overview (review gui)
 		if ($this->object->getEnableExamview() && !isset($_GET['reviewed']) && $requires_confirmation)
 		{
-			$_GET['activecommand'] = 'test_submission_overview';
-			$this->redirectQuestionCmd();
+			$this->ctrl->redirectByClass('ilTestSubmissionReviewGUI', "show");
 			return;
 		}
 
