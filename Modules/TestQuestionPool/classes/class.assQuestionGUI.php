@@ -1951,7 +1951,7 @@ abstract class assQuestionGUI
 	 * @param bool 			$user_post_solutions
 	 * @param bool 			$show_specific_inline_feedback
 	 */
-	public function outQuestionForTest(
+	final public function outQuestionForTest(
 		$formaction,
 		$active_id,
 		$pass = NULL,
@@ -1960,6 +1960,8 @@ abstract class assQuestionGUI
 		$show_specific_inline_feedback = FALSE
 	)
 	{
+		$formaction = $this->completeTestOutputFormAction($formaction);
+		
 		$test_output = $this->getTestOutput(
 			$active_id,
 			$pass,
@@ -1967,11 +1969,23 @@ abstract class assQuestionGUI
 			$user_post_solutions,
 			$show_specific_inline_feedback
 		);
+		
+		$this->magicAfterTestOutput();
 
 		$this->tpl->setVariable("QUESTION_OUTPUT", $test_output);
 		$this->tpl->setVariable("FORMACTION", $formaction);
 		$this->tpl->setVariable("ENCTYPE", 'enctype="'.$this->getFormEncodingType().'"');
 		$this->tpl->setVariable("FORM_TIMESTAMP", time());
+	}
+	
+	protected function completeTestOutputFormAction($formAction)
+	{
+		return $formAction;
+	}
+	
+	protected function magicAfterTestOutput()
+	{
+		return;
 	}
 	
 	abstract public function getTestOutput(

@@ -125,12 +125,8 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 		}
 	}
 
-	function outQuestionForTest($formaction, $active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
+	protected function magicAfterTestOutput()
 	{
-		$test_output = $this->getTestOutput($active_id, $pass, $is_postponed, $use_post_solutions); 
-		$this->tpl->setVariable("QUESTION_OUTPUT", $test_output);
-		$this->tpl->setVariable("FORMACTION", $formaction);
-
 		// TODO - BEGIN: what exactly is done here? cant we use the parent method? 
 
 		include_once "./Services/RTE/classes/class.ilRTE.php";

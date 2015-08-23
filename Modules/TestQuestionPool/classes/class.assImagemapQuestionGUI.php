@@ -430,7 +430,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		$this->ctrl->redirect($this, 'editQuestion');
 	}
 
-	function outQuestionForTest($formaction, $active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE, $show_feedback = FALSE)
+	protected function completeTestOutputFormAction($formaction, $active_id, $pass = NULL)
 	{
 		require_once './Modules/Test/classes/class.ilObjTest.php';
 		if (!ilObjTest::_getUsePreviousAnswers($active_id, true))
@@ -451,11 +451,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			}
 		}
 
-		$test_output = $this->getTestOutput($active_id, $pass, $is_postponed, $use_post_solutions, $show_feedback);
-		$this->tpl->setVariable("QUESTION_OUTPUT", $test_output);
-		$this->tpl->setVariable("FORMACTION", $formaction);
-		$this->tpl->setVariable("ENCTYPE", 'enctype="'.$this->getFormEncodingType().'"');
-		$this->tpl->setVariable("FORM_TIMESTAMP", time());
+		return $formaction;
 	}
 
 	/**
