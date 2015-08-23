@@ -185,17 +185,6 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 	{
 		$this->prepareSummaryPage();
 		
-		$questionId = $this->testSession->getCurrentQuestionId();
-		
-		if( $questionId && !$this->isParticipantsAnswerFixed($questionId) )
-		{
-			$this->updateWorkingTime();
-			$this->saveQuestionSolution();
-			$this->persistQuestionAnswerStatus();
-
-			$this->testSequence->unsetQuestionPostponed($questionId);
-		}
-		
 		$this->testSequence->loadQuestions(
 				$this->dynamicQuestionSetConfig, $this->testSession->getQuestionSetFilterSelection()
 		);
@@ -301,17 +290,6 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		
 		$this->prepareSummaryPage();
 
-		$questionId = $this->testSession->getCurrentQuestionId();
-
-		if( $questionId && !$this->isParticipantsAnswerFixed($questionId) )
-		{
-			$this->updateWorkingTime();
-			$this->saveQuestionSolution();
-			$this->persistQuestionAnswerStatus();
-
-			$this->testSequence->unsetQuestionPostponed($questionId);
-		}
-
 		$this->testSequence->loadQuestions(
 				$this->dynamicQuestionSetConfig, $this->testSession->getQuestionSetFilterSelection()
 		);
@@ -355,76 +333,23 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 	{
 		$questionId = $this->testSession->getCurrentQuestionId();
 
-		if( $questionId && !$this->isParticipantsAnswerFixed($questionId) )
-		{
-			$this->updateWorkingTime();
-			$this->saveQuestionSolution();
-			$this->persistQuestionAnswerStatus();
-
-			$this->testSequence->unsetQuestionPostponed($questionId);
-			$this->testSequence->saveToDb();
-		}
-
 		$this->resetCurrentQuestion();
 		
-		$this->ctrl->redirect($this, 'showQuestion');
-	}
-	
-	protected function postponeQuestionCmd()
-	{
-		$questionId = $this->testSession->getCurrentQuestionId();
-
-		if( $questionId && !$this->isParticipantsAnswerFixed($questionId) )
-		{
-			$this->updateWorkingTime();
-			$this->saveQuestionSolution();
-			$this->persistQuestionAnswerStatus();
-
-			$this->testSequence->setQuestionPostponed($questionId);
-		}
-		
-		$this->testSession->setCurrentQuestionId(null);
-		
-		$this->testSequence->saveToDb();
-		$this->testSession->saveToDb();
-		
-		$this->ctrl->redirect($this, 'showQuestion');
+		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
 	}
 	
 	protected function markQuestionCmd()
 	{
 		$questionId = $this->testSession->getCurrentQuestionId();
 
-		if( $questionId && !$this->isParticipantsAnswerFixed($questionId) )
-		{
-			$this->updateWorkingTime();
-			$this->saveQuestionSolution();
-			$this->persistQuestionAnswerStatus();
-
-			$this->testSequence->unsetQuestionPostponed($questionId);
-			$this->testSequence->saveToDb();
-		}
-
 		global $ilUser;
 		$this->object->setQuestionSetSolved(1, $this->testSession->getCurrentQuestionId(), $ilUser->getId());
 		
-		$this->ctrl->redirect($this, 'showQuestion');
+		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
 	}
 
 	protected function unmarkQuestionCmd()
 	{
-		$questionId = $this->testSession->getCurrentQuestionId();
-
-		if( $questionId && !$this->isParticipantsAnswerFixed($questionId) )
-		{
-			$this->updateWorkingTime();
-			$this->saveQuestionSolution();
-			$this->persistQuestionAnswerStatus();
-
-			$this->testSequence->unsetQuestionPostponed($questionId);
-			$this->testSequence->saveToDb();
-		}
-
 		global $ilUser;
 		$this->object->setQuestionSetSolved(0, $this->testSession->getCurrentQuestionId(), $ilUser->getId());
 		
@@ -450,6 +375,21 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		}
 		
 		$this->ctrl->redirect($this, 'showQuestion');
+	}
+	
+	protected function editSolutionCmd()
+	{
+		
+	}
+	
+	protected function submitSolutionCmd()
+	{
+		
+	}
+
+	protected function discardSolutionCmd()
+	{
+
 	}
 	
 	protected function showQuestionCmd()
@@ -498,7 +438,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		if( $questionId && !$this->isParticipantsAnswerFixed($questionId) )
 		{
 			$this->updateWorkingTime();
-			$this->saveQuestionSolution();
+			$this->saveQuestionSolution(false);
 			$this->persistQuestionAnswerStatus();
 
 			$this->testSequence->unsetQuestionPostponed($questionId);
@@ -532,7 +472,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		if( $questionId && !$this->isParticipantsAnswerFixed($questionId) )
 		{
 			$this->updateWorkingTime();
-			$this->saveQuestionSolution();
+			$this->saveQuestionSolution(false);
 			$this->persistQuestionAnswerStatus();
 
 			$this->testSequence->unsetQuestionPostponed($questionId);
@@ -873,7 +813,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 	/**
 	 * saves the user input of a question
 	 */
-	public function saveQuestionSolution($force = FALSE)
+	public function saveQuestionSolution($authorized = true, $force = false)
 	{
 		// what is this formtimestamp ??
 		if (!$force)
@@ -917,7 +857,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 				$activeId = $this->testSession->getActiveId();
 				
 				$this->saveResult = $questionGUI->object->persistWorkingState(
-						$activeId, $pass = null, $this->object->areObligationsEnabled()
+						$activeId, $pass = null, $this->object->areObligationsEnabled(), $authorized
 				);
 		}
 		
