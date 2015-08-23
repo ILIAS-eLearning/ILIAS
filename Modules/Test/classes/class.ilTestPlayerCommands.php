@@ -10,6 +10,8 @@
  */
 class ilTestPlayerCommands
 {
+	const START_TEST = 'startTest';
+	
 	const SHOW_QUESTION = 'showQuestion';
 	
 	const PREVIOUS_QUESTION = 'previousQuestion';

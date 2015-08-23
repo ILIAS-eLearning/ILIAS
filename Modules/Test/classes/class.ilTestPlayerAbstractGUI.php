@@ -450,7 +450,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		}
 
 		$this->object->unsetAccessCodeSession();
-		$this->ctrl->redirect($this, 'startTest');
+		$this->ctrl->redirect($this, ilTestPlayerCommands::START_TEST);
 	}
 	
 	function displayCodeCmd()
@@ -466,8 +466,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	
 	function codeConfirmedCmd()
 	{
-		$this->ctrl->setParameter($this, "activecommand", "start");
-		$this->ctrl->redirect($this, "redirectQuestion");
+		$this->ctrl->redirect($this, ilTestPlayerCommands::START_TEST);
 	}
 
 	/**
@@ -585,17 +584,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	}
 
 	/**
-	 * Go back to the last active question from the summary
-	 *
-	 * Go back to the last active question from the summary
-	 */
-	public function backFromSummaryCmd()
-	{
-		$this->ctrl->setParameter($this, "activecommand", "back");
-		$this->ctrl->redirect($this, "redirectQuestion");
-	}
-
-	/**
 	 * The final submission of a test was confirmed
 	 */
 	protected function confirmFinishCmd()
@@ -654,7 +642,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		 *      If passes are limited, on the last pass, an additional confirmation is to be displayed.
 		 */
 
-		// Obligations fulfilled? redirectQuestion : one or the other summary -> no finish
+		
 		if( $this->object->areObligationsEnabled() && !$allObligationsAnswered )
 		{
 			if( $this->object->getListOfQuestions() )

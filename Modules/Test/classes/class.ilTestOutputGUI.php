@@ -94,7 +94,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 				);
 
 				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintRequestGUI.php';
-				$gui = new ilAssQuestionHintRequestGUI($this, 'redirectQuestion', $questionGUI, $questionHintTracking);
+				$gui = new ilAssQuestionHintRequestGUI($this, ilTestPlayerCommands::SHOW_QUESTION, $questionGUI, $questionHintTracking);
 
 				$ret = $this->ctrl->forwardCommand($gui);
 
@@ -227,7 +227,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		);
 
 		$sequenceElement = $this->getCurrentSequenceElement();
-		$presentationMode = $this->getPresentationModeParameter();
+		$presentationMode = $this->getCurrentPresentationMode();
 		$instantResponse = $this->getInstantResponseParameter();
 
 		if( !$this->isValidSequenceElement($sequenceElement) )
@@ -269,15 +269,23 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
 		switch($presentationMode)
 		{
-			case ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW:
-
-				$this->showQuestionViewable($questionGui, $formAction);
-				break;
-
 			case ilTestPlayerAbstractGUI::PRESENTATION_MODE_EDIT:
 
 				$this->showQuestionEditable($questionGui, $instantResponse, $formAction);
 				break;
+			
+			case ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW:
+				
+				$this->showQuestionViewable($questionGui, $formAction);
+				break;
+			
+			default:
+				
+				echo "pmode missing:";
+				vd($this->testSession->getLastPresentationMode());
+				vd($this->testSession->getLastSequence());
+				vd($sequenceElement);
+				exit;
 		}
 
 		if ($instantResponse)
@@ -537,30 +545,6 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		
 		$this->ctrl->setParameter($this, 'instresp', 1);
 		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
-	}
-
-	protected function showQuestionListCmd()
-	{
-		$questionId = $this->testSequence->getQuestionForSequence(
-			$this->getCurrentSequenceElement()
-		);
-
-		if ($this->saveResult == FALSE)
-		{
-			$this->ctrl->setParameter($this, "activecommand", "");
-			$this->ctrl->redirect($this, "redirectQuestion");
-		}
-		else
-		{
-			$this->ctrl->setParameter($this, "activecommand", "summary");
-			$this->ctrl->redirect($this, "redirectQuestion");
-		}
-	}
-
-	protected function showQuestionListWithoutSavingCmd()
-	{
-		$this->ctrl->setParameter($this, "activecommand", "summary");
-		$this->ctrl->redirect($this, "redirectQuestion");
 	}
 
 	protected function handleQuestionActionCmd()

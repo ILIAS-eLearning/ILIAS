@@ -97,7 +97,9 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
 		
 		// command buttons
 		
-		$this->addCommandButton('backFromSummary', $this->lng->txt('back'));
+		$this->addCommandButton(
+			ilTestPlayerCommands::SHOW_QUESTION, $this->lng->txt('back')
+		);
 
 		if( !$this->areObligationsNotAnswered() )
 		{
