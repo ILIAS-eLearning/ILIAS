@@ -172,11 +172,11 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 			$this->testSequence->saveToDb();
 		}
 
+		$this->testSequence->loadFromDb();
+		$this->testSequence->loadQuestions();
+
 		if( $this->testSession->isObjectiveOriented() )
 		{
-			$this->testSequence->loadFromDb();
-			$this->testSequence->loadQuestions();
-
 			$this->filterTestSequenceByObjectives(
 				$this->testSession, $this->testSequence
 			);
