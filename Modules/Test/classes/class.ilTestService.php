@@ -235,7 +235,18 @@ class ilTestService
 				}
 			}
 
-			array_push($data, array('order' => $value["nr"], 'title' => $this->object->getQuestionTitle($value["title"]), 'description' => $description, 'worked_through' => ($value["worked_through"]) ? true : false, 'postponed' => ($value["postponed"]) ? $this->lng->txt("postponed") : '', 'points' => $points, 'marked' => $marked, 'sequence' => $value["sequence"], 'obligatory' => $value['obligatory'], 'isAnswered' => $value['isAnswered']));
+			$data[] = array(
+				'order' => $value["nr"],
+				'title' => $this->object->getQuestionTitle($value["title"]),
+				'description' => $description,
+				'worked_through' => $value["worked_through"],
+				'postponed' => $value["postponed"],
+				'points' => $points,
+				'marked' => $marked,
+				'sequence' => $value["sequence"],
+				'obligatory' => $value['obligatory'],
+				'isAnswered' => $value['isAnswered']
+			);
 		}
 
 		return $data;

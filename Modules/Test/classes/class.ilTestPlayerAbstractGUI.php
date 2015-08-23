@@ -159,12 +159,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
 	abstract protected function canSaveResult();
 
-	/**
-	* Creates the introduction page for a test
-	*
-	* Creates the introduction page for a test
-	*/
-	public function outIntroductionPageCmd()
+	public function suspendTestCmd()
 	{
 		if( $this->customRedirectRequired() )
 		{
@@ -552,14 +547,13 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	/**
 	 * Toggle side list
 	 */
-	public function togglesidelistCmd()
+	public function toggleSideListCmd()
 	{
 		global $ilUser;
 
 		$show_side_list = $ilUser->getPref('side_list_of_questions');
 		$ilUser->writePref('side_list_of_questions', !$show_side_list);
-		$this->saveQuestionSolution();
-		$this->ctrl->redirect($this, "redirectQuestion");
+		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
 	}
 	
 	/**
@@ -568,7 +562,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	protected function markQuestionCmd()
 	{
 		$questionId  = $this->testSequence->getQuestionForSequence(
-			$this->getSequenceElementParameter()
+			$this->getCurrentSequenceElement()
 		);
 		
 		$this->object->setQuestionSetSolved(1, $questionId, $this->testSession->getUserId());
@@ -582,7 +576,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	protected function unmarkQuestionCmd()
 	{
 		$questionId  = $this->testSequence->getQuestionForSequence(
-			$this->getSequenceElementParameter()
+			$this->getCurrentSequenceElement()
 		);
 
 		$this->object->setQuestionSetSolved(0, $questionId, $this->testSession->getUserId());
@@ -665,11 +659,11 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		{
 			if( $this->object->getListOfQuestions() )
 			{
-				$this->ctrl->redirect($this, "outQuestionSummaryWithObligationsInfo");
+				$this->ctrl->redirect($this, ilTestPlayerCommands::QUESTION_SUMMARY_INC_OBLIGATIONS);
 			}
 			else
 			{
-				$this->ctrl->redirect($this, "outObligationsOnlySummary");
+				$this->ctrl->redirect($this, ilTestPlayerCommands::QUESTION_SUMMARY_OBLIGATIONS_ONLY);
 			}
 
 			return;
@@ -730,7 +724,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$this->testSession->setLastFinishedPass($this->testSession->getPass());
 		$this->testSession->increaseTestPass();
 
-		$this->ctrl->redirect($this, 'afterTestPassFinished');
+		$this->ctrl->redirect($this, ilTestPlayerCommands::AFTER_TEST_PASS_FINISHED);
 	}
 
 	protected function performTestPassFinishedTasks($finishedPass)
@@ -1536,8 +1530,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	
 	abstract protected function previousQuestionCmd();
 	
-	abstract protected function postponeQuestionCmd();
-	
 	protected function getMarkedQuestions()
 	{
 		if( $this->object->getShowMarker() )
@@ -1685,7 +1677,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		require_once 'Modules/Test/classes/class.ilTestQuestionNavigationGUI.php';
 		$navigationGUI = new ilTestQuestionNavigationGUI($this->lng);
 		
-		$navigationGUI->setEditSolutionCommand('editSolution');
+		$navigationGUI->setEditSolutionCommand(ilTestPlayerCommands::EDIT_SOLUTION);
 
 		if($this->object->getShowMarker())
 		{
@@ -1701,12 +1693,12 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
 			if($solved == 1)
 			{
-				$navigationGUI->setQuestionMarkCommand('unmarkQuestion');
+				$navigationGUI->setQuestionMarkCommand(ilTestPlayerCommands::UNMARK_QUESTION);
 				$navigationGUI->setQuestionMarked(true);
 			}
 			else
 			{
-				$navigationGUI->setQuestionMarkCommand('markQuestion');
+				$navigationGUI->setQuestionMarkCommand(ilTestPlayerCommands::MARK_QUESTION);
 				$navigationGUI->setQuestionMarked(false);
 			}
 		}
@@ -1719,8 +1711,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		require_once 'Modules/Test/classes/class.ilTestQuestionNavigationGUI.php';
 		$navigationGUI = new ilTestQuestionNavigationGUI($this->lng);
 
-		$navigationGUI->setSubmitSolutionCommand('submitSolution');
-		$navigationGUI->setDiscardSolutionCommand('discardSolution');
+		$navigationGUI->setSubmitSolutionCommand(ilTestPlayerCommands::SUBMIT_SOLUTION);
+		$navigationGUI->setDiscardSolutionCommand(ilTestPlayerCommands::DISCARD_SOLUTION);
 		
 		// feedback
 		switch( 1 )
@@ -1730,7 +1722,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			case $this->object->getAnswerFeedbackPoints():
 			case $this->object->getInstantFeedbackSolution():
 
-				$navigationGUI->setInstantFeedbackCommand('showInstantResponse');
+				$navigationGUI->setInstantFeedbackCommand(ilTestPlayerCommands::SHOW_INSTANT_RESPONSE);
 		}
 
 		// hints
@@ -1744,12 +1736,12 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
 			if( $questionHintTracking->requestsPossible() )
 			{
-				$navigationGUI->setRequestHintCommand('confirmHintRequest');
+				$navigationGUI->setRequestHintCommand(ilTestPlayerCommands::CONFIRM_HINT_REQUEST);
 			}
 
 			if( $questionHintTracking->requestsExist() )
 			{
-				$navigationGUI->setShowHintsCommand('showRequestedHintList');
+				$navigationGUI->setShowHintsCommand(ilTestPlayerCommands::SHOW_REQUESTED_HINTS_LIST);
 			}
 		}
 
@@ -1863,6 +1855,16 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			$this->populateSpecificFeedbackBlock($questionGui);
 		}
 	}
+	
+	protected function getCurrentSequenceElement()
+	{
+		if( $this->getSequenceElementParameter() )
+		{
+			return $this->getSequenceElementParameter();
+		}
+
+		return $this->testSession->getLastSequence();
+	}
 
 	protected function getSequenceElementParameter()
 	{
@@ -1872,6 +1874,16 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		}
 
 		return null;
+	}
+
+	protected function getCurrentPresentationMode()
+	{
+		if( $this->getPresentationModeParameter() )
+		{
+			return $this->getPresentationModeParameter();
+		}
+
+		return $this->testSession->getLastPresentationMode();
 	}
 
 	protected function getPresentationModeParameter()

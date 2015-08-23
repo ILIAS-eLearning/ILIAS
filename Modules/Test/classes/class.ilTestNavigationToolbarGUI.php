@@ -170,19 +170,19 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
 	
 	public function build()
 	{
-		if( $this->isSuspendTestButtonEnabled() )
+		if( $this->isQuestionTreeButtonEnabled() )
 		{
-			$this->addSuspendTestButton();
+			$this->addQuestionTreeButton();
 		}
-		
+
 		if( $this->isQuestionListButtonEnabled() )
 		{
 			$this->addQuestionListButton();
 		}
 
-		if( $this->isQuestionTreeButtonEnabled() )
+		if( $this->isSuspendTestButtonEnabled() )
 		{
-			$this->addQuestionTreeButton();
+			$this->addSuspendTestButton();
 		}
 
 		$this->addFinishTestButton();
@@ -191,7 +191,7 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
 	private function addSuspendTestButton()
 	{
 		$btn = ilSubmitButton::getInstance();
-		$btn->setCommand('outIntroductionPage');
+		$btn->setCommand(ilTestPlayerCommands::SUSPEND_TEST);
 		$btn->setCaption('cancel_test');
 		$btn->setDisabled($this->isDisabledStateEnabled());
 		$this->addButtonInstance($btn);
@@ -200,7 +200,7 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
 	private function addQuestionListButton()
 	{
 		$btn = ilSubmitButton::getInstance();
-		$btn->setCommand('showQuestionList');
+		$btn->setCommand(ilTestPlayerCommands::QUESTION_SUMMARY);
 		$btn->setCaption('question_summary');
 		$btn->setDisabled($this->isDisabledStateEnabled());
 		$this->addButtonInstance($btn);
@@ -209,7 +209,7 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
 	private function addQuestionTreeButton()
 	{
 		$btn = ilSubmitButton::getInstance();
-		$btn->setCommand('togglesidelist');
+		$btn->setCommand(ilTestPlayerCommands::TOGGLE_SIDE_LIST);
 		if( $this->isQuestionTreeVisible() )
 		{
 			$btn->setCaption('tst_hide_side_list');

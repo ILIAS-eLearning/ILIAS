@@ -226,7 +226,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 			$this->testSession->getActiveId(), $this->testSession->getPass()
 		);
 
-		$sequenceElement = $this->getSequenceElementParameter();
+		$sequenceElement = $this->getCurrentSequenceElement();
 		$presentationMode = $this->getPresentationModeParameter();
 		$instantResponse = $this->getInstantResponseParameter();
 
@@ -380,7 +380,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		if( $this->saveQuestionSolution(true, false) )
 		{
 			$questionId = $this->testSequence->getQuestionForSequence(
-				$this->getSequenceElementParameter()
+				$this->getCurrentSequenceElement()
 			);
 			
 			$this->getQuestionInstance($questionId)->removeIntermediateSolution(
@@ -395,7 +395,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
 	protected function discardSolutionCmd()
 	{
-		$sequenceElement = $this->getSequenceElementParameter();
+		$sequenceElement = $this->getCurrentSequenceElement();
 
 		$guestionGUI = $this->getQuestionGuiInstance(
 			$this->testSequence->getQuestionForSequence($sequenceElement), $sequenceElement
@@ -423,7 +423,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 	protected function nextQuestionCmd()
 	{
 		$sequenceElement = $this->testSequence->getNextSequence(
-			$this->getSequenceElementParameter()
+			$this->getCurrentSequenceElement()
 		);
 
 		$this->ctrl->setParameter($this, 'sequence', $sequenceElement);
@@ -435,7 +435,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 	protected function previousQuestionCmd()
 	{
 		$sequenceElement = $this->testSequence->getPreviousSequence(
-			$this->getSequenceElementParameter()
+			$this->getCurrentSequenceElement()
 		);
 
 		$this->ctrl->setParameter($this, 'sequence', $sequenceElement);
@@ -524,7 +524,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 	protected function showInstantResponseCmd()
 	{
 		$questionId = $this->testSequence->getQuestionForSequence(
-			$this->getSequenceElementParameter()
+			$this->getCurrentSequenceElement()
 		);
 		
 		if( !$this->isParticipantsAnswerFixed($questionId) )
@@ -542,7 +542,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 	protected function showQuestionListCmd()
 	{
 		$questionId = $this->testSequence->getQuestionForSequence(
-			$this->getSequenceElementParameter()
+			$this->getCurrentSequenceElement()
 		);
 
 		if ($this->saveResult == FALSE)
@@ -566,7 +566,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 	protected function handleQuestionActionCmd()
 	{
 		$questionId = $this->testSequence->getQuestionForSequence(
-			$this->getSequenceElementParameter()
+			$this->getCurrentSequenceElement()
 		);
 
 		if( !$this->isParticipantsAnswerFixed($questionId) )
