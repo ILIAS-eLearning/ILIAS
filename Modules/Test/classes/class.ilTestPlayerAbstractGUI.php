@@ -1232,6 +1232,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			$questionSideListGUI->setTargetGUI($this);
 			$questionSideListGUI->setQuestionSummaryData($questionSummaryData);
 			$questionSideListGUI->setCurrentSequenceElement($currentSequenceElement);
+			$questionSideListGUI->setCurrentPresentationMode($presentationMode);
 			$questionSideListGUI->setDisabled($presentationMode == self::PRESENTATION_MODE_EDIT);
 			$this->tpl->setVariable('LIST_OF_QUESTIONS', $questionSideListGUI->getHTML());
 		}

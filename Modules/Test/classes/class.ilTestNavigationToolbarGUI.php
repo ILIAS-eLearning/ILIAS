@@ -3,7 +3,6 @@
 
 require_once 'Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
 require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
-require_once 'Services/UIComponent/Button/classes/class.ilSubmitButton.php';
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -190,8 +189,10 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
 	
 	private function addSuspendTestButton()
 	{
-		$btn = ilSubmitButton::getInstance();
-		$btn->setCommand(ilTestPlayerCommands::SUSPEND_TEST);
+		$btn = ilLinkButton::getInstance();
+		$btn->setUrl($this->ctrl->getLinkTarget(
+			$this->playerGUI, ilTestPlayerCommands::SUSPEND_TEST
+		));
 		$btn->setCaption('cancel_test');
 		$btn->setDisabled($this->isDisabledStateEnabled());
 		$this->addButtonInstance($btn);
@@ -199,8 +200,10 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
 	
 	private function addQuestionListButton()
 	{
-		$btn = ilSubmitButton::getInstance();
-		$btn->setCommand(ilTestPlayerCommands::QUESTION_SUMMARY);
+		$btn = ilLinkButton::getInstance();
+		$btn->setUrl($this->ctrl->getLinkTarget(
+			$this->playerGUI, ilTestPlayerCommands::QUESTION_SUMMARY
+		));
 		$btn->setCaption('question_summary');
 		$btn->setDisabled($this->isDisabledStateEnabled());
 		$this->addButtonInstance($btn);
@@ -208,8 +211,10 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
 	
 	private function addQuestionTreeButton()
 	{
-		$btn = ilSubmitButton::getInstance();
-		$btn->setCommand(ilTestPlayerCommands::TOGGLE_SIDE_LIST);
+		$btn = ilLinkButton::getInstance();
+		$btn->setUrl($this->ctrl->getLinkTarget(
+			$this->playerGUI, ilTestPlayerCommands::TOGGLE_SIDE_LIST
+		));
 		if( $this->isQuestionTreeVisible() )
 		{
 			$btn->setCaption('tst_hide_side_list');
@@ -224,10 +229,13 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
 
 	private function addFinishTestButton()
 	{
-		$btn = ilSubmitButton::getInstance();
-		$btn->setCommand($this->getFinishTestCommand());
+		$btn = ilLinkButton::getInstance();
+		$btn->setUrl($this->ctrl->getLinkTarget(
+			$this->playerGUI, $this->getFinishTestCommand()
+		));
 		$btn->setCaption('finish_test');
 		$btn->setDisabled($this->isDisabledStateEnabled());
+		
 		$this->addButtonInstance($btn);
 	}
 }

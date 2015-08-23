@@ -36,6 +36,11 @@ class ilTestQuestionSideListGUI
 	private $currentSequenceElement;
 
 	/**
+	 * @var string
+	 */
+	private $currentPresentationMode;
+
+	/**
 	 * @var bool
 	 */
 	private $disabled;
@@ -103,6 +108,22 @@ class ilTestQuestionSideListGUI
 	}
 
 	/**
+	 * @return string
+	 */
+	public function getCurrentPresentationMode()
+	{
+		return $this->currentPresentationMode;
+	}
+
+	/**
+	 * @param string $currentPresentationMode
+	 */
+	public function setCurrentPresentationMode($currentPresentationMode)
+	{
+		$this->currentPresentationMode = $currentPresentationMode;
+	}
+
+	/**
 	 * @return boolean
 	 */
 	public function isDisabled()
@@ -167,18 +188,7 @@ class ilTestQuestionSideListGUI
 			}
 			else
 			{
-				$this->ctrl->setParameter(
-					$this->getTargetGUI(), 'pmode', ilTestPlayerAbstractGUI::getRequiredPresentationMode($row['worked_through'])
-				);
-				$this->ctrl->setParameter(
-					$this->getTargetGUI(), 'sequence', $row['sequence']
-				);
-				
-				$href = $this->ctrl->getLinkTarget($this->getTargetGUI(), ilTestPlayerCommands::SHOW_QUESTION);
-				
-				$this->ctrl->setParameter(
-					$this->getTargetGUI(), 'sequence', $this->getCurrentSequenceElement()
-				);
+				$href = $this->buildLink($row['sequence'], $row['worked_through']);
 
 				$tpl->setCurrentBlock('linked_entry');
 				$tpl->setVariable('HREF', $href);
@@ -203,5 +213,30 @@ class ilTestQuestionSideListGUI
 		$panel = $this->buildPanel();
 		$panel->setBody($this->renderList());
 		return $panel->getHTML();
+	}
+
+	/**
+	 * @param $row
+	 * @return string
+	 */
+	private function buildLink($sequenceElement, $isWorkedThru)
+	{
+		$this->ctrl->setParameter(
+			$this->getTargetGUI(), 'pmode', ilTestPlayerAbstractGUI::getRequiredPresentationMode($row['worked_through'])
+		);
+
+		$this->ctrl->setParameter(
+			$this->getTargetGUI(), 'sequence', $sequenceElement
+		);
+
+		$href = $this->ctrl->getLinkTarget($this->getTargetGUI(), ilTestPlayerCommands::SHOW_QUESTION);
+
+		$this->ctrl->setParameter(
+			$this->getTargetGUI(), 'pmode', $this->getCurrentPresentationMode()
+		);
+		$this->ctrl->setParameter(
+			$this->getTargetGUI(), 'sequence', $this->getCurrentSequenceElement()
+		);
+		return $href;
 	}
 }
