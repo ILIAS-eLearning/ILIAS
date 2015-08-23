@@ -1067,27 +1067,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		return $this->object->hasNrOfTriesRestriction() && $this->object->isNrOfTriesReached($this->testSession->getPass());	
 	}
 	
-/**
-* Output of the learners view of an existing test pass
-*
-* Output of the learners view of an existing test pass
-*
-* @access public
-*/
-	function passDetails()
-	{
-		if (array_key_exists("pass", $_GET) && (strlen($_GET["pass"]) > 0))
-		{
-			$this->ctrl->saveParameter($this, "pass");
-			$this->ctrl->saveParameter($this, "active_id");
-			$this->outTestResults(false, $_GET["pass"]);
-		}
-		else
-		{
-			$this->outTestResults(false);
-		}
-	}
-	
 	/**
 	 * handle endingTimeReached
 	 * @private
