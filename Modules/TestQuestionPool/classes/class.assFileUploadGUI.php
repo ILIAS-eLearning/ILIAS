@@ -523,7 +523,7 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 		return ''; //print_r($relevant_answers,true);
 	}
 
-	protected function getFormEncodingType()
+	public function getFormEncodingType()
 	{
 		return self::FORM_ENCODING_MULTIPART;
 	}
