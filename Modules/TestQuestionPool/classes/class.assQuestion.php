@@ -4636,4 +4636,49 @@ abstract class assQuestion
 			array($activeId, $this->getId(), $pass)
 		);
 	}
+	
+	public function resultRecordExist($activeId, $pass)
+	{
+		global $ilDB
+		
+		$query = "
+			SELECT COUNT(*) cnt
+			FROM tst_test_result
+			WHERE active_fi = %s
+			AND question_fi = %s
+			AND pass = %s
+		";
+		
+		$row = $ilDB->fetchAssoc($ilDB->queryF($query, array('integer', 'integer', 'integer'),
+			array($activeId, $this->getId(), $pass)
+		));
+		
+		return $row['cnt'] > 0;
+	}
+
+	public function removeResultRecord($activeId, $pass)
+	{
+		global $ilDB
+		
+		$query = "
+			DELETE FROM tst_test_result
+			WHERE active_fi = %s
+			AND question_fi = %s
+			AND pass = %s
+		";
+		
+		return $ilDB->manipulateF($query, array('integer', 'integer', 'integer'),
+			array($activeId, $this->getId(), $pass)
+		);
+	}
+	
+	public function resetUsersAnswer($activeId, $pass)
+	{
+		$this->removeExistingSolutions($activeId, $pass);
+		$this->removeResultRecord($activeId, $pass);
+		
+		$this->_updateTestPassResults(
+			$activeId, $pass, $this->areObligationsToBeConsidered(), $this->getProcessLocker(), $this->getTestId()
+		);
+	}
 }

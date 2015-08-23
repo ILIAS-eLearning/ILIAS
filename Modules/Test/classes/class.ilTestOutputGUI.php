@@ -410,11 +410,9 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 			$this->testSequence->getQuestionForSequence($sequenceElement), $sequenceElement
 		);
 
-		$guestionGUI->object->removeExistingSolutions(
+		$guestionGUI->object->resetUsersAnswer(
 			$this->testSession->getActiveId(), $this->testSession->getPass()
 		);
-
-		// TODO BHEYSER: reset answered state
 
 		if( $this->object->isPostponingEnabled() )
 		{
