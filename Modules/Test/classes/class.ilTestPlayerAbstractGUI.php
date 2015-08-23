@@ -13,9 +13,7 @@ require_once './Services/UIComponent/Button/classes/class.ilSubmitButton.php';
  * The ilTestOutputGUI class creates the output for the ilObjTestGUI class when learners execute a test. This saves
  * some heap space because the ilObjTestGUI class will be much smaller then
  *
- * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
  * @author		Björn Heyser <bheyser@databay.de>
- * @author		Maximilian Becker <mbecker@databay.de>
  * @author		Maximilian Becker <mbecker@databay.de>
  *          
  * @version		$Id$

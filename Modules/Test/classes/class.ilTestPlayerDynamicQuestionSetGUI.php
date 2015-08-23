@@ -12,7 +12,6 @@ require_once 'Modules/Test/classes/class.ilTestPlayerAbstractGUI.php';
  *
  * @extends ilTestPlayerAbstractGUI
  * 
- * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
  * 
@@ -157,8 +156,6 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 	
 	protected function startTestCmd()
 	{
-		global $ilUser;
-		
 		$this->testSession->setCurrentQuestionId(null); // no question "came up" yet
 		
 		$this->testSession->saveToDb();
