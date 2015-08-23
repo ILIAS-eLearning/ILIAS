@@ -166,7 +166,9 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
 			else $OBLIGATORY = '';
 			$this->tpl->setVariable("QUESTION_OBLIGATORY", $OBLIGATORY);
 		}
-
+		
+		$this->ctrl->setParameter($this->parent_obj, 'sequence', $data['sequence']);
+		$this->ctrl->setParameter($this->parent_obj, 'pmode', ilTestPlayerAbstractGUI::getRequiredPresentationMode($data["worked_through"]));
 		$href = $this->ctrl->getLinkTarget($this->parent_obj, ilTestPlayerCommands::SHOW_QUESTION);
 		
 		$this->tpl->setVariable("ORDER", $data['order']);
@@ -232,6 +234,4 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
 	{
 		$this->obligationsNotAnswered = $obligationsNotAnswered;
 	}
-	
-	
 }

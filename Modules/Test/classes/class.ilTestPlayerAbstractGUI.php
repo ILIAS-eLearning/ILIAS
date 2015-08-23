@@ -120,11 +120,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$this->processLocker = $processLockerFactory->getLocker();
 	}
 
-	protected function getDefaultPresentationMode()
-	{
-		return ilTestPlayerAbstractGUI::PRESENTATION_MODE_EDIT;
-	}
-
 	/**
 	 * Save tags for tagging gui
 	 *
@@ -1097,7 +1092,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 */
 	function maxProcessingTimeReached()
 	{
-		$this->outIntroductionPage();
+		$this->suspendTestCmd();
 	}		
 
 	/**
@@ -1911,5 +1906,25 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		}
 		
 		return $this->cachedQuestionObjects[$questionId];
+	}
+
+	protected function getDefaultPresentationMode()
+	{
+		return ilTestPlayerAbstractGUI::PRESENTATION_MODE_EDIT;
+	}
+	
+	public static function getRequiredPresentationMode($questionIsWorkedThru)
+	{
+		if( $questionIsWorkedThru )
+		{
+			return ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW;
+		}
+
+		return self::getDefaultPresentationMode();
+	}
+	
+	protected function determinePresentationMode(assQuestion $questionOBJ)
+	{
+		self::getRequiredPresentationMode($questionOBJ->resultRecordExist());
 	}
 }

@@ -187,8 +187,13 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		);
 		$_SESSION["active_time_id"] = $active_time_id;
 
-		$this->ctrl->setParameter($this, 'sequence', $this->testSequence->getFirstSequence());
-		$this->ctrl->setParameter($this, 'pmode', $this->getDefaultPresentationMode());
+		$sequenceElement = $this->testSequence->getFirstSequence();
+		
+		$questionOBJ = $this->getQuestionInstance($this->testSequence->getQuestionForSequence($sequenceElement));
+		$presentationMode = $this->determinePresentationMode($questionOBJ);
+
+		$this->ctrl->setParameter($this, 'sequence', $sequenceElement);
+		$this->ctrl->setParameter($this, 'pmode', $presentationMode);
 
 		if ($this->object->getListOfQuestionsStart())
 		{
@@ -423,9 +428,12 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		$sequenceElement = $this->testSequence->getNextSequence($sequenceElement);
 		$this->testSession->setLastSequence($sequenceElement);
 		$this->testSession->saveToDb();
-
+		
+		$questionOBJ = $this->getQuestionInstance($this->testSequence->getQuestionForSequence($sequenceElement));
+		$presentationMode = $this->determinePresentationMode($questionOBJ);
+		
 		$this->ctrl->setParameter($this, 'sequence', $sequenceElement);
-		$this->ctrl->setParameter($this, 'pmode', $this->getDefaultPresentationMode());
+		$this->ctrl->setParameter($this, 'pmode', $presentationMode);
 
 		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
 	}
@@ -436,8 +444,10 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 			$this->getCurrentSequenceElement()
 		);
 
+		$questionOBJ = $this->getQuestionInstance($this->testSequence->getQuestionForSequence($sequenceElement));
+		
 		$this->ctrl->setParameter($this, 'sequence', $sequenceElement);
-		$this->ctrl->setParameter($this, 'pmode', $this->getDefaultPresentationMode());
+		$this->ctrl->setParameter($this, 'pmode', $this->determinePresentationMode($questionOBJ));
 
 		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
 	}
@@ -448,8 +458,11 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 			$this->getCurrentSequenceElement()
 		);
 
+		$questionOBJ = $this->getQuestionInstance($this->testSequence->getQuestionForSequence($sequenceElement));
+		$presentationMode = $this->determinePresentationMode($questionOBJ);
+
 		$this->ctrl->setParameter($this, 'sequence', $sequenceElement);
-		$this->ctrl->setParameter($this, 'pmode', $this->getDefaultPresentationMode());
+		$this->ctrl->setParameter($this, 'pmode', $presentationMode);
 
 		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
 	}

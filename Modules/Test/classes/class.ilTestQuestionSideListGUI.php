@@ -154,7 +154,7 @@ class ilTestQuestionSideListGUI
 			$active = ($row['sequence'] == $this->getCurrentSequenceElement()) ? ' active' : '';
 			
 			$class = (
-				$row['walked_through'] ? 'answered'.$active : 'unanswered'.$active
+				$row['worked_through'] ? 'answered'.$active : 'unanswered'.$active
 			);
 				
 			if( $this->isDisabled() )
@@ -167,9 +167,18 @@ class ilTestQuestionSideListGUI
 			}
 			else
 			{
-				$this->ctrl->setParameter($this->getTargetGUI(), 'sequence', $row['sequence']);
+				$this->ctrl->setParameter(
+					$this->getTargetGUI(), 'pmode', ilTestPlayerAbstractGUI::getRequiredPresentationMode($row['worked_through'])
+				);
+				$this->ctrl->setParameter(
+					$this->getTargetGUI(), 'sequence', $row['sequence']
+				);
+				
 				$href = $this->ctrl->getLinkTarget($this->getTargetGUI(), ilTestPlayerCommands::SHOW_QUESTION);
-				$this->ctrl->setParameter($this->getTargetGUI(), 'sequence', $this->getCurrentSequenceElement());
+				
+				$this->ctrl->setParameter(
+					$this->getTargetGUI(), 'sequence', $this->getCurrentSequenceElement()
+				);
 
 				$tpl->setCurrentBlock('linked_entry');
 				$tpl->setVariable('HREF', $href);

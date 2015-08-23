@@ -3186,6 +3186,10 @@ abstract class assQuestion
 	*/
 	public static function _isWorkedThrough($active_id, $question_id, $pass = NULL)
 	{
+		return self::resultRecordExist($active_id, $question_id, $pass);
+		
+		// oldschool "workedthru"
+
 		global $ilDB;
 
 		$points = 0;
@@ -4636,24 +4640,15 @@ abstract class assQuestion
 			array($activeId, $this->getId(), $pass)
 		);
 	}
-	
-	public function resultRecordExist($activeId, $pass)
+
+	public function resetUsersAnswer($activeId, $pass)
 	{
-		global $ilDB;
-		
-		$query = "
-			SELECT COUNT(*) cnt
-			FROM tst_test_result
-			WHERE active_fi = %s
-			AND question_fi = %s
-			AND pass = %s
-		";
-		
-		$row = $ilDB->fetchAssoc($ilDB->queryF($query, array('integer', 'integer', 'integer'),
-			array($activeId, $this->getId(), $pass)
-		));
-		
-		return $row['cnt'] > 0;
+		$this->removeExistingSolutions($activeId, $pass);
+		$this->removeResultRecord($activeId, $pass);
+
+		$this->_updateTestPassResults(
+			$activeId, $pass, $this->areObligationsToBeConsidered(), $this->getProcessLocker(), $this->getTestId()
+		);
 	}
 
 	public function removeResultRecord($activeId, $pass)
@@ -4671,14 +4666,23 @@ abstract class assQuestion
 			array($activeId, $this->getId(), $pass)
 		);
 	}
-	
-	public function resetUsersAnswer($activeId, $pass)
+
+	public static function resultRecordExist($activeId, $questionId, $pass)
 	{
-		$this->removeExistingSolutions($activeId, $pass);
-		$this->removeResultRecord($activeId, $pass);
-		
-		$this->_updateTestPassResults(
-			$activeId, $pass, $this->areObligationsToBeConsidered(), $this->getProcessLocker(), $this->getTestId()
-		);
+		global $ilDB;
+
+		$query = "
+			SELECT COUNT(*) cnt
+			FROM tst_test_result
+			WHERE active_fi = %s
+			AND question_fi = %s
+			AND pass = %s
+		";
+
+		$row = $ilDB->fetchAssoc($ilDB->queryF($query, array('integer', 'integer', 'integer'),
+			array($activeId, $questionId, $pass)
+		));
+
+		return $row['cnt'] > 0;
 	}
 }
