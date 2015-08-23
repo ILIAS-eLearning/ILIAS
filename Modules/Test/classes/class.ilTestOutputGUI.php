@@ -18,7 +18,7 @@ require_once './Modules/Test/classes/class.ilTestPlayerAbstractGUI.php';
  * @inGroup		ModulesTest
  */
 abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
-{
+{	
 	/**
 	 * Execute Command
 	 */
@@ -265,6 +265,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
 		$this->prepareTestPage($presentationMode, $sequenceElement);
 
+		$this->ctrl->setParameter($this, 'sequence', $sequenceElement);
 		$formAction = $this->ctrl->getFormAction($this);
 
 		switch($presentationMode)
@@ -413,11 +414,14 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 			$this->testSession->getActiveId(), $this->testSession->getPass()
 		);
 
-		// reset answered state
+		// TODO BHEYSER: reset answered state
 
-		$this->testSequence->postponeSequence($sequenceElement);
-		$this->testSequence->saveToDb();
-
+		if( $this->object->isPostponingEnabled() )
+		{
+			$this->testSequence->postponeSequence($sequenceElement);
+			$this->testSequence->saveToDb();
+		}
+		
 		$sequenceElement = $this->testSequence->getNextSequence($sequenceElement);
 		$this->testSession->setLastSequence($sequenceElement);
 		$this->testSession->saveToDb();

@@ -51,6 +51,11 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	protected $testSequence = null;
 
 	/**
+	 * @var ilTestSession
+	 */
+	protected $testSession = null;
+
+	/**
 	* ilTestOutputGUI constructor
 	*
 	* @param ilObjTest $a_object
