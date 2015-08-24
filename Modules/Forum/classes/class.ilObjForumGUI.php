@@ -1714,39 +1714,33 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 						$oFDForum->storeUploadedFile($file);
 					}
 				}
+				
+				$GLOBALS['ilAppEventHandler']->raise(
+					'Modules/Forum',
+					'createdPost',
+					array(
+						'ref_id'            => $this->object->getRefId(),
+						'post'              => new ilForumPost($newPost),
+						'notify_moderators' => (bool)$send_activation_mail
+					)
+				);
 
-				// FINALLY SEND MESSAGE
-				if ($this->ilias->getSetting("forum_notification") == 1 && (int)$status )
+				$message = '';
+				if(!$this->is_moderator && !$status)
 				{
-					$objPost = new ilForumPost((int)$newPost, $this->is_moderator);
-
-					$GLOBALS['ilAppEventHandler']->raise(
-						'Modules/Forum',
-						'createdPost',
-						array(
-							'ref_id'            => $this->object->getRefId(),
-							'post'              => new ilForumPost($newPost),
-							'notify_moderators' => (bool)$send_activation_mail
-						)
-					);
-
-					$message = '';
-					if(!$this->is_moderator && !$status)
-					{
-						$message .= $lng->txt('forums_post_needs_to_be_activated');
-					}
-					else
-					{
-						$message .= $lng->txt('forums_post_new_entry');
-					}
-
-					$_SESSION['frm'][(int)$_GET['thr_pk']]['openTreeNodes'][] = (int)$this->objCurrentPost->getId();
-
-					ilUtil::sendSuccess($message, true);
-					$this->ctrl->setParameter($this, 'pos_pk', $newPost);
-					$this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentPost->getThreadId());
-					$this->ctrl->redirect($this, 'viewThread');
+					$message .= $lng->txt('forums_post_needs_to_be_activated');
 				}
+				else
+				{
+					$message .= $lng->txt('forums_post_new_entry');
+				}
+
+				$_SESSION['frm'][(int)$_GET['thr_pk']]['openTreeNodes'][] = (int)$this->objCurrentPost->getId();
+
+				ilUtil::sendSuccess($message, true);
+				$this->ctrl->setParameter($this, 'pos_pk', $newPost);
+				$this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentPost->getThreadId());
+				$this->ctrl->redirect($this, 'viewThread');
 			}
 			else
 			{
