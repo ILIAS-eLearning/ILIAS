@@ -14,11 +14,27 @@ include_once './webservice/soap/classes/class.ilSoapAdministration.php';
 class ilSoapLearningProgressAdministration extends ilSoapAdministration
 {
 	protected static $DELETE_PROGRESS_FILTER_TYPES = array('sahs', 'tst');
-	
+
 	const PROGRESS_FILTER_ALL = 0;
 	const PROGRESS_FILTER_IN_PROGRESS = 1;
 	const PROGRESS_FILTER_COMPLETED = 2;
 	const PROGRESS_FILTER_FAILED = 3;
+	const PROGRESS_FILTER_NOT_ATTEMPTED = 4;
+
+	const SOAP_LP_ERROR_AUTHENTICATION = 50;
+	const SOAP_LP_ERROR_INVALID_FILTER = 52;
+	const SOAP_LP_ERROR_INVALID_REF_ID = 54;
+	const SOAP_LP_ERROR_LP_NOT_AVAILABLE = 56;
+	
+	protected static $PROGRESS_INFO_TYPES = array(
+		self::PROGRESS_FILTER_ALL,
+		self::PROGRESS_FILTER_IN_PROGRESS,
+		self::PROGRESS_FILTER_COMPLETED,
+		self::PROGRESS_FILTER_FAILED,
+		self::PROGRESS_FILTER_NOT_ATTEMPTED
+	);
+		
+	
 	
 	const USER_FILTER_ALL = -1;
 	
@@ -141,6 +157,153 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
 		}
 		return true;
 	}
+	
+	public function getProgressInfo($sid, $a_ref_id, $a_progress_filter)
+	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
+		// Check session
+		if(!$this->__checkSession($sid))
+		{
+			return $this->__raiseError('Error '.SOAP_LP_ERROR_AUTHENTICATION.':'.$this->__getMessage(),
+				SOAP_LP_ERROR_AUTHENTICATION);
+		}
+		
+		// Check filter
+		if(array_diff((array) $a_progress_filter, self::$PROGRESS_INFO_TYPES))
+		{
+			return $this->__raiseError('Error '.SOAP_LP_ERROR_INVALID_FILTER.': Invalid filter type given',
+				SOAP_LP_ERROR_INVALID_FILTER);
+		}
+		
+		include_once './Services/Object/classes/class.ilObjectFactory.php';
+		$obj = ilObjectFactory::getInstanceByRefId($a_ref_id, false);
+		if(!$obj instanceof ilObject)
+		{
+			return $this->__raiseError('Error '.SOAP_LP_ERROR_INVALID_REF_ID.': Invalid reference id '. $a_ref_id.' given',
+				SOAP_LP_ERROR_INVALID_REF_ID);
+		}
+		
+		// check lp available
+		include_once './Services/Tracking/classes/class.ilLPObjSettings.php';
+		$mode = ilLPObjSettings::_lookupMode($obj->getId());
+		if($mode == LP_MODE_UNDEFINED)
+		{
+			return $this->__raiseError('Error '.SOAP_LP_ERROR_LP_NOT_AVAILABLE.': Learning progress not available for objects of type '.
+				$obj->getType(),
+				SOAP_LP_ERROR_LP_NOT_AVAILABLE);
+		}
+		
+		
+		include_once './Services/Xml/classes/class.ilXmlWriter.php';
+		$writer = new ilXmlWriter();
+		$writer->xmlStartTag(
+				'LearningProgressInfo',
+				array(
+					'ref_id' => $obj->getRefId(),
+					'type' => $obj->getType()
+				)
+		);
+		
+		$writer->xmlStartTag('LearningProgressSummary');
+		
+		include_once './Services/Tracking/classes/class.ilLPStatusWrapper.php';
+		if(in_array(self::PROGRESS_FILTER_ALL, $a_progress_filter) or in_array(self::PROGRESS_FILTER_COMPLETED, $a_progress_filter))
+		{
+			$completed = ilLPStatusWrapper::_getCountCompleted($obj->getId());
+			$writer->xmlElement(
+					'Status',
+					array(
+						'type'  => self::PROGRESS_FILTER_COMPLETED,
+						'num'	=> (int) $completed
+					)
+			);
+		}
+		if(in_array(self::PROGRESS_FILTER_ALL, $a_progress_filter) or in_array(self::PROGRESS_FILTER_IN_PROGRESS, $a_progress_filter))
+		{
+			$completed = ilLPStatusWrapper::_getCountInProgress($obj->getId());
+			$writer->xmlElement(
+					'Status',
+					array(
+						'type'  => self::PROGRESS_FILTER_IN_PROGRESS,
+						'num'	=> (int) $completed
+					)
+			);
+		}
+		if(in_array(self::PROGRESS_FILTER_ALL, $a_progress_filter) or in_array(self::PROGRESS_FILTER_FAILED, $a_progress_filter))
+		{
+			$completed = ilLPStatusWrapper::_getCountFailed($obj->getId());
+			$writer->xmlElement(
+					'Status',
+					array(
+						'type'  => self::PROGRESS_FILTER_FAILED,
+						'num'	=> (int) $completed
+					)
+			);
+		}
+		if(in_array(self::PROGRESS_FILTER_ALL, $a_progress_filter) or in_array(self::PROGRESS_FILTER_NOT_ATTEMPTED, $a_progress_filter))
+		{
+			$completed = ilLPStatusWrapper::_getCountNotAttempted($obj->getId());
+			$writer->xmlElement(
+					'Status',
+					array(
+						'type'  => self::PROGRESS_FILTER_NOT_ATTEMPTED,
+						'num'	=> (int) $completed
+					)
+			);
+		}
+		$writer->xmlEndTag('LearningProgressSummary');
+		
+
+		$writer->xmlStartTag('UserProgress');
+		if(in_array(self::PROGRESS_FILTER_ALL, $a_progress_filter) or in_array(self::PROGRESS_FILTER_COMPLETED, $a_progress_filter))
+		{
+			$completed = ilLPStatusWrapper::_getCompleted($obj->getId());
+			$this->addUserProgress($writer, $completed, self::PROGRESS_FILTER_COMPLETED);
+		}
+		if(in_array(self::PROGRESS_FILTER_ALL, $a_progress_filter) or in_array(self::PROGRESS_FILTER_IN_PROGRESS, $a_progress_filter))
+		{
+			$completed = ilLPStatusWrapper::_getInProgress($obj->getId());
+			$this->addUserProgress($writer, $completed, self::PROGRESS_FILTER_IN_PROGRESS);
+		}
+		if(in_array(self::PROGRESS_FILTER_ALL, $a_progress_filter) or in_array(self::PROGRESS_FILTER_FAILED, $a_progress_filter))
+		{
+			$completed = ilLPStatusWrapper::_getFailed($obj->getId());
+			$this->addUserProgress($writer, $completed, self::PROGRESS_FILTER_FAILED);
+		}
+		if(in_array(self::PROGRESS_FILTER_ALL, $a_progress_filter) or in_array(self::PROGRESS_FILTER_NOT_ATTEMPTED, $a_progress_filter))
+		{
+			$completed = ilLPStatusWrapper::_getNotAttempted($obj->getId());
+			$this->addUserProgress($writer, $completed, self::PROGRESS_FILTER_NOT_ATTEMPTED);
+		}
+		$writer->xmlEndTag('UserProgress');
+		$writer->xmlEndTag('LearningProgressInfo');
+
+		return $writer->xmlDumpMem();
+	}
+	
+	protected function addUserProgress(ilXmlWriter $writer, $users, $a_type)
+	{
+		foreach($users  as $user_id)
+		{
+			$writer->xmlStartTag(
+					'User',
+					array(
+						'id' => $user_id,
+						'status' => $a_type
+					)
+			);
+			
+			$info = ilObjUser::_lookupName($user_id);
+			$writer->xmlElement('Login',array(),(string) $info['login']);
+			$writer->xmlElement('Firstname',array(),(string) $info['firstname']);
+			$writer->xmlElement('Lastname',array(),(string) $info['lastname']);
+			$writer->xmlEndTag('User');
+			
+		}
+	}
+	
 	
 	/**
 	 * Apply progress filter
