@@ -15756,3 +15756,75 @@ crs#:#crs_loc_objectives_passed_confirmation#:#Sie haben bereits alle Lernziel b
 crs#:#crs_loc_tst_start#:#Test starten
 crs#:#crs_loc_mem_show_res#:#Testergebnisse anzeigen
 crs#:#crs_loc_test_results_of#:#Testergebnisse von:
+prg#:#prg_new#:#Neues Studienprogramm
+prg#:#prg_add#:#Studienprogramm hinzufügen
+prg#:#prg_edit#:#Studienprogramm bearbeiten
+prg#:#prg_type#:#Studienprogrammtyp
+prg#:#prg_view_tree#:#Baumansicht
+prg#:#prg_assessment#:#Studienprogrammbewertung
+prg#:#prg_points#:#Punkte
+prg#:#prg_status#:#Status
+prg#:#prg_status_draft#:#Entwurf
+prg#:#prg_status_active#:#Aktiv
+prg#:#prg_status_outdated#:#Abgelaugen
+prg#:#prg_status_in_progress#:#In Bearbeitung
+prg#:#prg_status_completed#:#Abgeschlossen
+prg#:#prg_status_accredited#:#Akkreditiert
+prg#:#prg_status_not_relevant#:#Nicht Relevant
+prg#:#prg_possible#:#Möglich
+prg#:#prg_completion_by#:#Abgeschlossen durch
+prg#:#prg_changed_by#:#Geändert durch
+prg#:#prg_manual_status#:#Manueller Status
+prg#:#prg_points_required#:#Benötigte Punkte
+prg#:#prg_points_current#:#Derzeitige Punkte
+prg#:#prg_custom_plan#:#Individueller Plan
+prg#:#prg_belongs_to#:#Gehört Zu
+prg#:#prg_show_individual_plan#:#Individuellen Plan zeigen
+prg#:#prg_remove_user#:#Benutzer entfernen
+prg#:#prg_mark_accredited#:#akkreditieren
+prg#:#prg_unmark_accredited#:#Akkreditierung entfernen
+prg#:#prg_mark_accredited_success#:#Das Programm wurde für den Benutzer erfolgreich akkreditiert.
+prg#:#prg_unmark_accredited_success#:#Die Akkreditierung wurde erfolgreich entfernt.
+prg#:#prg_remove_user_success#:#Der Benutzer wurde entfernt. 
+prg#:#prg_type_add#:#Studienprogrammtyp hinzufügen
+prg#:#prg_subtypes#:#Typen
+prg#:#prg_subtype_add#:#Neuen Typ hinzufügen
+prg#:#prg_adv_settings#:#Erweiterte Einstellungen
+prg#:#prg_type_custom_icon#:#Individuelles Icon
+prg#:#prg_type_custom_icon_info#:#Info für Individuelles Icon
+prg#:#prg_type_msg_error_custom_icon#:#Während des Speicherns des individuellen Icons ist ein Fehler aufgetreten.
+prg#:#prg_type_assign_amd_sets#:#Erweitertes Metadatenset zuweisen
+prg#:#prg_type_available_amd_sets#:#Verfügbare Erweitere Metadatensets
+prg#:#prg_type_edit#:#Typ editieren
+prg#:#prg_type_msg_deleted#:#Typ löschen
+prg#:#prg_type_msg_unable_delete#:#Konnte Typ nicht löschen, da er bei folgenden Studienprogrammen verwendet wird: %s
+prg#:#prg_type_msg_missing_title_default_language#:#Es muss eine Standardsprache und ein Titel für die Standardsprache gesetzt sein.
+prg#:#prg_save_tree_order#:#Reihenfolge des Baums speichern
+prg#:#prg_cancel_tree_order#:#Reihenfolge des Baums verwerfen.
+prg#:#prg_saved_order_successful#:#Reihenfolge des Baums erfolgreich gespeichert.
+prg#:#prg_async_settings#:#Einstellungen
+prg#:#prg_open_node#:#Zum Studienprogramm wechseln.
+prg#:#prg_async_create#:#Neues Element hinzufügen.
+prg#:#prg_create_new_node#:#Neues Studienprogramm hinzufügen
+prg#:#prg_create_new_leaf#:#Neue Kursreferenz hinzufügen.
+prg#:#prg_please_select_a_course_for_creating_a_leaf#:#Bitte wählen Sie eine Kursreferenz.
+prg#:#prg_deleted_safely#:#Knoten wurde sicher entfernt.
+prg#:#prg_not_allowed_node_to_delete#:#Sie dürfen dieses Studienprogramm nicht entfernen.
+prg#:#prg_added_course_ref_successful#:#Neue Kursreferenz erfolgreich hinzugefügt.
+prg#:#prg_manage#:#Verwalten
+prg#:#prg_view#:#Anzeigen
+prg#:#prg_update_from_current_plan#:#Aus dem aktuellen Plan aktualisieren.
+prg#:#prg_update_successful#:#Änderungen erfolgreich gespeichert!
+prg#:#prg_update_from_plan_successful#:#Die Aktualisierung aus dem aktuellen Plan war erfolgreich.
+prg#:#prg_warning_img_alt#:#Warnung!
+prg#:#prg_successful_img_alt#:#erfolgreich
+prg#:#prg_in_progress_img_alt#:#in Bearbeitung
+prg#:#prg_progress_info#:#Sieh haben %1$d Punkte. Das Studienprogramm ist mit %2$d Punkten bestanden.
+prg#:#prg_progress_status#:# %1$d von %2$d Punkten
+prg#:#prg_no_members_not_active#:#Da das Studienprogramm nicht aktiv ist, können keine neuen Mitglieder hinzugefügt werden.
+common#:#obj_prg_duplicate#:#Studienprogramm kopieren
+common#:#obj_prg_select#:#-- Bitte wählen Sie ein Studienprogramm --
+common#:#obj_prg#:#Studienprogramm
+common#:#objs_prg#:#Studienprogramme
+trac#:#trac_mode_study_programme#:#Studienprogramm abgeschlossen
+trac#:#trac_mode_study_programme_info#:#Das Studienprogramm muss vom Benutzer abgeschlossen sein um den Lernfortschritt "bearbeitet" zu erhalten.
