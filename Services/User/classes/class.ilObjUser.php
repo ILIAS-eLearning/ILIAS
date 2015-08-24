@@ -819,16 +819,31 @@ class ilObjUser extends ilObject
 	}
 
 	/**
-	* lookup id by login
-	*/
+	 * Lookup id by login
+	 */
 	public static function _lookupId($a_user_str)
 	{
 		global $ilDB;
 
-		$res = $ilDB->queryF("SELECT usr_id FROM usr_data WHERE login = %s",
-			array("text"), array($a_user_str));
-		$user_rec = $ilDB->fetchAssoc($res);
-		return $user_rec["usr_id"];
+		if (!is_array($a_user_str))
+		{
+			$res = $ilDB->queryF("SELECT usr_id FROM usr_data WHERE login = %s",
+				array("text"), array($a_user_str));
+			$user_rec = $ilDB->fetchAssoc($res);
+			return $user_rec["usr_id"];
+		}
+		else
+		{
+			$set = $ilDB->query("SELECT usr_id FROM usr_data ".
+				" WHERE ".$ilDB->in("login", $a_user_str, false, "text")
+			);
+			$ids = array();
+			while ($rec = $ilDB->fetchAssoc($set))
+			{
+				$ids[] = $rec["usr_id"];
+			}
+			return $ids;
+		}
 	}
 
 	/**

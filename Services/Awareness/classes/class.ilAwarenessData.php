@@ -17,6 +17,7 @@ class ilAwarenessData
 	protected $feature_collector;
 	protected $user_collection;
 	protected $data = null;
+	protected $online_user_data = null;
 	static protected $instances = array();
 	protected $filter = "";
 
@@ -75,6 +76,15 @@ class ilAwarenessData
 	{
 		return $this->filter;
 	}
+
+	/**
+	 * Maximum for online user data
+	 */
+	function getMaxOnlineUserCnt()
+	{
+		return 20;
+	}
+
 	
 	/**
 	 * Get instance (for a user)
@@ -93,17 +103,119 @@ class ilAwarenessData
 	}
 
 
+
+	/**
+	 * Get user collections
+	 *
+	 * @param bool $a_online_only true, if only online users should be collected
+	 * @return array array of collections
+	 */
+	function getUserCollections($a_online_only = false)
+	{
+		if (!isset($this->user_collections[(int) $a_online_only]))
+		{
+			$this->user_collector->setRefId($this->getRefId());
+			$this->user_collections[(int) $a_online_only] = $this->user_collector->collectUsers($a_online_only);
+		}
+
+		return $this->user_collections[(int) $a_online_only];
+	}
+
 	/**
 	 * Get user counter
-	 *
-	 * @param
-	 * @return
 	 */
 	function getUserCounter()
 	{
-		$this->getData(true);
-		$this->data = null;		// todo improve
-		return count($this->all_user_ids);
+		$all_user_ids = array();
+
+		$user_collections = $this->getUserCollections();
+
+		foreach ($user_collections as $uc)
+		{
+			$user_collection = $uc["collection"];
+			$user_ids = $user_collection->getUsers();
+
+			foreach ($user_ids as $uid)
+			{
+				if (!in_array($uid, $all_user_ids))
+				{
+					$all_user_ids[] = $uid;
+				}
+			}
+		}
+
+		return count($all_user_ids);
+	}
+
+	/**
+	 * Get online user data
+	 *
+	 * @param string $a_ts timestamp
+	 * @return array array of data objects
+	 */
+	function getOnlineUserData($a_ts = "")
+	{
+		$online_user_data = array();
+		$online_users = ilAwarenessUserCollector::getOnlineUsers();
+		$user_collections = $this->getUserCollections(true);			// get user collections with online users only
+		$all_online_user_ids = array();
+
+		foreach ($user_collections as $uc)
+		{
+			$user_collection = $uc["collection"];
+			$user_ids = $user_collection->getUsers();
+
+			foreach ($user_ids as $u)
+			{
+				if (!in_array($u, $all_online_user_ids))
+				{
+					// check timestamp and limit the max number of user data records received
+					if (($a_ts == "" || $online_users[$u]["last_login"] > $a_ts)
+						&& count($all_online_user_ids) < $this->getMaxOnlineUserCnt())
+					{
+						$all_online_user_ids[] = $u;
+					}
+				}
+			}
+		}
+		include_once("./Services/User/classes/class.ilUserUtil.php");
+		$names = ilUserUtil::getNamePresentation($all_online_user_ids, true,
+			false, "", false, false, true, true);
+
+		// sort and add online information
+		foreach ($names as $k => $n)
+		{
+			$names[$k]["online"] = true;
+			$names[$k]["last_login"] = $online_users[$n["id"]]["last_login"];
+			$sort_str = "";
+			if ($n["public_profile"])
+			{
+				$sort_str.= $n["lastname"]." ".$n["firstname"];
+			}
+			else
+			{
+				$sort_str.= $n["login"];
+			}
+			$names[$k]["sort_str"] = $sort_str;
+		}
+
+		$names = ilUtil::sortArray($names, "sort_str", "asc", false, true);
+
+		foreach ($names as $n)
+		{
+			$obj = new stdClass;
+			$obj->lastname = $n["lastname"];
+			$obj->firstname = $n["firstname"];
+			$obj->login = $n["login"];
+			$obj->id = $n["id"];
+			$obj->public_profile = $n["public_profile"];
+			$obj->online = $n["online"];
+			$obj->last_login = $n["last_login"];;
+
+			$online_user_data[] = $obj;
+		}
+
+		return $online_user_data;
 	}
 
 	/**
@@ -111,33 +223,21 @@ class ilAwarenessData
 	 *
 	 * @return array array of data objects
 	 */
-	function getData($a_counter_only = false)
+	function getData()
 	{
 		if ($this->data == null)
 		{
-			$this->all_user_ids = array();
 			$online_users = ilAwarenessUserCollector::getOnlineUsers();
 
-			$this->user_collector->setRefId($this->getRefId());
-			$this->user_collections = $this->user_collector->collectUsers();
+			$user_collections = $this->getUserCollections();
 
 			$this->data = array();
-			foreach ($this->user_collections as $uc)
+			foreach ($user_collections as $uc)
 			{
 				$user_collection = $uc["collection"];
 				$user_ids = $user_collection->getUsers();
 
-				foreach ($user_ids as $uid)
-				{
-					if (!in_array($uid, $this->all_user_ids))
-					{
-						$this->all_user_ids[] = $uid;
-					}
-				}
-				if ($a_counter_only)
-				{
-					continue;
-				}
+				// todo limit this
 
 				include_once("./Services/User/classes/class.ilUserUtil.php");
 				$names = ilUserUtil::getNamePresentation($user_ids, true,
@@ -171,8 +271,6 @@ class ilAwarenessData
 
 				$names = ilUtil::sortArray($names, "sort_str", "asc", false, true);
 
-				// todo: use adv data types with a PHP object (stdClass) bridge that is transferable to JSON in a trivial manner
-
 				foreach ($names as $n)
 				{
 					// filter
@@ -180,8 +278,8 @@ class ilAwarenessData
 					if ($filter != "" &&
 						!is_int(stripos($n["login"], $filter)) &&
 						(!$n["public_profile"] || (
-							!is_int(stripos($n["firstname"], $filter)) &&
-							!is_int(stripos($n["lastname"], $filter))
+								!is_int(stripos($n["firstname"], $filter)) &&
+								!is_int(stripos($n["lastname"], $filter))
 							)
 						)
 					)

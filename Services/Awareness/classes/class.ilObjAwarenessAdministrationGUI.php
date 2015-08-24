@@ -115,6 +115,13 @@ class ilObjAwarenessAdministrationGUI extends ilObjectGUI
 			$awrn_set = new ilSetting("awrn");
 			$awrn_set->set("awrn_enabled", (bool) $form->getInput("enable_awareness"));
 
+			$p = (int) $form->getInput("caching_period");
+			if ($p < 0)
+			{
+				$p = 0;
+			}
+			$awrn_set->set("caching_period", $p);
+
 			include_once("./Services/Awareness/classes/class.ilAwarenessUserProviderFactory.php");
 			$prov = ilAwarenessUserProviderFactory::getAllProviders();
 			foreach ($prov as $p)
@@ -161,6 +168,15 @@ class ilObjAwarenessAdministrationGUI extends ilObjectGUI
 
 		$awrn_set = new ilSetting("awrn");
 		$en->setChecked($awrn_set->get("awrn_enabled", false));
+
+		// caching period
+		$ti = new ilNumberInputGUI($this->lng->txt("awrn_caching_period"), "caching_period");
+		$ti->setInfo($this->lng->txt("awrn_caching_period_info"));
+		$ti->setSuffix($this->lng->txt("awrn_seconds"));
+		$ti->setSize(6);
+		$ti->setMaxLength(6);
+		$ti->setValue($awrn_set->get("caching_period"));
+		$en->addSubItem($ti);
 
 		include_once("./Services/Awareness/classes/class.ilAwarenessUserProviderFactory.php");
 		$prov = ilAwarenessUserProviderFactory::getAllProviders();

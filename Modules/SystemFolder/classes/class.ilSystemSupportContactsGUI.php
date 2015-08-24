@@ -1,13 +1,13 @@
 <?php
 
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * System support contacts
  *
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
- * @ingroup 
+ * @ingroup ModulesSystemFolder
  */
 class ilSystemSupportContactsGUI
 {
@@ -15,9 +15,6 @@ class ilSystemSupportContactsGUI
 
 	/**
 	 * Constructor
-	 *
-	 * @param
-	 * @return
 	 */
 	function __construct()
 	{
@@ -31,9 +28,6 @@ class ilSystemSupportContactsGUI
 
 	/**
 	 * Execute command
-	 *
-	 * @param
-	 * @return
 	 */
 	function executeCommand()
 	{
@@ -46,9 +40,6 @@ class ilSystemSupportContactsGUI
 
 	/**
 	 * Show contacts
-	 *
-	 * @param
-	 * @return
 	 */
 	function showContacts()
 	{

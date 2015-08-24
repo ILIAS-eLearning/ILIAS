@@ -1,13 +1,13 @@
 <?php
 
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * System support contacts
  *
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
- * @ingroup 
+ * @ingroup ModulesSystemFolder
  */
 class ilSystemSupportContacts
 {
@@ -52,20 +52,10 @@ class ilSystemSupportContacts
 	 */
 	static function getValidSupportContactIds()
 	{
-		global $ilDB;
-
 		$list = self::getList();
 		$list = explode(",", $list);
 
-		$set = $ilDB->query("SELECT usr_id FROM usr_data ".
-			" WHERE ".$ilDB->in("login", $list, false, "text")
-			);
-		$ids = array();
-		while ($rec = $ilDB->fetchAssoc($set))
-		{
-			$ids[] = $rec["usr_id"];
-		}
-		return $ids;
+		return ilObjUser::_lookupId($list);
 	}
 
 	/**

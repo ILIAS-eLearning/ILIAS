@@ -13,6 +13,43 @@ include_once("./Services/Awareness/classes/class.ilAwarenessFeatureProvider.php"
  */
 class ilAwarenessChatFeatureProvider extends ilAwarenessFeatureProvider
 {
+	protected static $user_access = array();
+	protected $pub_ref_id = 0;
+
+		/**
+	 * Constructor
+	 */
+	function __construct()
+	{
+		parent::__construct();
+
+		include_once './Modules/Chatroom/classes/class.ilObjChatroom.php';
+		$this->pub_ref_id = ilObjChatroom::_getPublicRefId();
+
+		$chatSettings = new ilSetting('chatroom');
+		$this->chat_enabled = $chatSettings->get('chat_enabled');
+	}
+
+	/**
+	 * Check user chat access
+	 *
+	 * @param
+	 * @return
+	 */
+	function checkUserChatAccess($a_user_id)
+	{
+		global $rbacsystem;
+
+		if (!isset(self::$user_access[$a_user_id]))
+		{
+			self::$user_access[$a_user_id] =
+				$rbacsystem->checkAccessOfUser($a_user_id, 'read', $this->pub_ref_id);
+		}
+		return self::$user_access[$a_user_id];
+	}
+
+
+
 	/**
 	 * Collect all features
 	 *
@@ -21,30 +58,20 @@ class ilAwarenessChatFeatureProvider extends ilAwarenessFeatureProvider
 	 */
 	function collectFeaturesForTargetUser($a_target_user)
 	{
-		global $rbacsystem;
-
-		include_once './Modules/Chatroom/classes/class.ilObjChatroom.php';
-
 		$coll = ilAwarenessFeatureCollection::getInstance();
 		include_once("./Services/Awareness/classes/class.ilAwarenessFeature.php");
 
-		// todo optimize
-		$chatSettings = new ilSetting('chatroom');
-		$chat_enabled = $chatSettings->get('chat_enabled');
-$chat_enabled = true;
-		if(!$chat_enabled)
+		if (!$this->chat_enabled)
 		{
 			return $coll;
 		}
 
-		// todo this looks strange
-//		if ($a_target_user == $this->getUserId() &&
-//			$rbacsystem->checkAccessOfUser($this->getUserId(), 'read', ilObjChatroom::_getPublicRefId()))
-		if (true)
+		if ($a_target_user == $this->getUserId() &&
+			$this->checkUserChatAccess($this->getUserId()))
 		{
 			$f = new ilAwarenessFeature();
 			$f->setText($this->lng->txt('chat_enter_public_room'));
-			$f->setHref('./ilias.php?baseClass=ilRepositoryGUI&cmd=view&ref_id='.ilObjChatroom::_getPublicRefId());
+			$f->setHref('./ilias.php?baseClass=ilRepositoryGUI&cmd=view&ref_id='.$this->pub_ref_id);
 			$coll->addFeature($f);
 		}
 

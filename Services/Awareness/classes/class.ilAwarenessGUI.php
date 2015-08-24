@@ -61,7 +61,9 @@ class ilAwarenessGUI
 			return "";
 		}
 
-		// todo: implement update period
+		$cache_period = (int) $awrn_set->get("caching_period");
+		$last_update = ilSession::get("awrn_last_update");
+		$now = time();
 
 		$GLOBALS["tpl"]->addOnloadCode("il.Awareness.setBaseUrl('".$this->ctrl->getLinkTarget($this,
 				"", "", true, false)."')");
@@ -73,9 +75,17 @@ class ilAwarenessGUI
 		$act = ilAwarenessAct::getInstance($ilUser->getId());
 		$act->setRefId($this->ref_id);
 
-		//$users = $act->getAwarenessData();
-		$cnt = $act->getAwarenessUserCounter();
-		$act->notifyOnNewOnlineContacts();
+		if ($last_update == "" || ($now - $last_update) >= $cache_period)
+		{
+			$cnt = $act->getAwarenessUserCounter();
+			$act->notifyOnNewOnlineContacts();
+			ilSession::set("awrn_last_update", $now);
+			ilSession::set("awrn_nr_users", $cnt);
+		}
+		else
+		{
+			$cnt = (int) ilSession::get("awrn_nr_users");
+		}
 
 		if ($cnt > 0)
 		{
