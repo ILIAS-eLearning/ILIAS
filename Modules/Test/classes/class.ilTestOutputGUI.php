@@ -272,6 +272,10 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
 		$this->prepareTestPage($presentationMode, $sequenceElement, $questionId);
 
+		$this->populateTestNavigationToolbar($this->buildTestNavigationToolbarGUI(
+			$presentationMode == self::PRESENTATION_MODE_EDIT, false
+		));
+
 		$this->ctrl->setParameter($this, 'sequence', $sequenceElement);
 		$this->ctrl->setParameter($this, 'pmode', $presentationMode);
 		$formAction = $this->ctrl->getFormAction($this);
@@ -624,27 +628,6 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		$redirectTarget = ilLink::_getLink($containerRefId);
 
 		ilUtil::redirect($redirectTarget);
-	}
-
-	/**
-	 * @param $sequence
-	 * @param $questionId
-	 * @param $ilLog
-	 */
-	protected function handleTearsAndAngerQuestionIsNull($questionId, $sequenceElement)
-	{
-		global $ilLog;
-
-		$ilLog->write("INV SEQ:"
-			."active={$this->testSession->getActiveId()} "
-			."qId=$questionId seq=$sequenceElement "
-			. serialize($this->testSequence)
-		);
-
-		$ilLog->logStack('INV SEQ');
-
-		$this->ctrl->setParameter($this, 'sequence', $this->testSequence->getFirstSequence());
-		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
 	}
 
 	/**

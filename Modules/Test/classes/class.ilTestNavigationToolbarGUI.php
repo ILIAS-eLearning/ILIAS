@@ -48,6 +48,11 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
 	private $questionTreeVisible = false;
 
 	/**
+	 * @var bool
+	 */
+	private $questionSelectionButtonEnabled = false;
+
+	/**
 	 * @var string
 	 */
 	private $finishTestCommand = '';
@@ -136,6 +141,22 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
 	}
 
 	/**
+	 * @return boolean
+	 */
+	public function isQuestionSelectionButtonEnabled()
+	{
+		return $this->questionSelectionButtonEnabled;
+	}
+
+	/**
+	 * @param boolean $questionSelectionButtonEnabled
+	 */
+	public function setQuestionSelectionButtonEnabled($questionSelectionButtonEnabled)
+	{
+		$this->questionSelectionButtonEnabled = $questionSelectionButtonEnabled;
+	}
+
+	/**
 	 * @return string
 	 */
 	public function getFinishTestCommand()
@@ -179,6 +200,11 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
 			$this->addQuestionListButton();
 		}
 
+		if( $this->isQuestionSelectionButtonEnabled() )
+		{
+			$this->addQuestionSelectionButton();
+		}
+
 		if( $this->isSuspendTestButtonEnabled() )
 		{
 			$this->addSuspendTestButton();
@@ -205,6 +231,17 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
 			$this->playerGUI, ilTestPlayerCommands::QUESTION_SUMMARY
 		));
 		$btn->setCaption('question_summary');
+		$btn->setDisabled($this->isDisabledStateEnabled());
+		$this->addButtonInstance($btn);
+	}
+	
+	private function addQuestionSelectionButton()
+	{
+		$btn = ilLinkButton::getInstance();
+		$btn->setUrl($this->ctrl->getLinkTarget(
+			$this->playerGUI, ilTestPlayerCommands::SHOW_QUESTION_SELECTION
+		));
+		$btn->setCaption('tst_change_dyn_test_question_selection');
 		$btn->setDisabled($this->isDisabledStateEnabled());
 		$this->addButtonInstance($btn);
 	}

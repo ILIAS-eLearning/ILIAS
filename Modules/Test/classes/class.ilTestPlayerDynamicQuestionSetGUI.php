@@ -260,7 +260,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		$this->testSequence->resetTrackedQuestionList();
 		$this->testSequence->saveToDb();
 		
-		$this->ctrl->redirect($this, 'showQuestionSelection');
+		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION_SELECTION);
 	}
 	
 	protected function resetQuestionSelectionCmd()
@@ -275,7 +275,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		$this->testSequence->resetTrackedQuestionList();
 		$this->testSequence->saveToDb();
 		
-		$this->ctrl->redirect($this, 'showQuestionSelection');
+		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION_SELECTION);
 	}
 
 	protected function showTrackedQuestionListCmd()
@@ -323,13 +323,11 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 	protected function fromPassDeletionCmd()
 	{
 		$this->resetCurrentQuestion();
-		$this->ctrl->redirect($this, 'showQuestion');
+		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
 	}
 	
 	protected function nextQuestionCmd()
 	{
-		$questionId = $this->testSession->getCurrentQuestionId();
-
 		$this->resetCurrentQuestion();
 		
 		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
@@ -337,8 +335,6 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 	
 	protected function markQuestionCmd()
 	{
-		$questionId = $this->testSession->getCurrentQuestionId();
-
 		global $ilUser;
 		$this->object->setQuestionSetSolved(1, $this->testSession->getCurrentQuestionId(), $ilUser->getId());
 		
@@ -352,49 +348,53 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		
 		$this->ctrl->redirect($this, 'showQuestion');
 	}
-	
-	protected function gotoQuestionCmd()
-	{
-		$this->testSequence->loadQuestions(
-				$this->dynamicQuestionSetConfig, $this->testSession->getQuestionSetFilterSelection()
-		);
-		
-		$this->testSequence->cleanupQuestions($this->testSession);
-		
-		if( isset($_GET['sequence']) && (int)$_GET['sequence'] )
-		{
-			$this->testSession->setCurrentQuestionId( (int)$_GET['sequence'] );
-			$this->testSession->saveToDb();
-			
-			$this->ctrl->setParameter(
-					$this, 'sequence', $this->testSession->getCurrentQuestionId()
-			);
-		}
-		
-		$this->ctrl->redirect($this, 'showQuestion');
-	}
-	
+
 	protected function editSolutionCmd()
 	{
-		
+		$this->ctrl->setParameter($this, 'pmode', ilTestPlayerAbstractGUI::PRESENTATION_MODE_EDIT);
+		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
 	}
 	
 	protected function submitSolutionCmd()
 	{
-		
+		if( $this->saveQuestionSolution(true, false) )
+		{
+			$questionId = $this->testSession->getCurrentQuestionId();
+
+			$this->getQuestionInstance($questionId)->removeIntermediateSolution(
+				$this->testSession->getActiveId(), $this->testSession->getPass()
+			);
+			
+			$this->persistQuestionAnswerStatus();
+
+			$this->ctrl->setParameter($this, 'pmode', ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW);
+		}
+
+		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
 	}
 
 	protected function discardSolutionCmd()
 	{
+		$questionId = $this->testSession->getCurrentQuestionId();
 
+		$currentQuestionOBJ = $this->getQuestionInstance($questionId);
+
+		$currentQuestionOBJ->resetUsersAnswer(
+			$this->testSession->getActiveId(), $this->testSession->getPass()
+		);
+
+		$this->testSequence->setQuestionPostponed($questionId);
+		$this->testSequence->saveToDb();
+
+		$this->resetCurrentQuestion();
+
+		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
 	}
 	
 	protected function showQuestionCmd()
 	{
-		$_SESSION["active_time_id"] = $this->object->startWorkingTime(
-			$this->testSession->getActiveId(), $this->testSession->getPass()
-		);
-
+		$this->updateWorkingTime();
+		
 		$this->testSequence->loadQuestions(
 				$this->dynamicQuestionSetConfig, $this->testSession->getQuestionSetFilterSelection()
 		);
@@ -416,6 +416,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		if( $this->testSession->getCurrentQuestionId() )
 		{
 			$questionGui = $this->getQuestionGuiInstance($this->testSession->getCurrentQuestionId());
+			$this->testSequence->setCurrentQuestionId($this->testSession->getCurrentQuestionId());
 
 			$questionGui->setQuestionCount(
 				$this->testSequence->getLastPositionIndex()
@@ -431,13 +432,22 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 				);
 			}
 
-			$presentationMode = $this->determinePresentationMode($questionGui->object);
-
+			$presentationMode = $this->getCurrentPresentationMode();
+			
+			if(!$presentationMode)
+			{
+				$presentationMode = $this->determinePresentationMode($questionGui->object);
+			}
+			
 			$instantResponse = $this->getInstantResponseParameter();
 
 			$this->prepareTestPage($presentationMode,
 				$this->testSession->getCurrentQuestionId(), $this->testSession->getCurrentQuestionId()
 			);
+
+			$this->populateTestNavigationToolbar($this->buildTestNavigationToolbarGUI(
+				$presentationMode == self::PRESENTATION_MODE_EDIT, true
+			));
 
 			$this->ctrl->setParameter($this, 'sequence', $this->testSession->getCurrentQuestionId());
 			$this->ctrl->setParameter($this, 'pmode', $presentationMode);
@@ -464,21 +474,16 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 					exit;
 			}
 
-			if ($instantResponse)
-			{
-				$this->populateInstantResponseBlocks(
-					$questionGui, $presentationMode == ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW
-				);
-			}
-
 			$this->populateQuestionNavigation(
 				$this->testSession->getCurrentQuestionId(),
 				$presentationMode == ilTestPlayerAbstractGUI::PRESENTATION_MODE_EDIT
 			);
 
-			if( $this->dynamicQuestionSetConfig->isAnyQuestionFilterEnabled() )
+			if ($instantResponse)
 			{
-				$this->populateQuestionSelectionButtons();
+				$this->populateInstantResponseBlocks(
+					$questionGui, $presentationMode == ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW
+				);
 			}
 		}
 		else
@@ -493,33 +498,31 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 	protected function showInstantResponseCmd()
 	{
 		$questionId = $this->testSession->getCurrentQuestionId();
+		
+		$filterSelection = $this->testSession->getQuestionSetFilterSelection();
 
-		if( $questionId && !$this->isParticipantsAnswerFixed($questionId) )
+		$filterSelection->setForcedQuestionIds(array($this->testSession->getCurrentQuestionId()));
+
+		$this->testSequence->loadQuestions($this->dynamicQuestionSetConfig, $filterSelection);
+		$this->testSequence->cleanupQuestions($this->testSession);
+		$this->testSequence->saveToDb();
+
+		if( !$this->isParticipantsAnswerFixed($questionId) )
 		{
-			$this->updateWorkingTime();
 			$this->saveQuestionSolution(false);
-			$this->persistQuestionAnswerStatus();
 
 			$this->testSequence->unsetQuestionPostponed($questionId);
 			$this->testSequence->setQuestionChecked($questionId);
+			$this->testSequence->saveToDb();
 		}
 
-		$filterSelection = $this->testSession->getQuestionSetFilterSelection();
-		
-		$filterSelection->setForcedQuestionIds(array($this->testSession->getCurrentQuestionId()));
-		
-		$this->testSequence->loadQuestions($this->dynamicQuestionSetConfig, $filterSelection);
-		
-		$this->testSequence->cleanupQuestions($this->testSession);
-		
 		$this->ctrl->setParameter(
-				$this, 'sequence', $this->testSession->getCurrentQuestionId()
+			$this, 'sequence', $this->testSession->getCurrentQuestionId()
 		);
 
-		$this->outTestPage(true);
+		$this->ctrl->setParameter($this, 'instresp', 1);
 		
-		$this->testSequence->saveToDb();
-		$this->testSession->saveToDb();
+		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
 	}
 	
 	protected function handleQuestionActionCmd()
@@ -528,12 +531,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 
 		if( $questionId && !$this->isParticipantsAnswerFixed($questionId) )
 		{
-			$this->updateWorkingTime();
 			$this->saveQuestionSolution(false);
-			$this->persistQuestionAnswerStatus();
-
-			$this->testSequence->unsetQuestionPostponed($questionId);
-			$this->testSequence->saveToDb();
 		}
 
 		$this->ctrl->setParameter(
@@ -545,48 +543,6 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 
 	private function outCurrentlyFinishedPage()
 	{
-		$this->initTestPageTemplate();
-
-		if( !$this->isFirstQuestionInSequence($this->testSession->getCurrentQuestionId()) )
-		{
-			$this->populatePreviousButtons();
-		}
-			
-		if ($this->object->getKioskMode())
-		{
-			$this->populateKioskHead();
-		}
-
-		if ($this->object->getEnableProcessingTime())
-		{
-			$this->outProcessingTime($this->testSession->getActiveId());
-		}
-
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("FORM_TIMESTAMP", time());
-		
-		$this->tpl->setVariable("PAGETITLE", "- " . $this->object->getTitle());
-		
-		if ($this->object->isShowExamIdInTestPassEnabled() && !$this->object->getKioskMode())
-		{
-			$this->tpl->setCurrentBlock('exam_id');
-			$this->tpl->setVariable('EXAM_ID', ilObjTest::lookupExamId(
-				$this->testSession->getActiveId(), $this->testSession->getPass(), $this->object->getId()
-			));
-			$this->tpl->setVariable('EXAM_ID_TXT', $this->lng->txt('exam_id'));
-			$this->tpl->parseCurrentBlock();
-		}
-		
-		if ($this->object->getShowCancel()) 
-		{
-			$this->populateCancelButtonBlock();
-		}
-		
-		if( $this->dynamicQuestionSetConfig->isAnyQuestionFilterEnabled() )
-		{
-			$this->populateQuestionSelectionButtons();
-		}
-		
 		if( $this->testSequence->openQuestionExists() )
 		{
 			$message = $this->lng->txt('tst_dyn_test_msg_currently_finished_selection');
@@ -607,7 +563,6 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		$this->tpl->setCurrentBlock('test_currently_finished_msg_block');
 		$this->tpl->setVariable('TEST_CURRENTLY_FINISHED_MSG', $msgHtml);
 		$this->tpl->parseCurrentBlock();
-
 	}
 	
 	protected function isFirstQuestionInSequence($sequenceElement)
@@ -881,16 +836,18 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		{
 			$this->testSequence->setQuestionAnsweredWrong($questionId);
 		}
+
+		$this->testSequence->saveToDb();
 	}
 
 	private function resetCurrentQuestion()
 	{
 		$this->testSession->setCurrentQuestionId(null);
-
-		$this->testSequence->saveToDb();
+		$this->testSession->setCurrentPresentationMode(null);
 		$this->testSession->saveToDb();
 
 		$this->ctrl->setParameter($this, 'sequence', $this->testSession->getCurrentQuestionId());
+		$this->ctrl->setParameter($this, 'pmode', $this->testSession->getCurrentPresentationMode());
 	}
 
 	/**
@@ -917,5 +874,15 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		$this->ctrl->setParameterByClass('ilTestEvaluationGUI', 'pass', $this->testSession->getPass());
 
 		return $this->ctrl->getLinkTargetByClass('ilTestEvaluationGUI', 'confirmDeletePass');
+	}
+	
+	protected function getCurrentQuestionIdParameter()
+	{
+		return $this->getSequenceElementParameter();
+	}
+
+	protected function getCurrentPresentationModeParameter()
+	{
+		return $this->getPresentationModeParameter();
 	}
 }

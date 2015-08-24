@@ -148,6 +148,10 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		{
 			$this->object->updateWorkingTime($_SESSION["active_time_id"]);
 		}
+		
+		$_SESSION["active_time_id"] = $this->object->startWorkingTime(
+			$this->testSession->getActiveId(), $this->testSession->getPass()
+		);
 	}
 
 	/**
@@ -283,28 +287,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
 		$this->tpl->setCurrentBlock( "prev" );
 		$this->tpl->setVariable("BTN_PREV", $button->render());
-		$this->tpl->parseCurrentBlock();
-	}
-
-	protected function populateQuestionSelectionButtons()
-	{
-		$this->populateUpperQuestionSelectionButtonBlock();
-		$this->populateLowerQuestionSelectionButtonBlock();
-	}
-
-	protected function populateLowerQuestionSelectionButtonBlock()
-	{
-		$this->tpl->setCurrentBlock( "summary_bottom" );
-		$this->tpl->setVariable( "CMD_SUMMARY", 'showQuestionSelection' );
-		$this->tpl->setVariable( "BTN_SUMMARY", $this->lng->txt( "tst_change_dyn_test_question_selection" ) );
-		$this->tpl->parseCurrentBlock();
-	}
-
-	protected function populateUpperQuestionSelectionButtonBlock()
-	{
-		$this->tpl->setCurrentBlock( "summary" );
-		$this->tpl->setVariable( "CMD_SUMMARY", 'showQuestionSelection' );
-		$this->tpl->setVariable( "BTN_SUMMARY", $this->lng->txt( "tst_change_dyn_test_question_selection" ) );
 		$this->tpl->parseCurrentBlock();
 	}
 
@@ -1001,10 +983,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		{
 			$this->showSideList($presentationMode, $sequenceElement);
 		}
-
-		$this->populateTestNavigationToolbar(
-			$this->buildTestNavigationToolbarGUI($presentationMode == self::PRESENTATION_MODE_EDIT)
-		);
 	}
 
 	protected function showQuestionViewable(assQuestionGUI $questionGui, $formAction)
@@ -1694,7 +1672,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		return false;
 	}
 	
-	protected function buildTestNavigationToolbarGUI($isEditState)
+	protected function buildTestNavigationToolbarGUI($isEditState, $withQuestionSelection)
 	{
 		global $ilUser;
 		
@@ -1702,9 +1680,10 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$navigationToolbarGUI = new ilTestNavigationToolbarGUI($this->ctrl, $this->lng, $this);
 		
 		$navigationToolbarGUI->setSuspendTestButtonEnabled($this->object->getShowCancel());
-		$navigationToolbarGUI->setQuestionListButtonEnabled($this->object->getListOfQuestions());
 		$navigationToolbarGUI->setQuestionTreeButtonEnabled($this->object->getListOfQuestions());
 		$navigationToolbarGUI->setQuestionTreeVisible($ilUser->getPref('side_list_of_questions'));
+		$navigationToolbarGUI->setQuestionListButtonEnabled($this->object->getListOfQuestions());
+		$navigationToolbarGUI->setQuestionSelectionButtonEnabled($withQuestionSelection);
 		$navigationToolbarGUI->setFinishTestCommand($this->getFinishTestCommand());
 
 		$navigationToolbarGUI->setDisabledStateEnabled($isEditState);
@@ -2026,5 +2005,26 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	{
 		$isWorkedThru = $questionOBJ->resultRecordExist();
 		return self::getRequiredPresentationMode($isWorkedThru);
+	}
+
+	/**
+	 * @param $sequence
+	 * @param $questionId
+	 * @param $ilLog
+	 */
+	protected function handleTearsAndAngerQuestionIsNull($questionId, $sequenceElement)
+	{
+		global $ilLog;
+
+		$ilLog->write("INV SEQ:"
+			."active={$this->testSession->getActiveId()} "
+			."qId=$questionId seq=$sequenceElement "
+			. serialize($this->testSequence)
+		);
+
+		$ilLog->logStack('INV SEQ');
+
+		$this->ctrl->setParameter($this, 'sequence', $this->testSequence->getFirstSequence());
+		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
 	}
 }

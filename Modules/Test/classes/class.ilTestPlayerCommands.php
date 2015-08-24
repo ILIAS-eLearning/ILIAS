@@ -33,6 +33,8 @@ class ilTestPlayerCommands
 	const QUESTION_SUMMARY_INC_OBLIGATIONS = 'outQuestionSummaryWithObligationsInfo';
 	const QUESTION_SUMMARY_OBLIGATIONS_ONLY = 'outObligationsOnlySummary';
 	const TOGGLE_SIDE_LIST = 'toggleSideList';
+	
+	const SHOW_QUESTION_SELECTION = 'showQuestionSelection';
 
 	const SUSPEND_TEST = 'suspendTest';
 	const FINISH_TEST = 'finishTest';
