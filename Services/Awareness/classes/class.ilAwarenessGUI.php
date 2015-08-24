@@ -11,13 +11,32 @@
  */
 class ilAwarenessGUI
 {
+	protected $ctrl;
+
 	/**
 	 * Constructor
 	 */
-	protected function __construct()
+	function __construct()
 	{
+		global $ilCtrl;
+
 		$this->ref_id = (int) $_GET["ref_id"];
+		$this->ctrl = $ilCtrl;
 	}
+
+	/**
+	 * Execute command
+	 */
+	function executeCommand()
+	{
+		$cmd = $this->ctrl->getCmd();
+
+		if (in_array($cmd, array("getAwarenessList")))
+		{
+			$this->$cmd();
+		}
+	}
+
 
 	/**
 	 * Get instance
@@ -42,25 +61,64 @@ class ilAwarenessGUI
 			return "";
 		}
 
+		// todo: implement update period
+
+		$GLOBALS["tpl"]->addOnloadCode("il.Awareness.setBaseUrl('".$this->ctrl->getLinkTarget($this,
+			"", "", true, false)."')");
+
 		$tpl = new ilTemplate("tpl.awareness.html", true, true, "Services/Awareness");
 
 		include_once("./Services/Awareness/classes/class.ilAwarenessAct.php");
 		$act = ilAwarenessAct::getInstance($ilUser->getId());
 		$act->setRefId($this->ref_id);
-		$users = $act->getAwarenessData();
 
+		//$users = $act->getAwarenessData();
+		$cnt = $act->getAwarenessUserCounter();
 		$act->notifyOnNewOnlineContacts();
 
-		if (count($users) > 0)
+		if ($cnt > 0)
 		{
 			$tpl->setCurrentBlock("status_text");
-			$tpl->setVariable("STATUS_TXT", count($users));
+			$tpl->setVariable("STATUS_TXT", $cnt);
 			$tpl->parseCurrentBlock();
+
+			$tpl->setVariable("LOADER", ilUtil::getImagePath("loader.svg"));
+
+			return $tpl->get();
 		}
 
+		return "";
+	}
+	
+	/**
+	 * Get awareness list (ajax)
+	 */
+	function getAwarenessList()
+	{
+		global $ilUser;
+
+		$tpl = new ilTemplate("tpl.awareness_list.html", true, true, "Services/Awareness");
+
+		include_once("./Services/Awareness/classes/class.ilAwarenessAct.php");
+		$act = ilAwarenessAct::getInstance($ilUser->getId());
+		$act->setRefId($this->ref_id);
+
+		$users = $act->getAwarenessData();
+
 		$ucnt = 0;
+		$last_uc_title = "";
 		foreach ($users as $u)
 		{
+			if ($u->collector != $last_uc_title)
+			{
+				$tpl->setCurrentBlock("uc_title");
+				$tpl->setVariable("UC_TITLE", $u->collector);
+				$tpl->parseCurrentBlock();
+				$tpl->setCurrentBlock("item");
+				$tpl->parseCurrentBlock();
+			}
+			$last_uc_title = $u->collector;
+
 			$ucnt++;
 
 			$fcnt = 0;
@@ -79,6 +137,11 @@ class ilAwarenessGUI
 				$tpl->parseCurrentBlock();
 			}
 
+			if ($u->online)
+			{
+				$tpl->touchBlock("uonline");
+			}
+
 			$tpl->setCurrentBlock("user");
 			if ($u->public_profile)
 			{
@@ -93,9 +156,13 @@ class ilAwarenessGUI
 			$tpl->setVariable("USERIMAGE", $u->img);
 			$tpl->setVariable("CNT", $ucnt);
 			$tpl->parseCurrentBlock();
+			$tpl->setCurrentBlock("item");
+			$tpl->parseCurrentBlock();
 		}
 
-		return $tpl->get();
+		echo $tpl->get();
+		exit;
 	}
+	
 }
 ?>

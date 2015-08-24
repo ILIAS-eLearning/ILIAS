@@ -2,6 +2,7 @@
 <service xmlns="http://www.w3.org" version="$Id$"
 	id="awrn">
 	<baseclasses>
+		<baseclass name="ilAwarenessGUI" dir="classes" />
 	</baseclasses>
 	<objects>
 		<object id="awra" class_name="AwarenessAdministration" dir="classes"

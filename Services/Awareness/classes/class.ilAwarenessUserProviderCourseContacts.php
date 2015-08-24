@@ -57,7 +57,7 @@ class ilAwarenessUserProviderCourseContacts extends ilAwarenessUserProvider
 		$support_contacts = ilParticipants::_getAllSupportContactsOfUser($this->getUserId(), "crs");
 		foreach ($support_contacts as $c)
 		{
-			$ub[] = $c;
+			$ub[] = $c["usr_id"];
 		}
 		return $ub;
 	}

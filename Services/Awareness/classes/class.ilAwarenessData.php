@@ -72,56 +72,102 @@ class ilAwarenessData
 	}
 
 
+	/**
+	 * Get user counter
+	 *
+	 * @param
+	 * @return
+	 */
+	function getUserCounter()
+	{
+		$this->getData(true);
+		$this->data = null;		// todo improve
+		return count($this->all_user_ids);
+	}
 
 	/**
 	 * Get data
 	 *
 	 * @return array array of data objects
 	 */
-	function getData()
+	function getData($a_counter_only = false)
 	{
 		if ($this->data == null)
 		{
+			$this->all_user_ids = array();
+			$online_users = ilAwarenessUserCollector::getOnlineUsers();
+
 			$this->user_collector->setRefId($this->getRefId());
-			$this->user_collection = $this->user_collector->collectUsers();
+			$this->user_collections = $this->user_collector->collectUsers();
 
-			$user_ids = $this->user_collection->getUsers();
-
-			include_once("./Services/User/classes/class.ilUserUtil.php");
-			$names = ilUserUtil::getNamePresentation($user_ids, true,
-				false, "", false, false, true, true);
-
-			// todo: some setting to control this?
-//			$only_online = true;
-
-			// todo: use adv data types with a PHP object (stdClass) bridge that is transferable to JSON in a trivial manner
-
-			$data = array();
-			foreach ($names as $n)
+			$this->data = array();
+			foreach ($this->user_collections as $uc)
 			{
-				$obj = new stdClass;
-				$obj->lastname = $n["lastname"];
-				$obj->firstname = $n["firstname"];
-				$obj->login = $n["login"];
-				$obj->id = $n["id"];
-				//$obj->img = $n["img"];
-				$obj->img = ilObjUser::_getPersonalPicturePath($n["id"], "xsmall");
-				$obj->public_profile = $n["public_profile"];
+				$user_collection = $uc["collection"];
+				$user_ids = $user_collection->getUsers();
 
-				if (isset($online_users[$obj->id]))
+				foreach ($user_ids as $uid)
 				{
-					$obj->online = true;
-					$obj->last_login = $online_users[$obj->id]["last_login"];
+					if (!in_array($uid, $this->all_user_ids))
+					{
+						$this->all_user_ids[] = $uid;
+					}
 				}
-				else
+				if ($a_counter_only)
 				{
-					$obj->online = false;
-					$obj->last_login = "";
+					continue;
 				}
 
-				// collect only online users, if desired
-				if (!$only_online || $obj->online)
+				include_once("./Services/User/classes/class.ilUserUtil.php");
+				$names = ilUserUtil::getNamePresentation($user_ids, true,
+					false, "", false, false, true, true);
+
+				// sort and add online information
+				foreach ($names as $k => $n)
 				{
+					if (isset($online_users[$n["id"]]))
+					{
+						$names[$k]["online"] = true;
+						$names[$k]["last_login"] = $online_users[$n["id"]]["last_login"];
+						$sort_str = "1";
+					}
+					else
+					{
+						$names[$k]["online"] = false;
+						$names[$k]["last_login"] = "";
+						$sort_str = "2";
+					}
+					if ($n["public_profile"])
+					{
+						$sort_str.= $n["lastname"]." ".$n["firstname"];
+					}
+					else
+					{
+						$sort_str.= $n["login"];
+					}
+					$names[$k]["sort_str"] = $sort_str;
+				}
+
+				$names = ilUtil::sortArray($names, "sort_str", "asc", false, true);
+
+				// todo: use adv data types with a PHP object (stdClass) bridge that is transferable to JSON in a trivial manner
+
+				foreach ($names as $n)
+				{
+					$obj = new stdClass;
+					$obj->lastname = $n["lastname"];
+					$obj->firstname = $n["firstname"];
+					$obj->login = $n["login"];
+					$obj->id = $n["id"];
+					$obj->collector = $uc["uc_title"];
+
+					//$obj->img = $n["img"];
+					$obj->img = ilObjUser::_getPersonalPicturePath($n["id"], "xsmall");
+					$obj->public_profile = $n["public_profile"];
+
+					$obj->online = $n["online"];
+					$obj->last_login = $n["last_login"];;
+
 					// get features
 					$feature_collection = $this->feature_collector->getFeaturesForTargetUser($n["id"]);
 					$obj->features = array();
@@ -133,10 +179,9 @@ class ilAwarenessData
 						$obj->features[] = $f;
 					}
 
-					$data[] = $obj;
+					$this->data[] = $obj;
 				}
 			}
-			$this->data = $data;
 		}
 
 		return $this->data;

@@ -13,11 +13,13 @@ class ilAwarenessUserCollector
 {
 	protected static $instances = array();
 	protected static $online_users = false;
+	protected static $online_user_ids = array();
 
 	/**
 	 * @var ilAwarenessUserCollection
 	 */
 	protected $collection;
+	protected $collections;
 	protected $user_id;
 	protected $ref_id;
 
@@ -68,28 +70,43 @@ class ilAwarenessUserCollector
 	}
 
 	/**
+	 * Get online users
+	 *
+	 * @param
+	 * @return
+	 */
+	static function getOnlineUsers()
+	{
+		if (self::$online_users === false)
+		{
+			self::$online_user_ids = array();
+			include_once("./Services/User/classes/class.ilObjUser.php");
+			self::$online_users = ilObjUser::_getUsersOnline();
+			foreach (ilObjUser::_getUsersOnline() as $u)
+			{
+				self::$online_user_ids[] = $u["user_id"];
+			}
+		}
+		return self::$online_users;
+	}
+
+
+	/**
 	 * Collect users
 	 *
 	 * @return ilAwarenessUserCollection user collection
 	 */
 	public function collectUsers()
 	{
-		if (self::$online_users === false)
-		{
-			include_once("./Services/User/classes/class.ilObjUser.php");
-			foreach (ilObjUser::_getUsersOnline() as $u)
-			{
-				self::$online_users[] = $u["user_id"];
-			}
-		}
-
-		// overall collection of users
-		include_once("./Services/Awareness/classes/class.ilAwarenessUserCollection.php");
-		$this->collection = ilAwarenessUserCollection::getInstance();
+		self::getOnlineUsers();
 
 		include_once("./Services/Awareness/classes/class.ilAwarenessUserProviderFactory.php");
 		foreach (ilAwarenessUserProviderFactory::getAllProviders() as $prov)
 		{
+			// overall collection of users
+			include_once("./Services/Awareness/classes/class.ilAwarenessUserCollection.php");
+			$collection = ilAwarenessUserCollection::getInstance();
+
 			if ($prov->getActivationMode() != ilAwarenessUserProvider::MODE_INACTIVE)
 			{
 				$prov->setUserId($this->user_id);
@@ -97,22 +114,32 @@ class ilAwarenessUserCollector
 				$prov->setOnlineUserFilter(false);
 				if ($prov->getActivationMode() == ilAwarenessUserProvider::MODE_ONLINE_ONLY)
 				{
-					$prov->setOnlineUserFilter(self::$online_users);
+					$prov->setOnlineUserFilter(self::$online_user_ids);
 				}
+
 				$coll = $prov->collectUsers();
 				foreach ($coll->getUsers() as $user_id)
 				{
+					if ($user_id == ANONYMOUS_USER_ID)
+					{
+						continue;
+					}
+
 					// cross check online
 					if ($prov->getActivationMode() == ilAwarenessUserProvider::MODE_INCL_OFFLINE
-						|| in_array($user_id, self::$online_users))
+						|| in_array($user_id, self::$online_user_ids))
 					{
-						$this->collection->addUser($user_id);
+						$collection->addUser($user_id);
 					}
 				}
 			}
+			$this->collections[] = array(
+				"uc_title" => $prov->getTitle(),
+				"collection" => $collection
+			);
 		}
 
-		return $this->collection;
+		return $this->collections;
 	}
 
 

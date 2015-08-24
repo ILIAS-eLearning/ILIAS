@@ -76,6 +76,19 @@ class ilAwarenessAct
 	}
 
 	/**
+	 * Get awareness data
+	 *
+	 * @return ilAwarenessData awareness data
+	 */
+	function getAwarenessUserCounter()
+	{
+		include_once("./Services/Awareness/classes/class.ilAwarenessData.php");
+		$data = ilAwarenessData::getInstance($this->user_id);
+		$data->setRefId($this->getRefId());
+		return $data->getUserCounter();
+	}
+
+	/**
 	 *
 	 *
 	 * @param
