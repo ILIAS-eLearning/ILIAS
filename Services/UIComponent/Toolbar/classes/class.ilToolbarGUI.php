@@ -208,8 +208,17 @@ class ilToolbarGUI
 	*/
 	function addFormButton($a_txt, $a_cmd, $a_acc_key = "", $a_primary = false, $a_class = false)
 	{
-		$this->items[] = array("type" => "fbutton", "txt" => $a_txt, "cmd" => $a_cmd,
-			"acc_key" => $a_acc_key, "primary" => $a_primary, "class" => $a_class);
+		if ($a_primary) {
+			$button = ilSubmitButton::getInstance();
+			$button->setPrimary(true);
+			$button->setCaption($a_txt, false);
+			$button->setCommand($a_cmd);
+			$button->setAccessKey($a_acc_key);
+			$this->addStickyItem($button);
+		} else {
+			$this->items[] = array("type" => "fbutton", "txt" => $a_txt, "cmd" => $a_cmd,
+				"acc_key" => $a_acc_key, "primary" => $a_primary, "class" => $a_class);
+		}
 	}
 
 
@@ -240,11 +249,15 @@ class ilToolbarGUI
 	/**
 	 * Add button instance
 	 * 
-	 * @param ilButton $a_buttonad
+	 * @param ilButton $a_button
 	 */
 	public function addButtonInstance(ilButton $a_button)
 	{
-		$this->items[] = array("type" => "button_obj", "instance" => $a_button); 
+		if ($a_button->isPrimary()) {
+			$this->addStickyItem($a_button);
+		} else {
+			$this->items[] = array("type" => "button_obj", "instance" => $a_button);
+		}
 	}
 
 	// bs-patch start
