@@ -266,6 +266,24 @@ class gevCourseUtils {
 		
 		return $this->crs_participations;
 	}
+
+	public function setParticipationStatusAndPoints($user_id, $state, $cpoints) {
+		if(!is_numeric($state)) {
+			throw new Exception("gevCourseUtils::setParticipationStatusAndPoints:state is not an integer");
+		}
+
+		if(!is_numeric($cpoints)) {
+			throw new Exception("gevCourseUtils::setParticipationStatusAndPoints:cpoints is not an integer");
+		}
+
+		$sql = "UPDATE crs_pstatus_usr"
+				." SET cpoints = ".$this->db->quote($cpoints,"integer")
+					." , status = ".$this->db->quote($state,"integer")
+				." WHERE user_id = ".$this->db->quote($user_id,"integer")
+					." AND crs_id = ".$this->db->quote($this->getId(),"integer");
+		
+		$this->db->manipulate($sql);
+	}
 	
 	public function getLocalRoles() {
 		if ($this->local_roles === null) {

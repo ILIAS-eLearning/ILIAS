@@ -278,7 +278,7 @@ class gevUserUtils {
 	static public function userIdExists($a_user_id) {
 		global $ilDB;
 
-		$sql = "SELECT count(usr_id) FROM usr_data WHERE usr_id = ".$ilDB->quote($a_user_id, "integer");
+		$sql = "SELECT usr_id FROM usr_data WHERE usr_id = ".$ilDB->quote($a_user_id, "integer");
 		$res = $ilDB->query($sql);
 
 		if($ilDB->numRows($res) == 0) {
