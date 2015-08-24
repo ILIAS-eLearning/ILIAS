@@ -421,6 +421,10 @@ class ilSCORM13Player
 			$this->tpl->parseCurrentBlock();
 		}
 
+		// SRAG-FSX Patch-Start, 2015-08-07: Implementation of new WAC
+		require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
+		ilWACSignedPath::signFolderOfStartFile($this->slm->getDataDirectory().'/dummy.html');
+		// SRAG-FSX Patch-End
 
 		$this->tpl->setVariable('JSON_LANGSTRINGS', json_encode($langstrings));
 		include_once("./Services/YUI/classes/class.ilYuiUtil.php");

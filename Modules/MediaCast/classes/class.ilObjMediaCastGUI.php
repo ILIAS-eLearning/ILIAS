@@ -1533,6 +1533,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		$ctpl = new ilTemplate("tpl.mcst_content.html", true, true, "Modules/MediaCast");
 		
 		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+		require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
 		foreach ($this->object->getSortedItemsArray() as $item)
 		{
 			$mob = new ilObjMediaObject($item["mob_id"]);
@@ -1546,7 +1547,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 			if ($mob->getVideoPreviewPic() != "")
 			{
 				$ctpl->setVariable("PREVIEW_PIC",
-					ilUtil::img($mob->getVideoPreviewPic(), $item["title"], 320, 240));
+					ilUtil::img(ilWACSignedPath::signFile($mob->getVideoPreviewPic()), $item["title"], 320, 240));
 			}
 			else
 			{
@@ -1565,17 +1566,17 @@ class ilObjMediaCastGUI extends ilObjectGUI
 				
 				if (strcasecmp("Reference", $med->getLocationType()) == 0)
 				{
-					$mpl->setFile($med->getLocation());
+					$mpl->setFile(ilWACSignedPath::signFile($med->getLocation()));
 				}
 				else
 				{
-					$mpl->setFile(ilObjMediaObject::_getURL($mob->getId())."/".$med->getLocation());
+					$mpl->setFile(ilWACSignedPath::signFile(ilObjMediaObject::_getURL($mob->getId())."/".$med->getLocation()));
 				}
 				$mpl->setMimeType ($med->getFormat());
 				//$mpl->setDisplayHeight($med->getHeight());
 				$mpl->setDisplayHeight("480");
 				$mpl->setDisplayWidth("640");
-				$mpl->setVideoPreviewPic($mob->getVideoPreviewPic());
+				$mpl->setVideoPreviewPic(ilWACSignedPath::signFile($mob->getVideoPreviewPic()));
 				$mpl->setTitle($item["title"]);
 				$mpl->setDescription($item["content"]);
 				$mpl->setForceAudioPreview(true);
@@ -1588,8 +1589,8 @@ class ilObjMediaCastGUI extends ilObjectGUI
 				$med_alt = $mob->getMediaItem("VideoAlternative");
 				if (is_object($med_alt))
 				{
-					$mpl->setAlternativeVideoFile(ilObjMediaObject::_getURL($mob->getId())."/".
-						$med_alt->getLocation());
+					$mpl->setAlternativeVideoFile(ilWACSignedPath::signFile(ilObjMediaObject::_getURL($mob->getId())."/".
+						$med_alt->getLocation()));
 					$mpl->setAlternativeVideoMimeType($med_alt->getFormat());
 				}
 				

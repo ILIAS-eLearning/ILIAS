@@ -359,7 +359,9 @@ class ilObjBibliographicGUI extends ilObject2GUI {
 				if (is_file($file_path)) {
 					$path_array = explode(DIRECTORY_SEPARATOR, $file_path);
 					$filename = $path_array[sizeof($path_array) - 1];
-					ilUtil::deliverFile($file_path, $filename);
+					require_once('./Services/FileDelivery/classes/class.ilFileDelivery.php');
+					ilFileDelivery::deliverFileAttached($file_path, null, 'application/octet-stream');
+//					ilUtil::deliverFile($file_path, $filename);
 				} else {
 					ilUtil::sendFailure($lng->txt("file_not_found"));
 					$this->showContent($this->bibl_obj);

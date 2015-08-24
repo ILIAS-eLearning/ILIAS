@@ -1130,8 +1130,9 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$banner = false;
 		$blga_set = new ilSetting("blga");
 		if($blga_set->get("banner"))
-		{		
-			$banner = $this->object->getImageFullPath();
+		{
+			require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
+			$banner = ilWACSignedPath::signFile($this->object->getImageFullPath());
 			$banner_width = $blga_set->get("banner_width");
 			$banner_height = $blga_set->get("banner_height");		
 			if($a_export)

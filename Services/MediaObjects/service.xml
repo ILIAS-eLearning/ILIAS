@@ -9,4 +9,8 @@
 			<parent id="adm" max="1">adm</parent>
 		</object>
 	</objects>
+	<web_access_checker>
+		<secure_path path="mobs" checking-class="ilObjMediaObjectAccess" />
+		<secure_path path="thumbs" checking-class="ilObjMediaObjectAccess" />
+	</web_access_checker>
 </service>

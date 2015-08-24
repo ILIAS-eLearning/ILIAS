@@ -746,7 +746,8 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		$prfa_set = new ilSetting("prfa");
 		if($prfa_set->get("banner"))
 		{		
-			$banner = $a_portfolio->getImageFullPath();
+			require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
+			$banner = ilWACSignedPath::signFile($a_portfolio->getImageFullPath());
 			$banner_width = $prfa_set->get("banner_width");
 			$banner_height = $prfa_set->get("banner_height");
 			if($a_export)

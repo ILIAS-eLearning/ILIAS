@@ -3993,7 +3993,8 @@ class ilObjUser extends ilObject
 			}
 		}
 
-		return $file;
+		require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
+		return ilWACSignedPath::signFile($file);
 	}
 
 	/**
