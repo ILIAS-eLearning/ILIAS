@@ -12234,7 +12234,6 @@ skmg#:#skmg_from_lower_to_higher_levels#:#Please order the levels from lower one
 common#:#spl_import#:#Import Question Pool Survey
 skmg#:#skmg_select_skill#:#Click on a competence to add it to your personal competences.
 survey#:#svy_create_question#:#Create Question
-common#:#contact_sysadmin#:#Contact Administration
 blog#:#blog_posting#:#Blog Posting
 blog#:#blog_change_notification_subject#:#Blog "%s" has been updated
 blog#:#blog_change_notification_salutation#:#Hello %s,
@@ -15809,3 +15808,33 @@ buddysystem#:#buddy_notification_contact_request_long#:#[SALUTATION][BR][BR]the 
 buddysystem#:#buddy_request_approved#:#You successfully approved the contact.
 buddysystem#:#buddy_request_ignored#:#You ignored the user.
 common#:#no_gallery_users_available#:#There are currently no users in the gallery.
+crs#:#crs_mem_contact#:#Support Contact
+awrn#:#awareness_now_online#:#Online Now
+awrn#:#awareness_now_online_users#:#[ONLINE_USER_NAMES]
+common#:#obj_awra_desc#:#Manage ‘Who is online?’-Tool
+common#:#obj_awra#:#‘Who is online?’-Tool
+awrn#:#awareness_settings#:#Settings
+awrn#:#awrn_enable#:#Enable ‘Who is online?’-Tool
+crs#:#crs_mem_contacts#:#Support Contacts
+user#:#user_awrn_all_users#:#All Users
+user#:#user_awrn_all_users_info#:#All users of the platform are listed.
+crs#:#crs_awrn_support_contacts#:#Tutorial Support
+crs#:#crs_awrn_support_contacts_info#:#All tutorial support contacts of courses with membership of the current user are listed. Users are defined as tutorial support contacts in the Members tab of the respective course.
+awrn#:#awrn_inactive#:#Not Listed
+awrn#:#awrn_online_only#:#Online Only
+awrn#:#awrn_incl_offline#:#Online and Offline
+adm#:#adm_support_contacts#:#Technical Support
+adm#:#adm_awrn_support_contacts_info#:#All technical support contacts are listed. Users are defined as technical support contacts in the section "General Settings" > "Contact Information".
+adm#:#adm_support_contacts_info#:#Support contacts used in the footer link and (if activated) in the ‘Who is online?’-Tool. Comma separated list of account logins.
+mmbr#:#mmbr_awrn_my_groups_courses#:#My Groups and Courses
+mmbr#:#mmbr_awrn_my_groups_courses_info#:#All members of groups or courses of the current user are listed.
+crs#:#crs_awrn_current_course#:#Current Course
+crs#:#crs_awrn_current_course_info#:#If the user navigates to a course in the repository, all members of the course are listed.
+awrn#:#awrn_caching_period#:#Caching Period
+awrn#:#awrn_caching_period_info#:#Time that is waited before the number of users in the top bar is updated and new online users are determined.
+awrn#:#awrn_seconds#:#sec
+awrn#:#awrn_max_nr_entries#:#Max. Number of Items
+awrn#:#awrn_max_nr_entries_info#:#Maximum number of items in the ‘Who is online?’ list.
+awrn#:#awrn_hide_from_awareness#:#Hide Me From ‘Who is online?’-Tool
+awrn#:#awrn_hide_from_awareness_info#:#The ‘Who is online?’-Tool is in the top bar and listing selected users (e.g. contacts or members of your courses).
+common#:#contact_sysadmin#:#Contact Technical Support
