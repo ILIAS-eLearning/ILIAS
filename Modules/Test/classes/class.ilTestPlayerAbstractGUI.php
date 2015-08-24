@@ -2103,4 +2103,20 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			$this->tpl->setVariable($this->getContentBlockName(), $this->ctrl->getHTML($helperGui));
 		}
 	}
+
+	/**
+	 * @param $questionId
+	 * @return ilArrayElementShuffler
+	 */
+	protected function buildQuestionAnswerShuffler($questionId)
+	{
+		require_once 'Services/Randomization/classes/class.ilArrayElementShuffler.php';
+		$shuffler = new ilArrayElementShuffler();
+		
+		$shuffler->setSeed(
+			$questionId.$this->testSession->getActiveId().$this->testSession->getPass()
+		);
+		
+		return $shuffler;
+	}
 }

@@ -616,14 +616,14 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		switch ($this->object->getShuffle())
 		{
 			case 1:
-				$terms = $this->object->pcArrayShuffle($terms);
-				$definitions = $this->object->pcArrayShuffle($definitions);
+				$terms = $this->object->getShuffler()->shuffle($terms);
+				$definitions = $this->object->getShuffler()->shuffle($definitions);
 				break;
 			case 2:
-				$terms = $this->object->pcArrayShuffle($terms);
+				$terms = $this->object->getShuffler()->shuffle($terms);
 				break;
 			case 3:
-				$definitions = $this->object->pcArrayShuffle($definitions);
+				$definitions = $this->object->getShuffler()->shuffle($definitions);
 				break;
 		}
 
@@ -798,18 +798,18 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		switch ($this->object->getShuffle())
 		{
 			case 1:
-				$terms = $this->object->pcArrayShuffle($terms);
+				$terms = $this->object->getShuffler()->shuffle($terms);
 				if (count($solutions))
 				{
 					$definitions = $this->sortDefinitionsBySolution($solutions, $definitions);
 				}
 				else
 				{
-					$definitions = $this->object->pcArrayShuffle($definitions);
+					$definitions = $this->object->getShuffler()->shuffle($definitions);
 				}
 				break;
 			case 2:
-				$terms = $this->object->pcArrayShuffle($terms);
+				$terms = $this->object->getShuffler()->shuffle($terms);
 				break;
 			case 3:
 				if (count($solutions))
@@ -818,7 +818,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 				}
 				else
 				{
-					$definitions = $this->object->pcArrayShuffle($definitions);
+					$definitions = $this->object->getShuffler()->shuffle($definitions);
 				}
 				break;
 		}

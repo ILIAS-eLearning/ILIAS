@@ -235,6 +235,11 @@ abstract class assQuestion
 	protected $step = null;
 	
 	protected $lastChange;
+
+	/**
+	 * @var ilArrayElementShuffler
+	 */
+	protected $shuffler;
 	
 	/**
 	* assQuestion constructor
@@ -289,6 +294,25 @@ abstract class assQuestion
 		$this->questionActionCmd = 'handleQuestionAction';
 		
 		$this->lastChange = null;
+
+		require_once 'Services/Randomization/classes/class.ilArrayElementOrderKeeper.php';
+		$this->shuffler = new ilArrayElementOrderKeeper();
+	}
+
+	/**
+	 * @return ilArrayElementShuffler
+	 */
+	public function getShuffler()
+	{
+		return $this->shuffler;
+	}
+
+	/**
+	 * @param ilArrayElementShuffler $shuffler
+	 */
+	public function setShuffler(ilArrayElementShuffler $shuffler)
+	{
+		$this->shuffler = $shuffler;
 	}
 
 	/**
