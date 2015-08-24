@@ -16,7 +16,7 @@ class ilAwarenessGUI
 	 */
 	protected function __construct()
 	{
-
+		$this->ref_id = (int) $_GET["ref_id"];
 	}
 
 	/**
@@ -46,6 +46,7 @@ class ilAwarenessGUI
 
 		include_once("./Services/Awareness/classes/class.ilAwarenessAct.php");
 		$act = ilAwarenessAct::getInstance($ilUser->getId());
+		$act->setRefId($this->ref_id);
 		$users = $act->getAwarenessData();
 
 		$act->notifyOnNewOnlineContacts();

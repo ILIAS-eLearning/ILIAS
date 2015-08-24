@@ -151,7 +151,7 @@ abstract class ilParticipants
 	 *
 	 * @access public
 	 * @param int $a_usr_id usr_id
-	 * @param string $a_type crs or grp
+	 * @param string|array $a_type crs or grp | array of strings
 	 * @param bool $a_only_member_role
 	 * @return
 	 * @static
@@ -159,7 +159,12 @@ abstract class ilParticipants
 	public static function _getMembershipByType($a_usr_id,$a_type,$a_only_member_role = false)
 	{
 		global $ilDB;
-		
+
+		if (!is_array($a_type))
+		{
+			$a_type = array($a_type);
+		}
+
 		// this will also dismiss local roles!
 		if ($a_only_member_role)
 		{
@@ -173,7 +178,7 @@ abstract class ilParticipants
 			"JOIN object_reference obr ON fa.parent = obr.ref_id ".
 			"JOIN object_data obd ON obr.obj_id = obd.obj_id ".
 			$j2.
-			"WHERE obd.type = ".$ilDB->quote($a_type,'text')." ".
+			"WHERE ".$ilDB->in("obd.type", $a_type, false, "integer");
 			"AND fa.assign = 'y' ".
 			"AND ua.usr_id = ".$ilDB->quote($a_usr_id,'integer')." ".
 			$a2;

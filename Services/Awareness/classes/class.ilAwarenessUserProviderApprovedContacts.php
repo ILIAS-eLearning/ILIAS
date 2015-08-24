@@ -5,13 +5,13 @@
 include_once("./Services/Awareness/classes/class.ilAwarenessUserProvider.php");
 
 /**
- * All course contacts listed
+ * All approved contacts listed
  *
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
  * @ingroup ServicesAwareness
  */
-class ilAwarenessUserProviderCourseContacts extends ilAwarenessUserProvider
+class ilAwarenessUserProviderApprovedContacts extends ilAwarenessUserProvider
 {
 	/**
 	 * Get provider id
@@ -20,7 +20,7 @@ class ilAwarenessUserProviderCourseContacts extends ilAwarenessUserProvider
 	 */
 	function getProviderId()
 	{
-		return "crs_contacts";
+		return "contact_approved";
 	}
 
 	/**
@@ -30,8 +30,8 @@ class ilAwarenessUserProviderCourseContacts extends ilAwarenessUserProvider
 	 */
 	function getTitle()
 	{
-		$this->lng->loadLanguageModule("crs");
-		return $this->lng->txt("crs_awrn_support_contacts");
+		$this->lng->loadLanguageModule("contact");
+		return $this->lng->txt("contact_awrn_ap_contacts");
 	}
 
 	/**
@@ -41,8 +41,8 @@ class ilAwarenessUserProviderCourseContacts extends ilAwarenessUserProvider
 	 */
 	function getInfo()
 	{
-		$this->lng->loadLanguageModule("crs");
-		return $this->lng->txt("crs_awrn_support_contacts_info");
+		$this->lng->loadLanguageModule("contact");
+		return $this->lng->txt("contact_awrn_ap_contacts_info");
 	}
 
 	/**
@@ -52,12 +52,20 @@ class ilAwarenessUserProviderCourseContacts extends ilAwarenessUserProvider
 	 */
 	function getInitialUserSet()
 	{
-		include_once("./Services/Membership/classes/class.ilParticipants.php");
+		global $ilDB;
+
+		// currently a dummy implementation
+		// finally all approved contacts of $this->getUserId() should be returned
+
 		$ub = array();
-		$support_contacts = ilParticipants::_getAllSupportContactsOfUser($this->getUserId(), "crs");
-		foreach ($support_contacts as $c)
+		$set = $ilDB->query("SELECT usr_id FROM usr_data ");
+		while ($rec = $ilDB->fetchAssoc($set))
 		{
-			$ub[] = $c;
+			if (in_array(ilObjUser::_lookupPref($rec["usr_id"], "public_profile"),
+				array("y", "g")))
+			{
+				$ub[] = $rec["usr_id"];
+			}
 		}
 		return $ub;
 	}

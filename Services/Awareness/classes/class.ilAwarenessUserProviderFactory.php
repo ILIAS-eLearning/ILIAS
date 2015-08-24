@@ -14,9 +14,30 @@ class ilAwarenessUserProviderFactory
 	protected static $providers = array(
 		array (
 			"component" => "Services/Awareness",
+			"class" => "ilAwarenessUserProviderSystemContacts"
+		),
+		array (
+			"component" => "Services/Awareness",
+			"class" => "ilAwarenessUserProviderCourseContacts"
+		),
+		array (
+			"component" => "Services/Awareness",
+			"class" => "ilAwarenessUserProviderCurrentCourse"
+		),
+		array (
+			"component" => "Services/Awareness",
+			"class" => "ilAwarenessUserProviderApprovedContacts"
+		),
+		array (
+			"component" => "Services/Awareness",
+			"class" => "ilAwarenessUserProviderMemberships"
+		),
+		array (
+			"component" => "Services/Awareness",
 			"class" => "ilAwarenessUserProviderAllUsers"
 		)
 	);
+
 	/*protected static $providers = array(
 		array (
 			"component" => "Services/Awareness",

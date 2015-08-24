@@ -11,9 +11,15 @@
  */
 abstract class ilAwarenessUserProvider
 {
+	const MODE_INACTIVE = 0;
+	const MODE_ONLINE_ONLY = 1;
+	const MODE_INCL_OFFLINE = 2;
+
 	protected $user_id;
+	protected $ref_id;
 	protected $lng;
 	protected $db;
+	protected $online_user_filter = false;
 
 	/**
 	 * Constructor
@@ -24,6 +30,27 @@ abstract class ilAwarenessUserProvider
 
 		$this->lng = $lng;
 		$this->db = $ilDB;
+		$this->settings = new ilSetting("awrn");
+	}
+	
+	/**
+	 * Activate provider
+	 *
+	 * @param boolean $a_val activate provider	
+	 */
+	function setActivationMode($a_val)
+	{
+		$this->settings->set("up_act_".$this->getProviderId(), (int) $a_val);
+	}
+
+	/**
+	 * Get Activate provider
+	 *
+	 * @return boolean activate provider
+	 */
+	function getActivationMode()
+	{
+		return (int) $this->settings->get("up_act_".$this->getProviderId());
 	}
 
 	/**
@@ -45,20 +72,109 @@ abstract class ilAwarenessUserProvider
 	{
 		return $this->user_id;
 	}
-	
-	/**
-	 * Collect users (regardless of online/offline status)
-	 *
-	 * @return ilAwarenessUserCollection collection of users
-	 */
-	abstract function collectUsers();
 
 	/**
-	 * Collect users (which are online)
+	 * Set ref id
 	 *
-	 * @return ilAwarenessUserCollection collection of users
+	 * @param int $a_val ref id	
 	 */
-	abstract function collectOnlineUsers();
+	function setRefId($a_val)
+	{
+		$this->ref_id = $a_val;
+	}
+	
+	/**
+	 * Get ref id
+	 *
+	 * @return int ref id
+	 */
+	function getRefId()
+	{
+		return $this->ref_id;
+	}
+	
+	/**
+	 * Set online user filter
+	 *
+	 * @param array $a_val array of user IDs | false if online status is not relevant
+	 */
+	function setOnlineUserFilter($a_val)
+	{
+		$this->online_user_filter = $a_val;
+	}
+
+	/**
+	 * Get online user filter
+	 *
+	 * @return array array of user IDs | false if online status is not relevant
+	 */
+	function getOnlineUserFilter()
+	{
+		return $this->online_user_filter;
+	}
+
+	/**
+	 * This should return a unique id for the provider
+	 * The ID should start with the service/module id, separated by "_" and a second part
+	 * that is unique within the module/service, e.g. "user_all"
+	 *
+	 * @return string provider id
+	 */
+	abstract function getProviderId();
+
+	/**
+	 * Provider title (used in awareness overlay and in administration settings)
+	 *
+	 * @return string provider title
+	 */
+	abstract function getTitle();
+
+	/**
+	 * Provider info (used in administration settings)
+	 *
+	 * @return string provider info text
+	 */
+	abstract function getInfo();
+
+	/**
+	 * Get initial set of users
+	 *
+	 * @return array array of user IDs
+	 */
+	abstract function getInitialUserSet();
+
+	/**
+	 * Collect all users
+	 *
+	 * @return ilAwarenessUserCollection collection
+	 */
+	function collectUsers()
+	{
+		$coll = ilAwarenessUserCollection::getInstance();
+
+		foreach ($this->getInitialUserSet() as $u)
+		{
+			$this->addUserToCollection($u, $coll);
+		}
+
+		return $coll;
+	}
+
+	/**
+	 * Add user to collection
+	 *
+	 * @param int $a_user_id user id
+	 * @param ilAwarenessUserCollection $a_collection collection
+	 */
+	protected function addUserToCollection($a_user_id, ilAwarenessUserCollection $a_collection)
+	{
+		$ou = $this->getOnlineUserFilter();
+		if ($this->getUserId() != $a_user_id && ($ou === false || in_array($a_user_id, $ou)))
+		{
+			$a_collection->addUser($a_user_id);
+		}
+	}
+
 
 }
 

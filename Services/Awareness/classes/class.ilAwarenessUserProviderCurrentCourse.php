@@ -5,13 +5,13 @@
 include_once("./Services/Awareness/classes/class.ilAwarenessUserProvider.php");
 
 /**
- * All course contacts listed
+ * All members of the same courses/groups as the user
  *
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
  * @ingroup ServicesAwareness
  */
-class ilAwarenessUserProviderCourseContacts extends ilAwarenessUserProvider
+class ilAwarenessUserProviderCurrentCourse extends ilAwarenessUserProvider
 {
 	/**
 	 * Get provider id
@@ -20,7 +20,7 @@ class ilAwarenessUserProviderCourseContacts extends ilAwarenessUserProvider
 	 */
 	function getProviderId()
 	{
-		return "crs_contacts";
+		return "crs_current";
 	}
 
 	/**
@@ -31,7 +31,7 @@ class ilAwarenessUserProviderCourseContacts extends ilAwarenessUserProvider
 	function getTitle()
 	{
 		$this->lng->loadLanguageModule("crs");
-		return $this->lng->txt("crs_awrn_support_contacts");
+		return $this->lng->txt("crs_awrn_current_course");
 	}
 
 	/**
@@ -42,7 +42,7 @@ class ilAwarenessUserProviderCourseContacts extends ilAwarenessUserProvider
 	function getInfo()
 	{
 		$this->lng->loadLanguageModule("crs");
-		return $this->lng->txt("crs_awrn_support_contacts_info");
+		return $this->lng->txt("crs_awrn_current_course_info");
 	}
 
 	/**
@@ -52,12 +52,27 @@ class ilAwarenessUserProviderCourseContacts extends ilAwarenessUserProvider
 	 */
 	function getInitialUserSet()
 	{
-		include_once("./Services/Membership/classes/class.ilParticipants.php");
+		global $ilDB, $tree;
+
 		$ub = array();
-		$support_contacts = ilParticipants::_getAllSupportContactsOfUser($this->getUserId(), "crs");
-		foreach ($support_contacts as $c)
+
+		if ($this->getRefId() > 0)
 		{
-			$ub[] = $c;
+			$path = $tree->getPathFull($this->getRefId());
+			foreach ($path as $p)
+			{
+				if ($p["type"] == "crs")
+				{
+					$set = $ilDB->query("SELECT DISTINCT usr_id FROM obj_members ".
+						" WHERE obj_id = ".$ilDB->quote($p["obj_id"], "integer"));
+					$ub = array();
+					while ($rec = $ilDB->fetchAssoc($set))
+					{
+						$ub[] = $rec["usr_id"];
+					}
+
+				}
+			}
 		}
 		return $ub;
 	}

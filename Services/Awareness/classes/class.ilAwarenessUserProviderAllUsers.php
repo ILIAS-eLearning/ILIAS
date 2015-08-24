@@ -14,33 +14,65 @@ include_once("./Services/Awareness/classes/class.ilAwarenessUserProvider.php");
 class ilAwarenessUserProviderAllUsers extends ilAwarenessUserProvider
 {
 	/**
-	 * Collect all users
+	 * Get provider id
 	 *
-	 * @return ilAwarenessUserCollection collection
+	 * @return string provider id
 	 */
-	function collectUsers()
+	function getProviderId()
 	{
-		global $ilDB;
-
-		$coll = ilAwarenessUserCollection::getInstance();
-
-		$set = $ilDB->query("SELECT usr_id FROM usr_data ");
-		while ($rec = $ilDB->fetchAssoc($set))
-		{
-			$coll->addUser($rec["usr_id"]);
-		}
-
-		return $coll;
+		return "user_all";
 	}
 
 	/**
-	 * Collect all users
+	 * Provider title (used in awareness overlay and in administration settings)
 	 *
-	 * @return ilAwarenessUserCollection collection
+	 * @return string provider title
 	 */
-	function collectOnlineUsers()
+	function getTitle()
 	{
-		return $this->collectUsers();
+		$this->lng->loadLanguageModule("user");
+		return $this->lng->txt("user_awrn_all_users");
 	}
+
+	/**
+	 * Provider info (used in administration settings)
+	 *
+	 * @return string provider info text
+	 */
+	function getInfo()
+	{
+		$this->lng->loadLanguageModule("user");
+		return $this->lng->txt("user_awrn_all_users_info");
+	}
+
+	/**
+	 * Get initial set of users
+	 *
+	 * @return array array of user IDs
+	 */
+	function getInitialUserSet()
+	{
+		global $ilDB;
+
+		$ub = array();
+		// all online users
+		if ($this->getOnlineUserFilter() !== false)
+		{
+			foreach ($this->getOnlineUserFilter() as $u)
+			{
+				$ub[] = $u;
+			}
+		}
+		else	// all users
+		{
+			$set = $ilDB->query("SELECT usr_id FROM usr_data ");
+			while ($rec = $ilDB->fetchAssoc($set))
+			{
+				$ub[] = $rec["usr_id"];
+			}
+		}
+		return $ub;
+	}
+
 }
 ?>

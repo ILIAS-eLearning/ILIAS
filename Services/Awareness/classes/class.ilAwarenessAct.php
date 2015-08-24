@@ -13,6 +13,7 @@ class ilAwarenessAct
 {
 	protected static $instances = array();
 	protected $user_id;
+	protected $ref_id = 0;
 	protected static $collector;
 
 	/**
@@ -23,6 +24,26 @@ class ilAwarenessAct
 	protected function __construct($a_user_id)
 	{
 		$this->user_id = $a_user_id;
+	}
+
+	/**
+	 * Set ref id
+	 *
+	 * @param int $a_val ref id
+	 */
+	function setRefId($a_val)
+	{
+		$this->ref_id = $a_val;
+	}
+
+	/**
+	 * Get ref id
+	 *
+	 * @return int ref id
+	 */
+	function getRefId()
+	{
+		return $this->ref_id;
 	}
 
 	/**
@@ -50,6 +71,7 @@ class ilAwarenessAct
 	{
 		include_once("./Services/Awareness/classes/class.ilAwarenessData.php");
 		$data = ilAwarenessData::getInstance($this->user_id);
+		$data->setRefId($this->getRefId());
 		return $data->getData();
 	}
 
@@ -66,6 +88,7 @@ class ilAwarenessAct
 		$ts = ilSession::get("awr_online_user_ts");
 
 		$data = ilAwarenessData::getInstance($this->user_id);
+		$data->setRefId($this->getRefId());
 		$d = $data->getData();
 
 		$new_online_users = array();

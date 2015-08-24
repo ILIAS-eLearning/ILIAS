@@ -115,6 +115,13 @@ class ilObjAwarenessAdministrationGUI extends ilObjectGUI
 			$awrn_set = new ilSetting("awrn");
 			$awrn_set->set("awrn_enabled", (bool) $form->getInput("enable_awareness"));
 
+			include_once("./Services/Awareness/classes/class.ilAwarenessUserProviderFactory.php");
+			$prov = ilAwarenessUserProviderFactory::getAllProviders();
+			foreach ($prov as $p)
+			{
+				$p->setActivationMode($form->getInput("up_act_mode_".$p->getProviderId()));
+			}
+
 			ilUtil::sendSuccess($this->lng->txt("settings_saved"),true);
 			$ilCtrl->redirect($this, "editSettings");
 		}
@@ -154,6 +161,24 @@ class ilObjAwarenessAdministrationGUI extends ilObjectGUI
 
 		$awrn_set = new ilSetting("awrn");
 		$en->setChecked($awrn_set->get("awrn_enabled", false));
+
+		include_once("./Services/Awareness/classes/class.ilAwarenessUserProviderFactory.php");
+		$prov = ilAwarenessUserProviderFactory::getAllProviders();
+		foreach ($prov as $p)
+		{
+			// activation mode
+			$options = array(
+				ilAwarenessUserProvider::MODE_INACTIVE => $lng->txt("awrn_inactive"),
+				ilAwarenessUserProvider::MODE_ONLINE_ONLY => $lng->txt("awrn_online_only"),
+				ilAwarenessUserProvider::MODE_INCL_OFFLINE => $lng->txt("awrn_incl_offline")
+				);
+			$si = new ilSelectInputGUI($p->getTitle(), "up_act_mode_".$p->getProviderId());
+			$si->setOptions($options);
+			$si->setInfo($p->getInfo());
+			$si->setValue($p->getActivationMode());
+			$en->addSubItem($si);
+		}
+
 		return $form;
 	}
 }

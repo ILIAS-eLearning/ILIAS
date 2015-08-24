@@ -5,13 +5,13 @@
 include_once("./Services/Awareness/classes/class.ilAwarenessUserProvider.php");
 
 /**
- * All course contacts listed
+ * All system contacts listed
  *
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
  * @ingroup ServicesAwareness
  */
-class ilAwarenessUserProviderCourseContacts extends ilAwarenessUserProvider
+class ilAwarenessUserProviderSystemContacts extends ilAwarenessUserProvider
 {
 	/**
 	 * Get provider id
@@ -20,7 +20,7 @@ class ilAwarenessUserProviderCourseContacts extends ilAwarenessUserProvider
 	 */
 	function getProviderId()
 	{
-		return "crs_contacts";
+		return "adm_contacts";
 	}
 
 	/**
@@ -30,8 +30,8 @@ class ilAwarenessUserProviderCourseContacts extends ilAwarenessUserProvider
 	 */
 	function getTitle()
 	{
-		$this->lng->loadLanguageModule("crs");
-		return $this->lng->txt("crs_awrn_support_contacts");
+		$this->lng->loadLanguageModule("adm");
+		return $this->lng->txt("adm_awrn_support_contacts");
 	}
 
 	/**
@@ -41,8 +41,8 @@ class ilAwarenessUserProviderCourseContacts extends ilAwarenessUserProvider
 	 */
 	function getInfo()
 	{
-		$this->lng->loadLanguageModule("crs");
-		return $this->lng->txt("crs_awrn_support_contacts_info");
+		$this->lng->loadLanguageModule("adm");
+		return $this->lng->txt("adm_awrn_support_contacts_info");
 	}
 
 	/**
@@ -52,9 +52,8 @@ class ilAwarenessUserProviderCourseContacts extends ilAwarenessUserProvider
 	 */
 	function getInitialUserSet()
 	{
-		include_once("./Services/Membership/classes/class.ilParticipants.php");
+		$support_contacts = array(ilObjUser::_lookupId("root"));
 		$ub = array();
-		$support_contacts = ilParticipants::_getAllSupportContactsOfUser($this->getUserId(), "crs");
 		foreach ($support_contacts as $c)
 		{
 			$ub[] = $c;

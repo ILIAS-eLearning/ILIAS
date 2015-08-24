@@ -12,12 +12,14 @@
 class ilAwarenessUserCollector
 {
 	protected static $instances = array();
+	protected static $online_users = false;
 
 	/**
 	 * @var ilAwarenessUserCollection
 	 */
 	protected $collection;
 	protected $user_id;
+	protected $ref_id;
 
 	/**
 	 * Constructor
@@ -29,6 +31,25 @@ class ilAwarenessUserCollector
 		$this->user_id = $a_user_id;
 	}
 
+	/**
+	 * Set ref id
+	 *
+	 * @param int $a_val ref id	
+	 */
+	function setRefId($a_val)
+	{
+		$this->ref_id = $a_val;
+	}
+	
+	/**
+	 * Get ref id
+	 *
+	 * @return int ref id
+	 */
+	function getRefId()
+	{
+		return $this->ref_id;
+	}
 
 	/**
 	 * Get instance (for a user)
@@ -53,6 +74,15 @@ class ilAwarenessUserCollector
 	 */
 	public function collectUsers()
 	{
+		if (self::$online_users === false)
+		{
+			include_once("./Services/User/classes/class.ilObjUser.php");
+			foreach (ilObjUser::_getUsersOnline() as $u)
+			{
+				self::$online_users[] = $u["user_id"];
+			}
+		}
+
 		// overall collection of users
 		include_once("./Services/Awareness/classes/class.ilAwarenessUserCollection.php");
 		$this->collection = ilAwarenessUserCollection::getInstance();
@@ -60,11 +90,25 @@ class ilAwarenessUserCollector
 		include_once("./Services/Awareness/classes/class.ilAwarenessUserProviderFactory.php");
 		foreach (ilAwarenessUserProviderFactory::getAllProviders() as $prov)
 		{
-			$prov->setUserId($this->user_id);
-			$coll = $prov->collectUsers();
-			foreach ($coll->getUsers() as $user_id)
+			if ($prov->getActivationMode() != ilAwarenessUserProvider::MODE_INACTIVE)
 			{
-				$this->collection->addUser($user_id);
+				$prov->setUserId($this->user_id);
+				$prov->setRefId($this->ref_id);
+				$prov->setOnlineUserFilter(false);
+				if ($prov->getActivationMode() == ilAwarenessUserProvider::MODE_ONLINE_ONLY)
+				{
+					$prov->setOnlineUserFilter(self::$online_users);
+				}
+				$coll = $prov->collectUsers();
+				foreach ($coll->getUsers() as $user_id)
+				{
+					// cross check online
+					if ($prov->getActivationMode() == ilAwarenessUserProvider::MODE_INCL_OFFLINE
+						|| in_array($user_id, self::$online_users))
+					{
+						$this->collection->addUser($user_id);
+					}
+				}
 			}
 		}
 

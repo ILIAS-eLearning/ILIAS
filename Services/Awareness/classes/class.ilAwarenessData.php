@@ -12,6 +12,7 @@
 class ilAwarenessData
 {
 	protected $user_id;
+	protected $ref_id = 0;
 	protected $user_collector;
 	protected $feature_collector;
 	protected $user_collection;
@@ -34,6 +35,26 @@ class ilAwarenessData
 		$this->feature_collector = ilAwarenessFeatureCollector::getInstance($a_user_id);
 	}
 
+	/**
+	 * Set ref id
+	 *
+	 * @param int $a_val ref id	
+	 */
+	function setRefId($a_val)
+	{
+		$this->ref_id = $a_val;
+	}
+	
+	/**
+	 * Get ref id
+	 *
+	 * @return int ref id
+	 */
+	function getRefId()
+	{
+		return $this->ref_id;
+	}
+	
 	/**
 	 * Get instance (for a user)
 	 *
@@ -61,6 +82,7 @@ class ilAwarenessData
 	{
 		if ($this->data == null)
 		{
+			$this->user_collector->setRefId($this->getRefId());
 			$this->user_collection = $this->user_collector->collectUsers();
 
 			$user_ids = $this->user_collection->getUsers();
@@ -68,9 +90,6 @@ class ilAwarenessData
 			include_once("./Services/User/classes/class.ilUserUtil.php");
 			$names = ilUserUtil::getNamePresentation($user_ids, true,
 				false, "", false, false, true, true);
-
-			// todo: optimize?
-			$online_users = ilObjUser::_getUsersOnline($user_ids);
 
 			// todo: some setting to control this?
 //			$only_online = true;
