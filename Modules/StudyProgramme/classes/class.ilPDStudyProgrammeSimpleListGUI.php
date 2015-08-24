@@ -24,14 +24,20 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI {
 	protected $il_user;
 	
 	/**
+	 * @var ilAccessHandler
+	 */
+	protected $il_access;
+	
+	/**
 	 * @var ilStudyProgrammeUserAssignment[]
 	 */
 	protected $users_assignments;
 	
 	public function __construct() {
-		global $lng, $ilUser;
+		global $lng, $ilUser, $ilAccess;
 		$this->il_lng = $lng;
 		$this->il_user = $ilUser;
+		$this->il_access = $ilAccess;
 		
 		// No need to load data, as we won't display this. 
 		if (!$this->shouldShowThisList()) {
@@ -41,7 +47,7 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI {
 		$this->loadUsersAssignments();
 		
 		// As this won't be visible we don't have to initialize this.
-		if (!$this->userHasStudyProgrammes()) {
+		if (!$this->userHasVisibleStudyProgrammes()) {
 			return;
 		}
 		
@@ -57,9 +63,10 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI {
 			return "";
 		}
 		
-		if (!$this->userHasStudyProgrammes()) {
+		if (!$this->userHasVisibleStudyProgrammes()) {
 			return "";
 		}
+		
 		return parent::getHTML();
 	}
 	
@@ -67,6 +74,10 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI {
 		$content = "";
 		
 		foreach ($this->users_assignments as $assignment) {
+			if (!$this->isVisible($assignment)) {
+				continue;
+			}
+			
 			$list_item = $this->new_ilStudyProgrammeAssignmentListGUI($assignment);
 			$content .= $list_item->getHTML();
 		}
@@ -83,13 +94,26 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI {
 	}
 	
 	public function fillDataSection() {
-		assert($this->userHasStudyProgrammes()); // We should not get here.
+		assert($this->userHasVisibleStudyProgrammes()); // We should not get here.
 		$this->tpl->setVariable("BLOCK_ROW", $this->getDataSectionContent());
 	}
 	
 	
-	protected function userHasStudyProgrammes() {
-		return !empty($this->users_assignments);
+	protected function userHasVisibleStudyProgrammes() {
+		if (count($this->users_assignments) == 0) {
+			return false;
+		}
+		foreach ($this->users_assignments as $assignment) {
+			if ($this->isVisible($assignment)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	protected function isVisible(ilStudyProgrammeUserAssignment $assignment) {
+		$prg = $assignment->getStudyProgramme();
+		return $this->il_access->checkAccess("visible", "", $prg->getRefId(), "prg", $prg->getId());
 	}
 	
 	protected function shouldShowThisList() {

@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
+* Änderung 1
 * ilias.php. main script.
 *
 * If you want to use this script your base class must be declared
