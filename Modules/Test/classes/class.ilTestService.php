@@ -190,13 +190,13 @@ class ilTestService
 	}
 
 	/**
-	 * @param ilTestSequence $testSequence
-	 * @param $obligationsFilter
+	 * @param ilTestSequenceSummaryProvider $testSequence
+	 * @param bool $obligationsFilter
 	 * @return array
 	 */
-	public function getQuestionSummaryData(ilTestSequence $testSequence, $obligationsFilter)
+	public function getQuestionSummaryData(ilTestSequenceSummaryProvider $testSequence, $obligationsFilterEnabled)
 	{
-		$result_array = $testSequence->getSequenceSummary($obligationsFilter);
+		$result_array = $testSequence->getSequenceSummary($obligationsFilterEnabled);
 
 		$marked_questions = array();
 

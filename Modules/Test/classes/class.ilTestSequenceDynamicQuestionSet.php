@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once 'Modules/Test/interfaces/interface.ilTestSequenceSummaryProvider.php';
+
 /**
  * Test sequence handler
  *
@@ -11,7 +13,7 @@
  * @version	$Id$
  * @package	Modules/Test
  */
-class ilTestSequenceDynamicQuestionSet
+class ilTestSequenceDynamicQuestionSet implements ilTestSequenceSummaryProvider
 {
 	/**
 	 * @var ilDB
@@ -716,6 +718,12 @@ class ilTestSequenceDynamicQuestionSet
 			}
 		}
 		return $minPostponeItem;
+	}
+	
+	public function getSequenceSummary($obligationsFilterEnabled = false)
+	{
+		$summary = array();
+		return $summary;
 	}
 
 }
