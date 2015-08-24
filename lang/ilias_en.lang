@@ -15762,3 +15762,23 @@ crs#:#crs_loc_objectives_passed_confirmation#:#Sie haben bereits alle Lernziel b
 crs#:#crs_loc_tst_start#:#Test starten
 crs#:#crs_loc_mem_show_res#:#Testergebnisse anzeigen
 crs#:#crs_loc_test_results_of#:#Testergebnisse von:
+buddysystem#:#buddy_bs_btn_txt_unlinked_a#:#Link
+buddysystem#:#buddy_bs_btn_txt_unlinked_p#:#Link
+buddysystem#:#buddy_bs_btn_txt_linked_a#:#Linked
+buddysystem#:#buddy_bs_btn_txt_linked_p#:#Linked
+buddysystem#:#buddy_bs_btn_txt_requested_a#:#Requested Contact
+buddysystem#:#buddy_bs_btn_txt_requested_p#:#Request
+buddysystem#:#buddy_bs_btn_txt_ignored_request_a#:#Requested Contact
+buddysystem#:#buddy_bs_btn_txt_ignored_request_p#:#Request Ignored
+buddysystem#:#buddy_bs_act_btn_txt_linked_to_unlinked#:#Unlink
+buddysystem#:#buddy_bs_act_btn_txt_requested_to_ignored_request#:#Ignore
+buddysystem#:#buddy_bs_act_btn_txt_requested_to_unlinked#:#Cancel Request
+buddysystem#:#buddy_bs_act_btn_txt_requested_to_linked#:#Confirm
+buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_unlinked#:#Cancel Request
+buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_linked#:#Confirm Request
+buddysystem#:#buddy_bs_action_not_possible#:#Action not possible
+buddysystem#:#buddy_bs_state_linked#:#Linked
+buddysystem#:#buddy_bs_state_unlinked#:#Unlinked
+buddysystem#:#buddy_bs_state_requested#:#Requested
+buddysystem#:#buddy_bs_state_ignoredrequest#:#Ignored
+buddysystem#:#buddy_bs_no_new_requests#:#No new requests

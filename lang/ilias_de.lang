@@ -15756,3 +15756,23 @@ crs#:#crs_loc_objectives_passed_confirmation#:#Sie haben bereits alle Lernziel b
 crs#:#crs_loc_tst_start#:#Test starten
 crs#:#crs_loc_mem_show_res#:#Testergebnisse anzeigen
 crs#:#crs_loc_test_results_of#:#Testergebnisse von:
+buddysystem#:#buddy_bs_btn_txt_unlinked_a#:#Vernetzen
+buddysystem#:#buddy_bs_btn_txt_unlinked_p#:#Vernetzen
+buddysystem#:#buddy_bs_btn_txt_linked_a#:#Vernetzt
+buddysystem#:#buddy_bs_btn_txt_linked_p#:#Vernetzt
+buddysystem#:#buddy_bs_btn_txt_requested_a#:#Kontakt angefragt
+buddysystem#:#buddy_bs_btn_txt_requested_p#:#Kontaktanfrage
+buddysystem#:#buddy_bs_btn_txt_ignored_request_a#:#Kontakt angefragt
+buddysystem#:#buddy_bs_btn_txt_ignored_request_p#:#Anfrage ignoriert
+buddysystem#:#buddy_bs_act_btn_txt_linked_to_unlinked#:#Kontakt aufheben
+buddysystem#:#buddy_bs_act_btn_txt_requested_to_ignored_request#:#Ignorieren
+buddysystem#:#buddy_bs_act_btn_txt_requested_to_unlinked#:#Anfrage zurückziehen
+buddysystem#:#buddy_bs_act_btn_txt_requested_to_linked#:#Bestätigen
+buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_unlinked#:#Anfrage zurückziehen
+buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_linked#:#Anfrage bestätigen
+buddysystem#:#buddy_bs_action_not_possible#:#Aktion nicht möglich
+buddysystem#:#buddy_bs_state_linked#:#Vernetzt
+buddysystem#:#buddy_bs_state_unlinked#:#Nicht vernetzt
+buddysystem#:#buddy_bs_state_requested#:#Angefragt
+buddysystem#:#buddy_bs_state_ignoredrequest#:#Ignoriert
+buddysystem#:#buddy_bs_no_new_requests#:#Keine neuen Anfragen
