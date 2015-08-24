@@ -9499,3 +9499,121 @@ if (! $ilDB->tableExists('il_wac_secure_path')) {
 	$ilDB->addPrimaryKey('il_wac_secure_path', array( 'path' ));
 }
 ?>
+<#4671>
+	<?php
+	//step 1/5 search for dublicates and store it in desktop_item_tmp
+
+	if ($ilDB->tableExists('desktop_item'))
+	{
+		$res = $ilDB->query("
+		SELECT first.item_id, first.user_id
+		FROM desktop_item first
+		WHERE EXISTS (
+			SELECT second.item_id, second.user_id
+			FROM desktop_item second
+			WHERE first.item_id = second.item_id AND first.user_id = second.user_id
+			GROUP BY second.item_id, second.user_id
+			HAVING COUNT(second.item_id) > 1
+		)
+		GROUP BY first.item_id, first.user_id
+	");
+
+		if($ilDB->numRows($res))
+		{
+			if(!$ilDB->tableExists('desktop_item_tmp'))
+			{
+				$ilDB->createTable('desktop_item_tmp', array(
+					'item_id' => array(
+						'type'  => 'integer',
+						'length'=> 8,
+						'notnull' => true,
+						'default' => 0
+					),
+					'user_id' => array(
+						'type'  => 'integer',
+						'length'=> 8,
+						'notnull' => true,
+						'default' => 0
+					)
+				));
+				$ilDB->addPrimaryKey('desktop_item_tmp', array('item_id','user_id'));
+			}
+
+			while($row = $ilDB->fetchAssoc($res))
+			{
+				$ilDB->replace('desktop_item_tmp', array(), array(
+					'item_id' => array('integer', $row['item_id']),
+					'user_id' => array('integer', $row['user_id'])
+				));
+			}
+		}
+	}
+	?>
+<#4672>
+	<?php
+	//step 2/5 deletes dublicates stored in desktop_item_tmp
+
+	if ($ilDB->tableExists('desktop_item_tmp'))
+	{
+		$res = $ilDB->query("
+		SELECT item_id, user_id
+		FROM desktop_item_tmp
+	");
+
+		while($row = $ilDB->fetchAssoc($res))
+		{
+			$res_data = $ilDB->query("
+			SELECT *
+			FROM desktop_item
+			WHERE
+			item_id = ".$ilDB->quote($row['item_id'] ,'integer')." AND
+			user_id = ".$ilDB->quote($row['user_id'] ,'integer')
+			);
+			$data = $ilDB->fetchAssoc($res_data);
+
+			$ilDB->manipulate("DELETE FROM desktop_item WHERE".
+				" item_id = " . $ilDB->quote($row['item_id'] ,'integer').
+				" AND user_id = " . $ilDB->quote($row['user_id'] ,'integer')
+			);
+
+			$ilDB->manipulate("INSERT INTO desktop_item (item_id,user_id,type,parameters) ".
+				"VALUES ( ".
+				$ilDB->quote($data['item_id'] ,'integer').', '.
+				$ilDB->quote($data['user_id'] ,'integer').', '.
+				$ilDB->quote($data['type'] ,'text').', '.
+				$ilDB->quote($data['parameters'] ,'text').
+				")");
+		}
+	}
+	?>
+<#4673>
+	<?php
+	//step 3/5 drop desktop_item_tmp
+
+	if( $ilDB->tableExists('desktop_item_tmp') )
+	{
+		$ilDB->dropTable('desktop_item_tmp');
+	}
+	?>
+<#4674>
+	<?php
+	//step 4/5 drops not used indexes
+
+	if( $ilDB->indexExistsByFields('desktop_item', array('item_id')) )
+	{
+		$ilDB->dropIndexByFields('desktop_item', array('item_id'));
+	}
+	if( $ilDB->indexExistsByFields('desktop_item', array('user_id')) )
+	{
+		$ilDB->dropIndexByFields('desktop_item', array('user_id'));
+	}
+	?>
+<#4675>
+<?php
+//step 5/5 adding primary keys and useful indexes
+
+if($ilDB->tableExists('desktop_item'))
+{
+	$ilDB->addPrimaryKey('desktop_item', array('user_id', 'item_id'));
+}
+?>
