@@ -18,6 +18,7 @@ class ilAwarenessData
 	protected $user_collection;
 	protected $data = null;
 	static protected $instances = array();
+	protected $filter = "";
 
 	/**
 	 * Constructor
@@ -53,6 +54,26 @@ class ilAwarenessData
 	function getRefId()
 	{
 		return $this->ref_id;
+	}
+	
+	/**
+	 * Set filter
+	 *
+	 * @param string $a_val filter string	
+	 */
+	function setFilter($a_val)
+	{
+		$this->filter = $a_val;
+	}
+	
+	/**
+	 * Get filter
+	 *
+	 * @return string filter string
+	 */
+	function getFilter()
+	{
+		return $this->filter;
 	}
 	
 	/**
@@ -154,6 +175,20 @@ class ilAwarenessData
 
 				foreach ($names as $n)
 				{
+					// filter
+					$filter = trim($this->getFilter());
+					if ($filter != "" &&
+						!is_int(stripos($n["login"], $filter)) &&
+						(!$n["public_profile"] || (
+							!is_int(stripos($n["firstname"], $filter)) &&
+							!is_int(stripos($n["lastname"], $filter))
+							)
+						)
+					)
+					{
+						continue;
+					}
+
 					$obj = new stdClass;
 					$obj->lastname = $n["lastname"];
 					$obj->firstname = $n["firstname"];

@@ -58,19 +58,6 @@ class ilAwarenessUserProviderMemberships extends ilAwarenessUserProvider
 		include_once("./Services/Membership/classes/class.ilParticipants.php");
 		$groups_and_courses_of_user = ilParticipants::_getMembershipByType($this->getUserId(), array("grp", "crs"));
 
-		/* todo: move to central place
-
-		require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceHelper.php';
-		$tos_condition = '';
-		if(ilTermsOfServiceHelper::isEnabled())
-		{
-			$tos_condition = " AND (agree_date IS NOT NULL OR ud.usr_id = " . $ilDB->quote(SYSTEM_USER_ID, 'integer') . ") ";
-		}*/
-
-		// todo: move to central place
-		//$ilDB->quote("hide_own_online_status", "text").") ".
-
-
 		$set = $ilDB->query("SELECT DISTINCT usr_id FROM obj_members ".
 			" WHERE ".$ilDB->in("obj_id", $groups_and_courses_of_user, false, "integer"));
 		$ub = array();

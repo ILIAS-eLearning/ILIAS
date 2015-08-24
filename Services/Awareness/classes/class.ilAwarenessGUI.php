@@ -64,7 +64,8 @@ class ilAwarenessGUI
 		// todo: implement update period
 
 		$GLOBALS["tpl"]->addOnloadCode("il.Awareness.setBaseUrl('".$this->ctrl->getLinkTarget($this,
-			"", "", true, false)."')");
+				"", "", true, false)."')");
+		$GLOBALS["tpl"]->addOnloadCode("il.Awareness.setLoaderSrc('".ilUtil::getImagePath("loader.svg")."')");
 
 		$tpl = new ilTemplate("tpl.awareness.html", true, true, "Services/Awareness");
 
@@ -97,13 +98,15 @@ class ilAwarenessGUI
 	{
 		global $ilUser;
 
+		$filter = $_GET["filter"];
+
 		$tpl = new ilTemplate("tpl.awareness_list.html", true, true, "Services/Awareness");
 
 		include_once("./Services/Awareness/classes/class.ilAwarenessAct.php");
 		$act = ilAwarenessAct::getInstance($ilUser->getId());
 		$act->setRefId($this->ref_id);
 
-		$users = $act->getAwarenessData();
+		$users = $act->getAwarenessData($filter);
 
 		$ucnt = 0;
 		$last_uc_title = "";
@@ -159,6 +162,12 @@ class ilAwarenessGUI
 			$tpl->setCurrentBlock("item");
 			$tpl->parseCurrentBlock();
 		}
+
+		include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
+		$tpl->setCurrentBlock("filter");
+		$tpl->setVariable("GL_FILTER", ilGlyphGUI::get(ilGlyphGUI::FILTER));
+		$tpl->setVariable("VAL_FILTER", ilUtil::prepareFormOutput($filter));
+		$tpl->parseCurrentBlock();
 
 		echo $tpl->get();
 		exit;

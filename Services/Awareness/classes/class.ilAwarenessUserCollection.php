@@ -34,6 +34,19 @@ class ilAwarenessUserCollection
 	}
 
 	/**
+	 * Remove user
+	 *
+	 * @param integer $a_id user id
+	 */
+	function removeUser($a_id)
+	{
+		if (isset($this->users[$a_id]))
+		{
+			unset($this->users[$a_id]);
+		}
+	}
+
+	/**
 	 * Get users
 	 *
 	 * @return array array of user ids (integer)

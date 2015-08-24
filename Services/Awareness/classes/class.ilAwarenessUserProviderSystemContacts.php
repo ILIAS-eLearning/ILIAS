@@ -31,7 +31,7 @@ class ilAwarenessUserProviderSystemContacts extends ilAwarenessUserProvider
 	function getTitle()
 	{
 		$this->lng->loadLanguageModule("adm");
-		return $this->lng->txt("adm_awrn_support_contacts");
+		return $this->lng->txt("adm_support_contacts");
 	}
 
 	/**
@@ -52,13 +52,8 @@ class ilAwarenessUserProviderSystemContacts extends ilAwarenessUserProvider
 	 */
 	function getInitialUserSet()
 	{
-		$support_contacts = array(ilObjUser::_lookupId("root"));
-		$ub = array();
-		foreach ($support_contacts as $c)
-		{
-			$ub[] = $c;
-		}
-		return $ub;
+		include_once("./Modules/SystemFolder/classes/class.ilSystemSupportContacts.php");
+		return ilSystemSupportContacts::getValidSupportContactIds();
 	}
 }
 ?>

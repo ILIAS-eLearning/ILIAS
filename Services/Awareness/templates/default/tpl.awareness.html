@@ -13,11 +13,11 @@
 
 	}).on('shown.bs.popover', function () {
 		$('#awareness_trigger').siblings(".popover").children(".popover-content").html(il.Awareness.getContent());
-		$('.dropdown-toggle').dropdown();
 
-		//il.Awareness.checkScrollbar();
 		$("body").addClass("modal-open");
-		//il.Awareness.setScrollbar();
+
+		il.Awareness.afterListUpdate();
+
 	}).on('hidden.bs.popover', function () {
 		$("body").removeClass("modal-open");
 	})
@@ -27,6 +27,8 @@
 		rendered: false,
 		base_url: "",
 		$body:  $(document.body),
+		loader_src: "",
+
 
 		setBaseUrl: function(url) {
 			var t = il.Awareness;
@@ -36,6 +38,16 @@
 		getBaseUrl: function() {
 			var t = il.Awareness;
 			return t.base_url;
+		},
+
+		setLoaderSrc: function(loader) {
+			var t = il.Awareness;
+			t.loader_src = loader;
+		},
+
+		getLoaderSrc: function() {
+			var t = il.Awareness;
+			return t.loader_src;
 		},
 
 		checkScrollbar: function () {
@@ -67,8 +79,7 @@
 			if (!t.rendered) {
 				t.content = $("#awareness-content-container").html();
 				$("#awareness-content-container").html("");
-				il.Util.sendAjaxGetRequestToUrl (t.getBaseUrl() + "&cmd=getAwarenessList",
-						{}, {}, t.ajaxReplaceSuccess);
+				t.updateList("");
 				t.rendered = true;
 			}
 			return t.content;
@@ -82,7 +93,65 @@
 			{
 				t.content = o.responseText;
 				$('#awareness-content').replaceWith(t.content);
+				t.afterListUpdate();
 			}
+		},
+
+		afterListUpdate: function() {
+			var t = il.Awareness;
+
+			t.fixHeight();
+
+			$('.ilAwarenessItem').on('shown.bs.dropdown', function () {
+				t.fixHeight();
+			}).on('hidden.bs.dropdown', function () {
+				// if done, height is corrected, but dd is not opened if clicked (when other dd has been opened before)
+//				t.fixHeight();
+			});
+
+			$("#il_awrn_filter_form").submit(function (e) {
+				var t = il.Awareness;
+				$("#il_awrn_filer_btn").html("<img src='" + t.loader_src + "' />");
+				t.updateList($("#il_awareness_filter").val());
+				e.preventDefault();
+			});
+			$("#il_awareness_filter").each(function() {
+				t = this;
+				t.focus();
+				if (t.setSelectionRange) {
+					var len = $(t).val().length * 2;
+					t.setSelectionRange(len, len);
+				}
+			});
+		},
+
+		fixHeight: function() {
+
+			$('.ilAwarenessDropDown .popover').css('height', "");
+			var st = $('#awareness-list').scrollTop();
+			$('#awareness-list').css('height', "");
+
+			var vp_reg = il.Util.getViewportRegion();
+			var awpop = il.Util.getRegion('.ilAwarenessDropDown .popover');
+			var awlist = il.Util.getRegion('#awareness-list');
+			var pad_bot = 15;
+			if ((awpop.top - vp_reg.top + awpop.height + pad_bot) > vp_reg.height) {
+				var popHeight = vp_reg.height - (awpop.top - vp_reg.top) - pad_bot;
+				$('.ilAwarenessDropDown .popover').css('height', popHeight + "px");
+
+				var listHeight = vp_reg.height - (awlist.top - vp_reg.top) - pad_bot;
+				$('#awareness-list').css('height', listHeight + "px");
+
+				$('#awareness-list').scrollTop(st);
+			}
+		},
+
+		updateList: function(filter) {
+			var t = il.Awareness;
+
+			il.Util.sendAjaxGetRequestToUrl (t.getBaseUrl() + "&cmd=getAwarenessList"
+					+ "&filter=" + encodeURIComponent(filter),
+					{}, {}, t.ajaxReplaceSuccess);
 		}
 	}
 
@@ -100,26 +169,28 @@
 	});
 </script>
 <style>
-	.popover {
+	.ilAwarenessDropDown .popover {
 		max-width: 300px;
 		color:#000000;
 		min-width: 250px;
-		max-height:400px;
+	}
+
+	#awareness-list {
 		overflow: auto;
 	}
-	.popover-content {
+
+	.ilAwarenessDropDown .popover-content {
 		padding: 0;
-
-
 	}
-	.media-body, .media-left, .media-right {
+
+	.ilAwarenessDropDown .media-body, .ilAwarenessDropDown .media-left, .ilAwarenessDropDown .media-right {
 		display: table-cell;
 		vertical-align: top;
 	}
-	.media-left {
+	.ilAwarenessDropDown .media-left {
 		padding-right: 10px;
 	}
-	.media {
+	.ilAwarenessDropDown .media {
 		padding: 10px;
 	}
 
@@ -191,7 +262,6 @@
 		border-top: 11px solid #fff;
 		margin-top: -10px;
 		margin-left: 100px;
-		position: absolute;
 	}
 
 	.ilAwarenessDropDown h3.popover-title {
@@ -215,6 +285,15 @@
 		margin: 15px auto;
 		width: 30px;
 		height: 30px;
+	}
+
+	#il_awrn_filer_btn {
+		width: 30px;
+	}
+
+	#il_awrn_filer_btn img {
+		width: 10px;
+		height: 10px;
 	}
 
 </style>

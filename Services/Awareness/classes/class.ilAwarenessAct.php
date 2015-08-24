@@ -67,11 +67,12 @@ class ilAwarenessAct
 	 *
 	 * @return ilAwarenessData awareness data
 	 */
-	function getAwarenessData()
+	function getAwarenessData($a_filter)
 	{
 		include_once("./Services/Awareness/classes/class.ilAwarenessData.php");
 		$data = ilAwarenessData::getInstance($this->user_id);
 		$data->setRefId($this->getRefId());
+		$data->setFilter($a_filter);
 		return $data->getData();
 	}
 
@@ -105,16 +106,21 @@ class ilAwarenessAct
 		$d = $data->getData();
 
 		$new_online_users = array();
+		$no_ids = array();
 		foreach ($d as $u)
 		{
-			if ($ts == "" || $u->last_login > $ts)
+			if ($u->online && ($ts == "" || $u->last_login > $ts))
 			{
 				$uname = "[".$u->login."]";
 				if ($u->public_profile)
 				{
 					$uname = "<a href='./goto.php?target=usr_".$u->id."'>".$u->lastname.", ".$u->firstname." ".$uname."</a>";
 				}
-				$new_online_users[] = $uname;
+				if (!in_array($u->id, $no_ids))
+				{
+					$new_online_users[] = $uname;
+					$no_ids[] = $u->id;
+				}
 			}
 		}
 
