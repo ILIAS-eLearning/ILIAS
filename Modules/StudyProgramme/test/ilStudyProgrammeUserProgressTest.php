@@ -575,4 +575,39 @@ class ilStudyProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 					->getNamesOfCompletedOrAccreditedChildren();
 		$this->assertEquals($names, array("node1", "node2"));
 	}
+	
+	public function testCompletionOnDeeplyNestedProgresses() {
+		$depth1 = ilObjStudyProgramme::createInstance();
+		$depth2 = ilObjStudyProgramme::createInstance();
+		$depth3 = ilObjStudyProgramme::createInstance();
+		$depth4 = ilObjStudyProgramme::createInstance();
+		$depth1->putInTree(ROOT_FOLDER_ID);
+		$depth1->addNode($depth2);
+		$depth2->addNode($depth3);
+		$depth3->addNode($depth4);
+		$depth1->setStatus(ilStudyProgramme::STATUS_ACTIVE);
+		$depth2->setStatus(ilStudyProgramme::STATUS_ACTIVE);
+		$depth3->setStatus(ilStudyProgramme::STATUS_ACTIVE);
+		$depth4->setStatus(ilStudyProgramme::STATUS_ACTIVE);
+		
+		$user = $this->newUser();
+		
+		$assignment = $depth1->assignUser($user->getId());
+		$progress4 = $depth4->getProgressForAssignment($assignment->getId());
+		$progress4->markAccredited(6);
+		
+		$progress1 = $depth1->getProgressForAssignment($assignment->getId());
+		$progress2 = $depth2->getProgressForAssignment($assignment->getId());
+		$progress3 = $depth3->getProgressForAssignment($assignment->getId());
+		
+		$this->assertTrue($progress1->isSuccessful());
+		$this->assertTrue($progress2->isSuccessful());
+		$this->assertTrue($progress3->isSuccessful());
+		$this->assertTrue($progress4->isSuccessful());
+		
+		$this->assertEquals(ilStudyProgramme::DEFAULT_POINTS, $progress1->getCurrentAmountOfPoints());
+		$this->assertEquals(ilStudyProgramme::DEFAULT_POINTS, $progress2->getCurrentAmountOfPoints());
+		$this->assertEquals(ilStudyProgramme::DEFAULT_POINTS, $progress3->getCurrentAmountOfPoints());
+		$this->assertEquals(ilStudyProgramme::DEFAULT_POINTS, $progress4->getCurrentAmountOfPoints());
+	}
 }
