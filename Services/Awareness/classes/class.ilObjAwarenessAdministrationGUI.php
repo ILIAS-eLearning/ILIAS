@@ -122,6 +122,8 @@ class ilObjAwarenessAdministrationGUI extends ilObjectGUI
 			}
 			$awrn_set->set("caching_period", $p);
 
+			$awrn_set->set("max_nr_entries", (int) $form->getInput("max_nr_entries"));
+
 			include_once("./Services/Awareness/classes/class.ilAwarenessUserProviderFactory.php");
 			$prov = ilAwarenessUserProviderFactory::getAllProviders();
 			foreach ($prov as $p)
@@ -176,6 +178,16 @@ class ilObjAwarenessAdministrationGUI extends ilObjectGUI
 		$ti->setSize(6);
 		$ti->setMaxLength(6);
 		$ti->setValue($awrn_set->get("caching_period"));
+		$en->addSubItem($ti);
+
+		// limit number of entries
+		$ti = new ilNumberInputGUI($this->lng->txt("awrn_max_nr_entries"), "max_nr_entries");
+		$ti->setInfo($this->lng->txt("awrn_max_nr_entries_info"));
+		$ti->setSize(3);
+		$ti->setMaxLength(3);
+		$ti->setMinValue(5);
+		$ti->setMaxValue(200);
+		$ti->setValue($awrn_set->get("max_nr_entries"));
 		$en->addSubItem($ti);
 
 		include_once("./Services/Awareness/classes/class.ilAwarenessUserProviderFactory.php");

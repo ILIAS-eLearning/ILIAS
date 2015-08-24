@@ -225,6 +225,9 @@ class ilAwarenessData
 	 */
 	function getData()
 	{
+		$awrn_set = new ilSetting("awrn");
+		$max = $awrn_set->get("max_nr_entries");
+
 		if ($this->data == null)
 		{
 			$online_users = ilAwarenessUserCollector::getOnlineUsers();
@@ -232,8 +235,14 @@ class ilAwarenessData
 			$user_collections = $this->getUserCollections();
 
 			$this->data = array();
+
 			foreach ($user_collections as $uc)
 			{
+				if (count($this->data) >= $max)
+				{
+					continue;
+				}
+
 				$user_collection = $uc["collection"];
 				$user_ids = $user_collection->getUsers();
 
@@ -273,6 +282,11 @@ class ilAwarenessData
 
 				foreach ($names as $n)
 				{
+					if (count($this->data) >= $max)
+					{
+						continue;
+					}
+
 					// filter
 					$filter = trim($this->getFilter());
 					if ($filter != "" &&

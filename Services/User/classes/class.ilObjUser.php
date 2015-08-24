@@ -4733,6 +4733,32 @@ class ilObjUser extends ilObject
 		return $prefs;
 	}
 
+	/**
+	 * For a given set of user IDs return a subset that has
+	 * a given user preference set.
+	 *
+	 * @param array $a_user_ids array of user IDs
+	 * @param string $a_keyword preference keyword
+	 * @param string $a_val value
+	 * @return array array of user IDs
+	 */
+	public static function getUserSubsetByPreferenceValue($a_user_ids, $a_keyword, $a_val)
+	{
+		global $ilDB;
+
+		$users = array();
+		$set = $ilDB->query("SELECT usr_id FROM usr_pref ".
+			" WHERE keyword = ".$ilDB->quote($a_keyword, "text").
+			" AND ".$ilDB->in("usr_id", $a_user_ids, false, "integer").
+			" AND value = ".$ilDB->quote($a_val, "text")
+		);
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			$users[] = $rec["usr_id"];
+		}
+		return $users;
+	}
+
 
 	public static function _resetLoginAttempts($a_usr_id)
 	{
@@ -5473,6 +5499,37 @@ class ilObjUser extends ilObject
 		);
 		return $ilDB->fetchAssoc($res) ? true : false;
 	}
+
+	/**
+	 * Get users that have or have not agreed to the user agreement.
+	 *
+	 * @param bool $a_agreed true, if users that have agreed should be returned
+	 * $@param array $a_users array of user ids (subset used as base) or null for all users
+	 * @return array array of user IDs
+	 */
+	public static function getUsersAgreed($a_agreed = true, $a_users = null)
+	{
+		global $ilDB;
+
+		$date_is = ($a_agreed)
+			? "IS NOT NULL"
+			: "IS NULL";
+
+		$users = (is_array($a_users))
+			? " AND ".$ilDB->in("usr_id", $a_users, false, "integer")
+			: "";
+
+		$set = $ilDB->query("SELECT usr_id FROM usr_data ".
+			" WHERE agree_date ".$date_is.
+			$users);
+		$ret = array();
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			$ret[] = $rec["usr_id"];
+		}
+		return $ret;
+	}
+
 
 	/**
 	 * @param bool|null $status

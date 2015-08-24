@@ -13,6 +13,27 @@ include_once("./Services/Awareness/classes/class.ilAwarenessFeatureProvider.php"
  */
 class ilAwarenessMailFeatureProvider extends ilAwarenessFeatureProvider
 {
+	static $user_access = array();
+
+	/**
+	 * Check user chat access
+	 *
+	 * @param
+	 * @return
+	 */
+	function checkUserMailAccess($a_user_id)
+	{
+		global $rbacsystem;
+
+		if (!isset(self::$user_access[$a_user_id]))
+		{
+			include_once("./Services/Mail/classes/class.ilMailGlobalServices.php");
+			self::$user_access[$a_user_id] =
+				$rbacsystem->checkAccessOfUser($a_user_id, 'internal_mail', ilMailGlobalServices::getMailObjectRefId());
+		}
+		return self::$user_access[$a_user_id];
+	}
+
 	/**
 	 * Collect all features
 	 *
@@ -21,23 +42,18 @@ class ilAwarenessMailFeatureProvider extends ilAwarenessFeatureProvider
 	 */
 	function collectFeaturesForTargetUser($a_target_user)
 	{
-		global $rbacsystem;
-
 		$coll = ilAwarenessFeatureCollection::getInstance();
 		include_once("./Services/Awareness/classes/class.ilAwarenessFeature.php");
 		include_once("./Services/Mail/classes/class.ilMailFormCall.php");
 
 		// check mail permission of user
-		// todo: optimization
-		$this->mail_allowed = ($this->getUserId() != ANONYMOUS_USER_ID &&
-			$rbacsystem->checkAccessOfUser($this->getUserId(), 'internal_mail', ilMailGlobalServices::getMailObjectRefId()));
-		if (!$this->mail_allowed)
+		if ($this->getUserId() == ANONYMOUS_USER_ID || !$this->checkUserMailAccess($this->getUserId()))
 		{
 			return $coll;
 		}
 
 		// check mail permission of target user
-		if ($rbacsystem->checkAccessOfUser($a_target_user,'internal_mail', ilMailGlobalServices::getMailObjectRefId()))
+		if ($this->checkUserMailAccess($a_target_user))
 		{
 			$f = new ilAwarenessFeature();
 			$f->setText($this->lng->txt("mail"));

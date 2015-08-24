@@ -13,6 +13,24 @@ include_once("./Services/Awareness/classes/class.ilAwarenessFeatureProvider.php"
  */
 class ilAwarenessWorkspaceFeatureProvider extends ilAwarenessFeatureProvider
 {
+	protected $wsp_activated;
+
+	/**
+	 * Construct
+	 *
+	 * @param
+	 * @return
+	 */
+	function __construct()
+	{
+		global $lng, $ilSetting;
+
+		$this->wsp_activated = (!$ilSetting->get("disable_personal_workspace"));
+		$lng->loadLanguageModule("wsp");
+		parent::__construct();
+	}
+
+
 	/**
 	 * Collect all features
 	 *
@@ -21,22 +39,18 @@ class ilAwarenessWorkspaceFeatureProvider extends ilAwarenessFeatureProvider
 	 */
 	function collectFeaturesForTargetUser($a_target_user)
 	{
-		global $ilCtrl;
+		global $ilCtrl, $lng;
 
 		$coll = ilAwarenessFeatureCollection::getInstance();
 		include_once("./Services/Awareness/classes/class.ilAwarenessFeature.php");
 
-		// todo add checks
-		if (false)
+		if (!$this->wsp_activated)
 		{
 			return $coll;
 		}
 
 		$f = new ilAwarenessFeature();
-
-		// todo translate
-		$f->setText("Shared Resources");
-		//wsp_id=1&cmd=shareFilter&cmdClass=ilobjworkspacerootfoldergui&cmdNode=ph:pj:9t&baseClass=ilPersonalDesktopGUI
+		$f->setText($lng->txt("wsp_shared_resources"));
 		$ilCtrl->setParameterByClass("ilobjworkspacerootfoldergui", "user", ilObjUser::_lookupLogin($a_target_user));
 		$f->setHref($ilCtrl->getLinkTargetByClass(array("ilpersonaldesktopgui", "ilpersonalworkspacegui", "ilobjworkspacerootfoldergui"),
 			"listSharedResourcesOfOtherUser"));

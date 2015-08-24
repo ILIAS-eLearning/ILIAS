@@ -147,33 +147,22 @@ class ilAwarenessUserCollector
 
 		$remove_users = array();
 
-		// todo: move these code blocks to the user service
-
 		// remove all users that hide their online status
-		global $ilDB;
-		$set = $ilDB->query("SELECT usr_id FROM usr_pref ".
-			" WHERE keyword = ".$ilDB->quote("hide_own_online_status", "text").
-			" AND ".$ilDB->in("usr_id", $all_users, false, "integer").
-			" AND value = ".$ilDB->quote("y", "text")
-			);
-		while ($rec = $ilDB->fetchAssoc($set))
+		foreach (ilObjUser::getUserSubsetByPreferenceValue($all_users, "hide_own_online_status", "y") as $u)
 		{
-			$remove_users[] = $rec["usr_id"];
+			$remove_users[] = $u;
 		}
 
 		// remove all users that have not accepted the terms of service yet
 		require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceHelper.php';
-		if(ilTermsOfServiceHelper::isEnabled())
+		if (ilTermsOfServiceHelper::isEnabled())
 		{
-			global $ilDB;
-			$set = $ilDB->query("SELECT usr_id FROM usr_data ".
-				" WHERE agree_date IS NULL ".
-				" AND ".$ilDB->in("usr_id", $all_users, false, "integer").
-				" AND usr_id <> ".$ilDB->quote(SYSTEM_USER_ID, 'integer')
-			);
-			while ($rec = $ilDB->fetchAssoc($set))
+			foreach (ilObjUser::getUsersAgreed(false, $all_users) as $u)
 			{
-				$remove_users[] = $rec["usr_id"];
+				if ($u != SYSTEM_USER_ID)
+				{
+					$remove_users[] = $u;
+				}
 			}
 		}
 
