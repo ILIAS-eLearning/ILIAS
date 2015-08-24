@@ -31,7 +31,7 @@ class ilToolbarGUI
 	/**
 	 * @var array
 	 */
-	protected $items = array();
+	public $items = array();
 
 	/**
 	 * @var array
@@ -587,5 +587,23 @@ class ilToolbarGUI
 			return $tpl->get();
 		}
 		return "";
+	}
+
+
+	/**
+	 * @return array
+	 */
+	public function getItems()
+	{
+		return $this->items;
+	}
+
+
+	/**
+	 * @param array $items
+	 */
+	public function setItems($items)
+	{
+		$this->items = $items;
 	}
 }
