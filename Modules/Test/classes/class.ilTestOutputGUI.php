@@ -409,30 +409,37 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
 	protected function discardSolutionCmd()
 	{
-		$sequenceElement = $this->getCurrentSequenceElement();
+		$currentSequenceElement = $this->getCurrentSequenceElement();
 
-		$guestionGUI = $this->getQuestionGuiInstance(
-			$this->testSequence->getQuestionForSequence($sequenceElement), $sequenceElement
+		$currentQuestionOBJ = $this->getQuestionInstance(
+			$this->testSequence->getQuestionForSequence($currentSequenceElement)
 		);
 
-		$guestionGUI->object->resetUsersAnswer(
+		$currentQuestionOBJ->resetUsersAnswer(
 			$this->testSession->getActiveId(), $this->testSession->getPass()
 		);
+		
+		$nextSequenceElement = $this->testSequence->getNextSequence($currentSequenceElement);
+
+		if(!$this->isValidSequenceElement())
+		{
+			$nextSequenceElement = $this->testSequence->getFirstSequence();
+		}
+		
+		$nextQuestionOBJ = $this->getQuestionInstance($this->testSequence->getQuestionForSequence($nextSequenceElement));
+		$presentationMode = $this->determinePresentationMode($nextQuestionOBJ);
+		
+		$this->testSession->setLastSequence($nextSequenceElement);
+		$this->testSession->setLastPresentationMode($presentationMode);
+		$this->testSession->saveToDb();
 
 		if( $this->object->isPostponingEnabled() )
 		{
-			$this->testSequence->postponeSequence($sequenceElement);
+			$this->testSequence->postponeSequence($currentSequenceElement);
 			$this->testSequence->saveToDb();
 		}
 		
-		$sequenceElement = $this->testSequence->getNextSequence($sequenceElement);
-		$this->testSession->setLastSequence($sequenceElement);
-		$this->testSession->saveToDb();
-		
-		$questionOBJ = $this->getQuestionInstance($this->testSequence->getQuestionForSequence($sequenceElement));
-		$presentationMode = $this->determinePresentationMode($questionOBJ);
-		
-		$this->ctrl->setParameter($this, 'sequence', $sequenceElement);
+		$this->ctrl->setParameter($this, 'sequence', $nextSequenceElement);
 		$this->ctrl->setParameter($this, 'pmode', $presentationMode);
 
 		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
@@ -443,6 +450,11 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		$sequenceElement = $this->testSequence->getNextSequence(
 			$this->getCurrentSequenceElement()
 		);
+
+		if(!$this->isValidSequenceElement())
+		{
+			$sequenceElement = $this->testSequence->getFirstSequence();
+		}
 
 		$questionOBJ = $this->getQuestionInstance($this->testSequence->getQuestionForSequence($sequenceElement));
 		
@@ -457,6 +469,11 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		$sequenceElement = $this->testSequence->getPreviousSequence(
 			$this->getCurrentSequenceElement()
 		);
+
+		if(!$this->isValidSequenceElement())
+		{
+			$sequenceElement = $this->testSequence->getLastSequence();
+		}
 
 		$questionOBJ = $this->getQuestionInstance($this->testSequence->getQuestionForSequence($sequenceElement));
 		$presentationMode = $this->determinePresentationMode($questionOBJ);

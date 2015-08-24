@@ -1924,6 +1924,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	
 	protected function determinePresentationMode(assQuestion $questionOBJ)
 	{
-		self::getRequiredPresentationMode($questionOBJ->resultRecordExist());
+		$isWorkedThru = $questionOBJ->resultRecordExist();
+		return self::getRequiredPresentationMode($isWorkedThru);
 	}
 }
