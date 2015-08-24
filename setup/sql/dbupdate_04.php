@@ -9762,3 +9762,40 @@ if($ilDB->sequenceExists('addressbook'))
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#4682>
+<?php
+$res = $ilDB->queryF(
+	'SELECT * FROM notification_usercfg WHERE usr_id = %s AND module = %s AND channel = %s',
+	array('integer', 'text', 'text'),
+	array(-1,  'buddysystem_request', 'mail')
+);
+$num = $ilDB->numRows($res);
+if(!$ilDB->numRows($res))
+{
+	$ilDB->insert(
+		'notification_usercfg',
+		array(
+			'usr_id'  => array('integer', -1),
+			'module'  => array('text', 'buddysystem_request'),
+			'channel' => array('text', 'mail')
+		)
+	);
+}
+
+$res = $ilDB->queryF(
+	'SELECT * FROM notification_usercfg WHERE usr_id = %s AND module = %s AND channel = %s',
+	array('integer', 'text', 'text'),
+	array(-1,  'buddysystem_request', 'osd')
+);
+if(!$ilDB->numRows($res))
+{
+	$ilDB->insert(
+		'notification_usercfg',
+		array(
+			'usr_id'  => array('integer', -1),
+			'module'  => array('text', 'buddysystem_request'),
+			'channel' => array('text', 'osd')
+		)
+	);
+}
+?>
