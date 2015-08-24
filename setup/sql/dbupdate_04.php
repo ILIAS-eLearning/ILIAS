@@ -9468,3 +9468,34 @@ if( !$ilDB->tableColumnExists('tst_sequence', 'ans_opt_confirmed') )
 }
 ?>
 
+<#4670>
+<?php
+if (! $ilDB->tableExists('il_wac_secure_path')) {
+	$fields = array(
+		'path' => array(
+			'type' => 'text',
+			'length' => '256',
+
+		),
+		'component_directory' => array(
+			'type' => 'text',
+			'length' => '256',
+
+		),
+		'checking_class' => array(
+			'type' => 'text',
+			'length' => '256',
+
+		),
+		'in_sec_folder' => array(
+			'type' => 'integer',
+			'length' => '1',
+
+		),
+
+	);
+
+	$ilDB->createTable('il_wac_secure_path', $fields);
+	$ilDB->addPrimaryKey('il_wac_secure_path', array( 'path' ));
+}
+?>
