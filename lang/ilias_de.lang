@@ -15728,3 +15728,31 @@ rbac#:#wiki_edit_wiki_navigation#:#Wiki-Navigation bearbeiten
 rbac#:#wiki_delete_wiki_pages#:#Wikiseiten löschen
 rbac#:#wiki_activate_wiki_protection#:#Schreibschutz für einzelne Wikiseiten aktivieren
 rbac#:#wiki_wiki_html_export#:#Wiki nach HTML exportieren
+crs#:#crs_loc_settings_it_type#:#Einstiegstest
+crs#:#crs_loc_settings_type_it_placement_all#:#Diagnostischer Einstiegstest über alle Lernziele
+crs#:#crs_loc_settings_it_start_object#:#Einstiegstest ist Startobjekt
+crs#:#crs_loc_settings_type_it_placement_sel#:#Diagnostischer Einstiegstest pro Lernziel
+crs#:#crs_loc_settings_type_it_qualifying_all#:#Qualifizierender Einstiegstest über alle Lernziele
+crs#:#crs_loc_settings_type_it_qualifying_sel#:#Qualifizierender Einstiegstest pro Lernziel
+crs#:#crs_loc_settings_type_it_none#:#Kein Einstiegstest
+crs#:#crs_loc_settings_qt_all#:#Abschlusstest
+crs#:#crs_loc_settings_type_q_all#:#Abschlusstest über alle Lernziele
+crs#:#crs_loc_settings_qt_start_object#:#Abschlusstest ist Startobjekt
+crs#:#crs_loc_settings_type_q_selected#:#Abschlusstest pro Lernziel
+crs#:#crs_loc_settings_err_qstart#:#Die Option "Abschlusstest als Startobjekt" wurde deaktiviert, da sie nur für Kurse ohne Einstiegstest verwendet werden kann.		
+crs#:#crs_loc_tab_qtests#:#Abschlusstests
+crs#:#crs_loc_tab_itests#:#Einstiegstests
+crs#:#crs_loc_btn_new_assignment#:#Neue Testzuordnung
+crs#:#crs_objective_tbl_col_final_tsts#:#Abschlusstests
+crs#:#crs_objective_action_qtest_sep#:#Abschlusstest zuordnen
+crs#:#crs_loc_settings_tbl_its_q_all#:#Qualifizierender Einstiegstest über alle Lernziele
+crs#:#crs_loc_settings_tbl_its_nq_all#:#Diagnostischer Einstiegstest über alle Lernziele
+crs#:#crs_loc_settings_tbl_it_q#:#Qualifizierende Einstiegstests pro Lernziel
+crs#:#crs_loc_settings_tbl_it_nq#:#Diagnostische Einstiegstests pro Lernziel
+crs#:#crs_loc_settings_tbl_qts_all#:#Abschlusstest über alle Lernziele
+crs#:#crs_loc_settings_tbl_qt#:#Abschlusstests pro Lernziel
+crs#:#crs_loc_objective_passed_confirmation#:#Sie haben das Lernziel bereits bestanden. Ein erneutes Starten des Tests setzt die Ergebnisse zurück. Wollen Sie den Test erneut starten?
+crs#:#crs_loc_objectives_passed_confirmation#:#Sie haben bereits alle Lernziel bestanden. Ein erneutes Starten des Tests setzt die Ergebnisse zurück. Wollen Sie den Test erneut starten?
+crs#:#crs_loc_tst_start#:#Test starten
+crs#:#crs_loc_mem_show_res#:#Testergebnisse anzeigen
+crs#:#crs_loc_test_results_of#:#Testergebnisse von:
