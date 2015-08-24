@@ -125,7 +125,8 @@ class ilObjectLP
 	{
 		global $objDefinition;
 		
-		$valid = array("crs", "grp", "fold", "lm", "htlm", "sahs", "tst", "exc", "sess", "svy", "file", "mcst", "prg");		
+		$valid = array("crs", "grp", "fold", "lm", "htlm", "sahs", "tst", "exc", "sess", "svy", "file", "mcst", "prg");
+		
 		if(in_array($a_type, $valid))
 		{
 			return true;			

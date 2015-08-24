@@ -15764,10 +15764,6 @@ crs#:#crs_loc_objectives_passed_confirmation#:#Sie haben bereits alle Lernziel b
 crs#:#crs_loc_tst_start#:#Test starten
 crs#:#crs_loc_mem_show_res#:#Testergebnisse anzeigen
 crs#:#crs_loc_test_results_of#:#Testergebnisse von:
-prg#:#prg_new#:#New Training Programme
-prg#:#prg_add#:#Add Training Programme
-prg#:#prg_edit#:#Edit Training Programme
-prg#:#prg_type#:#Training Programme Type
 prg#:#prg_new#:#New Study Programme
 prg#:#prg_add#:#Add Study Programme
 prg#:#prg_edit#:#Edit Study Programme

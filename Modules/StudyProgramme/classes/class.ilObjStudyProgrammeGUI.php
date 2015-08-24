@@ -667,8 +667,6 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 				$link, 'prg');
 		}
 	}
-
-
 }
 
 ?>

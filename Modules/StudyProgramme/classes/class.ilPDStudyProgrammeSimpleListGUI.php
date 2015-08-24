@@ -66,7 +66,6 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI {
 		if (!$this->userHasVisibleStudyProgrammes()) {
 			return "";
 		}
-		
 		return parent::getHTML();
 	}
 	
