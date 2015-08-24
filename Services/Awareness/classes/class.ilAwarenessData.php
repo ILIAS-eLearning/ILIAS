@@ -238,6 +238,8 @@ class ilAwarenessData
 
 			foreach ($user_collections as $uc)
 			{
+
+				// limit part 1
 				if (count($this->data) >= $max)
 				{
 					continue;
@@ -245,8 +247,6 @@ class ilAwarenessData
 
 				$user_collection = $uc["collection"];
 				$user_ids = $user_collection->getUsers();
-
-				// todo limit this
 
 				include_once("./Services/User/classes/class.ilUserUtil.php");
 				$names = ilUserUtil::getNamePresentation($user_ids, true,
@@ -282,6 +282,7 @@ class ilAwarenessData
 
 				foreach ($names as $n)
 				{
+					// limit part 2
 					if (count($this->data) >= $max)
 					{
 						continue;

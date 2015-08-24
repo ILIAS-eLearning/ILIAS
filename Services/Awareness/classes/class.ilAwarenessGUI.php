@@ -65,9 +65,12 @@ class ilAwarenessGUI
 		$last_update = ilSession::get("awrn_last_update");
 		$now = time();
 
+		// init js
+		$GLOBALS["tpl"]->addJavascript("./Services/Awareness/js/Awareness.js");
 		$GLOBALS["tpl"]->addOnloadCode("il.Awareness.setBaseUrl('".$this->ctrl->getLinkTarget($this,
-				"", "", true, false)."')");
-		$GLOBALS["tpl"]->addOnloadCode("il.Awareness.setLoaderSrc('".ilUtil::getImagePath("loader.svg")."')");
+				"", "", true, false)."');");
+		$GLOBALS["tpl"]->addOnloadCode("il.Awareness.setLoaderSrc('".ilUtil::getImagePath("loader.svg")."');");
+		$GLOBALS["tpl"]->addOnloadCode("il.Awareness.init();");
 
 		$tpl = new ilTemplate("tpl.awareness.html", true, true, "Services/Awareness");
 
