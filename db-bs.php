@@ -64,6 +64,63 @@ if($ilDB->tableColumnExists('addressbook_mlist_ass', 'addr_id'))
 }
 if($ilDB->tableExists('addressbook'))
 {
+	$query = "
+		SELECT ud1.usr_id 'u1', ud2.usr_id 'u2'
+		FROM addressbook a1
+		INNER JOIN usr_data ud1 ON ud1.usr_id = a1.user_id
+		INNER JOIN usr_data ud2 ON ud2.login = a1.login
+		INNER JOIN addressbook a2 ON a2.user_id = ud2.usr_id AND a2.login = ud1.login
+		WHERE ud1.usr_id != ud2.usr_id
+	";
+	$res = $ilDB->query($res);
+	while($row = $ilDB->fetchAssoc($res))
+	{
+		$this->db->replace(
+			'buddylist',
+			array(
+				'usr_id'       => array('integer', $row['u1']),
+				'buddy_usr_id' => array('integer', $row['u2'])
+			),
+			array(
+				'ts' => array('integer', time())
+			)
+		);
+
+		$this->db->replace(
+			'buddylist',
+			array(
+				'usr_id'       => array('integer', $row['u2']),
+				'buddy_usr_id' => array('integer', $row['u1'])
+			),
+			array(
+				'ts' => array('integer', time())
+			)
+		);
+	}
+
+	$query = "
+		SELECT ud1.usr_id 'u1', ud2.usr_id 'u2'
+		FROM addressbook a1
+		INNER JOIN usr_data ud1 ON ud1.usr_id = a1.user_id
+		INNER JOIN usr_data ud2 ON ud2.login = a1.login
+		LEFT JOIN addressbook a2 ON a2.user_id = ud2.usr_id AND a2.login = ud1.login
+		WHERE a2.addr_id IS NULL
+	";
+	$res = $ilDB->query($res);
+	while($row = $ilDB->fetchAssoc($res))
+	{
+		$this->db->replace(
+			'buddylist_requests',
+			array(
+				'usr_id'       => array('integer', $row['u1']),
+				'buddy_usr_id' => array('integer', $row['u2'])
+			),
+			array(
+				'ts'      => array('integer', time()),
+				'ignored' => array('integer', 0)
+			)
+		);
+	}
 	$ilDB->dropTable('addressbook');
 }
 if($ilDB->sequenceExists('addressbook'))
