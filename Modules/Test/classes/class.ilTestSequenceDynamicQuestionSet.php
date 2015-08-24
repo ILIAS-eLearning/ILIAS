@@ -94,6 +94,11 @@ class ilTestSequenceDynamicQuestionSet implements ilTestSequenceSummaryProvider
 	 * @var boolean
 	 */
 	private $newlyAnsweredQuestionsAnswerStatus;
+
+	/**
+	 * @var integer
+	 */
+	private $currentQuestionId;
 	
 	/**
 	 * Constructor
@@ -119,6 +124,8 @@ class ilTestSequenceDynamicQuestionSet implements ilTestSequenceSummaryProvider
 		$this->newlyCheckedQuestion = null;
 
 		$this->preventCheckedQuestionsFromComingUpEnabled = false;
+		
+		$this->currentQuestionId = null;
 	}
 	
 	public function getActiveId()
@@ -134,6 +141,22 @@ class ilTestSequenceDynamicQuestionSet implements ilTestSequenceSummaryProvider
 	public function isPreventCheckedQuestionsFromComingUpEnabled()
 	{
 		return $this->preventCheckedQuestionsFromComingUpEnabled;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getCurrentQuestionId()
+	{
+		return $this->currentQuestionId;
+	}
+
+	/**
+	 * @param int $currentQuestionId
+	 */
+	public function setCurrentQuestionId($currentQuestionId)
+	{
+		$this->currentQuestionId = $currentQuestionId;
 	}
 	
 	public function loadFromDb()
@@ -422,11 +445,11 @@ class ilTestSequenceDynamicQuestionSet implements ilTestSequenceSummaryProvider
 	{
 		if( $questionId = $this->fetchUpcomingQuestionId(true, true) )
 			return $questionId;
-		
-		if( $questionId = $this->fetchUpcomingQuestionId(true, false) )
-			return $questionId;
 
 		if( $questionId = $this->fetchUpcomingQuestionId(false, true) )
+			return $questionId;
+		
+		if( $questionId = $this->fetchUpcomingQuestionId(true, false) )
 			return $questionId;
 
 		if( $questionId = $this->fetchUpcomingQuestionId(false, false) )
@@ -719,12 +742,153 @@ class ilTestSequenceDynamicQuestionSet implements ilTestSequenceSummaryProvider
 		}
 		return $minPostponeItem;
 	}
-	
-	public function getSequenceSummary($obligationsFilterEnabled = false)
+
+	public function getPass()
 	{
-		$summary = array();
-		return $summary;
+		return 0;
 	}
 
+	// -----------------------------------------------------------------------------------------------------------------
+
+	private function fetchQuestionSequence($nonPostponedQuestions, $nonAnsweredQuestions, $excludeQuestionId)
+	{
+		$questionSequence = array();
+		
+		foreach($this->questionSet->getActualQuestionSequence() as $level => $questions)
+		{
+			$postponedQuestions = array();
+
+			foreach($questions as $pos => $qId)
+			{
+				if( $qId == $excludeQuestionId )
+				{
+					continue;
+				}
+				
+				if( isset($this->correctAnsweredQuestions[$qId]) )
+				{
+					continue;
+				}
+
+				if( $nonAnsweredQuestions && isset($this->wrongAnsweredQuestions[$qId]) )
+				{
+					continue;
+				}
+				elseif( !$nonAnsweredQuestions && !isset($this->wrongAnsweredQuestions[$qId]) )
+				{
+					continue;
+				}
+
+				if( !$nonPostponedQuestions && isset($this->postponedQuestions[$qId]) )
+				{
+					$postponedQuestions[$qId] = $this->postponedQuestions[$qId];
+					continue;
+				}
+				elseif($nonPostponedQuestions && !isset($this->postponedQuestions[$qId]))
+				{
+					$questionSequence[] = $qId;
+				}
+			}
+
+			if( !$nonPostponedQuestions && count($postponedQuestions) )
+			{
+				$questionSequence = array_merge(
+					$questionSequence, $this->orderQuestionsByPostponeCount($postponedQuestions)
+				);
+			}
+		}
+
+		return $questionSequence;
+	}
+	
+	private function fetchTrackedCorrectAnsweredSequence($excludeQuestionId)
+	{
+		$questionSequence = array();
+		
+		foreach($this->questionTracking as $key => $question)
+		{
+			$qId = $question['qid'];
+			
+			if($qId == $excludeQuestionId)
+			{
+				continue;
+			}
+			
+			if( !isset($this->correctAnsweredQuestions[$qId]) )
+			{
+				continue;
+			}
+
+			$questionSequence[] = $qId;
+		}
+
+		return $questionSequence;
+	}
+
+	private function getOrderedSequence()
+	{
+		$correctAnsweredQuestions = $this->fetchTrackedCorrectAnsweredSequence(
+			$this->getCurrentQuestionId()
+		);
+		
+		$nonAnsweredQuestions = $this->fetchQuestionSequence(
+			true, true, $this->getCurrentQuestionId()
+		);
+		
+		$postponedNonAnsweredQuestions = $this->fetchQuestionSequence(
+			false, true, $this->getCurrentQuestionId()
+		);
+		
+		$wrongAnsweredQuestions = $this->fetchQuestionSequence(
+			true, false, $this->getCurrentQuestionId()
+		);
+		
+		$postponedWrongAnsweredQuestions = $this->fetchQuestionSequence(
+			false, false, $this->getCurrentQuestionId()
+		);
+		
+		$questionOrder = array_merge(
+			$correctAnsweredQuestions, array($this->getCurrentQuestionId()),
+			$nonAnsweredQuestions, $postponedNonAnsweredQuestions,
+			$wrongAnsweredQuestions, $postponedWrongAnsweredQuestions
+		);
+
+		return $questionOrder;
+	}
+
+	public function getSequenceSummary($obligationsFilterEnabled = false)
+	{
+		$questionOrder = $this->getOrderedSequence();
+
+		$solved_questions = ilObjTest::_getSolvedQuestions($this->getActiveId());
+
+		$key = 1;
+
+		foreach ($questionOrder as $qId)
+		{
+			$question =& ilObjTest::_instanciateQuestion($qId);
+			if(is_object($question))
+			{
+				$worked_through = $question->_isWorkedThrough($this->getActiveId(), $question->getId(), $this->getPass());
+				$solved = 0;
+				if(array_key_exists($question->getId(), $solved_questions))
+				{
+					$solved = $solved_questions[$question->getId()]["solved"];
+				}
+				$is_postponed = $this->isPostponedQuestion($question->getId());
+
+				$row = array("nr" => "$key", "title" => $question->getTitle(), "qid" => $question->getId(), "visited" => $worked_through, "solved" => (($solved) ? "1" : "0"), "description" => $question->getComment(), "points" => $question->getMaximumPoints(), "worked_through" => $worked_through, "postponed" => $is_postponed, "sequence" => $qId, "obligatory" => ilObjTest::isQuestionObligatory($question->getId()), 'isAnswered' => $question->isAnswered($this->getActiveId(), $this->getPass()));
+
+				if(!$obligationsFilterEnabled || $row['obligatory'])
+				{
+					$summary[] = $row;
+				}
+
+				$key++;
+			}
+		}
+
+		return $summary;
+	}
 }
 
