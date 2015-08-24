@@ -67,6 +67,7 @@ class ilAwarenessGUI
 
 		// init js
 		$GLOBALS["tpl"]->addJavascript("./Services/Awareness/js/Awareness.js");
+		$this->ctrl->setParameter($this, "ref_id", $this->ref_id);
 		$GLOBALS["tpl"]->addOnloadCode("il.Awareness.setBaseUrl('".$this->ctrl->getLinkTarget($this,
 				"", "", true, false)."');");
 		$GLOBALS["tpl"]->addOnloadCode("il.Awareness.setLoaderSrc('".ilUtil::getImagePath("loader.svg")."');");
