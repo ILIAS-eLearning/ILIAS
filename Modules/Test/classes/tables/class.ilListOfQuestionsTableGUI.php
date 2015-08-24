@@ -171,10 +171,14 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
 		$this->ctrl->setParameter($this->parent_obj, 'pmode', ilTestPlayerAbstractGUI::getRequiredPresentationMode($data["worked_through"]));
 		$href = $this->ctrl->getLinkTarget($this->parent_obj, ilTestPlayerCommands::SHOW_QUESTION);
 		
+		$postponed = (
+			$data['postponed'] ? $this->lng->txt('postponed') : ''
+		);
+		
 		$this->tpl->setVariable("ORDER", $data['order']);
 		$this->tpl->setVariable("TITLE", ilUtil::prepareFormOutput($data['title']));
 		$this->tpl->setVariable("HREF", $href);
-		$this->tpl->setVariable("POSTPONED", $data['postponed']);
+		$this->tpl->setVariable("POSTPONED", $postponed);
 		if ($data["worked_through"])
 		{
 			$this->tpl->setVariable("WORKED_THROUGH", $this->lng->txt("yes"));

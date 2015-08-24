@@ -885,4 +885,15 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 	{
 		return $this->getPresentationModeParameter();
 	}
+
+	public function outQuestionSummaryCmd($fullpage = true, $contextFinishTest = false, $obligationsNotAnswered = false, $obligationsFilter = false)
+	{
+		$this->testSequence->loadFromDb();
+		
+		$this->testSequence->loadQuestions(
+			$this->dynamicQuestionSetConfig, $this->testSession->getQuestionSetFilterSelection()
+		);
+		
+		parent::outQuestionSummaryCmd($fullpage, $contextFinishTest, $obligationsNotAnswered, $obligationsFilter);
+	}
 }
