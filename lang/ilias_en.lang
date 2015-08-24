@@ -15782,3 +15782,6 @@ buddysystem#:#buddy_bs_state_unlinked#:#Unlinked
 buddysystem#:#buddy_bs_state_requested#:#Requested
 buddysystem#:#buddy_bs_state_ignoredrequest#:#Ignored
 buddysystem#:#buddy_bs_no_new_requests#:#No new requests
+contact#:#contact_awrn_req_contacts#:#Contact Requests
+contact#:#contact_awrn_req_contacts_info#:#Contact Requests
+common#:#my_contacts#:#My Contact

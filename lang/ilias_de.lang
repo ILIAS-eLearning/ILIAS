@@ -15776,3 +15776,6 @@ buddysystem#:#buddy_bs_state_unlinked#:#Nicht vernetzt
 buddysystem#:#buddy_bs_state_requested#:#Angefragt
 buddysystem#:#buddy_bs_state_ignoredrequest#:#Ignoriert
 buddysystem#:#buddy_bs_no_new_requests#:#Keine neuen Anfragen
+contact#:#contact_awrn_req_contacts#:#Kontaktanfragen
+contact#:#contact_awrn_req_contacts_info#:#Kontaktanfragen
+common#:#my_contacts#:#Meine Kontakte
