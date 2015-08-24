@@ -15756,8 +15756,8 @@ crs#:#crs_loc_objectives_passed_confirmation#:#Sie haben bereits alle Lernziel b
 crs#:#crs_loc_tst_start#:#Test starten
 crs#:#crs_loc_mem_show_res#:#Testergebnisse anzeigen
 crs#:#crs_loc_test_results_of#:#Testergebnisse von:
-buddysystem#:#buddy_bs_btn_txt_unlinked_a#:#Vernetzen
-buddysystem#:#buddy_bs_btn_txt_unlinked_p#:#Vernetzen
+buddysystem#:#buddy_bs_btn_txt_unlinked_a#:#Kontakt anfragen
+buddysystem#:#buddy_bs_btn_txt_unlinked_p#:#Kontakt anfragen
 buddysystem#:#buddy_bs_btn_txt_linked_a#:#Vernetzt
 buddysystem#:#buddy_bs_btn_txt_linked_p#:#Vernetzt
 buddysystem#:#buddy_bs_btn_txt_requested_a#:#Kontakt angefragt
@@ -15772,10 +15772,32 @@ buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_unlinked#:#Anfrage zurück
 buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_linked#:#Anfrage bestätigen
 buddysystem#:#buddy_bs_action_not_possible#:#Aktion nicht möglich
 buddysystem#:#buddy_bs_state_linked#:#Vernetzt
+buddysystem#:#buddy_bs_state_linked_a#:#Vernetzt
+buddysystem#:#buddy_bs_state_linked_p#:#Vernetzt
 buddysystem#:#buddy_bs_state_unlinked#:#Nicht vernetzt
+buddysystem#:#buddy_bs_state_unlinked_a#:#Nicht vernetzt
+buddysystem#:#buddy_bs_state_unlinked_p#:#Nicht vernetzt
 buddysystem#:#buddy_bs_state_requested#:#Angefragt
+buddysystem#:#buddy_bs_state_requested_a#:#Angefragt
+buddysystem#:#buddy_bs_state_requested_b#:#Angefragt
 buddysystem#:#buddy_bs_state_ignoredrequest#:#Ignoriert
+buddysystem#:#buddy_bs_state_ignored_request_a#:#Angefragt
+buddysystem#:#buddy_bs_state_ignored_request_p#:#Ignoriert
 buddysystem#:#buddy_bs_no_new_requests#:#Keine neuen Anfragen
-contact#:#contact_awrn_req_contacts#:#Kontaktanfragen
-contact#:#contact_awrn_req_contacts_info#:#Kontaktanfragen
 common#:#my_contacts#:#Meine Kontakte
+contact#:#contact_awrn_req_contacts#:#Kotaktanfragen
+contact#:#contact_awrn_req_contacts_info#:#Alle Kontaktanfragen werden aufgelistet.
+buddysystem#:#buddy_view_gallery#:#Galerie
+buddysystem#:#buddy_view_table#:#Liste
+buddysystem#:#buddy_tbl_title_relations#:#Beziehungen zu anderen Benutzern
+buddysystem#:#buddy_tbl_filter_state#:#Status
+buddysystem#:#buddy_notification_contact_request#:#Kontaktanfrage
+buddysystem#:#buddy_notification_contact_request_short#:#Der Benutzer "[REQUESTING_USER]" möchte mit Ihnen in Kontakt treten.[BR][BR][APPROVE_REQUEST][BR][IGNORE_REQUEST]
+buddysystem#:#buddy_notification_contact_request_link#:#Anfrage bestätigen:
+buddysystem#:#buddy_notification_contact_request_link_osd#:#Anfrage bestätigen
+buddysystem#:#buddy_notification_contact_request_ignore#:#Anfrage Ignorieren: 
+buddysystem#:#buddy_notification_contact_request_ignore_osd#:#Anfrage Ignorieren
+buddysystem#:#buddy_notification_contact_request_long#:#[SALUTATION][BR][BR]der Benutzer "[REQUESTING_USER]" möchte mit Ihnen in Kontakt treten.[BR][BR][APPROVE_REQUEST_TXT] [APPROVE_REQUEST][BR][IGNORE_REQUEST_TXT] [IGNORE_REQUEST]
+buddysystem#:#buddy_request_approved#:#Der Kontakt wurde erfolgreich hergestellt.
+buddysystem#:#buddy_request_ignored#:#Sie haben den Benutzer ignoriert.
+common#:#no_gallery_users_available#:#Aktuell befinden sich keine Benutzer in der Galerie.
