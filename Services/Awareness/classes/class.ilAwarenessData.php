@@ -127,6 +127,7 @@ class ilAwarenessData
 	function getUserCounter()
 	{
 		$all_user_ids = array();
+		$hall_user_ids = array();
 
 		$user_collections = $this->getUserCollections();
 
@@ -139,12 +140,19 @@ class ilAwarenessData
 			{
 				if (!in_array($uid, $all_user_ids))
 				{
-					$all_user_ids[] = $uid;
+					if ($uc["highlighted"])
+					{
+						$hall_user_ids[] = $uid;
+					}
+					else
+					{
+						$all_user_ids[] = $uid;
+					}
 				}
 			}
 		}
 
-		return count($all_user_ids);
+		return count($all_user_ids).":".count($hall_user_ids);
 	}
 
 	/**
@@ -308,6 +316,7 @@ class ilAwarenessData
 					$obj->login = $n["login"];
 					$obj->id = $n["id"];
 					$obj->collector = $uc["uc_title"];
+					$obj->highlighted = $uc["highlighted"];
 
 					//$obj->img = $n["img"];
 					$obj->img = ilObjUser::_getPersonalPicturePath($n["id"], "xsmall");

@@ -141,6 +141,7 @@ class ilAwarenessUserCollector
 			}
 			$this->collections[] = array(
 				"uc_title" => $prov->getTitle(),
+				"highlighted" => $prov->isHighlighted(),
 				"collection" => $collection
 			);
 		}

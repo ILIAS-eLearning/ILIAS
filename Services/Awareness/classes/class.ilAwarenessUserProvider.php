@@ -175,7 +175,16 @@ abstract class ilAwarenessUserProvider
 		}
 	}
 
-
+	/**
+	 * Is highlighted
+	 *
+	 * @return bool return true, if user group should be highlighted (using extra highlighted number)
+	 */
+	function isHighlighted()
+	{
+		return false;
+	}
+	
 }
 
 ?>

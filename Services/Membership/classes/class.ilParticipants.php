@@ -178,11 +178,10 @@ abstract class ilParticipants
 			"JOIN object_reference obr ON fa.parent = obr.ref_id ".
 			"JOIN object_data obd ON obr.obj_id = obd.obj_id ".
 			$j2.
-			"WHERE ".$ilDB->in("obd.type", $a_type, false, "integer");
+			"WHERE ".$ilDB->in("obd.type", $a_type, false, "text").
 			"AND fa.assign = 'y' ".
 			"AND ua.usr_id = ".$ilDB->quote($a_usr_id,'integer')." ".
 			$a2;
-				
 		$res = $ilDB->query($query);		
 		while($row = $ilDB->fetchObject($res))
 		{

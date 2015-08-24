@@ -81,21 +81,38 @@ class ilAwarenessGUI
 
 		if ($last_update == "" || ($now - $last_update) >= $cache_period)
 		{
-			$cnt = $act->getAwarenessUserCounter();
+			$cnt = explode(":",$act->getAwarenessUserCounter());
+			$hcnt = $cnt[1];
+			$cnt = $cnt[0];
 			$act->notifyOnNewOnlineContacts();
 			ilSession::set("awrn_last_update", $now);
 			ilSession::set("awrn_nr_users", $cnt);
+			ilSession::set("awrn_nr_husers", $hcnt);
 		}
 		else
 		{
 			$cnt = (int) ilSession::get("awrn_nr_users");
+			$hcnt = (int) ilSession::get("awrn_nr_husers");
 		}
 
-		if ($cnt > 0)
+		if ($hcnt > 0 || $cnt > 0)
 		{
-			$tpl->setCurrentBlock("status_text");
-			$tpl->setVariable("STATUS_TXT", $cnt);
-			$tpl->parseCurrentBlock();
+			if ($cnt > 0)
+			{
+				$tpl->setCurrentBlock("status_text");
+				$tpl->setVariable("STATUS_TXT", $cnt);
+				$tpl->parseCurrentBlock();
+			}
+			if ($hcnt > 0)
+			{
+				$tpl->setCurrentBlock("h_status_text");
+				$tpl->setVariable("H_STATUS_TXT", $hcnt);
+				$tpl->parseCurrentBlock();
+			}
+			else
+			{
+				$tpl->setVariable("HSP", "&nbsp;");
+			}
 
 			$tpl->setVariable("LOADER", ilUtil::getImagePath("loader.svg"));
 
@@ -128,6 +145,10 @@ class ilAwarenessGUI
 		{
 			if ($u->collector != $last_uc_title)
 			{
+				if ($u->highlighted)
+				{
+					$tpl->touchBlock("highlighted");
+				}
 				$tpl->setCurrentBlock("uc_title");
 				$tpl->setVariable("UC_TITLE", $u->collector);
 				$tpl->parseCurrentBlock();
