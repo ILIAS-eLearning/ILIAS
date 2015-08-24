@@ -15790,6 +15790,8 @@ buddysystem#:#buddy_bs_state_ignoredrequest#:#Ignored
 buddysystem#:#buddy_bs_state_ignored_request_a#:#Requested
 buddysystem#:#buddy_bs_state_ignored_request_p#:#Ignored
 buddysystem#:#buddy_bs_no_new_requests#:#No new requests
+contact#:#contact_awrn_ap_contacts#:#Approved Contacts
+contact#:#contact_awrn_ap_contacts_info#:#All contacts approved by the user are listed.
 contact#:#contact_awrn_req_contacts#:#Contact Requests
 contact#:#contact_awrn_req_contacts_info#:#All contact requests are listed.
 common#:#my_contacts#:#My Contact
