@@ -752,20 +752,18 @@ class ilTestSequenceDynamicQuestionSet implements ilTestSequenceSummaryProvider
 
 	private function orderQuestionsByPostponeCount($postponedQuestions)
 	{
-		$maxPostponeCount = 0;
-		
-		foreach($postponedQuestions as $qId => $postponeCount)
-		{
-			if($postponeCount > $maxPostponeCount)
-			{
-				$maxPostponeCount = $postponeCount;
-			}
-		}
+		$maxPostponeCount = max($postponedQuestions);
 		
 		$orderedSequence = array();
+		$postponedCountDomain = array_flip($postponedQuestions);
 		
 		for($i = 1; $i <= $maxPostponeCount; $i++)
 		{
+			if(!isset($postponedCountDomain[$i]))
+			{
+				continue;	
+			}
+			
 			foreach($postponedQuestions as $qId => $postponeCount)
 			{
 				if($postponeCount == $i)
