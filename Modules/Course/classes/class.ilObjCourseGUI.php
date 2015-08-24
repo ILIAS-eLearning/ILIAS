@@ -430,7 +430,27 @@ class ilObjCourseGUI extends ilContainerGUI
 		{
 			$info->addProperty($this->lng->txt("crs_contact_consultation"),
 							   nl2br($this->object->getContactConsultation()));
-		}		
+		}
+
+
+		// support contacts
+		$parts = ilParticipants::getInstanceByObjId($this->object->getId());
+		$conts = $parts->getContacts();
+		if (count($conts) > 0)
+		{
+			$info->addSection($this->lng->txt("crs_mem_contacts"));
+			foreach ($conts as $c)
+			{
+				include_once("./Services/User/classes/class.ilPublicUserProfileGUI.php");
+				$pgui = new ilPublicUserProfileGUI($c);
+				$pgui->setBackUrl($this->ctrl->getLinkTargetByClass("ilinfoscreengui"));
+				$pgui->setEmbedded(true);
+				$info->addProperty("", $pgui->getHTML());
+			}
+		}
+
+
+
 		//	
 		// access
 		//

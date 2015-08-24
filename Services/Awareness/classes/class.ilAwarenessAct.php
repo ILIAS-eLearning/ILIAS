@@ -73,7 +73,12 @@ class ilAwarenessAct
 		{
 			if ($ts == "" || $u->last_login > $ts)
 			{
-				$new_online_users[] = $u->firstname." ".$u->lastname;
+				$uname = "[".$u->login."]";
+				if ($u->public_profile)
+				{
+					$uname = "<a href='./goto.php?target=usr_".$u->id."'>".$u->lastname.", ".$u->firstname." ".$uname."</a>";
+				}
+				$new_online_users[] = $uname;
 			}
 		}
 
@@ -87,7 +92,7 @@ class ilAwarenessAct
 		include_once("./Services/Object/classes/class.ilObjectFactory.php");
 		//$recipient = ilObjectFactory::getInstanceByObjId($this->user_id);
 		$bodyParams = array(
-			'online_user_names'         => implode(", ", $new_online_users)
+			'online_user_names'         => implode("<br />", $new_online_users)
 		);
 //var_dump($bodyParams); exit;
 		require_once 'Services/Notifications/classes/class.ilNotificationConfig.php';

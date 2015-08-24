@@ -11,18 +11,18 @@
  */
 class ilAwarenessUserProviderFactory
 {
-	/*protected static $providers = array(
+	protected static $providers = array(
 		array (
 			"component" => "Services/Awareness",
 			"class" => "ilAwarenessUserProviderAllUsers"
 		)
-	);*/
-	protected static $providers = array(
+	);
+	/*protected static $providers = array(
 		array (
 			"component" => "Services/Awareness",
 			"class" => "ilAwarenessUserProviderCourseContacts"
 		)
-	);
+	);*/
 
 	/**
 	 * Get all awareness providers

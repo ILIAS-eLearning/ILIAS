@@ -73,7 +73,7 @@ class ilAwarenessData
 			$online_users = ilObjUser::_getUsersOnline($user_ids);
 
 			// todo: some setting to control this?
-			$only_online = true;
+//			$only_online = true;
 
 			// todo: use adv data types with a PHP object (stdClass) bridge that is transferable to JSON in a trivial manner
 
