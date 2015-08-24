@@ -9758,3 +9758,7 @@ if($ilDB->sequenceExists('addressbook'))
 	$ilDB->dropSequence('addressbook');
 }
 ?>
+<#4681>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
