@@ -49,6 +49,15 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
 		$this->initAuth($sid);
 		$this->initIlias();
 
+		if(!is_array($usr_ids))
+		{
+			$usr_ids = (array)$usr_ids;
+		}
+		if(!is_array($type_filter))
+		{
+			$type_filter = (array)$type_filter;
+		}
+
 		// Check session
 		if(!$this->__checkSession($sid))
 		{
