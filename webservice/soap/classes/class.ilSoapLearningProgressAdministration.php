@@ -26,6 +26,7 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
 	const SOAP_LP_ERROR_INVALID_REF_ID = 54;
 	const SOAP_LP_ERROR_LP_NOT_AVAILABLE = 56;
 	const SOAP_LP_ERROR_NO_PERMISSION = 58;
+	const SOAP_LP_ERROR_LP_NOT_ENABLED = 60;
 	
 	protected static $PROGRESS_INFO_TYPES = array(
 		self::PROGRESS_FILTER_ALL,
@@ -161,6 +162,7 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
 	
 	public function getProgressInfo($sid, $a_ref_id, $a_progress_filter)
 	{
+		global $ilAccess;
 		$this->initAuth($sid);
 		$this->initIlias();
 
@@ -177,7 +179,14 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
 			return $this->__raiseError('Error '.self::SOAP_LP_ERROR_INVALID_FILTER.': Invalid filter type given',
 				self::SOAP_LP_ERROR_INVALID_FILTER);
 		}
-		
+		// Check LP enabled
+		include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
+		if(!ilObjUserTracking::_enabledLearningProgress())
+		{
+			return $this->__raiseError('Error '. self::SOAP_LP_ERROR_LP_NOT_ENABLED .': Learning progress not enabled in ILIAS',
+				self::SOAP_LP_ERROR_LP_NOT_ENABLED);
+		}
+
 		include_once './Services/Object/classes/class.ilObjectFactory.php';
 		$obj = ilObjectFactory::getInstanceByRefId($a_ref_id, false);
 		if(!$obj instanceof ilObject)
@@ -197,8 +206,7 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
 		}
 
 		// check rbac
-		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
-		if(!ilLearningProgressAccess::checkAccess($a_ref_id, false))
+		if(!$ilAccess->checkAccess('edit_learning_progress','',$a_ref_id))
 		{
 			return $this->__raiseError('Error '. self::SOAP_LP_ERROR_NO_PERMISSION .': No Permission to access learning progress in this object',
 				self::SOAP_LP_ERROR_NO_PERMISSION);
