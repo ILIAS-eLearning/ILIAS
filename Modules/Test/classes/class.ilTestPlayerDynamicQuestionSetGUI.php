@@ -391,7 +391,9 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 	
 	protected function showQuestionCmd()
 	{
-		$this->handleJavascriptActivationStatus();
+		$_SESSION["active_time_id"] = $this->object->startWorkingTime(
+			$this->testSession->getActiveId(), $this->testSession->getPass()
+		);
 
 		$this->testSequence->loadQuestions(
 				$this->dynamicQuestionSetConfig, $this->testSession->getQuestionSetFilterSelection()
@@ -410,14 +412,74 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 				$this->testSequence->setQuestionUnchecked($upComingQuestionId);
 			}
 		}
-		
+
 		if( $this->testSession->getCurrentQuestionId() )
 		{
-			$this->ctrl->setParameter(
-					$this, 'sequence', $this->testSession->getCurrentQuestionId()
+			$questionGui = $this->getQuestionGuiInstance($this->testSession->getCurrentQuestionId());
+
+			$questionGui->setQuestionCount(
+				$this->testSequence->getLastPositionIndex()
+			);
+			$questionGui->setSequenceNumber(
+				$this->testSequence->getCurrentPositionIndex($this->testSession->getCurrentQuestionId())
 			);
 
-			$this->outTestPage(false);
+			if( !($questionGui instanceof assQuestionGUI) )
+			{
+				$this->handleTearsAndAngerQuestionIsNull(
+					$this->testSession->getCurrentQuestionId(), $this->testSession->getCurrentQuestionId()
+				);
+			}
+
+			$presentationMode = $this->determinePresentationMode($questionGui->object);
+
+			$instantResponse = $this->getInstantResponseParameter();
+
+			$this->prepareTestPage($presentationMode,
+				$this->testSession->getCurrentQuestionId(), $this->testSession->getCurrentQuestionId()
+			);
+
+			$this->ctrl->setParameter($this, 'sequence', $this->testSession->getCurrentQuestionId());
+			$this->ctrl->setParameter($this, 'pmode', $presentationMode);
+			$formAction = $this->ctrl->getFormAction($this);
+			
+			switch($presentationMode)
+			{
+				case ilTestPlayerAbstractGUI::PRESENTATION_MODE_EDIT:
+
+					$this->showQuestionEditable($questionGui, $instantResponse, $formAction);
+					break;
+
+				case ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW:
+
+					$this->showQuestionViewable($questionGui, $formAction);
+					break;
+
+				default:
+
+					echo "pmode missing:";
+					vd($this->testSession->getLastPresentationMode());
+					vd($this->testSession->getLastSequence());
+					vd($this->testSession->getCurrentQuestionId());
+					exit;
+			}
+
+			if ($instantResponse)
+			{
+				$this->populateInstantResponseBlocks(
+					$questionGui, $presentationMode == ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW
+				);
+			}
+
+			$this->populateQuestionNavigation(
+				$this->testSession->getCurrentQuestionId(),
+				$presentationMode == ilTestPlayerAbstractGUI::PRESENTATION_MODE_EDIT
+			);
+
+			if( $this->dynamicQuestionSetConfig->isAnyQuestionFilterEnabled() )
+			{
+				$this->populateQuestionSelectionButtons();
+			}
 		}
 		else
 		{
@@ -441,8 +503,6 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 			$this->testSequence->unsetQuestionPostponed($questionId);
 			$this->testSequence->setQuestionChecked($questionId);
 		}
-
-		$this->handleJavascriptActivationStatus();
 
 		$filterSelection = $this->testSession->getQuestionSetFilterSelection();
 		
@@ -482,239 +542,12 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		
 		$this->ctrl->redirect($this, 'showQuestion');
 	}
-	
-	/**
-	 * Creates the learners output of a question
-	 */
-	protected function outWorkingForm($sequence, $directfeedback)
-	{
-		global $ilUser;
-
-		$test_id = $this->object->getTestId();
-		
-		$_SESSION["active_time_id"] = $this->object->startWorkingTime(
-				$this->testSession->getActiveId(), $this->testSession->getPass()
-		);
-
-		$this->populateContentStyleBlock();
-		$this->populateSyntaxStyleBlock();
-
-		$question_gui = $this->object->createQuestionGUI(
-				"", $this->testSession->getCurrentQuestionId()
-		);
-
-		if( !is_object($question_gui) )
-		{
-			global $ilLog;
-
-			$ilLog->write(
-				"INV SEQ: active={$this->testSession->getActiveId()} qId={$this->testSession->getCurrentQuestionId()} "
-				.serialize($this->testSequence)
-			);
-
-			$ilLog->logStack('INV SEQ');
-
-			$this->resetCurrentQuestion();
-			$this->ctrl->redirect($this, 'showQuestion');
-		}
-
-		$question_gui->setTargetGui($this);
-		
-		$question_gui->setQuestionCount(
-				$this->testSequence->getLastPositionIndex()
-		);
-		$question_gui->setSequenceNumber( $this->testSequence->getCurrentPositionIndex(
-				$this->testSession->getCurrentQuestionId()
-		));
-		
-		$this->ctrl->setParameter($this, 'sequence', $this->testSession->getCurrentQuestionId());		
-		
-		if ($this->object->getJavaScriptOutput())
-		{
-			$question_gui->object->setOutputType(OUTPUT_JAVASCRIPT);
-		}
-
-		$is_postponed = $this->testSequence->isPostponedQuestion($question_gui->object->getId());
-		$formaction = $this->ctrl->getFormAction($this);
-
-		// output question
-		$user_post_solution = FALSE;
-		if( isset($_SESSION['previouspost']) )
-		{
-			$user_post_solution = $_SESSION['previouspost'];
-			unset($_SESSION['previouspost']);
-		}
-
-		global $ilNavigationHistory;
-		$ilNavigationHistory->addItem($_GET["ref_id"], $this->ctrl->getLinkTarget($this, "resumePlayer"), "tst");
-
-		// Determine $answer_feedback: It should hold a boolean stating if answer-specific-feedback is to be given.
-		// It gets the parameter "Scoring and Results" -> "Instant Feedback" -> "Show Answer-Specific Feedback"
-		// $directfeedback holds a boolean stating if the instant feedback was requested using the "Check" button.
-		$answer_feedback = FALSE;
-		if (($directfeedback) && ($this->object->getSpecificAnswerFeedback()))
-		{
-			$answer_feedback = TRUE;
-		}
-
-		$this->populateTestNavigationToolbar(
-			$this->buildTestNavigationToolbarGUI(true)
-		);
-
-		if( $this->isParticipantsAnswerFixed($this->testSession->getCurrentQuestionId()) )
-		{
-			$solutionoutput = $question_gui->getSolutionOutput(
-				$this->testSession->getActiveId(), 	#active_id
-				NULL, 												#pass
-				FALSE, 												#graphical_output
-				false,				#result_output
-				true, 												#show_question_only
-				$answer_feedback,									#show_feedback
-				false, 												#show_correct_solution
-				FALSE, 												#show_manual_scoring
-				true												#show_question_text
-			);
-
-			$pageoutput = $question_gui->outQuestionPage(
-				"", $this->testSequence->isPostponedQuestion($this->testSession->getCurrentQuestionId()),
-				$this->testSession->getActiveId(),
-				$solutionoutput
-			);
-			
-			$this->tpl->setVariable("QUESTION_OUTPUT", $pageoutput);
-			$this->tpl->setVariable("FORMACTION", $formaction);
-
-			$directfeedback = true;
-		}
-		else
-		{
-			$question_gui->setNavigationGUI($this->buildEditableStateQuestionNavigationGUI(
-				$question_gui->object->getId(), $this->populateCharSelectorIfRequired()
-			));
-			
-			// Answer specific feedback is rendered into the display of the test question with in the concrete question types outQuestionForTest-method.
-			// Notation of the params prior to getting rid of this crap in favor of a class
-			$question_gui->outQuestionForTest(
-					$formaction, 										#form_action
-					$this->testSession->getActiveId(), 	#active_id
-					NULL, 												#pass
-					$is_postponed, 										#is_postponed
-					$user_post_solution, 								#user_post_solution
-					$answer_feedback									#answer_feedback == inline_specific_feedback
-				);
-			// The display of specific inline feedback and specific feedback in an own block is to honor questions, which
-			// have the possibility to embed the specific feedback into their output while maintaining compatibility to
-			// questions, which do not have such facilities. E.g. there can be no "specific inline feedback" for essay
-			// questions, while the multiple-choice questions do well.
-		}
-
-		if ($directfeedback)
-		{
-			// This controls if the solution should be shown.
-			// It gets the parameter "Scoring and Results" -> "Instant Feedback" -> "Show Solutions"			
-			if ($this->object->getInstantFeedbackSolution())
-			{
-				$show_question_inline_score = $this->determineInlineScoreDisplay();
-				
-				// Notation of the params prior to getting rid of this crap in favor of a class
-				$solutionoutput = $question_gui->getSolutionOutput(
-					$this->testSession->getActiveId(), 	#active_id
-					NULL, 												#pass
-					TRUE, 												#graphical_output
-					$show_question_inline_score,						#result_output
-					FALSE, 												#show_question_only
-					FALSE,												#show_feedback
-					TRUE, 												#show_correct_solution
-					FALSE, 												#show_manual_scoring
-					FALSE												#show_question_text
-				);
-				$this->populateSolutionBlock( $solutionoutput );
-			}
-			
-			// This controls if the score should be shown.
-			// It gets the parameter "Scoring and Results" -> "Instant Feedback" -> "Show Results (Only Points)"				
-			if ($this->object->getAnswerFeedbackPoints())
-			{
-				$reachedPoints = $question_gui->object->getAdjustedReachedPoints($this->testSession->getActiveId(), NULL);
-				$maxPoints = $question_gui->object->getMaximumPoints();
-
-				$this->populateScoreBlock( $reachedPoints, $maxPoints );
-			}
-			
-			// This controls if the generic feedback should be shown.
-			// It gets the parameter "Scoring and Results" -> "Instant Feedback" -> "Show Solutions"				
-			if ($this->object->getGenericAnswerFeedback())
-			{
-				$this->populateGenericFeedbackBlock( $question_gui );
-			}
-			
-			// This controls if the specific feedback should be shown.
-			// It gets the parameter "Scoring and Results" -> "Instant Feedback" -> "Show Answer-Specific Feedback"
-			if ($this->object->getSpecificAnswerFeedback())
-			{
-				$this->populateSpecificFeedbackBlock( $question_gui );				
-			}
-		}
-
-		if( !$this->isFirstPageInSequence($this->testSession->getCurrentQuestionId()) )
-		{
-			$this->populatePreviousButtons();
-		}
-
-		if( !$this->isLastQuestionInSequence($question_gui) )
-		{
-			$this->populateNextButtons();
-		}
-		
-		if( $this->dynamicQuestionSetConfig->isAnyQuestionFilterEnabled() )
-		{
-			$this->populateQuestionSelectionButtons();
-		}
-
-		if ($this->object->getJavaScriptOutput())
-		{
-			$this->tpl->setVariable("JAVASCRIPT_TITLE", $this->lng->txt("disable_javascript"));
-			$this->ctrl->setParameter($this, "tst_javascript", "0");
-			$this->tpl->setVariable("JAVASCRIPT_URL", $this->ctrl->getLinkTarget($this, "gotoQuestion"));
-		}
-		else
-		{
-			$this->tpl->setVariable("JAVASCRIPT_TITLE", $this->lng->txt("enable_javascript"));
-			$this->ctrl->setParameter($this, "tst_javascript", "1");
-			$this->tpl->setVariable("JAVASCRIPT_URL", $this->ctrl->getLinkTarget($this, "gotoQuestion"));
-		}
-
-		if ($question_gui->object->supportsJavascriptOutput())
-		{
-			$this->tpl->touchBlock("jsswitch");
-		}
-
-		$this->tpl->addJavaScript(ilUtil::getJSLocation("autosave.js", "Modules/Test"));
-		
-		$this->tpl->setVariable("AUTOSAVE_URL", $this->ctrl->getFormAction($this, "autosave", "", true));
-
-		if ($question_gui->isAutosaveable()&& $this->object->getAutosave())
-		{
-			$this->tpl->touchBlock('autosave');
-			//$this->tpl->setVariable("BTN_SAVE", "Zwischenspeichern");
-			//$this->tpl->setVariable("CMD_SAVE", "gotoquestion_{$sequence}");
-			//$this->tpl->setVariable("AUTOSAVEFORMACTION", str_replace("&amp;", "&", $this->ctrl->getFormAction($this)));
-			$this->tpl->setVariable("AUTOSAVEFORMACTION", str_replace("&amp;", "&", $this->ctrl->getLinkTarget($this, "autosave")));
-			$this->tpl->setVariable("AUTOSAVEINTERVAL", $this->object->getAutosaveIval());
-		}
-		
-		if( $this->object->areObligationsEnabled() && ilObjTest::isQuestionObligatory($question_gui->object->getId()) )
-		{
-		    $this->tpl->touchBlock('question_obligatory');
-		    $this->tpl->setVariable('QUESTION_OBLIGATORY', $this->lng->txt('required_field'));
-		}
-	}
 
 	private function outCurrentlyFinishedPage()
 	{
 		$this->initTestPageTemplate();
 
-		if( !$this->isFirstPageInSequence($this->testSession->getCurrentQuestionId()) )
+		if( !$this->isFirstQuestionInSequence($this->testSession->getCurrentQuestionId()) )
 		{
 			$this->populatePreviousButtons();
 		}
@@ -777,7 +610,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 
 	}
 	
-	protected function isFirstPageInSequence($sequenceElement)
+	protected function isFirstQuestionInSequence($sequenceElement)
 	{
 		return !$this->testSequence->trackedQuestionExists();
 	}
@@ -785,16 +618,6 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 	protected function isLastQuestionInSequence($sequenceElement)
 	{
 		return false; // always
-	}
-	
-	protected function handleJavascriptActivationStatus()
-	{
-		global $ilUser;
-		
-		if( isset($_GET['tst_javascript']) )
-		{
-			$ilUser->writePref('tst_javascript', $_GET['tst_javascript']);
-		}
 	}
 	
 	/**
@@ -842,8 +665,6 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 
 		if ($this->canSaveResult($qId) || $force)
 		{
-				global $ilUser;
-				
 				$questionGUI = $this->object->createQuestionGUI("", $qId);
 				
 				if( $this->object->getJavaScriptOutput() )

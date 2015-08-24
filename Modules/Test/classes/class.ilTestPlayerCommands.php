@@ -11,6 +11,7 @@
 class ilTestPlayerCommands
 {
 	const START_TEST = 'startTest';
+	const RESUME_PLAYER = 'resumePlayer';
 	
 	const SHOW_QUESTION = 'showQuestion';
 	

@@ -261,16 +261,19 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 			$instantResponse = true;
 		}
 		
-		$questionGui = $this->getQuestionGuiInstance($questionId, $sequenceElement);
+		$questionGui = $this->getQuestionGuiInstance($questionId);
+		$questionGui->setSequenceNumber($this->testSequence->getPositionOfSequence($sequenceElement));
+		$questionGui->setQuestionCount($this->testSequence->getUserQuestionCount());
 
 		if( !($questionGui instanceof assQuestionGUI) )
 		{
 			$this->handleTearsAndAngerQuestionIsNull($questionId, $sequenceElement);
 		}
 
-		$this->prepareTestPage($presentationMode, $sequenceElement);
+		$this->prepareTestPage($presentationMode, $sequenceElement, $questionId);
 
 		$this->ctrl->setParameter($this, 'sequence', $sequenceElement);
+		$this->ctrl->setParameter($this, 'pmode', $presentationMode);
 		$formAction = $this->ctrl->getFormAction($this);
 
 		switch($presentationMode)
@@ -304,83 +307,8 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		$this->populateQuestionNavigation(
 			$sequenceElement, $presentationMode == ilTestPlayerAbstractGUI::PRESENTATION_MODE_EDIT
 		);
-		
-		if( $presentationMode == ilTestPlayerAbstractGUI::PRESENTATION_MODE_EDIT )
-		{
-			$this->populateIntermediateSolutionSaver($questionGui);
-		}
 
 		$this->populateObligationIndicatorIfRequired($questionGui);
-	}
-
-	protected function showQuestionViewable(assQuestionGUI $questionGui, $formAction)
-	{
-		$questionGui->setNavigationGUI($this->buildReadOnlyStateQuestionNavigationGUI(
-			$questionGui->object->getId()
-		));
-		
-		$solutionoutput = $questionGui->getSolutionOutput(
-			$this->testSession->getActiveId(), 	#active_id
-			null, 								#pass
-			false, 								#graphical_output
-			false,								#result_output
-			true, 								#show_question_only
-			false,								#show_feedback
-			false, 								#show_correct_solution
-			false, 								#show_manual_scoring
-			true								#show_question_text
-		);
-
-		$pageoutput = $questionGui->outQuestionPage(
-			"",
-			$this->testSequence->isPostponedQuestion($questionGui->object->getId()),
-			$this->testSession->getActiveId(),
-			$solutionoutput
-		);
-
-		$this->tpl->setVariable('QUESTION_OUTPUT', $pageoutput);
-		
-		$this->tpl->setVariable("FORMACTION", $formAction);
-		$this->tpl->setVariable("ENCTYPE", 'enctype="'.$questionGui->getFormEncodingType().'"');
-		$this->tpl->setVariable("FORM_TIMESTAMP", time());
-	}
-
-	protected function showQuestionEditable(assQuestionGUI $questionGui, $instantResponse, $formAction)
-	{
-		$questionGui->setNavigationGUI($this->buildEditableStateQuestionNavigationGUI(
-			$questionGui->object->getId(), $this->populateCharSelectorIfRequired()
-		));
-
-		$isPostponed = $this->testSequence->isPostponedQuestion($questionGui->object->getId());
-
-		$answerFeedbackEnabled = (
-			$instantResponse && $this->object->getSpecificAnswerFeedback()
-		);
-
-		if( isset($_GET['save_error']) && $_GET['save_error'] == 1 && isset($_SESSION['previouspost']) )
-		{
-			$userPostSolution = $_SESSION['previouspost'];
-			unset($_SESSION['previouspost']);
-		}
-		else
-		{
-			$userPostSolution = false;
-		}
-
-		// Answer specific feedback is rendered into the display of the test question with in the concrete question types outQuestionForTest-method.
-		// Notation of the params prior to getting rid of this crap in favor of a class
-		$questionGui->outQuestionForTest(
-			$formAction, 							#form_action
-			$this->testSession->getActiveId(),		#active_id
-			NULL, 									#pass
-			$isPostponed, 							#is_postponed
-			$userPostSolution, 						#user_post_solution
-			$answerFeedbackEnabled					#answer_feedback == inline_specific_feedback
-		);
-		// The display of specific inline feedback and specific feedback in an own block is to honor questions, which
-		// have the possibility to embed the specific feedback into their output while maintaining compatibility to
-		// questions, which do not have such facilities. E.g. there can be no "specific inline feedback" for essay
-		// questions, while the multiple-choice questions do well.
 	}
 
 	protected function editSolutionCmd()
@@ -484,7 +412,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
 	}
 
-	protected function isFirstPageInSequence($sequenceElement)
+	protected function isFirstQuestionInSequence($sequenceElement)
 	{
 		return $sequenceElement == $this->testSequence->getFirstSequence();
 	}
@@ -717,21 +645,6 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
 		$this->ctrl->setParameter($this, 'sequence', $this->testSequence->getFirstSequence());
 		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
-	}
-
-	/**
-	 * @param $questionId
-	 * @param $sequenceElement
-	 * @return object
-	 */
-	protected function getQuestionGuiInstance($questionId, $sequenceElement)
-	{
-		$questionGui = $this->object->createQuestionGUI("", $questionId);
-		$questionGui->setSequenceNumber($this->testSequence->getPositionOfSequence($sequenceElement));
-		$questionGui->setQuestionCount($this->testSequence->getUserQuestionCount());
-		$questionGui->setTargetGui($this);
-		$questionGui->object->setOutputType(OUTPUT_JAVASCRIPT);
-		return $questionGui;
 	}
 
 	/**
