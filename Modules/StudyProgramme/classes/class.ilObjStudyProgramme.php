@@ -1097,7 +1097,7 @@ class ilObjStudyProgramme extends ilContainer {
 		self::initStudyProgrammeCache();
 		$prg = ilObjStudyProgramme::getInstanceByRefId($node_data["child"]);
 		if ($prg->getLPMode() != ilStudyProgramme::MODE_LP_COMPLETED) {
-			continue;
+			return;
 		}
 		foreach ($prg->getProgressesOf($a_user_id) as $progress) {
 			$progress->setLPCompleted($a_obj_id, $a_user_id);
