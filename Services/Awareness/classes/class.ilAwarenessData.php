@@ -324,6 +324,7 @@ class ilAwarenessData
 						$f = new stdClass;
 						$f->text = $feature->getText();
 						$f->href = $feature->getHref();
+						$f->data = $feature->getData();
 						$obj->features[] = $f;
 					}
 

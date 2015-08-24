@@ -39,11 +39,7 @@ il.Awareness = {
 //		console.log(this);
 
 		}).on('shown.bs.popover', function () {
-			$('#awareness_trigger').siblings(".popover").children(".popover-content").html(il.Awareness.getContent());
-
-			$("body").addClass("modal-open");
-
-			il.Awareness.afterListUpdate();
+			il.Awareness.show();
 
 		}).on('hidden.bs.popover', function () {
 			$("body").removeClass("modal-open");
@@ -60,8 +56,23 @@ il.Awareness = {
 			});
 		});
 
+		$("#awareness_trigger").on("awrn:shown", function( event ) {
+//			console.log("awrn:shown thrown");
+		});
 	},
 
+	show: function () {
+		var t = il.Awareness;
+
+		$('#awareness_trigger').siblings(".popover").children(".popover-content").html(t.getContent());
+		$("body").addClass("modal-open");
+		t.afterListUpdate();
+	},
+
+	reload: function () {
+		var t = il.Awareness;
+		t.updateList($("#il_awareness_filter").val());
+	},
 
 	checkScrollbar: function () {
 		if (document.body.clientWidth >= window.innerWidth) return
@@ -107,6 +118,9 @@ il.Awareness = {
 			t.content = o.responseText;
 			$('#awareness-content').replaceWith(t.content);
 			t.afterListUpdate();
+
+			// throw custom event
+			$("#awareness_trigger").trigger("awrn:shown");
 		}
 	},
 
@@ -116,6 +130,8 @@ il.Awareness = {
 		t.fixHeight();
 
 		$('.ilAwarenessItem').on('shown.bs.dropdown', function () {
+			var t = il.Awareness;
+
 			t.fixHeight();
 		}).on('hidden.bs.dropdown', function () {
 			// if done, height is corrected, but dd is not opened if clicked (when other dd has been opened before)
@@ -148,11 +164,8 @@ il.Awareness = {
 		var st = $('#awareness-list').scrollTop();
 		$('#awareness-list').css('height', "");
 
-		console.log("a");
 		var vp_reg = il.Util.getViewportRegion();
-		console.log("b");
 		var awpop = il.Util.getRegion('.ilAwarenessDropDown .popover');
-		console.log("c");
 		var awlist = il.Util.getRegion('#awareness-list');
 		var pad_bot = 15;
 		if ((awpop.top - vp_reg.top + awpop.height + pad_bot) > vp_reg.height) {

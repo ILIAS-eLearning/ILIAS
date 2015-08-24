@@ -54,6 +54,9 @@ class ilAwarenessWorkspaceFeatureProvider extends ilAwarenessFeatureProvider
 		$ilCtrl->setParameterByClass("ilobjworkspacerootfoldergui", "user", ilObjUser::_lookupLogin($a_target_user));
 		$f->setHref($ilCtrl->getLinkTargetByClass(array("ilpersonaldesktopgui", "ilpersonalworkspacegui", "ilobjworkspacerootfoldergui"),
 			"listSharedResourcesOfOtherUser"));
+
+		//$f->setData(array("test" => "you", "user" => $a_target_user));
+
 		$coll->addFeature($f);
 
 		return $coll;

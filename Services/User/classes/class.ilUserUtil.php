@@ -75,6 +75,7 @@ class ilUserUtil
 		$data = array();
 		while ($row = $ilDB->fetchObject($userrow))
 		{
+			$pres = '';
 			$d = array("id" => $row->usr_id, "title" => "", "lastname" => "", "firstname" => "", "img" => "", "link" => "",
 				"public_profile" => "");
 			if ($a_force_first_lastname ||

@@ -13,6 +13,7 @@ class ilAwarenessFeature
 {
 	protected $text;
 	protected $href;
+	protected $data;
 
 	/**
 	 * Set text
@@ -52,6 +53,26 @@ class ilAwarenessFeature
 	function getHref()
 	{
 		return $this->href;
+	}
+
+	/**
+	 * Set data attributes
+	 *
+	 * @param array $a_val array of key => value pairs which will be transformed to data-<key>="value" attributes of link)
+	 */
+	function setData($a_val)
+	{
+		$this->data = $a_val;
+	}
+
+	/**
+	 * Get data attributes
+	 *
+	 * @return array array of key => value pairs which will be transformed to data-<key>="value" attributes of link
+	 */
+	function getData()
+	{
+		return $this->data;
 	}
 }
 

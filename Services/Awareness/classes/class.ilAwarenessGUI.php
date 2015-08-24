@@ -56,7 +56,7 @@ class ilAwarenessGUI
 		global $ilUser;
 
 		$awrn_set = new ilSetting("awrn");
-		if (!$awrn_set->get("awrn_enabled", false))
+		if (!$awrn_set->get("awrn_enabled", false) || ANONYMOUS_USER_ID == $ilUser->getId())
 		{
 			return "";
 		}
@@ -147,6 +147,16 @@ class ilAwarenessGUI
 					$tpl->touchBlock("arrow");
 					//$tpl->setCurrentBlock("arrow");
 					//$tpl->parseCurrentBlock();
+				}
+				if (is_array($f->data) && count($f->data) > 0)
+				{
+					foreach ($f->data as $k => $v)
+					{
+						$tpl->setCurrentBlock("f_data");
+						$tpl->setVariable("DATA_KEY", $k);
+						$tpl->setVariable("DATA_VAL", ilUtil::prepareFormOutput($v));
+						$tpl->parseCurrentBlock();
+					}
 				}
 				$tpl->setCurrentBlock("feature");
 				$tpl->setVariable("FEATURE_HREF", $f->href);

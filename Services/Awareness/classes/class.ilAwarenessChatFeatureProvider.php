@@ -66,13 +66,22 @@ class ilAwarenessChatFeatureProvider extends ilAwarenessFeatureProvider
 			return $coll;
 		}
 
-		if ($a_target_user == $this->getUserId() &&
-			$this->checkUserChatAccess($this->getUserId()))
+		if ($this->checkUserChatAccess($this->getUserId()))
 		{
-			$f = new ilAwarenessFeature();
-			$f->setText($this->lng->txt('chat_enter_public_room'));
-			$f->setHref('./ilias.php?baseClass=ilRepositoryGUI&cmd=view&ref_id='.$this->pub_ref_id);
-			$coll->addFeature($f);
+			// this check is not really needed anymore, since the current
+			// user will never be listed in the awareness tool
+			if ($a_target_user != $this->getUserId())
+			{
+				if ($this->checkUserChatAccess($a_target_user))
+				{
+					$f = new ilAwarenessFeature();
+					$f->setText($this->lng->txt('chat_invite_public_room'));
+					$f->setHref('./ilias.php?baseClass=ilRepositoryGUI&ref_id='.$this->pub_ref_id.
+						'&usr_id='.$a_target_user.'&cmd=view-invitePD');
+					//$this->tpl->setVariable('TXT_CHAT_INVITE_TOOLTIP', $lng->txt('chat_invite_public_room_tooltip'));
+					$coll->addFeature($f);
+				}
+			}
 		}
 
 		return $coll;
