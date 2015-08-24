@@ -107,9 +107,11 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 		if ($cmd == "") {
 			$cmd = "view";
 		}
-
+		
+		$this->addToNavigationHistory();
+		
 		parent::prepareOutput();
-
+		
 		switch ($next_class) {
 			case "ilinfoscreengui":
 				$this->tabs_gui->setTabActive(self::TAB_INFO);
@@ -652,6 +654,21 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 
 		$ilCtrl->redirectByClass(array( "ilRepositoryGUI", "ilobjstudyprogrammegui" ), "view");
 	}
+
+	public function addToNavigationHistory(){
+		global $ilNavigationHistory;
+		
+		if(!$this->getCreationMode() &&
+			$this->ilAccess->checkAccess('read', '', $_GET['ref_id']))
+		{
+			$link = $this->ctrl->getLinkTargetByClass("ilrepositorygui", "frameset");
+			
+			$ilNavigationHistory->addItem($_GET['ref_id'],
+				$link, 'prg');
+		}
+	}
+
+
 }
 
 ?>
