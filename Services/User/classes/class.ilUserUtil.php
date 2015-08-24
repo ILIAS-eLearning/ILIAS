@@ -41,7 +41,7 @@ class ilUserUtil
 	 */
 	static function getNamePresentation($a_user_id, 
 		$a_user_image = false, $a_profile_link = false, $a_profile_back_link = "",
-		$a_force_first_lastname = false, $a_omit_login = false, $a_sortable = true)
+		$a_force_first_lastname = false, $a_omit_login = false, $a_sortable = true, $a_return_data_array = false)
 	{
 		global $lng, $ilCtrl, $ilDB;
 		
@@ -71,9 +71,12 @@ class ilUserUtil
 		$userrow = $ilDB->queryF($sql, array('text', 'text'), array('public_profile', 'public_title'));
 		
 		$names = array();
-		
+
+		$data = array();
 		while ($row = $ilDB->fetchObject($userrow))
 		{
+			$d = array("id" => $row->usr_id, "title" => "", "lastname" => "", "firstname" => "", "img" => "", "link" => "",
+				"public_profile" => "");
 			if ($a_force_first_lastname ||
 				$has_public_profile = in_array($row->public_profile, array("y", "g")))
 			{
@@ -82,6 +85,7 @@ class ilUserUtil
 				{
 					$title = $row->title . " ";
 				}
+				$d["title"] = $title;
 				if($a_sortable)
 				{
 					$pres = $row->lastname;
@@ -99,8 +103,12 @@ class ilUserUtil
 					}
 					$pres .= ($row->lastname.' ');
 				}
-				
+				$d["firstname"] = $row->firstname;
+				$d["lastname"] = $row->lastname;
 			}
+			$d["login"] = $row->login;
+			$d["public_profile"] = $has_public_profile;
+
 			
 			if(!$a_omit_login)
 			{
@@ -115,7 +123,9 @@ class ilUserUtil
 					$ilCtrl->setParameterByClass("ilpublicuserprofilegui", "back_url",
 						rawurlencode($a_profile_back_link));
 				}
-				$pres = '<a href="'.$ilCtrl->getLinkTargetByClass("ilpublicuserprofilegui", "getHTML").'">'.$pres.'</a>';
+				$link = $ilCtrl->getLinkTargetByClass("ilpublicuserprofilegui", "getHTML");
+				$pres = '<a href="'.$link.'">'.$pres.'</a>';
+				$d["link"] = $link;
 			}
 	
 			if ($a_user_image)
@@ -123,9 +133,11 @@ class ilUserUtil
 				$img = ilObjUser::_getPersonalPicturePath($row->usr_id, "xxsmall");
 				$pres = '<img border="0" src="'.$img.'" alt="'.$lng->txt("icon").
 					" ".$lng->txt("user_picture").'" /> '.$pres;
+				$d["img"] = $img;
 			}
 
-			$names[$row->usr_id] = $pres; 
+			$names[$row->usr_id] = $pres;
+			$data[$row->usr_id] = $d;
 		}
 
 		foreach($a_user_id as $id)
@@ -134,6 +146,17 @@ class ilUserUtil
 				$names[$id] = "unknown";
 		}
 
+		if ($a_return_data_array)
+		{
+			if ($return_as_array)
+			{
+				return $data;
+			}
+			else
+			{
+				return current($data);
+			}
+		}
 		return $return_as_array ? $names : $names[$a_user_id[0]];
 	}
 

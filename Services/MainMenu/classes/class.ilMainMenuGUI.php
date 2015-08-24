@@ -217,6 +217,7 @@ class ilMainMenuGUI
 			$this->renderHelpButtons();
 
 			$this->populateWithBuddySystem();
+			$this->renderAwareness();
 		}
 
 		if($this->getMode() == self::MODE_FULL)
@@ -1083,6 +1084,17 @@ class ilMainMenuGUI
 			require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystemGUI.php';
 			ilBuddySystemGUI::initializeFrontend();
 		}
+	}
+
+	/**
+	 * Render awareness tool
+	 */
+	function renderAwareness()
+	{
+		include_once("./Services/Awareness/classes/class.ilAwarenessGUI.php");
+		$aw = ilAwarenessGUI::getInstance();
+
+		$this->tpl->setVariable("AWARENESS", $aw->getMainMenuHTML());
 	}
 
 	/**

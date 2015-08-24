@@ -1,0 +1,125 @@
+<li><a data-toggle="popover" id="awareness_trigger"><span class="glyphicon glyphicon-user"></span> <!-- BEGIN status_text --><span class="badge">{STATUS_TXT}</span><span class="ilBadgeSpacer">{STATUS_TXT}</span><!-- END status_text --></a></li>
+<script>
+	$('#awareness_trigger').popover({
+		html : true,
+		placement : "bottom",
+		viewport : { selector: 'body', padding: 10 },
+		title: function() {
+			return $("#awareness-head").html();
+		}
+	});
+
+	$('#awareness_trigger').on('show.bs.popover', function () {
+		//$("#awareness-content").html();
+		console.log(this);
+
+	}).on('shown.bs.popover', function () {
+		if (!il.Awareness.rendered) {
+			$('#awareness_trigger').siblings(".popover").children(".popover-content").html("test");
+			il.Awareness.rendered = true;
+		}
+
+		//il.Awareness.checkScrollbar();
+		$("body").addClass("modal-open");
+		//il.Awareness.setScrollbar();
+	}).on('hidden.bs.popover', function () {
+		$("body").removeClass("modal-open");
+	})
+
+	il.Awareness = {
+
+		rendered: false,
+		$body:  $(document.body),
+
+		checkScrollbar: function () {
+			if (document.body.clientWidth >= window.innerWidth) return
+			this.scrollbarWidth = this.scrollbarWidth || this.measureScrollbar()
+		},
+
+		setScrollbar: function () {
+			var bodyPad = parseInt((this.$body.css('padding-right') || 0), 10)
+			if (this.scrollbarWidth) this.$body.css('padding-right', bodyPad + this.scrollbarWidth)
+		},
+
+		resetScrollbar: function () {
+			this.$body.css('padding-right', '')
+		},
+
+		measureScrollbar: function () { // thx walsh
+			var scrollDiv = document.createElement('div')
+			scrollDiv.className = 'modal-scrollbar-measure'
+			this.$body.append(scrollDiv)
+			var scrollbarWidth = scrollDiv.offsetWidth - scrollDiv.clientWidth
+			this.$body[0].removeChild(scrollDiv)
+			return scrollbarWidth
+		}
+	}
+
+
+	//class="modal-open"
+
+	$('body').on('click', function (e) {
+		$('[data-toggle="popover"]').each(function () {
+			//the 'is' for buttons that trigger popups
+			//the 'has' for icons within a button that triggers a popup
+			if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
+				$(this).popover('hide');
+			}
+		});
+	});
+</script>
+<style>
+	.popover {
+		max-width: 300px;
+		color:#000000;
+		min-width: 250px;
+		max-height:400px;
+		overflow: auto;
+	}
+	.popover-content {
+		padding: 0;
+
+
+	}
+	.media-body, .media-left, .media-right {
+		display: table-cell;
+		vertical-align: top;
+	}
+	.media-left {
+		padding-right: 10px;
+	}
+	.media {
+		padding: 10px;
+	}
+	.media:hover {
+		background-color: #ffeeaa;
+	}
+</style>
+<div id="awareness-head" class="hide">
+	Users Online
+</div>
+<div id="awareness-content" class="hide">
+	<!-- BEGIN user -->
+	<div class="media">
+		<div class="media-left">
+			<a href="#">
+				<img class="media-object" src="{USERIMAGE}" alt="...">
+			</a>
+		</div>
+		<div class="media-body">
+			<h4 class="media-heading">{USERNAME}</h4>
+			...
+			<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu{CNT}" data-toggle="dropdown" aria-expanded="true">
+				Dropdown
+				<span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu{CNT}">
+				<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Action</a></li>
+				<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Another action</a></li>
+				<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Something else here</a></li>
+				<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li>
+			</ul>
+		</div>
+	</div>
+	<!-- END user -->
+</div>
