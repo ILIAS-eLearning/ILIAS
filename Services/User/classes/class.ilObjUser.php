@@ -1050,9 +1050,6 @@ class ilObjUser extends ilObject
 				SET login = %s
 				WHERE usr_id = %s',
 				array('text', 'integer'), array($this->getLogin(), $this->getId()));
-
-			include_once 'Services/Contact/classes/class.ilAddressbook.php';
-			ilAddressbook::onLoginNameChange($former_login, $this->getLogin());
 		}
 
 		return true;
@@ -1406,9 +1403,6 @@ class ilObjUser extends ilObject
 		
 		// Reset owner
 		$this->resetOwner();
-
-		include_once 'Services/Contact/classes/class.ilAddressbook.php';
-		ilAddressbook::onUserDeletion($this);
 
 		// Trigger deleteUser Event
 		global $ilAppEventHandler;
@@ -5484,7 +5478,16 @@ class ilObjUser extends ilObject
 	 */
 	public function isAnonymous()
 	{
-		return $this->getId() == ANONYMOUS_USER_ID;
+		return self::_isAnonymous($this->getId());
+	}
+
+	/**
+	 * @param int $usr_id
+	 * @return bool
+	 */
+	public static function _isAnonymous($usr_id)
+	{
+		return $usr_id == ANONYMOUS_USER_ID;
 	}
 	
 	public function activateDeletionFlag()

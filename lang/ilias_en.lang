@@ -7222,7 +7222,7 @@ mail#:#mail_enter_valid_login#:#Please enter a valid login name.
 mail#:#mail_entry_added#:#Added new Entry
 mail#:#mail_entry_changed#:#The entry is changed
 mail#:#mail_entry_exists#:#An entry with the given login name already exists.
-mail#:#mail_entry_of_addressbook#:#Entry of Contacts
+mail#:#mail_entry_of_contacts#:#Entry of Contacts
 mail#:#mail_external_sender_noreply#:#no-reply Address
 mail#:#mail_file_name#:#File Name
 mail#:#mail_file_size#:#File Size
@@ -7250,8 +7250,8 @@ mail#:#mail_into_addressbook#:#Add to Contacts
 mail#:#mail_invite_users_to_chat#:#Invite Users to Chat
 mail#:#mail_list_members#:#List members
 mail#:#mail_mailing_list#:#Mailing List
-mail#:#mail_mailing_lists_all_addressbook_entries_assigned#:#You have already assigned all of your contacts to this mailing list.
-mail#:#mail_mailing_lists_no_addressbook_entries#:#You have no entries in your contacts to add to a list.
+mail#:#mail_mailing_lists_all_contact_entries_assigned#:#You have already assigned all of your contacts to this mailing list.
+mail#:#mail_mailing_lists_no_contact_entries#:#You have no entries in your contacts to add to a list.
 mail#:#mail_mailing_lists#:#Mailing Lists
 mail#:#mail_mark_read#:#Mark mail read
 mail#:#mail_mark_unread#:#Mark mail unread
@@ -7265,7 +7265,7 @@ mail#:#mail_moved_to_trash#:#Mail has been moved to trash
 mail#:#mail_moved#:#The mail has been moved
 mail#:#mail_multiple_recipients_found#:#Enter a more specific mail address. ILIAS found multiple possible recipients for this address: %s
 mail#:#mail_my_courses#:#My Courses
-mail#:#mail_my_entries#:#My Contacts
+mail#:#mail_my_entries#:#My Address Book
 mail#:#mail_my_groups#:#My Groups
 mail#:#mail_my_mailing_lists#:#My Mailing Lists
 mail#:#mail_nacc_admin_mail#:#Mail address of Administrator
@@ -15762,3 +15762,50 @@ crs#:#crs_loc_objectives_passed_confirmation#:#Sie haben bereits alle Lernziel b
 crs#:#crs_loc_tst_start#:#Test starten
 crs#:#crs_loc_mem_show_res#:#Testergebnisse anzeigen
 crs#:#crs_loc_test_results_of#:#Testergebnisse von:
+buddysystem#:#buddy_bs_btn_txt_unlinked_a#:#Request Contact
+buddysystem#:#buddy_bs_btn_txt_unlinked_p#:#Request Contact
+buddysystem#:#buddy_bs_btn_txt_linked_a#:#Linked
+buddysystem#:#buddy_bs_btn_txt_linked_p#:#Linked
+buddysystem#:#buddy_bs_btn_txt_requested_a#:#Requested Contact
+buddysystem#:#buddy_bs_btn_txt_requested_p#:#Request
+buddysystem#:#buddy_bs_btn_txt_ignored_request_a#:#Requested Contact
+buddysystem#:#buddy_bs_btn_txt_ignored_request_p#:#Request Ignored
+buddysystem#:#buddy_bs_act_btn_txt_linked_to_unlinked#:#Unlink
+buddysystem#:#buddy_bs_act_btn_txt_requested_to_ignored_request#:#Ignore
+buddysystem#:#buddy_bs_act_btn_txt_requested_to_unlinked#:#Cancel Request
+buddysystem#:#buddy_bs_act_btn_txt_requested_to_linked#:#Confirm
+buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_unlinked#:#Cancel Request
+buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_linked#:#Confirm Request
+buddysystem#:#buddy_bs_action_not_possible#:#Action not possible
+buddysystem#:#buddy_bs_state_linked#:#Linked
+buddysystem#:#buddy_bs_state_linked_a#:#Linked
+buddysystem#:#buddy_bs_state_linked_p#:#Linked
+buddysystem#:#buddy_bs_state_unlinked#:#Unlinked
+buddysystem#:#buddy_bs_state_unlinked_a#:#Unlinked
+buddysystem#:#buddy_bs_state_unlinked_p#:#Unlinked
+buddysystem#:#buddy_bs_state_requested#:#Requested
+buddysystem#:#buddy_bs_state_requested_a#:#Requested
+buddysystem#:#buddy_bs_state_requested_p#:#Requested
+buddysystem#:#buddy_bs_state_ignoredrequest#:#Ignored
+buddysystem#:#buddy_bs_state_ignored_request_a#:#Requested
+buddysystem#:#buddy_bs_state_ignored_request_p#:#Ignored
+buddysystem#:#buddy_bs_no_new_requests#:#No new requests
+contact#:#contact_awrn_ap_contacts#:#Approved Contacts
+contact#:#contact_awrn_ap_contacts_info#:#All contacts approved by the user are listed.
+contact#:#contact_awrn_req_contacts#:#Contact Requests
+contact#:#contact_awrn_req_contacts_info#:#All contact requests are listed.
+common#:#my_contacts#:#My Contact
+buddysystem#:#buddy_view_gallery#:#Gallery
+buddysystem#:#buddy_view_table#:#List
+buddysystem#:#buddy_tbl_title_relations#:#Relations to Other Users
+buddysystem#:#buddy_tbl_filter_state#:#Status
+buddysystem#:#buddy_notification_contact_request#:#Contact Request
+buddysystem#:#buddy_notification_contact_request_short#:#The user "[REQUESTING_USER]" wants to add you to his friends list.[BR][BR][APPROVE_REQUEST][BR][IGNORE_REQUEST]
+buddysystem#:#buddy_notification_contact_request_link#:#Approve Request:
+buddysystem#:#buddy_notification_contact_request_link_osd#:#Approve Request
+buddysystem#:#buddy_notification_contact_request_ignore#:#Ignore Request: 
+buddysystem#:#buddy_notification_contact_request_ignore_osd#:#Ignore Request
+buddysystem#:#buddy_notification_contact_request_long#:#[SALUTATION][BR][BR]the user "[REQUESTING_USER]" wants to add you to his friends list.[BR][BR][APPROVE_REQUEST_TXT] [APPROVE_REQUEST][BR][IGNORE_REQUEST_TXT] [IGNORE_REQUEST]
+buddysystem#:#buddy_request_approved#:#You successfully approved the contact.
+buddysystem#:#buddy_request_ignored#:#You ignored the user.
+common#:#no_gallery_users_available#:#There are currently no users in the gallery.

@@ -184,7 +184,18 @@ class ilPublicUserProfileGUI
 					$ilCtrl->forwardCommand($gui);	
 					break;
 				}							
-			
+			case 'ilbuddysystemgui':
+				if(isset($_REQUEST['osd_id']))
+				{
+					require_once 'Services/Notifications/classes/class.ilNotificationOSDHandler.php';
+					ilNotificationOSDHandler::removeNotification($_REQUEST['osd_id']);
+				}
+
+				require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystemGUI.php';
+				$gui = new ilBuddySystemGUI();
+				$ilCtrl->setReturn($this, 'view');
+				$ilCtrl->forwardCommand($gui);
+				break;
 			default:
 				$ret = $this->$cmd();
 				$tpl->setContent($ret);			
@@ -237,8 +248,8 @@ class ilPublicUserProfileGUI
 			
 			if(!$is_active)
 			{
-				return;
-			}				
+				$ilCtrl->redirectByClass('ilPersonalDesktopGUI');
+			}
 			
 			// Check from Database if value
 			// of public_profile = "y" show user infomation
@@ -247,8 +258,8 @@ class ilPublicUserProfileGUI
 				($user->getPref("public_profile") != "g" || !$ilSetting->get('enable_global_profiles')) &&
 				!$this->custom_prefs)
 			{
-				return;
-			}		
+				$ilCtrl->redirectByClass('ilPersonalDesktopGUI');
+			}
 			
 			return $this->getEmbeddable(true);	
 		}		
@@ -546,7 +557,16 @@ class ilPublicUserProfileGUI
 				$tpl->parseCurrentBlock();
 			}
 		}
-		
+		if(
+			$this->getUserId() != $ilUser->getId() &&
+			!$ilUser->isAnonymous() &&
+			!ilObjUser::_isAnonymous($this->getUserId())
+		)
+		{
+			require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystemLinkButton.php';
+			$button = ilBuddySystemLinkButton::getInstanceByUserId($user->getId());
+			$tpl->setVariable('BUDDY_HTML', $button->getHtml());
+		}
 		$goto = "";
 		if($a_add_goto)
 		{			
@@ -678,7 +698,7 @@ class ilPublicUserProfileGUI
 	 */
 	protected static function validateUser($a_user_id)
 	{
-		global $ilUser;
+		global $ilUser, $ilCtrl;
 
 		if (ilObject::_lookupType($a_user_id) != "usr")
 		{
@@ -694,6 +714,19 @@ class ilPublicUserProfileGUI
 			}
 			return false;
 		}	
+
+		if($ilUser->isAnonymous())
+		{
+			if(strtolower($ilCtrl->getCmd()) == strtolower('approveContactRequest'))
+			{
+				ilUtil::redirect('login.php?cmd=force_login&target=usr_' . $a_user_id . '_contact_approved');
+			}
+			else if(strtolower($ilCtrl->getCmd()) == strtolower('ignoreContactRequest'))
+			{
+				ilUtil::redirect('login.php?cmd=force_login&target=usr_' . $a_user_id . '_contact_ignored');
+			}
+		}
+
 		return true;
 	}
 	
@@ -792,6 +825,43 @@ class ilPublicUserProfileGUI
 
 		exit();
 	}
-}
 
+	/**
+	 * @return string|void
+	 */
+	protected function approveContactRequest()
+	{
+		/**
+		 * @var $ilCtrl ilCtrl
+		 */
+		global $ilCtrl;
+
+		if(isset($_REQUEST['osd_id']))
+		{
+			$ilCtrl->setParameterByClass('ilBuddySystemGUI', 'osd_id', $_REQUEST['osd_id']);
+		}
+
+		$ilCtrl->setParameterByClass('ilBuddySystemGUI', 'user_id', $this->getUserId());
+		$ilCtrl->redirectByClass('ilBuddySystemGUI', 'link');
+	}
+
+	/**
+	 * @return string|void
+	 */
+	protected function ignoreContactRequest()
+	{
+		/**
+		 * @var $ilCtrl ilCtrl
+		 */
+		global $ilCtrl;
+
+		if(isset($_REQUEST['osd_id']))
+		{
+			$ilCtrl->setParameterByClass('ilBuddySystemGUI', 'osd_id', $_REQUEST['osd_id']);
+		}
+
+		$ilCtrl->setParameterByClass('ilBuddySystemGUI', 'user_id', $this->getUserId());
+		$ilCtrl->redirectByClass('ilBuddySystemGUI', 'ignore');
+	}
+}
 ?>

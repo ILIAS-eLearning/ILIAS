@@ -1706,17 +1706,23 @@ class ilObjCourseGUI extends ilContainerGUI
 													 $this->ctrl->getLinkTargetByClass("ilCourseParticipantsGroupsGUI", "show"),
 													 "", "ilCourseParticipantsGroupsGUI");
 
-					$this->tabs_gui->addSubTabTarget("crs_members_gallery",
-													 $this->ctrl->getLinkTarget($this,'membersGallery'),
-													 "membersGallery", get_class($this));
+					$this->tabs_gui->addSubTabTarget(
+						'crs_members_gallery',
+						$this->ctrl->getLinkTargetByClass('ilUsersGalleryGUI', 'view'),
+						'',
+						'ilUsersGalleryGUI'
+					);
 				}
 				elseif(
 					$this->object->getShowMembers() == $this->object->SHOW_MEMBERS_ENABLED
 				)
 				{
-					$this->tabs_gui->addSubTabTarget("crs_members_gallery",
-													 $this->ctrl->getLinkTarget($this,'membersGallery'),
-													 "membersGallery", get_class($this));
+					$this->tabs_gui->addSubTabTarget(
+						'crs_members_gallery',
+						$this->ctrl->getLinkTargetByClass('ilUsersGalleryGUI', 'view'),
+						'',
+						'ilUsersGalleryGUI'
+					);
 				}
 				
 				// members map
@@ -3409,10 +3415,12 @@ class ilObjCourseGUI extends ilContainerGUI
 			$is_participant
 		)
 		{
-			$tabs_gui->addTarget("members",
-								 $this->ctrl->getLinkTarget($this, "membersGallery"), 
-								 "members",
-								 get_class($this));
+			$this->tabs_gui->addTarget(
+				'members',
+				$this->ctrl->getLinkTargetByClass('ilUsersGalleryGUI', 'view'),
+				'',
+				'ilUsersGalleryGUI'
+			);
 		}
 		elseif(
 			$this->object->getMailToMembersType() == ilCourseConstants::MAIL_ALLOWED_ALL and
@@ -3797,158 +3805,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		}		 
 		*/
 	}
-
-	/*
-	 * @author Arturo Gonzalez <arturogf@gmail.com>
-	 * @access       public
-	 */
-	function membersGalleryObject()
-	{
-
-		global $rbacsystem, $ilErr, $ilAccess, $ilUser,$ilToolbar;
-
-		$is_admin = (bool) $ilAccess->checkAccess("write", "", $this->object->getRefId());
-
-		if (!$is_admin &&
-			$this->object->getShowMembers() == $this->object->SHOW_MEMBERS_DISABLED)
-		{
-			$ilErr->raiseError($this->lng->txt("msg_no_perm_read"),$ilErr->MESSAGE);
-		}
-
-
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.crs_members_gallery.html','Modules/Course');
-		
-		$this->setSubTabs('members');
-		$this->tabs_gui->setTabActive('members');
-		$this->tabs_gui->setSubTabActive('crs_members_gallery');
-
-		$this->addMailToMemberButton($ilToolbar, "membersGallery");
-		
-		// MEMBERS 
-		if(count($members = $this->object->getMembersObject()->getParticipants()))
-		{
-			$ordered_members = array();
-
-			foreach($members as $member_id)
-			{
-				if(!($usr_obj = ilObjectFactory::getInstanceByObjId($member_id,false)))
-				{
-					continue;
-				}
-				
-				// please do not use strtoupper on first/last name for output
-				// this messes up with some unicode characters, i guess
-				// depending on php verion, alex
-				array_push($ordered_members,array("id" => $member_id, 
-								  "login" => $usr_obj->getLogin(),
-								  "lastname" => $usr_obj->getLastName(),
-								  "firstname" => $usr_obj->getFirstName(),
-								  "sortlastname" => strtoupper($usr_obj->getLastName()).strtoupper($usr_obj->getFirstName()),
-								  "usr_obj" => $usr_obj));
-			}
-
-			$ordered_members=ilUtil::sortArray($ordered_members,"sortlastname","asc");
-
-			foreach($ordered_members as $member)
-			{
-			  $usr_obj = $member["usr_obj"];
-
-			  if(!$usr_obj->getActive())
-			  {
-				  continue;
-			  }
-
-			  $public_profile = in_array($usr_obj->getPref("public_profile"), array("y", "g")) ? "y" : "";
-				
-				// SET LINK TARGET FOR USER PROFILE
-				$this->ctrl->setParameterByClass("ilpublicuserprofilegui", "user", $member["id"]);
-				$profile_target = $this->ctrl->getLinkTargetByClass("ilpublicuserprofilegui","getHTML");
-			  
-				// GET USER IMAGE
-				$file = $usr_obj->getPersonalPicturePath("xsmall");
-				
-				/*if($this->object->getMembersObject()->isAdmin($member["id"]) or $this->object->getMembersObject()->isTutor($member["id"]))
-				{
-					if ($public_profile == "y")
-					{
-						$this->tpl->setCurrentBlock("tutor_linked");
-						$this->tpl->setVariable("LINK_PROFILE", $profile_target);
-						$this->tpl->setVariable("SRC_USR_IMAGE", $file);
-						$this->tpl->parseCurrentBlock();
-					}
-					else
-					{
-						$this->tpl->setCurrentBlock("tutor_not_linked");
-						$this->tpl->setVariable("SRC_USR_IMAGE", $file);
-						$this->tpl->parseCurrentBlock();
-						$this->tpl->setCurrentBlock("tutor");*/
-				
-				if ($public_profile == "y") {
-					$this->tpl->setCurrentBlock("member_linked");
-					$this->tpl->setVariable("LINK_PROFILE", $profile_target);
-					$this->tpl->setVariable("SRC_USR_IMAGE", $file);
-					$this->tpl->parseCurrentBlock();
-				}
-				/*else
-				{
-					if ($public_profile == "y")
-					{
-						$this->tpl->setCurrentBlock("member_linked");
-						$this->tpl->setVariable("LINK_PROFILE", $profile_target);
-						$this->tpl->setVariable("SRC_USR_IMAGE", $file);
-						$this->tpl->parseCurrentBlock();
-					}
-					else
-					{
-						$this->tpl->setCurrentBlock("member_not_linked");
-						$this->tpl->setVariable("SRC_USR_IMAGE", $file);
-						$this->tpl->parseCurrentBlock();
-					}
-					$this->tpl->setCurrentBlock("member");*/
-				else {
-					$this->tpl->setCurrentBlock("member_not_linked");
-					$this->tpl->setVariable("SRC_USR_IMAGE", $file);
-					$this->tpl->parseCurrentBlock();
- 				}
-				$this->tpl->setCurrentBlock("member");
- 				
-				if ($this->object->getMembersObject()->isAdmin($member["id"])) {
-					$this->tpl->setVariable("MEMBER_CLASS", "il_Admin");
-				}
-				elseif ($this->object->getMembersObject()->isTutor($member["id"])) {
-						$this->tpl->setVariable("MEMBER_CLASS", "il_Tutor");
-				}
-				else {
-						$this->tpl->setVariable("MEMBER_CLASS", "il_Member");
-				}
-	
-				
-				
-				// do not show name, if public profile is not activated
-				if ($public_profile == "y")
-				{
-					$this->tpl->setVariable("FIRSTNAME", $member["firstname"]);
-					$this->tpl->setVariable("LASTNAME", $member["lastname"]);
-				}
-				$this->tpl->setVariable("LOGIN", $member["login"]);
-				$this->tpl->parseCurrentBlock();
-			}
-			$this->tpl->setCurrentBlock("members");	
-			$this->tpl->setVariable("MEMBERS_TABLE_HEADER",$this->lng->txt('crs_members_title'));
-			$this->tpl->parseCurrentBlock();
-		}
-		
-		$this->tpl->setVariable("TITLE",$this->lng->txt('crs_members_print_title'));
-		$this->tpl->setVariable("CSS_PATH",ilUtil::getStyleSheetLocation());
-		
-		$headline = $this->object->getTitle()."<br/>".$this->object->getDescription();
-		
-		$this->tpl->setVariable("HEADLINE",$headline);
-		
-		$this->tpl->show();
-		exit;
-	}
-	
 
 	function __initTableGUI()
 	{
@@ -4444,7 +4300,34 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->ctrl->forwardCommand($new_gui);
 				$this->tabs_gui->setTabActive('learning_progress');
 				break;
-				
+
+			case 'ilusersgallerygui':
+				$is_admin       = (bool)$ilAccess->checkAccess('write', '', $this->object->ref_id);
+				$is_participant = (bool)ilCourseParticipants::_isParticipant($this->ref_id, $ilUser->getId());
+				if(
+					!$is_admin &&
+					(
+						$this->object->getShowMembers() == $this->object->SHOW_MEMBERS_DISABLED ||
+						!$is_participant
+					)
+				)
+				{
+					$ilErr->raiseError($this->lng->txt('msg_no_perm_read'), $ilErr->MESSAGE);
+				}
+
+				$this->addMailToMemberButton($ilToolbar, 'jump2UsersGallery');
+
+				require_once 'Services/User/classes/class.ilUsersGalleryGUI.php';
+				require_once 'Services/User/classes/class.ilUsersGalleryParticipants.php';
+				$this->setSubTabs('members');
+				$this->tabs_gui->setTabActive('members');
+				$this->tabs_gui->setSubTabActive('crs_members_gallery');
+
+				$provider    = new ilUsersGalleryParticipants($this->object->getMembersObject());
+				$gallery_gui = new ilUsersGalleryGUI($provider);
+				$this->ctrl->forwardCommand($gallery_gui);
+				break;
+
 			case 'illicenseoverviewgui':
 				include_once("./Services/License/classes/class.ilLicenseOverviewGUI.php");
 				$license_gui =& new ilLicenseOverviewGUI($this, ilLicenseOverviewGUI::LIC_MODE_REPOSITORY);
@@ -4513,10 +4396,10 @@ class ilObjCourseGUI extends ilContainerGUI
 			case 'ilpublicuserprofilegui':
 				$this->tpl->enableDragDropFileUpload(null);				
 				require_once './Services/User/classes/class.ilPublicUserProfileGUI.php';
-				$profile_gui = new ilPublicUserProfileGUI($_GET["user"]);
 				$this->setSubTabs('members');
 				$this->tabs_gui->setTabActive('members');
-				$profile_gui->setBackUrl($ilCtrl->getLinkTarget($this, "membersGallery"));
+				$profile_gui = new ilPublicUserProfileGUI($_GET["user"]);
+				$profile_gui->setBackUrl($this->ctrl->getLinkTargetByClass("ilUsersGalleryGUI",'view'));
 				$this->tabs_gui->setSubTabActive('crs_members_gallery');
 				$html = $this->ctrl->forwardCommand($profile_gui);
 				$this->tpl->setVariable("ADM_CONTENT", $html);				
@@ -5626,6 +5509,13 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->ctrl->getLinkTarget($this,'mailMembers'));
 		}
 	}
-	
+
+	/**
+	 * 
+	 */
+	protected function jump2UsersGalleryObject()
+	{
+		$this->ctrl->redirectByClass('ilUsersGalleryGUI');
+	}
 } // END class.ilObjCourseGUI
 ?>

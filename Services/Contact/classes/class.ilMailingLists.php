@@ -118,6 +118,10 @@ class ilMailingLists
 	{
 		$this->ml = $this->get($id);
 	}
+
+	/**
+	 * @return ilMailingList
+	 */
 	public function getCurrentMailingList()
 	{
 		return $this->ml;

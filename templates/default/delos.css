@@ -9619,6 +9619,74 @@ h3.ilProfileSectionHead {
 table.il_user_quota_disk_usage_overview {
   background-color: white;
 }
+/* -- User Gallery Styles -- */
+.ilUsersGalleryContainer div.ilUser {
+  margin: 0 0 20px;
+  background-color: #fff;
+  padding: 20px 0;
+  font-size: 100%;
+  width: 100%;
+  height: auto;
+  text-align: center;
+}
+.ilUsersGalleryContainer div.ilUser h3 {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 5px;
+  margin: 20px 0;
+  font-size: 1.6rem !important;
+}
+.ilUsersGalleryContainer div.ilUser .action {
+  width: 100%;
+  height: 40px;
+}
+.ilUsersGalleryContainer div.ilUser .action div {
+  display: inline-block;
+}
+.ilUsersGalleryContainer div.ilUser .action .btn {
+  float: left;
+}
+.ilUsersGalleryContainer div.ilUser .action .btn-default:hover {
+  color: #fff !important;
+}
+.ilUsersGalleryContainer div.ilUser .action .mailBtn {
+  height: 37px;
+  font-size: 16px;
+  padding: 0 15px;
+  line-height: 30px;
+  margin: 2px 0 0 0;
+}
+.ilUsersGalleryContainer div.ilUser .action .open .btn {
+  -webkit-box-shadow: 0 0 0 0;
+  box-shadow: 0 0 0 0;
+  -webkit-box-shadow: 0 0 0 0 3px 5px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 0 0 0 0 3px 5px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 0 0 3px 5px rgba(0, 0, 0, 0.5);
+}
+.ilUsersGalleryContainer div.ilUser .action .open .btn-success:hover,
+.ilUsersGalleryContainer div.ilUser .action .open .btn-success:focus,
+.ilUsersGalleryContainer div.ilUser .action .open .btn-success:active {
+  color: white;
+  background: #626f78;
+  -webkit-box-shadow: 0 0 0 0;
+  box-shadow: 0 0 0 0;
+  -webkit-box-shadow: 0 0 0 0 3px 5px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 0 0 0 0 3px 5px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 0 0 3px 5px rgba(0, 0, 0, 0.5);
+  border: 1px solid #5b6770;
+}
+.ilUsersGalleryContainer div.ilUser .action ul.dropdown-menu {
+  min-width: 170px;
+  padding: 0;
+  margin: 0;
+  -webkit-box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+}
+.ilUsersGalleryContainer div.ilUser .action ul.dropdown-menu li > a {
+  padding: 8px 10px;
+}
 /* Services/Style */
 .ilPositionStatic {
   position: static;
@@ -10256,47 +10324,6 @@ body.ilBodyPrint {
   margin: 10px;
   padding: 0;
 }
-/* -- Members Gallery Styles -- */
-div.il_MembersGallery {
-  margin: 0 auto;
-  text-align: center;
-  width: 95%;
-  padding: 8px;
-  line-height: 1.33;
-  display: block;
-  float: left;
-}
-div.il_Member,
-div.il_Tutor,
-div.il_Admin {
-  page-break-before: auto;
-  margin: 0 5px 20px;
-  background-color: #EEE;
-  padding: 10px 5px;
-  font-size: 75%;
-  width: 12em;
-  height: 14em;
-  float: left;
-  text-align: center;
-  overflow: hidden;
-}
-div.il_Member p,
-div.il_Tutor p,
-div.il_Admin p {
-  white-space: nowrap;
-}
-div.il_Tutor {
-  background-color: #BBB;
-}
-div.il_Admin {
-  background-color: #E4F2FF;
-}
-div.il_Admin img,
-div.il_Member img,
-div.il_Tutor img {
-  padding: 2px;
-  border: 1px solid #000;
-}
 /* Modules/BookingManager */
 .ilTextinfo {
   margin-bottom: 10px;
@@ -10473,7 +10500,7 @@ button.btn:not(.btn-link) > span:first-child:not(:empty) {
 }
 */
 .btn-default {
-  color: white;
+  color: #ffffff;
   background-color: #708bae;
   border-color: #708bae;
 }
@@ -10482,7 +10509,7 @@ button.btn:not(.btn-link) > span:first-child:not(:empty) {
 .btn-default:active,
 .btn-default.active,
 .open > .dropdown-toggle.btn-default {
-  color: white;
+  color: #ffffff;
   background-color: #557196;
   border-color: #526c90;
 }
@@ -10511,10 +10538,10 @@ fieldset[disabled] .btn-default.active {
 }
 .btn-default .badge {
   color: #708bae;
-  background-color: white;
+  background-color: #ffffff;
 }
 .btn-primary {
-  color: white;
+  color: #ffffff;
   background-color: #6ea03c;
   border-color: #6ea03c;
 }
@@ -10523,7 +10550,7 @@ fieldset[disabled] .btn-default.active {
 .btn-primary:active,
 .btn-primary.active,
 .open > .dropdown-toggle.btn-primary {
-  color: white;
+  color: #ffffff;
   background-color: #557b2e;
   border-color: #4f732b;
 }
@@ -10552,11 +10579,11 @@ fieldset[disabled] .btn-primary.active {
 }
 .btn-primary .badge {
   color: #6ea03c;
-  background-color: white;
+  background-color: #ffffff;
 }
 .btn-info {
   color: #557196;
-  background-color: white;
+  background-color: #ffffff;
   border-color: #c2cddc;
 }
 .btn-info:hover,
@@ -10588,11 +10615,11 @@ fieldset[disabled] .btn-info:active,
 .btn-info.disabled.active,
 .btn-info[disabled].active,
 fieldset[disabled] .btn-info.active {
-  background-color: white;
+  background-color: #ffffff;
   border-color: #c2cddc;
 }
 .btn-info .badge {
-  color: white;
+  color: #ffffff;
   background-color: #557196;
 }
 .btn-link {

@@ -2941,7 +2941,19 @@ class ilObjUserGUI extends ilObjectGUI
 			$a_target = ilObjUser::_lookupId(ilUtil::stripSlashes(substr($a_target, 1)));
 		}
 
-		$_GET["cmd"] = "view";
+		if(strpos($a_target, 'contact_approved') !== false)
+		{
+			$_GET['cmd'] = 'approveContactRequest';
+		}
+		else if(strpos($a_target, 'contact_ignored') !== false)
+		{
+			$_GET['cmd'] = 'ignoreContactRequest';
+		}
+		else
+		{
+			$_GET['cmd'] = 'view';
+		}
+
 		$_GET["user_id"] = (int) $a_target;
 		$_GET["baseClass"] = "ilPublicUserProfileGUI";
 		$_GET["cmdClass"] = "ilpublicuserprofilegui";
