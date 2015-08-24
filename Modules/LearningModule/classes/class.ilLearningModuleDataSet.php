@@ -229,7 +229,7 @@ class ilLearningModuleDataSet extends ilDataSet
 				case "5.1.0":
 					$q = "SELECT id, title, description,".
 						" default_layout, page_header, toc_active, lm_menu_active, toc_mode, print_view_active, numbering,".
-						" hist_user_comments, public_access_mode, pub_notes, header_page, footer_page, layout_per_page, rating".
+						" hist_user_comments, public_access_mode, header_page, footer_page, layout_per_page, rating".
 						" hide_head_foot_print, disable_def_feedback, rating_pages".
 						" FROM content_object JOIN object_data ON (content_object.id = object_data.obj_id)".
 						" WHERE ".$ilDB->in("id", $a_ids, false, "integer");
