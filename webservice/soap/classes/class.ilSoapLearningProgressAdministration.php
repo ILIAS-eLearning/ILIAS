@@ -25,6 +25,7 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
 	const SOAP_LP_ERROR_INVALID_FILTER = 52;
 	const SOAP_LP_ERROR_INVALID_REF_ID = 54;
 	const SOAP_LP_ERROR_LP_NOT_AVAILABLE = 56;
+	const SOAP_LP_ERROR_NO_PERMISSION = 58;
 	
 	protected static $PROGRESS_INFO_TYPES = array(
 		self::PROGRESS_FILTER_ALL,
@@ -166,23 +167,23 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
 		// Check session
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError('Error '.SOAP_LP_ERROR_AUTHENTICATION.':'.$this->__getMessage(),
-				SOAP_LP_ERROR_AUTHENTICATION);
+			return $this->__raiseError('Error '.self::SOAP_LP_ERROR_AUTHENTICATION.':'.$this->__getMessage(),
+				self::SOAP_LP_ERROR_AUTHENTICATION);
 		}
 		
 		// Check filter
 		if(array_diff((array) $a_progress_filter, self::$PROGRESS_INFO_TYPES))
 		{
-			return $this->__raiseError('Error '.SOAP_LP_ERROR_INVALID_FILTER.': Invalid filter type given',
-				SOAP_LP_ERROR_INVALID_FILTER);
+			return $this->__raiseError('Error '.self::SOAP_LP_ERROR_INVALID_FILTER.': Invalid filter type given',
+				self::SOAP_LP_ERROR_INVALID_FILTER);
 		}
 		
 		include_once './Services/Object/classes/class.ilObjectFactory.php';
 		$obj = ilObjectFactory::getInstanceByRefId($a_ref_id, false);
 		if(!$obj instanceof ilObject)
 		{
-			return $this->__raiseError('Error '.SOAP_LP_ERROR_INVALID_REF_ID.': Invalid reference id '. $a_ref_id.' given',
-				SOAP_LP_ERROR_INVALID_REF_ID);
+			return $this->__raiseError('Error '.self::SOAP_LP_ERROR_INVALID_REF_ID.': Invalid reference id '. $a_ref_id.' given',
+				self::SOAP_LP_ERROR_INVALID_REF_ID);
 		}
 		
 		// check lp available
@@ -190,11 +191,18 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
 		$mode = ilLPObjSettings::_lookupMode($obj->getId());
 		if($mode == LP_MODE_UNDEFINED)
 		{
-			return $this->__raiseError('Error '.SOAP_LP_ERROR_LP_NOT_AVAILABLE.': Learning progress not available for objects of type '.
+			return $this->__raiseError('Error '.self::SOAP_LP_ERROR_LP_NOT_AVAILABLE.': Learning progress not available for objects of type '.
 				$obj->getType(),
-				SOAP_LP_ERROR_LP_NOT_AVAILABLE);
+				self::SOAP_LP_ERROR_LP_NOT_AVAILABLE);
 		}
-		
+
+		// check rbac
+		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
+		if(!ilLearningProgressAccess::checkAccess($a_ref_id, false))
+		{
+			return $this->__raiseError('Error '. self::SOAP_LP_ERROR_NO_PERMISSION .': No Permission to access learning progress in this object',
+				self::SOAP_LP_ERROR_NO_PERMISSION);
+		}
 		
 		include_once './Services/Xml/classes/class.ilXmlWriter.php';
 		$writer = new ilXmlWriter();
