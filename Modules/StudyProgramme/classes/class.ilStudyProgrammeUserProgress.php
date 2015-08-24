@@ -263,7 +263,8 @@ class ilStudyProgrammeUserProgress {
 	 * @return int
 	 */
 	public function getCurrentAmountOfPoints() {
-		if ($this->isSuccessful() && $this->getStudyProgramme()->hasLPChildren()) {
+		if (   $this->isAccredited()
+			|| ($this->isSuccessful() && $this->getStudyProgramme()->hasLPChildren())) {
 			return $this->getAmountOfPoints();
 		}
 		return $this->progress->getCurrentAmountOfPoints();
@@ -479,7 +480,7 @@ class ilStudyProgrammeUserProgress {
 	}
 	
 	/**
-	 * Check whether the was successful on this node. This is the case,
+	 * Check whether the user was successful on this node. This is the case,
 	 * when the node was accredited or completed.
 	 *
 	 * @return bool
@@ -489,6 +490,17 @@ class ilStudyProgrammeUserProgress {
 
 		return $status == ilStudyProgrammeProgress::STATUS_ACCREDITED
 			|| $status == ilStudyProgrammeProgress::STATUS_COMPLETED;
+	}
+	
+	/**
+	 * Check whether the user was accredited on this node.
+	 *
+	 * @return bool
+	 */
+	public function isAccredited() {
+		$status = $this->getStatus();
+
+		return $status == ilStudyProgrammeProgress::STATUS_ACCREDITED;
 	}
 	
 	/**
