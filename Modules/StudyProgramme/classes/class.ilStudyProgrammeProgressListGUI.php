@@ -169,7 +169,7 @@ class ilStudyProgrammeProgressListGUI {
 			$bar_color = "#80f080";
 		}
 		else {
-			$bar_color = "#f08080";
+			$bar_color = "#f0f080";
 		}
 		
 		$limit_pos = (121-ceil(125/100*$a_limit_in_percent))*-1;
