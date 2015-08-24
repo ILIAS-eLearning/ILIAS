@@ -1,21 +1,34 @@
 <?php
 
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- *  
+ * Factory for awareness feature providers
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id\$
- * @ingroup 
+ * @version $Id$
+ * @ingroup ServicesAwareness
  */
-class ilAwarenessProviderFactory
+class ilAwarenessFeatureProviderFactory
 {
 	protected static $providers = array(
 		array (
 			"component" => "Services/Awareness",
-			"class" => "ilAwarenessProviderAllUsers"
+			"class" => "ilAwarenessMailFeatureProvider"
+		),
+		array (
+			"component" => "Services/Awareness",
+			"class" => "ilAwarenessUserFeatureProvider"
+		),
+		array (
+			"component" => "Services/Awareness",
+			"class" => "ilAwarenessWorkspaceFeatureProvider"
+		),
+		array (
+			"component" => "Services/Awareness",
+			"class" => "ilAwarenessChatFeatureProvider"
 		)
+
 	);
 
 	/**

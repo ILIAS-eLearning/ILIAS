@@ -9,7 +9,7 @@
  * @version $Id$
  * @ingroup ServicesAwareness
  */
-abstract class ilAwarenessProvider
+abstract class ilAwarenessUserProvider
 {
 	protected $user_id;
 	protected $lng;

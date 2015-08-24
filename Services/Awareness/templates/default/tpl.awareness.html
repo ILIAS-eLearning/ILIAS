@@ -14,10 +14,8 @@
 		console.log(this);
 
 	}).on('shown.bs.popover', function () {
-		if (!il.Awareness.rendered) {
-			$('#awareness_trigger').siblings(".popover").children(".popover-content").html("test");
-			il.Awareness.rendered = true;
-		}
+		$('#awareness_trigger').siblings(".popover").children(".popover-content").html(il.Awareness.getContent());
+		$('.dropdown-toggle').dropdown();
 
 		//il.Awareness.checkScrollbar();
 		$("body").addClass("modal-open");
@@ -52,6 +50,15 @@
 			var scrollbarWidth = scrollDiv.offsetWidth - scrollDiv.clientWidth
 			this.$body[0].removeChild(scrollDiv)
 			return scrollbarWidth
+		},
+
+		getContent: function () {
+			if (!il.Awareness.rendered) {
+				il.Awareness.content = $("#awareness-content-container").html();
+				$("#awareness-content-container").html("");
+				il.Awareness.rendered = true;
+			}
+			return il.Awareness.content;
 		}
 	}
 
@@ -91,35 +98,106 @@
 	.media {
 		padding: 10px;
 	}
-	.media:hover {
+
+	#awareness-content .media:hover {
 		background-color: #ffeeaa;
 	}
+
+	#awareness-content .dropdown-menu {
+		position: static;
+		float: none;
+		-webkit-box-shadow: none;
+		-moz-box-shadow: none;
+		box-shadow: none;
+	}
+
+	#awareness-content .media {
+		padding: 0;
+	}
+
+	#awareness-content .media-left img {
+		width: 45px;
+		height: 45px;
+	}
+
+	.ilAwarenessItem {
+		border-bottom: 1px solid #E9E9E9;
+	}
+
+	#awareness-content .media-body {
+		white-space: nowrap;
+	}
+
+	#awareness-content .media-body {
+		padding-top: 8px;
+	}
+
+	#awareness-content .media-body h4, #awareness-content .media-body p {
+		color: #A0A0A0;
+		font-size: 12px;
+		padding: 5px 3px 0 3px;
+		line-height: 1em;
+		margin: 0;
+	}
+
+	#awareness-content .media-body h4 {
+		padding-top: 0px;
+		color: #606060;
+	}
+
+	#awareness-content .dropdown-menu {
+		background-color: #f0f0f0;
+		padding: 10px 0;
+		font-size: 12px;
+	}
+
+	#awareness-content .dropdown-menu a {
+		color: #606060;
+	}
+
+	#awareness-content .dropdown-menu a:hover {
+		color: #202020;
+	}
+
+	#awareness-content .arrow-down {
+		width: 0;
+		height: 0;
+		border-left: 11px solid transparent;
+		border-right: 11px solid transparent;
+		border-top: 11px solid #fff;
+		margin-top: -10px;
+		margin-left: 100px;
+		position: absolute;
+	}
+
 </style>
 <div id="awareness-head" class="hide">
 	Users Online
 </div>
-<div id="awareness-content" class="hide">
-	<!-- BEGIN user -->
-	<div class="media">
-		<div class="media-left">
-			<a href="#">
-				<img class="media-object" src="{USERIMAGE}" alt="...">
-			</a>
-		</div>
-		<div class="media-body">
-			<h4 class="media-heading">{USERNAME}</h4>
-			...
-			<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu{CNT}" data-toggle="dropdown" aria-expanded="true">
-				Dropdown
-				<span class="caret"></span>
-			</button>
+<div id="awareness-content-container" class="hide">
+	<div id="awareness-content">
+		<!-- BEGIN user -->
+		<div class="ilAwarenessItem">
+			<div class="media" id="dropdownMenu{CNT}" data-toggle="dropdown" aria-expanded="true">
+				<div class="media-left">
+					<a href="#">
+						<img class="media-object" src="{USERIMAGE}" alt="">
+					</a>
+				</div>
+				<div class="media-body">
+					<h4 class="media-heading">{UNAME}</h4>
+					<p>[{UACCOUNT}]</p>
+				</div>
+			</div>
 			<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu{CNT}">
-				<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Action</a></li>
-				<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Another action</a></li>
-				<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Something else here</a></li>
-				<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li>
+				<!-- BEGIN feature -->
+				<li role="presentation">
+					<!-- BEGIN arrow --><div class="arrow-down"></div><!-- END arrow -->
+					<a role="menuitem" tabindex="-1" href="{FEATURE_HREF}">{FEATURE_TEXT}</a>
+				</li>
+				<!-- END feature -->
 			</ul>
 		</div>
+		<!-- END user -->
 	</div>
-	<!-- END user -->
 </div>

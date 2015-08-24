@@ -7,15 +7,12 @@
  *
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
- *
+ * @ingroup ServicesAwareness
  */
 class ilAwarenessGUI
 {
 	/**
 	 * Constructor
-	 *
-	 * @param
-	 * @return
 	 */
 	protected function __construct()
 	{
@@ -25,8 +22,7 @@ class ilAwarenessGUI
 	/**
 	 * Get instance
 	 *
-	 * @param
-	 * @return
+	 * @return ilAwarenessGUI awareness gui object
 	 */
 	static function getInstance()
 	{
@@ -40,38 +36,65 @@ class ilAwarenessGUI
 	{
 		global $ilUser;
 
+		$awrn_set = new ilSetting("awrn");
+		if (!$awrn_set->get("awrn_enabled", false))
+		{
+			return "";
+		}
+
 		$tpl = new ilTemplate("tpl.awareness.html", true, true, "Services/Awareness");
-
-
 
 		include_once("./Services/Awareness/classes/class.ilAwarenessAct.php");
 		$act = ilAwarenessAct::getInstance($ilUser->getId());
 		$users = $act->getAwarenessData();
 
-		$tpl->setCurrentBlock("status_text");
-		$tpl->setVariable("STATUS_TXT", count($users));
-		$tpl->parseCurrentBlock();
+		$act->notifyOnNewOnlineContacts();
 
-		$cnt = 0;
+		if (count($users) > 0)
+		{
+			$tpl->setCurrentBlock("status_text");
+			$tpl->setVariable("STATUS_TXT", count($users));
+			$tpl->parseCurrentBlock();
+		}
+
+		$ucnt = 0;
 		foreach ($users as $u)
 		{
-			$cnt++;
+			$ucnt++;
+
+			$fcnt = 0;
+			foreach ($u->features as $f)
+			{
+				$fcnt++;
+				if ($fcnt == 1)
+				{
+					$tpl->touchBlock("arrow");
+					//$tpl->setCurrentBlock("arrow");
+					//$tpl->parseCurrentBlock();
+				}
+				$tpl->setCurrentBlock("feature");
+				$tpl->setVariable("FEATURE_HREF", $f->href);
+				$tpl->setVariable("FEATURE_TEXT", $f->text);
+				$tpl->parseCurrentBlock();
+			}
+
 			$tpl->setCurrentBlock("user");
 			if ($u->public_profile)
 			{
-				$tpl->setVariable("USERNAME", $u->lastname.", ".$u->firstname." [".$u->login."]");
+				$tpl->setVariable("UNAME", $u->lastname.", ".$u->firstname);
 			}
 			else
 			{
-				$tpl->setVariable("USERNAME", "[".$u->login."]");
+				$tpl->setVariable("UNAME", "&nbsp;");
 			}
+			$tpl->setVariable("UACCOUNT", $u->login);
+
 			$tpl->setVariable("USERIMAGE", $u->img);
-			$tpl->setVariable("CNT", $cnt);
+			$tpl->setVariable("CNT", $ucnt);
 			$tpl->parseCurrentBlock();
 		}
 
 		return $tpl->get();
 	}
-
 }
 ?>

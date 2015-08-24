@@ -2,16 +2,16 @@
 
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Awareness/classes/class.ilAwarenessProvider.php");
+include_once("./Services/Awareness/classes/class.ilAwarenessUserProvider.php");
 
 /**
- * Test provider, adds all users
+ * All course contacts listed
  *
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
  * @ingroup ServicesAwareness
  */
-class ilAwarenessProviderAllUsers extends ilAwarenessProvider
+class ilAwarenessUserProviderCourseContacts extends ilAwarenessUserProvider
 {
 	/**
 	 * Collect all users
@@ -20,14 +20,14 @@ class ilAwarenessProviderAllUsers extends ilAwarenessProvider
 	 */
 	function collectUsers()
 	{
-		global $ilDB;
+		include_once("./Services/Membership/classes/class.ilParticipants.php");
+		$support_contacts = ilParticipants::_getAllSupportContactsOfUser($this->getUserId(), "crs");
 
 		$coll = ilAwarenessUserCollection::getInstance();
 
-		$set = $ilDB->query("SELECT usr_id FROM usr_data ");
-		while ($rec = $ilDB->fetchAssoc($set))
+		foreach ($support_contacts as $c)
 		{
-			$coll->addUser($rec["usr_id"]);
+			$coll->addUser($c["usr_id"]);
 		}
 
 		return $coll;

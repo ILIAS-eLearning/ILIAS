@@ -9,7 +9,7 @@
  * @version $Id$
  * @ingroup ServicesAwareness
  */
-class ilAwarenessCollector
+class ilAwarenessUserCollector
 {
 	protected static $instances = array();
 
@@ -40,7 +40,7 @@ class ilAwarenessCollector
 	{
 		if (!isset(self::$instances[$a_user_id]))
 		{
-			self::$instances[$a_user_id] = new ilAwarenessCollector($a_user_id);
+			self::$instances[$a_user_id] = new ilAwarenessUserCollector($a_user_id);
 		}
 
 		return self::$instances[$a_user_id];
@@ -57,8 +57,8 @@ class ilAwarenessCollector
 		include_once("./Services/Awareness/classes/class.ilAwarenessUserCollection.php");
 		$this->collection = ilAwarenessUserCollection::getInstance();
 
-		include_once("./Services/Awareness/classes/class.ilAwarenessProviderFactory.php");
-		foreach (ilAwarenessProviderFactory::getAllProviders() as $prov)
+		include_once("./Services/Awareness/classes/class.ilAwarenessUserProviderFactory.php");
+		foreach (ilAwarenessUserProviderFactory::getAllProviders() as $prov)
 		{
 			$prov->setUserId($this->user_id);
 			$coll = $prov->collectUsers();

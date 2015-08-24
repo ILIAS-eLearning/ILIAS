@@ -4840,6 +4840,10 @@ class ilObjUser extends ilObject
 				$where[] = '(agree_date IS NOT NULL OR user_id = ' . $ilDB->quote(SYSTEM_USER_ID, 'integer') . ')';
 			}
 		}
+		else if (is_array($a_user_id))
+		{
+			$where[] = $ilDB->in("user_id", $a_user_id, false, "integer");
+		}
 		else
 		{
 			$where[] = 'user_id = ' . $ilDB->quote($a_user_id, 'integer');

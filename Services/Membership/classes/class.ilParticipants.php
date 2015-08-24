@@ -759,6 +759,52 @@ abstract class ilParticipants
 		$res = $ilDB->manipulate($query);
 		return true;
 	}
+	
+	// cognos-blu-patch: begin
+	/**
+	 * Update contact setting
+	 * @global type $ilDB
+	 * @param type $a_usr_id
+	 * @param type $a_contact
+	 * @return boolean
+	 */
+	public function updateContact($a_usr_id, $a_contact)
+	{
+		global $ilDB;
+		
+		$ilDB->replace(
+				'obj_members',
+				array(
+					'obj_id' => array('integer',$this->obj_id),
+					'usr_id' => array('integer',$a_usr_id)
+				),
+				array(
+					'contact'=> array('integer',$a_contact)
+				)
+		);
+		$this->participants_status[$a_usr_id]['contact'] = $a_contact;
+		return TRUE;
+	}
+	
+	/**
+	 * get user ids which are confirgured as contact
+	 * @return array
+	 */
+	public function getContacts()
+	{
+		$contacts = array();
+		foreach((array) $this->participants_status as $usr_id => $status)
+		{
+			if($status['contact'])
+			{
+				$contacts[] = $usr_id;
+			}
+		}
+		return $contacts;
+	}
+	
+	
+	// cognos-blu-patch: end
 
 	/**
 	 * Update notification status
@@ -934,6 +980,22 @@ abstract class ilParticipants
 	 	return false;
 	}
 	
+	// cognos-blu-patch: begin
+	/**
+	 * Check if user is contact
+	 * @param int usr_id
+	 */
+	public function isContact($a_usr_id)
+	{
+	 	if(isset($this->participants_status[$a_usr_id]))
+	 	{
+	 		return (bool) $this->participants_status[$a_usr_id]['contact'];
+	 	}
+	 	return FALSE;
+	}
+	// cognos-blu-patch: end
+	
+	
 	
 	/**
 	 * Read participants
@@ -1015,6 +1077,9 @@ abstract class ilParticipants
 	 		$this->participants_status[$row->usr_id]['blocked'] = $row->blocked;
 	 		$this->participants_status[$row->usr_id]['notification']  = $row->notification;
 	 		$this->participants_status[$row->usr_id]['passed'] = $row->passed;
+			 // cognos-blu-patch: begin
+			$this->participants_status[$row->usr_id]['contact'] = $row->contact;
+			// cognos-blu-patch: end
 	 	}
 	}
 	
@@ -1417,5 +1482,54 @@ abstract class ilParticipants
 		}
 		return $data;
 	}
+
+	/**
+	 * Get all support contacts for a user
+	 *
+	 * @param int $a_usr_id usr_id
+	 * @param string $a_type crs or grp
+	 * @return array array of contacts (keys are usr_id and obj_id)
+	 */
+	public static function _getAllSupportContactsOfUser($a_usr_id,$a_type)
+	{
+		global $ilDB;
+
+		// todo: join the two queries or alternatively reuse _getMembershipByType
+		// for the first part
+
+		// this will also dismiss local roles!
+		$j2 = "JOIN object_data obd2 ON (ua.rol_id = obd2.obj_id) ";
+		$a2 = "AND obd2.title LIKE 'il_".$a_type."_mem%' ";
+
+		// #14290 - no role folder anymore
+		$query = "SELECT DISTINCT obd.obj_id,obr.ref_id FROM rbac_ua ua ".
+			"JOIN rbac_fa fa ON ua.rol_id = fa.rol_id ".
+			"JOIN object_reference obr ON fa.parent = obr.ref_id ".
+			"JOIN object_data obd ON obr.obj_id = obd.obj_id ".
+			$j2.
+			"WHERE obd.type = ".$ilDB->quote($a_type,'text')." ".
+			"AND fa.assign = 'y' ".
+			"AND ua.usr_id = ".$ilDB->quote($a_usr_id,'integer')." ".
+			$a2;
+
+		$res = $ilDB->query($query);
+		$obj_ids = array();
+		while($row = $ilDB->fetchObject($res))
+		{
+			$obj_ids[] = $row->obj_id;
+		}
+
+		$set = $ilDB->query("SELECT obj_id, usr_id FROM obj_members ".
+			" WHERE ".$ilDB->in("obj_id", $obj_ids, false, "integer").
+			" AND contact = ".$ilDB->quote(1, "integer"));
+		$res = array();
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			$res[] = $rec;
+		}
+
+		return $res;
+	}
+
 }
 ?>
