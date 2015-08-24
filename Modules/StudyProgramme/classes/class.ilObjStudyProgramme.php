@@ -1071,23 +1071,24 @@ class ilObjStudyProgramme extends ilContainer {
 	 */
 	static public function setProgressesCompletedFor($a_obj_id, $a_user_id) {
 		// We only use courses via crs_refs
-		if (ilObject::_lookupType($a_obj_id) == "crs") {
+		$type = ilObject::_lookupType($a_obj_id);
+		if ($type == "crs") {
 			require_once("Services/ContainerReference/classes/class.ilContainerReference.php");
 			$crs_reference_obj_ids = ilContainerReference::_lookupSourceIds($a_obj_id);
 			foreach ($crs_reference_obj_ids as $obj_id) {
 				foreach(ilObject::_getAllReferences($obj_id) as $ref_id) {
-					self::setProgressesCompletedIfParentIsProgramme($ref_id, $obj_id, $a_user_id);
+					self::setProgressesCompletedIfParentIsProgrammeInLPCompletedMode($ref_id, $obj_id, $a_user_id);
 				}
 			}
 		}
 		else {
 			foreach (ilObject::_getAllReferences($a_obj_id) as $ref_id) {
-				self::setProgressesCompletedIfParentIsProgramme($ref_id, $a_obj_id, $a_user_id);
+				self::setProgressesCompletedIfParentIsProgrammeInLPCompletedMode($ref_id, $a_obj_id, $a_user_id);
 			}
 		}
 	}
 	
-	static protected function setProgressesCompletedIfParentIsProgramme($a_ref_id, $a_obj_id, $a_user_id) {
+	static protected function setProgressesCompletedIfParentIsProgrammeInLPCompletedMode($a_ref_id, $a_obj_id, $a_user_id) {
 		global $tree; // TODO: replace this by a settable static for testing purpose?
 		$node_data = $tree->getParentNodeData($a_ref_id);
 		if ($node_data["type"] !== "prg") {
@@ -1095,6 +1096,9 @@ class ilObjStudyProgramme extends ilContainer {
 		}
 		self::initStudyProgrammeCache();
 		$prg = ilObjStudyProgramme::getInstanceByRefId($node_data["child"]);
+		if ($prg->getLPMode() != ilStudyProgramme::MODE_LP_COMPLETED) {
+			continue;
+		}
 		foreach ($prg->getProgressesOf($a_user_id) as $progress) {
 			$progress->setLPCompleted($a_obj_id, $a_user_id);
 		}
