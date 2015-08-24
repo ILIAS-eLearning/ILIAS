@@ -658,7 +658,7 @@ class ilStudyProgrammeUserProgress {
 	public function getChildrenProgress() {
 		$prg = $this->getStudyProgramme();
 		if ($prg->getLPMode() == ilStudyProgramme::MODE_LP_COMPLETED) {
-			throw new ilException("ilStudyProgrammeUserProgress::getProgressChildren: "
+			throw new ilException("ilStudyProgrammeUserProgress::getChildrenProgress: "
 								 ."There is some problem in the implementation. This "
 								 ."method should only be callled for nodes in points "
 								 ."mode.");
