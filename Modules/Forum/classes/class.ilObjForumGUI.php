@@ -2505,7 +2505,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 										$this->ctrl->setParameter($this, 'pos_pk', $this->objCurrentPost->getId());
 										$this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentPost->getThreadId());
 
-										$jsTpl = new ilTemplate('tpl.forum_post_quoation_ajax_handler.html', true, true, 'Modules/Forum/');
+										$jsTpl = new ilTemplate('tpl.forum_post_quoation_ajax_handler.html', true, true, 'Modules/Forum');
 										$jsTpl->setVariable('IL_FRM_QUOTE_CALLBACK_SRC',
 											$this->ctrl->getLinkTarget($this, 'getQuotationHTMLAsynch', '', true));
 										$this->ctrl->clearParameters($this);
@@ -3016,6 +3016,13 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 						)
 					);
 				}
+				$this->ctrl->setParameter($this, 'pos_pk', $subtree_nodes[0]->getId());
+				$this->ctrl->setParameter($this, 'thr_pk', $subtree_nodes[0]->getThreadId());
+				$jsTpl = new ilTemplate('tpl.forum_post_quoation_ajax_handler.html', true, true, 'Modules/Forum');
+				$jsTpl->setVariable('IL_FRM_QUOTE_CALLBACK_SRC',
+					$this->ctrl->getLinkTarget($this, 'getQuotationHTMLAsynch', '', true));
+				$this->ctrl->clearParameters($this);
+				$this->tpl->setVariable('FORM_ADDITIONAL_JS', $jsTpl->get());
 				$tpl->setVariable('BOTTOM_FORM', $form->getHTML());
 			}
 		}
