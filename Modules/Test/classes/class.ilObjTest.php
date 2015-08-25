@@ -1509,6 +1509,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 						'show_grading_status' => array('integer', (int)$this->isShowGradingStatusEnabled()),
 						'show_grading_mark' => array('integer', (int)$this->isShowGradingMarkEnabled()),
 						'inst_fb_answer_fixation' => array('integer', (int)$this->isInstantFeedbackAnswerFixationEnabled()),
+						'force_inst_fb' => array('integer', (int)$this->isForceInstantFeedbackEnabled()),
 						'broken' => array('integer', (int)$this->isTestFinalBroken())
 					),
 					array(

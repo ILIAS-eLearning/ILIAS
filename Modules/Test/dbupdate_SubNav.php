@@ -39,4 +39,16 @@ if( $ilDB->tableColumnExists('tst_dyn_quest_set_cfg', 'prev_quest_list_enabled')
 
 // -----------------------------------------------------------------------------
 
+if( !$ilDB->tableColumnExists('tst_tests', 'force_inst_fb') )
+{
+	$ilDB->addTableColumn('tst_tests', 'force_inst_fb', array(
+		'type' => 'integer',
+		'length' => 1,
+		'notnull' => false,
+		'default' => 0
+	));
+}
+
+// -----------------------------------------------------------------------------
+
 echo '[ OK ]';
