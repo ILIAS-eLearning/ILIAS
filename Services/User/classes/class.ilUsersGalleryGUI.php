@@ -132,12 +132,12 @@ class ilUsersGalleryGUI
 	 * @param ilParticipants
 	 * @return ilTemplate
 	 */
-	protected function buildHTML($participants)
+	protected function buildHTML($users)
 	{
 		$buddylist = ilBuddyList::getInstanceByGlobalUser();
 		$tpl       = new ilTemplate('tpl.users_gallery.html', true, true, 'Services/User');
 		
-		if(!count($participants))
+		if(!count($users))
 		{
 			require_once 'Services/UIComponent/Panel/classes/class.ilPanelGUI.php';
 			$panel = ilPanelGUI::getInstance();
@@ -146,20 +146,20 @@ class ilUsersGalleryGUI
 			return $tpl;
 		}
 
-		foreach($participants as $participant)
+		foreach($users as $user_data)
 		{
 			/**
 			 * @var $user ilObjUser
 			 */
-			$user = $participant['user'];
+			$user = $user_data['user'];
 
-			if($participant['public_profile'])
+			if($user_data['public_profile'])
 			{
 				$tpl->setCurrentBlock('linked_image');
 				$this->ctrl->setParameterByClass('ilpublicuserprofilegui', 'user', $user->getId());
 				$profile_target = $this->ctrl->getLinkTargetByClass('ilpublicuserprofilegui', 'getHTML');
 				$tpl->setVariable('LINK_PROFILE', $profile_target);
-				$tpl->setVariable('PUBLIC_NAME', $participant['public_name']);
+				$tpl->setVariable('PUBLIC_NAME', $user_data['public_name']);
 			}
 			else
 			{
