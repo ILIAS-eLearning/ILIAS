@@ -235,7 +235,7 @@ class ilTestSettingsTemplateConfig extends ilSettingsTemplateConfig
 				'instant_feedback_generic' => $this->lng->txt("tst_instant_feedback_answer_generic"),
 				'instant_feedback_specific' => $this->lng->txt("tst_instant_feedback_answer_specific"),
 				'instant_feedback_solution' => $this->lng->txt("tst_instant_feedback_solution"),
-				'instant_feedback_answer_fixation' => $this->lng->txt("tst_instant_feedback_fix_usr_answer")
+				'force_instant_feedback' => $this->lng->txt("tst_instant_feedback_forced")
 			)
 		);
 
