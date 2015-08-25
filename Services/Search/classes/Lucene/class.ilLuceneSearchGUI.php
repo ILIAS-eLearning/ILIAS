@@ -614,7 +614,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 		$enabled->setChecked((bool) $options['enabled']);
 		$form->addItem($enabled);
 		
-		$group = new ilRadioGroupInputGUI($this->lng->txt('search_filter_cd'), 'screation_type');
+		$group = new ilRadioGroupInputGUI('', 'screation_type');
 		$group->setValue((int) $options['type']);
 		$group->addOption($opt1 = new ilRadioOption($this->lng->txt('search_filter_date'), 1));
 		
