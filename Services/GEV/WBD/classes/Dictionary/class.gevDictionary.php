@@ -1,5 +1,5 @@
 <?php
-class gevDictionary extends Dictionary {
+class gevDictionary implements Dictionary {
 	const WBD_NAME = "toWBDName";
 	const INTERNAL_NAME = "toInternalName";
 
@@ -10,7 +10,7 @@ class gevDictionary extends Dictionary {
 	const SERACH_IN_AGENT_STATUS = "agent_status";
 	const SERACH_IN_ADDRESS_TYPE = "assress_type";
 
-	static $mapping = array("toWBDName" 		=> array("gender" => array("m" => "001"
+	static $mappings = array("toWBDName" 		=> array("gender" => array("m" => "001"
 																	,"f" => "002"
 																	,"w" => "002"
 															)
@@ -101,26 +101,48 @@ class gevDictionary extends Dictionary {
 							);
 	
 	public function getWBDName($key, $section) {
-		return $this->getName($key, $section, self::WBD_NAME);
+		$name = $this->getName($key, $section, self::WBD_NAME); 
+		
+		if($name == "") {
+			throw new LogicException("value not found for key ".$key." in section ".$section." for direction ".self::WBD_NAME);
+		}
+
+		return $name;
 	}
 
 	function getInternalName($key, $section) {
-		return $name = $this->getName($key, $section, self::INTERNAL_NAME);
+				$name = $this->getName($key, $section, self::INTERNAL_NAME); 
+		
+		if($name == "") {
+			throw new LogicException("value not found for key ".$key." in section ".$section." for direction ".self::INTERNAL_NAME);
+		}
+
+		return $name;
 	}
 
+	/**
+	* Gets the mapped name for $key
+	*
+	* @param $key 			string
+	* @param $section 		string
+	* @param $direction 	string
+	*
+	* @return $name 		string
+	*/
 	private function getName($key, $section, $direction) {
 		if(!array_key_exists($direction,self::$mappings)) {
-			throw new LogicException("direction ".$direction." not found");
+			return "";
 		}
 
 		if(!array_key_exists($section,self::$mappings[$direction])) {
-			throw new LogicException("section ".$section." not found in direction ".$direction);
+			return "";
 		}
 
 		if(!array_key_exists($key,self::$mappings[$direction][$section])) {
-			throw new LogicException("value not found for key ".$key." in section ".$section." for direction ".$direction);
+			return "";
+			
 		}
 
-		return self::$mapping[$dorection][$section][$key];
+		return self::$mappings[$direction][$section][$key];
 	}
 }
