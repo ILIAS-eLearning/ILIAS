@@ -10052,3 +10052,18 @@ if ($ilDB->tableExists('search_tree'))
 	$ilDB->dropTable('search_tree');
 }
 ?>
+<#4698>
+<?php
+	if(!$ilDB->tableColumnExists('sahs_lm','mastery_score'))
+	{
+		$ilDB->addTableColumn(
+			'sahs_lm',
+			'mastery_score',
+			array(
+				'type' 		=> 'integer',
+				'length' 	=> 1,
+				'notnull'	=> false
+			)
+		);
+	}
+?>
