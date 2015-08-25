@@ -207,7 +207,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		{
 			$button = ilLinkButton::getInstance();
 			$button->setUrl($this->ctrl->getLinkTarget(
-				$this->playerGUI, ilTestPlayerCommands::SUSPEND_TEST
+				$this, ilTestPlayerCommands::SUSPEND_TEST
 			));
 			$button->setCaption('cancel_test');
 			$toolbarGUI->addButtonInstance($button);
