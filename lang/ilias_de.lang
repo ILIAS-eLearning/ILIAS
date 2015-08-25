@@ -2823,7 +2823,6 @@ common#:#cont_iim_overlay_info#:#Ein Overlay-Bild wird angezeigt, wenn Benutzer 
 common#:#cont_object#:#Objekt
 common#:#contact#:#Kontakt
 common#:#contact_data#:#Kontaktinformationen
-common#:#contact_sysadmin#:#Administration kontaktieren
 common#:#container#:#Container
 common#:#container_no_items#:#Keine Objekte gefunden
 common#:#content#:#Inhalt
@@ -15785,8 +15784,6 @@ buddysystem#:#buddy_bs_state_ignored_request_a#:#Angefragt
 buddysystem#:#buddy_bs_state_ignored_request_p#:#Ignoriert
 buddysystem#:#buddy_bs_no_new_requests#:#Keine neuen Anfragen
 common#:#my_contacts#:#Meine Kontakte
-contact#:#contact_awrn_ap_contacts#:#Bestätigte Kontakte
-contact#:#contact_awrn_ap_contacts_info#:#Alle bestätigten Kontakte werden aufgelistet.
 contact#:#contact_awrn_req_contacts#:#Kotaktanfragen
 contact#:#contact_awrn_req_contacts_info#:#Alle Kontaktanfragen werden aufgelistet.
 buddysystem#:#buddy_view_gallery#:#Galerie
@@ -15803,3 +15800,35 @@ buddysystem#:#buddy_notification_contact_request_long#:#[SALUTATION][BR][BR]der 
 buddysystem#:#buddy_request_approved#:#Der Kontakt wurde erfolgreich hergestellt.
 buddysystem#:#buddy_request_ignored#:#Sie haben den Benutzer ignoriert.
 common#:#no_gallery_users_available#:#Aktuell befinden sich keine Benutzer in der Galerie.
+crs#:#crs_mem_contact#:#Betreuer
+awrn#:#awareness_now_online#:#Jetzt Online
+awrn#:#awareness_now_online_users#:#[ONLINE_USER_NAMES]
+common#:#obj_awra_desc#:#„Wer ist online?“-Anzeige administrieren
+common#:#obj_awra#:#„Wer ist online?“-Anzeige
+awrn#:#awareness_settings#:#Einstellungen
+awrn#:#awrn_enable#:#Aktiviere „Wer ist online?“-Anzeige
+crs#:#crs_mem_contacts#:#Tutorielle Betreuung
+user#:#user_awrn_all_users#:#Alle Benutzer
+user#:#user_awrn_all_users_info#:#Alle Benutzer der Plattform werden aufgelistet.
+crs#:#crs_awrn_support_contacts#:#Tutorielle Betreuung
+crs#:#crs_awrn_support_contacts_info#:#Die Benutzer der tutoriellen Betreuung werden aufgelistet. Die Benutzer werden im Reiter Mitglieder des Kurses der tutoriellen Betreuung zugeordnet.
+awrn#:#awrn_inactive#:#Keine Anzeige
+awrn#:#awrn_online_only#:#Nur Online
+awrn#:#awrn_incl_offline#:#Online und Offline
+contact#:#contact_awrn_ap_contacts#:#Bestätigte Kontakte
+contact#:#contact_awrn_ap_contacts_info#:#Alle bestätigten Kontakte eines Benutzers werden aufgelistet.
+adm#:#adm_support_contacts#:#Technische Betreuung
+adm#:#adm_awrn_support_contacts_info#:#Die Benutzer der technischen Betreuung werden aufgelistet. Die Benutzer werden im Bereich "Allgemeine Einstellungen" > "Kontaktinformationen" der technischen Betreuung zugeordnet.
+adm#:#adm_support_contacts_info#:#Technische Betreuer werden in der Fußzeile verlinkt und (wenn aktiviert) in der „Wer ist online?“-Anzeige aufgelistet. Komma-separierte Liste von Benutzer-Logins.
+mmbr#:#mmbr_awrn_my_groups_courses#:#Meine Kurse und Gruppen
+mmbr#:#mmbr_awrn_my_groups_courses_info#:#Alle Mitglieder von Gruppen und Kursen eines Benutzers werden aufgelistet.
+crs#:#crs_awrn_current_course#:#Aktueller Kurs
+crs#:#crs_awrn_current_course_info#:#Innerhalb eines Kurses werden alle Mitglieder des Kurses aufgelistet.
+awrn#:#awrn_caching_period#:#Caching-Zeitraum
+awrn#:#awrn_caching_period_info#:#Dieser Zeitraum wird gewartet, bevor die Anzahl der Benutzer in der Top-Anzeige aktualisiert wird und bevor neue Online-Benutzer ermittelt werden.
+awrn#:#awrn_seconds#:#Sek.
+awrn#:#awrn_max_nr_entries#:#Anzahl max. Einträge
+awrn#:#awrn_max_nr_entries_info#:#Diese Anzahl an Einträgen wird maximal in der Awareness-Liste angezeigt.
+awrn#:#awrn_hide_from_awareness#:#Mich nicht in „Wer ist online?“-Anzeige auflisten
+awrn#:#awrn_hide_from_awareness_info#:#Die „Wer ist online?“-Anzeige erscheint oben im Kopf der Anwendung und listet ausgewählte Benutzer auf (z.B. Kontakte oder Mitglieder Ihrer Kurse).
+common#:#contact_sysadmin#:#Technische Betreuung kontaktieren

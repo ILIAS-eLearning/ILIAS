@@ -389,7 +389,6 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
 	public function findSharedObjects(array $a_filter = null, array $a_crs_ids = null, array $a_grp_ids = null)
 	{
 		global $ilDB, $ilUser;
-		
 		if(!$a_filter["acl_type"])
 		{
 			$obj_ids = $this->getPossibleSharedTargets();

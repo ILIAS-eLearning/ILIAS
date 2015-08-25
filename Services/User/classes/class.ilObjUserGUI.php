@@ -1761,7 +1761,8 @@ class ilObjUserGUI extends ilObjectGUI
 		// hide online status
 		if($this->isSettingChangeable('hide_own_online_status'))
 		{
-			$os = new ilCheckboxInputGUI($lng->txt("hide_own_online_status"), "hide_own_online_status");
+			$lng->loadLanguageModule("awrn");
+			$os = new ilCheckboxInputGUI($lng->txt("awrn_hide_from_awareness"), "hide_own_online_status");
 			$this->form_gui->addItem($os);
 		}
 

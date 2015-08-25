@@ -2,6 +2,7 @@
 <module xmlns="http://www.w3.org" version="$Id: modules.xml 15671 2008-01-04 13:08:30Z akill $"
 	id="adm">
 	<baseclasses>
+		<baseclass name="ilSystemSupportContactsGUI" dir="classes" />
 	</baseclasses>
 	<objects>
 		<object id="adm" class_name="SystemFolder" dir="classes"

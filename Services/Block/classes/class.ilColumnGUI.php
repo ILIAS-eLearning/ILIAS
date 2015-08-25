@@ -109,7 +109,7 @@ class ilColumnGUI
 			"ilPDSelectedItemsBlockGUI" => IL_COL_CENTER,
 			"ilPDMailBlockGUI" => IL_COL_RIGHT,
 			"ilPDNotesBlockGUI" => IL_COL_RIGHT,
-			"ilUsersOnlineBlockGUI" => IL_COL_RIGHT,
+			//"ilUsersOnlineBlockGUI" => IL_COL_RIGHT,
 			"ilBookmarkBlockGUI" => IL_COL_RIGHT,
 			"ilPDTaggingBlockGUI" => IL_COL_RIGHT,
 			"ilChatroomBlockGUI" => IL_COL_RIGHT
