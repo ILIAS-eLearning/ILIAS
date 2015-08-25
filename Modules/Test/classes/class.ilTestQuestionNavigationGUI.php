@@ -36,6 +36,11 @@ class ilTestQuestionNavigationGUI
 	private $instantFeedbackCommand = '';
 
 	/**
+	 * @var bool
+	 */
+	private $answerFreezingEnabled = false;
+
+	/**
 	 * @var string
 	 */
 	private $requestHintCommand = '';
@@ -140,6 +145,22 @@ class ilTestQuestionNavigationGUI
 	public function setInstantFeedbackCommand($instantFeedbackCommand)
 	{
 		$this->instantFeedbackCommand = $instantFeedbackCommand;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isAnswerFreezingEnabled()
+	{
+		return $this->answerFreezingEnabled;
+	}
+
+	/**
+	 * @param boolean $answerFreezingEnabled
+	 */
+	public function setAnswerFreezingEnabled($answerFreezingEnabled)
+	{
+		$this->answerFreezingEnabled = $answerFreezingEnabled;
 	}
 
 	/**
@@ -285,7 +306,7 @@ class ilTestQuestionNavigationGUI
 		if( $this->getInstantFeedbackCommand() )
 		{
 			$this->renderButton(
-				$tpl, $this->getInstantFeedbackCommand(), 'check'
+				$tpl, $this->getInstantFeedbackCommand(), $this->getCheckButtonLabel()
 			);
 		}
 
@@ -322,6 +343,16 @@ class ilTestQuestionNavigationGUI
 		}
 		
 		return $tpl->get();
+	}
+	
+	private function getCheckButtonLabel()
+	{
+		if( $this->isAnswerFreezingEnabled() )
+		{
+			return 'submit_and_check';
+		}
+		
+		return 'check';
 	}
 	
 	private function getRequestHintButtonLabel()

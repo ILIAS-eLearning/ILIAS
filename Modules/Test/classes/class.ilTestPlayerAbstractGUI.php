@@ -1733,6 +1733,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			case $this->object->getAnswerFeedbackPoints():
 			case $this->object->getInstantFeedbackSolution():
 
+				$navigationGUI->setAnswerFreezingEnabled($this->object->isInstantFeedbackAnswerFixationEnabled());
 				$navigationGUI->setInstantFeedbackCommand(ilTestPlayerCommands::SHOW_INSTANT_RESPONSE);
 		}
 
