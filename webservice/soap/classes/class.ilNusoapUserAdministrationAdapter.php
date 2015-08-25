@@ -1317,7 +1317,18 @@ class ilNusoapUserAdministrationAdapter
 				SERVICE_USE,
 				'Delete user progress data of objects. '
 			);
-				
+			
+
+//BEGIN PATCH HSLU SOAP Structureimport set folder special permissions
+	        $this->server->register('setFolderSpecialPermissions',
+	                                array('sid' => 'xsd:string', 'ref_id' =>'xsd:int', 'permission' => 'xsd:string'),
+	                                array('xml' => 'xsd:int'),
+	                                SERVICE_NAMESPACE,
+	                                SERVICE_NAMESPACE.'#setFolderSpecialPermissions',
+	                                SERVICE_STYLE,
+	                                SERVICE_USE,
+	                                'ILIAS setFolderSpecialPermissions(): allows to set a folder to dropbox, exchange, group folder or normal permission pattern.');
+//END PATCH HSLU SOAP Structureimport set folder special permissions 				
 								
 		return true;
 
