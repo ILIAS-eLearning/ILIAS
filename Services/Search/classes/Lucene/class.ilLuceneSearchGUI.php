@@ -588,11 +588,15 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 		$this->tpl->setVariable('SEARCH_AREA_FORM', $this->getSearchAreaForm()->getHTML());
 		$this->tpl->setVariable("TXT_CHANGE", $lng->txt("change"));
 		
-		// begin-patch creation_date
-		$this->tpl->setVariable('TXT_FILTER_BY_CDATE',$this->lng->txt('search_filter_cd'));
-		$this->tpl->setVariable('TXT_CD_OFF',$this->lng->txt('search_off'));
-		$this->tpl->setVariable('FORM_CD',$this->getCreationDateForm()->getHTML());
-		// end-patch creation_date
+		if(ilSearchSettings::getInstance()->isDateFilterEnabled())
+		{
+			// begin-patch creation_date
+			$this->tpl->setVariable('TXT_FILTER_BY_CDATE',$this->lng->txt('search_filter_cd'));
+			$this->tpl->setVariable('TXT_CD_OFF',$this->lng->txt('search_off'));
+			$this->tpl->setVariable('FORM_CD',$this->getCreationDateForm()->getHTML());
+			$this->tpl->setVariable("ARR_IMG_CD", ilGlyphGUI::get(ilGlyphGUI::CARET));
+			// end-patch creation_date
+		}
 		
 		
 		return true;
@@ -722,7 +726,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 		}
 		
 		
-		return '+(cdate: [2010-11-01 TO 2013-11-30])';
+		return '';
 	}
 	// end-patch creation_date
 }
