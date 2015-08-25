@@ -903,6 +903,8 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		$this->testSequence->loadQuestions(
 			$this->dynamicQuestionSetConfig, $this->testSession->getQuestionSetFilterSelection()
 		);
+
+		$this->testSequence->setCurrentQuestionId($this->testSession->getCurrentQuestionId());
 		
 		parent::outQuestionSummaryCmd($fullpage, $contextFinishTest, $obligationsNotAnswered, $obligationsFilter);
 	}
