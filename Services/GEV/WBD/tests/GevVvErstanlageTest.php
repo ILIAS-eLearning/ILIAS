@@ -6,7 +6,7 @@ class GevVvErstanlageTest extends RequestTestBase {
 	}
 
 	public function test_isImplmentedRequest() {
-		$this->assertInstanceOf("WBDRequest",$this->request);
+		$this->assertInstanceOf("gevWBDRequestVvErstanlage",$this->request);
 	}
 
 	public function xml_response_success() {
