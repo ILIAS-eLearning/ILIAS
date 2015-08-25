@@ -41,6 +41,11 @@ class ilTestQuestionNavigationGUI
 	private $answerFreezingEnabled = false;
 
 	/**
+	 * @var bool
+	 */
+	private $forceInstantResponseEnabled = false;
+
+	/**
 	 * @var string
 	 */
 	private $requestHintCommand = '';
@@ -153,6 +158,22 @@ class ilTestQuestionNavigationGUI
 	public function isAnswerFreezingEnabled()
 	{
 		return $this->answerFreezingEnabled;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isForceInstantResponseEnabled()
+	{
+		return $this->forceInstantResponseEnabled;
+	}
+
+	/**
+	 * @param boolean $forceInstantResponseEnabled
+	 */
+	public function setForceInstantResponseEnabled($forceInstantResponseEnabled)
+	{
+		$this->forceInstantResponseEnabled = $forceInstantResponseEnabled;
 	}
 
 	/**
@@ -292,7 +313,7 @@ class ilTestQuestionNavigationGUI
 		if( $this->getSubmitSolutionCommand() )
 		{
 			$this->renderButton(
-				$tpl, $this->getSubmitSolutionCommand(), 'submit_answer', true
+				$tpl, $this->getSubmitSolutionCommand(), $this->getSubmitSolutionButtonLabel(), true
 			);
 		}
 
@@ -303,7 +324,7 @@ class ilTestQuestionNavigationGUI
 			);
 		}
 
-		if( $this->getInstantFeedbackCommand() )
+		if( $this->getInstantFeedbackCommand() && !$this->isForceInstantResponseEnabled() )
 		{
 			$this->renderButton(
 				$tpl, $this->getInstantFeedbackCommand(), $this->getCheckButtonLabel()
@@ -343,6 +364,16 @@ class ilTestQuestionNavigationGUI
 		}
 		
 		return $tpl->get();
+	}
+	
+	private function getSubmitSolutionButtonLabel()
+	{
+		if( $this->isForceInstantResponseEnabled() )
+		{
+			return 'submit_and_check';
+		}
+		
+		return 'submit_answer';
 	}
 	
 	private function getCheckButtonLabel()
