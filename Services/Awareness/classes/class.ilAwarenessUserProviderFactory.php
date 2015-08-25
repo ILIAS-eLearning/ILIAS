@@ -13,6 +13,10 @@ class ilAwarenessUserProviderFactory
 {
 	protected static $providers = array(
 		array (
+			"component" => "Services/Contact/BuddySystem",
+			"class" => "ilAwarenessUserProviderContactRequests"
+		),
+		array (
 			"component" => "Services/Awareness",
 			"class" => "ilAwarenessUserProviderSystemContacts"
 		),
@@ -25,7 +29,7 @@ class ilAwarenessUserProviderFactory
 			"class" => "ilAwarenessUserProviderCurrentCourse"
 		),
 		array (
-			"component" => "Services/Awareness",
+			"component" => "Services/Contact/BuddySystem",
 			"class" => "ilAwarenessUserProviderApprovedContacts"
 		),
 		array (
