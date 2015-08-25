@@ -450,10 +450,6 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 				$this->testSession->getCurrentQuestionId(), $this->testSession->getCurrentQuestionId()
 			);
 
-			$this->populateTestNavigationToolbar($this->getTestNavigationToolbarGUI(
-				$presentationMode == self::PRESENTATION_MODE_EDIT, true
-			));
-			
 			$navigationToolbarGUI = $this->getTestNavigationToolbarGUI();
 			$navigationToolbarGUI->setQuestionSelectionButtonEnabled(true);
 			
