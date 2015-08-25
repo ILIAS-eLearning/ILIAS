@@ -9873,3 +9873,8 @@ if(!$ilDB->tableColumnExists('obj_members','contact'))
 	$s = new ilSetting("awrn");
 	$s->set("max_nr_entries", 50);
 ?>
+<#4689>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+
