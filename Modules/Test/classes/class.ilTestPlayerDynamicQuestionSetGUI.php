@@ -285,46 +285,9 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION_SELECTION);
 	}
 
-	protected function showTrackedQuestionListCmd()
-	{
-		if( !$this->dynamicQuestionSetConfig->isPreviousQuestionsListEnabled() )
-		{
-			$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
-		}
-		
-		$this->prepareSummaryPage();
-
-		$this->testSequence->loadQuestions(
-				$this->dynamicQuestionSetConfig, $this->testSession->getQuestionSetFilterSelection()
-		);
-		
-		$this->testSequence->cleanupQuestions($this->testSession);
-		
-		$this->testSequence->saveToDb();
-		
-		$data = $this->buildQuestionsTableDataArray(
-			$this->testSequence->getTrackedQuestionList( $this->testSession->getCurrentQuestionId() ),
-			$this->getMarkedQuestions()
-		);
-		
-		include_once "./Modules/Test/classes/tables/class.ilTrackedQuestionsTableGUI.php";
-		$table_gui = new ilTrackedQuestionsTableGUI(
-				$this, 'showTrackedQuestionList', $this->object->getSequenceSettings(), $this->object->getShowMarker()
-		);
-		
-		$table_gui->setData($data);
-
-		$this->tpl->setVariable('TABLE_LIST_OF_QUESTIONS', $table_gui->getHTML());	
-
-		if( $this->object->getEnableProcessingTime() )
-		{
-			$this->outProcessingTime($this->testSession->getActiveId());
-		}
-	}
-
 	protected function previousQuestionCmd()
 	{
-		
+		// nothing to do, won't be called
 	}
 
 	protected function fromPassDeletionCmd()
