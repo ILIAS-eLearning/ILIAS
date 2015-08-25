@@ -682,6 +682,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 	{
 		
 		$options = $this->search_cache->getCreationFilter();
+		
 		if(!$options['enabled'])
 		{
 			return '';
@@ -690,7 +691,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 		{
 			case 1:
 				
-				$limit = new ilDate(time(),IL_CAL_UNIX);
+				$limit = new ilDate($options['date'],IL_CAL_UNIX);
 				
 				switch($options['ontype'])
 				{
