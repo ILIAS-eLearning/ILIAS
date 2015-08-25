@@ -215,13 +215,13 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		}
 		
 		$filteredData = array($this->buildQuestionSetAnswerStatisticRowArray(
-			$this->testSequence->getFilteredQuestionsData(), $this->getMarkedQuestions()
+			$this->testSequence->getFilteredQuestionsData()
 		)); #vd($filteredData);
 		$filteredTableGUI = $this->buildQuestionSetFilteredStatisticTableGUI();
 		$filteredTableGUI->setData($filteredData);
 
 		$completeData = array($this->buildQuestionSetAnswerStatisticRowArray(
-			$this->testSequence->getCompleteQuestionsData(), $this->getMarkedQuestions()
+			$this->testSequence->getCompleteQuestionsData()
 		)); #vd($completeData);
 		$completeTableGUI = $this->buildQuestionSetCompleteStatisticTableGUI();
 		$completeTableGUI->setData($completeData);
@@ -727,16 +727,14 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		return $data;
 	}
 
-	protected function buildQuestionSetAnswerStatisticRowArray($questions, $marked_questions)
+	protected function buildQuestionSetAnswerStatisticRowArray($questions)
 	{
 		$questionAnswerStats = array(
 			'total_all' => count($questions),
 			'total_open' => 0,
 			'non_answered' => 0,
 			'wrong_answered' => 0,
-			'correct_answered' => 0,
-			'postponed' => 0,
-			'marked' => 0
+			'correct_answered' => 0
 		);
 
 		foreach($questions as $key => $value )
@@ -754,19 +752,6 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 				case ilAssQuestionList::QUESTION_ANSWER_STATUS_CORRECT_ANSWERED:
 					$questionAnswerStats['correct_answered']++;
 					break;
-			}
-
-			if( $this->testSequence->isPostponedQuestion($value["question_id"]) )
-			{
-				$questionAnswerStats['postponed']++;
-			}
-
-			if( isset($marked_questions[$value["question_id"]]) )
-			{
-				if( $marked_questions[$value["question_id"]]["solved"] == 1 )
-				{
-					$questionAnswerStats['marked']++;
-				}
 			}
 		}
 
@@ -817,9 +802,6 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		$gui = new ilTestDynamicQuestionSetStatisticTableGUI(
 				$this->ctrl, $this->lng, $this, ilTestPlayerCommands::SHOW_QUESTION_SELECTION, $tableId
 		);
-		
-		$gui->setShowNumMarkedQuestionsEnabled($this->object->getShowMarker());
-		$gui->setShowNumPostponedQuestionsEnabled($this->object->getSequenceSettings());
 
 		return $gui;
 	}

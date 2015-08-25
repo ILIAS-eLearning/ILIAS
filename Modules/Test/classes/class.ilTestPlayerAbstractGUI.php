@@ -1542,21 +1542,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	
 	abstract protected function previousQuestionCmd();
 	
-	protected function getMarkedQuestions()
-	{
-		if( $this->object->getShowMarker() )
-		{
-			include_once "./Modules/Test/classes/class.ilObjTest.php";
-			$marked_questions = ilObjTest::_getSolvedQuestions($this->testSession->getActiveId());
-		}
-		else
-		{
-			$marked_questions = array();
-		}
-		
-		return $marked_questions;
-	}
-	
 	protected function prepareSummaryPage()
 	{
 		$this->tpl->addBlockFile(
