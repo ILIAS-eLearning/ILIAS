@@ -10044,3 +10044,11 @@ if ($ilDB->tableExists('rbac_templates'))
 	$ilDB->addPrimaryKey('rbac_templates', array('rol_id','parent', 'type', 'ops_id'));
 }
 ?>
+<#4697>
+<?php
+//remove unused table search_tree
+if ($ilDB->tableExists('search_tree'))
+{
+	$ilDB->dropTable('search_tree');
+}
+?>
