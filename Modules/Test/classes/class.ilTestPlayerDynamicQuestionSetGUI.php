@@ -401,6 +401,11 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		
 		$this->testSequence->cleanupQuestions($this->testSession);
 		
+		if( $this->getQuestionIdParameter() )
+		{
+			$this->testSession->setCurrentQuestionId($this->getQuestionIdParameter());
+		}
+		
 		if( !$this->testSession->getCurrentQuestionId() )
 		{
 			$upComingQuestionId = $this->testSequence->getUpcomingQuestionId();
@@ -886,14 +891,9 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		return $this->ctrl->getLinkTargetByClass('ilTestEvaluationGUI', 'confirmDeletePass');
 	}
 	
-	protected function getCurrentQuestionIdParameter()
+	protected function getQuestionIdParameter()
 	{
 		return $this->getSequenceElementParameter();
-	}
-
-	protected function getCurrentPresentationModeParameter()
-	{
-		return $this->getPresentationModeParameter();
 	}
 
 	public function outQuestionSummaryCmd($fullpage = true, $contextFinishTest = false, $obligationsNotAnswered = false, $obligationsFilter = false)
