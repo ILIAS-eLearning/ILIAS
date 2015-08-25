@@ -1094,6 +1094,8 @@ assessment#:#tst_instant_feedback_answer_generic#:#Rückmeldung zur richtigen L�
 assessment#:#tst_instant_feedback_answer_generic_desc#:#Ist die Gesamtheit der Antwort richtig, so zeigt ILIAS beim Anklicken des 'Rückmeldung anfordern'-Buttons die eine Art hinterlegter Rückmeldung an. Ist die Gesamtheit der Antwort nicht vollständig richtig, wird eine andere  Rückmeldung angezeigt. Beide Versionen müssen bei der Frage im Reiter 'Rückmeldung' hinterlegt werden.
 assessment#:#tst_instant_feedback_fix_usr_answer#:#Gegebene Antworten festschreiben
 assessment#:#tst_instant_feedback_fix_usr_answer_desc#:#Nach Anklicken des 'Rückmeldung anfordern'-Buttons kann ein Teilnehmer seine Antwort nicht mehr verändern.
+assessment#:#tst_instant_feedback_forced#:#Forciere direkte Rückmeldung
+assessment#:#tst_instant_feedback_forced_desc#:#Beim Einreichen von Antworten wird die direkte Rückmeldung forciert.
 assessment#:#tst_instant_feedback_results#:#Erreichte Punkte
 assessment#:#tst_instant_feedback_results_desc#:#Bei Anklicken des 'Rückmeldung anfordern'-Buttons zeigt ILIAS an, wie viele Punkte für die gegebene Antwort erreicht wurden.
 assessment#:#tst_instant_feedback_solution#:#Bestmögliche Lösung anzeigen

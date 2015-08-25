@@ -940,6 +940,8 @@ assessment#:#tst_instant_feedback_answer_specific#:#Specific Feedback for Each A
 assessment#:#tst_instant_feedback_answer_specific_desc#:#On clicking the ‘Check’-button, ILIAS will show a specific feedback for every answer option selected by the participant. The feedback has to be prepared along with the question. This specific feedback is not supported for all question types.
 assessment#:#tst_instant_feedback_fix_usr_answer#:#Freeze Answers Given
 assessment#:#tst_instant_feedback_fix_usr_answer_desc#:#After clicking the ‘Check’-button, participants can no longer change their answers.
+assessment#:#tst_instant_feedback_forced#:#Force Instant Feedback
+assessment#:#tst_instant_feedback_forced_desc#:#On submitting answers the output of instant feedback will be forced.
 assessment#:#tst_instant_feedback_results#:#Points Attained
 assessment#:#tst_instant_feedback_results_desc#:#On clicking the ‘Check’-button ILIAS will display how many points were attained by answering this question.
 assessment#:#tst_instant_feedback_solution#:#Show Best Possible Answer

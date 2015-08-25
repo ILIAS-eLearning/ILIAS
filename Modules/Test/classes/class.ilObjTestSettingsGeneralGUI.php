@@ -1106,12 +1106,17 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 			$this->lng->txt('tst_instant_feedback_fix_usr_answer'), 'instant_feedback_answer_fixation',
 			$this->lng->txt('tst_instant_feedback_fix_usr_answer_desc')
 		));
+		$instant_feedback->addOption(new ilCheckboxOption(
+			$this->lng->txt('tst_instant_feedback_forced'), 'instant_feedback_forced',
+			$this->lng->txt('tst_instant_feedback_forced_desc')
+		));
 		$values = array();
 		if ($this->testOBJ->getSpecificAnswerFeedback()) array_push($values, 'instant_feedback_specific');
 		if ($this->testOBJ->getGenericAnswerFeedback()) array_push($values, 'instant_feedback_generic');
 		if ($this->testOBJ->getAnswerFeedbackPoints()) array_push($values, 'instant_feedback_points');
 		if ($this->testOBJ->getInstantFeedbackSolution()) array_push($values, 'instant_feedback_solution');
 		if( $this->testOBJ->isInstantFeedbackAnswerFixationEnabled() ) array_push($values, 'instant_feedback_answer_fixation');
+		if( $this->testOBJ->isForceInstantFeedbackEnabled() ) array_push($values, 'instant_feedback_forced');
 		$instant_feedback->setValue($values);
 		$form->addItem($instant_feedback);
 
