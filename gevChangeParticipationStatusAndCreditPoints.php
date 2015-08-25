@@ -6,6 +6,11 @@ require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 require_once("Services/UserCourseStatusHistorizing/classes/class.ilUserCourseStatusHistorizingAppEventListener.php");
 ilInitialisation::initILIAS();
+global $ilUser;
+if(!gevUserUtils::getInstance($ilUser->getId())->isAdmin()) {
+	echo '<span style="background-color:#8B0000; color:#FFF">Sie sind kein Admin!</span><br/><br/>';
+	exit;
+}
 
 class gevChangeParticipationStatusAndCreditPoints {
 
@@ -37,6 +42,7 @@ class gevChangeParticipationStatusAndCreditPoints {
 			echo "####################################<br/>";
 			echo "####### Kurs ".$value["crs_id"]."<br/>";
 			echo "####################################<br/>";
+			$this->crs_utils =  gevCourseUtils::getInstance($value["crs_id"]);
 
 			if($value["cpoints"] === null) {
 				echo '<span style="background-color:#8B0000; color:#FFF">Weiterbildungspunkte sind NULL. Reihe im Textdokument: '.$key.'</span><br/><br/>';
@@ -57,7 +63,20 @@ class gevChangeParticipationStatusAndCreditPoints {
 				continue;
 			}
 
-			$this->crs_utils =  gevCourseUtils::getInstance($value["crs_id"]);
+			if($state != gevSettings::CRS_URS_STATE_SUCCESS_VAL && $value["cpoints"] != 0) {
+				echo '<span style="background-color:#8B0000; color:#FFF">Kurs nicht erfolgreich abgeschlossen und trotzdem sollen Punkte gesetzt werden: '.$key.'</span><br/><br/>';
+				$this->gIlLog->write("gevChangeParticipationStatusAndCreditPoints::run: points with no success ".$key);
+				continue;
+			}
+
+			$max_credit_points = $this->crs_utils->getCreditPoints();
+			if($value["cpoints"] > $max_credit_points) {
+				echo '<span style="background-color:#8B0000; color:#FFF">Punkte gr&ouml;&szlig;er als maximal M&ouml;glich: '.$key.'</span><br/><br/>';
+				$this->gIlLog->write("gevChangeParticipationStatusAndCreditPoints::run: points greater then max ".$key);
+				continue;
+			}
+
+			
 
 			if($value["user_ids"] === null) {
 				echo "Laden aller Teilnhemer, da keine vorgeben wurden.<br/>";
