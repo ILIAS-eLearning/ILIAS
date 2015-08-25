@@ -660,7 +660,8 @@ class ilToolbarGUI
 				case 'button':
 					$button = ilLinkButton::getInstance();
 					$button->setCaption($item['txt'], false);
-					$button->setTarget($item['cmd']);
+					$button->setUrl($item['cmd']);
+					$button->setTarget($item['target']);
 					$button->setId($item['id']);
 					$button->setAccessKey($item['acc_key']);
 					break;
