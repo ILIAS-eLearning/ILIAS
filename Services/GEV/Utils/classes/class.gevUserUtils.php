@@ -471,10 +471,16 @@ class gevUserUtils {
 			$booked_amd[$key]["location"] = $orgu_utils->getLongTitle();
 			$booked_amd[$key]["fee"] = floatval($booked_amd[$key]["fee"]);
 			$list = "";
-			foreach ($booked_amd[$key]["target_group_list"] as $val) {
-				$list .= "<li>".$val."</li>";
+
+			if(is_array($booked_amd[$key]["target_group_list"])) {
+				foreach ($booked_amd[$key]["target_group_list"] as $val) {
+					$list .= "<li>".$val."</li>";
+				}
 			}
-			$booked_amd[$key]["target_group"] = "<ul>".$list."</ul>".$booked_amd[$key]["target_group"];
+			
+			if($lis != "") {
+				$booked_amd[$key]["target_group"] = "<ul>".$list."</ul>".$booked_amd[$key]["target_group"];
+			}
 		}
 
 
