@@ -195,14 +195,23 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 			
 		require_once 'Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
 		$toolbarGUI = new ilToolbarGUI();
-
-
+		
 		require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
 		$button = ilLinkButton::getInstance();
 		$button->setUrl($this->getStartTestFromQuestionSelectionLink());
 		$button->setCaption($this->getEnterTestButtonLangVar());
 		$button->setPrimary(true);
 		$toolbarGUI->addButtonInstance($button);
+
+		if( $this->object->getShowCancel() )
+		{
+			$button = ilLinkButton::getInstance();
+			$button->setUrl($this->ctrl->getLinkTarget(
+				$this->playerGUI, ilTestPlayerCommands::SUSPEND_TEST
+			));
+			$button->setCaption('cancel_test');
+			$toolbarGUI->addButtonInstance($button);
+		}
 		
 		if( $this->object->isPassDeletionAllowed() )
 		{
