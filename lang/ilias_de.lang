@@ -862,7 +862,7 @@ assessment#:#question_marking_description#:#Teilnehmer erhalten die Möglichkeit
 assessment#:#question_not_answered#:#Die Frage wurde nicht beantwortet
 assessment#:#question_saved_for_upload#:#Die Frage wurde automatisch gespeichert, um das Hochladen einer Datei zu ermöglichen. Wenn Sie die Bearbeitung dieser Frage jetzt abbrechen, beachten Sie bitte, dass Sie die Frage im Fragenpool löschen müssen, wenn Sie sie nicht behalten wollen.
 assessment#:#question_short#:#F
-assessment#:#question_summary#:#Fragenübersicht
+assessment#:#question_summary#:#Zeige alle Fragen
 assessment#:#obligations_summary#:#Übersicht verpflichtender Fragen
 assessment#:#tst_you_have_to_answer_this_question#:#Diese Frage muss beantwortet werden, um den Test beenden zu können.
 assessment#:#question_title#:#Fragentitel
@@ -1080,7 +1080,7 @@ assessment#:#tst_hide_previous_results#:#Vorherige Ergebnisse nicht anzeigen
 assessment#:#tst_hide_previous_results_description#:#Die vorherigen Ergebnisse von Lernenden werden in weiteren Testdurchläufen eines Tests nicht als voreingestellte Werte übernommen
 assessment#:#tst_hide_previous_results_hide#:#Meine Ergebnisse aus dem vorigen Testdurchlauf nicht anzeigen
 assessment#:#tst_hide_previous_results_introduction#:#Wenn Sie mehr als einen Durchlauf dieses Tests bearbeiten, werden Ihre vorherigen Ergebnisse nicht als voreingestellte Werte übernommen
-assessment#:#tst_hide_side_list#:#Fragenliste nicht anzeigen
+assessment#:#tst_hide_side_list#:#Navigationsbaum ausblenden
 assessment#:#tst_import_no_items#:#Fehler: Die Importdatei beinhaltet keine Fragen!
 assessment#:#tst_import_verify_found_questions#:#ILIAS hat die folgenden Fragen in der Importdatei gefunden. Bitte wählen Sie die Fragen aus, die Sie mit diesem Test importieren wollen.
 assessment#:#tst_in_use_edit_questions_disabled#:#Der Test wurde bereits von %s Teilnehmerin(nen) begonnen. Sie dürfen deshalb keine Fragen mehr bearbeiten oder verschieben!
@@ -1301,7 +1301,7 @@ assessment#:#tst_show_cancel#:#"Test unterbrechen" anzeigen
 assessment#:#tst_show_cancel_description#:#Zeigt während der Durchführung des Tests einen Button an, mit der der Test unterbrochen werden kann. Achtung: Das Unterbrechen des Tests hält nicht die unter 'Maximale Bearbeitungsdauer' festgelegte Bearbeitungszeit an.
 assessment#:#tst_show_pass_details#:#'Tabelle mit detaillierten Testergebnissen' pro Durchlauf zum gewählten Zeitpunkt anzeigen
 assessment#:#tst_show_results#:#Testergebnisse anzeigen
-assessment#:#tst_show_side_list#:#Fragenliste seitlich anzeigen
+assessment#:#tst_show_side_list#:#Navigationsbaum einblenden
 assessment#:#tst_show_solution_answers_only#:#Druckausgabe der Ergebnisse (nur Antworten)
 assessment#:#tst_show_solution_details#:#Bewertete Teilnehmerantworten
 assessment#:#tst_show_solution_feedback#:#Rückmeldungen
@@ -1490,7 +1490,7 @@ assessment#:#tst_num_wrong_answered_questions#:#Nicht ganz richtig beantwortete 
 assessment#:#tst_num_correct_answered_questions#:#Richtig beantwortete Fragen
 assessment#:#tst_num_postponed_questions#:#Zurückgestellte Fragen
 assessment#:#tst_num_marked_questions#:#Markierte Fragen
-assessment#:#tst_change_dyn_test_question_selection#:#Aktuelle Fragenauswahl ändern
+assessment#:#tst_change_dyn_test_question_selection#:#Fragenauswahl ändern
 assessment#:#tst_dyn_test_msg_currently_finished_completely#:#Aktuell haben Sie alle Fragen des Quellfragenpool erfolgreich beantwortet. Sowie neue oder veränderte Fragen im Quellfragenpool vorliegen können Sie den Test fortführen.
 assessment#:#tst_dyn_test_msg_currently_finished_selection#:#In der aktuellen Fragenauswahl haben Sie alle Fragen erfolgreich beantwortet. Ändern Sie die Fragenauswahl um den Test fort zu führen.
 assessment#:#tst_activate_skill_service#:#Kompetenzservice aktivieren

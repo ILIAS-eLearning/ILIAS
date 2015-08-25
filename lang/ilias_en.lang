@@ -747,7 +747,7 @@ assessment#:#question_marking#:#Flagging Questions
 assessment#:#question_not_answered#:#The question was not answered
 assessment#:#question_saved_for_upload#:#The question was saved automatically in order to reserve hard disk space to store the uploaded file. If you cancel this form now, be aware that you must delete the question in the question pool if you do not want to keep it!
 assessment#:#question_short#:#Q
-assessment#:#question_summary#:#List of Questions
+assessment#:#question_summary#:#View All Questions
 assessment#:#obligations_summary#:#List of Compulsory Questions
 assessment#:#tst_you_have_to_answer_this_question#:#You have to answer this question to be able to finish the test.
 assessment#:#question_title#:#Question Title
@@ -927,7 +927,7 @@ assessment#:#tst_hide_previous_results_description#:#If checked, the previous re
 assessment#:#tst_hide_previous_results_hide#:#Hide my results from a previous test pass
 assessment#:#tst_hide_previous_results_introduction#:#If you’re processing more than one pass of this test, your previous entered results will not be used as default values
 assessment#:#tst_hide_previous_results#:#Hide Previous Results
-assessment#:#tst_hide_side_list#:#Hide question list
+assessment#:#tst_hide_side_list#:#Navigation Tree Off
 assessment#:#tst_import_no_items#:#Error: The import file contains no questions!
 assessment#:#tst_import_verify_found_questions#:#ILIAS found the following questions in the test import file. Please select the questions you want to import with this test.
 assessment#:#tst_in_use_edit_questions_disabled#:#The test is in use by %d user(s). You are not allowed to edit or move the questions in this test!
@@ -1120,7 +1120,7 @@ assessment#:#tst_show_cancel#:#Suspend Test
 assessment#:#tst_show_pass_details#:#Show ‘Table of Detailed Test Results’ for each Test Pass upon Selected Point in Time
 assessment#:#tst_show_pass_details_desc#:#The summary of results will be appended at the point in time indicated in the setting above: A ‘Table of Detailed Test Results’ will show the title of the questionsn and the points scored in a particular test pass. <br> Other than that the table will be displayed after the last test pass possible (setting in link ‘General’, option ‘Limit Number of Test Passes’) or after the test is officially finished (setting in link ‘General’, option ‘Finishing Time’). <br> Further settings about the content of the ‘Table of Detailed Test Results’ can be made in the section ‘Further Details to be Included in Test Results’ of this form.
 assessment#:#tst_show_results#:#Show Test Results
-assessment#:#tst_show_side_list#:#Show question list aside
+assessment#:#tst_show_side_list#:#Navigation Tree On
 assessment#:#tst_show_solution_answers_only#:#Print View of Results (Answers Only)
 assessment#:#tst_show_solution_details#:#Scored Answers of Participant
 assessment#:#tst_show_solution_feedback#:#Feedback
@@ -1311,7 +1311,7 @@ assessment#:#tst_num_wrong_answered_questions#:#Wrong Answered Questions
 assessment#:#tst_num_correct_answered_questions#:#Correct Answered Questions
 assessment#:#tst_num_postponed_questions#:#Postponed Questions
 assessment#:#tst_num_marked_questions#:#Marked Questions
-assessment#:#tst_change_dyn_test_question_selection#:#Change Current Question Selection
+assessment#:#tst_change_dyn_test_question_selection#:#Change Question Selection
 assessment#:#tst_dyn_test_msg_currently_finished_completely#:#Currently you have answered all questions from the selected question pool successfully. You can proceed the test when there are new or edited questions in the question pool.
 assessment#:#tst_dyn_test_msg_currently_finished_selection#:#With the current question selection you have answered all questions successfully. Change the question selection to proceed the test.
 assessment#:#tst_activate_skill_service#:#Activate Competence Service
