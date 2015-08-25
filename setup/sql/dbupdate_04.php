@@ -9972,3 +9972,75 @@ if ($ilDB->tableExists('rbac_log_old'))
 	$ilDB->dropTable('rbac_log_old');
 }
 ?>
+<#4694>
+<?php
+//step 1/3 rbac_templates removes all dublicates
+if ($ilDB->tableExists('rbac_templates'))
+{
+	$res = $ilDB->query("
+		SELECT first.rol_id rol_id, first.type type, first.ops_id ops_id, first.parent parent
+		FROM rbac_templates first
+		WHERE EXISTS (
+			SELECT second.rol_id, second.type, second.ops_id, second.parent
+			FROM rbac_templates second
+			WHERE first.rol_id = second.rol_id
+				AND first.type = second.type
+				AND first.ops_id = second.ops_id
+				AND first.parent = second.parent
+			GROUP BY second.rol_id, second.type, second.ops_id, second.parent
+			HAVING COUNT(second.rol_id) > 1
+		)
+		GROUP BY first.rol_id, first.type, first.ops_id, first.parent
+	");
+
+	while($row = $ilDB->fetchAssoc($res))
+	{
+		$ilDB->manipulateF(
+			"DELETE FROM rbac_templates WHERE rol_id = %s AND type = %s AND ops_id = %s AND parent = %s",
+			array('integer', 'integer', 'integer', 'integer'),
+			array($row['rol_id'], $row['type'], $row['ops_id'], $row['parent'])
+		);
+
+		$ilDB->manipulate("INSERT INTO rbac_templates (rol_id, type, ops_id, parent)".
+			" VALUES (".
+			$ilDB->quote($row['rol_id'], "integer").
+			",".$ilDB->quote($row['type'], "integer").
+			",".$ilDB->quote($row['ops_id'], "integer").
+			",".$ilDB->quote($row['parent'], "integer").
+			")"
+		);
+	}
+}
+?>
+<#4695>
+<?php
+//step 2/3 rbac_templates remove indexes
+if( $ilDB->indexExistsByFields('rbac_templates', array('rol_id')) )
+{
+	$ilDB->dropIndexByFields('rbac_templates', array('rol_id'));
+}
+if( $ilDB->indexExistsByFields('rbac_templates', array('type')) )
+{
+	$ilDB->dropIndexByFields('rbac_templates', array('type'));
+}
+if( $ilDB->indexExistsByFields('rbac_templates', array('ops_id')) )
+{
+	$ilDB->dropIndexByFields('rbac_templates', array('ops_id'));
+}
+if( $ilDB->indexExistsByFields('rbac_templates', array('parent')) )
+{
+	$ilDB->dropIndexByFields('rbac_templates', array('parent'));
+}
+if( $ilDB->indexExistsByFields('rbac_templates', array('rol_id','parent')) )
+{
+	$ilDB->dropIndexByFields('rbac_templates', array('rol_id','parent'));
+}
+?>
+<#4696>
+<?php
+//step 3/3 rbac_templates add primary
+if ($ilDB->tableExists('rbac_templates'))
+{
+	$ilDB->addPrimaryKey('rbac_templates', array('rol_id','parent', 'type', 'ops_id'));
+}
+?>
