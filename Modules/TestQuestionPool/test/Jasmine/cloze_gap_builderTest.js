@@ -3,7 +3,7 @@ var ClozeSettings = {
 	gaps_php : [[]],
 	gaps_combination : []
 };
-xdescribe("cloze_gap_builder", function() {
+describe("cloze_gap_builder", function() {
 	beforeEach(function () {
 	});
 
@@ -71,13 +71,13 @@ xdescribe("cloze_gap_builder", function() {
 		});
 	});
 
-	
+
 	describe("insertGapToJson", function() {
 		beforeEach(function () {
 			ClozeSettings.gaps_php = [[]];
 		});
 		afterEach(function () {
-			
+
 		});
 		it("the value should be empty", function () {
 			expect(ClozeSettings.gaps_php[0].length).toEqual(0);

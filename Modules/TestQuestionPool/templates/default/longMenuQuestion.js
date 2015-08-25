@@ -229,18 +229,24 @@ var longMenuQuestion = (function () {
 			var gap_id = $(this).attr('data-id');
 			var dom_object = $('#taggable').clone().attr('id', 'tagsinput_' + gap_id);
 			$(this).parent().html(dom_object);
+			$('#' +'tagsinput_' + gap_id).parent().prepend('Correct answers: ' );
 			ilBootstrapTaggingOnLoad.id = '#tagsinput_' + gap_id;
 			ilBootstrapTaggingOnLoad.terms = pub.answers[gap_id];
+			pri.afterInit = false;
 			ilBootstrapTaggingOnLoad.callbackItemAdded = function ()
 				{
-					pub.questionParts.list[gap_id][0] = $('#tagsinput_' + gap_id).val();
-					pro.syncWithCorrectAnswers(gap_id);
-					pro.syncWithHiddenTextField();
+					if(pub.afterInit)
+					{
+						pri.questionParts.list[gap_id][0] = $('#tagsinput_' + gap_id).val();
+						pro.syncWithCorrectAnswers(gap_id);
+						pro.syncWithHiddenTextField();
+					}
 				};
 			ilBootstrapTaggingOnLoad.Init();
 			$.each(pub.questionParts.list[gap_id][0], function (index) {
 				$('#tagsinput_' + gap_id).tagsinput('add', pub.questionParts.list[gap_id][0][index]);
 			});
+			pri.afterInit = true;
 		});
 	};
 	
@@ -301,7 +307,7 @@ var longMenuQuestion = (function () {
 		}
 		else
 		{
-			html += '<textarea rows="30" cols="80" class="input-large">';
+			html += '<textarea rows="25" cols="70" class="input-large">';
 			$.each(pub.answers[question_id] , function( index, value ) {
 				html += value + '\n';
 			});
@@ -608,7 +614,22 @@ var longMenuQuestion = (function () {
 			alert('FileReader not usable, implement workaround.');
 		}
 	};
-
+	
+	pub.alternativeInit = function()
+	{
+		$('.longmenu').remove();
+		pri.inlineSelection = true;
+		pro.buildAndInitGapWizard();
+		pro.appendFormParts();
+		pro.syncWithHiddenTextField();
+		pub.questionParts.list = $().ensureNoArrayIsAnObjectRecursive(pub.questionParts.list);
+		pub.answers = $().ensureNoArrayIsAnObjectRecursive(pub.answers);
+		if (window.File && window.FileReader && window.FileList && window.Blob)
+		{
+			pub.filereader_usable = true;
+		}
+	};
+	
 	//Return just the public parts
 	pub.protect = pro;
 	return pub;

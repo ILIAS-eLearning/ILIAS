@@ -1391,7 +1391,7 @@ var ClozeGapBuilder = (function () {
         $('#text_row_' + gap + '_0').find('th').eq(1).css('display', show);
     };
     
-    pub.protected = pro;
+    pub.protect = pro;
     return pub;
 }());
 

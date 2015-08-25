@@ -1,23 +1,34 @@
+var path = '';
+if (typeof window.__karma__ !== 'undefined') {
+	path += 'base/'
+}
+else
+{
+	var $j = $;
+}
+
+
 describe("GapInsertingWizard", function() {
 	beforeEach(function () {
+		jasmine.getFixtures().fixturesPath = path + 'spec/javascripts/fixtures';
 		loadFixtures('gapInsertingWizard.html');
-		GapInsertingWizard.textarea = 'gap_wizard_test';
-		GapInsertingWizard.trigger_id = '#gap_trigger';
+		GapInsertingWizard.textarea 		= 'gap_wizard_test';
+		GapInsertingWizard.trigger_id 		= '#gap_trigger';
 		GapInsertingWizard.replacement_word = 't';
-		GapInsertingWizard.show_end = true;
-		GapInsertingWizard.active_gap = -1;
+		GapInsertingWizard.show_end 		= true;
+		GapInsertingWizard.active_gap 		= -1;
 		GapInsertingWizard.Init();
 	});
 	
 		describe("Init", function() {
 			it("the spy should capture a click event from gap_trigger", function () {
-				var obj = $('#gap_trigger');
+				var obj = $j('#gap_trigger');
 				spyOnEvent(obj, 'click');
 				obj.click();
 				expect('click').toHaveBeenTriggeredOn(obj);
 			});
 			it("the spy should capture a click event from gap_wizard_test", function () {
-				var obj = $('#gap_wizard_test');
+				var obj = $j('#gap_wizard_test');
 				spyOnEvent(obj, 'click');
 				obj.click();
 				expect('click').toHaveBeenTriggeredOn(obj);
