@@ -860,7 +860,7 @@ die("deprecated");
 		
 		$tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.scormeditor_sco_import.html", "Modules/Scorm2004");
 		
-		$tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_slm.svg'));
+		$tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_lm.svg'));
 		$tpl->setVariable("ALT_IMG", $lng->txt("obj_sahs"));
 		
 		$tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
