@@ -1,4 +1,7 @@
 <?php
+require_once('./Services/UIComponent/Button/classes/class.ilSubmitButton.php');
+require_once('./Services/UIComponent/Button/classes/class.ilLinkButton.php');
+
 /* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -7,6 +10,7 @@
 * A default toolbar object is available in the $ilToolbar global object.
 *
 * @author Alex Killing <alex.killing@gmx.de>
+* @author Stefan Wanzenried <sw@studer-raimann.ch>
 * @version $Id$
 * @ingroup ServicesUIComponent
 */
@@ -399,7 +403,9 @@ class ilToolbarGUI
 	public function getHTML()
 	{
 		global $lng;
-		
+
+		$this->applyAutoStickyToSingleElement();
+
 		if (count($this->items) || count($this->sticky_items))
 		{
 			$tpl = new ilTemplate("tpl.toolbar.html", true, true, "Services/UIComponent/Toolbar");
@@ -415,6 +421,11 @@ class ilToolbarGUI
 				$tpl->setCurrentBlock('sticky_items');
 				$tpl->setVariable('STICKY_ITEMS', $tpl_sticky->get());
 				$tpl->parseCurrentBlock();
+			}
+
+			// Hide toggle button if only sticky items are in the toolbar
+			if (count($this->items) == 0) {
+				$tpl->setVariable('HIDE_TOGGLE_CLASS', ' hidden');
 			}
 
 			$markup_items = '';
@@ -618,5 +629,44 @@ class ilToolbarGUI
 	public function setItems($items)
 	{
 		$this->items = $items;
+	}
+
+
+	/**
+	 * If the toolbar consists of only one button, make it sticky
+	 * Note: Atm this is only possible for buttons. If we are dealing with objects implementing the ilToolbarItem
+	 * interface one day, other elements can be added as sticky.
+	 */
+	protected function applyAutoStickyToSingleElement()
+	{
+		if (count($this->items) == 1 && count($this->sticky_items) == 0) {
+			$supported_types = array('button', 'fbutton', 'button_obj');
+			$item = $this->items[0];
+			if (!in_array($item['type'], $supported_types)) {
+				return;
+			}
+			$button = null;
+			switch ($item['type']) {
+				case 'button_obj':
+					$button = $item['instance'];
+					break;
+				case 'fbutton':
+					$button = ilSubmitButton::getInstance();
+					$button->setPrimary($item['primary']);
+					$button->setCaption($item['txt'], false);
+					$button->setCommand($item['cmd']);
+					$button->setAccessKey($item['acc_key']);
+					break;
+				case 'button':
+					$button = ilLinkButton::getInstance();
+					$button->setCaption($item['txt'], false);
+					$button->setTarget($item['cmd']);
+					$button->setId($item['id']);
+					$button->setAccessKey($item['acc_key']);
+					break;
+			}
+			$this->addStickyItem($button);
+			$this->items = array();
+		}
 	}
 }
