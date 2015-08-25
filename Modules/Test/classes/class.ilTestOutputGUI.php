@@ -353,7 +353,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		
 		$nextSequenceElement = $this->testSequence->getNextSequence($currentSequenceElement);
 
-		if(!$this->isValidSequenceElement())
+		if(!$this->isValidSequenceElement($nextSequenceElement))
 		{
 			$nextSequenceElement = $this->testSequence->getFirstSequence();
 		}
@@ -383,7 +383,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 			$this->getCurrentSequenceElement()
 		);
 
-		if(!$this->isValidSequenceElement())
+		if(!$this->isValidSequenceElement($sequenceElement))
 		{
 			$sequenceElement = $this->testSequence->getFirstSequence();
 		}
@@ -402,7 +402,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 			$this->getCurrentSequenceElement()
 		);
 
-		if(!$this->isValidSequenceElement())
+		if(!$this->isValidSequenceElement($sequenceElement))
 		{
 			$sequenceElement = $this->testSequence->getLastSequence();
 		}
