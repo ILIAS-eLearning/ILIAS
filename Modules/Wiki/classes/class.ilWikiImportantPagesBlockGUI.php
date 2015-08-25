@@ -88,6 +88,7 @@ class ilWikiImportantPagesBlockGUI extends ilBlockGUI
 
 		$this->export = $a_export;
 
+		include_once './Modules/Wiki/classes/class.ilWikiPerm.php';
 		if (!$this->export && ilWikiPerm::check("edit_wiki_navigation", $_GET["ref_id"]))
 		{
 			$this->addBlockCommand(
