@@ -38,7 +38,7 @@ class ilDataCollectionFieldListTableGUI extends ilTable2GUI {
 		$this->addColumn($lng->txt('dcl_title'), NULL, 'auto');
 		$this->addColumn($lng->txt('dcl_visible'), NULL, '30px');
 		$this->addColumn($lng->txt('dcl_filter'), NULL, '30px');
-		$this->addColumn($lng->txt('dcl_locked'), NULL, '30px');
+		$this->addColumn($lng->txt('dcl_locked'), NULL, '30px', false, "", $lng->txt('dcl_locked_tooltip'));
 		$this->addColumn($lng->txt('dcl_in_export'), NULL, '30px');
 		$this->addColumn($lng->txt('dcl_description'), NULL, 'auto');
 		$this->addColumn($lng->txt('dcl_field_datatype'), NULL, 'auto');
