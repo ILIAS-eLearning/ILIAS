@@ -916,5 +916,33 @@ class ilTestSequenceDynamicQuestionSet implements ilTestSequenceSummaryProvider
 
 		return $summary;
 	}
+
+	public function hasFilteredQuestionListCheckedQuestions()
+	{
+		$filteredQuestions = $this->questionSet->getFilteredQuestionList()->getQuestionDataArray();
+		
+		foreach($filteredQuestions as $filteredQuestion)
+		{
+			if( $this->isQuestionChecked($filteredQuestion['question_id']) )
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	public function resetFilteredQuestionListsCheckedStatus()
+	{
+		$filteredQuestions = $this->questionSet->getFilteredQuestionList()->getQuestionDataArray();
+
+		foreach($filteredQuestions as $filteredQuestion)
+		{
+			if( $this->isQuestionChecked($filteredQuestion['question_id']) )
+			{
+				$this->setQuestionUnchecked($filteredQuestion['question_id']);
+			}
+		}
+	}
 }
 

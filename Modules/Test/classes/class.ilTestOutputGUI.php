@@ -512,7 +512,9 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		
 		if( !$this->isParticipantsAnswerFixed($questionId) )
 		{
-			$this->saveQuestionSolution(false);
+			$this->saveQuestionSolution(
+				$this->object->isInstantFeedbackAnswerFixationEnabled()
+			);
 			
 			$this->testSequence->setQuestionChecked($questionId);
 			$this->testSequence->saveToDb();

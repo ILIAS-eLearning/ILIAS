@@ -35,6 +35,7 @@ class ilTestPlayerCommands
 	const TOGGLE_SIDE_LIST = 'toggleSideList';
 	
 	const SHOW_QUESTION_SELECTION = 'showQuestionSelection';
+	const UNFREEZE_ANSWERS = 'unfreezeCheckedQuestionsAnswers';
 
 	const SUSPEND_TEST = 'suspendTest';
 	const FINISH_TEST = 'finishTest';

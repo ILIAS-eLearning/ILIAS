@@ -28,10 +28,6 @@ require_once 'Modules/Test/classes/class.ilTestPlayerAbstractGUI.php';
  */
 class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 {
-	const CMD_SHOW_QUESTION_SELECTION = 'showQuestionSelection';
-	const CMD_SHOW_QUESTION = 'showQuestion';
-	const CMD_FROM_PASS_DELETION = 'fromPassDeletion';
-		
 	/**
 	 * @var ilObjTestDynamicQuestionSetConfig
 	 */
@@ -73,6 +69,11 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		$this->testSequence = $testSequenceFactory->getSequence($this->testSession);
 		$this->testSequence->loadFromDb();
 
+		if( $this->object->isInstantFeedbackAnswerFixationEnabled() )
+		{
+			$this->testSequence->setPreventCheckedQuestionsFromComingUpEnabled(true);
+		}
+
 		include_once 'Services/jQuery/classes/class.iljQueryUtil.php';
 		iljQueryUtil::initjQuery();
 		include_once "./Services/YUI/classes/class.ilYuiUtil.php";
@@ -106,7 +107,9 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 				);
 
 				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintRequestGUI.php';
-				$gui = new ilAssQuestionHintRequestGUI($this, self::CMD_SHOW_QUESTION, $this->testSession, $questionGUI);
+				$gui = new ilAssQuestionHintRequestGUI(
+					$this, ilTestPlayerCommands::SHOW_QUESTION, $this->testSession, $questionGUI
+				);
 				
 				$this->ctrl->forwardCommand($gui);
 				
@@ -148,10 +151,10 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		
 		if( $this->dynamicQuestionSetConfig->isAnyQuestionFilterEnabled() )
 		{
-			$this->ctrl->redirect($this, self::CMD_SHOW_QUESTION_SELECTION);
+			$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION_SELECTION);
 		}
 		
-		$this->ctrl->redirect($this, self::CMD_SHOW_QUESTION);
+		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
 	}
 	
 	protected function startTestCmd()
@@ -172,10 +175,10 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		
 		if( $this->dynamicQuestionSetConfig->isAnyQuestionFilterEnabled() )
 		{
-			$this->ctrl->redirect($this, self::CMD_SHOW_QUESTION_SELECTION);
+			$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION_SELECTION);
 		}
 		
-		$this->ctrl->redirect($this, self::CMD_SHOW_QUESTION);
+		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
 	}
 	
 	protected function showQuestionSelectionCmd()
@@ -192,11 +195,14 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 			
 		require_once 'Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
 		$toolbarGUI = new ilToolbarGUI();
-		
-		$toolbarGUI->addButton(
-			$this->getEnterTestButtonLangVar(), $this->ctrl->getLinkTarget($this, self::CMD_SHOW_QUESTION),
-			'', '', '', '', 'submit emphsubmit'
-		);
+
+
+		require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
+		$button = ilLinkButton::getInstance();
+		$button->setUrl($this->getStartTestFromQuestionSelectionLink());
+		$button->setCaption($this->getEnterTestButtonLangVar());
+		$button->setPrimary(true);
+		$toolbarGUI->addButtonInstance($button);
 		
 		if( $this->object->isPassDeletionAllowed() )
 		{
@@ -259,6 +265,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		
 		$this->testSequence->resetTrackedQuestionList();
 		$this->testSequence->saveToDb();
+
 		
 		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION_SELECTION);
 	}
@@ -282,7 +289,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 	{
 		if( !$this->dynamicQuestionSetConfig->isPreviousQuestionsListEnabled() )
 		{
-			$this->ctrl->redirect($this, self::CMD_SHOW_QUESTION);
+			$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
 		}
 		
 		$this->prepareSummaryPage();
@@ -346,7 +353,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		global $ilUser;
 		$this->object->setQuestionSetSolved(0, $this->testSession->getCurrentQuestionId(), $ilUser->getId());
 		
-		$this->ctrl->redirect($this, 'showQuestion');
+		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
 	}
 
 	protected function editSolutionCmd()
@@ -390,6 +397,28 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 
 		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
 	}
+
+	protected function isCheckedQuestionResettingConfirmationRequired()
+	{
+		if( !$this->getResetCheckedParameter() )
+		{
+			return false;
+		}
+		
+		if( $this->testSession->getQuestionSetFilterSelection()->isAnswerStatusSelectionWrongAnswered() )
+		{
+			$this->testSequence->loadQuestions(
+				$this->dynamicQuestionSetConfig, $this->testSession->getQuestionSetFilterSelection()
+			);
+
+			if( $this->testSequence->hasFilteredQuestionListCheckedQuestions() )
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
 	
 	protected function showQuestionCmd()
 	{
@@ -400,6 +429,12 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		);
 		
 		$this->testSequence->cleanupQuestions($this->testSession);
+		
+		if( $this->isCheckedQuestionResettingConfirmationRequired() )
+		{
+			$this->showCheckedQuestionResettingConfirmation();
+			return;
+		}
 		
 		if( $this->getQuestionIdParameter() )
 		{
@@ -412,11 +447,15 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 			
 			$this->testSession->setCurrentQuestionId($upComingQuestionId);
 			
-			if( $this->testSequence->isQuestionChecked($upComingQuestionId) )
+			// seems to be a first try of freezing answers not too hard
+			/*if( $this->testSequence->isQuestionChecked($upComingQuestionId) )
 			{
 				$this->testSequence->setQuestionUnchecked($upComingQuestionId);
-			}
+			}*/
 		}
+
+		$navigationToolbarGUI = $this->getTestNavigationToolbarGUI();
+		$navigationToolbarGUI->setQuestionSelectionButtonEnabled(true);
 
 		if( $this->testSession->getCurrentQuestionId() )
 		{
@@ -443,15 +482,18 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 			{
 				$presentationMode = $this->determinePresentationMode($questionGui->object->getId());
 			}
-			
+
 			$instantResponse = $this->getInstantResponseParameter();
+			
+			if( $this->isParticipantsAnswerFixed($this->testSession->getCurrentQuestionId()) )
+			{
+				$instantResponse = true;
+				$presentationMode = ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW;
+			}
 
 			$this->prepareTestPage($presentationMode,
 				$this->testSession->getCurrentQuestionId(), $this->testSession->getCurrentQuestionId()
 			);
-
-			$navigationToolbarGUI = $this->getTestNavigationToolbarGUI();
-			$navigationToolbarGUI->setQuestionSelectionButtonEnabled(true);
 			
 			$this->ctrl->setParameter($this, 'sequence', $this->testSession->getCurrentQuestionId());
 			$this->ctrl->setParameter($this, 'pmode', $presentationMode);
@@ -499,6 +541,11 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		}
 		else
 		{
+			$this->prepareTestPage(ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW, null, null);
+
+			$navigationToolbarGUI->build();
+			$this->populateTestNavigationToolbar($navigationToolbarGUI);
+			
 			$this->outCurrentlyFinishedPage();
 		}
 		
@@ -520,7 +567,9 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 
 		if( !$this->isParticipantsAnswerFixed($questionId) )
 		{
-			$this->saveQuestionSolution(false);
+			$this->saveQuestionSolution(
+				$this->object->isInstantFeedbackAnswerFixationEnabled()
+			);
 
 			$this->testSequence->unsetQuestionPostponed($questionId);
 			$this->testSequence->setQuestionChecked($questionId);
@@ -549,7 +598,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 				$this, 'sequence', $this->testSession->getCurrentQuestionId()
 		);
 		
-		$this->ctrl->redirect($this, 'showQuestion');
+		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
 	}
 
 	private function outCurrentlyFinishedPage()
@@ -566,14 +615,10 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		
 		$msgHtml = $this->tpl->getMessageHTML($message);
 		
-		$this->tpl->addBlockFile(
-				'QUESTION_OUTPUT', 'test_currently_finished_msg_block',
-				'tpl.test_currently_finished_msg.html', 'Modules/Test'
-		);
+		$tpl = new ilTemplate('tpl.test_currently_finished_msg.html', true, true, 'Modules/Test');
+		$tpl->setVariable('TEST_CURRENTLY_FINISHED_MSG', $msgHtml);
 		
-		$this->tpl->setCurrentBlock('test_currently_finished_msg_block');
-		$this->tpl->setVariable('TEST_CURRENTLY_FINISHED_MSG', $msgHtml);
-		$this->tpl->parseCurrentBlock();
+		$this->tpl->setVariable('QUESTION_OUTPUT', $tpl->get());
 	}
 	
 	protected function isFirstQuestionInSequence($sequenceElement)
@@ -667,22 +712,6 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		}
 		
 		return true;
-	}
-
-
-	protected function populatePreviousButtons()
-	{
-		if( !$this->dynamicQuestionSetConfig->isPreviousQuestionsListEnabled() )
-		{
-			return;
-		}
-		
-		$this->populateUpperPreviousButtonBlock(
-				'showTrackedQuestionList', "&lt;&lt; " . $this->lng->txt( "save_previous" )
-		);
-		$this->populateLowerPreviousButtonBlock(
-				'showTrackedQuestionList', "&lt;&lt; " . $this->lng->txt( "save_previous" )
-		);
 	}
 	
 	protected function buildQuestionsTableDataArray($questions, $marked_questions)
@@ -814,7 +843,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 	{
 		require_once 'Modules/Test/classes/tables/class.ilTestDynamicQuestionSetStatisticTableGUI.php';
 		$gui = new ilTestDynamicQuestionSetStatisticTableGUI(
-				$this->ctrl, $this->lng, $this, 'showQuestionSelection', $tableId
+				$this->ctrl, $this->lng, $this, ilTestPlayerCommands::SHOW_QUESTION_SELECTION, $tableId
 		);
 		
 		$gui->setShowNumMarkedQuestionsEnabled($this->object->getShowMarker());
@@ -827,10 +856,10 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 	{
 		if( $this->testSequence->trackedQuestionExists() )
 		{
-			return $this->lng->txt('tst_resume_dyn_test_with_cur_quest_sel');
+			return 'tst_resume_dyn_test_with_cur_quest_sel';
 		}
 		
-		return $this->lng->txt('tst_start_dyn_test_with_cur_quest_sel');
+		return 'tst_start_dyn_test_with_cur_quest_sel';
 	}
 
 	protected function persistQuestionAnswerStatus()
@@ -891,11 +920,20 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 	{
 		return $this->getSequenceElementParameter();
 	}
+	
+	protected function getResetCheckedParameter()
+	{
+		if( isset($_GET['reset_checked']) )
+		{
+			return $_GET['reset_checked'];
+		}
+
+		return null;
+
+	}
 
 	public function outQuestionSummaryCmd($fullpage = true, $contextFinishTest = false, $obligationsNotAnswered = false, $obligationsFilter = false)
 	{
-		$this->testSequence->loadFromDb();
-		
 		$this->testSequence->loadQuestions(
 			$this->dynamicQuestionSetConfig, $this->testSession->getQuestionSetFilterSelection()
 		);
@@ -903,5 +941,46 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		$this->testSequence->setCurrentQuestionId($this->testSession->getCurrentQuestionId());
 		
 		parent::outQuestionSummaryCmd($fullpage, $contextFinishTest, $obligationsNotAnswered, $obligationsFilter);
+	}
+	
+	protected function showCheckedQuestionResettingConfirmation()
+	{
+		require_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
+		$confirmation = new ilConfirmationGUI();
+		$confirmation->setFormAction($this->ctrl->getFormAction($this));
+		$confirmation->setHeaderText($this->lng->txt('tst_dyn_unfreeze_answers_confirmation'));
+		$confirmation->setConfirm($this->lng->txt('tst_dyn_unfreeze_answers'), ilTestPlayerCommands::UNFREEZE_ANSWERS);
+		$confirmation->setCancel($this->lng->txt('tst_dyn_keep_answ_freeze'), ilTestPlayerCommands::SHOW_QUESTION);
+
+		$this->populateMessageContent($confirmation->getHtml());
+	}
+	
+	protected function unfreezeCheckedQuestionsAnswersCmd()
+	{
+		$this->testSequence->loadQuestions(
+			$this->dynamicQuestionSetConfig, $this->testSession->getQuestionSetFilterSelection()
+		);
+
+		$this->testSequence->resetFilteredQuestionListsCheckedStatus();
+		$this->testSequence->saveToDb();
+
+		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
+	}
+
+	protected function populateQuestionNavigation($sequenceElement, $disabled)
+	{
+		if( !$this->isLastQuestionInSequence($sequenceElement) )
+		{
+			$this->populateNextButtons($disabled);
+		}
+	}
+	
+	protected function getStartTestFromQuestionSelectionLink()
+	{
+		$this->ctrl->setParameter($this, 'reset_checked', 1);		
+		$link = $this->ctrl->getLinkTarget($this, ilTestPlayerCommands::SHOW_QUESTION);
+		$this->ctrl->setParameter($this, 'reset_checked', '');
+
+		return $link;
 	}
 }

@@ -1121,6 +1121,9 @@ assessment#:#tst_show_pass_details#:#Show ‘Table of Detailed Test Results’ f
 assessment#:#tst_show_pass_details_desc#:#The summary of results will be appended at the point in time indicated in the setting above: A ‘Table of Detailed Test Results’ will show the title of the questionsn and the points scored in a particular test pass. <br> Other than that the table will be displayed after the last test pass possible (setting in link ‘General’, option ‘Limit Number of Test Passes’) or after the test is officially finished (setting in link ‘General’, option ‘Finishing Time’). <br> Further settings about the content of the ‘Table of Detailed Test Results’ can be made in the section ‘Further Details to be Included in Test Results’ of this form.
 assessment#:#tst_show_results#:#Show Test Results
 assessment#:#tst_show_side_list#:#Navigation Tree On
+assessment#:#tst_dyn_unfreeze_answers_confirmation#:#There are questions to which your inital answers were fixed and you could not make any changes. Do you want to answer them one more time now and thus unfreeze your answers?
+assessment#:#tst_dyn_unfreeze_answers#:#Answer once more
+assessment#:#tst_dyn_keep_answ_freeze#:#Keep my current answers frozen
 assessment#:#tst_show_solution_answers_only#:#Print View of Results (Answers Only)
 assessment#:#tst_show_solution_details#:#Scored Answers of Participant
 assessment#:#tst_show_solution_feedback#:#Feedback

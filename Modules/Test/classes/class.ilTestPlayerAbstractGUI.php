@@ -588,15 +588,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$confirmation->setConfirm($this->lng->txt("tst_finish_confirm_button"), 'confirmFinish');
 		$confirmation->setCancel($this->lng->txt("tst_finish_confirm_cancel_button"), 'backConfirmFinish');
 
-		if($this->object->getKioskMode())
-		{
-			$this->tpl->addBlockfile($this->getContentBlockName(), 'content', "tpl.il_as_tst_kiosk_mode_content.html", "Modules/Test");
-			$this->tpl->setContent($confirmation->getHtml());
-		}
-		else
-		{
-			$this->tpl->setVariable($this->getContentBlockName(), $confirmation->getHtml());
-		}
+		$this->populateMessageContent($confirmation->getHtml());
 	}
 
 	function finishTestCmd($requires_confirmation = true)
@@ -1693,7 +1685,10 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		require_once 'Modules/Test/classes/class.ilTestQuestionNavigationGUI.php';
 		$navigationGUI = new ilTestQuestionNavigationGUI($this->lng);
 		
-		$navigationGUI->setEditSolutionCommand(ilTestPlayerCommands::EDIT_SOLUTION);
+		if( !$this->isParticipantsAnswerFixed($questionId) )
+		{
+			$navigationGUI->setEditSolutionCommand(ilTestPlayerCommands::EDIT_SOLUTION);
+		}
 
 		if($this->object->getShowMarker())
 		{
@@ -2024,5 +2019,20 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
 		$this->ctrl->setParameter($this, 'sequence', $this->testSequence->getFirstSequence());
 		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
+	}
+
+	/**
+	 * @param $contentHTML
+	 */
+	protected function populateMessageContent($contentHTML)
+	{
+		if($this->object->getKioskMode())
+		{
+			$this->tpl->addBlockfile($this->getContentBlockName(), 'content', "tpl.il_as_tst_kiosk_mode_content.html", "Modules/Test");
+			$this->tpl->setContent($contentHTML);
+		} else
+		{
+			$this->tpl->setVariable($this->getContentBlockName(), $contentHTML);
+		}
 	}
 }
