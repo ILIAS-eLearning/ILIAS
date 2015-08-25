@@ -359,8 +359,9 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 			$nextSequenceElement = $this->testSequence->getFirstSequence();
 		}
 		
-		$nextQuestionOBJ = $this->getQuestionInstance($this->testSequence->getQuestionForSequence($nextSequenceElement));
-		$presentationMode = $this->determinePresentationMode($nextQuestionOBJ);
+		$presentationMode = $this->determinePresentationMode(
+			$this->testSequence->getQuestionForSequence($nextSequenceElement)
+		);
 		
 		$this->testSession->setLastSequence($nextSequenceElement);
 		$this->testSession->setLastPresentationMode($presentationMode);
