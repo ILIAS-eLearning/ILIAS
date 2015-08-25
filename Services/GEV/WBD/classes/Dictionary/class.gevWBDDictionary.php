@@ -1,5 +1,5 @@
 <?php
-class gevDictionary implements Dictionary {
+class gevWBDDictionary implements Dictionary {
 	const WBD_NAME = "toWBDName";
 	const INTERNAL_NAME = "toInternalName";
 
