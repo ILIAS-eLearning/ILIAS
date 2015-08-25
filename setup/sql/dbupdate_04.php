@@ -9877,4 +9877,98 @@ if(!$ilDB->tableColumnExists('obj_members','contact'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#4690>
+<?php
+//step 1/4 rbac_log renames old table
 
+if ($ilDB->tableExists('rbac_log') && !$ilDB->tableExists('rbac_log_old'))
+{
+	$ilDB->renameTable("rbac_log", "rbac_log_old");
+}
+?>
+<#4691>
+<?php
+//step 2/4 rbac_log creates new table with unique id and sequenz
+
+if (!$ilDB->tableExists('rbac_log'))
+{
+	$ilDB->createTable('rbac_log',array(
+		'log_id'		=> array(
+			'type'	=> 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'user_id'	=> array(
+			'type'	=> 'integer',
+			'length'=> 4,
+			'notnull' => TRUE
+		),
+		'created'	=> array(
+			'type'	=> 'integer',
+			'length'=> 4,
+			'notnull' => TRUE
+		),
+		'ref_id'	=> array(
+			'type'	=> 'integer',
+			'length'=> 4,
+			'notnull' => TRUE
+		),
+		'action'	=> array(
+			'type'	=> 'integer',
+			'length'=> 1,
+			'notnull' => TRUE
+		),
+		'data' 		=> array(
+			'type'    => 'clob',
+			'notnull' => false,
+			'default' => null
+		)
+	));
+	$ilDB->addPrimaryKey('rbac_log', array('log_id'));
+	$ilDB->addIndex('rbac_log',array('ref_id'),'i1');
+	$ilDB->createSequence('rbac_log');
+}
+?>
+<#4692>
+<?php
+//step 3/4 rbac_log moves all data to new table
+
+if ($ilDB->tableExists('rbac_log') && $ilDB->tableExists('rbac_log_old'))
+{
+	$res = $ilDB->query("
+		SELECT *
+		FROM rbac_log_old
+	");
+
+	while($row = $ilDB->fetchAssoc($res))
+	{
+		$id = $ilDB->nextId('rbac_log');
+
+		$ilDB->manipulate("INSERT INTO rbac_log (log_id, user_id, created, ref_id, action, data)".
+			" VALUES (".
+			$ilDB->quote($id, "integer").
+			",".$ilDB->quote($row['user_id'], "integer").
+			",".$ilDB->quote($row['created'], "integer").
+			",".$ilDB->quote($row['ref_id'], "integer").
+			",".$ilDB->quote($row['action'], "integer").
+			",".$ilDB->quote($row['data'], "text").
+			")"
+		);
+
+		$ilDB->manipulateF(
+			"DELETE FROM rbac_log_old WHERE user_id = %s AND created = %s AND ref_id = %s AND action = %s",
+			array('integer', 'integer', 'integer', 'integer'),
+			array($row['user_id'], $row['created'], $row['ref_id'], $row['action'])
+        );
+	}
+}
+?>
+<#4693>
+<?php
+//step 4/4 rbac_log removes all table
+
+if ($ilDB->tableExists('rbac_log_old'))
+{
+	$ilDB->dropTable('rbac_log_old');
+}
+?>
