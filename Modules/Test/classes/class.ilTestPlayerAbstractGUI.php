@@ -1548,11 +1548,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			$this->getContentBlockName(), 'adm_content', 'tpl.il_as_tst_question_summary.html', 'Modules/Test'
 		);
 
-		if ($this->object->getShowCancel())
-		{
-			$this->populateCancelButtonBlock();
-		}
-
 		if ($this->object->getKioskMode())
 		{
 			$this->populateKioskHead();
