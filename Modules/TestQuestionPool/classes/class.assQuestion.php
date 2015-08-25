@@ -3186,7 +3186,7 @@ abstract class assQuestion
 	*/
 	public static function _isWorkedThrough($active_id, $question_id, $pass = NULL)
 	{
-		return self::resultRecordExist($active_id, $question_id, $pass);
+		return self::lookupResultRecordExist($active_id, $question_id, $pass);
 		
 		// oldschool "workedthru"
 
@@ -4667,7 +4667,7 @@ abstract class assQuestion
 		);
 	}
 
-	public static function resultRecordExist($activeId, $questionId, $pass)
+	public static function lookupResultRecordExist($activeId, $questionId, $pass)
 	{
 		global $ilDB;
 

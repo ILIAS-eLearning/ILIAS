@@ -2001,10 +2001,13 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		return self::getDefaultPresentationMode();
 	}
 	
-	protected function determinePresentationMode(assQuestion $questionOBJ)
+	protected function determinePresentationMode($questionId)
 	{
-		$isWorkedThru = $questionOBJ->resultRecordExist();
-		return self::getRequiredPresentationMode($isWorkedThru);
+		$isWorkedThrough = assQuestion::lookupResultRecordExist(
+			$this->testSession->getActiveId(), $questionId, $this->testSession->getPass()
+		);
+		
+		return self::getRequiredPresentationMode($isWorkedThrough);
 	}
 
 	/**
