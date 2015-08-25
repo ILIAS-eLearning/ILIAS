@@ -1672,7 +1672,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		return false;
 	}
 	
-	protected function buildTestNavigationToolbarGUI($isEditState, $withQuestionSelection)
+	protected function getTestNavigationToolbarGUI()
 	{
 		global $ilUser;
 		
@@ -1683,12 +1683,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$navigationToolbarGUI->setQuestionTreeButtonEnabled($this->object->getListOfQuestions());
 		$navigationToolbarGUI->setQuestionTreeVisible($ilUser->getPref('side_list_of_questions'));
 		$navigationToolbarGUI->setQuestionListButtonEnabled($this->object->getListOfQuestions());
-		$navigationToolbarGUI->setQuestionSelectionButtonEnabled($withQuestionSelection);
 		$navigationToolbarGUI->setFinishTestCommand($this->getFinishTestCommand());
-
-		$navigationToolbarGUI->setDisabledStateEnabled($isEditState);
-		
-		$navigationToolbarGUI->build();
 		
 		return $navigationToolbarGUI;
 	}

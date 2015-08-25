@@ -53,6 +53,11 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
 	private $questionSelectionButtonEnabled = false;
 
 	/**
+	 * @var bool
+	 */
+	private $finishTestButtonEnabled = false;
+	
+	/**
 	 * @var string
 	 */
 	private $finishTestCommand = '';
@@ -157,6 +162,22 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
 	}
 
 	/**
+	 * @return boolean
+	 */
+	public function isFinishTestButtonEnabled()
+	{
+		return $this->finishTestButtonEnabled;
+	}
+
+	/**
+	 * @param boolean $finishTestButtonEnabled
+	 */
+	public function setFinishTestButtonEnabled($finishTestButtonEnabled)
+	{
+		$this->finishTestButtonEnabled = $finishTestButtonEnabled;
+	}
+
+	/**
 	 * @return string
 	 */
 	public function getFinishTestCommand()
@@ -210,7 +231,10 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
 			$this->addSuspendTestButton();
 		}
 
-		$this->addFinishTestButton();
+		if( $this->isFinishTestButtonEnabled() )
+		{
+			$this->addFinishTestButton();
+		}
 	}
 	
 	private function addSuspendTestButton()

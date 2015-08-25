@@ -273,9 +273,8 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
 		$this->prepareTestPage($presentationMode, $sequenceElement, $questionId);
 
-		$this->populateTestNavigationToolbar($this->buildTestNavigationToolbarGUI(
-			$presentationMode == self::PRESENTATION_MODE_EDIT, false
-		));
+		$navigationToolbarGUI = $this->getTestNavigationToolbarGUI();
+		$navigationToolbarGUI->setFinishTestButtonEnabled(true);
 
 		$this->ctrl->setParameter($this, 'sequence', $sequenceElement);
 		$this->ctrl->setParameter($this, 'pmode', $presentationMode);
@@ -285,12 +284,16 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		{
 			case ilTestPlayerAbstractGUI::PRESENTATION_MODE_EDIT:
 
+				$navigationToolbarGUI->setDisabledStateEnabled(true);
+				
 				$this->showQuestionEditable($questionGui, $instantResponse, $formAction);
+				
 				break;
 			
 			case ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW:
 				
 				$this->showQuestionViewable($questionGui, $formAction);
+				
 				break;
 			
 			default:
@@ -302,18 +305,21 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 				exit;
 		}
 
+		$navigationToolbarGUI->build();
+		$this->populateTestNavigationToolbar($navigationToolbarGUI);
+
+		$this->populateQuestionNavigation(
+			$sequenceElement, $presentationMode == ilTestPlayerAbstractGUI::PRESENTATION_MODE_EDIT
+		);
+		
+		$this->populateObligationIndicatorIfRequired($questionGui);
+
 		if ($instantResponse)
 		{
 			$this->populateInstantResponseBlocks(
 				$questionGui, $presentationMode == ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW
 			);
 		}
-
-		$this->populateQuestionNavigation(
-			$sequenceElement, $presentationMode == ilTestPlayerAbstractGUI::PRESENTATION_MODE_EDIT
-		);
-
-		$this->populateObligationIndicatorIfRequired($questionGui);
 	}
 
 	protected function editSolutionCmd()

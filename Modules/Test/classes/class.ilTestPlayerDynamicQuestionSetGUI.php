@@ -445,10 +445,13 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 				$this->testSession->getCurrentQuestionId(), $this->testSession->getCurrentQuestionId()
 			);
 
-			$this->populateTestNavigationToolbar($this->buildTestNavigationToolbarGUI(
+			$this->populateTestNavigationToolbar($this->getTestNavigationToolbarGUI(
 				$presentationMode == self::PRESENTATION_MODE_EDIT, true
 			));
-
+			
+			$navigationToolbarGUI = $this->getTestNavigationToolbarGUI();
+			$navigationToolbarGUI->setQuestionSelectionButtonEnabled(true);
+			
 			$this->ctrl->setParameter($this, 'sequence', $this->testSession->getCurrentQuestionId());
 			$this->ctrl->setParameter($this, 'pmode', $presentationMode);
 			$formAction = $this->ctrl->getFormAction($this);
@@ -457,12 +460,16 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 			{
 				case ilTestPlayerAbstractGUI::PRESENTATION_MODE_EDIT:
 
+					$navigationToolbarGUI->setDisabledStateEnabled(true);
+					
 					$this->showQuestionEditable($questionGui, $instantResponse, $formAction);
+					
 					break;
 
 				case ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW:
 
 					$this->showQuestionViewable($questionGui, $formAction);
+					
 					break;
 
 				default:
@@ -473,6 +480,9 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 					vd($this->testSession->getCurrentQuestionId());
 					exit;
 			}
+			
+			$navigationToolbarGUI->build();
+			$this->populateTestNavigationToolbar($navigationToolbarGUI);
 
 			$this->populateQuestionNavigation(
 				$this->testSession->getCurrentQuestionId(),
