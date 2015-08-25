@@ -328,10 +328,10 @@ class ilTestQuestionNavigationGUI
 	{
 		if( $this->hintRequestsExist() )
 		{
-			return $this->lng->txt("button_request_next_question_hint");
+			return 'button_request_next_question_hint';
 		}
 		
-		return $this->lng->txt("button_request_question_hint");
+		return 'button_request_question_hint';
 	}
 
 	private function getQuestionMarkIconLabel()

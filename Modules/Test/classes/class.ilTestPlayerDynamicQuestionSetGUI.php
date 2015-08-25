@@ -92,7 +92,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		{
 			case 'ilassquestionpagegui':
 
-				$questionId = $this->testSequence->getQuestionForSequence( $this->calculateSequence() );
+				$questionId = $this->testSession->getCurrentQuestionId();
 
 				require_once "./Modules/TestQuestionPool/classes/class.ilAssQuestionPageGUI.php";
 				$page_gui = new ilAssQuestionPageGUI($questionId);
@@ -102,7 +102,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 			case 'ilassquestionhintrequestgui':
 				
 				$questionGUI = $this->object->createQuestionGUI(
-					"", $this->testSequenceFactory->getSequence()->getQuestionForSequence( $this->calculateSequence() )
+					"", $this->testSession->getCurrentQuestionId()
 				);
 
 				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintRequestGUI.php';

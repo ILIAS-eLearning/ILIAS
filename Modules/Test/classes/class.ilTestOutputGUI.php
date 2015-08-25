@@ -64,7 +64,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
 				$this->checkTestExecutable();
 				
-				$questionId = $this->testSequence->getQuestionForSequence( $this->calculateSequence() );
+				$questionId = $this->testSequence->getQuestionForSequence($this->getCurrentSequenceElement());
 
 				require_once "./Modules/TestQuestionPool/classes/class.ilAssQuestionPageGUI.php";
 				$page_gui = new ilAssQuestionPageGUI($questionId);
@@ -85,7 +85,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 				$this->checkTestExecutable();
 
 				$questionGUI = $this->object->createQuestionGUI(
-					"", $this->testSequence->getQuestionForSequence( $this->calculateSequence() )
+					"", $this->testSequence->getQuestionForSequence($this->getCurrentSequenceElement())
 				);
 
 				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintTracking.php';
