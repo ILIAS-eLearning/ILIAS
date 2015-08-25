@@ -6,10 +6,12 @@ il.Search = {
 	search_options: false,
 	search_area_form: false,
 	search_filter_by_type_off: '',
+	search_filter_by_cd_off: '',
 	
 	// init
 	init: function() {
 		il.Search.search_filter_by_type_off = $('#sop_type').html();
+		il.Search.search_filter_by_cd_off = $('#sop_type').html();
 		il.Search.search_options = $("#search_options");
 		if (il.Search.search_options) {
 			il.Overlay.add("search_options", {});
@@ -22,6 +24,16 @@ il.Search = {
 			il.Overlay.add("search_area_form", {});
 			il.Overlay.addTrigger("search_area_form_tr", "click", "search_area_form", "search_area_form_tr", false, 'tl', 'bl');
 			il.Overlay.hide(null, "search_area_form");
+			il.Search.syncOptions();
+			/*$('input[name=combination]').change(function () {
+				il.Search.syncOptions();
+				});*/
+		}
+		il.Search.search_cdate_form = $("#search_cdate_form");
+		if (il.Search.search_cdate_form) {
+			il.Overlay.add("search_cdate_form", {});
+			il.Overlay.addTrigger("search_cdate_form_tr", "click", "search_cdate_form", "search_cdate_form_tr", false, 'tl', 'bl');
+			il.Overlay.hide(null, "search_cdate_form");
 			il.Search.syncOptions();
 			/*$('input[name=combination]').change(function () {
 				il.Search.syncOptions();
@@ -59,6 +71,16 @@ il.Search = {
 				$('#sop_type').html(tstr);
 			}
 		}
+		
+		// cdates
+		ctype = $('input[name=screation]').is(':checked');
+		if(!ctype) {
+			$('#sop_cd').html(il.Search.search_filter_by_cd_off);
+		}
+		else {
+			$('#sop_cd').html('On');
+		}
+		
 		var area = $('a[name=area_anchor]').html();
 		$('#sop_area').html(area);
 	}
