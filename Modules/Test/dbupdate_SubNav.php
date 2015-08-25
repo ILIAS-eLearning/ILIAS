@@ -32,4 +32,11 @@ if( !$ilDB->tableColumnExists('tst_solutions', 'authorized') )
 
 // -----------------------------------------------------------------------------
 
+if( $ilDB->tableColumnExists('tst_dyn_quest_set_cfg', 'prev_quest_list_enabled') )
+{
+	$ilDB->dropTableColumn('tst_dyn_quest_set_cfg', 'prev_quest_list_enabled');
+}
+
+// -----------------------------------------------------------------------------
+
 echo '[ OK ]';
