@@ -2110,7 +2110,7 @@ common#:#check_user_accounts#:#Check user accounts
 common#:#check_web_resources_desc#:#If enabled all Weblinks will be checked if they are active.
 common#:#check_web_resources#:#Check Weblinks
 common#:#check#:#Check
-assessment#:#submit_and_check#:#Submit Answer and Check
+assessment#:#submit_and_check#:#Submit and Check Answer
 common#:#checked_files#:#Importable files
 common#:#checked#:#Checked
 common#:#chg_ilias_and_webfolder_password#:#Change Webfolder Password
