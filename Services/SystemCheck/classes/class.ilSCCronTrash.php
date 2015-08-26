@@ -165,9 +165,6 @@ class ilSCCronTrash extends ilCronJob
 	{
 		include_once './Services/Administration/classes/class.ilSetting.php';
 		$settings = new ilSetting('sysc');
-
-		$GLOBALS['ilLog']->write(print_r($a_fields));
-		
 		$a_fields[$a_form_id] = $settings->get('number',10);
 		
 	}
