@@ -27,7 +27,6 @@ require_once("./Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.ph
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjStudyProgrammeSettingsGUI
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjStudyProgrammeTreeGUI
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjStudyProgrammeMembersGUI
- * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilStudyProgrammeTypeGUI, ilTranslationGUI
  */
 
 class ilObjStudyProgrammeGUI extends ilContainerGUI {
@@ -519,13 +518,6 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 								   );
 		}
 
-		if($this->checkAccess("subtypes")) {
-			$this->tabs_gui->addTab( self::TAB_SUBTYPES
-				, $this->lng->txt("prg_subtypes")
-				, $this->getLinkTarget("subtypes")
-			);
-		}
-		
 		parent::getTabs($this->tabs_gui);
 	}
 

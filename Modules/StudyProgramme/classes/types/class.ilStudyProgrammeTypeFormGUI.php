@@ -43,6 +43,7 @@ class ilStudyProgrammeTypeFormGUI extends ilPropertyFormGUI {
         $this->ctrl = $ilCtrl;
         $this->lng = $lng;
         $this->lng->loadLanguageModule('meta');
+        $this->lng->loadLanguageModule('prg');
 	    
         $this->initForm();
     }
@@ -88,6 +89,7 @@ class ilStudyProgrammeTypeFormGUI extends ilPropertyFormGUI {
             $this->addTranslationInputs($lang_code);
         }
 
+        $this->addCommandButton('cancel', $this->lng->txt('cancel'));
         if ($this->type->getId()) {
             $this->addCommandButton('update', $this->lng->txt('save'));
         } else {

@@ -1,6 +1,7 @@
 <?php
 require_once('./Services/Table/classes/class.ilTable2GUI.php');
 require_once('./Modules/StudyProgramme/classes/model/class.ilStudyProgrammeType.php');
+require_once('./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php');
 
 class ilStudyProgrammeTypeTableGUI extends ilTable2GUI {
 

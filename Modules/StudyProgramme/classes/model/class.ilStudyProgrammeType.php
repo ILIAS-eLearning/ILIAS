@@ -4,6 +4,8 @@ require_once('class.ilStudyProgrammeTypeTranslation.php');
 require_once('./Modules/StudyProgramme/classes/exceptions/class.ilStudyProgrammeTypeException.php');
 require_once('./Modules/StudyProgramme/classes/exceptions/class.ilStudyProgrammeTypePluginException.php');
 require_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
+require_once('./Modules/StudyProgramme/classes/model/class.ilStudyProgramme.php');
+require_once('./Modules/StudyProgramme/classes/model/class.ilStudyProgrammeAdvancedMetadataRecord.php');
 
 /**
  * Class ilStudyProgrammeType
@@ -117,7 +119,7 @@ class ilStudyProgrammeType extends ActiveRecord {
 	/**
 	 * @var array with the changed TypeTranslations
 	 */
-	protected $changed_translations;
+	protected $changed_translations = array();
 
 	/**
 	 * @return string
