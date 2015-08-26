@@ -224,11 +224,8 @@ class ilFileDelivery {
 	protected function deliverPHP() {
 		set_time_limit(0);
 		$file = fopen(($this->getPathToFile()), "rb");
-		while (! feof($file)) {
-			print(@fread($file, 1024 * 8));
-			ob_flush();
-			flush();
-		}
+
+		fpassthru($file);
 	}
 
 
