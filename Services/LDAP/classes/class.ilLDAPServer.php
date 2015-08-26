@@ -206,6 +206,27 @@ class ilLDAPServer
 		return $server_ids ? $server_ids : array();
 	}
 	
+	/**
+	 * Get list of all configured servers
+	 * 
+	 * @return array list of server
+	 */
+	public static function _getAllServer()
+	{
+		global $ilDB;
+		
+		$query = "SELECT * FROM ldap_server_settings ORDER BY name";
+		
+		$server = array();
+		
+		$res = $ilDB->query($query);
+		while($row = $ilDB->fetchAssoc($res))
+		{
+			$server[] = $row;
+		}
+		return $server;
+	}
+	
 	/* 
 	 * Get first server id
 	 *
@@ -677,7 +698,15 @@ class ilLDAPServer
 	public function enableRoleSynchronization($a_value)
 	{
 		$this->role_sync_active = $a_value;
+	}// start Patch Name Filter
+	public function getUsernameFilter()
+	{
+		return $this->username_filter;
 	}
+	public function setUsernameFilter($a_value)
+	{
+		$this->username_filter = $a_value;
+	}// end Patch Name Filter
 	
 	/**
 	 * Enable account migration
@@ -742,19 +771,19 @@ class ilLDAPServer
 	public function create() 
 	{
 		global $ilDB;
-		
+		// start Patch Name Filter remove ",username_filter", ",%s", ",$this->getUsernameFilter()"
 		$next_id = $ilDB->nextId('ldap_server_settings');
 		
 		$query = 'INSERT INTO ldap_server_settings (server_id,active,name,url,version,base_dn,referrals,tls,bind_type,bind_user,bind_pass,'.
 			'search_base,user_scope,user_attribute,filter,group_dn,group_scope,group_filter,group_member,group_memberisdn,group_name,'.
 			'group_attribute,group_optional,group_user_filter,sync_on_login,sync_per_cron,role_sync_active,role_bind_dn,role_bind_pass,migration, '.
-			'authentication,authentication_type) '.
-			'VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)';
+			'authentication,authentication_type,username_filter) '.
+			'VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)';
 		$res = $ilDB->queryF($query,
 			array(
 				'integer','integer','text','text','integer','text','integer','integer','integer','text','text','text','integer',
 				'text','text','text','integer','text','text','integer','text','text','integer','text','integer','integer','integer',
-				'text','text', 'integer','integer','integer'),
+				'text','text', 'integer','integer','integer',"text"),
 			array(
 				$next_id,
 				$this->isActive(),
@@ -787,9 +816,10 @@ class ilLDAPServer
 				$this->getRoleBindPassword(),
 				$this->isAccountMigrationEnabled(),
 				$this->isAuthenticationEnabled(),
-				$this->getAuthenticationMapping()
+				$this->getAuthenticationMapping(),
+				$this->getUsernameFilter()
 			));
-			
+			// end Patch Name Filter
 		return $next_id;
 	}
 	
@@ -829,10 +859,43 @@ class ilLDAPServer
 			"migration = ".$this->db->quote((int)$this->isAccountMigrationEnabled(),'integer').", ".
 			'authentication = '.$this->db->quote((int) $this->isAuthenticationEnabled(),'integer').', '.
 			'authentication_type = '.$this->db->quote((int) $this->getAuthenticationMapping(),'integer').' '.
+			// start Patch Name Filter
+			", username_filter = ".$this->db->quote($this->getUsernameFilter(), "text")." ".
+			// end Patch Name Filter
 			"WHERE server_id = ".$this->db->quote($this->getServerId(),'integer');
 			
 		$res = $ilDB->manipulate($query);
 		return true;		
+	}
+	
+	/**
+	 *  delete
+	 */
+	public function delete()
+	{
+		if(!$this->getServerId())
+		{
+			return false;
+		}
+		
+		include_once 'Services/LDAP/classes/class.ilLDAPAttributeMapping.php';
+		ilLDAPAttributeMapping::_delete($this->getServerId());
+		
+		include_once 'Services/LDAP/classes/class.ilLDAPRoleAssignmentRule.php';
+		$rules = ilLDAPRoleAssignmentRule::_getRules($this->getServerId());
+		
+		foreach($rules as $ruleAssigment)
+		{
+			$ruleAssigment->delete();
+		}
+		
+		include_once 'Services/LDAP/classes/class.ilLDAPRoleGroupMappingSettings.php';
+		ilLDAPRoleGroupMappingSettings::_deleteByServerId($this->getServerId());
+		
+		$query = "DELETE FROM ldap_server_settings ".
+	 		"WHERE server_id = ".$this->db->quote($this->getServerId(),'integer');
+		$res = $this->db->manipulate($query);
+		
 	}
 	
 	/** 
@@ -1002,6 +1065,9 @@ class ilLDAPServer
 			$this->enableAccountMigration($row->migration);
 			$this->enableAuthentication($row->authentication);
 			$this->setAuthenticationMapping($row->authentication_type);
+			// start Patch Name Filter
+			$this->setUsernameFilter($row->username_filter);
+			// end Patch Name Filter
 		}
 	}
 }
