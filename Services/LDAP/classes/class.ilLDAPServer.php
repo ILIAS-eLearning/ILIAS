@@ -50,6 +50,11 @@ class ilLDAPServer
 		$this->read();
 	}
 	
+	/**
+	 * Get instance by server id
+	 * @param type $a_server_id
+	 * @return ilLDAPServer
+	 */
 	public static function getInstanceByServerId($a_server_id)
 	{
 		if(isset(self::$instances[$a_server_id]))
@@ -325,6 +330,68 @@ class ilLDAPServer
 		}
 		return true;
 	}
+	
+	// begin-patch ldap_multiple
+	/**
+	 * Check if user auth mode is LDAP
+	 * @param type $a_auth_mode
+	 */
+	public static function isAuthModeLDAP($a_auth_mode)
+	{
+		if(!$a_auth_mode)
+		{
+			$GLOBALS['ilLog']->write(__METHOD__.': No auth mode given..............');
+			return false;
+		}
+		$auth_arr = explode('_', $a_auth_mode);
+		return ($auth_arr[0] == AUTH_LDAP) and $auth_arr[1];
+	}
+	
+	/**
+	 * Get auth id by auth mode
+	 * @param type $a_auth_mode
+	 * @return null
+	 */
+	public static function getServerIdByAuthMode($a_auth_mode)
+	{
+		if(self::isAuthModeLDAP($a_auth_mode))
+		{
+			$auth_arr = explode('_', $a_auth_mode);
+			return $auth_arr[1];
+		}
+		return NULL;
+	}
+	
+	/**
+	 * get auth mode by key
+	 * @param type $a_auth_key
+	 */
+	public static function getAuthModeByKey($a_auth_key)
+	{
+		$auth_arr = explode('_', $a_auth_key);
+		if(count((array) $auth_arr) > 1)
+		{
+			return 'ldap_'.$auth_arr[1];
+		}
+		return 'ldap';
+	}
+	
+	/**
+	 * Get auth id by auth mode
+	 * @param string $a_auth_mode
+	 * @return int auth_mode
+	 */
+	public static function getKeyByAuthMode($a_auth_mode)
+	{
+		$auth_arr = explode('_', $a_auth_mode);
+		if(count((array) $auth_arr) > 1)
+		{
+			return AUTH_LDAP.'_'.$auth_arr[1];
+		}
+		return AUTH_LDAP;
+	}
+
+	// end-patch ldap_multiple
 	
 	// Set/Get
 	public function getServerId()
@@ -820,6 +887,7 @@ class ilLDAPServer
 				$this->getUsernameFilter()
 			));
 			// end Patch Name Filter
+		$this->server_id = $next_id;
 		return $next_id;
 	}
 	
@@ -1008,7 +1076,7 @@ class ilLDAPServer
 				array($this->getUserAttribute()),
 	 			$mapping->getFields(),
 	 			array('dn'),
-				ilLDAPRoleAssignmentRules::getAttributeNames()
+				ilLDAPRoleAssignmentRules::getAttributeNames($this->getServerId())
 			);
 		}
 		else

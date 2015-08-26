@@ -33,6 +33,7 @@
 class ilLDAPSettingsGUI
 {
 	private $ref_id = null;
+	private $server = null;
 	
 	public function __construct($a_auth_ref_id)
 	{
@@ -82,6 +83,15 @@ class ilLDAPSettingsGUI
 				break;
 		}
 		return true;
+	}
+	
+	/**
+	 * Get server settings
+	 * @return ilLDAPServer
+	 */
+	public function getServer()
+	{
+		return $this->server;
 	}
 	
 	/**
@@ -344,7 +354,7 @@ class ilLDAPSettingsGUI
 		{
 			return false;
 		}
-		$_SESSION['ldap_role_ass']['server_id'] = $_GET["ldap_server_id"];
+		$_SESSION['ldap_role_ass']['server_id'] = $this->getServer()->getServerId();
 		$_SESSION['ldap_role_ass']['rule_id'] = $_REQUEST['rule_id'] ? $_REQUEST['rule_id'] : 0;
 		$_SESSION['ldap_role_ass']['role_search'] = $this->form->getInput('role_search');
 		$_SESSION['ldap_role_ass']['add_on_update'] = $this->form->getInput('add_missing');
@@ -533,13 +543,13 @@ class ilLDAPSettingsGUI
 			$this->rule->enableRemoveOnUpdate($this->form->getInput('remove_deprecated'));
 			$this->rule->setPluginId($this->form->getInput('plugin_id'));
 			$this->rule->setType($this->form->getInput('type'));
-			$this->rule->setServerId((int) $_GET['ldap_server_id']);
+			$this->rule->setServerId($this->getServer()->getServerId());
 			return true;
 		}
 		
 		// LOAD from session
 		$this->rule = ilLDAPRoleAssignmentRule::_getInstanceByRuleId($a_rule_id);
-		$this->rule->setServerId((int) $_GET['ldap_server_id']);
+		$this->rule->setServerId($this->getServer()->getServerId());
 		$this->rule->enableAddOnUpdate((int) $_SESSION['ldap_role_ass']['add_on_update']);
 		$this->rule->enableRemoveOnUpdate((int) $_SESSION['ldap_role_ass']['remove_on_update']);
 		$this->rule->setType(ilUtil::stripSlashes($_SESSION['ldap_role_ass']['type']));
@@ -940,16 +950,16 @@ class ilLDAPSettingsGUI
 			}
 			else
 			{
-				$_GET['ldap_server_id'] = $this->server->create();
+				$this->server->create();
 			}
 			
 			// Now server_id exists => update LDAP attribute mapping
 			$this->initAttributeMapping();
-			$this->mapping->setRule('global_role', (int)$this->form_gui->getInput('global_role'), false);
+			$this->mapping->setRule('global_role', (int) $this->form_gui->getInput('global_role'), false);
 			$this->mapping->save();
 	
 			ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
-			$this->ctrl->redirect($this,'serverList');
+			$this->ctrl->redirect($this,'editServerSettings');
 			return true;
 			#$this->form_gui->setValuesByPost();
 			#return $this->tpl->setContent($this->form_gui->getHtml());
@@ -1014,23 +1024,23 @@ class ilLDAPSettingsGUI
 	private function initServer()
 	{
 		include_once './Services/LDAP/classes/class.ilLDAPServer.php';
-		if(! $_GET['ldap_server_id'])
+		if(!$_REQUEST['ldap_server_id'])
 		{
-			$_GET['ldap_server_id'] =0;
+			$_REQUEST['ldap_server_id'] = 0;
 		}
-		$this->server = new ilLDAPServer((int) $_GET['ldap_server_id']);
+		$this->server = new ilLDAPServer((int) $_REQUEST['ldap_server_id']);
 	}
 	
 	private function initAttributeMapping()
 	{
 		include_once './Services/LDAP/classes/class.ilLDAPAttributeMapping.php';
-		$this->mapping = ilLDAPAttributeMapping::_getInstanceByServerId((int) $_GET['ldap_server_id']);
+		$this->mapping = ilLDAPAttributeMapping::_getInstanceByServerId($this->getServer()->getServerId());
 	}
 	
 	private function initRoleMapping()
 	{
 		include_once './Services/LDAP/classes/class.ilLDAPRoleGroupMappingSettings.php';
-		$this->role_mapping = ilLDAPRoleGroupMappingSettings::_getInstanceByServerId((int) $_GET['ldap_server_id']);
+		$this->role_mapping = ilLDAPRoleGroupMappingSettings::_getInstanceByServerId($this->getServer()->getServerId());
 	}
 	
 	/**
@@ -1303,6 +1313,8 @@ class ilLDAPSettingsGUI
 		include_once("./Services/Form/classes/class.ilRoleAutoCompleteInputGUI.php");
 		ilRoleAutoCompleteInputGUI::echoAutoCompleteList();
 	}
+	
+	
 	
 	
 	/**
@@ -1799,11 +1811,6 @@ class ilLDAPSettingsGUI
 		{
 			$this->server->update();
 		}
-		else
-		{
-			$_GET['ldap_server_id'] = $this->server->create();
-		}
-		
 		ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
 		$this->ctrl->redirect($this, "roleMapping");
 	}

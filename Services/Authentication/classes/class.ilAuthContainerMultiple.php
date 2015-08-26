@@ -104,12 +104,15 @@ class ilAuthContainerMultiple extends Auth_Container
 			}
 			else
 			{
-				switch($auth_mode)
+				// begin-patch ldap_multiple
+				// cast to int
+				switch((int) $auth_mode)
 				{
 					case AUTH_LDAP:
 						$this->log('Container LDAP: Trying new container',AUTH_LOG_DEBUG);
 						include_once './Services/LDAP/classes/class.ilAuthContainerLDAP.php';
-						$this->current_container = new ilAuthContainerLDAP();
+						$sid = ilLDAPServer::getServerIdByAuthMode($auth_mode);
+						$this->current_container = new ilAuthContainerLDAP($sid);
 						break;
 					
 					case AUTH_LOCAL:

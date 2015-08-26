@@ -40,51 +40,53 @@ class ilLDAPRoleAssignmentRules
 	
 	/**
 	 * Get default global role
+	 * @param int $a_server_id
 	 * @return 
 	 */
-	public static function getDefaultRole()
+	public static function getDefaultRole($a_server_id)
 	{
-		if(self::$default_role)
-		{
-			return self::$default_role;
-		}
 
 		include_once './Services/LDAP/classes/class.ilLDAPAttributeMapping.php';
 		include_once './Services/LDAP/classes/class.ilLDAPServer.php';
 			
 		return self::$default_role = 
-			ilLDAPAttributeMapping::_lookupGlobalRole(ilLDAPServer::_getFirstActiveServer());
+			ilLDAPAttributeMapping::_lookupGlobalRole($a_server_id);
 	}
 	
 	/**
 	 * Get all assignable roles (used for import parser)
+	 * @param int $a_server_id
 	 * @return array roles
 	 */
-	public static function getAllPossibleRoles()
+	public static function getAllPossibleRoles($a_server_id)
 	{
 		global $ilDB;
 		
-		$query = "SELECT DISTINCT(role_id) FROM ldap_role_assignments ";
+		$query = "SELECT DISTINCT(role_id) FROM ldap_role_assignments ".
+				'WHERE server_id = '.$ilDB->quote($a_server_id,'integer');
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$roles[$row->role_id] = $row->role_id;
 		}
-		$gr = self::getDefaultRole();
+		$gr = self::getDefaultRole($a_server_id);
 		$roles[$gr] = $gr;
 		return $roles ? $roles : array();
 	}
 	
+	// begin-patch ldap_multiple
 	/**
 	 * get all possible attribute names
+	 * @param int $a_server_id
 	 * @return 
 	 */
-	public static function getAttributeNames()
+	public static function getAttributeNames($a_server_id)
 	{
 		global $ilDB;
 		
 		$query = "SELECT DISTINCT(att_name) ".
-			"FROM ldap_role_assignments ";
+			"FROM ldap_role_assignments ".
+			'WHERE server_id = '.$ilDB->quote($a_server_id,'integer');
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -95,18 +97,31 @@ class ilLDAPRoleAssignmentRules
 			}
 		}
 		
-		$names = array_merge((array) $names, self::getAdditionalPluginAttributes());	
+		$names = array_merge((array) $names, self::getAdditionalPluginAttributes($a_server_id));	
 		return $names ? $names : array();
 	}
 	
-	
-	
-	public static function getAssignmentsForUpdate($a_usr_id,$a_usr_name,$a_usr_data)
+	// begin-patch ldap_multiple
+	/**
+	 * 
+	 * @global type $ilDB
+	 * @global type $rbacadmin
+	 * @global type $rbacreview
+	 * @global type $ilSetting
+	 * @global type $ilLog
+	 * @param int $a_server_id
+	 * @param type $a_usr_id
+	 * @param type $a_usr_name
+	 * @param type $a_usr_data
+	 * @return array
+	 */
+	public static function getAssignmentsForUpdate($a_server_id,$a_usr_id,$a_usr_name,$a_usr_data)
 	{
 		global $ilDB,$rbacadmin,$rbacreview,$ilSetting,$ilLog;
 		
 		$query = "SELECT rule_id,add_on_update,remove_on_update FROM ldap_role_assignments ".
-			"WHERE add_on_update = 1 OR remove_on_update = 1";
+			"WHERE (add_on_update = 1 OR remove_on_update = 1) ".
+				'AND server_id = '.$ilDB->quote($a_server_id,'integer');
 		
 		$res = $ilDB->query($query);
 		$roles = array();
@@ -143,7 +158,7 @@ class ilLDAPRoleAssignmentRules
 		{
 			$ilLog->write(__METHOD__.': No global role left. Assigning to default role.');
 			$roles[] = self::parseRole(
-				self::getDefaultRole(),
+				self::getDefaultRole($a_server_id),
 				self::ROLE_ACTION_ASSIGN
 				);
 		}
@@ -156,17 +171,19 @@ class ilLDAPRoleAssignmentRules
 	/**
 	 * 
 	 * @return array role data
+	 * @param int $a_server_id
 	 * @param object $a_usr_id
 	 * @param object $a_usr_data
 	 * 
 	 * @access public
 	 * @static
 	 */
-	public static function getAssignmentsForCreation($a_usr_name,$a_usr_data)
+	public static function getAssignmentsForCreation($a_server_id, $a_usr_name,$a_usr_data)
 	{
 		global $ilDB,$ilLog;
 		
-		$query = "SELECT rule_id FROM ldap_role_assignments ";
+		$query = "SELECT rule_id FROM ldap_role_assignments ".
+				'WHERE server_id = '.$ilDB->quote($a_server_id,'integer');
 		$res = $ilDB->query($query);
 		
 		$num_matches = 0;
@@ -198,7 +215,7 @@ class ilLDAPRoleAssignmentRules
 		{
 			$ilLog->write(__METHOD__.': No matching rule found. Assigning to default role.');
 			$roles[] = self::parseRole(
-				self::getDefaultRole(),
+				self::getDefaultRole($a_server_id),
 				self::ROLE_ACTION_ASSIGN
 				);
 		}
@@ -246,11 +263,14 @@ class ilLDAPRoleAssignmentRules
 		return $assigned;
 	}
 
+	// begin-patch ldap_multiple
+	
 	/**
 	 * Fetch additional attributes from plugin
+	 * @param int $a_server_id
 	 * @return 
 	 */
-	protected static function getAdditionalPluginAttributes()
+	protected static function getAdditionalPluginAttributes($a_server_id)
 	{
 		global $ilPluginAdmin;
 		
