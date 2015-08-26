@@ -317,9 +317,7 @@ class ilFileDelivery {
 
 			return true;
 		}
-		if (function_exists('apache_get_modules') && in_array('mod_xsendfile', apache_get_modules())) {
-			$this->setDeliveryType(self::DELIVERY_METHOD_XSENDFILE);
-		}
+
 		if (is_file('./Services/FileDelivery/classes/override.php')) {
 			$override_delivery_type = false;
 			require_once('./Services/FileDelivery/classes/override.php');
@@ -659,6 +657,9 @@ class ilFileDelivery {
 	 * @return bool
 	 */
 	protected function isNonModified() {
+		if(self::$DEBUG) {
+			return false;
+		}
 
 		if(! isset($_SERVER['HTTP_IF_NONE_MATCH']) || ! isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
 			return false;
