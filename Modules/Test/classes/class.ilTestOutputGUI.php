@@ -710,4 +710,9 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		$this->ctrl->setParameter($this, 'pmode', $this->testSession->getLastPresentationMode());
 		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
 	}
+
+	protected function isShowingPostponeStatusReguired($questionId)
+	{
+		return $this->testSequence->isPostponedQuestion($questionId);
+	}
 }

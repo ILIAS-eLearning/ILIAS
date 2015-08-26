@@ -976,6 +976,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			$this->showSideList($presentationMode, $sequenceElement);
 		}
 	}
+	
+	abstract protected function isShowingPostponeStatusReguired($questionId);
 
 	protected function showQuestionViewable(assQuestionGUI $questionGui, $formAction)
 	{
@@ -997,7 +999,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
 		$pageoutput = $questionGui->outQuestionPage(
 			"",
-			$this->testSequence->isPostponedQuestion($questionGui->object->getId()),
+			$this->isShowingPostponeStatusReguired($questionGui->object->getId()),
 			$this->testSession->getActiveId(),
 			$solutionoutput
 		);
@@ -1015,7 +1017,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			$questionGui->object->getId(), $this->populateCharSelectorIfRequired()
 		));
 
-		$isPostponed = $this->testSequence->isPostponedQuestion($questionGui->object->getId());
+		$isPostponed = $this->isShowingPostponeStatusReguired($questionGui->object->getId());
 
 		$answerFeedbackEnabled = (
 			$instantResponse && $this->object->getSpecificAnswerFeedback()

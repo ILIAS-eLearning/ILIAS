@@ -960,4 +960,9 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 
 		return $link;
 	}
+
+	protected function isShowingPostponeStatusReguired($questionId)
+	{
+		return false;
+	}
 }
