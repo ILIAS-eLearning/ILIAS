@@ -461,7 +461,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 			
 			if(!$presentationMode)
 			{
-				$presentationMode = $this->determinePresentationMode($questionGui->object->getId());
+				$presentationMode = ilTestPlayerAbstractGUI::getDefaultPresentationMode();
 			}
 
 			$instantResponse = $this->getInstantResponseParameter();

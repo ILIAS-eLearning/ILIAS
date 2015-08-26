@@ -188,7 +188,7 @@ class ilTestQuestionSideListGUI
 			}
 			else
 			{
-				$href = $this->buildLink($row['sequence'], $row['worked_through']);
+				$href = $this->buildLink($row['sequence']);
 
 				$tpl->setCurrentBlock('linked_entry');
 				$tpl->setVariable('HREF', $href);
@@ -219,10 +219,10 @@ class ilTestQuestionSideListGUI
 	 * @param $row
 	 * @return string
 	 */
-	private function buildLink($sequenceElement, $isWorkedThru)
+	private function buildLink($sequenceElement)
 	{
 		$this->ctrl->setParameter(
-			$this->getTargetGUI(), 'pmode', ilTestPlayerAbstractGUI::getRequiredPresentationMode($row['worked_through'])
+			$this->getTargetGUI(), 'pmode', ilTestPlayerAbstractGUI::getDefaultPresentationMode()
 		);
 
 		$this->ctrl->setParameter(

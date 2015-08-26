@@ -1966,28 +1966,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		return $this->cachedQuestionObjects[$questionId];
 	}
 
-	protected function getDefaultPresentationMode()
+	public static function getDefaultPresentationMode()
 	{
-		return ilTestPlayerAbstractGUI::PRESENTATION_MODE_EDIT;
-	}
-	
-	public static function getRequiredPresentationMode($questionIsWorkedThru)
-	{
-		if( $questionIsWorkedThru )
-		{
-			return ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW;
-		}
-
-		return self::getDefaultPresentationMode();
-	}
-	
-	protected function determinePresentationMode($questionId)
-	{
-		$isWorkedThrough = assQuestion::lookupResultRecordExist(
-			$this->testSession->getActiveId(), $questionId, $this->testSession->getPass()
-		);
-		
-		return self::getRequiredPresentationMode($isWorkedThrough);
+		return ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW;
 	}
 
 	/**
