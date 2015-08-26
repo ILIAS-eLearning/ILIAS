@@ -490,6 +490,17 @@ ul.ilAssQuestionRelatedNavigationContainer div.navbar
 	padding-right: 6px;
 }
 
+div.tstModalConfirmationText
+{
+	margin-bottom: 20px;
+}
+
+div.tstModalConfirmationButtons a,
+div.tstModalConfirmationButtons input
+{
+	margin-right: 20px;
+}
+
 div.ilTestOutputBlock_DynTestFinished
 {
 	background-color: #FAFAFA;
