@@ -1,0 +1,24 @@
+/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+* ILIAS language file (Local changes only)
+*
+* @module			language file English
+* @modulegroup		language
+* @based_on			$Id: ilias_en.lang 59399 2015-06-02 11:31:01Z smoor $
+* @il_server		https://elearning.hslu.ch/ilias
+* @il_version		5.0.3 2015-06-25
+* @created			2015-08-18 09:12:18
+* @created_by		Simon Moor <simon.moor@hslu.ch>
+*/
+// The language file starts beyond the HTML-comment below. DO NOT modify this line!
+// To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
+// from the first line to the HTML-comment. After editing paste the lines in place again.
+// NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
+// to the corresponding mode! 
+// Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
+<!-- language file start -->
+common#:#excel_export#:#Excel Export
+rbac#:#cat_create_fold#:#Create new folder
+common#:#obj_drop#:#Postbox
+common#:#obj_fexch#:#File Exchange
+common#:#obj_fldgrp#:#Group Folder
