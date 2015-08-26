@@ -838,8 +838,9 @@ class ilObjSAHSLearningModule extends ilObject
 	}
 	
 	/**
-	* update values for mastery_score / min_normalized_measure
+	* update values for mastery_score / min_normalized_measure in database - not requested
 	*/
+	/*
 	function updateMasteryScoreValues()
 	{
 		global $ilDB;
@@ -868,7 +869,7 @@ class ilObjSAHSLearningModule extends ilObject
 			}
 		}
 	}
-	
+	*/
 	
 	/**
 	* update meta data only

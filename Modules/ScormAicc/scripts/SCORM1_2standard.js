@@ -438,6 +438,16 @@ function LMSFinish(param){
 //	if (getValueIntern(sco_id,'cmi.core.exit') == null && getValueIntern(sco_id,'cmi.core.entry') != 'resume') {
 //		setValueIntern(sco_id,'cmi.core.entry',"",true);
 //	}
+	// rte3-25
+	if (getValueIntern(sco_id,'cmi.core.lesson_status')=="not attempted") setValueIntern(sco_id,'cmi.core.lesson_status','completed',true,true);
+	if (getValueIntern(sco_id,'cmi.core.lesson_status')=='completed' && getValueIntern(sco_id,'cmi.student_data.mastery_score')!=null && getValueIntern(sco_id,'cmi.core.score.raw')!=null) {
+		if (parseFloat(getValueIntern(sco_id,'cmi.core.score.raw')) < parseFloat(getValueIntern(sco_id,'cmi.student_data.mastery_score'))) {
+			setValueIntern(sco_id,'cmi.core.lesson_status','failed',true,true);
+		}
+		if (parseFloat(getValueIntern(sco_id,'cmi.core.score.raw')) >= parseFloat(getValueIntern(sco_id,'cmi.student_data.mastery_score'))) {
+			setValueIntern(sco_id,'cmi.core.lesson_status','passed',true,true);
+		}
+	}
 	if (IliasCommit()==false) return setreturn(101,"LMSFinish was not successful because of failure with implicit LMSCommit");
 	Initialized=false;
 	IliasLaunchAfterFinish(sco_id);

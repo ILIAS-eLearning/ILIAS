@@ -315,6 +315,7 @@ class ilSCORM13Player
 			'comments_storable' => $this->slm->getComments(),
 			'time_from_lms' => $this->slm->getTime_from_lms(),
 			'auto_last_visited' => $this->slm->getAuto_last_visited(),
+			'lesson_mastery_score' => $this->slm->getMasteryScore(),
 			'checkSetValues' => $this->slm->getCheck_values(),
 			'auto_suspend' => $this->slm->getAutoSuspend(),
 			'suspend_data' => $initSuspendData,

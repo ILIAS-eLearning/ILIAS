@@ -449,7 +449,10 @@ function basisInit() {
 		if(ipar[3]!=null) setValueIntern(ipar[0],"cmi.student_data.max_time_allowed",ipar[3],false,true);
 		if(ipar[4]!=null) setValueIntern(ipar[0],"cmi.student_data.time_limit_action",ipar[4],false,true);
 		if(ipar[5]!=null) setValueIntern(ipar[0],"cmi.launch_data",ipar[5],false,true);
-		if(ipar[6]!=null) setValueIntern(ipar[0],"cmi.student_data.mastery_score",ipar[6],false,true);
+		if(ipar[6]!=null) {
+			if(iv.i_lessonMasteryScore!="") ipar[6]=iv.i_lessonMasteryScore;
+			setValueIntern(ipar[0],"cmi.student_data.mastery_score",ipar[6],false,true);
+		}
 	}
 	if (s_w != "") warning('Failure read previous data:'+s_w.substr(1));
 	if (typeof SOP!="undefined" && SOP==true && ir.length>1) tree();
