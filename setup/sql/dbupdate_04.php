@@ -7156,7 +7156,7 @@ ilDBUpdate4550::cleanupOrphanedChatRoomData();
 
 if($ilDB->getDBType() == 'innodb' || $ilDB->getDBType() == 'mysql')
 {
-	$query $= '
+	$query = '
 	SELECT chatroom_history.room_id, chatroom_history.timestamp, chatroom_history.sub_room, chatroom_history.message
 	FROM chatroom_history
 	LEFT JOIN chatroom_historytmp
@@ -7170,7 +7170,7 @@ if($ilDB->getDBType() == 'innodb' || $ilDB->getDBType() == 'mysql')
 }
 else
 {
-	$query $= '
+	$query = '
 	SELECT chatroom_history.room_id, chatroom_history.timestamp, chatroom_history.sub_room, chatroom_history.message
 	FROM chatroom_history
 	LEFT JOIN chatroom_historytmp
