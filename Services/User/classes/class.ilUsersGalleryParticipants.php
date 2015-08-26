@@ -73,4 +73,12 @@ class ilUsersGalleryParticipants extends ilAbstractGalleryUsers
 		$ordered_user = array_merge($ordered_user, $this->getSortedUsers($this->participants->getMembers()));
 		return $ordered_user;
 	}
+
+	/**
+	 * @return string
+	 */
+	public function getUserCssClass()
+	{
+		return '';
+	}
 } 
