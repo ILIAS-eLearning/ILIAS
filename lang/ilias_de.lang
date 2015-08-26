@@ -15832,7 +15832,6 @@ awrn#:#awrn_max_nr_entries_info#:#Diese Anzahl an Einträgen wird maximal in der
 awrn#:#awrn_hide_from_awareness#:#Mich nicht in „Wer ist online?“-Anzeige auflisten
 awrn#:#awrn_hide_from_awareness_info#:#Die „Wer ist online?“-Anzeige erscheint oben im Kopf der Anwendung und listet ausgewählte Benutzer auf (z.B. Kontakte oder Mitglieder Ihrer Kurse).
 common#:#contact_sysadmin#:#Technische Betreuung kontaktieren
-ldap#:#ldap_edit_role_assignment#:#Zuordnung bearbeiten
 ldap#:#ldap_servers#:#LDAP Server
 ldap#:#add_ldap_server#:#Server Hinzufügen
 ldap#:#ldap_username_filter#:#Benutzernamen Filter
