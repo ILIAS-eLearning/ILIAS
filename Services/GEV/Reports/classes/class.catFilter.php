@@ -653,7 +653,7 @@ class catMultiSelectFilter {
 		else if (count($a_conf) === 10) {
 			$a_conf[] = "asc"; //filter-options sorting
 		}
-
+		
 		return $a_conf;
 	}
 	
