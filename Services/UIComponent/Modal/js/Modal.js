@@ -10,7 +10,7 @@
 					 '</div>' +
 					 '</div>' +
 					 '</div>',
-		header:      '<div class="modal-header"><button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button><h4 class="modal-title"></h4></div>',
+		header:      '<div class="modal-header"><button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button><h3 class="ilHeader modal-title"></h3></div>',
 		footer:      '<div class="modal-footer"></div>',
 		buttons:     {
 			button: '<button type="button"></button>',
@@ -53,9 +53,15 @@
 			if (options.id != undefined) {
 				$elm = $("#" + options.id);
 				if ($elm.size() != 1) {
-					throw new Error(
-						"Please pass a modal id which matches exactly one DOM element."
-					);
+
+					// alex change start
+					$elm = $(templates.modal);
+					$elm.attr("id", options.id);
+					$("body").append($elm);
+					//throw new Error(
+					//	"Please pass a modal id which matches exactly one DOM element."
+					//);
+					// alex change end
 				}
 			} else {
 				$elm = $(templates.modal);
@@ -146,7 +152,10 @@
 			if ($.isFunction(props.onHide)) {
 				props.onHide.call(this, e, $modal);
 			}
-			$modal_footer.html("");
+			// alex change: added if
+			if ($modal_footer) {
+				$modal_footer.html("");
+			}
 		});
 
 		$modal.modal({
