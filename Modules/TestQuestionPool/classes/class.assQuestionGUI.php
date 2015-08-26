@@ -1960,7 +1960,7 @@ abstract class assQuestionGUI
 		$show_specific_inline_feedback = FALSE
 	)
 	{
-		$formaction = $this->completeTestOutputFormAction($formaction);
+		$formaction = $this->completeTestOutputFormAction($formaction, $active_id, $pass);
 		
 		$test_output = $this->getTestOutput(
 			$active_id,
@@ -1978,7 +1978,7 @@ abstract class assQuestionGUI
 		$this->tpl->setVariable("FORM_TIMESTAMP", time());
 	}
 	
-	protected function completeTestOutputFormAction($formAction)
+	protected function completeTestOutputFormAction($formAction, $active_id, $pass = NULL)
 	{
 		return $formAction;
 	}
