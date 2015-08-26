@@ -302,7 +302,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		// display import form
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.scorm_new_version_import.html", "Modules/ScormAicc");
 
-		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_slm.svg'));
+		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_lm.svg'));
 		$this->tpl->setVariable("ALT_IMG", $this->lng->txt("obj_sahs"));
 
 		$this->ctrl->setParameter($this, "new_type", "sahs");
