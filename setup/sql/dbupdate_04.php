@@ -10334,3 +10334,15 @@ $query = "UPDATE ldap_role_assignments ".
 $ilDB->manipulate($query);
 
 ?>
+<#4711>
+<?php
+if(!$ilDB->tableColumnExists('usr_search','creation_filter'))
+{
+                $ilDB->addTableColumn("usr_search", "creation_filter", array(
+                        "type" => "text",
+                        "notnull" => false,
+                        "length" => 1000,
+                        "fixed" => false));
+}
+?>
+
