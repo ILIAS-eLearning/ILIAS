@@ -353,6 +353,7 @@ exc#:#exc_team_member_container_add#:#Team-Mitglied aus Training/Gruppe hinzufü
 exercise#:#exc_crs_add_members#:#Mitglieder dieses Trainings hinzufügen
 exercise#:#exc_feedback_from_tutor#:#Feedback des Trainers
 fm#:#fm_settings_active_info#:#Benutzer können Kategorien, Trainings, Gruppen und Ordner öffnen, indem Sie im Magazin die Aktion "Mit Dateimanager öffnen" ausführen.
+gev#:#gev_crs_template#:#Vorlage
 gev#:#dont_send_mail#:#keine Mail versenden
 gev#:#evg_email#:#E-Mail-Adresse
 gev#:#evg_mandatory#:#Sie müssen dieses Feld bestätigen, um sich registrieren zu können.

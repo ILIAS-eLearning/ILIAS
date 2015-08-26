@@ -1527,7 +1527,12 @@ class ilTree
 			include_once('./Services/ContainerReference/classes/class.ilContainerReference.php');
 			$data['title'] = ilContainerReference::_lookupTargetTitle($data['obj_id']);
 		}
-
+		//gev-patch start
+		require_once 'Services/GEV/Utils/classes/class.gevCourseUtils.php';
+		if($data['type'] == 'crs' && gevCourseUtils::getInstance($data['obj_id'])->isTemplate()) {
+			 $data['title'] = $lng->txt('gev_crs_template').': '.$data['title'];
+		}
+		//gev-patch end
 		return $data ? $data : array();
 	}
 
