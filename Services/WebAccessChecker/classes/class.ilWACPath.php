@@ -84,7 +84,7 @@ class ilWACPath {
 		$this->setOriginalRequest($path);
 		preg_match("/\\/" . self::DIR_DATA . "\\/([\\w]*)\\/(" . self::DIR_SEC . "\\/|)([\\w]*)\\/(.*)/ui", $path, $results);
 		preg_match("/(\\/" . self::DIR_DATA . "\\/[\\w]*\\/[\\w]*\\/.*)\\?/ui", $path, $results2);
-		$this->setPathWithoutQuery($results2[1] ? '.' . $results2[1] : '.' . $results[0]);
+		$this->setPathWithoutQuery(isset($results2[1]) ? '.' . $results2[1] : '.' . $results[0]);
 		$this->setPath('.' . $results[0]);
 		$this->setClient($results[1]);
 		$this->setInSecFolder($results[2] == 'sec/');
@@ -96,7 +96,7 @@ class ilWACPath {
 		$this->setParameters($query);
 		$this->setSuffix(pathinfo($parts['path'], PATHINFO_EXTENSION));
 		preg_match("/\\/" . self::DIR_DATA . "\\/([\\w]*)\\/(" . self::DIR_SEC . "\\/[\\w]*\\/[\\d]*\\/|[\\w]*\\/)([\\w]*)\\//ui", $path, $results3);
-		$this->setSecurePath($results3[0] ? '.' . $results3[0] : NULL);
+		$this->setSecurePath(isset($results3[0]) ? '.' . $results3[0] : NULL);
 	}
 
 
