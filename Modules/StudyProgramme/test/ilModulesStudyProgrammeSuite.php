@@ -29,14 +29,22 @@
 class ilModulesStudyProgrammeSuite extends PHPUnit_Framework_TestSuite {
     public static function suite()
     {
-        $suite = new ilObjStudyProgrammeTest();
+        $suite = new ilModulesStudyProgrammeSuite();
 
         // add each test class of the component
-        require_once("./Services/Administration/test/ilObjStudyProgrammeTest.php");
-        require_once("./Services/Administration/test/ilObjStudyProgrammeCollectionTest.php");
+        require_once("./Modules/StudyProgramme/test/ilObjStudyProgrammeTest.php");
+        require_once("./Modules/StudyProgramme/test/ilStudyProgrammeEventsTest.php");
+        require_once("./Modules/StudyProgramme/test/ilStudyProgrammeLPTest.php");
+        require_once("./Modules/StudyProgramme/test/ilStudyProgrammeProgressCalculationTest.php");
+        require_once("./Modules/StudyProgramme/test/ilStudyProgrammeUserAssignmentTest.php");
+        require_once("./Modules/StudyProgramme/test/ilStudyProgrammeUserProgressTest.php");
 
         $suite->addTestSuite("ilObjStudyProgrammeTest");
-        $suite->addTestSuite("ilObjStudyProgrammeCollectionTest");
+        $suite->addTestSuite("ilStudyProgrammeEventsTest");
+        $suite->addTestSuite("ilStudyProgrammeLPTest");
+        $suite->addTestSuite("ilStudyProgrammeProgressCalculationTest");
+        $suite->addTestSuite("ilStudyProgrammeUserAssignmentTest");
+        $suite->addTestSuite("ilStudyProgrammeUserProgressTest");
 
         return $suite;
     }

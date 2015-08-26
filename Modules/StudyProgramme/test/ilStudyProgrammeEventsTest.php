@@ -74,7 +74,9 @@ class ilStudyProgrammeEventsTest extends PHPUnit_Framework_TestCase {
 		foreach($this->users as $user) {
 			$user->delete();
 		}
-		$this->root->delete();
+		if ($this->root) {
+			$this->root->delete();
+		}
 	}
 	
 	public function testAssignUser() {

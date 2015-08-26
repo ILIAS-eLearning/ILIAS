@@ -46,7 +46,9 @@ class ilStudyProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 	}
 	
 	protected function tearDown() {
-		$this->root->delete();
+		if ($this->root) {
+			$this->root->delete();
+		}
 	}
 	
 	protected function newUser() {
