@@ -1,6 +1,7 @@
 (function (root, scope, factory) {
 	scope.Modal = factory(root.jQuery);
 }(window, il, function init($) {
+
 	var templates = {
 		modal:       '<div class="modal fade">' +
 					 '<div class="modal-dialog">' +
