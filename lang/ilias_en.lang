@@ -15838,3 +15838,8 @@ awrn#:#awrn_max_nr_entries_info#:#Maximum number of items in the ‘Who is onlin
 awrn#:#awrn_hide_from_awareness#:#Hide Me From ‘Who is online?’-Tool
 awrn#:#awrn_hide_from_awareness_info#:#The ‘Who is online?’-Tool is in the top bar and listing selected users (e.g. contacts or members of your courses).
 common#:#contact_sysadmin#:#Contact Technical Support
+ldap#:#ldap_edit_role_assignment#:#Edit Role -> Group Assignment
+ldap#:#ldap_servers#:#LDAP Server
+ldap#:#add_ldap_server#:#Add Server
+ldap#:#ldap_username_filter#:#Username Filter
+ldap#:#ldap_username_filter_info#:#Use * as wildcard.
