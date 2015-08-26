@@ -5,7 +5,13 @@ require_once './Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
 require_once './Modules/TestQuestionPool/interfaces/interface.ilGuiQuestionScoringAdjustable.php';
 include_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
-
+/**
+ * @version		$Id$
+ *
+ * @package     Modules/TestQuestionPool
+ *
+ * @ilCtrl_Calls assLongMenuGUI: ilPropertyFormGUI
+ */
 class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable
 {
 	private $rbacsystem, $ilTabs;
