@@ -483,4 +483,65 @@ class ilLanguage
 
 		return new self(ilSession::get('lang'));
 	}
-}
+
+	/*
+	 * Transfer text to Javascript
+	 *
+	 * @param string|array $a_lang_key languag key or array of language keys
+	 * @param ilTemplate $a_tpl template
+	 */
+	function toJS($a_lang_key, ilTemplate $a_tpl = null)
+	{
+		global $tpl;
+
+		if (!is_object($a_tpl))
+		{
+			$a_tpl = $tpl;
+		}
+
+		if (!is_array($a_lang_key))
+		{
+			$a_lang_key = array($a_lang_key);
+		}
+
+		$map = array();
+		foreach ($a_lang_key as $lk)
+		{
+			$map[$lk] = $this->txt($lk);
+		}
+		$this->toJSMap($map, $a_tpl);
+	}
+
+	/**
+	 * Transfer text to Javascript
+	 *
+	 * @param array $a_map array of key value pairs (key is text string, value is content)
+	 * @param ilTemplate $a_tpl template
+	 */
+	function toJSMap($a_map, ilTemplate $a_tpl = null)
+	{
+		global $tpl;
+
+		if (!is_object($a_tpl))
+		{
+			$a_tpl = $tpl;
+		}
+
+		if (!is_array($a_map))
+		{
+			return;
+		}
+
+		foreach ($a_map as $k => $v)
+		{
+			if ($v != "")
+			{
+				include_once("./Services/JSON/classes/class.ilJsonUtil.php");
+				$a_tpl->addOnloadCode("il.Language.setLangVar('".$k."', ".ilJsonUtil::encode($v).");");
+			}
+		}
+	}
+
+	
+} // END class.Language
+?>

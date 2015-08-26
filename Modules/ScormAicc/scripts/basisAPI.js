@@ -335,7 +335,11 @@ function IliasCommit() {
 		else {
 		//	s_s=JSON.stringify(o_data);
 			s_s=toJSONString(o_data);
-			ret=sendRequest ("./Modules/ScormAicc/sahs_server.php?cmd=storeJsApi&ref_id="+iv.refId, s_s);
+			if(typeof iv.b_sessionDeactivated!="undefined" && iv.b_sessionDeactivated==true) {
+				ret=sendRequest ("./storeScorm.php?package_id="+iv.objId+"&ref_id="+iv.refId+"&client_id="+iv.clientId+"&do=store", s_s);
+			} else {
+				ret=sendRequest ("./Modules/ScormAicc/sahs_server.php?cmd=storeJsApi&package_id="+iv.objId+"&ref_id="+iv.refId, s_s);
+			}
 		}
 		if (ret!="ok") return false;
 		return true;
@@ -477,7 +481,11 @@ function onWindowUnload () {
 	} else {
 		var s_unload="";
 		if (iv.b_autoLastVisited==true) s_unload="last_visited="+iv.launchId;
-		sendRequest ("./Modules/ScormAicc/sahs_server.php?cmd=scorm12PlayerUnload&ref_id="+iv.refId, s_unload);
+		if(typeof iv.b_sessionDeactivated!="undefined" && iv.b_sessionDeactivated==true) {
+			sendRequest ("./storeScorm.php?package_id="+iv.objId+"&ref_id="+iv.refId+"&client_id="+iv.clientId+"&hash="+iv.status.hash+"&p="+iv.status.p+"&do=unload", s_unload);
+		} else {
+			sendRequest ("./Modules/ScormAicc/sahs_server.php?cmd=scorm12PlayerUnload&package_id="+iv.objId+"&ref_id="+iv.refId+"&p="+iv.status.p, s_unload);
+		}
 	}
 }
 

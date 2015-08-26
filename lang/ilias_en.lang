@@ -15842,3 +15842,12 @@ ldap#:#ldap_servers#:#LDAP Server
 ldap#:#add_ldap_server#:#Add Server
 ldap#:#ldap_username_filter#:#Username Filter
 ldap#:#ldap_username_filter_info#:#Use * as wildcard.
+search#:#search_filter_cd#:#Filter by Creation Date
+search#:#search_filter_date#:#Search by Date
+search#:#search_filter_duration#:#Search by Duration
+search#:#search_created_before#:#Objects created before...
+search#:#search_created_after#:#Objects created after
+search#:#search_created_on#:#Objects create on...
+search#:#search_newer_than#:#Objects newer than
+search#:#search_cdate_filter#:#Filter by Creation Date
+search#:#search_cdate_filter_info#:#If enabled, the object search can be filtered by an optional creation date filter.

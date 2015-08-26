@@ -639,7 +639,11 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		// Create topic button
 		if($ilAccess->checkAccess('add_thread', '', $this->object->getRefId()) && !$this->hideToolbar())
 		{
-			$ilToolbar->addButton($this->lng->txt('forums_new_thread'), $this->ctrl->getLinkTarget($this, 'createThread'));
+			require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
+			$btn = ilLinkButton::getInstance();
+			$btn->setUrl($this->ctrl->getLinkTarget($this, 'createThread'));
+			$btn->setCaption('forums_new_thread');
+			$ilToolbar->addStickyItem($btn);
 		}
 
 		// Mark all topics as read button
