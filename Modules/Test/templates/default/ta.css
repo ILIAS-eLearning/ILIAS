@@ -479,9 +479,15 @@ span.result {
 	font-style: italic;
 }
 
-div.ilAssQuestionRelatedNavigationContainer
+ul.ilAssQuestionRelatedNavigationContainer
 {
 	margin: 20px 0;
+}
+
+ul.ilAssQuestionRelatedNavigationContainer div.navbar
+{
+	padding-left: 6px;
+	padding-right: 6px;
 }
 
 div.ilTestOutputBlock_DynTestFinished

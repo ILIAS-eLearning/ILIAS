@@ -1,0 +1,16 @@
+<div>{CONFIRMATION_TEXT}</div>
+<div><!-- BEGIN buttons -->{BUTTON}<!-- END buttons --></div>
+<script type="text/javascript" charset="utf-8">
+(function($){ $(document).ready( function(){
+
+	$('#tst_discard_answer_button').click(
+		function() { $('#tst_discard_answer_modal').modal('show'); }
+	);
+
+	$('#tst_cancel_discard_button').click(
+		function() { $('#tst_discard_answer_modal').modal('hide'); }
+	);
+
+}); })
+(jQuery);
+</script>

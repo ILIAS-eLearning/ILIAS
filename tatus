@@ -1,0 +1,263 @@
+[1mdiff --git a/Modules/Test/classes/class.ilTestPlayerAbstractGUI.php b/Modules/Test/classes/class.ilTestPlayerAbstractGUI.php[m
+[1mindex 557a63d..deefd60 100755[m
+[1m--- a/Modules/Test/classes/class.ilTestPlayerAbstractGUI.php[m
+[1m+++ b/Modules/Test/classes/class.ilTestPlayerAbstractGUI.php[m
+[36m@@ -1046,6 +1046,9 @@[m [mabstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI[m
+ 		// questions, which do not have such facilities. E.g. there can be no "specific inline feedback" for essay[m
+ 		// questions, while the multiple-choice questions do well.[m
+ [m
+[32m+[m
+[32m+[m		[32m$this->populateDiscardSolutionModal();[m
+[32m+[m
+ 		$this->populateIntermediateSolutionSaver($questionGui);[m
+ 	}[m
+ [m
+[36m@@ -2006,4 +2009,38 @@[m [mabstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI[m
+ 			$this->tpl->setVariable($this->getContentBlockName(), $contentHTML);[m
+ 		}[m
+ 	}[m
+[32m+[m[41m	[m
+[32m+[m	[32mprotected function populateDiscardSolutionModal()[m
+[32m+[m	[32m{[m
+[32m+[m		[32mrequire_once 'Services/UIComponent/Button/classes/class.ilSubmitButton.php';[m
+[32m+[m		[32mrequire_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';[m
+[32m+[m		[32mrequire_once 'Services/UIComponent/Modal/classes/class.ilModalGUI.php';[m
+[32m+[m
+[32m+[m		[32m$tpl = new ilTemplate('tpl.discard_answer_confirmation_modal.html', true, true, 'Modules/Test');[m
+[32m+[m[41m		[m
+[32m+[m		[32m$tpl->setVariable('CONFIRMATION_TEXT', $this->lng->txt('discard_answer_confirmation'));[m
+[32m+[m
+[32m+[m		[32m$button = ilSubmitButton::getInstance();[m
+[32m+[m		[32m$button->setCommand(ilTestPlayerCommands::DISCARD_SOLUTION);[m
+[32m+[m		[32m$button->setCaption($this->lng->txt('yes'));[m
+[32m+[m		[32m$tpl->setCurrentBlock('buttons');[m
+[32m+[m		[32m$tpl->setVariable('BUTTON', $button->render());[m
+[32m+[m		[32m$tpl->parseCurrentBlock();[m
+[32m+[m
+[32m+[m		[32m$button = ilLinkButton::getInstance();[m
+[32m+[m		[32m$button->setId('tst_cancel_discard_button');[m
+[32m+[m		[32m$button->setCaption($this->lng->txt('no'));[m
+[32m+[m		[32m$tpl->setCurrentBlock('buttons');[m
+[32m+[m		[32m$tpl->setVariable('BUTTON', $button->render());[m
+[32m+[m		[32m$tpl->parseCurrentBlock();[m
+[32m+[m[41m		[m
+[32m+[m		[32m$modal = ilModalGUI::getInstance();[m
+[32m+[m		[32m$modal->setId('tst_discard_answer_modal');[m
+[32m+[m		[32m$modal->setHeading($this->lng->txt('discard_answer'));[m
+[32m+[m		[32m$modal->setBody($tpl->get());[m
+[32m+[m[41m		[m
+[32m+[m		[32m$this->tpl->setCurrentBlock('discard_modal');[m
+[32m+[m		[32m$this->tpl->setVariable('DISCARD_MODAL', $modal->getHTML());[m
+[32m+[m		[32m$this->tpl->parseCurrentBlock();[m
+[32m+[m	[32m}[m
+ }[m
+[1mdiff --git a/Modules/Test/classes/class.ilTestQuestionNavigationGUI.php b/Modules/Test/classes/class.ilTestQuestionNavigationGUI.php[m
+[1mindex dba7eb0..86d12cb 100644[m
+[1m--- a/Modules/Test/classes/class.ilTestQuestionNavigationGUI.php[m
+[1m+++ b/Modules/Test/classes/class.ilTestQuestionNavigationGUI.php[m
+[36m@@ -305,42 +305,40 @@[m [mclass ilTestQuestionNavigationGUI[m
+ 		[m
+ 		if( $this->getEditSolutionCommand() )[m
+ 		{[m
+[31m-			$this->renderButton([m
+[32m+[m			[32m$this->renderSubmitButton([m
+ 				$tpl, $this->getEditSolutionCommand(), 'edit_answer', true[m
+ 			);[m
+ 		}[m
+ 		[m
+ 		if( $this->getSubmitSolutionCommand() )[m
+ 		{[m
+[31m-			$this->renderButton([m
+[32m+[m			[32m$this->renderSubmitButton([m
+ 				$tpl, $this->getSubmitSolutionCommand(), $this->getSubmitSolutionButtonLabel(), true[m
+ 			);[m
+ 		}[m
+ [m
+ 		if( $this->getDiscardSolutionCommand() )[m
+ 		{[m
+[31m-			$this->renderButton([m
+[31m-				$tpl, $this->getDiscardSolutionCommand(), 'discard_answer'[m
+[31m-			);[m
+[32m+[m			[32m$this->renderJsLinkedButton($tpl, 'tst_discard_answer_button', 'discard_answer', '');[m
+ 		}[m
+ [m
+ 		if( $this->getInstantFeedbackCommand() && !$this->isForceInstantResponseEnabled() )[m
+ 		{[m
+[31m-			$this->renderButton([m
+[32m+[m			[32m$this->renderSubmitButton([m
+ 				$tpl, $this->getInstantFeedbackCommand(), $this->getCheckButtonLabel()[m
+ 			);[m
+ 		}[m
+ [m
+ 		if( $this->getRequestHintCommand() )[m
+ 		{[m
+[31m-			$this->renderButton([m
+[32m+[m			[32m$this->renderSubmitButton([m
+ 				$tpl, $this->getRequestHintCommand(), $this->getRequestHintButtonLabel()[m
+ 			);[m
+ 		}[m
+ [m
+ 		if( $this->getShowHintsCommand() )[m
+ 		{[m
+[31m-			$this->renderButton([m
+[32m+[m			[32m$this->renderSubmitButton([m
+ 				$tpl, $this->getShowHintsCommand(), 'button_show_requested_question_hints'[m
+ 			);[m
+ 		}[m
+[36m@@ -355,7 +353,9 @@[m [mclass ilTestQuestionNavigationGUI[m
+ 		[m
+ 		if( $this->isCharSelectorEnabled() )[m
+ 		{[m
+[31m-			$this->renderCharSelectorButton($tpl);[m
+[32m+[m			[32m$this->renderJsLinkedButton($tpl,[m
+[32m+[m				[32m'charselectorbutton', 'char_selector_btn_label', 'ilCharSelectorToggle'[m
+[32m+[m			[32m);[m
+ 		}[m
+ 		[m
+ 		if( $this->isAnythingRendered() )[m
+[36m@@ -429,53 +429,84 @@[m [mclass ilTestQuestionNavigationGUI[m
+ 	/**[m
+ 	 * @param ilTemplate $tpl[m
+ 	 */[m
+[31m-	private function renderButton(ilTemplate $tpl, $command, $label, $primary = false)[m
+[32m+[m	[32mprivate function parseNavigation(ilTemplate $tpl)[m
+ 	{[m
+[31m-		$button = ilSubmitButton::getInstance();[m
+[31m-		$button->setCommand($command);[m
+[31m-		$button->setCaption($label);[m
+[31m-		$button->setPrimary($primary);[m
+[31m-		[m
+[31m-		$tpl->setCurrentBlock("submit_button");[m
+[31m-		$tpl->setVariable("SUBMIT_BTN", $button->render());[m
+[32m+[m		[32m$tpl->setCurrentBlock('question_related_navigation');[m
+ 		$tpl->parseCurrentBlock();[m
+[32m+[m	[32m}[m
+ [m
+[31m-		$this->setAnythingRendered();[m
+[32m+[m	[32m/**[m
+[32m+[m	[32m * @param ilTemplate $tpl[m
+[32m+[m	[32m */[m
+[32m+[m	[32mprivate function parseButtonsBlock(ilTemplate $tpl)[m
+[32m+[m	[32m{[m
+[32m+[m		[32m$tpl->setCurrentBlock('buttons');[m
+[32m+[m		[32m$tpl->parseCurrentBlock();[m
+ 	}[m
+ [m
+ 	/**[m
+ 	 * @param ilTemplate $tpl[m
+[32m+[m	[32m * @param $button[m
+ 	 */[m
+[31m-	private function renderIcon(ilTemplate $tpl, $command, $iconSrc, $label, $cssClass)[m
+[32m+[m	[32mprivate function renderButtonInstance(ilTemplate $tpl, $button)[m
+ 	{[m
+[31m-		$tpl->setCurrentBlock("submit_icon");[m
+[31m-		$tpl->setVariable("SUBMIT_ICON_CMD", $command);[m
+[31m-		$tpl->setVariable("SUBMIT_ICON_SRC", $iconSrc);[m
+[31m-		$tpl->setVariable("SUBMIT_ICON_TEXT", $label);[m
+[31m-		$tpl->setVariable("SUBMIT_ICON_CLASS", $cssClass);[m
+[32m+[m		[32m$tpl->setCurrentBlock("button_instance");[m
+[32m+[m		[32m$tpl->setVariable("BUTTON_INSTANCE", $button->render());[m
+ 		$tpl->parseCurrentBlock();[m
+ [m
+[32m+[m		[32m$this->parseButtonsBlock($tpl);[m
+ 		$this->setAnythingRendered();[m
+ 	}[m
+ [m
+ 	/**[m
+ 	 * @param ilTemplate $tpl[m
+[32m+[m	[32m * @param $command[m
+[32m+[m	[32m * @param $label[m
+[32m+[m	[32m * @param bool|false $primary[m
+ 	 */[m
+[31m-	private function parseNavigation(ilTemplate $tpl)[m
+[32m+[m	[32mprivate function renderSubmitButton(ilTemplate $tpl, $command, $label, $primary = false)[m
+ 	{[m
+[31m-		$tpl->setCurrentBlock('question_related_navigation');[m
+[31m-		$tpl->parseCurrentBlock();[m
+[32m+[m		[32m$button = ilSubmitButton::getInstance();[m
+[32m+[m		[32m$button->setCommand($command);[m
+[32m+[m		[32m$button->setCaption($label);[m
+[32m+[m		[32m$button->setPrimary($primary);[m
+[32m+[m
+[32m+[m		[32m$this->renderButtonInstance($tpl, $button);[m
+ 	}[m
+ [m
+[31m-	private function renderCharSelectorButton(ilTemplate $tpl)[m
+[32m+[m	[32m/**[m
+[32m+[m	[32m * @param ilTemplate $tpl[m
+[32m+[m	[32m * @param $htmlId[m
+[32m+[m	[32m * @param $label[m
+[32m+[m	[32m * @param $cssClass[m
+[32m+[m	[32m */[m
+[32m+[m	[32mprivate function renderJsLinkedButton(ilTemplate $tpl, $htmlId, $label, $cssClass)[m
+ 	{[m
+ 		$button = ilLinkButton::getInstance();[m
+[31m-		$button->setId('charselectorbutton');[m
+[31m-		$button->addCSSClass('ilCharSelectorToggle');[m
+[31m-		$button->setCaption('char_selector_btn_label');[m
+[32m+[m		[32m$button->setId($htmlId);[m
+[32m+[m		[32m$button->addCSSClass($cssClass);[m
+[32m+[m		[32m$button->setCaption($label);[m
+[32m+[m
+[32m+[m		[32m$this->renderButtonInstance($tpl, $button);[m
+[32m+[m	[32m}[m
+ [m
+[31m-		$tpl->setCurrentBlock("submit_button");[m
+[31m-		$tpl->setVariable("SUBMIT_BTN", $button->render());[m
+[32m+[m	[32m/**[m
+[32m+[m	[32m * @param ilTemplate $tpl[m
+[32m+[m	[32m * @param $command[m
+[32m+[m	[32m * @param $iconSrc[m
+[32m+[m	[32m * @param $label[m
+[32m+[m	[32m * @param $cssClass[m
+[32m+[m	[32m */[m
+[32m+[m	[32mprivate function renderIcon(ilTemplate $tpl, $command, $iconSrc, $label, $cssClass)[m
+[32m+[m	[32m{[m
+[32m+[m		[32m$tpl->setCurrentBlock("submit_icon");[m
+[32m+[m		[32m$tpl->setVariable("SUBMIT_ICON_CMD", $command);[m
+[32m+[m		[32m$tpl->setVariable("SUBMIT_ICON_SRC", $iconSrc);[m
+[32m+[m		[32m$tpl->setVariable("SUBMIT_ICON_TEXT", $label);[m
+[32m+[m		[32m$tpl->setVariable("SUBMIT_ICON_CLASS", $cssClass);[m
+ 		$tpl->parseCurrentBlock();[m
+[32m+[m
+[32m+[m		[32m$this->parseButtonsBlock($tpl);[m
+[32m+[m		[32m$this->setAnythingRendered();[m
+ 	}[m
+ }[m
+\ No newline at end of file[m
+[1mdiff --git a/Modules/Test/templates/default/tpl.il_as_tst_output.html b/Modules/Test/templates/default/tpl.il_as_tst_output.html[m
+[1mindex b2c9818..1f3f63d 100755[m
+[1m--- a/Modules/Test/templates/default/tpl.il_as_tst_output.html[m
+[1m+++ b/Modules/Test/templates/default/tpl.il_as_tst_output.html[m
+[36m@@ -30,7 +30,7 @@[m
+ 	<tr class="std">[m
+ 		<td class="ilc_Page">[m
+ 			<div class="ilc_Page" id="ilc_Page">[m
+[31m-				{QUESTION_OUTPUT}[m
+[32m+[m				[32m{QUESTION_OUTPUT}<!-- BEGIN discard_modal -->{DISCARD_MODAL}<!-- END discard_modal -->[m
+             </div>[m
+ 			<!-- BEGIN received_points_information -->[m
+             <p>{RECEIVED_POINTS_INFORMATION}</p>[m
+[1mdiff --git a/Modules/Test/templates/default/tpl.tst_question_navigation.html b/Modules/Test/templates/default/tpl.tst_question_navigation.html[m
+[1mindex a4de83b..d05d8d8 100644[m
+[1m--- a/Modules/Test/templates/default/tpl.tst_question_navigation.html[m
+[1m+++ b/Modules/Test/templates/default/tpl.tst_question_navigation.html[m
+[36m@@ -1,10 +1,12 @@[m
+ <!-- BEGIN question_related_navigation -->[m
+ <div class="ilAssQuestionRelatedNavigationContainer">[m
+[31m-	<!-- BEGIN submit_button -->[m
+[31m-	{SUBMIT_BTN}[m
+[31m-	<!-- END submit_button -->[m
+[31m-	<!-- BEGIN submit_icon -->[m
+[31m-	<input type="image" class="{SUBMIT_ICON_CLASS}" name="cmd[{SUBMIT_ICON_CMD}]" src="{SUBMIT_ICON_SRC}"  title="{SUBMIT_ICON_TEXT}" />[m
+[31m-	<!-- END submit_icon -->[m
+[32m+[m	[32m<!-- BEGIN buttons -->[m
+[32m+[m		[32m<!-- BEGIN button_instance -->[m
+[32m+[m		[32m{BUTTON_INSTANCE}[m
+[32m+[m		[32m<!-- END button_instance -->[m
+[32m+[m		[32m<!-- BEGIN submit_icon -->[m
+[32m+[m		[32m<input type="image" class="{SUBMIT_ICON_CLASS}" name="cmd[{SUBMIT_ICON_CMD}]" src="{SUBMIT_ICON_SRC}"  title="{SUBMIT_ICON_TEXT}" />[m
+[32m+[m		[32m<!-- END submit_icon -->[m
+[32m+[m	[32m<!-- END buttons -->[m
+ </div>[m
+ <!-- END question_related_navigation -->[m

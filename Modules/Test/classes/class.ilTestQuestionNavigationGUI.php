@@ -26,9 +26,9 @@ class ilTestQuestionNavigationGUI
 	private $submitSolutionCommand = '';
 
 	/**
-	 * @var string
+	 * @var bool
 	 */
-	private $discardSolutionCommand = '';
+	private $discardSolutionButtonEnabled = false;
 
 	/**
 	 * @var string
@@ -121,19 +121,19 @@ class ilTestQuestionNavigationGUI
 	}
 
 	/**
-	 * @return string
+	 * @return bool
 	 */
-	public function getDiscardSolutionCommand()
+	public function isDiscardSolutionButtonEnabled()
 	{
-		return $this->discardSolutionCommand;
+		return $this->discardSolutionButtonEnabled;
 	}
 
 	/**
-	 * @param string $discardSolutionCommand
+	 * @param bool $discardSolutionButtonEnabled
 	 */
-	public function setDiscardSolutionCommand($discardSolutionCommand)
+	public function setDiscardSolutionButtonEnabled($discardSolutionButtonEnabled)
 	{
-		$this->discardSolutionCommand = $discardSolutionCommand;
+		$this->discardSolutionButtonEnabled = $discardSolutionButtonEnabled;
 	}
 
 	/**
@@ -305,42 +305,40 @@ class ilTestQuestionNavigationGUI
 		
 		if( $this->getEditSolutionCommand() )
 		{
-			$this->renderButton(
+			$this->renderSubmitButton(
 				$tpl, $this->getEditSolutionCommand(), 'edit_answer', true
 			);
 		}
 		
 		if( $this->getSubmitSolutionCommand() )
 		{
-			$this->renderButton(
+			$this->renderSubmitButton(
 				$tpl, $this->getSubmitSolutionCommand(), $this->getSubmitSolutionButtonLabel(), true
 			);
 		}
 
-		if( $this->getDiscardSolutionCommand() )
+		if( $this->isDiscardSolutionButtonEnabled() )
 		{
-			$this->renderButton(
-				$tpl, $this->getDiscardSolutionCommand(), 'discard_answer'
-			);
+			$this->renderJsLinkedButton($tpl, 'tst_discard_answer_button', 'discard_answer', '');
 		}
 
 		if( $this->getInstantFeedbackCommand() && !$this->isForceInstantResponseEnabled() )
 		{
-			$this->renderButton(
+			$this->renderSubmitButton(
 				$tpl, $this->getInstantFeedbackCommand(), $this->getCheckButtonLabel()
 			);
 		}
 
 		if( $this->getRequestHintCommand() )
 		{
-			$this->renderButton(
+			$this->renderSubmitButton(
 				$tpl, $this->getRequestHintCommand(), $this->getRequestHintButtonLabel()
 			);
 		}
 
 		if( $this->getShowHintsCommand() )
 		{
-			$this->renderButton(
+			$this->renderSubmitButton(
 				$tpl, $this->getShowHintsCommand(), 'button_show_requested_question_hints'
 			);
 		}
@@ -355,7 +353,9 @@ class ilTestQuestionNavigationGUI
 		
 		if( $this->isCharSelectorEnabled() )
 		{
-			$this->renderCharSelectorButton($tpl);
+			$this->renderJsLinkedButton($tpl,
+				'charselectorbutton', 'char_selector_btn_label', 'ilCharSelectorToggle'
+			);
 		}
 		
 		if( $this->isAnythingRendered() )
@@ -429,22 +429,73 @@ class ilTestQuestionNavigationGUI
 	/**
 	 * @param ilTemplate $tpl
 	 */
-	private function renderButton(ilTemplate $tpl, $command, $label, $primary = false)
+	private function parseNavigation(ilTemplate $tpl)
 	{
-		$button = ilSubmitButton::getInstance();
-		$button->setCommand($command);
-		$button->setCaption($label);
-		$button->setPrimary($primary);
-		
-		$tpl->setCurrentBlock("submit_button");
-		$tpl->setVariable("SUBMIT_BTN", $button->render());
+		$tpl->setCurrentBlock('question_related_navigation');
+		$tpl->parseCurrentBlock();
+	}
+
+	/**
+	 * @param ilTemplate $tpl
+	 */
+	private function parseButtonsBlock(ilTemplate $tpl)
+	{
+		$tpl->setCurrentBlock('buttons');
+		$tpl->parseCurrentBlock();
+	}
+
+	/**
+	 * @param ilTemplate $tpl
+	 * @param $button
+	 */
+	private function renderButtonInstance(ilTemplate $tpl, $button)
+	{
+		$tpl->setCurrentBlock("button_instance");
+		$tpl->setVariable("BUTTON_INSTANCE", $button->render());
 		$tpl->parseCurrentBlock();
 
+		$this->parseButtonsBlock($tpl);
 		$this->setAnythingRendered();
 	}
 
 	/**
 	 * @param ilTemplate $tpl
+	 * @param $command
+	 * @param $label
+	 * @param bool|false $primary
+	 */
+	private function renderSubmitButton(ilTemplate $tpl, $command, $label, $primary = false)
+	{
+		$button = ilSubmitButton::getInstance();
+		$button->setCommand($command);
+		$button->setCaption($label);
+		$button->setPrimary($primary);
+
+		$this->renderButtonInstance($tpl, $button);
+	}
+
+	/**
+	 * @param ilTemplate $tpl
+	 * @param $htmlId
+	 * @param $label
+	 * @param $cssClass
+	 */
+	private function renderJsLinkedButton(ilTemplate $tpl, $htmlId, $label, $cssClass)
+	{
+		$button = ilLinkButton::getInstance();
+		$button->setId($htmlId);
+		$button->addCSSClass($cssClass);
+		$button->setCaption($label);
+
+		$this->renderButtonInstance($tpl, $button);
+	}
+
+	/**
+	 * @param ilTemplate $tpl
+	 * @param $command
+	 * @param $iconSrc
+	 * @param $label
+	 * @param $cssClass
 	 */
 	private function renderIcon(ilTemplate $tpl, $command, $iconSrc, $label, $cssClass)
 	{
@@ -455,27 +506,7 @@ class ilTestQuestionNavigationGUI
 		$tpl->setVariable("SUBMIT_ICON_CLASS", $cssClass);
 		$tpl->parseCurrentBlock();
 
+		$this->parseButtonsBlock($tpl);
 		$this->setAnythingRendered();
-	}
-
-	/**
-	 * @param ilTemplate $tpl
-	 */
-	private function parseNavigation(ilTemplate $tpl)
-	{
-		$tpl->setCurrentBlock('question_related_navigation');
-		$tpl->parseCurrentBlock();
-	}
-
-	private function renderCharSelectorButton(ilTemplate $tpl)
-	{
-		$button = ilLinkButton::getInstance();
-		$button->setId('charselectorbutton');
-		$button->addCSSClass('ilCharSelectorToggle');
-		$button->setCaption('char_selector_btn_label');
-
-		$tpl->setCurrentBlock("submit_button");
-		$tpl->setVariable("SUBMIT_BTN", $button->render());
-		$tpl->parseCurrentBlock();
 	}
 }

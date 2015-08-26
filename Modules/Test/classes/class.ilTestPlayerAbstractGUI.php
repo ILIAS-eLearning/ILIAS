@@ -1046,6 +1046,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		// questions, which do not have such facilities. E.g. there can be no "specific inline feedback" for essay
 		// questions, while the multiple-choice questions do well.
 
+
+		$this->populateDiscardSolutionModal();
+
 		$this->populateIntermediateSolutionSaver($questionGui);
 	}
 
@@ -1703,7 +1706,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$navigationGUI = new ilTestQuestionNavigationGUI($this->lng);
 
 		$navigationGUI->setSubmitSolutionCommand(ilTestPlayerCommands::SUBMIT_SOLUTION);
-		$navigationGUI->setDiscardSolutionCommand(ilTestPlayerCommands::DISCARD_SOLUTION);
+		$navigationGUI->setDiscardSolutionButtonEnabled(true);
 		
 		// feedback
 		switch( 1 )
@@ -2005,5 +2008,40 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		{
 			$this->tpl->setVariable($this->getContentBlockName(), $contentHTML);
 		}
+	}
+	
+	protected function populateDiscardSolutionModal()
+	{
+		require_once 'Services/UIComponent/Button/classes/class.ilSubmitButton.php';
+		require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
+		require_once 'Services/UIComponent/Modal/classes/class.ilModalGUI.php';
+
+		$tpl = new ilTemplate('tpl.discard_answer_confirmation_modal.html', true, true, 'Modules/Test');
+		
+		$tpl->setVariable('CONFIRMATION_TEXT', $this->lng->txt('discard_answer_confirmation'));
+
+		$button = ilSubmitButton::getInstance();
+		$button->setCommand(ilTestPlayerCommands::DISCARD_SOLUTION);
+		$button->setCaption('yes');
+		$tpl->setCurrentBlock('buttons');
+		$tpl->setVariable('BUTTON', $button->render());
+		$tpl->parseCurrentBlock();
+
+		$button = ilLinkButton::getInstance();
+		$button->setId('tst_cancel_discard_button');
+		$button->setCaption('no');
+		$button->setPrimary(true);
+		$tpl->setCurrentBlock('buttons');
+		$tpl->setVariable('BUTTON', $button->render());
+		$tpl->parseCurrentBlock();
+		
+		$modal = ilModalGUI::getInstance();
+		$modal->setId('tst_discard_answer_modal');
+		$modal->setHeading($this->lng->txt('discard_answer'));
+		$modal->setBody($tpl->get());
+		
+		$this->tpl->setCurrentBlock('discard_modal');
+		$this->tpl->setVariable('DISCARD_MODAL', $modal->getHTML());
+		$this->tpl->parseCurrentBlock();
 	}
 }

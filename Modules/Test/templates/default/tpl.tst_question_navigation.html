@@ -1,10 +1,16 @@
 <!-- BEGIN question_related_navigation -->
-<div class="ilAssQuestionRelatedNavigationContainer">
-	<!-- BEGIN submit_button -->
-	{SUBMIT_BTN}
-	<!-- END submit_button -->
-	<!-- BEGIN submit_icon -->
-	<input type="image" class="{SUBMIT_ICON_CLASS}" name="cmd[{SUBMIT_ICON_CMD}]" src="{SUBMIT_ICON_SRC}"  title="{SUBMIT_ICON_TEXT}" />
-	<!-- END submit_icon -->
-</div>
+<ul class="ilAssQuestionRelatedNavigationContainer nav navbar-nav">
+	<!-- BEGIN buttons -->
+		<li>
+		<div class="navbar">
+			<!-- BEGIN button_instance -->
+			{BUTTON_INSTANCE}
+			<!-- END button_instance -->
+			<!-- BEGIN submit_icon -->
+			<input type="image" class="{SUBMIT_ICON_CLASS}" name="cmd[{SUBMIT_ICON_CMD}]" src="{SUBMIT_ICON_SRC}"  title="{SUBMIT_ICON_TEXT}" />
+			<!-- END submit_icon -->
+		</div>
+		</li>
+	<!-- END buttons -->
+</ul>
 <!-- END question_related_navigation -->
