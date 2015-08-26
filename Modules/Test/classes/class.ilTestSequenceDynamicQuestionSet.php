@@ -901,7 +901,9 @@ class ilTestSequenceDynamicQuestionSet implements ilTestSequenceSummaryProvider
 				{
 					$solved = $solved_questions[$question->getId()]["solved"];
 				}
-				$is_postponed = $this->isPostponedQuestion($question->getId());
+				
+				// do not show postponing, since this happens implicit on dircarding solutions (CTM only)
+				//$is_postponed = $this->isPostponedQuestion($question->getId());
 
 				$row = array("nr" => "$key", "title" => $question->getTitle(), "qid" => $question->getId(), "visited" => $worked_through, "solved" => (($solved) ? "1" : "0"), "description" => $question->getComment(), "points" => $question->getMaximumPoints(), "worked_through" => $worked_through, "postponed" => $is_postponed, "sequence" => $qId, "obligatory" => ilObjTest::isQuestionObligatory($question->getId()), 'isAnswered' => $question->isAnswered($this->getActiveId(), $this->getPass()));
 
