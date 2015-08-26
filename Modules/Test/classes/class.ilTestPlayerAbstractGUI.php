@@ -2047,5 +2047,10 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$this->tpl->setCurrentBlock('discard_modal');
 		$this->tpl->setVariable('DISCARD_MODAL', $modal->getHTML());
 		$this->tpl->parseCurrentBlock();
+		
+		if( $this->object->getKioskMode() )
+		{
+			$this->tpl->addJavaScript('Services/UICore/lib/bootstrap-3.2.0/dist/js/bootstrap.min.js', true);
+		}
 	}
 }
