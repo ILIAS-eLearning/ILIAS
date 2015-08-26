@@ -582,7 +582,9 @@ class ilCourseBookingAdminGUI
 			
 			require_once "Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php";
 			$ou_tree = ilObjOrgUnitTree::_getInstance();	
-			$user_ids = $ou_tree->getEmployees($org_ref_id, $org_subs);			
+			$user_ids = $ou_tree->getEmployees($org_ref_id, $org_subs);	
+			$user_ids = array_unique(array_merge($user_ids, $ou_tree->getSuperiors($org_ref_id, $org_subs)));	
+
 			if(sizeof($user_ids))
 			{								
 				$this->setTabs("listBookings");

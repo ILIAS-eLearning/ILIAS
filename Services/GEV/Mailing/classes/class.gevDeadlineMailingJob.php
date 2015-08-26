@@ -49,6 +49,7 @@ class gevDeadlineMailingJob extends ilCronJob {
 		, "participation_status_not_set"
 		, "invitation"
 		, "materiallist_for_storage"
+		, "min_participants_not_reached_six_weeks"
 		);
 		
 		$this->max_after_course_end = gevParticipationStatusNotSet::DAYS_AFTER_COURSE_END;
@@ -157,6 +158,7 @@ class gevDeadlineMailingJob extends ilCronJob {
 					}
 					catch (Exception $e) {
 						$this->log->write("ilDeadlineMailingJob::run: error when sending mail ".$key.".");
+						$this->log->write("ilDeadlineMailingJob::run: error when sending mail error message".$e->getMessage().".");
 					}
 				}
 				else {

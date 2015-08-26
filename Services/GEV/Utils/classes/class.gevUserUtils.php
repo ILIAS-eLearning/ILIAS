@@ -242,10 +242,20 @@ class gevUserUtils {
 	}
 	
 	static public function getInstance($a_user_id) {
+		if($a_user_id === null) {
+			throw new Exception("gevUserUtils::getInstance: ".
+								"No Usersdfsdfsdf ID given.");
+		}
+
+		if(!self::userIdExists($a_user_id)) {
+			throw new Exception("gevUserUtils::getInstance: ".
+									"User with ID ".$a_user_id." does not exist.");
+		}
+
 		if (array_key_exists($a_user_id, self::$instances)) {
 			return self::$instances[$a_user_id];
 		}
-		
+
 		self::$instances[$a_user_id] = new gevUserUtils($a_user_id);
 		return self::$instances[$a_user_id];
 	}
@@ -263,6 +273,19 @@ class gevUserUtils {
 		else {
 			return self::getInstanceByObj($a_user);
 		}
+	}
+
+	static public function userIdExists($a_user_id) {
+		global $ilDB;
+
+		$sql = "SELECT usr_id FROM usr_data WHERE usr_id = ".$ilDB->quote($a_user_id, "integer");
+		$res = $ilDB->query($sql);
+
+		if($ilDB->numRows($res) == 0) {
+			return false;
+		}
+
+		return true;
 	}
 	
 	public function getNextCourseId() {
@@ -448,10 +471,16 @@ class gevUserUtils {
 			$booked_amd[$key]["location"] = $orgu_utils->getLongTitle();
 			$booked_amd[$key]["fee"] = floatval($booked_amd[$key]["fee"]);
 			$list = "";
-			foreach ($booked_amd[$key]["target_group_list"] as $val) {
-				$list .= "<li>".$val."</li>";
+
+			if(is_array($booked_amd[$key]["target_group_list"])) {
+				foreach ($booked_amd[$key]["target_group_list"] as $val) {
+					$list .= "<li>".$val."</li>";
+				}
 			}
-			$booked_amd[$key]["target_group"] = "<ul>".$list."</ul>".$booked_amd[$key]["target_group"];
+			
+			if($lis != "") {
+				$booked_amd[$key]["target_group"] = "<ul>".$list."</ul>".$booked_amd[$key]["target_group"];
+			}
 		}
 
 
@@ -1657,7 +1686,7 @@ class gevUserUtils {
 			   ."              )"
 			   ."       )"
 			   ;
-			
+		
 		$res = $this->db->query($sql);
 		if ($rec = $this->db->fetchAssoc($res)) {
 			return $rec["cnt"] == 0;
@@ -2233,11 +2262,6 @@ class gevUserUtils {
 		return $this->udf_utils->setField($this->user_id, gevSettings::USR_WBD_STATUS, $a_state);
 	}
 	
-
-
-
-
-
 	static public function isValidBWVId($a_id) {
 		return 1 == preg_match("/\d{8}-.{6}-../", $a_id);
 	}
@@ -2406,45 +2430,14 @@ class gevUserUtils {
 		return false;
 	}
 
-	public function getBDFromIV() {
-
-		global $ilClientIniFile;
-		global $ilDB;
-
-		$host = $ilClientIniFile->readVariable('shadowdb', 'host');
-		$user = $ilClientIniFile->readVariable('shadowdb', 'user');
-		$pass = $ilClientIniFile->readVariable('shadowdb', 'pass');
-		$name = $ilClientIniFile->readVariable('shadowdb', 'name');
-
-		$mysql = mysql_connect($host, $user, $pass) 
-				or die( "MySQL: ".mysql_error()." ### "
-						." Is the shadowdb initialized?"
-						." Are the settings for the shadowdb initialized in the client.ini.php?"
-					  );
-		mysql_select_db($name, $mysql);
-		mysql_set_charset('utf8', $mysql);
-
-		$agent_key = $this->getJobNumber();
-
-		$sql = 	 "SELECT `ivimport_orgunit`.`name`"
-				."  FROM `ivimport_stelle`"
-				."  INNER JOIN `ivimport_orgunit`"
-				."          ON `ivimport_orgunit`.`id` = `ivimport_stelle`.`sql_org_unit_id`"
-				." WHERE `ivimport_stelle`.`stellennummer` = ".$ilDB->quote($agent_key,"text");
-		
-		$data = mysql_query($sql);
-		$data = mysql_fetch_assoc($data);
-
-		// Shorten Name
-		$name = $data["name"];
-		$matches = array();
-		if (preg_match("/^Generali Versicherung AG (.*)$/", $name, $matches)) {
-			$name = $matches[1];
+	public function getUVGBDOrCPoolNames() {
+		$names = array();
+		$dbv_utils = gevDBVUtils::getInstance();
+		foreach ($dbv_utils->getUVGOrgUnitObjIdsIOf($this->getId()) as $obj_id) {
+			$uvg_top_level_orgu_obj_id = $dbv_utils->getUVGTopLevelOrguIdFor($obj_id);
+			$names[] = ilObject::_lookupTitle($uvg_top_level_orgu_obj_id);
 		}
-		if (preg_match("/^Bereichsdirektion (.*)$/", $name, $matches)) {
-			$name = "BD ".$matches[1];
-		}
-		return $name;
+		return $names;
 	}
 
 	/*
@@ -2544,6 +2537,58 @@ class gevUserUtils {
  		}
 
 	 	return $actions;
+	}
+
+	public function seeBiproAgent() {
+		$roles = array("Administrator"
+					   ,"Admin-Voll"
+					   ,"Admin-eingeschraenkt"
+					   ,"Admin-Ansicht"
+					   ,"OD/BD"
+					   ,"FD"
+					   ,"UA"
+					   ,"HA 84"
+					   ,"BA 84"
+					   ,"Org PV 59"
+					   ,"PV 59"
+					   ,"AVL"
+					   ,"ID FK"
+					   ,"ID MA"
+					   ,"OD/FD/BD ID"
+					   ,"Agt-ID"
+					   ,"NFK"
+					   ,"FDA"
+					   ,"int. Trainer"
+					   ,"OD-Betreuer"
+					   ,"DBV UVG"
+					   ,"DBV EVG"
+					   ,"DBV-Fin-UVG"
+					   ,"Key-Accounter"
+					   ,"RTL"
+					);
+
+		return $this->hasRoleIn($roles);
+	}
+
+	public function seeBiproSuperior() {
+		$roles = array("Administrator"
+					   ,"Admin-Voll"
+					   ,"Admin-eingeschraenkt"
+					   ,"Admin-Ansicht"
+					   ,"OD/BD"
+					   ,"FD"
+					   ,"UA"
+					   ,"AVL"
+					   ,"ID FK"
+					   ,"NFK"
+					   ,"FDA"
+					   ,"int. Trainer"
+					   ,"OD-Betreuer"
+					   ,"Key-Accounter"
+					   ,"RTL"
+					);
+		
+		return $this->hasRoleIn($roles);
 	}
 }
 

@@ -201,7 +201,7 @@ class ilObjOrgUnitTree {
 	 * @param $ref_id
 	 * @return int[]
 	 */
-	private function getChildren($ref_id){
+	public function getChildren($ref_id){
 		$this->loadChildren($ref_id);
 		return $this->tree_childs[$ref_id];
 	}

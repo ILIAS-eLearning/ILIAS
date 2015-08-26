@@ -426,6 +426,21 @@ class gevEduBiographyGUI extends catBasicReportGUI {
 					."   AND ".$this->db->in("usrcrs.booking_status", array("gebucht", "kostenpflichtig storniert", "kostenfrei storniert"), false, "text")
 					;
 	}
+
+	protected function _process_xls_status($val) {
+
+		$this->lng->loadLanguageModule("assessment");
+		$val = str_replace($this->success_img, $this->lng->txt("passed_official") ,$val);
+		$val = str_replace($this->failed_img, $this->lng->txt("failed_official") ,$val);
+		$val = str_replace($this->in_progress_img, $this->lng->txt("tst_status_progress") ,$val);
+		return $val;
+	}
+
+	protected function _process_xls_date($val) {
+		$val = str_replace('<br>', '',$val);
+
+		return $val;
+	}
 }
 
 ?>

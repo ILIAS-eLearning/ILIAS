@@ -37,7 +37,10 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		$this->ctrl = &$ilCtrl;
 		$this->access = &$ilAccess;
 		$this->user = &$ilUser;
-		$this->userUtils = gevUserUtils::getInstance($this->user->getId());
+		
+		if($this->user->getId() !== 0) {
+			$this->userUtils = gevUserUtils::getInstance($this->user->getId());
+		}
 
 		$this->lng->loadLanguageModule("gev");
 	}
