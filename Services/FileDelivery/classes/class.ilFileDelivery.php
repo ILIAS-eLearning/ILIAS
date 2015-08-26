@@ -662,12 +662,15 @@ class ilFileDelivery {
 	 * @return bool
 	 */
 	protected function isNonModified() {
+
+		if(! isset($_SERVER['HTTP_IF_NONE_MATCH']) || ! isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
+			return false;
+		}
+
 		$http_if_none_match = $_SERVER['HTTP_IF_NONE_MATCH'];
 		$http_if_modified_since = $_SERVER['HTTP_IF_MODIFIED_SINCE'];
 
 		switch (true) {
-			case (! isset($_SERVER['HTTP_IF_NONE_MATCH']) || ! isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])):
-				return false;
 			case ($http_if_none_match != $this->getEtag()):
 				return false;
 			case (@strtotime($http_if_modified_since) <= filemtime($this->getPathToFile())):
