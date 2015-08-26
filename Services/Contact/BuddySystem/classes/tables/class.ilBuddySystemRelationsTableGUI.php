@@ -11,16 +11,20 @@ require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystemLinkButton
  */
 class ilBuddySystemRelationsTableGUI extends ilTable2GUI
 {
-	
 	/**
-	 * 
+	 * @var string
 	 */
 	const APPLY_FILTER_CMD = 'applyContactsTableFilter';
-	
+
 	/**
-	 * 
+	 * @var string
 	 */
 	const RESET_FILTER_CMD = 'resetContactsTableFilter';
+
+	/**
+	 * @var string
+	 */
+	const STATE_FILTER_ELM_ID = 'relation_state_type';
 
 	/**
 	 * @var ilCtrl
@@ -107,7 +111,7 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
 		require_once 'Services/Contact/BuddySystem/classes/states/class.ilBuddySystemRelationStateFactory.php';
 
 		require_once'Services/Form/classes/class.ilSelectInputGUI.php';
-		$relations_state_selection = new ilSelectInputGUI($this->lng->txt('buddy_tbl_filter_state'), 'relation_state_type');
+		$relations_state_selection = new ilSelectInputGUI($this->lng->txt('buddy_tbl_filter_state'), self::STATE_FILTER_ELM_ID);
 
 		$options = array();
 		$state = ilBuddySystemRelationStateFactory::getInstance()->getStatesAsOptionArray(false);
@@ -139,7 +143,7 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
 
 		$relations = ilBuddyList::getInstanceByGlobalUser()->getRelations();
 
-		$state_filter = $this->filter['relation_state_type'];
+		$state_filter = $this->filter[self::STATE_FILTER_ELM_ID];
 		$relations = $relations->filter(function(ilBuddySystemRelation $relation) use ($state_filter) {
 			return !strlen($state_filter) || strtolower(get_class($relation->getState())) == strtolower($state_filter);
 		});
@@ -195,5 +199,18 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
 
 		$a_set['contact_actions'] = ilBuddySystemLinkButton::getInstanceByUserId($a_set['usr_id'])->getHtml();
 		parent::fillRow($a_set);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function render()
+	{
+		$listener_tpl = new ilTemplate('tpl.buddy_system_relation_table_listener.html', true, true, 'Services/Contact/BuddySystem');
+		$listener_tpl->setVariable('TABLE_ID', $this->getId());
+		$listener_tpl->setVariable('FILTER_ELM_ID', self::STATE_FILTER_ELM_ID);
+		$listener_tpl->setVariable('NO_ENTRIES_TEXT', $this->getNoEntriesText() ? $this->getNoEntriesText() : $this->lng->txt("no_items"));
+
+		return parent::render() . $listener_tpl->get();
 	}
 }
