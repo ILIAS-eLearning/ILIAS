@@ -58,6 +58,9 @@ class ilObjSCORMInitData
 			if ($launchId == '0') $launchId=$slm_obj->getLastVisited($ilUser->getID());
 		}
 
+		$b_sessionDeactivated='false';
+		if ($slm_obj->getSessionDeactivated()) $b_sessionDeactivated='true';
+
 		//manifestData //extra to IliasScormManifestData
 		// $s_man = "";
 		$a_man = array();
@@ -86,6 +89,7 @@ class ilObjSCORMInitData
 		$s_out='{'
 			.'"refId":'.$_GET["ref_id"].','
 			.'"objId":'.$slm_obj->getId().','
+			.'"clientId":"'.CLIENT_ID.'",'
 			.'"launchId":'.$launchId.','
 			.'"launchNr":0,'
 			.'"pingSession":'. $session_timeout.','
@@ -104,6 +108,7 @@ class ilObjSCORMInitData
 			.'"c_storeSessionTime":"'.$c_storeSessionTime.'",'
 			.'"b_autoContinue":'.$b_autoContinue.','
 			.'"b_autoLastVisited":'.$b_autoLastVisited.','
+			.'"b_sessionDeactivated":'.$b_sessionDeactivated.','
 			.'"i_lessonScoreMax":'.$i_lessonScoreMax.','
 			.'"i_lessonMasteryScore":'.$i_lessonMasteryScore.','
 			.'"b_debug":'.$b_debug.','
