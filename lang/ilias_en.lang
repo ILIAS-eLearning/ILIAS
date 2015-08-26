@@ -802,6 +802,13 @@ assessment#:#search_results#:#Search Results
 assessment#:#search_roles#:#Search Roles
 assessment#:#search_term#:#Search Term
 assessment#:#search_users#:#Search Users
+assessment#:#tst_instant_feedback_handling#:#tst_instant_feedback_handling
+assessment#:#tst_instant_feedback_handling_none#:#tst_instant_feedback_handling_none
+assessment#:#tst_instant_feedback_handling_none_desc#:#tst_instant_feedback_handling_desc
+assessment#:#tst_instant_feedback_handling_freeze#:#tst_instant_feedback_handling_freeze
+assessment#:#tst_instant_feedback_handling_freeze_desc#:#tst_instant_feedback_handling_freeze_desc
+assessment#:#tst_instant_feedback_handling_force_and_freeze#:#tst_instant_feedback_handling_force_and_freeze
+assessment#:#tst_instant_feedback_handling_force_and_freeze_desc#:#tst_instant_feedback_handling_force_and_freeze_desc
 assessment#:#see_details_for_further_information#:#See details for suggested solutions
 assessment#:#select_an_answer#:#--- Please select an answer ---
 assessment#:#select_gap#:#Select Gap

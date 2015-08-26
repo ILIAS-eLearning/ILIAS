@@ -27,6 +27,10 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 	const CMD_CONFIRMED_SAVE_FORM		= 'confirmedSaveForm';
 	const CMD_SHOW_RESET_TPL_CONFIRM	= 'showResetTemplateConfirmation';
 	const CMD_CONFIRMED_RESET_TPL		= 'confirmedResetTemplate';
+	
+	const INST_FB_HANDLING_OPT_NONE = 'none';
+	const INST_FB_HANDLING_OPT_FREEZE = 'freeze';
+	const INST_FB_HANDLING_OPT_FORCE_AND_FREEZE = 'force_freeze';
 
 	/** @var ilCtrl $ctrl */
 	protected $ctrl = null;
@@ -1102,24 +1106,41 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 			$this->lng->txt('tst_instant_feedback_solution'), 'instant_feedback_solution',
 			$this->lng->txt('tst_instant_feedback_solution_desc')
 		));
-		$instant_feedback->addOption(new ilCheckboxOption(
-			$this->lng->txt('tst_instant_feedback_fix_usr_answer'), 'instant_feedback_answer_fixation',
-			$this->lng->txt('tst_instant_feedback_fix_usr_answer_desc')
-		));
-		$instant_feedback->addOption(new ilCheckboxOption(
-			$this->lng->txt('tst_instant_feedback_forced'), 'instant_feedback_forced',
-			$this->lng->txt('tst_instant_feedback_forced_desc')
-		));
 		$values = array();
 		if ($this->testOBJ->getSpecificAnswerFeedback()) array_push($values, 'instant_feedback_specific');
 		if ($this->testOBJ->getGenericAnswerFeedback()) array_push($values, 'instant_feedback_generic');
 		if ($this->testOBJ->getAnswerFeedbackPoints()) array_push($values, 'instant_feedback_points');
 		if ($this->testOBJ->getInstantFeedbackSolution()) array_push($values, 'instant_feedback_solution');
-		if( $this->testOBJ->isInstantFeedbackAnswerFixationEnabled() ) array_push($values, 'instant_feedback_answer_fixation');
-		if( $this->testOBJ->isForceInstantFeedbackEnabled() ) array_push($values, 'instant_feedback_forced');
 		$instant_feedback->setValue($values);
 		$form->addItem($instant_feedback);
-
+		
+		$radioGroup = new ilRadioGroupInputGUI(
+			$this->lng->txt('tst_instant_feedback_handling'), 'instant_feedback_handling'
+		);
+		$radioOption = new ilRadioOption(
+			$this->lng->txt('tst_instant_feedback_handling_none'),
+			self::INST_FB_HANDLING_OPT_NONE
+		);
+		$radioOption->setInfo($this->lng->txt('tst_instant_feedback_handling_none_desc'));
+		$radioGroup->addOption($radioOption);
+		$radioOption = new ilRadioOption(
+			$this->lng->txt('tst_instant_feedback_handling_freeze'),
+			self::INST_FB_HANDLING_OPT_FREEZE
+		);
+		$radioOption->setInfo($this->lng->txt('tst_instant_feedback_handling_freeze_desc'));
+		$radioGroup->addOption($radioOption);
+		$radioOption = new ilRadioOption(
+			$this->lng->txt('tst_instant_feedback_handling_force_and_freeze'),
+			self::INST_FB_HANDLING_OPT_FORCE_AND_FREEZE
+		);
+		$radioOption->setInfo($this->lng->txt('tst_instant_feedback_handling_force_and_freeze_desc'));
+		$radioGroup->addOption($radioOption);
+		$radioGroup->setValue($this->getInstFbHandlingValue(
+			$this->testOBJ->isInstantFeedbackAnswerFixationEnabled(),
+			$this->testOBJ->isForceInstantFeedbackEnabled()
+		));
+		$form->addItem($radioGroup);
+		
 		// enable obligations
 		$checkBoxEnableObligations = new ilCheckboxInputGUI($this->lng->txt('tst_setting_enable_obligations_label'), 'obligations_enabled');
 		$checkBoxEnableObligations->setChecked($this->testOBJ->areObligationsEnabled());
@@ -1165,6 +1186,11 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		if ($this->formPropertyExists($form, 'instant_feedback'))
 		{
 			$this->testOBJ->setScoringFeedbackOptionsByArray($form->getItemByPostVar('instant_feedback')->getValue());
+		}
+
+		if ($this->formPropertyExists($form, 'instant_feedback_handling'))
+		{
+			$this->saveInstFbHandlingSettings($form->getItemByPostVar('instant_feedback_handling')->getValue());
 		}
 
 		if (!$this->testOBJ->participantDataExist() && $this->formPropertyExists($form, 'obligations_enabled'))
@@ -1419,5 +1445,41 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 			$this->testOBJ->setMailNotification(0);
 			$this->testOBJ->setMailNotificationType(false);
 		}
+	}
+	
+	private function saveInstFbHandlingSettings($instantFeedbackHandlingValue)
+	{
+		switch($instantFeedbackHandlingValue)
+		{
+			case self::INST_FB_HANDLING_OPT_NONE:
+				$this->testOBJ->setInstantFeedbackAnswerFixationEnabled(false);
+				$this->testOBJ->setForceInstantFeedbackEnabled(false);
+				break;
+			
+			case self::INST_FB_HANDLING_OPT_FREEZE:
+				$this->testOBJ->setInstantFeedbackAnswerFixationEnabled(true);
+				$this->testOBJ->setForceInstantFeedbackEnabled(false);
+				break;
+
+			case self::INST_FB_HANDLING_OPT_FORCE_AND_FREEZE:
+				$this->testOBJ->setInstantFeedbackAnswerFixationEnabled(true);
+				$this->testOBJ->setForceInstantFeedbackEnabled(true);
+				break;
+		}
+	}
+	
+	private function getInstFbHandlingValue($freezeAnswersEnabled, $forceInstFbEnabled)
+	{
+		if($freezeAnswersEnabled)
+		{
+			if($forceInstFbEnabled)
+			{
+				return self::INST_FB_HANDLING_OPT_FORCE_AND_FREEZE;
+			}
+			
+			return self::INST_FB_HANDLING_OPT_FREEZE;
+		}
+		
+		return self::INST_FB_HANDLING_OPT_NONE;
 	}
 }

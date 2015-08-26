@@ -10800,8 +10800,6 @@ function getAnswerFeedbackPoints()
 				$this->setSpecificAnswerFeedback(	in_array('instant_feedback_specific', $options) ? 1 : 0);
 				$this->setAnswerFeedbackPoints(		in_array('instant_feedback_points',   $options) ? 1 : 0);
 				$this->setInstantFeedbackSolution(	in_array('instant_feedback_solution', $options) ? 1 : 0);
-				$this->setInstantFeedbackAnswerFixationEnabled(	in_array('instant_feedback_answer_fixation', $options) ? true : false);
-				$this->setForceInstantFeedbackEnabled(	in_array('instant_feedback_forced', $options) ? true : false);
         	}
 			else
 			{
@@ -10809,8 +10807,6 @@ function getAnswerFeedbackPoints()
 				$this->setSpecificAnswerFeedback(0);
 				$this->setAnswerFeedbackPoints(0);
 				$this->setInstantFeedbackSolution(0);
-				$this->setInstantFeedbackAnswerFixationEnabled(false);
-				$this->setForceInstantFeedbackEnabled(false);
 			}
 		}
 

@@ -3,6 +3,7 @@
 
 require_once 'Services/Administration/classes/class.ilSettingsTemplateConfig.php';
 require_once 'Modules/Test/classes/inc.AssessmentConstants.php';
+require_once 'Modules/Test/classes/class.ilObjTestSettingsGeneralGUI.php';
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -236,6 +237,19 @@ class ilTestSettingsTemplateConfig extends ilSettingsTemplateConfig
 				'instant_feedback_specific' => $this->lng->txt("tst_instant_feedback_answer_specific"),
 				'instant_feedback_solution' => $this->lng->txt("tst_instant_feedback_solution"),
 				'force_instant_feedback' => $this->lng->txt("tst_instant_feedback_forced")
+			)
+		);
+
+		$this->addSetting(
+			'instant_feedback_handling',
+			ilSettingsTemplateConfig::SELECT,
+			$this->lng->txt('tst_instant_feedback_handling'),
+			true,
+			ilObjTestSettingsGeneralGUI::INST_FB_HANDLING_OPT_NONE,
+			array(
+				ilObjTestSettingsGeneralGUI::INST_FB_HANDLING_OPT_NONE => $this->lng->txt('tst_instant_feedback_handling_none'),
+				ilObjTestSettingsGeneralGUI::INST_FB_HANDLING_OPT_FREEZE => $this->lng->txt('tst_instant_feedback_handling_freeze'),
+				ilObjTestSettingsGeneralGUI::INST_FB_HANDLING_OPT_FORCE_AND_FREEZE => $this->lng->txt('tst_instant_feedback_handling_force_and_freeze'),
 			)
 		);
 
