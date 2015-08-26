@@ -709,21 +709,6 @@ class ilSearchGUI extends ilSearchBaseGUI
 			$this->search_cache->save();
 		}
 	}
-	
-	protected function loadCreationFilter()
-	{
-		$form = $this->getCreationDateForm();
-		$options = array();
-		if($form->checkInput())
-		{
-			$options['enabled'] = $form->getInput('screation');
-			$options['type'] = $form->getInput('screation_type');
-			$options['ontype'] = $form->getInput('screation_ontype');
-			$options['date'] = $form->getItemByPostVar('screation_date')->getDate()->get(IL_CAL_UNIX);
-			$options['duration'] = $form->getInput('screation_duration');
-		}
-		return $options;
-	}
-	
+		
 }
 ?>
