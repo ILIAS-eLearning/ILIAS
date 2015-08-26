@@ -245,6 +245,17 @@ class ilSearchGUI extends ilSearchBaseGUI
 			$this->tpl->setVariable("FORM", $this->form->getHTML());
 			$this->tpl->parseCurrentBlock();
 		}
+		
+		if(ilSearchSettings::getInstance()->isDateFilterEnabled())
+		{
+			// begin-patch creation_date
+			$this->tpl->setVariable('TXT_FILTER_BY_CDATE',$this->lng->txt('search_filter_cd'));
+			$this->tpl->setVariable('TXT_CD_OFF',$this->lng->txt('search_off'));
+			$this->tpl->setVariable('FORM_CD',$this->getCreationDateForm()->getHTML());
+			$this->tpl->setVariable("ARR_IMG_CD", ilGlyphGUI::get(ilGlyphGUI::CARET));
+			// end-patch creation_date
+		}
+		
 
 		$this->tpl->setVariable("TXT_AREA", $lng->txt("search_area"));
 		

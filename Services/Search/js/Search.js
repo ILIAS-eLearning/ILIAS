@@ -11,7 +11,7 @@ il.Search = {
 	// init
 	init: function() {
 		il.Search.search_filter_by_type_off = $('#sop_type').html();
-		il.Search.search_filter_by_cd_off = $('#sop_type').html();
+		il.Search.search_filter_by_cd_off = $('#sop_cd').html();
 		il.Search.search_options = $("#search_options");
 		if (il.Search.search_options) {
 			il.Overlay.add("search_options", {});
@@ -54,7 +54,7 @@ il.Search = {
 		$('#sop_combination').html($('label[for=combination_' + comb + ']').html());*/
 		var type = $('input[name=type]:checked').val();
 		if (type) {
-			$('#sop_type').html($('label[for=type_' + type + ']').html());
+			$('#sop_type').html('<b>' + $('label[for=type_' + type + ']').html() + '</b>');
 		} else {
 			// lucene version
 			type = $('input[name=item_filter_enabled]').is(':checked');
@@ -78,7 +78,7 @@ il.Search = {
 			$('#sop_cd').html(il.Search.search_filter_by_cd_off);
 		}
 		else {
-			$('#sop_cd').html('On');
+			$('#sop_cd').html('<b>On</b>');
 		}
 		
 		var area = $('a[name=area_anchor]').html();

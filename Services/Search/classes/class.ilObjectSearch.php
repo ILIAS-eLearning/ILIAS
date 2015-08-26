@@ -53,16 +53,25 @@ class ilObjectSearch extends ilAbstractSearch
 
 	function &performSearch()
 	{
+		global $ilDB;
+		
 		$in = $this->__createInStatement();
 		$where = $this->__createWhereCondition();
+		
+		$where2 = 'AND create_date >= '.$ilDB->quote('2015-08-15').' ';
+		
+		
+		
 		$locate = $this->__createLocateString();
 
 		$query = "SELECT obj_id,type ".
 			$locate.
 			"FROM object_data ".
-			$where." ".$in.' '.
+			$where." ".$where2.' '.$in.' '.
 			"ORDER BY obj_id DESC";
-			
+		
+		$GLOBALS['ilLog']->write($query);
+		
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
