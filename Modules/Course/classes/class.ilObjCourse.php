@@ -1290,8 +1290,10 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 			$ilDB->quote($this->getContactPhone() ,'text').", ".
 			$ilDB->quote($this->getContactEmail() ,'text').", ".
 			$ilDB->quote($this->getContactConsultation() ,'text').", ".
-			//BEGIN PATCH HSLU DEFAULT ONLINE
+			//BEGIN PATCH HSLU CRS DEFAULT ONLINE
 			//$ilDB->quote(0 ,'integer').", ".
+			$ilDB->quote(1 ,'integer').", ".
+			//END PATCH HSLU CRS DEFAULT ONLINE
 			$ilDB->quote($this->getActivationStart() ,'integer').", ".
 			$ilDB->quote($this->getActivationEnd() ,'integer').", ".
 			$ilDB->quote(IL_CRS_SUBSCRIPTION_DEACTIVATED ,'integer').", ".
