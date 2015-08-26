@@ -307,6 +307,16 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 	
 	protected function nextQuestionCmd()
 	{
+		$isWorkedThrough = assQuestion::_isWorkedThrough(
+			$this->testSession->getActiveId(), $this->testSession->getCurrentQuestionId(), $this->testSession->getPass()
+		);
+
+		if( !$isWorkedThrough )
+		{
+			$this->testSequence->setQuestionPostponed($this->testSession->getCurrentQuestionId());
+			$this->testSequence->saveToDb();
+		}
+		
 		$this->resetCurrentQuestion();
 		
 		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
