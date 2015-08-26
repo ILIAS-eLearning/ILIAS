@@ -542,7 +542,38 @@ class ilSearchGUI extends ilSearchBaseGUI
 		{
 			$obj_search->setFilter($this->__getFilter());
 		}
+		
+		$this->parseCreationFilter($obj_search);
 		return $obj_search->performSearch();
+	}
+	
+	public function parseCreationFilter(ilObjectSearch $search)
+	{
+		$options = $this->getSearchCache()->getCreationFilter();
+		
+		if(!$options['enabled'])
+		{
+			return TRUE;
+		}
+		$limit = new ilDate($options['date'],IL_CAL_UNIX);
+		$search->setCreationDateFilterDate($limit);
+		
+		switch($options['ontype'])
+		{
+			case 1:
+				$search->setCreationDateFilterOperator(ilObjectSearch::CDATE_OPERATOR_AFTER);
+				break;
+				
+			case 2:
+				$search->setCreationDateFilterOperator(ilObjectSearch::CDATE_OPERATOR_BEFORE);
+				break;
+				
+			case 3:
+				$search->setCreationDateFilterOperator(ilObjectSearch::CDATE_OPERATOR_ON);
+				break;
+		}
+		
+		return TRUE;
 	}
 
 
@@ -666,6 +697,8 @@ class ilSearchGUI extends ilSearchBaseGUI
 		include_once('Services/Search/classes/class.ilUserSearchCache.php');
 		$this->search_cache = ilUserSearchCache::_getInstance($ilUser->getId());
 		$this->search_cache->switchSearchType(ilUserSearchCache::DEFAULT_SEARCH);
+		$this->search_cache->setCreationFilter($this->loadCreationFilter());
+		
 		if($_GET['page_number'])
 		{
 			$this->search_cache->setResultPageNumber((int) $_GET['page_number']);
@@ -676,5 +709,21 @@ class ilSearchGUI extends ilSearchBaseGUI
 			$this->search_cache->save();
 		}
 	}
+	
+	protected function loadCreationFilter()
+	{
+		$form = $this->getCreationDateForm();
+		$options = array();
+		if($form->checkInput())
+		{
+			$options['enabled'] = $form->getInput('screation');
+			$options['type'] = $form->getInput('screation_type');
+			$options['ontype'] = $form->getInput('screation_ontype');
+			$options['date'] = $form->getItemByPostVar('screation_date')->getDate()->get(IL_CAL_UNIX);
+			$options['duration'] = $form->getInput('screation_duration');
+		}
+		return $options;
+	}
+	
 }
 ?>

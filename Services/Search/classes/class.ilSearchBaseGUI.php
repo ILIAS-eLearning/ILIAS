@@ -517,6 +517,15 @@ $this->next_link = $this->ctrl->getLinkTarget($this,'performSearch');
 				
 	}
 	
+	/**
+	 * Get user search cache
+	 * @return ilUserSearchCache
+	 */
+	protected  function getSearchCache()
+	{
+		return $this->search_cache;
+	}
+	
 
 }
 ?>
