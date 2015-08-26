@@ -194,11 +194,10 @@ class ilRbacReview
 						"FROM object_data odat ".
 						"JOIN object_reference oref ON oref.obj_id = odat.obj_id ".
 						"JOIN tree otree ON otree.child = oref.ref_id ".
-#						"JOIN tree rtree ON rtree.parent = otree.child ".
 						"JOIN rbac_fa rfa ON rfa.parent = otree.child ".
 						"JOIN object_data rdat ON rdat.obj_id = rfa.rol_id ".
 						"WHERE odat.title = ".$this->ilDB->quote($domain,'text')." ".
-						"AND otree.tree = 1 AND rtree.tree = 1 ".
+						"AND otree.tree = 1 ".
 						"AND rfa.assign = 'y' ".
 						"AND rdat.title LIKE ".
 							$this->ilDB->quote('%'.preg_replace('/([_%])/','\\\\$1',$local_part).'%','text');
