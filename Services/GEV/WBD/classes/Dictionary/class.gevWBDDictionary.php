@@ -8,7 +8,7 @@ class gevWBDDictionary implements Dictionary {
 	const SEARCH_IN_STUDY_CONTENT = "study_content";
 	const SEARCH_IN_WBD_TYPE = "wbd_type";
 	const SERACH_IN_AGENT_STATUS = "agent_status";
-	const SERACH_IN_ADDRESS_TYPE = "assress_type";
+	const SERACH_IN_ADDRESS_TYPE = "address_type";
 
 	static $mappings = array("toWBDName" 		=> array("gender" => array("m" => "001"
 																	,"f" => "002"
