@@ -862,7 +862,8 @@ assessment#:#question_marking_description#:#Teilnehmer erhalten die Möglichkeit
 assessment#:#question_not_answered#:#Die Frage wurde nicht beantwortet
 assessment#:#question_saved_for_upload#:#Die Frage wurde automatisch gespeichert, um das Hochladen einer Datei zu ermöglichen. Wenn Sie die Bearbeitung dieser Frage jetzt abbrechen, beachten Sie bitte, dass Sie die Frage im Fragenpool löschen müssen, wenn Sie sie nicht behalten wollen.
 assessment#:#question_short#:#F
-assessment#:#question_summary#:#Zeige alle Fragen
+assessment#:#question_summary#:#Stand der Bearbeitung
+assessment#:#question_summary_btn#:#Bearbeitungsstand
 assessment#:#obligations_summary#:#Übersicht verpflichtender Fragen
 assessment#:#tst_you_have_to_answer_this_question#:#Diese Frage muss beantwortet werden, um den Test beenden zu können.
 assessment#:#question_title#:#Fragentitel

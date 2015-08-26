@@ -254,7 +254,7 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
 		$btn->setUrl($this->ctrl->getLinkTarget(
 			$this->playerGUI, ilTestPlayerCommands::QUESTION_SUMMARY
 		));
-		$btn->setCaption('question_summary');
+		$btn->setCaption('question_summary_btn');
 		$btn->setDisabled($this->isDisabledStateEnabled());
 		$this->addButtonInstance($btn);
 	}
