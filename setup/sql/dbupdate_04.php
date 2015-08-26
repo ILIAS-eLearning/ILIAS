@@ -10067,9 +10067,246 @@ if ($ilDB->tableExists('search_tree'))
 		);
 	}
 ?>
-
-
 <#4699>
+<?php
+//step 1/2 adm_set_templ_hide_tab removes all dublicates
+if ($ilDB->tableExists('adm_set_templ_hide_tab'))
+{
+	$res = $ilDB->query("
+		SELECT first.template_id template_id, first.tab_id tab_id
+		FROM adm_set_templ_hide_tab first
+		WHERE EXISTS (
+			SELECT second.template_id, second.tab_id
+			FROM adm_set_templ_hide_tab second
+			WHERE first.template_id = second.template_id AND first.tab_id = second.tab_id
+			GROUP BY second.template_id, second.tab_id HAVING COUNT(second.template_id) > 1
+		)
+		GROUP BY first.template_id, first.tab_id;
+	");
+
+	while($row = $ilDB->fetchAssoc($res))
+	{
+		$ilDB->manipulateF(
+			"DELETE FROM adm_set_templ_hide_tab WHERE template_id = %s AND tab_id = %s",
+			array('integer', 'text'),
+			array($row['template_id'], $row['tab_id'])
+		);
+
+		$ilDB->manipulate("INSERT INTO adm_set_templ_hide_tab (template_id, tab_id)".
+			" VALUES (".
+			$ilDB->quote($row['template_id'], "integer").
+			", ".$ilDB->quote($row['tab_id'], "text").
+			")"
+		);
+	}
+}
+?>
+<#4700>
+<?php
+//step 2/2 adm_set_templ_hide_tab add primary
+if ($ilDB->tableExists('adm_set_templ_hide_tab'))
+{
+	$ilDB->addPrimaryKey('adm_set_templ_hide_tab', array('template_id','tab_id'));
+}
+?>
+<#4701>
+<?php
+//step 1/4 adm_set_templ_value search for dublicates and store it in adm_set_tpl_val_tmp
+
+if ($ilDB->tableExists('adm_set_templ_value'))
+{
+	$res = $ilDB->query("
+		SELECT first.template_id template_id, first.setting setting
+		FROM adm_set_templ_value first
+		WHERE EXISTS (
+			SELECT second.template_id, second.setting
+			FROM adm_set_templ_value second
+			WHERE first.template_id = second.template_id AND first.setting = second.setting
+			GROUP BY second.template_id, second.setting
+			HAVING COUNT(second.template_id) > 1
+		)
+		GROUP BY first.template_id, first.setting
+	");
+
+	if($ilDB->numRows($res))
+	{
+		if(!$ilDB->tableExists('adm_set_tpl_val_tmp'))
+		{
+			$ilDB->createTable('adm_set_tpl_val_tmp', array(
+				'template_id' => array(
+					'type'  => 'integer',
+					'length'=> 8,
+					'notnull' => true,
+					'default' => 0
+				),
+				'setting' => array(
+					'type'  => 'text',
+					'length'=> 40,
+					'notnull' => true,
+					'default' => 0
+				)
+			));
+			$ilDB->addPrimaryKey('adm_set_tpl_val_tmp', array('template_id','setting'));
+		}
+
+		while($row = $ilDB->fetchAssoc($res))
+		{
+			$ilDB->replace('adm_set_tpl_val_tmp', array(), array(
+				'template_id' => array('integer', $row['template_id']),
+				'setting' => array('text', $row['setting'])
+			));
+		}
+	}
+}
+?>
+<#4702>
+<?php
+//step 2/4 adm_set_templ_value deletes dublicates stored in adm_set_tpl_val_tmp
+
+if ($ilDB->tableExists('adm_set_tpl_val_tmp'))
+{
+	$res = $ilDB->query("
+		SELECT template_id, setting
+		FROM adm_set_tpl_val_tmp
+	");
+
+	while($row = $ilDB->fetchAssoc($res))
+	{
+		$res_data = $ilDB->query("
+			SELECT *
+			FROM adm_set_templ_value
+			WHERE
+			template_id = ".$ilDB->quote($row['template_id'] ,'integer')." AND
+			setting = ".$ilDB->quote($row['setting'] ,'text')
+		);
+		$data = $ilDB->fetchAssoc($res_data);
+
+		$ilDB->manipulate("DELETE FROM adm_set_templ_value WHERE".
+			" template_id = " . $ilDB->quote($row['template_id'] ,'integer').
+			" AND setting = " . $ilDB->quote($row['setting'] ,'text')
+		);
+
+		$ilDB->manipulate("INSERT INTO adm_set_templ_value (template_id,setting,value,hide) ".
+			"VALUES ( ".
+			$ilDB->quote($data['template_id'] ,'integer').', '.
+			$ilDB->quote($data['setting'] ,'text').', '.
+			$ilDB->quote($data['value'] ,'text').', '.
+			$ilDB->quote($data['hide'] ,'integer').
+		")");
+
+		$ilDB->manipulate("DELETE FROM adm_set_tpl_val_tmp WHERE".
+			" template_id = " . $ilDB->quote($row['template_id'] ,'integer').
+			" AND setting = " . $ilDB->quote($row['setting'] ,'text')
+		);
+	}
+}
+?>
+<#4703>
+<?php
+//step 3/4 adm_set_templ_value drop adm_set_tpl_val_tmp
+
+if( $ilDB->tableExists('adm_set_tpl_val_tmp') )
+{
+	$ilDB->dropTable('adm_set_tpl_val_tmp');
+}
+?>
+<#4704>
+<?php
+//step 4/4 adm_set_templ_value adding primary keys
+
+if($ilDB->tableExists('adm_set_templ_value'))
+{
+	$ilDB->addPrimaryKey('adm_set_templ_value', array('template_id', 'setting'));
+}
+?>
+<#4705>
+<?php
+//step 1/4 svy_times renames old table
+
+if ($ilDB->tableExists('svy_times') && !$ilDB->tableExists('svy_times_old'))
+{
+	$ilDB->renameTable("svy_times", "svy_times_old");
+}
+?>
+<#4706>
+<?php
+//step 2/4 svy_times creates new table with unique id, sequenz and index
+
+if (!$ilDB->tableExists('svy_times'))
+{
+	$ilDB->createTable('svy_times',array(
+		'id'		=> array(
+			'type'	=> 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'finished_fi'	=> array(
+			'type'	=> 'integer',
+			'length'=> 4,
+			'notnull' => TRUE
+		),
+		'entered_page'	=> array(
+			'type'	=> 'integer',
+			'length'=> 4,
+		),
+		'left_page'	=> array(
+			'type'	=> 'integer',
+			'length'=> 4,
+		),
+		'first_question'	=> array(
+			'type'	=> 'integer',
+			'length'=> 1,
+		)
+	));
+	$ilDB->addPrimaryKey('svy_times', array('id'));
+	$ilDB->addIndex('svy_times',array('finished_fi'),'i1');
+	$ilDB->createSequence('svy_times');
+}
+?>
+<#4707>
+<?php
+//step 3/4 svy_times moves all data to new table
+
+if ($ilDB->tableExists('svy_times') && $ilDB->tableExists('svy_times_old'))
+{
+	$res = $ilDB->query("
+		SELECT *
+		FROM svy_times_old
+	");
+
+	while($row = $ilDB->fetchAssoc($res))
+	{
+		$id = $ilDB->nextId('svy_times');
+
+		$ilDB->manipulate("INSERT INTO svy_times (id, finished_fi, entered_page, left_page, first_question)".
+			" VALUES (".
+			$ilDB->quote($id, "integer").
+			",".$ilDB->quote($row['finished_fi'], "integer").
+			",".$ilDB->quote($row['entered_page'], "integer").
+			",".$ilDB->quote($row['left_page'], "integer").
+			",".$ilDB->quote($row['first_question'], "integer").
+			")"
+		);
+
+		$ilDB->manipulateF(
+			"DELETE FROM svy_times_old WHERE finished_fi = %s AND entered_page = %s AND left_page = %s AND first_question = %s",
+			array('integer', 'integer', 'integer', 'integer'),
+			array($row['finished_fi'], $row['entered_page'], $row['left_page'], $row['first_question'])
+		);
+	}
+}
+?>
+<#4708>
+<?php
+//step 4/4 svy_times removes old table
+
+if ($ilDB->tableExists('svy_times_old'))
+{
+	$ilDB->dropTable('svy_times_old');
+}
+?>
+
+<#4709>
 <?php
 
 if(!$ilDB->tableColumnExists("ldap_server_settings", "username_filter"))
@@ -10080,7 +10317,7 @@ if(!$ilDB->tableColumnExists("ldap_server_settings", "username_filter"))
         ));
 }
 ?>
-<#4700>
+<#4710>
 <?php
 $query = "SELECT max(server_id) id FROM ldap_server_settings";
 $res = $ilDB->query($query);
@@ -10094,5 +10331,6 @@ if(!$set->id)
 $query = "UPDATE ldap_role_assignments ".
         "SET server_id = ".$set->id.
         " WHERE server_id = 0";
-$this->db->manipulate($query);
+$ilDB->manipulate($query);
+
 ?>
