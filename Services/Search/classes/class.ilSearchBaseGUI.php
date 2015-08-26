@@ -468,9 +468,9 @@ $this->next_link = $this->ctrl->getLinkTarget($this,'performSearch');
 		$enabled->setChecked((bool) $options['enabled']);
 		$form->addItem($enabled);
 		
-		$group = new ilRadioGroupInputGUI('', 'screation_type');
-		$group->setValue((int) $options['type']);
-		$group->addOption($opt1 = new ilRadioOption($this->lng->txt('search_filter_date'), 1));
+		#$group = new ilRadioGroupInputGUI('', 'screation_type');
+		#$group->setValue((int) $options['type']);
+		#$group->addOption($opt1 = new ilRadioOption($this->lng->txt('search_filter_date'), 1));
 		
 		$limit_sel = new ilSelectInputGUI('','screation_ontype');
 		$limit_sel->setValue($options['ontype']);
@@ -481,7 +481,7 @@ $this->next_link = $this->ctrl->getLinkTarget($this,'performSearch');
 					3 => $this->lng->txt('search_created_on')
 			)
 		);
-		$opt1->addSubItem($limit_sel);
+		$enabled->addSubItem($limit_sel);
 		
 		
 		if($options['date'])
@@ -490,26 +490,26 @@ $this->next_link = $this->ctrl->getLinkTarget($this,'performSearch');
 		}
 		else
 		{
-			$now = new ilDateTime(time(),IL_CAL_UNIX);
-			$now->increment(IL_CAL_MONTH,-3);
+			$now = new ilDate(time(),IL_CAL_UNIX);
 		}
 		$ds = new ilDateTimeInputGUI('','screation_date');
+		#$ds->setMode(ilDateTimeInputGUI::MODE_INPUT);
 		$ds->setDate($now);
-		$opt1->addSubItem($ds);
+		$enabled->addSubItem($ds);
 		
-		$group->addOption($opt2 = new ilRadioOption($this->lng->txt('search_filter_duration'), 2));
+		#$group->addOption($opt2 = new ilRadioOption($this->lng->txt('search_filter_duration'), 2));
 		
-		$duration = new ilDurationInputGUI($this->lng->txt('search_filter_duration'), 'screation_duration');
-		$duration->setMonths((int) $options['duration']['MM']);
-		$duration->setDays((int) $options['duration']['dd']);
-		$duration->setShowMonths(true);
-		$duration->setShowDays(true);
-		$duration->setShowHours(false);
-		$duration->setShowMinutes(false);
-		$duration->setTitle($this->lng->txt('search_newer_than'));
-		$opt2->addSubItem($duration);
+		#$duration = new ilDurationInputGUI($this->lng->txt('search_filter_duration'), 'screation_duration');
+		#$duration->setMonths((int) $options['duration']['MM']);
+		#$duration->setDays((int) $options['duration']['dd']);
+		#$duration->setShowMonths(true);
+		#$duration->setShowDays(true);
+		#$duration->setShowHours(false);
+		#$duration->setShowMinutes(false);
+		#$duration->setTitle($this->lng->txt('search_newer_than'));
+		#$opt2->addSubItem($duration);
 		
-		$enabled->addSubItem($group);
+		#$enabled->addSubItem($group);
 				
 		$form->setFormAction($GLOBALS['ilCtrl']->getFormAction($this,'performSearch'));
 		

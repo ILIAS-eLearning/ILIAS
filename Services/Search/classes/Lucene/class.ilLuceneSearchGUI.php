@@ -612,41 +612,24 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 		{
 			return '';
 		}
-		switch($options['type'])
+		$limit = new ilDate($options['date'],IL_CAL_UNIX);
+				
+		switch($options['ontype'])
 		{
 			case 1:
-				
-				$limit = new ilDate($options['date'],IL_CAL_UNIX);
-				
-				switch($options['ontype'])
-				{
-					case 1:
-						// after
-						$now = new ilDate(time(),IL_CAL_UNIX);
-						return '+(cdate:['.$limit->get(IL_CAL_DATE).' TO '.$now->get(IL_CAL_DATE).'*]) ';
-						
-					case 2:
-						// before
-						return '+(cdate:[* TO '.$limit->get(IL_CAL_DATE).']) ';
-						
-					case 3:
-						// on
-						return '+(cdate:'.$limit->get(IL_CAL_DATE).'*) ';
-						
-				}
-				
-				
-				
-			case 2;
-				$start = new ilDate(time(),IL_CAL_UNIX);
-				$start->increment(IL_CAL_MONTH, -1 * (int) $options['duration']['MM']);
-				$start->increment(IL_CAL_DAY, -1 * (int) $options['duration']['dd']);
-				
+				// after
 				$now = new ilDate(time(),IL_CAL_UNIX);
-				return '+(cdate: ['.$start->get(IL_CAL_DATE).' TO '.$now->get(IL_CAL_DATE).']) ';
+				return '+(cdate:['.$limit->get(IL_CAL_DATE).' TO '.$now->get(IL_CAL_DATE).'*]) ';
+						
+			case 2:
+				// before
+				return '+(cdate:[* TO '.$limit->get(IL_CAL_DATE).']) ';
+					
+			case 3:
+				// on
+				return '+(cdate:'.$limit->get(IL_CAL_DATE).'*) ';
+						
 		}
-		
-		
 		return '';
 	}
 	// end-patch creation_date
