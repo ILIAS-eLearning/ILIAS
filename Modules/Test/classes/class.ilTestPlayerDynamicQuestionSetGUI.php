@@ -368,21 +368,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 			}
 			else
 			{
-				$nextSequenceElement = $this->testSequence->getNextSequence($this->getCurrentSequenceElement());
-
-				if(!$this->isValidSequenceElement($nextSequenceElement))
-				{
-					$nextSequenceElement = $this->testSequence->getFirstSequence();
-				}
-
-				$presentationMode = ilTestPlayerAbstractGUI::getDefaultPresentationMode();
-
-				$this->testSession->setLastSequence($nextSequenceElement);
-				$this->testSession->setLastPresentationMode($presentationMode);
-				$this->testSession->saveToDb();
-
-				$this->ctrl->setParameter($this, 'sequence', $nextSequenceElement);
-				$this->ctrl->setParameter($this, 'pmode', $presentationMode);
+				$this->resetCurrentQuestion();
 			}
 		}
 
