@@ -791,6 +791,7 @@ assessment#:#submit_answer#:#Submit Answer
 assessment#:#discard_answer#:#Discard Answer
 assessment#:#discard_answer_confirmation#:#Your answer will be finally and completly discarded. The question keeps as unanswered until you submit another answer.<br /><br />Would you really like to discard your answer?
 assessment#:#edit_answer#:#Edit Answer
+assessment#:#answer_question#:#Answer Question
 assessment#:#save_text_answer_points#:#Save Essay Points
 assessment#:#scored_pass#:#Scored Pass
 assessment#:#scoring#:#Scoring and Results

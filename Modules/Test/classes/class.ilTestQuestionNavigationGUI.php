@@ -21,6 +21,11 @@ class ilTestQuestionNavigationGUI
 	private $editSolutionCommand = '';
 
 	/**
+	 * @var bool
+	 */
+	private $questionWorkedThrough = false;
+
+	/**
 	 * @var string
 	 */
 	private $submitSolutionCommand = '';
@@ -102,6 +107,22 @@ class ilTestQuestionNavigationGUI
 	public function setEditSolutionCommand($editSolutionCommand)
 	{
 		$this->editSolutionCommand = $editSolutionCommand;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isQuestionWorkedThrough()
+	{
+		return $this->questionWorkedThrough;
+	}
+
+	/**
+	 * @param boolean $questionWorkedThrough
+	 */
+	public function setQuestionWorkedThrough($questionWorkedThrough)
+	{
+		$this->questionWorkedThrough = $questionWorkedThrough;
 	}
 
 	/**
@@ -306,7 +327,7 @@ class ilTestQuestionNavigationGUI
 		if( $this->getEditSolutionCommand() )
 		{
 			$this->renderSubmitButton(
-				$tpl, $this->getEditSolutionCommand(), 'edit_answer', true
+				$tpl, $this->getEditSolutionCommand(), $this->getEditSolutionButtonLabel(), true
 			);
 		}
 		
@@ -365,14 +386,24 @@ class ilTestQuestionNavigationGUI
 		
 		return $tpl->get();
 	}
-	
+
+	private function getEditSolutionButtonLabel()
+	{
+		if( $this->isQuestionWorkedThrough() )
+		{
+			return 'edit_answer';
+		}
+
+		return 'answer_question';
+	}
+
 	private function getSubmitSolutionButtonLabel()
 	{
 		if( $this->isForceInstantResponseEnabled() )
 		{
 			return 'submit_and_check';
 		}
-		
+
 		return 'submit_answer';
 	}
 	

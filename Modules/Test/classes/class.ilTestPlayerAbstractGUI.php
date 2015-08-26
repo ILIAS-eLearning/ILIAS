@@ -1671,6 +1671,10 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		if( !$this->isParticipantsAnswerFixed($questionId) )
 		{
 			$navigationGUI->setEditSolutionCommand(ilTestPlayerCommands::EDIT_SOLUTION);
+			
+			$navigationGUI->setQuestionWorkedThrough(assQuestion::_isWorkedThrough(
+				$this->testSession->getActiveId(), $questionId, $this->testSession->getPass()
+			));
 		}
 
 		if($this->object->getShowMarker())

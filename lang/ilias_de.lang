@@ -906,7 +906,8 @@ assessment#:#previous_question#:#Zurück
 assessment#:#submit_answer#:#Antwort einreichen
 assessment#:#discard_answer#:#Antwort verwerfen
 assessment#:#discard_answer_confirmation#:#Ihre Antwort wird vollständig und endgültig verworfen. Die Frage verbleibt als unbeantwortet und kann erneut bearbeitet werden.<br /><br />Möchten Sie Ihre Antwort endgültig verwerfen?
-assessment#:#edit_answer#:#Antwort bearbeiten
+assessment#:#edit_answer#:#Antwort ändern
+assessment#:#answer_question#:#Frage bearbeiten
 assessment#:#save_text_answer_points#:#Punkte der Textfragen speichern
 assessment#:#saveOrder#:#Sortierung abspeichern
 assessment#:#saveOrderAndObligations#:#Sortierung und Obligationen abspeichern
