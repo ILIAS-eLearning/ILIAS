@@ -444,7 +444,10 @@ class ilLDAPServer
 	{
 		if($this->isAuthenticationEnabled() or !$this->getAuthenticationMapping())
 		{
-			return 'ldap';
+			// begin-patch ldap_multiple
+			return 'ldap_'.$this->getServerId();
+			#return 'ldap';
+			// end-patch ldap_multiple
 		}
 		return ilAuthUtils::_getAuthModeName($this->getAuthenticationMapping());
 	}
@@ -504,6 +507,7 @@ class ilLDAPServer
 	 	{
 			try
 			{
+				$GLOBALS['ilLog']->write(__METHOD__.': Using url '. $url);
 				// Need to do a full bind, since openldap return valid connection links for invalid hosts 
 				$query = new ilLDAPQuery($this,$url);
 				$query->bind(IL_LDAP_BIND_TEST);
@@ -765,7 +769,8 @@ class ilLDAPServer
 	public function enableRoleSynchronization($a_value)
 	{
 		$this->role_sync_active = $a_value;
-	}// start Patch Name Filter
+	}
+	// start Patch Name Filter
 	public function getUsernameFilter()
 	{
 		return $this->username_filter;

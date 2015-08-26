@@ -44,12 +44,12 @@ class ilLDAPServerTableGUI extends ilTable2GUI
 		if($a_set['active'])
 		{
 			$this->tpl->setVariable('IMAGE_OK',  ilUtil::getImagePath('icon_ok.png'));
-			$this->tpl->setVariable('TXT_OK', $this->lng->txt('ldap_activated'));
+			$this->tpl->setVariable('TXT_OK', $this->lng->txt('active'));
 		}
 		else
 		{
 			$this->tpl->setVariable('IMAGE_OK',  ilUtil::getImagePath('icon_not_ok.png'));
-			$this->tpl->setVariable('TXT_OK', $this->lng->txt('ldap_inactivated'));
+			$this->tpl->setVariable('TXT_OK', $this->lng->txt('inactive'));
 		}
 		
 		$this->tpl->setVariable('VAL_TITLE', $a_set["name"]);

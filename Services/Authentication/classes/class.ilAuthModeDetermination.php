@@ -120,9 +120,35 @@ class ilAuthModeDetermination
 	 * @access public
 	 * 
 	 */
-	public function getAuthModeSequence()
+	public function getAuthModeSequence($a_username = '')
 	{
-		return $this->position ? $this->position : array();	 	
+		if(!strlen($a_username))
+		{
+			return $this->position ? $this->position : array();	 	
+		}
+		$sorted = array();
+		foreach($this->position as $auth_key)
+		{
+			include_once './Services/LDAP/classes/class.ilLDAPServer.php';
+			$sid = ilLDAPServer::getServerIdByAuthMode($auth_key);
+			if($sid)
+			{
+				$server = ilLDAPServer::getInstanceByServerId($sid);
+				$GLOBALS['ilLog']->write(__METHOD__.': Validating username filter for '.$server->getName());
+				if(strlen($server->getUsernameFilter()))
+				{
+					if(preg_match('/'.$server->getUsernameFilter().'/', $a_username))
+					{
+						$GLOBALS['ilLog']->write(__METHOD__.': Filter matches for '. $a_username);
+						array_unshift($sorted, $auth_key);
+						continue;
+					}
+					$GLOBALS['ilLog']->write(__METHOD__.': Filter matches not '. $a_username.' '.$server->getUsernameFilter());
+				}
+			}
+			$sorted[] = $auth_key;
+		}
+		return (array) $sorted;
 	}
 	
 	/**

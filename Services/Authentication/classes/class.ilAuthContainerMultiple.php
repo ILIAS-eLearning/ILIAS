@@ -92,7 +92,7 @@ class ilAuthContainerMultiple extends Auth_Container
 	
 	public function fetchData($user,$pass)
 	{
-		foreach(ilAuthModeDetermination::_getInstance()->getAuthModeSequence() as $auth_mode)
+		foreach(ilAuthModeDetermination::_getInstance()->getAuthModeSequence($user) as $auth_mode)
 		{
 			if ($_REQUEST['force_mode_apache']) 
 			{

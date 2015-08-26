@@ -92,7 +92,6 @@ class ilAuthUtils
 			// no sesssion found
 			if (isset($_POST['username']) and $_POST['username'] != '' and $_POST['password'] != '' or isset($_GET['ecs_hash']) or isset($_GET['ecs_hash_url']) or isset($_POST['oid_username']) or isset($_GET['oid_check_status']))
 			{
-				$GLOBALS['ilLog']->write(__METHOD__.' Read authmode of user');
 				$user_auth_mode = ilAuthUtils::_getAuthModeOfUser($_POST['username'], $_POST['password'], $ilDB);
 				$GLOBALS['ilLog']->write(__METHOD__.' authmode is: '.$user_auth_mode);
 
@@ -354,7 +353,6 @@ class ilAuthUtils
 		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
 //echo "+".$row->auth_mode."+";
 
-		$GLOBALS['ilLog']->write(__METHOD__.': ------------- '. $row->auth_mode);
 		
 		$auth_mode =  self::_getAuthMode($row->auth_mode,$db);
 		
