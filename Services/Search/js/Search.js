@@ -53,9 +53,16 @@ il.Search = {
 		/*var comb = $('input[name=combination]:checked').val();
 		$('#sop_combination').html($('label[for=combination_' + comb + ']').html());*/
 		var type = $('input[name=type]:checked').val();
-		if (type) {
-			$('#sop_type').html('<b>' + $('label[for=type_' + type + ']').html() + '</b>');
-		} else {
+		if (type == "1") 
+		{
+			$('#sop_type').html(il.Search.search_filter_by_type_off);
+		} 
+		else if(type == "2")
+		{
+			$('#sop_type').html('<b>On</b>');
+		}
+		else 
+		{
 			// lucene version
 			type = $('input[name=item_filter_enabled]').is(':checked');
 			if (!type) {
@@ -68,7 +75,7 @@ il.Search = {
 						}
 						tstr = tstr + $('label[for=' + this.id + ']').html();
 					});
-				$('#sop_type').html(tstr);
+				$('#sop_type').html('<b>' + tstr + '</b>');
 			}
 		}
 		
@@ -82,7 +89,19 @@ il.Search = {
 		}
 		
 		var area = $('a[name=area_anchor]').html();
-		$('#sop_area').html(area);
+		var area_id = $('#area').val();
+		
+		if((area_id == '') || (area_id == 1))
+		{
+			$('#sop_area').html(area);
+		}
+		else
+		{
+			$('#sop_area').html('<b>' + area + '</b>');
+		}
+
+		
+		
 	}
 }
 il.Util.addOnLoad(il.Search.init);

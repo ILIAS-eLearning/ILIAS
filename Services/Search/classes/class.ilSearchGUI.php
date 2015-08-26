@@ -258,7 +258,6 @@ class ilSearchGUI extends ilSearchBaseGUI
 		
 
 		$this->tpl->setVariable("TXT_AREA", $lng->txt("search_area"));
-		
 
 		// search area form
 		$this->tpl->setVariable('SEARCH_AREA_FORM', $this->getSearchAreaForm()->getHTML());
