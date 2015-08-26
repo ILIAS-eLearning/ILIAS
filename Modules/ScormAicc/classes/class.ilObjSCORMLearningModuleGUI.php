@@ -88,6 +88,9 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		$this->form = new ilPropertyFormGUI();
 		$this->form->setFormAction($ilCtrl->getFormAction($this));
 		$this->form->setTitle($this->lng->txt("cont_lm_properties"));
+		
+		//check/select only once
+		$this->object->checkMasteryScoreValues();
 
 		// SCORM-type
 		$ne = new ilNonEditableValueGUI($this->lng->txt("type"), "");
@@ -214,6 +217,20 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		$si->setValue($this->object->getAutoReviewChar());
 		$si->setInfo($this->lng->txt("cont_sc_auto_review_info_12"));
 		$this->form->addItem($si);
+
+		// mastery_score
+		if ($this->object->getMasteryScoreValues() != "") {
+			$ni = new ilNumberInputGUI($this->lng->txt("cont_mastery_score_12"), "mastery_score");
+			$ni->setMaxLength(3);
+			$ni->setSize(3);
+			$ni->setValue($this->object->getMasteryScore());
+			if ($this->object->getMasteryScore() != $this->object->getMasteryScoreValues()) {
+				$ni->setInfo($this->lng->txt("cont_mastery_score_12_info")." ".$this->lng->txt("cont_mastery_score_values")." ".$this->object->getMasteryScoreValues());
+			} else {
+				$ni->setInfo($this->lng->txt("cont_mastery_score_12_info"));
+			}
+			$this->form->addItem($ni);
+		}
 
 		//
 		// rte settings
@@ -506,6 +523,10 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 			if ($this->object->getOfflineMode() == false) {
 				$this->object->zipLmForOfflineMode();
 			}
+		}
+		if (isset($_POST["mastery_score"])){
+			$this->object->setMasteryScore($_POST["mastery_score"]);
+			$this->object->updateMasteryScoreValues();
 		}
 		$this->object->setOnline(ilUtil::yn2tf($_POST["cobj_online"]));
 		$this->object->setOfflineMode($tmpOfflineMode);
