@@ -15860,3 +15860,22 @@ rbac#:#logs_read#:#Lesezugriff auf Einstellungen der Protokollierung
 rbac#:#logs_visible#:#Protokollierungs-Administration ist sichtbar
 rbac#:#logs_write#:#Einstellungen der Protokollierungs-Administration bearbeiten
 logging#:#logs_settings#:#Protokollierungseinstellungen
+log#:#log_general_settings#:#Einstellungen zur Protokollierung
+log#:#log_components#:#Komponenten
+log#:#log_log_level#:#Log-Level
+log#:#log_level_debug#:#DEBUG
+log#:#log_level_info#:#INFO
+log#:#log_level_notice#:#NOTICE
+log#:#log_level_warning#:#WARNING
+log#:#log_level_error#:#ERROR
+log#:#log_level_critical#:#CRITICAL
+log#:#log_level_emergency#:#EMERGENCY
+log#:#log_level_alert#:#ALERT
+log#:#log_cache_#:#Caching
+log#:#log_cache_level#:#Caching-Level
+log#:#log_memory#:#Logge Speicherbedarf
+log#:#log_browser#:#Browser Konsolen-Log
+log#:#log_browser_users#:#Aktivierte Benutzer für Browser-Log
+log#:#log_component_col_component#:#Komponente
+log#:#log_component_col_level#:#Log-Level
+log#:#log_component_btn_reset#:#Einstellungen zurücksetzen
