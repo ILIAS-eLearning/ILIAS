@@ -106,7 +106,7 @@ class gevUVGOrgUnits extends ilPersonalOrgUnits {
 	}
 	
 	
-	public function getBDFromIVFOf($a_user_id) {
+	public function getBDFromIVOf($a_user_id) {
 		global $ilClientIniFile;
 		global $ilDB;
 
