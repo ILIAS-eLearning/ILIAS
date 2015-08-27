@@ -10380,4 +10380,7 @@ if(!$ilDB->tableColumnExists('usr_search','creation_filter'))
                         "fixed" => false));
 }
 ?>
-
+<#4712>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

@@ -15849,3 +15849,7 @@ content#:#cont_mastery_score_2004#:#scaled_passing_score überschreiben
 content#:#cont_mastery_score_2004_info#:#Zentrale Lernziele dieses Lernmoduls gelten als bestanden wenn der erzielte Punktestand mindestens einen bestimmten Wert - den scaled_passing_score - erreicht hat. Diesen als Prozentsatz anzugebenden Wert können Sie hier überschreiben um z.B. das Anforderungsniveau abzusenken. Ist das Feld leer, gelten die Angaben im SCORM-Manifest. Hier sind folgende Werte vorgesehen:
 content#:#cont_mastery_score_12#:#mastery_score überschreiben
 content#:#cont_mastery_score_12_info#:#Sofern ein SCO nicht selbstständig einen Status bestimmt, gilt ein SCO als bestanden wenn der erzielte Punktestand mindestens einen bestimmten Wert - den mastery_score - erreicht hat. Diesen Wert können Sie hier überschreiben um z.B. das Anforderungsniveau abzusenken. Ist das Feld leer, gelten die Angaben im SCORM-Manifest. Hier sind folgende Werte vorgesehen:
+prtf#:#prtf_manage_portfolios#:#Portfolios verwalten
+pd#:#block_show_pdportf#:#Portfolios anzeigen
+prtf#:#prtf_pd_block#:#Block auf Persönlichem Schreibtisch
+prtf#:#prtf_pd_block_info#:#Aktiviert einen Seitenblock auf dem Persönlichem Schreibtisch, der alle Portfolios des Benutzers auflistet.

@@ -15855,3 +15855,7 @@ content#:#cont_mastery_score_2004#:#overwrite scaled_passing_score
 content#:#cont_mastery_score_2004_info#:#Central learning objectives of this learning module are considered as passed if the score reached at least a certain level - the scaled_passing_score. This value - to be stated as a percentage value - can be overwritten here e.g. to reduce the requirement level. If the field is empty, the information in the SCORM manifest are valid. The following values are provided in the manifest-file:
 content#:#cont_mastery_score_12#:#overwrite mastery_score
 content#:#cont_mastery_score_12_info#:#If a SCO does not autonomously determines a status, a SCO is considered passed if the score reached at least a certain level - the mastery_score. This value can be overwritten here e.g. to reduce the requirement level. If the field is empty, the information in the SCORM manifest are valid. The following values are provided in the manifest-file:
+prtf#:#prtf_manage_portfolios#:#Manage Portfolios
+pd#:#block_show_pdportf#:#Show Portfolios
+prtf#:#prtf_pd_block#:#Personal Desktop Block
+prtf#:#prtf_pd_block_info#:#Aktivates a block on the personal desktop that lists all portfolios of the user.
