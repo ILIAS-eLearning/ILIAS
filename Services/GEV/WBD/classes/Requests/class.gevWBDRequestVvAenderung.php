@@ -1,6 +1,7 @@
 <?php
 require_once("/Library/WebServer/Documents/dev/4_4_generali2_new_wbd/Services/GEV/WBD/classes/Dictionary/class.gevWBDDictionary.php");
 require_once("/Library/WebServer/Documents/dev/4_4_generali2_new_wbd/Services/GEV/WBD/classes/Requests/class.gevWBDRequest.php");
+require_once("/Library/WebServer/Documents/dev/4_4_generali2_new_wbd/Services/GEV/WBD/classes/Success/class.gevWBDSuccessVvAenderung.php");
 class gevWBDRequestVvAenderung extends gevWBDRequest {
 	static $request_type = "UPDATE_USER";
 	static $check_szenarios = array('title' 			=> array('mandatory'=>1,
@@ -62,8 +63,6 @@ class gevWBDRequestVvAenderung extends gevWBDRequest {
 								 ,"VorName" => array("firstname",false)
 							);
 
-		$this->response_success_values = array("VermittlerId" => "");
-		
 		$this->user_id = $data["user_id"];
 		$this->row_id = $data["row_id"];
 
@@ -85,5 +84,11 @@ class gevWBDRequestVvAenderung extends gevWBDRequest {
 
 	private static function checkData($values) {
 		return self::checkSzenarios($values);
+	}
+
+	public function createWBDSuccess($response) {
+		$this->wbd_success = new gevWBDSuccessVvAenderung($response);
+
+		return true;
 	}
 }

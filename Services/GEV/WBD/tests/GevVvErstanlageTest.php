@@ -96,7 +96,7 @@ class GevVvErstanlageTest extends RequestTestBase {
 												.'<soap:Body>'
 												.'<ns1:putResponse xmlns:ns1="http://erstanlage.stammdaten.external.service.wbd.gdv.de/">'
 													.'<ErstanlageRueckgabewert>'
-														.'<TpInterneVermittlerId>7665</TpInterneVermittlerId>'
+														.'<TpInternesdVermittlerId>7665</TpInternesdVermittlerId>'
 														.'<VermittlerId>20150728-100390-74</VermittlerId>'
 														.'<AnlagedDastum>2015-07-28T00:00:00+02:00</AnlagedDastum>'
 														.'<ZertifizierungsPeriode>2015-07-28T00:00:00+02:00</ZertifizierungsPeriode>'
