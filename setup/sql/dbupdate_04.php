@@ -10468,3 +10468,107 @@ $ilCtrlStructureReader->getStructure();
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#4719>
+<?php
+
+$res = $ilDB->queryF(
+	"SELECT COUNT(*) cnt FROM qpl_qst_type WHERE type_tag = %s", array('text'), array('assLongMenu')
+);
+
+$row = $ilDB->fetchAssoc($res);
+
+if( !$row['cnt'] )
+{
+	$res = $ilDB->query("SELECT MAX(question_type_id) maxid FROM qpl_qst_type");
+	$data = $ilDB->fetchAssoc($res);
+	$nextId = $data['maxid'] + 1;
+
+	$ilDB->insert('qpl_qst_type', array(
+		'question_type_id' => array('integer', $nextId),
+		'type_tag' => array('text', 'assLongMenu'),
+		'plugin' => array('integer', 0)
+	));
+}
+
+?>
+<#4720>
+<?php
+if( !$ilDB->tableExists('qpl_qst_lome') )
+{
+	$ilDB->createTable('qpl_qst_lome', array(
+		'question_fi' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'shuffle_answers' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		),
+		'answer_type' => array(
+			'type' => 'text',
+			'length' => 16,
+			'notnull' => true,
+			'default' => 'singleLine'
+		),
+		'feedback_setting' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 1
+		),
+		'long_menu_text' =>	 array(
+			"type" => "clob",
+			"notnull" => false,
+			"default" => null
+		)
+	));
+
+	$ilDB->addPrimaryKey('qpl_qst_lome', array('question_fi'));
+}
+?>
+<#4721>
+<?php
+if( !$ilDB->tableExists('qpl_a_lome') )
+{
+	$ilDB->createTable('qpl_a_lome', array(
+		'question_fi' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'gap_number' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'position' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'answer_text' => array(
+			'type' => 'text',
+			'length' => 1000
+		),
+		'points' => array(
+			'type' => 'float'
+		),
+		'type' => array(
+			'type' => 'integer',
+			'length' => 4
+		)
+	));
+	$ilDB->addPrimaryKey('qpl_a_lome', array('question_fi', 'gap_number', 'position'));
+}
+?>
+<#4722>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
