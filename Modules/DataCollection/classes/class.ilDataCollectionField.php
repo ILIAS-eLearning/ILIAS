@@ -936,6 +936,9 @@ class ilDataCollectionField {
 			}
 			//email or url
 			if ($properties[$url]) {
+				if ($json = json_decode($value)) {
+					$value = $json->link;
+				}
                 if (substr($value, 0, 3) === 'www') {
                     $value = 'http://' . $value;
                 }

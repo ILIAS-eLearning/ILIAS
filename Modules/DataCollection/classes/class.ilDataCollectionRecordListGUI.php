@@ -333,12 +333,19 @@ class ilDataCollectionRecordListGUI {
 							$warnings[] = "(" . $i . ", " . $this->getExcelCharForInteger($col) . ") " . $lng->txt("dcl_no_such_reference") . " "
 								. $old;
 						}
-					} else {
-						if ($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_DATETIME) {
-							$value = array(
-								'date' => date('Y-m-d', strtotime($value)),
-								'time' => '00:00:00',
-							);
+					} elseif ($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_DATETIME) {
+						$value = array(
+							'date' => date('Y-m-d', strtotime($value)),
+							'time' => '00:00:00',
+						);
+					} elseif ($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_TEXT) {
+						$properties = $field->getProperties();
+						if ($properties[ilDataCollectionField::PROPERTYID_URL]) {
+							$title = '';
+							if ($field_names[$col+1] == $field->getTitle().'_title') {
+								$title = $excel->val($i, $col + 1);
+							}
+							$value = json_encode(array('link' => $value, 'title' => $title));
 						}
 					}
 					$field->checkValidity($value, $record->getId());
@@ -454,6 +461,12 @@ class ilDataCollectionRecordListGUI {
 				foreach ($titles as $key => $value) {
 					if ($value == $field->getTitle()) {
 						$import_fields[$key] = $field;
+						if ($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_TEXT) {
+							$properties = $field->getProperties();
+							if ($properties[ilDataCollectionField::PROPERTYID_URL] && $titles[$key+1] == $field->getTitle().'_title') {
+								unset($titles[$key+1]);
+							}
+						}
 					}
 				}
 			}
