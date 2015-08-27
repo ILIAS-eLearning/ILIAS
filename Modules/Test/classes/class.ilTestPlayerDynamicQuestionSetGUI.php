@@ -512,11 +512,8 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 
 				default:
 
-					echo "pmode missing:";
-					vd($this->testSession->getLastPresentationMode());
-					vd($this->testSession->getLastSequence());
-					vd($this->testSession->getCurrentQuestionId());
-					exit;
+					require_once 'Modules/Test/exceptions/class.ilTestException.php';
+					throw new ilTestException('no presentation mode given');
 			}
 			
 			$navigationToolbarGUI->build();
@@ -562,9 +559,22 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 
 		if( !$this->isParticipantsAnswerFixed($questionId) )
 		{
-			$this->saveQuestionSolution(
-				$this->object->isInstantFeedbackAnswerFixationEnabled()
-			);
+			if( $this->object->isInstantFeedbackAnswerFixationEnabled() )
+			{
+				$this->saveQuestionSolution(true);
+				
+				$this->ctrl->setParameter(
+					$this, 'pmode', ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW
+				);
+			}
+			else
+			{
+				$this->saveQuestionSolution(false);
+
+				$this->ctrl->setParameter(
+					$this, 'pmode', ilTestPlayerAbstractGUI::PRESENTATION_MODE_EDIT
+				);
+			}
 
 			$this->testSequence->unsetQuestionPostponed($questionId);
 			$this->testSequence->setQuestionChecked($questionId);

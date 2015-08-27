@@ -296,11 +296,8 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 			
 			default:
 				
-				echo "pmode missing:";
-				vd($this->testSession->getLastPresentationMode());
-				vd($this->testSession->getLastSequence());
-				vd($sequenceElement);
-				exit;
+				require_once 'Modules/Test/exceptions/class.ilTestException.php';
+				throw new ilTestException('no presentation mode given');
 		}
 
 		$navigationToolbarGUI->build();
