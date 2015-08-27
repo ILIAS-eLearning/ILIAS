@@ -11024,3 +11024,17 @@ if($ilDB->tableExists('xmlparam'))
 	$ilDB->addPrimaryKey('xmlparam', array('tag_fk', 'param_name'));
 }
 ?>
+<#4740>
+<?php
+//step 1/1 tree_workspace adding primary key
+
+if($ilDB->tableExists('tree_workspace'))
+{
+	if( $ilDB->indexExistsByFields('tree_workspace', array('child')) )
+	{
+		$ilDB->dropIndexByFields('tree_workspace', array('child'));
+	}
+
+	$ilDB->addPrimaryKey('tree_workspace', array('child'));
+}
+?>
