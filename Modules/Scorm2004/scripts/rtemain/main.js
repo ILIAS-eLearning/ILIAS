@@ -3174,6 +3174,7 @@ function onItemDeliverDo(item, wasSuspendAll) // onDeliver called from sequencin
 					if (v.satisfiedByMeasure && v.minNormalizedMeasure!==undefined) 
 					{
 						v = v.minNormalizedMeasure;
+						if (typeof this.config.lesson_mastery_score != "undefined" && this.config.lesson_mastery_score!=null) v = this.config.lesson_mastery_score/100;
 					}
 					else if (v.satisfiedByMeasure) 
 					{

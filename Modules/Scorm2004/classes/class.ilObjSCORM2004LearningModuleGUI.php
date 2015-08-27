@@ -516,11 +516,7 @@ $this->ctrl->redirect($this, "properties");
 			$ni->setMaxLength(3);
 			$ni->setSize(3);
 			$ni->setValue($this->object->getMasteryScore());
-			if ($this->object->getMasteryScore() != $this->object->getMasteryScoreValues()) {
-				$ni->setInfo($this->lng->txt("cont_mastery_score_2004_info")." ".$this->lng->txt("cont_mastery_score_values")." ".$this->object->getMasteryScoreValues());
-			} else {
-				$ni->setInfo($this->lng->txt("cont_mastery_score_2004_info"));
-			}
+			$ni->setInfo($this->lng->txt("cont_mastery_score_2004_info").$this->object->getMasteryScoreValues());
 			$this->form->addItem($ni);
 		}
 
@@ -745,7 +741,7 @@ $this->ctrl->redirect($this, "properties");
 
 			if (isset($_POST["mastery_score"])){
 				$this->object->setMasteryScore($_POST["mastery_score"]);
-				$this->object->updateMasteryScoreValues();
+				// $this->object->updateMasteryScoreValues();
 			}
 
 			$this->object->setOnline(ilUtil::yn2tf($_POST["cobj_online"]));

@@ -6721,18 +6721,37 @@ if(!$ilDB->tableExists('chatroom_sessionstmp'))
 ?>
 <#4532>
 <?php
-$query = '
-SELECT chatroom_sessions.room_id, chatroom_sessions.user_id, chatroom_sessions.connected, chatroom_sessions.disconnected, chatroom_sessions.userdata
-FROM chatroom_sessions
-LEFT JOIN chatroom_sessionstmp
-	ON chatroom_sessionstmp.room_id = chatroom_sessions.room_id
-	AND chatroom_sessionstmp.user_id = chatroom_sessions.user_id
-	AND chatroom_sessionstmp.connected = chatroom_sessions.connected
-	AND chatroom_sessionstmp.disconnected = chatroom_sessions.disconnected
-	AND chatroom_sessionstmp.userdata = chatroom_sessions.userdata
-WHERE chatroom_sessionstmp.sess_id IS NULL
-GROUP BY chatroom_sessions.room_id, chatroom_sessions.user_id, chatroom_sessions.connected, chatroom_sessions.disconnected, chatroom_sessions.userdata
-';
+if($ilDB->getDBType() == 'innodb' || $ilDB->getDBType() == 'mysql')
+{
+	$query = '
+	SELECT chatroom_sessions.room_id, chatroom_sessions.user_id, chatroom_sessions.connected, chatroom_sessions.disconnected, chatroom_sessions.userdata
+	FROM chatroom_sessions
+	LEFT JOIN chatroom_sessionstmp
+		ON chatroom_sessionstmp.room_id = chatroom_sessions.room_id
+		AND chatroom_sessionstmp.user_id = chatroom_sessions.user_id
+		AND chatroom_sessionstmp.connected = chatroom_sessions.connected
+		AND chatroom_sessionstmp.disconnected = chatroom_sessions.disconnected
+		AND chatroom_sessionstmp.userdata = chatroom_sessions.userdata COLLATE utf8_general_ci
+	WHERE chatroom_sessionstmp.sess_id IS NULL
+	GROUP BY chatroom_sessions.room_id, chatroom_sessions.user_id, chatroom_sessions.connected, chatroom_sessions.disconnected, chatroom_sessions.userdata
+	';
+}
+else
+{
+	$query = '
+	SELECT chatroom_sessions.room_id, chatroom_sessions.user_id, chatroom_sessions.connected, chatroom_sessions.disconnected, chatroom_sessions.userdata
+	FROM chatroom_sessions
+	LEFT JOIN chatroom_sessionstmp
+		ON chatroom_sessionstmp.room_id = chatroom_sessions.room_id
+		AND chatroom_sessionstmp.user_id = chatroom_sessions.user_id
+		AND chatroom_sessionstmp.connected = chatroom_sessions.connected
+		AND chatroom_sessionstmp.disconnected = chatroom_sessions.disconnected
+		AND chatroom_sessionstmp.userdata = chatroom_sessions.userdata
+	WHERE chatroom_sessionstmp.sess_id IS NULL
+	GROUP BY chatroom_sessions.room_id, chatroom_sessions.user_id, chatroom_sessions.connected, chatroom_sessions.disconnected, chatroom_sessions.userdata
+	';
+}
+
 $res = $ilDB->query($query);
 
 $stmt_in = $ilDB->prepareManip('INSERT INTO chatroom_sessionstmp (sess_id, room_id, user_id, connected, disconnected, userdata) VALUES(?, ?, ?, ?, ?, ?)', array('integer', 'integer', 'integer', 'integer','integer', 'text'));
@@ -7134,18 +7153,34 @@ if(!$ilDB->tableExists('chatroom_historytmp'))
 <?php
 require_once 'Services/Migration/DBUpdate_4550/classes/class.ilDBUpdate4550.php';
 ilDBUpdate4550::cleanupOrphanedChatRoomData();
-
-$query = '
-SELECT chatroom_history.room_id, chatroom_history.timestamp, chatroom_history.sub_room, chatroom_history.message
-FROM chatroom_history
-LEFT JOIN chatroom_historytmp
-	ON chatroom_historytmp.room_id = chatroom_history.room_id
-	AND chatroom_historytmp.timestamp = chatroom_history.timestamp
-	AND chatroom_historytmp.sub_room = chatroom_history.sub_room
-	AND chatroom_historytmp.message = chatroom_history.message
-WHERE chatroom_historytmp.hist_id IS NULL
-GROUP BY chatroom_history.room_id, chatroom_history.timestamp, chatroom_history.sub_room, chatroom_history.message
-';
+if($ilDB->getDBType() == 'innodb' || $ilDB->getDBType() == 'mysql')
+{
+	$query = '
+	SELECT chatroom_history.room_id, chatroom_history.timestamp, chatroom_history.sub_room, chatroom_history.message
+	FROM chatroom_history
+	LEFT JOIN chatroom_historytmp
+		ON chatroom_historytmp.room_id = chatroom_history.room_id
+		AND chatroom_historytmp.timestamp = chatroom_history.timestamp
+		AND chatroom_historytmp.sub_room = chatroom_history.sub_room
+		AND chatroom_historytmp.message = chatroom_history.message COLLATE utf8_general_ci
+	WHERE chatroom_historytmp.hist_id IS NULL
+	GROUP BY chatroom_history.room_id, chatroom_history.timestamp, chatroom_history.sub_room, chatroom_history.message
+	';
+}
+else
+{
+	$query = '
+	SELECT chatroom_history.room_id, chatroom_history.timestamp, chatroom_history.sub_room, chatroom_history.message
+	FROM chatroom_history
+	LEFT JOIN chatroom_historytmp
+		ON chatroom_historytmp.room_id = chatroom_history.room_id
+		AND chatroom_historytmp.timestamp = chatroom_history.timestamp
+		AND chatroom_historytmp.sub_room = chatroom_history.sub_room
+		AND chatroom_historytmp.message = chatroom_history.message
+	WHERE chatroom_historytmp.hist_id IS NULL
+	GROUP BY chatroom_history.room_id, chatroom_history.timestamp, chatroom_history.sub_room, chatroom_history.message
+	';
+}
 $res = $ilDB->query($query);
 
 $stmt_in = $ilDB->prepareManip('INSERT INTO chatroom_historytmp (hist_id, room_id, timestamp, sub_room, message) VALUES(?, ?, ?, ?, ?)', array('integer', 'integer', 'integer', 'integer', 'text'));
@@ -10345,4 +10380,7 @@ if(!$ilDB->tableColumnExists('usr_search','creation_filter'))
                         "fixed" => false));
 }
 ?>
-
+<#4712>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

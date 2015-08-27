@@ -129,7 +129,7 @@ class ilUsersGalleryGUI
 	}
 
 	/**
-	 * @param ilParticipants
+	 * @param array
 	 * @return ilTemplate
 	 */
 	protected function buildHTML($users)
@@ -145,6 +145,11 @@ class ilUsersGalleryGUI
 			$tpl->setVariable('NO_GALLERY_USERS', $panel->getHTML());
 			return $tpl;
 		}
+
+		require_once 'Services/UIComponent/Panel/classes/class.ilPanelGUI.php';
+		$panel = ilPanelGUI::getInstance();
+		$panel->setBody($this->lng->txt('no_gallery_users_available'));
+		$tpl->setVariable('NO_ENTRIES_HTML', json_encode($panel->getHTML()));
 
 		foreach($users as $user_data)
 		{
@@ -172,6 +177,8 @@ class ilUsersGalleryGUI
 			$tpl->setCurrentBlock('user');
 
 			$tpl->setVariable('BUDDYLIST_STATUS', get_class($buddylist->getRelationByUserId($user->getId())->getState()));
+			$tpl->setVariable('USER_CC_CLASS', $this->object->getUserCssClass());
+			$tpl->setVariable('USER_ID', $user->getId());
 			$this->renderLinkButton($tpl, $user);
 			$tpl->parseCurrentBlock();
 		}

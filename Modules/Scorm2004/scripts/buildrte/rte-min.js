@@ -1,4 +1,4 @@
-// Build: 2015711221954 
+// Build: 2015826234002 
 
 function ADLAuxiliaryResource()
 {}
@@ -2935,7 +2935,7 @@ function onItemDeliverDo(item,wasSuspendAll)
 data.adl.data=adlcpData;var choice=validRequests['mChoice'];for(var k in choice){}
 item.accesscount++;data.cmi.learner_name=globalAct.learner_name;data.cmi.learner_id=this.config.cmi_learner_id;data.cmi.cp_node_id=item.foreignId;data.scoid=item.id;data.cmi.session_time=undefined;data.cmi.completion_threshold=item.completionThreshold;data.cmi.launch_data=item.dataFromLMS;data.cmi.time_limit_action=item.timeLimitAction;data.cmi.max_time_allowed=item.attemptAbsoluteDurationLimit;data.cmi.entry="";data.cmi.learner_preference={audio_level:(item.audio_level)?item.audio_level:1,delivery_speed:(item.delivery_speed)?item.delivery_speed:1,language:item.language,audio_captioning:item.audio_captioning};if(item.objectives)
 {for(k in item.objectives){v=item.objectives[k];if(v.primary==true){if(v.satisfiedByMeasure&&v.minNormalizedMeasure!==undefined)
-{v=v.minNormalizedMeasure;}
+{v=v.minNormalizedMeasure;if(typeof this.config.lesson_mastery_score!="undefined"&&this.config.lesson_mastery_score!=null)v=this.config.lesson_mastery_score/100;}
 else if(v.satisfiedByMeasure)
 {v=1.0;}
 else
