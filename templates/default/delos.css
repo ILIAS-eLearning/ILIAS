@@ -8337,7 +8337,7 @@ a.nostyle:hover {
 #ilEditorPanel_c {
   z-index: 3000 !important;
 }
-.mce-ico {
+#iltinymenu .mce-ico {
   color: white !important;
 }
 #iltinymenu a.btn {
