@@ -10464,4 +10464,7 @@ $ilCtrlStructureReader->getStructure();
 <?php
         $ilCtrlStructureReader->getStructure();
 ?>
-
+<#4718>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

@@ -504,11 +504,11 @@ class ilGroupXMLParser extends ilSaxParser
 
 	function __assignMembers()
 	{
-		global $ilias,$ilUser;
+		global $ilias,$ilUser, $ilSetting;
 
 		$this->participants = new ilGroupParticipants($this->group_obj->getId());
 		$this->participants->add($ilUser->getId(),IL_GRP_ADMIN);
-		$this->participants->updateNotification($ilUser->getId(),true);
+		$this->participants->updateNotification($ilUser->getId(),$ilSetting->get('mail_grp_admin_notification', true));
 		
 		// attach ADMINs
 		if (count($this->group_data["admin"]["attach"]))
