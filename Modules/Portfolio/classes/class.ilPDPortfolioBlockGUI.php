@@ -14,6 +14,7 @@ include_once 'Services/Block/classes/class.ilBlockGUI.php';
 class ilPDPortfolioBlockGUI extends ilBlockGUI
 {
 	static $block_type = 'pdportf';
+	protected $default_portfolio = 0;
 
 	/**
 	 * Constructor
@@ -80,7 +81,7 @@ class ilPDPortfolioBlockGUI extends ilBlockGUI
 	 */
 	public function getHTML()
 	{
-		global $lng, $ilCtrl, $ilSetting;
+		global $lng, $ilCtrl, $ilSetting, $ilUser;
 
 		if (!$ilSetting->get('user_portfolios'))
 		{
@@ -93,6 +94,9 @@ class ilPDPortfolioBlockGUI extends ilBlockGUI
 		}
 		else
 		{
+			include_once("./Modules/Portfolio/classes/class.ilObjPortfolio.php");
+			$this->default_portfolio = ilObjPortfolio::getDefaultPortfolio($ilUser->getId());
+
 			$lng->loadLanguageModule("prtf");
 			$this->setTitle($lng->txt('prtf_tab_portfolios'));
 			$this->addBlockCommand($ilCtrl->getLinkTargetByClass(array("ilpersonaldesktopgui", "ilportfoliorepositorygui"), ""),
@@ -141,13 +145,18 @@ class ilPDPortfolioBlockGUI extends ilBlockGUI
 	 */
 	public function fillRow($p)
 	{
-		global $ilCtrl;
+		global $ilCtrl, $lng;
 
 		if($this->getCurrentDetailLevel() > 1)
 		{
 			$ilCtrl->setParameterByClass("ilobjportfoliogui", "prt_id", $p["id"]);
 			$this->tpl->setVariable("HREF", $ilCtrl->getLinkTargetByClass(array("ilpersonaldesktopgui", "ilportfoliorepositorygui", "ilobjportfoliogui"), "preview"));
-			$this->tpl->setVariable("TITLE", $p["title"]);
+			$title = $p["title"];
+			if ($this->default_portfolio == $p["id"])
+			{
+				$title.= " (".$lng->txt("prtf_default_portfolio").")";
+			}
+			$this->tpl->setVariable("TITLE", $title);
 			$ilCtrl->setParameterByClass("ilobjportfoliogui", "prt_id", "");
 		}
 	}

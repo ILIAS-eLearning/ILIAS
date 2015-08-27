@@ -1060,7 +1060,11 @@ class ilColumnGUI
 			{
 				if ($ilSetting->get("user_portfolios"))
 				{
-					return true;
+					$prfa_set = new ilSetting("prfa");
+					if ($prfa_set->get("pd_block", false))
+					{
+						return true;
+					}
 				}
 				return false;
 			}
