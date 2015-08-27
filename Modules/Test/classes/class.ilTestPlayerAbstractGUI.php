@@ -1518,6 +1518,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	protected function showRequestedHintListCmd()
 	{
 		$this->saveQuestionSolution(false);
+
+		$this->ctrl->setParameter($this, 'pmode', self::PRESENTATION_MODE_EDIT);
 		
 		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintRequestGUI.php';
 		$this->ctrl->redirectByClass('ilAssQuestionHintRequestGUI', ilAssQuestionHintRequestGUI::CMD_SHOW_LIST);
@@ -1529,7 +1531,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	protected function confirmHintRequestCmd()
 	{
 		$this->saveQuestionSolution(false);
-		
+
+		$this->ctrl->setParameter($this, 'pmode', self::PRESENTATION_MODE_EDIT);
+
 		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintRequestGUI.php';
 		$this->ctrl->redirectByClass('ilAssQuestionHintRequestGUI', ilAssQuestionHintRequestGUI::CMD_CONFIRM_REQUEST);
 	}
