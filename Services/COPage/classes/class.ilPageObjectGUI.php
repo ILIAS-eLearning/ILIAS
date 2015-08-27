@@ -1224,7 +1224,7 @@ return;
 						"')");
 
 					//$GLOBALS["tpl"]->addJavascript("Services/RTE/tiny_mce_3_3_9_2/il_tiny_mce_src.js");
-					$GLOBALS["tpl"]->addJavascript("Services/COPage/tiny/4_1_5/tinymce.js");
+					$GLOBALS["tpl"]->addJavascript("Services/COPage/tiny/4_2_4/tinymce.js");
 					$tpl->touchBlock("init_dragging");
 
 					$cfg = $this->getPageConfig();
