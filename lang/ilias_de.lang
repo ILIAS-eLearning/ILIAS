@@ -15853,3 +15853,10 @@ prtf#:#prtf_manage_portfolios#:#Portfolios verwalten
 pd#:#block_show_pdportf#:#Portfolios anzeigen
 prtf#:#prtf_pd_block#:#Block auf Persönlichem Schreibtisch
 prtf#:#prtf_pd_block_info#:#Aktiviert einen Seitenblock auf dem Persönlichem Schreibtisch, der alle Portfolios des Benutzers auflistet.
+common#:#obj_logs#:#Protokollierung
+common#:#obj_logs_desc#:#Enthält globale Einstellungen für die ILIAS-Protokollierung
+rbac#:#logs_edit_permission#:#Rechteeinstellung der Protokollierung ändern
+rbac#:#logs_read#:#Lesezugriff auf Einstellungen der Protokollierung
+rbac#:#logs_visible#:#Protokollierungs-Administration ist sichtbar
+rbac#:#logs_write#:#Einstellungen der Protokollierungs-Administration bearbeiten
+logging#:#logs_settings#:#Protokollierungseinstellungen
