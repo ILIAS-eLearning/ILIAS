@@ -10616,7 +10616,7 @@ $ilCtrlStructureReader->getStructure();
 			}
 	}
 ?>
-<#4723>
+<#4724>
 <?php
 //step 1/4 usr_data_multi renames old table
 
@@ -10625,7 +10625,7 @@ if ($ilDB->tableExists('usr_data_multi') && !$ilDB->tableExists('usr_data_multi_
 	$ilDB->renameTable("usr_data_multi", "usr_data_multi_old");
 }
 ?>
-<#4724>
+<#4725>
 <?php
 //step 2/4 usr_data_multi creates new table with unique id, sequenz and index
 
@@ -10658,7 +10658,7 @@ if (!$ilDB->tableExists('usr_data_multi'))
 	$ilDB->createSequence('usr_data_multi');
 }
 ?>
-<#4725>
+<#4726>
 <?php
 //step 3/4 usr_data_multi moves all data to new table
 
@@ -10690,7 +10690,7 @@ if ($ilDB->tableExists('usr_data_multi') && $ilDB->tableExists('usr_data_multi_o
 	}
 }
 ?>
-<#4726>
+<#4727>
 <?php
 //step 4/4 usr_data_multi removes old table
 
@@ -10699,7 +10699,7 @@ if ($ilDB->tableExists('usr_data_multi_old'))
 	$ilDB->dropTable('usr_data_multi_old');
 }
 ?>
-<#4727>
+<#4728>
 <?php
 //step 1/4 xmlnestedset renames old table
 
@@ -10708,7 +10708,7 @@ if ($ilDB->tableExists('xmlnestedset') && !$ilDB->tableExists('xmlnestedset_old'
 	$ilDB->renameTable("xmlnestedset", "xmlnestedset_old");
 }
 ?>
-<#4728>
+<#4729>
 <?php
 //step 2/4 xmlnestedset creates new table with unique id and sequenz
 
@@ -10756,7 +10756,7 @@ if (!$ilDB->tableExists('xmlnestedset'))
 	$ilDB->createSequence('xmlnestedset');
 }
 ?>
-<#4729>
+<#4730>
 <?php
 //step 3/4 xmlnestedset moves all data to new table
 
@@ -10790,7 +10790,7 @@ if ($ilDB->tableExists('xmlnestedset') && $ilDB->tableExists('xmlnestedset_old')
 	}
 }
 ?>
-<#4730>
+<#4731>
 <?php
 //step 4/4 xmlnestedset removes old table
 
@@ -10799,7 +10799,7 @@ if ($ilDB->tableExists('xmlnestedset_old'))
 	$ilDB->dropTable('xmlnestedset_old');
 }
 ?>
-<#4731>
+<#4732>
 <?php
 //step 1/4 xmlnestedsettmp renames old table
 
@@ -10808,7 +10808,7 @@ if ($ilDB->tableExists('xmlnestedsettmp') && !$ilDB->tableExists('xmlnestedsettm
 	$ilDB->renameTable("xmlnestedsettmp", "xmlnestedsettmp_old");
 }
 ?>
-<#4732>
+<#4733>
 <?php
 //step 2/4 xmlnestedsettmp creates new table with unique id and sequenz
 
@@ -10862,7 +10862,7 @@ if (!$ilDB->tableExists('xmlnestedsettmp'))
 	$ilDB->createSequence('xmlnestedsettmp');
 }
 ?>
-<#4733>
+<#4734>
 <?php
 //step 3/4 xmlnestedsettmp moves all data to new table
 
@@ -10897,7 +10897,7 @@ if ($ilDB->tableExists('xmlnestedsettmp') && $ilDB->tableExists('xmlnestedsettmp
 	}
 }
 ?>
-<#4734>
+<#4735>
 <?php
 //step 4/4 xmlnestedset_tmp removes old table
 
@@ -10906,7 +10906,7 @@ if ($ilDB->tableExists('xmlnestedsettmp_old'))
 	$ilDB->dropTable('xmlnestedsettmp_old');
 }
 ?>
-<#4735>
+<#4736>
 <?php
 //step 1/5 xmlparam search for dublicates and store it in xmlparam_tmp
 
@@ -10956,7 +10956,7 @@ if ($ilDB->tableExists('xmlparam'))
 	}
 }
 ?>
-<#4736>
+<#4737>
 <?php
 //step 2/5 xmlparam deletes dublicates stored in xmlparam_tmp
 
@@ -10997,7 +10997,7 @@ if ($ilDB->tableExists('xmlparam_tmp'))
 	}
 }
 ?>
-<#4737>
+<#4738>
 <?php
 //step 3/5 xmlparam drop xmlparam_tmp
 
@@ -11006,7 +11006,7 @@ if( $ilDB->tableExists('xmlparam_tmp') )
 	$ilDB->dropTable('xmlparam_tmp');
 }
 ?>
-<#4738>
+<#4739>
 <?php
 //step 4/5 xmlparam drops not used indexes
 
@@ -11015,7 +11015,7 @@ if( $ilDB->indexExistsByFields('xmlparam', array('tag_fk')) )
 	$ilDB->dropIndexByFields('xmlparam', array('tag_fk'));
 }
 ?>
-<#4739>
+<#4740>
 <?php
 //step 5/5 xmlparam adding primary keys
 
@@ -11024,7 +11024,7 @@ if($ilDB->tableExists('xmlparam'))
 	$ilDB->addPrimaryKey('xmlparam', array('tag_fk', 'param_name'));
 }
 ?>
-<#4740>
+<#4741>
 <?php
 //step 1/1 tree_workspace adding primary key
 
