@@ -10456,4 +10456,12 @@ $ilCtrlStructureReader->getStructure();
                 $ilDB->addPrimaryKey('log_components',array('component_id'));
         }
 ?>
+<#4716>
+<?php
+        $ilCtrlStructureReader->getStructure();
+?>
+<#4717>
+<?php
+        $ilCtrlStructureReader->getStructure();
+?>
 
