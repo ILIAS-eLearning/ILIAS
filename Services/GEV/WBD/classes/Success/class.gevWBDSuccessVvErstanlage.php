@@ -11,16 +11,10 @@ class gevWBDSuccessVvErstanlage extends WBDSuccess {
 	const BEGIN_OF_CERTIFICATION_PERIOD = "BeginnZertifizierungsPeriode";
 
 	public function __construct($response) {
-		try {
-			$this->internal_agent_id = $this->nodeValue($response,self::INTERNAL_AGENT_ID);
-			$this->agent_id = $this->nodeValue($response,self::AGENT_ID);
-			$this->create_date = $this->nodeValue($response,self::CREATE_DATE);
-			$this->begin_of_certification_period = $this->nodeValue($response,self::BEGIN_OF_CERTIFICATION_PERIOD);
-		} catch (LogicException $e) {
-			throw new LogicException($e->getMessage());
-		} catch (Exception $e) {
-			throw new LogicException("gevWBDSuccessVvErstanlage::__construct:unknown error");
-		}
+		$this->internal_agent_id = $this->nodeValue($response,self::INTERNAL_AGENT_ID);
+		$this->agent_id = $this->nodeValue($response,self::AGENT_ID);
+		$this->create_date = $this->nodeValue($response,self::CREATE_DATE);
+		$this->begin_of_certification_period = $this->nodeValue($response,self::BEGIN_OF_CERTIFICATION_PERIOD);
 	}
 
 	public function internalAgentId() {

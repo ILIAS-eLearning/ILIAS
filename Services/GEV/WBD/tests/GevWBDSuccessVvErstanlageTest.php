@@ -40,24 +40,12 @@ class GevWBDSuccessVvErstanlageTest extends SuccessTestBase {
 		$this->assertInstanceOf("gevWBDSuccessVvErstanlage",$this->success);
 	}
 
-	/*
+	/**
 	* @dataProvider success_xml_error
 	* @expectedException LogicException
 	*/
-	public function test_cantCreateSuccessObject() {
-		$success = new gevWBDSuccessVvErstanlage(simplexml_load_string('<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope">'
-												.'<soap:Body>'
-													.'<ns1:putResponse xmlns:ns1="http://erstanlage.stammdaten.external.service.wbd.gdv.de/">'
-														.'<ErstanlageRueckgabewert>'
-															.'<TpInterneVdermittlerId>7665</TpInterneVdermittlerId>'
-															.'<VermittlerId>20150728-100390-74</VermittlerId>'
-															.'<AnlageDatum>2015-07-28T00:00:00+02:00</AnlageDatum>'
-															.'<BeginnZertifizierungsPeriode>2015-07-28T00:00:00+02:00</BeginnZertifizierungsPeriode>'
-														.'</ErstanlageRueckgabewert>'
-													.'</ns1:putResponse>'
-												.'</soap:Body>'
-											.'</soap:Envelope>'
-									));
+	public function test_cantCreateSuccessObject($xml) {
+		$success = new gevWBDSuccessVvErstanlage($xml);
 		$this->assertNotInstanceOf("gevWBDSuccessVvErstanlage",$success);
 	}
 }
