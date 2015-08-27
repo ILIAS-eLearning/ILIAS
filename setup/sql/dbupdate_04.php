@@ -10699,3 +10699,328 @@ if ($ilDB->tableExists('usr_data_multi_old'))
 	$ilDB->dropTable('usr_data_multi_old');
 }
 ?>
+<#4727>
+<?php
+//step 1/4 xmlnestedset renames old table
+
+if ($ilDB->tableExists('xmlnestedset') && !$ilDB->tableExists('xmlnestedset_old'))
+{
+	$ilDB->renameTable("xmlnestedset", "xmlnestedset_old");
+}
+?>
+<#4728>
+<?php
+//step 2/4 xmlnestedset creates new table with unique id and sequenz
+
+if (!$ilDB->tableExists('xmlnestedset'))
+{
+	$ilDB->createTable("xmlnestedset",
+		array(
+			"ns_id" => array(
+				"type" => "integer",
+				"length" => 4,
+				"notnull" => true
+			),
+			"ns_book_fk" => array(
+				"type" => "integer",
+				"length" => 4,
+				"notnull" => true
+			),
+			"ns_type" => array(
+				"type" => "text",
+				"length" => 50,
+				"notnull" => true
+			),
+			"ns_tag_fk" => array(
+				"type" => "integer",
+				"length" => 4,
+				"notnull" => true
+			),
+			"ns_l" => array(
+				"type" => "integer",
+				"length" => 4,
+				"notnull" => true
+			),
+			"ns_r" => array(
+				"type" => "integer",
+				"length" => 4,
+				"notnull" => true
+			)
+		)
+	);
+	$ilDB->addIndex("xmlnestedset", array("ns_tag_fk"), 'i1');
+	$ilDB->addIndex("xmlnestedset", array("ns_l"), 'i2');
+	$ilDB->addIndex("xmlnestedset", array("ns_r"), 'i3');
+	$ilDB->addIndex("xmlnestedset", array("ns_book_fk"), 'i4');
+	$ilDB->addPrimaryKey('xmlnestedset', array('ns_id'));
+	$ilDB->createSequence('xmlnestedset');
+}
+?>
+<#4729>
+<?php
+//step 3/4 xmlnestedset moves all data to new table
+
+if ($ilDB->tableExists('xmlnestedset') && $ilDB->tableExists('xmlnestedset_old'))
+{
+	$res = $ilDB->query("
+		SELECT *
+		FROM xmlnestedset_old
+	");
+
+	while($row = $ilDB->fetchAssoc($res))
+	{
+		$id = $ilDB->nextId('xmlnestedset');
+
+		$ilDB->manipulate("INSERT INTO xmlnestedset (ns_id, ns_book_fk, ns_type, ns_tag_fk, ns_l, ns_r)".
+			" VALUES (".
+			$ilDB->quote($id, "integer").
+			",".$ilDB->quote($row['ns_book_fk'], "integer").
+			",".$ilDB->quote($row['ns_type'], "text").
+			",".$ilDB->quote($row['ns_tag_fk'], "integer").
+			",".$ilDB->quote($row['ns_l'], "integer").
+			",".$ilDB->quote($row['ns_r'], "integer").
+			")"
+		);
+
+		$ilDB->manipulateF(
+			"DELETE FROM xmlnestedset_old WHERE ns_book_fk = %s AND ns_type = %s AND ns_tag_fk = %s AND ns_l = %s AND ns_r = %s",
+			array('integer', 'text', 'integer', 'integer', 'integer'),
+			array($row['ns_book_fk'], $row['ns_type'], $row['ns_tag_fk'], $row['ns_l'], $row['ns_r'])
+		);
+	}
+}
+?>
+<#4730>
+<?php
+//step 4/4 xmlnestedset removes old table
+
+if ($ilDB->tableExists('xmlnestedset_old'))
+{
+	$ilDB->dropTable('xmlnestedset_old');
+}
+?>
+<#4731>
+<?php
+//step 1/4 xmlnestedsettmp renames old table
+
+if ($ilDB->tableExists('xmlnestedsettmp') && !$ilDB->tableExists('xmlnestedsettmp_old'))
+{
+	$ilDB->renameTable("xmlnestedsettmp", "xmlnestedsettmp_old");
+}
+?>
+<#4732>
+<?php
+//step 2/4 xmlnestedsettmp creates new table with unique id and sequenz
+
+if (!$ilDB->tableExists('xmlnestedsettmp'))
+{
+	$ilDB->createTable("xmlnestedsettmp",
+		array(
+			"ns_id" => array(
+				"type" => "integer",
+				"length" => 4,
+				"notnull" => true
+			),
+			"ns_unique_id" => array(// text because maybe we have to store a session_id in future e.g.
+				"type" => "text",
+				"length" => 32,
+				"notnull" => true
+			),
+			"ns_book_fk" => array(
+				"type" => "integer",
+				"length" => 4,
+				"notnull" => true
+			),
+			"ns_type" => array(
+				"type" => "text",
+				"length" => 50,
+				"notnull" => true
+			),
+			"ns_tag_fk" => array(
+				"type" => "integer",
+				"length" => 4,
+				"notnull" => true
+			),
+			"ns_l" => array(
+				"type" => "integer",
+				"length" => 4,
+				"notnull" => true
+			),
+			"ns_r" => array(
+				"type" => "integer",
+				"length" => 4,
+				"notnull" => true
+			)
+		)
+	);
+	$ilDB->addIndex("xmlnestedsettmp", array("ns_tag_fk"), 'i1');
+	$ilDB->addIndex("xmlnestedsettmp", array("ns_l"), 'i2');
+	$ilDB->addIndex("xmlnestedsettmp", array("ns_r"), 'i3');
+	$ilDB->addIndex("xmlnestedsettmp", array("ns_book_fk"), 'i4');
+	$ilDB->addIndex("xmlnestedsettmp", array("ns_unique_id"), 'i5');
+	$ilDB->addPrimaryKey('xmlnestedsettmp', array('ns_id'));
+	$ilDB->createSequence('xmlnestedsettmp');
+}
+?>
+<#4733>
+<?php
+//step 3/4 xmlnestedsettmp moves all data to new table
+
+if ($ilDB->tableExists('xmlnestedsettmp') && $ilDB->tableExists('xmlnestedsettmp_old'))
+{
+	$res = $ilDB->query("
+		SELECT *
+		FROM xmlnestedsettmp_old
+	");
+
+	while($row = $ilDB->fetchAssoc($res))
+	{
+		$id = $ilDB->nextId('xmlnestedsettmp');
+
+		$ilDB->manipulate("INSERT INTO xmlnestedsettmp (ns_id, ns_unique_id, ns_book_fk, ns_type, ns_tag_fk, ns_l, ns_r)".
+			" VALUES (".
+			$ilDB->quote($id, "integer").
+			",".$ilDB->quote($row['ns_unique_id'], "text").
+			",".$ilDB->quote($row['ns_book_fk'], "integer").
+			",".$ilDB->quote($row['ns_type'], "text").
+			",".$ilDB->quote($row['ns_tag_fk'], "integer").
+			",".$ilDB->quote($row['ns_l'], "integer").
+			",".$ilDB->quote($row['ns_r'], "integer").
+			")"
+		);
+
+		$ilDB->manipulateF(
+			"DELETE FROM xmlnestedsettmp_old WHERE ns_unique_id = %s AND ns_book_fk = %s AND ns_type = %s AND ns_tag_fk = %s AND ns_l = %s AND ns_r = %s",
+			array('text', 'integer', 'text', 'integer', 'integer', 'integer'),
+			array($row['ns_unique_id'], $row['ns_book_fk'], $row['ns_type'], $row['ns_tag_fk'], $row['ns_l'], $row['ns_r'])
+		);
+	}
+}
+?>
+<#4734>
+<?php
+//step 4/4 xmlnestedset_tmp removes old table
+
+if ($ilDB->tableExists('xmlnestedsettmp_old'))
+{
+	$ilDB->dropTable('xmlnestedsettmp_old');
+}
+?>
+<#4735>
+<?php
+//step 1/5 xmlparam search for dublicates and store it in xmlparam_tmp
+
+if ($ilDB->tableExists('xmlparam'))
+{
+	$res = $ilDB->query("
+		SELECT first.tag_fk tag_fk, first.param_name param_name
+		FROM xmlparam first
+		WHERE EXISTS (
+			SELECT second.tag_fk, second.param_name
+			FROM xmlparam second
+			WHERE first.tag_fk = second.tag_fk AND first.param_name = second.param_name
+			GROUP BY second.tag_fk, second.param_name
+			HAVING COUNT(second.tag_fk) > 1
+		)
+		GROUP BY first.tag_fk, first.param_name
+	");
+
+	if($ilDB->numRows($res))
+	{
+		if(!$ilDB->tableExists('xmlparam_tmp'))
+		{
+			$ilDB->createTable('xmlparam_tmp', array(
+				'tag_fk' => array(
+					'type'  => 'integer',
+					'length'=> 4,
+					'notnull' => true,
+					'default' => 0
+				),
+				'param_name' => array(
+					'type'  => 'text',
+					'length'=> 50,
+					'notnull' => true,
+					'default' => 0
+				)
+			));
+			$ilDB->addPrimaryKey('xmlparam_tmp', array('tag_fk','param_name'));
+		}
+
+		while($row = $ilDB->fetchAssoc($res))
+		{
+			$ilDB->replace('xmlparam_tmp', array(), array(
+				'tag_fk' => array('integer', $row['tag_fk']),
+				'param_name' => array('text', $row['param_name'])
+			));
+		}
+	}
+}
+?>
+<#4736>
+<?php
+//step 2/5 xmlparam deletes dublicates stored in xmlparam_tmp
+
+if ($ilDB->tableExists('xmlparam_tmp'))
+{
+	$res = $ilDB->query("
+		SELECT tag_fk, param_name
+		FROM xmlparam_tmp
+	");
+
+	while($row = $ilDB->fetchAssoc($res))
+	{
+		$res_data = $ilDB->query("
+			SELECT *
+			FROM xmlparam
+			WHERE
+			tag_fk = ".$ilDB->quote($row['tag_fk'] ,'integer')." AND
+			param_name = ".$ilDB->quote($row['param_name'] ,'text')
+		);
+		$data = $ilDB->fetchAssoc($res_data);
+
+		$ilDB->manipulate("DELETE FROM xmlparam WHERE".
+			" tag_fk = " . $ilDB->quote($row['tag_fk'] ,'integer').
+			" AND param_name = " . $ilDB->quote($row['param_name'] ,'text')
+		);
+
+		$ilDB->manipulate("INSERT INTO xmlparam (tag_fk,param_name,param_value) ".
+			"VALUES ( ".
+			$ilDB->quote($data['tag_fk'] ,'integer').', '.
+			$ilDB->quote($data['param_name'] ,'text').', '.
+			$ilDB->quote($data['param_value'] ,'text').
+			")");
+
+		$ilDB->manipulate("DELETE FROM xmlparam_tmp WHERE".
+			" tag_fk = " . $ilDB->quote($row['tag_fk'] ,'integer').
+			" AND param_name = " . $ilDB->quote($row['param_name'] ,'text')
+		);
+	}
+}
+?>
+<#4737>
+<?php
+//step 3/5 xmlparam drop xmlparam_tmp
+
+if( $ilDB->tableExists('xmlparam_tmp') )
+{
+	$ilDB->dropTable('xmlparam_tmp');
+}
+?>
+<#4738>
+<?php
+//step 4/5 xmlparam drops not used indexes
+
+if( $ilDB->indexExistsByFields('xmlparam', array('tag_fk')) )
+{
+	$ilDB->dropIndexByFields('xmlparam', array('tag_fk'));
+}
+?>
+<#4739>
+<?php
+//step 5/5 xmlparam adding primary keys
+
+if($ilDB->tableExists('xmlparam'))
+{
+	$ilDB->addPrimaryKey('xmlparam', array('tag_fk', 'param_name'));
+}
+?>
