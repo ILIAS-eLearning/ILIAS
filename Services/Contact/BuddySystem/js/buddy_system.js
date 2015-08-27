@@ -120,6 +120,7 @@
 				il.Awareness.reload();
 			}
 		}
+		return true;
 	});
 
 	$(document).ready(function() {
