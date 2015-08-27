@@ -1183,7 +1183,10 @@ assessment#:#tst_password_introduction#:#Dieser Test kann nur mit einem Testpass
 assessment#:#tst_percent_solved#:#Prozent gelöst
 assessment#:#tst_position#:#Frage %s von %s
 assessment#:#tst_postpone#:#Fragen zurückstellen
-assessment#:#tst_postpone_description#:#Erlaubt Teilnehmern, einzelne Fragen zur späteren Bearbeitung an das Ende des Tests zu stellen.
+assessment#:#tst_postpone_on#:#Nicht beantwortete Fragen hinten anstellen
+assessment#:#tst_postpone_on_desc#:#Nicht beantwortetee Fragen werden hinten angestellt.
+assessment#:#tst_postpone_off#:#Nicht beantwortete Fragen nicht hinten anstellen
+assessment#:#tst_postpone_off_desc#:#Nicht beantwortetee Fragen verbleiben an ihrer Position.
 assessment#:#tst_presentation_properties#:#Durchführung: Verhalten der Frage
 assessment#:#tst_print#:#Test und Assessment – Druckansicht
 assessment#:#tst_print_date#:#Datum des Ausdrucks

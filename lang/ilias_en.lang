@@ -1019,8 +1019,11 @@ assessment#:#tst_password_form#:#Enter Test Password
 assessment#:#tst_password#:#Test Password
 assessment#:#tst_percent_solved#:#Percent Solved
 assessment#:#tst_position#:#Question %s of %s
-assessment#:#tst_postpone_description#:#The participants may postpone questions to the end of the test.
 assessment#:#tst_postpone#:#Postpone Questions
+assessment#:#tst_postpone_on#:#Not answered questions will be postponed
+assessment#:#tst_postpone_on_desc#:#Not answered questions will be postponed to the end of the test.
+assessment#:#tst_postpone_off#:#Not answered questions will not be postponed
+assessment#:#tst_postpone_off_desc#:#Not answered questions will be kept at their position.
 assessment#:#tst_print_date#:#Date of Print
 assessment#:#tst_print#:#Test and Assessment - Print View
 assessment#:#tst_processing_time_desc#:#Participants can work through the test only for a specified period of time. Time is clocking away from the moment a user starts a test for the first time. Suspending the test does not stop the clock.

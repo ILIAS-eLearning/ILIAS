@@ -1234,10 +1234,14 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		$form->addItem($cancel);
 
 		// postpone questions
-		$postpone = new ilCheckboxInputGUI($this->lng->txt("tst_postpone"), "chb_postpone");
-		$postpone->setValue(1);
-		$postpone->setChecked($this->testOBJ->getSequenceSettings());
-		$postpone->setInfo($this->lng->txt("tst_postpone_description"));
+		$postpone = new ilRadioGroupInputGUI($this->lng->txt("tst_postpone"), "postpone");
+		$postpone->addOption(new ilRadioOption(
+			$this->lng->txt("tst_postpone_off"), 0, $this->lng->txt("tst_postpone_off_desc")
+		));
+		$postpone->addOption(new ilRadioOption(
+			$this->lng->txt("tst_postpone_on"), 1, $this->lng->txt("tst_postpone_on_desc")
+		));
+		$postpone->setValue((int)$this->testOBJ->getSequenceSettings());
 		$form->addItem($postpone);
 
 		// show list of questions
@@ -1283,9 +1287,9 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 			$this->testOBJ->setShowCancel($form->getItemByPostVar('chb_show_cancel')->getChecked());
 		}
 
-		if( $this->formPropertyExists($form, 'chb_postpone') )
+		if( $this->formPropertyExists($form, 'postpone') )
 		{
-			$this->testOBJ->setPostponingEnabled($form->getItemByPostVar('chb_postpone')->getChecked());
+			$this->testOBJ->setPostponingEnabled((bool)$form->getItemByPostVar('postpone')->getValue());
 		}
 
 		$this->testOBJ->setListOfQuestions($form->getItemByPostVar('list_of_questions')->getChecked());
