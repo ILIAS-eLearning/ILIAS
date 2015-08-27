@@ -785,7 +785,7 @@ class ilObjectDefinition// extends ilSaxParser
 		{
 			return false;
 		}
-		return count($this->obj_data[$a_obj_name]['subobjects']) > 1 ? true : false;
+		return count($this->obj_data[$a_obj_name]['subobjects']) >= 1 ? true : false;
 	}
 
 // PRIVATE METHODS
