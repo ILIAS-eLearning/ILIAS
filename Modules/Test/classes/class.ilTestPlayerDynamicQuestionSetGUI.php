@@ -101,6 +101,8 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 				break;
 
 			case 'ilassquestionhintrequestgui':
+
+				$this->ctrl->saveParameter($this, 'pmode');
 				
 				$questionGUI = $this->object->createQuestionGUI(
 					"", $this->testSession->getCurrentQuestionId()
