@@ -1,0 +1,9 @@
+// Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
+<!-- language file start -->
+common#:#obj_logs#:#Protokollierung
+common#:#obj_logs_desc#:#Enthält globale Einstellungen für die ILIAS-Protokollierung
+rbac#:#logs_edit_permission#:#Rechteeinstellung der Protokollierung ändern
+rbac#:#logs_read#:#Lesezugriff auf Einstellungen der Protokollierung
+rbac#:#logs_visible#:#Protokollierungs-Administration ist sichtbar
+rbac#:#logs_write#:#Einstellungen der Protokollierungs-Administration bearbeiten
+logging#:#logs_settings#:#Protokollierungseinstellungen

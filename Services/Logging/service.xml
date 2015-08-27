@@ -1,0 +1,13 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<service xmlns="http://www.w3.org" version="$Id$"
+	id="log">
+	<baseclasses>
+	</baseclasses>
+	<objects>
+		<object id="logs" class_name="LoggingSettings" dir="classes"
+			checkbox="0" inherit="1" translate="sys" rbac="1" system="1" administration="1">
+			<parent id="adm" max="1">adm</parent>
+		</object>
+	</objects>
+	<logging id="log" />
+</service>

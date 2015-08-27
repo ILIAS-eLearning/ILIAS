@@ -30,4 +30,5 @@
 		<event type="raise" id="addToWaitingList" />
 		<event type="raise" id="addSubscriber" />
 	</events>
+	<logging id="grp" />
 </module>

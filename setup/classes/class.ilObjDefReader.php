@@ -282,6 +282,10 @@ class ilObjDefReader extends ilSaxParser
 					$ilWACSecurePath->setComponentDirectory(dirname($this->xml_file));
 					$ilWACSecurePath->update();
 
+				
+				case 'logging':
+					include_once './Services/Logging/classes/class.ilLogComponentLevels.php';
+					ilLogComponentLevels::updateFromXML($a_attribs['id']);
 					break;
 			}
 		}
