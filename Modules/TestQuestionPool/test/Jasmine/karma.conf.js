@@ -14,7 +14,7 @@ module.exports = function (config) {
 
 		// list of files / patterns to load in the browser
 		files: [
-			'../../../../Services/jQuery/js/1_11_2/jquery.js',
+			'../../../../Services/jQuery/js/2_1_4/jquery.js',
 			'../../../../Services/RTE/tiny_mce_3_5_11/tiny_mce.js', '../../../../Services/RTE/tiny_mce_3_5_11/langs/en.js', '../../../../Services/RTE/tiny_mce_3_5_11/themes/advanced/editor_template.js', '../../../../Services/RTE/tiny_mce_3_5_11/themes/advanced/skins/default/ui.css', '../../../../Services/RTE/tiny_mce_3_5_11/themes/advanced/skins/default/content.css',
 			//'../../templates/default/cloze_gap_builder.js', 'cloze_gap_builderTest.js', 
 			'../../templates/default/gapInsertingWizard.js', 'gapInsertingWizardTest.js',
