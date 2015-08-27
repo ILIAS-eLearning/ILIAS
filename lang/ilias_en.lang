@@ -13790,7 +13790,7 @@ wsp#:#wsp_shared_date_filter#:#Shared From
 wsp#:#wsp_shared_mandatory_filter_info#:#Please set at least one filter attribute. Text filters have to be at least 4 characters long.
 wsp#:#wsp_shared_member_filter#:#Members of Course / Group
 blog#:#blog_allow_html_info#:#Enables users to include HTML and/or Javascript in their blog postings. This can lead to security issues.
-common#:#scorm_without_session#:#SCORM 2004: enable storing data without session
+common#:#scorm_without_session#:#SCORM: enable storing data without session
 common#:#scorm_without_session_info#:#This ensures the storage of SCORM learning data even if ILIAS session expired
 common#:#msg_obj_no_download#:#cannot be downloaded.
 common#:#download_selected_items#:#Download
@@ -15851,3 +15851,7 @@ search#:#search_created_on#:#Objects create on...
 search#:#search_newer_than#:#Objects newer than
 search#:#search_cdate_filter#:#Filter by Creation Date
 search#:#search_cdate_filter_info#:#If enabled, the object search can be filtered by an optional creation date filter.
+content#:#cont_mastery_score_2004#:#overwrite scaled_passing_score
+content#:#cont_mastery_score_2004_info#:#Central learning objectives of this learning module are considered as passed if the score reached at least a certain level - the scaled_passing_score. This value - to be stated as a percentage value - can be overwritten here e.g. to reduce the requirement level. If the field is empty, the information in the SCORM manifest are valid. The following values are provided in the manifest-file:
+content#:#cont_mastery_score_12#:#overwrite mastery_score
+content#:#cont_mastery_score_12_info#:#If a SCO does not autonomously determines a status, a SCO is considered passed if the score reached at least a certain level - the mastery_score. This value can be overwritten here e.g. to reduce the requirement level. If the field is empty, the information in the SCORM manifest are valid. The following values are provided in the manifest-file:

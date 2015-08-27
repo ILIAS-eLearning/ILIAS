@@ -13774,7 +13774,7 @@ wsp#:#wsp_shared_user_filter#:#Benutzername/Name
 wsp#:#wsp_shared_date_filter#:#Freigabe ab dem
 wsp#:#wsp_shared_mandatory_filter_info#:#Bitte setzen Sie mindestens ein Filter-Attribut. Text-Filter müssen mindestens 4 Buchstaben lang sein.
 wsp#:#wsp_shared_member_filter#:#Kurs-/Gruppenmitglieder
-common#:#scorm_without_session#:#SCORM2004-Speicherung ohne Session aktivieren
+common#:#scorm_without_session#:#SCORM-Speicherung ohne Session aktivieren
 common#:#scorm_without_session_info#:#Dies sichert die Speicherung von SCORM-Lernstandsdaten auch bei abgelaufener ILIAS-Session
 common#:#msg_obj_no_download#:#können nicht heruntergeladen werden.
 common#:#download_selected_items#:#Herunterladen
@@ -15845,3 +15845,7 @@ search#:#search_created_on#:#Objeckte erstellt am...
 search#:#search_newer_than#:#Objekte erstellt vor dem...
 search#:#search_cdate_filter#:#Suche nach Erstellungsdatum
 search#:#search_cdate_filter_info#:#Wenn aktiviert, kann die Suche mit einem Filter für das Erstellungsdatum von Objekten durchgeführt werden.
+content#:#cont_mastery_score_2004#:#scaled_passing_score überschreiben
+content#:#cont_mastery_score_2004_info#:#Zentrale Lernziele dieses Lernmoduls gelten als bestanden wenn der erzielte Punktestand mindestens einen bestimmten Wert - den scaled_passing_score - erreicht hat. Diesen als Prozentsatz anzugebenden Wert können Sie hier überschreiben um z.B. das Anforderungsniveau abzusenken. Ist das Feld leer, gelten die Angaben im SCORM-Manifest. Hier sind folgende Werte vorgesehen:
+content#:#cont_mastery_score_12#:#mastery_score überschreiben
+content#:#cont_mastery_score_12_info#:#Sofern ein SCO nicht selbstständig einen Status bestimmt, gilt ein SCO als bestanden wenn der erzielte Punktestand mindestens einen bestimmten Wert - den mastery_score - erreicht hat. Diesen Wert können Sie hier überschreiben um z.B. das Anforderungsniveau abzusenken. Ist das Feld leer, gelten die Angaben im SCORM-Manifest. Hier sind folgende Werte vorgesehen:
