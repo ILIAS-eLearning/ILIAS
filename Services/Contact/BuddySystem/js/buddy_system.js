@@ -121,7 +121,10 @@
 		) {
 			return;
 		}
-		il.Awareness.reload();
+
+		if (typeof il.Awareness != "undefined") {
+			il.Awareness.reload();
+		}
 	});
 
 	$(document).ready(function() {
