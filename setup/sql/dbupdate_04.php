@@ -10616,3 +10616,86 @@ $ilCtrlStructureReader->getStructure();
 			}
 	}
 ?>
+<#4723>
+<?php
+//step 1/4 usr_data_multi renames old table
+
+if ($ilDB->tableExists('usr_data_multi') && !$ilDB->tableExists('usr_data_multi_old'))
+{
+	$ilDB->renameTable("usr_data_multi", "usr_data_multi_old");
+}
+?>
+<#4724>
+<?php
+//step 2/4 usr_data_multi creates new table with unique id, sequenz and index
+
+if (!$ilDB->tableExists('usr_data_multi'))
+{
+	$ilDB->createTable('usr_data_multi',array(
+		'id'		=> array(
+			'type'	=> 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'usr_id'	=> array(
+			'type'	=> 'integer',
+			'length'=> 4,
+			'notnull' => TRUE
+		),
+		'field_id'	=> array(
+			'type'	=> 'text',
+			'length'=> 255,
+			'notnull' => TRUE
+		),
+		'value'	=> array(
+			'type'	=> 'text',
+			'length'=> 1000,
+			'default' => ''
+		)
+	));
+	$ilDB->addPrimaryKey('usr_data_multi', array('id'));
+	$ilDB->addIndex('usr_data_multi',array('usr_id'),'i1');
+	$ilDB->createSequence('usr_data_multi');
+}
+?>
+<#4725>
+<?php
+//step 3/4 usr_data_multi moves all data to new table
+
+if ($ilDB->tableExists('usr_data_multi') && $ilDB->tableExists('usr_data_multi_old'))
+{
+	$res = $ilDB->query("
+		SELECT *
+		FROM usr_data_multi_old
+	");
+
+	while($row = $ilDB->fetchAssoc($res))
+	{
+		$id = $ilDB->nextId('usr_data_multi');
+
+		$ilDB->manipulate("INSERT INTO usr_data_multi (id, usr_id, field_id, value)".
+			" VALUES (".
+			$ilDB->quote($id, "integer").
+			",".$ilDB->quote($row['usr_id'], "integer").
+			",".$ilDB->quote($row['field_id'], "text").
+			",".$ilDB->quote($row['value'], "text").
+			")"
+		);
+
+		$ilDB->manipulateF(
+			"DELETE FROM usr_data_multi_old WHERE usr_id = %s AND field_id = %s AND value = %s",
+			array('integer', 'text', 'text'),
+			array($row['usr_id'], $row['field_id'], $row['value'])
+		);
+	}
+}
+?>
+<#4726>
+<?php
+//step 4/4 usr_data_multi removes old table
+
+if ($ilDB->tableExists('usr_data_multi_old'))
+{
+	$ilDB->dropTable('usr_data_multi_old');
+}
+?>
