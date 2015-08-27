@@ -2428,13 +2428,13 @@ class gevCourseUtils {
 		
 		// Cancel participants
 		$this->cleanWaitingList();
-		
+
 		$participants = $this->getParticipants();
 		foreach($participants as $participant) {
 			$this->getBookings()->cancelWithoutCosts($participant);
 		}
 		$mails->send("admin_cancel_booked_to_cancelled_without_costs", $participants);
-		
+
 		//Send cancel mail to trainer						
 		$trainers = $this->getTrainers();
 		$mails->send("training_cancelled_trainer_info",$trainers);

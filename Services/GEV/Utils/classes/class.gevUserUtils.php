@@ -2488,11 +2488,11 @@ class gevUserUtils {
 			$to_search = array_merge($empl,$sup);
 
 			$sql_emp = "SELECT" 
-					." histucs.begin_date, histucs.end_date, histucs.overnights, histucs.booking_status, histucs.participation_status,"
-					." histu.firstname, histu.lastname,"
-					." histc.title, histc.type,"
-					." IF(crsa_start.night IS NULL, false, true) AS prenight,"
-					." IF(crsa_end.night IS NULL, false, true) AS lastnight"
+					." 	histucs.begin_date, histucs.end_date, histucs.overnights, histucs.booking_status, histucs.participation_status,"
+					." 	histu.firstname, histu.lastname,"
+					." 	histc.title, histc.type,"
+					." 	IF(crsa_start.night IS NULL, false, true) AS prenight,"
+					." 	IF(crsa_end.night IS NULL, false, true) AS lastnight"
 				." FROM hist_usercoursestatus histucs"
 				." JOIN hist_user histu ON histu.user_id = histucs.usr_id AND histu.hist_historic = 0"
 				." JOIN hist_course histc ON histc.crs_id = histucs.crs_id AND histc.hist_historic = 0"
@@ -2563,7 +2563,6 @@ class gevUserUtils {
 					   ,"DBV UVG"
 					   ,"DBV EVG"
 					   ,"DBV-Fin-UVG"
-					   ,"Key-Accounter"
 					   ,"RTL"
 					);
 
@@ -2584,7 +2583,6 @@ class gevUserUtils {
 					   ,"FDA"
 					   ,"int. Trainer"
 					   ,"OD-Betreuer"
-					   ,"Key-Accounter"
 					   ,"RTL"
 					);
 		
