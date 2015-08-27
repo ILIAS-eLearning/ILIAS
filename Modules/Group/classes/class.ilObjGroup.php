@@ -806,7 +806,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 	 */
 	public function cloneObject($a_target_id,$a_copy_id = 0)
 	{
-		global $ilDB,$ilUser;
+		global $ilDB,$ilUser, $ilSetting;
 
 	 	$new_obj = parent::cloneObject($a_target_id,$a_copy_id);
 	 	$new_obj->setGroupType($this->getGroupType());
@@ -852,7 +852,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		include_once('./Modules/Group/classes/class.ilGroupParticipants.php');
 		$part = ilGroupParticipants::_getInstanceByObjId($new_obj->getId());
 		$part->add($ilUser->getId(),IL_GRP_ADMIN);
-		$part->updateNotification($ilUser->getId(),1);
+		$part->updateNotification($ilUser->getId(),$ilSetting->get('mail_grp_admin_notification', true));
 
 		// Copy learning progress settings
 		include_once('Services/Tracking/classes/class.ilLPObjSettings.php');
