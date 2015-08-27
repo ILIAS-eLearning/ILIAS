@@ -10572,3 +10572,47 @@ if( !$ilDB->tableExists('qpl_a_lome') )
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+
+<#4723>
+<?php
+	
+	$query = 'SELECT child FROM tree group by child having count(child) > 1';
+	$res = $ilDB->query($query);
+	
+	$found_dup = FALSE;
+	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	{
+		$found_dup = TRUE;
+	}
+	
+	if(!$found_dup)
+	{
+		$ilDB->addPrimaryKey('tree',array('child'));
+	}
+	else
+	{
+		$ilSetting = new ilSetting();
+		$is_read = $ilSetting->get('tree_dups', 0);
+
+		if(!$is_read)
+			{
+				echo "<pre>
+					Dear Administrator,
+
+					DO NOT REFRESH THIS PAGE UNLESS YOU HAVE READ THE FOLLOWING INSTRUCTIONS
+
+					The update process has been stopped due to an invalid data structure of the repository tree. 
+					Duplicates have been detected in your installation.
+					
+					You can continue with the update process.
+					But you should perform a system check and repair the tree structure in \"Adminstration -> Systemcheck -> Tree\"
+
+					Best regards,
+					The Tree Maintainer
+				</pre>";
+
+				$ilSetting->set('tree_dups', 1);
+				exit;
+			}
+	}
+?>
