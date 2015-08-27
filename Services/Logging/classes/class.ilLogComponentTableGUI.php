@@ -71,7 +71,9 @@ class ilLogComponentTableGUI extends ilTable2GUI
 		foreach($components as $component)
 		{
 			$row['id'] = $component->getComponentId();
-			$row['component'] = $this->lookupComponentName($component->getComponentId());
+			
+			include_once './Services/Component/classes/class.ilComponent.php';
+			$row['component'] = ilComponent::lookupComponentName($component->getComponentId());
 			ilLoggerFactory::getLogger('log')->debug($component->getComponentId());
 			$row['level'] = ($component->getLevel() ? $component->getLevel() : $this->getSettings()->getLevel());
 			
@@ -104,28 +106,6 @@ class ilLogComponentTableGUI extends ilTable2GUI
 		
 		
 	}
-	
-	/**
-	 * lookup component name
-	 * @global type $ilDB
-	 * @param type $a_component_id
-	 * @return type
-	 */
-	public function lookupComponentName($a_component_id)
-	{
-		global $ilDB;
-		
-		$query = 'SELECT name from il_component '.
-				'WHERE id = '.$ilDB->quote($a_component_id,'text');
-		
-		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			return $row->name;
-		}
-	}
-
-
 	
 }
 ?>

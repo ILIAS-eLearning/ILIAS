@@ -11426,10 +11426,10 @@ exc#:#exc_create_portfolio_select_info#:#Please select the resource folder to ad
 exc#:#exc_blog_created#:#Blog was created.
 exc#:#exc_portfolio_created#:#Portfolio was created.
 mail#:#mail_member_notification#:#Participant Notification
-mail#:#mail_enable_crs_member_notification#:#Course Notification
-mail#:#mail_enable_grp_member_notification#:#Group Notification
-mail#:#mail_enable_crs_member_notification_info#:#If enabled, course participants will be notified automatically about membership changes.
-mail#:#mail_enable_grp_member_notification_info#:#If enabled, group participants will be notified automatically about membership changes.
+mail#:#mail_enable_crs_member_notification#:#Notify Course Members
+mail#:#mail_enable_grp_member_notification#:#Notify Group Members
+mail#:#mail_enable_crs_member_notification_info#:#ILIAS will automatically send an e-mail to every course member if his or her membership status is changed. This setting applies to all courses on the plattform.
+mail#:#mail_enable_grp_member_notification_info#:#ILIAS will automatically send an e-mail to every group member if his or her membership status is changed. This setting applies to all groups on the plattform.
 common#:#usr_account_inactive#:#Inactive Account
 common#:#portfolio#:#Portfolio
 prtf#:#prtf_default_portfolio#:#My Profile
@@ -15886,3 +15886,8 @@ log#:#log_component_col_component#:#Component
 log#:#log_component_col_level#:#Log-Level
 log#:#log_component_btn_reset#:#Reset Settings
 forum#:#frm_search#:#Suche
+mail#:#mail_enable_crs_admin_notification#:#Notify Course Members
+mail#:#mail_enable_grp_admin_notification#:#Notify Group Members
+mail#:#mail_enable_crs_admin_notification_info#:#In new courses the setting 'Notification About New Members' will be activated by default. It is set in the 'Member'-tab of courses. Course administrators will receive an e-mail when a member joins the course or leaves it or if the minimally required number of participants is not met the course needs to take place.
+mail#:#mail_enable_grp_admin_notification_info#:#In new groups the setting 'Notification' will be activated by default. It is set in the 'Member'-tab of groups. Course administrators will receive an e-mail when a member joins the group or leaves it or if the minimally required number of participants is not met the group needs to take place.
+mail#:#mail_notification_membership_section#:#Membership
