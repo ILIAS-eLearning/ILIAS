@@ -602,6 +602,8 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		$this->ctrl->setParameter(
 				$this, 'sequence', $this->testSession->getCurrentQuestionId()
 		);
+
+		$this->ctrl->saveParameter($this, 'pmode');
 		
 		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
 	}
