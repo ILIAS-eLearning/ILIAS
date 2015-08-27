@@ -1,6 +1,7 @@
 <?php
 require_once("/Library/WebServer/Documents/dev/4_4_generali2_new_wbd/Services/GEV/WBD/classes/Dictionary/class.gevWBDDictionary.php");
-class gevWBDRequestVvAenderung extends WBDRequest {
+require_once("/Library/WebServer/Documents/dev/4_4_generali2_new_wbd/Services/GEV/WBD/classes/Requests/class.gevWBDRequest.php");
+class gevWBDRequestVvAenderung extends gevWBDRequest {
 	static $request_type = "UPDATE_USER";
 	static $check_szenarios = array('title' 			=> array('mandatory'=>1,
 															 	 'list'=> array(
@@ -34,7 +35,7 @@ class gevWBDRequestVvAenderung extends WBDRequest {
 									,'row_id'			=> array('mandatory'=>1)
 								);
 
-	public function __construct($values) {
+	public function __construct($data) {
 		parent::__construct();
 
 		$this->required_values = array("AdressTyp" => array("address_type",true, gevWBDDictionary::SERACH_IN_ADDRESS_TYPE)
@@ -61,11 +62,15 @@ class gevWBDRequestVvAenderung extends WBDRequest {
 								 ,"VorName" => array("firstname",false)
 							);
 
-		$this->response_success_values = array("VermittlerId" => ""
-											);
+		$this->response_success_values = array("VermittlerId" => "");
 		
+		$this->user_id = $data["user_id"];
+		$this->row_id = $data["row_id"];
+
 		$this->xml_tmpl_file = "VvAenderung.xml";
 		$this->wbd_service_name = "VvAnderungService";
+
+		$this->fillRequestedValues($data);
 	}
 
 	public static function getInstance(array $data) {

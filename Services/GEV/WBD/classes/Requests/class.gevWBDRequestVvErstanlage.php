@@ -1,6 +1,7 @@
 <?php
 require_once("/Library/WebServer/Documents/dev/4_4_generali2_new_wbd/Services/GEV/WBD/classes/Dictionary/class.gevWBDDictionary.php");
-class gevWBDRequestVvErstanlage extends WBDRequest {
+require_once("/Library/WebServer/Documents/dev/4_4_generali2_new_wbd/Services/GEV/WBD/classes/Requests/class.gevWBDRequest.php");
+class gevWBDRequestVvErstanlage extends gevWBDRequest {
 	
 	static $request_type = "CREATE_USER";
 	static $check_szenarios = array('title' 			=> array('mandatory'=>1,
@@ -77,6 +78,9 @@ class gevWBDRequestVvErstanlage extends WBDRequest {
 		
 		$this->xml_tmpl_file = "VvErstanlage.xml";
 		$this->wbd_service_name = "VvErstanlageService";
+
+		$this->user_id = $data["user_id"];
+		$this->row_id = $data["row_id"];
 
 		$this->fillRequestedValues($data);
 	}
