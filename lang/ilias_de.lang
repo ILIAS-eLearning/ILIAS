@@ -15389,6 +15389,8 @@ dcl#:#dcl_formula_desc#:#Ähnlich wie bei der Tabellenkalkulation können per Fo
 dcl#:#dcl_additional_info_desc#:#Der Text wird direkt oberhalb der Tabelle angezeigt.
 dcl#:#dcl_formula_detail_desc#:#Einträge in diesem Feld generieren sich automatisch. Sie können hier keinen Eintrag vornehmen.
 dcl#:#dcl_text_email_detail_desc#:#Bitte geben Sie eine gültige E-Mail-Adresse oder eine URL ein.
+dcl#:#dcl_text_email_title#:#Titel
+dcl#:#dcl_text_email_title_info#:#Titel für die URL oder E-Mail-Adresse (optional).
 adve#:#adve_auto_url_linking#:#URL Auto-Linking
 adve#:#adve_auto_url_linking_info#:#ILIAS durchsucht Textparagraphen nach URLs (z.B. "http://..") und verlinkt diese entsprechend automatisch.
 content#:#cont_auto_time#:#Wartezeit Animation
