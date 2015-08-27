@@ -106,9 +106,14 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 					"", $this->testSession->getCurrentQuestionId()
 				);
 
+				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintTracking.php';
+				$questionHintTracking = new ilAssQuestionHintTracking(
+					$questionGUI->object->getId(), $this->testSession->getActiveId(), $this->testSession->getPass()
+				);
+
 				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintRequestGUI.php';
 				$gui = new ilAssQuestionHintRequestGUI(
-					$this, ilTestPlayerCommands::SHOW_QUESTION, $this->testSession, $questionGUI
+					$this, ilTestPlayerCommands::SHOW_QUESTION, $questionGUI, $questionHintTracking
 				);
 				
 				$this->ctrl->forwardCommand($gui);
