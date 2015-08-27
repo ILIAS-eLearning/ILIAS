@@ -125,7 +125,18 @@ abstract class ilMembershipAdministrationGUI extends ilObjectGUI
 		$this->addFieldsToForm($form);		
 				
 		$this->lng->loadLanguageModule("mail");
-	
+
+		
+		ilAdministrationSettingsFormHandler::addFieldsToForm(
+			$this->getAdministrationFormId(), 
+			$form,
+			$this
+		);
+
+		$sec = new ilFormSectionHeaderGUI();
+		$sec->setTitle($this->lng->txt('mail_notification_membership_section'));
+		$form->addItem($sec);
+
 		// member notification
 		$cn = new ilCheckboxInputGUI($this->lng->txt('mail_enable_'.$this->getParentObjType().'_member_notification'), 'mail_member_notification');
 		$cn->setInfo($this->lng->txt('mail_enable_'.$this->getParentObjType().'_member_notification_info'));
@@ -137,13 +148,7 @@ abstract class ilMembershipAdministrationGUI extends ilObjectGUI
 		$an->setInfo($this->lng->txt('mail_enable_'.$this->getParentObjType().'_admin_notification_info'));
 		$an->setChecked($ilSetting->get('mail_'.$this->getParentObjType().'_admin_notification', true));
 		$form->addItem($an);
-		
-		ilAdministrationSettingsFormHandler::addFieldsToForm(
-			$this->getAdministrationFormId(), 
-			$form,
-			$this
-		);
-		
+
 		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
 		{
 			$form->addCommandButton("saveSettings", $this->lng->txt("save"));

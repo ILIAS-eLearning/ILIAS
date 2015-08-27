@@ -8335,10 +8335,10 @@ mail#:#mail_edit_entry#:#Eintrag bearbeiten
 mail#:#mail_email_forbidden#:#Sie sind nicht berechtigt E-Mails zu verschicken
 mail#:#mail_empty_trash#:#Papierkorb leeren
 mail#:#mail_empty_trash_confirmation#:#Sind Sie sicher, dass alle Mails im Papierkorb gelöscht werden sollen?
-mail#:#mail_enable_crs_member_notification#:#Kursbenachrichtigung
-mail#:#mail_enable_crs_member_notification_info#:#Wenn aktiviert, werden Teilnehmer automatisch über Änderungen ihrer Kursmitgliedschaften per Mail informiert.
-mail#:#mail_enable_grp_member_notification#:#Gruppenbenachrichtigung
-mail#:#mail_enable_grp_member_notification_info#:#Wenn aktiviert, werden Teilnehmer automatisch über Änderungen ihrer Gruppenmitgliedschaften per Mail informiert.
+mail#:#mail_enable_crs_member_notification#:#Mitglieder benachrichtigen
+mail#:#mail_enable_crs_member_notification_info#:#Mitglieder erhalten automatisch eine E-Mail, wenn sich ihr Mitgliedsstatus ändert. Diese Einstellung betrifft alle Kurse der Plattform.
+mail#:#mail_enable_grp_member_notification#:#Mitglieder benachrichtigen
+mail#:#mail_enable_grp_member_notification_info#:#Mitglieder erhalten automatisch eine E-Mail, wenn sich ihr Mitgliedsstatus ändert. Diese Einstellung betrifft alle Gruppen der Plattform.
 mail#:#mail_enter_login_or_email_addr#:#Bitte geben Sie einen Benutzernamen oder eine E-Mail-Adresse ein.
 mail#:#mail_enter_valid_email_addr#:#Bitte geben Sie eine gültige E-Mail-Adresse ein.
 mail#:#mail_enter_valid_login#:#Bitte geben Sie einen gültigen Benutzernamen ein.
@@ -15546,7 +15546,8 @@ search#:#search_show_inactive_user#:#Zeige Inaktive Benutzer
 search#:#search_show_inactive_user_info#:#Inaktive Benutzer werden in der Benutzersuche angezeigt.
 search#:#search_show_limited_user#:#Zeige Begrenzte Benutzer
 search#:#search_show_limited_user_info#:#Benutzer mit begrenztem Zugang, die außerhalb ihrer zeitlichen Begrenzung sind werden in der Benutzersuche angezeigt.
-mail#:#mail_enable_crs_admin_notification#:#Standardwert Benachrichtigung neue Mitglieder
-mail#:#mail_enable_grp_admin_notification#:#Standardwert Benachrichtigung
-mail#:#mail_enable_crs_admin_notification_info#:#Standardwert für die Einstellung "Benachrichtigung über neue Mitglieder" im Reiter "Mitglieder" für administratoren in neuen Kursen.
-mail#:#mail_enable_grp_admin_notification_info#:#Standardwert für die Einstellung "Benachrichtigung" im Reiter "Mitglieder" für administratoren in neuen Gruppen.
+mail#:#mail_enable_crs_admin_notification#:#Kursadministratoren benachrichtigen
+mail#:#mail_enable_grp_admin_notification#:#Gruppenadministratoren benachrichtigen
+mail#:#mail_enable_crs_admin_notification_info#:#In neuen Kursen ist im Reiter "Mitglieder" für Kursadministratoren und -tutoren die Einstellungen "Benachrichtigung über neue Mitglieder" standardmäßig aktiviert. Sie erhalten E-Mails, wenn ein Mitglied beitritt, den Kurs verlässt oder die Mindestanzahl an Teilnehmern zur Durchführung des Kurses nicht erreicht wird.
+mail#:#mail_enable_grp_admin_notification_info#:#In neuen Gruppen ist im Reiter "Mitglieder" für Gruppenadministratoren die Einstellungen "Benachrichtigungen" standardmäßig aktiviert. Sie erhalten E-Mails, wenn ein Mitglied beitritt, die Gruppe verlässt oder die Mindestanzahl an Teilnehmern zur Durchführung der Gruppe nicht erreicht wird.
+mail#:#mail_notification_membership_section#:#Mitgliedschaften
