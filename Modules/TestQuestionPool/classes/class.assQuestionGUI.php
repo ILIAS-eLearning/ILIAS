@@ -903,6 +903,7 @@ abstract class assQuestionGUI
 		$question->setRequired(TRUE);
 		$question->setRows(10);
 		$question->setCols(80);
+		
 		if (!$this->object->getSelfAssessmentEditingMode())
 		{
 			if( $this->object->getAdditionalContentEditingMode() != assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_PAGE_OBJECT )
