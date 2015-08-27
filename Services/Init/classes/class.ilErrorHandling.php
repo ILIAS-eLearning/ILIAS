@@ -356,7 +356,7 @@ class ilErrorHandling extends PEAR
 	 */
 	protected function defaultHandler() {
 		return new CallbackHandler(function(Exception $exception, Inspector $inspector, Run $run) {
-			require_once './Services/Utilities/classes/class.ilUtil.php';
+			require_once("Services/Utilities/classes/class.ilUtil.php");
 			ilUtil::sendFailure($exception->getMessage(), true);
 			ilUtil::redirect("error.php");
 		});
