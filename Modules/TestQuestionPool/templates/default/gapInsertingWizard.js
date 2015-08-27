@@ -2,8 +2,8 @@
 var GapInsertingWizard = (function () {
 	'use strict';
 	var pub = {}, pro = { 'last_cursor_position' : 0 };
-	
-	function insertGapCodeAtCaret(object)  {
+
+	pro.insertGapCodeAtCaret = function(object)  {
 		return object.each(function() {
 			var code_start = '[' + pub.replacement_word + ']';
 			var code_end = '[/' + pub.replacement_word + ']';
@@ -33,18 +33,18 @@ var GapInsertingWizard = (function () {
 				this.focus();
 			}
 		});
-	}
+	};
 
 	pro.isTinyActive = function()
 	{
 		return 	(typeof tinyMCE !== 'undefined');
 	};
-	
+
 	pro.isTinyActiveInTextArea = function()
 	{
 		return 	(typeof tinyMCE !== 'undefined' && typeof tinyMCE.get(pub.textarea) !== 'undefined' && tinyMCE.get(pub.textarea) !== null );
 	};
-	
+
 	pro.cleanGapCode = function()
 	{
 		var text 		= pub.getTextAreaValue();
@@ -68,7 +68,7 @@ var GapInsertingWizard = (function () {
 			pub.callbackCleanGapCode();
 		}
 	};
-	
+
 	pro.createNewGapCode = function()
 	{
 		var newText = pub.getTextAreaValue();
@@ -97,7 +97,7 @@ var GapInsertingWizard = (function () {
 		pub.setTextAreaValue(newText);
 		pro.cleanGapCode();
 	};
-	
+
 	pro.getCursorPositionTiny = function(editor)
 	{
 		var bm = editor.selection.getBookmark(0);
@@ -156,7 +156,7 @@ var GapInsertingWizard = (function () {
 		var gapNumber, start;
 		var gap_length = pub.replacement_word.length + 2;
 		for (var i = 0; i < gaps_length; i = i + 1) {
-			
+
 			if( pub.show_end )
 			{
 				start = text.indexOf('[' + pub.replacement_word + ' ', end);
@@ -193,7 +193,7 @@ var GapInsertingWizard = (function () {
 			pub.callbackClickedInGap();
 		}
 	};
-		
+
 	pro.activeGapChanged = function(gap)
 	{
 		if( pub.active_gap !== gap )
@@ -208,7 +208,7 @@ var GapInsertingWizard = (function () {
 	pro.bindTextareaHandlerTiny = function()
 	{
 		var tinymce_iframe_selector =   $('.mceIframeContainer iframe').eq(1).contents().find('body');
-			tinymce_iframe_selector.on('click', function () {
+		tinymce_iframe_selector.on('click', function () {
 			var inst = tinyMCE.activeEditor;
 			pro.last_cursor_position = pro.getCursorPositionTiny(inst, false);
 			var pos = pro.cursorInGap(pro.last_cursor_position);
@@ -217,16 +217,16 @@ var GapInsertingWizard = (function () {
 				pro.clickedInGapCallbackCall();
 			}
 		});
-		
+
 		tinymce_iframe_selector.keydown(function () {
-			 /*var inst = tinyMCE.activeEditor;
+			/*var inst = tinyMCE.activeEditor;
 			 var cursorPosition = pro.getCursorPositionTiny(inst);
 			 var pos = pro.cursorInGap(cursorPosition);
-				pro.last_cursor_position = cursorPosition;
+			 pro.last_cursor_position = cursorPosition;
 			 if (pos[1] !== -1) 
 			 {
-				 pro.setCursorPositionTiny(inst,pos[1]);
-				 pro.clickedInGapCallbackCall();
+			 pro.setCursorPositionTiny(inst,pos[1]);
+			 pro.clickedInGapCallbackCall();
 			 }*/
 		});
 		tinymce_iframe_selector.keyup(function(e){
@@ -235,10 +235,10 @@ var GapInsertingWizard = (function () {
 				pro.checkDataConsitencyCallback();
 			}
 		});
-		
+
 		tinymce_iframe_selector.blur(function () {
-	        //This won't work this way
-	        //pro.checkDataConsitencyCallback();
+			//This won't work this way
+			//pro.checkDataConsitencyCallback();
 		});
 		tinymce_iframe_selector.bind('paste', function (event){
 			event.preventDefault();
@@ -252,7 +252,7 @@ var GapInsertingWizard = (function () {
 			pro.cleanGapCode();
 		});
 	};
-	
+
 	pro.checkDataConsitencyCallback = function()
 	{
 		var gaps = pub.getTextAreaValue().match(new RegExp('\\[' + pub.replacement_word + '[\\s\\S\\d]*?\\]', 'g'));
@@ -272,7 +272,7 @@ var GapInsertingWizard = (function () {
 		}
 		pro.cleanGapCode();
 	};
-	
+
 	pro.bindTextAreaHandler = function()
 	{
 		var cloze_text_selector= $('#' + pub.textarea);
@@ -287,7 +287,7 @@ var GapInsertingWizard = (function () {
 			return false;
 		});
 	};
-	
+
 	pro.appendGapTrigger = function ()
 	{
 		var selector =  $(pub.trigger_id);
@@ -295,7 +295,7 @@ var GapInsertingWizard = (function () {
 		selector.on('click', function (evt)
 		{
 			evt.preventDefault();
-			insertGapCodeAtCaret($('#' + pub.textarea));
+			pro.insertGapCodeAtCaret($('#' + pub.textarea));
 			pro.createNewGapCode();
 			return false;
 		});
@@ -332,7 +332,7 @@ var GapInsertingWizard = (function () {
 	pub.getTextAreaValue = function()
 	{
 		var text;
-		if (pro.isTinyActiveInTextArea()) 
+		if (pro.isTinyActiveInTextArea())
 		{
 			text = tinymce.get(pub.textarea).getContent();
 		}
@@ -348,6 +348,10 @@ var GapInsertingWizard = (function () {
 		var cursor, inGap;
 		if (pro.isTinyActiveInTextArea())
 		{
+			if (navigator.userAgent.indexOf('Firefox') !== -1)
+			{
+				text = text.replace(new RegExp('(<p>(&nbsp;)*<\/p>(\n)*)' , 'g'), '')
+			}
 			//ToDo: Bug in tiny steals focus on setContent (tinymce Bug #6423)
 			var inst = tinyMCE.activeEditor;
 			cursor = pro.getCursorPositionTiny(inst);
