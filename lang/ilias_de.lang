@@ -1500,7 +1500,8 @@ assessment#:#tst_dynamic_question_set_selection#:#Auswahl der Testfragen und Aus
 assessment#:#tst_dynamic_question_set_complete#:#Gesamtstatistik
 assessment#:#tst_num_all_questions#:#Anzahl aller Fragen
 assessment#:#tst_num_selected_questions#:#Anzahl ausgewählter Fragen
-assessment#:#tst_num_non_answered_questions#:#Nicht beantwortete Fragen
+assessment#:#tst_num_non_answered_questions_skipped#:#Nicht beantwortete Fragen (überblättert)
+assessment#:#tst_num_non_answered_questions_notseen#:#Nicht beantwortete Fragen (nie gesehen)
 assessment#:#tst_num_wrong_answered_questions#:#Nicht ganz richtig beantwortete Fragen
 assessment#:#tst_num_correct_answered_questions#:#Richtig beantwortete Fragen
 assessment#:#tst_num_postponed_questions#:#Zurückgestellte Fragen

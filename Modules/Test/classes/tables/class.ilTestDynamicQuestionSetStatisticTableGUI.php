@@ -70,7 +70,8 @@ class ilTestDynamicQuestionSetStatisticTableGUI extends ilTable2GUI
 		
 		$this->addColumn($this->lng->txt("tst_num_correct_answered_questions"),'num_correct_answered_questions', '');
 		$this->addColumn($this->lng->txt("tst_num_wrong_answered_questions"),'num_wrong_answered_questions', '');
-		$this->addColumn($this->lng->txt("tst_num_non_answered_questions"),'num_non_answered_questions', '');
+		$this->addColumn($this->lng->txt("tst_num_non_answered_questions_skipped"),'num_non_answered_questions_skipped', '');
+		$this->addColumn($this->lng->txt("tst_num_non_answered_questions_notseen"),'num_non_answered_questions_notseen', '');
 	}
 
 	/**
@@ -122,7 +123,8 @@ class ilTestDynamicQuestionSetStatisticTableGUI extends ilTable2GUI
 		$this->tpl->setVariable('NUM_ALL_QUESTIONS', $data['total_all']);
 		$this->tpl->setVariable('NUM_CORRECT_ANSWERED_QUESTIONS', $data['correct_answered']);
 		$this->tpl->setVariable('NUM_WRONG_ANSWERED_QUESTIONS', $data['wrong_answered']);
-		$this->tpl->setVariable('NUM_NON_ANSWERED_QUESTIONS', $data['non_answered']);
+		$this->tpl->setVariable('NUM_NON_ANSWERED_QUESTIONS_SKIPPED', $data['non_answered_skipped']);
+		$this->tpl->setVariable('NUM_NON_ANSWERED_QUESTIONS_NOTSEEN', $data['non_answered_notseen']);
 	}
 
 	/**

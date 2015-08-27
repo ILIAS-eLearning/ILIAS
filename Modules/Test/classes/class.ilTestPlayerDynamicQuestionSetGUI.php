@@ -224,13 +224,13 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		}
 		
 		$filteredData = array($this->buildQuestionSetAnswerStatisticRowArray(
-			$this->testSequence->getFilteredQuestionsData()
+			$this->testSequence->getFilteredQuestionsData(), $this->testSequence->getTrackedQuestionList()
 		)); #vd($filteredData);
 		$filteredTableGUI = $this->buildQuestionSetFilteredStatisticTableGUI();
 		$filteredTableGUI->setData($filteredData);
 
 		$completeData = array($this->buildQuestionSetAnswerStatisticRowArray(
-			$this->testSequence->getCompleteQuestionsData()
+			$this->testSequence->getCompleteQuestionsData(), $this->testSequence->getTrackedQuestionList()
 		)); #vd($completeData);
 		$completeTableGUI = $this->buildQuestionSetCompleteStatisticTableGUI();
 		$completeTableGUI->setData($completeData);
@@ -750,12 +750,13 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		return $data;
 	}
 
-	protected function buildQuestionSetAnswerStatisticRowArray($questions)
+	protected function buildQuestionSetAnswerStatisticRowArray($questions, $trackedQuestions)
 	{
 		$questionAnswerStats = array(
 			'total_all' => count($questions),
 			'total_open' => 0,
-			'non_answered' => 0,
+			'non_answered_notseen' => 0,
+			'non_answered_skipped' => 0,
 			'wrong_answered' => 0,
 			'correct_answered' => 0
 		);
@@ -765,7 +766,14 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 			switch( $value['question_answer_status'] )
 			{
 				case ilAssQuestionList::QUESTION_ANSWER_STATUS_NON_ANSWERED:
-					$questionAnswerStats['non_answered']++;
+					if( isset($trackedQuestions[$key]) )
+					{
+						$questionAnswerStats['non_answered_skipped']++;
+					}
+					else
+					{
+						$questionAnswerStats['non_answered_notseen']++;
+					}
 					$questionAnswerStats['total_open']++;
 					break;
 				case ilAssQuestionList::QUESTION_ANSWER_STATUS_WRONG_ANSWERED:
