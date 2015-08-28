@@ -31,7 +31,12 @@ class ilCronDeleteInactiveUserReminderMailNotification extends ilMimeMailNotific
 
 	public function send()
 	{
+		global $lng;
+
 		$additional_information = $this->getAdditionalInformation();
+
+		$old_val = ilDatePresentation::useRelativeDates();
+		ilDatePresentation::setUseRelativeDates(false);
 
 		foreach($this->getRecipients() as $rcp)
 		{
@@ -43,13 +48,21 @@ class ilCronDeleteInactiveUserReminderMailNotification extends ilMimeMailNotific
 			{
 				continue;
 			}
+
 			$this->initMimeMail();
 			$this->initLanguageByIso2Code();
+
+			ilDatePresentation::setLanguage($this->getLanguage());
+			$date_for_deletion = ilDatePresentation::formatDate(new ilDate($additional_information["date"], IL_CAL_UNIX));
+
 			$this->setSubject($this->getLanguage()->txt('del_mail_subject'));
-			$body = sprintf($this->getLanguage()->txt("del_mail_body"), $rcp->fullname,"\n\n",$additional_information["www"], $additional_information["days"]);
+			$body = sprintf($this->getLanguage()->txt("del_mail_body"), $rcp->fullname,"\n\n",$additional_information["www"], $date_for_deletion);
 			$this->appendBody($body);
 			$this->appendBody(ilMail::_getInstallationSignature());
 			$this->sendMimeMail($this->getCurrentRecipient());
 		}
+
+		ilDatePresentation::setUseRelativeDates($old_val);
+		ilDatePresentation::setLanguage($lng);
 	}
 } 
