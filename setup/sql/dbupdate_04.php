@@ -11086,7 +11086,7 @@ ilStudyProgrammeType::installDB();
 ilStudyProgrammeTypeTranslation::installDB();
 
 ?>
-<#4677>
+<#4742>
 <?php
 
 include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
@@ -11102,7 +11102,7 @@ $GLOBALS['ilAppEventHandler'] = new EventHandler();
 ilDBUpdateNewObjectType::addAdminNode('prgs', 'StudyProgrammeAdmin');
 
 ?>
-<#4678>
+<#4743>
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
