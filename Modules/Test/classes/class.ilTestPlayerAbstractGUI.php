@@ -991,10 +991,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			return;
 		}
 
-		$this->ctrl->setParameter($this, "sequence", $this->sequence);
-
-		if( $this->isOptionalQuestionAnsweringConfirmationRequired($this->sequence) )
+		if( $this->isOptionalQuestionAnsweringConfirmationRequired($sequenceElement) )
 		{
+			$this->ctrl->setParameter($this, "sequence", $sequenceElement);
 			$this->showAnswerOptionalQuestionsConfirmation();
 			return;
 		}
@@ -1031,6 +1030,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			$this->showSideList($presentationMode, $sequenceElement);
 		}
 	}
+	
+	abstract protected function isOptionalQuestionAnsweringConfirmationRequired($sequenceElement);
 	
 	abstract protected function isShowingPostponeStatusReguired($questionId);
 
@@ -1720,23 +1721,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	}
 	
 	abstract protected function buildTestPassQuestionList();
-
-	protected function isOptionalQuestionAnsweringConfirmationRequired($sequenceKey)
-	{
-		if( $this->testSequence->isAnsweringOptionalQuestionsConfirmed() )
-		{
-			return false;
-		}
-		
-		$questionId = $this->testSequence->getQuestionForSequence($sequenceKey);
-		
-		if( !$this->testSequence->isQuestionOptional($questionId) )
-		{
-			return false;
-		}
-		
-		return true;
-	}
 	
 	protected function showAnswerOptionalQuestionsConfirmation()
 	{

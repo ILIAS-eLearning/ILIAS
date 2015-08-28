@@ -1016,4 +1016,9 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 	{
 		return false;
 	}
+	
+	protected function isOptionalQuestionAnsweringConfirmationRequired($sequenceKey)
+	{
+		return false;
+	}
 }

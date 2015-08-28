@@ -317,6 +317,14 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 			$this->handleTearsAndAngerQuestionIsNull($questionId, $sequenceElement);
 		}
 
+		$this->ctrl->setParameter($this, "sequence", $this->sequence);
+
+		if( $this->isOptionalQuestionAnsweringConfirmationRequired($this->sequence) )
+		{
+			$this->showAnswerOptionalQuestionsConfirmation();
+			return;
+		}
+
 		$this->prepareTestPage($presentationMode, $sequenceElement, $questionId);
 
 		$navigationToolbarGUI = $this->getTestNavigationToolbarGUI();
@@ -753,6 +761,23 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 	}
 	
 	abstract protected function populateQuestionOptionalMessage();
+
+	protected function isOptionalQuestionAnsweringConfirmationRequired($sequenceKey)
+	{
+		if( $this->testSequence->isAnsweringOptionalQuestionsConfirmed() )
+		{
+			return false;
+		}
+
+		$questionId = $this->testSequence->getQuestionForSequence($sequenceKey);
+
+		if( !$this->testSequence->isQuestionOptional($questionId) )
+		{
+			return false;
+		}
+
+		return true;
+	}
 	
 	protected function isQuestionSummaryFinishTestButtonRequired()
 	{
