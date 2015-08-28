@@ -322,7 +322,9 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 	
 	function getTestOutput($active_id,
 						   $pass = NULL,
-						   $is_postponed = FALSE
+						   $is_postponed = FALSE,
+						   $use_post_solutions = FALSE,
+						   $show_feedback = FALSE
 	)
 	{
 		$user_solution = $this->getUserSolution($active_id, $pass);
