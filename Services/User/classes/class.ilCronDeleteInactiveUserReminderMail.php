@@ -28,7 +28,7 @@ class ilCronDeleteInactiveUserReminderMail
 		);
 	}
 
-	private function sendReminder(ilObjUser $user, $reminderTime)
+	private function sendReminder(ilObjUser $user, $reminderTime, $time_frame_for_deletion)
 	{
 		include_once 'Services/User/classes/class.ilCronDeleteInactiveUserReminderMailNotification.php';
 		$mail = new ilCronDeleteInactiveUserReminderMailNotification();
@@ -37,6 +37,7 @@ class ilCronDeleteInactiveUserReminderMail
 			 array(
 				 "www"  => ilUtil::_getHttpPath(),
 				 "days" => $reminderTime,
+				 "date" => $time_frame_for_deletion
 			 )
 		);
 		$mail->send();
@@ -65,7 +66,7 @@ class ilCronDeleteInactiveUserReminderMail
 		}
 	}
 
-	public static function checkIfReminderMailShouldBeSend(ilObjUser $user, $reminderTime)
+	public static function checkIfReminderMailShouldBeSend(ilObjUser $user, $reminderTime, $time_frame_for_deletion)
 	{
 		global $ilDB;
 		$query = "SELECT ts FROM " . self::TABLE_NAME . " WHERE usr_id = %s";
@@ -73,7 +74,7 @@ class ilCronDeleteInactiveUserReminderMail
 		$row   = $res->fetchRow(DB_FETCHMODE_OBJECT);
 		if($row->ts == null)
 		{
-			self::sendReminder($user, $reminderTime);
+			self::sendReminder($user, $reminderTime, $time_frame_for_deletion);
 			return true;
 		}
 		return false;
