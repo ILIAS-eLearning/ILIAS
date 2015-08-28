@@ -357,6 +357,21 @@ class ilDataCollectionRecord {
 		}
 	}
 
+	/**
+	 * @param $worksheet
+	 * @param $row
+	 * @param $col
+	 * @param $field_id
+	 */
+	public function fillRecordFieldExcelExport($worksheet, &$row, &$col, $field_id) {
+		$this->loadRecordFields();
+		if (ilDataCollectionStandardField::_isStandardField($field_id)) {
+			$worksheet->writeString($row, $col, $this->getStandardFieldHTML($field_id));
+			$col++;
+		} else {
+			$this->recordfields[$field_id]->fillExcelExport($worksheet, $row, $col);
+		}
+	}
 
 	/**
 	 * @param       $field_id

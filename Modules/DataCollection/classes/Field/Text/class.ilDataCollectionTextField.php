@@ -14,7 +14,7 @@ class ilDataCollectionTextField extends ilDataCollectionRecordField
     public function fillFormInput(&$form)
     {
         $value = $this->getValue();
-        if ($this->hasProperty([ilDataCollectionField::PROPERTYID_TEXTAREA])) {
+        if ($this->hasProperty(ilDataCollectionField::PROPERTYID_TEXTAREA)) {
             $breaks = array( "<br />" );
             $input = str_ireplace($breaks, "", $value);
         } elseif ($this->hasProperty([ilDataCollectionField::PROPERTYID_URL]) && $json = json_decode($value)) {
@@ -31,7 +31,7 @@ class ilDataCollectionTextField extends ilDataCollectionRecordField
      * @param $form ilPropertyFormGUI
      */
     public function setValueFromForm(&$form) {
-        if ($this->hasProperty([ilDataCollectionField::PROPERTYID_URL])) {
+        if ($this->hasProperty(ilDataCollectionField::PROPERTYID_URL)) {
             $value = json_encode(array(
                 "link" => $form->getInput("field_" . $this->field->getId()),
                 "title" => $form->getInput("field_" . $this->field->getId() . '_title')));
@@ -39,6 +39,41 @@ class ilDataCollectionTextField extends ilDataCollectionRecordField
             $value = $form->getInput("field_" . $this->field->getId());
         }
         $this->setValue($value);
+    }
+
+    /**
+     * @param $worksheet
+     * @param $row
+     * @param $col
+     */
+    public function fillExcelExport($worksheet, &$row, &$col) {
+        $value = $this->getExportValue();
+        if ($this->hasProperty(ilDataCollectionField::PROPERTYID_URL)) {
+            if ($value instanceof stdClass) {
+                $worksheet->writeString($row, $col, $value->link);
+                $col++;
+                $worksheet->writeString($row, $col, $value->title);
+                $col++;
+            } else {
+                $worksheet->writeString($row, $col, $value);
+                $col++;
+                $col++;
+            }
+        } else {
+            $worksheet->writeString($row, $col, $value);
+            $col++;
+        }
+    }
+
+    /**
+     * @return mixed|string
+     */
+    public function getExportValue() {
+        if ($json = json_decode($this->getValue())) {
+            return $json;
+        } else {
+            return $this->getValue();
+        }
     }
 
     /**

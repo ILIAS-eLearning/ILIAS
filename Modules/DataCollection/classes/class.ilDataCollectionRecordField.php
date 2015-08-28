@@ -205,6 +205,16 @@ class ilDataCollectionRecordField {
 		return $datatype->parseExportValue($this->getValue());
 	}
 
+	/**
+	 * @param $worksheet
+	 * @param $row
+	 * @param $col
+	 */
+	public function fillExcelExport($worksheet, &$row, &$col) {
+		$worksheet->writeString($row, $col, $this->getExportValue());
+		$col ++;
+	}
+
 
 	/**
 	 * @return mixed used for the sorting.
