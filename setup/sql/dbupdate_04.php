@@ -11040,6 +11040,51 @@ if($ilDB->tableExists('tree_workspace'))
 ?>
 <#4742>
 <?php
+if( !$ilDB->tableColumnExists('tst_active', 'last_pmode') )
+{
+	$ilDB->addTableColumn('tst_active', 'last_pmode', array(
+		'type' => 'text',
+		'length' => 16,
+		'notnull' => false,
+		'default' => null
+	));
+}
+?>
+<#4743>
+<?php
+if( !$ilDB->tableColumnExists('tst_solutions', 'authorized') )
+{
+	$ilDB->addTableColumn('tst_solutions', 'authorized', array(
+		'type' => 'integer',
+		'length' => 1,
+		'notnull' => false,
+		'default' => 1
+	));
+
+	$ilDB->queryF("UPDATE tst_solutions SET authorized = %s", array('integer'), array(1));
+}
+?>
+<#4744>
+<?php
+if( $ilDB->tableColumnExists('tst_dyn_quest_set_cfg', 'prev_quest_list_enabled') )
+{
+	$ilDB->dropTableColumn('tst_dyn_quest_set_cfg', 'prev_quest_list_enabled');
+}
+?>
+<#4745>
+<?php
+if( !$ilDB->tableColumnExists('tst_tests', 'force_inst_fb') )
+{
+	$ilDB->addTableColumn('tst_tests', 'force_inst_fb', array(
+		'type' => 'integer',
+		'length' => 1,
+		'notnull' => false,
+		'default' => 0
+	));
+}
+?>
+<#4746>
+<?php
 require_once("./Modules/StudyProgramme/classes/model/class.ilStudyProgramme.php");
 require_once("./Modules/StudyProgramme/classes/model/class.ilStudyProgrammeAssignment.php");
 require_once("./Modules/StudyProgramme/classes/model/class.ilStudyProgrammeProgress.php");
@@ -11086,7 +11131,7 @@ ilStudyProgrammeType::installDB();
 ilStudyProgrammeTypeTranslation::installDB();
 
 ?>
-<#4742>
+<#4747>
 <?php
 
 include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
@@ -11102,7 +11147,7 @@ $GLOBALS['ilAppEventHandler'] = new EventHandler();
 ilDBUpdateNewObjectType::addAdminNode('prgs', 'StudyProgrammeAdmin');
 
 ?>
-<#4743>
+<#4748>
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
