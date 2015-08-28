@@ -1,8 +1,9 @@
 <?php
-require_once("/Library/WebServer/Documents/dev/4_4_generali2_new_wbd/Services/GEV/WBD/classes/Dictionary/class.gevWBDDictionary.php");
-require_once("/Library/WebServer/Documents/dev/4_4_generali2_new_wbd/Services/GEV/WBD/classes/Requests/class.gevWBDRequest.php");
-require_once("/Library/WebServer/Documents/dev/4_4_generali2_new_wbd/Services/GEV/WBD/classes/Success/class.gevWBDSuccessVvErstanlage.php");
-require_once("/Library/WebServer/Documents/dev/4_4_generali2_new_wbd/Services/GEV/WBD/classes/Data/class.gevWBDData.php");
+chdir("/Library/WebServer/Documents/dev/4_4_generali2_new_wbd/");
+require_once("Services/GEV/WBD/classes/Dictionary/class.gevWBDDictionary.php");
+require_once("Services/GEV/WBD/classes/Requests/class.gevWBDRequest.php");
+require_once("Services/GEV/WBD/classes/Success/class.gevWBDSuccessVvErstanlage.php");
+require_once("Services/GEV/WBD/classes/Data/class.gevWBDData.php");
 class gevWBDRequestVvErstanlage extends gevWBDRequest {
 	
 	protected $address_type;
@@ -30,6 +31,8 @@ class gevWBDRequestVvErstanlage extends gevWBDRequest {
 	protected $firstname;
 	protected $wbd_type;
 	protected $training_pass;
+
+	protected $xml_tmpl_file_name;
 
 	static $request_type = "CREATE_USER";
 	static $check_szenarios = array('title' 			=> array('mandatory'=>1,
@@ -99,7 +102,7 @@ class gevWBDRequestVvErstanlage extends gevWBDRequest {
 		$this->wbd_type 			= new gevWBDData("TpKennzeichen",$this->dictionary->getWBDName($data["wbd_type"],gevWBDDictionary::SEARCH_IN_WBD_TYPE));
 		$this->training_pass 		= new gevWBDData("WeiterbildungsAusweisBeantragt",$data["training_pass"]);
 
-		$this->xml_tmpl_file = "VvErstanlage.xml";
+		$this->xml_tmpl_file_name = "VvErstanlage.xml";
 		$this->wbd_service_name = "VvErstanlageService";
 
 		$this->user_id = $data["user_id"];
@@ -116,6 +119,8 @@ class gevWBDRequestVvErstanlage extends gevWBDRequest {
 		return null;
 	}
 
+
+
 	private static function checkData($values) {
 		return self::checkSzenarios($values);
 	}
@@ -124,9 +129,5 @@ class gevWBDRequestVvErstanlage extends gevWBDRequest {
 		$this->wbd_success = new gevWBDSuccessVvErstanlage($response);
 
 		return true;
-	}
-
-	private function dataAsArray() {
-		return array($address_type);
 	}
 }

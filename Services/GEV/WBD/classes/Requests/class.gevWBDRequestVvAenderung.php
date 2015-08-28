@@ -1,8 +1,9 @@
 <?php
-require_once("/Library/WebServer/Documents/dev/4_4_generali2_new_wbd/Services/GEV/WBD/classes/Dictionary/class.gevWBDDictionary.php");
-require_once("/Library/WebServer/Documents/dev/4_4_generali2_new_wbd/Services/GEV/WBD/classes/Requests/class.gevWBDRequest.php");
-require_once("/Library/WebServer/Documents/dev/4_4_generali2_new_wbd/Services/GEV/WBD/classes/Success/class.gevWBDSuccessVvAenderung.php");
-require_once("/Library/WebServer/Documents/dev/4_4_generali2_new_wbd/Services/GEV/WBD/classes/Data/class.gevWBDData.php");
+chdir("/Library/WebServer/Documents/dev/4_4_generali2_new_wbd/");
+require_once("Services/GEV/WBD/classes/Dictionary/class.gevWBDDictionary.php");
+require_once("Services/GEV/WBD/classes/Requests/class.gevWBDRequest.php");
+require_once("Services/GEV/WBD/classes/Success/class.gevWBDSuccessVvAenderung.php");
+require_once("Services/GEV/WBD/classes/Data/class.gevWBDData.php");
 class gevWBDRequestVvAenderung extends gevWBDRequest {
 
 	protected $address_type;
@@ -27,6 +28,8 @@ class gevWBDRequestVvAenderung extends gevWBDRequest {
 	protected $wbd_agent_status;
 	protected $okz;
 	protected $firstname;
+
+	protected $xml_tmpl_file_name;
 
 	static $request_type = "UPDATE_USER";
 	static $check_szenarios = array('title' 			=> array('mandatory'=>1,

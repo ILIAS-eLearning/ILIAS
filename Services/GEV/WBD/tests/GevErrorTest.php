@@ -1,5 +1,6 @@
 <?php
-require_once("/Library/WebServer/Documents/dev/4_4_generali2_new_wbd/Services/GEV/WBD/classes/Error/class.gevWBDError.php");
+chdir("/Library/WebServer/Documents/dev/4_4_generali2_new_wbd/");
+require_once("Services/GEV/WBD/classes/Error/class.gevWBDError.php");
 class GevWBDErrorTest extends ErrorTestBase {
 	public function setUp() {
 		$this->error = new gevWBDError("Die ist ein Fehler",3251,124,0);

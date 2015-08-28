@@ -1,5 +1,6 @@
 <?php
-require_once("/Library/WebServer/Documents/dev/4_4_generali2_new_wbd/Services/GEV/WBD/classes/Success/class.gevWBDSuccessVvAenderung.php");
+chdir("/Library/WebServer/Documents/dev/4_4_generali2_new_wbd/");
+require_once("Services/GEV/WBD/classes/Success/class.gevWBDSuccessVvAenderung.php");
 class GevWBDSuccessVvAenderungTest extends SuccessTestBase {
 
 	public function setUp() {
