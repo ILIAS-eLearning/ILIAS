@@ -86,31 +86,7 @@ class gevWBDRequestVvAenderung extends gevWBDRequest {
 		$this->wbd_agent_status 	= new gevWBDData("VermittlerStatus",$this->dictionary->getWBDName($data["wbd_agent_status"],gevWBDDictionary::SERACH_IN_AGENT_STATUS));
 		$this->okz 					= new gevWBDData("VermittlungsTaetigkeit",$data["okz"]);
 		$this->firstname 			= new gevWBDData("VorName",$data["firstname"]);
-
-		/*$this->required_values = array("AdressTyp" => array("address_type",true, gevWBDDictionary::SERACH_IN_ADDRESS_TYPE)
-								 ,"AdressBemerkung" => array("address_info",false)
-								 ,"AnredeSchluessel" => array("title", true, gevWBDDictionary::SERACH_IN_GENDER)
-								 ,"AuthentifizierungsEmail" => array("email",false)
-								 ,"AuthentifizierungsTelefonnummer" => array("mobile_phone_nr",false)
-								 ,"BenachrichtigungPerEmail" => array("info_via_mail",false)
-								 ,"Emailadresse" => array("email",false)
-								 ,"Geburtsdatum" => array("birthday",false)
-								 ,"Hausnummer" => array("house_number",false)
-								 ,"InterneVermittlerId" => array("user_id",false)
-								 ,"IsoLaendercode" => array("country",false)
-								 ,"Name" => array("lastname",false)
-								 ,"Mobilfunknummer" => array("mobile_phone_nr",false)
-								 ,"Ort" => array("city",false)
-								 ,"Postleitzahl" => array("zipcode",false)
-								 ,"Strasse" => array("street",false)
-								 ,"Telefonnummer" => array("phone_nr",false)
-								 ,"Titel" => array("degree",false)
-								 ,"VermittlerId" => array("bwv_id",false)
-								 ,"VermittlerStatus" => array("wbd_agent_status",true, gevWBDDictionary::SERACH_IN_AGENT_STATUS)
-								 ,"VermittlungsTaetigkeit" => array("okz",false)
-								 ,"VorName" => array("firstname",false)
-							);*/
-
+		
 		$this->user_id = $data["user_id"];
 		$this->row_id = $data["row_id"];
 
