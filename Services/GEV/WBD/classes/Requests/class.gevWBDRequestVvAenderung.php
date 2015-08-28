@@ -47,7 +47,6 @@ class gevWBDRequestVvAenderung extends gevWBDRequest {
 									,'city' 			=> array('mandatory'=>1, 'maxlen' => 50)
 									,'street' 			=> array('mandatory'=>1, 'maxlen' => 50)
 									,'house_number' 	=> array('mandatory'=>1, 'maxlen' => 10)
-									,'email' 			=> array('mandatory' => 1)
 									,'okz' 				=> array('mandatory'=>1, 
 																 'list' => array(
 																 	'OKZ1',
@@ -56,9 +55,13 @@ class gevWBDRequestVvAenderung extends gevWBDRequest {
 																 	)
 																 )
 									,'wbd_agent_status'	=> array('mandatory'=>1)
-									,'info_via_mail'	=> array('mandatory'=>1)
-									,'user_id'			=> array('mandatory'=>1)
+									,'info_via_mail'	=> array('mandatory'=>1,'custom'=>'isBool')
+									,'user_id'			=> array('mandatory'=>1,'maxlen'=>50)
 									,'row_id'			=> array('mandatory'=>1)
+									,'address_type'		=> array('list' => array('','geschäftlich','privat','sonstiges'))
+									,'address_info'		=> array('maxlen'=>50)
+									,'country'			=> array('mandatory'=>1)
+									,'bwv_id'			=> array('mandatory'=>1)
 								);
 
 	public function __construct($data) {
@@ -86,7 +89,7 @@ class gevWBDRequestVvAenderung extends gevWBDRequest {
 		$this->wbd_agent_status 	= new gevWBDData("VermittlerStatus",$this->dictionary->getWBDName($data["wbd_agent_status"],gevWBDDictionary::SERACH_IN_AGENT_STATUS));
 		$this->okz 					= new gevWBDData("VermittlungsTaetigkeit",$data["okz"]);
 		$this->firstname 			= new gevWBDData("VorName",$data["firstname"]);
-		
+
 		$this->user_id = $data["user_id"];
 		$this->row_id = $data["row_id"];
 

@@ -15,6 +15,11 @@ class gevWBDData implements WBDData{
 
 	public function __construct($WBDTagName,$WBDValue) {
 		$this->WBDTagName = $WBDTagName;
+
+		if(is_bool($WBDValue)) {
+			$WBDValue = ($WBDValue) ? "ja" : "nein";
+		}
+
 		$this->WBDValue = $WBDValue;
 	}
 

@@ -23,6 +23,7 @@ abstract class gevWBDRequest extends WBDRequest {
 	/**
 	* replaces the placeholder with mapped values
 	*
+	* @param string 	$template 	XML Template String
 	* @return string 				XML String with replaced palceholders
 	*/
 	public function replaceArguments($template) {
@@ -31,16 +32,8 @@ abstract class gevWBDRequest extends WBDRequest {
 
 		foreach ($props as $key => $value) {
 			if($this->{$value->name} instanceof gevWBDData) {
-
-				$WBDValue = $this->{$value->name}->WBDValue();
-				$WBDTagName = $this->{$value->name}->WBDTagName();
-
-				if(is_bool($WBDValue)) {
-					$WBDValue = ($WBDValue) ? "ja" : "nein";
-				}
-
-				$template = str_replace("{".$WBDTagName."}"
-									, $WBDValue
+				$template = str_replace("{".$this->{$value->name}->WBDTagName()."}"
+									, $this->{$value->name}->WBDValue()
 									, $template);
 			}
 		}

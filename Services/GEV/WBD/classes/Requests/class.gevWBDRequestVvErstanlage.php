@@ -42,7 +42,7 @@ class gevWBDRequestVvErstanlage extends gevWBDRequest {
 									,'degree' 			=> array('maxlen' => 30)
 									,'firstname' 		=> array('mandatory'=>1, 'maxlen' => 30)
 									,'lastname' 		=> array('mandatory'=>1, 'maxlen' => 50)
-									,'birthday' 		=> array('custom' => 'datebefore2000')
+									,'birthday' 		=> array('mandatory'=>1,'custom' => 'datebefore2000')
 									,'email' 			=> array('mandatory' => 1)
 									,'mobile_phone_nr' 	=> array('custom' => 'regexpMobilePhone')
 									,'phone_nr'	 		=> array('custom' => 'regexpPhone')
@@ -50,7 +50,6 @@ class gevWBDRequestVvErstanlage extends gevWBDRequest {
 									,'city' 			=> array('mandatory'=>1, 'maxlen' => 50)
 									,'street' 			=> array('mandatory'=>1, 'maxlen' => 50)
 									,'house_number' 	=> array('mandatory'=>1, 'maxlen' => 10)
-									,'email' 			=> array('mandatory' => 1)
 									,'okz' 				=> array('mandatory'=>1, 
 																 'list' => array(
 																 	'OKZ1',
@@ -60,12 +59,15 @@ class gevWBDRequestVvErstanlage extends gevWBDRequest {
 																 )
 									,'wbd_agent_status'	=> array('mandatory'=>1)
 									,'wbd_type'			=> array('mandatory'=>1)
-									,'send_data'		=> array('mandatory'=>1)
-									,'data_secure'		=> array('mandatory'=>1)
-									,'info_via_mail'	=> array('mandatory'=>1)
-									,'training_pass'	=> array('mandatory'=>1)
-									,'user_id'			=> array('mandatory'=>1)
+									,'training_pass'	=> array('mandatory'=>1,'custom'=>'isBool')
+									,'user_id'			=> array('mandatory'=>1,'maxlen'=>50)
 									,'row_id'			=> array('mandatory'=>1)
+									,'address_info'		=> array('maxlen'=>50)
+									,'send_data'		=> array('mandatory'=>1,'custom'=>'isBool')
+									,'data_secure'		=> array('mandatory'=>1,'custom'=>'isBool')
+									,'info_via_mail'	=> array('mandatory'=>1,'custom'=>'isBool')
+									,'country'			=> array('mandatory'=>1)
+									,'address_type'		=> array('list' => array('','geschäftlich','privat','sonstiges'))
 								);
 
 	public function __construct($data) {
