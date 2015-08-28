@@ -11038,3 +11038,43 @@ if($ilDB->tableExists('tree_workspace'))
 	$ilDB->addPrimaryKey('tree_workspace', array('child'));
 }
 ?>
+<#4742>
+<?php
+
+if(!$ilDB->tableColumnExists("obj_members", "admin"))
+{
+        $ilDB->addTableColumn(
+				"obj_members", 
+				"admin", 
+				array(
+					'type' => 'integer',
+					'length' => 1,
+					'notnull' => FALSE,
+					'default' => 0
+        ));
+}
+if(!$ilDB->tableColumnExists("obj_members", "tutor"))
+{
+        $ilDB->addTableColumn(
+				"obj_members", 
+				"tutor", 
+				array(
+					'type' => 'integer',
+					'length' => 1,
+					'notnull' => FALSE,
+					'default' => 0
+        ));
+}
+if(!$ilDB->tableColumnExists("obj_members", "member"))
+{
+        $ilDB->addTableColumn(
+				"obj_members", 
+				"member", 
+				array(
+					'type' => 'integer',
+					'length' => 2,
+					'notnull' => FALSE,
+					'default' => 0
+        ));
+}
+?>
