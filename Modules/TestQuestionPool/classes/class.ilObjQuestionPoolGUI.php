@@ -224,7 +224,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			case "ilquestionpoolexportgui":
 				require_once 'Modules/TestQuestionPool/classes/class.ilQuestionPoolExportGUI.php';
 				$exp_gui = new ilQuestionPoolExportGUI($this);
-				$exp_gui->addFormat('zip', $this->lng->txt('qpl_export_xml'), $this, 'createExportQTI');
+				$exp_gui->addFormat('xml', $this->lng->txt('qpl_export_xml'));
 				$exp_gui->addFormat('xls', $this->lng->txt('qpl_export_excel'), $this, 'createExportExcel');
 				$ret = $this->ctrl->forwardCommand($exp_gui);
 				break;
@@ -655,6 +655,20 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$newObj->setPermissions($_GET["ref_id"]);
 			// notify the questionpool object and all its parent objects that a "new" object was created
 			$newObj->notify("new",$_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$newObj->getRefId());
+		}
+
+		if (is_file($_SESSION["qpl_import_dir"].'/'.$_SESSION["qpl_import_subdir"]."/manifest.xml"))
+		{
+			$fileName = $_SESSION["qpl_import_subdir"].'.zip';
+			$fullPath = $_SESSION["qpl_import_dir"].'/'.$fileName;
+			
+			include_once("./Services/Export/classes/class.ilImport.php");
+			$imp = new ilImport((int) $_GET["ref_id"]);
+			$map = $imp->getMapping();
+			$map->addMapping("Modules/TestQuestionPool", "qpl", "new_id", $newObj->getId());
+			$imp->importObject($newObj, $fullPath, $fileName, "qpl", "Modules/TestQuestionPool", true);
+			ilUtil::sendSuccess($this->lng->txt("object_imported"),true);
+			ilUtil::redirect("ilias.php?ref_id=".$newObj->getRefId()."&baseClass=ilObjQuestionPoolGUI");
 		}
 
 		// start parsing of QTI files
@@ -1208,22 +1222,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			ilUtil::sendInfo($this->lng->txt("qpl_move_select_none"), true);
 		}
 		$this->ctrl->redirect($this, "questions");
-	}
-	
-	/**
-	* create export file
-	*/
-	function createExportQTI()
-	{
-		global $rbacsystem;
-		if ($rbacsystem->checkAccess("write", $_GET['ref_id']))
-		{
-			include_once("./Modules/TestQuestionPool/classes/class.ilQuestionpoolExport.php");
-			$question_ids =& $this->object->getAllQuestionIds();
-			$qpl_exp = new ilQuestionpoolExport($this->object, 'xml', $question_ids);
-			$qpl_exp->buildExportFile();
-			$this->ctrl->redirectByClass("ilquestionpoolexportgui", "");
-		}
 	}
 
 	function createExportExcel()
