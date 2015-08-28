@@ -171,6 +171,7 @@ abstract class ilParticipant
 		switch(substr($title, 0, 8))
 		{
 			case 'il_crs_a':
+			case 'il_grp_a':
 				return self::MEMBERSHIP_ADMIN;
 				
 			case 'il_crs_t':
