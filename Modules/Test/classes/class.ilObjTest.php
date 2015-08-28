@@ -566,6 +566,11 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 	/**
 	 * @var bool
 	 */
+	protected $forceInstantFeedbackEnabled;
+
+	/**
+	 * @var bool
+	 */
 	protected $testFinalBroken;
 	
 	#endregion
@@ -1383,6 +1388,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 				'show_grading_status'        => array('integer', (int)$this->isShowGradingStatusEnabled()),
 				'show_grading_mark'          => array('integer', (int)$this->isShowGradingMarkEnabled()),
 				'inst_fb_answer_fixation'    => array('integer', (int)$this->isInstantFeedbackAnswerFixationEnabled()),
+				'force_inst_fb' => array('integer', (int)$this->isForceInstantFeedbackEnabled()),
 				'broken'                     => array('integer', (int)$this->isTestFinalBroken())
 			));
 				    
@@ -1503,6 +1509,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 						'show_grading_status'        => array('integer', (int)$this->isShowGradingStatusEnabled()),
 						'show_grading_mark'          => array('integer', (int)$this->isShowGradingMarkEnabled()),
 						'inst_fb_answer_fixation'    => array('integer', (int)$this->isInstantFeedbackAnswerFixationEnabled()),
+						'force_inst_fb' => array('integer', (int)$this->isForceInstantFeedbackEnabled()),
 						'broken'                     => array('integer', (int)$this->isTestFinalBroken())
 					),
 					array(
@@ -1997,6 +2004,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 			$this->setShowGradingStatusEnabled((bool)$data->show_grading_status);
 			$this->setShowGradingMarkEnabled((bool)$data->show_grading_mark);
 			$this->setInstantFeedbackAnswerFixationEnabled((bool)$data->inst_fb_answer_fixation);
+			$this->setForceInstantFeedbackEnabled((bool)$data->force_inst_fb);
 			$this->setTestFinalBroken((bool)$data->broken);
 			$this->loadQuestions();
 		}
@@ -6003,6 +6011,12 @@ function getAnswerFeedbackPoints()
 				case "instant_verification":
 					$this->setInstantFeedbackSolution($metadata["entry"]);
 					break;
+				case "instant_feedback_answer_fixation":
+					$this->setInstantFeedbackAnswerFixationEnabled((bool)$metadata["entry"]);
+					break;
+				case "force_instant_feedback":
+					$this->setForceInstantFeedbackEnabled((bool)$metadata["entry"]);
+					break;
 				case "answer_feedback_points":
 					$this->setAnswerFeedbackPoints($metadata["entry"]);
 					break;
@@ -6408,6 +6422,19 @@ function getAnswerFeedbackPoints()
 		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getAnswerFeedbackPoints()));
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
 
+		// instant response answer freezing
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "instant_feedback_answer_fixation");
+		$a_xml_writer->xmlElement("fieldentry", NULL, (int)$this->isInstantFeedbackAnswerFixationEnabled());
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
+		// instant response forced
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "force_instant_feedback");
+		$a_xml_writer->xmlElement("fieldentry", NULL, (int)$this->isForceInstantFeedbackEnabled());
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+		
+		
 		// highscore
 		$highscore_metadata = array(
 			'highscore_enabled'     => array('value' => $this->getHighscoreEnabled()),
@@ -7309,6 +7336,7 @@ function getAnswerFeedbackPoints()
 		$newObj->setSkillServiceEnabled($this->isSkillServiceEnabled());
 		$newObj->setResultFilterTaxIds($this->getResultFilterTaxIds());
 		$newObj->setInstantFeedbackAnswerFixationEnabled($this->isInstantFeedbackAnswerFixationEnabled());
+		$newObj->setForceInstantFeedbackEnabled($this->isForceInstantFeedbackEnabled());
 		$newObj->saveToDb();
 		
 		// clone certificate
@@ -9807,6 +9835,7 @@ function getAnswerFeedbackPoints()
 			'show_grading_mark'          => (int)$this->isShowGradingMarkEnabled(),
 
 			'inst_fb_answer_fixation' => $this->isInstantFeedbackAnswerFixationEnabled(),
+			'force_inst_fb'           => $this->isForceInstantFeedbackEnabled(),
 			'redirection_mode'        => $this->getRedirectionMode(),
 			'redirection_url'         => $this->getRedirectionUrl(),
 			'sign_submission'         => $this->getSignSubmission(),
@@ -9968,6 +9997,7 @@ function getAnswerFeedbackPoints()
 		$this->setShowGradingMarkEnabled((bool)$testsettings['show_grading_mark']);
 
 		$this->setInstantFeedbackAnswerFixationEnabled($testsettings['inst_fb_answer_fixation']);
+		$this->setForceInstantFeedbackEnabled($testsettings['force_inst_fb']);
 		$this->setRedirectionMode($testsettings['redirection_mode']);
 		$this->setRedirectionUrl($testsettings['redirection_url']);
 
@@ -10842,7 +10872,6 @@ function getAnswerFeedbackPoints()
 				$this->setSpecificAnswerFeedback(	in_array('instant_feedback_specific', $options) ? 1 : 0);
 				$this->setAnswerFeedbackPoints(		in_array('instant_feedback_points',   $options) ? 1 : 0);
 				$this->setInstantFeedbackSolution(	in_array('instant_feedback_solution', $options) ? 1 : 0);
-				$this->setInstantFeedbackAnswerFixationEnabled(	in_array('instant_feedback_answer_fixation', $options) ? true : false);
         	}
 			else
 			{
@@ -10850,7 +10879,6 @@ function getAnswerFeedbackPoints()
 				$this->setSpecificAnswerFeedback(0);
 				$this->setAnswerFeedbackPoints(0);
 				$this->setInstantFeedbackSolution(0);
-				$this->setInstantFeedbackAnswerFixationEnabled(false);
 			}
 		}
 
@@ -12112,6 +12140,22 @@ function getAnswerFeedbackPoints()
 	public function isInstantFeedbackAnswerFixationEnabled()
 	{
 		return $this->instantFeedbackAnswerFixationEnabled;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isForceInstantFeedbackEnabled()
+	{
+		return $this->forceInstantFeedbackEnabled;
+	}
+
+	/**
+	 * @param boolean $forceInstantFeedbackEnabled
+	 */
+	public function setForceInstantFeedbackEnabled($forceInstantFeedbackEnabled)
+	{
+		$this->forceInstantFeedbackEnabled = $forceInstantFeedbackEnabled;
 	}
 
 	public static function ensureParticipantsLastActivePassFinished($testObjId, $userId, $a_force_new_run = FALSE)

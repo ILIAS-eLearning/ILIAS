@@ -351,10 +351,10 @@ assessment#:#result#:#Результат
 assessment#:#save_before_upload_imagemap#:#Ви маєте прийняти ваші зміни перед тим як завантажувати карту зображення!
 assessment#:#save_before_upload_javaapplet#:#Ви маєте прийняти ваші зміни перед тим як завантажувати ява аплет!
 assessment#:#save_edit#:#Зберегти та редагувати вміст
-assessment#:#save_finish#:#Закінчити тест
+assessment#:#finish_test#:#Закінчити тест
 assessment#:#save_introduction#:#Перейти до передмови
-assessment#:#save_next#:#Наступне
-assessment#:#save_previous#:#Попереднє
+assessment#:#next_question#:#Наступне
+assessment#:#previous_question#:#Попереднє
 assessment#:#save_text_answer_points#:#Зберегти пункти текстового питання###25 Jun 2005 content changed
 assessment#:#search_found_groups#:#Знайти групи
 assessment#:#search_found_users#:#Знайти користувачів

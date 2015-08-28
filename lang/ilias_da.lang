@@ -3122,10 +3122,10 @@ assessment#:#save_before_upload_imagemap#:#Du skal tilføje dine ændringer før
 assessment#:#save_before_upload_javaapplet#:#Du skal tilføje dine ændringer før du kan uploade et Java applet!
 assessment#:#save_edit#:#Gem og ændre indhold
 assessment#:#mark_tst_ects#:#Din ECTS karakter er &quot;[markects]&quot;
-assessment#:#save_finish#:#Afslut testen
+assessment#:#finish_test#:#Afslut testen
 assessment#:#save_introduction#:#Gå til introduktion
-assessment#:#save_next#:#Næste
-assessment#:#save_previous#:#Tidligere
+assessment#:#next_question#:#Næste
+assessment#:#previous_question#:#Tidligere
 assessment#:#save_text_answer_points#:#Gem point i tekstspørgsmål
 assessment#:#scored_pass#:#Scoret forsøg
 assessment#:#scoring#:#Scoring###25 10 2006 new variable
