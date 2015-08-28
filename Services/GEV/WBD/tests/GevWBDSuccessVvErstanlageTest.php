@@ -48,4 +48,20 @@ class GevWBDSuccessVvErstanlageTest extends SuccessTestBase {
 		$success = new gevWBDSuccessVvErstanlage($xml);
 		$this->assertNotInstanceOf("gevWBDSuccessVvErstanlage",$success);
 	}
+
+	public function test_internalAgentId() {
+		$this->assertInternalType("int", $this->success->internalAgentId());
+	}
+
+	public function test_agentId() {
+		$this->assertInternalType("string", $this->success->agentId());
+	}
+
+	public function test_createDate() {
+		$this->assertInstanceOf("ilDate", $this->success->createDate());
+	}
+
+	public function test_beginOfCertificationPeriod() {
+		$this->assertInstanceOf("ilDate", $this->success->beginOfCertificationPeriod());
+	}
 }
