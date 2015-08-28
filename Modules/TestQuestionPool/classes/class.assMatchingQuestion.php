@@ -884,7 +884,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	 * @param boolean $returndetails (deprecated !!)
 	 * @return integer/array $points/$details (array $details is deprecated !!)
 	 */
-	public function calculateReachedPoints($active_id, $pass = NULL, $returndetails = FALSE)
+	public function calculateReachedPoints($active_id, $pass = NULL, $authorizedSolution = true, $returndetails = FALSE)
 	{
 		if( $returndetails )
 		{
@@ -898,7 +898,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		{
 			$pass = $this->getSolutionMaxPass($active_id);
 		}
-		$result = $this->getCurrentSolutionResultSet($active_id, $pass);
+		$result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorizedSolution);
 		while ($data = $ilDB->fetchAssoc($result))
 		{
 			if (strcmp($data["value1"], "") != 0)
@@ -1148,7 +1148,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	 * @param integer $pass Test pass
 	 * @return boolean $status
 	 */
-	public function saveWorkingData($active_id, $pass = NULL)
+	public function saveWorkingData($active_id, $pass = NULL, $authorized = true)
 	{
 		global $ilDB;
 
@@ -1167,13 +1167,13 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 			
 			$this->getProcessLocker()->requestUserSolutionUpdateLock();
 
-			$affectedRows = $this->removeCurrentSolution($active_id, $pass);
+			$affectedRows = $this->removeCurrentSolution($active_id, $pass, $authorized);
 
 			foreach( $submittedMatchings as $definition => $terms )
 			{
 				foreach( $terms as $i => $term )
 				{
-					$affectedRows = $this->saveCurrentSolution($active_id, $pass, $term, $definition);
+					$affectedRows = $this->saveCurrentSolution($active_id, $pass, $term, $definition, $authorized);
 
 					$matchingsExist = true;
 				}

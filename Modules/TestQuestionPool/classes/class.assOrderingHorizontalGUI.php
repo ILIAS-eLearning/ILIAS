@@ -134,22 +134,29 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
 		// get the solution of the user for the active pass or from the last pass if allowed
 		$template = new ilTemplate("tpl.il_as_qpl_orderinghorizontal_output_solution.html", TRUE, TRUE, "Modules/TestQuestionPool");
 
-		$solutionvalue = "";
+		//$solutionvalue = "";
 		if (($active_id > 0) && (!$show_correct_solution))
 		{
 			$solutions =& $this->object->getSolutionValues($active_id, $pass);
 			if (strlen($solutions[0]["value1"]))
 			{
 				$elements = split("{::}", $solutions[0]["value1"]);
-				foreach ($elements as $id => $element)
-				{
-					$template->setCurrentBlock("element");
-					$template->setVariable("ELEMENT_ID", "sol_e_" . $this->object->getId() . "_$id");
-					$template->setVariable("ELEMENT_VALUE", ilUtil::prepareFormOutput($element));
-					$template->parseCurrentBlock();
-				}
 			}
-			$solutionvalue = str_replace("{::}", " ", $solutions[0]["value1"]);
+
+			if( !count($elements) )
+			{
+				$elements = $this->object->getRandomOrderingElements();
+			}
+
+			foreach ($elements as $id => $element)
+			{
+				$template->setCurrentBlock("element");
+				$template->setVariable("ELEMENT_ID", "sol_e_" . $this->object->getId() . "_$id");
+				$template->setVariable("ELEMENT_VALUE", ilUtil::prepareFormOutput($element));
+				$template->parseCurrentBlock();
+			}
+
+			//$solutionvalue = str_replace("{::}", " ", $solutions[0]["value1"]);
 		}
 		else
 		{
@@ -161,7 +168,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
 				$template->setVariable("ELEMENT_VALUE", ilUtil::prepareFormOutput($element));
 				$template->parseCurrentBlock();
 			}
-			$solutionvalue = join($this->object->getOrderingElements(), " ");
+			//$solutionvalue = join($this->object->getOrderingElements(), " ");
 		}
 
 		if (($active_id > 0) && (!$show_correct_solution))
@@ -291,7 +298,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
 			{
 				if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
 			}
-			$solutions =& $this->object->getSolutionValues($active_id, $pass);
+			$solutions = $this->object->getUserSolutionPreferingIntermediate($active_id, $pass);
 			if (count($solutions) == 1)
 			{
 				$elements = split("{::}", $solutions[0]["value1"]);

@@ -797,12 +797,12 @@ assessment#:#result_unsuccessful_saved#:#Ocurrió un error al guardar los result
 assessment#:#save_before_upload_imagemap#:#Debe aplicar los cambios antes de poder enviar un mapa de imagen!
 assessment#:#save_before_upload_javaapplet#:#Debe aplicar los cambios antes de poder enviar un applet java!
 assessment#:#save_edit#:#Grabar y editar contenido
-assessment#:#save_finish#:#Grabar y finalizar el test
+assessment#:#finish_test#:#Grabar y finalizar el test
 assessment#:#save_introduction#:#Grabar e ¿ir a la introducción?
-assessment#:#save_next#:#Grabar y pasar a la pregunta siguiente
+assessment#:#next_question#:#Grabar y pasar a la pregunta siguiente
 assessment#:#saveOrderAndObligations#:#Guardar ordenación y elementos obligatorios
 assessment#:#saveOrder#:#Guardar orden
-assessment#:#save_previous#:#Grabar y pasar a la pregunta anterior
+assessment#:#previous_question#:#Grabar y pasar a la pregunta anterior
 assessment#:#save_text_answer_points#:#Grabar puntuación de la pregunta de texto
 assessment#:#scored_pass#:#Puntuación alcanzada
 assessment#:#scoring#:#Puntuación

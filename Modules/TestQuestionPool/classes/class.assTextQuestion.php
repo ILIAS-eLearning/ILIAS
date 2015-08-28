@@ -572,7 +572,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 	 * @param boolean $returndetails (deprecated !!)
 	 * @return integer/array $points/$details (array $details is deprecated !!)
 	 */
-	public function calculateReachedPoints($active_id, $pass = NULL, $returndetails = FALSE)
+	public function calculateReachedPoints($active_id, $pass = NULL, $authorizedSolution = true, $returndetails = FALSE)
 	{
 		if( $returndetails )
 		{
@@ -586,11 +586,8 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 		{
 			$pass = $this->getSolutionMaxPass($active_id);
 		}
-		
-		$result = $ilDB->queryF("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-			array('integer','integer','integer'),
-			array($active_id, $this->getId(), $pass)
-		);
+
+		$result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorizedSolution);
 		
 		// Return min points when no answer was given.
 		if ($ilDB->numRows($result) == 0)
@@ -616,7 +613,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 	 * @param integer $pass Test pass
 	 * @return boolean $status
 	 */
-	public function saveWorkingData($active_id, $pass = NULL)
+	public function saveWorkingData($active_id, $pass = NULL, $authorized = true)
 	{
 		global $ilDB;
 		global $ilUser;
@@ -630,26 +627,14 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 
 		$this->getProcessLocker()->requestUserSolutionUpdateLock();
 
-		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-			array('integer','integer','integer'),
-			array($active_id, $this->getId(), $pass)
-		);
+		$this->removeCurrentSolution($active_id, $pass, $authorized);
 		
 		$text = $this->getSolutionSubmit();
 		
 		$entered_values = 0;
 		if (strlen($text))
 		{
-			$next_id = $ilDB->nextId('tst_solutions');
-			$affectedRows = $ilDB->insert("tst_solutions", array(
-				"solution_id" => array("integer", $next_id),
-				"active_fi" => array("integer", $active_id),
-				"question_fi" => array("integer", $this->getId()),
-				"value1" => array("clob", trim($text)),
-				"value2" => array("clob", null),
-				"pass" => array("integer", $pass),
-				"tstamp" => array("integer", time())
-			));
+			$this->saveCurrentSolution($active_id, $pass, trim($text), null, $authorized);
 			$entered_values++;
 		}
 

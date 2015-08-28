@@ -36,4 +36,11 @@ class ilTestPlayerRandomQuestionSetGUI extends ilTestOutputGUI
 
 		return $questionList;
 	}
+
+	protected function populateQuestionOptionalMessage()
+	{
+		$info = $this->lng->txt('tst_wf_info_optional_question');
+		$info .= ' '.$this->lng->txt('tst_wf_info_answer_not_adopted');
+		ilUtil::sendInfo($info);
+	}
 }
