@@ -7,6 +7,7 @@ require_once 'class.ilDataCollectionRecord.php';
 require_once 'class.ilDataCollectionField.php';
 require_once 'class.ilDataCollectionRecordViewGUI.php';
 require_once("./Services/Link/classes/class.ilLink.php");
+require_once("./Modules/DataCollection/classes/class.ilDataCollectionImporter.php");
 
 /**
  * Class ilDataCollectionField
@@ -124,11 +125,10 @@ class ilDataCollectionReferenceField extends ilDataCollectionRecordField {
 
 	public function getValueFromExcel($excel, $row, $col){
 		global $lng;
-		$warning = array();
 		$value = $excel->val($row, $col);
 		$value = utf8_encode($value);
 		$old = $value;
-		$value = $this->getReferenceFromValue($this->field, $value);
+		$value = $this->getReferenceFromValue($value);
 		if (!$value) {
 			$warning = "(" . $col . ", " . ilDataCollectionImporter::getExcelCharForInteger($col) . ") " . $lng->txt("dcl_no_such_reference") . " "
 				. $old;
@@ -145,8 +145,8 @@ class ilDataCollectionReferenceField extends ilDataCollectionRecordField {
 	 *
 	 * @return int
 	 */
-	public function getReferenceFromValue($field, $value) {
-		$field = ilDataCollectionCache::getFieldCache($field->getFieldRef());
+	public function getReferenceFromValue($value) {
+		$field = ilDataCollectionCache::getFieldCache($this->field->getFieldRef());
 		$table = ilDataCollectionCache::getTableCache($field->getTableId());
 		$record_id = 0;
 		foreach ($table->getRecords() as $record) {

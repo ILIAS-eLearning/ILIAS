@@ -249,6 +249,13 @@ class ilDataCollectionRecordEditGUI {
 						case ilDataCollectionDatatype::INPUTFORMAT_DATETIME:
 							$options[$record->getId()] = $record->getRecordFieldSingleHTML($fieldref);
 							break;
+						case ilDataCollectionDatatype::INPUTFORMAT_TEXT:
+							$value = $record->getRecordFieldValue($fieldref);
+							if ($json = json_decode($value)) {
+								$value = $json->title? $json->title : $json->link;
+							}
+							$options[$record->getId()] = $value;
+							break;
 						default:
 							$options[$record->getId()] = $record->getRecordFieldValue($fieldref);
 							break;

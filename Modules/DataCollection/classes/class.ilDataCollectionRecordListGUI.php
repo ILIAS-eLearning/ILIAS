@@ -329,6 +329,7 @@ class ilDataCollectionRecordListGUI {
 						$warnings[] = $value['warning'];
 						$value = '';
 					}
+
 					$field->checkValidity($value, $record->getId());
 					if (!$simulate) {
 						$record->setRecordFieldValue($field->getId(), $value);
@@ -408,11 +409,9 @@ class ilDataCollectionRecordListGUI {
 				foreach ($titles as $key => $value) {
 					if ($value == $field->getTitle()) {
 						$import_fields[$key] = $field;
-						if ($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_TEXT) {
-							$properties = $field->getProperties();
-							if ($properties[ilDataCollectionField::PROPERTYID_URL] && $titles[$key+1] == $field->getTitle().'_title') {
-								unset($titles[$key+1]);
-							}
+						$properties = $field->getProperties();
+						if ($properties[ilDataCollectionField::PROPERTYID_URL] && $titles[$key+1] == $field->getTitle().'_title') {
+							unset($titles[$key+1]);
 						}
 					}
 				}
