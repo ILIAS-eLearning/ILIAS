@@ -3335,6 +3335,7 @@ common#:#mails#:#Mails
 common#:#main_menu_frame#:#Top Level Menu
 common#:#main_menu#:#Main Menu
 common#:#manage_tracking_data#:#Manage Tracking Data
+common#:#manage_members#:#Manage Members
 common#:#mark_all_read#:#Mark All as Read
 common#:#mark_all_unread#:#Mark All as Unread
 common#:#marked_entries#:#Marked Entries
@@ -3814,6 +3815,7 @@ common#:#objs_mep#:#Media Pools
 common#:#objs_mob#:#Media Objects
 common#:#objs_note#:#Notes
 common#:#objs_pg#:#Pages
+common#:#objs_prg#:#Study Programmes
 common#:#objs_qpl#:#Question Pools Test
 common#:#objs_qst#:#Questions
 common#:#objs_rcrs#:#ECS Courses
@@ -15899,3 +15901,82 @@ mail#:#mail_enable_grp_admin_notification#:#Notify Group Administrators
 mail#:#mail_enable_crs_admin_notification_info#:#In new courses the setting 'Notification About New Members' will be activated by default. It is set in the 'Member'-tab of courses. Course administrators will receive an e-mail when a member joins the course or leaves it or if the minimally required number of participants is not met the course needs to take place.
 mail#:#mail_enable_grp_admin_notification_info#:#In new groups the setting 'Notification' will be activated by default. It is set in the 'Member'-tab of groups. Course administrators will receive an e-mail when a member joins the group or leaves it or if the minimally required number of participants is not met the group needs to take place.
 mail#:#mail_notification_membership_section#:#Membership
+prg#:#prg_new#:#New Study Programme
+prg#:#prg_add#:#Add Study Programme
+prg#:#prg_edit#:#Edit Study Programme
+prg#:#prg_type#:#Study Programme Type
+prg#:#prg_view_tree#:#Tree View
+prg#:#prg_assessment#:#Study Programme Assessment
+prg#:#prg_points#:#Points
+prg#:#prg_status#:#Status
+prg#:#prg_status_draft#:#Draft
+prg#:#prg_status_active#:#Active
+prg#:#prg_status_outdated#:#Outdated
+prg#:#prg_status_in_progress#:#In Progress
+prg#:#prg_status_completed#:#Completed
+prg#:#prg_status_accredited#:#Accredited
+prg#:#prg_status_not_relevant#:#Not Relevant
+prg#:#prg_possible#:#Possible
+prg#:#prg_completion_by#:#Completion by
+prg#:#prg_changed_by#:#Changed by
+prg#:#prg_manual_status#:#Manual Status
+prg#:#prg_points_required#:#Points Required
+prg#:#prg_points_current#:#Points Current
+prg#:#prg_custom_plan#:#Custom Plan
+prg#:#prg_belongs_to#:#Belongs to
+prg#:#prg_show_individual_plan#:#Show Individual Plan
+prg#:#prg_remove_user#:#Remove User
+prg#:#prg_mark_accredited#:#Mark Accredited
+prg#:#prg_unmark_accredited#:#Unmark Accredited
+prg#:#prg_mark_accredited_success#:#Accredited Program Node for User successfully.
+prg#:#prg_unmark_accredited_success#:#Unaccredited Program Node for User successfully.
+prg#:#prg_remove_user_success#:#Removed User successfully.
+prg#:#prg_type_add#:#Study Programme Type
+prg#:#prg_subtypes#:#Subtypes
+prg#:#prg_subtype_add#:#Add new subtype
+prg#:#prg_adv_settings#:#Advanced Settings
+prg#:#prg_type_custom_icon#:#Custom Icons
+prg#:#prg_type_custom_icon_info#:#Custom icon info
+prg#:#prg_type_msg_error_custom_icon#:#Error while storing icon
+prg#:#prg_type_assign_amd_sets#:#Assign advanced metadata sets
+prg#:#prg_type_available_amd_sets#:#Available Advanced Metadata sets
+prg#:#prg_type_edit#:#Edit subtype
+prg#:#prg_type_msg_deleted#:#Deleted subtype
+prg#:#prg_type_msg_unable_delete#:#Unable to delete type because it is still assigned to the following Study Programmes: %s
+prg#:#prg_type_msg_missing_title_default_language#:#There must be set a default language and a title for the default language
+prg#:#prg_save_tree_order#:#Save tree order
+prg#:#prg_cancel_tree_order#:#Dismiss tree order
+prg#:#prg_saved_order_successful#:#Saved order successful
+prg#:#prg_async_settings#:#Settings
+prg#:#prg_open_node#:#Switch to this node
+prg#:#prg_async_create#:#Add new tree-child
+prg#:#prg_create_new_node#:#Create new node
+prg#:#prg_create_new_leaf#:#Create new leaf
+prg#:#prg_please_select_a_course_for_creating_a_leaf#:#Please select a course for creating a course-reference leaf
+prg#:#prg_deleted_safely#:#Node was deleted safely
+prg#:#prg_not_allowed_node_to_delete#:#You are not allowed to delete this node
+prg#:#prg_added_course_ref_successful#:#New course-reference was added successfully
+prg#:#prg_manage#:#Manage
+prg#:#prg_view#:#View
+prg#:#prg_update_from_current_plan#:#Update from current Plan
+prg#:#prg_update_successful#:#Saved changes successfully!
+prg#:#prg_update_from_plan_successful#:#Updated from current plan successfully!
+prg#:#prg_warning_img_alt#:#Warning!
+prg#:#prg_successful_img_alt#:#successful
+prg#:#prg_in_progress_img_alt#:#in progress
+prg#:#prg_progress_info#:#You have %1$d points. The Study Programme is completed with %2$d points.
+prg#:#prg_progress_status#:# %1$d of %2$d Points
+prg#:#prg_no_members_not_active#:#Can't add members, as this programme is not active.
+prg#:#prg_type_msg_missing_title#:#Title cannot be empty.
+common#:#obj_prg_duplicate#:#Copy Study Programme
+common#:#obj_prg_select#:#-- Please select one Study Programme --
+common#:#obj_prg#:#Study Programme
+common#:#obj_prgs#:#Study Programmes
+common#:#obj_prgs_desc#:#Study Programme Administration
+trac#:#trac_mode_study_programme#:#Study Programme Completed
+trac#:#trac_mode_study_programme_info#:#The Study Programme has to be completed by a user to receive the Learning Progress 'Completed'.
+prg#:#prg_visible#:#Programme is visible
+prg#:#prg_copy#:#User can copy study programme
+prg#:#prg_write#:#User can edit study programme settings and manage content.
+prg#:#prg_delete#:#User can delete the programme.
+prg#:#prg_edit_permission#:#User can change permission settings.

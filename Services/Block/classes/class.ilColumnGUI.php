@@ -61,7 +61,8 @@ class ilColumnGUI
 		'ilChatroomBlockGUI' => 'Modules/Chatroom/',
 		'ilPollBlockGUI' => 'Modules/Poll/',
 		'ilClassificationBlockGUI' => 'Services/Classification/',
-		'ilPDPortfolioBlockGUI' => 'Modules/Portfolio/'
+		'ilPDPortfolioBlockGUI' => 'Modules/Portfolio/',
+		"ilPDStudyProgrammeSimpleListGUI" => "Modules/StudyProgramme/"
 	);
 	
 	static protected $block_types = array(
@@ -81,7 +82,8 @@ class ilColumnGUI
 		'ilChatroomBlockGUI' => 'chatviewer',
 		'ilPollBlockGUI' => 'poll',
 		'ilClassificationBlockGUI' => 'clsfct',
-		'ilPDPortfolioBlockGUI' => 'pdportf'
+		'ilPDPortfolioBlockGUI' => 'pdportf',
+		"ilPDStudyProgrammeSimpleListGUI" => "prgsimplelist"
 	);
 	
 		
@@ -109,6 +111,7 @@ class ilColumnGUI
 			"ilPDPortfolioBlockGUI" => IL_COL_RIGHT,
 			"ilPDSysMessageBlockGUI" => IL_COL_LEFT,
 			"ilPDNewsBlockGUI" => IL_COL_LEFT,
+			"ilPDStudyProgrammeSimpleListGUI" => IL_COL_CENTER,
 			"ilPDSelectedItemsBlockGUI" => IL_COL_CENTER,
 			"ilPDMailBlockGUI" => IL_COL_RIGHT,
 			"ilPDNotesBlockGUI" => IL_COL_RIGHT,

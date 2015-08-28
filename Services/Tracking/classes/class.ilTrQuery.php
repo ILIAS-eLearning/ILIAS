@@ -963,6 +963,12 @@ class ilTrQuery
 				$class = ilLPStatusFactory::_getClassById($obj_id, ilLPObjSettings::LP_MODE_SURVEY_FINISHED);
 				$a_users = $class::getParticipants($obj_id);				
 				break;
+				
+			case "prg":
+				include_once("Modules/StudyProgramme/classes/class.ilObjStudyProgramme.php");
+				$prg = new ilObjStudyProgramme($obj_id, false);
+				$a_users = $prg->getIdsOfUsersWithRelevantProgress();
+				break;
 			
 			default:
 				// no sensible data: return null
