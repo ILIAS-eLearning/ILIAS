@@ -325,7 +325,7 @@ class ilDataCollectionRecordListGUI {
 			foreach ($fields as $col => $field) {
 				try {
 					$value = $record->getRecordFieldValueFromExcel($excel, $i, $col, $field);
-					if (is_array($value)) {
+					if (is_array($value) && isset($value['warning'])) {
 						$warnings[] = $value['warning'];
 						$value = '';
 					}

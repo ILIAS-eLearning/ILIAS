@@ -200,7 +200,12 @@ class ilDataCollectionRecordField {
 	 * @param $form ilPropertyFormGUI
 	 */
 	public function fillFormInput(&$form) {
-		$form->getItemByPostVar('field_'.$this->field->getId())->setValue($this->getFormInput());
+		$value = $this->getFormInput();
+		if (is_array($value)) {
+			$form->getItemByPostVar('field_'.$this->field->getId())->setValueByArray(array("field_".$this->field->getId() => $value));
+		} else {
+			$form->getItemByPostVar('field_' . $this->field->getId())->setValue($value);
+		}
 	}
 
 

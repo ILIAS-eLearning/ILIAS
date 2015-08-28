@@ -640,6 +640,8 @@ class ilDataCollectionDatatype {
 			$return = substr($value, 0, 10);
 		} elseif ($this->id == ilDataCollectionDatatype::INPUTFORMAT_BOOLEAN) {
 			$return = $value ? 1 : 0;
+		} elseif ($this->id == ilDataCollectionDatatype::INPUTFORMAT_TEXT && $json = json_decode($value)) {
+			$return = $json;
 		} else {
 			$return = $value;
 		}
