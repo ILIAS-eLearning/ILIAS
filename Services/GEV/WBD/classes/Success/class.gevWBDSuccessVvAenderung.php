@@ -5,13 +5,7 @@ class gevWBDSuccessVvAenderung extends WBDSuccess {
 	const AGENT_ID = "VermittlerId";
 	
 	public function __construct($response) {
-		try {
-			$this->agent_id = $this->nodeValue($response,self::AGENT_ID);
-		} catch (LogicException $e) {
-			throw new LogicException($e->getMessage());
-		} catch (Exception $e) {
-			throw new LogicException("gevWBDSuccessVvErstanlage::__construct:unknown error");
-		}
+		$this->agent_id = $this->nodeValue($response,self::AGENT_ID);
 	}
 
 	public function AgentId() {
