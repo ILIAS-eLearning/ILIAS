@@ -866,15 +866,6 @@ class ilDataCollectionDatatype {
 				//$input = ilObjFile::_lookupAbsolutePath($value);
 				$input = $value;
 				break;
-			case self::INPUTFORMAT_TEXT:
-				$arr_properties = $record_field->getField()->getProperties();
-				if ($arr_properties[ilDataCollectionField::PROPERTYID_TEXTAREA]) {
-					$breaks = array( "<br />" );
-					$input = str_ireplace($breaks, "", $value);
-				} else {
-					$input = $value;
-				}
-				break;
 			default:
 				$input = $value;
 				break;

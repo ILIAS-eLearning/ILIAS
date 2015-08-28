@@ -158,18 +158,15 @@ class ilDataCollectionRecordListTableGUI extends ilTable2GUI {
 
 		foreach ($this->table->getFields() as $field) {
 			if ($field->getExportable()) {
+				$worksheet->writeString($row, $col, $field->getTitle());
+				$col++;
 				if ($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_TEXT) {
 					$properties = $field->getProperties();
 					if ($properties[ilDataCollectionField::PROPERTYID_URL]) {
-						$worksheet->writeString($row, $col, $field->getTitle());
-						$col++;
 						$worksheet->writeString($row, $col, $field->getTitle() . '_title');
 						$col++;
-						continue;
 					}
 				}
-				$worksheet->writeString($row, $col, $field->getTitle());
-				$col ++;
 			}
 		}
 	}
@@ -243,31 +240,13 @@ class ilDataCollectionRecordListTableGUI extends ilTable2GUI {
 	/**
 	 * @param object $worksheet
 	 * @param int    $row
-	 * @param array  $record
+	 * @param ilDataCollectionRecord[] $record
 	 */
 	public function fillRowExcel($worksheet, &$row, $record) {
 		$col = 0;
 		foreach ($this->table->getFields() as $field) {
 			if ($field->getExportable()) {
-				$value = $record["_record"]->getRecordFieldExportValue($field->getId());
-				if ($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_TEXT) {
-					$properties = $field->getProperties();
-					if ($properties[ilDataCollectionField::PROPERTYID_URL]) {
-						if ($value instanceof stdClass) {
-							$worksheet->writeString($row, $col, $value->link);
-							$col++;
-							$worksheet->writeString($row, $col, $value->title);
-							$col++;
-						} else {
-							$worksheet->writeString($row, $col, $value);
-							$col++;
-							$col++;
-						}
-						continue;
-					}
-				}
-				$worksheet->writeString($row, $col, $value);
-				$col ++;
+				$record["_record"]->fillRecordFieldExcelExport($worksheet, $row, $col, $field->getId());
 			}
 		}
 	}

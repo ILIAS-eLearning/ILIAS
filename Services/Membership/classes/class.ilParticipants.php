@@ -104,7 +104,7 @@ abstract class ilParticipants
 	{
 		return $this->component;
 	}
-
+	
 
 	
 	/**
@@ -776,16 +776,12 @@ abstract class ilParticipants
 	{
 		global $ilDB;
 		
-		$ilDB->replace(
-				'obj_members',
-				array(
-					'obj_id' => array('integer',$this->obj_id),
-					'usr_id' => array('integer',$a_usr_id)
-				),
-				array(
-					'contact'=> array('integer',$a_contact)
-				)
-		);
+		$ilDB->manipulate(
+				'UPDATE obj_members SET '.
+				'contact = '.$ilDB->quote($a_contact,'integer').' '.
+				'WHERE obj_id = '.$ilDB->quote($this->obj_id,'integer').' '.
+				'AND usr_id = '.$ilDB->quote($a_usr_id,'integer'));
+		
 		$this->participants_status[$a_usr_id]['contact'] = $a_contact;
 		return TRUE;
 	}

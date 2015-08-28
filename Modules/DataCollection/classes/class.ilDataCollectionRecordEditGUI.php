@@ -249,6 +249,13 @@ class ilDataCollectionRecordEditGUI {
 						case ilDataCollectionDatatype::INPUTFORMAT_DATETIME:
 							$options[$record->getId()] = $record->getRecordFieldSingleHTML($fieldref);
 							break;
+						case ilDataCollectionDatatype::INPUTFORMAT_TEXT:
+							$value = $record->getRecordFieldValue($fieldref);
+							if ($json = json_decode($value)) {
+								$value = $json->title? $json->title : $json->link;
+							}
+							$options[$record->getId()] = $value;
+							break;
 						default:
 							$options[$record->getId()] = $record->getRecordFieldValue($fieldref);
 							break;
@@ -332,19 +339,8 @@ class ilDataCollectionRecordEditGUI {
 		$allFields = $this->table->getFields();
 		$values = array();
 		foreach ($allFields as $field) {
-			$value = $record_obj->getRecordFieldFormInput($field->getId());
-
-			if ($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_TEXT) {
-				$properties = $field->getProperties();
-				if ($properties[ilDataCollectionField::PROPERTYID_URL] && $json = json_decode($value)) {
-					$this->form->getItemByPostVar('field_' . $field->getId() . '_title')->setValue($json->title);
-					$value = $json->link;
-				}
-			}
-			$values['field_' . $field->getId()] = $value;
+			$record_obj->fillRecordFieldFormInput($field->getId(), $this->form);
 		}
-		$values['record_id'] = $record_obj->getId();
-		$this->form->setValuesByArray($values);
 
 		return true;
 	}
@@ -422,25 +418,10 @@ class ilDataCollectionRecordEditGUI {
 					return;
 				}
 			}
+
 			//edit values, they are valid we already checked them above
 			foreach ($all_fields as $field) {
-				//deletion flag on MOB inputs.
-				if ($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_MOB
-					&& $this->form->getItemByPostVar("field_" . $field->getId())->getDeletionFlag()
-				) {
-					$value = - 1;
-				} else if ($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_TEXT) {
-					$properties = $field->getProperties();
-					if ($properties[ilDataCollectionField::PROPERTYID_URL]) {
-						$value = array("link" => $this->form->getInput("field_" . $field->getId()), "title" => $this->form->getInput("field_" . $field->getId() . '_title'));
-						$value = json_encode($value);
-					} else {
-						$value = $this->form->getInput("field_" . $field->getId());
-					}
-				} else {
-					$value = $this->form->getInput("field_" . $field->getId());
-				}
-				$record_obj->setRecordFieldValue($field->getId(), $value);
+				$record_obj->setRecordFieldValueFromForm($field->getId(), $this->form);
 			}
 
 			// Do we need to set a new owner for this record?
@@ -479,7 +460,9 @@ class ilDataCollectionRecordEditGUI {
 			}
 		} else {
 			// Form not valid...
-			$this->form->setValuesByPost();
+			//TODO: URL title flushes on invalid form
+//			$this->form->setValuesByPost();
+			$this->setFormValues();
 			if ($this->ctrl->isAsynch()) {
 				echo $this->form->getHTML();
 				exit();

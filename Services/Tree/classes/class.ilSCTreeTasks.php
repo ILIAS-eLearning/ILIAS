@@ -45,7 +45,7 @@ class ilSCTreeTasks
 	
 	public static function repairPK()
 	{
-		$GLOBALS['ilDB']->dropPrimaryKey('tree');
+		#$GLOBALS['ilDB']->dropPrimaryKey('tree');
 		$GLOBALS['ilDB']->addPrimaryKey('tree', array('child'));
 	}
 	

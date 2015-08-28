@@ -33,6 +33,11 @@ include_once './Services/Membership/classes/class.ilParticipants.php';
 */
 abstract class ilParticipant
 {
+	const MEMBERSHIP_ADMIN = 1;
+	const MEMBERSHIP_TUTOR = 2;
+	const MEMBERSHIP_MEMBER = 3;
+	
+	
 	private $obj_id = 0;
 	private $usr_id = 0;
 	protected $type = '';
@@ -70,6 +75,147 @@ abstract class ilParticipant
 	 	$this->readParticipant();
 	 	$this->readParticipantStatus();
 	}
+	
+	/**
+	 * Update member roles
+	 * @global ilDB $ilDB
+	 * @param type $a_obj_id
+	 * @param type $a_role_id
+	 * @param type $a_status
+	 */
+	public static function updateMemberRoles($a_obj_id, $a_usr_id, $a_role_id, $a_status)
+	{
+		global $ilDB;
+		
+		$a_membership_role_type = self::getMembershipRoleType($a_role_id);
+		
+		ilLoggerFactory::getInstance()->getLogger('crs')->debug($a_membership_role_type);
+		
+		switch($a_membership_role_type)
+		{
+			case self::MEMBERSHIP_ADMIN:
+				$update_fields = array('admin' => array('integer', $a_status ? 1 : 0));
+				$update_string = ('admin = '.$ilDB->quote($a_status ? 1 : 0, 'integer'));
+				break;
+			
+			case self::MEMBERSHIP_TUTOR:
+				$update_fields = array('tutor', array('integer', $a_status ? 1 : 0));
+				$update_string = ('tutor = '.$ilDB->quote($a_status ? 1 : 0, 'integer'));
+				break;
+
+			case self::MEMBERSHIP_MEMBER:
+			default:
+				$current_status = self::lookupStatusByMembershipRoleType($a_obj_id, $a_usr_id, $a_membership_role_type);
+				ilLoggerFactory::getInstance()->getLogger('crs')->debug($current_status);
+				
+				if($a_status)
+				{
+					$new_status = $current_status + 1;
+				}
+				if(!$a_status)
+				{
+					$new_status = $current_status - 1;
+					if($new_status < 0)
+					{
+						$new_status = 0;
+					}
+				}
+				
+				$update_fields = array('member' => array('integer', $new_status));
+				$update_string = ('member = '.$ilDB->quote($new_status, 'integer'));
+				break;
+		}
+		
+		$query = 'SELECT count(*) num FROM obj_members  '.
+				'WHERE obj_id = '.$ilDB->quote($a_obj_id,'integer').' '.
+				'AND usr_id = '.$ilDB->quote($a_usr_id,'integer');
+		$res = $ilDB->query($query);
+		
+		$found = FALSE;
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			if($row->num)
+			{
+				$found = TRUE;
+			}
+		}
+		if(!$found)
+		{
+			$ilDB->replace(
+					'obj_members',
+					array(
+						'obj_id' => array('integer',$a_obj_id),
+						'usr_id' => array('integer',$a_usr_id)
+					),
+					$update_fields
+			);
+		}
+		else
+		{
+			$query = 'UPDATE obj_members SET '.
+					$update_string.' '.
+					'WHERE obj_id = '.$ilDB->quote($a_obj_id,'integer').' '.
+					'AND usr_id = '.$ilDB->quote($a_usr_id,'integer');
+			
+			$ilDB->manipulate($query);
+		}
+	}
+
+	/**
+	 * 
+	 * @param type $a_role_id
+	 */
+	public static function getMembershipRoleType($a_role_id)
+	{
+		$title = ilObject::_lookupTitle($a_role_id);
+		switch(substr($title, 0, 8))
+		{
+			case 'il_crs_a':
+				return self::MEMBERSHIP_ADMIN;
+				
+			case 'il_crs_t':
+				return self::MEMBERSHIP_TUTOR;
+				
+			case 'il_crs_m':
+			default:
+				return self::MEMBERSHIP_MEMBER;
+				
+		}
+	}
+	
+	/**
+	 * lookup assignment status
+	 * @global ilDB $ilDB
+	 * @param type $a_obj_id
+	 * @param type $a_usr_id
+	 * @param type $a_membership_role_type
+	 * @return int
+	 */
+	public static function lookupStatusByMembershipRoleType($a_obj_id, $a_usr_id, $a_membership_role_type)
+	{
+		global $ilDB;
+
+		$query = 'SELECT * FROM obj_members '.
+				'WHERE obj_id = '.$ilDB->quote($a_obj_id,'integer').' '.
+				'AND usr_id = '.$ilDB->quote($a_usr_id).' ';
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			switch($a_membership_role_type)
+			{
+				case self::MEMBERSHIP_ADMIN:
+					return $row->admin;
+					
+				case self::MEMBERSHIP_TUTOR:
+					return $row->tutor;
+					
+				case self::MEMBERSHIP_MEMBER:
+					return $row->member;
+			}
+		}
+		return 0;
+	}
+	
 	
 	/**
 	 * Get component name
@@ -402,16 +548,12 @@ abstract class ilParticipant
 	{
 		global $ilDB;
 		
-		$ilDB->replace(
-				'obj_members',
-				array(
-					'obj_id' => array('integer',$this->obj_id),
-					'usr_id' => array('integer',$a_usr_id)
-				),
-				array(
-					'contact'=> array('integer',$a_contact)
-				)
-		);
+		$ilDB->manipulate(
+				'UPDATE obj_members SET '.
+				'contact = '.$ilDB->quote($a_contact,'integer').' '.
+				'WHERE obj_id = '.$ilDB->quote($this->obj_id,'integer').' '.
+				'AND usr_id = '.$ilDB->quote($a_usr_id,'integer'));
+		
 		$this->participants_status[$a_usr_id]['contact'] = $a_contact;
 		return TRUE;
 	}

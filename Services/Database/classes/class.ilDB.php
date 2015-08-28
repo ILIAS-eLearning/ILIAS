@@ -1862,7 +1862,7 @@ abstract class ilDB extends PEAR
 		{
 			$q = "REPLACE INTO ".$a_table." (".implode($fields,",").") VALUES (".
 				implode($placeholders,",").")";
-			$r = $this->manipulateF($q, $types, $values);
+			$r = $this->manipulateF($q, $types, $values);			
 		}
 		return $r;
 	}
