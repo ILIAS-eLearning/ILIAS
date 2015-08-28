@@ -1,4 +1,13 @@
 <?php
+/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */#
+
+/**
+* implementation of GEV WBD Request for Service VvAenderung
+*
+* @author	Stefan Hecken <shecken@concepts-and-training.de>
+* @version	$Id$
+*
+*/
 chdir("/Library/WebServer/Documents/dev/4_4_generali2_new_wbd/");
 require_once("Services/GEV/WBD/classes/Dictionary/class.gevWBDDictionary.php");
 require_once("Services/GEV/WBD/classes/Requests/class.gevWBDRequest.php");
@@ -110,10 +119,24 @@ class gevWBDRequestVvAenderung extends gevWBDRequest {
 		return null;
 	}
 
+	/**
+	* checked all given data
+	*
+	* @throws LogicException
+	* 
+	* @return string
+	*/
 	private static function checkData($values) {
 		return self::checkSzenarios($values);
 	}
 
+	/**
+	* creates the success object VvAenderung
+	*
+	* @throws LogicException
+	* 
+	* @return boolean
+	*/
 	public function createWBDSuccess($response) {
 		$this->wbd_success = new gevWBDSuccessVvAenderung($response);
 

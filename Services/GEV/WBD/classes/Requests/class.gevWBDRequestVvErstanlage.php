@@ -1,4 +1,13 @@
 <?php
+/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */#
+
+/**
+* implementation of GEV WBD Request for Service VvErstanlage
+*
+* @author	Stefan Hecken <shecken@concepts-and-training.de>
+* @version	$Id$
+*
+*/
 chdir("/Library/WebServer/Documents/dev/4_4_generali2_new_wbd/");
 require_once("Services/GEV/WBD/classes/Dictionary/class.gevWBDDictionary.php");
 require_once("Services/GEV/WBD/classes/Requests/class.gevWBDRequest.php");
@@ -119,12 +128,24 @@ class gevWBDRequestVvErstanlage extends gevWBDRequest {
 		return null;
 	}
 
-
-
-	private static function checkData($values) {
-		return self::checkSzenarios($values);
+	/**
+	* checked all given data
+	*
+	* @throws LogicException
+	* 
+	* @return string
+	*/
+	private static function checkData($data) {
+		return self::checkSzenarios($data);
 	}
 
+	/**
+	* creates the success object VvErstanlage
+	*
+	* @throws LogicException
+	* 
+	* @return boolean
+	*/
 	public function createWBDSuccess($response) {
 		$this->wbd_success = new gevWBDSuccessVvErstanlage($response);
 

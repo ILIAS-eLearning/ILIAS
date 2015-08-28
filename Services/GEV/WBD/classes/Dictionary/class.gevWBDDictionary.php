@@ -1,4 +1,13 @@
 <?php
+/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */#
+
+/**
+* implementation of Dictionary
+*
+* @author	Stefan Hecken <shecken@concepts-and-training.de>
+* @version	$Id$
+*
+*/
 class gevWBDDictionary implements Dictionary {
 	const WBD_NAME = "toWBDName";
 	const INTERNAL_NAME = "toInternalName";

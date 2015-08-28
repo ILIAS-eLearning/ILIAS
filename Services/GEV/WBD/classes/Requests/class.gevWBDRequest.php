@@ -1,4 +1,13 @@
 <?php
+/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */#
+
+/**
+* implementation of WBD Request Interface
+*
+* @author	Stefan Hecken <shecken@concepts-and-training.de>
+* @version	$Id$
+*
+*/
 chdir("/Library/WebServer/Documents/dev/4_4_generali2_new_wbd/");
 require_once("Services/GEV/WBD/classes/Error/class.gevWBDError.php");
 require_once("Services/GEV/WBD/classes/Dictionary/class.gevWBDDictionary.php");
