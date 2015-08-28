@@ -447,7 +447,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			$this->ctrl->redirect($this, 'displayCode');
 		}
 
-		$this->object->unsetAccessCodeSession();
+		$this->testSession->unsetAccessCodeInSession();
 		$this->ctrl->redirect($this, ilTestPlayerCommands::START_TEST);
 	}
 	
@@ -998,8 +998,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			$this->showAnswerOptionalQuestionsConfirmation();
 			return;
 		}
-
-		$this->prepareTestPageOutput();
 			
 		if ($this->object->getKioskMode())
 		{
@@ -2133,7 +2131,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			$processLockerFactory->setAssessmentLogEnabled(ilObjAssessmentFolder::_enabledAssessmentLogging());
 			$questionOBJ->setProcessLocker($processLockerFactory->getLocker());
 
-			$questionOBJ->setObligationsToBeConsidered($this->object->areObligationsEnabled());
 			$questionOBJ->setOutputType(OUTPUT_JAVASCRIPT);
 
 			$this->cachedQuestionObjects[$questionId] = $questionOBJ;
