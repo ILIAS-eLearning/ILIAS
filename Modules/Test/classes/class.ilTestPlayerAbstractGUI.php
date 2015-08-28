@@ -2083,6 +2083,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		{
 			$questionGui = $this->object->createQuestionGUI("", $questionId);
 			$questionGui->setTargetGui($this);
+			$questionGui->object->setObligationsToBeConsidered($this->object->areObligationsEnabled());
 			$questionGui->object->setOutputType(OUTPUT_JAVASCRIPT);
 			$questionGui->object->setShuffler($this->buildQuestionAnswerShuffler($questionId));
 
@@ -2118,6 +2119,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			$processLockerFactory->setAssessmentLogEnabled(ilObjAssessmentFolder::_enabledAssessmentLogging());
 			$questionOBJ->setProcessLocker($processLockerFactory->getLocker());
 
+			$questionOBJ->setObligationsToBeConsidered($this->object->areObligationsEnabled());
 			$questionOBJ->setOutputType(OUTPUT_JAVASCRIPT);
 
 			$this->cachedQuestionObjects[$questionId] = $questionOBJ;
