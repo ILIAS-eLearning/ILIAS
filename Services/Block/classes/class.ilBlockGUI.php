@@ -767,7 +767,6 @@ abstract class ilBlockGUI
 		{
 			$has_block_command = false;
 			
-			print_r($this->getBlockCommands());
 			foreach($this->getBlockCommands() as $command)
 			{
 				if(!$command["img"] && !$command["html"])
