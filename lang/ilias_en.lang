@@ -14772,12 +14772,12 @@ content#:#cont_reset_nr_of_tries#:#Reset Number of Tries
 content#:#cont_unlock_allow_continue#:#Unlock / Allow to Continue
 crs#:#crs_subscription_failed_limit#:#The maximum number of participants has been exceeded.
 user#:#send_mail_to_inactive_users#:#Warning Mail
-user#:#send_mail_to_inactive_users_desc#:#If set, a warning mail will be sent to the user before his/her account is deleted due to inactivity.
+user#:#send_mail_to_inactive_users_desc#:#If set, a warning mail will be sent to the user before his/her account is deleted due to inactivity. Please make sure that sending external mails is possible. On activation with reminder mail, it may happen, that the time frame between reminder mail and deletion is smaller than the configured time frame. 
 user#:#send_mail_to_inactive_users_suffix#:#Days before Deletion.
 user#:#send_mail_to_inactive_users_numbers_only#:#Only positive non decimal numbers are accepted.
 user#:#send_mail_to_inactive_users_must_be_smaller_than#:#This value must be smaller than the value ‘Days passed since last login’.
 user#:#del_mail_subject#:#(ILIAS) – Your account will be deleted
-user#:#del_mail_body#:#Hello %1$s, %2$s you haven't logged in for a long period of time, on %3$s. So your account will be deleted in %4$s days. You have to login again to prevent the deletion of your account.
+user#:#del_mail_body#:#Hello %1$s, %2$s you haven't logged in for a long period of time, on %3$s. So your account will be probably deleted on %4$s. You have to login again to prevent the deletion of your account.
 user#:#delete_inactive_user_accounts_frequency#:#Frequency
 user#:#delete_inactive_user_accounts_frequency_desc#:#Frequency, in which the deletion and email distribution will be tested.
 user#:#send_mail_reminder_window_too_small#:#Your Frequency setting is too large for this reminder value.
