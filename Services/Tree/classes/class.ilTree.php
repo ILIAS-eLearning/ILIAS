@@ -773,14 +773,16 @@ class ilTree
 			ilObject::_resetDeletedDate($a_node_id);
 		}
 		
-		$GLOBALS['ilAppEventHandler']->raise(
-				"Services/Tree", 
-				"insertNode", 
-				array(
-					'tree'		=> $this->table_tree,
-					'node_id' 	=> $a_node_id, 
-					'parent_id'	=> $a_parent_id)
-		);
+		if (isset($GLOBALS["ilAppEventHandler"]) && $this->__isMainTree()) {
+			$GLOBALS['ilAppEventHandler']->raise(
+					"Services/Tree", 
+					"insertNode", 
+					array(
+						'tree'		=> $this->table_tree,
+						'node_id' 	=> $a_node_id, 
+						'parent_id'	=> $a_parent_id)
+			);
+		}
 	}
 	
 	/**
@@ -2648,16 +2650,18 @@ class ilTree
 	{
 		$old_parent_id = $this->getParentId($a_source_id);
 		$this->getTreeImplementation()->moveTree($a_source_id,$a_target_id,$a_location);
-		$GLOBALS['ilAppEventHandler']->raise(
-				"Services/Tree", 
-				"moveTree", 
-				array(
-					'tree'			=> $this->table_tree,
-					'source_id' 	=> $a_source_id, 
-					'target_id' 	=> $a_target_id,
-					'old_parent_id'	=> $old_parent_id
-					)
-		);
+		if (isset($GLOBALS["ilAppEventHandler"]) && $this->__isMainTree()) {
+			$GLOBALS['ilAppEventHandler']->raise(
+					"Services/Tree", 
+					"moveTree", 
+					array(
+						'tree'			=> $this->table_tree,
+						'source_id' 	=> $a_source_id, 
+						'target_id' 	=> $a_target_id,
+						'old_parent_id'	=> $old_parent_id
+						)
+			);
+		}
 		return true;
 	}
 	
