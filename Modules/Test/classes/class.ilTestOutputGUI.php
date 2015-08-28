@@ -286,6 +286,12 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		}
 		
 		$questionGui = $this->getQuestionGuiInstance($questionId);
+
+		if( !($questionGui instanceof assQuestionGUI) )
+		{
+			$this->handleTearsAndAngerQuestionIsNull($questionId, $sequenceElement);
+		}
+		
 		$questionGui->setSequenceNumber($this->testSequence->getPositionOfSequence($sequenceElement));
 		$questionGui->setQuestionCount($this->testSequence->getUserQuestionCount());
 
@@ -311,19 +317,6 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 			$headerBlockBuilder->setQuestionRelatedObjectives($objectivesString);
 		}
 		$questionGui->setQuestionHeaderBlockBuilder($headerBlockBuilder);
-
-		if( !($questionGui instanceof assQuestionGUI) )
-		{
-			$this->handleTearsAndAngerQuestionIsNull($questionId, $sequenceElement);
-		}
-
-		$this->ctrl->setParameter($this, "sequence", $this->sequence);
-
-		if( $this->isOptionalQuestionAnsweringConfirmationRequired($this->sequence) )
-		{
-			$this->showAnswerOptionalQuestionsConfirmation();
-			return;
-		}
 
 		$this->prepareTestPage($presentationMode, $sequenceElement, $questionId);
 
