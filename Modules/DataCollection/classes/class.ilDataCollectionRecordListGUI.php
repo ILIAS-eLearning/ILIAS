@@ -323,37 +323,19 @@ class ilDataCollectionRecordListGUI {
 				$record->doCreate();
 			}
 			foreach ($fields as $col => $field) {
-				$value = $excel->val($i, $col);
-				$value = utf8_encode($value);
 				try {
-					if ($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_REFERENCE) {
-						$old = $value;
-						$value = $this->getReferenceFromValue($field, $value);
-						if (!$value) {
-							$warnings[] = "(" . $i . ", " . $this->getExcelCharForInteger($col) . ") " . $lng->txt("dcl_no_such_reference") . " "
-								. $old;
-						}
-					} elseif ($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_DATETIME) {
-						$value = array(
-							'date' => date('Y-m-d', strtotime($value)),
-							'time' => '00:00:00',
-						);
-					} elseif ($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_TEXT) {
-						$properties = $field->getProperties();
-						if ($properties[ilDataCollectionField::PROPERTYID_URL]) {
-							$title = '';
-							if ($field_names[$col+1] == $field->getTitle().'_title') {
-								$title = $excel->val($i, $col + 1);
-							}
-							$value = json_encode(array('link' => $value, 'title' => $title));
-						}
+					$value = $record->getRecordFieldValueFromExcel($excel, $i, $col, $field);
+					if (is_array($value) && isset($value['warning'])) {
+						$warnings[] = $value['warning'];
+						$value = '';
 					}
+
 					$field->checkValidity($value, $record->getId());
 					if (!$simulate) {
 						$record->setRecordFieldValue($field->getId(), $value);
 					}
 				} catch (ilDataCollectionInputException $e) {
-					$warnings[] = "(" . $i . ", " . $this->getExcelCharForInteger($col) . ") " . $e;
+					$warnings[] = "(" . $i . ", " . ilDataCollectionImporter::getExcelCharForInteger($col) . ") " . $e;
 				}
 			}
 			if (!$simulate) {
@@ -395,40 +377,6 @@ class ilDataCollectionRecordListGUI {
 
 
 	/**
-	 * @param $field ilDataCollectionField
-	 * @param $value
-	 *
-	 * @return int
-	 */
-	public function getReferenceFromValue($field, $value) {
-		$field = ilDataCollectionCache::getFieldCache($field->getFieldRef());
-		$table = ilDataCollectionCache::getTableCache($field->getTableId());
-		$record_id = 0;
-		foreach ($table->getRecords() as $record) {
-			if ($record->getRecordField($field->getId())->getValue() == $value) {
-				$record_id = $record->getId();
-			}
-		}
-
-		return $record_id;
-	}
-
-
-	private function getExcelCharForInteger($int) {
-		$char = "";
-		$rng = range("A", "Z");
-		while ($int > 0) {
-			$diff = $int % 26;
-			$char = $rng[$diff - 1] . $char;
-			$int -= $char;
-			$int /= 26;
-		}
-
-		return $char;
-	}
-
-
-	/**
 	 * @param ilDataCollectionField $field
 	 * @param array                 $warnings
 	 *
@@ -461,11 +409,9 @@ class ilDataCollectionRecordListGUI {
 				foreach ($titles as $key => $value) {
 					if ($value == $field->getTitle()) {
 						$import_fields[$key] = $field;
-						if ($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_TEXT) {
-							$properties = $field->getProperties();
-							if ($properties[ilDataCollectionField::PROPERTYID_URL] && $titles[$key+1] == $field->getTitle().'_title') {
-								unset($titles[$key+1]);
-							}
+						$properties = $field->getProperties();
+						if ($properties[ilDataCollectionField::PROPERTYID_URL] && $titles[$key+1] == $field->getTitle().'_title') {
+							unset($titles[$key+1]);
 						}
 					}
 				}
@@ -473,7 +419,7 @@ class ilDataCollectionRecordListGUI {
 		}
 		foreach ($titles as $key => $value) {
 			if (!isset($import_fields[$key])) {
-				$warnings[] = "(1, " . $this->getExcelCharForInteger($key) . ") \"" . $value . "\" " . $lng->txt("dcl_row_not_found");
+				$warnings[] = "(1, " . ilDataCollectionImporter::getExcelCharForInteger($key) . ") \"" . $value . "\" " . $lng->txt("dcl_row_not_found");
 			}
 		}
 
