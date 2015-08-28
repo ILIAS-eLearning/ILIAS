@@ -9670,3 +9670,19 @@ ilStudyProgrammeTypeTranslation::installDB();
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#4678>
+<?php
+
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+// workaround to avoid error when using addAdminNode. Bug?
+class EventHandler {
+	public function raise($a_component, $a_event, $a_parameter = "") {
+		// nothing to do...
+	}
+}
+$GLOBALS['ilAppEventHandler'] = new EventHandler();
+
+ilDBUpdateNewObjectType::addAdminNode('prgs', 'StudyProgrammeAdmin');
+
+?>

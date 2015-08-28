@@ -58,7 +58,7 @@ class ilStudyProgrammeTypeGUI {
 	/**
 	 * @param ilObjStudyProgrammeGUI $parent_gui
 	 */
-	public function __construct(ilObjStudyProgrammeGUI $parent_gui) {
+	public function __construct($parent_gui) {
 		global $tpl, $ilCtrl, $ilAccess, $ilToolbar, $ilLocator, $tree, $lng, $ilLog, $ilias, $ilTabs;
 
 		$this->tpl = $tpl;
@@ -81,49 +81,48 @@ class ilStudyProgrammeTypeGUI {
 
 	public function executeCommand() {
 		$cmd = $this->ctrl->getCmd();
-		$next_class = $this->ctrl->getNextClass($this);
 
-		switch ($next_class) {
+		switch ($cmd) {
 			case '':
-				switch ($cmd) {
-					case '':
-					case 'listTypes':
-						$this->listTypes();
-						break;
-					case 'add':
-						$this->add();
-						break;
-					case 'edit':
-						$this->setSubTabsEdit('general');
-						$this->edit();
-						break;
-					case 'editCustomIcons':
-						$this->setSubTabsEdit('custom_icons');
-						$this->editCustomIcons();
-						break;
-					case 'editAMD':
-						$this->setSubTabsEdit('amd');
-						$this->editAMD();
-						break;
-					case 'updateAMD':
-						$this->setSubTabsEdit('amd');
-						$this->updateAMD();
-						break;
-					case 'updateCustomIcons':
-						$this->setSubTabsEdit('custom_icons');
-						$this->updateCustomIcons();
-						break;
-					case 'create':
-						$this->create();
-						break;
-					case 'update':
-						$this->setSubTabsEdit('general');
-						$this->update();
-						break;
-					case 'delete':
-						$this->delete();
-						break;
-				}
+			case 'view':
+			case 'listTypes':
+				$this->listTypes();
+				break;
+			case 'add':
+				$this->add();
+				break;
+			case 'edit':
+				$this->setSubTabsEdit('general');
+				$this->edit();
+				break;
+			case 'editCustomIcons':
+				$this->setSubTabsEdit('custom_icons');
+				$this->editCustomIcons();
+				break;
+			case 'editAMD':
+				$this->setSubTabsEdit('amd');
+				$this->editAMD();
+				break;
+			case 'updateAMD':
+				$this->setSubTabsEdit('amd');
+				$this->updateAMD();
+				break;
+			case 'updateCustomIcons':
+				$this->setSubTabsEdit('custom_icons');
+				$this->updateCustomIcons();
+				break;
+			case 'create':
+				$this->create();
+				break;
+			case 'update':
+				$this->setSubTabsEdit('general');
+				$this->update();
+				break;
+			case 'delete':
+				$this->delete();
+				break;
+			case 'cancel':
+				$this->ctrl->redirect($this->parent_gui);
 				break;
 		}
 	}
