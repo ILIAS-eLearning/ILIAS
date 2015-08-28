@@ -179,6 +179,24 @@ class ilDataCollectionRecordField {
 	}
 
 	/**
+	 * @param $excel
+	 * @param $row
+	 * @param $col
+	 * @return array|string
+	 */
+	public function getValueFromExcel($excel, $row, $col) {
+		$value = $excel->val($row, $col);
+		$value = utf8_encode($value);
+		if ($this->field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_DATETIME) {
+			$value = array(
+				'date' => date('Y-m-d', strtotime($value)),
+				'time' => '00:00:00',
+			);
+		}
+		return $value;
+	}
+
+	/**
 	 * @param $form ilPropertyFormGUI
 	 */
 	public function fillFormInput(&$form) {

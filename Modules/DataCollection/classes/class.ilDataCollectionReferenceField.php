@@ -121,6 +121,42 @@ class ilDataCollectionReferenceField extends ilDataCollectionRecordField {
 			return "";
 		}
 	}
+
+	public function getValueFromExcel($excel, $row, $col){
+		global $lng;
+		$warning = array();
+		$value = $excel->val($row, $col);
+		$value = utf8_encode($value);
+		$old = $value;
+		$value = $this->getReferenceFromValue($this->field, $value);
+		if (!$value) {
+			$warning = "(" . $col . ", " . ilDataCollectionImporter::getExcelCharForInteger($col) . ") " . $lng->txt("dcl_no_such_reference") . " "
+				. $old;
+			return array('warning' => $warning);
+		}
+
+		return $value;
+
+	}
+
+	/**
+	 * @param $field ilDataCollectionField
+	 * @param $value
+	 *
+	 * @return int
+	 */
+	public function getReferenceFromValue($field, $value) {
+		$field = ilDataCollectionCache::getFieldCache($field->getFieldRef());
+		$table = ilDataCollectionCache::getTableCache($field->getTableId());
+		$record_id = 0;
+		foreach ($table->getRecords() as $record) {
+			if ($record->getRecordField($field->getId())->getValue() == $value) {
+				$record_id = $record->getId();
+			}
+		}
+
+		return $record_id;
+	}
 }
 
 ?>

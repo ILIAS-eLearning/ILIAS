@@ -76,6 +76,19 @@ class ilDataCollectionTextField extends ilDataCollectionRecordField
         }
     }
 
+    public function getValueFromExcel($excel, $row, $col) {
+        $value = $excel->val($row, $col);
+        $value = utf8_encode($value);
+        if ($this->hasProperty(ilDataCollectionField::PROPERTYID_URL)) {
+            $title = '';
+            if ($excel->val(1, $col+1) == $this->field->getTitle().'_title') {
+                $title = $excel->val($row, $col + 1);
+            }
+            $value = json_encode(array('link' => $value, 'title' => $title));
+        }
+        return $value;
+    }
+
     /**
      * @param $prop_id
      * @return mixed

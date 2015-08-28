@@ -305,6 +305,17 @@ class ilDataCollectionRecord {
 		}
 	}
 
+	/**
+	 * @param $excel
+	 * @param $row
+	 * @param $col
+	 * @param $field ilDataCollectionField
+	 */
+	public function getRecordFieldValueFromExcel($excel, $row, $col, $field) {
+		$this->loadRecordFields();
+		return $this->recordfields[$field->getId()]->getValueFromExcel($excel, $row, $col);
+	}
+
 
 	/**
 	 * @deprecated
