@@ -753,4 +753,9 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 	}
 	
 	abstract protected function populateQuestionOptionalMessage();
+	
+	protected function isQuestionSummaryFinishTestButtonRequired()
+	{
+		return true;
+	}
 }

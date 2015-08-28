@@ -1341,6 +1341,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			$this->tpl->setVariable('LIST_OF_QUESTIONS', $questionSideListGUI->getHTML());
 		}
 	}
+
+	abstract protected function isQuestionSummaryFinishTestButtonRequired();
 	
 	/**
 	 * Output of a summary of all test questions for test participants
@@ -1384,6 +1386,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			$table_gui->setObligationsNotAnswered( $obligationsNotAnswered );
 			$table_gui->setShowObligationsEnabled( $this->object->areObligationsEnabled() );
 			$table_gui->setObligationsFilterEnabled( $obligationsFilter );
+			$table_gui->setFinishTestButtonEnabled($this->isQuestionSummaryFinishTestButtonRequired());
 
 			$table_gui->init();
 				

@@ -1011,4 +1011,9 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 
 		return $questionList;
 	}
+
+	protected function isQuestionSummaryFinishTestButtonRequired()
+	{
+		return false;
+	}
 }
