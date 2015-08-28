@@ -335,7 +335,7 @@ class ilDataCollectionRecordListGUI {
 						$record->setRecordFieldValue($field->getId(), $value);
 					}
 				} catch (ilDataCollectionInputException $e) {
-					$warnings[] = "(" . $i . ", " . $this->getExcelCharForInteger($col) . ") " . $e;
+					$warnings[] = "(" . $i . ", " . ilDataCollectionImporter::getExcelCharForInteger($col) . ") " . $e;
 				}
 			}
 			if (!$simulate) {

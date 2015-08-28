@@ -116,8 +116,11 @@ class ilDataCollectionReferenceField extends ilDataCollectionRecordField {
 	public function getExportValue() {
 		if ($this->getValue()) {
 			$ref_rec = ilDataCollectionCache::getRecordCache($this->getValue());
-
-			return $ref_rec->getRecordField($this->getField()->getFieldRef())->getExportValue();
+			$exp_value = $ref_rec->getRecordField($this->getField()->getFieldRef())->getExportValue();
+			if ($exp_value instanceof stdClass) {
+				return json_encode($exp_value);
+			}
+			return $exp_value;
 		} else {
 			return "";
 		}
