@@ -158,18 +158,15 @@ class ilDataCollectionRecordListTableGUI extends ilTable2GUI {
 
 		foreach ($this->table->getFields() as $field) {
 			if ($field->getExportable()) {
+				$worksheet->writeString($row, $col, $field->getTitle());
+				$col++;
 				if ($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_TEXT) {
 					$properties = $field->getProperties();
 					if ($properties[ilDataCollectionField::PROPERTYID_URL]) {
-						$worksheet->writeString($row, $col, $field->getTitle());
-						$col++;
 						$worksheet->writeString($row, $col, $field->getTitle() . '_title');
 						$col++;
-						continue;
 					}
 				}
-				$worksheet->writeString($row, $col, $field->getTitle());
-				$col ++;
 			}
 		}
 	}
