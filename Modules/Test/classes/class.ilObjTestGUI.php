@@ -4122,8 +4122,14 @@ class ilObjTestGUI extends ilObjectGUI
 
 			// tab handling happens within GUIs
 			case 'iltestevaluationgui':
+				$nonSelfTabbingCommands = array(
+					'outParticipantsResultsOverview', 'outEvaluation'
+				);
+				if( in_array($this->ctrl->getCmd(), $nonSelfTabbingCommands) )
+				{
+					break;
+				}
 			case 'iltestevalobjectiveorientedgui':
-
 				return;
 				
 			case 'ilmarkschemagui':
