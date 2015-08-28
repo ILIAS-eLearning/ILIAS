@@ -136,12 +136,14 @@ class ilUsersGalleryGUI
 	{
 		$buddylist = ilBuddyList::getInstanceByGlobalUser();
 		$tpl       = new ilTemplate('tpl.users_gallery.html', true, true, 'Services/User');
-		
+
+		require_once 'Services/UIComponent/Panel/classes/class.ilPanelGUI.php';
+		$panel = ilPanelGUI::getInstance();
+		$panel->setBody($this->lng->txt('no_gallery_users_available'));
+		$tpl->setVariable('NO_ENTRIES_HTML', json_encode($panel->getHTML()));
+
 		if(!count($users))
 		{
-			require_once 'Services/UIComponent/Panel/classes/class.ilPanelGUI.php';
-			$panel = ilPanelGUI::getInstance();
-			$panel->setBody($this->lng->txt('no_gallery_users_available'));
 			$tpl->setVariable('NO_GALLERY_USERS', $panel->getHTML());
 			return $tpl;
 		}
