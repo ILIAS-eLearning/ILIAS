@@ -757,10 +757,10 @@ assessment#:#result_unsuccessful_saved#:#There was an error saving the question 
 assessment#:#save_before_upload_imagemap#:#You must apply your changes before you can upload an image map!
 assessment#:#save_before_upload_javaapplet#:#You must apply your changes before you can upload a java applet!
 assessment#:#save_edit#:#Save and edit content
-assessment#:#save_finish#:#Salvar e finalizar o teste###21 Dec 2004 content changed
+assessment#:#finish_test#:#Salvar e finalizar o teste###21 Dec 2004 content changed
 assessment#:#save_introduction#:#Guardar e ir para a introdução
-assessment#:#save_next#:#Salvar e ir para a próxima pergunta###14 Sep 2004 content changed
-assessment#:#save_previous#:#Salvar e ir para a pergunta anterior###14 Sep 2004 content changed
+assessment#:#next_question#:#Salvar e ir para a próxima pergunta###14 Sep 2004 content changed
+assessment#:#previous_question#:#Salvar e ir para a pergunta anterior###14 Sep 2004 content changed
 assessment#:#save_text_answer_points#:#Save text question points
 assessment#:#saveOrder#:#Salvar pedido###12 06 2011 new variable
 assessment#:#scored_pass#:#Pontuação###25 02 2007 new variable

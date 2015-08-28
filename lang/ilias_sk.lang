@@ -674,10 +674,10 @@ assessment#:#result_unsuccessful_saved#:#Vyskytla se chyba uložení výsledků 
 assessment#:#save_before_upload_imagemap#:#Před uložením obrázku musíte nejprve aplikovat změny!
 assessment#:#save_before_upload_javaapplet#:#Před uložením apletu Java musíte nejprve aplikovat změny!
 assessment#:#save_edit#:#Uložit a upravit obsah
-assessment#:#save_finish#:#Ukončit test
+assessment#:#finish_test#:#Ukončit test
 assessment#:#save_introduction#:#Přejít na úvod
-assessment#:#save_next#:#Další
-assessment#:#save_previous#:#Předchozí
+assessment#:#next_question#:#Další
+assessment#:#previous_question#:#Předchozí
 assessment#:#save_text_answer_points#:#Uložit body za pojednání
 assessment#:#scored_pass#:#Bodovaný průchod
 assessment#:#scoring#:#Bodování a výsledky

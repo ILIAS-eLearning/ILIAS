@@ -544,10 +544,10 @@ assessment#:#result_unsuccessful_saved#:#Παρουσιάστηκε σφάλμα
 assessment#:#save_before_upload_imagemap#:#Πρέπει να εφαρμόσετε τις αλλαγές σας προτού εκφορτώσετε ένα χάρτη εικόνας!
 assessment#:#save_before_upload_javaapplet#:#Πρέπει να εφαρμόσετε τις αλλαγές σας προτού εκφορτώσετε ένα Java applet!
 assessment#:#save_edit#:#Αποθήκευση και επεξεργασία περιεχομένου
-assessment#:#save_finish#:#Τελείωσε το τεστ
+assessment#:#finish_test#:#Τελείωσε το τεστ
 assessment#:#save_introduction#:#Πήγαινε στην εισαγωγή
-assessment#:#save_next#:#Επόμενο
-assessment#:#save_previous#:#Προηγούμενο
+assessment#:#next_question#:#Επόμενο
+assessment#:#previous_question#:#Προηγούμενο
 assessment#:#save_text_answer_points#:#Αποθήκευση βαθμών δοκιμίου
 assessment#:#scored_pass#:#Πέρασε με επιτυχία
 assessment#:#scoring#:#Scoring
