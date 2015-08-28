@@ -958,7 +958,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 				if ($graphicalOutput)
 				{
 					// output of ok/not ok icons for user entered solutions
-					$details = $this->object->calculateReachedPoints($active_id, $pass, TRUE);
+					$details = $this->object->calculateReachedPoints($active_id, $pass, true, TRUE);
 					$check = $details[$gap_index];
 					
 					$assClozeGapCombinationObject 	= new assClozeGapCombination();
@@ -1246,7 +1246,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 			{
 				if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
 			}
-			$user_solution =& $this->object->getSolutionValues($active_id, $pass);
+			$user_solution = $this->object->getUserSolutionPreferingIntermediate($active_id, $pass);
 			if (!is_array($user_solution)) 
 			{
 				$user_solution = array();

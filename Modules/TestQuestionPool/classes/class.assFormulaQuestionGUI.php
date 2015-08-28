@@ -1144,7 +1144,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
 
 			$user_solution["active_id"] = $active_id;
 			$user_solution["pass"]      = $pass;
-			$solutions =& $this->object->getSolutionValues($active_id, $pass);
+			$solutions = $this->object->getUserSolutionPreferingIntermediate($active_id, $pass);
 
 			foreach($solutions as $idx => $solution_value)
 			{

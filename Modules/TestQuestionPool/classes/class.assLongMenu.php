@@ -583,7 +583,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 	 * @throws ilTestException
 	 * @return integer/array $points/$details (array $details is deprecated !!)
 	 */
-	public function calculateReachedPoints($active_id, $pass = NULL, $returndetails = FALSE)
+	public function calculateReachedPoints($active_id, $pass = NULL, $authorizedSolution = true, $returndetails = FALSE)
 	{
 		if( $returndetails )
 		{
@@ -595,10 +595,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 		{
 			$pass = $this->getSolutionMaxPass($active_id);
 		}
-		$result = $this->ilDB->queryF("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-			array('integer','integer','integer'),
-			array($active_id, $this->getId(), $pass)
-		);
+		$result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorizedSolution);
 		while ($data =  $this->ilDB->fetchAssoc($result))
 		{
 			$found_values[(int)$data['value1']] = $data['value2'];
@@ -634,7 +631,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 	 * @param integer $pass Test pass
 	 * @return boolean $status
 	 */
-	public function saveWorkingData($active_id, $pass = NULL)
+	public function saveWorkingData($active_id, $pass = NULL, $authorized = true)
 	{
 		if (is_null($pass))
 		{
@@ -644,14 +641,14 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 		$this->getProcessLocker()->requestUserSolutionUpdateLock();
 
 		$entered_values = 0;
-		$this->removeCurrentSolution($active_id, $pass);
+		$this->removeCurrentSolution($active_id, $pass, $authorized);
 
 		foreach($this->getSolutionSubmit() as $val1 => $val2)
 		{
 			$value = ilUtil::stripSlashes($val2, FALSE);
 			if (strlen($value))
 			{
-				$this->saveCurrentSolution($active_id,$pass, $val1, $value);
+				$this->saveCurrentSolution($active_id,$pass, $val1, $value, $authorized);
 				$entered_values++;
 			}
 		}

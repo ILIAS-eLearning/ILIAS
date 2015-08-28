@@ -283,6 +283,7 @@ assessment#:#autosave#:#Automatisches Speichern
 assessment#:#autosave_info#:#Antworten werden von ILIAS automatisch gespeichert, um einen Datenverlust zu vermeiden.
 assessment#:#autosave_ival#:#Speicherintervall
 assessment#:#for#:#für
+assessment#:#char_selector_btn_label#:#&nbsp;Ω&nbsp;
 assessment#:#tst_objective_oriented_test_pass_without_questions#:#Der gestartete Durchlauf im Test "%s" enthält keine Fragen.
 assessment#:#tst_dyn_quest_set_pool_deleted#:#Der aktuell konfigurierte Fragenpool "%s" ist gelöscht worden.
 assessment#:#tst_old_style_rnd_quest_set_broken#:#Dieser Random Test befindet sich in einem irreparablen Zustand, da angeschlossene Fragepools gelöscht wurden. Aus diesem Grund können Teilnehmer diesen Test nicht länger absolvieren.
@@ -918,7 +919,6 @@ assessment#:#polygon#:#Polygonzug
 assessment#:#polygon_click_next_or_save#:#Bitte klicken Sie auf den nächsten Punkt im Polygonzug oder speichern Sie die Region. (Es ist nicht nötig, noch einmal auf den Startpunkt zu klicken, um den Polygonzug zu schließen!)
 assessment#:#polygon_click_next_point#:#Bitte klicken Sie auf den nächsten Punkt im Polygonzug.
 assessment#:#polygon_click_starting_point#:#Bitte klicken Sie auf den Startpunkt des Polygonzugs.
-assessment#:#postpone#:#Frage zurückstellen
 assessment#:#remove_gap#:#Lücke entfernen
 assessment#:#postponed#:#zurückgestellt
 assessment#:#postpone_status#:#Postponed
@@ -983,11 +983,12 @@ assessment#:#qt_multiple_choice#:#Multiple Choice
 assessment#:#question_cumulated_statistics#:#Kumulierte Fragenstatistik
 assessment#:#question_instances_title#:#Diese Frage wird in den folgenden Tests verwendet
 assessment#:#question_marking#:#Fragen markieren
-assessment#:#question_marking_description#:#Teilnehmer erhalten die Möglichkeit, Fragen für sich zu markieren. Die Markierungen werden auch in der Fragenübersicht angezeigt, sofern diese aktiviert ist.
+assessment#:#question_marking_description#:#Teilnehmer erhalten die Möglichkeit, Fragen für sich zu markieren. Die Markierungen werden auch in der Übersicht 'Bearbeitungsstand' angezeigt, sofern diese aktiviert ist.
 assessment#:#question_not_answered#:#Die Frage wurde nicht beantwortet
 assessment#:#question_saved_for_upload#:#Die Frage wurde automatisch gespeichert, um das Hochladen einer Datei zu ermöglichen. Wenn Sie die Bearbeitung dieser Frage jetzt abbrechen, beachten Sie bitte, dass Sie die Frage im Fragenpool löschen müssen, wenn Sie sie nicht behalten wollen.
 assessment#:#question_short#:#F
-assessment#:#question_summary#:#Fragenübersicht
+assessment#:#question_summary#:#Stand der Bearbeitung
+assessment#:#question_summary_btn#:#Bearbeitungsstand
 assessment#:#obligations_summary#:#Übersicht verpflichtender Fragen
 assessment#:#tst_you_have_to_answer_this_question#:#Diese Frage muss beantwortet werden, um den Test beenden zu können.
 assessment#:#question_title#:#Fragentitel
@@ -1024,18 +1025,22 @@ assessment#:#result_unsuccessful_saved#:#Beim Speichern Ihrer Ergebnisse ist ein
 assessment#:#save_before_upload_imagemap#:#Sie müssen Ihre Änderungen speichern, bevor Sie eine Imagemap hochladen können!
 assessment#:#save_before_upload_javaapplet#:#Sie müssen Ihre Änderungen speichern, bevor Sie ein Java-Applet hochladen können!
 assessment#:#save_edit#:#Speichern und Inhalt bearbeiten
-assessment#:#save_finish#:#Test beenden
-assessment#:#save_introduction#:#Zur Startseite
+assessment#:#finish_test#:#Test beenden
+assessment#:#next_question#:#Weiter 
+assessment#:#previous_question#:#Zurück
+assessment#:#submit_answer#:#Antwort einreichen
+assessment#:#discard_answer#:#Antwort verwerfen
+assessment#:#discard_answer_confirmation#:#Ihre Antwort wird vollständig und endgültig verworfen. Die Frage verbleibt als unbeantwortet und kann erneut bearbeitet werden.<br /><br />Möchten Sie Ihre Antwort endgültig verwerfen?
+assessment#:#edit_answer#:#Antwort ändern
+assessment#:#answer_question#:#Frage beantworten
 assessment#:#back_to_objective_container#:#Zurück zum Kurs
-assessment#:#save_next#:#Weiter
-assessment#:#save_previous#:#Zurück
 assessment#:#save_text_answer_points#:#Punkte der Textfragen speichern
 assessment#:#saveOrder#:#Sortierung abspeichern
 assessment#:#saveOrderAndObligations#:#Sortierung und Obligationen abspeichern
 assessment#:#obligatory#:#Verpflichtend
 assessment#:#not_all_obligations_answered#:#Sie müssen alle verpflichtenden Fragen beantworten, bevor Sie den Test abschließen können.
 assessment#:#tst_setting_enable_obligations_label#:#Verpflichtende Fragen
-assessment#:#tst_setting_enable_obligations_info#:#Nur wenn alle verpflichtenden Fragen beantwortet wurden, kann ein Test abgegeben werden. Autoren definieren Verpflichtende Fragen in der 'Listenansicht'. Für Teilnehmer sollte die Option 'Fragenübersicht anzeigen' aktiviert werden.
+assessment#:#tst_setting_enable_obligations_info#:#Nur wenn alle verpflichtenden Fragen beantwortet wurden, kann ein Test abgegeben werden. Autoren definieren Verpflichtende Fragen in der 'Listenansicht'. Für Teilnehmer sollte die Option "'Fragennavigation' und 'Bearbeitungstand' anzeigen" aktiviert werden.
 assessment#:#tst_test_contains_obligatory_questions#:#Um diesen Test beenden zu können, müssen Sie alle verpflichtenden Fragen (*) beantworten.
 assessment#:#scored_pass#:#Bewerteter Durchlauf
 assessment#:#scoring#:#Auswertung
@@ -1046,6 +1051,13 @@ assessment#:#search_results#:#Suchergebnisse
 assessment#:#search_roles#:#nach Rollen
 assessment#:#search_term#:#Suchbegriff
 assessment#:#search_users#:#nach Benutzern
+assessment#:#tst_instant_feedback_handling#:#Antworten festschreiben
+assessment#:#tst_instant_feedback_handling_none#:#Antworten nicht festschreiben
+assessment#:#tst_instant_feedback_handling_none_desc#:#Teilnehmer können ihre Antworten im Rahmen der erlaubten Testdurchläufe ändern.
+assessment#:#tst_instant_feedback_handling_freeze#:#Antworten festschreiben, Rückmeldungen können angefordert werden
+assessment#:#tst_instant_feedback_handling_freeze_desc#:#Klicken Teilnehmer auf 'Antwort einreichen', so können sie ihre Antworten danach nicht mehr ändern. Teilnehmer können über einen Button nach Bedarf eine Rückmeldung anfordern. Rückmeldungen werden in der Option 'Direkte Rückmeldung' konfiguriert . <br />
+assessment#:#tst_instant_feedback_handling_force_and_freeze#:#Antworten festschreiben und automatische Rückmeldung
+assessment#:#tst_instant_feedback_handling_force_and_freeze_desc#:#Klicken Teilnehmer auf 'Antwort einreichen', so können sie ihre Antworten danach nicht mehr ändern. ILIAS präsentiert sofort die in der Option 'Direkte Rückmeldung' konfigurierte Rückmeldung.
 assessment#:#see_details_for_further_information#:#Inhalte zur Wiederholung: siehe Fragendetails
 assessment#:#select_an_answer#:#--- Bitte wählen Sie eine Antwort aus ---
 assessment#:#select_gap#:#Auswahl-Lücke
@@ -1206,7 +1218,7 @@ assessment#:#tst_hide_previous_results#:#Vorherige Ergebnisse nicht anzeigen
 assessment#:#tst_hide_previous_results_description#:#Die vorherigen Ergebnisse von Lernenden werden in weiteren Testdurchläufen eines Tests nicht als voreingestellte Werte übernommen
 assessment#:#tst_hide_previous_results_hide#:#Meine Ergebnisse aus dem vorigen Testdurchlauf nicht anzeigen
 assessment#:#tst_hide_previous_results_introduction#:#Wenn Sie mehr als einen Durchlauf dieses Tests bearbeiten, werden Ihre vorherigen Ergebnisse nicht als voreingestellte Werte übernommen
-assessment#:#tst_hide_side_list#:#Fragenliste nicht anzeigen
+assessment#:#tst_hide_side_list#:#Fragennavigation aus
 assessment#:#tst_import_no_items#:#Fehler: Die Importdatei beinhaltet keine Fragen!
 assessment#:#tst_import_verify_found_questions#:#ILIAS hat die folgenden Fragen in der Importdatei gefunden. Bitte wählen Sie die Fragen aus, die Sie mit diesem Test importieren wollen.
 assessment#:#tst_in_use_edit_questions_disabled#:#Der Test wurde bereits von %s Teilnehmerin(nen) begonnen. Sie dürfen deshalb keine Fragen mehr bearbeiten oder verschieben!
@@ -1220,8 +1232,10 @@ assessment#:#tst_instant_feedback_answer_generic#:#Rückmeldung zur richtigen L�
 assessment#:#tst_instant_feedback_answer_generic_desc#:#Ist die Gesamtheit der Antwort richtig, so zeigt ILIAS beim Anklicken des 'Rückmeldung anfordern'-Buttons die eine Art hinterlegter Rückmeldung an. Ist die Gesamtheit der Antwort nicht vollständig richtig, wird eine andere  Rückmeldung angezeigt. Beide Versionen müssen bei der Frage im Reiter 'Rückmeldung' hinterlegt werden.
 assessment#:#tst_instant_feedback_fix_usr_answer#:#Gegebene Antworten festschreiben
 assessment#:#tst_instant_feedback_fix_usr_answer_desc#:#Nach Anklicken des 'Rückmeldung anfordern'-Buttons kann ein Teilnehmer seine Antwort nicht mehr verändern.
+assessment#:#tst_instant_feedback_forced#:#Rückmeldung immer beim Einreichen einer Antwort anzeigen
+assessment#:#tst_instant_feedback_forced_desc#:#Nachdem ein Teilnehmer auf 'Antwort einreichen' geklickt hat, zeigt ILIAS automatisch die Rückmeldung an. Es wird keine gesonderte Schaltfläche 'Rückmeldung anfordern' angezeigt.
 assessment#:#tst_instant_feedback_results#:#Erreichte Punkte
-assessment#:#tst_instant_feedback_results_desc#:#Bei Anklicken des 'Rückmeldung anfordern'-Buttons zeigt ILIAS an, wie viele Punkte für die gegebene Antwort erreicht wurden.
+assessment#:#tst_instant_feedback_results_desc#:#Klicken Teilnehmer beim Beantworten einer Frage auf den Button 'Rückmeldung anfordern' zeigt ILIAS an, wie viele Punkte für die gegebene Antwort erreichen wurden.
 assessment#:#tst_instant_feedback_solution#:#Bestmögliche Lösung anzeigen
 assessment#:#tst_instant_feedback_solution_desc#:#Bei Anklicken des 'Rückmeldung anfordern'-Buttons zeigt ILIAS die bestmögliche Lösung der Frage an.
 assessment#:#tst_instant_verification#:#Direkte Überprüfung
@@ -1297,7 +1311,10 @@ assessment#:#tst_password_introduction#:#Dieser Test kann nur mit einem Testpass
 assessment#:#tst_percent_solved#:#Prozent gelöst
 assessment#:#tst_position#:#Frage %s von %s
 assessment#:#tst_postpone#:#Fragen zurückstellen
-assessment#:#tst_postpone_description#:#Erlaubt Teilnehmern, einzelne Fragen zur späteren Bearbeitung an das Ende des Tests zu stellen.
+assessment#:#tst_postpone_on#:#Nicht beantwortete Fragen werden ans Testende geschoben
+assessment#:#tst_postpone_on_desc#:#Fragen, deren Antworten die Teilnehmer verwerfen oder überblättern, präsentiert ILIAS am Ende des Test noch einmal. Diese Einstellung wirkt sich nicht auf den Modus 'Wiedervorlage' aus.
+assessment#:#tst_postpone_off#:#Nicht beantwortete Fragen bleiben an ihrem Platz
+assessment#:#tst_postpone_off_desc#:#Auch wenn Teilnehmer Antworten verwerfen oder Fragen überblättern, verbleiben die Fragen an ihrer Position im Test. Diese Einstellung wirkt sich nicht auf den Modus 'Wiedervorlage' aus.
 assessment#:#tst_presentation_properties#:#Durchführung: Verhalten der Frage
 assessment#:#tst_print#:#Test und Assessment – Druckansicht
 assessment#:#tst_print_date#:#Datum des Ausdrucks
@@ -1428,15 +1445,18 @@ assessment#:#tst_show_cancel#:#"Test unterbrechen" anzeigen
 assessment#:#tst_show_cancel_description#:#Zeigt während der Durchführung des Tests einen Button an, mit der der Test unterbrochen werden kann. Achtung: Das Unterbrechen des Tests hält nicht die unter 'Maximale Bearbeitungsdauer' festgelegte Bearbeitungszeit an.
 assessment#:#tst_show_pass_details#:#'Tabelle mit detaillierten Testergebnissen' pro Durchlauf zum gewählten Zeitpunkt anzeigen
 assessment#:#tst_show_results#:#Testergebnisse anzeigen
-assessment#:#tst_show_side_list#:#Fragenliste seitlich anzeigen
+assessment#:#tst_show_side_list#:#Fragennavigation an
+assessment#:#tst_dyn_unfreeze_answers_confirmation#:#Es sind Fragen enthalten zu denen ihre initialen Antworten festgeschrieben, so dass sie keine Änderungen an den Antworten vornehmen können. Möchten sie die Fragen jetzt erneut beantworten und die festgeschrieben Antworten lösen?
+assessment#:#tst_dyn_unfreeze_answers#:#Erneut beantworten
+assessment#:#tst_dyn_keep_answ_freeze#:#Belasse festgeschriebene Antworten
 assessment#:#tst_show_solution_answers_only#:#Druckausgabe der Ergebnisse (nur Antworten)
 assessment#:#tst_show_solution_details#:#Bewertete Teilnehmerantworten
 assessment#:#tst_show_solution_feedback#:#Rückmeldungen
 assessment#:#tst_show_solution_printview#:#Druckbare Liste der Antworten
 assessment#:#tst_show_solution_signature#:#Platzhalter für Unterschrift
 assessment#:#tst_show_solution_suggested#:#Inhalte zur Wiederholung
-assessment#:#tst_show_summary#:#Fragenübersicht anzeigen
-assessment#:#tst_show_summary_description#:#Teilnehmer können sich links neben den Testfragen eine Fragenliste anzeigen lassen und erhalten einen Button "Fragenübersicht". Auf dieser Übersicht wird auch der Gesamtbearbeitungsstatus angezeigt. Das Verhalten der Fragenübersicht können Sie noch weiter konfigurieren:
+assessment#:#tst_show_summary#:#'Fragennavigation' und 'Bearbeitungstand' anzeigen
+assessment#:#tst_show_summary_description#:#Teilnehmer können sich links neben den Testfragen eine Fragennavigation anzeigen lassen. Mit einem Button 'Berabeitungsstand' können sie eine Übersicht aufrufen, die zeigt, welche Fragen sie bereits bearbeitet oder markiert haben. Das Verhalten der Übersicht 'Bearbeitungsstand' können Sie noch weiter konfigurieren:
 assessment#:#tst_shuffle_questions#:#Fragen mischen
 assessment#:#tst_shuffle_questions_description#:#Die Reihenfolge der Fragen wird pro Teilnehmer und pro Testdurchlauf neu gemischt.
 assessment#:#tst_signature#:#Unterschrift
@@ -1593,7 +1613,7 @@ assessment#:#tst_dyn_quest_set_src_qpl_summary_string_deleted#:#%s (Endgültig g
 assessment#:#tst_input_dynamic_question_set_taxonomie_filter_enabled#:#Zeige Taxonomiefilter
 assessment#:#tst_input_dyn_quest_set_answer_status_filter_enabled#:#Zeige Filter für Beantwortungsstatus
 assessment#:#tst_input_dyn_quest_set_prev_quest_list_enabled#:#Zeige Liste bereits beantworteter Fragen
-assessment#:#tst_question_answer_status#:#Beantwortungsstatus
+assessment#:#tst_question_answer_status#:#Welche Fragen sollen in die Wiedervorlage?
 assessment#:#tst_question_answer_status_all_non_correct#:#Alle, außer richtig beantwortete Fragen
 assessment#:#tst_question_answer_status_non_answered#:#Noch nicht beantwortete Fragen
 assessment#:#tst_question_answer_status_wrong_answered#:#Nur falsch beantwortete Fragen
@@ -1608,16 +1628,17 @@ assessment#:#tst_start_dyn_test_with_cur_quest_sel#:#Test mit aktueller Fragenau
 assessment#:#tst_resume_dyn_test_with_cur_quest_sel#:#Test mit aktueller Fragenauswahl fortsetzen
 assessment#:#tst_back_dyn_test_with_cur_quest_sel#:#Zurück zum Test mit aktueller Fragenauswahl
 assessment#:#tst_tracked_question_list#:#Vorherige beantwortete Fragen
-assessment#:#tst_dynamic_question_set_selection#:#Auswahl der Testfragen und Auswahlstatistik
-assessment#:#tst_dynamic_question_set_complete#:#Gesamtstatistik
+assessment#:#tst_dynamic_question_set_selection#:#Bearbeitungsstand der aktuell ausgewählten Fragen
+assessment#:#tst_dynamic_question_set_complete#:#Bearbeitungsstand aller verfügbaren Fragen
 assessment#:#tst_num_all_questions#:#Anzahl aller Fragen
 assessment#:#tst_num_selected_questions#:#Anzahl ausgewählter Fragen
-assessment#:#tst_num_non_answered_questions#:#Nicht beantwortete Fragen
-assessment#:#tst_num_wrong_answered_questions#:#Nicht ganz richtig beantwortete Fragen
+assessment#:#tst_num_non_answered_questions_skipped#:#Unbeantwortete, überblätterte Fragen
+assessment#:#tst_num_non_answered_questions_notseen#:#Unbeantwortete, nie gezeigte Fragen
+assessment#:#tst_num_wrong_answered_questions#:#Falsch beantwortete Fragen
 assessment#:#tst_num_correct_answered_questions#:#Richtig beantwortete Fragen
 assessment#:#tst_num_postponed_questions#:#Zurückgestellte Fragen
 assessment#:#tst_num_marked_questions#:#Markierte Fragen
-assessment#:#tst_change_dyn_test_question_selection#:#Aktuelle Fragenauswahl ändern
+assessment#:#tst_change_dyn_test_question_selection#:#Fragenauswahl ändern
 assessment#:#tst_dyn_test_msg_currently_finished_completely#:#Aktuell haben Sie alle Fragen des Quellfragenpool erfolgreich beantwortet. Sowie neue oder veränderte Fragen im Quellfragenpool vorliegen können Sie den Test fortführen.
 assessment#:#tst_dyn_test_msg_currently_finished_selection#:#In der aktuellen Fragenauswahl haben Sie alle Fragen erfolgreich beantwortet. Ändern Sie die Fragenauswahl um den Test fort zu führen.
 assessment#:#tst_activate_skill_service#:#Kompetenzservice aktivieren
@@ -2753,7 +2774,8 @@ common#:#chat_enter_public_room_tooltip#:#In den öffentlichen Chatraum eintrete
 common#:#chat_invite_public_room_tooltip#:#In den öffentlichen Chatraum einladen.
 chatroom#:#chat_settings#:#Chat-Einstellungen
 common#:#chat_users_active#:#Aktive Benutzer
-common#:#check#:#Prüfen
+common#:#check#:#Rückmeldung anfordern
+assessment#:#submit_and_check#:#Antwort einreichen und Rückmeldung anfordern
 common#:#check_all#:#Alle auswählen
 common#:#check_langfile#:#Bitte überprüfen Sie die Sprachdatei!
 common#:#check_languages#:#Alle Sprachen überprüfen
@@ -3804,7 +3826,7 @@ common#:#links_user_name#:#ILIAS-Benutzername
 common#:#links_value#:#Parameter Wert
 common#:#list#:#Liste
 common#:#list_of_pages#:#Seitenliste
-common#:#list_of_questions#:#Fragenliste
+common#:#list_of_questions#:#Fragennavigation
 common#:#literature#:#Literatur
 common#:#literature_bookmarks#:#Literatur-Bookmarks
 common#:#lm#:#Lernmodul ILIAS
@@ -14865,9 +14887,9 @@ user#:#delete_inactive_user_accounts_frequency#:#Intervall
 user#:#delete_inactive_user_accounts_frequency_desc#:#Intervall, mit welchem auf Löschung sowie auf E-Mail-Versand getestet wird.
 user#:#send_mail_to_inactive_users#:#Benachrichtigungsmail
 user#:#send_mail_to_inactive_users_suffix#:#Tage bis zur Löschung.
-user#:#send_mail_to_inactive_users_desc#:#Bevor ein Benutzeraccount gelöscht werden, sendet ILIAS eine E-Mail an den Benutzer. Durch ein erneutes Anmelden des Benutzers in ILIAS wird die Löschung um die eingestellte Zeitspanne aufgeschoben. Bitte stellen Sie sicher, dass ein externer Mail-Empfang möglich ist.
+user#:#send_mail_to_inactive_users_desc#:#Bevor ein Benutzeraccount gelöscht werden, sendet ILIAS eine E-Mail an den Benutzer. Durch ein erneutes Anmelden des Benutzers in ILIAS wird die Löschung um die eingestellte Zeitspanne aufgeschoben. Bitte stellen Sie sicher, dass ein externer Mail-Empfang möglich ist. Bei Aktivierung des Cronjobs mit Benachrichtigungsmail, kann es vorkommen, dass zu Beginn die Zeitspanne zwischen Benachrichtigung und Löschung geringer als die eingestellte Zeitspanne ist.  
 user#:#del_mail_subject#:#(ILIAS) – Ihr Benutzerkonto wird bald gelöscht
-user#:#del_mail_body#:#Hallo %1$s, %2$sSie haben sich seit längerer Zeit nicht mehr auf der Lernplattform %3$s angemeldet. Ihr Benutzerkonto wird daher in %4$s Tagen gelöscht. Bitte melden Sie sich erneut an, damit Ihr Benutzerkonto erhalten bleibt.
+user#:#del_mail_body#:#Hallo %1$s, %2$sSie haben sich seit längerer Zeit nicht mehr auf der Lernplattform %3$s angemeldet. Ihr Benutzerkonto wird daher vorraussichtlich am %4$s gelöscht. Bitte melden Sie sich erneut an, damit Ihr Benutzerkonto erhalten bleibt.
 user#:#send_mail_to_inactive_users_numbers_only#:#Bitte nur ganzzahlige, positive Werte eingeben. Ihre Eingabe wurde gerundet.
 user#:#send_mail_to_inactive_users_must_be_smaller_than#:#Dieser Wert muss kleiner sein, als der Wert "Vergangene Tage seit letzter Anmeldung".
 user#:#send_mail_reminder_window_too_small#:#Das Intervall ist zu groß um den Versand einer E-Mail vor der Löschung des Accounts zu gewährleisten.
@@ -15893,3 +15915,77 @@ mail#:#mail_enable_grp_admin_notification#:#Gruppenadministratoren benachrichtig
 mail#:#mail_enable_crs_admin_notification_info#:#In neuen Kursen ist im Reiter "Mitglieder" für Kursadministratoren und -tutoren die Einstellungen "Benachrichtigung über neue Mitglieder" standardmäßig aktiviert. Sie erhalten E-Mails, wenn ein Mitglied beitritt, den Kurs verlässt oder die Mindestanzahl an Teilnehmern zur Durchführung des Kurses nicht erreicht wird.
 mail#:#mail_enable_grp_admin_notification_info#:#In neuen Gruppen ist im Reiter "Mitglieder" für Gruppenadministratoren die Einstellungen "Benachrichtigungen" standardmäßig aktiviert. Sie erhalten E-Mails, wenn ein Mitglied beitritt, die Gruppe verlässt oder die Mindestanzahl an Teilnehmern zur Durchführung der Gruppe nicht erreicht wird.
 mail#:#mail_notification_membership_section#:#Mitgliedschaften
+prg#:#prg_new#:#Neues Studienprogramm
+prg#:#prg_add#:#Studienprogramm hinzufügen
+prg#:#prg_edit#:#Studienprogramm bearbeiten
+prg#:#prg_type#:#Studienprogrammtyp
+prg#:#prg_view_tree#:#Baumansicht
+prg#:#prg_assessment#:#Studienprogrammbewertung
+prg#:#prg_points#:#Punkte
+prg#:#prg_status#:#Status
+prg#:#prg_status_draft#:#Entwurf
+prg#:#prg_status_active#:#aktiv
+prg#:#prg_status_outdated#:#abgelaufen
+prg#:#prg_status_in_progress#:#In Bearbeitung
+prg#:#prg_status_completed#:#Abgeschlossen
+prg#:#prg_status_accredited#:#Akkreditiert
+prg#:#prg_status_not_relevant#:#Nicht Relevant
+prg#:#prg_possible#:#Möglich
+prg#:#prg_completion_by#:#Abgeschlossen durch
+prg#:#prg_changed_by#:#Geändert durch
+prg#:#prg_manual_status#:#Manueller Status
+prg#:#prg_points_required#:#Benötigte Punkte
+prg#:#prg_points_current#:#Derzeitige Punkte
+prg#:#prg_custom_plan#:#Individueller Plan
+prg#:#prg_belongs_to#:#Gehört Zu
+prg#:#prg_show_individual_plan#:#Individuellen Plan zeigen
+prg#:#prg_remove_user#:#Benutzer entfernen
+prg#:#prg_mark_accredited#:#akkreditieren
+prg#:#prg_unmark_accredited#:#Akkreditierung entfernen
+prg#:#prg_mark_accredited_success#:#Das Programm wurde für den Benutzer erfolgreich akkreditiert.
+prg#:#prg_unmark_accredited_success#:#Die Akkreditierung wurde erfolgreich entfernt.
+prg#:#prg_remove_user_success#:#Der Benutzer wurde entfernt. 
+prg#:#prg_type_add#:#Studienprogrammtyp hinzufügen
+prg#:#prg_subtypes#:#Typen
+prg#:#prg_subtype_add#:#Neuen Typ hinzufügen
+prg#:#prg_adv_settings#:#Erweiterte Einstellungen
+prg#:#prg_type_custom_icon#:#Individuelles Icon
+prg#:#prg_type_custom_icon_info#:#Info für Individuelles Icon
+prg#:#prg_type_msg_error_custom_icon#:#Während des Speicherns des individuellen Icons ist ein Fehler aufgetreten.
+prg#:#prg_type_assign_amd_sets#:#Erweitertes Metadatenset zuweisen
+prg#:#prg_type_available_amd_sets#:#Verfügbare Erweitere Metadatensets
+prg#:#prg_type_edit#:#Typ editieren
+prg#:#prg_type_msg_deleted#:#Typ löschen
+prg#:#prg_type_msg_unable_delete#:#Konnte Typ nicht löschen, da er bei folgenden Studienprogrammen verwendet wird: %s
+prg#:#prg_type_msg_missing_title_default_language#:#Es muss eine Standardsprache und ein Titel für die Standardsprache gesetzt sein.
+prg#:#prg_save_tree_order#:#Reihenfolge des Baums speichern
+prg#:#prg_cancel_tree_order#:#Reihenfolge des Baums verwerfen.
+prg#:#prg_saved_order_successful#:#Reihenfolge des Baums erfolgreich gespeichert.
+prg#:#prg_async_settings#:#Einstellungen
+prg#:#prg_open_node#:#Zum Studienprogramm wechseln.
+prg#:#prg_async_create#:#Neues Element hinzufügen.
+prg#:#prg_create_new_node#:#Neues Studienprogramm hinzufügen
+prg#:#prg_create_new_leaf#:#Neue Kursreferenz hinzufügen.
+prg#:#prg_please_select_a_course_for_creating_a_leaf#:#Bitte wählen Sie eine Kursreferenz.
+prg#:#prg_deleted_safely#:#Knoten wurde sicher entfernt.
+prg#:#prg_not_allowed_node_to_delete#:#Sie dürfen dieses Studienprogramm nicht entfernen.
+prg#:#prg_added_course_ref_successful#:#Neue Kursreferenz erfolgreich hinzugefügt.
+prg#:#prg_manage#:#Verwalten
+prg#:#prg_view#:#Anzeigen
+prg#:#prg_update_from_current_plan#:#Aus dem aktuellen Plan aktualisieren.
+prg#:#prg_update_successful#:#Änderungen erfolgreich gespeichert!
+prg#:#prg_update_from_plan_successful#:#Die Aktualisierung aus dem aktuellen Plan war erfolgreich.
+prg#:#prg_warning_img_alt#:#Warnung!
+prg#:#prg_successful_img_alt#:#erfolgreich
+prg#:#prg_in_progress_img_alt#:#in Bearbeitung
+prg#:#prg_progress_info#:#Sieh haben %1$d Punkte. Das Studienprogramm ist mit %2$d Punkten bestanden.
+prg#:#prg_progress_status#:# %1$d von %2$d Punkten
+prg#:#prg_no_members_not_active#:#Da das Studienprogramm nicht aktiv ist, können keine neuen Mitglieder hinzugefügt werden.
+prg#:#prg_type_msg_missing_title#:#Titel kann nicht leer sein.
+common#:#obj_prg_duplicate#:#Studienprogramm kopieren
+common#:#obj_prg_select#:#-- Bitte wählen Sie ein Studienprogramm --
+common#:#obj_prg#:#Studienprogramm
+common#:#objs_prg#:#Studienprogramme
+common#:#obj_prgs_desc#:#Studienprogramm Administration
+trac#:#trac_mode_study_programme#:#Studienprogramm abgeschlossen
+trac#:#trac_mode_study_programme_info#:#Das Studienprogramm muss vom Benutzer abgeschlossen sein um den Lernfortschritt "bearbeitet" zu erhalten.

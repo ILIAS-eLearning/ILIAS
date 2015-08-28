@@ -11040,7 +11040,119 @@ if($ilDB->tableExists('tree_workspace'))
 ?>
 <#4742>
 <?php
+if( !$ilDB->tableColumnExists('tst_active', 'last_pmode') )
+{
+	$ilDB->addTableColumn('tst_active', 'last_pmode', array(
+		'type' => 'text',
+		'length' => 16,
+		'notnull' => false,
+		'default' => null
+	));
+}
+?>
+<#4743>
+<?php
+if( !$ilDB->tableColumnExists('tst_solutions', 'authorized') )
+{
+	$ilDB->addTableColumn('tst_solutions', 'authorized', array(
+		'type' => 'integer',
+		'length' => 1,
+		'notnull' => false,
+		'default' => 1
+	));
 
+	$ilDB->queryF("UPDATE tst_solutions SET authorized = %s", array('integer'), array(1));
+}
+?>
+<#4744>
+<?php
+if( $ilDB->tableColumnExists('tst_dyn_quest_set_cfg', 'prev_quest_list_enabled') )
+{
+	$ilDB->dropTableColumn('tst_dyn_quest_set_cfg', 'prev_quest_list_enabled');
+}
+?>
+<#4745>
+<?php
+if( !$ilDB->tableColumnExists('tst_tests', 'force_inst_fb') )
+{
+	$ilDB->addTableColumn('tst_tests', 'force_inst_fb', array(
+		'type' => 'integer',
+		'length' => 1,
+		'notnull' => false,
+		'default' => 0
+	));
+}
+?>
+<#4746>
+<?php
+require_once("./Modules/StudyProgramme/classes/model/class.ilStudyProgramme.php");
+require_once("./Modules/StudyProgramme/classes/model/class.ilStudyProgrammeAssignment.php");
+require_once("./Modules/StudyProgramme/classes/model/class.ilStudyProgrammeProgress.php");
+
+ilStudyProgramme::installDB();
+ilStudyProgrammeAssignment::installDB();
+ilStudyProgrammeProgress::installDB();
+
+// Active Record does not support tuples as primary keys, so we have to
+// set those on our own.
+$ilDB->addUniqueConstraint( ilStudyProgrammeProgress::returnDbTableName()
+						  , array("assignment_id", "prg_id", "usr_id")
+						  );
+
+// ActiveRecord seems to not interpret con_is_null correctly, so we have to set
+// it manually.
+$ilDB->modifyTableColumn( ilStudyProgrammeProgress::returnDbTableName()
+						, "completion_by"
+						, array( "notnull" => false
+							   , "default" => null
+							   )
+						);
+$ilDB->modifyTableColumn( ilStudyProgrammeProgress::returnDbTableName()
+						, "last_change_by"
+						, array( "notnull" => false
+							   , "default" => null
+							   )
+						);
+
+require_once("./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php");
+$obj_type_id = ilDBUpdateNewObjectType::addNewType("prg", "StudyProgramme");
+$existing_ops = array("visible", "write", "copy", "delete", "edit_permission");
+foreach ($existing_ops as $op) {
+	$op_id = ilDBUpdateNewObjectType::getCustomRBACOperationId($op);
+	ilDBUpdateNewObjectType::addRBACOperation($obj_type_id, $op_id);		
+}
+
+require_once("./Modules/StudyProgramme/classes/model/class.ilStudyProgrammeAdvancedMetadataRecord.php");
+require_once("./Modules/StudyProgramme/classes/model/class.ilStudyProgrammeType.php");
+require_once("./Modules/StudyProgramme/classes/model/class.ilStudyProgrammeTypeTranslation.php");
+
+ilStudyProgrammeAdvancedMetadataRecord::installDB();
+ilStudyProgrammeType::installDB();
+ilStudyProgrammeTypeTranslation::installDB();
+
+?>
+<#4747>
+<?php
+
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+// workaround to avoid error when using addAdminNode. Bug?
+class EventHandler {
+	public function raise($a_component, $a_event, $a_parameter = "") {
+		// nothing to do...
+	}
+}
+$GLOBALS['ilAppEventHandler'] = new EventHandler();
+
+ilDBUpdateNewObjectType::addAdminNode('prgs', 'StudyProgrammeAdmin');
+
+?>
+<#4748>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#4749>
+<?php
 if(!$ilDB->tableColumnExists("obj_members", "admin"))
 {
         $ilDB->addTableColumn(
