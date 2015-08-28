@@ -283,6 +283,7 @@ assessment#:#autosave#:#Automatisches Speichern
 assessment#:#autosave_info#:#Antworten werden von ILIAS automatisch gespeichert, um einen Datenverlust zu vermeiden.
 assessment#:#autosave_ival#:#Speicherintervall
 assessment#:#for#:#für
+assessment#:#char_selector_btn_label#:#&nbsp;Ω&nbsp;
 assessment#:#tst_objective_oriented_test_pass_without_questions#:#Der gestartete Durchlauf im Test "%s" enthält keine Fragen.
 assessment#:#tst_dyn_quest_set_pool_deleted#:#Der aktuell konfigurierte Fragenpool "%s" ist gelöscht worden.
 assessment#:#tst_old_style_rnd_quest_set_broken#:#Dieser Random Test befindet sich in einem irreparablen Zustand, da angeschlossene Fragepools gelöscht wurden. Aus diesem Grund können Teilnehmer diesen Test nicht länger absolvieren.
@@ -391,6 +392,12 @@ assessment#:#available_points#:#Erreichbare Punkte
 assessment#:#available_terms#:#Auswählbare Terme
 assessment#:#average_reached_points#:#Durchschnittlich erreichte Punktezahl
 assessment#:#backtocallingtest#:#Zurück zum aufrufenden Test
+assessment#:#assLongMenu#:#Langes Menü
+assessment#:#answers_text_box#:#Textfeld
+assessment#:#answers_select#:#Auswahl
+assessment#:#info_text_upload#:#Wählen Sie eine Antwort Datei zum hochladen aus
+assessment#:#manual_editing#:#Manuelle Editierung
+assessment#:#longmenu_text#:#Langes Menü Text
 assessment#:#by#:#nach
 assessment#:#cancel_test#:#Test unterbrechen
 assessment#:#cannot_edit_marks#:#Der Test wurde bereits von Teilnehmern durchgeführt. Sie können die Bewertung nur ändern, wenn ein Datum für die Ergebnisausgabe eingestellt wurde, das aktuell noch in der Zukunft liegt.
@@ -912,7 +919,6 @@ assessment#:#polygon#:#Polygonzug
 assessment#:#polygon_click_next_or_save#:#Bitte klicken Sie auf den nächsten Punkt im Polygonzug oder speichern Sie die Region. (Es ist nicht nötig, noch einmal auf den Startpunkt zu klicken, um den Polygonzug zu schließen!)
 assessment#:#polygon_click_next_point#:#Bitte klicken Sie auf den nächsten Punkt im Polygonzug.
 assessment#:#polygon_click_starting_point#:#Bitte klicken Sie auf den Startpunkt des Polygonzugs.
-assessment#:#postpone#:#Frage zurückstellen
 assessment#:#remove_gap#:#Lücke entfernen
 assessment#:#postponed#:#zurückgestellt
 assessment#:#postpone_status#:#Postponed
@@ -981,7 +987,8 @@ assessment#:#question_marking_description#:#Teilnehmer erhalten die Möglichkeit
 assessment#:#question_not_answered#:#Die Frage wurde nicht beantwortet
 assessment#:#question_saved_for_upload#:#Die Frage wurde automatisch gespeichert, um das Hochladen einer Datei zu ermöglichen. Wenn Sie die Bearbeitung dieser Frage jetzt abbrechen, beachten Sie bitte, dass Sie die Frage im Fragenpool löschen müssen, wenn Sie sie nicht behalten wollen.
 assessment#:#question_short#:#F
-assessment#:#question_summary#:#Fragenübersicht
+assessment#:#question_summary#:#Stand der Bearbeitung
+assessment#:#question_summary_btn#:#Bearbeitungsstand
 assessment#:#obligations_summary#:#Übersicht verpflichtender Fragen
 assessment#:#tst_you_have_to_answer_this_question#:#Diese Frage muss beantwortet werden, um den Test beenden zu können.
 assessment#:#question_title#:#Fragentitel
@@ -1018,11 +1025,15 @@ assessment#:#result_unsuccessful_saved#:#Beim Speichern Ihrer Ergebnisse ist ein
 assessment#:#save_before_upload_imagemap#:#Sie müssen Ihre Änderungen speichern, bevor Sie eine Imagemap hochladen können!
 assessment#:#save_before_upload_javaapplet#:#Sie müssen Ihre Änderungen speichern, bevor Sie ein Java-Applet hochladen können!
 assessment#:#save_edit#:#Speichern und Inhalt bearbeiten
-assessment#:#save_finish#:#Test beenden
-assessment#:#save_introduction#:#Zur Startseite
+assessment#:#finish_test#:#Test beenden
+assessment#:#next_question#:#Weiterchten Sie 
+assessment#:#previous_question#:#Zurück
+assessment#:#submit_answer#:#Antwort einreichen
+assessment#:#discard_answer#:#Antwort verwerfen
+assessment#:#discard_answer_confirmation#:#Ihre Antwort wird vollständig und endgültig verworfen. Die Frage verbleibt als unbeantwortet und kann erneut bearbeitet werden.<br /><br />Möchten Sie Ihre Antwort endgültig verwerfen?
+assessment#:#edit_answer#:#Antwort ändern
+assessment#:#answer_question#:#Frage bearbeiten
 assessment#:#back_to_objective_container#:#Zurück zum Kurs
-assessment#:#save_next#:#Weiter
-assessment#:#save_previous#:#Zurück
 assessment#:#save_text_answer_points#:#Punkte der Textfragen speichern
 assessment#:#saveOrder#:#Sortierung abspeichern
 assessment#:#saveOrderAndObligations#:#Sortierung und Obligationen abspeichern
@@ -1040,6 +1051,13 @@ assessment#:#search_results#:#Suchergebnisse
 assessment#:#search_roles#:#nach Rollen
 assessment#:#search_term#:#Suchbegriff
 assessment#:#search_users#:#nach Benutzern
+assessment#:#tst_instant_feedback_handling#:#tst_instant_feedback_handling
+assessment#:#tst_instant_feedback_handling_none#:#tst_instant_feedback_handling_none
+assessment#:#tst_instant_feedback_handling_none_desc#:#tst_instant_feedback_handling_desc
+assessment#:#tst_instant_feedback_handling_freeze#:#tst_instant_feedback_handling_freeze
+assessment#:#tst_instant_feedback_handling_freeze_desc#:#tst_instant_feedback_handling_freeze_desc
+assessment#:#tst_instant_feedback_handling_force_and_freeze#:#tst_instant_feedback_handling_force_and_freeze
+assessment#:#tst_instant_feedback_handling_force_and_freeze_desc#:#tst_instant_feedback_handling_force_and_freeze_desc
 assessment#:#see_details_for_further_information#:#Inhalte zur Wiederholung: siehe Fragendetails
 assessment#:#select_an_answer#:#--- Bitte wählen Sie eine Antwort aus ---
 assessment#:#select_gap#:#Auswahl-Lücke
@@ -1200,7 +1218,7 @@ assessment#:#tst_hide_previous_results#:#Vorherige Ergebnisse nicht anzeigen
 assessment#:#tst_hide_previous_results_description#:#Die vorherigen Ergebnisse von Lernenden werden in weiteren Testdurchläufen eines Tests nicht als voreingestellte Werte übernommen
 assessment#:#tst_hide_previous_results_hide#:#Meine Ergebnisse aus dem vorigen Testdurchlauf nicht anzeigen
 assessment#:#tst_hide_previous_results_introduction#:#Wenn Sie mehr als einen Durchlauf dieses Tests bearbeiten, werden Ihre vorherigen Ergebnisse nicht als voreingestellte Werte übernommen
-assessment#:#tst_hide_side_list#:#Fragenliste nicht anzeigen
+assessment#:#tst_hide_side_list#:#Navigationsbaum ausblenden
 assessment#:#tst_import_no_items#:#Fehler: Die Importdatei beinhaltet keine Fragen!
 assessment#:#tst_import_verify_found_questions#:#ILIAS hat die folgenden Fragen in der Importdatei gefunden. Bitte wählen Sie die Fragen aus, die Sie mit diesem Test importieren wollen.
 assessment#:#tst_in_use_edit_questions_disabled#:#Der Test wurde bereits von %s Teilnehmerin(nen) begonnen. Sie dürfen deshalb keine Fragen mehr bearbeiten oder verschieben!
@@ -1214,6 +1232,8 @@ assessment#:#tst_instant_feedback_answer_generic#:#Rückmeldung zur richtigen L�
 assessment#:#tst_instant_feedback_answer_generic_desc#:#Ist die Gesamtheit der Antwort richtig, so zeigt ILIAS beim Anklicken des 'Rückmeldung anfordern'-Buttons die eine Art hinterlegter Rückmeldung an. Ist die Gesamtheit der Antwort nicht vollständig richtig, wird eine andere  Rückmeldung angezeigt. Beide Versionen müssen bei der Frage im Reiter 'Rückmeldung' hinterlegt werden.
 assessment#:#tst_instant_feedback_fix_usr_answer#:#Gegebene Antworten festschreiben
 assessment#:#tst_instant_feedback_fix_usr_answer_desc#:#Nach Anklicken des 'Rückmeldung anfordern'-Buttons kann ein Teilnehmer seine Antwort nicht mehr verändern.
+assessment#:#tst_instant_feedback_forced#:#Forciere direkte Rückmeldung
+assessment#:#tst_instant_feedback_forced_desc#:#Beim Einreichen von Antworten wird die direkte Rückmeldung forciert.
 assessment#:#tst_instant_feedback_results#:#Erreichte Punkte
 assessment#:#tst_instant_feedback_results_desc#:#Bei Anklicken des 'Rückmeldung anfordern'-Buttons zeigt ILIAS an, wie viele Punkte für die gegebene Antwort erreicht wurden.
 assessment#:#tst_instant_feedback_solution#:#Bestmögliche Lösung anzeigen
@@ -1291,7 +1311,10 @@ assessment#:#tst_password_introduction#:#Dieser Test kann nur mit einem Testpass
 assessment#:#tst_percent_solved#:#Prozent gelöst
 assessment#:#tst_position#:#Frage %s von %s
 assessment#:#tst_postpone#:#Fragen zurückstellen
-assessment#:#tst_postpone_description#:#Erlaubt Teilnehmern, einzelne Fragen zur späteren Bearbeitung an das Ende des Tests zu stellen.
+assessment#:#tst_postpone_on#:#Nicht beantwortete Fragen hinten anstellen
+assessment#:#tst_postpone_on_desc#:#Nicht beantwortetee Fragen werden hinten angestellt.
+assessment#:#tst_postpone_off#:#Nicht beantwortete Fragen nicht hinten anstellen
+assessment#:#tst_postpone_off_desc#:#Nicht beantwortetee Fragen verbleiben an ihrer Position.
 assessment#:#tst_presentation_properties#:#Durchführung: Verhalten der Frage
 assessment#:#tst_print#:#Test und Assessment – Druckansicht
 assessment#:#tst_print_date#:#Datum des Ausdrucks
@@ -1422,7 +1445,10 @@ assessment#:#tst_show_cancel#:#"Test unterbrechen" anzeigen
 assessment#:#tst_show_cancel_description#:#Zeigt während der Durchführung des Tests einen Button an, mit der der Test unterbrochen werden kann. Achtung: Das Unterbrechen des Tests hält nicht die unter 'Maximale Bearbeitungsdauer' festgelegte Bearbeitungszeit an.
 assessment#:#tst_show_pass_details#:#'Tabelle mit detaillierten Testergebnissen' pro Durchlauf zum gewählten Zeitpunkt anzeigen
 assessment#:#tst_show_results#:#Testergebnisse anzeigen
-assessment#:#tst_show_side_list#:#Fragenliste seitlich anzeigen
+assessment#:#tst_show_side_list#:#Navigationsbaum einblenden
+assessment#:#tst_dyn_unfreeze_answers_confirmation#:#Es sind Fragen enthalten zu denen ihre initialen Antworten festgeschrieben, so dass sie keine Änderungen an den Antworten vornehmen können. Möchten sie die Fragen jetzt erneut beantworten und die festgeschrieben Antworten lösen?
+assessment#:#tst_dyn_unfreeze_answers#:#Erneut beantworten
+assessment#:#tst_dyn_keep_answ_freeze#:#Belasse festgeschriebene Antworten
 assessment#:#tst_show_solution_answers_only#:#Druckausgabe der Ergebnisse (nur Antworten)
 assessment#:#tst_show_solution_details#:#Bewertete Teilnehmerantworten
 assessment#:#tst_show_solution_feedback#:#Rückmeldungen
@@ -1606,12 +1632,13 @@ assessment#:#tst_dynamic_question_set_selection#:#Auswahl der Testfragen und Aus
 assessment#:#tst_dynamic_question_set_complete#:#Gesamtstatistik
 assessment#:#tst_num_all_questions#:#Anzahl aller Fragen
 assessment#:#tst_num_selected_questions#:#Anzahl ausgewählter Fragen
-assessment#:#tst_num_non_answered_questions#:#Nicht beantwortete Fragen
+assessment#:#tst_num_non_answered_questions_skipped#:#Nicht beantwortete Fragen (überblättert)
+assessment#:#tst_num_non_answered_questions_notseen#:#Nicht beantwortete Fragen (nie gesehen)
 assessment#:#tst_num_wrong_answered_questions#:#Nicht ganz richtig beantwortete Fragen
 assessment#:#tst_num_correct_answered_questions#:#Richtig beantwortete Fragen
 assessment#:#tst_num_postponed_questions#:#Zurückgestellte Fragen
 assessment#:#tst_num_marked_questions#:#Markierte Fragen
-assessment#:#tst_change_dyn_test_question_selection#:#Aktuelle Fragenauswahl ändern
+assessment#:#tst_change_dyn_test_question_selection#:#Fragenauswahl ändern
 assessment#:#tst_dyn_test_msg_currently_finished_completely#:#Aktuell haben Sie alle Fragen des Quellfragenpool erfolgreich beantwortet. Sowie neue oder veränderte Fragen im Quellfragenpool vorliegen können Sie den Test fortführen.
 assessment#:#tst_dyn_test_msg_currently_finished_selection#:#In der aktuellen Fragenauswahl haben Sie alle Fragen erfolgreich beantwortet. Ändern Sie die Fragenauswahl um den Test fort zu führen.
 assessment#:#tst_activate_skill_service#:#Kompetenzservice aktivieren
@@ -2747,7 +2774,8 @@ common#:#chat_enter_public_room_tooltip#:#In den öffentlichen Chatraum eintrete
 common#:#chat_invite_public_room_tooltip#:#In den öffentlichen Chatraum einladen.
 chatroom#:#chat_settings#:#Chat-Einstellungen
 common#:#chat_users_active#:#Aktive Benutzer
-common#:#check#:#Prüfen
+common#:#check#:#Rückmeldung anfordern
+assessment#:#submit_and_check#:#Antwort einreichen und Rückmeldung anfordern
 common#:#check_all#:#Alle auswählen
 common#:#check_langfile#:#Bitte überprüfen Sie die Sprachdatei!
 common#:#check_languages#:#Alle Sprachen überprüfen
@@ -8356,10 +8384,10 @@ mail#:#mail_edit_entry#:#Eintrag bearbeiten
 mail#:#mail_email_forbidden#:#Sie sind nicht berechtigt E-Mails zu verschicken
 mail#:#mail_empty_trash#:#Papierkorb leeren
 mail#:#mail_empty_trash_confirmation#:#Sind Sie sicher, dass alle Mails im Papierkorb gelöscht werden sollen?
-mail#:#mail_enable_crs_member_notification#:#Kursbenachrichtigung
-mail#:#mail_enable_crs_member_notification_info#:#Wenn aktiviert, werden Teilnehmer automatisch über Änderungen ihrer Kursmitgliedschaften per Mail informiert.
-mail#:#mail_enable_grp_member_notification#:#Gruppenbenachrichtigung
-mail#:#mail_enable_grp_member_notification_info#:#Wenn aktiviert, werden Teilnehmer automatisch über Änderungen ihrer Gruppenmitgliedschaften per Mail informiert.
+mail#:#mail_enable_crs_member_notification#:#Mitglieder benachrichtigen
+mail#:#mail_enable_crs_member_notification_info#:#Mitglieder erhalten automatisch eine E-Mail, wenn sich ihr Mitgliedsstatus ändert. Diese Einstellung betrifft alle Kurse der Plattform.
+mail#:#mail_enable_grp_member_notification#:#Mitglieder benachrichtigen
+mail#:#mail_enable_grp_member_notification_info#:#Mitglieder erhalten automatisch eine E-Mail, wenn sich ihr Mitgliedsstatus ändert. Diese Einstellung betrifft alle Gruppen der Plattform.
 mail#:#mail_enter_login_or_email_addr#:#Bitte geben Sie einen Benutzernamen oder eine E-Mail-Adresse ein.
 mail#:#mail_enter_valid_email_addr#:#Bitte geben Sie eine gültige E-Mail-Adresse ein.
 mail#:#mail_enter_valid_login#:#Bitte geben Sie einen gültigen Benutzernamen ein.
@@ -14859,9 +14887,9 @@ user#:#delete_inactive_user_accounts_frequency#:#Intervall
 user#:#delete_inactive_user_accounts_frequency_desc#:#Intervall, mit welchem auf Löschung sowie auf E-Mail-Versand getestet wird.
 user#:#send_mail_to_inactive_users#:#Benachrichtigungsmail
 user#:#send_mail_to_inactive_users_suffix#:#Tage bis zur Löschung.
-user#:#send_mail_to_inactive_users_desc#:#Bevor ein Benutzeraccount gelöscht werden, sendet ILIAS eine E-Mail an den Benutzer. Durch ein erneutes Anmelden des Benutzers in ILIAS wird die Löschung um die eingestellte Zeitspanne aufgeschoben. Bitte stellen Sie sicher, dass ein externer Mail-Empfang möglich ist.
+user#:#send_mail_to_inactive_users_desc#:#Bevor ein Benutzeraccount gelöscht werden, sendet ILIAS eine E-Mail an den Benutzer. Durch ein erneutes Anmelden des Benutzers in ILIAS wird die Löschung um die eingestellte Zeitspanne aufgeschoben. Bitte stellen Sie sicher, dass ein externer Mail-Empfang möglich ist. Bei Aktivierung des Cronjobs mit Benachrichtigungsmail, kann es vorkommen, dass zu Beginn die Zeitspanne zwischen Benachrichtigung und Löschung geringer als die eingestellte Zeitspanne ist.  
 user#:#del_mail_subject#:#(ILIAS) – Ihr Benutzerkonto wird bald gelöscht
-user#:#del_mail_body#:#Hallo %1$s, %2$sSie haben sich seit längerer Zeit nicht mehr auf der Lernplattform %3$s angemeldet. Ihr Benutzerkonto wird daher in %4$s Tagen gelöscht. Bitte melden Sie sich erneut an, damit Ihr Benutzerkonto erhalten bleibt.
+user#:#del_mail_body#:#Hallo %1$s, %2$sSie haben sich seit längerer Zeit nicht mehr auf der Lernplattform %3$s angemeldet. Ihr Benutzerkonto wird daher vorraussichtlich am %4$s gelöscht. Bitte melden Sie sich erneut an, damit Ihr Benutzerkonto erhalten bleibt.
 user#:#send_mail_to_inactive_users_numbers_only#:#Bitte nur ganzzahlige, positive Werte eingeben. Ihre Eingabe wurde gerundet.
 user#:#send_mail_to_inactive_users_must_be_smaller_than#:#Dieser Wert muss kleiner sein, als der Wert "Vergangene Tage seit letzter Anmeldung".
 user#:#send_mail_reminder_window_too_small#:#Das Intervall ist zu groß um den Versand einer E-Mail vor der Löschung des Accounts zu gewährleisten.
@@ -15786,7 +15814,7 @@ buddysystem#:#buddy_bs_state_ignored_request_a#:#Angefragt
 buddysystem#:#buddy_bs_state_ignored_request_p#:#Ignoriert
 buddysystem#:#buddy_bs_no_new_requests#:#Keine neuen Anfragen
 common#:#my_contacts#:#Meine Kontakte
-contact#:#contact_awrn_req_contacts#:#Kotaktanfragen
+contact#:#contact_awrn_req_contacts#:#Kontaktanfragen
 contact#:#contact_awrn_req_contacts_info#:#Alle Kontaktanfragen werden aufgelistet.
 buddysystem#:#buddy_view_gallery#:#Galerie
 buddysystem#:#buddy_view_table#:#Liste
@@ -15855,3 +15883,35 @@ prtf#:#prtf_manage_portfolios#:#Portfolios verwalten
 pd#:#block_show_pdportf#:#Portfolios anzeigen
 prtf#:#prtf_pd_block#:#Block auf Persönlichem Schreibtisch
 prtf#:#prtf_pd_block_info#:#Aktiviert einen Seitenblock auf dem Persönlichem Schreibtisch, der alle Portfolios des Benutzers auflistet.
+common#:#obj_logs#:#Protokollierung
+common#:#obj_logs_desc#:#Enthält globale Einstellungen für die ILIAS-Protokollierung
+rbac#:#logs_edit_permission#:#Rechteeinstellung der Protokollierung ändern
+rbac#:#logs_read#:#Lesezugriff auf Einstellungen der Protokollierung
+rbac#:#logs_visible#:#Protokollierungs-Administration ist sichtbar
+rbac#:#logs_write#:#Einstellungen der Protokollierungs-Administration bearbeiten
+logging#:#logs_settings#:#Protokollierungseinstellungen
+log#:#log_general_settings#:#Einstellungen zur Protokollierung
+log#:#log_components#:#Komponenten
+log#:#log_log_level#:#Log-Level
+log#:#log_level_debug#:#DEBUG
+log#:#log_level_info#:#INFO
+log#:#log_level_notice#:#NOTICE
+log#:#log_level_warning#:#WARNING
+log#:#log_level_error#:#ERROR
+log#:#log_level_critical#:#CRITICAL
+log#:#log_level_emergency#:#EMERGENCY
+log#:#log_level_alert#:#ALERT
+log#:#log_cache_#:#Caching
+log#:#log_cache_level#:#Caching-Level
+log#:#log_memory#:#Logge Speicherbedarf
+log#:#log_browser#:#Browser Konsolen-Log
+log#:#log_browser_users#:#Aktivierte Benutzer für Browser-Log
+log#:#log_component_col_component#:#Komponente
+log#:#log_component_col_level#:#Log-Level
+log#:#log_component_btn_reset#:#Einstellungen zurücksetzen
+forum#:#frm_search#:#Suche
+mail#:#mail_enable_crs_admin_notification#:#Kursadministratoren benachrichtigen
+mail#:#mail_enable_grp_admin_notification#:#Gruppenadministratoren benachrichtigen
+mail#:#mail_enable_crs_admin_notification_info#:#In neuen Kursen ist im Reiter "Mitglieder" für Kursadministratoren und -tutoren die Einstellungen "Benachrichtigung über neue Mitglieder" standardmäßig aktiviert. Sie erhalten E-Mails, wenn ein Mitglied beitritt, den Kurs verlässt oder die Mindestanzahl an Teilnehmern zur Durchführung des Kurses nicht erreicht wird.
+mail#:#mail_enable_grp_admin_notification_info#:#In neuen Gruppen ist im Reiter "Mitglieder" für Gruppenadministratoren die Einstellungen "Benachrichtigungen" standardmäßig aktiviert. Sie erhalten E-Mails, wenn ein Mitglied beitritt, die Gruppe verlässt oder die Mindestanzahl an Teilnehmern zur Durchführung der Gruppe nicht erreicht wird.
+mail#:#mail_notification_membership_section#:#Mitgliedschaften

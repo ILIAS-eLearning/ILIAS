@@ -1,0 +1,26 @@
+<script>
+	var answer_options = {ANSWER_OPTIONS_JSON};
+	$( document ).ready(function() {
+		$.each($('.long_menu_input'), function( index, value ) {
+			if($(this).is('input'))
+			{
+				var longest = answer_options[index].reduce(function (a, b) { return a.length > b.length ? a : b; });
+				$( this).attr('size', longest.length);
+				$( this ).autocomplete({
+					source: answer_options[index],
+					minLength: parseInt("{AUTOCOMPLETE_LENGTH}", 10)
+				});
+			}
+		});
+		$.each($('.long_menu_input_ignore'), function(  ) {
+			if($(this).is('input'))
+			{
+				var longest = $(this).val();
+				$( this).attr('size', longest.length);
+			}
+		});
+
+	});
+</script>
+{QUESTIONTEXT}
+{LONGMENU_TEXT}

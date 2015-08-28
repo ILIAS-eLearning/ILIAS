@@ -5785,9 +5785,12 @@ class ilObjUser extends ilObject
 					$value = trim($value);
 					if($value)
 					{
+						$uniq_id = $ilDB->nextId('usr_data_multi');
+
 						$ilDB->manipulate("INSERT usr_data_multi".
-							" (usr_id,field_id,value) VALUES".
-							" (".$ilDB->quote($this->getId(), "integer").
+							" (id,usr_id,field_id,value) VALUES".
+							" (".$ilDB->quote($uniq_id, "integer").
+							",".$ilDB->quote($this->getId(), "integer").
 							",".$ilDB->quote($id, "text").
 							",".$ilDB->quote($value, "text").
 							")");		

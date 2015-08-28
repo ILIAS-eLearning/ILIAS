@@ -236,8 +236,11 @@ class ilTaggingGUI
 	 */
 	function initJavascript($a_ajax_url)
 	{
-		global $tpl;
-		
+		global $tpl, $lng;
+
+		$lng->loadLanguageModule("tagging");
+		$lng->toJs("tagging_tags");
+
 		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
 		ilYuiUtil::initPanel();
 		include_once("./Services/jQuery/classes/class.iljQueryUtil.php");

@@ -263,8 +263,7 @@ abstract class ilComponent
 		
 		//return $rec["id"];
 	}
-
-
+	
 	/**
 	 * @param $a_type
 	 * @param $a_name
@@ -346,6 +345,27 @@ abstract class ilComponent
 
 		return false;
 	}
+	
+	/**
+	 * lookup component name
+	 * @global type $ilDB
+	 * @param type $a_component_id
+	 * @return type
+	 */
+	public static function lookupComponentName($a_component_id)
+	{
+		global $ilDB;
+		
+		$query = 'SELECT name from il_component '.
+				'WHERE id = '.$ilDB->quote($a_component_id,'text');
+		
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return $row->name;
+		}
+	}
+	
 
 }
 ?>

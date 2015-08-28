@@ -977,10 +977,10 @@ assessment#:#review_view#:#Обзор
 assessment#:#save_before_upload_imagemap#:#Вы должны применить изменения перед тем, как загрузите карту изображения!
 assessment#:#save_before_upload_javaapplet#:#Вы должны применить изменения перед тем, как загрузите Java апплет!
 assessment#:#save_edit#:#Сохранить и править контент
-assessment#:#save_finish#:#Закончить тест
+assessment#:#finish_test#:#Закончить тест
 assessment#:#save_introduction#:#Перейти к вступлению
-assessment#:#save_next#:#Следующий
-assessment#:#save_previous#:#Предыдущий
+assessment#:#next_question#:#Следующий
+assessment#:#previous_question#:#Предыдущий
 assessment#:#save_text_answer_points#:#Сохранить баллы эссе
 assessment#:#saved_adjustment#:#Изменения сохранены.
 assessment#:#saveOrder#:#Save Order
