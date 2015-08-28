@@ -17,7 +17,7 @@ class ilDataCollectionTextField extends ilDataCollectionRecordField
         if ($this->hasProperty(ilDataCollectionField::PROPERTYID_TEXTAREA)) {
             $breaks = array( "<br />" );
             $input = str_ireplace($breaks, "", $value);
-        } elseif ($this->hasProperty([ilDataCollectionField::PROPERTYID_URL]) && $json = json_decode($value)) {
+        } elseif ($this->hasProperty(ilDataCollectionField::PROPERTYID_URL) && $json = json_decode($value)) {
             $input = $json->link;
             $input_title = $json->title;
             $form->getItemByPostVar('field_' . $this->field->getId() . '_title')->setValue($input_title);
