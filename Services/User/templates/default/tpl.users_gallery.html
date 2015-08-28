@@ -31,7 +31,7 @@
 	$(function() {
 		var stateChangedListener = function(event, usr_id, is_state, was_state) {
 			if (is_state == "ilBuddySystemUnlinkedRelationState") {
-				$('.ilUsersGalleryContainer .ilUser.ilBuddySystemRemoveWhenUnlinked[data-user-id="' + usr_id + '"').parent().remove();
+				$('.ilUsersGalleryContainer .ilUser.ilBuddySystemRemoveWhenUnlinked[data-user-id="' + usr_id + '"]').parent().remove();
 				if (!$('.ilUsersGalleryContainer .ilUser').size())  {
 					$('.ilUsersGalleryContainer').html(no_entries_html);
 				}
