@@ -9,17 +9,15 @@ class ilDataCollectionTextField extends ilDataCollectionRecordField
 {
 
     /**
-     * @param $form
+     * @param $form ilPropertyFormGUI
      */
     public function fillFormInput(&$form)
     {
         $value = $this->getValue();
-        $properties = $this->getField()->getProperties();
-
-        if ($properties[ilDataCollectionField::PROPERTYID_TEXTAREA]) {
+        if ($this->hasProperty([ilDataCollectionField::PROPERTYID_TEXTAREA])) {
             $breaks = array( "<br />" );
             $input = str_ireplace($breaks, "", $value);
-        } elseif ($properties[ilDataCollectionField::PROPERTYID_URL] && $json = json_decode($value)) {
+        } elseif ($this->hasProperty([ilDataCollectionField::PROPERTYID_URL]) && $json = json_decode($value)) {
             $input = $json->link;
             $input_title = $json->title;
             $form->getItemByPostVar('field_' . $this->field->getId() . '_title')->setValue($input_title);
@@ -27,5 +25,28 @@ class ilDataCollectionTextField extends ilDataCollectionRecordField
             $input = $value;
         }
         $form->getItemByPostVar('field_' . $this->field->getId())->setValue($input);
+    }
+
+    /**
+     * @param $form ilPropertyFormGUI
+     */
+    public function setValueFromForm(&$form) {
+        if ($this->hasProperty([ilDataCollectionField::PROPERTYID_URL])) {
+            $value = json_encode(array(
+                "link" => $form->getInput("field_" . $this->field->getId()),
+                "title" => $form->getInput("field_" . $this->field->getId() . '_title')));
+        } else {
+            $value = $form->getInput("field_" . $this->field->getId());
+        }
+        $this->setValue($value);
+    }
+
+    /**
+     * @param $prop_id
+     * @return mixed
+     */
+    protected function hasProperty($prop_id) {
+        $properties = $this->getField()->getProperties();
+        return $properties[$prop_id];
     }
 }

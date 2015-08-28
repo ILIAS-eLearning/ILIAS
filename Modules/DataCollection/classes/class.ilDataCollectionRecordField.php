@@ -165,7 +165,21 @@ class ilDataCollectionRecordField {
 	}
 
 	/**
-	 * @param $form
+	 * @param $form ilPropertyFormGUI
+	 */
+	public function setValueFromForm(&$form) {
+		if ($this->field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_MOB
+			&& $form->getItemByPostVar("field_" . $this->field->getId())->getDeletionFlag()
+		) {
+			$value = - 1;
+		} else {
+			$value = $form->getInput("field_" . $this->field->getId());
+		}
+		$this->setValue($value);
+	}
+
+	/**
+	 * @param $form ilPropertyFormGUI
 	 */
 	public function fillFormInput(&$form) {
 		$form->getItemByPostVar('field_'.$this->field->getId())->setValue($this->getFormInput());

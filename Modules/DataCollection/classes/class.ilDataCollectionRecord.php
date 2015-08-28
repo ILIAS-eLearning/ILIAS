@@ -26,7 +26,7 @@ require_once('./Services/Notes/classes/class.ilNoteGUI.php');
 class ilDataCollectionRecord {
 
 	/**
-	 * @var array ilDataCollectionRecordField[]
+	 * @var ilDataCollectionRecordField[]
 	 */
 	protected $recordfields;
 	/**
@@ -289,6 +289,22 @@ class ilDataCollectionRecord {
 		}
 	}
 
+	/**
+	 * Set a field value
+	 *
+	 * @param int    $field_id
+	 * @param string $value
+	 */
+	public function setRecordFieldValueFromForm($field_id, &$form) {
+		$this->loadRecordFields();
+		if (ilDataCollectionStandardField::_isStandardField($field_id)) {
+			$this->setStandardFieldFromForm($field_id, $form);
+		} else {
+			$this->loadTable();
+			$this->recordfields[$field_id]->setValueFromForm($form);
+		}
+	}
+
 
 	/**
 	 * @deprecated
@@ -395,17 +411,27 @@ class ilDataCollectionRecord {
 
 	/**
 	 * @param $field_id
-	 * @param $form
+	 * @param $form ilPropertyFormGUI
 	 */
 	public function fillRecordFieldFormInput($field_id, &$form) {
 		$this->loadRecordFields();
 		if (ilDataCollectionStandardField::_isStandardField($field_id)) {
-			return $this->fillStandardFieldFormInput($field_id, $form);
+			$this->fillStandardFieldFormInput($field_id, $form);
 		} else {
-			return $this->recordfields[$field_id]->fillFormInput($form);
+			$this->recordfields[$field_id]->fillFormInput($form);
 		}
 	}
 
+
+	/**
+	 * @param $field_id
+	 * @param ilPropertyFormGUI $form
+	 */
+	protected function setStandardFieldFromForm($field_id, &$form) {
+		if ($item = $form->getItemByPostVar("field_".$field_id)) {
+			$this->setStandardField($item->getValue());
+		}
+	}
 
 	/**
 	 * @param $field_id

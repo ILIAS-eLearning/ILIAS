@@ -411,25 +411,10 @@ class ilDataCollectionRecordEditGUI {
 					return;
 				}
 			}
+
 			//edit values, they are valid we already checked them above
 			foreach ($all_fields as $field) {
-				//deletion flag on MOB inputs.
-				if ($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_MOB
-					&& $this->form->getItemByPostVar("field_" . $field->getId())->getDeletionFlag()
-				) {
-					$value = - 1;
-				} else if ($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_TEXT) {
-					$properties = $field->getProperties();
-					if ($properties[ilDataCollectionField::PROPERTYID_URL]) {
-						$value = array("link" => $this->form->getInput("field_" . $field->getId()), "title" => $this->form->getInput("field_" . $field->getId() . '_title'));
-						$value = json_encode($value);
-					} else {
-						$value = $this->form->getInput("field_" . $field->getId());
-					}
-				} else {
-					$value = $this->form->getInput("field_" . $field->getId());
-				}
-				$record_obj->setRecordFieldValue($field->getId(), $value);
+				$record_obj->setRecordFieldValueFromForm($field->getId(), $this->form);
 			}
 
 			// Do we need to set a new owner for this record?
@@ -468,7 +453,9 @@ class ilDataCollectionRecordEditGUI {
 			}
 		} else {
 			// Form not valid...
-			$this->form->setValuesByPost();
+			//TODO: URL title flushes on invalid form
+//			$this->form->setValuesByPost();
+			$this->setFormValues();
 			if ($this->ctrl->isAsynch()) {
 				echo $this->form->getHTML();
 				exit();
