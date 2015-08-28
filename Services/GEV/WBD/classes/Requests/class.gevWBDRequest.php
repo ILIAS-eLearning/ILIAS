@@ -19,4 +19,32 @@ abstract class gevWBDRequest extends WBDRequest {
 		$this->is_error = true;
 		return true;
 	}
+
+	/**
+	* replaces the placeholder with mapped values
+	*
+	* @return string 				XML String with replaced palceholders
+	*/
+	public function replaceArguments($template) {
+		$reflect = new ReflectionClass($this);
+		$props = $reflect->getProperties(ReflectionProperty::IS_PROTECTED);
+
+		foreach ($props as $key => $value) {
+			if($this->{$value->name} instanceof gevWBDData) {
+
+				$WBDValue = $this->{$value->name}->WBDValue();
+				$WBDTagName = $this->{$value->name}->WBDTagName();
+
+				if(is_bool($WBDValue)) {
+					$WBDValue = ($WBDValue) ? "ja" : "nein";
+				}
+
+				$template = str_replace("{".$WBDTagName."}"
+									, $WBDValue
+									, $template);
+			}
+		}
+		echo $template;
+		return $template;
+	}
 }

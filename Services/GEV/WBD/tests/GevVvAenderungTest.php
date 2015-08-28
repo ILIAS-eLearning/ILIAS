@@ -21,6 +21,8 @@ class GevVvAenderungTest extends RequestTestBase {
 					  ,"user_id"=>3215
 					  ,"street"=>"Vorgebirgstr. 338"
 					  ,"row_id"=>35214
+					  ,"address_info"=>"Der wohnt bei Mutti"
+					  ,"bwv_id"=>"1212-2323-23-2323"
 					);
 
 		$this->request = gevWBDRequestVvAenderung::getInstance($data);

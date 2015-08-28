@@ -25,7 +25,7 @@ class GevVvErstanlageTest extends RequestTestBase {
 					  ,"user_id"=>3215
 					  ,"street"=>"Vorgebirgstr. 338"
 					  ,"row_id"=>35214
-					  ,"address_info"=>""
+					  ,"address_info"=>"Der wohnt bei Mutti"
 					);
 
 		$this->request = gevWBDRequestVvErstanlage::getInstance($data);
