@@ -393,18 +393,16 @@ class ilDataCollectionRecord {
 		return $html;
 	}
 
-
 	/**
 	 * @param $field_id
-	 *
-	 * @return int
+	 * @param $form
 	 */
-	public function getRecordFieldFormInput($field_id) {
+	public function fillRecordFieldFormInput($field_id, &$form) {
 		$this->loadRecordFields();
 		if (ilDataCollectionStandardField::_isStandardField($field_id)) {
-			return $this->getStandardField($field_id);
+			return $this->fillStandardFieldFormInput($field_id, $form);
 		} else {
-			return $this->recordfields[$field_id]->getFormInput();
+			return $this->recordfields[$field_id]->fillFormInput($form);
 		}
 	}
 
@@ -421,6 +419,16 @@ class ilDataCollectionRecord {
 				return;
 		}
 		$this->$field_id = $value;
+	}
+
+	/**
+	 * @param $field_id
+	 * @param $form
+	 */
+	protected function fillStandardFieldFormInput($field_id, &$form) {
+		if ($item = $form->getItemByPostVar('field_' . $field_id)) {
+			$item->setValue($this->getStandardField($field_id));
+		}
 	}
 
 

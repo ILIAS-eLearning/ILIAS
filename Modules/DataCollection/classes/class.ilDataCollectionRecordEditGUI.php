@@ -332,19 +332,8 @@ class ilDataCollectionRecordEditGUI {
 		$allFields = $this->table->getFields();
 		$values = array();
 		foreach ($allFields as $field) {
-			$value = $record_obj->getRecordFieldFormInput($field->getId());
-
-			if ($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_TEXT) {
-				$properties = $field->getProperties();
-				if ($properties[ilDataCollectionField::PROPERTYID_URL] && $json = json_decode($value)) {
-					$this->form->getItemByPostVar('field_' . $field->getId() . '_title')->setValue($json->title);
-					$value = $json->link;
-				}
-			}
-			$values['field_' . $field->getId()] = $value;
+			$record_obj->fillRecordFieldFormInput($field->getId(), $this->form);
 		}
-		$values['record_id'] = $record_obj->getId();
-		$this->form->setValuesByArray($values);
 
 		return true;
 	}

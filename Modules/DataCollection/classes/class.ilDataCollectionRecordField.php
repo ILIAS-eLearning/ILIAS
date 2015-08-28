@@ -164,11 +164,18 @@ class ilDataCollectionRecordField {
 		}
 	}
 
+	/**
+	 * @param $form
+	 */
+	public function fillFormInput(&$form) {
+		$form->getItemByPostVar('field_'.$this->field->getId())->setValue($this->getFormInput());
+	}
+
 
 	/**
 	 * @return mixed
 	 */
-	public function getFormInput() {
+	protected function getFormInput() {
 		$datatype = $this->field->getDatatype();
 
 		return $datatype->parseFormInput($this->getValue(), $this);
