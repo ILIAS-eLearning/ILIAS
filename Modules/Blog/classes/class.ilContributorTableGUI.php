@@ -30,7 +30,7 @@ class ilContributorTableGUI extends ilTable2GUI
 
 		$this->addColumn("", "", 1);
 		$this->addColumn($this->lng->txt("name"), "name");
-		$this->addColumn($this->lng->txt("obj_role"));
+		$this->addColumn($this->lng->txt("obj_role"), "role");
 		
 		$this->setDefaultOrderField("name");
 						
