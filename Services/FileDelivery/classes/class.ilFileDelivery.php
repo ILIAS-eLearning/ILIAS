@@ -161,7 +161,7 @@ class ilFileDelivery {
 
 
 	public function deliver() {
-		ob_clean(); // fixed 0016469, 0016467, 0016468
+		$this->clearBuffer();
 		$this->checkCache();
 		$this->setGeneralHeaders();
 		switch ($this->getDeliveryType()) {
@@ -711,6 +711,15 @@ class ilFileDelivery {
 				//$this->close();
 			}
 		}
+	}
+
+
+	protected function clearBuffer() {
+		$ob_get_contents = ob_get_contents();
+		if ($ob_get_contents) {
+			ilWACLog::getInstance()->write(__CLASS__ . ' had output before file delivery: ' . $ob_get_contents);
+		}
+		ob_clean(); // fixed 0016469, 0016467, 0016468
 	}
 }
 
