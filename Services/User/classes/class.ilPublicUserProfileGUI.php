@@ -876,7 +876,7 @@ class ilPublicUserProfileGUI
 		}
 
 		$ilCtrl->setParameterByClass('ilBuddySystemGUI', 'user_id', $this->getUserId());
-		$ilCtrl->redirectByClass('ilBuddySystemGUI', 'link');
+		$ilCtrl->redirectByClass(array('ilPublicUserProfileGUI', 'ilBuddySystemGUI'), 'link');
 	}
 
 	/**
@@ -895,7 +895,7 @@ class ilPublicUserProfileGUI
 		}
 
 		$ilCtrl->setParameterByClass('ilBuddySystemGUI', 'user_id', $this->getUserId());
-		$ilCtrl->redirectByClass('ilBuddySystemGUI', 'ignore');
+		$ilCtrl->redirectByClass(array('ilPublicUserProfileGUI', 'ilBuddySystemGUI'), 'ignore');
 	}
 }
 ?>
