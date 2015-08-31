@@ -486,7 +486,7 @@ $this->next_link = $this->ctrl->getLinkTarget($this,'performSearch');
 		
 		if($options['date'])
 		{
-			$now = new ilDateTime($options['date'],IL_CAL_UNIX);
+			$now = new ilDate($options['date'],IL_CAL_UNIX);
 		}
 		else
 		{

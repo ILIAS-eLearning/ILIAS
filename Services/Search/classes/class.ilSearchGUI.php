@@ -697,7 +697,6 @@ class ilSearchGUI extends ilSearchBaseGUI
 		include_once('Services/Search/classes/class.ilUserSearchCache.php');
 		$this->search_cache = ilUserSearchCache::_getInstance($ilUser->getId());
 		$this->search_cache->switchSearchType(ilUserSearchCache::DEFAULT_SEARCH);
-		$this->search_cache->setCreationFilter($this->loadCreationFilter());
 		
 		if($_GET['page_number'])
 		{
@@ -706,6 +705,7 @@ class ilSearchGUI extends ilSearchBaseGUI
 		if(isset($_POST['cmd']['performSearch']))
 		{
 			$this->search_cache->setQuery(ilUtil::stripSlashes($_POST['term']));
+			$this->search_cache->setCreationFilter($this->loadCreationFilter());
 			$this->search_cache->save();
 		}
 	}
