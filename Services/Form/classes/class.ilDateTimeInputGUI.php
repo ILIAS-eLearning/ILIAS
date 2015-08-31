@@ -396,8 +396,16 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
 			$dt = false;
 		}
 
-		$date = new ilDateTime($dt, IL_CAL_FKT_GETDATE, $ilUser->getTimeZone());
-		$this->setDate($date);
+		if($this->getShowTime())
+		{
+			$date = new ilDateTime($dt, IL_CAL_FKT_GETDATE, $ilUser->getTimeZone());
+			$this->setDate($date);
+		}
+		else
+		{
+			$date = new ilDate($dt, IL_CAL_FKT_GETDATE);
+			$this->setDate($date);
+		}
 		
 		// post values used to be overwritten anyways - cannot change behaviour
 		$_POST[$this->getPostVar()]['date'] = $date->get(IL_CAL_FKT_DATE, 'Y-m-d', $ilUser->getTimeZone());
