@@ -197,7 +197,7 @@ abstract class ilAdvancedMDFieldDefinition
 		{
 			$field_ids[] = $row["field_id"];
 		}
-		return $field_id; 
+		return $field_ids; 
 	}
 	
 	/**
