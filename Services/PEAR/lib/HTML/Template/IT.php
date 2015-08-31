@@ -693,7 +693,6 @@ class HTML_Template_IT
     function init()
     {
         $this->free();
-        ilGlobalCache::flushAll();
         require_once('./Services/GlobalCache/classes/class.ilGlobalCache.php');
         $blocks = ilGlobalCache::getInstance(ilGlobalCache::COMP_TPL_BLOCKS);
 
@@ -705,7 +704,7 @@ class HTML_Template_IT
             $this->findBlocks($this->template);
             $blockdata['blockdata'] = $this->blockdata;
             $blockdata['blocklist'] = $this->blocklist;
-            $blocks->set($this->real_filename, $blockdata);
+            $blocks->set($this->real_filename, $blockdata, 60);
         }
 
         // we don't need it any more
@@ -716,7 +715,7 @@ class HTML_Template_IT
             $this->blockvariables = $blockvariables;
         } else {
             $this->buildBlockvariablelist();
-            $variables->set($this->real_filename, $this->blockvariables);
+            $variables->set($this->real_filename, $this->blockvariables, 60);
         }
     } // end func init
 
@@ -951,7 +950,7 @@ class HTML_Template_IT
             }
 
             $content = fread($fh, $fsize);
-            $ilGlobalCache->set($filename, $content);
+            $ilGlobalCache->set($filename, $content, 60);
             fclose($fh);
         }
 
