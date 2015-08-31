@@ -179,7 +179,8 @@ class ilLoggerFactory
 			if($this->getSettings()->isBrowserLogEnabledForUser($GLOBALS['ilUser']->getLogin()))
 			{
 				$browser_handler = new BrowserConsoleHandler();
-				$browser_handler->setLevel($this->getSettings()->getLevelByComponent($a_component_id));
+				#$browser_handler->setLevel($this->getSettings()->getLevelByComponent($a_component_id));
+				$browser_handler->setLevel($this->getSettings()->getLevel());
 				$browser_handler->setFormatter($line_formatter);
 				$logger->pushHandler($browser_handler);
 			}
@@ -211,7 +212,7 @@ class ilLoggerFactory
 	{
 		if($this->getSettings()->isMemoryUsageEnabled())
 		{
-			$this->getRootLogger()->writeMemoryPeakUsage(ilLogLevel::DEBUG);
+			$this->getRootLogger()->writeMemoryPeakUsage(ilLogLevel::INFO);
 		}
 	}
 }
