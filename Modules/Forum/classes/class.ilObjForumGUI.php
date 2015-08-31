@@ -3068,7 +3068,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 				++$i;
 			}
-			$bottom_toolbar->addButtonInstance($bottom_split_button);
+			$bottom_toolbar->addStickyItem($bottom_split_button);
 		}
 
 		$ilToolbar = clone $bottom_toolbar;

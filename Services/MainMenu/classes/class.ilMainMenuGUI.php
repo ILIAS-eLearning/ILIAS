@@ -10,7 +10,8 @@ include_once 'Services/Mail/classes/class.ilMailGlobalServices.php';
 * @author Alex Killing
 * @version $Id$
 */
-class ilMainMenuGUI
+class
+ilMainMenuGUI
 {
 	/**
 	* ilias objectm
@@ -281,7 +282,7 @@ class ilMainMenuGUI
 			}
 			else
 			{
-				if($this->getMode() != self::MODE_TOPBAR_REDUCED)
+				if($this->getMode() != self::MODE_TOPBAR_REDUCED && !$ilUser->isAnonymous())
 				{
 					$notificationSettings = new ilSetting('notifications');
 					$chatSettings = new ilSetting('chatroom');
@@ -308,7 +309,7 @@ class ilMainMenuGUI
 					$notifications = ilNotificationOSDHandler::getNotificationsForUser($ilUser->getId());
 					$this->tpl->setVariable('NOTIFICATION_CLOSE_HTML', json_encode(ilGlyphGUI::get(ilGlyphGUI::CLOSE, $lng->txt('close'))));
 					$this->tpl->setVariable('INITIAL_NOTIFICATIONS', json_encode($notifications));
-					$this->tpl->setVariable('OSD_POLLING_INTERVALL', $notificationSettings->get('osd_polling_intervall') ? $notificationSettings->get('osd_polling_intervall') : '5');
+					$this->tpl->setVariable('OSD_POLLING_INTERVALL', $notificationSettings->get('osd_polling_intervall') ? $notificationSettings->get('osd_polling_intervall') : '60');
 					$this->tpl->setVariable('OSD_PLAY_SOUND', $chatSettings->get('play_invitation_sound') && $ilUser->getPref('chat_play_invitation_sound') ? 'true' : 'false');
 				}
 

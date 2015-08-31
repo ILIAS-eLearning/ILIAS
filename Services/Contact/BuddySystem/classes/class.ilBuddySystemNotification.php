@@ -83,7 +83,7 @@ class ilBuddySystemNotification
 			$notification->setLongDescriptionVar('buddy_notification_contact_request_long', $bodyParams, 'buddysystem');
 
 			$notification->setAutoDisable(false);
-			$notification->setValidForSeconds(0);
+			$notification->setValidForSeconds(30);
 			$notification->setIconPath('templates/default/images/icon_usr.svg');
 			$notification->setHandlerParam('mail.sender', ANONYMOUS_USER_ID);
 			$notification->notifyByUsers(array($user->getId()));
