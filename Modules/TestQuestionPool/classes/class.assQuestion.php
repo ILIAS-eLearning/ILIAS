@@ -240,6 +240,11 @@ abstract class assQuestion
 	 * @var ilArrayElementShuffler
 	 */
 	protected $shuffler;
+
+	/**
+	 * @var bool
+	 */
+	private $obligationsToBeConsidered = false;
 	
 	/**
 	* assQuestion constructor
@@ -4786,4 +4791,22 @@ abstract class assQuestion
 
 		return $row['cnt'] > 0;
 	}
+
+	/**
+	 * @return boolean
+	 */
+	public function areObligationsToBeConsidered()
+	{
+		return $this->obligationsToBeConsidered;
+	}
+
+	/**
+	 * @param boolean $obligationsToBeConsidered
+	 */
+	public function setObligationsToBeConsidered($obligationsToBeConsidered)
+	{
+		$this->obligationsToBeConsidered = $obligationsToBeConsidered;
+	}
+	
+	
 }

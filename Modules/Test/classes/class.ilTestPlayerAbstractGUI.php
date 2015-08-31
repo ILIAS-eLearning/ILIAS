@@ -991,10 +991,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			return;
 		}
 
-		$this->ctrl->setParameter($this, "sequence", $this->sequence);
-
-		if( $this->isOptionalQuestionAnsweringConfirmationRequired($this->sequence) )
+		if( $this->isOptionalQuestionAnsweringConfirmationRequired($sequenceElement) )
 		{
+			$this->ctrl->setParameter($this, "sequence", $sequenceElement);
 			$this->showAnswerOptionalQuestionsConfirmation();
 			return;
 		}
@@ -1031,6 +1030,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			$this->showSideList($presentationMode, $sequenceElement);
 		}
 	}
+	
+	abstract protected function isOptionalQuestionAnsweringConfirmationRequired($sequenceElement);
 	
 	abstract protected function isShowingPostponeStatusReguired($questionId);
 
@@ -1341,6 +1342,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			$this->tpl->setVariable('LIST_OF_QUESTIONS', $questionSideListGUI->getHTML());
 		}
 	}
+
+	abstract protected function isQuestionSummaryFinishTestButtonRequired();
 	
 	/**
 	 * Output of a summary of all test questions for test participants
@@ -1384,6 +1387,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			$table_gui->setObligationsNotAnswered( $obligationsNotAnswered );
 			$table_gui->setShowObligationsEnabled( $this->object->areObligationsEnabled() );
 			$table_gui->setObligationsFilterEnabled( $obligationsFilter );
+			$table_gui->setFinishTestButtonEnabled($this->isQuestionSummaryFinishTestButtonRequired());
 
 			$table_gui->init();
 				
@@ -1717,23 +1721,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	}
 	
 	abstract protected function buildTestPassQuestionList();
-
-	protected function isOptionalQuestionAnsweringConfirmationRequired($sequenceKey)
-	{
-		if( $this->testSequence->isAnsweringOptionalQuestionsConfirmed() )
-		{
-			return false;
-		}
-		
-		$questionId = $this->testSequence->getQuestionForSequence($sequenceKey);
-		
-		if( !$this->testSequence->isQuestionOptional($questionId) )
-		{
-			return false;
-		}
-		
-		return true;
-	}
 	
 	protected function showAnswerOptionalQuestionsConfirmation()
 	{
@@ -2096,6 +2083,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		{
 			$questionGui = $this->object->createQuestionGUI("", $questionId);
 			$questionGui->setTargetGui($this);
+			$questionGui->object->setObligationsToBeConsidered($this->object->areObligationsEnabled());
 			$questionGui->object->setOutputType(OUTPUT_JAVASCRIPT);
 			$questionGui->object->setShuffler($this->buildQuestionAnswerShuffler($questionId));
 
@@ -2131,6 +2119,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			$processLockerFactory->setAssessmentLogEnabled(ilObjAssessmentFolder::_enabledAssessmentLogging());
 			$questionOBJ->setProcessLocker($processLockerFactory->getLocker());
 
+			$questionOBJ->setObligationsToBeConsidered($this->object->areObligationsEnabled());
 			$questionOBJ->setOutputType(OUTPUT_JAVASCRIPT);
 
 			$this->cachedQuestionObjects[$questionId] = $questionOBJ;

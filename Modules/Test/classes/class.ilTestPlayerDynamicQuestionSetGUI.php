@@ -480,6 +480,23 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 				);
 			}
 
+			require_once 'Modules/Test/classes/class.ilTestQuestionHeaderBlockBuilder.php';
+			$headerBlockBuilder = new ilTestQuestionHeaderBlockBuilder($this->lng);
+			$headerBlockBuilder->setHeaderMode($this->object->getTitleOutput());
+			$headerBlockBuilder->setQuestionTitle($questionGui->object->getTitle());
+			$headerBlockBuilder->setQuestionPoints($questionGui->object->getPoints());
+			$headerBlockBuilder->setQuestionPosition(
+				$this->testSequence->getCurrentPositionIndex($this->testSession->getCurrentQuestionId())
+			);
+			$headerBlockBuilder->setQuestionCount($this->testSequence->getLastPositionIndex());
+			$headerBlockBuilder->setQuestionPostponed($this->testSequence->isPostponedQuestion(
+				$this->testSession->getCurrentQuestionId())
+			);
+			$headerBlockBuilder->setQuestionObligatory(
+				$this->object->areObligationsEnabled() && ilObjTest::isQuestionObligatory($this->object->getId())
+			);
+			$questionGui->setQuestionHeaderBlockBuilder($headerBlockBuilder);
+
 			$presentationMode = $this->getCurrentPresentationMode();
 			
 			if(!$presentationMode)
@@ -1010,5 +1027,15 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		$questionList->setQuestionInstanceTypeFilter(ilAssQuestionList::QUESTION_INSTANCE_TYPE_ORIGINALS);
 
 		return $questionList;
+	}
+
+	protected function isQuestionSummaryFinishTestButtonRequired()
+	{
+		return false;
+	}
+	
+	protected function isOptionalQuestionAnsweringConfirmationRequired($sequenceKey)
+	{
+		return false;
 	}
 }

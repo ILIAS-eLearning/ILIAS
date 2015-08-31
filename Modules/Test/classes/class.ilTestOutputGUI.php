@@ -286,6 +286,12 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		}
 		
 		$questionGui = $this->getQuestionGuiInstance($questionId);
+
+		if( !($questionGui instanceof assQuestionGUI) )
+		{
+			$this->handleTearsAndAngerQuestionIsNull($questionId, $sequenceElement);
+		}
+		
 		$questionGui->setSequenceNumber($this->testSequence->getPositionOfSequence($sequenceElement));
 		$questionGui->setQuestionCount($this->testSequence->getUserQuestionCount());
 
@@ -311,11 +317,6 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 			$headerBlockBuilder->setQuestionRelatedObjectives($objectivesString);
 		}
 		$questionGui->setQuestionHeaderBlockBuilder($headerBlockBuilder);
-
-		if( !($questionGui instanceof assQuestionGUI) )
-		{
-			$this->handleTearsAndAngerQuestionIsNull($questionId, $sequenceElement);
-		}
 
 		$this->prepareTestPage($presentationMode, $sequenceElement, $questionId);
 
@@ -753,4 +754,26 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 	}
 	
 	abstract protected function populateQuestionOptionalMessage();
+
+	protected function isOptionalQuestionAnsweringConfirmationRequired($sequenceKey)
+	{
+		if( $this->testSequence->isAnsweringOptionalQuestionsConfirmed() )
+		{
+			return false;
+		}
+
+		$questionId = $this->testSequence->getQuestionForSequence($sequenceKey);
+
+		if( !$this->testSequence->isQuestionOptional($questionId) )
+		{
+			return false;
+		}
+
+		return true;
+	}
+	
+	protected function isQuestionSummaryFinishTestButtonRequired()
+	{
+		return true;
+	}
 }

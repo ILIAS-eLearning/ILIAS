@@ -558,7 +558,9 @@ class ilExAssignmentEditorGUI
 				}
 			}			
 			
-			$ilCtrl->redirect($this, "listAssignments");
+			// because of sub-tabs we stay on settings screen
+			$ilCtrl->setParameter($this, "ass_id", $ass->getId());
+			$ilCtrl->redirect($this, "editAssignment");
 		}
 		else
 		{
@@ -949,6 +951,14 @@ class ilExAssignmentEditorGUI
 					$cats->addOption($opt);
 				}
 			}			
+		}
+		else
+		{
+			// see ilExcCriteriaCatalogueGUI::view()
+			$url = $ilCtrl->getLinkTargetByClass("ilexccriteriacataloguegui", "");
+			$def->setInfo('<a href="'.$url.'">'.
+				$lng->txt("exc_add_criteria_catalogue").
+				'</a>');
 		}
 		
 		

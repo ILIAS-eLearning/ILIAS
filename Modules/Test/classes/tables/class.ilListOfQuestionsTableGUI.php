@@ -23,6 +23,8 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
 	
 	protected $obligationsNotAnswered = false;
 	
+	protected $finishTestButtonEnabled = false;
+	
 	/**
 	 * Constructor
 	 *
@@ -101,7 +103,7 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
 			ilTestPlayerCommands::SHOW_QUESTION, $this->lng->txt('back')
 		);
 
-		if( !$this->areObligationsNotAnswered() )
+		if( !$this->areObligationsNotAnswered() && $this->isFinishTestButtonEnabled() )
 		{
 			$button = ilSubmitButton::getInstance();
 			$button->setCaption('finish_test');
@@ -237,5 +239,21 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
 	public function setObligationsNotAnswered($obligationsNotAnswered)
 	{
 		$this->obligationsNotAnswered = $obligationsNotAnswered;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isFinishTestButtonEnabled()
+	{
+		return $this->finishTestButtonEnabled;
+	}
+
+	/**
+	 * @param boolean $finishTestButtonEnabled
+	 */
+	public function setFinishTestButtonEnabled($finishTestButtonEnabled)
+	{
+		$this->finishTestButtonEnabled = $finishTestButtonEnabled;
 	}
 }

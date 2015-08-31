@@ -472,7 +472,7 @@ class ilGlobalCache {
 	/**
 	 * @return ilGlobalCacheSettings
 	 */
-	public function getSettings() {
+	public static function getSettings() {
 		return (self::$settings instanceof ilGlobalCacheSettings ? self::$settings : new ilGlobalCacheSettings());
 	}
 
@@ -480,7 +480,7 @@ class ilGlobalCache {
 	/**
 	 * @param ilGlobalCacheSettings $settings
 	 */
-	public function setSettings($settings) {
+	public static function setSettings($settings) {
 		self::$settings = $settings;
 	}
 

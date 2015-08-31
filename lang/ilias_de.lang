@@ -12576,7 +12576,6 @@ dcl#:#dcl_delete_records#:#Datensätze löschen
 dcl#:#dcl_confirm_delete_records#:#Sind Sie sicher, dass die folgenden Datensätze gelöscht werden sollen?
 dcl#:#dcl_deleted_records#:#Es wurden %s Datensätze gelöscht
 dcl#:#dcl_skipped_delete_records#:#%s Datensätze wurden aufgrund der Rechteeinstellungen nicht gelöscht
-dcl#:#dcl_info_text#:#Text, Links oder E-Mail-Adressen eingeben
 common#:#obj_dcl_duplicate#:#Datensammlung kopieren
 survey#:#freetext_answers#:#Freitext-Antworten
 forum#:#frm_at_least_one_moderator#:#Es muss mindestens ein Moderator zugewiesen sein.
@@ -15564,7 +15563,7 @@ exc#:#exc_peer_review_show_received_none#:#Sie haben kein Feedback erhalten.
 exc#:#exc_peer_review_min_chars_tgl#:#Mindestlänge
 exc#:#exc_peer_review_min_chars#:#Mindestanzahl Zeichen
 exc#:#exc_peer_review_min_chars_info#:#Die nötige Anzahl Zeichen für ein gültiges Feedback.
-exc#:#exc_peer_review_chars_invalid#:#Sie haben noch nicht die erforderliche Länge des Textes von %s Zeichen in mind. einem Feedback erreicht.
+exc#:#exc_peer_review_chars_invalid#:#Sie haben noch nicht die erforderliche Länge des Textes von %s Zeichen erreicht.
 exc#:#exc_peer_review_show_missing#:#Sie können das erhaltene Feedback nicht einsehen, da Sie zu wenig Feedback gegeben haben.
 exc#:#exc_peer_review_simple_unlock#:#Anzeige der erhaltenen Bewertungen
 exc#:#exc_peer_review_simple_unlock_active#:#Nach Abgabe einer Bewertung
@@ -15808,7 +15807,6 @@ buddysystem#:#buddy_bs_state_unlinked_a#:#Nicht vernetzt
 buddysystem#:#buddy_bs_state_unlinked_p#:#Nicht vernetzt
 buddysystem#:#buddy_bs_state_requested#:#Angefragt
 buddysystem#:#buddy_bs_state_requested_a#:#Angefragt
-buddysystem#:#buddy_bs_state_requested_b#:#Angefragt
 buddysystem#:#buddy_bs_state_ignoredrequest#:#Ignoriert
 buddysystem#:#buddy_bs_state_ignored_request_a#:#Angefragt
 buddysystem#:#buddy_bs_state_ignored_request_p#:#Ignoriert
@@ -15989,3 +15987,18 @@ common#:#objs_prg#:#Studienprogramme
 common#:#obj_prgs_desc#:#Studienprogramm Administration
 trac#:#trac_mode_study_programme#:#Studienprogramm abgeschlossen
 trac#:#trac_mode_study_programme_info#:#Das Studienprogramm muss vom Benutzer abgeschlossen sein um den Lernfortschritt "bearbeitet" zu erhalten.
+common#:#manage_members#:#Manage Members###30 08 2015 new variable
+maps#:#maps_use_custom_server#:#Use custom server###30 08 2015 new variable
+maps#:#maps_custom_server_info#:#Activate custom servers to provide tile- and geolocation-data. Multiple inputs should be separated by spaces. Defaults are "%s" for tiles and "%s" for geolocation.###30 08 2015 new variable
+maps#:#maps_tile_server#:#Server for Tiles###30 08 2015 new variable
+maps#:#maps_geolocation_server#:#Server for Reverse Geolocation###30 08 2015 new variable
+mail#:#orphaned_mail_subject#:#Notification about orphaned mails###30 08 2015 new variable
+mail#:#orphaned_mail_body#:#There are old or orphaned mails in the following mailboxes. Please note, that these mails will be deleted automatically soon.###30 08 2015 new variable
+rbac#:#rbac_permissions#:#Permissions###30 08 2015 new variable
+buddysystem#:#buddy_bs_state_requested_p#:#Requested###30 08 2015 new variable
+common#:#obj_prgs#:#Study Programmes###30 08 2015 new variable
+prg#:#prg_visible#:#Programme is visible###30 08 2015 new variable
+prg#:#prg_copy#:#User can copy study programme###30 08 2015 new variable
+prg#:#prg_write#:#User can edit study programme settings and manage content.###30 08 2015 new variable
+prg#:#prg_delete#:#User can delete the programme.###30 08 2015 new variable
+prg#:#prg_edit_permission#:#User can change permission settings.###30 08 2015 new variable

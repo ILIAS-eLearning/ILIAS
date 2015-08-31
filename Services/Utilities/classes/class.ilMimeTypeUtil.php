@@ -410,7 +410,7 @@ class ilMimeTypeUtil {
 	const VIDEO__FLI = 'video/fli';
 	const VIDEO__GL = 'video/gl';
 	const VIDEO__MPEG = 'video/mpeg';
-	const VIDEO__MP_4 = 'video/mp4';
+	const VIDEO__MP4 = 'video/mp4';
 	const VIDEO__MSVIDEO = 'video/msvideo';
 	const VIDEO__OGG = 'video/ogg';
 	const VIDEO__QUICKTIME = 'video/quicktime';
@@ -831,7 +831,7 @@ class ilMimeTypeUtil {
 		'm2a' => self::AUDIO__MPEG,
 		'm2v' => self::VIDEO__MPEG,
 		'm3u' => self::AUDIO__X_MPEQURL,
-		'm4v' => self::VIDEO__MP_4,
+		'm4v' => self::VIDEO__MP4,
 		'man' => self::APPLICATION__X_TROFF_MAN,
 		'map' => self::APPLICATION__X_NAVIMAP,
 		'mar' => self::TEXT__PLAIN,
@@ -900,7 +900,7 @@ class ilMimeTypeUtil {
 			self::VIDEO__MPEG,
 			self::VIDEO__X_MPEG,
 		),
-		'mp4' => self::VIDEO__MP_4,
+		'mp4' => self::VIDEO__MP4,
 		'mpa' => array(
 			self::AUDIO__MPEG,
 			self::VIDEO__MPEG,
@@ -920,7 +920,7 @@ class ilMimeTypeUtil {
 		'mrc' => self::APPLICATION__MARC,
 		'ms' => self::APPLICATION__X_TROFF_MS,
 		'mv' => self::VIDEO__X_SGI_MOVIE,
-		'mv4' => self::VIDEO__MP_4,
+		'mv4' => self::VIDEO__MP4,
 		'my' => self::AUDIO__MAKE,
 		'mzz' => self::APPLICATION__X_VND_AUDIOEXPLOSION_MZZ,
 		'nap' => self::IMAGE__NAPLPS,

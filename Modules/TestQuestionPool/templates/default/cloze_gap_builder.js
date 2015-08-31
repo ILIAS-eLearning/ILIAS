@@ -114,6 +114,10 @@ var ClozeGapBuilder = (function () {
     {
         var cursor, inGap;
         if (typeof(tinymce) != 'undefined') {
+            if (navigator.userAgent.indexOf('Firefox') !== -1)
+            {
+                text = text.replace(new RegExp('(<p>(&nbsp;)*<\/p>(\n)*)' , 'g'), '');
+            }
             //ToDo: Bug in tiny steals focus on setContent (tinymce Bug #6423)
             var inst = tinyMCE.activeEditor;
             cursor = pro.getCursorPositionTiny(inst);
@@ -1374,6 +1378,7 @@ var ClozeGapBuilder = (function () {
         pro.moveFooterBelow();
         pro.bindSelectHandler();
         pro.bindInputHandler();
+        pro.appendEventListenerToBeRefactored();
         pro.checkForm();
         if (ClozeGlobals.clone_active != -1) {
             pro.cloneFormPart(ClozeGlobals.clone_active);
