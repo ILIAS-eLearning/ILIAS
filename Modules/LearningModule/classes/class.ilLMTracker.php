@@ -352,7 +352,8 @@ class ilLMTracker
 		// load read event data
 		$this->re_arr = array();
 		$set = $ilDB->query("SELECT * FROM lm_read_event ".
-			" WHERE ".$ilDB->in("obj_id", $this->lm_obj_ids, false, "integer"));
+			" WHERE ".$ilDB->in("obj_id", $this->lm_obj_ids, false, "integer").
+			" AND usr_id = ".$ilDB->quote($this->user_id, "integer"));
 		while ($rec = $ilDB->fetchAssoc($set))
 		{
 			$this->re_arr[$rec["obj_id"]] = $rec;
@@ -501,7 +502,10 @@ class ilLMTracker
 							if (!is_array($this->answer_status[$q_id])
 								|| $this->answer_status[$q_id]["try"] == 0)
 							{
-								$status = ilLMTracker::IN_PROGRESS;
+								if ($status != ilLMTracker::NOT_ATTEMPTED)
+								{
+									$status = ilLMTracker::IN_PROGRESS;
+								}
 							}
 						}
 						$unlocked = false;
