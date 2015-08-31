@@ -171,7 +171,8 @@ class catBasicReportGUI {
 
 		$external_sorting = true;
 		if($this->order === null || 
-			in_array($this->order->getOrderField(), $this->internal_sorting_fields)
+			in_array($this->order->getOrderField(), 
+				$this->internal_sorting_fields ? $this->internal_sorting_fields : array())
 			) {
 				$external_sorting = false;	
 		}
@@ -321,7 +322,8 @@ class catBasicReportGUI {
 	
 	protected function queryOrder() {
 		if ($this->order === null ||
-			in_array($this->order->getOrderField(), $this->internal_sorting_fields)
+			in_array($this->order->getOrderField(), 
+				$this->internal_sorting_fields ? $this->internal_sorting_fields : array())
 			) {
 			return "";
 		}
