@@ -90,13 +90,10 @@ class ilWACToken {
 			return true;
 		}
 		$salt = NULL;
-		//		$microtime = microtime(true);
 		if (is_file ($this->getSaltFilePath()))
 		{
 			include($this->getSaltFilePath());
 		}
-		//		$end_microtim = microtime(true)-$microtime;
-		//		file_put_contents('./time.csv', $end_microtim."\n", FILE_APPEND);
 		self::setSALT($salt);
 		if (! $salt) {
 			$this->generateSaltFile();
