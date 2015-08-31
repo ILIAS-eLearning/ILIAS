@@ -248,7 +248,7 @@ class ilPublicUserProfileGUI
 			
 			if(!$is_active)
 			{
-				$ilCtrl->redirectByClass('ilPersonalDesktopGUI');
+				ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
 			}
 			
 			// Check from Database if value
@@ -258,7 +258,7 @@ class ilPublicUserProfileGUI
 				($user->getPref("public_profile") != "g" || !$ilSetting->get('enable_global_profiles')) &&
 				!$this->custom_prefs)
 			{
-				$ilCtrl->redirectByClass('ilPersonalDesktopGUI');
+				ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
 			}
 			
 			return $this->getEmbeddable(true);	
