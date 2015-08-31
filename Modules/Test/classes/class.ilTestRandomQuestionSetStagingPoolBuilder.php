@@ -74,7 +74,7 @@ class ilTestRandomQuestionSetStagingPoolBuilder
 			}
 			else
 			{
-				$GLOBALS['ilLog']->writeWarning(
+				$GLOBALS['ilLog']->warning(
 					"could not delete staged random question (ref={$this->testOBJ->getRefId()} / qst={$row['qst_fi']})"
 				);
 			}
