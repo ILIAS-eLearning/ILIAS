@@ -3173,7 +3173,7 @@ class ilObjSurvey extends ilObject
 				}
 				foreach ($placeholders as $key => $mapping)
 				{									
-					if (!$this->hasAnonymizedResults())
+					if ($this->hasAnonymizedResults()) // #16480
 					{
 						$messagetext = str_replace('[' . $key . ']', '', $messagetext);
 					}
