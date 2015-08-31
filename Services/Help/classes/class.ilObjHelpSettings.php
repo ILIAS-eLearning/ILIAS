@@ -94,6 +94,15 @@ class ilObjHelpSettings extends ilObject2
 		// import help learning module
 		$mess = $newObj->importFromZipFile($a_file["tmp_name"], $a_file["name"],
 			false, $id);
+		
+		$GLOBALS['ilAppEventHandler']->raise(
+			'Services/Help',
+			'create',
+			array(
+				'obj_id' => $id,
+				'obj_type' => 'lm'
+			)
+		);
 	}
 	
 	/**

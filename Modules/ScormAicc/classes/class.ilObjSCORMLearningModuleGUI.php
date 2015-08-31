@@ -88,6 +88,9 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		$this->form = new ilPropertyFormGUI();
 		$this->form->setFormAction($ilCtrl->getFormAction($this));
 		$this->form->setTitle($this->lng->txt("cont_lm_properties"));
+		
+		//check/select only once
+		$this->object->checkMasteryScoreValues();
 
 		// SCORM-type
 		$ne = new ilNonEditableValueGUI($this->lng->txt("type"), "");
@@ -215,6 +218,16 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		$si->setInfo($this->lng->txt("cont_sc_auto_review_info_12"));
 		$this->form->addItem($si);
 
+		// mastery_score
+		if ($this->object->getMasteryScoreValues() != "") {
+			$ni = new ilNumberInputGUI($this->lng->txt("cont_mastery_score_12"), "mastery_score");
+			$ni->setMaxLength(3);
+			$ni->setSize(3);
+			$ni->setValue($this->object->getMasteryScore());
+			$ni->setInfo($this->lng->txt("cont_mastery_score_12_info").$this->object->getMasteryScoreValues());
+			$this->form->addItem($ni);
+		}
+
 		//
 		// rte settings
 		//
@@ -302,7 +315,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		// display import form
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.scorm_new_version_import.html", "Modules/ScormAicc");
 
-		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_slm.svg'));
+		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_lm.svg'));
 		$this->tpl->setVariable("ALT_IMG", $this->lng->txt("obj_sahs"));
 
 		$this->ctrl->setParameter($this, "new_type", "sahs");
@@ -506,6 +519,10 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 			if ($this->object->getOfflineMode() == false) {
 				$this->object->zipLmForOfflineMode();
 			}
+		}
+		if (isset($_POST["mastery_score"])){
+			$this->object->setMasteryScore($_POST["mastery_score"]);
+			// $this->object->updateMasteryScoreValues();
 		}
 		$this->object->setOnline(ilUtil::yn2tf($_POST["cobj_online"]));
 		$this->object->setOfflineMode($tmpOfflineMode);

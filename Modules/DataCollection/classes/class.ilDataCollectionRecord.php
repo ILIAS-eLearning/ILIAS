@@ -26,7 +26,7 @@ require_once('./Services/Notes/classes/class.ilNoteGUI.php');
 class ilDataCollectionRecord {
 
 	/**
-	 * @var array ilDataCollectionRecordField[]
+	 * @var ilDataCollectionRecordField[]
 	 */
 	protected $recordfields;
 	/**
@@ -289,6 +289,33 @@ class ilDataCollectionRecord {
 		}
 	}
 
+	/**
+	 * Set a field value
+	 *
+	 * @param int    $field_id
+	 * @param string $value
+	 */
+	public function setRecordFieldValueFromForm($field_id, &$form) {
+		$this->loadRecordFields();
+		if (ilDataCollectionStandardField::_isStandardField($field_id)) {
+			$this->setStandardFieldFromForm($field_id, $form);
+		} else {
+			$this->loadTable();
+			$this->recordfields[$field_id]->setValueFromForm($form);
+		}
+	}
+
+	/**
+	 * @param $excel
+	 * @param $row
+	 * @param $col
+	 * @param $field ilDataCollectionField
+	 */
+	public function getRecordFieldValueFromExcel($excel, $row, $col, $field) {
+		$this->loadRecordFields();
+		return $this->recordfields[$field->getId()]->getValueFromExcel($excel, $row, $col);
+	}
+
 
 	/**
 	 * @deprecated
@@ -341,6 +368,21 @@ class ilDataCollectionRecord {
 		}
 	}
 
+	/**
+	 * @param $worksheet
+	 * @param $row
+	 * @param $col
+	 * @param $field_id
+	 */
+	public function fillRecordFieldExcelExport($worksheet, &$row, &$col, $field_id) {
+		$this->loadRecordFields();
+		if (ilDataCollectionStandardField::_isStandardField($field_id)) {
+			$worksheet->writeString($row, $col, $this->getStandardFieldHTML($field_id));
+			$col++;
+		} else {
+			$this->recordfields[$field_id]->fillExcelExport($worksheet, $row, $col);
+		}
+	}
 
 	/**
 	 * @param       $field_id
@@ -393,21 +435,29 @@ class ilDataCollectionRecord {
 		return $html;
 	}
 
-
 	/**
 	 * @param $field_id
-	 *
-	 * @return int
+	 * @param $form ilPropertyFormGUI
 	 */
-	public function getRecordFieldFormInput($field_id) {
+	public function fillRecordFieldFormInput($field_id, &$form) {
 		$this->loadRecordFields();
 		if (ilDataCollectionStandardField::_isStandardField($field_id)) {
-			return $this->getStandardField($field_id);
+			$this->fillStandardFieldFormInput($field_id, $form);
 		} else {
-			return $this->recordfields[$field_id]->getFormInput();
+			$this->recordfields[$field_id]->fillFormInput($form);
 		}
 	}
 
+
+	/**
+	 * @param $field_id
+	 * @param ilPropertyFormGUI $form
+	 */
+	protected function setStandardFieldFromForm($field_id, &$form) {
+		if ($item = $form->getItemByPostVar("field_".$field_id)) {
+			$this->setStandardField($item->getValue());
+		}
+	}
 
 	/**
 	 * @param $field_id
@@ -421,6 +471,16 @@ class ilDataCollectionRecord {
 				return;
 		}
 		$this->$field_id = $value;
+	}
+
+	/**
+	 * @param $field_id
+	 * @param $form
+	 */
+	protected function fillStandardFieldFormInput($field_id, &$form) {
+		if ($item = $form->getItemByPostVar('field_' . $field_id)) {
+			$item->setValue($this->getStandardField($field_id));
+		}
 	}
 
 

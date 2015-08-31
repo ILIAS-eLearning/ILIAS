@@ -681,7 +681,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
 		ilYuiUtil::initDragDrop();
 		ilYuiUtil::initConnection();
 		ilYuiUtil::initPanel(false);
-		$GLOBALS["tpl"]->addJavascript("Services/COPage/tiny/4_1_5/tinymce.js");
+		$GLOBALS["tpl"]->addJavascript("Services/COPage/tiny/4_2_4/tinymce.js");
 		$GLOBALS["tpl"]->addJavaScript("./Services/COPage/js/ilcopagecallback.js");
 		$GLOBALS["tpl"]->addJavascript("Services/COPage/js/page_editing.js");
 

@@ -1404,7 +1404,8 @@ class ilStartUpGUI
 		}
 		catch(ilTermsOfServiceNoSignableDocumentFoundException $e)
 		{
-			$tpl->setVariable('TERMS_OF_SERVICE_CONTENT', sprintf($lng->txt('no_agreement_description'), 'mailto:' . ilUtil::prepareFormOutput($ilSetting->get('feedback_recipient'))));
+			include_once("./Modules/SystemFolder/classes/class.ilSystemSupportContacts.php");
+			$tpl->setVariable('TERMS_OF_SERVICE_CONTENT', sprintf($lng->txt('no_agreement_description'), 'mailto:' . ilUtil::prepareFormOutput(ilSystemSupportContacts::getMailToAddress())));
 		}
 
 		$tpl->show();

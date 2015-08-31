@@ -249,5 +249,57 @@ class ilTestService
 		
 		return $virtualPassResults;
 	}
+
+	/**
+	 * @param ilTestSequenceSummaryProvider $testSequence
+	 * @param bool $obligationsFilter
+	 * @return array
+	 */
+	public function getQuestionSummaryData(ilTestSequenceSummaryProvider $testSequence, $obligationsFilterEnabled)
+	{
+		$result_array = $testSequence->getSequenceSummary($obligationsFilterEnabled);
+
+		$marked_questions = array();
+
+		if($this->object->getShowMarker())
+		{
+			include_once "./Modules/Test/classes/class.ilObjTest.php";
+			$marked_questions = ilObjTest::_getSolvedQuestions($testSequence->getActiveId());
+		}
+
+		$data = array();
+
+		foreach($result_array as $key => $value)
+		{
+			$description = "";
+			if($this->object->getListOfQuestionsDescription())
+			{
+				$description = $value["description"];
+			}
+
+			$points = "";
+			if(!$this->object->getTitleOutput())
+			{
+				$points = $value["points"];
+			}
+
+			$marked = false;
+			if(count($marked_questions))
+			{
+				if(array_key_exists($value["qid"], $marked_questions))
+				{
+					$obj = $marked_questions[$value["qid"]];
+					if($obj["solved"] == 1)
+					{
+						$marked = true;
+					}
+				}
+			}
+
+			$data[] = array('order' => $value["nr"], 'title' => $this->object->getQuestionTitle($value["title"]), 'description' => $description, 'worked_through' => $value["worked_through"], 'postponed' => $value["postponed"], 'points' => $points, 'marked' => $marked, 'sequence' => $value["sequence"], 'obligatory' => $value['obligatory'], 'isAnswered' => $value['isAnswered']);
+		}
+
+		return $data;
+	}
 }
 

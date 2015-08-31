@@ -1,0 +1,44 @@
+<div id="awareness-content">
+	<!-- BEGIN filter -->
+	<form id="il_awrn_filter_form">
+		<div class="input-group">
+			<input type="text" value="{VAL_FILTER}" class="form-control" name="il_awareness_filter" id="il_awareness_filter" placeholder="Filter" />
+			<span class="input-group-btn">
+				<button id="il_awrn_filer_btn" class="btn btn-default" type="submit">{GL_FILTER}</button>
+			</span>
+		</div>
+	</form>
+	<!-- END filter -->
+	<div id="awareness-list">
+	<!-- BEGIN item -->
+	<!-- BEGIN uc_title -->
+	<div class="dropdown-header <!-- BEGIN highlighted -->ilHighlighted<!-- END highlighted -->">
+		{UC_TITLE}
+	</div>
+	<!-- END uc_title -->
+	<!-- BEGIN user -->
+	<div class="ilAwarenessItem">
+		<div class="media" id="dropdownMenu{CNT}" data-toggle="dropdown" aria-expanded="true">
+			<div class="media-left">
+				<a href="#">
+					<img class="media-object" src="{USERIMAGE}" alt="">
+				</a>
+			</div>
+			<div class="media-body <!-- BEGIN uonline -->ilAwarenessOnline<!-- END uonline -->">
+				<h4 class="media-heading">{UNAME}</h4>
+				<p>[{UACCOUNT}]</p>
+			</div>
+		</div>
+		<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu{CNT}">
+			<!-- BEGIN feature -->
+			<li role="presentation">
+				<!-- BEGIN arrow --><div class="arrow-down"></div><!-- END arrow -->
+				<a role="menuitem" tabindex="-1" href="{FEATURE_HREF}" <!-- BEGIN f_data -->data-{DATA_KEY}="{DATA_VAL}" <!-- END f_data -->>{FEATURE_TEXT}</a>
+			</li>
+			<!-- END feature -->
+		</ul>
+	</div>
+	<!-- END user -->
+	<!-- END item -->
+	</div>
+</div>

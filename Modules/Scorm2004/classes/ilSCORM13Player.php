@@ -315,6 +315,7 @@ class ilSCORM13Player
 			'comments_storable' => $this->slm->getComments(),
 			'time_from_lms' => $this->slm->getTime_from_lms(),
 			'auto_last_visited' => $this->slm->getAuto_last_visited(),
+			'lesson_mastery_score' => $this->slm->getMasteryScore(),
 			'checkSetValues' => $this->slm->getCheck_values(),
 			'auto_suspend' => $this->slm->getAutoSuspend(),
 			'suspend_data' => $initSuspendData,
@@ -412,6 +413,9 @@ class ilSCORM13Player
 		//$this->tpl = new ilTemplate("tpl.scorm2004.player.html", false, false, "Modules/Scorm2004");
 		$this->tpl = new ilTemplate("tpl.scorm2004.player.html", true, true, "Modules/Scorm2004");
 
+		include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
+		$this->tpl->setVariable("JS_FILE",iljQueryUtil::getLocaljQueryPath());
+
 		// include ilias rte css, if given
 		$rte_css = $this->slm->getDataDirectory()."/ilias_css_4_2/css/style.css";
 		if (is_file($rte_css))
@@ -421,15 +425,12 @@ class ilSCORM13Player
 			$this->tpl->parseCurrentBlock();
 		}
 
-		// SRAG-FSX Patch-Start, 2015-08-07: Implementation of new WAC
-		require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
-		ilWACSignedPath::signFolderOfStartFile($this->slm->getDataDirectory().'/dummy.html');
-		// SRAG-FSX Patch-End
 
 		$this->tpl->setVariable('JSON_LANGSTRINGS', json_encode($langstrings));
-		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
-		$this->tpl->setVariable('YUI_PATH', ilYuiUtil::getLocalPath());
-		$this->tpl->setVariable('TREE_JS', "./Services/UIComponent/NestedList/js/ilNestedList.js");
+		// include_once("./Services/YUI/classes/class.ilYuiUtil.php");
+		// $this->tpl->setVariable('YUI_PATH', ilYuiUtil::getLocalPath());
+		// $this->tpl->setVariable('TREE_JS', "./Services/UIComponent/NestedList/js/ilNestedList.js");
+		$this->tpl->setVariable('TREE_JS', "./Modules/Scorm2004/scripts/ilNestedList.js");
 		$this->tpl->setVariable($langstrings);
 		$this->tpl->setVariable('DOC_TITLE', 'ILIAS SCORM 2004 Player');
 		if ($this->slm->getIe_compatibility()) $this->tpl->setVariable('IE_COMPATIBILITY', '<meta http-equiv="X-UA-Compatible" content="IE=7" />');

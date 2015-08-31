@@ -131,10 +131,12 @@ class ilNestedSetXML
     	    WHERE ns_r >= %s  AND ns_book_fk = %s AND ns_unique_id = %s',
         array('integer','integer', 'text'), array($this->LEFT, $this->obj_id, $this->unique_import_id));
 
+		$id = $this->db->nextId('xmlnestedsettmp');
+
       $this->db->manipulateF('
-	        INSERT INTO xmlnestedsettmp (ns_unique_id, ns_book_fk, ns_type, ns_tag_fk, ns_l, ns_r) VALUES (%s,%s,%s,%s,%s,%s)',
-        array('text','integer','text','integer','integer','integer'), 
-        array($this->unique_import_id, $this->obj_id, $this->obj_type, $pk, $this->LEFT, $this->RIGHT));
+	        INSERT INTO xmlnestedsettmp (ns_id, ns_unique_id, ns_book_fk, ns_type, ns_tag_fk, ns_l, ns_r) VALUES (%s,%s,%s,%s,%s,%s,%s)',
+        array('integer','text','integer','text','integer','integer','integer'),
+        array($id, $this->unique_import_id, $this->obj_id, $this->obj_type, $pk, $this->LEFT, $this->RIGHT));
         
 		$this->clean($attrs);
         if (is_array($attrs) && count($attrs)>0)
@@ -265,11 +267,32 @@ class ilNestedSetXML
         */
         $this->deleteAllDbData();
 
+		$res = $this->db->query("
+			SELECT ns_book_fk, ns_type, ns_tag_fk, ns_l, ns_r
+			FROM xmlnestedsettmp
+			WHERE ns_unique_id =
+		" . $this->db->quote($this->unique_import_id, "text"));
+
+		while($row = $this->db->fetchAssoc($res))
+		{
+			$id = $this->db->nextId('xmlnestedset');
+
+			$this->db->manipulate("INSERT INTO xmlnestedset (ns_id, ns_book_fk, ns_type, ns_tag_fk, ns_l, ns_r)".
+				" VALUES (".
+				$this->db->quote($id, "integer").
+				",".$this->db->quote($row['ns_book_fk'], "integer").
+				",".$this->db->quote($row['ns_type'], "text").
+				",".$this->db->quote($row['ns_tag_fk'], "integer").
+				",".$this->db->quote($row['ns_l'], "integer").
+				",".$this->db->quote($row['ns_r'], "integer").
+				")"
+			);
+		}/*
         $this->db->manipulateF(
 			"INSERT INTO xmlnestedset (SELECT ns_book_fk, ns_type, ns_tag_fk, ns_l, ns_r FROM xmlnestedsettmp WHERE ns_unique_id = %s)",
 			array('text'),
 			array($this->unique_import_id)
-		);
+		);*/
 		
        $this->db->manipulateF(
 			"DELETE FROM xmlnestedsettmp WHERE ns_unique_id = %s",

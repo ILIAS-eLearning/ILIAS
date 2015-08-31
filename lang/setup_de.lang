@@ -631,4 +631,13 @@ memcache_add#:#Server hinzufügen
 memcache_delete#:#Server löschen
 memcache_cancel#:#Abbrechen
 memcache_update#:#Server speichern
-memcache_status_server#:#Erreichbar
+memcache_status_server#:#Erreichbarcache_activate_clng#:#Language###30 08 2015 new variable
+cache_activate_obj_def#:#Object Definition###30 08 2015 new variable
+cache_activate_ilctrl#:#Control Flow###30 08 2015 new variable
+cache_activate_comp#:#Components###30 08 2015 new variable
+cache_activate_tpl#:#Template (HTML)###30 08 2015 new variable
+cache_activate_events#:#Events###30 08 2015 new variable
+cache_activated_components#:#Activated Components###30 08 2015 new variable
+cache_flush#:#Flush all caches###30 08 2015 new variable
+cache_activate_tpl_blocks#:#Template (Blocks)###30 08 2015 new variable
+cache_activate_tpl_variables#:#Template (Variablen###30 08 2015 new variable

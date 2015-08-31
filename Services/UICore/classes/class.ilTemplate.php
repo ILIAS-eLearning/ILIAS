@@ -858,8 +858,13 @@ class ilTemplate extends ilTemplateX
 			include_once "Services/Link/classes/class.ilLink.php";
 			$link_items[ilLink::_getStaticLink(0, "impr")] = array($lng->txt("imprint"), true);
 		}
-		
-		$link_items["mailto:".ilUtil::prepareFormOutput($ilSetting->get("feedback_recipient"))] = array($lng->txt("contact_sysadmin"), false);
+
+		// system support contacts
+		include_once("./Modules/SystemFolder/classes/class.ilSystemSupportContactsGUI.php");
+		if (($l = ilSystemSupportContactsGUI::getFooterLink()) != "")
+		{
+			$link_items[$l] = array(ilSystemSupportContactsGUI::getFooterText(), false);
+		}
 				
 		if (DEVMODE)
 		{

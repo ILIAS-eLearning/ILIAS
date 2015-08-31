@@ -30,12 +30,14 @@ class ilContributorTableGUI extends ilTable2GUI
 
 		$this->addColumn("", "", 1);
 		$this->addColumn($this->lng->txt("name"), "name");
-		$this->addColumn($this->lng->txt("obj_role"));
+		$this->addColumn($this->lng->txt("obj_role"), "role");
 		
 		$this->setDefaultOrderField("name");
 						
 		$this->setRowTemplate("tpl.contributor_row.html", "Modules/Blog");
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
+		
+		$this->setSelectAllCheckbox("id"); // #16472
 
 		if($this->contributor_ids)
 		{

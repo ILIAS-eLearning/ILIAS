@@ -622,3 +622,28 @@ ps_auto_https_header_name#:#Header Name###26 09 2014 new variable
 ps_auto_https_header_value#:#Header Value###26 09 2014 new variable
 ps_auto_https#:#Autodetect HTTPS###26 09 2014 new variable
 https_settings#:#HTTPS Setting###26 09 2014 new variable
+alert#:#Warning###30 08 2015 new variable
+pre_opcache_comments#:#Set opcache.load_comments to 1###30 08 2015 new variable
+pre_load_comments#:#PHP-OPCache load_comments###30 08 2015 new variable
+memcache_servers#:#Memcached-Nodes###30 08 2015 new variable
+memcache_status#:#Active###30 08 2015 new variable
+memcache_host#:#Host###30 08 2015 new variable
+memcache_port#:#Port###30 08 2015 new variable
+memcache_weight#:#Weight###30 08 2015 new variable
+memcache_actions#:#Actions###30 08 2015 new variable
+memcache_edit#:#Edit node###30 08 2015 new variable
+memcache_add#:#Add Memcached node###30 08 2015 new variable
+memcache_delete#:#Delete node###30 08 2015 new variable
+memcache_cancel#:#Cancel###30 08 2015 new variable
+memcache_update#:#Save node###30 08 2015 new variable
+memcache_status_server#:#Reachable###30 08 2015 new variable
+cache_activate_clng#:#Language###30 08 2015 new variable
+cache_activate_obj_def#:#Object Definition###30 08 2015 new variable
+cache_activate_ilctrl#:#Control Flow###30 08 2015 new variable
+cache_activate_comp#:#Components###30 08 2015 new variable
+cache_activate_tpl#:#Template (HTML)###30 08 2015 new variable
+cache_activate_events#:#Events###30 08 2015 new variable
+cache_activated_components#:#Activated Components###30 08 2015 new variable
+cache_flush#:#Flush all caches###30 08 2015 new variable
+cache_activate_tpl_blocks#:#Template (Blocks)###30 08 2015 new variable
+cache_activate_tpl_variables#:#Template (Variablen###30 08 2015 new variable

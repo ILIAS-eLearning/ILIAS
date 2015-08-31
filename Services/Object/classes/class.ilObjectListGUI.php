@@ -120,6 +120,10 @@ class ilObjectListGUI
 	
 	static protected $js_unique_id = 0;
 	
+	
+	static protected $tpl_file_name = "tpl.container_list_item.html";
+	static protected $tpl_component = "Services/Container";
+	
 	/**
 	* constructor
 	*
@@ -3641,8 +3645,8 @@ class ilObjectListGUI
 		// END WEBDAV
 		
 		
-		$this->tpl = new ilTemplate("tpl.container_list_item.html", true, true,
-			"Services/Container", "DEFAULT", false, true);
+		$this->tpl = new ilTemplate(static::$tpl_file_name, true, true,
+			static::$tpl_component, "DEFAULT", false, true);
 
 		if ($this->getCommandsStatus() || 
 			($this->payment_enabled && IS_PAYMENT_ENABLED))

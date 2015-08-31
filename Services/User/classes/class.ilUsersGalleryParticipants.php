@@ -13,6 +13,11 @@ class ilUsersGalleryParticipants extends ilAbstractGalleryUsers
 	protected $participants;
 
 	/**
+	 * @var array
+	 */
+	protected $users = array();
+
+	/**
 	 * @param ilParticipants $participants
 	 */
 	public function __construct(ilParticipants $participants)
@@ -29,6 +34,11 @@ class ilUsersGalleryParticipants extends ilAbstractGalleryUsers
 		$participants_data = array();
 		foreach($users as $users_id)
 		{
+			if(isset($this->users[$users_id]))
+			{
+				continue;
+			}
+
 			/**
 			 * @var $user ilObjUser
 			 */
@@ -46,6 +56,7 @@ class ilUsersGalleryParticipants extends ilAbstractGalleryUsers
 				'id'   => $user->getId(),
 				'user' => $user
 			);
+			$this->users[$user->getId()] = true;
 		}
 		$participants_data = $this->collectUserDetails($participants_data);
 		$participants_data = ilUtil::sortArray($participants_data, 'sort', 'asc');
@@ -58,8 +69,16 @@ class ilUsersGalleryParticipants extends ilAbstractGalleryUsers
 	public function getGalleryUsers()
 	{
 		$ordered_user = $this->getSortedUsers($this->participants->getAdmins());
-		$ordered_user = $ordered_user + $this->getSortedUsers($this->participants->getTutors());
-		$ordered_user = $ordered_user + $this->getSortedUsers($this->participants->getMembers());
+		$ordered_user = array_merge($ordered_user, $this->getSortedUsers($this->participants->getTutors()));
+		$ordered_user = array_merge($ordered_user, $this->getSortedUsers($this->participants->getMembers()));
 		return $ordered_user;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getUserCssClass()
+	{
+		return '';
 	}
 } 

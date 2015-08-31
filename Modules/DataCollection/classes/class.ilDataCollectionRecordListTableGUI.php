@@ -159,7 +159,14 @@ class ilDataCollectionRecordListTableGUI extends ilTable2GUI {
 		foreach ($this->table->getFields() as $field) {
 			if ($field->getExportable()) {
 				$worksheet->writeString($row, $col, $field->getTitle());
-				$col ++;
+				$col++;
+				if ($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_TEXT) {
+					$properties = $field->getProperties();
+					if ($properties[ilDataCollectionField::PROPERTYID_URL]) {
+						$worksheet->writeString($row, $col, $field->getTitle() . '_title');
+						$col++;
+					}
+				}
 			}
 		}
 	}
@@ -233,14 +240,13 @@ class ilDataCollectionRecordListTableGUI extends ilTable2GUI {
 	/**
 	 * @param object $worksheet
 	 * @param int    $row
-	 * @param array  $record
+	 * @param ilDataCollectionRecord[] $record
 	 */
 	public function fillRowExcel($worksheet, &$row, $record) {
 		$col = 0;
 		foreach ($this->table->getFields() as $field) {
 			if ($field->getExportable()) {
-				$worksheet->writeString($row, $col, $record["_record"]->getRecordFieldExportValue($field->getId()));
-				$col ++;
+				$record["_record"]->fillRecordFieldExcelExport($worksheet, $row, $col, $field->getId());
 			}
 		}
 	}

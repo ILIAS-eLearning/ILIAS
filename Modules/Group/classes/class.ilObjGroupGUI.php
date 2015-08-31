@@ -385,7 +385,7 @@ class ilObjGroupGUI extends ilContainerGUI
 	 */
 	public function saveObject()
 	{
-		global $ilErr,$ilUser,$tree;
+		global $ilErr,$ilUser,$tree,$ilSetting;
 		
 		$this->object = new ilObjGroup();
 
@@ -444,7 +444,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		include_once('./Modules/Group/classes/class.ilGroupParticipants.php');
 		$members_obj = ilGroupParticipants::_getInstanceByObjId($this->object->getId());
 		$members_obj->add($ilUser->getId(),IL_GRP_ADMIN);
-		$members_obj->updateNotification($ilUser->getId(),1);
+		$members_obj->updateNotification($ilUser->getId(),$ilSetting->get('mail_grp_admin_notification', true));
 		
 
 		ilUtil::sendSuccess($this->lng->txt("grp_added"),true);		
