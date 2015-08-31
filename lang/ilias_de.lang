@@ -15535,7 +15535,7 @@ exc#:#exc_peer_review_show_received_none#:#Sie haben kein Feedback erhalten.
 exc#:#exc_peer_review_min_chars_tgl#:#Mindestlänge
 exc#:#exc_peer_review_min_chars#:#Mindestanzahl Zeichen
 exc#:#exc_peer_review_min_chars_info#:#Die nötige Anzahl Zeichen für ein gültiges Feedback.
-exc#:#exc_peer_review_chars_invalid#:#Sie haben noch nicht die erforderliche Länge des Textes von %s Zeichen in mind. einem Feedback erreicht.
+exc#:#exc_peer_review_chars_invalid#:#Sie haben noch nicht die erforderliche Länge des Textes von %s Zeichen erreicht.
 exc#:#exc_peer_review_show_missing#:#Sie können das erhaltene Feedback nicht einsehen, da Sie zu wenig Feedback gegeben haben.
 exc#:#exc_peer_review_simple_unlock#:#Anzeige der erhaltenen Bewertungen
 exc#:#exc_peer_review_simple_unlock_active#:#Nach Abgabe einer Bewertung

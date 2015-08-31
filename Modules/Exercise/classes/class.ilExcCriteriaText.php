@@ -74,11 +74,25 @@ class ilExcCriteriaText extends ilExcCriteria
 	
 	public function addToPeerReviewForm($a_value = null)
 	{		
+		global $lng;
+		
+		$info = array();
+		if($this->getDescription())
+		{
+			$info[] = $this->getDescription();
+		}
+		if($this->getMinChars())
+		{
+			$info[] = $lng->txt("exc_peer_review_min_chars").": ".$this->getMinChars();
+		}			
+		$info = implode("<br />", $info);
+		
 		$input = new ilTextAreaInputGUI($this->getTitle(), "prccc_text_".$this->getId());
 		$input->setRows(10);
-		$input->setInfo($this->getDescription());
+		$input->setInfo($info);
 		$input->setRequired($this->isRequired());
 		$input->setValue($a_value);
+		
 		$this->form->addItem($input);
 	}
 	 
