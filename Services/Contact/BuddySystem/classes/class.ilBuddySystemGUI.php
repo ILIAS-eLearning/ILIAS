@@ -152,7 +152,7 @@ class ilBuddySystemGUI
 	{
 		if(!$this->isRequestParameterGiven('user_id', self::BS_REQUEST_HTTP_GET))
 		{
-			ilUtil::sendFailure($this->lng->txt('buddy_bs_action_not_possible'), true);
+			ilUtil::sendInfo($this->lng->txt('buddy_bs_action_not_possible'), true);
 			$this->ctrl->returnToParent($this);
 		}
 
@@ -166,7 +166,7 @@ class ilBuddySystemGUI
 		}
 		catch(ilException $e)
 		{
-			ilUtil::sendFailure($this->lng->txt('buddy_bs_action_not_possible'), true);
+			ilUtil::sendInfo($this->lng->txt('buddy_bs_action_not_possible'), true);
 		}
 
 		$this->ctrl->returnToParent($this);
@@ -179,7 +179,7 @@ class ilBuddySystemGUI
 	{
 		if(!$this->isRequestParameterGiven('user_id', self::BS_REQUEST_HTTP_GET))
 		{
-			ilUtil::sendFailure($this->lng->txt('buddy_bs_action_not_possible'), true);
+			ilUtil::sendInfo($this->lng->txt('buddy_bs_action_not_possible'), true);
 			$this->ctrl->returnToParent($this);
 		}
 
@@ -193,7 +193,7 @@ class ilBuddySystemGUI
 		}
 		catch(ilException $e)
 		{
-			ilUtil::sendFailure($this->lng->txt('buddy_bs_action_not_possible'), true);
+			ilUtil::sendInfo($this->lng->txt('buddy_bs_action_not_possible'), true);
 		}
 
 		$this->ctrl->returnToParent($this);
