@@ -246,6 +246,11 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 			$if->addSubItem($ch);
 		}
 		
+		$cdate = new ilCheckboxInputGUI($this->lng->txt('search_cdate_filter'), 'cdate');
+		$cdate->setInfo($this->lng->txt('search_cdate_filter_info'));
+		$cdate->setChecked($settings->isDateFilterEnabled());
+		$cdate->setValue(1);
+		$this->form->addItem($cdate);
 		
 		// hide advanced search 
 		$cb = new ilCheckboxInputGUI($lng->txt("search_hide_adv_search"), "hide_adv_search");
@@ -337,6 +342,8 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 
 		$settings->showInactiveUser($_POST["inactive_user"]);
 		$settings->showLimitedUser($_POST["limited_user"]);
+		
+		$settings->enableDateFilter($_POST['cdate']);
 
 
 		$settings->update();

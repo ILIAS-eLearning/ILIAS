@@ -197,27 +197,20 @@ class ilHelpGUI
 		{
 			$help_screen_id = ilSession::get("help_screen_id");
 		}
-		
+
+		ilSession::set("help_search_term", "");
+
 		$this->resetCurrentPage();
 		
 		$id_arr = explode(".", $help_screen_id);
 		include_once("./Services/Help/classes/class.ilHelpMapping.php");
+		include_once("./Services/Help/classes/class.ilHelp.php");
+
 		$help_arr = ilHelpMapping::getHelpSectionsForId($id_arr[0], $id_arr[1]);
+		$oh_lm_id = ilHelp::getHelpLMId();
 		
-		$hm = (int) $ilSetting->get("help_module");
-		
-		if ((OH_REF_ID > 0 || $hm > 0) && count($help_arr) > 0)
+		if ($oh_lm_id > 0 && count($help_arr) > 0)
 		{
-			if (OH_REF_ID > 0)
-			{
-				$oh_lm_id = ilObject::_lookupObjId(OH_REF_ID);
-			}
-			else
-			{
-				include_once("./Services/Help/classes/class.ilObjHelpSettings.php");
-				$oh_lm_id = ilObjHelpSettings::lookupModuleLmId($hm);
-			}
-			
 			include_once("./Services/Accordion/classes/class.ilAccordionGUI.php");
 			$acc = new ilAccordionGUI();
 			$acc->setId("oh_acc_".$h_id);
@@ -247,6 +240,12 @@ class ilHelpGUI
 			}
 			$h_tpl = new ilTemplate("tpl.help.html", true, true, "Services/Help");
 			$h_tpl->setVariable("HEAD", $lng->txt("help"));
+
+			$h_tpl->setCurrentBlock("search");
+			include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
+			$h_tpl->setVariable("GL_SEARCH", ilGlyphGUI::get(ilGlyphGUI::SEARCH));
+			$h_tpl->parseCurrentBlock();
+
 			$h_tpl->setVariable("CONTENT", $acc->getHTML());
 			include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
 			$h_tpl->setVariable("CLOSE_IMG", ilGlyphGUI::get(ilGlyphGUI::CLOSE));
@@ -269,11 +268,20 @@ class ilHelpGUI
 		
 		$h_tpl = new ilTemplate("tpl.help.html", true, true, "Services/Help");
 		include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
-		
+
+
 		$h_tpl->setCurrentBlock("backlink");
 		$h_tpl->setVariable("TXT_BACK", $lng->txt("back"));
-		$h_tpl->setVariable("ONCLICK_BACK",
-			"return il.Help.listHelp(event, true);");
+		if (($t =ilSession::get("help_search_term")) != "")
+		{
+			$h_tpl->setVariable("ONCLICK_BACK",
+				"return il.Help.search('".ilUtil::prepareFormOutput($t)."');");
+		}
+		else
+		{
+			$h_tpl->setVariable("ONCLICK_BACK",
+				"return il.Help.listHelp(event, true);");
+		}
 		$h_tpl->parseCurrentBlock();
 		
 		
@@ -467,6 +475,68 @@ class ilHelpGUI
 		$link_info.="<LinkTarget TargetFrame=\"None\" LinkTarget=\"\" OnClick=\"return il.Help.openLink(event);\" />";
 		$link_info.= "</LinkTargets>";
 		return $link_info;
+	}
+
+	/**
+	 * Search
+	 *
+	 * @param
+	 * @return
+	 */
+	function search()
+	{
+		global $lng;
+
+		$term = $_GET["term"];
+
+		if ($term == "")
+		{
+			$term = ilSession::get("help_search_term");
+		}
+
+		$this->resetCurrentPage();
+
+		$h_tpl = new ilTemplate("tpl.help.html", true, true, "Services/Help");
+		include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
+
+		$h_tpl->setCurrentBlock("backlink");
+		$h_tpl->setVariable("TXT_BACK", $lng->txt("back"));
+		$h_tpl->setVariable("ONCLICK_BACK",
+			"return il.Help.listHelp(event, true);");
+		$h_tpl->parseCurrentBlock();
+
+
+		$h_tpl->setVariable("HEAD", $lng->txt("help")." - ".
+			$lng->txt("search_result"));
+
+		$h_tpl->setCurrentBlock("search");
+		include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
+		$h_tpl->setVariable("GL_SEARCH", ilGlyphGUI::get(ilGlyphGUI::SEARCH));
+		$h_tpl->setVariable("VAL_SEARCH", ilUtil::prepareFormOutput($term));
+		$h_tpl->parseCurrentBlock();
+
+		include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
+		$h_tpl->setVariable("CLOSE_IMG", ilGlyphGUI::get(ilGlyphGUI::CLOSE));
+
+		$lm_id = ilHelp::getHelpLMId();
+		include_once("./Services/Search/classes/class.ilRepositoryObjectDetailSearch.php");
+		$s = new ilRepositoryObjectDetailSearch($lm_id);
+		$s->setQueryString($term);
+		$result = $s->performSearch();
+
+		include_once("./Services/UIComponent/GroupedList/classes/class.ilGroupedListGUI.php");
+		$grp_list = new ilGroupedListGUI();
+		foreach ($result->getResults() as $r)
+		{
+			$grp_list->addEntry(ilLMObject::_lookupTitle($r["item_id"]), "#", "",
+				"return il.Help.showPage(".$r["item_id"].");");
+		}
+		$h_tpl->setVariable("CONTENT", $grp_list->getHTML());
+
+		ilSession::set("help_search_term", $term);
+
+		echo $h_tpl->get();;
+		exit;
 	}
 
 }

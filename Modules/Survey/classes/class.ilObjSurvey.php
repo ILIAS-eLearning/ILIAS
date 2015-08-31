@@ -3173,7 +3173,7 @@ class ilObjSurvey extends ilObject
 				}
 				foreach ($placeholders as $key => $mapping)
 				{									
-					if (!$this->hasAnonymizedResults())
+					if ($this->hasAnonymizedResults()) // #16480
 					{
 						$messagetext = str_replace('[' . $key . ']', '', $messagetext);
 					}
@@ -5612,10 +5612,12 @@ class ilObjSurvey extends ilObject
 	{
 		global $ilDB;
 		$time = time();
+		//primary for table svy_times
+		$id =  $ilDB->nextId('svy_times');
 		$_SESSION['svy_entered_page'] = $time;
-		$affectedRows = $ilDB->manipulateF("INSERT INTO svy_times (finished_fi, entered_page, left_page, first_question) VALUES (%s, %s, %s, %s)",
-			array('integer', 'integer', 'integer', 'integer'),
-			array($finished_id, $time, NULL, $first_question)
+		$affectedRows = $ilDB->manipulateF("INSERT INTO svy_times (id, finished_fi, entered_page, left_page, first_question) VALUES (%s, %s, %s, %s,%s)",
+			array('integer','integer', 'integer', 'integer', 'integer'),
+			array($id, $finished_id, $time, NULL, $first_question)
 		);
 	}
 	

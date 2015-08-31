@@ -3927,7 +3927,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	{
 		include_once("./Services/Repository/classes/class.ilRepositorySelectorExplorerGUI.php");
 		$exp = new ilRepositorySelectorExplorerGUI($this, "showPasteTree");
-		$exp->setTypeWhiteList(array("root", "cat", "grp", "crs", "fold"));
+		$exp->setTypeWhiteList(array("root", "cat", "grp", "crs", "fold", "prg"));
 		if ($cmd == "link") {
 			$exp->setSelectMode("nodes", true);
 			return $exp;

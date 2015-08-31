@@ -169,9 +169,11 @@ class ilRbacLog
 			{
 				$a_diff["src"] = $a_source_ref_id;
 			}
+			$id = $ilDB->nextId('rbac_log');
 
-			$ilDB->query("INSERT INTO rbac_log (user_id, created, ref_id, action, data)".
-				" VALUES (".$ilDB->quote($ilUser->getId(), "integer").",".$ilDB->quote(time(), "integer").
+			$ilDB->query("INSERT INTO rbac_log (log_id, user_id, created, ref_id, action, data)".
+				" VALUES (".$ilDB->quote($id, "integer").",".$ilDB->quote($ilUser->getId(), "integer").
+				",".$ilDB->quote(time(), "integer").
 				",".$ilDB->quote($a_ref_id, "integer").",".$ilDB->quote($a_action, "integer").
 				",".$ilDB->quote(serialize($a_diff), "text").")");
 			return true;

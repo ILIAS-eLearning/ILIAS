@@ -19,6 +19,7 @@ class ilNoteGUI
 {
 	var $public_deletion_enabled = false;
 	var $repository_mode = false;
+	var $old = false;
 	
 	/**
 	* constructor, specifies notes set
@@ -1600,9 +1601,16 @@ $ilCtrl->redirect($this, "showNotes", "notes_top", $this->ajax);
 	/**
 	 * Init javascript
 	 */
-	function initJavascript($a_ajax_url)
+	function initJavascript($a_ajax_url, $a_type = IL_NOTE_PRIVATE)
 	{
-		global $tpl;
+		global $tpl, $lng;
+
+		$lng->loadLanguageModule("notes");
+
+		include_once("./Services/UIComponent/Modal/classes/class.ilModalGUI.php");
+		ilModalGUI::initJS();
+
+		$lng->toJs(array("private_notes", "notes_public_comments"));
 
 		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
 		ilYuiUtil::initPanel();

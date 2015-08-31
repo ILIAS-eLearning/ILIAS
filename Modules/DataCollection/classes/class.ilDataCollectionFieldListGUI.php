@@ -6,6 +6,7 @@ require_once ("./Modules/DataCollection/classes/class.ilDataCollectionTable.php"
 include_once("class.ilDataCollectionDatatype.php");
 require_once "class.ilDataCollectionCache.php";
 require_once('./Services/Utilities/classes/class.ilConfirmationGUI.php');
+require_once('./Modules/DataCollection/classes/class.ilDataCollectionFieldListTableGUI.php');
 
 
 /**
@@ -172,15 +173,11 @@ class ilDataCollectionFieldListGUI
         $this->toolbar->addSeparator();
         $this->ctrl->setParameterByClass("ildatacollectiontableeditgui", "table_id", $this->table_id);
 		$this->toolbar->addButton($this->lng->txt("dcl_table_settings"), $this->ctrl->getLinkTargetByClass("ildatacollectiontableeditgui", "edit"));
+		$this->toolbar->addSeparator();
 		$this->toolbar->addButton($this->lng->txt("dcl_delete_table"), $this->ctrl->getLinkTargetByClass("ildatacollectiontableeditgui", "confirmDelete"));
-        $this->toolbar->addButton($this->lng->txt("dcl_add_new_field"), $this->ctrl->getLinkTargetByClass("ildatacollectionfieldeditgui", "create"));
-
-        // requested not to implement this way...
-//        $tpl->addJavaScript("Modules/DataCollection/js/fastTableSwitcher.js");
-
-		require_once('./Modules/DataCollection/classes/class.ilDataCollectionFieldListTableGUI.php');
+		$this->toolbar->addSeparator();
+		$this->toolbar->addButton($this->lng->txt("dcl_add_new_field"), $this->ctrl->getLinkTargetByClass("ildatacollectionfieldeditgui", "create"));
 		$list = new ilDataCollectionFieldListTableGUI($this, $this->ctrl->getCmd(), $this->table_id);
-
 		$this->tpl->setContent($list->getHTML());
 
 	}

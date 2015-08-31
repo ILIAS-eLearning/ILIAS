@@ -30,6 +30,10 @@ il.Accordion = {
 		options.animating = false;
 		options.clicked_acc = null;
 		options.last_opened_acc = null;
+		
+		if (typeof options.reset_width == "undefined") {
+			options.reset_width = false;
+		}
 
 		if (typeof options.show_all_element == "undefined") {
 			options.show_all_element = null;
@@ -373,6 +377,9 @@ il.Accordion = {
 		$(a.clicked_acc).animate(options, il.Accordion.duration, function () {
 
 			$(a.clicked_acc).css("height", "auto");
+			if (a.reset_width) {
+				$(a.clicked_acc).css("width", a.width);
+			}
 
 			// set the currently shown accordion
 			a.last_opened_acc = a.clicked_acc;

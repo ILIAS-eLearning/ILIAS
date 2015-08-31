@@ -40,7 +40,7 @@ require_once './Modules/Test/classes/class.ilTestExpressPage.php';
  * @ilCtrl_Calls ilObjTestGUI: ilTestSettingsChangeConfirmationGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestSkillAdministrationGUI, ilTestSkillEvaluationGUI
  * @ilCtrl_Calls ilObjTestGUI: ilAssQuestionPreviewGUI
- * @ilCtrl_Calls ilObjTestGUI: assKprimChoiceGUI
+ * @ilCtrl_Calls ilObjTestGUI: assKprimChoiceGUI, assLongMenuGUI
  *
  * @ingroup ModulesTest
  */
@@ -1150,6 +1150,10 @@ class ilObjTestGUI extends ilObjectGUI
 					break;
 				case KPRIM_CHOICE_QUESTION_IDENTIFIER:
 				case QT_KPRIM_CHOICE:
+					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assKprimChoice"));
+					break;
+				case LONG_MENU_QUESTION_IDENTIFIER:
+				case QT_LONG_MENU:
 					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assKprimChoice"));
 					break;
 				case "NUMERIC QUESTION":
@@ -3847,7 +3851,6 @@ class ilObjTestGUI extends ilObjectGUI
 			case "confirmSubmitAnswers":
 			case "finalSubmission":
 			case "postpone":
-			case "redirectQuestion":
 			case "outUserPassDetails":
 			case "checkPassword":
 				$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "infoScreen"), "", $_GET["ref_id"]);
@@ -4119,8 +4122,14 @@ class ilObjTestGUI extends ilObjectGUI
 
 			// tab handling happens within GUIs
 			case 'iltestevaluationgui':
+				$nonSelfTabbingCommands = array(
+					'outParticipantsResultsOverview', 'outEvaluation'
+				);
+				if( in_array($this->ctrl->getCmd(), $nonSelfTabbingCommands) )
+				{
+					break;
+				}
 			case 'iltestevalobjectiveorientedgui':
-
 				return;
 				
 			case 'ilmarkschemagui':
@@ -4166,7 +4175,6 @@ class ilObjTestGUI extends ilObjectGUI
 			case "confirmSubmitAnswers":
 			case "finalSubmission":
 			case "postpone":
-			case "redirectQuestion":
 			case "outUserPassDetails":
 			case "checkPassword":
 			case "exportCertificate":

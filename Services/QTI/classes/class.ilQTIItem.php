@@ -23,6 +23,7 @@
 
 define ("QT_UNKNOWN", "unknown");
 define ("QT_KPRIM_CHOICE", "assKprimChoice");
+define ("QT_LONG_MENU", "assLongMenu");
 define ("QT_MULTIPLE_CHOICE_SR", "assSingleChoice");
 define ("QT_MULTIPLE_CHOICE_MR", "assMultipleChoice");
 define ("QT_CLOZE", "assClozeTest");
@@ -231,6 +232,8 @@ class ilQTIItem
 				return QT_ORDERING;
 			case "KPRIM CHOICE QUESTION":
 				return QT_KPRIM_CHOICE;
+			case "LONG MENU QUESTION":
+				return QT_LONG_MENU;
 			case "SINGLE CHOICE QUESTION":
 				return QT_MULTIPLE_CHOICE_SR;
 			case "MULTIPLE CHOICE QUESTION":

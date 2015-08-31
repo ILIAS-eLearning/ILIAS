@@ -118,6 +118,7 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 		{
 			// SAVE SUBTREE AND DELETE SUBTREE FROM TREE
 			$affected_ids = array();
+			$affected_parents = array();
 			foreach ($a_ids as $id)
 			{
 				if($tree->isDeleted($id))
@@ -136,6 +137,7 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 					$affected_users = ilUtil::removeItemFromDesktops($subnode["child"]);
 					
 					$affected_ids[$subnode["child"]] = $subnode["child"];
+					$affected_parents[$subnode["child"]] = $subnode["parent"];
 					
 					// TODO: inform users by mail that object $id was deleted
 					//$mail->sendMail($id,$msg,$affected_users);
@@ -170,8 +172,10 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 			foreach ($affected_ids as $aid)
 			{
 				$ilAppEventHandler->raise("Services/Object", "toTrash",
-					array("obj_id" => ilObject::_lookupObjId($aid),
-					"ref_id" => $aid));
+					array( "obj_id" => ilObject::_lookupObjId($aid),
+						   "ref_id" => $aid,
+						   "old_parent_ref_id" => $affected_parents[$aid]
+						 ));
 			}
 			// inform other objects in hierarchy about paste operation
 			//$this->object->notify("confirmedDelete", $_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$_SESSION["saved_post"]);
@@ -243,8 +247,11 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 				$log->write("ilObjectGUI::removeFromSystemObject(), delete obj_id: ".$node_obj->getId().
 					", ref_id: ".$node_obj->getRefId().", type: ".$node_obj->getType().", ".
 					"title: ".$node_obj->getTitle());
-				$affected_ids[$node["ref_id"]] = array("ref_id" => $node["ref_id"],
-					"obj_id" => $node_obj->getId(), "type" => $node_obj->getType());
+				$affected_ids[$node["ref_id"]] = array(
+													"ref_id" => $node["ref_id"],
+													"obj_id" => $node_obj->getId(), 
+													"type" => $node_obj->getType(),
+													"old_parent_ref_id" => $node["parent"]);
 					
 				// this is due to bug #1860 (even if this will not completely fix it)
 				// and the fact, that media pool folders may find their way into
@@ -278,7 +285,8 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 			$ilAppEventHandler->raise("Services/Object", "delete",
 				array("obj_id" => $aid["obj_id"],
 				"ref_id" => $aid["ref_id"],
-				"type" => $aid["type"]));
+				"type" => $aid["type"],
+				"old_parent_ref_id" => $aid["old_parent_ref_id"]));
 		}
 	}
 	
@@ -319,8 +327,11 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 						$log->write("ilObjectGUI::removeDeletedNodes(), delete obj_id: ".$node_obj->getId().
 							", ref_id: ".$node_obj->getRefId().", type: ".$node_obj->getType().", ".
 							"title: ".$node_obj->getTitle());
-						$a_affected_ids[$node["ref_id"]] = array("ref_id" => $node["ref_id"],
-							"obj_id" => $node_obj->getId(), "type" => $node_obj->getType());
+						$a_affected_ids[$node["ref_id"]] = array(
+															"ref_id" => $node["ref_id"],
+															"obj_id" => $node_obj->getId(), 
+															"type" => $node_obj->getType(),
+															"old_parent_ref_id" => $node["parent"]);
 														
 						$node_obj->delete();
 						

@@ -22,16 +22,6 @@ class ilTestDynamicQuestionSetStatisticTableGUI extends ilTable2GUI
 	 * @var array
 	 */
 	protected $taxIds = array();
-
-	/**
-	 * @var bool
-	 */
-	private $showNumMarkedQuestionsEnabled = false;
-	
-	/**
-	 * @var bool
-	 */
-	private $showNumPostponedQuestionsEnabled = false;
 	
 	private $taxonomyFilterEnabled = false;
 	
@@ -80,17 +70,8 @@ class ilTestDynamicQuestionSetStatisticTableGUI extends ilTable2GUI
 		
 		$this->addColumn($this->lng->txt("tst_num_correct_answered_questions"),'num_correct_answered_questions', '');
 		$this->addColumn($this->lng->txt("tst_num_wrong_answered_questions"),'num_wrong_answered_questions', '');
-		$this->addColumn($this->lng->txt("tst_num_non_answered_questions"),'num_non_answered_questions', '');
-
-		if( $this->isShowNumPostponedQuestionsEnabled() )
-		{
-			$this->addColumn($this->lng->txt("tst_num_postponed_questions"),'num_postponed_questions', '');
-		}
-
-		if( $this->isShowNumMarkedQuestionsEnabled() )
-		{
-			$this->addColumn($this->lng->txt("tst_num_marked_questions"),'num_marked_questions', '');
-		}
+		$this->addColumn($this->lng->txt("tst_num_non_answered_questions_skipped"),'num_non_answered_questions_skipped', '');
+		$this->addColumn($this->lng->txt("tst_num_non_answered_questions_notseen"),'num_non_answered_questions_notseen', '');
 	}
 
 	/**
@@ -142,21 +123,8 @@ class ilTestDynamicQuestionSetStatisticTableGUI extends ilTable2GUI
 		$this->tpl->setVariable('NUM_ALL_QUESTIONS', $data['total_all']);
 		$this->tpl->setVariable('NUM_CORRECT_ANSWERED_QUESTIONS', $data['correct_answered']);
 		$this->tpl->setVariable('NUM_WRONG_ANSWERED_QUESTIONS', $data['wrong_answered']);
-		$this->tpl->setVariable('NUM_NON_ANSWERED_QUESTIONS', $data['non_answered']);
-		
-		if( $this->isShowNumPostponedQuestionsEnabled() )
-		{
-			$this->tpl->setCurrentBlock('num_postponed');
-			$this->tpl->setVariable("NUM_POSTPONED_QUESTIONS", $data['postponed']);
-			$this->tpl->parseCurrentBlock();
-		}
-
-		if( $this->isShowNumMarkedQuestionsEnabled() )
-		{
-			$this->tpl->setCurrentBlock('num_marked');
-			$this->tpl->setVariable("NUM_MARKED_QUESTIONS", $data['marked']);
-			$this->tpl->parseCurrentBlock();
-		}
+		$this->tpl->setVariable('NUM_NON_ANSWERED_QUESTIONS_SKIPPED', $data['non_answered_skipped']);
+		$this->tpl->setVariable('NUM_NON_ANSWERED_QUESTIONS_NOTSEEN', $data['non_answered_notseen']);
 	}
 
 	/**
@@ -173,38 +141,6 @@ class ilTestDynamicQuestionSetStatisticTableGUI extends ilTable2GUI
 	public function getTaxIds()
 	{
 		return $this->taxIds;
-	}
-	
-	/**
-	 * @param boolean $showNumMarkedQuestionsEnabled
-	 */
-	public function setShowNumMarkedQuestionsEnabled($showNumMarkedQuestionsEnabled)
-	{
-		$this->showNumMarkedQuestionsEnabled = $showNumMarkedQuestionsEnabled;
-	}
-
-	/**
-	 * @return boolean
-	 */
-	public function isShowNumMarkedQuestionsEnabled()
-	{
-		return $this->showNumMarkedQuestionsEnabled;
-	}
-
-	/**
-	 * @param boolean $showNumPostponedQuestionsEnabled
-	 */
-	public function setShowNumPostponedQuestionsEnabled($showNumPostponedQuestionsEnabled)
-	{
-		$this->showNumPostponedQuestionsEnabled = $showNumPostponedQuestionsEnabled;
-	}
-
-	/**
-	 * @return boolean
-	 */
-	public function isShowNumPostponedQuestionsEnabled()
-	{
-		return $this->showNumPostponedQuestionsEnabled;
 	}
 
 	/**

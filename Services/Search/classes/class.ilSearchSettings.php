@@ -41,6 +41,8 @@ class ilSearchSettings
 	protected $prefix_wildcard = false;
 	
 	protected $user_search = false;
+	
+	protected $date_filter = FALSE;
 
 	var $ilias = null;
 	var $max_hits = null;
@@ -427,6 +429,16 @@ class ilSearchSettings
 		return $this->show_limited_user;
 	}
 	
+	public function isDateFilterEnabled()
+	{
+		return $this->date_filter;
+	}
+	
+	public function enableDateFilter($a_filter)
+	{
+		$this->date_filter = $a_filter;
+	}
+	
 	function update()
 	{
 		global $ilSetting;
@@ -453,6 +465,8 @@ class ilSearchSettings
 		$ilSetting->set('lucene_user_search',$this->isLuceneUserSearchEnabled());
 		$ilSetting->set('search_show_inactiv_user', $this->isInactiveUserVisible());
 		$ilSetting->set('search_show_limited_user', $this->isLimitedUserVisible());
+		
+		$ilSetting->set('search_date_filter', $this->isDateFilterEnabled());
 
 		return true;
 	}
@@ -499,6 +513,8 @@ class ilSearchSettings
 
 		$this->showInactiveUser($ilSetting->get('search_show_inactiv_user', $this->show_inactiv_user));
 		$this->showLimitedUser($ilSetting->get('search_show_limited_user', $this->show_limited_user));
+		
+		$this->enableDateFilter($ilSetting->get('search_date_filter', $this->date_filter));
 	}
 }
 ?>

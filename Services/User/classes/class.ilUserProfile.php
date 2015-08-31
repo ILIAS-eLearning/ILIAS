@@ -298,6 +298,7 @@ class ilUserProfile
 						"group" => "settings"),
 		"hide_own_online_status" => array(
 						"input" => "selection",
+						"lang_var" => "awrn_hide_from_awareness",
 						"required_hide" => true,
 						"visib_reg_hide" => true,
 						"course_export_hide" => true,
@@ -333,8 +334,14 @@ class ilUserProfile
 	 */
 	function __construct()
 	{
+		global $lng;
+
 		$this->skip_groups = array();
 		$this->skip_fields = array();
+
+		// for hide me from awareness tool text
+		// not nicest workaround, but better than using common block
+		$lng->loadLanguageModule("awrn");
 	}
 	
 	/**
