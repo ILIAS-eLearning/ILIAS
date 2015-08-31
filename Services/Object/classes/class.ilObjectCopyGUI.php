@@ -141,13 +141,6 @@ class ilObjectCopyGUI
 			$GLOBALS['ilCtrl']->setParameter($this,'source_ids',  implode('_', $this->getSource()));
 			
 		}
-		
-		// save targets
-		if($_REQUEST['target_ids'])
-		{
-			$this->setTargets(explode('_',$_REQUEST['target_ids']));
-		}
-		
 		$this->setType(
 				ilObject::_lookupType(ilObject::_lookupObjId($this->getFirstSource()))
 		);
@@ -439,7 +432,6 @@ class ilObjectCopyGUI
 		if(is_array($_REQUEST['target']) and $_REQUEST['target'])
 		{
 			$this->setTargets($_REQUEST['target']);
-			$GLOBALS['ilCtrl']->setParameter($this,'target_ids',  implode('_', $this->getTargets()));
 		}
 		// end-patch multi copy
 		else
@@ -449,6 +441,8 @@ class ilObjectCopyGUI
 			return false;	
 		}
 		
+		$GLOBALS['ilLog']->write(__METHOD__.': ------------------ '. print_r($this->getSource(),TRUE));
+
 		if(count($this->getSource() == 1) && $objDefinition->isContainer($this->getType()))
 		{
 			// check, if object should be copied into itself

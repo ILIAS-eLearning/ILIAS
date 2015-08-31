@@ -492,40 +492,6 @@ class ilPublicUserProfileGUI
 				$tpl->parseCurrentBlock();
 			}
 		}
-
-		// portfolios
-		include_once("./Services/Link/classes/class.ilLink.php");
-		include_once("./Modules/Portfolio/classes/class.ilObjPortfolio.php");
-		$back = ($this->getBackUrl() != "")
-			? $this->getBackUrl()
-			: ilLink::_getStaticLink($this->getUserId(), "usr", true);
-		$port = ilObjPortfolio::getAvailablePortfolioLinksForUserIds(array($this->getUserId()), $back);
-		$cnt=0;
-		if (count($port) > 0)
-		{
-			foreach ($port as $u)
-			{
-				$tpl->setCurrentBlock("portfolio");
-				foreach ($u as $link => $title)
-				{
-					$cnt++;
-					$tpl->setVariable("HREF_PORTFOLIO", $link);
-					$tpl->setVariable("TITLE_PORTFOLIO", $title);
-					$tpl->parseCurrentBlock();
-				}
-			}
-			$tpl->setCurrentBlock("portfolios");
-			if ($cnt > 1)
-			{
-				$lng->loadLanguageModule("prtf");
-				$tpl->setVariable("TXT_PORTFOLIO", $lng->txt("prtf_portfolios"));
-			}
-			else
-			{
-				$tpl->setVariable("TXT_PORTFOLIO", $lng->txt("portfolio"));
-			}
-			$tpl->parseCurrentBlock();
-		}
 		
 		// delicious row
 		//$d_set = new ilSetting("delicious");

@@ -67,11 +67,6 @@ class ilUserSearchCache
 	private $mime_filter = array();
 	// end-patch mime_filter
 	
-	// begin-patch create_date
-	private $creation_filter = array();
-	// end-patch create_date
-	
-	
 	
 	/**
 	 * Constructor
@@ -333,19 +328,6 @@ class ilUserSearchCache
 	{
 		return (array) $this->mime_filter;
 	}
-	
-	// begin-patch create_date
-	public function setCreationFilter($a_filter)
-	{
-		$this->creation_filter = $a_filter;
-	}
-	
-	public function getCreationFilter()
-	{
-		return $this->creation_filter;
-	}
-	// end-patch create_date
-	
 
 	/**
 	 * delete cached entries
@@ -449,7 +431,7 @@ class ilUserSearchCache
 		{
 			return $this->saveForAnonymous();
 		}
-		
+
 		$query = "DELETE FROM usr_search ".
 			"WHERE usr_id = ".$ilDB->quote($this->usr_id ,'integer')." ".
 			"AND ( search_type = ".$ilDB->quote($this->search_type ,'integer').' '.
@@ -466,8 +448,7 @@ class ilUserSearchCache
 			'query'			=> array('clob',serialize($this->getQuery())),
 			'root'			=> array('integer',$this->getRoot()),
 			'item_filter'	=> array('text',serialize($this->getItemFilter())),
-			'mime_filter'	=> array('text',  serialize($this->getMimeFilter())),
-			'creation_filter' => array('text', serialize($this->getCreationFilter()))
+			'mime_filter'	=> array('text',  serialize($this->getMimeFilter()))
 		));
 			
 			
@@ -493,7 +474,6 @@ class ilUserSearchCache
 		$_SESSION['usr_search_cache'][$this->search_type]['root'] =  $this->getRoot();
 		$_SESSION['usr_search_cache'][$this->search_type]['item_filter'] =  $this->getItemFilter();
 		$_SESSION['usr_search_cache'][$this->search_type]['mime_filter'] =  $this->getMimeFilter();
-		$_SESSION['usr_search_cache'][$this->search_type]['creation_filter'] =  $this->getCreationFilter();
 
 		$_SESSION['usr_search_cache'][self::LAST_QUERY]['query'] =  $this->getQuery();
 
@@ -540,7 +520,6 @@ class ilUserSearchCache
 			$this->setQuery(unserialize($row->query));
 			$this->setRoot($row->root);
 			$this->setItemFilter(unserialize($row->item_filter));
-			$this->setCreationFilter(unserialize($row->creation_filter));
 	 	}
 		return true;			
 	}
@@ -559,7 +538,6 @@ class ilUserSearchCache
 		$this->setRoot((string) $_SESSION['usr_search_cache'][$this->search_type]['root']);
 		$this->setItemFilter((array) $_SESSION['usr_search_cache'][$this->search_type]['item_filter']);
 		$this->setMimeFilter((array) $_SESSION['usr_search_cache'][$this->search_type]['mime_filter']);
-		$this->setCreationFilter((array) $_SESSION['usr_search_cache'][$this->search_type]['creation_filter']);
 
 		return true;
 	}

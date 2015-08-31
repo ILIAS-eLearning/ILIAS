@@ -757,10 +757,6 @@ class ilObjQuestionPool extends ilObject
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		switch ($type)
 		{
-			case 'xml':
-				include_once("./Services/Export/classes/class.ilExport.php");
-				$export_dir = ilExport::_getExportDirectory($this->getId(), $type, $this->getType());
-				break;
 			case 'xls':
 			case 'zip':
 				$export_dir = ilUtil::getDataDir()."/qpl_data"."/qpl_".$this->getId()."/export_$type";
@@ -1563,8 +1559,7 @@ class ilObjQuestionPool extends ilObject
 			"assOrderingHorizontal" => 7,
 			"assImagemapQuestion" => 8,
 			"assTextSubset" => 9,
-			"assErrorText" => 10,
-			"assLongMenu" => 11
+			"assErrorText" => 10
 			);
 		$satypes = array();
 		$qtypes = ilObjQuestionPool::_getQuestionTypes($all_tags);

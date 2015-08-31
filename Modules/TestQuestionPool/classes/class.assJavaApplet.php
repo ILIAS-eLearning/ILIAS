@@ -639,7 +639,7 @@ class assJavaApplet extends assQuestion implements ilObjQuestionScoringAdjustabl
 	 * @throws ilTestException
 	 * @return integer/array $points/$details (array $details is deprecated !!)
 	 */
-	public function calculateReachedPoints($active_id, $pass = NULL, $authorizedSolution = true, $returndetails = FALSE)
+	public function calculateReachedPoints($active_id, $pass = NULL, $returndetails = FALSE)
 	{
 		if( $returndetails )
 		{
@@ -653,9 +653,10 @@ class assJavaApplet extends assQuestion implements ilObjQuestionScoringAdjustabl
 		{
 			$pass = $this->getSolutionMaxPass($active_id);
 		}
-		
-		$result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorizedSolution);
-		
+		$result = $ilDB->queryF("SELECT points FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+			array('integer','integer','integer'),
+			array($active_id, $this->getId(), $pass)
+		);
 		$points = 0;
 		while ($data = $ilDB->fetchAssoc($result))
 		{
@@ -849,7 +850,7 @@ class assJavaApplet extends assQuestion implements ilObjQuestionScoringAdjustabl
 	 * @param integer $pass Test pass
 	 * @return boolean $status
 	 */
-	public function saveWorkingData($active_id, $pass = NULL, $authorized = true)
+	public function saveWorkingData($active_id, $pass = NULL)
 	{
 		// nothing to save!
 

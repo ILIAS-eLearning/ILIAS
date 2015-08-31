@@ -5,7 +5,6 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
 
 /**
 * TableGUI class object (course,group and role) search results
- * Used in member search
 *
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
 * @version $Id$

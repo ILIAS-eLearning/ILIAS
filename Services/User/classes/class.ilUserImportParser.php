@@ -549,9 +549,7 @@ class ilUserImportParser extends ilSaxParser
 			case "AuthMode":
 				if (array_key_exists("type", $a_attribs))
 				{
-					// begin-patch ldap_multiple
-					// cast to int
-					switch ((int) $a_attribs["type"])
+					switch ($a_attribs["type"])
 					{
 						case "default":
 						case "local":

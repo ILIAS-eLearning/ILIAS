@@ -164,55 +164,11 @@ class ilDataCollectionRecordField {
 		}
 	}
 
-	/**
-	 * @param $form ilPropertyFormGUI
-	 */
-	public function setValueFromForm(&$form) {
-		if ($this->field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_MOB
-			&& $form->getItemByPostVar("field_" . $this->field->getId())->getDeletionFlag()
-		) {
-			$value = - 1;
-		} else {
-			$value = $form->getInput("field_" . $this->field->getId());
-		}
-		$this->setValue($value);
-	}
-
-	/**
-	 * @param $excel
-	 * @param $row
-	 * @param $col
-	 * @return array|string
-	 */
-	public function getValueFromExcel($excel, $row, $col) {
-		$value = $excel->val($row, $col);
-		$value = utf8_encode($value);
-		if ($this->field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_DATETIME) {
-			$value = array(
-				'date' => date('Y-m-d', strtotime($value)),
-				'time' => '00:00:00',
-			);
-		}
-		return $value;
-	}
-
-	/**
-	 * @param $form ilPropertyFormGUI
-	 */
-	public function fillFormInput(&$form) {
-		$value = $this->getFormInput();
-		if (is_array($value)) {
-			$form->getItemByPostVar('field_'.$this->field->getId())->setValueByArray(array("field_".$this->field->getId() => $value));
-		} else {
-			$form->getItemByPostVar('field_' . $this->field->getId())->setValue($value);
-		}
-	}
-
 
 	/**
 	 * @return mixed
 	 */
-	protected function getFormInput() {
+	public function getFormInput() {
 		$datatype = $this->field->getDatatype();
 
 		return $datatype->parseFormInput($this->getValue(), $this);
@@ -226,16 +182,6 @@ class ilDataCollectionRecordField {
 		$datatype = $this->field->getDatatype();
 
 		return $datatype->parseExportValue($this->getValue());
-	}
-
-	/**
-	 * @param $worksheet
-	 * @param $row
-	 * @param $col
-	 */
-	public function fillExcelExport($worksheet, &$row, &$col) {
-		$worksheet->writeString($row, $col, $this->getExportValue());
-		$col ++;
 	}
 
 

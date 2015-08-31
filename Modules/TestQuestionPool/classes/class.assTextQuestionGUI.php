@@ -125,8 +125,12 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 		}
 	}
 
-	protected function magicAfterTestOutput()
+	function outQuestionForTest($formaction, $active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
 	{
+		$test_output = $this->getTestOutput($active_id, $pass, $is_postponed, $use_post_solutions); 
+		$this->tpl->setVariable("QUESTION_OUTPUT", $test_output);
+		$this->tpl->setVariable("FORMACTION", $formaction);
+
 		// TODO - BEGIN: what exactly is done here? cant we use the parent method? 
 
 		include_once "./Services/RTE/classes/class.ilRTE.php";
@@ -347,7 +351,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 		return $questionoutput;
 	}
 
-	function getTestOutput($active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE, $inlineFeedback = false)
+	function getTestOutput($active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
 	{
 		// get the solution of the user for the active pass or from the last pass if allowed
 		$user_solution = "";
@@ -359,7 +363,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 			{
 				if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
 			}
-			$solutions = $this->object->getUserSolutionPreferingIntermediate($active_id, $pass);
+			$solutions =& $this->object->getSolutionValues($active_id, $pass);
 			foreach ($solutions as $idx => $solution_value)
 			{
 				$user_solution = $solution_value["value1"];

@@ -20,7 +20,7 @@ require_once 'Services/UIComponent/SplitButton/classes/class.ilSplitButtonGUI.ph
  * $Id$
  *
  * @ilCtrl_Calls ilObjForumGUI: ilPermissionGUI, ilForumExportGUI, ilInfoScreenGUI
- * @ilCtrl_Calls ilObjForumGUI: ilColumnGUI, ilPublicUserProfileGUI, ilForumModeratorsGUI, ilRepositoryObjectSearchGUI
+ * @ilCtrl_Calls ilObjForumGUI: ilColumnGUI, ilPublicUserProfileGUI, ilForumModeratorsGUI
  * @ilCtrl_Calls ilObjForumGUI: ilObjectCopyGUI, ilExportGUI, ilCommonActionDispatcherGUI, ilRatingGUI
  *
  * @ingroup ModulesForum
@@ -217,20 +217,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		
 		switch ($next_class)
 		{
-			case 'ilrepositoryobjectsearchgui':
-				$this->addHeaderAction();
-				$this->setSideBlocks();
-				$ilTabs->setTabActive("forums_threads");
-				$ilCtrl->setReturn($this,'view');
-				include_once './Services/Search/classes/class.ilRepositoryObjectSearchGUI.php';
-				$search_gui = new ilRepositoryObjectSearchGUI(
-					$this->object->getRefId(),
-					$this,
-					'view'
-				);
-				$ilCtrl->forwardCommand($search_gui);
-				break;
-
 			case 'ilpermissiongui':
 				require_once 'Services/AccessControl/classes/class.ilPermissionGUI.php';
 				$perm_gui = new ilPermissionGUI($this);
@@ -601,13 +587,13 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 	public function showThreadsObject()
 	{
 		$this->getSubTabs('showThreads');
-		$this->setSideBlocks();
+		$this->tpl->setRightContent($this->getRightColumnHTML());
 		$this->getCenterColumnHTML();
 	}
 	public function sortThreadsObject()
 	{
 		$this->getSubTabs('sortThreads');
-		$this->setSideBlocks();
+		$this->tpl->setRightContent($this->getRightColumnHTML());
 		$this->getCenterColumnHTML(true);
 	}
 
@@ -653,11 +639,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		// Create topic button
 		if($ilAccess->checkAccess('add_thread', '', $this->object->getRefId()) && !$this->hideToolbar())
 		{
-			require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
-			$btn = ilLinkButton::getInstance();
-			$btn->setUrl($this->ctrl->getLinkTarget($this, 'createThread'));
-			$btn->setCaption('forums_new_thread');
-			$ilToolbar->addStickyItem($btn);
+			$ilToolbar->addButton($this->lng->txt('forums_new_thread'), $this->ctrl->getLinkTarget($this, 'createThread'));
 		}
 
 		// Mark all topics as read button
@@ -2523,7 +2505,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 										$this->ctrl->setParameter($this, 'pos_pk', $this->objCurrentPost->getId());
 										$this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentPost->getThreadId());
 
-										$jsTpl = new ilTemplate('tpl.forum_post_quoation_ajax_handler.html', true, true, 'Modules/Forum');
+										$jsTpl = new ilTemplate('tpl.forum_post_quoation_ajax_handler.html', true, true, 'Modules/Forum/');
 										$jsTpl->setVariable('IL_FRM_QUOTE_CALLBACK_SRC',
 											$this->ctrl->getLinkTarget($this, 'getQuotationHTMLAsynch', '', true));
 										$this->ctrl->clearParameters($this);
@@ -3034,13 +3016,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 						)
 					);
 				}
-				$this->ctrl->setParameter($this, 'pos_pk', $subtree_nodes[0]->getId());
-				$this->ctrl->setParameter($this, 'thr_pk', $subtree_nodes[0]->getThreadId());
-				$jsTpl = new ilTemplate('tpl.forum_post_quoation_ajax_handler.html', true, true, 'Modules/Forum');
-				$jsTpl->setVariable('IL_FRM_QUOTE_CALLBACK_SRC',
-					$this->ctrl->getLinkTarget($this, 'getQuotationHTMLAsynch', '', true));
-				$this->ctrl->clearParameters($this);
-				$this->tpl->setVariable('FORM_ADDITIONAL_JS', $jsTpl->get());
 				$tpl->setVariable('BOTTOM_FORM', $form->getHTML());
 			}
 		}
@@ -4942,16 +4917,5 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 	public function cancelMergeThreads()
 	{
 		$this->showThreadsObject();
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	protected function setSideBlocks()
-	{
-		require_once 'Services/Search/classes/class.ilRepositoryObjectSearchGUI.php';
-		$rgt_content = ilRepositoryObjectSearchGUI::getSearchBlockHTML($this->lng->txt('frm_search'));
-
-		$this->tpl->setRightContent($rgt_content . $this->getRightColumnHTML());
 	}
 }

@@ -42,7 +42,7 @@ die();
 	public function canBeDelivered(ilWACPath $ilWACPath) {
 		global $ilUser, $ilSetting;
 
-		preg_match("/usr_(\\d*).*/ui", $ilWACPath->getFileName(), $matches);
+		preg_match("/usr_([0-9*]).*/ui", $ilWACPath->getFileName(), $matches);
 		$usr_id = $matches[1];
 
 		// check if own image is viewed

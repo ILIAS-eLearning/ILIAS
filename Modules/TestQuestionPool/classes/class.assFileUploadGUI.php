@@ -361,10 +361,9 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 			{
 				if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
 			}
+			$solutions =& $this->object->getSolutionValues($active_id, $pass);
 
-			// $files = $this->object->getUploadedFiles($active_id, $pass); // does not prefer intermediate but orders tstamp
-			$files = $this->object->getUserSolutionPreferingIntermediate($active_id, $pass);
-
+			$files = $this->object->getUploadedFiles($active_id, $pass);
 			if (count($files))
 			{
 				include_once "./Modules/TestQuestionPool/classes/tables/class.assFileUploadFileTableGUI.php";
@@ -523,7 +522,7 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 		return ''; //print_r($relevant_answers,true);
 	}
 
-	public function getFormEncodingType()
+	protected function getFormEncodingType()
 	{
 		return self::FORM_ENCODING_MULTIPART;
 	}

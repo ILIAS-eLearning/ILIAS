@@ -361,7 +361,7 @@ class ilMimeMail
 			$this->body  = ' ';
 		}
 
-		$mail->Body    = str_replace( '{PLACEHOLDER}', nl2br( ilUtil::makeClickable( $this->body ) ), $bracket );
+		$mail->Body    = str_replace( '{PLACEHOLDER}', nl2br( $this->body ), $bracket );
 		$mail->AltBody = $this->body;
 
 		$directory_handle  = @opendir($directory);

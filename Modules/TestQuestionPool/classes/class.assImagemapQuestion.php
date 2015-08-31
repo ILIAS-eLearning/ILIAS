@@ -651,7 +651,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	 * @param boolean $returndetails (deprecated !!)
 	 * @return integer/array $points/$details (array $details is deprecated !!)
 	 */
-	public function calculateReachedPoints($active_id, $pass = NULL, $authorizedSolution = true, $returndetails = FALSE)
+	public function calculateReachedPoints($active_id, $pass = NULL, $returndetails = FALSE)
 	{
 		if( $returndetails )
 		{
@@ -665,7 +665,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		{
 			$pass = $this->getSolutionMaxPass($active_id);
 		}
-		$result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorizedSolution);
+		$result = $this->getCurrentSolutionResultSet($active_id, $pass);
 		while ($data = $ilDB->fetchAssoc($result))
 		{
 			if (strcmp($data["value1"], "") != 0)
@@ -697,9 +697,10 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	 * @param integer $pass Test pass
 	 * @return boolean $status
 	 */
-	public function saveWorkingData($active_id, $pass = NULL, $authorized = true)
+	public function saveWorkingData($active_id, $pass = NULL)
 	{
 		global $ilDB;
+		global $ilUser;
 
 		if (is_null($pass))
 		{
@@ -711,9 +712,9 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
 		if($this->is_multiple_choice && strlen($_GET['remImage']))
 		{
-			$query  = "DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s AND value1 = %s AND authorized = %s";
-			$types  = array("integer", "integer", "integer", "integer", 'integer');
-			$values = array($active_id, $this->getId(), $pass, $_GET['remImage'], (int)$authorized);
+			$query  = "DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s AND value1 = %s";
+			$types  = array("integer", "integer", "integer", "integer");
+			$values = array($active_id, $this->getId(), $pass, $_GET['remImage']);
 			
 			if( $this->getStep() !== NULL )
 			{
@@ -725,16 +726,16 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		}
 		elseif(!$this->is_multiple_choice)
 		{
-			$affectedRows = $this->removeCurrentSolution($active_id, $pass, $authorized);
+			$affectedRows = $this->removeCurrentSolution($active_id, $pass);
 		}
 
 		if (strlen($_GET["selImage"]))
 		{
 			$imageWasSelected = true;
 			
-			$types = array('integer', 'integer', 'integer', 'integer', 'integer');
-			$values = array($active_id, $this->getId(), $pass,  (int)$_GET['selImage'], (int)$authorized);
-			$query = 'DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s AND value1 = %s AND authorized = %s';
+			$types = array('integer', 'integer', 'integer', 'integer');
+			$values = array($active_id, $this->getId(), $pass,  (int)$_GET['selImage']);
+			$query = 'DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s AND value1 = %s';
 			if($this->getStep() != null)
 			{
 				$types[] = 'integer';
@@ -744,7 +745,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
 			$ilDB->manipulateF($query, $types, $values);
 
-			$affectedRows = $this->saveCurrentSolution($active_id, $pass, $_GET['selImage'], null, $authorized);
+			$affectedRows = $this->saveCurrentSolution($active_id, $pass, $_GET['selImage'], null);
 		}
 		else
 		{

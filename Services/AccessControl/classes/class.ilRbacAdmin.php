@@ -274,26 +274,7 @@ class ilRbacAdmin
 		$mapping = ilLDAPRoleGroupMapping::_getInstance();
 		$mapping->assign($a_rol_id,$a_usr_id); 
 		
-		
-		$ref_id = $GLOBALS['rbacreview']->getObjectReferenceOfRole($a_rol_id);
-		$obj_id = ilObject::_lookupObjId($ref_id);
-		$type = ilObject::_lookupType($obj_id);
-		
-		if(!$alreadyAssigned)
-		{
-			ilLoggerFactory::getInstance()->getLogger('ac')->debug('Raise event assign user');
-			$GLOBALS['ilAppEventHandler']->raise(
-					'Services/AccessControl',
-					'assignUser',
-					array(
-						'obj_id' => $obj_id,
-						'usr_id' => $a_usr_id,
-						'role_id' => $a_rol_id,
-						'type' => $type
-					)
-			);
-		}
-		return TRUE;
+		return true;
 	}
 
 	/**
@@ -324,22 +305,7 @@ class ilRbacAdmin
 		$mapping = ilLDAPRoleGroupMapping::_getInstance();
 		$mapping->deassign($a_rol_id,$a_usr_id); 
 		
-		$ref_id = $GLOBALS['rbacreview']->getObjectReferenceOfRole($a_rol_id);
-		$obj_id = ilObject::_lookupObjId($ref_id);
-		$type = ilObject::_lookupType($obj_id);
-		
-		ilLoggerFactory::getInstance()->getLogger('ac')->debug('Raise event deassign user');
-		$GLOBALS['ilAppEventHandler']->raise(
-				'Services/AccessControl',
-				'deassignUser',
-				array(
-					'obj_id' => $obj_id,
-					'usr_id' => $a_usr_id,
-					'role_id' => $a_rol_id,
-					'type' => $type
-				)
-		);
-		return TRUE;
+		return true;
 	}
 
 	/**

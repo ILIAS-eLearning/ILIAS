@@ -76,16 +76,6 @@ class ilLDAPQuery
 		$this->connect();
 	}
 	
-	// begin-patch ldap_multiple
-	/**
-	 * Get server
-	 * @return ilLDAPServer
-	 */
-	public function getServer()
-	{
-		return $this->settings;
-	}
-	
 	/**
 	 * Get one user by login name
 	 *
@@ -584,7 +574,7 @@ class ilLDAPQuery
 			array($this->settings->getUserAttribute()),
 			array('dn'),
 			$this->mapping->getFields(),
-			ilLDAPRoleAssignmentRules::getAttributeNames($this->getServer()->getServerId())
+			ilLDAPRoleAssignmentRules::getAttributeNames()
 		);
 	}
 	

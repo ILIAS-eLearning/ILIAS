@@ -187,7 +187,6 @@ assessment#:#autosave#:#Automatic saving
 assessment#:#autosave_info#:#Answers are automatically saved in specified intervals to avoid data loss.
 assessment#:#autosave_ival#:#Interval
 assessment#:#for#:#for
-assessment#:#char_selector_btn_label#:#&nbsp;Ω&nbsp;
 assessment#:#tst_objective_oriented_test_pass_without_questions#:#The started pass for test "%s" does not contain any questions.
 assessment#:#tst_dyn_quest_set_pool_deleted#:#The currently configured questionpool "%s" has been deleted.
 assessment#:#tst_old_style_rnd_quest_set_broken#:#This random test is in a irreparable state, because one or more connected question pools have been deleted. Therefor participants cannot take the test any longer.
@@ -288,12 +287,6 @@ assessment#:#available_points#:#Available Points
 assessment#:#available_terms#:#Available Terms
 assessment#:#average_reached_points#:#Average Points
 assessment#:#backtocallingtest#:#Back to the calling test
-assessment#:#assLongMenu#:#Long Menu
-assessment#:#answers_text_box#:#Text
-assessment#:#answers_select#:#Select
-assessment#:#info_text_upload#:#Choose an answer file to upload
-assessment#:#manual_editing#:#Manual Editing
-assessment#:#longmenu_text#:#Long Menu Text
 assessment#:#by#:#by
 assessment#:#cancel_test#:#Suspend the Test
 assessment#:#cannot_edit_marks#:#There are already learners who ran the test. You can only change the marks if a score reporting date is enabled and the reporting date is not yet reached.
@@ -804,6 +797,7 @@ assessment#:#polygon_click_next_or_save#:#Please click on the next point of the 
 assessment#:#polygon_click_next_point#:#Please click on the next point of the polygon.
 assessment#:#polygon_click_starting_point#:#Please click on the starting point of the polygon.
 assessment#:#polygon#:#Polygon
+assessment#:#postpone#:#Postpone Question
 assessment#:#remove_gap#:#Remove Gap
 assessment#:#postponed#:#postponed
 assessment#:#postpone_status#:#Postponed
@@ -872,8 +866,7 @@ assessment#:#question_marking#:#Flagging Questions
 assessment#:#question_not_answered#:#The question was not answered
 assessment#:#question_saved_for_upload#:#The question was saved automatically in order to reserve hard disk space to store the uploaded file. If you cancel this form now, be aware that you must delete the question in the question pool if you do not want to keep it!
 assessment#:#question_short#:#Q
-assessment#:#question_summary#:#Processing Status
-assessment#:#question_summary_btn#:#Processing Status
+assessment#:#question_summary#:#List of Questions
 assessment#:#obligations_summary#:#List of Compulsory Questions
 assessment#:#tst_you_have_to_answer_this_question#:#You have to answer this question to be able to finish the test.
 assessment#:#question_title#:#Question Title
@@ -909,15 +902,11 @@ assessment#:#result#:#Result
 assessment#:#save_before_upload_imagemap#:#You must apply your changes before you can upload an image map!
 assessment#:#save_before_upload_javaapplet#:#You must apply your changes before you can upload a Java applet!
 assessment#:#save_edit#:#Save and Edit Content
-assessment#:#finish_test#:#Finish the Test
-assessment#:#next_question#:#Next
-assessment#:#previous_question#:#Previous
-assessment#:#submit_answer#:#Submit Answer
-assessment#:#discard_answer#:#Discard Answer
-assessment#:#discard_answer_confirmation#:#Your answer will be finally and completly discarded. The question keeps as unanswered until you submit another answer.<br /><br />Would you really like to discard your answer?
-assessment#:#edit_answer#:#Edit Answer
-assessment#:#answer_question#:#Answer Question
+assessment#:#save_finish#:#Finish the Test
+assessment#:#save_introduction#:#Go to Introductory Message
 assessment#:#back_to_objective_container#:#Go to Course
+assessment#:#save_next#:#Next
+assessment#:#save_previous#:#Previous
 assessment#:#save_text_answer_points#:#Save Essay Points
 assessment#:#scored_pass#:#Scored Pass
 assessment#:#scoring#:#Scoring and Results
@@ -928,13 +917,6 @@ assessment#:#search_results#:#Search Results
 assessment#:#search_roles#:#Search Roles
 assessment#:#search_term#:#Search Term
 assessment#:#search_users#:#Search Users
-assessment#:#tst_instant_feedback_handling#:#tst_instant_feedback_handling
-assessment#:#tst_instant_feedback_handling_none#:#tst_instant_feedback_handling_none
-assessment#:#tst_instant_feedback_handling_none_desc#:#tst_instant_feedback_handling_desc
-assessment#:#tst_instant_feedback_handling_freeze#:#tst_instant_feedback_handling_freeze
-assessment#:#tst_instant_feedback_handling_freeze_desc#:#tst_instant_feedback_handling_freeze_desc
-assessment#:#tst_instant_feedback_handling_force_and_freeze#:#tst_instant_feedback_handling_force_and_freeze
-assessment#:#tst_instant_feedback_handling_force_and_freeze_desc#:#tst_instant_feedback_handling_force_and_freeze_desc
 assessment#:#see_details_for_further_information#:#See details for suggested solutions
 assessment#:#select_an_answer#:#--- Please select an answer ---
 assessment#:#select_gap#:#Select Gap
@@ -1065,7 +1047,7 @@ assessment#:#tst_hide_previous_results_description#:#If checked, the previous re
 assessment#:#tst_hide_previous_results_hide#:#Hide my results from a previous test pass
 assessment#:#tst_hide_previous_results_introduction#:#If you’re processing more than one pass of this test, your previous entered results will not be used as default values
 assessment#:#tst_hide_previous_results#:#Hide Previous Results
-assessment#:#tst_hide_side_list#:#Navigation Tree Off
+assessment#:#tst_hide_side_list#:#Hide question list
 assessment#:#tst_import_no_items#:#Error: The import file contains no questions!
 assessment#:#tst_import_verify_found_questions#:#ILIAS found the following questions in the test import file. Please select the questions you want to import with this test.
 assessment#:#tst_in_use_edit_questions_disabled#:#The test is in use by %d user(s). You are not allowed to edit or move the questions in this test!
@@ -1078,8 +1060,6 @@ assessment#:#tst_instant_feedback_answer_specific#:#Specific Feedback for Each A
 assessment#:#tst_instant_feedback_answer_specific_desc#:#On clicking the ‘Check’-button, ILIAS will show a specific feedback for every answer option selected by the participant. The feedback has to be prepared along with the question. This specific feedback is not supported for all question types.
 assessment#:#tst_instant_feedback_fix_usr_answer#:#Freeze Answers Given
 assessment#:#tst_instant_feedback_fix_usr_answer_desc#:#After clicking the ‘Check’-button, participants can no longer change their answers.
-assessment#:#tst_instant_feedback_forced#:#Force Instant Feedback
-assessment#:#tst_instant_feedback_forced_desc#:#On submitting answers the output of instant feedback will be forced.
 assessment#:#tst_instant_feedback_results#:#Points Attained
 assessment#:#tst_instant_feedback_results_desc#:#On clicking the ‘Check’-button ILIAS will display how many points were attained by answering this question.
 assessment#:#tst_instant_feedback_solution#:#Show Best Possible Answer
@@ -1147,11 +1127,8 @@ assessment#:#tst_password_form#:#Enter Test Password
 assessment#:#tst_password#:#Test Password
 assessment#:#tst_percent_solved#:#Percent Solved
 assessment#:#tst_position#:#Question %s of %s
+assessment#:#tst_postpone_description#:#The participants may postpone questions to the end of the test.
 assessment#:#tst_postpone#:#Postpone Questions
-assessment#:#tst_postpone_on#:#Not answered questions will be postponed
-assessment#:#tst_postpone_on_desc#:#Not answered questions will be postponed to the end of the test.
-assessment#:#tst_postpone_off#:#Not answered questions will not be postponed
-assessment#:#tst_postpone_off_desc#:#Not answered questions will be kept at their position.
 assessment#:#tst_print_date#:#Date of Print
 assessment#:#tst_print#:#Test and Assessment - Print View
 assessment#:#tst_processing_time_desc#:#Participants can work through the test only for a specified period of time. Time is clocking away from the moment a user starts a test for the first time. Suspending the test does not stop the clock.
@@ -1264,10 +1241,7 @@ assessment#:#tst_show_cancel#:#Suspend Test
 assessment#:#tst_show_pass_details#:#Show ‘Table of Detailed Test Results’ for each Test Pass upon Selected Point in Time
 assessment#:#tst_show_pass_details_desc#:#The summary of results will be appended at the point in time indicated in the setting above: A ‘Table of Detailed Test Results’ will show the title of the questionsn and the points scored in a particular test pass. <br> Other than that the table will be displayed after the last test pass possible (setting in link ‘General’, option ‘Limit Number of Test Passes’) or after the test is officially finished (setting in link ‘General’, option ‘Finishing Time’). <br> Further settings about the content of the ‘Table of Detailed Test Results’ can be made in the section ‘Further Details to be Included in Test Results’ of this form.
 assessment#:#tst_show_results#:#Show Test Results
-assessment#:#tst_show_side_list#:#Navigation Tree On
-assessment#:#tst_dyn_unfreeze_answers_confirmation#:#There are questions to which your inital answers were fixed and you could not make any changes. Do you want to answer them one more time now and thus unfreeze your answers?
-assessment#:#tst_dyn_unfreeze_answers#:#Answer once more
-assessment#:#tst_dyn_keep_answ_freeze#:#Keep my current answers frozen
+assessment#:#tst_show_side_list#:#Show question list aside
 assessment#:#tst_show_solution_answers_only#:#Print View of Results (Answers Only)
 assessment#:#tst_show_solution_details#:#Scored Answers of Participant
 assessment#:#tst_show_solution_feedback#:#Feedback
@@ -1453,13 +1427,12 @@ assessment#:#tst_dynamic_question_set_selection#:#Test Question Selection and Se
 assessment#:#tst_dynamic_question_set_complete#:#Total-Statistic
 assessment#:#tst_num_all_questions#:#Number of All Questions
 assessment#:#tst_num_selected_questions#:#Number of Selected Questions
-assessment#:#tst_num_non_answered_questions_skipped#:#Non Answered Questions (skipped)
-assessment#:#tst_num_non_answered_questions_notseen#:#Non Answered Questions (never seen)
+assessment#:#tst_num_non_answered_questions#:#Non Answered Questions
 assessment#:#tst_num_wrong_answered_questions#:#Wrong Answered Questions
 assessment#:#tst_num_correct_answered_questions#:#Correct Answered Questions
 assessment#:#tst_num_postponed_questions#:#Postponed Questions
 assessment#:#tst_num_marked_questions#:#Marked Questions
-assessment#:#tst_change_dyn_test_question_selection#:#Change Question Selection
+assessment#:#tst_change_dyn_test_question_selection#:#Change Current Question Selection
 assessment#:#tst_dyn_test_msg_currently_finished_completely#:#Currently you have answered all questions from the selected question pool successfully. You can proceed the test when there are new or edited questions in the question pool.
 assessment#:#tst_dyn_test_msg_currently_finished_selection#:#With the current question selection you have answered all questions successfully. Change the question selection to proceed the test.
 assessment#:#tst_activate_skill_service#:#Activate Competence Service
@@ -2259,7 +2232,6 @@ common#:#check_user_accounts#:#Check user accounts
 common#:#check_web_resources_desc#:#If enabled all Weblinks will be checked if they are active.
 common#:#check_web_resources#:#Check Weblinks
 common#:#check#:#Check
-assessment#:#submit_and_check#:#Submit and Check Answer
 common#:#checked_files#:#Importable files
 common#:#checked#:#Checked
 common#:#chg_ilias_and_webfolder_password#:#Change Webfolder Password
@@ -3357,7 +3329,6 @@ common#:#mails#:#Mails
 common#:#main_menu_frame#:#Top Level Menu
 common#:#main_menu#:#Main Menu
 common#:#manage_tracking_data#:#Manage Tracking Data
-common#:#manage_members#:#Manage Members
 common#:#mark_all_read#:#Mark All as Read
 common#:#mark_all_unread#:#Mark All as Unread
 common#:#marked_entries#:#Marked Entries
@@ -3837,7 +3808,6 @@ common#:#objs_mep#:#Media Pools
 common#:#objs_mob#:#Media Objects
 common#:#objs_note#:#Notes
 common#:#objs_pg#:#Pages
-common#:#objs_prg#:#Study Programmes
 common#:#objs_qpl#:#Question Pools Test
 common#:#objs_qst#:#Questions
 common#:#objs_rcrs#:#ECS Courses
@@ -11456,10 +11426,10 @@ exc#:#exc_create_portfolio_select_info#:#Please select the resource folder to ad
 exc#:#exc_blog_created#:#Blog was created.
 exc#:#exc_portfolio_created#:#Portfolio was created.
 mail#:#mail_member_notification#:#Participant Notification
-mail#:#mail_enable_crs_member_notification#:#Notify Course Members
-mail#:#mail_enable_grp_member_notification#:#Notify Group Members
-mail#:#mail_enable_crs_member_notification_info#:#ILIAS will automatically send an e-mail to every course member if his or her membership status is changed. This setting applies to all courses on the plattform.
-mail#:#mail_enable_grp_member_notification_info#:#ILIAS will automatically send an e-mail to every group member if his or her membership status is changed. This setting applies to all groups on the plattform.
+mail#:#mail_enable_crs_member_notification#:#Course Notification
+mail#:#mail_enable_grp_member_notification#:#Group Notification
+mail#:#mail_enable_crs_member_notification_info#:#If enabled, course participants will be notified automatically about membership changes.
+mail#:#mail_enable_grp_member_notification_info#:#If enabled, group participants will be notified automatically about membership changes.
 common#:#usr_account_inactive#:#Inactive Account
 common#:#portfolio#:#Portfolio
 prtf#:#prtf_default_portfolio#:#My Profile
@@ -12264,6 +12234,7 @@ skmg#:#skmg_from_lower_to_higher_levels#:#Please order the levels from lower one
 common#:#spl_import#:#Import Question Pool Survey
 skmg#:#skmg_select_skill#:#Click on a competence to add it to your personal competences.
 survey#:#svy_create_question#:#Create Question
+common#:#contact_sysadmin#:#Contact Administration
 blog#:#blog_posting#:#Blog Posting
 blog#:#blog_change_notification_subject#:#Blog "%s" has been updated
 blog#:#blog_change_notification_salutation#:#Hello %s,
@@ -13820,7 +13791,7 @@ wsp#:#wsp_shared_date_filter#:#Shared From
 wsp#:#wsp_shared_mandatory_filter_info#:#Please set at least one filter attribute. Text filters have to be at least 4 characters long.
 wsp#:#wsp_shared_member_filter#:#Members of Course / Group
 blog#:#blog_allow_html_info#:#Enables users to include HTML and/or Javascript in their blog postings. This can lead to security issues.
-common#:#scorm_without_session#:#SCORM: enable storing data without session
+common#:#scorm_without_session#:#SCORM 2004: enable storing data without session
 common#:#scorm_without_session_info#:#This ensures the storage of SCORM learning data even if ILIAS session expired
 common#:#msg_obj_no_download#:#cannot be downloaded.
 common#:#download_selected_items#:#Download
@@ -14944,12 +14915,12 @@ content#:#cont_reset_nr_of_tries#:#Reset Number of Tries
 content#:#cont_unlock_allow_continue#:#Unlock / Allow to Continue
 crs#:#crs_subscription_failed_limit#:#The maximum number of participants has been exceeded.
 user#:#send_mail_to_inactive_users#:#Warning Mail
-user#:#send_mail_to_inactive_users_desc#:#If set, a warning mail will be sent to the user before his/her account is deleted due to inactivity. Please make sure that sending external mails is possible. On activation with reminder mail, it may happen, that the time frame between reminder mail and deletion is smaller than the configured time frame. 
+user#:#send_mail_to_inactive_users_desc#:#If set, a warning mail will be sent to the user before his/her account is deleted due to inactivity.
 user#:#send_mail_to_inactive_users_suffix#:#Days before Deletion.
 user#:#send_mail_to_inactive_users_numbers_only#:#Only positive non decimal numbers are accepted.
 user#:#send_mail_to_inactive_users_must_be_smaller_than#:#This value must be smaller than the value ‘Days passed since last login’.
 user#:#del_mail_subject#:#(ILIAS) – Your account will be deleted
-user#:#del_mail_body#:#Hello %1$s, %2$s you haven't logged in for a long period of time, on %3$s. So your account will be probably deleted on %4$s. You have to login again to prevent the deletion of your account.
+user#:#del_mail_body#:#Hello %1$s, %2$s you haven't logged in for a long period of time, on %3$s. So your account will be deleted in %4$s days. You have to login again to prevent the deletion of your account.
 user#:#delete_inactive_user_accounts_frequency#:#Frequency
 user#:#delete_inactive_user_accounts_frequency_desc#:#Frequency, in which the deletion and email distribution will be tested.
 user#:#send_mail_reminder_window_too_small#:#Your Frequency setting is too large for this reminder value.
@@ -15423,8 +15394,6 @@ dcl#:#dcl_limited_desc#:#Benutzer können Einträge nur bis zum gewählten Datum
 dcl#:#dcl_unique_desc#:#In dieses Feld kann ein gleichlautender Eintrag nur einmal vorgenommen werden.
 dcl#:#dcl_formula_detail_desc#:#Entries are generated automatically, you are not able to edit the entry.
 dcl#:#dcl_text_email_detail_desc#:#Please enter a valid URL or E-Mail address.
-dcl#:#dcl_text_email_title#:#Title
-dcl#:#dcl_text_email_title_info#:#A Title for the above URL or E-Mail address (optional).
 adve#:#adve_auto_url_linking#:#URL Auto-Linking
 adve#:#adve_auto_url_linking_info#:#Tries to identify URLs like "http://.." in text paragraphs and automatically creates links around them.
 content#:#cont_auto_time#:#Auto Animation Waiting Time
@@ -15840,165 +15809,3 @@ buddysystem#:#buddy_notification_contact_request_long#:#[SALUTATION][BR][BR]the 
 buddysystem#:#buddy_request_approved#:#You successfully approved the contact.
 buddysystem#:#buddy_request_ignored#:#You ignored the user.
 common#:#no_gallery_users_available#:#There are currently no users in the gallery.
-crs#:#crs_mem_contact#:#Support Contact
-awrn#:#awareness_now_online#:#Online Now
-awrn#:#awareness_now_online_users#:#[ONLINE_USER_NAMES]
-common#:#obj_awra_desc#:#Manage ‘Who is online?’-Tool
-common#:#obj_awra#:#‘Who is online?’-Tool
-awrn#:#awareness_settings#:#Settings
-awrn#:#awrn_enable#:#Enable ‘Who is online?’-Tool
-crs#:#crs_mem_contacts#:#Support Contacts
-user#:#user_awrn_all_users#:#All Users
-user#:#user_awrn_all_users_info#:#All users of the platform are listed.
-crs#:#crs_awrn_support_contacts#:#Tutorial Support
-crs#:#crs_awrn_support_contacts_info#:#All tutorial support contacts of courses with membership of the current user are listed. Users are defined as tutorial support contacts in the Members tab of the respective course.
-awrn#:#awrn_inactive#:#Not Listed
-awrn#:#awrn_online_only#:#Online Only
-awrn#:#awrn_incl_offline#:#Online and Offline
-adm#:#adm_support_contacts#:#Technical Support
-adm#:#adm_awrn_support_contacts_info#:#All technical support contacts are listed. Users are defined as technical support contacts in the section "General Settings" > "Contact Information".
-adm#:#adm_support_contacts_info#:#Support contacts used in the footer link and (if activated) in the ‘Who is online?’-Tool. Comma separated list of account logins.
-mmbr#:#mmbr_awrn_my_groups_courses#:#My Groups and Courses
-mmbr#:#mmbr_awrn_my_groups_courses_info#:#All members of groups or courses of the current user are listed.
-crs#:#crs_awrn_current_course#:#Current Course
-crs#:#crs_awrn_current_course_info#:#If the user navigates to a course in the repository, all members of the course are listed.
-awrn#:#awrn_caching_period#:#Caching Period
-awrn#:#awrn_caching_period_info#:#Time that is waited before the number of users in the top bar is updated and new online users are determined.
-awrn#:#awrn_seconds#:#sec
-awrn#:#awrn_max_nr_entries#:#Max. Number of Items
-awrn#:#awrn_max_nr_entries_info#:#Maximum number of items in the ‘Who is online?’ list.
-awrn#:#awrn_hide_from_awareness#:#Hide Me From ‘Who is online?’-Tool
-awrn#:#awrn_hide_from_awareness_info#:#The ‘Who is online?’-Tool is in the top bar and listing selected users (e.g. contacts or members of your courses).
-common#:#contact_sysadmin#:#Contact Technical Support
-ldap#:#ldap_servers#:#LDAP Server
-ldap#:#add_ldap_server#:#Add Server
-ldap#:#ldap_username_filter#:#Username Filter
-ldap#:#ldap_username_filter_info#:#Use * as wildcard.
-search#:#search_filter_cd#:#Filter by Creation Date
-search#:#search_filter_date#:#Search by Date
-search#:#search_filter_duration#:#Search by Duration
-search#:#search_created_before#:#Objects created before...
-search#:#search_created_after#:#Objects created after
-search#:#search_created_on#:#Objects create on...
-search#:#search_newer_than#:#Objects newer than
-search#:#search_cdate_filter#:#Filter by Creation Date
-search#:#search_cdate_filter_info#:#If enabled, the object search can be filtered by an optional creation date filter.
-content#:#cont_mastery_score_2004#:#overwrite scaled_passing_score
-content#:#cont_mastery_score_2004_info#:#Central learning objectives of this learning module are considered as passed if the score reached at least a certain level - the scaled_passing_score. This value - to be stated as a percentage value - can be overwritten here e.g. to reduce the requirement level. If the field is empty, the information in the SCORM manifest are valid. The following values are provided in the manifest-file:
-content#:#cont_mastery_score_12#:#overwrite mastery_score
-content#:#cont_mastery_score_12_info#:#If a SCO does not autonomously determines a status, a SCO is considered passed if the score reached at least a certain level - the mastery_score. This value can be overwritten here e.g. to reduce the requirement level. If the field is empty, the information in the SCORM manifest are valid. The following values are provided in the manifest-file:
-prtf#:#prtf_manage_portfolios#:#Manage Portfolios
-pd#:#block_show_pdportf#:#Show Portfolios
-prtf#:#prtf_pd_block#:#Personal Desktop Block
-prtf#:#prtf_pd_block_info#:#Aktivates a block on the personal desktop that lists all portfolios of the user.
-common#:#obj_logs#:#Logging
-common#:#obj_logs_desc#:#General Logging Settings
-rbac#:#logs_edit_permission#:#User can edit permission settings of Logging administration
-rbac#:#logs_read#:#User can read general Logging settings
-rbac#:#logs_visible#:#Logging settings are visible
-rbac#:#logs_write#:#User can edit Logging settings
-logging#:#logs_settings#:#Logging Settings
-log#:#log_general_settings#:#Logging Settings
-log#:#log_components#:#Komponenten
-log#:#log_log_level#:#Log-Level
-log#:#log_level_debug#:#DEBUG
-log#:#log_level_info#:#INFO
-log#:#log_level_notice#:#NOTICE
-log#:#log_level_warning#:#WARNING
-log#:#log_level_error#:#ERROR
-log#:#log_level_critical#:#CRITICAL
-log#:#log_level_emergency#:#EMERGENCY
-log#:#log_level_alert#:#ALERT
-log#:#log_cache_#:#Caching
-log#:#log_cache_level#:#Caching-Level
-log#:#log_memory#:#Log Memory Usage
-log#:#log_browser#:#Browser Console Log
-log#:#log_browser_users#:#Usernames Using Console Log
-log#:#log_component_col_component#:#Component
-log#:#log_component_col_level#:#Log-Level
-log#:#log_component_btn_reset#:#Reset Settings
-forum#:#frm_search#:#Suche
-mail#:#mail_enable_crs_admin_notification#:#Notify Course Administrators
-mail#:#mail_enable_grp_admin_notification#:#Notify Group Administrators
-mail#:#mail_enable_crs_admin_notification_info#:#In new courses the setting 'Notification About New Members' will be activated by default. It is set in the 'Member'-tab of courses. Course administrators will receive an e-mail when a member joins the course or leaves it or if the minimally required number of participants is not met the course needs to take place.
-mail#:#mail_enable_grp_admin_notification_info#:#In new groups the setting 'Notification' will be activated by default. It is set in the 'Member'-tab of groups. Course administrators will receive an e-mail when a member joins the group or leaves it or if the minimally required number of participants is not met the group needs to take place.
-mail#:#mail_notification_membership_section#:#Membership
-prg#:#prg_new#:#New Study Programme
-prg#:#prg_add#:#Add Study Programme
-prg#:#prg_edit#:#Edit Study Programme
-prg#:#prg_type#:#Study Programme Type
-prg#:#prg_view_tree#:#Tree View
-prg#:#prg_assessment#:#Study Programme Assessment
-prg#:#prg_points#:#Points
-prg#:#prg_status#:#Status
-prg#:#prg_status_draft#:#Draft
-prg#:#prg_status_active#:#Active
-prg#:#prg_status_outdated#:#Outdated
-prg#:#prg_status_in_progress#:#In Progress
-prg#:#prg_status_completed#:#Completed
-prg#:#prg_status_accredited#:#Accredited
-prg#:#prg_status_not_relevant#:#Not Relevant
-prg#:#prg_possible#:#Possible
-prg#:#prg_completion_by#:#Completion by
-prg#:#prg_changed_by#:#Changed by
-prg#:#prg_manual_status#:#Manual Status
-prg#:#prg_points_required#:#Points Required
-prg#:#prg_points_current#:#Points Current
-prg#:#prg_custom_plan#:#Custom Plan
-prg#:#prg_belongs_to#:#Belongs to
-prg#:#prg_show_individual_plan#:#Show Individual Plan
-prg#:#prg_remove_user#:#Remove User
-prg#:#prg_mark_accredited#:#Mark Accredited
-prg#:#prg_unmark_accredited#:#Unmark Accredited
-prg#:#prg_mark_accredited_success#:#Accredited Program Node for User successfully.
-prg#:#prg_unmark_accredited_success#:#Unaccredited Program Node for User successfully.
-prg#:#prg_remove_user_success#:#Removed User successfully.
-prg#:#prg_type_add#:#Study Programme Type
-prg#:#prg_subtypes#:#Subtypes
-prg#:#prg_subtype_add#:#Add new subtype
-prg#:#prg_adv_settings#:#Advanced Settings
-prg#:#prg_type_custom_icon#:#Custom Icons
-prg#:#prg_type_custom_icon_info#:#Custom icon info
-prg#:#prg_type_msg_error_custom_icon#:#Error while storing icon
-prg#:#prg_type_assign_amd_sets#:#Assign advanced metadata sets
-prg#:#prg_type_available_amd_sets#:#Available Advanced Metadata sets
-prg#:#prg_type_edit#:#Edit subtype
-prg#:#prg_type_msg_deleted#:#Deleted subtype
-prg#:#prg_type_msg_unable_delete#:#Unable to delete type because it is still assigned to the following Study Programmes: %s
-prg#:#prg_type_msg_missing_title_default_language#:#There must be set a default language and a title for the default language
-prg#:#prg_save_tree_order#:#Save tree order
-prg#:#prg_cancel_tree_order#:#Dismiss tree order
-prg#:#prg_saved_order_successful#:#Saved order successful
-prg#:#prg_async_settings#:#Settings
-prg#:#prg_open_node#:#Switch to this node
-prg#:#prg_async_create#:#Add new tree-child
-prg#:#prg_create_new_node#:#Create new node
-prg#:#prg_create_new_leaf#:#Create new leaf
-prg#:#prg_please_select_a_course_for_creating_a_leaf#:#Please select a course for creating a course-reference leaf
-prg#:#prg_deleted_safely#:#Node was deleted safely
-prg#:#prg_not_allowed_node_to_delete#:#You are not allowed to delete this node
-prg#:#prg_added_course_ref_successful#:#New course-reference was added successfully
-prg#:#prg_manage#:#Manage
-prg#:#prg_view#:#View
-prg#:#prg_update_from_current_plan#:#Update from current Plan
-prg#:#prg_update_successful#:#Saved changes successfully!
-prg#:#prg_update_from_plan_successful#:#Updated from current plan successfully!
-prg#:#prg_warning_img_alt#:#Warning!
-prg#:#prg_successful_img_alt#:#successful
-prg#:#prg_in_progress_img_alt#:#in progress
-prg#:#prg_progress_info#:#You have %1$d points. The Study Programme is completed with %2$d points.
-prg#:#prg_progress_status#:# %1$d of %2$d Points
-prg#:#prg_no_members_not_active#:#Can't add members, as this programme is not active.
-prg#:#prg_type_msg_missing_title#:#Title cannot be empty.
-common#:#obj_prg_duplicate#:#Copy Study Programme
-common#:#obj_prg_select#:#-- Please select one Study Programme --
-common#:#obj_prg#:#Study Programme
-common#:#obj_prgs#:#Study Programmes
-common#:#obj_prgs_desc#:#Study Programme Administration
-trac#:#trac_mode_study_programme#:#Study Programme Completed
-trac#:#trac_mode_study_programme_info#:#The Study Programme has to be completed by a user to receive the Learning Progress 'Completed'.
-prg#:#prg_visible#:#Programme is visible
-prg#:#prg_copy#:#User can copy study programme
-prg#:#prg_write#:#User can edit study programme settings and manage content.
-prg#:#prg_delete#:#User can delete the programme.
-prg#:#prg_edit_permission#:#User can change permission settings.

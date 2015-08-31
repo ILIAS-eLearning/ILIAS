@@ -49,11 +49,10 @@ class ilUsersGalleryUsers extends ilAbstractGalleryUsers
 				{
 					continue;
 				}
-
-				if($ignore_myself && $user->getId() == $ilUser->getId())
-				{
-					continue;
-				}
+                if($ignore_myself && $user->getId() == $ilUser->getId())
+                {
+                    continue;
+                }
 
 				$user_data[$user->getId()] = array(
 					'id'   => $user->getId(),
@@ -64,13 +63,5 @@ class ilUsersGalleryUsers extends ilAbstractGalleryUsers
 			$ordered_data = array_merge($ordered_data, ilUtil::sortArray($user_data, 'sort', 'asc'));
 		}
 		return $ordered_data;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getUserCssClass()
-	{
-		return 'ilBuddySystemRemoveWhenUnlinked';
 	}
 }

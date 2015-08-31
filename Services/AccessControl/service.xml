@@ -17,9 +17,4 @@
 			checkbox="1" inherit="0" translate="0" rbac="0">
 		</object>
 	</objects>
-	<events>		
-		<event type="raise" id="assignUser" />
-		<event type="raise" id="deassignUser" />
-	</events>
-	<logging />
 </service>

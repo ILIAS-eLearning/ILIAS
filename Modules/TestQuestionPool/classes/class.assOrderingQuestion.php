@@ -577,7 +577,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	 * @param boolean $returndetails (deprecated !!)
 	 * @return integer/array $points/$details (array $details is deprecated !!)
 	 */
-	public function calculateReachedPoints($active_id, $pass = NULL, $authorizedSolution = true, $returndetails = FALSE)
+	public function calculateReachedPoints($active_id, $pass = NULL, $returndetails = FALSE)
 	{
 		if( $returndetails )
 		{
@@ -592,7 +592,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		{
 			$pass = $this->getSolutionMaxPass($active_id);
 		}
-		$result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorizedSolution);
+		$result = $this->getCurrentSolutionResultSet($active_id, $pass);
 		$user_order = array();
 		$nested_solution = false;
 		while ($data = $ilDB->fetchAssoc($result))
@@ -823,7 +823,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	 * @param integer $pass Test pass
 	 * @return boolean $status
 	 */
-	public function saveWorkingData($active_id, $pass = NULL, $authorized = true)
+	public function saveWorkingData($active_id, $pass = NULL)
 	{
 		$saveWorkingDataResult = $this->checkSaveData();
 		if ($saveWorkingDataResult)
@@ -836,12 +836,12 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
 			$this->getProcessLocker()->requestUserSolutionUpdateLock();
 
-			$affectedRows = $this->removeCurrentSolution($active_id, $pass, $authorized);
+			$affectedRows = $this->removeCurrentSolution($active_id, $pass);
 
 			$entered_values = 0;
 			foreach($this->getSolutionSubmit() as $val1 => $val2)
 			{
-				$this->saveCurrentSolution($active_id, $pass, $val1, trim($val2), $authorized);
+				$this->saveCurrentSolution($active_id, $pass, $val1, trim($val2));
 				$entered_values++;
 			}
 

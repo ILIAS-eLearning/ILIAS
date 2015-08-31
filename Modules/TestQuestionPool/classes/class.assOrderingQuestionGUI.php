@@ -547,6 +547,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		if($this->object->getOrderingType() == OQ_NESTED_TERMS
 			|| $this->object->getOrderingType() == OQ_NESTED_PICTURES)
 		{
+		$keys = array_keys($this->object->answers);
 
 		// generate the question output
 		include_once "./Services/UICore/classes/class.ilTemplate.php";
@@ -575,41 +576,20 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 						$user_order[$solution["value1"]]['answertext'] =  $answer_text;
 					}
 				}
-				if( count($user_order) )
+				foreach ($this->object->answers as $k => $a)
 				{
-					foreach($this->object->answers as $k => $a)
+					$ok = FALSE;
+					if ($k == $user_order[$k]['index']
+						&& $a->getOrderingDepth() == $user_order[$k]['depth']
+						&& $a->getAnswerText() == $user_order[$k]['answertext'])
 					{
-						$ok = FALSE;
-						if($k == $user_order[$k]['index'] && $a->getOrderingDepth() == $user_order[$k]['depth'] && $a->getAnswerText() == $user_order[$k]['answertext'])
-						{
-							$ok = TRUE;
-
-						}
-						$user_order[$k]['ok'] = $ok;
+						$ok = TRUE;
+						
 					}
-
-					$solution_output = $user_order;
+					$user_order[$k]['ok'] = $ok;
 				}
-				else
-				{
-					$expected_solution = array();
-					foreach ($this->object->answers as $index => $answer)
-					{
-						$expected_solution[$index]['index'] = $index;
-						$expected_solution[$index]['random_id'] = $answer->getRandomId();
-						$expected_solution[$index]['depth'] = 0;
-						if($this->object->getOrderingType() == OQ_NESTED_PICTURES)
-						{
-							$expected_solution[$index]['answertext'] = $answer->getAnswertext();
-						}
-						else
-						{
-							$expected_solution[$index]['answertext'] = $answer->getAnswertext();
-						}
-					}
-					shuffle($expected_solution);
-					$solution_output = $expected_solution;
-				}
+				
+				$solution_output = $user_order;
 			}
 			else
 			{
@@ -702,16 +682,6 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			if (($active_id > 0) && (!$show_correct_solution))
 			{
 				$solutions = $this->object->getSolutionValues($active_id, $pass);
-				
-				if( !count($solutions) )
-				{
-					foreach ($this->object->answers as $index => $answer)
-					{
-						array_push($solutions, array("value1" => $index, "value2" => $index+1));
-					}
-					
-					shuffle($keys);
-				}
 			}
 			else
 			{
@@ -1016,7 +986,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		return $randomIdToAnswerMap;
 	}
 
-	function getTestOutput($active_id, $pass = NULL, $is_postponed = FALSE, $user_post_solution = FALSE, $inlineFeedback = false)
+	function getTestOutput($active_id, $pass = NULL, $is_postponed = FALSE, $user_post_solution = FALSE)
 	{
 		global $tpl;
 		
@@ -1081,7 +1051,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 					if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
 				}
 
-				$solutions = $this->object->getUserSolutionPreferingIntermediate($active_id, $pass);
+				$solutions =& $this->object->getSolutionValues($active_id, $pass);
 
 				if( count($solutions) )
 				{
@@ -1157,7 +1127,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 				}
 				else
 				{
-					$solutions = $this->object->getUserSolutionPreferingIntermediate($active_id, $pass);
+					$solutions =& $this->object->getSolutionValues($active_id, $pass);
 				}
 
 				$jssolutions = array();

@@ -33,7 +33,7 @@ class ilObjSCORMInitData
 		$c_storeSessionTime='s';//n=no, s=sco, i=ilias
 		if ($slm_obj->getTime_from_lms()) $c_storeSessionTime='i';
 		$i_lessonScoreMax='-1';
-		$i_lessonMasteryScore=$slm_obj->getMasteryScore();
+		$i_lessonMasteryScore='-1';
 		
 		//other variables
 		$b_messageLog='false';
@@ -57,9 +57,6 @@ class ilObjSCORMInitData
 			$b_autoLastVisited='true';
 			if ($launchId == '0') $launchId=$slm_obj->getLastVisited($ilUser->getID());
 		}
-
-		$b_sessionDeactivated='false';
-		if ($slm_obj->getSessionDeactivated()) $b_sessionDeactivated='true';
 
 		//manifestData //extra to IliasScormManifestData
 		// $s_man = "";
@@ -89,7 +86,6 @@ class ilObjSCORMInitData
 		$s_out='{'
 			.'"refId":'.$_GET["ref_id"].','
 			.'"objId":'.$slm_obj->getId().','
-			.'"clientId":"'.CLIENT_ID.'",'
 			.'"launchId":'.$launchId.','
 			.'"launchNr":0,'
 			.'"pingSession":'. $session_timeout.','
@@ -108,9 +104,8 @@ class ilObjSCORMInitData
 			.'"c_storeSessionTime":"'.$c_storeSessionTime.'",'
 			.'"b_autoContinue":'.$b_autoContinue.','
 			.'"b_autoLastVisited":'.$b_autoLastVisited.','
-			.'"b_sessionDeactivated":'.$b_sessionDeactivated.','
 			.'"i_lessonScoreMax":'.$i_lessonScoreMax.','
-			.'"i_lessonMasteryScore":"'.$i_lessonMasteryScore.'",'
+			.'"i_lessonMasteryScore":'.$i_lessonMasteryScore.','
 			.'"b_debug":'.$b_debug.','
 			.'"a_itemParameter":'.json_encode($a_man).','
 			.'"status":'.json_encode(self::getStatus($slm_obj->getId(), $ilUser->getID())).','

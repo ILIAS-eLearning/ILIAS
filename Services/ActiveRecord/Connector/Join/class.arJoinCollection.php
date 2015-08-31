@@ -37,9 +37,9 @@ class arJoinCollection extends arStatementCollection {
 
 
 	/**
-	 * @param arStatement $statement
+	 * @param arJoin $statement
 	 */
-	public function add(arStatement $statement) {
+	public function add(arJoin $statement) {
 		$statement->setTableNameAs($this->getSaveTableName($statement));
 		$this->table_names[] = $statement->getTableName();
 		parent::add($statement);

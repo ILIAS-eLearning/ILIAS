@@ -10,10 +10,6 @@
  */
 class ilTestDynamicQuestionSetFilterSelection
 {
-	CONST ANSWER_STATUS_FILTER_VALUE_ALL_NON_CORRECT = 'allNonCorrect';
-	CONST ANSWER_STATUS_FILTER_VALUE_NON_ANSWERED = 'nonAnswered';
-	CONST ANSWER_STATUS_FILTER_VALUE_WRONG_ANSWERED = 'wrongAnswered';
-	
 	/**
 	 * @var integer
 	 */
@@ -64,11 +60,6 @@ class ilTestDynamicQuestionSetFilterSelection
 	public function getAnswerStatusSelection()
 	{
 		return $this->answerStatusSelection;
-	}
-
-	public function isAnswerStatusSelectionWrongAnswered()
-	{
-		return $this->getAnswerStatusSelection() == self::ANSWER_STATUS_FILTER_VALUE_WRONG_ANSWERED;
 	}
 
 	/**

@@ -572,7 +572,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 	 * @param boolean $returndetails (deprecated !!)
 	 * @return integer/array $points/$details (array $details is deprecated !!)
 	 */
-	public function calculateReachedPoints($active_id, $pass = NULL, $authorizedSolution = true, $returndetails = FALSE)
+	public function calculateReachedPoints($active_id, $pass = NULL, $returndetails = FALSE)
 	{
 		if( $returndetails )
 		{
@@ -586,8 +586,11 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 		{
 			$pass = $this->getSolutionMaxPass($active_id);
 		}
-
-		$result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorizedSolution);
+		
+		$result = $ilDB->queryF("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+			array('integer','integer','integer'),
+			array($active_id, $this->getId(), $pass)
+		);
 		
 		// Return min points when no answer was given.
 		if ($ilDB->numRows($result) == 0)
@@ -613,7 +616,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 	 * @param integer $pass Test pass
 	 * @return boolean $status
 	 */
-	public function saveWorkingData($active_id, $pass = NULL, $authorized = true)
+	public function saveWorkingData($active_id, $pass = NULL)
 	{
 		global $ilDB;
 		global $ilUser;
@@ -627,14 +630,26 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 
 		$this->getProcessLocker()->requestUserSolutionUpdateLock();
 
-		$this->removeCurrentSolution($active_id, $pass, $authorized);
+		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+			array('integer','integer','integer'),
+			array($active_id, $this->getId(), $pass)
+		);
 		
 		$text = $this->getSolutionSubmit();
 		
 		$entered_values = 0;
 		if (strlen($text))
 		{
-			$this->saveCurrentSolution($active_id, $pass, trim($text), null, $authorized);
+			$next_id = $ilDB->nextId('tst_solutions');
+			$affectedRows = $ilDB->insert("tst_solutions", array(
+				"solution_id" => array("integer", $next_id),
+				"active_fi" => array("integer", $active_id),
+				"question_fi" => array("integer", $this->getId()),
+				"value1" => array("clob", trim($text)),
+				"value2" => array("clob", null),
+				"pass" => array("integer", $pass),
+				"tstamp" => array("integer", time())
+			));
 			$entered_values++;
 		}
 

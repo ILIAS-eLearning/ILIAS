@@ -59,7 +59,7 @@ class ilLuceneSearchResultFilter
 
 	 	include_once('Services/Search/classes/class.ilUserSearchCache.php');
 	 	$this->cache = ilUserSearchCache::_getInstance($this->getUserId());
-		
+	 	
 	 	$this->offset = $this->settings->getMaxHits() * ($this->cache->getResultPageNumber() - 1);
 	}
 	

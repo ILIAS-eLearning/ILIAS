@@ -161,7 +161,6 @@ class ilFileDelivery {
 
 
 	public function deliver() {
-		ob_clean(); // fixed 0016469, 0016467, 0016468
 		$this->checkCache();
 		$this->setGeneralHeaders();
 		switch ($this->getDeliveryType()) {
@@ -225,8 +224,11 @@ class ilFileDelivery {
 	protected function deliverPHP() {
 		set_time_limit(0);
 		$file = fopen(($this->getPathToFile()), "rb");
-
-		fpassthru($file);
+		while (! feof($file)) {
+			print(@fread($file, 1024 * 8));
+			ob_flush();
+			flush();
+		}
 	}
 
 
@@ -313,16 +315,14 @@ class ilFileDelivery {
 	 */
 	protected function detemineDeliveryType() {
 		if (self::$delivery_type_static) {
-			ilWACLog::getInstance()->write('used cached delivery type');
+			ilWACLog::getInstance()->write('used cahced delivery type');
 			$this->setDeliveryType(self::$delivery_type_static);
 
 			return true;
 		}
-
 		if (function_exists('apache_get_modules') && in_array('mod_xsendfile', apache_get_modules())) {
 			$this->setDeliveryType(self::DELIVERY_METHOD_XSENDFILE);
 		}
-
 		if (is_file('./Services/FileDelivery/classes/override.php')) {
 			$override_delivery_type = false;
 			require_once('./Services/FileDelivery/classes/override.php');
@@ -662,18 +662,12 @@ class ilFileDelivery {
 	 * @return bool
 	 */
 	protected function isNonModified() {
-		if (self::$DEBUG) {
-			return false;
-		}
-
-		if (! isset($_SERVER['HTTP_IF_NONE_MATCH']) || ! isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
-			return false;
-		}
-
 		$http_if_none_match = $_SERVER['HTTP_IF_NONE_MATCH'];
 		$http_if_modified_since = $_SERVER['HTTP_IF_MODIFIED_SINCE'];
 
 		switch (true) {
+			case (! isset($_SERVER['HTTP_IF_NONE_MATCH']) || ! isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])):
+				return false;
 			case ($http_if_none_match != $this->getEtag()):
 				return false;
 			case (@strtotime($http_if_modified_since) <= filemtime($this->getPathToFile())):
@@ -707,8 +701,8 @@ class ilFileDelivery {
 			$this->setShowLastModified(true);
 			$this->setCachingHeaders();
 			if ($this->isNonModified()) {
-				//ilHTTP::status(304);
-				//$this->close();
+				ilHTTP::status(304);
+				$this->close();
 			}
 		}
 	}

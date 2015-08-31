@@ -292,7 +292,7 @@ class ilTaxonomyDataSet extends ilDataSet
 					$usage.=":";
 				}
 				$a_mapping->addMapping("Services/Taxonomy", "tax_usage_of_obj", $a_rec["ObjId"],
-					$usage.$this->current_obj->getId());
+					$this->current_obj->getId());
 				break;
 		}
 	}

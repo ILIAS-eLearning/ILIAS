@@ -58,7 +58,7 @@ class ilWACToken {
 		$this->setClient($client);
 		$parts = parse_url($path);
 		$this->setPath($parts['path']);
-		$this->setSessionId(isset($_COOKIE['PHPSESSID']) ? $_COOKIE['PHPSESSID'] : '-');
+		$this->setSessionId($_COOKIE['PHPSESSID'] ? $_COOKIE['PHPSESSID'] : '-');
 		$this->setIp($_SERVER['REMOTE_ADDR']);
 		$this->setTimestamp(time());
 		$this->generateToken();
@@ -90,10 +90,13 @@ class ilWACToken {
 			return true;
 		}
 		$salt = NULL;
+		//		$microtime = microtime(true);
 		if (is_file ($this->getSaltFilePath()))
 		{
 			include($this->getSaltFilePath());
 		}
+		//		$end_microtim = microtime(true)-$microtime;
+		//		file_put_contents('./time.csv', $end_microtim."\n", FILE_APPEND);
 		self::setSALT($salt);
 		if (! $salt) {
 			$this->generateSaltFile();

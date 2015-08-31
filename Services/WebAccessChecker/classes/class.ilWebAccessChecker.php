@@ -48,7 +48,7 @@ class ilWebAccessChecker {
 	/**
 	 * @var bool
 	 */
-	protected static $DEBUG = true;
+	protected static $DEBUG = false;
 
 
 	/**
@@ -56,13 +56,13 @@ class ilWebAccessChecker {
 	 */
 	public static function run($path) {
 		$ilWebAccessChecker = new self($path);
-		if (isset($_GET[self::DISPOSITION])) {
+		if ($_GET[self::DISPOSITION]) {
 			$ilWebAccessChecker->setDisposition($_GET[self::DISPOSITION]);
 		}
-		if (isset($_GET[self::STATUS_CODE])) {
+		if ($_GET[self::STATUS_CODE]) {
 			$ilWebAccessChecker->setSendStatusCode($_GET[self::STATUS_CODE]);
 		}
-		if (isset($_GET[self::REVALIDATE])) {
+		if ($_GET[self::REVALIDATE]) {
 			$ilWebAccessChecker->setRevalidateFolderTokens($_GET[self::REVALIDATE]);
 		}
 
@@ -206,7 +206,7 @@ class ilWebAccessChecker {
 		$ilFileDelivery = new ilFileDelivery($this->getPathObject()->getPath());
 		$ilFileDelivery->setDisposition($this->getDisposition());
 		ilWACLog::getInstance()->write('Deliver file using ' . $ilFileDelivery->getDeliveryType());
-		if ($this->getPathObject()->isStreamable()) { // fixed 0016468
+		if ($this->getPathObject()->isVideo()) {
 			ilWACLog::getInstance()->write('begin streaming');
 			$ilFileDelivery->stream();
 		} else {

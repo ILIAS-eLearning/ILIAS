@@ -567,10 +567,6 @@ class ilInitialisation
 		{
 			$ilUser->setId($uid);	
 			$ilUser->read();
-			
-			// init console log handler
-			include_once './Services/Logging/classes/public/class.ilLoggerFactory.php';
-			ilLoggerFactory::getInstance()->initUser($ilUser->getLogin());
 		}
 		else
 		{
@@ -777,18 +773,15 @@ class ilInitialisation
 	 */
 	protected static function initLog() 
 	{		
-		include_once './Services/Logging/classes/public/class.ilLoggerFactory.php';
-		$log = ilLoggerFactory::getRootLogger();
-		
-//		require_once "./Services/Logging/classes/class.ilLog.php";
-//		try
-//		{
-//			$log = new ilLog(ILIAS_LOG_DIR,ILIAS_LOG_FILE,CLIENT_ID,ILIAS_LOG_ENABLED,ILIAS_LOG_LEVEL);				
-//		}
-//		catch(ilLogException $e)
-//		{
-//			self::abortAndDie($e->getMessage());
-//		}
+		require_once "./Services/Logging/classes/class.ilLog.php";
+		try
+		{
+			$log = new ilLog(ILIAS_LOG_DIR,ILIAS_LOG_FILE,CLIENT_ID,ILIAS_LOG_ENABLED,ILIAS_LOG_LEVEL);				
+		}
+		catch(ilLogException $e)
+		{
+			self::abortAndDie($e->getMessage());
+		}
 		self::initGlobal("ilLog", $log);
 		// deprecated
 		self::initGlobal("log", $log);
@@ -970,13 +963,14 @@ class ilInitialisation
 			self::handleDevMode();
 		}						
 	
+		self::initLog();		
 
 		self::handleMaintenanceMode();
 
 		self::initDatabase();
 		
-		// moved after databases 
-		self::initLog();		
+		
+		// --- needs database
 		
 		self::initGlobal("ilAppEventHandler", "ilAppEventHandler",
 			"./Services/EventHandling/classes/class.ilAppEventHandler.php");

@@ -30,13 +30,11 @@ class ilWACSecurePath extends ActiveRecord {
 		 * @var $obj ilWACSecurePath
 		 */
 		$obj = self::find($ilWACPath->getSecurePathId());
-		$secure_path_checking_class = $obj->getComponentDirectory() . '/classes/class.' . $obj->getCheckingClass() . '.php';
-		if (! $obj || !file_exists($secure_path_checking_class)) {
+		if (! $obj) {
 			return NULL;
 			throw new ilWACException(ilWACException::NO_CHECKING_INSTANCE);
 		}
-
-		require_once($secure_path_checking_class);
+		require_once($obj->getComponentDirectory() . '/classes/class.' . $obj->getCheckingClass() . '.php');
 		$class_name = $obj->getCheckingClass();
 
 		return new $class_name();

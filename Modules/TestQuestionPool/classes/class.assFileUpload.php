@@ -287,7 +287,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 	 * @param boolean $returndetails (deprecated !!)
 	 * @return integer/array $points/$details (array $details is deprecated !!)
 	 */
-	public function calculateReachedPoints($active_id, $pass = NULL, $authorizedSolution = true, $returndetails = FALSE)
+	public function calculateReachedPoints($active_id, $pass = NULL, $returndetails = FALSE)
 	{
 		if( $returndetails )
 		{
@@ -448,27 +448,22 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 	*
 	* @return array Results
 	*/
-	public function getUploadedFiles($active_id, $pass = null, $authorized = true)
+	public function getUploadedFiles($active_id, $pass = null)
 	{
 		global $ilDB;
-		
 		if (is_null($pass))
 		{
 			$pass = $this->getSolutionMaxPass($active_id);
 		}
-		
-		$result = $ilDB->queryF("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s AND authorized = %s ORDER BY tstamp",
-			array("integer", "integer", "integer", 'integer'),
-			array($active_id, $this->getId(), $pass, (int)$authorized)
+		$result = $ilDB->queryF("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s ORDER BY tstamp",
+			array("integer", "integer", "integer"),
+			array($active_id, $this->getId(), $pass)
 		);
-		
 		$found = array();
-		
 		while ($data = $ilDB->fetchAssoc($result))
 		{
 			array_push($found, $data);
 		}
-		
 		return $found;
 	}
 	
@@ -509,7 +504,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 	*
   * @param array Array with ID's of the file datasets
 	*/
-	protected function deleteUploadedFiles($files, $test_id, $active_id, $authorized)
+	protected function deleteUploadedFiles($files, $test_id, $active_id)
 	{
 		global $ilDB;
 		
@@ -517,9 +512,9 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 		$active_id = null;
 		foreach ($files as $solution_id)
 		{
-			$result = $ilDB->queryF("SELECT * FROM tst_solutions WHERE solution_id = %s AND authorized = %s",
-				array("integer", 'integer'),
-				array($solution_id, (int)$authorized)
+			$result = $ilDB->queryF("SELECT * FROM tst_solutions WHERE solution_id = %s",
+				array("integer"),
+				array($solution_id)
 			);
 			if ($result->numRows() == 1)
 			{
@@ -531,9 +526,9 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 		}
 		foreach ($files as $solution_id)
 		{
-			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_solutions WHERE solution_id = %s AND authorized = %s",
-				array("integer", 'integer'),
-				array($solution_id, $authorized)
+			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_solutions WHERE solution_id = %s", 
+				array("integer"),
+				array($solution_id)
 			);
 		}
 	}
@@ -619,7 +614,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 	 * @param integer $pass Test pass
 	 * @return boolean $status
 	 */
-	public function saveWorkingData($active_id, $pass = NULL, $authorized = true)
+	public function saveWorkingData($active_id, $pass = NULL)
 	{
 		global $ilDB;
 		global $ilUser;
@@ -658,7 +653,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 		{
 			if (is_array($_POST['deletefiles']) && count($_POST['deletefiles']) > 0)
 			{
-				$this->deleteUploadedFiles($_POST['deletefiles'], $test_id, $active_id, $authorized);
+				$this->deleteUploadedFiles($_POST['deletefiles'], $test_id, $active_id);
 			}
 			else
 			{
@@ -667,20 +662,22 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 		}
 		elseif( $checkUploadResult )
 		{
-			if(!@file_exists($this->getFileUploadPath($test_id, $active_id)))
-			{
-				ilUtil::makeDirParents($this->getFileUploadPath($test_id, $active_id));
-			}
-			
+			if (!@file_exists($this->getFileUploadPath($test_id, $active_id))) ilUtil::makeDirParents($this->getFileUploadPath($test_id, $active_id));
 			$version = time();
 			$filename_arr = pathinfo($_FILES["upload"]["name"]);
 			$extension = $filename_arr["extension"];
 			$newfile = "file_" . $active_id . "_" . $pass . "_" . $version . "." . $extension;
-			
 			ilUtil::moveUploadedFile($_FILES["upload"]["tmp_name"], $_FILES["upload"]["name"], $this->getFileUploadPath($test_id, $active_id) . $newfile);
-			
-			$this->saveCurrentSolution($active_id, $pass, $newfile, $_FILES['upload']['name'], $authorized);
-			
+			$next_id = $ilDB->nextId('tst_solutions');
+			$affectedRows = $ilDB->insert("tst_solutions", array(
+				"solution_id" => array("integer", $next_id),
+				"active_fi" => array("integer", $active_id),
+				"question_fi" => array("integer", $this->getId()),
+				"value1" => array("clob", $newfile),
+				"value2" => array("clob", $_FILES['upload']['name']),
+				"pass" => array("integer", $pass),
+				"tstamp" => array("integer", time())
+			));
 			$entered_values = true;
 		}
 		
@@ -765,9 +762,9 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 	 * @param integer $pass
 	 * @param boolean $obligationsAnswered
 	 */
-	protected function reworkWorkingData($active_id, $pass, $obligationsAnswered, $authorized)
+	protected function reworkWorkingData($active_id, $pass, $obligationsAnswered)
 	{
-		$this->handleSubmission($active_id, $pass, $obligationsAnswered, $authorized);
+		$this->handleSubmission($active_id, $pass, $obligationsAnswered);
 	}
 	
 	/**
@@ -779,18 +776,15 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 	 * @param	integer
 	 * @access	protected
 	 */
-	protected function handleSubmission($active_id, $pass, $obligationsAnswered, $authorized)
+	protected function handleSubmission($active_id, $pass, $obligationsAnswered)
 	{
-		if(!$authorized)
-		{
-			return;
-		}
+		global $ilObjDataCache;		
 
 		if($this->isCompletionBySubmissionEnabled())
 		{
 			$maxpoints = assQuestion::_getMaximumPoints($this->getId());
 	
-			if($this->getUploadedFiles($active_id, $pass, $authorized))
+			if($this->getUploadedFiles($active_id, $pass))
 			{
 				$points = $maxpoints;	
 			}

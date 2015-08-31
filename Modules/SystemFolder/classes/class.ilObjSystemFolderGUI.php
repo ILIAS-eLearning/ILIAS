@@ -33,7 +33,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, false);
 
 		$this->lng->loadLanguageModule("administration");
-		$this->lng->loadLanguageModule("adm");
 	}
 
 	function &executeCommand()
@@ -1536,10 +1535,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$this->form->addItem($ti);
 		
 		// feedback recipient
-		/* currently used in:
-		- footer
-		- terms of service: no document found message
-		*/
 		$ti = new ilEmailInputGUI($this->lng->txt("feedback_recipient"), "feedback_recipient");
 		$ti->setInfo(sprintf($this->lng->txt("feedback_recipient_info"), $this->lng->txt("contact_sysadmin")));
 		$ti->setMaxLength(64);
@@ -1548,16 +1543,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$ti->allowRFC822(true);
 		$ti->setValue($ilSetting->get("feedback_recipient"));		
 		$this->form->addItem($ti);
-
-		// System support contacts
-		include_once("./Modules/SystemFolder/classes/class.ilSystemSupportContacts.php");
-		$ti = new ilTextInputGUI($this->lng->txt("adm_support_contacts"), "adm_support_contacts");
-		$ti->setMaxLength(500);
-		$ti->setValue(ilSystemSupportContacts::getList());
-		//$ti->setSize();
-		$ti->setInfo($this->lng->txt("adm_support_contacts_info"));
-		$this->form->addItem($ti);
-
 		
 		// error recipient
 		$ti = new ilEmailInputGUI($this->lng->txt("error_recipient"), "error_recipient");
@@ -1598,10 +1583,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			{
 				$ilSetting->set($f, $_POST[$f]);
 			}
-
-			include_once("./Modules/SystemFolder/classes/class.ilSystemSupportContacts.php");
-			ilSystemSupportContacts::setList($_POST["adm_support_contacts"]);
-
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 			$ilCtrl->redirect($this, "showContactInformation");
 		}

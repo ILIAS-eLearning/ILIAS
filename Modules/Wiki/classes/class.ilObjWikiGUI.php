@@ -18,7 +18,6 @@ require_once "./Modules/Wiki/classes/class.ilObjWiki.php";
 * @ilCtrl_Calls ilObjWikiGUI: ilRatingGUI, ilWikiPageTemplateGUI, ilWikiStatGUI
 * @ilCtrl_Calls ilObjWikiGUI: ilObjectMetaDataGUI
 * @ilCtrl_Calls ilObjWikiGUI: ilSettingsPermissionGUI
-* @ilCtrl_Calls ilObjWikiGUI: ilRepositoryObjectSearchGUI
 */
 class ilObjWikiGUI extends ilObjectGUI
 {
@@ -210,20 +209,6 @@ class ilObjWikiGUI extends ilObjectGUI
 				include_once 'Services/Object/classes/class.ilObjectMetaDataGUI.php';
 				$md_gui = new ilObjectMetaDataGUI($this->object, "wpg");	
 				$this->ctrl->forwardCommand($md_gui);
-				break;
-
-			case 'ilrepositoryobjectsearchgui':
-				$this->addHeaderAction();
-				$this->setSideBlock();
-				$ilTabs->setTabActive("wiki_search_results");
-				$ilCtrl->setReturn($this,'view');
-				include_once './Services/Search/classes/class.ilRepositoryObjectSearchGUI.php';
-				$search_gui = new ilRepositoryObjectSearchGUI(
-						$this->object->getRefId(),
-						$this,
-						'view'
-				);
-				$ilCtrl->forwardCommand($search_gui);
 				break;
 
 			default:
@@ -517,11 +502,12 @@ class ilObjWikiGUI extends ilObjectGUI
 		global $ilCtrl, $ilAccess, $ilTabs, $lng, $ilHelp;
 		
 		$ilHelp->setScreenIdComponent("wiki");
+
 		
 		// wiki tabs
 		if (in_array($ilCtrl->getCmdClass(), array("", "ilobjwikigui",
 			"ilinfoscreengui", "ilpermissiongui", "ilexportgui", "ilratingcategorygui",
-			"ilwikistatgui", "ilwikipagetemplategui", "iladvancedmdsettingsgui", "ilsettingspermissiongui", 'ilrepositoryobjectsearchgui'
+			"ilwikistatgui", "ilwikipagetemplategui", "iladvancedmdsettingsgui", "ilsettingspermissiongui"
 			)))
 		{	
 			if ($_GET["page"] != "")
@@ -1313,12 +1299,9 @@ class ilObjWikiGUI extends ilObjectGUI
 		}
 
 		// search block
-		include_once './Services/Search/classes/class.ilRepositoryObjectSearchGUI.php';
-		$rcontent = ilRepositoryObjectSearchGUI::getSearchBlockHTML($lng->txt('wiki_search'));
-		
-		#include_once("./Modules/Wiki/classes/class.ilWikiSearchBlockGUI.php");
-		#$wiki_search_block = new ilWikiSearchBlockGUI();
-		#$rcontent = $wiki_search_block->getHTML();
+		include_once("./Modules/Wiki/classes/class.ilWikiSearchBlockGUI.php");
+		$wiki_search_block = new ilWikiSearchBlockGUI();
+		$rcontent = $wiki_search_block->getHTML();
 
 		// quick navigation
 		if ($a_wpg_id > 0)

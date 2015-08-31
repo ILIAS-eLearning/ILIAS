@@ -166,7 +166,7 @@ class ilLuceneSearcher
 	
 	/**
 	 * get highlighter 
-	 * @return ilLuceneHighlightResultParser
+	 * @return
 	 */
 	public function getHighlighter()
 	{

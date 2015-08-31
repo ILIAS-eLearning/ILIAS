@@ -565,7 +565,7 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 	 * @param boolean $returndetails (deprecated !!)
 	 * @return integer/array $points/$details (array $details is deprecated !!)
 	 */
-	public function calculateReachedPoints($active_id, $pass = NULL, $authorizedSolution = true, $returndetails = FALSE)
+	public function calculateReachedPoints($active_id, $pass = NULL, $returndetails = FALSE)
 	{
 		if( $returndetails )
 		{
@@ -579,7 +579,7 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 		{
 			$pass = $this->getSolutionMaxPass($active_id);
 		}
-		$result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorizedSolution);
+		$result = $this->getCurrentSolutionResultSet($active_id, $pass);
 		while ($data = $ilDB->fetchAssoc($result))
 		{
 			if (strcmp($data["value1"], "") != 0)
@@ -623,7 +623,7 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 	 * @param integer $pass Test pass
 	 * @return boolean $status
 	 */
-	public function saveWorkingData($active_id, $pass = NULL, $authorized = true)
+	public function saveWorkingData($active_id, $pass = NULL)
 	{
 		global $ilDB;
 		global $ilUser;
@@ -637,7 +637,7 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 
 		$this->getProcessLocker()->requestUserSolutionUpdateLock();
 
-		$result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorized);
+		$result = $this->getCurrentSolutionResultSet($active_id, $pass);
 		$row = $ilDB->fetchAssoc($result);
 		$update = $row["solution_id"];
 		
@@ -645,19 +645,27 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 		{
 			if (strlen($_POST["multiple_choice_result"]))
 			{
-				$this->updateCurrentSolution($update, $_POST["multiple_choice_result"], null, $authorized);
+				$affectedRows = $ilDB->update("tst_solutions", array(
+					"value1" => array("clob", $_POST["multiple_choice_result"]),
+					"tstamp" => array("integer", time())
+				), array(
+				"solution_id" => array("integer", $update)
+				));
 				$entered_values++;
 			}
 			else
 			{
-				$this->removeSolutionRecordById($update);
+				$affectedRows = $ilDB->manipulateF("DELETE FROM tst_solutions WHERE solution_id = %s",
+					array('integer'),
+					array($update)
+				);
 			}
 		}
 		else
 		{
 			if (strlen($_POST["multiple_choice_result"]))
 			{
-				$this->saveCurrentSolution($active_id, $pass, $_POST['multiple_choice_result'], null, $authorized);
+				$affectedRows = $this->saveCurrentSolution($active_id, $pass, $_POST['multiple_choice_result'], null);
 				$entered_values++;
 			}
 		}

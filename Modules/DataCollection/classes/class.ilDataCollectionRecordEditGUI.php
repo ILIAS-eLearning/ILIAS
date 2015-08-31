@@ -249,13 +249,6 @@ class ilDataCollectionRecordEditGUI {
 						case ilDataCollectionDatatype::INPUTFORMAT_DATETIME:
 							$options[$record->getId()] = $record->getRecordFieldSingleHTML($fieldref);
 							break;
-						case ilDataCollectionDatatype::INPUTFORMAT_TEXT:
-							$value = $record->getRecordFieldValue($fieldref);
-							if ($json = json_decode($value)) {
-								$value = $json->title? $json->title : $json->link;
-							}
-							$options[$record->getId()] = $value;
-							break;
 						default:
 							$options[$record->getId()] = $record->getRecordFieldValue($fieldref);
 							break;
@@ -339,8 +332,11 @@ class ilDataCollectionRecordEditGUI {
 		$allFields = $this->table->getFields();
 		$values = array();
 		foreach ($allFields as $field) {
-			$record_obj->fillRecordFieldFormInput($field->getId(), $this->form);
+			$value = $record_obj->getRecordFieldFormInput($field->getId());
+			$values['field_' . $field->getId()] = $value;
 		}
+		$values['record_id'] = $record_obj->getId();
+		$this->form->setValuesByArray($values);
 
 		return true;
 	}
@@ -418,10 +414,16 @@ class ilDataCollectionRecordEditGUI {
 					return;
 				}
 			}
-
 			//edit values, they are valid we already checked them above
 			foreach ($all_fields as $field) {
-				$record_obj->setRecordFieldValueFromForm($field->getId(), $this->form);
+				$value = $this->form->getInput("field_" . $field->getId());
+				//deletion flag on MOB inputs.
+				if ($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_MOB
+					&& $this->form->getItemByPostVar("field_" . $field->getId())->getDeletionFlag()
+				) {
+					$value = - 1;
+				}
+				$record_obj->setRecordFieldValue($field->getId(), $value);
 			}
 
 			// Do we need to set a new owner for this record?
@@ -460,9 +462,7 @@ class ilDataCollectionRecordEditGUI {
 			}
 		} else {
 			// Form not valid...
-			//TODO: URL title flushes on invalid form
-//			$this->form->setValuesByPost();
-			$this->setFormValues();
+			$this->form->setValuesByPost();
 			if ($this->ctrl->isAsynch()) {
 				echo $this->form->getHTML();
 				exit();

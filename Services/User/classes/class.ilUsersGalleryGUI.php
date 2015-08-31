@@ -129,44 +129,37 @@ class ilUsersGalleryGUI
 	}
 
 	/**
-	 * @param array
+	 * @param ilParticipants
 	 * @return ilTemplate
 	 */
-	protected function buildHTML($users)
+	protected function buildHTML($participants)
 	{
 		$buddylist = ilBuddyList::getInstanceByGlobalUser();
 		$tpl       = new ilTemplate('tpl.users_gallery.html', true, true, 'Services/User');
-
-		require_once 'Services/UIComponent/Panel/classes/class.ilPanelGUI.php';
-		$panel = ilPanelGUI::getInstance();
-		$panel->setBody($this->lng->txt('no_gallery_users_available'));
-		$tpl->setVariable('NO_ENTRIES_HTML', json_encode($panel->getHTML()));
-
-		if(!count($users))
+		
+		if(!count($participants))
 		{
+			require_once 'Services/UIComponent/Panel/classes/class.ilPanelGUI.php';
+			$panel = ilPanelGUI::getInstance();
+			$panel->setBody($this->lng->txt('no_gallery_users_available'));
 			$tpl->setVariable('NO_GALLERY_USERS', $panel->getHTML());
 			return $tpl;
 		}
 
-		require_once 'Services/UIComponent/Panel/classes/class.ilPanelGUI.php';
-		$panel = ilPanelGUI::getInstance();
-		$panel->setBody($this->lng->txt('no_gallery_users_available'));
-		$tpl->setVariable('NO_ENTRIES_HTML', json_encode($panel->getHTML()));
-
-		foreach($users as $user_data)
+		foreach($participants as $participant)
 		{
 			/**
 			 * @var $user ilObjUser
 			 */
-			$user = $user_data['user'];
+			$user = $participant['user'];
 
-			if($user_data['public_profile'])
+			if($participant['public_profile'])
 			{
 				$tpl->setCurrentBlock('linked_image');
 				$this->ctrl->setParameterByClass('ilpublicuserprofilegui', 'user', $user->getId());
 				$profile_target = $this->ctrl->getLinkTargetByClass('ilpublicuserprofilegui', 'getHTML');
 				$tpl->setVariable('LINK_PROFILE', $profile_target);
-				$tpl->setVariable('PUBLIC_NAME', $user_data['public_name']);
+				$tpl->setVariable('PUBLIC_NAME', $participant['public_name']);
 			}
 			else
 			{
@@ -179,8 +172,6 @@ class ilUsersGalleryGUI
 			$tpl->setCurrentBlock('user');
 
 			$tpl->setVariable('BUDDYLIST_STATUS', get_class($buddylist->getRelationByUserId($user->getId())->getState()));
-			$tpl->setVariable('USER_CC_CLASS', $this->object->getUserCssClass());
-			$tpl->setVariable('USER_ID', $user->getId());
 			$this->renderLinkButton($tpl, $user);
 			$tpl->parseCurrentBlock();
 		}

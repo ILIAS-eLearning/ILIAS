@@ -120,35 +120,9 @@ class ilAuthModeDetermination
 	 * @access public
 	 * 
 	 */
-	public function getAuthModeSequence($a_username = '')
+	public function getAuthModeSequence()
 	{
-		if(!strlen($a_username))
-		{
-			return $this->position ? $this->position : array();	 	
-		}
-		$sorted = array();
-		foreach($this->position as $auth_key)
-		{
-			include_once './Services/LDAP/classes/class.ilLDAPServer.php';
-			$sid = ilLDAPServer::getServerIdByAuthMode($auth_key);
-			if($sid)
-			{
-				$server = ilLDAPServer::getInstanceByServerId($sid);
-				$GLOBALS['ilLog']->write(__METHOD__.': Validating username filter for '.$server->getName());
-				if(strlen($server->getUsernameFilter()))
-				{
-					if(preg_match('/'.$server->getUsernameFilter().'/', $a_username))
-					{
-						$GLOBALS['ilLog']->write(__METHOD__.': Filter matches for '. $a_username);
-						array_unshift($sorted, $auth_key);
-						continue;
-					}
-					$GLOBALS['ilLog']->write(__METHOD__.': Filter matches not '. $a_username.' '.$server->getUsernameFilter());
-				}
-			}
-			$sorted[] = $auth_key;
-		}
-		return (array) $sorted;
+		return $this->position ? $this->position : array();	 	
 	}
 	
 	/**
@@ -208,9 +182,8 @@ class ilAuthModeDetermination
 		
 		$this->kind = $this->settings->get('kind',self::TYPE_MANUAL);
 		
-		// begin-patch ldap_multiple
 		include_once('Services/LDAP/classes/class.ilLDAPServer.php');
-		// end-patch ldap_multiple
+		$ldap_active = ilLDAPServer::_getFirstActiveServer();
 		
 		include_once('Services/Radius/classes/class.ilRadiusSettings.php');
 		$rad_settings = ilRadiusSettings::_getInstance();
@@ -223,31 +196,20 @@ class ilAuthModeDetermination
 		$apache_active = $apache_settings->get('apache_enable_auth');
 
 		// Check if active
-		// begin-patch ldap_multiple
-		$i = 0;
-		while(true)
+		for($i = 0; $i < 5; $i++)
 		{
-			$auth_mode = $this->settings->get((string) $i++,FALSE);
-			if($auth_mode === FALSE)
+			if($auth_mode = $this->settings->get((string) $i,0))
 			{
-				break;
-			}
-			if($auth_mode)
-			{
-				// begin-patch ldap_multiple
-				switch((int) $auth_mode)
+				switch($auth_mode)
 				{
 					case AUTH_LOCAL:
 						$this->position[] = $auth_mode;
 						break;
-					
-					case AUTH_LDAP:
-						$auth_id = ilLDAPServer::getServerIdByAuthMode($auth_mode);
-						$server = ilLDAPServer::getInstanceByServerId($auth_id);
 						
-						if($server->isActive())
+					case AUTH_LDAP:
+						if($ldap_active)
 						{
-							$this->position[] = $auth_mode;
+							$this->position[] = $auth_mode;  
 						}
 						break;
 						
@@ -287,27 +249,19 @@ class ilAuthModeDetermination
 				}
 			}
 		}
-		// end-patch ldap_multiple
 
 		// Append missing active auth modes
 		if(!in_array(AUTH_LOCAL,$this->position))
 		{
 			$this->position[] = AUTH_LOCAL;
 		}
-		// begin-patch ldap_multiple
-		foreach(ilLDAPServer::_getActiveServerList() as $sid)
-		{
-			$server = ilLDAPServer::getInstanceByServerId($sid);
-			if($server->isActive())
+		if($ldap_active)
+		{	
+			if(!in_array(AUTH_LDAP,$this->position))
 			{
-				if(!in_array(AUTH_LDAP.'_'.$sid, $this->position))
-				{
-					$this->position[] = (AUTH_LDAP.'_'.$sid);
-				}
+				$this->position[] = AUTH_LDAP;
 			}
-					
 		}
-		// end-patch ldap_multiple
 		if($rad_active)
 		{
 			if(!in_array(AUTH_RADIUS,$this->position))

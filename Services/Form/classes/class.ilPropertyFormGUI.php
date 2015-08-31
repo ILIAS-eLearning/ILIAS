@@ -541,16 +541,6 @@ class ilPropertyFormGUI extends ilFormGUI
 		$this->buttons[] = array("cmd" => $a_cmd, "text" => $a_text);
 	}
 
-
-	/**
-	 * Return all Command buttons
-	 *
-	 * @return array
-	 */
-	public function getCommandButtons() {
-		return $this->buttons;
-	}
-
 	/**
 	* Remove all command buttons
 	*/

@@ -10,9 +10,4 @@ interface ilGalleryUsers
 	 * @return array
 	 */
 	public function getGalleryUsers();
-
-	/**
-	 * @return string
-	 */
-	public function getUserCssClass();
 }

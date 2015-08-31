@@ -34,9 +34,8 @@ include_once("./Services/Table/classes/class.ilTableGUI.php");
 * @ilCtrl_Calls ilAdministrationGUI: ilObjRemoteGlossaryGUI, ilObjRemoteFileGUI, ilObjRemoteGroupGUI, ilObjECSSettingsGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjCloudGUI, ilObjRepositorySettingsGUI, ilObjWebResourceAdministrationGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjCourseAdministrationGUI, ilObjGroupAdministrationGUI, ilObjExerciseAdministrationGUI
-* @ilCtrl_Calls ilAdministrationGUI: ilObjTaxonomyAdministrationGUI, ilObjLoggingSettingsGUI
+* @ilCtrl_Calls ilAdministrationGUI: ilObjTaxonomyAdministrationGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjBibliographicAdminGUI, ilObjBibliographicGUI
-* @ilCtrl_Calls ilAdministrationGUI: ilObjStudyProgrammeAdminGUI, ilObjStudyProgrammeGUI
 * // BEGIN WebDAV
 * @ilCtrl_Calls ilAdministrationGUI: ilObjFileAccessSettingsGUI, ilPermissionGUI, ilObjRemoteTestGUI
 * // END WebDAV
@@ -449,12 +448,12 @@ class ilAdministrationGUI
 			2 => array(
 				"services" =>
 					array("pdts", "nwss", "tags", "prfa", "skmg", "cals", "mail", 
-						"---", "seas", "awra", "mds", "taxs", "cert", 'ecss', "pays", "extt", 'logs')
+						"---", "seas", "mds", "taxs", "cert", 'ecss', "pays", "extt")
 				),
 			3 => array(
 				"objects" =>
 					array("reps", "---", "bibs", "blga", "chta", "crss", "excs", "facs", "frma",
-						"grps", "lrss", "mcts", "mobs", "svyf", "assf", "wbrs", "wiks", "prgs",
+						"grps", "lrss", "mcts", "mobs", "svyf", "assf", "wbrs", "wiks",
 						"---", 'otpl',"root", "recf")
 				)
 			);

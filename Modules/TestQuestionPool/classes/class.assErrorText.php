@@ -344,7 +344,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 	 * @param boolean $returndetails (deprecated !!)
 	 * @return integer/array $points/$details (array $details is deprecated !!)
 	 */
-	public function calculateReachedPoints($active_id, $pass = NULL, $authorizedSolution = true, $returndetails = FALSE)
+	public function calculateReachedPoints($active_id, $pass = NULL, $returndetails = FALSE)
 	{
 		if( $returndetails )
 		{
@@ -358,7 +358,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 		if (is_null($pass)) {
 			$pass = $this->getSolutionMaxPass($active_id);
 		}
-		$result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorizedSolution);
+		$result = $this->getCurrentSolutionResultSet($active_id, $pass);
 
 		while ($row = $ilDB->fetchAssoc($result)) {
 			array_push($positions, $row['value1']);
@@ -380,7 +380,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 	 * @param integer $pass Test pass
 	 * @return boolean $status
 	 */
-	public function saveWorkingData($active_id, $pass = NULL, $authorized = true)
+	public function saveWorkingData($active_id, $pass = NULL)
 	{
 		global $ilDB;
 		global $ilUser;
@@ -393,7 +393,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 		
 		$this->getProcessLocker()->requestUserSolutionUpdateLock();
 
-		$affectedRows = $this->removeCurrentSolution($active_id, $pass, $authorized);
+		$affectedRows = $this->removeCurrentSolution($active_id, $pass);
 
 		$entered_values = false;
 		if (strlen($_POST["qst_" . $this->getId()]))
@@ -401,7 +401,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 			$selected = split(",", $_POST["qst_" . $this->getId()]);
 			foreach ($selected as $position)
 			{
-				$affectedRows = $this->saveCurrentSolution($active_id, $pass, $position, null, $authorized);
+				$affectedRows = $this->saveCurrentSolution($active_id, $pass, $position, null);
 			}
 			$entered_values = true;
 		}

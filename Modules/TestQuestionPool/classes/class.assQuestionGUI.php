@@ -59,11 +59,6 @@ abstract class assQuestionGUI
 	 * @var ilQuestionHeaderBlockBuilder
 	 */
 	private $questionHeaderBlockBuilder;
-
-	/**
-	 * @var ilTestQuestionNavigationGUI
-	 */
-	private $navigationGUI;
 	
 	/**
 	* assQuestionGUI constructor
@@ -94,8 +89,6 @@ abstract class assQuestionGUI
 		$this->selfassessmenteditingmode = false;
 		$this->new_id_listeners = array();
 		$this->new_id_listener_cnt = 0;
-		
-		$this->navigationGUI = null;
 	}
 
 	/**
@@ -128,22 +121,6 @@ abstract class assQuestionGUI
 	function getType()
 	{
 		return $this->getQuestionType();
-	}
-
-	/**
-	 * @return ilTestQuestionNavigationGUI
-	 */
-	public function getNavigationGUI()
-	{
-		return $this->navigationGUI;
-	}
-
-	/**
-	 * @param ilTestQuestionNavigationGUI $navigationGUI
-	 */
-	public function setNavigationGUI($navigationGUI)
-	{
-		$this->navigationGUI = $navigationGUI;
 	}
 	
 	public function setTaxonomyIds($taxonomyIds)
@@ -335,17 +312,6 @@ abstract class assQuestionGUI
 	function outQuestionPage($a_temp_var, $a_postponed = false, $active_id = "", $html = "")
 	{
 		$this->lng->loadLanguageModule("content");
-
-		if( $this->getNavigationGUI() )
-		{
-			$html .= $this->getNavigationGUI()->getHTML();
-		}
-		
-		$postponed = "";
-		if ($a_postponed)
-		{
-			$postponed = " (" . $this->lng->txt("postponed") . ")";
-		}
 
 		include_once("./Modules/TestQuestionPool/classes/class.ilAssQuestionPageGUI.php");
 		$page_gui = new ilAssQuestionPageGUI($this->object->getId());
@@ -937,7 +903,6 @@ abstract class assQuestionGUI
 		$question->setRequired(TRUE);
 		$question->setRows(10);
 		$question->setCols(80);
-		
 		if (!$this->object->getSelfAssessmentEditingMode())
 		{
 			if( $this->object->getAdditionalContentEditingMode() != assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_PAGE_OBJECT )
@@ -1904,7 +1869,7 @@ abstract class assQuestionGUI
 	 * @param bool 			$user_post_solutions
 	 * @param bool 			$show_specific_inline_feedback
 	 */
-	final public function outQuestionForTest(
+	public function outQuestionForTest(
 		$formaction,
 		$active_id,
 		$pass = NULL,
@@ -1913,8 +1878,6 @@ abstract class assQuestionGUI
 		$show_specific_inline_feedback = FALSE
 	)
 	{
-		$formaction = $this->completeTestOutputFormAction($formaction, $active_id, $pass);
-		
 		$test_output = $this->getTestOutput(
 			$active_id,
 			$pass,
@@ -1922,34 +1885,13 @@ abstract class assQuestionGUI
 			$user_post_solutions,
 			$show_specific_inline_feedback
 		);
-		
-		$this->magicAfterTestOutput();
 
 		$this->tpl->setVariable("QUESTION_OUTPUT", $test_output);
 		$this->tpl->setVariable("FORMACTION", $formaction);
 		$this->tpl->setVariable("ENCTYPE", 'enctype="'.$this->getFormEncodingType().'"');
-		$this->tpl->setVariable("FORM_TIMESTAMP", time());
 	}
-	
-	protected function completeTestOutputFormAction($formAction, $active_id, $pass = NULL)
-	{
-		return $formAction;
-	}
-	
-	protected function magicAfterTestOutput()
-	{
-		return;
-	}
-	
-	abstract public function getTestOutput(
-		$active_id,
-		$pass,
-		$is_question_postponed,
-		$user_post_solutions,
-		$show_specific_inline_feedback
-	);
 
-	public function getFormEncodingType()
+	protected function getFormEncodingType()
 	{
 		return self::FORM_ENCODING_URLENCODE;
 	}

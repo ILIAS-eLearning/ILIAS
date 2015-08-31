@@ -283,23 +283,11 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 			}
 			$mime_query .= ') ';
 		}
-		
-		// begin-patch creation_date
-		$cdate_query = $this->parseCreationFilter();
-		
-		
-		
-		$filter_query = $filter_query . ' '. $mime_query.' '.$cdate_query;
+		$filter_query = $filter_query . ' '. $mime_query;
 		
 		include_once './Services/Search/classes/Lucene/class.ilLuceneSearcher.php';
 		include_once './Services/Search/classes/Lucene/class.ilLuceneQueryParser.php';
-		
-		$query = $this->search_cache->getQuery();
-		if($query)
-		{
-			$query = ' +('.$query.')';
-		}
-		$qp = new ilLuceneQueryParser($filter_query.$query);
+		$qp = new ilLuceneQueryParser($filter_query.' +('.$this->search_cache->getQuery().')');
 		$qp->parse();
 		$searcher = ilLuceneSearcher::getInstance($qp);
 		$searcher->search();
@@ -426,19 +414,12 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 					}
 				}
 				$this->search_cache->setMimeFilter($mime);
-				
-				
 			}
-			$this->search_cache->setCreationFilter($this->loadCreationFilter());
-			if(!$_POST['item_filter_enabled'])
+			else
 			{
 				// @todo: keep item filter settings
 				$this->search_cache->setItemFilter(array());
 				$this->search_cache->setMimeFilter(array());
-			}
-			if(!$_POST['screation'])
-			{
-				$this->search_cache->setCreationFilter(array());
 			}
 		}
 	}
@@ -588,50 +569,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 		$this->tpl->setVariable('SEARCH_AREA_FORM', $this->getSearchAreaForm()->getHTML());
 		$this->tpl->setVariable("TXT_CHANGE", $lng->txt("change"));
 		
-		if(ilSearchSettings::getInstance()->isDateFilterEnabled())
-		{
-			// begin-patch creation_date
-			$this->tpl->setVariable('TXT_FILTER_BY_CDATE',$this->lng->txt('search_filter_cd'));
-			$this->tpl->setVariable('TXT_CD_OFF',$this->lng->txt('search_off'));
-			$this->tpl->setVariable('FORM_CD',$this->getCreationDateForm()->getHTML());
-			$this->tpl->setVariable("ARR_IMG_CD", ilGlyphGUI::get(ilGlyphGUI::CARET));
-			// end-patch creation_date
-		}
-		
-		
 		return true;
 	}
-	
-	
-	protected function parseCreationFilter()
-	{
-		
-		$options = $this->search_cache->getCreationFilter();
-		
-		if(!$options['enabled'])
-		{
-			return '';
-		}
-		$limit = new ilDate($options['date'],IL_CAL_UNIX);
-				
-		switch($options['ontype'])
-		{
-			case 1:
-				// after
-				$now = new ilDate(time(),IL_CAL_UNIX);
-				return '+(cdate:['.$limit->get(IL_CAL_DATE).' TO '.$now->get(IL_CAL_DATE).'*]) ';
-						
-			case 2:
-				// before
-				return '+(cdate:[* TO '.$limit->get(IL_CAL_DATE).']) ';
-					
-			case 3:
-				// on
-				return '+(cdate:'.$limit->get(IL_CAL_DATE).'*) ';
-						
-		}
-		return '';
-	}
-	// end-patch creation_date
 }
 ?>

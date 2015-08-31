@@ -1,6 +1,4 @@
 <?php
-require_once('./Services/UIComponent/Toolbar/interfaces/interface.ilToolbarItem.php');
-
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -10,7 +8,7 @@ require_once('./Services/UIComponent/Toolbar/interfaces/interface.ilToolbarItem.
  * @version $Id: class.ilTabsGUI.php 45109 2013-09-30 15:46:28Z akill $
  * @package ServicesUIComponent
  */
-abstract class ilButton implements ilToolbarItem
+abstract class ilButton
 {
 	protected $type; // [int]
 	protected $id; // [string]
@@ -369,13 +367,4 @@ abstract class ilButton implements ilToolbarItem
 	 * @return string
 	 */
 	abstract public function render();
-
-
-	/**
-	 * @return string
-	 */
-	public function getToolbarHTML()
-	{
-		return $this->render();
-	}
 }

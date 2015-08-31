@@ -43,12 +43,6 @@ class ilSCTreeTasks
 		return 0;
 	}
 	
-	public static function repairPK()
-	{
-		#$GLOBALS['ilDB']->dropPrimaryKey('tree');
-		$GLOBALS['ilDB']->addPrimaryKey('tree', array('child'));
-	}
-	
 	public static function getNodeInfo($a_tree_id, $a_child)
 	{
 		global $ilDB;
@@ -266,7 +260,7 @@ class ilSCTreeTasks
 	/**
 	 * Check for duplicates
 	 */
-	public function checkDuplicates()
+	protected function checkDuplicates()
 	{
 		$query = 'SELECT child, count(child) num FROM tree '.
 				'GROUP BY child '.
@@ -525,9 +519,6 @@ class ilSCTreeTasks
 		
 		return $folder->getRefId();
 	}
-	
-	
-	
 	
 }
 ?>

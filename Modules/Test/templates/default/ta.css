@@ -418,13 +418,24 @@ ul.shortlist li.active {
 	font-weight: bold;
 }
 
-ul.shortlist li.listEntry a,
+div.shortlist input[type="submit"]
 {
+	background-color: transparent;
 	text-decoration:none;
 	color:#0033AA;
+	border: none;
+	font-size: 100%;
+	display: block;
+	white-space: normal;
+	text-align: left;
 }
 
-ul.shortlist li.listEntry a:hover
+div.shortlist input[type="submit"].active
+{
+	font-weight: bold;
+}
+
+div.shortlist input[type="submit"]:hover
 {
 	text-decoration: underline;
 }
@@ -486,26 +497,10 @@ span.result {
 	font-style: italic;
 }
 
-ul.ilAssQuestionRelatedNavigationContainer
+div.ilAssQuestionRelatedNavigationContainer
 {
 	margin: 20px 0;
-}
-
-ul.ilAssQuestionRelatedNavigationContainer div.navbar
-{
-	padding-left: 6px;
-	padding-right: 6px;
-}
-
-div.tstModalConfirmationText
-{
-	margin-bottom: 20px;
-}
-
-div.tstModalConfirmationButtons a,
-div.tstModalConfirmationButtons input
-{
-	margin-right: 20px;
+	text-align: center;
 }
 
 div.ilTestOutputBlock_DynTestFinished

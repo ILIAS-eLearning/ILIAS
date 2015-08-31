@@ -7,7 +7,6 @@ ilNotes =
 	update_code: '',
 	panel: false,
 	ajax_url: '',
-	old: false,
 	
 	listNotes: function (e, hash, update_code)
 	{				
@@ -44,89 +43,8 @@ ilNotes =
 	// init the notes editing panel
 	initPanel: function(comments, e)
 	{
-		t = ilNotes;
-
-		if (comments) {
-			head_str = il.Language.txt('notes_public_comments');
-		} else {
-			head_str = il.Language.txt('private_notes');
-		}
-
-		if (t.old) {
-			il.UICore.showRightPanel(e);
-		}
-		else {
-			il.Modal.dialogue({
-				id:       "il_notes_modal",
-				show: true,
-				header: head_str,
-				buttons:  {
-					/*confirm: {
-						type:      "button",
-						label:     il.Language.txt("confirm"),
-						className: "btn btn-primary",
-						callback:  function (e, $modal) {
-							e.stopPropagation();
-							$modal.find('.btn').addClass('.ilSubmitInactive').attr('disabled', true);
-
-							$.ajax({
-								url:      t.ajax_url + "&cmd=deleteNewsComment",
-								type:     "POST",
-								dataType: "json",
-								data:     {
-									id: id
-								}
-							}).done(function (response) {
-								if (response.data != undefined) {
-									nr_of_comments.html(response.txt_nr_of_comments);
-
-									if (response.data.id) {
-										container
-											.find(".ilNewsStreamCommentEditedDatetime")
-											.text(response.data.editedDatetime);
-
-										container
-											.find(".ilNewsStreamCommentEditedDatetime")
-											.parent()
-											.removeClass("ilNoDisplay");
-
-										comment_container.html(response.data.text);
-
-										comment_container.removeClass("ilNoDisplay");
-										editing_container.addClass("ilNoDisplay");
-										container.find(".ilNewsCommentEditButton").addClass("ilNoDisplay");
-										container.find(".ilNewsCommentDeleteButton").addClass("ilNoDisplay");
-									} else {
-										$('#' + target_id).parent().prev().find('.ilNewsCommentDeleteButton').removeClass('ilNoDisplay');
-										$('#' + target_id).parent().remove();
-									}
-
-									$modal.modal("hide");
-									updateMasonry();
-								} else {
-									window.location.href = t.ajax_url;
-								}
-							}).fail(function (e) {
-								// Left the happy path ...
-								window.location.href = t.ajax_url;
-							});
-						}
-					},
-					cancel:  {
-						label:     il.Language.txt("cancel"),
-						type:      "button",
-						className: "btn btn-default",
-						callback:  function (e, $modal) {
-							e.stopPropagation();
-							$modal.find(".btn").addClass(".ilSubmitInactive").attr("disabled", true);
-							$modal.modal("hide");
-						}
-					}*/
-				}
-			});
-			$("#il_notes_modal .modal-body").html("");
-		}
-
+		il.UICore.showRightPanel(e);
+		
 		if (comments)
 		{
 			this.sendAjaxGetRequest({cmd: "getOnlyCommentsHTML", cadh: this.hash}, {mode: 'list_notes'});
@@ -211,16 +129,8 @@ ilNotes =
 			}
 			else
 			{
-				t = ilNotes;
-
 				// default action: replace html
-				if (t.old) {
-					il.UICore.setRightPanelContent(o.responseText);
-				}
-				else {
-					$("#il_notes_modal .modal-body").html(o.responseText);
-				}
-
+				il.UICore.setRightPanelContent(o.responseText);
 //				ilNotes.insertPanelHTML(o.responseText);
 				if (typeof ilNotes.update_code != "undefined" &&
 					ilNotes.update_code != null && ilNotes.update_code != "")

@@ -209,14 +209,13 @@ class ilLDAPRoleAssignmentRule
 	 * Get all rules
 	 *
 	 * @access public
-	 * @return ilLDAPRoleAssignmentRule
+	 * 
 	 */
-	public function _getRules($a_server_id)
+	public function _getRules()
 	{
 	 	global $ilDB;
 	 	
-	 	$query = "SELECT rule_id FROM ldap_role_assignments ".
-				"WHERE server_id = ".$ilDB->quote($a_server_id,'integer');
+	 	$query = "SELECT rule_id FROM ldap_role_assignments ";
 	 	$res = $ilDB->query($query);
 	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	 	{

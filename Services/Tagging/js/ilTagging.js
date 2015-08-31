@@ -33,19 +33,7 @@ ilTagging =
 	// init the notes editing panel
 	initPanel: function(e)
 	{
-		il.Modal.dialogue({
-			id:       "il_tags_modal",
-			show: true,
-			header: il.Language.txt('tagging_tags'),
-			buttons:  {
-			}
-		});
-		this.sendAjaxGetRequest({cmd: "getHTML", cadh: this.hash}, {mode: 'list_tags'});
-		return;
-
-
-
-	if (!this.panel)
+		if (!this.panel)
 		{
 			var n = document.getElementById('ilTagsPanel');
 			if (!n)
@@ -168,8 +156,7 @@ ilTagging =
 			else
 			{				
 				// default action: replace html
-				$("#il_tags_modal .modal-body").html(o.responseText);
-				//ilTagging.insertPanelHTML(o.responseText);
+				ilTagging.insertPanelHTML(o.responseText);
 				if (typeof ilTagging.update_code != "undefined" &&
 					ilTagging.update_code != null && ilTagging.update_code != "")
 				{

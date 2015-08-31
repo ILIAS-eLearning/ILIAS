@@ -65,29 +65,6 @@ class ilObjectSearchFactory
 	}
 	
 	/**
-	 * 
-	 */
-	public static function getByTypeSearchInstance($a_object_type,$a_query_parser)
-	{
-		switch($a_object_type)
-		{
-			case 'wiki':
-				return self::_getWikiContentSearchInstance($a_query_parser);
-				
-			case 'frm':
-				return self::_getForumSearchInstance($a_query_parser);
-				
-			case 'lm':
-				return self::_getLMContentSearchInstance($a_query_parser);
-				
-			default:
-				return self::_getObjectSearchInstance($a_query_parser);
-		}
-	}
-	
-	
-	
-	/**
 	 * get reference of LikeShopObjectSearch.
 	 * 
 	 * @param object query parser object

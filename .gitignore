@@ -1,5 +1,3 @@
-## Directory-based project format:
-.idea/
 
 # /
 /.buildpath
@@ -21,7 +19,7 @@ db_template_writer.php
 
 
 # /Customizing/
-/Customizing/global/plugins
+/Customizing/global
 
 # /Modules/BookingManager/js/
 

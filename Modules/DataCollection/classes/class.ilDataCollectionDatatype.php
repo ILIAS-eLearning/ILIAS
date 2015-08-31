@@ -248,9 +248,6 @@ class ilDataCollectionDatatype {
                 $properties = $field->getProperties();
                 if ($properties[ilDataCollectionField::PROPERTYID_URL]) {
                     $input->setInfo($lng->txt('dcl_text_email_detail_desc'));
-					$title_field = new ilTextInputGUI($lng->txt('dcl_text_email_title'), 'field_'.$field->getId().'_title');
-					$title_field->setInfo($lng->txt('dcl_text_email_title_info'));
-					$input->addSubItem($title_field);
                 }
 				break;
 			case ilDataCollectionDatatype::INPUTFORMAT_NUMBER:
@@ -640,8 +637,6 @@ class ilDataCollectionDatatype {
 			$return = substr($value, 0, 10);
 		} elseif ($this->id == ilDataCollectionDatatype::INPUTFORMAT_BOOLEAN) {
 			$return = $value ? 1 : 0;
-		} elseif ($this->id == ilDataCollectionDatatype::INPUTFORMAT_TEXT && $json = json_decode($value)) {
-			$return = $json;
 		} else {
 			$return = $value;
 		}
@@ -757,14 +752,7 @@ class ilDataCollectionDatatype {
 				//Property URL
 				$arr_properties = $record_field->getField()->getProperties();
 				if ($arr_properties[ilDataCollectionField::PROPERTYID_URL]) {
-					if ($json = json_decode($value)) {
-						$link = $json->link;
-						$link_value = $json->title ? $json->title : $this->shortenLink($link);
-					} else {
-						$link = $value;
-						$link_value = $this->shortenLink($value);
-					}
-
+					$link = $value;
                     if (substr($link, 0, 3) === 'www') {
                         $link = 'http://' . $link;
                     }
@@ -774,8 +762,8 @@ class ilDataCollectionDatatype {
 						return $link;
 					}
 
+					$link_value = $this->shortenLink($value);
 					$html = "<a target='_blank' href='" . $link . "'>" . $link_value . "</a>";
-
 				} elseif ($arr_properties[ilDataCollectionField::PROPERTYID_LINK_DETAIL_PAGE_TEXT] AND
 					$link AND ilDataCollectionRecordViewViewdefinition::getIdByTableId($record_field->getRecord()->getTableId())
 				) {
@@ -865,6 +853,15 @@ class ilDataCollectionDatatype {
 				$media_obj = new ilObjMediaObject($value, false);
 				//$input = ilObjFile::_lookupAbsolutePath($value);
 				$input = $value;
+				break;
+			case self::INPUTFORMAT_TEXT:
+				$arr_properties = $record_field->getField()->getProperties();
+				if ($arr_properties[ilDataCollectionField::PROPERTYID_TEXTAREA]) {
+					$breaks = array( "<br />" );
+					$input = str_ireplace($breaks, "", $value);
+				} else {
+					$input = $value;
+				}
 				break;
 			default:
 				$input = $value;

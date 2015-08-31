@@ -92,7 +92,7 @@ class ilAuthContainerMultiple extends Auth_Container
 	
 	public function fetchData($user,$pass)
 	{
-		foreach(ilAuthModeDetermination::_getInstance()->getAuthModeSequence($user) as $auth_mode)
+		foreach(ilAuthModeDetermination::_getInstance()->getAuthModeSequence() as $auth_mode)
 		{
 			if ($_REQUEST['force_mode_apache']) 
 			{
@@ -104,15 +104,12 @@ class ilAuthContainerMultiple extends Auth_Container
 			}
 			else
 			{
-				// begin-patch ldap_multiple
-				// cast to int
-				switch((int) $auth_mode)
+				switch($auth_mode)
 				{
 					case AUTH_LDAP:
 						$this->log('Container LDAP: Trying new container',AUTH_LOG_DEBUG);
 						include_once './Services/LDAP/classes/class.ilAuthContainerLDAP.php';
-						$sid = ilLDAPServer::getServerIdByAuthMode($auth_mode);
-						$this->current_container = new ilAuthContainerLDAP($sid);
+						$this->current_container = new ilAuthContainerLDAP();
 						break;
 					
 					case AUTH_LOCAL:

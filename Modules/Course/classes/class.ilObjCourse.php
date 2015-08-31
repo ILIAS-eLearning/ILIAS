@@ -922,10 +922,6 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	 	
 	 	// Assign admin
 		$new_obj->getMemberObject()->add($ilUser->getId(),IL_CRS_ADMIN);
-		// cognos-blu-patch: begin
-		$new_obj->getMemberObject()->updateContact($ilUser->getId(), 1);
-		// cognos-blu-patch: end
-		
 			
 		// #14596		
 		$cwo = ilCopyWizardOptions::_getInstance($a_copy_id);		

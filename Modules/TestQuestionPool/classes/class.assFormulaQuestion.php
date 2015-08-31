@@ -915,13 +915,13 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 	 * @param integer $test_id The database Id of the test containing the question
 	 * @access public
 	 */
-	function calculateReachedPoints($active_id, $pass = NULL, $authorizedSolution = true, $returndetails = false)
+	function calculateReachedPoints($active_id, $pass = NULL, $returndetails = false)
 	{
 		if(is_null($pass))
 		{
 			$pass = $this->getSolutionMaxPass($active_id);
 		}
-		$solutions     =& $this->getSolutionValues($active_id, $pass, $authorizedSolution);
+		$solutions     =& $this->getSolutionValues($active_id, $pass);
 		$user_solution = array();
 		foreach($solutions as $idx => $solution_value)
 		{
@@ -978,7 +978,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 	 * @access public
 	 * @see    $answers
 	 */
-	function saveWorkingData($active_id, $pass = NULL, $authorized = true)
+	function saveWorkingData($active_id, $pass = NULL)
 	{
 		global $ilDB;
 
@@ -999,41 +999,41 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 			if(preg_match("/^result_(\\\$r\\d+)$/", $key, $matches))
 			{
 				if(strlen($value)) $entered_values = TRUE;
-				$result = $ilDB->queryF("SELECT solution_id FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s AND authorized = %s  AND " . $ilDB->like('value1', 'clob', $matches[1]),
-					array('integer', 'integer', 'integer', 'integer'),
-					array($active_id, $pass, $this->getId(), (int)$authorized)
+				$result = $ilDB->queryF("SELECT solution_id FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s  AND " . $ilDB->like('value1', 'clob', $matches[1]),
+					array('integer', 'integer', 'integer'),
+					array($active_id, $pass, $this->getId())
 				);
 				if($result->numRows())
 				{
 					while($row = $ilDB->fetchAssoc($result))
 					{
-						$affectedRows = $ilDB->manipulateF("DELETE FROM tst_solutions WHERE solution_id = %s AND authorized = %s",
-							array('integer', 'integer'),
-							array($row['solution_id'], (int)$authorized)
+						$affectedRows = $ilDB->manipulateF("DELETE FROM tst_solutions WHERE solution_id = %s",
+							array('integer'),
+							array($row['solution_id'])
 						);
 					}
 				}
 
-				$affectedRows = $this->saveCurrentSolution($active_id,$pass,$matches[1],str_replace(",", ".", $value), $authorized);
+				$affectedRows = $this->saveCurrentSolution($active_id,$pass,$matches[1],str_replace(",", ".", $value));
 			}
 			else if(preg_match("/^result_(\\\$r\\d+)_unit$/", $key, $matches))
 			{
-				$result = $ilDB->queryF("SELECT solution_id FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s AND authorized = %s AND " . $ilDB->like('value1', 'clob', $matches[1] . "_unit"),
-					array('integer', 'integer', 'integer', 'integer'),
-					array($active_id, $pass, $this->getId(), (int)$authorized)
+				$result = $ilDB->queryF("SELECT solution_id FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s AND " . $ilDB->like('value1', 'clob', $matches[1] . "_unit"),
+					array('integer', 'integer', 'integer'),
+					array($active_id, $pass, $this->getId())
 				);
 				if($result->numRows())
 				{
 					while($row = $ilDB->fetchAssoc($result))
 					{
-						$affectedRows = $ilDB->manipulateF("DELETE FROM tst_solutions WHERE solution_id = %s AND authorized = %s",
-							array('integer', 'integer'),
-							array($row['solution_id'], (int)$authorized)
+						$affectedRows = $ilDB->manipulateF("DELETE FROM tst_solutions WHERE solution_id = %s",
+							array('integer'),
+							array($row['solution_id'])
 						);
 					}
 				}
 
-				$affectedRows = $this->saveCurrentSolution($active_id,$pass,$matches[1] . "_unit",$value, $authorized);
+				$affectedRows = $this->saveCurrentSolution($active_id,$pass,$matches[1] . "_unit",$value);
 			}
 		}
 

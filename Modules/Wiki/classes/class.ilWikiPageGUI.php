@@ -973,7 +973,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		$form->checkInput();			
 		if(!$this->record_gui->importEditFormPostValues())
 		{	
-			$this->editAdvancedMetaData($form); // #16470
+			$this->editInfoObject($form);
 			return false;
 		}	
 				

@@ -61,7 +61,7 @@
 					if (response.success != undefined) {
 						if (response.state != undefined && response.state_html != undefined) {
 							if (state != response.state) {
-								$($scope).trigger("il.bs.stateChange.beforeButtonWidgetReRendered", [$container.data("buddy-id"), response.state, state]);
+								$(window).trigger("il.bs.stateChange.beforeButtonWidgetReRendered", [$container.data("buddy-id"), response.state, state]);
 
 								$("." + btn.config.bnt_class).filter(function() {
 									return $(this).data("buddy-id") == $container.data("buddy-id");
@@ -71,7 +71,7 @@
 									container.data("current-state", response.state);
 								});
 
-								$($scope).trigger("il.bs.stateChange.afterButtonWidgetReRendered", [$container.data("buddy-id"), response.state, state]);
+								$(window).trigger("il.bs.stateChange.afterButtonWidgetReRendered", [$container.data("buddy-id"), response.state, state]);
 							}
 						}
 					}
@@ -97,7 +97,7 @@
 						});
 					}
 
-					$($scope).trigger("il.bs.stateChange.afterStateChangePerformed", [$container.data("buddy-id"), $container.data("current-state"), state]);
+					$(window).trigger("il.bs.stateChange.afterStateChangePerformed", [$container.data("buddy-id"), $container.data("current-state"), state]);
 				}).fail(function () {
 					$("." + btn.config.bnt_class).filter(function() {
 						return $(this).data("buddy-id") == $container.data("buddy-id");
@@ -112,15 +112,16 @@
 		}
 	};
 
-	$($scope).on("il.bs.stateChange.afterStateChangePerformed", function(event, usr_id, is_state, was_state) {
+	$(window).on("il.bs.stateChange.afterStateChangePerformed", function(event, usr_id, is_state, was_state) {
 		if (
-			(was_state == "ilBuddySystemLinkedRelationState" || was_state == "ilBuddySystemRequestedRelationState") && is_state != was_state
+			was_state != "ilBuddySystemRequestedRelationState" ||
+			(
+				is_state != "ilBuddySystemIgnoredRequestRelationState" && is_state != "ilBuddySystemLinkedRelationState"
+			)
 		) {
-			if (typeof il.Awareness != "undefined") {
-				il.Awareness.reload();
-			}
+			return;
 		}
-		return true;
+		il.Awareness.reload();
 	});
 
 	$(document).ready(function() {
@@ -152,7 +153,7 @@
 					if (response.success != undefined) {
 						if (response.state != undefined) {
 							if (state != response.state) {
-								$($scope).trigger("il.bs.stateChange.afterStateChangePerformed", [usr_id, response.state, state]);
+								$(window).trigger("il.bs.stateChange.afterStateChangePerformed", [usr_id, response.state, state]);
 							}
 						}
 					}

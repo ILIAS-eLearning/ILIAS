@@ -45,45 +45,7 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
 			);
 		}
 	}
-
-	/**
-	 * @param $schedule_time
-	 * @param $multiplier
-	 * @return int
-	 */
-	protected function getTimeDifferenceBySchedule($schedule_time, $multiplier)
-	{
-		$time_difference = 0;
-		switch($schedule_time)
-		{
-			case ilCronJob::SCHEDULE_TYPE_DAILY:
-				$time_difference = 86400;
-				break;
-			case ilCronJob::SCHEDULE_TYPE_IN_MINUTES:
-				$time_difference = 60 * $multiplier;
-				break;
-			case ilCronJob::SCHEDULE_TYPE_IN_HOURS:
-				$time_difference = 3600 * $multiplier;
-				break;
-			case ilCronJob::SCHEDULE_TYPE_IN_DAYS:
-				$time_difference = 86400 * $multiplier;
-				break;
-			case ilCronJob::SCHEDULE_TYPE_WEEKLY:
-				$time_difference = 604800;
-				break;
-			case ilCronJob::SCHEDULE_TYPE_MONTHLY:
-				$time_difference = 2629743;
-				break;
-			case ilCronJob::SCHEDULE_TYPE_QUARTERLY:
-				$time_difference = 7889229;
-				break;
-			case ilCronJob::SCHEDULE_TYPE_YEARLY:
-				$time_difference = 31556926;
-				break;
-		}
-		return $time_difference;
-	}
-
+	
 	public function getId()
 	{
 		return "user_inactive";
@@ -162,18 +124,16 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
 			 */
 
 			$user = ilObjectFactory::getInstanceByObjId($usr_id);
-			$timestamp_last_login = strtotime($user->getLastLogin());
+			$last_login_timestamp = strtotime($user->getLastLogin());
 			$grace_period_over    = time() - ((int)$this->period * 24 * 60 * 60);
-			if($timestamp_last_login < $grace_period_over)
+			if($last_login_timestamp < $grace_period_over)
 			{
 				$user->delete();
 				$userDeleted++;
 			}
 			else if($reminder_time > 0)
 			{
-				$timestamp_for_deletion = $timestamp_last_login - $grace_period_over;
-				$account_will_be_deleted_on = $this->calculateDeletionData($timestamp_for_deletion);
-				$mailSent = ilCronDeleteInactiveUserReminderMail::checkIfReminderMailShouldBeSend($user, $reminder_time, $account_will_be_deleted_on);
+				$mailSent = ilCronDeleteInactiveUserReminderMail::checkIfReminderMailShouldBeSend($user, $reminder_time);
 				if($mailSent)
 				{
 					$userMailsDelivered++;
@@ -191,28 +151,6 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
 		$result = new ilCronJobResult();
 		$result->setStatus($status);		
 		return $result;
-	}
-	
-	protected function calculateDeletionData($date_for_deletion)
-	{
-		$cron_timing 		= ilCronManager::getCronJobData($this->getId());
-		$time_difference 	= 0;
-		$multiplier 		= 1;
-
-		if(!is_array($cron_timing) || !is_array($cron_timing[0]))
-		{
-			return time() + $date_for_deletion + $time_difference;
-		}
-
-		if(array_key_exists('schedule_type', $cron_timing[0]))
-		{
-			if((array_key_exists('schedule_type', $cron_timing[0]) && $cron_timing[0]['schedule_value'] != null))
-			{
-				$multiplier = $cron_timing[0]['schedule_value'];
-			}
-			$time_difference = $this->getTimeDifferenceBySchedule($cron_timing[0]['schedule_type'], $multiplier);
-		}
-		return time() + $date_for_deletion + $time_difference;
 	}
 	
 	public function addCustomSettingsToForm(ilPropertyFormGUI $a_form)

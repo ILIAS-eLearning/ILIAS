@@ -274,7 +274,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
 	 * @param boolean $returndetails (deprecated !!)
 	 * @return integer/array $points/$details (array $details is deprecated !!)
 	 */
-	public function calculateReachedPoints($active_id, $pass = NULL, $authorizedSolution = true, $returndetails = FALSE)
+	public function calculateReachedPoints($active_id, $pass = NULL, $returndetails = FALSE)
 	{
 		if( $returndetails )
 		{
@@ -288,7 +288,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
 		{
 			$pass = $this->getSolutionMaxPass($active_id);
 		}
-		$result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorizedSolution);
+		$result = $this->getCurrentSolutionResultSet($active_id, $pass);
 		$points = 0;
 		$data = $ilDB->fetchAssoc($result);
 
@@ -341,7 +341,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
 	 * @param integer $pass Test pass
 	 * @return boolean $status
 	 */
-	public function saveWorkingData($active_id, $pass = NULL, $authorized = true)
+	public function saveWorkingData($active_id, $pass = NULL)
 	{
 		global $ilDB;
 		global $ilUser;
@@ -354,14 +354,14 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
 
 		$this->getProcessLocker()->requestUserSolutionUpdateLock();
 
-		$affectedRows = $this->removeCurrentSolution($active_id, $pass, $authorized);
+		$affectedRows = $this->removeCurrentSolution($active_id, $pass);
 		
 		$solutionSubmit = $this->getSolutionSubmit();
 		
 		$entered_values = false;
 		if (strlen($solutionSubmit))
 		{
-			$affectedRows = $this->saveCurrentSolution($active_id, $pass, $_POST['orderresult'], null, $authorized);
+			$affectedRows = $this->saveCurrentSolution($active_id, $pass, $_POST['orderresult'], null);
 			$entered_values = true;
 		}
 

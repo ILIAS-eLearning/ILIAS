@@ -102,10 +102,12 @@ function toggleTree() {
 	
 	if (treeState==false) {
 		elm.innerHTML="Collapse All";
+		//treeYUI.expandAll();
 		il.NestedList.expandAll('rte_tree');
 		treeState=true;
 	} else {
 		elm.innerHTML="Expand All";
+		//treeYUI.collapseAll();
 		il.NestedList.collapseAll('rte_tree');
 		treeState=false;
 	}
@@ -1707,7 +1709,7 @@ function onDocumentClick (e)
 		{
 			//throw away API from previous sco and sync CMI and ADLTree
 			//onItemUndeliver();
-			mlaunch = msequencer.navigateStr( target.id.substr(3));
+			mlaunch = msequencer.navigateStr( target.id.substr(3).replace(/_____/g,'.'));
 
  			if (mlaunch.mSeqNonContent == null) {
 				//alert(activities[mlaunch.mActivityID]);
@@ -1934,8 +1936,8 @@ function buildNavTree(rootAct,name,tree){
 	{
 		var id=rootAct.id;
 		if (rootAct.isvisible==true && typeof(mlaunch.mNavState.mChoice[id])=="object") {
-			var it_id=(ITEM_PREFIX + rootAct.id);
-			il.NestedList.addNode('rte_tree', (""+par_id), it_id,
+			var it_id=(ITEM_PREFIX + rootAct.id).replace(/\./g,"_____");
+			il.NestedList.addNode('rte_tree', (""+par_id).replace(/\./g,"_____"), it_id,
 				"<a href='#this' id='" + it_id + "' target='_self'>" + rootAct.title + "</a>",
 				true);
 			par_id = ITEM_PREFIX + rootAct.id;
@@ -1949,8 +1951,8 @@ function buildNavTree(rootAct,name,tree){
 				var id=rootAct.item[i].id;
 				if (mlaunch.mNavState.mChoice!=null) {
 					if (rootAct.item[i].isvisible==true && typeof(mlaunch.mNavState.mChoice[id])=="object") {
-						var it_id=(ITEM_PREFIX + rootAct.item[i].id);
-						il.NestedList.addNode('rte_tree', (""+par_id), it_id,
+						var it_id=(ITEM_PREFIX + rootAct.item[i].id).replace(/\./g,"_____");
+						il.NestedList.addNode('rte_tree', (""+par_id).replace(/\./g,"_____"), it_id,
 							"<a href='#this' id='" + it_id + "' target='_self'>" + rootAct.item[i].title + "</a>",
 							true);
 						var next_par_id = ITEM_PREFIX + rootAct.item[i].id;
@@ -3174,7 +3176,6 @@ function onItemDeliverDo(item, wasSuspendAll) // onDeliver called from sequencin
 					if (v.satisfiedByMeasure && v.minNormalizedMeasure!==undefined) 
 					{
 						v = v.minNormalizedMeasure;
-						if (typeof this.config.lesson_mastery_score != "undefined" && this.config.lesson_mastery_score!=null) v = this.config.lesson_mastery_score/100;
 					}
 					else if (v.satisfiedByMeasure) 
 					{
@@ -3249,7 +3250,7 @@ function onItemDeliverDo(item, wasSuspendAll) // onDeliver called from sequencin
 		item.parameters = "?"+ item.parameters;
 	} 
 	openedResource=[item.id, item.href+randNumber+item.parameters, this.config.package_url];
-	guiItemId = (ITEM_PREFIX + item.id);
+	guiItemId = (ITEM_PREFIX + item.id).replace(/\./g,"_____");
 	updateNav();
 	updateControls();
 	setResource();
@@ -3792,7 +3793,7 @@ function updateNav(ignore) {
 				// continue;
 			// }
 		// }
-		var elm = all(ITEM_PREFIX + tree[i].mActivityID);
+		var elm = all(ITEM_PREFIX + tree[i].mActivityID.replace(/\./g,"_____"));
 		// if (guiItem && ignore==true) {
 			// signActNode();
 			// continue;
@@ -4046,6 +4047,7 @@ var sharedData = new Array();
 var msequencer=new ADLSequencer();
 var mlaunch=null;
 var adlnavreq=null;
+var treeYUI=null;
 var logState=false;
 var treeState=true;
 

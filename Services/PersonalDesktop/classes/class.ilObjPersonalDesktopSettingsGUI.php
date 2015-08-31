@@ -174,7 +174,6 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 		$form->addItem($cb_prop);		
 		
 		// Enable active users block
-/*
 		$cb_prop = new ilCheckboxInputGUI($lng->txt("pd_enable_active_users"),
 			"block_activated_pdusers");
 		$cb_prop->setValue("1");
@@ -199,7 +198,7 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 			$cb_prop->addSubItem($ti_prop);
 			
 		$form->addItem($cb_prop);
-*/
+		
 		// Enable 'My Offers' (default personal items)
 		$cb_prop = new ilCheckboxInputGUI($lng->txt('pd_enable_my_offers'), 'enable_my_offers');
 		$cb_prop->setValue('1');
@@ -267,10 +266,10 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 
 		$ilSetting->set("block_activated_chatviewer", (int) ($_POST["block_activated_chatviewer"]));		
 		
-//		$ilSetting->set("block_activated_pdusers", $_POST["block_activated_pdusers"]);
+		$ilSetting->set("block_activated_pdusers", $_POST["block_activated_pdusers"]);
 		$pd_set->set("enable_block_moving", $_POST["enable_block_moving"]);
-//		$pd_set->set("user_activity_time", (int) $_POST["time_removal"]);
-//		$pd_set->set("osi_host", $_POST["osi_host"]);
+		$pd_set->set("user_activity_time", (int) $_POST["time_removal"]);
+		$pd_set->set("osi_host", $_POST["osi_host"]);
 		
 		// Validate personal desktop view
 		if(!(int)$_POST['enable_my_offers'] && !(int)$_POST['enable_my_memberships'])

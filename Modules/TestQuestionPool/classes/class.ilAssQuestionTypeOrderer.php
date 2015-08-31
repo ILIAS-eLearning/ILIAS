@@ -47,7 +47,6 @@ class ilAssQuestionTypeOrderer
 
 		'assTextQuestion',
 		'assFileUpload',
-		'assLongMenu',
 
 		'assFlashQuestion',
 		'assJavaApplet',
