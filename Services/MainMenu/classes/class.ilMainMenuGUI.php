@@ -282,7 +282,7 @@ ilMainMenuGUI
 			}
 			else
 			{
-				if($this->getMode() != self::MODE_TOPBAR_REDUCED)
+				if($this->getMode() != self::MODE_TOPBAR_REDUCED && !$ilUser->isAnonymous())
 				{
 					$notificationSettings = new ilSetting('notifications');
 					$chatSettings = new ilSetting('chatroom');
