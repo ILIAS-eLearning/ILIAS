@@ -94,6 +94,17 @@ abstract class ilParticipant
 	{
 		return (bool) $this->participants_status[$this->getUserId()]['blocked'];
 	}
+	
+	// cognos-blu-patch: begin
+	/**
+	 * Check if user is contact for current object
+	 * @return bool
+	 */
+	public function isContact()
+	{
+		return (bool) $this->participants_status[$this->getUserId()]['contact'];
+	}
+	
 
 	public function isAssigned()
 	{
@@ -227,6 +238,9 @@ abstract class ilParticipant
 	 		$this->participants_status[$this->getUserId()]['blocked'] = $row->blocked;
 	 		$this->participants_status[$this->getUserId()]['notification']  = $row->notification;
 	 		$this->participants_status[$this->getUserId()]['passed'] = $row->passed;
+			 // cognos-blu-patch: begin
+			$this->participants_status[$this->getUserId()]['contact'] = $row->contact;
+			// cognos-blu-patch: end
 	 	}
 	}
 	
@@ -375,6 +389,33 @@ abstract class ilParticipant
 
 		return true;
 	}
+	
+	// cognos-blu-patch: begin
+	/**
+	 * 
+	 * @global ilDB $ilDB
+	 * @param type $a_usr_id
+	 * @param type $a_contact
+	 * @return boolean
+	 */
+	public function updateContact($a_usr_id, $a_contact)
+	{
+		global $ilDB;
+		
+		$ilDB->replace(
+				'obj_members',
+				array(
+					'obj_id' => array('integer',$this->obj_id),
+					'usr_id' => array('integer',$a_usr_id)
+				),
+				array(
+					'contact'=> array('integer',$a_contact)
+				)
+		);
+		$this->participants_status[$a_usr_id]['contact'] = $a_contact;
+		return TRUE;
+	}
+	// cognos-blu-patch: end
 	
 	/**
 	 * Update notification status

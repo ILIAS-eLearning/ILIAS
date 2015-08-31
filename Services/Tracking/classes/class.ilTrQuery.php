@@ -88,12 +88,12 @@ class ilTrQuery
 		}
 	}
 
-	function getObjectivesStatusForUser($a_user_id, array $a_objective_ids)
+	function getObjectivesStatusForUser($a_user_id, $a_obj_id, array $a_objective_ids)
 	{
 		global $ilDB;
 						
 		include_once "Modules/Course/classes/Objectives/class.ilLOUserResults.php";								
-		$lo_lp_status = ilLOUserResults::getObjectiveStatusForLP($a_user_id, $a_objective_ids);
+		$lo_lp_status = ilLOUserResults::getObjectiveStatusForLP($a_user_id, $a_obj_id, $a_objective_ids);
 		
 		$query =  "SELECT crs_id, crs_objectives.objective_id AS obj_id, title,".$ilDB->quote("lobj", "text")." AS type".
 			" FROM crs_objectives".			
@@ -193,7 +193,8 @@ class ilTrQuery
 		
 		switch(ilObject::_lookupType($a_parent_obj_id))
 		{
-			case "lm":				
+			case "lm":	
+			case "mcst":	
 				include_once './Services/Object/classes/class.ilObjectLP.php';
 				$olp = ilObjectLP::getInstance($a_parent_obj_id);
 				$collection = $olp->getCollectionInstance();
@@ -1324,6 +1325,7 @@ class ilTrQuery
 				
 			case ilLPObjSettings::LP_MODE_COLLECTION_MANUAL:				
 			case ilLPObjSettings::LP_MODE_COLLECTION_TLT:
+			case ilLPObjSettings::LP_MODE_COLLECTION_MOBS:
 				include_once "Services/Tracking/classes/class.ilLPStatusFactory.php";
 				$status_coll_tlt = ilLPStatusFactory::_getInstance($a_parent_obj_id, $mode);
 				$subitems = $status_coll_tlt->_getStatusInfo($a_parent_obj_id);

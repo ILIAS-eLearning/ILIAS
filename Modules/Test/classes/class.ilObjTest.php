@@ -4213,7 +4213,7 @@ function getAnswerFeedbackPoints()
 	* @return array An array containing the test results for the given user
 	* @access public
 	*/
-	function &getTestResult($active_id, $pass = NULL, $ordered_sequence = FALSE)
+	function &getTestResult($active_id, $pass = NULL, $ordered_sequence = FALSE, $considerHiddenQuestions = true, $considerOptionalQuestions = true)
 	{
 		global $tree, $ilDB, $lng, $ilPluginAdmin;
 
@@ -4230,7 +4230,7 @@ function getAnswerFeedbackPoints()
 		
 		require_once 'Modules/Test/classes/class.ilTestSequenceFactory.php';
 		$testSequenceFactory = new ilTestSequenceFactory($ilDB, $lng, $ilPluginAdmin, $this);
-		$testSequence = $testSequenceFactory->getSequenceByPass($testSession, $pass);
+		$testSequence = $testSequenceFactory->getSequenceByActiveIdAndPass($active_id, $pass);
 		
 		if( $this->isDynamicTest() )
 		{
@@ -4245,6 +4245,9 @@ function getAnswerFeedbackPoints()
 		}
 		else
 		{
+			$testSequence->setConsiderHiddenQuestionsEnabled($considerHiddenQuestions);
+			$testSequence->setConsiderOptionalQuestionsEnabled($considerOptionalQuestions);
+
 			$testSequence->loadFromDb();
 			$testSequence->loadQuestions();
 			
@@ -5541,7 +5544,7 @@ function getAnswerFeedbackPoints()
 *
 * @param integer $question_type The question type of the question
 * @param integer $question_id The question id of the question, if available
-* @return object The question GUI instance
+* @return assQuestionGUI $questionGUI The question GUI instance
 * @access	public
 */
   function &createQuestionGUI($question_type, $question_id = -1)
@@ -5558,8 +5561,6 @@ function getAnswerFeedbackPoints()
 		
 		$question_type_gui = assQuestion::getGuiClassNameByQuestionType($question_type);
 		$question = new $question_type_gui();
-		
-		$question->object->setObligationsToBeConsidered( $this->areObligationsEnabled() );
 		
 		if ($question_id > 0)
 		{
@@ -8253,7 +8254,7 @@ function getAnswerFeedbackPoints()
 
 			require_once 'Modules/Test/classes/class.ilTestSequenceFactory.php';
 			$testSequenceFactory = new ilTestSequenceFactory($ilDB, $lng, $ilPluginAdmin, $this);
-			$testSequence = $testSequenceFactory->getSequence($testSession);
+			$testSequence = $testSequenceFactory->getSequenceByTestSession($testSession);
 
 			require_once 'Modules/Test/classes/class.ilObjTestDynamicQuestionSetConfig.php';
 			$dynamicQuestionSetConfig = new ilObjTestDynamicQuestionSetConfig($tree, $ilDB, $ilPluginAdmin, $this);
@@ -8414,9 +8415,9 @@ function getAnswerFeedbackPoints()
 		return $result;
 	}
 
-	function canShowTestResults($testSession, $user_id)
+	function canShowTestResults($testSession)
 	{
-		$active_id = $this->getActiveIdOfUser($user_id);
+		$active_id = $testSession->getActiveId();
 		if ($active_id > 0)
 		{
 			$starting_time = $this->getStartingTimeOfUser($active_id);
@@ -10355,7 +10356,7 @@ function getAnswerFeedbackPoints()
 	*/
 	function canShowCertificate($testSession, $user_id, $active_id)
 	{
-		if ($this->canShowTestResults($testSession, $user_id))
+		if ($this->canShowTestResults($testSession))
 		{
 			include_once "./Services/Certificate/classes/class.ilCertificate.php";
 			include_once "./Modules/Test/classes/class.ilTestCertificateAdapter.php";
@@ -11988,6 +11989,13 @@ function getAnswerFeedbackPoints()
 		$scoring = new ilTestScoring($this);
 		$scoring->setPreserveManualScores($preserve_manscoring);
 		$scoring->recalculateSolutions();
+
+		if ($this->getEnableArchiving())
+		{
+			require_once 'Modules/Test/classes/class.ilTestArchiveService.php';
+			$archiveService = new ilTestArchiveService($this);
+			$archiveService->archivePassesByActives($scoring->getRecalculatedPassesByActives());
+		}
 	}
 	
 	public static function getPoolQuestionChangeListeners(ilDB $db, $poolObjId)
@@ -12123,7 +12131,7 @@ function getAnswerFeedbackPoints()
 		$testSequenceFactory = new ilTestSequenceFactory($ilDB, $lng, $ilPluginAdmin, $testOBJ);
 
 		$testSession = $testSessionFactory->getSession($activeId);
-		$testSequence = $testSequenceFactory->getSequenceByPass($testSession, $testSession->getPass());
+		$testSequence = $testSequenceFactory->getSequenceByActiveIdAndPass($activeId, $testSession->getPass());
 		$testSequence->loadFromDb();
 
 		// begin-patch lok changed smeyer
@@ -12139,13 +12147,13 @@ function getAnswerFeedbackPoints()
 		// end-patch lok
 	}
 	
-	public static function isParticipantsLastPassActive($testObjId, $userId)
+	public static function isParticipantsLastPassActive($testRefId, $userId)
 	{
 		global $ilDB, $lng, $ilPluginAdmin;
 
 		/* @var ilObjTest $testOBJ */
 
-		$testOBJ = ilObjectFactory::getInstanceByRefId($testObjId,false);
+		$testOBJ = ilObjectFactory::getInstanceByRefId($testRefId,false);
 		
 		
 		$activeId = $testOBJ->getActiveIdOfUser($userId);
@@ -12159,7 +12167,7 @@ function getAnswerFeedbackPoints()
 		$testSequenceFactory = new ilTestSequenceFactory($ilDB, $lng, $ilPluginAdmin, $testOBJ);
 		
 		$testSession = $testSessionFactory->getSession($activeId);
-		$testSequence = $testSequenceFactory->getSequenceByPass($testSession, $testSession->getPass());
+		$testSequence = $testSequenceFactory->getSequenceByActiveIdAndPass($activeId, $testSession->getPass());
 		$testSequence->loadFromDb();
 		
 		return $testSequence->hasSequence();

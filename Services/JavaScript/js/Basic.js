@@ -150,7 +150,8 @@ il.Util = {
 	// FailureHandler
 	handleAjaxFailure: function(o)
 	{
-		console.log("ilNotes.js: Ajax Failure.");
+		console.log("il.Util.handleAjaxFailure: Ajax Error:");
+		console.log(o);
 	},
 	
 	// Screen reader related functions
@@ -272,6 +273,16 @@ il.Util = {
 				window.print();
 			}
 		}
+	},
+
+	// see http://stackoverflow.com/questions/1144783/replacing-all-occurrences-of-a-string-in-javascript
+	escapeRegExp: function (string) {
+		return string.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
+	},
+
+	// see http://stackoverflow.com/questions/1144783/replacing-all-occurrences-of-a-string-in-javascript
+	replaceAll: function (string, find, replace) {
+		return string.replace(new RegExp(il.Util.escapeRegExp(find), 'g'), replace);
 	}
 }
 
@@ -838,7 +849,28 @@ il.Rating = {
 			}
 		});		
 	}
-}
+};
+
+il.Language = {
+	lng: {},
+
+	setLangVar: function(key, value) {
+		il.Language.lng[key] = value;
+	},
+
+	txt: function(key) {
+		if (il.Language.lng[key]) {
+			var translation = il.Language.lng[key];
+			if (typeof arguments[1] != 'undefined') {
+				for(var i = 1; i < arguments.length; i++) {
+					translation = translation.replace(new RegExp('%s'), arguments[i]);
+				}
+			}
+			return translation;
+		}
+		return '-' + key + '-';
+	}
+};
 
 /* keep ios wepapp mode (do not open safari mobile if links are clicked) */
 /*if (("standalone" in window.navigator) && !window.navigator.standalone ){

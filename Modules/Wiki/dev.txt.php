@@ -1,6 +1,21 @@
 <?php exit; ?>
 
 ===================================
+Wiki User HTML Export
+===================================
+
+- On Button Click (Javascript): il.Wiki.Pres.startHTMLExport()
+  - Ajax call to (PHP): ilObjWikiGUI->initUserHTMLExport()
+    - On Ajax Success (Javascript):
+      - Ajax call to (PHP): ilObjWikiGUI->startUserHTMLExport()
+      - Call to il.Wiki.Pres.updateProgress
+        - Ajax call to (PHP): ilObjWikiGUI->getUserHTMLExportProgress()
+          - On Ajax Success:
+			- If finished window.location.href to ilObjWikiGUI->downloadUserHTMLExport()
+            - If not finished: Wait for a second and call to il.Wiki.Pres.updateProgress
+
+
+===================================
 New Wiki Links
 ===================================
 

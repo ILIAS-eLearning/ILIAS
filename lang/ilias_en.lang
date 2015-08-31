@@ -246,6 +246,17 @@ assessment#:#applet_new_parameter#:#New Parameter
 assessment#:#applet_parameter#:#Parameter
 assessment#:#applet_parameters#:#Applet Parameters
 assessment#:#apply#:#Apply
+assessment#:#tst_res_lo_objectives_header#:#Relevant Learning Objectives
+assessment#:#tst_res_lo_try_header#:#Attempt
+assessment#:#tst_res_lo_try_n#:#Attempt %s
+assessment#:#tst_pass_overview_header_lo_initial_all_objectives#:#Initial Test Results<br />for the Learning Objectives within the Course %s
+assessment#:#tst_pass_overview_header_lo_initial_per_objective#:#Initial Test Results<br />for the Learning Objectives %s within the Course %s
+assessment#:#tst_pass_overview_header_lo_qualifying_all_objectives#:#Qualifying Test Results<br />for the Learning Objectives within the Course %s
+assessment#:#tst_pass_overview_header_lo_qualifying_per_objective#:#Qualifying Test Results<br />for the Learning Objectives %s within the Course %s
+assessment#:#tst_pass_details_header_lo_initial#:#Initial Test Results for the Learning Objectives<br />%s - %s
+assessment#:#tst_virtual_pass_header_lo_initial#:#Initial Test Results for the Learning Objectives<br />%s
+assessment#:#tst_pass_details_header_lo_qualifying#:#Qualifying Test Results for the Learning Objectives<br />%s - %s
+assessment#:#tst_virtual_pass_header_lo_qualifying#:#Qualifying Test Results for the Learning Objectives<br />%s
 assessment#:#ass_create_export_file#:#Create Test Export File
 assessment#:#ass_create_export_test_results#:#Create Test Results Export File
 assessment#:#ass_create_export_test_archive#:#Create Test Archive File
@@ -704,6 +715,13 @@ assessment#:#tst_msg_rand_quest_set_no_src_pool_defs#:#A test with a random set 
 assessment#:#tst_msg_rand_quest_set_incomplete_quest_amount_cfg#:#A test with a random set of questions is not possible without a correctly defined amount of questions.
 assessment#:#tst_msg_rand_quest_set_no_pools_available#:#Currently you cannot add new rules for the question selection, because there are no question pools available.
 assessment#:#tst_msg_rand_quest_set_change_quest_amount_here#:#You can change the question amount here: %s
+assessment#:#tst_wf_info_optional_question#:#This question relates to an allready passed learning objective.
+assessment#:#tst_wf_info_answer_adopted_from_prev_pass#:#Your answer from a previous attempt was adopted.
+assessment#:#tst_wf_info_answer_not_adopted#:#There was no answer from previous attempts adopted, so you have to workthru this question, because otherwise your learning objective result will be degraded.
+assessment#:#tst_optional_questions_confirmation_fixed_test#:#<b>Question related to allready passed learning objectives were answered in previous passes.</b><br /><br />You want to navigate to a question, that relates to an allready passed learning objective.<br />You can choose:<br /><br />I you proceed, you can work on or simply review these questions. If you change your answers that were adopted from previous passes, you can also degrade your learning objective result.<br /><br />If you decide to not work on or review these questions, you can go back. The questions will be considered in the evaluation in every case.
+assessment#:#tst_optional_questions_confirmation_non_fixed_test#:#<b>Question related to allready passed learning objectives are optional.</b><br /><br />You want to navigate to a question, that relates to an allready passed learning objective.<br />You can choose:<br /><br />I you proceed, you can work on these questions. Your answers from previous attempts were not adopted, since new random questions were selected for this attempt. With working on this questions you can also degrade your learning objective result.<br /><br />If you decide to not work on these questions, you can go back. In this case these questions won't be considered in the evaluation.
+assessment#:#tst_tab_results_pass_oriented#:#Results by Attempts
+assessment#:#tst_tab_results_objective_oriented#:#Results by Learning Objectives
 assessment#:#tst_rnd_quest_set_cfg_pool_form#:#Rule for Selection of Questions
 assessment#:#tst_inp_source_pool_label#:#Question Pool
 assessment#:#tst_inp_source_pool_filter_tax#:#Taxonomy Filter
@@ -757,6 +775,8 @@ assessment#:#participants_invitation#:#Manually Selected Participants
 assessment#:#participants#:#Participants
 assessment#:#pass_finished#:#%s pass
 assessment#:#pass#:#Pass
+assessment#:#tst_attempt#:#Attempt
+assessment#:#tst_back_to_virtual_pass#:#Back to Questionoverview
 assessment#:#passed_official#:#passed
 assessment#:#passed_only#:#Passed Tests Only
 assessment#:#passed_short#:#passed
@@ -884,7 +904,7 @@ assessment#:#save_before_upload_javaapplet#:#You must apply your changes before 
 assessment#:#save_edit#:#Save and Edit Content
 assessment#:#save_finish#:#Finish the Test
 assessment#:#save_introduction#:#Go to Introductory Message
-assessment#:#save_back_to_objective_container#:#Go to Course
+assessment#:#back_to_objective_container#:#Go to Course
 assessment#:#save_next#:#Next
 assessment#:#save_previous#:#Previous
 assessment#:#save_text_answer_points#:#Save Essay Points
@@ -995,6 +1015,8 @@ assessment#:#tst_enter_questionpool#:#Please enter a question pool name where th
 assessment#:#tst_eval_no_anonymous_aggregation#:#No one has entered the test yet. There are no anonymous aggregated test results available.
 assessment#:#tst_eval_question_points#:#Question Results for Pass %s
 assessment#:#tst_eval_results_by_pass#:#List of Answers for Pass %s
+assessment#:#tst_eval_results_by_pass_lo#:#List of Answers for Attempt %s
+assessment#:#tst_eval_results_lo#:#List of Answers
 assessment#:#tst_eval_show_answer#:#Show Answer
 assessment#:#tst_eval_total_finished_average_time#:#Average test processing time
 assessment#:#tst_eval_total_finished#:#Total finished tests (Users that used up all possible passes.)
@@ -3421,7 +3443,7 @@ common#:#msg_cancel#:#Action cancelled
 common#:#msg_changes_ok#:#The changes were OK
 common#:#msg_clear_clipboard#:#Clipboard cleared
 common#:#msg_cloned#:#Selected object(s) copied
-common#:#msg_copy_clipboard_source#:#Now, please select the desired course, whose content should be copied and click the button ‘Next’.
+common#:#msg_copy_clipboard_source#:#Now, please select the desired course or group, whose content should be copied and click the button ‘Next’.
 common#:#msg_copy_clipboard#:#Now, please select the desired location, where the selected objects should be pasted into and click the button ‘Paste’.
 common#:#msg_copy_clipboard_container#:#Now, please select the desired location, where the selected objects should be pasted into and click the button ‘Continue’.
 common#:#msg_cut_clipboard#:#Now, please select the desired location, where the selected objects should be pasted into and click the button ‘Paste’.
@@ -7200,7 +7222,7 @@ mail#:#mail_enter_valid_login#:#Please enter a valid login name.
 mail#:#mail_entry_added#:#Added new Entry
 mail#:#mail_entry_changed#:#The entry is changed
 mail#:#mail_entry_exists#:#An entry with the given login name already exists.
-mail#:#mail_entry_of_addressbook#:#Entry of Contacts
+mail#:#mail_entry_of_contacts#:#Entry of Contacts
 mail#:#mail_external_sender_noreply#:#no-reply Address
 mail#:#mail_file_name#:#File Name
 mail#:#mail_file_size#:#File Size
@@ -7228,8 +7250,8 @@ mail#:#mail_into_addressbook#:#Add to Contacts
 mail#:#mail_invite_users_to_chat#:#Invite Users to Chat
 mail#:#mail_list_members#:#List members
 mail#:#mail_mailing_list#:#Mailing List
-mail#:#mail_mailing_lists_all_addressbook_entries_assigned#:#You have already assigned all of your contacts to this mailing list.
-mail#:#mail_mailing_lists_no_addressbook_entries#:#You have no entries in your contacts to add to a list.
+mail#:#mail_mailing_lists_all_contact_entries_assigned#:#You have already assigned all of your contacts to this mailing list.
+mail#:#mail_mailing_lists_no_contact_entries#:#You have no entries in your contacts to add to a list.
 mail#:#mail_mailing_lists#:#Mailing Lists
 mail#:#mail_mark_read#:#Mark mail read
 mail#:#mail_mark_unread#:#Mark mail unread
@@ -7243,7 +7265,7 @@ mail#:#mail_moved_to_trash#:#Mail has been moved to trash
 mail#:#mail_moved#:#The mail has been moved
 mail#:#mail_multiple_recipients_found#:#Enter a more specific mail address. ILIAS found multiple possible recipients for this address: %s
 mail#:#mail_my_courses#:#My Courses
-mail#:#mail_my_entries#:#My Contacts
+mail#:#mail_my_entries#:#My Address Book
 mail#:#mail_my_groups#:#My Groups
 mail#:#mail_my_mailing_lists#:#My Mailing Lists
 mail#:#mail_nacc_admin_mail#:#Mail address of Administrator
@@ -12212,7 +12234,6 @@ skmg#:#skmg_from_lower_to_higher_levels#:#Please order the levels from lower one
 common#:#spl_import#:#Import Question Pool Survey
 skmg#:#skmg_select_skill#:#Click on a competence to add it to your personal competences.
 survey#:#svy_create_question#:#Create Question
-common#:#contact_sysadmin#:#Contact Administration
 blog#:#blog_posting#:#Blog Posting
 blog#:#blog_change_notification_subject#:#Blog "%s" has been updated
 blog#:#blog_change_notification_salutation#:#Hello %s,
@@ -15611,3 +15632,222 @@ note#:#note_comment_notification_salutation#:#Hello %s,
 note#:#note_by#:#By
 note#:#note_comment_notification_link#:#Link
 note#:#note_comment_text#:#Text
+lng#:#lng_enable_language_detection#:#Enable Language Detection
+lng#:#lng_disable_language_detection#:#Disable Language Detection
+trac#:#trac_mode_downloaded#:#Downloaded
+trac#:#trac_mode_downloaded_info#:#The learning progress is determined by the download status of the file.
+trac#:#trac_mode_collection_mobs#:#Collection of Media Objects
+trac#:#trac_mode_collection_mobs_info#:#The learning progress status will be determined by the viewing status of selected media objects.
+trac#:#trac_lp_determination_info_mob#:#Select the items that determine the overall learning progress status of the Mediacast
+trac#:#trac_lp_settings_info_parent_container#:#Learning Progress of Parent Objects
+trac#:#trac_lp_settings_info_parent_usage#:#Determines Learning Progress
+trac#:#trac_lp_settings_info_parent_group#:#Other objects in grouping
+book#:#book_bobj#:#Booking Object
+crs#:#crs_subscription_min_members#:#Minimum Number
+crs#:#crs_subscription_min_members_info#:#See cron job "Cancellation Limit".
+crs#:#crs_waiting_list_no_autofill#:#Without Auto-Fill
+crs#:#crs_waiting_list_autofill#:#With Auto-Fill
+crs#:#crs_waiting_list_autofill_info#:#Participants are recruited from the waiting list automatically on cancellations.
+crs#:#crs_cancellation_end#:#Cancellation Limit
+crs#:#crs_period#:#Course Period
+crs#:#crs_course_period_not_valid#:#The course period is not valid.
+crs#:#crs_max_and_min_members_needed#:#Set a minimum or maximum number of members - or both.
+crs#:#crs_max_members_needed#:#A maximum number of members is needed for the waiting list feature.
+crs#:#crs_max_and_min_members_invalid#:#The minimum number must be smaller than the maximum number of members.
+common#:#mem_cron_min_members#:#Course/Group: Minimum Members Check
+common#:#mem_cron_min_members_info#:#The administrators will be notified if the minimum number is not met.
+crs#:#crs_cancellation_end_rbac_info#:#The cancellation deadline was met on %s, a cancellation is not possible anymore.
+common#:#mem_min_users#:#Minimum of Users
+grp#:#grp_wrong_min_max_members#:#Please check the minimum and maximum number of users.
+grp#:#reg_grp_min_members#:#Minimum Number of Members
+grp#:#grp_cancellation_end#:#Cancellation Limit
+grp#:#grp_cancellation_end_rbac_info#:#The cancellation deadline was met on %s, a cancellation is not possible anymore.
+sess#:#sess_reg_min_members#:#Minimum of Users
+sess#:#sess_reg_min_members_info#:#A minimum number of users has to register.
+common#:#mem_cron_min_members_subject#:#Course/Group: Minimum Members Check
+common#:#mem_cron_min_members_intro#:#The following courses and groups do not meet the minimum number of members (yet).
+grp#:#grp_waiting_list_no_autofill#:#Without Auto-Fill
+grp#:#grp_waiting_list_autofill#:#With Auto-Fill
+grp#:#grp_waiting_list_autofill_info#:#Participants are recruited from the waiting list automatically on cancellations.
+sess#:#sess_reg_waiting_list_none#:#None
+sess#:#sess_reg_waiting_list_no_autofill#:#Without Auto-Fill
+sess#:#sess_reg_waiting_list_no_autofill_info#:#If the maximum number of users is exceeded, new registrations will be placed on a waiting list.
+sess#:#sess_reg_waiting_list_autofill#:#With Auto-Fill
+sess#:#sess_reg_waiting_list_autofill_info#:#Participants are recruited from the waiting list automatically on cancellations.
+grp#:#grp_cancellation_end_info#:#From this date on particiants cannot unsubscribe anymore.
+crs#:#crs_cancellation_end_info#:#From this date on particiants cannot unsubscribe anymore.
+crs#:#crs_period_info#:#Start to end date of the course
+meta#:#md_adv_deleted_fields#:#The fields have been deleted.
+cntr#:#tab_back_to_repository#:#Back to Repository
+obj#:#obj_target_location#:#Target Location
+obj#:#obj_copy_progress#:#Copy Progress
+cntr#:#cntr_copy_repo_tree#:#Repository Tree
+cntr#:#cntr_copy_crs_grp#:#My Courses and Groups
+crs#:#crs_mail_context_tutor_title#:#Course Tutor 
+crs#:#crs_mail_context_member_title#:#Course Member
+sahs#:#sahs_mail_context_lp#:#SCORM Learning Progress
+mail#:#mail_templates#:#Text Templates
+mail#:#mail_new_template#:#New Text Template
+mail#:#mail_template_title#:#Name
+mail#:#mail_template_context#:#Context
+mail#:#mail_template_no_context_available#:#There is no context provided by any ILIAS service or module. Thus it is not possible to create or edit a text template.
+mail#:#mail_template_orphaned_context#:#Orphaned Context
+mail#:#mail_create_tpl#:#Create Text Templates
+mail#:#mail_edit_tpl#:#Edit Text Templates
+mail#:#mail_tpl_deleted_p#:#The text templates were successfully deleted.
+mail#:#mail_tpl_deleted_s#:#The text template was successfully deleted.
+mail#:#mail_template_missing_id#:#Can't execute the action because the text template id is missing.
+mail#:#mail_template_no_valid_context#:#The given context is not valid.
+mail#:#mail_template_client#:#Text Template
+mail#:#mail_template_client_info#:#Choose one of the available text templates and make use of it's placeholders. If you choose a text template, body and subject of this form (if defined in the text template) will be replaced.
+itgr#:#itgr_hide_title#:#Hide Title
+itgr#:#itgr_hide_title_info#:#Hides title of item group in presentation for learner.
+content#:#cont_all_languages#:#All Languages
+mob#:#mob_upload_multi_srt#:#Upload as ZIP
+mob#:#mob_upload_multi_srt_howto#:#The .zip file should contain no subdirectory, all .srt files should be located on the top level. The file names should end with "_&lt;lang code&gt;.srt" where lang code is e.g. "en", "it", "de".
+mob#:#mob_file_could_not_be_uploaded#:#File could not be uploaded.
+mob#:#mob_multi_srt_files#:#SRT Files
+content#:#cont_subtitle_files#:#Media Subtitles
+content#:#cont_upload_multi_srt_howto#:#This feature allows you to upload multiple subtitle (srt) files in a zip file for all media objects of the learning module. Your .zip file should contain all .srt files on the top level (no subdirectories). The file names should end with "_&lt;lang code&gt;.srt" where lang code is e.g. "en", "it", "de". The rest of the filename should correspond to the name of the video file, e.g. "my_video.mp4" -> "my_video_en.srt".
+content#:#cont_moved_srt_files#:#Moved subtitles files to media objects.
+content#:#cont_subtitle_file#:#SRT ZIP File
+content#:#cont_multi_srt_files#:#SRT Files
+content#:#cont_master_language_only#:#Master Language for Translation
+content#:#cont_import#:#Import
+content#:#cont_trans_import_info#:#If you exported this module as XML/Master Language for Translation to another installation, you can now re-import translated export files from this second installation here.
+content#:#cont_import_trans#:#Import Translation
+content#:#cont_import_lang#:#Target Language
+mep#:#mep_master_language_only#:#Master Language for Translation
+mep#:#mep_trans_import_info#:#If you exported this module as XML/Master Language for Translation to another installation, you can now re-import translated export files from this second installation here.
+mep#:#mep_import_trans#:#Import Translation
+mep#:#mep_import_lang#:#Target Language
+content#:#cont_snippet_from_another_installation#:#Snippet comes from another installation.
+rbac#:#edit_wiki_navigation#:#Edit Navigation
+rbac#:#delete_wiki_pages#:#Delete Pages
+rbac#:#activate_wiki_protection#:#Set Read-Only
+obj#:#obj_permission_settings#:#Permission Settings
+rbac#:#rbac_permissions#:#Permissions
+rbac#:#wiki_html_export#:#Export HTML
+wiki#:#wiki_html_export#:#HTML exportieren
+rbac#:#wiki_edit_wiki_navigation#:#Edit Wiki Navigation
+rbac#:#wiki_delete_wiki_pages#:#Delete Wiki Pages
+rbac#:#wiki_activate_wiki_protection#:#Set Wiki Pages to Read-Only
+rbac#:#wiki_wiki_html_export#:#Export Wiki as HTML
+crs#:#crs_loc_settings_it_type#:#Einstiegstest
+crs#:#crs_loc_settings_type_it_placement_all#:#Diagnostischer Einstiegstest über alle Lernziele
+crs#:#crs_loc_settings_it_start_object#:#Einstiegstest ist Startobjekt
+crs#:#crs_loc_settings_type_it_placement_sel#:#Diagnostischer Einstiegstest pro Lernziel
+crs#:#crs_loc_settings_type_it_qualifying_all#:#Qualifizierender Einstiegstest über alle Lernziele
+crs#:#crs_loc_settings_type_it_qualifying_sel#:#Qualifizierender Einstiegstest pro Lernziel
+crs#:#crs_loc_settings_type_it_none#:#Kein Einstiegstest
+crs#:#crs_loc_settings_qt_all#:#Abschlusstest
+crs#:#crs_loc_settings_type_q_all#:#Abschlusstest über alle Lernziele
+crs#:#crs_loc_settings_qt_start_object#:#Abschlusstest ist Startobjekt
+crs#:#crs_loc_settings_type_q_selected#:#Abschlusstest pro Lernziel
+crs#:#crs_loc_settings_err_qstart#:#Die Option "Abschlusstest als Startobjekt" wurde deaktiviert, da sie nur für Kurse ohne Einstiegstest verwendet werden kann.		
+crs#:#crs_loc_tab_qtests#:#Abschlusstests
+crs#:#crs_loc_tab_itests#:#Einstiegstests
+crs#:#crs_loc_btn_new_assignment#:#Neue Testzuordnung
+crs#:#crs_objective_tbl_col_final_tsts#:#Abschlusstests
+crs#:#crs_objective_action_qtest_sep#:#Abschlusstest zuordnen
+crs#:#crs_loc_settings_tbl_its_q_all#:#Qualifizierender Einstiegstest über alle Lernziele
+crs#:#crs_loc_settings_tbl_its_nq_all#:#Diagnostischer Einstiegstest über alle Lernziele
+crs#:#crs_loc_settings_tbl_it_q#:#Qualifizierende Einstiegstests pro Lernziel
+crs#:#crs_loc_settings_tbl_it_nq#:#Diagnostische Einstiegstests pro Lernziel
+crs#:#crs_loc_settings_tbl_qts_all#:#Abschlusstest über alle Lernziele
+crs#:#crs_loc_settings_tbl_qt#:#Abschlusstests pro Lernziel
+crs#:#crs_loc_objective_passed_confirmation#:#Sie haben das Lernziel bereits bestanden. Ein erneutes Starten des Tests setzt die Ergebnisse zurück. Wollen Sie den Test erneut starten?
+crs#:#crs_loc_objectives_passed_confirmation#:#Sie haben bereits alle Lernziel bestanden. Ein erneutes Starten des Tests setzt die Ergebnisse zurück. Wollen Sie den Test erneut starten?
+crs#:#crs_loc_tst_start#:#Test starten
+crs#:#crs_loc_mem_show_res#:#Testergebnisse anzeigen
+crs#:#crs_loc_test_results_of#:#Testergebnisse von:
+buddysystem#:#buddy_bs_btn_txt_unlinked_a#:#Request Contact
+buddysystem#:#buddy_bs_btn_txt_unlinked_p#:#Request Contact
+buddysystem#:#buddy_bs_btn_txt_linked_a#:#Linked
+buddysystem#:#buddy_bs_btn_txt_linked_p#:#Linked
+buddysystem#:#buddy_bs_btn_txt_requested_a#:#Requested Contact
+buddysystem#:#buddy_bs_btn_txt_requested_p#:#Request
+buddysystem#:#buddy_bs_btn_txt_ignored_request_a#:#Requested Contact
+buddysystem#:#buddy_bs_btn_txt_ignored_request_p#:#Request Ignored
+buddysystem#:#buddy_bs_act_btn_txt_linked_to_unlinked#:#Unlink
+buddysystem#:#buddy_bs_act_btn_txt_requested_to_ignored_request#:#Ignore
+buddysystem#:#buddy_bs_act_btn_txt_requested_to_unlinked#:#Cancel Request
+buddysystem#:#buddy_bs_act_btn_txt_requested_to_linked#:#Confirm
+buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_unlinked#:#Cancel Request
+buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_linked#:#Confirm Request
+buddysystem#:#buddy_bs_action_not_possible#:#Action not possible
+buddysystem#:#buddy_bs_state_linked#:#Linked
+buddysystem#:#buddy_bs_state_linked_a#:#Linked
+buddysystem#:#buddy_bs_state_linked_p#:#Linked
+buddysystem#:#buddy_bs_state_unlinked#:#Unlinked
+buddysystem#:#buddy_bs_state_unlinked_a#:#Unlinked
+buddysystem#:#buddy_bs_state_unlinked_p#:#Unlinked
+buddysystem#:#buddy_bs_state_requested#:#Requested
+buddysystem#:#buddy_bs_state_requested_a#:#Requested
+buddysystem#:#buddy_bs_state_requested_p#:#Requested
+buddysystem#:#buddy_bs_state_ignoredrequest#:#Ignored
+buddysystem#:#buddy_bs_state_ignored_request_a#:#Requested
+buddysystem#:#buddy_bs_state_ignored_request_p#:#Ignored
+buddysystem#:#buddy_bs_no_new_requests#:#No new requests
+contact#:#contact_awrn_ap_contacts#:#Approved Contacts
+contact#:#contact_awrn_ap_contacts_info#:#All contacts approved by the user are listed.
+contact#:#contact_awrn_req_contacts#:#Contact Requests
+contact#:#contact_awrn_req_contacts_info#:#All contact requests are listed.
+common#:#my_contacts#:#My Contact
+buddysystem#:#buddy_view_gallery#:#Gallery
+buddysystem#:#buddy_view_table#:#List
+buddysystem#:#buddy_tbl_title_relations#:#Relations to Other Users
+buddysystem#:#buddy_tbl_filter_state#:#Status
+buddysystem#:#buddy_notification_contact_request#:#Contact Request
+buddysystem#:#buddy_notification_contact_request_short#:#The user "[REQUESTING_USER]" wants to add you to his friends list.[BR][BR][APPROVE_REQUEST][BR][IGNORE_REQUEST]
+buddysystem#:#buddy_notification_contact_request_link#:#Approve Request:
+buddysystem#:#buddy_notification_contact_request_link_osd#:#Approve Request
+buddysystem#:#buddy_notification_contact_request_ignore#:#Ignore Request: 
+buddysystem#:#buddy_notification_contact_request_ignore_osd#:#Ignore Request
+buddysystem#:#buddy_notification_contact_request_long#:#[SALUTATION][BR][BR]the user "[REQUESTING_USER]" wants to add you to his friends list.[BR][BR][APPROVE_REQUEST_TXT] [APPROVE_REQUEST][BR][IGNORE_REQUEST_TXT] [IGNORE_REQUEST]
+buddysystem#:#buddy_request_approved#:#You successfully approved the contact.
+buddysystem#:#buddy_request_ignored#:#You ignored the user.
+common#:#no_gallery_users_available#:#There are currently no users in the gallery.
+crs#:#crs_mem_contact#:#Support Contact
+awrn#:#awareness_now_online#:#Online Now
+awrn#:#awareness_now_online_users#:#[ONLINE_USER_NAMES]
+common#:#obj_awra_desc#:#Manage ‘Who is online?’-Tool
+common#:#obj_awra#:#‘Who is online?’-Tool
+awrn#:#awareness_settings#:#Settings
+awrn#:#awrn_enable#:#Enable ‘Who is online?’-Tool
+crs#:#crs_mem_contacts#:#Support Contacts
+user#:#user_awrn_all_users#:#All Users
+user#:#user_awrn_all_users_info#:#All users of the platform are listed.
+crs#:#crs_awrn_support_contacts#:#Tutorial Support
+crs#:#crs_awrn_support_contacts_info#:#All tutorial support contacts of courses with membership of the current user are listed. Users are defined as tutorial support contacts in the Members tab of the respective course.
+awrn#:#awrn_inactive#:#Not Listed
+awrn#:#awrn_online_only#:#Online Only
+awrn#:#awrn_incl_offline#:#Online and Offline
+adm#:#adm_support_contacts#:#Technical Support
+adm#:#adm_awrn_support_contacts_info#:#All technical support contacts are listed. Users are defined as technical support contacts in the section "General Settings" > "Contact Information".
+adm#:#adm_support_contacts_info#:#Support contacts used in the footer link and (if activated) in the ‘Who is online?’-Tool. Comma separated list of account logins.
+mmbr#:#mmbr_awrn_my_groups_courses#:#My Groups and Courses
+mmbr#:#mmbr_awrn_my_groups_courses_info#:#All members of groups or courses of the current user are listed.
+crs#:#crs_awrn_current_course#:#Current Course
+crs#:#crs_awrn_current_course_info#:#If the user navigates to a course in the repository, all members of the course are listed.
+awrn#:#awrn_caching_period#:#Caching Period
+awrn#:#awrn_caching_period_info#:#Time that is waited before the number of users in the top bar is updated and new online users are determined.
+awrn#:#awrn_seconds#:#sec
+awrn#:#awrn_max_nr_entries#:#Max. Number of Items
+awrn#:#awrn_max_nr_entries_info#:#Maximum number of items in the ‘Who is online?’ list.
+awrn#:#awrn_hide_from_awareness#:#Hide Me From ‘Who is online?’-Tool
+awrn#:#awrn_hide_from_awareness_info#:#The ‘Who is online?’-Tool is in the top bar and listing selected users (e.g. contacts or members of your courses).
+common#:#contact_sysadmin#:#Contact Technical Support
+ldap#:#ldap_servers#:#LDAP Server
+ldap#:#add_ldap_server#:#Add Server
+ldap#:#ldap_username_filter#:#Username Filter
+ldap#:#ldap_username_filter_info#:#Use * as wildcard.
+search#:#search_filter_cd#:#Filter by Creation Date
+search#:#search_filter_date#:#Search by Date
+search#:#search_filter_duration#:#Search by Duration
+search#:#search_created_before#:#Objects created before...
+search#:#search_created_after#:#Objects created after
+search#:#search_created_on#:#Objects create on...
+search#:#search_newer_than#:#Objects newer than
+search#:#search_cdate_filter#:#Filter by Creation Date
+search#:#search_cdate_filter_info#:#If enabled, the object search can be filtered by an optional creation date filter.

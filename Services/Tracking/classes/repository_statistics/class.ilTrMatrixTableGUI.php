@@ -21,13 +21,14 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 	protected $in_group; // int
 	protected $privacy_fields; // array
 	protected $privacy_cols = array(); // array
+	protected $has_multi; // bool
 
 	/**
 	 * Constructor
 	 */
 	function __construct($a_parent_obj, $a_parent_cmd, $ref_id)
 	{
-		global $ilCtrl, $lng, $tree;
+		global $ilCtrl, $lng, $tree, $ilUser, $rbacsystem;
 
 		$this->setId("trsmtx_".$ref_id);
 		$this->ref_id = $ref_id;
@@ -62,6 +63,16 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 		$this->setDefaultOrderDirection("asc");
 		$this->setShowTemplates(true);
 
+		// see ilObjCourseGUI::addMailToMemberButton()
+		include_once "Services/Mail/classes/class.ilMail.php";
+		$mail = new ilMail($ilUser->getId());
+		if($rbacsystem->checkAccess("internal_mail", $mail->getMailObjectReferenceId()))		
+		{							
+			$this->addMultiCommand("mailselectedusers", $this->lng->txt("send_mail"));
+			$this->addColumn("", "", 1);
+			$this->has_multi = true;
+		}		
+		
 		$this->addColumn($this->lng->txt("login"), "login");
 
 		$labels = $this->getSelectableColumns();
@@ -380,6 +391,11 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 	{
 		global $lng;
 				
+		if($this->has_multi)
+		{
+			$this->tpl->setVariable("USER_ID", $a_set["usr_id"]);
+		}
+		
 		foreach ($this->getSelectedColumns() as $c)
 		{
 			switch($c)

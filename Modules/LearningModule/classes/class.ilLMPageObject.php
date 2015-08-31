@@ -81,9 +81,13 @@ class ilLMPageObject extends ilLMObject
 		$this->page_object = new ilLMPage($this->id, 0);
 	}
 
-	function create($a_upload = false)
+	function create($a_upload = false, $a_omit_page_object_creation = false)
 	{
 		parent::create($a_upload);
+		if ($a_omit_page_object_creation)
+		{
+			return;
+		}
 		if(!is_object($this->page_object))
 		{
 			$this->page_object = new ilLMPage();

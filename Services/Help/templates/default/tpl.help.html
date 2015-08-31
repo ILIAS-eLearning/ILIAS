@@ -1,6 +1,16 @@
 <div class="ilSideBarBack"><a href="#" class="btn btn-link" id="ilHelpClose" onclick="return il.Help.closePanel(event);">{CLOSE_IMG}</a>
 <div class="ilSideBarHead"><h3>{HEAD}</h3></div>
 <div class="ilSideBarContent">
+<!-- BEGIN search -->
+<form id="il_help_search_form" style="margin-bottom: 10px;">
+	<div class="input-group">
+		<input type="text" value="{VAL_SEARCH}" class="form-control" name="il_help_search_term" id="il_help_search_term" />
+		<span class="input-group-btn">
+			<button id="il_help_search_btn" class="btn btn-default" type="submit">{GL_SEARCH}</button>
+		</span>
+	</div>
+</form>
+<!-- END search -->
 <!-- BEGIN backlink --><p id="ilHelpBack"><a class="backtab" href="#" onclick="{ONCLICK_BACK}">{TXT_BACK}</a></p><!-- END backlink -->
 <div id="ilHelpText">{CONTENT}</div>
 </div>

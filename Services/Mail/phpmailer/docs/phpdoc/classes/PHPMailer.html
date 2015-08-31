@@ -1,0 +1,2441 @@
+<!DOCTYPE html><html xmlns:date="http://exslt.org/dates-and-times" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+<meta charset="utf-8">
+<title>PHPMailer » \PHPMailer</title>
+<meta name="author" content="Mike van Riel">
+<meta name="description" content="">
+<link href="../css/template.css" rel="stylesheet" media="all">
+<script src="../js/jquery-1.7.1.min.js" type="text/javascript"></script><script src="../js/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script><script src="../js/jquery.mousewheel.min.js" type="text/javascript"></script><script src="../js/bootstrap.js" type="text/javascript"></script><script src="../js/template.js" type="text/javascript"></script><script src="../js/prettify/prettify.min.js" type="text/javascript"></script><link rel="shortcut icon" href="../img/favicon.ico">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="72x72" href="../img/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="114x114" href="../img/apple-touch-icon-114x114.png">
+</head>
+<body>
+<div class="navbar navbar-fixed-top">
+<div class="navbar-inner"><div class="container">
+<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a><a class="brand" href="../index.html">PHPMailer</a><div class="nav-collapse"><ul class="nav">
+<li class="dropdown">
+<a href="#api" class="dropdown-toggle" data-toggle="dropdown">
+                                    API Documentation <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a>Packages</a></li>
+<li><a href="../packages/PHPMailer.html"><i class="icon-folder-open"></i> PHPMailer</a></li>
+</ul>
+</li>
+<li class="dropdown" id="charts-menu">
+<a href="#charts" class="dropdown-toggle" data-toggle="dropdown">
+                                    Charts <b class="caret"></b></a><ul class="dropdown-menu"><li><a href="../graph_class.html"><i class="icon-list-alt"></i> Class hierarchy diagram</a></li></ul>
+</li>
+<li class="dropdown" id="reports-menu">
+<a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
+                                    Reports <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
+                <span class="label label-info">22</span></a></li>
+<li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
+                <ul><li>todo 
+                <span class="label label-info">2</span>
+</li></ul></a></li>
+<li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
+                <span class="label label-info">4</span></a></li>
+</ul>
+</li>
+</ul></div>
+</div></div>
+<div class="go_to_top"><a href="#___" style="color: inherit">Back to top  <i class="icon-upload icon-white"></i></a></div>
+</div>
+<div id="___" class="container">
+<noscript><div class="alert alert-warning">
+                            Javascript is disabled; several features are only available
+                            if Javascript is enabled.
+                        </div></noscript>
+<div class="row">
+<div class="span4">
+<span class="btn-group visibility" data-toggle="buttons-checkbox"><button class="btn public active" title="Show public elements">Public</button><button class="btn protected" title="Show protected elements">Protected</button><button class="btn private" title="Show private elements">Private</button><button class="btn inherited active" title="Show inherited elements">Inherited</button></span><div class="btn-group view pull-right" data-toggle="buttons-radio">
+<button class="btn details" title="Show descriptions and method names"><i class="icon-list"></i></button><button class="btn simple" title="Show only method names"><i class="icon-align-justify"></i></button>
+</div>
+<ul class="side-nav nav nav-list">
+<li class="nav-header">
+<i class="icon-custom icon-method"></i> Methods</li>
+<li class="method public "><a href="#AddAddress" title='AddAddress :: Adds a "To" address.'><span class="description">Adds a "To" address.</span><pre>AddAddress()</pre></a></li>
+<li class="method public "><a href="#AddAttachment" title="AddAttachment :: Adds an attachment from a path on the filesystem."><span class="description">Adds an attachment from a path on the filesystem.</span><pre>AddAttachment()</pre></a></li>
+<li class="method public "><a href="#AddBCC" title='AddBCC :: Adds a "Bcc" address.'><span class="description">Adds a "Bcc" address.</span><pre>AddBCC()</pre></a></li>
+<li class="method public "><a href="#AddCC" title='AddCC :: Adds a "Cc" address.'><span class="description">Adds a "Cc" address.</span><pre>AddCC()</pre></a></li>
+<li class="method public "><a href="#AddCustomHeader" title="AddCustomHeader :: Adds a custom header."><span class="description">Adds a custom header.</span><pre>AddCustomHeader()</pre></a></li>
+<li class="method public "><a href="#AddEmbeddedImage" title="AddEmbeddedImage :: Adds an embedded attachment."><span class="description">Adds an embedded attachment.</span><pre>AddEmbeddedImage()</pre></a></li>
+<li class="method public "><a href="#AddReplyTo" title='AddReplyTo :: Adds a "Reply-to" address.'><span class="description">Adds a "Reply-to" address.</span><pre>AddReplyTo()</pre></a></li>
+<li class="method public "><a href="#AddStringAttachment" title="AddStringAttachment :: Adds a string or binary attachment (non-filesystem) to the list."><span class="description">Adds a string or binary attachment (non-filesystem) to the list.</span><pre>AddStringAttachment()</pre></a></li>
+<li class="method public "><a href="#AddStringEmbeddedImage" title="AddStringEmbeddedImage :: Adds an embedded stringified attachment."><span class="description">Adds an embedded stringified attachment.</span><pre>AddStringEmbeddedImage()</pre></a></li>
+<li class="method public "><a href="#AddrAppend" title="AddrAppend :: Creates recipient headers."><span class="description">Creates recipient headers.</span><pre>AddrAppend()</pre></a></li>
+<li class="method public "><a href="#AddrFormat" title="AddrFormat :: Formats an address correctly."><span class="description">Formats an address correctly.</span><pre>AddrFormat()</pre></a></li>
+<li class="method public "><a href="#AlternativeExists" title="AlternativeExists :: Does this message have an alternative body set?"><span class="description">Does this message have an alternative body set?</span><pre>AlternativeExists()</pre></a></li>
+<li class="method public "><a href="#AttachmentExists" title="AttachmentExists :: Returns true if an attachment (non-inline) is present."><span class="description">Returns true if an attachment (non-inline) is present.</span><pre>AttachmentExists()</pre></a></li>
+<li class="method public "><a href="#Base64EncodeWrapMB" title="Base64EncodeWrapMB :: Correctly encodes and wraps long multibyte strings for mail headers
+without breaking lines within a character."><span class="description">Correctly encodes and wraps long multibyte strings for mail headers
+without breaking lines within a character.</span><pre>Base64EncodeWrapMB()</pre></a></li>
+<li class="method public "><a href="#ClearAddresses" title="ClearAddresses :: Clears all recipients assigned in the TO array."><span class="description">Clears all recipients assigned in the TO array.</span><pre>ClearAddresses()</pre></a></li>
+<li class="method public "><a href="#ClearAllRecipients" title="ClearAllRecipients :: Clears all recipients assigned in the TO, CC and BCC
+array."><span class="description">Clears all recipients assigned in the TO, CC and BCC
+array.</span><pre>ClearAllRecipients()</pre></a></li>
+<li class="method public "><a href="#ClearAttachments" title="ClearAttachments :: Clears all previously set filesystem, string, and binary
+attachments."><span class="description">Clears all previously set filesystem, string, and binary
+attachments.</span><pre>ClearAttachments()</pre></a></li>
+<li class="method public "><a href="#ClearBCCs" title="ClearBCCs :: Clears all recipients assigned in the BCC array."><span class="description">Clears all recipients assigned in the BCC array.</span><pre>ClearBCCs()</pre></a></li>
+<li class="method public "><a href="#ClearCCs" title="ClearCCs :: Clears all recipients assigned in the CC array."><span class="description">Clears all recipients assigned in the CC array.</span><pre>ClearCCs()</pre></a></li>
+<li class="method public "><a href="#ClearCustomHeaders" title="ClearCustomHeaders :: Clears all custom headers."><span class="description">Clears all custom headers.</span><pre>ClearCustomHeaders()</pre></a></li>
+<li class="method public "><a href="#ClearReplyTos" title="ClearReplyTos :: Clears all recipients assigned in the ReplyTo array."><span class="description">Clears all recipients assigned in the ReplyTo array.</span><pre>ClearReplyTos()</pre></a></li>
+<li class="method public "><a href="#CreateBody" title="CreateBody :: Assembles the message body."><span class="description">Assembles the message body.</span><pre>CreateBody()</pre></a></li>
+<li class="method public "><a href="#CreateHeader" title="CreateHeader :: Assembles message header."><span class="description">Assembles message header.</span><pre>CreateHeader()</pre></a></li>
+<li class="method public "><a href="#DKIM_Add" title="DKIM_Add :: Create the DKIM header, body, as new header"><span class="description">Create the DKIM header, body, as new header</span><pre>DKIM_Add()</pre></a></li>
+<li class="method public "><a href="#DKIM_BodyC" title="DKIM_BodyC :: Generate DKIM Canonicalization Body"><span class="description">Generate DKIM Canonicalization Body</span><pre>DKIM_BodyC()</pre></a></li>
+<li class="method public "><a href="#DKIM_HeaderC" title="DKIM_HeaderC :: Generate DKIM Canonicalization Header"><span class="description">Generate DKIM Canonicalization Header</span><pre>DKIM_HeaderC()</pre></a></li>
+<li class="method public "><a href="#DKIM_QP" title="DKIM_QP :: Set the private key file and password to sign the message."><span class="description">Set the private key file and password to sign the message.</span><pre>DKIM_QP()</pre></a></li>
+<li class="method public "><a href="#DKIM_Sign" title="DKIM_Sign :: Generate DKIM signature"><span class="description">Generate DKIM signature</span><pre>DKIM_Sign()</pre></a></li>
+<li class="method public "><a href="#EncodeHeader" title="EncodeHeader :: Encode a header string to best (shortest) of Q, B, quoted or none."><span class="description">Encode a header string to best (shortest) of Q, B, quoted or none.</span><pre>EncodeHeader()</pre></a></li>
+<li class="method public "><a href="#EncodeQ" title="EncodeQ :: Encode string to q encoding."><span class="description">Encode string to q encoding.</span><pre>EncodeQ()</pre></a></li>
+<li class="method public "><a href="#EncodeQP" title="EncodeQP :: Encode string to RFC2045 (6.7) quoted-printable format
+Uses a PHP5 stream filter to do the encoding about 64x faster than the old version
+Also results in same content as you started with after decoding"><span class="description">Encode string to RFC2045 (6.7) quoted-printable format
+Uses a PHP5 stream filter to do the encoding about 64x faster than the old version
+Also results in same content as you started with after decoding</span><pre>EncodeQP()</pre></a></li>
+<li class="method public "><a href="#EncodeString" title="EncodeString :: Encodes string to requested format."><span class="description">Encodes string to requested format.</span><pre>EncodeString()</pre></a></li>
+<li class="method public "><a href="#FixEOL" title="FixEOL :: Changes every end of line from CRLF, CR or LF to $this-&gt;LE."><span class="description">Changes every end of line from CRLF, CR or LF to $this-&gt;LE.</span><pre>FixEOL()</pre></a></li>
+<li class="method public "><a href="#GetAttachments" title="GetAttachments :: Return the current array of attachments"><span class="description">Return the current array of attachments</span><pre>GetAttachments()</pre></a></li>
+<li class="method public "><a href="#GetMailMIME" title="GetMailMIME :: Returns the message MIME."><span class="description">Returns the message MIME.</span><pre>GetMailMIME()</pre></a></li>
+<li class="method public "><a href="#GetSentMIMEMessage" title="GetSentMIMEMessage :: Returns the MIME message (headers and body)."><span class="description">Returns the MIME message (headers and body).</span><pre>GetSentMIMEMessage()</pre></a></li>
+<li class="method public "><a href="#GetTranslations" title="GetTranslations :: Return the current array of language strings"><span class="description">Return the current array of language strings</span><pre>GetTranslations()</pre></a></li>
+<li class="method public "><a href="#HasMultiBytes" title="HasMultiBytes :: Checks if a string contains multibyte characters."><span class="description">Checks if a string contains multibyte characters.</span><pre>HasMultiBytes()</pre></a></li>
+<li class="method public "><a href="#HeaderLine" title="HeaderLine :: Returns a formatted header line."><span class="description">Returns a formatted header line.</span><pre>HeaderLine()</pre></a></li>
+<li class="method public "><a href="#InlineImageExists" title="InlineImageExists :: Returns true if an inline attachment is present."><span class="description">Returns true if an inline attachment is present.</span><pre>InlineImageExists()</pre></a></li>
+<li class="method public "><a href="#IsError" title="IsError :: Returns true if an error occurred."><span class="description">Returns true if an error occurred.</span><pre>IsError()</pre></a></li>
+<li class="method public "><a href="#IsHTML" title="IsHTML :: Sets message type to HTML."><span class="description">Sets message type to HTML.</span><pre>IsHTML()</pre></a></li>
+<li class="method public "><a href="#IsMail" title="IsMail :: Sets Mailer to send message using PHP mail() function."><span class="description">Sets Mailer to send message using PHP mail() function.</span><pre>IsMail()</pre></a></li>
+<li class="method public "><a href="#IsQmail" title="IsQmail :: Sets Mailer to send message using the qmail MTA."><span class="description">Sets Mailer to send message using the qmail MTA.</span><pre>IsQmail()</pre></a></li>
+<li class="method public "><a href="#IsSMTP" title="IsSMTP :: Sets Mailer to send message using SMTP."><span class="description">Sets Mailer to send message using SMTP.</span><pre>IsSMTP()</pre></a></li>
+<li class="method public "><a href="#IsSendmail" title="IsSendmail :: Sets Mailer to send message using the $Sendmail program."><span class="description">Sets Mailer to send message using the $Sendmail program.</span><pre>IsSendmail()</pre></a></li>
+<li class="method public "><a href="#MsgHTML" title="MsgHTML :: Evaluates the message and returns modifications for inline images and backgrounds"><span class="description">Evaluates the message and returns modifications for inline images and backgrounds</span><pre>MsgHTML()</pre></a></li>
+<li class="method public "><a href="#PostSend" title="PostSend :: Actual Email transport function
+Send the email via the selected mechanism"><span class="description">Actual Email transport function
+Send the email via the selected mechanism</span><pre>PostSend()</pre></a></li>
+<li class="method public "><a href="#PreSend" title="PreSend :: Prep mail by constructing all message entities"><span class="description">Prep mail by constructing all message entities</span><pre>PreSend()</pre></a></li>
+<li class="method public "><a href="#RFCDate" title="RFCDate :: Returns the proper RFC 822 formatted date."><span class="description">Returns the proper RFC 822 formatted date.</span><pre>RFCDate()</pre></a></li>
+<li class="method public "><a href="#SecureHeader" title="SecureHeader :: Strips newlines to prevent header injection."><span class="description">Strips newlines to prevent header injection.</span><pre>SecureHeader()</pre></a></li>
+<li class="method public "><a href="#Send" title="Send :: Creates message and assigns Mailer."><span class="description">Creates message and assigns Mailer.</span><pre>Send()</pre></a></li>
+<li class="method public "><a href="#SetFrom" title="SetFrom :: Set the From and FromName properties"><span class="description">Set the From and FromName properties</span><pre>SetFrom()</pre></a></li>
+<li class="method public "><a href="#SetLanguage" title="SetLanguage :: Sets the language for all class error messages."><span class="description">Sets the language for all class error messages.</span><pre>SetLanguage()</pre></a></li>
+<li class="method public "><a href="#SetWordWrap" title="SetWordWrap :: Set the body wrapping."><span class="description">Set the body wrapping.</span><pre>SetWordWrap()</pre></a></li>
+<li class="method public "><a href="#Sign" title="Sign :: Set the private key file and password to sign the message."><span class="description">Set the private key file and password to sign the message.</span><pre>Sign()</pre></a></li>
+<li class="method public "><a href="#SmtpClose" title="SmtpClose :: Closes the active SMTP session if one exists."><span class="description">Closes the active SMTP session if one exists.</span><pre>SmtpClose()</pre></a></li>
+<li class="method public "><a href="#SmtpConnect" title="SmtpConnect :: Initiates a connection to an SMTP server."><span class="description">Initiates a connection to an SMTP server.</span><pre>SmtpConnect()</pre></a></li>
+<li class="method public "><a href="#TextLine" title="TextLine :: Returns a formatted mail line."><span class="description">Returns a formatted mail line.</span><pre>TextLine()</pre></a></li>
+<li class="method public "><a href="#UTF8CharBoundary" title="UTF8CharBoundary :: Finds last character boundary prior to maxLength in a utf-8
+quoted (printable) encoded string."><span class="description">Finds last character boundary prior to maxLength in a utf-8
+quoted (printable) encoded string.</span><pre>UTF8CharBoundary()</pre></a></li>
+<li class="method public "><a href="#ValidateAddress" title="ValidateAddress :: Check that a string looks roughly like an email address should
+Static so it can be used without instantiation, public so people can overload
+Conforms to RFC5322: Uses *correct* regex on which FILTER_VALIDATE_EMAIL is
+based; So why not use FILTER_VALIDATE_EMAIL? Because it was broken to
+not allow a@b type valid addresses :("><span class="description">Check that a string looks roughly like an email address should
+Static so it can be used without instantiation, public so people can overload
+Conforms to RFC5322: Uses *correct* regex on which FILTER_VALIDATE_EMAIL is
+based; So why not use FILTER_VALIDATE_EMAIL? Because it was broken to
+not allow a@b type valid addresses :(</span><pre>ValidateAddress()</pre></a></li>
+<li class="method public "><a href="#WrapText" title="WrapText :: Wraps message for use with mailers that do not
+automatically perform wrapping and for quoted-printable."><span class="description">Wraps message for use with mailers that do not
+automatically perform wrapping and for quoted-printable.</span><pre>WrapText()</pre></a></li>
+<li class="method public "><a href="#__construct" title="__construct :: Constructor"><span class="description">Constructor</span><pre>__construct()</pre></a></li>
+<li class="method public "><a href="#_mime_types" title="_mime_types :: Gets the MIME type of the embedded or inline image"><span class="description">Gets the MIME type of the embedded or inline image</span><pre>_mime_types()</pre></a></li>
+<li class="method public "><a href="#set" title="set :: Set (or reset) Class Objects (variables)"><span class="description">Set (or reset) Class Objects (variables)</span><pre>set()</pre></a></li>
+<li class="nav-header protected">» Protected</li>
+<li class="method protected "><a href="#AddAnAddress" title="AddAnAddress :: Adds an address to one of the recipient arrays
+Addresses that have been added already return false, but do not throw exceptions"><span class="description">Adds an address to one of the recipient arrays
+Addresses that have been added already return false, but do not throw exceptions</span><pre>AddAnAddress()</pre></a></li>
+<li class="method protected "><a href="#AttachAll" title="AttachAll :: Attaches all fs, string, and binary attachments to the message."><span class="description">Attaches all fs, string, and binary attachments to the message.</span><pre>AttachAll()</pre></a></li>
+<li class="method protected "><a href="#EncodeFile" title="EncodeFile :: Encodes attachment in requested format."><span class="description">Encodes attachment in requested format.</span><pre>EncodeFile()</pre></a></li>
+<li class="method protected "><a href="#EndBoundary" title="EndBoundary :: Returns the end of a message boundary."><span class="description">Returns the end of a message boundary.</span><pre>EndBoundary()</pre></a></li>
+<li class="method protected "><a href="#GetBoundary" title="GetBoundary :: Returns the start of a message boundary."><span class="description">Returns the start of a message boundary.</span><pre>GetBoundary()</pre></a></li>
+<li class="method protected "><a href="#Lang" title="Lang :: Returns a message in the appropriate language."><span class="description">Returns a message in the appropriate language.</span><pre>Lang()</pre></a></li>
+<li class="method protected "><a href="#MailSend" title="MailSend :: Sends mail using the PHP mail() function."><span class="description">Sends mail using the PHP mail() function.</span><pre>MailSend()</pre></a></li>
+<li class="method protected "><a href="#SendmailSend" title="SendmailSend :: Sends mail using the $Sendmail program."><span class="description">Sends mail using the $Sendmail program.</span><pre>SendmailSend()</pre></a></li>
+<li class="method protected "><a href="#ServerHostname" title="ServerHostname :: Returns the server hostname or 'localhost.localdomain' if unknown."><span class="description">Returns the server hostname or 'localhost.localdomain' if unknown.</span><pre>ServerHostname()</pre></a></li>
+<li class="method protected "><a href="#SetError" title="SetError :: Adds the error message to the error container."><span class="description">Adds the error message to the error container.</span><pre>SetError()</pre></a></li>
+<li class="method protected "><a href="#SetMessageType" title="SetMessageType :: Sets the message type."><span class="description">Sets the message type.</span><pre>SetMessageType()</pre></a></li>
+<li class="method protected "><a href="#SmtpSend" title="SmtpSend :: Sends mail via SMTP using PhpSMTP
+Returns false if there is a bad MAIL FROM, RCPT, or DATA input."><span class="description">Sends mail via SMTP using PhpSMTP
+Returns false if there is a bad MAIL FROM, RCPT, or DATA input.</span><pre>SmtpSend()</pre></a></li>
+<li class="method protected "><a href="#doCallback" title="doCallback :: Perform callback"><span class="description">Perform callback</span><pre>doCallback()</pre></a></li>
+<li class="nav-header private">» Private</li>
+<li class="method private "><a href="#edebug" title="edebug :: Outputs debugging info via user-defined method"><span class="description">Outputs debugging info via user-defined method</span><pre>edebug()</pre></a></li>
+<li class="method private "><a href="#mail_passthru" title="mail_passthru :: Calls actual mail() function, but in a safe_mode aware fashion
+Also, unless sendmail_path points to sendmail (or something that
+claims to be sendmail), don't pass params (not a perfect fix,
+but it will do)"><span class="description">Calls actual mail() function, but in a safe_mode aware fashion
+Also, unless sendmail_path points to sendmail (or something that
+claims to be sendmail), don't pass params (not a perfect fix,
+but it will do)</span><pre>mail_passthru()</pre></a></li>
+<li class="nav-header">
+<i class="icon-custom icon-property"></i> Properties</li>
+<li class="property public "><a href="#%24AltBody" title="$AltBody :: Sets the text-only body of the message."><span class="description">Sets the text-only body of the message.</span><pre>$AltBody</pre></a></li>
+<li class="property public "><a href="#%24AuthType" title="$AuthType :: Sets SMTP auth type."><span class="description">Sets SMTP auth type.</span><pre>$AuthType</pre></a></li>
+<li class="property public "><a href="#%24Body" title="$Body :: Sets the Body of the message."><span class="description">Sets the Body of the message.</span><pre>$Body</pre></a></li>
+<li class="property public "><a href="#%24CharSet" title="$CharSet :: Sets the CharSet of the message."><span class="description">Sets the CharSet of the message.</span><pre>$CharSet</pre></a></li>
+<li class="property public "><a href="#%24ConfirmReadingTo" title="$ConfirmReadingTo :: Sets the email address that a reading confirmation will be sent."><span class="description">Sets the email address that a reading confirmation will be sent.</span><pre>$ConfirmReadingTo</pre></a></li>
+<li class="property public "><a href="#%24ContentType" title="$ContentType :: Sets the Content-type of the message."><span class="description">Sets the Content-type of the message.</span><pre>$ContentType</pre></a></li>
+<li class="property public "><a href="#%24DKIM_domain" title="$DKIM_domain :: Used with DKIM Singing
+required if DKIM is enabled, in format of email address 'domain.com'"><span class="description">Used with DKIM Singing
+required if DKIM is enabled, in format of email address 'domain.com'</span><pre>$DKIM_domain</pre></a></li>
+<li class="property public "><a href="#%24DKIM_identity" title="$DKIM_identity :: Used with DKIM Signing
+required if DKIM is enabled, in format of email address 'you@yourdomain.com' typically used as the source of the email"><span class="description">Used with DKIM Signing
+required if DKIM is enabled, in format of email address 'you@yourdomain.com' typically used as the source of the email</span><pre>$DKIM_identity</pre></a></li>
+<li class="property public "><a href="#%24DKIM_passphrase" title="$DKIM_passphrase :: Used with DKIM Signing
+optional parameter if your private key requires a passphras"><span class="description">Used with DKIM Signing
+optional parameter if your private key requires a passphras</span><pre>$DKIM_passphrase</pre></a></li>
+<li class="property public "><a href="#%24DKIM_private" title="$DKIM_private :: Used with DKIM Signing
+required if DKIM is enabled, path to private key file"><span class="description">Used with DKIM Signing
+required if DKIM is enabled, path to private key file</span><pre>$DKIM_private</pre></a></li>
+<li class="property public "><a href="#%24DKIM_selector" title="$DKIM_selector :: Used with DKIM Signing
+required parameter if DKIM is enabled"><span class="description">Used with DKIM Signing
+required parameter if DKIM is enabled</span><pre>$DKIM_selector</pre></a></li>
+<li class="property public "><a href="#%24Debugoutput" title="$Debugoutput :: Sets the function/method to use for debugging output."><span class="description">Sets the function/method to use for debugging output.</span><pre>$Debugoutput</pre></a></li>
+<li class="property public "><a href="#%24Encoding" title="$Encoding :: Sets the Encoding of the message."><span class="description">Sets the Encoding of the message.</span><pre>$Encoding</pre></a></li>
+<li class="property public "><a href="#%24ErrorInfo" title="$ErrorInfo :: Holds the most recent mailer error message."><span class="description">Holds the most recent mailer error message.</span><pre>$ErrorInfo</pre></a></li>
+<li class="property public "><a href="#%24From" title="$From :: Sets the From email address for the message."><span class="description">Sets the From email address for the message.</span><pre>$From</pre></a></li>
+<li class="property public "><a href="#%24FromName" title="$FromName :: Sets the From name of the message."><span class="description">Sets the From name of the message.</span><pre>$FromName</pre></a></li>
+<li class="property public "><a href="#%24Helo" title="$Helo :: Sets the SMTP HELO of the message (Default is $Hostname)."><span class="description">Sets the SMTP HELO of the message (Default is $Hostname).</span><pre>$Helo</pre></a></li>
+<li class="property public "><a href="#%24Host" title="$Host :: Sets the SMTP hosts."><span class="description">Sets the SMTP hosts.</span><pre>$Host</pre></a></li>
+<li class="property public "><a href="#%24Hostname" title="$Hostname :: Sets the hostname to use in Message-Id and Received headers
+and as default HELO string."><span class="description">Sets the hostname to use in Message-Id and Received headers
+and as default HELO string.</span><pre>$Hostname</pre></a></li>
+<li class="property public "><a href="#%24LE" title="$LE :: Provides the ability to change the generic line ending
+NOTE: The default remains '\n'."><span class="description">Provides the ability to change the generic line ending
+NOTE: The default remains '\n'.</span><pre>$LE</pre></a></li>
+<li class="property public "><a href="#%24Mailer" title='$Mailer :: Method to send mail: ("mail", "sendmail", or "smtp").'><span class="description">Method to send mail: ("mail", "sendmail", or "smtp").</span><pre>$Mailer</pre></a></li>
+<li class="property public "><a href="#%24MessageDate" title="$MessageDate :: Sets the message Date to be used in the Date header."><span class="description">Sets the message Date to be used in the Date header.</span><pre>$MessageDate</pre></a></li>
+<li class="property public "><a href="#%24MessageID" title="$MessageID :: Sets the message ID to be used in the Message-Id header."><span class="description">Sets the message ID to be used in the Message-Id header.</span><pre>$MessageID</pre></a></li>
+<li class="property public "><a href="#%24Password" title="$Password :: Sets SMTP password."><span class="description">Sets SMTP password.</span><pre>$Password</pre></a></li>
+<li class="property public "><a href="#%24PluginDir" title="$PluginDir :: Path to PHPMailer plugins."><span class="description">Path to PHPMailer plugins.</span><pre>$PluginDir</pre></a></li>
+<li class="property public "><a href="#%24Port" title="$Port :: Sets the default SMTP server port."><span class="description">Sets the default SMTP server port.</span><pre>$Port</pre></a></li>
+<li class="property public "><a href="#%24Priority" title="$Priority :: Email priority (1 = High, 3 = Normal, 5 = low)."><span class="description">Email priority (1 = High, 3 = Normal, 5 = low).</span><pre>$Priority</pre></a></li>
+<li class="property public "><a href="#%24Realm" title="$Realm :: Sets SMTP realm."><span class="description">Sets SMTP realm.</span><pre>$Realm</pre></a></li>
+<li class="property public "><a href="#%24ReturnPath" title="$ReturnPath :: Sets the Return-Path of the message."><span class="description">Sets the Return-Path of the message.</span><pre>$ReturnPath</pre></a></li>
+<li class="property public "><a href="#%24SMTPAuth" title="$SMTPAuth :: Sets SMTP authentication."><span class="description">Sets SMTP authentication.</span><pre>$SMTPAuth</pre></a></li>
+<li class="property public "><a href="#%24SMTPDebug" title="$SMTPDebug :: Sets SMTP class debugging on or off."><span class="description">Sets SMTP class debugging on or off.</span><pre>$SMTPDebug</pre></a></li>
+<li class="property public "><a href="#%24SMTPKeepAlive" title="$SMTPKeepAlive :: Prevents the SMTP connection from being closed after each mail
+sending."><span class="description">Prevents the SMTP connection from being closed after each mail
+sending.</span><pre>$SMTPKeepAlive</pre></a></li>
+<li class="property public "><a href="#%24SMTPSecure" title="$SMTPSecure :: Sets connection prefix."><span class="description">Sets connection prefix.</span><pre>$SMTPSecure</pre></a></li>
+<li class="property public "><a href="#%24Sender" title="$Sender :: Sets the Sender email (Return-Path) of the message."><span class="description">Sets the Sender email (Return-Path) of the message.</span><pre>$Sender</pre></a></li>
+<li class="property public "><a href="#%24Sendmail" title="$Sendmail :: Sets the path of the sendmail program."><span class="description">Sets the path of the sendmail program.</span><pre>$Sendmail</pre></a></li>
+<li class="property public "><a href="#%24SingleTo" title="$SingleTo :: Provides the ability to have the TO field process individual
+emails, instead of sending to entire TO addresses"><span class="description">Provides the ability to have the TO field process individual
+emails, instead of sending to entire TO addresses</span><pre>$SingleTo</pre></a></li>
+<li class="property public "><a href="#%24SingleToArray" title="$SingleToArray :: If SingleTo is true, this provides the array to hold the email addresses"><span class="description">If SingleTo is true, this provides the array to hold the email addresses</span><pre>$SingleToArray</pre></a></li>
+<li class="property public "><a href="#%24Subject" title="$Subject :: Sets the Subject of the message."><span class="description">Sets the Subject of the message.</span><pre>$Subject</pre></a></li>
+<li class="property public "><a href="#%24Timeout" title="$Timeout :: Sets the SMTP server timeout in seconds."><span class="description">Sets the SMTP server timeout in seconds.</span><pre>$Timeout</pre></a></li>
+<li class="property public "><a href="#%24UseSendmailOptions" title="$UseSendmailOptions :: Determine if mail() uses a fully sendmail compatible MTA that
+supports sendmail's &quot;-oi -f&quot; options"><span class="description">Determine if mail() uses a fully sendmail compatible MTA that
+supports sendmail's "-oi -f" options</span><pre>$UseSendmailOptions</pre></a></li>
+<li class="property public "><a href="#%24Username" title="$Username :: Sets SMTP username."><span class="description">Sets SMTP username.</span><pre>$Username</pre></a></li>
+<li class="property public "><a href="#%24Version" title="$Version :: Sets the PHPMailer Version number"><span class="description">Sets the PHPMailer Version number</span><pre>$Version</pre></a></li>
+<li class="property public "><a href="#%24WordWrap" title="$WordWrap :: Sets word wrapping on the body of the message to a given number of
+characters."><span class="description">Sets word wrapping on the body of the message to a given number of
+characters.</span><pre>$WordWrap</pre></a></li>
+<li class="property public "><a href="#%24Workstation" title="$Workstation :: Sets SMTP workstation."><span class="description">Sets SMTP workstation.</span><pre>$Workstation</pre></a></li>
+<li class="property public "><a href="#%24XMailer" title="$XMailer :: What to use in the X-Mailer header"><span class="description">What to use in the X-Mailer header</span><pre>$XMailer</pre></a></li>
+<li class="property public "><a href="#%24action_function" title="$action_function :: Callback Action function name."><span class="description">Callback Action function name.</span><pre>$action_function</pre></a></li>
+<li class="nav-header protected">» Protected</li>
+<li class="property protected "><a href="#%24CustomHeader" title="$CustomHeader :: "><span class="description">&lt;p&gt;An array of custom headers&lt;/p&gt;</span><pre>$CustomHeader</pre></a></li>
+<li class="property protected "><a href="#%24MIMEBody" title="$MIMEBody :: Stores the complete compiled MIME message body."><span class="description">Stores the complete compiled MIME message body.</span><pre>$MIMEBody</pre></a></li>
+<li class="property protected "><a href="#%24MIMEHeader" title="$MIMEHeader :: Stores the complete compiled MIME message headers."><span class="description">Stores the complete compiled MIME message headers.</span><pre>$MIMEHeader</pre></a></li>
+<li class="property protected "><a href="#%24ReplyTo" title="$ReplyTo :: "><span class="description">&lt;p&gt;An array of reply-to name and address&lt;/p&gt;
+</span><pre>$ReplyTo</pre></a></li>
+<li class="property protected "><a href="#%24all_recipients" title="$all_recipients :: "><span class="description">&lt;p&gt;An array of all kinds of addresses: to, cc, bcc, replyto&lt;/p&gt;</span><pre>$all_recipients</pre></a></li>
+<li class="property protected "><a href="#%24attachment" title="$attachment :: "><span class="description">&lt;p&gt;An array of attachments&lt;/p&gt;</span><pre>$attachment</pre></a></li>
+<li class="property protected "><a href="#%24bcc" title="$bcc :: "><span class="description">&lt;p&gt;An array of 'bcc' addresses&lt;/p&gt;
+</span><pre>$bcc</pre></a></li>
+<li class="property protected "><a href="#%24boundary" title="$boundary :: "><span class="description">&lt;p&gt;An array of MIME boundary strings&lt;/p&gt;</span><pre>$boundary</pre></a></li>
+<li class="property protected "><a href="#%24cc" title="$cc :: "><span class="description">&lt;p&gt;An array of 'cc' addresses&lt;/p&gt;
+</span><pre>$cc</pre></a></li>
+<li class="property protected "><a href="#%24error_count" title="$error_count :: "><span class="description">&lt;p&gt;The number of errors encountered&lt;/p&gt;</span><pre>$error_count</pre></a></li>
+<li class="property protected "><a href="#%24exceptions" title="$exceptions :: "><span class="description">&lt;p&gt;Whether to throw exceptions for errors&lt;/p&gt;</span><pre>$exceptions</pre></a></li>
+<li class="property protected "><a href="#%24language" title="$language :: "><span class="description">&lt;p&gt;An array of available languages&lt;/p&gt;</span><pre>$language</pre></a></li>
+<li class="property protected "><a href="#%24mailHeader" title="$mailHeader :: Stores the extra header list which CreateHeader() doesn't fold in"><span class="description">Stores the extra header list which CreateHeader() doesn't fold in</span><pre>$mailHeader</pre></a></li>
+<li class="property protected "><a href="#%24message_type" title="$message_type :: "><span class="description">&lt;p&gt;The message's MIME type&lt;/p&gt;
+</span><pre>$message_type</pre></a></li>
+<li class="property protected "><a href="#%24sign_cert_file" title="$sign_cert_file :: "><span class="description">&lt;p&gt;The filename of a DKIM certificate file&lt;/p&gt;</span><pre>$sign_cert_file</pre></a></li>
+<li class="property protected "><a href="#%24sign_key_file" title="$sign_key_file :: "><span class="description">&lt;p&gt;The filename of a DKIM key file&lt;/p&gt;</span><pre>$sign_key_file</pre></a></li>
+<li class="property protected "><a href="#%24sign_key_pass" title="$sign_key_pass :: "><span class="description">&lt;p&gt;The password of a DKIM key&lt;/p&gt;</span><pre>$sign_key_pass</pre></a></li>
+<li class="property protected "><a href="#%24smtp" title="$smtp :: "><span class="description">&lt;p&gt;An instance of the SMTP sender class&lt;/p&gt;</span><pre>$smtp</pre></a></li>
+<li class="property protected "><a href="#%24to" title="$to :: "><span class="description">&lt;p&gt;An array of 'to' addresses&lt;/p&gt;
+</span><pre>$to</pre></a></li>
+<li class="nav-header">
+<i class="icon-custom icon-constant"></i> Constants</li>
+<li class="constant  "><a href="#CRLF" title="CRLF :: "><span class="description">CRLF</span><pre>CRLF</pre></a></li>
+<li class="constant  "><a href="#STOP_CONTINUE" title="STOP_CONTINUE :: "><span class="description">STOP_CONTINUE</span><pre>STOP_CONTINUE</pre></a></li>
+<li class="constant  "><a href="#STOP_CRITICAL" title="STOP_CRITICAL :: "><span class="description">STOP_CRITICAL</span><pre>STOP_CRITICAL</pre></a></li>
+<li class="constant  "><a href="#STOP_MESSAGE" title="STOP_MESSAGE :: "><span class="description">STOP_MESSAGE</span><pre>STOP_MESSAGE</pre></a></li>
+</ul>
+</div>
+<div class="span8">
+<a name="%5CPHPMailer" id="\PHPMailer"></a><ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/global.html">global</a></li>
+<li class="active">
+<span class="divider">\</span><a href="../classes/PHPMailer.html">PHPMailer</a>
+</li>
+</ul>
+<div href="../classes/PHPMailer.html" class="element class">
+<p class="short_description">PHP email creation and transport class</p>
+<div class="details">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>package</th>
+<td><a href="../packages/PHPMailer.html">PHPMailer</a></td>
+</tr></table>
+<h3>
+<i class="icon-custom icon-method"></i> Methods</h3>
+<a name="AddAddress" id="AddAddress"></a><div class="element clickable method public AddAddress" data-toggle="collapse" data-target=".AddAddress .collapse">
+<h2>Adds a "To" address.</h2>
+<pre>AddAddress(string $address, string $name) : boolean</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$address</h4>
+<code>string</code>
+</div>
+<div class="subelement argument">
+<h4>$name</h4>
+<code>string</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>boolean</code>true on success, false if address already used</div>
+</div></div>
+</div>
+<a name="AddAttachment" id="AddAttachment"></a><div class="element clickable method public AddAttachment" data-toggle="collapse" data-target=".AddAttachment .collapse">
+<h2>Adds an attachment from a path on the filesystem.</h2>
+<pre>AddAttachment(string $path, string $name, string $encoding, string $type) : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"><p>Returns false if the file could not be found
+or accessed.</p></p>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$path</h4>
+<code>string</code><p>Path to the attachment.</p></div>
+<div class="subelement argument">
+<h4>$name</h4>
+<code>string</code><p>Overrides the attachment name.</p></div>
+<div class="subelement argument">
+<h4>$encoding</h4>
+<code>string</code><p>File encoding (see $Encoding).</p>
+</div>
+<div class="subelement argument">
+<h4>$type</h4>
+<code>string</code><p>File extension (MIME) type.</p>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/phpmailerException.html">\phpmailerException</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response"><code>bool</code></div>
+</div></div>
+</div>
+<a name="AddBCC" id="AddBCC"></a><div class="element clickable method public AddBCC" data-toggle="collapse" data-target=".AddBCC .collapse">
+<h2>Adds a "Bcc" address.</h2>
+<pre>AddBCC(string $address, string $name) : boolean</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"><p>Note: this function works with the SMTP mailer on win32, not with the "mail" mailer.</p></p>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$address</h4>
+<code>string</code>
+</div>
+<div class="subelement argument">
+<h4>$name</h4>
+<code>string</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>boolean</code>true on success, false if address already used</div>
+</div></div>
+</div>
+<a name="AddCC" id="AddCC"></a><div class="element clickable method public AddCC" data-toggle="collapse" data-target=".AddCC .collapse">
+<h2>Adds a "Cc" address.</h2>
+<pre>AddCC(string $address, string $name) : boolean</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"><p>Note: this function works with the SMTP mailer on win32, not with the "mail" mailer.</p></p>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$address</h4>
+<code>string</code>
+</div>
+<div class="subelement argument">
+<h4>$name</h4>
+<code>string</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>boolean</code>true on success, false if address already used</div>
+</div></div>
+</div>
+<a name="AddCustomHeader" id="AddCustomHeader"></a><div class="element clickable method public AddCustomHeader" data-toggle="collapse" data-target=".AddCustomHeader .collapse">
+<h2>Adds a custom header.</h2>
+<pre>AddCustomHeader(string $name, string $value) : void</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"><p>$name value can be overloaded to contain
+both header name and value (name:value)</p></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>public</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$name</h4>
+<code>string</code><p>custom header name</p></div>
+<div class="subelement argument">
+<h4>$value</h4>
+<code>string</code><p>header value</p></div>
+</div></div>
+</div>
+<a name="AddEmbeddedImage" id="AddEmbeddedImage"></a><div class="element clickable method public AddEmbeddedImage" data-toggle="collapse" data-target=".AddEmbeddedImage .collapse">
+<h2>Adds an embedded attachment.</h2>
+<pre>AddEmbeddedImage(string $path, string $cid, string $name, string $encoding, string $type) : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"><p>This can include images, sounds, and
+just about any other document.  Make sure to set the $type to an
+image type.  For JPEG images use "image/jpeg" and for GIF images
+use "image/gif".</p></p>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$path</h4>
+<code>string</code><p>Path to the attachment.</p></div>
+<div class="subelement argument">
+<h4>$cid</h4>
+<code>string</code><p>Content ID of the attachment. Use this to identify the Id for accessing the image in an HTML form.</p></div>
+<div class="subelement argument">
+<h4>$name</h4>
+<code>string</code><p>Overrides the attachment name.</p></div>
+<div class="subelement argument">
+<h4>$encoding</h4>
+<code>string</code><p>File encoding (see $Encoding).</p>
+</div>
+<div class="subelement argument">
+<h4>$type</h4>
+<code>string</code><p>File extension (MIME) type.</p>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>bool</code></div>
+</div></div>
+</div>
+<a name="AddReplyTo" id="AddReplyTo"></a><div class="element clickable method public AddReplyTo" data-toggle="collapse" data-target=".AddReplyTo .collapse">
+<h2>Adds a "Reply-to" address.</h2>
+<pre>AddReplyTo(string $address, string $name) : boolean</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$address</h4>
+<code>string</code>
+</div>
+<div class="subelement argument">
+<h4>$name</h4>
+<code>string</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>boolean</code></div>
+</div></div>
+</div>
+<a name="AddStringAttachment" id="AddStringAttachment"></a><div class="element clickable method public AddStringAttachment" data-toggle="collapse" data-target=".AddStringAttachment .collapse">
+<h2>Adds a string or binary attachment (non-filesystem) to the list.</h2>
+<pre>AddStringAttachment(string $string, string $filename, string $encoding, string $type) : void</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"><p>This method can be used to attach ascii or binary data,
+such as a BLOB record from a database.</p></p>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$string</h4>
+<code>string</code><p>String attachment data.</p></div>
+<div class="subelement argument">
+<h4>$filename</h4>
+<code>string</code><p>Name of the attachment.</p></div>
+<div class="subelement argument">
+<h4>$encoding</h4>
+<code>string</code><p>File encoding (see $Encoding).</p>
+</div>
+<div class="subelement argument">
+<h4>$type</h4>
+<code>string</code><p>File extension (MIME) type.</p>
+</div>
+</div></div>
+</div>
+<a name="AddStringEmbeddedImage" id="AddStringEmbeddedImage"></a><div class="element clickable method public AddStringEmbeddedImage" data-toggle="collapse" data-target=".AddStringEmbeddedImage .collapse">
+<h2>Adds an embedded stringified attachment.</h2>
+<pre>AddStringEmbeddedImage(string $string, string $cid, string $name, string $encoding, string $type) : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"><p>This can include images, sounds, and
+just about any other document.  Make sure to set the $type to an
+image type.  For JPEG images use "image/jpeg" and for GIF images
+use "image/gif".</p></p>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$string</h4>
+<code>string</code><p>The attachment.</p></div>
+<div class="subelement argument">
+<h4>$cid</h4>
+<code>string</code><p>Content ID of the attachment. Use this to identify the Id for accessing the image in an HTML form.</p></div>
+<div class="subelement argument">
+<h4>$name</h4>
+<code>string</code><p>Overrides the attachment name.</p></div>
+<div class="subelement argument">
+<h4>$encoding</h4>
+<code>string</code><p>File encoding (see $Encoding).</p>
+</div>
+<div class="subelement argument">
+<h4>$type</h4>
+<code>string</code><p>File extension (MIME) type.</p>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>bool</code></div>
+</div></div>
+</div>
+<a name="AddrAppend" id="AddrAppend"></a><div class="element clickable method public AddrAppend" data-toggle="collapse" data-target=".AddrAppend .collapse">
+<h2>Creates recipient headers.</h2>
+<pre>AddrAppend(string $type, array $addr) : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>public</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$type</h4>
+<code>string</code>
+</div>
+<div class="subelement argument">
+<h4>$addr</h4>
+<code>array</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a name="AddrFormat" id="AddrFormat"></a><div class="element clickable method public AddrFormat" data-toggle="collapse" data-target=".AddrFormat .collapse">
+<h2>Formats an address correctly.</h2>
+<pre>AddrFormat(string $addr) : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>public</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$addr</h4>
+<code>string</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a name="AlternativeExists" id="AlternativeExists"></a><div class="element clickable method public AlternativeExists" data-toggle="collapse" data-target=".AlternativeExists .collapse">
+<h2>Does this message have an alternative body set?</h2>
+<pre>AlternativeExists() : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<h3>Returns</h3>
+<div class="subelement response"><code>bool</code></div>
+</div></div>
+</div>
+<a name="AttachmentExists" id="AttachmentExists"></a><div class="element clickable method public AttachmentExists" data-toggle="collapse" data-target=".AttachmentExists .collapse">
+<h2>Returns true if an attachment (non-inline) is present.</h2>
+<pre>AttachmentExists() : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<h3>Returns</h3>
+<div class="subelement response"><code>bool</code></div>
+</div></div>
+</div>
+<a name="Base64EncodeWrapMB" id="Base64EncodeWrapMB"></a><div class="element clickable method public Base64EncodeWrapMB" data-toggle="collapse" data-target=".Base64EncodeWrapMB .collapse">
+<h2>Correctly encodes and wraps long multibyte strings for mail headers
+without breaking lines within a character.</h2>
+<pre>Base64EncodeWrapMB(string $str, string $lf) : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"><p>Adapted from a function by paravoid at http://uk.php.net/manual/en/function.mb-encode-mimeheader.php</p></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>public</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$str</h4>
+<code>string</code><p>multi-byte text to wrap encode</p>
+</div>
+<div class="subelement argument">
+<h4>$lf</h4>
+<code>string</code><p>string to use as linefeed/end-of-line</p>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a name="ClearAddresses" id="ClearAddresses"></a><div class="element clickable method public ClearAddresses" data-toggle="collapse" data-target=".ClearAddresses .collapse">
+<h2>Clears all recipients assigned in the TO array.</h2>
+<pre>ClearAddresses() : void</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"><p>Returns void.</p></p></div></div>
+</div>
+<a name="ClearAllRecipients" id="ClearAllRecipients"></a><div class="element clickable method public ClearAllRecipients" data-toggle="collapse" data-target=".ClearAllRecipients .collapse">
+<h2>Clears all recipients assigned in the TO, CC and BCC
+array.</h2>
+<pre>ClearAllRecipients() : void</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"><p>Returns void.</p></p></div></div>
+</div>
+<a name="ClearAttachments" id="ClearAttachments"></a><div class="element clickable method public ClearAttachments" data-toggle="collapse" data-target=".ClearAttachments .collapse">
+<h2>Clears all previously set filesystem, string, and binary
+attachments.</h2>
+<pre>ClearAttachments() : void</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"><p>Returns void.</p></p></div></div>
+</div>
+<a name="ClearBCCs" id="ClearBCCs"></a><div class="element clickable method public ClearBCCs" data-toggle="collapse" data-target=".ClearBCCs .collapse">
+<h2>Clears all recipients assigned in the BCC array.</h2>
+<pre>ClearBCCs() : void</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"><p>Returns void.</p></p></div></div>
+</div>
+<a name="ClearCCs" id="ClearCCs"></a><div class="element clickable method public ClearCCs" data-toggle="collapse" data-target=".ClearCCs .collapse">
+<h2>Clears all recipients assigned in the CC array.</h2>
+<pre>ClearCCs() : void</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"><p>Returns void.</p></p></div></div>
+</div>
+<a name="ClearCustomHeaders" id="ClearCustomHeaders"></a><div class="element clickable method public ClearCustomHeaders" data-toggle="collapse" data-target=".ClearCustomHeaders .collapse">
+<h2>Clears all custom headers.</h2>
+<pre>ClearCustomHeaders() : void</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"><p>Returns void.</p></p></div></div>
+</div>
+<a name="ClearReplyTos" id="ClearReplyTos"></a><div class="element clickable method public ClearReplyTos" data-toggle="collapse" data-target=".ClearReplyTos .collapse">
+<h2>Clears all recipients assigned in the ReplyTo array.</h2>
+<pre>ClearReplyTos() : void</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"><p>Returns void.</p></p></div></div>
+</div>
+<a name="CreateBody" id="CreateBody"></a><div class="element clickable method public CreateBody" data-toggle="collapse" data-target=".CreateBody .collapse">
+<h2>Assembles the message body.</h2>
+<pre>CreateBody() : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"><p>Returns an empty string on failure.</p></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>public</td>
+</tr></table>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/phpmailerException.html">\phpmailerException</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>string</code>The assembled message body</div>
+</div></div>
+</div>
+<a name="CreateHeader" id="CreateHeader"></a><div class="element clickable method public CreateHeader" data-toggle="collapse" data-target=".CreateHeader .collapse">
+<h2>Assembles message header.</h2>
+<pre>CreateHeader() : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>public</td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>string</code>The assembled header</div>
+</div></div>
+</div>
+<a name="DKIM_Add" id="DKIM_Add"></a><div class="element clickable method public DKIM_Add" data-toggle="collapse" data-target=".DKIM_Add .collapse">
+<h2>Create the DKIM header, body, as new header</h2>
+<pre>DKIM_Add(string $headers_line, string $subject, string $body) : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>public</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$headers_line</h4>
+<code>string</code><p>Header lines</p></div>
+<div class="subelement argument">
+<h4>$subject</h4>
+<code>string</code><p>Subject</p></div>
+<div class="subelement argument">
+<h4>$body</h4>
+<code>string</code><p>Body</p></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a name="DKIM_BodyC" id="DKIM_BodyC"></a><div class="element clickable method public DKIM_BodyC" data-toggle="collapse" data-target=".DKIM_BodyC .collapse">
+<h2>Generate DKIM Canonicalization Body</h2>
+<pre>DKIM_BodyC(string $body) : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>public</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$body</h4>
+<code>string</code><p>Message Body</p></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a name="DKIM_HeaderC" id="DKIM_HeaderC"></a><div class="element clickable method public DKIM_HeaderC" data-toggle="collapse" data-target=".DKIM_HeaderC .collapse">
+<h2>Generate DKIM Canonicalization Header</h2>
+<pre>DKIM_HeaderC(string $s) : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>public</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$s</h4>
+<code>string</code><p>Header</p></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a name="DKIM_QP" id="DKIM_QP"></a><div class="element clickable method public DKIM_QP" data-toggle="collapse" data-target=".DKIM_QP .collapse">
+<h2>Set the private key file and password to sign the message.</h2>
+<pre>DKIM_QP(string $txt) : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>public</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$txt</h4>
+<code>string</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a name="DKIM_Sign" id="DKIM_Sign"></a><div class="element clickable method public DKIM_Sign" data-toggle="collapse" data-target=".DKIM_Sign .collapse">
+<h2>Generate DKIM signature</h2>
+<pre>DKIM_Sign(string $s) : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>public</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$s</h4>
+<code>string</code><p>Header</p></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a name="EncodeHeader" id="EncodeHeader"></a><div class="element clickable method public EncodeHeader" data-toggle="collapse" data-target=".EncodeHeader .collapse">
+<h2>Encode a header string to best (shortest) of Q, B, quoted or none.</h2>
+<pre>EncodeHeader(string $str, string $position) : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>public</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$str</h4>
+<code>string</code>
+</div>
+<div class="subelement argument">
+<h4>$position</h4>
+<code>string</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a name="EncodeQ" id="EncodeQ"></a><div class="element clickable method public EncodeQ" data-toggle="collapse" data-target=".EncodeQ .collapse">
+<h2>Encode string to q encoding.</h2>
+<pre>EncodeQ(string $str, string $position) : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered">
+<tr>
+<th>link</th>
+<td><a href="http://tools.ietf.org/html/rfc2047">http://tools.ietf.org/html/rfc2047</a></td>
+</tr>
+<tr>
+<th>access</th>
+<td>public</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$str</h4>
+<code>string</code><p>the text to encode</p></div>
+<div class="subelement argument">
+<h4>$position</h4>
+<code>string</code><p>Where the text is going to be used, see the RFC for what that means</p></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a name="EncodeQP" id="EncodeQP"></a><div class="element clickable method public EncodeQP" data-toggle="collapse" data-target=".EncodeQP .collapse">
+<h2>Encode string to RFC2045 (6.7) quoted-printable format
+Uses a PHP5 stream filter to do the encoding about 64x faster than the old version
+Also results in same content as you started with after decoding</h2>
+<pre>EncodeQP(string $string, integer $line_max, boolean $space_conv) : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered">
+<tr>
+<th>see</th>
+<td>\global\EncodeQPphp()</td>
+</tr>
+<tr>
+<th>access</th>
+<td>public</td>
+</tr>
+<tr>
+<th>author</th>
+<td><a href="">Marcus Bointon</a></td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$string</h4>
+<code>string</code><p>the text to encode</p></div>
+<div class="subelement argument">
+<h4>$line_max</h4>
+<code>integer</code><p>Number of chars allowed on a line before wrapping</p></div>
+<div class="subelement argument">
+<h4>$space_conv</h4>
+<code>boolean</code><p>Dummy param for compatibility with existing EncodeQP function</p></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a name="EncodeString" id="EncodeString"></a><div class="element clickable method public EncodeString" data-toggle="collapse" data-target=".EncodeString .collapse">
+<h2>Encodes string to requested format.</h2>
+<pre>EncodeString(string $str, string $encoding) : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"><p>Returns an empty string on failure.</p></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>public</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$str</h4>
+<code>string</code><p>The text to encode</p></div>
+<div class="subelement argument">
+<h4>$encoding</h4>
+<code>string</code><p>The encoding to use; one of 'base64', '7bit', '8bit', 'binary', 'quoted-printable'</p>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a name="FixEOL" id="FixEOL"></a><div class="element clickable method public FixEOL" data-toggle="collapse" data-target=".FixEOL .collapse">
+<h2>Changes every end of line from CRLF, CR or LF to $this-&gt;LE.</h2>
+<pre>FixEOL(string $str) : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>public</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$str</h4>
+<code>string</code><p>String to FixEOL</p></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a name="GetAttachments" id="GetAttachments"></a><div class="element clickable method public GetAttachments" data-toggle="collapse" data-target=".GetAttachments .collapse">
+<h2>Return the current array of attachments</h2>
+<pre>GetAttachments() : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<h3>Returns</h3>
+<div class="subelement response"><code>array</code></div>
+</div></div>
+</div>
+<a name="GetMailMIME" id="GetMailMIME"></a><div class="element clickable method public GetMailMIME" data-toggle="collapse" data-target=".GetMailMIME .collapse">
+<h2>Returns the message MIME.</h2>
+<pre>GetMailMIME() : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>public</td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a name="GetSentMIMEMessage" id="GetSentMIMEMessage"></a><div class="element clickable method public GetSentMIMEMessage" data-toggle="collapse" data-target=".GetSentMIMEMessage .collapse">
+<h2>Returns the MIME message (headers and body).</h2>
+<pre>GetSentMIMEMessage() : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"><p>Only really valid post PreSend().</p></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>public</td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a name="GetTranslations" id="GetTranslations"></a><div class="element clickable method public GetTranslations" data-toggle="collapse" data-target=".GetTranslations .collapse">
+<h2>Return the current array of language strings</h2>
+<pre>GetTranslations() : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<h3>Returns</h3>
+<div class="subelement response"><code>array</code></div>
+</div></div>
+</div>
+<a name="HasMultiBytes" id="HasMultiBytes"></a><div class="element clickable method public HasMultiBytes" data-toggle="collapse" data-target=".HasMultiBytes .collapse">
+<h2>Checks if a string contains multibyte characters.</h2>
+<pre>HasMultiBytes(string $str) : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>public</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$str</h4>
+<code>string</code><p>multi-byte text to wrap encode</p>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>bool</code></div>
+</div></div>
+</div>
+<a name="HeaderLine" id="HeaderLine"></a><div class="element clickable method public HeaderLine" data-toggle="collapse" data-target=".HeaderLine .collapse">
+<h2>Returns a formatted header line.</h2>
+<pre>HeaderLine(string $name, string $value) : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>public</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$name</h4>
+<code>string</code>
+</div>
+<div class="subelement argument">
+<h4>$value</h4>
+<code>string</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a name="InlineImageExists" id="InlineImageExists"></a><div class="element clickable method public InlineImageExists" data-toggle="collapse" data-target=".InlineImageExists .collapse">
+<h2>Returns true if an inline attachment is present.</h2>
+<pre>InlineImageExists() : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>public</td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response"><code>bool</code></div>
+</div></div>
+</div>
+<a name="IsError" id="IsError"></a><div class="element clickable method public IsError" data-toggle="collapse" data-target=".IsError .collapse">
+<h2>Returns true if an error occurred.</h2>
+<pre>IsError() : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>public</td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response"><code>bool</code></div>
+</div></div>
+</div>
+<a name="IsHTML" id="IsHTML"></a><div class="element clickable method public IsHTML" data-toggle="collapse" data-target=".IsHTML .collapse">
+<h2>Sets message type to HTML.</h2>
+<pre>IsHTML(bool $ishtml) : void</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$ishtml</h4>
+<code>bool</code>
+</div>
+</div></div>
+</div>
+<a name="IsMail" id="IsMail"></a><div class="element clickable method public IsMail" data-toggle="collapse" data-target=".IsMail .collapse">
+<h2>Sets Mailer to send message using PHP mail() function.</h2>
+<pre>IsMail() : void</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>deprecated</th>
+<td></td>
+</tr></table>
+</div></div>
+</div>
+<a name="IsQmail" id="IsQmail"></a><div class="element clickable method public IsQmail" data-toggle="collapse" data-target=".IsQmail .collapse">
+<h2>Sets Mailer to send message using the qmail MTA.</h2>
+<pre>IsQmail() : void</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>deprecated</th>
+<td></td>
+</tr></table>
+</div></div>
+</div>
+<a name="IsSMTP" id="IsSMTP"></a><div class="element clickable method public IsSMTP" data-toggle="collapse" data-target=".IsSMTP .collapse">
+<h2>Sets Mailer to send message using SMTP.</h2>
+<pre>IsSMTP() : void</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>deprecated</th>
+<td></td>
+</tr></table>
+</div></div>
+</div>
+<a name="IsSendmail" id="IsSendmail"></a><div class="element clickable method public IsSendmail" data-toggle="collapse" data-target=".IsSendmail .collapse">
+<h2>Sets Mailer to send message using the $Sendmail program.</h2>
+<pre>IsSendmail() : void</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>deprecated</th>
+<td></td>
+</tr></table>
+</div></div>
+</div>
+<a name="MsgHTML" id="MsgHTML"></a><div class="element clickable method public MsgHTML" data-toggle="collapse" data-target=".MsgHTML .collapse">
+<h2>Evaluates the message and returns modifications for inline images and backgrounds</h2>
+<pre>MsgHTML(string $message, string $basedir) : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>public</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$message</h4>
+<code>string</code><p>Text to be HTML modified</p></div>
+<div class="subelement argument">
+<h4>$basedir</h4>
+<code>string</code><p>baseline directory for path</p></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>string</code>$message</div>
+</div></div>
+</div>
+<a name="PostSend" id="PostSend"></a><div class="element clickable method public PostSend" data-toggle="collapse" data-target=".PostSend .collapse">
+<h2>Actual Email transport function
+Send the email via the selected mechanism</h2>
+<pre>PostSend() : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/phpmailerException.html">\phpmailerException</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response"><code>bool</code></div>
+</div></div>
+</div>
+<a name="PreSend" id="PreSend"></a><div class="element clickable method public PreSend" data-toggle="collapse" data-target=".PreSend .collapse">
+<h2>Prep mail by constructing all message entities</h2>
+<pre>PreSend() : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/phpmailerException.html">\phpmailerException</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response"><code>bool</code></div>
+</div></div>
+</div>
+<a name="RFCDate" id="RFCDate"></a><div class="element clickable method public RFCDate" data-toggle="collapse" data-target=".RFCDate .collapse">
+<h2>Returns the proper RFC 822 formatted date.</h2>
+<pre>RFCDate() : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered">
+<tr>
+<th>access</th>
+<td>public</td>
+</tr>
+<tr>
+<th>static</th>
+<td></td>
+</tr>
+</table>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a name="SecureHeader" id="SecureHeader"></a><div class="element clickable method public SecureHeader" data-toggle="collapse" data-target=".SecureHeader .collapse">
+<h2>Strips newlines to prevent header injection.</h2>
+<pre>SecureHeader(string $str) : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>public</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$str</h4>
+<code>string</code><p>String</p></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a name="Send" id="Send"></a><div class="element clickable method public Send" data-toggle="collapse" data-target=".Send .collapse">
+<h2>Creates message and assigns Mailer.</h2>
+<pre>Send() : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"><p>If the message is
+not sent successfully then it returns false.  Use the ErrorInfo
+variable to view description of the error.</p></p>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/phpmailerException.html">\phpmailerException</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response"><code>bool</code></div>
+</div></div>
+</div>
+<a name="SetFrom" id="SetFrom"></a><div class="element clickable method public SetFrom" data-toggle="collapse" data-target=".SetFrom .collapse">
+<h2>Set the From and FromName properties</h2>
+<pre>SetFrom(string $address, string $name, int $auto) : boolean</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$address</h4>
+<code>string</code>
+</div>
+<div class="subelement argument">
+<h4>$name</h4>
+<code>string</code>
+</div>
+<div class="subelement argument">
+<h4>$auto</h4>
+<code>int</code><p>Also set Reply-To and Sender</p>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/phpmailerException.html">\phpmailerException</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response"><code>boolean</code></div>
+</div></div>
+</div>
+<a name="SetLanguage" id="SetLanguage"></a><div class="element clickable method public SetLanguage" data-toggle="collapse" data-target=".SetLanguage .collapse">
+<h2>Sets the language for all class error messages.</h2>
+<pre>SetLanguage(string $langcode, string $lang_path) : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"><p>Returns false if it cannot load the language file.  The default language is English.</p></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>public</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$langcode</h4>
+<code>string</code><p>ISO 639-1 2-character language code (e.g. Portuguese: "br")</p>
+</div>
+<div class="subelement argument">
+<h4>$lang_path</h4>
+<code>string</code><p>Path to the language file directory</p></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>bool</code></div>
+</div></div>
+</div>
+<a name="SetWordWrap" id="SetWordWrap"></a><div class="element clickable method public SetWordWrap" data-toggle="collapse" data-target=".SetWordWrap .collapse">
+<h2>Set the body wrapping.</h2>
+<pre>SetWordWrap() : void</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>public</td>
+</tr></table>
+</div></div>
+</div>
+<a name="Sign" id="Sign"></a><div class="element clickable method public Sign" data-toggle="collapse" data-target=".Sign .collapse">
+<h2>Set the private key file and password to sign the message.</h2>
+<pre>Sign($cert_filename, string $key_filename, string $key_pass) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>public</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$cert_filename</h4>
+<code></code>
+</div>
+<div class="subelement argument">
+<h4>$key_filename</h4>
+<code>string</code><p>Parameter File Name</p></div>
+<div class="subelement argument">
+<h4>$key_pass</h4>
+<code>string</code><p>Password for private key</p></div>
+</div></div>
+</div>
+<a name="SmtpClose" id="SmtpClose"></a><div class="element clickable method public SmtpClose" data-toggle="collapse" data-target=".SmtpClose .collapse">
+<h2>Closes the active SMTP session if one exists.</h2>
+<pre>SmtpClose() : void</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+<a name="SmtpConnect" id="SmtpConnect"></a><div class="element clickable method public SmtpConnect" data-toggle="collapse" data-target=".SmtpConnect .collapse">
+<h2>Initiates a connection to an SMTP server.</h2>
+<pre>SmtpConnect() : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"><p>Returns false if the operation failed.</p></p>
+<table class="table table-bordered">
+<tr>
+<th>uses</th>
+<td>\global\SMTP</td>
+</tr>
+<tr>
+<th>access</th>
+<td>public</td>
+</tr>
+</table>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/phpmailerException.html">\phpmailerException</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response"><code>bool</code></div>
+</div></div>
+</div>
+<a name="TextLine" id="TextLine"></a><div class="element clickable method public TextLine" data-toggle="collapse" data-target=".TextLine .collapse">
+<h2>Returns a formatted mail line.</h2>
+<pre>TextLine(string $value) : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>public</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$value</h4>
+<code>string</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a name="UTF8CharBoundary" id="UTF8CharBoundary"></a><div class="element clickable method public UTF8CharBoundary" data-toggle="collapse" data-target=".UTF8CharBoundary .collapse">
+<h2>Finds last character boundary prior to maxLength in a utf-8
+quoted (printable) encoded string.</h2>
+<pre>UTF8CharBoundary(string $encodedText, int $maxLength) : int</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"><p>Original written by Colin Brown.</p></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>public</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$encodedText</h4>
+<code>string</code><p>utf-8 QP text</p>
+</div>
+<div class="subelement argument">
+<h4>$maxLength</h4>
+<code>int</code><p>find last character boundary prior to this length</p></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>int</code></div>
+</div></div>
+</div>
+<a name="ValidateAddress" id="ValidateAddress"></a><div class="element clickable method public ValidateAddress" data-toggle="collapse" data-target=".ValidateAddress .collapse">
+<h2>Check that a string looks roughly like an email address should
+Static so it can be used without instantiation, public so people can overload
+Conforms to RFC5322: Uses *correct* regex on which FILTER_VALIDATE_EMAIL is
+based; So why not use FILTER_VALIDATE_EMAIL? Because it was broken to
+not allow a@b type valid addresses :(</h2>
+<pre>ValidateAddress(string $address) : boolean</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered">
+<tr>
+<th>link</th>
+<td><a href="http://squiloople.com/2009/12/20/email-address-validation/">http://squiloople.com/2009/12/20/email-address-validation/</a></td>
+</tr>
+<tr>
+<th>copyright</th>
+<td>regex Copyright Michael Rushton 2009-10 | http://squiloople.com/ | Feel free to use and redistribute this code. But please keep this copyright notice.</td>
+</tr>
+<tr>
+<th>static</th>
+<td></td>
+</tr>
+<tr>
+<th>access</th>
+<td>public</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$address</h4>
+<code>string</code><p>The email address to check</p></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>boolean</code></div>
+</div></div>
+</div>
+<a name="WrapText" id="WrapText"></a><div class="element clickable method public WrapText" data-toggle="collapse" data-target=".WrapText .collapse">
+<h2>Wraps message for use with mailers that do not
+automatically perform wrapping and for quoted-printable.</h2>
+<pre>WrapText(string $message, integer $length, boolean $qp_mode) : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"><p>Original written by philippe.</p></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>public</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$message</h4>
+<code>string</code><p>The message to wrap</p></div>
+<div class="subelement argument">
+<h4>$length</h4>
+<code>integer</code><p>The line length to wrap to</p></div>
+<div class="subelement argument">
+<h4>$qp_mode</h4>
+<code>boolean</code><p>Whether to run in Quoted-Printable mode</p>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a name="__construct" id="__construct"></a><div class="element clickable method public __construct" data-toggle="collapse" data-target=".__construct .collapse">
+<h2>Constructor</h2>
+<pre>__construct(boolean $exceptions) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$exceptions</h4>
+<code>boolean</code><p>Should we throw external exceptions?</p>
+</div>
+</div></div>
+</div>
+<a name="_mime_types" id="_mime_types"></a><div class="element clickable method public _mime_types" data-toggle="collapse" data-target="._mime_types .collapse">
+<h2>Gets the MIME type of the embedded or inline image</h2>
+<pre>_mime_types(string $ext) : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered">
+<tr>
+<th>access</th>
+<td>public</td>
+</tr>
+<tr>
+<th>static</th>
+<td></td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$ext</h4>
+<code>string</code><p>File extension</p></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>string</code>MIME type of ext</div>
+</div></div>
+</div>
+<a name="set" id="set"></a><div class="element clickable method public set" data-toggle="collapse" data-target=".set .collapse">
+<h2>Set (or reset) Class Objects (variables)</h2>
+<pre>set(string $name, mixed $value) : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"><p>Usage Example:
+$page->set('X-Priority', '3');</p></p>
+<table class="table table-bordered">
+<tr>
+<th>access</th>
+<td>public</td>
+</tr>
+<tr>
+<th>todo</th>
+<td>Should this not be using __set() magic function?</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$name</h4>
+<code>string</code><p>Parameter Name</p></div>
+<div class="subelement argument">
+<h4>$value</h4>
+<code>mixed</code><p>Parameter Value NOTE: will not work with arrays, there are no arrays to set/reset</p>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/phpmailerException.html">\phpmailerException</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response"><code>bool</code></div>
+</div></div>
+</div>
+<a name="AddAnAddress" id="AddAnAddress"></a><div class="element clickable method protected AddAnAddress" data-toggle="collapse" data-target=".AddAnAddress .collapse">
+<h2>Adds an address to one of the recipient arrays
+Addresses that have been added already return false, but do not throw exceptions</h2>
+<pre>AddAnAddress(string $kind, string $address, string $name) : boolean</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>protected</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$kind</h4>
+<code>string</code><p>One of 'to', 'cc', 'bcc', 'ReplyTo'</p>
+</div>
+<div class="subelement argument">
+<h4>$address</h4>
+<code>string</code><p>The email address to send to</p></div>
+<div class="subelement argument">
+<h4>$name</h4>
+<code>string</code>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/phpmailerException.html">\phpmailerException</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>boolean</code>true on success, false if address already used or invalid in some way</div>
+</div></div>
+</div>
+<a name="AttachAll" id="AttachAll"></a><div class="element clickable method protected AttachAll" data-toggle="collapse" data-target=".AttachAll .collapse">
+<h2>Attaches all fs, string, and binary attachments to the message.</h2>
+<pre>AttachAll(string $disposition_type, string $boundary) : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"><p>Returns an empty string on failure.</p></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>protected</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$disposition_type</h4>
+<code>string</code>
+</div>
+<div class="subelement argument">
+<h4>$boundary</h4>
+<code>string</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a name="EncodeFile" id="EncodeFile"></a><div class="element clickable method protected EncodeFile" data-toggle="collapse" data-target=".EncodeFile .collapse">
+<h2>Encodes attachment in requested format.</h2>
+<pre>EncodeFile(string $path, string $encoding) : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"><p>Returns an empty string on failure.</p></p>
+<table class="table table-bordered">
+<tr>
+<th>see</th>
+<td>\global\EncodeFile()</td>
+</tr>
+<tr>
+<th>access</th>
+<td>protected</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$path</h4>
+<code>string</code><p>The full path to the file</p></div>
+<div class="subelement argument">
+<h4>$encoding</h4>
+<code>string</code><p>The encoding to use; one of 'base64', '7bit', '8bit', 'binary', 'quoted-printable'</p>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/phpmailerException.html">\phpmailerException</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a name="EndBoundary" id="EndBoundary"></a><div class="element clickable method protected EndBoundary" data-toggle="collapse" data-target=".EndBoundary .collapse">
+<h2>Returns the end of a message boundary.</h2>
+<pre>EndBoundary(string $boundary) : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>protected</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$boundary</h4>
+<code>string</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a name="GetBoundary" id="GetBoundary"></a><div class="element clickable method protected GetBoundary" data-toggle="collapse" data-target=".GetBoundary .collapse">
+<h2>Returns the start of a message boundary.</h2>
+<pre>GetBoundary(string $boundary, string $charSet, string $contentType, string $encoding) : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>protected</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$boundary</h4>
+<code>string</code>
+</div>
+<div class="subelement argument">
+<h4>$charSet</h4>
+<code>string</code>
+</div>
+<div class="subelement argument">
+<h4>$contentType</h4>
+<code>string</code>
+</div>
+<div class="subelement argument">
+<h4>$encoding</h4>
+<code>string</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a name="Lang" id="Lang"></a><div class="element clickable method protected Lang" data-toggle="collapse" data-target=".Lang .collapse">
+<h2>Returns a message in the appropriate language.</h2>
+<pre>Lang(string $key) : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>protected</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$key</h4>
+<code>string</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a name="MailSend" id="MailSend"></a><div class="element clickable method protected MailSend" data-toggle="collapse" data-target=".MailSend .collapse">
+<h2>Sends mail using the PHP mail() function.</h2>
+<pre>MailSend(string $header, string $body) : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>protected</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$header</h4>
+<code>string</code><p>The message headers</p></div>
+<div class="subelement argument">
+<h4>$body</h4>
+<code>string</code><p>The message body</p></div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/phpmailerException.html">\phpmailerException</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response"><code>bool</code></div>
+</div></div>
+</div>
+<a name="SendmailSend" id="SendmailSend"></a><div class="element clickable method protected SendmailSend" data-toggle="collapse" data-target=".SendmailSend .collapse">
+<h2>Sends mail using the $Sendmail program.</h2>
+<pre>SendmailSend(string $header, string $body) : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>protected</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$header</h4>
+<code>string</code><p>The message headers</p></div>
+<div class="subelement argument">
+<h4>$body</h4>
+<code>string</code><p>The message body</p></div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/phpmailerException.html">\phpmailerException</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response"><code>bool</code></div>
+</div></div>
+</div>
+<a name="ServerHostname" id="ServerHostname"></a><div class="element clickable method protected ServerHostname" data-toggle="collapse" data-target=".ServerHostname .collapse">
+<h2>Returns the server hostname or 'localhost.localdomain' if unknown.</h2>
+<pre>ServerHostname() : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>protected</td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a name="SetError" id="SetError"></a><div class="element clickable method protected SetError" data-toggle="collapse" data-target=".SetError .collapse">
+<h2>Adds the error message to the error container.</h2>
+<pre>SetError(string $msg) : void</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>protected</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$msg</h4>
+<code>string</code>
+</div>
+</div></div>
+</div>
+<a name="SetMessageType" id="SetMessageType"></a><div class="element clickable method protected SetMessageType" data-toggle="collapse" data-target=".SetMessageType .collapse">
+<h2>Sets the message type.</h2>
+<pre>SetMessageType() : void</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>protected</td>
+</tr></table>
+</div></div>
+</div>
+<a name="SmtpSend" id="SmtpSend"></a><div class="element clickable method protected SmtpSend" data-toggle="collapse" data-target=".SmtpSend .collapse">
+<h2>Sends mail via SMTP using PhpSMTP
+Returns false if there is a bad MAIL FROM, RCPT, or DATA input.</h2>
+<pre>SmtpSend(string $header, string $body) : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered">
+<tr>
+<th>uses</th>
+<td>\global\SMTP</td>
+</tr>
+<tr>
+<th>access</th>
+<td>protected</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$header</h4>
+<code>string</code><p>The message headers</p></div>
+<div class="subelement argument">
+<h4>$body</h4>
+<code>string</code><p>The message body</p></div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/phpmailerException.html">\phpmailerException</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response"><code>bool</code></div>
+</div></div>
+</div>
+<a name="doCallback" id="doCallback"></a><div class="element clickable method protected doCallback" data-toggle="collapse" data-target=".doCallback .collapse">
+<h2>Perform callback</h2>
+<pre>doCallback(boolean $isSent, string $to, string $cc, string $bcc, string $subject, string $body, string $from) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$isSent</h4>
+<code>boolean</code>
+</div>
+<div class="subelement argument">
+<h4>$to</h4>
+<code>string</code>
+</div>
+<div class="subelement argument">
+<h4>$cc</h4>
+<code>string</code>
+</div>
+<div class="subelement argument">
+<h4>$bcc</h4>
+<code>string</code>
+</div>
+<div class="subelement argument">
+<h4>$subject</h4>
+<code>string</code>
+</div>
+<div class="subelement argument">
+<h4>$body</h4>
+<code>string</code>
+</div>
+<div class="subelement argument">
+<h4>$from</h4>
+<code>string</code>
+</div>
+</div></div>
+</div>
+<a name="edebug" id="edebug"></a><div class="element clickable method private edebug" data-toggle="collapse" data-target=".edebug .collapse">
+<h2>Outputs debugging info via user-defined method</h2>
+<pre>edebug(string $str) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$str</h4>
+<code>string</code>
+</div>
+</div></div>
+</div>
+<a name="mail_passthru" id="mail_passthru"></a><div class="element clickable method private mail_passthru" data-toggle="collapse" data-target=".mail_passthru .collapse">
+<h2>Calls actual mail() function, but in a safe_mode aware fashion
+Also, unless sendmail_path points to sendmail (or something that
+claims to be sendmail), don't pass params (not a perfect fix,
+but it will do)</h2>
+<pre>mail_passthru(string $to, string $subject, string $body, string $header, string $params) : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>private</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$to</h4>
+<code>string</code><p>To</p></div>
+<div class="subelement argument">
+<h4>$subject</h4>
+<code>string</code><p>Subject</p></div>
+<div class="subelement argument">
+<h4>$body</h4>
+<code>string</code><p>Message Body</p></div>
+<div class="subelement argument">
+<h4>$header</h4>
+<code>string</code><p>Additional Header(s)</p>
+</div>
+<div class="subelement argument">
+<h4>$params</h4>
+<code>string</code><p>Params</p></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>bool</code></div>
+</div></div>
+</div>
+<h3>
+<i class="icon-custom icon-property"></i> Properties</h3>
+<a name="%24AltBody" id="$AltBody"> </a><div class="element clickable property public $AltBody" data-toggle="collapse" data-target=".$AltBody .collapse">
+<h2>Sets the text-only body of the message.</h2>
+<pre>$AltBody : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"><p>This automatically sets the
+email to multipart/alternative.  This body can be read by mail
+clients that do not have HTML email capability such as mutt. Clients
+that can read HTML will view the normal Body.</p></p></div></div>
+</div>
+<a name="%24AuthType" id="$AuthType"> </a><div class="element clickable property public $AuthType" data-toggle="collapse" data-target=".$AuthType .collapse">
+<h2>Sets SMTP auth type.</h2>
+<pre>$AuthType : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"><p>Options are LOGIN | PLAIN | NTLM  (default LOGIN)</p></p></div></div>
+</div>
+<a name="%24Body" id="$Body"> </a><div class="element clickable property public $Body" data-toggle="collapse" data-target=".$Body .collapse">
+<h2>Sets the Body of the message.</h2>
+<pre>$Body : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"><p>This can be either an HTML or text body.
+If HTML then run IsHTML(true).</p></p></div></div>
+</div>
+<a name="%24CharSet" id="$CharSet"> </a><div class="element clickable property public $CharSet" data-toggle="collapse" data-target=".$CharSet .collapse">
+<h2>Sets the CharSet of the message.</h2>
+<pre>$CharSet : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+<a name="%24ConfirmReadingTo" id="$ConfirmReadingTo"> </a><div class="element clickable property public $ConfirmReadingTo" data-toggle="collapse" data-target=".$ConfirmReadingTo .collapse">
+<h2>Sets the email address that a reading confirmation will be sent.</h2>
+<pre>$ConfirmReadingTo : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+<a name="%24ContentType" id="$ContentType"> </a><div class="element clickable property public $ContentType" data-toggle="collapse" data-target=".$ContentType .collapse">
+<h2>Sets the Content-type of the message.</h2>
+<pre>$ContentType : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+<a name="%24DKIM_domain" id="$DKIM_domain"> </a><div class="element clickable property public $DKIM_domain" data-toggle="collapse" data-target=".$DKIM_domain .collapse">
+<h2>Used with DKIM Singing
+required if DKIM is enabled, in format of email address 'domain.com'</h2>
+<pre>$DKIM_domain : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+<a name="%24DKIM_identity" id="$DKIM_identity"> </a><div class="element clickable property public $DKIM_identity" data-toggle="collapse" data-target=".$DKIM_identity .collapse">
+<h2>Used with DKIM Signing
+required if DKIM is enabled, in format of email address 'you@yourdomain.com' typically used as the source of the email</h2>
+<pre>$DKIM_identity : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+<a name="%24DKIM_passphrase" id="$DKIM_passphrase"> </a><div class="element clickable property public $DKIM_passphrase" data-toggle="collapse" data-target=".$DKIM_passphrase .collapse">
+<h2>Used with DKIM Signing
+optional parameter if your private key requires a passphras</h2>
+<pre>$DKIM_passphrase : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+<a name="%24DKIM_private" id="$DKIM_private"> </a><div class="element clickable property public $DKIM_private" data-toggle="collapse" data-target=".$DKIM_private .collapse">
+<h2>Used with DKIM Signing
+required if DKIM is enabled, path to private key file</h2>
+<pre>$DKIM_private : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+<a name="%24DKIM_selector" id="$DKIM_selector"> </a><div class="element clickable property public $DKIM_selector" data-toggle="collapse" data-target=".$DKIM_selector .collapse">
+<h2>Used with DKIM Signing
+required parameter if DKIM is enabled</h2>
+<pre>$DKIM_selector : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"><p>domain selector example domainkey</p></p></div></div>
+</div>
+<a name="%24Debugoutput" id="$Debugoutput"> </a><div class="element clickable property public $Debugoutput" data-toggle="collapse" data-target=".$Debugoutput .collapse">
+<h2>Sets the function/method to use for debugging output.</h2>
+<pre>$Debugoutput : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"><p>Right now we only honor "echo" or "error_log"</p></p></div></div>
+</div>
+<a name="%24Encoding" id="$Encoding"> </a><div class="element clickable property public $Encoding" data-toggle="collapse" data-target=".$Encoding .collapse">
+<h2>Sets the Encoding of the message.</h2>
+<pre>$Encoding : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"><p>Options for this are
+ "8bit", "7bit", "binary", "base64", and "quoted-printable".</p></p></div></div>
+</div>
+<a name="%24ErrorInfo" id="$ErrorInfo"> </a><div class="element clickable property public $ErrorInfo" data-toggle="collapse" data-target=".$ErrorInfo .collapse">
+<h2>Holds the most recent mailer error message.</h2>
+<pre>$ErrorInfo : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+<a name="%24From" id="$From"> </a><div class="element clickable property public $From" data-toggle="collapse" data-target=".$From .collapse">
+<h2>Sets the From email address for the message.</h2>
+<pre>$From : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+<a name="%24FromName" id="$FromName"> </a><div class="element clickable property public $FromName" data-toggle="collapse" data-target=".$FromName .collapse">
+<h2>Sets the From name of the message.</h2>
+<pre>$FromName : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+<a name="%24Helo" id="$Helo"> </a><div class="element clickable property public $Helo" data-toggle="collapse" data-target=".$Helo .collapse">
+<h2>Sets the SMTP HELO of the message (Default is $Hostname).</h2>
+<pre>$Helo : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+<a name="%24Host" id="$Host"> </a><div class="element clickable property public $Host" data-toggle="collapse" data-target=".$Host .collapse">
+<h2>Sets the SMTP hosts.</h2>
+<pre>$Host : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"><p>All hosts must be separated by a
+semicolon.  You can also specify a different port
+for each host by using this format: [hostname:port]
+(e.g. "smtp1.example.com:25;smtp2.example.com").
+Hosts will be tried in order.</p></p></div></div>
+</div>
+<a name="%24Hostname" id="$Hostname"> </a><div class="element clickable property public $Hostname" data-toggle="collapse" data-target=".$Hostname .collapse">
+<h2>Sets the hostname to use in Message-Id and Received headers
+and as default HELO string.</h2>
+<pre>$Hostname : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"><p>If empty, the value returned
+by SERVER_NAME is used or 'localhost.localdomain'.</p></p></div></div>
+</div>
+<a name="%24LE" id="$LE"> </a><div class="element clickable property public $LE" data-toggle="collapse" data-target=".$LE .collapse">
+<h2>Provides the ability to change the generic line ending
+NOTE: The default remains '\n'.</h2>
+<pre>$LE : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"><p>We force CRLF where we KNOW
+       it must be used via self::CRLF</p></p></div></div>
+</div>
+<a name="%24Mailer" id="$Mailer"> </a><div class="element clickable property public $Mailer" data-toggle="collapse" data-target=".$Mailer .collapse">
+<h2>Method to send mail: ("mail", "sendmail", or "smtp").</h2>
+<pre>$Mailer : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+<a name="%24MessageDate" id="$MessageDate"> </a><div class="element clickable property public $MessageDate" data-toggle="collapse" data-target=".$MessageDate .collapse">
+<h2>Sets the message Date to be used in the Date header.</h2>
+<pre>$MessageDate : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"><p>If empty, the current date will be added.</p></p></div></div>
+</div>
+<a name="%24MessageID" id="$MessageID"> </a><div class="element clickable property public $MessageID" data-toggle="collapse" data-target=".$MessageID .collapse">
+<h2>Sets the message ID to be used in the Message-Id header.</h2>
+<pre>$MessageID : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"><p>If empty, a unique id will be generated.</p></p></div></div>
+</div>
+<a name="%24Password" id="$Password"> </a><div class="element clickable property public $Password" data-toggle="collapse" data-target=".$Password .collapse">
+<h2>Sets SMTP password.</h2>
+<pre>$Password : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+<a name="%24PluginDir" id="$PluginDir"> </a><div class="element clickable property public $PluginDir" data-toggle="collapse" data-target=".$PluginDir .collapse">
+<h2>Path to PHPMailer plugins.</h2>
+<pre>$PluginDir : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"><p>Useful if the SMTP class
+is in a different directory than the PHP include path.</p></p></div></div>
+</div>
+<a name="%24Port" id="$Port"> </a><div class="element clickable property public $Port" data-toggle="collapse" data-target=".$Port .collapse">
+<h2>Sets the default SMTP server port.</h2>
+<pre>$Port : int</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+<a name="%24Priority" id="$Priority"> </a><div class="element clickable property public $Priority" data-toggle="collapse" data-target=".$Priority .collapse">
+<h2>Email priority (1 = High, 3 = Normal, 5 = low).</h2>
+<pre>$Priority : int</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+<a name="%24Realm" id="$Realm"> </a><div class="element clickable property public $Realm" data-toggle="collapse" data-target=".$Realm .collapse">
+<h2>Sets SMTP realm.</h2>
+<pre>$Realm </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"><p>@var string</p></p></div></div>
+</div>
+<a name="%24ReturnPath" id="$ReturnPath"> </a><div class="element clickable property public $ReturnPath" data-toggle="collapse" data-target=".$ReturnPath .collapse">
+<h2>Sets the Return-Path of the message.</h2>
+<pre>$ReturnPath : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"><p>If empty, it will
+be set to either From or Sender.</p></p></div></div>
+</div>
+<a name="%24SMTPAuth" id="$SMTPAuth"> </a><div class="element clickable property public $SMTPAuth" data-toggle="collapse" data-target=".$SMTPAuth .collapse">
+<h2>Sets SMTP authentication.</h2>
+<pre>$SMTPAuth : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"><p>Utilizes the Username and Password variables.</p></p></div></div>
+</div>
+<a name="%24SMTPDebug" id="$SMTPDebug"> </a><div class="element clickable property public $SMTPDebug" data-toggle="collapse" data-target=".$SMTPDebug .collapse">
+<h2>Sets SMTP class debugging on or off.</h2>
+<pre>$SMTPDebug : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+<a name="%24SMTPKeepAlive" id="$SMTPKeepAlive"> </a><div class="element clickable property public $SMTPKeepAlive" data-toggle="collapse" data-target=".$SMTPKeepAlive .collapse">
+<h2>Prevents the SMTP connection from being closed after each mail
+sending.</h2>
+<pre>$SMTPKeepAlive : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"><p>If this is set to true then to close the connection
+requires an explicit call to SmtpClose().</p></p></div></div>
+</div>
+<a name="%24SMTPSecure" id="$SMTPSecure"> </a><div class="element clickable property public $SMTPSecure" data-toggle="collapse" data-target=".$SMTPSecure .collapse">
+<h2>Sets connection prefix.</h2>
+<pre>$SMTPSecure : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"><p>Options are "", "ssl" or "tls"</p></p></div></div>
+</div>
+<a name="%24Sender" id="$Sender"> </a><div class="element clickable property public $Sender" data-toggle="collapse" data-target=".$Sender .collapse">
+<h2>Sets the Sender email (Return-Path) of the message.</h2>
+<pre>$Sender : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"><p>If not empty,
+will be sent via -f to sendmail or as 'MAIL FROM' in smtp mode.</p></p></div></div>
+</div>
+<a name="%24Sendmail" id="$Sendmail"> </a><div class="element clickable property public $Sendmail" data-toggle="collapse" data-target=".$Sendmail .collapse">
+<h2>Sets the path of the sendmail program.</h2>
+<pre>$Sendmail : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+<a name="%24SingleTo" id="$SingleTo"> </a><div class="element clickable property public $SingleTo" data-toggle="collapse" data-target=".$SingleTo .collapse">
+<h2>Provides the ability to have the TO field process individual
+emails, instead of sending to entire TO addresses</h2>
+<pre>$SingleTo : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+<a name="%24SingleToArray" id="$SingleToArray"> </a><div class="element clickable property public $SingleToArray" data-toggle="collapse" data-target=".$SingleToArray .collapse">
+<h2>If SingleTo is true, this provides the array to hold the email addresses</h2>
+<pre>$SingleToArray : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+<a name="%24Subject" id="$Subject"> </a><div class="element clickable property public $Subject" data-toggle="collapse" data-target=".$Subject .collapse">
+<h2>Sets the Subject of the message.</h2>
+<pre>$Subject : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+<a name="%24Timeout" id="$Timeout"> </a><div class="element clickable property public $Timeout" data-toggle="collapse" data-target=".$Timeout .collapse">
+<h2>Sets the SMTP server timeout in seconds.</h2>
+<pre>$Timeout : int</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"><p>This function will not work with the win32 version.</p></p></div></div>
+</div>
+<a name="%24UseSendmailOptions" id="$UseSendmailOptions"> </a><div class="element clickable property public $UseSendmailOptions" data-toggle="collapse" data-target=".$UseSendmailOptions .collapse">
+<h2>Determine if mail() uses a fully sendmail compatible MTA that
+supports sendmail's "-oi -f" options</h2>
+<pre>$UseSendmailOptions : boolean</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+<a name="%24Username" id="$Username"> </a><div class="element clickable property public $Username" data-toggle="collapse" data-target=".$Username .collapse">
+<h2>Sets SMTP username.</h2>
+<pre>$Username : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+<a name="%24Version" id="$Version"> </a><div class="element clickable property public $Version" data-toggle="collapse" data-target=".$Version .collapse">
+<h2>Sets the PHPMailer Version number</h2>
+<pre>$Version : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+<a name="%24WordWrap" id="$WordWrap"> </a><div class="element clickable property public $WordWrap" data-toggle="collapse" data-target=".$WordWrap .collapse">
+<h2>Sets word wrapping on the body of the message to a given number of
+characters.</h2>
+<pre>$WordWrap : int</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+<a name="%24Workstation" id="$Workstation"> </a><div class="element clickable property public $Workstation" data-toggle="collapse" data-target=".$Workstation .collapse">
+<h2>Sets SMTP workstation.</h2>
+<pre>$Workstation </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"><p>@var string</p></p></div></div>
+</div>
+<a name="%24XMailer" id="$XMailer"> </a><div class="element clickable property public $XMailer" data-toggle="collapse" data-target=".$XMailer .collapse">
+<h2>What to use in the X-Mailer header</h2>
+<pre>$XMailer : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+<a name="%24action_function" id="$action_function"> </a><div class="element clickable property public $action_function" data-toggle="collapse" data-target=".$action_function .collapse">
+<h2>Callback Action function name.</h2>
+<pre>$action_function : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"><p>The function that handles the result of the send email action.
+It is called out by Send() for each email sent.</p>
+
+<p>Value can be:
+- 'function_name' for function names
+- 'Class::Method' for static method calls
+- array($object, 'Method') for calling methods on $object
+See http://php.net/is_callable manual page for more details.</p>
+
+<p>Parameters:
+  bool    $result        result of the send action
+  string  $to            email address of the recipient
+  string  $cc            cc email addresses
+  string  $bcc           bcc email addresses
+  string  $subject       the subject
+  string  $body          the email body
+  string  $from          email address of sender</p></p></div></div>
+</div>
+<a name="%24CustomHeader" id="$CustomHeader"> </a><div class="element clickable property protected $CustomHeader" data-toggle="collapse" data-target=".$CustomHeader .collapse">
+<h2>&lt;p&gt;An array of custom headers&lt;/p&gt;</h2>
+<pre>$CustomHeader : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>protected</td>
+</tr></table>
+</div></div>
+</div>
+<a name="%24MIMEBody" id="$MIMEBody"> </a><div class="element clickable property protected $MIMEBody" data-toggle="collapse" data-target=".$MIMEBody .collapse">
+<h2>Stores the complete compiled MIME message body.</h2>
+<pre>$MIMEBody : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>protected</td>
+</tr></table>
+</div></div>
+</div>
+<a name="%24MIMEHeader" id="$MIMEHeader"> </a><div class="element clickable property protected $MIMEHeader" data-toggle="collapse" data-target=".$MIMEHeader .collapse">
+<h2>Stores the complete compiled MIME message headers.</h2>
+<pre>$MIMEHeader : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>protected</td>
+</tr></table>
+</div></div>
+</div>
+<a name="%24ReplyTo" id="$ReplyTo"> </a><div class="element clickable property protected $ReplyTo" data-toggle="collapse" data-target=".$ReplyTo .collapse">
+<h2>&lt;p&gt;An array of reply-to name and address&lt;/p&gt;
+</h2>
+<pre>$ReplyTo : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>protected</td>
+</tr></table>
+</div></div>
+</div>
+<a name="%24all_recipients" id="$all_recipients"> </a><div class="element clickable property protected $all_recipients" data-toggle="collapse" data-target=".$all_recipients .collapse">
+<h2>&lt;p&gt;An array of all kinds of addresses: to, cc, bcc, replyto&lt;/p&gt;</h2>
+<pre>$all_recipients : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>protected</td>
+</tr></table>
+</div></div>
+</div>
+<a name="%24attachment" id="$attachment"> </a><div class="element clickable property protected $attachment" data-toggle="collapse" data-target=".$attachment .collapse">
+<h2>&lt;p&gt;An array of attachments&lt;/p&gt;</h2>
+<pre>$attachment : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>protected</td>
+</tr></table>
+</div></div>
+</div>
+<a name="%24bcc" id="$bcc"> </a><div class="element clickable property protected $bcc" data-toggle="collapse" data-target=".$bcc .collapse">
+<h2>&lt;p&gt;An array of 'bcc' addresses&lt;/p&gt;
+</h2>
+<pre>$bcc : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>protected</td>
+</tr></table>
+</div></div>
+</div>
+<a name="%24boundary" id="$boundary"> </a><div class="element clickable property protected $boundary" data-toggle="collapse" data-target=".$boundary .collapse">
+<h2>&lt;p&gt;An array of MIME boundary strings&lt;/p&gt;</h2>
+<pre>$boundary : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>protected</td>
+</tr></table>
+</div></div>
+</div>
+<a name="%24cc" id="$cc"> </a><div class="element clickable property protected $cc" data-toggle="collapse" data-target=".$cc .collapse">
+<h2>&lt;p&gt;An array of 'cc' addresses&lt;/p&gt;
+</h2>
+<pre>$cc : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>protected</td>
+</tr></table>
+</div></div>
+</div>
+<a name="%24error_count" id="$error_count"> </a><div class="element clickable property protected $error_count" data-toggle="collapse" data-target=".$error_count .collapse">
+<h2>&lt;p&gt;The number of errors encountered&lt;/p&gt;</h2>
+<pre>$error_count : integer</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>protected</td>
+</tr></table>
+</div></div>
+</div>
+<a name="%24exceptions" id="$exceptions"> </a><div class="element clickable property protected $exceptions" data-toggle="collapse" data-target=".$exceptions .collapse">
+<h2>&lt;p&gt;Whether to throw exceptions for errors&lt;/p&gt;</h2>
+<pre>$exceptions : boolean</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>protected</td>
+</tr></table>
+</div></div>
+</div>
+<a name="%24language" id="$language"> </a><div class="element clickable property protected $language" data-toggle="collapse" data-target=".$language .collapse">
+<h2>&lt;p&gt;An array of available languages&lt;/p&gt;</h2>
+<pre>$language : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>protected</td>
+</tr></table>
+</div></div>
+</div>
+<a name="%24mailHeader" id="$mailHeader"> </a><div class="element clickable property protected $mailHeader" data-toggle="collapse" data-target=".$mailHeader .collapse">
+<h2>Stores the extra header list which CreateHeader() doesn't fold in</h2>
+<pre>$mailHeader : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>protected</td>
+</tr></table>
+</div></div>
+</div>
+<a name="%24message_type" id="$message_type"> </a><div class="element clickable property protected $message_type" data-toggle="collapse" data-target=".$message_type .collapse">
+<h2>&lt;p&gt;The message's MIME type&lt;/p&gt;
+</h2>
+<pre>$message_type : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>protected</td>
+</tr></table>
+</div></div>
+</div>
+<a name="%24sign_cert_file" id="$sign_cert_file"> </a><div class="element clickable property protected $sign_cert_file" data-toggle="collapse" data-target=".$sign_cert_file .collapse">
+<h2>&lt;p&gt;The filename of a DKIM certificate file&lt;/p&gt;</h2>
+<pre>$sign_cert_file : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>protected</td>
+</tr></table>
+</div></div>
+</div>
+<a name="%24sign_key_file" id="$sign_key_file"> </a><div class="element clickable property protected $sign_key_file" data-toggle="collapse" data-target=".$sign_key_file .collapse">
+<h2>&lt;p&gt;The filename of a DKIM key file&lt;/p&gt;</h2>
+<pre>$sign_key_file : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>protected</td>
+</tr></table>
+</div></div>
+</div>
+<a name="%24sign_key_pass" id="$sign_key_pass"> </a><div class="element clickable property protected $sign_key_pass" data-toggle="collapse" data-target=".$sign_key_pass .collapse">
+<h2>&lt;p&gt;The password of a DKIM key&lt;/p&gt;</h2>
+<pre>$sign_key_pass : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>protected</td>
+</tr></table>
+</div></div>
+</div>
+<a name="%24smtp" id="$smtp"> </a><div class="element clickable property protected $smtp" data-toggle="collapse" data-target=".$smtp .collapse">
+<h2>&lt;p&gt;An instance of the SMTP sender class&lt;/p&gt;</h2>
+<pre>$smtp : <a href="../classes/SMTP.html">\SMTP</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>protected</td>
+</tr></table>
+</div></div>
+</div>
+<a name="%24to" id="$to"> </a><div class="element clickable property protected $to" data-toggle="collapse" data-target=".$to .collapse">
+<h2>&lt;p&gt;An array of 'to' addresses&lt;/p&gt;
+</h2>
+<pre>$to : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>protected</td>
+</tr></table>
+</div></div>
+</div>
+<h3>
+<i class="icon-custom icon-constant"></i> Constants</h3>
+<a name="CRLF" id="CRLF"> </a><div class="element clickable constant  CRLF" data-toggle="collapse" data-target=".CRLF .collapse">
+<h2>CRLF</h2>
+<pre>CRLF </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+<a name="STOP_CONTINUE" id="STOP_CONTINUE"> </a><div class="element clickable constant  STOP_CONTINUE" data-toggle="collapse" data-target=".STOP_CONTINUE .collapse">
+<h2>STOP_CONTINUE</h2>
+<pre>STOP_CONTINUE </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+<a name="STOP_CRITICAL" id="STOP_CRITICAL"> </a><div class="element clickable constant  STOP_CRITICAL" data-toggle="collapse" data-target=".STOP_CRITICAL .collapse">
+<h2>STOP_CRITICAL</h2>
+<pre>STOP_CRITICAL </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+<a name="STOP_MESSAGE" id="STOP_MESSAGE"> </a><div class="element clickable constant  STOP_MESSAGE" data-toggle="collapse" data-target=".STOP_MESSAGE .collapse">
+<h2>STOP_MESSAGE</h2>
+<pre>STOP_MESSAGE </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="row"><footer class="span12">
+            Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
+            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a8</a> and<br>
+            generated on 2012-12-03T13:15:45-05:00.<br></footer></div>
+</div>
+</body>
+</html>

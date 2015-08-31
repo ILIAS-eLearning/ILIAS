@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("./Services/Table/classes/class.ilTable2GUI.php");
+require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystem.php';
 
 /**
 * TableGUI class user search results
@@ -72,6 +73,10 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
 		else
 		{
 			$this->addColumn($this->lng->txt('lucene_relevance_short'),'relevance');
+			if(ilBuddySystem::getInstance()->isEnabled())
+			{
+				$this->addColumn('', '');
+			}
 			$this->setDefaultOrderField("relevance");
 			$this->setDefaultOrderDirection("desc");
 		}
@@ -287,6 +292,11 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
 		if($this->getType() == self::TYPE_GLOBAL_SEARCH)
 		{
 			$this->tpl->setVariable('SEARCH_RELEVANCE',$this->getRelevanceHTML($a_set['relevance']));
+			if(ilBuddySystem::getInstance()->isEnabled())
+			{
+				require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystemLinkButton.php';
+				$this->tpl->setVariable('CONTACT_ACTIONS', ilBuddySystemLinkButton::getInstanceByUserId($a_set['usr_id'])->getHtml());
+			}
 		}
 
 	}

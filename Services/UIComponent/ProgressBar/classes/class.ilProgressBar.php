@@ -19,6 +19,11 @@ class ilProgressBar
 	protected $striped; // [bool]
 	protected $animated; // [bool]
 	
+	
+	protected $ajax_url = '';
+	protected $ajax_timeout = 5;
+	protected $unique_id = '';
+	
 	const TYPE_INFO = 1;
 	const TYPE_SUCCESS = 2;
 	const TYPE_WARNING = 3;
@@ -41,7 +46,7 @@ class ilProgressBar
 	/**
 	 * Factory
 	 * 
-	 * @return self
+	 * @return ilProgressBar
 	 */
 	public static function getInstance()
 	{
@@ -58,7 +63,7 @@ class ilProgressBar
 	 * 
 	 * @param int $a_value
 	 */
-	protected function setType($a_value)
+	public function setType($a_value)
 	{
 		$valid = array(
 			self::TYPE_INFO
@@ -142,6 +147,20 @@ class ilProgressBar
 		$this->current = abs($a_value);
 	}
 	
+	public function setAsyncStatusUrl($a_target)
+	{
+		$this->ajax_url = $a_target;
+	}
+	
+	public function setAsynStatusTimeout($a_timeout)
+	{
+		$this->async_timeout = $a_timeout;
+	}
+	
+	public function setId($a_id)
+	{
+		$this->unique_id = $a_id;
+	}
 	
 	//
 	// presentation
@@ -187,6 +206,16 @@ class ilProgressBar
 			$tpl->touchBlock("hide_caption_in_bl");
 			$tpl->touchBlock("hide_caption_out_bl");
 		}
+		
+		if(strlen($this->ajax_url) and $this->ajax_timeout)
+		{
+			$tpl->setCurrentBlock('async_status');
+			$tpl->setVariable('AJAX_URL',$this->ajax_url);
+			$tpl->setVariable('AJAX_TIMEOUT',1000 * (int) $this->ajax_timeout);
+			$tpl->parseCurrentBlock();
+		}
+		
+		$tpl->setVariable('PROGRESS_ID',$this->unique_id);
 		
 		return $tpl->get();
 	}

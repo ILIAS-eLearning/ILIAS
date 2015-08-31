@@ -1112,9 +1112,17 @@ class ilObjectGUI
 		{
 			$form->setValuesByArray($values);
 		}
+		
+		$this->addExternalEditFormCustom($form);
+		
 		$tpl->setContent($form->getHTML());
 	}
 
+	public function addExternalEditFormCustom(ilPropertyFormGUI $a_form)
+	{
+		// has to be done AFTER setValuesByArray() ...
+	}
+	
 	/**
 	 * Init object edit form
 	 *

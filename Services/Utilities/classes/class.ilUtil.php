@@ -5150,6 +5150,8 @@ class ilUtil
 	 * - https://gist.github.com/codler/3906826
 	 * - ...
 	 * @param string $file filename
+	 *
+	 * @deprecated use ilFileDelivery Class
 	 */
 	function rangeDownload($file) {
 

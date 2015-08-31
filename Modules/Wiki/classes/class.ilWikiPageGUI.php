@@ -492,8 +492,9 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	function deleteWikiPageConfirmationScreen()
 	{
 		global $ilAccess, $tpl, $ilCtrl, $lng;
-		
-		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
+
+		include_once("./Modules/Wiki/classes/class.ilWikiPerm.php");
+		if (ilWikiPerm::check("delete_wiki_pages", $_GET["ref_id"]))
 		{
 			include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
 			$confirmation_gui = new ilConfirmationGUI();
@@ -569,8 +570,9 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	function confirmWikiPageDeletion()
 	{
 		global $ilAccess, $tpl, $ilCtrl, $lng;
-		
-		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
+
+		include_once("./Modules/Wiki/classes/class.ilWikiPerm.php");
+		if (ilWikiPerm::check("delete_wiki_pages", $_GET["ref_id"]))
 		{
 			$this->getPageObject()->delete();
 			
@@ -757,7 +759,8 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	{
 		global $ilAccess, $tpl, $ilCtrl, $lng;
 
-		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
+		include_once("./Modules/Wiki/classes/class.ilWikiPerm.php");
+		if (ilWikiPerm::check("activate_wiki_protection", $_GET["ref_id"]))
 		{
 			$this->getPageObject()->setBlocked(true);
 			$this->getPageObject()->update();
@@ -775,7 +778,8 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	{
 		global $ilAccess, $tpl, $ilCtrl, $lng;
 
-		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
+		include_once("./Modules/Wiki/classes/class.ilWikiPerm.php");
+		if (ilWikiPerm::check("activate_wiki_protection", $_GET["ref_id"]))
 		{
 			$this->getPageObject()->setBlocked(false);
 			$this->getPageObject()->update();

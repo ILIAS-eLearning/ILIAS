@@ -5,7 +5,6 @@
 require_once './Services/User/classes/class.ilObjUser.php';
 require_once "Services/Mail/classes/class.ilMailbox.php";
 require_once "Services/Mail/classes/class.ilFormatMail.php";
-require_once "Services/Contact/classes/class.ilAddressbook.php";
 
 /**
 * @author Jens Conze
@@ -45,7 +44,6 @@ class ilMailSearchCoursesGUI
 		$this->ctrl->saveParameter($this, "ref");
 
 		$this->umail = new ilFormatMail($ilUser->getId());
-		$this->abook = new ilAddressbook($ilUser->getId());
 	}
 
 	public function executeCommand()
@@ -180,7 +178,9 @@ class ilMailSearchCoursesGUI
 			$mail_data["m_email"],
 			$mail_data["m_subject"],
 			$mail_data["m_message"],
-			$mail_data["use_placeholders"]
+			$mail_data["use_placeholders"],
+			$mail_data['tpl_ctx_id'],
+			$mail_data['tpl_ctx_params']
 		);
 
 		#$this->ctrl->returnToParent($this);
@@ -228,58 +228,15 @@ class ilMailSearchCoursesGUI
 			$mail_data["m_email"],
 			$mail_data["m_subject"],
 			$mail_data["m_message"],
-			$mail_data["use_placeholders"]
+			$mail_data["use_placeholders"],
+			$mail_data['tpl_ctx_id'],
+			$mail_data['tpl_ctx_params']
 		);
 
 		#$this->ctrl->returnToParent($this);
 		ilUtil::redirect("ilias.php?baseClass=ilMailGUI&type=search_res");
 	}
 
-	/**
-	 * Take over course members to addressbook
-	 */
-	public function adoptMembers()
-	{
-		global $lng;
-		$ids = ((int)$_GET['search_members']) ? array((int)$_GET['search_members']) : $_POST['search_members']; 
-
-		if ((int)$ids && !is_array($ids))
-			$ids = array((int)$ids);
-
-		if ($ids )
-		{
-			$members = array();
-		
-			foreach ($ids as $member)
-			{
-				$login = ilObjUser::_lookupLogin($member);
-	
-				if (!$this->abook->checkEntry($login))
-				{
-					$name = ilObjUser::_lookupName($member);
-					$email = '';
-					if(ilObjUser::_lookupPref((int)$member, 'public_email') == 'y')
-					{
-						$email = ilObjUser::_lookupEmail($member);	
-					}
-					$this->abook->addEntry(
-						$login,
-						$name["firstname"],
-						$name["lastname"],
-						$email
-					);
-				}
-			}
-			ilUtil::sendInfo($lng->txt("mail_members_added_addressbook"));
-		}
-		else
-		{
-			ilUtil::sendInfo($lng->txt("mail_select_one_entry"));
-		}
-
-		$this->showMembers();
-	}
-	
 	/**
 	 * Cancel action
 	 */
@@ -521,12 +478,11 @@ class ilMailSearchCoursesGUI
 						$fullname = $name['lastname'].', '.$name['firstname'];
 
 					$rowData = array(
-						'members_id' => $member,
-						'members_login' => $login,
-						'members_name' => $fullname,
+						'members_id'      => $member,
+						'members_login'   => $login,
+						'members_name'    => $fullname,
 						'members_crs_grp' => $ilObjDataCache->lookupTitle($crs_id),
-						'members_in_addressbook' => $this->abook->checkEntryByLogin($login) ? $lng->txt("yes") : $lng->txt("no"),
-						'search_crs' => $crs_id
+						'search_crs'      => $crs_id
 					);
 					
 					$tableData[] = $rowData;

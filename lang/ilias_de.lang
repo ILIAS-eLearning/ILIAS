@@ -344,6 +344,17 @@ assessment#:#applet_new_parameter#:#Neuer Parameter
 assessment#:#applet_parameter#:#Parameter
 assessment#:#applet_parameters#:#Applet-Parameter
 assessment#:#apply#:#Übernehmen
+assessment#:#tst_res_lo_objectives_header#:#Relevante Lernziele
+assessment#:#tst_res_lo_try_header#:#Versuch
+assessment#:#tst_res_lo_try_n#:#%s. Versuch
+assessment#:#tst_pass_overview_header_lo_initial_all_objectives#:#Einstiegstestergebnisse<br />zu den Lernzielen im Kurs %s
+assessment#:#tst_pass_overview_header_lo_initial_per_objective#:#Einstiegstestergebnisse<br />zum Lernziel %s im Kurs %s
+assessment#:#tst_pass_overview_header_lo_qualifying_all_objectives#:#Qualifizierende Testergebnisse<br />zu den Lernzielen im Kurs %s
+assessment#:#tst_pass_overview_header_lo_qualifying_per_objective#:#Qualifizierende Testergebnisse<br />zum Lernziel %s im Kurs %s
+assessment#:#tst_pass_details_header_lo_initial#:#Einstiegsergebnisse zu den Lernzielen<br />%s - %s
+assessment#:#tst_virtual_pass_header_lo_initial#:#Einstiegsergebnisse zu den Lernzielen<br />%s
+assessment#:#tst_pass_details_header_lo_qualifying#:#Qualifizierende Ergebnisse zu den Lernzielen<br />%s - %s
+assessment#:#tst_virtual_pass_header_lo_qualifying#:#Qualifizierende Ergebnisse zu den Lernzielen<br />%s
 assessment#:#ass_completion_by_submission#:#Bestehen durch Abgabe
 assessment#:#ass_completion_by_submission_info#:#Falls aktiviert, führt die Abgabe einer Lösungsdatei zur Vergabe der Maximalpunktzahl für diese Frage. Die Bewertung kann jederzeit manuell angepasst werden. Das Ändern dieser Einstellung hat keine nachträglichen Auswirkungen auf bereits eingereichte Lösungen.
 assessment#:#ass_create_export_file#:#Erstelle Exportdatei
@@ -821,6 +832,13 @@ assessment#:#tst_msg_rand_quest_set_no_src_pool_defs#:#Um einen Test mit zufäll
 assessment#:#tst_msg_rand_quest_set_incomplete_quest_amount_cfg#:#Ohne die Angabe einer Fragenanzahl kann kein Test mit zufälliger Fragenauswahl erzeugt werden.
 assessment#:#tst_msg_rand_quest_set_no_pools_available#:#Aktuell können Sie keine neuen Regeln für die Fragenauswahl hinzufügen, da keine Fragenpools zur Verfügung stehen.
 assessment#:#tst_msg_rand_quest_set_change_quest_amount_here#:#Sie können die Fragenanzahl hier einstellen: %s
+assessment#:#tst_wf_info_optional_question#:#Diese Frage gehört zu einem bereits bestandenen Lernziel.
+assessment#:#tst_wf_info_answer_adopted_from_prev_pass#:#Ihre Antwort aus einem früheren Versuch wurde übernommen.
+assessment#:#tst_wf_info_answer_not_adopted#:#Es wurde aus früheren Versuchen keine Antwort übernommen, daher müssen sie diese Frage bearbeiten, andernfalls wird sich ihr Lernzielergebnis verschlechtern.
+assessment#:#tst_optional_questions_confirmation_fixed_test#:#<b>Fragen zu bereits erfolgreich bearbeiteten Lernzielen sind in vorherigen Versuchen erfolgreich beantwortet worden.</b><br /><br />Sie wollen nun zu einer Frage wechseln, welche zu einem bereits bestandenen Lernziel gehört.<br />Sie können wählen:<br /><br />Wenn Sie fortfahren, können Sie die Fragen zu diesen Lernzielen erneut bearbeiten oder nur einsehen. Wenn Sie die aus früheren Versuchen übernommenen Antworten nicht verändern, können Sie Ihr Lernzielergebnis auch nicht verschlechtern.<br /><br />Wenn Sie die Fragen nicht erneut bearbeiten oder einsehen möchten, können Sie zurück gehen. Die Fragen werden in jedem Fall in der Auswertung berücksichtigt.
+assessment#:#tst_optional_questions_confirmation_non_fixed_test#:#<b>Fragen zu bereits erfolgreich bearbeiteten Lernzielen sind optional.</b><br /><br />Sie wollen nun zu einer Frage wechseln, welche zu einem bereits bestandenen Lernziel gehört.<br />Sie können wählen:<br /><br />Wenn Sie fortfahren, können Sie die Fragen zu diesen Lernzielen bearbeiten. Da für diesen Versuch aber neue Fragen ausgewählt wurden, wurden Ihre Antworten aus vorherigen Versuchen nicht übernommen. Sie können sich bei erneuter Bearbeitung der Fragen Ihr Lernzielergebnis auch verschlechtern.<br /><br />Wenn Sie die Fragen nicht erneut bearbeiten möchten können Sie zurück gehen. Die Fragen werden dann in der Auswertung nicht berücksichtigt.
+assessment#:#tst_tab_results_pass_oriented#:#Ergebnisse nach Versuchen
+assessment#:#tst_tab_results_objective_oriented#:#Ergebnisse nach Lernzielen
 assessment#:#tst_inp_source_pool_label#:#Fragenpool
 assessment#:#tst_inp_source_pool_filter_tax#:#Taxonomiefilter
 assessment#:#tst_inp_source_pool_no_tax_filter#:#Verwende keine Taxonomie als Filter
@@ -871,6 +889,8 @@ assessment#:#participants_invitation#:#Nur ausgewählte Teilnehmer
 assessment#:#participants_invitation_description#:#Der Test kann nur von den Benutzern durchgeführt werden, die im Reiter "Teilnehmer" hinzugefügt wurden.
 assessment#:#participants_invitation_search_introduction#:#Um feste Teilnehmer zu diesem Test einzuladen, geben Sie bitte die gewünschten Namen in das untere Suchfeld ein und wählen Sie dann aus den Ergebnissen die festen Teilnehmer aus, die Sie einladen wollen. Alle festen Teilnehmer werden in die benachbarte Rubrik &quot;Daten der Teilnehmer&quot; hinzugefügt
 assessment#:#pass#:#Durchlauf
+assessment#:#tst_attempt#:#Versuch
+assessment#:#tst_back_to_virtual_pass#:#Zurück zur Fragenübersicht
 assessment#:#pass_finished#:#%s Durchlauf
 assessment#:#passed_official#:#bestanden
 assessment#:#passed_only#:#Nur bestandene Tests
@@ -1000,7 +1020,7 @@ assessment#:#save_before_upload_javaapplet#:#Sie müssen Ihre Änderungen speich
 assessment#:#save_edit#:#Speichern und Inhalt bearbeiten
 assessment#:#save_finish#:#Test beenden
 assessment#:#save_introduction#:#Zur Startseite
-assessment#:#save_back_to_objective_container#:#Zurück zum Kurs
+assessment#:#back_to_objective_container#:#Zurück zum Kurs
 assessment#:#save_next#:#Weiter
 assessment#:#save_previous#:#Zurück
 assessment#:#save_text_answer_points#:#Punkte der Textfragen speichern
@@ -1144,6 +1164,8 @@ assessment#:#tst_enter_questionpool#:#Bitte geben Sie den Namen eines Fragenpool
 assessment#:#tst_eval_no_anonymous_aggregation#:#Der Test wurde bislang noch von niemandem durchgeführt. Es existieren keine anonym aggregierten Ergebnisse.
 assessment#:#tst_eval_question_points#:#Fragenergebnisse für Testdurchlauf %s
 assessment#:#tst_eval_results_by_pass#:#Detaillierte Testergebnisse für Testdurchlauf %s
+assessment#:#tst_eval_results_by_pass_lo#:#Detaillierte Testergebnisse für den %s. Versuch
+assessment#:#tst_eval_results_lo#:#Detaillierte Testergebnisse
 assessment#:#tst_eval_show_answer#:#Antwort anzeigen
 assessment#:#tst_eval_total_finished#:#Gesamtzahl aller beendeten Tests (Benutzer, die maximale Anzahl Passes eingereicht haben.)
 assessment#:#tst_eval_total_finished_average_time#:#Mittlere Bearbeitungsdauer aller Tests
@@ -2801,7 +2823,6 @@ common#:#cont_iim_overlay_info#:#Ein Overlay-Bild wird angezeigt, wenn Benutzer 
 common#:#cont_object#:#Objekt
 common#:#contact#:#Kontakt
 common#:#contact_data#:#Kontaktinformationen
-common#:#contact_sysadmin#:#Administration kontaktieren
 common#:#container#:#Container
 common#:#container_no_items#:#Keine Objekte gefunden
 common#:#content#:#Inhalt
@@ -4020,7 +4041,7 @@ common#:#msg_clear_clipboard#:#Zwischenablage gelöscht
 common#:#msg_cloned#:#Objekt(e) kopiert.
 common#:#msg_copy_clipboard#:#Wählen Sie nun den gewünschten Ort, an den die die kopierten Objekte eingefügt werden sollen. Klicken Sie abschliessend auf den Einfügen-Button.
 common#:#msg_copy_clipboard_container#:#Wählen Sie nun den gewünschten Ort, an den die die kopierten Objekte eingefügt werden sollen. Klicken Sie abschliessend auf den Weiter-Button.
-common#:#msg_copy_clipboard_source#:#Wählen Sie nun den Kurs aus, dessen Inhalte kopiert werden sollen. Klicken Sie anschließend auf den Weiter-Button.
+common#:#msg_copy_clipboard_source#:#Wählen Sie nun den Kurs oder die Gruppe aus, dessen Inhalte kopiert werden sollen. Klicken Sie anschließend auf den Weiter-Button.
 common#:#msg_cut_clipboard#:#Wählen Sie nun den gewünschten Ort, an dem die ausgewählten Objekte eingefügt werden sollen. Klicken Sie abschließend auf den Einfügen-Button.
 common#:#msg_cut_copied#:#Objekt(e) verschoben.
 common#:#msg_deleted_export_files#:#Exportdatei(en) gelöscht
@@ -8345,7 +8366,7 @@ mail#:#mail_enter_valid_login#:#Bitte geben Sie einen gültigen Benutzernamen ei
 mail#:#mail_entry_added#:#Ein neuer Eintrag wurde hinzugefügt
 mail#:#mail_entry_changed#:#Der Eintrag wurde geändert
 mail#:#mail_entry_exists#:#Es existiert bereits ein Eintrag mit dem gegebenen Benutzernamen.
-mail#:#mail_entry_of_addressbook#:#Eintrag aus den Kontakten
+mail#:#mail_entry_of_contacts#:#Eintrag aus den Kontakten
 mail#:#mail_external_sender_noreply#:#noreply-Adresse
 mail#:#mail_file_name#:#Dateiname
 mail#:#mail_file_size#:#Dateigröße
@@ -8374,8 +8395,8 @@ mail#:#mail_invite_users_to_chat#:#Benutzer in Chat einladen
 mail#:#mail_list_members#:#Mitglieder auflisten
 mail#:#mail_mailing_list#:#Verteilerliste
 mail#:#mail_mailing_lists#:#Verteilerlisten
-mail#:#mail_mailing_lists_all_addressbook_entries_assigned#:#Sie haben bereits all Ihre Kontakte diesem Verteiler zugeordnet.
-mail#:#mail_mailing_lists_no_addressbook_entries#:#Sie haben keine Einträge in den Kontakten die Sie zur Verteilerliste hinzufügen können.
+mail#:#mail_mailing_lists_all_contact_entries_assigned#:#Sie haben bereits all Ihre Kontakte diesem Verteiler zugeordnet.
+mail#:#mail_mailing_lists_no_contact_entries#:#Sie haben keine Einträge in den Kontakten die Sie zur Verteilerliste hinzufügen können.
 mail#:#mail_mark_read#:#Als gelesen markieren
 mail#:#mail_mark_unread#:#Als ungelesen markieren
 mail#:#mail_maxsize_attachment_error#:#Die maximale Dateigröße beträgt:
@@ -15606,3 +15627,222 @@ note#:#note_comment_notification_salutation#:#Hallo %s,
 note#:#note_by#:#Von
 note#:#note_comment_notification_link#:#Link
 note#:#note_comment_text#:#Text
+lng#:#lng_enable_language_detection#:#Aktiviere automatische Spracherkennung
+lng#:#lng_disable_language_detection#:#Deaktiviere automatische Spracherkennung
+trac#:#trac_mode_downloaded#:#Heruntergeladen
+trac#:#trac_mode_downloaded_info#:#Der Lernstand wird über das Herunterladen der Datei bestimmt.
+trac#:#trac_mode_collection_mobs#:#Auswahl an Medien-Objekten
+trac#:#trac_mode_collection_mobs_info#:#Der Lernfortschritt wird automatisch aus der Anzahl der betrachteten Medienobjekte ermittelt.
+trac#:#trac_lp_determination_info_mob#:#Auswahl der Medienobjekte, anhand derer der Gesamtstatus des Mediacast ermittelt wird.
+trac#:#trac_lp_settings_info_parent_container#:#Lernfortschritt übergeordneter Objekte
+trac#:#trac_lp_settings_info_parent_usage#:#Bestimmt Lernfortschritt
+trac#:#trac_lp_settings_info_parent_group#:#Andere Objekte in der Gruppierung
+book#:#book_bobj#:#Buchungsobjekt
+crs#:#crs_subscription_min_members#:#Minimale Anzahl
+crs#:#crs_subscription_min_members_info#:#Siehe Cron-Job "Stornierungsende"
+crs#:#crs_waiting_list_autofill#:#Mit automatischem Aufrücken
+crs#:#crs_waiting_list_no_autofill#:#Ohne automatisches Aufrücken
+crs#:#crs_waiting_list_autofill_info#:#Teilnehmer rücken automatisch bei Stornierungen von der Warteliste nach.
+crs#:#crs_cancellation_end#:#Stornierungsende
+crs#:#crs_period#:#Kurszeitraum
+crs#:#crs_course_period_not_valid#:#DerKurszeitraum ist nicht gültig.
+crs#:#crs_max_and_min_members_needed#:#Setzen Sie eine minimale oder maximale Anzahl - oder beides.
+crs#:#crs_max_members_needed#:#Für die Warteliste wird eine maximale Anzahl Mitglieder benötigt.
+crs#:#crs_max_and_min_members_invalid#:#Die minimale Anzahl muss kleiner als die maximale Anzahl sein.
+common#:#mem_cron_min_members#:#Kurs/Gruppe: Prüfung der minimalen Teilnehmerzahl
+common#:#mem_cron_min_members_info#:#Die Administratoren werden benachrichtigt sofern die minimale Anzahl nicht erreicht wird.
+crs#:#crs_cancellation_end_rbac_info#:#Das Stornierungsende wurde am %s erreicht, ein Austritt ist nicht mehr möglich.
+common#:#mem_min_users#:#Minimale Teilnehmeranzahl
+grp#:#grp_wrong_min_max_members#:#Bitte überprüfen Sie Ihre Eingabe für die mnimale und maximale Teilnehmeranzahl.
+grp#:#reg_grp_min_members#:#Minimale Anzahl
+grp#:#grp_cancellation_end#:#Stornierungsende
+grp#:#grp_cancellation_end_rbac_info#:#Das Stornierungsende wurde am %s erreicht, ein Austritt ist nicht mehr möglich.
+sess#:#sess_reg_min_members#:#Minimale Teilnehmeranzahl
+sess#:#sess_reg_min_members_info#:#Eine minimale Zahl an Teilnehmern muss sich registrieren.
+common#:#mem_cron_min_members_subject#:#Kurs/Gruppe: Prüfung der minimalen Teilnehmerzahl
+common#:#mem_cron_min_members_intro#:#Die folgenden Kurse und Gruppen erreichen aktuell nicht die minimale Teilnehmerzahl.
+grp#:#grp_waiting_list_autofill#:#Mit automatischem Aufrücken
+grp#:#grp_waiting_list_no_autofill#:#Ohne automatisches Aufrücken
+grp#:#grp_waiting_list_autofill_info#:#Teilnehmer rücken automatisch bei Stornierungen von der Warteliste nach.
+sess#:#sess_reg_waiting_list_none#:#Keine
+sess#:#sess_reg_waiting_list_no_autofill#:#Ohne automatisches Aufrücken
+sess#:#sess_reg_waiting_list_no_autofill_info#:#Ist die maximale Mitgliederanzahl erreicht, können sich weitere Benutzer auf eine Warteliste setzen lassen.
+sess#:#sess_reg_waiting_list_autofill#:#Mit automatischem Aufrücken
+sess#:#sess_reg_waiting_list_autofill_info#:#Teilnehmer rücken automatisch bei Stornierungen von der Warteliste nach.
+grp#:#grp_cancellation_end_info#:#Ab diesem Datum können Teilnehmer nicht mehr die Kursmitgliedschaft beenden.
+crs#:#crs_cancellation_end_info#:#Ab diesem Datum können Teilnehmer nicht mehr die Kursmitgliedschaft beenden.
+crs#:#crs_period_info#:#Start- und Enddatum des Kurses
+meta#:#md_adv_deleted_fields#:#Die Felder wurden gelöscht.
+cntr#:#tab_back_to_repository#:#Zurück zum Magazin
+obj#:#obj_target_location#:#Zielordner
+obj#:#obj_copy_progress#:#Fortschritt des Kopierens
+cntr#:#cntr_copy_repo_tree#:#Auswahl Magazinbaum
+cntr#:#cntr_copy_crs_grp#:#Auswahl Mitgliedschaften
+crs#:#crs_mail_context_tutor_title#:#Kurs-Tutor
+crs#:#crs_mail_context_member_title#:#Kurs-Mitglied
+sahs#:#sahs_mail_context_lp#:#SCORM Lernfortschritt
+mail#:#mail_templates#:#Textvorlagen
+mail#:#mail_new_template#:#Neue Textvorlage
+mail#:#mail_template_title#:#Name der Textvorlage
+mail#:#mail_template_context#:#Kontext
+mail#:#mail_template_no_context_available#:#Aktuell wird von keinem ILIAS-Service oder -Modul ein Kontext bereitgestellt. Das Anlegen oder Bearbeiten von Textvorlagen ist daher nicht möglich.
+mail#:#mail_template_orphaned_context#:#Kontext verwaist
+mail#:#mail_create_tpl#:#Textvorlage erstellen
+mail#:#mail_edit_tpl#:#Textvorlage bearbeiten
+mail#:#mail_tpl_deleted_p#:#Die Textvorlagen wurded erfolgreich gelöscht.
+mail#:#mail_tpl_deleted_s#:#Die Textvorlage wurde erfolgreich gelöscht.
+mail#:#mail_template_missing_id#:#Die Aktion kann nicht ausgeführt werden, da die ID der Textvorlage nicht korrekt übertragen wurde.
+mail#:#mail_template_no_valid_context#:#Der gewählte Kontext ist nicht gültig.
+mail#:#mail_template_client#:#Textvorlage
+mail#:#mail_template_client_info#:#Wählen Sie zwischen einer der verfügbaren Textvorlagen. Sie haben die Möglichkeit, die durch die Textvorlage angebotenen Platzhalter zu nutzen. Beim Wahl einer Textvorlage werden Nachrichte und Betreff in diesem Formular (falls in der Vorlage definiert) ersetzt.
+itgr#:#itgr_hide_title#:#Titel verbergen
+itgr#:#itgr_hide_title_info#:#Der Titel des Objektblocks wird in der Präsentation für Lerner nicht angezeigt.
+content#:#cont_all_languages#:#All Languages
+mob#:#mob_upload_multi_srt#:#Upload as ZIP
+mob#:#mob_upload_multi_srt_howto#:#The .zip file should contain no subdirectory, all .srt files should be located on the top level. The file names should end with "_&lt;lang code&gt;.srt" where lang code is e.g. "en", "it", "de".
+mob#:#mob_file_could_not_be_uploaded#:#File could not be uploaded.
+mob#:#mob_multi_srt_files#:#SRT Files
+content#:#cont_subtitle_files#:#Media Subtitles
+content#:#cont_upload_multi_srt_howto#:#This feature allows you to upload multiple subtitle (srt) files in a zip file for all media objects of the learning module. Your .zip file should contain all .srt files on the top level (no subdirectories). The file names should end with "_&lt;lang code&gt;.srt" where lang code is e.g. "en", "it", "de". The rest of the filename should correspond to the name of the video file, e.g. "my_video.mp4" -> "my_video_en.srt".
+content#:#cont_moved_srt_files#:#Moved subtitles files to media objects.
+content#:#cont_subtitle_file#:#SRT ZIP File
+content#:#cont_multi_srt_files#:#SRT Files
+content#:#cont_master_language_only#:#Master Language for Translation
+content#:#cont_import#:#Import
+content#:#cont_trans_import_info#:#If you exported this module as XML/Master Language for Translation to another installation, you can now re-import translated export files from this second installation here.
+content#:#cont_import_trans#:#Import Translation
+content#:#cont_import_lang#:#Target Language
+mep#:#mep_master_language_only#:#Master Language for Translation
+mep#:#mep_trans_import_info#:#If you exported this module as XML/Master Language for Translation to another installation, you can now re-import translated export files from this second installation here.
+mep#:#mep_import_trans#:#Import Translation
+mep#:#mep_import_lang#:#Target Language
+content#:#cont_snippet_from_another_installation#:#Snippet comes from another installation.
+rbac#:#edit_wiki_navigation#:#Navigation bearbeiten
+rbac#:#delete_wiki_pages#:#Seite löschen
+rbac#:#activate_wiki_protection#:#Schreibschutz aktivieren
+obj#:#obj_permission_settings#:#Permission Settings
+rbac#:#wiki_html_export#:#HTML exportieren
+wiki#:#wiki_html_export#:#HTML exportieren
+rbac#:#wiki_edit_wiki_navigation#:#Wiki-Navigation bearbeiten
+rbac#:#wiki_delete_wiki_pages#:#Wikiseiten löschen
+rbac#:#wiki_activate_wiki_protection#:#Schreibschutz für einzelne Wikiseiten aktivieren
+rbac#:#wiki_wiki_html_export#:#Wiki nach HTML exportieren
+crs#:#crs_loc_settings_it_type#:#Einstiegstest
+crs#:#crs_loc_settings_type_it_placement_all#:#Diagnostischer Einstiegstest über alle Lernziele
+crs#:#crs_loc_settings_it_start_object#:#Einstiegstest ist Startobjekt
+crs#:#crs_loc_settings_type_it_placement_sel#:#Diagnostischer Einstiegstest pro Lernziel
+crs#:#crs_loc_settings_type_it_qualifying_all#:#Qualifizierender Einstiegstest über alle Lernziele
+crs#:#crs_loc_settings_type_it_qualifying_sel#:#Qualifizierender Einstiegstest pro Lernziel
+crs#:#crs_loc_settings_type_it_none#:#Kein Einstiegstest
+crs#:#crs_loc_settings_qt_all#:#Abschlusstest
+crs#:#crs_loc_settings_type_q_all#:#Abschlusstest über alle Lernziele
+crs#:#crs_loc_settings_qt_start_object#:#Abschlusstest ist Startobjekt
+crs#:#crs_loc_settings_type_q_selected#:#Abschlusstest pro Lernziel
+crs#:#crs_loc_settings_err_qstart#:#Die Option "Abschlusstest als Startobjekt" wurde deaktiviert, da sie nur für Kurse ohne Einstiegstest verwendet werden kann.		
+crs#:#crs_loc_tab_qtests#:#Abschlusstests
+crs#:#crs_loc_tab_itests#:#Einstiegstests
+crs#:#crs_loc_btn_new_assignment#:#Neue Testzuordnung
+crs#:#crs_objective_tbl_col_final_tsts#:#Abschlusstests
+crs#:#crs_objective_action_qtest_sep#:#Abschlusstest zuordnen
+crs#:#crs_loc_settings_tbl_its_q_all#:#Qualifizierender Einstiegstest über alle Lernziele
+crs#:#crs_loc_settings_tbl_its_nq_all#:#Diagnostischer Einstiegstest über alle Lernziele
+crs#:#crs_loc_settings_tbl_it_q#:#Qualifizierende Einstiegstests pro Lernziel
+crs#:#crs_loc_settings_tbl_it_nq#:#Diagnostische Einstiegstests pro Lernziel
+crs#:#crs_loc_settings_tbl_qts_all#:#Abschlusstest über alle Lernziele
+crs#:#crs_loc_settings_tbl_qt#:#Abschlusstests pro Lernziel
+crs#:#crs_loc_objective_passed_confirmation#:#Sie haben das Lernziel bereits bestanden. Ein erneutes Starten des Tests setzt die Ergebnisse zurück. Wollen Sie den Test erneut starten?
+crs#:#crs_loc_objectives_passed_confirmation#:#Sie haben bereits alle Lernziel bestanden. Ein erneutes Starten des Tests setzt die Ergebnisse zurück. Wollen Sie den Test erneut starten?
+crs#:#crs_loc_tst_start#:#Test starten
+crs#:#crs_loc_mem_show_res#:#Testergebnisse anzeigen
+crs#:#crs_loc_test_results_of#:#Testergebnisse von:
+buddysystem#:#buddy_bs_btn_txt_unlinked_a#:#Kontakt anfragen
+buddysystem#:#buddy_bs_btn_txt_unlinked_p#:#Kontakt anfragen
+buddysystem#:#buddy_bs_btn_txt_linked_a#:#Vernetzt
+buddysystem#:#buddy_bs_btn_txt_linked_p#:#Vernetzt
+buddysystem#:#buddy_bs_btn_txt_requested_a#:#Kontakt angefragt
+buddysystem#:#buddy_bs_btn_txt_requested_p#:#Kontaktanfrage
+buddysystem#:#buddy_bs_btn_txt_ignored_request_a#:#Kontakt angefragt
+buddysystem#:#buddy_bs_btn_txt_ignored_request_p#:#Anfrage ignoriert
+buddysystem#:#buddy_bs_act_btn_txt_linked_to_unlinked#:#Kontakt aufheben
+buddysystem#:#buddy_bs_act_btn_txt_requested_to_ignored_request#:#Ignorieren
+buddysystem#:#buddy_bs_act_btn_txt_requested_to_unlinked#:#Anfrage zurückziehen
+buddysystem#:#buddy_bs_act_btn_txt_requested_to_linked#:#Bestätigen
+buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_unlinked#:#Anfrage zurückziehen
+buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_linked#:#Anfrage bestätigen
+buddysystem#:#buddy_bs_action_not_possible#:#Aktion nicht möglich
+buddysystem#:#buddy_bs_state_linked#:#Vernetzt
+buddysystem#:#buddy_bs_state_linked_a#:#Vernetzt
+buddysystem#:#buddy_bs_state_linked_p#:#Vernetzt
+buddysystem#:#buddy_bs_state_unlinked#:#Nicht vernetzt
+buddysystem#:#buddy_bs_state_unlinked_a#:#Nicht vernetzt
+buddysystem#:#buddy_bs_state_unlinked_p#:#Nicht vernetzt
+buddysystem#:#buddy_bs_state_requested#:#Angefragt
+buddysystem#:#buddy_bs_state_requested_a#:#Angefragt
+buddysystem#:#buddy_bs_state_requested_b#:#Angefragt
+buddysystem#:#buddy_bs_state_ignoredrequest#:#Ignoriert
+buddysystem#:#buddy_bs_state_ignored_request_a#:#Angefragt
+buddysystem#:#buddy_bs_state_ignored_request_p#:#Ignoriert
+buddysystem#:#buddy_bs_no_new_requests#:#Keine neuen Anfragen
+common#:#my_contacts#:#Meine Kontakte
+contact#:#contact_awrn_req_contacts#:#Kotaktanfragen
+contact#:#contact_awrn_req_contacts_info#:#Alle Kontaktanfragen werden aufgelistet.
+buddysystem#:#buddy_view_gallery#:#Galerie
+buddysystem#:#buddy_view_table#:#Liste
+buddysystem#:#buddy_tbl_title_relations#:#Beziehungen zu anderen Benutzern
+buddysystem#:#buddy_tbl_filter_state#:#Status
+buddysystem#:#buddy_notification_contact_request#:#Kontaktanfrage
+buddysystem#:#buddy_notification_contact_request_short#:#Der Benutzer "[REQUESTING_USER]" möchte mit Ihnen in Kontakt treten.[BR][BR][APPROVE_REQUEST][BR][IGNORE_REQUEST]
+buddysystem#:#buddy_notification_contact_request_link#:#Anfrage bestätigen:
+buddysystem#:#buddy_notification_contact_request_link_osd#:#Anfrage bestätigen
+buddysystem#:#buddy_notification_contact_request_ignore#:#Anfrage Ignorieren: 
+buddysystem#:#buddy_notification_contact_request_ignore_osd#:#Anfrage Ignorieren
+buddysystem#:#buddy_notification_contact_request_long#:#[SALUTATION][BR][BR]der Benutzer "[REQUESTING_USER]" möchte mit Ihnen in Kontakt treten.[BR][BR][APPROVE_REQUEST_TXT] [APPROVE_REQUEST][BR][IGNORE_REQUEST_TXT] [IGNORE_REQUEST]
+buddysystem#:#buddy_request_approved#:#Der Kontakt wurde erfolgreich hergestellt.
+buddysystem#:#buddy_request_ignored#:#Sie haben den Benutzer ignoriert.
+common#:#no_gallery_users_available#:#Aktuell befinden sich keine Benutzer in der Galerie.
+crs#:#crs_mem_contact#:#Betreuer
+awrn#:#awareness_now_online#:#Jetzt Online
+awrn#:#awareness_now_online_users#:#[ONLINE_USER_NAMES]
+common#:#obj_awra_desc#:#„Wer ist online?“-Anzeige administrieren
+common#:#obj_awra#:#„Wer ist online?“-Anzeige
+awrn#:#awareness_settings#:#Einstellungen
+awrn#:#awrn_enable#:#Aktiviere „Wer ist online?“-Anzeige
+crs#:#crs_mem_contacts#:#Tutorielle Betreuung
+user#:#user_awrn_all_users#:#Alle Benutzer
+user#:#user_awrn_all_users_info#:#Alle Benutzer der Plattform werden aufgelistet.
+crs#:#crs_awrn_support_contacts#:#Tutorielle Betreuung
+crs#:#crs_awrn_support_contacts_info#:#Die Benutzer der tutoriellen Betreuung werden aufgelistet. Die Benutzer werden im Reiter Mitglieder des Kurses der tutoriellen Betreuung zugeordnet.
+awrn#:#awrn_inactive#:#Keine Anzeige
+awrn#:#awrn_online_only#:#Nur Online
+awrn#:#awrn_incl_offline#:#Online und Offline
+contact#:#contact_awrn_ap_contacts#:#Bestätigte Kontakte
+contact#:#contact_awrn_ap_contacts_info#:#Alle bestätigten Kontakte eines Benutzers werden aufgelistet.
+adm#:#adm_support_contacts#:#Technische Betreuung
+adm#:#adm_awrn_support_contacts_info#:#Die Benutzer der technischen Betreuung werden aufgelistet. Die Benutzer werden im Bereich "Allgemeine Einstellungen" > "Kontaktinformationen" der technischen Betreuung zugeordnet.
+adm#:#adm_support_contacts_info#:#Technische Betreuer werden in der Fußzeile verlinkt und (wenn aktiviert) in der „Wer ist online?“-Anzeige aufgelistet. Komma-separierte Liste von Benutzer-Logins.
+mmbr#:#mmbr_awrn_my_groups_courses#:#Meine Kurse und Gruppen
+mmbr#:#mmbr_awrn_my_groups_courses_info#:#Alle Mitglieder von Gruppen und Kursen eines Benutzers werden aufgelistet.
+crs#:#crs_awrn_current_course#:#Aktueller Kurs
+crs#:#crs_awrn_current_course_info#:#Innerhalb eines Kurses werden alle Mitglieder des Kurses aufgelistet.
+awrn#:#awrn_caching_period#:#Caching-Zeitraum
+awrn#:#awrn_caching_period_info#:#Dieser Zeitraum wird gewartet, bevor die Anzahl der Benutzer in der Top-Anzeige aktualisiert wird und bevor neue Online-Benutzer ermittelt werden.
+awrn#:#awrn_seconds#:#Sek.
+awrn#:#awrn_max_nr_entries#:#Anzahl max. Einträge
+awrn#:#awrn_max_nr_entries_info#:#Diese Anzahl an Einträgen wird maximal in der Awareness-Liste angezeigt.
+awrn#:#awrn_hide_from_awareness#:#Mich nicht in „Wer ist online?“-Anzeige auflisten
+awrn#:#awrn_hide_from_awareness_info#:#Die „Wer ist online?“-Anzeige erscheint oben im Kopf der Anwendung und listet ausgewählte Benutzer auf (z.B. Kontakte oder Mitglieder Ihrer Kurse).
+common#:#contact_sysadmin#:#Technische Betreuung kontaktieren
+ldap#:#ldap_servers#:#LDAP Server
+ldap#:#add_ldap_server#:#Server Hinzufügen
+ldap#:#ldap_username_filter#:#Benutzernamen Filter
+ldap#:#ldap_username_filter_info#:#Benutzen Sie * als Wildcard.
+search#:#search_filter_cd#:#Filter nach Erstellungsdatum
+search#:#search_filter_date#:#Nach Datum
+search#:#search_filter_duration#:#Search by duration
+search#:#search_created_before#:#Objects created before...
+search#:#search_created_after#:#Objekte erstellt nach dem...
+search#:#search_created_on#:#Objeckte erstellt am...
+search#:#search_newer_than#:#Objekte erstellt vor dem...
+search#:#search_cdate_filter#:#Suche nach Erstellungsdatum
+search#:#search_cdate_filter_info#:#Wenn aktiviert, kann die Suche mit einem Filter für das Erstellungsdatum von Objekten durchgeführt werden.
+

@@ -742,8 +742,17 @@ abstract class ilContainerContentGUI
 		$item_list_gui->getListItemHTML($a_itgr["ref_id"], $a_itgr["obj_id"],
 			$a_itgr["title"], $a_itgr["description"]);
 		$commands_html = $item_list_gui->getCommandsHTML(); 
-		
-		$this->renderer->addCustomBlock($a_itgr["ref_id"], $a_itgr["title"], $commands_html);
+
+		include_once("./Modules/ItemGroup/classes/class.ilObjItemGroup.php");
+		if (ilObjItemGroup::lookupHideTitle($a_itgr["obj_id"]) &&
+			!$this->getContainerGUI()->isActiveAdministrationPanel())
+		{
+			$this->renderer->addCustomBlock($a_itgr["ref_id"], "", $commands_html);
+		}
+		else
+		{
+			$this->renderer->addCustomBlock($a_itgr["ref_id"], $a_itgr["title"], $commands_html);
+		}
 	
 		
 		// render item group sub items

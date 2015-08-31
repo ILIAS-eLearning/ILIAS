@@ -3111,7 +3111,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		// after list has been saved...
 		foreach($user_ids as $user_id)
 		{		
-			$list->assignAddressbookEntry($user_id);
+			$list->assignUser($user_id);
 		}
 		
 		include_once "Services/Mail/classes/class.ilFormatMail.php";
@@ -3136,7 +3136,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			$mail_data['m_email'],
 			$mail_data['m_subject'],
 			$mail_data['m_message'],
-			$mail_data['use_placeholders']
+			$mail_data['use_placeholders'],
+			$mail_data['tpl_ctx_id'],
+			$mail_data['tpl_ctx_params']
 		);		
 
 		ilUtil::redirect("ilias.php?baseClass=ilMailGUI&type=search_res");		

@@ -298,6 +298,13 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 			$scorer = new ilTestScoring($this->object);
 			$scorer->setPreserveManualScores(true);
 			$scorer->recalculateSolutions();
+
+			if ($this->object->getEnableArchiving())
+			{
+				require_once 'Modules/Test/classes/class.ilTestArchiveService.php';
+				$archiveService = new ilTestArchiveService($this->object);
+				$archiveService->archivePassesByActives($scorer->getRecalculatedPassesByActives());
+			}
 		}
 		
 		$this->showManScoringByQuestionParticipantsTable();

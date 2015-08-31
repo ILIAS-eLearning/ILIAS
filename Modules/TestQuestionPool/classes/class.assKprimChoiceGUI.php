@@ -708,25 +708,14 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 
 	protected function getParticipantsAnswerKeySequence()
 	{
-		if( !$this->object->isShuffleAnswersEnabled() )
+		$choiceKeys = array_keys($this->object->getAnswers());
+
+		if( $this->object->isShuffleAnswersEnabled() )
 		{
-			return array_keys($this->object->getAnswers());
+			$choiceKeys = $this->object->getShuffler()->shuffle($choiceKeys);
 		}
-		
-		if (strcmp($_GET["activecommand"], "directfeedback") == 0)
-		{
-			if (is_array($_SESSION["choicekeys"])) $this->choiceKeys = $_SESSION["choicekeys"];
-		}
-		if (!is_array($this->choiceKeys))
-		{
-			$this->choiceKeys = array_keys($this->object->getAnswers());
-			if ($this->object->getShuffle())
-			{
-				$this->choiceKeys = $this->object->pcArrayShuffle($this->choiceKeys);
-			}
-		}
-		$_SESSION["choicekeys"] = $this->choiceKeys;
-		return $this->choiceKeys;
+
+		return $choiceKeys;
 	}
 	
 	private function populateSpecificFeedbackInline($user_solution, $answer_id, $template)

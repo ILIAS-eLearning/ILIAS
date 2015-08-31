@@ -1141,5 +1141,67 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
 			return $lng->txt("wiki_wpg").' "'.ilWikiPage::lookupTitle($a_sub_id).'"';
 		}
 	}
+
+	/**
+	 * Init user html export
+	 *
+	 * @param
+	 * @return
+	 */
+	function initUserHTMLExport()
+	{
+		global $ilDB, $ilUser;
+
+		include_once("./Modules/Wiki/classes/class.ilWikiUserHTMLExport.php");
+
+		$user_export = new ilWikiUserHTMLExport($this, $ilDB, $ilUser);
+		$user_export->initUserHTMLExport();
+	}
+
+	/**
+	 * Start user html export
+	 *
+	 * @param
+	 * @return
+	 */
+	function startUserHTMLExport()
+	{
+		global $ilDB, $ilUser;
+
+		include_once("./Modules/Wiki/classes/class.ilWikiUserHTMLExport.php");
+
+		$user_export = new ilWikiUserHTMLExport($this, $ilDB, $ilUser);
+		$user_export->startUserHTMLExport();
+	}
+
+	/**
+	 * Get user html export progress
+	 *
+	 * @return array progress info
+	 */
+	function getUserHTMLExportProgress()
+	{
+		global $ilDB, $ilUser;
+
+		include_once("./Modules/Wiki/classes/class.ilWikiUserHTMLExport.php");
+
+		$user_export = new ilWikiUserHTMLExport($this, $ilDB, $ilUser);
+		return $user_export->getProgress();
+	}
+
+	/**
+	 * Send user html export file
+	 */
+	function deliverUserHTMLExport()
+	{
+		global $ilDB, $ilUser;
+
+		include_once("./Modules/Wiki/classes/class.ilWikiUserHTMLExport.php");
+
+		$user_export = new ilWikiUserHTMLExport($this, $ilDB, $ilUser);
+		return $user_export->deliverFile();
+	}
+
+
 }
 ?>

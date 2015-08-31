@@ -726,7 +726,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	function showLearningModule()
 	{
 		global $ilUser;
-		
+
 		// Note license usage
 		include_once "Services/License/classes/class.ilLicense.php";
 		ilLicense::_noteAccess($this->object->getId(), $this->object->getType(),
@@ -741,7 +741,10 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 		}
 
 		require_once("./Modules/HTMLLearningModule/classes/class.ilObjFileBasedLMAccess.php");
+		require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
+
 		$startfile = ilObjFileBasedLMAccess::_determineStartUrl($this->object->getId());
+		ilWACSignedPath::signFolderOfStartFile($startfile);
 		if ($startfile != "")
 		{
 			ilUtil::redirect($startfile);

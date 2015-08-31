@@ -79,6 +79,9 @@ il.Form = {
 			}, il.Form.duration, function () {
 				$(this).css('height', 'auto');
 			});
+					
+			// needed for google maps
+			$(obj).closest("form").trigger("subform_activated");
 		}
 
 		// deactivate subform of checkbox

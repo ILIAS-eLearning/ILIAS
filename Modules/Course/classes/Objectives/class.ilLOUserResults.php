@@ -295,8 +295,22 @@ class ilLOUserResults
 	 * @return array objective-ids
 	 */
 	public function getCompletedObjectiveIds()
-	{		
-		return $this->findObjectiveIds(self::TYPE_QUALIFIED, self::STATUS_COMPLETED);		
+	{
+		include_once './Modules/Course/classes/Objectives/class.ilLOSettings.php';
+		$settings = ilLOSettings::getInstanceByObjId($this->course_obj_id);
+		
+		if(!$settings->isInitialTestQualifying() or !$settings->worksWithInitialTest())
+		{
+			return $this->findObjectiveIds(self::TYPE_QUALIFIED, self::STATUS_COMPLETED);
+		}
+		
+		// qualifying initial
+		return array_unique(
+			array_merge(
+					$this->findObjectiveIds(self::TYPE_INITIAL, self::STATUS_COMPLETED),
+					$this->findObjectiveIds(self::TYPE_QUALIFIED, self::STATUS_COMPLETED)
+			)
+		);
 	}
 	
 	/**
@@ -337,29 +351,46 @@ class ilLOUserResults
 		return $res;
 	}		
 	
-	public static function getObjectiveStatusForLP($a_user_id, array $a_objective_ids)
+	public static function getObjectiveStatusForLP($a_user_id, $a_obj_id, array $a_objective_ids)
 	{
 		global $ilDB;
+				
+		// are initital test(s) qualifying?
+		include_once "Modules/Course/classes/Objectives/class.ilLOSettings.php";
+		$lo_set = ilLOSettings::getInstanceByObjId($a_obj_id);
+		$initial_qualifying = $lo_set->isInitialTestQualifying();		
 		
 		// this method returns LP status codes!		
 		include_once "Services/Tracking/classes/class.ilLPStatus.php";
 		
 		$res = array();
 		
-		$sql = "SELECT lor.objective_id, lor.user_id, lor.status, lor.is_final".
+		$sql =  "SELECT lor.objective_id, lor.user_id, lor.status, lor.is_final".
 			" FROM loc_user_results lor".
 			" JOIN crs_objectives cobj ON (cobj.objective_id = lor.objective_id)".	
-			" WHERE ".$ilDB->in("lor.objective_id", $a_objective_ids, "", "integer").
-			" AND lor.type = ".$ilDB->quote(self::TYPE_QUALIFIED, "integer").
-			" AND lor.user_id = ".$ilDB->quote($a_user_id, "integer").
-			" AND cobj.active = ".$ilDB->quote(1, "integer");		
+			" WHERE ".$ilDB->in("lor.objective_id", $a_objective_ids, "", "integer");		
+		if(!(bool)$initial_qualifying)
+		{
+			$sql .= " AND lor.type = ".$ilDB->quote(self::TYPE_QUALIFIED, "integer");
+		}	
+		$sql .= " AND lor.user_id = ".$ilDB->quote($a_user_id, "integer").
+			" AND cobj.active = ".$ilDB->quote(1, "integer").
+			" ORDER BY lor.type"; // qualified must come last!
 		$set = $ilDB->query($sql);
 		while($row = $ilDB->fetchAssoc($set))
 		{									
 			switch($row["status"])
 			{
-				case self::STATUS_FAILED:					
-					$status = ilLPStatus::LP_STATUS_FAILED_NUM;					
+				case self::STATUS_FAILED:	
+					if((bool)$row["is_final"])
+					{
+						$status = ilLPStatus::LP_STATUS_FAILED_NUM;					
+					}
+					else
+					{	
+						// #15379
+						$status = ilLPStatus::LP_STATUS_IN_PROGRESS_NUM;	
+					}
 					break;
 				
 				case self::STATUS_COMPLETED:
@@ -374,36 +405,55 @@ class ilLOUserResults
 					continue;
 			}
 			
+			// if both initial and qualified, qualified will overwrite initial
 			$res[$row["objective_id"]] = $status;						
 		}				
 		
 		return $res;		
 	}
 	
-	public static function getSummarizedObjectiveStatusForLP(array $a_objective_ids, $a_user_id = null)
+	public static function getSummarizedObjectiveStatusForLP($a_obj_id, array $a_objective_ids, $a_user_id = null)
 	{
 		global $ilDB;
+		
+		// change event is NOT parsed here!
+		
+		// are initital test(s) qualifying?
+		include_once "Modules/Course/classes/Objectives/class.ilLOSettings.php";
+		$lo_set = ilLOSettings::getInstanceByObjId($a_obj_id);
+		$initial_qualifying = $lo_set->isInitialTestQualifying();		
 		
 		// this method returns LP status codes!		
 		include_once "Services/Tracking/classes/class.ilLPStatus.php";
 				
 		$res = $tmp_completed = array();		
 		
-		$sql = "SELECT lor.objective_id, lor.user_id, lor.status, lor.is_final".
+		$sql = "SELECT lor.objective_id, lor.user_id, lor.status, lor.type".
 			" FROM loc_user_results lor".
 			" JOIN crs_objectives cobj ON (cobj.objective_id = lor.objective_id)".	
 			" WHERE ".$ilDB->in("lor.objective_id", $a_objective_ids, "", "integer").
-			" AND lor.type = ".$ilDB->quote(self::TYPE_QUALIFIED, "integer").
 			" AND cobj.active = ".$ilDB->quote(1, "integer");	
+		if(!(bool)$initial_qualifying)
+		{
+			$sql .= " AND lor.type = ".$ilDB->quote(self::TYPE_QUALIFIED, "integer");
+		}
 		if($a_user_id)
 		{
 			$sql .= " AND lor.user_id = ".$ilDB->quote($a_user_id, "integer");
 		}		
+		$sql .= " ORDER BY lor.type DESC"; // qualified must come first!
 		$set = $ilDB->query($sql);			
 		while($row = $ilDB->fetchAssoc($set))
-		{								
+		{										
 			$user_id = (int)$row["user_id"];
 			$status = (int)$row["status"];
+			
+			// initial tests only count if no qualified test
+			if($row["type"] == self::TYPE_INITIAL &&
+				isset($res[$user_id]))
+			{
+				continue;
+			}
 			
 			// user did do something
 			$res[$user_id] = ilLPStatus::LP_STATUS_IN_PROGRESS_NUM;
@@ -444,7 +494,6 @@ class ilLOUserResults
 			return $res;		
 		}
 	}
-	
 	
 	public static function hasResults($a_container_id, $a_user_id)
 	{

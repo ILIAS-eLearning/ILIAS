@@ -5,8 +5,11 @@
 			<td class="pdfContent">
 				<p class="ilNoDisplay"> </p>
                 <p class="questionTitle">{COUNTER_QUESTION} {QUESTION_TITLE} <!-- BEGIN question_points --><em>({QUESTION_POINTS})</em><!-- END question_points --><!-- BEGIN id_info_block --> [{TXT_QUESTION_ID}: {QUESTION_ID}]<!-- END id_info_block --><!-- BEGIN back_anchor --><a class="il_question_answer_list_back_anchor noprint" href="{HREF_BACK_ANCHOR}">{TXT_BACK_ANCHOR}</a><!-- END back_anchor --></p>
-                <p class="ilNoDisplay"> </p>
-				<p>{SOLUTION_OUTPUT}</p>
+				<p class="ilNoDisplay"> </p>
+				<!-- BEGIN objectives -->
+				<div>{OBJECTIVES}</div>
+				<!-- END objectives -->
+				<p class="questionSolution">{SOLUTION_OUTPUT}</p>
 				<!-- BEGIN result_points -->	
 					<p>{RESULT_POINTS}</p>
 				<!-- END result_points -->

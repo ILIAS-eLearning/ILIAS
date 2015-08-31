@@ -23,6 +23,7 @@ class ilGlyphGUI
 	const CARET = "caret";
 	const DRAG = "drag";
 	const SEARCH = "search";
+	const FILTER = "filter";
 	const NO_TEXT = "**notext**";
 
 	static protected $map = array(
@@ -37,7 +38,8 @@ class ilGlyphGUI
 		"attachment" => array("class" => "glyphicon glyphicon-paperclip", "txt" => "attachment"),
 		"caret" => array("class" => "", "txt" => ""),
 		"drag" => array("class" => "glyphicon glyphicon-share-alt", "txt" => "drag"),
-		"search" => array("class" => "glyphicon glyphicon-search", "txt" => "search")
+		"search" => array("class" => "glyphicon glyphicon-search", "txt" => "search"),
+		"filter" => array("class" => "glyphicon glyphicon-filter", "txt" => "filter")
 	);
 
 	/**

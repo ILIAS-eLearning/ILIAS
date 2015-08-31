@@ -12,6 +12,7 @@ require_once "./Services/Object/classes/class.ilObjectGUI.php";
 * 
 * @ilCtrl_Calls ilObjMediaCastGUI: ilPermissionGUI, ilInfoScreenGUI, ilExportGUI
 * @ilCtrl_Calls ilObjMediaCastGUI: ilCommonActionDispatcherGUI
+* @ilCtrl_Calls ilObjMediaCastGUI: ilLearningProgressGUI
 * @ilCtrl_IsCalledBy ilObjMediaCastGUI: ilRepositoryGUI, ilAdministrationGUI
 */
 class ilObjMediaCastGUI extends ilObjectGUI
@@ -91,6 +92,18 @@ class ilObjMediaCastGUI extends ilObjectGUI
 				include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
 				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
 				$this->ctrl->forwardCommand($gui);
+				break;
+			
+			case "illearningprogressgui":
+				$ilTabs->activateTab('learning_progress');
+				require_once 'Services/Tracking/classes/class.ilLearningProgressGUI.php';
+				$new_gui =& new ilLearningProgressGUI(
+					ilLearningProgressGUI::LP_CONTEXT_REPOSITORY,
+					$this->object->getRefId(),
+					$_GET['user_id'] ? $_GET['user_id'] : $ilUser->getId()
+				);
+				$this->ctrl->forwardCommand($new_gui);
+				$this->tabs_gui->setTabActive('learning_progress');
 				break;
 		
 			default:
@@ -941,6 +954,11 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		{
 			$ilCtrl->redirect($this, "listItems");
 		}
+		else
+		{
+			global $ilUser;
+			$this->object->handleLPUpdate($ilUser->getId(), $news_item->getMobId());
+		}
 		exit;
 	}
 	
@@ -1069,6 +1087,16 @@ class ilObjMediaCastGUI extends ilObjectGUI
 			$ilTabs->addTab("id_settings",
 				$lng->txt("settings"),
 				$this->ctrl->getLinkTarget($this, "editSettings"));
+		}
+		
+		require_once 'Services/Tracking/classes/class.ilLearningProgressAccess.php';
+		if(ilLearningProgressAccess::checkAccess($this->object->getRefId()))
+		{
+			$ilTabs->addTab(
+				'learning_progress',
+				$lng->txt('learning_progress'),
+				$this->ctrl->getLinkTargetByClass(array(__CLASS__, 'illearningprogressgui'),'')
+			);
 		}
 
 		// export
@@ -1475,6 +1503,13 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	 */
 	function showContentObject()
 	{
+		global $ilUser;
+		
+		// need read events for parent for LP statistics
+		require_once 'Services/Tracking/classes/class.ilChangeEvent.php';						
+		ilChangeEvent::_recordReadEvent("mcst", $this->object->getRefId(),
+			$this->object->getId(), $ilUser->getId());		
+		
 		if ($this->object->getViewMode() == ilObjMediaCast::VIEW_GALLERY)
 		{
 			$this->showGallery();
@@ -1498,6 +1533,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		$ctpl = new ilTemplate("tpl.mcst_content.html", true, true, "Modules/MediaCast");
 		
 		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+		require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
 		foreach ($this->object->getSortedItemsArray() as $item)
 		{
 			$mob = new ilObjMediaObject($item["mob_id"]);
@@ -1511,7 +1547,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 			if ($mob->getVideoPreviewPic() != "")
 			{
 				$ctpl->setVariable("PREVIEW_PIC",
-					ilUtil::img($mob->getVideoPreviewPic(), $item["title"], 320, 240));
+					ilUtil::img(ilWACSignedPath::signFile($mob->getVideoPreviewPic()), $item["title"], 320, 240));
 			}
 			else
 			{
@@ -1530,17 +1566,17 @@ class ilObjMediaCastGUI extends ilObjectGUI
 				
 				if (strcasecmp("Reference", $med->getLocationType()) == 0)
 				{
-					$mpl->setFile($med->getLocation());
+					$mpl->setFile(ilWACSignedPath::signFile($med->getLocation()));
 				}
 				else
 				{
-					$mpl->setFile(ilObjMediaObject::_getURL($mob->getId())."/".$med->getLocation());
+					$mpl->setFile(ilWACSignedPath::signFile(ilObjMediaObject::_getURL($mob->getId())."/".$med->getLocation()));
 				}
 				$mpl->setMimeType ($med->getFormat());
 				//$mpl->setDisplayHeight($med->getHeight());
 				$mpl->setDisplayHeight("480");
 				$mpl->setDisplayWidth("640");
-				$mpl->setVideoPreviewPic($mob->getVideoPreviewPic());
+				$mpl->setVideoPreviewPic(ilWACSignedPath::signFile($mob->getVideoPreviewPic()));
 				$mpl->setTitle($item["title"]);
 				$mpl->setDescription($item["content"]);
 				$mpl->setForceAudioPreview(true);
@@ -1553,8 +1589,8 @@ class ilObjMediaCastGUI extends ilObjectGUI
 				$med_alt = $mob->getMediaItem("VideoAlternative");
 				if (is_object($med_alt))
 				{
-					$mpl->setAlternativeVideoFile(ilObjMediaObject::_getURL($mob->getId())."/".
-						$med_alt->getLocation());
+					$mpl->setAlternativeVideoFile(ilWACSignedPath::signFile(ilObjMediaObject::_getURL($mob->getId())."/".
+						$med_alt->getLocation()));
 					$mpl->setAlternativeVideoMimeType($med_alt->getFormat());
 				}
 				
@@ -1708,6 +1744,13 @@ class ilObjMediaCastGUI extends ilObjectGUI
 			include_once("./Services/News/classes/class.ilNewsItem.php");
 			$item = new ilNewsItem($news_id);
 			$item->increasePlayCounter();
+			
+			$mob_id = $item->getMobId();
+			if($mob_id)
+			{						
+				global $ilUser;
+				$this->object->handleLPUpdate($ilUser->getId(), $mob_id);
+			}
 		}
 		exit;
 	}

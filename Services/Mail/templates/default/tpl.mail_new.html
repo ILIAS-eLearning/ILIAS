@@ -1,12 +1,26 @@
 <form role="form" id="form_{FORM_ID}" class="form-horizontal preventDoubleSubmission"
 <!-- BEGIN form_target -->target="{FORM_TARGET}"<!-- END form_target -->
 action="{FORM_ACTION}" method="post">
-<div class="il_ButtonGroup">
-	<input class="btn btn-default" type="submit" name="cmd[searchUsers]" value="{BUTTON_TO}"/>
-	<input class="btn btn-default" type="submit" name="cmd[searchCoursesTo]" value="{BUTTON_COURSES_TO}"/>
-	<input class="btn btn-default" type="submit" name="cmd[searchGroupsTo]" value="{BUTTON_GROUPS_TO}"/>
-	<input class="btn btn-default" type="submit" name="cmd[searchMailingListsTo]" value="{BUTTON_MAILING_LISTS_TO}"/>
-</div>
+<nav class="ilToolbar navbar navbar-default yamm" role="navigation" >
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#tb-collapse-1">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+		</div>
+		<div class="collapse navbar-collapse" id="tb-collapse-1">
+			<ul class="nav navbar-nav">
+				<li><div class="navbar-form"><button type="submit" class="btn btn-default" type="submit" name="cmd[searchUsers]">{BUTTON_TO}</button></div></li>
+				<li><div class="navbar-form"><button type="submit" class="btn btn-default" type="submit" name="cmd[searchCoursesTo]">{BUTTON_COURSES_TO}</button></div></li>
+				<li><div class="navbar-form"><button type="submit" class="btn btn-default" type="submit" name="cmd[searchGroupsTo]">{BUTTON_GROUPS_TO}</button></div></li>
+				<li><div class="navbar-form"><button type="submit" class="btn btn-default" type="submit" name="cmd[searchMailingListsTo]">{BUTTON_MAILING_LISTS_TO}</button></div></li>
+			</ul>
+		</div>
+	</div>
+</nav>
 <br />
 <!-- BEGIN mailform -->
 {FORM}

@@ -734,56 +734,13 @@ class ilInitialisation
 	 */
 	protected static function initLanguage()
 	{
-		global $ilUser, $ilSetting, $rbacsystem;
-		
-		if (!ilSession::get("lang"))
-		{
-			if ($_GET['lang'])
-			{
-				$_GET['lang'] = $_GET['lang'];
-			}
-			else
-			{
-				if (is_object($ilUser))
-				{
-					$_GET['lang'] = $ilUser->getPref('language');
-				}
-			}
-		}
+		/**
+		 * @var $rbacsystem ilRbacSystem
+		 */
+		global $rbacsystem;
 
-		if (isset($_POST['change_lang_to']) && $_POST['change_lang_to'] != "")
-		{
-			$_GET['lang'] = ilUtil::stripSlashes($_POST['change_lang_to']);
-		}
-
-		// prefer personal setting when coming from login screen
-		// Added check for ilUser->getId > 0 because it is 0 when the language is changed and the terms of service should be displayes (Helmut Schottmï¿½ï¿½ller, 2006-10-14)
-		if (is_object($ilUser) && $ilUser->getId() != ANONYMOUS_USER_ID && $ilUser->getId() > 0)
-		{
-			ilSession::set('lang', $ilUser->getPref('language'));
-		}
-
-		ilSession::set('lang', (isset($_GET['lang']) && $_GET['lang']) ? $_GET['lang'] : ilSession::get('lang'));
-
-		// check whether lang selection is valid
-		require_once "./Services/Language/classes/class.ilLanguage.php";
-		$langs = ilLanguage::getInstalledLanguages();
-		if (!in_array(ilSession::get('lang'), $langs))
-		{
-			if (is_object($ilSetting) && $ilSetting->get('language') != '')
-			{
-				ilSession::set('lang', $ilSetting->get('language'));
-			}
-			else
-			{
-				ilSession::set('lang', $langs[0]);
-			}
-		}
-		$_GET['lang'] = ilSession::get('lang');
-						
-		$lng = new ilLanguage(ilSession::get('lang'));
-		self::initGlobal('lng', $lng);
-		
+		require_once 'Services/Language/classes/class.ilLanguage.php';
+		self::initGlobal('lng', ilLanguage::getGlobalInstance());
 		if(is_object($rbacsystem))
 		{
 			$rbacsystem->initMemberView();
@@ -882,7 +839,13 @@ class ilInitialisation
 	}
 	
 	protected static $already_initialized;
-	
+
+
+	public static function reinitILIAS() {
+		self::$already_initialized = false;
+		self::initILIAS();
+	}
+
 	/**
 	 * ilias initialisation
 	 */
@@ -1169,6 +1132,7 @@ class ilInitialisation
 						&& $current_script != "shib_logout.php"
 						&& $current_script != "error.php"
 						&& $current_script != "chat.php"
+						&& $current_script != "wac.php"
 						&& $current_script != "index.php"); // #10316
 				
 				if($mandatory_auth)
@@ -1205,7 +1169,7 @@ class ilInitialisation
 		global $ilAuth, $ilSetting;
 						
 		// #10608
-		if(ilContext::getType() == ilContext::CONTEXT_SOAP)
+		if(ilContext::getType() == ilContext::CONTEXT_SOAP || ilContext::getType() == ilContext::CONTEXT_WAC)
 		{
 			throw new Exception("Authentication failed.");
 		}				

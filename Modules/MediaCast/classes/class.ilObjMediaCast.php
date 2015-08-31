@@ -530,6 +530,12 @@ class ilObjMediaCast extends ilObject
 		$this->copyItems($new_obj);
 		
 		// copy order!?
+		
+		// clone LP settings
+		include_once('./Services/Tracking/classes/class.ilLPObjSettings.php');
+		$obj_settings = new ilLPObjSettings($this->getId());
+		$obj_settings->cloneSettings($new_obj->getId());
+		unset($obj_settings);
 
 		return $new_obj;
 	}
@@ -570,5 +576,17 @@ class ilObjMediaCast extends ilObject
 		}
 	}
 	
+	public function handleLPUpdate($a_user_id, $a_mob_id)
+	{			
+		// using read events to persist mob status
+		require_once 'Services/Tracking/classes/class.ilChangeEvent.php';						
+		ilChangeEvent::_recordReadEvent("mob", $this->getRefId(),
+			$a_mob_id, $a_user_id);					
+		
+		// trigger LP update
+		require_once 'Services/Tracking/classes/class.ilLPStatusWrapper.php';
+		ilLPStatusWrapper::_updateStatus($this->getId(), $a_user_id);		
+	}
 }
+
 ?>

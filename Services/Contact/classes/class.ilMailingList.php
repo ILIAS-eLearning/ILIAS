@@ -176,83 +176,68 @@ class ilMailingList
 		
 		return true;
 	}
-	
+
 	public function getAssignedEntries()
 	{
-		if($this->getMode() == self::MODE_ADDRESSBOOK)
-		{
-			$res = $this->db->queryf('
-				SELECT * FROM addressbook_mlist_ass 
-				INNER JOIN addressbook ON addressbook.addr_id = addressbook_mlist_ass.addr_id 
-				WHERE ml_id = %s',
-				array('integer'),
-				array($this->getId()));
-		}
-		else
-		{
-			$res = $this->db->queryf('
-				SELECT * FROM addressbook_mlist_ass 
-				INNER JOIN usr_data ON addressbook_mlist_ass.addr_id = usr_data.usr_id 
-				WHERE ml_id = %s',
-				array('integer'),
-				array($this->getId()));
-		}
-		
+		$res = $this->db->queryf(
+			'SELECT a_id, usr_data.usr_id FROM addressbook_mlist_ass INNER JOIN usr_data ON usr_data.usr_id = addressbook_mlist_ass.usr_id WHERE ml_id = %s',
+			array('integer'),
+			array($this->getId())
+		);
+
 		$entries = array();
-		
 		$counter = 0;
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{			
-			$entries[$counter] = array('a_id' => $row->a_id, 
-									   'addr_id' => $row->addr_id,
-									   'login' => $row->login,
-									   'email' => $row->email,
-									   'firstname' => $row->firstname,
-									   'lastname' => $row->lastname									   
-									   );
-			
+		{
+			$entries[$row->a_id] = array(
+				'a_id'   => $row->a_id,
+				'usr_id' => $row->usr_id
+			);
 			++$counter;
 		}
 		
 		return $entries;
 	}
-	
-	public function assignAddressbookEntry($addr_id = 0)	
+
+	/**
+	 * @param int $usr_id
+	 * @return bool
+	 */
+	public function assignUser($usr_id = 0)
 	{
 		$nextId = $this->db->nextId('addressbook_mlist_ass');
-		$statement = $this->db->manipulateF('
-			INSERT INTO addressbook_mlist_ass 
-			( 	a_id, 
-				ml_id,
-				addr_id
-			)
-			VALUES(%s,%s,%s )',
+		$this->db->manipulateF(
+			'INSERT INTO addressbook_mlist_ass (a_id, ml_id, usr_id) VALUES(%s, %s, %s)',
 			array('integer', 'integer', 'integer'),
-			array($nextId, $this->getId(), $addr_id));
-		
+			array($nextId, $this->getId(), $usr_id)
+		);
 		return true;
 	}
-	
-	public function deassignAddressbookEntry($a_id = 0)	
+
+	/**
+	 * @param int $a_id
+	 * @return bool
+	 */
+	public function deleteEntry($a_id = 0)
 	{
-	
-		$statement = $this->db->manipulateF('	
-		DELETE FROM addressbook_mlist_ass 
-			WHERE a_id = %s',
+		$this->db->manipulateF(
+			'DELETE FROM addressbook_mlist_ass WHERE a_id = %s',
 			array('integer'),
-			array($a_id));
-		
+			array($a_id)
+		);
 		return true;
 	}
-	
-	public function deassignAllEntries()	
+
+	/**
+	 * @return bool
+	 */
+	public function deassignAllEntries()
 	{
-		$statement = $this->db->manipulateF('	
-		DELETE FROM addressbook_mlist_ass 
-				WHERE ml_id = %s',
-				array('integer'),
-				array($this->getId()));
-			
+		$this->db->manipulateF(
+			'DELETE FROM addressbook_mlist_ass WHERE ml_id = %s',
+			array('integer'),
+			array($this->getId())
+		);
 		return true;
 	}
 	
@@ -336,6 +321,19 @@ class ilMailingList
 	public function getMode()
 	{
 		return $this->mode;
-	}	
+	}
+
+	/**
+	 * @param int $usr_id
+	 */
+	public static function removeAssignmentsByUserId($usr_id)
+	{
+		/**
+		 * @var $ilDB ilDB
+		 */
+		global $ilDB;
+
+		$ilDB->manipulate('DELETE FROM addressbook_mlist_ass WHERE usr_id = ' . $ilDB->quote($usr_id, 'integer'));
+	}
 }
 ?>

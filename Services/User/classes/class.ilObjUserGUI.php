@@ -1122,7 +1122,12 @@ class ilObjUserGUI extends ilObjectGUI
 			}
 			else
 			{
-				$name = $this->lng->txt('auth_'.$auth_name);
+				// begin-patch ldap_multiple
+				#$name = $this->lng->txt('auth_'.$auth_name);
+				include_once './Services/Authentication/classes/class.ilAuthUtils.php';
+				$name = ilAuthUtils::getAuthModeTranslation($auth_key);
+				// end-patch ldap_multiple
+				
 			}
 			$option[$auth_name] = $name;
 		}
@@ -1761,7 +1766,8 @@ class ilObjUserGUI extends ilObjectGUI
 		// hide online status
 		if($this->isSettingChangeable('hide_own_online_status'))
 		{
-			$os = new ilCheckboxInputGUI($lng->txt("hide_own_online_status"), "hide_own_online_status");
+			$lng->loadLanguageModule("awrn");
+			$os = new ilCheckboxInputGUI($lng->txt("awrn_hide_from_awareness"), "hide_own_online_status");
 			$this->form_gui->addItem($os);
 		}
 
@@ -2941,7 +2947,19 @@ class ilObjUserGUI extends ilObjectGUI
 			$a_target = ilObjUser::_lookupId(ilUtil::stripSlashes(substr($a_target, 1)));
 		}
 
-		$_GET["cmd"] = "view";
+		if(strpos($a_target, 'contact_approved') !== false)
+		{
+			$_GET['cmd'] = 'approveContactRequest';
+		}
+		else if(strpos($a_target, 'contact_ignored') !== false)
+		{
+			$_GET['cmd'] = 'ignoreContactRequest';
+		}
+		else
+		{
+			$_GET['cmd'] = 'view';
+		}
+
 		$_GET["user_id"] = (int) $a_target;
 		$_GET["baseClass"] = "ilPublicUserProfileGUI";
 		$_GET["cmdClass"] = "ilpublicuserprofilegui";

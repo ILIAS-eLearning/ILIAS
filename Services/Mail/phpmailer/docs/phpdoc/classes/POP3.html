@@ -1,0 +1,438 @@
+<!DOCTYPE html><html xmlns:date="http://exslt.org/dates-and-times" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+<meta charset="utf-8">
+<title>PHPMailer » \POP3</title>
+<meta name="author" content="Mike van Riel">
+<meta name="description" content="">
+<link href="../css/template.css" rel="stylesheet" media="all">
+<script src="../js/jquery-1.7.1.min.js" type="text/javascript"></script><script src="../js/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script><script src="../js/jquery.mousewheel.min.js" type="text/javascript"></script><script src="../js/bootstrap.js" type="text/javascript"></script><script src="../js/template.js" type="text/javascript"></script><script src="../js/prettify/prettify.min.js" type="text/javascript"></script><link rel="shortcut icon" href="../img/favicon.ico">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="72x72" href="../img/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="114x114" href="../img/apple-touch-icon-114x114.png">
+</head>
+<body>
+<div class="navbar navbar-fixed-top">
+<div class="navbar-inner"><div class="container">
+<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a><a class="brand" href="../index.html">PHPMailer</a><div class="nav-collapse"><ul class="nav">
+<li class="dropdown">
+<a href="#api" class="dropdown-toggle" data-toggle="dropdown">
+                                    API Documentation <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a>Packages</a></li>
+<li><a href="../packages/PHPMailer.html"><i class="icon-folder-open"></i> PHPMailer</a></li>
+</ul>
+</li>
+<li class="dropdown" id="charts-menu">
+<a href="#charts" class="dropdown-toggle" data-toggle="dropdown">
+                                    Charts <b class="caret"></b></a><ul class="dropdown-menu"><li><a href="../graph_class.html"><i class="icon-list-alt"></i> Class hierarchy diagram</a></li></ul>
+</li>
+<li class="dropdown" id="reports-menu">
+<a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
+                                    Reports <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
+                <span class="label label-info">22</span></a></li>
+<li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
+                <ul><li>todo 
+                <span class="label label-info">2</span>
+</li></ul></a></li>
+<li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
+                <span class="label label-info">4</span></a></li>
+</ul>
+</li>
+</ul></div>
+</div></div>
+<div class="go_to_top"><a href="#___" style="color: inherit">Back to top  <i class="icon-upload icon-white"></i></a></div>
+</div>
+<div id="___" class="container">
+<noscript><div class="alert alert-warning">
+                            Javascript is disabled; several features are only available
+                            if Javascript is enabled.
+                        </div></noscript>
+<div class="row">
+<div class="span4">
+<span class="btn-group visibility" data-toggle="buttons-checkbox"><button class="btn public active" title="Show public elements">Public</button><button class="btn protected" title="Show protected elements">Protected</button><button class="btn private" title="Show private elements">Private</button><button class="btn inherited active" title="Show inherited elements">Inherited</button></span><div class="btn-group view pull-right" data-toggle="buttons-radio">
+<button class="btn details" title="Show descriptions and method names"><i class="icon-list"></i></button><button class="btn simple" title="Show only method names"><i class="icon-align-justify"></i></button>
+</div>
+<ul class="side-nav nav nav-list">
+<li class="nav-header">
+<i class="icon-custom icon-method"></i> Methods</li>
+<li class="method public "><a href="#Authorise" title="Authorise :: Combination of public events - connect, login, disconnect"><span class="description">Combination of public events - connect, login, disconnect</span><pre>Authorise()</pre></a></li>
+<li class="method public "><a href="#Connect" title="Connect :: Connect to the POP3 server"><span class="description">Connect to the POP3 server</span><pre>Connect()</pre></a></li>
+<li class="method public "><a href="#Disconnect" title="Disconnect :: Disconnect from the POP3 server"><span class="description">Disconnect from the POP3 server</span><pre>Disconnect()</pre></a></li>
+<li class="method public "><a href="#Login" title="Login :: Login to the POP3 server (does not support APOP yet)"><span class="description">Login to the POP3 server (does not support APOP yet)</span><pre>Login()</pre></a></li>
+<li class="method public "><a href="#__construct" title="__construct :: Constructor, sets the initial values"><span class="description">Constructor, sets the initial values</span><pre>__construct()</pre></a></li>
+<li class="nav-header private">» Private</li>
+<li class="method private "><a href="#catchWarning" title="catchWarning :: Takes over from PHP for the socket warning handler"><span class="description">Takes over from PHP for the socket warning handler</span><pre>catchWarning()</pre></a></li>
+<li class="method private "><a href="#checkResponse" title="checkResponse :: Checks the POP3 server response for +OK or -ERR"><span class="description">Checks the POP3 server response for +OK or -ERR</span><pre>checkResponse()</pre></a></li>
+<li class="method private "><a href="#displayErrors" title="displayErrors :: If debug is enabled, display the error message array"><span class="description">If debug is enabled, display the error message array</span><pre>displayErrors()</pre></a></li>
+<li class="method private "><a href="#getResponse" title="getResponse :: Get the socket response back."><span class="description">Get the socket response back.</span><pre>getResponse()</pre></a></li>
+<li class="method private "><a href="#sendString" title="sendString :: Send a string down the open socket connection to the POP3 server"><span class="description">Send a string down the open socket connection to the POP3 server</span><pre>sendString()</pre></a></li>
+<li class="nav-header">
+<i class="icon-custom icon-property"></i> Properties</li>
+<li class="property public "><a href="#%24CRLF" title="$CRLF :: POP3 Carriage Return + Line Feed"><span class="description">POP3 Carriage Return + Line Feed</span><pre>$CRLF</pre></a></li>
+<li class="property public "><a href="#%24POP3_PORT" title="$POP3_PORT :: Default POP3 port"><span class="description">Default POP3 port</span><pre>$POP3_PORT</pre></a></li>
+<li class="property public "><a href="#%24POP3_TIMEOUT" title="$POP3_TIMEOUT :: Default Timeout"><span class="description">Default Timeout</span><pre>$POP3_TIMEOUT</pre></a></li>
+<li class="property public "><a href="#%24Version" title="$Version :: Sets the POP3 PHPMailer Version number"><span class="description">Sets the POP3 PHPMailer Version number</span><pre>$Version</pre></a></li>
+<li class="property public "><a href="#%24do_debug" title="$do_debug :: Displaying Debug warnings? (0 = now, 1+ = yes)"><span class="description">Displaying Debug warnings? (0 = now, 1+ = yes)</span><pre>$do_debug</pre></a></li>
+<li class="property public "><a href="#%24host" title="$host :: POP3 Mail Server"><span class="description">POP3 Mail Server</span><pre>$host</pre></a></li>
+<li class="property public "><a href="#%24password" title="$password :: POP3 Password"><span class="description">POP3 Password</span><pre>$password</pre></a></li>
+<li class="property public "><a href="#%24port" title="$port :: POP3 Port"><span class="description">POP3 Port</span><pre>$port</pre></a></li>
+<li class="property public "><a href="#%24tval" title="$tval :: POP3 Timeout Value"><span class="description">POP3 Timeout Value</span><pre>$tval</pre></a></li>
+<li class="property public "><a href="#%24username" title="$username :: POP3 Username"><span class="description">POP3 Username</span><pre>$username</pre></a></li>
+<li class="nav-header private">» Private</li>
+<li class="property private "><a href="#%24connected" title="$connected :: "><span class="description">&lt;p&gt;Are we connected?&lt;/p&gt;
+</span><pre>$connected</pre></a></li>
+<li class="property private "><a href="#%24error" title="$error :: "><span class="description">&lt;p&gt;Error container&lt;/p&gt;</span><pre>$error</pre></a></li>
+<li class="property private "><a href="#%24pop_conn" title="$pop_conn :: "><span class="description">&lt;p&gt;Resource handle for the POP connection socket&lt;/p&gt;</span><pre>$pop_conn</pre></a></li>
+</ul>
+</div>
+<div class="span8">
+<a name="%5CPOP3" id="\POP3"></a><ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/global.html">global</a></li>
+<li class="active">
+<span class="divider">\</span><a href="../classes/POP3.html">POP3</a>
+</li>
+</ul>
+<div href="../classes/POP3.html" class="element class">
+<p class="short_description">PHP POP-Before-SMTP Authentication Class</p>
+<div class="details">
+<p class="long_description"><p>Version 5.2.2</p></p>
+<table class="table table-bordered">
+<tr>
+<th>license</th>
+<td><a href="">: LGPL, see PHPMailer License
+Specifically for PHPMailer to allow POP before SMTP authentication.
+Does not yet work with APOP - if you have an APOP account, contact Jim Jagielski
+and we can test changes to this script.
+This class is based on the structure of the SMTP class originally authored by Chris Ryan
+This class is rfc 1939 compliant and implements all the commands
+required for POP3 connection, authentication and disconnection.</a></td>
+</tr>
+<tr>
+<th>package</th>
+<td><a href="../packages/PHPMailer.html">PHPMailer</a></td>
+</tr>
+<tr>
+<th>author</th>
+<td><a href="mailto:rich@corephp.co.uk">Richard Davey (orig)</a></td>
+</tr>
+<tr>
+<th>author</th>
+<td><a href="">Andy Prevost</a></td>
+</tr>
+<tr>
+<th>author</th>
+<td><a href="">Jim Jagielski</a></td>
+</tr>
+</table>
+<h3>
+<i class="icon-custom icon-method"></i> Methods</h3>
+<a name="Authorise" id="Authorise"></a><div class="element clickable method public Authorise" data-toggle="collapse" data-target=".Authorise .collapse">
+<h2>Combination of public events - connect, login, disconnect</h2>
+<pre>Authorise(string $host, bool | int $port, bool | int $tval, string $username, string $password, int $debug_level) : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>public</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$host</h4>
+<code>string</code>
+</div>
+<div class="subelement argument">
+<h4>$port</h4>
+<code>boolint</code>
+</div>
+<div class="subelement argument">
+<h4>$tval</h4>
+<code>boolint</code>
+</div>
+<div class="subelement argument">
+<h4>$username</h4>
+<code>string</code>
+</div>
+<div class="subelement argument">
+<h4>$password</h4>
+<code>string</code>
+</div>
+<div class="subelement argument">
+<h4>$debug_level</h4>
+<code>int</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>bool</code></div>
+</div></div>
+</div>
+<a name="Connect" id="Connect"></a><div class="element clickable method public Connect" data-toggle="collapse" data-target=".Connect .collapse">
+<h2>Connect to the POP3 server</h2>
+<pre>Connect(string $host, bool | int $port, integer $tval) : boolean</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>public</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$host</h4>
+<code>string</code>
+</div>
+<div class="subelement argument">
+<h4>$port</h4>
+<code>boolint</code>
+</div>
+<div class="subelement argument">
+<h4>$tval</h4>
+<code>integer</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>boolean</code></div>
+</div></div>
+</div>
+<a name="Disconnect" id="Disconnect"></a><div class="element clickable method public Disconnect" data-toggle="collapse" data-target=".Disconnect .collapse">
+<h2>Disconnect from the POP3 server</h2>
+<pre>Disconnect() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>public</td>
+</tr></table>
+</div></div>
+</div>
+<a name="Login" id="Login"></a><div class="element clickable method public Login" data-toggle="collapse" data-target=".Login .collapse">
+<h2>Login to the POP3 server (does not support APOP yet)</h2>
+<pre>Login(string $username, string $password) : boolean</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>public</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$username</h4>
+<code>string</code>
+</div>
+<div class="subelement argument">
+<h4>$password</h4>
+<code>string</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>boolean</code></div>
+</div></div>
+</div>
+<a name="__construct" id="__construct"></a><div class="element clickable method public __construct" data-toggle="collapse" data-target=".__construct .collapse">
+<h2>Constructor, sets the initial values</h2>
+<pre>__construct() : <a href="../classes/POP3.html">\POP3</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>public</td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/POP3.html">\POP3</a></code></div>
+</div></div>
+</div>
+<a name="catchWarning" id="catchWarning"></a><div class="element clickable method private catchWarning" data-toggle="collapse" data-target=".catchWarning .collapse">
+<h2>Takes over from PHP for the socket warning handler</h2>
+<pre>catchWarning(integer $errno, string $errstr, string $errfile, integer $errline) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>private</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$errno</h4>
+<code>integer</code>
+</div>
+<div class="subelement argument">
+<h4>$errstr</h4>
+<code>string</code>
+</div>
+<div class="subelement argument">
+<h4>$errfile</h4>
+<code>string</code>
+</div>
+<div class="subelement argument">
+<h4>$errline</h4>
+<code>integer</code>
+</div>
+</div></div>
+</div>
+<a name="checkResponse" id="checkResponse"></a><div class="element clickable method private checkResponse" data-toggle="collapse" data-target=".checkResponse .collapse">
+<h2>Checks the POP3 server response for +OK or -ERR</h2>
+<pre>checkResponse(string $string) : boolean</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>private</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$string</h4>
+<code>string</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>boolean</code></div>
+</div></div>
+</div>
+<a name="displayErrors" id="displayErrors"></a><div class="element clickable method private displayErrors" data-toggle="collapse" data-target=".displayErrors .collapse">
+<h2>If debug is enabled, display the error message array</h2>
+<pre>displayErrors() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>private</td>
+</tr></table>
+</div></div>
+</div>
+<a name="getResponse" id="getResponse"></a><div class="element clickable method private getResponse" data-toggle="collapse" data-target=".getResponse .collapse">
+<h2>Get the socket response back.</h2>
+<pre>getResponse(integer $size) : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"><p>$size is the maximum number of bytes to retrieve</p></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>private</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$size</h4>
+<code>integer</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a name="sendString" id="sendString"></a><div class="element clickable method private sendString" data-toggle="collapse" data-target=".sendString .collapse">
+<h2>Send a string down the open socket connection to the POP3 server</h2>
+<pre>sendString(string $string) : integer</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>private</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$string</h4>
+<code>string</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>integer</code></div>
+</div></div>
+</div>
+<h3>
+<i class="icon-custom icon-property"></i> Properties</h3>
+<a name="%24CRLF" id="$CRLF"> </a><div class="element clickable property public $CRLF" data-toggle="collapse" data-target=".$CRLF .collapse">
+<h2>POP3 Carriage Return + Line Feed</h2>
+<pre>$CRLF : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+<a name="%24POP3_PORT" id="$POP3_PORT"> </a><div class="element clickable property public $POP3_PORT" data-toggle="collapse" data-target=".$POP3_PORT .collapse">
+<h2>Default POP3 port</h2>
+<pre>$POP3_PORT : int</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+<a name="%24POP3_TIMEOUT" id="$POP3_TIMEOUT"> </a><div class="element clickable property public $POP3_TIMEOUT" data-toggle="collapse" data-target=".$POP3_TIMEOUT .collapse">
+<h2>Default Timeout</h2>
+<pre>$POP3_TIMEOUT : int</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+<a name="%24Version" id="$Version"> </a><div class="element clickable property public $Version" data-toggle="collapse" data-target=".$Version .collapse">
+<h2>Sets the POP3 PHPMailer Version number</h2>
+<pre>$Version : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+<a name="%24do_debug" id="$do_debug"> </a><div class="element clickable property public $do_debug" data-toggle="collapse" data-target=".$do_debug .collapse">
+<h2>Displaying Debug warnings? (0 = now, 1+ = yes)</h2>
+<pre>$do_debug : int</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+<a name="%24host" id="$host"> </a><div class="element clickable property public $host" data-toggle="collapse" data-target=".$host .collapse">
+<h2>POP3 Mail Server</h2>
+<pre>$host : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+<a name="%24password" id="$password"> </a><div class="element clickable property public $password" data-toggle="collapse" data-target=".$password .collapse">
+<h2>POP3 Password</h2>
+<pre>$password : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+<a name="%24port" id="$port"> </a><div class="element clickable property public $port" data-toggle="collapse" data-target=".$port .collapse">
+<h2>POP3 Port</h2>
+<pre>$port : int</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+<a name="%24tval" id="$tval"> </a><div class="element clickable property public $tval" data-toggle="collapse" data-target=".$tval .collapse">
+<h2>POP3 Timeout Value</h2>
+<pre>$tval : int</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+<a name="%24username" id="$username"> </a><div class="element clickable property public $username" data-toggle="collapse" data-target=".$username .collapse">
+<h2>POP3 Username</h2>
+<pre>$username : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+<a name="%24connected" id="$connected"> </a><div class="element clickable property private $connected" data-toggle="collapse" data-target=".$connected .collapse">
+<h2>&lt;p&gt;Are we connected?&lt;/p&gt;
+</h2>
+<pre>$connected : boolean</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+<a name="%24error" id="$error"> </a><div class="element clickable property private $error" data-toggle="collapse" data-target=".$error .collapse">
+<h2>&lt;p&gt;Error container&lt;/p&gt;</h2>
+<pre>$error : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+<a name="%24pop_conn" id="$pop_conn"> </a><div class="element clickable property private $pop_conn" data-toggle="collapse" data-target=".$pop_conn .collapse">
+<h2>&lt;p&gt;Resource handle for the POP connection socket&lt;/p&gt;</h2>
+<pre>$pop_conn : resource</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="row"><footer class="span12">
+            Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
+            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a8</a> and<br>
+            generated on 2012-12-03T13:15:45-05:00.<br></footer></div>
+</div>
+</body>
+</html>

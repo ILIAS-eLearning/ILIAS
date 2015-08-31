@@ -769,6 +769,83 @@ class ilCtrl
 	{
 		$this->parameter[strtolower($a_class)] = array();
 	}
+	
+	protected function checkLPSettingsForward($a_gui_obj, $a_cmd_node)
+	{			
+		global $objDefinition;
+		
+		// forward to learning progress settings if possible and accessible			
+		if($_GET["gotolp"] &&
+			$a_gui_obj)
+		{						
+			$ref_id = $_GET["ref_id"];
+			if(!$ref_id)
+			{
+				$ref_id = $_REQUEST["ref_id"];
+			}		
+			
+			$gui_class = get_class($a_gui_obj);
+			
+			if($gui_class == "ilSAHSEditGUI")
+			{
+				// #1625 - because of scorm "sub-types" this is all very special
+				include_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php";
+				$obj_id = ilObject::_lookupObjectId($ref_id);
+				switch(ilObjSAHSLearningModule::_lookupSubType($obj_id))
+				{
+					case "scorm2004":
+						$class = "ilObjSCORM2004LearningModuleGUI";
+						break;
+				
+					case "scorm":
+						$class = "ilObjSCORMLearningModuleGUI";
+						break;
+
+					case "aicc":
+						$class = "ilObjAICCLearningModuleGUI";
+						break;
+
+					case "hacp":
+						$class = "ilObjHACPLearningModuleGUI";
+						break;
+				}
+				if($GLOBALS["ilAccess"]->checkAccess("edit_learning_progress", "", $ref_id))
+				{
+					$this->redirectByClass(array($gui_class, $class, "illearningprogressgui", "illplistofsettingsgui"), "");
+				}
+			}
+			// special case: cannot use any presentation GUIs
+			else if($gui_class == "ilLMPresentationGUI")
+			{
+				$this->setParameterByClass("ilObjLearningModuleGUI", "gotolp", 1);
+				$this->redirectByClass(array("ilLMEditorGUI", "ilObjLearningModuleGUI"), "");			
+			}
+						
+			include_once "Services/Object/classes/class.ilObjectLP.php";	
+			$type = ilObject::_lookupType($ref_id, true);
+			$class = "ilObj".$objDefinition->getClassName($type)."GUI";		
+			
+			if($gui_class == $class &&
+				ilObjectLP::isSupportedObjectType($type) &&
+				$GLOBALS["ilAccess"]->checkAccess("edit_learning_progress", "", $ref_id))
+			{					
+				// add path to repository object gui if missing from cmdNode
+				if(!$a_cmd_node)
+				{
+					$repo_node = $this->getNodeIdForTargetClass(null, "ilrepositorygui");							
+					$obj_node = $this->getNodeIdForTargetClass($repo_node["node_id"], $gui_class);	
+					$a_cmd_node = $obj_node["node_id"];
+				}			
+				// find path to lp settings
+				$lp_node = $this->getNodeIdForTargetClass($a_cmd_node, "illearningprogressgui");												
+				$lp_settings_node = $this->getNodeIdForTargetClass($lp_node["node_id"], "illplistofsettingsgui");																		
+				$_GET["cmdNode"] = $lp_settings_node["node_id"];								
+				$_GET["cmdClass"] = "ilLPListOfSettingsGUI";								
+				$_GET["cmd"] = "";							
+				return "illearningprogressgui";				
+			}
+		}						
+	}
 
 	/**
 	 * Get next class in the control path from the current class
@@ -778,13 +855,15 @@ class ilCtrl
 	 *
 	 * @return	string		class name of next class
 	 */
-	function getNextClass()
+	function getNextClass($a_gui_class = null)
 	{
 		$cmdNode = $this->getCmdNode();
 //echo "<br>getNextClass (current node: ".$this->current_node."; cmd node: ".$cmdNode.") ";
 		if ($cmdNode == "")
 		{
-			return false;
+			return ($class = $this->checkLPSettingsForward($a_gui_class, $cmdNode))
+				? $class
+				: false;
 		}
 		else
 		{
@@ -792,7 +871,9 @@ class ilCtrl
 			{
 //echo "1:".$this->call_node[$cmdNode]["class"]."<br>";
 				//return $this->call_node[$cmdNode]["class"];
-				return "";
+				return ($class = $this->checkLPSettingsForward($a_gui_class, $cmdNode))
+					? $class
+					: "";
 			}
 			else
 			{

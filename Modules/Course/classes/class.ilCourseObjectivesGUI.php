@@ -1213,6 +1213,31 @@ class ilCourseObjectivesGUI
 	}
 	
 	/**
+	 * Show test assignment form
+	 * @param ilPropertyFormGUI $form
+	 */
+	protected function finalSeparatedTestAssignment(ilPropertyFormGUI $form = null)
+	{
+		global $ilAccess, $ilErr;
+		
+		if(!$ilAccess->checkAccess('write','',$this->course_obj->getRefId()))
+		{
+			$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->WARNING);
+		}
+		if(!$_GET['objective_id'])
+		{
+			ilUtil::sendFailure($this->lng->txt('crs_no_objective_selected'),true);
+			$this->ctrl->returnToParent($this);
+		}
+		$this->ctrl->saveParameter($this,'objective_id');
+		$this->objective = new ilCourseObjective($this->course_obj,(int) $_GET['objective_id']);
+		
+		$this->initWizard(6);
+		$form = $this->initFormTestAssignment();
+		$GLOBALS['tpl']->setContent($form->getHtml());
+	}
+	
+	/**
 	 * self assessment limits
 	 *
 	 * @access protected
@@ -1230,7 +1255,7 @@ class ilCourseObjectivesGUI
 		if(!$_GET['objective_id'])
 		{
 			ilUtil::sendFailure($this->lng->txt('crs_no_objective_selected'),true);
-			$this->ctrl->redirect($this,'listObjectives');
+			$this->ctrl->returnToParent($this);
 		}
 
 		$this->setSubTabs("final_test_limits");
@@ -1512,11 +1537,19 @@ class ilCourseObjectivesGUI
 			// checklist gui end
 
 			// begin-patch lok
-			if($step == 3 and !$this->getSettings()->worksWithInitialTest())
+			if($step == 3 and (!$this->getSettings()->worksWithInitialTest() or $this->getSettings()->hasSeparateInitialTests()))
 			{
 				continue;
 			}
-			if($step == 4 and !$this->getSettings()->worksWithInitialTest())
+			if($step == 4 and (!$this->getSettings()->worksWithInitialTest() or $this->getSettings()->hasSeparateInitialTests()))
+			{
+				continue;
+			}
+			if($step == 5 and $this->getSettings()->hasSeparateQualifiedTests())
+			{
+				continue;
+			}
+			if($step == 6 and $this->getSettings()->hasSeparateQualifiedTests())
 			{
 				continue;
 			}

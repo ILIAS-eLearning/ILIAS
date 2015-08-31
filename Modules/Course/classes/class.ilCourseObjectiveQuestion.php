@@ -55,6 +55,27 @@ class ilCourseObjectiveQuestion
 	
 	
 	/**
+	 * Lookup objective for test question
+	 * @global type $ilDB
+	 * @param type $a_test_ref_id
+	 * @param type $a_qid
+	 * @return int
+	 */
+	public static function lookupObjectiveOfQuestion($a_qid)
+	{
+		global $ilDB;
+		
+		$query = 'SELECT objective_id FROM crs_objective_qst '.
+				'WHERE question_id = '.$ilDB->quote($a_qid,'integer');
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return $row->objective_id;
+		}
+		return 0;
+	}
+	
+	/**
 	 * Check if test is assigned to objective
 	 *
 	 * @access public
@@ -890,8 +911,6 @@ class ilCourseObjectiveQuestion
 				'WHERE objective_id = '.$ilDB->quote($a_objective,'integer').' '.
 				'AND obj_id = '.$ilDB->quote($a_test_id,'integer');
 		$res = $ilDB->query($query);
-		
-		$GLOBALS['ilLog']->write($query);
 		
 		$questions = array();
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))

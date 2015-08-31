@@ -92,6 +92,14 @@ class ilObjectLP
 				case "exc":
 					include_once "Modules/Exercise/classes/class.ilExerciseLP.php";
 					return "ilExerciseLP";
+					
+				case 'file':
+					require_once 'Modules/File/classes/class.ilFileLP.php';
+					return 'ilFileLP';
+					
+				case "mcst":
+					require_once "Modules/MediaCast/classes/class.ilMediaCastLP.php";
+					return "ilMediaCastLP";
 			
 				case "sess":
 					include_once "Modules/Session/classes/class.ilSessionLP.php";
@@ -113,7 +121,7 @@ class ilObjectLP
 	{
 		global $objDefinition;
 		
-		$valid = array("crs", "grp", "fold", "lm", "htlm", "sahs", "tst", "exc", "sess", "svy");		
+		$valid = array("crs", "grp", "fold", "lm", "htlm", "sahs", "tst", "exc", "sess", "svy", "file", "mcst");		
 		if(in_array($a_type, $valid))
 		{
 			return true;			
@@ -613,6 +621,11 @@ class ilObjectLP
 		}
 		
 		return $res;
+	}
+	
+	public function getMailTemplateId()
+	{
+		// type-specific
 	}
 }
 

@@ -16,6 +16,8 @@ require_once 'Modules/Test/classes/class.ilTestOutputGUI.php';
  * @ilCtrl_Calls ilTestPlayerRandomQuestionSetGUI: ilAssQuestionPageGUI
  * @ilCtrl_Calls ilTestPlayerRandomQuestionSetGUI: ilTestSubmissionReviewGUI
  * @ilCtrl_Calls ilTestPlayerRandomQuestionSetGUI: ilTestPasswordProtectionGUI
+ * @ilCtrl_Calls ilTestPlayerRandomQuestionSetGUI: ilTestAnswerOptionalQuestionsConfirmationGUI
+ * @ilCtrl_Calls ilTestPlayerRandomQuestionSetGUI: ilConfirmationGUI
  */
 class ilTestPlayerRandomQuestionSetGUI extends ilTestOutputGUI
 {
@@ -30,7 +32,7 @@ class ilTestPlayerRandomQuestionSetGUI extends ilTestOutputGUI
 
 		$questionList->setQuestionInstanceTypeFilter(ilAssQuestionList::QUESTION_INSTANCE_TYPE_DUPLICATES);
 
-		$questionList->setQuestionIdsFilter($this->testSequence->getQuestionIds());
+		$questionList->setIncludeQuestionIdsFilter($this->testSequence->getQuestionIds());
 
 		return $questionList;
 	}

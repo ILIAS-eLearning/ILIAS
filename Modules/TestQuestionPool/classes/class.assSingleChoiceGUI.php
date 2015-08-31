@@ -21,8 +21,6 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
  */
 class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable
 {
-	var $choiceKeys;
-
 	/**
 	 * assSingleChoiceGUI constructor
 	 *
@@ -601,20 +599,14 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 	 */
 	function getChoiceKeys()
 	{
-		if (strcmp($_GET["activecommand"], "directfeedback") == 0)
+		$choiceKeys = array_keys($this->object->answers);
+		
+		if( $this->object->getShuffle() )
 		{
-			if (is_array($_SESSION["choicekeys"])) $this->choiceKeys = $_SESSION["choicekeys"];
+			$choiceKeys = $this->object->getShuffler()->shuffle($choiceKeys);
 		}
-		if (!is_array($this->choiceKeys))
-		{
-			$this->choiceKeys = array_keys($this->object->answers);
-			if ($this->object->getShuffle())
-			{
-				$this->choiceKeys = $this->object->pcArrayShuffle($this->choiceKeys);
-			}
-		}
-		$_SESSION["choicekeys"] = $this->choiceKeys;
-		return $this->choiceKeys;
+		
+		return $choiceKeys;
 	}
 	
 	function getSpecificFeedbackOutput($active_id, $pass)

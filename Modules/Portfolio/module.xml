@@ -30,4 +30,9 @@
 		<pagecontent pc_type="cach" name="ConsultationHours" directory="classes" int_links="0" style_classes="0" xsl="0" def_enabled="0"/>
 		<pagecontent pc_type="mcrs" name="MyCourses" directory="classes" int_links="0" style_classes="0" xsl="0" def_enabled="0"/>
 	</copage>
+
+	<web_access_checker>
+		<secure_path path="ilPortfolio" checking-class="ilPortfolioAccessHandler" in-sec-folder='1'/>
+	</web_access_checker>
+
 </module>

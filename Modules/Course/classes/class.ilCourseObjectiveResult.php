@@ -160,8 +160,24 @@ class ilCourseObjectiveResult
 		
 		include_once './Services/Object/classes/class.ilObjectFactory.php';
 		$factory = new ilObjectFactory();
-
+		
+		include_once './Modules/Course/classes/Objectives/class.ilLOTestAssignments.php';
 		include_once './Modules/Course/classes/Objectives/class.ilLOSettings.php';
+		$assignments = ilLOTestAssignments::getInstance($a_course_id);
+		foreach(array_merge
+				(
+					$assignments->getAssignmentsByType(ilLOSettings::TYPE_TEST_INITIAL),
+					$assignments->getAssignmentsByType(ilLOSettings::TYPE_TEST_QUALIFIED)
+				)
+				as $assignment)
+		{
+			$tst = $factory->getInstanceByRefId($assignment->getTestRefId(),FALSE);
+			if($tst instanceof ilObjTest)
+			{
+				$tst->removeTestResultsForUser($this->getUserId());
+			}
+		}
+
 		$initial = ilLOSettings::getInstanceByObjId($a_course_id)->getInitialTest();
 		$initial_tst = $factory->getInstanceByRefId($initial, FALSE);
 		if($initial_tst instanceof ilObjTest)
@@ -190,7 +206,7 @@ class ilCourseObjectiveResult
 				"AND user_id = ".$ilDB->quote($this->getUserId())."";
 			$res = $ilDB->manipulate($query);
 			
-			$query = "DELETE FROM ilLOUserResults ".
+			$query = "DELETE FROM loc_user_results ".
 				"WHERE ".$ilDB->in('objective_id',$objectives,false,'integer').' '.
 				"AND user_id = ".$ilDB->quote($this->getUserId())."";
 		}

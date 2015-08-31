@@ -27,13 +27,22 @@ class ilTestPassDetailsOverviewTableGUI extends ilTable2GUI
 	private $pass = null;
 	
 	private $is_pdf_generation_request = false;
+	
+	private $objectiveOrientedPresentationEnabled = false;
+	
+	private $passColumnEnabled = false;
+
+	/**
+	 * @var ilTestQuestionRelatedObjectivesList
+	 */
+	private $questionRelatedObjectivesList = null;
 
 	public function __construct(ilCtrl $ctrl, $parent, $cmd)
 	{
 		$this->ctrl = $ctrl;
 
-		$this->setId('tst_pass_details_overview');
-		$this->setPrefix('tst_pass_details_overview');
+		$this->setId('tst_pass_details_overview_'.get_class($parent));
+		$this->setPrefix('tst_pass_details_overview_'.get_class($parent));
 
 		$this->setDefaultOrderField('nr');
 		$this->setDefaultOrderDirection('ASC');
@@ -55,9 +64,6 @@ class ilTestPassDetailsOverviewTableGUI extends ilTable2GUI
 		//$this->disable('numinfo_header');
 		// KEEP THIS ENABLED, SINCE NO TABLE FILTER ARE PROVIDED OTHERWISE
 
-
-		$this->setTitle($this->lng->txt('tst_pass_details_overview_table_title'));
-
 		$this->setRowTemplate('tpl.il_as_tst_pass_details_overview_qst_row.html', 'Modules/Test');
 	}
 
@@ -66,13 +72,39 @@ class ilTestPassDetailsOverviewTableGUI extends ilTable2GUI
 	 */
 	public function initColumns()
 	{
-		$this->setTitle(sprintf(
-			$this->lng->txt('tst_pass_details_overview_table_title'), $this->getPass() + 1
-		));
+		if( !$this->isObjectiveOrientedPresentationEnabled() )
+		{
+			$this->setTitle(sprintf(
+				$this->lng->txt('tst_pass_details_overview_table_title'), $this->getPass() + 1
+			));
+		}
 
-		$this->addColumn($this->lng->txt("tst_question_no"), '', '');
+		if( $this->isPassColumnEnabled() )
+		{
+			if($this->isObjectiveOrientedPresentationEnabled())
+			{
+				$passHeaderLabel = $this->lng->txt("tst_attempt");
+			}
+			else
+			{
+				$passHeaderLabel = $this->lng->txt("pass");
+			}
+
+			$this->addColumn($passHeaderLabel, 'pass', '');
+		}
+		else
+		{
+			$this->addColumn($this->lng->txt("tst_question_no"), '', '');
+		}
+
 		$this->addColumn($this->lng->txt("question_id"), '', '');
 		$this->addColumn($this->lng->txt("tst_question_title"), '', '');
+		
+		if( $this->isObjectiveOrientedPresentationEnabled() )
+		{
+			$this->addColumn($this->lng->txt('tst_res_lo_objectives_header'), '', '');
+		}
+		
 		$this->addColumn($this->lng->txt("tst_maximum_points"), '', '');
 		$this->addColumn($this->lng->txt("tst_reached_points"), '', '');
 
@@ -138,6 +170,11 @@ class ilTestPassDetailsOverviewTableGUI extends ilTable2GUI
 	public function fillRow(array $row)
 	{
 		$this->ctrl->setParameter($this->parent_obj, 'evaluation', $row['qid']);
+		
+		if( isset($row['pass']) )
+		{
+			$this->ctrl->setParameter($this->parent_obj, 'pass', $row['pass']);
+		}
 
 		if( $this->isQuestionTitleLinkPossible() )
 		{
@@ -151,6 +188,12 @@ class ilTestPassDetailsOverviewTableGUI extends ilTable2GUI
 				$this->tpl->touchBlock('title_link_end_tag');
 				$this->tpl->parseCurrentBlock();
 			}
+		}
+		
+		if( $this->isObjectiveOrientedPresentationEnabled() )
+		{
+			$objectives = $this->questionRelatedObjectivesList->getQuestionRelatedObjectiveTitle($row['qid']);
+			$this->tpl->setVariable('VALUE_LO_OBJECTIVES', strlen($objectives) ? $objectives : '&nbsp;');
 		}
 
 		if( $this->getShowHintCount() )
@@ -170,7 +213,16 @@ class ilTestPassDetailsOverviewTableGUI extends ilTable2GUI
 
 		$this->tpl->setVariable('VALUE_QUESTION_TITLE', $row['title']);
 		$this->tpl->setVariable('VALUE_QUESTION_ID', $row['qid']);
-		$this->tpl->setVariable('VALUE_QUESTION_COUNTER', $row['nr']);
+
+		if( $this->isPassColumnEnabled() )
+		{
+			$this->tpl->setVariable('VALUE_QUESTION_PASS', $row['pass'] + 1);
+		}
+		else
+		{
+			$this->tpl->setVariable('VALUE_QUESTION_COUNTER', $row['nr']);
+		}
+
 		$this->tpl->setVariable('VALUE_MAX_POINTS', $row['max']);
 		$this->tpl->setVariable('VALUE_REACHED_POINTS', $row['reached']);
 		$this->tpl->setVariable('VALUE_PERCENT_SOLVED', $row['percent']);
@@ -321,5 +373,53 @@ class ilTestPassDetailsOverviewTableGUI extends ilTable2GUI
 	public function getPass()
 	{
 		return $this->pass;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isObjectiveOrientedPresentationEnabled()
+	{
+		return $this->objectiveOrientedPresentationEnabled;
+	}
+
+	/**
+	 * @param boolean $objectiveOrientedPresentationEnabled
+	 */
+	public function setObjectiveOrientedPresentationEnabled($objectiveOrientedPresentationEnabled)
+	{
+		$this->objectiveOrientedPresentationEnabled = $objectiveOrientedPresentationEnabled;
+	}
+
+	/**
+	 * @return ilTestQuestionRelatedObjectivesList
+	 */
+	public function getQuestionRelatedObjectivesList()
+	{
+		return $this->questionRelatedObjectivesList;
+	}
+
+	/**
+	 * @param ilTestQuestionRelatedObjectivesList $questionRelatedObjectivesList
+	 */
+	public function setQuestionRelatedObjectivesList($questionRelatedObjectivesList)
+	{
+		$this->questionRelatedObjectivesList = $questionRelatedObjectivesList;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isPassColumnEnabled()
+	{
+		return $this->passColumnEnabled;
+	}
+
+	/**
+	 * @param boolean $passColumnEnabled
+	 */
+	public function setPassColumnEnabled($passColumnEnabled)
+	{
+		$this->passColumnEnabled = $passColumnEnabled;
 	}
 }

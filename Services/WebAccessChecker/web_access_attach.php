@@ -13,15 +13,17 @@
 *
 * @author Fred Neumann <fred.neumann@fim.uni-erlangen.de>
 * @version $Id: web_access_checker.php 13944 2007-05-22 08:02:47Z akill $
+ *
+ *          @deprecated
 */
 
 // Change to ILIAS main directory
 chdir("../..");
 
 // Load the checker class, which also initializes ILIAS
-require_once "./Services/WebAccessChecker/classes/class.ilWebAccessChecker.php";
+require_once "./Services/WebAccessChecker/classes/class.ilWebAccessCheckerOld.php";
 
-$checker = new ilWebAccessChecker();
+$checker = new ilWebAccessCheckerOld();
 $checker->setDisposition("attachment");
 
 if ($checker->checkAccess())

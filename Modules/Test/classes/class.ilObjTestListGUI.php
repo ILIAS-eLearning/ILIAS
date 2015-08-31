@@ -157,6 +157,56 @@ class ilObjTestListGUI extends ilObjectListGUI
 
 		return $cmd_link;
 	}
+
+	public function getCommands()
+	{
+		$commands = parent::getCommands();
+		
+		$commands = $this->handleUserResultsCommand($commands);
+		
+		return $commands;
+	}
+	
+	private function handleUserResultsCommand($commands)
+	{
+		global $ilUser;
+		
+		if( !$this->isObjectiveTest() )
+		{
+			$commands = $this->removeUserResultsCommand($commands);
+		}
+		else
+		{
+			require_once 'Modules/Test/classes/class.ilObjTestAccess.php';
+			
+			if( !ilObjTestAccess::visibleUserResultExists($this->obj_id, $ilUser->getId()) )
+			{
+				$commands = $this->removeUserResultsCommand($commands);
+			}
+		}
+		
+		return $commands;
+	}
+	
+	private function isObjectiveTest()
+	{
+		require_once 'Modules/Course/classes/Objectives/class.ilLOSettings.php';
+		return ilLOSettings::isObjectiveTest($this->ref_id);
+	}
+
+	private function removeUserResultsCommand($commands)
+	{
+		foreach($commands as $key => $command)
+		{
+			if($command['cmd'] == 'userResultsGateway')
+			{
+				unset($commands[$key]);
+				break;
+			}
+		}
+		
+		return $commands;
+	}
 	
 	/**
 	 * overwritten from base class for course objectives

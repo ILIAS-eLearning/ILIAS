@@ -1159,7 +1159,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 			$answers[$counter] = $answer_obj->getAnswertext();
 			$counter++;
 		}
-		$answers = $this->pcArrayShuffle($answers);
+		$answers = $this->getShuffler()->shuffle($answers);
 		$arr = array();
 		foreach ($answers as $order => $answer)
 		{

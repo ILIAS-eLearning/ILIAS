@@ -639,7 +639,11 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		// Create topic button
 		if($ilAccess->checkAccess('add_thread', '', $this->object->getRefId()) && !$this->hideToolbar())
 		{
-			$ilToolbar->addButton($this->lng->txt('forums_new_thread'), $this->ctrl->getLinkTarget($this, 'createThread'));
+			require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
+			$btn = ilLinkButton::getInstance();
+			$btn->setUrl($this->ctrl->getLinkTarget($this, 'createThread'));
+			$btn->setCaption('forums_new_thread');
+			$ilToolbar->addStickyItem($btn);
 		}
 
 		// Mark all topics as read button
@@ -1714,39 +1718,33 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 						$oFDForum->storeUploadedFile($file);
 					}
 				}
+				
+				$GLOBALS['ilAppEventHandler']->raise(
+					'Modules/Forum',
+					'createdPost',
+					array(
+						'ref_id'            => $this->object->getRefId(),
+						'post'              => new ilForumPost($newPost),
+						'notify_moderators' => (bool)$send_activation_mail
+					)
+				);
 
-				// FINALLY SEND MESSAGE
-				if ($this->ilias->getSetting("forum_notification") == 1 && (int)$status )
+				$message = '';
+				if(!$this->is_moderator && !$status)
 				{
-					$objPost = new ilForumPost((int)$newPost, $this->is_moderator);
-
-					$GLOBALS['ilAppEventHandler']->raise(
-						'Modules/Forum',
-						'createdPost',
-						array(
-							'ref_id'            => $this->object->getRefId(),
-							'post'              => new ilForumPost($newPost),
-							'notify_moderators' => (bool)$send_activation_mail
-						)
-					);
-
-					$message = '';
-					if(!$this->is_moderator && !$status)
-					{
-						$message .= $lng->txt('forums_post_needs_to_be_activated');
-					}
-					else
-					{
-						$message .= $lng->txt('forums_post_new_entry');
-					}
-
-					$_SESSION['frm'][(int)$_GET['thr_pk']]['openTreeNodes'][] = (int)$this->objCurrentPost->getId();
-
-					ilUtil::sendSuccess($message, true);
-					$this->ctrl->setParameter($this, 'pos_pk', $newPost);
-					$this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentPost->getThreadId());
-					$this->ctrl->redirect($this, 'viewThread');
+					$message .= $lng->txt('forums_post_needs_to_be_activated');
 				}
+				else
+				{
+					$message .= $lng->txt('forums_post_new_entry');
+				}
+
+				$_SESSION['frm'][(int)$_GET['thr_pk']]['openTreeNodes'][] = (int)$this->objCurrentPost->getId();
+
+				ilUtil::sendSuccess($message, true);
+				$this->ctrl->setParameter($this, 'pos_pk', $newPost);
+				$this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentPost->getThreadId());
+				$this->ctrl->redirect($this, 'viewThread');
 			}
 			else
 			{
@@ -2511,7 +2509,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 										$this->ctrl->setParameter($this, 'pos_pk', $this->objCurrentPost->getId());
 										$this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentPost->getThreadId());
 
-										$jsTpl = new ilTemplate('tpl.forum_post_quoation_ajax_handler.html', true, true, 'Modules/Forum/');
+										$jsTpl = new ilTemplate('tpl.forum_post_quoation_ajax_handler.html', true, true, 'Modules/Forum');
 										$jsTpl->setVariable('IL_FRM_QUOTE_CALLBACK_SRC',
 											$this->ctrl->getLinkTarget($this, 'getQuotationHTMLAsynch', '', true));
 										$this->ctrl->clearParameters($this);
@@ -3022,6 +3020,13 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 						)
 					);
 				}
+				$this->ctrl->setParameter($this, 'pos_pk', $subtree_nodes[0]->getId());
+				$this->ctrl->setParameter($this, 'thr_pk', $subtree_nodes[0]->getThreadId());
+				$jsTpl = new ilTemplate('tpl.forum_post_quoation_ajax_handler.html', true, true, 'Modules/Forum');
+				$jsTpl->setVariable('IL_FRM_QUOTE_CALLBACK_SRC',
+					$this->ctrl->getLinkTarget($this, 'getQuotationHTMLAsynch', '', true));
+				$this->ctrl->clearParameters($this);
+				$this->tpl->setVariable('FORM_ADDITIONAL_JS', $jsTpl->get());
 				$tpl->setVariable('BOTTOM_FORM', $form->getHTML());
 			}
 		}

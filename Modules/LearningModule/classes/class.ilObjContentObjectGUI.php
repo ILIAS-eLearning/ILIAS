@@ -220,17 +220,22 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 				$this->setTabs("export");
 				include_once("./Services/Export/classes/class.ilExportGUI.php");
 				$exp_gui = new ilExportGUI($this);
-				$exp_gui->addFormat("xml", "", $this, "export");
+				// old school -> new school
+				//$exp_gui->addFormat("xml", "", $this, "export");
+				$exp_gui->addFormat("xml");
 				include_once("./Services/Object/classes/class.ilObjectTranslation.php");
 				$ot = ilObjectTranslation::getInstance($this->object->getId());
 				if ($ot->getContentActivated())
 				{
+					$exp_gui->addFormat("xml_master", "XML (".$lng->txt("cont_master_language_only").")", $this, "export");
+
 					$lng->loadLanguageModule("meta");
 					$langs = $ot->getLanguages();
 					foreach ($langs as $l => $ldata)
 					{
 						$exp_gui->addFormat("html_".$l, "HTML (".$lng->txt("meta_l_".$l).")", $this, "exportHTML");
 					}
+					$exp_gui->addFormat("html_all", "HTML (".$lng->txt("cont_all_languages").")", $this, "exportHTML");
 				}
 				else
 				{
@@ -272,6 +277,36 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 				$cp = new ilObjectCopyGUI($this);
 				$cp->setType('lm');
 				$this->ctrl->forwardCommand($cp);
+
+/*			case "ilpagemultilanggui":
+				$this->addHeaderAction();
+				$this->addLocations(true);
+				$ilCtrl->setReturn($this, "properties");
+				include_once("./Services/COPage/classes/class.ilPageMultiLangGUI.php");
+				$ml_gui = new ilPageMultiLangGUI("lm", $this->object->getId());
+				$this->setTabs("settings");
+				$this->setSubTabs("cont_multilinguality");
+				$ret = $this->ctrl->forwardCommand($ml_gui);
+				break;*/
+
+			case "illmmultisrtuploadgui":
+				$this->addHeaderAction();
+				$this->addLocations(true);
+				$this->setTabs("content");
+				$this->setContentSubTabs("srt_files");
+				include_once("./Modules/LearningModule/classes/class.ilLMMultiSrtUploadGUI.php");
+				$gui = new ilLMMultiSrtUploadGUI($this->object);
+				$this->ctrl->forwardCommand($gui);
+				break;
+
+			case "illmimportgui":
+				$this->addHeaderAction();
+				$this->addLocations(true);
+				$this->setTabs("content");
+				$this->setContentSubTabs("import");
+				include_once("./Modules/LearningModule/classes/class.ilLMImportGUI.php");
+				$gui = new ilLMImportGUI($this->object);
+				$this->ctrl->forwardCommand($gui);
 				break;
 
 			default:
@@ -1069,7 +1104,8 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		$form->setTableWidth("600px");
 		
 		// import file
-		$fi = new ilFileInputGUI($this->lng->txt("file"), "xmldoc");
+		//$fi = new ilFileInputGUI($this->lng->txt("file"), "xmldoc");
+		$fi = new ilFileInputGUI($this->lng->txt("file"), "importfile");
 		$fi->setSuffixes(array("zip"));
 		$fi->setRequired(true);
 		$fi->setSize(30);
@@ -1272,6 +1308,9 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	function importFileObject()
 	{
 		global $_FILES, $rbacsystem, $ilDB, $tpl;
+
+		parent::importFileObject();
+		return
 
 		include_once "./Modules/LearningModule/classes/class.ilObjLearningModule.php";
 
@@ -1937,9 +1976,18 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	*/
 	function export()
 	{
+		$ot = ilObjectTranslation::getInstance($this->object->getId());
+		$opt = "";
+		if ($ot->getContentActivated())
+		{
+			$format = explode("_", $_POST["format"]);
+			$opt = ilUtil::stripSlashes($format[1]);
+		}
+
+
 		require_once("./Modules/LearningModule/classes/class.ilContObjectExport.php");
 		$cont_exp = new ilContObjectExport($this->object);
-		$cont_exp->buildExportFile();
+		$cont_exp->buildExportFile(($opt == "master"));
 //		$this->ctrl->redirect($this, "exportList");
 	}
 
@@ -2627,7 +2675,17 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		$ilTabs->addSubtab("maintenance",
 			$lng->txt("cont_maintenance"),
 			$ilCtrl->getLinkTarget($this, "showMaintenance"));
-		
+
+		// srt files
+		$ilTabs->addSubtab("srt_files",
+			$lng->txt("cont_subtitle_files"),
+			$ilCtrl->getLinkTargetByClass("illmmultisrtuploadgui", ""));
+
+		// srt files
+		$ilTabs->addSubtab("import",
+			$lng->txt("cont_import"),
+			$ilCtrl->getLinkTargetByClass("illmimportgui", ""));
+
 		$ilTabs->activateSubTab($a_active);
 		$ilTabs->activateTab("content");
 	}

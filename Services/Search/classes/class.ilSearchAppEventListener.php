@@ -64,6 +64,7 @@ class ilSearchAppEventListener implements ilAppEventListener
 		
 		switch($a_component)
 		{
+			case 'Services/Help':
 			case 'Services/Object':
 				
 				switch($a_event)

@@ -28,6 +28,7 @@ class ilContext
 	const CONTEXT_UNITTEST = 11;
 	const CONTEXT_REST = 12;
 	const CONTEXT_SCORM = 13;
+	const CONTEXT_WAC = 14;
 	
 	/**
 	 * Init context by type
@@ -96,6 +97,9 @@ class ilContext
 
 			case self::CONTEXT_SCORM:
 				return 'ilContextScorm';
+
+			case self::CONTEXT_WAC:
+				return 'ilContextWAC';
 		}
 	}
 	

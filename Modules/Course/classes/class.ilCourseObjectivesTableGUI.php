@@ -79,7 +79,14 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
 			$this->addColumn($this->lng->txt('crs_objective_self_assessment'),'self');
 		}
 		// end-patch lok
-	 	$this->addColumn($this->lng->txt('crs_objective_final_test'),'final');
+		if($this->getSettings()->getQualifyingTestType() == ilLOSettings::TYPE_QUALIFYING_SELECTED)
+		{
+			$this->addColumn($this->lng->txt('crs_objective_tbl_col_final_tsts'),'final');
+		}
+		else
+		{
+			$this->addColumn($this->lng->txt('crs_objective_final_test'),'final');
+		}
 	 	$this->addColumn($this->lng->txt(''),'5em');
 	 	
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
@@ -123,6 +130,8 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
+		$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($a_set,TRUE));
+		
 		$this->tpl->setVariable('VAL_ID',$a_set['id']);
 		$this->tpl->setVariable('VAL_POSITION',$a_set['position']);
 		
@@ -201,45 +210,102 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
 		// begin-patch lok
 		if($this->getSettings()->worksWithInitialTest())
 		{
-			foreach($a_set['self'] as $test)
+			if($this->getSettings()->hasSeparateInitialTests())
 			{
-				// begin-patch lok
-				foreach((array) $test['questions'] as $question)
+				if($a_set['initial'])
 				{
-					$this->tpl->setCurrentBlock('self_qst_row');
-					$this->tpl->setVariable('SELF_QST_TITLE',$question['title']);
+					include_once './Services/Link/classes/class.ilLink.php';
+					$obj_id = ilObject::_lookupObjId($a_set['initial']);
+					$this->tpl->setCurrentBlock('initial_test_per_objective');
+					$this->tpl->setVariable('IT_IMG', ilObject::_getIcon($obj_id, 'tiny'));
+					$this->tpl->setVariable('IT_ALT', $this->lng->txt('obj_tst'));
+					$this->tpl->setVariable('IT_TITLE',ilObject::_lookupTitle($obj_id));
+					$this->tpl->setVariable('IT_TITLE_LINK',  ilLink::_getLink($a_set['initial']));
+					
+					include_once './Services/Link/classes/class.ilLink.php';
+					$this->ctrl->setParameterByClass('ilobjtestgui','ref_id',$a_set['initial']);
+					$this->ctrl->setParameterByClass('ilobjtestgui','cmd','questionsTabGateway');
+					$this->tpl->setVariable(
+							'IT_TITLE_LINK',
+							$this->ctrl->getLinkTargetByClass('ilobjtestgui')
+					);
+										
 					$this->tpl->parseCurrentBlock();
 				}
-				#$this->tpl->setCurrentBlock('self_test_row');
-				#$this->tpl->setVariable('SELF_TST_ALT',$this->lng->txt('obj_tst'));
-				#$this->tpl->setVariable('SELF_TST_TITLE',ilObject::_lookupTitle($test['obj_id']));
-				#$this->tpl->parseCurrentBlock();	
-				// end-patch lok
+				else
+				{
+					$this->tpl->touchBlock('initial_test_per_objective');
+				}
 			}
-			// begin-patch lok
-			if(!count($a_set['self']))
+			else
 			{
-				$this->tpl->touchBlock('self_qst_row');
+				foreach($a_set['self'] as $test)
+				{
+					// begin-patch lok
+					foreach((array) $test['questions'] as $question)
+					{
+						$this->tpl->setCurrentBlock('self_qst_row');
+						$this->tpl->setVariable('SELF_QST_TITLE',$question['title']);
+						$this->tpl->parseCurrentBlock();
+					}
+					// end-patch lok
+				}
+				// begin-patch lok
+				if(!count($a_set['self']))
+				{
+					$this->tpl->touchBlock('self_qst_row');
+				}
 			}
+			
 			// end-patch lok
 		}
 		// end-patch lok
 
 		// final test questions
-		foreach((array) $a_set['final'] as $test)
+		if($this->getSettings()->getQualifyingTestType() == ilLOSettings::TYPE_QUALIFYING_SELECTED)
 		{
-			foreach((array) $test['questions'] as $question)
+			if($a_set['final'])
 			{
-				$this->tpl->setCurrentBlock('final_qst_row');
-				$this->tpl->setVariable('FINAL_QST_TITLE',$question['title']);
+				$obj_id = ilObject::_lookupObjId($a_set['final']);
+				$this->tpl->setCurrentBlock('final_test_per_objective');
+				$this->tpl->setVariable('FT_IMG', ilObject::_getIcon($obj_id, 'tiny'));
+				$this->tpl->setVariable('FT_ALT', $this->lng->txt('obj_tst'));
+				$this->tpl->setVariable('FT_TITLE',ilObject::_lookupTitle($obj_id));
+				
+				include_once './Services/Link/classes/class.ilLink.php';
+				$this->ctrl->setParameterByClass('ilobjtestgui','ref_id',$a_set['final']);
+				$this->ctrl->setParameterByClass('ilobjtestgui','cmd','questionsTabGateway');
+				$this->tpl->setVariable(
+						'FT_TITLE_LINK',
+						$this->ctrl->getLinkTargetByClass('ilobjtestgui')
+				);
+				
+				
 				$this->tpl->parseCurrentBlock();
 			}
-			// begin-patch lok
-			#$this->tpl->setCurrentBlock('final_test_row');
-			#$this->tpl->setVariable('FINAL_TST_ALT',$this->lng->txt('obj_tst'));
-			#$this->tpl->setVariable('FINAL_TST_TITLE',ilObject::_lookupTitle($test['obj_id']));
-			#$this->tpl->parseCurrentBlock();	
-			// end-patch lok
+			else
+			{
+				$this->tpl->touchBlock('final_test_per_objective');
+			}
+		}
+		else
+		{
+			foreach((array) $a_set['final'] as $test)
+			{
+				foreach((array) $test['questions'] as $question)
+				{
+					$this->tpl->setCurrentBlock('final_qst_row');
+					$this->tpl->setVariable('FINAL_QST_TITLE',$question['title']);
+					$this->tpl->parseCurrentBlock();
+				}
+				// begin-patch lok
+				#$this->tpl->setCurrentBlock('final_test_row');
+				#$this->tpl->setVariable('FINAL_TST_IMG',ilUtil::getImagePath('icon_tst_s.png'));
+				#$this->tpl->setVariable('FINAL_TST_ALT',$this->lng->txt('obj_tst'));
+				#$this->tpl->setVariable('FINAL_TST_TITLE',ilObject::_lookupTitle($test['obj_id']));
+				#$this->tpl->parseCurrentBlock();	
+				// end-patch lok
+			}
 		}
 		
 		// begin-patch lok
@@ -268,7 +334,7 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
 				$this->ctrl->getLinkTargetByClass('ilcourseobjectivesgui', 'materialAssignment')
 		);
 		// itest
-		if($this->getSettings()->worksWithInitialTest())
+		if($this->getSettings()->worksWithInitialTest() && !$this->getSettings()->hasSeparateInitialTests())
 		{
 			$alist->addItem(
 					$this->lng->txt('crs_objective_action_itest'),
@@ -277,20 +343,22 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
 			);
 		}
 		// qtest
-		$alist->addItem(
-				$this->lng->txt('crs_objective_action_qtest'),
-				'', 
-				$this->ctrl->getLinkTargetByClass('ilcourseobjectivesgui', 'finalTestAssignment')
-		);
-		
-		if($this->getSettings()->isQualifiedTestPerObjectiveVisible())
+		if($this->getSettings()->hasSeparateQualifiedTests())
 		{
-			$this->ctrl->setParameterByClass('ilconditionhandlerinterface','objective_id',$a_set['id']);
+			#$alist->addItem(
+			#		$this->lng->txt('crs_objective_action_qtest_sep'),
+			#		'', 
+			#		$this->ctrl->getLinkTargetByClass('ilcourseobjectivesgui', 'finalSeparatedTestAssignment')
+			#);
+		}
+		else
+		{
 			$alist->addItem(
-					$this->lng->txt('preconditions'),
-					'',
-					$this->ctrl->getLinkTargetByClass('ilconditionhandlerinterface','listConditions')
+					$this->lng->txt('crs_objective_action_qtest'),
+					'', 
+					$this->ctrl->getLinkTargetByClass('ilcourseobjectivesgui', 'finalTestAssignment')
 			);
+			
 		}
 		
 		$this->ctrl->setParameterByClass('illopagegui','objective_id',$a_set['id']);
@@ -357,7 +425,27 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
 			// begin-patch lok
 			if($this->getSettings()->worksWithInitialTest())
 			{
-				if(ilLOUtils::lookupRandomTest(ilObject::_lookupObjId($this->getSettings()->getInitialTest())))
+				if($this->getSettings()->hasSeparateInitialTests())
+				{
+					include_once './Modules/Course/classes/Objectives/class.ilLOTestAssignments.php';
+					$assignments = ilLOTestAssignments::getInstance($this->course_obj->getId());
+					$assignment = $assignments->getAssignmentByObjective($objective_id,  ilLOSettings::TYPE_TEST_INITIAL);
+
+					$objective_data['initial'] = 0;
+					if($assignment instanceof ilLOTestAssignment)
+					{
+						$test_id = $assignment->getTestRefId();
+
+						include_once './Services/Object/classes/class.ilObjectFactory.php';
+						$factory = new ilObjectFactory();
+						$test_candidate = $factory->getInstanceByRefId($test_id,FALSE);
+						if($test_candidate instanceof ilObjTest) 
+						{
+							$objective_data['initial'] = $test_id;
+						}
+					}
+				}
+				elseif(ilLOUtils::lookupRandomTest(ilObject::_lookupObjId($this->getSettings()->getInitialTest())))
 				{
 					$test = array();
 					include_once './Modules/Course/classes/Objectives/class.ilLORandomTestQuestionPools.php';
@@ -396,7 +484,28 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
 			
 			// final test questions
 			// begin-patch lok
-			if($this->getSettings()->getQualifiedTest())
+			// single test assignments
+			if($this->getSettings()->getQualifyingTestType() == ilLOSettings::TYPE_QUALIFYING_SELECTED)
+			{
+				include_once './Modules/Course/classes/Objectives/class.ilLOTestAssignments.php';
+				$assignments = ilLOTestAssignments::getInstance($this->course_obj->getId());
+				$assignment = $assignments->getAssignmentByObjective($objective_id,  ilLOSettings::TYPE_TEST_QUALIFIED);
+			
+				$objective_data['final'] = 0;
+				if($assignment instanceof ilLOTestAssignment)
+				{
+					$test_id = $assignment->getTestRefId();
+
+					include_once './Services/Object/classes/class.ilObjectFactory.php';
+					$factory = new ilObjectFactory();
+					$test_candidate = $factory->getInstanceByRefId($test_id,FALSE);
+					if($test_candidate instanceof ilObjTest) 
+					{
+						$objective_data['final'] = $test_id;
+					}
+				}
+			}
+			elseif($this->getSettings()->getQualifiedTest())
 			{
 				if(ilLOUtils::lookupRandomTest(ilObject::_lookupObjId($this->getSettings()->getQualifiedTest())))
 				{

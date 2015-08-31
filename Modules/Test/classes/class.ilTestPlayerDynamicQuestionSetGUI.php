@@ -73,7 +73,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		$this->initProcessLocker($this->testSession->getActiveId());
 		
 		$testSequenceFactory = new ilTestSequenceFactory($ilDB, $lng, $ilPluginAdmin, $this->object);
-		$this->testSequence = $testSequenceFactory->getSequence($this->testSession);
+		$this->testSequence = $testSequenceFactory->getSequenceByTestSession($this->testSession);
 		$this->testSequence->loadFromDb();
 
 		include_once 'Services/jQuery/classes/class.iljQueryUtil.php';
@@ -105,7 +105,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 			case 'ilassquestionhintrequestgui':
 				
 				$questionGUI = $this->object->createQuestionGUI(
-					"", $this->testSequenceFactory->getSequence()->getQuestionForSequence( $this->calculateSequence() )
+					"", $this->testSequenceFactory->getSequenceByTestSession()->getQuestionForSequence( $this->calculateSequence() )
 				);
 
 				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintRequestGUI.php';
@@ -564,6 +564,10 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 
 		$question_gui = $this->object->createQuestionGUI(
 				"", $this->testSession->getCurrentQuestionId()
+		);
+
+		$question_gui->object->setShuffler(
+			$this->buildQuestionAnswerShuffler($question_gui->object->getId())
 		);
 
 		if( !is_object($question_gui) )

@@ -2919,6 +2919,14 @@
 					</param>
 				</object>
 			</video>
+			<!-- subtitle workaround -->
+			<xsl:if test="$mode = 'offline'" >
+				<xsl:for-each select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Subtitle">
+					<xsl:if test = "@Default = 'true'">
+						<div class="ilMobSubtitleText" style="display:none;"><xsl:attribute name="name"><xsl:value-of select="$cmobid"/>_<xsl:value-of select="$curPurpose"/></xsl:attribute>[[[[[mobsubtitle;<xsl:value-of select="$cmobid"/>_<xsl:value-of select="$curPurpose"/>]]]]]</div>
+					</xsl:if>
+				</xsl:for-each>
+			</xsl:if>
 		</xsl:when>
 
 		<!-- all other mime types: output standard object/embed tag -->

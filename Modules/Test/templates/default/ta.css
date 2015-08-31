@@ -123,12 +123,19 @@ div.ilc_Question {
 
 .questionTitle {
 	margin-top: 5px;
-	margin-bottom: 20px;
+	margin-bottom: 5px;
 	font-size: 140%;
 	padding-bottom: 3px;
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
 	border-color: #000000;
+}
+
+.ilTestQuestionRelatedObjectivesInfo
+{
+    font-size: 0.7em;
+    font-style: italic;
+    margin: 5px 0;
 }
 
 .questionPrintview {

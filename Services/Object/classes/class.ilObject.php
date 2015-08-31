@@ -472,7 +472,18 @@ class ilObject
 		}
 		return 0;
 	}
-	
+
+	public static function _lookupImportId($a_obj_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT import_id FROM object_data ".
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id, "integer");
+		$res = $ilDB->query($query);
+		$row = $ilDB->fetchObject($res);
+		return $row->import_id;
+	}
+
 	/**
 	* get object owner
 	*

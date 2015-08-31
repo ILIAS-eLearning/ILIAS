@@ -5,7 +5,6 @@
 require_once './Services/User/classes/class.ilObjUser.php';
 require_once 'Services/Mail/classes/class.ilMailbox.php';
 require_once 'Services/Mail/classes/class.ilFormatMail.php';
-require_once 'Services/Contact/classes/class.ilAddressbook.php';
 
 /**
 * @author Jens Conze
@@ -45,7 +44,6 @@ class ilMailSearchGroupsGUI
 		$this->mailing_allowed = $rbacsystem->checkAccess('internal_mail',$mail->getMailObjectReferenceId());
 
 		$this->umail = new ilFormatMail($ilUser->getId());
-		$this->abook = new ilAddressbook($ilUser->getId());
 	}
 
 	public function executeCommand()
@@ -176,7 +174,9 @@ class ilMailSearchGroupsGUI
 			$mail_data["m_email"],
 			$mail_data["m_subject"],
 			$mail_data["m_message"],
-			$mail_data["use_placeholders"]
+			$mail_data["use_placeholders"],
+			$mail_data['tpl_ctx_id'],
+			$mail_data['tpl_ctx_params']
 		);
 		
 		ilUtil::redirect("ilias.php?baseClass=ilMailGUI&type=search_res");
@@ -223,7 +223,9 @@ class ilMailSearchGroupsGUI
 			$mail_data["m_email"],
 			$mail_data["m_subject"],
 			$mail_data["m_message"],
-			$mail_data["use_placeholders"]
+			$mail_data["use_placeholders"],
+			$mail_data['tpl_ctx_id'],
+			$mail_data['tpl_ctx_params']
 		);
 	
 		ilUtil::redirect("ilias.php?baseClass=ilMailGUI&type=search_res");
@@ -452,12 +454,11 @@ class ilMailSearchGroupsGUI
 							$fullname = $member['lastname'].', '.$member['firstname'];
 
 						$rowData = array(
-							'members_id' => $member["id"],
-							'members_login' => $member["login"],
-							'members_name' => $fullname,
+							'members_id'      => $member["id"],
+							'members_login'   => $member["login"],
+							'members_name'    => $fullname,
 							'members_crs_grp' => $group_obj->getTitle(),
-							'members_in_addressbook' => $this->abook->checkEntryByLogin($member["login"]) ? $lng->txt("yes") : $lng->txt("no"),
-							'search_grp' => $grp_id
+							'search_grp'      => $grp_id
 						);
 						$tableData[] = $rowData;
 					}

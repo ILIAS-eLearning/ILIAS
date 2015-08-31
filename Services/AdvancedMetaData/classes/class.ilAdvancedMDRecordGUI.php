@@ -161,7 +161,7 @@ class ilAdvancedMDRecordGUI
 			$adt_group_form->setInfo($record_obj->getDescription());
 			
 			foreach($values->getDefinitions() as $def)
-			{
+			{				
 				$element = $adt_group_form->getElement($def->getFieldId());
 				$element->setTitle($def->getTitle());
 				$element->setInfo($def->getDescription());
@@ -675,7 +675,7 @@ class ilAdvancedMDRecordGUI
 	 * 
 	 * @return array
 	 */
-	public function getFilterElements()
+	public function getFilterElements($a_only_non_empty = true)
 	{
 		if(!is_array($this->adt_search))
 		{
@@ -686,7 +686,8 @@ class ilAdvancedMDRecordGUI
 		
 		foreach($this->adt_search as $def_id => $element)
 		{			
-			if(!$element->isNull())
+			if(!$element->isNull() || 
+				!(bool)$a_only_non_empty)
 			{
 				$res[$def_id] = $element;			
 			}

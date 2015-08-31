@@ -189,7 +189,7 @@ class ilAuthContainerLDAP extends Auth_Container_LDAP
 		$a_username = $this->extractUserName($user_data);
 
 		include_once './Services/LDAP/classes/class.ilLDAPUserSynchronisation.php';
-		$sync = new ilLDAPUserSynchronisation('ldap', $this->server->getServerId());
+		$sync = new ilLDAPUserSynchronisation('ldap_'.$this->server->getServerId(), $this->server->getServerId());
 		$sync->setExternalAccount($a_username);
 		$sync->setUserData($user_data);
 		$sync->forceCreation(self::$force_creation);

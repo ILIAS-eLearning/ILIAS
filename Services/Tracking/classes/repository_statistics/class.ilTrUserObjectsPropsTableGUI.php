@@ -298,7 +298,11 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 							$text = ilLearningProgressBaseGUI::_getStatusText($data[$c]);
 							$val = ilUtil::img($path, $text);
 
-							if($data["ref_id"] && $data["type"] != "lobj" && $data["type"] != "sco" && $data["type"] != "st")	
+							if($data["ref_id"] && 
+								$data["type"] != "lobj" && 
+								$data["type"] != "sco" && 
+								$data["type"] != "st" &&
+								$data["type"] != "mob")	
 							{
 								$timing = $this->showTimingsWarning($data["ref_id"], $this->user_id);
 								if($timing)
@@ -320,7 +324,7 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 							break;
 
 						case "spent_seconds":							
-							if(in_array($data["type"], array("exc")))							
+							if(in_array($data["type"], array("exc", "file", "mcst", "mob")))				
 							{
 								$val = "-";
 							}
@@ -341,14 +345,14 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 				{
 					$val = "-";
 				}
-				if ($c == "spent_seconds" && in_array($this->type, array("exc")))
+				if ($c == "spent_seconds" && in_array($this->type, array("exc", "file", "mcst")))
 				{
 					$val = "-";
 				}
 				if ($c == "percentage" &&
 					(in_array(strtolower($this->status_class),
 							  array("illpstatusmanual", "illpstatusscormpackage", "illpstatustestfinished")) ||
-					$this->type == "exc"))
+					in_array($this->type, array("exc", "file", "mcst"))))
 				{
 					$val = "-";
 				}

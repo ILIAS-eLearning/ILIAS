@@ -916,9 +916,12 @@ class ilPersonalSettingsGUI
 		$this->form->addItem($lv);
 
 		// hide_own_online_status
-		if ($this->userSettingVisible("hide_own_online_status"))
-		{ 
-			$cb = new ilCheckboxInputGUI($this->lng->txt("hide_own_online_status"), "hide_own_online_status");
+		$awrn_set = new ilSetting("awrn");
+		if ($awrn_set->get("awrn_enabled", false) && $this->userSettingVisible("hide_own_online_status"))
+		{
+			$this->lng->loadLanguageModule("awrn");
+			$cb = new ilCheckboxInputGUI($this->lng->txt("awrn_hide_from_awareness"), "hide_own_online_status");
+			$cb->setInfo($this->lng->txt("awrn_hide_from_awareness_info"));
 			$cb->setChecked($ilUser->prefs["hide_own_online_status"] == "y");
 			$cb->setDisabled($ilSetting->get("usr_settings_disable_hide_own_online_status"));
 			$this->form->addItem($cb);

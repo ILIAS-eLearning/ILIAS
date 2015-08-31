@@ -56,6 +56,11 @@ class ilTestSkillEvaluationGUI
 	 * @var ilTestSession
 	 */
 	private $testSession;
+	
+	/**
+	 * @var ilTestObjectiveOrientedContainer
+	 */
+	private $objectiveOrientedContainer;
 
 	/**
 	 * @var array
@@ -102,6 +107,22 @@ class ilTestSkillEvaluationGUI
 		$this->questionList = $questionList;
 	}
 
+	/**
+	 * @return ilTestObjectiveOrientedContainer
+	 */
+	public function getObjectiveOrientedContainer()
+	{
+		return $this->objectiveOrientedContainer;
+	}
+
+	/**
+	 * @param ilTestObjectiveOrientedContainer $objectiveOrientedContainer
+	 */
+	public function setObjectiveOrientedContainer($objectiveOrientedContainer)
+	{
+		$this->objectiveOrientedContainer = $objectiveOrientedContainer;
+	}
+
 	public function executeCommand()
 	{
 		$cmd = $this->ctrl->getCmd(self::CMD_SHOW) . 'Cmd';
@@ -124,6 +145,13 @@ class ilTestSkillEvaluationGUI
 			$this->lng->txt('tst_results_back_introduction'),
 			$this->ctrl->getLinkTargetByClass('ilObjTestGUI', 'infoScreen')
 		);
+
+		if( $this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired() )
+		{
+			require_once 'Services/Link/classes/class.ilLink.php';
+			$courseLink = ilLink::_getLink($this->getObjectiveOrientedContainer()->getRefId());
+			$this->tabs->setBack2Target($this->lng->txt('back_to_objective_container'), $courseLink);
+		}
 	}
 
 	private function showCmd()
@@ -171,15 +199,17 @@ class ilTestSkillEvaluationGUI
 		$gui->setNoSkillProfileOptionEnabled($noSkillProfileOptionEnabled);
 		$gui->setSelectedEvaluationMode($selectedSkillProfileId);
 
+		$gui->setTestResultButtonEnabled($this->isTestResultButtonRequired());
+
 		$gui->build();
 
 		return $gui;
 	}
-	
+
 	private function isTestResultButtonRequired()
 	{
 		$testOBJ = ilObjectFactory::getInstanceByObjId($this->objectId);
-		
+
 		if( !$testOBJ->canShowTestResults($this->testSession) )
 		{
 			return false;
@@ -210,7 +240,7 @@ class ilTestSkillEvaluationGUI
 
 		$gui->setReachedSkillLevels($reachedSkillLevels);
 		$gui->setUsrId($usrId);
-
+		
 		return $gui;
 	}
 

@@ -1,49 +1,35 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once 'Modules/Test/classes/class.ilTestServiceGUI.php';
+
 /**
  * Class ilTestSubmissionReviewGUI
  * 
  * @author Maximilian Becker <mbecker@databay.de>
  * @version $Id$
  * 
- * @ilCtrl_calls 	  ilTestSubmissionReviewGUI: ilAssQuestionPageGUI
+ * @ctrl_calls 	  ilTestSubmissionReviewGUI: ilAssQuestionPageGUI
  */
-class ilTestSubmissionReviewGUI 
+class ilTestSubmissionReviewGUI extends ilTestServiceGUI
 {
 	/** @var ilTestOutputGUI */
 	protected $testOutputGUI = null;
 
-	/** @var ilObjTest */
-	protected $test = null;
-	
-	/** @var $lng \ilLanguage */
-	protected $lng;
-	
-	/** @var $ilCtrl ilCtrl */
-	protected $ilCtrl;
-
-	/** @var $tpl \ilTemplate */
-	protected $tpl;
-
 	/** @var \ilTestSession */
 	protected $testSession;
 
-	public function __construct(ilTestOutputGUI $testOutputGUI, ilObjTest $test, ilTestSession $testSession)
+	public function __construct(ilTestOutputGUI $testOutputGUI, ilObjTest $testOBJ, ilTestSession $testSession)
 	{
-		global $lng, $ilCtrl, $tpl;
-		$this->lng = $lng;
-		$this->ilCtrl = $ilCtrl;
-		$this->tpl = $tpl;
-		
 		$this->testOutputGUI = $testOutputGUI;
-		$this->test = $test;
 		$this->testSession = $testSession;
+		
+		parent::ilTestServiceGUI($testOBJ);
 	}
 	
 	function executeCommand()
 	{
-		$next_class = $this->ilCtrl->getNextClass($this);
+		$next_class = $this->ctrl->getNextClass($this);
 
 		switch($next_class)
 		{
@@ -56,7 +42,7 @@ class ilTestSubmissionReviewGUI
 	
 	protected function dispatchCommand()
 	{
-		$cmd = $this->ilCtrl->getCmd();
+		$cmd = $this->ctrl->getCmd();
 		switch ($cmd)
 		{
 			default:
@@ -74,7 +60,7 @@ class ilTestSubmissionReviewGUI
 	 */
 	private function getContentBlockName()
 	{
-		if ($this->test->getKioskMode())
+		if ($this->object->getKioskMode())
 		{
 			$this->tpl->setBodyClass("kiosk");
 			$this->tpl->setAddFooter(FALSE);
@@ -91,17 +77,17 @@ class ilTestSubmissionReviewGUI
 		require_once 'class.ilTestEvaluationGUI.php';
 		require_once './Services/PDFGeneration/classes/class.ilPDFGeneration.php';
 		
-		global $ilUser;
+		global $ilUser, $ilObjDataCache;
 		
 		$template = new ilTemplate("tpl.il_as_tst_submission_review.html", TRUE, TRUE, "Modules/Test");
 
-		$this->ilCtrl->setParameter($this, "skipfinalstatement", 1);
-		$template->setVariable("FORMACTION", $this->ilCtrl->getFormAction($this->testOutputGUI, 'redirectBack').'&reviewed=1');
+		$this->ctrl->setParameter($this, "skipfinalstatement", 1);
+		$template->setVariable("FORMACTION", $this->ctrl->getFormAction($this->testOutputGUI, 'redirectBack').'&reviewed=1');
 		
 		$template->setVariable("BUTTON_CONTINUE", $this->lng->txt("btn_next"));
 		$template->setVariable("BUTTON_BACK", $this->lng->txt("btn_previous"));
 
-		if($this->test->getListOfQuestionsEnd())
+		if($this->object->getListOfQuestionsEnd())
 		{
 			$template->setVariable("CANCEL_CMD", 'outQuestionSummary');
 		}
@@ -110,15 +96,44 @@ class ilTestSubmissionReviewGUI
 			$template->setVariable("CANCEL_CMD", 'backFromSummary');
 		}
 
-		$active = $this->test->getActiveIdOfUser($ilUser->getId());
+		$active = $this->object->getActiveIdOfUser($ilUser->getId());
 
-		$testevaluationgui = new ilTestEvaluationGUI($this->test);
-		$results = $this->test->getTestResult($active, $this->testSession->getPass());
+		require_once 'Modules/Test/classes/class.ilTestResultHeaderLabelBuilder.php';
+		$testResultHeaderLabelBuilder = new ilTestResultHeaderLabelBuilder($this->lng, $ilObjDataCache);
+
+		$objectivesList = null;
+
+		if( $this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired() )
+		{
+			$testSequence = $this->testSequenceFactory->getSequenceByActiveIdAndPass($this->testSession->getActiveId(), $this->testSession->getPass());
+			$testSequence->loadFromDb();
+			$testSequence->loadQuestions();
+
+			require_once 'Modules/Course/classes/Objectives/class.ilLOTestQuestionAdapter.php';
+			$objectivesAdapter = ilLOTestQuestionAdapter::getInstance($this->testSession);
+
+			$objectivesList = $this->buildQuestionRelatedObjectivesList($objectivesAdapter, $testSequence);
+			$objectivesList->loadObjectivesTitles();
+
+			$testResultHeaderLabelBuilder->setObjectiveOrientedContainerId($this->testSession->getObjectiveOrientedContainerId());
+			$testResultHeaderLabelBuilder->setUserId($this->testSession->getUserId());
+			$testResultHeaderLabelBuilder->setTestObjId($this->object->getId());
+			$testResultHeaderLabelBuilder->setTestRefId($this->object->getRefId());
+			$testResultHeaderLabelBuilder->initObjectiveOrientedMode();
+		}
+
+		$results = $this->object->getTestResult(
+			$active, $this->testSession->getPass(), false,
+			!$this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired()
+		);
+		
+		$testevaluationgui = new ilTestEvaluationGUI($this->object);
 		$results_output = $testevaluationgui->getPassListOfAnswers(
-			$results, $active, $this->testSession->getPass(), false, false, false, false
+			$results, $active, $this->testSession->getPass(), false, false, false, false, false,
+			$objectivesList, $testResultHeaderLabelBuilder
 		);
 	
-		if ($this->test->getShowExamviewPdf())
+		if ($this->object->getShowExamviewPdf())
 		{
 			$template->setVariable("PDF_TEXT", $this->lng->txt("pdf_export"));
 			global $ilSetting;
@@ -140,9 +155,9 @@ class ilTestSubmissionReviewGUI
 			$template->parseCurrentBlock();
 		}
 
-		if($this->test->getShowExamviewHtml())
+		if($this->object->getShowExamviewHtml())
 		{
-			if($this->test->getListOfQuestionsEnd())
+			if($this->object->getListOfQuestionsEnd())
 			{
 				$template->setVariable("CANCEL_CMD_BOTTOM", 'outQuestionSummary');
 			}

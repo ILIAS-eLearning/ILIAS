@@ -1508,7 +1508,8 @@ class ilNewsItem extends ilNewsItemGen
 		    	{
 		    		$this->increaseDownloadCounter();
 		    	}
-		        ilUtil::deliverFile($file, $m_item->getLocation());
+		        ilUtil::deliverFile($file, $m_item->getLocation(), "", false, false, false);
+				return true;
 		    }
 		    else
 		    {
