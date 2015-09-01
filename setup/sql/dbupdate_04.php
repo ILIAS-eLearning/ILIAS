@@ -11461,3 +11461,24 @@ if(!$ilDB->tableColumnExists("obj_members", "member"))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#4752>
+<?php
+if(!$ilDB->sequenceExists('prg_settings')) {
+	$ilDB->createSequence('prg_settings');
+}
+if (! $ilDB->sequenceExists('prg_usr_assignments')) {
+	$ilDB->createSequence('prg_usr_assignments');
+}
+if (! $ilDB->sequenceExists('prg_usr_progress')) {
+	$ilDB->createSequence('prg_usr_progress');
+}
+if (! $ilDB->sequenceExists('prg_type_adv_md_rec')) {
+	$ilDB->createSequence('prg_type_adv_md_rec');
+}
+if (! $ilDB->sequenceExists('prg_type')) {
+	$ilDB->createSequence('prg_type');
+}
+if (! $ilDB->sequenceExists('prg_translations')) {
+	$ilDB->createSequence('prg_translations');
+}
+?>
