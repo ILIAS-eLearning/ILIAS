@@ -205,6 +205,7 @@ class ilWebAccessChecker {
 		}
 
 		$ilFileDelivery = new ilFileDelivery($this->getPathObject()->getPath());
+		$ilFileDelivery->setCache(false);
 		$ilFileDelivery->setDisposition($this->getDisposition());
 		ilWACLog::getInstance()->write('Deliver file using ' . $ilFileDelivery->getDeliveryType());
 		if ($this->getPathObject()->isStreamable()) { // fixed 0016468
