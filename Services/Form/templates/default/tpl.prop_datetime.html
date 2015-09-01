@@ -1,6 +1,21 @@
 <!-- BEGIN prop_date_activation -->
-			<input type="checkbox" name="{CHECK_ENABLED_DATE}" value="1" {CHECKED_ENABLED} {CHECKED_DISABLED}/> {TXT_DATE_ENABLED}<br />
+<div class="checkbox">
+	<label>
+		<input onclick="il.Form.showSubForm('subform_{LAB_ID}','il_prop_cont_{LAB_ID}', this);" type="checkbox" name="{CHECK_ENABLED_DATE}" value="1" {CHECKED_ENABLED} {CHECKED_DISABLED}/> {TXT_DATE_ENABLED}<br />
+	</label>
+</div>
+<!-- BEGIN activation_description -->
+<div class="help-block">{ACT_DESCRIPTION}</div>
+<!-- END activation_description -->	
+<div class="ilSubForm" id="subform_{SFID}">
+	<!-- BEGIN sub_form_hide --><script type="text/javascript">
+	il.Form.hideSubForm('subform_{DSFID}');
+	</script><!-- END sub_form_hide -->			
+	<div class="form-group" id="il_prop_cont_{LAB_ID}">
+		<label for="{LAB_ID}" class="col-sm-3 control-label"></label>
+		<div class="col-sm-9">			
 <!-- END prop_date_activation -->
+
 <!-- BEGIN prop_date -->
 	<span class="form-inline">
 			<span style="white-space:nowrap;">		
@@ -41,3 +56,9 @@
 			<div class="help-block">{TXT_TIME}</div>
 	</div>
 <!-- END prop_time -->
+
+<!-- BEGIN prop_date_activation_out -->
+		</div>
+	</div>
+</div>
+<!-- END prop_date_activation_out -->

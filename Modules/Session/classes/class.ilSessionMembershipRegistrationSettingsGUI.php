@@ -30,9 +30,13 @@ class ilSessionMembershipRegistrationSettingsGUI extends ilMembershipRegistratio
 	{
 		$form->getItemByPostVar('registration_type')->setValue($this->getCurrentObject()->getRegistrationType());
 		$form->getItemByPostVar('registration_membership_limited')->setChecked($this->getCurrentObject()->isRegistrationUserLimitEnabled());
+		
+		/* not supported yet
 		$form->getItemByPostVar('registration_min_members')->setValue(
 			$this->getCurrentObject()->getRegistrationMinUsers() > 0 ?
-			$this->getCurrentObject()->getRegistrationMinUsers() : "");
+			$this->getCurrentObject()->getRegistrationMinUsers() : "");		 
+		*/
+		
 		$form->getItemByPostVar('registration_max_members')->setValue(
 			$this->getCurrentObject()->getRegistrationMaxUsers() > 0 ?
 			$this->getCurrentObject()->getRegistrationMaxUsers() : "");

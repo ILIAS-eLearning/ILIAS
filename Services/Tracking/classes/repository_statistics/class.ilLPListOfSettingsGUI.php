@@ -377,8 +377,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 		$has_lp_parents = false;
 				
 		$path = $tree->getNodePath($a_ref_id);
-		array_pop($path);
-		array_shift($path);	
+		array_shift($path);	 // root
 		foreach($path as $node)
 		{
 			$supports_lp = ilObjectLP::isSupportedObjectType($node["type"]);
@@ -394,7 +393,8 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 				);
 			}
 			
-			if($supports_lp)
+			if($supports_lp &&
+				$node["child"] != $a_ref_id)
 			{				
 				$a_res[$node["child"]]["node"]["lp"] = true;
 				$has_lp_parents = true;
@@ -485,8 +485,10 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 			$tpl = new ilTemplate("tpl.lp_obj_settings_tree_info.html", true, true, "Services/Tracking");
 			
 			$margin = 0;
+			$has_active = false;
 			foreach($coll as $parent_ref_id => $parts)
-			{								
+			{			
+				/* currently not used
 				if($parts["group"])
 				{
 					foreach($parts["group"] as $group_item_ref_id => $group_item)
@@ -515,6 +517,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 					$tpl->setVariable("GROUP_INFO", $lng->txt("trac_lp_settings_info_parent_group"));
 					$tpl->parseCurrentBlock();
 				}
+				*/
 				
 				$node = $parts["node"];
 				
@@ -523,9 +526,8 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 				{
 					if($node["active"])
 					{
-						$tpl->setCurrentBlock("parent_status_bl");
-						$tpl->setVariable("STATUS_TXT", $lng->txt("trac_lp_settings_info_parent_usage"));
-						$tpl->parseCurrentBlock();
+						$tpl->touchBlock("parent_active_bl");						
+						$has_active = true;
 					}			
 					
 					$params["gotolp"] = 1;
@@ -556,6 +558,14 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 				$tpl->parseCurrentBlock();
 				
 				$margin += 25;
+			}
+			
+			if($has_active)
+			{
+				$tpl->setVariable("LEGEND", sprintf(
+						$lng->txt("trac_lp_settings_info_parent_legend"), 
+						ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id))
+				));
 			}
 			
 			include_once "Services/UIComponent/Panel/classes/class.ilPanelGUI.php";
