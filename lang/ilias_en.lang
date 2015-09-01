@@ -6644,12 +6644,10 @@ form#:#form_retype_password#:#Retype Password
 form#:#form_seconds#:#Seconds
 forum#:#activate_current_and_childs#:#Activate All Postings
 forum#:#activate_new_posts#:#Activate Postings
-forum#:#activate_only_current#:#Activate Current
-forum#:#activate_post_txt#:#Would you really like to activate the current posting and if applicable all its child postings? Please note that all parent postings will be activated, too.
+forum#:#activate_only_current#:#Activate Posting
+forum#:#activate_post_txt#:#Would you really like to activate the current posting?
 forum#:#activate_post#:#Activate
 forum#:#close_topics#:#Close
-forum#:#deactivate_current_and_childs#:#Deactivate All Postings
-forum#:#deactivate_post_txt#:#Would you really like to deactivate the current posting and all its child postings?
 forum#:#fmr_copy_threads_info#:#You have the possibility to copy single threads. Only the beginning of the chosen threads will be duplicated.
 forum#:#forum_add_quote#:#Add Quotation
 forum#:#forums_all_threads_marked_read#:#All threads have been marked as read
@@ -15298,3 +15296,5 @@ sysc#:#sysc_task_structure#:#Tree structure
 sysc#:#sysc_task_structure_desc#:#Analyzes and corrects the repository tree structure.
 blog#:#blog_keywords_other#:#Other Keywords
 blog#:#blog_keywords_other_info#:#These keywords were set for other blog postings.
+forum#:#forums_thread_deleted#:#The selected thread including all postings have been deleted.
+forum#:#forums_threads_deleted#:#The selected threads including all postings have been deleted.

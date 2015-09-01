@@ -7753,14 +7753,12 @@ form#:#form_retype_password#:#Passwort nochmals eingeben
 form#:#form_seconds#:#Sekunden
 forum#:#activate_current_and_childs#:#Alle Beitrage freischalten
 forum#:#activate_new_posts#:#Neue Beiträge freischalten
-forum#:#activate_only_current#:#Nur diesen Beitrag freischalten
+forum#:#activate_only_current#:#Beitrag freischalten
 forum#:#activate_post#:#Freischalten
-forum#:#activate_post_txt#:#Möchten Sie wirklich diesen Beitrag und ggf. alle seine Folgebeiträge freischalten? Bitte beachten Sie, dass auch alle Elternbeiträge aktiviert werden.
+forum#:#activate_post_txt#:#Möchten Sie diesen Beitrag freischalten?
 forum#:#add_re_to_subject#:#Beim Antworten auf einen Beitrag wird der Titel des vorhergehenden Beitrags übernommen und durch ein vorangestelltes Re: ergänzt.
 forum#:#add_re_to_subject_info#:#Wenn diese Option aktiviert ist, wird dem Beitragstitel der Zusatz 'Re:' hinzugefügt.
 forum#:#close_topics#:#Schließen
-forum#:#deactivate_current_and_childs#:#Alle Beitrage sperren
-forum#:#deactivate_post_txt#:#Möchten Sie wirklich diesen Beitrag und alle seine Folgebeiträge sperren?
 forum#:#empty_subject#:#Beim Antworten auf einen Beitrag bleibt die Titelzeile leer und muss vom Benutzer gefüllt werden.
 forum#:#enter_new_subject#:#Bitte geben Sie einen neuen Beitragstitel ein
 forum#:#fmr_copy_threads_info#:#Sie können hier Themen auswählen, die kopiert werden sollen. Es werden nur die Anfangsbeiträge, nicht deren Antworten kopiert.
@@ -15298,3 +15296,5 @@ sysc#:#sysc_task_structure#:#Baumstruktur
 sysc#:#sysc_task_structure_desc#:#Analyiert und korrigiert die Struktur des Magazinbaums
 blog#:#blog_keywords_other#:#Sonstige Schlagwörter
 blog#:#blog_keywords_other_info#:#Diese Schlagwörter sind für andere Blog-Einträge vergeben worden.
+forum#:#forums_thread_deleted#:#Das gewählte Thema einschließlich aller dazugehörigen Beiträge wurde gelöscht.
+forum#:#forums_threads_deleted#:#Die gewählten Themen einschließlich aller dazugehörigen Beiträge wurden gelöscht.
