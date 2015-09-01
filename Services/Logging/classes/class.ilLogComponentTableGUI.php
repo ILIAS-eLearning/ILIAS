@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/Logging/classes/class.ilLoggingSettings.php';
+include_once './Services/Logging/classes/class.ilLoggingDBSettings.php';
 include_once './Services/Table/classes/class.ilTable2GUI.php';
 
 /**
@@ -35,7 +35,7 @@ class ilLogComponentTableGUI extends ilTable2GUI
 		
 		$this->setFormAction($ilCtrl->getFormAction($this->getParentObject()));
 		
-		$this->settings = ilLoggingSettings::getInstance();
+		$this->settings = ilLoggingDBSettings::getInstance();
 		
 		$this->setRowTemplate('tpl.log_component_row.html','Services/Logging');
 		$this->addColumn($this->lng->txt('log_component_col_component'), 'component');
@@ -49,7 +49,7 @@ class ilLogComponentTableGUI extends ilTable2GUI
 	
 	/**
 	 * Get settings
-	 * @return ilLoggingSettings
+	 * @return ilLoggingDBSettings
 	 */
 	public function getSettings()
 	{

@@ -3,6 +3,8 @@
 
 include_once './Services/Logging/classes/public/class.ilLogLevel.php';
 include_once './Services/Administration/classes/class.ilSetting.php';
+include_once './Services/Logging/interfaces/interface.ilLoggingSettings.php';
+    
 
 /** 
 * @defgroup ServicesLogging Services/Logging
@@ -13,9 +15,11 @@ include_once './Services/Administration/classes/class.ilSetting.php';
 * 
 * @ingroup ServicesLogging
 */
-class ilLoggingSettings
+class ilLoggingDBSettings implements ilLoggingSettings
 {
 	protected static $instance = null;
+	
+	private $enabled = FALSE;
 	
 	private $storage = null;
 	
@@ -37,6 +41,8 @@ class ilLoggingSettings
 	{
 		global $ilDB;
 		
+		
+		$this->enabled = ILIAS_LOG_ENABLED;
 		$this->level = ilLogLevel::INFO;
 		$this->cache_level = ilLogLevel::DEBUG;
 		
@@ -47,7 +53,7 @@ class ilLoggingSettings
 	/**
 	 * Get instance
 	 * @param int $a_server_id
-	 * @return ilLoggingSettings
+	 * @return ilLoggingDBSettings
 	 */
 	public static function getInstance()
 	{
@@ -87,6 +93,25 @@ class ilLoggingSettings
 	protected function getStorage()
 	{
 		return $this->storage;
+	}
+	
+	/**
+	 * Check if logging is enabled
+	 * @return type
+	 */
+	public function isEnabled()
+	{
+		return $this->enabled;
+	}
+	
+	public function getLogDir()
+	{
+		return ILIAS_LOG_DIR;
+	}
+	
+	public function getLogFile()
+	{
+		return ILIAS_LOG_FILE;
 	}
 	
 	/**

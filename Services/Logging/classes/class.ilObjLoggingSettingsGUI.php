@@ -145,8 +145,8 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
 
 	protected function initSettings()
 	{
-		include_once("Services/Logging/classes/class.ilLoggingSettings.php");
-		$this->settings = ilLoggingSettings::getInstance();
+		include_once("Services/Logging/classes/class.ilLoggingDBSettings.php");
+		$this->settings = ilLoggingDBSettings::getInstance();
 	}
 	
 	/**

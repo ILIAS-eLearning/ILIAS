@@ -112,9 +112,23 @@ $_SESSION["lang"] = $lang;
 // init languages
 $lng = new ilLanguage($lang);
 
-// init log
-$log = new ilLog(ILIAS_ABSOLUTE_PATH,"ilias.log","SETUP",false);
-$ilLog =& $log;
+
+
+
+
+#$log = new ilLog(ILIAS_ABSOLUTE_PATH,"ilias.log","SETUP",false);
+#$ilLog =& $log;
+
+
+include_once './Services/Logging/classes/class.ilLoggingSetupSettings.php';
+$logging_settings = new ilLoggingSetupSettings();
+$logging_settings->init();
+
+include_once './Services/Logging/classes/public/class.ilLoggerFactory.php';
+
+$log = ilLoggerFactory::newInstance($logging_settings)->getComponentLogger('setup');
+$ilLog = $log;
+
 
 // init template - in the main program please use ILIAS Template class
 // instantiate main template

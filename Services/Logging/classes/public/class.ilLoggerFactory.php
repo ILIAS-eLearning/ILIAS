@@ -9,6 +9,7 @@ use Monolog\Handler\StreamHandler;
 use Monolog\Handler\BrowserConsoleHandler;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\FingersCrossedHandler;
+use Monolog\Handler\NullHandler;
 use Monolog\Handler\FingersCrossed\ErrorLevelActivationStrategy;
 
 
@@ -28,6 +29,7 @@ class ilLoggerFactory
 	const DEFAULT_FORMAT  = "[%suid%] [%datetime%] %channel%.%level_name%: %message% %context% %extra%\n";
 	
 	const ROOT_LOGGER = 'root';
+	const SETUP_LOGGER = 'setup';
 	
 	private static $instance = null;
 	
@@ -36,9 +38,11 @@ class ilLoggerFactory
 	private $enabled = FALSE;
 	private $loggers = array();
 	
-	protected function __construct()
+	protected function __construct(ilLoggingSettings $settings)
 	{
-		$this->init();
+		$this->settings = $settings;
+		$this->enabled = $this->getSettings()->isEnabled();
+		
 	}
 
 	/**
@@ -49,10 +53,23 @@ class ilLoggerFactory
 	{
 		if(!static::$instance)
 		{
-			static::$instance = new ilLoggerFactory();
+			include_once './Services/Logging/classes/class.ilLoggingDBSettings.php';
+			$settings = ilLoggingDBSettings::getInstance();
+			static::$instance = new ilLoggerFactory($settings);
 		}
 		return static::$instance;
 	}
+	
+	/**
+	 * get new instance
+	 * @param ilLoggingSettings $settings
+	 * @return \self
+	 */
+	public static function newInstance(ilLoggingSettings $settings)
+	{
+		return new self($settings);
+	}
+			
 	
 	/**
 	 * Get component logger
@@ -76,6 +93,7 @@ class ilLoggerFactory
 		$factory = self::getInstance();
 		return $factory->getComponentLogger(self::ROOT_LOGGER);
 	}
+	
 	
 	/**
 	 * Init user specific log options
@@ -118,21 +136,11 @@ class ilLoggerFactory
 	}
 	
 	/**
-	 * Init factory
-	 */
-	protected function init()
-	{
-		include_once './Services/Logging/classes/class.ilLoggingSettings.php';
-		$this->settings = ilLoggingSettings::getInstance();
-		$this->enabled = ILIAS_LOG_ENABLED;
-	}
-	
-	/**
 	 * Get component logger
 	 * @param type $a_component_id
 	 * @return \Logger
 	 */
-	protected function getComponentLogger($a_component_id)
+	public function getComponentLogger($a_component_id)
 	{
 		if(isset($this->loggers[$a_component_id]))
 		{
@@ -151,8 +159,21 @@ class ilLoggerFactory
 				
 		}
 		
+		if(!$this->getSettings()->isEnabled())
+		{
+			$null_handler = new NullHandler();
+			$logger->pushHandler($null_handler);
+			
+			include_once './Services/Logging/classes/class.ilComponentLogger.php';
+			return $this->loggers[$a_component_id] = new ilComponentLogger($logger);
+		}
+		
+		
 		// standard stream handler
-		$stream_handler = new StreamHandler(ILIAS_LOG_DIR.'/'.ILIAS_LOG_FILE,TRUE);
+		$stream_handler = new StreamHandler(
+				$this->getSettings()->getLogDir().'/'.$this->getSettings()->getLogFile(),
+				TRUE
+		);
 		$stream_handler->setLevel($this->getSettings()->getLevelByComponent($a_component_id));
 		
 		// format lines
