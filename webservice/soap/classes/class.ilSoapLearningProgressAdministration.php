@@ -97,7 +97,7 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
 		// Delete tracking data
 		foreach($valid_refs as $ref_id)
 		{
-			include_once './Services/Object//classes/class.ilObjectFactory.php';
+			include_once './Services/Object/classes/class.ilObjectFactory.php';
 			$obj = ilObjectFactory::getInstanceByRefId($ref_id, false);
 			
 			if(!$obj instanceof ilObject)
