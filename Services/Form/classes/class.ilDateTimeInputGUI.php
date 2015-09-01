@@ -430,12 +430,33 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
 		
 		if(strlen($this->getActivationPostVar()))
 		{
+			if(!$this->activation_checked)
+			{
+				$tpl->setCurrentBlock('sub_form_hide');
+				$tpl->setVariable('DSFID',$this->getFieldId());
+				$tpl->parseCurrentBlock();
+			}
+			
+			if($this->getInfo())
+			{
+				$tpl->setCurrentBlock('activation_description');
+				$tpl->setVariable('ACT_DESCRIPTION',$this->getInfo());
+				$tpl->parseCurrentBlock();
+				
+				// disable standard info block
+				$this->setInfo(null);
+			}
+			
 			$tpl->setCurrentBlock('prop_date_activation');
+			$tpl->setVariable('LAB_ID',$this->getFieldId());
+			$tpl->setVariable('SFID',$this->getFieldId());
 			$tpl->setVariable('CHECK_ENABLED_DATE',$this->getActivationPostVar());
 			$tpl->setVariable('TXT_DATE_ENABLED',$this->activation_title);
 			$tpl->setVariable('CHECKED_ENABLED',$this->activation_checked ? 'checked="checked"' : '');
 			$tpl->setVariable('CHECKED_DISABLED',$this->getDisabled() ? 'disabled="disabled" ' : '');
 			$tpl->parseCurrentBlock();
+			
+			$tpl->touchBlock('prop_date_activation_out');
 		}
 
 		if($this->getMode() == self::MODE_SELECT)
@@ -590,7 +611,7 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
 			
 			$tpl->parseCurrentBlock();
 		}
-
+		
 		return $tpl->get();
 	}
 
@@ -655,7 +676,7 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
 	{
 		$html = $this->render("toolbar");
 		return $html;
-	}
+	}	
 }
 
 ?>
