@@ -10,6 +10,10 @@ $fields = array(
 if (! $ilDB->tableExists('{TABLE_NAME}')) {
 	$ilDB->createTable('{TABLE_NAME2}', $fields);
 	$ilDB->addPrimaryKey('{TABLE_NAME3}', array( '{PRIMARY}' ));
-	<!-- BEGIN sequence -->$ilDB->createSequence('{TABLE_NAME4}');<!-- END sequence -->
+	<!-- BEGIN sequence -->
+	if (! $ilDB->sequenceExists('{TABLE_NAME}')) {
+		$ilDB->createSequence('{TABLE_NAME4}');
+	}
+	<!-- END sequence -->
 }
 
