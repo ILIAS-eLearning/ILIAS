@@ -82,7 +82,7 @@ class ilFileDelivery {
 	/**
 	 * @var bool
 	 */
-	protected $cache = true;
+	protected $cache = false;
 	/**
 	 * @var bool
 	 */
@@ -719,7 +719,7 @@ class ilFileDelivery {
 		if ($ob_get_contents) {
 			ilWACLog::getInstance()->write(__CLASS__ . ' had output before file delivery: ' . $ob_get_contents);
 		}
-		ob_clean(); // fixed 0016469, 0016467, 0016468
+		ob_end_clean(); // fixed 0016469, 0016467, 0016468
 	}
 }
 
