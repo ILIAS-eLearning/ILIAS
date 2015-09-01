@@ -1,5 +1,5 @@
 <?php
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */#
+/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
 * implementation of GEV WBD Request for Service VvErstanlage
@@ -8,7 +8,6 @@
 * @version	$Id$
 *
 */
-chdir("/Library/WebServer/Documents/dev/4_4_generali2_new_wbd/");
 require_once("Services/GEV/WBD/classes/Dictionary/class.gevWBDDictionary.php");
 require_once("Services/GEV/WBD/classes/Requests/class.gevWBDRequest.php");
 require_once("Services/GEV/WBD/classes/Success/class.gevWBDSuccessVvErstanlage.php");
@@ -44,7 +43,7 @@ class gevWBDRequestVvErstanlage extends gevWBDRequest {
 	protected $xml_tmpl_file_name;
 
 	static $request_type = "CREATE_USER";
-	static $check_szenarios = array('title' 			=> array('mandatory'=>1,
+	static $check_szenarios = array('title' 			=> array('mandatory' => 1,
 																 'list'=> array(
 																 		'm', 
 																 		'f', 
@@ -52,33 +51,33 @@ class gevWBDRequestVvErstanlage extends gevWBDRequest {
 																 	)
 																 )
 									,'degree' 			=> array('maxlen' => 30)
-									,'firstname' 		=> array('mandatory'=>1, 'maxlen' => 30)
-									,'lastname' 		=> array('mandatory'=>1, 'maxlen' => 50)
-									,'birthday' 		=> array('mandatory'=>1,'custom' => 'datebefore2000')
+									,'firstname' 		=> array('mandatory' => 1, 'maxlen' => 30)
+									,'lastname' 		=> array('mandatory' => 1, 'maxlen' => 50)
+									,'birthday' 		=> array('mandatory' => 1,'custom' => 'datebefore2000')
 									,'email' 			=> array('mandatory' => 1)
 									,'mobile_phone_nr' 	=> array('custom' => 'regexpMobilePhone')
 									,'phone_nr'	 		=> array('custom' => 'regexpPhone')
-									,'zipcode' 			=> array('mandatory'=>1, 'maxlen' => 10)
-									,'city' 			=> array('mandatory'=>1, 'maxlen' => 50)
-									,'street' 			=> array('mandatory'=>1, 'maxlen' => 50)
-									,'house_number' 	=> array('mandatory'=>1, 'maxlen' => 10)
-									,'okz' 				=> array('mandatory'=>1, 
+									,'zipcode' 			=> array('mandatory' => 1, 'maxlen' => 10)
+									,'city' 			=> array('mandatory' => 1, 'maxlen' => 50)
+									,'street' 			=> array('mandatory' => 1, 'maxlen' => 50)
+									,'house_number' 	=> array('mandatory' => 1, 'maxlen' => 10)
+									,'okz' 				=> array('mandatory' => 1, 
 																 'list' => array(
 																 	'OKZ1',
 																 	'OKZ2',
 																 	'OKZ3'
 																 	)
 																 )
-									,'wbd_agent_status'	=> array('mandatory'=>1)
-									,'wbd_type'			=> array('mandatory'=>1)
-									,'training_pass'	=> array('mandatory'=>1,'custom'=>'isBool')
-									,'user_id'			=> array('mandatory'=>1,'maxlen'=>50)
-									,'row_id'			=> array('mandatory'=>1)
-									,'address_info'		=> array('maxlen'=>50)
-									,'send_data'		=> array('mandatory'=>1,'custom'=>'isBool')
-									,'data_secure'		=> array('mandatory'=>1,'custom'=>'isBool')
-									,'info_via_mail'	=> array('mandatory'=>1,'custom'=>'isBool')
-									,'country'			=> array('mandatory'=>1)
+									,'wbd_agent_status'	=> array('mandatory' => 1)
+									,'wbd_type'			=> array('mandatory' => 1)
+									,'training_pass'	=> array('mandatory' => 1,'custom' => 'isBool')
+									,'user_id'			=> array('mandatory' => 1,'maxlen' => 50)
+									,'row_id'			=> array('mandatory' => 1)
+									,'address_info'		=> array('maxlen' => 50)
+									,'send_data'		=> array('mandatory' => 1,'custom' => 'isBool')
+									,'data_secure'		=> array('mandatory' => 1,'custom' => 'isBool')
+									,'info_via_mail'	=> array('mandatory' => 1,'custom' => 'isBool')
+									,'country'			=> array('mandatory' => 1)
 									,'address_type'		=> array('list' => array('','geschäftlich','privat','sonstiges'))
 								);
 

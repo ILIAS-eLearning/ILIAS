@@ -8,7 +8,6 @@
 * @version	$Id$
 *
 */
-chdir("/Library/WebServer/Documents/dev/4_4_generali2_new_wbd/");
 require_once("Services/GEV/WBD/classes/Error/class.gevWBDError.php");
 require_once("Services/GEV/WBD/classes/Dictionary/class.gevWBDDictionary.php");
 abstract class gevWBDRequest implements WBDRequest {

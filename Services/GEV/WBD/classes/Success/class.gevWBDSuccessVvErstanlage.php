@@ -8,7 +8,6 @@
 * @version	$Id$
 *
 */
-chdir("/Library/WebServer/Documents/dev/4_4_generali2_new_wbd/");
 require_once("Services/Calendar/classes/class.ilDate.php");
 class gevWBDSuccessVvErstanlage extends WBDSuccess {
 	protected $internal_agent_id;

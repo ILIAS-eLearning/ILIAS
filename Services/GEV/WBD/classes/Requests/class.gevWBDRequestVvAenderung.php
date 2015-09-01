@@ -8,7 +8,6 @@
 * @version	$Id$
 *
 */
-chdir("/Library/WebServer/Documents/dev/4_4_generali2_new_wbd/");
 require_once("Services/GEV/WBD/classes/Dictionary/class.gevWBDDictionary.php");
 require_once("Services/GEV/WBD/classes/Requests/class.gevWBDRequest.php");
 require_once("Services/GEV/WBD/classes/Success/class.gevWBDSuccessVvAenderung.php");

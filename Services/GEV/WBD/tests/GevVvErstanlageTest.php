@@ -1,5 +1,4 @@
 <?php
-chdir("/Library/WebServer/Documents/dev/4_4_generali2_new_wbd/");
 require_once("Services/GEV/WBD/classes/Requests/class.gevWBDRequestVvErstanlage.php");
 class GevVvErstanlageTest extends RequestTestBase {
 	
