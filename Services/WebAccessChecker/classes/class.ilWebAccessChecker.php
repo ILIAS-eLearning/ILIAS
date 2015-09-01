@@ -5,6 +5,7 @@ require_once('./Services/WebAccessChecker/classes/class.ilWACPath.php');
 require_once('./Services/WebAccessChecker/classes/class.ilWACSecurePath.php');
 require_once('./Services/WebAccessChecker/classes/class.ilWACLog.php');
 require_once('./Services/WebAccessChecker/classes/class.ilHTTP.php');
+require_once('./Services/Init/classes/class.ilInitialisation.php');
 
 /**
  * Class ilWebAccessChecker
@@ -48,13 +49,14 @@ class ilWebAccessChecker {
 	/**
 	 * @var bool
 	 */
-	protected static $DEBUG = true;
+	protected static $DEBUG = false;
 
 
 	/**
 	 * @param string $path
 	 */
 	public static function run($path) {
+		ilInitialisation::handleErrorReporting();
 		$ilWebAccessChecker = new self($path);
 		if (isset($_GET[self::DISPOSITION])) {
 			$ilWebAccessChecker->setDisposition($_GET[self::DISPOSITION]);
@@ -172,7 +174,6 @@ class ilWebAccessChecker {
 		if ($this->isInitialized()) {
 			return true;
 		}
-		require_once('./Services/Init/classes/class.ilInitialisation.php');
 		$GLOBALS['COOKIE_PATH'] = '/';
 		setcookie('ilClientId', $this->getPathObject()->getClient(), 0, '/');
 		ilContext::init(ilContext::CONTEXT_WAC);
