@@ -115,7 +115,7 @@ class ilLPStatusWrapper
 			return self::$failed_cache[$a_obj_id];
 		}
 
-		$class = ilLPStatusFactory::_getClassById($a_obj_id);´
+		$class = ilLPStatusFactory::_getClassById($a_obj_id);
 
 		self::$failed_cache[$a_obj_id] = $class::_getFailed($a_obj_id);
 
