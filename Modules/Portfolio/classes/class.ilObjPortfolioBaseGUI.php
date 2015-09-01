@@ -278,14 +278,14 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		$button = ilLinkButton::getInstance();
 		$button->setCaption("prtf_add_page");
 		$button->setUrl($this->ctrl->getLinkTarget($this, "addPage"));
-		$ilToolbar->addButtonInstance($button);
+		$ilToolbar->addStickyItem($button);
 
 		if(!$ilSetting->get('disable_wsp_blogs'))
 		{
 			$button = ilLinkButton::getInstance();
 			$button->setCaption("prtf_add_blog");
 			$button->setUrl($this->ctrl->getLinkTarget($this, "addBlog"));
-			$ilToolbar->addButtonInstance($button);
+			$ilToolbar->addStickyItem($button);
 		}
 
 		$ilToolbar->addSeparator();

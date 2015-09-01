@@ -187,8 +187,8 @@ class ilConfirmationGUI
 			$cancel->setCommand($this->cancel_cmd);
 			$cancel->setCaption($this->cancel_txt, false);
 
-			$tb->addButtonInstance($confirm);
-			$tb->addButtonInstance($cancel);
+			$tb->addStickyItem($confirm);
+			$tb->addStickyItem($cancel);
 
 			return $tb->getHTML();
 		}

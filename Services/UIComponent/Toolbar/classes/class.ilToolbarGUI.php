@@ -243,10 +243,11 @@ class ilToolbarGUI
 	 * Sticky items are displayed first in the toolbar.
 	 *
 	 * @param ilToolbarItem $a_item
+	 * @param bool $a_output_label
 	 */
-	public function addStickyItem(ilToolbarItem $a_item)
-	{
-		$this->sticky_items[] = $a_item;
+	public function addStickyItem(ilToolbarItem $a_item, $a_output_label = false)
+	{		
+		$this->sticky_items[] = array("item"=>$a_item, "label"=>$a_output_label);
 	}
 
 
@@ -414,8 +415,14 @@ class ilToolbarGUI
 				/** @var ilToolbarItem $sticky_item */
 				foreach ($this->sticky_items as $sticky_item)
 				{
+					if($sticky_item['label'])
+					{
+						$tpl_sticky->setCurrentBlock('input_label');
+						$tpl_sticky->setVariable('TXT_INPUT', $sticky_item['item']->getTitle());
+						$tpl_sticky->parseCurrentBlock();
+					}
 					$tpl_sticky->setCurrentBlock('sticky_item');
-					$tpl_sticky->setVariable('STICKY_ITEM_HTML', $sticky_item->getToolbarHTML());
+					$tpl_sticky->setVariable('STICKY_ITEM_HTML', $sticky_item['item']->getToolbarHTML());
 					$tpl_sticky->parseCurrentBlock();
 				}
 				$tpl->setCurrentBlock('sticky_items');

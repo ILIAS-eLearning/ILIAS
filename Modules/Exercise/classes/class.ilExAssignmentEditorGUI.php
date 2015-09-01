@@ -82,11 +82,18 @@ class ilExAssignmentEditorGUI
 	function listAssignmentsObject()
 	{
 		global $tpl, $ilToolbar, $lng, $ilCtrl;
+				
+		$ilToolbar->setFormAction($ilCtrl->getFormAction($this, "addAssignment"));		
 		
 		include_once "Services/Form/classes/class.ilSelectInputGUI.php";		
-		$ilToolbar->addInputItem($this->getTypeDropdown());		
-		$ilToolbar->setFormAction($ilCtrl->getFormAction($this, "addAssignment"));				
-		$ilToolbar->addFormButton($lng->txt("exc_add_assignment"), "addAssignment");
+		$ilToolbar->addStickyItem($this->getTypeDropdown());		
+		
+		include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";
+		$button = ilSubmitButton::getInstance();
+		$button->setCaption("exc_add_assignment");
+		$button->setCommand("addAssignment");			
+		$ilToolbar->addStickyItem($button);
+		
 		
 		include_once("./Modules/Exercise/classes/class.ilAssignmentsTableGUI.php");
 		$t = new ilAssignmentsTableGUI($this, "listAssignments", $this->exercise_id);

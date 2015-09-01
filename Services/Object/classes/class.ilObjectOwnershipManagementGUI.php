@@ -55,11 +55,17 @@ class ilObjectOwnershipManagementGUI
 		
 		if(sizeof($objects))
 		{
+			$ilToolbar->setFormAction($ilCtrl->getFormAction($this, "listObjects"));
+			
 			include_once "Services/Form/classes/class.ilSelectInputGUI.php";
 			$sel = new ilSelectInputGUI($lng->txt("type"), "type");
-			$ilToolbar->addInputItem($sel, true);
-			$ilToolbar->setFormAction($ilCtrl->getFormAction($this, "listObjects"));
-			$ilToolbar->addFormButton($lng->txt("ok"), "listObjects");
+			$ilToolbar->addStickyItem($sel, true);
+			
+			include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";
+			$button = ilSubmitButton::getInstance();
+			$button->setCaption("ok");
+			$button->setCommand("listObjects");
+			$ilToolbar->addStickyItem($button);
 
 			$options = array();
 			foreach(array_keys($objects) as $type)

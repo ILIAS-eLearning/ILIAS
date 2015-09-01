@@ -821,13 +821,13 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 
 			include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 			$title = new ilTextInputGUI($lng->txt("title"), "title");
-			$ilToolbar->addInputItem($title, $lng->txt("title"));
+			$ilToolbar->addStickyItem($title, $lng->txt("title"));
 			
 			include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";
 			$button = ilSubmitButton::getInstance();
 			$button->setCaption("blog_add_posting");
 			$button->setCommand("createPosting");
-			$ilToolbar->addButtonInstance($button);
+			$ilToolbar->addStickyItem($button);
 						
 			// exercise blog?			
 			include_once "Modules/Blog/classes/class.ilBlogExerciseGUI.php";			
@@ -2636,7 +2636,8 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				'user_type'				=> (sizeof($local_roles) > 1)
 					? $local_roles
 					: null
-			)
+			),
+			true
 		);
 
 		$other_roles = $this->object->getRolesWithContributeOrRedact($this->node_id);

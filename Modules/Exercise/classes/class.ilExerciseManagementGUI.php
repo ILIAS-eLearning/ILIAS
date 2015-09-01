@@ -222,10 +222,14 @@ class ilExerciseManagementGUI
 			$si = new ilSelectInputGUI($this->lng->txt(""), "ass_id");
 			$si->setOptions($options);
 			$si->setValue($this->assignment->getId());
-			$ilToolbar->addInputItem($si);
+			$ilToolbar->addStickyItem($si);
 					
-			$ilToolbar->addFormButton($this->lng->txt("exc_select_ass"),
-				"selectAssignment");
+			include_once("./Services/UIComponent/Button/classes/class.ilSubmitButton.php");
+			$button = ilSubmitButton::getInstance();
+			$button->setCaption("exc_select_ass");
+			$button->setCommand("selectAssignment");			
+			$ilToolbar->addStickyItem($button);
+			
 			$ilToolbar->addSeparator();
 		}
 		// #16165 - if only 1 assignment dropdown is not displayed;
@@ -502,11 +506,15 @@ class ilExerciseManagementGUI
 			$si = new ilSelectInputGUI($this->lng->txt(""), "part_id");
 			$si->setOptions($options);
 			$si->setValue($_GET["part_id"]);
-			$ilToolbar->addInputItem($si);
+			$ilToolbar->addStickyItem($si);
 			
-			$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
-			$ilToolbar->addFormButton($this->lng->txt("exc_select_part"),
-				"selectParticipant");
+			include_once("./Services/UIComponent/Button/classes/class.ilSubmitButton.php");
+			$button = ilSubmitButton::getInstance();
+			$button->setCaption("exc_select_part");
+			$button->setCommand("selectParticipant");			
+			$ilToolbar->addStickyItem($button);
+			
+			$ilToolbar->setFormAction($ilCtrl->getFormAction($this));		
 		}
 
 		if (count($mems) > 0)
