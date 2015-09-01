@@ -842,8 +842,10 @@ class ilInitialisation
 			error_reporting(E_ALL);
 		}
 		
-		// obsolete?
-		// include_once "include/inc.debug.php";
+		if(defined(DEBUGTOOLS) && DEBUGTOOLS)
+		{
+			include_once "include/inc.debug.php";
+		}
 	}
 	
 	protected static $already_initialized;
