@@ -1,14 +1,15 @@
-<!-- get rid of container to have proper columns/labels -->
-	</div>
-</div>
-
 <!-- BEGIN prop_date_activation -->
-			<input type="checkbox" name="{CHECK_ENABLED_DATE}" value="1" {CHECKED_ENABLED} {CHECKED_DISABLED}/> {TXT_DATE_ENABLED}<br />
+	<input type="checkbox" name="{CHECK_ENABLED_DATE}" value="1" {CHECKED_ENABLED} {CHECKED_DISABLED}/> {TXT_DATE_ENABLED}<br />
 <!-- END prop_date_activation -->
+
 <!-- BEGIN toggle_fullday -->
+	<div class="form-group">
+		<label class="col-sm-3 control-label"></label>
+		<div class="col-sm-9">		
 			<input type="checkbox" id="{FULLDAY_POSTVAR}_fulltime" onchange="ilToggleFullTime(this,'{FULLDAY_POSTVAR}');" name="{FULLDAY_TOGGLE_NAME}" value="1" {FULLDAY_TOGGLE_CHECKED} {FULLDAY_TOGGLE_DISABLED} />
-				<label for="{FULLDAY_POSTVAR}_fulltime">{TXT_TOGGLE_FULLDAY}</label>
-			<br /><br />
+			<label for="{FULLDAY_POSTVAR}_fulltime">{TXT_TOGGLE_FULLDAY}</label>
+		</div>
+	</div>
 <!-- END toggle_fullday -->
 
 	<div class="form-group">
@@ -65,7 +66,3 @@
 				</script>
 		</div>
 	</div>
-
-<!-- add dummy container after we're done (see above) -->
-<div>
-	<div>
