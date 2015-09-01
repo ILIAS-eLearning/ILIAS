@@ -12,7 +12,6 @@
 	</objects>
 	<crons>
 		<cron id="mail_notification" class="ilMailCronNotification" />
-		<cron id="mail_address_sync" class="ilMailCronAddressbookSync" />
 		<cron id="mail_orphaned_mails" class="ilMailCronOrphanedMails" />
 	</crons>
 	<mailtemplates>
