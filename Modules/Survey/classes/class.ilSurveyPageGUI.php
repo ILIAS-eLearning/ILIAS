@@ -1244,7 +1244,7 @@ class ilSurveyPageGUI
 			$button = ilLinkButton::getInstance();
 			$button->setCaption("survey_add_new_question");								
 			$button->setUrl($ilCtrl->getLinkTarget($this, "addQuestionToolbarForm"));										
-			$ilToolbar->addButtonInstance($button);		
+			$ilToolbar->addStickyItem($button);		
 
 			if($this->object->isPoolActive())
 			{
@@ -1270,7 +1270,7 @@ class ilSurveyPageGUI
 				$button = ilLinkButton::getInstance();
 				$button->setCaption("browse_for_questions");								
 				$button->setUrl($ilCtrl->getLinkTarget($this->editor_gui, $cmd));										
-				$ilToolbar->addButtonInstance($button);		
+				$ilToolbar->addStickyItem($button);		
 				
 				$ilCtrl->setParameter($this->editor_gui, "pgov", "");
 				$ilCtrl->setParameter($this->editor_gui, "pgov_pos", "");
@@ -1292,14 +1292,14 @@ class ilSurveyPageGUI
 			$button->setCaption("survey_prev_question");								
 			$button->setUrl($ilCtrl->getLinkTarget($this, "renderPage"));	
 			$button->setDisabled(!$this->has_previous_page);						
-			$ilToolbar->addButtonInstance($button);		
+			$ilToolbar->addStickyItem($button);		
 			
 			$ilCtrl->setParameter($this, "pg", $this->current_page+1);
 			$button = ilLinkButton::getInstance();
 			$button->setCaption("survey_next_question");								
 			$button->setUrl($ilCtrl->getLinkTarget($this, "renderPage"));	
 			$button->setDisabled(!$this->has_next_page);						
-			$ilToolbar->addButtonInstance($button);		
+			$ilToolbar->addStickyItem($button);		
 			
 			$ilCtrl->setParameter($this, "pg", $this->current_page); // #14615
 			

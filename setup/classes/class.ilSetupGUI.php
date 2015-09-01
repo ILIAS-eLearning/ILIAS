@@ -210,6 +210,9 @@ echo "<br>+".$client_id;
 		{
 			case NULL:
 			case "clientlist":
+				
+				$GLOBALS['ilLog']->warning('Achtung fehlerhaft');
+				
 				$this->setDisplayMode("view");
 				$this->displayClientList();
 				$this->active_tab = "clientlist";

@@ -165,7 +165,7 @@ class ilErrorHandling extends PEAR
 				"First error: ".$_SESSION["failure"].'<br>'.
 				"Last Error:". $a_error_obj->getMessage();
 			//return;
-			$log->warning($m);
+			$log->write($m);
 			#$log->writeWarning($m);
 			#$log->logError($a_error_obj->getCode(), $m);
 			unset($_SESSION["failure"]);
@@ -207,7 +207,7 @@ class ilErrorHandling extends PEAR
 
 		if (is_object($log) and $log->enabled == true)
 		{
-			$log->warning($a_error_obj->getMessage());
+			$log->write($a_error_obj->getMessage());
 			#$log->logError($a_error_obj->getCode(),$a_error_obj->getMessage());
 		}
 

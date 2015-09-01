@@ -11457,4 +11457,7 @@ if(!$ilDB->tableColumnExists("obj_members", "member"))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
-
+<#4751>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

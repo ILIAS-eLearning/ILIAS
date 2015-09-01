@@ -6801,12 +6801,10 @@ form#:#form_retype_password#:#Retype Password
 form#:#form_seconds#:#Seconds
 forum#:#activate_current_and_childs#:#Activate All Postings
 forum#:#activate_new_posts#:#Activate Postings
-forum#:#activate_only_current#:#Activate Current
-forum#:#activate_post_txt#:#Would you really like to activate the current posting and if applicable all its child postings? Please note that all parent postings will be activated, too.
+forum#:#activate_only_current#:#Activate Posting
+forum#:#activate_post_txt#:#Would you really like to activate the current posting?
 forum#:#activate_post#:#Activate
 forum#:#close_topics#:#Close
-forum#:#deactivate_current_and_childs#:#Deactivate All Postings
-forum#:#deactivate_post_txt#:#Would you really like to deactivate the current posting and all its child postings?
 forum#:#fmr_copy_threads_info#:#You have the possibility to copy single threads. Only the beginning of the chosen threads will be duplicated.
 forum#:#forum_add_quote#:#Add Quotation
 forum#:#forums_all_threads_marked_read#:#All threads have been marked as read
@@ -16002,3 +16000,7 @@ prg#:#prg_copy#:#User can copy study programme
 prg#:#prg_write#:#User can edit study programme settings and manage content.
 prg#:#prg_delete#:#User can delete the programme.
 prg#:#prg_edit_permission#:#User can change permission settings.
+forum#:#forums_thread_deleted#:#The selected thread including all postings have been deleted.
+forum#:#forums_threads_deleted#:#The selected threads including all postings have been deleted.
+meta#:#meta_advmd_select_options#:#Options
+trac#:#trac_lp_settings_info_parent_legend#:#The learning progress status of this object is influenced by "%s".

@@ -100,7 +100,7 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
 	{
 		global $lng;
 		
-		return array($lng->txt("options") => implode(",", $this->getOptions()));		
+		return array($lng->txt("meta_advmd_select_options") => implode(",", $this->getOptions()));		
 	}
 	
 	/**
@@ -113,7 +113,7 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
 	{
 		global $lng;
 		
-		$field = new ilTextInputGUI($lng->txt("options"), "opts");			
+		$field = new ilTextInputGUI($lng->txt("meta_advmd_select_options"), "opts");			
 		$field->setRequired(true);
 		$field->setMulti(true, true);
 		$field->setMaxLength(255); // :TODO:

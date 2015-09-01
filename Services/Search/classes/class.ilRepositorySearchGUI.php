@@ -126,7 +126,7 @@ class ilRepositorySearchGUI
 	 *
 	 * @return ilToolbarGUI
 	 */
-	public static function fillAutoCompleteToolbar($parent_object, ilToolbarGUI $toolbar = null, $a_options = array())
+	public static function fillAutoCompleteToolbar($parent_object, ilToolbarGUI $toolbar = null, $a_options = array(), $a_sticky = false)
 	{
 		global $ilToolbar, $lng, $ilCtrl, $tree;
 
@@ -156,21 +156,42 @@ class ilRepositorySearchGUI
 		$ul = new ilTextInputGUI($a_options['auto_complete_name'], 'user_login');
 		$ul->setDataSource($ajax_url);		
 		$ul->setSize($a_options['auto_complete_size']);
-		$toolbar->addInputItem($ul, true);
+		if(!$a_sticky)
+		{
+			$toolbar->addInputItem($ul, true);
+		}
+		else
+		{
+			$toolbar->addStickyItem($ul, true);
+		}
 
 		if(count((array) $a_options['user_type']))
 		{
 			include_once './Services/Form/classes/class.ilSelectInputGUI.php';
 			$si = new ilSelectInputGUI("", "user_type");
 			$si->setOptions($a_options['user_type']);
-			$toolbar->addInputItem($si);
+			if(!$a_sticky)
+			{
+				$toolbar->addInputItem($si);
+			}
+			else
+			{
+				$toolbar->addStickyItem($si);
+			}
 		}
 		
 		include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";
 		$button = ilSubmitButton::getInstance();
 		$button->setCaption($a_options['submit_name'], false);
 		$button->setCommand('addUserFromAutoComplete');
-		$toolbar->addButtonInstance($button);
+		if(!$a_sticky)
+		{
+			$toolbar->addButtonInstance($button);
+		}
+		else
+		{
+			$toolbar->addStickyItem($button);
+		}
 
 		if((bool)$a_options['add_search'] || 
 			is_numeric($a_options['add_from_container']))

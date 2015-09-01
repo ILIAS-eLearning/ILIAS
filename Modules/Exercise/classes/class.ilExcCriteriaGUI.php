@@ -43,14 +43,19 @@ class ilExcCriteriaGUI
 	protected function view()
 	{
 		global $ilToolbar, $ilCtrl, $lng, $tpl;
-		
+	
+		$ilToolbar->setFormAction($ilCtrl->getFormAction($this, "add"));
+			
 		include_once "Services/Form/classes/class.ilSelectInputGUI.php";
 		$types = new ilSelectInputGUI($lng->txt("type"), "type");
 		$types->setOptions(ilExcCriteria::getTypesMap());
-		$ilToolbar->addInputItem($types);
+		$ilToolbar->addStickyItem($types);
 		
-		$ilToolbar->addFormButton($lng->txt("exc_add_criteria"), "add");		
-		$ilToolbar->setFormAction($ilCtrl->getFormAction($this, "add"));
+		include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";
+		$button = ilSubmitButton::getInstance();
+		$button->setCaption("exc_add_criteria");
+		$button->setCommand("add");			
+		$ilToolbar->addStickyItem($button);
 		
 		include_once "Modules/Exercise/classes/class.ilExcCriteriaTableGUI.php";
 		$tbl = new ilExcCriteriaTableGUI($this, "view", $this->cat_id);

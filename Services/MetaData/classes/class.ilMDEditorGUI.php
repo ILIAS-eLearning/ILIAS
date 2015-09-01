@@ -3393,8 +3393,14 @@ class ilMDEditorGUI
 		$section->setOptions($options);
 		$section->setValue($a_active);
 
-		$ilToolbar->addInputItem($section, true);
-		$ilToolbar->addFormButton($this->lng->txt("show"), "listSection");
+		$ilToolbar->addStickyItem($section, true);
+		
+		include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";
+		$button = ilSubmitButton::getInstance();
+		$button->setCaption("show");
+		$button->setCommand("listSection");			
+		$ilToolbar->addStickyItem($button);
+				
 		$ilToolbar->setFormAction($this->ctrl->getFormAction($this, "listSection"));
 
 		return true;		

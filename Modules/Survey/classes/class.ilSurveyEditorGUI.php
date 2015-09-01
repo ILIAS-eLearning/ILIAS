@@ -194,7 +194,7 @@ class ilSurveyEditorGUI
 			include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 			$types = new ilSelectInputGUI($this->lng->txt("create_new"), "sel_question_types");
 			$types->setOptions($qtypes);
-			$ilToolbar->addInputItem($types, "");
+			$ilToolbar->addStickyItem($types, "");
 			
 			
 			include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
@@ -203,7 +203,7 @@ class ilSurveyEditorGUI
 			$button = ilSubmitButton::getInstance();
 			$button->setCaption("svy_create_question");								
 			$button->setCommand("createQuestion");
-			$ilToolbar->addButtonInstance($button);		
+			$ilToolbar->addStickyItem($button);		
 			
 			if($this->object->isPoolActive())
 			{
@@ -217,7 +217,7 @@ class ilSurveyEditorGUI
 				$button = ilLinkButton::getInstance();
 				$button->setCaption("browse_for_questions");								
 				$button->setUrl($this->ctrl->getLinkTarget($this, $cmd));										
-				$ilToolbar->addButtonInstance($button);						
+				$ilToolbar->addStickyItem($button);						
 			}
 
 			$ilToolbar->addSeparator();
@@ -225,7 +225,7 @@ class ilSurveyEditorGUI
 			$button = ilLinkButton::getInstance();
 			$button->setCaption("add_heading");								
 			$button->setUrl($this->ctrl->getLinkTarget($this, "addHeading"));										
-			$ilToolbar->addButtonInstance($button);		
+			$ilToolbar->addInputItem($button);		
 		}
 		if ($hasDatasets)
 		{
@@ -1282,10 +1282,15 @@ class ilSurveyEditorGUI
 			3 => $this->lng->txt('svy_print_title_label')
 			));
 		$label->setValue($current_title);
-		$ilToolbar->addInputItem($label, true);
+		$ilToolbar->addStickyItem($label, true);
 		
 		$ilToolbar->setFormAction($this->ctrl->getFormAction($this, "printView"));
-		$ilToolbar->addFormButton($this->lng->txt("show"), "printView");
+		
+		include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";
+		$button = ilSubmitButton::getInstance();
+		$button->setCaption("show");
+		$button->setCommand("printView");			
+		$ilToolbar->addStickyItem($button);
 		
 		$ilToolbar->addSeparator();
 	

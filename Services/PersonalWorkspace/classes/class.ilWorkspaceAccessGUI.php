@@ -169,7 +169,7 @@ class ilWorkspaceAccessGUI
 		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 		$actions = new ilSelectInputGUI("", "action");		
 		$actions->setOptions($options);		
-		$ilToolbar->addInputItem($actions);
+		$ilToolbar->addStickyItem($actions);
 		
 		$ilToolbar->setFormAction($this->ctrl->getFormAction($this));		
 		
@@ -177,7 +177,7 @@ class ilWorkspaceAccessGUI
 		$button = ilSubmitButton::getInstance();
 		$button->setCaption("add");
 		$button->setCommand("addpermissionhandler");
-		$ilToolbar->addButtonInstance($button);
+		$ilToolbar->addStickyItem($button);
 	
 		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessTableGUI.php";
 		$table = new ilWorkspaceAccessTableGUI($this, "share", $this->node_id, $this->getAccessHandler());
