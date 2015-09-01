@@ -1736,7 +1736,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->object->setDetails(ilUtil::stripSlashes($_POST['details']));
 		
 		$this->object->setRegistrationType((int) $_POST['registration_type']);
-		$this->object->setRegistrationMinUsers((int) $_POST['registration_min_members']);
+		// $this->object->setRegistrationMinUsers((int) $_POST['registration_min_members']);
 		$this->object->setRegistrationMaxUsers((int) $_POST['registration_max_members']);
 		$this->object->enableRegistrationUserLimit((int) $_POST['registration_membership_limited']);		
 		
