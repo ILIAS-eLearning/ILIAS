@@ -111,11 +111,13 @@ abstract class ilMembershipRegistrationSettingsGUI
 			#$lim->setOptionTitle($this->lng->txt('reg_grp_max_members'));
 			#$lim->setChecked($this->object->isMembershipLimited());
 
+			/* JF, 2015-08-31 - only used in sessions which cannot support min members (yet)
 			$min = new ilTextInputGUI($this->txt('reg_min_members'),'registration_min_members');			
 			$min->setSize(3);
 			$min->setMaxLength(4);
 			$min->setInfo($this->txt('reg_min_members_info'));
 			$lim->addSubItem($min);
+			*/
 			
 			$max = new ilTextInputGUI($this->txt('reg_max_members'),'registration_max_members');
 			#$max->setValue($this->object->getMaxMembers() ? $this->object->getMaxMembers() : '');
