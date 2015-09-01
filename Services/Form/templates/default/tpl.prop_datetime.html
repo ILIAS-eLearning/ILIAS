@@ -6,14 +6,14 @@
 </div>
 <!-- BEGIN activation_description -->
 <div class="help-block">{ACT_DESCRIPTION}</div>
-<!-- END activation_description -->
-<div class="form-group" id="il_prop_cont_{LAB_ID}">
-	<div class="col-sm-9">
+<!-- END activation_description -->	
+<div class="ilSubForm" id="subform_{SFID}">
+	<!-- BEGIN sub_form_hide --><script type="text/javascript">
+	il.Form.hideSubForm('subform_{DSFID}');
+	</script><!-- END sub_form_hide -->			
+	<div class="form-group" id="il_prop_cont_{LAB_ID}">
 		<label for="{LAB_ID}" class="col-sm-3 control-label"></label>
-		<div class="ilSubForm" id="subform_{SFID}">
-			<!-- BEGIN sub_form_hide --><script type="text/javascript">
-			il.Form.hideSubForm('subform_{DSFID}');
-			</script><!-- END sub_form_hide -->
+		<div class="col-sm-9">			
 <!-- END prop_date_activation -->
 
 <!-- BEGIN prop_date -->
