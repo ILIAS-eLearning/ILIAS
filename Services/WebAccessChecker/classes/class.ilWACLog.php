@@ -5,8 +5,11 @@ require_once('./Services/Init/classes/class.ilIniFile.php');
 /**
  * Class ilWACLog
  *
- * @author  Fabian Schmid <fs@studer-raimann.ch>
- * @version 1.0.0
+ * @author      Fabian Schmid <fs@studer-raimann.ch>
+ * @version     1.0.0
+ *
+ * @description Since the ilLoggerFactory need ILIAS to be initialized, the WebAccessChecker can't use it at the moment.
+ *              Logging is disabled by default and can be activated with ilWebAccessChecker::setDEBUG(true);
  */
 class ilWACLog extends ilLog {
 
