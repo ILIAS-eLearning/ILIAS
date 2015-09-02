@@ -136,4 +136,39 @@ class GevVvErstanlageTest extends RequestTestBase {
 									))
 			);
 	}
+
+	//Bool = TRUE needed
+	/**
+     * @dataProvider xml_response_success
+     */
+	public function test_parseResponseXMLSuccess($xml) {
+		$this->assertTrue($this->request->createWBDSuccess($xml));
+	}
+
+	//Bool = False needed
+	/**
+     * @dataProvider xml_response_success_xml_fails
+     * @expectedException LogicException
+     */
+	public function test_parseResponseXMLErrorInXML($xml) {
+		$this->assertTrue($this->request->createWBDSuccess($xml));
+	}
+
+	//Array needed
+	/**
+     * @dataProvider xml_response_success
+     */
+	public function test_returnWBDSuccessObject($xml) {
+		$this->assertTrue($this->request->createWBDSuccess($xml));
+		$this->assertInstanceOf("WBDSuccess",$this->request->getWBDSuccess());
+	}
+
+	/**
+	 * @dataProvider xml_response_success
+	 * @expectedException LogicException
+	 */
+	public function test_returnWBDErrorObjectOnSuccess($xml) {
+		$this->assertTrue($this->request->createWBDSuccess($xml));
+		$this->assertInstanceOf("WBDError",$this->request->getWBDError());
+	}
 }
