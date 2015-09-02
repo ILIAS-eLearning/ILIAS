@@ -201,7 +201,7 @@ class ilDataCollectionRecordField {
 	 */
 	public function fillFormInput(&$form) {
 		$value = $this->getFormInput();
-		if (is_array($value)) {
+		if (is_array($value) || $form->getItemByPostVar('field_' . $this->field->getId()) instanceof ilDateTimeInputGUI) {
 			$form->getItemByPostVar('field_'.$this->field->getId())->setValueByArray(array("field_".$this->field->getId() => $value));
 		} else {
 			$form->getItemByPostVar('field_' . $this->field->getId())->setValue($value);
