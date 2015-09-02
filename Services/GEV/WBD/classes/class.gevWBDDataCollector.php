@@ -190,11 +190,11 @@ class gevWBDDateCollector implements WBDDataCollector {
 	* creates the list of users to gather for WBD Service
 	* 
 	*/
-	public function createGatherUserList() {
+	public function createAffiliateUserList() {
 
 	}
 
-	public function successGatherUser($success_data) {
+	public function successAffiliateUser($success_data) {
 
 	}
 	/** 
@@ -263,9 +263,9 @@ class gevWBDDateCollector implements WBDDataCollector {
 	}
 
 	/** 
-	* returns the next equest object
+	* get the next request object
 	* 
-	* @return 	obj request object
+	* @return 	WBDRequest
 	*/
 	public function getNextRecord() {
 		if($this->records) {
