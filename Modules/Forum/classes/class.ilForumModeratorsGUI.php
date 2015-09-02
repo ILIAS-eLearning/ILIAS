@@ -208,31 +208,13 @@ class ilForumModeratorsGUI
 			)
 		);
 
-		$tbl = new ilTable2GUI($this);
-		$tbl->setId('frm_show_mods_tbl_' . (int)$_GET['ref_id']);
-		$tbl->setFormAction($this->ctrl->getFormAction($this, 'detachModeratorRole'));
-		$tbl->setTitle($this->lng->txt('frm_moderators'));
-		$tbl->setRowTemplate('tpl.forum_moderators_table_row.html', 'Modules/Forum');
-		$tbl->setDefaultOrderField('login');
+		require_once 'Modules/Forum/classes/class.ilForumModeratorsTableGUI.php';
+		$tbl = new ilForumModeratorsTableGUI($this, 'showModerators', '', (int)$_GET['ref_id']);
 
 		$entries = $this->oForumModerators->getCurrentModerators();
 		$num     = count($entries);
-		if($num > 1)
-		{
-			$tbl->addColumn('', 'check', '1%', true);
-			$tbl->setSelectAllCheckbox('usr_id');
-			$tbl->addMultiCommand('detachModeratorRole', $this->lng->txt('frm_detach_moderator_role'));
-		}
-		else if(!$entries)
-		{
-			$tbl->setNoEntriesText($this->lng->txt('frm_moderators_not_exist_yet'));
-		}
-		$tbl->addColumn($this->lng->txt('login'), 'login', '30%');
-		$tbl->addColumn($this->lng->txt('firstname'), 'firstname', '30%');
-		$tbl->addColumn($this->lng->txt('lastname'), 'lastname', '30%');
-
-		$result = array();
-		$i      = 0;
+		$result  = array();
+		$i       = 0;
 		foreach($entries as $usr_id)
 		{
 			/**
