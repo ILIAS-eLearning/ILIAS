@@ -91,6 +91,10 @@ class ilDataCollectionRecordEditGUI {
 	 * @return bool
 	 */
 	public function executeCommand() {
+		if($_GET['mode']) {
+			$this->ctrl->saveParameter($this, 'mode');
+			$this->ctrl->setParameterByClass("ildatacollectionrecordlistgui", "mode", $_GET['mode']);
+		}
 		$this->ctrl->saveParameter($this, 'redirect');
 		if ($this->record_id) {
 			$this->record = ilDataCollectionCache::getRecordCache($this->record_id);
