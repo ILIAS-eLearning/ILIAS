@@ -52,7 +52,7 @@ class gevWBDRequestVvAenderung extends gevWBDRequest {
 									,'lastname' 		=> array('mandatory'=>1, 'maxlen' => 50)
 									,'birthday' 		=> array('custom' => 'datebefore2000')
 									,'email' 			=> array('mandatory' => 1)
-									,'mobile_phone_nr' 	=> array('custom' => 'regexpMobilePhone')
+									,'mobile_phone_nr' 	=> array('mandatory' => 1, 'custom' => 'regexpMobilePhone')
 									,'phone_nr'	 		=> array('custom' => 'regexpPhone')
 									,'zipcode' 			=> array('mandatory'=>1, 'maxlen' => 10)
 									,'city' 			=> array('mandatory'=>1, 'maxlen' => 50)
@@ -75,7 +75,7 @@ class gevWBDRequestVvAenderung extends gevWBDRequest {
 									,'bwv_id'			=> array('mandatory'=>1)
 								);
 
-	public function __construct($data) {
+	protected function __construct($data) {
 		parent::__construct();
 
 		$this->address_type 		= new gevWBDData("AdressTyp",$this->dictionary->getWBDName($data["address_type"],gevWBDDictionary::SERACH_IN_ADDRESS_TYPE));
@@ -112,7 +112,7 @@ class gevWBDRequestVvAenderung extends gevWBDRequest {
 		$data = self::polishInternalData($data);
 		$errors = self::checkData($data);
 		if(!count($errors))  {
-			return new gevWBDRequestVvErstanlage($data);
+			return new gevWBDRequestVvAenderung($data);
 		} else {
 			return $errors;
 		}
@@ -137,7 +137,7 @@ class gevWBDRequestVvAenderung extends gevWBDRequest {
 	* @return boolean
 	*/
 	public function createWBDSuccess($response) {
-		$this->wbd_success = new gevWBDSuccessVvAenderung($response);
+		$this->wbd_success = new gevWBDSuccessVvAenderung($response,$this->row_id);
 
 		return true;
 	}
