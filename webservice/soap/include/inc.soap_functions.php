@@ -1047,8 +1047,6 @@ class ilSoapFunctions {
                 return $soa->setFolderSpecialPermissions($sid, $ref_id, $permission);
         }
         //END PATCH HSLU SOAP Structureimport set folder special permissions
-
-	
 }
 
 /*	function  ilClone($sid,$copy_identifier)
