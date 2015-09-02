@@ -255,7 +255,7 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
 		else
 		{
 			$this->getTask()->setStatus(ilSCTask::STATUS_COMPLETED);
-			ilUtil::sendFailure($this->getLang()->txt('sysc_messaage_success'),TRUE);
+			ilUtil::sendFailure($this->getLang()->txt('sysc_message_success'),TRUE);
 		}
 		
 		$this->getTask()->setLastUpdate(new ilDateTime(time(),IL_CAL_UNIX));
