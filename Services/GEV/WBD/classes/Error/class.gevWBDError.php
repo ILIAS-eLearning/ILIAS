@@ -9,7 +9,6 @@
 * @version	$Id$
 *
 */
-require_once 'Services/WBDDataCollector/wbd_connector/src/abstracts/class.WBDError.php';
 class gevWBDError extends WBDError{
 
 	protected $ilDB;
