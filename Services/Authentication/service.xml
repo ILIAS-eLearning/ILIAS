@@ -20,4 +20,5 @@
 	<pluginslots>
 		<pluginslot id="authhk" name="AuthenticationHook" />
 	</pluginslots>
+	<logging />
 </service>

@@ -224,17 +224,6 @@ class ilLoggerFactory
 		$this->loggers[$a_component_id] = new ilComponentLogger($logger);
 		
 		return $this->loggers[$a_component_id];
-	}
-	
-	/**
-	 * on destruct automatically write memory peak usage
-	 */
-	public function __destruct()
-	{
-		if($this->getSettings()->isMemoryUsageEnabled())
-		{
-			$this->getRootLogger()->writeMemoryPeakUsage(ilLogLevel::INFO);
-		}
-	}
+	}	
 }
 ?>

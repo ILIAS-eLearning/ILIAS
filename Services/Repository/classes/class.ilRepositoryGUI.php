@@ -226,6 +226,9 @@ class ilRepositoryGUI
 				// Copy Category uses this call structure:
 				// RespositoryGUI -> CategoryGUI -> ilObjectCopyGUI
 				// Without this fix, the cmdClass ilObjectCopyGUI would never be reached
+				
+				ilLoggerFactory::getLogger('obj')->debug($this->ctrl->getNextClass().' <-> '. $class_name);
+				
 				if($this->ctrl->getNextClass() != strtolower('ilObj'.$class_name.'GUI'))
 				{
 					$this->ctrl->setCmdClass($next_class);
