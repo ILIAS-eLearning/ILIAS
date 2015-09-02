@@ -306,7 +306,7 @@ class ilDataCollectionFieldEditGUI {
 							}
 							$opt->addSubItem($subitem);
                     } elseif ($property['inputformat'] == ilDataCollectionDatatype::INPUTFORMAT_NON_EDITABLE_VALUE) {
-                        $subitem = new ilNonEditableValueGUI($property['title']);
+                        $subitem = new ilNonEditableValueGUI($lng->txt('dcl_'.$property['title']));
                         $subitem->setValue(implode(', ', ilDataCollectionDatatype::$mob_suffixes));
                         $opt->addSubItem($subitem);
 					} else {
