@@ -12989,6 +12989,7 @@ dcl#:#dcl_notification_deactivate_dcl#:#Deactivate Notification for Data Collect
 dcl#:#dcl_notification_activated#:#Notification Activated
 dcl#:#dcl_notification_deactivated#:#Notification Deactivated
 dcl#:#dcl_locked#:#Locked
+dcl#:#dcl_locked_tooltip#:#Disable this field for users to edit. Does not include roles with the permission 'Edit Settings'
 dcl#:#dcl_table_settings#:#Table Settings
 dcl#:#dcl_add_perm#:#User can add entries
 dcl#:#dcl_edit_perm#:#User can edit entries
