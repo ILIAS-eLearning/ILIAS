@@ -792,7 +792,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 	        }
 	
 	
-	        require_once './Services/AccessControl/classes/class.ilDropboxHelper.php';
+	        require_once './Services/AccessControl/classes/class.ilPostboxHelper.php';
 	        switch (strtolower($permission_type)) {
 	            case 'dropbox' :
 	                    ilDropboxHelper::_makeDropbox($ref_id);
