@@ -24,9 +24,10 @@ class gevWBDError extends WBDError{
 		= array(
 			'new_user'
 			,'update_user'
-			,'cp_report'
 			,'release_user'
 			,'affiliate_user'
+			,'cp_report'
+			,'cp_storno'
 			);
 
 	public function __construct($errMessage, $service, $usr_id, $row_id, $crs_id = 0) {

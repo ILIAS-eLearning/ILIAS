@@ -49,7 +49,7 @@ class gevWBDRequestWPMeldung extends gevWBDRequest {
 		$this->bwv_id 			= new gevWBDData("VermittlerId",$data["bwv_id"]);
 		
 
-		$this->xml_tmpl_file_name = "WPMeldung.xml";
+		$this->xml_tmpl_file_name = "WpMeldung.xml";
 		$this->wbd_service_name = "WpMeldungService";
 
 		$this->user_id = $data["user_id"];
@@ -84,7 +84,7 @@ class gevWBDRequestWPMeldung extends gevWBDRequest {
 	* @return boolean
 	*/
 	public function createWBDSuccess($response) {
-		$this->wbd_success = new gevWBDSuccessWPMeldung($response,$this->row_id);
+		$this->wbd_success = new gevWBDSuccessWPMeldung($response);
 
 		return true;
 	}
