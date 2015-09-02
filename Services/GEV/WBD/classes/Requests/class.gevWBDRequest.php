@@ -214,7 +214,7 @@ abstract class gevWBDRequest implements WBDRequest {
 				}
 			}
 		}*/
-		return $errStrings;
+		return $errors;
 	}
 
 	/**
