@@ -8,7 +8,6 @@
 * @version	$Id$
 *
 */
-
 require_once("Services/Calendar/classes/class.ilDate.php");
 class gevWBDSuccessWPMeldung extends WBDSuccess {
 	protected $internal_agent_id;
@@ -110,7 +109,7 @@ class gevWBDSuccessWPMeldung extends WBDSuccess {
 		if($this->begin_of_certification_period === null) {
 			throw new LogicException("gevWBDSuccessWPMeldung::beginOfCertificationPeriod:begin_of_certification_period is NULL");
 		}
-
+		
 		return $this->begin_of_certification_period;
 	}
 }

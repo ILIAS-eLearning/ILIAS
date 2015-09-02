@@ -1,5 +1,5 @@
 <?php
-require_once("Services/GEV/WBD/classes/Success/class.gevWBDSuccessWPMStorno.php");
+require_once("Services/GEV/WBD/classes/Success/class.gevWBDSuccessWPStorno.php");
 class GevWBDSuccessWPStornoTest extends SuccessTestBase {
 
 	public function setUp() {
@@ -34,7 +34,7 @@ class GevWBDSuccessWPStornoTest extends SuccessTestBase {
 	}
 
 	public function test_isWBDSuccessVvAenderung() {
-		$this->assertInstanceOf("gevWBDSuccessWPMeldung",$this->success);
+		$this->assertInstanceOf("gevWBDSuccessWPStorno",$this->success);
 	}
 
 	/**
@@ -43,7 +43,7 @@ class GevWBDSuccessWPStornoTest extends SuccessTestBase {
 	*/
 	public function test_cantCreateSuccessObject($xml) {
 		$success = new gevWBDSuccessWPStorno($xml,$this->row_id);
-		$this->assertNotInstanceOf("gevWBDSuccessWPMeldung",$success);
+		$this->assertNotInstanceOf("gevWBDSuccessWPStorno",$success);
 	}
 
 	public function test_agentId() {
