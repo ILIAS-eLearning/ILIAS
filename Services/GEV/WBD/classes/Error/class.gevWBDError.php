@@ -39,8 +39,7 @@ class gevWBDError extends WBDError{
 		$this->row_id = $row_id;
 		$this->crs_id = $crs_id;
 		$this->service = $service;
-		$this->booking_id = $booking_id;
-		parent::_construct($errMessage);
+		$this->errMessage = $errMessage;
 
 		if($this->usr_id === null) {
 			throw new LogicException("gevWBDError::userId:user_id is null");
@@ -59,11 +58,14 @@ class gevWBDError extends WBDError{
 	*transaltes err_message to an internal reason string
 	*/
 	protected function findReason() {
-		$sql = "SELECT reason_string, internal FROM wbd_errors_categories WHERE LOCATE( failure,"
+		/*$sql = "SELECT reason_string, internal FROM wbd_errors_categories WHERE LOCATE( failure,"
 			.$this->ilDB->quote($this->errMessage,"text")." ) > 0";
 		$res = $this->ilDB->fetchAssoc($this->ilDB->query($sql));
 		$this->reason = $res["reason_string"] ? $res["reason_string"] : '-unknown-';
-		$this->internal = $res["internal"] ? $res["internal"] : 0;
+		$this->internal = $res["internal"] ? $res["internal"] : 0;*/
+
+		$this->reason = "HUGO WAR ES";
+		$this->internal = 0;
 	}
 
 
