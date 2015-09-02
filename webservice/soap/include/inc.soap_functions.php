@@ -1039,6 +1039,14 @@ class ilSoapFunctions {
 	}
 	// mcs-patch end
 	
+	//BEGIN PATCH HSLU SOAP Structureimport set folder special permissions
+        public static function setFolderSpecialPermissions($sid, $ref_id, $permission)
+        {
+                include_once './webservice/soap/classes/class.ilSoapRBACAdministration.php';
+                $soa = new ilSoapRBACAdministration();
+                return $soa->setFolderSpecialPermissions($sid, $ref_id, $permission);
+        }
+        //END PATCH HSLU SOAP Structureimport set folder special permissions
 }
 
 /*	function  ilClone($sid,$copy_identifier)

@@ -792,22 +792,22 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 	        }
 	
 	
-	        require_once './Services/AccessControl/classes/class.ilDropboxHelper.php';
+	        require_once './Services/AccessControl/classes/class.ilPostboxHelper.php';
 	        switch (strtolower($permission_type)) {
 	            case 'dropbox' :
-	                    ilDropboxHelper::_makeDropbox($ref_id);
+	                    ilPostboxHelper::_makePostbox($ref_id);
 	                    break;
 	                   
 	            case 'normal' :
-	                    ilDropboxHelper::_makeNormalFolder($ref_id);
+	                    ilPostboxHelper::_makeNormalFolder($ref_id);
 	                    break;
 	
 	            case 'exchange' :
-	                    ilDropboxHelper::_makeExchangeFolder($ref_id);
+	                    ilPostboxHelper::_makeExchangeFolder($ref_id);
 	                    break;
 	
 	            case 'groups' :
-	                    ilDropboxHelper::_makeGroupFolder($ref_id);
+	                    ilPostboxHelper::_makeGroupFolder($ref_id);
 	                    break;
 	        }
 	        return true;
