@@ -151,13 +151,18 @@ abstract class gevWBDRequest implements WBDRequest {
 						if($value == ""){
 							$errors[] =  new gevWBDError( "empty value not in list", static::$request_type, $this->user_id, $this->row_id, $this->crs_id);
 						}
-						if(!in_array($value, $setting)){							
-							$errors[] =  new gevWBDError("not in list: ".$field, static::$request_type, $this->user_id, $this->row_id, $this->crs_id);					
+						if(!in_array($value, $setting)){
+							$errors[] =  new gevWBDError("not in list: ".$field, static::$request_type, $this->user_id, $this->row_id, $this->crs_id);
 						}
 						break;
 					case "form":
 						if(!preg_match($setting, $value) && $value != ""){
 							$errors[] =  new gevWBDError("not well formed: ".$field, static::$request_type, $this->user_id, $this->row_id, $this->crs_id);
+						}
+						break;
+					case "min_int_value":
+						if((int)$value < $setting) {
+							$errors[] =  new gevWBDError("integer to smaller then $setting: ".$field, static::$request_type, $this->user_id, $this->row_id, $this->crs_id);
 						}
 						break;
 					case "custom":

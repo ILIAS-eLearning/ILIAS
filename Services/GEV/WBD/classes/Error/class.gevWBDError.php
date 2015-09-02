@@ -24,8 +24,9 @@ class gevWBDError extends WBDError{
 		= array(
 			'new_user'
 			,'update_user'
-			,'new_edurecord'
-			,'exit_user'
+			,'cp_report'
+			,'release_user'
+			,'affiliate_user'
 			);
 
 	public function __construct($errMessage, $service, $usr_id, $row_id, $crs_id = 0) {
@@ -55,7 +56,7 @@ class gevWBDError extends WBDError{
 		}
 	}
 	/**
-	*transaltes err_message to an internal reason string
+	*transaltes errMessage to an internal reason string
 	*/
 	protected function findReason() {
 		/*$sql = "SELECT reason_string, internal FROM wbd_errors_categories WHERE LOCATE( failure,"

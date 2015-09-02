@@ -19,7 +19,7 @@ class gevWBDRequestVermitVerwaltungTransferfaehig extends gevWBDRequest {
 
 	protected $xml_tmpl_file_name;
 
-	static $request_type = "EXIT_USER";
+	static $request_type = "RELEASE_USER";
 	static $check_szenarios = array('email' 			=> array('mandatory' => 1)
 									,'mobile_phone_nr' 	=> array('mandatory' => 1, 'custom' => 'regexpMobilePhone')
 									,'bwv_id'			=> array('mandatory'=>1)
