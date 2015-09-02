@@ -562,7 +562,11 @@ class ilDataCollectionDatatype {
 					$med = $mob->getMediaItem("Standard");
 					$mob_file = ilObjMediaObject::_getDirectory($mob->getId()) . "/" . $med->getLocation();
 					$a_target_dir = ilObjMediaObject::_getDirectory($mob->getId());
-					$new_file = ilFFmpeg::extractImage($mob_file, "mob_vpreview.png", $a_target_dir, 1);
+					try {
+						$new_file = ilFFmpeg::extractImage($mob_file, "mob_vpreview.png", $a_target_dir, 1);
+					} catch (ilFFmpegException $e) {
+						ilUtil::sendFailure($e->getMessage(), true);
+					}
 				}
 
 				$mob->update();
