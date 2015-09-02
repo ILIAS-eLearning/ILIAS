@@ -10,6 +10,7 @@
 */
 require_once("Services/GEV/WBD/classes/Error/class.gevWBDError.php");
 require_once("Services/GEV/WBD/classes/Dictionary/class.gevWBDDictionary.php");
+require_once 'Services/WBDDataCollector/wbd_connector/src/interfaces/class.WBDRequest.php';
 abstract class gevWBDRequest implements WBDRequest {
 
 	protected $wbd_success;
@@ -127,8 +128,48 @@ abstract class gevWBDRequest implements WBDRequest {
 				return false;
 			}
 		}
-		
+		$errors = array();
 		foreach (static::$check_szenarios as $field => $szenario) {
+			$value = $data[$field];
+			foreach ($szenario as $rule => $setting) {
+				switch ($rule) {
+					case "mandatory":
+						if($setting==1 && (!is_bool($value) && trim($value) == "")){
+							$errors[] =  new gevWBDError("mandatory field missing: ".$field, static::$request_type, $this->user_id, $this->row_id, $this->crs_id);
+						}
+						break;
+					case "maxlen":
+						if(strlen($value) > $setting){
+							$errors[] =  new gevWBDError("too long: ".$field, static::$request_type, $this->user_id, $this->row_id, $this->crs_id);
+						}
+						break;
+					case "list":
+						if($value == ""){
+							$errors[] =  new gevWBDError( "empty value not in list", static::$request_type, $this->user_id, $this->row_id, $this->crs_id);
+						}
+						if(!in_array($value, $setting)){							
+							$errors[] =  new gevWBDError("not in list: ".$field, static::$request_type, $this->user_id, $this->row_id, $this->crs_id);					
+						}
+						break;
+					case "form":
+						if(!preg_match($setting, $value) && $value != ""){
+							$errors[] =  new gevWBDError("not well formed: ".$field, static::$request_type, $this->user_id, $this->row_id, $this->crs_id);
+						}
+						break;
+					case "custom":
+						$r = self::$setting($value);
+						$result = $r[0];
+						$err = $r[1];
+						if(!$result){
+							$errors[] =  new gevWBDError( "$err ( $field )", static::$request_type, $this->user_id, $this->row_id, $this->crs_id);
+						}
+						break;
+				}
+			}
+		}
+
+		
+		/*foreach (static::$check_szenarios as $field => $szenario) {
 			$value = $data[$field];
 			foreach ($szenario as $rule => $setting) {
 				switch ($rule) {
@@ -172,9 +213,8 @@ abstract class gevWBDRequest implements WBDRequest {
 						break;
 				}
 			}
-		}
-
-		return true;
+		}*/
+		return $errStrings;
 	}
 
 	/**

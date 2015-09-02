@@ -10,10 +10,15 @@
 */
 class gevWBDSuccessVvAenderung extends WBDSuccess {
 	protected $agent_id;
+	protected $row_id;
 
 	const AGENT_ID = "VermittlerId";
 	
-	public function __construct($response) {
+	public function __construct($response, $row_id) {
+		if(!$row_id) {
+			throw new LogicException("gevWBDSuccessVvAenderung: a row_id must be provided");
+		}
+		$this->row_id = $row_id;
 		$this->agent_id = $this->nodeValue($response,self::AGENT_ID);
 	}
 	
@@ -30,5 +35,12 @@ class gevWBDSuccessVvAenderung extends WBDSuccess {
 		}
 
 		return $this->agent_id;
+	}
+
+	public function rowId() {
+		if($this->row_id === null) {
+			throw new LogicalException("gevWBDSuccessVvErstanlage::rowId:row_id is NULL");
+		}
+		return $this->row_id;
 	}
 }

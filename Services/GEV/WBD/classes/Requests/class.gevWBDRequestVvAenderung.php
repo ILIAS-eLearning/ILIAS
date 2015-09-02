@@ -110,12 +110,12 @@ class gevWBDRequestVvAenderung extends gevWBDRequest {
 
 	public static function getInstance(array $data) {
 		$data = self::polishInternalData($data);
-
-		if(self::checkData($data)) {
-			return new gevWBDRequestVvAenderung($data);
+		$errors = self::checkData($data);
+		if(!count($errors))  {
+			return new gevWBDRequestVvErstanlage($data);
+		} else {
+			return $errors;
 		}
-
-		return null;
 	}
 
 	/**

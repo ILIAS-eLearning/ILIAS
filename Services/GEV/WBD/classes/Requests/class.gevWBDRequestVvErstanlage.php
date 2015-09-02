@@ -81,7 +81,7 @@ class gevWBDRequestVvErstanlage extends gevWBDRequest {
 									,'address_type'		=> array('list' => array('','geschäftlich','privat','sonstiges'))
 								);
 
-	public function __construct($data) {
+	protected function __construct($data) {
 		parent::__construct();
 
 		$this->address_type 		= new gevWBDData("AdressTyp",$this->dictionary->getWBDName($data["address_type"],gevWBDDictionary::SERACH_IN_ADDRESS_TYPE));
@@ -119,12 +119,12 @@ class gevWBDRequestVvErstanlage extends gevWBDRequest {
 
 	public static function getInstance(array $data) {
 		$data = self::polishInternalData($data);
-
-		if(self::checkData($data)) {
+		$errors = self::checkData($data);
+		if(!count($errors))  {
 			return new gevWBDRequestVvErstanlage($data);
+		} else {
+			return $errors;
 		}
-
-		return null;
 	}
 
 	/**
