@@ -599,9 +599,26 @@ class ilExerciseManagementGUI
 				$logins[] = ilObjUser::_lookupLogin($user_id);
 			}
 			$logins = implode($logins, ",");
+			
+			// #16530 - see ilObjCourseGUI::createMailSignature
+			$sig = chr(13).chr(10).chr(13).chr(10);
+			$sig .= $this->lng->txt('exc_mail_permanent_link');
+			$sig .= chr(13).chr(10).chr(13).chr(10);
+			include_once './Services/Link/classes/class.ilLink.php';
+			$sig .= ilLink::_getLink($this->exercise->getRefId());
+			$sig = rawurlencode(base64_encode($sig));
 						
 			require_once 'Services/Mail/classes/class.ilMailFormCall.php';
-			ilUtil::redirect(ilMailFormCall::getRedirectTarget($this, $this->getViewBack(), array(), array('type' => 'new', 'rcp_to' => $logins)));
+			ilUtil::redirect(ilMailFormCall::getRedirectTarget(
+				$this, 
+				$this->getViewBack(), 
+				array(), 
+				array(
+					'type' => 'new', 
+					'rcp_to' => $logins, 
+					ilMailFormCall::SIGNATURE_KEY => $sig
+				)
+			));
 		}
 
 		ilUtil::sendFailure($this->lng->txt("no_checkbox"),true);
