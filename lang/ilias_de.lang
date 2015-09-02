@@ -12844,6 +12844,7 @@ dcl#:#dcl_notification_deactivate_dcl#:#Benachrichtigung deaktivieren
 dcl#:#dcl_notification_activated#:#Benachrichtigung aktiv
 dcl#:#dcl_notification_deactivated#:#Benachrichtigung inaktiv
 dcl#:#dcl_locked#:#Gesperrt
+dcl#:#dcl_locked_tooltip#:#Ein gesperrtes Feld lässt sich von Benutzern nicht mehr bearbeiten. Gilt nicht für Rollen mit dem Recht 'Einstellungen bearbeiten'
 dcl#:#dcl_table_settings#:#Tabelleneinstellungen
 dcl#:#dcl_add_perm#:#Neuen Eintrag hinzufügen
 dcl#:#dcl_add_perm_desc#:#Benutzer können Einträge in dieser Tabelle erstellen.

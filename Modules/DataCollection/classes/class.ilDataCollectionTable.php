@@ -1571,15 +1571,18 @@ class ilDataCollectionTable {
 		}
 
 		// Build the query string
-		$sql = "SELECT DISTINCT record.id, record.owner, ";
-		$sql .= rtrim($select_str, ',') . " FROM il_dcl_record AS record ";
+		$sql = "SELECT DISTINCT record.id, record.owner";
+		if($select_str) {
+			$sql .= ', ';
+		}		$sql .= rtrim($select_str, ',') . " FROM il_dcl_record AS record ";
 		$sql .= $join_str;
 		$sql .= " WHERE record.table_id = " . $ilDB->quote($this->getId(), 'integer') . $where_additions;
 		if ($has_nref) {
 			$sql .= " GROUP BY record.id";
 		}
-		$sql .= " ORDER BY field_{$id} {$direction}";
-		$set = $ilDB->query($sql);
+		if($id != 'comments' && $sort_field->getDatatypeId() != ilDataCollectionDatatype::INPUTFORMAT_FORMULA) {
+			$sql .= " ORDER BY field_{$id} {$direction}";
+		}		$set = $ilDB->query($sql);
 		$total_record_ids = array();
 		// Save record-ids in session to enable prev/next links in detail view
 		$_SESSION['dcl_record_ids'] = array();
@@ -1591,6 +1594,25 @@ class ilDataCollectionTable {
 			}
 			$total_record_ids[] = $rec['id'];
 			$_SESSION['dcl_record_ids'][] = $rec['id'];
+		}
+		// Sort by formula
+		if ($sort_field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_FORMULA) {
+			$sort_array = array();
+			foreach ($total_record_ids as $id) {
+				$formula_field = ilDataCollectionCache::getRecordFieldCache(new ilDataCollectionRecord($id), $sort_field);
+				$sort_array[$id] = $formula_field->getValue();
+			}
+			switch ($direction) {
+				case 'asc':
+				case 'ASC':
+					asort($sort_array);
+					break;
+				case 'desc':
+				case 'DESC':
+					arsort($sort_array);
+					break;
+			}
+			$total_record_ids = array_keys($sort_array);
 		}
 		// Now slice the array to load only the needed records in memory
 		$record_ids = array_slice($total_record_ids, $offset, $limit);

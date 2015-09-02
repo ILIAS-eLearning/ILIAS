@@ -201,7 +201,7 @@ class ilDataCollectionRecordField {
 	 */
 	public function fillFormInput(&$form) {
 		$value = $this->getFormInput();
-		if (is_array($value)) {
+		if (is_array($value) || $form->getItemByPostVar('field_' . $this->field->getId()) instanceof ilDateTimeInputGUI) {
 			$form->getItemByPostVar('field_'.$this->field->getId())->setValueByArray(array("field_".$this->field->getId() => $value));
 		} else {
 			$form->getItemByPostVar('field_' . $this->field->getId())->setValue($value);
@@ -256,6 +256,14 @@ class ilDataCollectionRecordField {
 		return $datatype->parseHTML($this->getValue(), $this, $link);
 	}
 
+	/**
+	 * @return string
+	 */
+	public function getSortingValue($link = true) {
+		$datatype = $this->field->getDatatype();
+
+		return $datatype->parseSortingValue($this->getValue(), $this, $link);
+	}
 
 	/**
 	 * @return string

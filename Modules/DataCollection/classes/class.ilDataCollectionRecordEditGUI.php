@@ -91,6 +91,10 @@ class ilDataCollectionRecordEditGUI {
 	 * @return bool
 	 */
 	public function executeCommand() {
+		if($_GET['mode']) {
+			$this->ctrl->saveParameter($this, 'mode');
+			$this->ctrl->setParameterByClass("ildatacollectionrecordlistgui", "mode", $_GET['mode']);
+		}
 		$this->ctrl->saveParameter($this, 'redirect');
 		if ($this->record_id) {
 			$this->record = ilDataCollectionCache::getRecordCache($this->record_id);
@@ -222,6 +226,7 @@ class ilDataCollectionRecordEditGUI {
 		$this->form->setFormAction($this->ctrl->getFormAction($this));
 		$allFields = $this->table->getRecordFields();
 
+		$inline_css = '';
 		foreach ($allFields as $field) {
 			$item = ilDataCollectionDatatype::getInputField($field);
 			if ($item === NULL) {
@@ -272,6 +277,13 @@ class ilDataCollectionRecordEditGUI {
 					}
 					//					}
 				}
+
+				if($item instanceof ilMultiSelectInputGUI){
+					$item->setWidth(400);
+					$item->setHeight(100);
+					$inline_css .= 'div#'.$item->getFieldId().'{resize:both;} ';
+				}
+
 			}
 
 			if ($this->record_id) {
@@ -300,6 +312,8 @@ class ilDataCollectionRecordEditGUI {
 			}
 			$this->form->addItem($item);
 		}
+
+		$this->tpl->addInlineCss($inline_css);
 
 		// Add possibility to change the owner in edit mode
 		if ($this->record_id) {
