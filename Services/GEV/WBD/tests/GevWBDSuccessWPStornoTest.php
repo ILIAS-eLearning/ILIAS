@@ -1,35 +1,30 @@
 <?php
-require_once("Services/GEV/WBD/classes/Success/class.gevWBDSuccessWPMeldung.php");
-class GevWBDSuccessWPMeldungTest extends SuccessTestBase {
+require_once("Services/GEV/WBD/classes/Success/class.gevWBDSuccessWPMStorno.php");
+class GevWBDSuccessWPStornoTest extends SuccessTestBase {
 
 	public function setUp() {
-		$this->success = new gevWBDSuccessWPMeldung(simplexml_load_string('<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope">'
+		$this->row_id = 25;
+		$this->success = new gevWBDSuccessWPStorno(simplexml_load_string('<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope">'
 												.'<soap:Body>'
 													.'<ns1:putResponse xmlns:ns1="http://erstanlage.stammdaten.external.service.wbd.gdv.de/">'
-														.'<WPMeldungRueckgabewert>'
+														.'<WPStornoRueckgabewert>'
 															.'<WeiterbildungsPunkteBuchungsId>2015-145-1654</WeiterbildungsPunkteBuchungsId>'
-															.'<InterneVermittlerId>7665</InterneVermittlerId>'
 															.'<VermittlerId>20150728-100390-74</VermittlerId>'
-															.'<InterneBuchungsId>21352</InterneBuchungsId>'
-															.'<BeginnZertifizierungsPeriode>2015-07-28T00:00:00+02:00</BeginnZertifizierungsPeriode>'
-														.'</WPMeldungRueckgabewert>'
+														.'</WPStornoRueckgabewert>'
 													.'</ns1:putResponse>'
 												.'</soap:Body>'
 											.'</soap:Envelope>'
-									));
+									),$this->row_id);
 	}
 
 	public function success_xml_error() {
 		return array(array(simplexml_load_string('<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope">'
 												.'<soap:Body>'
 													.'<ns1:putResponse xmlns:ns1="http://erstanlage.stammdaten.external.service.wbd.gdv.de/">'
-														.'<WPMeldungRueckgabewert>'
+														.'<WPStornoRueckgabewert>'
 															.'<WeiterbildungsPunkteBuchungsId>2015-145-1654</WeiterbildungsPunkteBuchungsId>'
-															.'<InterneVdermittlerId>7665</InterneVdermittlerId>'
-															.'<VermittlerId>20150728-100390-74</VermittlerId>'
-															.'<InterneBuchungsId>21352</InterneBuchungsId>'
-															.'<BeginnZertifizierungsPeriode>2015-07-28T00:00:00+02:00</BeginnZertifizierungsPeriode>'
-														.'</WPMeldungRueckgabewert>'
+															.'<VermitttlerId>20150728-100390-74</VermitttlerId>'
+														.'</WPStornoRueckgabewert>'
 													.'</ns1:putResponse>'
 												.'</soap:Body>'
 											.'</soap:Envelope>'
@@ -47,7 +42,7 @@ class GevWBDSuccessWPMeldungTest extends SuccessTestBase {
 	* @expectedException LogicException
 	*/
 	public function test_cantCreateSuccessObject($xml) {
-		$success = new gevWBDSuccessWPMeldung($xml);
+		$success = new gevWBDSuccessWPStorno($xml,$this->row_id);
 		$this->assertNotInstanceOf("gevWBDSuccessWPMeldung",$success);
 	}
 
