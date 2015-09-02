@@ -8,21 +8,37 @@
 * @version	$Id$
 *
 */
+require_once("Services/Calendar/classes/class.ilDate.php");
 class gevWBDSuccessWPStorno extends WBDSuccess {
 	
 	protected $agent_id;
 	protected $wbd_booking_id;
+	protected $internal_agent_id;
+	protected $begin_of_certification_period;
 
 	const WBD_BOOKING_ID = "WeiterbildungsPunkteBuchungsId";
 	const AGENT_ID = "VermittlerId";
-	const ROW_ID = "InterneBuchungsId";
+	const BEGIN_OF_CERTIFICATION_PERIOD = "BeginnErstePeriode";
+	const INTERNAL_AGENT_ID = "InterneVermittlerId";
+	const DATE_SPLITTER = "T";
 	
 
 	public function __construct($response,$row_id) {
 		
+		$internal_agent_id = $this->nodeValue($response,self::INTERNAL_AGENT_ID);
+		if(!is_numeric($internal_agent_id)) {
+			throw new LogicException ("gevWBDSuccessWPMeldung::__construct:internal agent is not a number");
+		}
+
+
+		$this->internal_agent_id = (int)$internal_agent_id;
 		$this->row_id = (int)$row_id;
 		$this->agent_id = $this->nodeValue($response,self::AGENT_ID);
 		$this->wbd_booking_id = $this->nodeValue($response,self::WBD_BOOKING_ID);
+
+		$begin_of_certification_period = $this->nodeValue($response,self::BEGIN_OF_CERTIFICATION_PERIOD);
+		$split = explode($begin_of_certification_period,self::DATE_SPLITTER);
+		$this->begin_of_certification_period = new ilDate($split[0],IL_CAL_DATE);
 	}
 
 	/**
@@ -31,6 +47,21 @@ class gevWBDSuccessWPStorno extends WBDSuccess {
 	*/
 	public function rowId() {
 		return $this->row_id;
+	}
+
+	/**
+	* gets the internal agent id
+	*
+	* @throws LogicException
+	* 
+	*@return integer
+	*/
+	public function internalAgentId() {
+		if($this->internal_agent_id === null) {
+			throw new LogicException("gevWBDSuccessWPMeldung::internalAgentId:internal_agent_id is NULL");
+		}
+
+		return $this->internal_agent_id;
 	}
 
 	/**
@@ -61,5 +92,20 @@ class gevWBDSuccessWPStorno extends WBDSuccess {
 		}
 
 		return $this->wbd_booking_id;
+	}
+
+	/**
+	* gets the begin of the certification period
+	*
+	* @throws LogicException
+	* 
+	*@return ilDate
+	*/
+	public function beginOfCertificationPeriod() {
+		if($this->begin_of_certification_period === null) {
+			throw new LogicException("gevWBDSuccessWPMeldung::beginOfCertificationPeriod:begin_of_certification_period is NULL");
+		}
+		
+		return $this->begin_of_certification_period;
 	}
 }
