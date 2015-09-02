@@ -1,7 +1,7 @@
 <?php
 	class gevWBDDataCollectorTest extends PHPUnit_Framework_TestCase {
 		public function setUp() {
-			$this->data_collector = new gevWBDDataCollector;
+			//$this->data_collector = new gevWBDDataCollector;
 		}
 
 		/*public function error_with_crs_id() {
@@ -19,7 +19,7 @@
 	    /*
 		public function test_error_1($error_data,$error) {
 			$this->assertTrue($this->data_collector->error($error) > 0);
-		}*/
+		}
 
 		public function test_create_new_user_list() {
 			$this->data_collector->createNewUserList();
@@ -49,7 +49,7 @@
 				$i++;
 			}		
 			$this->assertEqual($i,3);
-		}
+		}*/
 
 	}
 ?>
