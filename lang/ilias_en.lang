@@ -12538,6 +12538,7 @@ dcl#:#dcl_edit_type#:#Edit Type
 dcl#:#dcl_activate_rating#:#Activate Entry Rating
 dcl#:#dcl_activate_approval#:#Activate Entry Approval
 dcl#:#dcl_activate_notification#:#Activate Notification
+dcl#:#dcl_allowed_file_types#:#Allowed File Types
 dcl#:#dcl_table_id#:#Table ID
 dcl#:#dcl_add_new_record#:#Add New Entry
 dcl#:#dcl_list_fields#:#Fields
