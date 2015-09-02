@@ -95,49 +95,31 @@ class ilDataCollectionNReferenceFieldGUI {
 				$record_field->setValue(NULL);
 				$record_field->doUpdate();
 			} else {
-				$elements[] = $ref_record->getRecordFieldHTML($this->field->getField()->getFieldRef());
-			}
-		}
+				$elements[] = array('value' => $ref_record->getRecordFieldHTML($this->field->getField()->getFieldRef()),
+									'sort' => $ref_record->getRecordFieldSortingValue($this->field->getField()->getFieldRef()));
 
-		//sort fetched elements
-		$ref_record_field = $ref_record->getRecordField($this->field->getField()->getFieldRef());
-		if ($ref_record_field) {
-			$datatype = $ref_record_field->getField()->getDatatype()->getTitle();
-			if ($datatype == 'file') {
-				$tmp = array();
-				foreach ($elements as $element) {
-					$key = strip_tags($element);
-					$tmp[$key] = $element;
-				}
-				$elements = $tmp;
-				uksort($elements, 'strnatcasecmp');
-			} elseif ($datatype == 'mob') {
-				$tmp = array();
-				foreach ($elements as $element) {
-					$doc = new DOMDocument();
-					$doc->loadHTML($element);
-					$imageTag = $doc->getElementsByTagName('img')->item(0);
-					if ($imageTag) {
-						$tmp[pathinfo($imageTag->getAttribute('src'), PATHINFO_FILENAME)] = $element;
-					} else {
-						$tmp[$element] = $element;
-					}
-				}
-				$elements = $tmp;
-				uksort($elements, 'strnatcasecmp');
-			} else {
-				asort($elements);
 			}
 		}
+		//sort fetched elements
+		$is_numeric = false;
+		$ref_field = new ilDataCollectionField($this->field->getField()->getFieldRef());
+		switch ($ref_field->getDatatypeId()) {
+			case ilDataCollectionDatatype::INPUTFORMAT_DATETIME:
+			case ilDataCollectionDatatype::INPUTFORMAT_NUMBER:
+				$is_numeric = true;
+				break;
+		}
+		$elements = ilUtil::sortArray($elements, 'sort', 'asc', $is_numeric);
+
 		//concat
 		foreach($elements as $element) {
 			if ((strlen($html) < $record_field->getMaxReferenceLength())) {
-				$html .= $element . ", ";
+				$html .= $element['value'] . ", ";
 			} else {
 				$cut = true;
 			}
 			$tpl->setCurrentBlock("reference");
-			$tpl->setVariable("CONTENT", $element);
+			$tpl->setVariable("CONTENT", $element['value']);
 			$tpl->parseCurrentBlock();
 		}
 

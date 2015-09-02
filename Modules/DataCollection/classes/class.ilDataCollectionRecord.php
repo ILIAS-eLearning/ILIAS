@@ -410,6 +410,31 @@ class ilDataCollectionRecord {
 		return $html;
 	}
 
+	/**
+	 * @param       $field_id
+	 * @param array $options
+	 *
+	 * @return array|mixed|string
+	 */
+	public function getRecordFieldSortingValue($field_id, array $options = array()) {
+		$this->loadRecordFields();
+		if (ilDataCollectionStandardField::_isStandardField($field_id)) {
+			$html = $this->getStandardFieldHTML($field_id, $options);
+		} else {
+			if (is_object($this->recordfields[$field_id])) {
+				$html = $this->recordfields[$field_id]->getSortingValue();
+			} else {
+				$html = '';
+			}
+		}
+
+		// This is a workaround as templating in ILIAS currently has some issues with curly brackets.see: http://www.ilias.de/mantis/view.php?id=12681#bugnotes
+		// SW 16.07.2014 Uncommented again, as some fields are outputting javascript that was broken due to entity encode the curly brackets
+		//		$html = str_ireplace("{", "&#123;", $html);
+		//		$html = str_ireplace("}", "&#125;", $html);
+
+		return $html;
+	}
 
 	/**
 	 * @param       $field_id

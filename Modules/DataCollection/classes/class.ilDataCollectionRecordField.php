@@ -256,6 +256,14 @@ class ilDataCollectionRecordField {
 		return $datatype->parseHTML($this->getValue(), $this, $link);
 	}
 
+	/**
+	 * @return string
+	 */
+	public function getSortingValue($link = true) {
+		$datatype = $this->field->getDatatype();
+
+		return $datatype->parseSortingValue($this->getValue(), $this, $link);
+	}
 
 	/**
 	 * @return string
