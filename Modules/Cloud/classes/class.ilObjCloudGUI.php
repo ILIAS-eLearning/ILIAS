@@ -306,6 +306,9 @@ class ilObjCloudGUI extends ilObject2GUI {
 			$services_group->addOption($option);
 		}
 
+		//Select first radio-button by default
+		$services_group->setValue(array_shift($services_group->getOptions())->getValue());
+
 		$form->addItem($services_group);
 
 		$form = $this->initDidacticTemplate($form);
