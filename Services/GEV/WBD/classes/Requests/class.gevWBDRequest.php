@@ -10,7 +10,6 @@
 */
 require_once("Services/GEV/WBD/classes/Error/class.gevWBDError.php");
 require_once("Services/GEV/WBD/classes/Dictionary/class.gevWBDDictionary.php");
-require_once 'Services/WBDDataCollector/wbd_connector/src/interfaces/class.WBDRequest.php';
 abstract class gevWBDRequest implements WBDRequest {
 
 	protected $wbd_success;
@@ -36,7 +35,7 @@ abstract class gevWBDRequest implements WBDRequest {
 	static $PARENT_NODE_WBD_ERROR = "fault";
 	static $NODE_WBD_ERROR = "faultstring";
 
-	public function __construct() {
+	protected function __construct() {
 		$this->dictionary = new gevWBDDictionary();
 		$this->xml_tmpl_path = "/Users/shecken/Documents/projects/new_wbd_connector/wbd_connector/src/messages";
 		$this->crs_id = 0;
@@ -49,7 +48,7 @@ abstract class gevWBDRequest implements WBDRequest {
 	*
 	*/
 	public function createWBDError($response) {
-		$this->wbd_error = new gevWBDError($this->parseReason($response),$this->user_id,$this->row_id,$this->crs_id);
+		$this->wbd_error = new gevWBDError($this->parseReason($response),static::$request_type,$this->user_id,$this->row_id,$this->crs_id);
 		return true;
 	}
 
@@ -130,6 +129,11 @@ abstract class gevWBDRequest implements WBDRequest {
 		}
 		$errors = array();
 		foreach (static::$check_szenarios as $field => $szenario) {
+
+			if(!array_key_exists($field, $data)) {
+				throw new LogicException("Key not found in data".$field);
+			}
+
 			$value = $data[$field];
 			foreach ($szenario as $rule => $setting) {
 				switch ($rule) {
@@ -342,11 +346,19 @@ abstract class gevWBDRequest implements WBDRequest {
 	* @return array 	$data
 	*/
 	final static function polishInternalData($data) {
-		$street_and_number = self::extractHouseNumber($data[self::$USR_STREET]);
-		$data[self::$USR_STREET] = $street_and_number["street"];
-		$data[self::$USR_HOSE_NUMBER] = $street_and_number["nr"];
-		$data[self::$USR_MOBILE_PHONE] = self::polishPhoneNumber($data[self::$USR_MOBILE_PHONE]);
-		$data[self::$USR_PHONE_NUMBER] = self::polishPhoneNumber($data[self::$USR_PHONE_NUMBER]);
+		if(array_key_exists(self::$USR_STREET,$data)) {
+			$street_and_number = self::extractHouseNumber($data[self::$USR_STREET]);
+			$data[self::$USR_STREET] = $street_and_number["street"];
+			$data[self::$USR_HOSE_NUMBER] = $street_and_number["nr"];
+		}
+		
+		if(array_key_exists(self::$USR_MOBILE_PHONE, $data)) {
+			$data[self::$USR_MOBILE_PHONE] = self::polishPhoneNumber($data[self::$USR_MOBILE_PHONE]);
+		}
+		
+		if(array_key_exists(self::$USR_PHONE_NUMBER, $data)) {
+			$data[self::$USR_PHONE_NUMBER] = self::polishPhoneNumber($data[self::$USR_PHONE_NUMBER]);
+		}
 
 		return $data;
 	}
