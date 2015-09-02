@@ -368,6 +368,27 @@ class ilDataCollectionRecord {
 		return $html;
 	}
 
+	/**
+	 * @param       $field_id
+	 * @param array $options
+	 *
+	 * @return array|mixed|string
+	 */
+	public function getRecordFieldSortingValue($field_id, array $options = array()) {
+		$this->loadRecordFields();
+		if (ilDataCollectionStandardField::_isStandardField($field_id)) {
+			$sort = $this->getStandardFieldHTML($field_id, $options);
+		} else {
+			if (is_object($this->recordfields[$field_id])) {
+				$sort = $this->recordfields[$field_id]->getSortingValue();
+			} else {
+				$sort = '';
+			}
+		}
+
+		return $sort;
+	}
+
 
 	/**
 	 * @param       $field_id

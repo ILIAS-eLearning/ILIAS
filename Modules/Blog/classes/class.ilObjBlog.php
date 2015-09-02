@@ -796,9 +796,11 @@ class ilObjBlog extends ilObject2
 			{
 				continue;
 			}
-									
-			$snippet = strip_tags(ilBlogPostingGUI::getSnippet($id));
+			
+			// #16434
+			$snippet = strip_tags(ilBlogPostingGUI::getSnippet($id), "<br><br/><div><p>");
 			$snippet = str_replace("&", "&amp;", $snippet);	
+			$snippet = "<![CDATA[".$snippet."]]>";
 
 			$url = ilLink::_getStaticLink($a_wsp_id, "blog", true, "_".$id.$is_wsp);
 			$url = str_replace("&", "&amp;", $url);				

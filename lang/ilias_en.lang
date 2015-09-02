@@ -6644,12 +6644,10 @@ form#:#form_retype_password#:#Retype Password
 form#:#form_seconds#:#Seconds
 forum#:#activate_current_and_childs#:#Activate All Postings
 forum#:#activate_new_posts#:#Activate Postings
-forum#:#activate_only_current#:#Activate Current
-forum#:#activate_post_txt#:#Would you really like to activate the current posting and if applicable all its child postings? Please note that all parent postings will be activated, too.
+forum#:#activate_only_current#:#Activate Posting
+forum#:#activate_post_txt#:#Would you really like to activate the current posting?
 forum#:#activate_post#:#Activate
 forum#:#close_topics#:#Close
-forum#:#deactivate_current_and_childs#:#Deactivate All Postings
-forum#:#deactivate_post_txt#:#Would you really like to deactivate the current posting and all its child postings?
 forum#:#fmr_copy_threads_info#:#You have the possibility to copy single threads. Only the beginning of the chosen threads will be duplicated.
 forum#:#forum_add_quote#:#Add Quotation
 forum#:#forums_all_threads_marked_read#:#All threads have been marked as read
@@ -12540,6 +12538,7 @@ dcl#:#dcl_edit_type#:#Edit Type
 dcl#:#dcl_activate_rating#:#Activate Entry Rating
 dcl#:#dcl_activate_approval#:#Activate Entry Approval
 dcl#:#dcl_activate_notification#:#Activate Notification
+dcl#:#dcl_allowed_file_types#:#Allowed File Types
 dcl#:#dcl_table_id#:#Table ID
 dcl#:#dcl_add_new_record#:#Add New Entry
 dcl#:#dcl_list_fields#:#Fields
@@ -14791,12 +14790,12 @@ content#:#cont_reset_nr_of_tries#:#Reset Number of Tries
 content#:#cont_unlock_allow_continue#:#Unlock / Allow to Continue
 crs#:#crs_subscription_failed_limit#:#The maximum number of participants has been exceeded.
 user#:#send_mail_to_inactive_users#:#Warning Mail
-user#:#send_mail_to_inactive_users_desc#:#If set, a warning mail will be sent to the user before his/her account is deleted due to inactivity.
+user#:#send_mail_to_inactive_users_desc#:#If set, a warning mail will be sent to the user before his/her account is deleted due to inactivity. Please make sure that sending external mails is possible. On activation with reminder mail, it may happen, that the time frame between reminder mail and deletion is smaller than the configured time frame. 
 user#:#send_mail_to_inactive_users_suffix#:#Days before Deletion.
 user#:#send_mail_to_inactive_users_numbers_only#:#Only positive non decimal numbers are accepted.
 user#:#send_mail_to_inactive_users_must_be_smaller_than#:#This value must be smaller than the value ‘Days passed since last login’.
 user#:#del_mail_subject#:#(ILIAS) – Your account will be deleted
-user#:#del_mail_body#:#Hello %1$s, %2$s you haven't logged in for a long period of time, on %3$s. So your account will be deleted in %4$s days. You have to login again to prevent the deletion of your account.
+user#:#del_mail_body#:#Hello %1$s, %2$s you haven't logged in for a long period of time, on %3$s. So your account will be probably deleted on %4$s. You have to login again to prevent the deletion of your account.
 user#:#delete_inactive_user_accounts_frequency#:#Frequency
 user#:#delete_inactive_user_accounts_frequency_desc#:#Frequency, in which the deletion and email distribution will be tested.
 user#:#send_mail_reminder_window_too_small#:#Your Frequency setting is too large for this reminder value.
@@ -15298,3 +15297,5 @@ sysc#:#sysc_task_structure#:#Tree structure
 sysc#:#sysc_task_structure_desc#:#Analyzes and corrects the repository tree structure.
 blog#:#blog_keywords_other#:#Other Keywords
 blog#:#blog_keywords_other_info#:#These keywords were set for other blog postings.
+forum#:#forums_thread_deleted#:#The selected thread including all postings have been deleted.
+forum#:#forums_threads_deleted#:#The selected threads including all postings have been deleted.

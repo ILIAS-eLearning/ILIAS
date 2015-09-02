@@ -94,7 +94,7 @@ class ilContainerSimpleContentGUI extends ilContainerContentGUI
 		
 		if (is_array($this->items["_all"]))
 		{
-			$this->renderer->addCustomBlock(1, $lng->txt("content"));
+			$this->renderer->addCustomBlock("_all", $lng->txt("content"));
 			
 			$position = 1;			
 			foreach($this->items["_all"] as $k => $item_data)
@@ -104,7 +104,7 @@ class ilContainerSimpleContentGUI extends ilContainerContentGUI
 					$html = $this->renderItem($item_data, $position++, true);
 					if ($html != "")
 					{
-						$this->renderer->addItemToBlock(1, $item_data["type"], $item_data["child"], $html);
+						$this->renderer->addItemToBlock("_all", $item_data["type"], $item_data["child"], $html);
 					}
 				}
 			}			

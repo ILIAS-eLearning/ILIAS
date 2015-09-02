@@ -562,7 +562,11 @@ class ilDataCollectionDatatype {
 					$med = $mob->getMediaItem("Standard");
 					$mob_file = ilObjMediaObject::_getDirectory($mob->getId()) . "/" . $med->getLocation();
 					$a_target_dir = ilObjMediaObject::_getDirectory($mob->getId());
-					$new_file = ilFFmpeg::extractImage($mob_file, "mob_vpreview.png", $a_target_dir, 1);
+					try {
+						$new_file = ilFFmpeg::extractImage($mob_file, "mob_vpreview.png", $a_target_dir, 1);
+					} catch (ilFFmpegException $e) {
+						ilUtil::sendFailure($e->getMessage(), true);
+					}
 				}
 
 				$mob->update();
@@ -636,6 +640,41 @@ class ilDataCollectionDatatype {
 		}
 
 		return $return;
+	}
+
+	/**
+	 * @param $value
+	 * @param ilDataCollectionRecordField $record_field
+	 * @param bool|true $link
+	 * @return int|string
+	 */
+	public function parseSortingValue($value, ilDataCollectionRecordField $record_field, $link = true) {
+		switch ($this->id) {
+			case self::INPUTFORMAT_DATETIME:
+				return strtotime($value);
+			case self::INPUTFORMAT_FILE:
+				if (!ilObject2::_exists($value) || ilObject2::_lookupType($value, false) != "file") {
+					return '';
+				}
+				$file_obj = new ilObjFile($value, false);
+				return $file_obj->getTitle();
+			case self::INPUTFORMAT_MOB:
+				$mob = new ilObjMediaObject($value, false);
+				return $mob->getTitle();
+			case ilDataCollectionDatatype::INPUTFORMAT_TEXT:
+				$arr_properties = $record_field->getField()->getProperties();
+				if ($arr_properties[ilDataCollectionField::PROPERTYID_URL]) {
+					if ($json = json_decode($value)) {
+						return $json->title ? $json->title : $json->link;
+					} else {
+						return $value;
+					}
+				} else {
+					return $value;
+				}
+			default:
+				return $value;
+		}
 	}
 
 

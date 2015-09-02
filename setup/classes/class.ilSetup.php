@@ -759,12 +759,17 @@ class ilSetup extends PEAR
 			$this->client->db->quote('system_role_id','text'));
 		$r1 = $this->client->db->fetchAssoc($s1);
 		$system_role_id = $r1["value"];
-		$q = "SELECT usr_data.usr_id, usr_data.passwd, usr_data.passwd_enc_type, usr_data.passwd_salt " .
-			 "FROM usr_data ".
-			 "LEFT JOIN rbac_ua ON rbac_ua.usr_id=usr_data.usr_id ".
-			 "WHERE rbac_ua.rol_id = ".$this->client->db->quote((int) $system_role_id,'integer')." ".
-			 "AND usr_data.login=".$this->client->db->quote($a_auth_data["username"],'text');
 
+		$add_usrfields = '';
+		if($this->client->db->tableColumnExists('usr_data', 'passwd_enc_type'))
+		{
+			$add_usrfields .= ' , usr_data.passwd_enc_type, usr_data.passwd_salt ';
+		}
+		$q = "SELECT usr_data.usr_id, usr_data.passwd $add_usrfields " .
+			"FROM usr_data " .
+			"LEFT JOIN rbac_ua ON rbac_ua.usr_id=usr_data.usr_id " .
+			"WHERE rbac_ua.rol_id = " . $this->client->db->quote((int)$system_role_id, 'integer') . " " .
+			"AND usr_data.login=" . $this->client->db->quote($a_auth_data["username"], 'text');
 		$r = $this->client->db->query($q);
 		if(!$this->client->db->numRows($r))
 		{
@@ -780,7 +785,7 @@ class ilSetup extends PEAR
 
 		require_once 'Services/User/classes/class.ilUserPasswordManager.php';
 		$crypt_type = ilUserPasswordManager::getInstance()->getEncoderName();
-		if(ilUserPasswordManager::getInstance()->isEncodingTypeSupported($crypt_type))
+		if(strlen($add_usrfields) && ilUserPasswordManager::getInstance()->isEncodingTypeSupported($crypt_type))
 		{
 			require_once 'setup/classes/class.ilObjSetupUser.php';
 			$user = new ilObjSetupUser();

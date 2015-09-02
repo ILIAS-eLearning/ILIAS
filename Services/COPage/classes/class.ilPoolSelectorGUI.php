@@ -66,13 +66,23 @@ class ilPoolSelectorGUI extends ilRepositorySelectorExplorerGUI
 	 */
 	function isNodeVisible($a_node)
 	{
-		if(!parent::isNodeVisible($a_node))
-			return false;
+		if(parent::isNodeVisible($a_node))
+		{			
+			//hide empty container
+			if(count($this->getChildsOfNode($a_node["child"]))>0 || $this->isNodeClickable($a_node))
+			{
+				// #16523
+				if($a_node["type"] == "qpl")
+				{
+					include_once "Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
+					return ilObjQuestionPool::_lookupOnline($a_node["obj_id"]);
+				}
 
-		//hide empty container
-		if(count($this->getChildsOfNode($a_node["child"]))>0 || $this->isNodeClickable($a_node))
-			return true;
-		else
-			return false;
+				return true;
+			}
+		}
+		
+		return false;
+		
 	}
 }
