@@ -2322,8 +2322,9 @@ else
 
 		$ilGlobalCacheSettings = new ilGlobalCacheSettings();
 		$ilGlobalCacheSettings->readFromIniFile($ini);
-		$ilGlobalCacheSettings->setActive($_POST['global_cache_service_type'] > 0 ? true : false);
-		$ilGlobalCacheSettings->setService($_POST['global_cache_service_type']);
+		$service_type = $_POST['global_cache_service_type'];
+		$ilGlobalCacheSettings->setActive(($service_type >= 0) ? true : false);
+		$ilGlobalCacheSettings->setService($service_type);
 		$ilGlobalCacheSettings->resetActivatedComponents();
 		if (is_array($_POST['activate']) && count($_POST['activate']) > 0) {
 			foreach ($_POST['activate'] as $comp => $a) {
