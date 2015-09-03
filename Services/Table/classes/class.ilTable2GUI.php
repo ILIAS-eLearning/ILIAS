@@ -1187,10 +1187,10 @@ class ilTable2GUI extends ilTableGUI
 	
 	/**
 	 * Add Command button instance
-	 * 
-	 * @param ilButton $a_button
+	  
+	 * @param ilButtonBase $a_button
 	 */
-	function addCommandButtonInstance(ilButton $a_button)
+	function addCommandButtonInstance(ilButtonBase $a_button)
 	{
 		$this->buttons[] = $a_button;
 	}
@@ -2556,7 +2556,7 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 			{
 				if(!is_array($button))
 				{
-					if($button instanceof ilButton)
+					if($button instanceof ilButtonBase)
 					{	
 						$this->tpl->setVariable('BUTTON_OBJ', $button->render());	
 						

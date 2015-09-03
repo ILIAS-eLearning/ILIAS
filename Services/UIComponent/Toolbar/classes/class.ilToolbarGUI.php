@@ -253,10 +253,10 @@ class ilToolbarGUI
 
 	/**
 	 * Add button instance
-	 * 
-	 * @param ilButton $a_button
+	  
+	 * @param ilButtonBase $a_button
 	 */
-	public function addButtonInstance(ilButton $a_button)
+	public function addButtonInstance(ilButtonBase $a_button)
 	{
 		if ($a_button->isPrimary()) {
 			$this->addStickyItem($a_button);

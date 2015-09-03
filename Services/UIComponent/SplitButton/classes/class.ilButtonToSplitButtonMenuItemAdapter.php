@@ -11,14 +11,14 @@ require_once 'Services/UIComponent/SplitButton/interfaces/interface.ilSplitButto
 class ilButtonToSplitButtonMenuItemAdapter implements ilSplitButtonMenuItem 
 {
 	/**
-	 * @var ilButton
+	 * @var ilButtonBase
 	 */
 	protected $button;
 
 	/**
-	 * @param ilButton $button
+	 * @param ilButtonBase $button
 	 */
-	public function __construct(ilButton $button)
+	public function __construct(ilButtonBase $button)
 	{
 		$this->button = $button;
 	}

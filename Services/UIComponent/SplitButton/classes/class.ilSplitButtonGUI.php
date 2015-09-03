@@ -11,7 +11,7 @@ require_once "Services/UIComponent/Button/classes/class.ilButton.php";
  * @author Michael Jansen <mjansen@databay.de>
  * @ingroup ServicesUIComponent
  */
-class ilSplitButtonGUI extends ilButton
+class ilSplitButtonGUI extends ilButtonBase
 {
 	/**
 	 * @var ilLanguage
@@ -19,7 +19,7 @@ class ilSplitButtonGUI extends ilButton
 	protected $lng;
 
 	/**
-	 * @var ilButton
+	 * @var ilButtonBase
 	 */
 	protected $default_button;
 
@@ -104,7 +104,7 @@ class ilSplitButtonGUI extends ilButton
 	}
 
 	/**
-	 * @return ilButton
+	 * @return ilButtonBase
 	 */
 	public function getDefaultButton()
 	{
@@ -116,13 +116,13 @@ class ilSplitButtonGUI extends ilButton
 	 */
 	public function hasDefaultButton()
 	{
-		return ($this->default_button instanceof ilButton);
+		return ($this->default_button instanceof ilButtonBase);
 	}
 
 	/**
-	 * @param ilButton $default_button
+	 * @param ilButtonBase $default_button
 	 */
-	public function setDefaultButton(ilButton $default_button)
+	public function setDefaultButton(ilButtonBase $default_button)
 	{
 		$this->default_button = $default_button;
 	}
