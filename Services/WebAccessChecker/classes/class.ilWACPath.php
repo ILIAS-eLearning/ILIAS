@@ -72,6 +72,7 @@ class ilWACPath {
 		'm4v',
 		'mov',
 		'wmv',
+		'webm',
 	);
 	/**
 	 * @var array
