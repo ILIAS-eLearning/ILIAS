@@ -6396,6 +6396,10 @@ span.ilAlert {
   height: 22px;
   margin: 0 3px 0 0;
 }
+#ilAdvSelListTable_socialbm_actions.dropdown-menu img {
+  width: auto;
+  height: auto;
+}
 .ilAdvNoImg {
   display: inline-block;
   width: 22px;
@@ -7481,6 +7485,10 @@ div.ilSideBarContent {
   height: 0px;
   display: none;
 }
+.il_VAccordionContentDef > div,
+.il_HAccordionContentDef > div {
+  overflow: auto;
+}
 /* Modules/ScormAicc */
 table.il_ScormTable {
   color: #222;
@@ -7906,6 +7914,7 @@ blockquote.ilForumQuote {
   margin: 0 20px 10px;
   padding: 5px;
   border: 1px solid #B6B6B6;
+  font-size: 90%;
 }
 div.ilForumQuoteHead {
   font-weight: bold;
@@ -8443,6 +8452,7 @@ span.ilCalColSpan {
   width: 24px;
   height: 25px;
   float: left;
+  text-align: center;
 }
 ul.ilCalSel li img {
   margin-top: 6px;
@@ -9871,6 +9881,12 @@ div#ilContRepIntro img {
 .ilLMMenu {
   clear: both;
 }
+body.ilLMNoMenu .ilFixedTopSpacer {
+  padding-top: 0px;
+}
+body.ilLMNoMenu .ilLeftNav {
+  top: 0px;
+}
 button.ilAreaClose {
   width: 20px;
   height: 20px;
@@ -10868,7 +10884,7 @@ table.mceToolbar td {
    Google recommending 640px: https://developers.google.com/webmasters/smartphone-sites/details
    
    */
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 767px) {
   html {
     -webkit-text-size-adjust: none;
   }
