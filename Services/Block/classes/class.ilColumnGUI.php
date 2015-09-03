@@ -901,6 +901,10 @@ class ilColumnGUI
 					{
 						$nr = -10;
 					}
+					if ($type == "clsfct")		// mkunkel wants to have this on top
+					{
+						$nr = -16;
+					}
 					$side = ilBlockSetting::_lookupSide($type, $user_id);
 					if ($side === false)
 					{
