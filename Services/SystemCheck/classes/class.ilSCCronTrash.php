@@ -155,23 +155,6 @@ class ilSCCronTrash extends ilCronJob
 	}
 
 	/**
-	 * Add external settings to form
-	 * 
-	 * @param int $a_form_id
-	 * @param array $a_fields
-	 * @param bool $a_is_active
-	 */
-	public function addToExternalSettingsForm($a_form_id, array &$a_fields, $a_is_active)
-	{
-		include_once './Services/Administration/classes/class.ilSetting.php';
-		$settings = new ilSetting('sysc');
-		$a_fields[$a_form_id] = $settings->get('number',10);
-		
-	}
-
-	
-
-	/**
 	 * 
 	 */
 	public function run()
