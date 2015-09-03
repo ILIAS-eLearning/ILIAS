@@ -474,7 +474,10 @@ class ilMailFormGUI
 
 	public function showForm()
 	{
-		global $rbacsystem, $ilUser, $ilCtrl, $lng, $ilTabs;
+		/**
+		 * @var $ilToolbar ilToolbarGUI
+		 */
+		global $rbacsystem, $ilUser, $ilCtrl, $lng, $ilTabs, $ilToolbar;
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail_new.html", "Services/Mail");
 		$this->tpl->setTitle($this->lng->txt("mail"));
@@ -646,14 +649,41 @@ class ilMailFormGUI
 
 		$form_gui = new ilPropertyFormGUI();
 		$form_gui->setTitle($this->lng->txt('compose'));
-		$form_gui->setOpenTag(false);
-		$this->tpl->setVariable('FORM_ACTION', $this->ctrl->getFormAction($this, 'sendMessage'));
+		$form_gui->setId('mail_compose_form');
+		$form_gui->setName('mail_compose_form');
+		$form_gui->setFormAction($this->ctrl->getFormAction($this, 'sendMessage'));
 
-		$this->tpl->setVariable('BUTTON_TO', $lng->txt("search_recipients"));
-		$this->tpl->setVariable('BUTTON_COURSES_TO', $lng->txt("mail_my_courses"));
-		$this->tpl->setVariable('BUTTON_GROUPS_TO', $lng->txt("mail_my_groups"));
-		$this->tpl->setVariable('BUTTON_MAILING_LISTS_TO', $lng->txt("mail_my_mailing_lists"));
+		$this->tpl->setVariable('FORM_ID', $form_gui->getId());
+
+		require_once 'Services/UIComponent/Button/classes/class.ilButton.php';
+		$btn = ilButton::getInstance();
+		$btn->setButtonType(ilButton::BUTTON_TYPE_SUBMIT);
+		$btn->setForm('form_' . $form_gui->getName())
+			->setName('searchUsers')
+			->setCaption('search_recipients');
+		$ilToolbar->addStickyItem($btn);
+
+		$btn = ilButton::getInstance();
+		$btn->setButtonType(ilButton::BUTTON_TYPE_SUBMIT)
+			->setName('searchCoursesTo')
+			->setForm('form_' . $form_gui->getName())
+			->setCaption('mail_my_courses');
+		$ilToolbar->addButtonInstance($btn);
+
+		$btn = ilButton::getInstance();
+		$btn->setButtonType(ilButton::BUTTON_TYPE_SUBMIT)
+			->setName('searchGroupsTo')
+			->setForm('form_' . $form_gui->getName())
+			->setCaption('mail_my_groups');
+		$ilToolbar->addButtonInstance($btn);
 		
+		$btn = ilButton::getInstance();
+		$btn->setButtonType(ilButton::BUTTON_TYPE_SUBMIT)
+			->setName('searchMailingListsTo')
+			->setForm('form_' . $form_gui->getName())
+			->setCaption('mail_my_mailing_lists');
+		$ilToolbar->addButtonInstance($btn);
+
 		$dsDataLink = $ilCtrl->getLinkTarget($this, 'lookupRecipientAsync', '', true);
 		
 		// RECIPIENT
