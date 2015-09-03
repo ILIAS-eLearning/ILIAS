@@ -4,7 +4,7 @@
 require_once 'Services/UIComponent/SplitButton/classes/class.ilButtonToSplitButtonMenuItemAdapter.php';
 require_once 'Services/UIComponent/SplitButton/classes/class.ilSplitButtonItemDivider.php';
 require_once 'Services/UIComponent/SplitButton/exceptions/class.ilSplitButtonException.php';
-require_once "Services/UIComponent/Button/classes/class.ilButton.php";
+require_once "Services/UIComponent/Button/classes/class.ilButtonBase.php";
 
 /**
  * Class ilSplitButton
