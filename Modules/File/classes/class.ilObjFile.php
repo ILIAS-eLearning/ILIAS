@@ -55,7 +55,7 @@ class ilObjFile extends ilObject2
 	* 
 	* @param bool upload mode (if enabled no entries in file_data will be done)
 	*/
-	protected function doCreate($a_upload = false, $a_prevent_meta_data_creation = false)
+	protected function doCreate($a_upload = false)
 	{
 		//BEGIN WebDAV Move Property creation into a method of its own.
 		$this->createProperties($a_upload);
@@ -70,7 +70,7 @@ class ilObjFile extends ilObject2
 	 * This method has been put into a separate operation, to allow a WebDAV Null resource
 	 * (class.ilObjNull.php) to become a file object.
 	 */
-	function createProperties($a_upload = false, $a_prevent_meta_data_creation = false)
+	function createProperties($a_upload = false)
 	{
 		global $ilDB,$tree;
 		
@@ -106,12 +106,27 @@ class ilObjFile extends ilObject2
 		$res = $ilDB->manipulate($q);
 		
 		// no meta data handling for file list files
-		if ($this->getMode() != "filelist" && !$a_prevent_meta_data_creation)
+		if ($this->getMode() != "filelist")
 		{
 			$this->createMetaData();
 		}
 	}
 	//END WebDAV: Move Property creation into a method of its own.
+	
+	public function setNoMetaDataCreation($a_status)
+	{
+		$this->no_meta_data_creation = (bool)$a_status;
+	}
+	
+	protected function beforeCreateMetaData()
+	{
+		return !(bool)$this->no_meta_data_creation;
+	}
+	
+	protected function beforeUpdateMetaData()
+	{
+		return !(bool)$this->no_meta_data_creation;
+	}
 	
 	/**
 	* create file object meta data
