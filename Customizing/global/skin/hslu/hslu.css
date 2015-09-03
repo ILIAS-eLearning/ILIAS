@@ -10242,7 +10242,7 @@ div.il_Admin {
   padding: 10px 5px;
   font-size: 75%;
   width: 12em;
-  height: 14em;
+  /* height: 14em; */
   float: left;
   text-align: center;
   overflow: hidden;
