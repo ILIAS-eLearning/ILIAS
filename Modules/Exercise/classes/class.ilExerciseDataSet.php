@@ -144,6 +144,8 @@ class ilExerciseDataSet extends ilDataSet
 			switch ($a_version)
 			{
 				case "4.1.0":
+				case "4.4.0":
+				case "5.0.0":
 					$this->getDirectDataFromQuery("SELECT exc_data.obj_id id, title, description, ".
 						" pass_mode, pass_nr, show_submissions".
 						" FROM exc_data JOIN object_data ON (exc_data.obj_id = object_data.obj_id) ".
