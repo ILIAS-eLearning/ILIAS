@@ -31,6 +31,7 @@ abstract class ilButtonBase implements ilToolbarItem
 	const TYPE_SUBMIT = 1;
 	const TYPE_LINK = 2;
 	const TYPE_SPLIT = 3;
+	const TYPE_BUTTON = 4;
 	
 	/**
 	 * Constructor
