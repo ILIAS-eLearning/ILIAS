@@ -99,9 +99,10 @@ class ilRepositoryObjectSearchBlockGUI extends ilBlockGUI
 	{
 		global $ilCtrl, $lng, $ilAccess;
 
-		$tpl = new ilTemplate("tpl.wiki_search_block.html", true, true, "Modules/Wiki");
+		$tpl = new ilTemplate("tpl.search_search_block.html", true, true, 'Services/Search');
 
-		$tpl->setVariable("TXT_PERFORM", $lng->txt("wiki_search"));
+		$lng->loadLanguageModule('search');
+		$tpl->setVariable("TXT_PERFORM", $lng->txt('btn_search'));
 		$tpl->setVariable("FORMACTION", $ilCtrl->getFormActionByClass('ilrepositoryobjectsearchgui', 'performSearch'));
 		$tpl->setVariable("SEARCH_TERM", ilUtil::prepareFormOutput(ilUtil::stripSlashes($_POST["search_term"])));
 
