@@ -1154,19 +1154,22 @@ abstract class ilPageObject
 				if ($q_id > 0)
 				{
 					include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-					$question = assQuestion::_instanciateQuestion($q_id);
-					
-					// check if page for question exists
-					// due to a bug in early 4.2.x version this is possible
-					if (!ilPageObject::_exists("qpl", $q_id))
+					$question = assQuestion::_instantiateQuestion($q_id);
+					// check due to #16557
+					if (is_object($question))
 					{
-						$question->createPageObject();
-					}
+						// check if page for question exists
+						// due to a bug in early 4.2.x version this is possible
+						if (!ilPageObject::_exists("qpl", $q_id))
+						{
+							$question->createPageObject();
+						}
 
-					// now copy this question and change reference to
-					// new question id
-					$duplicate_id = $question->duplicate(false);
-					$res->nodeset[$i]->set_attribute("QRef", "il__qst_".$duplicate_id);
+						// now copy this question and change reference to
+						// new question id
+						$duplicate_id = $question->duplicate(false);
+						$res->nodeset[$i]->set_attribute("QRef", "il__qst_".$duplicate_id);
+					}
 				}
 			}
 		}
