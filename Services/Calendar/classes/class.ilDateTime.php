@@ -84,6 +84,19 @@ class ilDateTime
 	 	}
 	}
 	
+	public function __sleep()
+	{
+		return array('timezone', 'default_timezone', 'unix');
+	}
+	
+	public function __wakeup()
+	{
+		global $ilLog;
+		
+		$this->log = $ilLog;
+	}
+	
+	
 	/**
 	 * Check if a date is null (Datetime == '0000-00-00 00:00:00', unixtime == 0,...)
 
