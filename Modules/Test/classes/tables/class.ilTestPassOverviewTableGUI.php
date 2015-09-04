@@ -8,14 +8,7 @@ require_once 'Services/Table/classes/class.ilTable2GUI.php';
  */
 class ilTestPassOverviewTableGUI extends ilTable2GUI
 {
-	/**
-	 * 
-	 */
 	const CONTEXT_SHORT = 1;
-
-	/**
-	 * 
-	 */
 	const CONTEXT_LONG  = 2;
 
 	/**
@@ -45,6 +38,7 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
 		
 		// Don't set any limit because of print/pdf views. Furthermore, this view is part of different summary views, and no cmd ist passed to he calling method.
 		$this->setLimit(PHP_INT_MAX);
+		
 		if($this->pdf_view)
 		{
 			$this->disable('linkbar');
@@ -84,11 +78,6 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
 	 */
 	public function fillRow(array $row)
 	{
-		$old_value = ilDatePresentation::useRelativeDates();
-		ilDatePresentation::setUseRelativeDates(false);
-		$row['date'] = ilDatePresentation::formatDate(new ilDateTime($row['date'], IL_CAL_UNIX));
-		ilDatePresentation::setUseRelativeDates($old_value);
-
 		if(array_key_exists('percentage', $row))
 		{
 			$row['percentage'] = sprintf('%.2f', $row['percentage']) . '%';
@@ -98,11 +87,11 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
 		
 		if( !$this->isObjectiveOrientedPresentationEnabled() )
 		{
-			$this->tpl->setVariable('VAL_SCORED', $row['scored']);
+			$this->tpl->setVariable('VAL_SCORED', $row['scored'] ? '&otimes;' : '');
 			$this->tpl->setVariable('VAL_PASS', $row['pass']);
 		}
 		
-		$this->tpl->setVariable('VAL_DATE', $row['date']);
+		$this->tpl->setVariable('VAL_DATE', $this->formatDate($row['date']));
 
 		if( $this->isObjectiveOrientedPresentationEnabled() )
 		{
@@ -113,14 +102,18 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
 			));
 		}
 
-		$this->tpl->setVariable('VAL_ANSWERED', $row['answered']);
+		$this->tpl->setVariable('VAL_ANSWERED', $this->buildWorkedThroughQuestionsString(
+			$row['num_workedthrough_questions'], $row['num_questions_total']
+		));
 		
 		if( isset($row['hints']) )
 		{			
 			$this->tpl->setVariable('VAL_HINTS', $row['hints']);
 		}
 		
-		$this->tpl->setVariable('VAL_REACHED', $row['reached']);
+		$this->tpl->setVariable('VAL_REACHED', $this->buildReachedPointsString(
+			$row['reached_points'], $row['max_points']
+		));
 
 		$this->tpl->setVariable('VAL_PERCENTAGE', $row['percentage']);
 
@@ -184,5 +177,28 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
 	public function setObjectiveOrientedPresentationEnabled($objectiveOrientedPresentationEnabled)
 	{
 		$this->objectiveOrientedPresentationEnabled = $objectiveOrientedPresentationEnabled;
+	}
+
+	/**
+	 * @param integer $dateTS
+	 * @return string $dateFormated
+	 */
+	private function formatDate($date)
+	{
+		$oldValue = ilDatePresentation::useRelativeDates();
+		ilDatePresentation::setUseRelativeDates(false);
+		$date = ilDatePresentation::formatDate(new ilDateTime($date, IL_CAL_UNIX));
+		ilDatePresentation::setUseRelativeDates($oldValue);
+		return $date;
+	}
+	
+	private function buildWorkedThroughQuestionsString($numQuestionsWorkedThrough, $numQuestionsTotal)
+	{
+		return "{$numQuestionsWorkedThrough} {$this->lng->txt('of')} {$numQuestionsTotal}";
+	}
+	
+	private function buildReachedPointsString($reachedPoints, $maxPoints)
+	{
+		return "{$reachedPoints} {$this->lng->txt('of')} {$maxPoints}";
 	}
 }

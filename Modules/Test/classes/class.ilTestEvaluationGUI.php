@@ -875,7 +875,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		);
 		
 		$overview = $this->getPassDetailsOverview($result_array, $active_id, $pass, $this, "outParticipantsPassDetails", '', true, $objectivesList);
-		$user_data = $this->getResultsUserdata($testSession, $active_id, FALSE);
+		$user_data = $this->getAdditionalUsrDataHtmlAndPopulateWindowTitle($testSession, $active_id, FALSE);
 		$user_id = $this->object->_getUserIdFromActiveId($active_id);
 
 		$template = new ilTemplate("tpl.il_as_tst_pass_details_overview_participants.html", TRUE, TRUE, "Modules/Test");
@@ -1008,7 +1008,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$toolbar->build();
 		$template->setVariable('RESULTS_TOOLBAR', $this->ctrl->getHTML($toolbar));
 
-		$overview = $this->getPassOverview($testSession, "iltestevaluationgui", "outParticipantsPassDetails");
+		$overview = $this->getPassOverview($testSession, $this, "outParticipantsPassDetails");
 		$template->setVariable("PASS_OVERVIEW", $overview);
 
 		if( $this->isGradingMessageRequired() )
@@ -1031,7 +1031,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
 		$template->setVariable("TEXT_OVERVIEW", $testResultHeaderLabelBuilder->getPassOverviewHeaderLabel());
 
-		$user_data = $this->getResultsUserdata($testSession, $active_id);
+		$user_data = $this->getAdditionalUsrDataHtmlAndPopulateWindowTitle($testSession, $active_id);
 		$template->setVariable("USER_DATA", $user_data);
 		
 		if( !$this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired() )
@@ -1225,7 +1225,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
 		$uname = $this->object->userLookupFullName($user_id, TRUE);
-		$user_data = $this->getResultsUserdata($testSession, $active_id, TRUE);
+		$user_data = $this->getAdditionalUsrDataHtmlAndPopulateWindowTitle($testSession, $active_id, TRUE);
 		if( !$this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired() )
 		{
 			if($this->object->getAnonymity())
@@ -1306,7 +1306,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		}
 
 		$template->setCurrentBlock("pass_overview");
-		$overview = $this->getPassOverview($testSession, "iltestevaluationgui", "outUserPassDetails", FALSE, $hide_details);
+		$overview = $this->getPassOverview($testSession, $this, "outUserPassDetails", FALSE, $hide_details);
 		$template->setVariable("PASS_OVERVIEW", $overview);
 
 		require_once 'Modules/Test/classes/class.ilTestResultHeaderLabelBuilder.php';
@@ -1331,7 +1331,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$template->parseCurrentBlock();
 		}
 
-		$user_data = $this->getResultsUserdata($testSession, $active_id, TRUE);
+		$user_data = $this->getAdditionalUsrDataHtmlAndPopulateWindowTitle($testSession, $active_id, TRUE);
 
 		if( !$this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired() )
 		{
@@ -1402,7 +1402,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		}
 		else
 		{
-			$overview = $this->getPassOverview($testSession, "iltestevaluationgui", "outUserListOfAnswerPasses", TRUE);
+			$overview = $this->getPassOverview($testSession, $this, "outUserListOfAnswerPasses", TRUE);
 			$template->setVariable("TEXT_RESULTS", $this->lng->txt("tst_passes"));
 			$template->setVariable("PASS_OVERVIEW", $overview);
 		}
@@ -1454,7 +1454,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$template->setVariable("PRINT_TEXT", $this->lng->txt("print"));
 		$template->setVariable("PRINT_URL", "javascript:window.print();");
 
-		$user_data = $this->getResultsUserdata($testSession, $active_id, TRUE);
+		$user_data = $this->getAdditionalUsrDataHtmlAndPopulateWindowTitle($testSession, $active_id, TRUE);
 		$template->setVariable("USER_DATA", $user_data);
 		$template->setVariable("TEXT_LIST_OF_ANSWERS", $this->lng->txt("tst_list_of_answers"));
 		if (strlen($signature))
