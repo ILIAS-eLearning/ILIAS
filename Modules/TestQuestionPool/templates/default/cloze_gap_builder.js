@@ -243,14 +243,17 @@ var ClozeGapBuilder = (function () {
             var textBefore = text.substring(0,  ClozeGlobals.cursor_pos );
             var textAfter  = text.substring(ClozeGlobals.cursor_pos, text.length );
             pro.setTextAreaValue(textBefore + clipboard_text + textAfter);
-            pro.createNewGapCode();
+//patch-begin: splitbutton            
+            //@todo default-gaptype = 'text' ??!?
+            pro.createNewGapCode('text');
+//patch-end: splitbutton               
             pro.cleanGapCode();
             ClozeGlobals.cursor_pos = parseInt(ClozeGlobals.cursor_pos) + clipboard_text.length;
             pro.correctCursorPositionInTextarea();
         });
     };
-
-    pro.insertGapToJson = function(index, values)
+//patch-begin: splitbutton   
+    pro.insertGapToJson = function(index, values, gaptype)
     {
         var newObjects = new Array({
             answer  : '',
@@ -267,10 +270,12 @@ var ClozeGapBuilder = (function () {
                 }
             }
         }
+//patch-begin: splitbutton           
         var insert = new Object({
-            type    : 'text',
+            type    : gaptype,
             values  : newObjects
         });
+//patch-end: splitbutton
         ClozeSettings.gaps_php[0].splice(index, 0, insert);
     };
 
@@ -305,8 +310,8 @@ var ClozeGapBuilder = (function () {
         pro.setTextAreaValue(newText);
         pro.cleanGapCode();
     };
-
-    pro.createNewGapCode = function()
+//patch-begin: splitbutton
+    pro.createNewGapCode = function(gaptype)
     {
         var newText = pro.getTextAreaValue();
         var iterator = newText.match(/\[gap[\s\S\d]*?\](.*?)\[\/gap\]/g);
@@ -318,7 +323,7 @@ var ClozeGapBuilder = (function () {
                 values = values.replace(/\[\/gap\]/, '');
                 var gap_id =  parseInt(i, 10) + 1;
                 newText = newText.replace(/\[gap\]/, '[gap ' + gap_id + ']');
-                pro.insertGapToJson(last, values);
+                pro.insertGapToJson(last, values, gaptype);
             }
         }
         pro.setTextAreaValue(newText);
@@ -647,7 +652,10 @@ var ClozeGapBuilder = (function () {
             var textBefore = text.substring(0,  ClozeGlobals.cursor_pos );
             var textAfter  = text.substring(ClozeGlobals.cursor_pos, text.length );
             pro.setTextAreaValue(textBefore + clipboard_text + textAfter);
-            pro.createNewGapCode();
+//patch-begin: splitbutton
+            //@todo default gaptype ?!
+            pro.createNewGapCode('text');
+//patch-end: splitbutton            
             pro.cleanGapCode();
             pub.paintGaps();
             ClozeGlobals.cursor_pos = parseInt(ClozeGlobals.cursor_pos, 10) + clipboard_text.length;
@@ -732,6 +740,7 @@ var ClozeGapBuilder = (function () {
         }
     };
 
+    //@todo wird das noch gebraucht?!
     pro.createGapListener = function()
     {
         var selector = $('#createGaps');
@@ -1342,16 +1351,36 @@ var ClozeGapBuilder = (function () {
         pro.bindTextareaHandler();
         pub.paintGaps();
         pro.createGapListener();
-        pro.appendEventListenerToBeRefactored();        
-        var selector =  $('#gaptrigger');
-        selector.off('click');
-        selector.on('click', function (evt)
+        pro.appendEventListenerToBeRefactored();
+//patch-begin: splitbutton        
+        var selector_text =  $('#gaptrigger_text');
+        selector_text.off('click');
+        selector_text.on('click', function (evt)
         {
             //evt.preventDefault();
             $('#cloze_text').insertGapCodeAtCaret();
-            pro.createNewGapCode();
+            pro.createNewGapCode('text');
             return false;
         });
+        var selector_sel =  $('#gaptrigger_select');
+        selector_sel.off('click');
+        selector_sel.on('click', function (evt)
+        {
+            //evt.preventDefault();
+            $('#cloze_text').insertGapCodeAtCaret();
+            pro.createNewGapCode('select');
+            return false;
+        });
+        var selector_num =  $('#gaptrigger_numeric');
+        selector_num.off('click');
+        selector_num.on('click', function (evt)
+        {
+            //evt.preventDefault();
+            $('#cloze_text').insertGapCodeAtCaret();
+            pro.createNewGapCode('numeric');
+            return false;
+        });
+//patch-end: splitbutton        
     };
 
     pub.appendFormHeaderClasses = function(selector)
