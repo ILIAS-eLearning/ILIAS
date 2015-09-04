@@ -45,22 +45,23 @@ class gevBookingsByVenueGUI extends catBasicReportGUI{
 
 		$this->filter = catFilter::create()
 				->checkbox("show_past_events"
-						  , $this->lng->txt("gev_rep_filter_show_past_events")
-						  ," TRUE "
-						  ," TRUE "
-						 // , null
-						 // , "crs.end_date < '".date("Y-m-d")."'"
-						  )
+								, $this->lng->txt("gev_rep_filter_show_past_events")
+								," checked >= 0 "
+								," checked = 0 "
+								, true
+								// , null
+								// , "crs.end_date < '".date("Y-m-d")."'"
+								)
 				->dateperiod( "period"
-							, $this->lng->txt("gev_period")
-							, $this->lng->txt("gev_until")
-							, "crs.begin_date"
-							, "crs.end_date"
-							, date("Y")."-01-01"
-							, date("Y")."-12-31"
-							, false
-							" OR checked = TRUE "
-							)
+								, $this->lng->txt("gev_period")
+								, $this->lng->txt("gev_until")
+								, "crs.begin_date"
+								, "crs.end_date"
+								, date("Y")."-01-01"
+								, date("Y")."-12-31"
+								, false
+								," OR TRUE "
+								)
 				->static_condition("crs.hist_historic = 0")
 				->static_condition("crs.venue != '-empty-'")
 				->static_condition("oref.deleted IS NULL")
@@ -72,6 +73,7 @@ class gevBookingsByVenueGUI extends catBasicReportGUI{
 		$this->checked_filter = $this->filter->get("show_past_events");
 
 		$this->crs_begin_filter = $this->filter->get("period")["start"]->get(IL_CAL_DATE);
+		$this->crs_end_filter = $this->filter->get("period")["end"]->get(IL_CAL_DATE);
 
 		$this->title = catTitleGUI::create()
 						->title("gev_rep_bookings_by_venue_title")
@@ -105,13 +107,12 @@ class gevBookingsByVenueGUI extends catBasicReportGUI{
 						->select("begin_date")
 						->select("end_date")
 						->select("venue");
-		if($this->checked_filter) {
-			$this->query->select_raw(" IF(begin_date < ".$this->db->quote($this->crs_begin_filter,"date").","
-											."TRUE, FALSE) as checked ");
-		} else {
-			$this->query->select_raw(" FALSE as checked ");
-		}
-		$this->query	->from("hist_course crs")
+						->select_raw(
+							" IF(begin_date < ".$this->db->quote($this->crs_end_filter,"date")
+							."      AND end_date > ".$this->db->quote($this->crs_begin_filter,"date")
+							."      ,0,IF(begin_date <".$this->db->quote($this->crs_begin_filter,"date").",1,-1))"
+							." as checked ")
+						->from("hist_course crs")
 						->join("object_reference oref")
 							->on("oref.obj_id = crs.crs_id")
 						->join("crs_settings cs")
