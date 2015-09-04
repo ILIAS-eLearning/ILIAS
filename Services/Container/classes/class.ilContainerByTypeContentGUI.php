@@ -143,7 +143,7 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
 				{
 					$item_ref_id = $item_data["child"];
 					
-					if(!$this->renderer->hasItem($item_ref_id))
+					if(!$this->renderer->hasItem($type, $item_ref_id))
 					{						
 						$html = $this->renderItem($item_data, $position++);
 						if ($html != "")

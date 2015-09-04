@@ -433,7 +433,7 @@ abstract class ilContainerContentGUI
 
 					foreach($this->items[$type] as $k => $item_data)
 					{
-						if(!$this->renderer->hasItem($item_data["child"]))
+						if(!$this->renderer->hasItem($type, $item_data["child"]))
 						{
 							$html = $this->renderItem($item_data, $position++);
 							if ($html != "")
