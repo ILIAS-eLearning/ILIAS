@@ -74,8 +74,8 @@ $LERNART = array(
 		'Blended Learning' => 'Virtuelles Training',
 		'gesteuertes E-Learning' => 'Virtuelles Training',
 		'Virtuelle Sitzung' => 'Virtuelles Training',
-		'Virtuelles Training' => 'Virtuelles Training'
-		'Präsenztraining' => 'Präsenztraining'
+		'Virtuelles Training' => 'Virtuelles Training',
+		'Präsenztraining' => 'Präsenztraining',
 
 		'Einzeltraining' => 'Präsenztraining',
 		'Präsenz-Veranstaltung' => 'Präsenztraining',
