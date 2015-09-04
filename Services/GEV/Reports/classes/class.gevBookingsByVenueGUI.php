@@ -106,7 +106,7 @@ class gevBookingsByVenueGUI extends catBasicReportGUI{
 						->select("tutor")
 						->select("begin_date")
 						->select("end_date")
-						->select("venue");
+						->select("venue")
 						->select_raw(
 							" IF(begin_date < ".$this->db->quote($this->crs_end_filter,"date")
 							."      AND end_date > ".$this->db->quote($this->crs_begin_filter,"date")
