@@ -719,7 +719,6 @@ class ilFileDelivery {
 		if ($ob_get_contents) {
 			ilWACLog::getInstance()->write(__CLASS__ . ' had output before file delivery: ' . $ob_get_contents);
 		}
-		flush();
 		ob_end_clean(); // fixed 0016469, 0016467, 0016468
 	}
 }
