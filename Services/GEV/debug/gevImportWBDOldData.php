@@ -74,6 +74,8 @@ $LERNART = array(
 		'Blended Learning' => 'Virtuelles Training',
 		'gesteuertes E-Learning' => 'Virtuelles Training',
 		'Virtuelle Sitzung' => 'Virtuelles Training',
+		'Virtuelles Training' => 'Virtuelles Training'
+		'Präsenztraining' => 'Präsenztraining'
 
 		'Einzeltraining' => 'Präsenztraining',
 		'Präsenz-Veranstaltung' => 'Präsenztraining',
@@ -82,7 +84,8 @@ $LERNART = array(
 		'Spezialistenschulung Präsenztraining' => 'Präsenztraining',
 
 		'Onlinetraining' => 'Selbstlernkurs',
-		'selbstgesteuertes E-Learning' => 'Selbstlernkurs'
+		'selbstgesteuertes E-Learning' => 'Selbstlernkurs',
+		'Webinar' => 'Webinar'
 	);
 
 
