@@ -31,6 +31,8 @@ class ilContainerRenderer
 	protected $block_pos = array(); // [array]
 	protected $block_custom_pos = array(); // [array]
 	protected $order_cnt = 0; // [int]
+	
+	const UNIQUE_SEPARATOR = "-";
 		
 	/**
 	 * Constructor
@@ -156,7 +158,7 @@ class ilContainerRenderer
 	{
 		foreach(array_keys($this->items) as $item_id)
 		{
-			if(array_pop(explode("_", $item_id)) == $a_id)
+			if(array_pop(explode(self::UNIQUE_SEPARATOR, $item_id)) == $a_id)
 			{
 				unset($this->items[$item_id]);
 			}
@@ -166,7 +168,7 @@ class ilContainerRenderer
 		{
 			foreach($items as $idx => $item_id)
 			{
-				if(array_pop(explode("_", $item_id)) == $a_id)
+				if(array_pop(explode(self::UNIQUE_SEPARATOR, $item_id)) == $a_id)
 				{
 					unset($this->block_items[$block_id][$idx]);
 					if(!sizeof($this->block_items[$block_id]))
@@ -182,16 +184,19 @@ class ilContainerRenderer
 	/**
 	 * Item with id exists?
 	 * 
-	 * @param mixed $a_block_id
-	 * @param mixed $a_item_id
+	 * @param mixed $a_id
 	 * @return bool
 	 */
-	public function hasItem($a_block_id, $a_item_id)
-	{		
-		$uniq_id = $a_block_id."-".$a_item_id;		
-		
-		return (array_key_exists($uniq_id, $this->items) || 
-			in_array($a_item_id, $this->hidden_items));
+	public function hasItem($a_id)
+	{				
+		foreach(array_keys($this->items) as $item_id)
+		{
+			if(array_pop(explode(self::UNIQUE_SEPARATOR, $item_id)) == $a_id)
+			{
+				return true;
+			}
+		}		
+		return in_array($a_id, $this->hidden_items);
 	}
 	
 	/**
@@ -208,11 +213,11 @@ class ilContainerRenderer
 	{		
 		if($this->isValidBlock($a_block_id) &&
 			$a_item_type != "itgr" &&
-			(!$this->hasItem($a_block_id, $a_item_id) || $a_force) &&
+			(!$this->hasItem($a_item_id) || $a_force) &&
 			trim($a_item_html))
 		{			
 			// #16563 - item_id (== ref_id) is NOT unique, adding parent block id
-			$uniq_id = $a_block_id."-".$a_item_id;			
+			$uniq_id = $a_block_id.self::UNIQUE_SEPARATOR.$a_item_id;			
 		
 			$this->items[$uniq_id] = array(
 				"type" => $a_item_type

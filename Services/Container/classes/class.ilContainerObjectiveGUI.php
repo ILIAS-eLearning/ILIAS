@@ -445,22 +445,6 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 		{								
 			$this->objective_map = $this->buildObjectiveMap();			
 			
-			switch($a_mode)
-			{
-				case self::MATERIALS_TESTS:
-					$block_id = "tst";						
-					break;
-
-				case self::MATERIALS_OTHER:
-					$block_id = "oth";				
-					break;
-
-				// manage
-				default:
-					$block_id = "all";				
-					break;
-			}				
-			
 			// all rows
 			$item_r = array();
 			
@@ -488,7 +472,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 				}
 				
 				if($this->rendered_items[$item_data["child"]] !== true &&
-					!$this->renderer->hasItem($block_id, $item_data["child"]))
+					!$this->renderer->hasItem($item_data["child"]))
 				{
 					$this->rendered_items[$item_data['child']] = true;
 					
@@ -511,15 +495,18 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 					switch($a_mode)
 					{
 						case self::MATERIALS_TESTS:
+							$block_id = "tst";				
 							$this->renderer->addTypeBlock($block_id);						
 							break;
 
 						case self::MATERIALS_OTHER:
+							$block_id = "oth";
 							$this->renderer->addCustomBlock($block_id, $lng->txt('crs_other_resources'));					
 							break;
 						
 						// manage
 						default:
+							$block_id = "all";		
 							$this->renderer->addCustomBlock($block_id, $lng->txt('content'));					
 							break;
 					}				
@@ -532,7 +519,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 				
 					foreach($item_r as $h)
 					{
-						if(!$this->renderer->hasItem($block_id, $h["id"]))
+						if(!$this->renderer->hasItem($h["id"]))
 						{					
 							$this->renderer->addItemToBlock($block_id, $h["type"], $h["id"], $h["html"]);		
 						}
