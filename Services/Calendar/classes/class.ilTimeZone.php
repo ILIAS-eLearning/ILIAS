@@ -88,6 +88,18 @@ class ilTimeZone
 		}
 	}
 	
+	public function __sleep()
+	{
+		return array('timezone');
+	}
+	
+	public function __wakeup()
+	{
+		global $ilLog;
+		
+		$this->log = $ilLog;
+	}
+	
 	/**
 	 * get identifier
 	 *

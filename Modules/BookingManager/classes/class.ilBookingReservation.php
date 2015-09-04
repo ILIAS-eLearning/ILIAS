@@ -660,7 +660,8 @@ class ilBookingReservation
 					$res[$idx]["week"] = date("W",  $row["date_from"]);				
 					$res[$idx]["weekday"] = date("w",  $row["date_from"]);				
 					$res[$idx]["can_be_cancelled"] = ($row["status"] != self::STATUS_CANCELLED &&
-						$row["date_from"] > time());					
+						$row["date_from"] > time());	
+					$res[$idx]["_sortdate"] = $row["date_from"]; 
 				}
 				else
 				{

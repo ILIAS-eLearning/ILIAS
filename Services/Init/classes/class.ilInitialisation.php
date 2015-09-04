@@ -325,6 +325,7 @@ class ilInitialisation
 		define ("DEBUG",$ilClientIniFile->readVariable("system","DEBUG"));
 		define ("DEVMODE",$ilClientIniFile->readVariable("system","DEVMODE"));
 		define ("SHOWNOTICES",$ilClientIniFile->readVariable("system","SHOWNOTICES"));
+		define ("DEBUGTOOLS",$ilClientIniFile->readVariable("system","DEBUGTOOLS"));
 		define ("ROOT_FOLDER_ID",$ilClientIniFile->readVariable('system','ROOT_FOLDER_ID'));
 		define ("SYSTEM_FOLDER_ID",$ilClientIniFile->readVariable('system','SYSTEM_FOLDER_ID'));
 		define ("ROLE_FOLDER_ID",$ilClientIniFile->readVariable('system','ROLE_FOLDER_ID'));
@@ -842,7 +843,7 @@ class ilInitialisation
 			error_reporting(E_ALL);
 		}
 		
-		if(defined(DEBUGTOOLS) && DEBUGTOOLS)
+		if(defined('DEBUGTOOLS') && DEBUGTOOLS)
 		{
 			include_once "include/inc.debug.php";
 		}

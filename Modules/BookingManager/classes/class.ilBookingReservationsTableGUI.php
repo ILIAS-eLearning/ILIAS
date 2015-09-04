@@ -395,6 +395,19 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 		
 		$this->setData($data);
 	}
+	
+	public function getOrderField()
+	{
+		$field = parent::getOrderField();
+		
+		// #16560 - this will enable matchting slot sorting to date/week
+		if(in_array($field, array("date", "week")))
+		{
+			$field = "_sortdate";
+		}
+		
+		return $field;
+	}
 
 	/**
 	 * Fill table row
