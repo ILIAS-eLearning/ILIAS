@@ -895,6 +895,7 @@ class ilMimeTypeUtil {
 			self::VIDEO__X_MPEQ2A,
 		),
 		'mp3' => array(
+			self::AUDIO__MPEG,
 			self::AUDIO__MPEG3,
 			self::AUDIO__X_MPEG_3,
 			self::VIDEO__MPEG,
