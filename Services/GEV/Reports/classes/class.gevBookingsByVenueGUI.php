@@ -64,7 +64,7 @@ class gevBookingsByVenueGUI extends catBasicReportGUI{
 								)
 				->static_condition("crs.hist_historic = 0")
 				->static_condition("crs.venue != '-empty-'")
-				->static_condition("crs.venue IS NOT LIKE 'Online'")
+				->static_condition("crs.venue NOT LIKE 'Online%'")
 				->static_condition("oref.deleted IS NULL")
 				->static_condition("cs.activation_type = 1")
 				->static_condition($this->db->in("venue", $venue_names, false, "text"))
