@@ -99,7 +99,7 @@ class ilContainerSimpleContentGUI extends ilContainerContentGUI
 			$position = 1;			
 			foreach($this->items["_all"] as $k => $item_data)
 			{
-				if (!$this->renderer->hasItem("_all", $item_data["child"]))
+				if (!$this->renderer->hasItem($item_data["child"]))
 				{					
 					$html = $this->renderItem($item_data, $position++, true);
 					if ($html != "")

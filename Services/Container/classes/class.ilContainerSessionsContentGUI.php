@@ -149,7 +149,7 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
 			
 			foreach($this->items["sess"] as $item_data)
 			{											
-				if (!$this->renderer->hasItem("sess", $item_data["child"]))
+				if (!$this->renderer->hasItem($item_data["child"]))
 				{	
 					$html = $this->renderItem($item_data, $position++, true);
 					if ($html != "")
@@ -177,7 +177,7 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
 					continue;
 				}
 				
-				if (!$this->renderer->hasItem("_all", $item_data["child"]))
+				if (!$this->renderer->hasItem($item_data["child"]))
 				{					
 					$html = $this->renderItem($item_data, $position++, true);
 					if ($html != "")
