@@ -430,21 +430,18 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 		$sb_text_gap->setCaption('text_gap');
 		$sb_text_gap->setName('gapbutton');
 		$sb_text_gap->setId('gaptrigger_text');
-		$sb_text_gap->setOnClick('insertGapCodeAtCaret');
 		$action_button->setDefaultButton($sb_text_gap);
 
 		$sb_sel_gap = ilJsLinkButton::getInstance();
 		$sb_sel_gap->setCaption('select_gap');
 		$sb_sel_gap->setName('gapbutton_select');
 		$sb_sel_gap->setId('gaptrigger_select');
-		$sb_text_gap->setOnClick('insertGapCodeAtCaret');
 		$action_button->addMenuItem(new ilButtonToSplitButtonMenuItemAdapter($sb_sel_gap));
 
 		$sb_num_gap = ilJsLinkButton::getInstance();
 		$sb_num_gap->setCaption('numeric_gap');
 		$sb_num_gap->setName('gapbutton_numeric');
 		$sb_num_gap->setId('gaptrigger_numeric');
-		$sb_text_gap->setOnClick('insertGapCodeAtCaret');
 		$action_button->addMenuItem(new ilButtonToSplitButtonMenuItemAdapter($sb_num_gap));
 
 		$tpl->setVariable('BUTTON', $action_button->render());
