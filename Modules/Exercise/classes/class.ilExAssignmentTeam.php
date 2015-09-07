@@ -256,15 +256,19 @@ class ilExAssignmentTeam
 	public static function writeTeamLog($a_team_id, $a_action, $a_details = null)
 	{
 		global $ilDB, $ilUser;
-		
+		//BEGIN Patch primary keys
+		$id = $ilDB->nextId('il_exc_team_log');
+
 		$fields = array(
+			"log_id" => array("integer", $id),
 			"team_id" => array("integer", $a_team_id),
 			"user_id" => array("integer", $ilUser->getId()),
 			"action" => array("integer", $a_action),
 			"details" => array("text", $a_details),
 			"tstamp" => array("integer", time())
 		);
-		
+		//END Patch primary keys
+
 		$ilDB->insert("il_exc_team_log", $fields);
 	}
 	
