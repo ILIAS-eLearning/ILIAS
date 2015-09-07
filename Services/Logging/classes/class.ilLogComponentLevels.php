@@ -47,11 +47,23 @@ class ilLogComponentLevels
 	{
 		global $ilDB;
 		
-		$ilDB->replace(
-				'log_components',
-				array('component_id' => array('text',$a_component_id)),
-				array('component_id' => array('text',$a_component_id))
-		);
+		if(!$a_component_id)
+		{
+			return FALSE;
+		}
+		
+		$query = 'SELECT * FORM log_components '.
+				'WHERE component_id = '.$ilDB->quote($a_component_id,'text');
+		$res = $ilDB->query($query);
+		if(!$res->numRows())
+		{
+			$query = 'INSERT INTO log_components (component_id) '.
+					'VALUES ('.
+					$ilDB->quote($a_component_id,'text').
+					')';
+			$ilDB->manipulate($query);
+		}
+		return TRUE;
 	}
 	
 	/**
