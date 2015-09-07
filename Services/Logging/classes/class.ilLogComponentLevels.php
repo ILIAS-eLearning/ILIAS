@@ -52,7 +52,7 @@ class ilLogComponentLevels
 			return FALSE;
 		}
 		
-		$query = 'SELECT * FORM log_components '.
+		$query = 'SELECT * FROM log_components '.
 				'WHERE component_id = '.$ilDB->quote($a_component_id,'text');
 		$res = $ilDB->query($query);
 		if(!$res->numRows())
