@@ -43,7 +43,7 @@ class gevWBDSuccessWPStorno extends WBDSuccess {
 
 	/**
 	* @throws LogicException
-	* @return user_id
+	* @return integer
 	*/
 	public function rowId() {
 		return $this->row_id;
@@ -58,7 +58,7 @@ class gevWBDSuccessWPStorno extends WBDSuccess {
 	*/
 	public function internalAgentId() {
 		if($this->internal_agent_id === null) {
-			throw new LogicException("gevWBDSuccessWPMeldung::internalAgentId:internal_agent_id is NULL");
+			throw new LogicException("gevWBDSuccessWPStorno::internalAgentId:internal_agent_id is NULL");
 		}
 
 		return $this->internal_agent_id;
@@ -73,7 +73,7 @@ class gevWBDSuccessWPStorno extends WBDSuccess {
 	*/
 	public function agentId() {
 		if($this->agent_id === null) {
-			throw new LogicException("gevWBDSuccessWPMeldung::AgentId:agent_id is NULL");
+			throw new LogicException("gevWBDSuccessWPStorno::AgentId:agent_id is NULL");
 		}
 
 		return $this->agent_id;
@@ -84,11 +84,11 @@ class gevWBDSuccessWPStorno extends WBDSuccess {
 	*
 	* @throws LogicException
 	* 
-	*@return ilDate
+	*@return string
 	*/
 	public function wbdBookingId() {
 		if($this->wbd_booking_id === null) {
-			throw new LogicException("gevWBDSuccessWPMeldung::wbdBookingId:wbd_booking_id is NULL");
+			throw new LogicException("gevWBDSuccessWPStorno::wbdBookingId:wbd_booking_id is NULL");
 		}
 
 		return $this->wbd_booking_id;
@@ -103,7 +103,7 @@ class gevWBDSuccessWPStorno extends WBDSuccess {
 	*/
 	public function beginOfCertificationPeriod() {
 		if($this->begin_of_certification_period === null) {
-			throw new LogicException("gevWBDSuccessWPMeldung::beginOfCertificationPeriod:begin_of_certification_period is NULL");
+			throw new LogicException("gevWBDSuccessWPStorno::beginOfCertificationPeriod:begin_of_certification_period is NULL");
 		}
 		
 		return $this->begin_of_certification_period;

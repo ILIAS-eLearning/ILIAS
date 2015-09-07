@@ -18,6 +18,7 @@ class gevWBDDictionary implements Dictionary {
 	const SEARCH_IN_WBD_TYPE = "wbd_type";
 	const SERACH_IN_AGENT_STATUS = "agent_status";
 	const SERACH_IN_ADDRESS_TYPE = "address_type";
+	const SEARCH_IN_CERTIFICATION_PERIOD = "certification_period";
 
 	static $mappings = array("toWBDName" 		=> array("gender" => array("m" => "001"
 																	,"f" => "002"
@@ -74,6 +75,11 @@ class gevWBDDictionary implements Dictionary {
 																	,"geschäftlich" => "002"
 																	,"sonstiges" => "010"
 															)
+														,"certification_period" => array(
+																	"Selektiert nicht stornierte Weiterbildungsmaßnahmen aus der aktuelle Zertifizierungsperiode." => "001"
+																	,"Selektiert alle nicht stornierte Weiterbildungsmaßnahmen." => "002"
+																	,"Selektiert alle Weiterbildungsmaßnahmen." => "003"
+															)
 								),
 							  "toInternalName" 	=> array("gender" => array("001" => "m"
 																	,"002" => "f"
@@ -105,6 +111,11 @@ class gevWBDDictionary implements Dictionary {
 														,"address_type" => array("001" => "privat"
 																	,"002" => "geschäftlich"
 																	,"010" => "sonstige"
+															)
+														,"certification_period" => array(
+																	"001" => "Selektiert nicht stornierte Weiterbildungsmaßnahmen aus der aktuelle Zertifizierungsperiode."
+																	,"002" => "Selektiert alle nicht stornierte Weiterbildungsmaßnahmen."
+																	,"003" => "Selektiert alle Weiterbildungsmaßnahmen."
 															)
 								)
 							);

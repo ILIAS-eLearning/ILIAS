@@ -47,7 +47,7 @@ class gevWBDSuccessWPMeldung extends WBDSuccess {
 
 	/**
 	* @throws LogicException
-	* @return user_id
+	* @return integer
 	*/
 	public function rowId() {
 		return $this->row_id;
@@ -88,7 +88,7 @@ class gevWBDSuccessWPMeldung extends WBDSuccess {
 	*
 	* @throws LogicException
 	* 
-	*@return ilDate
+	*@return string
 	*/
 	public function wbdBookingId() {
 		if($this->wbd_booking_id === null) {

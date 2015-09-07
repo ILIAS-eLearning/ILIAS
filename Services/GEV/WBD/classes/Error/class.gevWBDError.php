@@ -28,6 +28,7 @@ class gevWBDError extends WBDError{
 			,'affiliate_user'
 			,'cp_report'
 			,'cp_storno'
+			,'cp_request'
 			);
 
 	public function __construct($errMessage, $service, $usr_id, $row_id, $crs_id = 0) {
