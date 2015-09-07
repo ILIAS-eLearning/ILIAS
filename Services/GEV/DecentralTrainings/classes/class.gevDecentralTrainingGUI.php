@@ -701,6 +701,7 @@ class gevDecentralTrainingGUI {
 		require_once("Services/Form/classes/class.ilFormSectionHeaderGUI.php");
 		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 		
 		$dec_utils = gevDecentralTrainingUtils::getInstance();
 		
@@ -722,6 +723,13 @@ class gevDecentralTrainingGUI {
 				$training_info["invitation_preview"] = gevCourseUtils::getInstance($a_template_id)->getInvitationMailPreview();
 				$training_info["credit_points"] = gevCourseUtils::getInstance($a_template_id)->getCreditPoints();
 				$no_changes_allowed = false;
+
+				foreach ($trainder_id as $key => $value) {
+					$usr_utils = gevUserUtils::getInstance($value);
+					$org = $usr_utils->getOrgUnitsWhereUserIsEmployee();
+
+					$training_info["orgu_id"] = $org;
+				}
 				
 				$tmplt_id = new ilHiddenInputGUI("template_id");
 				$tmplt_id->setValue($a_template_id);
@@ -848,15 +856,19 @@ class gevDecentralTrainingGUI {
 			$form->addItem($venue);
 
 			$venue_free_text = new ilTextInputGUI($this->lng->txt("gev_venue_free_text"), "venue_free_text");
+			$venue_free_text->setInfo($this->lng->txt("gev_dec_training_venue_free_text_info"));
 			if ($training_info["venue_free_text"] && $a_fill) {
 				$venue_free_text->setValue($training_info["venue_free_text"]);
 			}
 			$form->addItem($venue_free_text);
 		}
 		require_once("Services/TEP/classes/class.ilTEP.php");
-		$org_info = ilTEP::getPossibleOrgUnitsForTEPEntriesSeparated();
+		/*$org_info = ilTEP::getPossibleOrgUnitsForTEPEntriesSeparated();
 		require_once "Services/TEP/classes/class.ilTEPOrgUnitSelectionInputGUI.php";
-		$orgu_selection = new ilTEPOrgUnitSelectionInputGUI($org_info, "orgu_id", false, false);
+		$orgu_selection = new ilTEPOrgUnitSelectionInputGUI($org_info, "orgu_id", false, false);*/
+		$org_info = ilTEP::getPossibleOrgUnitsForDecentralTrainingEntriesSeparated();
+		require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingOrgUnitSelectionInputGUI.php");
+		$orgu_selection = new gevDecentralTrainingOrgUnitSelectionInputGUI($org_info, "orgu_id", false, false);
 		if ($a_fill) {
 			$orgu_selection->setValue($training_info["orgu_id"]);
 		}
@@ -1095,15 +1107,20 @@ class gevDecentralTrainingGUI {
 			$form->addItem($venue);
 
 			$venue_free_text = new ilTextInputGUI($this->lng->txt("gev_venue_free_text"), "venue_free_text");
+			$venue_free_text->setInfo($this->lng->txt("gev_dec_training_venue_free_text_info"));
 			if ($training_info["venue_free_text"] && $a_fill) {
 				$venue_free_text->setValue($training_info["venue_free_text"]);
 			}
 			$form->addItem($venue_free_text);
 		}
 		require_once("Services/TEP/classes/class.ilTEP.php");
-		$org_info = ilTEP::getPossibleOrgUnitsForTEPEntriesSeparated();
+		
+		/*$org_info = ilTEP::getPossibleOrgUnitsForTEPEntriesSeparated();
 		require_once "Services/TEP/classes/class.ilTEPOrgUnitSelectionInputGUI.php";
-		$orgu_selection = new ilTEPOrgUnitSelectionInputGUI($org_info, "orgu_id", false, false);
+		$orgu_selection = new ilTEPOrgUnitSelectionInputGUI($org_info, "orgu_id", false, false);*/
+		$org_info = ilTEP::getPossibleOrgUnitsForDecentralTrainingEntriesSeparated();
+		require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingOrgUnitSelectionInputGUI.php");
+		$orgu_selection = new gevDecentralTrainingOrgUnitSelectionInputGUI($org_info, "orgu_id", false, false);
 		if ($a_fill) {
 			$orgu_selection->setValue($training_info["orgu_id"]);
 		}
@@ -1193,6 +1210,8 @@ class gevDecentralTrainingGUI {
 
 		if($training_info["target_groups"] && $a_fill){
 			$cbx_group_target_groups->setValue($training_info["target_groups"]);
+		} else {
+			$cbx_group_target_groups->setValue(array("Unabhängige Vertriebspartner"));
 		}
 		$form->addItem($cbx_group_target_groups);
 
