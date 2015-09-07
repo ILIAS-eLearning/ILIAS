@@ -1577,6 +1577,7 @@ print 	' idsByMatr:'.print_r($idsByMatriculation,true)."\n".
 
 		$rolf = $rbacreview->getFoldersAssignedToRole($roleId,true);
 
+		define("ILIAS_HTTP_PATH","../..");
 		if ($tree->isInTree($rolf[0]))
 		{
 			// Create path. Paths which have more than 4 segments
