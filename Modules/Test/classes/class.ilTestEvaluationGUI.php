@@ -1008,8 +1008,13 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$toolbar->build();
 		$template->setVariable('RESULTS_TOOLBAR', $this->ctrl->getHTML($toolbar));
 
-		$overview = $this->getPassOverview($testSession, $this, "outParticipantsPassDetails");
-		$template->setVariable("PASS_OVERVIEW", $overview);
+		$passOverViewTableGUI = $this->buildPassOverviewTableGUI($this);
+		$passOverViewTableGUI->setActiveId($testSession->getActiveId());
+		$passOverViewTableGUI->setResultPresentationEnabled(true);
+		$passOverViewTableGUI->setPassDetailsCommand('outParticipantsPassDetails');
+		$passOverViewTableGUI->init();
+		$passOverViewTableGUI->setData($this->getPassOverviewTableData($testSession, true));
+		$template->setVariable("PASS_OVERVIEW", $passOverViewTableGUI->getHTML());
 
 		if( $this->isGradingMessageRequired() )
 		{
@@ -1298,16 +1303,25 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		
 		$templatehead->setVariable('RESULTS_TOOLBAR', $this->ctrl->getHTML($toolbar));
 
-		$hide_details = !$this->object->getShowPassDetails();
-		if ($hide_details)
+		$passDetailsEnabled = $this->object->getShowPassDetails();
+		if (!$passDetailsEnabled)
 		{
 			$executable = $this->object->isExecutable($testSession, $ilUser->getId());
-			if (!$executable["executable"]) $hide_details = FALSE;
+			if (!$executable["executable"]) $passDetailsEnabled = true;
 		}
 
 		$template->setCurrentBlock("pass_overview");
-		$overview = $this->getPassOverview($testSession, $this, "outUserPassDetails", FALSE, $hide_details);
-		$template->setVariable("PASS_OVERVIEW", $overview);
+		
+		$passOverViewTableGUI = $this->buildPassOverviewTableGUI($this);
+		$passOverViewTableGUI->setActiveId($testSession->getActiveId());
+		$passOverViewTableGUI->setResultPresentationEnabled(true);
+		if($passDetailsEnabled)
+		{
+			$passOverViewTableGUI->setPassDetailsCommand('outUserPassDetails');
+		}
+		$passOverViewTableGUI->init();
+		$passOverViewTableGUI->setData($this->getPassOverviewTableData($testSession, true));
+		$template->setVariable("PASS_OVERVIEW", $passOverViewTableGUI->getHTML());
 
 		require_once 'Modules/Test/classes/class.ilTestResultHeaderLabelBuilder.php';
 		$testResultHeaderLabelBuilder = new ilTestResultHeaderLabelBuilder($this->lng, $ilObjDataCache);
@@ -1402,9 +1416,15 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		}
 		else
 		{
-			$overview = $this->getPassOverview($testSession, $this, "outUserListOfAnswerPasses", TRUE);
 			$template->setVariable("TEXT_RESULTS", $this->lng->txt("tst_passes"));
-			$template->setVariable("PASS_OVERVIEW", $overview);
+			
+			$passOverViewTableGUI = $this->buildPassOverviewTableGUI($this);
+			$passOverViewTableGUI->setActiveId($testSession->getActiveId());
+			$passOverViewTableGUI->setResultPresentationEnabled(false);
+			$passOverViewTableGUI->setPassDetailsCommand('outUserListOfAnswerPasses');
+			$passOverViewTableGUI->init();
+			$passOverViewTableGUI->setData($this->getPassOverviewTableData($testSession, false));
+			$template->setVariable("PASS_OVERVIEW", $passOverViewTableGUI->getHTML());
 		}
 
 		$signature = "";
