@@ -4132,3 +4132,30 @@ if(!$ilDB->tableColumnExists('hist_usercoursestatus', 'gev_id')) {
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+
+<#154>
+<?php
+if(!$ilDB->tableColumnExists('dct_building_block', 'gdv_topic')) {
+	$ilDB->addTableColumn('dct_building_block','gdv_topic', array(
+		'type' => 'text',
+		'length' => 100,
+		'notnull' => true,
+	));
+}
+
+if(!$ilDB->tableColumnExists('dct_building_block', 'training_categories')) {
+	$ilDB->addTableColumn('dct_building_block','training_categories', array(
+		'type' => 'text',
+		'length' => 4000,
+		'notnull' => true,
+	));
+}
+
+if($ilDB->tableColumnExists('dct_crs_building_block', 'method')) {
+	$ilDB->dropTableColumn('dct_crs_building_block','method');
+}
+
+if($ilDB->tableColumnExists('dct_crs_building_block', 'media')) {
+	$ilDB->dropTableColumn('dct_crs_building_block','media');
+}
+?>
