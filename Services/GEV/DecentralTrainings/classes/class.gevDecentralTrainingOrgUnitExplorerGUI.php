@@ -1,5 +1,6 @@
 <?php
 require_once("Services/TEP/classes/class.ilTEPOrgUnitExplorerGUI.php");
+require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 class gevDecentralTrainingOrgUnitExplorerGUI extends ilTEPOrgUnitExplorerGUI {
 
 	/**
@@ -23,7 +24,15 @@ class gevDecentralTrainingOrgUnitExplorerGUI extends ilTEPOrgUnitExplorerGUI {
 			$units = $org_unit_utils->getOrgUnitsOneTreeLevelBelowWithTitle();
 
 			if($a_parent_node_id == gevOrgUnitUtils::getUVGOrgUnitRefId()) {
+				$gev_settings = gevSettings::getInstance();
+				$uvg_template_node = $gev_settings->getDBVPOUTemplateUnitId();
+
 				foreach ($units as $key => $value) {
+					if($value["obj_id"] == $uvg_template_node) {
+						unset($units[$key]);
+						continue;
+					}
+
 					$viewable["view"][$key] = $value;
 				}
 			} else {

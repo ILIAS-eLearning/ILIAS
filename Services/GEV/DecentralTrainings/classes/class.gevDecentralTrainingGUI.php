@@ -702,6 +702,9 @@ class gevDecentralTrainingGUI {
 		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevUVGOrgUnits.php");
+		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php");
 		
 		$dec_utils = gevDecentralTrainingUtils::getInstance();
 		
@@ -724,11 +727,14 @@ class gevDecentralTrainingGUI {
 				$training_info["credit_points"] = gevCourseUtils::getInstance($a_template_id)->getCreditPoints();
 				$no_changes_allowed = false;
 
-				foreach ($trainder_id as $key => $value) {
-					$usr_utils = gevUserUtils::getInstance($value);
-					$org = $usr_utils->getOrgUnitsWhereUserIsEmployee();
+				$usr_utils = gevUserUtils::getInstance($this->current_user->getId());
 
-					$training_info["orgu_id"] = $org;
+				if($usr_utils->isUVGDBV()) {
+					$uvg_org_units = gevUVGOrgUnits::getInstance();
+					$pers_org_unit = $uvg_org_units->getOrgUnitIdOf($this->current_user->getId());
+					$tree = ilObjOrgUnitTree::_getInstance();
+					$above_ref_id = $tree->getParent(gevObjectUtils::getRefId($pers_org_unit));
+					$training_info["orgu_id"] = array($above_ref_id);
 				}
 				
 				$tmplt_id = new ilHiddenInputGUI("template_id");
