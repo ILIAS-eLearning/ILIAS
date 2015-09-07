@@ -2,19 +2,22 @@
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Table/classes/class.ilTable2GUI.php';
+require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
 
 /**
  * Class ilTestPassOverviewTableGUI
  */
 class ilTestPassOverviewTableGUI extends ilTable2GUI
 {
-	const CONTEXT_SHORT = 1;
-	const CONTEXT_LONG  = 2;
-
 	/**
 	 * @var bool
 	 */
-	protected $pdf_view = false;
+	protected $resultPresentationEnabled = false;
+	
+	/**
+	 * @var bool
+	 */
+	protected $pdfPresentationEnabled = false;
 
 	/**
 	 * @var bool
@@ -22,30 +25,35 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
 	protected $objectiveOrientedPresentationEnabled = false;
 
 	/**
+	 * @var integer
+	 */
+	protected $activeId = null;
+
+	/**
+	 * @var string
+	 */
+	protected $passDetailsCommand = '';
+
+	/**
+	 * @var string
+	 */
+	protected $passDeletionCommand = '';
+
+	/**
 	 * @param        $parent
 	 * @param string $cmd
 	 * @param int    $context
 	 */
-	public function __construct($parent, $cmd, $context = self::CONTEXT_SHORT, $pdf_view = false)
+	public function __construct($parent, $cmd)
 	{
-		$this->pdf_view = $pdf_view;
-		
-		$this->setId('tst_pass_overview_' . $context . '_' . $parent->object->getId());
+		$this->setId('tst_pass_overview_' . $parent->object->getId());
 		$this->setDefaultOrderField('pass');
 		$this->setDefaultOrderDirection('ASC');
 
-		parent::__construct($parent, $cmd, $context);
+		parent::__construct($parent, $cmd);
 		
 		// Don't set any limit because of print/pdf views. Furthermore, this view is part of different summary views, and no cmd ist passed to he calling method.
 		$this->setLimit(PHP_INT_MAX);
-		
-		if($this->pdf_view)
-		{
-			$this->disable('linkbar');
-			$this->disable('numinfo');
-			$this->disable('numinfo_header');
-			$this->disable('hits');
-		}
 		$this->disable('sort');
 
 		$this->setRowTemplate('tpl.il_as_tst_pass_overview_row.html', 'Modules/Test');
@@ -53,7 +61,19 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
 	
 	public function init()
 	{
+		global $ilCtrl;
+
+		$ilCtrl->setParameter($this->parent_obj, 'active_id', $this->getActiveId());
+		
 		$this->initColumns();
+
+		if($this->isPdfPresentationEnabled())
+		{
+			$this->disable('linkbar');
+			$this->disable('numinfo');
+			$this->disable('numinfo_header');
+			$this->disable('hits');
+		}
 	}
 
 	/**
@@ -87,8 +107,12 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
 		
 		if( !$this->isObjectiveOrientedPresentationEnabled() )
 		{
-			$this->tpl->setVariable('VAL_SCORED', $row['scored'] ? '&otimes;' : '');
-			$this->tpl->setVariable('VAL_PASS', $row['pass']);
+			if($this->isResultPresentationEnabled())
+			{
+				$this->tpl->setVariable('VAL_SCORED', $row['scored'] ? '&otimes;' : '');
+			}
+			
+			$this->tpl->setVariable('VAL_PASS', $row['pass'] + 1);
 		}
 		
 		$this->tpl->setVariable('VAL_DATE', $this->formatDate($row['date']));
@@ -102,33 +126,34 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
 			));
 		}
 
-		$this->tpl->setVariable('VAL_ANSWERED', $this->buildWorkedThroughQuestionsString(
-			$row['num_workedthrough_questions'], $row['num_questions_total']
-		));
-		
-		if( isset($row['hints']) )
-		{			
-			$this->tpl->setVariable('VAL_HINTS', $row['hints']);
-		}
-		
-		$this->tpl->setVariable('VAL_REACHED', $this->buildReachedPointsString(
-			$row['reached_points'], $row['max_points']
-		));
-
-		$this->tpl->setVariable('VAL_PERCENTAGE', $row['percentage']);
-
-		if(!$this->pdf_view)
+		if( $this->isResultPresentationEnabled() )
 		{
-			$this->tpl->setVariable('VAL_PASS_DETAILS', $row['pass_details']);
+			$this->tpl->setVariable('VAL_ANSWERED', $this->buildWorkedThroughQuestionsString(
+				$row['num_workedthrough_questions'], $row['num_questions_total']
+			));
+
+			if( $this->getParentObject()->object->isOfferingQuestionHintsEnabled() )
+			{
+				$this->tpl->setVariable('VAL_HINTS', $row['hints']);
+			}
+
+			$this->tpl->setVariable('VAL_REACHED', $this->buildReachedPointsString(
+				$row['reached_points'], $row['max_points']
+			));
+
+			$this->tpl->setVariable('VAL_PERCENTAGE', $row['percentage']);
+		}
+
+		if(!$this->isPdfPresentationEnabled())
+		{
+			$actions = $this->getRequiredActions($row['scored']);
+			$this->tpl->setVariable('VAL_ACTIONS', $this->buildActionsHtml($actions, $row['pass']));
 		}
 	}
 
-	/**
-	 *
-	 */
 	protected function initColumns()
 	{
-		if(self::CONTEXT_LONG == $this->getContext() && !$this->isObjectiveOrientedPresentationEnabled())
+		if($this->isResultPresentationEnabled() && !$this->isObjectiveOrientedPresentationEnabled())
 		{
 			$this->addColumn($this->lng->txt('scored_pass'), '', '150');
 		}
@@ -146,7 +171,7 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
 			$this->addColumn($this->lng->txt('tst_res_lo_try_header'), '');
 		}
 		
-		if(self::CONTEXT_LONG == $this->getContext())
+		if($this->isResultPresentationEnabled())
 		{
 			$this->addColumn($this->lng->txt('tst_answered_questions'));
 			if($this->getParentObject()->object->isOfferingQuestionHintsEnabled())
@@ -156,11 +181,44 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
 			$this->addColumn($this->lng->txt('tst_reached_points'));
 			$this->addColumn($this->lng->txt('tst_percent_solved'));
 		}
-		// pass details menu
-		if(!$this->pdf_view)
+		
+		// actions
+		if(!$this->isPdfPresentationEnabled())
 		{
 			$this->addColumn('', '', '10%' );
 		}
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isResultPresentationEnabled()
+	{
+		return $this->resultPresentationEnabled;
+	}
+
+	/**
+	 * @param boolean $resultPresentationEnabled
+	 */
+	public function setResultPresentationEnabled($resultPresentationEnabled)
+	{
+		$this->resultPresentationEnabled = $resultPresentationEnabled;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isPdfPresentationEnabled()
+	{
+		return $this->pdfPresentationEnabled;
+	}
+
+	/**
+	 * @param boolean $pdfPresentationEnabled
+	 */
+	public function setPdfPresentationEnabled($pdfPresentationEnabled)
+	{
+		$this->pdfPresentationEnabled = $pdfPresentationEnabled;
 	}
 
 	/**
@@ -177,6 +235,54 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
 	public function setObjectiveOrientedPresentationEnabled($objectiveOrientedPresentationEnabled)
 	{
 		$this->objectiveOrientedPresentationEnabled = $objectiveOrientedPresentationEnabled;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getActiveId()
+	{
+		return $this->activeId;
+	}
+
+	/**
+	 * @param int $activeId
+	 */
+	public function setActiveId($activeId)
+	{
+		$this->activeId = $activeId;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getPassDetailsCommand()
+	{
+		return $this->passDetailsCommand;
+	}
+
+	/**
+	 * @param string $passDetailsCommand
+	 */
+	public function setPassDetailsCommand($passDetailsCommand)
+	{
+		$this->passDetailsCommand = $passDetailsCommand;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getPassDeletionCommand()
+	{
+		return $this->passDeletionCommand;
+	}
+
+	/**
+	 * @param string $passDeletionCommand
+	 */
+	public function setPassDeletionCommand($passDeletionCommand)
+	{
+		$this->passDeletionCommand = $passDeletionCommand;
 	}
 
 	/**
@@ -200,5 +306,60 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
 	private function buildReachedPointsString($reachedPoints, $maxPoints)
 	{
 		return "{$reachedPoints} {$this->lng->txt('of')} {$maxPoints}";
+	}
+
+	private function getRequiredActions($isScoredPass)
+	{
+		$actions = array();
+		
+		if( $this->getPassDetailsCommand() )
+		{
+			$actions[$this->getPassDetailsCommand()] = $this->lng->txt('tst_pass_details');
+		}
+		
+		if( !$isScoredPass && $this->getPassDeletionCommand() )
+		{
+			$actions[$this->getPassDeletionCommand()] = $this->lng->txt('delete');
+		}
+		
+		return $actions;
+	}
+	
+	private function buildActionsHtml($actions, $pass)
+	{
+		global $ilCtrl;
+		
+		if( !count($actions) )
+		{
+			return '';
+		}
+
+		$ilCtrl->setParameter($this->parent_obj, 'pass', $pass);
+		
+		if( count($actions) > 1 )
+		{
+			$aslgui = new ilAdvancedSelectionListGUI();
+			$aslgui->setListTitle($this->lng->txt('actions'));
+			$aslgui->setId($pass);
+			
+			foreach($actions as $cmd => $label)
+			{
+				$aslgui->addItem($label, $cmd, $ilCtrl->getLinkTarget($this->parent_obj, $cmd));
+			}
+
+			$html = $aslgui->getHTML();
+		}
+		else
+		{
+			$cmd = key($actions);
+			$label = current($actions);
+			
+			$href = $ilCtrl->getLinkTarget($this->parent_obj, $cmd);
+			$html = '<a href="'.$href.'">'.$label.'</a>';
+		}
+
+		$ilCtrl->setParameter($this->parent_obj, 'pass', '');
+
+		return $html;
 	}
 }

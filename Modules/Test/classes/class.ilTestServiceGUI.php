@@ -130,6 +130,104 @@ class ilTestServiceGUI
 	}
 
 	/**
+	 * @param ilTestSession $testSession
+	 * @param $short
+	 * @return array
+	 */
+	public function getPassOverviewTableData(ilTestSession $testSession, $withResults)
+	{
+		$data = array();
+
+		if($this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired())
+		{
+			$considerHiddenQuestions = false;
+
+			require_once 'Modules/Course/classes/Objectives/class.ilLOTestQuestionAdapter.php';
+			$objectivesAdapter = ilLOTestQuestionAdapter::getInstance($testSession);
+		}
+		else
+		{
+			$considerHiddenQuestions = true;
+		}
+
+		$scoredPass = $this->object->_getResultPass($testSession->getActiveId());
+
+		require_once 'Modules/Test/classes/class.ilTestPassesSelector.php';
+		$testPassesSelector = new ilTestPassesSelector($GLOBALS['ilDB'], $this->object);
+		$testPassesSelector->setActiveId($testSession->getActiveId());
+		$lastFinishedPass = $testSession->getLastFinishedPass();
+		$testPassesSelector->setLastFinishedPass($lastFinishedPass);
+
+		foreach($testPassesSelector->getReportablePasses() as $pass)
+		{
+			$row = array();
+
+			$considerOptionalQuestions = true;
+
+			if($this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired())
+			{
+				$testSequence = $this->testSequenceFactory->getSequenceByActiveIdAndPass($testSession->getActiveId(), $pass);
+
+				$testSequence->loadFromDb();
+				$testSequence->loadQuestions();
+
+				if($this->object->isRandomTest() && !$testSequence->isAnsweringOptionalQuestionsConfirmed())
+				{
+					$considerOptionalQuestions = false;
+				}
+
+				$testSequence->setConsiderHiddenQuestionsEnabled($considerHiddenQuestions);
+				$testSequence->setConsiderOptionalQuestionsEnabled($considerOptionalQuestions);
+
+				$objectivesList = $this->buildQuestionRelatedObjectivesList($objectivesAdapter, $testSequence);
+				$objectivesList->loadObjectivesTitles();
+
+				$row['objectives'] = $objectivesList->getUniqueObjectivesStringForQuestions($testSequence->getUserSequenceQuestions());
+			}
+
+			if($withResults)
+			{
+				$result_array = $this->object->getTestResult($testSession->getActiveId(), $pass, false, $considerHiddenQuestions, $considerOptionalQuestions);
+				if(!$result_array['pass']['total_max_points'])
+				{
+					$percentage = 0;
+				} else
+				{
+					$percentage = ($result_array['pass']['total_reached_points'] / $result_array['pass']['total_max_points']) * 100;
+				}
+				$total_max = $result_array['pass']['total_max_points'];
+				$total_reached = $result_array['pass']['total_reached_points'];
+				$total_requested_hints = $result_array['pass']['total_requested_hints'];
+			}
+
+			if($withResults)
+			{
+				$row['scored'] = ($pass == $scoredPass);
+			}
+
+			$row['pass'] = $pass;
+			$row['date'] = $this->object->getPassFinishDate($testSession->getActiveId(), $pass);
+			if($withResults)
+			{
+				$row['num_workedthrough_questions'] = $result_array['pass']['num_workedthrough'];
+				$row['num_questions_total'] = $result_array['pass']['num_questions_total'];
+
+				if($this->object->isOfferingQuestionHintsEnabled())
+				{
+					$row['hints'] = $total_requested_hints;
+				}
+
+				$row['reached_points'] = $total_reached;
+				$row['max_points'] = $total_max;
+				$row['percentage'] = $percentage;
+			}
+
+			$data[] = $row;
+		}
+		return $data;
+	}
+
+	/**
 	 * @param ilTestObjectiveOrientedContainer $objectiveOrientedContainer
 	 */
 	public function setObjectiveOrientedContainer(ilTestObjectiveOrientedContainer $objectiveOrientedContainer)
@@ -214,160 +312,28 @@ class ilTestServiceGUI
 	}
 	
 	/**
-	 * Returns the pass overview for a given active ID
-	 *
-	 * @return string HTML code of the pass overview
-	 * @access public
-	 * 
-	 * @deprecated
+	 * @return ilTestPassOverviewTableGUI $tableGUI
 	 */
-	public function getPassOverview(ilTestSession $testSession, $targetgui, $targetcommand = "", $short = FALSE, $hide_details = FALSE)
+	public function buildPassOverviewTableGUI($targetGUI)
 	{
-		$active_id = $testSession->getActiveId();
-		
-		require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
 		require_once 'Modules/Test/classes/tables/class.ilTestPassOverviewTableGUI.php';
 
-		$table = new ilTestPassOverviewTableGUI(
-			$this,
-			'',
-			$short ? ilTestPassOverviewTableGUI::CONTEXT_SHORT : ilTestPassOverviewTableGUI::CONTEXT_LONG,
-			(isset($_GET['pdf']) && $_GET['pdf'] == 1)
+		$table = new ilTestPassOverviewTableGUI($targetGUI, '');
+		
+		$table->setPdfPresentationEnabled(
+			isset($_GET['pdf']) && $_GET['pdf'] == 1
 		);
-
-		$table->init();
 		
-		if( $this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired() )
-		{
-			$considerHiddenQuestions = false;
-
-			$table->setObjectiveOrientedPresentationEnabled(true);
-			
-			require_once 'Modules/Course/classes/Objectives/class.ilLOTestQuestionAdapter.php';
-			$objectivesAdapter = ilLOTestQuestionAdapter::getInstance($testSession);
-		}
-		else
-		{
-			$considerHiddenQuestions = true;
-		}
-
-		$counted_pass = $this->object->_getResultPass($active_id);
+		$table->setObjectiveOrientedPresentationEnabled(
+			$this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired()
+		);
 		
-		require_once 'Modules/Test/classes/class.ilTestPassesSelector.php';
-		$testPassesSelector = new ilTestPassesSelector($GLOBALS['ilDB'], $this->object);
-		$testPassesSelector->setActiveId($active_id);
-		$lastFinishedPass = $this->testSessionFactory->getSession($active_id)->getLastFinishedPass();
-		$testPassesSelector->setLastFinishedPass($lastFinishedPass);
-
-		$data  = array();
-		foreach($testPassesSelector->getReportablePasses() as $pass)
+		if( $this->object->isPassDeletionAllowed() )
 		{
-			$row = array();
-
-			$considerOptionalQuestions = true;
-			
-			if( $this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired() )
-			{
-				$testSequence = $this->testSequenceFactory->getSequenceByActiveIdAndPass($active_id, $pass);
-				$testSequence->loadFromDb();
-				$testSequence->loadQuestions();
-
-				if( $this->object->isRandomTest() && !$testSequence->isAnsweringOptionalQuestionsConfirmed() )
-				{
-					$considerOptionalQuestions = false;
-				}
-
-				$testSequence->setConsiderHiddenQuestionsEnabled($considerHiddenQuestions);
-				$testSequence->setConsiderOptionalQuestionsEnabled($considerOptionalQuestions);
-
-				$objectivesList = $this->buildQuestionRelatedObjectivesList($objectivesAdapter, $testSequence);
-				$objectivesList->loadObjectivesTitles();
-
-				$row['objectives'] = $objectivesList->getUniqueObjectivesStringForQuestions(
-					$testSequence->getUserSequenceQuestions()
-				);
-			}
-
-			if(!$short)
-			{
-				$result_array =& $this->object->getTestResult(
-					$active_id, $pass, false, $considerHiddenQuestions, $considerOptionalQuestions
-				);
-				if(!$result_array['pass']['total_max_points'])
-				{
-					$percentage = 0;
-				}
-				else
-				{
-					$percentage = ($result_array['pass']['total_reached_points'] / $result_array['pass']['total_max_points']) * 100;
-				}
-				$total_max             = $result_array['pass']['total_max_points'];
-				$total_reached         = $result_array['pass']['total_reached_points'];
-				$total_requested_hints = $result_array['pass']['total_requested_hints'];
-			}
-			if(!$hide_details)
-			{
-				if(is_object($targetgui) && strlen($targetcommand))
-				{
-					$this->ctrl->setParameter($targetgui, 'active_id', $active_id);
-					$this->ctrl->setParameter($targetgui, 'pass', $pass);
-
-					$aslgui = new ilAdvancedSelectionListGUI();
-					$aslgui->setListTitle($this->lng->txt('actions'));
-					$aslgui->setId($pass);
-					$aslgui->addItem(
-						$this->lng->txt('tst_pass_details'),
-						'tst_pass_details',
-						$this->ctrl->getLinkTarget($targetgui, $targetcommand)
-					);
-					if($this->object->isPassDeletionAllowed() && $pass != $counted_pass)
-					{
-						$aslgui->addItem(
-							$this->lng->txt('delete'),
-							'tst_pass_delete',
-							$this->ctrl->getLinkTarget($targetgui, 'confirmDeletePass')
-						);
-						$delete_entry = true;
-					}
-					
-					if($delete_entry == true)
-					{
-						$row['pass_details'] = $aslgui->getHTML();
-					}
-					else
-					{
-						$row['pass_details'] = '<a href="'.$this->ctrl->getLinkTarget($targetgui, $targetcommand).'">'.$this->lng->txt('tst_pass_details').'</a>';
-					}
-				}
-			}
-
-			if(!$short)
-			{
-				$row['scored'] = ($pass == $counted_pass);
-			}
-
-			$row['pass'] = $pass + 1;
-			$row['date'] = $this->object->getPassFinishDate($active_id, $pass);
-			if(!$short)
-			{
-				$row['num_workedthrough_questions'] = $result_array['pass']['num_workedthrough'];
-				$row['num_questions_total'] = $result_array['pass']['num_questions_total'];
-				
-				if($this->object->isOfferingQuestionHintsEnabled())
-				{
-					$row['hints'] = $total_requested_hints;
-				}
-				
-				$row['reached_points'] = $total_reached;
-				$row['max_points'] = $total_max;
-				$row['percentage'] = $percentage;
-			}
-			
-			$data[] = $row;
+			$table->setPassDeletionCommand('confirmDeletePass');
 		}
-
-		$table->setData($data);
-		return $table->getHTML();
+		
+		return $table;
 	}
 
 	/**
