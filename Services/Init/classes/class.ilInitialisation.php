@@ -960,6 +960,7 @@ class ilInitialisation
 
 		self::initIliasIniFile();
 
+		define('IL_INITIAL_WD', getcwd());
 		
 		// deprecated
 		self::initGlobal("ilias", "ILIAS", "./Services/Init/classes/class.ilias.php");				

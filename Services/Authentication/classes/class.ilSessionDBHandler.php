@@ -80,7 +80,11 @@ class ilSessionDBHandler
 	*/
 	public function write($session_id, $data)
 	{
-		return ilSession::_writeData($session_id, $data);
+		$cwd = getcwd();
+		chdir(IL_INITIAL_WD);
+		$r = ilSession::_writeData($session_id, $data);
+		chdir($cwd);
+		return $r;
 	}
 
 	/**

@@ -1355,17 +1355,19 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 	 */
 	public function getAvailableAnswerOptions($index = null)
 	{
+		$error_text_array = explode(' ', $this->errortext);
+		
 		if($index !== null)
 		{
-			if(array_key_exists($index, $this->errordata))
+			if(array_key_exists($index, $error_text_array))
 			{
-				return $this->errordata[$index];
+				return $error_text_array[$index];
 			}
 			return null;
 		}
 		else
 		{
-			return $this->getErrorData();
+			return $error_text_array;
 		}
 	}
 }

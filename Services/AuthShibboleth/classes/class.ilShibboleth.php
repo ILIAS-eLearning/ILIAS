@@ -29,7 +29,6 @@ require_once('./Services/AuthShibboleth/classes/Config/class.shibConfig.php');
 require_once('./Services/AuthShibboleth/classes/ServerData/class.shibServerData.php');
 require_once('./Services/AuthShibboleth/classes/User/class.shibUser.php');
 
-
 /**
  * Class Shibboleth
  *
@@ -75,11 +74,23 @@ class ShibAuth extends Auth {
 	 * @return void
 	 */
 	public function login() {
+		global $ilias, $ilSetting; // for backword compatibility of hook environment variables
 		$shibServerData = shibServerData::getInstance($_SERVER);
 		if ($shibServerData->getLogin()) {
-			$shibUser = shibUser ::getInstance($shibServerData);
+			$shibUser = shibUser::getInstance($shibServerData);
+			// for backword compatibility of hook environment variables
+			$userObj =& $shibUser;
+			$newUser = $shibUser->isNew();
 			if ($shibUser->isNew()) {
 				$shibUser->createFields();
+				// Modify user data before creating the user
+				// Include custom code that can be used to further modify
+				// certain Shibboleth user attributes
+				if ($ilias->getSetting('shib_data_conv') AND $ilias->getSetting('shib_data_conv') != ''
+					AND is_readable($ilias->getSetting('shib_data_conv'))
+				) {
+					include($ilias->getSetting('shib_data_conv'));
+				}
 				$shibUser = ilShibbolethPluginWrapper::getInstance()->beforeCreateUser($shibUser);
 				$shibUser->create();
 				$shibUser->updateOwner();
@@ -88,6 +99,13 @@ class ShibAuth extends Auth {
 				ilShibbolethRoleAssignmentRules::doAssignments($shibUser->getId(), $_SERVER);
 			} else {
 				$shibUser->updateFields();
+				// Include custom code that can be used to further modify
+				// certain Shibboleth user attributes
+				if ($ilias->getSetting('shib_data_conv') AND $ilias->getSetting('shib_data_conv') != ''
+					AND is_readable($ilias->getSetting('shib_data_conv'))
+				) {
+					include($ilias->getSetting('shib_data_conv'));
+				}
 				$shibUser->update();
 				$shibUser = ilShibbolethPluginWrapper::getInstance()->beforeUpdateUser($shibUser);
 				$shibUser->update();

@@ -372,7 +372,7 @@ class ilObjStudyProgramme extends ilContainer {
 			$ref_ids = $ref_ids['prg'];
 
 			$this->children = array_map(function($node_data) {
-				return self::getInstanceByRefId($node_data["child"]);
+				return ilObjStudyProgramme::getInstanceByRefId($node_data["child"]);
 			}, $ref_ids);
 		}
 
