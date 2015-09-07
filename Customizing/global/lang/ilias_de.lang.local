@@ -1163,7 +1163,7 @@ gev#:#gev_dec_building_block_wp_relevant_desc#:#Ist dieser Baustein relevant fü
 gev#:#gev_dec_building_block_edit#:#Baustein bearbeiten
 gev#:#gev_dec_building_block_new#:#Neuer Baustein
 gev#:#gev_dec_building_block_base_data#:#Bausteininformationen
-gev#:#gev_dec_building_block_title#:#Titel
+gev#:#gev_dec_building_block_create_title#:#Titel
 gev#:#gev_dec_building_block_content#:#Inhalte
 gev#:#gev_dec_building_block_learn_dest#:#Lernziel
 gev#:#gev_dec_building_block_is_wp_relevant#:#WP relevant
@@ -1200,8 +1200,8 @@ gev#:#gev_dec_training_open_requests_header#:#Derzeit wird dieses dezentrale Tra
 gev#:#gev_dec_training_open_requests_time_info#:#Die Wartezeit zur Anlage eines dezentralen Trainings beträgt derzeit etwa %s Minuten. <br /><br /><b>Bleiben sie auf dieser Seite, um nach der Anlage des Trainings Buchungen vornehmen zu können.</b></br><br /><b>Nach der Anlage des Training erhalten sie außerdem eine E-Mail, die einen Link zu den Trainingsbuchungen enthält.</b>
 gev#:#gev_dec_training_presence_fix#:#Präsenztraining (fester Ablaufplan)
 gev#:#gev_dec_training_webinar_fix#:#Webinar (fester Ablaufplan)
-gev#:#gev_dec_training_presence_flex#:#Präsenztraining (individuelle Bausteine)
-gev#:#gev_dec_training_webinar_flex#:#Webinar (individuelle Bausteine)
+gev#:#gev_dec_training_presence_flex#:#Präsenztraining (flexible Bausteine)
+gev#:#gev_dec_training_webinar_flex#:#Webinar (flexible Bausteine)
 gev#:#gev_dec_training_notice#:#Für nähere Informationen wenden Sie sich bitte an die Abteilung Außendienstentwicklung, Telefon 089 5121 1919, Mail <a href="mailto:Bildungspunkte.de@generali.com">Bildungspunkte.de@generali.com</a>
 gev#:#gev_dec_training_title#:#Titel
 gev#:#gev_dec_training_duration#:#Zeitraum
@@ -1247,3 +1247,8 @@ gev#:#gev_footer_infos_wbd_registration#:#Unterlagen zur WBD Registrierung
 gev#:#gev_footer_contact#:#Kontakt
 gev#:#gev_footer_imprint#:#Impressum
 gev#:#gev_footer_academy_benried#:#Generali Akademie GmbH, Bernried
+gev#:#gev_dec_training_venue_free_text_info#:#Name, Straße Hausnr., PLZ Ort
+gev#:#gev_dec_training_add_building_block#:#Baustein hinzufügen
+gev#:#gev_dec_activate#:#Aktivieren
+gev#:#gev_dec_training_cancle#:#Abbrechen
+gev#:#gev_dec_training_change_settings#:#Trainingseinstellungen ändern
