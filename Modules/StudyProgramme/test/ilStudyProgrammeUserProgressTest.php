@@ -2,8 +2,7 @@
 
 /* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-require_once("mocks.php");
-require_once("./Services/User/classes/class.ilObjUser.php");
+require_once(__DIR__."/mocks.php");
 
 /**
  * TestCase for the progress of users at a programme.

@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once("mocks.php");
+require_once(__DIR__."/mocks.php");
 
 /**
  * TestCase for the ilObjStudyProgramme
