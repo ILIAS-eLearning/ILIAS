@@ -95,7 +95,7 @@ class gevCourseUtils {
 	static public function getBookingLinkTo($a_crs_id, $a_usr_id) {
 		global $ilCtrl,$ilUser;
 		// This is for the booking per express login.
-		if (!$ilUser->getId()) {
+		if (!$ilUser->getId() || gevSettings::getInstance()->getAgentOfferUserId() == $ilUser->getId() ) {
 			$ilCtrl->setParameterByClass("gevExpressRegistrationGUI", "crs_id", $a_crs_id);
 			$lnk = $ilCtrl->getLinkTargetByClass("gevExpressRegistrationGUI", "startRegistration");
 			$ilCtrl->clearParametersByClass("gevExpressRegistrationGUI");
