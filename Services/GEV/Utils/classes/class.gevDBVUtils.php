@@ -123,9 +123,7 @@ class gevDBVUtils {
 		$result = array();
 		while ($rec = $this->db->fetchAssoc($res)) {
 			$utils = gevUserUtils::getInstance($rec["usr_id"]);
-			if ($utils->isUVGDBV()) {
 				$result[] = $rec["usr_id"];
-			}
 		}
 		return $result;
 	}
