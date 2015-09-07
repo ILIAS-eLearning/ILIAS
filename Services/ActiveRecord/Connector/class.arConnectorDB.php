@@ -54,7 +54,7 @@ class arConnectorDB extends arConnector {
 		if ($arFieldList->getPrimaryField()->getName()) {
 			$ilDB->addPrimaryKey($ar->getConnectorContainerName(), array( $arFieldList->getPrimaryField()->getName() ));
 		}
-		if ($arFieldList->getPrimaryField()->getFieldType() === 'integer' AND $arFieldList->getPrimaryField()->getSequence() === 'true') {
+		if ($ar->getArFieldList()->getPrimaryField()->getSequence() AND ! $ilDB->sequenceExists($ar->getConnectorContainerName())) {
 			$ilDB->createSequence($ar->getConnectorContainerName());
 		}
 		$this->updateIndices($ar);
@@ -76,7 +76,7 @@ class arConnectorDB extends arConnector {
 		}
 		foreach ($arFieldList->getFields() as $i => $arField) {
 			if ($arField->getIndex() === 'true') {
-				if (!in_array($arField->getName(), $existing_indices)) {
+				if (! in_array($arField->getName(), $existing_indices)) {
 					$ilDB->addIndex($ar->getConnectorContainerName(), array( $arField->getName() ), 'i' . $i);
 				}
 			}
@@ -92,9 +92,12 @@ class arConnectorDB extends arConnector {
 	public function updateDatabase(ActiveRecord $ar) {
 		$ilDB = $this->returnDB();
 		foreach ($ar->getArFieldList()->getFields() as $field) {
-			if (!$ilDB->tableColumnExists($ar->getConnectorContainerName(), $field->getName())) {
+			if (! $ilDB->tableColumnExists($ar->getConnectorContainerName(), $field->getName())) {
 				$ilDB->addTableColumn($ar->getConnectorContainerName(), $field->getName(), $field->getAttributesForConnector());
 			}
+		}
+		if ($ar->getArFieldList()->getPrimaryField()->getSequence() AND ! $ilDB->sequenceExists($ar->getConnectorContainerName())) {
+			$ilDB->createSequence($ar->getConnectorContainerName());
 		}
 
 		return true;
@@ -193,7 +196,7 @@ class arConnectorDB extends arConnector {
 		if ($ilDB->tableColumnExists($ar->getConnectorContainerName(), $old_name)) {
 			//throw new arException($old_name, arException::COLUMN_DOES_NOT_EXIST);
 
-			if (!$ilDB->tableColumnExists($ar->getConnectorContainerName(), $new_name)) {
+			if (! $ilDB->tableColumnExists($ar->getConnectorContainerName(), $new_name)) {
 				//throw new arException($new_name, arException::COLUMN_DOES_ALREADY_EXIST);
 				$ilDB->renameTableColumn($ar->getConnectorContainerName(), $old_name, $new_name);
 			}
@@ -303,7 +306,7 @@ class arConnectorDB extends arConnector {
 		$q = $arl->getArSelectCollection()->asSQLStatement();
 		// Concats
 		$q .= $arl->getArConcatCollection()->asSQLStatement();
-		$q .= ' FROM '.$arl->getAR()->getConnectorContainerName();
+		$q .= ' FROM ' . $arl->getAR()->getConnectorContainerName();
 		// JOINS
 		$q .= $arl->getArJoinCollection()->asSQLStatement();
 		// WHERE

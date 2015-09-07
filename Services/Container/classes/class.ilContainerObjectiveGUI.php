@@ -464,18 +464,18 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 					switch($a_mode)
 					{
 						case self::MATERIALS_TESTS:
-							$block_id = "tst";
+							$block_id = "tst";			
 							$this->renderer->addTypeBlock($block_id);						
 							break;
 
 						case self::MATERIALS_OTHER:
-							$block_id = "oth";
+							$block_id = "oth";			
 							$this->renderer->addCustomBlock($block_id, $lng->txt('crs_other_resources'));					
 							break;
 						
 						// manage
 						default:
-							$block_id = "all";
+							$block_id = "all";			
 							$this->renderer->addCustomBlock($block_id, $lng->txt('content'));					
 							break;
 					}				
