@@ -12,6 +12,7 @@
 class ilPortfolioHTMLExport
 {
 	protected $portfolio_gui;
+	protected $export_material; 
 
 	/**
 	 * Constructor
@@ -23,6 +24,7 @@ class ilPortfolioHTMLExport
 	{
 		$this->portfolio_gui = $a_portfolio_gui;
 		$this->object = $a_object;
+		$this->export_material = array(); // #16571
 	}
 
 		/**

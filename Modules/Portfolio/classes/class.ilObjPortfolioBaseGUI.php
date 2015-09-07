@@ -290,10 +290,14 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 
 		$ilToolbar->addSeparator();
 		
-		$button = ilLinkButton::getInstance();
-		$button->setCaption("export_html");
-		$button->setUrl($this->ctrl->getLinkTarget($this, "export"));
-		$ilToolbar->addButtonInstance($button);
+		// #16571
+		if($this->getType() == "prtf")
+		{
+			$button = ilLinkButton::getInstance();
+			$button->setCaption("export_html");
+			$button->setUrl($this->ctrl->getLinkTarget($this, "export"));
+			$ilToolbar->addButtonInstance($button);
+		}
 		
 		include_once "Modules/Portfolio/classes/class.ilPortfolioPageTableGUI.php";
 		$table = new ilPortfolioPageTableGUI($this, "view");
