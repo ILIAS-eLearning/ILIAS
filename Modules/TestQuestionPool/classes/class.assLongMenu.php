@@ -174,6 +174,10 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 			{
 				return false;
 			}
+			if( !is_array($correct_answers_row[0]) || sizeof($correct_answers_row[0]) == 0)
+			{
+				return false;
+			}
 			if($correct_answers_row[1] > 0)
 			{
 				array_push($points, $correct_answers_row[1]);
