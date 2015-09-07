@@ -22,8 +22,6 @@ class gevCourseBuildingBlockUtils {
 	protected $building_block = "";
 	protected $start_date = "";
 	protected $end_date = "";
-	protected $methods = array();
-	protected $media = array();
 	protected $crs_request_id = null;
 
 	protected function __construct($a_course_building_block_id) {
@@ -83,22 +81,6 @@ class gevCourseBuildingBlockUtils {
 		return $expl[0].":".$expl[1];
 	}
 
-	public function getMethods() {
-		return $this->methods;
-	}
-
-	public function setMethods(array $a_methods) {
-		$this->methods = $a_methods;
-	}
-
-	public function getMedia() {
-		return $this->media;
-	}
-
-	public function setMedia($a_media) {
-		$this->media = $a_media;
-	}
-
 	public function getBuildingBlock() {
 		return $this->building_block;
 	}
@@ -131,7 +113,7 @@ class gevCourseBuildingBlockUtils {
 	}
 
 	public function loadData() {
-		$sql = "SELECT crs_id, bb_id, start_date, end_date, method, media\n"
+		$sql = "SELECT crs_id, bb_id, start_date, end_date\n"
 			  ."  FROM ".self::TABLE_NAME." WHERE id = ".$this->db->quote($this->getId(), "integer");
 
 		$res = $this->db->query($sql);
@@ -142,8 +124,6 @@ class gevCourseBuildingBlockUtils {
 			$this->setBuildingBlock($row["bb_id"]);
 			$this->setStartDate($row["start_date"]);
 			$this->setEndDate($row["end_date"]);
-			$this->setMethods(unserialize($row["method"]));
-			$this->setMedia(unserialize($row["media"]));
 		}
 	}
 
@@ -155,8 +135,6 @@ class gevCourseBuildingBlockUtils {
 			  ."   SET bb_id = ".$this->db->quote($this->getBuildingBlock()->getId(), "integer")."\n"
 			  ."     , start_date = ".$this->db->quote($this->getStartDate(), "timestamp")."\n"
 			  ."     , end_date = ".$this->db->quote($this->getEndDate(), "timestamp")."\n"
-			  ."     , method = ".$this->db->quote($method_serial, "text")."\n"
-			  ."     , media = ".$this->db->quote($media_serial, "text")."\n"
 			  ."     , last_change_user = ".$this->db->quote($this->ilUser->getId(), "integer")."\n"
 			  ."     , last_change_date = NOW()"
 			  ." WHERE id = ".$this->db->quote($this->getId(), "integer");
@@ -172,18 +150,13 @@ class gevCourseBuildingBlockUtils {
 		/*$method_serial = preg_replace('/\"/','\\\"',serialize($this->getMethods()));
 		$media_serial = preg_replace('/\"/','\\\"',serialize($this->getMedia()));*/
 
-		$method_serial = serialize($this->getMethods());
-		$media_serial = serialize($this->getMedia());
-
 		$sql = "INSERT INTO ".self::TABLE_NAME.""
-			  ." (id, crs_id, bb_id, start_date, end_date, method, media, last_change_user, last_change_date, crs_request_id)\n"
+			  ." (id, crs_id, bb_id, start_date, end_date, last_change_user, last_change_date, crs_request_id)\n"
 			  ." VALUES ( ".$this->db->quote($this->getId(), "integer")."\n"
 			  ."        , ".$this->db->quote($this->getCrsId(), "integer")."\n"
 			  ."        , ".$this->db->quote($this->getBuildingBlock()->getId(), "integer")."\n"
 			  ."        , ".$this->db->quote($this->getStartDate(), "timestamp")."\n"
 			  ."        , ".$this->db->quote($this->getEndDate(), "timestamp")."\n"
-			  ."        , ".$this->db->quote($method_serial, "text")."\n"
-			  ."        , ".$this->db->quote($media_serial, "text")."\n"
 			  ."        , ".$this->db->quote($this->ilUser->getId(), "integer")."\n"
 			  ."        , NOW()\n"
 			  ."        , ".$this->db->quote($this->getCourseRequestId(), "integer")."\n"
@@ -209,7 +182,7 @@ class gevCourseBuildingBlockUtils {
 		global $ilDB;
 
 		$sql = "SELECT\n"
-			  ."    base.id, base.crs_id, base.bb_id, base.start_date, base.end_date, base.method, base.media,\n"
+			  ."    base.id, base.crs_id, base.bb_id, base.start_date, base.end_date,\n"
 			  ."    join1.title, join1.learning_dest, join1.content, base.crs_request_id, base.bb_id\n"
 			  ." FROM ".self::TABLE_NAME." as base\n"
 			  ." JOIN ".self::TABLE_NAME_JOIN1." as join1\n"
@@ -240,8 +213,6 @@ class gevCourseBuildingBlockUtils {
 			$obj->setCrsId($row["crs_id"]);
 			$obj->setStartDate($row["start_date"]);
 			$obj->setEndDate($row["end_date"]);
-			$obj->setMethods(unserialize($row["method"]));
-			$obj->setMedia(unserialize($row["media"]));
 			$obj->setCourseRequestId($row["crs_request_id"]);
 			$obj->setBuildingBlock($row["bb_id"]);
 			return $obj;
@@ -268,39 +239,7 @@ class gevCourseBuildingBlockUtils {
 			$a_db = $ilDB;
 		}
 
-		self::updateCourseMethodAndMedia($a_crs_ref_id, $a_db);
 		self::updateWP($a_crs_ref_id, $a_db);
-	}
-
-	static private function updateCourseMethodAndMedia($a_crs_ref_id, $a_db) {
-		$sql = "SELECT method, media\n"
-			  ."  FROM ".self::TABLE_NAME."\n"
-			  ." WHERE crs_id = ".$a_db->quote($a_crs_ref_id, "integer");
-		$res = $a_db->query($sql);
-
-		$methods = array();
-		$media = array();
-		while($row = $a_db->fetchAssoc($res)) {
-			$new_methods = unserialize($row["method"]);
-		
-			foreach($new_methods as $val) {
-				if(!in_array($val, $methods)) {
-					$methods[] = $val;
-				}
-			}
-
-			$new_media = unserialize($row["media"]);
-			
-			foreach($new_media as $val) {
-				if(!in_array($val, $media)) {
-					$media[] = $val;
-				}
-			}
-		}
-		
-		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
-		gevCourseUtils::updateMethod($methods,$a_crs_ref_id);
-		gevCourseUtils::updateMedia($media,$a_crs_ref_id);
 	}
 
 	static private function updateWP($a_crs_ref_id, $a_db) {

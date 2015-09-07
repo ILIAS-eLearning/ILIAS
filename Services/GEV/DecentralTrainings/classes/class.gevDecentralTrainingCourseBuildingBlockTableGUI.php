@@ -44,8 +44,6 @@ class gevDecentralTrainingCourseBuildingBlockTableGUI extends catAccordionTableG
 		$this->addColumn($this->lng->txt("gev_dec_crs_building_block_from"), "");
 		$this->addColumn($this->lng->txt("gev_dec_crs_building_block_to"),"");
 		$this->addColumn($this->lng->txt("gev_dec_crs_building_block_block"), '');
-		$this->addColumn($this->lng->txt("gev_dec_crs_building_block_methods"), "");
-		$this->addColumn($this->lng->txt("gev_dec_crs_building_block_media"), "");
 		$this->addColumn($this->lng->txt("gev_dec_crs_building_block_content"), "");
 		$this->addColumn($this->lng->txt("gev_dec_crs_building_block_lern_dest"), "");
 		$this->addColumn($this->lng->txt("action"), "");
@@ -68,8 +66,6 @@ class gevDecentralTrainingCourseBuildingBlockTableGUI extends catAccordionTableG
 		$this->tpl->setVariable("START_DATE", $start[1]);
 		$this->tpl->setVariable("END_DATE", $end[1]);
 		$this->tpl->setVariable("TITLE", $a_set["title"]);
-		$this->tpl->setVariable("METHOD", implode("<br/>", unserialize($a_set["method"])));
-		$this->tpl->setVariable("MEDIA", implode("<br/>", unserialize($a_set["media"])));
 		$this->tpl->setVariable("CONTENT", $a_set["content"]);
 		$this->tpl->setVariable("LEARNING_DEST", $a_set["learning_dest"]);
 

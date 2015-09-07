@@ -201,8 +201,6 @@ class gevDecentralTrainingCourseBuildingBlockGUI {
 			$vals = array(
 					 "id" => $bu_utils->getId()
 					,"time" => $bu_utils->getTime()
-					,"methods" => $bu_utils->getMethods()
-					,"media" => $bu_utils->getMedia()
 					,"build_block" => $bu_utils->getBuildingBlock()->getId()
 				);
 
@@ -263,41 +261,6 @@ class gevDecentralTrainingCourseBuildingBlockGUI {
 
 		$form_gui->addItem($building_block);
 
-		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
-		require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
-		$amd_utils = gevAMDUtils::getInstance();
-		$method_options = $amd_utils->getOptions(gevSettings::CRS_AMD_METHODS);
-		$cbx_group_methods = new ilCheckBoxGroupInputGUI("Methoden","methods");
-		$cbx_group_methods->setRequired(true);
-
-		foreach($method_options as $value => $caption)
-		{
-			$option = new ilCheckboxOption($caption, $value);
-			$cbx_group_methods->addOption($option);
-		}
-
-		if($a_mode == self::EDIT_UNIT) {
-			$cbx_group_methods->setValue($vals["methods"]);
-		}
-		$form_gui->addItem($cbx_group_methods);
-
-		$media_options = $amd_utils->getOptions(gevSettings::CRS_AMD_MEDIA);
-		$cbx_group_media = new ilCheckBoxGroupInputGUI("Medien","media");
-		$cbx_group_media->setRequired(true);
-
-		foreach($media_options as $value => $caption)
-		{
-			$option = new ilCheckboxOption($caption, $value);
-			$cbx_group_media->addOption($option);
-		}
-		
-		if($a_mode == self::EDIT_UNIT) {
-			$cbx_group_media->setValue($vals["media"]);
-		}
-
-		$form_gui->addItem($cbx_group_media);
-
-		
 		if($this->obj_id !== null && $this->obj_id != "") {
 			$form_gui->addCommandButton("update", $this->lng->txt("save"));
 		} else {
@@ -352,9 +315,7 @@ class gevDecentralTrainingCourseBuildingBlockGUI {
 		$bu_utils->setBuildingBlock($form->getInput("build_block"));
 		$bu_utils->setStartDate($time["start"]["date"]." ".$time["start"]["time"]);
 		$bu_utils->setEndDate($time["end"]["date"]." ".$time["end"]["time"]);
-		$bu_utils->setMethods($form->getInput("methods"));
-		$bu_utils->setMedia($form->getInput("media"));
-
+		
 		$bu_utils->update();
 
 		$this->render();
@@ -391,8 +352,6 @@ class gevDecentralTrainingCourseBuildingBlockGUI {
 		$bu_utils->setBuildingBlock($form->getInput("build_block"));
 		$bu_utils->setStartDate($time["start"]["date"]." ".$time["start"]["time"]);
 		$bu_utils->setEndDate($time["end"]["date"]." ".$time["end"]["time"]);
-		$bu_utils->setMethods($form->getInput("methods"));
-		$bu_utils->setMedia($form->getInput("media"));
 
 		if($this->crs_request_id) {
 			$bu_utils->setCourseRequestId($this->crs_request_id);
