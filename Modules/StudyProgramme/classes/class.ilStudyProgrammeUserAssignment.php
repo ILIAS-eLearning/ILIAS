@@ -12,7 +12,7 @@ require_once("./Modules/StudyProgramme/classes/model/class.ilStudyProgrammeAssig
  * @author : Richard Klees <richard.klees@concepts-and-training.de>
  */
 class ilStudyProgrammeUserAssignment {
-	protected $assignment; // ilStudyProgrammeAssignment
+	public $assignment; // ilStudyProgrammeAssignment
 	
 	/**
 	 * Throws when id does not refer to a study programme assignment.
@@ -174,15 +174,18 @@ class ilStudyProgrammeUserAssignment {
 		$prg = $this->getStudyProgramme();
 		$id = $this->getId();
 		
-		$prg->applyToSubTreeNodes(function($node) use ($id) {
+		// TODO: $this could be removed as soon as support for PHP 5.3 is dropped:
+		$self = $this;
+		// Make $this->assignment protected again afterwards.
+		$prg->applyToSubTreeNodes(function($node) use ($id, $self) {
 			try {
 				$node->getProgressForAssignment($id);
 			}
 			catch(ilStudyProgrammeNoProgressForAssignmentException $e) {
 				global $ilLog;
-				$ilLog->write("Adding progress for: ".$this->getId()." ".$node->getId());
+				$ilLog->write("Adding progress for: ".$self->getId()." ".$node->getId());
 				require_once("Modules/StudyProgramme/classes/model/class.ilStudyProgrammeProgress.php");
-				$progress = ilStudyProgrammeProgress::createFor($node->getRawSettings(), $this->assignment);
+				$progress = ilStudyProgrammeProgress::createFor($node->getRawSettings(), $self->assignment);
 				$progress->setStatus(ilStudyProgrammeProgress::STATUS_NOT_RELEVANT)
 						 ->update();
 			}

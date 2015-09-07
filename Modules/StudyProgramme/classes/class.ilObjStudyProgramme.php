@@ -487,8 +487,10 @@ class ilObjStudyProgramme extends ilContainer {
 			// TODO: find a better way to get all elements except StudyProgramme-children
 			$ref_ids = $this->tree->getChilds($this->getRefId());
 
-			$lp_children = array_map(function($node_data) {
-				$lp_obj = $this->object_factory->getInstanceByRefId($node_data["child"]);
+			// TODO: $this could be removed as soon as support for PHP 5.3 is dropped:
+			$self = $this;
+			$lp_children = array_map(function($node_data) use ($self) {
+				$lp_obj = $self->object_factory->getInstanceByRefId($node_data["child"]);
 
 				// filter out all StudyProgramme instances
 				return ($lp_obj instanceof $this)? null : $lp_obj;

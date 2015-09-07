@@ -17,11 +17,11 @@ class ilStudyProgrammeIndividualPlanProgressListGUI extends ilStudyProgrammeExpa
 		return $this->progress->isRelevant();
 	}
 	
-	protected function shouldShowSubProgress(ilStudyProgrammeUserProgress $a_progress) {
+	public function shouldShowSubProgress(ilStudyProgrammeUserProgress $a_progress) {
 		return true;
 	}
 	
-	protected function newSubItem(ilStudyProgrammeUserProgress $a_progress) {
+	public function newSubItem(ilStudyProgrammeUserProgress $a_progress) {
 		return new ilStudyProgrammeIndividualPlanProgressListGUI($a_progress);
 	}
 	
