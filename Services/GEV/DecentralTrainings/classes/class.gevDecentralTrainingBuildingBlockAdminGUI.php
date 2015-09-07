@@ -243,6 +243,8 @@ class gevDecentralTrainingBuildingBlockAdminGUI {
 	}
 
 	protected function initForm($a_mode) {
+		require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
+		$amd_utils = gevAMDUtils::getInstance();
 
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form_gui = new ilPropertyFormGUI();
@@ -260,6 +262,8 @@ class gevDecentralTrainingBuildingBlockAdminGUI {
 					,"learning_dest" => $bu_utils->getLearningDestination()
 					,"is_wp_relevant" => $bu_utils->isWPRelevant()
 					,"active" => $bu_utils->isActive()
+					,"training_categories" => $bu_utils->getTrainingCategories()
+					,"gdv_topic" => $bu_utils->getGDVTopic()
 				);
 
 			$form_gui->setTitle($this->lng->txt("gev_dec_building_block_edit"));
@@ -283,11 +287,14 @@ class gevDecentralTrainingBuildingBlockAdminGUI {
 			$form_gui->setTitle($this->lng->txt("gev_dec_building_block_new"));
 		}
 
+		/*************************
+		* INFOS
+		*************************/
 		$sec_l = new ilFormSectionHeaderGUI();
 		$sec_l->setTitle($this->lng->txt("gev_dec_building_block_base_data"));
 		$form_gui->addItem($sec_l);
 
-		$title = new ilTextInputGUI($this->lng->txt("gev_dec_building_block_title"), "frm_title");
+		$title = new ilTextInputGUI($this->lng->txt("gev_dec_building_block_create_title"), "frm_title");
 		$title->setRequired(true);
 		$title->setValue($vals["title"]);
 		$title->setSize(50);
@@ -308,10 +315,53 @@ class gevDecentralTrainingBuildingBlockAdminGUI {
 		$learn_dest->setRequired(true);
 		$form_gui->addItem($learn_dest);
 
+		/*************************
+		* INHALT
+		*************************/
+		$content_section = new ilFormSectionHeaderGUI();
+		$content_section->setTitle($this->lng->txt("gev_dec_training_content"));
+		$form_gui->addItem($content_section);
+
+		$training_cat = $amd_utils->getOptions(gevSettings::CRS_AMD_TOPIC);
+		$cbx_group_training_cat = new ilCheckBoxGroupInputGUI($this->lng->txt("gev_dec_training_training_category"),"frm_training_category");
+		$cbx_group_training_cat->setRequired(true);
+
+		foreach($training_cat as $value => $caption)
+		{
+			$option = new ilCheckboxOption($caption, $value);
+			$cbx_group_training_cat->addOption($option);
+		}
+
+		if($vals["training_categories"]) {
+			$cbx_group_training_cat->setValue($vals["training_categories"]);
+		}
+		$form_gui->addItem($cbx_group_training_cat);
+		
+		/*************************
+		* BEWERTUNG
+		*************************/
+		$rating_section = new ilFormSectionHeaderGUI();
+		$rating_section->setTitle($this->lng->txt("gev_dec_training_rating"));
+		$form_gui->addItem($rating_section);
+
+		$gdv_topic_options = $amd_utils->getOptions(gevSettings::CRS_AMD_GDV_TOPIC);
+		$gdv_topic = new ilSelectInputGUI($this->lng->txt("gev_dec_training_gdv_topic"),"frm_gdv_topic");
+		$options = array("" => "-") + $gdv_topic_options;
+		$gdv_topic->setOptions($options);
+		$gdv_topic->setRequired(true);
+		if($vals["gdv_topic"]){
+			$gdv_topic->setValue($vals["gdv_topic"]);
+		}
+		$form_gui->addItem($gdv_topic);
+
 		$is_wp_relevant = new ilCheckboxInputGUI($this->lng->txt("gev_dec_building_block_is_wp_relevant"), "frm_is_wp_relevant");
 		$is_wp_relevant->setChecked($vals["is_wp_relevant"]);
 		$is_wp_relevant->setInfo($this->lng->txt("gev_dec_building_block_wp_relevant_desc"));
 		$form_gui->addItem($is_wp_relevant);
+
+		$rating_section = new ilFormSectionHeaderGUI();
+		$rating_section->setTitle($this->lng->txt("gev_dec_activate"));
+		$form_gui->addItem($rating_section);
 
 		$active = new ilCheckboxInputGUI($this->lng->txt("gev_dec_building_block_active"), "frm_active");
 		$active->setChecked($vals["active"]);
@@ -347,6 +397,8 @@ class gevDecentralTrainingBuildingBlockAdminGUI {
 		$bu_utils->setLearningDestination($form->getInput("frm_learn_dest"));
 		$bu_utils->setIsWPRelevant($form->getInput("frm_is_wp_relevant"));
 		$bu_utils->setIsActice($form->getInput("frm_active"));
+		$bu_utils->setGDVTopic($form->getInput("frm_gdv_topic"));
+		$bu_utils->setTraingCategories($form->getInput("frm_training_category"));
 
 		$bu_utils->update();
 
@@ -371,6 +423,8 @@ class gevDecentralTrainingBuildingBlockAdminGUI {
 		$bu_utils->setLearningDestination($form->getInput("frm_learn_dest"));
 		$bu_utils->setIsWPRelevant($form->getInput("frm_is_wp_relevant"));
 		$bu_utils->setIsActice($form->getInput("frm_active"));
+		$bu_utils->setGDVTopic($form->getInput("frm_gdv_topic"));
+		$bu_utils->setTraingCategories($form->getInput("frm_training_category"));
 
 		$bu_utils->save();
 

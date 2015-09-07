@@ -18,6 +18,8 @@ class gevBuildingBlockUtils {
 	protected $learning_dest = "";
 	protected $is_wp_relevant = false;
 	protected $is_active = false;
+	protected $gdv_topic;
+	protected $training_categories;
 
 	protected function __construct($a_building_block_id) {
 		global $ilDB, $ilUser;
@@ -80,8 +82,24 @@ class gevBuildingBlockUtils {
 		$this->is_active = $a_is_active;
 	}
 
+	public function setGDVTopic($gdv_topic) {
+		$this->gdv_topic = $gdv_topic;
+	}
+
+	public function getGDVTopic() {
+		return $this->gdv_topic;
+	}
+
+	public function setTraingCategories(array $training_categories) {
+		$this->training_categories = $training_categories;
+	}
+
+	public function getTrainingCategories() {
+		return $this->training_categories;
+	}
+
 	public function loadData() {
-		$sql = "SELECT obj_id, title, content, learning_dest, is_wp_relevant, is_active \n".
+		$sql = "SELECT obj_id, title, content, learning_dest, is_wp_relevant, is_active, gdv_topic, training_categories \n".
 			   "  FROM ".self::TABLE_NAME.
 			   " WHERE obj_id = ".$this->db->quote($this->getId(), "integer");
 
@@ -95,6 +113,8 @@ class gevBuildingBlockUtils {
 			$this->learning_dest = $row["learning_dest"];
 			$this->is_wp_relevant = $row["is_wp_relevant"];
 			$this->is_active = $row["is_active"];
+			$this->gdv_topic = $row["gdv_topic"];
+			$this->training_categories = unserialize($row["training_categories"]);
 		}
 	}
 
@@ -107,6 +127,8 @@ class gevBuildingBlockUtils {
 			  ."     , is_active = ".$this->db->quote($this->isActive(), "integer")."\n"
 			  ."     , last_change_user = ".$this->db->quote($this->ilUser->getId(), "integer")."\n"
 			  ."     , last_change_date = NOW()\n"
+			  ."     , gdv_topic = ".$this->db->quote($this->getGDVTopic(), "text")."\n"
+			  ."     , training_categories = ".$this->db->quote(serialize($this->getTrainingCategories()), "text")."\n"
 			  ." WHERE obj_id = ".$this->db->quote($this->getId(), "integer");
 
 		$this->db->manipulate($sql);
@@ -120,7 +142,7 @@ class gevBuildingBlockUtils {
 		$isActive = ($this->isActive() === "") ? "0" : "1";
 
 		$sql = "INSERT INTO ".self::TABLE_NAME.""
-			  ." (obj_id, title, content, learning_dest, is_wp_relevant, is_active, last_change_user, last_change_date, is_deleted)\n"
+			  ." (obj_id, title, content, learning_dest, is_wp_relevant, is_active, last_change_user, last_change_date, is_deleted, gdv_topic, training_categories)\n"
 			  ." VALUES (".$this->db->quote($this->getId(), "integer")."\n"
 			  ."        ,".$this->db->quote($this->getTitle(), "text")."\n"
 			  ."        ,".$this->db->quote($this->getContent(), "text")."\n"
@@ -128,8 +150,11 @@ class gevBuildingBlockUtils {
 			  ."        ,".$this->db->quote($isWPRelevant, "integer")."\n"
 			  ."        ,".$this->db->quote($isActive, "integer")."\n"
 			  ."        ,".$this->db->quote($this->ilUser->getId(), "integer")."\n"
-			  ."        , NOW()"
-			  ."        , 0)";
+			  ."        , NOW()\n"
+			  ."        , 0\n"
+			  ."        ,".$this->db->quote($this->getGDVTopic(), "text")."\n"
+			  ."        ,".$this->db->quote(serialize($this->getTrainingCategories()), "text")."\n"
+			  .")";
 
 		$this->db->manipulate($sql);
 
