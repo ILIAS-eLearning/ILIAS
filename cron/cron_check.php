@@ -119,9 +119,8 @@ $watch_jobs = array
 		)*/
 	, "dct_creation" => array
 		( "check" => function($job_data) {
-				return	last_run(300, $job_data)
-					&&	(	(is_running($job_data) && last_pinged(180, $job_data))
-						||	((!is_running($job_data)) && is_activated($job_data))
+				return	(	(is_running($job_data) && last_pinged(180, $job_data))
+						||	((!is_running($job_data)) && is_activated($job_data) && last_run(300, $job_data))
 						);
 			}
 		, "fail_message" => "Job is not active or running and did not ping for 180s or did not run for 5m."
