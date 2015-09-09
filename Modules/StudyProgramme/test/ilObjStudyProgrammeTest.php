@@ -599,4 +599,11 @@ class ilObjStudyProgrammeTest extends PHPUnit_Framework_TestCase {
 		$rec = $ilDB->fetchAssoc($res);
 		$this->assertEquals(0, $rec["cnt"]);
 	}
+	
+	public function testCreatePermissionExists() {
+		// Ask for permission id for creation of "foobar" to check assumption
+		// that lookupCreateOperationIds just drops unknown object types.
+		$op_ids = ilRbacReview::lookupCreateOperationIds(array("prg", "foobar"));
+		$this->assertCount(1, $op_ids);
+	}
 }
