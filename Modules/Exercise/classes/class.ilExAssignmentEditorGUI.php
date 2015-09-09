@@ -963,7 +963,7 @@ class ilExAssignmentEditorGUI
 		{
 			// see ilExcCriteriaCatalogueGUI::view()
 			$url = $ilCtrl->getLinkTargetByClass("ilexccriteriacataloguegui", "");
-			$def->setInfo('<a href="'.$url.'">'.
+			$def->setInfo('<a href="'.$url.'">[+] '.
 				$lng->txt("exc_add_criteria_catalogue").
 				'</a>');
 		}

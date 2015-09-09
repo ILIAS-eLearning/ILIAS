@@ -192,6 +192,16 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$ilCtrl->redirectByClass("ilExAssignmentEditorGUI", "addAssignment");
 	}
 
+	protected function listAssignmentsObject()
+	{
+		global $ilCtrl;
+		
+		$this->checkPermissionBool("write");
+		
+		// #16587
+		$ilCtrl->redirectByClass("ilExAssignmentEditorGUI", "listAssignments");
+	}
+	
 	/**
 	* Init properties form.
 	*/
