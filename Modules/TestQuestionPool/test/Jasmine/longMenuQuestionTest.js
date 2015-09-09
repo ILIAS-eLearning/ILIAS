@@ -329,7 +329,15 @@ describe("LongMenuQuestion", function() {
 		it("should display edit buttons if answers given", function () {
 			longMenuQuestion.answers = [[1, 2]];
 			var html = longMenuQuestion.protect.buildAnswerOverview(0);
-			expect(html).toEqual('<p>Answer Options: 2 <a data-id=\"0\" class=\"answer_options\"> [Edit]</a></p><p>Correct Answers:  1, 2<a data-id=\"0\" class=\"correct_answers\"> [Edit]</a></p>');
+			expect(html).toEqual('<p>Answer Options: 2 <a data-id="0" class="answer_options"> [Edit]</a></p><p>Correct Answers: <span data-id="0" class="correct_answers"></span></p>');
+		});
+
+		it("should be the same amount of correct answers after an action", function () {
+			longMenuQuestion.answers = [[1, 2, 3, 4]];
+			longMenuQuestion.questionParts = {'list': [[['1', '2', '3']]]};
+			expect(longMenuQuestion.questionParts.list[0][0]).toEqual(['1', '2', '3']);
+			longMenuQuestion.protect.redrawAnswerList(0);
+			expect(longMenuQuestion.questionParts.list[0][0]).toEqual(['1', '2', '3' ]);
 		});
 		
 	});
@@ -362,12 +370,10 @@ describe("LongMenuQuestion", function() {
 			});
 
 			it("there should be no events before calling the function", function () {
-				expect($._data( $(".correct_answers")[0], "events") ).toBeUndefined();
 				expect($._data( $(".answer_options")[0], "events")).toBeUndefined();
 			});
 			it("there should be events after calling the function", function () {
 				longMenuQuestion.protect.addEditListeners();
-				expect($._data( $(".correct_answers")[0], "events")['click'].length).toEqual(1);
 				expect($._data( $(".answer_options")[0], "events")['click'].length).toEqual(1);
 			});
 
@@ -397,7 +403,7 @@ describe("LongMenuQuestion", function() {
 				expect($._data( $(".save-modal")[0], "events")).toBeUndefined();
 			});
 			it("there should be events after calling the function", function () {
-				longMenuQuestion.protect.appendSaveModalButtonEventCorrectAnswers();
+				longMenuQuestion.protect.appendSaveModalButtonEventAnswers();
 				expect($._data( $(".save-modal")[0], "events")['click'].length).toEqual(1);
 			});
 		});
@@ -549,24 +555,6 @@ describe("LongMenuQuestion", function() {
 			it("there should be content after the action", function () {
 				longMenuQuestion.protect.answerOptionsClickFunction($('.answer_options_event'));
 				expect($('.modal-title').html()).toEqual('undefined 1 Answer Options: ');
-			});
-		});
-
-		describe("correctAnswersClickFunction", function() {
-			beforeEach(function () {
-				longMenuQuestion.answers = [[1, 2, 3]];
-				longMenuQuestion.questionParts = {'list': [[[1, 2]]]};
-				$('.modal-title').html('');
-				$('.test_dummy').append('<div class="answer_options_event" data-id="0"><div id="fileinput"></div></div>');
-			});
-
-			it("there should be no content before the action", function () {
-				expect($('.modal-title').html()).toEqual('');
-			});
-
-			it("there should be content after the action", function () {
-				longMenuQuestion.protect.correctAnswersClickFunction($('.answer_options_event'));
-				expect($('.modal-title').html()).toEqual('undefined 1 Correct Answers: ');
 			});
 		});
 
