@@ -881,7 +881,18 @@ class ilCourseBookingAdminGUI
 							$automails->sendDeferred("admin_booking_to_booked", array($user_id));
 						}
 						
-						$automails->sendDeferred("invitation", array($user_id));
+						$days_before_course_start = $addMailSettings->getInvitationMailingDate();
+						$date = $crs_ultils->getStartDate();
+						$now = new ilDate(date("Y-m-d"), IL_CAL_DATE);
+						if ($date) {
+							$date->increment(IL_CAL_DAY, -1 * $days_before_course_start);
+							$date_unix = $date->get(IL_CAL_UNIX);
+							$now_unix = $now->get(IL_CAL_UNIX);
+
+							if($now_unix > $date_unix) {
+								$automails->sendDeferred("invitation", array($user_id));
+							}
+						}
 					}
 					
 					$this->setDefaultAccomodations($user_id);
