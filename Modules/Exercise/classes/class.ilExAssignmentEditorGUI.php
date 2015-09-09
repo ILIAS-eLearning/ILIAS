@@ -596,6 +596,8 @@ class ilExAssignmentEditorGUI
 	 */
 	public function getAssignmentValues(ilPropertyFormGUI $a_form)
 	{
+		global $lng, $ilCtrl;
+		
 		$values = array();	
 		$values["type"] = $this->assignment->getType();
 		$values["title"] = $this->assignment->getTitle();
@@ -629,10 +631,15 @@ class ilExAssignmentEditorGUI
 		
 		// global feedback		
 		if($this->assignment->getFeedbackFile())
-		{						
+		{													
 			$a_form->getItemByPostVar("fb")->setChecked(true);			
 			$a_form->getItemByPostVar("fb_file")->setValue(basename($this->assignment->getGlobalFeedbackFilePath()));	
 			$a_form->getItemByPostVar("fb_file")->setRequired(false); // #15467
+			$a_form->getItemByPostVar("fb_file")->setInfo(
+				// #16400
+				'<a href="'.$ilCtrl->getLinkTarget($this, "downloadGlobalFeedbackFile").'">'.
+				$lng->txt("download").'</a>' 
+			); 
 		}
 		$a_form->getItemByPostVar("fb_cron")->setChecked($this->assignment->hasFeedbackCron());			
 		$a_form->getItemByPostVar("fb_date")->setValue($this->assignment->getFeedbackDate());	
@@ -851,6 +858,19 @@ class ilExAssignmentEditorGUI
 		$ilTabs->addTab("ass_files",
 			$lng->txt("exc_instruction_files"),
 			$ilCtrl->getLinkTargetByClass(array("ilexassignmenteditorgui", "ilfilesystemgui"), "listFiles"));
+	}
+	
+	public function downloadGlobalFeedbackFileObject()
+	{
+		global $ilCtrl;
+		
+		if(!$this->assignment || 
+			!$this->assignment->getFeedbackFile())
+		{
+			$ilCtrl->redirect($this, "returnToParent");
+		}
+		
+		ilUtil::deliverFile($this->assignment->getGlobalFeedbackFilePath(), $this->assignment->getFeedbackFile());
 	}
 	
 	
