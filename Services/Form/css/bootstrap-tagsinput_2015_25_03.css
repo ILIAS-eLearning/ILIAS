@@ -113,5 +113,5 @@
 	background-color: #708BAE;
 }
 .label-info, .tt-suggestion:hover, .tt-suggestion:focus, .tt-cursor {
-	background-color:#708BAE !important;
+	//background-color:#75deea !important;
 }

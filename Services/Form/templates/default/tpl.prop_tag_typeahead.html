@@ -21,6 +21,7 @@
 		pub.id	 	= '';
 		pub.terms 	= {TERMS};
 		pub.callbackItemAdded = {};
+		pub.callbackItemRemoved = {};
 		
 		pub.Init = function() {
 			$(pub.id).tagsinput({
@@ -43,6 +44,11 @@
 			$(pub.id).on('itemAdded', function() {
 				if (typeof pub.callbackItemAdded === 'function') {
 					pub.callbackItemAdded();
+				}
+			});
+			$(pub.id).on('itemRemoved', function() {
+				if (typeof pub.callbackItemRemoved === 'function') {
+					pub.callbackItemRemoved();
 				}
 			});
 		};
