@@ -99,7 +99,7 @@ abstract class ilParticipant
 				break;
 			
 			case self::MEMBERSHIP_TUTOR:
-				$update_fields = array('tutor', array('integer', $a_status ? 1 : 0));
+				$update_fields = array('tutor' => array('integer', $a_status ? 1 : 0));
 				$update_string = ('tutor = '.$ilDB->quote($a_status ? 1 : 0, 'integer'));
 				break;
 
