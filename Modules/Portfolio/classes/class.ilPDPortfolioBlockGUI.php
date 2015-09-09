@@ -150,13 +150,15 @@ class ilPDPortfolioBlockGUI extends ilBlockGUI
 		if($this->getCurrentDetailLevel() > 1)
 		{
 			$ilCtrl->setParameterByClass("ilobjportfoliogui", "prt_id", $p["id"]);
-			$this->tpl->setVariable("HREF", $ilCtrl->getLinkTargetByClass(array("ilpersonaldesktopgui", "ilportfoliorepositorygui", "ilobjportfoliogui"), "preview"));
-			$title = $p["title"];
+			$this->tpl->setVariable("HREF", $ilCtrl->getLinkTargetByClass(array("ilpersonaldesktopgui", "ilportfoliorepositorygui", "ilobjportfoliogui"), "preview"));		
+			$this->tpl->setVariable("TITLE", trim($p["title"]));
+			
 			if ($this->default_portfolio == $p["id"])
 			{
-				$title.= " (".$lng->txt("prtf_default_portfolio").")";
+				// #16490
+				$this->tpl->setVariable("DESC", $lng->txt("prtf_default_portfolio"));
 			}
-			$this->tpl->setVariable("TITLE", $title);
+			
 			$ilCtrl->setParameterByClass("ilobjportfoliogui", "prt_id", "");
 		}
 	}
