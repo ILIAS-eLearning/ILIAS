@@ -825,6 +825,7 @@ abstract class ilPlugin
 			" AND name = ".$ilDB->quote($this->getPluginName(), "text");
 
 		$ilDB->manipulate($q);
+		$this->afterDeactivation();
 
 		return $result;
 	}
