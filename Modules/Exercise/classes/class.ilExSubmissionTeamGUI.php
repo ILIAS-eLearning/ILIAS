@@ -233,7 +233,8 @@ class ilExSubmissionTeamGUI
 			}
 			else 
 			{
-				ilUtil::sendFailure($this->lng->txt("exc_members_already_assigned"), true);
+				// #11959
+				ilUtil::sendFailure($this->lng->txt("exc_members_already_assigned_team"), true);
 			}
 		}
 		

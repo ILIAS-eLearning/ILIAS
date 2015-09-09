@@ -2606,7 +2606,7 @@ common#:#exc_header_members#:#Exercise (members)
 common#:#exc_instruction#:#Work Instructions
 common#:#exc_last_submission#:#Last Submission
 common#:#exc_mail_users#:#Send mail to user(s)
-common#:#exc_members_already_assigned#:#These users are already assigned to other teams of this assignment
+common#:#exc_members_already_assigned#:#These users are already assigned to the assignment.
 common#:#exc_members_assigned#:#Members assigned
 common#:#exc_members_comments_saved#:#The exercise comments for the selected user have been saved
 common#:#exc_new#:#New Exercise
@@ -16006,3 +16006,4 @@ forum#:#forums_threads_deleted#:#The selected threads including all postings hav
 meta#:#meta_advmd_select_options#:#Entries
 trac#:#trac_lp_settings_info_parent_legend#:#The learning progress status of this object is influenced by "%s".
 search#:#btn_search#:#Search
+exc#:#exc_members_already_assigned_tean#:#These users are already assigned to other teams of this assignment.
