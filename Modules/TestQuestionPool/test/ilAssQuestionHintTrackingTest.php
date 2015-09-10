@@ -32,7 +32,7 @@ class ilAssQuestionHintTrackingTest extends PHPUnit_Framework_TestCase
 		require_once './Modules/TestQuestionPool/classes/class.ilAssQuestionHintTracking.php';
 
 		// Act
-		$instance = new ilAssQuestionHintTracking();
+		$instance = new ilAssQuestionHintTracking(null, null, null);
 
 		$this->assertInstanceOf('ilAssQuestionHintTracking', $instance);
 	}
