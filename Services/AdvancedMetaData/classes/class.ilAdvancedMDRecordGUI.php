@@ -154,14 +154,21 @@ class ilAdvancedMDRecordGUI
 			
 			$values = new ilAdvancedMDValues($record_id, $this->obj_id, $this->sub_type, $this->sub_id);
 			$values->read();
+			$defs = $values->getDefinitions();
+			
+			// empty record?
+			if(!sizeof($defs))
+			{
+				continue;
+			}
 			
 			$adt_group_form = ilADTFactory::getInstance()->getFormBridgeForInstance($values->getADTGroup());
 			$adt_group_form->setForm($this->form);
 			$adt_group_form->setTitle($record_obj->getTitle());
 			$adt_group_form->setInfo($record_obj->getDescription());
 			
-			foreach($values->getDefinitions() as $def)
-			{				
+			foreach($defs as $def)
+			{							
 				$element = $adt_group_form->getElement($def->getFieldId());
 				$element->setTitle($def->getTitle());
 				$element->setInfo($def->getDescription());
@@ -250,12 +257,20 @@ class ilAdvancedMDRecordGUI
 		$this->search_form = array();
 		foreach($this->getActiveRecords() as $record)
 		{ 			
+			$fields = ilAdvancedMDFieldDefinition::getInstancesByRecordId($record->getRecordId(), true);
+			
+			// empty record?
+			if(!sizeof($fields))
+			{
+				continue;
+			}
+			
 			$section = new ilFormSectionHeaderGUI();
 			$section->setTitle($record->getTitle());
 			$section->setInfo($record->getDescription());
 			$this->form->addItem($section);
 			
-			foreach(ilAdvancedMDFieldDefinition::getInstancesByRecordId($record->getRecordId(), true) as $field)
+			foreach($fields as $field)
 			{									 			
 	 			$field_form = ilADTFactory::getInstance()->getSearchBridgeForDefinitionInstance($field->getADTDefinition(), true, false);				
 				$field_form->setForm($this->form);
