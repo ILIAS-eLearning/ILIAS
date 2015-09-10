@@ -116,7 +116,24 @@ class ilPublicUserProfileGUI
 	{
 		return $this->backurl;
 	}
+		
+	protected function handleBackUrl()
+	{
+		global $ilMainMenu;
+				
+		$back = ($this->getBackUrl() != "")
+			? $this->getBackUrl()
+			: $_GET["back_url"];
+		
+		if(!$back)
+		{
+			// #15984
+			$back = 'ilias.php?baseClass=ilPersonalDesktopGUI';
+		}
 
+		$ilMainMenu->setTopBarBack($back);
+	}
+	
 	/**
 	 * Set custom preferences for public profile fields
 	 *
@@ -177,6 +194,8 @@ class ilPublicUserProfileGUI
 				$portfolio_id = $this->getProfilePortfolio();
 				if($portfolio_id)
 				{					
+					$this->handleBackUrl();
+					
 					include_once "Modules/Portfolio/classes/class.ilObjPortfolioGUI.php";
 					$gui = new ilObjPortfolioGUI($portfolio_id); // #11876		
 					$gui->setAdditional($this->getAdditional());
@@ -766,7 +785,7 @@ class ilPublicUserProfileGUI
 	
 	function renderTitle()
 	{
-		global $tpl, $ilTabs, $lng;
+		global $tpl;
 		
 		$tpl->resetHeaderBlock();
 		
@@ -774,16 +793,7 @@ class ilPublicUserProfileGUI
 		$tpl->setTitle(ilUserUtil::getNamePresentation($this->getUserId()));
 		$tpl->setTitleIcon(ilObjUser::_getPersonalPicturePath($this->getUserId(), "xxsmall"));
 		
-		$back = ($this->getBackUrl() != "")
-			? $this->getBackUrl()
-			: $_GET["back_url"];
-
-		if ($back != "")
-		{
-			$ilTabs->clearTargets();
-			$ilTabs->setBackTarget($lng->txt("back"),
-				$back);
-		}
+		$this->handleBackUrl();
 	}
 	
 	/**
