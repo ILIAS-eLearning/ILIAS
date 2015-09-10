@@ -1,8 +1,13 @@
 <?php
 require_once("Services/GEV/WBD/classes/Requests/class.gevWBDRequestVermitVerwaltungTransferfaehig.php");
 class GevVermitVerwaltungTransferfaehigTest extends RequestTestBase {
+	protected $backupGlobals = FALSE;
 
 	public function setUp() {
+		PHPUnit_Framework_Error_Deprecated::$enabled = FALSE;
+
+		include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
+		ilUnitUtil::performInitialisation();
 		$data = array("email"=>"shecken@cat06.de"
 					  ,"mobile_phone_nr"=>"0162/9800608"
 					  ,"bwv_id"=>"1212-2323-23-2323"

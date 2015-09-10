@@ -1,51 +1,58 @@
 <?php
 require_once("Services/GEV/WBD/classes/Error/class.gevWBDError.php");
 class GevWBDErrorTest extends ErrorTestBase {
+	protected $backupGlobals = FALSE;
+
 	public function setUp() {
-		//$this->error = new gevWBDError("Die ist ein Fehler",3251,124,0);
+		PHPUnit_Framework_Error_Deprecated::$enabled = FALSE;
+
+		include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
+		ilUnitUtil::performInitialisation();
+
+		$this->error = new gevWBDError("Die ist ein Fehler",'new_user',124,0);
 	}
 
 	public function error_with_message_null() {
-		return array(/*array(new gevWBDError(null,1,2,3,'new_user'))
-					 ,array(new gevWBDError(null,1,2,3,'new_user'))
-					 ,array(new gevWBDError(null,1,2,3,'new_user'))
-					 ,array(new gevWBDError(null,1,2,3,'new_user'))*/
+		return array(array(null,1,2,3,'new_user')
+					 ,array(null,1,2,3,'new_user')
+					 ,array(null,1,2,3,'new_user')
+					 ,array(null,1,2,3,'new_user')
 					);
 	}
 
 	public function error_with_user_id_null() {
-		return array(/*array(new gevWBDError("lala",null,2,3,'new_user'))
-					 ,array(new gevWBDError("lulu",null,2,3,'new_user'))
-					 ,array(new gevWBDError("lele",null,2,3,'new_user'))
-					 ,array(new gevWBDError("lili",null,2,3,'new_user'))*/
+		return array(array("lala",null,2,3,'new_user')
+					 ,array("lulu",null,2,3,'new_user')
+					 ,array("lele",null,2,3,'new_user')
+					 ,array("lili",null,2,3,'new_user')
 					);
 	}
 
 	public function error_with_row_id_null() {
-		return array(/*array(new gevWBDError("lala",1,null,3,'new_user'))
-					 ,array(new gevWBDError("lulu",1,null,3,'new_user'))
-					 ,array(new gevWBDError("lele",1,null,3,'new_user'))
-					 ,array(new gevWBDError("lili",1,null,3,'new_user'))*/
+		return array(array("lala",1,null,3,'new_user')
+					 ,array("lulu",1,null,3,'new_user')
+					 ,array("lele",1,null,3,'new_user')
+					 ,array("lili",1,null,3,'new_user')
 				);
 	}
 
 	public function error_with_crs_id_null() {
-		return array(/*array(new gevWBDError("lala",1,2,null,'new_user'))
-					 ,array(new gevWBDError("lulu",1,2,null,'new_user'))
-					 ,array(new gevWBDError("lele",1,2,null,'new_user'))
-					 ,array(new gevWBDError("lili",1,2,null,'new_user'))*/
+		return array(array("lala",1,2,null,'new_user')
+					 ,array("lulu",1,2,null,'new_user')
+					 ,array("lele",1,2,null,'new_user')
+					 ,array("lili",1,2,null,'new_user')
 					);
 	}
 
 	public function error_with_crs_id_zero() {
-		return array(/*array(new gevWBDError("lala",1,2,0,'new_user'))
-					 ,array(new gevWBDError("lulu",1,2,0,'new_user'))
-					 ,array(new gevWBDError("lele",1,2,0,'new_user'))
-					 ,array(new gevWBDError("lili",1,2,0,'new_user'))*/
+		return array(array("lala",1,2,0,'new_user')
+					 ,array("lulu",1,2,0,'new_user')
+					 ,array("lele",1,2,0,'new_user')
+					 ,array("lili",1,2,0,'new_user')
 					);
 	}
 
-	/*public function error_with_message() {
+	public function error_with_message() {
 		return array(
 			array('USER_EXISTS' 			, 'Der Benutzer wurde bereits angelegt:')
 			,array('USER_EXISTS_TP'			, 'Der Benutzer wurde von einem anderen TP angelegt:')
@@ -69,47 +76,50 @@ class GevWBDErrorTest extends ErrorTestBase {
 			,array('NO_RELEASE'				, 'Die Organisation ist nicht berechtigt den Vermittler transferfähig zu machen')
 			,array('CREATE_DUPLICATE'		, 'Der Nutzer konnte nicht im ISTS geändert werden. Status Code: 100')
 		);
-	}*/
+	}
 
-	/*public function test_UserId() {
+	public function test_UserId() {
 		$this->assertInternalType("integer", $this->error->userId());
-	}*/
+	}
 
 	/**
      * @dataProvider error_with_user_id_null
    	 * @expectedException LogicException
      */
-	/*public function test_noUserId($error) {
+	public function test_noUserId($errMsg,$usr_id,$row_id,$crs_id,$service) {
+		$error = new gevWBDError($errMsg,$service,$usr_id,$row_id,$crs_id);
 		$this->assertNull($error->userId());
 	}
 
 	public function test_RowId() {
 		$this->assertInternalType("integer", $this->error->rowId());
-	}*/
+	}
 
 	/**
      * @dataProvider error_with_row_id_null
 	 * @expectedException LogicException     
      */
-	/*public function test_noRowId($error) {
+	public function test_noRowId($errMsg,$usr_id,$row_id,$crs_id,$service) {
+		$error = new gevWBDError($errMsg,$service,$usr_id,$row_id,$crs_id);
 		$this->assertNull($error->rowId());
 	}
 
 	public function test_CrsId() {
 		$this->assertInternalType("integer", $this->error->crsId());
-	}*/
+	}
 
 	/**
      * @dataProvider error_with_crs_id_zero
      */
-	/*public function test_zeroCrsId($error) {
+	public function test_zeroCrsId($errMsg,$usr_id,$row_id,$crs_id,$service) {
+		$error = new gevWBDError($errMsg,$service,$usr_id,$row_id,$crs_id);
 		$this->assertEquals(0,$error->crsId());
-	}*/
+	}
 	/**
      * @dataProvider error_with_message
      */
-	/*public function test_reason($reason, $error) {
-		$err = new gevWBDError($error, 10, 2, 0, 'new_user');
+	public function test_reason($reason, $error) {
+		$err = new gevWBDError($error, 'new_user', 2, 0);
 		$this->assertEquals($reason, $err->reason());
-	}*/
+	}
 }

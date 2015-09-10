@@ -37,12 +37,14 @@ class gevWBDError extends WBDError{
 
 		$this->ilDB = $ilDB;
 
-		$this->findReason();
 		$this->usr_id = $usr_id;
 		$this->row_id = $row_id;
 		$this->crs_id = $crs_id;
 		$this->service = $service;
 		$this->errMessage = $errMessage;
+		$this->findReason();
+
+		//die(var_dump($service));
 
 		if($this->usr_id === null) {
 			throw new LogicException("gevWBDError::userId:user_id is null");
@@ -61,14 +63,22 @@ class gevWBDError extends WBDError{
 	*transaltes errMessage to an internal reason string
 	*/
 	protected function findReason() {
-		/*$sql = "SELECT reason_string, internal FROM wbd_errors_categories WHERE LOCATE( failure,"
+
+		if($this->ilDB === null) {
+			debug_print_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+			die();
+		}
+		$sql = "SELECT reason_string, internal FROM wbd_errors_categories WHERE LOCATE( failure,"
 			.$this->ilDB->quote($this->errMessage,"text")." ) > 0";
+	
+		//die($sql);
+
 		$res = $this->ilDB->fetchAssoc($this->ilDB->query($sql));
 		$this->reason = $res["reason_string"] ? $res["reason_string"] : '-unknown-';
-		$this->internal = $res["internal"] ? $res["internal"] : 0;*/
+		$this->internal = $res["internal"] ? $res["internal"] : 0;
 
-		$this->reason = "HUGO WAR ES";
-		$this->internal = 0;
+		/*$this->reason = "hugo wars";
+		$this->internal = 1;*/
 	}
 
 

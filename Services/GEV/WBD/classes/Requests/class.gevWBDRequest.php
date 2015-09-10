@@ -141,12 +141,10 @@ abstract class gevWBDRequest implements WBDRequest {
 						if($setting==1 && (!is_bool($value) && trim($value) == "")){
 							$errors[] =  new gevWBDError("mandatory field missing: ".$field, static::$request_type, $this->user_id, $this->row_id, $this->crs_id);
 						}
-						break;
 					case "maxlen":
 						if(strlen($value) > $setting){
 							$errors[] =  new gevWBDError("too long: ".$field, static::$request_type, $this->user_id, $this->row_id, $this->crs_id);
 						}
-						break;
 					case "list":
 						if($value == ""){
 							$errors[] =  new gevWBDError( "empty value not in list", static::$request_type, $this->user_id, $this->row_id, $this->crs_id);
@@ -154,17 +152,14 @@ abstract class gevWBDRequest implements WBDRequest {
 						if(!in_array($value, $setting)){
 							$errors[] =  new gevWBDError("not in list: ".$field, static::$request_type, $this->user_id, $this->row_id, $this->crs_id);
 						}
-						break;
 					case "form":
 						if(!preg_match($setting, $value) && $value != ""){
 							$errors[] =  new gevWBDError("not well formed: ".$field, static::$request_type, $this->user_id, $this->row_id, $this->crs_id);
 						}
-						break;
 					case "min_int_value":
 						if((int)$value < $setting) {
 							$errors[] =  new gevWBDError("integer to smaller then $setting: ".$field, static::$request_type, $this->user_id, $this->row_id, $this->crs_id);
 						}
-						break;
 					case "custom":
 						$r = self::$setting($value);
 						$result = $r[0];
@@ -172,57 +167,10 @@ abstract class gevWBDRequest implements WBDRequest {
 						if(!$result){
 							$errors[] =  new gevWBDError( "$err ( $field )", static::$request_type, $this->user_id, $this->row_id, $this->crs_id);
 						}
-						break;
 				}
 			}
 		}
 
-		
-		/*foreach (static::$check_szenarios as $field => $szenario) {
-			$value = $data[$field];
-			foreach ($szenario as $rule => $setting) {
-				switch ($rule) {
-					case "mandatory":
-						if($setting==1 && (!is_bool($value) && trim($value) == "")){
-							self::createErrorLogEntry("mandatory field missing: $field<br>",$usr_id, $row_id, $crs_id);
-							return false;
-						}
-						break;
-					case "maxlen":
-						if(strlen($value) > $setting){
-							self::createErrorLogEntry("too long: $field<br>",$usr_id, $row_id, $crs_id);
-							return false;
-						}
-						break;
-					case "list":
-						if($value == ""){
-							self::createErrorLogEntry("empty value not in list",$usr_id, $row_id, $crs_id);
-							return false;
-						}
-						if(!in_array($value, $setting)){
-							self::createErrorLogEntry("not in list: $field <br>",$usr_id, $row_id, $crs_id);
-							return false;
-						}
-						break;
-					case "form":
-						if(!preg_match($setting, $value) && $value != ""){
-							self::createErrorLogEntry("not well formed: $field<br>",$usr_id, $row_id, $crs_id);
-							return false;
-						}
-						break;
-					case "custom":
-						$r = self::$setting($value);
-						$result = $r[0];
-						$err = $r[1];
-
-						if(!$result){
-							self::createErrorLogEntry("$err ( $field )",$usr_id, $row_id, $crs_id);
-							return false;
-						}
-						break;
-				}
-			}
-		}*/
 		return $errors;
 	}
 

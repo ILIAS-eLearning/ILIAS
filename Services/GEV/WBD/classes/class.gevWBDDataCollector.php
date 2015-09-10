@@ -1,7 +1,7 @@
 <?php
 
 
-class gevWBDDateCollector implements WBDDataCollector {
+class gevWBDDataCollector implements WBDDataCollector {
 	
 	protected $ilDB;
 	protected $ilAppEventHandler;
@@ -127,7 +127,7 @@ class gevWBDDateCollector implements WBDDataCollector {
 			throw new LogicException("gevWBDDataCollector::createUpdateUserList: Can't build new list. Still records left.");
 		}
 		$this->records  = array();
-		$res = $this->ilDB->query($this->updateUserListQuery());
+		$res = $this->ilDB->query($this->updatedUserListQuery());
 		while ($rec = $this->ilDB->fetchAssoc($res)) {
 			$object = gevWBDRequestVvAenderung::getInstance($rec);
 			if(is_array($object)) {
@@ -268,18 +268,16 @@ class gevWBDDateCollector implements WBDDataCollector {
 	* @return 	WBDRequest
 	*/
 	public function getNextRecord() {
-		if($this->records) {
-			$next_record = $this->records[0];
-			$this->records = array_slice($this->recors,1);
-			return $next_record;
+		if(count($this->records) > 0) {
+			return array_shift($this->records);
 		}
 		$this->records = null;
 		return null;
 	}
 
 	protected function setLastWBDReport($table ,array $rows) {
-		$sql = 'UPDATE '.$table.' SET last_wbd_report = NOW()'
-				.'	WHERE '.$this->ilDB('row_id',$rows,false,'text');
+		$sql = 'UPDATE '.$table.' SET last_wbd_report = CURDATE()'
+				.'	WHERE '.$this->ilDB->in('row_id',$rows,false,'text');
 		$this->ilDB->maipulate($sql);
 	}
 

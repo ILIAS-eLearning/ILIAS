@@ -2,7 +2,13 @@
 require_once("Services/GEV/WBD/classes/Requests/class.gevWBDRequestWPMeldung.php");
 class GevWPMeldungTest extends RequestTestBase {
 	
+	protected $backupGlobals = FALSE;
+
 	public function setUp() {
+		PHPUnit_Framework_Error_Deprecated::$enabled = FALSE;
+
+		include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
+		ilUnitUtil::performInitialisation();
 		$data = array("title"=>"Berufsunfähigkeitsversicherung 2013"
 					  ,"begin_date" => "2015-12-20"
 					  ,"end_date" => "2015-12-20"

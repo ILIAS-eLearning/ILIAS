@@ -2,7 +2,13 @@
 require_once("Services/GEV/WBD/classes/Requests/class.gevWBDRequestWPAbfrage.php");
 class GevWPAbfrageTest extends RequestTestBase {
 	
+	protected $backupGlobals = FALSE;
+
 	public function setUp() {
+		PHPUnit_Framework_Error_Deprecated::$enabled = FALSE;
+
+		include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
+		ilUnitUtil::performInitialisation();
 		$data = array("certification_period"=>"Selektiert alle Weiterbildungsmaßnahmen."
 					  ,"bwv_id"=>"2015-12--5-124"
 					  ,"user_id" => "45641"

@@ -1,8 +1,13 @@
 <?php
 require_once("Services/GEV/WBD/classes/Requests/class.gevWBDRequestWPStorno.php");
 class GevWPStornoTest extends RequestTestBase {
-	
+	protected $backupGlobals = FALSE;
+
 	public function setUp() {
+		PHPUnit_Framework_Error_Deprecated::$enabled = FALSE;
+
+		include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
+		ilUnitUtil::performInitialisation();
 		$data = array('wbd_booking_id'	=> "2015-565-65"
 					 ,'bwv_id'	 		=> 2132
 					 ,'user_id'			=> 4512

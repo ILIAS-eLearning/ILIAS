@@ -1,8 +1,13 @@
 <?php
 require_once("Services/GEV/WBD/classes/Requests/class.gevWBDRequestVvErstanlage.php");
 class GevVvErstanlageTest extends RequestTestBase {
-	
+	protected $backupGlobals = FALSE;
+
 	public function setUp() {
+		PHPUnit_Framework_Error_Deprecated::$enabled = FALSE;
+
+		include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
+		ilUnitUtil::performInitialisation();
 		$data = array("address_type"=>"geschäftlich"
 					  ,"title"=>"m"
 					  ,"email"=>"shecken@cat06.de"
