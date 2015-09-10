@@ -1310,19 +1310,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			if (!$executable["executable"]) $passDetailsEnabled = true;
 		}
 
-		$template->setCurrentBlock("pass_overview");
-		
-		$passOverViewTableGUI = $this->buildPassOverviewTableGUI($this);
-		$passOverViewTableGUI->setActiveId($testSession->getActiveId());
-		$passOverViewTableGUI->setResultPresentationEnabled(true);
-		if($passDetailsEnabled)
-		{
-			$passOverViewTableGUI->setPassDetailsCommand('outUserPassDetails');
-		}
-		$passOverViewTableGUI->init();
-		$passOverViewTableGUI->setData($this->getPassOverviewTableData($testSession, true));
-		$template->setVariable("PASS_OVERVIEW", $passOverViewTableGUI->getHTML());
-
 		require_once 'Modules/Test/classes/class.ilTestResultHeaderLabelBuilder.php';
 		$testResultHeaderLabelBuilder = new ilTestResultHeaderLabelBuilder($this->lng, $ilObjDataCache);
 		if( $this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired() )
@@ -1334,8 +1321,22 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$testResultHeaderLabelBuilder->initObjectiveOrientedMode();
 		}
 
-		$template->setVariable("TEXT_RESULTS", $testResultHeaderLabelBuilder->getPassOverviewHeaderLabel());
-		
+		$template->setCurrentBlock("pass_overview");
+		$passOverViewTableGUI = $this->buildPassOverviewTableGUI($this);
+		$passOverViewTableGUI->setActiveId($testSession->getActiveId());
+		$passOverViewTableGUI->setResultPresentationEnabled(true);
+		if($passDetailsEnabled)
+		{
+			$passOverViewTableGUI->setPassDetailsCommand('outUserPassDetails');
+		}
+		if( $this->object->isPassDeletionAllowed() )
+		{
+			$passOverViewTableGUI->setPassDeletionCommand('confirmDeletePass');
+		}
+		$passOverViewTableGUI->init();
+		$passOverViewTableGUI->setData($this->getPassOverviewTableData($testSession, true));
+		$passOverViewTableGUI->setTitle($testResultHeaderLabelBuilder->getPassOverviewHeaderLabel());
+		$template->setVariable("PASS_OVERVIEW", $passOverViewTableGUI->getHTML());
 		$template->parseCurrentBlock();
 
 		if( $this->isGradingMessageRequired() )

@@ -328,11 +328,6 @@ class ilTestServiceGUI
 			$this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired()
 		);
 		
-		if( $this->object->isPassDeletionAllowed() )
-		{
-			$table->setPassDeletionCommand('confirmDeletePass');
-		}
-		
 		return $table;
 	}
 
