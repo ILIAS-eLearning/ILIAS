@@ -3,8 +3,8 @@
 	<div class="il_droparea" id="droparea_{DROP_ID}">
 		<!-- BEGIN dropdown_menu_bl -->		
 		<div class="btn-group" style="width:100%">
-			<div class="dropdown-toggle" data-toggle="dropdown" data-container="body">{ICON_ADD}</div>						
-			<ul class="dropdown-menu" role="menu" style="left: 40%; right: auto;">
+			<div class="dropdown-toggle contextmenu" data-toggle="dropdown" data-container="body">{ICON_ADD}</div>						
+			<ul class="dropdown-menu" role="menu">
 				<!-- BEGIN menu_cmd -->										
 				<li>						
 					<a href="{URL_MENU_CMD}"><span>{TXT_MENU_CMD}</span></a>
@@ -19,10 +19,10 @@
 	<div class="il_editarea{SELECTABLE}" id="{NODE_ID}">										
 		<div class="ilEditLabel" style="display:none;" id="label_{NODE_ID}">{TXT_NODE_TYPE}</div>
 		<!-- BEGIN action_menu_bl -->
-		<div class="dropdown ilSurveyPageEditActionMenu">
-			<button class="btn btn-default dropdown-toggle" data-toggle="dropdown" data-container="body">
-				<span class="caret"></span>
-			</button>
+		<div class="dropdown">
+			<div class="dropdown-toggle contextmenu" data-toggle="dropdown" data-container="body" style="padding: 10px;">												
+				{TXT_NODE_CONTENT_ACTIONS}				
+			</div>	
 			<ul class="dropdown-menu" role="menu" id="actions_{NODE_ID}">
 				<!-- BEGIN action_cmd -->										
 				<li>						
@@ -32,7 +32,11 @@
 			</ul>
 		</div>
 		<!-- END action_menu_bl -->
-		<div style="padding: 10px;">{TXT_NODE_CONTENT}</div>				
+		<!-- BEGIN no_action_menu_bl -->
+		<div style="padding: 10px;">
+			{TXT_NODE_CONTENT_NO_ACTIONS}	
+ 		</div>			
+		<!-- END no_action_menu_bl -->					
 	</div>			
 	<!-- END list_item -->
 <!-- END element -->

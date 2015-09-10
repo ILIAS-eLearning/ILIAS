@@ -589,25 +589,6 @@ components:
     
     This example executes the script cron.php every night at 2 a clock.
 
-    Web based configuration:
-
-    - Edit the file ilias.ini.php in the main directory of your ILIAS
-    installation. And add the following lines at the end of the file:
-	
-    [cron]
-    web_enabled = "1"
-    web_pass = "my_secret"
-    
-    Now you can point your browser to
-    "http://www.your_ilias.de/setup/cron.php?web_pass=my_secret"
-    
-    Note: 
-    cron.php can be executed only once a day. If you want to execute it again
-    (e.g for testing), you have to remove the file 
-	ILIAS_ABSOLUTE_PATH/setup/cron.lock.
-    If logging is enabled in your ilias installation (see main setup) each
-    started cron job writes messages in your log file.
-
 
 3. Updating ILIAS
 

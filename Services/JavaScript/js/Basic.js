@@ -728,6 +728,21 @@ il.Util.addOnLoad(function () {
 			il.Util.fixPosition(this);
 		});
 	});
+	
+	// fix mouse-relative positions of context menus (based on drop-downs) to viewport
+	$('.contextmenu').click(function(e) {			
+		// fixPosition (see above) will fix the x-dimension, we are doing y ourselves
+		var offset = $(this).offset(),
+			menu = $(this).next(),	
+			menu_height = menu.outerHeight(); 											
+		menu.css({
+			position: "absolute",
+			left: e.pageX-offset.left,
+			top: (($(window).scrollTop()+$(window).height()-e.pageY) < menu_height) 
+				? e.pageY-offset.top-menu_height
+				: e.pageY-offset.top
+		});												
+	});
 
 	il.UICore.initFixedDropDowns();
 });
