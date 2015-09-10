@@ -23,8 +23,6 @@ class ilTestPassDetailsOverviewTableGUI extends ilTable2GUI
 	private $showSuggestedSolution = false;
 
 	private $activeId = null;
-
-	private $pass = null;
 	
 	private $is_pdf_generation_request = false;
 	
@@ -72,13 +70,6 @@ class ilTestPassDetailsOverviewTableGUI extends ilTable2GUI
 	 */
 	public function initColumns()
 	{
-		if( !$this->isObjectiveOrientedPresentationEnabled() )
-		{
-			$this->setTitle(sprintf(
-				$this->lng->txt('tst_pass_details_overview_table_title'), $this->getPass() + 1
-			));
-		}
-
 		if( $this->isPassColumnEnabled() )
 		{
 			if($this->isObjectiveOrientedPresentationEnabled())
@@ -363,16 +354,6 @@ class ilTestPassDetailsOverviewTableGUI extends ilTable2GUI
 	public function getActiveId()
 	{
 		return $this->activeId;
-	}
-
-	public function setPass($pass)
-	{
-		$this->pass = $pass;
-	}
-
-	public function getPass()
-	{
-		return $this->pass;
 	}
 
 	/**
