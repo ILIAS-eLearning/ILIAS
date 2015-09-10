@@ -544,7 +544,6 @@ class ilTestServiceGUI
 		}
 
 		$tableGUI->setActiveId($active_id);
-		$tableGUI->setPass($pass);
 		$tableGUI->setShowSuggestedSolution(false);
 
 		$usersQuestionSolutions = array();
@@ -576,7 +575,7 @@ class ilTestServiceGUI
 
 		$tableGUI->setData($usersQuestionSolutions);
 
-		return $this->ctrl->getHTML($tableGUI);
+		return $tableGUI;
 	}
 
 	/**
@@ -633,6 +632,15 @@ class ilTestServiceGUI
 		if (!$t)
 		{
 			$t = $this->object->_getLastAccess($testSession->getActiveId());
+		}
+		
+		if( $this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired() )
+		{
+			$uname = $this->object->userLookupFullName($user_id, $overwrite_anonymity);
+			$template->setCurrentBlock("name");
+			$template->setVariable('TXT_USR_NAME', $this->lng->txt("name"));
+			$template->setVariable('VALUE_USR_NAME', $uname);
+			$template->parseCurrentBlock();
 		}
 
 		$title_matric = "";
@@ -795,7 +803,7 @@ class ilTestServiceGUI
 			$command_solution_details = "";
 			if ($show_pass_details)
 			{
-				$detailsoverview = $this->getPassDetailsOverview($result_array, $active_id, $pass, $targetGUI, "getResultsOfUserOutput", $command_solution_details, $show_answers, $objectivesList);
+				$overviewTableGUI = $this->getPassDetailsOverview($result_array, $active_id, $pass, $targetGUI, "getResultsOfUserOutput", $command_solution_details, $show_answers, $objectivesList, $testResultHeaderLabelBuilder);
 			}
 
 			$user_id = $this->object->_getUserIdFromActiveId($active_id);
@@ -809,13 +817,13 @@ class ilTestServiceGUI
 				$list_of_answers = $this->getPassListOfAnswers(
 					$result_array, $active_id, $pass, $_SESSION['tst_results_show_best_solutions'],
 					$showAllAnswers, $show_question_only, $show_reached_points, $show_pass_details,
-					$objectivesList, $testResultHeaderLabelBuilder
+					$objectivesList
 				);
 			}
 
 			$template->setVariable("LIST_OF_ANSWERS", $list_of_answers);
 			//$template->setVariable("PASS_RESULTS_OVERVIEW", sprintf($this->lng->txt("tst_results_overview_pass"), $pass + 1));
-			$template->setVariable("PASS_DETAILS", $detailsoverview);
+			$template->setVariable("PASS_DETAILS", $this->ctrl->getHTML($overviewTableGUI));
 
 			$signature = $this->getResultsSignature();
 			$template->setVariable("SIGNATURE", $signature);
