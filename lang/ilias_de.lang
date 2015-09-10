@@ -13433,8 +13433,8 @@ survey#:#survey_reminder_frequency_days#:#Tage
 survey#:#survey_notification_target_group#:#Zielgruppe
 survey#:#survey_notification_target_group_parent_course#:#Alle Teilnehmer des übergeordneten Kurses/Gruppe
 survey#:#survey_notification_target_group_parent_course_inactive#:#Kein übergeordneter Kurs/Gruppe - keine Erinnerung möglich!
-survey#:#survey_notification_target_group_invited#:#Alle eingeladenen Teilnehmer
-survey#:#survey_notification_target_group_invited_info#:#Momentan eingeladene Benutzer: %s
+survey#:#survey_notification_target_group_invited#:#Teilnehmer, denen die Umfrage auf den persönlichen Schreibtisch gelegt wurde
+survey#:#survey_notification_target_group_invited_info#:#Aktuelle Anzahl der Empfänger: %s
 survey#:#survey_notification_tutor_setting#:#Eine E-Mail nachdem alle Teilnehmer beendet haben
 survey#:#survey_notification_tutor_recipients#:#Tutoren (Benutzername[n])
 survey#:#survey_notification_tutor_recipients_invalid#:#Bitte geben Sie Benutzer mit Schreibrecht an.
@@ -15138,7 +15138,7 @@ survey#:#survey_access_codes_info#:#Benutzer erhalten Zugang zur Umfrage, indem 
 survey#:#survey_results_anonymization#:#Datenschutz
 survey#:#survey_results_personalized#:#Mit Namen
 survey#:#survey_results_personalized_info#:#Im Reiter 'Ergebnisse' werden Teilnehmer namentlich gelistet und ihre Antworten angezeigt. Alle Benutzer mit Zugang zu diesem Reiter können einsehen, wer welche Antworten gegeben hat.
-survey#:#survey_results_anonymized#:#Ohne Namen
+survey#:#survey_results_anonymized#:#Ohne Namen / Anonyme Umfrage
 survey#:#survey_results_anonymized_info#:#Im Reiter 'Ergebnisse' werden die Namen der Teilnehmer durch Codes ersetzt. Benutzer mit Zugang zu diesem Reiter können die Antworten keinem Namen zuordnen, sondern nur einem Benutzer "iTXaF" (Beispiel).
 survey#:#material_added_empty#:#Das Objekt enthält kein geeignetes Material.
 ecs#:#ecs_refresh_participants#:#ECS-Teilnehmer aktualisieren
