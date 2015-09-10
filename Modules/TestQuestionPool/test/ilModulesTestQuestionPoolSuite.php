@@ -144,6 +144,14 @@ class ilModulesTestQuestionPoolSuite extends PHPUnit_Framework_TestSuite
 		require_once("./Modules/TestQuestionPool/test/assTextSubsetGUITest.php");
 		$suite->addTestSuite("assTextSubsetGUITest");
 
+		// Type: LongMenu
+		require_once("./Modules/TestQuestionPool/test/assLongMenuTest.php");
+		$suite->addTestSuite("assLongMenuTest");
+
+		//require_once("./Modules/TestQuestionPool/test/assTextSubsetGUITest.php");
+		//$suite->addTestSuite("assTextSubsetGUITest");
+
+
 		// Input GUIs
 		// -------------------------------------------------------------------------------------------------------------
 		require_once("./Modules/TestQuestionPool/test/ilAnswerWizardInputGUITest.php");
