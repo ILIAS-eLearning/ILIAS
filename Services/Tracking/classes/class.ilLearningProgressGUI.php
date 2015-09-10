@@ -411,6 +411,12 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 		
 		foreach($coll_items as $item_id)
 		{
+			// #16599 - deleted items should not be displayed
+			if(!array_key_exists($item_id, $possible_items))
+			{
+				continue;
+			}
+			
 			$field = new ilCustomInputGUI($possible_items[$item_id]["title"]);
 			
 			// lp status
