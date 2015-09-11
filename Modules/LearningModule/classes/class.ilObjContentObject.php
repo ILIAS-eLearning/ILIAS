@@ -3203,7 +3203,8 @@ class ilObjContentObject extends ilObject
 		}
 
 		include_once ("./Modules/LearningModule/classes/class.ilContObjParser.php");
-		$contParser = new ilContObjParser($this, $xml_file, $subdir, $qmapping);
+		$subdir = ".";
+		$contParser = new ilContObjParser($this, $xml_file, $subdir, $a_directory);
 		$contParser->setQuestionMapping($qtis);
 		$contParser->startParsing();
 		ilObject::_writeImportId($this->getId(), $this->getImportId());

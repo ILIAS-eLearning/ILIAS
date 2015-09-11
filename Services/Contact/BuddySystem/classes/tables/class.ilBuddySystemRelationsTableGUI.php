@@ -89,6 +89,7 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
 		}
 
 		$this->addColumn($this->lng->txt('name'), 'public_name');
+		$this->addColumn($this->lng->txt('login'), 'login');
 		$this->addColumn('', '');
 
 		$this->setRowTemplate('tpl.buddy_system_relation_table_row.html', 'Services/Contact/BuddySystem');
@@ -149,18 +150,30 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
 		});
 
 		require_once 'Services/User/classes/class.ilUserUtil.php';
-		$public_names = ilUserUtil::getNamePresentation($relations->getKeys(), false, false, '', false, false, false);
+		$public_names = ilUserUtil::getNamePresentation($relations->getKeys(), false, false, '', false, true, false);
+		$logins       = ilUserUtil::getNamePresentation($relations->getKeys(), false, false, '', false, false, false);
+
+		$logins = array_map(function($value) {
+			$matches = null;
+			preg_match('/\[(.+?)\]/', $value, $matches);
+			return is_array($matches) && isset($matches[1]) ? $matches[1] : '';
+		}, $logins);
 
 		$public_name = $this->filter['public_name'];
-		$relations = $relations->filter(function(ilBuddySystemRelation $relation) use ($public_name, $relations, $public_names) {
-			return !strlen($public_name) || strpos(strtolower($public_names[$relations->getKey($relation)]), strtolower($public_name)) !== false;
+		$relations = $relations->filter(function(ilBuddySystemRelation $relation) use ($public_name, $relations, $public_names, $logins) {
+			return (
+				!strlen($public_name) ||
+				strpos(strtolower($public_names[$relations->getKey($relation)]), strtolower($public_name)) !== false ||
+				strpos(strtolower($logins[$relations->getKey($relation)]), strtolower($public_name)) !== false
+			);
 		});
 
 		foreach($relations->toArray() as $usr_id => $relation)
 		{
 			$data[] = array(
 				'usr_id'        => $usr_id,
-				'public_name'   => $public_names[$usr_id]
+				'public_name'   => $public_names[$usr_id],
+				'login'         => $logins[$usr_id]
 			);
 		}
 
@@ -178,7 +191,7 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
 		 * @var $ilUser ilObjUser
 		 */
 		global $ilUser;
-		
+
 		if($this->access_to_mail_system)
 		{
 			$a_set['chb'] = ilUtil::formCheckbox(0, 'usr_id[]', $a_set['usr_id']);
@@ -191,10 +204,14 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
 			$profile_target = $this->ctrl->getLinkTargetByClass('ilpublicuserprofilegui', 'getHTML');
 			$a_set['profile_link']       = $profile_target;
 			$a_set['linked_public_name'] = $a_set['public_name'];
+
+			$a_set['profile_link_login'] = $profile_target;
+			$a_set['linked_login']       = $a_set['login'];
 		}
 		else
 		{
 			$a_set['unlinked_public_name'] = $a_set['public_name'];
+			$a_set['unlinked_login']       = $a_set['login'];
 		}
 
 		$a_set['contact_actions'] = ilBuddySystemLinkButton::getInstanceByUserId($a_set['usr_id'])->getHtml();

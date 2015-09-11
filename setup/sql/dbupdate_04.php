@@ -11482,3 +11482,10 @@ if (! $ilDB->sequenceExists('prg_translations')) {
 	$ilDB->createSequence('prg_translations');
 }
 ?>
+<#4753>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+$parent_types = array('root', 'cat', 'prg');
+ilDBUpdateNewObjectType::addRBACCreate('create_prg', 'Create Study Programme', $parent_types);
+?>

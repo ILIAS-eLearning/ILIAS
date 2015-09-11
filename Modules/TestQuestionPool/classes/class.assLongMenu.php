@@ -16,7 +16,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 	const ANSWER_TYPE_SELECT_VAL	= 0;
 	const ANSWER_TYPE_TEXT_VAL		= 1;
 	const GAP_PLACEHOLDER			= 'Longmenu';
-	const MIN_LENGTH_AUTOCOMPLETE 	= 0;
+	const MIN_LENGTH_AUTOCOMPLETE 	= 1;
 	const MAX_INPUT_FIELDS 			= 500;
 
 	function __construct(
