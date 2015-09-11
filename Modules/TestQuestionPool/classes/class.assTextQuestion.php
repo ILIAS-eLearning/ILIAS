@@ -1061,7 +1061,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 	 * @param integer $pass
 	 * @return boolean $answered
 	 */
-	public function isAnswered($active_id, $pass)
+	public function isAnswered($active_id, $pass = NULL)
 	{
 		$numExistingSolutionRecords = assQuestion::getNumExistingSolutionRecords($active_id, $pass, $this->getId());
 

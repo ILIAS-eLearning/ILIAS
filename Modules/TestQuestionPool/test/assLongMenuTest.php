@@ -19,6 +19,7 @@ class assLongmenuTest  extends PHPUnit_Framework_TestCase
 	
 	protected function setUp()
 	{
+		require_once './Modules/TestQuestionPool/classes/class.assLongMenu.php';
 		if (defined('ILIAS_PHPUNIT_CONTEXT'))
 		{
 			include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
@@ -34,19 +35,25 @@ class assLongmenuTest  extends PHPUnit_Framework_TestCase
 
 	public function test_instantiateObject_shouldReturnInstance()
 	{
-		require_once './Modules/TestQuestionPool/classes/class.assLongMenu.php';
-		
 		$instance = new assLongMenu();
-
 		$this->assertInstanceOf('assLongMenu', $instance);
 	}
 
+	public function test_getAdditionalTableName_shouldReturnString()
+	{
+		$instance = new assLongMenu();
+		$this->assertEquals('qpl_qst_lome', $instance->getAdditionalTableName());
+	}
+
+	public function test_getQuestionType_shouldReturnString()
+	{
+		$instance = new assLongMenu();
+		$this->assertEquals('assLongMenu', $instance->getQuestionType());
+	}
+	
 	public function test_getAnswerTableName_shouldReturnString()
 	{
-		require_once './Modules/TestQuestionPool/classes/class.assLongMenu.php';
-		
 		$instance = new assLongMenu();
-
 		$this->assertEquals('qpl_a_lome', $instance->getAnswerTableName());
 	}
 
@@ -172,5 +179,13 @@ class assLongmenuTest  extends PHPUnit_Framework_TestCase
 		$obj->setAnswers(array(array('answer')));
 		$this->assertEquals($obj->checkQuestionCustomPart(), true);
 	}
-	
+
+	public function test_getSolutionSubmit_shouldReturnSolution()
+	{
+		$obj = new assLongMenu();
+		$array = array( 0 => 'squirrel', 1 => 'icebear');
+		$_POST['answer'] = $array;
+		$this->assertEquals($obj->getSolutionSubmit(), $array);
+	}
+
 }

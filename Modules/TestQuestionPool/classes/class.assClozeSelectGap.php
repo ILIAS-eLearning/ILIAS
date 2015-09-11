@@ -102,7 +102,7 @@ class assClozeSelectGap extends assClozeGap
 * @access public
 * @see $items
 */
-  function getItems() 
+  function getItems(ilArrayElementShuffler $shuffler = null) 
 	{
 		if ($this->shuffle)
 		{
