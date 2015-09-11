@@ -359,7 +359,7 @@ class ilMimeMail
 		// envoie du mail
 		if(!(int)$ilSetting->get('prevent_smtp_globally'))
 		{
-			$res = @mail( $this->strTo, $this->xheaders['Subject'], $this->fullBody, $this->headers, "-f no-reply@" . $_SERVER["HTTP_HOST"] );		
+			$res = @mail( $this->strTo, $this->xheaders['Subject'], $this->fullBody, $this->headers );		
 		}
 		#$ilLog->write($this->strTo.' '. $this->xheaders['Subject'].' '. $this->fullBody.' '. $this->headers);
 	}
