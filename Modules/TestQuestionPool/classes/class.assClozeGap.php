@@ -369,7 +369,7 @@ class assClozeGap
 				$best_solutions = array();
 				foreach ($this->getItems($shuffler) as $answer)
 				{
-					if (is_array($best_solutions[$answer->getPoints()]))
+					if (isset($best_solutions[$answer->getPoints()]) && is_array($best_solutions[$answer->getPoints()]))
 					{
 						array_push($best_solutions[$answer->getPoints()], $answer->getAnswertext());
 					}
