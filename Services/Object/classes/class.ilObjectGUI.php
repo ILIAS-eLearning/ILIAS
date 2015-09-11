@@ -70,6 +70,7 @@ class ilObjectGUI
 	var $formaction;		// special formation (array "cmd" => "formaction")
 	var $return_location;	// special return location (array "cmd" => "location")
 	var $target_frame;	// special target frame (array "cmd" => "location")
+	protected $tmp_import_dir;	// directory used during import
 
 	var $tab_target_script;
 	var $actions;
@@ -1318,8 +1319,16 @@ class ilObjectGUI
 				$imp = new ilImport((int)$parent_id);
 			}
 
-			$new_id = $imp->importObject(null, $_FILES["importfile"]["tmp_name"],
-				$_FILES["importfile"]["name"], $new_type);
+			try
+			{
+				$new_id = $imp->importObject(null, $_FILES["importfile"]["tmp_name"],
+					$_FILES["importfile"]["name"], $new_type);
+			}
+			catch (ilException $e)
+			{
+				$this->tmp_import_dir = $imp->getTemporaryImportDir();
+				throw $e;
+			}
 
 			if ($new_id > 0)
 			{
