@@ -16008,3 +16008,9 @@ trac#:#trac_lp_settings_info_parent_legend#:#Der Lernfortschrittsstatus des Obje
 search#:#btn_search#:#Suchen
 exc#:#exc_members_already_assigned#:#Die ausgewählten Benutzer sind bereits Mitglieder anderer Teams dieser Übungseinheit.
 prg#:#prg_prg_type#:#Studienprogrammtyp
+rbac#:#prg_visible#:#Studienprogramm ist sichtbar
+rbac#:#prg_copy#:#Benutzer kann das Studienprogramm kopieren
+rbac#:#prg_write#:#Benutzer kann Einstellungen bearbeiten
+rbac#:#prg_delete#:#Studienprogramm löschen
+rbac#:#prg_edit_permission#:#Rechteeinstellungen bearbeiten
+rbac#:#rbac_create_prg#:#Studienprogramm anlegen

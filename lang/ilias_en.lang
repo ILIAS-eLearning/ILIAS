@@ -16008,3 +16008,9 @@ trac#:#trac_lp_settings_info_parent_legend#:#The learning progress status of thi
 search#:#btn_search#:#Search
 exc#:#exc_members_already_assigned_tean#:#These users are already assigned to other teams of this assignment.
 prg#:#prg_prg_type#:#Study Programme Type
+rbac#:#prg_visible#:#Study Programme is visible
+rbac#:#prg_copy#:#User can copy Study Programme
+rbac#:#prg_write#:#User can edit settings of Study Programme
+rbac#:#prg_delete#:#User can delete Study Programme
+rbac#:#prg_edit_permission#:#User can change permission settings
+rbac#:#rbac_create_prg#:#Create Study Programme
