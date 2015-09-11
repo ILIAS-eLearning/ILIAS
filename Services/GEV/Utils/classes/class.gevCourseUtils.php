@@ -2432,7 +2432,7 @@ class gevCourseUtils {
 		foreach($participants as $participant) {
 			$this->getBookings()->cancelWithoutCosts($participant);
 		}
-		$mails->send("admin_cancel_booked_to_cancelled_without_costs", $participants);
+		$mails->send("training_cancelled_participant_info", $participants);
 
 		//Send cancel mail to trainer						
 		$trainers = $this->getTrainers();
