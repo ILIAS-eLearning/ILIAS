@@ -608,6 +608,11 @@ class ilObjStudyProgramme extends ilContainer {
 			throw new ilStudyProgrammeTreeException("Program already contains leafs.");
 		}
 		
+		if ($this->settings->getLPMode() !== ilStudyProgramme::MODE_POINTS) {
+			$this->settings->setLPMode(ilStudyProgramme::MODE_POINTS)
+						   ->update();
+		}
+		
 		$this->clearChildrenCache();
 		$this->addProgressForNewNodes($a_prg);
 	}
