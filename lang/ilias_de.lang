@@ -16014,3 +16014,7 @@ rbac#:#prg_write#:#Benutzer kann Einstellungen bearbeiten
 rbac#:#prg_delete#:#Studienprogramm löschen
 rbac#:#prg_edit_permission#:#Rechteeinstellungen bearbeiten
 rbac#:#rbac_create_prg#:#Studienprogramm anlegen
+rbac#:#prgs_visible#:#Studienprogramm-Administration ist sichtbar
+rbac#:#prgs_read#:#Lesezugriff auf Studienprogramm-Administration
+rbac#:#prgs_write#:#Einstellungen in Studienprogramm-Administration bearbeiten
+rbac#:#prgs_edit_permission#:#Rechteeinstellungen in Studienprogramm-Administration ändern

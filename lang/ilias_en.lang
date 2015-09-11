@@ -16014,3 +16014,7 @@ rbac#:#prg_write#:#User can edit settings of Study Programme
 rbac#:#prg_delete#:#User can delete Study Programme
 rbac#:#prg_edit_permission#:#User can change permission settings
 rbac#:#rbac_create_prg#:#Create Study Programme
+rbac#:#prgs_visible#:#Study Programme administration is visible
+rbac#:#prgs_read#:#User has read access to Study Programme administration
+rbac#:#prgs_write#:#Edit settings in Study Programme administration
+rbac#:#prgs_edit_permission#:#Change permission settings in Study Programme administration
