@@ -1196,8 +1196,7 @@ class gevCourseUtils {
 		$assigned_vcs = $vc_pool->getVCAssignmentsByObjId($this->crs_id);
 		$has_vc_assigned = !empty($assigned_vcs);
 		
-		$should_get_vc_assignment = $this->isVirtualTraining() 
-								&& $this->isStartAndEndDateSet() 
+		$should_get_vc_assignment = $this->isStartAndEndDateSet() 
 								&& $this->getVirtualClassType() !== null;
 		
 		if ($has_vc_assigned && $should_get_vc_assignment) {
