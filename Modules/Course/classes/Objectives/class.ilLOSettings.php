@@ -239,7 +239,8 @@ class ilLOSettings
 			$new_settings->setQualifyingTestAsStart($settings->isQualifyingTestStart());
 		}
 		
-		$new_settings->create();
+		// update calls create in case of no entry exists.
+		$new_settings->update();
 	}
 	
 	/**
