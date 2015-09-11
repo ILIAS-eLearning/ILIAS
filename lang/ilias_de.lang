@@ -15995,7 +15995,7 @@ mail#:#orphaned_mail_subject#:#Notification about orphaned mails###30 08 2015 ne
 mail#:#orphaned_mail_body#:#There are old or orphaned mails in the following mailboxes. Please note, that these mails will be deleted automatically soon.###30 08 2015 new variable
 rbac#:#rbac_permissions#:#Permissions###30 08 2015 new variable
 buddysystem#:#buddy_bs_state_requested_p#:#Requested###30 08 2015 new variable
-common#:#obj_prgs#:#Study Programmes###30 08 2015 new variable
+common#:#obj_prgs#:#Studienprogramme
 prg#:#prg_visible#:#Programme is visible###30 08 2015 new variable
 prg#:#prg_copy#:#User can copy study programme###30 08 2015 new variable
 prg#:#prg_write#:#User can edit study programme settings and manage content.###30 08 2015 new variable
