@@ -18,7 +18,9 @@ class ilUnitUtil
 		 */
 		global $ilErr;
 
-		define('IL_PHPUNIT_TEST', true);
+		if (!defined('IL_PHPUNIT_TEST')) {
+			define('IL_PHPUNIT_TEST', true);
+		}
 
 		session_id('phpunittest');
 		$_SESSION = array();
