@@ -1309,8 +1309,25 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	{
 		global $_FILES, $rbacsystem, $ilDB, $tpl;
 
-		parent::importFileObject();
-		return
+		$no_manifest = false;
+		try
+		{
+			// the new import
+			parent::importFileObject();
+			return;
+		}
+		catch (ilManifestFileNotFoundImportException $e)
+		{
+			// we just run through in this case.
+			$no_manifest = true;
+		}
+
+		if (!$no_manifest)
+		{
+			return;			// something different has gone wrong, but we have a manifest, this is definitely not "the old" import
+		}
+
+		// the "old" (pre 5.1) import
 
 		include_once "./Modules/LearningModule/classes/class.ilObjLearningModule.php";
 
@@ -1319,7 +1336,6 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 			$this->ilias->raiseError($this->lng->txt("no_create_permission"), $this->ilias->error_obj->MESSAGE);
 			return;
 		}
-
 		$form = $this->initImportForm();
 		if ($form->checkInput())
 		{
@@ -1327,7 +1343,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 			include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
 			$newObj = new ilObjContentObject();
 			$newObj->setType($_GET["new_type"]);
-			$newObj->setTitle($_FILES["xmldoc"]["name"]);
+			$newObj->setTitle($_FILES["importfile"]["name"]);
 			$newObj->setDescription("");
 			$newObj->create(true);
 			$newObj->createReference();
@@ -1338,9 +1354,13 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 			// create learning module tree
 			$newObj->createLMTree();
 
+			// since the "new" import already did the extracting
+			$mess =  $newObj->importFromDirectory($this->tmp_import_dir, $_POST["validate"]);
+
+
 			// import lm from file
-			$mess = $newObj->importFromZipFile($_FILES["xmldoc"]["tmp_name"], $_FILES["xmldoc"]["name"],
-				$_POST["validate"]);
+//			$mess = $newObj->importFromZipFile($_FILES["importfile"]["tmp_name"], $_FILES["importfile"]["name"],
+//				$_POST["validate"]);
 
 			if ($mess == "")
 			{

@@ -13,6 +13,7 @@ class ilImport
 	protected $install_id = "";
 	protected $install_url = "";
 	protected $entities = "";
+	protected $tmp_import_dir = "";
 
 	protected $mapping = null;
 	protected $skip_entity = array();
@@ -175,7 +176,9 @@ class ilImport
 
 		ilUtil::unzip($tmpdir."/".$a_filename);
 		$dir = $tmpdir."/".substr($a_filename, 0, strlen($a_filename) - 4);
-		
+
+		$this->setTemporaryImportDir($dir);
+
 		$GLOBALS['ilLog']->write(__METHOD__.': do import with dir '.$dir);
 		$new_id = $this->doImportObject($dir, $a_type, $a_comp, $tmpdir);
 		
@@ -184,7 +187,26 @@ class ilImport
 		
 		return $new_id;
 	}
-	
+
+	/**
+	 * Set temporary import directory
+	 *
+	 * @param string $a_val temporary import directory (used to unzip and read import)
+	 */
+	protected function setTemporaryImportDir($a_val)
+	{
+		$this->tmp_import_dir = $a_val;
+	}
+
+	/**
+	 * Get temporary import directory
+	 *
+	 * @return string temporary import directory (used to unzip and read import)
+	 */
+	public function getTemporaryImportDir()
+	{
+		return $this->tmp_import_dir;
+	}
 	
 	/**
 	 * Import repository object export file
