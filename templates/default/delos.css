@@ -9630,6 +9630,10 @@ table.il_user_quota_disk_usage_overview {
   height: auto;
   text-align: center;
 }
+.ilUsersGalleryContainer div.ilUser img {
+  min-height: 80px;
+  max-height: 80px;
+}
 .ilUsersGalleryContainer div.ilUser h3 {
   white-space: nowrap;
   overflow: hidden;
