@@ -58,7 +58,7 @@ class ilTermsOfServiceFileSystemDocumentTest extends PHPUnit_Framework_TestCase
 	 */
 	public function setUp()
 	{
-		$this->lng = $this->getMockBuilder('ilLanguage')->disableOriginalConstructor()->getMock();
+		$this->lng = $this->getMockBuilder('ilLanguage')->setMethods(array('toJSON'))->disableOriginalConstructor()->getMock();
 		$this->lng->expects($this->any())
 				  ->method('getLangKey')
 				  ->will($this->returnValue('de'));
@@ -100,7 +100,7 @@ class ilTermsOfServiceFileSystemDocumentTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testExceptionIsRaisedWhenNoSingableDocumentCouldBeFoundForCurrentLanguage()
 	{
-		$document = new ilTermsOfServiceFileSystemDocument($this->getMockBuilder('ilLanguage')->disableOriginalConstructor()->getMock());
+		$document = new ilTermsOfServiceFileSystemDocument($this->getMockBuilder('ilLanguage')->setMethods(array('toJSON'))->disableOriginalConstructor()->getMock());
 		$document->setSourceFiles(array());
 		$document->determine();
 	}
