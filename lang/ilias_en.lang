@@ -13478,7 +13478,7 @@ common#:#upload_files#:#Upload files
 common#:#upload_files_title#:#Upload files
 common#:#upload_pending#:#Pending
 common#:#error_empty_file_or_folder#:#The file size is 0 bytes or it is a folder.
-common#:#error_upload_was_zero_bytes#:#The upload failed as this is a folder, the file size is 0 bytes or the file was renamed meanwhile.
+common#:#error_upload_was_zero_bytes#:#The upload failed as this is a folder, the file size is 0 bytes or exceeded the max. upload size or the file was renamed meanwhile.
 common#:#uploading#:#Uploading...
 common#:#extracting#:#Extracting...
 common#:#drop_files_on_repo_obj_info#:#Drop the files here to upload them into this object.
