@@ -718,20 +718,19 @@ abstract class ilContainerContentGUI
 		global $ilAccess, $lng;
 		
 		$perm_ok = $ilAccess->checkAccess("read", "", $a_itgr['ref_id']);
-
+			
 		include_once('./Services/Container/classes/class.ilContainerSorting.php');			
 		include_once('./Services/Object/classes/class.ilObjectActivation.php');
 		$items = ilObjectActivation::getItemsByItemGroup($a_itgr['ref_id']);
-	
-		// if no permission is given, do not display the whole block
+		
+		// if no permission is given, set the items to "rendered" but
+		// do not display the whole block
 		if (!$perm_ok)
 		{
-			/* #16629 - items may be displayed in other item groups
 			foreach($items as $item)
 			{
 				$this->renderer->hideItem($item["child"]);
-			}			 
-			*/
+			}
 			return;
 		}
 		
