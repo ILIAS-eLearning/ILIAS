@@ -851,7 +851,7 @@ class ilTestServiceGUI
 		if( $this->isGradingMessageRequired() )
 		{
 			$template->setCurrentBlock('grading_message');
-			$template->setVariable('GRADING_MESSAGE', $this->getGradingMessage($active_id));
+			$template->setVariable('GRADING_MESSAGE', $this->populateGradingMessage($active_id));
 			$template->parseCurrentBlock();
 		}
 
@@ -1001,7 +1001,7 @@ class ilTestServiceGUI
 	 * @param integer $activeId
 	 * @return string
 	 */
-	protected function getGradingMessage($activeId)
+	protected function populateGradingMessage($activeId)
 	{
 		require_once 'Modules/Test/classes/class.ilTestGradingMessageBuilder.php';
 		$gradingMessageBuilder = new ilTestGradingMessageBuilder($this->lng, $this->object);
@@ -1009,7 +1009,7 @@ class ilTestServiceGUI
 		$gradingMessageBuilder->setActiveId($activeId);
 		$gradingMessageBuilder->build();
 		
-		return $gradingMessageBuilder->getMessage();
+		$gradingMessageBuilder->sendMessage();
 	}
 	
 	protected function buildQuestionRelatedObjectivesList(ilLOTestQuestionAdapter $objectivesAdapter, ilTestQuestionSequence $testSequence)
