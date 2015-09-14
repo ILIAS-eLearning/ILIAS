@@ -4,7 +4,7 @@
 
 <!-- GROUP -->
 <!-- Added registration as optional due to BC to ILIAS 2 export -->
-<!ELEMENT group (title,description,owner?,information?,registration?,admin*,member*,file*,folder*)>
+<!ELEMENT group (title,description,owner?,information?,registration?,admin*,member*,file*,folder*,Sort?)>
 <!-- type is 'open' or 'closed' -->
 <!ATTLIST group
     exportVersion CDATA #REQUIRED
