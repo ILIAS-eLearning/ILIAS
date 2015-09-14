@@ -18,6 +18,11 @@ class ilToolbarGUI
 {
 
 	/**
+	 * @var int
+	 */
+	protected static $instances = 0;
+
+	/**
 	 * @var string
 	 */
 	protected $id = '';
@@ -82,7 +87,7 @@ class ilToolbarGUI
 
 	public function __construct()
 	{
-	
+		self::$instances++;
 	}
 
 	/**
@@ -158,7 +163,7 @@ class ilToolbarGUI
 	 */
 	public function getId()
 	{
-		return $this->id;
+		return $this->id ? $this->id : self::$instances;
 	}
 
 	/**
@@ -410,6 +415,7 @@ class ilToolbarGUI
 		if (count($this->items) || count($this->sticky_items))
 		{
 			$tpl = new ilTemplate("tpl.toolbar.html", true, true, "Services/UIComponent/Toolbar");
+			$tpl->setVariable('TOOLBAR_ID', $this->getId());
 			if (count($this->sticky_items)) {
 				$tpl_sticky = new ilTemplate("tpl.toolbar_sticky_items.html", true, true, "Services/UIComponent/Toolbar");
 				/** @var ilToolbarItem $sticky_item */

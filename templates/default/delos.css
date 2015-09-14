@@ -10452,15 +10452,21 @@ div#il_startup_logo img {
   margin-top: 0;
   margin-bottom: 0;
 }
-.ilToolbar .ilToolbarStickyItems li {
+.ilToolbar .ilToolbarStickyItems.navbar-nav .open .dropdown-menu > li > a {
+  padding-left: 0;
+}
+.ilToolbar .ilToolbarStickyItems > li {
   float: left;
   margin-right: 15px;
 }
-.ilToolbar .ilToolbarStickyItems li .navbar-form {
+.ilToolbar .ilToolbarStickyItems > li .navbar-form {
   border: 0;
 }
-.ilToolbar .ilToolbarStickyItems li.ilToolbarStickyItem {
+.ilToolbar .ilToolbarStickyItems > li.ilToolbarStickyItem {
   border: 0;
+}
+.ilToolbar ul.dropdown-menu > li {
+  border: none;
 }
 @media (min-width: 768px) {
   .ilToolbar .container-fluid {
@@ -10469,6 +10475,12 @@ div#il_startup_logo img {
   .ilToolbar li {
     border: 0;
     margin-right: 15px;
+  }
+  .ilToolbar ul.dropdown-menu > li {
+    margin-right: 0;
+  }
+  .ilToolbar .ilToolbarStickyItems.navbar-nav .open .dropdown-menu > li > a {
+    padding-left: 10px;
   }
 }
 /* Services/UIComponent/Tooltip */
