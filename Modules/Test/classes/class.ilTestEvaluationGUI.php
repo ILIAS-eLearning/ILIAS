@@ -918,7 +918,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		if( $this->isGradingMessageRequired() && $this->object->getNrOfTries() == 1 )
 		{
 			$template->setCurrentBlock('grading_message');
-			$template->setVariable('GRADING_MESSAGE', $this->getGradingMessage($active_id));
+			$template->setVariable('GRADING_MESSAGE', $this->populateGradingMessage($active_id));
 			$template->parseCurrentBlock();
 		}
 
@@ -1027,7 +1027,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		if( $this->isGradingMessageRequired() )
 		{
 			$template->setCurrentBlock('grading_message');
-			$template->setVariable('GRADING_MESSAGE', $this->getGradingMessage($active_id));
+			$template->setVariable('GRADING_MESSAGE', $this->populateGradingMessage($active_id));
 			$template->parseCurrentBlock();
 		}
 
@@ -1214,7 +1214,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$this->isGradingMessageRequired() && $this->object->getNrOfTries() == 1 )
 		{
 			$tpl->setCurrentBlock('grading_message');
-			$tpl->setVariable('GRADING_MESSAGE', $this->getGradingMessage($active_id));
+			$tpl->setVariable('GRADING_MESSAGE', $this->populateGradingMessage($active_id));
 			$tpl->parseCurrentBlock();
 		}
 
@@ -1352,7 +1352,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		if( $this->isGradingMessageRequired() )
 		{
 			$template->setCurrentBlock('grading_message');
-			$template->setVariable('GRADING_MESSAGE', $this->getGradingMessage($active_id));
+			$template->setVariable('GRADING_MESSAGE', $this->populateGradingMessage($active_id));
 			$template->parseCurrentBlock();
 		}
 
