@@ -45,8 +45,11 @@
     &.navbar-nav {
       margin-top: 0;
       margin-bottom: 0;
+      .open .dropdown-menu > li > a {
+        padding-left: 0;
+      }
     }
-    li {
+    > li {
       float: left;
       margin-right: @il-toolbar-margin;
       .navbar-form {
@@ -54,6 +57,13 @@
       }
       &.ilToolbarStickyItem {
         border: 0;
+      }
+    }
+  }
+  ul {
+    &.dropdown-menu {
+      > li {
+        border: none;
       }
     }
   }
@@ -67,6 +77,16 @@
       li {
         border: 0;
         margin-right: @il-toolbar-margin;
+      }
+      ul.dropdown-menu > li {
+        margin-right: 0;
+      }
+      .ilToolbarStickyItems {
+        &.navbar-nav {
+          .open .dropdown-menu > li > a {
+            padding-left: 10px;
+          }
+        }
       }
     }
 }
