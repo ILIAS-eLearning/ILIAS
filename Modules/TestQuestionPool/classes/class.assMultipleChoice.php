@@ -907,9 +907,13 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 	protected function syncImages()
 	{
 		global $ilLog;
-		$question_id = $this->getOriginalId();
-		$imagepath = $this->getImagePath();
-		$imagepath_original = str_replace("/$this->id/images", "/$question_id/images", $imagepath);
+		
+		$imagepath = $this->getImagePath();  
+
+		$question_id = $this->getOriginalId(); 
+		$originalObjId = parent::lookupParentObjId($this->getOriginalId());
+		$imagepath_original = $this->getImagePath($question_id, $originalObjId);
+
 		ilUtil::delDir($imagepath_original);
 		foreach ($this->answers as $answer)
 		{
