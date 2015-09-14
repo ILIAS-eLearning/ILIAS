@@ -2486,6 +2486,8 @@ return;
 	 */
 	function displayMedia($a_fullscreen = false)
 	{
+		global $tpl;
+
 		$tpl = new ilTemplate("tpl.fullscreen.html", true, true, "Modules/LearningModule");
 		$tpl->setCurrentBlock("ilMedia");
 
@@ -2545,6 +2547,13 @@ return;
 				ilObjStyleSheet::getContentStylePath(0));
 		$tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$tpl->setVariable("MEDIA_CONTENT", $output);
+
+		// add js
+		include_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
+		ilObjMediaObjectGUI::includePresentationJS($tpl);
+		$tpl->fillJavaScriptFiles();
+		$tpl->fillCssFiles();
+
 		echo $tpl->get();
 		exit;
 	}

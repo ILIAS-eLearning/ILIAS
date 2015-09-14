@@ -172,7 +172,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		$cmd = $ilCtrl->getCmd();
 
-		if (in_array($cmd, array("displayMediaFullscreen", "downloadFile")))
+		if (in_array($cmd, array("displayMediaFullscreen", "downloadFile", "displayMedia")))
 		{
 			$this->checkPermission("read");
 		}

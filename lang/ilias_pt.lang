@@ -7305,8 +7305,6 @@ forum#:#activate_post_txt#:#Would you really like to activate the current post a
 forum#:#add_re_to_subject#:#Add 'Re: ' to subject on reply
 forum#:#add_re_to_subject_info#:#If activated, 'Re: ' is added to the subject on reply.
 forum#:#close_topics#:#Close
-forum#:#deactivate_current_and_childs#:#Deactivate All Posts
-forum#:#deactivate_post_txt#:#Would you really like to deactivate the current post and all its child posts?
 forum#:#empty_subject#:#On reply the user has to enter a new title.
 forum#:#enter_new_subject#:#Please enter a new subject
 forum#:#fmr_copy_threads_info#:#You have the possibility to copy single threads. Only the beginning of the chosen threads will be duplicated.
@@ -15251,3 +15249,53 @@ forum#:#frm_censorship_applied#:#The censorship has been successfully applied.##
 forum#:#frm_censorship_revoked#:#The censorship has been successfully revoked.###28 07 2015 new variable
 forum#:#frm_mark_as_read#:#Mark as read###28 07 2015 new variable
 forum#:#frm_mark_as_unread#:#Mark as unread###28 07 2015 new variable
+dcl#:#dcl_allowed_file_types#:#Allowed File Types###12 09 2015 new variable
+dcl#:#dcl_locked_tooltip#:#Disable this field for users to edit. Does not include roles with the permission 'Edit Settings'###12 09 2015 new variable
+bibl#:#news_title_created#:#New bibliography list added###12 09 2015 new variable
+bibl#:#news_content_created#:#A new bibliography list has been added. You can view the entries by clicking the link to the item.###12 09 2015 new variable
+bibl#:#news_title_updated#:#Bibliography list updated###12 09 2015 new variable
+bibl#:#news_content_updated#:#The bibliography list has been modified. You can view the new entries by clicking the link to the item.###12 09 2015 new variable
+common#:#obj_orgu_description#:#Creating and editing organisational structure###12 09 2015 new variable
+common#:#il_orgu_superior#:#Superior###12 09 2015 new variable
+common#:#il_orgu_employee#:#Employee###12 09 2015 new variable
+common#:#view_learning_progress#:#View Learning Progress###12 09 2015 new variable
+common#:#view_learning_progress_rec#:#View Learning Progress of Unit incl. Subunits###12 09 2015 new variable
+sysc#:#sysc_overview#:#Overview###12 09 2015 new variable
+sysc#:#sysc_groups#:#System Check Groups###12 09 2015 new variable
+sysc#:#sysc_grp_tree#:#Repository Tree###12 09 2015 new variable
+sysc#:#sysc_grp_tree_desc#:#Performs an analysis of the tree and prints all tree nodes along with analysis data.###12 09 2015 new variable
+sysc#:#sysc_completed_num#:#Fullfilled Tasks###12 09 2015 new variable
+sysc#:#sysc_failed_num#:#Not Fullfilled Tasks###12 09 2015 new variable
+sysc#:#sysc_task_overview#:#Tasks###12 09 2015 new variable
+sysc#:#sysc_action_validate#:#Validate###12 09 2015 new variable
+sysc#:#sysc_action_repair#:#Repair###12 09 2015 new variable
+sysc#:#sysc_task_tree_duplicates#:#Duplicate Entries in Repository Tree###12 09 2015 new variable
+sysc#:#sysc_task_tree_duplicates_desc#:#Search for duplicate entries in the repository tree structure.###12 09 2015 new variable
+sysc#:#sysc_task_tree_dump#:#List Tree###12 09 2015 new variable
+sysc#:#sysc_task_tree_dump_desc#:#Analyses and prints the repository tree structure###12 09 2015 new variable
+sysc#:#sysc_action_list_tree#:#Create Repository Tree Dump###12 09 2015 new variable
+sysc#:#sysc_action_show_tree#:#Show Repository Tree Dump###12 09 2015 new variable
+sysc#:#sysc_tree_duplicate_failures#:#Found duplicate entries in tree structure. Number of duoplicate entries###12 09 2015 new variable
+sysc#:#sysc_message_success#:#No errors found###12 09 2015 new variable
+sysc#:#sysc_tree_list_failures#:#A dump of the the repository tree has been created. Number of errors in tree structure:###12 09 2015 new variable
+sysc#:#sysc_status_na#:#Not Executed###12 09 2015 new variable
+sysc#:#sysc_status_running#:#Running###12 09 2015 new variable
+sysc#:#sysc_status_failed#:#Failed###12 09 2015 new variable
+sysc#:#sysc_status_completed#:#Completed###12 09 2015 new variable
+sysc#:#sysc_task_tree_missing#:#Missing Entries in Repository Tree###12 09 2015 new variable
+sysc#:#sysc_task_tree_missing_desc#:#Searches and repairs missing entries in the repository tree.###12 09 2015 new variable
+sysc#:#sysc_message_tree_missing_confirm#:#Do you really want to restore missing entries in the repository tree structure?###12 09 2015 new variable
+sysc#:#sysc_btn_tree_missing#:#Restore Missing###12 09 2015 new variable
+sysc#:#sysc_tree_missing_failures#:#Found missing entries in the tree structure. Number of missing entries:###12 09 2015 new variable
+sysc#:#sysc_cron_empty_trash#:#Delete Trash Bin###12 09 2015 new variable
+sysc#:#sysc_cron_empty_trash_desc#:#If enabled, the repository trash bin will be purged by given criteria (age, object type or maximum number of objects).###12 09 2015 new variable
+sysc#:#sysc_task_tree_missing_tree#:#Missing Entries in Repository Tree###12 09 2015 new variable
+sysc#:#sysc_task_tree_missing_tree_desc#:#Searches and repairs missing entries in the repository tree.###12 09 2015 new variable
+sysc#:#sysc_task_tree_missing_reference#:#Missing Object References###12 09 2015 new variable
+sysc#:#sysc_task_tree_missing_reference_desc#:#Searches and repairs missing object references in the repository tree.###12 09 2015 new variable
+sysc#:#sysc_task_structure#:#Tree structure###12 09 2015 new variable
+sysc#:#sysc_task_structure_desc#:#Analyzes and corrects the repository tree structure.###12 09 2015 new variable
+blog#:#blog_keywords_other#:#Other Keywords###12 09 2015 new variable
+blog#:#blog_keywords_other_info#:#These keywords were set for other blog postings.###12 09 2015 new variable
+forum#:#forums_thread_deleted#:#The selected thread including all postings have been deleted.###12 09 2015 new variable
+forum#:#forums_threads_deleted#:#The selected threads including all postings have been deleted.###12 09 2015 new variable

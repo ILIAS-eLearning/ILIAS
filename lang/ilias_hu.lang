@@ -6648,8 +6648,6 @@ forum#:#activate_only_current#:#Jelenlegi jóváhagyása
 forum#:#activate_post_txt#:#Biztos, hogy jóváhagyja a jelenlegi hozzászólást, és így az ahhoz fűzött esetleges hozzászólásokat is? Vegye figyelembe, hogy ezzel minden olyan hozzászólást is jóváhagy, amelyre ez válasz volt.
 forum#:#activate_post#:#Jóváhagyás
 forum#:#close_topics#:#Lezárás
-forum#:#deactivate_current_and_childs#:#Összes hozzászólás inaktiválása
-forum#:#deactivate_post_txt#:#Biztos, hogy inaktiválja a jelenlegi hozzászólást, és így az ahhoz fűzött esetleges hozzászólásokat is?
 forum#:#fmr_copy_threads_info#:#Lehetősége van egyszerű hozzászólások másolására. Csak a kiválasztott hozzászólások kezdete lesz megkétszerezve.
 forum#:#forum_add_quote#:#Előző hozzászólás beillesztése
 forum#:#forums_all_threads_marked_read#:#Az összes hozzászólást olvasottként jelölte meg.
@@ -15290,3 +15288,14 @@ sysc#:#sysc_task_tree_missing_reference#:#Hiányzó objektumhivatkozások
 sysc#:#sysc_task_tree_missing_reference_desc#:#Hiányzó objektumhivatkozások keresése és javítása a Taneszköztároló-fában.
 sysc#:#sysc_task_structure#:#Fastruktúra
 sysc#:#sysc_task_structure_desc#:#Taneszköztároló-fa szerkezetének elemzése és javítása.
+dcl#:#dcl_allowed_file_types#:#Allowed File Types###12 09 2015 new variable
+dcl#:#dcl_locked_tooltip#:#Disable this field for users to edit. Does not include roles with the permission 'Edit Settings'###12 09 2015 new variable
+common#:#obj_orgu_description#:#Creating and editing organisational structure###12 09 2015 new variable
+common#:#il_orgu_superior#:#Superior###12 09 2015 new variable
+common#:#il_orgu_employee#:#Employee###12 09 2015 new variable
+common#:#view_learning_progress#:#View Learning Progress###12 09 2015 new variable
+common#:#view_learning_progress_rec#:#View Learning Progress of Unit incl. Subunits###12 09 2015 new variable
+blog#:#blog_keywords_other#:#Other Keywords###12 09 2015 new variable
+blog#:#blog_keywords_other_info#:#These keywords were set for other blog postings.###12 09 2015 new variable
+forum#:#forums_thread_deleted#:#The selected thread including all postings have been deleted.###12 09 2015 new variable
+forum#:#forums_threads_deleted#:#The selected threads including all postings have been deleted.###12 09 2015 new variable
