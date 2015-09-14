@@ -763,6 +763,7 @@ abstract class ilContainerContentGUI
 		$position = 1;
 		foreach($items as $item)
 		{
+			// we are not USING hasItem() here, because item might be in multiple item groups			
 			$html2 = $this->renderItem($item, $position++, false, "[itgr][".$a_itgr['obj_id']."]");
 			if ($html2 != "")
 			{
