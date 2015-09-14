@@ -447,6 +447,12 @@ class ilObjectCopyGUI
 			$this->setTargets($_REQUEST['target']);
 			$GLOBALS['ilCtrl']->setParameter($this,'target_ids',  implode('_', $this->getTargets()));
 		}
+		// paste from clipboard
+		elseif((int) $_REQUEST['target'])
+		{
+			$this->setTarget($_REQUEST['target']);
+			$GLOBALS['ilCtrl']->setParameter($this,'target_ids',  implode('_', $this->getTargets()));
+		}
 		// end-patch multi copy
 		else
 		{
@@ -566,8 +572,18 @@ class ilObjectCopyGUI
 	/**
 	 * Get source id
 	 * @return array
+	 * @deprecated since version 5.1
 	 */
 	public function getSource()
+	{
+		return $this->getSources();
+	}
+	
+	/**
+	 * Get sources
+	 * @return type
+	 */
+	public function getSources()
 	{
 		return (array) $this->sources;
 	}
@@ -643,7 +659,7 @@ class ilObjectCopyGUI
 	{
 		global $ilCtrl;
 		$_SESSION['clipboard']['cmd'] = "copy";
-		$_SESSION['clipboard']['ref_ids'] = explode('_', $this->getSource());
+		$_SESSION['clipboard']['ref_ids'] = $this->getSource();
 		$ilCtrl->returnToParent($this);
 	}
 
