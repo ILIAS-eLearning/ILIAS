@@ -87,6 +87,7 @@ abstract class ilExSubmissionBaseGUI
 	
 	protected function handleRemovedUpload()
 	{
-		$this->handleNewUpload(true);
+		// #16532 - always send notifications
+		$this->handleNewUpload();
 	}
 }

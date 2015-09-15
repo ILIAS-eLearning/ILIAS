@@ -203,10 +203,8 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 			// no empty text
 			if($returned_id)
 			{
-				if(!$existing)
-				{
-					$this->handleNewUpload();			
-				}
+				// #16532 - always send notifications
+				$this->handleNewUpload();					
 				
 				// mob usage
 				include_once "Services/MediaObjects/classes/class.ilObjMediaObject.php";
