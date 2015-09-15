@@ -236,6 +236,7 @@ class ilFileDelivery {
 
 
 	protected function setGeneralHeaders() {
+		$this->checkExisting();
 		if ($this->isSendMimeType()) {
 			header("Content-type: " . $this->getMimeType());
 		}
@@ -720,6 +721,14 @@ class ilFileDelivery {
 			ilWACLog::getInstance()->write(__CLASS__ . ' had output before file delivery: ' . $ob_get_contents);
 		}
 		ob_end_clean(); // fixed 0016469, 0016467, 0016468
+	}
+
+
+	protected function checkExisting() {
+		if (! file_exists($this->getPathToFile())) {
+			ilHTTP::status(404);
+			$this->close();
+		}
 	}
 }
 
