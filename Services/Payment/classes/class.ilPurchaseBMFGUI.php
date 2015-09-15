@@ -386,7 +386,7 @@ class ilPurchaseBMFGUI extends ilPurchaseBaseGUI
 			return;
 		}
 		require_once 'Services/User/classes/class.ilUserPasswordManager.php';
-		$verified_passwd = ilUserPasswordManager::getInstance()->verifyPassword( $this->user_obj, $_POST["password"]);
+		$verified_passwd = ilUserPasswordManager::getInstance()->verifyPassword($this->user_obj, ilUtil::stripSlashes($_POST["password"]));
 		if ($_POST["password"] == "" || $verified_passwd == false)
 		{
 			$this->error = $this->lng->txt('pay_bmf_password_not_valid');
@@ -807,7 +807,7 @@ class ilPurchaseBMFGUI extends ilPurchaseBaseGUI
 		}
 
 		require_once 'Services/User/classes/class.ilUserPasswordManager.php';
-		$verified_passwd = ilUserPasswordManager::getInstance()->verifyPassword( $this->user_obj, $_POST["password"]);
+		$verified_passwd = ilUserPasswordManager::getInstance()->verifyPassword($this->user_obj, ilUtil::stripSlashes($_POST["password"]));
 		if ($_POST["password"] == "" || $verified_passwd == false)
 		{
 			$this->error = $this->lng->txt('pay_bmf_password_not_valid');
