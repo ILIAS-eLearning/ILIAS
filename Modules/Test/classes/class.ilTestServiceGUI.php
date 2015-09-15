@@ -224,7 +224,7 @@ class ilTestServiceGUI
 
 			$data[] = $row;
 		}
-		vd($data);
+
 		return $data;
 	}
 
