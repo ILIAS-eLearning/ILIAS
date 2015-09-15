@@ -685,6 +685,7 @@ assessment#:#grading_obligations_answered_listentry#:#Answered
 assessment#:#grading_obligations_missing_listentry#:#Open
 assessment#:#grading_mark_msg#:#Your mark is: &quot;[mark]&quot;
 assessment#:#mark_tst_ects#:#Your ECTS grade is &quot;[markects]&quot;
+assessment#:#tst_pass_finished_on#:#Test pass finished on
 assessment#:#match_terms_and_definitions#:#Match Terms and Definitions
 assessment#:#match_terms_and_pictures#:#Match Terms and Pictures
 assessment#:#matches#:#matches

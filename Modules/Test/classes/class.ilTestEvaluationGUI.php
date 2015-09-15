@@ -941,6 +941,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
 		$template->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
+		$this->populatePassFinishDate($template, $this->object->getPassFinishDate($active_id, $pass));
+
 		$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
 		if ($this->object->getShowSolutionAnswersOnly())
 		{
@@ -1260,6 +1262,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				$tpl->setVariable("USER_DATA", $user_data);
 			}
 		}
+
+		$this->populatePassFinishDate($tpl, $this->object->getPassFinishDate($active_id, $pass));
 		
 		$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
 		if ($this->object->getShowSolutionAnswersOnly())

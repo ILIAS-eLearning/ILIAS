@@ -860,6 +860,8 @@ class ilTestServiceGUI
 		$template->setVariable("TEXT_HEADING", sprintf($this->lng->txt("tst_result_user_name"), $uname));
 		$template->setVariable("USER_DATA", $user_data);
 
+		$this->populatePassFinishDate($template, $this->object->getPassFinishDate($active_id, $pass));
+
 		return $template->get();
 	}
 
@@ -1192,6 +1194,20 @@ class ilTestServiceGUI
 		$solution = $this->getCorrectSolutionOutput($questionId, $activeId, $pass, $objectivesList);
 
 		$this->tpl->setContent($solution);
+	}
+
+	/**
+	 * @param ilTemplate $tpl
+	 * @param int $passFinishDate
+	 */
+	public function populatePassFinishDate($tpl, $passFinishDate)
+	{
+		$oldValue = ilDatePresentation::useRelativeDates();
+		ilDatePresentation::setUseRelativeDates(false);
+		$passFinishDate = ilDatePresentation::formatDate(new ilDateTime($passFinishDate, IL_CAL_UNIX));
+		ilDatePresentation::setUseRelativeDates($oldValue);
+		$tpl->setVariable("PASS_FINISH_DATE_LABEL", $this->lng->txt('tst_pass_finished_on'));
+		$tpl->setVariable("PASS_FINISH_DATE_VALUE", $passFinishDate);
 	}
 }
 

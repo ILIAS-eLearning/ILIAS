@@ -797,6 +797,7 @@ assessment#:#grading_obligations_answered_listentry#:#Beantwortet
 assessment#:#grading_obligations_missing_listentry#:#Offen
 assessment#:#grading_mark_msg#:#Sie haben die Note &quot;[mark]&quot; erzielt.
 assessment#:#mark_tst_ects#:#Ihre ECTS-Note lautet &quot;[markects]&quot;
+assessment#:#tst_pass_finished_on#:#Testdurchlauf beendet am
 assessment#:#match_terms_and_definitions#:#Zuordnung von Termen und Definitionen
 assessment#:#match_terms_and_pictures#:#Zuordnung von Termen und Bildern
 assessment#:#matches#:#passt zu
