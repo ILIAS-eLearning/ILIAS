@@ -15,6 +15,7 @@ require_once("Services/CourseBooking/classes/class.ilCourseBooking.php");
 require_once("Services/CourseBooking/classes/class.ilUserCourseBookings.php");
 require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevUDFUtils.php");
+require_once("Services/GEV/Utils/classes/class.gevDBVUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
