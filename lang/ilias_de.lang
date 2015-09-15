@@ -16019,3 +16019,5 @@ rbac#:#prgs_read#:#Lesezugriff auf Studienprogramm-Administration
 rbac#:#prgs_write#:#Einstellungen in Studienprogramm-Administration bearbeiten
 rbac#:#prgs_edit_permission#:#Rechteeinstellungen in Studienprogramm-Administration ändern
 user#:#feedhash#:#Newsfeedhash
+wsp#:#wsp_shared_filter_reset_button#:#Suche zurücksetzen
+wsp#:#wsp_shared_filter_button#:#Suche

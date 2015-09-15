@@ -16019,3 +16019,5 @@ rbac#:#prgs_read#:#User has read access to Study Programme administration
 rbac#:#prgs_write#:#Edit settings in Study Programme administration
 rbac#:#prgs_edit_permission#:#Change permission settings in Study Programme administration
 user#:#feedhash#:#Newsfeedhash
+wsp#:#wsp_shared_filter_reset_button#:#Reset Search
+wsp#:#wsp_shared_filter_button#:#Search
