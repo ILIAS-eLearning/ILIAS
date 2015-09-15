@@ -958,7 +958,7 @@ class ilSurveyParticipantsGUI
 			include_once "./Services/Utilities/classes/class.ilCSVReader.php";
 			$reader = new ilCSVReader();
 			$reader->open($_FILES['externalmails']['tmp_name']);
-			$data = $reader->getDataArrayFromCSVFile();
+			$data = $reader->getDataArrayFromCSVFile();			
 			$fields = array_shift($data);
 			foreach($fields as $idx => $field)
 			{
@@ -1013,12 +1013,15 @@ class ilSurveyParticipantsGUI
 				}
 			}
 			$reader->close();
-			$this->object->createSurveyCodesForExternalData($founddata);
-			ilUtil::sendSuccess($this->lng->txt('external_recipients_imported'), true);
-			$this->ctrl->redirect($this, 'codes');
+			
+			if(sizeof($founddata))
+			{
+				$this->object->createSurveyCodesForExternalData($founddata);
+				ilUtil::sendSuccess($this->lng->txt('external_recipients_imported'), true);
+			}
 		}
 		
-		$this->ctrl->redirect($this, 'importExternalMailRecipientsFromTextForm');
+		$this->ctrl->redirect($this, 'codes');
 	}
 	
 	function importExternalMailRecipientsFromFileFormObject()
