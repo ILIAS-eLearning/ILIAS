@@ -306,6 +306,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		}
 		$definitionvalues = $this->object->getDefinitions();
 		$definitions->setValues( $definitionvalues );
+		$definitions->checkInput();
 		$form->addItem( $definitions );
 
 		// Terms
@@ -322,6 +323,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			$this->object->addTerm( new assAnswerMatchingTerm() );
 		$termvalues = $this->object->getTerms();
 		$terms->setValues( $termvalues );
+		$terms->checkInput();
 		$form->addItem( $terms );
 
 		// Matching Pairs
