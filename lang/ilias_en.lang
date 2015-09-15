@@ -16018,3 +16018,4 @@ rbac#:#prgs_visible#:#Study Programme administration is visible
 rbac#:#prgs_read#:#User has read access to Study Programme administration
 rbac#:#prgs_write#:#Edit settings in Study Programme administration
 rbac#:#prgs_edit_permission#:#Change permission settings in Study Programme administration
+user#:#feedhash#:#Newsfeedhash

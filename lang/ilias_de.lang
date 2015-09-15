@@ -16018,3 +16018,4 @@ rbac#:#prgs_visible#:#Studienprogramm-Administration ist sichtbar
 rbac#:#prgs_read#:#Lesezugriff auf Studienprogramm-Administration
 rbac#:#prgs_write#:#Einstellungen in Studienprogramm-Administration bearbeiten
 rbac#:#prgs_edit_permission#:#Rechteeinstellungen in Studienprogramm-Administration ändern
+user#:#feedhash#:#Newsfeedhash
