@@ -33,7 +33,7 @@ class ilExcCriteriaFile extends ilExcCriteria
 	public function resetReview()
 	{		
 		include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
-		$storage = new ilFSStorageExercise($this->ass->getExerciseId(), $this->ass);
+		$storage = new ilFSStorageExercise($this->ass->getExerciseId(), $this->ass->getId());
 		$storage->deleteDirectory($storage->getPeerReviewUploadPath($this->peer_id, $this->giver_id, $this->getId()));			 	
 	}
 	

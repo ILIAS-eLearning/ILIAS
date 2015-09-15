@@ -715,9 +715,11 @@ abstract class ilContainerContentGUI
 	 */
 	function renderItemGroup($a_itgr)
 	{
-		global $ilAccess, $lng;
+		global $ilAccess;
 		
-		$perm_ok = $ilAccess->checkAccess("read", "", $a_itgr['ref_id']);
+		// #16493
+		$perm_ok = ($ilAccess->checkAccess("visible", "", $a_itgr['ref_id']) &&
+			 $ilAccess->checkAccess("read", "", $a_itgr['ref_id']));			
 
 		include_once('./Services/Container/classes/class.ilContainerSorting.php');			
 		include_once('./Services/Object/classes/class.ilObjectActivation.php');
@@ -763,6 +765,7 @@ abstract class ilContainerContentGUI
 		$position = 1;
 		foreach($items as $item)
 		{
+			// we are NOT using hasItem() here, because item might be in multiple item groups			
 			$html2 = $this->renderItem($item, $position++, false, "[itgr][".$a_itgr['obj_id']."]");
 			if ($html2 != "")
 			{

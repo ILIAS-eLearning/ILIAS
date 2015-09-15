@@ -13468,7 +13468,7 @@ common#:#upload_files#:#Dateien hochladen
 common#:#upload_files_title#:#Dateien hochladen
 common#:#upload_pending#:#Ausstehend
 common#:#error_empty_file_or_folder#:#Die Datei ist entweder 0 Byte gross oder es handelt sich um einen Ordner.
-common#:#error_upload_was_zero_bytes#:#Das Hochladen ist fehlgeschlagen, da dies entweder ein Ordner ist, die Datei 0 Byte gross ist oder die Datei inzwischen gelöscht oder umbenannt wurde.
+common#:#error_upload_was_zero_bytes#:#Das Hochladen ist fehlgeschlagen, da dies entweder ein Ordner ist, die Datei 0 Byte gross ist, die max. Uploadgröße überschreitet oder die Datei inzwischen gelöscht oder umbenannt wurde.
 common#:#uploading#:#Hochladen...
 common#:#extracting#:#Entpacken...
 common#:#drop_files_on_repo_obj_info#:#Ziehen Sie die Dateien hier hin, um sie in dieses Objekt hochzuladen.
@@ -16018,3 +16018,6 @@ rbac#:#prgs_visible#:#Studienprogramm-Administration ist sichtbar
 rbac#:#prgs_read#:#Lesezugriff auf Studienprogramm-Administration
 rbac#:#prgs_write#:#Einstellungen in Studienprogramm-Administration bearbeiten
 rbac#:#prgs_edit_permission#:#Rechteeinstellungen in Studienprogramm-Administration ändern
+user#:#feedhash#:#Newsfeedhash
+wsp#:#wsp_shared_filter_reset_button#:#Suche zurücksetzen
+wsp#:#wsp_shared_filter_button#:#Suche

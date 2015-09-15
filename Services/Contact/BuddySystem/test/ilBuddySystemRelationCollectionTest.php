@@ -94,7 +94,9 @@ class ilBuddySystemRelationCollectionTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue($collection->isEmpty());
 
 		$collection[] = 5;
-		$this->assertSame(5, reset($collection->toArray()));
+
+		$data = $collection->toArray();
+		$this->assertSame(5, reset($data));
 	}
 
 	/**

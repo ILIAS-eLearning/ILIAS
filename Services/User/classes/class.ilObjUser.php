@@ -691,7 +691,7 @@ class ilObjUser extends ilObject
 	/**
 	* Private function for lookup methods
 	*/
-	private function _lookup($a_user_id, $a_field)
+	private static function _lookup($a_user_id, $a_field)
 	{
 		global $ilDB;
 		
@@ -805,7 +805,7 @@ class ilObjUser extends ilObject
 	/**
 	* lookup login
 	*/
-	function _lookupLogin($a_user_id)
+	public static function  _lookupLogin($a_user_id)
 	{
 		return ilObjUser::_lookup($a_user_id, "login");
 	}

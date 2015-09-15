@@ -385,8 +385,9 @@ class ilPurchaseBMFGUI extends ilPurchaseBaseGUI
 			$this->showDebitEntry();
 			return;
 		}
-		if ($_POST["password"] == "" ||
-			md5($_POST["password"]) != $this->user_obj->getPasswd())
+		require_once 'Services/User/classes/class.ilUserPasswordManager.php';
+		$verified_passwd = ilUserPasswordManager::getInstance()->verifyPassword($this->user_obj, ilUtil::stripSlashes($_POST["password"]));
+		if ($_POST["password"] == "" || $verified_passwd == false)
 		{
 			$this->error = $this->lng->txt('pay_bmf_password_not_valid');
 			ilUtil::sendInfo($this->error);
@@ -804,8 +805,10 @@ class ilPurchaseBMFGUI extends ilPurchaseBaseGUI
 			$this->showCreditCard();
 			return;
 		}
-		if ($_POST["password"] == "" ||
-			md5($_POST["password"]) != $this->user_obj->getPasswd())
+
+		require_once 'Services/User/classes/class.ilUserPasswordManager.php';
+		$verified_passwd = ilUserPasswordManager::getInstance()->verifyPassword($this->user_obj, ilUtil::stripSlashes($_POST["password"]));
+		if ($_POST["password"] == "" || $verified_passwd == false)
 		{
 			$this->error = $this->lng->txt('pay_bmf_password_not_valid');
 			ilUtil::sendInfo($this->error);
