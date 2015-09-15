@@ -97,7 +97,11 @@ class ilTestGradingMessageBuilder
 	
 	public function sendMessage()
 	{
-		if( $this->isPassed() )
+		if( !$this->testOBJ->isShowGradingStatusEnabled() )
+		{
+			ilUtil::sendInfo($this->getFullMessage());
+		}
+		elseif( $this->isPassed() )
 		{
 			ilUtil::sendSuccess($this->getFullMessage());
 		}
