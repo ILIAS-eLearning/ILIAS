@@ -2112,21 +2112,39 @@ class gevCourseUtils {
 				//$txt[] = $lng->txt("name").": ".$user_data["name"];
 				//$txt[] = $lng->txt("phone_office").": ".$user_data["fon"];
 				//$txt[] = $lng->txt("vofue_org_unit_short").": ". $user_data["ounit"];
+				$ou_title = array();
 
-				$ou_id = $user_utils->getOrgUnitId();
-				if ($ou_id) {
+				$employee_ous = $user_utils->getOrgUnitsWhereUserIsEmployee();
+				$superior_ous = $user_utils->getOrgUnitsWhereUserIsDirectSuperior();
+				
+				foreach ($employee_ous as &$array) {
+					$array = $array["obj_id"];			
+				}
+				foreach ($superior_ous as &$array) {
+					$array = $array["obj_id"];			
+				}
+				$ou_ids = array_unique(array_merge($employee_ous,$superior_ous));
+
+				foreach($ou_ids as $ou_id) {
+
 					$ou_utils = gevOrgUnitUtils::getInstance($ou_id);
 					$ou_above_utils = $ou_utils->getOrgUnitAbove();
-					if ($ou_above_utils) {
-						$ou_title = $ou_above_utils->getTitle()." / ".$ou_utils->getTitle();
+					$ou_above_above_utils = $ou_above_utils->getOrgUnitAbove();
+
+					if ($ou_above_above_utils) {
+						$ou_title_aux = $ou_above_above_utils->getTitle()." / ".$ou_above_utils->getTitle()." / ".$ou_utils->getTitle();
+					}		
+					else if ($ou_above_utils) {
+						$ou_title_aux = $ou_above_utils->getTitle()." / ".$ou_utils->getTitle();
 					}
 					else {
-						$ou_title = $ou_utils->getTitle();
+						$ou_title_aux = $ou_utils->getTitle();
 					}
+					$ou_title[] = $ou_title_aux; 
 				}
-				else {
-					$ou_title = "";
-				}
+				$ou_title = implode(', ', $ou_title);
+
+
 
 				$worksheet->write($row, 0, $user_utils->getGender(), $format_wrap);
 				$worksheet->writeString($row, 1, $user_utils->getFirstname(), $format_wrap);
