@@ -1,5 +1,5 @@
 BEGIN:VTIMEZONE
-TZID=Atlantic/Cape_Verde
+TZID:Atlantic/Cape_Verde
 X-LIC-LOCATION:Atlantic/Cape_Verde
 BEGIN:STANDARD
 TZOFFSETFROM:-0200

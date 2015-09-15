@@ -1,5 +1,5 @@
 BEGIN:VTIMEZONE
-TZID=America/Argentina/Buenos_Aires
+TZID:America/Argentina/Buenos_Aires
 X-LIC-LOCATION:America/Buenos_Aires
 BEGIN:STANDARD
 TZOFFSETFROM:-0300
