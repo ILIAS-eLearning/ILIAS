@@ -88,12 +88,19 @@ class ilCSVReader
 	}
 	
 	public function open($file = "")
-	{
+	{		
+		// #16643
+		$this->line_ends = ini_get("auto_detect_line_endings");
+		ini_set("auto_detect_line_endings", true);
+		
 		return( $this->ptr_file = @fopen(ilUtil::stripSlashes($file), "r") );
 	}	
 	
 	public function close()
 	{
+		// see open();
+		ini_set("auto_detect_line_endings", $this->line_ends);		
+		
 		return( @fclose($this->ptr_file) );
 	}
 	
@@ -107,7 +114,7 @@ class ilCSVReader
 	public function getDataArrayFromCSVFile()
 	{
 		$row = 0;
-
+		
 		while (($line = fgetcsv($this->ptr_file, $this->length, $this->separator)) !== FALSE)
 		{
 			for ($col = 0; $col < count($line); $col++)
