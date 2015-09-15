@@ -873,7 +873,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$active_id, $pass, false, !$this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired()
 		);
 
-		$overviewTableGUI = $this->getPassDetailsOverview($result_array, $active_id, $pass, $this, "outParticipantsPassDetails", '', true, $objectivesList);
+		$overviewTableGUI = $this->getPassDetailsOverviewTableGUI($result_array, $active_id, $pass, $this, "outParticipantsPassDetails", '', true, $objectivesList);
 		$overviewTableGUI->setTitle($testResultHeaderLabelBuilder->getPassDetailsHeaderLabel($pass + 1));
 		$user_data = $this->getAdditionalUsrDataHtmlAndPopulateWindowTitle($testSession, $active_id, FALSE);
 		$user_id = $this->object->_getUserIdFromActiveId($active_id);
@@ -1218,7 +1218,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$tpl->parseCurrentBlock();
 		}
 
-		$overviewTableGUI = $this->getPassDetailsOverview(
+		$overviewTableGUI = $this->getPassDetailsOverviewTableGUI(
 			$result_array, $active_id, $pass, $this, "outUserPassDetails",
 			$command_solution_details, $questionAnchorNav, $objectivesList
 		);

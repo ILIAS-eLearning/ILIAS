@@ -107,7 +107,7 @@ class ilTestEvalObjectiveOrientedGUI extends ilTestServiceGUI
 			$tpl->setVariable("LIST_OF_ANSWERS", $list_of_answers);
 		}
 
-		$overviewTableGUI = $this->getPassDetailsOverview(
+		$overviewTableGUI = $this->getPassDetailsOverviewTableGUI(
 			$userResults, $testSession->getActiveId(), null, $this, "showVirtualPass",
 			$command_solution_details, $questionAnchorNav, $objectivesList
 		);
