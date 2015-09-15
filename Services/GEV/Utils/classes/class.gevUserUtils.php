@@ -2446,7 +2446,7 @@ class gevUserUtils {
 	*
 	* @return array
 	*/
-	public function getUserDataForSuperiorWeeklyReport($a_start_ts, $a_end_ts, $org_unit_obj_id) {
+	public function getUserDataForSuperiorWeeklyReport($a_start_ts, $a_end_ts) {
 		$booking_status = array("gebucht" => "gebucht"
 						,"kostenfrei_storniert" => "kostenfrei storniert"
 						,"kostenpflichtig_storniert" => "kostenpflichtig storniert"
@@ -2492,8 +2492,8 @@ class gevUserUtils {
 					." histucs.begin_date, histucs.end_date, histucs.overnights, histucs.booking_status, histucs.participation_status,"
 					." histu.firstname, histu.lastname,"
 					." histc.title, histc.type,"
-					." IF(crsa_start.night IS NULL, false, true) AS prenight,"
-					." IF(crsa_end.night IS NULL, false, true) AS lastnight"
+					." IF(crsa_start.night IS NULL, false, true) AS prearrival,"
+					." IF(crsa_end.night IS NULL, false, true) AS postdeparture"
 				." FROM hist_usercoursestatus histucs"
 				." JOIN hist_user histu ON histu.user_id = histucs.usr_id AND histu.hist_historic = 0"
 				." JOIN hist_course histc ON histc.crs_id = histucs.crs_id AND histc.hist_historic = 0"
