@@ -1919,7 +1919,7 @@ class gevCourseUtils {
 		$i = 0;
 
 		foreach ($columns as $column) {
-			$worksheet->setColumn($i, $i, min(max(strlen($column),10),30));
+			$worksheet->setColumn($i, $i, min(max(strlen($column),15),30));
 			$i++;
 		}
 
@@ -1942,7 +1942,7 @@ class gevCourseUtils {
 
 				$user_utils = gevUserUtils::getInstance($user_id);
 
-				if (!$user_utils->hasRoleIn(array("VP", "ExpressUser"))) {
+				if (!$user_utils->hasRoleIn(array("VP", "ExpressUser","DBV UVG"))) {
 					continue;
 				}
 
@@ -1967,7 +1967,7 @@ class gevCourseUtils {
 								return $names["firstname"]." ".$names["lastname"];
 							 }, $dbvs);
 				
-				$worksheet->write($row, 0, implode(",", $user_utils->getUVGBDOrCPoolNames()), $format_wrap);
+				$worksheet->write($row, 0, implode(", ", $user_utils->getUVGBDOrCPoolNames()), $format_wrap);
 				$worksheet->write($row, 1, implode(", ", $dbv_names), $format_wrap);
 				$worksheet->write($row, 2 , $user_utils->getCompanyName(), $format_wrap);
 				$worksheet->write($row, 3 , $user_utils->getLastname(), $format_wrap);
@@ -2116,7 +2116,7 @@ class gevCourseUtils {
 
 				$employee_ous = $user_utils->getOrgUnitsWhereUserIsEmployee();
 				$superior_ous = $user_utils->getOrgUnitsWhereUserIsDirectSuperior();
-				
+
 				foreach ($employee_ous as &$array) {
 					$array = $array["obj_id"];			
 				}
