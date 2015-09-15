@@ -275,6 +275,10 @@ class ilObjUserFolder extends ilObject
 		// title row
 		foreach ($settings as $value)	// standard fields
 		{
+			if($value == 'ext_account')
+			{
+				$value = 'user_ext_account';
+			}
 			$worksheet->write($row, $col, ilExcelUtils::_convert_text($this->lng->txt($value), $a_mode), $format_title);
 			$col++;
 		}
