@@ -817,7 +817,7 @@ class ilTestServiceGUI
 
 			if ($show_pass_details)
 			{
-				$overviewTableGUI = $this->getPassDetailsOverviewTableGUI($result_array, $active_id, $pass, $targetGUI, "getResultsOfUserOutput", '', $show_answers, $objectivesList, $testResultHeaderLabelBuilder);
+				$overviewTableGUI = $this->getPassDetailsOverviewTableGUI($result_array, $active_id, $pass, $targetGUI, "getResultsOfUserOutput", '', $show_answers, $objectivesList);
 				$overviewTableGUI->setTitle($testResultHeaderLabelBuilder->getPassDetailsHeaderLabel($pass + 1));
 				$template->setVariable("PASS_DETAILS", $overviewTableGUI->getHTML());
 			}
@@ -847,8 +847,11 @@ class ilTestServiceGUI
 
 		if( $this->isGradingMessageRequired() )
 		{
+			$gradingMessageBuilder = $this->getGradingMessageBuilder($active_id);
+			$gradingMessageBuilder->buildList();
+
 			$template->setCurrentBlock('grading_message');
-			$template->setVariable('GRADING_MESSAGE', $this->populateGradingMessage($active_id));
+			$template->setVariable('GRADING_MESSAGE', $gradingMessageBuilder->getList());
 			$template->parseCurrentBlock();
 		}
 
@@ -998,17 +1001,16 @@ class ilTestServiceGUI
 
 	/**
 	 * @param integer $activeId
-	 * @return string
+	 * @return ilTestGradingMessageBuilder
 	 */
-	protected function populateGradingMessage($activeId)
+	protected function getGradingMessageBuilder($activeId)
 	{
 		require_once 'Modules/Test/classes/class.ilTestGradingMessageBuilder.php';
 		$gradingMessageBuilder = new ilTestGradingMessageBuilder($this->lng, $this->object);
 		
 		$gradingMessageBuilder->setActiveId($activeId);
-		$gradingMessageBuilder->build();
 		
-		$gradingMessageBuilder->sendMessage();
+		return $gradingMessageBuilder;
 	}
 	
 	protected function buildQuestionRelatedObjectivesList(ilLOTestQuestionAdapter $objectivesAdapter, ilTestQuestionSequence $testSequence)

@@ -917,8 +917,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
 		if( $this->isGradingMessageRequired() && $this->object->getNrOfTries() == 1 )
 		{
+			$gradingMessageBuilder = $this->getGradingMessageBuilder($active_id);
+			$gradingMessageBuilder->buildList();
+
 			$template->setCurrentBlock('grading_message');
-			$template->setVariable('GRADING_MESSAGE', $this->populateGradingMessage($active_id));
+			$template->setVariable('GRADING_MESSAGE', $gradingMessageBuilder->getList());
 			$template->parseCurrentBlock();
 		}
 
@@ -1026,8 +1029,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
 		if( $this->isGradingMessageRequired() )
 		{
+			$gradingMessageBuilder = $this->getGradingMessageBuilder($active_id);
+			$gradingMessageBuilder->buildList();
+
 			$template->setCurrentBlock('grading_message');
-			$template->setVariable('GRADING_MESSAGE', $this->populateGradingMessage($active_id));
+			$template->setVariable('GRADING_MESSAGE', $gradingMessageBuilder->getList());
 			$template->parseCurrentBlock();
 		}
 
@@ -1213,9 +1219,13 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		if( !$this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired() &&
 			$this->isGradingMessageRequired() && $this->object->getNrOfTries() == 1 )
 		{
-			$tpl->setCurrentBlock('grading_message');
-			$tpl->setVariable('GRADING_MESSAGE', $this->populateGradingMessage($active_id));
-			$tpl->parseCurrentBlock();
+			$gradingMessageBuilder = $this->getGradingMessageBuilder($active_id);
+			$gradingMessageBuilder->buildMessage();
+			$gradingMessageBuilder->sendMessage();
+
+			#$template->setCurrentBlock('grading_message');
+			#$template->setVariable('GRADING_MESSAGE', );
+			#$template->parseCurrentBlock();
 		}
 
 		$overviewTableGUI = $this->getPassDetailsOverviewTableGUI(
@@ -1351,9 +1361,13 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
 		if( $this->isGradingMessageRequired() )
 		{
-			$template->setCurrentBlock('grading_message');
-			$template->setVariable('GRADING_MESSAGE', $this->populateGradingMessage($active_id));
-			$template->parseCurrentBlock();
+			$gradingMessageBuilder = $this->getGradingMessageBuilder($active_id);
+			$gradingMessageBuilder->buildMessage();
+			$gradingMessageBuilder->sendMessage();
+
+			#$template->setCurrentBlock('grading_message');
+			#$template->setVariable('GRADING_MESSAGE', );
+			#$template->parseCurrentBlock();
 		}
 
 		$user_data = $this->getAdditionalUsrDataHtmlAndPopulateWindowTitle($testSession, $active_id, TRUE);
