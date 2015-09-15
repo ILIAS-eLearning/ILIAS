@@ -545,7 +545,6 @@ class gevOrgUnitUtils {
 			."  JOIN object_data od ON od.obj_id = fa.rol_id"
 			." WHERE ua.rol_id = fa.rol_id"
 			."   AND od.title LIKE 'il_orgu_superior_%'";
-			echo $sql;
 
 		$res = $ilDB->query(
 			 "SELECT ua.usr_id"
