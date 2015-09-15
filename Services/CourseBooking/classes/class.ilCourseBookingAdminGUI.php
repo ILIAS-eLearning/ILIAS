@@ -289,10 +289,10 @@ class ilCourseBookingAdminGUI
 
 		if($this->getPermissions()->bookCourseForOthers()){
 			require_once "Services/GEV/Utils/classes/class.gevCourseUtils.php";
-			$crs_ultils = gevCourseUtils::getInstance($this->getCourse()->getId());			
+			$crs_utils = gevCourseUtils::getInstance($this->getCourse()->getId());			
 
-			if($crs_ultils->isDecentralTraining() &&
-				$crs_ultils->hasTrainer($this->ilUser->getId()) && 
+			if($crs_utils->isDecentralTraining() &&
+				$crs_utils->hasTrainer($this->ilUser->getId()) && 
 				$crs_booking_helper->isBookingDeadlineReached() )
 			{				
 					return false;
@@ -875,17 +875,17 @@ class ilCourseBookingAdminGUI
 						$automails = new gevCrsAutoMails($this->getCourse()->getId());
 						
 						require_once "Services/GEV/Utils/classes/class.gevCourseUtils.php";
-						$crs_ultis = gevCourseUtils::getInstance($this->getCourse()->getId());
+						$crs_utils = gevCourseUtils::getInstance($this->getCourse()->getId());
 
 						require_once "Services/GEV/Mailing/classes/class.gevDeadlineMailingJob.php";
 						$deadline_job_runned = gevDeadlineMailingJob::isMailSend($this->getCourse()->getId(), "invitation");
 
-						if(!$crs_ultis->isDecentralTraining()) {
+						if(!$crs_utils->isDecentralTraining()) {
 							$automails->sendDeferred("admin_booking_to_booked", array($user_id));
 						}
 						
 						$days_before_course_start = $addMailSettings->getInvitationMailingDate();
-						$date = $crs_ultils->getStartDate();
+						$date = $crs_utils->getStartDate();
 						$now = new ilDate(date("Y-m-d"), IL_CAL_DATE);
 						if ($date) {
 							$date->increment(IL_CAL_DAY, -1 * $days_before_course_start);
