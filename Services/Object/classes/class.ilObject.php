@@ -1972,7 +1972,7 @@ class ilObject
 	 * @param
 	 * @return
 	 */
-	static final function collectDeletionDependencies(&$deps, $a_ref_id, $a_obj_id, $a_type, $a_depth = 0)
+	static function collectDeletionDependencies(&$deps, $a_ref_id, $a_obj_id, $a_type, $a_depth = 0)
 	{
 		global $objDefinition, $tree;
 
