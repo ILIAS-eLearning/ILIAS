@@ -609,7 +609,9 @@ class ilObjExerciseGUI extends ilObjectGUI
 		}
 
 		if($success)
-		{
+		{			
+			ilUtil::sendSuccess($this->lng->txt("file_added"), true);		
+			
 			$this->sendNotifications((int)$_GET["ass_id"]);
 			$this->object->handleSubmission((int)$_GET['ass_id']);
 		}
