@@ -224,6 +224,7 @@ class ilTestServiceGUI
 
 			$data[] = $row;
 		}
+		vd($data);
 		return $data;
 	}
 
@@ -526,7 +527,7 @@ class ilTestServiceGUI
 		return $maintemplate->get();
 	}
 
-	protected function getPassDetailsOverview($result_array, $active_id, $pass, $targetGUI, $targetCMD, $questionDetailsCMD, $questionAnchorNav, ilTestQuestionRelatedObjectivesList $objectivesList = null)
+	protected function getPassDetailsOverviewTableGUI($result_array, $active_id, $pass, $targetGUI, $targetCMD, $questionDetailsCMD, $questionAnchorNav, ilTestQuestionRelatedObjectivesList $objectivesList = null)
 	{
 		$this->ctrl->setParameter($targetGUI, 'active_id', $active_id);
 		$this->ctrl->setParameter($targetGUI, 'pass', $pass);
@@ -768,8 +769,6 @@ class ilTestServiceGUI
 			if (is_null($pass))	$pass = $_GET["pass"];
 		}
 
-		$user_data = $this->getAdditionalUsrDataHtmlAndPopulateWindowTitle($testSession, $active_id, TRUE);
-
 		if (!is_null($pass))
 		{
 			require_once 'Modules/Test/classes/class.ilTestResultHeaderLabelBuilder.php';
@@ -799,12 +798,6 @@ class ilTestServiceGUI
 			$result_array = $this->object->getTestResult(
 				$active_id, $pass, false, !$this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired()
 			);
-			
-			$command_solution_details = "";
-			if ($show_pass_details)
-			{
-				$overviewTableGUI = $this->getPassDetailsOverview($result_array, $active_id, $pass, $targetGUI, "getResultsOfUserOutput", $command_solution_details, $show_answers, $objectivesList, $testResultHeaderLabelBuilder);
-			}
 
 			$user_id = $this->object->_getUserIdFromActiveId($active_id);
 			$showAllAnswers = TRUE;
@@ -817,13 +810,17 @@ class ilTestServiceGUI
 				$list_of_answers = $this->getPassListOfAnswers(
 					$result_array, $active_id, $pass, $_SESSION['tst_results_show_best_solutions'],
 					$showAllAnswers, $show_question_only, $show_reached_points, $show_pass_details,
-					$objectivesList
+					$objectivesList, $testResultHeaderLabelBuilder
 				);
+				$template->setVariable("LIST_OF_ANSWERS", $list_of_answers);
 			}
 
-			$template->setVariable("LIST_OF_ANSWERS", $list_of_answers);
-			//$template->setVariable("PASS_RESULTS_OVERVIEW", sprintf($this->lng->txt("tst_results_overview_pass"), $pass + 1));
-			$template->setVariable("PASS_DETAILS", $this->ctrl->getHTML($overviewTableGUI));
+			if ($show_pass_details)
+			{
+				$overviewTableGUI = $this->getPassDetailsOverviewTableGUI($result_array, $active_id, $pass, $targetGUI, "getResultsOfUserOutput", '', $show_answers, $objectivesList, $testResultHeaderLabelBuilder);
+				$overviewTableGUI->setTitle($testResultHeaderLabelBuilder->getPassDetailsHeaderLabel($pass + 1));
+				$template->setVariable("PASS_DETAILS", $overviewTableGUI->getHTML());
+			}
 
 			$signature = $this->getResultsSignature();
 			$template->setVariable("SIGNATURE", $signature);
@@ -855,8 +852,10 @@ class ilTestServiceGUI
 			$template->parseCurrentBlock();
 		}
 
+
+		$user_data = $this->getAdditionalUsrDataHtmlAndPopulateWindowTitle($testSession, $active_id, TRUE);
 		$template->setVariable("TEXT_HEADING", sprintf($this->lng->txt("tst_result_user_name"), $uname));
-		$template->setVariable("USER_DATA", $testResultHeaderLabelBuilder->getPassDetailsHeaderLabel($pass + 1));
+		$template->setVariable("USER_DATA", $user_data);
 
 		return $template->get();
 	}
