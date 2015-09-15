@@ -244,7 +244,7 @@ class gevUserUtils {
 	static public function getInstance($a_user_id) {
 		if($a_user_id === null) {
 			throw new Exception("gevUserUtils::getInstance: ".
-								"No Usersdfsdfsdf ID given.");
+								"No User-ID given.");
 		}
 
 		if(!self::userIdExists($a_user_id)) {
