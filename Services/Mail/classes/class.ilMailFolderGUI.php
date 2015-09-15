@@ -722,6 +722,7 @@ class ilMailFolderGUI
 		require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 
 		$form = new ilPropertyFormGUI();
+		$form->setPreventDoubleSubmission(false);
 		$form->setTableWidth('100%');
 		$this->ctrl->setParameter($this, 'mail_id', (int)$_GET['mail_id']);
 		$form->setFormAction($this->ctrl->getFormAction($this, 'showMail'));

@@ -715,10 +715,12 @@ abstract class ilContainerContentGUI
 	 */
 	function renderItemGroup($a_itgr)
 	{
-		global $ilAccess, $lng;
+		global $ilAccess;
 		
-		$perm_ok = $ilAccess->checkAccess("read", "", $a_itgr['ref_id']);
-
+		// #16493
+		$perm_ok = ($ilAccess->checkAccess("visible", "", $a_itgr['ref_id']) &&
+			 $ilAccess->checkAccess("read", "", $a_itgr['ref_id']));
+			
 		include_once('./Services/Container/classes/class.ilContainerSorting.php');			
 		include_once('./Services/Object/classes/class.ilObjectActivation.php');
 		$items = ilObjectActivation::getItemsByItemGroup($a_itgr['ref_id']);

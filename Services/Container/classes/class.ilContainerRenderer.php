@@ -145,8 +145,11 @@ class ilContainerRenderer
 	 */
 	public function hideItem($a_id)
 	{
+		// see hasItem();
 		$this->hidden_items[] = $a_id;		
-		$this->removeItem($a_id);
+		
+		// #16629 - do not remove hidden items from other blocks		
+		// $this->removeItem($a_id);
 	}
 	
 	/**
