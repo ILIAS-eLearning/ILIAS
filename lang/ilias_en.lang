@@ -15300,3 +15300,5 @@ blog#:#blog_keywords_other_info#:#These keywords were set for other blog posting
 forum#:#forums_thread_deleted#:#The selected thread including all postings have been deleted.
 forum#:#forums_threads_deleted#:#The selected threads including all postings have been deleted.
 user#:#feedhash#:#Newsfeedhash
+wsp#:#wsp_shared_filter_reset_button#:#Reset Search
+wsp#:#wsp_shared_filter_button#:#Search
