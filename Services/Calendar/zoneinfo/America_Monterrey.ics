@@ -1,5 +1,5 @@
 BEGIN:VTIMEZONE
-TZID=America/Monterrey
+TZID:America/Monterrey
 X-LIC-LOCATION:America/Monterrey
 BEGIN:DAYLIGHT
 TZOFFSETFROM:-0600

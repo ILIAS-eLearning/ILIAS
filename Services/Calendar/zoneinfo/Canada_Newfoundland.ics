@@ -1,5 +1,5 @@
 BEGIN:VTIMEZONE
-TZID=Canada/Newfoundland
+TZID:Canada/Newfoundland
 X-LIC-LOCATION:America/St_Johns
 BEGIN:DAYLIGHT
 TZOFFSETFROM:-0230
