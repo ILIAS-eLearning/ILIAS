@@ -7,11 +7,10 @@
 *
 * This is used for better coexistence with xdebug, see #16627.
 *
-* @author Richard Klees <meyer@leifos.com>
+* @author Richard Klees <richard.klees@concepts-and-training.de>
 * @version $Id$
 */
 
-require_once("./Services/Exceptions/lib/Whoops/Run.php");
 require_once("./Services/Exceptions/lib/Whoops/Handler/HandlerInterface.php");
 require_once("./Services/Exceptions/lib/Whoops/Handler/Handler.php");
 
@@ -20,7 +19,7 @@ use Whoops\Exception\Formatter;
 
 class ilPlainTextHandler extends Handler {
 	const KEY_SPACE = 25;
-	
+
 	/**
 	 * Last missing method from HandlerInterface.
 	 *
@@ -31,7 +30,7 @@ class ilPlainTextHandler extends Handler {
 		echo $this->content();
 		echo "</pre>\n";
 	}
-	
+
 	/**
 	 * Assemble the output for this handler.
 	 *
@@ -74,7 +73,7 @@ class ilPlainTextHandler extends Handler {
 			if (count($content) > 0) {
 				foreach ($content as $key => $value) {
 					$key = str_pad($key, self::KEY_SPACE);
-					
+
 					// indent multiline values, first print_r, split in lines,
 					// indent all but first line, then implode again.
 					$first = true;
@@ -85,8 +84,7 @@ class ilPlainTextHandler extends Handler {
 								}
 								return str_pad("", self::KEY_SPACE).$line;
 							}, explode("\n", print_r($value, true))));
-					
-					
+
 					$ret .= "$key: $value\n";
 				}
 			}
@@ -96,7 +94,7 @@ class ilPlainTextHandler extends Handler {
 		}
 		return $ret;
 	}
-	
+
 	/**
 	 * Get the tables that should be rendered.
 	 *
