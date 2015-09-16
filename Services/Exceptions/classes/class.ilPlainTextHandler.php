@@ -77,12 +77,13 @@ class ilPlainTextHandler extends Handler {
 					// indent multiline values, first print_r, split in lines,
 					// indent all but first line, then implode again.
 					$first = true;
-					$value = implode("\n", array_map(function($line) use (&$first) {
+					$indentation = str_pad("", self::KEY_SPACE);
+					$value = implode("\n", array_map(function($line) use (&$first, $indentation) {
 								if ($first) {
 									$first = false;
 									return $line;
 								}
-								return str_pad("", self::KEY_SPACE).$line;
+								return $indentation.$line;
 							}, explode("\n", print_r($value, true))));
 
 					$ret .= "$key: $value\n";
