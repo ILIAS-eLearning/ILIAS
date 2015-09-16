@@ -35,6 +35,7 @@ require_once("./Services/Exceptions/lib/Whoops/Util/Misc.php");
 
 require_once("Services/Exceptions/classes/class.ilDelegatingHandler.php");
 require_once("Services/Exceptions/classes/class.ilPlainTextHandler.php");
+require_once("Services/Exceptions/classes/class.ilTestingHandler.php");
 
 use Whoops\Run;
 use Whoops\Handler\PrettyPageHandler;
@@ -372,6 +373,8 @@ class ilErrorHandling extends PEAR
 		global $ilLog;
 		
 		switch (ERROR_HANDLER) {
+			case "TESTING":
+				return new ilTestingHandler();
 			case "PLAIN_TEXT":
 				return new ilPlainTextHandler();
 			case "PRETTY_PAGE":
