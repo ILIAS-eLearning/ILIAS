@@ -34,6 +34,7 @@ require_once("./Services/Exceptions/lib/Whoops/Util/TemplateHelper.php");
 require_once("./Services/Exceptions/lib/Whoops/Util/Misc.php");
 
 require_once("Services/Exceptions/classes/class.ilDelegatingHandler.php");
+require_once("Services/Exceptions/classes/class.ilPlainTextHandler.php");
 
 use Whoops\Run;
 use Whoops\Handler\PrettyPageHandler;
@@ -165,7 +166,9 @@ class ilErrorHandling extends PEAR
 				"First error: ".$_SESSION["failure"].'<br>'.
 				"Last Error:". $a_error_obj->getMessage();
 			//return;
-			$log->logError($a_error_obj->getCode(), $m);
+			$log->write($m);
+			#$log->writeWarning($m);
+			#$log->logError($a_error_obj->getCode(), $m);
 			unset($_SESSION["failure"]);
 			die ($m);
 		}
@@ -205,7 +208,8 @@ class ilErrorHandling extends PEAR
 
 		if (is_object($log) and $log->enabled == true)
 		{
-			$log->logError($a_error_obj->getCode(),$a_error_obj->getMessage());
+			$log->write($a_error_obj->getMessage());
+			#$log->logError($a_error_obj->getCode(),$a_error_obj->getMessage());
 		}
 
 //echo $a_error_obj->getCode().":"; exit;
@@ -365,7 +369,18 @@ class ilErrorHandling extends PEAR
 	 * @return Whoops\Handler
 	 */
 	protected function devmodeHandler() {
-		return new PrettyPageHandler();
+		global $ilLog;
+		
+		switch (ERROR_HANDLER) {
+			case "PLAIN_TEXT":
+				return new ilPlainTextHandler();
+			case "PRETTY_PAGE":
+				return new PrettyPageHandler();
+			default:
+				$ilLog->write("Unknown or undefined error handler '".ERROR_HANDLER."'. "
+							 ."Falling back to PrettyPageHandler.");
+				return new PrettyPageHandler();
+		}
 	}
 	
 	/**
