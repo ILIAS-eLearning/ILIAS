@@ -330,6 +330,7 @@ class ilInitialisation
 		define ("SYSTEM_FOLDER_ID",$ilClientIniFile->readVariable('system','SYSTEM_FOLDER_ID'));
 		define ("ROLE_FOLDER_ID",$ilClientIniFile->readVariable('system','ROLE_FOLDER_ID'));
 		define ("MAIL_SETTINGS_ID",$ilClientIniFile->readVariable('system','MAIL_SETTINGS_ID'));
+		define ("ERROR_HANDLER",$ilClientIniFile->readVariable('system', 'ERROR_HANDLER'));
 		
 		// this is for the online help installation, which sets OH_REF_ID to the
 		// ref id of the online module
