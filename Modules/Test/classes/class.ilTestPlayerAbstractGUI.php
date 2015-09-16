@@ -239,7 +239,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	protected function populateLowerNextButtonBlock($disabled)
 	{
 		$button = ilLinkButton::getInstance();
-		$button->setPrimary( $disabled ? false : true );
+		$button->setPrimary(false);
 		$button->setUrl($this->ctrl->getLinkTarget($this, ilTestPlayerCommands::NEXT_QUESTION));
 		$button->setCaption('next_question');
 		$button->setId('bottomnextbutton');
@@ -253,7 +253,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	protected function populateUpperNextButtonBlock($disabled)
 	{
 		$button = ilLinkButton::getInstance();
-		$button->setPrimary( $disabled ? false : true );
+		$button->setPrimary(false);
 		$button->setUrl($this->ctrl->getLinkTarget($this, ilTestPlayerCommands::NEXT_QUESTION));
 		$button->setCaption('next_question');
 		$button->setId('nextbutton');
