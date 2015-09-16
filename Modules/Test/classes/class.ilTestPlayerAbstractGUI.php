@@ -519,10 +519,13 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
 	function autosaveCmd()
 	{
+		$canSaveResult = $this->canSaveResult();
+		$authorizedSolution = !$canSaveResult;
+		
 		$result = "";
 		if (is_array($_POST) && count($_POST) > 0)
 		{
-			$res = $this->saveQuestionSolution(false, true);
+			$res = $this->saveQuestionSolution($authorizedSolution, true);
 			if ($res)
 			{
 				$result = $this->lng->txt("autosave_success");
@@ -532,7 +535,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 				$result = $this->lng->txt("autosave_failed");
 			}
 		}
-		if (!$this->canSaveResult())
+		if (!$canSaveResult)
 		{
 			// this was the last action in the test, saving is no longer allowed
 			$result = $this->ctrl->getLinkTarget($this, "redirectAfterAutosave", "", true);
@@ -553,6 +556,12 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
 	}
 	
+	protected function markQuestionAndSaveIntermediateCmd()
+	{
+		$this->saveQuestionSolution(false);
+		$this->markQuestionCmd();
+	}
+	
 	/**
 	 * Set a question solved
 	 */
@@ -565,6 +574,12 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$this->object->setQuestionSetSolved(1, $questionId, $this->testSession->getUserId());
 		
 		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
+	}
+
+	protected function unmarkQuestionAndSaveIntermediateCmd()
+	{
+		$this->saveQuestionSolution(false);
+		$this->unmarkQuestionCmd();
 	}
 
 	/**
@@ -1911,6 +1926,30 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		}
 
 		$navigationGUI->setCharSelectorEnabled($charSelectorAvailable);
+
+		if($this->object->getShowMarker())
+		{
+			include_once "./Modules/Test/classes/class.ilObjTest.php";
+			$solved_array = ilObjTest::_getSolvedQuestions($this->testSession->getActiveId(), $questionId);
+			$solved = 0;
+
+			if(count($solved_array) > 0)
+			{
+				$solved = array_pop($solved_array);
+				$solved = $solved["solved"];
+			}
+
+			if($solved == 1)
+			{
+				$navigationGUI->setQuestionMarkCommand(ilTestPlayerCommands::UNMARK_QUESTION_SAVE);
+				$navigationGUI->setQuestionMarked(true);
+			}
+			else
+			{
+				$navigationGUI->setQuestionMarkCommand(ilTestPlayerCommands::MARK_QUESTION_SAVE);
+				$navigationGUI->setQuestionMarked(false);
+			}
+		}
 
 		return $navigationGUI;
 	}

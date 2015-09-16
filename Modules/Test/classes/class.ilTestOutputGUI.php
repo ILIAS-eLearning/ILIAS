@@ -145,6 +145,11 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
 	protected function isTestExecutionCommand($cmd)
 	{
+		if( $cmd == 'autosave' || $cmd = 'redirectAfterAutosave' )
+		{
+			return false;
+		}
+		
 		return true;
 	}
 
@@ -433,26 +438,27 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 			$this->testSession->getActiveId(), $this->testSession->getPass()
 		);
 		
-		$nextSequenceElement = $this->testSequence->getNextSequence($currentSequenceElement);
+		#$nextSequenceElement = $this->testSequence->getNextSequence($currentSequenceElement);
 
-		if(!$this->isValidSequenceElement($nextSequenceElement))
-		{
-			$nextSequenceElement = $this->testSequence->getFirstSequence();
-		}
+		#if(!$this->isValidSequenceElement($nextSequenceElement))
+		#{
+		#	$nextSequenceElement = $this->testSequence->getFirstSequence();
+		#}
 		
-		$presentationMode = ilTestPlayerAbstractGUI::getDefaultPresentationMode();
+		$presentationMode = ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW;
 		
-		$this->testSession->setLastSequence($nextSequenceElement);
+		#$this->testSession->setLastSequence($nextSequenceElement);
 		$this->testSession->setLastPresentationMode($presentationMode);
 		$this->testSession->saveToDb();
 
-		if( $this->object->isPostponingEnabled() )
-		{
-			$this->testSequence->postponeSequence($currentSequenceElement);
-			$this->testSequence->saveToDb();
-		}
+		#if( $this->object->isPostponingEnabled() )
+		#{
+		#	$this->testSequence->postponeSequence($currentSequenceElement);
+		#	$this->testSequence->saveToDb();
+		#}
 		
-		$this->ctrl->setParameter($this, 'sequence', $nextSequenceElement);
+		#$this->ctrl->setParameter($this, 'sequence', $nextSequenceElement);
+		$this->ctrl->saveParameter($this, 'sequence');
 		$this->ctrl->setParameter($this, 'pmode', $presentationMode);
 
 		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
