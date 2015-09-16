@@ -368,7 +368,16 @@ class ilErrorHandling extends PEAR
 	 * @return Whoops\Handler
 	 */
 	protected function devmodeHandler() {
-		return new PrettyPageHandler();
+		global $ilLog;
+		
+		switch (ERROR_HANDLER) {
+			case "PRETTY_PAGE":
+				return new PrettyPageHandler();
+			default:
+				$ilLog->write("Unknown or undefined error handler '".ERROR_HANDLER."'. "
+							 ."Falling back to PrettyPageHandler.");
+				return new PrettyPageHandler();
+		}
 	}
 	
 	/**
