@@ -10404,6 +10404,10 @@ div#il_startup_logo img {
   height: 20px;
   width: 20px;
 }
+.iosPdBmListImg {
+  height: 20px;
+  width: 20px;
+}
 /* Services/UIComponent/Toolbar */
 .ilToolbar.navbar {
   border: 0;
