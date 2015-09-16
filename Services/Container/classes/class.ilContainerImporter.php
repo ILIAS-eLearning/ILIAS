@@ -40,6 +40,7 @@ class ilContainerImporter extends ilXmlImporter
 	function finalProcessing($a_mapping)
 	{				
 		// pages
+		include_once('./Services/COPage/classes/class.ilPageObject.php');
 		$page_map = $a_mapping->getMappingsOfEntity('Services/COPage', 'pg');
 		foreach ($page_map as $old_pg_id => $new_pg_id)
 		{		

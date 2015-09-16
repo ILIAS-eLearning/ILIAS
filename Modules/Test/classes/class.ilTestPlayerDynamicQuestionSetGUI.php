@@ -394,10 +394,10 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 			$this->testSession->getActiveId(), $this->testSession->getPass()
 		);
 
-		$this->testSequence->setQuestionPostponed($questionId);
-		$this->testSequence->saveToDb();
+		#$this->testSequence->setQuestionPostponed($questionId);
+		#$this->testSequence->saveToDb();
 
-		$this->resetCurrentQuestion();
+		#$this->resetCurrentQuestion();
 
 		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
 	}

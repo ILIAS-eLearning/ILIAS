@@ -338,7 +338,7 @@ abstract class assQuestionGUI
 
 		if( $this->getNavigationGUI() )
 		{
-			$html .= $this->getNavigationGUI()->getHTML();
+			$html = $this->getNavigationGUI()->getHTML().$html;
 		}
 		
 		$postponed = "";

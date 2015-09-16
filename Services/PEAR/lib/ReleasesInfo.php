@@ -76,5 +76,8 @@ patch for hhvm usage
 Services/PEAR/lib/PEAR.php, line 917
 patch for hhvm RepoAuthoritative Mode: eval() replaced PR#8
 
+Mail/RFC822.php, line 587
+http://www.ilias.de/mantis/view.php?id=16291#bugnotes (0016291: Ivalid character ß in mailadress)
+
 */
 ?>
