@@ -1003,6 +1003,10 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			$this->testSession->getActiveId(),
 			$solutionoutput
 		);
+		
+		$this->tpl->setCurrentBlock('readonly_css_class');
+		$this->tpl->touchBlock('readonly_css_class');
+		$this->tpl->parseCurrentBlock();
 
 		$this->tpl->setVariable('QUESTION_OUTPUT', $pageoutput);
 
