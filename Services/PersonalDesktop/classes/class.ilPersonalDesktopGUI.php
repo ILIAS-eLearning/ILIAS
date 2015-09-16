@@ -284,7 +284,6 @@ class ilPersonalDesktopGUI
 	*/
 	function show()
 	{
-		
 		// preload block settings
 		include_once("Services/Block/classes/class.ilBlockSetting.php");
 		ilBlockSetting::preloadPDBlockSettings();

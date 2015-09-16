@@ -54,12 +54,10 @@ class ilCOPageImporter extends ilXmlImporter
 					while (substr($a_xml, 0, 11) == "<PageObject")
 					{
 						$l1 = strpos($a_xml, ">");
-						$lstr = substr($a_xml, 11, $l1-11);
-						$lstr = str_replace("Language", "", $lstr);
-						$lstr = str_replace(" ", "", $lstr);
-						$lstr = str_replace("=", "", $lstr);
-						$lstr = str_replace('"', "", $lstr);
 
+						$page_tag = "<?xml version='1.0'?> ".substr($a_xml, 0, $l1+1)."</PageObject>";
+						$page_data = simplexml_load_string($page_tag);
+						$lstr = $page_data['Language'];
 						$p = strpos($a_xml, "</PageObject>") + 13;
 						$next_xml = "<PageObject>".substr($a_xml, $l1+1, $p - $l1 -1);
 
@@ -71,7 +69,6 @@ class ilCOPageImporter extends ilXmlImporter
 						{
 							$lstr = "-";
 						}
-
 						if ($this->config->getUpdateIfExists() && ilPageObject::_exists($id[0], $id[1], $lstr))
 						{
 							$page = ilPageObjectFactory::getInstance($id[0], $id[1], 0, $lstr);
@@ -87,6 +84,10 @@ class ilCOPageImporter extends ilXmlImporter
 								$new_page->setLanguage($lstr);
 							}
 							$new_page->setXMLContent($next_xml);
+							$new_page->setActive($page_data["Active"]);
+							$new_page->setActivationStart($page_data["ActivationStart"]);
+							$new_page->setActivationEnd($page_data["ActivationEnd"]);
+							$new_page->setShowActivationInfo($page_data["ShowActivationInfo"]);
 							$new_page->createFromXML();
 						}
 

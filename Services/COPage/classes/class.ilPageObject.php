@@ -718,6 +718,10 @@ abstract class ilPageObject
 	*/
 	function setActivationStart($a_activationstart)
 	{
+		if ($a_activationstart == "")
+		{
+			$a_activationstart = null;
+		}
 		$this->activationstart = $a_activationstart;
 	}
 
@@ -738,6 +742,10 @@ abstract class ilPageObject
 	*/
 	function setActivationEnd($a_activationend)
 	{
+		if ($a_activationend == "")
+		{
+			$a_activationend = null;
+		}
 		$this->activationend = $a_activationend;
 	}
 
@@ -2340,6 +2348,9 @@ abstract class ilPageObject
 			"create_user" => array("integer", $ilUser->getId()),
 			"last_change_user" => array("integer", $ilUser->getId()),
 			"active" => array("integer", $this->getActive()),
+			"activation_start" => array("timestamp", $this->getActivationStart()),
+			"activation_end" => array("timestamp", $this->getActivationEnd()),
+			"show_activation_info" => array("integer", $this->getShowActivationInfo()),
 			"inactive_elements" => array("integer", $iel),
 			"int_links" => array("integer", $inl),
 			"created" => array("timestamp", ilUtil::now()),
