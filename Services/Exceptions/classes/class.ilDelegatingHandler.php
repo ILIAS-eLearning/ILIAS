@@ -14,7 +14,7 @@
 * This class is not ment to be extended, as the definition of error handlers should be handled in one place 
 * in ilErrorHandling, so this class acts rather dump and asks ilErrorHandling for a handler.
 *
-* @author Richard Klees <meyer@leifos.com>
+* @author Richard Klees <richard.klees@concepts-and-training.de>
 * @version $Id$
 * 
 * 
