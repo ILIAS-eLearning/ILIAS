@@ -481,13 +481,15 @@ span.result {
 
 ul.ilAssQuestionRelatedNavigationContainer
 {
-	margin: 20px 0;
+	margin: 15px 0;
+	float: none;
 }
 
 ul.ilAssQuestionRelatedNavigationContainer div.navbar
 {
-	padding-left: 6px;
-	padding-right: 6px;
+	padding-right: 12px;
+	min-height: unset;
+	margin-bottom: 10px;
 }
 
 div.tstModalConfirmationText
