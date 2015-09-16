@@ -134,6 +134,11 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
 	protected function isTestExecutionCommand($cmd)
 	{
+		if( $cmd == 'autosave' || $cmd = 'redirectAfterAutosave' )
+		{
+			return false;
+		}
+		
 		return true;
 	}
 

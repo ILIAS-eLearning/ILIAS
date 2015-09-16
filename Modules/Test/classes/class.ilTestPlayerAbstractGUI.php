@@ -501,10 +501,13 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
 	function autosaveCmd()
 	{
+		$canSaveResult = $this->canSaveResult();
+		$authorizedSolution = !$canSaveResult;
+		
 		$result = "";
 		if (is_array($_POST) && count($_POST) > 0)
 		{
-			$res = $this->saveQuestionSolution(false, true);
+			$res = $this->saveQuestionSolution($authorizedSolution, true);
 			if ($res)
 			{
 				$result = $this->lng->txt("autosave_success");
@@ -514,7 +517,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 				$result = $this->lng->txt("autosave_failed");
 			}
 		}
-		if (!$this->canSaveResult())
+		if (!$canSaveResult)
 		{
 			// this was the last action in the test, saving is no longer allowed
 			$result = $this->ctrl->getLinkTarget($this, "redirectAfterAutosave", "", true);
