@@ -242,6 +242,7 @@ class ilMailFolderGUI
 			$confirmation->setConfirm($this->lng->txt('confirm'), 'confirmDeleteMails');
 			$confirmation->setCancel($this->lng->txt('cancel'), 'cancelDeleteMails');
 			$this->tpl->setVariable('CONFIRMATION', $confirmation->getHTML());
+			$a_show_confirmation = true;
 		}
 
 		$folders = $this->mbox->getSubFolders();
@@ -328,7 +329,7 @@ class ilMailFolderGUI
 			}
 		}
 
-		if($a_show_confirmation == false)
+		if($a_show_confirmation == false && $this->askForConfirmation == false)
 		{
 			if('tree' != ilSession::get(ilMailGUI::VIEWMODE_SESSION_KEY))
 			{
