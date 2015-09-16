@@ -535,6 +535,12 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
 	}
 	
+	protected function markQuestionAndSaveIntermediateCmd()
+	{
+		$this->saveQuestionSolution(false);
+		$this->markQuestionCmd();
+	}
+	
 	/**
 	 * Set a question solved
 	 */
@@ -547,6 +553,12 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$this->object->setQuestionSetSolved(1, $questionId, $this->testSession->getUserId());
 		
 		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
+	}
+
+	protected function unmarkQuestionAndSaveIntermediateCmd()
+	{
+		$this->saveQuestionSolution(false);
+		$this->unmarkQuestionCmd();
 	}
 
 	/**
@@ -1764,6 +1776,30 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		}
 
 		$navigationGUI->setCharSelectorEnabled($charSelectorAvailable);
+
+		if($this->object->getShowMarker())
+		{
+			include_once "./Modules/Test/classes/class.ilObjTest.php";
+			$solved_array = ilObjTest::_getSolvedQuestions($this->testSession->getActiveId(), $questionId);
+			$solved = 0;
+
+			if(count($solved_array) > 0)
+			{
+				$solved = array_pop($solved_array);
+				$solved = $solved["solved"];
+			}
+
+			if($solved == 1)
+			{
+				$navigationGUI->setQuestionMarkCommand(ilTestPlayerCommands::UNMARK_QUESTION_SAVE);
+				$navigationGUI->setQuestionMarked(true);
+			}
+			else
+			{
+				$navigationGUI->setQuestionMarkCommand(ilTestPlayerCommands::MARK_QUESTION_SAVE);
+				$navigationGUI->setQuestionMarked(false);
+			}
+		}
 
 		return $navigationGUI;
 	}

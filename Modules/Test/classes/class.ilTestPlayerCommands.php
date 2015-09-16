@@ -20,7 +20,9 @@ class ilTestPlayerCommands
 
 	const EDIT_SOLUTION = 'editSolution';
 	const MARK_QUESTION = 'markQuestion';
+	const MARK_QUESTION_SAVE = 'markQuestionAndSaveIntermediate';
 	const UNMARK_QUESTION = 'unmarkQuestion';
+	const UNMARK_QUESTION_SAVE = 'unmarkQuestionAndSaveIntermediate';
 
 	const SUBMIT_SOLUTION = 'submitSolution';
 	const DISCARD_SOLUTION = 'discardSolution';
