@@ -471,9 +471,15 @@ div.ilc_question_Standard
 	border-width: 1px;
 	border-color: #BBCCDD;
 	border-style: solid;
-	background-image: url(../../../templates/default/images/qmark.png);
+	background-image: url(../../../templates/default/images/qmark.svg);
 	background-repeat: no-repeat;
 	background-position: top right;
+}
+
+div.ilc_Page.readonly div.ilc_question_Standard
+{
+	background-color: #f3f3f3;
+	background-image: url(../../../templates/default/images/qmark-ro.svg);
 }
 
 div.ilc_qtitle_Title
