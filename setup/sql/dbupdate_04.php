@@ -7731,7 +7731,7 @@ if($data['cnt'] > 0 && !(int)$setting)
 
 if($data['cnt'] > 0)
 {
-	$db_step = 4584;
+	$db_step = $nr;
 
 	$ps_delete_mf_by_obj_and_usr = $ilDB->prepareManip(
 		"DELETE FROM mail_obj_data WHERE obj_id = ? AND user_id = ?",
