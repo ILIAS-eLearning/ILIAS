@@ -742,11 +742,6 @@ class ilObjectDefinition// extends ilSaxParser
 			{
 				unset($subobjects[$type]);
 			}
-			// Filter for iLinc: Delete the following lines after we completely removed the iLinc object in ILIAS 4.5.x
-			if(in_array($type, array('icrs', 'icla')))
-			{
-				unset($subobjects[$type]);
-			}
 		}
 		
 		if ($a_obj_type == "prg") {
