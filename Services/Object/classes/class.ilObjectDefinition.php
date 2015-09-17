@@ -866,13 +866,6 @@ class ilObjectDefinition// extends ilSaxParser
 		{
 			switch($type)
 			{
-				case "icrs":
-					if(!$this->ilias->getSetting("ilinc_active"))
-					{
-						unset($subobjects[$type]);
-					}
-					break;					
-
 				default:
 					// DO NOTHING
 			}
