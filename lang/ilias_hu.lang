@@ -1,7 +1,7 @@
 /* Copyright (c) 1998-2015 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file ...
-* @author 4.4.x 2015-08-06 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
+* @author 4.4.x 2015-09-17 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
 * @author 4.2.2	Berecz Antónia <berecz@gdf.hu>
 * @module		language file Hungarian
 * @modulegroup	language
@@ -14402,3 +14402,4 @@ sysc#:#sysc_task_tree_missing_reference#:#Hiányzó objektumhivatkozások
 sysc#:#sysc_task_tree_missing_reference_desc#:#Hiányzó objektumhivatkozások keresése és javítása a Taneszköztároló-fában.
 sysc#:#sysc_task_structure#:#Fastruktúra
 sysc#:#sysc_task_structure_desc#:#Taneszköztároló-fa szerkezetének elemzése és javítása.
+user#:#feedhash#:#Hírcsatorna-hash
