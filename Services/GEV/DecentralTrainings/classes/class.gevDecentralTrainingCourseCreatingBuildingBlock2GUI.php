@@ -581,7 +581,7 @@ class gevDecentralTrainingCourseCreatingBuildingBlock2GUI {
 			return;
 		}
 
-		$fail_time = gevCourseBuildingBlockUtils::timeIssuesBlocks(null,$this->crs_request_id);
+		$fail_time = gevCourseBuildingBlockUtils::timeIssuesBlocks($this->crs_ref_id,$this->crs_request_id);
 		if(!empty($fail_time)) {
 			$tpl = new ilTemplate("tpl.dct_block_overlaping.html", true, true, "Services/GEV/DecentralTrainings");
 			foreach ($fail_time as $key => $value) {
@@ -601,7 +601,7 @@ class gevDecentralTrainingCourseCreatingBuildingBlock2GUI {
 			return;
 		}
 
-		if(gevCourseBuildingBlockUtils::timeIssuesCrs(null,$this->crs_request_id)) {
+		if(gevCourseBuildingBlockUtils::timeIssuesCrs($this->crs_ref_id,$this->crs_request_id)) {
 			ilUtil::sendInfo($this->lng->txt("gev_dec_training_blocks_time_issue_course"), true);
 			$this->render();
 			return;

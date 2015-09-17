@@ -266,6 +266,7 @@ class gevDecentralTrainingBuildingBlockAdminGUI {
 					,"gdv_topic" => $bu_utils->getGDVTopic()
 					,"topic" => $bu_utils->getTopic()
 					,"dbv_topic" => $bu_utils->getDBVTopic()
+					,"move_to_course" => $bu_utils->getMoveToCourseText()
 				);
 
 			$form_gui->setTitle($this->lng->txt("gev_dec_building_block_edit"));
@@ -282,6 +283,7 @@ class gevDecentralTrainingBuildingBlockAdminGUI {
 					,"learning_dest" => ""
 					,"is_wp_relevant" => false
 					,"active" => false
+					,"move_to_course" => "Ja"
 				);
 			$tmplt_id = new ilHiddenInputGUI("obj_id");
 			$form_gui->addItem($tmplt_id);
@@ -387,6 +389,16 @@ class gevDecentralTrainingBuildingBlockAdminGUI {
 		$active->setInfo($this->lng->txt("gev_dec_building_block_active_desc"));
 		$form_gui->addItem($active);
 
+		/*************************
+		* ÜBERNAHME IN KURS?
+		*************************/
+		$move_to_course_optins = gevBuildingBlockUtils::getMoveToCourseOptions();
+		$move_to_course = new ilSelectInputGUI($this->lng->txt("moep"),"frm_move_to_course");
+		$move_to_course->setOptions($move_to_course_optins);
+		if($vals["move_to_course"]){
+			$move_to_course->setValue($vals["move_to_course"]);
+		}
+		$form_gui->addItem($move_to_course);
 
 
 		if($this->obj_id !== null && $this->obj_id != "") {
@@ -424,6 +436,7 @@ class gevDecentralTrainingBuildingBlockAdminGUI {
 		$bu_utils->setTraingCategories($form->getInput("frm_training_category"));
 		$bu_utils->setTopic($form->getInput("frm_topic"));
 		$bu_utils->setDBVTopic($form->getInput("frm_dbv_topic"));
+		$bu_utils->setMoveToCourse(($form->getInput("frm_move_to_course") == "Ja") ? 1 : 0);
 
 		$bu_utils->update();
 
@@ -454,6 +467,7 @@ class gevDecentralTrainingBuildingBlockAdminGUI {
 		$bu_utils->setTraingCategories($form->getInput("frm_training_category"));
 		$bu_utils->setTopic($form->getInput("frm_topic"));
 		$bu_utils->setDBVTopic($form->getInput("frm_dbv_topic"));
+		$bu_utils->setMoveToCourse(($form->getInput("frm_move_to_course") == "Ja") ? 1 : 0);
 
 		$bu_utils->save();
 

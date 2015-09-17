@@ -214,16 +214,6 @@ class gevCourseBuildingBlockUtils {
 		}, self::getAllCourseBuildingBlocksRaw($a_crs_ref_id, $a_request_id));
 	}
 
-
-
-
-
-
-
-
-
-
-
 	static public function updateCrsBuildungBlocksCrsIdByCrsRequestId($a_crs_id, $a_crs_request_id) {
 		global $ilDB;
 
@@ -244,25 +234,98 @@ class gevCourseBuildingBlockUtils {
 			$a_db = $ilDB;
 		}
 
+		self::updateGDVTopic($a_crs_ref_id, $a_db);
+		self::updateTrainingCategory($a_crs_ref_id, $a_db);
+		self::updateTargetAndBenefits($a_crs_ref_id, $a_db);
+		self::updateContent($a_crs_ref_id, $a_db);
 		self::updateWP($a_crs_ref_id, $a_db);
 	}
 
-	static private function updateWP($a_crs_ref_id, $a_db) {
-		$sql = "SELECT base.id, base.start_time, base.end_time "
-		      ." FROM ".self::TABLE_NAME." base"
-		      ." JOIN ".self::TABLE_NAME_JOIN1." join1"
-		      ." ON base.bb_id = join1.obj_id WHERE join1.is_wp_relevant = 1"
-		      ." ORDER BY base.start_time";
+	static private function updateGDVTopic($a_crs_ref_id,$a_db) {
+		$sql = "SELECT DISTINCT base.gdv_topic\n"
+			   ." FROM ".self::TABLE_NAME_JOIN1." base\n"
+			   ." JOIN ".self::TABLE_NAME." join1 ON base.obj_id = join1.bb_id\n"
+			   ." WHERE join1.crs_id = ".$a_db->quote($a_crs_ref_id,"integer")."\n"
+			   ." AND base.gdv_topic IS NOT NULL";
+
+		$res = $a_db->query($sql);
+		$gdv_topic = "";
 		
+		if($a_db->numRows($res) > 1) {
+			$gdv_topic = "Spartenübergreifend";
+		} elseif ($a_db->numRows($res) == 1){
+			$row = $a_db->fetchAssoc($res);
+			$gdv_topic = $row["gdv_topic"];
+		}
+
+		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		gevCourseUtils::updateGDVTopic($gdv_topic, $a_crs_ref_id);
+	}
+
+	static private function updateTrainingCategory($a_crs_ref_id,$a_db) {
+		$sql = "SELECT base.training_categories \n"
+			   ." FROM ".self::TABLE_NAME_JOIN1." base\n"
+			   ." JOIN ".self::TABLE_NAME." join1 ON base.obj_id = join1.bb_id\n"
+			   ." WHERE join1.crs_id = ".$a_db->quote($a_crs_ref_id,"integer")."\n";
+
+		$res = $a_db->query($sql);
+		$categories = array();
+		while($row = $a_db->fetchAssoc($res)) {
+			$cats = unserialize($row["training_categories"]);
+			$categories = array_merge($categories,$cats);
+		}
+
+		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		gevCourseUtils::updateTrainingCategory($categories, $a_crs_ref_id); 
+	}
+
+	static private function updateTargetAndBenefits($a_crs_ref_id,$a_db) {
+		$sql = "SELECT DISTINCT base.learning_dest\n"
+			   ." FROM ".self::TABLE_NAME_JOIN1." base\n"
+			   ." JOIN ".self::TABLE_NAME." join1 ON base.obj_id = join1.bb_id\n"
+			   ." WHERE join1.crs_id = ".$a_db->quote($a_crs_ref_id,"integer")."\n";
+
+		$res = $a_db->query($sql);
+		$lern_dest = "";
+		while($row = $a_db->fetchAssoc($res)) {
+			$lern_dest .= $row["learning_dest"]."\n";
+		}
+
+		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		gevCourseUtils::updateTargetAndBenefits($lern_dest, $a_crs_ref_id);
+	}
+
+	static private function updateContent($a_crs_ref_id, $a_db) {
+		$sql = "SELECT DISTINCT base.content\n"
+			   ." FROM ".self::TABLE_NAME_JOIN1." base\n"
+			   ." JOIN ".self::TABLE_NAME." join1 ON base.obj_id = join1.bb_id\n"
+			   ." WHERE join1.crs_id = ".$a_db->quote($a_crs_ref_id,"integer")."\n";
+
+		$res = $a_db->query($sql);
+		$content = "";
+		while($row = $a_db->fetchAssoc($res)) {
+			$content .= $row["content"]."\n";
+		}
+
+		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		gevCourseUtils::updateContent($content, $a_crs_ref_id);
+	}
+
+	static private function updateWP($a_crs_ref_id, $a_db) {
+		$sql = "SELECT base.id, base.start_time, base.end_time \n"
+		      ." FROM ".self::TABLE_NAME." base\n"
+		      ." JOIN ".self::TABLE_NAME_JOIN1." join1\n"
+		      ." ON base.bb_id = join1.obj_id\n"
+		      ." WHERE join1.is_wp_relevant = 1\n"
+		      ." AND base.crs_id = ".$a_db->quote($a_crs_ref_id,"integer")."\n"
+		      ." ORDER BY base.start_time";
+
 		$res = $a_db->query($sql);
 		$totalMinutes = 0;
 		while($row = $a_db->fetchAssoc($res)) {
-			$start_time = split(" ",$row["start_time"]);
-			$end_time = split(" ",$row["end_time"]);
+			$start = split(":",$row["start_time"]);
+			$end = split(":",$row["end_time"]);
 			
-			$start = split(":",$start_time[1]);
-			$end = split(":",$end_time[1]);
-
 			$minutes = 0;
 			$hours = 0;
 			if($end[1] < $start[1]) {
@@ -286,7 +349,7 @@ class gevCourseBuildingBlockUtils {
 		gevCourseUtils::updateWP($wp, $a_crs_ref_id);
 	}
 
-	static public function getMaxDurationReached($a_crs_ref_id, $a_crs_request_id, array $a_time) {
+	/*static public function getMaxDurationReached($a_crs_ref_id, $a_crs_request_id, array $a_time) {
 		global $ilDB;
 
 		if($a_crs_ref_id == null && $a_crs_request_id === null) {
@@ -336,9 +399,9 @@ class gevCourseBuildingBlockUtils {
 		}
 
 		return false;
-	}
+	}*/
 
-	static public function getMaxDurationReachedOnUpdate($a_crs_ref_id, $a_crs_request_id, array $a_time,$a_updated_crs_building_block_id) {
+	/*static public function getMaxDurationReachedOnUpdate($a_crs_ref_id, $a_crs_request_id, array $a_time,$a_updated_crs_building_block_id) {
 		global $ilDB;
 
 		if($a_crs_ref_id == null && $a_crs_request_id === null) {
@@ -386,7 +449,7 @@ class gevCourseBuildingBlockUtils {
 				$end_time = $value["end_time"];
 			}
 		}
-
+	
 		$start = split(":",$start_time);
 		$end = split(":",$end_time);
 
@@ -406,9 +469,9 @@ class gevCourseBuildingBlockUtils {
 		}
 
 		return false;
-	}
+	}*/
 
-	static public function getRemainingTime($a_crs_ref_id,$a_crs_request_id) {
+	/*static public function getRemainingTime($a_crs_ref_id,$a_crs_request_id) {
 		global $ilDB;
 
 		if($a_crs_ref_id === null && $a_crs_request_id === null) {
@@ -433,7 +496,7 @@ class gevCourseBuildingBlockUtils {
 		}
 
 		return self::MAX_DURATION_MINUTES - $old_time_diff;
-	}
+	}*/
 
 	static public function checkTimeIssues($start,$end,$crs_id = null,$request_id = null) {
 		global $ilDB;
@@ -480,16 +543,36 @@ class gevCourseBuildingBlockUtils {
 
 	static public function timeIssuesCrs($crs_ref_id, $crs_request_id) {
 		global $ilDB;
+		
+		$where = "";
+		if($crs_ref_id !== null) {
+			require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+			require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+			$crs_utils = gevCourseUtils::getInstance((int)gevObjectUtils::getObjId($crs_ref_id));
+			$start_date = $crs_utils->getStartDate();
+			$start_time = $crs_utils->getFormattedStartTime().":00";
+			$end_time = $crs_utils->getFormattedEndTime().":00";
 
-		require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCreationRequestDB.php");
-		$request_db = new gevDecentralTrainingCreationRequestDB();
-		$request = $request_db->request($crs_request_id);
+			$start = new IlDateTime($start_date->get(IL_CAL_DATE)." ".$start_time,IL_CAL_DATETIME);
+			$end = new IlDateTime($start_date->get(IL_CAL_DATE)." ".$end_time,IL_CAL_DATETIME);
+			
+			$where = " WHERE crs_id = ".$ilDB->quote($crs_ref_id,"integer");
+		}
 
-		$start = $request->settings()->start();
-		$end = $request->settings()->end();
+		if($crs_ref_id === null && $crs_request_id !== null) {
+			require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCreationRequestDB.php");
+			$request_db = new gevDecentralTrainingCreationRequestDB();
+			$request = $request_db->request($crs_request_id);
 
-		$sql = "SELECT MIN(start_time) AS start_time, MAX(end_time) AS end_time FROM ".self::TABLE_NAME." WHERE crs_request_id = ".$ilDB->quote($crs_request_id,"integer");
-		$res = $ilDB->query($sql);
+			$start = $request->settings()->start();
+			$end = $request->settings()->end();
+
+			$where = " WHERE crs_request_id = ".$ilDB->quote($crs_request_id,"integer");
+		}
+
+
+		$sql = "SELECT MIN(start_time) AS start_time, MAX(end_time) AS end_time FROM ".self::TABLE_NAME;
+		$res = $ilDB->query($sql.$where);
 
 		if($ilDB->numRows($res) > 0 ) {
 			$row = $ilDB->fetchAssoc($res);
@@ -497,7 +580,7 @@ class gevCourseBuildingBlockUtils {
 
 			$block_start = new IlDateTime($date." ".$row["start_time"],IL_CAL_DATETIME);
 			$block_end = new IlDateTime($date." ".$row["end_time"],IL_CAL_DATETIME);
-			
+		
 			if($start->get(IL_CAL_UNIX) > $block_start->get(IL_CAL_UNIX) || $end->get(IL_CAL_UNIX) < $block_end->get(IL_CAL_UNIX)) {
 				return true;
 			}

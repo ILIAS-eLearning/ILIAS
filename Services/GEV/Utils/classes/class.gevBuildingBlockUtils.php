@@ -135,8 +135,20 @@ class gevBuildingBlockUtils {
 		$this->dbv_topic = $dbv_topic;
 	}
 
+	public function setMoveToCourse($move_to_course) {
+		$this->move_to_course = $move_to_course;
+	}
+
+	public function getMoveToCourse() {
+		return $this->move_to_course;
+	}
+
+	public function getMoveToCourseText() {
+		return ($this->move_to_course) ? "Ja" : "Nein";
+	}
+
 	public function loadData() {
-		$sql = "SELECT obj_id, title, content, learning_dest, is_wp_relevant, is_active, gdv_topic, training_categories,topic, dbv_topic\n".
+		$sql = "SELECT obj_id, title, content, learning_dest, is_wp_relevant, is_active, gdv_topic, training_categories,topic, dbv_topic, move_to_course\n".
 			   "  FROM ".self::TABLE_NAME.
 			   " WHERE obj_id = ".$this->db->quote($this->getId(), "integer");
 
@@ -154,6 +166,7 @@ class gevBuildingBlockUtils {
 			$this->training_categories = unserialize($row["training_categories"]);
 			$this->topic = $row["topic"];
 			$this->dbv_topic = $row["dbv_topic"];
+			$this->move_to_course = $row["move_to_course"];
 		}
 	}
 
@@ -170,6 +183,7 @@ class gevBuildingBlockUtils {
 			  ."     , training_categories = ".$this->db->quote(serialize($this->getTrainingCategories()), "text")."\n"
 			  ."     , topic = ".$this->db->quote($this->getTopic(), "text")."\n"
 			  ."     , dbv_topic = ".$this->db->quote($this->getDBVTopic(), "text")."\n"
+			  ."     , move_to_course = ".$this->db->quote($this->getMoveToCourse(), "integer")."\n"
 			  ." WHERE obj_id = ".$this->db->quote($this->getId(), "integer");
 
 		$this->db->manipulate($sql);
@@ -184,7 +198,7 @@ class gevBuildingBlockUtils {
 
 		$sql = "INSERT INTO ".self::TABLE_NAME.""
 			  ." (obj_id, title, content, learning_dest, is_wp_relevant, is_active, last_change_user\n"
-			  .", last_change_date, is_deleted, gdv_topic, training_categories, topic, dbv_topic)\n"
+			  .", last_change_date, is_deleted, gdv_topic, training_categories, topic, dbv_topic, move_to_course)\n"
 			  ." VALUES (".$this->db->quote($this->getId(), "integer")."\n"
 			  ."        ,".$this->db->quote($this->getTitle(), "text")."\n"
 			  ."        ,".$this->db->quote($this->getContent(), "text")."\n"
@@ -198,6 +212,7 @@ class gevBuildingBlockUtils {
 			  ."        ,".$this->db->quote(serialize($this->getTrainingCategories()), "text")."\n"
 			  ."        ,".$this->db->quote($this->getTopic(), "text")."\n"
 			  ."        ,".$this->db->quote($this->getDBVTopic(), "text")."\n"
+			  ."        ,".$this->db->quote($this->getMoveToCourse(), "integer")."\n"
 			  .")";
 
 		$this->db->manipulate($sql);
@@ -211,7 +226,7 @@ class gevBuildingBlockUtils {
 		$add_where = self::createAdditionalWhere($a_search_opts);
 		$sql = "SELECT bb.obj_id, bb.title, bb.content, bb.learning_dest\n"
 			  ."     , bb.is_wp_relevant, bb.is_active, bb.gdv_topic, bb.training_categories, bb.topic, bb.dbv_topic\n"
-			  ."	 , usr.login, bb.last_change_date\n"
+			  ."	 , usr.login, bb.last_change_date, bb.move_to_course\n"
 			  ."  FROM ".self::TABLE_NAME." bb\n"
 			  ."  JOIN usr_data usr ON usr_id = last_change_user\n"
 			  ."  WHERE is_deleted = ".$ilDB->quote(0,"integer")."\n";
@@ -411,6 +426,10 @@ class gevBuildingBlockUtils {
 		}
 
 		return array("content" => "", "learning_dest" => "");
+	}
+
+	static public function getMoveToCourseOptions() {
+		return array("Ja"=>"Ja","Nein"=>"Nein");
 	}
 }
 ?>

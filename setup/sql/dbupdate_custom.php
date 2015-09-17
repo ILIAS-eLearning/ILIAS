@@ -4210,3 +4210,15 @@ if(!$ilDB->tableColumnExists('dct_crs_building_block', 'credit_points')) {
 	));
 }
 ?>
+
+<#159>
+<?php
+if(!$ilDB->tableColumnExists('dct_building_block', 'move_to_course')) {
+	$ilDB->addTableColumn('dct_building_block','move_to_course', array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => false,
+		'default' => 1
+	));
+}
+?>
