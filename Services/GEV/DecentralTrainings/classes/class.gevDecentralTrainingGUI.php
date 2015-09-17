@@ -680,14 +680,16 @@ class gevDecentralTrainingGUI {
 		$target_group = null;
 		$gdv_topic = null;
 
+		//GDV_TOPIC und TRAINING_CATEGORY JUST DISABLED
 		if($is_flexible) {
 			$title = $a_form->getInput("title");
-			$tc = $a_form->getInput("training_category");
-			$training_category = $tc ? $tc : array();
 			$tg = $a_form->getInput("target_groups");
 			$target_group = $tg ? $tg : array();
 			$gdv_topic_temp = $a_form->getInput("gdv_topic");
-			$gdv_topic = ($gdv_topic_temp != "0") ? $gdv_topic_temp : null;
+
+			//$tc = $a_form->getInput("training_category");
+			$training_category = null;//$tc ? $tc : array();
+			$gdv_topic = null; //($gdv_topic_temp != "0") ? $gdv_topic_temp : null;
 		}
 
 		return new gevDecentralTrainingSettings
@@ -1217,7 +1219,7 @@ class gevDecentralTrainingGUI {
 		$form->addItem($content_section);
 
 		//trainingskategorie
-		$training_cat = $this->amd_utils->getOptions(gevSettings::CRS_AMD_TOPIC);
+		/*$training_cat = $this->amd_utils->getOptions(gevSettings::CRS_AMD_TOPIC);
 		$cbx_group_training_cat = new ilCheckBoxGroupInputGUI($this->lng->txt("gev_dec_training_training_category"),"training_category");
 		$cbx_group_training_cat->setRequired(true);
 		$cbx_group_training_cat->setDisabled($a_form_values["no_changes_allowed"]);
@@ -1231,7 +1233,7 @@ class gevDecentralTrainingGUI {
 		if($a_form_values["training_category"] && $a_fill) {
 			$cbx_group_training_cat->setValue($a_form_values["training_category"]);
 		}
-		$form->addItem($cbx_group_training_cat);
+		$form->addItem($cbx_group_training_cat);*/
 
 		//zielgruppe
 		$target_groups = $this->amd_utils->getOptions(gevSettings::CRS_AMD_TARGET_GROUP);
@@ -1254,7 +1256,7 @@ class gevDecentralTrainingGUI {
 		/*************************
 		* BEWERTUNG
 		*************************/
-		$rating_section = new ilFormSectionHeaderGUI();
+		/*$rating_section = new ilFormSectionHeaderGUI();
 		$rating_section->setTitle($this->lng->txt("gev_dec_training_rating"));
 		$form->addItem($rating_section);
 
@@ -1284,7 +1286,7 @@ class gevDecentralTrainingGUI {
 								  );
 			}
 			$form->addItem($preview);
-		}
+		}*/
 		
 		return $form;
 	}
@@ -1442,9 +1444,7 @@ class gevDecentralTrainingGUI {
 			, "orgaInfo" => $crs_utils->getOrgaInfo()
 			, "credit_points" => $crs_utils->getCreditPoints()
 			, "webinar_vc_type" => $crs_utils->getVirtualClassType()
-			, "training_category" => $crs_utils->getTopics()
 			, "target_groups" => $crs_utils->getTargetGroup()
-			, "gdv_topic" => $crs_utils->getWBDTopic()
 			, "trainer_ids" => $crs_utils->getTrainers()
 			, "no_changes_allowed" => $crs_utils->isFinalized()
 			);
@@ -1487,7 +1487,6 @@ class gevDecentralTrainingGUI {
 		$training_info = array(
 			  "title" => $request->settings()->title()
 			, "description" => $request->settings()->description()
-			//, "ltype" => $request->settings()->getType()
 			, "date" => $request->settings()->start()
 			, "start_datetime" => $request->settings()->start()
 			, "end_datetime" => $request->settings()->end()
@@ -1499,11 +1498,8 @@ class gevDecentralTrainingGUI {
 			, "orgu_id" => $request->settings()->orguRefId()
 			, "invitation_preview" => ""
 			, "orgaInfo" => $request->settings()->orgaInfo()
-			//, "credit_points" => $request->settings()->getCreditPoints()
 			, "webinar_vc_type" => $request->settings()->vcType()
-			, "training_category" => $request->settings()->trainingCategory()
 			, "target_groups" => $request->settings()->targetGroup()
-			, "gdv_topic" => $request->settings()->gdvTopic()
 			, "trainer_ids" => $request->trainerIds()
 			, "no_changes_allowed" => false
 			, "template_id" => $request->templateObjId()
