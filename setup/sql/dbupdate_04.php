@@ -9509,7 +9509,7 @@ if (! $ilDB->tableExists('il_wac_secure_path')) {
 	$fields = array(
 		'path' => array(
 			'type' => 'text',
-			'length' => '256',
+			'length' => '64',
 
 		),
 		'component_directory' => array(
@@ -9525,7 +9525,6 @@ if (! $ilDB->tableExists('il_wac_secure_path')) {
 		'in_sec_folder' => array(
 			'type' => 'integer',
 			'length' => '1',
-
 		),
 
 	);
@@ -11492,4 +11491,10 @@ ilDBUpdateNewObjectType::addRBACCreate('create_prg', 'Create Study Programme', $
 <#4754>
 <?php
 $ilCtrlStructureReader->getStructure();
+?>
+<#4755>
+<?php
+$ilDB->modifyTableColumn('il_wac_secure_path', 'path', array(
+	'length'  => 64,
+));
 ?>

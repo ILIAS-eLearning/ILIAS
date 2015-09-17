@@ -95,6 +95,7 @@ abstract class ilPageObject
 			array("PageContent", "TableRow", "TableData", "ListItem", "FileItem",
 				"Section", "Tab", "ContentPopup");
 		$this->setActive(true);
+		$this->show_page_act_info = false;
 		
 		if($a_id != 0)
 		{
