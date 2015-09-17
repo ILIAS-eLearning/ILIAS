@@ -338,7 +338,8 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 			$ilCtrl->setParameter($this->parent_obj, 'sseed', '');
 		}
 		
-		if(!$this->schedule && $has_booking)
+		// #16663
+		if(!$this->has_schedule && $has_booking)
 		{						
 			if(trim($a_set['post_text']) || $a_set['post_file'])
 			{
