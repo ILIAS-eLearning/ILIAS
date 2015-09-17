@@ -1011,11 +1011,24 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		include_once './Modules/Session/classes/class.ilEventItems.php';
 		
 		$this->event_items = new ilEventItems($this->object->getId());
-		$this->event_items->setItems(is_array($_POST['items']) ? $_POST['items'] : array());
+
+		$list_items = is_array($_POST['all_items']) ? $_POST['all_items'] : array();
+		$list_items_checked = is_array($_POST['items']) ? $_POST['items'] : array();
+
+		$checked = $this->event_items->getItems();
+		$checked = array_diff($checked, $list_items);//remove all visible items in list
+		$checked = array_merge($checked, $list_items_checked);//add checked items in list
+
+		$this->event_items->setItems($checked);
 		$this->event_items->update();
 
-		ilUtil::sendSuccess($this->lng->txt('settings_saved'));
-		$this->materialsObject();
+		include_once 'Modules/Session/classes/class.ilSessionMaterialsTableGUI.php';
+		$tbl = new ilSessionMaterialsTableGUI($this, "materials");
+		$tbl->setOffset(0);
+		$tbl->storeNavParameter();//remove offset and go to page 1
+
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+		$this->ctrl->redirect($this,'materials');
 	}
 	
 	/**
