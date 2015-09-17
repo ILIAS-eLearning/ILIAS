@@ -11492,3 +11492,9 @@ ilDBUpdateNewObjectType::addRBACCreate('create_prg', 'Create Study Programme', $
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#4755>
+<?php
+$ilDB->modifyTableColumn('il_wac_secure_path', 'path', array(
+	'length'  => 64,
+));
+?>
