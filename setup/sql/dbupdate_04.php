@@ -11522,7 +11522,60 @@ while($row = $ilDB->fetchAssoc($set))
 		$ilDB->manipulate("DELETE FROM crs_items WHERE obj_id = " . $ilDB->quote($ref_id, 'integer'));
 		$ilDB->manipulate("DELETE FROM crs_items WHERE parent_id = " . $ilDB->quote($ref_id, 'integer'));
 		$ilDB->manipulate("DELETE FROM rbac_log WHERE ref_id = " . $ilDB->quote($ref_id, 'integer'));
+		$ilDB->manipulate("DELETE FROM rbac_pa WHERE ref_id = " . $ilDB->quote($ref_id, 'integer'));
+		$ilDB->manipulate("DELETE FROM desktop_item WHERE item_id = " . $ilDB->quote($ref_id, 'integer'));
+		$ilDB->manipulate("DELETE FROM conditions WHERE  target_ref_id = " . $ilDB->quote($ref_id, 'integer') . " OR trigger_ref_id = " . $ilDB->quote($ref_id, 'integer'));
+		$ilDB->manipulate("DELETE FROM didactic_tpl_objs WHERE ref_id = " . $ilDB->quote($ref_id, 'integer'));
+		// We know that all of these objects are leafs, so we can delete the records without determining the tree impl. and processing additional checks
+		$ilDB->manipulate("DELETE FROM tree WHERE child = " . $ilDB->quote($ref_id, 'integer'));
+		$ilDB->manipulate("DELETE FROM object_reference WHERE ref_id = " . $ilDB->quote($ref_id, 'integer'));
+
+		$GLOBALS['ilLog']->write(sprintf(
+			"DB Step %s: Deleted object reference of type %s with ref_id %s.",
+			$nr, $obj_type, $ref_id
+		));
+	}
+
+	$ilDB->manipulate("DELETE FROM il_news_item WHERE context_obj_id = " . $ilDB->quote($obj_id, "integer") . " AND context_obj_type = " . $ilDB->quote($obj_type, "text"));
+	$ilDB->manipulate("DELETE FROM il_block_setting WHERE block_id = " . $ilDB->quote($obj_id, "integer") . " AND type = " . $ilDB->quote("news", "text"));
+	$ilDB->manipulate("DELETE FROM ut_lp_settings WHERE obj_id = " . $ilDB->quote($obj_id, 'integer'));
+	$ilDB->manipulate("DELETE FROM ecs_import WHERE obj_id = " . $ilDB->quote($obj_id, 'integer'));
+	$ilDB->manipulate("DELETE FROM dav_property WHERE obj_id = " . $ilDB->quote($obj_id, 'integer'));
+	$ilDB->manipulate("DELETE FROM didactic_tpl_objs WHERE obj_id = " . $ilDB->quote($obj_id, 'integer'));
+	$ilDB->manipulate("DELETE FROM object_description WHERE obj_id = " . $ilDB->quote($obj_id, 'integer'));
+	$ilDB->manipulate("DELETE FROM object_data WHERE obj_id = " . $ilDB->quote($obj_id, 'integer'));
+
+	$GLOBALS['ilLog']->write(sprintf(
+		"DB Step %s: Deleted object of type %s with obj_id %s.",
+		$nr, $obj_type, $obj_id
+	));
+}
+?>
+<#4757>
+<?php
+$obj_type = 'icrs';
+$set      = $ilDB->queryF(
+	"SELECT obj_id FROM object_data WHERE type = %s",
+	array('text'),
+	array($obj_type)
+);
+while($row = $ilDB->fetchAssoc($set))
+{
+	$obj_id = $row['obj_id'];
+
+	$refset = $ilDB->queryF(
+		"SELECT ref_id FROM object_reference WHERE obj_id = %s",
+		array('integer'),
+		array($obj_id)
+	);
+	while($refrow = $ilDB->fetchAssoc($refset))
+	{
+		$ref_id = $refrow['ref_id'];
+
+		$ilDB->manipulate("DELETE FROM crs_items WHERE obj_id = " . $ilDB->quote($ref_id, 'integer'));
+		$ilDB->manipulate("DELETE FROM crs_items WHERE parent_id = " . $ilDB->quote($ref_id, 'integer'));
 		$ilDB->manipulate("DELETE FROM rbac_log WHERE ref_id = " . $ilDB->quote($ref_id, 'integer'));
+		$ilDB->manipulate("DELETE FROM rbac_pa WHERE ref_id = " . $ilDB->quote($ref_id, 'integer'));
 		$ilDB->manipulate("DELETE FROM desktop_item WHERE item_id = " . $ilDB->quote($ref_id, 'integer'));
 		$ilDB->manipulate("DELETE FROM conditions WHERE  target_ref_id = " . $ilDB->quote($ref_id, 'integer') . " OR trigger_ref_id = " . $ilDB->quote($ref_id, 'integer'));
 		$ilDB->manipulate("DELETE FROM didactic_tpl_objs WHERE ref_id = " . $ilDB->quote($ref_id, 'integer'));
