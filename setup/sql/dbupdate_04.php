@@ -11604,3 +11604,147 @@ while($row = $ilDB->fetchAssoc($set))
 	));
 }
 ?>
+<#4758>
+<?php
+$a_type = 'icla';
+$set = $ilDB->queryF(
+	"SELECT obj_id FROM object_data WHERE type = %s AND title = %s",
+	array('text', 'text'),
+	array('typ', $a_type)
+);
+$row     = $ilDB->fetchAssoc($set);
+$type_id = $row['obj_id'];
+if($type_id)
+{
+	// RBAC
+
+	// basic operations
+	$ilDB->manipulate("DELETE FROM rbac_ta WHERE typ_id = " . $ilDB->quote($type_id, "integer"));
+
+	// creation operation
+	$set           = $ilDB->query("SELECT ops_id" .
+		" FROM rbac_operations " .
+		" WHERE class = " . $ilDB->quote("create", "text") .
+		" AND operation = " . $ilDB->quote("create_" . $a_type, "text"));
+	$row           = $ilDB->fetchAssoc($set);
+	$create_ops_id = $row["ops_id"];
+	if($create_ops_id)
+	{
+		$ilDB->manipulate("DELETE FROM rbac_templates WHERE ops_id = ".$ilDB->quote($create_ops_id, "integer"));
+		$GLOBALS['ilLog']->write(sprintf(
+			"DB Step %s: Deleted rbac_templates create operation with ops_id %s for object type %s with obj_id %s.",
+			$nr, $create_ops_id, $a_type, $type_id
+		));
+
+		// container create
+		foreach(array("icrs") as $parent_type)
+		{
+			$pset = $ilDB->queryF(
+				"SELECT obj_id FROM object_data WHERE type = %s AND title = %s",
+				array('text', 'text'),
+				array('typ', $parent_type)
+			);
+			$prow = $ilDB->fetchAssoc($pset);
+			$parent_type_id = $prow['obj_id'];
+			if($parent_type_id)
+			{
+				$ilDB->manipulate("DELETE FROM rbac_ta".
+					" WHERE typ_id = ".$ilDB->quote($parent_type_id, "integer").
+					" AND ops_id = ".$ilDB->quote($create_ops_id, "integer"));
+			}
+		}
+
+		$ilDB->manipulate("DELETE FROM rbac_operations WHERE ops_id = ".$ilDB->quote($create_ops_id, "integer"));
+		$GLOBALS['ilLog']->write(sprintf(
+			"DB Step %s: Deleted create operation with ops_id %s for object type %s with obj_id %s.",
+			$nr, $create_ops_id, $a_type, $type_id
+		));
+	}
+
+	// Type
+	$ilDB->manipulate("DELETE FROM object_data WHERE obj_id = " . $ilDB->quote($type_id, "integer"));
+	$GLOBALS['ilLog']->write(sprintf(
+		"DB Step %s: Deleted object type %s with obj_id %s.",
+		$nr, $a_type, $type_id
+	));
+}
+
+$set = new ilSetting();
+$set->delete("obj_dis_creation_".$a_type);
+$set->delete("obj_add_new_pos_".$a_type);
+$set->delete("obj_add_new_pos_grp_".$a_type);
+?>
+<#4759>
+<?php
+$a_type = 'icrs';
+$set = $ilDB->queryF(
+	"SELECT obj_id FROM object_data WHERE type = %s AND title = %s",
+	array('text', 'text'),
+	array('typ', $a_type)
+);
+$row     = $ilDB->fetchAssoc($set);
+$type_id = $row['obj_id'];
+if($type_id)
+{
+	// RBAC
+
+	// basic operations
+	$ilDB->manipulate("DELETE FROM rbac_ta WHERE typ_id = " . $ilDB->quote($type_id, "integer"));
+
+	// creation operation
+	$set           = $ilDB->query("SELECT ops_id" .
+		" FROM rbac_operations " .
+		" WHERE class = " . $ilDB->quote("create", "text") .
+		" AND operation = " . $ilDB->quote("create_" . $a_type, "text"));
+	$row           = $ilDB->fetchAssoc($set);
+	$create_ops_id = $row["ops_id"];
+	if($create_ops_id)
+	{
+		$ilDB->manipulate("DELETE FROM rbac_templates WHERE ops_id = ".$ilDB->quote($create_ops_id, "integer"));
+		$GLOBALS['ilLog']->write(sprintf(
+			"DB Step %s: Deleted rbac_templates create operation with ops_id %s for object type %s with obj_id %s.",
+			$nr, $create_ops_id, $a_type, $type_id
+		));
+
+		// container create
+		foreach(array("root", "cat", "crs", "grp", "fold") as $parent_type)
+		{
+			$pset = $ilDB->queryF(
+				"SELECT obj_id FROM object_data WHERE type = %s AND title = %s",
+				array('text', 'text'),
+				array('typ', $parent_type)
+			);
+			$prow = $ilDB->fetchAssoc($pset);
+			$parent_type_id = $prow['obj_id'];
+			if($parent_type_id)
+			{
+				$ilDB->manipulate("DELETE FROM rbac_ta".
+					" WHERE typ_id = ".$ilDB->quote($parent_type_id, "integer").
+					" AND ops_id = ".$ilDB->quote($create_ops_id, "integer"));
+			}
+		}
+
+		$ilDB->manipulate("DELETE FROM rbac_operations WHERE ops_id = ".$ilDB->quote($create_ops_id, "integer"));
+		$GLOBALS['ilLog']->write(sprintf(
+			"DB Step %s: Deleted create operation with ops_id %s for object type %s with obj_id %s.",
+			$nr, $create_ops_id, $a_type, $type_id
+		));
+	}
+
+	// Type
+	$ilDB->manipulate("DELETE FROM object_data WHERE obj_id = " . $ilDB->quote($type_id, "integer"));
+	$GLOBALS['ilLog']->write(sprintf(
+		"DB Step %s: Deleted object type %s with obj_id %s.",
+		$nr, $a_type, $type_id
+	));
+}
+
+$set = new ilSetting();
+$set->delete("obj_dis_creation_".$a_type);
+$set->delete("obj_add_new_pos_".$a_type);
+$set->delete("obj_add_new_pos_grp_".$a_type);
+?>
+<#4760>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
