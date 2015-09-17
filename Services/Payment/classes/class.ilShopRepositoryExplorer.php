@@ -46,7 +46,6 @@ class ilShopRepositoryExplorer extends ilExplorer
 			$this->addFilter("cat");
 			$this->addFilter('catr');
 			$this->addFilter("grp");
-			$this->addFilter("icrs");
 			$this->addFilter("crs");
 			$this->addFilter('crsr');
 			$this->addFilter('rcrs');
@@ -99,12 +98,6 @@ class ilShopRepositoryExplorer extends ilExplorer
 
 			case "crsr":
 				return "ilias.php?cmd=redirect&baseClass=ilshopcontroller&ref_id=".$a_node_id;
-
-			case "icrs":
-				$ilCtrl->setParameterByClass("ilobjilinccoursegui", "ref_id", $a_node_id);
-				$link = $ilCtrl->getLinkTargetByClass(array("ilrepositorygui", "ilobjilinccoursegui"), "");
-				$ilCtrl->setParameterByClass("ilobjilinccoursegui", "ref_id", $_GET["ref_id"]);
-				return $link;
 
 			case 'rcrs':
 				$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $a_node_id);

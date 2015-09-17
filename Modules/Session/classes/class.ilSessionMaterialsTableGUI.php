@@ -19,6 +19,8 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
 	{
 		global $ilCtrl, $lng, $tree;
 
+		$this->setId("sess_materials_".$a_parent_obj->object->getId());
+
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
 		$this->parent_ref_id = $tree->getParentId($a_parent_obj->object->getRefId());

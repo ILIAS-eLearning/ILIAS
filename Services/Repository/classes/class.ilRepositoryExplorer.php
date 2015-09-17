@@ -54,7 +54,6 @@ class ilRepositoryExplorer extends ilExplorer
 			$this->addFilter('catr');
 			$this->addFilter('rcat');
 			$this->addFilter("grp");
-			$this->addFilter("icrs");
 			$this->addFilter('rgrp');
 			$this->addFilter("crs");
 			$this->addFilter('crsr');
@@ -120,12 +119,6 @@ class ilRepositoryExplorer extends ilExplorer
 				$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $a_node_id);
 				$link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", "redirect");
 				$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
-				return $link;
-
-			case "icrs":
-				$ilCtrl->setParameterByClass("ilobjilinccoursegui", "ref_id", $a_node_id);
-				$link = $ilCtrl->getLinkTargetByClass(array("ilrepositorygui", "ilobjilinccoursegui"), "");
-				$ilCtrl->setParameterByClass("ilobjilinccoursegui", "ref_id", $_GET["ref_id"]);
 				return $link;
 
 			case 'rcrs':
