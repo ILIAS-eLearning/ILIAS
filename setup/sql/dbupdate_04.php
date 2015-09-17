@@ -9509,7 +9509,7 @@ if (! $ilDB->tableExists('il_wac_secure_path')) {
 	$fields = array(
 		'path' => array(
 			'type' => 'text',
-			'length' => '256',
+			'length' => '64',
 
 		),
 		'component_directory' => array(
@@ -9525,7 +9525,6 @@ if (! $ilDB->tableExists('il_wac_secure_path')) {
 		'in_sec_folder' => array(
 			'type' => 'integer',
 			'length' => '1',
-
 		),
 
 	);
