@@ -11489,3 +11489,7 @@ include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObje
 $parent_types = array('root', 'cat', 'prg');
 ilDBUpdateNewObjectType::addRBACCreate('create_prg', 'Create Study Programme', $parent_types);
 ?>
+<#4754>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

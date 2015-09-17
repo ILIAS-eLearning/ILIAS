@@ -866,20 +866,6 @@ class ilObjectDefinition// extends ilSaxParser
 		{
 			switch($type)
 			{
-				case "chat":
-					if(!$this->ilias->getSetting("chat_active"))
-					{
-						unset($subobjects[$type]);
-					}
-					break;
-
-				case "icrs":
-					if(!$this->ilias->getSetting("ilinc_active"))
-					{
-						unset($subobjects[$type]);
-					}
-					break;					
-
 				default:
 					// DO NOTHING
 			}

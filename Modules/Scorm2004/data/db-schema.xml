@@ -551,7 +551,6 @@ This is work in progress and therefore incomplete and buggy ...
 	<table name="usr_data" collation="unicode">
 		<field name="email" required="true" type="string" size="80"/>
 		<field name="firstname" required="true" type="string" size="32"/>
-		<field name="ilinc_id" required="true" type="integer" size="4" default="0"/>
 		<field name="lastname" required="true" type="string" size="32"/>
 		<field name="login" required="true" type="string" size="80"/>
 		<field name="matriculation" required="false" type="string" size="50"/>
