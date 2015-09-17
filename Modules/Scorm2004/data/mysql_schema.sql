@@ -123,7 +123,7 @@ CREATE INDEX object_referenceobj_id ON object_reference(obj_id);
 CREATE TABLE sahs_lm(`api_adapter` VARCHAR(80), `api_func_prefix` VARCHAR(20), `auto_review` VARCHAR(1), `credit` VARCHAR(32), `default_lesson_mode` VARCHAR(32), `id` INTEGER, `online` VARCHAR(1), `type` VARCHAR(32) );
 ALTER TABLE sahs_lm ADD PRIMARY KEY(id);
 
-CREATE TABLE usr_data(`email` VARCHAR(80), `firstname` VARCHAR(32), `ilinc_id` INTEGER, `lastname` VARCHAR(32), `login` VARCHAR(80), `matriculation` VARCHAR(50), `passwd` VARCHAR(32), `title` VARCHAR(32), `usr_id` INTEGER PRIMARY KEY AUTO_INCREMENT );
+CREATE TABLE usr_data(`email` VARCHAR(80), `firstname` VARCHAR(32), `lastname` VARCHAR(32), `login` VARCHAR(80), `matriculation` VARCHAR(50), `passwd` VARCHAR(32), `title` VARCHAR(32), `usr_id` INTEGER PRIMARY KEY AUTO_INCREMENT );
 CREATE TABLE lng_data(`module` VARCHAR(30), `identifier` VARCHAR(50), `lang_key` VARCHAR(2), `value` BLOB );
 ALTER TABLE lng_data ADD PRIMARY KEY(module);
 
