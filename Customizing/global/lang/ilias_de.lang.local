@@ -1164,8 +1164,8 @@ gev#:#gev_dec_building_block_edit#:#Baustein bearbeiten
 gev#:#gev_dec_building_block_new#:#Neuer Baustein
 gev#:#gev_dec_building_block_base_data#:#Bausteininformationen
 gev#:#gev_dec_building_block_create_title#:#Titel
-gev#:#gev_dec_building_block_content#:#Inhalte
-gev#:#gev_dec_building_block_learn_dest#:#Lernziel
+gev#:#gev_dec_building_block_content#:#Trainingsinhalte
+gev#:#gev_dec_building_block_learn_dest#:#Ziele und Nutzen
 gev#:#gev_dec_building_block_is_wp_relevant#:#WP relevant
 gev#:#gev_dec_building_block_active#:#Aktiv
 gev#:#gev_dec_building_block_title#:#Trainingsbausteine
@@ -1252,3 +1252,17 @@ gev#:#gev_dec_training_add_building_block#:#Baustein hinzufügen
 gev#:#gev_dec_activate#:#Aktivieren
 gev#:#gev_dec_training_cancle#:#Abbrechen
 gev#:#gev_dec_training_change_settings#:#Trainingseinstellungen ändern
+gev#:#gev_dec_training_topic#:#Lerninhalt
+gev#:#gev_dec_training_dbv_topic#:#DBV-Thema
+gev#:#gev_dec_training_distribution#:#Vertriebsweg
+gev#:#gev_dec_training_save_changes#:#Änderungen speichern
+gev#:#gev_dec_training_select_building_block#:#Baustein
+gev#:#gev_dec_training_preselect_topic#:#Lerninhalt
+gev#:#gev_dec_building_wp#:#WP
+gev#:#gev_dec_training_header_topic#:#Lerninhalt vorwählen
+gev#:#gev_dec_training_header_block#:#Baustein auswählen
+gev#:#gev_dec_training_header_infos#:#Baustein vorschau
+gev#:#gev_dec_training_break_advice#:#Hinweis:<br/>Bitte denken Sie an ausreichend Pausen!
+gev#:#gev_dec_training_end_before_start#:#Das Ende des Trainings lag vor dem Anfang. Änderungen wurden nicht gespeichert!
+gev#:#gev_dec_training_crs_to_long_no_change#:#Das Training überschreitet die maximale Dauer von 12 Zeitstunden. Änderungen wurden nicht gespeichert!
+gev#:#gev_dec_training_date_before_today#:#Das gewählte Datum liegt in der Vergangenheit. Änderungen wurden nicht gespeichert!

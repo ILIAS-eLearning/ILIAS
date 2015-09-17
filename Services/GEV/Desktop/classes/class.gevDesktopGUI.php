@@ -34,6 +34,7 @@
 * @ilCtrl_Calls gevDesktopGUI: gevDBVReportSuperiorGUI
 * @ilCtrl_Calls gevDesktopGUI: gevDecentralTrainingBuildingBlockAdminGUI
 * @ilCtrl_Calls gevDesktopGUI: gevDecentralTrainingCourseCreatingBuildingBlockGUI
+* @ilCtrl_Calls gevDesktopGUI: gevDecentralTrainingCourseCreatingBuildingBlock2GUI
 * @ilCtrl_Calls gevDesktopGUI: gevTrainerWorkloadGUI
 * @ilCtrl_Calls gevDesktopGUI: gevTrainerOperationByOrgUnitAndTrainerGUI
 */
@@ -215,13 +216,17 @@ class gevDesktopGUI {
 				$gui = new gevDecentralTrainingBuildingBlockAdminGUI();
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;
-			case "gevdecentraltrainingcoursecreatingbuildingblockgui":
+			case "gevdecentraltrainingcoursecreatingbuildingblock2gui":
 				$ilMainMenu->setActive("gev_admin_menu");
-				require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCourseCreatingBuildingBlockGUI.php");
+				require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCourseCreatingBuildingBlock2GUI.php");
 				$crs_obj_id = null;
 				
 				if(isset($_GET["crs_obj_id"])){
 					$crs_obj_id = (int)$_GET["crs_obj_id"];
+				}
+
+				if(isset($_POST["crs_obj_id"])){
+					$crs_obj_id = (int)$_POST["crs_obj_id"];
 				}
 				
 				if(isset($_GET["crs_ref_id"])){
@@ -234,7 +239,7 @@ class gevDesktopGUI {
 					$crs_obj_id = (int)gevObjectUtils::getObjId((int)$_POST["crs_ref_id"]);
 				}
 
-				$gui = new gevdecentraltrainingcoursecreatingbuildingblockgui($crs_obj_id);
+				$gui = new gevDecentralTrainingCourseCreatingBuildingBlock2GUI($crs_obj_id);
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;
 			case "gevtrainerworkloadgui":
@@ -286,6 +291,14 @@ class gevDesktopGUI {
 			case "toDctBuildingBlockAdm":
 			case "toTrainerWorkload":
 			case "toTrainerOperationByOrgUnitAndTrainer":
+			case "toSaveTrainingSettings":
+			case "toAddCrsBuildingBlock":
+			case "toDeleteCrsBuildingBlock":
+			case "toUpdateBuildingBlock":
+			case "toCancleCreation":
+			case "toSaveRequest":
+			case "toChangeCourseData":
+			case "showOpenRequests":
 				$this->$a_cmd();
 			case "handleExplorerCommand":
 				break;
@@ -370,10 +383,70 @@ class gevDesktopGUI {
 	protected function toReportAttendanceByOrgUnit() {
 		$this->ctrl->redirectByClass("gevAttendanceByOrgUnitGUI");
 	}
+
 	protected function toReportAttendanceByCourseTemplate() {
 		$this->ctrl->redirectByClass("gevAttendanceByCourseTemplateGUI");
 	}
 
+	protected function toSaveTrainingSettings() {
+		$crs_request_id = (isset($_POST["crs_request_id"])) ? $_POST["crs_request_id"] : null;
+		$crs_ref_id = (isset($_POST["crs_ref_id"])) ? $_POST["crs_ref_id"] : null;
+
+		require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCourseCreatingBuildingBlock2GUI.php");
+		$gui = new gevDecentralTrainingCourseCreatingBuildingBlock2GUI($crs_ref_id, $crs_request_id);
+		$ret = $this->ctrl->forwardCommand($gui);
+	}
+
+	protected function toAddCrsBuildingBlock() {
+		$crs_request_id = (isset($_POST["crs_request_id"])) ? $_POST["crs_request_id"] : null;
+		$crs_ref_id = (isset($_POST["crs_ref_id"])) ? $_POST["crs_ref_id"] : null;
+		
+		require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCourseCreatingBuildingBlock2GUI.php");
+		$gui = new gevDecentralTrainingCourseCreatingBuildingBlock2GUI($crs_ref_id, $crs_request_id);
+		$ret = $this->ctrl->forwardCommand($gui);
+	}
+
+	protected function toDeleteCrsBuildingBlock() {
+		$crs_request_id = (isset($_POST["crs_request_id"])) ? $_POST["crs_request_id"] : null;
+		$crs_ref_id = (isset($_POST["crs_ref_id"])) ? $_POST["crs_ref_id"] : null;
+
+		require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCourseCreatingBuildingBlock2GUI.php");
+		$gui = new gevDecentralTrainingCourseCreatingBuildingBlock2GUI($crs_ref_id, $crs_request_id);
+		$ret = $this->ctrl->forwardCommand($gui);
+	}
+
+	protected function toUpdateBuildingBlock() {
+		$crs_request_id = (isset($_POST["crs_request_id"])) ? $_POST["crs_request_id"] : null;
+		$crs_ref_id = (isset($_POST["crs_ref_id"])) ? $_POST["crs_ref_id"] : null;
+
+		require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCourseCreatingBuildingBlock2GUI.php");
+		$gui = new gevDecentralTrainingCourseCreatingBuildingBlock2GUI($crs_ref_id, $crs_request_id);
+		$ret = $this->ctrl->forwardCommand($gui);
+	}
+
+	protected function toCancleCreation() {
+		require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCourseCreatingBuildingBlock2GUI.php");
+		$gui = new gevDecentralTrainingCourseCreatingBuildingBlock2GUI(null,null);
+		$ret = $this->ctrl->forwardCommand($gui);
+	}
+
+	protected function toSaveRequest() {
+		require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCourseCreatingBuildingBlock2GUI.php");
+		$gui = new gevDecentralTrainingCourseCreatingBuildingBlock2GUI(null,null);
+		$ret = $this->ctrl->forwardCommand($gui);
+	}
+
+	protected function toChangeCourseData() {
+		require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingGUI.php");
+		$gui = new gevDecentralTrainingGUI();
+		$ret = $this->ctrl->forwardCommand($gui);
+	}
+
+	protected function showOpenRequests() {
+		require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCourseCreatingBuildingBlock2GUI.php");
+		$gui = new gevDecentralTrainingCourseCreatingBuildingBlock2GUI(null,null);
+		$ret = $this->ctrl->forwardCommand($gui);
+	}
 
 	protected function toBooking() {
 		if (!$_GET["crs_id"]) {

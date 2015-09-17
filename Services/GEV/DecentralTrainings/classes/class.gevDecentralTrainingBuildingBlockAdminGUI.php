@@ -264,6 +264,8 @@ class gevDecentralTrainingBuildingBlockAdminGUI {
 					,"active" => $bu_utils->isActive()
 					,"training_categories" => $bu_utils->getTrainingCategories()
 					,"gdv_topic" => $bu_utils->getGDVTopic()
+					,"topic" => $bu_utils->getTopic()
+					,"dbv_topic" => $bu_utils->getDBVTopic()
 				);
 
 			$form_gui->setTitle($this->lng->txt("gev_dec_building_block_edit"));
@@ -336,7 +338,27 @@ class gevDecentralTrainingBuildingBlockAdminGUI {
 			$cbx_group_training_cat->setValue($vals["training_categories"]);
 		}
 		$form_gui->addItem($cbx_group_training_cat);
-		
+
+		$topic_options = gevBuildingBlockUtils::getAllPossibleTopics();
+		$topic = new ilSelectInputGUI($this->lng->txt("gev_dec_training_topic"),"frm_topic");
+		$options = array("" => "-") + $topic_options;
+		$topic->setOptions($options);
+		$topic->setRequired(true);
+		if($vals["topic"]){
+			$topic->setValue($vals["topic"]);
+		}
+		$form_gui->addItem($topic);
+
+		$topic_options = $amd_utils->getOptions(gevSettings::CRS_AMD_DBV_HOT_TOPIC);
+		$dbv_topic = new ilSelectInputGUI($this->lng->txt("gev_dec_training_dbv_topic"),"frm_dbv_topic");
+		$options = array("" => "-") + $topic_options;
+		$dbv_topic->setOptions($options);
+		$dbv_topic->setRequired(true);
+		if($vals["dbv_topic"]){
+			$dbv_topic->setValue($vals["dbv_topic"]);
+		}
+		$form_gui->addItem($dbv_topic);
+
 		/*************************
 		* BEWERTUNG
 		*************************/
@@ -348,17 +370,14 @@ class gevDecentralTrainingBuildingBlockAdminGUI {
 		$gdv_topic = new ilSelectInputGUI($this->lng->txt("gev_dec_training_gdv_topic"),"frm_gdv_topic");
 		$options = array("" => "-") + $gdv_topic_options;
 		$gdv_topic->setOptions($options);
-		$gdv_topic->setRequired(true);
 		if($vals["gdv_topic"]){
 			$gdv_topic->setValue($vals["gdv_topic"]);
 		}
 		$form_gui->addItem($gdv_topic);
 
-		$is_wp_relevant = new ilCheckboxInputGUI($this->lng->txt("gev_dec_building_block_is_wp_relevant"), "frm_is_wp_relevant");
-		$is_wp_relevant->setChecked($vals["is_wp_relevant"]);
-		$is_wp_relevant->setInfo($this->lng->txt("gev_dec_building_block_wp_relevant_desc"));
-		$form_gui->addItem($is_wp_relevant);
-
+		/*************************
+		* AKTIVE
+		*************************/
 		$rating_section = new ilFormSectionHeaderGUI();
 		$rating_section->setTitle($this->lng->txt("gev_dec_activate"));
 		$form_gui->addItem($rating_section);
@@ -367,6 +386,8 @@ class gevDecentralTrainingBuildingBlockAdminGUI {
 		$active->setChecked($vals["active"]);
 		$active->setInfo($this->lng->txt("gev_dec_building_block_active_desc"));
 		$form_gui->addItem($active);
+
+
 
 		if($this->obj_id !== null && $this->obj_id != "") {
 			$form_gui->addCommandButton("update", $this->lng->txt("save"));
@@ -395,10 +416,14 @@ class gevDecentralTrainingBuildingBlockAdminGUI {
 		$bu_utils->setTitle($form->getInput("frm_title"));
 		$bu_utils->setContent($form->getInput("frm_content"));
 		$bu_utils->setLearningDestination($form->getInput("frm_learn_dest"));
-		$bu_utils->setIsWPRelevant($form->getInput("frm_is_wp_relevant"));
 		$bu_utils->setIsActice($form->getInput("frm_active"));
+
 		$bu_utils->setGDVTopic($form->getInput("frm_gdv_topic"));
+		$bu_utils->setIsWPRelevant(($bu_utils->getGDVTopic() != ""));
+
 		$bu_utils->setTraingCategories($form->getInput("frm_training_category"));
+		$bu_utils->setTopic($form->getInput("frm_topic"));
+		$bu_utils->setDBVTopic($form->getInput("frm_dbv_topic"));
 
 		$bu_utils->update();
 
@@ -421,10 +446,14 @@ class gevDecentralTrainingBuildingBlockAdminGUI {
 		$bu_utils->setTitle($form->getInput("frm_title"));
 		$bu_utils->setContent($form->getInput("frm_content"));
 		$bu_utils->setLearningDestination($form->getInput("frm_learn_dest"));
-		$bu_utils->setIsWPRelevant($form->getInput("frm_is_wp_relevant"));
 		$bu_utils->setIsActice($form->getInput("frm_active"));
+
 		$bu_utils->setGDVTopic($form->getInput("frm_gdv_topic"));
+		$bu_utils->setIsWPRelevant(($bu_utils->getGDVTopic() != ""));
+
 		$bu_utils->setTraingCategories($form->getInput("frm_training_category"));
+		$bu_utils->setTopic($form->getInput("frm_topic"));
+		$bu_utils->setDBVTopic($form->getInput("frm_dbv_topic"));
 
 		$bu_utils->save();
 

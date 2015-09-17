@@ -20,9 +20,10 @@ class gevCourseBuildingBlockUtils {
 	protected $course_building_block_id = "";
 	protected $crs_id = null;
 	protected $building_block = "";
-	protected $start_date = "";
-	protected $end_date = "";
+	protected $start_time = "";
+	protected $end_time = "";
 	protected $crs_request_id = null;
+	protected $credit_points = 0;
 
 	protected function __construct($a_course_building_block_id) {
 		global $ilDB, $ilUser;
@@ -53,32 +54,20 @@ class gevCourseBuildingBlockUtils {
 		$this->crs_id = $a_crs_id;
 	}
 
-	public function getStartDate() {
-		return $this->start_date;
-	}
-
-	public function setStartDate($a_start_date) {
-		$this->start_date = $a_start_date;
-	}
-
-	public function getEndDate() {
-		return $this->end_date;
-	}
-
-	public function setEndDate($a_end_date) {
-		$this->end_date = $a_end_date;
-	}
-
 	public function getStartTime() {
-		$expl = explode(" ", $this->getStartDate());
-		$expl = explode(":", $expl[1]);
-		return $expl[0].":".$expl[1];
+		return $this->start_time;
+	}
+
+	public function setStartTime($a_start_time) {
+		$this->start_time = $a_start_time;
 	}
 
 	public function getEndTime() {
-		$expl = explode(" ", $this->getEndDate());
-		$expl = explode(":", $expl[1]);
-		return $expl[0].":".$expl[1];
+		return $this->end_time;
+	}
+
+	public function setEndTime($a_end_time) {
+		$this->end_time = $a_end_time;
 	}
 
 	public function getBuildingBlock() {
@@ -99,21 +88,26 @@ class gevCourseBuildingBlockUtils {
 		$this->crs_request_id = $a_crs_request_id;
 	}
 
+	public function setCreditPoints($credit_points) {
+		$this->credit_points = $credit_points;
+	}
+
+	public function getCreditPoints() {
+		return $this->credit_points;
+	}
+
 	public function getTime() {
-		$start_date = $this->getStartDate();
-		$arr_start_date = split(" ",$start_date);
+		$start_time = $this->getStartTime();
+		$end_time = $this->getEndTime();
 
-		$end_date = $this->getEndDate();
-		$arr_end_date = split(" ",$end_date);
-
-		$ret = array("start"=>array("time"=>$arr_start_date[1],"date"=>$arr_start_date[0])
-					,"end"=>array("time"=>$arr_end_date[1],"date"=>$arr_end_date[0]));
+		$ret = array("start"=>array("time"=>$arr_start_time[1],"date"=>$arr_start_time[0])
+					,"end"=>array("time"=>$arr_end_time[1],"date"=>$arr_end_time[0]));
 		
 		return $ret;
 	}
 
 	public function loadData() {
-		$sql = "SELECT crs_id, bb_id, start_date, end_date\n"
+		$sql = "SELECT crs_id, bb_id, start_time, end_time, credit_points\n"
 			  ."  FROM ".self::TABLE_NAME." WHERE id = ".$this->db->quote($this->getId(), "integer");
 
 		$res = $this->db->query($sql);
@@ -122,19 +116,18 @@ class gevCourseBuildingBlockUtils {
 			$row = $this->db->fetchAssoc($res);
 			$this->setCrsId($row["crs_id"]);
 			$this->setBuildingBlock($row["bb_id"]);
-			$this->setStartDate($row["start_date"]);
-			$this->setEndDate($row["end_date"]);
+			$this->setStartTime($row["start_time"]);
+			$this->setEndTime($row["end_time"]);
+			$this->setCreditPoints($row["credit_points"]);
 		}
 	}
 
 	public function update() {
-		$method_serial = serialize($this->getMethods());
-		$media_serial = serialize($this->getMedia());
-
 		$sql = "UPDATE ".self::TABLE_NAME."\n"
 			  ."   SET bb_id = ".$this->db->quote($this->getBuildingBlock()->getId(), "integer")."\n"
-			  ."     , start_date = ".$this->db->quote($this->getStartDate(), "timestamp")."\n"
-			  ."     , end_date = ".$this->db->quote($this->getEndDate(), "timestamp")."\n"
+			  ."     , start_time = ".$this->db->quote($this->getStartTime(), "time")."\n"
+			  ."     , end_time = ".$this->db->quote($this->getEndTime(), "time")."\n"
+			  ."     , credit_points = ".$this->db->quote($this->getCreditPoints(), "integer")."\n"
 			  ."     , last_change_user = ".$this->db->quote($this->ilUser->getId(), "integer")."\n"
 			  ."     , last_change_date = NOW()"
 			  ." WHERE id = ".$this->db->quote($this->getId(), "integer");
@@ -151,15 +144,16 @@ class gevCourseBuildingBlockUtils {
 		$media_serial = preg_replace('/\"/','\\\"',serialize($this->getMedia()));*/
 
 		$sql = "INSERT INTO ".self::TABLE_NAME.""
-			  ." (id, crs_id, bb_id, start_date, end_date, last_change_user, last_change_date, crs_request_id)\n"
+			  ." (id, crs_id, bb_id, start_time, end_time, last_change_user, last_change_date, crs_request_id, credit_points)\n"
 			  ." VALUES ( ".$this->db->quote($this->getId(), "integer")."\n"
 			  ."        , ".$this->db->quote($this->getCrsId(), "integer")."\n"
 			  ."        , ".$this->db->quote($this->getBuildingBlock()->getId(), "integer")."\n"
-			  ."        , ".$this->db->quote($this->getStartDate(), "timestamp")."\n"
-			  ."        , ".$this->db->quote($this->getEndDate(), "timestamp")."\n"
+			  ."        , ".$this->db->quote($this->getStartTime(), "time")."\n"
+			  ."        , ".$this->db->quote($this->getEndTime(), "time")."\n"
 			  ."        , ".$this->db->quote($this->ilUser->getId(), "integer")."\n"
 			  ."        , NOW()\n"
 			  ."        , ".$this->db->quote($this->getCourseRequestId(), "integer")."\n"
+			  ."        , ".$this->db->quote($this->getCreditPoints(), "integer")."\n"
 			  ."        )";
 
 		$this->db->manipulate($sql);
@@ -182,8 +176,8 @@ class gevCourseBuildingBlockUtils {
 		global $ilDB;
 
 		$sql = "SELECT\n"
-			  ."    base.id, base.crs_id, base.bb_id, base.start_date, base.end_date,\n"
-			  ."    join1.title, join1.learning_dest, join1.content, base.crs_request_id, base.bb_id\n"
+			  ."    base.id, base.crs_id, base.bb_id, base.start_time, base.end_time, base.credit_points,\n"
+			  ."    join1.title, join1.learning_dest, join1.content, base.crs_request_id, base.bb_id, join1.dbv_topic\n"
 			  ." FROM ".self::TABLE_NAME." as base\n"
 			  ." JOIN ".self::TABLE_NAME_JOIN1." as join1\n"
 			  ."   ON  base.bb_id = join1.obj_id\n";
@@ -196,7 +190,7 @@ class gevCourseBuildingBlockUtils {
 			}
 		}
 	
-		$sql .= " ORDER BY base.start_date";
+		$sql .= " ORDER BY base.start_time";
 
 		$ret = array();
 		$res = $ilDB->query($sql);
@@ -211,13 +205,24 @@ class gevCourseBuildingBlockUtils {
 		return array_map(function($row) {
 			$obj = new gevCourseBuildingBlockUtils($row["id"]);
 			$obj->setCrsId($row["crs_id"]);
-			$obj->setStartDate($row["start_date"]);
-			$obj->setEndDate($row["end_date"]);
+			$obj->setStartTime($row["start_time"]);
+			$obj->setEndTime($row["end_time"]);
 			$obj->setCourseRequestId($row["crs_request_id"]);
 			$obj->setBuildingBlock($row["bb_id"]);
+			$obj->setCreditPoints($row["credit_points"]);
 			return $obj;
 		}, self::getAllCourseBuildingBlocksRaw($a_crs_ref_id, $a_request_id));
 	}
+
+
+
+
+
+
+
+
+
+
 
 	static public function updateCrsBuildungBlocksCrsIdByCrsRequestId($a_crs_id, $a_crs_request_id) {
 		global $ilDB;
@@ -243,20 +248,20 @@ class gevCourseBuildingBlockUtils {
 	}
 
 	static private function updateWP($a_crs_ref_id, $a_db) {
-		$sql = "SELECT base.id, base.start_date, base.end_date "
+		$sql = "SELECT base.id, base.start_time, base.end_time "
 		      ." FROM ".self::TABLE_NAME." base"
 		      ." JOIN ".self::TABLE_NAME_JOIN1." join1"
 		      ." ON base.bb_id = join1.obj_id WHERE join1.is_wp_relevant = 1"
-		      ." ORDER BY base.start_date";
+		      ." ORDER BY base.start_time";
 		
 		$res = $a_db->query($sql);
 		$totalMinutes = 0;
 		while($row = $a_db->fetchAssoc($res)) {
-			$start_date = split(" ",$row["start_date"]);
-			$end_date = split(" ",$row["end_date"]);
+			$start_time = split(" ",$row["start_time"]);
+			$end_time = split(" ",$row["end_time"]);
 			
-			$start = split(":",$start_date[1]);
-			$end = split(":",$end_date[1]);
+			$start = split(":",$start_time[1]);
+			$end = split(":",$end_time[1]);
 
 			$minutes = 0;
 			$hours = 0;
@@ -288,12 +293,12 @@ class gevCourseBuildingBlockUtils {
 			throw new Exception("gevCourseBuildingBlockUtils::getMaxDurationReached: Either set course_ref_id or course_request_id.");
 		}
 
-		$sql = "SELECT SUM(TIME_TO_SEC(TIMEDIFF(end_date, start_date))/60) as minutes_diff FROM ".self::TABLE_NAME;
+		$sql = "SELECT SUM(TIME_TO_SEC(TIMEDIFF(end_time, start_time))/60) as minutes_diff FROM ".self::TABLE_NAME;
 		
 		if($a_crs_ref_id !== null) {
-			$sql .= " WHERE crs_id = ".$a_crs_ref_id. " ORDER BY start_date";
+			$sql .= " WHERE crs_id = ".$a_crs_ref_id. " ORDER BY start_time";
 		} else {
-			$sql .= " WHERE crs_request_id = ".$a_crs_request_id. " ORDER BY start_date";
+			$sql .= " WHERE crs_request_id = ".$a_crs_request_id. " ORDER BY start_time";
 		}
 		
 		$res = $ilDB->query($sql);
@@ -340,12 +345,12 @@ class gevCourseBuildingBlockUtils {
 			throw new Exception("gevCourseBuildingBlockUtils::getMaxDurationReached: Either set course_ref_id or course_request_id.");
 		}
 
-		$sql = "SELECT id, end_date, start_date FROM ".self::TABLE_NAME;
+		$sql = "SELECT id, end_time, start_time FROM ".self::TABLE_NAME;
 		
 		if($a_crs_ref_id !== null) {
-			$sql .= " WHERE crs_id = ".$a_crs_ref_id. " ORDER BY start_date";
+			$sql .= " WHERE crs_id = ".$a_crs_ref_id. " ORDER BY start_time";
 		} else {
-			$sql .= " WHERE crs_request_id = ".$a_crs_request_id. " ORDER BY start_date";
+			$sql .= " WHERE crs_request_id = ".$a_crs_request_id. " ORDER BY start_time";
 		}
 		$res = $ilDB->query($sql);
 
@@ -353,9 +358,9 @@ class gevCourseBuildingBlockUtils {
 		$dates = array();
 		while($row = $ilDB->fetchAssoc($res)) {
 			if($row["id"] != $a_updated_crs_building_block_id) {
-				$start_date = split(" ",$row["start_date"]);
-				$end_date = split(" ",$row["end_date"]);
-				$dates[$row["id"]] = array("start_time"=>$start_date[1],"end_time"=>$end_date[1]);
+				$start_time = split(" ",$row["start_time"]);
+				$end_time = split(" ",$row["end_time"]);
+				$dates[$row["id"]] = array("start_time"=>$start_time[1],"end_time"=>$end_time[1]);
 			} else {
 				$dates[$row["id"]] = array("start_time"=>$a_time["start"]["time"],"end_time"=>$a_time["end"]["time"]);
 			}
@@ -410,13 +415,13 @@ class gevCourseBuildingBlockUtils {
 			throw new Exception("gevCourseBuildingBlockUtils::getRemainingTime: Either set course_ref_id or course_request_id.");
 		}
 
-		$sql = "SELECT SUM(TIME_TO_SEC(TIMEDIFF(end_date, start_date))/60) as minutes_diff\n"
+		$sql = "SELECT SUM(TIME_TO_SEC(TIMEDIFF(end_time, start_time))/60) as minutes_diff\n"
 			  ."  FROM ".self::TABLE_NAME;
 		
 		if($a_crs_ref_id !== null) {
-			$sql .= " WHERE crs_id = ".$ilDB->quote($a_crs_ref_id, "integer"). " ORDER BY start_date";
+			$sql .= " WHERE crs_id = ".$ilDB->quote($a_crs_ref_id, "integer"). " ORDER BY start_time";
 		} else {
-			$sql .= " WHERE crs_request_id = ".$ilDB->quote($a_crs_request_id, "integer"). " ORDER BY start_date";
+			$sql .= " WHERE crs_request_id = ".$ilDB->quote($a_crs_request_id, "integer"). " ORDER BY start_time";
 		}
 
 		$res = $ilDB->query($sql);
@@ -428,6 +433,104 @@ class gevCourseBuildingBlockUtils {
 		}
 
 		return self::MAX_DURATION_MINUTES - $old_time_diff;
+	}
+
+	static public function checkTimeIssues($start,$end,$crs_id = null,$request_id = null) {
+		global $ilDB;
+		$where = "";
+		
+		$sql = "SELECT COUNT(*) AS issues\n"
+			." FROM ".self::TABLE_NAME."\n"
+			." WHERE ("
+				." ((".$ilDB->quote($start,"time")." > start_time AND ".$ilDB->quote($start,"time")." < end_time) AND ".$ilDB->quote($end,"time")." >= end_time)\n"
+				." OR (".$ilDB->quote($start,"time")." <= start_time AND (".$ilDB->quote($end,"time")." > start_time AND ".$ilDB->quote($end,"time")." < end_time))\n"
+				." OR (".$ilDB->quote($start,"time")." <= start_time AND ".$ilDB->quote($end,"time")." >= end_time)\n"
+				." OR ((".$ilDB->quote($start,"time")." > start_time AND ".$ilDB->quote($start,"time")." < end_time) AND (".$ilDB->quote($end,"time")." > start_time AND ".$ilDB->quote($end,"time")." < end_time))\n"
+				.")\n";
+			
+
+		if($request_id !== null) {
+			$where .= " AND crs_request_id = ".$ilDB->quote($request_id,"integer")."\n";
+		}
+
+		if($crs_id !== null) {
+			$where .= " AND crs_id = ".$ilDB->quote($crs_id,"integer")."\n";
+		}
+
+		$res = $ilDB->query($sql.$where);
+		$row = $ilDB->fetchAssoc($res);
+
+		return ($row["issues"] == 0) ? true : false;
+	}
+
+	public static function getNextCrsBBlockId() {
+		global $ilDB;
+
+		return $ilDB->nextId(self::TABLE_NAME);
+	}
+
+	static public function updateTimesAndCreditPoints($id, $start, $end) {
+		$block = gevCourseBuildingBlockUtils::getInstance($id);
+		$block->loadData();
+		$block->setStartTime($start);
+		$block->setEndTime($end);
+
+		$block->update();
+	}
+
+	static public function timeIssuesCrs($crs_ref_id, $crs_request_id) {
+		global $ilDB;
+
+		require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCreationRequestDB.php");
+		$request_db = new gevDecentralTrainingCreationRequestDB();
+		$request = $request_db->request($crs_request_id);
+
+		$start = $request->settings()->start();
+		$end = $request->settings()->end();
+
+		$sql = "SELECT MIN(start_time) AS start_time, MAX(end_time) AS end_time FROM ".self::TABLE_NAME." WHERE crs_request_id = ".$ilDB->quote($crs_request_id,"integer");
+		$res = $ilDB->query($sql);
+
+		if($ilDB->numRows($res) > 0 ) {
+			$row = $ilDB->fetchAssoc($res);
+			$date = $start->get(IL_CAL_DATE);
+
+			$block_start = new IlDateTime($date." ".$row["start_time"],IL_CAL_DATETIME);
+			$block_end = new IlDateTime($date." ".$row["end_time"],IL_CAL_DATETIME);
+			
+			if($start->get(IL_CAL_UNIX) > $block_start->get(IL_CAL_UNIX) || $end->get(IL_CAL_UNIX) < $block_end->get(IL_CAL_UNIX)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	static public function timeIssuesBlocks($crs_ref_id, $crs_request_id) {
+		global $ilDB;
+
+		$ret = array();
+		$where = "";
+		$sql = "SELECT A.start_time AS start_time_before, A.end_time AS end_time_before, B.start_time AS start_time_end, B.end_time AS end_time_end"
+				." FROM dct_crs_building_block A"
+				." JOIN dct_crs_building_block B ON A.end_time > B.start_time AND A.start_time < B.start_time";
+
+		if($crs_ref_id !== null) {
+			$where = " WHERE A.crs_id = ".$ilDB->quote($crs_ref_id,"integer")." AND B.crs_id = ".$ilDB->quote($crs_ref_id,"integer")."";
+		}
+
+		if($crs_ref_id === null && $crs_request_id !== null) {
+			$where = " WHERE A.crs_request_id = ".$ilDB->quote($crs_request_id,"integer")." AND B.crs_request_id = ".$ilDB->quote($crs_request_id,"integer")."";
+		}
+
+		$sql .= $where;
+
+		$res = $ilDB->query($sql);
+		while($row = $ilDB->fetchAssoc($res)) {
+			$ret[] = $row;
+		}
+
+		return $ret;
 	}
 }
 ?>

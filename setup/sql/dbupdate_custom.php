@@ -4159,3 +4159,54 @@ if($ilDB->tableColumnExists('dct_crs_building_block', 'media')) {
 	$ilDB->dropTableColumn('dct_crs_building_block','media');
 }
 ?>
+
+<#155>
+<?php
+if(!$ilDB->tableColumnExists('dct_building_block', 'topic')) {
+	$ilDB->addTableColumn('dct_building_block','topic', array(
+		'type' => 'text',
+		'length' => 100,
+		'notnull' => true,
+	));
+}
+
+if(!$ilDB->tableColumnExists('dct_building_block', 'dbv_topic')) {
+	$ilDB->addTableColumn('dct_building_block','dbv_topic', array(
+		'type' => 'text',
+		'length' => 100,
+		'notnull' => true,
+	));
+}
+?>
+
+<#157>
+<?php
+if($ilDB->tableColumnExists('dct_crs_building_block', 'start_date')) {
+	$ilDB->renameTableColumn('dct_crs_building_block', 'start_date', 'start_time');
+
+	$ilDB->modifyTableColumn('dct_crs_building_block','start_time', array(
+		'type' => 'time',
+		'notnull' => true,
+	));
+}
+
+if($ilDB->tableColumnExists('dct_crs_building_block', 'end_date')) {
+	$ilDB->renameTableColumn('dct_crs_building_block', 'end_date', 'end_time');
+
+	$ilDB->modifyTableColumn('dct_crs_building_block','end_time', array(
+		'type' => 'time',
+		'notnull' => true,
+	));
+}
+?>
+
+<#158>
+<?php
+if(!$ilDB->tableColumnExists('dct_crs_building_block', 'credit_points')) {
+	$ilDB->addTableColumn('dct_crs_building_block','credit_points', array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => false,
+	));
+}
+?>
