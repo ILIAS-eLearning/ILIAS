@@ -290,13 +290,7 @@ switch($target_type)
 		require_once("./Modules/MediaCast/classes/class.ilObjMediaCastGUI.php");
 		ilObjMediaCastGUI::_goto($target_id);
 		break;
-		
-	// please migrate to default branch implementation
-	case 'icrs':
-		require_once 'Modules/ILinc/classes/class.ilObjiLincCourseGUI.php';
-		ilObjiLincCourseGUI::_goto($target_id);
-		break;
-	
+
 	// please migrate to default branch implementation
 	case 'root':
 		require_once('./Modules/RootFolder/classes/class.ilObjRootFolderGUI.php');
