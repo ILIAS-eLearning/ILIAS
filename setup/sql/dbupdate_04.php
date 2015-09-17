@@ -6411,7 +6411,7 @@ $res  = $ilDB->query($crpra_dup_query_num);
 $data = $ilDB->fetchAssoc($res);
 if($data['cnt'] > 0)
 {
-	throw new Exception("There are still duplicate entries in table 'chatroom_proomaccess'. Please execute this database update step again.");
+	die("There are still duplicate entries in table 'chatroom_proomaccess'. Please execute this database update step again.");
 }
 
 $ilDB->addPrimaryKey('chatroom_proomaccess', array('proom_id', 'user_id'));
@@ -6459,7 +6459,7 @@ $res  = $ilDB->query($mopt_dup_query_num);
 $data = $ilDB->fetchAssoc($res);
 if($data['cnt'] > 0)
 {
-	throw new Exception("There are still duplicate entries in table 'mail_options'. Please execute this database update step again.");
+	die("There are still duplicate entries in table 'mail_options'. Please execute this database update step again.");
 }
 
 $ilDB->addPrimaryKey('mail_options', array('user_id'));
@@ -6501,7 +6501,7 @@ $res  = $ilDB->query($psc_dup_query_num);
 $data = $ilDB->fetchAssoc($res);
 if($data['cnt'] > 0)
 {
-	throw new Exception("There are still duplicate entries in table 'payment_statistic_coup'. Please execute this database update step again.");
+	die("There are still duplicate entries in table 'payment_statistic_coup'. Please execute this database update step again.");
 }
 
 $ilDB->addPrimaryKey('payment_statistic_coup', array('psc_ps_fk', 'psc_pc_fk', 'psc_pcc_fk'));
@@ -6562,7 +6562,7 @@ $res  = $ilDB->query($msave_dup_query_num);
 $data = $ilDB->fetchAssoc($res);
 if($data['cnt'])
 {
-	throw new ilException("There are still duplicate entries in table 'mail_saved'. Please execute this database update step again.");
+	die("There are still duplicate entries in table 'mail_saved'. Please execute this database update step again.");
 }
 
 $ilDB->addPrimaryKey('mail_saved', array('user_id'));
@@ -6614,7 +6614,7 @@ $res  = $ilDB->query($chrban_dup_query_num);
 $data = $ilDB->fetchAssoc($res);
 if($data['cnt'])
 {
-	throw new ilException("There are still duplicate entries in table 'chatroom_bans'. Please execute this database update step again.");
+	die("There are still duplicate entries in table 'chatroom_bans'. Please execute this database update step again.");
 }
 
 $ilDB->addPrimaryKey('chatroom_bans', array('room_id', 'user_id'));
@@ -7818,7 +7818,7 @@ $res  = $ilDB->query($mod_dup_query_num);
 $data = $ilDB->fetchAssoc($res);
 if($data['cnt'] > 0)
 {
-	throw new ilException("There are still duplicate entries in table 'mail_obj_data'. Please execute this database update step again.");
+	die("There are still duplicate entries in table 'mail_obj_data'. Please execute this database update step again.");
 }
 $ilSetting->delete('mail_mod_dupl_warn_51x_shown');
 ?>
@@ -7837,7 +7837,7 @@ $res  = $ilDB->query($mod_dup_query_num);
 $data = $ilDB->fetchAssoc($res);
 if($data['cnt'] > 0)
 {
-	throw new ilException("There are still duplicate entries in table 'mail_obj_data'. Please execute database update step 4584 again. Execute the following SQL string manually: UPDATE settings SET value = 4583 WHERE keyword = 'db_version'; ");
+	die("There are still duplicate entries in table 'mail_obj_data'. Please execute database update step 4584 again. Execute the following SQL string manually: UPDATE settings SET value = 4583 WHERE keyword = 'db_version'; ");
 }
 $ilDB->addPrimaryKey('mail_obj_data', array('obj_id'));
 ?>
@@ -8203,7 +8203,7 @@ if($ilDB->tableExists('mail_tree_migr'))
 	$num = $ilDB->numRows($res);
 	if($num > 0)
 	{
-		throw new ilException("There are still duplicate entries in table 'mail_tree'. Please execute this database update step again.");
+		die("There are still duplicate entries in table 'mail_tree'. Please execute this database update step again.");
 	}
 }
 ?>
@@ -8230,7 +8230,7 @@ $res  = $ilDB->query($mt_dup_query_num);
 $data = $ilDB->fetchAssoc($res);
 if($data['cnt'] > 0)
 {
-	throw new ilException("There are still duplicate entries in table 'mail_tree'. Please execute database update step 4589 again. Execute the following SQL string manually: UPDATE settings SET value = 4588 WHERE keyword = 'db_version'; ");
+	die("There are still duplicate entries in table 'mail_tree'. Please execute database update step 4589 again. Execute the following SQL string manually: UPDATE settings SET value = 4588 WHERE keyword = 'db_version'; ");
 }
 
 $ilDB->addPrimaryKey('mail_tree', array('child'));
