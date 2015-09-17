@@ -27,7 +27,7 @@
 * @author Sascha Hofmann <saschahofmann@gmx.de> 
 * @version $Id$
 * 
-* @ilCtrl_Calls ilObjiLincClassroomGUI:
+
 *
 * @extends ilObjectGUI
 */

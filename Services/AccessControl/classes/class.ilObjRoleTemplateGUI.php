@@ -10,7 +10,7 @@ require_once "./Services/Object/classes/class.ilObjectGUI.php";
 * @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 *
-* @ilCtrl_Calls ilObjRoleTemplateGUI:
+
 *
 * @ingroup	ServicesAccessControl
 */

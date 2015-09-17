@@ -8,7 +8,7 @@
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  * @version $Id$
  * 
- * @ilCtrl_Calls ilObjectServiceSettingsGUI:  
+
  * @ingroup ServicesObject
  */
 class ilObjectServiceSettingsGUI 

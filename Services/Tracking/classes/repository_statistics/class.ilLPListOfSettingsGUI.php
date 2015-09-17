@@ -12,7 +12,7 @@ include_once './Services/Tracking/classes/class.ilLPObjSettings.php';
  *
  * @version $Id$
  *
- * @ilCtrl_Calls ilLPListOfSettingsGUI:
+
  *
  * @ingroup ServicesTracking
  *

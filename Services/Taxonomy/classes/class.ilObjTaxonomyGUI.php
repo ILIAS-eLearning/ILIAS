@@ -11,7 +11,7 @@ include_once("./Services/Taxonomy/interfaces/interface.ilTaxAssignedItemInfo.php
  * @author Alex Killing alex.killing@gmx.de 
  * @version $Id$
  *
- * @ilCtrl_Calls ilObjTaxonomyGUI:
+
  *
  * @ingroup ServicesTaxonomy
  */

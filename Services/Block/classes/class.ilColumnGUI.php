@@ -17,7 +17,7 @@ define ("IL_SCREEN_FULL", "full");
 * @version $Id$
 *
 * @ilCtrl_IsCalledBy ilColumnGUI: ilCalendarGUI 
-* @ilCtrl_Calls ilColumnGUI:
+
 */
 class ilColumnGUI
 {

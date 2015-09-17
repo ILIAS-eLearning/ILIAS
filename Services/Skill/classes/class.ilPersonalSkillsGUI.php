@@ -11,7 +11,7 @@ include_once("./Services/Skill/classes/class.ilSkillProfile.php");
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
  *
- * @ilCtrl_Calls ilPersonalSkillsGUI:
+
  *
  * @ingroup ServicesSkill
  */

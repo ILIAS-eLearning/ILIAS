@@ -32,7 +32,7 @@ include_once('./Services/Membership/classes/class.ilRegistrationGUI.php');
 *
 * @ingroup ModulesCourse
 * 
-* @ilCtrl_Calls ilCourseRegistrationGUI: 
+
 */
 class ilCourseRegistrationGUI extends ilRegistrationGUI
 {

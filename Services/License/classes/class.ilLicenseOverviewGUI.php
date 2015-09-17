@@ -9,7 +9,7 @@ require_once "./Services/License/classes/class.ilLicense.php";
 * @author Fred Neumann <fred.neumann@fim.uni-erlangen.de>
 * @version $Id: class.ilLicenseGUI.php $
 *
-* @ilCtrl_Calls ilLicenseOverviewGUI:
+
 *
 * @package ilias-license
 */

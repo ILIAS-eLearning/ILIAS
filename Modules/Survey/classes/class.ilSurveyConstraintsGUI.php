@@ -7,7 +7,7 @@
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version  $Id: class.ilObjSurveyGUI.php 43670 2013-07-26 08:41:31Z jluetzen $
 *
-* @ilCtrl_Calls ilSurveyConstraintsGUI:
+
 *
 * @ingroup ModulesSurvey
 */

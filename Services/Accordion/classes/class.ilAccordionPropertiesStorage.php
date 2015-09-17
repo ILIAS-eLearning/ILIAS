@@ -7,7 +7,7 @@
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 * @ingroup ServicesAccordion
-* @ilCtrl_Calls ilAccordionPropertiesStorage:
+
 */
 class ilAccordionPropertiesStorage
 {

@@ -27,7 +27,7 @@
 * @version $Id$
 * 
 * 
-* @ilCtrl_Calls ilLDAPSettingsGUI: 
+
 * @ingroup ServicesLDAP
 */
 class ilLDAPSettingsGUI

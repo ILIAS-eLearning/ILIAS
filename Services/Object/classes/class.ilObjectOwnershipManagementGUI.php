@@ -8,7 +8,7 @@
 * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
 * $Id: class.ilObjFolderGUI.php 25134 2010-08-13 14:22:11Z smeyer $
 *
-* @ilCtrl_Calls ilObjectOwnershipManagementGUI:
+
 */
 class ilObjectOwnershipManagementGUI 
 {

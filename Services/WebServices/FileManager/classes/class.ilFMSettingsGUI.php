@@ -9,7 +9,7 @@ include_once './Services/WebServices/FileManager/classes/class.ilFMSettings.php'
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  * $Id$
  *
- * @ilCtrl_Calls ilFMSettingsGUI:
+
  */
 class ilFMSettingsGUI
 {

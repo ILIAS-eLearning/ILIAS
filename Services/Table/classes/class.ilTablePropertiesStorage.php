@@ -7,7 +7,7 @@
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 * @ingroup ServicesTable
-* @ilCtrl_Calls ilTablePropertiesStorage:
+
 */
 class ilTablePropertiesStorage
 {

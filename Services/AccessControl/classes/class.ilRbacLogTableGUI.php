@@ -11,7 +11,7 @@ include_once "Services/AccessControl/classes/class.ilRbacLog.php";
 *
 * @version $Id: class.ilObjRoleGUI.php 24339 2010-06-23 15:06:55Z jluetzen $
 *
-* @ilCtrl_Calls ilRbacLogTableGUI:
+
 *
 * @ingroup	ServicesAccessControl
 */

@@ -14,7 +14,7 @@ require_once ("./Services/Table/classes/class.ilTableGUI.php");
  * @author       Manfred Thaler <manfred.thaler@endo7.com>
  * @version      $Id$
  * @ingroup      ServicesBookmarks
- * @ilCtrl_Calls ilBookmarkAdministrationGUI:
+
  */
 class ilBookmarkAdministrationGUI
 {

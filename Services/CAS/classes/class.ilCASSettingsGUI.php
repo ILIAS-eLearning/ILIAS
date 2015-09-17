@@ -8,7 +8,7 @@ include_once './Services/CAS/classes/class.ilCASSettings.php';
 * @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 * 
-* @ilCtrl_Calls ilCASSettingsGUI:
+
 *
 * @ingroup ServicesCAS
 */
