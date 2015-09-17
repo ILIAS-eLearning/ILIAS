@@ -174,7 +174,8 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 			$items['book'] = array($lng->txt('book_book'), $ilCtrl->getLinkTarget($this->parent_obj, 'book'));
 		}
 		
-		if(!$this->schedule && $has_booking)
+		// #16663
+		if(!$this->has_schedule && $has_booking)
 		{						
 			if(trim($a_set['post_text']) || $a_set['post_file'])
 			{
