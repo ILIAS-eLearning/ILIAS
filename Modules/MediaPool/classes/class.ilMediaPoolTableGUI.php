@@ -18,16 +18,22 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 	const IL_MEP_SELECT_CONTENT = "selectc";
 	var $insert_command = "create_mob";
 	const IL_MEP_SELECT_SINGLE = "selectsingle";
+	protected $parent_tpl = null; // parent / global tpl (where we can add javascript)
 	
 	/**
 	* Constructor
 	*/
 	function __construct($a_parent_obj, $a_parent_cmd,
 		$a_media_pool, $a_folder_par = "obj_id",
-		$a_mode = ilMediaPoolTableGUI::IL_MEP_EDIT, $a_all_objects = false)
+		$a_mode = ilMediaPoolTableGUI::IL_MEP_EDIT, $a_all_objects = false, $a_parent_tpl = null)
 	{
 		global $ilCtrl, $lng, $ilAccess, $lng;
-		
+
+		if ($a_parent_tpl == null)
+		{
+			$a_parent_tpl = $GLOBALS["tpl"];
+		}
+		$this->parent_tpl = $a_parent_tpl;
 		if ($a_all_objects)
 		{
 			$this->setId("mepall".$a_parent_obj->object->getId());
@@ -39,7 +45,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 				$this->setId("mepfold".$a_parent_obj->object->getId());
 			}
 		}
-		
+
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		$this->setMode($a_mode);
 		$this->all_objects = $a_all_objects;
@@ -147,6 +153,21 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 		return $this->insert_command;
 	}
 
+	/**
+	 * Get HTML
+	 *
+	 * @param
+	 * @return
+	 */
+	function getHTML()
+	{
+		$html = parent::getHTML();
+		include_once("./Modules/MediaPool/classes/class.ilObjMediaPoolGUI.php");
+		$html.= ilObjMediaPoolGUI::getPreviewModalHTML($this->media_pool->getRefId(), $this->parent_tpl);
+		return $html;
+	}
+	
+	
 	/**
 	* Init filter
 	*/
@@ -350,19 +371,11 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 				break;
 
 			case "mob":
-				if ($this->getMode() == ilMediaPoolTableGUI::IL_MEP_SELECT ||
-					$this->getMode() == ilMediaPoolTableGUI::IL_MEP_SELECT_SINGLE)
-				{
-					$this->tpl->setVariable("TXT_NO_LINK_TITLE", $a_set["title"]);
-				}
-				else
-				{
-					$this->tpl->setVariable("ONCLICK", "il.MediaPool.preview('".$a_set["child"]."'); return false;");
-					$this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
-					$ilCtrl->setParameterByClass("ilobjmediaobjectgui", "mepitem_id", $a_set["child"]);
-					$ilCtrl->setParameter($this->parent_obj, "mob_id", $a_set["foreign_id"]);
-				}
-					
+				$this->tpl->setVariable("ONCLICK", "il.MediaPool.preview('".$a_set["child"]."'); return false;");
+				$this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
+				$ilCtrl->setParameterByClass("ilobjmediaobjectgui", "mepitem_id", $a_set["child"]);
+				$ilCtrl->setParameter($this->parent_obj, "mob_id", $a_set["foreign_id"]);
+
 				// edit link
 				if ($ilAccess->checkAccess("write", "", $this->media_pool->getRefId()) &&
 					$this->getMode() == ilMediaPoolTableGUI::IL_MEP_EDIT)

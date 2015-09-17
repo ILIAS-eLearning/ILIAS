@@ -1574,7 +1574,7 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 	/**
 	* Get HTML
 	*/
-	final public function getHTML()
+	public function getHTML()
 	{
 		global $lng, $ilCtrl, $ilUser;
 
