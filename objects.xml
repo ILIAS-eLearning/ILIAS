@@ -433,16 +433,6 @@
 	<property name="payMethods">pay_methods</property>
 	<property name="perm">perm_settings</property>
 </object>
-<object name="icrs" class_name="iLincCourse" location="Modules/ILinc/classes" module="Modules/ILinc" checkbox="1" inherit="1" translate="0" rbac="1" devmode="0">
-	<subobj name="rolf" max="1">rolf</subobj>
-	<subobj name="icla">icla</subobj>
-	<property name="view">view_rooms</property>
-	<property name="edit">edit_properties</property>
-	<property name="members">members</property>
-	<property name="perm">perm_settings</property>
-</object>
-<object name="icla" class_name="iLincClassroom" location="Modules/ILinc/classes" module="Modules/ILinc" checkbox="0" inherit="0" translate="0" rbac="0" devmode="0">
-</object>
 <object name="webr" class_name="LinkResource" location="Modules/WebResource/classes" module="Modules/WebResource" checkbox="1" inherit="0" allow_link="1" allow_copy="1" translate="0" rbac="1" devmode="0">
 	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="perm">perm_settings</property>
