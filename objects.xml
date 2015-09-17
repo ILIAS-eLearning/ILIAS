@@ -63,7 +63,6 @@
 	<subobj name="mep">mep</subobj>
 	<subobj name="qpl">qpl</subobj>
 	<subobj name="spl">spl</subobj>
-	<subobj name="icrs">icrs</subobj>
 	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
@@ -107,7 +106,6 @@
 	<subobj name="mep">mep</subobj>
 	<subobj name="qpl">qpl</subobj>
 	<subobj name="spl">spl</subobj>
-	<subobj name="icrs">icrs</subobj>
 	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="view">view_content</property>
 	<property name="perm">perm_settings</property>
@@ -178,7 +176,6 @@
 	<subobj name="mep">mep</subobj>
 	<subobj name="qpl">qpl</subobj>
 	<subobj name="spl">spl</subobj>
-	<subobj name="icrs">icrs</subobj>
 	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="view">view_content</property>
 	<property name="edit" module="1">edit_properties</property>
