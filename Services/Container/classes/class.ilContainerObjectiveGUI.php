@@ -1085,7 +1085,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 	 * @param int $a_sub_style
 	 * @return type
 	 */
-	protected static function renderProgressBar($a_perc_result = null, $a_perc_limit = null, $a_css = null, $a_caption = null, $a_url = null, $a_tt_id = null, $a_tt_txt = null, $a_next_step = null, $a_sub = false, $a_sub_style = 30)
+	public static function renderProgressBar($a_perc_result = null, $a_perc_limit = null, $a_css = null, $a_caption = null, $a_url = null, $a_tt_id = null, $a_tt_txt = null, $a_next_step = null, $a_sub = false, $a_sub_style = 30)
 	{		
 		$tpl = new ilTemplate("tpl.objective_progressbar.html", true, true, "Services/Container");		
 			
@@ -1209,7 +1209,9 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 					$a_has_initial_test &&
 					is_array($a_lo_result["initial"]))
 				{
-					$a_lo_result["initial"]["itest"] = $a_lo_result["itest"];					
+					$a_lo_result["initial"]["itest"] = $a_lo_result["itest"];		
+					
+					// force list mode to get rid of next step
 					$initial_sub = self::buildObjectiveProgressBar(true, $a_objective_id, $a_lo_result["initial"], true, true, $a_tt_suffix);
 				}
 			}
