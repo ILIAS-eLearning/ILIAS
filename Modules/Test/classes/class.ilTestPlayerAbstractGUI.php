@@ -921,14 +921,12 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	
 	public function redirectBackCmd()
 	{
-		if(!$this->object->canViewResults()) 
-		{
-			$this->outIntroductionPageCmd();
-		}
-		else
+		if( $this->object->canViewResults() )
 		{
 			$this->ctrl->redirectByClass("ilTestEvaluationGUI", "outUserResultsOverview");
 		}
+
+		$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
 	}
 	
 	/*
@@ -1197,14 +1195,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$this->testSession->increasePass();
 		$this->testSession->setLastSequence(0);
 		$this->testSession->saveToDb();
-		if (!$this->object->canViewResults()) 
-		{
-			$this->outIntroductionPage();
-		}
-		else
-		{
-			$this->ctrl->redirectByClass("ilTestEvaluationGUI", "outUserResultsOverview");
-		}
+
+		$this->redirectBackCmd();
 	}
 	
 /**
