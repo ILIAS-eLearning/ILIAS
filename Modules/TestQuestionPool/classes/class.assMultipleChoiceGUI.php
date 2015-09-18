@@ -372,15 +372,34 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 			{
 				if (strcmp($mc_solution, $answer_id) == 0)
 				{
-					$template->setVariable("SOLUTION_IMAGE", ilUtil::getHtmlPath(ilUtil::getImagePath("checkbox_checked.png")));
-					$template->setVariable("SOLUTION_ALT", $this->lng->txt("checked"));
+					if( isset($_GET['pdf']) && $_GET['pdf'] )
+					{
+						$template->setVariable("SOLUTION_IMAGE", ilUtil::getHtmlPath(ilUtil::getImagePath("checkbox_checked.png")));
+						$template->setVariable("SOLUTION_ALT", $this->lng->txt("checked"));
+					}
+					else
+					{
+						$template->setVariable('QID', $this->object->getId());
+						$template->setVariable('SUFFIX', $show_correct_solution ? 'bestsolution' : 'usersolution');
+						$template->setVariable('SOLUTION_VALUE', $answer_id);
+						$template->setVariable('SOLUTION_CHECKED', 'checked');
+					}
 					$checked = TRUE;
 				}
 			}
 			if (!$checked)
 			{
-				$template->setVariable("SOLUTION_IMAGE", ilUtil::getHtmlPath(ilUtil::getImagePath("checkbox_unchecked.png")));
-				$template->setVariable("SOLUTION_ALT", $this->lng->txt("unchecked"));
+				if( isset($_GET['pdf']) && $_GET['pdf'] )
+				{
+					$template->setVariable("SOLUTION_IMAGE", ilUtil::getHtmlPath(ilUtil::getImagePath("checkbox_unchecked.png")));
+					$template->setVariable("SOLUTION_ALT", $this->lng->txt("unchecked"));
+				}
+				else
+				{
+					$template->setVariable('QID', $this->object->getId());
+					$template->setVariable('SUFFIX', $show_correct_solution ? 'bestsolution' : 'usersolution');
+					$template->setVariable('SOLUTION_VALUE', $answer_id);
+				}
 			}
 			$template->parseCurrentBlock();
 		}
