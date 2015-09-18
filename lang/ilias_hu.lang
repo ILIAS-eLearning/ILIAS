@@ -1,7 +1,7 @@
 /* Copyright (c) 1998-2015 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
-* @author 5.1.x 2015-09-09 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
+* @author 5.1.x 2015-09-17 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
 * @author 4.2.2	Berecz Antónia <berecz@gdf.hu>
 * @module		language file Hungarian
 * @modulegroup	language
@@ -680,8 +680,12 @@ assessment#:#grading_status_passed_msg#:#Gratulálunk, <b>sikeresen teljesített
 assessment#:#grading_status_failed_msg#:#Sajnáljuk, <b>nem teljesítette</b> a tesztet.
 assessment#:#grading_obligations_answered_msg#:#Minden kötelező kérdésre adott választ.
 assessment#:#grading_obligations_missing_msg#:#Nem minden kötelező kérdésre adott választ.
+assessment#:#grading_obligations_listlabel#:#Kötelező kérdések
+assessment#:#grading_obligations_answered_listentry#:#Megválaszoltak
+assessment#:#grading_obligations_missing_listentry#:#Megnyitottak
 assessment#:#grading_mark_msg#:#Érdemjegye: &quot;[mark]&quot;
 assessment#:#mark_tst_ects#:#Az Ön ECTS érdemjegye: &quot;[markects]&quot;
+assessment#:#tst_pass_finished_on#:#Tesztkitöltés befejezésének időpontja
 assessment#:#match_terms_and_definitions#:#Párosítsa össze a kifejezéseket és a definíciókat
 assessment#:#match_terms_and_pictures#:#Párosítsa össze a kifejezéseket és a képeket
 assessment#:#matches#:#összeillők
@@ -722,13 +726,13 @@ assessment#:#tst_msg_rand_quest_set_no_src_pool_defs#:#Kérdésgyűjtemény kiv�
 assessment#:#tst_msg_rand_quest_set_incomplete_quest_amount_cfg#:#Pontosan meghatározott kérdésszám nélkül a tesztet nem lehetséges véletlenszerű kérdésekre beállítani.
 assessment#:#tst_msg_rand_quest_set_no_pools_available#:#Jelenleg me, adhat meg új szabályt a kérdéskiválasztáshoz, mert nincs elérhető kérdésgyűjtemény.
 assessment#:#tst_msg_rand_quest_set_change_quest_amount_here#:#A kérdések számát itt tudja megváltoztatni: %s
-assessment#:#tst_wf_info_optional_question#:#This question relates to an allready passed learning objective.###XXX
-assessment#:#tst_wf_info_answer_adopted_from_prev_pass#:#Your answer from a previous attempt was adopted.
-assessment#:#tst_wf_info_answer_not_adopted#:#There was no answer from previous attempts adopted, so you have to workthru this question, because otherwise your learning objective result will be degraded.
-assessment#:#tst_optional_questions_confirmation_fixed_test#:#<b>Question related to allready passed learning objectives were answered in previous passes.</b><br /><br />You want to navigate to a question, that relates to an allready passed learning objective.<br />You can choose:<br /><br />I you proceed, you can work on or simply review these questions. If you change your answers that were adopted from previous passes, you can also degrade your learning objective result.<br /><br />If you decide to not work on or review these questions, you can go back. The questions will be considered in the evaluation in every case.
-assessment#:#tst_optional_questions_confirmation_non_fixed_test#:#<b>Question related to allready passed learning objectives are optional.</b><br /><br />You want to navigate to a question, that relates to an allready passed learning objective.<br />You can choose:<br /><br />I you proceed, you can work on these questions. Your answers from previous attempts were not adopted, since new random questions were selected for this attempt. With working on this questions you can also degrade your learning objective result.<br /><br />If you decide to not work on these questions, you can go back. In this case these questions won't be considered in the evaluation.
-assessment#:#tst_tab_results_pass_oriented#:#Results by Attempts
-assessment#:#tst_tab_results_objective_oriented#:#Results by Learning Objectives
+assessment#:#tst_wf_info_optional_question#:#Ez a kérdés egy már korábban teljesített tanulási célhoz tartozik.
+assessment#:#tst_wf_info_answer_adopted_from_prev_pass#:#Válaszát egy korábbi próbálkozásból elfogadtuk.
+assessment#:#tst_wf_info_answer_not_adopted#:#Korábbi próbálkozásaiból válaszát nem tudjuk elfogadni, így dolgoznia kell még a kérdés megválaszolásán, mert különben tanulási céljának eredményét le kell hogy rontsuk.
+assessment#:#tst_optional_questions_confirmation_fixed_test#:#<b>A már teljesített tanulási célokhoz tartozó kérdést korábban már megválaszolta.</b><br /><br />Olyan kérdésre navigál, melyet már teljesített tanulási célhoz tartozik.<br />Választhat:<br /><br />Ha folytatja, tovább dolgozhat vagy egyszerűen csak megtekintheti ezeket a kérdéseket. Ha megváltoztatja korábbi kitöltéseiből elfogadott válaszait, leronthatja tanulási céljának eredményét.<br /><br />Ha nem kíván sem tovább dolgozni sem megnézni ezeket a kérdéseket, menjen vissza. A kérdéseket minden esetben figyelembe vesszük a kiértékelésnél.
+assessment#:#tst_optional_questions_confirmation_non_fixed_test#:#<b>A már teljesített tanulási célokhoz tartozó kérdés megválaszolása nem kötelező.</b><br /><br />Olyan kérdésre navigál, melyet már teljesített tanulási célhoz tartozik.<br />Választhat:<br /><br />Ha folytatja, tovább dolgozhat ezeken a kérdéseken. Válaszait korábbi próbálkozásaiból nem fogadjuk el, mert új véletlen kérdéseket választunk ehhez a próbálkozáshoz, így le is ronthatja tanulási céljának eredményét.<br /><br />Ha nem kíván tovább dolgozni a kérdéseken, menjen vissza. Ebben az esetben a kérdéseket nem vesszük figyelembe a kiértékelésnél.
+assessment#:#tst_tab_results_pass_oriented#:#Végeredmények próbálkozások szerint
+assessment#:#tst_tab_results_objective_oriented#:#Végeredmények tanulási célok szerint
 assessment#:#tst_rnd_quest_set_cfg_pool_form#:#Kérdéskiválasztás szabálya
 assessment#:#tst_inp_source_pool_label#:#Kérdésgyűjtemény
 assessment#:#tst_inp_source_pool_filter_tax#:#Taxonómia szűrő
@@ -784,6 +788,7 @@ assessment#:#pass_finished#:#%s tesztkitöltés
 assessment#:#pass#:#Sorszám
 assessment#:#tst_attempt#:#Próbálkozás###XXX
 assessment#:#tst_back_to_virtual_pass#:#Vissza a kérdésáttekintéshez
+assessment#:#passed_status#:#Teljesítési állapot
 assessment#:#passed_official#:#sikeresen teljesítette
 assessment#:#passed_only#:#Csak sikeresen teljesített tesztek
 assessment#:#passed_short#:#sikeres
@@ -912,7 +917,7 @@ assessment#:#save_edit#:#Tartalom mentése és előnézet
 assessment#:#finish_test#:#Teszt befejezése
 assessment#:#next_question#:#Következő
 assessment#:#previous_question#:#Előző
-assessment#:#submit_answer#:#Submit Answer
+assessment#:#submit_answer#:#Submit Answer###XXX
 assessment#:#discard_answer#:#Discard Answer
 assessment#:#discard_answer_confirmation#:#Your answer will be finally and completly discarded. The question keeps as unanswered until you submit another answer.<br /><br />Would you really like to discard your answer?
 assessment#:#edit_answer#:#Edit Answer
@@ -1065,7 +1070,7 @@ assessment#:#tst_hide_previous_results_description#:#Ha kijelölt, a tanuló el�
 assessment#:#tst_hide_previous_results_hide#:#Előző tesztkitöltéseim eredményeinek elrejtése
 assessment#:#tst_hide_previous_results_introduction#:#Ha nem először teljesíti ez a tesztet, előző megoldásai nem képeznek alapértelmezett értékeket.
 assessment#:#tst_hide_previous_results#:#Előző eredmények elrejtése
-assessment#:#tst_hide_side_list#:#Navigation Tree Off###XXX
+assessment#:#tst_hide_side_list#:#Navigációs fa kikapcsolása
 assessment#:#tst_import_no_items#:#Hiba: Az importfájl nem tartalmaz kérdéseket.
 assessment#:#tst_import_verify_found_questions#:#Az ILIAS az alábbi kérdéseket találta a teszt importfájlban. Válassza ki azokat a kérdéseket, amelyeket be szeretne importálni ebbe a tesztbe.
 assessment#:#tst_in_use_edit_questions_disabled#:#A tesztet %d felhasználó használja. Nem szerkeszthet vagy helyezhet át kérdéseket a tesztben.
@@ -1082,7 +1087,7 @@ assessment#:#tst_instant_feedback_forced#:#Force Instant Feedback###XXX
 assessment#:#tst_instant_feedback_forced_desc#:#On submitting answers the output of instant feedback will be forced.
 assessment#:#tst_instant_feedback_results#:#Elért pontszámok
 assessment#:#tst_instant_feedback_results_desc#:#Az <i>Ellenőrzés</i> gombra kattintva megjelenítik az erre a kérdésre adott válaszra kapott pontszám.
-assessment#:#tst_instant_feedback_solution#:#Legjobb megoldás megjelenítése
+assessment#:#tst_instant_feedback_solution#:#Legjobb lehetséges válasz megjelenítése
 assessment#:#tst_instant_feedback_solution_desc#:#Az <i>Ellenőrzés</i> gombra kattintva megjelenítik erre a kérdésre adható legjobb válasz.
 assessment#:#tst_instant_feedback#:#Azonnali visszajelzés
 assessment#:#tst_instant_verification#:#Azonnali ellenőrzés
@@ -1148,10 +1153,10 @@ assessment#:#tst_password#:#Tesztjelszó
 assessment#:#tst_percent_solved#:#Elért százalék
 assessment#:#tst_position#:#%s / %s kérdés
 assessment#:#tst_postpone_description#:#A résztvevők elhalaszthatják kérdéseket a teszt végére.
-assessment#:#tst_postpone_on#:#Not answered questions will be postponed###XXX
-assessment#:#tst_postpone_on_desc#:#Not answered questions will be postponed to the end of the test.
-assessment#:#tst_postpone_off#:#Not answered questions will not be postponed
-assessment#:#tst_postpone_off_desc#:#Not answered questions will be kept at their position.
+assessment#:#tst_postpone_on#:#Meg nem válaszolt kérdések elhalasztása teszt végére
+assessment#:#tst_postpone_on_desc#:#A meg nem válaszolt kérdések a teszt végén újra megjelennek.
+assessment#:#tst_postpone_off#:#Meg nem válaszolt kérdések változatlanul hagyása
+assessment#:#tst_postpone_off_desc#:#A meg nem válaszolt kérdések helyzete nem változik, azok nem jelennek meg újra a teszt végén.
 assessment#:#tst_print_date#:#Nyomtatás dátuma
 assessment#:#tst_processing_time_desc#:#A résztvevők csak meghatározott ideig dolgozhatnak a teszten. A visszaszámlálás akkor kezdődik, amikor a felhasználó először indítja a tesztet. A teszt felfüggesztése nem állítja meg az órát.
 assessment#:#tst_print#:#Teszt és értékelés nyomtatási nézete
@@ -1264,10 +1269,10 @@ assessment#:#tst_show_cancel#:#Teszt felfüggesztése
 assessment#:#tst_show_pass_details#:#Adott időpontban a 'Részletes teszteredmények táblázata' jelenjen meg az összes tesztkitöltéshez
 assessment#:#tst_show_pass_details_desc#:#A fent beállított időponttól az eredmények összesítését hozzáfűzzük: A 'Részletes teszteredmények táblázata' a kérdés címét és a résztvevő adott kitöltésben elért pontszámát mutatja.<br>A legutolsó lehetséges kitöltés ('Általános' menü 'Tesztkitöltések számának korlátja' beállítás) vagy a teszt zárása ('Általános' menü 'Záró időpont' beállítás) után másik táblázat jelenik meg.<br>'Részletes teszteredmények táblázata' tartalmával kapcsolatos további beállítások a 'Teszteredmények további tartamai' részben adható meg.
 assessment#:#tst_show_results#:#Teszteredmények megjelenítése
-assessment#:#tst_show_side_list#:#Navigation Tree On###XXX
-assessment#:#tst_dyn_unfreeze_answers_confirmation#:#There are questions to which your inital answers were fixed and you could not make any changes. Do you want to answer them one more time now and thus unfreeze your answers?
-assessment#:#tst_dyn_unfreeze_answers#:#Answer once more
-assessment#:#tst_dyn_keep_answ_freeze#:#Keep my current answers frozen
+assessment#:#tst_show_side_list#:#Navigációs fa bekapcsolása
+assessment#:#tst_dyn_unfreeze_answers_confirmation#:#Néhány kérdéshez tartoznak korábban befagyasztott válaszok, így nem módosíthatja azokat. Újra megválaszolja a kérdéseket most, amivel fel is oldja a rögzített válaszokat?
+assessment#:#tst_dyn_unfreeze_answers#:#Válaszadás még egyszer
+assessment#:#tst_dyn_keep_answ_freeze#:#Jelenlegi válaszaim befagyasztva tartása
 assessment#:#tst_show_solution_answers_only#:#Eredmények nyomtatási előnézete (csak a válaszoké)
 assessment#:#tst_show_solution_details#:#Megoldások megjelenítése a teszteredményekben
 assessment#:#tst_show_solution_feedback#:#Válaszspecifikus visszajelzés megjelenítése a teszteredményekben
@@ -1517,8 +1522,8 @@ assessment#:#tst_back_to_pass_details#:#Vissza a kitöltés részleteihez
 assessment#:#tst_list_answer_details#:#Mutassa az alábbi listában
 assessment#:#tst_single_answer_details#:#Egyszerű válasz megjelenítése
 assessment#:#tst_pass_details_overview_table_title#:#%s. tesztkitöltés válaszainak részletes áttekintése
-assessment#:#tst_btn_show_best_solutions#:#Legjobb megoldás megjelenítése
-assessment#:#tst_btn_hide_best_solutions#:#Legjobb megoldás elrejtése
+assessment#:#tst_btn_show_best_solutions#:#Legjobb megoldások megjelenítése
+assessment#:#tst_btn_hide_best_solutions#:#Legjobb megoldások elrejtése
 assessment#:#tst_settings_header_intro#:#A teszt megkezdése előtti információ
 assessment#:#tst_settings_header_execution#:#Teszt kezelése: hozzáférés
 assessment#:#tst_starting_time_desc#:#Az az időpont, ami után az 'Indítás' gomb megnyomásával a résztvevők megkezdhetik a válaszadást. 
@@ -1784,17 +1789,17 @@ cmps#:#cmps_class_file#:#Osztályfájl
 cmps#:#cmps_component#:#Komponens
 cmps#:#cmps_current_version#:#Jelenlegi verzió
 cmps#:#cmps_database#:#Adatbázis
-cmps#:#cmps_db_update#:#DB-frissítési szkript
+cmps#:#cmps_db_update#:#Adatbázis-frissítési szkript
 cmps#:#cmps_deactivate#:#Deaktiválás
 cmps#:#cmps_dir#:#Könyvtár
 cmps#:#cmps_disable_creation#:#Létrehozás letiltása
 cmps#:#cmps_duplicate_positions#:#Vegye figyelembe, hogy az alábbi helyek többször vannak hozzárendelve:
 cmps#:#cmps_edit_settings#:#Beállítások
-cmps#:#cmps_file_version#:#Fájlverzió módosítása
-cmps#:#cmps_group#:#Csoportok
-cmps#:#cmps_id#:#ID
-cmps#:#cmps_ilias_max_version#:#Max. ILIAS-verzió
-cmps#:#cmps_ilias_min_version#:#Min. ILIAS-verzió
+cmps#:#cmps_file_version#:#Frissítési fájlverzió
+cmps#:#cmps_group#:#Csoport
+cmps#:#cmps_id#:#Azonosító
+cmps#:#cmps_ilias_max_version#:#Maximum ILIAS-verzió
+cmps#:#cmps_ilias_min_version#:#Minimum ILIAS-verzió
 cmps#:#cmps_inactive#:#Inaktív
 cmps#:#cmps_lang_files#:#Nyelvi fájlok
 cmps#:#cmps_lang_prefix#:#Nyelvi változó előtag
@@ -1807,10 +1812,10 @@ cmps#:#cmps_needs_newer_ilias_version#:#Ez a bővítményverzió csak újabb ILI
 cmps#:#cmps_needs_newer_plugin_version#:#Ehhez az ILIAS-verzióhoz újabb bővítményverzió szükséges. Frissítse a bővítményt!
 cmps#:#cmps_needs_update#:#Frissítés szükséges.
 cmps#:#cmps_needs_upgrade#:#A jelenleg telepített bővítmény verziója régebbi, mint egy korábban telepítetté. Frissítse a bővítményt!
-cmps#:#cmps_no_db_update_file_available#:#Nem érhető el DB frissítési szkript.
+cmps#:#cmps_no_db_update_file_available#:#Nem érhető el az adatbázis-frissítő szkript.
 cmps#:#cmps_no_language_file_available#:#Nem érhető el nyelvi fájl.
 cmps#:#cmps_plugin_activated#:#A bővítményt bekapcsolta.
-cmps#:#cmps_plugin_db_prefixes#:#DB-tábla előtag
+cmps#:#cmps_plugin_db_prefixes#:#Adatbázistábla előtag
 cmps#:#cmps_plugin_deactivated#:#A bővítményt kikapcsolta.
 cmps#:#cmps_plugin_dirs#:#Bővítmény könyvtárak
 cmps#:#cmps_plugin_file#:#Bővítmény fájl
@@ -1821,13 +1826,13 @@ cmps#:#cmps_plugins#:#Bővítmények
 cmps#:#cmps_refresh_plugins_inf#:#Bővítmény-információk frissítése
 cmps#:#cmps_refresh#:#Frissítés
 cmps#:#cmps_rep_object#:#Taneszköztárolóban levő objektumtípus
-cmps#:#cmps_responsible#:#Megbízható
+cmps#:#cmps_responsible#:#Felelős
 cmps#:#cmps_save_options#:#Mentés
 cmps#:#cmps_service#:#Szolgáltatás
 cmps#:#cmps_services#:#Szolgáltatások
 cmps#:#cmps_show_details#:#Részletek megjelenítése
 cmps#:#cmps_status#:#Állapot
-cmps#:#cmps_update_db#:#DB frissítése
+cmps#:#cmps_update_db#:#Adatbázis frissítése
 cmps#:#cmps_update#:#Frissítés
 cmps#:#cmps_version#:#Verzió
 cmps#:#database_is_uptodate#:#Az adatbázis naprakész.
@@ -2219,7 +2224,7 @@ common#:#certificate#:#Igazolás
 common#:#chac_edit_permission#:#Jogosultsági beállítások változtatása
 common#:#chac_read#:#Olvasási elérés a csevegésbeállításokhoz
 common#:#chac_visible#:#Csevegésbeállítások láthatóak
-common#:#chac_write#:#Csevegésbeállítások szerkesztése
+common#:#chac_write#:#Csevegésbeállítások módosítása
 common#:#change_active_assignment#:#Aktív hozzárendelés változtatása
 common#:#change_assignment#:#Hozzárendelés változtatása
 rbac#:#change_existing_object_type_desc#:#Ez meg fogja változtatni a típus már létező objektumainak jogosultság-beállításait is
@@ -2606,7 +2611,7 @@ common#:#exc_header_members#:#Beadandó feladat (tagok)
 common#:#exc_instruction#:#Feladatleírás
 common#:#exc_last_submission#:#Utolsó megoldás
 common#:#exc_mail_users#:#Levél küldése felhasználó(k)nak
-common#:#exc_members_already_assigned#:#Ezek a felhasználók már hozzá vannak rendelve ezen beadandó feladat más csoportjaihoz.
+common#:#exc_members_already_assigned#:#Ezek a felhasználók már hozzá vannak rendelve ezen beadandó feladathoz.
 common#:#exc_members_assigned#:#Tagok hozzárendelve.
 common#:#exc_members_comments_saved#:#A kiválasztott felhasználók számára a beadandó feladathoz tartozó megjegyzést sikeresen mentette.
 common#:#exc_new#:#Új beadandó feladat
@@ -2652,7 +2657,7 @@ common#:#export_html#:#Exportálás HTML-fájlként
 common#:#export_xml#:#Exportálás XML-fájlként
 common#:#export#:#Export
 common#:#ext_acccount_required#:#Adja meg a külső felhasználói fiókja nevét!
-common#:#ext_cat_settings#:#Bővített kategória-beállítások szerkesztése
+common#:#ext_cat_settings#:#Bővített kategória-beállítások módosítása
 common#:#ext_link#:#Link
 common#:#extt_configure#:#konfigurálás...
 rbac#:#extt_edit_permission#:#A felhasználó módosíthatja a Rendszerbeállítások » 'Harmadik fél szoftvere' jogosultsági beállításait
@@ -3193,7 +3198,7 @@ common#:#ldap_v2#:#LDAPv2
 common#:#ldap_v3#:#LDAPv3
 common#:#ldap_version#:#LDAP-verzió
 common#:#ldap_visible#:#LDAP-beállítások láthatóak
-common#:#ldap_write#:#LDAP-beállítások szerkesztése
+common#:#ldap_write#:#LDAP-beállítások módosítása
 common#:#ldap#:#LDAP
 common#:#learning module#:#Tananyag
 common#:#learning_objects#:#Tananyagok
@@ -3374,10 +3379,10 @@ rbac#:#mcst_visible#:#Médiasugárzás látható
 rbac#:#mcst_write#:#A felhasználó szerkeszthet médiasugárzás tartalmat és beállításokat
 common#:#mcst#:#Médiasugárzás
 common#:#mem_add_to_wl#:#Hozzáadás a várólistához
-common#:#mem_alert_no_places#:#Nem érhetők el szabad helyek.
+common#:#mem_alert_no_places#:#Nincs több szabad hely.
 common#:#mem_end#:#Regisztráció vége:
-common#:#mem_free_places#:#Szabad helyek
-common#:#mem_max_users#:#Felhasználók maximuma:
+common#:#mem_free_places#:#Szabad helyek száma
+common#:#mem_max_users#:#Felhasználók maximális száma:
 common#:#mem_participants#:#Résztvevők
 common#:#mem_reg_expired#:#A regisztrációs idő lejárt.
 common#:#mem_reg_not_started#:#A regisztráció még nem kezdődött el.
@@ -3385,7 +3390,7 @@ common#:#mem_reg_period#:#Regisztrációs időszak
 common#:#mem_reg_type#:#Regisztráció típusa
 common#:#mem_start#:#Regisztráció kezdete:
 common#:#mem_unlimited#:#Korlátlan
-common#:#mem_view_activate#:#Tagok nézete
+common#:#mem_view_activate#:#Tagnézet
 common#:#mem_view_close#:#Tagnézet bezárása
 common#:#mem_view_deactivate#:#Tagnézet kikapcsolása
 common#:#mem_view_long#:#Tagnézet
@@ -4333,7 +4338,7 @@ common#:#shib_title#:#Cím attribútuma
 common#:#shib_update#:#A mező módosítása a bejelentkezés alapján
 common#:#shib_user_default_role#:#Shibboleth-felhasználókhoz rendelt alapértelmezett szerep
 common#:#shib_visible#:#A Shibboleth-beállítások láthatók
-common#:#shib_write#:#Shibboleth-beállítások szerkesztése
+common#:#shib_write#:#Shibboleth-beállítások módosítása
 common#:#shib_zipcode#:#Irányítószám attribútuma
 common#:#shib#:#Shibboleth
 common#:#shop_actions#:#Műveletek###Replacement of the wording of 'actions' when in shop.
@@ -4763,7 +4768,7 @@ common#:#webdav#:#WebDAV
 common#:#webfolder_dir_info#:#Böngészője nem tud megnyitni webmappákat. Olvassa el a <a href="%1$s">utasításokat a webmappák megnyitásához</a>.
 common#:#webfolder_index_of#:#%1$s indexe
 common#:#webfolder_instructions_info#:#Azokban a böngészőkben, amelyek nem tudnak webmappákat közvetlenül megnyitni, a webmappa-utasítások láthatók. HTML-kódot és az alábbi dzsókerlemeket használhatja: <b>[WEBFOLDER_TITLE]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI_IE]</b>, <b>[WEBFOLDER_URI_KONQUEROR]</b>, <b>[WEBFOLDER_URI_NAUTILUS]</b>, <b>[ADMIN_MAIL]</b>, <b>[IF_WINDOWS]</b>...<b>[/IF_WINDOWS]</b>, <b>[IF_MAC]</b>...<b>[/IF_MAC]</b>, <b>[IF_LINUX]</b>...<b>[/IF_LINUX]</b>. Törölje ki a mezőt, hogy megkapja az alapértelmezett utasításokat!
-common#:#webfolder_instructions_text#:#<p> Kövesse az alábbi utasításokat a(z) <b>[WEBFOLDER_TITLE]</b> webmappaként való megnyitásához:</p>[IF_WINDOWS]<h3>Utasítások Windows Vista esethez</h3><ol><li>Nyomja meg a Windows+E billentyűkombinációt a Windows Explorer megnyitásához.</li><li>A 'Hálózati hely' varázsló fog megnyílni.</li><li>Kattintson a ’Hálózati hely hozzáadása’-n az eszköztáron.<br/>A ’Hálózati hely hozzáadása’ varázsló fog megnyílni.</li><li>Kattintson a ’Kapcsolódás webhelyhez’ linkre.</li><li>Válassza a ’Másik hálózati hely választása’ opciót, majd a ’Következő’-t.<li>Az ’Internet vagy hálózati cím’ mezőben adja meg<br/><b>[WEBFOLDER_URI]</b><br/>aztán válassza a ’Következő’-t.</li><li>Adja meg bejelentkezési nevét és jelszavát, majd válassza az ’OK’-t.<br/>Ismételje ezt a lépést, amíg eljut a következő dialógusablakig.</li><li>Válassza a ’Befejezés’-t.</li><li>Most már elérheti a webmappát a ’Számítógép’ start menüjéből.</li></ol><h3> Utasítások Windows XP-hez</h3><ol><li>Nyomja meg a Windows+E-t az Windows Explorer megnyitásához</li><li>válassza az ’Extrák &gt; Új hálózati hely hozzáadása...’ menüt<br/>A ’Hálózati hely’ varázsló fog megnyílni.</li><li>Kattintson a ’Website-hoz kapcsolódás...’-ra</br> Ekkor megnyílik a segédablak.</li><li>Válassza a ’Következő’-t. </li><li>Válassza a ’Másik hálózati hely választása’ lehetőséget, és kattintson a ’Következő’-re.<li>Az ’Internet és hálózati cím’ mezőben adja meg<br/><b>[WEBFOLDER_URI]</b><br/>aztán válassza a ’Következő’ gombot.</li><li>Adja meg bejelentkezési jelszavát, majd válassza az 'OK'-t.<li>Adjon meg a webmappához egy nevet, majd válassza a ’Következő’-t.<li>Adja meg bejelentkezési nevét és jelszavát, majd válassza az ’OK’-t.</li><li>Válassza a ’Befejezés’-t.</li><li>Ekkor megnyílik a webmappa. A későbbiekben a webmappát a start menü ’Hálózati helyek’-ből is elérheti. </li></ol>[/IF_WINDOWS][IF_MAC]<h3> Utasítások Mac OS X-hez </h3><ol><li>Nyissa meg a Keresőt (Finder) </li><li>Válassza a ’Menj &gt; Kapcsolódás Szerverhez...’ menüt</br>Erre a ’Kapcsolódás szerverhez’ dialógusablak nyílik meg. </li><li>A cím mezőben adja meg a következő címet:<br/><b>[WEBFOLDER_URI]</b><br/>és válassza a ’Kapcsolódás’-t.</li><li>Adja meg bejelentkezési nevét és jelszavát, majd válassza az ’OK’-t. </li></ol>[/IF_MAC][IF_LINUX]<h3>Utasítások Linuxhoz és Konquerorhoz</h3><ol><li>Indítsa el a Konqueror böngészőt. </li><li>A cím mezőben adja meg a következő címet:<br/><b>[WEBFOLDER_URI_KONQUEROR]</b></li><li>Nyomja meg az Enter billentyűt. </li><li>Adja meg bejelentkezési nevét és jelszavát, majd válassza az ’OK’-t. </li></ol><h3>Utasítások Linuxhoz Nautilusszal</h3><ol><li>Indítsa el a Nautilus böngészőt</li><li>A cím mezőben adja meg az alábbi címet: <br/><b>[WEBFOLDER_URI_NAUTILUS]</b></li><li>Nyomja meg az Enter billentyűt. </li><li>Adja meg bejelentkezési nevét és jelszavát, majd válassza az ’OK’-t. </li></ol>[/IF_LINUX]<p> Ha nem sikerül megnyitni a webmappát, vegye fel a kapcsolatot egy rendszergazdával <a href=\'mailto:[ADMIN_MAIL]\'>[ADMIN_MAIL]</a>.</p>
+common#:#webfolder_instructions_text#:#[IF_WINDOWS]	<h3>Utasítások Windows rendszerrel történő csatlakozáshoz</h3>	<ol>	<li>Nyissa meg a Fájlkezelőt (például Windows + E billentyűkombináció).</li>	<li>Válassza a 'Hálózati meghajtó csatlakoztatása' opciót.</li>	<li>Adja a meg hálózati csatlakoztatandó mappának az következőt (másolja majd illessze be az URL-t):<br /><br />	<b>[WEBFOLDER_URI]</b><br /><br /></li>	<li>Kattintson a 'Befejezés' gombra.</li>	<li>Amennyiben szükséges, adja meg felhasználónevét és jelszavát.</li>	<li>Ezután a hálózati meghajtót a többi meghajtók között megtalálja.</li>	</ol>	<br />	Felhasználóneve és jelszava ugyanaz, mint amivel az ILIAS-ba be tud jelentkezni. Jelszavát a 'Munkaasztal' 'Beállítások' menüben alatt tudja megváltoztatni.[/IF_WINDOWS][IF_MAC]	<h3>Utasítások Mac OS X rendszerrel történő csatlakozáshoz</h3>	<ol>	<li>Nyissa meg a Keresőt (Finder).</li>	<li>Válassza a 'Menj &gt; Kapcsolódás Szerverhez...' menüt.<br/>Erre a 'Kapcsolódás szerverhez' dialógusablak nyílik meg.</li>	<li>Szerver URL-nek a következő URL-t adja meg:<br/><b>[WEBFOLDER_URI]</b><br/> és válassza a ’Kapcsolódás’-t.</li>	<li>Adja meg felhasználónevét és jelszavát, majd nyomja meg az 'OK' gombot.</li>	</ol>	<br />	Felhasználóneve és jelszava ugyanaz, mint amivel az ILIAS-ba be tud jelentkezni. Jelszavát a 'Munkaasztal' 'Beállítások' menüben alatt tudja megváltoztatni.[/IF_MAC][IF_LINUX]		<h3>Utasítások Linux rendszerhez Konquerorral történő csatlakozáshoz</h3>		<ol>		<li>Indítsa el a Konqueror böngészőt.</li>		<li>Szerver URL-nek a következő URL-t adja meg:<br />		<b>[WEBFOLDER_URI_KONQUEROR]</b><br/>majd nyomja meg az Enter billentyűt.</li>		<li>Adja meg felhasználónevét és jelszavát, majd nyomja meg az 'OK' gombot.</li>		</ol>		<h3>Utasítások Linux rendszerhez Nautilus-szal történő csatlakozáshoz</h3>		<ol>		<li>Indítsa el a Nautilus böngészőt.</li>		<li>Szerver URL-nek a következő URL-t adja meg:<br />		<b>[WEBFOLDER_URI_NAUTILUS]</b><br/>majd nyomja meg az Enter billentyűt..</li>		<li>Adja meg felhasználónevét és jelszavát, majd nyomja meg az 'OK' gombot.</li>		</ol>		<br />		Felhasználóneve és jelszava ugyanaz, mint amivel az ILIAS-ba be tud jelentkezni. Jelszavát a 'Munkaasztal' 'Beállítások' menüben alatt tudja megváltoztatni.[/IF_LINUX]				<h3>Tippek &amp; támogatás</h3>		<ul>		<li>Ezeket a lépéséket <b>csak egyszer</b> szükséges végrehajtani. Később is elérheti ezt a kapcsolatot.</li>		</ul>		<ul>		<li>Alkönyvtárhoz csatlakozhat, de a könyvtártól felfelé már nem tud lépni.</li>		</ul>		<ul>		<li>Ha nem sikerül elérnie a hálózati meghajtót, vegye fel a kapcsolatot egy rendszergazdával.</li>		</ul>
 common#:#webfolder_instructions_titletext#:#%1$s webmappaként megnyitása
 common#:#webfolder_instructions#:#Leírás webmappa használatához
 common#:#webfolder_mount_dir_with#:#Nyissa meg webmappaként ezt a lapot <a href="%1$s">Internet Explorerrel</a>, <a href="%2$s">Konquerorral</a>, <a href="%3$s">Nautilusszal</a>, <a href="%4$s">más böngészővel</a>.
@@ -5042,7 +5047,7 @@ content#:#cont_ed_textitem#:#Szövegtétel
 content#:#cont_ed_width#:#szélesség
 content#:#cont_edit_area#:#Terület szerkesztése
 content#:#cont_edit_file_list_properties#:#Fájllista-tulajdonságok szerkesztése
-content#:#cont_edit_lrs_settings#:#Beállítások szerkesztése
+content#:#cont_edit_lrs_settings#:#Beállítások módosítása
 content#:#cont_edit_mob_alias_prop#:#Médiaobjektum-példány tulajdonságainak szerkesztése
 content#:#cont_edit_mob_files#:#Objektumfájlok
 content#:#cont_edit_mob_properties#:#Médiaobjektum-tulajdonságok szerkesztése
@@ -5614,7 +5619,7 @@ crs#:#crs_add_grouping#:#Tagságkorlátozás létrehozása
 crs#:#crs_add_grp_assignment#:#Kurzus(ok) engedélyezése
 crs#:#crs_add_html_archive#:#HTML-archív létrehozása
 crs#:#crs_add_member#:#Tag(ok) hozzáadása 
-crs#:#crs_add_objective#:#Célkitűzés létrehozása
+crs#:#crs_add_objective#:#Cél létrehozása
 crs#:#crs_add_remove_from_desktop_info#:#A kurzus elemeit a tagok munkaasztalukra rakhatják.
 crs#:#crs_add_remove_from_desktop#:#Munkaasztalra link
 crs#:#crs_add_starter#:#Kezdőobjektum létrehozása
@@ -5622,7 +5627,7 @@ crs#:#crs_add_subscribers#:#Feliratkozás létrehozása
 crs#:#crs_added_member_body#:#ezúton tájékoztatjuk, hogy '%s' kurzushoz sikeresen csatlakozott.
 crs#:#crs_added_member#:#'%s' kurzushoz csatlakozás
 crs#:#crs_added_new_archive#:#Új tömörített állomány jött létre.
-crs#:#crs_added_objective#:#Új tanulási célkitűzést adott hozzá.
+crs#:#crs_added_objective#:#Új tanulási célt adott hozzá.
 crs#:#crs_added_starters#:#Engedélyezett kezdő objektum(ok).
 crs#:#crs_added_to_list#:#Várólistára került. Jelenleg %s. a várólistán.
 crs#:#crs_added#:#Új kurzus jött létre
@@ -5678,7 +5683,7 @@ crs#:#crs_delete_from_list_sure#:#Biztos, hogy megszünteti az alábbi felhaszn�
 crs#:#crs_delete_from_waiting_list#:#Várólistáról eltávolítás
 crs#:#crs_delete_member#:#Eltávolítás
 crs#:#crs_delete_members_sure#:#Biztos, hogy törli az alábbi tagokat ebből a kurzusból?
-crs#:#crs_delete_objectve_sure#:#Biztos, hogy törli a kiválasztott célkitűzéseket?
+crs#:#crs_delete_objectve_sure#:#Biztos, hogy törli a kiválasztott célokat?
 crs#:#crs_delete_subscribers_sure#:#Biztos, hogy törli az alábbi felhasználókat?
 crs#:#crs_delete_subscribers#:#Feliratkozó törlése
 crs#:#crs_details#:#Kurzusrészletek
@@ -5732,7 +5737,7 @@ crs#:#crs_header_edit_members#:#Tagok szerkesztése
 crs#:#crs_header_members#:#Kurzustagok
 crs#:#crs_header_remove_from_waiting_list#:#Várólista: felhasználók, akik hozzárendelése megszűnt
 crs#:#crs_hide_link_lms#:#Segédanyagok elrejtése
-crs#:#crs_hide_link_objectives#:#Célkitűzések elrejtése
+crs#:#crs_hide_link_objectives#:#Célok elrejtése
 crs#:#crs_hide_link_or#:#További források elrejtése
 crs#:#crs_hide_link_session#:#Események elrejtése
 crs#:#crs_hide_link_tst#:#Tesztek elrejtése
@@ -5784,14 +5789,14 @@ crs#:#crs_min_one_admin#:#Legalább egy vezetőt hozzá kell rendelni ehhez a ku
 crs#:#crs_move_down#:#Mozgatás le
 crs#:#crs_move_up#:#Mozgatás fel
 crs#:#crs_moved_item#:#Kurzuselemek áthelyezve.
-crs#:#crs_moved_objective#:#Áthelyezett tanulási célkitűzés
+crs#:#crs_moved_objective#:#Áthelyezett tanulási cél
 crs#:#crs_new_search#:#Új keresés
 crs#:#crs_new_status#:#Az Ön új állapota:
-crs#:#crs_new_subscription_body#:#%s regisztrált a(z) '%s' kurzusba.
-crs#:#crs_new_subscription_request_body#:#%s tagsági kérelmet adott be a(z) '%s' kurzushoz.
+crs#:#crs_new_subscription_body#:#ezúton értesítjük, hogy %s regisztrált a(z) '%s' kurzusba.
+crs#:#crs_new_subscription_request_body#:#ezúton értesítjük, hogy %s tagsági kérelmet adott be a(z) '%s' kurzushoz.
 crs#:#crs_new_subscription_request_body2#:#Regisztrációja megerősítéséhez menjen ide:
 crs#:#crs_new_subscription_request#:#Jelentkezés erre a kurzusra: '%s'
-crs#:#crs_new_subscription#:#A felhasználó regisztrált a(z) '%s' kurzusba
+crs#:#crs_new_subscription#:#'%s' kurzusba felhasználó regisztrált
 crs#:#crs_news#:#Kurzushírek
 crs#:#crs_no_archive_selected#:#Nincsenek kiválasztott tömörített állományok.
 crs#:#crs_no_archives_available#:#Nem érhetők el tömörített állományok.
@@ -5805,20 +5810,20 @@ crs#:#crs_no_language#:#Nincs nyelv
 crs#:#crs_no_lm_selected#:#Válasszon ki egy tananyagot!
 crs#:#crs_no_lms_assigned#:#Nincsenek tanulási segédanyagok hozzárendelve.
 crs#:#crs_no_lms_inside_course#:#Nem találhatók tananyagok ebben a kurzusban.
-crs#:#crs_no_lms_inside_crs#:#Ebben a kurzusban nincsenek olyan tanulási segédanyagok, amelyek hozzárendelhetők ehhez a tanulási célkitűzéshez.
+crs#:#crs_no_lms_inside_crs#:#Ebben a kurzusban nincsenek olyan tanulási segédanyagok, amelyek hozzárendelhetők ehhez a tanulási célhoz.
 crs#:#crs_no_member_selected#:#Egy tagot válasszon!
 crs#:#crs_no_members_assigned#:#Nincsenek tagok hozzárendelve ehhez a kurzushoz.
 crs#:#crs_no_notify#:#Nincs értesítés az új regisztrációhoz
 crs#:#crs_no_objective_lms_found#:#Ez a kurzus nem tartalmaz segédanyagokat, amit tanulási célhoz lehetne rendelni.
-crs#:#crs_no_objective_selected#:#Válasszon ki egy célkitűzést.
-crs#:#crs_no_objectives_created#:#Nincsenek célkitűzések hozzárendelve.
+crs#:#crs_no_objective_selected#:#Válasszon ki egy célt.
+crs#:#crs_no_objectives_created#:#Nincsenek célok hozzárendelve.
 crs#:#crs_no_question_selected#:#Válasszon ki egy kérdést.
 crs#:#crs_no_questions_assigned#:#Nincsenek hozzárendelt kérdések.
 crs#:#crs_no_results_found#:#Nincs eredmény
 crs#:#crs_no_roles_selected#:#Válasszon egy szerepet!
 crs#:#crs_no_starter_created#:#Nincs kezdőobjektum rendelve ehhez a kurzushoz.
 crs#:#crs_no_subscribers_selected#:#Válasszon egy felhasználót!
-crs#:#crs_no_tests_inside_crs#:#Nincsenek ezen a kurzuson belül olyan tesztek, amelyek hozzárendelhetők lehetnének ehhez a tanulási célkitűzéshez.
+crs#:#crs_no_tests_inside_crs#:#Nincsenek ezen a kurzuson belül olyan tesztek, amelyek hozzárendelhetők lehetnének ehhez a tanulási célhoz.
 crs#:#crs_no_title_given#:#Szúrjon be címet a célhoz.
 crs#:#crs_no_users_added#:#Nincsenek tagok hozzáadva.
 crs#:#crs_no_users_selected#:#Nem választott ki felhasználót
@@ -5829,8 +5834,8 @@ crs#:#crs_notification#:#Értesítés
 crs#:#crs_notify#:#Értesítés új regisztrációkhoz
 crs#:#crs_nr#:#Ssz.
 crs#:#crs_number_users_added#:#Az alábbi számú felhasználót sikeresen hozzárendelte a kurzushoz:
-crs#:#crs_obj_final_req_info#:#Ha eléri ezt a pontszámot, teljesítette a tanulási célkitűzést.
-crs#:#crs_obj_initial_req_info#:#Ha eléri ezt a pontszámot, nem kerülnek felajánlásra további kurzusanyagok feldolgozásra.
+crs#:#crs_obj_final_req_info#:#Ha eléri ezt a pontszámot, teljesítette a tanulási célt.
+crs#:#crs_obj_initial_req_info#:#Ha eléri ezt a pontszámot, további kurzusanyagokat nem ajánljunk fel feldolgozásra.
 crs#:#crs_obj_required_points#:#Szükséges pontszám
 crs#:#crs_objective_accomplished#:#Elvégzett
 crs#:#crs_objective_add_mat#:#Segédanyagok hozzárendelése
@@ -5844,59 +5849,59 @@ crs#:#crs_objective_assigned_qst#:#Hozzárendelt kérdések
 crs#:#crs_objective_deassign_question#:#Hozzárendelés törlése
 crs#:#crs_objective_delete_lm_assignment#:#Hozzárendelés törlése
 crs#:#crs_objective_err_limit#:#1 és 100 közötti számot adjon meg.
-crs#:#crs_objective_final_test#:#Befejező teszt kérdései
+crs#:#crs_objective_final_test#:#Záró teszt kérdései
 crs#:#crs_objective_insert_percent#:#1 és 100 közötti számokat adjon meg.
 crs#:#crs_objective_limit_err#:#A megkívánt pontszám nem lehet magasabb, mint az összpontszám.
-crs#:#crs_objective_modified#:#Frissített tanulási célkitűzés.
+crs#:#crs_objective_modified#:#Frissített tanulási cél.
 crs#:#crs_objective_no_title_given#:#Adjon meg címet!
 crs#:#crs_objective_not_accomplished#:#Nem befejezett
 crs#:#crs_objective_overview_objectives#:#Áttekintés
 crs#:#crs_objective_overview_question_assignment#:#Kérdés-hozzárendelés áttekintése
 crs#:#crs_objective_points#:#Pont
-crs#:#crs_objective_pretest#:#Bemeneti teszt után
+crs#:#crs_objective_pretest#:#Belépő teszt után
 crs#:#crs_objective_qst_summary#:#Kérdés-hozzárendelés áttekintése
 crs#:#crs_objective_question_assignment#:#Kérdés-hozzárendelés
-crs#:#crs_objective_random_warn#:#Nem használhat véletlen-kiválasztásos tesztet tanulási célkitűzésekkel kombinálva.
+crs#:#crs_objective_random_warn#:#Nem használhat véletlen-kiválasztásos tesztet tanulási célokkal kombinálva.
 crs#:#crs_objective_result#:#Befejezőteszt után
 crs#:#crs_objective_saved_sorting#:#Mentett csoportosítás.
-crs#:#crs_objective_self_assessment#:#Bemeneti teszt kérdései
+crs#:#crs_objective_self_assessment#:#Belépő teszt kérdései
 crs#:#crs_objective_status#:#Cél állapota
 crs#:#crs_objective_step#:#Lépés
 crs#:#crs_objective_updated_test#:#Frissített
-crs#:#crs_objective_wiz_final_info#:#Befejező tesztkérdések megadása.
-crs#:#crs_objective_wiz_final_limit_info#:#Itt határozhatja meg a korlátokat a befejező teszt kérdéseihez.
-crs#:#crs_objective_wiz_final_limit#:#Határértékek a befejező teszthez
-crs#:#crs_objective_wiz_final#:#Befejező teszt kérdései
-crs#:#crs_objective_wiz_materials_info#:#Megadhat ajánlott kurzusanyagokat a tanulási célkitűzés eléréséhez.
+crs#:#crs_objective_wiz_final_info#:#Záró tesztkérdések megadása.
+crs#:#crs_objective_wiz_final_limit_info#:#Itt határozhatja meg a korlátokat a záró teszt kérdéseihez.
+crs#:#crs_objective_wiz_final_limit#:#Küszöbérték a záró teszthez
+crs#:#crs_objective_wiz_final#:#Záró teszt kérdései
+crs#:#crs_objective_wiz_materials_info#:#Megadhat ajánlott kurzusanyagokat a tanulási cél eléréséhez.
 crs#:#crs_objective_wiz_materials#:#Kurzusanyagok hozzárendelése
-crs#:#crs_objective_wiz_self_info#:#Határozza meg a bemeneti tesztkérdéseket. A bemeneti teszt célja hogy megvizsgálja a kurzusrésztvevők meglévő tudását.
-crs#:#crs_objective_wiz_self_limit_info#:#Határozza meg a korlátokat a bemeneti teszt kérdéseihez!
-crs#:#crs_objective_wiz_self_limit#:#Határértékek a bemeneti teszthez
-crs#:#crs_objective_wiz_self#:#Bemeneti teszt kérdései
-crs#:#crs_objective_wiz_title_info#:#Adja meg a tanulási célkitűzés címét és rövid leírását!
-crs#:#crs_objective_wiz_title#:#Tanulási célkitűzés leírása
+crs#:#crs_objective_wiz_self_info#:#Határozza meg a belépő tesztkérdéseket. A belépő teszt célja hogy megvizsgálja a kurzusrésztvevők meglévő tudását.
+crs#:#crs_objective_wiz_self_limit_info#:#Határozza meg a korlátokat a belépő teszt kérdéseihez!
+crs#:#crs_objective_wiz_self_limit#:#Küszöbérték a belépő teszthez
+crs#:#crs_objective_wiz_self#:#Belépő teszt kérdései
+crs#:#crs_objective_wiz_title_info#:#Adja meg a tanulási cél címét és rövid leírását!
+crs#:#crs_objective_wiz_title#:#Tanulási cél leírása
 crs#:#crs_objectives_assign_chapter#:#Fejezet hozzárendelése
-crs#:#crs_objectives_assigned_lm#:#A kiválasztott segédanyagok hozzárendelve.
+crs#:#crs_objectives_assigned_lm#:#A kiválasztott segédanyagokat sikeresen hozzárendelte.
 crs#:#crs_objectives_assigned_lms#:#Hozzárendelt tanulási segédanyagok
 crs#:#crs_objectives_assigned_new_questions#:#Felvett új tananyag.
 crs#:#crs_objectives_assigned_questions#:#Hozzárendelt kérdés
 crs#:#crs_objectives_chapter_assignment#:#Fejezet-hozzárendelés
 crs#:#crs_objectives_deassign_question_sure#:#Biztos, hogy törli az alább kérdéseket?
-crs#:#crs_objectives_deleted#:#Tanulási célkitűzések törlése
+crs#:#crs_objectives_deleted#:#Tanulási célok törlése
 crs#:#crs_objectives_edit_question_assignments#:#Kérdés-hozzárendelés szerkesztése
-crs#:#crs_objectives_info_final#:#Nem teljesített minden kurzuscélkitűzést az előző vizsgán. <br/>Válassza ki egymás után a nem teljesített célkitűzéseket, és nézze át a kapcsolódó segédanyagokat. <br/>Ezen célkitűzések újbóli áttekintése után újra vizsgázhat.
-crs#:#crs_objectives_info_finished#:#Gratulálunk, teljesítette a kurzus minden célkitűzését.
-crs#:#crs_objectives_info_none#:#Itt látható a kurzuscélkitűzések listája.<br/> Válassza ki egymás után a célkitűzéseket, és dolgozza fel a kapcsolódó segédanyagokat.
-crs#:#crs_objectives_info_pretest_non_suggest#:#Az alábbiak az Ön önértékelésének eredményei. <br/>Ezek szerint Ön minden tanulási célkitűzést teljesített. Most elvégezheti a kurzus záróvizsgáját, amely ennek a lapnak a tesztrészében található.
-crs#:#crs_objectives_info_pretest#:#Az alábbiak az Ön önértékelésének eredményei. <br/>Válassza ki egymás után a nem teljesített célkitűzéseket, és dolgozza fel a hozzájuk kapcsolódó segédanyagokat. <br/>Miután feldolgozta ezeket a célkitűzéseket, leteheti a kurzus záróvizsgáját, amely ennek a lapnak a tesztrészében található.
+crs#:#crs_objectives_info_final#:#Nem teljesített minden kurzuscélt az előző vizsgán. <br/>Válassza ki egymás után a nem teljesített célokat, és nézze át a kapcsolódó segédanyagokat. <br/>Ezen célok újbóli áttekintése után újra vizsgázhat.
+crs#:#crs_objectives_info_finished#:#Gratulálunk, teljesítette a kurzus minden célját.
+crs#:#crs_objectives_info_none#:#Itt látható a kurzuscélok listája.<br/> Válassza ki egymás után a célokat, és dolgozza fel a kapcsolódó segédanyagokat.
+crs#:#crs_objectives_info_pretest_non_suggest#:#Az alábbiak az Ön önértékelésének eredményei. <br/>Ezek szerint Ön minden tanulási célt teljesített. Most elvégezheti a kurzus záróvizsgáját, amely ennek a lapnak a tesztrészében található.
+crs#:#crs_objectives_info_pretest#:#Az alábbiak az Ön önértékelésének eredményei. <br/>Válassza ki egymás után a nem teljesített célokat, és dolgozza fel a hozzájuk kapcsolódó segédanyagokat. <br/>Miután feldolgozta ezeket a célokat, leteheti a kurzus záróvizsgáját, amely ennek a lapnak a tesztrészében található.
 crs#:#crs_objectives_lm_assignment#:#Kurzussegédanyagok hozzárendelése
 crs#:#crs_objectives_max_points#:#Maximális pont
 crs#:#crs_objectives_no_question_selected#:#Válasszon ki egy kérdést!
 crs#:#crs_objectives_nr_questions#:#Kérdések száma
 crs#:#crs_objectives_qst_deassigned#:#A kérdés-hozzárendelés sikeresen törölte.
-crs#:#crs_objectives_reset_sure#:#iztos, hogy törli a kurzus összes eredményét?<br/>Ezzel a teszteredményeket is törli.
+crs#:#crs_objectives_reset_sure#:#Biztos, hogy törli a kurzus összes eredményét?<br/>Ezzel a teszteredményeket is törli.
 crs#:#crs_objectives_reseted#:#Megmaradt eredmények.
-crs#:#crs_objectives#:#Tanulási célkitűzések
+crs#:#crs_objectives#:#Tanulási célok
 crs#:#crs_offline#:#Offline
 crs#:#crs_options#:#Választások
 crs#:#crs_other_groupings#:#További kurzusok csoportosítása
@@ -5954,13 +5959,13 @@ crs#:#crs_set_on_waiting_list#:#Amikor bead egy kurzusjelentkezést, felkerül a
 crs#:#crs_settings_saved#:#Beállításokat sikeresen mentette.
 crs#:#crs_settings#:#Kurzusbeállítások
 crs#:#crs_show_link_lms#:#Tanulási segédanyagok megjelenítése
-crs#:#crs_show_link_objectives#:#Célkitűzések megjelenítése
+crs#:#crs_show_link_objectives#:#Célok megjelenítése
 crs#:#crs_show_link_or#:#További források megjelenítése
 crs#:#crs_show_link_session#:#Események megjelenítése
 crs#:#crs_show_link_tst#:#Tesztek megjelenítése
 crs#:#crs_show_members_info#:#Kurzustagok megtekinthetik a tagok képtárát.
 crs#:#crs_show_members#:#Tagok megjelenítése
-crs#:#crs_show_objectives_view#:#Célkitűzésnézet
+crs#:#crs_show_objectives_view#:#Cél-orientált nézet
 crs#:#crs_size#:#Fájlméret
 crs#:#crs_sort_activation#:#Aktiválás szerinti sorrend
 crs#:#crs_sort_manual_info#:#Ez a mód a kurzuselemek manuális rendezését teszi lehetővé.
@@ -6046,11 +6051,11 @@ crs#:#crs_unblocked_member_body#:#ezúton tájékoztatjuk, hogy '%s' kurzushozz�
 crs#:#crs_unblocked_member#:#'%s' kurzushoz hozzáférés
 crs#:#crs_unblocked#:#Nincs korlátozva a belépés
 crs#:#crs_unlimited#:#Nem korlátozott
-crs#:#crs_unsubscribe_member_body#:#'%s' kurzusról tagságát sikeresen töröltük.
+crs#:#crs_unsubscribe_member_body#:#ezúton tájékoztatjuk, hogy '%s' kurzusról tagságát sikeresen töröltük.
 crs#:#crs_unsubscribe_member#:#'%s' kurzustagság törlése
 crs#:#crs_unsubscribe_sure#:#Biztos, hogy lejelentkezik erről a kurzusról?
 crs#:#crs_unsubscribed_from_crs#:#Sikeresen lejelentkezett a kurzusról.
-crs#:#crs_update_objective#:#Tanulási célkitűzés ellenőrzőlistája
+crs#:#crs_update_objective#:#Tanulási cél ellenőrzőlistája
 crs#:#crs_update_subscr_request#:#Tagsági kérelem frissítése
 crs#:#crs_user_agreement_info#:#Látható adatok a kurzusvezető számára
 crs#:#crs_user_agreement#:#Kibocsátott adattípusok
@@ -6060,10 +6065,10 @@ crs#:#crs_users_added#:#Felhasználók hozzáadva a kurzushoz.
 crs#:#crs_users_already_assigned#:#A felhasználót már korábban hozzárendelték ehhez a kurzushoz
 crs#:#crs_users_removed_from_list#:#A kiválasztott felhasználókat eltávolította a várólistáról
 crs#:#crs_view_archive#:#Tömörített állományok nézet
-crs#:#crs_view_info_objective#:#Egyéni tanulási haladást biztosító kurzus: a tanulás haladás eredményessége határozza meg a kurzusban való munkavégzést. A kurzustag számára a szintfelmérő tesztben elért saját eredménye határozhatja meg a kurzustartalmat, továbba a tanulási célkitűzés elérést végső teszttel igazolhatja.
+crs#:#crs_view_info_objective#:#Egyéni tanulási haladást biztosító kurzus: a tanulás haladás eredményessége határozza meg a kurzusban való munkavégzést. A kurzustag számára a belépő tesztben elért saját eredménye határozhatja meg a kurzustartalmat, továbbá tanulási cél elérést záró teszttel igazolhatja.
 crs#:#crs_view_info_timing#:#Javasolt tanulási/feldolgozási idő használatakor célszerű választani.
 crs#:#crs_view_mode#:#Kurzusmegjelenítés
-crs#:#crs_view_objective#:#Tanulási célkitűzés-vezérelt kurzus
+crs#:#crs_view_objective#:#Tanulási cél-orientált kurzus
 crs#:#crs_view_timing#:#Időzítésnézet
 crs#:#crs_visibility_limitless#:#Korlátlan
 crs#:#crs_visibility_until#:#Elérhetőség időbeni korlátozása
@@ -6237,9 +6242,9 @@ dateplaner#:#cal_day_start#:#Kezdő időpont
 dateplaner#:#cal_day_week_view#:#Napi/heti nézet beállításai
 dateplaner#:#cal_deadline#:#Határidő
 dateplaner#:#cal_declined#:#Elutasított
-dateplaner#:#cal_def_date_format_info#:#Válasszon formátumot a dátumok inputjához.
-dateplaner#:#cal_def_date_format#:#Alapértelmezett dátumbeviteli formátum
-dateplaner#:#cal_def_time_format_info#:#Válasszon formátumot az idő beviteléhez és megjelenítéséhez
+dateplaner#:#cal_def_date_format_info#:#Válasszon formátumot a dátumok beviteléhez.
+dateplaner#:#cal_def_date_format#:#Alapértelmezett dátumformátum
+dateplaner#:#cal_def_time_format_info#:#Válasszon formátumot az idő beviteléhez és megjelenítéséhez.
 dateplaner#:#cal_def_time_format#:#Alapértelmezett időformátum
 dateplaner#:#cal_def_timezone_info#:#Válassza ki az alapértelmezett időzónát az események megjelenítéséhez!
 dateplaner#:#cal_def_timezone#:#Alapértelmezett időzóna
@@ -6330,7 +6335,7 @@ dateplaner#:#cal_user_timezone#:#ILIAS-időzóna
 dateplaner#:#cal_export_timezone#:#Időzóna a naptár exportáláshoz
 dateplaner#:#cal_export_timezone_tz#:#ILIAS-időzóna használata
 dateplaner#:#cal_export_timezone_utc#:#UTC időzóna használata (MS Outlook kompatibilitáshoz)
-dateplaner#:#cal_user_date_format#:#Dátumbeviteli formátum
+dateplaner#:#cal_user_date_format#:#Dátumformátum
 dateplaner#:#cal_user_time_format#:#Időformátum
 dateplaner#:#cal_week_abbrev#:#H
 dateplaner#:#cal_week_month_view#:#Heti/havi nézet beállításai
@@ -8061,7 +8066,7 @@ news#:#news_block_news_for_context#:#Hírek
 news#:#news_cache_info#:#Hírblokk frissítése x percenként. A '0' azt jelenti, mindig. Magasabb érték növeli a teljesítményt, de lehet, hogy a hírek nem elérhető helyre linkelnek.
 news#:#news_cache#:#Hírek gyorsítótárazása (perc)
 news#:#news_default_visibility#:#Alapértelmezett elérés
-news#:#news_edit_news_settings#:#Beállítások szerkesztése
+news#:#news_edit_news_settings#:#Beállítások módosítása
 news#:#news_enable_internal_news_info#:#Hírblokk aktiválása kategóriákhoz, kurzusokhoz, csoportokhoz és további objektumokhoz. Ha a felhasználó munkaasztalára teszi az objektumot, annak hírei is megjelennek munkaasztalán.
 news#:#news_enable_internal_news#:#Belső hírek engedélyezése
 news#:#news_enable_internal_rss_info#:#Hírek engedélyezése RSS-ben. Ezek a hírek elérhetők lesznek a rendszeren kívülről, bejelentkezés nélkül.
@@ -8905,7 +8910,7 @@ registration#:#reg_mail_body_profile_changed#:#ezúton tájékoztatjuk, hogy az 
 registration#:#reg_mail_body_profile#:#Személyes adatok:
 registration#:#reg_mail_body_pwd_generation#:#ILIAS-fiók iránti igényét át fogja tekinteni egy rendszergazda, és 48 órán belül aktiválja azt. A jóváhagyásról e-mailben fogjuk értesíteni.
 registration#:#reg_mail_body_reason#:#Azért kapta ezt az e-mailt az ILIAS-ból, mert a Rendszerbeállítások ILIAS-fiókok kezelésénél engedélyezve van értesítés küldése az új regisztrációkról.
-registration#:#reg_mail_new_user_body#:#egy új felhasználó regisztrált.
+registration#:#reg_mail_new_user_body#:#ezúton értesítjük, hogy egy új felhasználó regisztrált.
 registration#:#reg_mail_new_user#:#Új felhasználói regisztráció
 registration#:#reg_missing_domain#:#Töltsön ki minden mezőt.
 registration#:#reg_missing_role#:#Töltsön ki minden mezőt.
@@ -8952,21 +8957,21 @@ sahs#:#sahs_insert_page#:#Lap beszúrása
 sahs#:#sahs_insert_pagelayout#:#Sablonlap beszúrása
 sahs#:#sahs_insert_scenario#:#Soron következő fejezet beszúrása
 sahs#:#sahs_insert_sco#:#SCO beszúrása
-sahs#:#sahs_learning_objectives#:#Tanulási célkitűzések
+sahs#:#sahs_learning_objectives#:#Tanulási célok
 sahs#:#sahs_new_chapter#:#Új fejezet
 sahs#:#sahs_new_page#:#Új lap
 sahs#:#sahs_new_sco#:#Új SCO
 sahs#:#sahs_oa_no_chapters#:#A képernyőn minden tanulási cél és a hozzájuk rendelt minden kérdés felsorolásra kerül. Fejezeteket, SCO lapokat és kérdéseket kell előbb létrehoznia.
 sahs#:#sahs_oa_no_scos#:#A fejezetek még nem tartalmaznak SCO-kat.
-sahs#:#sahs_objective_alignment#:#Célkitűzések elrendezése
-sahs#:#sahs_objective#:#Tanulási célkitűzés
-sahs#:#sahs_objectives_alignment#:#Tanulási célkitűzés elrendezése
-sahs#:#sahs_objectives#:#Tanulási célkitűzések
+sahs#:#sahs_objective_alignment#:#Célok elrendezése
+sahs#:#sahs_objective#:#Tanulási cél
+sahs#:#sahs_objectives_alignment#:#Tanulási cél elrendezése
+sahs#:#sahs_objectives#:#Tanulási célok
 sahs#:#sahs_organization#:#Szerkezet
 sahs#:#sahs_page#:#Lap
 sahs#:#sahs_properties#:#Tulajdonságok
 sahs#:#sahs_questions#:#Kérdések
-sahs#:#sahs_sco_objective#:#Célkitűzések
+sahs#:#sahs_sco_objective#:#Célok
 sahs#:#sahs_sequencing#:#Sorba rendezés
 sahs#:#sahs_unit#:#SCO
 search#:#add_members_header#:#Tagok hozzáadása
@@ -8981,7 +8986,7 @@ search#:#lucene_all_occurrences#:#... %s további előfordulás
 search#:#lucene_and#:#ÉS
 search#:#lucene_cpu#:#Szálak maximális száma
 search#:#lucene_create_ini#:#Konfigurációs fájl létrehozása
-search#:#lucene_default_operator_info#:#Válassza ki az alapműveletet a logikai lekérdezésekhez. Alapértelmezett módban (ÉS) a kifejezések konjunkcióban vannak figyelembe véve. VAGY módban a kifejezések alapértelmezetten módosítók nélkül vannak figyelembe véve.
+search#:#lucene_default_operator_info#:#Válassza ki az alapműveletet a logikai lekérdezésekhez. Alapértelmezett módban ('ÉS') az kifejezések együtt, 'VAGY' módban a kifejezések lehetőségként vannak figyelembe véve.
 search#:#lucene_default_operator#:#Alapértelmezett beállítások
 search#:#lucene_download_ini#:#Konfigurációs fájl letöltése
 search#:#lucene_err_ampersand#:#Az && speciális karaktereket tartalmazó kérdéseknek a következő formája kell legyen: kifejezés1 && kifejezés2.
@@ -9034,7 +9039,7 @@ search#:#search_any_word#:#Bármelyik <small>(<i>VAGY</i>)</small>
 search#:#search_any#:#Bármi
 search#:#search_area_info#:#Válassza ki azt a területet, ahol a keresés kezdődjön.
 search#:#search_area#:#Terület
-search#:#search_auto_complete_length#:#Automatikus teljes listabejegyzések száma
+search#:#search_auto_complete_length#:#Automatikus kiegészítéseket tartalmazó lista bejegyzéseinek száma
 search#:#search_below#:#Alatta:
 search#:#search_change#:#Változtatás
 search#:#search_choose_object_type#:#Válasszon egy objektumtípust.
@@ -9356,7 +9361,7 @@ style#:#sty_type_sco_desc#:#SCO-leírás
 style#:#sty_type_sco_desct#:#SCO leírási fejléc
 style#:#sty_type_sco_keyw#:#SCO-kulcsszavak
 style#:#sty_type_sco_obj#:#SCO-cél
-style#:#sty_type_sco_objt#:#SCO célkitűzések fejléce
+style#:#sty_type_sco_objt#:#SCO célok fejléce
 style#:#sty_type_sco_title#:#SCO-cím
 style#:#sty_type_sco#:#SCO
 style#:#sty_type_section#:#Rész
@@ -9869,7 +9874,7 @@ survey#:#warning_question_not_complete#:#Nem teljes a kérdés.
 survey#:#wrong_categories_selected_for_insert#:#Az ILIAS nem tudja végrehajtani a kívánt tevékenységet. Csak egy választ válasszon célként!
 survey#:#wrong_survey_code_used#:#Nem teljes a kérdőív.
 tagging#:#tagging_all_users#:#Az összes felhasználó címkéje
-tagging#:#tagging_edit_settings#:#Beállítások szerkesztése
+tagging#:#tagging_edit_settings#:#Beállítások módosítása
 tagging#:#tagging_enable_all_users_info#:#A taneszköztároló egyes forrásainak információs lapján listázza minden felhasználónak a forráshoz létrehozott címkéit.
 tagging#:#tagging_enable_all_users#:#Minden felhasználó címkéjének megjelenítése
 tagging#:#tagging_enable_tagging#:#Címkézés engedélyezése
@@ -10050,7 +10055,7 @@ trac#:#trac_mode_manual_by_tutor#:#Tutor állítja
 trac#:#trac_mode_manual_info#:#A felhasználó saját magának állítja be, hogy elérte a 'Befejezett' állapotot.
 trac#:#trac_mode_manual#:#Tanuló állítja
 trac#:#trac_mode_objectives_info#:#A tanulási haladást automatikusan értékeljük ki a teljesített tanulási objektumok száma szerint.
-trac#:#trac_mode_objectives#:#Automatikusan tanulási célkitűzésekkel
+trac#:#trac_mode_objectives#:#Automatikusan tanulási célokkal
 trac#:#trac_mode_scorm_aicc#:#Automatikusan SCORM-tételek gyűjteményével
 trac#:#trac_mode_scorm_info#:#A tanulási haladást a kiválasztott SCO-k állapota határozza meg.
 trac#:#trac_mode_scorm_package_info#:#A tanulási haladás állapotát közvetlenül a SCORM-kurzuscsomag állapota fogja meghatározni.
@@ -10083,7 +10088,7 @@ trac#:#trac_participated#:#Részt vett
 trac#:#trac_processing_time#:#Feltételezett feldolgozási idő
 trac#:#trac_progress#:#Személyes tanulási haladás
 trac#:#trac_query#:#Cím/leírás
-trac#:#trac_reached_objectives#:#Elért tanulási célkitűzések
+trac#:#trac_reached_objectives#:#Elért tanulási célok
 trac#:#trac_reached_points#:#Elért eredmény
 trac#:#trac_reached_visits#:#Elvárt látogatások
 trac#:#trac_refresh#:#Frissítés
@@ -10149,7 +10154,7 @@ webr#:#webr_container_info#:#Adjon meg címet és esetleg leírást ennek a tane
 webr#:#webr_deactivate#:#Weblink kikapcsolása
 webr#:#webr_edit_links#:#Webhivatkozások szerkesztése
 webr#:#webr_edit_list#:#Webhivatkozások szerkesztése
-webr#:#webr_edit_settings#:#Beállítások szerkesztése
+webr#:#webr_edit_settings#:#Beállítások módosítása
 webr#:#webr_inactive_success#:#A kiválasztott linket sikeresen kikapcsolta.
 webr#:#webr_link_added#:#Új hivatkozás jött létre.
 webr#:#webr_link_target#:#Weblink célja
@@ -10389,8 +10394,8 @@ exc#:#exc_submission_notification_subject#:#'%s' beadandó feladathoz új megold
 wiki#:#wiki_edit_notification#:#E-mail értesítés változásról
 wiki#:#wiki_edit_notification_info#:#Értesítjük, ha valamelyik lapot módosították.
 wiki#:#wiki_change_notification_subject#:#'%1$s' wiki megváltozott: %2$s
-wiki#:#wiki_change_notification_page_body_update#:#az alábbi wikilapokat sikeresen frissítette
-wiki#:#wiki_change_notification_page_body_delete#:#az alábbi wikilapokat sikeresen törölte
+wiki#:#wiki_change_notification_page_body_update#:#ezúton értesítjük, hogy az alábbi wikilapokat sikeresen frissítette
+wiki#:#wiki_change_notification_page_body_delete#:#ezúton értesítjük, hogy az alábbi wikilapokat sikeresen törölte
 wiki#:#wiki_change_notification_page_link#:#URL
 wiki#:#wiki_change_notification_body_new#:#az alábbi wikilapok jöttek létre
 wiki#:#wiki_change_notification_link#:#URL
@@ -10498,11 +10503,11 @@ forum#:#add_re_to_subject#:#'Re:' hozzáadása a válasz tárgyához
 forum#:#add_re_to_subject_info#:#Ha be van kapcsolva, a 'Re:' hozzáadódik válasz tárgyához.
 forum#:#enter_new_subject#:#Adjon meg új tárgyat!
 dateplaner#:#cal_booking_confirmation_subject#:#'%s' találkozóra időpontfoglalás
-dateplaner#:#cal_booking_confirmation_body#:#időpontfoglalását a következővel rögzítettük: %s.
+dateplaner#:#cal_booking_confirmation_body#:#ezúton tájékoztatjuk, hogy időpontfoglalását a következővel rögzítettük: %s.
 dateplaner#:#cal_booking_confirmation_link#:#Link a találkozóra:
 dateplaner#:#cal_booking_confirmation_user#:#Ennek az e-mailnek az eredeti példányát az alábbi felhasználónak küldtük el:
 dateplaner#:#cal_booking_cancellation_subject#:#'%s' találkozóról időpontfoglalás-törlés
-dateplaner#:#cal_booking_cancellation_body#:#időpontfoglalását a következővel töröltük: %s.
+dateplaner#:#cal_booking_cancellation_body#:#ezúton tájékoztatjuk, hogy időpontfoglalását a következővel töröltük: %s.
 dateplaner#:#cal_booking_cancellation_user#:#Ennek az e-mailnek az eredeti példányát az alábbi felhasználónak küldtük el:
 webr#:#webr_imort#:#Weblink importálása
 news#:#finish_publishing_date#:#Közzététel vége:
@@ -10674,7 +10679,7 @@ dateplaner#:#cal_reg_register#:#Résztvétel
 dateplaner#:#cal_reg_unregister#:#Résztvétel lemondása
 common#:#country_selection#:#Ország (legördülő lista)
 common#:#country_free_text#:#Ország (szabadszöveges mező)
-book#:#book_hours#:#Óra###XXX
+book#:#book_hours#:#Óra
 book#:#book_reservation_fix_info#:#A foglalás csak adott időpontokra lehetséges.
 book#:#book_reservation_title#:#Foglalás ehhez:
 book#:#book_confirm_booking#:#Foglalás megerősítése
@@ -10746,7 +10751,7 @@ book#:#book_not#:#Nem
 administration#:#adm_rep_tree_limit_grp_crs_info#:#Használja és automatikusan kapcsolja be a szinkronizált fanézetet.
 administration#:#adm_synchronize_rep_tree#:#Fa ablakkeret szinkronizálása a tananyag tároló főnézetével
 administration#:#adm_synchronize_rep_tree_info#:#Kiemeli a fa ablakkeretben az aktuális pozíciót a felhasználó taneszköztárolóbeli navigálásakor. Negatív befolyása van a rendszer teljesítményére, mivel további szerverkéréseket von maga után.
-rbac#:#write#:#Beállítások szerkesztése
+rbac#:#write#:#Beállítások módosítása
 rbac#:#rbac_local_policy#:#Helyi szabályok
 rbac#:#role_block_role#:#Szerep zárolása
 rbac#:#role_block_role_desc#:#A hozzáférés ehhez és az alárendelt objektumokhoz visszavonásra fog kerülni.
@@ -10849,7 +10854,7 @@ administration#:#auth_apache#:#Apache
 administration#:#apache_settings_changed_success#:#A konfigurációt sikeresen mentette
 common#:#err_auth_apache_failed#:#Bejelentkezés sikertelen. Lehetséges, hogy Önnek nem érvényes a felhasználói tanúsítványa, vagy smarcardját nem helyezte be.
 administration#:#apache_auth_authenticate_on_login_page#:#Apache-azonosítás próbálása a bejelentkező lapra belépéskor.
-wiki#:#wiki_change_notification_salutation#:#Üdvözöljük, %s!
+wiki#:#wiki_change_notification_salutation#:#Tisztelt %s,
 assessment#:#tst_exp_sc_short#:#Egyszerű választásos kérdések esetén elemanalizáláshoz exportálás
 assessment#:#tst_exp_sc_short_desc#:#A 'Statisztikák' fül alatt exportálhatóvá válik egy munkalap ILIAS-on kívüli elemzés céljára. Ez csak akkor lehetséges, ha a teszt összes kérdése tisztán egyszerű választásos.
 rbac#:#frma_visible#:#A felhasználó láthatja a Rendszerbeállítások » Fórum menüpontot
@@ -11036,7 +11041,7 @@ content#:#cont_page_toc#:#Lapáttekintés
 wiki#:#wiki_page_toc#:#Lapáttekintés-blokk engedélyezése
 wiki#:#wiki_page_toc_info#:#Ennek a listának minden címe az egyes lapok tartalmának elejére linkel, ha a lap legalább két címet használ.
 wiki#:#wiki_page_unblocked#:#A felhasználók írási jogosultságot kaptak.
-wiki#:#wiki_page_blocked#:#A wikilap írásvédett. Csak a «Beállítások szerkesztése» joggal rendelkezőknek van írási joguk hozzá.
+wiki#:#wiki_page_blocked#:#A wikilap írásvédett. Csak a «Beállítások módosítása» joggal rendelkezőknek van írási joguk hozzá.
 wiki#:#wiki_last_edited#:#Utoljára szerkesztette
 wiki#:#wiki_page_already_exists#:#Már van ilyen című lap.
 wiki#:#wiki_rename_page#:#Lap átnevezése
@@ -11136,7 +11141,7 @@ wiki#:#wiki_functions#:#Wikifunkciók
 wiki#:#wiki_navigation#:#Wikinavigáció
 common#:#behind#:#Mögötte:
 survey#:#survey_auto_block_title#:#Lapfejléc
-survey#:#survey_edit_settings#:#Beállítások szerkesztése
+survey#:#survey_edit_settings#:#Beállítások módosítása
 survey#:#survey_order#:#Rendezési sorrend
 wiki#:#wiki_page_lists#:#Lapok listái
 wiki#:#wiki_notification_activated#:#Értesítés bekapcsolva (egész wikire)
@@ -11570,7 +11575,7 @@ forum#:#mark_moderator_posts#:#Moderátor hozzászólásainak megjelölése
 forum#:#mark_moderator_posts_desc#:#Ha be van kapcsolva, a moderátor hozzászólásait kiemeljük.
 dateplaner#:#cal_cache_settings#:#Gyorsítótárazás beállításai
 dateplaner#:#cal_milestone_settings#:#Mérföldkövek
-assessment#:#test_edit_settings#:#Beállítások szerkesztése
+assessment#:#test_edit_settings#:#Beállítások módosítása
 assessment#:#tst_set_offline_due_to_switched_question_set_type_setting#:#A teszt offline lett, mert a teszt-mód beállítása megváltozott. Új teszt-módot szükséges beállítani a kérdésbeállításnak megfelelően, mielőtt a teszt ismét online-ra állítható.
 assessment#:#tst_cannot_online_due_to_switched_quest_set_type_setting#:#A teszt nem állítható online-ra, mert a teszt-mód beállítása megváltozott. A kérdésbeállításnak megfelelő teszt-módot szükséges beállítani, mielőtt a teszt ismét online-ra állítható.
 ecs#:#ecs_tab_import#:#Import
@@ -12015,7 +12020,7 @@ content#:#cont_sc_auto_continue#:#Felhasználók átirányítása
 user#:#user_profile_portfolio_selected#:#Jelenleg egy portfóliót használ profiljaként. Az aktiválás a 'Megosztás' fülön állítható be ott.
 prtf#:#prtf_admin_toggle_info#:#A portfóliófunkciót a munkaasztal rendszerbeállításaiban kapcsolhatja ki teljesen.
 blog#:#blog_admin_toggle_info#:#A blogfunkciót a munkaasztal rendszerbeállításaiban kapcsolhatja ki teljesen.
-skmg#:#skmg_edit_skll#:#Kompetencia-beállítások szerkesztése
+skmg#:#skmg_edit_skll#:#Kompetencia-beállítások módosítása
 skmg#:#skmg_sktr#:#Kompetenciasablon-hivatkozás
 skmg#:#skmg_items#:#Bejegyzések
 skmg#:#skmg_create_sctp#:#Sablonkategória létrehozása
@@ -12447,7 +12452,7 @@ user#:#user_delete_own_account_info#:#Itt törölheti jelenlegi ILIAS-fiókját.
 user#:#user_delete_own_account_password_confirmation#:#Adja meg az azonosításhoz szükséges jelszót
 user#:#user_delete_own_account_final_confirmation#:#Utolsó alkalom, hogy meggondolhatja magát! Erősítse meg ILIAS-fiókjának végleges eltávolítását az ILIAS-ból!
 user#:#user_delete_own_account_email_subject#:#ILIAS-fiók törlése
-user#:#user_delete_own_account_email_body#:#'%s' ILIAS-fiókját töröltük (%s, %s).
+user#:#user_delete_own_account_email_body#:#ezúton értesítjük, hogy '%s' ILIAS-fiókját töröltük (%s, %s).
 mcst#:#mcst_ordering#:#Válogatás
 mcst#:#mcst_ordering_creation_date_asc#:#Létrehozási dátum szerint (növekvő)
 mcst#:#mcst_ordering_creation_date_desc#:#Létrehozási dátum szerint (csökkenő)
@@ -12693,7 +12698,7 @@ survey#:#svy_neutral_answer#:#Szöveg semleges válaszhoz ('Nem meghatározott',
 dcl#:#dcl_edit_type#:#Típus szerkesztése
 dcl#:#dcl_activate_rating#:#Értékelési bejegyzés bekapcsolása
 dcl#:#dcl_activate_approval#:#Bejegyzés jóváhagyásának bekapcsolása
-dcl#:#dcl_activate_notification#:#Értesítés bekapcsolása
+dcl#:#dcl_activate_notification#:#Értesítés engedélyezése
 dcl#:#dcl_table_id#:#Tábla ID
 dcl#:#dcl_add_new_record#:#Új bejegyzés létrehozása
 dcl#:#dcl_list_fields#:#Mezők
@@ -12837,8 +12842,8 @@ common#:#crs_list_reg_start#:#Regisztráció kezdete
 common#:#crs_list_reg_end#:#Regisztráció vége
 common#:#crs_list_reg_noreg#:#Nem lehetséges regisztráció
 common#:#crs_list_reg_period#:#Regisztrációs időszak
-common#:#crs_list_reg_limit_full#:#Nem maradt hely
-common#:#crs_list_reg_limit_places#:#Szabad helyek
+common#:#crs_list_reg_limit_full#:#Nincs szabad hely
+common#:#crs_list_reg_limit_places#:#Szabad helyek száma
 search#:#lucene_offline_filter_setting#:#Offline szűrő
 search#:#lucene_offline_filter_setting_info#:#Ha be van kapcsolva, az objektumok a 'Bővített keresés'-ben online/offline állapotuk szerint szűrhetők.
 search#:#lucene_offline_filter#:#Online állapot
@@ -12852,8 +12857,8 @@ common#:#grp_list_reg_start#:#Regisztráció kezdete
 common#:#grp_list_reg_end#:#Regisztráció vége
 common#:#grp_list_reg_noreg#:#Regisztráció nem lehetséges
 common#:#grp_list_reg_period#:#Regisztrációs időszak
-common#:#grp_list_reg_limit_full#:#Nem maradt hely
-common#:#grp_list_reg_limit_places#:#Szabad helyek
+common#:#grp_list_reg_limit_full#:#Nincs szabad hely
+common#:#grp_list_reg_limit_places#:#Szabad helyek száma
 survey#:#svy_matrix_layout_percentages_sum_invalid#:#Az oszlopbeállítások összege nem 100%.
 crs#:#crs_member_passed_status_changed#:#A sikeres állapot megváltozott
 help#:#help_help_file#:#Súgó csomagfájl
@@ -12988,7 +12993,8 @@ dcl#:#dcl_notification_activate_dcl#:#Értesítés bekapcsolása adatgyűjtésre
 dcl#:#dcl_notification_deactivate_dcl#:#Értesítés kikapcsolása adatgyűjtésre
 dcl#:#dcl_notification_activated#:#Értesítés bekapcsolva
 dcl#:#dcl_notification_deactivated#:#Értesítés kikapcsolva
-dcl#:#dcl_locked#:#Zárolható
+dcl#:#dcl_locked#:#Zárolt
+dcl#:#dcl_locked_tooltip#:#Ha bekapcsolja, a felhasználók ezt a mezőt nem szerkeszthetik. Ez nincs hatással a 'Beállítások módosítása' jogosultsággal rendelkezőkre.
 dcl#:#dcl_table_settings#:#Táblabeállítások
 dcl#:#dcl_add_perm#:#A felhasználó felvehet rekordokat
 dcl#:#dcl_edit_perm#:#A felhasználó szerkeszthet rekordokat
@@ -13004,7 +13010,7 @@ dateplaner#:#cal_setting_global_crs_vis#:#Kurzusokban megjelenjen
 dateplaner#:#cal_setting_global_grp_vis#:#Csoportokban megjelenjen
 dateplaner#:#cal_setting_global_crs_vis_info#:#Ha be van kapcsolva, a naptár alapértelmezetten megjelenik a kurzusokban. A megjelenése bármikor engedélyezhető/letiltható a kurzusbeállításokban.
 dateplaner#:#cal_setting_global_grp_vis_info#:#Ha be van kapcsolva, a naptár alapértelmezetten megjelenik a csoportokban. A megjelenése bármikor engedélyezhető/letiltható a csoportbeállításokban.
-dcl#:#dcl_edit_table#:#Táblabeállítások szerkesztése
+dcl#:#dcl_edit_table#:#Táblabeállítások módosítása
 dcl#:#dcl_msg_table_edited#:#A táblabeállításokat sikeresen mentette.
 dcl#:#dcl_legend_placeholders#:#Dzsókerelem
 dcl#:#dcl_rating#:#Értékelés
@@ -13061,7 +13067,7 @@ fm#:#fm_settings_filesize_info#:#Adja meg MB-ban a fájlfeltöltés maximális m
 blog#:#blog_authors#:#Szerzők
 blog#:#blog_author#:#Írta
 blog#:#blog_enable_approval#:#Bejegyzések jóváhagyása
-blog#:#blog_enable_approval_info#:#A bejegyzések csak a blog egy 'Beállítások szerkesztése' jogosultsággal rendelkező felhasználójának jóváhagyása után kerülnek közzétételre.
+blog#:#blog_enable_approval_info#:#A bejegyzések csak a blog egy 'Beállítások módosítása' jogosultsággal rendelkező felhasználójának jóváhagyása után kerülnek közzétételre.
 blog#:#blog_approve#:#Jóváhagyás
 blog#:#blog_needs_approval#:#Jóváhagyás szükséges
 sess#:#sess_copy#:#Esemény másolása
@@ -13071,7 +13077,7 @@ book#:#book_post_booking_information#:#Információ a foglalásról
 book#:#book_post_booking_text#:#Szöveg
 book#:#book_post_booking_file#:#Fájl
 book#:#book_download_info#:#További leírás letöltése
-exc#:#exc_team_notification_salutation#:#Üdvözöljük %s,
+exc#:#exc_team_notification_salutation#:#Tisztelt %s,
 exc#:#exc_team_notification_subject_add#:#'%s' feladatban csapattagság
 exc#:#exc_team_notification_body_add#:#ezúton tájékoztatjuk, hogy tag lett egy csapatfeltöltési feladatban.
 exc#:#exc_team_notification_subject_rmv#:#'%s' feladatban csapattagság megszűnése
@@ -13161,8 +13167,8 @@ dateplaner#:#cal_user_notification#:#Felhasználók értesítése
 dateplaner#:#cal_user_notification_info#:#A megadott felhasználóknak e-mail értesítést küldünk erről az eseményről. ILIAS felhasználóneveket vagy e-mail címeket adjon meg.
 dateplaner#:#cal_cg_notification#:#Kurzus/csoport értesítés
 dateplaner#:#cal_mail_notification_subject#:#Eseményre meghívás: '%s'
-dateplaner#:#cal_mail_notification_body#:#Ön meghívást kapott egy eseményre.
-file#:#file_download#:#Fálj letöltése
+dateplaner#:#cal_mail_notification_body#:#ezúton értesítjük, hogy Ön meghívót kapott egy eseményre.
+file#:#file_download#:#Fájl letöltése
 trac#:#trac_lp_on_personal_desktop_info#:#Ha aktív, a tanulási haladás elérhető a főmenüben.
 trac#:#trac_lp_learner_access_info#:#Ha aktív, a felhasználók hozzáférnek saját tanulási haladási állapotukhoz.
 content#:#help_assign_help_ids#:#Fejezet/képernyő-IDs hozzárendelés
@@ -13477,7 +13483,7 @@ common#:#upload_files#:#Fájlok feltöltése
 common#:#upload_files_title#:#Fájlok feltöltése
 common#:#upload_pending#:#Folyamatban
 common#:#error_empty_file_or_folder#:#A fájl valójában könyvtár vagy a mérete 0 byte.
-common#:#error_upload_was_zero_bytes#:#A feltöltés sikertelen, mert a fájl valójában könyvtár vagy a mérete 0 byte vagy átnevezték.
+common#:#error_upload_was_zero_bytes#:#A feltöltés sikertelen, mert a fájl valójában könyvtár, vagy mérete 0 byte, vagy mérete meghaladja a feltölthet maximumot, vagy átnevezték.
 common#:#uploading#:#Feltöltés...
 common#:#extracting#:#Kicsomagolás...
 common#:#drop_files_on_repo_obj_info#:#Ide fogd-és-vidd a fájlokat a feltöltéshez
@@ -13602,18 +13608,18 @@ survey#:#survey_reminder_frequency_days#:#Nap
 survey#:#survey_notification_target_group#:#Célcsoport
 survey#:#survey_notification_target_group_parent_course#:#Szülőkurzus/-csoport összes tagja
 survey#:#survey_notification_target_group_parent_course_inactive#:#Nem adott meg szülőkurzust/-csoport - emlékeztetőket nem küldünk!
-survey#:#survey_notification_target_group_invited#:#Összes meghívott felhasználó
-survey#:#survey_notification_target_group_invited_info#:#Jelenleg meghívott felhasználók: %s
+survey#:#survey_notification_target_group_invited#:#Összes olyan felhasználó, akinek asztalára a kérdőívet elhelyezték
+survey#:#survey_notification_target_group_invited_info#:#Jelenlegi felhasználók száma: %s
 survey#:#survey_notification_tutor_setting#:#Egy e-mail küldése, miután az összes résztvevő befejezte a kérdőív kitöltését
-survey#:#survey_notification_tutor_recipients#:#Tutorok (Bejelentkezés[ek])
+survey#:#survey_notification_tutor_recipients#:#Tutorok (felhasználónevek)
 survey#:#survey_notification_tutor_recipients_invalid#:#Kérem adjon írási jogosultságot a felhasználók számára.
 survey#:#survey_notification_tutor_subject#:#Az összes résztvevő befejezte a(z) '%s' kérdőívet.
-survey#:#survey_notification_tutor_salutation#:#Helló %s,
-survey#:#survey_notification_tutor_body#:#Az alábbi kérdőívet az összes résztvevő befejezte.
+survey#:#survey_notification_tutor_salutation#:#Tisztelt %s,
+survey#:#survey_notification_tutor_body#:#ezúton tájékoztatjuk, hogy az alábbi kérdőív kitöltését az összes résztvevő befejezte.
 survey#:#survey_notification_tutor_link#:#Link a kérdőívhez
 survey#:#survey_reminder_subject#:#'%s' kérdőív még nem ért véget
-survey#:#survey_reminder_salutation#:#Helló %s,
-survey#:#survey_reminder_body#:#az következő kérdőívet még nem fejezte be
+survey#:#survey_reminder_salutation#:#Tisztelt %s,
+survey#:#survey_reminder_body#:#ezúton értesítjük, hogy a következő kérdőív kitöltését még nem fejezte be
 survey#:#survey_reminder_link#:#URL
 mail#:#mail_rename_folder#:#Mappa átnevezése
 common#:#rpc_pdf_generation#:#PDF-Generálás
@@ -13899,7 +13905,7 @@ common#:#obj_crss_desc#:#Kurzus általános beállításai
 common#:#obj_grps#:#Csoport
 common#:#obj_grps_desc#:#Csoport általános beállításai
 administration#:#adm_external_setting_prefix#:#Külső beállítások
-administration#:#adm_external_setting_edit#:#Beállítások szerkesztése
+administration#:#adm_external_setting_edit#:#Beállítások módosítása
 ldap#:#ldap_user_sync_cron#:#LDAP-felhasználók szinkronizálása 
 rating#:#rating_new_objects_auto#:#Alapértelmezett objektum-értékelhetőség 
 rating#:#rating_new_objects_auto_info#:#Alapértelmezetten az értékelhetőség aktív új fájlokra, tananyagokra és wikikre.
@@ -14493,8 +14499,8 @@ content#:#lm_rate_page#:#Oldal értékelése
 rbac#:#il_orgu_employee#:#Szervezeti egység beosztottja
 rbac#:#il_orgu_superior#:#Szervezeti egység felettese
 obj#:#obj_tool_setting_info_tab_info#:#Az 'Információ' fül látszódjon.
-common#:#obj_tool_setting_news_info#:#A 'Hír' blokk megjelenik a 'Tartalom' fül alatt.
-common#:#obj_tool_setting_calendar_info#:#A 'Naptár' blokk megjelenik a 'Tartalom' fül alatt.
+common#:#obj_tool_setting_news_info#:#'Hír' blokk megjelenik a 'Tartalom' fül alatt.
+common#:#obj_tool_setting_calendar_info#:#'Naptár' blokk megjelenik a 'Tartalom' fül alatt.
 obj#:#obj_presentation#:#Megjelenítés
 mcst#:#mcst_webfeed#:#RSS Web hírcsatorna
 news#:#news_news_item_def_visibility_users_info#:#Csak hitelesített felhasználóknak van hozzáférése az aktuális hírekhez.
@@ -14653,7 +14659,7 @@ survey#:#mailparticipantdata_placeholder#:#Ezek a helyőrzők a felhasználó ak
 poll#:#poll_notification_subscribe#:#Figyelmeztetés bekapcsolása
 poll#:#poll_notification_unsubscribe#:#Figyelmeztetés kikapcsolása
 poll#:#poll_vote_notification_subject#:#'%s' szavazás: új szavazat
-poll#:#poll_vote_notification_body#:#új szavazat érkezett.
+poll#:#poll_vote_notification_body#:#ezúton tájékoztatjuk, hogy új szavazat érkezett.
 poll#:#poll_vote_notification_link#:#Link a Szavazásra
 poll#:#poll_vote_notification_reason#:#Ezt az email-t azért kapta, mert fent említett szavazásra bekapcsolta a figyelmeztetést.
 exc#:#exc_create_portfolio_no_template#:#Minta használata nélkül
@@ -14775,7 +14781,7 @@ blog#:#blog_nav_sortorder#:#Blokkok rendezése
 survey#:#svy_view_own_results#:#Leadott válaszok megtekintése
 survey#:#svy_mail_own_results#:#Leadott válaszok küldése levélben
 survey#:#svy_mail_own_results_subject#:#'%s' kérdőív - Az Ön Válaszai
-survey#:#svy_mail_own_results_body#:#alább tekintheti meg résztvételének teljes összefoglalóját.
+survey#:#svy_mail_own_results_body#:#ezúton küldjük résztvételének teljes összefoglalóját.
 survey#:#svy_results_view_own#:#Résztvevők megtekintheti saját válaszaikat
 survey#:#svy_results_mail_own#:#Résztvevők levélben elküldheti saját válaszaikat
 exercise#:#exc_to_desktop_info#:#A beadandó feladat a beküldő munkaasztalára kerüljön a megoldás beadása után
@@ -14865,7 +14871,7 @@ pd#:#pd_enable_comments_del_tutor#:#Bármelyik hozzászólást törölhetik a tu
 notes#:#notes_sort_asc#:#Növekvő sorrend
 notes#:#notes_sort_desc#:#Csökkenő sorrend
 obj#:#obj_tool_setting_tag_cloud#:#Címkefelhő
-obj#:#obj_tool_setting_tag_cloud_info#:#A 'Címkefelhő' blokk megjelenik a 'Tartalom' fül alatt.
+obj#:#obj_tool_setting_tag_cloud_info#:#'Címkefelhő' blokk megjelenik a 'Tartalom' fül alatt.
 administration#:#adm_show_comments_tagging_in_lists_tags#:#Címék megjelenítése a számok helyett
 tagging#:#tagging_other_users#:#Más felhasználók címkéi
 common#:#autocomplete_more#:#továbbiak
@@ -14924,7 +14930,7 @@ content#:#cont_tries_store_info#:#A próbálkozások számát összegezve tárol
 content#:#cont_restrict_forw_nav#:#Továbbhaladás tiltása
 content#:#cont_restrict_forw_nav_info#:#A tanulók nem léphetnek a következő oldalra, amíg az előtte lévő kérdéseket hibátlanul meg nem válaszolták.
 content#:#cont_no_page_access_unansw_q#:#Az oldal megtekintéséhez az összes korábbi oldal kérdéseit hibátlanul meg kell válaszolnia.
-classification#:#clsfct_block_title#:#Címkefelhő###XXX
+classification#:#clsfct_block_title#:#Címkefelhő
 classification#:#clsfct_block_info#:#Tartalom szűréséhez kattintson egy címkére
 classification#:#clsfct_content_title#:#Címke alapján szűrt tartalom
 classification#:#clsfct_content_no_match#:#Nincs találat
@@ -14937,7 +14943,7 @@ form#:#form_location_radius_km#:#km
 content#:#cont_question_stats#:#Statisztikák
 content#:#cont_blocked_users#:#Blokkolt felhasználók
 content#:#cont_last_try#:#Utolsó próbálkozás
-content#:#cont_unlocked#:#Feloldva###XXX
+content#:#cont_unlocked#:#Feloldva
 content#:#cont_reset_nr_of_tries#:#Próbálkozások számának alapértelmezettre állítása 
 content#:#cont_unlock_allow_continue#:#Feloldás / Folytatás engedélyezése###XXX
 crs#:#crs_subscription_failed_limit#:#A maximális felhasználószámot elérte.
@@ -14967,7 +14973,7 @@ content#:#cont_blocked_users_mail_link#:#Kattintson at alábbi linkre a tananyag
 wiki#:#wiki_show_print_view#:#Nyomtatási nézet
 wiki#:#wiki_show_pdf_export#:#PDF Export
 wiki#:#wiki_set_as_start_page#:#Beállítás kezdőoldalnak
-wiki#:#wiki_purpose#:#Szándék###XXX
+wiki#:#wiki_purpose#:#Szándék
 wiki#:#wiki_select_one_item#:#Egy elemet válasszon ki.
 exc#:#exc_peer_deadline_mismatch#:#Hogy visszajelzést lehessen küldeni, a visszajelzés határideje nem lehet korábbi, mint a feladata beadási határideje.
 trac#:#trac_mode_questions#:#Kérdések
@@ -15022,42 +15028,42 @@ rbac#:#condition_learning_progress#:#Tanulási haladásból származik
 rbac#:#rbac_precondition_hide#:#Objektum elrejtése
 rbac#:#rbac_precondition_hide_info#:#Ez az opció lehetővé teszi, hogy az objektum rejtve maradjon az előfeltételeit nem teljesített felhasználók elől, vagyis az összes el nem elérhető tartalom nem látható a felhasználó számára.
 wsp#:#wsp_shared_table_title#:#Megosztások
-content#:#cont_out_of_focus_message#:#Ez az oldal többé nincs összefüggésben a jelenlegi tanulási célkitűzésével.###XXX
+content#:#cont_out_of_focus_message#:#Ez az oldal többé nincs összefüggésben a jelenlegi tanulási céljával.###XXX
 content#:#cont_show_content_after_focus#:#Tovább a tananyaghoz
-content#:#cont_to_focus_beginning#:#Vissza a tanulási célkitűzéshez kapcsolódó tartalomhoz
+content#:#cont_to_focus_beginning#:#Vissza a tanulási célhoz kapcsolódó tartalomhoz
 content#:#cont_to_focus_return_crs#:#Vissza a kurzushoz
-crs#:#crs_loc_learning_objective#:#Tanulási célkitűzések
+crs#:#crs_loc_learning_objective#:#Tanulási célok
 crs#:#crs_loc_suggested#:#Kérem dolgozza fel az alábbi tanulási segédanyagokat.
 crs#:#crs_loc_itest_info#:#Belépő teszt
-crs#:#crs_loc_qtest_info#:#Minősítő teszt
+crs#:#crs_loc_qtest_info#:#Záró teszt
 crs#:#crs_loc_tt_info#:#%1$d%%-ot ért el. %2$d%%-tól sikeresen teljesített a teszt.
 crs#:#crs_objective_status_configure#:#Kurzus ellenőrzőlistája
 crs#:#crs_objective_status_settings#:#Kurzusbeállítások
 crs#:#crs_objective_status_materials#:#Kurzustartalom létrehozása
 crs#:#crs_objective_status_itest#:#Belépő teszt hozzárendelései
-crs#:#crs_objective_status_qtest#:#Minősítő teszt hozzárendelései
-crs#:#crs_objective_status_objectives#:#Tanulási célkitűzések beállítása
+crs#:#crs_objective_status_qtest#:#Záró teszt hozzárendelései
+crs#:#crs_objective_status_objectives#:#Tanulási célok beállítása
 crs#:#crs_objective_status_start#:#Kezdőobjektumok meghatározása
 crs#:#crs_objective_status_fullfilled#:#OK
 crs#:#crs_objective_action_materials#:#Segédanyag hozzárendelése
-crs#:#crs_objective_action_qtest#:#Kérdés hozzárendelése minősítő teszthez
-crs#:#crs_objective_action_itest#:#Kérdés hozzárendelése belépő teszthez
-crs#:#crs_loc_qt_visibility#:#Minősítő teszt láthatósága
-crs#:#crs_loc_qt_visibility_all#:#Az összes célkitűzést lefedő minősítő teszt megjelenítése
-crs#:#crs_loc_qt_visibility_lo#:#Az egyéni célkitűzések minősítő tesztjeinek megjelenítése
+crs#:#crs_objective_action_qtest#:#Záró teszt kérdéseinek hozzárendelése
+crs#:#crs_objective_action_itest#:#Belépő teszt kérdéseinek hozzárendelése
+crs#:#crs_loc_qt_visibility#:#Záró teszt láthatósága
+crs#:#crs_loc_qt_visibility_all#:#Az összes célt lefedő záró teszt megjelenítése
+crs#:#crs_loc_qt_visibility_lo#:#Az egyéni célok záró tesztjeinek megjelenítése
 crs#:#crs_loc_limited_passes#:#Tesztkitöltések számának korlátozása
 crs#:#crs_loc_passes#:#Kitöltések száma
 crs#:#crs_loc_passes_info#:#Maximális tesztkitöltések száma
 crs#:#crs_loc_err_stat_no_materials#:#Nincs elérhető kurzussegédanyag
-crs#:#crs_loc_err_stat_no_qt#:#Nincs elérhető minősítő teszt
+crs#:#crs_loc_err_stat_no_qt#:#Nincs elérhető záró teszt
 crs#:#crs_loc_err_stat_no_it#:#Nincs elérhető belépő teszt
-crs#:#crs_objective_status_objective_creation#:#Tanulási célkitűzés létrehozása
-crs#:#crs_loc_form_create_objectives#:#Tanulási célkitűzések létrehozása
-crs#:#crs_loc_err_no_active_mat#:#Tartalomhoz nem rendelt tanulási célkitűzések
-crs#:#crs_loc_err_no_active_it#:#Tanulási célkitűzések belépő teszt nélkül
-crs#:#crs_loc_err_no_active_qt#:#Tanulási célkitűzések minősítő teszt nélkül
-crs#:#crs_loc_err_no_active_lo#:#Nincsenek aktív tanulási célkitűzések
-crs#:#crs_loc_settings_tbl#:#Tanulási célkitűzés-vezérelt kurzus beállításai
+crs#:#crs_objective_status_objective_creation#:#Tanulási cél létrehozása
+crs#:#crs_loc_form_create_objectives#:#Tanulási célok létrehozása
+crs#:#crs_loc_err_no_active_mat#:#Tanulási célok hozzárendelt tartalom nélkül
+crs#:#crs_loc_err_no_active_it#:#Tanulási célok belépő teszt nélkül
+crs#:#crs_loc_err_no_active_qt#:#Tanulási célok záró teszt nélkül
+crs#:#crs_loc_err_no_active_lo#:#Nincsenek aktív tanulási célok
+crs#:#crs_loc_settings_tbl#:#Tanulási cél-orientált kurzusbeállítások
 crs#:#crs_loc_settings_type#:#Kurzustervezés
 crs#:#crs_loc_type_initial_all#:#Belépő teszttel indul a kurzus
 crs#:#crs_loc_type_initial_sel#:#A kiválasztott tanulási célhoz belépő teszttel indul a kurzus
@@ -15065,16 +15071,16 @@ crs#:#crs_loc_type_qualified#:#Kreditalapú tervezés
 crs#:#crs_loc_type_practise#:#A kurzus tanulással, gyakorlással kezdődik 
 crs#:#crs_loc_tab_materials#:#Segédanyag
 crs#:#crs_loc_tab_itest#:#Belépő teszt
-crs#:#crs_loc_tab_qtest#:#Minősítő teszt
+crs#:#crs_loc_tab_qtest#:#Záró teszt
 crs#:#crs_loc_settings_itest_tbl#:#Belépő teszt beállításai
-crs#:#crs_loc_tab_objectives#:#Tanulási célkitűzések
-crs#:#crs_loc_settings_qtest_tbl#:#Minősítő teszt beállításai
+crs#:#crs_loc_tab_objectives#:#Tanulási célok
+crs#:#crs_loc_settings_qtest_tbl#:#Záró teszt beállításai
 crs#:#crs_loc_tab_start#:#Kezdőobjektumok
 common#:#il_astpl_loc_initial#:#Belépő teszt
-common#:#il_astpl_loc_qualified#:#Minősítő teszt
-common#:#il_astpl_loc_initial_desc#:#Tanulási célkitűzés orientált kurzusok belépő tesztjeinek sablonbeállításai
-common#:#il_astpl_loc_qualified_desc#:#Tanulási célkitűzés orientált kurzusok minősítő tesztjeinek sablonbeállításai
-crs#:#crs_loc_confirm_delete_tst#:#Biztos, hogy törli ennek a tanulási célkitűzés orientált kurzusnak a tesztjét?
+common#:#il_astpl_loc_qualified#:#Záró teszt
+common#:#il_astpl_loc_initial_desc#:#Tanulási cél-orientált kurzusok belépő tesztjeinek sablonbeállításai
+common#:#il_astpl_loc_qualified_desc#:#Tanulási cél-orientált kurzusok záró tesztjeinek sablonbeállításai
+crs#:#crs_loc_confirm_delete_tst#:#Biztos, hogy törli ennek a tanulási cél-orientált kurzusnak a tesztjét?
 crs#:#crs_loc_tbl_tst_type#:#Teszt mód
 crs#:#crs_loc_form_assign_it#:#Teszt hozzárendelése
 crs#:#crs_loc_form_tst_new#:#Új teszt létrehozása
@@ -15084,23 +15090,23 @@ crs#:#crs_loc_tbl_tst_qst_qpl#:#Kérdések/Kérdésgyűjtemények
 crs#:#crs_loc_tst_num_qst#:#Kérdések száma:
 crs#:#crs_loc_tst_qpls#:#Elérhető kérdésgyűjtemények:
 crs#:#crs_loc_form_random_limits_it#:#Belépő teszt kérdéseinek létrehozása
-crs#:#crs_loc_form_random_limits_qt#:#Minősítő teszt kérdéseinek létrehozása
+crs#:#crs_loc_form_random_limits_qt#:#Záró teszt kérdéseinek létrehozása
 crs#:#crs_loc_rand_assign_qpl#:#Hozzárendelés kérdésgyűjteményből
 crs#:#crs_loc_rand_qpl#:#Elérhető kérdésgyűjtemények
 crs#:#crs_loc_num_qst#:#Kérdések száma
 crs#:#crs_loc_perc#:#Pontszámok elérendő százaléka
 crs#:#crs_loc_delete_assignment#:#Teszt hozzárendelésének törlése
-crs#:#crs_loc_err_no_active_qst#:#Kérdések nélküli célkitűzések
-crs#:#crs_loc_qtst_for_objective#:#'%1$s' minősítő teszt
+crs#:#crs_loc_err_no_active_qst#:#Tanulási célok kérdések nélkül
+crs#:#crs_loc_qtst_for_objective#:#'%1$s' záró teszt
 crs#:#crs_loc_itst_for_objective#:#'%1$s' belépő teszt
 crs#:#crs_loc_progress_result_itest#:#Belépő teszt eredménye
 crs#:#crs_loc_progress_result_qtest#:#Végeredmény
 crs#:#crs_loc_progress_no_result_do_initial#:#Kérem töltse ki a belépő tesztet.
-crs#:#crs_loc_progress_objective_complete#:#Tanulási célkitűzéseket sikeresen teljesített.
-crs#:#crs_loc_progress_do_qualifying#:#Kérem töltse ki a minősítő teszt.
-crs#:#crs_loc_progress_do_qualifying_again#:#Kérem újra dolgozza fel az alábbi tanulási célkitűzés segédanyagait.
-content#:#cont_out_of_focus_message_last_page#:#Jelenleg ez a tanulási célkitűzéséhez kapcsolódó tartalom utolsó oldala.
-crs#:#crs_loc_err_nr_tries_exceeded#:#Az objektumonkénti kitöltési lehetőségeinek száma meghaladja a minősítő teszt kitöltési lehetőségeinek számát.
+crs#:#crs_loc_progress_objective_complete#:#Tanulási célokat sikeresen teljesített.
+crs#:#crs_loc_progress_do_qualifying#:#Kérem töltse ki a záró teszt.
+crs#:#crs_loc_progress_do_qualifying_again#:#Kérem újra dolgozza fel az alábbi tanulási cél segédanyagait.
+content#:#cont_out_of_focus_message_last_page#:#Jelenleg ez a tanulási céljaihoz kapcsolódó tartalom utolsó oldala.
+crs#:#crs_loc_err_nr_tries_exceeded#:#Az objektumonkénti kitöltési lehetőségeinek száma meghaladja a záró teszt kitöltési lehetőségeinek számát.
 crs#:#crs_loc_passes_left#:#Hátralévő tesztkitöltési lehetőségek száma
 crs#:#crs_loc_passes_reached#:#Nincs további tesztkitöltési lehetősége
 crs#:#crs_loc_tst_new_run#:#Új tesztkitöltés indítása###XXX
@@ -15108,9 +15114,9 @@ crs#:#crs_loc_tst_resume#:#Tesztkitöltés folytatása###XXX
 crs#:#crs_loc_settings_reset#:#Teszteredmények###XXX
 crs#:#crs_loc_settings_reset_enable#:#'Teszteredmények visszaállításának' engedélyezése
 crs#:#crs_loc_settings_reset_enable_info#:#Ha be van kapcsolva, minden felhasználó visszaállíthatja a saját teszteredményeit és újrakezdheti a kurzust.
-crs#:#crs_loc_progress_no_result_no_initial#:#Kérem újra dolgozza fel az alábbi tanulási célkitűzés segédanyagait és töltse ki újra a minősítő tesztet.
+crs#:#crs_loc_progress_no_result_no_initial#:#Kérem újra dolgozza fel az alábbi tanulási cél segédanyagait és töltse ki újra a záró tesztet.
 crs#:#crs_loc_qst_resume_tst_itest#:#Különböző tanulás célokhoz belépő tesztek nem indíthatóak el párhuzamosan. Egy tanulási célhoz már elkezdett kitölteni egy tesztet. Vagy folytassa a már elkezdett tesztet vagy kezdjen újat.
-crs#:#crs_loc_qst_resume_tst_qtest#:#Különböző tanulás célokhoz minősítő tesztek nem indíthatóak el párhuzamosan. Egy tanulási célhoz már elkezdett kitölteni egy minősítő tesztet. Vagy folytassa a már elkezdett tesztet vagy kezdjen újat.
+crs#:#crs_loc_qst_resume_tst_qtest#:#Különböző tanulás célokhoz záró tesztek nem indíthatóak el párhuzamosan. Egy tanulási célhoz már elkezdett kitölteni egy záró tesztet. Vagy folytassa a már elkezdett tesztet vagy kezdjen újat.
 bibl#:#bibl_library_show_in_list#:#A link is jelenjen meg a felsorolásban
 content#:#cont_ie_compatibility#:#Internet Explorer 7 kompatibilitási mód
 content#:#cont_ie_compatibility_info#:#Internet Explorer-re optimalizált SCORM-tananyagok megjelenítési problémáinak számát csökkenti. Ez nem túl hatékony, ha az Internet Explorer újabb változataiban ki van kapcsolva a kompatibilitási mód.
@@ -15139,7 +15145,7 @@ registration#:#registration_codes_type_ext#:#Korlátozott felhasználói fiókok
 registration#:#registration_codes_type_ext_info#:#A kódot korlátozott felhasználói fiókok kiterjesztésére lehet felhasználni
 scormtrac#:#audio_captioning#:#learner_preference.audio_captioning
 scormtrac#:#audio_level#:#learner_preference.audio_level
-scormtrac#:#c_entry#:#entry###XXX
+scormtrac#:#c_entry#:#entry
 scormtrac#:#c_exit#:#exit
 scormtrac#:#c_language#:#learner_preference.language
 scormtrac#:#c_location#:#location
@@ -15177,7 +15183,7 @@ scormtrac#:#progress_measure#:#progress_measure
 scormtrac#:#result#:#result
 scormtrac#:#scaled#:#score.scaled: pontszám archiválása tizedestörtként
 scormtrac#:#scaled_passing_score#:#scaled_passing_score: sikeres teljesítéshez szükséges pontszám archiválása tizedestörtként
-scormtrac#:#sco_marked_for_learning_progress#:#Tanulási célkitűzéshez számít
+scormtrac#:#sco_marked_for_learning_progress#:#Tanulási célhoz számít
 scormtrac#:#sco_title#:#Fejezet / SCO címe 
 scormtrac#:#session_time#:#session_time: az utolsó munkamenet időtartama
 scormtrac#:#session_time_seconds#:#session_time: az utolsó munkamenet időtartama másodpercben
@@ -15247,9 +15253,9 @@ administration#:#language_clear_local_changes_info#:#Az nyelv összes bejegyzés
 administration#:#language_delete_local_additions_info#:#Az összes helyig hozzáadott változat törlése az adatbázisból.
 administration#:#language_merge_local_changes_info#:#A összes helyi és egyéb változat összeolvasztása a lang/ilias_%s.lang standard nyelvi fájlba betűrendben. A webszerver futtatójának írási jog szükséges a fájlhoz.
 administration#:#language_remove_local_file_info#:#A Customizing/global/lang/ilias_%s_lang.local fájl törlése és a nyelv 'Helyi nyelvi fájllal telepítve' cseréje 'Telepítve' állapotra. Az adatbázisban nem történik változtatás.
-crs#:#crs_loc_type_initial_all_info#:#Az ILIAS a belépő teszt végeredménye alapján személyre szabott tananyagot ajánl a még nem teljesített tanulási célok eléréséhez. A végső minősítő teszt azt méri, hogy a résztvevő elsajátította-e a tanulási célokat, vagy további tanulásra és képzésre van-e szüksége.
+crs#:#crs_loc_type_initial_all_info#:#Az ILIAS a belépő teszt végeredménye alapján személyre szabott tananyagot ajánl a még nem teljesített tanulási célok eléréséhez. A végső záró teszt azt méri, hogy a résztvevő elsajátította-e a tanulási célokat, vagy további tanulásra és képzésre van-e szüksége.
 crs#:#crs_loc_type_qualified_info#:#A kurzus egy teszttel indul, ami felméri, hogy a kurzustag elsajátította-e már a tanulási célokat. A kurzustagnak a sikeresen teljesíti tanulási célok tananyagaival nincs teendője, több tesztet sem kell kitölteni. Az el nem ért tanulási célok teljesítéséhez az ILIAS tananyagot ajánl, teljesítését további teszt vizsgálja.
-crs#:#crs_loc_type_practise_info#:#A kurzustagok a tanulási célokat és az azokhoz rendelt tananyagokat azonnal használhatják. Minősítő tesztel számot adhatnak, hogy a tanulási célt sikeresen elsajátították-e, avagy további tanulás és képzés szükséges-e számukra.
+crs#:#crs_loc_type_practise_info#:#A kurzustagok a tanulási célokat és az azokhoz rendelt tananyagokat azonnal használhatják. Záró tesztel számot adhatnak, hogy a tanulási célt sikeresen elsajátították-e, avagy további tanulás és képzés szükséges-e számukra.
 prtf#:#prtf_page_element_my_courses_info#:#Az összes online kurzus felsorolása, melynek tagja vagyok.
 prtf#:#prtf_allow_my_courses#:#'Kurzusaim' oldalelemei
 prtf#:#prtf_allow_my_courses_info#:#A jelenlegi kurzustagságok felsorolásának engedélyezése a portfólióban
@@ -15291,7 +15297,7 @@ survey#:#survey_access_codes_info#:#A felhasználók az 'Információ' fülön m
 survey#:#survey_results_anonymization#:#Titoktartás
 survey#:#survey_results_personalized#:#Nevekkel
 survey#:#survey_results_personalized_info#:#A résztvevők neve és válaszaik a 'Végeredmény' fülön jelennek meg. Akiknek hozzáférésük van ehhez a fülhöz, azonosíthatják a válaszadókat. 
-survey#:#survey_results_anonymized#:#Nevek nélkül
+survey#:#survey_results_anonymized#:#Nevek nélküli / Anonimizált kérdőív
 survey#:#survey_results_anonymized_info#:#'Végeredmény' fülön a résztvevők neve helyett kódja jelenik meg. Akiknek hozzáférésük van ehhez a fülhöz, azok sem köthetik a válaszokat válaszadóikhoz, csak például az 'iTXaF' kérdőívkódú felhasználóhoz.
 survey#:#material_added_empty#:#Az objektum nem tartalmaz megfelelő segédanyagot.
 ecs#:#ecs_refresh_participants#:#Refresh ECS-résztvevők
@@ -15329,11 +15335,11 @@ survey#:#svy_settings_section_reminders#:#Emlékeztetők
 scormtrac#:#satisfied#:#Állapot: elégedett
 scormtrac#:#measure#:#Állapot: mérés
 scormtrac#:#exportobjglobaltosystem#:#Jelentés a fejezeti szintű feldolgozási állapotokról
-scormtrac#:#exportselectedobjectives#:#Jelentés a célkitűzésekről
+scormtrac#:#exportselectedobjectives#:#Jelentés a célokról
 scormtrac#:#scope#:#hatókör
 scormtrac#:#counter#:#számláló
 scormtrac#:#student_response#:#student_response: válasz
-scormtrac#:#ostatus#:#Célkitűzés állapota
+scormtrac#:#ostatus#:#Cél állapota
 prtf#:#prtf_blog_page_created#:#Blog létrejött.
 wiki#:#wiki_adv_md_hidden#:#Ez a blokk jelenleg el van rejtve.
 wiki#:#wiki_page_list_form_info#:#Az alábbi kiválasztott metaadathoz rendelt wikioldalakat sorolja fel.
@@ -15385,7 +15391,7 @@ scormtrac#:#lvalue#:#Kulcs
 scormtrac#:#rvalue#:#Érték
 scormtrac#:#identifierref#:#SCO-Azonosító
 dcl#:#dcl_online_info#:#Az adatgyűjtést csak online állapotában használhatják a felhasználók.
-dcl#:#dcl_notification_info#:#Az egyedi értesítési funkció engedélyezése a felhasználók számára.
+dcl#:#dcl_notification_info#:#Egyéni értesítési funkció engedélyezése a felhasználók számára.
 administration#:#adm_missing_entries#:#Hiányzó bejegyzések
 administration#:#adm_missing_entry_add_action#:#Hozzáadás
 administration#:#adm_missing_entry_add#:#Új bejegyzés hozzáadása
@@ -15560,9 +15566,9 @@ forum#:#frm_noti_subject_cens_post#:#'%1$s' fórumban '%2$s' témában hozzász�
 forum#:#frm_noti_subject_uncens_post#:#'%1$s' fórumban '%2$s' témában hozzászólás cenzúrázását visszavonták 
 forum#:#frm_noti_subject_del_post#:#'%1$s' fórumban '%2$s' témában hozzászólást töröltek
 search#:#search_show_inactive_user#:#Inaktív felhasználók megjelenítése
-search#:#search_show_inactive_user_info#:#Ha be van kapcsolva, a felhasználói keresés visszaadja az inaktív felhasználókat.
+search#:#search_show_inactive_user_info#:#Ha be van kapcsolva, a felhasználói keresés visszaadja az inaktív felhasználókat is.
 search#:#search_show_limited_user#:#Korlátozott hozzáférésű felhasználók megjelenítése
-search#:#search_show_limited_user_info#:#Ha be van kapcsolva, a felhasználói keresés visszaadja a korlátozott hozzáférésű és a megengedett időszakon kívül eső felhasználókat.
+search#:#search_show_limited_user_info#:#Ha be van kapcsolva, a felhasználói keresés visszaadja a korlátozott hozzáférésű és a még nem engedélyezett időszakában lévő felhasználókat is.
 trac#:#trac_mode_visited_pages#:#Látogatott oldalak
 trac#:#trac_mode_visited_pages_info#:#Az összes oldalt megtekintett felhasználók kapják meg a 'Befejezett' állapotot.
 exc#:#exc_peer_review_given#:#Adott visszajelzések megjelenítése
@@ -15763,31 +15769,31 @@ rbac#:#wiki_edit_wiki_navigation#:#Wiki navigáció szerkesztése
 rbac#:#wiki_delete_wiki_pages#:#Wiki oldalak törlése
 rbac#:#wiki_activate_wiki_protection#:#Wiki oldalak írásvédetté tétele
 rbac#:#wiki_wiki_html_export#:#Wiki exportálás HTML-ként
-crs#:#crs_loc_settings_it_type#:#Bemeneti tesz
-crs#:#crs_loc_settings_type_it_placement_all#:#Felmérő bemeneti teszt az összes tanulási célkitűzéshez
-crs#:#crs_loc_settings_it_start_object#:#Bemeneti tesz legyen kezdőobjektum
-crs#:#crs_loc_settings_type_it_placement_sel#:#Felmérő bemeneti teszt tanulási célkitűzésenként
-crs#:#crs_loc_settings_type_it_qualifying_all#:#Szintmérő bemeneti teszt az összes tanulási célkitűzéshez
-crs#:#crs_loc_settings_type_it_qualifying_sel#:#Szintmérő bemeneti teszt tanulási célkitűzésenként
-crs#:#crs_loc_settings_type_it_none#:#Ne legyen bemeneti tesz
-crs#:#crs_loc_settings_qt_all#:#Befejező teszt
-crs#:#crs_loc_settings_type_q_all#:#Befejező teszt az összes tanulási célkitűzéshez
-crs#:#crs_loc_settings_qt_start_object#:#Befejező teszt legyen kezdőobjektum
-crs#:#crs_loc_settings_type_q_selected#:#Befejező teszt a tanulási célkitűzéshez
-crs#:#crs_loc_settings_err_qstart#:#A 'Befejező teszt legyen kezdőobjektum' beállítása nem lehetséges, mert azt csak bemeneti teszt nélküli kurzusnál lehet bekapcsolni.
-crs#:#crs_loc_tab_qtests#:#Befejező tesztek
-crs#:#crs_loc_tab_itests#:#Bemeneti tesztek
+crs#:#crs_loc_settings_it_type#:#Belépő tesz
+crs#:#crs_loc_settings_type_it_placement_all#:#Ugyanaz a szintfelmérő belépő teszt az összes tanulási célhoz
+crs#:#crs_loc_settings_it_start_object#:#Belépő teszt legyen kezdőobjektum
+crs#:#crs_loc_settings_type_it_placement_sel#:#Szintfelmérő belépő teszt a tanulási célhoz
+crs#:#crs_loc_settings_type_it_qualifying_all#:#Ugyanaz az elővizsga belépő teszt az összes tanulási célhoz
+crs#:#crs_loc_settings_type_it_qualifying_sel#:#Elővizsga belépő teszt a tanulási célhoz
+crs#:#crs_loc_settings_type_it_none#:#Ne legyen belépő tesz
+crs#:#crs_loc_settings_qt_all#:#Záró teszt
+crs#:#crs_loc_settings_type_q_all#:#Ugyanaz a záró teszt az összes tanulási célhoz
+crs#:#crs_loc_settings_qt_start_object#:#Záró teszt legyen kezdőobjektum
+crs#:#crs_loc_settings_type_q_selected#:#Záró teszt a tanulási célhoz
+crs#:#crs_loc_settings_err_qstart#:#A 'Záró teszt legyen kezdőobjektum' beállítása nem lehetséges, mert azt csak belépő teszt nélküli kurzusnál lehet bekapcsolni.
+crs#:#crs_loc_tab_qtests#:#Záró tesztek
+crs#:#crs_loc_tab_itests#:#Belépő tesztek
 crs#:#crs_loc_btn_new_assignment#:#Új teszthozzárendelés
-crs#:#crs_objective_tbl_col_final_tsts#:#Befejező tesztek
-crs#:#crs_objective_action_qtest_sep#:#Befejező teszt hozzárendelése
-crs#:#crs_loc_settings_tbl_its_q_all#:#Szintmérő bemeneti teszt az összes tanulási célkitűzéshez
-crs#:#crs_loc_settings_tbl_its_nq_all#:#Felmérő bemeneti teszt az összes tanulási célkitűzéshez
-crs#:#crs_loc_settings_tbl_it_q#:#Szintmérő bemeneti teszt a tanulási célkitűzéshez
-crs#:#crs_loc_settings_tbl_it_nq#:#Felmérő bemeneti teszt a tanulási célkitűzéshez
-crs#:#crs_loc_settings_tbl_qts_all#:#Befejező teszt az összes tanulási célkitűzéshez
-crs#:#crs_loc_settings_tbl_qt#:#Befejező tesztek a tanulási célkitűzéshez
-crs#:#crs_loc_objective_passed_confirmation#:#Ön már teljesítette a tanulási célkitűzést. A teszt egy újabb indítása visszaállítja annak értékét. Biztos, hogy elindítja a tesztet?
-crs#:#crs_loc_objectives_passed_confirmation#:#Ön már teljesítette az összes tanulási célkitűzést. A teszt egy újabb indítása visszaállítja annak értékét. Biztos, hogy elindítja a tesztet?
+crs#:#crs_objective_tbl_col_final_tsts#:#Záró tesztek
+crs#:#crs_objective_action_qtest_sep#:#Záró teszt hozzárendelése
+crs#:#crs_loc_settings_tbl_its_q_all#:#Ugyanaz az elővizsga belépő teszt az összes tanulási célhoz
+crs#:#crs_loc_settings_tbl_its_nq_all#:#Ugyanaz a szintfelmérő belépő teszt az összes tanulási célhoz
+crs#:#crs_loc_settings_tbl_it_q#:#Elővizsga belépő teszt a tanulási célhoz
+crs#:#crs_loc_settings_tbl_it_nq#:#Szintfelmérő belépő teszt a tanulási célhoz
+crs#:#crs_loc_settings_tbl_qts_all#:#Ugyanaz a záró teszt az összes tanulási célhoz
+crs#:#crs_loc_settings_tbl_qt#:#Záró tesztek a tanulási célhoz
+crs#:#crs_loc_objective_passed_confirmation#:#Ön már teljesítette a tanulási célt. A teszt egy újabb indítása visszaállítja annak értékét. Biztos, hogy elindítja a tesztet?
+crs#:#crs_loc_objectives_passed_confirmation#:#Ön már teljesítette az összes tanulási célt. A teszt egy újabb indítása visszaállítja annak értékét. Biztos, hogy elindítja a tesztet?
 crs#:#crs_loc_tst_start#:#Teszt indítása
 crs#:#crs_loc_mem_show_res#:#Teszteredmények megjelenítése
 crs#:#crs_loc_test_results_of#:#Teszteredmények:
@@ -15795,8 +15801,8 @@ buddysystem#:#buddy_bs_btn_txt_unlinked_a#:#Ismerősnek jelölés
 buddysystem#:#buddy_bs_btn_txt_unlinked_p#:#Ismerősnek jelölés
 buddysystem#:#buddy_bs_btn_txt_linked_a#:#Visszaigazolt
 buddysystem#:#buddy_bs_btn_txt_linked_p#:#Visszaigazolt
-buddysystem#:#buddy_bs_btn_txt_requested_a#:#Jelölés
-buddysystem#:#buddy_bs_btn_txt_requested_p#:#Jelölés
+buddysystem#:#buddy_bs_btn_txt_requested_a#:#Jelölés kezelése
+buddysystem#:#buddy_bs_btn_txt_requested_p#:#Jelölés kezelése
 buddysystem#:#buddy_bs_btn_txt_ignored_request_a#:#Elutasított
 buddysystem#:#buddy_bs_btn_txt_ignored_request_p#:#Elutasított
 buddysystem#:#buddy_bs_act_btn_txt_linked_to_unlinked#:#Jelölés visszavonása
@@ -15805,7 +15811,7 @@ buddysystem#:#buddy_bs_act_btn_txt_requested_to_unlinked#:#Jelölés visszavoná
 buddysystem#:#buddy_bs_act_btn_txt_requested_to_linked#:#Jelölés elfogadása
 buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_unlinked#:#Jelölés visszavonása
 buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_linked#:#Jelölés elfogadása
-buddysystem#:#buddy_bs_action_not_possible#:#Művelet nem lehetséges
+buddysystem#:#buddy_bs_action_not_possible#:#Ezt a műveletet nem lehet végrehajtani
 buddysystem#:#buddy_bs_state_linked#:#Ismerős
 buddysystem#:#buddy_bs_state_linked_a#:#Ismerős
 buddysystem#:#buddy_bs_state_linked_p#:#Ismerős
@@ -15821,8 +15827,8 @@ buddysystem#:#buddy_bs_state_ignored_request_p#:#Ismerősnek jelölés elutasít
 buddysystem#:#buddy_bs_no_new_requests#:#Nincs új kérés
 contact#:#contact_awrn_ap_contacts#:#Elfogadott jelölések
 contact#:#contact_awrn_ap_contacts_info#:#A felhasználó összes elfogadott jelölését felsoroljuk.
-contact#:#contact_awrn_req_contacts#:#Kérések
-contact#:#contact_awrn_req_contacts_info#:#Az összes kért jelölését felsoroljuk.
+contact#:#contact_awrn_req_contacts#:#'Ismerősnek jelölés' kérések
+contact#:#contact_awrn_req_contacts_info#:#Az összes felhasználót felsoroljuk, aki 'Ismerősnek jelölés' kérést küldött.
 common#:#my_contacts#:#Ismerőseim
 buddysystem#:#buddy_view_gallery#:#Képtár
 buddysystem#:#buddy_view_table#:#Felsorolás
@@ -15882,7 +15888,7 @@ search#:#search_newer_than#:#Újabb, mint
 search#:#search_cdate_filter#:#Szűrés létrehozás dátum alapján 
 search#:#search_cdate_filter_info#:#Ha be van kapcsolva, az objektumok keresése szűrhető létrehozásuk dátuma alapján.
 content#:#cont_mastery_score_2004#:#scaled_passing_score felülírása
-content#:#cont_mastery_score_2004_info#:#Ennek a tananyagnak a központi tanulási célkitűzései teljesítettként kerül figyelembe vételre, ha a pontszám egy bizonyos szintet elér - ez a scaled_passing_score. Ezt az értéket - ami százalékérték - lehet itt felülírni, például csökkenteni így az elvárt szintet. Amennyiben ez a mező üres, a SCORM manifest-ben lévő információ a valid. Az alábbi következő értékek szerepelnek a manifest-fájlban:
+content#:#cont_mastery_score_2004_info#:#Ennek a tananyagnak a központi tanulási céljai teljesítettként kerül figyelembe vételre, ha a pontszám egy bizonyos szintet elér - ez a scaled_passing_score. Ezt az értéket - ami százalékérték - lehet itt felülírni, például csökkenteni így az elvárt szintet. Amennyiben ez a mező üres, a SCORM manifest-ben lévő információ a valid. Az alábbi következő értékek szerepelnek a manifest-fájlban:
 content#:#cont_mastery_score_12#:#mastery_score felülírása
 content#:#cont_mastery_score_12_info#:#Ha egy SCO nem automatikusan határoz meg egy állapotot, egy SCO teljesítettként kerül figyelembe vételre, ha a pontszám egy bizonyos szintet elér - ez a mastery_score. Ezt az értéket lehet itt felülírni, például csökkenteni így az elvárt szintet. Amennyiben ez a mező üres, a SCORM manifest-ben lévő információ a valid. Az alábbi következő értékek szerepelnek a manifest-fájlban:
 prtf#:#prtf_manage_portfolios#:#Portfóliók kezelése
@@ -16002,4 +16008,21 @@ prg#:#prg_delete#:#A felhasználó áthelyezhet vagy törölhet Tanulmányi prog
 prg#:#prg_edit_permission#:#A felhasználó módosíthatja a Rendszerbeállítások » Tanulmányi programok beállításait
 forum#:#forums_thread_deleted#:#A kiválasztott témát annak összes hozzászólásával sikeren törölte.
 forum#:#forums_threads_deleted#:#A kiválasztott témákat azok összes hozzászólásával sikeren törölte.
-meta#:#meta_advmd_select_options#:#Lehetőségek
+meta#:#meta_advmd_select_options#:#Bejegyzések
+trac#:#trac_lp_settings_info_parent_legend#:#Ezen objektum tanulási haladási állapotát '%s' befolyásolja.
+search#:#btn_search#:#Keresés
+exc#:#exc_members_already_assigned_tean#:#Ezek a felhasználók már hozzá vannak rendelve ezen beadandó feladat másik csoportjához.
+prg#:#prg_prg_type#:#Tanulmányi programtípus
+rbac#:#prg_visible#:#A Tanulmányi program látható
+rbac#:#prg_copy#:#A felhasználó másolhat Tanulmányi programot
+rbac#:#prg_write#:#A felhasználó módosíthatja Tanulmányi programok beállításait
+rbac#:#prg_delete#:#A felhasználó törölhet Tanulmányi programot
+rbac#:#prg_edit_permission#:#A felhasználó megváltoztathatja a jogosultsági beállításokat
+rbac#:#rbac_create_prg#:#Tanulmányi program létrehozása
+rbac#:#prgs_visible#:#A felhasználó láthatja a Rendszerbeállítások » Tanulmányi programok menüpontot
+rbac#:#prgs_read#:#A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Tanulmányi programok beállításaihoz
+rbac#:#prgs_write#:#A felhasználó módosíthatja a Rendszerbeállítások » Tanulmányi programok beállításait
+rbac#:#prgs_edit_permission#:#A felhasználó módosíthatja a Rendszerbeállítások » Tanulmányi programok jogosultsági beállításait
+user#:#feedhash#:#Hírcsatorna-hash
+wsp#:#wsp_shared_filter_reset_button#:#Keresés feltételek törlése
+wsp#:#wsp_shared_filter_button#:#Keresés

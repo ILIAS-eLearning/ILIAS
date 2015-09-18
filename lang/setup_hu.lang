@@ -1,7 +1,7 @@
 ﻿/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
-* @translator 5.1.x 2015-07-06 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
+* @translator 5.1.x 2015-09-17 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
 * @translator 31603 Antónia Berecz <berecz@gdf.hu>
 * @module       setup language file hungarian
 * @modulegroup  language
@@ -99,7 +99,7 @@ database_create#:#Adatbázis létrehozása
 database_exists#:#az adatbázis létezik
 database_install#:#Adatbázis telepítése
 database_installed#:#Adatbázis telepítve.
-database_is_uptodate#:#Adatbázisa frissítve.
+database_is_uptodate#:#Adatbázisa naprakész.
 database_needs_update#:#Adatbázisa frissítésre szorul.
 database_not_exists_create_first#:#Az adatbázis nem létezik. Először az adatbázist hozza létre.
 database_ready#:#Az adatbázis elkészült.
@@ -117,7 +117,7 @@ db_error_please_check#:#Ellenőrizze az adatbázis-kiszolgáló nevét, a felhas
 db_host#:#Adatbázis-kiszolgáló
 db_mysql#:#MySQL (MyISAM)
 db_name#:#Adatbázisnév
-db_needs_update#:#Frissíteni kell az adatbázist.
+db_needs_update#:#Az adatbázist frissíteni szükséges.
 db_not_installed#:#Nincs telepítve az adatbázis.
 db_oracle#:#Oracle
 db_pass#:#Adatbázisjelszó
@@ -347,7 +347,7 @@ no_path_zip#:#Nincs megadva Zip elérési útvonal.
 no_setup_pass_given#:#Nincs megadva setup-jelszó.
 no_username#:#Nincs megadva felhasználónév.
 no_valid_client_id#:#Nincs érvényes kliens-azonosító (ID).
-none#:#Semmi
+none#:#Nincs
 not_configured#:#Nincs konfigurálva
 not_connected_to_db#:#Nem kapcsolódott az adatbázishoz
 online#:#on-line
@@ -520,7 +520,7 @@ unzip_path_comment_win#:#Importfájlok kicsomagolásához szükséges, pl. 'C:/t
 unzip_path_comment#:#Importfájlok kicsomagolásához szükséges, pl. 'C:/tools/unzip/unzip.exe'.
 unzip_path#:#Unzip elérési útvonal
 unzip#:#Kicsomagolás
-update_applied#:#A frissítés alkalmazva van
+update_applied#:#Frissítés(ek) sikeren telepítve
 update_error#:#Hiba frissítés közben
 update_not_found#:#A frissítés nem található
 url_to_latex#:#LaTeX CGI script URL-je
@@ -592,8 +592,8 @@ passwd_encoder_client_bcrypt_salt_info_php537#:#<span style="color:red;font-weig
 passwd_encoder_bcrypt_client_salt_invalid#:#Az ILIAS nem tudja meghatározni a kliens salt-ját vagy a salt nem megfelelő. Ellenőrizze a fájl hozzáférési jogosultságait és a fájl tartalmát.
 passwd_encoding_configured#:#konfigurált
 passwd_encoding_not_configured#:#nincs konfigurálva
-global_cache#:#Globális cache
-global_cache_configuration#:#Globális cache konfiguráció
+global_cache#:#Globális gyorsítótár
+global_cache_configuration#:#Globális gyorsítótár konfiguráció
 activate_global_cache#:#Aktivál
 global_cache_service_type#:#Cache szolgáltatások
 global_cache_service_type_0#:#PHP-Statikus-Cache
@@ -612,25 +612,26 @@ ps_auto_https#:#Automatikus HTTPS felismerés
 https_settings#:#HTTPS beállítások
 alert#:#Figyelmeztetés
 pre_opcache_comments#:#opcache.load_comments értéke legyen 1
-pre_load_comments#:#PHP-OPCache load_commentsmemcache_servers#:#Memcached-Nodes###30 08 2015 new variable
-memcache_status#:#Active###30 08 2015 new variable
-memcache_host#:#Host###30 08 2015 new variable
-memcache_port#:#Port###30 08 2015 new variable
-memcache_weight#:#Weight###30 08 2015 new variable
-memcache_actions#:#Actions###30 08 2015 new variable
-memcache_edit#:#Edit node###30 08 2015 new variable
-memcache_add#:#Add Memcached node###30 08 2015 new variable
-memcache_delete#:#Delete node###30 08 2015 new variable
-memcache_cancel#:#Cancel###30 08 2015 new variable
-memcache_update#:#Save node###30 08 2015 new variable
-memcache_status_server#:#Reachable###30 08 2015 new variable
-cache_activate_clng#:#Language###30 08 2015 new variable
-cache_activate_obj_def#:#Object Definition###30 08 2015 new variable
-cache_activate_ilctrl#:#Control Flow###30 08 2015 new variable
-cache_activate_comp#:#Components###30 08 2015 new variable
-cache_activate_tpl#:#Template (HTML)###30 08 2015 new variable
-cache_activate_events#:#Events###30 08 2015 new variable
-cache_activated_components#:#Activated Components###30 08 2015 new variable
-cache_flush#:#Flush all caches###30 08 2015 new variable
-cache_activate_tpl_blocks#:#Template (Blocks)###30 08 2015 new variable
-cache_activate_tpl_variables#:#Template (Variablen###30 08 2015 new variable
+pre_load_comments#:#PHP-OPCache load_comments
+memcache_servers#:#Memcached-csomópontok
+memcache_status#:#Aktív
+memcache_host#:#Kiszolgáló
+memcache_port#:#Port
+memcache_weight#:#Súly
+memcache_actions#:#Műveletek
+memcache_edit#:#Csomópont módosítása 
+memcache_add#:#Memcached-csomópont hozzáadása
+memcache_delete#:#Csomópont törlése
+memcache_cancel#:#Mégsem
+memcache_update#:#Csomópont mentése
+memcache_status_server#:#Elérhető
+cache_activate_clng#:#Nyelv
+cache_activate_obj_def#:#Objektum definiálása
+cache_activate_ilctrl#:#Folyamatirányítás
+cache_activate_comp#:#Komponensek
+cache_activate_tpl#:#Minta (HTML)
+cache_activate_events#:#Események
+cache_activated_components#:#Aktivált komponensek
+cache_flush#:#Összes gyorsítótár ürítése
+cache_activate_tpl_blocks#:#Minta (Blokkok)
+cache_activate_tpl_variables#:#Minta (Változók)
