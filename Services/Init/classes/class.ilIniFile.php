@@ -4,6 +4,9 @@
 
 /**
 * INIFile Parser
+* 
+* Early access in init proceess!
+* Avoid further dependencies like logging or other services
 *
 * Description:
 *

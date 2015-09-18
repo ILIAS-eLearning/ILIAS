@@ -156,15 +156,9 @@ class ilInitialisation
 				break;
 		}
 		
-		$tz = $ilIliasIniFile->readVariable("server","timezone");
-		if ($tz != "")
-		{
-			if (function_exists('date_default_timezone_set'))
-			{
-				date_default_timezone_set($tz);
-			}
-		}
-		define ("IL_TIMEZONE", $ilIliasIniFile->readVariable("server","timezone"));
+		include_once './Services/Calendar/classes/class.ilTimeZone.php';
+		$tz = ilTimeZone::initDefaultTimeZone($ilIliasIniFile);
+		define ("IL_TIMEZONE", $tz);
 	}
 
 	/**
@@ -573,6 +567,7 @@ class ilInitialisation
 			// init console log handler
 			include_once './Services/Logging/classes/public/class.ilLoggerFactory.php';
 			ilLoggerFactory::getInstance()->initUser($ilUser->getLogin());
+			ilLoggerFactory::getRootLogger()->debug('Using default timezone: '. IL_TIMEZONE);
 		}
 		else
 		{

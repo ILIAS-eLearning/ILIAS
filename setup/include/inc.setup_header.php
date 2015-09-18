@@ -100,6 +100,13 @@ else
 	define ('ILIAS_ABSOLUTE_PATH',str_replace("/setup/include", "", dirname(__FILE__)));
 }
 
+// set default timezone 
+include_once './Services/Calendar/classes/class.ilTimeZone.php';
+include_once './Services/Init/classes/class.ilIniFile.php';
+$ini = new ilIniFile(ILIAS_ABSOLUTE_PATH.'/ilias.ini.php');
+$ini->read();
+$tz = ilTimeZone::initDefaultTimeZone($ini);
+define('IL_TIMEZONE',$tz);
 
 define ("TPLPATH","./templates/blueshadow");
 
@@ -129,7 +136,6 @@ include_once './Services/Logging/classes/public/class.ilLoggerFactory.php';
 
 $log = ilLoggerFactory::newInstance($logging_settings)->getComponentLogger('setup');
 $ilLog = $log;
-
 
 // init template - in the main program please use ILIAS Template class
 // instantiate main template
