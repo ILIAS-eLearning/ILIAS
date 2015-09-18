@@ -4947,6 +4947,7 @@ class ilUtil
 		if (!$tpl) {
 			global $ilLog;
 			$ilLog->write("Info: $a_info");
+			return;
 		}
 		// gev-patch end
 		
@@ -4969,6 +4970,7 @@ class ilUtil
 		if (!$tpl) {
 			global $ilLog;
 			$ilLog->write("Failure: $a_info");
+			return;
 		}
 		$tpl->setMessage("failure", $a_info, $a_keep);
 	}
@@ -5001,6 +5003,7 @@ class ilUtil
 		if (!$tpl) {
 			global $ilLog;
 			$ilLog->write("Success: $a_info");
+			return;
 		}
 		$tpl->setMessage("success", $a_info, $a_keep);
 	}
