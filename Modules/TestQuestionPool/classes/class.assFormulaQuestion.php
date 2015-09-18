@@ -960,11 +960,14 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 		$points = 0;
 		foreach($this->getResults() as $result)
 		{
+			$v = isset($user_solution[$result->getResult()]) ? $user_solution[$result->getResult()] : null;
+			$u = isset($user_solution[$result->getResult().'_unit']) ? $user_solution[$result->getResult().'_unit'] : null;
+			
 			$points += $result->getReachedPoints(
 				$this->getVariables(),
 				$this->getResults(),
-				$user_solution[$result->getResult()],
-				$user_solution[$result->getResult().'_unit'],
+				$v,
+				$u,
 				$this->unitrepository->getUnits());
 		}
 
