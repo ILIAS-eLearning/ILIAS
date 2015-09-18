@@ -145,7 +145,7 @@ class ilDataCollectionRecordEditGUI {
 	 * @param string $a_mode values: create | edit
 	 */
 	public function initForm() {
-		global $lng, $ilCtrl;
+		global $lng, $ilCtrl, $tpl;
 
 		//table_id
 		$hidden_prop = new ilHiddenInputGUI("table_id");
@@ -156,6 +156,7 @@ class ilDataCollectionRecordEditGUI {
 		$this->form->setFormAction($ilCtrl->getFormAction($this));
 		$allFields = $this->table->getRecordFields();
 
+		$inline_css = '';
 		foreach ($allFields as $field) {
 			$item = ilDataCollectionDatatype::getInputField($field);
 
@@ -188,7 +189,15 @@ class ilDataCollectionRecordEditGUI {
 				}
 				asort($options);
 				$item->setOptions($options);
+				if($item instanceof ilMultiSelectInputGUI)
+				{
+					$item->setWidth(400);
+					$item->setHeight(100);
+					$inline_css .= 'div#'.$item->getFieldId().'{resize:both;} ';
+				}
 			}
+			$tpl->addInlineCss($inline_css);
+
 			if ($this->record_id) {
 				$record = ilDataCollectionCache::getRecordCache($this->record_id);
 			}

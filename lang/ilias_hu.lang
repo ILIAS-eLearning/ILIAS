@@ -13662,6 +13662,10 @@ cld#:#cld_auth_failed_no_object_created#:#Hitelesítés sikertelen, Felhőobjekt
 dcl#:#fieldtitle_allow_chars#:#Megengedett karakterek: %s
 common#:#objs_orgu#:#Szervezeti egységek
 common#:#obj_orgu#:#Szervezeti egység
++common#:#il_orgu_superior#:#Felettes
++common#:#il_orgu_employee#:#Alkalmazott
++common#:#view_learning_progress#:#Tanulási haladás megjelenítése
++common#:#view_learning_progress_rec#:#Egység és alegységei Tanulási haladásának megjelenítése
 orgu#:#view_learning_progress#:#Tanulási haladás megjelenítése
 orgu#:#il_orgu_employee#:#Alkalmazott
 orgu#:#orgu_staff_deassign#:#Biztos, hogy eltávolítja a felhasználókat a mintából?
@@ -14288,6 +14292,8 @@ rbac#:#orgu_cat_administrate_users#:#A felhasználó létrehozhat és helyi ILIA
 rbac#:#orgu_delete#:#A felhasználó mozgathatja és törölheti a Szervezeti egységet
 rbac#:#orgu_edit_permission#:#A felhasználó megváltoztathatja a jogosultsági beállításokat
 rbac#:#rbac_create_orgu#:#Szervezeti egységek létrehozása
+rbac#:#orgu_copy#:#Szervezeti egység másolása
+rbac#:#orgu_view_learning_progress_rec#:#Egység és alegységei Tanulási haladásának megjelenítése
 prtf#:#prtf_page_element_teaser_skills#:#A portfólió a kompetenciaszintedet itt fogja megjeleníteni.
 prtf#:#prtf_page_element_teaser_blog_template#:#A portfólió a magánterülete blogját itt fogja megjeleníteni.
 prtf#:#prtf_page_element_teaser_consultation_hours#:#A portfólió a konzultációs időpontok naptárát itt fogja megjeleníteni.
@@ -14396,3 +14402,9 @@ sysc#:#sysc_task_tree_missing_reference#:#Hiányzó objektumhivatkozások
 sysc#:#sysc_task_tree_missing_reference_desc#:#Hiányzó objektumhivatkozások keresése és javítása a Taneszköztároló-fában.
 sysc#:#sysc_task_structure#:#Fastruktúra
 sysc#:#sysc_task_structure_desc#:#Taneszköztároló-fa szerkezetének elemzése és javítása.
+common#:#il_orgu_superior#:#Superior###12 09 2015 new variable
+common#:#il_orgu_employee#:#Employee###12 09 2015 new variable
+common#:#view_learning_progress#:#View Learning Progress###12 09 2015 new variable
+common#:#view_learning_progress_rec#:#View Learning Progress of Unit incl. Subunits###12 09 2015 new variable
+rbac#:#orgu_copy#:#Copy Organisational Unit###12 09 2015 new variable
+rbac#:#orgu_view_learning_progress_rec#:#View Learning Progress of Unit incl. Subunits###12 09 2015 new variable

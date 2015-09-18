@@ -18,7 +18,12 @@ include_once 'Services/Tracking/classes/class.ilLPStatusFactory.php';
 class ilLPStatusWrapper
 {
 	static private $status_cache = array();
-		
+	static private $info_cache = array();
+	static private $failed_cache = array();
+	static private $completed_cache = array();
+	static private $in_progress_cache = array();
+	static private $not_attempted_cache = array();
+	
 	/**
 	* Static function to read the number of user who have the status 'not_attempted'
 	*/
@@ -32,17 +37,15 @@ class ilLPStatusWrapper
 	*/
 	function _getNotAttempted($a_obj_id)
 	{
-		static $cache = array();
-
-		if(isset($cache[$a_obj_id]))
+		if(isset(self::$not_attempted_cache[$a_obj_id]))
 		{
-			return $cache[$a_obj_id];
+			return self::$not_attempted_cache[$a_obj_id];
 		}
 
 		$class = ilLPStatusFactory::_getClassById($a_obj_id);
-		$cache[$a_obj_id] = $class::_getNotAttempted($a_obj_id);
+		self::$not_attempted_cache[$a_obj_id] = $class::_getNotAttempted($a_obj_id);
 		
-		return $cache[$a_obj_id];
+		return self::$not_attempted_cache[$a_obj_id];
 	}
 
 	/**
@@ -58,19 +61,17 @@ class ilLPStatusWrapper
 	*/
 	function _getInProgress($a_obj_id)
 	{
-		static $cache = array();
-
-		if(isset($cache[$a_obj_id]))
+		if(isset(self::$in_progress_cache[$a_obj_id]))
 		{
-			return $cache[$a_obj_id];
+			return self::$in_progress_cache[$a_obj_id];
 		}
 
 		global $ilBench;
 
 		$class = ilLPStatusFactory::_getClassById($a_obj_id);
-		$cache[$a_obj_id] = $class::_getInProgress($a_obj_id);
+		self::$in_progress_cache[$a_obj_id] = $class::_getInProgress($a_obj_id);
 
-		return $cache[$a_obj_id];
+		return self::$in_progress_cache[$a_obj_id];
 	}
 	
 	/**
@@ -86,16 +87,14 @@ class ilLPStatusWrapper
 	*/
 	function _getCompleted($a_obj_id)
 	{
-		static $cache = array();
-
-		if(isset($cache[$a_obj_id]))
+		if(isset(self::$completed_cache[$a_obj_id]))
 		{
-			return $cache[$a_obj_id];
+			return self::$completed_cache[$a_obj_id];
 		}
 		$class = ilLPStatusFactory::_getClassById($a_obj_id);
-		$cache[$a_obj_id] = $class::_getCompleted($a_obj_id);
+		self::$completed_cache[$a_obj_id] = $class::_getCompleted($a_obj_id);
 
-		return $cache[$a_obj_id];
+		return self::$completed_cache[$a_obj_id];
 	}
 
 	/**
@@ -111,17 +110,16 @@ class ilLPStatusWrapper
 	*/
 	function _getFailed($a_obj_id)
 	{
-		static $cache = array();
-
-		if(isset($cache[$a_obj_id]))
+		if(isset(self::$failed_cache[$a_obj_id]))
 		{
-			return $cache[$a_obj_id];
+			return self::$failed_cache[$a_obj_id];
 		}
 
 		$class = ilLPStatusFactory::_getClassById($a_obj_id);
-		$cache[$a_obj_id] = $class::_getFailed($a_obj_id);
 
-		return $cache[$a_obj_id];
+		self::$failed_cache[$a_obj_id] = $class::_getFailed($a_obj_id);
+
+		return self::$failed_cache[$a_obj_id];
 	}
 
 	/**
@@ -129,16 +127,23 @@ class ilLPStatusWrapper
 	*/
 	function _getStatusInfo($a_obj_id)
 	{
-		static $cache = array();
-
-		if(isset($cache[$a_obj_id]))
+		if(isset(self::$info_cache[$a_obj_id]))
 		{
-			return $cache[$a_obj_id];
+			return self::$info_cache[$a_obj_id];
 		}
 
 		$class = ilLPStatusFactory::_getClassById($a_obj_id);
-		$cache[$a_obj_id] = $class::_getStatusInfo($a_obj_id);
-		return $cache[$a_obj_id];
+		self::$info_cache[$a_obj_id] = $class::_getStatusInfo($a_obj_id);
+		return self::$info_cache[$a_obj_id];
+	}
+
+	public static function _resetInfoCaches($a_obj_id)
+	{
+		unset(self::$info_cache[$a_obj_id]);
+		unset(self::$failed_cache[$a_obj_id]);
+		unset(self::$completed_cache[$a_obj_id]);
+		unset(self::$in_progress_cache[$a_obj_id]);
+		unset(self::$not_attempted_cache[$a_obj_id]);
 	}
 
 	/**

@@ -97,7 +97,7 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
 		// Delete tracking data
 		foreach($valid_refs as $ref_id)
 		{
-			include_once './classes/class.ilObjectFactory.php';
+			include_once './Services/Object/classes/class.ilObjectFactory.php';
 			$obj = ilObjectFactory::getInstanceByRefId($ref_id, false);
 			
 			if(!$obj instanceof ilObject)
@@ -136,7 +136,8 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
 			
 			// Refresh status
 			include_once './Services/Tracking/classes/class.ilLPStatusWrapper.php';
-			ilLPStatusWrapper::_refreshStatus($obj->getId());
+			ilLPStatusWrapper::_resetInfoCaches($obj->getId());
+			ilLPStatusWrapper::_refreshStatus($obj->getId(), $valid_users);
 			
 		}
 		return true;
