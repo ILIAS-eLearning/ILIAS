@@ -388,19 +388,18 @@ class ilMailFolderGUI
 
 	public function performDeleteSubFolder()
 	{
-		$new_parent = $this->mbox->getParentFolderId($_GET["mobj_id"]);
-
-		if ($this->mbox->deleteFolder($_GET["mobj_id"]))
-		{			
-			ilUtil::sendInfo($this->lng->txt("mail_folder_deleted"),true);
-			
-			$this->ctrl->setParameterByClass("ilMailGUI", "mobj_id", $new_parent);
-			$this->ctrl->redirectByClass("ilMailGUI");		
+		$new_parent = $this->mbox->getParentFolderId((int)$_GET['mobj_id']);
+		if($this->mbox->deleteFolder((int)$_GET['mobj_id']))
+		{
+			ilUtil::sendInfo($this->lng->txt('mail_folder_deleted'), true);
+			$this->ctrl->setParameterByClass('ilMailGUI', 'mobj_id', (int)$new_parent);
+			$this->ctrl->redirectByClass('ilMailGUI');
 		}
 		else
 		{
-			ilUtil::sendFailure($this->lng->txt("mail_error_delete"));
-			return $this->showFolder();
+			ilUtil::sendFailure($this->lng->txt('mail_error_delete'));
+			$this->showFolder();
+			return;
 		}
 	}
 	
@@ -424,8 +423,9 @@ class ilMailFolderGUI
 		else
 		{
 			ilUtil::sendFailure($this->lng->txt("mail_folder_exists"));
-			return $this->addSubFolder();
-		}		
+			$this->addSubFolder();
+			return;
+		}
 	}
 
 	public function addSubFolder()

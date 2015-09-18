@@ -844,24 +844,23 @@ class ilMail
 	}
 
 	/**
-	* delete mail
-	* @access	public
-	* @param	array mail ids
-	* @return	bool
-	*/
-	function deleteMails($a_mail_ids)
+	 * Delete mail
+	 * @param array mail ids
+	 * @return bool
+	 */
+	public function deleteMails(array $a_mail_ids)
 	{
 		global $ilDB;
 
-		foreach ($a_mail_ids as $id)
+		foreach($a_mail_ids as $id)
 		{
-			$statement = $ilDB->manipulateF("
+			$ilDB->manipulateF("
 				DELETE FROM ". $this->table_mail ."
 				WHERE user_id = %s
 				AND mail_id = %s ",
 				array('integer', 'integer'),
-				array($this->user_id, $id));
-
+				array($this->user_id, $id)
+			);
 			$this->mfile->deassignAttachmentFromDirectory($id);
 		}
 
