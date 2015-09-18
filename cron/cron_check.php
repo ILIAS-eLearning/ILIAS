@@ -163,7 +163,7 @@ foreach($watch_jobs as $job_id => $params) {
 if (count($not_ok_jobs) > 0) {
 	echo "ILIAS CRON NOT OK - Broken jobs: ".implode(", ", $not_ok_jobs)."\n\n";
 	echo $output;
-	exit(2);
+	exit(1);
 }
 else {
 	echo "ILIAS CRON OK - All cron jobs are fine.\n\n";
