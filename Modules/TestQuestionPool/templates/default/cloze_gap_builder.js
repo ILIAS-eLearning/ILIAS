@@ -1508,7 +1508,7 @@ $(document).ready(function ()
         if (typeof(tinymce) != 'undefined') {
             if (navigator.userAgent.indexOf('Firefox') !== -1)
             {
-              // text = text.replace(new RegExp('(<p>(&nbsp;)*<\/p>)' , 'g'), '')
+              text = text.replace(new RegExp('(<p>(&nbsp;)*<\/p>)' , 'g'), '')
             }
             //ToDo: Bug in tiny steals focus on setContent (tinymce Bug #6423)
             var inst = tinyMCE.activeEditor;
