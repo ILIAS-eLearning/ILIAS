@@ -4942,6 +4942,14 @@ class ilUtil
 	public static function sendInfo($a_info = "",$a_keep = false)
 	{
 		global $tpl;
+		// gev-patch start
+		// This might be executed in a context where there is no $tpl, like CRON.
+		if (!$tpl) {
+			global $ilLog;
+			$ilLog->write("Info: $a_info");
+		}
+		// gev-patch end
+		
 		$tpl->setMessage("info", $a_info, $a_keep);
 	}
 
@@ -4956,6 +4964,12 @@ class ilUtil
 	public static function sendFailure($a_info = "",$a_keep = false)
 	{
 		global $tpl;
+		// gev-patch start
+		// This might be executed in a context where there is no $tpl, like CRON.
+		if (!$tpl) {
+			global $ilLog;
+			$ilLog->write("Failure: $a_info");
+		}
 		$tpl->setMessage("failure", $a_info, $a_keep);
 	}
 
@@ -4982,6 +4996,12 @@ class ilUtil
 	public static function sendSuccess($a_info = "",$a_keep = false)
 	{
 		global $tpl;
+		// gev-patch start
+		// This might be executed in a context where there is no $tpl, like CRON.
+		if (!$tpl) {
+			global $ilLog;
+			$ilLog->write("Success: $a_info");
+		}
 		$tpl->setMessage("success", $a_info, $a_keep);
 	}
 
