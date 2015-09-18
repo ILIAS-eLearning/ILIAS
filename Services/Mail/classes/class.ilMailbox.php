@@ -497,7 +497,7 @@ class ilMailbox
 			WHERE ' . $this->table_mail_obj_data . '.obj_id = ' . $this->table_tree . '.child 
 			AND ' . $this->table_tree . '.depth  > %s
 			AND ' . $this->table_tree . '.tree  = %s
-			ORDER BY ' . $this->table_mail_obj_data . '.title  ',
+			ORDER BY ' . $this->table_tree . '.lft, ' . $this->table_mail_obj_data . '.title  ',
 			array('integer', 'integer'),
 			array(2, $this->user_id)
 		);
