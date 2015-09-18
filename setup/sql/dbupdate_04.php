@@ -8151,7 +8151,7 @@ if($ilDB->tableExists('mail_tree_migr'))
 			$ilDB->execute($ps_up_tree_entry, array($right, $right, $usr_id));
 			$ilDB->execute($ps_in_tree_entry, array($usr_id, $folder_id, $root_id, $lft, $rgt, 2));
 			$GLOBALS['ilLog']->write(sprintf(
-				"DB Step %s, iteration %s: Created node with id %s (lft: %s | rgt: %s) for user % in 'mail_tree'.",
+				"DB Step %s, iteration %s: Created node with id %s (lft: %s | rgt: %s) for user %s in 'mail_tree'.",
 				$db_step, $i, $folder_id, $lft, $rgt, $usr_id
 			));
 
