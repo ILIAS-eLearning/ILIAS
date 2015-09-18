@@ -1071,7 +1071,7 @@ class ilNewsItem extends ilNewsItemGen
 			
 			foreach ($path as $key => $row)
 			{
-				if (!in_array($row["type"], array("root", "cat","crs", "fold", "grp", "icrs")))
+				if (!in_array($row["type"], array("root", "cat","crs", "fold", "grp")))
 				{
 					continue;
 				}

@@ -1382,7 +1382,6 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 		foreach ((array) $this->column as $column)
 		{
 			$ccnt++;
-			
 			//tooltip
 			if ($column["tooltip"] != "")
 			{
@@ -1396,6 +1395,10 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 				{
 					$this->tpl->setVariable("TBL_COLUMN_WIDTH_NO_LINK"," width=\"".$column["width"]."\"");
 				}
+				if ($column["class"] != "")
+				{
+					$this->tpl->setVariable("TBL_COLUMN_CLASS_NO_LINK"," class=\"".$column["class"]."\"");
+				}
 				if (!$column["is_checkbox_action_column"])
 				{
 					$this->tpl->setVariable("TBL_HEADER_CELL_NO_LINK",
@@ -1407,7 +1410,6 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 						ilUtil::img(ilUtil::getImagePath("spacer.png"), $lng->txt("action")));
 				}
 				$this->tpl->setVariable("HEAD_CELL_NL_ID", "thc_".$this->getId()."_".$ccnt);
-				
 				if ($column["class"] != "")
 				{
 					$this->tpl->setVariable("TBL_HEADER_CLASS"," " . $column["class"]);
@@ -1439,6 +1441,10 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 			if ($column["width"] != "")
 			{
 				$this->tpl->setVariable("TBL_COLUMN_WIDTH"," width=\"".$column["width"]."\"");
+			}
+			if ($column["class"] != "")
+			{
+				$this->tpl->setVariable("TBL_COLUMN_CLASS"," class=\"".$column["class"]."\"");
 			}
 
 			$lng_sort_column = $this->lng->txt("sort_by_this_column");
@@ -1574,7 +1580,7 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 	/**
 	* Get HTML
 	*/
-	final public function getHTML()
+	public function getHTML()
 	{
 		global $lng, $ilCtrl, $ilUser;
 

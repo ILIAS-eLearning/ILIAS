@@ -486,15 +486,23 @@ span.result {
 	font-style: italic;
 }
 
+div.ilc_Page.readonly div.ilc_question_Standard
+{
+	background-color: #f3f3f3;
+	background-image: url(../../../../templates/default/images/qmark-ro.svg);
+}
+
 ul.ilAssQuestionRelatedNavigationContainer
 {
-	margin: 20px 0;
+	margin: 15px 0;
+	float: none;
 }
 
 ul.ilAssQuestionRelatedNavigationContainer div.navbar
 {
-	padding-left: 6px;
-	padding-right: 6px;
+	padding-right: 12px;
+	min-height: unset;
+	margin-bottom: 10px;
 }
 
 div.tstModalConfirmationText
@@ -540,13 +548,6 @@ td.ilAssQuestSkillAssignQuestTitle div
 {
 	padding-right: 10px;
 }
-
-div.tst_mark_output
-{
-}
-
-div.tst_mark_output.failed { color: red; }
-div.tst_mark_output.passed { color: green; }
 
 a.il_participant_block_back_anchor,
 a.il_question_answer_list_back_anchor

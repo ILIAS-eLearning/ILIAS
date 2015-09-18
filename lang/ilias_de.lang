@@ -792,8 +792,12 @@ assessment#:#grading_status_passed_msg#:#Herzlichen Glückwunsch! Sie haben den 
 assessment#:#grading_status_failed_msg#:#Schade, leider haben Sie den Test <b>nicht bestanden</b>.
 assessment#:#grading_obligations_answered_msg#:#Alle verpflichtenden Fragen wurden beantwortet.
 assessment#:#grading_obligations_missing_msg#:#Nicht alle verpflichtenden Fragen wurden beantwortet.
+assessment#:#grading_obligations_listlabel#:#Verpflichtende Fragen
+assessment#:#grading_obligations_answered_listentry#:#Beantwortet
+assessment#:#grading_obligations_missing_listentry#:#Offen
 assessment#:#grading_mark_msg#:#Sie haben die Note &quot;[mark]&quot; erzielt.
 assessment#:#mark_tst_ects#:#Ihre ECTS-Note lautet &quot;[markects]&quot;
+assessment#:#tst_pass_finished_on#:#Testdurchlauf beendet am
 assessment#:#match_terms_and_definitions#:#Zuordnung von Termen und Definitionen
 assessment#:#match_terms_and_pictures#:#Zuordnung von Termen und Bildern
 assessment#:#matches#:#passt zu
@@ -899,6 +903,7 @@ assessment#:#pass#:#Durchlauf
 assessment#:#tst_attempt#:#Versuch
 assessment#:#tst_back_to_virtual_pass#:#Zurück zur Fragenübersicht
 assessment#:#pass_finished#:#%s Durchlauf
+assessment#:#passed_status#:#Bestanden Status
 assessment#:#passed_official#:#bestanden
 assessment#:#passed_only#:#Nur bestandene Tests
 assessment#:#passed_short#:#bestanden

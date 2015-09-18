@@ -230,7 +230,9 @@ class ilTestResultHeaderLabelBuilder
 	{
 		if( !$this->getObjectiveOrientedContainerId() )
 		{
-			return $this->lng->txt('tst_results');
+			return sprintf(
+				$this->lng->txt('tst_pass_details_overview_table_title'), $attemptNumber
+			);
 		}
 		
 		if( $this->isInitialTest() )

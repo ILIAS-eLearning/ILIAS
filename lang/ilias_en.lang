@@ -680,8 +680,12 @@ assessment#:#grading_status_passed_msg#:#Congratulations, you <b>passed</b> the 
 assessment#:#grading_status_failed_msg#:#Sorry, you <b>failed</b> the test.
 assessment#:#grading_obligations_answered_msg#:#You filled out all compulsory questions.
 assessment#:#grading_obligations_missing_msg#:#You didn‘t filled out all compulsory questions.
+assessment#:#grading_obligations_listlabel#:#Compulsory Questions
+assessment#:#grading_obligations_answered_listentry#:#Answered
+assessment#:#grading_obligations_missing_listentry#:#Open
 assessment#:#grading_mark_msg#:#Your mark is: &quot;[mark]&quot;
 assessment#:#mark_tst_ects#:#Your ECTS grade is &quot;[markects]&quot;
+assessment#:#tst_pass_finished_on#:#Test pass finished on
 assessment#:#match_terms_and_definitions#:#Match Terms and Definitions
 assessment#:#match_terms_and_pictures#:#Match Terms and Pictures
 assessment#:#matches#:#matches
@@ -784,6 +788,7 @@ assessment#:#pass_finished#:#%s pass
 assessment#:#pass#:#Pass
 assessment#:#tst_attempt#:#Attempt
 assessment#:#tst_back_to_virtual_pass#:#Back to Questionoverview
+assessment#:#passed_status#:#Passed Status
 assessment#:#passed_official#:#passed
 assessment#:#passed_only#:#Passed Tests Only
 assessment#:#passed_short#:#passed

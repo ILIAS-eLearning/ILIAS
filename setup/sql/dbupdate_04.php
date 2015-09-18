@@ -6411,7 +6411,7 @@ $res  = $ilDB->query($crpra_dup_query_num);
 $data = $ilDB->fetchAssoc($res);
 if($data['cnt'] > 0)
 {
-	throw new Exception("There are still duplicate entries in table 'chatroom_proomaccess'. Please execute this database update step again.");
+	die("There are still duplicate entries in table 'chatroom_proomaccess'. Please execute this database update step again.");
 }
 
 $ilDB->addPrimaryKey('chatroom_proomaccess', array('proom_id', 'user_id'));
@@ -6459,7 +6459,7 @@ $res  = $ilDB->query($mopt_dup_query_num);
 $data = $ilDB->fetchAssoc($res);
 if($data['cnt'] > 0)
 {
-	throw new Exception("There are still duplicate entries in table 'mail_options'. Please execute this database update step again.");
+	die("There are still duplicate entries in table 'mail_options'. Please execute this database update step again.");
 }
 
 $ilDB->addPrimaryKey('mail_options', array('user_id'));
@@ -6501,7 +6501,7 @@ $res  = $ilDB->query($psc_dup_query_num);
 $data = $ilDB->fetchAssoc($res);
 if($data['cnt'] > 0)
 {
-	throw new Exception("There are still duplicate entries in table 'payment_statistic_coup'. Please execute this database update step again.");
+	die("There are still duplicate entries in table 'payment_statistic_coup'. Please execute this database update step again.");
 }
 
 $ilDB->addPrimaryKey('payment_statistic_coup', array('psc_ps_fk', 'psc_pc_fk', 'psc_pcc_fk'));
@@ -6562,7 +6562,7 @@ $res  = $ilDB->query($msave_dup_query_num);
 $data = $ilDB->fetchAssoc($res);
 if($data['cnt'])
 {
-	throw new ilException("There are still duplicate entries in table 'mail_saved'. Please execute this database update step again.");
+	die("There are still duplicate entries in table 'mail_saved'. Please execute this database update step again.");
 }
 
 $ilDB->addPrimaryKey('mail_saved', array('user_id'));
@@ -6614,7 +6614,7 @@ $res  = $ilDB->query($chrban_dup_query_num);
 $data = $ilDB->fetchAssoc($res);
 if($data['cnt'])
 {
-	throw new ilException("There are still duplicate entries in table 'chatroom_bans'. Please execute this database update step again.");
+	die("There are still duplicate entries in table 'chatroom_bans'. Please execute this database update step again.");
 }
 
 $ilDB->addPrimaryKey('chatroom_bans', array('room_id', 'user_id'));
@@ -7731,7 +7731,7 @@ if($data['cnt'] > 0 && !(int)$setting)
 
 if($data['cnt'] > 0)
 {
-	$db_step = 4584;
+	$db_step = $nr;
 
 	$ps_delete_mf_by_obj_and_usr = $ilDB->prepareManip(
 		"DELETE FROM mail_obj_data WHERE obj_id = ? AND user_id = ?",
@@ -7818,7 +7818,7 @@ $res  = $ilDB->query($mod_dup_query_num);
 $data = $ilDB->fetchAssoc($res);
 if($data['cnt'] > 0)
 {
-	throw new ilException("There are still duplicate entries in table 'mail_obj_data'. Please execute this database update step again.");
+	die("There are still duplicate entries in table 'mail_obj_data'. Please execute this database update step again.");
 }
 $ilSetting->delete('mail_mod_dupl_warn_51x_shown');
 ?>
@@ -7837,7 +7837,7 @@ $res  = $ilDB->query($mod_dup_query_num);
 $data = $ilDB->fetchAssoc($res);
 if($data['cnt'] > 0)
 {
-	throw new ilException("There are still duplicate entries in table 'mail_obj_data'. Please execute database update step 4584 again. Execute the following SQL string manually: UPDATE settings SET value = 4583 WHERE keyword = 'db_version'; ");
+	die("There are still duplicate entries in table 'mail_obj_data'. Please execute database update step 4584 again. Execute the following SQL string manually: UPDATE settings SET value = 4583 WHERE keyword = 'db_version'; ");
 }
 $ilDB->addPrimaryKey('mail_obj_data', array('obj_id'));
 ?>
@@ -8151,7 +8151,7 @@ if($ilDB->tableExists('mail_tree_migr'))
 			$ilDB->execute($ps_up_tree_entry, array($right, $right, $usr_id));
 			$ilDB->execute($ps_in_tree_entry, array($usr_id, $folder_id, $root_id, $lft, $rgt, 2));
 			$GLOBALS['ilLog']->write(sprintf(
-				"DB Step %s, iteration %s: Created node with id %s (lft: %s | rgt: %s) for user % in 'mail_tree'.",
+				"DB Step %s, iteration %s: Created node with id %s (lft: %s | rgt: %s) for user %s in 'mail_tree'.",
 				$db_step, $i, $folder_id, $lft, $rgt, $usr_id
 			));
 
@@ -8203,7 +8203,7 @@ if($ilDB->tableExists('mail_tree_migr'))
 	$num = $ilDB->numRows($res);
 	if($num > 0)
 	{
-		throw new ilException("There are still duplicate entries in table 'mail_tree'. Please execute this database update step again.");
+		die("There are still duplicate entries in table 'mail_tree'. Please execute this database update step again.");
 	}
 }
 ?>
@@ -8230,7 +8230,7 @@ $res  = $ilDB->query($mt_dup_query_num);
 $data = $ilDB->fetchAssoc($res);
 if($data['cnt'] > 0)
 {
-	throw new ilException("There are still duplicate entries in table 'mail_tree'. Please execute database update step 4589 again. Execute the following SQL string manually: UPDATE settings SET value = 4588 WHERE keyword = 'db_version'; ");
+	die("There are still duplicate entries in table 'mail_tree'. Please execute database update step 4589 again. Execute the following SQL string manually: UPDATE settings SET value = 4588 WHERE keyword = 'db_version'; ");
 }
 
 $ilDB->addPrimaryKey('mail_tree', array('child'));
@@ -9509,7 +9509,7 @@ if (! $ilDB->tableExists('il_wac_secure_path')) {
 	$fields = array(
 		'path' => array(
 			'type' => 'text',
-			'length' => '256',
+			'length' => '64',
 
 		),
 		'component_directory' => array(
@@ -9525,7 +9525,6 @@ if (! $ilDB->tableExists('il_wac_secure_path')) {
 		'in_sec_folder' => array(
 			'type' => 'integer',
 			'length' => '1',
-
 		),
 
 	);
@@ -11488,4 +11487,264 @@ include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObje
 
 $parent_types = array('root', 'cat', 'prg');
 ilDBUpdateNewObjectType::addRBACCreate('create_prg', 'Create Study Programme', $parent_types);
+?>
+<#4754>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#4755>
+<?php
+$ilDB->modifyTableColumn('il_wac_secure_path', 'path', array(
+	'length'  => 64,
+));
+?>
+<#4756>
+<?php
+$obj_type = 'icla'; 
+$set      = $ilDB->queryF(
+	"SELECT obj_id FROM object_data WHERE type = %s",
+	array('text'),
+	array($obj_type)
+);
+while($row = $ilDB->fetchAssoc($set))
+{
+	$obj_id = $row['obj_id'];
+
+	$refset = $ilDB->queryF(
+		"SELECT ref_id FROM object_reference WHERE obj_id = %s",
+		array('integer'),
+		array($obj_id)
+	);
+	while($refrow = $ilDB->fetchAssoc($refset))
+	{
+		$ref_id = $refrow['ref_id'];
+
+		$ilDB->manipulate("DELETE FROM crs_items WHERE obj_id = " . $ilDB->quote($ref_id, 'integer'));
+		$ilDB->manipulate("DELETE FROM crs_items WHERE parent_id = " . $ilDB->quote($ref_id, 'integer'));
+		$ilDB->manipulate("DELETE FROM rbac_log WHERE ref_id = " . $ilDB->quote($ref_id, 'integer'));
+		$ilDB->manipulate("DELETE FROM rbac_pa WHERE ref_id = " . $ilDB->quote($ref_id, 'integer'));
+		$ilDB->manipulate("DELETE FROM desktop_item WHERE item_id = " . $ilDB->quote($ref_id, 'integer'));
+		$ilDB->manipulate("DELETE FROM conditions WHERE  target_ref_id = " . $ilDB->quote($ref_id, 'integer') . " OR trigger_ref_id = " . $ilDB->quote($ref_id, 'integer'));
+		$ilDB->manipulate("DELETE FROM didactic_tpl_objs WHERE ref_id = " . $ilDB->quote($ref_id, 'integer'));
+		// We know that all of these objects are leafs, so we can delete the records without determining the tree impl. and processing additional checks
+		$ilDB->manipulate("DELETE FROM tree WHERE child = " . $ilDB->quote($ref_id, 'integer'));
+		$ilDB->manipulate("DELETE FROM object_reference WHERE ref_id = " . $ilDB->quote($ref_id, 'integer'));
+
+		$GLOBALS['ilLog']->write(sprintf(
+			"DB Step %s: Deleted object reference of type %s with ref_id %s.",
+			$nr, $obj_type, $ref_id
+		));
+	}
+
+	$ilDB->manipulate("DELETE FROM il_news_item WHERE context_obj_id = " . $ilDB->quote($obj_id, "integer") . " AND context_obj_type = " . $ilDB->quote($obj_type, "text"));
+	$ilDB->manipulate("DELETE FROM il_block_setting WHERE block_id = " . $ilDB->quote($obj_id, "integer") . " AND type = " . $ilDB->quote("news", "text"));
+	$ilDB->manipulate("DELETE FROM ut_lp_settings WHERE obj_id = " . $ilDB->quote($obj_id, 'integer'));
+	$ilDB->manipulate("DELETE FROM ecs_import WHERE obj_id = " . $ilDB->quote($obj_id, 'integer'));
+	$ilDB->manipulate("DELETE FROM dav_property WHERE obj_id = " . $ilDB->quote($obj_id, 'integer'));
+	$ilDB->manipulate("DELETE FROM didactic_tpl_objs WHERE obj_id = " . $ilDB->quote($obj_id, 'integer'));
+	$ilDB->manipulate("DELETE FROM object_description WHERE obj_id = " . $ilDB->quote($obj_id, 'integer'));
+	$ilDB->manipulate("DELETE FROM object_data WHERE obj_id = " . $ilDB->quote($obj_id, 'integer'));
+
+	$GLOBALS['ilLog']->write(sprintf(
+		"DB Step %s: Deleted object of type %s with obj_id %s.",
+		$nr, $obj_type, $obj_id
+	));
+}
+?>
+<#4757>
+<?php
+$obj_type = 'icrs';
+$set      = $ilDB->queryF(
+	"SELECT obj_id FROM object_data WHERE type = %s",
+	array('text'),
+	array($obj_type)
+);
+while($row = $ilDB->fetchAssoc($set))
+{
+	$obj_id = $row['obj_id'];
+
+	$refset = $ilDB->queryF(
+		"SELECT ref_id FROM object_reference WHERE obj_id = %s",
+		array('integer'),
+		array($obj_id)
+	);
+	while($refrow = $ilDB->fetchAssoc($refset))
+	{
+		$ref_id = $refrow['ref_id'];
+
+		$ilDB->manipulate("DELETE FROM crs_items WHERE obj_id = " . $ilDB->quote($ref_id, 'integer'));
+		$ilDB->manipulate("DELETE FROM crs_items WHERE parent_id = " . $ilDB->quote($ref_id, 'integer'));
+		$ilDB->manipulate("DELETE FROM rbac_log WHERE ref_id = " . $ilDB->quote($ref_id, 'integer'));
+		$ilDB->manipulate("DELETE FROM rbac_pa WHERE ref_id = " . $ilDB->quote($ref_id, 'integer'));
+		$ilDB->manipulate("DELETE FROM desktop_item WHERE item_id = " . $ilDB->quote($ref_id, 'integer'));
+		$ilDB->manipulate("DELETE FROM conditions WHERE  target_ref_id = " . $ilDB->quote($ref_id, 'integer') . " OR trigger_ref_id = " . $ilDB->quote($ref_id, 'integer'));
+		$ilDB->manipulate("DELETE FROM didactic_tpl_objs WHERE ref_id = " . $ilDB->quote($ref_id, 'integer'));
+		// We know that all of these objects are leafs, so we can delete the records without determining the tree impl. and processing additional checks
+		$ilDB->manipulate("DELETE FROM tree WHERE child = " . $ilDB->quote($ref_id, 'integer'));
+		$ilDB->manipulate("DELETE FROM object_reference WHERE ref_id = " . $ilDB->quote($ref_id, 'integer'));
+
+		$GLOBALS['ilLog']->write(sprintf(
+			"DB Step %s: Deleted object reference of type %s with ref_id %s.",
+			$nr, $obj_type, $ref_id
+		));
+	}
+
+	$ilDB->manipulate("DELETE FROM il_news_item WHERE context_obj_id = " . $ilDB->quote($obj_id, "integer") . " AND context_obj_type = " . $ilDB->quote($obj_type, "text"));
+	$ilDB->manipulate("DELETE FROM il_block_setting WHERE block_id = " . $ilDB->quote($obj_id, "integer") . " AND type = " . $ilDB->quote("news", "text"));
+	$ilDB->manipulate("DELETE FROM ut_lp_settings WHERE obj_id = " . $ilDB->quote($obj_id, 'integer'));
+	$ilDB->manipulate("DELETE FROM ecs_import WHERE obj_id = " . $ilDB->quote($obj_id, 'integer'));
+	$ilDB->manipulate("DELETE FROM dav_property WHERE obj_id = " . $ilDB->quote($obj_id, 'integer'));
+	$ilDB->manipulate("DELETE FROM didactic_tpl_objs WHERE obj_id = " . $ilDB->quote($obj_id, 'integer'));
+	$ilDB->manipulate("DELETE FROM object_description WHERE obj_id = " . $ilDB->quote($obj_id, 'integer'));
+	$ilDB->manipulate("DELETE FROM object_data WHERE obj_id = " . $ilDB->quote($obj_id, 'integer'));
+
+	$GLOBALS['ilLog']->write(sprintf(
+		"DB Step %s: Deleted object of type %s with obj_id %s.",
+		$nr, $obj_type, $obj_id
+	));
+}
+?>
+<#4758>
+<?php
+$a_type = 'icla';
+$set = $ilDB->queryF(
+	"SELECT obj_id FROM object_data WHERE type = %s AND title = %s",
+	array('text', 'text'),
+	array('typ', $a_type)
+);
+$row     = $ilDB->fetchAssoc($set);
+$type_id = $row['obj_id'];
+if($type_id)
+{
+	// RBAC
+
+	// basic operations
+	$ilDB->manipulate("DELETE FROM rbac_ta WHERE typ_id = " . $ilDB->quote($type_id, "integer"));
+
+	// creation operation
+	$set           = $ilDB->query("SELECT ops_id" .
+		" FROM rbac_operations " .
+		" WHERE class = " . $ilDB->quote("create", "text") .
+		" AND operation = " . $ilDB->quote("create_" . $a_type, "text"));
+	$row           = $ilDB->fetchAssoc($set);
+	$create_ops_id = $row["ops_id"];
+	if($create_ops_id)
+	{
+		$ilDB->manipulate("DELETE FROM rbac_templates WHERE ops_id = ".$ilDB->quote($create_ops_id, "integer"));
+		$GLOBALS['ilLog']->write(sprintf(
+			"DB Step %s: Deleted rbac_templates create operation with ops_id %s for object type %s with obj_id %s.",
+			$nr, $create_ops_id, $a_type, $type_id
+		));
+
+		// container create
+		foreach(array("icrs") as $parent_type)
+		{
+			$pset = $ilDB->queryF(
+				"SELECT obj_id FROM object_data WHERE type = %s AND title = %s",
+				array('text', 'text'),
+				array('typ', $parent_type)
+			);
+			$prow = $ilDB->fetchAssoc($pset);
+			$parent_type_id = $prow['obj_id'];
+			if($parent_type_id)
+			{
+				$ilDB->manipulate("DELETE FROM rbac_ta".
+					" WHERE typ_id = ".$ilDB->quote($parent_type_id, "integer").
+					" AND ops_id = ".$ilDB->quote($create_ops_id, "integer"));
+			}
+		}
+
+		$ilDB->manipulate("DELETE FROM rbac_operations WHERE ops_id = ".$ilDB->quote($create_ops_id, "integer"));
+		$GLOBALS['ilLog']->write(sprintf(
+			"DB Step %s: Deleted create operation with ops_id %s for object type %s with obj_id %s.",
+			$nr, $create_ops_id, $a_type, $type_id
+		));
+	}
+
+	// Type
+	$ilDB->manipulate("DELETE FROM object_data WHERE obj_id = " . $ilDB->quote($type_id, "integer"));
+	$GLOBALS['ilLog']->write(sprintf(
+		"DB Step %s: Deleted object type %s with obj_id %s.",
+		$nr, $a_type, $type_id
+	));
+}
+
+$set = new ilSetting();
+$set->delete("obj_dis_creation_".$a_type);
+$set->delete("obj_add_new_pos_".$a_type);
+$set->delete("obj_add_new_pos_grp_".$a_type);
+?>
+<#4759>
+<?php
+$a_type = 'icrs';
+$set = $ilDB->queryF(
+	"SELECT obj_id FROM object_data WHERE type = %s AND title = %s",
+	array('text', 'text'),
+	array('typ', $a_type)
+);
+$row     = $ilDB->fetchAssoc($set);
+$type_id = $row['obj_id'];
+if($type_id)
+{
+	// RBAC
+
+	// basic operations
+	$ilDB->manipulate("DELETE FROM rbac_ta WHERE typ_id = " . $ilDB->quote($type_id, "integer"));
+
+	// creation operation
+	$set           = $ilDB->query("SELECT ops_id" .
+		" FROM rbac_operations " .
+		" WHERE class = " . $ilDB->quote("create", "text") .
+		" AND operation = " . $ilDB->quote("create_" . $a_type, "text"));
+	$row           = $ilDB->fetchAssoc($set);
+	$create_ops_id = $row["ops_id"];
+	if($create_ops_id)
+	{
+		$ilDB->manipulate("DELETE FROM rbac_templates WHERE ops_id = ".$ilDB->quote($create_ops_id, "integer"));
+		$GLOBALS['ilLog']->write(sprintf(
+			"DB Step %s: Deleted rbac_templates create operation with ops_id %s for object type %s with obj_id %s.",
+			$nr, $create_ops_id, $a_type, $type_id
+		));
+
+		// container create
+		foreach(array("root", "cat", "crs", "grp", "fold") as $parent_type)
+		{
+			$pset = $ilDB->queryF(
+				"SELECT obj_id FROM object_data WHERE type = %s AND title = %s",
+				array('text', 'text'),
+				array('typ', $parent_type)
+			);
+			$prow = $ilDB->fetchAssoc($pset);
+			$parent_type_id = $prow['obj_id'];
+			if($parent_type_id)
+			{
+				$ilDB->manipulate("DELETE FROM rbac_ta".
+					" WHERE typ_id = ".$ilDB->quote($parent_type_id, "integer").
+					" AND ops_id = ".$ilDB->quote($create_ops_id, "integer"));
+			}
+		}
+
+		$ilDB->manipulate("DELETE FROM rbac_operations WHERE ops_id = ".$ilDB->quote($create_ops_id, "integer"));
+		$GLOBALS['ilLog']->write(sprintf(
+			"DB Step %s: Deleted create operation with ops_id %s for object type %s with obj_id %s.",
+			$nr, $create_ops_id, $a_type, $type_id
+		));
+	}
+
+	// Type
+	$ilDB->manipulate("DELETE FROM object_data WHERE obj_id = " . $ilDB->quote($type_id, "integer"));
+	$GLOBALS['ilLog']->write(sprintf(
+		"DB Step %s: Deleted object type %s with obj_id %s.",
+		$nr, $a_type, $type_id
+	));
+}
+
+$set = new ilSetting();
+$set->delete("obj_dis_creation_".$a_type);
+$set->delete("obj_add_new_pos_".$a_type);
+$set->delete("obj_add_new_pos_grp_".$a_type);
+?>
+<#4760>
+<?php
+$ilCtrlStructureReader->getStructure();
 ?>

@@ -742,11 +742,6 @@ class ilObjectDefinition// extends ilSaxParser
 			{
 				unset($subobjects[$type]);
 			}
-			// Filter for iLinc: Delete the following lines after we completely removed the iLinc object in ILIAS 4.5.x
-			if(in_array($type, array('icrs', 'icla')))
-			{
-				unset($subobjects[$type]);
-			}
 		}
 		
 		if ($a_obj_type == "prg") {
@@ -866,20 +861,6 @@ class ilObjectDefinition// extends ilSaxParser
 		{
 			switch($type)
 			{
-				case "chat":
-					if(!$this->ilias->getSetting("chat_active"))
-					{
-						unset($subobjects[$type]);
-					}
-					break;
-
-				case "icrs":
-					if(!$this->ilias->getSetting("ilinc_active"))
-					{
-						unset($subobjects[$type]);
-					}
-					break;					
-
 				default:
 					// DO NOTHING
 			}

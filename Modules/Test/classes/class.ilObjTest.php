@@ -4359,6 +4359,8 @@ function getAnswerFeedbackPoints()
 			
 			$key++;
 		}
+		
+		$numQuestionsTotal = count($unordered);
                 
 		$pass_max = 0;
 		$pass_reached = 0;
@@ -4405,6 +4407,7 @@ function getAnswerFeedbackPoints()
 		$found['pass']['percent'] = ($pass_max > 0) ? $pass_reached / $pass_max : 0;
 		$found['pass']['obligationsAnswered'] = $obligationsAnswered;
 		$found['pass']['num_workedthrough'] = $numWorkedThrough;
+		$found['pass']['num_questions_total'] = $numQuestionsTotal;
 		
 		$found["test"]["total_max_points"] = $results['max_points'];
 		$found["test"]["total_reached_points"] = $results['reached_points'];

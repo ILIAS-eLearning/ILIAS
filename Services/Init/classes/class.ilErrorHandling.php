@@ -34,6 +34,8 @@ require_once("./Services/Exceptions/lib/Whoops/Util/TemplateHelper.php");
 require_once("./Services/Exceptions/lib/Whoops/Util/Misc.php");
 
 require_once("Services/Exceptions/classes/class.ilDelegatingHandler.php");
+require_once("Services/Exceptions/classes/class.ilPlainTextHandler.php");
+require_once("Services/Exceptions/classes/class.ilTestingHandler.php");
 
 use Whoops\Run;
 use Whoops\Handler\PrettyPageHandler;
@@ -368,7 +370,20 @@ class ilErrorHandling extends PEAR
 	 * @return Whoops\Handler
 	 */
 	protected function devmodeHandler() {
-		return new PrettyPageHandler();
+		global $ilLog;
+		
+		switch (ERROR_HANDLER) {
+			case "TESTING":
+				return new ilTestingHandler();
+			case "PLAIN_TEXT":
+				return new ilPlainTextHandler();
+			case "PRETTY_PAGE":
+				return new PrettyPageHandler();
+			default:
+				$ilLog->write("Unknown or undefined error handler '".ERROR_HANDLER."'. "
+							 ."Falling back to PrettyPageHandler.");
+				return new PrettyPageHandler();
+		}
 	}
 	
 	/**

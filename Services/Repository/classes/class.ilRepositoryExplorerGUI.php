@@ -55,8 +55,7 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 		if ($ilSetting->get("repository_tree_pres") == "" ||
 			($ilSetting->get("rep_tree_limit_grp_crs") && $this->top_node_id == 0))
 		{
-			$this->setTypeWhiteList(array("root", "cat", "catr", "grp", "icrs",
-				"crs", "crsr", "rcrs", "itgr"));
+			$this->setTypeWhiteList(array("root", "cat", "catr", "grp", "crs", "crsr", "rcrs", "itgr"));
 		}
 		else if ($ilSetting->get("repository_tree_pres") == "all_types")
 		{
@@ -223,12 +222,6 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 				$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $a_node["child"]);
 				$link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", "redirect");
 				$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
-				return $link;
-
-			case "icrs":
-				$ilCtrl->setParameterByClass("ilobjilinccoursegui", "ref_id", $a_node["child"]);
-				$link = $ilCtrl->getLinkTargetByClass(array("ilrepositorygui", "ilobjilinccoursegui"), "");
-				$ilCtrl->setParameterByClass("ilobjilinccoursegui", "ref_id", $_GET["ref_id"]);
 				return $link;
 
 			case 'rcrs':

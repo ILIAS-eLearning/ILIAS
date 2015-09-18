@@ -462,10 +462,6 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 			{
 				$this->tpl->setVariable("TXT_NOT_IMPL", "(".$this->lng->txt("not_implemented_yet").")");
 			}
-			else if ($obj_data["type"] == "icrs" and !$this->ilias->getSetting("ilinc_active"))
-			{
-				$this->tpl->setVariable("TXT_NOT_IMPL", "(".$this->lng->txt("not_enabled_or_configured").")");
-			}
 			
 			// js checkbox toggles
 			$this->tpl->setVariable("JS_VARNAME","template_perm_".$obj_data["type"]);

@@ -2624,7 +2624,7 @@ else
 
 				if ($dbupdate->getRunningStatus() > 0)
 				{
-					ilUtil::sendFailure($this->lng->txt("db_update_interrupted")."<br /><br />".
+					ilUtil::sendFailure($this->lng->txt("db_update_interrupted")." (Step ".$dbupdate->getRunningStatus().") <br /><br />".
 						$this->lng->txt("db_update_interrupted_avoid"));
 				}
 				else

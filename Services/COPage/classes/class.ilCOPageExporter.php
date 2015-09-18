@@ -161,7 +161,8 @@ class ilCOPageExporter extends ilXmlExporter
 				$page_object->insertInstIntoIDs(IL_INST_ID);
 				$pxml = $page_object->getXMLFromDom(false, false, false, "", true);
 				$pxml = str_replace("&","&amp;", $pxml);
-				$xml.= '<PageObject Language="'.$l.'">';
+				$xml.= '<PageObject Language="'.$l.'" Active="'.$page_object->getActive().'" ActivationStart="'.$page_object->getActivationStart().'" ActivationEnd="'.
+					$page_object->getActivationEnd().'" ShowActivationInfo="'.$page_object->getShowActivationInfo().'">';
 				$xml.= $pxml;
 				$xml.= "</PageObject>";
 				$page_object->freeDom();

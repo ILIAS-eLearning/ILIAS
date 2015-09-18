@@ -38,7 +38,7 @@ class ilTestScoring
 		$this->test = $test;
 		$this->preserve_manual_scores = false;
 		
-		$this->resetRecalculatedPasses();
+		$this->recalculatedPasses = array();
 
 		require_once './Modules/Test/classes/class.ilObjTestGUI.php';
 		$this->testGUI = new ilObjTestGUI();

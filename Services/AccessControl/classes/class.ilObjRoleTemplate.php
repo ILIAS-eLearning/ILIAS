@@ -82,14 +82,6 @@ class ilObjRoleTemplate extends ilObject
 
 		switch($this->getTitle())
 		{
-			case "il_icrs_admin":
-			case "il_icrs_member":
-				$obj_data = $objDefinition->getSubObjects('icrs',false);
-				unset($obj_data["rolf"]);
-				$filter = array_keys($obj_data);
-				$filter[] = 'icrs';
-				break;
-
 			case "il_grp_admin":
 			case "il_grp_member":
 			case "il_grp_status_closed":

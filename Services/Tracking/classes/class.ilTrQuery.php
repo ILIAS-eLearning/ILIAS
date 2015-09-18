@@ -460,7 +460,7 @@ class ilTrQuery
 		$queries = array();
 		$queries[] = array("fields"=>$fields, "query"=>$query);
 
-		// objectives data 
+		/* objectives data 
 		if($objects["objectives_parent_id"])
 		{
 			$objective_fields = array("crs_objectives.objective_id AS obj_id", "title",
@@ -478,11 +478,15 @@ class ilTrQuery
 				}
 				else
 				{
+					// #15873 - see ilLOUserResults::getObjectiveStatusForLP()
 		            include_once("Services/Tracking/classes/class.ilLPStatus.php");
 					$objective_fields[] = "CASE WHEN status = ".$ilDB->quote(ilLOUserResults::STATUS_COMPLETED, "integer").
 						" THEN ".ilLPStatus::LP_STATUS_COMPLETED_NUM.
-						" WHEN status = ".$ilDB->quote(ilLOUserResults::STATUS_FAILED, "integer").
+						" WHEN (status = ".$ilDB->quote(ilLOUserResults::STATUS_FAILED, "integer").
+						" AND is_final = ".$ilDB->quote(1, "integer").")".
 						" THEN ".ilLPStatus::LP_STATUS_FAILED_NUM.
+						" WHEN status = ".$ilDB->quote(ilLOUserResults::STATUS_FAILED, "integer").
+						" THEN ".ilLPStatus::LP_STATUS_IN_PROGRESS_NUM.
 						" ELSE NULL END AS status";
 				}
 			  }
@@ -500,6 +504,7 @@ class ilTrQuery
 			
 			$queries[] = array("fields"=>$objective_fields, "query"=>$objectives_query, "count"=>"crs_objectives.objective_id");
 		}
+		*/
 		
 		if(!in_array($a_order_field, $fields))
 		{
@@ -588,6 +593,19 @@ class ilTrQuery
 					$result["cnt"]++;
 				}
 			}
+			
+			// #15379 - objectives data 
+			if($objects["objectives_parent_id"])
+			{		
+				include_once "Modules/Course/classes/class.ilCourseObjective.php";
+				include_once "Modules/Course/classes/Objectives/class.ilLOUserResults.php";	
+				$objtv_ids = ilCourseObjective::_getObjectiveIds($objects["objectives_parent_id"], true);
+				foreach(self::getObjectivesStatusForUser($a_user_id, $objects["objectives_parent_id"], $objtv_ids) as $item)
+				{				
+					$result["set"][] = $item;
+					$result["cnt"]++;
+				}
+			}			
 			
 			// subitem data
 			if($objects["subitems"])
@@ -1647,15 +1665,17 @@ class ilTrQuery
 				$objective_id = $row["objective_id"];
 				$user_id = $row["user_id"];
 				
-				// see ilLOUserResults::getObjectiveStatusForLP()
+				// #15873 - see ilLOUserResults::getObjectiveStatusForLP()
 				if($row["status"] == ilLOUserResults::STATUS_COMPLETED)
 				{
 					$res[$user_id][$objective_id] = ilLPStatus::LP_STATUS_COMPLETED_NUM;
 				}
-				else
+				else if($row["status"] == ilLOUserResults::STATUS_FAILED)
 				{
-					$res[$user_id][$objective_id] = ilLPStatus::LP_STATUS_FAILED_NUM;
-				}
+					$res[$user_id][$objective_id] = $row["is_final"]
+						? ilLPStatus::LP_STATUS_FAILED_NUM
+						: ilLPStatus::LP_STATUS_IN_PROGRESS_NUM;					
+				}				
 			}
 			
 			return $res;						

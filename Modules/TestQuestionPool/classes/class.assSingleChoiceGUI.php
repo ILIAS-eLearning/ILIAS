@@ -288,16 +288,31 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 			}
 			$template->setCurrentBlock("answer_row");
 			$template->setVariable("ANSWER_TEXT", $this->object->prepareTextareaOutput($answer->getAnswertext(), TRUE));
-			if (strcmp($user_solution, $answer_id) == 0)
+			
+			if( isset($_GET['pdf']) && $_GET['pdf'] )
 			{
-				$template->setVariable("SOLUTION_IMAGE", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_checked.png")));
-				$template->setVariable("SOLUTION_ALT", $this->lng->txt("checked"));
+				if (strcmp($user_solution, $answer_id) == 0)
+				{
+					$template->setVariable("SOLUTION_IMAGE", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_checked.png")));
+					$template->setVariable("SOLUTION_ALT", $this->lng->txt("checked"));
+				}
+				else
+				{
+					$template->setVariable("SOLUTION_IMAGE", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_unchecked.png")));
+					$template->setVariable("SOLUTION_ALT", $this->lng->txt("unchecked"));
+				}
 			}
 			else
 			{
-				$template->setVariable("SOLUTION_IMAGE", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_unchecked.png")));
-				$template->setVariable("SOLUTION_ALT", $this->lng->txt("unchecked"));
+				$template->setVariable('QID', $this->object->getId());
+				$template->setVariable('SUFFIX', $show_correct_solution ? 'bestsolution' : 'usersolution');
+				$template->setVariable('SOLUTION_VALUE', $answer_id);
+				if (strcmp($user_solution, $answer_id) == 0)
+				{
+					$template->setVariable('SOLUTION_CHECKED', 'checked');
+				}
 			}
+			
 			if ($result_output)
 			{
 				$points = $this->object->answers[$answer_id]->getPoints();

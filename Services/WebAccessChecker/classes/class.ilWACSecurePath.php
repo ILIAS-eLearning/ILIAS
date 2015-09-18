@@ -60,7 +60,7 @@ class ilWACSecurePath extends ActiveRecord {
 	 * @con_is_unique  true
 	 * @con_has_field  true
 	 * @con_fieldtype  text
-	 * @con_length     256
+	 * @con_length     64
 	 */
 	protected $path = '';
 	/**

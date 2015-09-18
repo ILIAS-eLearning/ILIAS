@@ -89,10 +89,6 @@ class ilTestEvalObjectiveOrientedGUI extends ilTestServiceGUI
 
 		$tpl = new ilTemplate('tpl.il_as_tst_virtual_pass_details.html', false, false, 'Modules/Test');
 		
-		$tpl->setVariable("TEXT_HEADING", $testResultHeaderLabelBuilder->getVirtualPassDetailsHeaderLabel(
-			$objectivesList->getUniqueObjectivesString()
-		));
-
 		$command_solution_details = "";
 		if ($this->object->getShowSolutionDetails())
 		{
@@ -111,11 +107,14 @@ class ilTestEvalObjectiveOrientedGUI extends ilTestServiceGUI
 			$tpl->setVariable("LIST_OF_ANSWERS", $list_of_answers);
 		}
 
-		$overview = $this->getPassDetailsOverview(
+		$overviewTableGUI = $this->getPassDetailsOverviewTableGUI(
 			$userResults, $testSession->getActiveId(), null, $this, "showVirtualPass",
 			$command_solution_details, $questionAnchorNav, $objectivesList
 		);
-		$tpl->setVariable("PASS_DETAILS", $overview);
+		$overviewTableGUI->setTitle($testResultHeaderLabelBuilder->getVirtualPassDetailsHeaderLabel(
+			$objectivesList->getUniqueObjectivesString()
+		));
+		$tpl->setVariable("PASS_DETAILS", $this->ctrl->getHTML($overviewTableGUI));
 
 		$this->populateContent($this->ctrl->getHTML($toolbar).$tpl->get());
 	}

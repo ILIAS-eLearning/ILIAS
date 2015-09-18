@@ -251,7 +251,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	protected function populateLowerNextButtonBlock($disabled)
 	{
 		$button = ilLinkButton::getInstance();
-		$button->setPrimary( $disabled ? false : true );
+		$button->setPrimary(false);
 		$button->setUrl($this->ctrl->getLinkTarget($this, ilTestPlayerCommands::NEXT_QUESTION));
 		$button->setCaption('next_question');
 		$button->setId('bottomnextbutton');
@@ -265,7 +265,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	protected function populateUpperNextButtonBlock($disabled)
 	{
 		$button = ilLinkButton::getInstance();
-		$button->setPrimary( $disabled ? false : true );
+		$button->setPrimary(false);
 		$button->setUrl($this->ctrl->getLinkTarget($this, ilTestPlayerCommands::NEXT_QUESTION));
 		$button->setCaption('next_question');
 		$button->setId('nextbutton');
@@ -519,10 +519,13 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
 	function autosaveCmd()
 	{
+		$canSaveResult = $this->canSaveResult();
+		$authorizedSolution = !$canSaveResult;
+		
 		$result = "";
 		if (is_array($_POST) && count($_POST) > 0)
 		{
-			$res = $this->saveQuestionSolution(false, true);
+			$res = $this->saveQuestionSolution($authorizedSolution, true);
 			if ($res)
 			{
 				$result = $this->lng->txt("autosave_success");
@@ -532,7 +535,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 				$result = $this->lng->txt("autosave_failed");
 			}
 		}
-		if (!$this->canSaveResult())
+		if (!$canSaveResult)
 		{
 			// this was the last action in the test, saving is no longer allowed
 			$result = $this->ctrl->getLinkTarget($this, "redirectAfterAutosave", "", true);
@@ -553,6 +556,12 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
 	}
 	
+	protected function markQuestionAndSaveIntermediateCmd()
+	{
+		$this->saveQuestionSolution(false);
+		$this->markQuestionCmd();
+	}
+	
 	/**
 	 * Set a question solved
 	 */
@@ -565,6 +574,12 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$this->object->setQuestionSetSolved(1, $questionId, $this->testSession->getUserId());
 		
 		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
+	}
+
+	protected function unmarkQuestionAndSaveIntermediateCmd()
+	{
+		$this->saveQuestionSolution(false);
+		$this->unmarkQuestionCmd();
 	}
 
 	/**
@@ -906,14 +921,12 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	
 	public function redirectBackCmd()
 	{
-		if(!$this->object->canViewResults()) 
-		{
-			$this->outIntroductionPageCmd();
-		}
-		else
+		if( $this->object->canViewResults() )
 		{
 			$this->ctrl->redirectByClass("ilTestEvaluationGUI", "outUserResultsOverview");
 		}
+
+		$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
 	}
 	
 	/*
@@ -1059,6 +1072,10 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			$this->testSession->getActiveId(),
 			$solutionoutput
 		);
+		
+		$this->tpl->setCurrentBlock('readonly_css_class');
+		$this->tpl->touchBlock('readonly_css_class');
+		$this->tpl->parseCurrentBlock();
 
 		$this->tpl->setVariable('QUESTION_OUTPUT', $pageoutput);
 
@@ -1178,14 +1195,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$this->testSession->increasePass();
 		$this->testSession->setLastSequence(0);
 		$this->testSession->saveToDb();
-		if (!$this->object->canViewResults()) 
-		{
-			$this->outIntroductionPage();
-		}
-		else
-		{
-			$this->ctrl->redirectByClass("ilTestEvaluationGUI", "outUserResultsOverview");
-		}
+
+		$this->redirectBackCmd();
 	}
 	
 /**
@@ -1525,7 +1536,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("TXT_ANSWER_SHEET", $this->lng->txt("tst_list_of_answers"));
-		$user_data = $this->getResultsUserdata($this->testSession, $active_id, TRUE);
+		$user_data = $this->getAdditionalUsrDataHtmlAndPopulateWindowTitle($this->testSession, $active_id, TRUE);
 		$signature = $this->getResultsSignature();
 		$this->tpl->setVariable("USER_DETAILS", $user_data);
 		$this->tpl->setVariable("SIGNATURE", $signature);
@@ -1907,6 +1918,30 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		}
 
 		$navigationGUI->setCharSelectorEnabled($charSelectorAvailable);
+
+		if($this->object->getShowMarker())
+		{
+			include_once "./Modules/Test/classes/class.ilObjTest.php";
+			$solved_array = ilObjTest::_getSolvedQuestions($this->testSession->getActiveId(), $questionId);
+			$solved = 0;
+
+			if(count($solved_array) > 0)
+			{
+				$solved = array_pop($solved_array);
+				$solved = $solved["solved"];
+			}
+
+			if($solved == 1)
+			{
+				$navigationGUI->setQuestionMarkCommand(ilTestPlayerCommands::UNMARK_QUESTION_SAVE);
+				$navigationGUI->setQuestionMarked(true);
+			}
+			else
+			{
+				$navigationGUI->setQuestionMarkCommand(ilTestPlayerCommands::MARK_QUESTION_SAVE);
+				$navigationGUI->setQuestionMarked(false);
+			}
+		}
 
 		return $navigationGUI;
 	}

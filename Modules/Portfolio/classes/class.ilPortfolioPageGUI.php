@@ -796,7 +796,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 						if($objtv["type"])
 						{
 							$tpl->setVariable("LP_OBJTV_PROGRESS", 
-								ilContainerObjectiveGUI::buildObjectiveProgressBar($has_initial_test, $objtv["id"], $objtv, true, (int)self::$initialized));
+								ilContainerObjectiveGUI::buildObjectiveProgressBar($has_initial_test, $objtv["id"], $objtv, true, false, (int)self::$initialized));
 						}
 						
 						$tpl->parseCurrentBlock();	

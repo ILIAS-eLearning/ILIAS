@@ -55,41 +55,60 @@ class ilTestGradingMessageBuilder
 		return $this->activeId;
 	}
 
-	public function build()
+	public function buildMessage()
 	{
-		$this->initTemplate();
-
 		$this->loadResultData();
 		
 		if( $this->testOBJ->isShowGradingStatusEnabled() )
 		{
-			$this->populateGradingStatus();
+			$this->addMessagePart($this->buildGradingStatusMsg());
 		}
 
 		if( $this->testOBJ->areObligationsEnabled() )
 		{
-			$this->populateObligationsStatus();
+			$this->addMessagePart($this->buildObligationsMsg());
 		}
 		
 		if( $this->testOBJ->isShowGradingMarkEnabled() )
 		{
-			$this->populateGradingMark();
+			$this->addMessagePart($this->buildGradingMarkMsg());
 		}
 
 		if( $this->testOBJ->getECTSOutput() )
 		{
-			$this->populateEctsGrade();
+			$this->addMessagePart($this->buildEctsGradeMsg());
 		}
 	}
-	
-	public function getMessage()
+
+	private function addMessagePart($msgPart)
 	{
-		return $this->tpl->get();
+		$this->messageText[] = $msgPart;
+	}
+	
+	private function getFullMessage()
+	{
+		return implode(' ', $this->messageText);
 	}
 
-	private function initTemplate()
+	private function isPassed()
 	{
-		$this->tpl = new ilTemplate('tpl.tst_grading_message.html', true, true, 'Modules/Test');
+		return (bool)$this->resultData['passed'];
+	}
+	
+	public function sendMessage()
+	{
+		if( !$this->testOBJ->isShowGradingStatusEnabled() )
+		{
+			ilUtil::sendInfo($this->getFullMessage());
+		}
+		elseif( $this->isPassed() )
+		{
+			ilUtil::sendSuccess($this->getFullMessage());
+		}
+		else
+		{
+			ilUtil::sendFailure($this->getFullMessage());
+		}
 	}
 	
 	private function loadResultData()
@@ -107,27 +126,6 @@ class ilTestGradingMessageBuilder
 			$this->resultData['ects_grade'] = $this->lng->txt('ects_grade_'.strtolower($ectsMark));
 		}
 	}
-	
-	private function populateGradingStatus()
-	{
-		$this->tpl->setCurrentBlock('status_css_class');
-		$this->tpl->setVariable('STATUS_CSS_CLASS', $this->getGradingStatusCssClass());
-		$this->tpl->parseCurrentBlock();
-
-		$this->tpl->setCurrentBlock('grading_status_msg');
-		$this->tpl->setVariable('GRADING_STATUS_MSG', $this->buildGradingStatusMsg());
-		$this->tpl->parseCurrentBlock();
-	}
-	
-	private function getGradingStatusCssClass()
-	{
-		if( $this->isPassed() )
-		{
-			return 'passed';
-		}
-		
-		return 'failed';
-	}
 
 	private function buildGradingStatusMsg()
 	{
@@ -137,18 +135,6 @@ class ilTestGradingMessageBuilder
 		}
 
 		return $this->lng->txt('grading_status_failed_msg');
-	}
-
-	private function isPassed()
-	{
-		return (bool)$this->resultData['passed'];
-	}
-	
-	private function populateGradingMark()
-	{
-		$this->tpl->setCurrentBlock('grading_mark_msg');
-		$this->tpl->setVariable('GRADING_MARK_MSG', $this->buildGradingMarkMsg());
-		$this->tpl->parseCurrentBlock();
 	}
 
 	private function buildGradingMarkMsg()
@@ -196,13 +182,6 @@ class ilTestGradingMessageBuilder
 		return $this->resultData['max_points'];
 	}
 	
-	private function populateObligationsStatus()
-	{
-		$this->tpl->setCurrentBlock('obligations_msg');
-		$this->tpl->setVariable('OBLIGATIONS_MSG', $this->buildObligationsMsg());
-		$this->tpl->parseCurrentBlock();
-	}
-	
 	private function buildObligationsMsg()
 	{
 		if( $this->areObligationsAnswered() )
@@ -218,13 +197,6 @@ class ilTestGradingMessageBuilder
 		return (bool)$this->resultData['obligations_answered'];
 	}
 	
-	private function populateEctsGrade()
-	{
-		$this->tpl->setCurrentBlock('grading_mark_ects_msg');
-		$this->tpl->setVariable('GRADING_MARK_ECTS_MSG', $this->buildEctsGradeMsg());
-		$this->tpl->parseCurrentBlock();
-	}
-	
 	private function buildEctsGradeMsg()
 	{
 		return str_replace('[markects]', $this->getEctsGrade(), $this->lng->txt('mark_tst_ects'));
@@ -233,5 +205,73 @@ class ilTestGradingMessageBuilder
 	private function getEctsGrade()
 	{
 		return $this->resultData['ects_grade'];
+	}
+	
+	public function buildList()
+	{
+		$this->loadResultData();
+
+		$this->initListTemplate();
+
+		if( $this->testOBJ->isShowGradingStatusEnabled() )
+		{
+			$passedStatusLangVar = $this->isPassed() ? 'passed_official' : 'failed_official';
+			
+			$this->populateListEntry(
+				$this->lng->txt('passed_status'), $this->lng->txt($passedStatusLangVar)
+			);
+		}
+
+		if( $this->testOBJ->areObligationsEnabled() )
+		{
+			if( $this->areObligationsAnswered() )
+			{
+				$obligAnsweredStatusLangVar = 'grading_obligations_answered_listentry';
+			}
+			else
+			{
+				$obligAnsweredStatusLangVar = 'grading_obligations_missing_listentry';
+			}
+			
+			$this->populateListEntry(
+				$this->lng->txt('grading_obligations_listlabel'), $this->lng->txt($obligAnsweredStatusLangVar)
+			);
+		}
+
+		if( $this->testOBJ->isShowGradingMarkEnabled() )
+		{
+			$this->populateListEntry($this->lng->txt('tst_mark'), $this->getMarkOfficial());
+		}
+
+		if( $this->testOBJ->getECTSOutput() )
+		{
+			$this->populateListEntry($this->lng->txt('ects_grade'), $this->getEctsGrade());
+		}
+		
+		$this->parseListTemplate();
+	}
+
+	public function initListTemplate()
+	{
+		$this->tpl = new ilTemplate('tpl.tst_grading_msg_list.html', true, true, 'Modules/Test');
+	}
+
+	private function populateListEntry($label, $value)
+	{
+		$this->tpl->setCurrentBlock('grading_msg_entry');
+		$this->tpl->setVariable('LABEL', $label);
+		$this->tpl->setVariable('VALUE', $value);
+		$this->tpl->parseCurrentBlock();
+	}
+
+	private function parseListTemplate()
+	{
+		$this->tpl->setCurrentBlock('grading_msg_list');
+		$this->tpl->parseCurrentBlock();
+	}
+	
+	public function getList()
+	{
+		return $this->tpl->get();
 	}
 }

@@ -455,13 +455,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 				include_once("./Services/Container/classes/class.ilContainerSessionsContentGUI.php");
 				$container_view = new ilContainerSessionsContentGUI($this);
 				break;
-				
-			// ILinc courses
-			case ilContainer::VIEW_ILINC:
-				include_once 'Services/Container/classes/class.ilContainerILincContentGUI.php';
-				$container_view = new ilContainerILincContentGUI($this);
-				break;
-			
+
 			// all items in one block
 			case ilContainer::VIEW_BY_TYPE:
 			default:
@@ -925,7 +919,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			"Services/Container");
 		
 		$type_ordering = array(
-			"cat", "fold", "crs", "icrs", "icla", "grp", "chat", "frm", "lres",
+			"cat", "fold", "crs", "grp", "chat", "frm", "lres",
 			"glo", "webr", "file", "exc",
 			"tst", "svy", "mep", "qpl", "spl");
 			
