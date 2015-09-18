@@ -15607,7 +15607,7 @@ exc#:#exc_adopt_group_teams_conflict#:#User "%1$s" is already selected for group
 exc#:#exc_adopt_group_teams_added#:#%s Users were added.
 exc#:#exc_adopt_group_teams_blocked#:#%s User were already assigned.
 exc#:#exc_deadline_ext_mismatch#:#The grace period has to end after the deadline.
-exc#:#exc_peer_review_ass_setting_info#:#Users can rate the solutions of their peers after the deadline and (if granted) grace period lapsed. 
+exc#:#exc_peer_review_ass_setting_info#:#Users can rate the solutions of their peers after the deadline and if granted the grace period lapsed. Specific settings on peer-feedback are made in the respective tab. After activation this option and saving it, the tab 'Peer-Feedback' will be displayed. 
 exc#:#exc_peer_review_min_number#:#Required Number of Feedbacks
 exc#:#exc_peer_review_min_number_info#:#Number of feedbacks a participant is required to give to peers. In case the minimum number of required feedbacks is greater than the actual number of submissions, the required minimum is automatically reduced to the the number of peer submissions.
 exc#:#exc_criteria_catalogues#:#Criteria Catalogues
