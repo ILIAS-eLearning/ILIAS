@@ -885,9 +885,10 @@ class ilLMObject
 		
 		// put them into the clipboard
 		$time = date("Y-m-d H:i:s", time());
+		$order = 0;
 		foreach ($a_ids as $id)
 		{
-			$curnode = "";
+			$curnode = array();
 			if ($tree->isInTree($id))
 			{
 				$curnode = $tree->getNodeData($id);
