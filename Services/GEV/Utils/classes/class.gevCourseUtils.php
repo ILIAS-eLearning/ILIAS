@@ -1192,12 +1192,13 @@ class gevCourseUtils {
 	public function adjustVCAssignment() {
 		require_once("Services/VCPool/classes/class.ilVCPool.php");
 		$vc_pool = ilVCPool::getInstance();
+		$vc_types = $vc_pool->getVCTypes();
 		
 		$assigned_vcs = $vc_pool->getVCAssignmentsByObjId($this->crs_id);
 		$has_vc_assigned = !empty($assigned_vcs);
 		
 		$should_get_vc_assignment = $this->isStartAndEndDateSet() 
-								&& $this->getVirtualClassType() !== null;
+								&& in_array($this->getVirtualClassType(), $vc_types);
 		
 		if ($has_vc_assigned && $should_get_vc_assignment) {
 			if ($this->hasStartOrEndDateChangedToVCAssign()) {
