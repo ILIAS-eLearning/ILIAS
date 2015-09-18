@@ -7,10 +7,15 @@ ilCOPageQuestionHandlerF.prototype =
 {
 	overlays: {},
 	callback_url: null,
+	success_handler: null,
 	
 	processAnswer: function (type, id, answer)
 	{
 		this.sendAnswer(type, id, answer);
+	},
+
+	setSuccessHandler: function (f) {
+		this.success_handler = f;
 	},
 
 	initCallback: function (url)
@@ -37,8 +42,10 @@ ilCOPageQuestionHandlerF.prototype =
 	},
 
 	// handle asynchronous request (success)
-	asynchSuccess: function(o)
-	{
+	asynchSuccess: function(o){
+		if (ilCOPageQuestionHandler.success_handler != null) {
+			ilCOPageQuestionHandler.success_handler();
+		}
 	},
 
 	// Success Handler

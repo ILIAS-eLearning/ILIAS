@@ -181,6 +181,14 @@ il.LearningModule = {
 		//if (has_questions && correct) {
 		if (ilias.questions.determineSuccessStatus() == "passed") {
 			$(".ilc_page_rnav_RightNavigation").removeClass("ilNoDisplay");
+			//if (il.LearningModule.toc_refresh_url != "" && $("#left_nav")) {
+			//	il.Util.ajaxReplaceInner(il.LearningModule.toc_refresh_url, "left_nav");
+			//}
+		}
+	},
+
+	refreshToc: function() {
+		if (ilias.questions.determineSuccessStatus() == "passed") {
 			if (il.LearningModule.toc_refresh_url != "" && $("#left_nav")) {
 				il.Util.ajaxReplaceInner(il.LearningModule.toc_refresh_url, "left_nav");
 			}
@@ -191,6 +199,7 @@ il.LearningModule = {
 $(function() {
 	$('body').focus();
 	il.LearningModule.refreshLayout();
+	ilCOPageQuestionHandler.setSuccessHandler(il.LearningModule.refreshToc);
 	$(document).keydown(function(e) {
 	if (e.target.tagName != "TEXTAREA" &&
 		e.target.tagName != "INPUT") {
