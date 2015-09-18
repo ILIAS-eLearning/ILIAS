@@ -947,7 +947,25 @@ class assFormulaQuestion extends assQuestion
 		$points = 0;
 		foreach($this->getResults() as $result)
 		{
-			$points += $result->getReachedPoints($this->getVariables(), $this->getResults(), $user_solution[$result->getResult()]["value"], $user_solution[$result->getResult()]["unit"], $this->unitrepository->getUnits());
+			if( isset($user_solution[$result->getResult()]["value"]) )
+			{
+				$v = $user_solution[$result->getResult()]["value"];
+			}
+			else
+			{
+				$v = null;
+			}
+			
+			if( isset($user_solution[$result->getResult()]["unit"]) )
+			{
+				$u = $user_solution[$result->getResult()]["unit"];
+			}
+			else
+			{
+				$u = null;
+			}
+			
+			$points += $result->getReachedPoints($this->getVariables(), $this->getResults(), $v, $u, $this->unitrepository->getUnits());
 		}
 
 		return $points;
