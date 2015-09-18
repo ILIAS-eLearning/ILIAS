@@ -9,10 +9,20 @@
 	<!-- BEGIN answer_row -->
 	<tr>
 		<td class="kprimInput">
+			<!-- BEGIN solution_true_image -->
 			<img src="{SOLUTION_IMAGE_TRUE}" alt="{SOLUTION_ALT_TRUE}" title="{SOLUTION_ALT_TRUE}" />
+			<!-- END solution_true_image -->
+			<!-- BEGIN solution_true_field -->
+			<input type="radio" name="kprim_result_q{SOL_QID}_{SOL_SUFFIX}_{SOL_POSITION}" value="{SOL_TRUE_VALUE}" readonly disabled {SOL_TRUE_CHECKED} />
+			<!-- END solution_true_field -->
 		</td>
 		<td class="kprimInput">
+			<!-- BEGIN solution_false_image -->
 			<img src="{SOLUTION_IMAGE_FALSE}" alt="{SOLUTION_ALT_FALSE}" title="{SOLUTION_ALT_FALSE}" />
+			<!-- END solution_false_image -->
+			<!-- BEGIN solution_false_field -->
+			<input type="radio" name="kprim_result_q{SOL_QID}_{SOL_SUFFIX}_{SOL_POSITION}" value="{SOL_FALSE_VALUE}" readonly disabled {SOL_FALSE_CHECKED} />
+			<!-- END solution_false_field -->
 		</td>
 		<td>
 			<!-- BEGIN answer_image -->

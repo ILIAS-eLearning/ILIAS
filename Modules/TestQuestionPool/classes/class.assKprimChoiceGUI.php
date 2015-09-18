@@ -637,29 +637,53 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 			$template->setCurrentBlock("answer_row");
 			$template->setVariable("ANSWER_TEXT", $this->object->prepareTextareaOutput($answer->getAnswertext(), TRUE));
 
-			if( isset($user_solution[$answer->getPosition()]) )
+			if( isset($_GET['pdf']) && $_GET['pdf'] )
 			{
-				if( $user_solution[$answer->getPosition()] )
+				if( isset($user_solution[$answer->getPosition()]) )
 				{
-					$template->setVariable("SOLUTION_IMAGE_TRUE", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_checked.png")));
-					$template->setVariable("SOLUTION_ALT_TRUE", $this->lng->txt("checked"));
-					$template->setVariable("SOLUTION_IMAGE_FALSE", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_unchecked.png")));
-					$template->setVariable("SOLUTION_ALT_FALSE", $this->lng->txt("unchecked"));
+					if( $user_solution[$answer->getPosition()] )
+					{
+						$template->setVariable("SOLUTION_IMAGE_TRUE", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_checked.png")));
+						$template->setVariable("SOLUTION_ALT_TRUE", $this->lng->txt("checked"));
+						$template->setVariable("SOLUTION_IMAGE_FALSE", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_unchecked.png")));
+						$template->setVariable("SOLUTION_ALT_FALSE", $this->lng->txt("unchecked"));
+					}
+					else
+					{
+						$template->setVariable("SOLUTION_IMAGE_TRUE", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_unchecked.png")));
+						$template->setVariable("SOLUTION_ALT_TRUE", $this->lng->txt("unchecked"));
+						$template->setVariable("SOLUTION_IMAGE_FALSE", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_checked.png")));
+						$template->setVariable("SOLUTION_ALT_FALSE", $this->lng->txt("checked"));
+					}
 				}
 				else
 				{
 					$template->setVariable("SOLUTION_IMAGE_TRUE", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_unchecked.png")));
 					$template->setVariable("SOLUTION_ALT_TRUE", $this->lng->txt("unchecked"));
-					$template->setVariable("SOLUTION_IMAGE_FALSE", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_checked.png")));
-					$template->setVariable("SOLUTION_ALT_FALSE", $this->lng->txt("checked"));
+					$template->setVariable("SOLUTION_IMAGE_FALSE", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_unchecked.png")));
+					$template->setVariable("SOLUTION_ALT_FALSE", $this->lng->txt("unchecked"));
 				}
 			}
 			else
 			{
-				$template->setVariable("SOLUTION_IMAGE_TRUE", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_unchecked.png")));
-				$template->setVariable("SOLUTION_ALT_TRUE", $this->lng->txt("unchecked"));
-				$template->setVariable("SOLUTION_IMAGE_FALSE", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_unchecked.png")));
-				$template->setVariable("SOLUTION_ALT_FALSE", $this->lng->txt("unchecked"));
+				$template->setVariable('SOL_QID', $this->object->getId());
+				$template->setVariable('SOL_SUFFIX', $show_correct_solution ? 'bestsolution' : 'usersolution');
+				$template->setVariable('SOL_POSITION', $answer->getPosition());
+				
+				$template->setVariable('SOL_TRUE_VALUE', 1);
+				$template->setVariable('SOL_FALSE_VALUE', 0);
+
+				if( isset($user_solution[$answer->getPosition()]) )
+				{
+					if( $user_solution[$answer->getPosition()] )
+					{
+						$template->setVariable('SOL_TRUE_CHECKED', 'checked');
+					}
+					else
+					{
+						$template->setVariable('SOL_FALSE_CHECKED', 'checked');
+					}
+				}
 			}
 			
 			$template->parseCurrentBlock();
