@@ -100,14 +100,14 @@ $watch_jobs = array
 			}
 		, "fail_message" => "Job is not active or running for more than 3000s."
 		)
-	/*, "gev_update_dbv" => array
+	, "gev_update_dbv" => array
 		( "check" => function($job_data) {
 				return	is_activated($job_data)
 					&&	(  !is_running($job_data) 
 						|| (is_running($job_data) && has_max_running_time(3000, $job_data))
 						);
 			}
-		)*/
+		)
 	/*, "gev_orgu_superior_mailing" => array
 		( "check" => function($job_data) {
 				return	is_activated($job_data)
