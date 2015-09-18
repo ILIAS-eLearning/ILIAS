@@ -844,7 +844,7 @@ class ilMail
 	}
 
 	/**
-	 * Delete mail
+	 * Delete mails
 	 * @param array mail ids
 	 * @return bool
 	 */

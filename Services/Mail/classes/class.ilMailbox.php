@@ -506,7 +506,7 @@ class ilMailbox
 			$user_folder[] = array(
 				'title'  => $row['title'],
 				'type'   => $row['m_type'],
-				'obj_id' => $row['obj_id']
+				'obj_id' => $row['child']
 			);
 		}
 
