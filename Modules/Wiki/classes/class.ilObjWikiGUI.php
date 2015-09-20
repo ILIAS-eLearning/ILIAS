@@ -1238,6 +1238,14 @@ class ilObjWikiGUI extends ilObjectGUI
 		{
 			if (!$this->object->getTemplateSelectionOnCreation())
 			{
+				// check length
+				include_once("./Services/Utilities/classes/class.ilStr.php");
+				if (ilStr::strLen(ilWikiUtil::makeDbTitle($a_page)) > 200)
+				{
+					ilUtil::sendFailure($this->lng->txt("wiki_page_title_too_long")." (".$a_page.")", true);
+					$ilCtrl->setParameterByClass("ilwikipagegui", "page", ilWikiUtil::makeUrlTitle($_GET["from_page"]));
+					$ilCtrl->redirectByClass("ilwikipagegui", "preview");
+				}
 				$this->object->createWikiPage($a_page);
 
 				// redirect to newly created page
