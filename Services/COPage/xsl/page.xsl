@@ -3441,7 +3441,7 @@
 				<xsl:if test="$mode != 'print'"><xsl:value-of select="@Behavior"/></xsl:if>
 				<xsl:if test="$mode = 'print'">ForceAllOpen</xsl:if>
 			</xsl:variable>
-			<xsl:if test="@Type = 'VerticalAccordion'">
+			<xsl:if test="@Type = 'VerticalAccordion' and $mode != 'print'">
 			<script type="text/javascript">
 				$(function () {
 					il.Accordion.add({
@@ -3461,7 +3461,7 @@
 					});
 			</script>
 			</xsl:if>
-			<xsl:if test="@Type = 'HorizontalAccordion'">
+			<xsl:if test="@Type = 'HorizontalAccordion' and $mode != 'print'">
 			<script type="text/javascript">
 				$(function () {
 					il.Accordion.add({
