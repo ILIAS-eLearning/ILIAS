@@ -219,7 +219,7 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 						->static_condition($this->db->in("usr.user_id", $this->allowed_user_ids, false, "integer"))
 						->static_condition("usr.hist_historic = 0")
 						->static_condition("orgu.hist_historic = 0")
-						->static_condition("orgu.action = 1")
+						->static_condition("orgu.action >= 0")
 						->action($this->ctrl->getLinkTarget($this, "view"))
 						->compile();
 		$this->dates = $this->filter->get("period");
