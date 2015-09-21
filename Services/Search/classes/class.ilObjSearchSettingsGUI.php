@@ -526,7 +526,7 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 			}
 			catch(Exception $e)
 			{
-				$ilLog->write(__METHOD__.': '.$e->getMessage());
+				ilLoggerFactory::getLogger('src')->error('Searching failed with message: ' . $e->getMessage());
 				ilUtil::sendFailure($e->getMessage());
 				$this->luceneSettingsObject();
 				return false;

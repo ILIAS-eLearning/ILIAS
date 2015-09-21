@@ -109,21 +109,24 @@ class ilLuceneIndexer extends ilCronJob
 		
 		try
 		{
+			ilLoggerFactory::getLogger('src')->info('Lucene update index call BEGIN --- ');
+
 			include_once './Services/WebServices/RPC/classes/class.ilRpcClientFactory.php';
 			ilRpcClientFactory::factory('RPCIndexHandler')->indexObjects(
 				CLIENT_ID.'_'.$ilSetting->get('inst_id',0),
 				$a_obj_ids
 			);
+			ilLoggerFactory::getLogger('src')->info('Lucene update index call --- END');
 		}
 		catch(XML_RPC2_FaultException $e)
 		{
 			$error_message = $e->getMessage();
-			$GLOBALS['ilLog']->write(__METHOD__.': '.$e->getMessage());
+			ilLoggerFactory::getLogger('src')->critical($error_message);
 		}
 		catch(Exception $e)
 		{
 			$error_message = $e->getMessage();
-			$GLOBALS['ilLog']->write(__METHOD__.': '.$e->getMessage());
+			ilLoggerFactory::getLogger('src')->error($error_message);
 		}
 		
 	}
