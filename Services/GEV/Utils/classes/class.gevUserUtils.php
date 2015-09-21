@@ -250,7 +250,7 @@ class gevUserUtils {
 
 		if(!self::userIdExists($a_user_id)) {
 			throw new Exception("gevUserUtils::getInstance: ".
-									"User with ID ".$a_user_id." does not exist.");
+									"User with ID '".$a_user_id."' does not exist.");
 		}
 
 		if (array_key_exists($a_user_id, self::$instances)) {
