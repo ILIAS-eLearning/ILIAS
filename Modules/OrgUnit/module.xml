@@ -17,6 +17,7 @@
 	</objects>
 	<events>
 		<event type="raise" id="delete" />
+		<event type="raise" id="update" />
 		<event type="listen" id="Services/User" />
 		<!--event type="listen" id="Modules/OrgUnit" /-->
 		<event type="listen" id="Services/Object" />
