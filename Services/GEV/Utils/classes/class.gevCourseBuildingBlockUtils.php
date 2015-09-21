@@ -241,7 +241,7 @@ class gevCourseBuildingBlockUtils {
 		self::updateWP($a_crs_ref_id, $a_db);
 	}
 
-	static private function updateGDVTopic($a_crs_ref_id,$a_db) {
+	static public function GDVTopic($a_crs_ref_id,$a_db) {
 		$sql = "SELECT DISTINCT base.gdv_topic\n"
 			   ." FROM ".self::TABLE_NAME_JOIN1." base\n"
 			   ." JOIN ".self::TABLE_NAME." join1 ON base.obj_id = join1.bb_id\n"
@@ -258,11 +258,17 @@ class gevCourseBuildingBlockUtils {
 			$gdv_topic = $row["gdv_topic"];
 		}
 
+		return $gdv_topic;
+	}
+
+	static private function updateGDVTopic($a_crs_ref_id,$a_db) {
+		$gdv_topic = self::GDVTopic($a_crs_ref_id,$a_db);
+
 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 		gevCourseUtils::updateGDVTopic($gdv_topic, $a_crs_ref_id);
 	}
 
-	static private function updateTrainingCategory($a_crs_ref_id,$a_db) {
+	static public function trainingAndCategory($a_crs_ref_id,$a_db) {
 		$sql = "SELECT base.training_categories \n"
 			   ." FROM ".self::TABLE_NAME_JOIN1." base\n"
 			   ." JOIN ".self::TABLE_NAME." join1 ON base.obj_id = join1.bb_id\n"
@@ -275,50 +281,94 @@ class gevCourseBuildingBlockUtils {
 			$categories = array_merge($categories,$cats);
 		}
 
+		return $categories;
+	}
+
+	static private function updateTrainingCategory($a_crs_ref_id,$a_db) {
+		$categories = self::trainingAndCategory($a_crs_ref_id,$a_db);
+
 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 		gevCourseUtils::updateTrainingCategory($categories, $a_crs_ref_id); 
 	}
 
-	static private function updateTargetAndBenefits($a_crs_ref_id,$a_db) {
+	static public function targetAndBenefits($a_crs_ref_id,$a_db,$crs_request_id = null) {
 		$sql = "SELECT DISTINCT base.learning_dest\n"
 			   ." FROM ".self::TABLE_NAME_JOIN1." base\n"
-			   ." JOIN ".self::TABLE_NAME." join1 ON base.obj_id = join1.bb_id\n"
-			   ." WHERE join1.crs_id = ".$a_db->quote($a_crs_ref_id,"integer")."\n";
+			   ." JOIN ".self::TABLE_NAME." join1 ON base.obj_id = join1.bb_id\n";
 
-		$res = $a_db->query($sql);
-		$lern_dest = "";
-		while($row = $a_db->fetchAssoc($res)) {
-			$lern_dest .= $row["learning_dest"]."\n";
+		if($a_crs_ref_id !== null) {
+			$sql .= " WHERE join1.crs_id = ".$a_db->quote($a_crs_ref_id,"integer")."\n";
 		}
 
+		if($a_crs_ref_id === null && $crs_request_id !== null) {
+			$sql .= " WHERE join1.crs_request_id = ".$a_db->quote($crs_request_id,"integer")."\n";
+		}
+
+		$res = $a_db->query($sql);
+		$learn_dest = array();
+		while($row = $a_db->fetchAssoc($res)) {
+			$learn_dest[] = $row["learning_dest"];
+		}
+
+		//REPLACE "\n" !!!!
+
+		return $learn_dest;
+	}
+
+	static private function updateTargetAndBenefits($a_crs_ref_id,$a_db) {
+		$learn_dest = self::targetAndBenefits($a_crs_ref_id,$a_db);
+		$learn_dest = implode("\n", $learn_dest);
+
 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
-		gevCourseUtils::updateTargetAndBenefits($lern_dest, $a_crs_ref_id);
+		gevCourseUtils::updateTargetAndBenefits($learn_dest, $a_crs_ref_id);
+	}
+
+	static public function content($a_crs_ref_id, $a_db,$crs_request_id = null) {
+		$sql = "SELECT DISTINCT base.content\n"
+			   ." FROM ".self::TABLE_NAME_JOIN1." base\n"
+			   ." JOIN ".self::TABLE_NAME." join1 ON base.obj_id = join1.bb_id\n";
+
+		if($a_crs_ref_id !== null) {
+			$sql .= " WHERE join1.crs_id = ".$a_db->quote($a_crs_ref_id,"integer")."\n";
+		}
+
+		if($a_crs_ref_id === null && $crs_request_id !== null) {
+			$sql .= " WHERE join1.crs_request_id = ".$a_db->quote($crs_request_id,"integer")."\n";
+		}
+
+		$res = $a_db->query($sql);
+		$content = array();
+		while($row = $a_db->fetchAssoc($res)) {
+			$content[] = $row["content"];
+		}
+
+		return $content;
 	}
 
 	static private function updateContent($a_crs_ref_id, $a_db) {
-		$sql = "SELECT DISTINCT base.content\n"
-			   ." FROM ".self::TABLE_NAME_JOIN1." base\n"
-			   ." JOIN ".self::TABLE_NAME." join1 ON base.obj_id = join1.bb_id\n"
-			   ." WHERE join1.crs_id = ".$a_db->quote($a_crs_ref_id,"integer")."\n";
-
-		$res = $a_db->query($sql);
-		$content = "";
-		while($row = $a_db->fetchAssoc($res)) {
-			$content .= $row["content"]."\n";
-		}
+		$content = self::content($a_crs_ref_id, $a_db);
+		$content = implode("\n", $content);
 
 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 		gevCourseUtils::updateContent($content, $a_crs_ref_id);
 	}
 
-	static private function updateWP($a_crs_ref_id, $a_db) {
+	static public function wp($a_crs_ref_id, $a_db,$crs_request_id = null) {
 		$sql = "SELECT base.id, base.start_time, base.end_time \n"
 		      ." FROM ".self::TABLE_NAME." base\n"
 		      ." JOIN ".self::TABLE_NAME_JOIN1." join1\n"
 		      ." ON base.bb_id = join1.obj_id\n"
-		      ." WHERE join1.is_wp_relevant = 1\n"
-		      ." AND base.crs_id = ".$a_db->quote($a_crs_ref_id,"integer")."\n"
-		      ." ORDER BY base.start_time";
+		      ." WHERE join1.is_wp_relevant = 1\n";
+
+		 if($a_crs_ref_id !== null) {
+			$sql .= " AND base.crs_id = ".$a_db->quote($a_crs_ref_id,"integer")."\n";
+		}
+
+		if($a_crs_ref_id === null && $crs_request_id !== null) {
+			$sql .= " AND base.crs_request_id = ".$a_db->quote($crs_request_id,"integer")."\n";
+		}
+
+		$sql .= " ORDER BY base.start_time";
 
 		$res = $a_db->query($sql);
 		$totalMinutes = 0;
@@ -344,6 +394,11 @@ class gevCourseBuildingBlockUtils {
 		if($wp < 0) {
 			$wp = 0;
 		}
+
+		return $wp;
+	}
+	static private function updateWP($a_crs_ref_id, $a_db) {
+		$wp = self::wp($a_crs_ref_id, $a_db);
 
 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 		gevCourseUtils::updateWP($wp, $a_crs_ref_id);

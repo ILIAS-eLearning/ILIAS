@@ -15,7 +15,7 @@
 require_once("Services/CaTUIComponents/classes/class.catPropertyFormGUI.php");
 
 class catPropertyFormTplGUI extends catPropertyFormGUI {
-protected $tpl_filename = "tpl.property_form.html";
+	protected $tpl_filename = "tpl.property_form.html";
 	protected $tpl_location = "Services/Form";
 	
 	public function __construct() {

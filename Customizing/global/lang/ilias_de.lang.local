@@ -1266,3 +1266,7 @@ gev#:#gev_dec_training_break_advice#:#Hinweis:<br/>Bitte denken Sie an ausreiche
 gev#:#gev_dec_training_end_before_start#:#Das Ende des Trainings lag vor dem Anfang. Änderungen wurden nicht gespeichert!
 gev#:#gev_dec_training_crs_to_long_no_change#:#Das Training überschreitet die maximale Dauer von 12 Zeitstunden. Änderungen wurden nicht gespeichert!
 gev#:#gev_dec_training_date_before_today#:#Das gewählte Datum liegt in der Vergangenheit. Änderungen wurden nicht gespeichert!
+gev#:#gev_dec_mail_preview#:#Mailvorschau
+gev#:#gev_dec_training_block_in_timespan#:#Bausteine überschneiden sich.
+gev#:#gev_dec_training_block_time_overlap#:#Bausteine überschneiden sich.
+gev#:#gev_dec_training_blocks_time_issue_course#:#Bausteine überschreiten die Kurszeit.
