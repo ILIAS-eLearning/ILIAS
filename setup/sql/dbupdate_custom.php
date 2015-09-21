@@ -4179,7 +4179,7 @@ if(!$ilDB->tableColumnExists('dct_building_block', 'dbv_topic')) {
 }
 ?>
 
-<#157>
+<#156>
 <?php
 if($ilDB->tableColumnExists('dct_crs_building_block', 'start_date')) {
 	$ilDB->renameTableColumn('dct_crs_building_block', 'start_date', 'start_time');
@@ -4200,7 +4200,7 @@ if($ilDB->tableColumnExists('dct_crs_building_block', 'end_date')) {
 }
 ?>
 
-<#158>
+<#157>
 <?php
 if(!$ilDB->tableColumnExists('dct_crs_building_block', 'credit_points')) {
 	$ilDB->addTableColumn('dct_crs_building_block','credit_points', array(
@@ -4211,7 +4211,7 @@ if(!$ilDB->tableColumnExists('dct_crs_building_block', 'credit_points')) {
 }
 ?>
 
-<#159>
+<#158>
 <?php
 if(!$ilDB->tableColumnExists('dct_building_block', 'move_to_course')) {
 	$ilDB->addTableColumn('dct_building_block','move_to_course', array(
