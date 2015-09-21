@@ -297,7 +297,7 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 	 */
 	function sortChilds($a_childs, $a_parent_node_id)
 	{
-		global $objDefinition;
+		global $objDefinition, $ilAccess;
 
 		$parent_obj_id = ilObject::_lookupObjId($a_parent_node_id);
 		if ($parent_obj_id > 0)
@@ -324,26 +324,39 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 		include_once('./Services/Object/classes/class.ilObjectActivation.php');									
 		$group = array();
 		$igroup = array(); // used for item groups, see bug #0015978
+		$in_any_group = array(); 
 		foreach ($a_childs as $child)
 		{					
 			// item group: get childs
 			if ($child["type"] == "itgr")
 			{
 				$g = $child["child"];
+				
 				$items = ilObjectActivation::getItemsByItemGroup($g);
 				if ($items)
 				{
 					// add item group ref id to item group block
 					$this->type_grps[$parent_type]["itgr"]["ref_ids"][] = $g;
-
+					
+					// #16697 - check item group permissions
+					$may_read = $ilAccess->checkAccess('read', '', $g);
+					
 					// see bug #0015978
-					include_once("./Services/Container/classes/class.ilContainerSorting.php");
-					$items = ilContainerSorting::_getInstance($parent_obj_id)->sortSubItems('itgr', $child["obj_id"], $items);
-
+					if ($may_read)
+					{
+						include_once("./Services/Container/classes/class.ilContainerSorting.php");
+						$items = ilContainerSorting::_getInstance($parent_obj_id)->sortSubItems('itgr', $child["obj_id"], $items);
+					}
+					
 					foreach($items as $item)
 					{
-						$igroup[$g][] = $item;
-						$group[$g][] = $item;
+						$in_any_group[] = $item["child"];
+						
+						if($may_read)
+						{							
+							$igroup[$g][] = $item;						
+							$group[$g][] = $item;
+						}
 					}
 				}
 			}
@@ -358,7 +371,9 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 				$group[$g][] = $child;		
 			}
 		}
-
+		
+		$in_any_group = array_unique($in_any_group);
+	
 		// custom block sorting?
 		include_once("./Services/Container/classes/class.ilContainerSorting.php");	
 		$sort = ilContainerSorting::_getInstance($parent_obj_id);									
@@ -434,7 +449,8 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 
 					foreach ($group[$t] as $k => $item)
 					{
-						if (!in_array($item["child"], $done))
+						if (!in_array($item["child"], $done) &&
+							!in_array($item["child"], $in_any_group)) // #16697
 						{
 							$childs[] = $item;
 							$done[] = $item["child"];
