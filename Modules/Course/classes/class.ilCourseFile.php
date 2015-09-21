@@ -228,7 +228,10 @@ class ilCourseFile
 		$res = $ilDB->manipulate($query);
 
 		// Delete file
-		unlink($this->getAbsolutePath());
+		if(file_exists($this->getAbsolutePath()))
+		{
+			unlink($this->getAbsolutePath());
+		}
 
 		return true;
 	}
