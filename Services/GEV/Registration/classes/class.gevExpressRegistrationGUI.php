@@ -74,7 +74,7 @@ class gevExpressRegistrationGUI {
 		}
 
 		$form = $res[0];
-		$this->crs_id = $_POST["crs_id"];
+		$this->crs_id = $_GET["crs_id"];
 
 		//register new express user
 		require_once("Services/GEV/Utils/classes/class.gevExpressLoginUtils.php");		
@@ -248,10 +248,6 @@ class gevExpressRegistrationGUI {
 			$optExp->addSubItem($checkToU);
 
 		$form->addItem($regType);
-
-		$crsId = new ilHiddenInputGUI("crs_id");
-		$crsId->setValue($_GET["crs_id"]);
-		$form->addItem($crsId);
 
 		return $form;
 	}
