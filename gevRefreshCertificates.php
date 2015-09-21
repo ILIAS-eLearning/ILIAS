@@ -33,11 +33,13 @@ class gevRefreshCertificates {
 		$this->getParams();
 
 		if(isset($this->opt["h"])) {
-			die("You may use c=$crs_id, u=$usr_id as get-parameters, 
-				to specify a course a user or the corresponding intersection. 
-				Please use o to overwrite old certificates.");
+			die("You may use c=$crs_id, u=$usr_id f=filename as get-parameters, "
+				."to specify a course a user or the corresponding intersection." 
+				."Please use o to overwrite old certificates. \n"
+				."Operating on csv save data as \n"
+				."crs_id;usr_id\n");
 		}
-		if(!$this->opt["u"] && !$this->opt["c"]) {
+		if(!$this->opt["u"] && !$this->opt["c"] && !$this->opt["f"]) {
 			die("No data given. Please use the get-prameter h to get help.");
 		}
 
@@ -90,6 +92,14 @@ class gevRefreshCertificates {
 		if(in_array($usr_id, $crs)) {
 			$this->crs_usrs[$crs_id][] = $usr_id;
 		}
+	}
+
+	private function addCrsUsrFromCSV($path) {
+		$csv = fopen($path,"r");
+		while ( $data = fgetcsv($csv,1000,";")) {
+			$this->crs_usrs[$data[0]] = $data[1];
+		}
+		fclose($csv);
 	}
 
 	private function getParams() {

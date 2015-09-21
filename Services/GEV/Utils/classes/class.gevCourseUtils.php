@@ -95,7 +95,7 @@ class gevCourseUtils {
 	static public function getBookingLinkTo($a_crs_id, $a_usr_id) {
 		global $ilCtrl,$ilUser;
 		// This is for the booking per express login.
-		if (!$ilUser->getId()) {
+		if (!$ilUser->getId() || gevSettings::getInstance()->getAgentOfferUserId() == $ilUser->getId() ) {
 			$ilCtrl->setParameterByClass("gevExpressRegistrationGUI", "crs_id", $a_crs_id);
 			$lnk = $ilCtrl->getLinkTargetByClass("gevExpressRegistrationGUI", "startRegistration");
 			$ilCtrl->clearParametersByClass("gevExpressRegistrationGUI");
@@ -1192,13 +1192,13 @@ class gevCourseUtils {
 	public function adjustVCAssignment() {
 		require_once("Services/VCPool/classes/class.ilVCPool.php");
 		$vc_pool = ilVCPool::getInstance();
+		$vc_types = $vc_pool->getVCTypes();
 		
 		$assigned_vcs = $vc_pool->getVCAssignmentsByObjId($this->crs_id);
 		$has_vc_assigned = !empty($assigned_vcs);
 		
-		$should_get_vc_assignment = $this->isVirtualTraining() 
-								&& $this->isStartAndEndDateSet() 
-								&& $this->getVirtualClassType() !== null;
+		$should_get_vc_assignment = $this->isStartAndEndDateSet() 
+								&& in_array($this->getVirtualClassType(), $vc_types);
 		
 		if ($has_vc_assigned && $should_get_vc_assignment) {
 			if ($this->hasStartOrEndDateChangedToVCAssign()) {
@@ -2446,13 +2446,13 @@ class gevCourseUtils {
 		
 		// Cancel participants
 		$this->cleanWaitingList();
-		
+
 		$participants = $this->getParticipants();
 		foreach($participants as $participant) {
 			$this->getBookings()->cancelWithoutCosts($participant);
 		}
-		$mails->send("admin_cancel_booked_to_cancelled_without_costs", $participants);
-		
+		$mails->send("training_cancelled_participant_info", $participants);
+
 		//Send cancel mail to trainer						
 		$trainers = $this->getTrainers();
 		$mails->send("training_cancelled_trainer_info",$trainers);

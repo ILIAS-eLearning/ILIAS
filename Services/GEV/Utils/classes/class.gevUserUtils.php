@@ -2494,16 +2494,16 @@ class gevUserUtils {
 					." histc.title, histc.type,"
 					." IF(crsa_start.night IS NULL, false, true) AS prearrival,"
 					." IF(crsa_end.night IS NULL, false, true) AS postdeparture"
-				." FROM hist_usercoursestatus histucs"
-				." JOIN hist_user histu ON histu.user_id = histucs.usr_id AND histu.hist_historic = 0"
-				." JOIN hist_course histc ON histc.crs_id = histucs.crs_id AND histc.hist_historic = 0"
-				." LEFT JOIN crs_acco crsa_start ON crsa_start.user_id = histu.user_id AND crsa_start.crs_id = histc.crs_id AND crsa_start.night = DATE_SUB(histucs.begin_date, INTERVAL 1 DAY)"
-				." LEFT JOIN crs_acco crsa_end ON crsa_start.user_id = histu.user_id AND crsa_start.crs_id = histc.crs_id AND crsa_end.night = histucs.end_date"
-				." WHERE histucs.created_ts BETWEEN ".$this->db->quote($a_start_ts, "integer")." AND ".$this->db->quote($a_end_ts, "integer").""
-				." AND ".$this->db->in("histucs.booking_status", $booking_status, false, "text").""
-				." AND histucs.hist_historic = 0"
-				." AND ".$this->db->in("histu.user_id", $to_search, false, "integer").""
-				." ORDER BY histucs.booking_status";
+					." FROM hist_usercoursestatus histucs"
+					." JOIN hist_user histu ON histu.user_id = histucs.usr_id AND histu.hist_historic = 0"
+					." JOIN hist_course histc ON histc.crs_id = histucs.crs_id AND histc.hist_historic = 0"
+					." LEFT JOIN crs_acco crsa_start ON crsa_start.user_id = histu.user_id AND crsa_start.crs_id = histc.crs_id AND crsa_start.night = DATE_SUB(histucs.begin_date, INTERVAL 1 DAY)"
+					." LEFT JOIN crs_acco crsa_end ON crsa_start.user_id = histu.user_id AND crsa_start.crs_id = histc.crs_id AND crsa_end.night = histucs.end_date"
+					." WHERE histucs.created_ts BETWEEN ".$this->db->quote($a_start_ts, "integer")." AND ".$this->db->quote($a_end_ts, "integer").""
+					." AND ".$this->db->in("histucs.booking_status", $booking_status, false, "text").""
+					." AND histucs.hist_historic = 0"
+					." AND ".$this->db->in("histu.user_id", $to_search, false, "integer").""
+					." ORDER BY histucs.booking_status";
 
 			$res_emp = $this->db->query($sql_emp);
 
@@ -2564,7 +2564,6 @@ class gevUserUtils {
 					   ,"DBV UVG"
 					   ,"DBV EVG"
 					   ,"DBV-Fin-UVG"
-					   ,"Key-Accounter"
 					   ,"RTL"
 					);
 
@@ -2585,7 +2584,6 @@ class gevUserUtils {
 					   ,"FDA"
 					   ,"int. Trainer"
 					   ,"OD-Betreuer"
-					   ,"Key-Accounter"
 					   ,"RTL"
 					);
 		

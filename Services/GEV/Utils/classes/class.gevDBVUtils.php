@@ -102,6 +102,37 @@ class gevDBVUtils {
 		// make new assignments
 		$this->assignUserToDBVsByShadowDB($a_user_id);
 	}
+	/**
+	* DBV_update refactoring to avoid reassignments into the same org unit. 
+	* This creates a lot of pointless entries in hist_userorgu table and slows down reports. 
+	*/
+	public function updateUsersDBVAssignmentsByShadowDB_new($a_user_id) {
+		$cpool_id = $this->gev_settings->getCPoolUnitId();
+		$dbvs_init = $this->pou->getSuperiorsOf($a_user_id);
+		$dbvs_final = $this->iv_getDBVsUserIdsOf($a_user_id);
+		$dbvs_out = array_diff($dbvs_init, $dbvs_final);
+		$dbvs_in = array_diff($dbvs_final, $dbvs_init);
+
+		foreach ($dbvs_out as $dbv) {
+			$this->pou->deassignEmployee($dbv, $a_user_id);
+		}
+
+		if(count($dbvs_final) == 0) {
+			if (!$cpool_id) {
+				throw new Exception("gevDBVUtils::assignUserToDBVsByShadowDB: No CPool-Org-Unit set.");
+			}
+			require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+			gevOrgUnitUtils::getInstance($cpool_id)->assignUser($a_user_id, "Mitarbeiter");
+		} else {
+			if(count($dbv_init) == 0) { 
+				gevOrgUnitUtils::getInstance($cpool_id)->deassignUser($a_user_id, "Mitarbeiter");
+			}
+			foreach ($dbvs_in as $dbv) {
+				$this->pou->assignEmployee($dbv, $a_user_id);
+			}
+		}
+		$this->appEventHandler->raise("Modules/OrgUnit", "afterUpdate", array("user_id" => $a_user_id));
+	}
 
 	/**
 	 * Gibt die Benutzernummern der DBVs eines Benutzer mit Daten aus der IV

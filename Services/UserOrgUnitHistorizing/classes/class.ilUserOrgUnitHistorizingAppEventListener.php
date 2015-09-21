@@ -182,8 +182,8 @@ class ilUserOrgUnitHistorizingAppEventListener {
 	}
 
 	protected static function massAction($a_component, $a_event) {
-		if($component == 'Services/AccessControl') {
-			switch ($event) {
+		if($a_component == 'Services/AccessControl') {
+			switch ($a_event) {
 				case 'removeUser':
 					return true;
 				case 'deleteOrguRole':
@@ -196,8 +196,8 @@ class ilUserOrgUnitHistorizingAppEventListener {
 					return true;
 			}
 		}
-		if($component == 'Modules/OrgUnit') {
-			switch ($event) {
+		if($a_component == 'Modules/OrgUnit') {
+			switch ($a_event) {
 				case 'delete':
 					return true;
 			}
