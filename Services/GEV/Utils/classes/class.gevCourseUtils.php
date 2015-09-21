@@ -469,7 +469,7 @@ class gevCourseUtils {
 	public function getStartDate() {
 		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_START_DATE);
 	}
-	
+
 	public function getFormattedStartDate() {
 		$d = $this->getStartDate();
 		if (!$d) {
@@ -479,7 +479,7 @@ class gevCourseUtils {
 		return $val;
 	}
 	
-	public function setStartDate($a_date) {
+	public function setStartDate(ilDate $a_date) {
 		$this->amd->setField($this->crs_id, gevSettings::CRS_AMD_START_DATE, $a_date);
 	}
 	
@@ -500,7 +500,7 @@ class gevCourseUtils {
 		return $val;
 	}
 	
-	public function setEndDate($a_date) {
+	public function setEndDate(ilDate $a_date) {
 		$this->amd->setField($this->crs_id, gevSettings::CRS_AMD_END_DATE, $a_date);
 	}
 	
@@ -3101,7 +3101,7 @@ class gevCourseUtils {
 			&& $end+$end_time > $timestamp;
 	}
 
-	static public function updateMethod(array $a_new_method, $a_ref_id) {
+	static public function updateGDVTopic($gdv_topic,$a_ref_id) {
 		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 		require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
 		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
@@ -3109,18 +3109,40 @@ class gevCourseUtils {
 		$obj_id = gevObjectUtils::getObjId($a_ref_id);
 		$amd_utils = gevAMDUtils::getInstance();
 
-		$amd_utils->setField($obj_id,gevSettings::CRS_AMD_METHODS,$a_new_method);
+		$amd_utils->setField($obj_id,gevSettings::CRS_AMD_GDV_TOPIC, $gdv_topic);
 	}
 
-	static public function updateMedia(array $a_new_media, $a_ref_id) {
+	static public function updateTrainingCategory(array $categories, $a_ref_id) {
 		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 		require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
 		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 		
 		$obj_id = gevObjectUtils::getObjId($a_ref_id);
 		$amd_utils = gevAMDUtils::getInstance();
+
+		$amd_utils->setField($obj_id,gevSettings::CRS_AMD_TOPIC, $categories);
+	}
+
+	static public function updateTargetAndBenefits($targets,$a_ref_id) {
+		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 		
-		$amd_utils->setField($obj_id,gevSettings::CRS_AMD_MEDIA,$a_new_media);
+		$obj_id = gevObjectUtils::getObjId($a_ref_id);
+		$amd_utils = gevAMDUtils::getInstance();
+
+		$amd_utils->setField($obj_id,gevSettings::CRS_AMD_GOALS,$targets);
+	}
+
+	static public function updateContent($content, $a_ref_id) {
+		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+		
+		$obj_id = gevObjectUtils::getObjId($a_ref_id);
+		$amd_utils = gevAMDUtils::getInstance();
+
+		$amd_utils->setField($obj_id,gevSettings::CRS_AMD_CONTENTS,$content);
 	}
 
 	static public function updateWP($a_wp, $a_ref_id) {

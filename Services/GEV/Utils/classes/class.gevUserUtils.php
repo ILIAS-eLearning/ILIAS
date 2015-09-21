@@ -1531,8 +1531,9 @@ class gevUserUtils {
 	}
 
 	public function isUVGDBV() {
+		return $this->hasRoleIn(array("DBV UVG"));
 		// TODO: implement this correctly
-		return true;
+		//return true;
 	}
 
 	public function getOD() {

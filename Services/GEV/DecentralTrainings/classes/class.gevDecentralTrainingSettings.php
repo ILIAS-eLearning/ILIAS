@@ -108,6 +108,14 @@ class gevDecentralTrainingSettings {
 		return $this->end_datetime;
 	}
 
+	public function setStart(ilDateTime $a_start_datetime) {
+		$this->start_datetime = $a_start_datetime;
+	}
+
+	public function setEnd(ilDateTime $a_end_datetime) {
+		$this->end_datetime = $a_end_datetime;
+	}
+
 	public function venueObjId() {
 		return $this->venue_obj_id;
 	}

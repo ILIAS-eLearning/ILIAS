@@ -16,7 +16,9 @@ require_once("Services/CaTUIComponents/classes/class.catLegendGUI.php");
 require_once("Services/GEV/Utils/classes/class.gevBuildingBlockUtils.php");
 
 class gevDecentralTrainingCourseBuildingBlockTableGUI extends catAccordionTableGUI {
-	public function __construct($a_parent_obj,$a_crs_id,$a_crs_request_id=null, $a_parent_cmd="", $a_template_context="") {
+	const MINUTE_STEP_SIZE = 15;
+
+	public function __construct($a_parent_obj,$a_crs_id,$a_crs_request_id=null,$no_changes = false, $a_parent_cmd="", $a_template_context="") {
 		parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
 
 		global $ilCtrl, $lng;
@@ -24,11 +26,12 @@ class gevDecentralTrainingCourseBuildingBlockTableGUI extends catAccordionTableG
 		$this->lng = $lng;
 		$this->ctrl = $ilCtrl;
 		$this->parent = $a_parent_obj;
+		$this->no_changes = $no_changes;
 
 		$this->crs_requerst_id = $a_crs_request_id;
 
 		$this->delete_image = '<img src="'.ilUtil::getImagePath("gev_cancel_action.png").'" />';
-		$this->edit_image = '<img src="'.ilUtil::getImagePath("GEV_img/ico-edit.png").'" />';
+		//$this->edit_image = '<img src="'.ilUtil::getImagePath("GEV_img/ico-edit.png").'" />';
 
 		$this->setEnableTitle(true);
 		$this->setTopCommands(true);
@@ -44,16 +47,11 @@ class gevDecentralTrainingCourseBuildingBlockTableGUI extends catAccordionTableG
 		$this->addColumn($this->lng->txt("gev_dec_crs_building_block_from"), "");
 		$this->addColumn($this->lng->txt("gev_dec_crs_building_block_to"),"");
 		$this->addColumn($this->lng->txt("gev_dec_crs_building_block_block"), '');
-		$this->addColumn($this->lng->txt("gev_dec_crs_building_block_methods"), "");
-		$this->addColumn($this->lng->txt("gev_dec_crs_building_block_media"), "");
 		$this->addColumn($this->lng->txt("gev_dec_crs_building_block_content"), "");
-		$this->addColumn($this->lng->txt("gev_dec_crs_building_block_lern_dest"), "");
+		$this->addColumn($this->lng->txt("gev_dec_building_block_learn_dest"), "");
+		$this->addColumn($this->lng->txt("gev_dec_building_wp"), "");
+		$this->addColumn($this->lng->txt("gev_dec_training_dbv_topic"), "");
 		$this->addColumn($this->lng->txt("action"), "");
-
-		$legend = new catLegendGUI();
-		$legend->addItem($this->delete_image, "gev_dec_building_block_delete")
-			   ->addItem($this->edit_image, "gev_dec_building_block_edit");
-		$this->setLegend($legend);
 
 		$data = gevCourseBuildingBlockUtils::getAllCourseBuildingBlocksRaw($a_crs_id,$a_crs_request_id);
 
@@ -62,16 +60,27 @@ class gevDecentralTrainingCourseBuildingBlockTableGUI extends catAccordionTableG
 	}
 
 	protected function fillRow($a_set) {
-		$start = split(" ",$a_set["start_date"]);
-		$end = split(" ",$a_set["end_date"]);
+		$start_date = new ilDateTimeInputGUI("", "start_date_".$a_set["id"]);
+		$start_date->setShowDate(false);
+		$start_date->setShowTime(true);
+		$start_date->setDate(new ilDateTime(date("Y-m-d")." ".$a_set["start_time"], IL_CAL_DATETIME));
+		$start_date->setMinuteStepSize(self::MINUTE_STEP_SIZE);
+		$start_date->setDisabled($this->no_changes);
 
-		$this->tpl->setVariable("START_DATE", $start[1]);
-		$this->tpl->setVariable("END_DATE", $end[1]);
+		$end_date = new ilDateTimeInputGUI("", "end_date_".$a_set["id"]);
+		$end_date->setShowDate(false);
+		$end_date->setShowTime(true);
+		$end_date->setDate(new ilDateTime(date("Y-m-d")." ".$a_set["end_time"], IL_CAL_DATETIME));
+		$end_date->setMinuteStepSize(self::MINUTE_STEP_SIZE);
+		$end_date->setDisabled($this->no_changes);
+
+		$this->tpl->setVariable("START_DATE", $start_date->render());
+		$this->tpl->setVariable("END_DATE", $end_date->render());
 		$this->tpl->setVariable("TITLE", $a_set["title"]);
-		$this->tpl->setVariable("METHOD", implode("<br/>", unserialize($a_set["method"])));
-		$this->tpl->setVariable("MEDIA", implode("<br/>", unserialize($a_set["media"])));
 		$this->tpl->setVariable("CONTENT", $a_set["content"]);
 		$this->tpl->setVariable("LEARNING_DEST", $a_set["learning_dest"]);
+		$this->tpl->setVariable("CREDIT_POINTS", $a_set["credit_points"]);
+		$this->tpl->setVariable("DBV_TOPIC", $a_set["dbv_topic"]);
 
 		require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingUtils.php");
 		$dct_utils = gevDecentralTrainingUtils::getInstance();
@@ -83,12 +92,12 @@ class gevDecentralTrainingCourseBuildingBlockTableGUI extends catAccordionTableG
 
 			if($dct_utils->userCanEditBuildingBlocks($obj_id)) {
 				$action = '<a href="'.$this->getDeleteLink($a_set["id"],$a_set["crs_request_id"],$a_set["crs_id"]).'">'.$this->delete_image.'</a>&nbsp;';
-				$action .= '<a href="'.$this->getEditLink($a_set["id"],$a_set["crs_request_id"],$a_set["crs_id"]).'">'.$this->edit_image.'</a>';
+				//$action .= '<a href="'.$this->getEditLink($a_set["id"],$a_set["crs_request_id"],$a_set["crs_id"]).'">'.$this->edit_image.'</a>';
 				$this->tpl->setVariable("ACTION", $action);
 			}
 		} else {
 			$action = '<a href="'.$this->getDeleteLink($a_set["id"],$a_set["crs_request_id"],$a_set["crs_id"]).'">'.$this->delete_image.'</a>&nbsp;';
-			$action .= '<a href="'.$this->getEditLink($a_set["id"],$a_set["crs_request_id"],$a_set["crs_id"]).'">'.$this->edit_image.'</a>';
+			//$action .= '<a href="'.$this->getEditLink($a_set["id"],$a_set["crs_request_id"],$a_set["crs_id"]).'">'.$this->edit_image.'</a>';
 			$this->tpl->setVariable("ACTION", $action);
 		}
 	}
@@ -103,7 +112,7 @@ class gevDecentralTrainingCourseBuildingBlockTableGUI extends catAccordionTableG
 			$ilCtrl->setParameter($this->parent, "crs_request_id", $a_crs_request_id);
 		}
 		
-		$lnk = $ilCtrl->getLinkTarget($this->parent, "delete");
+		$lnk = $ilCtrl->getLinkTarget($this->parent, "toDeleteCrsBuildingBlock");
 		$ilCtrl->clearParameters($this->parent);
 		return $lnk;
 	}
@@ -121,6 +130,42 @@ class gevDecentralTrainingCourseBuildingBlockTableGUI extends catAccordionTableG
 		$lnk = $ilCtrl->getLinkTarget($this->parent, "edit");
 		$ilCtrl->clearParameters($this->parent);
 		return $lnk;
+	}
+
+	protected $advice = null;
+
+	public function setAdvice($a_advice) {
+		$this->advice = $a_advice;
+	}
+
+	public function getAdvice() {
+		return $this->advice;
+	}
+
+	private function renderAdvice() {
+		$tpl = new ilTemplate("tpl.gev_my_advice.html", true, true, "Services/GEV/Desktop");
+
+		$tpl->setCurrentBlock("advice");
+		$tpl->setVariable("ADVICE", $this->lng->txt($this->getAdvice()));
+		$tpl->parseCurrentBlock();
+
+		return $tpl->get();
+	}
+
+	public function render() {
+		$ret = "";
+
+		if ($this->_title_enabled) {
+			$ret .= $this->_title->render()."<br />";
+		}
+
+		if($this->advice) {
+			$ret .= $this->renderAdvice()."<br />";
+		}
+
+		$ret .= ilTable2GUI::render();
+
+		return $ret;
 	}
 }
 
