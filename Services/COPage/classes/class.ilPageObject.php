@@ -4359,7 +4359,7 @@ abstract class ilPageObject
 		}
 		
 		$contributors = array();
-		$set = $ilDB->queryF("SELECT last_change_user, lang FROM page_object ".
+		$set = $ilDB->queryF("SELECT last_change_user, lang, page_id FROM page_object ".
 			" WHERE parent_id = %s AND parent_type = %s ".
 			" AND last_change_user != %s".$and_lang,
 			array("integer", "text", "integer"),
