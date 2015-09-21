@@ -114,6 +114,14 @@ class gevCourseUtils {
 		return ilLink::_getStaticLink($this->crs_id, "gevcrsbooking",true, "");
 	}
 	
+	public function getPermanentBookingLinkGUI() {
+		include_once 'Services/PermanentLink/classes/class.ilPermanentLinkGUI.php';
+		$bl = new ilPermanentLinkGUI("gevcrsbooking", $this->getId());
+		$bl->setIncludePermanentLinkText(false);
+		$bl->setAlignCenter(false);
+		return $bl;
+	}
+	
 	static public function gotoBooking($a_crs_id) {
 		global $ilCtrl;
 		ilUtil::redirect("ilias.php?baseClass=gevDesktopGUI&cmd=toBooking&crs_id=".$a_crs_id);
