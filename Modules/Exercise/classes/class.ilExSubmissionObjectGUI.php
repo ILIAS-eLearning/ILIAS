@@ -566,7 +566,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 		$conf->setFormAction($this->ctrl->getFormAction($this, "directSubmit"));
 		
 		$conf->setHeaderText($txt);
-		$conf->setConfirm($this->lng->txt("submit"), "directSubmit");
+		$conf->setConfirm($this->lng->txt("exc_direct_submit"), "directSubmit");
 		$conf->setCancel($this->lng->txt("cancel"), "returnToParent");
 		
 		$tpl->setContent($conf->getHTML());
