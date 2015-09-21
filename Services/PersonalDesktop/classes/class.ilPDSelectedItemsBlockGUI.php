@@ -1110,7 +1110,6 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 				$ilBench->stop("ilPersonalDesktopGUI", "getListHTML");
 				if ($html != "")
 				{
-					// BEGIN WebDAV: Use $item_list_gui to determine icon image type
 					$item_html[] = array(
 						"html" => $html, 
 						"item_ref_id" => $item["ref_id"],
@@ -1119,7 +1118,6 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 						"type" => $item["type"],
 						'item_icon_image_type' => $item_list_gui->getIconImageType()
 						);
-					// END WebDAV: Use $item_list_gui to determine icon image type
 				}
 			}
 			
@@ -1146,11 +1144,9 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 						$cur_parent_ref = $item["parent_ref"];
 					}
 					
-					// BEGIN WebDAV: Use $item_list_gui to determine icon image type.
-					$this->addStandardRow($tpl, $item["html"], $item["item_ref_id"], $item["item_obj_id"], 
+					$this->addStandardRow($tpl, $item["html"], $item["item_ref_id"], $item["item_obj_id"],
 						$item['item_icon_image_type'], 
 						"th_".$cur_parent_ref);
-					// END WebDAV: Use $item_list_gui to determine icon image type.
 					$output = true;
 				}
 			}
