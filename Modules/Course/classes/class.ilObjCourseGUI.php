@@ -257,7 +257,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		if(!$this->__checkStartObjects())
 		{
 			include_once "Services/Container/classes/class.ilContainerStartObjectsContentGUI.php";
-			$stgui = new ilContainerStartObjectsContentGUI($this->object);
+			$stgui = new ilContainerStartObjectsContentGUI($this, $this->object);
 			$stgui->enableDesktop($this->object->getAboStatus(), $this);
 			return $stgui->getHTML();
 		}

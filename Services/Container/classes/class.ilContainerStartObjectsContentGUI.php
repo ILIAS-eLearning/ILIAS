@@ -14,16 +14,18 @@ class ilContainerStartObjectsContentGUI
 	protected $start_object; // [ilContainerStartObjects]	
 	protected $enable_desktop; // [bool]
 	protected $parent_gui; // [ilContainerGUI]
+	protected $parent_obj;
 	
 	/**
 	 * Constructor
 	 * 
 	 * @param ilContainer $a_parent_obj
 	 */
-	public function __construct(ilContainer $a_parent_obj)
+	public function __construct($a_gui, ilContainer $a_parent_obj)
 	{			
 		include_once "Services/Container/classes/class.ilContainerStartObjects.php";
-		$this->parent_gui = $a_parent_obj;
+		$this->parent_gui = $a_gui;
+		$this->parent_obj = $a_parent_obj;
 		$this->start_object = new ilContainerStartObjects($a_parent_obj->getRefId(),
 			$a_parent_obj->getId());		
 	}
