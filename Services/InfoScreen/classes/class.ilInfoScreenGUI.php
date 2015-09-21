@@ -487,7 +487,7 @@ class ilInfoScreenGUI
 						$bl->setIncludePermanentLinkText(false);
 						$bl->setAlignCenter(false);
 						$this->addProperty( $lng->txt("gev_booking_link")
-										  , $utils->getPermanentBookingLink()
+										  , $bl->getHTML()
 										  , ""
 										  );
 					}
