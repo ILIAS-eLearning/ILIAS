@@ -110,13 +110,8 @@ class gevCourseUtils {
 	}
 	
 	public function getPermanentBookingLink() {
-		// This seems to be the "best" way to get a permanent link of the form:
-		// http://ilias-foo.de/goto.php?target=gevcrsbooking_790&client_id=Generali2
-		require_once("Services/PermanentLink/classes/class.ilPermanentLinkGUI.php");
-		$bl = new ilPermanentLinkGUI("gevcrsbooking", $this->crs_id);
-		$bl->setIncludePermanentLinkText(false);
-		$bl->setAlignCenter(false);
-		return $bl->getHTML();
+		include_once('./Services/Link/classes/class.ilLink.php');
+		return ilLink::_getStaticLink($this->crs_id, "gevcrsbooking",true, "");
 	}
 	
 	static public function gotoBooking($a_crs_id) {
