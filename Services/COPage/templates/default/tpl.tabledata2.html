@@ -49,7 +49,12 @@
 <input type="hidden" id="dtform_nr" name="id" value="" />
 </form> -->
 {IL_TINY_MENU}
-
+<!-- BEGIN int_link_prep -->
+{INT_LINK_PREP}
+<script>
+	$("#ilEditorPanel").parent().appendTo("body");
+</script>
+<!-- END int_link_prep -->
 <form name="ajaxform" id="ajaxform" method="post" action="{WYSIWYG_ACTION}">
 <input type="hidden" id="ajaxform_target" name="target[]" value="" />
 <input type="hidden" id="ajaxform_cmd" name="" value="" />
