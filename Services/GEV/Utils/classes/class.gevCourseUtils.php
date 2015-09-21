@@ -116,7 +116,15 @@ class gevCourseUtils {
 	
 	public function getPermanentBookingLinkGUI() {
 		include_once 'Services/PermanentLink/classes/class.ilPermanentLinkGUI.php';
-		$bl = new ilPermanentLinkGUI("gevcrsbooking", $this->getId());
+		
+		if ($this->isDecentralTraining()) {
+			$type = "gevcrsbookingexpress";
+		}
+		else {
+			$type = "gevcrsbooking";
+		}
+		
+		$bl = new ilPermanentLinkGUI($type,  $this->getId());
 		$bl->setIncludePermanentLinkText(false);
 		$bl->setAlignCenter(false);
 		return $bl;
@@ -125,6 +133,11 @@ class gevCourseUtils {
 	static public function gotoBooking($a_crs_id) {
 		global $ilCtrl;
 		ilUtil::redirect("ilias.php?baseClass=gevDesktopGUI&cmd=toBooking&crs_id=".$a_crs_id);
+	}
+	
+	static public function gotoExpressBooking($a_crs_id) {
+		require_once("Services/Utilities/classes/class.ilUtil.php");
+		ilUtil::redirect("makler.php?baseClass=gevexpressregistrationgui&cmd=startRegistration&crs_id=".$a_crs_id);
 	}
 	
 	static public function gotoBookingTrainer($a_crs_id) {
