@@ -48,9 +48,15 @@ class gevExpressRegistrationGUI {
 				break;
 			case "redirectNewLogin":
 				ilUtil::redirect("gev_registration.php");
+				break;
 			case "redirectLogin":
+				require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+				$crs_utils = gevCourseUtils::getInstance($_GET["crs_id"]);
+				ilUtil::redirect($crs_utils->getPermanentBookingLink());
+				break;
 			default:
 				ilUtil::redirect("login.php?target=login&client_id=Generali");
+				break;
 		}
 		
 		$this->tpl->setContent($cont);
@@ -184,6 +190,7 @@ class gevExpressRegistrationGUI {
 		require_once("Services/Form/classes/class.ilRadioOption.php");
 
 		$form = new ilPropertyFormGUI();
+		$this->ctrl->setParameter($this, "crs_id", $_GET["crs_id"]);
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->addCommandButton('next',$this->lng->txt('next'));
 		$form->setId("expresslogin");
