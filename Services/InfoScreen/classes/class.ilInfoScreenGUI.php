@@ -483,6 +483,9 @@ class ilInfoScreenGUI
 					require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 					$utils = gevCourseUtils::getInstance($a_obj->getId());
 					if (!$utils->isTemplate()) {
+						$bl = new ilPermanentLinkGUI("gevcrsbooking", $a_obj->getId());
+						$bl->setIncludePermanentLinkText(false);
+						$bl->setAlignCenter(false);
 						$this->addProperty( $lng->txt("gev_booking_link")
 										  , $utils->getPermanentBookingLink()
 										  , ""
