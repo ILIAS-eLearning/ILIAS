@@ -235,32 +235,24 @@ class ilLuceneSearcher
 					break;
 				
 			}
+			ilLoggerFactory::getLogger('src')->debug('Searching for: ' . $this->query_parser->getQuery());
 		}
 		catch(XML_RPC2_FaultException $e)
 		{
-			// TODO: better error handling
-			$ilBench->stop('Lucene','SearchCombinedIndex');
-			$ilLog->write(__METHOD__.': '.$e->getMessage());
+			ilLoggerFactory::getLogger('src')->error($e->getMessage());
 			return;
 		}
 		catch(Exception $e)
 		{
-			$ilBench->stop('Lucene','SearchCombinedIndex');
+			ilLoggerFactory::getLogger('src')->error($e->getMessage());
 			$ilLog->write(__METHOD__.': '.$e->getMessage());
 			return;
 		}
-		$ilBench->stop('Lucene','SearchCombinedIndex');		
-
 		
 		// Parse results
-		$ilBench->start('Lucene','ParseSearchResult');
 		include_once './Services/Search/classes/Lucene/class.ilLuceneSearchResultParser.php';
 		$parser = new ilLuceneSearchResultParser($res);
-		
-		#$GLOBALS['ilLog']->write(__METHOD__.' Result is: ' . $res);
-		
 		$parser->parse($this->result);
-		$ilBench->stop('Lucene','ParseSearchResult');
 		return;
 	}
 }

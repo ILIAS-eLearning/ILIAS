@@ -12065,3 +12065,7 @@ if($data['cnt'] > 0)
 	die("There are still wrong child entries in table 'mail_tree'. Please execute database update step 4761 again. Execute the following SQL string manually: UPDATE settings SET value = 4760 WHERE keyword = 'db_version'; ");
 }
 ?>
+<#4764>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
