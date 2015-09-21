@@ -54,15 +54,26 @@ class gevWBDTPBasicRegistrationGUI {
 
 	protected function checkWBDRelevantRole() {
 		if (!$this->user_utils->hasWBDRelevantRole()) {
-			ilUtil::redirect("");
+			$this->redirect("");
 			exit();
 		}
 	}
 
 	protected function checkAlreadyRegistered() {
 		if ($this->user_utils->hasDoneWBDRegistration()) {
-			ilUtil::redirect("");
+			$this->redirect("");
 			exit();
+		}
+	}
+	
+	protected function redirectToBookingOr($a_target) {
+		require_once("Services/Authentication/classes/class.ilSession.php");
+		$after_registration = ilSession::get("gev_after_registration");
+		if ($after_registration) {
+			ilUtil::redirect($after_registration);
+		}
+		else {
+			ilUtil::redirect($a_target);
 		}
 	}
 
@@ -110,14 +121,14 @@ class gevWBDTPBasicRegistrationGUI {
 		$usr->update();
 		
 		ilUtil::sendSuccess($this->lng->txt("gev_wbd_registration_finished_has_bwv_id"), true);
-		ilUtil::redirect("");
+		$this->redirect("");
 	}
 
 	protected function noBWVId() {
 		$this->user_utils->setRawWBDOKZ(gevUserUtils::WBD_NO_OKZ);
 		$this->user_utils->setWBDRegistrationDone();
 		ilUtil::sendSuccess($this->lng->txt("gev_wbd_registration_finished_no_bwv_id"), true);
-		ilUtil::redirect("");
+		$this->redirect("");
 	}
 
 	protected function createBWVId() {
@@ -212,16 +223,7 @@ class gevWBDTPBasicRegistrationGUI {
 		/*$tpl = new ilTemplate("tpl.gev_wbd_registration_finished.html", false, false, "Services/GEV/Registration");
 		return $tpl->get();*/
 		ilUtil::sendSuccess($this->lng->txt("gev_wbd_registration_finished_create_bwv_id"), true);
-		// If user got here via the agent offer, we need to redirect him to
-		// the booking stuff...
-		require_once("Services/Authentication/classes/class.ilSession.php");
-		$after_registration = ilSession::get("gev_after_registration");
-		if ($after_registration) {
-			ilUtil::redirect($after_registration);
-		}
-		else {
-			ilUtil::redirect("ilias.php?baseClass=gevDesktopGUI&cmdClass=toMyCourses");
-		}
+		$this->redirect("ilias.php?baseClass=gevDesktopGUI&cmdClass=toMyCourses");
 	}
 	
 	protected function buildTPBasisProfileForm() {
