@@ -192,7 +192,6 @@ class gevAgentRegistrationGUI {
 		require_once("Services/Authentication/classes/class.ilSession.php");
 		$after_registration = ilSession::get("gev_after_registration");
 		if ($after_registration) {
-			ilSession::clear("gev_after_registration");
 			ilUtil::redirect($after_registration);
 		}
 		else {

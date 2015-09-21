@@ -184,11 +184,18 @@ class gevWBDTPServiceRegistrationGUI {
 		$usr->update();
 
 		ilUtil::sendSuccess($this->lng->txt("gev_wbd_registration_finished_create_bwv_id"), true);
-		ilUtil::redirect("ilias.php?baseClass=gevDesktopGUI&cmdClass=toMyCourses");
+				
+		// If user got here via the agent offer, we need to redirect him to
+		// the booking stuff...
+		require_once("Services/Authentication/classes/class.ilSession.php");
+		$after_registration = ilSession::get("gev_after_registration");
+		if ($after_registration) {
+			ilUtil::redirect($after_registration);
+		}
+		else {
+			ilUtil::redirect("ilias.php?baseClass=gevDesktopGUI&cmdClass=toMyCourses");
+		}
 	}
-
-
-
 
 	protected function noServiceReg() {
 		$tpl = new ilTemplate("tpl.gev_wbd_tp_service_form_noreg.html", false, false, "Services/GEV/Registration");

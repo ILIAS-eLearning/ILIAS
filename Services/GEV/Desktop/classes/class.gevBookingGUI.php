@@ -41,9 +41,15 @@ class gevBookingGUI {
 		$this->checkIfUserIsAllowedToBookCourseForOtherUser();
 		$this->checkIfUserIsAllowedToBookCourse();
 		$this->checkOtherBookingsInPeriod();
-
 		
 		$this->cmd = $this->ctrl->getCmd();
+		
+		// Cleanup booking link in session. We could check for the actual course id in
+		// the link, but that seems to be not necessary, as i could no imagine a way
+		// one would get here for a different course than that from the booking link in
+		// the session.
+		require_once("Services/Authentication/classes/class.ilSession.php");
+		ilSession::clear("gev_after_registration"); 
 		
 		switch($this->cmd) {
 			case "backToSearch":
