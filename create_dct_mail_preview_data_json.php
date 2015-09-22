@@ -313,6 +313,7 @@
 	}
 
 	function getTrainerFullName(&$data_base) {
+		var_dump($data_base["ALLE TRAINER"]);
 		$ids = $data_base["ALLE TRAINER"];
 		$names = array();
 
@@ -321,7 +322,7 @@
 			$names[] = $usr_utils->getFormattedContactInfo();
 		}
 
-		$data_base["ALLE TRAINER"] = implode("\n",$names);
+		$data_base["ALLE TRAINER"] = implode("|",$names);
 	}
 
 	function replaceLastNewLine(&$data_base) {

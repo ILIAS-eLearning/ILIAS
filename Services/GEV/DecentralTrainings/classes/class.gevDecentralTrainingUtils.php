@@ -88,6 +88,7 @@ class gevDecentralTrainingUtils {
 		$orgus_d = $this->getOrgTree()->getOrgusWhereUserHasPermissionForOperation("add_dec_training_others", $a_user_id);
 		$orgus_r = $this->getOrgTree()->getOrgusWhereUserHasPermissionForOperation("add_dec_training_others_rec", $a_user_id);
 		$orgus_s = gevOrgUnitUtils::getAllChildren($orgus_r);
+
 		foreach ($orgus_s as $key => $value) {
 			$orgus_s[$key] = $value["ref_id"];
 		}

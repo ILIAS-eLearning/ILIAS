@@ -100,6 +100,7 @@ function gevShowMailPreview(){
 		values["ZIELGRUPPEN"] = tg_string;
 
 		var trainer_ids = $('#trainer_ids').val();
+		
 		var venue = $('#venue').val();
 
 		if(venue !== "0") {
@@ -124,6 +125,8 @@ function gevShowMailPreview(){
 					});
 				}
 				var html = getPlaceholderText(data["TRAININGSTYP"],data["VC-TYPE"]);
+				var trainers = data["ALLE TRAINER"].split("|");
+				data["ALLE TRAINER"] = trainers.join("<br />");
 				
 				if(html === "") {
 					$('#dct-mail_content').html("Es wurde keine Mailvorlage angelegt!");
