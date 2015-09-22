@@ -160,13 +160,13 @@ class ilUserOrgUnitHistorizing extends ilHistorizingStorage {
 	}
 
 	public static function containsChanges(&$a_current_data, &$a_new_data) {
-		if($a_current_data['action'] == $a_new_data['action'] && $a_current_data['action'] !== 0) {
+		if($a_current_data['action'] == $a_new_data['action'] && $a_current_data['action'] != 0) {
 			return false;
 		}
-		if($a_current_data['action'] === null && $a_new_data['action'] === -1) {
+		if($a_current_data['action'] === null && $a_new_data['action'] == -1) {
 			return false;
 		}
-		if($a_current_data['action'] === null && $a_new_data['action'] === 0) {
+		if($a_current_data['action'] === null && $a_new_data['action'] == 0) {
 			return false;
 		}
 		return parent::containsChanges($a_current_data, $a_new_data);
