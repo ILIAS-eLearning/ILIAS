@@ -205,6 +205,16 @@ class gevDecentralTrainingGUI {
 		if (!$form_prev->checkInput()) {
 			return $this->chooseTemplateAndTrainers($form_prev);
 		}
+		$form_prev->setValuesByPost();
+		$selected_tpl = $form_prev->getInput($form_prev->getInput("ltype")."_template");
+		
+		if($selected_tpl === "-1") {
+			$item = $form_prev->getItemByPostVar($form_prev->getInput("ltype")."_template");
+			$item->setAlert($this->lng->txt("gev_dec_training_no_tpl_selected"));
+			return $this->chooseTemplateAndTrainers($form_prev);
+		}
+
+
 		foreach ($form_prev->getInput("trainers") as $trainer_id) {
 			if (!$this->dctl_utils->canCreateFor($this->current_user->getId(), $trainer_id)) {
 				throw new Exception( "gevDecentralTrainingGUI::createTraining: No permission for ".$this->current_user->getId()
@@ -827,6 +837,7 @@ class gevDecentralTrainingGUI {
 			$ltype_choice->addOption($ltype_opt);
 			
 			$training_select = new ilSelectInputGUI($this->lng->txt("gev_dec_training_template"), $key."_template");
+			$tmplts = array("-1"=>"-") + $tmplts;
 			$training_select->setOptions($tmplts);
 
 			$ltype_opt->addSubItem($training_select);

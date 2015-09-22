@@ -1274,3 +1274,4 @@ gev#:#gev_dec_training_blocks_time_issue_course#:#Bausteine überschreiten die K
 gev#:#gev_dec_triaining_correct_data_confirm#:#Bestätigung
 gev#:#gev_dec_triaining_correct_data_text#:#Hiermit bestätige ich, dass meine Einstellungen korrekt sind. Ich habe das Datum des Trainings und die Organisationseinheit überprüft.
 gev#:#gev_dec_training_correct_data_no_confirm#:#Sie müssen erst bestätigen, dass die eingebenen Datan alle richtig sind.
+gev#:#gev_dec_training_no_tpl_selected#:#Bitte wählen Sie eine Vorlage aus.
