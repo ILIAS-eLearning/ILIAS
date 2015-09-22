@@ -690,6 +690,11 @@ class ilObjSurveyGUI extends ilObjectGUI
 				}
 				$this->ctrl->redirect($this, "properties");
 			}
+			else
+			{
+				// #16714
+				ilUtil::sendFailure($this->lng->txt("form_input_not_valid"));
+			}
 		}
 		
 		$form->setValuesByPost();
