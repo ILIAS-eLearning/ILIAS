@@ -32,7 +32,7 @@ class ilUserHistorizingAppEventListener
 		self::initEventHandler();
 		
 		if ($a_component == "Modules/OrgUnit") {
-			if (in_array($a_event, array("delete", "initDefaultRoles"))) {
+			if (in_array($a_event, array("delete", "initDefaultRoles","update"))) {
 				return;
 			}
 			

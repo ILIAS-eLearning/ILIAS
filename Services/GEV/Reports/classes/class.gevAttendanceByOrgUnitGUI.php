@@ -32,6 +32,7 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 	public function __construct() {
 		
 		parent::__construct();
+		$this->checkPermissionOnTarget();
 
 		$this->title = catTitleGUI::create()
 						->title("gev_rep_attendance_by_orgunit_title")
@@ -218,7 +219,7 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 						->static_condition($this->db->in("usr.user_id", $this->allowed_user_ids, false, "integer"))
 						->static_condition("usr.hist_historic = 0")
 						->static_condition("orgu.hist_historic = 0")
-						->static_condition("orgu.action = 1")
+						->static_condition("orgu.action >= 0")
 						->action($this->ctrl->getLinkTarget($this, "view"))
 						->compile();
 		$this->dates = $this->filter->get("period");
@@ -443,7 +444,12 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 		return $table->getHtml();
 	}
 
-
+	protected function checkPermissionOnTarget() {
+		if (  $this->user_utils->isAdmin() ||  $this->user_utils->hasRoleIn(array("Admin-Ansicht"))) {
+			return;
+		}
+		throw new Exception("No permission to view report for user $a_target_user_id");
+	}
 
 
 }

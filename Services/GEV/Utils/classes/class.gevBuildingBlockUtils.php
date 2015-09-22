@@ -18,6 +18,25 @@ class gevBuildingBlockUtils {
 	protected $learning_dest = "";
 	protected $is_wp_relevant = false;
 	protected $is_active = false;
+	protected $gdv_topic;
+	protected $training_categories;
+	protected $topic;
+
+	static $possible_topics = array("Organisation" => "Organisation"
+						   ,"Alterssicherung" => "Alterssicherung"
+						   ,"Einkommenssicherung" => "Einkommenssicherung"
+						   ,"Vermögenssicherung" => "Vermögenssicherung"
+						   ,"Konzepte ohne Gesundheitsprüfung" => "Konzepte ohne Gesundheitsprüfung"
+						   ,"Betriebliche Altersvorsorge" => "Betriebliche Altersvorsorge"
+						   ,"Immobilienfinanzierung" => "Immobilienfinanzierung"
+						   ,"Gewerbe" => "Gewerbe"
+						   ,"Technische Versicherung" => "Technische Versicherung"
+						   ,"Transportversicherung" => "Transportversicherung"
+						   ,"AdcoCard" => "AdcoCard"
+						   ,"Highlights Privatkunden" => "Highlights Privatkunden"
+						   ,"myGenerali" => "myGenerali"
+						   ,"Heilwesen" => "Heilwesen"
+						   ,"KFZ-Versicherung" => "KFZ-Versicherung");
 
 	protected function __construct($a_building_block_id) {
 		global $ilDB, $ilUser;
@@ -80,8 +99,56 @@ class gevBuildingBlockUtils {
 		$this->is_active = $a_is_active;
 	}
 
+	public function setGDVTopic($gdv_topic) {
+		$this->gdv_topic = $gdv_topic;
+	}
+
+	public function getGDVTopic() {
+		return $this->gdv_topic;
+	}
+
+	public function setTraingCategories(array $training_categories) {
+		$this->training_categories = $training_categories;
+	}
+
+	public function getTrainingCategories() {
+		return $this->training_categories;
+	}
+
+	public function getTrainingCategoriesAsString() {
+		return implode($this->training_categories);
+	}
+
+	public function getTopic() {
+		return $this->topic;
+	}
+
+	public function setTopic($topic) {
+		$this->topic = $topic;
+	}
+
+	public function getDBVTopic() {
+		return $this->dbv_topic;
+	}
+
+	public function setDBVTopic($dbv_topic) {
+		$this->dbv_topic = $dbv_topic;
+	}
+
+	public function setMoveToCourse($move_to_course) {
+		$this->move_to_course = $move_to_course;
+	}
+
+	public function getMoveToCourse() {
+		return $this->move_to_course;
+	}
+
+	public function getMoveToCourseText() {
+		return ($this->move_to_course) ? "Ja" : "Nein";
+	}
+
 	public function loadData() {
-		$sql = "SELECT obj_id, title, content, learning_dest, is_wp_relevant, is_active \n".
+		$sql = "SELECT obj_id, title, content, learning_dest, is_wp_relevant, is_active, gdv_topic, training_categories,topic, dbv_topic, move_to_course\n".
 			   "  FROM ".self::TABLE_NAME.
 			   " WHERE obj_id = ".$this->db->quote($this->getId(), "integer");
 
@@ -95,6 +162,11 @@ class gevBuildingBlockUtils {
 			$this->learning_dest = $row["learning_dest"];
 			$this->is_wp_relevant = $row["is_wp_relevant"];
 			$this->is_active = $row["is_active"];
+			$this->gdv_topic = $row["gdv_topic"];
+			$this->training_categories = unserialize($row["training_categories"]);
+			$this->topic = $row["topic"];
+			$this->dbv_topic = $row["dbv_topic"];
+			$this->move_to_course = $row["move_to_course"];
 		}
 	}
 
@@ -107,6 +179,11 @@ class gevBuildingBlockUtils {
 			  ."     , is_active = ".$this->db->quote($this->isActive(), "integer")."\n"
 			  ."     , last_change_user = ".$this->db->quote($this->ilUser->getId(), "integer")."\n"
 			  ."     , last_change_date = NOW()\n"
+			  ."     , gdv_topic = ".$this->db->quote($this->getGDVTopic(), "text")."\n"
+			  ."     , training_categories = ".$this->db->quote(serialize($this->getTrainingCategories()), "text")."\n"
+			  ."     , topic = ".$this->db->quote($this->getTopic(), "text")."\n"
+			  ."     , dbv_topic = ".$this->db->quote($this->getDBVTopic(), "text")."\n"
+			  ."     , move_to_course = ".$this->db->quote($this->getMoveToCourse(), "integer")."\n"
 			  ." WHERE obj_id = ".$this->db->quote($this->getId(), "integer");
 
 		$this->db->manipulate($sql);
@@ -116,11 +193,12 @@ class gevBuildingBlockUtils {
 
 	public function save() {
 		
-		$isWPRelevant = ($this->isWPRelevant() === "") ? "0" : "1";
+		$isWPRelevant = ($this->isWPRelevant() === false) ? "0" : "1";
 		$isActive = ($this->isActive() === "") ? "0" : "1";
 
 		$sql = "INSERT INTO ".self::TABLE_NAME.""
-			  ." (obj_id, title, content, learning_dest, is_wp_relevant, is_active, last_change_user, last_change_date, is_deleted)\n"
+			  ." (obj_id, title, content, learning_dest, is_wp_relevant, is_active, last_change_user\n"
+			  .", last_change_date, is_deleted, gdv_topic, training_categories, topic, dbv_topic, move_to_course)\n"
 			  ." VALUES (".$this->db->quote($this->getId(), "integer")."\n"
 			  ."        ,".$this->db->quote($this->getTitle(), "text")."\n"
 			  ."        ,".$this->db->quote($this->getContent(), "text")."\n"
@@ -128,8 +206,14 @@ class gevBuildingBlockUtils {
 			  ."        ,".$this->db->quote($isWPRelevant, "integer")."\n"
 			  ."        ,".$this->db->quote($isActive, "integer")."\n"
 			  ."        ,".$this->db->quote($this->ilUser->getId(), "integer")."\n"
-			  ."        , NOW()"
-			  ."        , 0)";
+			  ."        , NOW()\n"
+			  ."        , 0\n"
+			  ."        ,".$this->db->quote($this->getGDVTopic(), "text")."\n"
+			  ."        ,".$this->db->quote(serialize($this->getTrainingCategories()), "text")."\n"
+			  ."        ,".$this->db->quote($this->getTopic(), "text")."\n"
+			  ."        ,".$this->db->quote($this->getDBVTopic(), "text")."\n"
+			  ."        ,".$this->db->quote($this->getMoveToCourse(), "integer")."\n"
+			  .")";
 
 		$this->db->manipulate($sql);
 
@@ -141,7 +225,8 @@ class gevBuildingBlockUtils {
 
 		$add_where = self::createAdditionalWhere($a_search_opts);
 		$sql = "SELECT bb.obj_id, bb.title, bb.content, bb.learning_dest\n"
-			  ."     , bb.is_wp_relevant, bb.is_active, usr.login, bb.last_change_date\n"
+			  ."     , bb.is_wp_relevant, bb.is_active, bb.gdv_topic, bb.training_categories, bb.topic, bb.dbv_topic\n"
+			  ."	 , usr.login, bb.last_change_date, bb.move_to_course\n"
 			  ."  FROM ".self::TABLE_NAME." bb\n"
 			  ."  JOIN usr_data usr ON usr_id = last_change_user\n"
 			  ."  WHERE is_deleted = ".$ilDB->quote(0,"integer")."\n";
@@ -154,6 +239,7 @@ class gevBuildingBlockUtils {
 		$ret = array();
 		$res = $ilDB->query($sql);
 		while($row = $ilDB->fetchAssoc($res)) {
+			$row["training_categories"] = unserialize($row["training_categories"]);
 			$ret[] = $row;
 		}
 
@@ -227,9 +313,123 @@ class gevBuildingBlockUtils {
 		while ($row = $ilDB->fetchAssoc($res)) {
 			$ret[$row["obj_id"]] = $row["title"];
 		}
-
+		
 		return $ret;
 	}
-}
 
+	static function getPossibleBuildingBlocksGroupByTopic() {
+		global $ilDB;
+
+		$sql = "SELECT obj_id, title, topic FROM ".self::TABLE_NAME." WHERE is_deleted = 0 AND is_active = 1 ORDER BY topic";
+		$res = $ilDB->query($sql);
+
+		$ret = array();
+		$curr_topic = "";
+		$bla = array();
+
+		while ($row = $ilDB->fetchAssoc($res)) {
+			if($curr_topic != $row["topic"] && $curr_topic != "") {
+				$ret[$curr_topic] = $bla;
+				$bla = array();
+				$curr_topic = $row["topic"];
+			}
+
+			if($curr_topic == "") {
+				$curr_topic = $row["topic"];
+			}
+
+			$bla[$row["obj_id"]] = $row["title"];
+		}
+
+		if(!empty($bla)) {
+			$ret[$curr_topic] = $bla;
+		}
+		
+		return $ret;
+	}
+
+	static function getAllPossibleTopics() {
+		return self::$possible_topics;
+	}
+
+	static function getAllInBuildingBlocksSelectedTopics() {
+		global $ilDB;
+
+		$sql = "SELECT DISTINCT topic FROM ".self::TABLE_NAME." WHERE is_deleted = 0 AND is_active = 1";
+		$res = $ilDB->query($sql);
+
+		$ret = array();
+
+		while ($row = $ilDB->fetchAssoc($res)) {
+			$ret[$row["topic"]] = $row["topic"];
+		}
+		
+		return $ret;
+	}
+
+	static function getPossibleBuildingBlocksByTopicName($topic) {
+		global $ilDB;
+
+		$sql = "SELECT obj_id, title, topic\n"
+			   ." FROM ".self::TABLE_NAME."\n"
+			   ." WHERE is_deleted = 0\n"
+			   ." AND is_active = 1\n";
+		
+		if($topic != "0") {
+			$sql .= " AND topic = ".$ilDB->quote($topic,"text")."\n";
+		}
+		
+
+
+		$sql .= " ORDER BY topic";
+
+		echo $sql;
+
+		$res = $ilDB->query($sql);
+
+		$ret = array();
+		$curr_topic = "";
+		$bla = array();
+
+		while ($row = $ilDB->fetchAssoc($res)) {
+			if($curr_topic != $row["topic"] && $curr_topic != "") {
+				$ret[$curr_topic] = $bla;
+				$bla = array();
+				$curr_topic = $row["topic"];
+			}
+
+			if($curr_topic == "") {
+				$curr_topic = $row["topic"];
+			}
+
+			$bla[$row["obj_id"]] = $row["title"];
+		}
+
+		if(!empty($bla)) {
+			$ret[$curr_topic] = $bla;
+		}
+		
+		return $ret;
+	}
+
+	static function getBuildingBlockInfosById($id) {
+		global $ilDB;
+
+		$sql = "SELECT content, learning_dest, if(is_wp_relevant,'Ja','Nein') AS wp"
+			   ." FROM ".self::TABLE_NAME."\n"
+			   ." WHERE obj_id = ".$ilDB->quote($id, "integer");
+
+		$res = $ilDB->query($sql);
+
+		if($ilDB->numRows($res) > 0) {
+			return $ilDB->fetchAssoc($res);
+		}
+
+		return array("content" => "", "learning_dest" => "");
+	}
+
+	static public function getMoveToCourseOptions() {
+		return array("Ja"=>"Ja","Nein"=>"Nein");
+	}
+}
 ?>

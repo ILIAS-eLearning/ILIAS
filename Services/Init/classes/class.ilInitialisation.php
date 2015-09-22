@@ -1196,6 +1196,13 @@ class ilInitialisation
 		}			
 		else 
 		{									
+			// gev-patch start
+			$goto_target = explode("_", $_GET["target"]);
+			if ($goto_target[0] == "gevcrsbookingexpress") {
+				return;
+			}
+			// gev-patch end
+		
 			if (!self::showingLoginForm($current_script))
 			{								
 				// :TODO: should be moved to context?!

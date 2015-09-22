@@ -103,6 +103,10 @@ class gevDecentralTrainingCreationRequest {
 	public function settings() {
 		return $this->settings;
 	}
+
+	public function setSettings($settings) {
+		$this->settings = $settings;
+	}
 	
 	public function trainerIds() {
 		return $this->trainer_ids;

@@ -47,10 +47,19 @@ class gevExpressRegistrationGUI {
 				$cont = $this->$cmd();
 				break;
 			case "redirectNewLogin":
+				require_once("Services/Authentication/classes/class.ilSession.php");
+				$crs_utils = gevCourseUtils::getInstance($_GET["crs_id"]);
+				ilSession::set("gev_after_registration", $crs_utils->getPermanentBookingLink());
 				ilUtil::redirect("gev_registration.php");
+				break;
 			case "redirectLogin":
+				require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+				$crs_utils = gevCourseUtils::getInstance($_GET["crs_id"]);
+				ilUtil::redirect($crs_utils->getPermanentBookingLink());
+				break;
 			default:
 				ilUtil::redirect("login.php?target=login&client_id=Generali");
+				break;
 		}
 		
 		$this->tpl->setContent($cont);
@@ -65,7 +74,7 @@ class gevExpressRegistrationGUI {
 		}
 
 		$form = $res[0];
-		$this->crs_id = $_POST["crs_id"];
+		$this->crs_id = $_GET["crs_id"];
 
 		//register new express user
 		require_once("Services/GEV/Utils/classes/class.gevExpressLoginUtils.php");		
@@ -184,6 +193,7 @@ class gevExpressRegistrationGUI {
 		require_once("Services/Form/classes/class.ilRadioOption.php");
 
 		$form = new ilPropertyFormGUI();
+		$this->ctrl->setParameter($this, "crs_id", $_GET["crs_id"]);
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->addCommandButton('next',$this->lng->txt('next'));
 		$form->setId("expresslogin");
@@ -238,10 +248,6 @@ class gevExpressRegistrationGUI {
 			$optExp->addSubItem($checkToU);
 
 		$form->addItem($regType);
-
-		$crsId = new ilHiddenInputGUI("crs_id");
-		$crsId->setValue($_GET["crs_id"]);
-		$form->addItem($crsId);
 
 		return $form;
 	}

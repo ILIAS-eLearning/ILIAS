@@ -148,6 +148,22 @@ class gevOrgUnitUtils {
 		}
 		throw new ilException("gevOrgUnitUtils::getEVGOrgUnitRefId: could not find org unit with import_id = 'evg'");
 	}
+
+	static public function getUVGOrgUnitRefId() {
+		global $ilDB;
+		
+		$res = $ilDB->query("SELECT DISTINCT oref.ref_id "
+						   ."  FROM object_data od "
+						   ."  JOIN object_reference oref ON oref.obj_id = od.obj_id "
+						   ." WHERE import_id = 'uvg'"
+						   ."   AND oref.deleted IS NULL"
+						   ."   AND od.type = 'orgu'"
+						   );
+		if ($rec = $ilDB->fetchAssoc($res)) {
+			return $rec["ref_id"];
+		}
+		throw new ilException("gevOrgUnitUtils::getEVGOrgUnitRefId: could not find org unit with import_id = 'uvg'");
+	}
 	
 	public function getOrgUnitAbove() {
 		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
@@ -545,7 +561,6 @@ class gevOrgUnitUtils {
 			."  JOIN object_data od ON od.obj_id = fa.rol_id"
 			." WHERE ua.rol_id = fa.rol_id"
 			."   AND od.title LIKE 'il_orgu_superior_%'";
-			echo $sql;
 
 		$res = $ilDB->query(
 			 "SELECT ua.usr_id"

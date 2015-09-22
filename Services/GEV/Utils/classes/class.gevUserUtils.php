@@ -15,6 +15,7 @@ require_once("Services/CourseBooking/classes/class.ilCourseBooking.php");
 require_once("Services/CourseBooking/classes/class.ilUserCourseBookings.php");
 require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevUDFUtils.php");
+require_once("Services/GEV/Utils/classes/class.gevDBVUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
@@ -244,12 +245,12 @@ class gevUserUtils {
 	static public function getInstance($a_user_id) {
 		if($a_user_id === null) {
 			throw new Exception("gevUserUtils::getInstance: ".
-								"No Usersdfsdfsdf ID given.");
+								"No User-ID given.");
 		}
 
 		if(!self::userIdExists($a_user_id)) {
 			throw new Exception("gevUserUtils::getInstance: ".
-									"User with ID ".$a_user_id." does not exist.");
+									"User with ID '".$a_user_id."' does not exist.");
 		}
 
 		if (array_key_exists($a_user_id, self::$instances)) {
@@ -1530,8 +1531,9 @@ class gevUserUtils {
 	}
 
 	public function isUVGDBV() {
+		return $this->hasRoleIn(array("DBV UVG"));
 		// TODO: implement this correctly
-		return true;
+		//return true;
 	}
 
 	public function getOD() {
@@ -2445,7 +2447,7 @@ class gevUserUtils {
 	*
 	* @return array
 	*/
-	public function getUserDataForSuperiorWeeklyReport($a_start_ts, $a_end_ts, $org_unit_obj_id) {
+	public function getUserDataForSuperiorWeeklyReport($a_start_ts, $a_end_ts) {
 		$booking_status = array("gebucht" => "gebucht"
 						,"kostenfrei_storniert" => "kostenfrei storniert"
 						,"kostenpflichtig_storniert" => "kostenpflichtig storniert"
@@ -2488,21 +2490,21 @@ class gevUserUtils {
 			$to_search = array_merge($empl,$sup);
 
 			$sql_emp = "SELECT" 
-					." 	histucs.begin_date, histucs.end_date, histucs.overnights, histucs.booking_status, histucs.participation_status,"
-					." 	histu.firstname, histu.lastname,"
-					." 	histc.title, histc.type,"
-					." 	IF(crsa_start.night IS NULL, false, true) AS prenight,"
-					." 	IF(crsa_end.night IS NULL, false, true) AS lastnight"
-				." FROM hist_usercoursestatus histucs"
-				." JOIN hist_user histu ON histu.user_id = histucs.usr_id AND histu.hist_historic = 0"
-				." JOIN hist_course histc ON histc.crs_id = histucs.crs_id AND histc.hist_historic = 0"
-				." LEFT JOIN crs_acco crsa_start ON crsa_start.user_id = histu.user_id AND crsa_start.crs_id = histc.crs_id AND crsa_start.night = DATE_SUB(histucs.begin_date, INTERVAL 1 DAY)"
-				." LEFT JOIN crs_acco crsa_end ON crsa_start.user_id = histu.user_id AND crsa_start.crs_id = histc.crs_id AND crsa_end.night = histucs.end_date"
-				." WHERE histucs.created_ts BETWEEN ".$this->db->quote($a_start_ts, "integer")." AND ".$this->db->quote($a_end_ts, "integer").""
-				." AND ".$this->db->in("histucs.booking_status", $booking_status, false, "text").""
-				." AND histucs.hist_historic = 0"
-				." AND ".$this->db->in("histu.user_id", $to_search, false, "integer").""
-				." ORDER BY histucs.booking_status";
+					." histucs.begin_date, histucs.end_date, histucs.overnights, histucs.booking_status, histucs.participation_status,"
+					." histu.firstname, histu.lastname,"
+					." histc.title, histc.type,"
+					." IF(crsa_start.night IS NULL, false, true) AS prearrival,"
+					." IF(crsa_end.night IS NULL, false, true) AS postdeparture"
+					." FROM hist_usercoursestatus histucs"
+					." JOIN hist_user histu ON histu.user_id = histucs.usr_id AND histu.hist_historic = 0"
+					." JOIN hist_course histc ON histc.crs_id = histucs.crs_id AND histc.hist_historic = 0"
+					." LEFT JOIN crs_acco crsa_start ON crsa_start.user_id = histu.user_id AND crsa_start.crs_id = histc.crs_id AND crsa_start.night = DATE_SUB(histucs.begin_date, INTERVAL 1 DAY)"
+					." LEFT JOIN crs_acco crsa_end ON crsa_start.user_id = histu.user_id AND crsa_start.crs_id = histc.crs_id AND crsa_end.night = histucs.end_date"
+					." WHERE histucs.created_ts BETWEEN ".$this->db->quote($a_start_ts, "integer")." AND ".$this->db->quote($a_end_ts, "integer").""
+					." AND ".$this->db->in("histucs.booking_status", $booking_status, false, "text").""
+					." AND histucs.hist_historic = 0"
+					." AND ".$this->db->in("histu.user_id", $to_search, false, "integer").""
+					." ORDER BY histucs.booking_status";
 
 			$res_emp = $this->db->query($sql_emp);
 

@@ -378,5 +378,15 @@ class ilTEP
 					, "view_rekru" => self::getOrgUnitNamesAndIds(array($evg->getRefId()))
 					);
 	}
+
+	public static function getPossibleOrgUnitsForDecentralTrainingEntriesSeparated() {
+		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+		$evg = gevOrgUnitUtils::getInstanceByImportId("evg");
+		$uvg = gevOrgUnitUtils::getInstanceByImportId("uvg");
+		
+		return array( "view" => array()
+					, "view_rekru" => self::getOrgUnitNamesAndIds(array($evg->getRefId(),$uvg->getRefId()))
+					);
+	}
 	// gev-patch end
 }

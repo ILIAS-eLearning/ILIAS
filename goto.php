@@ -127,7 +127,6 @@ if($target_type == "impr")
 	ilUtil::redirect('ilias.php?baseClass=ilImprintGUI');
 }
 
-
 // gev-patch start
 if (substr($_GET["target"], 0, 3) !== "gev") {
 	// goto is not granted?
@@ -317,6 +316,15 @@ switch($target_type)
 	case 'gevcrsbooking':
 		require_once("./Services/GEV/Utils/classes/class.gevCourseUtils.php");
 		gevCourseUtils::gotoBooking($target_id);
+		break;
+	case 'gevcrsbookingexpress':
+		require_once("./Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		if ($ilUser && $ilUser->getId()) {
+			gevCourseUtils::gotoBooking($target_id);
+		}
+		else {
+			gevCourseUtils::gotoExpressBooking($target_id);
+		}
 		break;
 	case 'gevcrsbookingtrainer':
 		require_once("./Services/GEV/Utils/classes/class.gevCourseUtils.php");

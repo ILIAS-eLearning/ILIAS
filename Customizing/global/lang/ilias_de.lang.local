@@ -353,6 +353,7 @@ exc#:#exc_team_member_container_add#:#Team-Mitglied aus Training/Gruppe hinzufü
 exercise#:#exc_crs_add_members#:#Mitglieder dieses Trainings hinzufügen
 exercise#:#exc_feedback_from_tutor#:#Feedback des Trainers
 fm#:#fm_settings_active_info#:#Benutzer können Kategorien, Trainings, Gruppen und Ordner öffnen, indem Sie im Magazin die Aktion "Mit Dateimanager öffnen" ausführen.
+gev#:#gev_crs_template#:#Vorlage
 gev#:#dont_send_mail#:#keine Mail versenden
 gev#:#evg_email#:#E-Mail-Adresse
 gev#:#evg_mandatory#:#Sie müssen dieses Feld bestätigen, um sich registrieren zu können.
@@ -1163,9 +1164,9 @@ gev#:#gev_dec_building_block_wp_relevant_desc#:#Ist dieser Baustein relevant fü
 gev#:#gev_dec_building_block_edit#:#Baustein bearbeiten
 gev#:#gev_dec_building_block_new#:#Neuer Baustein
 gev#:#gev_dec_building_block_base_data#:#Bausteininformationen
-gev#:#gev_dec_building_block_title#:#Titel
-gev#:#gev_dec_building_block_content#:#Inhalte
-gev#:#gev_dec_building_block_learn_dest#:#Lernziel
+gev#:#gev_dec_building_block_create_title#:#Titel
+gev#:#gev_dec_building_block_content#:#Trainingsinhalte
+gev#:#gev_dec_building_block_learn_dest#:#Ziele und Nutzen
 gev#:#gev_dec_building_block_is_wp_relevant#:#WP relevant
 gev#:#gev_dec_building_block_active#:#Aktiv
 gev#:#gev_dec_building_block_title#:#Trainingsbausteine
@@ -1200,8 +1201,8 @@ gev#:#gev_dec_training_open_requests_header#:#Derzeit wird dieses dezentrale Tra
 gev#:#gev_dec_training_open_requests_time_info#:#Die Wartezeit zur Anlage eines dezentralen Trainings beträgt derzeit etwa %s Minuten. <br /><br /><b>Bleiben sie auf dieser Seite, um nach der Anlage des Trainings Buchungen vornehmen zu können.</b></br><br /><b>Nach der Anlage des Training erhalten sie außerdem eine E-Mail, die einen Link zu den Trainingsbuchungen enthält.</b>
 gev#:#gev_dec_training_presence_fix#:#Präsenztraining (fester Ablaufplan)
 gev#:#gev_dec_training_webinar_fix#:#Webinar (fester Ablaufplan)
-gev#:#gev_dec_training_presence_flex#:#Präsenztraining (individuelle Bausteine)
-gev#:#gev_dec_training_webinar_flex#:#Webinar (individuelle Bausteine)
+gev#:#gev_dec_training_presence_flex#:#Präsenztraining (flexible Bausteine)
+gev#:#gev_dec_training_webinar_flex#:#Webinar (flexible Bausteine)
 gev#:#gev_dec_training_notice#:#Für nähere Informationen wenden Sie sich bitte an die Abteilung Außendienstentwicklung, Telefon 089 5121 1919, Mail <a href="mailto:Bildungspunkte.de@generali.com">Bildungspunkte.de@generali.com</a>
 gev#:#gev_dec_training_title#:#Titel
 gev#:#gev_dec_training_duration#:#Zeitraum
@@ -1225,7 +1226,7 @@ gev#:#gev_dec_crs_creation_building_block_edit_sub_title#:#Hier können Sie den 
 gev#:#gev_dec_training_no_open_requests#:#Derzeit sind keine dezentralen Trainings zur Anlage vorgesehen.
 gev#:#gev_dec_training_open_requests_title#:#Anlage von dezentralen Trainings
 gev#:#gev_dec_training_open_requests_header_note#:#Hier erfahren sie, welche dezentralen Trainings derzeit für sie angelegt werden.
-gev#:#gev_dec_training_min_participation_count_not_reached#:#Bitte beachten Sie, dass bei allen dezentralen Trainings, bei denen Bildungspunkte vergeben werden sollen, eine Mindestteilnehmerzahl von 6 punkteberechtigten Personen erforderlich ist.
+gev#:#gev_dec_training_min_participation_count_not_reached#:#Bitte beachten Sie, dass bei allen dezentralen Trainings, bei denen Bildungspunkte vergeben werden sollen, eine Mindestteilnehmerzahl von 3 punkteberechtigten Personen erforderlich ist.
 gev#:#gev_dec_training_save_request#:#Dezentrales Training anlegen
 gev#:#gev_dec_training_show_buildingblocks#:#Ablaufplan anzeigen
 gev#:#gev_dec_ready#:#Fertig
@@ -1247,3 +1248,31 @@ gev#:#gev_footer_infos_wbd_registration#:#Unterlagen zur WBD Registrierung
 gev#:#gev_footer_contact#:#Kontakt
 gev#:#gev_footer_imprint#:#Impressum
 gev#:#gev_footer_academy_benried#:#Generali Akademie GmbH, Bernried
+gev#:#gev_dec_training_venue_free_text_info#:#Name, Straße Hausnr., PLZ Ort
+gev#:#gev_dec_training_add_building_block#:#Baustein hinzufügen
+gev#:#gev_dec_activate#:#Aktivieren
+gev#:#gev_dec_training_cancle#:#Abbrechen
+gev#:#gev_dec_training_change_settings#:#Trainingseinstellungen ändern
+gev#:#gev_dec_training_topic#:#Lerninhalt
+gev#:#gev_dec_training_dbv_topic#:#DBV-Thema
+gev#:#gev_dec_training_distribution#:#Vertriebsweg
+gev#:#gev_dec_training_save_changes#:#Änderungen speichern
+gev#:#gev_dec_training_select_building_block#:#Baustein
+gev#:#gev_dec_training_preselect_topic#:#Lerninhalt
+gev#:#gev_dec_building_wp#:#WP
+gev#:#gev_dec_training_header_topic#:#Lerninhalt vorwählen
+gev#:#gev_dec_training_header_block#:#Baustein auswählen
+gev#:#gev_dec_training_header_infos#:#Baustein vorschau
+gev#:#gev_dec_training_break_advice#:#Hinweis:<br/>Bitte denken Sie an ausreichend Pausen!
+gev#:#gev_dec_training_end_before_start#:#Das Ende des Trainings lag vor dem Anfang. Änderungen wurden nicht gespeichert!
+gev#:#gev_dec_training_crs_to_long_no_change#:#Das Training überschreitet die maximale Dauer von 12 Zeitstunden. Änderungen wurden nicht gespeichert!
+gev#:#gev_dec_training_date_before_today#:#Das gewählte Datum liegt in der Vergangenheit. Änderungen wurden nicht gespeichert!
+gev#:#gev_dec_mail_preview#:#Mailvorschau
+gev#:#gev_dec_training_block_in_timespan#:#Bausteine überschneiden sich.
+gev#:#gev_dec_training_block_time_overlap#:#Bausteine überschneiden sich.
+gev#:#gev_dec_training_blocks_time_issue_course#:#Bausteine überschreiten die Kurszeit.
+gev#:#gev_dec_triaining_correct_data_confirm#:#Bestätigung
+gev#:#gev_dec_triaining_correct_data_text#:#Hiermit bestätige ich, dass meine Einstellungen korrekt sind. Ich habe das Datum des Trainings und die Organisationseinheit überprüft.
+gev#:#gev_dec_training_correct_data_no_confirm#:#Sie müssen erst bestätigen, dass die eingebenen Datan alle richtig sind.
+gev#:#gev_dec_training_no_tpl_selected#:#Bitte wählen Sie eine Vorlage aus.
+gev#:#gev_dec_training_org_unit_advice#:#Bitte wählen sie die Organisationseinheit, für die sie dieses Training veranstalten. Durch Klick auf ein Dreieck sehen sie die untergeordneten Organisationseinheiten.>>>>>>> .merge-right.r60817

@@ -22,8 +22,8 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
 *
 * // gev-patch start
 * @ilCtrl_Calls ilObjCourseGUI: gevCrsMailingGUI
-* @ilCtrl_Calls ilObjCourseGUI: gevDecentralTrainingCourseBuildingBlockGUI
-* // gev-patch end * @ilCtrl_Calls ilObjCourseGUI: gevDecentralTrainingCourseBuildingBlockGUI
+* @ilCtrl_Calls ilObjCourseGUI: gevDecentralTrainingCourseCreatingBuildingBlock2GUI
+* // gev-patch end * 
 *
 * @extends ilContainerGUI
 */
@@ -1724,11 +1724,11 @@ class ilObjCourseGUI extends ilContainerGUI
 				}
 
 				if(gevCourseUtils::getInstanceByObj($this->object)->isFlexibleDecentrallTraining()) {
-					$this->ctrl->setParameterByClass('gevDecentralTrainingCourseBuildingBlockGUI', 'obj_id', $this->object->getId());
+					$this->ctrl->setParameterByClass('gevDecentralTrainingCourseCreatingBuildingBlock2GUI', 'obj_id', $this->object->getId());
 					$this->tabs_gui->addSubTabTarget('gev_dec_crs_building_block_sub_menu_title',
-						$this->ctrl->getLinkTargetByClass('gevDecentralTrainingCourseBuildingBlockGUI',''), 
-						'', 'gevDecentralTrainingCourseBuildingBlockGUI');
-					$this->ctrl->setParameterByClass('gevDecentralTrainingCourseBuildingBlockGUI', 'obj_id', '');
+						$this->ctrl->getLinkTargetByClass('gevDecentralTrainingCourseCreatingBuildingBlock2GUI',''), 
+						'', 'gevDecentralTrainingCourseCreatingBuildingBlock2GUI');
+					$this->ctrl->setParameterByClass('gevDecentralTrainingCourseCreatingBuildingBlock2GUI', 'obj_id', '');
 				}
 				// gev-patch end
 
@@ -4864,9 +4864,29 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->tabs_gui->activateTab("mailing");
 				$this->ctrl->forwardCommand($mailing_gui);
 				break;
-			case "gevdecentraltrainingcoursebuildingblockgui":
-				require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCourseBuildingBlockGUI.php");
-				$bb_gui = new gevDecentralTrainingCourseBuildingBlockGUI();
+			case "gevdecentraltrainingcoursecreatingbuildingblock2gui":
+				require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCourseCreatingBuildingBlock2GUI.php");
+				
+				$crs_obj_id = null;
+				if(isset($_GET["crs_obj_id"])){
+					$crs_obj_id = (int)$_GET["crs_obj_id"];
+				}
+
+				if(isset($_POST["crs_obj_id"])){
+					$crs_obj_id = (int)$_POST["crs_obj_id"];
+				}
+				
+				if(isset($_GET["crs_ref_id"])){
+					require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+					$crs_obj_id = (int)gevObjectUtils::getObjId((int)$_GET["crs_ref_id"]);
+				}
+
+				if(isset($_POST["crs_ref_id"])){
+					require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+					$crs_obj_id = (int)gevObjectUtils::getObjId((int)$_POST["crs_ref_id"]);
+				}
+
+				$bb_gui = new gevDecentralTrainingCourseCreatingBuildingBlock2GUI($crs_obj_id);
 				$this->setSubTabs("properties");
 				$this->tabs_gui->activateTab("settings");
 				$this->ctrl->forwardCommand($bb_gui);

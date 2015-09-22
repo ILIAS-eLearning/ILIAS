@@ -54,16 +54,17 @@ class ilGEVCourseUpdatePlugin extends ilEventHookPlugin
 			}
 
 			if($this->crs_utils->isFlexibleDecentrallTraining()) {
-				if($this->crs_utils->isWebinar()) {
-					require_once("Services/GEV/Mailing/classes/class.gevCrsInvitationMailSettings.php");
-					require_once("Services/GEV/Utils/classes/class.gevSettings.php");
-					$settings = gevSettings::getInstance();
-					require_once("Services/GEV/Mailing/classes/class.gevCrsMailAttachments.php");
-					$attachments = array(gevCrsMailAttachments::ICAL_ENTRY
-										,gevCrsMailAttachments::SCHEDULE
-										);
+				require_once("Services/GEV/Mailing/classes/class.gevCrsInvitationMailSettings.php");
+				require_once("Services/GEV/Mailing/classes/class.gevCrsMailAttachments.php");
+				$attachments = array(gevCrsMailAttachments::ICAL_ENTRY
+									,gevCrsMailAttachments::SCHEDULE
+									);
+				$crs_inv_mail_set = new gevCrsInvitationMailSettings($this->crs_utils->getCourse()->getId());
 
-					$crs_inv_mail_set = new gevCrsInvitationMailSettings($this->crs_utils->getCourse()->getId());
+				require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+				$settings = gevSettings::getInstance();
+
+				if($this->crs_utils->isWebinar()) {
 					$vc_type = $this->crs_utils->getVirtualClassType();
 
 					if($vc_type && $vc_type == self::VC_TYPE_CSN) {
@@ -75,6 +76,11 @@ class ilGEVCourseUpdatePlugin extends ilEventHookPlugin
 						$crs_inv_mail_set->setSettingsFor(self::VC_RECIPIENT,$settings->getWebExMailTemplateId(),$attachments);
 						$crs_inv_mail_set->save();
 					}
+				}
+
+				if($this->crs_utils->isPraesenztraining()) {
+					$crs_inv_mail_set->setSettingsFor(self::VC_RECIPIENT,$settings->getDecentralTrainingMailTemplateId(),$attachments);
+					$crs_inv_mail_set->save();
 				}
 			}
 

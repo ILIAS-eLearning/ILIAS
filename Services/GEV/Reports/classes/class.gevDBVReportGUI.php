@@ -105,9 +105,14 @@ class gevDBVReportGUI extends catBasicReportGUI{
 						->join("hist_userorgu huo_in")
 							->on("oup.orgunit_id = huo_in.orgu_id AND huo_in.`action` = 1 AND rol_title = ".$this->db->quote("Mitarbeiter","text"))
 						->left_join("hist_userorgu huo_out")
-							->on("oup.orgunit_id = huo_out.orgu_id AND huo_out.`action` = -1"
+							->on(" huo_out.`action` = -1"
 								." AND huo_in.usr_id = huo_out.usr_id AND huo_in.orgu_id = huo_out.orgu_id"
-								." AND huo_in.rol_id = huo_out.rol_id AND huo_in.hist_version+1 = huo_out.hist_version")
+								." AND huo_in.rol_id = huo_out.rol_id AND huo_in.hist_version < huo_out.hist_version")
+						->left_join("hist_userorgu huo_out_aux")
+							->on(" huo_out_aux.`action` = -1"
+								." AND huo_in.usr_id = huo_out_aux.usr_id AND huo_in.orgu_id = huo_out_aux.orgu_id"
+								." AND huo_in.rol_id = huo_out_aux.rol_id AND huo_in.hist_version < huo_out_aux.hist_version"
+								." AND huo_out.hist_version > huo_out_aux.hist_version")
 						->join("hist_user hu")
 							->on("huo_in.usr_id = hu.user_id")						
 						->join("hist_usercoursestatus hucs")
@@ -129,6 +134,7 @@ class gevDBVReportGUI extends catBasicReportGUI{
 						->static_condition("hu.hist_historic = 0")
 						->static_condition("hucs.hist_historic = 0")
 						->static_condition("hc.hist_historic = 0")
+						->static_condition("huo_out_aux.hist_version IS NULL")
 						->static_condition($this->db->in("hc.dbv_hot_topic", gevSettings::$dbv_hot_topics, false, "text"))
 						//->static_condition("hc.dbv_hot_topic IS NOT NULL")
 						//->static_condition("hc.dbv_hot_topic != '-empty-'")
@@ -143,7 +149,7 @@ class gevDBVReportGUI extends catBasicReportGUI{
 	}
 
 	protected function checkPermissionOnTarget($a_target_user_id) {
-		if (   gevUserUtils::getInstance($a_target_user_id)->hasRoleIn(array("DBV-Fin-UVG"))
+		if (   true//gevUserUtils::getInstance($a_target_user_id)->hasRoleIn(array("DBV-Fin-UVG"))
 			&& (    $this->user_utils->isAdmin() 
 				 || $a_target_user_id == $this->user_utils->getId()
 			     || $this->user_utils->isSuperiorOf($a_target_user_id))) {

@@ -99,7 +99,7 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		$report_permission_attendancebyuser =  $this->userUtils->isAdmin() || $this->userUtils->isSuperior();
 		$report_permission_bookingsbyvenue =  $this->userUtils->isAdmin() || $this->userUtils->hasRoleIn(array("Veranstalter"));
 		$report_permission_employee_edu_bio = $this->userUtils->isAdmin() || $this->userUtils->hasRoleIn(array("OD-Betreuer")) || $this->userUtils->isSuperior();
-		$report_permission_attendancebyorgunit = $this->userUtils->isAdmin() || $this->userUtils->isSuperior();
+		$report_permission_attendancebyorgunit = $this->userUtils->isAdmin() ||  $this->userUtils->hasRoleIn(array("Admin-Ansicht"));
 		$report_permission_attendancebycoursetemplate = $this->userUtils->isAdmin();
 		$report_permission_wbd = $this->userUtils->isAdmin();
 		$report_permission_traineroperationbytepcategory = $this->userUtils->isAdmin();
@@ -110,7 +110,8 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 							|| $report_permission_attendancebyuser 
 							|| $report_permission_bookingsbyvenue 
 							|| $report_permission_employee_edu_bio
-							|| $report_permission_wbd; //$report_permission_attendancebyuser; // || ....
+							|| $report_permission_wbd
+							|| $report_permission_attendancebyorgunit; //$report_permission_attendancebyuser; // || ....
 
 		$is_trainer = $tep; // $tep_permissions->isTutor();
 

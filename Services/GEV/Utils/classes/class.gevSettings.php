@@ -289,6 +289,7 @@ class gevSettings {
 	const DCT_TPL_FLEX_WEBINAR = "dct_tpl_flex_webinar";
 	const DCT_TPL_MAIL_CSN = "dct_tpl_mail_csn";
 	const DCT_TPL_MAIL_WEBEX = "dct_tpl_mail_webex";
+	const DCT_TPL_MAIL_DECENTRAL_TRAINING = "dct_tpl_mail_decentral_training";
 
 	static $UDF_FIELD_ORDER = array(
 		'Emailadresse (privat)'
@@ -717,8 +718,13 @@ class gevSettings {
 	public function getCSNMailTemplateId() {
 		return $this->settings->get(self::DCT_TPL_MAIL_CSN);
 	}
+
 	public function getWebExMailTemplateId() {
 		return $this->settings->get(self::DCT_TPL_MAIL_WEBEX);
+	}
+
+	public function getDecentralTrainingMailTemplateId() {
+		return $this->settings->get(self::DCT_TPL_MAIL_DECENTRAL_TRAINING);
 	}
 
 	public function setCSNMailTemplateId($a_templade_id) {
@@ -727,6 +733,10 @@ class gevSettings {
 	
 	public function setWebExMailTemplateId($a_template_id) {
 		$this->settings->set(self::DCT_TPL_MAIL_WEBEX, $a_templade_id);
+	}
+
+	public function setDecentralTrainingMailTemplateId($a_template_id) {
+		$this->settings->set(self::DCT_TPL_MAIL_DECENTRAL_TRAINING, $a_templade_id);
 	}
 }
 

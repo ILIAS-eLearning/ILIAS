@@ -105,7 +105,6 @@ class gevUVGOrgUnits extends ilPersonalOrgUnits {
 		return $this->createBDOrgUnit($bd_name)->getRefId();
 	}
 	
-	
 	public function getBDFromIVOf($a_user_id) {
 		global $ilClientIniFile;
 		global $ilDB;

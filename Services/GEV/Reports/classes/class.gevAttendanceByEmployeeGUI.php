@@ -191,7 +191,7 @@ class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 										  ." OR usrcrs.hist_historic IS NULL )")
 						->static_condition("(   usrcrs.function NOT IN ('Trainingsbetreuer', 'Trainingsersteller', 'Trainer')"
 										  ." OR usrcrs.hist_historic IS NULL )" )
-						->static_condition("orgu.action = 1")
+						->static_condition("orgu.action >= 0")
 						->static_condition("orgu.hist_historic = 0")
 						->static_condition("orgu.rol_title = 'Mitarbeiter'")
 						/*->static_condition("IF(UNIX_TIMESTAMP(usrcrs.begin_date)=0 "

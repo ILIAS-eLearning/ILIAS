@@ -18,7 +18,6 @@ class gevOrguSuperiorMailData extends ilMailData {
 	protected $cache;
 	
 	public function __construct($a_recipient,$a_rec_name,$a_gender) {
-		$this->recipeint = $a_recipient;
 		$this->usr_utils = gevUserUtils::getInstance($a_recipient);
 		$this->start_timestamp = null;
 		$this->end_timestamp = null;
@@ -68,11 +67,6 @@ class gevOrguSuperiorMailData extends ilMailData {
 		}
 
 		$this->end_timestamp = $end_date->getTimestamp();
-
-		//test date
-		/*$this->end_date_str = "2015-08-03";
-		$end_date = new DateTime($this->end_date_str." 23:59:59");
-		$this->end_timestamp = $end_date->getTimestamp();*/
 	}
 	
 	function hasCarbonCopyRecipients() {
@@ -117,8 +111,7 @@ class gevOrguSuperiorMailData extends ilMailData {
 				$val = $this->lastname;
 				break;
 			case "BERICHT":
-				//return "bla";
-				return $this->getReportDataString($a_markup);
+				$val = $this->getReportDataString($a_markup);
 				break;
 		}
 		
@@ -146,25 +139,59 @@ class gevOrguSuperiorMailData extends ilMailData {
 	}
 
 	function getReportDataString($a_markup) {
-		$user_data = $this->getReportData();
-
-		$ret = "\n\n<h3>Buchungen:</h3>\n\n";
-		$ret .= $this->getFullInfoEachUser($user_data["gebucht"],"Keine Buchungen gefunden.");
-
-		$ret .= "\n\n<h3>Buchungen auf Warteliste:</h3>\n\n";
-		$ret .= $this->getFullInfoEachUser($user_data["auf_Warteliste"],"Keine Buchungen auf Warteliste gefunden.");
-
-		$ret .= "\n\n<h3>kostenfreie Stornierungen:</h3>\n\n";
-		$ret .= $this->getSmallInfoEachUser($user_data["kostenfrei_storniert"],"Keine kostenfreie Stornierungen gefunden.");
-
-		$ret .= "\n\n<h3>kostenpflichtige Stornierungen:</h3>\n\n";
-		$ret .= $this->getSmallInfoEachUser($user_data["kostenpflichtig_storniert"],"Keine kostenpflichtige Stornierungen gefunden.");
+		require_once("Services/Calendar/classes/class.ilDate.php");
+		require_once("Services/Calendar/classes/class.ilDatePresentation.php");
 		
-		$ret .= "\n\n<h3>erfolgreiche Teilnahmen:</h3>\n\n";
-		$ret .= $this->getSmallInfoEachUser($user_data["teilgenommen"],"Keine erfolgreiche Teilnahmen gefunden.");
+		$user_data = $this->getReportData();
+		
+		$show_sections = array
+			( "gebucht" => "Buchungen"
+			, "kostenfrei_storniert" => "Kostenfreie Stornierungen"
+			, "kostenpflichtig_storniert" => "Kostenpflichtige Stornierungen"
+			, "teilgenommen" => "Erfolgreiche Teilnahmen"
+			, "fehlt_ohne_Absage" => "Unentschuldigtes Fehlen"
+			);
 
-		$ret .= "\n\n<h3>unentschuldigtes Fehlen:</h3>\n\n";
-		$ret .= $this->getSmallInfoEachUser($user_data["fehlt_ohne_Absage"],"Keine erfolgreiche Teilnahmen gefunden.");
+		$ret = "";
+
+		foreach ($show_sections as $key => $title) {
+			
+			$section_data = $user_data[$key];
+			if (count($section_data) <= 0) {
+				continue;
+			}
+			
+			$tpl = $this->getTemplate();
+			$tpl->setCurrentBlock("header");
+			$tpl->setVariable("TITLE", $title);
+			$tpl->parseCurrentBlock();
+			$ret .= $tpl->get();
+
+			foreach ($section_data as $entry_data) {
+				$tpl = $this->getTemplate();
+				$tpl->setCurrentBlock("entry");
+				$tpl->setVariable("USR_FIRSTNAME", $entry_data["firstname"]);
+				$tpl->setVariable("USR_LASTNAME", $entry_data["lastname"]);
+				$tpl->setVariable("CRS_TITLE", $entry_data["title"]);
+				$tpl->setVariable("CRS_TYPE", $entry_data["type"]);
+				$begin_date = new ilDate($entry_data["begin_date"], IL_CAL_DATE);
+				$end_date = new ilDate($entry_data["end_date"], IL_CAL_DATE);
+				$date = ilDatePresentation::formatPeriod($begin_date, $end_date);
+				$tpl->setVariable("CRS_DATE", $date);
+				if ((!in_array($entry_data["type"], array("Selbstlernkurs", "Webinar", "Virtuelles Training"))) && $key == "gebucht") {
+					$tpl->setCurrentBlock("overnights");
+					$tpl->setVariable("OVERNIGHTS_CAPTION", "Übernachtungen");
+					$tpl->setVariable("USR_OVERNIGHTS_AMOUNT", $entry_data["overnights"]);
+					$tpl->setVariable("PREARRIVAL_CAPTION", "Vorabendanreise");
+					$tpl->setVariable("USR_HAS_PREARRIVAL", $entry_data["prearrival"] ? "Ja" : "Nein");
+					$tpl->setVariable("POSTDEPARTURE_CAPTION", "Abreise am Folgetag");
+					$tpl->setVariable("USR_HAS_POSTDEPARTURE", $entry_data["postdeparture"] ? "Ja" : "Nein");
+					$tpl->parseCurrentBlock();
+				}
+				$tpl->parseCurrentBlock();
+				$ret .= $tpl->get();
+			}
+		}
 
 		if(!$a_markup) {
 			$ret = strip_tags($ret);
@@ -173,45 +200,14 @@ class gevOrguSuperiorMailData extends ilMailData {
 		return $ret;
 	}
 
-	private function getFullInfoEachUser($a_user_data, $a_empty_message) {
-		$ret = "";
-
-		if(empty($a_user_data)) {
-			return $a_empty_message;
-		}
-
-		foreach($a_user_data as $key => $entry) {
-			$ret .= "Mitarbeiter/Vertriebspartner: ".$entry["firstname"]." ".$entry["lastname"]."<br />\n";
-			$ret .= "Kursinformationen: ".$entry["title"].", ".$entry["type"].", ".$entry["begin_date"]." - ".$entry["end_date"]."<br />\n";
-			$ret .= "Übernachtungen: ".$entry["overnights"]."<br />\n";
-			
-			$prenight = ($entry["prenight"]) ? "Ja" : "Nein";
-			$ret .= "Vorabendanreise: ".$prenight."<br />\n";
-
-			$lastnight = ($entry["lastnight"]) ? "Ja" : "Nein";
-			$ret .= "Abreise am Folgetag: ".$lastnight."<br />\n<br />\n";
-		}
-
-		return $ret;
-	}
-
-	private function getSmallInfoEachUser($a_user_data, $a_empty_message) {
-		$ret = "";
-
-		if(empty($a_user_data)) {
-			return $a_empty_message;
-		}
-		
-		foreach($a_user_data as $key => $entry) {
-			$ret .= "Mitarbeiter/Vertiebspartner: ".$entry["firstname"]." ".$entry["lastname"]."<br />\n";
-			$ret .= "Kursinformationen: ".$entry["title"].", ".$entry["type"].", ".$entry["begin_date"]." - ".$entry["end_date"]."<br />\n<br />\n";
-		}
-
-		return $ret;
-	}
 
 	function getReportData() {
 		return $this->usr_utils->getUserDataForSuperiorWeeklyReport($this->getStartTimestamp(), $this->getEndTimestamp());
+	}
+	
+	function getTemplate() {
+		require_once("Services/UICore/classes/class.ilTemplate.php");
+		return new ilTemplate("tpl.superior_mail.html", true, true, "Services/GEV/Mailing");
 	}
 }
 ?>

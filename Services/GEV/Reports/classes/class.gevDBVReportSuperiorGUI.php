@@ -78,9 +78,14 @@ class gevDBVReportSuperiorGUI extends catBasicReportGUI{
 						->join("hist_userorgu huo_in")
 							->on("oup.orgunit_id = huo_in.orgu_id AND huo_in.`action` = 1 AND rol_title = ".$this->db->quote("Mitarbeiter","text"))
 						->left_join("hist_userorgu huo_out")
-							->on("oup.orgunit_id = huo_out.orgu_id AND huo_out.`action` = -1"
+							->on(" huo_out.`action` = -1"
 								." AND huo_in.usr_id = huo_out.usr_id AND huo_in.orgu_id = huo_out.orgu_id"
-								." AND huo_in.rol_id = huo_out.rol_id AND huo_in.hist_version+1 = huo_out.hist_version")					
+								." AND huo_in.rol_id = huo_out.rol_id AND huo_in.hist_version < huo_out.hist_version")
+						->left_join("hist_userorgu huo_out_aux")
+							->on(" huo_out_aux.`action` = -1"
+								." AND huo_in.usr_id = huo_out.usr_id AND huo_in.orgu_id = huo_out.orgu_id"
+								." AND huo_in.rol_id = huo_out.rol_id AND huo_in.hist_version < huo_out_aux.hist_version"
+								." AND huo_out.hist_version > huo_out_aux.hist_version")
 						->join("hist_usercoursestatus hucs")
 							->on("huo_in.usr_id = hucs.usr_id")
 						->join("hist_course hc")
@@ -120,6 +125,7 @@ class gevDBVReportSuperiorGUI extends catBasicReportGUI{
 							$this->db->in(
 								"hucs.participation_status", array("fehlt entschuldigt", "fehlt ohne Absage"), true, "text"))
 						->static_condition("hucs.hist_historic = 0")
+						->static_condition("huo_out_aux.hist_version IS NULL")
 						->static_condition("hc.hist_historic = 0")
 						->static_condition("dbv.hist_historic = 0")
 						->static_condition($this->db->in("hc.dbv_hot_topic", gevSettings::$dbv_hot_topics, false, "text"))

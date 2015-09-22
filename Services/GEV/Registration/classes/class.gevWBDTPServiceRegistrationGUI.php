@@ -64,15 +64,26 @@ class gevWBDTPServiceRegistrationGUI {
 
 	protected function checkWBDRelevantRole() {
 		if (!$this->user_utils->hasWBDRelevantRole()) {
-			ilUtil::redirect("");
+			$this->redirectToBookingOr("");
 			exit();
 		}
 	}
 
 	protected function checkAlreadyRegistered() {
 		if ($this->user_utils->hasDoneWBDRegistration()) {
-			ilUtil::redirect("");
+			$this->redirectToBookingOr("");
 			exit();
+		}
+	}
+
+	protected function redirectToBookingOr($a_target) {
+		require_once("Services/Authentication/classes/class.ilSession.php");
+		$after_registration = ilSession::get("gev_after_registration");
+		if ($after_registration) {
+			ilUtil::redirect($after_registration);
+		}
+		else {
+			ilUtil::redirect($a_target);
 		}
 	}
 
@@ -110,14 +121,14 @@ class gevWBDTPServiceRegistrationGUI {
 		$this->user_utils->setWBDTPType(gevUserUtils::WBD_EDU_PROVIDER);
 		$this->user_utils->setWBDRegistrationDone();
 		ilUtil::sendSuccess($this->lng->txt("gev_wbd_registration_finished_has_bwv_id_service"), true);
-		ilUtil::redirect("");
+		$this->redirectToBookingOr("");
 	}
 
 	protected function noBWVId() {
 		$this->user_utils->setRawWBDOKZ(gevUserUtils::WBD_NO_OKZ);
 		$this->user_utils->setWBDRegistrationDone();
 		ilUtil::sendSuccess($this->lng->txt("gev_wbd_registration_finished_no_bwv_id_service"), true);
-		ilUtil::redirect("");
+		$this->redirectToBookingOr("");
 	}
 
 	protected function createBWVId() {
@@ -184,11 +195,9 @@ class gevWBDTPServiceRegistrationGUI {
 		$usr->update();
 
 		ilUtil::sendSuccess($this->lng->txt("gev_wbd_registration_finished_create_bwv_id"), true);
-		ilUtil::redirect("ilias.php?baseClass=gevDesktopGUI&cmdClass=toMyCourses");
+				
+		$this->redirectToBookingOr("ilias.php?baseClass=gevDesktopGUI&cmdClass=toMyCourses");
 	}
-
-
-
 
 	protected function noServiceReg() {
 		$tpl = new ilTemplate("tpl.gev_wbd_tp_service_form_noreg.html", false, false, "Services/GEV/Registration");

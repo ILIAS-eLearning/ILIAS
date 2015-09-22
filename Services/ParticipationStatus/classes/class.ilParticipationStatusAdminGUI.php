@@ -21,6 +21,8 @@ class ilParticipationStatusAdminGUI
 	// gev-patch start
 	public $from_foreign_class = false;
 	public $crs_ref_id = false;
+
+	const MINIMUM_SUCCESSFULL_PARTICIPANTS = 3;
 	// gev-patch end
 
 	/**
@@ -573,7 +575,8 @@ class ilParticipationStatusAdminGUI
 
 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 		$crs_utils = gevCourseUtils::getInstanceByObj($this->getCourse());
-		if($crs_utils->isDecentralTraining() && $crs_utils->getParticipations() < $crs_utils->getMinParticipants()) {
+
+		if($crs_utils->isDecentralTraining() && count($crs_utils->getSuccessfullParticipants()) < self::MINIMUM_SUCCESSFULL_PARTICIPANTS) {
 			$confirm->addItem("",
 				"",
 				$lng->txt("gev_dec_training_min_participation_count_not_reached")

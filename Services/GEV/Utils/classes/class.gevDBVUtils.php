@@ -141,8 +141,6 @@ class gevDBVUtils {
 	 * @param integer $a_user_id
 	 */
 	public function iv_getDBVsUserIdsOf($a_user_id) {
-		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
-
 		$job_number_field_id = $this->gev_settings->getUDFFieldId(gevSettings::USR_UDF_JOB_NUMMER);
 		
 		$job_numbers = $this->iv_getJobNumbersOfDBVsOf($a_user_id);
@@ -153,10 +151,7 @@ class gevDBVUtils {
 							   );
 		$result = array();
 		while ($rec = $this->db->fetchAssoc($res)) {
-			$utils = gevUserUtils::getInstance($rec["usr_id"]);
-			if ($utils->isUVGDBV()) {
 				$result[] = $rec["usr_id"];
-			}
 		}
 		return $result;
 	}

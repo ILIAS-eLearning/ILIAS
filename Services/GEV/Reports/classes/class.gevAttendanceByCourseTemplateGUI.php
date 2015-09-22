@@ -267,7 +267,7 @@ class gevAttendanceByCourseTemplateGUI extends catBasicReportGUI{
 				"JOIN (SELECT DISTINCT usr_id ,".$this->db->quote($this->filtered_orgus[0])." AS orgu_title \n"
 					."	FROM hist_userorgu \n"
 					." 	WHERE ".$this->db->in("orgu_title", $this->filtered_orgus, false, "text")." \n"
-					."	AND hist_historic = 0 AND `action` = 1) as orgu ON usrcrs.usr_id = orgu.usr_id \n";
+					."	AND hist_historic = 0 AND `action` >= 0) as orgu ON usrcrs.usr_id = orgu.usr_id \n";
 		$this->query = catReportQuery::create()
 						//->distinct()
 

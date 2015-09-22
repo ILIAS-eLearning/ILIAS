@@ -4132,3 +4132,93 @@ if(!$ilDB->tableColumnExists('hist_usercoursestatus', 'gev_id')) {
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+
+<#154>
+<?php
+if(!$ilDB->tableColumnExists('dct_building_block', 'gdv_topic')) {
+	$ilDB->addTableColumn('dct_building_block','gdv_topic', array(
+		'type' => 'text',
+		'length' => 100,
+		'notnull' => true,
+	));
+}
+
+if(!$ilDB->tableColumnExists('dct_building_block', 'training_categories')) {
+	$ilDB->addTableColumn('dct_building_block','training_categories', array(
+		'type' => 'text',
+		'length' => 4000,
+		'notnull' => true,
+	));
+}
+
+if($ilDB->tableColumnExists('dct_crs_building_block', 'method')) {
+	$ilDB->dropTableColumn('dct_crs_building_block','method');
+}
+
+if($ilDB->tableColumnExists('dct_crs_building_block', 'media')) {
+	$ilDB->dropTableColumn('dct_crs_building_block','media');
+}
+?>
+
+<#155>
+<?php
+if(!$ilDB->tableColumnExists('dct_building_block', 'topic')) {
+	$ilDB->addTableColumn('dct_building_block','topic', array(
+		'type' => 'text',
+		'length' => 100,
+		'notnull' => true,
+	));
+}
+
+if(!$ilDB->tableColumnExists('dct_building_block', 'dbv_topic')) {
+	$ilDB->addTableColumn('dct_building_block','dbv_topic', array(
+		'type' => 'text',
+		'length' => 100,
+		'notnull' => true,
+	));
+}
+?>
+
+<#156>
+<?php
+if($ilDB->tableColumnExists('dct_crs_building_block', 'start_date')) {
+	$ilDB->renameTableColumn('dct_crs_building_block', 'start_date', 'start_time');
+
+	$ilDB->modifyTableColumn('dct_crs_building_block','start_time', array(
+		'type' => 'time',
+		'notnull' => true,
+	));
+}
+
+if($ilDB->tableColumnExists('dct_crs_building_block', 'end_date')) {
+	$ilDB->renameTableColumn('dct_crs_building_block', 'end_date', 'end_time');
+
+	$ilDB->modifyTableColumn('dct_crs_building_block','end_time', array(
+		'type' => 'time',
+		'notnull' => true,
+	));
+}
+?>
+
+<#157>
+<?php
+if(!$ilDB->tableColumnExists('dct_crs_building_block', 'credit_points')) {
+	$ilDB->addTableColumn('dct_crs_building_block','credit_points', array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => false,
+	));
+}
+?>
+
+<#158>
+<?php
+if(!$ilDB->tableColumnExists('dct_building_block', 'move_to_course')) {
+	$ilDB->addTableColumn('dct_building_block','move_to_course', array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => false,
+		'default' => 1
+	));
+}
+?>

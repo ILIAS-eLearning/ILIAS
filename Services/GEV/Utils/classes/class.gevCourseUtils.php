@@ -109,9 +109,35 @@ class gevCourseUtils {
 		return $lnk;
 	}
 	
+	public function getPermanentBookingLink() {
+		include_once('./Services/Link/classes/class.ilLink.php');
+		return ilLink::_getStaticLink($this->crs_id, "gevcrsbooking",true, "");
+	}
+	
+	public function getPermanentBookingLinkGUI() {
+		include_once 'Services/PermanentLink/classes/class.ilPermanentLinkGUI.php';
+		
+		if ($this->isDecentralTraining()) {
+			$type = "gevcrsbookingexpress";
+		}
+		else {
+			$type = "gevcrsbooking";
+		}
+		
+		$bl = new ilPermanentLinkGUI($type,  $this->getId());
+		$bl->setIncludePermanentLinkText(false);
+		$bl->setAlignCenter(false);
+		return $bl;
+	}
+	
 	static public function gotoBooking($a_crs_id) {
 		global $ilCtrl;
 		ilUtil::redirect("ilias.php?baseClass=gevDesktopGUI&cmd=toBooking&crs_id=".$a_crs_id);
+	}
+	
+	static public function gotoExpressBooking($a_crs_id) {
+		require_once("Services/Utilities/classes/class.ilUtil.php");
+		ilUtil::redirect("makler.php?baseClass=gevexpressregistrationgui&cmd=startRegistration&crs_id=".$a_crs_id);
 	}
 	
 	static public function gotoBookingTrainer($a_crs_id) {
@@ -443,7 +469,7 @@ class gevCourseUtils {
 	public function getStartDate() {
 		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_START_DATE);
 	}
-	
+
 	public function getFormattedStartDate() {
 		$d = $this->getStartDate();
 		if (!$d) {
@@ -453,7 +479,7 @@ class gevCourseUtils {
 		return $val;
 	}
 	
-	public function setStartDate($a_date) {
+	public function setStartDate(ilDate $a_date) {
 		$this->amd->setField($this->crs_id, gevSettings::CRS_AMD_START_DATE, $a_date);
 	}
 	
@@ -474,7 +500,7 @@ class gevCourseUtils {
 		return $val;
 	}
 	
-	public function setEndDate($a_date) {
+	public function setEndDate(ilDate $a_date) {
 		$this->amd->setField($this->crs_id, gevSettings::CRS_AMD_END_DATE, $a_date);
 	}
 	
@@ -1919,7 +1945,7 @@ class gevCourseUtils {
 		$i = 0;
 
 		foreach ($columns as $column) {
-			$worksheet->setColumn($i, $i, min(max(strlen($column),10),30));
+			$worksheet->setColumn($i, $i, min(max(strlen($column),15),30));
 			$i++;
 		}
 
@@ -1942,7 +1968,7 @@ class gevCourseUtils {
 
 				$user_utils = gevUserUtils::getInstance($user_id);
 
-				if (!$user_utils->hasRoleIn(array("VP", "ExpressUser"))) {
+				if (!$user_utils->hasRoleIn(array("VP", "ExpressUser","DBV UVG"))) {
 					continue;
 				}
 
@@ -1967,7 +1993,7 @@ class gevCourseUtils {
 								return $names["firstname"]." ".$names["lastname"];
 							 }, $dbvs);
 				
-				$worksheet->write($row, 0, implode(",", $user_utils->getUVGBDOrCPoolNames()), $format_wrap);
+				$worksheet->write($row, 0, implode(", ", $user_utils->getUVGBDOrCPoolNames()), $format_wrap);
 				$worksheet->write($row, 1, implode(", ", $dbv_names), $format_wrap);
 				$worksheet->write($row, 2 , $user_utils->getCompanyName(), $format_wrap);
 				$worksheet->write($row, 3 , $user_utils->getLastname(), $format_wrap);
@@ -2112,21 +2138,39 @@ class gevCourseUtils {
 				//$txt[] = $lng->txt("name").": ".$user_data["name"];
 				//$txt[] = $lng->txt("phone_office").": ".$user_data["fon"];
 				//$txt[] = $lng->txt("vofue_org_unit_short").": ". $user_data["ounit"];
+				$ou_title = array();
 
-				$ou_id = $user_utils->getOrgUnitId();
-				if ($ou_id) {
+				$employee_ous = $user_utils->getOrgUnitsWhereUserIsEmployee();
+				$superior_ous = $user_utils->getOrgUnitsWhereUserIsDirectSuperior();
+
+				foreach ($employee_ous as &$array) {
+					$array = $array["obj_id"];			
+				}
+				foreach ($superior_ous as &$array) {
+					$array = $array["obj_id"];			
+				}
+				$ou_ids = array_unique(array_merge($employee_ous,$superior_ous));
+
+				foreach($ou_ids as $ou_id) {
+
 					$ou_utils = gevOrgUnitUtils::getInstance($ou_id);
 					$ou_above_utils = $ou_utils->getOrgUnitAbove();
-					if ($ou_above_utils) {
-						$ou_title = $ou_above_utils->getTitle()." / ".$ou_utils->getTitle();
+					$ou_above_above_utils = $ou_above_utils->getOrgUnitAbove();
+
+					if ($ou_above_above_utils) {
+						$ou_title_aux = $ou_above_above_utils->getTitle()." / ".$ou_above_utils->getTitle()." / ".$ou_utils->getTitle();
+					}		
+					else if ($ou_above_utils) {
+						$ou_title_aux = $ou_above_utils->getTitle()." / ".$ou_utils->getTitle();
 					}
 					else {
-						$ou_title = $ou_utils->getTitle();
+						$ou_title_aux = $ou_utils->getTitle();
 					}
+					$ou_title[] = $ou_title_aux; 
 				}
-				else {
-					$ou_title = "";
-				}
+				$ou_title = implode(', ', $ou_title);
+
+
 
 				$worksheet->write($row, 0, $user_utils->getGender(), $format_wrap);
 				$worksheet->writeString($row, 1, $user_utils->getFirstname(), $format_wrap);
@@ -2258,7 +2302,7 @@ class gevCourseUtils {
 		return $row;
 	}
 	
-	protected function getListMetaData($a_type = null) {
+	public function getListMetaData($a_type = null) {
 		$start_date = $this->getStartDate();
 		$end_date = $this->getEndDate();
 
@@ -3057,7 +3101,7 @@ class gevCourseUtils {
 			&& $end+$end_time > $timestamp;
 	}
 
-	static public function updateMethod(array $a_new_method, $a_ref_id) {
+	static public function updateGDVTopic($gdv_topic,$a_ref_id) {
 		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 		require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
 		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
@@ -3065,18 +3109,40 @@ class gevCourseUtils {
 		$obj_id = gevObjectUtils::getObjId($a_ref_id);
 		$amd_utils = gevAMDUtils::getInstance();
 
-		$amd_utils->setField($obj_id,gevSettings::CRS_AMD_METHODS,$a_new_method);
+		$amd_utils->setField($obj_id,gevSettings::CRS_AMD_GDV_TOPIC, $gdv_topic);
 	}
 
-	static public function updateMedia(array $a_new_media, $a_ref_id) {
+	static public function updateTrainingCategory(array $categories, $a_ref_id) {
 		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 		require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
 		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 		
 		$obj_id = gevObjectUtils::getObjId($a_ref_id);
 		$amd_utils = gevAMDUtils::getInstance();
+
+		$amd_utils->setField($obj_id,gevSettings::CRS_AMD_TOPIC, $categories);
+	}
+
+	static public function updateTargetAndBenefits($targets,$a_ref_id) {
+		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 		
-		$amd_utils->setField($obj_id,gevSettings::CRS_AMD_MEDIA,$a_new_media);
+		$obj_id = gevObjectUtils::getObjId($a_ref_id);
+		$amd_utils = gevAMDUtils::getInstance();
+
+		$amd_utils->setField($obj_id,gevSettings::CRS_AMD_GOALS,$targets);
+	}
+
+	static public function updateContent($content, $a_ref_id) {
+		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+		
+		$obj_id = gevObjectUtils::getObjId($a_ref_id);
+		$amd_utils = gevAMDUtils::getInstance();
+
+		$amd_utils->setField($obj_id,gevSettings::CRS_AMD_CONTENTS,$content);
 	}
 
 	static public function updateWP($a_wp, $a_ref_id) {

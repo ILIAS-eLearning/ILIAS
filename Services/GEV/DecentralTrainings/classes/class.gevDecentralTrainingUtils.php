@@ -88,6 +88,7 @@ class gevDecentralTrainingUtils {
 		$orgus_d = $this->getOrgTree()->getOrgusWhereUserHasPermissionForOperation("add_dec_training_others", $a_user_id);
 		$orgus_r = $this->getOrgTree()->getOrgusWhereUserHasPermissionForOperation("add_dec_training_others_rec", $a_user_id);
 		$orgus_s = gevOrgUnitUtils::getAllChildren($orgus_r);
+
 		foreach ($orgus_s as $key => $value) {
 			$orgus_s[$key] = $value["ref_id"];
 		}
@@ -212,20 +213,16 @@ class gevDecentralTrainingUtils {
 
 		$columns = array();
 		
-		$columns[] = $lng->txt("gev_dct_crs_building_block_from");
+		$columns[] = $lng->txt("gev_dec_crs_building_block_from");
 		$worksheet->setColumn(0, 0, 10);
-		$columns[] = $lng->txt("gev_dct_crs_building_block_to");
+		$columns[] = $lng->txt("gev_dec_crs_building_block_to");
 		$worksheet->setColumn(1, 1, 10);
-		$columns[] = $lng->txt("gev_dct_crs_building_block_block");
+		$columns[] = $lng->txt("gev_dec_crs_building_block_block");
 		$worksheet->setColumn(2, 2, 20);
-		$columns[] = $lng->txt("gev_dct_crs_building_block_methods");
-		$worksheet->setColumn(3, 3, 16);
-		$columns[] = $lng->txt("gev_dct_crs_building_block_media");
-		$worksheet->setColumn(4, 4, 16);
-		$columns[] = $lng->txt("gev_dct_crs_building_block_content");
-		$worksheet->setColumn(5, 5, 22);
-		$columns[] = $lng->txt("gev_dct_crs_building_block_lern_dest");
-		$worksheet->setColumn(6, 6, 22);
+		$columns[] = $lng->txt("gev_dec_crs_building_block_content");
+		$worksheet->setColumn(3, 3, 22);
+		$columns[] = $lng->txt("gev_dec_crs_building_block_lern_dest");
+		$worksheet->setColumn(4, 4, 22);
 
 		$format_wrap = $workbook->addFormat();
 		$format_wrap->setTextWrap();
@@ -248,10 +245,8 @@ class gevDecentralTrainingUtils {
 			$worksheet->write($row, 0, $block->getStartTime(), $format_wrap);
 			$worksheet->write($row, 1, $block->getEndTime(), $format_wrap);
 			$worksheet->write($row, 2, $base->getTitle(), $format_wrap);
-			$worksheet->write($row, 3, implode("\n", $block->getMethods()), $format_wrap);
-			$worksheet->write($row, 4, implode("\n", $block->getMedia()), $format_wrap);
-			$worksheet->write($row, 5, $base->getContent(), $format_wrap);
-			$worksheet->write($row, 6, $base->getLearningDestination(), $format_wrap);
+			$worksheet->write($row, 3, $base->getContent(), $format_wrap);
+			$worksheet->write($row, 4, $base->getLearningDestination(), $format_wrap);
 		}
 		
 		$workbook->close();
