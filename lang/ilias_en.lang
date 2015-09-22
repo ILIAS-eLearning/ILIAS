@@ -3390,7 +3390,7 @@ common#:#msg_obj_exists_in_folder#:#The object %s already exists in the folder %
 common#:#msg_obj_exists#:#This object already exists in this folder
 common#:#msg_obj_may_not_contain_objects_of_type#:#The object %s may not contain objects of type: %s.
 common#:#msg_obj_modified#:#Modifications saved.
-common#:#msg_obj_no_link#:#are not allowed to be linked
+common#:#msg_obj_no_link#:#It is not possible to link container objects like categories, courses, groups or folder due to technical reasons. Instead you may link several single objects within such a container to other areas or use a reference object for categories and courses.
 common#:#msg_obj_not_deletable_sold#:#Payment is activated for the following objects. They can no be deleted.
 common#:#msg_paste_object_not_in_itself#:#It’s not possible to paste the object %s in itself.
 common#:#msg_perm_adopted_from_itself#:#You cannot adopt permission settings from the current role/role template itself.
