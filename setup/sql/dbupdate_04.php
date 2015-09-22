@@ -12069,3 +12069,17 @@ if($data['cnt'] > 0)
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#4765>
+<?php
+if(!$ilDB->indexExistsByFields('frm_posts_tree', array('thr_fk')))
+{
+	$ilDB->addIndex('frm_posts_tree', array('thr_fk'), 'i1');
+}
+?>
+<#4766>
+<?php
+if(!$ilDB->indexExistsByFields('frm_posts_tree', array('pos_fk')))
+{
+	$ilDB->addIndex('frm_posts_tree', array('pos_fk'), 'i2');
+}
+?>
