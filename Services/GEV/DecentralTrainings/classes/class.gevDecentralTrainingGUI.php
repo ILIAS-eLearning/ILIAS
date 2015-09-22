@@ -1046,21 +1046,12 @@ class gevDecentralTrainingGUI {
 		$orgaInfo->setUseRte(true);
 		$form->addItem($orgaInfo);
 		
-		if ($a_form_values["invitation_preview"]) {
-			$mail_section = new ilFormSectionHeaderGUI();
-			$mail_section->setTitle($this->lng->txt("gev_mail_mgmt"));
-			$form->addItem($mail_section);
-
-			$this->lng->loadLanguageModule("mail");
-			$preview = new ilNonEditableValueGUI($this->lng->txt("gev_preview_invitation_mail"), "", true);
-			if ($a_fill) {
-				$preview->setValue( "<b>".$this->lng->txt("mail_message_subject")."</b>: ".$a_form_values["invitation_preview"]["subject"]
-								  . "<br /><br />"
-								  . $a_form_values["invitation_preview"]["message_html"]
-								  );
-			}
-			$form->addItem($preview);
-		}
+		/*************************
+		* ABFRAGE
+		*************************/
+		$correct_data = new ilCheckboxInputGUI($this->lng->txt("gev_dec_triaining_correct_data"),"correct_data");
+		$correct_data->setOptionTitle($this->lng->txt("gev_dec_triaining_correct_data_text"));
+		$form->addItem($correct_data);
 		
 		return $form;
 	}
@@ -1202,8 +1193,6 @@ class gevDecentralTrainingGUI {
 		$form->addItem($ltype);
 
 		if ($crs_utils->isWebinar()) {
-			//$vc_type_options = $this->amd_utils->getOptions(gevSettings::CRS_AMD_VC_CLASS_TYPE);
-			// For now we'll only allow csn and webex
 			$vc_type_options = array("CSN"=>"CSN","Webex"=>"Webex");
 			$webinar_vc_type = new ilSelectInputGUI($this->lng->txt("gev_dec_training_vc_type"),"webinar_vc_type");
 			$webinar_vc_type->setDisabled($a_form_values["no_changes_allowed"]);
@@ -1245,23 +1234,6 @@ class gevDecentralTrainingGUI {
 		$content_section->setTitle($this->lng->txt("gev_dec_training_content"));
 		$form->addItem($content_section);
 
-		//trainingskategorie
-		/*$training_cat = $this->amd_utils->getOptions(gevSettings::CRS_AMD_TOPIC);
-		$cbx_group_training_cat = new ilCheckBoxGroupInputGUI($this->lng->txt("gev_dec_training_training_category"),"training_category");
-		$cbx_group_training_cat->setRequired(true);
-		$cbx_group_training_cat->setDisabled($a_form_values["no_changes_allowed"]);
-
-		foreach($training_cat as $value => $caption)
-		{
-			$option = new ilCheckboxOption($caption, $value);
-			$cbx_group_training_cat->addOption($option);
-		}
-
-		if($a_form_values["training_category"] && $a_fill) {
-			$cbx_group_training_cat->setValue($a_form_values["training_category"]);
-		}
-		$form->addItem($cbx_group_training_cat);*/
-
 		//zielgruppe
 		$target_groups = $this->amd_utils->getOptions(gevSettings::CRS_AMD_TARGET_GROUP);
 		$cbx_group_target_groups = new ilCheckBoxGroupInputGUI($this->lng->txt("gev_dec_training_target_groups"),"target_groups");
@@ -1281,40 +1253,12 @@ class gevDecentralTrainingGUI {
 		$form->addItem($cbx_group_target_groups);
 
 		/*************************
-		* BEWERTUNG
+		* ABFRAGE
 		*************************/
-		/*$rating_section = new ilFormSectionHeaderGUI();
-		$rating_section->setTitle($this->lng->txt("gev_dec_training_rating"));
-		$form->addItem($rating_section);
+		$correct_data = new ilCheckboxInputGUI($this->lng->txt("gev_dec_triaining_correct_data_confirm"),"correct_data");
+		$correct_data->setOptionTitle($this->lng->txt("gev_dec_triaining_correct_data_text"));
+		$form->addItem($correct_data);
 
-		//GDV Lerninhalt
-		$gdv_topic_options = $this->amd_utils->getOptions(gevSettings::CRS_AMD_GDV_TOPIC);
-		$gdv_topic = new ilSelectInputGUI($this->lng->txt("gev_dec_training_gdv_topic"),"gdv_topic");
-		$options = array("" => "-") + $gdv_topic_options;
-		$gdv_topic->setOptions($options);
-		$gdv_topic->setRequired(true);
-		$gdv_topic->setDisabled($a_form_values["no_changes_allowed"]);
-		if($a_form_values["gdv_topic"] && $a_fill){
-			$gdv_topic->setValue($a_form_values["gdv_topic"]);
-		}
-		$form->addItem($gdv_topic);
-		
-		if ($a_form_values["invitation_preview"]) {
-			$mail_section = new ilFormSectionHeaderGUI();
-			$mail_section->setTitle($this->lng->txt("gev_mail_mgmt"));
-			$form->addItem($mail_section);
-
-			$this->lng->loadLanguageModule("mail");
-			$preview = new ilNonEditableValueGUI($this->lng->txt("gev_preview_invitation_mail"), "", true);
-			if ($a_fill) {
-				$preview->setValue( "<b>".$this->lng->txt("mail_message_subject")."</b>: ".$a_form_values["invitation_preview"]["subject"]
-								  . "<br /><br />"
-								  . $a_form_values["invitation_preview"]["message_html"]
-								  );
-			}
-			$form->addItem($preview);
-		}*/
-		
 		return $form;
 	}
 	
@@ -1325,6 +1269,14 @@ class gevDecentralTrainingGUI {
 		$dateUnix = $date->get(IL_CAL_UNIX);
 		$now = new ilDate(date('Y-m-d'), IL_CAL_DATE);
 		$nowUnix = $now->get(IL_CAL_UNIX);
+
+		$confirmed = $a_form->getInput("correct_data");
+		
+		if($confirmed === "") {
+			ilUtil::sendFailure($this->lng->txt("gev_dec_training_correct_data_no_confirm"), false);
+			return false;
+		}
+		
 
 		if($dateUnix < $nowUnix){
 			ilUtil::sendFailure($this->lng->txt("gev_dec_training_date_before_now"), false);
