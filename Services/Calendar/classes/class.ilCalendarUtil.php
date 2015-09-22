@@ -535,56 +535,33 @@ class ilCalendarUtil
 	{
 		global $ilUser;
 		
-		// anonymous default/fallback
-		if($ilUser->getId() == ANONYMOUS_USER_ID)
+		// getDateFormat() should return calendar defaults for ANONYMOUS user
+		switch($ilUser->getDateFormat())					
 		{
-			if($ilUser->getLanguage() == "de")
+			case ilCalendarSettings::DATE_FORMAT_DMY:
+				$format = "DD.MM.YYYY";					
+				break;
+
+			case ilCalendarSettings::DATE_FORMAT_YMD:
+				$format = "YYYY-MM-DD";								
+				break;
+
+			case ilCalendarSettings::DATE_FORMAT_MDY:
+				$format = "MM/DD/YYYY";								
+				break;		
+		}
+		if($a_add_time)
+		{				
+			$format .= " ".(($ilUser->getTimeFormat() == ilCalendarSettings::TIME_FORMAT_24)
+				? "HH:mm"
+				: "hha:mm");
+			if($a_add_time == 2)
 			{
-				$format = "DD.MM.YYYY";				
-				if($a_add_time)
-				{
-					$format .= " HH:mm";
-				}			
-			}
-			else
-			{
-				// :TODO: use "YYYY-MM-DD" instead?
-				$format = "MM/DD/YYYY";
-				if($a_add_time)
-				{
-					$format .= " hh:mm";
-				}	
+				$format .= ":ss";
 			}		
-		}
-		// user preference
-		else
-		{
-			switch($ilUser->getDateFormat())					
-			{
-				case ilCalendarSettings::DATE_FORMAT_DMY:
-					$format = "DD.MM.YYYY";					
-					break;
-
-				case ilCalendarSettings::DATE_FORMAT_YMD:
-					$format = "YYYY-MM-DD";								
-					break;
-
-				case ilCalendarSettings::DATE_FORMAT_MDY:
-					$format = "MM/DD/YYYY";								
-					break;		
-			}
-			if($a_add_time)
-			{				
-				$format .= " ".(($ilUser->getTimeFormat() == ilCalendarSettings::TIME_FORMAT_24)
-					? "HH:mm"
-					: "hha:mm");
-			}
-		}
-		if($a_add_time == 2)
-		{
-			$format .= ":ss";
-		}
+		}		
 		
+		// translate datepicker format to PHP format
 		if((bool)$a_for_parsing)
 		{
 			$format = str_replace("DD", "d", $format);
@@ -618,7 +595,9 @@ class ilCalendarUtil
 		
 			self::$init_datetimepicker = true;	
 		}
-				
+		
+		// weekStart is currently governed by locale and cannot be changed
+	 			
 		$default = array(
 			'locale' => $ilUser->getLanguage()
 			,'stepping' => 5
@@ -627,7 +606,7 @@ class ilCalendarUtil
 			,'showTodayButton' => true
 			,'showClear' => true
 			,'showClose' => true
-			,'keepInvalid' => true
+			,'keepInvalid' => true			
 			,'format' => self::getUserDateFormat($a_add_time)
 		);
 		
