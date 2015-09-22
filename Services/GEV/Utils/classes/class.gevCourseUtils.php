@@ -2302,7 +2302,7 @@ class gevCourseUtils {
 		return $row;
 	}
 	
-	protected function getListMetaData($a_type = null) {
+	public function getListMetaData($a_type = null) {
 		$start_date = $this->getStartDate();
 		$end_date = $this->getEndDate();
 
