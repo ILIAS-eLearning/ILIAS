@@ -39,6 +39,8 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	const CAL_REG_END = 2;
 	const CAL_ACTIVATION_START = 3;
 	const CAL_ACTIVATION_END = 4;
+	const CAL_COURSE_START = 5;
+	const CAL_COURSE_END = 6;
 	
 	const STATUS_DETERMINATION_LP = 1;
 	const STATUS_DETERMINATION_MANUAL = 2;
@@ -1975,6 +1977,27 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 					$app->setStart(new ilDateTime($this->getSubscriptionEnd(),IL_CAL_UNIX));
 					$apps[] = $app;
 				}
+				if($this->getCourseStart() && $this->getCourseEnd())
+				{
+					$app = new ilCalendarAppointmentTemplate(self::CAL_COURSE_START);
+					$app->setTitle($this->getTitle());
+					$app->setSubtitle('crs_start');
+					$app->setTranslationType(IL_CAL_TRANSLATION_SYSTEM);
+					$app->setDescription($this->getLongDescription());	
+					$app->setStart($this->getCourseStart());
+					$app->setFullday(true);
+					$apps[] = $app;
+
+					$app = new ilCalendarAppointmentTemplate(self::CAL_COURSE_END);
+					$app->setTitle($this->getTitle());
+					$app->setSubtitle('crs_end');
+					$app->setTranslationType(IL_CAL_TRANSLATION_SYSTEM);
+					$app->setDescription($this->getLongDescription());	
+					$app->setStart($this->getCourseEnd());
+					$app->setFullday(true);
+					$apps[] = $app;
+				}
+				
 				
 				return $apps ? $apps : array();
 				
