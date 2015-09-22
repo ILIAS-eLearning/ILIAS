@@ -393,7 +393,7 @@ class gevDecentralTrainingBuildingBlockAdminGUI {
 		* ÜBERNAHME IN KURS?
 		*************************/
 		$move_to_course_optins = gevBuildingBlockUtils::getMoveToCourseOptions();
-		$move_to_course = new ilSelectInputGUI($this->lng->txt("moep"),"frm_move_to_course");
+		$move_to_course = new ilSelectInputGUI($this->lng->txt("gev_dec_training_move_to_course"),"frm_move_to_course");
 		$move_to_course->setOptions($move_to_course_optins);
 		if($vals["move_to_course"]){
 			$move_to_course->setValue($vals["move_to_course"]);
