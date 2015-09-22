@@ -796,7 +796,7 @@ class gevDecentralTrainingCourseCreatingBuildingBlock2GUI {
 			$request = $req_db->request($request_id);
 
 			$start_date = $request->settings()->start();
-			$end_date = $request->settings()->start();
+			$end_date = $request->settings()->end();
 
 			$date = $start_date->get(IL_CAL_DATE);
 
