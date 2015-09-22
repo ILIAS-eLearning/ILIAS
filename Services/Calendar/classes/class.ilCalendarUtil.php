@@ -35,6 +35,7 @@ class ilCalendarUtil
 	private static $today = null;
 	private static $default_calendar = array();
 	static $init_done;
+	static protected $init_datetimepicker;
 	
 	/**
 	 * check if a date is today 
@@ -516,6 +517,185 @@ class ilCalendarUtil
 		self::$default_calendar[$a_usr_id][$a_type_id]->add();
 
 		return self::$default_calendar[$a_usr_id][$a_type_id];
+	}
+	
+	
+	//
+	// BOOTSTRAP DATEPICKER
+	// 	
+	
+	/**
+	 * Parse current user setting into date/time format 
+	 *
+	 * @param int $a_add_time 1=hh:mm, 2=hh:mm:ss
+	 * @param bool $a_for_parsing
+	 * @return string
+	 */
+	public static function getUserDateFormat($a_add_time = false, $a_for_parsing = false)
+	{
+		global $ilUser;
+		
+		// anonymous default/fallback
+		if($ilUser->getId() == ANONYMOUS_USER_ID)
+		{
+			if($ilUser->getLanguage() == "de")
+			{
+				$format = "DD.MM.YYYY";				
+				if($a_add_time)
+				{
+					$format .= " HH:mm";
+				}			
+			}
+			else
+			{
+				// :TODO: use "YYYY-MM-DD" instead?
+				$format = "MM/DD/YYYY";
+				if($a_add_time)
+				{
+					$format .= " hh:mm";
+				}	
+			}		
+		}
+		// user preference
+		else
+		{
+			switch($ilUser->getDateFormat())					
+			{
+				case ilCalendarSettings::DATE_FORMAT_DMY:
+					$format = "DD.MM.YYYY";					
+					break;
+
+				case ilCalendarSettings::DATE_FORMAT_YMD:
+					$format = "YYYY-MM-DD";								
+					break;
+
+				case ilCalendarSettings::DATE_FORMAT_MDY:
+					$format = "MM/DD/YYYY";								
+					break;		
+			}
+			if($a_add_time)
+			{				
+				$format .= " ".(($ilUser->getTimeFormat() == ilCalendarSettings::TIME_FORMAT_24)
+					? "HH:mm"
+					: "hha:mm");
+			}
+		}
+		if($a_add_time == 2)
+		{
+			$format .= ":ss";
+		}
+		
+		if((bool)$a_for_parsing)
+		{
+			$format = str_replace("DD", "d", $format);
+			$format = str_replace("MM", "m", $format);
+			$format = str_replace("mm", "i", $format);
+			$format = str_replace("YYYY", "Y", $format);
+			$format = str_replace("HH", "H", $format);
+			$format = str_replace("hh", "h", $format);
+		}
+		
+		return $format;
+	}
+	
+	/**
+	 * Add date time picker to element
+	 * 
+	 * @param string $a_id
+	 * @param int $a_add_time 1=hh:mm, 2=hh:mm:ss
+	 * @param array $a_custom_config
+	 * @return string
+	 */
+	public static function addDateTimePicker($a_id, $a_add_time = false, array $a_custom_config = null)
+	{
+		global $tpl, $ilUser;
+		
+		if(!self::$init_datetimepicker)
+		{			
+			$tpl->addJavaScript("./Services/Calendar/lib/bootstrap3_datepicker/moment-with-locales.min.js");		
+			$tpl->addJavaScript("./Services/Calendar/lib/bootstrap3_datepicker/bootstrap-datetimepicker.min.js");		
+			$tpl->addCSS("./Services/Calendar/lib/bootstrap3_datepicker/bootstrap-datetimepicker.min.css");		
+		
+			self::$init_datetimepicker = true;	
+		}
+				
+		$default = array(
+			'locale' => $ilUser->getLanguage()
+			,'stepping' => 5
+			,'useCurrent' => false
+			,'calendarWeeks' => true
+			,'showTodayButton' => true
+			,'showClear' => true
+			,'showClose' => true
+			,'keepInvalid' => true
+			,'format' => self::getUserDateFormat($a_add_time)
+		);
+		
+		$config = (!$a_custom_config)
+			? $default
+			: array_merge($default, $a_custom_config);		
+		
+		$js = '<script type="text/javascript">'."\n".
+			'$(function () {'."\n".
+				'$(\'#'.$a_id.'\').datetimepicker('."\n".
+					json_encode($config).			
+				')'."\n".
+			'})'."\n".
+		'</script>';
+
+		return $js;
+	}
+	
+	/**
+	 * Parse (incoming) string to date/time object
+	 * @param string $a_date
+	 * @param int $a_add_time 1=hh:mm, 2=hh:mm:ss
+	 * @return array date, warnings, errors
+	 */
+	public static function parseDateString($a_date, $a_add_time = false)
+	{	
+		global $ilUser;
+		
+		$out_format = self::getUserDateFormat($a_add_time, true);			
+		$tmp = date_parse_from_format($out_format, $a_date);
+		
+		$date = null;
+		
+		if(!$tmp["error_count"] &&
+			!$tmp["warning_count"])
+		{								
+			$hour = $minute = $second = 0;
+			if($a_add_time)
+			{								
+				$hour = (int)$tmp["hour"];
+				$minute = (int)$tmp["minute"];
+				$second = (int)$tmp["second"];					
+			}
+			
+			$tstamp = date("Y-m-d H:i:s", mktime(
+				$hour,
+				$minute,
+				$second,
+				$tmp["month"],
+				$tmp["day"],
+				$tmp["year"]
+			));
+			
+			// :TODO: timezone?
+			$date = $a_add_time
+				? new ilDateTime($tstamp, IL_CAL_DATETIME, $ilUser->getTimeZone())
+				: new ilDate($tstamp, IL_CAL_DATETIME, $ilUser->getTimeZone());								
+		}
+		
+		return array(
+			"date" => $date
+			, "warnings" => sizeof($tmp["warnings"])
+				? $tmp["warnings"]
+				: null
+			, "errors" => sizeof($tmp["errors"])
+				? $tmp["errors"]
+				: null
+		);
 	}
 }
 ?>

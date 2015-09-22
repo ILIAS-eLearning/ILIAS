@@ -585,21 +585,25 @@ class ilObjSurveyGUI extends ilObjectGUI
 				
 				if(!$template_settings["enabled_start_date"]["hide"])
 				{
-					if ($_POST["enabled_start_date"])
+					$start = $form->getItemByPostVar("start_date");		
+					if($start->getDate())
 					{
-						$this->object->setStartDateAndTime($_POST["start_date"]['date'], $_POST["start_date"]['time']);
+						$datetime = explode(" ", $start->getDate()->get(IL_CAL_DATETIME));
+						$this->object->setStartDateAndTime($datetime[0], $datetime[1]);
 					}
 					else
 					{
 						$this->object->setStartDate(null);
-					}
+					}					
 				}
 
 				if(!$template_settings["enabled_end_date"]["hide"])
 				{
-					if ($_POST["enabled_end_date"])
+					$end = $form->getItemByPostVar("end_date");		
+					if($end->getDate())
 					{
-						$this->object->setEndDateAndTime($_POST["end_date"]['date'], $_POST["end_date"]['time']);
+						$datetime = explode(" ", $end->getDate()->get(IL_CAL_DATETIME));
+						$this->object->setEndDateAndTime($datetime[0], $datetime[1]);
 					}
 					else
 					{
@@ -851,36 +855,26 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$form->addItem($section);
 		
 		// enable start date
-		$start = $this->object->getStartDate();
-		$enablestartingtime = new ilCheckboxInputGUI($this->lng->txt("start_date"), "enabled_start_date");
-		$enablestartingtime->setValue(1);
-		// $enablestartingtime->setOptionTitle($this->lng->txt("enabled"));
-		$enablestartingtime->setChecked($start);
+		$start = $this->object->getStartDate();		
 		// start date
-		$startingtime = new ilDateTimeInputGUI('', 'start_date');		
+		$startingtime = new ilDateTimeInputGUI($this->lng->txt("start_date"), 'start_date');		
 		$startingtime->setShowTime(true);				
 		if ($start)
 		{
 			$startingtime->setDate(new ilDate($start, IL_CAL_TIMESTAMP));
 		}
-		$enablestartingtime->addSubItem($startingtime);
-		$form->addItem($enablestartingtime);
+		$form->addItem($startingtime);
 
 		// enable end date		
-		$end = $this->object->getEndDate();
-		$enableendingtime = new ilCheckboxInputGUI($this->lng->txt("end_date"), "enabled_end_date");
-		$enableendingtime->setValue(1);
-		// $enableendingtime->setOptionTitle($this->lng->txt("enabled"));
-		$enableendingtime->setChecked($end);
+		$end = $this->object->getEndDate();	
 		// end date
-		$endingtime = new ilDateTimeInputGUI('', 'end_date');		
+		$endingtime = new ilDateTimeInputGUI($this->lng->txt("end_date"), 'end_date');		
 		$endingtime->setShowTime(true);		
 		if ($end)
 		{
 			$endingtime->setDate(new ilDate($end, IL_CAL_TIMESTAMP));
 		}
-		$enableendingtime->addSubItem($endingtime);
-		$form->addItem($enableendingtime);
+		$form->addItem($endingtime);
 							
 		// anonymization
 		if(!$this->object->get360Mode())
@@ -1062,8 +1056,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$rmd->addSubItem($rmd_start);
 
 			$end = $this->object->getReminderEnd();
-			$rmd_end = new ilDateTimeInputGUI($this->lng->txt("survey_reminder_end"), "rmd_end");
-			$rmd_end->enableDateActivation("", "rmd_end_tgl", (bool)$end);
+			$rmd_end = new ilDateTimeInputGUI($this->lng->txt("survey_reminder_end"), "rmd_end");		
 			if($end)
 			{
 				$rmd_end->setDate($end);

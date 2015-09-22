@@ -1,43 +1,9 @@
-<!-- BEGIN prop_date_activation -->
-			<input type="checkbox" name="{CHECK_ENABLED_DATE}" value="1" {CHECKED_ENABLED} {CHECKED_DISABLED}/> {TXT_DATE_ENABLED}<br />
-<!-- END prop_date_activation -->
-<!-- BEGIN prop_date -->
-	<span class="form-inline">
-			<span style="white-space:nowrap;">		
-			{DATE_SELECT}
-			<!-- BEGIN prop_date_input_field -->
-			<input type="text" name="{DATE_ID}[date]" id="field_{DATE_ID}" value="{DATE_VALUE}"{DISABLED} />
-			<!-- END prop_date_input_field -->
-			<button type="button" class="btn btn-link" id="btn_cal_{DATE_ID}">{IMG_DATE_CALENDAR}</button>
-			</span>
-			<script type="text/javascript">
-			//<![CDATA[
-			Calendar.setup( 
-			{ 
-				button : "btn_cal_{DATE_ID}",
-				<!-- BEGIN prop_date_input_field_setup -->
-				inputField: "field_{DATE_ID}",
-				ifFormat: "{DATE_FIELD_FORMAT}",
-				<!-- END prop_date_input_field_setup -->
-				<!-- BEGIN prop_date_input_select_setup -->
-				inputFieldsDate : "{INPUT_FIELDS_DATE}",
-				<!-- END prop_date_input_select_setup -->
-				firstDay : {DATE_FIRST_DAY}
-			}
-			);
-			//]]>
-			</script>
-			<!-- BEGIN prop_date_input_field_info -->
-			<div class="help-block">({TXT_INPUT_FORMAT})</div>
-			<!-- END prop_date_input_field_info -->
-	</span>
-<!-- END prop_date -->{DELIM}
-<!-- BEGIN prop_time -->
-	<div class="form-inline">
-	<!-- BEGIN prop_time_input_field -->
-    <input type="text" name="{DATE_ID}[time]" value="{TIME_VALUE}"{DISABLED} />
-	<!-- END prop_time_input_field -->
-			{TIME_SELECT} 
-			<div class="help-block">{TXT_TIME}</div>
+<div class="form-group col-md-3">
+	<div class="input-group date" id="{DATEPICKER_ID}">
+		<input type="text" class="form-control" value="{DATEPICKER_VALUE}" name="{DATE_ID}"{DATEPICKER_DISABLED} />
+		<span class="input-group-addon">
+			<span class="glyphicon glyphicon-calendar"></span>
+		</span>
 	</div>
-<!-- END prop_time -->
+</div>
+{DATEPICKER_CONFIG}
