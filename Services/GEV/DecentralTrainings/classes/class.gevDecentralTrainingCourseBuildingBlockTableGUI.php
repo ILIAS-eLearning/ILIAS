@@ -44,8 +44,8 @@ class gevDecentralTrainingCourseBuildingBlockTableGUI extends catAccordionTableG
 
 		$this->setRowTemplate("tpl.gev_course_building_block_search_row.html", "Services/GEV/DecentralTrainings");
 
-		$this->addColumn($this->lng->txt("gev_dec_crs_building_block_from"), "");
-		$this->addColumn($this->lng->txt("gev_dec_crs_building_block_to"),"");
+		$this->addColumn($this->lng->txt("gev_dec_crs_building_block_from"), "","100");
+		$this->addColumn($this->lng->txt("gev_dec_crs_building_block_to"),"","100");
 		$this->addColumn($this->lng->txt("gev_dec_crs_building_block_block"), '');
 		$this->addColumn($this->lng->txt("gev_dec_crs_building_block_content"), "");
 		$this->addColumn($this->lng->txt("gev_dec_building_block_learn_dest"), "");
