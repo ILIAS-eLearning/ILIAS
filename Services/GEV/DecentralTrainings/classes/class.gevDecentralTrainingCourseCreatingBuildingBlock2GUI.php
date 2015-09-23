@@ -509,7 +509,7 @@ class gevDecentralTrainingCourseCreatingBuildingBlock2GUI {
 			return;
 		}
 
-		if(!$this->blockWithinCourseTime($start_time,$end_time,$this->crs_request_id, $this->crs_ref_id)) {
+		if(!$this->blockWithinCourseTime($start_time,$end_time,$this->crs_request_id, $this->crs_obj_id)) {
 			ilUtil::sendInfo($this->lng->txt("gev_dec_training_blocks_time_issue_course"), false);
 			$this->render();
 			return;
@@ -779,16 +779,14 @@ class gevDecentralTrainingCourseCreatingBuildingBlock2GUI {
 		
 		if($crs_id !== null) {
 			$crs_utils = gevCourseUtils::getInstance($crs_id);
-			$shed = $crs_utils->getSchedule();
-			$shed = explode("-",$shed);
+			$start_time = $crs_utils->getFormattedStartTime().":00";
+			$end_time = $crs_utils->getFormattedEndTime().":00";
 
-			$start_date = new ilDateTime(date("Y-m-d")." ".$shed[0].":00", IL_CAL_DATETIME);
-			$end_date = new ilDateTime(date("Y-m-d")." ".$shed[1].":00", IL_CAL_DATETIME);
+			$start_date = new ilDateTime(date("Y-m-d")." ".$start_time, IL_CAL_DATETIME);
+			$end_date = new ilDateTime(date("Y-m-d")." ".$end_time, IL_CAL_DATETIME);
 
 			$b_start_date = new ilDateTime(date("Y-m-d")." ".$start, IL_CAL_DATETIME);
 			$b_end_date = new ilDateTime(date("Y-m-d")." ".$end, IL_CAL_DATETIME);
-
-			
 		}
 
 		if($crs_id === null && $request_id !== null) {
