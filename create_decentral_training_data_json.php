@@ -29,8 +29,16 @@ if($_GET["type"] == 0) {
 if($_GET["type"] == 1) {
 	$infos = gevBuildingBlockUtils::getBuildingBlockInfosById($_GET["selected"]);
 	$json = "{";
-	$json .= '"content":"'.$infos["content"].'",';
-	$json .= '"target":"'.$infos["learning_dest"].'",';
+
+	$content = preg_replace('/[\r]/', '', $infos["content"]);
+	$content = preg_replace('/[\n]/', '#:#', $content);
+	$content = preg_replace('/["]/', '\\"', $content);
+
+	$learning_dest = preg_replace('/[\r]/', '', $infos["learning_dest"]);
+	$learning_dest = preg_replace('/[\n]/', '#:#', $learning_dest);
+
+	$json .= '"content":"'.$content.'",';
+	$json .= '"target":"'.$learning_dest.'",';
 	$json .= '"wp":"'.$infos["wp"].'"';
 	$json .= "}";
 	$fh = fopen("bulding_block_infos.json","w+");

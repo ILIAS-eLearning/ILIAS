@@ -78,8 +78,11 @@ function changeBuildingBlockInfos() {
 		$('#wp').val("");
 		
 		$.getJSON("bulding_block_infos.json", function( data ) {
-			$('#content').val(data["content"]);
-			$('#target').val(data["target"]);
+			var content = data["content"].replace("#:#","\n");
+			var target = data["target"].replace("#:#","\n");
+
+			$('#content').val(content);
+			$('#target').val(target);
 			$('#isWP').val(data["wp"]);
 			$('#wp').val(0);
 		});
