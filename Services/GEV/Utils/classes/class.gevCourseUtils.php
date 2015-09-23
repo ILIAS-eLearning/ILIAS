@@ -3175,6 +3175,8 @@ class gevCourseUtils {
 
 		$amd_utils->setField($obj_id,gevSettings::CRS_AMD_CREDIT_POINTS,$a_wp);
 	}
-}
 
-?>
+	public function userHasRightOf($user_id, $right_name) {
+		return $this->rbacsystem->checkAccessOfUser($user_id, $right_name, $this->getRefId());
+	}
+}

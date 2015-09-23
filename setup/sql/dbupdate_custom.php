@@ -4253,9 +4253,8 @@ if($ilDB->tableColumnExists('dct_building_block', 'learning_dest')) {
 <#161>
 <?php
 $new_crs_ops = array(
-	'view_bookings' => array('View Bookings', 2900)
-	,'book_users' => array('Book Users', 3500)
-	,'cancel_bookings' => array('Cancel Bookings', 3800)
+	'view_schedule_pdf' => array('View Schedule PDF', 6002)
 );
-?>
+require_once "Customizing/class.ilCustomInstaller.php";
 ilCustomInstaller::addRBACOps('crs', $new_crs_ops);
+?>

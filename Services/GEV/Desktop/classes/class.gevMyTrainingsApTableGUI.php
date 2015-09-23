@@ -165,7 +165,7 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 		$this->ctrl->clearParametersByClass("gevMaillogGUI");
 		$actions .= "&nbsp;<a href=\"".$signature_list_link."\">".$this->signature_list_img."</a>";
 
-		if($crs_utils->isFlexibleDecentrallTraining()) {
+		if($crs_utils->isFlexibleDecentrallTraining() && ($crs_utils->hasTrainer($this->user_id) && $crs_utils->userHasRightOf($this->user_id,"view_schedule_pdf"))) {
 			$actions .= "&nbsp;<a href=\"".$schedule_list_link."\">".$this->schedule_list_img."</a>";
 		}
 
