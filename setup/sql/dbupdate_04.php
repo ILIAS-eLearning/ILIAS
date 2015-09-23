@@ -10011,6 +10011,13 @@ if ($ilDB->tableExists('rbac_log_old'))
 //step 1/3 rbac_templates removes all dublicates
 if ($ilDB->tableExists('rbac_templates'))
 {
+	$res = $ilDB->query(
+		'select * from rbac_templates GROUP BY rol_id, type, ops_id, parent '.
+		'having count(*) > 1'
+	);
+	
+	
+	/*
 	$res = $ilDB->query("
 		SELECT first.rol_id rol_id, first.type type, first.ops_id ops_id, first.parent parent
 		FROM rbac_templates first
@@ -10026,6 +10033,7 @@ if ($ilDB->tableExists('rbac_templates'))
 		)
 		GROUP BY first.rol_id, first.type, first.ops_id, first.parent
 	");
+	 */
 
 	while($row = $ilDB->fetchAssoc($res))
 	{
