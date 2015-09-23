@@ -4227,3 +4227,26 @@ if(!$ilDB->tableColumnExists('dct_building_block', 'move_to_course')) {
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+
+<#160>
+<?php
+if($ilDB->tableColumnExists('dct_building_block', 'content')) {
+
+	$ilDB->modifyTableColumn('dct_building_block','content', array(
+		'type' => 'text',
+		'length' => 200,
+		'notnull' => true,
+		'default' => ""
+	));
+}
+
+if($ilDB->tableColumnExists('dct_building_block', 'learning_dest')) {
+
+	$ilDB->modifyTableColumn('dct_building_block','learning_dest', array(
+		'type' => 'text',
+		'length' => 200,
+		'notnull' => true,
+		'default' => ""
+	));
+}
+?>
