@@ -28,7 +28,7 @@ require_once("Services/Calendar/classes/class.ilDateTime.php");
 class gevDecentralTrainingCourseCreatingBuildingBlock2GUI {
 	const MINUTE_STEP_SIZE = 15;
 
-	public function __construct($a_crs_obj_id, $a_crs_request_id = null,$no_changes = false) {
+	public function __construct($a_crs_obj_id, $a_crs_request_id = null, $no_changes = false, $show_cmd_buttons = true) {
 		global $lng, $ilCtrl, $tpl, $ilLog, $ilUser, $ilAppEventHandler;
 
 		$this->lng = $lng;
@@ -39,6 +39,7 @@ class gevDecentralTrainingCourseCreatingBuildingBlock2GUI {
 		$this->search_form = null;
 		$this->current_user = $ilUser;
 		$this->no_changes = $no_changes;
+		$this->show_cmd_buttons = $show_cmd_buttons;
 
 		$this->usr_utils = gevUserUtils::getInstance($this->current_user->getId());
 
@@ -120,7 +121,7 @@ class gevDecentralTrainingCourseCreatingBuildingBlock2GUI {
 	}
 
 	protected function renderNavigation() {
-		if($this->usr_utils->isAdmin()) {
+		if(!$this->show_cmd_buttons) {
 			return "";
 		}
 

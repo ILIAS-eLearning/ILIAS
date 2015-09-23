@@ -4886,7 +4886,7 @@ class ilObjCourseGUI extends ilContainerGUI
 					$crs_obj_id = (int)gevObjectUtils::getObjId((int)$_POST["crs_ref_id"]);
 				}
 
-				$bb_gui = new gevDecentralTrainingCourseCreatingBuildingBlock2GUI($crs_obj_id);
+				$bb_gui = new gevDecentralTrainingCourseCreatingBuildingBlock2GUI($crs_obj_id,null,false,false);
 				$this->setSubTabs("properties");
 				$this->tabs_gui->activateTab("settings");
 				$this->ctrl->forwardCommand($bb_gui);
