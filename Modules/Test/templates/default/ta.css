@@ -52,6 +52,7 @@
 .lcol.participant
 {
     width: 49%;
+	overflow-x: auto;
 }
 
 .rcol.solution {
