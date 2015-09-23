@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>ILIAS {PAGETITLE}</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link rel="stylesheet" type="text/css" href="{LOCATION_STYLESHEET}" />
+	<link rel="stylesheet" type="text/css" href="{LOCATION_CONTENT_STYLESHEET}" />
+</head>
+<body class="std setup{SETUP_LOGIN_CLASS}">
+	<div id="ilAll">
+		<div id="ilTopBar" class="ilTopBar">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="ilTopTitle">
+						{TXT_SETUP}
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="ilMainHeader">
+			<header class="container-fluid">
+				<div id="il_startup_logo" class="row">
+					<img alt="Logo" src="../templates/default/images/HeaderIcon.svg">
+				</div>
+			</header>
+		</div>
+		<div class="ilMainMenu">
+			<div class="container-fluid">
+				<div class="row">
+					<nav id="ilTopNav" class="navbar navbar-default" role="navigation"></nav>
+				</div>
+			</div>
+		</div>
+		
+		<div id="mainspacekeeper" class="container-fluid">
+			<div class="row" style="position: relative;">
+				<div class="ilSetupContent col-md-12 col-sm-8">
+					<div class="il_Header">
+						<h1>Sorry, an error occured.</h1>
+					</div>
+					{CONTENT}
+
+					<div>
+						<a class="btn btn-default btn-sm" href="./setup.php">Main Setup</a>
+						<!-- BEGIN client_setup --><a class="btn btn-default btn-sm" href="./setup.php?cmd=view&client_id={CLIENT_ID}">Client Setup</a><!-- END client_setup -->
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+		<div id="minheight"></div>
+		<footer class="ilFooter">
+			<div class="container-fluid">
+				<div class="row"></div>
+			</div>
+		</footer>
+	</div>
+</body>
+</html>
