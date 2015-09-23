@@ -1278,3 +1278,6 @@ gev#:#gev_dec_training_no_tpl_selected#:#Bitte wählen Sie eine Vorlage aus.
 gev#:#gev_dec_training_org_unit_advice#:#Bitte wählen sie die Organisationseinheit, für die sie dieses Training veranstalten. Durch Klick auf ein Dreieck sehen sie die untergeordneten Organisationseinheiten.
 gev#:#gev_dec_training_move_to_course#:#Trainingsinhalt übernehmen
 gev#:#gev_dec_training_schedule_download#:#Ablaufplan PDF
+gev#:#view_material#:#Materialliste einsehen
+gev#:#edit_material#:#Materialliste bearbeiten
+gev#:#view_schedule_pdf#:#Ablaufplan PDF einsehen
