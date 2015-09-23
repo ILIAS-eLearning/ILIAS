@@ -12083,3 +12083,12 @@ if(!$ilDB->indexExistsByFields('frm_posts_tree', array('pos_fk')))
 	$ilDB->addIndex('frm_posts_tree', array('pos_fk'), 'i2');
 }
 ?>
+<#4767>
+<?php
+
+	if(!$ilDB->indexExistsByFields('role_data',array('auth_mode')))
+	{
+		$ilDB->addIndex('role_data',array('auth_mode'),'i1');
+	}
+?>
+
