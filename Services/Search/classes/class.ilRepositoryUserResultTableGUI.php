@@ -270,14 +270,7 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
 					}
 					elseif($this->getType() == self::TYPE_GLOBAL_SEARCH)
 					{
-						if($link)
-						{
-							$this->tpl->setCurrentBlock('login_linked');
-							$this->tpl->setVariable('LOGIN_NAME',$a_set[$field] ? $a_set[$field] : '');
-							$this->tpl->setVariable('LOGIN_LINK',$link);
-							$this->tpl->parseCurrentBlock();
-							break;
-						}
+						$a_set[$field] = "<a href=\"".$link."\">".$a_set[$field]."</a>";
 					}
 					// fallthrough
 				
