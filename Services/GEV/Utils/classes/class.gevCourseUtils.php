@@ -2036,15 +2036,20 @@ class gevCourseUtils {
 
  	}
 
- 	public function buildCrsScheduleList($filename = null) {
+ 	public function buildCrsScheduleList($filename = null, $deliver=true) {
  		require_once 'Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCreateSchedulePDF.php';
 
  		if ($a_filename === null) {
 			$a_filename = $this->getTitle()."_Ablaufplan.pdf";
 		}
 
-		$list = new gevDecentralTrainingCreateSchedulePDF($this->getId());
-		$list->deliver($a_filename);
+		$pdf = new gevDecentralTrainingCreateSchedulePDF($this->getId());
+		
+		if($deliver) {
+			$pdf->deliver($a_filename);
+		} else {
+			$pdf->build($a_filename);
+		}
  	}
 
 	public function buildMemberList($a_send, $a_filename, $a_type) {
