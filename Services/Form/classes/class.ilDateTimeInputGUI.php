@@ -255,16 +255,14 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
 
 		// config picker		
 		if(!$this->getDisabled())
-		{					
-			
-			
+		{											
 			$picker_id = md5($this->getPostVar()); // :TODO: unique?
 			$tpl->setVariable('DATEPICKER_ID', $picker_id);				
-			$tpl->setVariable('DATEPICKER_CONFIG', 
-				ilCalendarUtil::addDateTimePicker(
-					$picker_id, 
-					$this->getDatePickerTimeFormat(),
-					$this->parseDatePickerConfig())
+			
+			ilCalendarUtil::addDateTimePicker(
+				$picker_id, 
+				$this->getDatePickerTimeFormat(),
+				$this->parseDatePickerConfig()
 			);
 		}
 		else

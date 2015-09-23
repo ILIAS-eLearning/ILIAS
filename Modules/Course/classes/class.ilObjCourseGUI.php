@@ -1065,6 +1065,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			$this->tpl->addJavaScript('./Services/Form/js/date_duration.js');
 			include_once "Services/Form/classes/class.ilDateDurationInputGUI.php";
 			$dur = new ilDateDurationInputGUI($this->lng->txt('rep_time_period'), "access_period");
+			$dur->setRequired(true);
 			$dur->setShowTime(true);																	
 			$dur->setStart(new ilDateTime($this->object->getActivationStart(),IL_CAL_UNIX));
 			$dur->setStartText($this->lng->txt('rep_activation_limited_start'));				

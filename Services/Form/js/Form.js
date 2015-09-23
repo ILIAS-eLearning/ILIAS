@@ -24,7 +24,7 @@ il.Form = {
 	// hide sub forms
 	hideSubForm: function (id) {
 		id = il.Form.escapeSelector(id);
-		$("#" + id).css('overflow', 'hidden').css('height', '0px').css('display', 'none');
+		$("#" + id)./*css('overflow', 'hidden').*/css('height', '0px').css('display', 'none');	
 	},
 
 	// show Subform
@@ -69,7 +69,7 @@ il.Form = {
 			obj.style.height = '0px';
 			obj.style.position = '';
 			obj.style.left = '';
-			obj.style.overflow = 'hidden';
+			// obj.style.overflow = 'hidden';
 
 			obj.style.display = '';
 			$(obj).animate({
@@ -81,7 +81,7 @@ il.Form = {
 
 		// deactivate subform of checkbox
 		if (obj && (cb != null && cb.checked == false)) {
-			obj.style.overflow = 'hidden';
+			// obj.style.overflow = 'hidden';
 
 			$(obj).animate({
 				height: 0

@@ -573,7 +573,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$this->object->setActivationLimited(true);								    			
 					$this->object->setActivationVisibility($_POST["access_visiblity"]);	
 					
-					$period = $form->getItemByPostVar("access_period");										
+					$period = $form->getItemByPostVar("access_period");		
 					$this->object->setActivationStartDate($period->getStart()->get(IL_CAL_UNIX));
 					$this->object->setActivationEndDate($period->getEnd()->get(IL_CAL_UNIX));							
 				}
@@ -809,12 +809,17 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->tpl->addJavaScript('./Services/Form/js/date_duration.js');
 			include_once "Services/Form/classes/class.ilDateDurationInputGUI.php";
 			$dur = new ilDateDurationInputGUI($this->lng->txt('rep_time_period'), "access_period");
+			$dur->setRequired(true);
 			$dur->setShowTime(true);						
 			$date = $this->object->getActivationStartDate();				
-			$dur->setStart(new ilDateTime($date ? $date : time(), IL_CAL_UNIX));
+			$dur->setStart($date 
+				? new ilDateTime($date, IL_CAL_UNIX)
+				: null);
 			$dur->setStartText($this->lng->txt('rep_activation_limited_start'));				
 			$date = $this->object->getActivationEndDate();
-			$dur->setEnd(new ilDateTime($date ? $date : time(), IL_CAL_UNIX));
+			$dur->setEnd($date 
+				? new ilDateTime($date, IL_CAL_UNIX)
+				: null);
 			$dur->setEndText($this->lng->txt('rep_activation_limited_end'));				
 			$act_type->addSubItem($dur);
 

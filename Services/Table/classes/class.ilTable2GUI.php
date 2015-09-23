@@ -662,8 +662,7 @@ class ilTable2GUI extends ilTableGUI
 
 			case self::FILTER_DATE:
 				include_once("./Services/Form/classes/class.ilDateTimeInputGUI.php");
-				$item = new ilDateTimeInputGUI($caption, $id);
-				$item->setMode(ilDateTimeInputGUI::MODE_INPUT);
+				$item = new ilDateTimeInputGUI($caption, $id);			
 				break;
 
 			case self::FILTER_TEXT:
@@ -707,8 +706,7 @@ class ilTable2GUI extends ilTableGUI
 				$item->addCombinationItem("from", $combi_item, $lng->txt("from"));
 				$combi_item = new ilDateTimeInputGUI("", $id."_to");
 				$item->addCombinationItem("to", $combi_item, $lng->txt("to"));
-				$item->setComparisonMode(ilCombinationInputGUI::COMPARISON_ASCENDING);
-				$item->setMode(ilDateTimeInputGUI::MODE_INPUT);
+				$item->setComparisonMode(ilCombinationInputGUI::COMPARISON_ASCENDING);				
 				break;
 			
 			case self::FILTER_DATETIME_RANGE:
@@ -721,8 +719,7 @@ class ilTable2GUI extends ilTableGUI
 				$combi_item = new ilDateTimeInputGUI("", $id."_to");
 				$combi_item->setShowTime(true);
 				$item->addCombinationItem("to", $combi_item, $lng->txt("to"));
-				$item->setComparisonMode(ilCombinationInputGUI::COMPARISON_ASCENDING);
-				$item->setMode(ilDateTimeInputGUI::MODE_INPUT);
+				$item->setComparisonMode(ilCombinationInputGUI::COMPARISON_ASCENDING);				
 				break;
 
 			case self::FILTER_DURATION_RANGE:

@@ -11,7 +11,12 @@ include_once("./Services/Form/classes/class.ilDateTimeInputGUI.php");
 * @ingroup	ServicesForm
 */
 class ilBirthdayInputGUI extends ilDateTimeInputGUI
-{			
+{				
+	public function getStartYear() 
+	{
+		return date("Y")-100;
+	}
+	
 	protected function parseDatePickerConfig()
 	{
 		$config = parent::parseDatePickerConfig();

@@ -558,7 +558,7 @@ class ilCalendarUtil
 			if($a_add_time == 2)
 			{
 				$format .= ":ss";
-			}		
+			}				
 		}		
 		
 		// translate datepicker format to PHP format
@@ -581,9 +581,12 @@ class ilCalendarUtil
 	 * @param string $a_id
 	 * @param int $a_add_time 1=hh:mm, 2=hh:mm:ss
 	 * @param array $a_custom_config
+	 * @param string $a_id2
+	 * @param array $a_custom_config2
+	 * @param string $a_toggle_id
 	 * @return string
 	 */
-	public static function addDateTimePicker($a_id, $a_add_time = false, array $a_custom_config = null)
+	public static function addDateTimePicker($a_id, $a_add_time = false, array $a_custom_config = null, $a_id2 = null, $a_custom_config2 = null, $a_toggle_id = null)
 	{
 		global $tpl, $ilUser;
 		
@@ -613,16 +616,34 @@ class ilCalendarUtil
 		$config = (!$a_custom_config)
 			? $default
 			: array_merge($default, $a_custom_config);		
+					
+		$tpl->addOnLoadCode('$("#'.$a_id.'").datetimepicker('.json_encode($config).')');
 		
-		$js = '<script type="text/javascript">'."\n".
-			'$(function () {'."\n".
-				'$(\'#'.$a_id.'\').datetimepicker('."\n".
-					json_encode($config).			
-				')'."\n".
-			'})'."\n".
-		'</script>';
 
-		return $js;
+		// optional 2nd picker aka duration
+		if($a_id2)
+		{
+			$config2 = (!$a_custom_config2)
+				? $default
+				: array_merge($default, $a_custom_config2);	
+			
+			$config2["useCurrent"] = false; //Important! See issue #1075
+			
+			$tpl->addOnLoadCode('$("#'.$a_id2.'").datetimepicker('.json_encode($config2).')');			
+							
+			$tpl->addOnLoadCode('$("#'.$a_id.'").on("dp.change", function(e) { changedDatePickerDurationStart(e, this, "'.$a_id.'","'.$a_id2.'"); });');	
+			$tpl->addOnLoadCode('$("#'.$a_id2.'").on("dp.change", function(e) { changedDatePickerDurationEnd(e, this, "'.$a_id.'","'.$a_id2.'"); });');	
+		}	
+		
+		if($a_toggle_id)
+		{
+			$tpl->addOnLoadCode('$("#'.$a_toggle_id.'").change(function(e) { changedDatePickerToggler(this, "'.$config["format"].'","'.$a_id.'","'.$a_id2.'"); });');	
+		}
+		
+		if($a_id2)
+		{
+			$tpl->addOnLoadCode('initDatePickerDuration("'.$a_id.'","'.$a_id2.'","'.$a_toggle_id.'");');			
+		}
 	}
 	
 	/**

@@ -1454,7 +1454,6 @@ class ilObjUserGUI extends ilObjectGUI
 		{
 			$birthday = new ilBirthdayInputGUI($lng->txt('birthday'), 'birthday');
 			$birthday->setRequired(isset($settings["require_birthday"]) && $settings["require_birthday"]);			
-			$birthday->setStartYear(1900);
 			$this->form_gui->addItem($birthday);
 		}
 

@@ -1,3 +1,82 @@
+function initDatePickerDuration(picker_id, picker2_id, toggle_id) {		
+	var dp = $("#"+picker_id).data("DateTimePicker"); 
+	var dp2 = $("#"+picker2_id).data("DateTimePicker"); 
+
+	// changedDatePickerDurationEnd()
+	if(dp2.date())
+	{
+		// limit to value of end picker
+		dp.maxDate(dp2.date());
+	}
+
+	// see changedDatePickerDurationStart()
+	if(dp.date())
+	{
+		// limit to value of start picker
+		dp2.minDate(dp.date()); 
+
+		// store current value for diff magic 
+		$("#"+picker_id).data("DateTimePickerOld", dp.date());
+	}	
+	
+	if(toggle_id)
+	{
+		if($("#"+toggle_id).prop("checked")) {  
+			var format = dp.format();
+			dp.format(format.substr(0, 10));
+			format = dp2.format();
+			dp2.format(format.substr(0, 10));
+		}
+	}	
+}
+
+function changedDatePickerDurationStart(e, el, picker_id, picker2_id) {
+	var dp2 = $("#"+picker2_id).data("DateTimePicker"); 
+	
+	// limit to value of end picker
+	dp2.minDate(e.date); 
+	
+	var old = $(el).data("DateTimePickerOld"); 
+	if(old && dp2.date()) { 
+		var diff = dp2.date().diff(old); 
+		dp2.date(e.date.clone().add(diff)); 
+	}
+	
+	// keep current date for diff parsing (see above);
+	$(el).data("DateTimePickerOld", e.date);
+}
+
+function changedDatePickerDurationEnd(e, el, picker_id, picker2_id) {
+	// limit to value of start picker
+	$("#"+picker_id).data("DateTimePicker").maxDate(e.date);
+}
+
+function changedDatePickerToggler(el, full_format, picker_id, picker2_id) {
+	if(!$(el).prop("checked")) {  
+		$("#"+picker_id).data("DateTimePicker").format(full_format); 
+		if(picker2_id) {
+			$("#"+picker2_id).data("DateTimePicker").format(full_format); 
+		}
+	} 
+	else { 
+		var short_format = full_format.substr(0, 10);
+		$("#"+picker_id).data("DateTimePicker").format(short_format); 
+		if(picker2_id) {
+			$("#"+picker2_id).data("DateTimePicker").format(short_format); 
+		}
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
 function ilInitDuration(event,args,prefix)
 {
 	if (ilIsFulltime(prefix)) 

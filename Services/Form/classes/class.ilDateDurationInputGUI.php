@@ -14,30 +14,15 @@ include_once 'Services/Table/interfaces/interface.ilTableFilterItem.php';
 class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilterItem
 {
 	protected $start = null;
-	protected $startyear = null;
-	
+	protected $startyear = null;	
 	protected $start_text = '';
-	protected $end_text = '';
-	
+	protected $end_text = '';	
 	protected $minute_step_size = 5;
-	protected $end = null;
-	
-	/**
-	 * Activation full day events
-	 */
-	protected $activation_title = '';
-	protected $activation_post_var = '';
-	protected $activation_checked = true;
-	
-	/**
-	 * Toggle datetime
-	 */
+	protected $end = null;	
+	protected $showtime = false;	
 	protected $toggle_fulltime = false;
 	protected $toggle_fulltime_txt = '';
 	protected $toggle_fulltime_checked = false;
-
-	protected $show_empty = false;
-	protected $showtime = false;
 	
 	/**
 	* Constructor
@@ -52,23 +37,6 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 	}
 	
 	/**
-	 * Enable date activation.
-	 * If chosen a checkbox will be shown that gives the possibility to en/disable the date selection.
-	 *
-	 * @access public
-	 * @param string text displayed after the checkbox
-	 * @param string name of postvar
-	 * @param bool checkbox checked
-	 * 
-	 */
-	public function enableDateActivation($a_title,$a_postvar,$a_checked = true)
-	{
-	 	$this->activation_title = $a_title;
-	 	$this->activation_post_var = $a_postvar;
-	 	$this->activation_checked = $a_checked;
-	}
-	
-	/**
 	 * Enable toggling between date and time
 	 * @param object $a_title
 	 * @param object $a_checked
@@ -77,7 +45,7 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 	public function enableToggleFullTime($a_title,$a_checked)
 	{
 		$this->toggle_fulltime_txt = $a_title;
-		$this->toggle_fulltime_checked = $a_checked;
+		$this->toggle_fulltime_checked = $a_checked;		
 		$this->toggle_fulltime = true;
 	}
 	
@@ -91,17 +59,6 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 	}
 	
 	/**
-	 * Get activation post var
-	 *
-	 * @access public
-	 * 
-	 */
-	public function getActivationPostVar()
-	{
-	 	return $this->activation_post_var;
-	}
-	
-	/**
 	* Set start date
 	* E.g	$dt_form->setDate(new ilDateTime(time(),IL_CAL_UTC));
 	* or 	$dt_form->setDate(new ilDateTime('2008-06-12 08:00:00',IL_CAL_DATETIME));
@@ -112,7 +69,7 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 	*		
 	* @param	object	$a_date	ilDate or ilDateTime  object
 	*/
-	public function setStart(ilDateTime $a_date)
+	public function setStart(ilDateTime $a_date = null)
 	{
 		$this->start = $a_date;
 	}
@@ -176,7 +133,7 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 	*		
 	* @param	object	$a_date	ilDate or ilDateTime  object
 	*/
-	public function setEnd(ilDateTime $a_date)
+	public function setEnd(ilDateTime $a_date = null)
 	{
 		$this->end = $a_date;
 	}
@@ -191,27 +148,6 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 		return $this->end;
 	}
 	
-	/**
-	* Set Show Empty Information.
-	*
-	* @param	boolean	Show Empty Information
-	*/
-	function setShowEmpty($a_empty)
-	{
-		$this->show_empty = $a_empty;
-	}
-
-	/**
-	* Get Show Empty Information.
-	*
-	* @return	boolean	Show Empty Information
-	*/
-	function getShowEmpty()
-	{
-		return $this->show_empty;
-	}
-	
-
 	/**
 	* Set Show Time Information.
 	*
@@ -291,44 +227,48 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 	* @param	array	$a_values	value array
 	*/
 	public function setValueByArray($a_values)
-	{
-		global $ilUser;
-
-		try {
-			if(isset($a_values[$this->getPostVar()]['start']["time"]))
-			{
-				$this->setStart(new ilDateTime($a_values[$this->getPostVar()]['start']["date"].' '.$a_values[$this->getPostVar()]['start']["time"],
-					IL_CAL_DATETIME,$ilUser->getTimeZone()));
-			}
-			else
-			{
-				if (isset($a_values[$this->getPostVar()]['start']["date"]))
-				{
-					$this->setStart(new ilDate($a_values[$this->getPostVar()]['start']["date"],
-						IL_CAL_DATE));
-				}
-			}
-			if(isset($a_values[$this->getPostVar()]['end']["time"]))
-			{
-				$this->setEnd(new ilDateTime($a_values[$this->getPostVar()]['end']["date"].' '.$a_values[$this->getPostVar()]['end']["time"],
-					IL_CAL_DATETIME,$ilUser->getTimeZone()));
-			}
-			else
-			{
-				if (isset($a_values[$this->getPostVar()]['end']["date"]))
-				{
-					$this->setEnd(new ilDate($a_values[$this->getPostVar()]['end']["date"],
-						IL_CAL_DATE));
-				}
-			}
-			foreach($this->getSubItems() as $item)
-			{
-				$item->setValueByArray($a_values);
-			}
-		}
-		catch(ilDateTimeException $e)
+	{		
+		$incoming = $a_values[$this->getPostVar()];
+		
+		if(is_array($incoming))
 		{
-			// Nothing
+			$start = $incoming["start"];									
+			if(is_object($start) && 
+				$start instanceof ilDateTime)
+			{
+				$this->setStart($start);
+			}
+			else if(trim($start))
+			{							
+				$parsed = ilCalendarUtil::parseDateString($start, $this->getDatePickerTimeFormat());	
+				if(is_object($parsed["date"]))
+				{
+					$this->setStart($parsed["date"]);
+				}
+			}
+			else
+			{
+				$this->setStart(null);
+			}
+			
+			$end = $incoming["end"];
+			if(is_object($end) && 
+				$end instanceof ilDateTime)
+			{
+				$this->setEnd($end);
+			}
+			else if(trim($end))
+			{							
+				$parsed = ilCalendarUtil::parseDateString($end, $this->getDatePickerTimeFormat());	
+				if(is_object($parsed["date"]))
+				{
+					$this->setEnd($parsed["date"]);
+				}
+			}
+			else
+			{
+				$this->setEnd(null);
+			}
 		}
 	}
 	
@@ -346,100 +286,102 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 			return true;
 		}
 		
+		$post = $_POST[$this->getPostVar()];
+		if(!is_array($post))
+		{
+			return false;
+		}
 		
-		$ok = true;
-
-		// Start
-		$_POST[$this->getPostVar()]['start']["date"]["y"] =
-			ilUtil::stripSlashes($_POST[$this->getPostVar()]['start']["date"]["y"]);
-		$_POST[$this->getPostVar()]['start']["date"]["m"] =
-			ilUtil::stripSlashes($_POST[$this->getPostVar()]['start']["date"]["m"]);
-		$_POST[$this->getPostVar()]['start']["date"]["d"] =
-			ilUtil::stripSlashes($_POST[$this->getPostVar()]['start']["date"]["d"]);
-		$_POST[$this->getPostVar()]['start']["time"]["h"] =
-			ilUtil::stripSlashes($_POST[$this->getPostVar()]['start']["time"]["h"]);
-		$_POST[$this->getPostVar()]['start']["time"]["m"] =
-			ilUtil::stripSlashes($_POST[$this->getPostVar()]['start']["time"]["m"]);
-		$_POST[$this->getPostVar()]['start']["time"]["s"] = 
-			ilUtil::stripSlashes($_POST[$this->getPostVar()]['start']["time"]["s"]);
-
-		// verify date
-		$dt['year'] = (int) $_POST[$this->getPostVar()]['start']['date']['y'];
-		$dt['mon'] = (int) $_POST[$this->getPostVar()]['start']['date']['m'];
-		$dt['mday'] = (int) $_POST[$this->getPostVar()]['start']['date']['d'];
-		$dt['hours'] = (int) $_POST[$this->getPostVar()]['start']['time']['h'];
-		$dt['minutes'] = (int) $_POST[$this->getPostVar()]['start']['time']['m'];
-		$dt['seconds'] = (int) $_POST[$this->getPostVar()]['start']['time']['s'];
-
-
-		if($this->getShowTime())
-		{
-			$date = new ilDateTime($dt,IL_CAL_FKT_GETDATE,$ilUser->getTimeZone());
+		$start = $post["start"];
+		$end = $post["end"];
+		
+		// if full day is active, ignore full format
+		$format = $post['tgl']
+			? 0
+			: $this->getDatePickerTimeFormat();
+		
+		$valid_start = false;		
+		if(trim($start))
+		{						
+			$parsed = ilCalendarUtil::parseDateString($start, $format);	
+			if(is_object($parsed["date"]))
+			{
+				$this->setStart($parsed["date"]);
+				$valid_start = true;
+			}		
+			else
+			{
+				$this->invalid_input_start = $start;
+			}
 		}
-		else
+		else if(!$this->getRequired() && !trim($end))
 		{
-			$date = new ilDate($dt,IL_CAL_FKT_GETDATE);
+			$this->setStart(null);
+			$valid_start = true;			
 		}
-		if ($_POST[$this->getPostVar()]['start']["date"]["d"] != $date->get(IL_CAL_FKT_DATE,'d',$ilUser->getTimeZone()) ||
-			$_POST[$this->getPostVar()]['start']["date"]["m"] != $date->get(IL_CAL_FKT_DATE,'m',$ilUser->getTimeZone()) ||
-			$_POST[$this->getPostVar()]['start']["date"]["y"] != $date->get(IL_CAL_FKT_DATE,'Y',$ilUser->getTimeZone()))
+								
+		$valid_end = false;		
+		if(trim($end))
+		{			
+			$parsed = ilCalendarUtil::parseDateString($end, $format);	
+			if(is_object($parsed["date"]))
+			{
+				$this->setEnd($parsed["date"]);
+				$valid_end = true;
+			}		
+			else
+			{
+				$this->invalid_input_end = $end;
+			}
+		}
+		else if(!$this->getRequired() && !trim($start))
 		{
-			// #11847
-			$this->invalid_input['start'] = $_POST[$this->getPostVar()]['start']["date"];
+			$this->setEnd(null);			
+			$valid_end = true;			
+		}
+		
+		$valid = ($valid_start && $valid_end);		
+		
+		if($this->getStart() && 
+			$this->getEnd())
+		{
+			if($this->getEnd()->get(IL_CAL_UNIX) < $this->getStart()->get(IL_CAL_UNIX))
+			{
+				$valid = false;
+			}
+		}
+		
+		// :TODO: proper messages?
+		if(!$valid)
+		{
 			$this->setAlert($lng->txt("exc_date_not_valid"));
-			$ok = false;
-		}
-
-		#$_POST[$this->getPostVar()]['start']['date'] = $date->get(IL_CAL_FKT_DATE,'Y-m-d',$ilUser->getTimeZone());
-		#$_POST[$this->getPostVar()]['start']['time'] = $date->get(IL_CAL_FKT_DATE,'H:i:s',$ilUser->getTimeZone());
-
-		$this->setStart($date);
-
-		// End
-		$_POST[$this->getPostVar()]['end']["date"]["y"] = 
-			ilUtil::stripSlashes($_POST[$this->getPostVar()]['end']["date"]["y"]);
-		$_POST[$this->getPostVar()]['end']["date"]["m"] =
-			ilUtil::stripSlashes($_POST[$this->getPostVar()]['end']["date"]["m"]);
-		$_POST[$this->getPostVar()]['end']["date"]["d"] =
-			ilUtil::stripSlashes($_POST[$this->getPostVar()]['end']["date"]["d"]);
-		$_POST[$this->getPostVar()]['end']["time"]["h"] =
-			ilUtil::stripSlashes($_POST[$this->getPostVar()]['end']["time"]["h"]);
-		$_POST[$this->getPostVar()]['end']["time"]["m"] =
-			ilUtil::stripSlashes($_POST[$this->getPostVar()]['end']["time"]["m"]);
-		$_POST[$this->getPostVar()]['end']["time"]["s"] =
-			ilUtil::stripSlashes($_POST[$this->getPostVar()]['end']["time"]["s"]);
-
-		// verify date
-		$dt['year'] = (int) $_POST[$this->getPostVar()]['end']['date']['y'];
-		$dt['mon'] = (int) $_POST[$this->getPostVar()]['end']['date']['m'];
-		$dt['mday'] = (int) $_POST[$this->getPostVar()]['end']['date']['d'];
-		$dt['hours'] = (int) $_POST[$this->getPostVar()]['end']['time']['h'];
-		$dt['minutes'] = (int) $_POST[$this->getPostVar()]['end']['time']['m'];
-		$dt['seconds'] = (int) $_POST[$this->getPostVar()]['end']['time']['s'];
-
-		if($this->getShowTime())
+		}				
+		
+		return $valid;
+	}
+	
+	protected function getDatePickerTimeFormat()
+	{					
+		return (int)$this->getShowTime() + (int)$this->getShowSeconds();
+	}
+	
+	/**
+	 * parse properties to datepicker config
+	 * 
+	 * @return array
+	 */
+	protected function parseDatePickerConfig()
+	{
+		$config = null;
+		if($this->getMinuteStepSize())
 		{
-			$date = new ilDateTime($dt,IL_CAL_FKT_GETDATE,$ilUser->getTimeZone());
+			$config['stepping'] = (int)$this->getMinuteStepSize();
 		}
-		else
+		if($this->getStartYear())
 		{
-			$date = new ilDate($dt,IL_CAL_FKT_GETDATE);
-		}
-		if ($_POST[$this->getPostVar()]['end']["date"]["d"] != $date->get(IL_CAL_FKT_DATE,'d',$ilUser->getTimeZone()) ||
-			$_POST[$this->getPostVar()]['end']["date"]["m"] != $date->get(IL_CAL_FKT_DATE,'m',$ilUser->getTimeZone()) ||
-			$_POST[$this->getPostVar()]['end']["date"]["y"] != $date->get(IL_CAL_FKT_DATE,'Y',$ilUser->getTimeZone()))
-		{
-			$this->invalid_input['end'] = $_POST[$this->getPostVar()]['end']["date"];
-			$this->setAlert($lng->txt("exc_date_not_valid"));
-			$ok = false;
-		}
-
-		#$_POST[$this->getPostVar()]['end']['date'] = $date->get(IL_CAL_FKT_DATE,'Y-m-d',$ilUser->getTimeZone());
-		#$_POST[$this->getPostVar()]['end']['time'] = $date->get(IL_CAL_FKT_DATE,'H:i:s',$ilUser->getTimeZone());
-
-		$this->setEnd($date);
-
-		return $ok;
+			$config['minDate'] = $this->getStartYear().'-01-01';
+		}					
+		return $config;
 	}
 	
 	/**
@@ -448,167 +390,85 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 	*/
 	public function render()
 	{
-		global $lng,$ilUser;
+		global $ilUser;
 		
 		$tpl = new ilTemplate("tpl.prop_datetime_duration.html", true, true, "Services/Form");
 		
-		// Init start		
-		if(is_a($this->getStart(),'ilDate'))
+		if($this->enabledToggleFullTime())
 		{
-			$start_info = $this->getStart()->get(IL_CAL_FKT_GETDATE,'','UTC'); 
+			$toggle_id = md5($this->getPostVar().'_fulltime'); // :TODO: unique?
+			
+			$tpl->setCurrentBlock('toggle_fullday');
+			$tpl->setVariable('DATE_TOGGLE_ID', $this->getPostVar().'[tgl]');
+			$tpl->setVariable('FULLDAY_TOGGLE_ID', $toggle_id);
+			$tpl->setVariable('FULLDAY_TOGGLE_CHECKED', $this->toggle_fulltime_checked ? 'checked="checked"' : '');
+			$tpl->setVariable('FULLDAY_TOGGLE_DISABLED', $this->getDisabled() ? 'disabled="disabled"' : '');
+			$tpl->setVariable('TXT_TOGGLE_FULLDAY', $this->toggle_fulltime_txt);
+			$tpl->parseCurrentBlock();			
 		}
-		elseif(is_a($this->getStart(),'ilDateTime'))
-		{
-			$start_info = $this->getStart()->get(IL_CAL_FKT_GETDATE,'',$ilUser->getTimeZone());
+		
+		// config picker		
+		if(!$this->getDisabled())
+		{											
+			// :TODO: unique?
+			$picker_start_id = md5($this->getPostVar().'_start'); 
+			$picker_end_id = md5($this->getPostVar().'_end');	
+			
+			$tpl->setVariable('DATEPICKER_START_ID', $picker_start_id);				
+			$tpl->setVariable('DATEPICKER_END_ID', $picker_end_id);			
+			
+			ilCalendarUtil::addDateTimePicker(
+				$picker_start_id, 
+				$this->getDatePickerTimeFormat(),
+				$this->parseDatePickerConfig(),
+				$picker_end_id,
+				$this->parseDatePickerConfig(),
+				$toggle_id
+			);			
 		}
 		else
 		{
-			$this->setStart(new ilDateTime(time(), IL_CAL_UNIX));
-			$start_info = $this->getStart()->get(IL_CAL_FKT_GETDATE,'',$ilUser->getTimeZone());
-		}
-		// display invalid input again
-		if(is_array($this->invalid_input['start']))
-		{
-			$start_info['year'] = $this->invalid_input['start']['y'];
-			$start_info['mon'] = $this->invalid_input['start']['m'];
-			$start_info['mday'] = $this->invalid_input['start']['d'];		
-		}
-		
-		// Init end
-		if(is_a($this->getEnd(),'ilDate'))
-		{
-			$end_info = $this->getEnd()->get(IL_CAL_FKT_GETDATE,'','UTC'); 
-		}
-		elseif(is_a($this->getEnd(),'ilDateTime'))
-		{
-			$end_info = $this->getEnd()->get(IL_CAL_FKT_GETDATE,'',$ilUser->getTimeZone());
-		}
-		else
-		{
-			$this->setEnd(new ilDateTime(time(), IL_CAL_UNIX));
-			$end_info = $this->getEnd()->get(IL_CAL_FKT_GETDATE,'',$ilUser->getTimeZone());
-		}
-		// display invalid input again
-		if(is_array($this->invalid_input['end']))
-		{
-			$end_info['year'] = $this->invalid_input['end']['y'];
-			$end_info['mon'] = $this->invalid_input['end']['m'];
-			$end_info['mday'] = $this->invalid_input['end']['d'];		
-		}
-		
-		$lng->loadLanguageModule("jscalendar");
-		require_once("./Services/Calendar/classes/class.ilCalendarUtil.php");
-		ilCalendarUtil::initJSCalendar();
-		
-		if(strlen($this->getActivationPostVar()))
-		{
-			$tpl->setCurrentBlock('prop_date_activation');
-			$tpl->setVariable('CHECK_ENABLED_DATE',$this->getActivationPostVar());
-			$tpl->setVariable('TXT_DATE_ENABLED',$this->activation_title);
-			$tpl->setVariable('CHECKED_ENABLED',$this->activation_checked ? 'checked="checked"' : '');
-			$tpl->setVariable('CHECKED_DISABLED',$this->getDisabled() ? 'disabled="disabled" ' : '');
-			$tpl->parseCurrentBlock();
-		}
+			$tpl->setVariable('DATEPICKER_START_DISABLED', 'disabled="disabled" ');	
+			$tpl->setVariable('DATEPICKER_END_DISABLED', 'disabled="disabled" ');	
+		}		
 		
 		if(strlen($this->getStartText()))
 		{
-			$tpl->setVariable('TXT_START',$this->getStartText());
+			$tpl->setVariable('START_LABEL',$this->getStartText());
+			$tpl->touchBlock('start_width_bl');
 		}
 		if(strlen($this->getEndText()))
 		{
-			$tpl->setVariable('TXT_END',$this->getEndText());
+			$tpl->setVariable('END_LABEL',$this->getEndText());
+			$tpl->touchBlock('end_width_bl');
 		}
 		
-		// Toggle fullday
-		if($this->enabledToggleFullTime())
-		{
-			$tpl->setCurrentBlock('toggle_fullday');
-			$tpl->setVariable('FULLDAY_POSTVAR',$this->getPostVar());
-			$tpl->setVariable('FULLDAY_TOGGLE_NAME',$this->getPostVar().'[fulltime]');
-			$tpl->setVariable('FULLDAY_TOGGLE_CHECKED',$this->toggle_fulltime_checked ? 'checked="checked"' : '');
-			$tpl->setVariable('FULLDAY_TOGGLE_DISABLED',$this->getDisabled() ? 'disabled="disabled"' : '');
-			$tpl->setVariable('TXT_TOGGLE_FULLDAY',$this->toggle_fulltime_txt);
-			$tpl->parseCurrentBlock();
+		
+		$tpl->setVariable('DATE_START_ID', $this->getPostVar().'[start]');		
+		$tpl->setVariable('DATE_END_ID', $this->getPostVar().'[end]');
+		
+		
+		// values
+		
+		$date_value = $this->invalid_input_start;			
+		if(!$date_value &&
+			$this->getStart())
+		{			
+			$out_format = ilCalendarUtil::getUserDateFormat($this->getDatePickerTimeFormat(), true);		
+			$date_value = $this->getStart()->get(IL_CAL_FKT_DATE, $out_format, $ilUser->getTimeZone());								
 		}
+		$tpl->setVariable('DATEPICKER_START_VALUE', $date_value);
+		
+		$date_value = $this->invalid_input_end;			
+		if(!$date_value &&
+			$this->getEnd())
+		{			
+			$out_format = ilCalendarUtil::getUserDateFormat($this->getDatePickerTimeFormat(), true);		
+			$date_value = $this->getEnd()->get(IL_CAL_FKT_DATE, $out_format, $ilUser->getTimeZone());								
+		}
+		$tpl->setVariable('DATEPICKER_END_VALUE', $date_value);
 				
-		$tpl->setVariable('POST_VAR',$this->getPostVar());
-		include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
-		$tpl->setVariable("IMG_START_CALENDAR", ilGlyphGUI::get(ilGlyphGUI::CALENDAR, $lng->txt("open_calendar")));
-
-		$tpl->setVariable("START_ID", $this->getPostVar());
-		$tpl->setVariable("DATE_ID_START", $this->getPostVar());
-
-		$tpl->setVariable("INPUT_FIELDS_START", $this->getPostVar()."[start][date]");
-		include_once './Services/Calendar/classes/class.ilCalendarUserSettings.php';
-		$tpl->setVariable('DATE_FIRST_DAY',ilCalendarUserSettings::_getInstance()->getWeekStart());
-		$tpl->setVariable("START_SELECT",
-			ilUtil::makeDateSelect(
-				$this->getPostVar()."[start][date]",
-				$start_info['year'], $start_info['mon'], $start_info['mday'],
-				$this->getStartYear(),
-				true,
-				array(
-					'disabled' => $this->getDisabled(),
-					'select_attributes' => array('onchange' => 'ilUpdateEndDate();')
-					),
-				$this->getShowEmpty()));
-
-		include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
-		$tpl->setVariable("IMG_END_CALENDAR", ilGlyphGUI::get(ilGlyphGUI::CALENDAR, $lng->txt("open_calendar")));
-
-		$tpl->setVariable("END_ID", $this->getPostVar());
-		$tpl->setVariable("DATE_ID_END", $this->getPostVar());
-		$tpl->setVariable("INPUT_FIELDS_END", $this->getPostVar()."[end][date]");
-		$tpl->setVariable("END_SELECT",
-			ilUtil::makeDateSelect(
-				$this->getPostVar()."[end][date]",
-				$end_info['year'], $end_info['mon'], $end_info['mday'],
-				$this->getStartYear(),
-				true,
-				array(
-					'disabled' => $this->getDisabled()
-					),
-				$this->getShowEmpty()));
 		
-		if($this->getShowTime())
-		{
-			$tpl->setCurrentBlock("show_start_time");
-			$tpl->setVariable("START_TIME_SELECT",
-				ilUtil::makeTimeSelect(
-					$this->getPostVar()."[start][time]",
-					!$this->getShowSeconds(),
-					$start_info['hours'], $start_info['minutes'], $start_info['seconds'],
-					true,
-					array(
-						'minute_steps' => $this->getMinuteStepSize(),
-						'disabled' => $this->getDisabled(),
-						'select_attributes' => array('onchange' => 'ilUpdateEndDate();')
-					)
-				));
-			
-			$tpl->setVariable("TXT_START_TIME", $this->getShowSeconds()
-				? "(".$lng->txt("hh_mm_ss").")"
-				: "(".$lng->txt("hh_mm").")");
-			$tpl->parseCurrentBlock();
-
-			$tpl->setCurrentBlock("show_end_time");
-			$tpl->setVariable("END_TIME_SELECT",
-				ilUtil::makeTimeSelect($this->getPostVar()."[end][time]", !$this->getShowSeconds(),
-				$end_info['hours'], $end_info['minutes'], $end_info['seconds'],
-				true,array('minute_steps' => $this->getMinuteStepSize(),
-							'disabled' => $this->getDisabled())));
-			
-			$tpl->setVariable("TXT_END_TIME", $this->getShowSeconds()
-				? "(".$lng->txt("hh_mm_ss").")"
-				: "(".$lng->txt("hh_mm").")");
-			$tpl->parseCurrentBlock();
-		}
-		
-		if ($this->getShowTime())
-		{
-			$tpl->setVariable("DELIM", "<br />");
-		}
-
 		return $tpl->get();
 	}
 	
