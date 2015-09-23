@@ -4222,3 +4222,8 @@ if(!$ilDB->tableColumnExists('dct_building_block', 'move_to_course')) {
 	));
 }
 ?>
+
+<#159>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
