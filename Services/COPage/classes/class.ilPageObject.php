@@ -2900,9 +2900,14 @@ abstract class ilPageObject
 		
 		foreach ($usages as $u)
 		{
+			//BEGIN Patch primary keys
+			$id = $ilDB->nextId('page_style_usage');
+			//END Patch primary keys
+
 			$ilDB->manipulate("INSERT INTO page_style_usage ".
-				"(page_id, page_type, page_lang, page_nr, template, stype, sname) VALUES (".
-				$ilDB->quote($this->getId(), "integer").",".
+				"(id, page_id, page_type, page_lang, page_nr, template, stype, sname) VALUES (".
+			    $ilDB->quote($id, "integer").",".
+			    $ilDB->quote($this->getId(), "integer").",".
 				$ilDB->quote($this->getParentType(), "text").",".
 				$ilDB->quote($this->getLanguage(), "text").",".
 				$ilDB->quote($a_old_nr, "integer").",".
