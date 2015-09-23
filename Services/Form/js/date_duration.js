@@ -1,74 +1,88 @@
-function initDatePickerDuration(picker_id, picker2_id, toggle_id) {		
-	var dp = $("#"+picker_id).data("DateTimePicker"); 
-	var dp2 = $("#"+picker2_id).data("DateTimePicker"); 
-
-	// changedDatePickerDurationEnd()
+function initDateDurationPicker(picker_id, picker2_id, toggle_id) {		
+	var el = $("#"+picker_id);
+	var dp = $(el).data("DateTimePicker"); 
+	var el2 = $("#"+picker2_id);
+	var dp2 = $(el2).data("DateTimePicker"); 	
+	
+	
+	// init		
+	
+	// set limit by current date of other picker
 	if(dp2.date())
-	{
-		// limit to value of end picker
+	{		
 		dp.maxDate(dp2.date());
 	}
-
-	// see changedDatePickerDurationStart()
 	if(dp.date())
-	{
-		// limit to value of start picker
+	{		
 		dp2.minDate(dp.date()); 
-
+		
 		// store current value for diff magic 
-		$("#"+picker_id).data("DateTimePickerOld", dp.date());
+		$(el).data("DateTimePickerOld", dp.date());
 	}	
+
+
+	// onchange
 	
+	$(el).on("dp.change", function(e) { 
+		
+		// limit to value of end picker
+		dp2.minDate(e.date); 
+
+		// keep diff the same
+		var old = $(this).data("DateTimePickerOld"); 
+		
+		if(old && dp2.date()) { 
+			var diff = dp2.date().diff(old); 
+			dp2.date(e.date.clone().add(diff)); 
+		}
+
+		// keep current date for diff parsing (see above);
+		$(this).data("DateTimePickerOld", e.date);		
+		
+	});
+		
+	$(el2).on("dp.change", function(e) { 	
+		
+		// limit to value of start picker
+		dp.maxDate(e.date);		
+	});
+
+		
+	// toggle
+
 	if(toggle_id)
 	{
-		if($("#"+toggle_id).prop("checked")) {  
+		var toggle = $("#"+toggle_id);
+		var full_format = dp.format();
+		
+		
+		// init
+		
+		if($(toggle).prop("checked")) {  
 			var format = dp.format();
 			dp.format(format.substr(0, 10));
 			format = dp2.format();
 			dp2.format(format.substr(0, 10));
 		}
+
+
+		// onchange
+		
+		$(toggle).change(function(e) { 
+			
+			if(!$(this).prop("checked")) {  
+				dp.format(full_format); 
+				dp2.format(full_format); 				
+			} 
+			else { 
+				var short_format = full_format.substr(0, 10);
+				dp.format(short_format); 
+				dp2.format(short_format); 				
+			}
+			
+		});	
 	}	
 }
-
-function changedDatePickerDurationStart(e, el, picker_id, picker2_id) {
-	var dp2 = $("#"+picker2_id).data("DateTimePicker"); 
-	
-	// limit to value of end picker
-	dp2.minDate(e.date); 
-	
-	var old = $(el).data("DateTimePickerOld"); 
-	if(old && dp2.date()) { 
-		var diff = dp2.date().diff(old); 
-		dp2.date(e.date.clone().add(diff)); 
-	}
-	
-	// keep current date for diff parsing (see above);
-	$(el).data("DateTimePickerOld", e.date);
-}
-
-function changedDatePickerDurationEnd(e, el, picker_id, picker2_id) {
-	// limit to value of start picker
-	$("#"+picker_id).data("DateTimePicker").maxDate(e.date);
-}
-
-function changedDatePickerToggler(el, full_format, picker_id, picker2_id) {
-	if(!$(el).prop("checked")) {  
-		$("#"+picker_id).data("DateTimePicker").format(full_format); 
-		if(picker2_id) {
-			$("#"+picker2_id).data("DateTimePicker").format(full_format); 
-		}
-	} 
-	else { 
-		var short_format = full_format.substr(0, 10);
-		$("#"+picker_id).data("DateTimePicker").format(short_format); 
-		if(picker2_id) {
-			$("#"+picker2_id).data("DateTimePicker").format(short_format); 
-		}
-	}
-}
-
-
-
 
 
 

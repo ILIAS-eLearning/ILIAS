@@ -220,7 +220,36 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 	{
 	 	return $this->minute_step_size;
 	}
-	
+			
+	/**
+	 * Try to parse incoming value to date object
+	 * 
+	 * @param mixed $a_value
+	 * @param int $a_format
+	 * @return ilDateTime|ilDate
+	 */
+	protected function parseIncoming($a_value, $a_format = null)
+	{								
+		if($a_format === null)
+		{
+			$a_format = $this->getDatePickerTimeFormat();
+		}
+		
+		if(is_object($a_value) && 
+			$a_value instanceof ilDateTime)
+		{
+			return $a_value;
+		}
+		else if(trim($a_value))
+		{							
+			$parsed = ilCalendarUtil::parseDateString($a_value, $a_format);	
+			if(is_object($parsed["date"]))
+			{
+				return $parsed["date"];
+			}
+		}		
+	}
+		
 	/**
 	* Set value by array
 	*
@@ -228,47 +257,11 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 	*/
 	public function setValueByArray($a_values)
 	{		
-		$incoming = $a_values[$this->getPostVar()];
-		
+		$incoming = $a_values[$this->getPostVar()];		
 		if(is_array($incoming))
 		{
-			$start = $incoming["start"];									
-			if(is_object($start) && 
-				$start instanceof ilDateTime)
-			{
-				$this->setStart($start);
-			}
-			else if(trim($start))
-			{							
-				$parsed = ilCalendarUtil::parseDateString($start, $this->getDatePickerTimeFormat());	
-				if(is_object($parsed["date"]))
-				{
-					$this->setStart($parsed["date"]);
-				}
-			}
-			else
-			{
-				$this->setStart(null);
-			}
-			
-			$end = $incoming["end"];
-			if(is_object($end) && 
-				$end instanceof ilDateTime)
-			{
-				$this->setEnd($end);
-			}
-			else if(trim($end))
-			{							
-				$parsed = ilCalendarUtil::parseDateString($end, $this->getDatePickerTimeFormat());	
-				if(is_object($parsed["date"]))
-				{
-					$this->setEnd($parsed["date"]);
-				}
-			}
-			else
-			{
-				$this->setEnd(null);
-			}
+			$this->setStart($this->parseIncoming($incoming["start"]));
+			$this->setEnd($this->parseIncoming($incoming["end"]));
 		}
 	}
 	
@@ -295,38 +288,41 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 		$start = $post["start"];
 		$end = $post["end"];
 		
-		// if full day is active, ignore full format
+		// if full day is active, ignore time format
 		$format = $post['tgl']
 			? 0
-			: $this->getDatePickerTimeFormat();
+			: null;
 		
-		$valid_start = false;		
+		// always done to make sure there are no obsolete values left
+		$this->setStart(null);
+		$this->setEnd(null);
+		
+		$valid_start = false;
 		if(trim($start))
-		{						
-			$parsed = ilCalendarUtil::parseDateString($start, $format);	
-			if(is_object($parsed["date"]))
-			{
-				$this->setStart($parsed["date"]);
+		{
+			$parsed = $this->parseIncoming($start, $format);
+			if($parsed)
+			{									
+				$this->setStart($parsed);
 				$valid_start = true;
 			}		
 			else
 			{
 				$this->invalid_input_start = $start;
-			}
+			}		
 		}
 		else if(!$this->getRequired() && !trim($end))
 		{
-			$this->setStart(null);
 			$valid_start = true;			
 		}
 								
 		$valid_end = false;		
 		if(trim($end))
 		{			
-			$parsed = ilCalendarUtil::parseDateString($end, $format);	
-			if(is_object($parsed["date"]))
+			$parsed = $this->parseIncoming($end, $format);		
+			if($parsed)
 			{
-				$this->setEnd($parsed["date"]);
+				$this->setEnd($parsed);
 				$valid_end = true;
 			}		
 			else
@@ -335,8 +331,7 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 			}
 		}
 		else if(!$this->getRequired() && !trim($start))
-		{
-			$this->setEnd(null);			
+		{					
 			$valid_end = true;			
 		}
 		

@@ -630,20 +630,10 @@ class ilCalendarUtil
 			$config2["useCurrent"] = false; //Important! See issue #1075
 			
 			$tpl->addOnLoadCode('$("#'.$a_id2.'").datetimepicker('.json_encode($config2).')');			
-							
-			$tpl->addOnLoadCode('$("#'.$a_id.'").on("dp.change", function(e) { changedDatePickerDurationStart(e, this, "'.$a_id.'","'.$a_id2.'"); });');	
-			$tpl->addOnLoadCode('$("#'.$a_id2.'").on("dp.change", function(e) { changedDatePickerDurationEnd(e, this, "'.$a_id.'","'.$a_id2.'"); });');	
-		}	
-		
-		if($a_toggle_id)
-		{
-			$tpl->addOnLoadCode('$("#'.$a_toggle_id.'").change(function(e) { changedDatePickerToggler(this, "'.$config["format"].'","'.$a_id.'","'.$a_id2.'"); });');	
-		}
-		
-		if($a_id2)
-		{
-			$tpl->addOnLoadCode('initDatePickerDuration("'.$a_id.'","'.$a_id2.'","'.$a_toggle_id.'");');			
-		}
+						
+			// duration limits and diff handling
+			$tpl->addOnLoadCode('initDateDurationPicker("'.$a_id.'","'.$a_id2.'","'.$a_toggle_id.'");');			
+		}			
 	}
 	
 	/**

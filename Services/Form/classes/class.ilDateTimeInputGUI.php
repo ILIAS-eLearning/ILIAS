@@ -144,32 +144,39 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
 	}
 
 	/**
+	 * Try to parse incoming value to date object
+	 * 
+	 * @param mixed $a_value
+	 * @param int $a_format
+	 * @return ilDateTime|ilDate
+	 */
+	protected function parseIncoming($a_value)
+	{										
+		if(is_object($a_value) && 
+			$a_value instanceof ilDateTime)
+		{
+			return $a_value;
+		}
+		else if(trim($a_value))
+		{							
+			$parsed = ilCalendarUtil::parseDateString($a_value, $this->getDatePickerTimeFormat());	
+			if(is_object($parsed["date"]))
+			{
+				return $parsed["date"];
+			}
+		}		
+	}
+	
+	/**
 	* Set value by array
 	*
 	* @param	array	$a_values	value array
 	*/
 	function setValueByArray($a_values)
 	{		
-		$incoming = $a_values[$this->getPostVar()];
-		
-		if(is_object($incoming) && 
-			$incoming instanceof ilDateTime)
-		{
-			$this->setDate($incoming);
-		}
-		else if(trim($incoming))
-		{							
-			$parsed = ilCalendarUtil::parseDateString($incoming, $this->getDatePickerTimeFormat());	
-			if(is_object($parsed["date"]))
-			{
-				$this->setDate($parsed["date"]);
-			}
-		}
-		else
-		{
-			$this->setDate(null);
-		}
-
+		$incoming = $a_values[$this->getPostVar()];		
+		$this->setDate($this->parseIncoming($incoming));
+				
 		foreach($this->getSubItems() as $item)
 		{
 			$item->setValueByArray($a_values);
@@ -197,13 +204,16 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
 
 		$post = $_POST[$this->getPostVar()];
 		
+		// always done to make sure there are no obsolete values left
+		$this->setDate(null);
+		
 		$valid = false;		
 		if(trim($post))
 		{			
-			$parsed = ilCalendarUtil::parseDateString($post, $this->getDatePickerTimeFormat());	
-			if(is_object($parsed["date"]))
+			$parsed = $this->parseIncoming($post);
+			if($parsed)
 			{
-				$this->setDate($parsed["date"]);
+				$this->setDate($parsed);
 				$valid = true;
 			}		
 			else
@@ -212,11 +222,11 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
 			}
 		}
 		else if(!$this->getRequired())
-		{
-			$this->setDate(null);
+		{			
 			$valid = true;
 		}
 	
+		// :TODO: proper messages?
 		if(!$valid)
 		{
 			$this->setAlert($lng->txt("exc_date_not_valid"));
