@@ -271,6 +271,7 @@ class gevDecentralTrainingCourseCreatingBuildingBlock2GUI {
 			foreach ($value as $key => $name) {
 				$tpl->setCurrentBlock("option");
 				$tpl->setVariable("VALUE",$key);
+				$tpl->setVariable("BLOCK_TITLE",$name);
 				$tpl->setVariable("BLOCK",$name);
 				$tpl->parseCurrentBlock();
 			}
