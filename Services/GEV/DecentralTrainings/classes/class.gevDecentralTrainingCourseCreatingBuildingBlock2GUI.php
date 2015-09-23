@@ -351,7 +351,7 @@ class gevDecentralTrainingCourseCreatingBuildingBlock2GUI {
 
 	protected function renderPDFDownload() {
 		$form_pdf = new catPropertyFormGUI();
-		$form_pdf->addCommandButton("toDownloadPDF", $this->lng->txt("gev_dec_crs_building_block_title"));
+		$form_pdf->addCommandButton("toDownloadPDF", $this->lng->txt("gev_dec_training_schedule_download"));
 		$form_pdf->setFormAction($this->ctrl->getFormAction($this));
 		$form_pdf->setShowTopButtons(false);
 		$form_pdf->setId("dct_navi");
