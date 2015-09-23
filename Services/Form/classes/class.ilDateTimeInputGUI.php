@@ -151,8 +151,14 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
 	function setValueByArray($a_values)
 	{		
 		$incoming = $a_values[$this->getPostVar()];
-		if(trim($incoming))
-		{	
+		
+		if(is_object($incoming) && 
+			$incoming instanceof ilDateTime)
+		{
+			$this->setDate($incoming);
+		}
+		else if(trim($incoming))
+		{							
 			$parsed = ilCalendarUtil::parseDateString($incoming, $this->getDatePickerTimeFormat());	
 			if(is_object($parsed["date"]))
 			{
@@ -217,6 +223,25 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
 		}				
 		return $valid;
 	}
+	
+	/**
+	 * parse properties to datepicker config
+	 * 
+	 * @return array
+	 */
+	protected function parseDatePickerConfig()
+	{
+		$config = null;
+		if($this->getMinuteStepSize())
+		{
+			$config['stepping'] = (int)$this->getMinuteStepSize();
+		}
+		if($this->getStartYear())
+		{
+			$config['minDate'] = $this->getStartYear().'-01-01';
+		}
+		return $config;
+	}
 
 	/**
 	* Insert property html
@@ -231,16 +256,7 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
 		// config picker		
 		if(!$this->getDisabled())
 		{					
-			// parse properties to datepicker config
-			$config = null;
-			if($this->getMinuteStepSize())
-			{
-				$config['stepping'] = (int)$this->getMinuteStepSize();
-			}
-			if($this->getStartYear())
-			{
-				$config['minDate'] = $this->getStartYear().'-01-01';
-			}
+			
 			
 			$picker_id = md5($this->getPostVar()); // :TODO: unique?
 			$tpl->setVariable('DATEPICKER_ID', $picker_id);				
@@ -248,7 +264,7 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
 				ilCalendarUtil::addDateTimePicker(
 					$picker_id, 
 					$this->getDatePickerTimeFormat(),
-					$config)
+					$this->parseDatePickerConfig())
 			);
 		}
 		else

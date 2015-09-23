@@ -2289,7 +2289,7 @@ class ilObjUser extends ilObject
     }
     function getTimeLimitFrom()
     {
-        return $this->time_limit_from ? $this->time_limit_from : time();
+        return $this->time_limit_from;
     }
     function setTimeLimitUntil($a_until)
     {
@@ -2297,7 +2297,7 @@ class ilObjUser extends ilObject
     }
     function getTimeLimitUntil()
     {
-        return $this->time_limit_until ? $this->time_limit_until : time();
+        return $this->time_limit_until;
     }
     function setTimeLimitUnlimited($a_unlimited)
     {
