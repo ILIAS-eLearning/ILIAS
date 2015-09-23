@@ -49,6 +49,8 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 		$this->virtualclass_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-classroom.png").'" />';
 		$this->maillog_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-invitation.png").'" />';
 		$this->signature_list_img = '<img src="'.ilUtil::getImagePath("GEV_img/icon-table-signature.png").'" />';
+		$this->schedule_list_img = '<img src="'.ilUtil::getImagePath("GEV_img/icon-table-signature.png").'" />';
+
 		$legend = new catLegendGUI();
 		$legend->addItem($this->memberlist_img, "gev_mytrainingsap_legend_memberlist")
 			   ->addItem($this->setstatus_img, "gev_mytrainingsap_legend_setstatus")
@@ -57,6 +59,7 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 			   ->addItem($this->virtualclass_img, "gev_virtual_class")
 			   ->addItem($this->maillog_img, "gev_mail_log")
 			   ->addItem($this->signature_list_img, "gev_signature_list")
+			   ->addItem($this->schedule_list_img, "gev_dec_crs_building_block_title")
 			   ;
 		$this->setLegend($legend);
 
@@ -126,6 +129,7 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 		$this->ctrl->setParameterByClass("gevMemberListDeliveryGUI", "ref_id", $a_set["crs_ref_id"]);
 		$memberlist_link = $this->ctrl->getLinkTargetByClass("gevMemberListDeliveryGUI", "trainer");
 		$signature_list_link = $this->ctrl->getLinkTargetByClass("gevMemberListDeliveryGUI", "download_signature_list");
+		$schedule_list_link = $this->ctrl->getLinkTargetByClass("gevMemberListDeliveryGUI", "download_crs_schedule");
 		$this->ctrl->clearParametersByClass("gevMemberListDeliveryGUI");
 		
 		$this->ctrl->setParameter($this->parent_obj, "crsrefid", $a_set['crs_ref_id']);
@@ -159,7 +163,12 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 		$this->ctrl->setParameterByClass("gevMaillogGUI", "obj_id", $a_set["obj_id"]);
 		$actions .= '&nbsp;<a href="'.$this->ctrl->getLinkTargetByClass("gevMaillogGUI", "showMaillog").'">'.$this->maillog_img.'</a>';
 		$this->ctrl->clearParametersByClass("gevMaillogGUI");
-		$actions .= "<a href=\"".$signature_list_link."\">".$this->signature_list_img."</a>";
+		$actions .= "&nbsp;<a href=\"".$signature_list_link."\">".$this->signature_list_img."</a>";
+
+		if($crs_utils->isFlexibleDecentrallTraining()) {
+			$actions .= "&nbsp;<a href=\"".$schedule_list_link."\">".$this->schedule_list_img."</a>";
+		}
+
 		$this->ctrl->setParameterByClass("ilrepositorygui","ref_id",$a_set["crs_ref_id"]);
 		$course_link = $this->ctrl->getLinkTargetByClass("ilrepositorygui", "view");
 		$this->ctrl->clearParametersByClass("ilrepositorygui");

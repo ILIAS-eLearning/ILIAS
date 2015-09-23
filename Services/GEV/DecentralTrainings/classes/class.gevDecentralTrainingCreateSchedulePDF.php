@@ -117,14 +117,6 @@ class gevDecentralTrainingCreateSchedulePDF
 		$this->createHeadline();
 		$this->createCrsInfo();
 		$this->createBlockInfo();
-		/*$this->createAboutTitleDate();
-		$this->createSalutationPretext();
-		$this->createCalculationHeadline($fontHeight);
-		$this->createCalculation($fontHeight, $this->distanceindex);
-		$this->createCalculationUnderline($fontHeight, $this->distanceindex, $this->sumPreTax, $this->sumVAT, $this->sumAfterTax);
-		$this->createPosttextGreeting($fontHeight, $this->distanceindex);
-		$this->createPageNumber();
-		$this->resetDeliverMembers();*/
 
 		$this->pdf->Output($a_path, 'F');
 	}

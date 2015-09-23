@@ -81,6 +81,7 @@ class gevDecentralTrainingCourseCreatingBuildingBlock2GUI {
 			case "showOpenRequests":
 			case "toTEP";
 			case "toChangeCourseData":
+			case "toDownloadPDF":
 				$this->$cmd();
 				break;
 			default:
@@ -90,6 +91,9 @@ class gevDecentralTrainingCourseCreatingBuildingBlock2GUI {
 
 	protected function render() {
 		$html = $this->renderTitleAndLegend();
+		if(!$this->show_cmd_buttons) {
+			$html .= $this->renderPDFDownload();
+		}
 		$html .= $this->createMailPreview();
 		$html .= $this->renderNavigation();
 		$html .= $this->renderSpacer();
@@ -343,6 +347,16 @@ class gevDecentralTrainingCourseCreatingBuildingBlock2GUI {
 
 	protected function renderIdentification() {
 		return '<div id="dct-no_form_read"></div>';
+	}
+
+	protected function renderPDFDownload() {
+		$form_pdf = new catPropertyFormGUI();
+		$form_pdf->addCommandButton("toDownloadPDF", $this->lng->txt("gev_dec_crs_building_block_title"));
+		$form_pdf->setFormAction($this->ctrl->getFormAction($this));
+		$form_pdf->setShowTopButtons(false);
+		$form_pdf->setId("dct_navi");
+
+		return $form_pdf->getHTML();
 	}
 
 	protected function determineObjId() {
@@ -646,6 +660,10 @@ class gevDecentralTrainingCourseCreatingBuildingBlock2GUI {
 		}
 
 		$this->ctrl->redirectByClass("ilTEPGUI");
+	}
+
+	protected function toDownloadPDF() {
+		$this->crs_utils->deliverCrsScheduleList();
 	}
 
 	protected function toSaveRequest() {

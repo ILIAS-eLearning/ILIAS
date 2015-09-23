@@ -734,8 +734,16 @@ abstract class ilTEPViewGridBased extends ilTEPView
 			$ilCtrl->setParameterByClass("ilTEPGUI", "obj_id", $a_set["obj_id"]);
 			$maillog_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-invitation.png").'" />';
 			$actions .= '<a href="'.$ilCtrl->getLinkTargetByClass("gevMaillogGUI", "showMaillog").'"'
-						.' title="'.$lng->txt("gev_maillog").'">'.$maillog_img.'</a>';
+						.' title="'.$lng->txt("gev_maillog").'">'.$maillog_img.'</a>&nbsp;';
 			$ilCtrl->clearParametersByClass("gevMaillogGUI");
+
+			if($crs_utils->isFlexibleDecentrallTraining()) {
+				$schedule_img = '<img src="'.ilUtil::getImagePath("GEV_img/icon-table-signature.png").'" />';
+				$ilCtrl->setParameterByClass("gevMemberListDeliveryGUI", "ref_id", $ref_id);
+				$actions .=  "<a href='".$ilCtrl->getLinkTargetByClass("gevMemberListDeliveryGUI", "download_crs_schedule")
+							."' title='".$lng->txt("gev_dec_crs_building_block_title")."'>".$schedule_img."</a>&nbsp;";
+				$ilCtrl->setParameterByClass("gevMemberListDeliveryGUI", "ref_id", null);
+			}
 
 			
 
