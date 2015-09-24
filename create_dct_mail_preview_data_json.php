@@ -29,16 +29,7 @@
 	}
 
 	function createJson($data) {
-		$json = "{";
-
-		foreach ($data as $key => $value) {
-			$json .= '"'.$key.'":"'.$value.'",';
-		}
-		$json = rtrim($json,",");
-		$json .= "}";
-		$fh = fopen("mail_preview_data.json","w+");
-		fwrite($fh,$json);
-		fclose($fh);
+		echo json_encode($data);
 	}
 
 	function getMailDataByCrsRefId($crs_ref_id) {
@@ -163,8 +154,7 @@
 
 		getTrainerFullName($data_base);
 		replaceLastNewLine($data_base);
-
-		var_dump($data_base);
+		
 		return $data_base;
 	}
 
@@ -292,12 +282,10 @@
 		getTrainerFullName($data_base);
 		replaceLastNewLine($data_base);
 
-		var_dump($data_base);
 		return $data_base;
 	}
 
 	function addVenueData(&$data_base, $venue_id) {
-		echo $venue_id;
 		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
 			$ven = gevOrgUnitUtils::getInstance($venue_id);
 
@@ -311,7 +299,6 @@
 	}
 
 	function getTrainerFullName(&$data_base) {
-		var_dump($data_base["ALLE TRAINER"]);
 		$ids = $data_base["ALLE TRAINER"];
 		$names = array();
 
