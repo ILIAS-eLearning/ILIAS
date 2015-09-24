@@ -52,7 +52,7 @@ function changeBuildingBlocks() {
 			items.push('<optgroup label="'+key+'">');
 
 			$.each(val, function(key, val) {
-				items.push('<option value="' + val[0] + '">' + val[1] + '</option>');
+				items.push('<option value="' + key + '">' + val + '</option>');
 			});
 		});
 		$('#blocks').append(items.join(""));

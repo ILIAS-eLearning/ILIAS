@@ -8,14 +8,6 @@ require_once("Services/GEV/Utils/classes/class.gevBuildingBlockUtils.php");
 
 if($_GET["type"] == 0) {
 	$bb = gevBuildingBlockUtils::getPossibleBuildingBlocksByTopicName($_GET["selected"]);
-	// javascript expects building blocks in an array form.
-	foreach ($bb as $key => $value) {
-		$arr = array();
-		foreach ($value as $k => $v) {
-			$arr[] = array($k, $v);
-		}
-		$bb[$key] = $arr;
-	}
 	echo json_encode($bb);
 }
 
