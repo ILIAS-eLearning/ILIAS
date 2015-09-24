@@ -102,8 +102,6 @@ class catBasicReportGUI {
 		}
 
 		require_once("Services/CaTUIComponents/classes/class.catTableGUI.php");
-
-		$this->ctrl->setParameter($this, $this->filter->getGETName(), $this->filter->encodeSearchParamsForGET());
 		
 		$content = null;
 		
@@ -129,12 +127,14 @@ class catBasicReportGUI {
 
 
 	protected function renderExportButton() {
+		$this->enableRelevantParametersCtrl();
 		$export_btn = '<a class="submit exportXlsBtn"'
 						. 'href="'
 						.$this->ctrl->getLinkTarget($this, "exportxls")
 						.'">'
 						.$this->lng->txt("gev_report_exportxls")
 						.'</a>';
+		$this->disableRelevantParametersCtrl();
 		return $export_btn;
 	}
 
@@ -186,8 +186,10 @@ class catBasicReportGUI {
 
 
 		$table->setData($data);
-
-		return $table->getHtml();
+		$this->enableRelevantParametersCtrl();
+		$return = $table->getHtml();
+		$this->disableRelevantParametersCtrl();
+		return $return;
 	}
 	
 	protected function renderGroupedTable($data) {
@@ -376,6 +378,18 @@ class catBasicReportGUI {
 			}
 		}
 		return $a_rec;
+	}
+
+	protected function enableRelevantParametersCtrl() {
+		foreach ($this->relevant_parameters as $get_parameter => $get_value) {
+			$this->ctrl->setParameter($this, $get_parameter, $get_value);
+		}
+	}
+
+	protected function disableRelevantParametersCtrl() {
+		foreach ($this->relevant_parameters as $get_parameter => $get_value) {
+			$this->ctrl->setParameter($this, $get_parameter, null);
+		}
 	}
 }
 
