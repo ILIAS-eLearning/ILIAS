@@ -33,7 +33,6 @@ class gevDBVReportGUI extends catBasicReportGUI{
 	public function __construct() {
 		
 		parent::__construct();
-		//$viewer = 33892;
 		$target_user = $_POST["target_user_id"]
 					   ? $_POST["target_user_id"]
 					   : ( $_GET["target_user_id"]
@@ -140,6 +139,10 @@ class gevDBVReportGUI extends catBasicReportGUI{
 						//->static_condition("hc.dbv_hot_topic != '-empty-'")
 						->action($this->ctrl->getLinkTarget($this, "view"))
 						->compile();
+		$this->relevant_parameters = array(
+			"target_user_id" => $this->target_user_id
+			,$this->filter->getGETName() => $this->filter->encodeSearchParamsForGET()
+			); 
 	}
 
 	protected function _process_xls_date($val) {
@@ -216,5 +219,3 @@ class gevDBVReportGUI extends catBasicReportGUI{
 	}
 
 }
-
-?>

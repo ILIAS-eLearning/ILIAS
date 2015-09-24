@@ -124,8 +124,10 @@ class gevWBDEdupointsReportedGUI extends catBasicReportGUI{
 						->action($this->ctrl->getLinkTarget($this, "view"))
 						->compile()
 						;
+		$this->relevant_parameters = array(
+			$this->filter->getGETName() => $this->filter->encodeSearchParamsForGET()
+			); 
 	}
 	
 
 }
-?>

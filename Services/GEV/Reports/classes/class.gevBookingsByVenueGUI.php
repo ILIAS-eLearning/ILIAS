@@ -71,6 +71,9 @@ class gevBookingsByVenueGUI extends catBasicReportGUI{
 				->action($this->ctrl->getLinkTarget($this, "view"))
 				->compile()
 				;
+		$this->relevant_parameters = array(
+				$this->filter->getGETName() => $this->filter->encodeSearchParamsForGET()
+			);
 		$this->checked_filter = $this->filter->get("show_past_events");
 
 		$this->crs_begin_filter = $this->filter->get("period")["start"]->get(IL_CAL_DATE);
@@ -252,5 +255,3 @@ class gevBookingsByVenueGUI extends catBasicReportGUI{
 	}
 
 }
-
-?>

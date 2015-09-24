@@ -131,6 +131,9 @@ class gevDBVReportSuperiorGUI extends catBasicReportGUI{
 						->static_condition($this->db->in("hc.dbv_hot_topic", gevSettings::$dbv_hot_topics, false, "text"))
 						->action($this->ctrl->getLinkTarget($this, "view"))
 						->compile();
+		$this->relevant_parameters = array(
+				$this->filter->getGETName() => $this->filter->encodeSearchParamsForGET()
+			); 
 	}
 	
 	protected function checkPermission($a_target_user_id) {
@@ -154,5 +157,3 @@ class gevDBVReportSuperiorGUI extends catBasicReportGUI{
 	}
 
 }
-
-?>

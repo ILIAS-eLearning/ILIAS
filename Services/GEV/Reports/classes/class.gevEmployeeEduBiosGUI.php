@@ -123,6 +123,11 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 						->action($this->ctrl->getLinkTarget($this, "view"))
 						->compile()
 						;
+
+		$this->relevant_parameters = array(
+				$this->filter->getGETName() => $this->filter->encodeSearchParamsForGET()
+			);
+		
 		$this->filtered_orgus = $this->filter->get('org_unit');
 
 		$earliest_possible_cert_period_begin = "2013-09-01";
@@ -267,5 +272,3 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 		return $val;
 	}
 }
-
-?>

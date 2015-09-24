@@ -67,6 +67,10 @@ class gevTrainerWorkloadGUI extends catBasicReportGUI{
 				->compile()
 				;
 
+		$this->relevant_parameters = array(
+			$this->filter->getGETName() => $this->filter->encodeSearchParamsForGET()
+			); 
+
 		$this->orgu_filter = $this->filter->get("org_unit");
 		$this->getRelevantUsers();
 
@@ -81,7 +85,7 @@ class gevTrainerWorkloadGUI extends catBasicReportGUI{
        		$this->norms[$meta_category] = $days*$period_days/36500;
        	}
 
-       	$this->createTemplateFile();
+       	//$this->createTemplateFile();
 
 
 		$this->table = catReportTable::create();
@@ -350,4 +354,3 @@ class gevTrainerWorkloadGUI extends catBasicReportGUI{
 
 
 }
-?>

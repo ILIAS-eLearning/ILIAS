@@ -97,7 +97,7 @@ class gevEmployeeBookingsGUI extends catBasicReportGUI{
 						->action($this->ctrl->getLinkTarget($this, "view"))
 						->compile()
 						;
-		
+		$this->relevant_parameters = array(); 
 		$this->employee_ids_for_booking_cancellation = $this->user_utils->getEmployeeIdsForBookingCancellations();
 	}
 	
@@ -257,5 +257,3 @@ class gevEmployeeBookingsGUI extends catBasicReportGUI{
 		return $val;
 	}
 }
-
-?>

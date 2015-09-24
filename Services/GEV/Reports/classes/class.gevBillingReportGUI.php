@@ -255,5 +255,3 @@ class gevBillingReportGUI extends catBasicReportGUI {
 		return $val;
 	}
 }
-
-?>

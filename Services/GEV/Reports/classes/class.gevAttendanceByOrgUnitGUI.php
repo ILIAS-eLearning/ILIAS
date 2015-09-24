@@ -222,10 +222,15 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 						->static_condition("orgu.action >= 0")
 						->action($this->ctrl->getLinkTarget($this, "view"))
 						->compile();
+		$this->relevant_parameters = array(
+			$this->filter->getGETName() => $this->filter->encodeSearchParamsForGET()
+			); 
 		$this->dates = $this->filter->get("period");
         foreach($this->dates as &$il_date_obj) {
             $il_date_obj = $il_date_obj->get(IL_CAL_DATE);
         }
+
+
 
 	//Saving this fields outside the filter will enable us to cout the right employee-numbers,
 	//including the ones, that did not participate in a training or did so outside the period defined above	
@@ -453,5 +458,3 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 
 
 }
-
-?>

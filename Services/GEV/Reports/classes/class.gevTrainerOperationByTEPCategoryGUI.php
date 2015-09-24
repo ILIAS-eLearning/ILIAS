@@ -55,7 +55,7 @@ class gevTrainerOperationByTEPCategoryGUI extends catBasicReportGUI{
 		$this->table = catReportTable::create();
 		$this->table->column("fullname", "name");
 		$categories = $this->getCategories();
-		$this->createTemplateFile($categories);
+		//$this->createTemplateFile($categories);
 
 		$i = 1;
 		foreach($categories as $category) {
@@ -154,6 +154,9 @@ class gevTrainerOperationByTEPCategoryGUI extends catBasicReportGUI{
 						->static_condition($min_row_condition) 
 						->action($this->ctrl->getLinkTarget($this, "view"))
 						->compile();
+		$this->relevant_parameters = array(
+			$this->filter->getGETName() => $this->filter->encodeSearchParamsForGET()
+			); 
 		$this->tpl->addCSS('Services/GEV/Reports/templates/css/report.css');
 
 	}
@@ -240,5 +243,3 @@ class gevTrainerOperationByTEPCategoryGUI extends catBasicReportGUI{
 		return $sql;
 	}
 }
-
-?>

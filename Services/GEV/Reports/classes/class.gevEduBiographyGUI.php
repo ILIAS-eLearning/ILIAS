@@ -90,7 +90,6 @@ class gevEduBiographyGUI extends catBasicReportGUI {
 							->on("crs.crs_id = oref.obj_id")
 						->compile();
 		
-		$this->ctrl->setParameter($this, "target_user_id", $this->target_user_id);
 		$this->filter = catFilter::create()
 						->dateperiod( "period"
 									, $this->lng->txt("gev_period")
@@ -111,6 +110,11 @@ class gevEduBiographyGUI extends catBasicReportGUI {
 						->static_condition("(crs.crs_id < 0 OR oref.deleted IS NULL)")
 						->action($this->ctrl->getLinkTarget($this, "view"))
 						->compile();
+
+		$this->relevant_parameters = array(
+			"target_user_id" => $this->target_user_id
+			,$this->filter->getGETName() => $this->filter->encodeSearchParamsForGET()
+			); 
 	}
 	
 	public function executeCommand() {
@@ -438,9 +442,8 @@ class gevEduBiographyGUI extends catBasicReportGUI {
 
 	protected function _process_xls_date($val) {
 		$val = str_replace('<br>', '',$val);
+		$val = str_replace('<br/>', '',$val);
 
 		return $val;
 	}
 }
-
-?>

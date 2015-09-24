@@ -85,7 +85,9 @@ class gevTrainerOperationByOrgUnitAndTrainerGUI extends catBasicReportGUI{
 						->action($this->ctrl->getLinkTarget($this, "view"))
 						->compile()
 						;
-
+		$this->relevant_parameters = array(
+			$this->filter->getGETName() => $this->filter->encodeSearchParamsForGET()
+			); 
 
 
 		$this->tutor_filter = $this->filter->get("tutor_name");
@@ -335,5 +337,3 @@ class gevTrainerOperationByOrgUnitAndTrainerGUI extends catBasicReportGUI{
 		return $val;
 	}
 }
-
-?>
