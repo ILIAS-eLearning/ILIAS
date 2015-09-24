@@ -9,7 +9,7 @@ class GevVvAenderungTest extends RequestTestBase {
 		include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
 		ilUnitUtil::performInitialisation();
 		$data = array("address_type"=>"geschäftlich"
-					  ,"title"=>"m"
+					  ,"gender"=>"m"
 					  ,"email"=>"shecken@cat06.de"
 					  ,"mobile_phone_nr"=>"0162/9800608"
 					  ,"info_via_mail"=>false

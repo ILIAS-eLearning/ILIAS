@@ -40,7 +40,7 @@ class gevWBDRequestVvAenderung extends gevWBDRequest {
 	protected $xml_tmpl_file_name;
 
 	static $request_type = "UPDATE_USER";
-	static $check_szenarios = array('title' 			=> array('mandatory'=>1,
+	static $check_szenarios = array('gender' 			=> array('mandatory'=>1,
 															 	 'list'=> array(
 															 	 		'm', 
 															 	 		'f', 
@@ -80,7 +80,7 @@ class gevWBDRequestVvAenderung extends gevWBDRequest {
 
 		$this->address_type 		= new gevWBDData("AdressTyp",$this->dictionary->getWBDName($data["address_type"],gevWBDDictionary::SERACH_IN_ADDRESS_TYPE));
 		$this->address_info 		= new gevWBDData("AdressBemerkung",$data["address_info"]);
-		$this->title 				= new gevWBDData("AnredeSchluessel",$this->dictionary->getWBDName($data["title"],gevWBDDictionary::SERACH_IN_GENDER));
+		$this->title 				= new gevWBDData("AnredeSchluessel",$this->dictionary->getWBDName($data["gender"],gevWBDDictionary::SERACH_IN_GENDER));
 		$this->auth_email 			= new gevWBDData("AuthentifizierungsEmail",$data["email"]);
 		$this->auth_mobile_phone_nr = new gevWBDData("AuthentifizierungsTelefonnummer",$data["mobile_phone_nr"]);
 		$this->info_via_mail 		= new gevWBDData("BenachrichtigungPerEmail",$data["info_via_mail"]);

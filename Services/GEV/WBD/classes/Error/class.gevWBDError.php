@@ -44,8 +44,6 @@ class gevWBDError extends WBDError{
 		$this->errMessage = $errMessage;
 		$this->findReason();
 
-		//die(var_dump($service));
-
 		if($this->usr_id === null) {
 			throw new LogicException("gevWBDError::userId:user_id is null");
 		}
@@ -70,15 +68,10 @@ class gevWBDError extends WBDError{
 		}
 		$sql = "SELECT reason_string, internal FROM wbd_errors_categories WHERE LOCATE( failure,"
 			.$this->ilDB->quote($this->errMessage,"text")." ) > 0";
-	
-		//die($sql);
 
 		$res = $this->ilDB->fetchAssoc($this->ilDB->query($sql));
 		$this->reason = $res["reason_string"] ? $res["reason_string"] : '-unknown-';
 		$this->internal = $res["internal"] ? $res["internal"] : 0;
-
-		/*$this->reason = "hugo wars";
-		$this->internal = 1;*/
 	}
 
 
@@ -90,7 +83,6 @@ class gevWBDError extends WBDError{
 	* @return string $errMessage
 	*/
 	final function userId() {
-
 		return $this->usr_id;
 	}
 
@@ -102,7 +94,6 @@ class gevWBDError extends WBDError{
 	* @return string $errMessage
 	*/
 	final function rowId() {
-
 		return $this->row_id;
 	}
 
@@ -141,11 +132,4 @@ class gevWBDError extends WBDError{
 	final function service() {
 		return $this->service;
 	}
-	/**
-	* Returns  initial error message
-	*
-	*@return string $errMessage;
-	*/
-
-
 }
