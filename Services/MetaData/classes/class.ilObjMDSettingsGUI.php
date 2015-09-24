@@ -188,7 +188,7 @@ class ilObjMDSettingsGUI extends ilObjectGUI
 			: trim($_POST['delimiter']);
 		$this->md_settings->setDelimiter($delim);
 		$this->md_settings->save();
-		ilUtil::sendInfo($this->lng->txt('settings_saved'), true);
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
 
 		$ilCtrl->redirect($this, "showGeneralSettings");
 	}
@@ -223,7 +223,7 @@ class ilObjMDSettingsGUI extends ilObjectGUI
 	{
 		$this->md_settings->activateCopyrightSelection((int) $_POST['active']);
 		$this->md_settings->save();
-		ilUtil::sendInfo($this->lng->txt('settings_saved'));
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'));
 		$this->showCopyrightSettings();
 	}
 	
@@ -282,7 +282,7 @@ class ilObjMDSettingsGUI extends ilObjectGUI
 			return false;
 		}
 		$this->entry->add();
-		ilUtil::sendInfo($this->lng->txt('settings_saved'));
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'));
 		$this->showCopyrightSettings();
 		return true;
 	}
@@ -343,7 +343,7 @@ class ilObjMDSettingsGUI extends ilObjectGUI
 			$entry = new ilMDCopyrightSelectionEntry($entry_id);
 			$entry->delete();
 		}
-		ilUtil::sendInfo($this->lng->txt('md_copyrights_deleted'));
+		ilUtil::sendSuccess($this->lng->txt('md_copyrights_deleted'));
 		$this->showCopyrightSettings();
 		return true;
 	}
@@ -372,7 +372,7 @@ class ilObjMDSettingsGUI extends ilObjectGUI
 			return false;
 		}
 		$this->entry->update();
-		ilUtil::sendInfo($this->lng->txt('settings_saved'));
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'));
 		$this->showCopyrightSettings();
 		return true;
 	}
