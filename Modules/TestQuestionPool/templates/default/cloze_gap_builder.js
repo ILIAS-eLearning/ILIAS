@@ -974,7 +974,7 @@ var ClozeGapBuilder = (function () {
                 {
                     pro.showHidePrototypes(row,'number',false);
                 }
-                if (parseFloat(points) === 0) {
+                if (parseFloat(points) <= 0) {
                     if(ClozeSettings.unused_gaps_comb[row] === true)
                     {
                         pro.removeHighlight($('.gap_points_' + row));

@@ -153,7 +153,7 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
 						{
 							$points_sum += $gap_with_points[$key];
 						}
-						if($points_sum == 0)
+						if($points_sum <= 0)
 						{
 							if(!array_key_exists($key, $gaps_used_in_combination))
 							{
