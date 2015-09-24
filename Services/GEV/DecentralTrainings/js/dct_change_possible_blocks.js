@@ -40,24 +40,22 @@ function changeBuildingBlocks() {
 	$('#duration\\[end\\]\\[time\\]_m').attr('disabled',true);
 
 	var selected = $('#topic option:selected').val();
-	$.ajax({url: "create_decentral_training_data_json.php",data:"selected="+selected+"&type=0"}).done(function() {
+	$.getJSON("create_decentral_training_data_json.php","selected="+selected+"&type=0", function(data) {
 		$('#blocks').empty();
 		$('#content').val("");
 		$('#target').val("");
 		$('#wp').val("");
 
-		$.getJSON("possible_bulding_blocks.json", function( data ) {
-			var items = [];
+		var items = [];
 
-			$.each(data, function(key,val) {
-				items.push('<optgroup label="'+key+'">');
+		$.each(data, function(key,val) {
+			items.push('<optgroup label="'+key+'">');
 
-				$.each(val, function(key, val) {
-					items.push('<option value="' + val[0] + '">' + val[1] + '</option>');
-				});
+			$.each(val, function(key, val) {
+				items.push('<option value="' + val[0] + '">' + val[1] + '</option>');
 			});
-			$('#blocks').append(items.join(""));
 		});
+		$('#blocks').append(items.join(""));
 	});
 }
 
@@ -72,20 +70,11 @@ function changeBuildingBlockInfos() {
 	$('#duration\\[end\\]\\[time\\]_m').attr('disabled',false);
 
 	var selected = $('#blocks option:selected').val();
-	$.ajax({url: "create_decentral_training_data_json.php",data:"selected="+selected+"&type=1"}).done(function() {
-		$('#content').val("");
-		$('#target').val("");
-		$('#wp').val("");
-		
-		$.getJSON("bulding_block_infos.json", function( data ) {
-			var content = data["content"].replace("#:#","\n");
-			var target = data["target"].replace("#:#","\n");
-
-			$('#content').val(content);
-			$('#target').val(target);
-			$('#isWP').val(data["wp"]);
-			$('#wp').val(0);
-		});
+	$.getJSON("create_decentral_training_data_json.php","selected="+selected+"&type=1", function( data ) {
+		$('#content').val(data["content"]);
+		$('#target').val(data["target"]);
+		$('#isWP').val(data["wp"]);
+		$('#wp').val(0);
 	});
 }
 
