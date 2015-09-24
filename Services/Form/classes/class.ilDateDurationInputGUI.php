@@ -272,7 +272,7 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 	*/	
 	public function checkInput()
 	{
-		global $lng,$ilUser;
+		global $lng;
 		
 		if($this->getDisabled())
 		{
@@ -345,6 +345,18 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 				$valid = false;
 			}
 		}
+		
+		// getInput() should return a generic format	
+		$post_format = $format
+			? IL_CAL_DATETIME
+			: IL_CAL_DATE;			
+		$_POST[$this->getPostVar()]["start"] = $this->getStart()
+			? $this->getStart()->get($post_format)
+			: null;
+		$_POST[$this->getPostVar()]["end"] = $this->getEnd()
+			? $this->getEnd()->get($post_format)
+			: null;
+		unset($_POST[$this->getPostVar()]["tgl"]);
 		
 		// :TODO: proper messages?
 		if(!$valid)

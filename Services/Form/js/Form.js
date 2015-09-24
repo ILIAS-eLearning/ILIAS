@@ -187,6 +187,10 @@ il.Form = {
 		});
 	},
 	
+	//
+	// ilDateDurationInputGUI
+	//	
+	
 	initDateDurationPicker: function (picker_id, picker2_id, toggle_id) {		
 		var el = $("#"+picker_id);
 		var dp = $(el).data("DateTimePicker"); 

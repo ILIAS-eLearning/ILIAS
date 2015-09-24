@@ -225,12 +225,21 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
 		{			
 			$valid = true;
 		}
+		
+		// getInput() should return a generic format
+		$post_format = $this->getShowTime()
+			? IL_CAL_DATETIME
+			: IL_CAL_DATE;
+		$_POST[$this->getPostVar()] = $this->getDate()
+			? $this->getDate()->get($post_format)
+			: null;
 	
 		// :TODO: proper messages?
 		if(!$valid)
 		{
 			$this->setAlert($lng->txt("exc_date_not_valid"));
-		}				
+		}
+		
 		return $valid;
 	}
 	
