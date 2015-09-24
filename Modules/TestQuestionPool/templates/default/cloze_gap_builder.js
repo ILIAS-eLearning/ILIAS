@@ -669,7 +669,7 @@ $(document).ready(function ()
                 {
                     showHidePrototypes(row,'number',false);
                 }
-                if (parseFloat(points) === 0) {
+                if (parseFloat(points) <= 0) {
                     if(ClozeSettings.unused_gaps_comb[row] === true)
                     {
                         removeHighlight($('.gap_points_' + row));
