@@ -189,6 +189,7 @@ class ilExAssignmentEditorGUI
 		
 			// start time
 			$edit_date = new ilDateTimeInputGUI("", "start_time");
+			$edit_date->setRequired(true);
 			$edit_date->setShowTime(true);
 			$cb->addSubItem($edit_date);
 		
@@ -200,6 +201,7 @@ class ilExAssignmentEditorGUI
 
 			// Deadline
 			$edit_date = new ilDateTimeInputGUI($lng->txt(""), "deadline");
+			$edit_date->setRequired(true);
 			$edit_date->setShowTime(true);
 			$dcb->addSubItem($edit_date);
 			
@@ -209,6 +211,7 @@ class ilExAssignmentEditorGUI
 			
 				// extended Deadline
 				$deadline2 = new ilDateTimeInputGUI($lng->txt(""), "deadline2");
+				$deadline2->setRequired(true);
 				$deadline2->setInfo($lng->txt("exc_deadline_extended_info"));
 				$deadline2->setShowTime(true);
 				$edcb->addSubItem($deadline2);
@@ -602,14 +605,12 @@ class ilExAssignmentEditorGUI
 		$values["type"] = $this->assignment->getType();
 		$values["title"] = $this->assignment->getTitle();
 		$values["mandatory"] = $this->assignment->getMandatory();
-		$values["instruction"] = $this->assignment->getInstruction();
+		$values["instruction"] = $this->assignment->getInstruction();		
 				
 		if ($this->assignment->getStartTime())
 		{
 			$values["start_time_cb"] = true;
-			$edit_date = new ilDateTime($this->assignment->getStartTime(), IL_CAL_UNIX);
-			$ed_item = $a_form->getItemByPostVar("start_time");
-			$ed_item->setDate($edit_date);
+			$values["start_time"] = new ilDateTime($this->assignment->getStartTime(), IL_CAL_UNIX);		
 		}
 		
 		if($this->assignment->getType() == ilExAssignment::TYPE_UPLOAD ||
@@ -919,8 +920,7 @@ class ilExAssignmentEditorGUI
 		}
 
 		$peer_dl = new ilDateTimeInputGUI($lng->txt("exc_peer_review_deadline"), "peer_dl");
-		$peer_dl->setInfo($lng->txt("exc_peer_review_deadline_info"));
-		$peer_dl->enableDateActivation("", "peer_dl_tgl");
+		$peer_dl->setInfo($lng->txt("exc_peer_review_deadline_info"));		
 		$peer_dl->setShowTime(true);
 		$form->addItem($peer_dl);
 
@@ -1017,9 +1017,7 @@ class ilExAssignmentEditorGUI
 		if($this->assignment->getPeerReviewDeadline() > 0)
 		{
 			$values["peer_dl_tgl"] = true;
-			$peer_dl_date = new ilDateTime($this->assignment->getPeerReviewDeadline(), IL_CAL_UNIX);
-			$peer_dl = $a_form->getItemByPostVar("peer_dl");
-			$peer_dl->setDate($peer_dl_date);
+			$values["peer_dl"] = new ilDateTime($this->assignment->getPeerReviewDeadline(), IL_CAL_UNIX);		
 		}				
 		
 		$a_form->setValuesByArray($values);
@@ -1113,8 +1111,9 @@ class ilExAssignmentEditorGUI
 			$time_deadline_ext = $this->assignment->getExtendedDeadline();	
 			$time_deadline_max = max($time_deadline, $time_deadline_ext);
 			
-			$time_peer = $a_form->getInput("peer_dl_tgl")
-				? $a_form->getItemByPostVar("peer_dl")->getDate()->get(IL_CAL_UNIX)
+			$date = $a_form->getItemByPostVar("peer_dl")->getDate();
+			$time_peer = $date
+				? $date->get(IL_CAL_UNIX)
 				: null;		
 			
 			// peer < any deadline?							

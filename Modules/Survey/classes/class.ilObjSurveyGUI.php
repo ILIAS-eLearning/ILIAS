@@ -815,7 +815,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 		// $act_type->setInfo($this->lng->txt('svy_availability_until_info'));
 		$act_type->setChecked($this->object->isActivationLimited());		
 		
-			$this->tpl->addJavaScript('./Services/Form/js/date_duration.js');
 			include_once "Services/Form/classes/class.ilDateDurationInputGUI.php";
 			$dur = new ilDateDurationInputGUI($this->lng->txt('rep_time_period'), "access_period");
 			$dur->setRequired(true);

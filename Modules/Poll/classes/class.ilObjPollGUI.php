@@ -67,7 +67,6 @@ class ilObjPollGUI extends ilObject2GUI
 		$act_type = new ilCheckboxInputGUI($this->lng->txt('rep_visibility_until'),'access_type');
 		// $act_type->setInfo($this->lng->txt('poll_availability_until_info'));
 		
-			$this->tpl->addJavaScript('./Services/Form/js/date_duration.js');
 			include_once "Services/Form/classes/class.ilDateDurationInputGUI.php";
 			$dur = new ilDateDurationInputGUI($this->lng->txt('rep_time_period'), "access_period");
 			$dur->setRequired(true);
