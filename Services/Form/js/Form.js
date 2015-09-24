@@ -185,8 +185,93 @@ il.Form = {
 				}
 			}
 		});
-	}
+	},
 	
+	initDateDurationPicker: function (picker_id, picker2_id, toggle_id) {		
+		var el = $("#"+picker_id);
+		var dp = $(el).data("DateTimePicker"); 
+		var el2 = $("#"+picker2_id);
+		var dp2 = $(el2).data("DateTimePicker"); 	
+
+
+		// init		
+
+		// set limit by current date of other picker
+		if(dp2.date())
+		{		
+			dp.maxDate(dp2.date());
+		}
+		if(dp.date())
+		{		
+			dp2.minDate(dp.date()); 
+
+			// store current value for diff magic 
+			$(el).data("DateTimePickerOld", dp.date());
+		}	
+
+
+		// onchange
+
+		$(el).on("dp.change", function(e) { 
+
+			// limit to value of end picker
+			dp2.minDate(e.date); 
+
+			// keep diff the same
+			var old = $(this).data("DateTimePickerOld"); 
+
+			if(old && dp2.date()) { 
+				var diff = dp2.date().diff(old); 
+				dp2.date(e.date.clone().add(diff)); 
+			}
+
+			// keep current date for diff parsing (see above);
+			$(this).data("DateTimePickerOld", e.date);		
+
+		});
+
+		$(el2).on("dp.change", function(e) { 	
+
+			// limit to value of start picker
+			dp.maxDate(e.date);		
+		});
+
+
+		// toggle
+
+		if(toggle_id)
+		{
+			var toggle = $("#"+toggle_id);
+			var full_format = dp.format();
+
+
+			// init
+
+			if($(toggle).prop("checked")) {  
+				var format = dp.format();
+				dp.format(format.substr(0, 10));
+				format = dp2.format();
+				dp2.format(format.substr(0, 10));
+			}
+
+
+			// onchange
+
+			$(toggle).change(function(e) { 
+
+				if(!$(this).prop("checked")) {  
+					dp.format(full_format); 
+					dp2.format(full_format); 				
+				} 
+				else { 
+					var short_format = full_format.substr(0, 10);
+					dp.format(short_format); 
+					dp2.format(short_format); 				
+				}
+
+			});	
+		}
+	}
 };
 
 // init forms

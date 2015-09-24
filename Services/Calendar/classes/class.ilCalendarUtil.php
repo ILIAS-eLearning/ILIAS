@@ -632,7 +632,7 @@ class ilCalendarUtil
 			$tpl->addOnLoadCode('$("#'.$a_id2.'").datetimepicker('.json_encode($config2).')');			
 						
 			// duration limits and diff handling
-			$tpl->addOnLoadCode('initDateDurationPicker("'.$a_id.'","'.$a_id2.'","'.$a_toggle_id.'");');			
+			$tpl->addOnLoadCode('il.Form.initDateDurationPicker("'.$a_id.'","'.$a_id2.'","'.$a_toggle_id.'");');			
 		}			
 	}
 	
