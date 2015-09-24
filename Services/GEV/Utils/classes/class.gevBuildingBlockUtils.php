@@ -378,12 +378,8 @@ class gevBuildingBlockUtils {
 		if($topic != "0") {
 			$sql .= " AND topic = ".$ilDB->quote($topic,"text")."\n";
 		}
-		
-
 
 		$sql .= " ORDER BY topic";
-
-		echo $sql;
 
 		$res = $ilDB->query($sql);
 
