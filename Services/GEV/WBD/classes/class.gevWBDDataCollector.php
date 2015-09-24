@@ -3,8 +3,8 @@
 
 class gevWBDDataCollector implements WBDDataCollector {
 	
-	protected $ilDB;
-	protected $ilAppEventHandler;
+	protected $gDB;
+	protected $gAppEventHandler;
 	protected $records;
 	protected $error_statement;
 
@@ -15,8 +15,8 @@ class gevWBDDataCollector implements WBDDataCollector {
 
 	public function __construct() {
 		global $ilDB, $ilAppEventHandler;
-		$this->ilDB =  $ilDB;
-		$this->ilAppEventHandler = $ilAppEventHandler;
+		$this->gDB =  $ilDB;
+		$this->gAppEventHandler = $ilAppEventHandler;
 		$this->prepareErrorStatement();
 	}
 	/** 
@@ -34,7 +34,7 @@ class gevWBDDataCollector implements WBDDataCollector {
 			,$error->reason()
 			,$error->message()
 			);
-		return $this->ilDB->execute($this->error_statement, $data);
+		return $this->gDB->execute($this->error_statement, $data);
 	}
 
 	protected function prepareErrorStatement() {
@@ -43,7 +43,7 @@ class gevWBDDataCollector implements WBDDataCollector {
 			.'		internal_booking_id, reason, reason_full'
 			.'	) VALUES (?,?,?,?,?,?,?)';
 		$data_types = array('text','integer','integer','integer','integer','text','text');
-		$this->error_statement = $this->ilDB->prepareManip($sql, $data_types);
+		$this->error_statement = $this->gDB->prepareManip($sql, $data_types);
 	}
 
 	/** 
@@ -54,9 +54,9 @@ class gevWBDDataCollector implements WBDDataCollector {
 			throw new LogicException("gevWBDDataCollector::createNewUserList: Can't build new list. Still records left in the old one.");
 		}
 		$this->records  = array();
-		$res = $this->ilDB->query($this->newUserListQuery());
+		$res = $this->gDB->query($this->newUserListQuery());
 
-		while ($rec = $this->ilDB->fetchAssoc($res)) {
+		while ($rec = $this->gDB->fetchAssoc($res)) {
 			$object = gevWBDRequestVvErstanlage::getInstance($rec);
 			if(is_array($object)) {
 				foreach ($object as $error) {
@@ -74,7 +74,7 @@ class gevWBDDataCollector implements WBDDataCollector {
 		$sql = 	"SELECT * FROM hist_user "
 				."	WHERE hist_historic = 0"
 				."		AND deleted = 0"
-				."		AND bwv_id = ".$this->ilDB->quote('-empty-','text')
+				."		AND bwv_id = ".$this->gDB->quote('-empty-','text')
 				."		AND	last_wbd_report IS NULL"
 				."		AND user_id NOT IN ("
 		//pending users
@@ -87,7 +87,7 @@ class gevWBDDataCollector implements WBDDataCollector {
 			throw new LogicException("One or more invalid service_types");
 		}
 
-		$sql .= "		AND ".$this->ilDB->in('wbd_type', $service_types, false, 'text')
+		$sql .= "		AND ".$this->gDB->in('wbd_type', $service_types, false, 'text')
 			 	."		AND user_id IN (SELECT usr_id FROM usr_data)"
 				."		AND user_id NOT IN (6, 13)"
 				."		AND hist_user.is_active = 1"; 
@@ -98,7 +98,7 @@ class gevWBDDataCollector implements WBDDataCollector {
 				."				AND reason IN ('WRONG_USERDATA','USER_EXISTS_TP', 'USER_EXISTS', 'USER_SERVICETYPE')"
 				."		)";
 		if($limit) {
-			$sql .= "	LIMIT ".$this->ilDB->quote($limit,'integer');
+			$sql .= "	LIMIT ".$this->gDB->quote($limit,'integer');
 		}
 		return $sql;
 	}
@@ -113,7 +113,7 @@ class gevWBDDataCollector implements WBDDataCollector {
 		$usr_utils = gevUserUtils::getInstance($usr_id);
 		$usr_utils->setWBDBWVId($success_data->agentId());
 		$usr_utils->setWBDFirstCertificationPeriodBegin($success_data->beginOfCertificationPeriod());
-		$this->ilAppEventHandler->raise("Services/User", "afterUpdate", array("user_obj" => $usr_utils->getUser()));
+		$this->gAppEventHandler->raise("Services/User", "afterUpdate", array("user_obj" => $usr_utils->getUser()));
 		$rows = array($success_data->rowId(),$this->lastHistUserRow());
 		$this->setLastWBDReport('hist_user',$rows);
 	}
@@ -127,8 +127,8 @@ class gevWBDDataCollector implements WBDDataCollector {
 			throw new LogicException("gevWBDDataCollector::createUpdateUserList: Can't build new list. Still records left.");
 		}
 		$this->records  = array();
-		$res = $this->ilDB->query($this->updatedUserListQuery());
-		while ($rec = $this->ilDB->fetchAssoc($res)) {
+		$res = $this->gDB->query($this->updatedUserListQuery());
+		while ($rec = $this->gDB->fetchAssoc($res)) {
 			$object = gevWBDRequestVvAenderung::getInstance($rec);
 			if(is_array($object)) {
 				foreach ($object as $error) {
@@ -146,7 +146,7 @@ class gevWBDDataCollector implements WBDDataCollector {
 				."		AND NOT bwv_id = '-empty-'"
 				."		AND last_wbd_report IS NULL";
 		// manage accounts for TP_Service only:
-		$sql .= "		AND wbd_type = ".$this->ilDB->quote(self::WBD_TP_SERVICE,"text");
+		$sql .= "		AND wbd_type = ".$this->gDB->quote(self::WBD_TP_SERVICE,"text");
 		//dev-safety:
 		$sql .= " 		AND user_id in (SELECT usr_id FROM usr_data)"
 				." 		AND user_id NOT IN (6, 13)"; //root, anonymous
@@ -277,16 +277,19 @@ class gevWBDDataCollector implements WBDDataCollector {
 
 	protected function setLastWBDReport($table ,array $rows) {
 		$sql = 'UPDATE '.$table.' SET last_wbd_report = CURDATE()'
-				.'	WHERE '.$this->ilDB->in('row_id',$rows,false,'text');
-		$this->ilDB->maipulate($sql);
+				.'	WHERE '.$this->gDB->in('row_id',$rows,false,'text');
+		$this->gDB->maipulate($sql);
 	}
 
 	protected function lastHistUserRow($usr_id) {
 		$sql = 'SELECT row_id FROM hist_user'
-				.' WHERE hist_historic = 0 AND user_id ='.$this->ilDB->quote($usr_id,'integer');
-		$res = $this->ilDB->query($sql);
-		return $this->ilDB->fetchAssoc($res)['row_id'];
+				.' WHERE hist_historic = 0 AND user_id ='.$this->gDB->quote($usr_id,'integer');
+		$res = $this->gDB->query($sql);
+		return $this->gDB->fetchAssoc($res)['row_id'];
+	}
+
+	public function getRecords() {
+		return $this->records;
 	}
 
 }
-?>
