@@ -1281,3 +1281,4 @@ gev#:#gev_dec_training_schedule_download#:#Ablaufplan PDF
 gev#:#view_material#:#Materialliste einsehen
 gev#:#edit_material#:#Materialliste bearbeiten
 gev#:#view_schedule_pdf#:#Ablaufplan PDF einsehen
+gev#:#gev_dec_training_text_to_long#:#Sie dürfen maximal %d Zeichen verwenden.

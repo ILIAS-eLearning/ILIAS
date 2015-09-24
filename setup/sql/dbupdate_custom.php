@@ -4258,3 +4258,14 @@ $new_crs_ops = array(
 require_once "Customizing/class.ilCustomInstaller.php";
 ilCustomInstaller::addRBACOps('crs', $new_crs_ops);
 ?>
+
+<#162>
+<?php
+if($ilDB->tableColumnExists('dct_building_block', 'gdv_topic')) {
+	$ilDB->modifyTableColumn('dct_building_block','gdv_topic', array(
+		'type' => 'text',
+		'length' => 100,
+		'notnull' => false,
+	));
+}
+?>

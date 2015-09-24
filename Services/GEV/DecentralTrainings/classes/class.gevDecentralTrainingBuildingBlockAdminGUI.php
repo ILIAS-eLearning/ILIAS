@@ -16,6 +16,8 @@ require_once("Services/GEV/Utils/classes/class.gevBuildingBlockUtils.php");
 class gevDecentralTrainingBuildingBlockAdminGUI {
 	const NEW_UNIT = "new";
 	const EDIT_UNIT = "edit";
+	const MAX_TEXTAREA_LENGTH = 200;
+
 	protected $obj_id = null;
 
 	public function __construct() {
@@ -422,6 +424,10 @@ class gevDecentralTrainingBuildingBlockAdminGUI {
 			return $this->editBuildingBlock($form);
 		}
 
+		if(!$this->checkContentAndTargetInputLength($form)) {
+			return $this->editBuildingBlock($form);
+		}
+
 		require_once ("Services/GEV/Utils/classes/class.gevBuildingBlockUtils.php");
 		$bu_utils = gevBuildingBlockUtils::getInstance($this->obj_id);
 
@@ -452,6 +458,10 @@ class gevDecentralTrainingBuildingBlockAdminGUI {
 			return $this->newBuildingBlock($form);
 		}
 
+		if(!$this->checkContentAndTargetInputLength($form)) {
+			return $this->newBuildingBlock($form);
+		}
+
 		$newId = $this->db->nextId("dct_building_block");
 		require_once ("Services/GEV/Utils/classes/class.gevBuildingBlockUtils.php");
 		$bu_utils = gevBuildingBlockUtils::getInstance($newId);
@@ -472,6 +482,35 @@ class gevDecentralTrainingBuildingBlockAdminGUI {
 		$bu_utils->save();
 
 		$this->render($in_search);
+	}
+
+	protected function isTextToLong($text) {
+		if(strlen($text) > self::MAX_TEXTAREA_LENGTH) {
+			return true;
+		}
+
+		return false;
+	}
+
+	protected function checkContentAndTargetInputLength($form) {
+
+		$content_to_long = $this->isTextToLong($form->getInput("frm_content"));
+		if($content_to_long) {
+			$content = $form->getItemByPostVar("frm_content");
+			$content->setAlert(sprintf($this->lng->txt("gev_dec_training_text_to_long"),self::MAX_TEXTAREA_LENGTH));
+		}
+
+		$target_to_long = $this->isTextToLong($form->getInput("frm_learn_dest"));
+		if($target_to_long) {
+			$target = $form->getItemByPostVar("frm_learn_dest");
+			$target->setAlert(sprintf($this->lng->txt("gev_dec_training_text_to_long"),self::MAX_TEXTAREA_LENGTH));
+		}
+
+		if($target_to_long || $content_to_long) {
+			return false;
+		}
+
+		return true;
 	}
 }
 
