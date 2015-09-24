@@ -220,36 +220,7 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 	{
 	 	return $this->minute_step_size;
 	}
-			
-	/**
-	 * Try to parse incoming value to date object
-	 * 
-	 * @param mixed $a_value
-	 * @param int $a_format
-	 * @return ilDateTime|ilDate
-	 */
-	protected function parseIncoming($a_value, $a_format = null)
-	{								
-		if($a_format === null)
-		{
-			$a_format = $this->getDatePickerTimeFormat();
-		}
-		
-		if(is_object($a_value) && 
-			$a_value instanceof ilDateTime)
-		{
-			return $a_value;
-		}
-		else if(trim($a_value))
-		{							
-			$parsed = ilCalendarUtil::parseDateString($a_value, $a_format);	
-			if(is_object($parsed["date"]))
-			{
-				return $parsed["date"];
-			}
-		}		
-	}
-		
+	
 	/**
 	* Set value by array
 	*
@@ -257,11 +228,12 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 	*/
 	public function setValueByArray($a_values)
 	{		
-		$incoming = $a_values[$this->getPostVar()];		
+		$incoming = $a_values[$this->getPostVar()];				
 		if(is_array($incoming))
 		{
-			$this->setStart($this->parseIncoming($incoming["start"]));
-			$this->setEnd($this->parseIncoming($incoming["end"]));
+			$format = $this->getDatePickerTimeFormat();
+			$this->setStart(ilCalendarUtil::parseIncomingDate($incoming["start"], $format));
+			$this->setEnd(ilCalendarUtil::parseIncomingDate($incoming["end"], $format));
 		}
 	}
 	
@@ -291,7 +263,7 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 		// if full day is active, ignore time format
 		$format = $post['tgl']
 			? 0
-			: null;
+			: $this->getDatePickerTimeFormat();
 		
 		// always done to make sure there are no obsolete values left
 		$this->setStart(null);
@@ -300,7 +272,7 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 		$valid_start = false;
 		if(trim($start))
 		{
-			$parsed = $this->parseIncoming($start, $format);
+			$parsed = ilCalendarUtil::parseIncomingDate($start, $format);
 			if($parsed)
 			{									
 				$this->setStart($parsed);
@@ -319,7 +291,7 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 		$valid_end = false;		
 		if(trim($end))
 		{			
-			$parsed = $this->parseIncoming($end, $format);		
+			$parsed = ilCalendarUtil::parseIncomingDate($end, $format);		
 			if($parsed)
 			{
 				$this->setEnd($parsed);

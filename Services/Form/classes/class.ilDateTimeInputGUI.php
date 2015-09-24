@@ -144,30 +144,6 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
 	}
 
 	/**
-	 * Try to parse incoming value to date object
-	 * 
-	 * @param mixed $a_value
-	 * @param int $a_format
-	 * @return ilDateTime|ilDate
-	 */
-	protected function parseIncoming($a_value)
-	{										
-		if(is_object($a_value) && 
-			$a_value instanceof ilDateTime)
-		{
-			return $a_value;
-		}
-		else if(trim($a_value))
-		{							
-			$parsed = ilCalendarUtil::parseDateString($a_value, $this->getDatePickerTimeFormat());	
-			if(is_object($parsed["date"]))
-			{
-				return $parsed["date"];
-			}
-		}		
-	}
-	
-	/**
 	* Set value by array
 	*
 	* @param	array	$a_values	value array
@@ -175,7 +151,7 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
 	function setValueByArray($a_values)
 	{		
 		$incoming = $a_values[$this->getPostVar()];		
-		$this->setDate($this->parseIncoming($incoming));
+		$this->setDate(ilCalendarUtil::parseIncomingDate($incoming, $this->getDatePickerTimeFormat()));
 				
 		foreach($this->getSubItems() as $item)
 		{
@@ -210,7 +186,7 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
 		$valid = false;		
 		if(trim($post))
 		{			
-			$parsed = $this->parseIncoming($post);
+			$parsed = ilCalendarUtil::parseIncomingDate($post, $this->getDatePickerTimeFormat());
 			if($parsed)
 			{
 				$this->setDate($parsed);

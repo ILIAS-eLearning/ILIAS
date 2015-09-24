@@ -586,7 +586,7 @@ class ilCalendarUtil
 	 * @param string $a_toggle_id
 	 * @return string
 	 */
-	public static function addDateTimePicker($a_id, $a_add_time = false, array $a_custom_config = null, $a_id2 = null, $a_custom_config2 = null, $a_toggle_id = null)
+	public static function addDateTimePicker($a_id, $a_add_time = null, array $a_custom_config = null, $a_id2 = null, $a_custom_config2 = null, $a_toggle_id = null)
 	{
 		global $tpl, $ilUser;
 		
@@ -642,11 +642,20 @@ class ilCalendarUtil
 	 * @param int $a_add_time 1=hh:mm, 2=hh:mm:ss
 	 * @return array date, warnings, errors
 	 */
-	public static function parseDateString($a_date, $a_add_time = false)
+	public static function parseDateString($a_date, $a_add_time = null, $a_use_generic_format = false)
 	{	
 		global $ilUser;
 		
-		$out_format = self::getUserDateFormat($a_add_time, true);			
+		if(!$a_use_generic_format)
+		{
+			$out_format = self::getUserDateFormat($a_add_time, true);			
+		}
+		else
+		{
+			$out_format = $a_add_time
+				? "Y-m-d H:i:s"
+				: "Y-m-d";
+		}
 		$tmp = date_parse_from_format($out_format, $a_date);
 		
 		$date = null;
@@ -687,5 +696,41 @@ class ilCalendarUtil
 				: null
 		);
 	}
+				
+	/**
+	 * Try to parse incoming value to date object
+	 * 
+	 * @param mixed $a_value
+	 * @param int $a_add_time
+	 * @return ilDateTime|ilDate
+	 */
+	public static function parseIncomingDate($a_value, $a_add_time)
+	{						
+		// already datetime object?
+		if(is_object($a_value) && 
+			$a_value instanceof ilDateTime)
+		{
+			return $a_value;
+		}
+		else if(trim($a_value))
+		{							
+			// try user-specific format
+			$parsed = self::parseDateString($a_value, $a_add_time);				
+			if(is_object($parsed["date"]))
+			{
+				return $parsed["date"];
+			}		
+			else 
+			{			
+				// try generic format 
+				$parsed = self::parseDateString($a_value, $a_add_time, true);				
+				if(is_object($parsed["date"]))
+				{
+					return $parsed["date"];
+				}	
+			}			
+		}		
+	}
+		
 }
 ?>

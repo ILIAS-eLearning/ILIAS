@@ -302,12 +302,8 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 			$this->tpl->addJavaScript('./Services/Form/js/date_duration.js');
 			include_once "Services/Form/classes/class.ilDateDurationInputGUI.php";
 			$dur = new ilDateDurationInputGUI($this->lng->txt("rep_time_period"), "access_period");
-			$dur->setShowTime(true);						
-			$date = $this->object->getActivationStartDate();				
-			$dur->setStart(new ilDateTime($date ? $date : time(), IL_CAL_UNIX));
-			$dur->setStartText($this->lng->txt('rep_activation_limited_start'));				
-			$date = $this->object->getActivationEndDate();
-			$dur->setEnd(new ilDateTime($date ? $date : time(), IL_CAL_UNIX));
+			$dur->setRequired(true);
+			$dur->setShowTime(true);									
 			$dur->setEndText($this->lng->txt('rep_activation_limited_end'));				
 			$act_type->addSubItem($dur);
 
@@ -328,6 +324,12 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 	{				
 		$a_values["online"] = $this->object->isOnline();		
 		$a_values["access_type"] = $this->object->isActivationLimited();		
+		$a_values["access_period"]["start"] = $this->object->getActivationStartDate() 
+			? new ilDateTime($this->object->getActivationStartDate(), IL_CAL_UNIX)
+			: null;
+		$a_values["access_period"]["end"] = $this->object->getActivationEndDate() 
+			? new ilDateTime($this->object->getActivationEndDate(), IL_CAL_UNIX)
+			: null;			
 		$a_values["access_visiblity"] = $this->object->getActivationVisibility();
 		
 		parent::getEditFormCustomValues($a_values);
