@@ -20,29 +20,47 @@ class gevWBDDataCollectorTest extends PHPUnit_Framework_TestCase {
 					);
 	}
 	
+	public function test_isWBDDataCollector() {
+		$this->assertInstanceOf("gevWBDDataCollector",$this->data_collector);
+	}
+
 	/**
-    * @dataProvider error_with_crs_id
-    */
-    public function test_error_1($error_data,$error) {
+	* @dataProvider error_with_crs_id
+	*/
+	public function test_error_1($error_data,$error) {
 		$this->assertTrue($this->data_collector->error(new gevWBDError($error[0],$error[1],$error[2],$error[3],$error[4])) > 0);
 	}
 
-	public function test_create_new_user_list() {
+	public function test_createNewUserList() {
 		$this->data_collector->createNewUserList();
-		$i = 0;
-		while($this->data_collector->getNextRecord()) {
-			$i++;
+		$this->assertNotNull($this->data_collector->getRecords());
+		$this->assertTrue(is_array($this->data_collector->getRecords()));
+	}
+
+	public function test_getNextNewUserRequest() {
+		$this->data_collector->createNewUserList();
+
+		while($rec = $this->data_collector->getNextRecord()) {
+			$this->assertInstanceOf("gevWBDRequestVvErstanlage",$rec);
 		}
-		$this->assertEquals($i,0);
+
+		$this->assertNull($this->data_collector->getRecords());
 	}
 	
 	public function test_create_update_user_list() {
 		$this->data_collector->createUpdateUserList();
-		$i = 0;
-		while($this->data_collector->getNextRecord()) {
-			$i++;
+		$this->assertNotNull($this->data_collector->getRecords());
+		$this->assertTrue(is_array($this->data_collector->getRecords()));
+	}
+
+	public function test_getNextUpdateUserRequest() {
+		$this->data_collector->createUpdateUserList();
+
+		while($rec = $this->data_collector->getNextRecord()) {
+			$this->assertInstanceOf("gevWBDRequestVvAenderung",$rec);
 		}
-		$this->assertEquals($i,0);
+
+		$this->assertNull($this->data_collector->getRecords());
 	}
 }
 ?>
