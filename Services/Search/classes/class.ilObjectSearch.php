@@ -36,6 +36,13 @@ include_once 'Services/Search/classes/class.ilAbstractSearch.php';
 
 class ilObjectSearch extends ilAbstractSearch
 {
+	const CDATE_OPERATOR_BEFORE = 1;
+	const CDATE_OPERATOR_AFTER = 2;
+	const CDATE_OPERATOR_ON = 3;
+	
+	private $cdate_operator = null;
+	private $cdate_date = null;
+	
 
 	/**
 	* Constructor
@@ -53,16 +60,49 @@ class ilObjectSearch extends ilAbstractSearch
 
 	function &performSearch()
 	{
+		global $ilDB;
+		
 		$in = $this->__createInStatement();
 		$where = $this->__createWhereCondition();
+		
+		
+		
+		$cdate = '';
+		if($this->getCreationDateFilterDate() instanceof ilDate)
+		{
+			if($this->getCreationDateFilterOperator())
+			{
+				switch($this->getCreationDateFilterOperator())
+				{
+					case self::CDATE_OPERATOR_AFTER:
+						$cdate = 'AND create_date >= '.$ilDB->quote($this->getCreationDateFilterDate()->get(IL_CAL_DATE),'text').' ';
+						break;
+					
+					case self::CDATE_OPERATOR_BEFORE:
+						$cdate = 'AND create_date <= '.$ilDB->quote($this->getCreationDateFilterDate()->get(IL_CAL_DATE),'text').' ';
+						break;
+					
+					case self::CDATE_OPERATOR_ON:
+						$cdate = 'AND '.$ilDB->like(
+								'create_date',
+								'text',
+								$this->getCreationDateFilterDate()->get(IL_CAL_DATE).'%'
+						);
+						break;
+				}
+			}
+
+
+		}
+		
 		$locate = $this->__createLocateString();
 
 		$query = "SELECT obj_id,type ".
 			$locate.
 			"FROM object_data ".
-			$where." ".$in.' '.
+			$where." ".$cdate.' '.$in.' '.
 			"ORDER BY obj_id DESC";
-			
+		
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -85,6 +125,30 @@ class ilObjectSearch extends ilAbstractSearch
 			$in .= $ilDB->in('obj_id',$this->getIdFilter(),false,'integer');
 		}
 		return $in;
+	}
+	
+	
+	/**
+	 * Set creation date filter
+	 */
+	public function setCreationDateFilterDate(ilDate $day)
+	{
+		$this->cdate_date = $day;
+	}
+	
+	public function setCreationDateFilterOperator($a_operator)
+	{
+		$this->cdate_operator = $a_operator;
+	}
+	
+	public function getCreationDateFilterDate()
+	{
+		return $this->cdate_date;
+	}
+	
+	public function getCreationDateFilterOperator()
+	{
+		return $this->cdate_operator;
 	}
 }
 ?>

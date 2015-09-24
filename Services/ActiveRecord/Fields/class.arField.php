@@ -66,7 +66,17 @@ class arField {
 	public function loadFromArray($name, array $array) {
 		$this->setName($name);
 		foreach ($array as $key => $value) {
-			$this->{$key} = $value;
+			switch ($value) {
+				case 'true':
+					$this->{$key} = true;
+					break;
+				case 'false':
+					$this->{$key} = false;
+					break;
+				default:
+					$this->{$key} = $value;
+					break;
+			}
 		}
 	}
 

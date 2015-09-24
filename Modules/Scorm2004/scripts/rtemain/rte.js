@@ -201,16 +201,21 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 				}
 				//auto suspend
 				if (config.auto_suspend==true) cmiItem.cmi.exit="suspend";
-				//store correct status in DB; returnValue1 because of IE;
-				var statusValues=syncCMIADLTree();
-				//statusHandler(cmiItem.scoid,"completion",statusValues[0]);
-				//statusHandler(cmiItem.scoid,"success",statusValues[1]);
-				var returnValue = onCommit(cmiItem);
-				if (returnValue && saveOnCommit == true) {
-					if (config.fourth_edition) {
-						var sgo=saveSharedData(cmiItem);
+
+				//store correct status in DB; returnValue because of IE;
+				var returnValue=false;
+				if(cmiItem.cmi.credit=="no-credit") {returnValue=true;}
+				else {
+					var statusValues=syncCMIADLTree();
+					//statusHandler(cmiItem.scoid,"completion",statusValues[0]);
+					//statusHandler(cmiItem.scoid,"success",statusValues[1]);
+					returnValue = onCommit(cmiItem);
+					if (returnValue && saveOnCommit == true) {
+						if (config.fourth_edition) {
+							var sgo=saveSharedData(cmiItem);
+						}
+						returnValue = save();
 					}
-					returnValue = save();
 				}
 				if (returnValue) 
 				{

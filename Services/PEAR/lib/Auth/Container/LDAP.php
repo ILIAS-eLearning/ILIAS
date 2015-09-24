@@ -327,6 +327,8 @@ class Auth_Container_LDAP extends Auth_Container
         }
 
         // bind for searching
+		// smeyer: set default network timeout
+		@call_user_func_array('ldap_set_options', array($this->conn_id,LDAP_OPT_NETWORK_TIMEOUT,  ilLDAPServer::DEFAULT_NETWORK_TIMEOUT));
         if ((@call_user_func_array('ldap_bind', $bind_params)) === false) {
             $this->log('Bind failed', AUTH_LOG_DEBUG);
             $this->log('LDAP ERROR: '.ldap_errno($this->conn_id).': '.ldap_error($this->conn_id), AUTH_LOG_DEBUG);
@@ -663,6 +665,7 @@ class Auth_Container_LDAP extends Auth_Container
                     $this->log("Bind as $user_dn", AUTH_LOG_DEBUG);
 
                     // try binding as this user with the supplied password
+					@call_user_func_array('ldap_set_options', array($this->conn_id,LDAP_OPT_NETWORK_TIMEOUT,  ilLDAPServer::DEFAULT_NETWORK_TIMEOUT));
                     if (@ldap_bind($this->conn_id, $user_dn, $password)) {
                         $this->log('Bind successful', AUTH_LOG_DEBUG);
 

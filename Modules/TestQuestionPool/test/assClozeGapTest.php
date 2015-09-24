@@ -24,6 +24,12 @@ class assClozeGapTest extends PHPUnit_Framework_TestCase
 			chdir( dirname( __FILE__ ) );
 			chdir('../../../');
 		}
+		require_once './Services/Utilities/classes/class.ilUtil.php';
+		require_once './Services/Randomization/classes/class.ilArrayElementShuffler.php';
+		$util_mock = $this->getMock('ilUtil', array('stripSlashes'), array(), '', false);
+		$util_mock->expects( $this->any() )->method( 'stripSlashes' )->will( $this->returnArgument(0) );
+		global $ilUtils;
+		$ilUtils = $util_mock;
 	}
 
 	public function test_instantiateObject_shouldReturnInstance()
@@ -86,12 +92,16 @@ class assClozeGapTest extends PHPUnit_Framework_TestCase
 	{
 		// Arrange
 		require_once './Modules/TestQuestionPool/classes/class.assClozeGap.php';
+		
 		$instance = new assClozeGap(0); // 0 - text gap
 
 		// Act
 		$the_unexpected = array('Killing', 'Kunkel', 'Luetzenkirchen',
 			'Meyer', 'Jansen', 'Heyser', 'Becker');
-		$actual = $instance->arrayShuffle($the_unexpected);
+		$instance->items = $the_unexpected;
+		$instance->setShuffle(true);
+		
+		$actual = $instance->getItems(new ilArrayElementShuffler);
 
 		// Assert
 		$this->assertNotEquals($the_unexpected, $actual);
@@ -187,13 +197,12 @@ class assClozeGapTest extends PHPUnit_Framework_TestCase
 		$item4 = new assAnswerCloze('Esther', 1.0, 3);
 		$instance->setShuffle(false);
 		$expected = array($item1, $item2, $item3, $item4);
-
 		// Act
 		$instance->addItem($item1);
 		$instance->addItem($item2);
 		$instance->addItem($item3);
 		$instance->addItem($item4);
-		$actual = $instance->getItems();
+		$actual = $instance->getItems(new ilArrayElementShuffler);
 
 		// Assert
 		$this->assertEquals($expected, $actual);
@@ -217,7 +226,7 @@ class assClozeGapTest extends PHPUnit_Framework_TestCase
 		$instance->addItem($item2);
 		$instance->addItem($item3);
 		$instance->addItem($item4);
-		$actual = $instance->getItems();
+		$actual = $instance->getItems(new ilArrayElementShuffler);
 
 		// Assert
 		$this->assertTrue(is_array($actual));
@@ -505,7 +514,7 @@ class assClozeGapTest extends PHPUnit_Framework_TestCase
 		$expected = 'Esther';
 
 		// Act
-		$actual = $instance->getBestSolutionOutput();
+		$actual = $instance->getBestSolutionOutput(new ilArrayElementShuffler);
 
 		// Assert
 		$this->assertEquals($expected, $actual);
@@ -528,7 +537,8 @@ class assClozeGapTest extends PHPUnit_Framework_TestCase
 		$lng_mock->expects( $this->any() )->method( 'txt' )->will( $this->returnValue('or') );
 		global $lng;
 		$lng = $lng_mock;
-
+		
+		$instance->setShuffle(true);
 		$instance->addItem($item1);
 		$instance->addItem($item2);
 		$instance->addItem($item3);
@@ -538,7 +548,7 @@ class assClozeGapTest extends PHPUnit_Framework_TestCase
 		$expected2 = 'Esther or Karl';
 
 		// Act
-		$actual = $instance->getBestSolutionOutput();
+		$actual = $instance->getBestSolutionOutput(new ilArrayElementShuffler);
 
 		// Assert
 		$this->assertTrue( ($actual == $expected1) || ($actual == $expected2) );
@@ -570,7 +580,7 @@ class assClozeGapTest extends PHPUnit_Framework_TestCase
 		$expected = 100;
 
 		// Act
-		$actual = $instance->getBestSolutionOutput();
+		$actual = $instance->getBestSolutionOutput(new ilArrayElementShuffler);
 
 		// Assert
 		$this->assertEquals($expected, $actual);
@@ -602,7 +612,7 @@ class assClozeGapTest extends PHPUnit_Framework_TestCase
 		$expected = '';
 
 		// Act
-		$actual = $instance->getBestSolutionOutput();
+		$actual = $instance->getBestSolutionOutput(new ilArrayElementShuffler);
 
 		// Assert
 		$this->assertEquals($expected, $actual);

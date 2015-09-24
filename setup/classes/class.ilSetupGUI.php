@@ -210,6 +210,9 @@ echo "<br>+".$client_id;
 		{
 			case NULL:
 			case "clientlist":
+				
+				$GLOBALS['ilLog']->warning('Achtung fehlerhaft');
+				
 				$this->setDisplayMode("view");
 				$this->displayClientList();
 				$this->active_tab = "clientlist";
@@ -468,6 +471,12 @@ echo "<br>+".$client_id;
 			case "savePassword":
 			case "saveDbSlave":
 			case "saveCache":
+			case "addMemcacheServer":
+			case "deleteMemcacheServer":
+			case "editMemcacheServer":
+			case "createMemcacheServer":
+			case "updateMemcacheServer":
+			case "flushCache":
 				$this->$cmd();
 				break;
 
@@ -2164,37 +2173,37 @@ else
 	}
 
 
-	public function displayCache() {
+	protected function displayCache() {
 		require_once('Services/Form/classes/class.ilPropertyFormGUI.php');
 		require_once('Services/GlobalCache/classes/class.ilGlobalCache.php');
+		require_once('./Services/GlobalCache/classes/Settings/class.ilGlobalCacheSettings.php');
 		$this->checkDisplayMode('setup_cache');
-
 		/**
 		 * @var $ini ilIniFile
 		 */
-		$ini = $this->setup->getClient()->ini;
+
+		$ilGlobalCacheSettings = new ilGlobalCacheSettings();
+		$ilGlobalCacheSettings->readFromIniFile($this->setup->getClient()->ini);
 
 		$cache_form = new ilPropertyFormGUI();
 		$cache_form->setTitle($this->lng->txt('global_cache_configuration'));
 		$cache_form->addCommandButton('saveCache', $this->lng->txt('save'));
 		$cache_form->setFormAction('setup.php?cmd=gateway');
 
-		$activate_global_cache = 'activate_global_cache';
-		$global_cache_service_type = 'global_cache_service_type';
-
-		$activate_cache = new ilCheckboxInputGUI($this->lng->txt($activate_global_cache), $activate_global_cache);
-		$activate_cache->setChecked($ini->readVariable('cache', $activate_global_cache));
-
-		$service_type = new ilRadioGroupInputGUI($this->lng->txt($global_cache_service_type), $global_cache_service_type);
 		$some_inactive = false;
 		$message = '';
+		$service_type = new ilRadioGroupInputGUI($this->lng->txt('global_cache_service_type'), 'global_cache_service_type');
+
+		$option = new ilRadioOption($this->lng->txt('none'), - 1);
+		$service_type->addOption($option);
+
 		foreach (ilGlobalCache::getAllTypes() as $type) {
-			$option = new ilRadioOption($this->lng->txt($global_cache_service_type . '_' . $type->getServiceType()), $type->getServiceType());
+			$option = new ilRadioOption($this->lng->txt('global_cache_service_type_' . $type->getServiceType()), $type->getServiceType());
 			$option->setInfo($this->lng->txt('global_cache_install_info_' . $type->getServiceType()));
 			if (! $type->isCacheServiceInstallable()) {
 				$option->setDisabled(true);
-				$message .= $this->lng->txt($global_cache_service_type . '_' . $type->getServiceType()) . ': '
-					. $type->getInstallationFailureReason() . '; ';
+				$message .= $this->lng->txt('global_cache_service_type_' . $type->getServiceType()) . ': ' . $type->getInstallationFailureReason()
+					. '; ';
 				$some_inactive = true;
 			}
 			$service_type->addOption($option);
@@ -2204,37 +2213,129 @@ else
 			$service_type->setAlert($message);
 			ilUtil::sendInfo($this->lng->txt('global_cache_supported_services'));
 		}
-		$service_type->setValue($ini->readVariable('cache', $global_cache_service_type));
-		$activate_cache->addSubItem($service_type);
 
-		$cache_form->addItem($activate_cache);
+		$service_type->setValue($ilGlobalCacheSettings->isActive() ? $ilGlobalCacheSettings->getService() : - 1);
+		$cache_form->addItem($service_type);
+		if ($ilGlobalCacheSettings->isActive()) {
 
-		$this->tpl->setVariable('SETUP_CONTENT', $cache_form->getHTML());
+			$h = new ilFormSectionHeaderGUI();
+			$h->setTitle($this->lng->txt('cache_activated_components'));
+			$cache_form->addItem($h);
+
+			foreach (ilGlobalCache::getAvailableComponents() as $comp) {
+				$cc = new ilCheckboxInputGUI($this->lng->txt('cache_activate_' . $comp), 'activate[' . $comp . ']');
+				$cc->setChecked($ilGlobalCacheSettings->isComponentActivated($comp));
+				$cache_form->addItem($cc);
+			}
+		}
+
+		$table_html = '';
+		require_once('./Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php');
+		require_once('./Services/UIComponent/Button/classes/class.ilLinkButton.php');
+		$ilToolbarGUI = new ilToolbarGUI();
+		if ($ilGlobalCacheSettings->isActive()) {
+			$b = ilLinkButton::getInstance();
+			$b->setCaption('cache_flush');
+			$b->setUrl('setup.php?cmd=flushCache');
+			$ilToolbarGUI->addButtonInstance($b);
+		}
+
+		if ($ilGlobalCacheSettings->getService() == ilGlobalCache::TYPE_MEMCACHED) {
+			require_once('./Services/GlobalCache/classes/Memcache/class.ilMemcacheServerTableGUI.php');
+			$b = ilLinkButton::getInstance();
+			$b->setCaption('memcache_add');
+			$b->setUrl('setup.php?cmd=addMemcacheServer');
+			$ilToolbarGUI->addButtonInstance($b);
+			$ilMemcacheServerTableGUI = new ilMemcacheServerTableGUI(NULL);
+			$table_html = $ilMemcacheServerTableGUI->getHTML();
+		}
+
+		$this->tpl->setVariable('SETUP_CONTENT', $ilToolbarGUI->getHTML() . $cache_form->getHTML() . $table_html);
 	}
 
 
-	public function saveCache(){
+	protected function flushCache() {
+		require_once('Services/GlobalCache/classes/class.ilGlobalCache.php');
+		ilGlobalCache::flushAll();
+		ilUtil::redirect('setup.php?cmd=cache');
+	}
+
+
+	protected function addMemcacheServer() {
+		require_once('./Services/GlobalCache/classes/Memcache/class.ilMemcacheServerFormGUI.php');
+		$this->checkDisplayMode('setup_cache');
+		$ilMemcacheServerFormGUI = new ilMemcacheServerFormGUI(new ilMemcacheServer());
+		$this->tpl->setVariable('SETUP_CONTENT', $ilMemcacheServerFormGUI->getHTML());
+	}
+
+
+	protected function createMemcacheServer() {
+		require_once('./Services/GlobalCache/classes/Memcache/class.ilMemcacheServerFormGUI.php');
+		$this->checkDisplayMode('setup_cache');
+		$ilMemcacheServerFormGUI = new ilMemcacheServerFormGUI(new ilMemcacheServer());
+		$ilMemcacheServerFormGUI->setValuesByPost();
+		if ($ilMemcacheServerFormGUI->saveObject()) {
+			ilUtil::redirect('setup.php?cmd=cache');
+		}
+		$this->tpl->setVariable('SETUP_CONTENT', $ilMemcacheServerFormGUI->getHTML());
+	}
+
+
+	protected function editMemcacheServer() {
+		require_once('./Services/GlobalCache/classes/Memcache/class.ilMemcacheServerFormGUI.php');
+		$this->checkDisplayMode('setup_cache');
+		$ilMemcacheServerFormGUI = new ilMemcacheServerFormGUI(ilMemcacheServer::find($_GET['mcsid']));
+		$ilMemcacheServerFormGUI->fillForm();
+		$this->tpl->setVariable('SETUP_CONTENT', $ilMemcacheServerFormGUI->getHTML());
+	}
+
+
+	protected function updateMemcacheServer() {
+		require_once('./Services/GlobalCache/classes/Memcache/class.ilMemcacheServerFormGUI.php');
+		$this->checkDisplayMode('setup_cache');
+
+		$ilMemcacheServerFormGUI = new ilMemcacheServerFormGUI(ilMemcacheServer::find($_GET['mcsid']));
+		$ilMemcacheServerFormGUI->setValuesByPost();
+		if ($ilMemcacheServerFormGUI->saveObject()) {
+			ilUtil::redirect('setup.php?cmd=cache');
+		}
+		$this->tpl->setVariable('SETUP_CONTENT', $ilMemcacheServerFormGUI->getHTML());
+	}
+
+
+	protected function deleteMemcacheServer() {
+		require_once('./Services/GlobalCache/classes/Memcache/class.ilMemcacheServer.php');
+		$ilMemcacheServer = ilMemcacheServer::find($_GET['mcsid']);
+		$ilMemcacheServer->delete();
+		ilUtil::redirect('setup.php?cmd=cache');
+	}
+
+
+	public function saveCache() {
 		/**
 		 * @var $ini ilIniFile
 		 */
 		require_once('Services/GlobalCache/classes/class.ilGlobalCache.php');
+		require_once('./Services/GlobalCache/classes/Settings/class.ilGlobalCacheSettings.php');
 		ilGlobalCache::flushAll();
 		$ini = $this->setup->getClient()->ini;
 
-		if(!$ini->readGroup('cache')) {
-			$ini->addGroup('cache');
+		$ilGlobalCacheSettings = new ilGlobalCacheSettings();
+		$ilGlobalCacheSettings->readFromIniFile($ini);
+		$service_type = $_POST['global_cache_service_type'];
+		$ilGlobalCacheSettings->setActive(($service_type >= 0) ? true : false);
+		$ilGlobalCacheSettings->setService($service_type);
+		$ilGlobalCacheSettings->resetActivatedComponents();
+		if (is_array($_POST['activate']) && count($_POST['activate']) > 0) {
+			foreach ($_POST['activate'] as $comp => $a) {
+				$ilGlobalCacheSettings->addActivatedComponent($comp);
+			}
 		}
 
-		$activate_global_cache = 'activate_global_cache';
-		$global_cache_service_type = 'global_cache_service_type';
-
-		$ini->setVariable('cache', $activate_global_cache, $_POST[$activate_global_cache]);
-		$ini->setVariable('cache', $global_cache_service_type, $_POST[$global_cache_service_type]);
-		$ini->write();
+		$ilGlobalCacheSettings->writeToIniFile($ini);
 
 		ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
 		ilUtil::redirect('setup.php?cmd=cache');
-
 	}
 
 
@@ -2523,7 +2624,7 @@ else
 
 				if ($dbupdate->getRunningStatus() > 0)
 				{
-					ilUtil::sendFailure($this->lng->txt("db_update_interrupted")."<br /><br />".
+					ilUtil::sendFailure($this->lng->txt("db_update_interrupted")." (Step ".$dbupdate->getRunningStatus().") <br /><br />".
 						$this->lng->txt("db_update_interrupted_avoid"));
 				}
 				else
@@ -2686,16 +2787,6 @@ else
 		include_once "./Services/Xml/classes/class.ilSaxParser.php";
 		include_once "./Services/Object/classes/class.ilObjectDefinition.php";
 
-		// #9019: init timezone		
-		$tz = $this->setup->ini->readVariable("server","timezone");
-		if ($tz != "")
-		{
-			if (function_exists('date_default_timezone_set'))
-			{
-				date_default_timezone_set($tz);
-			}
-			define ("IL_TIMEZONE", $tz);
-		}
 
 		// referencing db handler in language class
 		$ilDB = $this->setup->getClient()->db;
@@ -3575,7 +3666,7 @@ else
 			$this->displayTools();
 			return;
 		}
-
+		
 		// referencing does not work in dbupdate-script
 		$GLOBALS["ilDB"] = $this->setup->getClient()->getDB();
 // BEGIN WebDAV

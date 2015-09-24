@@ -187,7 +187,15 @@ class ilAuthContainerECS extends Auth_Container
 					include_once './Services/WebServices/ECS/classes/class.ilECSCommunityReader.php';
 					$reader = ilECSCommunityReader::getInstanceByServerId($this->getCurrentServer()->getServerId());
 					$part = $reader->getParticipantByMID($auths->pid);
-					$this->abreviation = $part->getOrganisation()->getAbbreviation();
+					
+					if(is_object($part) and is_object($part->getOrganisation()))
+					{
+						$this->abreviation = $part->getOrganisation()->getAbbreviation();
+					}
+					else
+					{
+						$this->abreviation = $auths->abbr;
+					}
 				}
 				catch(Exception $e)
 				{

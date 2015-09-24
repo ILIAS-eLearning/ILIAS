@@ -13,7 +13,7 @@ include_once("./Services/Style/classes/class.ilPageLayout.php");
 * @author Alex Killing <alex.killing@gmx.de>, Hendrik Holtmann <holtmann@mac.com>, Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
 * $Id: class.ilObjSCORMLearningModuleGUI.php 13133 2007-01-30 11:13:06Z akill $
 *
-* @ilCtrl_Calls ilObjSCORM2004LearningModuleGUI: ilFileSystemGUI, ilMDEditorGUI, ilPermissionGUI, ilLearningProgressGUI
+* @ilCtrl_Calls ilObjSCORM2004LearningModuleGUI: ilFileSystemGUI, ilObjectMetaDataGUI, ilPermissionGUI, ilLearningProgressGUI
 * @ilCtrl_Calls ilObjSCORM2004LearningModuleGUI: ilInfoScreenGUI, ilSCORM2004ChapterGUI, ilSCORM2004SeqChapterGUI, ilSCORM2004PageNodeGUI, ilSCORM2004ScoGUI
 * @ilCtrl_Calls ilObjSCORM2004LearningModuleGUI: ilCertificateGUI, ilObjStyleSheetGUI, ilNoteGUI, ilSCORM2004AssetGUI
 * @ilCtrl_Calls ilObjSCORM2004LearningModuleGUI: ilLicenseGUI, ilCommonActionDispatcherGUI
@@ -361,6 +361,9 @@ $this->ctrl->redirect($this, "properties");
 		$this->form->setFormAction($ilCtrl->getFormAction($this));
 		$this->form->setTitle($this->lng->txt("cont_lm_properties"));
 
+		//check/select only once
+		$this->object->checkMasteryScoreValues();
+
 		// SCORM-type
 		$ne = new ilNonEditableValueGUI($this->lng->txt("type"), "");
 		$ne->setValue($this->lng->txt( "lm_type_" . ilObjSAHSLearningModule::_lookupSubType( $this->object->getID() ) ) );
@@ -506,6 +509,16 @@ $this->ctrl->redirect($this, "properties");
 		$si->setValue($this->object->getAutoReviewChar());
 		$si->setInfo($this->lng->txt("cont_sc_auto_review_info_2004"));
 		$this->form->addItem($si);
+
+		// mastery_score
+		if ($this->object->getMasteryScoreValues() != "") {
+			$ni = new ilNumberInputGUI($this->lng->txt("cont_mastery_score_2004"), "mastery_score");
+			$ni->setMaxLength(3);
+			$ni->setSize(3);
+			$ni->setValue($this->object->getMasteryScore());
+			$ni->setInfo($this->lng->txt("cont_mastery_score_2004_info").$this->object->getMasteryScoreValues());
+			$this->form->addItem($ni);
+		}
 
 		//
 		// rte settings
@@ -724,6 +737,11 @@ $this->ctrl->redirect($this, "properties");
 				if ($this->object->getOfflineMode() == false) {
 					$this->object->zipLmForOfflineMode();
 				}
+			}
+
+			if (isset($_POST["mastery_score"])){
+				$this->object->setMasteryScore($_POST["mastery_score"]);
+				// $this->object->updateMasteryScoreValues();
 			}
 
 			$this->object->setOnline(ilUtil::yn2tf($_POST["cobj_online"]));
@@ -1116,53 +1134,60 @@ $this->ctrl->redirect($this, "properties");
 	}
 	function showTrackingItems()
 	{
-		global $ilTabs;
+		global $ilTabs, $ilAccess;
 
-		ilObjSCORMLearningModuleGUI::setSubTabs();
 		$ilTabs->setTabActive('cont_tracking_data');
-		$ilTabs->setSubTabActive('cont_tracking_byuser');
 
-		$reports = array('exportSelectedSuccess','exportSelectedCore','exportSelectedInteractions','exportSelectedObjectives','exportObjGlobalToSystem');
+		if($ilAccess->checkAccess("read_learning_progress", "", $_GET["ref_id"])) {
 
-		$userSelected = "all";
-		if (isset($_GET["userSelected"])) $userSelected = ilUtil::stripSlashes($_GET["userSelected"]);
-		if (isset($_POST["userSelected"])) $userSelected = ilUtil::stripSlashes($_POST["userSelected"]);
-		$this->ctrl->setParameter($this,'userSelected',$userSelected);
+			ilObjSCORMLearningModuleGUI::setSubTabs();
+			$ilTabs->setSubTabActive('cont_tracking_byuser');
 
-		$report = "choose";
-		if (isset($_GET["report"])) $report = ilUtil::stripSlashes($_GET["report"]);
-		if (isset($_POST["report"])) $report = ilUtil::stripSlashes($_POST["report"]);
-		$this->ctrl->setParameter($this,'report',$report);
+			$reports = array('exportSelectedSuccess','exportSelectedCore','exportSelectedInteractions','exportSelectedObjectives','exportObjGlobalToSystem');
 
-		include_once './Modules/Scorm2004/classes/class.ilSCORM2004TrackingItemsPerUserFilterGUI.php';
-		$filter = new ilSCORM2004TrackingItemsPerUserFilterGUI($this, 'showTrackingItems');
-		$filter->parse($userSelected,$report,$reports);
-		if($report == "choose") {
-			$this->tpl->setContent($filter->form->getHTML());
-		} else {
-			$usersSelected = array();
-			if ($userSelected != "all") $usersSelected[] = $userSelected;
-			else {
-				include_once "Services/Tracking/classes/class.ilTrQuery.php";
-				$users=ilTrQuery::getParticipantsForObject($this->ref_id);
-				foreach($users as $user) {
-					if(ilObject::_exists($user)  && ilObject::_lookUpType($user) == 'usr') {
-						$usersSelected[] = $user;
+			$userSelected = "all";
+			if (isset($_GET["userSelected"])) $userSelected = ilUtil::stripSlashes($_GET["userSelected"]);
+			if (isset($_POST["userSelected"])) $userSelected = ilUtil::stripSlashes($_POST["userSelected"]);
+			$this->ctrl->setParameter($this,'userSelected',$userSelected);
+
+			$report = "choose";
+			if (isset($_GET["report"])) $report = ilUtil::stripSlashes($_GET["report"]);
+			if (isset($_POST["report"])) $report = ilUtil::stripSlashes($_POST["report"]);
+			$this->ctrl->setParameter($this,'report',$report);
+
+			include_once './Modules/Scorm2004/classes/class.ilSCORM2004TrackingItemsPerUserFilterGUI.php';
+			$filter = new ilSCORM2004TrackingItemsPerUserFilterGUI($this, 'showTrackingItems');
+			$filter->parse($userSelected,$report,$reports);
+			if($report == "choose") {
+				$this->tpl->setContent($filter->form->getHTML());
+			} else {
+				$usersSelected = array();
+				if ($userSelected != "all") $usersSelected[] = $userSelected;
+				else {
+					include_once "Services/Tracking/classes/class.ilTrQuery.php";
+					$users=ilTrQuery::getParticipantsForObject($this->ref_id);
+					foreach($users as $user) {
+						if(ilObject::_exists($user)  && ilObject::_lookUpType($user) == 'usr') {
+							$usersSelected[] = $user;
+						}
 					}
 				}
+				$scosSelected = array();
+				$tmpscos=$this->object->getTrackedItems();
+				for ($i=0; $i<count($tmpscos); $i++) {
+					$scosSelected[] = $tmpscos[$i]["id"];
+				}
+				//with check for course ...
+				// include_once "Services/Tracking/classes/class.ilTrQuery.php";
+				// $a_users=ilTrQuery::getParticipantsForObject($this->ref_id);
+		//			var_dump($this->object->getTrackedUsers(""));
+				include_once './Modules/Scorm2004/classes/class.ilSCORM2004TrackingItemsTableGUI.php';
+				$tbl = new ilSCORM2004TrackingItemsTableGUI($this->object->getId(), $this, 'showTrackingItems', $usersSelected, $scosSelected, $report);
+				$this->tpl->setContent($filter->form->getHTML().$tbl->getHTML());
 			}
-			$scosSelected = array();
-			$tmpscos=$this->object->getTrackedItems();
-			for ($i=0; $i<count($tmpscos); $i++) {
-				$scosSelected[] = $tmpscos[$i]["id"];
-			}
-			//with check for course ...
-			// include_once "Services/Tracking/classes/class.ilTrQuery.php";
-			// $a_users=ilTrQuery::getParticipantsForObject($this->ref_id);
-	//			var_dump($this->object->getTrackedUsers(""));
-			include_once './Modules/Scorm2004/classes/class.ilSCORM2004TrackingItemsTableGUI.php';
-			$tbl = new ilSCORM2004TrackingItemsTableGUI($this->object->getId(), $this, 'showTrackingItems', $usersSelected, $scosSelected, $report);
-			$this->tpl->setContent($filter->form->getHTML().$tbl->getHTML());
+		}
+		else if($ilAccess->checkAccess("edit_learning_progress", "", $_GET["ref_id"])) {
+			$this->modifyTrackingItems();
 		}
 		return true;
 	}
@@ -1639,9 +1664,15 @@ $this->ctrl->redirect($this, "properties");
 			*/
 
 		// edit meta
-		$tabs_gui->addTarget("meta_data",
-		$this->ctrl->getLinkTargetByClass('ilmdeditorgui',''),
-			 "", "ilmdeditorgui");
+		include_once "Services/Object/classes/class.ilObjectMetaDataGUI.php";
+		$mdgui = new ilObjectMetaDataGUI($this->object);					
+		$mdtab = $mdgui->getTab();
+		if($mdtab)
+		{
+			$tabs_gui->addTarget("meta_data",
+				$mdtab,
+				"", "ilmdeditorgui");
+		}
 
 		// export
 		$tabs_gui->addTarget("export",
@@ -2597,6 +2628,78 @@ $this->ctrl->redirect($this, "properties");
 			"node_".ilSCORM2004OrganizationHFormGUI::getPostNodeId());
 	}
 
+	/**
+	 * Insert chapter from clipboard
+	 */
+	function insertLMChapterClip($a_confirm = false, $a_perform = false)
+	{
+		global $ilCtrl, $tpl, $ilToolbar, $ilCtrl, $lng, $ilTabs;
+
+		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004OrganizationHFormGUI.php");
+
+
+		$pf = "";
+		foreach (ilSCORM2004OrganizationHFormGUI::getPostFields() as $f => $v)
+		{
+			$pf.= '<input type="hidden" name="'.$f.'" value="'.$v.'" />';
+		}
+		if ($a_confirm && is_array($_POST["node"]))
+		{
+			foreach ($_POST["node"] as $f => $v)
+			{
+				$pf.= '<input type="hidden" name="node['.$f.']" value="'.$v.'" />';
+			}
+		}
+
+
+		$node_id = ilSCORM2004OrganizationHFormGUI::getPostNodeId();
+		$first_child = ilSCORM2004OrganizationHFormGUI::getPostFirstChild();
+
+		include_once("./Modules/Scorm2004/classes/class.ilLMChapterImportForm.php");
+		$form = new ilLMChapterImportForm($this->object, $node_id, $first_child, $a_confirm);
+		$tpl->setContent($form->getHTML().$pf."</form>");
+
+		$ilTabs->clearTargets();
+		$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
+		if ($a_confirm)
+		{
+			if ($form->isCorrect())
+			{
+				$ilToolbar->addFormButton($lng->txt("insert"), "performLMChapterInsert");
+			}
+			$ilToolbar->addFormButton($lng->txt("back"), "insertLMChapterClip");
+		}
+		else
+		{
+			$ilToolbar->addFormButton($lng->txt("check"), "confirmLMChapterInsert");
+		}
+		$ilToolbar->addFormButton($lng->txt("cancel"), "showOrganization");
+		$ilToolbar->setCloseFormTag(false);
+
+	}
+
+	/**
+	 * Confirm lm chapter insert
+	 */
+	function confirmLMChapterInsert()
+	{
+		$this->insertLMChapterClip(true);
+	}
+
+	/**
+	 * Perform lm chapter insert
+	 */
+	function performLMChapterInsert()
+	{
+		$node_id = ilSCORM2004OrganizationHFormGUI::getPostNodeId();
+		$first_child = ilSCORM2004OrganizationHFormGUI::getPostFirstChild();
+
+		include_once("./Modules/Scorm2004/classes/class.ilLMChapterImportForm.php");
+		$form = new ilLMChapterImportForm($this->object, $node_id, $first_child);
+		$form->performInserts();
+		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+		$this->ctrl->redirect($this, "showOrganization");
+	}
 
 	function exportScorm2004_4th()
 	{

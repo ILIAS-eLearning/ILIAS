@@ -106,6 +106,7 @@ class ilObjSAHSLearningModule extends ilObject
 			$this->setAutoSuspend(ilUtil::yn2tf($lm_rec["auto_suspend"]));
 			$this->setIe_compatibility(ilUtil::yn2tf($lm_rec["ie_compatibility"]));
 			$this->setIe_force_render(ilUtil::yn2tf($lm_rec["ie_force_render"]));
+			$this->setMasteryScore($lm_rec["mastery_score"]);
 			
 			include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 			if (ilObject::_lookupType($this->getStyleSheetId()) != "sty")
@@ -399,7 +400,7 @@ class ilObjSAHSLearningModule extends ilObject
 	}
 	
 	/**
-	* get max attempt
+	* get module version
 	*/
 	function getModuleVersion()
 	{
@@ -783,6 +784,94 @@ class ilObjSAHSLearningModule extends ilObject
 
 
 	/**
+	* get mastery_score
+	*/
+	function getMasteryScore()
+	{
+		return $this->mastery_score;
+	}
+
+	/**
+	* set mastery_score 
+	*/
+	function setMasteryScore($a_mastery_score)
+	{
+		$this->mastery_score = $a_mastery_score;
+	}
+	
+	/**
+	* check mastery_score / min_normalized_measure of SCOs (SCORM 1.2) / objectives (SCORM 2004)
+	*/
+	function checkMasteryScoreValues()
+	{
+		global $ilDB;
+		$s_result = "";
+		$a_result = array();
+		$type = $this->_lookupSubType( $this->getID() );
+
+		if ($type == "scorm2004") {
+			$set = $ilDB->query("SELECT minnormalmeasure FROM cp_objective, cp_node".
+				" WHERE satisfiedbymeasure=1 AND minnormalmeasure is not null AND cp_objective.cp_node_id=cp_node.cp_node_id AND".
+				" slm_id = ".$ilDB->quote($this->getID(), "integer"));
+			while ($rec  = $ilDB->fetchAssoc($set)) {
+				$tmpval = $rec["minnormalmeasure"]*100;
+				if (!in_array($tmpval,$a_result)) $a_result[] = $tmpval;
+			}
+		} else {
+			$set = $ilDB->query("SELECT masteryscore FROM sc_item,scorm_object".
+				" WHERE sc_item.masteryscore is not null AND sc_item.obj_id=scorm_object.obj_id AND".
+				" slm_id = ".$ilDB->quote($this->getID(), "integer"));
+			while ($rec  = $ilDB->fetchAssoc($set)) {
+				if (!in_array($rec["masteryscore"],$a_result)) $a_result[] = $rec["masteryscore"];
+			}
+		}
+		$s_result = implode(", ",$a_result);
+		$this->mastery_score_values = $s_result;
+	}
+
+	/**
+	* get mastery_score_values
+	*/
+	function getMasteryScoreValues()
+	{
+		return $this->mastery_score_values;
+	}
+	
+	/**
+	* update values for mastery_score / min_normalized_measure in database - not requested
+	*/
+	/*
+	function updateMasteryScoreValues()
+	{
+		global $ilDB;
+		$s_mastery_score = $this->getMasteryScore();
+		if ($s_mastery_score != "" && is_numeric($s_mastery_score)) {
+			$i_mastery_score = round(intval($s_mastery_score,10));
+			$type = $this->_lookupSubType( $this->getID() );
+
+			if ($type == "scorm2004") {
+				if ($i_mastery_score > 100) $i_mastery_score = 100;
+				$i_mastery_score = $i_mastery_score/100;
+				$statement = $ilDB->manipulateF(
+					'UPDATE cp_objective,cp_node SET minnormalmeasure = %s 
+					WHERE satisfiedbymeasure=1 AND minnormalmeasure is not null AND cp_objective.cp_node_id=cp_node.cp_node_id AND slm_id = %s',
+					array('text','integer'),
+					array($i_mastery_score,$this->getID())
+				);
+			} else {
+				if ($i_mastery_score > 127) $i_mastery_score = 127;
+				$statement = $ilDB->manipulateF(
+					'UPDATE sc_item,scorm_object SET sc_item.masteryscore = %s 
+					WHERE sc_item.masteryscore is not null AND sc_item.obj_id=scorm_object.obj_id AND slm_id = %s',
+					array('integer','integer'),
+					array($i_mastery_score,$this->getID())
+				);
+			}
+		}
+	}
+	*/
+	
+	/**
 	* update meta data only
 	*/
 /*
@@ -819,6 +908,9 @@ class ilObjSAHSLearningModule extends ilObject
 
 		$this->updateMetaData();
 		parent::update();
+		
+		$s_mastery_score = $this->getMasteryScore();
+		if ($s_mastery_score == "") $s_mastery_score = null;
 
 		$statement = $ilDB->manipulateF('
 			UPDATE sahs_lm  
@@ -857,7 +949,8 @@ class ilObjSAHSLearningModule extends ilObject
 				offline_mode = %s,
 				auto_suspend = %s,
 				ie_compatibility = %s, 
-				ie_force_render = %s
+				ie_force_render = %s,
+				mastery_score = %s
 			WHERE id = %s', 
 		array(	'text',
 				'text',
@@ -895,6 +988,7 @@ class ilObjSAHSLearningModule extends ilObject
 				'text',
 				'text',
 				'text',
+				'integer',
 				'integer'
 				), 
 		array(	ilUtil::tf2yn($this->getOnline()),
@@ -933,6 +1027,7 @@ class ilObjSAHSLearningModule extends ilObject
 				ilUtil::tf2yn($this->getAutoSuspend()),
 				ilUtil::tf2yn($this->getIe_compatibility()),
 				ilUtil::tf2yn($this->getIe_force_render()),
+				$s_mastery_score,
 				$this->getId())
 		);
 

@@ -545,6 +545,29 @@ abstract class SurveyQuestionGUI
 				
 	abstract public function getPrintView($question_title = 1, $show_questiontext = 1);
 	
+	protected function getPrintViewQuestionTitle($question_title = 1)
+	{
+		switch ($question_title)
+		{
+			case 1:
+				$title = ilUtil::prepareFormOutput($this->object->getTitle());
+				break;
+
+			case 2:
+				$title = ilUtil::prepareFormOutput($this->object->getLabel());
+				break;
+
+			case 3:
+				$title = ilUtil::prepareFormOutput($this->object->getTitle());
+				if(trim($this->object->getLabel()))
+				{
+					$title .= ' <span class="questionLabel">('.ilUtil::prepareFormOutput($this->object->getLabel()).')</span>';
+				}
+				break;
+		}
+		return $title;
+	}
+	
 	/**
 	* Creates a preview of the question
 	*
@@ -627,7 +650,7 @@ abstract class SurveyQuestionGUI
 		$chart->setYAxisToInteger(true);
 		
 		$data = $chart->getDataInstance(ilChartGrid::DATA_BARS);
-		$data->setLabel($this->lng->txt("users_answered"));
+		$data->setLabel($this->lng->txt("category_nr_selected"));
 		$data->setBarOptions(0.5, "center");
 		
 		$max = 5;
@@ -802,13 +825,15 @@ abstract class SurveyQuestionGUI
 
 			$exp = new ilMaterialExplorer($this, 'addMaterial', $_SESSION["link_new_type"]);
 			$exp->setPathOpen((int)$_GET["ref_id"]);
-			
-			include_once "Services/UIComponent/Panel/classes/class.ilPanelGUI.php";
-			$panel = ilPanelGUI::getInstance();
-			$panel->setHeading($this->lng->txt("select_object_to_link"));
-			$panel->setBody($exp->getHTML());
-			
-			$this->tpl->setContent($panel->getHTML());
+			if (!$exp->handleCommand())
+			{	
+				include_once "Services/UIComponent/Panel/classes/class.ilPanelGUI.php";
+				$panel = ilPanelGUI::getInstance();
+				$panel->setHeading($this->lng->txt("select_object_to_link"));
+				$panel->setBody($exp->getHTML());
+
+				$this->tpl->setContent($panel->getHTML());
+			}
 		}
 	}
 	
@@ -1150,6 +1175,59 @@ abstract class SurveyQuestionGUI
 		}
 		
 		$this->savePhrase(true);
+	}
+	
+	protected function renderStatisticsDetailsTable(array $a_head, array $a_rows, array $a_foot = null)
+	{
+		$html = array();
+		$html[] = '<div class="ilTableOuter table-responsive">';
+			$html[] = '<table class="table table-striped">';
+
+				$html[] = "<thead>";
+				$html[] = "<tr>";
+				foreach($a_head as $col)
+				{
+					$col = trim($col);
+					$html[] = "<th>";
+					$html[] = ($col != "") ? $col : "&nbsp;";
+					$html[] = "</th>";
+				}
+				$html[] = "</tr>";
+				$html[] = "</thead>";
+
+				$html[] = "<tbody>";
+				foreach($a_rows as $row)
+				{
+					$html[] = "<tr>";
+					foreach($row as $col)
+					{
+						$col = trim($col);
+						$html[] = "<td>";
+						$html[] = ($col != "") ? $col : "&nbsp;";
+						$html[] = "</td>";
+					}
+					$html[] = "</tr>";
+				}
+				$html[] = "</tbody>";
+				
+				if($a_foot)
+				{
+					$html[] = "<tfoot>";
+					$html[] = "<tr>";
+					foreach($a_foot as $col)
+					{
+						$col = trim($col);
+						$html[] = "<td>";
+						$html[] = ($col != "") ? $col : "&nbsp;";
+						$html[] = "</td>";
+					}
+					$html[] = "</tr>";
+					$html[] = "</tfoot>";
+				}
+				
+			$html[] = "</table>";
+		$html[] = "</div>";
+		return implode("\n", $html);
 	}
 }
 

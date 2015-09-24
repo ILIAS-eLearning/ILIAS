@@ -10,7 +10,8 @@ include_once('./Modules/Portfolio/classes/class.ilObjPortfolioBaseGUI.php');
  * @version $Id$
  *
  * @ilCtrl_Calls ilObjPortfolioGUI: ilPortfolioPageGUI, ilPageObjectGUI
- * @ilCtrl_Calls ilObjPortfolioGUI: ilWorkspaceAccessGUI, ilNoteGUI, ilObjStyleSheetGUI
+ * @ilCtrl_Calls ilObjPortfolioGUI: ilWorkspaceAccessGUI, ilNoteGUI
+ * @ilCtrl_Calls ilObjPortfolioGUI: ilObjStyleSheetGUI, ilPortfolioExerciseGUI
  *
  * @ingroup ModulesPortfolio
  */
@@ -49,15 +50,8 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 			$_GET["user_page"] = $_GET["gtp"];	
 		}
 		
-		$title = $this->lng->txt("portfolio");
-		if($this->object)
-		{
-			$title .= ": ".$this->object->getTitle();	
-		}
-		$this->tpl->setTitle($title);
-		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_prtf.svg"),
-			$this->lng->txt("portfolio"));
-
+		$this->setTitleAndDescription();
+		
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd("view");		
 		
@@ -127,6 +121,13 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 					$this->ctrl->redirectByClass("ilobjstylesheetgui", "edit");
 				}
 				break;
+				
+			case "ilportfolioexercisegui":
+				$this->ctrl->setReturn($this, "view");
+				include_once "Modules/Portfolio/classes/class.ilPortfolioExerciseGUI.php";
+				$gui = new ilPortfolioExerciseGUI($this->user_id, $this->object->getId());
+				$this->ctrl->forwardCommand($gui);
+				break;
 			
 			default:		
 				if($cmd != "preview")
@@ -178,6 +179,30 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		parent::addLocatorItems();
 		
 		$this->tpl->setLocator();
+	}
+	
+	protected function setTitleAndDescription() 
+	{
+		// parent::setTitleAndDescription();
+		
+		$title = $this->lng->txt("portfolio");
+		if($this->object)
+		{
+			$title .= ": ".$this->object->getTitle();	
+		}
+		$this->tpl->setTitle($title);
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_prtf.svg"),
+			$this->lng->txt("portfolio"));
+		
+		if($this->object &&
+			!$this->object->isOnline())
+		{
+			$this->tpl->setAlertProperties(array(
+				array("alert" => true, 
+					"property" => $this->lng->txt("status"),
+					"value" => $this->lng->txt("offline"))
+			));
+		}
 	}
 			
 	
@@ -321,7 +346,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		
 		
 		$form->setTitle($this->lng->txt("prtf_create_portfolio"));
-		$form->addCommandButton("save", $this->lng->txt("save"));
+		$form->addCommandButton("save", $this->lng->txt("create"));
 		$form->addCommandButton("toRepository", $this->lng->txt("cancel"));
 		
 		return $form;
@@ -597,198 +622,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		$this->tpl->setContent($form->getHtml());
 	}
 	
-	
-	//
-	// EXERCISE ASSIGNMENT
-	// 
-	
-	function getExerciseInfo($a_assignment_id, $a_add_submit = false)
-	{				
-		include_once "Modules/Exercise/classes/class.ilExAssignment.php";			
-		$ass = new ilExAssignment($a_assignment_id);		
-		$exercise_id = $ass->getExerciseId();
-		if(!$exercise_id)
-		{
-			return;
-		}
 		
-		// is the assignment still open?
-		$times_up = false;
-		if($ass->getDeadline() && $ass->getDeadline() - time() <= 0)
-		{
-			$times_up = true;
-		}
-
-		// exercise goto
-		include_once "./Services/Link/classes/class.ilLink.php";
-		$exc_ref_id = array_shift(ilObject::_getAllReferences($exercise_id));
-		$exc_link = ilLink::_getStaticLink($exc_ref_id, "exc");
-
-		$info = sprintf($this->lng->txt("prtf_exercise_info"), 
-			$ass->getTitle(),
-			"<a href=\"".$exc_link."\">".
-			ilObject::_lookupTitle($exercise_id)."</a>");
-		
-		// submit button
-		if($a_add_submit && !$times_up)
-		{
-			$this->ctrl->setParameter($this, "exc", $exercise_id);				
-			$this->ctrl->setParameter($this, "ass", $a_assignment_id);
-			$submit_link = $this->ctrl->getLinkTarget($this, "finalize");
-			$this->ctrl->setParameter($this, "ass", "");
-			$this->ctrl->setParameter($this, "exc", "");	
-			
-			include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
-			$button = ilLinkButton::getInstance();
-			$button->setCaption("prtf_finalize_portfolio");
-			$button->setPrimary(true);
-			$button->setUrl($submit_link);			
-			$info .= " ".$button->render();			
-		}
-		
-		// submitted files
-		$submitted = ilExAssignment::getDeliveredFiles($exercise_id, $a_assignment_id, $this->user_id, true);
-		if($submitted)
-		{
-			$submitted = array_pop($submitted);
-			
-			$this->ctrl->setParameter($this, "ass", $a_assignment_id);
-			$dl_link = $this->ctrl->getLinkTarget($this, "downloadExcSubFile");
-			$this->ctrl->setParameter($this, "ass", "");
-			
-			$rel = ilDatePresentation::useRelativeDates();
-			ilDatePresentation::setUseRelativeDates(false);
-			
-			include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
-			$button = ilLinkButton::getInstance();
-			$button->setCaption("download");
-			$button->setUrl($dl_link);			
-			
-			$info .= "<br />".sprintf($this->lng->txt("prtf_exercise_submitted_info"), 
-				ilDatePresentation::formatDate(new ilDateTime($submitted["ts"], IL_CAL_DATETIME)),
-				$button->render());
-			
-			ilDatePresentation::setUseRelativeDates($rel);
-		}		
-		
-		
-		// work instructions incl. files
-		
-		$tooltip = "";
-
-		$ass = $ass->getInstruction();
-		if($ass)
-		{
-			$tooltip .= nl2br($ass);					
-		}
-
-		$ass_files = ilExAssignment::getFiles($exercise_id, $a_assignment_id);
-		if (count($ass_files) > 0)
-		{
-			$tooltip .= "<br /><br />";
-			
-			foreach($ass_files as $file)
-			{
-				$this->ctrl->setParameter($this, "ass", $a_assignment_id);
-				$this->ctrl->setParameter($this, "file", urlencode($file["name"]));
-				$dl_link = $this->ctrl->getLinkTarget($this, "downloadExcAssFile");
-				$this->ctrl->setParameter($this, "file", "");			
-				$this->ctrl->setParameter($this, "ass", "");			
-				
-				$tooltip .= $file["name"].": <a href=\"".$dl_link."\">".
-					$this->lng->txt("download")."</a>";										
-			}
-		}			
-		
-		if($tooltip)
-		{
-			$ol_id = "exc_ass_".$a_assignment_id;
-
-			include_once "Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php";
-			$overlay = new ilOverlayGUI($ol_id);
-
-			// overlay
-			$overlay->setAnchor($ol_id."_tr");
-			$overlay->setTrigger($ol_id."_tr", "click", $ol_id."_tr");
-			$overlay->setAutoHide(false);
-			// $overlay->setCloseElementId($cl_id);
-			$overlay->add();
-
-			// trigger
-			$overlay->addTrigger($ol_id."_tr", "click", $ol_id."_tr");
-
-			$info .= "<div id=\"".$ol_id."_tr\"><a href=\"#\">".$this->lng->txt("exc_instruction")."</a></div>".
-				"<div id=\"".$ol_id."\" style=\"display:none; background-color:white; border: 1px solid #bbb; padding: 10px;\">".$tooltip."</div>";
-		}
-		
-		return $info;
-	}
-	
-	function downloadExcAssFile()
-	{
-		if($_GET["ass"] && $_GET["file"])
-		{		
-			include_once "Modules/Exercise/classes/class.ilExAssignment.php";			
-			$ass = new ilExAssignment((int)$_GET["ass"]);
-			
-			$ass_files = ilExAssignment::getFiles($ass->getExerciseId(), $ass->getId());
-			if (count($ass_files) > 0)
-			{
-				foreach($ass_files as $file)
-				{
-					if($file["name"] == $_GET["file"])
-					{
-						ilUtil::deliverFile($file["fullpath"], $file["name"]);						
-					}												
-				}
-			}
-		}					
-	}
-	
-	function downloadExcSubFile()
-	{
-		if($_GET["ass"])
-		{		
-			include_once "Modules/Exercise/classes/class.ilExAssignment.php";			
-			$ass = new ilExAssignment((int)$_GET["ass"]);
-			
-			$submitted = ilExAssignment::getDeliveredFiles($ass->getExerciseId(), $ass->getId(), $this->user_id);
-			if (count($submitted) > 0)
-			{
-				$submitted = array_pop($submitted);			
-				
-				$user_data = ilObjUser::_lookupName($submitted["user_id"]);
-				$title = ilObject::_lookupTitle($submitted["obj_id"])." - ".
-					$ass->getTitle()." - ".
-					$user_data["firstname"]." ".
-					$user_data["lastname"]." (".
-					$user_data["login"].").zip";
-									
-				ilUtil::deliverFile($submitted["filename"], $title);																	
-			}
-		}					
-	}
-		
-	/**
-	 * Finalize and submit portfolio to exercise
-	 */
-	protected function finalize()
-	{		
-		// to make exercise gui load assignment
-		$_GET["ass_id"] = $_REQUEST["ass"];
-		
-		// #11173 - ref_id is needed for notifications
-		$exc_ref_id = array_shift(ilObject::_getAllReferences($_REQUEST["exc"]));
-		
-		include_once "Modules/Exercise/classes/class.ilObjExerciseGUI.php";
-		$exc_gui = new ilObjExerciseGUI(null, $exc_ref_id, true);
-		$exc_gui->submitPortfolio($this->object->getId());
-		
-		ilUtil::sendSuccess($this->lng->txt("prtf_finalized"), true);
-		$this->ctrl->redirect($this, "view");
-	}
-	
-	
 	//
 	// CREATE FROM TEMPLATE
 	// 
@@ -1072,7 +906,10 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 			if($ass->getExerciseId() == $exc->getId() &&
 				$ass->getType() == ilExAssignment::TYPE_PORTFOLIO)
 			{				
-				$exc->addResourceObject($target_id, $ass_id, $ilUser->getId());
+				// #16205
+				include_once "Modules/Exercise/classes/class.ilExSubmission.php";			
+				$sub = new ilExSubmission($ass, $ilUser->getId());
+				$sub->addResourceObject($target_id);
 			}
 		}
 		

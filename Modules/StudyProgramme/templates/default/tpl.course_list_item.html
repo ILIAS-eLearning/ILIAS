@@ -1,0 +1,103 @@
+<div class="{DIV_CLASS}" {DIV_ID}>
+<!-- BEGIN check --><div class="ilContainerListItemCB"><input type="checkbox" name="id[]" value="{VAL_ID}" /></div><!-- END check -->
+<!-- BEGIN check_download --><div class="ilContainerListItemCB"><input style="{VAL_VISIBILITY}" type="checkbox" name="id[]" value="{VAL_ID}" /></div><!-- END check_download -->
+<!-- BEGIN expand --><div class="ilContainerListItemCB"><a href="{EXP_HREF}"><img src="{EXP_IMG}" title="{EXP_ALT}" alt="{EXP_ALT}" /></a></div><!-- END expand -->
+<!-- BEGIN indent --><div class="ilContainerListItemCB">&nbsp;</div><div class="ilContainerListItemCB">&nbsp;</div><!-- END indent -->
+<!-- BEGIN icon --><div class="ilContainerListItemIcon <!-- BEGIN i_1 -->ilContainerListItemIconCB<!-- END i_1 -->"><!-- BEGIN icon_link_s --><a href="{ICON_HREF}" {ICON_TAR}><!-- END icon_link_s --><img alt="{ALT_ICON}" title="{ALT_ICON}" src="{SRC_ICON}" class="ilListItemIcon" /><!-- BEGIN icon_link_e --></a><!-- END icon_link_e --></div><!-- END icon -->
+<div class="ilContainerListItemContent <!-- BEGIN d_0 --><!-- END d_0 --><!-- BEGIN d_1 --><!-- END d_1 --><!-- BEGIN d_2 -->ilContainerListItemContentCB<!-- END d_2 -->">
+<div class="il_ContainerListItem">
+	<div class="il_ContainerItemTitle form-inline">
+		<!-- BEGIN position -->
+		<input type="text" class="form-control" name="position{POS_ID}" value="{POS_VAL}" size="3" maxlength="4" />
+		<!-- END position -->
+		<!-- BEGIN bold_title_start --><b><!-- END bold_title_start -->
+		<!-- BEGIN item_title -->
+		<h4 class="il_ContainerItemTitle">{TXT_TITLE}</h4>
+		<!-- END item_title -->
+		<!-- BEGIN item_title_linked -->
+		<h4 class="il_ContainerItemTitle"><a href="{HREF_TITLE_LINKED}" class="il_ContainerItemTitle" <!-- BEGIN title_linked_frame --> target="{TARGET_TITLE_LINKED}"<!-- END title_linked_frame --> >{TXT_TITLE_LINKED}</a><!-- BEGIN item_preview --> <span class="il_ContainerItemPreview {PREVIEW_STATUS_CLASS}"><a href="javascript:void(0);" onclick="{SCRIPT_PREVIEW_CLICK}" title="{TXT_PREVIEW}"><img src="{SRC_PREVIEW_ICON}" height="16" width="16" /></a></span><!-- END item_preview --></h4>
+		<!-- END item_title_linked -->
+		<!-- BEGIN bold_title_end --></b><!-- END bold_title_end -->
+	</div>
+	<div style="float:right">
+		<!-- BEGIN item_progress -->
+		<div style="text-align: right;"><font class="small">{TXT_PROGRESS_INFO}:</font> <img src="{PROGRESS_TYPE_IMG}" alt="{PROGRESS_ALT_IMG}" title="{PROGRESS_ALT_IMG}" border="0" /></div>
+		<!-- END item_progress -->
+	</div>
+	<!-- BEGIN commands -->
+	<div class="ilFloatRight">
+	{COMMAND_SELECTION_LIST}
+	</div>
+	<!-- END commands -->
+	<!-- BEGIN payment -->
+	<div style="width: 22px;" class="ilFloatRight"><img src="{PAYMENT_TYPE_IMG}" alt="{PAYMENT_ALT_IMG}" title="{PAYMENT_ALT_IMG}" /></div>
+	<!-- END payment -->
+	<!-- BEGIN item_description -->
+	<div class="ilListItemSection il_Description">{TXT_DESC}</div>
+	<!-- END item_description -->
+	<!-- BEGIN search_fragment -->
+	<div class="ilListItemSection il_SearchFragment"><font class="small">{TXT_SEARCH_FRAGMENT}</font></div>
+	<!-- END search_fragment -->
+	<!-- BEGIN item_properties -->
+	<div class="ilListItemSection il_ItemProperties">
+	<!-- BEGIN item_property -->
+		<!-- BEGIN separator_prop --><!-- END separator_prop -->
+		<!-- BEGIN newline_prop --><br /><!-- END newline_prop -->
+		<!-- BEGIN std_prop --><span class="il_ItemProperty"><!-- END std_prop -->
+		<!-- BEGIN alert_prop --><span class="il_ItemAlertProperty"><!-- END alert_prop -->
+		<!-- BEGIN prop_name -->{TXT_PROP}: <!-- END prop_name --><!-- BEGIN linked_prop --><a href="{LINK_PROP}">{LINK_VAL_PROP}</a><!-- END linked_prop --><!-- BEGIN text_prop -->{VAL_PROP}<!-- END text_prop -->&nbsp;&nbsp;</span>
+	<!-- END item_property -->
+	</div>
+	<!-- END item_properties -->
+	<!-- BEGIN item_detail_links -->
+	<div class="ilListItemSection il_ItemProperties">
+		<!-- BEGIN item_detail_intro -->{ITEM_DETAIL_INTRO_TXT}<br /><!-- END item_detail_intro -->
+		<!-- BEGIN item_detail_link --><div style="text-indent: 2em">{ITEM_DETAIL_LINK_DESC} <a target="{ITEM_DETAIL_LINK_TARGET}" href="{ITEM_DETAIL_LINK_HREF}">{ITEM_DETAIL_LINK_NAME}</a><br /></div><!-- END item_detail_link -->
+	</div>
+	<!-- END item_detail_links -->
+	<!-- BEGIN path -->
+	<div class="ilListItemSection il_ItemProperties">
+		<!-- BEGIN path_item -->
+		{SEPARATOR} {PATH_ITEM}
+		<!-- END path_item -->
+	</div>
+	<!-- END path -->
+	<!-- BEGIN notice_property -->
+	<div class="ilListItemSection il_ItemNotice">
+		<!-- BEGIN notice_item -->
+		{NOTICE_ITEM_VALUE}<br />
+		<!-- END notice_item -->
+	</div>
+	<!-- END notice_property -->
+	<!-- BEGIN preconditions_toggle -->
+	<div  class="ilListItemSection il_ItemProperties">
+		{PRECONDITION_TOGGLE_INTRO}: <a href="#" onclick="il.Object.togglePreconditions(this, '{PRECONDITION_TOGGLE_ID}', '{TXT_PRECONDITION_SHOW}', '{TXT_PRECONDITION_HIDE}'); return false;">&raquo; {PRECONDITION_TOGGLE_TRIGGER}</a>
+	</div>
+	<!-- END preconditions_toggle -->
+	<!-- BEGIN preconditions -->
+	<div class="il_Preconditions" style="display:none;" id="il_list_item_precondition{CONDITION_TOGGLE_ID}">
+		<div class="ilListItemSection il_PreconditionsTitel">
+		{TXT_PRECONDITIONS}:
+		</div>
+		<!-- BEGIN precondition -->
+		<div class="ilPreconditionItem">{TRIGGER_ITEM}</div>
+		<!-- END precondition -->
+	</div>
+	<!-- END preconditions -->
+	<!-- BEGIN subitem -->
+	<div class="subitem">{SUBITEM}</div>
+	<!-- END subitem -->
+	{ADDITIONAL}
+	<div style="clear:both;"></div>
+</div>
+<!-- BEGIN relevance -->
+<div class="ilListItemSection il_ItemProperties">
+	<span class="small">{TXT_RELEVANCE}</span> <img border="0" height="5px" width="{WIDTH_A}px" src="{IMG_A}" /><img border="0" height="5px" width="{WIDTH_B}px" src="{IMG_B}" /> {VAL_REL}
+</div>
+<!-- END relevance -->
+<div style="clear:both;"></div>
+</div>
+</div>
+<!-- BEGIN fileupload -->
+{FILE_UPLOAD}
+<!-- END fileupload -->

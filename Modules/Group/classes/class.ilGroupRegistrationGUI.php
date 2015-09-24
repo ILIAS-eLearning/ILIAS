@@ -186,75 +186,86 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
 		{
 			return true;
 		}
-		$tpl = new ilTemplate('tpl.max_members_form.html',true,true,'Services/Membership');
-		$tpl->setVariable('TXT_MAX',$this->lng->txt('mem_max_users'));
-		$tpl->setVariable('NUM_MAX',$this->container->getMaxMembers());
 		
-		$tpl->setVariable('TXT_FREE',$this->lng->txt('mem_free_places').":");
-		$free = max(0,$this->container->getMaxMembers() - $this->participants->getCountMembers());
+		$tpl = new ilTemplate('tpl.max_members_form.html',true,true,'Services/Membership');		
 		
-		if($free)
-			$tpl->setVariable('NUM_FREE',$free);
-		else
-			$tpl->setVariable('WARN_FREE',$free);
-			
+		if($this->container->getMinMembers())
+		{
+			$tpl->setVariable('TXT_MIN',$this->lng->txt('mem_min_users'));
+			$tpl->setVariable('NUM_MIN',$this->container->getMinMembers());
+		}		
+		
+		if($this->container->getMaxMembers())
+		{		
+			$tpl->setVariable('TXT_MAX',$this->lng->txt('mem_max_users'));
+			$tpl->setVariable('NUM_MAX',$this->container->getMaxMembers());
 
-		include_once('./Modules/Group/classes/class.ilGroupWaitingList.php');
-		$waiting_list = new ilGroupWaitingList($this->container->getId());
-		
-		if(
-				$this->container->isWaitingListEnabled() and 
-				$this->container->isMembershipLimited() and
-				(!$free or $waiting_list->getCountUsers()))
-		{
-			if($waiting_list->isOnList($ilUser->getId()))
-			{
-				$tpl->setVariable('TXT_WAIT',$this->lng->txt('mem_waiting_list_position'));
-				$tpl->setVariable('NUM_WAIT',$waiting_list->getPosition($ilUser->getId()));
-				
-			}
+			$tpl->setVariable('TXT_FREE',$this->lng->txt('mem_free_places').":");
+			$free = max(0,$this->container->getMaxMembers() - $this->participants->getCountMembers());
+
+			if($free)
+				$tpl->setVariable('NUM_FREE',$free);
 			else
+				$tpl->setVariable('WARN_FREE',$free);
+
+
+			include_once('./Modules/Group/classes/class.ilGroupWaitingList.php');
+			$waiting_list = new ilGroupWaitingList($this->container->getId());
+
+			if(
+					$this->container->isWaitingListEnabled() and 
+					$this->container->isMembershipLimited() and
+					(!$free or $waiting_list->getCountUsers()))
 			{
-				$tpl->setVariable('TXT_WAIT',$this->lng->txt('mem_waiting_list'));
-				if($free and $waiting_list->getCountUsers())
-					$tpl->setVariable('WARN_WAIT',$waiting_list->getCountUsers());
+				if($waiting_list->isOnList($ilUser->getId()))
+				{
+					$tpl->setVariable('TXT_WAIT',$this->lng->txt('mem_waiting_list_position'));
+					$tpl->setVariable('NUM_WAIT',$waiting_list->getPosition($ilUser->getId()));
+
+				}
 				else
-					$tpl->setVariable('NUM_WAIT',$waiting_list->getCountUsers());
-				
+				{
+					$tpl->setVariable('TXT_WAIT',$this->lng->txt('mem_waiting_list'));
+					if($free and $waiting_list->getCountUsers())
+						$tpl->setVariable('WARN_WAIT',$waiting_list->getCountUsers());
+					else
+						$tpl->setVariable('NUM_WAIT',$waiting_list->getCountUsers());
+
+				}
 			}
-		}
-		
-		$alert = '';
-		if(
-				!$free and 
-				!$this->container->isWaitingListEnabled())
-		{
-			// Disable registration
-			$this->enableRegistration(false);
-			$alert = $this->lng->txt('mem_alert_no_places');	
-		}
-		elseif(
-				$this->container->isWaitingListEnabled() and 
-				$this->container->isMembershipLimited() and
-				$waiting_list->isOnList($ilUser->getId()))
-		{
-			// Disable registration
-			$this->enableRegistration(false);
-		}
-		elseif(
-				!$free and 
-				$this->container->isWaitingListEnabled() and 
-				$this->container->isMembershipLimited())
-		{
-			$alert = $this->lng->txt('grp_warn_no_max_set_on_waiting_list');
-		}
-		elseif(
-				$free and 
-				$this->container->isWaitingListEnabled() and 
-				$this->container->isMembershipLimited() and
-				$this->getWaitingList()->getCountUsers())
-		{
-			$alert = $this->lng->txt('grp_warn_wl_set_on_waiting_list');
+
+			$alert = '';
+			if(
+					!$free and 
+					!$this->container->isWaitingListEnabled())
+			{
+				// Disable registration
+				$this->enableRegistration(false);
+				$alert = $this->lng->txt('mem_alert_no_places');	
+			}
+			elseif(
+					$this->container->isWaitingListEnabled() and 
+					$this->container->isMembershipLimited() and
+					$waiting_list->isOnList($ilUser->getId()))
+			{
+				// Disable registration
+				$this->enableRegistration(false);
+			}
+			elseif(
+					!$free and 
+					$this->container->isWaitingListEnabled() and 
+					$this->container->isMembershipLimited())
+			{
+				$alert = $this->lng->txt('grp_warn_no_max_set_on_waiting_list');
+			}
+			elseif(
+					$free and 
+					$this->container->isWaitingListEnabled() and 
+					$this->container->isMembershipLimited() and
+					$this->getWaitingList()->getCountUsers())
+			{
+				$alert = $this->lng->txt('grp_warn_wl_set_on_waiting_list');
+			}
 		}
 		
 		$max = new ilCustomInputGUI($this->lng->txt('mem_participants'));

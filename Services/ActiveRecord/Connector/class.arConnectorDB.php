@@ -54,7 +54,7 @@ class arConnectorDB extends arConnector {
 		if ($arFieldList->getPrimaryField()->getName()) {
 			$ilDB->addPrimaryKey($ar->getConnectorContainerName(), array( $arFieldList->getPrimaryField()->getName() ));
 		}
-		if ($arFieldList->getPrimaryField()->getFieldType() === 'integer' AND $arFieldList->getPrimaryField()->getSequence() === 'true') {
+		if ($ar->getArFieldList()->getPrimaryField()->getSequence() AND ! $ilDB->sequenceExists($ar->getConnectorContainerName())) {
 			$ilDB->createSequence($ar->getConnectorContainerName());
 		}
 		$this->updateIndices($ar);

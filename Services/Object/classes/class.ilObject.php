@@ -472,7 +472,18 @@ class ilObject
 		}
 		return 0;
 	}
-	
+
+	public static function _lookupImportId($a_obj_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT import_id FROM object_data ".
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id, "integer");
+		$res = $ilDB->query($query);
+		$row = $ilDB->fetchObject($res);
+		return $row->import_id;
+	}
+
 	/**
 	* get object owner
 	*
@@ -1434,6 +1445,9 @@ class ilObject
 			
 			include_once("Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php");
 			ilAdvancedMDValues::_deleteByObjId($this->getId());
+			
+			include_once("Services/Tracking/classes/class.ilLPObjSettings.php");
+			ilLPObjSettings::_deleteByObjId($this->getId());
 
 			$remove = true;
 		}
@@ -1958,7 +1972,7 @@ class ilObject
 	 * @param
 	 * @return
 	 */
-	static final function collectDeletionDependencies(&$deps, $a_ref_id, $a_obj_id, $a_type, $a_depth = 0)
+	static function collectDeletionDependencies(&$deps, $a_ref_id, $a_obj_id, $a_type, $a_depth = 0)
 	{
 		global $objDefinition, $tree;
 
@@ -2123,6 +2137,5 @@ class ilObject
 		}
 		return false;
 	}	
-	
 } // END class.ilObject
 ?>

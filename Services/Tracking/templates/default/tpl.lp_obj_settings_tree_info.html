@@ -1,0 +1,33 @@
+<!-- BEGIN parent_usage_bl -->
+<div style="margin-left:{MARGIN}px">
+	&raquo;
+	<img src="{PARENT_TYPE_URL}" alt="{PARENT_TYPE_ALT}" title="{PARENT_TYPE_ALT}" />
+	<!-- BEGIN parent_nolink_bl -->
+	<span{PARENT_STYLE}>{PARENT_NOLINK_TITLE}</span>
+	<!-- END parent_nolink_bl -->
+	<!-- BEGIN parent_link_bl -->
+	<a href="{PARENT_URL}"{PARENT_STYLE}>{PARENT_LINK_TITLE}</a>
+	<!-- END parent_link_bl -->		
+	<!-- BEGIN parent_active_bl -->
+	<span class="small">*</span>
+	<!-- END parent_active_bl -->
+	<!-- BEGIN group_bl -->		
+	<span class="small">- {GROUP_INFO}:
+		<!-- BEGIN group_item_bl -->
+		<img src="{GROUP_ITEM_TYPE_URL}" alt="{GROUP_ITEM_TYPE_ALT}" title="{GROUP_ITEM_TYPE_ALT}" />
+		<!-- BEGIN group_item_nolink_bl -->
+		{GROUP_ITEM_NOLINK_TITLE}
+		<!-- END group_item_nolink_bl -->	
+		<!-- BEGIN group_item_link_bl -->
+		<a href="{GROUP_ITEM_URL}"> {GROUP_ITEM_LINK_TITLE}</a>
+		<!-- END group_item_link_bl -->		
+		<!-- END group_item_bl -->
+		</span>
+	<!-- END group_bl -->
+</div>
+<!-- END parent_usage_bl -->
+<!-- BEGIN legend_bl -->
+<div class="il_Description_no_margin">
+	<br />* {LEGEND}
+</div>
+<!-- END legend_bl -->

@@ -186,7 +186,7 @@ class assClozeTestTest extends PHPUnit_Framework_TestCase
 		// Arrange
 		require_once './Modules/TestQuestionPool/classes/class.assClozeTest.php';
 		$instance = new assClozeTest();
-		$expected = 'qpl_a_cloze';
+		$expected = array("qpl_a_cloze",'qpl_a_cloze_combi_res');
 
 		$actual = $instance->getAnswerTableName();
 

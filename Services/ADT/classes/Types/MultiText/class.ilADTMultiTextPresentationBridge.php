@@ -13,7 +13,15 @@ class ilADTMultiTextPresentationBridge extends ilADTPresentationBridge
 	{
 		if(!$this->getADT()->isNull())
 		{
-			return implode(", ", $this->getADT()->getTextElements());
+			$res = array();
+			foreach($this->getADT()->getTextElements() as $item)
+			{
+				if(trim($item))
+				{
+					$res[] = $this->decorate($item);
+				}
+			}
+			return implode(", ", $res);
 		}
 	}
 	

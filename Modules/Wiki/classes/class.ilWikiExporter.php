@@ -7,7 +7,7 @@ include_once("./Services/Export/classes/class.ilXmlExporter.php");
  * Exporter class for wikis
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id: $
+ * @version $Id:$
  * @ingroup ModulesWiki
  */
 class ilWikiExporter extends ilXmlExporter

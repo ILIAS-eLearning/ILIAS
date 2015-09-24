@@ -36,9 +36,8 @@ class ilAuthLogObserver extends Log_Observer
 {
 	public function notify($a_event)
 	{
-		global $ilLog;
-		
-		$ilLog->write($a_event['message']);
+		include_once './Services/Logging/classes/public/class.ilLoggerFactory.php';
+		ilLoggerFactory::getLogger('auth')->debug($a_event['message']);
 	}
 	
 }

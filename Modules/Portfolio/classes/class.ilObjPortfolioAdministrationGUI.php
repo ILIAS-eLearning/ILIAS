@@ -138,6 +138,7 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
 			$banner = (bool)$form->getInput("banner");
 			
 			$prfa_set = new ilSetting("prfa");
+			$prfa_set->set("pd_block", (bool)$form->getInput("pd_block"));
 			$prfa_set->set("banner", $banner);
 			$prfa_set->set("banner_width", (int)$form->getInput("width"));
 			$prfa_set->set("banner_height", (int)$form->getInput("height"));			
@@ -191,6 +192,13 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
 		$prtf_prop->setChecked(($ilSetting->get('user_portfolios') ? '1' : '0'));
 		$form->addItem($prtf_prop);
 
+		$prfa_set = new ilSetting("prfa");
+
+		$pdblock = new ilCheckboxInputGUI($lng->txt("prtf_pd_block"), "pd_block");
+		$pdblock->setInfo($lng->txt("prtf_pd_block_info"));
+		$pdblock->setChecked($prfa_set->get("pd_block", false));
+		$form->addItem($pdblock);
+
 		$banner = new ilCheckboxInputGUI($lng->txt("prtf_preview_banner"), "banner");
 		$banner->setInfo($lng->txt("prtf_preview_banner_info"));
 		$form->addItem($banner);
@@ -204,8 +212,7 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
 		$height->setRequired(true);
 		$height->setSize(4);
 		$banner->addSubItem($height);
-		
-		$prfa_set = new ilSetting("prfa");
+
 		$banner->setChecked($prfa_set->get("banner", false));		
 		if($prfa_set->get("banner"))
 		{

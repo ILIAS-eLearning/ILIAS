@@ -977,7 +977,7 @@ class ilInfoScreenGUI
 			if($progress['access_time'])
 			{
 				$a_tpl->setVariable("TXT_PROPERTY_VALUE",
-					ilDatePresentation::formatDate(new ilDateTime($progress['access_time'],IL_CAL_DATETIME)));
+					ilDatePresentation::formatDate(new ilDateTime($progress['access_time'],IL_CAL_UNIX)));
 			}
 			else
 			{

@@ -1,8 +1,6 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'vfsStream/vfsStream.php';
-
 /**
  * @author  Michael Jansen <mjansen@databay.de>
  * @version $Id$
@@ -15,11 +13,33 @@ class ilTermsOfServiceAgreementsByLanguageTableDataProviderTest extends PHPUnit_
 	protected $backupGlobals = false;
 
 	/**
+	 * @return bool
+	 */
+	private function isVsfStreamInstalled()
+	{
+		return @include_once('vfsStream.php');
+	}
+
+	/**
+	 *
+	 */
+	private function skipIfvfsStreamNotSupported()
+	{
+		if(!$this->isVsfStreamInstalled())
+		{
+			$this->markTestSkipped('Requires vfsStream (http://vfs.bovigo.org)');
+		}
+	}
+
+	/**
 	 *
 	 */
 	public function setUp()
 	{
-		vfsStreamWrapper::register();
+		if($this->isVsfStreamInstalled())
+		{
+			vfsStreamWrapper::register();
+		}
 	}
 
 	/**
@@ -29,7 +49,7 @@ class ilTermsOfServiceAgreementsByLanguageTableDataProviderTest extends PHPUnit_
 	{
 		require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceTableDataProviderFactory.php';
 		$factory = new ilTermsOfServiceTableDataProviderFactory();
-		$factory->setLanguageAdapter($this->getMockBuilder('ilLanguage')->disableOriginalConstructor()->getMock());
+		$factory->setLanguageAdapter($this->getMockBuilder('ilLanguage')->setMethods(array('toJSON'))->disableOriginalConstructor()->getMock());
 		$provider = $factory->getByContext(ilTermsOfServiceTableDataProviderFactory::CONTEXT_AGRREMENT_BY_LANGUAGE);
 
 		$this->assertInstanceOf('ilTermsOfServiceAgreementByLanguageProvider', $provider);
@@ -44,6 +64,8 @@ class ilTermsOfServiceAgreementsByLanguageTableDataProviderTest extends PHPUnit_
 	 */
 	public function testProviderReturnsAResultForEveryInstalledLanguage(ilTermsOfServiceAgreementByLanguageProvider $provider)
 	{
+		$this->skipIfvfsStreamNotSupported();
+
 		$client_rel_path = implode('/', array('clients', 'default', 'agreement'));
 		$global_rel_path = implode('/', array('global', 'agreement'));
 
@@ -63,7 +85,7 @@ class ilTermsOfServiceAgreementsByLanguageTableDataProviderTest extends PHPUnit_
 			vfsStream::url('root/Customizing/' . $global_rel_path)
 		));
 
-		$lng                 = $this->getMockBuilder('ilLanguage')->disableOriginalConstructor()->getMock();
+		$lng                 = $this->getMockBuilder('ilLanguage')->setMethods(array('toJSON'))->disableOriginalConstructor()->getMock();
 		$installed_languages = array('en', 'de', 'fr');
 		$lng->expects($this->once())->method('getInstalledLanguages')->will($this->onConsecutiveCalls($installed_languages));
 		$provider->setLanguageAdapter($lng);
@@ -98,7 +120,7 @@ class ilTermsOfServiceAgreementsByLanguageTableDataProviderTest extends PHPUnit_
 	 */
 	public function testProviderShouldReturnLanguageAdapterWhenLanguageAdapterIsSet(ilTermsOfServiceAgreementByLanguageProvider $provider)
 	{
-		$expected = $this->getMockBuilder('ilLanguage')->disableOriginalConstructor()->getMock();
+		$expected = $this->getMockBuilder('ilLanguage')->setMethods(array('toJSON'))->disableOriginalConstructor()->getMock();
 
 		$provider->setLanguageAdapter($expected);
 		$this->assertEquals($expected, $provider->getLanguageAdapter());

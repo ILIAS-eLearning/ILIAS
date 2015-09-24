@@ -148,7 +148,7 @@ class ilObjBlog extends ilObject2
 					",bg_color = ".$ilDB->quote($this->getBackgroundColor(), "text").
 					",font_color = ".$ilDB->quote($this->getFontcolor(), "text").
 					",img = ".$ilDB->quote($this->getImage(), "text").
-					",rss_active = ".$ilDB->quote($this->hasRSS(), "text").
+					",rss_active = ".$ilDB->quote($this->hasRSS(), "integer").
 					",approval = ".$ilDB->quote($this->hasApproval(), "integer").
 					",abs_shorten = ".$ilDB->quote($this->hasAbstractShorten(), "integer").
 					",abs_shorten_len = ".$ilDB->quote($this->getAbstractShortenLength(), "integer").
@@ -797,14 +797,16 @@ class ilObjBlog extends ilObject2
 				continue;
 			}
 									
-			$snippet = strip_tags(ilBlogPostingGUI::getSnippet($id));
+			// #16434
+			$snippet = strip_tags(ilBlogPostingGUI::getSnippet($id), "<br><br/><div><p>");
 			$snippet = str_replace("&", "&amp;", $snippet);	
+			$snippet = "<![CDATA[".$snippet."]]>";
 
 			$url = ilLink::_getStaticLink($a_wsp_id, "blog", true, "_".$id.$is_wsp);
 			$url = str_replace("&", "&amp;", $url);				
 
 			$feed_item = new ilFeedItem();
-			$feed_item->setTitle($item["title"]);
+			$feed_item->setTitle(str_replace("&", "&amp;", $item["title"])); // #16022
 			$feed_item->setDate($item["created"]->get(IL_CAL_DATETIME));
 			$feed_item->setDescription($snippet);
 			$feed_item->setLink($url);
@@ -826,15 +828,17 @@ class ilObjBlog extends ilObject2
 				$this->getRefId()
 		);
 		
+		include_once './Services/AccessControl/classes/class.ilObjRole.php';
+		$role = ilObjRole::createDefaultRole(
+				'il_blog_editor_'.$this->getRefId(),
+				"Editor of blog obj_no.".$this->getId(),
+				'il_blog_editor',
+				$this->getRefId()
+		);
+		
 		return array();
 	}
 	
-	/**
-	 * Get object id of local contributor role
-	 * 
-	 * @param int $a_node_id
-	 * @return int
-	 */
 	function getLocalContributorRole($a_node_id)
 	{
 		global $rbacreview;
@@ -848,22 +852,58 @@ class ilObjBlog extends ilObject2
 		}
 	}
 	
-	function getRolesWithContribute($a_node_id)
+	function getLocalEditorRole($a_node_id)
+	{
+		global $rbacreview;
+		
+		foreach($rbacreview->getLocalRoles($a_node_id) as $role_id)
+		{
+			if(substr(ilObject::_lookupTitle($role_id), 0, 14)  == "il_blog_editor")
+			{
+				return $role_id;
+			}
+		}
+	}
+	
+	function getAllLocalRoles($a_node_id)
+	{
+		global $rbacreview;
+		
+		include_once "Services/AccessControl/classes/class.ilObjRole.php";
+		
+		$res = array();
+		foreach($rbacreview->getLocalRoles($a_node_id) as $role_id)
+		{
+			$res[$role_id] = ilObjRole::_getTranslation(ilObject::_lookupTitle($role_id));
+		}
+		
+		asort($res);
+		return $res;
+	}
+	
+	function getRolesWithContributeOrRedact($a_node_id)
 	{
 		global $rbacreview;
 		
 		include_once "Services/AccessControl/classes/class.ilObjRole.php";
 		
 		$contr_op_id = ilRbacReview::_getOperationIdByName("contribute");
+		$redact_op_id = ilRbacReview::_getOperationIdByName("redact");
 		$contr_role_id = $this->getLocalContributorRole($a_node_id);
+		$editor_role_id = $this->getLocalEditorRole($a_node_id);
 		
 		$res = array();
 		foreach($rbacreview->getParentRoleIds($a_node_id) as $role_id => $role)
 		{			
 			if($role_id != $contr_role_id &&
-				in_array($contr_op_id, $rbacreview->getActiveOperationsOfRole($a_node_id, $role_id)))
-			{				
-				$res[$role_id] = ilObjRole:: _getTranslation($role["title"]);
+				$role_id != $editor_role_id)
+			{
+				$all_ops = $rbacreview->getActiveOperationsOfRole($a_node_id, $role_id);
+				if(in_array($contr_op_id, $all_ops) ||
+					in_array($redact_op_id, $all_ops))
+				{				
+					$res[$role_id] = ilObjRole:: _getTranslation($role["title"]);
+				}
 			}
 		}
 	

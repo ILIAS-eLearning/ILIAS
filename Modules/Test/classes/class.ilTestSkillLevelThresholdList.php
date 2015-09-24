@@ -103,4 +103,20 @@ class ilTestSkillLevelThresholdList
 
 		return $this->thresholds[$skillKey][$skillLevelId];
 	}
+	
+	public function cloneListForTest($testId)
+	{
+		foreach($this->thresholds as $skillKey => $data)
+		{
+			foreach($data as $levelId => $threshold)
+			{
+				/* @var ilTestSkillLevelThreshold $threshold */
+				
+				$threshold->setTestId($testId);
+				$threshold->saveToDb();
+				
+				$threshold->setTestId($this->getTestId());
+			}
+		}
+	}
 }

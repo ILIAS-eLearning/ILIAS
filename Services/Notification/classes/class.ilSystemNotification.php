@@ -103,10 +103,11 @@ class ilSystemNotification extends ilMailNotification
 	 * @param string $a_lang_id
 	 * @param mixed $a_value
 	 * @param bool $a_multiline
+	 * @param bool $a_lang_direct
 	 */
-	public function addAdditionalInfo($a_lang_id, $a_value, $a_multiline = false)
+	public function addAdditionalInfo($a_lang_id, $a_value, $a_multiline = false, $a_lang_direct = false)
 	{
-		$this->additional[$a_lang_id] = array(trim($a_value), (bool)$a_multiline);
+		$this->additional[$a_lang_id] = array(trim($a_value), (bool)$a_multiline, (bool)$a_lang_direct);
 	}
 	
 	/**
@@ -219,14 +220,28 @@ class ilSystemNotification extends ilMailNotification
 		{
 			foreach($this->additional as $lang_id => $item)
 			{
+				$caption = "";
+				if($lang_id)
+				{
+					$caption = (!$item[2])
+						? $this->getLanguageText($lang_id)
+						: $lang_id;					
+				}				
 				if(!$item[1])
 				{
-					$this->appendBody($this->getLanguageText($lang_id).": ".
-						$item[0]."\n");						
+					if($caption)
+					{
+						$caption .= ": ";
+					}								
+					$this->appendBody($caption.$item[0]."\n");						
 				}				
 				else
 				{
-					$this->appendBody("\n".$this->getLanguageText($lang_id)."\n".
+					if($caption)
+					{
+						$caption .= "\n";
+					}		
+					$this->appendBody("\n".$caption.
 						$this->getBlockBorder().
 						$item[0]."\n".
 						$this->getBlockBorder()."\n");	

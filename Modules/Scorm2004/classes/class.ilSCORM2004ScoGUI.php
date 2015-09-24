@@ -14,7 +14,7 @@ require_once("./Modules/Scorm2004/classes/seq_editor/class.ilSCORM2004Objective.
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
  *
- * @ilCtrl_Calls ilSCORM2004ScoGUI: ilMDEditorGUI, ilNoteGUI, ilPCQuestionGUI, ilSCORM2004PageGUI
+ * @ilCtrl_Calls ilSCORM2004ScoGUI: ilObjectMetaDataGUI, ilNoteGUI, ilPCQuestionGUI, ilSCORM2004PageGUI
  *
  * @ingroup ModulesScorm2004
  */
@@ -70,14 +70,13 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 				}
 				break;
 
-			case 'ilmdeditorgui':
+			case 'ilobjectmetadatagui':
 				$this->setTabs();
 				$this->setLocator();
-				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
-
-				$md_gui =& new ilMDEditorGUI($this->slm_object->getID(),
-					$this->node_object->getId(), $this->node_object->getType());
-				$md_gui->addObserver($this->node_object,'MDUpdateListener','General');
+								include_once 'Services/Object/classes/class.ilObjectMetaDataGUI.php';
+				$md_gui = new ilObjectMetaDataGUI($this->slm_object,
+					$this->node_object->getType(), $this->node_object->getId());					
+				$md_gui->addMDObserver($this->node_object,'MDUpdateListener','General');
 				$ilCtrl->forwardCommand($md_gui);
 				break;
 				
@@ -284,7 +283,9 @@ die("deprecated");
 	 */
 	function setTabs()
 	{
-		global $ilTabs, $ilCtrl, $tpl, $lng;
+		global $ilTabs, $ilCtrl, $tpl, $lng, $ilHelp;
+
+		$ilHelp->setScreenIdComponent("sahsed");
 
 		// subelements
 		$ilTabs->addTarget("sahs_organization",
@@ -308,9 +309,16 @@ die("deprecated");
 			 "sco_resources", get_class($this));
 		
 		// metadata
-		$ilTabs->addTarget("meta_data",
-		$ilCtrl->getLinkTargetByClass("ilmdeditorgui",''),
-			 "", "ilmdeditorgui");
+		include_once "Services/Object/classes/class.ilObjectMetaDataGUI.php";
+		$mdgui = new ilObjectMetaDataGUI($this->slm_object,
+			$this->node_object->getType(), $this->node_object->getId());				
+		$mdtab = $mdgui->getTab();
+		if($mdtab)
+		{
+			$ilTabs->addTarget("meta_data",
+				$mdtab,
+				 "", "ilmdeditorgui");
+		}
 		
 		// export
 		$ilTabs->addTarget("export",
@@ -563,18 +571,10 @@ die("deprecated");
 	
 	function downloadExportFile()
 	{
-		if(!isset($_POST["file"]))
-		{
-			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		if (count($_POST["file"]) > 1)
-		{
-			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
-		}
+		$file = str_replace("..", "", $_GET['file']);
 		$export = new ilSCORM2004Export($this->node_object);
-		$export_dir = $export->getExportDirectoryForType($_POST['type'][$_POST['file'][0]]);
-		ilUtil::deliverFile($export_dir."/".$_POST['file'][0], $_POST['file'][0]);
+		$export_dir = $export->getExportDirectoryForType($_GET['type']);
+		ilUtil::deliverFile($export_dir."/".$file, $file);
 	}
 	
 	/**
@@ -858,7 +858,7 @@ die("deprecated");
 		
 		$tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.scormeditor_sco_import.html", "Modules/Scorm2004");
 		
-		$tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_slm.svg'));
+		$tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_lm.svg'));
 		$tpl->setVariable("ALT_IMG", $lng->txt("obj_sahs"));
 		
 		$tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));

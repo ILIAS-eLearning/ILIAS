@@ -272,7 +272,7 @@ class ilRegistrationSettings
 				$tmp_logins[] = $login;
 			}
 		}
-		$this->approve_recipient_logins = implode(';',$tmp_logins);
+		$this->approve_recipient_logins = implode(',',$tmp_logins);
 
 		$this->setAllowedDomains($ilias->getSetting('reg_allowed_domains'));
 	}

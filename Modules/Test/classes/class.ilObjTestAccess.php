@@ -417,6 +417,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
 				"default" => true),
 			//array("permission" => "write", "cmd" => "", "lang_var" => "edit"),
 			array("permission" => "tst_statistics", "cmd" => "outEvaluation", "lang_var" => "tst_statistical_evaluation"),
+			array("permission" => "read", "cmd" => "userResultsGateway", "lang_var" => "tst_test_results")
 		);
 		
 		return $commands;
@@ -916,6 +917,20 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
 
 		return $result->numRows() == 1;
 	}
-}
 
-?>
+	public static function visibleUserResultExists($testObjId, $userId)
+	{
+		$testOBJ = ilObjectFactory::getInstanceByObjId($testObjId, false);
+
+		if( !($testOBJ instanceof ilObjTest) )
+		{
+			return false;
+		}
+
+		require_once 'Modules/Test/classes/class.ilTestSessionFactory.php';
+		$testSessionFactory = new ilTestSessionFactory($testOBJ);
+		$testSession = $testSessionFactory->getSessionByUserId($userId);
+
+		return $testOBJ->canShowTestResults($testSession);
+	}
+}

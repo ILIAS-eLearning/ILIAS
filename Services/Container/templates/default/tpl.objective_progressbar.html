@@ -1,17 +1,13 @@
-<div style="padding-right:5px;">
+<div class="ilCourseObjectiveProgressBar"{SUB_STYLE}>	
 	<!-- BEGIN statusbar_bl -->
-	<div class="ilFloatRight" style="padding-left:10px;">
-		<div class="ilPollQuestionResult small" style="width:125px;" id="{TT_ID}">			
-			<div class="ilPollQuestionResultBar" style="background-color: {BG_COLOR};">
-				<div style="width:{PERC_WIDTH}%; background-color: {PERC_COLOR};" class="ilPollQuestionResultBarInner">&nbsp;</div>
-			</div>				
-			<div class="ilFloatRight ilPollQuestionResultPerc xsmall">
-				{PERC_STATUS}% 
-			</div>		
-			<div class="ilPollQuestionResultPerc xsmall" style="position:relative; border-right: 1px solid #555; left:{LIMIT_POS}px; top: -4px; height: 22px;">
-				&nbsp;
-			</div>
-			<div class="ilClearFloat"></div>
+	<div class="ilCourseObjectiveProgressBarContainer" id="{TT_ID}">				
+		<div class="progress">
+			<div class="progress-bar {PERC_COLOR}" role="progressbar" style="width: {PERC_WIDTH}%;">			 
+				 {PERC_STATUS}%
+			</div>			
+		</div>
+		<div class="ilCourseObjectiveProgressBarLimit" style="left:{LIMIT_POS}px;">
+			&nbsp;
 		</div>
 	</div>
 	<!-- END statusbar_bl -->
@@ -20,10 +16,16 @@
 		{TXT_PROGRESS_STATUS}
 	</div>		
 	<!-- END statustxt_bl -->	
-	<div class="ilClearFloat"></div>
+	<!-- BEGIN statustxt_no_link_bl -->
+	<div class="ilFloatRight">
+		{TXT_PROGRESS_STATUS_NO_LINK}
+	</div>		
+	<!-- END statustxt_no_link_bl -->	
 	<!-- BEGIN nstep_bl -->
+	<br class="ilClearFloat" />
 	<div class="small">
 		{TXT_NEXT_STEP}
 	</div>
 	<!-- END nstep_bl -->
 </div>
+{SUB_INIT}

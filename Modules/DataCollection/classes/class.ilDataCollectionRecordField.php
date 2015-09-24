@@ -34,10 +34,6 @@ class ilDataCollectionRecordField {
 	 */
 	protected $value;
 	/**
-	 * @var ilLanguage
-	 */
-	protected $lng;
-	/**
 	 * @var ilObjUser
 	 */
 	protected $user;
@@ -56,10 +52,9 @@ class ilDataCollectionRecordField {
 	 * @param ilDataCollectionField  $field
 	 */
 	public function __construct(ilDataCollectionRecord $record, ilDataCollectionField $field) {
-		global $lng, $ilCtrl, $ilUser, $ilDB;
+		global $ilCtrl, $ilUser, $ilDB;
 		$this->record = $record;
 		$this->field = $field;
-		$this->lng = $lng;
 		$this->ctrl = $ilCtrl;
 		$this->user = $ilUser;
 		$this->db = $ilDB;
@@ -113,10 +108,10 @@ class ilDataCollectionRecordField {
 		}
 
 		$this->db->insert("il_dcl_stloc" . $datatype->getStorageLocation() . "_value", array(
-				"value" => array( $datatype->getDbType(), $this->value ),
-				"record_field_id " => array( "integer", $this->id ),
-				"id" => array( "integer", $next_id )
-			));
+			"value" => array( $datatype->getDbType(), $this->value ),
+			"record_field_id " => array( "integer", $this->id ),
+			"id" => array( "integer", $next_id )
+		));
 	}
 
 
@@ -152,7 +147,7 @@ class ilDataCollectionRecordField {
 	 */
 	public function setValue($value, $omit_parsing = false) {
 		$this->loadValue();
-		if (!$omit_parsing) {
+		if (! $omit_parsing) {
 			$tmp = $this->field->getDatatype()->parseValue($value, $this);
 			$old = $this->value;
 			//if parse value fails keep the old value
@@ -169,11 +164,51 @@ class ilDataCollectionRecordField {
 		}
 	}
 
+	/**
+	 * @param $form ilPropertyFormGUI
+	 */
+	public function setValueFromForm(&$form) {
+		if ($this->field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_MOB
+			&& $form->getItemByPostVar("field_" . $this->field->getId())->getDeletionFlag()
+		) {
+			$value = - 1;
+		} else {
+			$value = $form->getInput("field_" . $this->field->getId());
+		}
+		$this->setValue($value);
+	}
+
+	/**
+	 * @param $excel
+	 * @param $row
+	 * @param $col
+	 * @return array|string
+	 */
+	public function getValueFromExcel($excel, $row, $col) {
+		$value = $excel->val($row, $col);
+		$value = utf8_encode($value);
+		if ($this->field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_DATETIME) {
+			$value = array(
+				'date' => date('Y-m-d', strtotime($value)),
+				'time' => '00:00:00',
+			);
+		}
+		return $value;
+	}
+
+	/**
+	 * @param $form ilPropertyFormGUI
+	 */
+	public function fillFormInput(&$form) {
+		$value = $this->getFormInput();
+		$form->getItemByPostVar('field_'.$this->field->getId())->setValueByArray(array("field_".$this->field->getId() => $value));
+	}
+
 
 	/**
 	 * @return mixed
 	 */
-	public function getFormInput() {
+	protected function getFormInput() {
 		$datatype = $this->field->getDatatype();
 
 		return $datatype->parseFormInput($this->getValue(), $this);
@@ -187,6 +222,16 @@ class ilDataCollectionRecordField {
 		$datatype = $this->field->getDatatype();
 
 		return $datatype->parseExportValue($this->getValue());
+	}
+
+	/**
+	 * @param $worksheet
+	 * @param $row
+	 * @param $col
+	 */
+	public function fillExcelExport($worksheet, &$row, &$col) {
+		$worksheet->writeString($row, $col, $this->getExportValue());
+		$col ++;
 	}
 
 
@@ -207,6 +252,14 @@ class ilDataCollectionRecordField {
 		return $datatype->parseHTML($this->getValue(), $this, $link);
 	}
 
+	/**
+	 * @return string
+	 */
+	public function getSortingValue($link = true) {
+		$datatype = $this->field->getDatatype();
+
+		return $datatype->parseSortingValue($this->getValue(), $this, $link);
+	}
 
 	/**
 	 * @return string
@@ -223,8 +276,13 @@ class ilDataCollectionRecordField {
 	protected function loadValue() {
 		if ($this->value === NULL) {
 			$datatype = $this->field->getDatatype();
+			switch ($datatype->getId()) {
+				case ilDataCollectionDatatype::INPUTFORMAT_RATING:
+					return true;
+			}
 			$query = "SELECT * FROM il_dcl_stloc" . $datatype->getStorageLocation() . "_value WHERE record_field_id = "
 				. $this->db->quote($this->id, "integer");
+
 			$set = $this->db->query($query);
 			$rec = $this->db->fetchAssoc($set);
 			$this->value = $rec['value'];

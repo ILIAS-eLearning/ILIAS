@@ -648,7 +648,61 @@ die ("ilObjComponentSettigsGUI::updatePluginDB: deprecated");
 		$ilCtrl->setParameter($this, "slot_id", $_GET["slot_id"]);
 		$ilCtrl->redirect($this, "listPlugins");
 	}
+	
+	function confirmUninstallPlugin()
+	{
+		global $ilCtrl, $tpl;
+		
+		include_once("./Services/Component/classes/class.ilPlugin.php");
+		$pl = ilPlugin::getPluginObject($_GET["ctype"], $_GET["cname"],
+			$_GET["slot_id"], $_GET["pname"]);
+		
+		$question = sprintf($this->lng->txt("cmps_uninstall_confirm"), $pl->getPluginName());
+		
+		$ilCtrl->setParameter($this, "ctype", $_GET["ctype"]);
+		$ilCtrl->setParameter($this, "cname", $_GET["cname"]);
+		$ilCtrl->setParameter($this, "slot_id", $_GET["slot_id"]);
+		$ilCtrl->setParameter($this, "pname", $_GET["pname"]);
+		
+		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$confirmation_gui = new ilConfirmationGUI();
+		$confirmation_gui->setFormAction($ilCtrl->getFormAction($this));
+		$confirmation_gui->setHeaderText($question);
+		$confirmation_gui->setCancel($this->lng->txt("cancel"), "listPlugins");
+		$confirmation_gui->setConfirm($this->lng->txt("cmps_uninstall"), "uninstallPlugin");
+		
+		$tpl->setContent($confirmation_gui->getHTML());
+	}
+	
+	function uninstallPlugin()
+	{		
+		global $ilCtrl;
+		
+		include_once("./Services/Component/classes/class.ilPlugin.php");
+		$pl = ilPlugin::getPluginObject($_GET["ctype"], $_GET["cname"],
+			$_GET["slot_id"], $_GET["pname"]);
 
-
+		try
+		{
+			$result = $pl->uninstall();
+			if ($result !== true)
+			{
+				ilUtil::sendFailure($result, true);
+			}
+			else
+			{
+				ilUtil::sendSuccess($this->lng->txt("cmps_plugin_uninstalled"), true);
+			}
+		}
+		catch(ilPluginException $e)
+		{
+			ilUtil::sendFailure($e->getMessage, true);
+		}
+		
+		$ilCtrl->setParameter($this, "ctype", $_GET["ctype"]);
+		$ilCtrl->setParameter($this, "cname", $_GET["cname"]);
+		$ilCtrl->setParameter($this, "slot_id", $_GET["slot_id"]);
+		$ilCtrl->redirect($this, "listPlugins");		
+	}
 }
 ?>

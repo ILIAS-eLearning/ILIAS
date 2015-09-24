@@ -99,7 +99,17 @@ il.Help = {
 
 	// insert HTML into panel
 	insertPanelHTML: function (html) {
+		var t = il.Help;
 		$('div#ilHelpPanel').html(html);
+		t.initEvents();
+		$("#il_help_search_term").each(function() {
+			t = this;
+			t.focus();
+			if (t.setSelectionRange) {
+				var len = $(t).val().length * 2;
+				t.setSelectionRange(len, len);
+			}
+		});
 	},
 
 	// add space at right of main content area
@@ -182,6 +192,23 @@ il.Help = {
 			{cmd: "showPage", help_page: page_id}, {}, this.handleAjaxSuccess);
 		return false;
 	},
+
+	// init events
+	initEvents: function () {
+		$("#il_help_search_form").submit(function (e) {
+			var t = il.Help;
+			t.search($("#il_help_search_term").val());
+			e.preventDefault();
+		});
+	},
+
+	// perform search
+	search: function (term) {
+		var t = il.Help;
+		il.Util.sendAjaxGetRequestToUrl(t.getAjaxUrl(),
+			{cmd: "search", term: term}, {}, t.handleAjaxSuccess);
+	}
+
 
 
 };

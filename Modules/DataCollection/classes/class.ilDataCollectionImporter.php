@@ -49,4 +49,21 @@ class ilDataCollectionImporter extends ilXmlImporter {
 	public function finalProcessing($a_mapping) {
 		$this->ds->beforeFinishImport($a_mapping);
 	}
+
+	/**
+	 * @param $int
+	 * @return string
+	 */
+	public static function getExcelCharForInteger($int) {
+		$char = "";
+		$rng = range("A", "Z");
+		while ($int > 0) {
+			$diff = $int % 26;
+			$char = $rng[$diff - 1] . $char;
+			$int -= $char;
+			$int /= 26;
+		}
+
+		return $char;
+	}
 }

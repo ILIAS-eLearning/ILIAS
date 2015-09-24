@@ -104,7 +104,9 @@ class ilSubscriberTableGUI extends ilTable2GUI
 			$this->disable('footer');
 			$this->disable('numinfo');
 			$this->disable('select_all');
-		}	
+		}
+
+		$this->setExternalSegmentation(true);
 		
 		include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
 		self::$has_odf_definitions = ilCourseDefinedFieldDefinition::_hasFields($this->getParentObject()->object->getId());
@@ -410,11 +412,15 @@ class ilSubscriberTableGUI extends ilTable2GUI
 		// Waiting list subscription
 		foreach($sub_data as $usr_id => $usr_data)
 		{
+			if(!in_array($usr_id, $usr_ids))
+			{
+				continue;
+			}
 			$a_user_data[$usr_id]['sub_time'] = $usr_data['time'];
 			$a_user_data[$usr_id]['subject'] = $usr_data['subject'];
 		}
 		
-		$this->setMaxCount($usr_data['cnt'] ? $usr_data['cnt'] : 0);
+		$this->setMaxCount(count($sub_ids));
 		return $this->setData($a_user_data);
 	}
 	

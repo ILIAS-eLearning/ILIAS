@@ -18,7 +18,7 @@
 	Institution?, Street?, City?, PostalCode?, Country?, PhoneOffice?, PhoneHome?,
 	PhoneMobile?, Fax?, Hobby?, Department?, Comment?, Matriculation?, Active?, ClientIP?,
 	TimeLimitOwner?, TimeLimitUnlimited?, TimeLimitFrom?, TimeLimitUntil?, TimeLimitMessage?,
-	ApproveDate?, AgreeDate?, (iLincID, iLincLogin, iLincPasswd)?, AuthMode?, ExternalAccount?, Look?, LastUpdate?, LastLogin?, UserDefinedField*, AccountInfo*, GMapsInfo?)>
+	ApproveDate?, AgreeDate?, AuthMode?, ExternalAccount?, Look?, LastUpdate?, LastLogin?, UserDefinedField*, AccountInfo*, GMapsInfo?)>
 
 <!--
 Id is ILIAS ID or unique identifier for this xml file
@@ -98,9 +98,6 @@ Id is ILIAS ID or unique identifier for this xml file
 <!ELEMENT AgreeDate (#PCDATA)> <!-- content must be a mysql datetime -->
 <!ELEMENT LastUpdate (#PCDATA)> <!-- @soap: read only property, is mysql timestamp e.g. 2003-08-15 10:07:30  -->
 <!ELEMENT LastLogin (#PCDATA)><!-- date of last login -->
-<!ELEMENT iLincID (#PCDATA)>
-<!ELEMENT iLincLogin (#PCDATA)>
-<!ELEMENT iLincPasswd (#PCDATA)>
 <!ELEMENT ExternalAccount (#PCDATA)>
 <!ELEMENT UserDefinedField (#PCDATA)>
 <!ATTLIST UserDefinedField

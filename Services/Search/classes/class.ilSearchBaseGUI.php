@@ -452,6 +452,96 @@ $this->next_link = $this->ctrl->getLinkTarget($this,'performSearch');
 		echo $list;
 		exit;
 	}
+	
+	// begin-patch creation_date
+	protected function getCreationDateForm()
+	{
+		$options = $this->search_cache->getCreationFilter();
+		
+		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
+		$form = new ilPropertyFormGUI();
+		$form->setOpenTag(false);
+		$form->setCloseTag(false);
+		
+		$enabled = new ilCheckboxInputGUI($this->lng->txt('search_filter_cd'),'screation');
+		$enabled->setValue(1);
+		$enabled->setChecked((bool) $options['enabled']);
+		$form->addItem($enabled);
+		
+		#$group = new ilRadioGroupInputGUI('', 'screation_type');
+		#$group->setValue((int) $options['type']);
+		#$group->addOption($opt1 = new ilRadioOption($this->lng->txt('search_filter_date'), 1));
+		
+		$limit_sel = new ilSelectInputGUI('','screation_ontype');
+		$limit_sel->setValue($options['ontype']);
+		$limit_sel->setOptions(
+				array(
+					1 => $this->lng->txt('search_created_after'),
+					2 => $this->lng->txt('search_created_before'),
+					3 => $this->lng->txt('search_created_on')
+			)
+		);
+		$enabled->addSubItem($limit_sel);
+		
+		
+		if($options['date'])
+		{
+			$now = new ilDate($options['date'],IL_CAL_UNIX);
+		}
+		else
+		{
+			$now = new ilDate(time(),IL_CAL_UNIX);
+		}
+		$ds = new ilDateTimeInputGUI('','screation_date');
+		#$ds->setMode(ilDateTimeInputGUI::MODE_INPUT);
+		$ds->setDate($now);
+		$enabled->addSubItem($ds);
+		
+		#$group->addOption($opt2 = new ilRadioOption($this->lng->txt('search_filter_duration'), 2));
+		
+		#$duration = new ilDurationInputGUI($this->lng->txt('search_filter_duration'), 'screation_duration');
+		#$duration->setMonths((int) $options['duration']['MM']);
+		#$duration->setDays((int) $options['duration']['dd']);
+		#$duration->setShowMonths(true);
+		#$duration->setShowDays(true);
+		#$duration->setShowHours(false);
+		#$duration->setShowMinutes(false);
+		#$duration->setTitle($this->lng->txt('search_newer_than'));
+		#$opt2->addSubItem($duration);
+		
+		#$enabled->addSubItem($group);
+				
+		$form->setFormAction($GLOBALS['ilCtrl']->getFormAction($this,'performSearch'));
+		
+		return $form;
+				
+	}
+	
+	/**
+	 * Get user search cache
+	 * @return ilUserSearchCache
+	 */
+	protected  function getSearchCache()
+	{
+		return $this->search_cache;
+	}
+	
+	protected function loadCreationFilter()
+	{
+		$form = $this->getCreationDateForm();
+		$options = array();
+		if($form->checkInput())
+		{
+			$options['enabled'] = $form->getInput('screation');
+			$options['type'] = $form->getInput('screation_type');
+			$options['ontype'] = $form->getInput('screation_ontype');
+			$options['date'] = $form->getItemByPostVar('screation_date')->getDate()->get(IL_CAL_UNIX);
+			$options['duration'] = $form->getInput('screation_duration');
+		}
+		return $options;
+	}
+
+	
 
 }
 ?>

@@ -4,8 +4,6 @@
 include_once './Services/Search/classes/class.ilSearchSettings.php';
 include_once './Services/Mail/classes/class.ilMailAutoCompleteRecipientResult.php';
 include_once './Services/Mail/classes/class.ilMailAutoCompleteSentMailsRecipientsProvider.php';
-include_once './Services/Mail/classes/class.ilMailAutoCompleteAddressbookLoginProvider.php';
-include_once './Services/Mail/classes/class.ilMailAutoCompleteAddressbookEmailProvider.php';
 include_once './Services/Mail/classes/class.ilMailAutoCompleteUserProvider.php';
 include_once './Services/Mail/classes/class.ilMailAutoCompleteSearch.php';
 
@@ -27,12 +25,12 @@ class ilMailForm
 	 */
 	public function getRecipientAsync($quoted_term, $term, $search_recipients = true)
 	{
+		require_once 'Services/Contact/BuddySystem/classes/class.ilMailAutoCompleteBuddyRecipientsProvider.php';
 		if($search_recipients)
 		{
 			$sent_mails_recipient_provider = new ilMailAutoCompleteSentMailsRecipientsProvider($quoted_term, $term);
 		}
-		$address_book_login            = new ilMailAutoCompleteAddressbookLoginProvider($quoted_term, $term);
-		$address_book_email            = new ilMailAutoCompleteAddressbookEmailProvider($quoted_term, $term);
+		$approved_contacts             = new ilMailAutoCompleteBuddyRecipientsProvider($quoted_term, $term);
 		$user                          = new ilMailAutoCompleteUserProvider($quoted_term, $term);
 
 		$result                        = new ilMailAutocompleteRecipientResult(
@@ -46,8 +44,7 @@ class ilMailForm
 		{
 			$result_fetcher->addProvider($sent_mails_recipient_provider);
 		}
-		$result_fetcher->addProvider($address_book_login);
-		$result_fetcher->addProvider($address_book_email);
+		$result_fetcher->addProvider($approved_contacts);
 		$result_fetcher->addProvider($user);
 		$result_fetcher->search();
 

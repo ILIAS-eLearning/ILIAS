@@ -17,6 +17,7 @@ class ilGlobalSuite extends PHPUnit_Framework_TestSuite
     {
 		$suite = new ilGlobalSuite();
 
+        require_once('include/inc.get_pear.php');
 		echo "\n";
 		
 		// scan Modules and Services directories

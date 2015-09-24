@@ -14,6 +14,7 @@
 * @ilCtrl_Calls ilSAHSPresentationGUI: ilSCORMPresentationGUI, ilAICCPresentationGUI, ilHACPPresentationGUI
 * @ilCtrl_Calls ilSAHSPresentationGUI: ilInfoScreenGUI, ilscorm13player, ilShopPurchaseGUI
 * @ilCtrl_Calls ilSAHSPresentationGUI: ilLearningProgressGUI, ilSCORMOfflineModeGUI
+* @ilCtrl_Calls ilSAHSPresentationGUI: ilObjSCORMLearningModuleGUI, ilObjSCORM2004LearningModuleGUI
 * 
 * @ingroup ModulesScormAicc
 */
@@ -121,6 +122,8 @@ class ilSAHSPresentationGUI
 
 		if ($next_class != "ilinfoscreengui" &&
 			$cmd != "infoScreen" && 
+			$next_class != "ilobjscorm2004learningmodulegui" &&
+			$next_class != "ilobjscormlearningmodulegui" &&
 			$next_class != "ilscormofflinemodegui" &&
 			$next_class != "illearningprogressgui")
 		{
@@ -192,8 +195,24 @@ class ilSAHSPresentationGUI
 				$new_gui =& new ilSCORMOfflineModeGUI($type);
 				$this->ctrl->forwardCommand($new_gui);
 				break;
+			
+			case "ilobjscorm2004learningmodulegui":
+				include_once './Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModuleGUI.php';
+				$new_gui =& new ilObjSCORM2004LearningModuleGUI("", $_GET["ref_id"],true,false);
+				$this->ctrl->forwardCommand($new_gui);
+				$this->setInfoTabs("cont_tracking_data");
+				$this->tpl->show();
+				break;
 
-			default:
+			case "ilobjscormlearningmodulegui":
+				include_once './Modules/ScormAicc/classes/class.ilObjSCORMLearningModuleGUI.php';
+				$new_gui =& new ilObjSCORMLearningModuleGUI("", $_GET["ref_id"],true,false);
+				$this->ctrl->forwardCommand($new_gui);
+				$this->setInfoTabs("cont_tracking_data");
+				$this->tpl->show();
+				break;
+
+				default:
 				$this->$cmd();
 		}
 	}
@@ -603,7 +622,7 @@ class ilSAHSPresentationGUI
 	function setInfoTabs($a_active)
 	{		
 		global $ilTabs, $ilLocator, $ilAccess;
-		
+		// $ilTabs->clearTargets();
 		// #9658 / #11753
 		include_once "Services/Tracking/classes/class.ilLearningProgressAccess.php";
 		if(ilLearningProgressAccess::checkAccess($_GET["ref_id"]) &&
@@ -615,20 +634,36 @@ class ilSAHSPresentationGUI
 				$this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary"));
 						
 			$ilTabs->addTab("learning_progress", $this->lng->txt("learning_progress"), 
-				$this->ctrl->getLinkTargetByClass('illearningprogressgui',''));		
-			
-			$ilTabs->activateTab($a_active);
-		}					
-				
+				$this->ctrl->getLinkTargetByClass('illearningprogressgui',''));
+		}
+		if($ilAccess->checkAccess("edit_learning_progress", "", $_GET["ref_id"]) || $ilAccess->checkAccess("read_learning_progress", "", $_GET["ref_id"]))
+		{
+			include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
+			$privacy = ilPrivacySettings::_getInstance();
+			if($privacy->enabledSahsProtocolData()) {
+				include_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php";
+				$obj_id = ilObject::_lookupObjectId($_GET['ref_id']);
+				$type = ilObjSAHSLearningModule::_lookupSubType($obj_id);
+				if($type == "scorm2004") {
+					$ilTabs->addTab("cont_tracking_data", $this->lng->txt("cont_tracking_data"), 
+							$this->ctrl->getLinkTargetByClass('ilobjscorm2004learningmodulegui','showTrackingItems'));
+				}
+				else if($type == "scorm") {
+					$ilTabs->addTab("cont_tracking_data", $this->lng->txt("cont_tracking_data"), 
+							$this->ctrl->getLinkTargetByClass('ilobjscormlearningmodulegui','showTrackingItems'));
+				}
+			}
+		}	
+		$ilTabs->activateTab($a_active);
 		$this->tpl->getStandardTemplate();
 		$this->tpl->setTitle($this->slm_gui->object->getTitle());
-		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_slm.svg"));
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm.svg"));
 		$ilLocator->addRepositoryItems();
 		$ilLocator->addItem($this->slm_gui->object->getTitle(),
 			$this->ctrl->getLinkTarget($this, "infoScreen"), "", $_GET["ref_id"]);
 		$this->tpl->setLocator();
 	}
-	
+
 	/**
 	* info screen
 	*/

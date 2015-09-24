@@ -116,12 +116,12 @@ class ilRoleXmlImporter
 
 			$exp[3] = $this->getRoleFolderId();
 
-			$id = ilObjRole::_getIdsForTitle(implode("_", $exp))[0];
+			$id = ilObjRole::_getIdsForTitle(implode("_", $exp));
 
-			if($id)
+			if($id[0])
 			{
 				$GLOBALS['ilLog']->write(__METHOD__.': Overwrite role '. implode("_", $exp));
-				$this->getRole()->setId($id);
+				$this->getRole()->setId($id[0]);
 				$this->getRole()->read();
 			}
 		}

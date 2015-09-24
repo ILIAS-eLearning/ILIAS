@@ -146,22 +146,18 @@ class ilFSStorageExercise extends ilFileSystemStorage
 	 * Get pear review upload path
 	 * (each peer handled in a separate path)
 	 */
-	function getPeerReviewUploadPath($a_peer_id, $a_giver_id)
+	function getPeerReviewUploadPath($a_peer_id, $a_giver_id, $a_crit_id)
 	{
 		$path = $this->peer_review_upload_path."/".$a_peer_id."/".$a_giver_id;
+		if((int)$a_crit_id)
+		{
+			$path .= (int)$a_crit_id."/";
+		}
 		if(!file_exists($path))
 		{
 			ilUtil::makeDirParents($path);
 		}
 		return $path;
-	}
-	
-	/**
-	 * Remove all uploads
-	 */
-	function deletePeerReviewUploads()
-	{
-		$this->deleteDirectory($this->peer_review_upload_path);		
 	}
 		
 	/**
@@ -228,7 +224,7 @@ class ilFSStorageExercise extends ilFileSystemStorage
 	* @access	public
 	* @return mixed Returns a result array with filename and mime type of the saved file, otherwise false
 	*/
-	function deliverFile($a_http_post_file, $user_id, $is_unziped = false)
+	function uploadFile($a_http_post_file, $user_id, $is_unziped = false)
 	{
 		$this->create();
 		
@@ -307,7 +303,7 @@ class ilFSStorageExercise extends ilFileSystemStorage
 			{
 				if(!is_dir($this->path.'/'.$file) && substr($file, 0, 1) != ".")
 				{					
-					$files[] = $file;					
+					$files[] = $file;		
 				}
 			}
 		}

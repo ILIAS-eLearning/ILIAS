@@ -208,6 +208,10 @@ class ilGroupXMLWriter extends ilXmlWriter
 		$attrs = array();
 		$attrs['enabled'] = $this->group_obj->isMembershipLimited() ? 'Yes' : 'No';
 		$this->xmlElement('maxMembers',$attrs,$this->group_obj->getMaxMembers());
+		
+		$this->xmlElement('minMembers',null,(int)$this->group_obj->getMinMembers());			
+		$this->xmlElement('WaitingListAutoFill',null,(int)$this->group_obj->hasWaitingListAutoFill());
+		$this->xmlElement('CancellationEnd',null,($this->group_obj->getCancellationEnd() && !$this->group_obj->getCancellationEnd()->isNull()) ? $this->group_obj->getCancellationEnd()->get(IL_CAL_UNIX) : null);			
 
 		$this->xmlEndTag('registration');
 	}

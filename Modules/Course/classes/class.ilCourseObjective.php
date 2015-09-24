@@ -86,19 +86,25 @@ class ilCourseObjective
 		return 0;
 	}
 	
-	public static function lookupObjectiveTitle($a_objective_id)
+	public static function lookupObjectiveTitle($a_objective_id, $a_add_description = false)
 	{
 		global $ilDB;
 		
-		$query = 'SELECT title from crs_objectives '.
+		$query = 'SELECT title,description from crs_objectives '.
 				'WHERE objective_id = '.$ilDB->quote($a_objective_id,'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $ilDB->fetchAssoc($res))
 		{
-			return $row->title;
+			if(!$a_add_description)
+			{
+				return $row['title'];				
+			}
+			else
+			{
+				return $row;
+			}
 		}
 		return "";
-		
 	}
 	// end-patch lok
 	
@@ -145,6 +151,21 @@ class ilCourseObjective
 			$objective_qst = new ilCourseObjectiveQuestion($row->objective_id);
 			$objective_qst->cloneDependencies($objective_id,$a_copy_id);
 			
+			include_once './Modules/Course/classes/Objectives/class.ilLOTestAssignments.php';
+			include_once './Modules/Course/classes/Objectives/class.ilLOSettings.php';
+			
+			$assignments = ilLOTestAssignments::getInstance($this->course_obj->getId());
+			$assignment_it = $assignments->getAssignmentByObjective($row->objective_id, ilLOSettings::TYPE_TEST_INITIAL);
+			if($assignment_it)
+			{
+				$assignment_it->cloneSettings($a_copy_id, $new_course->getId(), $objective_id);
+			}
+
+			$assignment_qt = $assignments->getAssignmentByObjective($row->objective_id, ilLOSettings::TYPE_TEST_QUALIFIED);
+			if($assignment_qt)
+			{
+				$assignment_qt->cloneSettings($a_copy_id, $new_course->getId(), $objective_id);
+			}
 
 			$ilLog->write(__METHOD__.': Finished objective question dependencies: '.$objective_id);
 			

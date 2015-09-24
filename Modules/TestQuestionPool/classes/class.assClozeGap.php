@@ -85,25 +85,20 @@ class assClozeGap
 		$this->type = $a_type;
 	}
 
-/**
-* Gets the items of a cloze gap
-* 
-* Gets the items of a cloze gap
-*
-* @return array The list of items
-* @access public
-* @see $items
-*/
-  function getItems() 
+	/**
+	 * Gets the items of a cloze gap
+	 *
+	 * @param ilArrayElementShuffler $shuffler
+	 * @return array The list of items
+	 */
+	public function getItems(ilArrayElementShuffler $shuffler)
 	{
-		if ($this->shuffle)
+		if ($this->getShuffle())
 		{
-			return $this->arrayShuffle($this->items);
+			return $shuffler->shuffle($this->items);
 		}
-		else
-		{
-			return $this->items;
-		}
+		
+		return $this->items;
 	}
 
 	/**
@@ -315,41 +310,6 @@ class assClozeGap
 	}
 
 	/**
-	 * Shuffles the values of a given array
-	 *
-	 * Shuffles the values of a given array
-	 *
-	 * @param array $array An array which should be shuffled
-	 * @return array
-	 * @access public
-	 *
-	 * @TODO: Figure out why this method exists. (See note)
-	 * MBecker: PHP knows the function shuffle since 4.2 which is out
-	 * since April 2002. Still, Helmut built this function in
-	 * 2007 with rev. 13281 ... This needs investigation.
-	 */
-	function arrayShuffle($array)
-	{
-		mt_srand((double)microtime()*1000000);
-		$i = count($array);
-		if ($i > 0)
-		{
-			while(--$i)
-			{
-				$j = mt_rand(0, $i);
-				if ($i != $j)
-				{
-					// swap elements
-					$tmp = $array[$j];
-					$array[$j] = $array[$i];
-					$array[$i] = $tmp;
-				}
-			}
-		}
-		return $array;
-	}
-
-	/**
 	* Returns the maximum width of the gap
 	*
 	* Returns the maximum width of the gap
@@ -399,7 +359,7 @@ class assClozeGap
 		return $keys;
 	}
 	
-	function getBestSolutionOutput()
+	function getBestSolutionOutput(ilArrayElementShuffler $shuffler)
 	{
 		global $lng;
 		switch ($this->getType())
@@ -407,9 +367,9 @@ class assClozeGap
 			case CLOZE_TEXT:
 			case CLOZE_SELECT:
 				$best_solutions = array();
-				foreach ($this->getItems() as $answer)
+				foreach ($this->getItems($shuffler) as $answer)
 				{
-					if (is_array($best_solutions[$answer->getPoints()]))
+					if (isset($best_solutions[$answer->getPoints()]) && is_array($best_solutions[$answer->getPoints()]))
 					{
 						array_push($best_solutions[$answer->getPoints()], $answer->getAnswertext());
 					}
@@ -427,7 +387,7 @@ class assClozeGap
 			case CLOZE_NUMERIC:
 				$maxpoints = 0;
 				$foundvalue = "";
-				foreach ($this->getItems() as $answer)
+				foreach ($this->getItems($shuffler) as $answer)
 				{
 					if ($answer->getPoints() >= $maxpoints)
 					{

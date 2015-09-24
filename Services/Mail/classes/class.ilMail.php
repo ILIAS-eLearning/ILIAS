@@ -844,24 +844,23 @@ class ilMail
 	}
 
 	/**
-	* delete mail
-	* @access	public
-	* @param	array mail ids
-	* @return	bool
-	*/
-	function deleteMails($a_mail_ids)
+	 * Delete mails
+	 * @param array mail ids
+	 * @return bool
+	 */
+	public function deleteMails(array $a_mail_ids)
 	{
 		global $ilDB;
 
-		foreach ($a_mail_ids as $id)
+		foreach($a_mail_ids as $id)
 		{
-			$statement = $ilDB->manipulateF("
+			$ilDB->manipulateF("
 				DELETE FROM ". $this->table_mail ."
 				WHERE user_id = %s
 				AND mail_id = %s ",
 				array('integer', 'integer'),
-				array($this->user_id, $id));
-
+				array($this->user_id, $id)
+			);
 			$this->mfile->deassignAttachmentFromDirectory($id);
 		}
 
@@ -894,7 +893,10 @@ class ilMail
 			"m_subject"       => $a_row->m_subject,
 			"m_message"       => $a_row->m_message,
 			"import_name"	  => $a_row->import_name,
-			"use_placeholders"=> $a_row->use_placeholders);
+			"use_placeholders"=> $a_row->use_placeholders,
+			"tpl_ctx_id"      => $a_row->tpl_ctx_id,
+			"tpl_ctx_params"  => (array)(@json_decode($a_row->tpl_ctx_params, true))
+		);
 	}
 
 	function updateDraft($a_folder_id,
@@ -906,7 +908,11 @@ class ilMail
 						 $a_m_email,
 						 $a_m_subject,
 						 $a_m_message,
-						 $a_draft_id = 0, $a_use_placeholders = 0)
+						 $a_draft_id = 0,
+						 $a_use_placeholders = 0,
+						 $a_tpl_context_id = null,
+						 $a_tpl_context_params = array()
+	)
 	{
 		global $ilDB;
 
@@ -923,7 +929,9 @@ class ilMail
 				'm_email'			=> array('integer', $a_m_email),
 				'm_subject'			=> array('text', $a_m_subject),
 				'm_message'			=> array('clob', $a_m_message),
-				'use_placeholders'	=> array('integer', $a_use_placeholders)
+				'use_placeholders'	=> array('integer', $a_use_placeholders),
+				'tpl_ctx_id'	    => array('text', $a_tpl_context_id),
+				'tpl_ctx_params'	=> array('blob', @json_encode((array)$a_tpl_context_params))
 			),
 			array(
 				'mail_id'			=> array('integer', $a_draft_id)
@@ -948,6 +956,9 @@ class ilMail
 	* @param    string subject
 	* @param    string message
 	* @param    integer user_id
+	* @param    integer $a_use_placeholders
+	* @param    string|null $a_tpl_context_id
+	* @param    array|null  $a_tpl_context_params
 	* @return	integer mail_id
 	*/
 	function sendInternalMail($a_folder_id,
@@ -961,20 +972,19 @@ class ilMail
 							  $a_m_email,
 							  $a_m_subject,
 							  $a_m_message,
-							  $a_user_id = 0, $a_use_placeholders = 0)
+							  $a_user_id = 0,
+							  $a_use_placeholders = 0,
+							  $a_tpl_context_id = null,
+							  $a_tpl_context_params = array()
+	)
 	{
 		$a_user_id = $a_user_id ? $a_user_id : $this->user_id;
 
 		global $ilDB, $log;
-		//$log->write('class.ilMail->sendInternalMail to user_id:'.$a_rcp_to.' '.$a_m_message);
 
 		if ($a_use_placeholders)
 		{
 			$a_m_message = $this->replacePlaceholders($a_m_message, $a_user_id);
-		}
-		else
-		{
-			$a_use_placeholders = '0';
 		}
 
 		/**/
@@ -1008,34 +1018,41 @@ class ilMail
 			'm_type'		=> array('text', serialize($a_m_type)),
 			'm_email'		=> array('integer', $a_m_email),
 			'm_subject'		=> array('text', $a_m_subject),
-			'm_message'		=> array('clob', $a_m_message)
+			'm_message'		=> array('clob', $a_m_message),
+			'tpl_ctx_id'	    => array('text', $a_tpl_context_id),
+			'tpl_ctx_params'	=> array('blob', @json_encode((array)$a_tpl_context_params))
 		));
 
 		return $next_id; //$ilDB->getLastInsertId();
 
 	}
 
-	function replacePlaceholders($a_message, $a_user_id)
+	protected function replacePlaceholders($a_message, $a_user_id)
 	{
-		global $lng;
-
 		$user = self::getCachedUserInstance($a_user_id);
-
-		// determine salutation
-		switch ($user->getGender())
+		try
 		{
-			case 'f':	$gender_salut = $lng->txt('salutation_f');
-						break;
-			case 'm':	$gender_salut = $lng->txt('salutation_m');
-						break;
-        }
+			if(ilMailFormCall::getContextId())
+			{
+				require_once 'Services/Mail/classes/class.ilMailTemplateService.php';
+				$context = ilMailTemplateService::getTemplateContextById(ilMailFormCall::getContextId());
+			}
+			else
+			{
+				require_once 'Services/Mail/classes/class.ilMailTemplateGenericContext.php';
+				$context = new ilMailTemplateGenericContext();
+			}
 
-		$a_message = str_replace('[MAIL_SALUTATION]', $gender_salut, $a_message);
-		$a_message = str_replace('[LOGIN]', $user->getLogin(), $a_message);
-		$a_message = str_replace('[FIRST_NAME]', $user->getFirstname(), $a_message);
-		$a_message = str_replace('[LAST_NAME]', $user->getLastname(), $a_message);
-		$a_message = str_replace('[ILIAS_URL]', ILIAS_HTTP_PATH.'/login.php?client_id='.CLIENT_ID, $a_message);
-		$a_message = str_replace('[CLIENT_NAME]', CLIENT_NAME, $a_message);
+			foreach($context->getPlaceholders() as $key => $ph_definition)
+		{
+				$result = $context->resolvePlaceholder($key, ilMailFormCall::getContextParameters(), $user);
+				$a_message = str_replace('[' . $ph_definition['placeholder'] . ']', $result, $a_message);
+        }
+		}
+		catch(Exception $e)
+		{
+			$GLOBALS['ilLog']->write(sprintf("Mail replacePlaceholders has been called with invalid context."));
+		}
 
 		return $a_message;
 	}
@@ -1672,6 +1689,8 @@ class ilMail
 	* @param    string subject
 	* @param    string message
 	* @param    int use placeholders
+	* @param    string|null $a_tpl_context_id
+	* @param    array|null $a_tpl_ctx_params
 	* @return	bool
 	*/
 	function savePostData($a_user_id,
@@ -1683,7 +1702,10 @@ class ilMail
 						  $a_m_email,
 						  $a_m_subject,
 						  $a_m_message,
-						  $a_use_placeholders)
+						  $a_use_placeholders,
+						  $a_tpl_context_id = null,
+						  $a_tpl_ctx_params = array()
+	)
 	{
 		global $ilDB;
 
@@ -1698,23 +1720,25 @@ class ilMail
 		if(!$a_use_placeholders) $a_use_placeholders = '0';
 		/**/
 
-		$statement = $ilDB->manipulateF('
-			DELETE FROM '. $this->table_mail_saved .'
-			WHERE user_id = %s',
-			array('integer'), array($this->user_id));
-
-		$ilDB->insert($this->table_mail_saved, array(
-			'user_id'			=> array('integer', $a_user_id),
-			'attachments'		=> array('clob', serialize($a_attachments)),
-			'rcp_to'			=> array('clob', $a_rcp_to),
-			'rcp_cc'			=> array('clob', $a_rcp_cc),
-			'rcp_bcc'			=> array('clob', $a_rcp_bcc),
-			'm_type'			=> array('text', serialize($a_m_type)),
-			'm_email'			=> array('integer', $a_m_email),
-			'm_subject'			=> array('text', $a_m_subject),
-			'm_message'			=> array('clob', $a_m_message),
-			'use_placeholders'	=> array('integer', $a_use_placeholders),
-		));
+		$ilDB->replace(
+			$this->table_mail_saved,
+			array(
+				'user_id'			=> array('integer', $this->user_id)
+			),
+			array(
+				'attachments'		=> array('clob', serialize($a_attachments)),
+				'rcp_to'			=> array('clob', $a_rcp_to),
+				'rcp_cc'			=> array('clob', $a_rcp_cc),
+				'rcp_bcc'			=> array('clob', $a_rcp_bcc),
+				'm_type'			=> array('text', serialize($a_m_type)),
+				'm_email'			=> array('integer', $a_m_email),
+				'm_subject'			=> array('text', $a_m_subject),
+				'm_message'			=> array('clob', $a_m_message),
+				'use_placeholders'	=> array('integer', $a_use_placeholders),
+				'tpl_ctx_id'	    => array('text', $a_tpl_context_id),
+				'tpl_ctx_params'	=> array('blob', json_encode((array)$a_tpl_ctx_params))
+			)
+		);
 
 		$this->getSavedData();
 
@@ -2122,8 +2146,8 @@ class ilMail
 				$email = $user->getEmail();
 				$fullname = $user->getFullname();
 			}
-			
-			$sender = self::addFullname($email, $fullname);
+
+			$sender = array($email, $fullname);
 		}
 		else
 		{
@@ -2159,13 +2183,11 @@ class ilMail
 				$no_reply_adress = 'noreply@'.$_SERVER['SERVER_NAME'];
 			}
 
-			$sender = ilMimeMail::_mimeEncode(self::_getIliasMailerName()).
-					  ' <'.$no_reply_adress.'>';
+			$sender = array($no_reply_adress, self::_getIliasMailerName());
 		}
 		else
 		{
-			$sender = ilMimeMail::_mimeEncode(self::_getIliasMailerName()).
-					  ' <noreply@'.$_SERVER['SERVER_NAME'].'>';
+			$sender = array('noreply@'.$_SERVER['SERVER_NAME'], self::_getIliasMailerName());
 		}
 		
 		return $sender;
@@ -2224,7 +2246,7 @@ class ilMail
 												$a_rcp_to,
 												$a_rcp_cc,
 												$a_rcp_bcc,
-												$sender,
+												is_array($sender) ? implode('#:#', $sender) : $sender,
 												$a_m_subject,
 												$a_m_message,
 												$attachments));

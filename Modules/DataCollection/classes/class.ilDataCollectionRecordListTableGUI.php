@@ -85,6 +85,14 @@ class ilDataCollectionRecordListTableGUI extends ilTable2GUI {
 				$sort_field = 'n_comments';
 				$this->numeric_fields[] = $title;
 			}
+			//			switch($field->getDatatypeId()) {
+			//				case ilDataCollectionDatatype::INPUTFORMAT_NUMBER:
+			//					$this->addColumn($title, $sort_field, '', false, 'text-right');
+			//					break;
+			//				default:
+			//					$this->addColumn($title, $sort_field);
+			//					break;
+			//			}
 			$this->addColumn($title, $sort_field);
 			if ($field->getLearningProgress()) {
 				$this->addColumn($lng->txt("dcl_status"), "_status_" . $field->getTitle());
@@ -151,7 +159,14 @@ class ilDataCollectionRecordListTableGUI extends ilTable2GUI {
 		foreach ($this->table->getFields() as $field) {
 			if ($field->getExportable()) {
 				$worksheet->writeString($row, $col, $field->getTitle());
-				$col ++;
+				$col++;
+				if ($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_TEXT) {
+					$properties = $field->getProperties();
+					if ($properties[ilDataCollectionField::PROPERTYID_URL]) {
+						$worksheet->writeString($row, $col, $field->getTitle() . '_title');
+						$col++;
+					}
+				}
 			}
 		}
 	}
@@ -190,6 +205,7 @@ class ilDataCollectionRecordListTableGUI extends ilTable2GUI {
 			$ilCtrl->setParameterByClass("ildatacollectionfieldeditgui", "record_id", $record->getId());
 			$ilCtrl->setParameterByClass("ildatacollectionrecordviewgui", "record_id", $record->getId());
 			$ilCtrl->setParameterByClass("ildatacollectionrecordeditgui", "record_id", $record->getId());
+			$ilCtrl->setParameterByClass("ildatacollectionrecordeditgui", "mode", $this->mode);
 
 			if (ilDataCollectionRecordViewGUI::hasTableValidViewDefinition($this->table)) {
 				$record_data["_front"] = $ilCtrl->getLinkTargetByClass("ildatacollectionrecordviewgui", 'renderRecord');
@@ -225,14 +241,13 @@ class ilDataCollectionRecordListTableGUI extends ilTable2GUI {
 	/**
 	 * @param object $worksheet
 	 * @param int    $row
-	 * @param array  $record
+	 * @param ilDataCollectionRecord[] $record
 	 */
 	public function fillRowExcel($worksheet, &$row, $record) {
 		$col = 0;
 		foreach ($this->table->getFields() as $field) {
 			if ($field->getExportable()) {
-				$worksheet->writeString($row, $col, $record["_record"]->getRecordFieldExportValue($field->getId()));
-				$col ++;
+				$record["_record"]->fillRecordFieldExcelExport($worksheet, $row, $col, $field->getId());
 			}
 		}
 	}
@@ -246,6 +261,7 @@ class ilDataCollectionRecordListTableGUI extends ilTable2GUI {
 	public function fillRow($record_data) {
 		global $ilUser, $ilAccess;
 		$record_obj = $record_data['_record'];
+
 		/**
 		 * @var $record_obj ilDataCollectionRecord
 		 * @var $ilAccess   ilAccessHandler
@@ -257,6 +273,13 @@ class ilDataCollectionRecordListTableGUI extends ilTable2GUI {
 			if ($content === false OR $content === NULL) {
 				$content = '';
 			} // SW - This ensures to display also zeros in the table...
+
+			switch ($field->getDatatypeId()) {
+				case ilDataCollectionDatatype::INPUTFORMAT_NUMBER:
+					$this->tpl->setVariable("ADDITIONAL_CLASS", 'text-right');
+					break;
+			}
+
 			$this->tpl->setVariable("CONTENT", $content);
 			$this->tpl->parseCurrentBlock();
 			if ($field->getLearningProgress()) {

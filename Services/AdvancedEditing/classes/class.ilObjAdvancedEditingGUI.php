@@ -522,7 +522,13 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 			$ni->setInfo($this->lng->txt("adve_minutes_info"));
 			$ni->setValue($aset->get("block_mode_minutes"));
 			$cb->addSubItem($ni);
-		
+
+		// auto url linking
+		$cb = new ilCheckboxInputGUI($this->lng->txt("adve_auto_url_linking"), "auto_url_linking");
+		$cb->setChecked($aset->get("auto_url_linking"));
+		$cb->setInfo($this->lng->txt("adve_auto_url_linking_info"));
+		$form->addItem($cb);
+
 		$form->addCommandButton("saveGeneralPageSettings", $lng->txt("save"));
 	                
 		$form->setTitle($lng->txt("adve_pe_general"));
@@ -551,6 +557,7 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 			{
 				$aset->set("block_mode_minutes", 0);
 			}
+			$aset->set("auto_url_linking", $_POST["auto_url_linking"]);
 			
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 			$ilCtrl->redirect($this, "showGeneralPageEditorSettings");

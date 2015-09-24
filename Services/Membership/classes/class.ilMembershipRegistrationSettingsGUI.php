@@ -111,6 +111,14 @@ abstract class ilMembershipRegistrationSettingsGUI
 			#$lim->setOptionTitle($this->lng->txt('reg_grp_max_members'));
 			#$lim->setChecked($this->object->isMembershipLimited());
 
+			/* JF, 2015-08-31 - only used in sessions which cannot support min members (yet)
+			$min = new ilTextInputGUI($this->txt('reg_min_members'),'registration_min_members');			
+			$min->setSize(3);
+			$min->setMaxLength(4);
+			$min->setInfo($this->txt('reg_min_members_info'));
+			$lim->addSubItem($min);
+			*/
+			
 			$max = new ilTextInputGUI($this->txt('reg_max_members'),'registration_max_members');
 			#$max->setValue($this->object->getMaxMembers() ? $this->object->getMaxMembers() : '');
 			//$max->setTitle($this->lng->txt('members'));
@@ -119,13 +127,30 @@ abstract class ilMembershipRegistrationSettingsGUI
 			$max->setInfo($this->txt('reg_max_members_info'));
 			$lim->addSubItem($max);
 
+			/*
 			$wait = new ilCheckboxInputGUI($this->txt('reg_waiting_list'),'waiting_list');
 			$wait->setValue(1);
 			//$wait->setOptionTitle($this->lng->txt('grp_waiting_list'));
 			$wait->setInfo($this->txt('reg_waiting_list_info'));
 			#$wait->setChecked($this->object->isWaitingListEnabled() ? true : false);
 			$lim->addSubItem($wait);
+			*/
 			
+			$wait = new ilRadioGroupInputGUI($this->txt('reg_waiting_list'), 'waiting_list');
+			
+			$option = new ilRadioOption($this->txt('reg_waiting_list_none'), 0);
+			$wait->addOption($option);
+			
+			$option = new ilRadioOption($this->txt('reg_waiting_list_no_autofill'), 1);
+			$option->setInfo($this->txt('reg_waiting_list_no_autofill_info'));
+			$wait->addOption($option);
+			
+			$option = new ilRadioOption($this->txt('reg_waiting_list_autofill'), 2);
+			$option->setInfo($this->txt('reg_waiting_list_autofill_info'));
+			$wait->addOption($option);
+			
+			$lim->addSubItem($wait);
+						
 			$form->addItem($lim);
 		}
 		

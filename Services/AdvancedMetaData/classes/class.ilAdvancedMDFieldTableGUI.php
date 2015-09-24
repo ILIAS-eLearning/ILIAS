@@ -128,10 +128,10 @@ class ilAdvancedMDFieldTableGUI extends ilTable2GUI
 	 */
 	public function parseDefinitions($a_definitions)
 	{
-	 	$counter = 1;
+	 	$counter = 0;
 	 	foreach($a_definitions as $definition)
 		{	 	
-			$tmp_arr['position'] = sprintf("%.1f",$counter++);
+			$tmp_arr['position'] = ++$counter*10;
 			$tmp_arr['id'] = $definition->getFieldId();
 			$tmp_arr['title'] = $definition->getTitle();
 			$tmp_arr['description'] = $definition->getDescription();

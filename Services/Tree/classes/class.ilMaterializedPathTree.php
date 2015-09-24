@@ -506,7 +506,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
 				"AND t2." . $this->getTree()->getTreePk() . " = " . $ilDB->quote($this->getTree()->getTreeId(), 'integer') . " " .
 				"ORDER BY t2.path";
 
-		 
+		
 		$res = $ilDB->query($query);
 		$nodes = array();
 		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -517,6 +517,34 @@ class ilMaterializedPathTree implements ilTreeImplementation
 			$nodes[$row->child]['type'] = $row->type;
 			$nodes[$row->child]['path'] = $row->path;
 		}
+		
+		$depth_first_compare = function($a, $b)
+		{
+			$a_exploded = explode('.', $a['path']);
+			#$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($a_exploded,TRUE));
+			$b_exploded = explode('.', $b['path']);
+			
+			$a_padded = '';
+			foreach($a_exploded as $num)
+			{
+				$a_padded .= (str_pad((string) $num, 14,'0', STR_PAD_LEFT));
+			}
+			$b_padded = '';
+			foreach($b_exploded as $num)
+			{
+				$b_padded .= (str_pad((string) $num, 14, '0', STR_PAD_LEFT));
+			}
+			#$GLOBALS['ilLog']->write(__METHOD__.': '.$a_padded);
+			#$GLOBALS['ilLog']->write(__METHOD__.': '.$a_padded);
+			return strcasecmp($a_padded, $b_padded);
+		};
+		
+		#$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($nodes,TRUE));
+		
+		uasort($nodes,$depth_first_compare);
+
+		#$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($nodes,TRUE));
+
 		return (array) $nodes;
 	}
 }

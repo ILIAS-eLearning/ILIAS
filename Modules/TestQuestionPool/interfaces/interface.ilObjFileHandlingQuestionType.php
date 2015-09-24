@@ -17,7 +17,7 @@ interface ilObjFileHandlingQuestionType
 	/**
 	 * Checks if file uploads exist for a given test and the original id of the question
 	 *
-	 * @param int $test_id
+	 * @param integer $test_id
 	 *
 	 * @return boolean TRUE if file uploads exist, FALSE otherwise
 	 */
@@ -26,7 +26,19 @@ interface ilObjFileHandlingQuestionType
 	/**
 	 * Generates a ZIP file containing all file uploads for a given test and the original id of the question
 	 * 
-	 * @param int $test_id
+	 * @param integer $test_id
+	 * @param string $test_title
 	 */
-	public function getFileUploadZIPFile($test_id);
+	public function deliverFileUploadZIPFile($test_id, $test_title);
+
+	/**
+	 * Returns the path for uploaded files from given active in given test
+	 * on current or given question
+	 * 
+	 * @param integer $test_id
+	 * @param integer $active_id
+	 * @param integer|null $question_id
+	 * @return string
+	 */
+	public function getFileUploadPath($test_id, $active_id, $question_id = null);
 }

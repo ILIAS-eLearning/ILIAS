@@ -14,11 +14,20 @@
 */
 class ilObjDefReader extends ilSaxParser
 {
+	protected $component_id;
+	
 	protected $readers = array(
 		"copage" => array("class" => "ilCOPageDefReader")
 		);
 	protected $current_reader = null;
 	
+	protected $in_mail_templates = false;
+
+	/**
+	 * @var array
+	 */
+	protected $mail_templates_by_component = array();
+
 	function ilObjDefReader($a_path, $a_name, $a_type)
 	{
 		// init specialized readers
@@ -209,6 +218,32 @@ class ilObjDefReader extends ilSaxParser
 					$this->has_cron[$component][] = $a_attribs["id"];
 					break;
 	
+				case 'mailtemplates':
+					$this->in_mail_templates = true;
+					break;
+
+				case 'context':
+					if(!$this->in_mail_templates)
+					{
+						break;
+					}
+
+					$component = $a_attribs['component'];
+					if(!$component)
+					{
+						$component = $this->current_component;
+					}
+
+					require_once 'Services/Mail/classes/class.ilMailTemplateService.php';
+					ilMailTemplateService::insertFromXML(
+						$component,
+						$a_attribs['id'],
+						$a_attribs['class'],
+						$a_attribs['path']
+					);
+					$this->mail_templates_by_component[$component][] = $a_attribs["id"];
+					break;
+	
 				case "sub_type":
 					$ilDB->manipulate("INSERT INTO il_object_sub_type ".
 						"(obj_type, sub_type, amet) VALUES (".
@@ -216,6 +251,41 @@ class ilObjDefReader extends ilSaxParser
 						$ilDB->quote($a_attribs["id"], "text").",".
 						$ilDB->quote($a_attribs["amet"], "integer").
 						")");
+					break;
+
+				case 'systemcheck':
+					
+					include_once './Services/SystemCheck/classes/class.ilSCGroups.php';
+					ilSCGroups::getInstance()->updateFromComponentDefinition($this->getComponentId());
+					break;
+				
+				case 'systemcheck_task':
+					include_once './Services/SystemCheck/classes/class.ilSCGroups.php';
+					$group_id = ilSCGroups::lookupGroupByComponentId($this->getComponentId());
+					
+					include_once './Services/SystemCheck/classes/class.ilSCTasks.php';
+					$tasks = ilSCTasks::getInstanceByGroupId($group_id);
+					$tasks->updateFromComponentDefinition($a_attribs['identifier']);
+					break;
+
+				case "secure_path":
+					require_once('./Services/WebAccessChecker/classes/class.ilWACSecurePath.php');
+					try {
+						$ilWACSecurePath = ilWACSecurePath::findOrFail($a_attribs["path"]);
+					} catch (arException $e) {
+						$ilWACSecurePath = new ilWACSecurePath();
+						$ilWACSecurePath->setPath($a_attribs["path"]);
+						$ilWACSecurePath->create();
+					}
+					$ilWACSecurePath->setCheckingClass($a_attribs["checking-class"]);
+					$ilWACSecurePath->setInSecFolder((bool)$a_attribs["in-sec-folder"]);
+					$ilWACSecurePath->setComponentDirectory(dirname($this->xml_file));
+					$ilWACSecurePath->update();
+					break;
+				
+				case 'logging':
+					include_once './Services/Logging/classes/class.ilLogComponentLevels.php';
+					ilLogComponentLevels::updateFromXML($this->getComponentId());
 					break;
 			}
 		}
@@ -236,12 +306,14 @@ class ilObjDefReader extends ilSaxParser
 		}
 		else
 		{
-			// cron
 			if($a_name == "module" || $a_name == "service")
 			{
 				include_once "Services/Cron/classes/class.ilCronManager.php";
 				ilCronManager::clearFromXML($this->current_component, 
 					(array)$this->has_cron[$this->current_component]);				
+
+				require_once 'Services/Mail/classes/class.ilMailTemplateService.php';
+				ilMailTemplateService::clearFromXml($this->current_component, (array)$this->mail_templates_by_component[$this->current_component]);
 			}
 		}
 		
@@ -274,5 +346,23 @@ class ilObjDefReader extends ilSaxParser
 			}
 		}
 	}
+	
+	/**
+	 * Set from module or service reader
+	 */
+	public function setComponentId($a_component_id)
+	{
+		$this->component_id = $a_component_id;
+	}
+	
+	/**
+	 * Get component id
+	 * @return type
+	 */
+	public function getComponentId()
+	{
+		return $this->component_id;
+	}
 
 }
+?>

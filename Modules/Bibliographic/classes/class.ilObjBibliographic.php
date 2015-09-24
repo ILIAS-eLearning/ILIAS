@@ -79,7 +79,7 @@ class ilObjBibliographic extends ilObject2 {
 	 *
 	 * @return void
 	 */
-	function doCreate() {
+	protected function doCreate() {
 		global $ilDB;
 		$ilDB->manipulate("INSERT INTO il_bibl_data " . "(id, filename, is_online) VALUES (" . $ilDB->quote($this->getId(), "integer") . "," . // id
 			$ilDB->quote($this->getFilename(), "text") . "," . // filename
@@ -88,11 +88,11 @@ class ilObjBibliographic extends ilObject2 {
 	}
 
 
-	function doRead() {
+	protected function doRead() {
 		global $ilDB;
 		$set = $ilDB->query("SELECT * FROM il_bibl_data " . " WHERE id = " . $ilDB->quote($this->getId(), "integer"));
 		while ($rec = $ilDB->fetchAssoc($set)) {
-			if (!$this->getFilename()) {
+			if (! $this->getFilename()) {
 				$this->setFilename($rec["filename"]);
 			}
 			$this->setOnline($rec['is_online']);
@@ -103,9 +103,9 @@ class ilObjBibliographic extends ilObject2 {
 	/**
 	 * Update data
 	 */
-	function doUpdate() {
+	public function doUpdate() {
 		global $ilDB;
-		if (!empty($_FILES['bibliographic_file']['name'])) {
+		if (! empty($_FILES['bibliographic_file']['name'])) {
 			$this->deleteFile();
 			$this->moveFile();
 		}
@@ -118,12 +118,13 @@ class ilObjBibliographic extends ilObject2 {
 	}
 
 
-	/*
-	* Delete data from db
-	*/
-	function doDelete($leave_out_il_bibl_data = false, $leave_out_delete_file = false) {
+	/**
+	 * @param bool|false $leave_out_il_bibl_data
+	 * @param bool|false $leave_out_delete_file
+	 */
+	protected function doDelete($leave_out_il_bibl_data = false, $leave_out_delete_file = false) {
 		global $ilDB;
-		if (!$leave_out_delete_file) {
+		if (! $leave_out_delete_file) {
 			$this->deleteFile();
 		}
 		//il_bibl_attribute
@@ -131,7 +132,7 @@ class ilObjBibliographic extends ilObject2 {
 			. "(SELECT il_bibl_entry.id FROM il_bibl_entry WHERE il_bibl_entry.data_id = " . $ilDB->quote($this->getId(), "integer") . ");");
 		//il_bibl_entry
 		$ilDB->manipulate("DELETE FROM il_bibl_entry WHERE data_id = " . $ilDB->quote($this->getId(), "integer"));
-		if (!$leave_out_il_bibl_data) {
+		if (! $leave_out_il_bibl_data) {
 			//il_bibl_data
 			$ilDB->manipulate("DELETE FROM il_bibl_data WHERE id = " . $ilDB->quote($this->getId(), "integer"));
 		}
@@ -149,9 +150,14 @@ class ilObjBibliographic extends ilObject2 {
 	}
 
 
+	/**
+	 * @param bool|false $file_to_copy
+	 *
+	 * @throws Exception
+	 */
 	public function moveFile($file_to_copy = false) {
 		$target_dir = $this->getFileDirectory();
-		if (!is_dir($target_dir)) {
+		if (! is_dir($target_dir)) {
 			ilUtil::makeDirParents($target_dir);
 		}
 		if ($_FILES['bibliographic_file']['name']) {
@@ -166,8 +172,8 @@ class ilObjBibliographic extends ilObject2 {
 		$target_full_filename = $target_dir . DIRECTORY_SEPARATOR . $filename;
 		//If there is no file_to_copy (which is used for clones), copy the file from the temporary upload directory (new creation of object).
 		//Therefore, a warning predicates nothing and can be suppressed.
-		if (@!copy($file_to_copy, $target_full_filename)) {
-			if (!empty($_FILES['bibliographic_file']['tmp_name'])) {
+		if (@! copy($file_to_copy, $target_full_filename)) {
+			if (! empty($_FILES['bibliographic_file']['tmp_name'])) {
 				ilUtil::moveUploadedFile($_FILES['bibliographic_file']['tmp_name'], $_FILES['bibliographic_file']['name'], $target_full_filename);
 			} else {
 				throw new Exception("The file delivered via the method argument file_to_copy could not be copied. The file '{$file_to_copy}' does probably not exist.");
@@ -203,11 +209,17 @@ class ilObjBibliographic extends ilObject2 {
 	}
 
 
+	/**
+	 * @param $filename
+	 */
 	public function setFilename($filename) {
 		$this->filename = $filename;
 	}
 
 
+	/**
+	 * @return int
+	 */
 	public function getFilename() {
 		return $this->filename;
 	}
@@ -232,8 +244,12 @@ class ilObjBibliographic extends ilObject2 {
 	}
 
 
-	static function getAllOverviewModels() {
+	/**
+	 * @return array
+	 */
+	public static function getAllOverviewModels() {
 		global $ilDB;
+		$overviewModels = array();
 		$set = $ilDB->query('SELECT * FROM il_bibl_overview_model');
 		while ($rec = $ilDB->fetchAssoc($set)) {
 			if ($rec['literature_type']) {
@@ -255,7 +271,7 @@ class ilObjBibliographic extends ilObject2 {
 	 * @return bool
 	 */
 	protected static function __force_rmdir($path) {
-		if (!file_exists($path)) {
+		if (! file_exists($path)) {
 			return false;
 		}
 		if (is_file($path) || is_link($path)) {
@@ -266,7 +282,7 @@ class ilObjBibliographic extends ilObject2 {
 			$result = true;
 			$dir = new DirectoryIterator($path);
 			foreach ($dir as $file) {
-				if (!$file->isDot()) {
+				if (! $file->isDot()) {
 					$result &= self::__force_rmdir($path . $file->getFilename(), false);
 				}
 			}
@@ -277,7 +293,13 @@ class ilObjBibliographic extends ilObject2 {
 	}
 
 
-	static function __readRisFile($full_filename) {
+	/**
+	 * @param $full_filename
+	 *
+	 * @return null
+	 * @throws \LibRIS\ParseException
+	 */
+	public static function __readRisFile($full_filename) {
 		self::__setCharsetToUtf8($full_filename);
 		require_once "./Modules/Bibliographic/lib/LibRIS/src/LibRIS/RISReader.php";
 		$ris_reader = new RISReader();
@@ -287,7 +309,12 @@ class ilObjBibliographic extends ilObject2 {
 	}
 
 
-	static function __readBibFile($full_filename) {
+	/**
+	 * @param $full_filename
+	 *
+	 * @return array
+	 */
+	public static function __readBibFile($full_filename) {
 		self::__setCharsetToUtf8($full_filename);
 		require_once 'Modules/Bibliographic/lib/PEAR_BibTex_1.0.0RC5/Structures/BibTex.php';
 		$bibtex_reader = new Structures_BibTex();
@@ -323,7 +350,7 @@ class ilObjBibliographic extends ilObject2 {
 					foreach ($attribute as $author_key => $author) {
 						$lastname = array( $author['von'], $author['last'], $author['jr'] );
 						$attribute_string[$author_key] = implode(' ', array_filter($lastname));
-						if (!empty($author['first'])) {
+						if (! empty($author['first'])) {
 							$attribute_string[$author_key] .= ', ' . $author['first'];
 						}
 					}
@@ -336,7 +363,10 @@ class ilObjBibliographic extends ilObject2 {
 	}
 
 
-	static function __setCharsetToUtf8($full_filename) {
+	/**
+	 * @param $full_filename
+	 */
+	public static function __setCharsetToUtf8($full_filename) {
 		//If file charset does not seem to be Unicode, we assume that it is ISO-8859-1, and convert it to UTF-8.
 		$filedata = file_get_contents($full_filename);
 		if (strlen($filedata) == strlen(utf8_decode($filedata))) {
@@ -355,7 +385,7 @@ class ilObjBibliographic extends ilObject2 {
 	 *
 	 * @return String (UTF-8) without encodings
 	 */
-	static function __convertBibSpecialChars($file_content) {
+	public static function __convertBibSpecialChars($file_content) {
 		$bibtex_special_chars['ä'] = '{\"a}';
 		$bibtex_special_chars['ë'] = '{\"e}';
 		$bibtex_special_chars['ï'] = '{\"i}';
@@ -452,6 +482,7 @@ class ilObjBibliographic extends ilObject2 {
 
 	/**
 	 * @param $input
+	 *
 	 * @deprecated
 	 * @return string
 	 */
@@ -471,6 +502,7 @@ class ilObjBibliographic extends ilObject2 {
 	 */
 	public function writeSourcefileEntriesToDb() {
 		//Read File
+		$entries_from_file = array();
 		switch ($this->getFiletype()) {
 			case("ris"):
 				$entries_from_file = self::__readRisFile($this->getFileAbsolutePath());
@@ -524,7 +556,7 @@ class ilObjBibliographic extends ilObject2 {
 
 
 	/**
-	 * @return is_online
+	 * @return bool
 	 */
 	public function getOnline() {
 		return $this->is_online;

@@ -16,10 +16,6 @@ include_once 'Services/Mail/classes/class.ilMailFolderTableGUI.php';
 * @ilCtrl_Calls ilMailFolderGUI: ilMailOptionsGUI, ilMailAttachmentGUI, ilMailSearchGUI
 * @ilCtrl_Calls ilMailFolderGUI: ilPublicUserProfileGUI
 */
-
-// removed ilCtrl_Calls
-// ilMailAddressbookGUI
-
 class ilMailFolderGUI
 {
 	private $current_select_cmd;
@@ -102,10 +98,9 @@ class ilMailFolderGUI
 		$forward_class = $this->ctrl->getNextClass($this);		
 		switch($forward_class)
 		{
-			case 'ilmailaddressbookgui':
-				include_once 'Services/Contact/classes/class.ilMailAddressbookGUI.php';
-
-				$this->ctrl->forwardCommand(new ilMailAddressbookGUI());
+			case 'ilcontactgui':
+				require_once 'Services/Contact/classes/class.ilContactGUI.php';
+				$this->ctrl->forwardCommand(new ilContactGUI());
 				break;
 
 			case 'ilmailoptionsgui':
@@ -139,35 +134,6 @@ class ilMailFolderGUI
 		return true;
 	}
 
-	public function add()
-	{
-		global $lng, $ilUser;
-
-		if($_GET["mail_id"] != "")
-		{
-			if (is_array($mail_data = $this->umail->getMail($_GET["mail_id"])))
-			{
-				require_once "Services/Contact/classes/class.ilAddressbook.php";
-				$abook = new ilAddressbook($ilUser->getId());
-
-				$tmp_user = new ilObjUser($mail_data["sender_id"]);
-				if ($abook->checkEntryByLogin($tmp_user->getLogin()) > 0)
-				{
-					ilUtil::sendInfo($lng->txt("mail_entry_exists"));
-				}
-				else
-				{
-					$abook->addEntry($tmp_user->getLogin(),
-								$tmp_user->getFirstname(),
-								$tmp_user->getLastname(),
-								$tmp_user->getEmail());
-					ilUtil::sendInfo($lng->txt("mail_entry_added"));
-				}
-			}
-		}
-		$this->showMail();
-	}
-	
 	/**
 	* cancel Empty Trash Action and return to folder
 	*/
@@ -276,6 +242,7 @@ class ilMailFolderGUI
 			$confirmation->setConfirm($this->lng->txt('confirm'), 'confirmDeleteMails');
 			$confirmation->setCancel($this->lng->txt('cancel'), 'cancelDeleteMails');
 			$this->tpl->setVariable('CONFIRMATION', $confirmation->getHTML());
+			$a_show_confirmation = true;
 		}
 
 		$folders = $this->mbox->getSubFolders();
@@ -362,7 +329,7 @@ class ilMailFolderGUI
 			}
 		}
 
-		if($a_show_confirmation == false)
+		if($a_show_confirmation == false && $this->askForConfirmation == false)
 		{
 			if('tree' != ilSession::get(ilMailGUI::VIEWMODE_SESSION_KEY))
 			{
@@ -421,19 +388,18 @@ class ilMailFolderGUI
 
 	public function performDeleteSubFolder()
 	{
-		$new_parent = $this->mbox->getParentFolderId($_GET["mobj_id"]);
-
-		if ($this->mbox->deleteFolder($_GET["mobj_id"]))
-		{			
-			ilUtil::sendInfo($this->lng->txt("mail_folder_deleted"),true);
-			
-			$this->ctrl->setParameterByClass("ilMailGUI", "mobj_id", $new_parent);
-			$this->ctrl->redirectByClass("ilMailGUI");		
+		$new_parent = $this->mbox->getParentFolderId((int)$_GET['mobj_id']);
+		if($this->mbox->deleteFolder((int)$_GET['mobj_id']))
+		{
+			ilUtil::sendInfo($this->lng->txt('mail_folder_deleted'), true);
+			$this->ctrl->setParameterByClass('ilMailGUI', 'mobj_id', (int)$new_parent);
+			$this->ctrl->redirectByClass('ilMailGUI');
 		}
 		else
 		{
-			ilUtil::sendFailure($this->lng->txt("mail_error_delete"));
-			return $this->showFolder();
+			ilUtil::sendFailure($this->lng->txt('mail_error_delete'));
+			$this->showFolder();
+			return;
 		}
 	}
 	
@@ -457,8 +423,9 @@ class ilMailFolderGUI
 		else
 		{
 			ilUtil::sendFailure($this->lng->txt("mail_folder_exists"));
-			return $this->addSubFolder();
-		}		
+			$this->addSubFolder();
+			return;
+		}
 	}
 
 	public function addSubFolder()
@@ -722,6 +689,7 @@ class ilMailFolderGUI
 		require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 
 		$form = new ilPropertyFormGUI();
+		$form->setPreventDoubleSubmission(false);
 		$form->setTableWidth('100%');
 		$this->ctrl->setParameter($this, 'mail_id', (int)$_GET['mail_id']);
 		$form->setFormAction($this->ctrl->getFormAction($this, 'showMail'));
@@ -776,25 +744,6 @@ class ilMailFolderGUI
 				$this->ctrl->setParameter($this, 'user', $sender->getId());
 				$linked_fullname = '<br /><a href="' . $this->ctrl->getLinkTarget($this, 'showUser') . '" title="'.$linked_fullname.'">' . $linked_fullname . '</a>';
 				$this->ctrl->clearParameters($this);
-			}
-
-			if($sender->getId() != $ilUser->getId())
-			{
-				require_once 'Services/Contact/classes/class.ilAddressbook.php';
-				$abook = new ilAddressbook($ilUser->getId());
-				if($abook->checkEntryByLogin($sender->getLogin()) == 0)
-				{
-					$tplbtn = new ilTemplate('tpl.buttons.html', true, true);
-
-					$tplbtn->setCurrentBlock('btn_cell');
-					$this->ctrl->setParameter($this, 'mail_id', (int)$_GET['mail_id']);
-					$tplbtn->setVariable('BTN_LINK', $this->ctrl->getLinkTarget($this, 'add'));
-					$this->ctrl->clearParameters($this);
-					$tplbtn->setVariable('BTN_TXT', $this->lng->txt('mail_add_to_addressbook'));
-					$tplbtn->parseCurrentBlock();
-
-					$add_to_addb_button = '<br />' . $tplbtn->get();
-				}
 			}
 
 			$from = new ilCustomInputGUI($this->lng->txt('from'));

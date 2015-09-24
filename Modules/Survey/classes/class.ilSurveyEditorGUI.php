@@ -194,7 +194,7 @@ class ilSurveyEditorGUI
 			include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 			$types = new ilSelectInputGUI($this->lng->txt("create_new"), "sel_question_types");
 			$types->setOptions($qtypes);
-			$ilToolbar->addInputItem($types, "");
+			$ilToolbar->addStickyItem($types, "");
 			
 			
 			include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
@@ -203,7 +203,7 @@ class ilSurveyEditorGUI
 			$button = ilSubmitButton::getInstance();
 			$button->setCaption("svy_create_question");								
 			$button->setCommand("createQuestion");
-			$ilToolbar->addButtonInstance($button);		
+			$ilToolbar->addStickyItem($button);		
 			
 			if($this->object->isPoolActive())
 			{
@@ -217,7 +217,7 @@ class ilSurveyEditorGUI
 				$button = ilLinkButton::getInstance();
 				$button->setCaption("browse_for_questions");								
 				$button->setUrl($this->ctrl->getLinkTarget($this, $cmd));										
-				$ilToolbar->addButtonInstance($button);						
+				$ilToolbar->addStickyItem($button);						
 			}
 
 			$ilToolbar->addSeparator();
@@ -225,7 +225,7 @@ class ilSurveyEditorGUI
 			$button = ilLinkButton::getInstance();
 			$button->setCaption("add_heading");								
 			$button->setUrl($this->ctrl->getLinkTarget($this, "addHeading"));										
-			$ilToolbar->addButtonInstance($button);		
+			$ilToolbar->addInputItem($button);		
 		}
 		if ($hasDatasets)
 		{
@@ -1266,7 +1266,34 @@ class ilSurveyEditorGUI
 		global $ilToolbar;
 		
 		$this->questionsSubtabs("print");
+			
+		if(!isset($_POST["export_label"]))
+		{
+			$_POST["export_label"] = $this->object->getShowQuestionTitles();
+		}
+		$current_title = (int)$_REQUEST["export_label"];
 		
+		include_once "Services/Form/classes/class.ilSelectInputGUI.php";
+		$label = new ilSelectInputGUI($this->lng->txt("title")."/".$this->lng->txt("label"), "export_label");
+		$label->setOptions(array(
+			0 => $this->lng->txt('none'), 
+			1 => $this->lng->txt('svy_print_title_only'), 
+			2 => $this->lng->txt('svy_print_label_only'), 			
+			3 => $this->lng->txt('svy_print_title_label')
+			));
+		$label->setValue($current_title);
+		$ilToolbar->addStickyItem($label, true);
+		
+		$ilToolbar->setFormAction($this->ctrl->getFormAction($this, "printView"));
+		
+		include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";
+		$button = ilSubmitButton::getInstance();
+		$button->setCaption("show");
+		$button->setCommand("printView");			
+		$ilToolbar->addStickyItem($button);
+		
+		$ilToolbar->addSeparator();
+	
 		include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
 		$button = ilLinkButton::getInstance();
 		$button->setCaption("print");								
@@ -1277,9 +1304,11 @@ class ilSurveyEditorGUI
 		include_once './Services/WebServices/RPC/classes/class.ilRPCServerSettings.php';
 		if(ilRPCServerSettings::getInstance()->isEnabled())
 		{
+			$this->ctrl->setParameter($this, "export_label", $current_title);
 			$this->ctrl->setParameter($this, "pdf", "1");
 			$pdf_url = $this->ctrl->getLinkTarget($this, "printView");
 			$this->ctrl->setParameter($this, "pdf", "");
+			$this->ctrl->setParameter($this, "export_label", "");
 			
 			$button = ilLinkButton::getInstance();
 			$button->setCaption("pdf_export");								
@@ -1308,7 +1337,7 @@ class ilSurveyEditorGUI
 							$template->parseCurrentBlock();
 						}
 						$template->setCurrentBlock("question");
-						$template->setVariable("QUESTION_DATA", $questionGUI->getPrintView($this->object->getShowQuestionTitles(), $question["questionblock_show_questiontext"], $this->object->getSurveyId()));
+						$template->setVariable("QUESTION_DATA", $questionGUI->getPrintView($current_title, $question["questionblock_show_questiontext"], $this->object->getSurveyId()));
 						$template->parseCurrentBlock();
 					}
 				}

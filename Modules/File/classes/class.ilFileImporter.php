@@ -30,6 +30,7 @@ class ilFileImporter extends ilXmlImporter
 		else	// case ii, non container
 		{
 			$newObj = new ilObjFile();
+			$newObj->setNoMetaDataCreation(true); // #16545
 			$newObj->create(true);
 		}
 
@@ -38,7 +39,7 @@ class ilFileImporter extends ilXmlImporter
 		$parser->setImportDirectory($this->getImportDirectory());
 		$parser->startParsing();
 
-		$newObj->createProperties(false,false);
+		$newObj->createProperties();
 		
 		$parser->setFileContents();
 		$this->current_obj = $newObj;

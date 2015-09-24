@@ -86,7 +86,7 @@
 	</div>
 	</div>
 	<!-- END ipreview -->
-	<div id="player{IPLAYER_NR}_vtwrap" class="ilPlayerImage ilNoDisplay" width="{IWIDTH}" style="max-width:100%;">
+	<div id="player_{IPLAYER_NR}_vtwrap" class="ilPlayerImage ilNoDisplay" width="{IWIDTH}" style="max-width:100%;">	
 		<img src="{IFILE}" alt="{IMG_ALT}" style="max-width:100%;"/>
 		<div style="padding-top: 10px; font-size: 80%; color: #808080;">
 				<a href="#" onclick="il.MediaObjects.processCloseIcon(); return false;" class="ilMediaLightboxClose">{ICLOSE}</a>
@@ -94,6 +94,13 @@
 				<div>{IDESCRIPTION}</div>
 		</div>
 	</div>
+	<!-- BEGIN img_callback -->
+	<script>	
+	$(function() {		
+		il.MediaObjects.setPlayerConfig('player_{IMG_CALLBACK_PLAYER_NR}_vtwrap', {event_url: '{IMG_CALLBACK_URL}'});
+	});
+	</script>
+	<!-- END img_callback -->
 </div>
 <!-- END image -->
 <!-- BEGIN default -->

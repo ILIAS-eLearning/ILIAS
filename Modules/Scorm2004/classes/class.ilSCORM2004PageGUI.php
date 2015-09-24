@@ -14,7 +14,7 @@ require_once './Modules/Scorm2004/classes/class.ilQuestionExporter.php';
  *
  * @ilCtrl_Calls ilSCORM2004PageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
  * @ilCtrl_Calls ilSCORM2004PageGUI: ilRatingGUI, ilPublicUserProfileGUI, ilPageObjectGUI, ilNoteGUI
- * @ilCtrl_Calls ilSCORM2004PageGUI: ilMDEditorGUI, ilQuestionEditGUI, ilAssQuestionFeedbackEditingGUI
+ * @ilCtrl_Calls ilSCORM2004PageGUI: ilObjectMetaDataGUI, ilQuestionEditGUI, ilAssQuestionFeedbackEditingGUI
  *
  * @ingroup ModulesScormAicc
  */

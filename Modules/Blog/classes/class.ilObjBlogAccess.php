@@ -3,6 +3,7 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("./Services/Object/classes/class.ilObjectAccess.php");
+require_once('./Services/WebAccessChecker/interfaces/interface.ilWACCheckingClass.php');
 
 /**
 * Class ilObjBlogAccess
@@ -11,7 +12,7 @@ include_once("./Services/Object/classes/class.ilObjectAccess.php");
 * @version $Id: class.ilObjRootFolderAccess.php 15678 2008-01-06 20:40:55Z akill $
 *
 */
-class ilObjBlogAccess extends ilObjectAccess
+class ilObjBlogAccess extends ilObjectAccess implements ilWACCheckingClass
 {
 	/**
 	 * get commands
@@ -64,6 +65,29 @@ class ilObjBlogAccess extends ilObjectAccess
 			return true;
 		}
 		return false;		
+	}
+
+	/**
+	 * @param ilWACPath $ilWACPath
+	 *
+	 * @return bool
+	 */
+	public function canBeDelivered(ilWACPath $ilWACPath) {
+		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
+		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
+
+		global $ilUser;
+		preg_match("/\\/blog_([\\d]*)\\//uism", $ilWACPath->getPath(), $results);
+
+		$tree = new ilWorkspaceTree(0);
+		$node_id = $tree->lookupNodeId($results[1]);
+
+		$access_handler = new ilWorkspaceAccessHandler($tree);
+		if ($access_handler->checkAccessOfUser($tree, $ilUser->getId(), "read", "view", $node_id, "blog")) {
+			return true;
+		}
+
+		return false;
 	}
 }
 

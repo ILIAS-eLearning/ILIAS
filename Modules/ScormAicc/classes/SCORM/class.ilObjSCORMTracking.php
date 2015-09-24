@@ -167,15 +167,17 @@ class ilObjSCORMTracking
 	}
 	
 	function storeJsApi($obj_id=0) {
-		global $ilLog, $ilUser;
+		// global $ilLog, $ilUser;
 
-		if (is_object($ilUser)) {
-			$user_id = $ilUser->getId();
-		}
-		if (empty($obj_id)) $obj_id = ilObject::_lookupObjId($_GET["ref_id"]);
+		// if (is_object($ilUser)) {
+			// $user_id = $ilUser->getId();
+		// }
+		// if (empty($obj_id)) $obj_id = ilObject::_lookupObjId($_GET["ref_id"]);
+		$obj_id = (int)$_GET["package_id"];
 		$in = file_get_contents("php://input");
-		$ilLog->write($in);
+		// $ilLog->write($in);
 		$data = json_decode($in);
+		$user_id = (int)$data->p;
 
 		header('Content-Type: text/plain; charset=UTF-8');
 
@@ -707,22 +709,6 @@ class ilObjSCORMTracking
 		{
 			$users[$row->user_id] = $row->completed;
 		}
-		/*
-		// Avoid searches against field rvalue.
-		// This gives the possibility to reuse the obj_id,sco_id,lvalue index.
-		$query = "SELECT user_id,rvalue FROM scorm_tracking ".
-			"WHERE ".$in." ".
-			"AND obj_id = ".$ilDB->quote($a_obj_id,'integer')." ".
-			"AND lvalue = ".$ilDB->quote('cmi.core.lesson_status','text');
-		
-		$res = $ilDB->query($query);
-		while($row = $ilDB->fetchObject($res))
-		{
-			if($row->rvalue == 'passed' or $row->rvalue == 'completed')
-			{
-				++$users[$row->user_id];
-			}
-		}*/
 		return $users ? $users : array();
 	}
 
@@ -775,55 +761,22 @@ class ilObjSCORMTracking
 	{
 		global $ilUser, $ilDB;
 
-		$user_id = $ilUser->getID();
-		$ref_id = $_GET["ref_id"];
-		$obj_id = ilObject::_lookupObjId($ref_id);
+		//$user_id = $ilUser->getID();
+		$user_id = (int)$_GET["p"];
+		$ref_id = (int)$_GET["ref_id"];
+		// $obj_id = ilObject::_lookupObjId($ref_id);
+		$obj_id = (int)$_GET["package_id"];
 		if ($obj_id <= 1){
 			$GLOBALS['ilLog']->write(__METHOD__.' no valid obj_id');
 		} else {
 			$last_visited=$_POST['last_visited'];
+			$endDate = date('Y-m-d H:i:s', mktime(date('H'), date('i')+5, date('s'), date('m'), date('d'), date('Y')));
 			$ilDB->manipulateF('UPDATE sahs_user 
-				SET last_visited = %s, last_access = %s
+				SET last_visited = %s, hash_end =%s, last_access = %s
 				WHERE obj_id = %s AND user_id = %s',  
-				array('text', 'timestamp', 'integer', 'integer'),
-				array($last_visited, date('Y-m-d H:i:s'), $obj_id, $user_id)
+				array('text', 'timestamp', 'timestamp', 'integer', 'integer'),
+				array($last_visited, $endDate, date('Y-m-d H:i:s'), $obj_id, $user_id)
 			);
-//			$data=$_POST['last_visited'];
-//			$GLOBALS['ilLog']->write(__METHOD__.' last_visited: '.$data);
-			// if($data) {
-				// $set = $ilDB->queryF('
-				// SELECT rvalue FROM scorm_tracking 
-				// WHERE user_id = %s
-				// AND sco_id =  %s
-				// AND lvalue =  %s
-				// AND obj_id = %s',
-				// array('integer','integer','text','integer'), 
-				// array($user_id,0,'last_visited',$obj_id));
-				// if ($rec = $ilDB->fetchAssoc($set)) {
-					// $ilDB->update('scorm_tracking',
-						// array(
-							// 'rvalue'		=> array('clob', $data),
-							// 'c_timestamp'	=> array('timestamp', ilUtil::now())
-						// ),
-						// array(
-							// 'user_id'		=> array('integer', $user_id),
-							// 'sco_id'		=> array('integer', 0),
-							// 'lvalue'		=> array('text', 'last_visited'),
-							// 'obj_id'		=> array('integer', $obj_id)
-						// )
-					// );
-				// }
-				// else {
-					// $ilDB->insert('scorm_tracking', array(
-						// 'obj_id'		=> array('integer', $obj_id),
-						// 'user_id'		=> array('integer', $user_id),
-						// 'sco_id'		=> array('integer', 0),
-						// 'lvalue'		=> array('text', 'last_visited'),
-						// 'rvalue'		=> array('clob', $data),
-						// 'c_timestamp'	=> array('timestamp', ilUtil::now())
-					// ));
-				// }
-			// }
 			// update time and numbers of attempts in change event
 			//NOTE: here it is correct (not count of commit with changed values); be careful to performance issues
 			ilObjSCORMTracking::_syncReadEvent($obj_id, $user_id, "sahs", $ref_id);
@@ -831,7 +784,17 @@ class ilObjSCORMTracking
 		header('Content-Type: text/plain; charset=UTF-8');
 		print("");
 	}
-
+	
+	function checkIfAllowed($packageId,$userId,$hash){
+		global $ilDB;
+		$res = $ilDB->queryF('select hash from sahs_user where obj_id=%s AND user_id=%s AND hash_end>%s',
+			array('integer','integer','timestamp'),
+			array($packageId,$userId,date('Y-m-d H:i:s'))
+		);
+		$rowtmp=$ilDB->fetchAssoc($res);
+		if ($rowtmp['hash']==$hash) return;
+		else die("not allowed");
+	}
 
 } // END class.ilObjSCORMTracking
 ?>

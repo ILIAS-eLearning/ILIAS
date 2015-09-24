@@ -343,11 +343,7 @@ class assJavaApplet extends assQuestion implements ilObjQuestionScoringAdjustabl
 		}
 		// duplicate the question in database
 		$this_id = $this->getId();
-		
-		if( (int)$testObjId > 0 )
-		{
-			$thisObjId = $this->getObjId();
-		}
+		$thisObjId = $this->getObjId();
 		
 		$clone = $this;
 		include_once ("./Modules/TestQuestionPool/classes/class.assQuestion.php");
@@ -643,7 +639,7 @@ class assJavaApplet extends assQuestion implements ilObjQuestionScoringAdjustabl
 	 * @throws ilTestException
 	 * @return integer/array $points/$details (array $details is deprecated !!)
 	 */
-	public function calculateReachedPoints($active_id, $pass = NULL, $returndetails = FALSE)
+	public function calculateReachedPoints($active_id, $pass = NULL, $authorizedSolution = true, $returndetails = FALSE)
 	{
 		if( $returndetails )
 		{
@@ -657,10 +653,9 @@ class assJavaApplet extends assQuestion implements ilObjQuestionScoringAdjustabl
 		{
 			$pass = $this->getSolutionMaxPass($active_id);
 		}
-		$result = $ilDB->queryF("SELECT points FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-			array('integer','integer','integer'),
-			array($active_id, $this->getId(), $pass)
-		);
+		
+		$result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorizedSolution);
+		
 		$points = 0;
 		while ($data = $ilDB->fetchAssoc($result))
 		{
@@ -854,7 +849,7 @@ class assJavaApplet extends assQuestion implements ilObjQuestionScoringAdjustabl
 	 * @param integer $pass Test pass
 	 * @return boolean $status
 	 */
-	public function saveWorkingData($active_id, $pass = NULL)
+	public function saveWorkingData($active_id, $pass = NULL, $authorized = true)
 	{
 		// nothing to save!
 

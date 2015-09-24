@@ -81,7 +81,8 @@ class ilCopySelfAssQuestionTableGUI extends ilTable2GUI
 		if ($ilAccess->checkAccess("read", "", $this->pool_ref_id))
 		{
 			require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionList.php';
-			$questionList = new ilAssQuestionList($ilDB, $lng, $ilPluginAdmin, $this->pool_obj_id);
+			$questionList = new ilAssQuestionList($ilDB, $lng, $ilPluginAdmin);
+			$questionList->setParentObjId($this->pool_obj_id);
 			$questionList->load();
 			
 			$data = $questionList->getQuestionDataArray();

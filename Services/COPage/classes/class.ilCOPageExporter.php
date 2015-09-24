@@ -13,6 +13,7 @@ include_once("./Services/Export/classes/class.ilXmlExporter.php");
 class ilCOPageExporter extends ilXmlExporter
 {
 	private $ds;
+	protected $config;
 
 	/**
 	 * Initialisation
@@ -23,6 +24,11 @@ class ilCOPageExporter extends ilXmlExporter
 		$this->ds = new ilCOPageDataSet();
 		$this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
 		$this->ds->setDSPrefix("ds");
+		$this->config = $this->getExport()->getConfig("Services/COPage");
+		if ($this->config->getMasterLanguageOnly())
+		{
+			$this->ds->setMasterLanguageOnly(true);
+		}
 	}
 
 
@@ -46,9 +52,13 @@ class ilCOPageExporter extends ilXmlExporter
 			foreach ($a_ids as $pg_id)
 			{
 				$pg_id = explode(":", $pg_id);
+
+				$lang = ($this->config->getMasterLanguageOnly())
+					? "-"
+					: "";
 	
 				// get media objects
-				$mids = ilObjMediaObject::_getMobsOfObject($pg_id[0].":pg", $pg_id[1]);
+				$mids = ilObjMediaObject::_getMobsOfObject($pg_id[0].":pg", $pg_id[1], 0, $lang);
 				foreach ($mids as $mid)
 				{
 					if (ilObject::_lookupType($mid) == "mob")
@@ -58,7 +68,7 @@ class ilCOPageExporter extends ilXmlExporter
 				}
 	
 				// get files
-				$files = ilObjFile::_getFilesOfObject($pg_id[0].":pg", $pg_id[1]);
+				$files = ilObjFile::_getFilesOfObject($pg_id[0].":pg", $pg_id[1], 0, $lang);
 				foreach ($files as $file)
 				{
 					if (ilObject::_lookupType($file) == "file")
@@ -128,17 +138,35 @@ class ilCOPageExporter extends ilXmlExporter
 			include_once("./Services/COPage/classes/class.ilPageObject.php");
 			
 			$id = explode(":", $a_id);
-	
+
+			$langs = array("-");
+			if (!$this->config->getMasterLanguageOnly())
+			{
+				$trans = ilPageObject::lookupTranslations($id[0], $id[1]);
+				foreach ($trans as $t)
+				{
+					if ($t != "-")
+					{
+						$langs[] = $t;
+					}
+				}
+			}
+
 			include_once("./Services/COPage/classes/class.ilPageObjectFactory.php");
-			$page_object = ilPageObjectFactory::getInstance($id[0], $id[1]);
-			$page_object->buildDom();
-			$page_object->insertInstIntoIDs(IL_INST_ID);
-			$pxml = $page_object->getXMLFromDom(false, false, false, "", true);
-			$pxml = str_replace("&","&amp;", $pxml);
-			$xml = "<PageObject>";
-			$xml.= $pxml;
-			$xml.= "</PageObject>";
-			$page_object->freeDom();
+			$xml = "";
+			foreach ($langs as $l)
+			{
+				$page_object = ilPageObjectFactory::getInstance($id[0], $id[1], 0, $l);
+				$page_object->buildDom();
+				$page_object->insertInstIntoIDs(IL_INST_ID);
+				$pxml = $page_object->getXMLFromDom(false, false, false, "", true);
+				$pxml = str_replace("&","&amp;", $pxml);
+				$xml.= '<PageObject Language="'.$l.'" Active="'.$page_object->getActive().'" ActivationStart="'.$page_object->getActivationStart().'" ActivationEnd="'.
+					$page_object->getActivationEnd().'" ShowActivationInfo="'.$page_object->getShowActivationInfo().'">';
+				$xml.= $pxml;
+				$xml.= "</PageObject>";
+				$page_object->freeDom();
+			}
 	
 			return $xml;
 		}

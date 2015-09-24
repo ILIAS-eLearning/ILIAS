@@ -250,7 +250,11 @@ class ilForumXMLParser extends ilSaxParser
 			case 'UpdateDate':
 				$x['UpdateDate'] = $this->cdata;
 				break;
-			
+
+			case 'FileUpload':
+				$x['FileUpload'] = $this->cdata;
+				break;
+
 			case 'UpdateUserId':
 				$x['UpdateUserId'] = $this->cdata;
 				break;
@@ -302,6 +306,7 @@ class ilForumXMLParser extends ilSaxParser
 					$newObjProp->setNotificationType($this->forumArray['NotificationType'] ? $this->forumArray['NotificationType'] : 'all_users');
 					$newObjProp->setAdminForceNoti((int)$this->forumArray['ForceNotification']);
 					$newObjProp->setUserToggleNoti((int)$this->forumArray['ToggleNotification']);
+					$newObjProp->setFileUploadAllowed((int)$this->forumArray['FileUpload'] );
 					$newObjProp->update();
 
 					$id = $this->getNewForumPk();

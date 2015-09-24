@@ -31,6 +31,8 @@ class ilContainerRenderer
 	protected $block_pos = array(); // [array]
 	protected $block_custom_pos = array(); // [array]
 	protected $order_cnt = 0; // [int]
+	
+	const UNIQUE_SEPARATOR = "-";
 		
 	/**
 	 * Constructor
@@ -143,8 +145,11 @@ class ilContainerRenderer
 	 */
 	public function hideItem($a_id)
 	{
+		// see hasItem();
 		$this->hidden_items[] = $a_id;		
-		$this->removeItem($a_id);
+		
+		// #16629 - do not remove hidden items from other blocks		
+		// $this->removeItem($a_id);
 	}
 	
 	/**
@@ -154,13 +159,19 @@ class ilContainerRenderer
 	 */
 	public function removeItem($a_id)
 	{
-		unset($this->items[$a_id]);
+		foreach(array_keys($this->items) as $item_id)
+		{
+			if(array_pop(explode(self::UNIQUE_SEPARATOR, $item_id)) == $a_id)
+			{
+				unset($this->items[$item_id]);
+			}
+		}
 		
 		foreach($this->block_items as $block_id => $items)
 		{
 			foreach($items as $idx => $item_id)
 			{
-				if($item_id == $a_id)
+				if(array_pop(explode(self::UNIQUE_SEPARATOR, $item_id)) == $a_id)
 				{
 					unset($this->block_items[$block_id][$idx]);
 					if(!sizeof($this->block_items[$block_id]))
@@ -174,15 +185,21 @@ class ilContainerRenderer
 	}
 	
 	/**
-	 * Item with id existS?
+	 * Item with id exists?
 	 * 
 	 * @param mixed $a_id
 	 * @return bool
 	 */
 	public function hasItem($a_id)
-	{
-		return (array_key_exists($a_id, $this->items) || 
-			in_array($a_id, $this->hidden_items));
+	{				
+		foreach(array_keys($this->items) as $item_id)
+		{
+			if(array_pop(explode(self::UNIQUE_SEPARATOR, $item_id)) == $a_id)
+			{
+				return true;
+			}
+		}		
+		return in_array($a_id, $this->hidden_items);
 	}
 	
 	/**
@@ -196,17 +213,20 @@ class ilContainerRenderer
 	 * @return boolean
 	 */
 	public function addItemToBlock($a_block_id, $a_item_type, $a_item_id, $a_item_html, $a_force = false)
-	{
+	{		
 		if($this->isValidBlock($a_block_id) &&
 			$a_item_type != "itgr" &&
 			(!$this->hasItem($a_item_id) || $a_force) &&
 			trim($a_item_html))
-		{
-			$this->items[$a_item_id] = array(
+		{			
+			// #16563 - item_id (== ref_id) is NOT unique, adding parent block id
+			$uniq_id = $a_block_id.self::UNIQUE_SEPARATOR.$a_item_id;			
+		
+			$this->items[$uniq_id] = array(
 				"type" => $a_item_type
 				,"html" => $a_item_html
 			);
-			$this->block_items[$a_block_id][] = $a_item_id;
+			$this->block_items[$a_block_id][] = $uniq_id;
 			return true;
 		}
 		return false;

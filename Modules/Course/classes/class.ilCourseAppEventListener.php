@@ -2,16 +2,74 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* Course Pool listener. Listens to events of other components.
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* @version $Id$
-* @ingroup ModulesMediaPool
-*/
+ * Course Pool listener. Listens to events of other components.
+ *
+ * @author Stefan Meyer <smeyer.ilias@gmx.de>
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @version $Id$
+ * @ingroup ModulesMediaPool
+ */
 class ilCourseAppEventListener
-{	
-	static protected $course_mode = array();
+{
+	private $logger = null;
 	
+	static protected $course_mode = array();
+	static protected $blocked_for_lp;
+
+	/**
+	 * Constructor
+	 */
+	public function __construct()
+	{
+		$this->logger = ilLoggerFactory::getInstance()->getLogger('crs');
+		
+	}
+	
+	/**
+	 * @return ilLogger
+	 */
+	public function getLogger()
+	{
+		return $this->logger;
+	}
+	
+	/**
+	 * handle user assignments
+	 * @param type $a_event
+	 * @param type $a_parameters
+	 */
+	protected function handleUserAssignments($a_event, $a_parameters)
+	{
+		if($a_parameters['type'] != 'crs') 
+		{
+			$this->getLogger()->debug('Ignoring event for type '. $a_parameters['type']);
+			return TRUE;
+		}
+		
+		if($a_event == 'assignUser')
+		{
+			$this->getLogger()->debug('Handling assign user event for type crs.');
+			$new_status = 1;
+		}
+		elseif($a_event == 'deassignUser')
+		{
+			$this->getLogger()->debug('Handling assign user event for type crs.');
+			$new_status = 0;
+		}
+		
+		ilLoggerFactory::getInstance()->getLogger('crs')->debug(print_r($a_parameters,TRUE));
+		ilLoggerFactory::getInstance()->getLogger('crs')->debug(print_r($new_status,TRUE));
+		
+		include_once './Modules/Course/classes/class.ilCourseParticipant.php';
+		ilCourseParticipant::updateMemberRoles(
+				$a_parameters['obj_id'],
+				$a_parameters['usr_id'],
+				$a_parameters['role_id'],
+				$new_status
+		);
+	}
+	
+
 	/**
 	* Handle an event in a listener.
 	*
@@ -21,10 +79,20 @@ class ilCourseAppEventListener
 	*/
 	static function handleEvent($a_component, $a_event, $a_parameter)
 	{
-		global $ilUser;
-
+		if($a_component == 'Services/AccessControl')
+		{
+			$listener = new self();
+			$listener->handleUserAssignments($a_event, $a_parameter);
+		}
+		
 		if($a_component == "Services/Tracking" && $a_event == "updateStatus")
 		{
+			// see ilObjCourseGUI::updateLPFromStatus()
+			if((bool)self::$blocked_for_lp)
+			{
+				return;
+			}				
+			
 			// #13905
 			include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
 			if(!ilObjUserTracking::_enabledLearningProgress())
@@ -96,6 +164,16 @@ class ilCourseAppEventListener
 				}										
 			}
 		}
+	}
+	
+	/**
+	 * Toggle LP blocking property status
+	 * 
+	 * @param bool $a_status
+	 */
+	public static function setBlockedForLP($a_status)
+	{
+		self::$blocked_for_lp = (bool)$a_status;
 	}
 }
 

@@ -5,7 +5,6 @@
 require_once "Services/Table/classes/class.ilTable2GUI.php";
 require_once "Services/Contact/classes/class.ilMailingLists.php";
 require_once "Services/Mail/classes/class.ilFormatMail.php";
-require_once "Services/Contact/classes/class.ilAddressbook.php";
 
 /**
 * @author Michael Jansen <mjansen@databay.de>
@@ -19,9 +18,8 @@ class ilMailingListsGUI
 	private $ctrl = null;
 	private $lng = null;
 	
-	private $umail = null;	
+	private $umail = null;
 	private $mlists = null;
-	private $abook = null;
 	
 	private $error = array();
 	
@@ -36,7 +34,6 @@ class ilMailingListsGUI
 		$this->lng = $lng;
 		
 		$this->umail = new ilFormatMail($ilUser->getId());
-		$this->abook = new ilAddressbook($ilUser->getId());
 		
 		$this->mlists = new ilMailingLists($ilUser);		
 		$this->mlists->setCurrentMailingList($_GET['ml_id']);
@@ -175,7 +172,9 @@ class ilMailingListsGUI
 				$mail_data['m_email'],
 				$mail_data['m_subject'],
 				$mail_data['m_message'],
-				$mail_data['use_placeholders']
+				$mail_data['use_placeholders'],
+				$mail_data['tpl_ctx_id'],
+				$mail_data['tpl_ctx_params']
 			);
 		}
 
@@ -400,7 +399,7 @@ class ilMailingListsGUI
 			$this->showMailingLists();
 			return true;
 		}
-		
+
 		$this->ctrl->setParameter($this, 'cmd', 'post');
 		$this->ctrl->setParameter($this, 'ml_id', $this->mlists->getCurrentMailingList()->getId());
 
@@ -417,12 +416,20 @@ class ilMailingListsGUI
 			$tbl->enable('select_all');
 			$tbl->setSelectAllCheckbox('a_id');
 
+			$usr_ids = array();
+			foreach($assigned_entries as $entry)
+			{
+				$usr_ids[] = $entry['usr_id'];
+			}
+
+			require_once 'Services/User/classes/class.ilUserUtil.php';
+			$names  = ilUserUtil::getNamePresentation($usr_ids, false, false, '', false, false, false);
+
 			$counter = 0;
 			foreach($assigned_entries as $entry)
 			{
 				$result[$counter]['check'] = ilUtil::formCheckbox(0, 'a_id[]', $entry['a_id']);
-				$result[$counter]['title'] = ($entry['login'] != '' ? $entry['login'] : $entry['email']);
-
+				$result[$counter]['user']  = $names[$entry['usr_id']];
 				++$counter;
 			}
 
@@ -442,16 +449,16 @@ class ilMailingListsGUI
 		$this->tpl->show();
 		return true;
 	}
-	
+
 	public function confirmDeleteMembers()
 	{
-		if (!isset($_POST['a_id']))
+		if(!isset($_POST['a_id']))
 	 	{
 	 		ilUtil::sendInfo($this->lng->txt('mail_select_one_entry'));
 	 		$this->showMembersList();
 	 		return true;
 	 	}
-	 	
+
 	 	include_once('Services/Utilities/classes/class.ilConfirmationGUI.php');
 		$c_gui = new ilConfirmationGUI();
 		$this->ctrl->setParameter($this, 'ml_id', $this->mlists->getCurrentMailingList()->getId());
@@ -461,199 +468,185 @@ class ilMailingListsGUI
 		$c_gui->setConfirm($this->lng->txt('confirm'), 'performDeleteMembers');
 
 		$assigned_entries = $this->mlists->getCurrentMailingList()->getAssignedEntries();
-		if (is_array($assigned_entries))
+
+		$usr_ids = array();
+		foreach($assigned_entries as $entry)
 		{
-			foreach ($assigned_entries as $entry)
-			{	
-				if (in_array($entry['a_id'], $_POST['a_id']))
-				{
-					$c_gui->addItem('a_id[]', $entry['a_id'], ($entry['login'] != '' ? $entry['login'] : $entry['email']));		
-				}
-			}	
+			$usr_ids[] = $entry['usr_id'];
 		}
-				
+
+		require_once 'Services/User/classes/class.ilUserUtil.php';
+		$names  = ilUserUtil::getNamePresentation($usr_ids, false, false, '', false, false, false);
+
+		foreach($assigned_entries as $entry)
+		{
+			if(in_array($entry['a_id'], $_POST['a_id']))
+			{
+				$c_gui->addItem('a_id[]', $entry['a_id'], $names[$entry['usr_id']]);
+			}
+		}
+
 		$this->tpl->setTitle($this->lng->txt('mail_addressbook'));
 		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail_mailing_lists_members.html', 'Services/Contact');
 		$this->tpl->setVariable('DELETE_CONFIRMATION', $c_gui->getHTML());
-		
+
 		$this->tpl->show();
-	
-		return true;	
+		return true;
 	}
-	
+
 	public function performDeleteMembers()
 	{
 		global $ilUser, $ilErr;
-		
+
 		if(!ilMailingList::_isOwner($this->mlists->getCurrentMailingList()->getId(), $ilUser->getId()))
 		{
 			$ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->MESSAGE);
 		}
-		
-		if (is_array($_POST['a_id']))
-		{			
-			foreach ($_POST['a_id'] as $id)
+
+		if(is_array($_POST['a_id']))
+		{
+			$assigned_entries = $this->mlists->getCurrentMailingList()->getAssignedEntries();
+			foreach($_POST['a_id'] as $id)
 			{
-				$this->mlists->getCurrentMailingList()->deassignAddressbookEntry(ilUtil::stripSlashes($id));
+				if(isset($assigned_entries[$id]))
+				{
+					$this->mlists->getCurrentMailingList()->deleteEntry((int)$id);
+				}
 			}
-			
-			ilUtil::sendInfo($this->lng->txt('mail_deleted_entry'));			
+			ilUtil::sendInfo($this->lng->txt('mail_deleted_entry'));
 		}
 		else
 		{
 			ilUtil::sendInfo($this->lng->txt('mail_delete_error'));
 		}
-		
-		$this->showMembersList();
-		
-		return true;
-	}
-	
-	public function saveAssignmentForm()
-	{
-		global $ilUser, $ilErr;
-		
-		if(!ilMailingList::_isOwner($this->mlists->getCurrentMailingList()->getId(), $ilUser->getId()))
-		{
-			$ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->MESSAGE);
-		}
-		
-		if ($_POST['addr_id'] == '') $this->setError($this->lng->txt('mail_entry_of_addressbook'));
 
-		if (!$this->isError())
-		{
-			$found = false;
-			
-			$all_entries = $this->abook->getEntries();
-			if ((int)count($all_entries))
-			{
-				foreach ($all_entries as $entry)
-				{
-					if($entry['addr_id'] == $_POST['addr_id'])
-					{
-						$found = true;
-						break;
-					}
-				}
-			}
-			
-			if($found)
-			{
-				$this->mlists->getCurrentMailingList()->assignAddressbookEntry(ilUtil::stripSlashes($_POST['addr_id']));
-				
-				ilUtil::sendInfo($this->lng->txt('saved_successfully'));
-			}
-			
-			$this->showMembersList();
-		}		
-		else
-		{
-			$mandatory = '';
-			
-			while ($error = $this->getError())
-			{
-				$mandatory .= $error;
-				if ($this->isError()) $mandatory .= ', ';
-			}			
-			
-			ilUtil::sendInfo($this->lng->txt('fill_out_all_required_fields') . ': ' . $mandatory);
-			
-			$this->showAssignmentForm();	
-		}
-		
+		$this->showMembersList();
 		return true;
 	}
-	
-	public function showAssignmentForm()
+
+	/**
+	 * @return ilPropertyFormGUI
+	 */
+	protected function getAssignmentForm()
 	{
-		global $ilUser, $ilErr;	
-		
-		if (!$this->mlists->getCurrentMailingList()->getId())
-		{
-			$this->showMembersList();
-			
-			return true;
-		}
-		
-		if(!ilMailingList::_isOwner($this->mlists->getCurrentMailingList()->getId(), $ilUser->getId()))
-		{
-			$ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->MESSAGE);
-		}
-			
-		$this->tpl->setTitle($this->lng->txt('mail_addressbook'));		
-		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail_mailing_lists_members_form.html', 'Services/Contact');
-		
-		include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
-		
+		require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 		$form = new ilPropertyFormGUI();
 		$this->ctrl->setParameter($this, 'ml_id', $this->mlists->getCurrentMailingList()->getId());
-		$form->setFormAction($this->ctrl->getFormAction($this, 'saveForm'));
+		$form->setFormAction($this->ctrl->getFormAction($this, 'saveAssignmentForm'));
 		$form->setTitle($this->lng->txt('mail_assign_entry_to_mailing_list') . ' ' . $this->mlists->getCurrentMailingList()->getTitle());
-		
+
 		$options = array();
 		$options[''] = $this->lng->txt('please_select');
-		
-		$all_entries = $this->abook->getEntries();
-		if ((int)count($all_entries))
+
+		require_once 'Services/Contact/BuddySystem/classes/class.ilBuddyList.php';
+		require_once 'Services/User/classes/class.ilUserUtil.php';
+		$relations = ilBuddyList::getInstanceByGlobalUser()->getLinkedRelations();
+		$names     = ilUserUtil::getNamePresentation(array_keys($relations->toArray()), false, false, '', false, false, false);
+		foreach($relations as $relation)
 		{
-			foreach ($all_entries as $entry)
-			{
-				$options[$entry['addr_id']] = ($entry['login'] != '' ? $entry['login'] : $entry['email']);
-			}
+			/**
+			 * @var $relation ilBuddySystemRelation
+			 */
+			$options[$relation->getBuddyUserId()] = $names[$relation->getBuddyUserId()];
 		}
 
 		$assigned_entries = $this->mlists->getCurrentMailingList()->getAssignedEntries();
-		if ((int)count($assigned_entries))
+		if(count($assigned_entries))
 		{
-			foreach ($assigned_entries as $assigned_entry)
+			foreach($assigned_entries as $assigned_entry)
 			{
-				if (is_array($options) && array_key_exists($assigned_entry['addr_id'], $options))
+				if(is_array($options) && array_key_exists($assigned_entry['usr_id'], $options))
 				{
-					unset($options[$assigned_entry['addr_id']]);
-				}	
+					unset($options[$assigned_entry['usr_id']]);
+				}
 			}
 		}
 
-		if (count($options) > 1)
-		{		
-			$formItem = new ilSelectInputGUI($this->lng->txt('mail_entry_of_addressbook'), 'addr_id');		
-			$formItem->setOptions($options);
-			$formItem->setValue($this->mlists->getCurrentMailingList()->getTitle());
-			$form->addItem($formItem);
-			
-			$form->addCommandButton('saveAssignmentForm',$this->lng->txt('assign'));			
-		}
-		else if(count($options) == 1 && (int)count($all_entries))
+		if(count($options) > 1)
 		{
-			ilUtil::sendInfo($this->lng->txt('mail_mailing_lists_all_addressbook_entries_assigned'));
+			$formItem = new ilSelectInputGUI($this->lng->txt('mail_entry_of_contacts'), 'usr_id');
+			$formItem->setRequired(true);
+			$formItem->setOptions($options);
+			$form->addItem($formItem);
+
+			$form->addCommandButton('saveAssignmentForm', $this->lng->txt('assign'));
 		}
-		else if(!(int)count($all_entries))
-		{			
-			ilUtil::sendInfo($this->lng->txt('mail_mailing_lists_no_addressbook_entries'));
+		else if(count($options) == 1 && count($relations))
+		{
+			ilUtil::sendInfo($this->lng->txt('mail_mailing_lists_all_contact_entries_assigned'));
 		}
-		
-		
-		$form->addCommandButton('showMembersList',$this->lng->txt('cancel'));	
-		
+		else if(count($relations) == 0)
+		{
+			ilUtil::sendInfo($this->lng->txt('mail_mailing_lists_no_contact_entries'));
+		}
+		$form->addCommandButton('showMembersList', $this->lng->txt('cancel'));
+
+		return $form;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function saveAssignmentForm()
+	{
+		global $ilUser, $ilErr;
+
+		if(!ilMailingList::_isOwner($this->mlists->getCurrentMailingList()->getId(), $ilUser->getId()))
+		{
+			$ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->MESSAGE);
+		}
+
+		$form = $this->getAssignmentForm();
+		if(!$form->checkInput())
+		{
+			$form->setValuesByPost();
+			$this->showAssignmentForm($form);
+			return true;
+		}
+
+		require_once 'Services/Contact/BuddySystem/classes/class.ilBuddyList.php';
+		if(ilBuddyList::getInstanceByGlobalUser()->getRelationByUserId((int)$_POST['usr_id'])->isLinked())
+		{
+			$this->mlists->getCurrentMailingList()->assignUser((int)$_POST['usr_id']);
+			ilUtil::sendInfo($this->lng->txt('saved_successfully'));
+			$this->showMembersList();
+			return true;
+		}
+
+		$this->showAssignmentForm($form);
+		return true;
+	}
+
+	/**
+	 * @param ilPropertyFormGUI|null $form
+	 * @return bool
+	 */
+	public function showAssignmentForm(ilPropertyFormGUI $form = null)
+	{
+		global $ilUser, $ilErr;
+
+		if(!$this->mlists->getCurrentMailingList()->getId())
+		{
+			$this->showMembersList();
+			return true;
+		}
+
+		if(!ilMailingList::_isOwner($this->mlists->getCurrentMailingList()->getId(), $ilUser->getId()))
+		{
+			$ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->MESSAGE);
+		}
+
+		$this->tpl->setTitle($this->lng->txt('mail_addressbook'));
+		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail_mailing_lists_members_form.html', 'Services/Contact');
+
+		if(!($form instanceof ilPropertyFormGUI))
+		{
+			$form = $this->getAssignmentForm();
+		}
+
 		$this->tpl->setVariable('FORM', $form->getHTML());
 		$this->tpl->show();
-		
+
 		return true;
-	}	
-	
-	public function setError($a_error = '')
-	{
-		return $this->error[] = $a_error;
-	}
-	public function getError()
-	{
-		return array_pop($this->error);
-	}
-	public function isError()
-	{
-		if (is_array($this->error) && !empty($this->error)) return true;
-		
-		return false;	
 	}
 }
-?>

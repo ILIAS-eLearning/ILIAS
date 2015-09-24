@@ -43,6 +43,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 	const ERR_MISSING_PASSWORD = 'grp_missing_password';
 	const ERR_WRONG_MAX_MEMBERS = 'grp_wrong_max_members';
 	const ERR_WRONG_REG_TIME_LIMIT = 'grp_wrong_reg_time_limit';
+	const ERR_WRONG_MIN_MAX_MEMBERS = 'grp_wrong_min_max_members';
 	
 	const MAIL_ALLOWED_ALL = 1;
 	const MAIL_ALLOWED_TUTORS = 2;
@@ -56,8 +57,11 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 	protected $reg_end = null;
 	protected $reg_password = '';
 	protected $reg_membership_limitation = false;
+	protected $reg_min_members = 0;
 	protected $reg_max_members = 0;
 	protected $waiting_list = false;
+	protected $auto_fill_from_waiting; // [bool]
+	protected $leave_end; // [ilDate]
 	
 	
 	// Map
@@ -341,6 +345,28 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 	}
 
 	/**
+	 * set min members
+	 *
+	 * @access public
+	 * @param int min members
+	 */
+	public function setMinMembers($a_max)
+	{
+		$this->reg_min_members = $a_max;
+	}
+	
+	/**
+	 * get min members
+	 *
+	 * @access public
+	 * @return
+	 */
+	public function getMinMembers()
+	{
+		return $this->reg_min_members;
+	}
+
+	/**
 	 * set max members
 	 *
 	 * @access public
@@ -384,6 +410,16 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 	public function isWaitingListEnabled()
 	{
 		return $this->waiting_list;
+	}
+	
+	function setWaitingListAutoFill($a_value)
+	{
+		$this->auto_fill_from_waiting = (bool)$a_value;
+	}
+	
+	function hasWaitingListAutoFill()
+	{
+		return (bool)$this->auto_fill_from_waiting;
 	}
 	
 	/**
@@ -523,8 +559,15 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		return $this->mail_members;
 	}
 	
-
+	function setCancellationEnd(ilDate $a_value = null)
+	{		
+		$this->leave_end = $a_value;
+	}
 	
+	function getCancellationEnd()
+	{		
+		return $this->leave_end;
+	}	
 	
 	/**
 	 * validate group settings
@@ -553,9 +596,20 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		{
 			$ilErr->appendMessage($this->lng->txt(self::ERR_WRONG_REG_TIME_LIMIT));
 		}
-		if($this->isMembershipLimited() and (!is_numeric($this->getMaxMembers()) or $this->getMaxMembers() <= 0))
+		if($this->isMembershipLimited())
 		{
-			$ilErr->appendMessage($this->lng->txt(self::ERR_WRONG_MAX_MEMBERS));
+			if($this->getMinMembers() <= 0 && $this->getMaxMembers() <= 0)
+			{
+				$ilErr->appendMessage($this->lng->txt(self::ERR_WRONG_MIN_MAX_MEMBERS));
+			}
+			if($this->getMaxMembers() <= 0 && $this->isWaitingListEnabled())
+			{
+				$ilErr->appendMessage($this->lng->txt(self::ERR_WRONG_MAX_MEMBERS));
+			}
+			if($this->getMaxMembers() > 0 && $this->getMinMembers() > $this->getMaxMembers())
+			{
+				$ilErr->appendMessage($this->lng->txt(self::ERR_WRONG_MIN_MAX_MEMBERS));
+			}
 		}
 		return strlen($ilErr->getMessage()) == 0;
 	}
@@ -577,7 +631,8 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 
 		$query = "INSERT INTO grp_settings (obj_id,information,grp_type,registration_type,registration_enabled,".
 			"registration_unlimited,registration_start,registration_end,registration_password,registration_mem_limit,".
-			"registration_max_members,waiting_list,latitude,longitude,location_zoom,enablemap,reg_ac_enabled,reg_ac,view_mode,mail_members_type) ".
+			"registration_max_members,waiting_list,latitude,longitude,location_zoom,enablemap,reg_ac_enabled,reg_ac,view_mode,mail_members_type,".
+			"leave_end,registration_min_members,auto_wait) ".
 			"VALUES(".
 			$ilDB->quote($this->getId() ,'integer').", ".
 			$ilDB->quote($this->getInformation() ,'text').", ".
@@ -598,7 +653,10 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 			$ilDB->quote($this->isRegistrationAccessCodeEnabled(),'integer').', '.
 			$ilDB->quote($this->getRegistrationAccessCode(),'text').', '.
 			$ilDB->quote($this->getViewMode(false),'integer').', '.
-			$ilDB->quote($this->getMailToMembersType(),'integer').' '.
+			$ilDB->quote($this->getMailToMembersType(),'integer').', '.				
+			$ilDB->quote(($this->getCancellationEnd() && !$this->getCancellationEnd()->isNull()) ? $this->getCancellationEnd()->get(IL_CAL_UNIX) : null, 'integer').', '.			
+			$ilDB->quote($this->getMinMembers(),'integer').', '.
+			$ilDB->quote($this->hasWaitingListAutoFill(),'integer').' '.
 			")";
 		$res = $ilDB->manipulate($query);
 
@@ -643,8 +701,11 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 			'reg_ac_enabled = '.$ilDB->quote($this->isRegistrationAccessCodeEnabled(),'integer').', '.
 			'reg_ac = '.$ilDB->quote($this->getRegistrationAccessCode(),'text').', '.
 			'view_mode = '.$ilDB->quote($this->getViewMode(false),'integer').', '.
-			'mail_members_type = '.$ilDB->quote($this->getMailToMembersType(),'integer').' '.
-			"WHERE obj_id = ".$ilDB->quote($this->getId() ,'integer')." ";
+			'mail_members_type = '.$ilDB->quote($this->getMailToMembersType(),'integer').', '.				
+			'leave_end = '.$ilDB->quote(($this->getCancellationEnd() && !$this->getCancellationEnd()->isNull()) ? $this->getCancellationEnd()->get(IL_CAL_UNIX) : null, 'integer').', '.			
+			"registration_min_members = ".$ilDB->quote($this->getMinMembers() ,'integer').", ".
+			"auto_wait = ".$ilDB->quote($this->hasWaitingListAutoFill() ,'integer')." ".
+			"WHERE obj_id = ".$ilDB->quote($this->getId() ,'integer');
 		$res = $ilDB->manipulate($query);
 		
 		$ilAppEventHandler->raise('Modules/Group',
@@ -723,7 +784,10 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 			$this->enableRegistrationAccessCode($row->reg_ac_enabled);
 			$this->setRegistrationAccessCode($row->reg_ac);
 			$this->setViewMode($row->view_mode);
-			$this->setMailToMembersType($row->mail_members_type);
+			$this->setMailToMembersType($row->mail_members_type);			
+			$this->setCancellationEnd($row->leave_end ? new ilDate($row->leave_end, IL_CAL_UNIX) : null);
+			$this->setMinMembers($row->registration_min_members);
+			$this->setWaitingListAutoFill($row->auto_wait);			
 		}
 		$this->initParticipants();
 		
@@ -742,7 +806,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 	 */
 	public function cloneObject($a_target_id,$a_copy_id = 0)
 	{
-		global $ilDB,$ilUser;
+		global $ilDB,$ilUser, $ilSetting;
 
 	 	$new_obj = parent::cloneObject($a_target_id,$a_copy_id);
 	 	$new_obj->setGroupType($this->getGroupType());
@@ -772,20 +836,23 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		$new_obj->setViewMode($this->getViewMode());
 		$new_obj->setMailToMembersType($this->getMailToMembersType());
 		
+		$new_obj->setCancellationEnd($this->getCancellationEnd());
+		$new_obj->setMinMembers($this->getMinMembers());
+		$new_obj->setWaitingListAutoFill($this->hasWaitingListAutoFill());
+		
 		$new_obj->update();
 		
 		// #13008 - Group Defined Fields
 		include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
 		ilCourseDefinedFieldDefinition::_clone($this->getId(),$new_obj->getId());
 		
-		global $ilLog;
-		$ilLog->write(__METHOD__.': Starting add user');
+		ilLoggerFactory::getLogger('grp')->debug('Starting add user');
 		
 		// Assign user as admin
 		include_once('./Modules/Group/classes/class.ilGroupParticipants.php');
 		$part = ilGroupParticipants::_getInstanceByObjId($new_obj->getId());
 		$part->add($ilUser->getId(),IL_GRP_ADMIN);
-		$part->updateNotification($ilUser->getId(),1);
+		$part->updateNotification($ilUser->getId(),$ilSetting->get('mail_grp_admin_notification', true));
 
 		// Copy learning progress settings
 		include_once('Services/Tracking/classes/class.ilLPObjSettings.php');
@@ -830,25 +897,25 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 	 */
 	public function cloneAutoGeneratedRoles($new_obj)
 	{
-		global $ilLog,$rbacadmin,$rbacreview;
+		global $rbacadmin,$rbacreview;
 
 		$admin = $this->getDefaultAdminRole();
 		$new_admin = $new_obj->getDefaultAdminRole();
 		if(!$admin || !$new_admin || !$this->getRefId() || !$new_obj->getRefId())
 		{
-			$ilLog->write(__METHOD__.' : Error cloning auto generated role: il_grp_admin');
+			ilLoggerFactory::getLogger('grp')->warning('Error cloning auto generated rol: il_grp_admin');
 		}
 		$rbacadmin->copyRolePermissions($admin,$this->getRefId(),$new_obj->getRefId(),$new_admin,true);
-		$ilLog->write(__METHOD__.' : Finished copying of role il_grp_admin.');
+		ilLoggerFactory::getLogger('grp')->info('Finished copying of role il_grp_admin.');
 
 		$member = $this->getDefaultMemberRole();
 		$new_member = $new_obj->getDefaultMemberRole();
 		if(!$member || !$new_member)
 		{
-			$ilLog->write(__METHOD__.' : Error cloning auto generated role: il_grp_member');
+			ilLoggerFactory::getLogger('grp')->warning('Error cloning auto generated rol: il_grp_member');
 		}
 		$rbacadmin->copyRolePermissions($member,$this->getRefId(),$new_obj->getRefId(),$new_member,true);
-		$ilLog->write(__METHOD__.' : Finished copying of role grp_member.');
+		ilLoggerFactory::getLogger('grp')->info('Finished copying of role il_grp_member.');
 	}
 
 
@@ -1984,6 +2051,107 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		$part->sendNotification($part->TYPE_NOTIFICATION_REGISTRATION, $a_user_id);
 		return true;
 	}	
+	
+	// :TODO: attach to unsubscribe event
+	public function handleAutoFill()
+	{	
+		if($this->isWaitingListEnabled() &&
+			$this->hasWaitingListAutoFill())
+		{
+			$max = $this->getMaxMembers();
+			$now = ilGroupParticipants::lookupNumberOfMembers($this->getRefId());
+			if($max > $now)
+			{
+				// see assignFromWaitingListObject()
+				include_once('./Modules/Group/classes/class.ilGroupWaitingList.php');
+				$waiting_list = new ilGroupWaitingList($this->getId());
+
+				foreach($waiting_list->getUserIds() as $user_id)
+				{
+					if(!$tmp_obj = ilObjectFactory::getInstanceByObjId($user_id,false))
+					{
+						continue;
+					}
+					if($this->getMembersObject()->isAssigned($user_id))
+					{
+						continue;
+					}
+					$this->getMembersObject()->add($user_id,IL_CRS_MEMBER);
+					$this->getMembersObject()->sendNotification($this->getMembersObject()->NOTIFY_ACCEPT_USER,$user_id);
+					$waiting_list->removeFromList($user_id);
+
+					$now++;
+					if($now >= $max)
+					{
+						break;
+					}
+				}
+			}
+		}		
+	}	
+	
+	public static function mayLeave($a_group_id, $a_user_id = null, &$a_date = null)
+	{
+		global $ilUser, $ilDB;
+		
+		if(!$a_user_id)
+		{
+			$a_user_id = $ilUser->getId();
+		}
+		
+		$set = $ilDB->query("SELECT leave_end".
+			" FROM grp_settings".
+			" WHERE obj_id = ".$ilDB->quote($a_group_id, "integer"));
+		$row = $ilDB->fetchAssoc($set);		
+		if($row && $row["leave_end"])
+		{
+			// timestamp to date
+			$limit = date("Ymd", $row["leave_end"]);			
+			if($limit < date("Ymd"))
+			{
+				$a_date = new ilDate(date("Y-m-d", $row["leave_end"]), IL_CAL_DATE);		
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public static function findGroupsWithNotEnoughMembers()
+	{
+		global $ilDB;
+		
+		$res = array();
+		
+		$now = date("Y-m-d H:i:s");
+		
+		include_once "Modules/Group/classes/class.ilGroupParticipants.php";
+		
+		$set = $ilDB->query("SELECT obj_id, registration_min_members".
+			" FROM grp_settings".
+			" WHERE registration_min_members > ".$ilDB->quote(0, "integer").
+			" AND ((leave_end IS NOT NULL".
+				" AND leave_end < ".$ilDB->quote($now, "text").")".
+				" OR (leave_end IS NULL".
+				" AND registration_end IS NOT NULL".
+				" AND registration_end < ".$ilDB->quote($now, "text")."))"
+			// :TODO: there is no group start ?!
+			/* " AND (grp_start IS NULL OR grp_start > ".$ilDB->quote($now, "integer").")" */);
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			$part = new ilGroupParticipants($row["obj_id"]);			
+			$reci = $part->getNotificationRecipients();
+			if(sizeof($reci))
+			{
+				$missing = (int)$row["registration_min_members"]-$part->getCountMembers();
+				if($missing > 0)
+				{
+					$res[$row["obj_id"]] = array($missing, $reci);		
+				}
+			}			
+		}
+		
+		return $res;
+	}
 	
 } //END class.ilObjGroup
 ?>

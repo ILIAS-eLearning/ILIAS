@@ -372,15 +372,34 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 			{
 				if (strcmp($mc_solution, $answer_id) == 0)
 				{
-					$template->setVariable("SOLUTION_IMAGE", ilUtil::getHtmlPath(ilUtil::getImagePath("checkbox_checked.png")));
-					$template->setVariable("SOLUTION_ALT", $this->lng->txt("checked"));
+					if( isset($_GET['pdf']) && $_GET['pdf'] )
+					{
+						$template->setVariable("SOLUTION_IMAGE", ilUtil::getHtmlPath(ilUtil::getImagePath("checkbox_checked.png")));
+						$template->setVariable("SOLUTION_ALT", $this->lng->txt("checked"));
+					}
+					else
+					{
+						$template->setVariable('QID', $this->object->getId());
+						$template->setVariable('SUFFIX', $show_correct_solution ? 'bestsolution' : 'usersolution');
+						$template->setVariable('SOLUTION_VALUE', $answer_id);
+						$template->setVariable('SOLUTION_CHECKED', 'checked');
+					}
 					$checked = TRUE;
 				}
 			}
 			if (!$checked)
 			{
-				$template->setVariable("SOLUTION_IMAGE", ilUtil::getHtmlPath(ilUtil::getImagePath("checkbox_unchecked.png")));
-				$template->setVariable("SOLUTION_ALT", $this->lng->txt("unchecked"));
+				if( isset($_GET['pdf']) && $_GET['pdf'] )
+				{
+					$template->setVariable("SOLUTION_IMAGE", ilUtil::getHtmlPath(ilUtil::getImagePath("checkbox_unchecked.png")));
+					$template->setVariable("SOLUTION_ALT", $this->lng->txt("unchecked"));
+				}
+				else
+				{
+					$template->setVariable('QID', $this->object->getId());
+					$template->setVariable('SUFFIX', $show_correct_solution ? 'bestsolution' : 'usersolution');
+					$template->setVariable('SOLUTION_VALUE', $answer_id);
+				}
 			}
 			$template->parseCurrentBlock();
 		}
@@ -512,7 +531,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 			{
 				if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
 			}
-			$solutions =& $this->object->getSolutionValues($active_id, $pass);
+			$solutions = $this->object->getUserSolutionPreferingIntermediate($active_id, $pass);
 			foreach ($solutions as $idx => $solution_value)
 			{
 				array_push($user_solution, $solution_value["value1"]);
@@ -662,20 +681,14 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 	 */
 	function getChoiceKeys()
 	{
-		if (strcmp($_GET["activecommand"], "directfeedback") == 0)
+		$choiceKeys = array_keys($this->object->answers);
+
+		if( $this->object->getShuffle() )
 		{
-			if (is_array($_SESSION["choicekeys"])) $this->choiceKeys = $_SESSION["choicekeys"];
+			$choiceKeys = $this->object->getShuffler()->shuffle($choiceKeys);
 		}
-		if (!is_array($this->choiceKeys))
-		{
-			$this->choiceKeys = array_keys($this->object->answers);
-			if ($this->object->getShuffle())
-			{
-				$this->choiceKeys = $this->object->pcArrayShuffle($this->choiceKeys);
-			}
-		}
-		$_SESSION["choicekeys"] = $this->choiceKeys;
-		return $this->choiceKeys;
+
+		return $choiceKeys;
 	}
 
 	function getSpecificFeedbackOutput($active_id, $pass)

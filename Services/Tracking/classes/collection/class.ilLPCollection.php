@@ -50,7 +50,11 @@ abstract class ilLPCollection
 			case ilLPObjSettings::LP_MODE_COLLECTION_MANUAL:	
 			case ilLPObjSettings::LP_MODE_COLLECTION_TLT:	
 				include_once $path."class.ilLPCollectionOfLMChapters.php";
-				return new ilLPCollectionOfLMChapters($a_obj_id, $a_mode);				
+				return new ilLPCollectionOfLMChapters($a_obj_id, $a_mode);		
+				
+			case ilLPObjSettings::LP_MODE_COLLECTION_MOBS:
+				include_once $path."class.ilLPCollectionOfMediaObjects.php";
+				return new ilLPCollectionOfMediaObjects($a_obj_id, $a_mode);	
 		}
 	}
 	
@@ -62,6 +66,7 @@ abstract class ilLPCollection
 			,ilLPObjSettings::LP_MODE_COLLECTION_MANUAL
 			,ilLPObjSettings::LP_MODE_SCORM
 			,ilLPObjSettings::LP_MODE_OBJECTIVES
+			,ilLPObjSettings::LP_MODE_COLLECTION_MOBS
 		);
 	}
 	

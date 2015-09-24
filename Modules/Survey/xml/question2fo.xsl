@@ -396,15 +396,30 @@
 					<xsl:apply-templates select="thead"></xsl:apply-templates>
 				</fo:table-header>
 			</xsl:if>
-			<fo:table-body>
-				<xsl:apply-templates select="tr"></xsl:apply-templates>
-			</fo:table-body>
+			
+			<xsl:choose>
+                <xsl:when test="tbody">
+                    <fo:table-body>
+                        <xsl:apply-templates select="tbody"></xsl:apply-templates>
+                    </fo:table-body>
+                </xsl:when>
+                <xsl:otherwise>
+                    <fo:table-body>
+                        <xsl:apply-templates select="tr"></xsl:apply-templates>
+                    </fo:table-body>
+                </xsl:otherwise>
+            </xsl:choose>
+			
 		</fo:table>
 	</xsl:template>
 
 	<xsl:template match="thead">
 		<xsl:apply-templates/>
 	</xsl:template>
+	
+	 <xsl:template match="tbody">
+        <xsl:apply-templates/>
+    </xsl:template>
 	
 	<xsl:template match="tr">
 		<fo:table-row>

@@ -11,7 +11,7 @@ include_once './Services/Table/classes/class.ilTable2GUI.php';
  */
 class ilExAssignmentTeamLogTableGUI extends ilTable2GUI
 {
-	protected $team_id; // [int]
+	protected $team; // [ilExAssignmentTeam]
 	
 	/**
 	 * Constructor
@@ -20,11 +20,11 @@ class ilExAssignmentTeamLogTableGUI extends ilTable2GUI
 	 * @param string $a_parent_cmd	
 	 * @param int $a_team_id 
 	 */
-	public function  __construct($a_parent_obj, $a_parent_cmd, $a_team_id)
+	public function  __construct($a_parent_obj, $a_parent_cmd, ilExAssignmentTeam $a_team)
 	{
 		global $ilCtrl;
 						
-		$this->team_id = $a_team_id;
+		$this->team = $a_team;
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		
@@ -50,27 +50,27 @@ class ilExAssignmentTeamLogTableGUI extends ilTable2GUI
 	{			
 		$data = array();
 
-		foreach(ilExAssignment::getTeamLog($this->team_id) as $item)
+		foreach($this->team->getLog() as $item)
 		{;
 			switch($item["action"])
 			{
-				case ilExAssignment::TEAM_LOG_CREATE_TEAM:
+				case ilExAssignmentTeam::TEAM_LOG_CREATE_TEAM:
 					$mess = "create_team";
 					break;
 				
-				case ilExAssignment::TEAM_LOG_ADD_MEMBER:					
+				case ilExAssignmentTeam::TEAM_LOG_ADD_MEMBER:					
 					$mess = "add_member";
 					break;
 				
-				case ilExAssignment::TEAM_LOG_REMOVE_MEMBER:					
+				case ilExAssignmentTeam::TEAM_LOG_REMOVE_MEMBER:					
 					$mess = "remove_member";
 					break;	
 				
-				case ilExAssignment::TEAM_LOG_ADD_FILE:					
+				case ilExAssignmentTeam::TEAM_LOG_ADD_FILE:					
 					$mess = "add_file";
 					break;	
 				
-				case ilExAssignment::TEAM_LOG_REMOVE_FILE:					
+				case ilExAssignmentTeam::TEAM_LOG_REMOVE_FILE:					
 					$mess = "remove_file";
 					break;	
 			}

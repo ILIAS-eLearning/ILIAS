@@ -71,8 +71,9 @@ class ilLuceneAdvancedSearchGUI extends ilSearchBaseGUI
 		switch($next_class)
 		{
 			case 'ilobjectcopygui':
+				$this->ctrl->setReturn($this);
 				include_once './Services/Object/classes/class.ilObjectCopyGUI.php';
-				$cp = new ilObjectCopyGUI($this);
+				$cp = new ilObjectCopyGUI($this,'');
 				$this->ctrl->forwardCommand($cp);
 				break;
 			
@@ -303,6 +304,10 @@ class ilLuceneAdvancedSearchGUI extends ilSearchBaseGUI
 	 */
 	protected function getTabs()
 	{
+		global $ilHelp;
+
+		$ilHelp->setScreenIdComponent("src_luc");
+
 		$this->tabs_gui->addTarget('search',$this->ctrl->getLinkTargetByClass('illucenesearchgui'));
 		
 		if(ilSearchSettings::getInstance()->isLuceneUserSearchEnabled())

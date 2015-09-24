@@ -333,12 +333,22 @@ abstract class ActiveRecord implements arStorageInterface {
 
 	/**
 	 * @return bool
+	 *
+	 * @deprecated Do not use in Core DB-update. Please generate the manual installation script by using:
+	 *
+	 *             $arBuilder = new arBuilder(new ilYourARBasedClass());
+	 *             $arBuilder->generateDBUpdateForInstallation();
 	 */
 	final public static function installDB() {
 		return self::getCalledClass()->installDatabase();
 	}
 
 
+	/**
+	 * @return bool
+	 *
+	 * @deprecated Do not use in Core DB-update.
+	 */
 	public function installConnector() {
 		return $this->installDatabase();
 	}

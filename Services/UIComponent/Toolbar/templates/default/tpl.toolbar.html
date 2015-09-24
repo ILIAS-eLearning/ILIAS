@@ -1,12 +1,15 @@
 <!-- todo: proper id support, spacer?, separator?, emph classes -->
 
-<!-- BEGIN form_open --><form method="post" id="ilToolbar" action="{FORMACTION}" {TARGET} {ENC_TYPE} {FORMNAME} class="ilForm"><!-- END form_open -->
+<!-- BEGIN form_open --><form method="post" id="ilToolbar" action="{FORMACTION}" {TARGET} {ENC_TYPE} {FORMNAME} class="ilForm<!-- BEGIN form_class --> {FORM_CLASS}<!-- END form_class -->"><!-- END form_open -->
 <h3 class="ilAccHeadingHidden">{TXT_FUNCTIONS}</h3>
 <nav class="ilToolbar navbar navbar-default yamm {HIDDEN_CLASS}" role="navigation" {ID}>
 	<div class="container-fluid">
 		<!-- Brand and toggle get grouped for better mobile display -->
 		<div class="navbar-header">
-			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#tb-collapse-1">
+			<!-- BEGIN sticky_items -->
+			{STICKY_ITEMS}
+			<!-- END sticky_items -->
+			<button type="button" class="navbar-toggle{HIDE_TOGGLE_CLASS}" data-toggle="collapse" data-target="#tb-collapse-{TOOLBAR_ID}">
 				<span class="sr-only">Toggle navigation</span>
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
@@ -14,39 +17,9 @@
 			</button>
 			<!-- BEGIN lead_image --><span class="navbar-brand"><img border="0" src="{IMG_SRC}" alt="{IMG_ALT}" /></span><!-- END lead_image -->
 		</div>
-		<div class="collapse navbar-collapse" id="tb-collapse-1">
-			<ul class="nav navbar-nav">
-<!-- BEGIN item -->
-<!-- BEGIN button -->
-<li><div class="navbar-form"><button {BID} class="btn btn-default" type="button" onclick="location.href='{BTN_LINK}'" {BTN_ADD_ARG}>{BTN_TXT}</button></div></li>
-<!-- END button -->
-<!-- BEGIN dropdown -->
-<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">{TXT_DROPDOWN} <span class="caret"></span></a>{DROP_DOWN}</li>
-<!-- END dropdown -->
-<!-- BEGIN form_button -->
-				<li><div class="navbar-form"><input class="btn btn-default" type="submit" name="cmd[{SUB_CMD}]" value="{SUB_TXT}" /></div></li>
-<!-- END form_button -->
-<!-- BEGIN button_instance -->
-				<li><div class="navbar-form">{BUTTON_OBJ}</div></li>
-<!-- END button_instance -->
-<!-- BEGIN input -->
-<li><div class="navbar-form"><!-- BEGIN input_label -->{TXT_INPUT}&nbsp;<!-- END input_label -->{INPUT_HTML}</div></li>
-<!-- END input -->
-<!-- BEGIN separator -->
-<li class="ilToolbarSeparator"><span></span></li>
-<!-- END separator -->
-<!-- BEGIN spacer -->
-<!-- END spacer -->
-<!-- BEGIN link -->
-				<li><a href="{LINK_URL}">{LINK_TXT}</a></li>
-<!-- END link -->
-<!-- BEGIN text -->
-<li class="ilToolbarTextonly"><span>{VAL_TEXT}</span></li>
-<!-- END text -->
-<!-- BEGIN link_disabled -->
-				<li><span class="ilTableFootLight">{LINK_DISABLED_TXT}</span></li>
-<!-- END link_disabled -->
-<!-- END item -->
+		<div class="collapse navbar-collapse" id="tb-collapse-{TOOLBAR_ID}">
+			<ul class="ilToolbarItems nav navbar-nav">
+				{ITEMS}
 			</ul>
 		</div>
 	</div>

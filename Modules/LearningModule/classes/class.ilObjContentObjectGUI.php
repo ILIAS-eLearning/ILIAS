@@ -84,19 +84,18 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 
 				break;
 
-			case 'ilmdeditorgui':
+			case 'ilobjectmetadatagui':
 				if(!$ilAccess->checkAccess('write','',$this->object->getRefId()))
 				{
 					$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->WARNING);
 				}
 				
 				$this->addHeaderAction();
-				$this->addLocations();
-				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
+				$this->addLocations();				
 				$this->setTabs("meta");
-				$md_gui =& new ilMDEditorGUI($this->object->getId(), 0, $this->object->getType());
-				$md_gui->addObserver($this->object,'MDUpdateListener','General');
-
+				
+				include_once 'Services/Object/classes/class.ilObjectMetaDataGUI.php';
+				$md_gui = new ilObjectMetaDataGUI($this->object);					
 				$this->ctrl->forwardCommand($md_gui);
 				break;
 
@@ -221,17 +220,22 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 				$this->setTabs("export");
 				include_once("./Services/Export/classes/class.ilExportGUI.php");
 				$exp_gui = new ilExportGUI($this);
-				$exp_gui->addFormat("xml", "", $this, "export");
+				// old school -> new school
+				//$exp_gui->addFormat("xml", "", $this, "export");
+				$exp_gui->addFormat("xml");
 				include_once("./Services/Object/classes/class.ilObjectTranslation.php");
 				$ot = ilObjectTranslation::getInstance($this->object->getId());
 				if ($ot->getContentActivated())
 				{
+					$exp_gui->addFormat("xml_master", "XML (".$lng->txt("cont_master_language_only").")", $this, "export");
+
 					$lng->loadLanguageModule("meta");
 					$langs = $ot->getLanguages();
 					foreach ($langs as $l => $ldata)
 					{
 						$exp_gui->addFormat("html_".$l, "HTML (".$lng->txt("meta_l_".$l).")", $this, "exportHTML");
 					}
+					$exp_gui->addFormat("html_all", "HTML (".$lng->txt("cont_all_languages").")", $this, "exportHTML");
 				}
 				else
 				{
@@ -273,6 +277,36 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 				$cp = new ilObjectCopyGUI($this);
 				$cp->setType('lm');
 				$this->ctrl->forwardCommand($cp);
+
+/*			case "ilpagemultilanggui":
+				$this->addHeaderAction();
+				$this->addLocations(true);
+				$ilCtrl->setReturn($this, "properties");
+				include_once("./Services/COPage/classes/class.ilPageMultiLangGUI.php");
+				$ml_gui = new ilPageMultiLangGUI("lm", $this->object->getId());
+				$this->setTabs("settings");
+				$this->setSubTabs("cont_multilinguality");
+				$ret = $this->ctrl->forwardCommand($ml_gui);
+				break;*/
+
+			case "illmmultisrtuploadgui":
+				$this->addHeaderAction();
+				$this->addLocations(true);
+				$this->setTabs("content");
+				$this->setContentSubTabs("srt_files");
+				include_once("./Modules/LearningModule/classes/class.ilLMMultiSrtUploadGUI.php");
+				$gui = new ilLMMultiSrtUploadGUI($this->object);
+				$this->ctrl->forwardCommand($gui);
+				break;
+
+			case "illmimportgui":
+				$this->addHeaderAction();
+				$this->addLocations(true);
+				$this->setTabs("content");
+				$this->setContentSubTabs("import");
+				include_once("./Modules/LearningModule/classes/class.ilLMImportGUI.php");
+				$gui = new ilLMImportGUI($this->object);
+				$this->ctrl->forwardCommand($gui);
 				break;
 
 			default:
@@ -1070,7 +1104,8 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		$form->setTableWidth("600px");
 		
 		// import file
-		$fi = new ilFileInputGUI($this->lng->txt("file"), "xmldoc");
+		//$fi = new ilFileInputGUI($this->lng->txt("file"), "xmldoc");
+		$fi = new ilFileInputGUI($this->lng->txt("file"), "importfile");
 		$fi->setSuffixes(array("zip"));
 		$fi->setRequired(true);
 		$fi->setSize(30);
@@ -1274,6 +1309,26 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	{
 		global $_FILES, $rbacsystem, $ilDB, $tpl;
 
+		$no_manifest = false;
+		try
+		{
+			// the new import
+			parent::importFileObject();
+			return;
+		}
+		catch (ilManifestFileNotFoundImportException $e)
+		{
+			// we just run through in this case.
+			$no_manifest = true;
+		}
+
+		if (!$no_manifest)
+		{
+			return;			// something different has gone wrong, but we have a manifest, this is definitely not "the old" import
+		}
+
+		// the "old" (pre 5.1) import
+
 		include_once "./Modules/LearningModule/classes/class.ilObjLearningModule.php";
 
 		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $_GET["new_type"]))
@@ -1281,7 +1336,6 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 			$this->ilias->raiseError($this->lng->txt("no_create_permission"), $this->ilias->error_obj->MESSAGE);
 			return;
 		}
-
 		$form = $this->initImportForm();
 		if ($form->checkInput())
 		{
@@ -1289,7 +1343,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 			include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
 			$newObj = new ilObjContentObject();
 			$newObj->setType($_GET["new_type"]);
-			$newObj->setTitle($_FILES["xmldoc"]["name"]);
+			$newObj->setTitle($_FILES["importfile"]["name"]);
 			$newObj->setDescription("");
 			$newObj->create(true);
 			$newObj->createReference();
@@ -1300,9 +1354,13 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 			// create learning module tree
 			$newObj->createLMTree();
 
+			// since the "new" import already did the extracting
+			$mess =  $newObj->importFromDirectory($this->tmp_import_dir, $_POST["validate"]);
+
+
 			// import lm from file
-			$mess = $newObj->importFromZipFile($_FILES["xmldoc"]["tmp_name"], $_FILES["xmldoc"]["name"],
-				$_POST["validate"]);
+//			$mess = $newObj->importFromZipFile($_FILES["importfile"]["tmp_name"], $_FILES["importfile"]["name"],
+//				$_POST["validate"]);
 
 			if ($mess == "")
 			{
@@ -1938,9 +1996,18 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	*/
 	function export()
 	{
+		$ot = ilObjectTranslation::getInstance($this->object->getId());
+		$opt = "";
+		if ($ot->getContentActivated())
+		{
+			$format = explode("_", $_POST["format"]);
+			$opt = ilUtil::stripSlashes($format[1]);
+		}
+
+
 		require_once("./Modules/LearningModule/classes/class.ilContObjectExport.php");
 		$cont_exp = new ilContObjectExport($this->object);
-		$cont_exp->buildExportFile();
+		$cont_exp->buildExportFile(($opt == "master"));
 //		$this->ctrl->redirect($this, "exportList");
 	}
 
@@ -2628,7 +2695,17 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		$ilTabs->addSubtab("maintenance",
 			$lng->txt("cont_maintenance"),
 			$ilCtrl->getLinkTarget($this, "showMaintenance"));
-		
+
+		// srt files
+		$ilTabs->addSubtab("srt_files",
+			$lng->txt("cont_subtitle_files"),
+			$ilCtrl->getLinkTargetByClass("illmmultisrtuploadgui", ""));
+
+		// srt files
+		$ilTabs->addSubtab("import",
+			$lng->txt("cont_import"),
+			$ilCtrl->getLinkTargetByClass("illmimportgui", ""));
+
 		$ilTabs->activateSubTab($a_active);
 		$ilTabs->activateTab("content");
 	}
@@ -2702,9 +2779,15 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		}
 
 		// meta data
-		$ilTabs->addTab("meta",
-			$lng->txt("meta_data"),
-			$this->ctrl->getLinkTargetByClass('ilmdeditorgui',''));
+		include_once "Services/Object/classes/class.ilObjectMetaDataGUI.php";
+		$mdgui = new ilObjectMetaDataGUI($this->object);					
+		$mdtab = $mdgui->getTab();
+		if($mdtab)
+		{		
+			$ilTabs->addTab("meta",
+				$lng->txt("meta_data"),
+				$mdtab);
+		}
 
 		if ($this->object->getType() == "lm")
 		{				
@@ -3437,6 +3520,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		{
 			$_GET["baseClass"] = "ilLMPresentationGUI";
 			$_GET["ref_id"] = $a_target;
+			$_GET["cmd"] = "resume";
 			include("ilias.php");
 			exit;
 		} else if ($ilAccess->checkAccess("visible", "", $a_target))

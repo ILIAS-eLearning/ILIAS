@@ -59,6 +59,8 @@
 	<element name='LocationType' type='t:Data' />
 	<element name='Format' type='t:Data' />
 	<element name='TextRepresentation' type='t:Data' />
+	<element name='HighlightMode' type='t:Data' />
+	<element name='HighlightClass' type='t:Data' />
 
 	<!-- MobMiMapArea -->
 	<element name='MobMiMapArea'>

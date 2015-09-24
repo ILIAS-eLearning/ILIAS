@@ -11,7 +11,7 @@ require_once 'Services/Exceptions/classes/class.ilException.php';
  * @version $Id$ 
  * 
  */
-abstract class ilImportException extends ilException
+class ilImportException extends ilException
 {
 	/**
 	* Constructor

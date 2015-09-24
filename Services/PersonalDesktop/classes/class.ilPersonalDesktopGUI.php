@@ -16,7 +16,7 @@ include_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvance
 * @ilCtrl_Calls ilPersonalDesktopGUI: ilPersonalProfileGUI, ilBookmarkAdministrationGUI
 * @ilCtrl_Calls ilPersonalDesktopGUI: ilObjUserGUI, ilPDNotesGUI, ilLearningProgressGUI
 * @ilCtrl_Calls ilPersonalDesktopGUI: ilColumnGUI, ilPDNewsGUI, ilCalendarPresentationGUI
-* @ilCtrl_Calls ilPersonalDesktopGUI: ilMailSearchGUI, ilMailAddressbookGUI
+* @ilCtrl_Calls ilPersonalDesktopGUI: ilMailSearchGUI, ilContactGUI
 * @ilCtrl_Calls ilPersonalDesktopGUI: ilPersonalWorkspaceGUI, ilPersonalSettingsGUI
 * @ilCtrl_Calls ilPersonalDesktopGUI: ilPortfolioRepositoryGUI, ilPersonalSkillsGUI, ilObjChatroomGUI
 *
@@ -70,7 +70,7 @@ class ilPersonalDesktopGUI
 	*/
 	function &executeCommand()
 	{
-		global $ilSetting, $rbacsystem;
+		global $ilSetting, $rbacsystem, $ilErr;
 
 		$next_class = $this->ctrl->getNextClass();
 		$this->ctrl->setReturn($this, "show");
@@ -83,20 +83,6 @@ class ilPersonalDesktopGUI
 			$next_class = $this->__loadNextClass();
 		}
 		$this->__storeLastClass($next_class);
-
-
-		// check for permission to view contacts
-		if (
-			$next_class == 'ilmailaddressbookgui' && ($this->ilias->getSetting("disable_contacts") || 
-			(
-				!$this->ilias->getSetting("disable_contacts_require_mail") &&
-				!$rbacsystem->checkAccess('internal_mail', ilMailGlobalServices::getMailObjectRefId())
-			))
-		) // if
-		{
-			$next_class = '';
-			ilUtil::sendFailure($this->lng->txt('no_permission'));
-		}
 
 		switch($next_class)
 		{
@@ -197,15 +183,19 @@ class ilPersonalDesktopGUI
 				$this->show();
 				break;
 
-			// contacts
-			case 'ilmailaddressbookgui':
+			case 'ilcontactgui':
+				require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystem.php';
+				if(!ilBuddySystem::getInstance()->isEnabled())
+				{
+					$ilErr->raiseError($this->lng->txt('msg_no_perm_read'), $ilErr->MESSAGE);
+				}
+
 				$this->getStandardTemplates();
 				$this->setTabs();
-				$this->tpl->setTitle($this->lng->txt("mail_addressbook"));
+				$this->tpl->setTitle($this->lng->txt('mail_addressbook'));
 
-				include_once 'Services/Contact/classes/class.ilMailAddressbookGUI.php';
-				$mailgui = new ilMailAddressbookGUI();
-				$ret = $this->ctrl->forwardCommand($mailgui);
+				require_once 'Services/Contact/classes/class.ilContactGUI.php';
+				$this->ctrl->forwardCommand(new ilContactGUI());
 				break;
 
 			case 'ilpersonalworkspacegui':		
@@ -294,7 +284,6 @@ class ilPersonalDesktopGUI
 	*/
 	function show()
 	{
-		
 		// preload block settings
 		include_once("Services/Block/classes/class.ilBlockSetting.php");
 		ilBlockSetting::preloadPDBlockSettings();
@@ -614,6 +603,16 @@ class ilPersonalDesktopGUI
 	
 
 	/**
+	 * Jump to a study programme.
+	 */
+	public function jumpToStudyProgramme()
+	{
+		require_once 'Services/PersonalDesktop/classes/class.ilPDSelectedItemsBlockGUI.php';
+		$_GET['view'] = ilPDSelectedItemsBlockGUI::VIEW_MY_STUDYPROGRAMME;
+		$this->show();
+	}
+	
+	/**
 	 * workaround for menu in calendar only
 	 */
 	function jumpToProfile()
@@ -711,7 +710,7 @@ class ilPersonalDesktopGUI
 	 */
 	function jumpToContacts()
 	{
-		$this->ctrl->redirectByClass("ilmailaddressbookgui");
+		$this->ctrl->redirectByClass(array('ilpersonaldesktopgui', 'ilcontactgui'));
 	}
 
 	/**

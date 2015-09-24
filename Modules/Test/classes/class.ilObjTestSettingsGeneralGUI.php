@@ -27,6 +27,10 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 	const CMD_CONFIRMED_SAVE_FORM		= 'confirmedSaveForm';
 	const CMD_SHOW_RESET_TPL_CONFIRM	= 'showResetTemplateConfirmation';
 	const CMD_CONFIRMED_RESET_TPL		= 'confirmedResetTemplate';
+	
+	const INST_FB_HANDLING_OPT_NONE = 'none';
+	const INST_FB_HANDLING_OPT_FREEZE = 'freeze';
+	const INST_FB_HANDLING_OPT_FORCE_AND_FREEZE = 'force_freeze';
 
 	/** @var ilCtrl $ctrl */
 	protected $ctrl = null;
@@ -281,20 +285,6 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		if( $newQuestionSetType != ilObjTest::QUESTION_SET_TYPE_FIXED )
 		{
 			$form->getItemByPostVar('chb_use_previous_answers')->setChecked(false);
-
-			if( $this->isSkillServiceSettingToBeAdjusted($form) )
-			{
-				$form->getItemByPostVar('skill_service')->setChecked(false);
-
-				if( $this->testOBJ->isSkillServiceEnabled() )
-				{
-					$infoMsg[] = $this->lng->txt("tst_disabled_skl_due_to_non_fixed_quest_set_type");
-				}
-				else
-				{
-					$infoMsg[] = $this->lng->txt("tst_cannot_enable_skl_due_to_non_fixed_quest_set_type");
-				}
-			}
 		}
 
 		// perform saving the form data
@@ -409,7 +399,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		$ecs->addSettingsToForm($form, 'tst');
 
 		// skill service activation for FIXED tests only
-		if( $this->testOBJ->isFixedTest() && ilObjTest::isSkillManagementGloballyActivated() )
+		if( ilObjTest::isSkillManagementGloballyActivated() )
 		{
 			$otherHead = new ilFormSectionHeaderGUI();
 			$otherHead->setTitle($this->lng->txt('other'));
@@ -1102,19 +1092,41 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 			$this->lng->txt('tst_instant_feedback_solution'), 'instant_feedback_solution',
 			$this->lng->txt('tst_instant_feedback_solution_desc')
 		));
-		$instant_feedback->addOption(new ilCheckboxOption(
-			$this->lng->txt('tst_instant_feedback_fix_usr_answer'), 'instant_feedback_answer_fixation',
-			$this->lng->txt('tst_instant_feedback_fix_usr_answer_desc')
-		));
 		$values = array();
 		if ($this->testOBJ->getSpecificAnswerFeedback()) array_push($values, 'instant_feedback_specific');
 		if ($this->testOBJ->getGenericAnswerFeedback()) array_push($values, 'instant_feedback_generic');
 		if ($this->testOBJ->getAnswerFeedbackPoints()) array_push($values, 'instant_feedback_points');
 		if ($this->testOBJ->getInstantFeedbackSolution()) array_push($values, 'instant_feedback_solution');
-		if( $this->testOBJ->isInstantFeedbackAnswerFixationEnabled() ) array_push($values, 'instant_feedback_answer_fixation');
 		$instant_feedback->setValue($values);
 		$form->addItem($instant_feedback);
-
+		
+		$radioGroup = new ilRadioGroupInputGUI(
+			$this->lng->txt('tst_instant_feedback_handling'), 'instant_feedback_handling'
+		);
+		$radioOption = new ilRadioOption(
+			$this->lng->txt('tst_instant_feedback_handling_none'),
+			self::INST_FB_HANDLING_OPT_NONE
+		);
+		$radioOption->setInfo($this->lng->txt('tst_instant_feedback_handling_none_desc'));
+		$radioGroup->addOption($radioOption);
+		$radioOption = new ilRadioOption(
+			$this->lng->txt('tst_instant_feedback_handling_freeze'),
+			self::INST_FB_HANDLING_OPT_FREEZE
+		);
+		$radioOption->setInfo($this->lng->txt('tst_instant_feedback_handling_freeze_desc'));
+		$radioGroup->addOption($radioOption);
+		$radioOption = new ilRadioOption(
+			$this->lng->txt('tst_instant_feedback_handling_force_and_freeze'),
+			self::INST_FB_HANDLING_OPT_FORCE_AND_FREEZE
+		);
+		$radioOption->setInfo($this->lng->txt('tst_instant_feedback_handling_force_and_freeze_desc'));
+		$radioGroup->addOption($radioOption);
+		$radioGroup->setValue($this->getInstFbHandlingValue(
+			$this->testOBJ->isInstantFeedbackAnswerFixationEnabled(),
+			$this->testOBJ->isForceInstantFeedbackEnabled()
+		));
+		$form->addItem($radioGroup);
+		
 		// enable obligations
 		$checkBoxEnableObligations = new ilCheckboxInputGUI($this->lng->txt('tst_setting_enable_obligations_label'), 'obligations_enabled');
 		$checkBoxEnableObligations->setChecked($this->testOBJ->areObligationsEnabled());
@@ -1147,11 +1159,17 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 			$this->testOBJ->setTitleOutput($form->getItemByPostVar('title_output')->getValue());
 		}
 
-		$this->testOBJ->setAutosave($form->getItemByPostVar('autosave')->getChecked());
-		$this->testOBJ->setAutosaveIval($form->getItemByPostVar('autosave_ival')->getValue() * 1000);
+		if ($form->getItemByPostVar('autosave') instanceof ilFormPropertyGUI)
+		{
+			$this->testOBJ->setAutosave($form->getItemByPostVar('autosave')->getChecked());
+			$this->testOBJ->setAutosaveIval($form->getItemByPostVar('autosave_ival')->getValue() * 1000);
+		}
 
-		$this->testOBJ->setShuffleQuestions($form->getItemByPostVar('chb_shuffle_questions')->getChecked());
-
+		if ($form->getItemByPostVar('chb_shuffle_questions') instanceof ilFormPropertyGUI)
+		{
+			$this->testOBJ->setShuffleQuestions($form->getItemByPostVar('chb_shuffle_questions')->getChecked());
+		}
+		
 		if (!$this->testOBJ->participantDataExist() && $this->formPropertyExists($form, 'offer_hints'))
 		{
 			$this->testOBJ->setOfferingQuestionHintsEnabled($form->getItemByPostVar('offer_hints')->getChecked());
@@ -1160,6 +1178,11 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		if ($this->formPropertyExists($form, 'instant_feedback'))
 		{
 			$this->testOBJ->setScoringFeedbackOptionsByArray($form->getItemByPostVar('instant_feedback')->getValue());
+		}
+
+		if ($this->formPropertyExists($form, 'instant_feedback_handling'))
+		{
+			$this->saveInstFbHandlingSettings($form->getItemByPostVar('instant_feedback_handling')->getValue());
 		}
 
 		if (!$this->testOBJ->participantDataExist() && $this->formPropertyExists($form, 'obligations_enabled'))
@@ -1203,10 +1226,14 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		$form->addItem($cancel);
 
 		// postpone questions
-		$postpone = new ilCheckboxInputGUI($this->lng->txt("tst_postpone"), "chb_postpone");
-		$postpone->setValue(1);
-		$postpone->setChecked($this->testOBJ->getSequenceSettings());
-		$postpone->setInfo($this->lng->txt("tst_postpone_description"));
+		$postpone = new ilRadioGroupInputGUI($this->lng->txt("tst_postpone"), "postpone");
+		$postpone->addOption(new ilRadioOption(
+			$this->lng->txt("tst_postpone_off"), 0, $this->lng->txt("tst_postpone_off_desc")
+		));
+		$postpone->addOption(new ilRadioOption(
+			$this->lng->txt("tst_postpone_on"), 1, $this->lng->txt("tst_postpone_on_desc")
+		));
+		$postpone->setValue((int)$this->testOBJ->getSequenceSettings());
 		$form->addItem($postpone);
 
 		// show list of questions
@@ -1252,9 +1279,9 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 			$this->testOBJ->setShowCancel($form->getItemByPostVar('chb_show_cancel')->getChecked());
 		}
 
-		if( $this->formPropertyExists($form, 'chb_postpone') )
+		if( $this->formPropertyExists($form, 'postpone') )
 		{
-			$this->testOBJ->setPostponingEnabled($form->getItemByPostVar('chb_postpone')->getChecked());
+			$this->testOBJ->setPostponingEnabled((bool)$form->getItemByPostVar('postpone')->getValue());
 		}
 
 		$this->testOBJ->setListOfQuestions($form->getItemByPostVar('list_of_questions')->getChecked());
@@ -1414,5 +1441,41 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 			$this->testOBJ->setMailNotification(0);
 			$this->testOBJ->setMailNotificationType(false);
 		}
+	}
+	
+	private function saveInstFbHandlingSettings($instantFeedbackHandlingValue)
+	{
+		switch($instantFeedbackHandlingValue)
+		{
+			case self::INST_FB_HANDLING_OPT_NONE:
+				$this->testOBJ->setInstantFeedbackAnswerFixationEnabled(false);
+				$this->testOBJ->setForceInstantFeedbackEnabled(false);
+				break;
+			
+			case self::INST_FB_HANDLING_OPT_FREEZE:
+				$this->testOBJ->setInstantFeedbackAnswerFixationEnabled(true);
+				$this->testOBJ->setForceInstantFeedbackEnabled(false);
+				break;
+
+			case self::INST_FB_HANDLING_OPT_FORCE_AND_FREEZE:
+				$this->testOBJ->setInstantFeedbackAnswerFixationEnabled(true);
+				$this->testOBJ->setForceInstantFeedbackEnabled(true);
+				break;
+		}
+	}
+	
+	private function getInstFbHandlingValue($freezeAnswersEnabled, $forceInstFbEnabled)
+	{
+		if($freezeAnswersEnabled)
+		{
+			if($forceInstFbEnabled)
+			{
+				return self::INST_FB_HANDLING_OPT_FORCE_AND_FREEZE;
+			}
+			
+			return self::INST_FB_HANDLING_OPT_FREEZE;
+		}
+		
+		return self::INST_FB_HANDLING_OPT_NONE;
 	}
 }

@@ -21,10 +21,9 @@ class ilObjectOwnershipManagementTableGUI extends ilTable2GUI
 		global $ilCtrl, $lng;
 		
 		$this->user_id = (int)$a_user_id;
+		$this->setId('objownmgmt'); // #16373
 		
 		parent::__construct($a_parent_obj,$a_parent_cmd);
-		
-		$this->setId('objownmgmt');
 		
 		$this->addColumn($lng->txt("title"), "title");
 		$this->addColumn($lng->txt("path"), "path");

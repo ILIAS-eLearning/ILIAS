@@ -10,7 +10,7 @@ require_once("./Services/FileSystem/classes/class.ilFileSystemGUI.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * $Id$
 *
-* @ilCtrl_Calls ilObjSAHSLearningModuleGUI: ilFileSystemGUI, ilMDEditorGUI, ilPermissionGUI, ilInfoScreenGUI, ilLearningProgressGUI
+* @ilCtrl_Calls ilObjSAHSLearningModuleGUI: ilFileSystemGUI, ilObjectMetaDataGUI, ilPermissionGUI, ilInfoScreenGUI, ilLearningProgressGUI
 * @ilCtrl_Calls ilObjSAHSLearningModuleGUI: ilLicenseGUI, ilCommonActionDispatcherGUI
 *
 * @ingroup ModulesScormAicc
@@ -39,6 +39,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		global $ilAccess, $ilTabs, $ilErr;
 		
 		if (strtolower($_GET["baseClass"]) == "iladministrationgui" ||
+			strtolower($_GET["baseClass"]) == "ilsahspresentationgui" ||
 			$this->getCreationMode() == true)
 		{
 			$this->prepareOutput();
@@ -48,6 +49,8 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 			$this->getTemplate();
 			$this->setLocator();
 			$this->setTabs();
+			$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm.svg"));
+			$this->tpl->setTitle($this->object->getTitle());
 		}
 
 		$next_class = $this->ctrl->getNextClass($this);
@@ -55,17 +58,13 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 
 		switch($next_class)
 		{
-			case 'ilmdeditorgui':
+			case 'ilobjectmetadatagui':
 				if(!$ilAccess->checkAccess('write','',$this->object->getRefId()))
 				{
 					$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->WARNING);
-				}
-				
-				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
-
-				$md_gui =& new ilMDEditorGUI($this->object->getId(), 0, $this->object->getType());
-				$md_gui->addObserver($this->object,'MDUpdateListener','General');
-
+				}				
+				include_once 'Services/Object/classes/class.ilObjectMetaDataGUI.php';
+				$md_gui = new ilObjectMetaDataGUI($this->object);	
 				$this->ctrl->forwardCommand($md_gui);
 				break;
 				
@@ -594,7 +593,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 	{
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm.svg"));
 		$this->tpl->setTitle($this->object->getTitle());
-		$this->getTabs($this->tabs_gui);
+		if(strtolower($_GET["baseClass"]) == "ilsahseditgui") $this->getTabs($this->tabs_gui);
 	}
 
 	/**
@@ -674,16 +673,20 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 								 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
 		}
 
-		include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
-		$privacy = ilPrivacySettings::_getInstance();
-		if($privacy->enabledSahsProtocolData())
+		// tracking data
+		if($rbacsystem->checkAccess("read_learning_progress", $this->object->getRefId()) || $rbacsystem->checkAccess("edit_learning_progress", $this->object->getRefId()))
 		{
-			// tracking data
-			$tabs_gui->addTarget("cont_tracking_data",
-			$this->ctrl->getLinkTarget($this, "showTrackingItems"), "showTrackingItems",
-			get_class($this));
+			if ($this->object->getSubType() == "scorm2004" || $this->object->getSubType() == "scorm") {
+				include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
+				$privacy = ilPrivacySettings::_getInstance();
+				if($privacy->enabledSahsProtocolData())
+				{
+					$tabs_gui->addTarget("cont_tracking_data",
+										$this->ctrl->getLinkTarget($this, "showTrackingItems"), "showTrackingItems",
+										get_class($this));
+				}
+			}
 		}
-
 		include_once("Services/License/classes/class.ilLicenseAccess.php");
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId())
 		and ilLicenseAccess::_isEnabled())
@@ -694,9 +697,15 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		}
 		
 		// edit meta
-		$tabs_gui->addTarget("meta_data",
-			 $this->ctrl->getLinkTargetByClass('ilmdeditorgui',''),
-			 "", "ilmdeditorgui");
+		include_once "Services/Object/classes/class.ilObjectMetaDataGUI.php";
+		$mdgui = new ilObjectMetaDataGUI($this->object);					
+		$mdtab = $mdgui->getTab();
+		if($mdtab)
+		{
+			$tabs_gui->addTarget("meta_data",
+				$mdtab,
+				"", "ilmdeditorgui");
+		}
 
 		// perm
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))

@@ -15,6 +15,7 @@ class ilCronJobResult
 	const STATUS_OK = 3;
 	const STATUS_CRASHED = 4;
 	const STATUS_RESET = 5;
+	const STATUS_FAIL = 6;
 	
 	protected $status; // [int]
 	protected $message; // [string]
@@ -38,7 +39,7 @@ class ilCronJobResult
 	protected function getValidStatus()
 	{
 		return array(self::STATUS_INVALID_CONFIGURATION, self::STATUS_NO_ACTION,
-			self::STATUS_OK, self::STATUS_CRASHED);
+			self::STATUS_OK, self::STATUS_CRASHED, self::STATUS_FAIL);
 	}
 	
 	public function getMessage()

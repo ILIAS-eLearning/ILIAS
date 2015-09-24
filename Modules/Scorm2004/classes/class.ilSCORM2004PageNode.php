@@ -141,6 +141,35 @@ class ilSCORM2004PageNode extends ilSCORM2004Node
 	}
 
 	/**
+	 * Copy page from learning module
+	 */
+	static function copyPageFromLM($a_target_slm, $a_lm_page)
+	{
+		// copy page
+		$slm_page = new ilSCORM2004PageNode($a_target_slm);
+		$slm_page->setTitle($a_lm_page->getTitle());
+		$slm_page->setSLMId($a_target_slm->getId());
+		$slm_page->setType("page");
+		$slm_page->create(true);		// setting "upload" flag to true prevents creating of meta data
+
+		// copy meta data
+		include_once("Services/MetaData/classes/class.ilMD.php");
+		$md = new ilMD($a_lm_page->getLMId(), $a_lm_page->getId(), $a_lm_page->getType());
+		$md->cloneMD($a_target_slm->getId(), $slm_page->getId(), "page");
+
+		// copy page content
+		$page = $slm_page->getPageObject();
+		$clone_mobs = true;
+		$a_lm_page->getPageObject()->copy($page->getId(), $page->getParentType(), $page->getParentId(), $clone_mobs);
+
+		$slm_page = new ilSCORM2004PageNode($a_target_slm, $slm_page->getId());
+		$slm_page->getPageObject()->removeInvalidLinks();
+
+		return $slm_page;
+	}
+
+
+	/**
 	 * copy a page to another content object (learning module / dlib book)
 	 */
 	function &copyToOtherContObject(&$a_cont_obj)

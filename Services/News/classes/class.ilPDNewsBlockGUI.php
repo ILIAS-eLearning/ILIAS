@@ -525,9 +525,10 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 				$ilCtrl->redirect($this, "showFeedUrl");
 			}
 			else
-			{					
-				$passwd = $form->getInput("desired_password");				
-				if (md5($passwd) == $ilUser->getPasswd())
+			{
+				$passwd = $form->getInput("desired_password");
+				require_once 'Services/User/classes/class.ilUserPasswordManager.php';
+				if(ilUserPasswordManager::getInstance()->verifyPassword($ilUser, $passwd))
 				{
 					$form->getItemByPostVar("desired_password")->setAlert($lng->txt("passwd_equals_ilpasswd"));
 					ilUtil::sendFailure($lng->txt("form_input_not_valid"));

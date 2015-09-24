@@ -3,7 +3,12 @@
 <!-- BEGIN answer_row -->	
 		<tr>
 			<td class="middle" width="15">
+				<!-- BEGIN solution_image -->
 				<img src="{SOLUTION_IMAGE}" alt="{SOLUTION_ALT}" title="{SOLUTION_ALT}" />
+				<!-- END solution_image -->
+				<!-- BEGIN solution_field -->
+				<input type="checkbox" name="multiple_choice_result_q{QID}_{SUFFIX}" value="{SOLUTION_VALUE}" readonly disabled {SOLUTION_CHECKED} />
+				<!-- END solution_field -->
 			</td>
 			<td class="middle">
 <!-- BEGIN answer_image -->

@@ -132,19 +132,7 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 		$cb_prop->setValue("1");
 		$cb_prop->setChecked(($ilSetting->get("disable_bookmarks") ? "0" : "1"));
 		$form->addItem($cb_prop);
-		
-		// Enable contacts
-		$cb_prop = new ilCheckboxInputGUI($lng->txt("pd_enable_contacts"), "enable_contacts");
-		$cb_prop->setValue("1");
-		$cb_prop->setChecked(($ilSetting->get("disable_contacts") ? "0" : "1"));
 
-			$cb_prop_requires_mail = new ilCheckboxInputGUI($lng->txt('pd_enable_contacts_requires_mail'), 'enable_contacts_require_mail');
-			$cb_prop_requires_mail->setValue("1");
-			$cb_prop_requires_mail->setChecked(($ilSetting->get("disable_contacts_require_mail") ? "0" : "1"));
-			$cb_prop->addSubItem($cb_prop_requires_mail);
-
-		$form->addItem($cb_prop);
-		
 		// Enable notes
 		$cb_prop = new ilCheckboxInputGUI($lng->txt("pd_enable_notes"), "enable_notes");
 		$cb_prop->setValue("1");
@@ -163,14 +151,20 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 		
 		$comm_del_tutor =  new ilCheckboxInputGUI($lng->txt("pd_enable_comments_del_tutor"), "comm_del_tutor");
 		$comm_del_tutor->setChecked($ilSetting->get("comments_del_tutor", 1));
-		$cb_prop->addSubItem($comm_del_tutor);		
-		
+		$cb_prop->addSubItem($comm_del_tutor);
+
+		$ti = new ilTextInputGUI($this->lng->txt("pd_comments_notification"), "comments_noti_recip");
+		$ti->setValue($ilSetting->get("comments_noti_recip"));
+		$ti->setMaxLength(200);
+		$ti->setInfo($this->lng->txt("pd_comments_notification_info"));
+		$cb_prop->addSubItem($ti);
+
 		// Enable Chatviewer
 		$cb_prop = new ilCheckboxInputGUI($lng->txt("pd_enable_chatviewer"), "block_activated_chatviewer");
 		$cb_prop->setValue("1");
 		$cb_prop->setChecked(($ilSetting->get("block_activated_chatviewer")));
 		$form->addItem($cb_prop);
-		
+
 		// Enable block moving
 		$cb_prop = new ilCheckboxInputGUI($lng->txt("pd_enable_block_moving"),
 			"enable_block_moving");
@@ -180,6 +174,7 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 		$form->addItem($cb_prop);		
 		
 		// Enable active users block
+/*
 		$cb_prop = new ilCheckboxInputGUI($lng->txt("pd_enable_active_users"),
 			"block_activated_pdusers");
 		$cb_prop->setValue("1");
@@ -204,7 +199,7 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 			$cb_prop->addSubItem($ti_prop);
 			
 		$form->addItem($cb_prop);
-		
+*/
 		// Enable 'My Offers' (default personal items)
 		$cb_prop = new ilCheckboxInputGUI($lng->txt('pd_enable_my_offers'), 'enable_my_offers');
 		$cb_prop->setValue('1');
@@ -263,21 +258,19 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 		#$ilSetting->set("enable_calendar", $_POST["enable_calendar"]);
 		$ilSetting->set("disable_bookmarks", (int) ($_POST["enable_bookmarks"] ? 0 : 1));
 
-		$ilSetting->set("disable_contacts", (int) ($_POST["enable_contacts"] ? 0 : 1));
-		$ilSetting->set("disable_contacts_require_mail", (int) ($_POST["enable_contacts_require_mail"] ? 0 : 1));
-
 		$ilSetting->set("disable_notes", (int) ($_POST["enable_notes"] ? 0 : 1));
 		$ilSetting->set("disable_comments", (int) ($_POST["enable_comments"] ? 0 : 1));
 	
 		$ilSetting->set("comments_del_user", (int) ($_POST["comm_del_user"] ? 1 : 0));
-		$ilSetting->set("comments_del_tutor", (int) ($_POST["comm_del_tutor"] ? 1 : 0));			
-		
+		$ilSetting->set("comments_del_tutor", (int) ($_POST["comm_del_tutor"] ? 1 : 0));
+		$ilSetting->set("comments_noti_recip", ilUtil::stripSlashes($_POST["comments_noti_recip"]));
+
 		$ilSetting->set("block_activated_chatviewer", (int) ($_POST["block_activated_chatviewer"]));		
 		
-		$ilSetting->set("block_activated_pdusers", $_POST["block_activated_pdusers"]);
+//		$ilSetting->set("block_activated_pdusers", $_POST["block_activated_pdusers"]);
 		$pd_set->set("enable_block_moving", $_POST["enable_block_moving"]);
-		$pd_set->set("user_activity_time", (int) $_POST["time_removal"]);
-		$pd_set->set("osi_host", $_POST["osi_host"]);
+//		$pd_set->set("user_activity_time", (int) $_POST["time_removal"]);
+//		$pd_set->set("osi_host", $_POST["osi_host"]);
 		
 		// Validate personal desktop view
 		if(!(int)$_POST['enable_my_offers'] && !(int)$_POST['enable_my_memberships'])

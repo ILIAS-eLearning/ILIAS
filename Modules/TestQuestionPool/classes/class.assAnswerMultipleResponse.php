@@ -35,7 +35,7 @@ class ASS_AnswerMultipleResponse extends ASS_AnswerSimple {
 * @param integer $order A nonnegative value representing a possible display or sort order
 * @access public
 */
-  function ASS_AnswerMultipleResponse (
+  function __construct (
     $answertext = "",
     $points_checked = 0.0,
     $order = 0,

@@ -1,42 +1,92 @@
 /* Services/UIComponent/Toolbar */
 
-.ilToolbar .navbar-form {
-	padding: 5px 15px 5px 0;
-	margin: 0;
+.ilToolbar {
+  &.navbar {
+    border: 0;
+    background-color: @il-toolbar-bg;
+  }
+  .ilToolbarItems {
+    padding: 0;
+  }
+  .form-control {
+    width: auto;
+  }
+  li {
+    border-bottom: @il-toolbar-border;
+    .navbar-form, .navbar-text {
+      padding: 0;
+      border: 0;
+      margin-left: 0;
+      margin-right: 0;
+      display: inline-block;
+    }
+    &.navbar-text {
+      margin-left: 0;
+    }
+    &.ilToolbarSeparator {
+      border-left: @il-toolbar-border;
+      height: @il-toolbar-height;
+    }
+    &.ilToolbarGroup {
+      .navbar-form, .navbar-text {
+        margin-left: (@il-toolbar-margin / 2);
+        &:first-child {
+          margin-left: 0;
+        }
+      }
+      .navbar-text {
+        margin-right: 0;
+      }
+    }
+  }
+  .ilToolbarStickyItems {
+    float: left;
+    margin-left: @il-toolbar-margin;
+    &.navbar-nav {
+      margin-top: 0;
+      margin-bottom: 0;
+      .open .dropdown-menu > li > a {
+        padding-left: 0;
+      }
+    }
+    > li {
+      float: left;
+      margin-right: @il-toolbar-margin;
+      .navbar-form {
+        border: 0;
+      }
+      &.ilToolbarStickyItem {
+        border: 0;
+      }
+    }
+  }
+  ul {
+    &.dropdown-menu {
+      > li {
+        border: none;
+      }
+    }
+  }
 }
 
-.ilToolbar.navbar {
-	min-height: 34px;
-	border: 0;
-	background-color: @il-secondary-container-bg;
-	margin-bottom: 20px;
-	font-size: 90%;
-	white-space: nowrap;
-	border-radius: 0;
-}
-
-.ilToolbar .navbar-brand {
-	padding: 5px 10px 0 10px;
-	height: 34px;
-}
-
-.ilToolbar .navbar-collapse {
-	padding: 0;
-}
-
-li.ilToolbarSeparator {
-	border-left: solid 1px #d8d8d8;
-	min-height: 34px;
-	padding: 0 15px 0 0;
-}
-
-li.ilToolbarTextonly {
-	padding: 5px 15px 5px 0;
-	> span {
-		line-height: 24px;
-	}
-}
-
-.ilToolbar input[type=file] {
-	display: inline-block;
+@media (min-width: 768px) {
+	.ilToolbar {
+      .container-fluid {
+        padding-left: 0;
+      }
+      li {
+        border: 0;
+        margin-right: @il-toolbar-margin;
+      }
+      ul.dropdown-menu > li {
+        margin-right: 0;
+      }
+      .ilToolbarStickyItems {
+        &.navbar-nav {
+          .open .dropdown-menu > li > a {
+            padding-left: 10px;
+          }
+        }
+      }
+    }
 }

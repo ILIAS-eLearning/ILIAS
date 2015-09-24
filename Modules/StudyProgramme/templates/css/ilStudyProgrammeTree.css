@@ -1,0 +1,12 @@
+.jstree li > a:first-of-type {
+	cursor: move;
+}
+
+.jstree a.button {
+	cursor: hand !important;
+}
+
+.ilExp2NodeContent .points {
+	margin: 0 0.4em 0 0.4em;
+}
+

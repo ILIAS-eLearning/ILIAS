@@ -693,10 +693,30 @@ class HTML_Template_IT
     function init()
     {
         $this->free();
-        $this->findBlocks($this->template);
+        require_once('./Services/GlobalCache/classes/class.ilGlobalCache.php');
+        $blocks = ilGlobalCache::getInstance(ilGlobalCache::COMP_TPL_BLOCKS);
+
+        if ($blockdata = $blocks->get($this->real_filename)) {
+            $this->blockdata = $blockdata['blockdata'];
+            $this->blocklist = $blockdata['blocklist'];
+        } else {
+            ilGlobalCache::log('have to build blocks...', ilGlobalCacheSettings::LOG_LEVEL_FORCED);
+            $this->findBlocks($this->template);
+            $blockdata['blockdata'] = $this->blockdata;
+            $blockdata['blocklist'] = $this->blocklist;
+            $blocks->set($this->real_filename, $blockdata, 60);
+        }
+
         // we don't need it any more
         $this->template = '';
-        $this->buildBlockvariablelist();
+
+        $variables = ilGlobalCache::getInstance(ilGlobalCache::COMP_TPL_VARIABLES);
+        if ($blockvariables = $variables->get($this->real_filename)) {
+            $this->blockvariables = $blockvariables;
+        } else {
+            $this->buildBlockvariablelist();
+            $variables->set($this->real_filename, $this->blockvariables, 60);
+        }
     } // end func init
 
     /**
@@ -854,7 +874,6 @@ class HTML_Template_IT
     function findBlocks($string)
     {
         $blocklist = array();
-
         if (preg_match_all($this->blockRegExp, $string, $regs, PREG_SET_ORDER)) {
             foreach ($regs as $k => $match) {
                 $blockname         = $match[1];
@@ -911,23 +930,30 @@ class HTML_Template_IT
 
         $filename = $this->fileRoot . $filename;
 
-        if (!($fh = @fopen($filename, 'r'))) {
-            $this->err[] = PEAR::raiseError(
-                        $this->errorMessage(IT_TPL_NOT_FOUND) .
-                        ': "' .$filename .'"',
-                        IT_TPL_NOT_FOUND
-                    );
-            return "";
+        require_once('./Services/GlobalCache/classes/class.ilGlobalCache.php');
+        $this->real_filename = $filename;
+        $ilGlobalCache = ilGlobalCache::getInstance(ilGlobalCache::COMP_TEMPLATE);
+        if(!$content = $ilGlobalCache->get($filename)) {
+            if (!($fh = @fopen($filename, 'r'))) {
+                $this->err[] = PEAR::raiseError(
+                    $this->errorMessage(IT_TPL_NOT_FOUND) .
+                    ': "' .$filename .'"',
+                    IT_TPL_NOT_FOUND
+                );
+                return "";
+            }
+
+            $fsize = filesize($filename);
+            if ($fsize < 1) {
+                fclose($fh);
+                return '';
+            }
+
+            $content = fread($fh, $fsize);
+            $ilGlobalCache->set($filename, $content, 60);
+            fclose($fh);
         }
 
-		$fsize = filesize($filename);
-        if ($fsize < 1) {
-			fclose($fh);
-            return '';
-        }
-
-        $content = fread($fh, $fsize);
-        fclose($fh);
 
         return preg_replace_callback(
             "#<!-- INCLUDE (.*) -->#im",

@@ -30,14 +30,7 @@
 */
 
 // remove notices from error reporting
-if (version_compare(PHP_VERSION, '5.3.0', '>='))
-{
-	error_reporting((ini_get("error_reporting") & ~E_NOTICE) & ~E_DEPRECATED);
-}
-else
-{
-	error_reporting(ini_get('error_reporting') & ~E_NOTICE);
-}
+error_reporting((ini_get("error_reporting") & ~E_NOTICE) & ~E_DEPRECATED);
 
 define("DEBUG",false);
 set_include_path("./Services/PEAR/lib".PATH_SEPARATOR.ini_get('include_path'));
@@ -48,17 +41,9 @@ require_once "PEAR.php";
 
 // wrapper for php 4.3.2 & higher
 
-@include_once "HTML/Template/ITX.php";		// new implementation
-if (class_exists("HTML_Template_ITX"))
-{
-	include_once "./Services/UICore/classes/class.ilTemplateHTMLITX.php";
-}
-else
-{
-	include_once "HTML/ITX.php";		// old implementation
-	include_once "./Services/UICore/classes/class.ilTemplateITX.php";
-}
-require_once "./setup/classes/class.ilTemplate.php";	// modified class. needs to be merged with base template class 
+require_once "HTML/Template/ITX.php";
+require_once "./Services/UICore/classes/class.ilTemplateHTMLITX.php";
+require_once "./setup/classes/class.ilTemplate.php";	// modified class. needs to be merged with base template class
 
 require_once "./setup/classes/class.ilLanguage.php";	// modified class. needs to be merged with base language class 
 require_once "./Services/Logging/classes/class.ilLog.php";
@@ -74,6 +59,7 @@ require_once "./Services/FileSystem/classes/class.ilFile.php";
 require_once "./setup/classes/class.ilCtrlStructureReader.php";
 require_once "./Services/Xml/classes/class.ilSaxParser.php";
 require_once "./include/inc.ilias_version.php";
+include_once './Services/Logging/classes/public/class.ilLogLevel.php';
 
 // include error_handling
 require_once "./Services/Init/classes/class.ilErrorHandling.php";
@@ -114,6 +100,13 @@ else
 	define ('ILIAS_ABSOLUTE_PATH',str_replace("/setup/include", "", dirname(__FILE__)));
 }
 
+// set default timezone 
+include_once './Services/Calendar/classes/class.ilTimeZone.php';
+include_once './Services/Init/classes/class.ilIniFile.php';
+$ini = new ilIniFile(ILIAS_ABSOLUTE_PATH.'/ilias.ini.php');
+$ini->read();
+$tz = ilTimeZone::initDefaultTimeZone($ini);
+define('IL_TIMEZONE',$tz);
 
 define ("TPLPATH","./templates/blueshadow");
 
@@ -127,9 +120,22 @@ $_SESSION["lang"] = $lang;
 // init languages
 $lng = new ilLanguage($lang);
 
-// init log
-$log = new ilLog(ILIAS_ABSOLUTE_PATH,"ilias.log","SETUP",false);
-$ilLog =& $log;
+
+
+
+
+#$log = new ilLog(ILIAS_ABSOLUTE_PATH,"ilias.log","SETUP",false);
+#$ilLog =& $log;
+
+
+include_once './Services/Logging/classes/class.ilLoggingSetupSettings.php';
+$logging_settings = new ilLoggingSetupSettings();
+$logging_settings->init();
+
+include_once './Services/Logging/classes/public/class.ilLoggerFactory.php';
+
+$log = ilLoggerFactory::newInstance($logging_settings)->getComponentLogger('setup');
+$ilLog = $log;
 
 // init template - in the main program please use ILIAS Template class
 // instantiate main template

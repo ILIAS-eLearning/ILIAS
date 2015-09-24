@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("./Services/Table/classes/class.ilTable2GUI.php");
+require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystem.php';
 
 /**
 * TableGUI class user search results
@@ -22,6 +23,7 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
 	protected static $all_selectable_cols = NULL;
 	protected $admin_mode;
 	protected $type;
+	protected $user_limitations = true;
 	
 	/**
 	* Constructor
@@ -71,6 +73,10 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
 		else
 		{
 			$this->addColumn($this->lng->txt('lucene_relevance_short'),'relevance');
+			if(ilBuddySystem::getInstance()->isEnabled())
+			{
+				$this->addColumn('', '');
+			}
 			$this->setDefaultOrderField("relevance");
 			$this->setDefaultOrderDirection("desc");
 		}
@@ -117,6 +123,25 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
 	public function getLuceneResult()
 	{
 		return $this->lucene_result;
+	}
+
+	/**
+	 * allow user limitations like inactive and access limitations
+	 *
+	 * @param bool $a_limitations
+	 */
+	public function setUserLimitations($a_limitations)
+	{
+		$this->user_limitations = (bool) $a_limitations;
+	}
+
+	/**
+	 * allow user limitations like inactive and access limitations
+	 * @return bool
+	 */
+	public function getUserLimitations()
+	{
+		return $this->user_limitations;
 	}
 
 	/**
@@ -245,14 +270,7 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
 					}
 					elseif($this->getType() == self::TYPE_GLOBAL_SEARCH)
 					{
-						if($link)
-						{
-							$this->tpl->setCurrentBlock('login_linked');
-							$this->tpl->setVariable('LOGIN_NAME',$a_set[$field] ? $a_set[$field] : '');
-							$this->tpl->setVariable('LOGIN_LINK',$link);
-							$this->tpl->parseCurrentBlock();
-							break;
-						}
+						$a_set[$field] = "<a href=\"".$link."\">".$a_set[$field]."</a>";
 					}
 					// fallthrough
 				
@@ -267,6 +285,11 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
 		if($this->getType() == self::TYPE_GLOBAL_SEARCH)
 		{
 			$this->tpl->setVariable('SEARCH_RELEVANCE',$this->getRelevanceHTML($a_set['relevance']));
+			if(ilBuddySystem::getInstance()->isEnabled())
+			{
+				require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystemLinkButton.php';
+				$this->tpl->setVariable('CONTACT_ACTIONS', ilBuddySystemLinkButton::getInstanceByUserId($a_set['usr_id'])->getHtml());
+			}
 		}
 
 	}
@@ -304,7 +327,7 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
 			$usr_data_fields[] = $field;
 		}
 		include_once './Services/User/classes/class.ilUserQuery.php';
-		$usr_data = ilUserQuery::getUserListData(
+	/*	$usr_data = ilUserQuery::getUserListData(
 				'login',
 				'ASC',
 				0,
@@ -319,7 +342,29 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
 				null,
 				$usr_data_fields,
 				$a_user_ids
-		);
+		);*/
+
+		$u_query = new ilUserQuery();
+		$u_query->setOrderField('login');
+		$u_query->setOrderDirection('ASC');
+		$u_query->setLimit(999999);
+		include_once './Services/Search/classes/class.ilSearchSettings.php';
+
+		if(!ilSearchSettings::getInstance()->isInactiveUserVisible() && $this->getUserLimitations())
+		{
+			$u_query->setActionFilter("activ");
+		}
+
+		if(!ilSearchSettings::getInstance()->isLimitedUserVisible() && $this->getUserLimitations())
+		{
+			$u_query->setAccessFilter(true);
+		}
+
+		$u_query->setAdditionalFields($usr_data_fields);
+		$u_query->setUserFilter($a_user_ids);
+
+		$usr_data = $u_query->query();
+
 		
 		if($this->admin_mode && $parse_access)
 		{

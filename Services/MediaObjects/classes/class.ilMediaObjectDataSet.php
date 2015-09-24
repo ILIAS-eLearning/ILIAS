@@ -17,7 +17,29 @@ include_once("./Services/DataSet/classes/class.ilDataSet.php");
  * @ingroup ingroup ServicesMediaObjects
  */
 class ilMediaObjectDataSet extends ilDataSet
-{	
+{
+	protected $use_previous_import_ids = false;
+
+	/**
+	 * Set use previous import ids
+	 *
+	 * @param bool $a_val use previous import ids
+	 */
+	function setUsePreviousImportIds($a_val)
+	{
+		$this->use_previous_import_ids = $a_val;
+	}
+
+	/**
+	 * Get use previous import ids
+	 *
+	 * @return bool use previous import ids
+	 */
+	function getUsePreviousImportIds()
+	{
+		return $this->use_previous_import_ids;
+	}
+
 	/**
 	 * Get supported versions
 	 *
@@ -26,7 +48,7 @@ class ilMediaObjectDataSet extends ilDataSet
 	 */
 	public function getSupportedVersions()
 	{
-		return array("4.3.0", "4.1.0");
+		return array("5.1.0", "4.3.0", "4.1.0");
 	}
 	
 	/**
@@ -60,7 +82,16 @@ class ilMediaObjectDataSet extends ilDataSet
 						"Title" => "text",
 						"Description" => "text",
 						"Dir" => "directory"
-						);
+					);
+
+				case "5.1.0":
+					return array(
+						"Id" => "integer",
+						"Title" => "text",
+						"Description" => "text",
+						"Dir" => "directory",
+						"ImportId" => "text"
+					);
 			}
 		}
 		
@@ -86,6 +117,7 @@ class ilMediaObjectDataSet extends ilDataSet
 					);
 
 				case "4.3.0":
+				case "5.1.0":
 					return array(
 						"Id" => "integer",
 						"MobId" => "integer",
@@ -110,6 +142,7 @@ class ilMediaObjectDataSet extends ilDataSet
 			{
 				case "4.1.0":
 				case "4.3.0":
+				case "5.1.0":
 						return array(
 							"MiId" => "integer",
 							"Nr" => "integer",
@@ -134,6 +167,7 @@ class ilMediaObjectDataSet extends ilDataSet
 			{
 				case "4.1.0":
 				case "4.3.0":
+				case "5.1.0":
 						return array(
 							"MiId" => "integer",
 							"Name" => "text",
@@ -162,15 +196,36 @@ class ilMediaObjectDataSet extends ilDataSet
 		if ($a_entity == "mob")
 		{
 			$this->data = array();
-			
-			foreach ($a_ids as $mob_id)
+
+			switch ($a_version)
 			{
-				if (ilObject::_lookupType($mob_id) == "mob")
-				{
-					$this->data[] = array ("Id" => $mob_id,
-						"Title" => ilObject::_lookupTitle($mob_id),
-						"Description" => ilObject::_lookupDescription($mob_id));
-				}
+				case "4.1.0":
+				case "4.3.0":
+					foreach ($a_ids as $mob_id)
+					{
+						if (ilObject::_lookupType($mob_id) == "mob")
+						{
+							$this->data[] = array ("Id" => $mob_id,
+								"Title" => ilObject::_lookupTitle($mob_id),
+								"Description" => ilObject::_lookupDescription($mob_id)
+							);
+						}
+					}
+					break;
+
+				case "5.1.0":
+					foreach ($a_ids as $mob_id)
+					{
+						if (ilObject::_lookupType($mob_id) == "mob")
+						{
+							$this->data[] = array ("Id" => $mob_id,
+								"Title" => ilObject::_lookupTitle($mob_id),
+								"Description" => ilObject::_lookupDescription($mob_id),
+								"ImportId" => ilObject::_lookupImportId($mob_id)
+							);
+						}
+					}
+					break;
 			}
 		}
 
@@ -187,6 +242,7 @@ class ilMediaObjectDataSet extends ilDataSet
 					break;
 
 				case "4.3.0":
+				case "5.1.0":
 					$this->getDirectDataFromQuery("SELECT id, mob_id, width, height, halign,".
 						"caption, nr, purpose, location, location_type, format, text_representation".
 						" FROM media_item WHERE ".
@@ -203,6 +259,7 @@ class ilMediaObjectDataSet extends ilDataSet
 			{
 				case "4.1.0":
 				case "4.3.0":
+				case "5.1.0":
 					$this->getDirectDataFromQuery("SELECT item_id mi_id, nr".
 						" ,shape, coords, link_type, title, href, target, type, target_frame, ".
 						" highlight_mode, highlight_class".
@@ -221,6 +278,7 @@ class ilMediaObjectDataSet extends ilDataSet
 			{
 				case "4.1.0":
 				case "4.3.0":
+				case "5.1.0":
 					$this->getDirectDataFromQuery("SELECT med_item_id mi_id, name, value".
 						" FROM mob_parameter ".
 						" WHERE ".
@@ -292,6 +350,15 @@ class ilMediaObjectDataSet extends ilDataSet
 				$newObj->setType("mob");
 				$newObj->setTitle($a_rec["Title"]);
 				$newObj->setDescription($a_rec["Description"]);
+				// on translation re-import we are interested in the "previous" import id
+				if ($this->getUsePreviousImportIds())
+				{
+					$newObj->setImportId($a_rec["ImportId"]);
+				}
+				else
+				{
+					$newObj->setImportId("il_".$this->getCurrentInstallationId()."_mob_".$a_rec["Id"]);
+				}
 				$newObj->create();
 				$newObj->createDirectory();
 				ilObjMediaObject::_createThumbnailDirectory($newObj->getId());

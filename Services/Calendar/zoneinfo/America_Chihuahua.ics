@@ -1,5 +1,5 @@
 BEGIN:VTIMEZONE
-TZID=America/Chihuahua
+TZID:America/Chihuahua
 X-LIC-LOCATION:America/Chihuahua
 BEGIN:DAYLIGHT
 TZOFFSETFROM:-0600

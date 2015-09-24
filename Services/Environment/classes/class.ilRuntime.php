@@ -49,6 +49,14 @@ final class ilRuntime
 		return !$this->isHHVM();
 	}
 
+
+	/**
+	 * @return bool
+	 */
+	public function isFPM() {
+		return (php_sapi_name() == 'fpm-fcgi');
+	}
+
 	/**
 	 * @return string
 	 */

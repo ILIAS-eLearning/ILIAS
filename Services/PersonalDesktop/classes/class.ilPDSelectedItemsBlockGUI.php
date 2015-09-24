@@ -18,6 +18,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 {
 	const VIEW_SELECTED_ITEMS      = 0;
 	const VIEW_MY_MEMBERSHIPS      = 1;
+	const VIEW_MY_STUDYPROGRAMME   = 2;
 
 	static $block_type = "pditems";
 
@@ -125,7 +126,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		 */
 		global $ilSetting, $ilCtrl;
 
-		$this->allowed_views = array();
+		$this->allowed_views = array(self::VIEW_MY_STUDYPROGRAMME);
 
 		// determine view
 		if($ilSetting->get('disable_my_offers') == 1 &&
@@ -218,6 +219,15 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		
 		switch((int)$this->view)
 		{
+			case self::VIEW_MY_STUDYPROGRAMME:
+				// TODO: This seems to be very hacky, but i did not find a way to get the standard PD blocks
+				// and only exchange the middle blog for the study programme list. Sry Alex.
+				require_once("Modules/StudyProgramme/classes/class.ilPDStudyProgrammeExpandableListGUI.php");
+				$list = new ilPDStudyProgrammeExpandableListGUI();
+				$this->setTitle($lng->txt("objs_prg"));
+				$this->setContent($list->getDataSectionContent());
+				$this->setAvailableDetailLevels(0);
+				break;
 			case self::VIEW_MY_MEMBERSHIPS:
 				$ilHelp->setDefaultScreenId(ilHelpGUI::ID_PART_SCREEN, "crs_grp");
 				if ($ilSetting->get('disable_my_offers') == 0)
@@ -254,6 +264,17 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		$ilDB->useSlave(false);
 		
 		return parent::getHTML();
+	}
+	
+	// Overwritten from ilBlockGUI as there seems to be no other possibility to
+	// not show Commands in the HEADER(!!!!) of a block in the VIEW_MY_STUDYPROGRAMME
+	// case... Sigh.
+	function getFooterLinks()
+	{
+		if((int)$this->view == self::VIEW_MY_STUDYPROGRAMME) {
+			return array();
+		}
+		return parent::getFooterLinks();
 	}
 	
 	/**
@@ -492,8 +513,6 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 					{
 						continue;
 					}					
-					
-					ilObjectActivation::addListGUIActivationProperty($item_list_gui, $item);							
 										
 					// notes, comment currently do not work properly
 					$item_list_gui->enableNotes(false);
@@ -532,7 +551,9 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 				$ilBench->start("ilPersonalDesktopGUI", "getListHTML");
 				
 				if (is_object($item_list_gui))
-				{
+				{					
+					ilObjectActivation::addListGUIActivationProperty($item_list_gui, $item);							
+					
 					// #15232
 					if($this->manage)
 					{
@@ -683,8 +704,6 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 						$full_class = "ilObj".$class."ListGUI";
 						include_once($location."/class.".$full_class.".php");
 						$item_list_gui = new $full_class();
-											
-						ilObjectActivation::addListGUIActivationProperty($item_list_gui, $item);							
 						
 						// notes, comment currently do not work properly
 						$item_list_gui->enableNotes(false);
@@ -726,7 +745,9 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 					}
 					// render item row
 					$ilBench->start("ilPersonalDesktopGUI", "getListHTML");
-					
+										
+					ilObjectActivation::addListGUIActivationProperty($item_list_gui, $item);							
+						
 					// #15232
 					if($this->manage)
 					{
@@ -941,8 +962,6 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 						$full_class = "ilObj".$class."ListGUI";
 						include_once($location."/class.".$full_class.".php");
 						$item_list_gui = new $full_class();
-												
-						ilObjectActivation::addListGUIActivationProperty($item_list_gui, $item);							
 						
 						// notes, comment currently do not work properly
 						$item_list_gui->enableNotes(false);
@@ -977,7 +996,9 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 					}
 					// render item row
 					$ilBench->start("ilPersonalDesktopGUI", "getListHTML");
-					
+											
+					ilObjectActivation::addListGUIActivationProperty($item_list_gui, $item);							
+						
 					$html = $item_list_gui->getListItemHTML($item["ref_id"],
 					$item["obj_id"], $item["title"], $item["description"]);
 					$ilBench->stop("ilPersonalDesktopGUI", "getListHTML");
@@ -1074,8 +1095,6 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 					{
 						continue;
 					}
-										
-					ilObjectActivation::addListGUIActivationProperty($item_list_gui, $item);							
 					
 					// notes, comment currently do not work properly
 					$item_list_gui->enableNotes(false);
@@ -1103,13 +1122,15 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 				}
 				// render item row
 				$ilBench->start("ilPersonalDesktopGUI", "getListHTML");
-		$item_list_gui->setContainerObject($this);
+													
+				ilObjectActivation::addListGUIActivationProperty($item_list_gui, $item);												
+				
+				$item_list_gui->setContainerObject($this);
 				$html = $item_list_gui->getListItemHTML($item["ref_id"],
 				$item["obj_id"], $item["title"], $item["description"]);
 				$ilBench->stop("ilPersonalDesktopGUI", "getListHTML");
 				if ($html != "")
 				{
-					// BEGIN WebDAV: Use $item_list_gui to determine icon image type
 					$item_html[] = array(
 						"html" => $html, 
 						"item_ref_id" => $item["ref_id"],
@@ -1118,7 +1139,6 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 						"type" => $item["type"],
 						'item_icon_image_type' => $item_list_gui->getIconImageType()
 						);
-					// END WebDAV: Use $item_list_gui to determine icon image type
 				}
 			}
 			
@@ -1145,11 +1165,9 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 						$cur_parent_ref = $item["parent_ref"];
 					}
 					
-					// BEGIN WebDAV: Use $item_list_gui to determine icon image type.
-					$this->addStandardRow($tpl, $item["html"], $item["item_ref_id"], $item["item_obj_id"], 
+					$this->addStandardRow($tpl, $item["html"], $item["item_ref_id"], $item["item_obj_id"],
 						$item['item_icon_image_type'], 
 						"th_".$cur_parent_ref);
-					// END WebDAV: Use $item_list_gui to determine icon image type.
 					$output = true;
 				}
 			}

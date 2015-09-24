@@ -473,10 +473,14 @@ die("ilBasicSkill::updateSkillLevelsByTriggerRef is deprecated.");
 	 * @param	int		skill level id
 	 * @param	int		user id
 	 * @param	int		status
+	 * @param	string	any unique identifier set from the outside, if records for
+	 *                  skill_id-tref_id-user_id-trigger_ref_id-self_eval-unique_identifier already exist
+	 *                  the are removed from the history and the new entry is added
+	 * 					The unique identifier is "unique per trigger object" not globally.
 	 */
 	static function writeUserSkillLevelStatus($a_level_id, $a_user_id,
 		$a_trigger_ref_id, $a_tref_id = 0, $a_status = ilBasicSkill::ACHIEVED, $a_force = false,
-		$a_self_eval = 0)
+		$a_self_eval = 0, $a_unique_identifier = "")
 	{
 		global $ilDB;
 
@@ -542,10 +546,23 @@ die("ilBasicSkill::updateSkillLevelsByTriggerRef is deprecated.");
 		}
 		else
 		{
+			if ($a_unique_identifier != "")
+			{
+				$ilDB->manipulate("DELETE FROM skl_user_skill_level WHERE ".
+					" user_id = ".$ilDB->quote($a_user_id, "integer").
+					" AND tref_id = ".$ilDB->quote($a_tref_id, "integer").
+					" AND skill_id = ".$ilDB->quote($skill_id, "integer").
+					" AND trigger_ref_id = ".$ilDB->quote($trigger_ref_id, "integer").
+					" AND trigger_obj_id = ".$ilDB->quote($trigger_obj_id, "integer").
+					" AND self_eval = ".$ilDB->quote($a_self_eval, "integer").
+					" AND unique_identifier = ".$ilDB->quote($a_unique_identifier, "text")
+				);
+			}
+
 			$now = ilUtil::now();
 			$ilDB->manipulate("INSERT INTO skl_user_skill_level ".
 				"(level_id, user_id, tref_id, status_date, skill_id, status, valid, trigger_ref_id,".
-				"trigger_obj_id, trigger_obj_type, trigger_title, self_eval) VALUES (".
+				"trigger_obj_id, trigger_obj_type, trigger_title, self_eval, unique_identifier) VALUES (".
 				$ilDB->quote($a_level_id, "integer").",".
 				$ilDB->quote($a_user_id, "integer").",".
 				$ilDB->quote((int) $a_tref_id, "integer").",".
@@ -557,7 +574,8 @@ die("ilBasicSkill::updateSkillLevelsByTriggerRef is deprecated.");
 				$ilDB->quote($trigger_obj_id, "integer").",".
 				$ilDB->quote($trigger_type, "text").",".
 				$ilDB->quote($trigger_title, "text").",".
-				$ilDB->quote($a_self_eval, "integer").
+				$ilDB->quote($a_self_eval, "integer").",".
+				$ilDB->quote($a_unique_identifier, "text").
 				")");
 		}
 

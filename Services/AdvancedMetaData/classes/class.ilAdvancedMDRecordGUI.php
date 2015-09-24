@@ -92,26 +92,6 @@ class ilAdvancedMDRecordGUI
 	}
 	
 	/**
-	 * Set selected only flag
-	 *
-	 * @param boolean $a_val retrieve only records, that are selected by the object	
-	 */
-	function setSelectedOnly($a_val)
-	{
-		$this->selected_only = $a_val;
-	}
-	
-	/**
-	 * Get selected only flag
-	 *
-	 * @return boolean retrieve only records, that are selected by the object
-	 */
-	function getSelectedOnly()
-	{
-		return $this->selected_only;
-	}
-	
-	/**
 	 * Get HTML
 	 *
 	 * @access public
@@ -157,21 +137,11 @@ class ilAdvancedMDRecordGUI
 	 * Parse property form in editor mode
 	 */
 	protected function parseEditor()
-	{	 	
-	 	include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
-		if ($this->getSelectedOnly())
-		{
-			$recs = ilAdvancedMDRecord::_getSelectedRecordsByObject($this->obj_type, $this->obj_id, $this->sub_type);
-		}
-		else
-		{
-			$recs = ilAdvancedMDRecord::_getActivatedRecordsByObjectType($this->obj_type, $this->sub_type);
-		}
-
+	{	 		 	
 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');		
 		$this->editor_form = array();
 		
-	 	foreach($recs as $record_obj)
+	 	foreach($this->getActiveRecords() as $record_obj)
 	 	{
 			/* :TODO:
 			if($this->handleECSDefinitions($def))
@@ -184,14 +154,21 @@ class ilAdvancedMDRecordGUI
 			
 			$values = new ilAdvancedMDValues($record_id, $this->obj_id, $this->sub_type, $this->sub_id);
 			$values->read();
+			$defs = $values->getDefinitions();
+			
+			// empty record?
+			if(!sizeof($defs))
+			{
+				continue;
+			}
 			
 			$adt_group_form = ilADTFactory::getInstance()->getFormBridgeForInstance($values->getADTGroup());
 			$adt_group_form->setForm($this->form);
 			$adt_group_form->setTitle($record_obj->getTitle());
 			$adt_group_form->setInfo($record_obj->getDescription());
 			
-			foreach($values->getDefinitions() as $def)
-			{
+			foreach($defs as $def)
+			{							
 				$element = $adt_group_form->getElement($def->getFieldId());
 				$element->setTitle($def->getTitle());
 				$element->setInfo($def->getDescription());
@@ -274,27 +251,26 @@ class ilAdvancedMDRecordGUI
 		// current usage: wiki page element "[amd] page list"
 		
 		$this->lng->loadLanguageModule('search');
-		
-	 	include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');		
+			 	
 	 	include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');			
-		if ($this->getSelectedOnly())
-		{
-			$recs = ilAdvancedMDRecord::_getSelectedRecordsByObject($this->obj_type, $this->obj_id, $this->sub_type);
-		}
-		else
-		{
-			$recs = ilAdvancedMDRecord::_getActivatedRecordsByObjectType($this->obj_type, $this->sub_type);
-		}
 		
 		$this->search_form = array();
-		foreach($recs as $record)
+		foreach($this->getActiveRecords() as $record)
 		{ 			
+			$fields = ilAdvancedMDFieldDefinition::getInstancesByRecordId($record->getRecordId(), true);
+			
+			// empty record?
+			if(!sizeof($fields))
+			{
+				continue;
+			}
+			
 			$section = new ilFormSectionHeaderGUI();
 			$section->setTitle($record->getTitle());
 			$section->setInfo($record->getDescription());
 			$this->form->addItem($section);
 			
-			foreach(ilAdvancedMDFieldDefinition::getInstancesByRecordId($record->getRecordId(), true) as $field)
+			foreach($fields as $field)
 			{									 			
 	 			$field_form = ilADTFactory::getInstance()->getSearchBridgeForDefinitionInstance($field->getADTDefinition(), true, false);				
 				$field_form->setForm($this->form);
@@ -477,7 +453,7 @@ class ilAdvancedMDRecordGUI
 		if($field_id = $mapping->getMappingByECSName('cycle'))
 		{
 			$value = ilAdvancedMDValue::_getInstance($this->obj_id,$field_id);
-			$cycle_def = new ilAdvancedMDFieldDefinition($field_id);
+			$cycle_def = ilAdvancedMDFieldDefinition::getInstance($field_id);
 			switch($cycle_def->getFieldType())
 			{
  				case ilAdvancedMDFieldDefinition::TYPE_TEXT:
@@ -501,7 +477,7 @@ class ilAdvancedMDRecordGUI
 		if($field_id = $mapping->getMappingByECSName('room'))
 		{
 			$value = ilAdvancedMDValue::_getInstance($this->obj_id,$field_id);
-			$room_def = new ilAdvancedMDFieldDefinition($field_id);
+			$room_def = ilAdvancedMDFieldDefinition::getInstance($field_id);
 			switch($room_def->getFieldType())
 			{
  				case ilAdvancedMDFieldDefinition::TYPE_TEXT:
@@ -639,6 +615,12 @@ class ilAdvancedMDRecordGUI
 	{
 		return $this->row_data;
 	}
+		
+	protected function getActiveRecords()
+	{
+		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
+		return ilAdvancedMDRecord::_getSelectedRecordsByObject($this->obj_type, $this->obj_id, $this->sub_type);
+	}
 	
 	/**
 	 * Parse property for filter (table)
@@ -647,21 +629,11 @@ class ilAdvancedMDRecordGUI
 	 * 
 	 */
 	private function parseFilter()
-	{	 
-	 	include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
-		if ($this->getSelectedOnly())
-		{
-			$recs = ilAdvancedMDRecord::_getSelectedRecordsByObject($this->obj_type, $this->obj_id, $this->sub_type);
-		}
-		else
-		{
-			$recs = ilAdvancedMDRecord::_getActivatedRecordsByObjectType($this->obj_type, $this->sub_type);
-		}
-		
+	{	 	 	
 		$this->adt_search = array();
 		
 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
-	 	foreach($recs as $record_obj)
+	 	foreach($this->getActiveRecords() as $record_obj)
 	 	{			
 			$record_id = $record_obj->getRecordId();
 			
@@ -718,7 +690,7 @@ class ilAdvancedMDRecordGUI
 	 * 
 	 * @return array
 	 */
-	public function getFilterElements()
+	public function getFilterElements($a_only_non_empty = true)
 	{
 		if(!is_array($this->adt_search))
 		{
@@ -729,7 +701,8 @@ class ilAdvancedMDRecordGUI
 		
 		foreach($this->adt_search as $def_id => $element)
 		{			
-			if(!$element->isNull())
+			if(!$element->isNull() || 
+				!(bool)$a_only_non_empty)
 			{
 				$res[$def_id] = $element;			
 			}
@@ -747,19 +720,8 @@ class ilAdvancedMDRecordGUI
 	 * Parse property for table head
 	 */
 	private function parseTableHead()
-	{
-	 	global $ilUser;
-	 	
-	 	include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
-		if ($this->getSelectedOnly())
-		{
-			$recs = ilAdvancedMDRecord::_getSelectedRecordsByObject($this->obj_type, $this->obj_id, $this->sub_type);
-		}
-		else
-		{
-			$recs = ilAdvancedMDRecord::_getActivatedRecordsByObjectType($this->obj_type, $this->sub_type);
-		}
-	 	foreach($recs as $record_obj)
+	{	 	
+	 	foreach($this->getActiveRecords() as $record_obj)
 	 	{
 	 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
 	 		foreach(ilAdvancedMDFieldDefinition::_getDefinitionsByRecordId($record_obj->getRecordId()) as $def)
@@ -778,23 +740,12 @@ class ilAdvancedMDRecordGUI
 	 * Parse table cells
 	 */
 	private function parseTableCells()
-	{
-	 	global $ilUser;
-	 	
+	{	 	
 	 	$data = $this->getRowData();
 	 	
 	 	$html = "";
 	 	
-	 	include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
-		if ($this->getSelectedOnly())
-		{
-			$recs = ilAdvancedMDRecord::_getSelectedRecordsByObject($this->obj_type, $this->obj_id, $this->sub_type);
-		}
-		else
-		{
-			$recs = ilAdvancedMDRecord::_getActivatedRecordsByObjectType($this->obj_type, $this->sub_type);
-		}
-	 	foreach($recs as $record_obj)
+	 	foreach($this->getActiveRecords() as $record_obj)
 	 	{
 	 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
 	 		foreach(ilAdvancedMDFieldDefinition::_getDefinitionsByRecordId($record_obj->getRecordId()) as $def)

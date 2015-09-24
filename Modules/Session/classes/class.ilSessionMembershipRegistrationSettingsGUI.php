@@ -30,10 +30,27 @@ class ilSessionMembershipRegistrationSettingsGUI extends ilMembershipRegistratio
 	{
 		$form->getItemByPostVar('registration_type')->setValue($this->getCurrentObject()->getRegistrationType());
 		$form->getItemByPostVar('registration_membership_limited')->setChecked($this->getCurrentObject()->isRegistrationUserLimitEnabled());
+		
+		/* not supported yet
+		$form->getItemByPostVar('registration_min_members')->setValue(
+			$this->getCurrentObject()->getRegistrationMinUsers() > 0 ?
+			$this->getCurrentObject()->getRegistrationMinUsers() : "");		 
+		*/
+		
 		$form->getItemByPostVar('registration_max_members')->setValue(
 			$this->getCurrentObject()->getRegistrationMaxUsers() > 0 ?
 			$this->getCurrentObject()->getRegistrationMaxUsers() : "");
-		$form->getItemByPostVar('waiting_list')->setChecked($this->getCurrentObject()->isRegistrationWaitingListEnabled());
+		
+		$wait = 0;
+		if($this->getCurrentObject()->hasWaitingListAutoFill())
+		{
+			$wait = 2;
+		}
+		else if($this->getCurrentObject()->isRegistrationWaitingListEnabled())
+		{
+			$wait = 1;
+		}
+		$form->getItemByPostVar('waiting_list')->setValue($wait);
 	}
 }
 ?>

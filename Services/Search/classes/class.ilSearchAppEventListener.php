@@ -64,6 +64,7 @@ class ilSearchAppEventListener implements ilAppEventListener
 		
 		switch($a_component)
 		{
+			case 'Services/Help':
 			case 'Services/Object':
 				
 				switch($a_event)
@@ -99,8 +100,6 @@ class ilSearchAppEventListener implements ilAppEventListener
 	
 	protected static function storeElement($a_command,$a_params)
 	{
-		global $ilLog;
-		
 		if(!$a_command)
 		{
 			return false;
@@ -115,8 +114,7 @@ class ilSearchAppEventListener implements ilAppEventListener
 		{
 			$a_params['obj_type'] = ilObject::_lookupType($a_params['obj_id']);
 		}
-		
-		$ilLog->write(__METHOD__.': Handling new command: '.$a_command.' for type '.$a_params['obj_type']);
+		ilLoggerFactory::getLogger('src')->debug('Handling new command: '.$a_command.' for type '.$a_params['obj_type']);
 		
 		$element = new ilSearchCommandQueueElement();
 		$element->setObjId($a_params['obj_id']);

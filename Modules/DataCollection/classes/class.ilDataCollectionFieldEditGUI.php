@@ -232,7 +232,11 @@ class ilDataCollectionFieldEditGUI {
 		$text_prop->setValidationRegexp(ilDataCollectionField::_getTitleValidChars(true));
 		$this->form->addItem($text_prop);
 
-		$edit_datatype = new ilRadioGroupInputGUI($lng->txt('dcl_datatype'), 'datatype');
+        // Description
+        $text_prop = new ilTextAreaInputGUI($lng->txt("dcl_field_description"), "description");
+        $this->form->addItem($text_prop);
+
+        $edit_datatype = new ilRadioGroupInputGUI($lng->txt('dcl_datatype'), 'datatype');
 		foreach (ilDataCollectionDatatype::getAllDatatypes() as $datatype) {
 			$opt = new ilRadioOption($lng->txt('dcl_' . $datatype['title']), $datatype['id']);
 
@@ -253,7 +257,7 @@ class ilDataCollectionFieldEditGUI {
 							}
 						}
 					}
-					$table_selection = new ilSelectInputGUI('', 'prop_' . $property['id']);
+					$table_selection = new ilSelectInputGUI($lng->txt('dcl_reference_title'), 'prop_' . $property['id']);
 					$table_selection->setOptions($options);
 					//$table_selection->setValue($this->table_id);
 					$opt->addSubItem($table_selection);
@@ -272,7 +276,7 @@ class ilDataCollectionFieldEditGUI {
 							}
 						}
 					}
-					$table_selection = new ilSelectInputGUI('', 'prop_' . $property['id']);
+					$table_selection = new ilSelectInputGUI($lng->txt('dcl_reference_title'), 'prop_' . $property['id']);
 					$table_selection->setOptions($options);
 					$opt->addSubItem($table_selection);
 				} elseif ($property['id'] == ilDataCollectionField::PROPERTYID_FORMULA_EXPRESSION) {
@@ -306,9 +310,10 @@ class ilDataCollectionFieldEditGUI {
 							}
 							$opt->addSubItem($subitem);
                     } elseif ($property['inputformat'] == ilDataCollectionDatatype::INPUTFORMAT_NON_EDITABLE_VALUE) {
-                        $subitem = new ilNonEditableValueGUI($property['title']);
-                        $subitem->setValue(implode(', ', ilDataCollectionDatatype::$mob_suffixes));
-                        $opt->addSubItem($subitem);
+                        // TODO Not required atm, otherwise we need to define where the value for the field comes from
+                        //$subitem = new ilNonEditableValueGUI($lng->txt('dcl_' . $property['title']));
+                        //$subitem->setValue(implode(', ', ilDataCollectionDatatype::$mob_suffixes));
+                        //$opt->addSubItem($subitem);
 					} else {
 							$subitem = new ilTextInputGUI($lng->txt('dcl_' . $property['title']), 'prop_' . $property['id']);
 							// TODO: Nicer way to add additional info to fields (need changes in language-logic)
@@ -323,7 +328,11 @@ class ilDataCollectionFieldEditGUI {
 				}
 			}
 
-			$edit_datatype->addOption($opt);
+            $opt->setInfo($lng->txt('dcl_' . $datatype['title'] . '_desc'));
+            if ($datatype['id'] == ilDataCollectionDatatype::INPUTFORMAT_MOB) {
+                $opt->setInfo(sprintf($lng->txt('dcl_' . $datatype['title'] . '_desc'), implode(', ', ilDataCollectionDatatype::$mob_suffixes)));
+            }
+            $edit_datatype->addOption($opt);
 		}
 		$edit_datatype->setRequired(true);
 
@@ -333,16 +342,13 @@ class ilDataCollectionFieldEditGUI {
 		}
 		$this->form->addItem($edit_datatype);
 
-		// Description
-		$text_prop = new ilTextAreaInputGUI($lng->txt("dcl_field_description"), "description");
-		$this->form->addItem($text_prop);
-
 		// Required
 		$cb = new ilCheckboxInputGUI($lng->txt("dcl_field_required"), "required");
 		$this->form->addItem($cb);
 
 		//Unique
 		$cb = new ilCheckboxInputGUI($lng->txt("dcl_unique"), "unique");
+        $cb->setInfo($lng->txt('dcl_unique_desc'));
 		$this->form->addItem($cb);
 	}
 

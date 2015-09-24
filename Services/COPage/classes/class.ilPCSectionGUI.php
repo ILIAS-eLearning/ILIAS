@@ -115,7 +115,20 @@ class ilPCSectionGUI extends ilPageContentGUI
 		global $ilCtrl, $tpl, $lng;
 		
 		$this->displayValidationError();
-		
+
+		$form = $this->initForm($a_insert);
+
+		$html = $form->getHTML();
+		$tpl->setContent($html);
+	}
+
+	/**
+	 * Init editing form
+	 */
+	public function initForm($a_insert = false)
+	{
+		global $lng, $ilCtrl;
+
 		// edit form
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
@@ -158,7 +171,27 @@ class ilPCSectionGUI extends ilPageContentGUI
 
 		$char_prop->setValue($selected); 
 		$form->addItem($char_prop);
-		
+
+		// active from
+		$dt_prop = new ilDateTimeInputGUI($lng->txt("cont_active_from"), "active_from");
+		if (!$a_insert && ($from = $this->content_obj->getActiveFrom()) != "")
+		{
+			$dt_prop->setDate(new ilDateTime($from, IL_CAL_UNIX));
+		}
+		$dt_prop->setMode(ilDateTimeInputGUI::MODE_INPUT);
+		$dt_prop->setShowTime(true);
+		$form->addItem($dt_prop);
+
+		// active to
+		$dt_prop = new ilDateTimeInputGUI($lng->txt("cont_active_to"), "active_to");
+		if (!$a_insert && ($to = $this->content_obj->getActiveTo()) != "")
+		{
+			$dt_prop->setDate(new ilDateTime($to, IL_CAL_UNIX));
+		}
+		$dt_prop->setMode(ilDateTimeInputGUI::MODE_INPUT);
+		$dt_prop->setShowTime(true);
+		$form->addItem($dt_prop);
+
 		// save/cancel buttons
 		if ($a_insert)
 		{
@@ -170,10 +203,8 @@ class ilPCSectionGUI extends ilPageContentGUI
 			$form->addCommandButton("update", $lng->txt("save"));
 			$form->addCommandButton("cancelUpdate", $lng->txt("cancel"));
 		}
-		$html = $form->getHTML();
-		$tpl->setContent($html);
-		return $ret;
 
+		return $form;
 	}
 
 
@@ -182,9 +213,15 @@ class ilPCSectionGUI extends ilPageContentGUI
 	*/
 	function create()
 	{
+		$form = $this->initForm(true);
+		$form->checkInput();
+
 		$this->content_obj = new ilPCSection($this->getPage());
 		$this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
-		$this->content_obj->setCharacteristic($_POST["characteristic"]);
+
+		$this->setValuesFromForm($form);
+
+
 		$this->updated = $this->pg_obj->update();
 		if ($this->updated === true)
 		{
@@ -201,7 +238,11 @@ class ilPCSectionGUI extends ilPageContentGUI
 	*/
 	function update()
 	{
-		$this->content_obj->setCharacteristic($_POST["characteristic"]);
+		$form = $this->initForm(false);
+		$form->checkInput();
+
+		$this->setValuesFromForm($form);
+
 		$this->updated = $this->pg_obj->update();
 		if ($this->updated === true)
 		{
@@ -213,5 +254,37 @@ class ilPCSectionGUI extends ilPageContentGUI
 			$this->edit();
 		}
 	}
+
+	/**
+	 * Set values from form
+	 *
+	 * @param object $form form object
+	 */
+	function setValuesFromForm($form)
+	{
+		$this->content_obj->setCharacteristic($_POST["characteristic"]);
+
+		if ($_POST["active_from"]["date"] != "" &&
+			$from = $form->getItemByPostVar("active_from")->getDate())
+		{
+			$this->content_obj->setActiveFrom($from->get(IL_CAL_UNIX));
+		}
+		else
+		{
+			$this->content_obj->setActiveFrom(0);
+		}
+
+		if ($_POST["active_to"]["date"] != "" &&
+			$to = $form->getItemByPostVar("active_to")->getDate())
+		{
+			$this->content_obj->setActiveTo($to->get(IL_CAL_UNIX));
+		}
+		else
+		{
+			$this->content_obj->setActiveTo(0);
+		}
+
+	}
+
 }
 ?>

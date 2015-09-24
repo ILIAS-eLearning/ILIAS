@@ -178,7 +178,7 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
 		}
 		if ($question_title)
 		{
-			$template->setVariable("QUESTION_TITLE", $this->object->getTitle());
+			$template->setVariable("QUESTION_TITLE", $this->getPrintViewQuestionTitle($question_title));
 		}
 		$template->setVariable("TEXT_ANSWER", $this->lng->txt("answer"));
 		$template->setVariable("QUESTION_ID", $this->object->getId());
@@ -346,20 +346,32 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
 
 		$template->setCurrentBlock("detail_row");
 		$template->setVariable("TEXT_OPTION", $this->lng->txt("values"));
-		$values = "";
+		$table = array();
+		$idx = $selsum = 0;
 		if (is_array($this->cumulated["values"]))
 		{
 			foreach ($this->cumulated["values"] as $key => $value)
-			{
-				$values .= "<li>" . $value["value"] . ": n=" .  $value["selected"] . 
-					" (" . sprintf("%.2f", 100*$value["percentage"]) . "%)</li>";
+			{				
+				$table[] = array(
+					(++$idx).".",
+					$value["title"], 
+					$value["selected"], 
+					sprintf("%.2f", 100*$value["percentage"])."%"
+				);
 			}
+			$selsum += (int)$value["selected"];
 		}
-		$values = "<ol>$values</ol>";
-		$template->setVariable("TEXT_OPTION_VALUE", $values);
+		$head = array(
+			"", 
+			$this->lng->txt("title"), 
+			$this->lng->txt("category_nr_selected"), 
+			$this->lng->txt("percentage_of_selections")
+		);
+		$foot = array(null, null, $selsum, null);
+		$template->setVariable("TEXT_OPTION_VALUE", 
+			$this->renderStatisticsDetailsTable($head, $table, $foot));	
 		$template->parseCurrentBlock();
-	
-		
+			
 		// chart 
 		$template->setCurrentBlock("detail_row");				
 		$template->setVariable("TEXT_OPTION", $this->lng->txt("chart"));

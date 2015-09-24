@@ -80,7 +80,9 @@ class ilExAssignmentPeerReviewOverviewTableGUI extends ilTable2GUI
 	{		
 		$data = array();
 		
-		$tmp = $this->ass->validatePeerReviewGroups();
+		include_once("./Modules/Exercise/classes/class.ilExPeerReview.php");
+		$peer_review = new ilExPeerReview($this->ass);
+		$tmp = $peer_review->validatePeerReviewGroups();
 		
 		if(!is_array($tmp))
 		{

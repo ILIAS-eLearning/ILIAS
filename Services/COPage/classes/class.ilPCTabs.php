@@ -38,6 +38,7 @@ class ilPCTabs extends ilPageContent
 	var $tabs_node;
 	const ACCORDION_HOR = "HorizontalAccordion";
 	const ACCORDION_VER = "VerticalAccordion";
+	const CAROUSEL = "Carousel";
 
 	/**
 	* Init page content component.
@@ -99,6 +100,7 @@ class ilPCTabs extends ilPageContent
 		{
 			case ilPCTabs::ACCORDION_VER:
 			case ilPCTabs::ACCORDION_HOR:
+			case ilPCTabs::CAROUSEL:
 				$this->tabs_node->set_attribute("Type", $a_type);
 				break;
 		}
@@ -371,7 +373,48 @@ class ilPCTabs extends ilPageContent
 	 */
 	static function getLangVars()
 	{
-		return array("pc_vacc", "pc_hacc");
+		return array("pc_vacc", "pc_hacc", "pc_carousel");
+	}
+
+
+	/**
+	  * Set auto animation waiting time
+	  *
+	  * @param int $a_val auto animation time
+	  */
+	function setAutoTime($a_val)
+	{
+		$this->setTabsAttribute("AutoAnimWait", $a_val);
+	}
+
+	/**
+	 * Get auto animation waiting time
+	 *
+	 * @return int auto animation time
+	 */
+	function getAutoTime()
+	{
+		return $this->tabs_node->get_attribute("AutoAnimWait");
+	}
+
+	/**
+	 * Set random start
+	 *
+	 * @param bool $a_val random start
+	 */
+	function setRandomStart($a_val)
+	{
+		$this->setTabsAttribute("RandomStart", $a_val);
+	}
+
+	/**
+	 * Get random start
+	 *
+	 * @return bool random start
+	 */
+	function getRandomStart()
+	{
+		return $this->tabs_node->get_attribute("RandomStart");
 	}
 
 }

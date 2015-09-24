@@ -1,0 +1,15 @@
+.ilCLI .ilContainerListItemOuter .ilContainerListItemCB .il_PrgExpandedImage {
+	display: none;
+}
+
+.il_PrgAccordionHeadActive .ilContainerListItemOuter .ilContainerListItemCB .il_PrgExpandedImage {
+	display: inline;
+}
+
+.ilCLI .ilContainerListItemOuter .ilContainerListItemCB .il_PrgNotExpandedImage {
+	display: inline;
+}
+
+.il_PrgAccordionHeadActive .ilContainerListItemOuter .ilContainerListItemCB .il_PrgNotExpandedImage {
+	display: none;
+}

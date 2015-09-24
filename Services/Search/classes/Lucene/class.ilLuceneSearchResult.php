@@ -79,9 +79,6 @@ class ilLuceneSearchResult implements Iterator
 	 */
 	public function valid()
 	{
-		global $ilLog;
-		
-		$ilLog->write(__METHOD__.': Iterator valid called '. count($this->objects).' '. $this->position);
 		if($this->position < count($this->objects))
 		{
 			return true;
@@ -90,7 +87,7 @@ class ilLuceneSearchResult implements Iterator
 		// get next result page
 		if(count($this->objects) < $this->getTotalHits())
 		{
-			$ilLog->write("Trying to get next result page...");
+			ilLoggerFactory::getLogger('src')->debug("Trying to get next result page...");
 			@call_user_func($this->listener);
 		}
 		// Check again

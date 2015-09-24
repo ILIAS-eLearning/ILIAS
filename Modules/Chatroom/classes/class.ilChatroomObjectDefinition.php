@@ -7,38 +7,43 @@
 class ilChatroomObjectDefinition
 {
 	/**
+	 * Module name, defaults to 'Chatroom'
 	 * @var string
 	 */
 	private $moduleName;
 
 	/**
+	 * Module base path, set to "Modules/$this->moduleName/"
 	 * @var string
 	 */
 	private $moduleBasePath;
 
 	/**
+	 * always set to 'classes'
 	 * @var string
 	 */
 	private $relativeClassPath;
 
 	/**
+	 * TaskScope
+	 * set to '' for single instance or 'admin' for general administration
 	 * @var string
 	 */
-	private $relativeTaskPath;
+	private $taskScope;
 
 	/**
 	 * Sets class parameters using given parameters.
 	 * @param string $moduleName
 	 * @param string $moduleBasePath
-	 * @param string $relativeClassPath
-	 * @param string $relativeTaskPath
+	 * @param string $relativeClassPath Optional.
+	 * @param string $taskScope Optional.
 	 */
-	public function __construct($moduleName, $moduleBasePath, $relativeClassPath = 'classes', $relativeTaskPath = 'tasks')
+	public function __construct($moduleName, $moduleBasePath, $relativeClassPath = 'classes', $taskScope = '')
 	{
 		$this->moduleName        = $moduleName;
 		$this->moduleBasePath    = rtrim($moduleBasePath, '/\\');
 		$this->relativeClassPath = rtrim($relativeClassPath);
-		$this->relativeTaskPath  = rtrim($relativeTaskPath);
+		$this->taskScope         = rtrim($taskScope);
 	}
 
 	/**
@@ -56,15 +61,15 @@ class ilChatroomObjectDefinition
 
 	/**
 	 * Returns an Instance of ilChatroomObjectDefinition, using given $moduleName
-	 * and $relativeTaskFolder as parameters.
+	 * and $taskScope as parameters.
 	 * @param string $moduleName
-	 * @param string $relativeTaskFolder
+	 * @param string $taskScope Optional. 'admin' or ''. Default ''
 	 * @return ilChatroomObjectDefinition
 	 */
-	public static function getDefaultDefinitionWithCustomTaskPath($moduleName, $relativeTaskFolder)
+	public static function getDefaultDefinitionWithCustomTaskPath($moduleName, $taskScope = '')
 	{
 		$object = new self(
-			$moduleName, 'Modules/' . $moduleName . '/', 'classes', $relativeTaskFolder
+			$moduleName, 'Modules/' . $moduleName . '/', 'classes', $taskScope
 		);
 
 		return $object;
@@ -112,7 +117,7 @@ class ilChatroomObjectDefinition
 	 */
 	public function getTaskClassName($task)
 	{
-		return 'il' . $this->moduleName . ucfirst($task) . 'Task';
+		return 'il' . $this->moduleName . ucfirst($this->taskScope) . ucfirst($task) . 'Task';
 	}
 
 	/**
@@ -123,6 +128,6 @@ class ilChatroomObjectDefinition
 	public function getTaskPath($task)
 	{
 		return $this->moduleBasePath . '/' . $this->relativeClassPath . '/' .
-			$this->relativeTaskPath . '/class.' . $this->getTaskClassName($task) . '.php';
+			$this->taskScope . 'tasks/class.' . $this->getTaskClassName($task) . '.php';
 	}
 }

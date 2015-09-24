@@ -1013,12 +1013,15 @@ class ilSurveyParticipantsGUI
 				}
 			}
 			$reader->close();
-			$this->object->createSurveyCodesForExternalData($founddata);
-			ilUtil::sendSuccess($this->lng->txt('external_recipients_imported'), true);
-			$this->ctrl->redirect($this, 'codes');
+			
+			if(sizeof($founddata))
+			{
+				$this->object->createSurveyCodesForExternalData($founddata);
+				ilUtil::sendSuccess($this->lng->txt('external_recipients_imported'), true);			
+			}
 		}
 		
-		$this->ctrl->redirect($this, 'importExternalMailRecipientsFromTextForm');
+		$this->ctrl->redirect($this, 'codes');
 	}
 	
 	function importExternalMailRecipientsFromFileFormObject()

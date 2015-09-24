@@ -931,16 +931,21 @@ class ilDataCollectionField {
 			if ($properties[$length] < mb_strlen($value, 'UTF-8') AND is_numeric($properties[$length])) {
 				throw new ilDataCollectionInputException(ilDataCollectionInputException::LENGTH_EXCEPTION);
 			}
-			if (!($properties[$regex_id] == NULL OR @preg_match($regex, $value))) {
+			if (! ($properties[$regex_id] == NULL OR preg_match($regex, $value) === false)) {
 				throw new ilDataCollectionInputException(ilDataCollectionInputException::REGEX_EXCEPTION);
 			}
 			//email or url
-			if ($properties[$url]
-				&& !(preg_match('~(^(news|(ht|f)tp(s?)\://){1}\S+)~i', $value)
-					|| preg_match("/^[a-z0-9!#$%&'*+=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i", $value))
-			) {
-				throw new ilDataCollectionInputException(ilDataCollectionInputException::NOT_URL);
-			}
+			if ($properties[$url]) {
+				if ($json = json_decode($value)) {
+					$value = $json->link;
+				}
+                if (substr($value, 0, 3) === 'www') {
+                    $value = 'http://' . $value;
+                }
+                if (!filter_var($value, FILTER_VALIDATE_URL) && !filter_var($value, FILTER_VALIDATE_EMAIL)) {
+                    throw new ilDataCollectionInputException(ilDataCollectionInputException::NOT_URL);
+                }
+            }
 		}
 
 		if ($this->isUnique() && $record_id === NULL) {

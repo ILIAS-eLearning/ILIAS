@@ -143,9 +143,9 @@ class ilObjectTranslation
 	 * @param string $a_description description
 	 * @param bool $a_default default language?
 	 */
-	function addLanguage($a_lang, $a_title, $a_description, $a_default)
+	function addLanguage($a_lang, $a_title, $a_description, $a_default, $a_force = false)
 	{
-		if ($a_lang != "" && !isset($this->languages[$a_lang]))
+		if ($a_lang != "" && (!isset($this->languages[$a_lang]) || $a_force))
 		{
 			if ($a_default)
 			{
@@ -347,7 +347,7 @@ class ilObjectTranslation
 
 		foreach ($this->getLanguages() as $l => $trans)
 		{
-			$this->db->manipulate("INSERT INTO object_translation ".
+			$this->db->manipulate($t = "INSERT INTO object_translation ".
 				"(obj_id, title, description, lang_code, lang_default) VALUES (".
 				$this->db->quote($this->getObjId(), "integer").",".
 				$this->db->quote($trans["title"], "text").",".

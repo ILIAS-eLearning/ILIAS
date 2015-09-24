@@ -576,7 +576,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 
 			case "spent_seconds":
 			case "read_count_spent_seconds":
-				if(in_array($type, array("exc")))
+				if(in_array($type, array("exc", "file", "mcst")))
 				{
 					$value = "-";
 				}

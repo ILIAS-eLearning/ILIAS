@@ -790,7 +790,7 @@ class ilMDEditorGUI
 		
 		// Redirect here to read new title and description
 		// Otherwise ('Lifecycle' 'technical' ...) simply call listSection()
-		ilUtil::sendInfo($this->lng->txt("saved_successfully"), true);
+		ilUtil::sendSuccess($this->lng->txt("saved_successfully"), true);
 		$this->ctrl->redirect($this,'listSection');
 		
 	}
@@ -1284,7 +1284,7 @@ class ilMDEditorGUI
 		
 		// Redirect here to read new title and description
 		// Otherwise ('Lifecycle' 'technical' ...) simply call listSection()
-		ilUtil::sendInfo($this->lng->txt("saved_successfully"), true);
+		ilUtil::sendSuccess($this->lng->txt("saved_successfully"), true);
 		$this->ctrl->redirect($this,'listSection');
 	}
 	
@@ -1559,7 +1559,7 @@ class ilMDEditorGUI
 		// Redirect here to read new title and description
 		// Otherwise ('Lifecycle' 'technical' ...) simply call listSection()
 		$this->ctrl->setParameter($this, "section", "meta_general");
-		ilUtil::sendInfo($this->lng->txt("saved_successfully"), true);
+		ilUtil::sendSuccess($this->lng->txt("saved_successfully"), true);
 		$this->ctrl->redirect($this,'listSection');
 	}
 
@@ -1615,7 +1615,7 @@ class ilMDEditorGUI
 		}
 		$this->callListeners('Technical');
 
-		ilUtil::sendInfo($this->lng->txt("saved_successfully"));
+		ilUtil::sendSuccess($this->lng->txt("saved_successfully"));
 		$this->listSection();
 		return true;
 	}
@@ -1985,7 +1985,7 @@ class ilMDEditorGUI
 			}
 		}
 		$this->callListeners('Lifecycle');
-		ilUtil::sendInfo($this->lng->txt("saved_successfully"));
+		ilUtil::sendSuccess($this->lng->txt("saved_successfully"));
 		$this->listSection();
 		return true;
 	}		
@@ -2166,7 +2166,7 @@ class ilMDEditorGUI
 			}
 		}
 		$this->callListeners('MetaMetaData');
-		ilUtil::sendInfo($this->lng->txt("saved_successfully"));
+		ilUtil::sendSuccess($this->lng->txt("saved_successfully"));
 		$this->listSection();
 		return true;
 	}		
@@ -2245,7 +2245,7 @@ class ilMDEditorGUI
 		$this->md_section->update();
 		
 		$this->callListeners('Rights');
-		ilUtil::sendInfo($this->lng->txt("saved_successfully"));
+		ilUtil::sendSuccess($this->lng->txt("saved_successfully"));
 		$this->listSection();
 	}
 
@@ -2566,7 +2566,7 @@ class ilMDEditorGUI
 		$this->md_section->update();
 		
 		$this->callListeners('Educational');
-		ilUtil::sendInfo($this->lng->txt("saved_successfully"));
+		ilUtil::sendSuccess($this->lng->txt("saved_successfully"));
 		$this->listSection();
 	}
 
@@ -2743,7 +2743,7 @@ class ilMDEditorGUI
 		}
 		
 		$this->callListeners('Relation');
-		ilUtil::sendInfo($this->lng->txt("saved_successfully"));
+		ilUtil::sendSuccess($this->lng->txt("saved_successfully"));
 		$this->listSection();
 	}
 
@@ -2831,7 +2831,7 @@ class ilMDEditorGUI
 		}
 		
 		$this->callListeners('Annotation');
-		ilUtil::sendInfo($this->lng->txt("saved_successfully"));
+		ilUtil::sendSuccess($this->lng->txt("saved_successfully"));
 		$this->listSection();
 	}
 	
@@ -3072,7 +3072,7 @@ class ilMDEditorGUI
 		}
 		
 		$this->callListeners('Classification');
-		ilUtil::sendInfo($this->lng->txt("saved_successfully"));
+		ilUtil::sendSuccess($this->lng->txt("saved_successfully"));
 		$this->listSection();
 	}
 
@@ -3364,6 +3364,8 @@ class ilMDEditorGUI
 
 	function __setTabs($a_active)
 	{
+		global $ilToolbar;
+		
 		$tabs = array('meta_quickedit' => 'listQuickEdit',
 					  'meta_general' => 'listGeneral',
 					  'meta_lifecycle' => 'listLifecycle',
@@ -3379,23 +3381,29 @@ class ilMDEditorGUI
 		{
 			$tabs['debug'] = 'debug';
 		}
-		
-		foreach($tabs as $key => $target)
+
+		include_once 'Services/Form/classes/class.ilSelectInputGUI.php';
+		$section = new ilSelectInputGUI($this->lng->txt("meta_section"), "section");		
+
+		$options = array();
+		foreach(array_keys($tabs) as $key)
 		{
-			if($a_active == $key)
-			{
-				$active = true;
-			}
-			else
-			{
-				$active = false;
-			}
-			$this->ctrl->setParameter($this,'section',$key);
-			$this->tabs_gui->addSubTabTarget($key, $this->ctrl->getLinkTarget($this,'listSection'),
-				"", "", "", $active);
+			$options[$key]= $this->lng->txt($key);			
 		}
-		#$this->tpl->setVariable("SUB_TABS", $tab_gui->getHTML());
-		return true;
+		$section->setOptions($options);
+		$section->setValue($a_active);
+
+		$ilToolbar->addStickyItem($section, true);
+		
+		include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";
+		$button = ilSubmitButton::getInstance();
+		$button->setCaption("show");
+		$button->setCommand("listSection");			
+		$ilToolbar->addStickyItem($button);
+				
+		$ilToolbar->setFormAction($this->ctrl->getFormAction($this, "listSection"));
+
+		return true;		
 	}
 
 

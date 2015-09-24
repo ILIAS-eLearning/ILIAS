@@ -3,6 +3,7 @@
 
 
 include_once('./Services/Table/classes/class.ilTable2GUI.php');
+require_once 'Modules/Test/classes/class.ilTestPlayerCommands.php';
 
 /**
 *
@@ -21,6 +22,8 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
 	protected $obligationsFilterEnabled = false;
 	
 	protected $obligationsNotAnswered = false;
+	
+	protected $finishTestButtonEnabled = false;
 	
 	/**
 	 * Constructor
@@ -70,7 +73,7 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt("tst_qst_order"),'order', '');
 		$this->addColumn($this->lng->txt("tst_question_title"),'title', '');
 		
-		if( $this->isShowObligationsEnabled() )
+		if( false && $this->isShowObligationsEnabled() )
 		{
 			$this->addColumn($this->lng->txt("obligatory"), 'obligatory', '');
 		}
@@ -82,9 +85,10 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
 			$this->addColumn($this->lng->txt("tst_maximum_points"),'points', '');
 		}
 		
-		$this->addColumn($this->lng->txt("worked_through"),'worked_through', '');
+		#$this->addColumn($this->lng->txt("worked_through"),'worked_through', '');
+		$this->addColumn($this->lng->txt("answered"),'answered', '');
 		
-		if( $this->isShowObligationsEnabled() )
+		if( false && $this->isShowObligationsEnabled() )
 		{
 			$this->addColumn($this->lng->txt("answered"),'answered', '');
 		}
@@ -96,13 +100,15 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
 		
 		// command buttons
 		
-		$this->addCommandButton('backFromSummary', $this->lng->txt('back'));
+		$this->addCommandButton(
+			ilTestPlayerCommands::SHOW_QUESTION, $this->lng->txt('back')
+		);
 
-		if( !$this->areObligationsNotAnswered() )
+		if( !$this->areObligationsNotAnswered() && $this->isFinishTestButtonEnabled() )
 		{
 			$button = ilSubmitButton::getInstance();
-			$button->setCaption('save_finish');
-			$button->setCommand('finishTest');
+			$button->setCaption('finish_test');
+			$button->setCommand(ilTestPlayerCommands::FINISH_TEST);
 			$this->addCommandButtonInstance($button);
 		}
 	}
@@ -119,7 +125,7 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
 		if ($this->isShowPointsEnabled())
 		{
 			$this->tpl->setCurrentBlock('points');
-			$this->tpl->setVariable("POINTS", $data['points']);
+			$this->tpl->setVariable("POINTS", $data['points'].'&nbsp;'.$this->lng->txt("points_short"));
 			$this->tpl->parseCurrentBlock();
 		}
 		if (strlen($data['description']))
@@ -141,7 +147,7 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
 				$this->tpl->touchBlock('marker');
 			}
 		}
-		if( $this->isShowObligationsEnabled() )
+		if( false && $this->isShowObligationsEnabled() )
 		{
 			// obligatory answer status
 			$value = '&nbsp;';
@@ -164,10 +170,18 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
 			$this->tpl->setVariable("QUESTION_OBLIGATORY", $OBLIGATORY);
 		}
 		
+		$this->ctrl->setParameter($this->parent_obj, 'sequence', $data['sequence']);
+		$this->ctrl->setParameter($this->parent_obj, 'pmode', ilTestPlayerAbstractGUI::getDefaultPresentationMode());
+		$href = $this->ctrl->getLinkTarget($this->parent_obj, ilTestPlayerCommands::SHOW_QUESTION);
+		
+		$postponed = (
+			$data['postponed'] ? $this->lng->txt('postponed') : ''
+		);
+		
 		$this->tpl->setVariable("ORDER", $data['order']);
 		$this->tpl->setVariable("TITLE", ilUtil::prepareFormOutput($data['title']));
-		$this->tpl->setVariable("HREF", $data['href']);
-		$this->tpl->setVariable("POSTPONED", $data['postponed']);
+		$this->tpl->setVariable("HREF", $href);
+		$this->tpl->setVariable("POSTPONED", $postponed);
 		if ($data["worked_through"])
 		{
 			$this->tpl->setVariable("WORKED_THROUGH", $this->lng->txt("yes"));
@@ -227,6 +241,20 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
 	{
 		$this->obligationsNotAnswered = $obligationsNotAnswered;
 	}
-	
-	
+
+	/**
+	 * @return boolean
+	 */
+	public function isFinishTestButtonEnabled()
+	{
+		return $this->finishTestButtonEnabled;
+	}
+
+	/**
+	 * @param boolean $finishTestButtonEnabled
+	 */
+	public function setFinishTestButtonEnabled($finishTestButtonEnabled)
+	{
+		$this->finishTestButtonEnabled = $finishTestButtonEnabled;
+	}
 }

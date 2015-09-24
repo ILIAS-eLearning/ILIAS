@@ -16,4 +16,5 @@
 		<event type="raise" id="delete" />
 		<event type="raise" id="undelete" />
 	</events>
+	<logging />
 </service>

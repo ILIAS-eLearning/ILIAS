@@ -12,6 +12,12 @@
 */
 class ilTestSession
 {
+	const ACCESS_CODE_SESSION_INDEX = "tst_access_code";
+	
+	const ACCESS_CODE_CHAR_DOMAIN = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	
+	const ACCESS_CODE_LENGTH = 5;
+	
 	/**
 	* The unique identifier of the test session
 	*
@@ -46,6 +52,11 @@ class ilTestSession
 	* @var integer
 	*/
 	var $lastsequence;
+
+	/**
+	 * @var string
+	 */
+	protected $lastPresentationMode;
 
 	/**
 	* Indicates if the test was submitted already
@@ -87,6 +98,7 @@ class ilTestSession
 		$this->anonymous_id = 0;
 		$this->test_id = 0;
 		$this->lastsequence = 0;
+		$this->lastPresentationMode = null;
 		$this->submitted = FALSE;
 		$this->submittedTimestamp = "";
 		$this->pass = 0;
@@ -135,6 +147,7 @@ class ilTestSession
 				$this->anonymous_id = $row["anonymous_id"];
 				$this->test_id = $row["test_fi"];
 				$this->lastsequence = $row["lastindex"];
+				$this->setLastPresentationMode($row['last_pmode']);
 				$this->pass = $row["tries"];
 				$this->submitted = ($row["submitted"]) ? TRUE : FALSE;
 				$this->submittedTimestamp = $row["submittimestamp"];
@@ -155,6 +168,7 @@ class ilTestSession
 
 		$this->increasePass();
 		$this->setLastSequence(0);
+		$this->setLastPresentationMode(null);
 		$submitted = ($this->isSubmitted()) ? 1 : 0;
 		// there has to be at least 10 seconds between new test passes (to ensure that noone double clicks the finish button and increases the test pass by more than 1)
 		if (time() - $_SESSION['tst_last_increase_pass'] > 10)
@@ -166,6 +180,7 @@ class ilTestSession
 				$ilDB->update('tst_active',
 					array(
 						'lastindex' => array('integer', $this->getLastSequence()),
+						'last_pmode' => array('text', $this->getLastPresentationMode()),
 						'tries' => array('integer', $this->getPass()),
 						'submitted' => array('integer', $submitted),
 						'submittimestamp' => array('timestamp', strlen($this->getSubmittedTimestamp()) ? $this->getSubmittedTimestamp() : NULL),
@@ -189,22 +204,23 @@ class ilTestSession
 				if (!$this->activeIDExists($this->getUserId(), $this->getTestId()))
 				{
 					$anonymous_id = ($this->getAnonymousId()) ? $this->getAnonymousId() : NULL;
+					$submittedTs = (strlen($this->getSubmittedTimestamp())) ? $this->getSubmittedTimestamp() : NULL;
 					$next_id = $ilDB->nextId('tst_active');
-					$affectedRows = $ilDB->manipulateF("INSERT INTO tst_active (active_id, user_fi, anonymous_id, test_fi, lastindex, tries, submitted, submittimestamp, tstamp, objective_container) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
-						array('integer', 'integer', 'text', 'integer', 'integer', 'integer', 'integer', 'timestamp', 'integer', 'integer'),
-						array(
-							$next_id,
-							$this->getUserId(),
-							$anonymous_id,
-							$this->getTestId(),
-							$this->getLastSequence(),
-							$this->getPass(),
-							$submitted,
-							(strlen($this->getSubmittedTimestamp())) ? $this->getSubmittedTimestamp() : NULL,
-							time(),
-							(int)$this->getObjectiveOrientedContainerId()
-						)
-					);
+
+					$ilDB->insert('tst_active', array(
+						'active_id' => array('integer', $next_id),
+						'user_fi' => array('integer', $this->getUserId()),
+						'anonymous_id' => array('text', $anonymous_id),
+						'test_fi' => array('integer', $this->getTestId()),
+						'lastindex' => array('integer', $this->getLastSequence()),
+						'last_pmode' => array('text', $this->getLastPresentationMode()),
+						'tries' => array('integer', $this->getPass()),
+						'submitted' => array('integer', $submitted),
+						'submittimestamp' => array('timestamp', $submittedTs),
+						'tstamp' => array('integer', time()),
+						'objective_container' => array('integer', (int)$this->getObjectiveOrientedContainerId()),
+					));
+
 					$this->active_id = $next_id;
 
 					// update learning progress
@@ -227,6 +243,7 @@ class ilTestSession
 			$ilDB->update('tst_active',
 				array(
 					'lastindex' => array('integer', $this->getLastSequence()),
+					'last_pmode' => array('text', $this->getLastPresentationMode()),
 					'tries' => array('integer', $this->getPass()),
 					'submitted' => array('integer', $submitted),
 					'submittimestamp' => array('timestamp', (strlen($this->getSubmittedTimestamp())) ? $this->getSubmittedTimestamp() : NULL),
@@ -259,6 +276,7 @@ class ilTestSession
 						'anonymous_id' => array('text', $anonymous_id),
 						'test_fi' => array('integer', $this->getTestId()),
 						'lastindex' => array('integer', $this->getLastSequence()),
+						'last_pmode' => array('text', $this->getLastPresentationMode()),
 						'tries' => array('integer', $this->getPass()),
 						'submitted' => array('integer', $submitted),
 						'submittimestamp' => array('timestamp', (strlen($this->getSubmittedTimestamp())) ? $this->getSubmittedTimestamp() : NULL),
@@ -293,11 +311,11 @@ class ilTestSession
 		{
 			$user_id = $ilUser->getId();
 		}
-		if (($_SESSION["AccountId"] == ANONYMOUS_USER_ID) && (strlen($_SESSION["tst_access_code"][$test_id])))
+		if (($_SESSION["AccountId"] == ANONYMOUS_USER_ID) && $this->doesAccessCodeInSessionExists())
 		{
 			$result = $ilDB->queryF("SELECT * FROM tst_active WHERE user_fi = %s AND test_fi = %s AND anonymous_id = %s",
 				array('integer','integer','text'),
-				array($user_id, $test_id, $_SESSION["tst_access_code"][$test_id])
+				array($user_id, $test_id, $this->getAccessCodeFromSession())
 			);
 		}
 		else if (strlen($anonymous_id))
@@ -326,6 +344,7 @@ class ilTestSession
 			$this->anonymous_id = $row["anonymous_id"];
 			$this->test_id = $row["test_fi"];
 			$this->lastsequence = $row["lastindex"];
+			$this->setLastPresentationMode($row['last_pmode']);
 			$this->pass = $row["tries"];
 			$this->submitted = ($row["submitted"]) ? TRUE : FALSE;
 			$this->submittedTimestamp = $row["submittimestamp"];
@@ -333,6 +352,10 @@ class ilTestSession
 
 			$this->setLastFinishedPass($row['last_finished_pass']);
 			$this->setObjectiveOrientedContainerId((int)$row['objective_container']);
+		}
+		elseif( $this->doesAccessCodeInSessionExists() )
+		{
+			$this->unsetAccessCodeInSession();
 		}
 	}
 	
@@ -356,6 +379,7 @@ class ilTestSession
 			$this->anonymous_id = $row["anonymous_id"];
 			$this->test_id = $row["test_fi"];
 			$this->lastsequence = $row["lastindex"];
+			$this->setLastPresentationMode($row['last_pmode']);
 			$this->pass = $row["tries"];
 			$this->submitted = ($row["submitted"]) ? TRUE : FALSE;
 			$this->submittedTimestamp = $row["submittimestamp"];
@@ -400,15 +424,31 @@ class ilTestSession
 	{
 		return $this->anonymous_id;
 	}
-	
-	function setLastSequence($lastsequence)
+
+	public function setLastSequence($lastsequence)
 	{
 		$this->lastsequence = $lastsequence;
 	}
 	
-	function getLastSequence()
+	public function getLastSequence()
 	{
 		return $this->lastsequence;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getLastPresentationMode()
+	{
+		return $this->lastPresentationMode;
+	}
+
+	/**
+	 * @param string $lastPresentationMode
+	 */
+	public function setLastPresentationMode($lastPresentationMode)
+	{
+		$this->lastPresentationMode = $lastPresentationMode;
 	}
 	
 	function setPass($pass)
@@ -498,6 +538,91 @@ class ilTestSession
 		
 		return null;
 	}
-}
 
-?>
+	public function setAccessCodeToSession($access_code)
+	{
+		if (!is_array($_SESSION[self::ACCESS_CODE_SESSION_INDEX]))
+		{
+			$_SESSION[self::ACCESS_CODE_SESSION_INDEX] = array();
+		}
+		
+		$_SESSION[self::ACCESS_CODE_SESSION_INDEX][$this->getTestId()] = $access_code;
+	}
+
+	public function unsetAccessCodeInSession()
+	{
+		unset($_SESSION[self::ACCESS_CODE_SESSION_INDEX][$this->getTestId()]);
+	}
+
+	public function getAccessCodeFromSession()
+	{
+		if( !is_array($_SESSION[self::ACCESS_CODE_SESSION_INDEX]) )
+		{
+			return null;
+		}
+
+		if( !isset($_SESSION[self::ACCESS_CODE_SESSION_INDEX][$this->getTestId()]) )
+		{
+			return null;
+		}
+
+		return $_SESSION[self::ACCESS_CODE_SESSION_INDEX][$this->getTestId()];
+	}
+	
+	public function doesAccessCodeInSessionExists()
+	{
+		if( !is_array($_SESSION[self::ACCESS_CODE_SESSION_INDEX]) )
+		{
+			return false;
+		}
+
+		return isset($_SESSION[self::ACCESS_CODE_SESSION_INDEX][$this->getTestId()]);
+	}
+
+	public function createNewAccessCode()
+	{
+		do
+		{
+			$code = $this->buildAccessCode();
+		}
+		while( $this->isAccessCodeUsed($code) );
+
+		return $code;
+	}
+
+	public function isAccessCodeUsed($code)
+	{
+		global $ilDB;
+		
+		$query = "SELECT anonymous_id FROM tst_active WHERE test_fi = %s AND anonymous_id = %s";
+
+		$result = $ilDB->queryF(
+			$query, array('integer', 'text'), array($this->getTestId(), $code)
+		);
+		
+		return ($result->numRows() > 0);
+	}
+
+	private function buildAccessCode()
+	{
+		// create a 5 character code
+		$codestring = self::ACCESS_CODE_CHAR_DOMAIN;
+
+		mt_srand();
+
+		$code = "";
+
+		for($i = 1; $i <= self::ACCESS_CODE_LENGTH; $i++)
+		{
+			$index = mt_rand(0, strlen($codestring)-1);
+			$code .= substr($codestring, $index, 1);
+		}
+
+		return $code;
+	}
+	
+	public function isAnonymousUser()
+	{
+		return $this->getUserId() == ANONYMOUS_USER_ID;
+	}
+}

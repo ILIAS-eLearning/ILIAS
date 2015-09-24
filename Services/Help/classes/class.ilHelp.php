@@ -230,6 +230,34 @@ class ilHelp
 			);
 		
 	}
+
+	/**
+	 * Get help lm id
+	 *
+	 * @return int help learning module id
+	 */
+	static function getHelpLMId()
+	{
+		global $ilSetting;
+
+		$lm_id = 0;
+
+		if (OH_REF_ID > 0)
+		{
+			$lm_id = ilObject::_lookupObjId(OH_REF_ID);
+		}
+		else
+		{
+			$hm = (int) $ilSetting->get("help_module");
+			if ($hm > 0)
+			{
+				include_once("./Services/Help/classes/class.ilObjHelpSettings.php");
+				$lm_id = ilObjHelpSettings::lookupModuleLmId($hm);
+			}
+		}
+
+		return $lm_id;
+	}
 	
 }
 ?>

@@ -24,4 +24,9 @@
 	<copage>
 		<pageobject parent_type="blp" class_name="ilBlogPosting" directory="classes"/>
 	</copage>
+
+	<web_access_checker>
+		<secure_path path="ilBlog" checking-class="ilObjBlogAccess" in-sec-folder='1'/>
+	</web_access_checker>
+
 </module>

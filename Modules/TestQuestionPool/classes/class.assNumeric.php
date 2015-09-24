@@ -166,11 +166,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
 		}
 		// duplicate the question in database
 		$this_id = $this->getId();
-		
-		if( (int)$testObjId > 0 )
-		{
-			$thisObjId = $this->getObjId();
-		}
+		$thisObjId = $this->getObjId();
 		
 		$clone = $this;
 		require_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
@@ -320,6 +316,17 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
 		return $this->getPoints();
 	}
 
+	public function calculateReachedPointsFromPreviewSession(ilAssQuestionPreviewSession $previewSession)
+	{
+		$points = 0;
+		if ($this->contains($previewSession->getParticipantsSolution()))
+		{
+			$points = $this->getPoints();
+		}
+
+		return $points;
+	}
+
 	/**
 	 * Returns the points, a learner has reached answering the question.
 	 * The points are calculated from the given answers.
@@ -329,10 +336,10 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
 	 * @param boolean $returndetails (deprecated !!)
 	 *
 	 * @throws ilTestException
-	 * 
+	 *
 	 * @return integer|array $points/$details (array $details is deprecated !!)
 	 */
-	public function calculateReachedPoints($active_id, $pass = NULL, $returndetails = FALSE)
+	public function calculateReachedPoints($active_id, $pass = NULL, $authorizedSolution = true, $returndetails = FALSE)
 	{
 		if( $returndetails )
 		{
@@ -347,24 +354,13 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
 		{
 			$pass = $this->getSolutionMaxPass($active_id);
 		}
-		$result = $this->getCurrentSolutionResultSet($active_id, $pass);
+		$result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorizedSolution);
 		$data = $ilDB->fetchAssoc($result);
 
 		$enteredvalue = $data["value1"];
 
 		$points = 0;
 		if ($this->contains($enteredvalue))
-		{
-			$points = $this->getPoints();
-		}
-
-		return $points;
-	}
-
-	public function calculateReachedPointsFromPreviewSession(ilAssQuestionPreviewSession $previewSession)
-	{
-		$points = 0;
-		if ($this->contains($previewSession->getParticipantsSolution()))
 		{
 			$points = $this->getPoints();
 		}
@@ -425,7 +421,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
 	 *
 	 * @return boolean $status
 	 */
-	public function saveWorkingData($active_id, $pass = NULL)
+	public function saveWorkingData($active_id, $pass = NULL, $authorized = true)
 	{
 		/** @var $ilDB ilDB */
 		global $ilDB;
@@ -450,7 +446,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
 
 		$this->getProcessLocker()->requestUserSolutionUpdateLock();
 
-		$result = $this->getCurrentSolutionResultSet($active_id, $pass);
+		$result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorized);
 
 		$row = $ilDB->fetchAssoc($result);
 		$update = $row["solution_id"];
@@ -458,30 +454,19 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
 		{
 			if (strlen($numeric_result))
 			{
-				$ilDB->update("tst_solutions", 	array(
-													"value1" => array("clob", trim($numeric_result)),
-													"tstamp" => array("integer", time())
-													),
-							  					array(
-													"solution_id" => array("integer", $update)
-													)
-				);
-
+				$this->updateCurrentSolution($update, trim($numeric_result), null, $authorized);
 				$entered_values++;
 			}
 			else
 			{
-				$ilDB->manipulateF("DELETE FROM tst_solutions WHERE solution_id = %s",
-					array('integer'),
-					array($update)
-				);
+				$this->removeSolutionRecordById($update);
 			}
 		}
 		else
 		{
 			if (strlen($numeric_result))
 			{
-				$this->saveCurrentSolution($active_id, $pass, trim($numeric_result), null);
+				$this->saveCurrentSolution($active_id, $pass, trim($numeric_result), null, $authorized);
 				$entered_values++;
 			}
 		}
@@ -705,13 +690,24 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
 		global $ilDB;
 		$result = new ilUserQuestionResult($this, $active_id, $pass);
 
-		$data = $ilDB->queryF(
-			"SELECT value1 FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s AND step = (
-				SELECT MAX(step) FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s
-			)",
-			array("integer", "integer", "integer","integer", "integer", "integer"),
-			array($active_id, $pass, $this->getId(), $active_id, $pass, $this->getId())
-		);
+		$maxStep = $this->lookupMaxStep($active_id, $pass);
+
+		if( $maxStep !== null )
+		{
+			$data = $ilDB->queryF(
+				"SELECT value1 FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s AND step = %s",
+				array("integer", "integer", "integer","integer"),
+				array($active_id, $pass, $this->getId(), $maxStep)
+			);
+		}
+		else
+		{
+			$data = $ilDB->queryF(
+				"SELECT value1 FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s",
+				array("integer", "integer", "integer"),
+				array($active_id, $pass, $this->getId())
+			);
+		}
 
 		while($row = $ilDB->fetchAssoc($data))
 		{

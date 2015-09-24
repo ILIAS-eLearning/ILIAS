@@ -5,7 +5,7 @@
  */
 
 //pear MDB2 abstraction layer
-include_once ("MDB2.php");
+include_once ("Services/PEAR/lib/MDB2.php");
 
 define("DB_FETCHMODE_ASSOC", MDB2_FETCHMODE_ASSOC);
 define("DB_FETCHMODE_OBJECT", MDB2_FETCHMODE_OBJECT);
@@ -1104,6 +1104,63 @@ abstract class ilDB extends PEAR
 	}
 
 	/**
+	 * Drop a constraint from a table.
+	 * Note: The constraint must have been created using MDB2
+	 *
+	 * @param	string		table name
+	 * @param	string		constraint name
+	 */
+	public function dropUniqueConstraint($a_table, $a_name = "con")
+	{
+		$manager = $this->db->loadModule('Manager');
+
+		$r = $manager->dropConstraint(
+			$a_table, $this->constraintName($a_table, $a_name), false
+		);
+
+		return $this->handleError($r, "dropUniqueConstraint(".$a_table.")");
+	}
+
+	/**
+	 * Drop constraint by field(s)
+	 *
+	 * @param	string		table name
+	 * @param	array		fields array
+	 */
+	public function dropUniqueConstraintByFields($a_table, $a_fields)
+	{
+		if (is_file("./Services/Database/classes/class.ilDBAnalyzer.php"))
+		{
+			include_once("./Services/Database/classes/class.ilDBAnalyzer.php");
+		}
+		else
+		{
+			include_once("../Services/Database/classes/class.ilDBAnalyzer.php");
+		}
+		$analyzer = new ilDBAnalyzer();
+		$cons = $analyzer->getConstraintsInformation($a_table);
+		foreach ($cons as $c)
+		{
+			if ($c["type"] == "unique" && count($a_fields) == count($c["fields"]))
+			{
+				$all_in = true;
+				foreach ($a_fields as $f)
+				{
+					if (!isset($c["fields"][$f]))
+					{
+						$all_in = false;
+					}
+				}
+				if ($all_in)
+				{
+					return $this->dropUniqueConstraint($a_table, $c['name']);
+				}
+			}
+		}
+		return false;
+	}
+
+	/**
 	* Create a sequence for a table
 	*/
 	function createSequence($a_table_name, $a_start = 1)
@@ -1805,7 +1862,7 @@ abstract class ilDB extends PEAR
 		{
 			$q = "REPLACE INTO ".$a_table." (".implode($fields,",").") VALUES (".
 				implode($placeholders,",").")";
-			$r = $this->manipulateF($q, $types, $values);
+			$r = $this->manipulateF($q, $types, $values);			
 		}
 		return $r;
 	}

@@ -128,7 +128,7 @@ class ilPCResourcesGUI extends ilPageContentGUI
 		$types = array();
 		foreach($sub_objs as $k => $so)
 		{
-			if ($k != "itgr" & $k != "icrs")
+			if ($k != "itgr")
 			{
 				$types[$k] = $this->lng->txt("objs_".$k)." (".(int) $type_counts[$k].")";
 			}

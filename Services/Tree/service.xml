@@ -1,0 +1,12 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<service xmlns="http://www.w3.org" version="$Id$" id="tree">
+	<baseclasses>
+	</baseclasses>
+	<systemcheck id="1">
+		<systemcheck_task identifier="dump" />
+		<systemcheck_task identifier="structure" />
+		<systemcheck_task identifier="missing_tree" />
+		<systemcheck_task identifier="missing_reference" />
+		<systemcheck_task identifier="duplicates" />
+	</systemcheck> 
+</service>

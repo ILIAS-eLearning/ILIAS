@@ -14,17 +14,20 @@ class ilContainerStartObjectsContentGUI
 	protected $start_object; // [ilContainerStartObjects]	
 	protected $enable_desktop; // [bool]
 	protected $parent_gui; // [ilContainerGUI]
+	protected $parent_obj;
 	
 	/**
 	 * Constructor
 	 * 
 	 * @param ilContainer $a_parent_obj
 	 */
-	public function __construct(ilContainer $a_parent_obj)
+	public function __construct($a_gui, ilContainer $a_parent_obj)
 	{			
 		include_once "Services/Container/classes/class.ilContainerStartObjects.php";
+		$this->parent_gui = $a_gui;
+		$this->parent_obj = $a_parent_obj;
 		$this->start_object = new ilContainerStartObjects($a_parent_obj->getRefId(),
-			$a_parent_obj->getId());			
+			$a_parent_obj->getId());		
 	}
 	
 	/**
@@ -35,7 +38,8 @@ class ilContainerStartObjectsContentGUI
 	 */
 	public function enableDesktop($a_value, ilContainerGUI $a_parent_gui)
 	{
-		$this->enable_desktop = (bool)$a_value;		
+		$this->enable_desktop = (bool)$a_value;
+		
 		if($this->enable_desktop)
 		{
 			$this->parent_gui = $a_parent_gui;
@@ -54,8 +58,12 @@ class ilContainerStartObjectsContentGUI
 		$lng->loadLanguageModule("crs");
 		
 		include_once "Services/Container/classes/class.ilContainerStartObjectsContentTableGUI.php";
-		$tbl = new ilContainerStartObjectsContentTableGUI($this->parent_gui, "", 
-			$this->start_object, $this->enable_desktop);
+		$tbl = new ilContainerStartObjectsContentTableGUI(
+				$this->parent_gui, 
+				"", 
+				$this->start_object, 
+				$this->enable_desktop
+		);
 		$tpl->setContent(
 			$this->getPageHTML().
 			$tbl->getHTML()

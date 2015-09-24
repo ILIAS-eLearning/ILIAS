@@ -15,7 +15,10 @@ class ilADTIntegerPresentationBridge extends ilADTPresentationBridge
 		{
 			$def = $this->getADT()->getCopyOfDefinition();	
 			$suffix = $def->getSuffix() ? " ".$def->getSuffix() : null;
-			return $this->getADT()->getNumber().$suffix;
+			
+			$presentation_value = $this->getADT()->getNumber().$suffix;
+			
+			return $this->decorate($presentation_value);
 		}
 	}
 	

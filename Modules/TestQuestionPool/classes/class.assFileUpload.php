@@ -154,11 +154,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 		}
 		// duplicate the question in database
 		$this_id = $this->getId();
-		
-		if( (int)$testObjId > 0 )
-		{
-			$thisObjId = $this->getObjId();
-		}
+		$thisObjId = $this->getObjId();
 		
 		$clone = $this;
 		include_once ("./Modules/TestQuestionPool/classes/class.assQuestion.php");
@@ -291,7 +287,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 	 * @param boolean $returndetails (deprecated !!)
 	 * @return integer/array $points/$details (array $details is deprecated !!)
 	 */
-	public function calculateReachedPoints($active_id, $pass = NULL, $returndetails = FALSE)
+	public function calculateReachedPoints($active_id, $pass = NULL, $authorizedSolution = true, $returndetails = FALSE)
 	{
 		if( $returndetails )
 		{
@@ -410,7 +406,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 	/**
 	* Returns the filesystem path for file uploads
 	*/
-	protected function getFileUploadPath($test_id, $active_id, $question_id = null)
+	public function getFileUploadPath($test_id, $active_id, $question_id = null)
 	{
 		if (is_null($question_id)) $question_id = $this->getId();
 		return CLIENT_WEB_DIR . "/assessment/tst_$test_id/$active_id/$question_id/files/";
@@ -452,22 +448,27 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 	*
 	* @return array Results
 	*/
-	public function getUploadedFiles($active_id, $pass = null)
+	public function getUploadedFiles($active_id, $pass = null, $authorized = true)
 	{
 		global $ilDB;
+		
 		if (is_null($pass))
 		{
 			$pass = $this->getSolutionMaxPass($active_id);
 		}
-		$result = $ilDB->queryF("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s ORDER BY tstamp",
-			array("integer", "integer", "integer"),
-			array($active_id, $this->getId(), $pass)
+		
+		$result = $ilDB->queryF("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s AND authorized = %s ORDER BY tstamp",
+			array("integer", "integer", "integer", 'integer'),
+			array($active_id, $this->getId(), $pass, (int)$authorized)
 		);
+		
 		$found = array();
+		
 		while ($data = $ilDB->fetchAssoc($result))
 		{
 			array_push($found, $data);
 		}
+		
 		return $found;
 	}
 	
@@ -508,7 +509,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 	*
   * @param array Array with ID's of the file datasets
 	*/
-	protected function deleteUploadedFiles($files, $test_id, $active_id)
+	protected function deleteUploadedFiles($files, $test_id, $active_id, $authorized)
 	{
 		global $ilDB;
 		
@@ -516,9 +517,9 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 		$active_id = null;
 		foreach ($files as $solution_id)
 		{
-			$result = $ilDB->queryF("SELECT * FROM tst_solutions WHERE solution_id = %s",
-				array("integer"),
-				array($solution_id)
+			$result = $ilDB->queryF("SELECT * FROM tst_solutions WHERE solution_id = %s AND authorized = %s",
+				array("integer", 'integer'),
+				array($solution_id, (int)$authorized)
 			);
 			if ($result->numRows() == 1)
 			{
@@ -530,9 +531,9 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 		}
 		foreach ($files as $solution_id)
 		{
-			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_solutions WHERE solution_id = %s", 
-				array("integer"),
-				array($solution_id)
+			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_solutions WHERE solution_id = %s AND authorized = %s",
+				array("integer", 'integer'),
+				array($solution_id, $authorized)
 			);
 		}
 	}
@@ -618,7 +619,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 	 * @param integer $pass Test pass
 	 * @return boolean $status
 	 */
-	public function saveWorkingData($active_id, $pass = NULL)
+	public function saveWorkingData($active_id, $pass = NULL, $authorized = true)
 	{
 		global $ilDB;
 		global $ilUser;
@@ -657,7 +658,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 		{
 			if (is_array($_POST['deletefiles']) && count($_POST['deletefiles']) > 0)
 			{
-				$this->deleteUploadedFiles($_POST['deletefiles'], $test_id, $active_id);
+				$this->deleteUploadedFiles($_POST['deletefiles'], $test_id, $active_id, $authorized);
 			}
 			else
 			{
@@ -666,22 +667,20 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 		}
 		elseif( $checkUploadResult )
 		{
-			if (!@file_exists($this->getFileUploadPath($test_id, $active_id))) ilUtil::makeDirParents($this->getFileUploadPath($test_id, $active_id));
+			if(!@file_exists($this->getFileUploadPath($test_id, $active_id)))
+			{
+				ilUtil::makeDirParents($this->getFileUploadPath($test_id, $active_id));
+			}
+			
 			$version = time();
 			$filename_arr = pathinfo($_FILES["upload"]["name"]);
 			$extension = $filename_arr["extension"];
 			$newfile = "file_" . $active_id . "_" . $pass . "_" . $version . "." . $extension;
+			
 			ilUtil::moveUploadedFile($_FILES["upload"]["tmp_name"], $_FILES["upload"]["name"], $this->getFileUploadPath($test_id, $active_id) . $newfile);
-			$next_id = $ilDB->nextId('tst_solutions');
-			$affectedRows = $ilDB->insert("tst_solutions", array(
-				"solution_id" => array("integer", $next_id),
-				"active_fi" => array("integer", $active_id),
-				"question_fi" => array("integer", $this->getId()),
-				"value1" => array("clob", $newfile),
-				"value2" => array("clob", $_FILES['upload']['name']),
-				"pass" => array("integer", $pass),
-				"tstamp" => array("integer", time())
-			));
+			
+			$this->saveCurrentSolution($active_id, $pass, $newfile, $_FILES['upload']['name'], $authorized);
+			
 			$entered_values = true;
 		}
 		
@@ -766,9 +765,9 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 	 * @param integer $pass
 	 * @param boolean $obligationsAnswered
 	 */
-	protected function reworkWorkingData($active_id, $pass, $obligationsAnswered)
+	protected function reworkWorkingData($active_id, $pass, $obligationsAnswered, $authorized)
 	{
-		$this->handleSubmission($active_id, $pass, $obligationsAnswered);
+		$this->handleSubmission($active_id, $pass, $obligationsAnswered, $authorized);
 	}
 	
 	/**
@@ -780,15 +779,18 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 	 * @param	integer
 	 * @access	protected
 	 */
-	protected function handleSubmission($active_id, $pass, $obligationsAnswered)
+	protected function handleSubmission($active_id, $pass, $obligationsAnswered, $authorized)
 	{
-		global $ilObjDataCache;		
+		if(!$authorized)
+		{
+			return;
+		}
 
 		if($this->isCompletionBySubmissionEnabled())
 		{
 			$maxpoints = assQuestion::_getMaximumPoints($this->getId());
 	
-			if($this->getUploadedFiles($active_id, $pass))
+			if($this->getUploadedFiles($active_id, $pass, $authorized))
 			{
 				$points = $maxpoints;	
 			}
@@ -1065,66 +1067,23 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 	 *
 	 * @param int $test_id
 	 */
-	public function getFileUploadZIPFile($test_id)
+	public function deliverFileUploadZIPFile($test_id, $test_title)
 	{
-		/** @var ilDB $ilDB */
-		global $ilDB;
-		$query  = "
-		SELECT 
-			tst_solutions.solution_id, tst_solutions.pass, tst_solutions.active_fi, tst_solutions.question_fi, 
-			tst_solutions.value1, tst_solutions.value2, tst_solutions.tstamp 
-		FROM tst_solutions, tst_active, qpl_questions 
-		WHERE tst_solutions.active_fi = tst_active.active_id 
-		AND tst_solutions.question_fi = qpl_questions.question_id 
-		AND tst_solutions.question_fi = %s 
-		AND tst_active.test_fi = %s 
-		ORDER BY tst_solutions.active_fi, tst_solutions.tstamp";
+		global $ilDB, $lng;
 		
-		$result = $ilDB->queryF( $query,
-			array("integer", "integer"),
-			array($this->getId(), $test_id)
-		);
-		$zipfile = ilUtil::ilTempnam() . ".zip";
-		$tempdir = ilUtil::ilTempnam();
-		if ($result->numRows())
-		{
-			$userdata = array();
-			$data .= "<html><head>";
-			$data .= '<meta http-equiv="content-type" content="text/html; charset=UTF-8" />';
-			$data .= '<style>
-			 table { border: 1px #333 solid; border-collapse:collapse;}	
-			 td, th { border: 1px #333 solid; padding: 0.25em;}	
-			 th { color: #fff; background-color: #666;}
-			</style>
-			';
-			$data .= "<title>" . $this->getTitle() . "</title></head><body>\n";
-			$data .= "<h1>" . $this->getTitle() . "</h1>\n";
-			$data .= "<table><thead>\n";
-			$data .= "<tr><th>" . $this->lng->txt("name") . "</th><th>" . $this->lng->txt("filename") . "</th><th>" . $this->lng->txt("pass") . "</th><th>" . $this->lng->txt("location") . "</th><th>" . $this->lng->txt("date") . "</th></tr></thead><tbody>\n";
-			while ($row = $ilDB->fetchAssoc($result))
-			{
-				ilUtil::makeDirParents($tempdir . "/" . $row["active_fi"]."/".$row["question_fi"]);
-				@copy($this->getFileUploadPath($test_id, $row["active_fi"], $row["question_fi"]) . $row["value1"], $tempdir . "/" . $row["active_fi"]."/".$row["question_fi"] . "/" . $row["value1"]);
-				if (!array_key_exists($row["active_fi"], $userdata))
-				{
-					include_once "./Modules/Test/classes/class.ilObjTestAccess.php";
-					$userdata[$row["active_fi"]] = ilObjTestAccess::_getParticipantData($row["active_fi"]);
-				}
-				$data .= "<tr><td>".$userdata[$row["active_fi"]]."</td><td><a href=\"".$row["active_fi"]."/".$row["question_fi"]."/".$row["value1"]."\" target=\"_blank\">".$row["value2"]."</a></td><td>".$row["pass"]."</td><td>".$row["active_fi"]."/".$row["question_fi"]."/".$row["value1"]."</td>";
-				$data .= "<td>" . ilFormat::fmtDateTime(ilFormat::unixtimestamp2datetime($row["tstamp"]), $this->lng->txt("lang_dateformat"), $this->lng->txt("lang_timeformat"), "datetime", FALSE) . "</td>";
-				$data .= "</tr>\n";
-			}
-			$data .= "</tbody></table>\n";
-			$data .= "</body></html>\n";
+		require_once 'Modules/TestQuestionPool/classes/class.ilAssFileUploadUploadsExporter.php';
+		$exporter = new ilAssFileUploadUploadsExporter($ilDB, $lng);
+		
+		$exporter->setTestId($test_id);
+		$exporter->setTestTitle($test_title);
+		$exporter->setQuestion($this);
+		
+		$exporter->build();
 
-			$indexfile = $tempdir . "/index.html";
-			$fh = fopen($indexfile, 'w');
-			fwrite($fh, $data);
-			fclose($fh);
-		}
-		ilUtil::zip($tempdir, $zipfile);
-		ilUtil::delDir($tempdir);
-		ilUtil::deliverFile($zipfile, ilUtil::getASCIIFilename($this->getTitle().".zip"), "application/zip", false, true);
+		ilUtil::deliverFile(
+			$exporter->getFinalZipFilePath(), $exporter->getDispoZipFileName(),
+			$exporter->getZipFileMimeType(), false, true
+		);
 	}
 	
 	/**
@@ -1166,7 +1125,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 	 * @param integer $pass
 	 * @return boolean $answered
 	 */
-	public function isAnswered($active_id, $pass)
+	public function isAnswered($active_id, $pass = null)
 	{
 		$numExistingSolutionRecords = assQuestion::getNumExistingSolutionRecords($active_id, $pass, $this->getId());
 		

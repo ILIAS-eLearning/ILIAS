@@ -12,6 +12,7 @@
 class ilPortfolioHTMLExport
 {
 	protected $portfolio_gui;
+	protected $export_material; 
 
 	/**
 	 * Constructor
@@ -23,6 +24,7 @@ class ilPortfolioHTMLExport
 	{
 		$this->portfolio_gui = $a_portfolio_gui;
 		$this->object = $a_object;
+		$this->export_material = array(); // #16571
 	}
 
 		/**
@@ -66,7 +68,10 @@ class ilPortfolioHTMLExport
 		if($prfa_set->get("banner"))
 		{		
 			$banner = $this->object->getImageFullPath();
-			copy($banner, $this->export_dir."/".basename($banner));
+			if($banner) // #16096
+			{
+				copy($banner, $this->export_dir."/".basename($banner));
+			}			
 		}
 		// page element: profile picture
 		$ppic = ilObjUser::_getPersonalPicturePath($this->object->getOwner(), "big", true, true);

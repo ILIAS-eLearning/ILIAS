@@ -4,7 +4,16 @@ require_once "Services/ADT/classes/Bridges/class.ilADTSearchBridgeMulti.php";
 
 class ilADTEnumSearchBridgeMulti extends ilADTSearchBridgeMulti
 {
-	protected $multi_source; // [boo]
+	protected $multi_source; // [bool]
+	protected $search_mode; // [int]
+	
+	const SEARCH_MODE_ALL = 1;
+	const SEARCH_MODE_ANY = 2;
+	
+	public function setSearchMode($a_mode)
+	{
+		$this->search_mode = (int)$a_mode;
+	}
 	
 	protected function isValidADTDefinition(ilADTDefinition $a_adt_def)
 	{		
@@ -107,6 +116,10 @@ class ilADTEnumSearchBridgeMulti extends ilADTSearchBridgeMulti
 			{
 				include_once "Services/ADT/classes/Types/MultiEnum/class.ilADTMultiEnumDBBridge.php";
 				
+				$mode_concat = ($this->search_mode == self::SEARCH_MODE_ANY)
+					? " OR "
+					: " AND ";
+				
 				$parts = array();
 				foreach($this->getADT()->getSelections() as $item)
 				{
@@ -115,7 +128,7 @@ class ilADTEnumSearchBridgeMulti extends ilADTSearchBridgeMulti
 						ilADTMultiEnumDBBridge::SEPARATOR."%";							
 					$parts[] = $ilDB->like($a_element_id, "text", $item, false);
 				}
-				return "(".implode(" AND ", $parts).")";				
+				return "(".implode($mode_concat, $parts).")";				
 			}
 			
 			return $ilDB->in($a_element_id, $this->getADT()->getSelections(), "", $type);				

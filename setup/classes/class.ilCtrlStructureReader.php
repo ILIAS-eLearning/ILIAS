@@ -290,12 +290,15 @@ class ilCtrlStructureReader
 			{
 				foreach($this->class_childs[$parent] as $child)
 				{
-					// store call entry
-					$ilDB->manipulate(sprintf("INSERT INTO ctrl_calls (parent, child, comp_prefix) ".
-						"VALUES (%s,%s,%s)",
-						$ilDB->quote($parent, "text"),
-						$ilDB->quote($child, "text"),
-						$ilDB->quote($this->comp_prefix, "text")));
+					if(strlen(trim($child)) and strlen(trim($parent)))
+					{
+						// store call entry
+						$ilDB->manipulate(sprintf("INSERT INTO ctrl_calls (parent, child, comp_prefix) ".
+							"VALUES (%s,%s,%s)",
+							$ilDB->quote($parent, "text"),
+							$ilDB->quote($child, "text"),
+							$ilDB->quote($this->comp_prefix, "text")));
+					}
 				}
 			}
 		}

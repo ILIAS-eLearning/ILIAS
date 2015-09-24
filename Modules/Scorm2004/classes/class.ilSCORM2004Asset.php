@@ -745,10 +745,14 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 				include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
 				foreach ($q_ids as $q_id)
 				{
-					$q_obj =& assQuestion::_instanciateQuestion($q_id);
-					$qti_file = fopen($a_target_dir."/qti_".$q_id.".xml", "w");
-					fwrite($qti_file, $q_obj->toXML());
-					fclose($qti_file);
+					$q_obj = assQuestion::_instantiateQuestion($q_id);
+					// see #16557
+					if (is_object($q_obj))
+					{
+						$qti_file = fopen($a_target_dir."/qti_".$q_id.".xml", "w");
+						fwrite($qti_file, $q_obj->toXML());
+						fclose($qti_file);
+					}
 				}
 			}
 

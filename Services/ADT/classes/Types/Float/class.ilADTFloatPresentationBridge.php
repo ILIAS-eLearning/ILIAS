@@ -17,9 +17,11 @@ class ilADTFloatPresentationBridge extends ilADTPresentationBridge
 			$suffix = $def->getSuffix() ? " ".$def->getSuffix() : null;
 			
 			// :TODO: language specific?	
-			return number_format($this->getADT()->getNumber(), 
-				$this->getADT()->getCopyOfDefinition()->getDecimals(), ",", ".").
+			$presentation_value = number_format($this->getADT()->getNumber(), 
+					$this->getADT()->getCopyOfDefinition()->getDecimals(), ",", ".").
 				$suffix;
+						
+			return $this->decorate($presentation_value);
 		}
 	}
 	

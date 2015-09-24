@@ -28,13 +28,14 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 	protected $in_group; // int
 	protected $has_edit; // bool
 	protected $has_collection; // bool
+	protected $has_multi; // bool
 	
 	/**
 	* Constructor
 	*/
 	function __construct($a_parent_obj, $a_parent_cmd, $a_obj_id, $a_ref_id, $a_print_view = false)
 	{
-		global $ilCtrl, $lng, $tree, $rbacsystem;
+		global $ilCtrl, $ilUser, $tree, $rbacsystem;
 		
 		$this->setId("troup");
 		$this->obj_id = $a_obj_id;
@@ -62,6 +63,19 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 		if($a_print_view)
 		{
 			$this->setPrintMode(true);
+		}
+		
+		if(!$this->getPrintMode())
+		{
+			// see ilObjCourseGUI::addMailToMemberButton()
+			include_once "Services/Mail/classes/class.ilMail.php";
+			$mail = new ilMail($ilUser->getId());
+			if($rbacsystem->checkAccess("internal_mail", $mail->getMailObjectReferenceId()))
+			{							
+				$this->addMultiCommand("mailselectedusers", $this->lng->txt("send_mail"));
+				$this->addColumn("", "", 1);
+				$this->has_multi = true;
+			}			
 		}
 
 		$labels = $this->getSelectableColumns();
@@ -306,6 +320,11 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 	{
 		global $ilCtrl, $lng;
 		
+		if($this->has_multi)
+		{
+			$this->tpl->setVariable("USER_ID", $data["usr_id"]);
+		}
+		
 		foreach ($this->getSelectedColumns() as $c)
 		{
 			if(!(bool)$data["privacy_conflict"]) 
@@ -363,7 +382,7 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 		{
 			// details for containers and collections
 			if($this->has_collection ||
-				in_array($this->type, array("crs", "grp", "cat", "fold")))
+				in_array($this->type, array("crs", "grp", "cat", "fold", "mcst")))
 			{
 				$this->tpl->setCurrentBlock("item_command");
 				$this->tpl->setVariable("HREF_COMMAND", $ilCtrl->getLinkTargetByClass("illplistofobjectsgui", "userdetails"));

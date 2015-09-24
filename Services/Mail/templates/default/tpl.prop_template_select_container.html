@@ -1,0 +1,27 @@
+{CONTENT}
+<script>
+	(function($) {
+		var fields = {FIELDS};
+
+		$('#{ID}').on("change", function() {
+			var $elm = $(this),
+				val  = $elm.val();
+
+			if ($.trim(val).length > 0) {
+				var p = $.ajax({
+					url: "{URL}",
+					dataType: "json",
+					data: {
+						template_id: $elm.val()
+					}
+				});
+				p.success(function(response) {
+					$.each(fields, function() {
+						var field_id = this.toString();
+						$("#" + field_id).val(response[field_id]);
+					});
+				});
+			}
+		});
+	})(jQuery);
+</script>

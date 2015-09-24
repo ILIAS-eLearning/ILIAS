@@ -143,6 +143,12 @@ span.ilc_text_inline_Accent
 	color: #E000E0;
 }
 
+sup.ilc_text_inline_Sup {
+}
+
+sub.ilc_text_inline_Sub {
+}
+
 /* Links */
 a.ilc_link_FootnoteLink
 {
@@ -465,7 +471,7 @@ div.ilc_question_Standard
 	border-width: 1px;
 	border-color: #BBCCDD;
 	border-style: solid;
-	background-image: url(../../../templates/default/images/qmark.png);
+	background-image: url(../../../templates/default/images/qmark.svg);
 	background-repeat: no-repeat;
 	background-position: top right;
 }

@@ -15,7 +15,7 @@ class ilADTDateTimePresentationBridge extends ilADTPresentationBridge
 		{
 			// :TODO: relative dates?
 			
-			return ilDatePresentation::formatDate($this->getADT()->getDate());
+			return $this->decorate(ilDatePresentation::formatDate($this->getADT()->getDate()));
 		}
 	}
 	

@@ -142,6 +142,19 @@ class ilSoapTestAdministration extends ilSoapAdministration
 		
 		if (is_array($solution) && (array_key_exists("item", $solution))) $solution = $solution["item"];
 
+		global $ilDB, $ilUser;
+
+		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionProcessLockerFactory.php';
+		$processLockerFactory = new ilAssQuestionProcessLockerFactory(new ilSetting('assessment'), $ilDB);
+		$processLockerFactory->setQuestionId($question_id);
+		$processLockerFactory->setUserId($ilUser->getId());
+		include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
+		$processLockerFactory->setAssessmentLogEnabled(ilObjAssessmentFolder::_enabledAssessmentLogging());
+		$processLocker  = $processLockerFactory->getLocker();
+
+		$processLocker->requestPersistWorkingStateLock();
+		$processLocker->requestUserSolutionUpdateLock();
+
 		$ilDB = $GLOBALS['ilDB'];
 		if (($active_id > 0) && ($question_id > 0) && (strlen($pass) > 0))
 		{
@@ -166,15 +179,25 @@ class ilSoapTestAdministration extends ilSoapAdministration
 			));
 			$totalrows += $affectedRows;
 		}
-		if ($totalrows == 0)
+
+		$processLocker->releaseUserSolutionUpdateLock();
+
+		if($totalrows == 0)
 		{
-			return $this->__raiseError("Wrong solution data. ILIAS did not execute any database queries: Solution data: " . print_r($solution, true));
+			$processLocker->releasePersistWorkingStateLock();
+			return $this->__raiseError(
+				"Wrong solution data. ILIAS did not execute any database queries: Solution data: " . print_r($solution, true), 
+				'No result'
+			);
 		}
 		else
 		{
 			include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 			$question = assQuestion::_instanciateQuestion($question_id);
+			$question->setProcessLocker($processLocker);
 			$question->calculateResultsFromSolution($active_id, $pass);
+
+			$processLocker->releasePersistWorkingStateLock();
 		}
 		return true;
 	}

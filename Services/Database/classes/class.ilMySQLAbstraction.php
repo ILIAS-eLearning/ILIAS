@@ -426,7 +426,7 @@ class ilMySQLAbstraction
 				$def["length"] = $l_arr[0];
 			}
 			
-			// remove lenght values for float
+			// remove length values for float
 			if ($def["type"] == "float")
 			{
 				unset($def["length"]);

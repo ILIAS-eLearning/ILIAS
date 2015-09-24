@@ -14,7 +14,7 @@ class ilTestSessionFactory
 	 * @var ilTestSession|ilTestSessionDynamicQuestionSet
 	 */
 	private $testSession = array();
-
+	
 	/**
 	 * object instance of current test
 	 * @var ilObjTest
@@ -33,21 +33,26 @@ class ilTestSessionFactory
 	/**
 	 * temporarily bugfix for resetting the state of this singleton
 	 * smeyer
+	 * --> BH: not required anymore
 	 */
 	public function reset()
 	{
 		$this->testSession = array();
 	}
 
+
+
+
 	/**
 	 * Creates and returns an instance of a test sequence
 	 * that corresponds to the current test mode
-	 * @param integer|null $activeId
+	 *
+	 * @param integer $activeId
 	 * @return ilTestSession|ilTestSessionDynamicQuestionSet
 	 */
 	public function getSession($activeId = null)
 	{
-		if($activeId === null || $this->testSession[$activeId] === null)
+		if( $activeId === null || $this->testSession[$activeId] === null)
 		{
 			$testSession = $this->getNewTestSessionObject();
 
@@ -64,7 +69,7 @@ class ilTestSessionFactory
 				global $ilUser;
 
 				$testSession->loadTestSession(
-					$this->testOBJ->getTestId(), $ilUser->getId(), $_SESSION["tst_access_code"][$this->testOBJ->getTestId()]
+					$this->testOBJ->getTestId(), $ilUser->getId(), $testSession->getAccessCodeFromSession()
 				);
 
 				return $testSession;
@@ -81,7 +86,7 @@ class ilTestSessionFactory
 	 */
 	public function getSessionByUserId($userId)
 	{
-		if(!isset($this->testSession[$this->buildCacheKey($userId)]))
+		if( !isset($this->testSession[$this->buildCacheKey($userId)]) )
 		{
 			$testSession = $this->getNewTestSessionObject();
 
@@ -89,7 +94,7 @@ class ilTestSessionFactory
 			$testSession->setTestId($this->testOBJ->getTestId());
 
 			$testSession->loadTestSession($this->testOBJ->getTestId(), $userId);
-
+			
 			$this->testSession[$this->buildCacheKey($userId)] = $testSession;
 		}
 
@@ -116,7 +121,7 @@ class ilTestSessionFactory
 				$testSession = new ilTestSessionDynamicQuestionSet();
 				break;
 		}
-
+		
 		return $testSession;
 	}
 

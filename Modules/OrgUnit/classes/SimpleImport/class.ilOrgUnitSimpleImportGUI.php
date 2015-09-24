@@ -87,6 +87,7 @@ class ilOrgUnitSimpleImportGUI {
 		$form = new ilPropertyFormGUI();
 		$input = new ilFileInputGUI($this->lng->txt("import_xml_file"), "import_file");
 		$input->setRequired(true);
+		$input->setSuffixes(array('zip', 'xml'));
 		$form->addItem($input);
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->addCommandButton($submit_action, $this->lng->txt("import"));
@@ -103,7 +104,27 @@ class ilOrgUnitSimpleImportGUI {
 			$file = $form->getInput("import_file");
 			$importer = new ilOrgUnitSimpleImport();
 			try {
-				$importer->simpleImport($file["tmp_name"]);
+				$file_path = $file["tmp_name"];
+				$file_type = pathinfo($file["name"], PATHINFO_EXTENSION);
+				$file_name = pathinfo($file["name"], PATHINFO_FILENAME);
+
+				if($file_type == "zip") {
+					$extract_path = $file_path.'_extracted/';
+					$extracted_file = $extract_path.$file_name.'/manifest.xml';
+
+					$zip = new ZipArchive();
+					$res = $zip->open($file_path);
+					if ($res === true) {
+						$zip->extractTo($extract_path);
+						$zip->close();
+
+						if(file_exists($extracted_file)) {
+							$file_path = $extracted_file;
+						}
+					}
+				}
+
+				$importer->simpleImport($file_path);
 			} catch (Exception $e) {
 				$this->ilLog->write($e->getMessage() . " - " . $e->getTraceAsString());
 				ilUtil::sendFailure($this->lng->txt("import_failed"), true);

@@ -11,6 +11,7 @@
 abstract class ilXmlImporter
 {
 	protected $skip_entities = array();
+	protected $imp; // import object
 	
 	/**
 	 * Constructor
@@ -23,6 +24,25 @@ abstract class ilXmlImporter
 
 	}
 
+	/**
+	 * Set import
+	 *
+	 * @param ilImport $a_val import object
+	 */
+	function setImport($a_val)
+	{
+		$this->imp = $a_val;
+	}
+
+	/**
+	 * Get import
+	 *
+	 * @return ilImport import object
+	 */
+	function getImport()
+	{
+		return $this->imp;
+	}
 	/**
 	 * Init
 	 */

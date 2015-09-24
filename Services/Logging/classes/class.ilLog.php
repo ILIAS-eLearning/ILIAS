@@ -64,9 +64,11 @@ class ilLog
 	function ilLog($a_log_path, $a_log_file, $a_tag = "", $a_enabled = true, $a_log_level = NULL)
 	{
 		// init vars
-		$this->FATAL	 = 10;
-		$this->WARNING	 = 20;
-		$this->MESSAGE	 = 30;
+		include_once './Services/Logging/classes/public/class.ilLogLevel.php';
+		
+		$this->FATAL	 = ilLogLevel::CRITICAL;
+		$this->WARNING	 = ilLogLevel::WARNING;
+		$this->MESSAGE	 = ilLogLevel::INFO;
   
         $this->default_log_level= $this->WARNING;
         $this->current_log_level = $this->setLogLevel($a_log_level);

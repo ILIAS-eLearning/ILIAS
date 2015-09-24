@@ -31,7 +31,8 @@ class ilLMPresentationGUI
 	var $offline_directory;
 	protected $current_page_id = false;
 	protected $focus_id = 0;		// focus id is set e.g. from learning objectives course, we focus on a chapter/page
-
+	protected $export_all_languages = false;
+	
 	private $needs_to_be_purchased = false;
 
 	function ilLMPresentationGUI()
@@ -213,9 +214,10 @@ class ilLMPresentationGUI
 	/**
 	* set offline mode (content is generated for offline package)
 	*/
-	function setOfflineMode($a_offline = true)
+	function setOfflineMode($a_offline = true, $a_all_languages = false)
 	{
 		$this->offline = $a_offline;
+		$this->export_all_languages = $a_all_languages;
 	}
 	
 	
@@ -347,7 +349,26 @@ class ilLMPresentationGUI
 		return $layout;
 	}
 	
-	
+	function resume()
+	{		
+		global $ilUser;
+		
+		if ($ilUser->getId() != ANONYMOUS_USER_ID)
+		{
+			include_once("./Modules/LearningModule/classes/class.ilObjLearningModuleAccess.php");
+			$last_accessed_page = ilObjLearningModuleAccess::_getLastAccessedPage((int)$_GET["ref_id"], $ilUser->getId());
+
+			// if last accessed page was final page do nothing, start over
+			if($last_accessed_page &&
+				$last_accessed_page != $this->lm_tree->getLastActivePage())
+			{					
+				$_GET["obj_id"] = $last_accessed_page;
+			}
+		}
+			
+		$this->layout();
+	}
+		
 	/**
 	* generates frame layout
 	*/
@@ -607,6 +628,7 @@ class ilLMPresentationGUI
 				// reset standard css files
 				$this->tpl->resetJavascript();
 				$this->tpl->resetCss();
+				$this->tpl->setBodyClass("ilLMNoMenu");
 				
 				include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
 				foreach (ilObjContentObject::getSupplyingExportFiles() as $f)
@@ -706,6 +728,7 @@ class ilLMPresentationGUI
 		else
 		{
 			$this->tpl = new ilTemplate("tpl.glossary_term_output.html", true, true, true);
+			$GLOBALS["tpl"] = $this->tpl;
 			$this->renderPageTitle();
 
 			// set style sheets
@@ -766,7 +789,7 @@ class ilLMPresentationGUI
 	function ilTOC($a_get_explorer = false)
 	{
 		include_once("./Modules/LearningModule/classes/class.ilLMTOCExplorerGUI.php");
-		$exp = new ilLMTOCExplorerGUI($this, "ilTOC", $this, $this->lang, $this->focus_id);
+		$exp = new ilLMTOCExplorerGUI($this, "ilTOC", $this, $this->lang, $this->focus_id, $this->export_all_languages);
 		$exp->setTracker($this->getTracker());
 		if (!$exp->handleCommand())
 		{
@@ -823,6 +846,29 @@ class ilLMPresentationGUI
 	}
 
 	/**
+	 * Get lm presentationtitle
+	 *
+	 * @param
+	 * @return
+	 */
+	function getLMPresentationTitle()
+	{
+		if ($this->offlineMode() && $this->lang != "" && $this->lang != "-")
+		{
+			include_once("./Services/Object/classes/class.ilObjectTranslation.php");
+			$ot = ilObjectTranslation::getInstance($this->lm->getId());
+			$data = $ot->getLanguages();
+			$ltitle = $data[$this->lang]["title"];
+			if ($ltitle != "")
+			{
+				return $ltitle;
+			}
+		}
+		return $this->lm->getTitle();
+	}
+
+
+	/**
 	* output learning module menu
 	*/
 	function ilLMMenu()
@@ -847,7 +893,7 @@ class ilLMPresentationGUI
 		}
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->setCurrentBlock("lm_head");
-		$this->tpl->setVariable("HEADER", $this->lm->getTitle());
+		$this->tpl->setVariable("HEADER", $this->getLMPresentationTitle());
 		$this->tpl->parseCurrentBlock();
 	}
 
@@ -907,7 +953,7 @@ class ilLMPresentationGUI
 				"",
 				"_top");
 
-			$title = $this->lm->getTitle();
+			$title = $this->getLMPresentationTitle();
 			$pg_title = ilLMPageObject::_getPresentationTitle($page_id,
 				$this->lm->getPageHeader(), $this->lm->isActiveNumbering(),
 				$this->lm_set->get("time_scheduled_page_activation"), false, 0, $this->lang);
@@ -1128,7 +1174,7 @@ class ilLMPresentationGUI
 					else
 					{
 						$ilLocator->addItem(
-							ilUtil::shortenText($this->lm->getTitle(),50,true),
+							ilUtil::shortenText($this->getLMPresentationTitle(),50,true),
 							$this->getLink($_GET["ref_id"], "layout", "", $frame_param),
 							$frame_target, $_GET["ref_id"]);
 					}
@@ -1139,7 +1185,7 @@ class ilLMPresentationGUI
 		{
 	
 			$ilLocator->addItem(
-				$this->lm->getTitle(),
+				$this->getLMPresentationTitle(),
 				$this->getLink($_GET["ref_id"], "layout", "", $_GET["frame"]));
 
 			require_once("./Modules/LearningModule/classes/class.ilLMObjectFactory.php");
@@ -2039,6 +2085,9 @@ class ilLMPresentationGUI
 			$ilCtrl->setParameter($this, "pg_type", "glo");
 		}
 		$term_gui->output($this->offlineMode(), $this->tpl);
+
+
+
 		if (!$this->offlineMode())
 		{
 			$ilCtrl->setParameter($this, "pg_type", "");
@@ -2665,6 +2714,11 @@ class ilLMPresentationGUI
 	{
 		global $ilUser;
 
+		if (!$this->lm->isActiveTOC() || !$this->lm->isActiveLMMenu())
+		{
+			return;
+		}
+
 		//$this->tpl = new ilTemplate("tpl.lm_toc.html", true, true, true);
 		$this->tpl->setCurrentBlock("ContentStyle");
 		if (!$this->offlineMode())
@@ -2698,10 +2752,13 @@ class ilLMPresentationGUI
 		$this->tpl->setVariable("TABS", $this->lm_gui->setilLMMenu($this->offlineMode()
 			,$this->getExportFormat(), "toc", true));
 
-
+		// set title header
+		$this->tpl->setVariable("TXT_TOC", $this->lng->txt("cont_toc"));
+		$this->tpl->setTitle($this->getLMPresentationTitle());
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm.svg"));
 
 		include_once("./Modules/LearningModule/classes/class.ilLMTableOfContentsExplorerGUI.php");
-		$exp = new ilLMTableOfContentsExplorerGUI($this, "showTableOfContents", $this, $this->lang);
+		$exp = new ilLMTableOfContentsExplorerGUI($this, "showTableOfContents", $this, $this->lang, $this->export_all_languages);
 		$exp->setTracker($this->getTracker());
 		if (!$exp->handleCommand())
 		{
@@ -2791,7 +2848,7 @@ class ilLMPresentationGUI
 		}
 
 		$this->tpl->getStandardTemplate();
-		$this->tpl->setTitle($this->lm->getTitle());
+		$this->tpl->setTitle($this->getLMPresentationTitle());
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm.svg"));
 
 		$this->tpl->setVariable("TABS", $this->lm_gui->setilLMMenu($this->offlineMode()
@@ -2882,7 +2939,7 @@ class ilLMPresentationGUI
 		global $ilUser, $lng;
 		
 		include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
-		if (!$this->lm->isActivePrintView())
+		if (!$this->lm->isActivePrintView() || !$this->lm->isActiveLMMenu())
 		{
 			return;
 		}
@@ -2914,9 +2971,9 @@ class ilLMPresentationGUI
 			"tpl.lm_print_selection.html", "Modules/LearningModule");
 
 		// set title header
-		$this->tpl->setTitle($this->lm->getTitle());
+		$this->tpl->setTitle($this->getLMPresentationTitle());
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm.svg"));
-		
+
 		/*$this->tpl->setVariable("TXT_BACK", $this->lng->txt("back"));
 		$this->ctrl->setParameterByClass("illmpresentationgui", "obj_id", $_GET["obj_id"]);
 		$this->tpl->setVariable("LINK_BACK",
@@ -2982,7 +3039,7 @@ class ilLMPresentationGUI
 
 				// learning module
 				case "du":
-					$text = $this->lm->getTitle();
+					$text = $this->getLMPresentationTitle();
 					$img_src = ilUtil::getImagePath("icon_lm.svg");
 					$img_alt = $lng->txt("icon")." ".$lng->txt("obj_lm");
 					break;
@@ -3100,7 +3157,7 @@ class ilLMPresentationGUI
 
 		include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
 		
-		if (!$this->lm->isActivePrintView())
+		if (!$this->lm->isActivePrintView() || !$this->lm->isActiveLMMenu())
 		{
 			return;
 		}
@@ -3163,7 +3220,7 @@ class ilLMPresentationGUI
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.lm_print_view.html", true);
 
 		// set title header
-		$this->tpl->setVariable("HEADER", $this->lm->getTitle());
+		$this->tpl->setVariable("HEADER", $this->getLMPresentationTitle());
 
 		$nodes = $this->lm_tree->getSubtree($this->lm_tree->getNodeData($this->lm_tree->getRootId()));
 
@@ -3576,7 +3633,7 @@ class ilLMPresentationGUI
 		if ($output_header)
 		{
 			$this->tpl->setCurrentBlock("print_header");
-			$this->tpl->setVariable("LM_TITLE", $this->lm->getTitle());
+			$this->tpl->setVariable("LM_TITLE", $this->getLMPresentationTitle());
 			if ($this->lm->getDescription() != "none")
 			{
 				include_once("Services/MetaData/classes/class.ilMD.php");
@@ -3712,6 +3769,11 @@ class ilLMPresentationGUI
 	*/
 	function showDownloadList()
 	{
+		if (!$this->lm->isActiveDownloads() || !$this->lm->isActiveLMMenu())
+		{
+			return;
+		}
+
 		//$this->tpl = new ilTemplate("tpl.lm_toc.html", true, true, true);
 		$this->tpl->setCurrentBlock("ContentStyle");
 		if (!$this->offlineMode())
@@ -3737,9 +3799,9 @@ class ilLMPresentationGUI
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.lm_download_list.html", "Modules/LearningModule");
 
 		// set title header
-		$this->tpl->setTitle($this->lm->getTitle());
+		$this->tpl->setTitle($this->getLMPresentationTitle());
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm.svg"));
-		
+
 		/*
 		$this->tpl->setVariable("TXT_BACK", $this->lng->txt("back"));
 		$this->ctrl->setParameter($this, "obj_id", $_GET["obj_id"]);
@@ -3876,6 +3938,11 @@ class ilLMPresentationGUI
 	*/
 	function downloadExportFile()
 	{
+		if (!$this->lm->isActiveDownloads() || !$this->lm->isActiveLMMenu())
+		{
+			return;
+		}
+
 		$file = $this->lm->getPublicExportFile($_GET["type"]);
 		if ($this->lm->getPublicExportFile($_GET["type"]) != "")
 		{
@@ -4023,6 +4090,15 @@ class ilLMPresentationGUI
 		}
 		else	// handle offline links
 		{
+			$lang_suffix = "";
+			if ($this->export_all_languages)
+			{
+				if ($this->lang != "" && $this->lang != "-")
+				{
+					$lang_suffix = "_".$this->lang;
+				}
+			}
+
 			switch ($a_cmd)
 			{
 				case "downloadFile":
@@ -4049,11 +4125,11 @@ class ilLMPresentationGUI
 					{
 						if ($a_frame != "toc")
 						{
-							$link = "frame_".$a_obj_id."_".$a_frame.".html";
+							$link = "frame_".$a_obj_id."_".$a_frame.$lang_suffix.".html";
 						}
 						else	// don't save multiple toc frames (all the same)
 						{
-							$link = "frame_".$a_frame.".html";
+							$link = "frame_".$a_frame.$lang_suffix.".html";
 						}						
 					}
 					else
@@ -4061,11 +4137,11 @@ class ilLMPresentationGUI
 						//if ($nid = ilLMObject::_lookupNID($this->lm->getId(), $a_obj_id, "pg"))
 						if ($nid = ilLMPageObject::getExportId($this->lm->getId(), $a_obj_id))
 						{
-							$link = "lm_pg_".$nid.".html";
+							$link = "lm_pg_".$nid.$lang_suffix.".html";
 						}
 						else
 						{
-							$link = "lm_pg_".$a_obj_id.".html";
+							$link = "lm_pg_".$a_obj_id.$lang_suffix.".html";
 						}
 					}
 					break;
@@ -4191,7 +4267,7 @@ class ilLMPresentationGUI
 	// #8613
 	protected function renderPageTitle()
 	{
-		$this->tpl->setHeaderPageTitle($this->lm->getTitle());
+		$this->tpl->setHeaderPageTitle($this->getLMPresentationTitle());
 		$this->tpl->fillWindowTitle();
 	}	
 	

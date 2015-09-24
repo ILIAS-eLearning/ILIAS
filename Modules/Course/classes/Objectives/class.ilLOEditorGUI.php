@@ -214,6 +214,22 @@ class ilLOEditorGUI
 	}
 	
 	/**
+	 * Delete assignments
+	 * @param type $a_type
+	 */
+	protected function deleteAssignments($a_type)
+	{
+		include_once './Modules/Course/classes/Objectives/class.ilLOTestAssignments.php';
+		$assignments = ilLOTestAssignments::getInstance($this->getParentObject()->getId());
+		foreach($assignments->getAssignmentsByType($a_type) as $assignment)
+		{
+			$assignment->delete();
+		}
+		return;
+	}
+
+
+	/**
 	 * 
 	 */
 	protected function saveSettings()
@@ -221,17 +237,60 @@ class ilLOEditorGUI
 		$form = $this->initSettingsForm();
 		if($form->checkInput())
 		{
-			$settings = ilLOSettings::getInstanceByObjId($this->getParentObject()->getId());
-			$settings->setType($form->getInput('type'));
+			$settings = ilLOSettings::getInstanceByObjId($this->getParentObject()->getId());			
+			$settings->setInitialTestType($form->getInput('ittype'));
+			switch($settings->getInitialTestType())
+			{
+				case ilLOSettings::TYPE_INITIAL_PLACEMENT_ALL:
+					$settings->setInitialTestAsStart($form->getInput('start_ip'));
+					$this->deleteAssignments(ilLOSettings::TYPE_TEST_INITIAL);
+					break;
+				
+				case ilLOSettings::TYPE_INITIAL_PLACEMENT_SELECTED:
+					$settings->setInitialTestAsStart(FALSE);
+					$settings->setInitialTest(0);
+					break;
+				
+				case ilLOSettings::TYPE_INITIAL_QUALIFYING_ALL:
+					$settings->setInitialTestAsStart($form->getInput('start_iq'));
+					$this->deleteAssignments(ilLOSettings::TYPE_TEST_INITIAL);
+					break;
+					
+				case ilLOSettings::TYPE_INITIAL_QUALIFYING_SELECTED:
+					$settings->setInitialTestAsStart(FALSE);
+					$settings->setInitialTest(0);
+					break;
+				
+				case ilLOSettings::TYPE_INITIAL_NONE:
+					$settings->setInitialTestAsStart(FALSE);
+					$settings->setInitialTest(0);
+					$this->deleteAssignments(ilLOSettings::TYPE_TEST_INITIAL);
+					break;
+			}
 			
-			$qtv_values = (array) $form->getInput('qtv');
-			$settings->setGeneralQualifiedTestVisibility(in_array(ilLOSettings::QT_VISIBLE_ALL, $qtv_values));
-			$settings->setQualifiedTestPerObjectiveVisibility(in_array(ilLOSettings::QT_VISIBLE_OBJECTIVE, $qtv_values));
+			$settings->setQualifyingTestType($form->getInput('qttype'));
 			$settings->resetResults($form->getInput('reset'));
+			$settings->setPassedObjectiveMode($form->getInput('passed_mode'));
+
+			if($form->getInput('qttype') == ilLOSettings::TYPE_QUALIFYING_ALL)
+			{
+				$settings->setQualifyingTestAsStart($form->getInput('start_q'));
+			}
+			if($form->getInput('qttype') == ilLOSettings::TYPE_QUALIFYING_SELECTED)
+			{
+				$settings->setQualifiedTest(0);
+			}
+			
+			if(
+				($settings->getInitialTestType() != ilLOSettings::TYPE_INITIAL_NONE) &&
+				($settings->isQualifyingTestStart())
+			)
+			{
+				$settings->setQualifyingTestAsStart(FALSE);
+				ilUtil::sendInfo($this->lng->txt('crs_loc_settings_err_qstart'),TRUE);
+			}
+			
 			$settings->update();
-			
-			
-			
 			$this->updateStartObjects();
 			
 			ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
@@ -244,7 +303,6 @@ class ilLOEditorGUI
 		$this->settings($form);
 	}
 	
-	
 	/**
 	 * Init settings form
 	 */
@@ -255,53 +313,70 @@ class ilLOEditorGUI
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->setTitle($this->lng->txt('crs_loc_settings_tbl'));
 		
-		$type = new ilRadioGroupInputGUI($this->lng->txt('crs_loc_settings_type'), 'type');
-		$type->setRequired(true);
-		$type->setValue(ilLOSettings::getInstanceByObjId($this->getParentObject()->getId())->getType());
+		// initial test
+		$type_selector = new ilRadioGroupInputGUI($this->lng->txt('crs_loc_settings_it_type'), 'ittype');
+		$type_selector->setRequired(TRUE);
+		$type_selector->setValue($this->getSettings()->getInitialTestType());
 		
-		$type_1 = new ilRadioOption($this->lng->txt('crs_loc_type_initial_all'), ilLOSettings::LOC_INITIAL_ALL);
-		$type_1->setInfo($this->lng->txt('crs_loc_type_initial_all_info'));
-		$type->addOption($type_1);
-		
-		$type_2 = new ilRadioOption($this->lng->txt('crs_loc_type_initial_sel'), ilLOSettings::LOC_INITIAL_SEL);
-		#$type->addOption($type_2);
+		$type_ipa = new ilRadioOption($this->lng->txt('crs_loc_settings_type_it_placement_all'), ilLOSettings::TYPE_INITIAL_PLACEMENT_ALL);
+		$type_selector->addOption($type_ipa);
 
-		$type_3 = new ilRadioOption($this->lng->txt('crs_loc_type_qualified'), ilLOSettings::LOC_QUALIFIED);
-		$type_3->setInfo($this->lng->txt('crs_loc_type_qualified_info'));
-		$type->addOption($type_3);
+		$start_ip = new ilCheckboxInputGUI($this->lng->txt('crs_loc_settings_it_start_object'),'start_ip');
+		$start_ip->setValue(1);
+		$start_ip->setChecked($this->getSettings()->isInitialTestStart());
+		$type_ipa->addSubItem($start_ip);
+		
+		$type_ips = new ilRadioOption($this->lng->txt('crs_loc_settings_type_it_placement_sel'), ilLOSettings::TYPE_INITIAL_PLACEMENT_SELECTED);
+		$type_selector->addOption($type_ips);
+		
+		$type_iqa = new ilRadioOption($this->lng->txt('crs_loc_settings_type_it_qualifying_all'), ilLOSettings::TYPE_INITIAL_QUALIFYING_ALL);
+		$type_selector->addOption($type_iqa);
+		
+		$start_iq = new ilCheckboxInputGUI($this->lng->txt('crs_loc_settings_it_start_object'),'start_iq');
+		$start_iq->setValue(1);
+		$start_iq->setChecked($this->getSettings()->isInitialTestStart());
+		$type_iqa->addSubItem($start_iq);
 
-		$type_4 = new ilRadioOption($this->lng->txt('crs_loc_type_practise'), ilLOSettings::LOC_PRACTISE);
-		$type_4->setInfo($this->lng->txt('crs_loc_type_practise_info'));
-		$type->addOption($type_4);
-		$form->addItem($type);
+		$type_iqs = new ilRadioOption($this->lng->txt('crs_loc_settings_type_it_qualifying_sel'), ilLOSettings::TYPE_INITIAL_QUALIFYING_SELECTED);
+		$type_selector->addOption($type_iqs);
 		
-		$form->addCommandButton('saveSettings', $this->lng->txt('save'));
+		$type_ino = new ilRadioOption($this->lng->txt('crs_loc_settings_type_it_none'), ilLOSettings::TYPE_INITIAL_NONE);
+		$type_selector->addOption($type_ino);
 		
-		// qualified test visibility
-		$qtv = new ilCheckboxGroupInputGUI($this->lng->txt('crs_loc_qt_visibility'),'qtv');
+		$form->addItem($type_selector);
 		
-		$qtv_values = array();
-		if($this->getSettings()->isGeneralQualifiedTestVisible())
-		{
-			$qtv_values[] = ilLOSettings::QT_VISIBLE_ALL;
-		}
-		if($this->getSettings()->isQualifiedTestPerObjectiveVisible())
-		{
-			$qtv_values[] = ilLOSettings::QT_VISIBLE_OBJECTIVE;
-		}
-		$qtv->setValue($qtv_values);
-		$qtv->setRequired(true);
+		// qualifying test
+		$qt_selector = new ilRadioGroupInputGUI($this->lng->txt('crs_loc_settings_qt_all'),'qttype');
+		$qt_selector->setRequired(TRUE);
+		$qt_selector->setValue($this->getSettings()->getQualifyingTestType());
 		
-		$qtv->addOption(new ilCheckboxOption(
-				$this->lng->txt('crs_loc_qt_visibility_all'),
-				ilLOSettings::QT_VISIBLE_ALL)
+		$type_qa = new ilRadioOption($this->lng->txt('crs_loc_settings_type_q_all'), ilLOSettings::TYPE_QUALIFYING_ALL);
+		$qt_selector->addOption($type_qa);
+		
+		$start_q = new ilCheckboxInputGUI($this->lng->txt('crs_loc_settings_qt_start_object'),'start_q');
+		$start_q->setValue(1);
+		$start_q->setChecked($this->getSettings()->isQualifyingTestStart());
+		$type_qa->addSubItem($start_q);
+		
+		$passed_mode = new ilRadioGroupInputGUI($this->lng->txt('crs_loc_settings_passed_mode'),'passed_mode');
+		$passed_mode->setValue($this->getSettings()->getPassedObjectiveMode());
+		
+		$passed_mode->addOption(
+				new ilRadioOption(
+						$this->lng->txt('crs_loc_settings_passed_mode_hide'), 
+						ilLOSettings::HIDE_PASSED_OBJECTIVE_QST)
 		);
-		
-		$qtv->addOption(new ilCheckboxOption(
-				$this->lng->txt('crs_loc_qt_visibility_lo'),
-				ilLOSettings::QT_VISIBLE_OBJECTIVE)
+		$passed_mode->addOption(
+				new ilRadioOption(
+						$this->lng->txt('crs_loc_settings_passed_mode_mark'), 
+						ilLOSettings::MARK_PASSED_OBJECTIVE_QST)
 		);
-		#$form->addItem($qtv);
+		$type_qa->addSubItem($passed_mode);
+		
+		$type_qs = new ilRadioOption($this->lng->txt('crs_loc_settings_type_q_selected'), ilLOSettings::TYPE_QUALIFYING_SELECTED);
+		$qt_selector->addOption($type_qs);
+		
+		$form->addItem($qt_selector);
 		
 		// reset results
 		$reset = new ilCheckboxInputGUI($this->lng->txt('crs_loc_settings_reset'),'reset');
@@ -311,7 +386,8 @@ class ilLOEditorGUI
 		$reset->setInfo($this->lng->txt('crs_loc_settings_reset_enable_info'));
 		$form->addItem($reset);
 		
-				
+		$form->addCommandButton('saveSettings', $this->lng->txt('save'));
+		
 		
 		return $form;
 	}
@@ -338,6 +414,62 @@ class ilLOEditorGUI
 		$GLOBALS['tpl']->setContent($obj_table->getHTML());
 		
 		$this->showStatus(ilLOEditorStatus::SECTION_MATERIALS);
+	}
+	
+	/**
+	 * View test assignments ()
+	 */
+	protected function testsOverview()
+	{
+		$this->setTestType((int) $_REQUEST['tt']);
+		$this->ctrl->setParameter($this,'tt',$this->getTestType());
+
+		$GLOBALS['ilToolbar']->setFormAction($this->ctrl->getFormAction($this));
+		$GLOBALS['ilToolbar']->addButton(
+				$this->lng->txt('crs_loc_btn_new_assignment'),
+				$this->ctrl->getLinkTarget($this,'testAssignment')
+		);
+		
+		
+		$settings = ilLOSettings::getInstanceByObjId($this->getParentObject()->getId());
+		switch($this->getTestType())
+		{
+			case ilLOSettings::TYPE_TEST_INITIAL:
+				$GLOBALS['ilTabs']->activateSubTab('itests');
+				break;
+			
+			case ilLOSettings::TYPE_TEST_QUALIFIED:
+				$GLOBALS['ilTabs']->activateSubTab('qtests');
+				break;
+		}
+		
+		try {
+			include_once './Modules/Course/classes/Objectives/class.ilLOTestAssignmentTableGUI.php';
+			$table = new ilLOTestAssignmentTableGUI(
+					$this,
+					'testsOverview',
+					$this->getParentObject()->getId(),
+					$this->getTestType(),
+					ilLOTestAssignmentTableGUI::TYPE_MULTIPLE_ASSIGNMENTS
+			);
+			$table->init();
+			$table->parseMultipleAssignments();
+			$GLOBALS['tpl']->setContent($table->getHTML());
+			
+			$this->showStatus(
+					($this->getTestType() == ilLOEditorGUI::TEST_TYPE_IT) ?
+					ilLOEditorStatus::SECTION_ITES :
+					ilLOEditorStatus::SECTION_QTEST
+			);
+		}
+		catch(ilLOInvalidConfigurationException $ex)
+		{
+			$GLOBALS['ilLog']->write(__METHOD__.': Show new assignment screen because of : '. $ex->getMessage());
+			$this->testSettings();
+		}
+		
+		
+		
 	}
 	
 	
@@ -376,7 +508,6 @@ class ilLOEditorGUI
 					$this->getParentObject()->getId(),
 					$this->getTestType()
 			);
-			$table->setTitle($this->lng->txt('crs_loc_tst_assignment'));
 			$table->init();
 			$table->parse(ilLOSettings::getInstanceByObjId($this->getParentObject()->getId())->getTestByType($this->getTestType()));
 			$GLOBALS['tpl']->setContent($table->getHTML());
@@ -389,9 +520,61 @@ class ilLOEditorGUI
 		}
 		catch(ilLOInvalidConfigurationException $ex)
 		{
-			$GLOBALS['ilLog']->write(__METHOD__.': Show new assignment sceen because of : '. $ex->getMessage());
+			$GLOBALS['ilLog']->write(__METHOD__.': Show new assignment screen because of : '. $ex->getMessage());
 			$this->testSettings();
 		}
+	}
+	
+	/**
+	 * Show delete test confirmation
+	 */
+	protected function confirmDeleteTests()
+	{
+		$this->setTestType((int) $_REQUEST['tt']);
+		$this->ctrl->setParameter($this,'tt',$this->getTestType());
+		
+		$settings = ilLOSettings::getInstanceByObjId($this->getParentObject()->getId());
+		switch($this->getTestType())
+		{
+			case ilLOSettings::TYPE_TEST_INITIAL:
+				$GLOBALS['ilTabs']->activateSubTab('itests');
+				break;
+			
+			case ilLOSettings::TYPE_TEST_QUALIFIED:
+				$GLOBALS['ilTabs']->activateSubTab('qtests');
+				break;
+		}
+		
+		if(!(int) $_REQUEST['tst'])
+		{
+			ilUtil::sendFailure($this->lng->txt('select_one'),true);
+			$this->ctrl->redirect($this,'testsOverview');
+		}
+		
+		include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
+		$confirm = new ilConfirmationGUI();
+		$confirm->setHeaderText($this->lng->txt('crs_loc_confirm_delete_tst'));
+		$confirm->setFormAction($this->ctrl->getFormAction($this));
+		$confirm->setConfirm($this->lng->txt('delete'), 'deleteTests');
+		$confirm->setCancel($this->lng->txt('cancel'), 'testsOverview');
+		
+		foreach((array) $_REQUEST['tst'] as $assign_id)
+		{
+			include_once './Modules/Course/classes/Objectives/class.ilLOTestAssignment.php';
+			$assignment = new ilLOTestAssignment($assign_id);
+			
+			
+			$obj_id = ilObject::_lookupObjId($assignment->getTestRefId());
+			$confirm->addItem('tst[]', $assign_id, ilObject::_lookupTitle($obj_id));
+		}
+		
+		$GLOBALS['tpl']->setContent($confirm->getHTML());
+		
+		$this->showStatus(
+				($this->getTestType() == ilLOSettings::TYPE_TEST_INITIAL) ?
+				ilLOEditorStatus::SECTION_ITES :
+				ilLOEditorStatus::SECTION_QTEST
+		);
 	}
 	
 	/**
@@ -440,6 +623,50 @@ class ilLOEditorGUI
 				ilLOEditorStatus::SECTION_ITES :
 				ilLOEditorStatus::SECTION_QTEST
 		);
+	}
+	
+	/**
+	 * Delete test assignments
+	 */
+	protected function deleteTests()
+	{
+		$this->setTestType((int) $_REQUEST['tt']);
+		$this->ctrl->setParameter($this,'tt',$this->getTestType());
+		
+		$settings = ilLOSettings::getInstanceByObjId($this->getParentObject()->getId());
+		switch($this->getTestType())
+		{
+			case ilLOSettings::TYPE_TEST_INITIAL:
+				$GLOBALS['ilTabs']->activateSubTab('itests');
+				break;
+			
+			case ilLOSettings::TYPE_TEST_QUALIFIED:
+				$GLOBALS['ilTabs']->activateSubTab('qtests');
+				break;
+		}
+		
+		foreach((array) $_REQUEST['tst'] as $assign_id)
+		{
+			include_once './Modules/Course/classes/Objectives/class.ilLOTestAssignment.php';
+			$assignment = new ilLOTestAssignment($assign_id);
+			$assignment->delete();
+			
+			// finally delete start object assignment
+			include_once './Services/Container/classes/class.ilContainerStartObjects.php';
+			$start = new ilContainerStartObjects(
+					$this->getParentObject()->getRefId(),
+					$this->getParentObject()->getId()
+			);
+			$start->deleteItem($assignment->getTestRefId());
+			
+			// ... and assigned questions
+			include_once './Modules/Course/classes/class.ilCourseObjectiveQuestion.php';
+			ilCourseObjectiveQuestion::deleteTest($assignment->getTestRefId());
+		}
+		
+		
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
+		$this->ctrl->redirect($this,'testsOverview');
 	}
 	
 	/**
@@ -495,6 +722,39 @@ class ilLOEditorGUI
 	}
 	
 	/**
+	 * new test assignment
+	 */
+	protected function testAssignment(ilPropertyFormGUI $form = null)
+	{
+		$this->setTestType((int) $_REQUEST['tt']);
+		$this->ctrl->setParameter($this,'tt',$this->getTestType());
+
+		switch($this->getTestType())
+		{
+			case ilLOSettings::TYPE_TEST_INITIAL:
+				$GLOBALS['ilTabs']->activateSubTab('itests');
+				break;
+			
+			case ilLOSettings::TYPE_TEST_QUALIFIED:
+				$GLOBALS['ilTabs']->activateSubTab('qtests');
+				break;
+		}
+		if(!$form instanceof ilPropertyFormGUI)
+		{
+			include_once './Modules/Course/classes/Objectives/class.ilLOTestAssignmentForm.php';
+			$form_helper = new ilLOTestAssignmentForm($this,$this->getParentObject(), $this->getTestType());
+			$form = $form_helper->initForm(TRUE);
+		}
+		$GLOBALS['tpl']->setContent($form->getHTML());
+		
+		$this->showStatus(
+				($this->getTestType() == self::TEST_TYPE_IT) ?
+				ilLOEditorStatus::SECTION_ITES :
+				ilLOEditorStatus::SECTION_QTEST
+		);
+	}
+	
+	/**
 	 * Show test settings
 	 * @param ilPropertyFormGUI $form
 	 */
@@ -514,7 +774,9 @@ class ilLOEditorGUI
 		
 		if(!$form instanceof ilPropertyFormGUI)
 		{
-			$form = $this->initTestForm();
+			include_once './Modules/Course/classes/Objectives/class.ilLOTestAssignmentForm.php';
+			$form_helper = new ilLOTestAssignmentForm($this, $this->getParentObject(),$this->getTestType());
+			$form = $form_helper->initForm(FALSE);
 		}
 		$GLOBALS['tpl']->setContent($form->getHTML());
 		
@@ -524,145 +786,7 @@ class ilLOEditorGUI
 				ilLOEditorStatus::SECTION_QTEST
 		);
 	}
-	
-	/**
-	 * Get assignable tests
-	 */
-	protected function getAssignableTests()
-	{
-		$tests = array();
-		foreach($GLOBALS['tree']->getChildsByType($this->getParentObject()->getRefId(),'tst') as $tree_node)
-		{
-			if(!in_array($tree_node['child'], $this->getSettings()->getTests()))
-			{
-				$tests[] = $tree_node['child'];
-			}
-		}
-		return $tests;
-	}
-	
-	/**
-	 * Show test config form
-	 * @return \ilPropertyFormGUI
-	 */
-	protected function initTestForm()
-	{
-		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
-		$form = new ilPropertyFormGUI();
-		$form->setFormAction($this->ctrl->getFormAction($this));
-		$form->addCommandButton('saveTest', $this->lng->txt('save'));
 		
-		switch($this->getTestType())
-		{
-			case self::TEST_TYPE_IT:
-				$form->setTitle($this->lng->txt('crs_loc_settings_itest_tbl'));
-				break;
-			
-			case self::TEST_TYPE_QT:
-				$form->setTitle($this->lng->txt('crs_loc_settings_qtest_tbl'));
-				break;
-				
-		}
-
-		$assignable = $this->getAssignableTests();
-
-		$cr_mode = new ilRadioGroupInputGUI($this->lng->txt('crs_loc_form_assign_it'),'mode');
-		$cr_mode->setRequired(true);
-		$cr_mode->setValue(self::TEST_NEW);
-		
-		$new = new ilRadioOption($this->lng->txt('crs_loc_form_tst_new'),self::TEST_NEW);
-
-		switch($this->getTestType())
-		{
-			case ilLOSettings::TYPE_TEST_INITIAL:
-				$new->setInfo($this->lng->txt("crs_loc_form_tst_new_initial_info"));
-				break;
-
-			case ilLOSettings::TYPE_TEST_QUALIFIED:
-				$new->setInfo($this->lng->txt("crs_loc_form_tst_new_qualified_info"));
-				break;
-		}
-
-		// title
-		$ti = new ilTextInputGUI($this->lng->txt("title"), "title");
-		$ti->setValue(
-				ilObject::_lookupTitle(ilObject::_lookupObjId($this->getSettings()->getTestByType($this->getTestType())))
-		);
-		$ti->setMaxLength(128);
-		$ti->setSize(40);
-		$ti->setRequired(true);
-		$new->addSubItem($ti);
-
-		// description
-		$ta = new ilTextAreaInputGUI($this->lng->txt("description"), "desc");
-		$ta->setValue(
-				ilObject::_lookupDescription(ilObject::_lookupObjId($this->getSettings()->getTestByType($this->getTestType())))
-		);
-		$ta->setCols(40);
-		$ta->setRows(2);
-		$new->addSubItem($ta);
-		
-		// Question assignment type
-		include_once './Modules/Test/classes/class.ilObjTest.php';
-		$this->lng->loadLanguageModule('assessment');
-		$qst = new ilRadioGroupInputGUI($this->lng->txt('tst_question_set_type'),'qtype');
-		$qst->setRequired(true);
-		$qst->setValue(
-				$this->getSettings()->isRandomTestType($this->getTestType()) ? 
-				ilObjTest::QUESTION_SET_TYPE_RANDOM:
-				ilObjTest::QUESTION_SET_TYPE_FIXED
-		);
-		
-		$random = new ilRadioOption(
-				$this->lng->txt('tst_question_set_type_random'),
-				ilObjTest::QUESTION_SET_TYPE_RANDOM
-		);
-		$qst->addOption($random);
-		
-		$fixed = new ilRadioOption(
-				$this->lng->txt('tst_question_set_type_fixed'),
-				ilObjTest::QUESTION_SET_TYPE_FIXED
-		);
-		$qst->addOption($fixed);
-		$new->addSubItem($qst);
-		$cr_mode->addOption($new);
-		
-		// assign existing
-		$existing = new ilRadioOption($this->lng->txt('crs_loc_form_assign'),self::TEST_ASSIGN);
-
-		switch($this->getTestType())
-		{
-			case ilLOSettings::TYPE_TEST_INITIAL:
-				$existing->setInfo($this->lng->txt("crs_loc_form_assign_initial_info"));
-				break;
-
-			case ilLOSettings::TYPE_TEST_QUALIFIED:
-				$existing->setInfo($this->lng->txt("crs_loc_form_assign_qualified_info"));
-				break;
-		}
-
-		if(!$assignable)
-		{
-			$existing->setDisabled(true);
-		}
-		$cr_mode->addOption($existing);
-		
-		$options = array();
-		$options[0] = $this->lng->txt('select_one');
-		foreach((array) $assignable as $tst_ref_id)
-		{
-			$tst_obj_id = ilObject::_lookupObjId($tst_ref_id);
-			$options[$tst_ref_id] = ilObject::_lookupTitle($tst_obj_id);
-		}
-		$selectable = new ilSelectInputGUI($this->lng->txt('crs_loc_form_available_tsts'),'tst');
-		$selectable->setRequired(true);
-		$selectable->setOptions($options);
-		$existing->addSubItem($selectable);
-		
-		$form->addItem($cr_mode);
-		return $form;
-	}
-
 	/**
 	 * Apply auto generated setttings template
 	 * @param ilObjTest $tst
@@ -726,6 +850,75 @@ class ilLOEditorGUI
 		$this->getSettings()->updateStartObjects($start);
 		return true;
 	}
+	
+	protected function saveMultiTestAssignment()
+	{
+		
+		$this->ctrl->setParameter($this,'tt',(int) $_REQUEST['tt']);
+		$this->setTestType((int) $_REQUEST['tt']);
+		
+		$settings = ilLOSettings::getInstanceByObjId($this->getParentObject()->getId());
+		
+		include_once './Modules/Course/classes/Objectives/class.ilLOTestAssignmentForm.php';
+		$form_helper = new ilLOTestAssignmentForm($this,$this->getParentObject(), $this->getTestType());
+		$form = $form_helper->initForm(TRUE);
+		
+		if($form->checkInput())
+		{
+			$mode = $form->getInput('mode');
+			
+			if($mode == self::TEST_NEW)
+			{
+				$tst = new ilObjTest();
+				$tst->setType('tst');
+				$tst->setTitle($form->getInput('title'));
+				$tst->setDescription($form->getInput('desc'));
+				$tst->create();
+				$tst->createReference();
+				$tst->putInTree($this->getParentObject()->getRefId());
+				$tst->setPermissions($this->getParentObject()->getRefId());
+
+				// apply settings template 
+				$this->applySettingsTemplate($tst);
+
+				$tst->setQuestionSetType($form->getInput('qtype'));
+				
+				$tst->saveToDb();
+
+				include_once './Modules/Course/classes/Objectives/class.ilLOTestAssignment.php';
+				$assignment = new ilLOTestAssignment();
+				$assignment->setContainerId($this->getParentObject()->getId());
+				$assignment->setAssignmentType($this->getTestType());
+				$assignment->setObjectiveId($form->getInput('objective'));
+				$assignment->setTestRefId($tst->getRefId());
+				$assignment->save();
+			}
+			else
+			{
+				include_once './Modules/Course/classes/Objectives/class.ilLOTestAssignment.php';
+				$assignment = new ilLOTestAssignment();
+				$assignment->setContainerId($this->getParentObject()->getId());
+				$assignment->setAssignmentType($this->getTestType());
+				$assignment->setObjectiveId($form->getInput('objective'));
+				$assignment->setTestRefId($form->getInput('tst'));
+				$assignment->save();
+				
+				$tst = new ilObjTest($form->getInput('tst'),true);
+				$this->applySettingsTemplate($tst);
+				$tst->saveToDb();
+			}
+			
+			$this->updateStartObjects();
+			
+			ilUtil::sendSuccess($this->lng->txt('settings_saved'));
+			$this->ctrl->redirect($this,'testsOverview');
+		}
+
+		// Error
+		ilUtil::sendFailure($this->lng->txt('err_check_input'));
+		$form->setValuesByPost();
+		$this->testAssignment($form);
+	}
 
 	/**
 	 * Save Test
@@ -737,7 +930,10 @@ class ilLOEditorGUI
 		
 		$settings = ilLOSettings::getInstanceByObjId($this->getParentObject()->getId());
 		
-		$form = $this->initTestForm();
+		include_once './Modules/Course/classes/Objectives/class.ilLOTestAssignmentForm.php';
+		$form_helper = new ilLOTestAssignmentForm($this, $this->getParentObject(),$this->getTestType());
+		$form = $form_helper->initForm(FALSE);
+		
 		if($form->checkInput())
 		{
 			$mode = $form->getInput('mode');
@@ -808,6 +1004,16 @@ class ilLOEditorGUI
 		
 		$GLOBALS['ilTabs']->activateSubTab('objectives');
 		
+		$objectives = ilCourseObjective::_getObjectiveIds(
+				$this->getParentObject()->getId(),
+				FALSE
+		);
+		
+		if(!count($objectives))
+		{
+			return $this->showObjectiveCreation();
+		}
+		
 		$ilToolbar->addButton(
 				$this->lng->txt('crs_add_objective'),
 				$this->ctrl->getLinkTargetByClass('ilcourseobjectivesgui', "create"));
@@ -815,7 +1021,7 @@ class ilLOEditorGUI
 		include_once('./Modules/Course/classes/class.ilCourseObjectivesTableGUI.php');
 		$table = new ilCourseObjectivesTableGUI($this,$this->getParentObject());
 		$table->setTitle($this->lng->txt('crs_objectives'),'',$this->lng->txt('crs_objectives'));
-		$table->parse(ilCourseObjective::_getObjectiveIds($this->getParentObject()->getId(),false));
+		$table->parse($objectives);
 		$GLOBALS['tpl']->setContent($table->getHTML());
 		
 		$this->showStatus(ilLOEditorStatus::SECTION_OBJECTIVES);
@@ -868,7 +1074,7 @@ class ilLOEditorGUI
 			{
 				include_once './Modules/Course/classes/class.ilCourseObjective.php';
 				$obj = new ilCourseObjective($this->getParentObject());
-				$obj->setActive(false);
+				$obj->setActive(TRUE);
 				$obj->setTitle($title);
 				$obj->add();
 			}
@@ -1055,26 +1261,59 @@ class ilLOEditorGUI
 		$settings = ilLOSettings::getInstanceByObjId($this->getParentObject()->getId());
 		if($settings->worksWithInitialTest())
 		{
-			$this->ctrl->setParameter($this,'tt',self::TEST_TYPE_IT);
-			$GLOBALS['ilTabs']->addSubTab(
-					'itest',
-					$this->lng->txt('crs_loc_tab_itest'),
-					$this->ctrl->getLinkTarget($this,'testOverview')
-			);
+			if(
+				$settings->getInitialTestType() == ilLOSettings::TYPE_INITIAL_PLACEMENT_ALL ||
+				$settings->getInitialTestType() == ilLOSettings::TYPE_INITIAL_QUALIFYING_ALL
+			)
+			{
+				$this->ctrl->setParameter($this,'tt',  ilLOSettings::TYPE_TEST_INITIAL);
+				$GLOBALS['ilTabs']->addSubTab(
+						'itest',
+						$this->lng->txt('crs_loc_tab_itest'),
+						$this->ctrl->getLinkTarget($this,'testOverview')
+				);
+			}
+			else
+			{
+				$this->ctrl->setParameter($this,'tt',  ilLOSettings::TYPE_TEST_INITIAL);
+				$GLOBALS['ilTabs']->addSubTab(
+						'itests',
+						$this->lng->txt('crs_loc_tab_itests'),
+						$this->ctrl->getLinkTarget($this,'testsOverview')
+				);
+			}
+				
+					
 			
 		}
-		$this->ctrl->setParameter($this,'tt',self::TEST_TYPE_QT);
-		$GLOBALS['ilTabs']->addSubTab(
-				'qtest',
-				$this->lng->txt('crs_loc_tab_qtest'),
-				$this->ctrl->getLinkTarget($this,'testOverview')
-		);
-		// start objects
-		$GLOBALS['ilTabs']->addSubTab(
-				'start',
-				$this->lng->txt('crs_loc_tab_start'),
-				$this->ctrl->getLinkTargetByClass('ilcontainerstartobjectsgui','')
-		);
+		
+		if($settings->getQualifyingTestType() == ilLOSettings::TYPE_QUALIFYING_ALL)
+		{
+			$this->ctrl->setParameter($this,'tt',  ilLOSettings::TYPE_TEST_QUALIFIED);
+			$GLOBALS['ilTabs']->addSubTab(
+					'qtest',
+					$this->lng->txt('crs_loc_tab_qtest'),
+					$this->ctrl->getLinkTarget($this,'testOverview')
+			);
+		}
+		else
+		{
+			$this->ctrl->setParameter($this,'tt',  ilLOSettings::TYPE_TEST_QUALIFIED);
+			$GLOBALS['ilTabs']->addSubTab(
+					'qtests',
+					$this->lng->txt('crs_loc_tab_qtests'),
+					$this->ctrl->getLinkTarget($this,'testsOverview')
+			);
+		}
+		
+		if($settings->worksWithStartObjects())
+		{
+			$GLOBALS['ilTabs']->addSubTab(
+					'start',
+					$this->lng->txt('crs_loc_tab_start'),
+					$this->ctrl->getLinkTargetByClass('ilcontainerstartobjectsgui','')
+			);
+		}
 		
 		// Member view
 		#include_once './Services/Container/classes/class.ilMemberViewGUI.php';

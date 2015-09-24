@@ -94,7 +94,12 @@ abstract class ilParticipantTableGUI extends ilTable2GUI
 			return true;
 		}
 		
-		if(!self::$has_odf_definitions)
+		$loc_enabled = (
+				$this->getParentObject()->object->getType() == 'crs' and 
+				$this->getParentObject()->object->getViewMode() == IL_CRS_VIEW_OBJECTIVE
+		);
+		
+		if(!self::$has_odf_definitions and !$loc_enabled)
 		{
 			$this->ctrl->setParameter($this->parent_obj, 'member_id', $a_set['usr_id']);
 			$this->tpl->setCurrentBlock('link');
@@ -114,12 +119,23 @@ abstract class ilParticipantTableGUI extends ilTable2GUI
 
 		$this->ctrl->setParameter($this->parent_obj, 'member_id', $a_set['usr_id']);
 		$list->addItem($this->lng->txt('edit'), '', $this->ctrl->getLinkTarget($this->getParentObject(),'editMember'));
+
+		if(self::$has_odf_definitions)
+		{
+			$this->ctrl->setParameterByClass('ilobjectcustomuserfieldsgui','member_id',$a_set['usr_id']);
+			$trans = $this->lng->txt($this->getParentObject()->object->getType().'_cdf_edit_member');
+			$list->addItem($trans, '', $this->ctrl->getLinkTargetByClass('ilobjectcustomuserfieldsgui','editMember'));
+		}
 		
-		$this->ctrl->setParameterByClass('ilobjectcustomuserfieldsgui','member_id',$a_set['usr_id']);
-		
-		$trans = $this->lng->txt($this->getParentObject()->object->getType().'_cdf_edit_member');
-		$list->addItem($trans, '', $this->ctrl->getLinkTargetByClass('ilobjectcustomuserfieldsgui','editMember'));
-		
+		if($loc_enabled)
+		{
+			$this->ctrl->setParameterByClass('illomembertestresultgui','uid', $a_set['usr_id']);
+			$list->addItem(
+					$this->lng->txt('crs_loc_mem_show_res'),
+					'',
+					$this->ctrl->getLinkTargetByClass('illomembertestresultgui','')
+			);
+		}
 		
 		$this->tpl->setVariable('ACTION_USER',$list->getHTML());
 		

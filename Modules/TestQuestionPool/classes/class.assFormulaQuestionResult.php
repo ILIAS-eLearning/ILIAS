@@ -146,7 +146,7 @@ class assFormulaQuestionResult
 			{
 				if( $this->getResultType()==RESULT_CO_DEC || $this->getResultType()==RESULT_NO_SELECTION )
 				{
-					$result = round($res, $this->getPrecision());
+					$result = ilMath::_round($res, $this->getPrecision());
 				}			
 			}
 		}
@@ -295,7 +295,7 @@ class assFormulaQuestionResult
 		$math->suppress_errors = false;
 		$result                = $math->evaluate($formula); // baseunit-result!!
 
-		$result = round($result, $this->getPrecision());
+		$result = ilMath::_round($result, $this->getPrecision());
 		
 		//	check for valid chars ("0-9",",|.|/","0-9","e|E","+|-","0-9")
 		$has_valid_chars = preg_match("/^-?([0-9]*)(,|\\.|\\/){0,1}([0-9]*)([eE][\\+|-]([0-9])+)?$/", $value, $matches);
@@ -321,7 +321,7 @@ class assFormulaQuestionResult
 					$frac_value = $value;
 				}
 				
-				$frac_value =  round($frac_value, $this->getPrecision());
+				$frac_value =  ilMath::_round($frac_value, $this->getPrecision());
 
 				if(substr_count($value, '/') >= 1)
 				{
@@ -338,9 +338,8 @@ class assFormulaQuestionResult
 				$exp_val = explode('/', $value);
 				if(count($exp_val) == 1)
 				{	
-					// @todo: Use ilMath::_div?
-					$frac_value = ($exp_val[0] / 1);
-					if($frac_value == $result)
+					$frac_value = ilMath::_div($exp_val[0], 1, $this->getPrecision());
+					if( ilMath::_equals($frac_value, $result, $this->getPrecision()) )
 					{
 						$check_fraction = TRUE;
 					}
@@ -351,12 +350,11 @@ class assFormulaQuestionResult
 				}
 				else
 				{
-					// @todo: Use ilMath::_div?
-					$frac_value = $exp_val[0] / $exp_val[1];
-					$frac_value = round($frac_value, $this->getPrecision());
+					$frac_value = ilMath::_div($exp_val[0], $exp_val[1], $this->getPrecision());
+					$frac_value = ilMath::_round($frac_value, $this->getPrecision());
 					$frac_value = str_replace(',', '.', $frac_value);
 
-					if($frac_value == $result)
+					if( ilMath::_equals($frac_value, $result, $this->getPrecision()) )
 					{
 						$check_fraction = TRUE;
 					}
@@ -380,14 +378,18 @@ class assFormulaQuestionResult
 			default:
 				if(substr_count($value, '.') == 1 || substr_count($value, ',') == 1)
 				{
-					$exp_val    = $value;
-					$frac_value = str_replace(',', '.', $exp_val);
+					$frac_value = str_replace(',', '.', $value);
+				}
+				elseif( substr_count($value, '/') == 1 )
+				{
+					$exp_val = explode('/', $value);
+					$frac_value = ilMath::_div($exp_val[0], $exp_val[1], $this->getPrecision());
 				}
 				else
 				{
 					$frac_value = $value;
 				}
-				$frac_value = round($frac_value, $this->getPrecision());
+				$frac_value = ilMath::_round($frac_value, $this->getPrecision());
 				$check_fraction = TRUE;
 			break;
 		}
@@ -557,8 +559,8 @@ class assFormulaQuestionResult
 					$exp_val = explode('/', $value);
 					if(count($exp_val) == 1)
 					{
-						$frac_value = $exp_val[0] / 1;
-						if(abs($frac_value) == abs($result))
+						$frac_value = ilMath::_div($exp_val[0], 1, $this->getPrecision());
+						if( ilMath::_equals(abs($frac_value), abs($result), $this->getPrecision()) )
 						{
 							$check_fraction = TRUE;
 						}
@@ -569,8 +571,8 @@ class assFormulaQuestionResult
 					}
 					else
 					{
-						$frac_value = $exp_val[0] / $exp_val[1];
-						if(abs($frac_value) == abs($result))
+						$frac_value =  ilMath::_div($exp_val[0], $exp_val[1], $this->getPrecision());
+						if(ilMath::_equals(abs($frac_value), abs($result), $this->getPrecision()) )
 						{
 							$check_fraction = TRUE;
 						}
@@ -584,7 +586,7 @@ class assFormulaQuestionResult
 					}
 					else
 					{
-						$frac_value = $exp_val[0] / $exp_val[1];
+						$frac_value = ilMath::_div($exp_val[0], $exp_val[1], $this->getPrecision());
 						if(self::isCoprimeFraction($exp_val[0], $exp_val[1]))
 						{
 							$check_fraction = TRUE;

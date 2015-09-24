@@ -24,6 +24,9 @@ abstract class ilExplorerBaseGUI
 	protected $select_postvar = "";
 	protected $offline_mode = false;
 	protected $sec_highl_nodes = array();
+	protected $enable_dnd = false;
+
+	private $nodeOnclickEnabled;
 
 	/**
 	 * Constructor
@@ -43,7 +46,8 @@ abstract class ilExplorerBaseGUI
 		{
 			$this->open_nodes = array();
 		}
-		
+
+		$this->nodeOnclickEnabled = true;
 	}
 
 	/**
@@ -233,7 +237,7 @@ abstract class ilExplorerBaseGUI
 	function isNodeHighlighted($a_node)
 	{
 		return false;
-	}	
+	}
 
 	/**
 	 * Is node clickable?
@@ -242,6 +246,17 @@ abstract class ilExplorerBaseGUI
 	 * @return boolean node clickable true/false
 	 */
 	function isNodeClickable($a_node)
+	{
+		return true;
+	}
+
+	/**
+	 * Is node selectable?
+	 *
+	 * @param mixed $a_node node object/array
+	 * @return boolean node selectable true/false
+	 */
+	protected function isNodeSelectable($a_node)
 	{
 		return true;
 	}
@@ -573,12 +588,21 @@ abstract class ilExplorerBaseGUI
 				"open_parents" => false,
 				"strings" => array("loading" => "Loading ...", "new_node" => "New node")
 			),
-			"plugins" => array("html_data", "themes"),
+			"plugins" => $this->getJSTreePlugins(),
 			"themes" => array("dots" => false, "icons" => false, "theme" => ""),
 			"html_data" => array()
 		);
 
 		return 'il.Explorer2.init('.json_encode($config).', '.json_encode($js_tree_config).');';
+	}
+
+	protected function getJSTreePlugins() {
+		$plugins = array("html_data", "themes", "json_data");
+		if($this->isEnableDnd()) {
+			$plugins[] = "crrm";
+			$plugins[] = "dnd";
+		}
+		return $plugins;
 	}
 
 
@@ -664,7 +688,7 @@ abstract class ilExplorerBaseGUI
 		$this->listItemStart($tpl, $a_node);
 		
 		// select mode?
-		if ($this->select_postvar != "" && $this->isNodeClickable($a_node))
+		if ($this->select_postvar != "" && $this->isNodeSelectable($a_node))
 		{
 			if ($this->select_multi)
 			{
@@ -707,7 +731,7 @@ abstract class ilExplorerBaseGUI
 		{
 			$tpl->setVariable("TARGET", 'target="'.$target.'"');
 		}
-		if (!$this->isNodeClickable($a_node))
+		if (!$this->isNodeOnclickEnabled() || !$this->isNodeClickable($a_node))
 		{
 			$tpl->setVariable("ONCLICK", 'onclick="return false;"');
 			$tpl->setVariable("A_CLASS", 'class="disabled"');
@@ -842,7 +866,35 @@ abstract class ilExplorerBaseGUI
 	{
 		$tpl->touchBlock("list_end");
 		$tpl->touchBlock("tag");
-	}	
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isNodeOnclickEnabled()
+	{
+		return $this->nodeOnclickEnabled;
+	}
+
+	/**
+	 * @param boolean $nodeOnclickEnabled
+	 */
+	public function setNodeOnclickEnabled($nodeOnclickEnabled)
+	{
+		$this->nodeOnclickEnabled = $nodeOnclickEnabled;
+	}
+
+	public function isEnableDnd() {
+		return $this->enable_dnd;
+	}
+
+	/**
+	 * Enable Drag & Drop functionality
+	 * @param boolean $enable_dnd
+	 */
+	public function setEnableDnd($enable_dnd) {
+		$this->enable_dnd = $enable_dnd;
+	}
 }
 
 ?>

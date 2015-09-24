@@ -1,0 +1,68 @@
+<div {ACCORDION_ID}>
+	<div>
+		<div class="ilObjListRow il_PrgAccordionToggle">
+			<div class="ilCLI {ACTIVE_HEAD}">
+				<div class="ilContainerListItemOuter">
+					<!-- BEGIN indent -->
+					<div class="ilContainerListItemCB">
+						&nbsp;
+					</div>
+					<div class="ilContainerListItemCB">
+						&nbsp;
+					</div>
+					<!-- END indent -->
+					<!-- BEGIN expand -->
+					<div class="ilContainerListItemCB">
+						<img src="{EXP_IMG}" title="{EXP_ALT}" alt="{EXP_ALT}" class="il_PrgExpandedImage"/>
+						<img src="{NOT_EXP_IMG}" title="{NOT_EXP_ALT}" alt="{NOT_EXP_ALT}" class="il_PrgNotExpandedImage"/>
+					</div>
+					<!-- END expand -->
+
+					<!-- BEGIN linked_icon -->
+					<div class="ilContainerListItemIcon">
+						<a href="{ICON_HREF}"><img alt="{ALT_ICON}" title="{ALT_ICON}" src="{SRC_ICON}" class="ilListItemIcon" /></a>
+					</div>
+					<!-- END linked_icon -->
+
+					<!-- BEGIN not_linked_icon -->
+					<div class="ilContainerListItemIcon">
+						<img alt="{ALT_ICON}" title="{ALT_ICON}" src="{SRC_ICON}" class="ilListItemIcon" />
+					</div>
+					<!-- END not_linked_icon -->
+
+					<div class="ilContainerListItemContent">
+						<div class="il_ContainerListItem">
+							<div class="il_ContainerItemTitle form-inline">
+								<!-- BEGIN linked_title -->
+								<h4 class="il_ContainerItemTitle">
+									<a href="{HREF_TITLE}" class="il_ContainerItemTitle" >{TXT_TITLE}</a>
+								</h4>
+								<!-- END linked_title -->
+								<!-- BEGIN not_linked_title -->
+								<h4 class="il_ContainerItemTitle">
+									{TXT_TITLE}
+								</h4>
+								<!-- END not_linked_title -->
+							</div>
+							<div class="ilFloatRight">
+								{PROGRESS_BAR}
+							</div>
+							<div class="ilListItemSection il_Description">{TXT_DESC}</div>
+						</div>
+					</div>
+					<div style="clear:both;"></div>
+				</div>
+			</div>
+		</div>
+<!-- BEGIN accordion -->
+		<div class="il_PrgAccordionContent {ACCORDION_HIDE_CONTENT}">
+			{ACCORDION_CONTENT}
+		</div>
+		<script type="text/javascript">
+			$(function () {
+				il.Accordion.add({ACCORDION_OPTIONS});
+			});
+		</script>
+<!-- END accordion -->
+	</div>
+</div>

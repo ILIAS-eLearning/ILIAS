@@ -11,33 +11,33 @@ include_once './Services/Table/classes/class.ilTable2GUI.php';
  */
 class ilContributorTableGUI extends ilTable2GUI
 {
-	protected $contributor_role_id; // [int]	
-	protected $contributor_ids; // [array]	
+	protected $local_roles; // [array]	
 	
 	/**
 	 * Constructor
 	 *
 	 * @param ilObject $a_parent_obj
 	 * @param string $a_parent_cmd
-	 * @param int $a_contributor_role_id
-	 * @param array $a_contributor_ids
+	 * @param array $a_roles
 	 */
-	public function  __construct($a_parent_obj, $a_parent_cmd, $a_contributor_role_id, array $a_contributor_ids = null)
+	public function  __construct($a_parent_obj, $a_parent_cmd, array $a_roles)
 	{
 		global $ilCtrl;
 				
-		$this->contributor_role_id = $a_contributor_role_id;
-		$this->contributor_ids = $a_contributor_ids;
+		$this->local_roles = $a_roles;
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
 		$this->addColumn("", "", 1);
 		$this->addColumn($this->lng->txt("name"), "name");
+		$this->addColumn($this->lng->txt("obj_role"), "role");
 		
 		$this->setDefaultOrderField("name");
 						
 		$this->setRowTemplate("tpl.contributor_row.html", "Modules/Blog");
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
+		
+		$this->setSelectAllCheckbox("id"); // #16472
 
 		if($this->contributor_ids)
 		{
@@ -53,33 +53,29 @@ class ilContributorTableGUI extends ilTable2GUI
 		$this->getItems();
 	}
 
-	/**
-	 * Get all completed tests
-	 */
 	protected function getItems()
 	{			
 		global $rbacreview;
 		
-		if($this->contributor_ids)
+		$user_map = $assigned = array();		
+		foreach($this->local_roles as $id => $title)
 		{
-			$assigned =$rbacreview->assignedUsers($this->contributor_role_id);
-		}
-		else
-		{			
-			$assigned = array();						
-			$this->contributor_ids = $rbacreview->assignedUsers($this->contributor_role_id);	
+			$local = $rbacreview->assignedUsers($id);
+			$assigned = array_merge($assigned, $local);
+			foreach($local as $user_id)
+			{
+				$user_map[$user_id][] = $title;
+			}
 		}
 		
 		include_once "Services/User/classes/class.ilUserUtil.php";
 	
 		$data = array();
-		foreach($this->contributor_ids as $id)
-		{
-			if(!in_array($id, $assigned))
-			{
-				$data[] = array("id" => $id,
-					"name" => ilUserUtil::getNamePresentation($id, false, false, "", true));		
-			}
+		foreach(array_unique($assigned) as $id)
+		{			
+			$data[] = array("id" => $id,
+				"name" => ilUserUtil::getNamePresentation($id, false, false, "", true),
+				"role" => $user_map[$id]);					
 		}
 		
 		$this->setData($data);
@@ -94,6 +90,7 @@ class ilContributorTableGUI extends ilTable2GUI
 	{		
 		$this->tpl->setVariable("VAL_ID", $a_set["id"]);
 		$this->tpl->setVariable("TXT_NAME", $a_set["name"]);		
+		$this->tpl->setVariable("TXT_ROLES", implode(", " , $a_set["role"]));		
 	}
 }
 

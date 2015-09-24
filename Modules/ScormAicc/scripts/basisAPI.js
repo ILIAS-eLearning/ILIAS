@@ -335,7 +335,11 @@ function IliasCommit() {
 		else {
 		//	s_s=JSON.stringify(o_data);
 			s_s=toJSONString(o_data);
-			ret=sendRequest ("./Modules/ScormAicc/sahs_server.php?cmd=storeJsApi&ref_id="+iv.refId, s_s);
+			if(typeof iv.b_sessionDeactivated!="undefined" && iv.b_sessionDeactivated==true) {
+				ret=sendRequest ("./storeScorm.php?package_id="+iv.objId+"&ref_id="+iv.refId+"&client_id="+iv.clientId+"&do=store", s_s);
+			} else {
+				ret=sendRequest ("./Modules/ScormAicc/sahs_server.php?cmd=storeJsApi&package_id="+iv.objId+"&ref_id="+iv.refId, s_s);
+			}
 		}
 		if (ret!="ok") return false;
 		return true;
@@ -445,7 +449,10 @@ function basisInit() {
 		if(ipar[3]!=null) setValueIntern(ipar[0],"cmi.student_data.max_time_allowed",ipar[3],false,true);
 		if(ipar[4]!=null) setValueIntern(ipar[0],"cmi.student_data.time_limit_action",ipar[4],false,true);
 		if(ipar[5]!=null) setValueIntern(ipar[0],"cmi.launch_data",ipar[5],false,true);
-		if(ipar[6]!=null) setValueIntern(ipar[0],"cmi.student_data.mastery_score",ipar[6],false,true);
+		if(ipar[6]!=null) {
+			if(iv.i_lessonMasteryScore!="") ipar[6]=iv.i_lessonMasteryScore;
+			setValueIntern(ipar[0],"cmi.student_data.mastery_score",ipar[6],false,true);
+		}
 	}
 	if (s_w != "") warning('Failure read previous data:'+s_w.substr(1));
 	if (typeof SOP!="undefined" && SOP==true && ir.length>1) tree();
@@ -477,7 +484,11 @@ function onWindowUnload () {
 	} else {
 		var s_unload="";
 		if (iv.b_autoLastVisited==true) s_unload="last_visited="+iv.launchId;
-		sendRequest ("./Modules/ScormAicc/sahs_server.php?cmd=scorm12PlayerUnload&ref_id="+iv.refId, s_unload);
+		if(typeof iv.b_sessionDeactivated!="undefined" && iv.b_sessionDeactivated==true) {
+			sendRequest ("./storeScorm.php?package_id="+iv.objId+"&ref_id="+iv.refId+"&client_id="+iv.clientId+"&hash="+iv.status.hash+"&p="+iv.status.p+"&do=unload", s_unload);
+		} else {
+			sendRequest ("./Modules/ScormAicc/sahs_server.php?cmd=scorm12PlayerUnload&package_id="+iv.objId+"&ref_id="+iv.refId+"&p="+iv.status.p, s_unload);
+		}
 	}
 }
 

@@ -13,9 +13,11 @@ class ilImport
 	protected $install_id = "";
 	protected $install_url = "";
 	protected $entities = "";
+	protected $tmp_import_dir = "";
 
 	protected $mapping = null;
 	protected $skip_entity = array();
+	protected $configs = array();
 
 	/**
 	 * Constructor
@@ -29,7 +31,38 @@ class ilImport
 		$this->mapping = new ilImportMapping();
 		$this->mapping->setTagetId($a_target_id);
 	}
-	
+
+	/**
+	 * Get configuration (note that configurations are optional, null may be returned!)
+	 *
+	 * @param string $a_comp component (e.g. "Modules/Glossary")
+	 * @return ilImportConfig $a_comp configuration object or null
+	 * @throws ilImportException
+	 */
+	function getConfig($a_comp)
+	{
+		// if created, return existing config object
+		if (isset($this->configs[$a_comp]))
+		{
+			return $this->configs[$a_comp];
+		}
+
+		// create instance of export config object
+		$comp_arr = explode("/", $a_comp);
+		$a_class = "il".$comp_arr[1]."ImportConfig";
+		$import_config_file = "./".$a_comp."/classes/class.".$a_class.".php";
+		if (!is_file($import_config_file))
+		{
+			include_once("./Services/Export/exceptions/class.ilImportException.php");
+			throw new ilImportException('Component "'.$a_comp.'" does not provide ImportConfig class.');
+		}
+		include_once($import_config_file);
+		$imp_config = new $a_class();
+		$this->configs[$a_comp] = $imp_config;
+
+		return $imp_config;
+	}
+
 	/**
 	 * Get mapping object
 	 * @return ilImportMapping ilImportMapping 
@@ -128,6 +161,7 @@ class ilImport
 	final public function importObject($a_new_obj, $a_tmp_file, $a_filename, $a_type,
 		$a_comp = "", $a_copy_file = false)
 	{
+
 		// create temporary directory
 		$tmpdir = ilUtil::ilTempnam();
 		ilUtil::makeDir($tmpdir);
@@ -139,9 +173,12 @@ class ilImport
 		{
 			ilUtil::moveUploadedFile($a_tmp_file, $a_filename, $tmpdir."/".$a_filename);
 		}
+
 		ilUtil::unzip($tmpdir."/".$a_filename);
 		$dir = $tmpdir."/".substr($a_filename, 0, strlen($a_filename) - 4);
-		
+
+		$this->setTemporaryImportDir($dir);
+
 		$GLOBALS['ilLog']->write(__METHOD__.': do import with dir '.$dir);
 		$new_id = $this->doImportObject($dir, $a_type, $a_comp, $tmpdir);
 		
@@ -150,7 +187,26 @@ class ilImport
 		
 		return $new_id;
 	}
-	
+
+	/**
+	 * Set temporary import directory
+	 *
+	 * @param string $a_val temporary import directory (used to unzip and read import)
+	 */
+	protected function setTemporaryImportDir($a_val)
+	{
+		$this->tmp_import_dir = $a_val;
+	}
+
+	/**
+	 * Get temporary import directory
+	 *
+	 * @return string temporary import directory (used to unzip and read import)
+	 */
+	public function getTemporaryImportDir()
+	{
+		return $this->tmp_import_dir;
+	}
 	
 	/**
 	 * Import repository object export file
@@ -205,11 +261,11 @@ class ilImport
 			$class = "il".$comp_arr[1]."Importer";
 			include_once($import_class_file);
 			$this->importer = new $class();
+			$this->importer->setImport($this);
 			$all_importers[] = $this->importer;
 			$this->importer->setImportDirectory($dir);
 			$this->importer->init();
 			$this->current_comp = $comp;
-			
 			try {
 				$parser = new ilExportFileParser($dir."/".$expfile["path"],$this, "processItemXml");
 			}

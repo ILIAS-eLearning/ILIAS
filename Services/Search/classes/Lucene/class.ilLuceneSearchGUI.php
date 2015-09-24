@@ -83,6 +83,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 				break;
 			
 			case 'ilobjectcopygui':
+				$this->ctrl->setReturn($this,'');
 				include_once './Services/Object/classes/class.ilObjectCopyGUI.php';
 				$cp = new ilObjectCopyGUI($this);
 				$this->ctrl->forwardCommand($cp);
@@ -282,11 +283,23 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 			}
 			$mime_query .= ') ';
 		}
-		$filter_query = $filter_query . ' '. $mime_query;
+		
+		// begin-patch creation_date
+		$cdate_query = $this->parseCreationFilter();
+		
+		
+		
+		$filter_query = $filter_query . ' '. $mime_query.' '.$cdate_query;
 		
 		include_once './Services/Search/classes/Lucene/class.ilLuceneSearcher.php';
 		include_once './Services/Search/classes/Lucene/class.ilLuceneQueryParser.php';
-		$qp = new ilLuceneQueryParser($filter_query.' +('.$this->search_cache->getQuery().')');
+		
+		$query = $this->search_cache->getQuery();
+		if($query)
+		{
+			$query = ' +('.$query.')';
+		}
+		$qp = new ilLuceneQueryParser($filter_query.$query);
 		$qp->parse();
 		$searcher = ilLuceneSearcher::getInstance($qp);
 		$searcher->search();
@@ -351,6 +364,10 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 	 */
 	protected function getTabs()
 	{
+		global $ilHelp;
+
+		$ilHelp->setScreenIdComponent("src_luc");
+
 		$this->tabs_gui->addTarget('search',$this->ctrl->getLinkTarget($this));
 		
 		if(ilSearchSettings::getInstance()->isLuceneUserSearchEnabled())
@@ -409,12 +426,19 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 					}
 				}
 				$this->search_cache->setMimeFilter($mime);
+				
+				
 			}
-			else
+			$this->search_cache->setCreationFilter($this->loadCreationFilter());
+			if(!$_POST['item_filter_enabled'])
 			{
 				// @todo: keep item filter settings
 				$this->search_cache->setItemFilter(array());
 				$this->search_cache->setMimeFilter(array());
+			}
+			if(!$_POST['screation'])
+			{
+				$this->search_cache->setCreationFilter(array());
 			}
 		}
 	}
@@ -564,7 +588,54 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 		$this->tpl->setVariable('SEARCH_AREA_FORM', $this->getSearchAreaForm()->getHTML());
 		$this->tpl->setVariable("TXT_CHANGE", $lng->txt("change"));
 		
+		if(ilSearchSettings::getInstance()->isDateFilterEnabled())
+		{
+			// begin-patch creation_date
+			$this->tpl->setVariable('TXT_FILTER_BY_CDATE',$this->lng->txt('search_filter_cd'));
+			$this->tpl->setVariable('TXT_CD_OFF',$this->lng->txt('search_off'));
+			$this->tpl->setVariable('FORM_CD',$this->getCreationDateForm()->getHTML());
+			$this->tpl->setVariable("ARR_IMG_CD", ilGlyphGUI::get(ilGlyphGUI::CARET));
+			// end-patch creation_date
+		}
+		
+		
 		return true;
 	}
+	
+	
+	/**
+	 * Parse creation date
+	 * @return string
+	 */
+	protected function parseCreationFilter()
+	{
+		$options = $this->search_cache->getCreationFilter();
+		
+		if(!$options['enabled'])
+		{
+			return '';
+		}
+		$limit = new ilDate($options['date'],IL_CAL_UNIX);
+				
+		switch($options['ontype'])
+		{
+			case 1:
+				// after
+				$limit->increment(IL_CAL_DAY, 1);
+				$now = new ilDate(time(),IL_CAL_UNIX);
+				return '+(cdate:['.$limit->get(IL_CAL_DATE).' TO '.$now->get(IL_CAL_DATE).'*]) ';
+						
+			case 2:
+				// before
+				return '+(cdate:[* TO '.$limit->get(IL_CAL_DATE).']) ';
+					
+			case 3:
+				// on
+				return '+(cdate:'.$limit->get(IL_CAL_DATE).'*) ';
+						
+		}
+		return '';
+	}
+	// end-patch creation_date
 }
 ?>

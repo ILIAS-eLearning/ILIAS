@@ -86,8 +86,8 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 					$page_gui = new ilLMPageGUI($this->obj->getId());
 				}
 				$page_gui->setEditPreview(true);
-				$page_gui->activateMetaDataEditor($this->content_object->getID(),
-					$this->obj->getId(), $this->obj->getType(),
+				$page_gui->activateMetaDataEditor($this->content_object,
+					$this->obj->getType(), $this->obj->getId(),
 					$this->obj, "MDUpdateListener");
 				if ($ilSetting->get("block_activated_news"))
 				{
@@ -418,8 +418,8 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 		
 		$page_gui = new ilLMPageGUI($this->obj->getId());
 		$page_gui->setEditPreview(true);
-		$page_gui->activateMetaDataEditor($this->content_object->getID(),
-			$this->obj->getId(), $this->obj->getType(),
+		$page_gui->activateMetaDataEditor($this->content_object,
+			$this->obj->getType(), $this->obj->getId(),
 			$this->obj, "MDUpdateListener");
 		$page_gui->setActivationListener($this, "activatePage");
 		$page_gui->setTabHook($this, "addPageTabs");

@@ -19,6 +19,7 @@ class ilNoteGUI
 {
 	var $public_deletion_enabled = false;
 	var $repository_mode = false;
+	var $old = false;
 	
 	/**
 	* constructor, specifies notes set
@@ -285,9 +286,9 @@ if ($this->private_enabled && $this->public_enabled
 			$nodes_col = true;
 		}
 		
-		// :TODO: public enabled vs. comments_settings needs to be discussed - see poll!
+		// #15948 - public enabled vs. comments_settings
 		$comments_col = false; 
-		if (($this->public_enabled || !$this->comments_settings) && (!$this->delete_note || $this->public_deletion_enabled || $ilSetting->get("comments_del_user", 0))
+		if ($this->public_enabled && (!$this->delete_note || $this->public_deletion_enabled || $ilSetting->get("comments_del_user", 0))
 			&& !$hide_comments /* && $ilUser->getId() != ANONYMOUS_USER_ID */)
 		{
 			$ntpl->setVariable("COMMENTS", $this->getNoteListHTML(IL_NOTE_PUBLIC, $a_init_form));
@@ -1600,9 +1601,16 @@ $ilCtrl->redirect($this, "showNotes", "notes_top", $this->ajax);
 	/**
 	 * Init javascript
 	 */
-	function initJavascript($a_ajax_url)
+	function initJavascript($a_ajax_url, $a_type = IL_NOTE_PRIVATE)
 	{
-		global $tpl;
+		global $tpl, $lng;
+
+		$lng->loadLanguageModule("notes");
+
+		include_once("./Services/UIComponent/Modal/classes/class.ilModalGUI.php");
+		ilModalGUI::initJS();
+
+		$lng->toJs(array("private_notes", "notes_public_comments"));
 
 		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
 		ilYuiUtil::initPanel();

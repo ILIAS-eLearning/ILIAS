@@ -54,7 +54,7 @@ class ilObjChatroomAdminGUI extends ilChatroomObjectGUI
 	protected function getObjectDefinition()
 	{
 		return ilChatroomObjectDefinition::getDefaultDefinitionWithCustomTaskPath(
-			'Chatroom', 'admintasks'
+			'Chatroom', 'admin'
 		);
 	}
 
@@ -79,9 +79,9 @@ class ilObjChatroomAdminGUI extends ilChatroomObjectGUI
 
 		$next_class = $ilCtrl->getNextClass();
 
-		require_once 'Modules/Chatroom/classes/class.ilChatroomTabFactory.php';
+		require_once 'Modules/Chatroom/classes/class.ilChatroomTabGUIFactory.php';
 
-		$tabFactory = new ilChatroomTabFactory($this);
+		$tabFactory = new ilChatroomTabGUIFactory($this);
 		$tabFactory->getAdminTabsForCommand($ilCtrl->getCmd());
 
 		switch($next_class)

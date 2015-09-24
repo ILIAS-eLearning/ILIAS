@@ -88,6 +88,18 @@ class ilTimeZone
 		}
 	}
 	
+	public function __sleep()
+	{
+		return array('timezone');
+	}
+	
+	public function __wakeup()
+	{
+		global $ilLog;
+		
+		$this->log = $ilLog;
+	}
+	
 	/**
 	 * get identifier
 	 *
@@ -305,6 +317,25 @@ class ilTimeZone
 			return self::$default_timezone = $tz;
 		}
 		return self::$default_timezone = self::UTC;
+	}
+	
+	/**
+	 * Initialize default timezone from system settings
+	 * @return bool
+	 */
+	public static function initDefaultTimeZone(ilIniFile $ini)
+	{
+		$tz = $ini->readVariable('server','timezone');
+		if(!strlen($tz))
+		{
+			$tz = self::_getDefaultTimeZone();
+		}
+		if(!strlen($tz))
+		{
+			$tz = 'UTC';
+		}
+		date_default_timezone_set($tz);
+		return $tz;
 	}
 }
 ?>

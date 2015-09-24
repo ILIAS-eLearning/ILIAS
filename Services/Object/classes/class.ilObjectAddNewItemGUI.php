@@ -131,7 +131,7 @@ class ilObjectAddNewItemGUI
 		$this->disabled_object_types[] = "rolf";						
 		
 		$parent_type = ilObject::_lookupType($this->parent_ref_id, true);
-		$subtypes = $objDefinition->getCreatableSubObjects($parent_type, $this->mode);		
+		$subtypes = $objDefinition->getCreatableSubObjects($parent_type, $this->mode, $this->parent_ref_id);
 		if (count($subtypes) > 0)
 		{						
 			// grouping of object types

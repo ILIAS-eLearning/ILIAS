@@ -35,6 +35,7 @@
 */
 
 chdir("..");
+define('IL_INITIAL_WD', getcwd());
 
 // get pear
 // look for embedded pear

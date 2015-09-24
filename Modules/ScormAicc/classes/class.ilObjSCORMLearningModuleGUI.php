@@ -15,7 +15,7 @@ require_once("./Modules/ScormAicc/classes/class.ilObjSCORMLearningModule.php");
 * @author Alex Killing <alex.killing@gmx.de>, Hendrik Holtmann <holtmann@mac.com>
 * $Id$
 *
-* @ilCtrl_Calls ilObjSCORMLearningModuleGUI: ilFileSystemGUI, ilMDEditorGUI, ilPermissionGUI, ilLearningProgressGUI
+* @ilCtrl_Calls ilObjSCORMLearningModuleGUI: ilFileSystemGUI, ilObjectMetaDataGUI, ilPermissionGUI, ilLearningProgressGUI
 * @ilCtrl_Calls ilObjSCORMLearningModuleGUI: ilInfoScreenGUI
 * @ilCtrl_Calls ilObjSCORMLearningModuleGUI: ilCertificateGUI
 * @ilCtrl_Calls ilObjSCORMLearningModuleGUI: ilLicenseGUI
@@ -88,6 +88,9 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		$this->form = new ilPropertyFormGUI();
 		$this->form->setFormAction($ilCtrl->getFormAction($this));
 		$this->form->setTitle($this->lng->txt("cont_lm_properties"));
+		
+		//check/select only once
+		$this->object->checkMasteryScoreValues();
 
 		// SCORM-type
 		$ne = new ilNonEditableValueGUI($this->lng->txt("type"), "");
@@ -215,6 +218,16 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		$si->setInfo($this->lng->txt("cont_sc_auto_review_info_12"));
 		$this->form->addItem($si);
 
+		// mastery_score
+		if ($this->object->getMasteryScoreValues() != "") {
+			$ni = new ilNumberInputGUI($this->lng->txt("cont_mastery_score_12"), "mastery_score");
+			$ni->setMaxLength(3);
+			$ni->setSize(3);
+			$ni->setValue($this->object->getMasteryScore());
+			$ni->setInfo($this->lng->txt("cont_mastery_score_12_info").$this->object->getMasteryScoreValues());
+			$this->form->addItem($ni);
+		}
+
 		//
 		// rte settings
 		//
@@ -302,7 +315,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		// display import form
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.scorm_new_version_import.html", "Modules/ScormAicc");
 
-		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_slm.svg'));
+		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_lm.svg'));
 		$this->tpl->setVariable("ALT_IMG", $this->lng->txt("obj_sahs"));
 
 		$this->ctrl->setParameter($this, "new_type", "sahs");
@@ -507,6 +520,10 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 				$this->object->zipLmForOfflineMode();
 			}
 		}
+		if (isset($_POST["mastery_score"])){
+			$this->object->setMasteryScore($_POST["mastery_score"]);
+			// $this->object->updateMasteryScoreValues();
+		}
 		$this->object->setOnline(ilUtil::yn2tf($_POST["cobj_online"]));
 		$this->object->setOfflineMode($tmpOfflineMode);
 		$this->object->setOpenMode($_POST["open_mode"]);
@@ -585,89 +602,99 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 	 * @global ilTabs $ilTabs
 	 * $global ilToolbar $ilToolbar
 	 */
-	protected function showTrackingItems()
+	public function showTrackingItems()
 	{
-		global $ilTabs;
+		global $ilTabs, $ilAccess;
 
-		ilObjSCORMLearningModuleGUI::setSubTabs();
 		$ilTabs->setTabActive('cont_tracking_data');
-		$ilTabs->setSubTabActive('cont_tracking_byuser');
 
-		$reports = array('exportSelectedSuccess','exportSelectedCore','exportSelectedInteractions','exportSelectedObjectives','exportSelectedRaw');
+		if($ilAccess->checkAccess("read_learning_progress", "", $_GET["ref_id"])) {
 
-		$userSelected = "all";
-		if (isset($_GET["userSelected"])) $userSelected = ilUtil::stripSlashes($_GET["userSelected"]);
-		if (isset($_POST["userSelected"])) $userSelected = ilUtil::stripSlashes($_POST["userSelected"]);
-		$this->ctrl->setParameter($this,'userSelected',$userSelected);
+			ilObjSCORMLearningModuleGUI::setSubTabs();
+			$ilTabs->setSubTabActive('cont_tracking_byuser');
 
-		$report = "choose";
-		if (isset($_GET["report"])) $report = ilUtil::stripSlashes($_GET["report"]);
-		if (isset($_POST["report"])) $report = ilUtil::stripSlashes($_POST["report"]);
-		$this->ctrl->setParameter($this,'report',$report);
+			$reports = array('exportSelectedSuccess','exportSelectedCore','exportSelectedInteractions','exportSelectedObjectives','exportSelectedRaw');
 
-		include_once './Modules/ScormAicc/classes/class.ilSCORMTrackingItemsPerUserFilterGUI.php';
-		$filter = new ilSCORMTrackingItemsPerUserFilterGUI($this, 'showTrackingItems');
-		$filter->parse($userSelected,$report,$reports);
-		if($report == "choose") {
-			$this->tpl->setContent($filter->form->getHTML());
-		} else {
-			$usersSelected = array();
-			if ($userSelected != "all") $usersSelected[] = $userSelected;
-			else {
-				include_once "Services/Tracking/classes/class.ilTrQuery.php";
-				$users=ilTrQuery::getParticipantsForObject($this->ref_id);
-				foreach($users as $user) {
-					if(ilObject::_exists($user)  && ilObject::_lookUpType($user) == 'usr') {
-						$usersSelected[] = $user;
+			$userSelected = "all";
+			if (isset($_GET["userSelected"])) $userSelected = ilUtil::stripSlashes($_GET["userSelected"]);
+			if (isset($_POST["userSelected"])) $userSelected = ilUtil::stripSlashes($_POST["userSelected"]);
+			$this->ctrl->setParameter($this,'userSelected',$userSelected);
+
+			$report = "choose";
+			if (isset($_GET["report"])) $report = ilUtil::stripSlashes($_GET["report"]);
+			if (isset($_POST["report"])) $report = ilUtil::stripSlashes($_POST["report"]);
+			$this->ctrl->setParameter($this,'report',$report);
+
+			include_once './Modules/ScormAicc/classes/class.ilSCORMTrackingItemsPerUserFilterGUI.php';
+			$filter = new ilSCORMTrackingItemsPerUserFilterGUI($this, 'showTrackingItems');
+			$filter->parse($userSelected,$report,$reports);
+			if($report == "choose") {
+				$this->tpl->setContent($filter->form->getHTML());
+			} else {
+				$usersSelected = array();
+				if ($userSelected != "all") $usersSelected[] = $userSelected;
+				else {
+					include_once "Services/Tracking/classes/class.ilTrQuery.php";
+					$users=ilTrQuery::getParticipantsForObject($this->ref_id);
+					foreach($users as $user) {
+						if(ilObject::_exists($user)  && ilObject::_lookUpType($user) == 'usr') {
+							$usersSelected[] = $user;
+						}
 					}
 				}
-			}
-			$scosSelected = array();
-			$scos=$this->object->getTrackedItems();
-			foreach($scos as $row)
-			{
-				$scosSelected[]=(int)$row->getId();
-			}
+				$scosSelected = array();
+				$scos=$this->object->getTrackedItems();
+				foreach($scos as $row)
+				{
+					$scosSelected[]=(int)$row->getId();
+				}
 
-			//with check for course ...
-			// include_once "Services/Tracking/classes/class.ilTrQuery.php";
-			// $a_users=ilTrQuery::getParticipantsForObject($this->ref_id);
-	//			var_dump($this->object->getTrackedUsers(""));
-			include_once './Modules/ScormAicc/classes/class.ilSCORMTrackingItemsTableGUI.php';
-			$tbl = new ilSCORMTrackingItemsTableGUI($this->object->getId(), $this, 'showTrackingItems', $usersSelected, $scosSelected, $report);
-			$this->tpl->setContent($filter->form->getHTML().$tbl->getHTML());
+				//with check for course ...
+				// include_once "Services/Tracking/classes/class.ilTrQuery.php";
+				// $a_users=ilTrQuery::getParticipantsForObject($this->ref_id);
+		//			var_dump($this->object->getTrackedUsers(""));
+				include_once './Modules/ScormAicc/classes/class.ilSCORMTrackingItemsTableGUI.php';
+				$tbl = new ilSCORMTrackingItemsTableGUI($this->object->getId(), $this, 'showTrackingItems', $usersSelected, $scosSelected, $report);
+				$this->tpl->setContent($filter->form->getHTML().$tbl->getHTML());
+			}
+		}
+		else if($ilAccess->checkAccess("edit_learning_progress", "", $_GET["ref_id"])) {
+			$this->modifyTrackingItems();
 		}
 		return true;
 	}
 	protected function modifyTrackingItems()
 	{
-		include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
-		$privacy = ilPrivacySettings::_getInstance();
-		if(!$privacy->enabledSahsProtocolData())
-		{
-			$this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
+		global $ilAccess;
+		if($ilAccess->checkAccess("edit_learning_progress", "", $_GET["ref_id"])) {
+			include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
+			$privacy = ilPrivacySettings::_getInstance();
+			if(!$privacy->enabledSahsProtocolData())
+			{
+				$this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
+			}
+
+			global $ilTabs, $ilToolbar;
+
+			include_once './Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
+			$ilToolbar->addButton(
+				$this->lng->txt('import'),
+				$this->ctrl->getLinkTarget($this, 'importForm')
+			);
+			$ilToolbar->addButton(
+				$this->lng->txt('cont_export_all'),
+				$this->ctrl->getLinkTarget($this, 'exportAll')
+			);
+
+			ilObjSCORMLearningModuleGUI::setSubTabs();
+			$ilTabs->setTabActive('cont_tracking_data');
+			$ilTabs->setSubTabActive('cont_tracking_modify');
+
+			include_once './Modules/ScormAicc/classes/class.ilSCORMTrackingUsersTableGUI.php';
+			$tbl = new ilSCORMTrackingUsersTableGUI($this->object->getId(), $this, 'modifytrackingItems');
+			$tbl->parse();
+			$this->tpl->setContent($tbl->getHTML());
 		}
-
-		global $ilTabs, $ilToolbar;
-
-		include_once './Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
-		$ilToolbar->addButton(
-			$this->lng->txt('import'),
-			$this->ctrl->getLinkTarget($this, 'importForm')
-		);
-		$ilToolbar->addButton(
-			$this->lng->txt('cont_export_all'),
-			$this->ctrl->getLinkTarget($this, 'exportAll')
-		);
-
-		ilObjSCORMLearningModuleGUI::setSubTabs();
-		$ilTabs->setTabActive('cont_tracking_data');
-		$ilTabs->setSubTabActive('cont_tracking_modify');
-
-		include_once './Modules/ScormAicc/classes/class.ilSCORMTrackingUsersTableGUI.php';
-		$tbl = new ilSCORMTrackingUsersTableGUI($this->object->getId(), $this, 'modifytrackingItems');
-		$tbl->parse();
-		$this->tpl->setContent($tbl->getHTML());
 	}
 
 	
@@ -920,19 +947,22 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 	//setTabs
 	function setSubTabs()
 	{
-		global $lng, $ilTabs, $ilCtrl;
+		global $lng, $ilTabs, $ilCtrl, $ilAccess;
 
-		$ilTabs->addSubTabTarget("cont_tracking_byuser",
-			$this->ctrl->getLinkTarget($this, "showTrackingItems"), array("edit", ""),
-			get_class($this));
+		if($ilAccess->checkAccess("read_learning_progress", "", $_GET["ref_id"])) {
+			$ilTabs->addSubTabTarget("cont_tracking_byuser",
+				$this->ctrl->getLinkTarget($this, "showTrackingItems"), array("edit", ""),
+				get_class($this));
 
-		$ilTabs->addSubTabTarget("cont_tracking_bysco",
-			$this->ctrl->getLinkTarget($this, "showTrackingItemsBySco"), array("edit", ""),
-			get_class($this));
-
-		$ilTabs->addSubTabTarget("cont_tracking_modify",
-			$this->ctrl->getLinkTarget($this, "modifyTrackingItems"), array("edit", ""),
-			get_class($this));
+			$ilTabs->addSubTabTarget("cont_tracking_bysco",
+				$this->ctrl->getLinkTarget($this, "showTrackingItemsBySco"), array("edit", ""),
+				get_class($this));
+		}
+		if($ilAccess->checkAccess("edit_learning_progress", "", $_GET["ref_id"])) {
+			$ilTabs->addSubTabTarget("cont_tracking_modify",
+				$this->ctrl->getLinkTarget($this, "modifyTrackingItems"), array("edit", ""),
+				get_class($this));
+		}
 	}
 
 	

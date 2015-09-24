@@ -12,11 +12,11 @@
 class ilTestSequenceFactory
 {
 	/**
-	 * singleton instance of test sequence
+	 * singleton instances of test sequences
 	 *
-	 * @var ilTestSequence|ilTestSequenceDynamicQuestionSet 
+	 * @var array
 	 */
-	private $testSequence = null;
+	private $testSequences = array();
 	
 	/**
 	 * global ilDB object instance
@@ -66,38 +66,38 @@ class ilTestSequenceFactory
 	 * @param ilTestSession|ilTestSessionDynamicQuestionSet $testSession
 	 * @return ilTestSequence|ilTestSequenceDynamicQuestionSet
 	 */
-	public function getSequence($testSession)
+	public function getSequenceByTestSession($testSession)
 	{
-		return $this->getSequenceByPass($testSession, $testSession->getPass());
+		return $this->getSequenceByActiveIdAndPass($testSession->getActiveId(), $testSession->getPass());
 	}
 	
 	/**
 	 * creates and returns an instance of a test sequence
-	 * that corresponds to the current test mode and given pass
+	 * that corresponds to the current test mode and given active/pass
 	 * 
-	 * @param ilTestSession|ilTestSessionDynamicQuestionSet $testSession
+	 * @param integer $activeId
 	 * @param integer $pass
-	 * @return ilTestSequence|ilTestSequenceDynamicQuestionSet
+	 * @return ilTestSequenceFixedQuestionSet|ilTestSequenceRandomQuestionSet|ilTestSequenceDynamicQuestionSet
 	 */
-	public function getSequenceByPass($testSession, $pass)
+	public function getSequenceByActiveIdAndPass($activeId, $pass)
 	{
-		if($this->testSequence === null)
+		if($this->testSequences[$activeId][$pass] === null)
 		{
 			switch( $this->testOBJ->getQuestionSetType() )
 			{
 				case ilObjTest::QUESTION_SET_TYPE_FIXED:
 
 					require_once 'Modules/Test/classes/class.ilTestSequenceFixedQuestionSet.php';
-					$this->testSequence = new ilTestSequenceFixedQuestionSet(
-							$testSession->getActiveId(), $pass, $this->testOBJ->isRandomTest()
+					$this->testSequences[$activeId][$pass] = new ilTestSequenceFixedQuestionSet(
+						$activeId, $pass, $this->testOBJ->isRandomTest()
 					);
 					break;
 
 				case ilObjTest::QUESTION_SET_TYPE_RANDOM:
 
 					require_once 'Modules/Test/classes/class.ilTestSequenceRandomQuestionSet.php';
-					$this->testSequence = new ilTestSequenceRandomQuestionSet(
-							$testSession->getActiveId(), $pass, $this->testOBJ->isRandomTest()
+					$this->testSequences[$activeId][$pass] = new ilTestSequenceRandomQuestionSet(
+						$activeId, $pass, $this->testOBJ->isRandomTest()
 					);
 					break;
 
@@ -108,8 +108,8 @@ class ilTestSequenceFactory
 					$questionSet = new ilTestDynamicQuestionSet(
 							$this->db, $this->lng, $this->pluginAdmin, $this->testOBJ
 					);
-					$this->testSequence = new ilTestSequenceDynamicQuestionSet(
-							$this->db, $questionSet, $testSession->getActiveId()
+					$this->testSequences[$activeId][$pass] = new ilTestSequenceDynamicQuestionSet(
+							$this->db, $questionSet, $activeId
 					);
 					
 					#$this->testSequence->setPreventCheckedQuestionsFromComingUpEnabled(
@@ -120,6 +120,6 @@ class ilTestSequenceFactory
 			}
 		}
 
-		return $this->testSequence;
+		return $this->testSequences[$activeId][$pass];
 	}
 }

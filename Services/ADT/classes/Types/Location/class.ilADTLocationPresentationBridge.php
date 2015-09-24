@@ -42,7 +42,7 @@ class ilADTLocationPresentationBridge extends ilADTPresentationBridge
 				$map_gui->setHeight($this->height);
 			}
 			
-			return $map_gui->getHtml();			
+			return $this->decorate($map_gui->getHtml());			
 		}
 	}
 	

@@ -61,14 +61,9 @@ class ilUserRequestTargetAdjustment
 
 		if(!ilSession::get('orig_request_target'))
 		{
-			$target_protocol = 'http';
-			if($https->isDetected())
-			{
-				$target_protocol .= 's';
-			}
-			$host = isset($_SERVER['HTTP_X_FORWARDED_HOST']) ? $_SERVER['HTTP_X_FORWARDED_HOST'] : $_SERVER['HTTP_HOST'];
-			$request_url = $_SERVER['REQUEST_URI']{0} == '/' ? $_SERVER['REQUEST_URI'] : '/'. $_SERVER['REQUEST_URI'];
-			$url = $target_protocol . '://' . $host . $request_url;
+			//#16324 don't use the complete REQUEST_URI
+			$url = substr($_SERVER['REQUEST_URI'], (strrpos($_SERVER['REQUEST_URI'], "/")+1));
+
 			ilSession::set('orig_request_target', $url);
 		}
 	}

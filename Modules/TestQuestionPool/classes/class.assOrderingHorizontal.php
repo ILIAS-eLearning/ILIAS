@@ -142,11 +142,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
 		}
 		// duplicate the question in database
 		$this_id = $this->getId();
-		
-		if( (int)$testObjId > 0 )
-		{
-			$thisObjId = $this->getObjId();
-		}
+		$thisObjId = $this->getObjId();
 		
 		$clone = $this;
 		include_once ("./Modules/TestQuestionPool/classes/class.assQuestion.php");
@@ -278,7 +274,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
 	 * @param boolean $returndetails (deprecated !!)
 	 * @return integer/array $points/$details (array $details is deprecated !!)
 	 */
-	public function calculateReachedPoints($active_id, $pass = NULL, $returndetails = FALSE)
+	public function calculateReachedPoints($active_id, $pass = NULL, $authorizedSolution = true, $returndetails = FALSE)
 	{
 		if( $returndetails )
 		{
@@ -292,7 +288,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
 		{
 			$pass = $this->getSolutionMaxPass($active_id);
 		}
-		$result = $this->getCurrentSolutionResultSet($active_id, $pass);
+		$result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorizedSolution);
 		$points = 0;
 		$data = $ilDB->fetchAssoc($result);
 
@@ -345,7 +341,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
 	 * @param integer $pass Test pass
 	 * @return boolean $status
 	 */
-	public function saveWorkingData($active_id, $pass = NULL)
+	public function saveWorkingData($active_id, $pass = NULL, $authorized = true)
 	{
 		global $ilDB;
 		global $ilUser;
@@ -358,14 +354,14 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
 
 		$this->getProcessLocker()->requestUserSolutionUpdateLock();
 
-		$affectedRows = $this->removeCurrentSolution($active_id, $pass);
+		$affectedRows = $this->removeCurrentSolution($active_id, $pass, $authorized);
 		
 		$solutionSubmit = $this->getSolutionSubmit();
 		
 		$entered_values = false;
 		if (strlen($solutionSubmit))
 		{
-			$affectedRows = $this->saveCurrentSolution($active_id, $pass, $_POST['orderresult'], null);
+			$affectedRows = $this->saveCurrentSolution($active_id, $pass, $_POST['orderresult'], null, $authorized);
 			$entered_values = true;
 		}
 
@@ -562,7 +558,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
 	public function getRandomOrderingElements()
 	{
 		$elements = $this->getOrderingElements();
-		shuffle($elements);
+		$elements = $this->getShuffler()->shuffle($elements);
 		return $elements;
 	}
 	
@@ -753,13 +749,24 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
 		global $ilDB;
 		$result = new ilUserQuestionResult($this, $active_id, $pass);
 
-		$data = $ilDB->queryF(
-			"SELECT value1 FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s AND step = (
-				SELECT MAX(step) FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s
-			)",
-			array("integer", "integer", "integer","integer", "integer", "integer"),
-			array($active_id, $pass, $this->getId(), $active_id, $pass, $this->getId())
-		);
+		$maxStep = $this->lookupMaxStep($active_id, $pass);
+
+		if( $maxStep !== null )
+		{
+			$data = $ilDB->queryF(
+				"SELECT value1 FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s AND step = %s",
+				array("integer", "integer", "integer","integer"),
+				array($active_id, $pass, $this->getId(), $maxStep)
+			);
+		}
+		else
+		{
+			$data = $ilDB->queryF(
+				"SELECT value1 FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s",
+				array("integer", "integer", "integer"),
+				array($active_id, $pass, $this->getId())
+			);
+		}
 		$row = $ilDB->fetchAssoc($data);
 
 		$answer_elements = $this->splitAndTrimOrderElementText($row["value1"], $this->answer_separator);

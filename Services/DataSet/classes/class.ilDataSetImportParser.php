@@ -21,6 +21,7 @@ class ilDataSetImportParser extends ilSaxParser
 	protected $in_record = false;			// are we currently in a rec tag?
 	protected $current_field = "";			// current field
 	protected $current_field_values = array();	// current field values
+	protected $current_installation_id = "";
 	
 	
 	/**
@@ -45,6 +46,18 @@ class ilDataSetImportParser extends ilSaxParser
 
 
 	}
+
+	/**
+	 * Get current installation id
+	 *
+	 * @param
+	 * @return
+	 */
+	function getCurrentInstallationId()
+	{
+		return $this->current_installation_id;
+	}
+
 		
 	/**
 	 * Set event handlers
@@ -75,8 +88,10 @@ class ilDataSetImportParser extends ilSaxParser
 	{
 		switch ($a_name)
 		{
-			case $this->dspref."Dataset":
+			case $this->dspref."DataSet":
 //				$this->import->initDataset($this->ds_component, $a_attribs["top_entity"]);
+				$this->current_installation_id = $a_attribs["InstallationId"];
+				$this->ds->setCurrentInstallationId($a_attribs["InstallationId"]);
 				break;
 				
 			case $this->dspref."Types":

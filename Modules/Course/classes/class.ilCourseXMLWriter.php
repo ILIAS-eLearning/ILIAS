@@ -352,6 +352,14 @@ class ilCourseXMLWriter extends ilXmlWriter
 		$this->xmlElement('End',null,$this->course_obj->getArchiveEnd());
 
 		$this->xmlEndTag('Archive');
+		
+		$this->xmlStartTag('Period');
+		$this->xmlElement('Start',null,($this->course_obj->getCourseStart() && !$this->course_obj->getCourseStart()->isNull()) ? $this->course_obj->getCourseStart()->get(IL_CAL_UNIX) : null);
+		$this->xmlElement('End',null,($this->course_obj->getCourseEnd() && !$this->course_obj->getCourseEnd()->isNull()) ? $this->course_obj->getCourseEnd()->get(IL_CAL_UNIX) : null);
+		$this->xmlEndTag('Period');		
+		$this->xmlElement('WaitingListAutoFill',null,(int)$this->course_obj->hasWaitingListAutoFill());
+		$this->xmlElement('CancellationEnd',null,($this->course_obj->getCancellationEnd() && !$this->course_obj->getCancellationEnd()->isNull()) ? $this->course_obj->getCancellationEnd()->get(IL_CAL_UNIX) : null);
+		$this->xmlElement('MinMembers',null,(int)$this->course_obj->getSubscriptionMinMembers());		
 
 		$this->xmlEndTag('Settings');
 

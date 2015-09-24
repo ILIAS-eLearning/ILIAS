@@ -12,7 +12,7 @@ require_once 'Services/Table/classes/class.ilTable2GUI.php';
  */
 class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GUI
 {
-	const IDENTIFIER = 'sourceQuestionPoolDefinitionListTable';
+	const IDENTIFIER = 'tstRndPools';
 
 	/**
 	 * @var ilCtrl

@@ -77,7 +77,6 @@ class ilServiceReader extends ilObjDefReader
 	{
 		global $ilDB;
 
-		parent::handlerBeginTag($a_xml_parser,$a_name,$a_attribs);
 		
 		switch ($a_name)
 		{
@@ -87,6 +86,8 @@ class ilServiceReader extends ilObjDefReader
 				$ilDB->manipulateF("INSERT INTO il_component (type, name, id) ".
 					"VALUES (%s,%s,%s)", array("text", "text", "text"),
 					array($this->type, $this->name, $a_attribs["id"]));
+				
+				$this->setComponentId($a_attribs['id']);
 				break;
 				
 			case 'baseclass':
@@ -96,6 +97,9 @@ class ilServiceReader extends ilObjDefReader
 				break;
 				
 		}
+
+		// smeyer: first read outer xml
+		parent::handlerBeginTag($a_xml_parser,$a_name,$a_attribs);
 	}
 			
 	/**

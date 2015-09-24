@@ -10,7 +10,7 @@ include_once "./Services/Object/classes/class.ilObjectGUI.php";
 * @version  $Id$
 *
 * @ilCtrl_Calls ilObjSurveyGUI: ilSurveyEvaluationGUI, ilSurveyExecutionGUI
-* @ilCtrl_Calls ilObjSurveyGUI: ilMDEditorGUI, ilPermissionGUI
+* @ilCtrl_Calls ilObjSurveyGUI: ilObjectMetaDataGUI, ilPermissionGUI
 * @ilCtrl_Calls ilObjSurveyGUI: ilInfoScreenGUI, ilObjectCopyGUI
 * @ilCtrl_Calls ilObjSurveyGUI: ilSurveySkillDeterminationGUI
 * @ilCtrl_Calls ilObjSurveyGUI: ilCommonActionDispatcherGUI, ilSurveySkillGUI
@@ -93,14 +93,12 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$this->infoScreen();	// forwards command
 				break;
 			
-			case 'ilmdeditorgui':
+			case 'ilobjectmetadatagui':
 				$this->handleWriteAccess();			
 				$ilTabs->activateTab("meta_data");
-				$this->addHeaderAction();
-				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
-				$md_gui =& new ilMDEditorGUI($this->object->getId(), 0, $this->object->getType());
-				$md_gui->addObserver($this->object,'MDUpdateListener','General');
-
+				$this->addHeaderAction();				
+				include_once 'Services/Object/classes/class.ilObjectMetaDataGUI.php';
+				$md_gui = new ilObjectMetaDataGUI($this->object);				
 				$this->ctrl->forwardCommand($md_gui);
 				break;
 			
@@ -391,10 +389,16 @@ class ilObjSurveyGUI extends ilObjectGUI
 		{
 			if(!in_array("meta_data", $hidden_tabs))
 			{
-				// meta data
-				$tabs_gui->addTab("meta_data",
-					$this->lng->txt("meta_data"),
-					$this->ctrl->getLinkTargetByClass('ilmdeditorgui','listSection'));
+				// meta data			
+				include_once "Services/Object/classes/class.ilObjectMetaDataGUI.php";
+				$mdgui = new ilObjectMetaDataGUI($this->object);					
+				$mdtab = $mdgui->getTab();
+				if($mdtab)
+				{								
+					$tabs_gui->addTab("meta_data",
+						$this->lng->txt("meta_data"),
+						$mdtab);
+				}
 			}
 
 			if(!in_array("export", $hidden_tabs))
@@ -689,6 +693,11 @@ class ilObjSurveyGUI extends ilObjectGUI
 					ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
 				}
 				$this->ctrl->redirect($this, "properties");
+			}
+			else
+			{
+				// #16714
+				ilUtil::sendFailure($this->lng->txt("form_input_not_valid"));
 			}
 		}
 		
@@ -1657,7 +1666,12 @@ class ilObjSurveyGUI extends ilObjectGUI
 				if(!$this->object->checkSurveyCode($anonymous_code)) // #15031 - valid as long survey is not finished
 				{
 					$anonymous_code = null;
-				}				
+				}		
+				else
+				{
+					// #15860
+					$this->object->bindSurveyCodeToUser($ilUser->getId(), $anonymous_code);
+				}
 			}
 			if ($anonymous_code)
 			{

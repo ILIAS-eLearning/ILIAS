@@ -221,5 +221,14 @@ class ilStr
 		}
 		return $a_str;
 	}
+
+	/**
+	 * Convert a value given in camel case conversion to underscore case conversion (e.g. MyClass to my_class)
+	 * @param string $value Value in lower camel case conversion
+	 * @return string The value in underscore case conversion
+	 */
+	public static function convertUpperCamelCaseToUnderscoreCase($value) {
+		return preg_replace('/(^|[a-z])([A-Z])/e', 'strtolower(strlen("\\1") ? "\\1_\\2" : "\\2")', $value);
+	}
 }
 ?>

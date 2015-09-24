@@ -7832,11 +7832,7 @@ $wd = getcwd();
 
 global $log;
 
-// php5 downward complaince to php 4 dom xml
-if (version_compare(PHP_VERSION,'5','>='))
-{
-	include_once 'Services/Migration/DBUpdate_491/inc.xml5compliance.php';
-}
+include_once 'Services/Migration/DBUpdate_491/inc.xml5compliance.php';
 
 
 //  migration of page content

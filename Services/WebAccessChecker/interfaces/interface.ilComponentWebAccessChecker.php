@@ -8,6 +8,8 @@
  * @version $Id: class.ilObjFolder.php 25528 2010-09-03 10:37:11Z smeyer $
  *
  * @ingroup ServicesWebAccessChecker
+ *
+ * @deprecated Implement ilWACCheckClass and register your component using the service.xml/module.xml
  */
 interface ilComponentWebAccessChecker
 {

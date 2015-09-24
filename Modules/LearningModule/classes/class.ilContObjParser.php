@@ -82,9 +82,14 @@ class ilContObjParser extends ilMDSaxParser
 	* @param	string		$a_subdir			subdirectory in import directory
 	* @access	public
 	*/
-	function ilContObjParser(&$a_content_object, $a_xml_file, $a_subdir)
+	function ilContObjParser(&$a_content_object, $a_xml_file, $a_subdir, $a_import_dir = "")
 	{
 		global $lng, $tree;
+
+
+		$this->import_dir = ($a_import_dir != "")
+			? $a_import_dir
+			: $a_content_object->getImportDirectory();
 
 		parent::ilMDSaxParser($a_xml_file);
 		$this->cnt = array();
@@ -326,8 +331,7 @@ class ilContObjParser extends ilMDSaxParser
 	*/
 	function copyMobFiles()
 	{
-		$imp_dir = $this->content_object->getImportDirectory();
-
+		$imp_dir = $this->import_dir;
 		foreach ($this->mob_mapping as $origin_id => $mob_id)
 		{
 			if(empty($origin_id))
@@ -350,7 +354,6 @@ class ilContObjParser extends ilMDSaxParser
 			$source_dir = $imp_dir."/".$this->subdir."/objects/".$obj_dir;
 			$target_dir = ilUtil::getWebspaceDir()."/mobs/mm_".$mob_id;
 
-//echo "copy from $source_dir to $target_dir <br>";
 			if (@is_dir($source_dir))
 			{
 				// make target directory
@@ -371,7 +374,7 @@ class ilContObjParser extends ilMDSaxParser
 	*/
 	function copyFileItems()
 	{
-		$imp_dir = $this->content_object->getImportDirectory();
+		$imp_dir = $this->import_dir;
 		foreach ($this->file_item_mapping as $origin_id => $file_id)
 		{
 			if(empty($origin_id))
@@ -1515,7 +1518,7 @@ case "InteractiveImage":
 						is_int(strpos($this->chr_data, "&")) &&
 						is_int(strpos($this->chr_data, ";")))
 					{
-						$imp_dir = $this->content_object->getImportDirectory();
+						$imp_dir = $this->import_dir;
 						$source_dir = $imp_dir."/".$this->subdir."/objects/".
 							$this->file_item->getImportId();
 						

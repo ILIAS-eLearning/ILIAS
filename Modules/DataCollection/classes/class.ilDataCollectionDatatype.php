@@ -245,6 +245,13 @@ class ilDataCollectionDatatype {
 						$input->setMaxLength($field->getLength());
 					}
 				}
+                $properties = $field->getProperties();
+                if ($properties[ilDataCollectionField::PROPERTYID_URL]) {
+                    $input->setInfo($lng->txt('dcl_text_email_detail_desc'));
+					$title_field = new ilTextInputGUI($lng->txt('dcl_text_email_title'), 'field_'.$field->getId().'_title');
+					$title_field->setInfo($lng->txt('dcl_text_email_title_info'));
+					$input->addSubItem($title_field);
+                }
 				break;
 			case ilDataCollectionDatatype::INPUTFORMAT_NUMBER:
 				$input = new ilTextInputGUI($title, 'field_' . $field->getId());
@@ -280,9 +287,11 @@ class ilDataCollectionDatatype {
 				$input->setAllowDeletion(true);
 				break;
 			case ilDataCollectionDatatype::INPUTFORMAT_FORMULA:
-				$input = new ilNonEditableValueGUI($title, 'field_' . $field->getId());
-				$input->setValue('-');
-				break;
+				$input = new ilTextInputGUI($title, 'field_' . $field->getId());
+                $input->setDisabled(true);
+                $input->setValue('-');
+                $input->setInfo($lng->txt('dcl_formula_detail_desc'));
+                break;
 		}
 		if ($field->getDescription() && $input !== NULL) {
 			$input->setInfo($field->getDescription() . ($input->getInfo() ? "<br>" . $input->getInfo() : ""));
@@ -631,11 +640,48 @@ class ilDataCollectionDatatype {
 			$return = substr($value, 0, 10);
 		} elseif ($this->id == ilDataCollectionDatatype::INPUTFORMAT_BOOLEAN) {
 			$return = $value ? 1 : 0;
+		} elseif ($this->id == ilDataCollectionDatatype::INPUTFORMAT_TEXT && $json = json_decode($value)) {
+			$return = $json;
 		} else {
 			$return = $value;
 		}
 
 		return $return;
+	}
+
+	/**
+	 * @param $value
+	 * @param ilDataCollectionRecordField $record_field
+	 * @param bool|true $link
+	 * @return int|string
+	 */
+	public function parseSortingValue($value, ilDataCollectionRecordField $record_field, $link = true) {
+		switch ($this->id) {
+			case self::INPUTFORMAT_DATETIME:
+				return strtotime($value);
+			case self::INPUTFORMAT_FILE:
+				if (!ilObject2::_exists($value) || ilObject2::_lookupType($value, false) != "file") {
+					return '';
+				}
+				$file_obj = new ilObjFile($value, false);
+				return $file_obj->getTitle();
+			case self::INPUTFORMAT_MOB:
+				$mob = new ilObjMediaObject($value, false);
+				return $mob->getTitle();
+			case ilDataCollectionDatatype::INPUTFORMAT_TEXT:
+				$arr_properties = $record_field->getField()->getProperties();
+				if ($arr_properties[ilDataCollectionField::PROPERTYID_URL]) {
+					if ($json = json_decode($value)) {
+						return $json->title ? $json->title : $json->link;
+					} else {
+						return $value;
+					}
+				} else {
+					return $value;
+				}
+			default:
+				return $value;
+		}
 	}
 
 
@@ -746,15 +792,25 @@ class ilDataCollectionDatatype {
 				//Property URL
 				$arr_properties = $record_field->getField()->getProperties();
 				if ($arr_properties[ilDataCollectionField::PROPERTYID_URL]) {
-					$link = $value;
-					if (preg_match("/^[a-z0-9!#$%&'*+=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i", $value)) {
-						$value = "mailto:" . $value;
-					} elseif (!(preg_match('~(^(news|(ht|f)tp(s?)\://){1}\S+)~i', $value))) {
+					if ($json = json_decode($value)) {
+						$link = $json->link;
+						$link_value = $json->title ? $json->title : $this->shortenLink($link);
+					} else {
+						$link = $value;
+						$link_value = $this->shortenLink($value);
+					}
+
+                    if (substr($link, 0, 3) === 'www') {
+                        $link = 'http://' . $link;
+                    }
+					if (preg_match("/^[a-z0-9!#$%&'*+=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i", $link)) {
+						$link = "mailto:" . $link;
+					} elseif (!(preg_match('~(^(news|(ht|f)tp(s?)\://){1}\S+)~i', $link))) {
 						return $link;
 					}
 
-					$link = $this->shortenLink($link);
-					$html = "<a target='_blank' href='" . $value . "'>" . $link . "</a>";
+					$html = "<a target='_blank' href='" . $link . "'>" . $link_value . "</a>";
+
 				} elseif ($arr_properties[ilDataCollectionField::PROPERTYID_LINK_DETAIL_PAGE_TEXT] AND
 					$link AND ilDataCollectionRecordViewViewdefinition::getIdByTableId($record_field->getRecord()->getTableId())
 				) {
@@ -844,15 +900,6 @@ class ilDataCollectionDatatype {
 				$media_obj = new ilObjMediaObject($value, false);
 				//$input = ilObjFile::_lookupAbsolutePath($value);
 				$input = $value;
-				break;
-			case self::INPUTFORMAT_TEXT:
-				$arr_properties = $record_field->getField()->getProperties();
-				if ($arr_properties[ilDataCollectionField::PROPERTYID_TEXTAREA]) {
-					$breaks = array( "<br />" );
-					$input = str_ireplace($breaks, "", $value);
-				} else {
-					$input = $value;
-				}
 				break;
 			default:
 				$input = $value;

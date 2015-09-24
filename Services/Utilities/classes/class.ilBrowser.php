@@ -234,7 +234,13 @@ class ilBrowser
 		}
 		
 	}
-	
+
+	/**
+	 * @param string $name
+	 * @param array $arguments
+	 * @return bool
+	 * @throws ilException
+	 */
 	public function __call($name, $arguments)
 	{
 		$device = substr($name, 2);
@@ -244,7 +250,7 @@ class ilBrowser
 		}
 		else
 		{
-			trigger_error('Method '.$name.' not defined', E_USER_WARNING);
+			throw new ilException('Method '.$name.' not defined');
 		}
 	}
 	

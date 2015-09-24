@@ -170,25 +170,29 @@ class ilChatroom
 	 */
 	public function addHistoryEntry($message, $recipient = null, $publicMessage = true)
 	{
-	    global $ilDB;
+		global $ilDB;
 
-	    $subRoom = 0;
-	    if (is_array($message)) {
-		$subRoom = (int) $message['sub'];
-	    }
-	    else if (is_object($message)) {
-		$subRoom = (int) $message->sub;
-	    }
+		$subRoom = 0;
+		if(is_array($message))
+		{
+			$subRoom = (int)$message['sub'];
+		}
+		else if(is_object($message))
+		{
+			$subRoom = (int)$message->sub;
+		}
 
-	    $ilDB->insert(
-		self::$historyTable,
-		array(
-		    'room_id'	=> array('integer', $this->roomId),
-		    'sub_room'	=> array('integer', $subRoom),
-		    'message'	=> array('text', json_encode($message)),
-		    'timestamp'	=> array('integer', time()),
-		)
-	    );
+		$id = $ilDB->nextId(self::$historyTable);
+		$ilDB->insert(
+			self::$historyTable,
+			array(
+				'hist_id'   => array('integer', $id),
+				'room_id'   => array('integer', $this->roomId),
+				'sub_room'  => array('integer', $subRoom),
+				'message'   => array('text', json_encode($message)),
+				'timestamp' => array('integer', time()),
+			)
+		);
 	}
 
 	/**
@@ -329,15 +333,17 @@ class ilChatroom
 			do
 			{
 				if ($this->getSetting( 'enable_history' )) {
+					$id = $ilDB->nextId(self::$sessionTable);
 					$ilDB->insert(
-					self::$sessionTable,
-					array(
-								'room_id'		=> array('integer', $this->roomId),
-								'user_id'		=> array('integer', $row['user_id']),
-								'userdata'		=> array('text', $row['userdata']),
-								'connected'		=> array('integer', $row['connected']),
-								'disconnected'	=> array('integer', time()),
-					)
+						self::$sessionTable,
+						array(
+							'sess_id'      => array('integer', $id),
+							'room_id'      => array('integer', $this->roomId),
+							'user_id'      => array('integer', $row['user_id']),
+							'userdata'     => array('text', $row['userdata']),
+							'connected'    => array('integer', $row['connected']),
+							'disconnected' => array('integer', time())
+						)
 					);
 				}
 			}
@@ -559,7 +565,7 @@ class ilChatroom
 
 		$ilDB->manipulate( 'DELETE FROM ' . self::$userTable );
 		$ilDB->manipulate( 'UPDATE ' . self::$privateRoomsTable . ' SET closed = ' . $ilDB->quote( time() ,'integer') . ' WHERE closed = 0 OR closed IS NULL');
-		$ilDB->manipulate( 'UPDATE ' . self::$privateSessionsTable . ' SET disconnected = ' . $ilDB->quote( time() ,'integer') . ' WHERE disconnected = 0 OR disconnected IS NULL');
+		$ilDB->manipulate( 'UPDATE ' . self::$privateSessionsTable . ' SET disconnected = ' . $ilDB->quote( time() ,'integer') . ' WHERE disconnected = 0');
 		/**
 		 * @todo nicht nur löschen, auch in Session Tabelle nachpflegen
 		 */
@@ -582,14 +588,18 @@ class ilChatroom
 		$join = '';
 
 		if ($proom_id) {
-			$join .= ' INNER JOIN ' . self::$privateSessionsTable .
-				' pSessionTable ON pSessionTable.user_id = ' .
-				$ilDB->quote( $restricted_session_userid, 'integer' ) .
-				' AND historyTable.sub_room = pSessionTable.proom_id AND timestamp >= pSessionTable.connected AND timestamp <= pSessionTable.disconnected ';
+			$join .= 
+			'INNER JOIN ' . self::$privateSessionsTable . ' pSessionTable ' .
+			'ON pSessionTable.user_id = ' .$ilDB->quote( $restricted_session_userid, 'integer' ) . ' ' .
+			'AND pSessionTable.proom_id = historyTable.sub_room ' .
+			'AND timestamp >= pSessionTable.connected '.
+			'AND timestamp <= pSessionTable.disconnected ';
 		}
 		
-		$query = 'SELECT historyTable.* FROM ' . self::$historyTable . ' historyTable ' .
-			$join . ' WHERE historyTable.room_id = ' . $this->getRoomId();
+		$query =
+			'SELECT historyTable.* ' .
+			'FROM ' . self::$historyTable . ' historyTable ' . $join . ' ' . 
+			'WHERE historyTable.room_id = ' . $this->getRoomId();
 
 		$filter = array();
 
@@ -678,14 +688,16 @@ class ilChatroom
 	{
 		global $ilDB;
 
-		$ilDB->insert(
-		self::$banTable,
-		array(
-					'room_id'	=> array('integer', $this->roomId),
-					'user_id'	=> array('integer', $user_id),
-					'timestamp' => array('integer', time()),
-					'remark'	=> array('text', $comment),
-		)
+		$ilDB->replace(
+			self::$banTable,
+			array(
+				'room_id'   => array('integer', $this->roomId),
+				'user_id'   => array('integer', $user_id)
+			),
+			array(
+				'timestamp' => array('integer', time()),
+				'remark'    => array('text', $comment)
+			)
 		);
 	}
 
@@ -701,16 +713,17 @@ class ilChatroom
 	{
 		global $ilDB;
 
-		if( !is_array( $user_id ) )
-		$user_id = array($user_id);
+		if(!is_array($user_id))
+		{
+			$user_id = array($user_id);
+		}
 
-		$query = 'DELETE FROM ' . self::$banTable . ' WHERE room_id = %s AND ' .
-		$ilDB->in( 'user_id', $user_id, false, 'integer' );
+		$query = 'DELETE FROM ' . self::$banTable . ' WHERE room_id = %s AND ' . $ilDB->in('user_id', $user_id, false, 'integer');
 
-		$types	= array('integer');
+		$types  = array('integer');
 		$values = array($this->getRoomId());
 
-		return $ilDB->manipulateF( $query, $types, $values );
+		return $ilDB->manipulateF($query, $types, $values);
 	}
 
 	/**
@@ -725,16 +738,17 @@ class ilChatroom
 	{
 		global $ilDB;
 
-		$query = 'SELECT count(user_id) cnt FROM ' . self::$banTable .
-				' WHERE user_id = %s AND room_id = %s';
+		$query = 'SELECT COUNT(user_id) cnt FROM ' . self::$banTable . ' WHERE user_id = %s AND room_id = %s';
 
-		$types	= array('integer', 'integer');
+		$types  = array('integer', 'integer');
 		$values = array($user_id, $this->getRoomId());
 
-		$rset = $ilDB->queryF( $query, $types, $values );
+		$rset = $ilDB->queryF($query, $types, $values);
 
-		if( $rset && ($row = $ilDB->fetchAssoc( $rset )) && $row['cnt'] )
-		    return true;
+		if($rset && ($row = $ilDB->fetchAssoc($rset)) && $row['cnt'])
+		{
+			return true;
+		}
 
 		return false;
 	}
@@ -845,18 +859,17 @@ class ilChatroom
 	{
 		global $ilDB;
 
-		$nextId = $ilDB->nextId('chatroom_prooms');
-
+		$nextId = $ilDB->nextId(self::$privateRoomsTable);
 		$ilDB->insert(
-		self::$privateRoomsTable,
-		array(
-					'proom_id'	=> array('integer', $nextId),
-					'parent_id'	=> array('integer', $this->roomId),
-					'title'	=> array('text', $title),
-					'owner'	=> array('integer', $owner->getUserId()),
-					'created' => array('integer', time()),
-					'is_public' => array('integer', $settings['public']),
-		)
+			self::$privateRoomsTable,
+			array(
+				'proom_id'  => array('integer', $nextId),
+				'parent_id' => array('integer', $this->roomId),
+				'title'     => array('text', $title),
+				'owner'     => array('integer', $owner->getUserId()),
+				'created'   => array('integer', time()),
+				'is_public' => array('integer', $settings['public']),
+			)
 		);
 
 		return $nextId;
@@ -1044,9 +1057,14 @@ class ilChatroom
 		global $ilDB;
 
 		$query	= '
-			SELECT roomtable.title, roomtable.proom_id, accesstable.user_id id, roomtable.owner owner FROM ' . self::$privateRoomsTable . ' roomtable
-			LEFT JOIN '.self::$privateRoomsAccessTable.' accesstable ON roomtable.proom_id = accesstable.proom_id AND accesstable.user_id = %s
-			WHERE parent_id = %s AND (closed = 0 OR closed IS NULL) AND (accesstable.user_id IS NOT NULL OR roomtable.owner = %s)';
+			SELECT roomtable.title, roomtable.proom_id, accesstable.user_id id, roomtable.owner rowner
+			FROM ' . self::$privateRoomsTable . ' roomtable
+			LEFT JOIN '.self::$privateRoomsAccessTable.' accesstable
+			ON roomtable.proom_id = accesstable.proom_id
+			AND accesstable.user_id = %s
+			WHERE parent_id = %s
+			AND (closed = 0 OR closed IS NULL)
+			AND (accesstable.user_id IS NOT NULL OR roomtable.owner = %s)';
 		$types	= array('integer', 'integer', 'integer');
 		$values = array($userid, $this->roomId, $userid);
 		$rset	= $ilDB->queryF( $query, $types, $values );
@@ -1055,7 +1073,7 @@ class ilChatroom
 		while( $row = $ilDB->fetchAssoc( $rset ) )
 		{
 			$row['active_users'] = $this->listUsersInPrivateRoom($row['id']);
-			$row['owner'] = $row['owner'];
+			$row['owner']        = $row['rowner'];
 			$rooms[$row['proom_id']] = $row;
 		}
 
@@ -1065,7 +1083,7 @@ class ilChatroom
 	public function listUsersInPrivateRoom($private_room_id) {
 		global $ilDB;
 
-		$query	= 'SELECT user_id FROM ' . self::$privateSessionsTable . ' WHERE proom_id = %s AND disconnected = 0 OR disconnected IS NULL';
+		$query	= 'SELECT user_id FROM ' . self::$privateSessionsTable . ' WHERE proom_id = %s AND disconnected = 0';
 		$types	= array('integer');
 		$values = array($private_room_id);
 		$rset	= $ilDB->queryF( $query, $types, $values );
@@ -1083,7 +1101,7 @@ class ilChatroom
 	{
 		global $ilDB;
 
-		$query	= 'SELECT proom_id id FROM ' . self::$privateSessionsTable . ' WHERE user_id = %s AND proom_id = %s AND disconnected = 0 OR disconnected IS NULL';
+		$query	= 'SELECT proom_id id FROM ' . self::$privateSessionsTable . ' WHERE user_id = %s AND proom_id = %s AND disconnected = 0';
 		$types	= array('integer', 'integer');
 		$values = array($user_id, $room_id);
 		$rset	= $ilDB->queryF( $query, $types, $values );
@@ -1096,15 +1114,18 @@ class ilChatroom
 	{
 		global $ilDB;
 
-		if (!$this->userIsInPrivateRoom($room_id, $user_id)) {
+		if(!$this->userIsInPrivateRoom($room_id, $user_id))
+		{
+			$id = $ilDB->nextId(self::$privateSessionsTable);
 			$ilDB->insert(
-			self::$privateSessionsTable,
-			array(
-                            'proom_id' => array('integer', $room_id),
-                            'user_id' => array('integer', $user_id),
-                            'connected' => array('integer', time()),
-                            'disconnected' => array('integer', 0),
-			)
+				self::$privateSessionsTable,
+				array(
+					'psess_id'     => array('integer', $id),
+					'proom_id'     => array('integer', $room_id),
+					'user_id'      => array('integer', $user_id),
+					'connected'    => array('integer', time()),
+					'disconnected' => array('integer', 0),
+				)
 			);
 		}
 	}
@@ -1120,14 +1141,14 @@ class ilChatroom
 		global $ilDB;
 
 		$ilDB->update(
-		self::$privateSessionsTable,
-		array(
-			'disconnected' => array('integer', time())
-		),
-		array(
-			'proom_id' => array('integer', $room_id),
-			'user_id' => array('integer', $user_id),
-		)
+			self::$privateSessionsTable,
+			array(
+				'disconnected' => array('integer', time())
+			),
+			array(
+				'proom_id' => array('integer', $room_id),
+				'user_id'  => array('integer', $user_id)
+			)
 		);
 	}
 
@@ -1178,7 +1199,14 @@ class ilChatroom
 	public static function findDeletablePrivateRooms() {
 		global $ilDB;
 
-		$query = 'SELECT private_rooms.proom_id id, MIN(disconnected) min_disconnected, MAX(disconnected) max_disconnected FROM ' . self::$privateSessionsTable . ' private_sessions INNER JOIN '.self::$privateRoomsTable.' private_rooms ON private_sessions.proom_id = private_rooms.proom_id WHERE closed = 0 GROUP BY private_rooms.proom_id HAVING min_disconnected > 0 AND max_disconnected < %s';
+		$query = '
+			SELECT private_rooms.proom_id id, MIN(disconnected) min_disconnected, MAX(disconnected) max_disconnected
+			FROM ' . self::$privateSessionsTable . ' private_sessions
+			INNER JOIN '.self::$privateRoomsTable.' private_rooms
+				ON private_sessions.proom_id = private_rooms.proom_id
+			WHERE closed = 0
+			GROUP BY private_rooms.proom_id
+			HAVING MIN(disconnected) > 0 AND MAX(disconnected) < %s';
 		$rset = $ilDB->queryF(
 		$query,
 		array('integer'),
@@ -1188,7 +1216,7 @@ class ilChatroom
 		$rooms = array();
 
 		while ($row = $ilDB->fetchAssoc($rset)) {
-			$rooms[] = $row['id'];
+			$rooms[$row['id']] = $row['id'];
 		}
 
 		$query = 'SELECT DISTINCT proom_id, room_id, object_id FROM ' . self::$privateRoomsTable
@@ -1376,31 +1404,34 @@ public function getLastMessages($number, $chatuser = null) {
 		}
 		return $results;
 	}
-    
-    public function clearMessages($sub_room) {
-	global $ilDB;
-	
-	$ilDB->queryF(
-		'DELETE FROM ' . self::$historyTable . ' WHERE room_id = %s AND sub_room = %s',
-		array('integer', 'integer'),
-		array($this->roomId, (int)$sub_room)
-	);
-	
-	if ($sub_room) {
-	    $ilDB->queryF(
-		    'DELETE FROM ' . self::$sessionTable . ' WHERE proom_id = %s AND disconnected < %s',
-		    array('integer', 'integer'),
-		    array($sub_room, time())
-	    );
+
+	public function clearMessages($sub_room)
+	{
+		global $ilDB;
+
+		$ilDB->queryF(
+			'DELETE FROM ' . self::$historyTable . ' WHERE room_id = %s AND sub_room = %s',
+			array('integer', 'integer'),
+			array($this->roomId, (int)$sub_room)
+		);
+
+		if($sub_room)
+		{
+			$ilDB->queryF(
+				'DELETE FROM ' . self::$sessionTable . ' WHERE proom_id = %s AND disconnected < %s',
+				array('integer', 'integer'),
+				array($sub_room, time())
+			);
+		}
+		else
+		{
+			$ilDB->queryF(
+				'DELETE FROM ' . self::$sessionTable . ' WHERE room_id = %s AND disconnected < %s',
+				array('integer', 'integer'),
+				array($this->roomId, time())
+			);
+		}
 	}
-	else {
-	    $ilDB->queryF(
-		    'DELETE FROM ' . self::$sessionTable . ' WHERE room_id = %s AND disconnected < %s',
-		    array('integer', 'integer'),
-		    array($this->roomId, time())
-	    );
-	}
-    }
 	
 	public static function getUntrashedChatReferences($filter = array())
 	{

@@ -216,6 +216,16 @@ class ilObjectActivationGUI
 			$data['timing_type'] = $item_data['timing_type'];
 			$data['visible'] = $item_data['visible'];
 			$data['changeable'] = $item_data['changeable'];
+			
+			// #14531
+			if($item_data['timing_start'] < 1)
+			{
+				$item_data['timing_start'] = time();
+			}
+			if($item_data['timing_end'] < 1)
+			{
+				$item_data['timing_end'] = time();
+			}
 
 			$start = new ilDateTime($item_data['timing_start'],IL_CAL_UNIX);
 			$data['timing_start']['date'] = $start->get(IL_CAL_FKT_DATE,'Y-m-d',$ilUser->getTimeZone());

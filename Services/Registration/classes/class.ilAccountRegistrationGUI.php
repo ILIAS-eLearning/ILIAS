@@ -164,6 +164,12 @@ class ilAccountRegistrationGUI
 			{
 				$custom_fields["udf_".$definition['field_id']]->setRequired(true);
 			}
+
+			if($definition['field_type'] == UDF_TYPE_SELECT && !$user_defined_data["f_".$field_id])
+			{
+				$options = array(""=>$lng->txt("please_select")) + $custom_fields["udf_".$definition['field_id']]->getOptions();
+				$custom_fields["udf_".$definition['field_id']]->setOptions($options);
+			}
 		}
 
 		// standard fields
@@ -221,7 +227,10 @@ class ilAccountRegistrationGUI
 		if($this->registration_settings->getRegistrationType() == IL_REG_ACTIVATION)
 		{
 			$mail_obj = $this->form->getItemByPostVar('usr_email');
-			$mail_obj->setRequired(true);
+			if($mail_obj) // #16087
+			{
+				$mail_obj->setRequired(true);
+			}
 		}
 
 		if(ilTermsOfServiceHelper::isEnabled())

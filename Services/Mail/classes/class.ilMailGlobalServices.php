@@ -53,10 +53,10 @@ class ilMailGlobalServices
 	{
 		global $ilDB;
 		
-		if(isset(self::$global_mail_services_cache[CACHE_TYPE_REF_ID]) &&
-		   null !== self::$global_mail_services_cache[CACHE_TYPE_REF_ID])
+		if(isset(self::$global_mail_services_cache[self::CACHE_TYPE_REF_ID]) &&
+		   null !== self::$global_mail_services_cache[self::CACHE_TYPE_REF_ID])
 		{
-			return self::$global_mail_services_cache[CACHE_TYPE_REF_ID];
+			return self::$global_mail_services_cache[self::CACHE_TYPE_REF_ID];
 		}
 		
 		// mail settings id is set by a constant in ilias.ini. Keep the select for some time until everyone has updated his ilias.ini
@@ -73,15 +73,15 @@ class ilMailGlobalServices
 
 			while($row = $ilDB->fetchAssoc($res))
 			{
-				self::$global_mail_services_cache[CACHE_TYPE_REF_ID] = $row['ref_id'];
+				self::$global_mail_services_cache[self::CACHE_TYPE_REF_ID] = $row['ref_id'];
 			}
 		}
 		else
 		{
-			self::$global_mail_services_cache[CACHE_TYPE_REF_ID] = MAIL_SETTINGS_ID;
+			self::$global_mail_services_cache[self::CACHE_TYPE_REF_ID] = MAIL_SETTINGS_ID;
 		}
 		
-		return self::$global_mail_services_cache[CACHE_TYPE_REF_ID];
+		return self::$global_mail_services_cache[self::CACHE_TYPE_REF_ID];
 	}
 
 	/**
@@ -103,10 +103,10 @@ class ilMailGlobalServices
 			return 0;
 		}
 		
-		if(isset(self::$global_mail_services_cache[CACHE_TYPE_NEW_MAILS][$usr_id]) &&
-		   null !== self::$global_mail_services_cache[CACHE_TYPE_NEW_MAILS][$usr_id])
+		if(isset(self::$global_mail_services_cache[self::CACHE_TYPE_NEW_MAILS][$usr_id]) &&
+		   null !== self::$global_mail_services_cache[self::CACHE_TYPE_NEW_MAILS][$usr_id])
 		{
-			return self::$global_mail_services_cache[CACHE_TYPE_NEW_MAILS][$usr_id];
+			return self::$global_mail_services_cache[self::CACHE_TYPE_NEW_MAILS][$usr_id];
 		}
 
 		// Read system mails
@@ -133,8 +133,8 @@ class ilMailGlobalServices
 		
 		$row2 = $ilDB->fetchAssoc($res);
 		
-		self::$global_mail_services_cache[CACHE_TYPE_NEW_MAILS][$usr_id] = $row['cnt'] + $row2['cnt'];
+		self::$global_mail_services_cache[self::CACHE_TYPE_NEW_MAILS][$usr_id] = $row['cnt'] + $row2['cnt'];
 		
-		return self::$global_mail_services_cache[CACHE_TYPE_NEW_MAILS][$usr_id];
+		return self::$global_mail_services_cache[self::CACHE_TYPE_NEW_MAILS][$usr_id];
 	}
 }

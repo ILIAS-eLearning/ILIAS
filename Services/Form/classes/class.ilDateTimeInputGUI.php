@@ -273,8 +273,8 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
 			$out_format = ilCalendarUtil::getUserDateFormat($this->getDatePickerTimeFormat(), true);		
 			$date_value = $this->getDate()->get(IL_CAL_FKT_DATE, $out_format, $ilUser->getTimeZone());								
 		}
-		$tpl->setVariable('DATEPICKER_VALUE', $date_value);	
-		
+
+		$tpl->setVariable('DATEPICKER_VALUE', $date_value);			
 		$tpl->setVariable('DATE_ID', $this->getPostVar());	
 		
 		return $tpl->get();
@@ -342,7 +342,7 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
 	{
 		$html = $this->render("toolbar");
 		return $html;
-	}
+	}	
 }
 
 ?>

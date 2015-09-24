@@ -26,6 +26,7 @@
 	</objects>
 	<events>		
 		<event type="listen" id="Services/Tracking" />
+		<event type="listen" id="Services/AccessControl" />
 		<event type="raise" id="create" />
 		<event type="raise" id="update" />
 		<event type="raise" id="delete" />
@@ -37,4 +38,9 @@
 	<copage>
 		<pageobject parent_type="lobj" class_name="ilLOPage" directory="classes/Objectives"/>	
 	</copage>
+	<mailtemplates>
+		<context id="crs_context_tutor_manual" class="ilCourseMailTemplateTutorContext" />
+		<context id="crs_context_member_manual" class="ilCourseMailTemplateMemberContext" />
+	</mailtemplates>
+	<logging />
 </module>

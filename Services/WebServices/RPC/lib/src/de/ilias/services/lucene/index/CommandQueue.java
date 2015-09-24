@@ -292,23 +292,29 @@ public class CommandQueue {
 			ResultSet res = null;
 			PreparedStatement sta = null;
 			
-			if(objType.equalsIgnoreCase("usr") != true) 
+			if(objType.equalsIgnoreCase("help") == true) {
+				
+				sta = DBFactory.getPreparedStatement(
+					"SELECT lm_id obj_id FROM help_module "
+				);
+			}
+			else if(objType.equalsIgnoreCase("usr") != true) 
 			{
 				sta = DBFactory.getPreparedStatement(
 					"SELECT DISTINCT(oda.obj_id) FROM object_data oda JOIN object_reference ore ON oda.obj_id = ore.obj_id " +
 					"WHERE (deleted IS NULL) AND type = ? " +
 					"GROUP BY oda.obj_id");
+				DBFactory.setString(sta, 1, objType);
 			}
 			else {
 				sta = DBFactory.getPreparedStatement(
 					"SELECT obj_id FROM object_data " + 
 					"WHERE type = ? "
 				);
+				DBFactory.setString(sta, 1, objType);
 			}
 
-			DBFactory.setString(sta, 1, objType);
 			res = sta.executeQuery();
-
 			logger.info("Adding new commands for object type: " + objType);
 
 			// Add each single object

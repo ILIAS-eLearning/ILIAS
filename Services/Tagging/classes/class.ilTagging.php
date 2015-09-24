@@ -49,7 +49,7 @@ class ilTagging
 			{
 				if (!in_array(strtolower($tag), $inserted))
 				{
-					$tag = str_replace(" ", "_", trim($tag));
+					//$tag = str_replace(" ", "_", trim($tag));
 					$ilDB->manipulate("INSERT INTO il_tag (user_id, obj_id, obj_type,".
 						"sub_obj_id, sub_obj_type, tag) VALUES (".
 						$ilDB->quote($a_user_id, "integer").",".

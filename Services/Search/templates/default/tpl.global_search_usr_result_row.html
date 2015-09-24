@@ -9,12 +9,6 @@
 		<img src="{USR_IMG_SRC}" alt="{USR_IMG_ALT}" />
 		<!-- BEGIN img_unlinked -->
 	</td>
-	<!-- BEGIN login_linked -->
-	<td class="std">
-		<a href="{LOGIN_LINK}">{LOGIN_NAME}</a>
-	</td>
-	<!-- END login_linked -->
-	
 	<!-- BEGIN custom_fields -->
 	<td class="std{CUST_CLASS}" style="vertical-align: top">
 		{VAL_CUST}
@@ -23,4 +17,9 @@
 	<td class="std">
 		{SEARCH_RELEVANCE}
 	</td>
+	<!-- BEGIN contact_actions -->
+	<td class="std">
+		<div class="pull-right">{CONTACT_ACTIONS}</div>
+	</td>
+	<!-- END contact_actions -->
 </tr>

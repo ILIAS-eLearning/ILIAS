@@ -75,26 +75,33 @@ class ilWikiContentSearch extends ilAbstractSearch
 	// Protected can be overwritten in Like or Fulltext classes
 	function __createInStatement()
 	{
-		if(!$this->getFilter())
+		global $ilDB;
+		
+		if(!$this->getFilter() and !$this->getIdFilter())
 		{
 			return '';
 		}
-		else
+		
+		
+		$in = '';
+		if($this->getFilter())
 		{
 			$type = "('";
 			$type .= implode("','",$this->getFilter());
 			$type .= "')";
 			
-			$in = " AND parent_type IN ".$type;
+			$in = " AND parent_type IN ".$type.' ';
 
-			return $in;
 		}
+		if($this->getIdFilter())
+		{
+			$in .= ' AND ';
+			$in .= $ilDB->in('il_wiki_page.wiki_id',$this->getIdFilter(),false,'integer');
+		}
+		
+		return $in;
 	}
 
-	function __createAndCondition()
-	{
-		echo "Overwrite me!";
-	}
 
 }
 ?>

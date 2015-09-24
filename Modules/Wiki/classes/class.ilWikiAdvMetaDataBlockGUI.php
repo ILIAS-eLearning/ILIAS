@@ -112,11 +112,9 @@ class ilWikiAdvMetaDataBlockGUI extends ilBlockGUI
 		$has_write = $ilAccess->checkAccess("write", "", $this->ref_id);
 		
 		if ($this->isHidden())
-		{
-			if(!$has_write)
-			{
-				return;
-			}			
+		{			
+			#16029 - hide completely
+			return;					
 		}
 		
 		if (!$this->export && $has_write)
@@ -131,12 +129,14 @@ class ilWikiAdvMetaDataBlockGUI extends ilBlockGUI
 					$ilCtrl->getLinkTargetByClass("ilwikipagegui", "hideAdvancedMetaData"),
 					$lng->txt("hide"), "_top");		
 			}
+			/* #16029 - moved to page actions
 			else
 			{
 				$this->addBlockCommand(
 					$ilCtrl->getLinkTargetByClass("ilwikipagegui", "unhideAdvancedMetaData"),
 					$lng->txt("show"), "_top");		
-			}
+			}			 
+			*/
 		}
 		
 		return parent::getHTML();
@@ -178,7 +178,10 @@ class ilWikiAdvMetaDataBlockGUI extends ilBlockGUI
 		// this correctly binds group and definitions
 		$values->read();
 
-		$defs = $values->getDefinitions();									
+		$defs = $values->getDefinitions();
+
+		$auto_link = ilObjWiki::_lookupLinkMetadataValues($this->obj_id);
+
 		foreach($values->getADTGroup()->getElements() as $element_id => $element)				
 		{																								
 			$btpl->setCurrentBlock("item");
@@ -195,6 +198,13 @@ class ilWikiAdvMetaDataBlockGUI extends ilBlockGUI
 				{
 					$value->setSize("100%", "200px");
 				}
+				
+				// auto link values
+				if ($auto_link &&
+					in_array($element->getType(), array("MultiEnum", "Enum", "Text")))
+				{
+					$value->setDecoratorCallBack(array($this, "decorateValue"));
+				}
 
 				$value = $value->getHTML();
 			}
@@ -202,12 +212,13 @@ class ilWikiAdvMetaDataBlockGUI extends ilBlockGUI
 			$btpl->parseCurrentBlock();										
 		}
 		
-		
+		/*
 		if ($this->isHidden())
 		{
 			$btpl->setVariable("HIDDEN_INFO", $lng->txt("wiki_adv_md_hidden"));			
 		}
-				
+		*/
+		
 		$this->setDataSection($btpl->get());		
 		
 		ilDatePresentation::setUseRelativeDates($old_dt);
@@ -219,7 +230,7 @@ class ilWikiAdvMetaDataBlockGUI extends ilBlockGUI
 	{
 		if(!array_key_exists($a_wiki_obj_id, self::$records))
 		{
-			include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');						
+			include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
 			self::$records[$a_wiki_obj_id] = ilAdvancedMDRecord::_getSelectedRecordsByObject("wiki", $a_wiki_obj_id, "wpg");
 		}
 		return self::$records[$a_wiki_obj_id];
@@ -229,6 +240,25 @@ class ilWikiAdvMetaDataBlockGUI extends ilBlockGUI
 	{		
 		return (bool)sizeof(self::getRecords($a_wiki_obj_id));	
 	}
+	
+	/**
+	 * Decorate a value
+	 *
+	 * @param string $a_value value
+	 * @return string decorated value (includes HTML)
+	 */
+	function decorateValue($a_value)
+	{		
+		include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
+		if (ilWikiPage::_wikiPageExists($this->obj_id, $a_value))
+		{
+			$url = ilObjWikiGUI::getGotoLink($this->ref_id, $a_value);
+			return "<a href='".$url."'>".$a_value."</a>";
+		}		
+
+		return $a_value;
+	}
+	
 }
 
 ?>

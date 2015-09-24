@@ -29,7 +29,6 @@ require_once('./Services/AuthShibboleth/classes/Config/class.shibConfig.php');
 require_once('./Services/AuthShibboleth/classes/ServerData/class.shibServerData.php');
 require_once('./Services/AuthShibboleth/classes/User/class.shibUser.php');
 
-
 /**
  * Class Shibboleth
  *
@@ -75,20 +74,42 @@ class ShibAuth extends Auth {
 	 * @return void
 	 */
 	public function login() {
+		global $ilias, $ilSetting; // for backword compatibility of hook environment variables
 		$shibServerData = shibServerData::getInstance($_SERVER);
 		if ($shibServerData->getLogin()) {
-			$shibUser = shibUser ::getInstance($shibServerData);
+			$shibUser = shibUser::buildInstance($shibServerData);
+			// for backword compatibility of hook environment variables
+			$userObj =& $shibUser; // For shib_data_conv included Script
+			$newUser = $shibUser->isNew(); // For shib_data_conv included Script
 			if ($shibUser->isNew()) {
 				$shibUser->createFields();
+				$shibUser->setPref('hits_per_page', $ilSetting->get('hits_per_page'));
+
+				// Modify user data before creating the user
+				// Include custom code that can be used to further modify
+				// certain Shibboleth user attributes
+				if ($ilias->getSetting('shib_data_conv') AND $ilias->getSetting('shib_data_conv') != ''
+					AND is_readable($ilias->getSetting('shib_data_conv'))
+				) {
+					include($ilias->getSetting('shib_data_conv'));
+				}
 				$shibUser = ilShibbolethPluginWrapper::getInstance()->beforeCreateUser($shibUser);
 				$shibUser->create();
 				$shibUser->updateOwner();
 				$shibUser->saveAsNew();
+				$shibUser->writePrefs();
 				$shibUser = ilShibbolethPluginWrapper::getInstance()->afterCreateUser($shibUser);
 				ilShibbolethRoleAssignmentRules::doAssignments($shibUser->getId(), $_SERVER);
 			} else {
 				$shibUser->updateFields();
-				$shibUser->update();
+				// Include custom code that can be used to further modify
+				// certain Shibboleth user attributes
+				if ($ilias->getSetting('shib_data_conv') AND $ilias->getSetting('shib_data_conv') != ''
+					AND is_readable($ilias->getSetting('shib_data_conv'))
+				) {
+					include($ilias->getSetting('shib_data_conv'));
+				}
+				//				$shibUser->update();
 				$shibUser = ilShibbolethPluginWrapper::getInstance()->beforeUpdateUser($shibUser);
 				$shibUser->update();
 				$shibUser = ilShibbolethPluginWrapper::getInstance()->afterUpdateUser($shibUser);

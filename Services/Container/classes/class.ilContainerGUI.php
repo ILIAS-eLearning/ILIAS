@@ -172,7 +172,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		$cmd = $ilCtrl->getCmd();
 
-		if (in_array($cmd, array("displayMediaFullscreen", "downloadFile")))
+		if (in_array($cmd, array("displayMediaFullscreen", "downloadFile", "displayMedia")))
 		{
 			$this->checkPermission("read");
 		}
@@ -456,12 +456,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$container_view = new ilContainerSessionsContentGUI($this);
 				break;
 				
-			// ILinc courses
-			case ilContainer::VIEW_ILINC:
-				include_once 'Services/Container/classes/class.ilContainerILincContentGUI.php';
-				$container_view = new ilContainerILincContentGUI($this);
-				break;
-			
 			// all items in one block
 			case ilContainer::VIEW_BY_TYPE:
 			default:
@@ -584,7 +578,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 						);
 					}
 				}
-				if($this->object->getType() == 'crs')
+				if($this->object->getType() == 'crs' or $this->object->getType() == 'grp')
 				{
 					if($this->object->gotItems())
 					{
@@ -595,7 +589,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 						$this->lng->txt('cntr_adopt_content'),
 						$this->ctrl->getLinkTargetByClass(
 							'ilObjectCopyGUI',
-							'initSourceSelection')
+							'adoptContent')
 					);
 				}
 			}
@@ -925,7 +919,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			"Services/Container");
 		
 		$type_ordering = array(
-			"cat", "fold", "crs", "icrs", "icla", "grp", "chat", "frm", "lres",
+			"cat", "fold", "crs", "grp", "chat", "frm", "lres",
 			"glo", "webr", "file", "exc",
 			"tst", "svy", "mep", "qpl", "spl");
 			
@@ -1738,14 +1732,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		if (count($no_link))
 		{
-			$no_link = array_unique($no_link);
-
-			foreach ($no_link as $type)
-			{
-				$txt_objs[] = $this->lng->txt("objs_".$type);
-			}
-
-			$this->ilias->raiseError(implode(', ',$txt_objs)." ".$this->lng->txt("msg_obj_no_link"),$this->ilias->error_obj->MESSAGE);
+			//#12203
+			$this->ilias->raiseError($this->lng->txt("msg_obj_no_link"),$this->ilias->error_obj->MESSAGE);
 
 			//$this->ilias->raiseError($this->lng->txt("msg_not_possible_link")." ".
 			//						 implode(',',$no_link),$this->ilias->error_obj->MESSAGE);
@@ -3090,19 +3078,19 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$orig = ilObjectFactory::getInstanceByRefId($clone_source);
 		$result = $orig->cloneAllObject($_COOKIE['PHPSESSID'], $_COOKIE['ilClientId'], $new_type, $ref_id, $clone_source, $options);
 		
-		// Check if copy is in progress
-		if ($result == $ref_id)
+		include_once './Services/CopyWizard/classes/class.ilCopyWizardOptions.php';
+		if(ilCopyWizardOptions::_isFinished($result['copy_id']))
+		{
+			ilUtil::sendSuccess($this->lng->txt("object_duplicated"),true);			
+			$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $result['ref_id']);
+			$ilCtrl->redirectByClass("ilrepositorygui", "");
+		}
+		else
 		{
 			ilUtil::sendInfo($this->lng->txt("object_copy_in_progress"),true);
 			$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $ref_id);
 			$ilCtrl->redirectByClass("ilrepositorygui", "");
-		} 
-		else 
-		{
-			ilUtil::sendSuccess($this->lng->txt("object_duplicated"),true);			
-			$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $result);
-			$ilCtrl->redirectByClass("ilrepositorygui", "");
-		}	
+		}
 	}
 
 	
@@ -3933,7 +3921,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	{
 		include_once("./Services/Repository/classes/class.ilRepositorySelectorExplorerGUI.php");
 		$exp = new ilRepositorySelectorExplorerGUI($this, "showPasteTree");
-		$exp->setTypeWhiteList(array("root", "cat", "grp", "crs", "fold"));
+		$exp->setTypeWhiteList(array("root", "cat", "grp", "crs", "fold", "prg"));
 		if ($cmd == "link") {
 			$exp->setSelectMode("nodes", true);
 			return $exp;

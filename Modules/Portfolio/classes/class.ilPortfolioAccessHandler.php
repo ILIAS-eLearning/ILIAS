@@ -6,6 +6,7 @@ include_once "Modules/Portfolio/classes/class.ilObjPortfolio.php";
 include_once "Modules/Group/classes/class.ilGroupParticipants.php";
 include_once "Modules/Course/classes/class.ilCourseParticipants.php";
 include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessGUI.php";
+require_once('./Services/WebAccessChecker/interfaces/interface.ilWACCheckingClass.php');
 
 /**
  * Access handler for portfolio
@@ -15,7 +16,7 @@ include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessGUI.php"
  * 
  * @ingroup ModulesPortfolio
  */
-class ilPortfolioAccessHandler
+class ilPortfolioAccessHandler implements ilWACCheckingClass
 {
 	public function __construct()
 	{
@@ -388,7 +389,6 @@ class ilPortfolioAccessHandler
 	public function findSharedObjects(array $a_filter = null, array $a_crs_ids = null, array $a_grp_ids = null)
 	{
 		global $ilDB, $ilUser;
-		
 		if(!$a_filter["acl_type"])
 		{
 			$obj_ids = $this->getPossibleSharedTargets();
@@ -558,6 +558,23 @@ class ilPortfolioAccessHandler
 				}
 			}				
 		}				
+	}
+
+
+	/**
+	 * @param ilWACPath $ilWACPath
+	 *
+	 * @return bool
+	 */
+	public function canBeDelivered(ilWACPath $ilWACPath) {
+		global $ilUser;
+		preg_match("/\\/prtf_([\\d]*)\\//uism", $ilWACPath->getPath(), $results);
+
+		if ($this->checkAccessOfUser($ilUser->getId(), "read", "view", $results[1], "prtf")) {
+			return true;
+		}
+
+		return false;
 	}
 }
 

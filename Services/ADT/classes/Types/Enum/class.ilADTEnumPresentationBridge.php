@@ -13,8 +13,12 @@ class ilADTEnumPresentationBridge extends ilADTPresentationBridge
 	{
 		if(!$this->getADT()->isNull())
 		{
-			$options = $this->getADT()->getCopyOfDefinition()->getOptions();			
-			return $options[$this->getADT()->getSelection()];
+			$options = $this->getADT()->getCopyOfDefinition()->getOptions();
+			$value = $this->getADT()->getSelection();
+			if(array_key_exists($value, $options))
+			{
+				return $this->decorate($options[$value]);
+			}			
 		}
 	}
 	

@@ -22,6 +22,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
 	protected $online = false;
 	protected $public_notes = true;
 	protected $empty_page_templ = true;
+	protected $link_md_values = false;
 
 	/**
 	* Constructor
@@ -308,6 +309,26 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
 	}
 	
 	/**
+	 * Set link md values
+	 *
+	 * @param bool $a_val link metadata values	
+	 */
+	function setLinkMetadataValues($a_val)
+	{
+		$this->link_md_values = $a_val;
+	}
+	
+	/**
+	 * Get link md values
+	 *
+	 * @return bool link metadata values
+	 */
+	function getLinkMetadataValues()
+	{
+		return $this->link_md_values;
+	}
+	
+	/**
 	 * Is wiki an online help wiki?
 	 *
 	 * @return boolean true, if current wiki is an online help wiki
@@ -386,6 +407,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
 			"introduction" => array("clob", $this->getIntroduction()),
 			"imp_pages" => array("integer", $this->getImportantPages()),
 			"page_toc" => array("integer", $this->getPageToc()),
+			"link_md_values" => array("integer", $this->getLinkMetadataValues()),
 			"empty_page_templ" => array("integer", $this->getEmptyPageTemplate())
 			), array(
 			"id" => array("integer", $this->getId())
@@ -435,6 +457,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
 		$this->setImportantPages($rec["imp_pages"]);
 		$this->setPageToc($rec["page_toc"]);
 		$this->setEmptyPageTemplate($rec["empty_page_templ"]);
+		$this->setLinkMetadataValues($rec["link_md_values"]);
 
 		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 		$this->setStyleSheetId((int) ilObjStyleSheet::lookupObjectStyle($this->getId()));
@@ -615,6 +638,18 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
 	static function _lookupPublicNotes($a_wiki_id)
 	{
 		return ilObjWiki::_lookup($a_wiki_id, "public_notes");
+	}
+
+	/**
+	 * Lookup whether metadata should be auto linked
+	 *
+	 * @param	int			$a_wiki_id		Wiki ID
+	 *
+	 * @return	boolean		auto linking activated?
+	 */
+	static function _lookupLinkMetadataValues($a_wiki_id)
+	{
+		return ilObjWiki::_lookup($a_wiki_id, "link_md_values");
 	}
 
 	/**
@@ -1080,6 +1115,16 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
 		{
 			$orig = new ilWikiPage($a_template_page);
 			$orig->copy($page->getId());
+			
+			// #15718
+			include_once "Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php";
+			ilAdvancedMDValues::_cloneValues(
+				$this->getId(),
+				$this->getId(),
+				"wpg",
+				$a_template_page,
+				$page->getId()
+			);
 		}
 
 		return $page;
@@ -1096,5 +1141,67 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
 			return $lng->txt("wiki_wpg").' "'.ilWikiPage::lookupTitle($a_sub_id).'"';
 		}
 	}
+
+	/**
+	 * Init user html export
+	 *
+	 * @param
+	 * @return
+	 */
+	function initUserHTMLExport()
+	{
+		global $ilDB, $ilUser;
+
+		include_once("./Modules/Wiki/classes/class.ilWikiUserHTMLExport.php");
+
+		$user_export = new ilWikiUserHTMLExport($this, $ilDB, $ilUser);
+		$user_export->initUserHTMLExport();
+	}
+
+	/**
+	 * Start user html export
+	 *
+	 * @param
+	 * @return
+	 */
+	function startUserHTMLExport()
+	{
+		global $ilDB, $ilUser;
+
+		include_once("./Modules/Wiki/classes/class.ilWikiUserHTMLExport.php");
+
+		$user_export = new ilWikiUserHTMLExport($this, $ilDB, $ilUser);
+		$user_export->startUserHTMLExport();
+	}
+
+	/**
+	 * Get user html export progress
+	 *
+	 * @return array progress info
+	 */
+	function getUserHTMLExportProgress()
+	{
+		global $ilDB, $ilUser;
+
+		include_once("./Modules/Wiki/classes/class.ilWikiUserHTMLExport.php");
+
+		$user_export = new ilWikiUserHTMLExport($this, $ilDB, $ilUser);
+		return $user_export->getProgress();
+	}
+
+	/**
+	 * Send user html export file
+	 */
+	function deliverUserHTMLExport()
+	{
+		global $ilDB, $ilUser;
+
+		include_once("./Modules/Wiki/classes/class.ilWikiUserHTMLExport.php");
+
+		$user_export = new ilWikiUserHTMLExport($this, $ilDB, $ilUser);
+		return $user_export->deliverFile();
+	}
+
+
 }
 ?>

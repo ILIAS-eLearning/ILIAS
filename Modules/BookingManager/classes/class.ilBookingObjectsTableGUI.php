@@ -20,6 +20,8 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 	protected $overall_limit;	// [int]
 	protected $reservations;	// [array]
 	protected $current_bookings; // [int]
+	protected $advmd; // [array]
+	protected $filter; // [array]
 	
 	/**
 	 * Constructor
@@ -40,16 +42,23 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 		$this->overall_limit = $a_pool_overall_limit;
 		$this->may_edit = $ilAccess->checkAccess('write', '', $this->ref_id);
 		
+		$this->advmd = ilObjBookingPool::getAdvancedMDFields($this->pool_id);
+		
 		$this->setId("bkobj");
 
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
 		$this->setTitle($lng->txt("book_objects_list"));
 
-		$this->setLimit(9999);
+		// $this->setLimit(9999);		
 		
 		$this->addColumn($this->lng->txt("title"), "title");
-		$this->addColumn($this->lng->txt("description"), "description");
+		
+		$cols = $this->getSelectableColumns();
+		foreach($this->getSelectedColumns() as $col)
+		{
+			$this->addColumn($cols[$col]["txt"], $col);
+		}
 		
 		if(!$this->has_schedule)
 		{
@@ -62,7 +71,48 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
 		$this->setRowTemplate("tpl.booking_object_row.html", "Modules/BookingManager");
 		
+		$this->initFilter();
 		$this->getItems();
+	}
+	
+	function initFilter()
+	{		
+		global $lng;
+		
+		/* 
+		// preset period from parameters, e.g. course period
+		// currently NOT active 
+		if(trim($_GET["pf"]) || 
+			trim($_GET["pt"]))
+		{						
+			$_SESSION["form_".$this->getId()]["period"] = serialize(array(
+				"from" => $_GET["pf"] 
+					? serialize(new ilDateTime(trim($_GET["pf"]), IL_CAL_DATE))
+					: "",
+				"to" =>  $_GET["pt"] 
+					? serialize(new ilDateTime(trim($_GET["pt"]), IL_CAL_DATE))
+					: "",
+			));			
+		}
+		*/
+		
+		// title/description
+		$title = $this->addFilterItemByMetaType(
+			"title", 
+			ilTable2GUI::FILTER_TEXT, 
+			false, 
+			$lng->txt("title")."/".$lng->txt("description")
+		);		
+		$this->filter["title"] = $title->getValue();
+		
+		// booking period
+		$period = $this->addFilterItemByMetaType(
+			"period", 
+			ilTable2GUI::FILTER_DATE_RANGE,
+			false,
+			$lng->txt("book_period")
+		);
+		$this->filter["period"] = $period->getValue();
 	}
 
 	/**
@@ -73,12 +123,63 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 		global $ilUser;
 		
 		include_once 'Modules/BookingManager/classes/class.ilBookingObject.php';
-		$data = ilBookingObject::getList($this->pool_id);
+		$data = ilBookingObject::getList($this->pool_id, $this->filter["title"]);
 		
+		include_once 'Modules/BookingManager/classes/class.ilBookingSchedule.php';
 		include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';
+		
+		// check schedule availability
+		if($this->has_schedule)
+		{			
+			$now = time();
+			$limit = strtotime("+1year");
+			foreach($data as $idx => $item)
+			{
+				$schedule = new ilBookingSchedule($item["schedule_id"]);
+				$av_from = ($schedule->getAvailabilityFrom() && !$schedule->getAvailabilityFrom()->isNull())
+					? $schedule->getAvailabilityFrom()->get(IL_CAL_UNIX)
+					: null;
+				$av_to = ($schedule->getAvailabilityTo() && !$schedule->getAvailabilityTo()->isNull())
+					? $schedule->getAvailabilityTo()->get(IL_CAL_UNIX)
+					: null;
+				if(($av_from && $av_from > $limit) ||
+					($av_to && $av_to < $now))
+				{
+					unset($data[$idx]);
+				}
+				if($av_from > $now)
+				{
+					$data[$idx]["not_yet"] = ilDatePresentation::formatDate(new ilDate($av_from, IL_CAL_UNIX));
+				}
+			}
+		}
+		
 		foreach($data as $item)
 		{
 			$item_id = $item["booking_object_id"];
+			
+			// available for given period?
+			if(is_object($this->filter["period"]["from"]) ||
+				is_object($this->filter["period"]["to"]))
+			{
+				$from = is_object($this->filter["period"]["from"])
+					? strtotime($this->filter["period"]["from"]->get(IL_CAL_DATE)." 00:00:00")
+					: null;
+				$to = is_object($this->filter["period"]["to"]) 
+					? strtotime($this->filter["period"]["to"]->get(IL_CAL_DATE)." 23:59:59")
+					: null;
+								
+				$bobj = new ilBookingObject($item_id);
+				$schedule = new ilBookingSchedule($bobj->getScheduleId());			
+			
+				if(!ilBookingReservation::isObjectAvailableInPeriod($item_id, $schedule, $from, $to))
+				{
+					unset($data[$idx]);
+					continue;
+				}
+			}
+			
+			// cache reservations
 			$item_rsv = ilBookingReservation::getList(array($item_id), 1000, 0, array());
 			$this->reservations[$item_id] = $item_rsv["data"];
 		}				
@@ -107,8 +208,53 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 			}
 		}
 		
+		if($this->advmd)
+		{						
+			// advanced metadata
+			include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
+			$this->record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_FILTER, "book", $this->pool_id, "bobj");
+			$this->record_gui->setTableGUI($this);
+			$this->record_gui->parse();
+			
+			include_once("./Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php");
+			$data = ilAdvancedMDValues::queryForRecords($this->pool_id, "bobj", $data, "pool_id", "booking_object_id", $this->record_gui->getFilterElements());
+		}
+		
 		$this->setMaxCount(sizeof($data));
 		$this->setData($data);
+	}
+	
+	function numericOrdering($a_field)
+	{
+		if (substr($a_field, 0, 3) == "md_")
+		{
+			$md_id = (int) substr($a_field, 3);
+			if ($this->advmd[$md_id]["type"] == ilAdvancedMDFieldDefinition::TYPE_DATE)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	function getSelectableColumns()
+	{
+		$cols = array();
+		
+		$cols["description"] = array(
+			"txt" => $this->lng->txt("description"),
+			"default" => true
+		);
+		
+		foreach($this->advmd as $field)
+		{
+			$cols["advmd".$field["id"]] = array(
+				"txt" => $field["title"],
+				"default" => false
+			);
+		}
+		
+		return $cols;
 	}
 
 	/**
@@ -122,9 +268,20 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 		$has_booking = false;
 		$booking_possible = true;
 		$has_reservations = false;
+		
+		$selected = $this->getSelectedColumns();
 
 	    $this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
-	    $this->tpl->setVariable("TXT_DESC", nl2br($a_set["description"]));
+		
+	   if(in_array("description", $selected))
+		{
+			$this->tpl->setVariable("TXT_DESC", nl2br($a_set["description"]));
+		}
+		
+		if($a_set["not_yet"])
+		{
+			$this->tpl->setVariable("NOT_YET", $a_set["not_yet"]);
+		}
 		
 		if(!$this->has_schedule)		
 		{												
@@ -171,10 +328,18 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 		
 		if($booking_possible)
 		{
+			if(is_object($this->filter['period']['from']))
+			{
+				$ilCtrl->setParameter($this->parent_obj, 'sseed', $this->filter['period']['from']->get(IL_CAL_DATE));
+			}
+			
 			$items['book'] = array($lng->txt('book_book'), $ilCtrl->getLinkTarget($this->parent_obj, 'book'));
+			
+			$ilCtrl->setParameter($this->parent_obj, 'sseed', '');
 		}
 		
-		if(!$this->schedule && $has_booking)
+		// #16663
+		if(!$this->has_schedule && $has_booking)
 		{						
 			if(trim($a_set['post_text']) || $a_set['post_file'])
 			{
@@ -204,6 +369,33 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 			if(!$has_reservations)
 			{
 				$items['delete'] = array($lng->txt('delete'), $ilCtrl->getLinkTarget($this->parent_obj, 'confirmDelete'));
+			}
+		}
+		
+		if($this->advmd)
+		{
+			foreach ($this->advmd as $item)
+			{
+				$advmd_id = (int)$item["id"];
+				
+				if(!in_array("advmd".$advmd_id, $selected))						
+				{
+					continue;
+				}
+								
+				$val = " ";
+				if(isset($a_set["md_".$advmd_id."_presentation"]))
+				{
+					$pb = $a_set["md_".$advmd_id."_presentation"]->getList();
+					if($pb)
+					{
+						$val = $pb;
+					}
+				}		
+				
+				$this->tpl->setCurrentBlock("advmd_bl");										
+				$this->tpl->setVariable("ADVMD_VAL", $val);
+				$this->tpl->parseCurrentBlock();
 			}
 		}
 

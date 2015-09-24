@@ -188,5 +188,118 @@ class ilTestService
 		$assessmentSetting = new ilSetting("assessment");
 		$assessmentSetting->set("manscoring_done_" . $activeId, (bool)$manScoringDone);
 	}
+	
+	public function buildVirtualSequence(ilTestSession $testSession)
+	{
+		global $ilDB, $lng, $ilPluginAdmin;
+
+		require_once 'Modules/Test/classes/class.ilTestVirtualSequence.php';
+		$testSequenceFactory = new ilTestSequenceFactory($ilDB, $lng, $ilPluginAdmin, $this->object);
+
+		if( $this->object->isRandomTest() )
+		{
+			require_once 'Modules/Test/classes/class.ilTestVirtualSequenceRandomQuestionSet.php';
+			$virtualSequence = new ilTestVirtualSequenceRandomQuestionSet($ilDB, $this->object, $testSequenceFactory);
+		}
+		else
+		{
+			require_once 'Modules/Test/classes/class.ilTestVirtualSequence.php';
+			$virtualSequence = new ilTestVirtualSequence($ilDB, $this->object, $testSequenceFactory);
+		}
+
+		$virtualSequence->setActiveId($testSession->getActiveId());
+
+		$virtualSequence->init();
+		
+		return $virtualSequence;
+	}
+	
+	public function getVirtualSequenceUserResults(ilTestVirtualSequence $virtualSequence)
+	{
+		$resultsByPass = array();
+		
+		foreach($virtualSequence->getUniquePasses() as $pass)
+		{
+			$results = $this->object->getTestResult(
+				$virtualSequence->getActiveId(), $pass, false, true, true
+			);
+
+			$resultsByPass[$pass] = $results;
+		}
+		
+		$virtualPassResults = array();
+		
+		foreach($virtualSequence->getQuestionsPassMap() as $questionId => $pass)
+		{
+			foreach($resultsByPass[$pass] as $key => $questionResult)
+			{
+				if($key === 'test' || $key === 'pass')
+				{
+					continue;
+				}
+				
+				if($questionResult['qid'] == $questionId)
+				{
+					$questionResult['pass'] = $pass;
+					$virtualPassResults[$questionId] = $questionResult;
+					break;
+				}
+			}
+		}
+		
+		return $virtualPassResults;
+	}
+
+	/**
+	 * @param ilTestSequenceSummaryProvider $testSequence
+	 * @param bool $obligationsFilter
+	 * @return array
+	 */
+	public function getQuestionSummaryData(ilTestSequenceSummaryProvider $testSequence, $obligationsFilterEnabled)
+	{
+		$result_array = $testSequence->getSequenceSummary($obligationsFilterEnabled);
+
+		$marked_questions = array();
+
+		if($this->object->getShowMarker())
+		{
+			include_once "./Modules/Test/classes/class.ilObjTest.php";
+			$marked_questions = ilObjTest::_getSolvedQuestions($testSequence->getActiveId());
+		}
+
+		$data = array();
+
+		foreach($result_array as $key => $value)
+		{
+			$description = "";
+			if($this->object->getListOfQuestionsDescription())
+			{
+				$description = $value["description"];
+			}
+
+			$points = "";
+			if(!$this->object->getTitleOutput())
+			{
+				$points = $value["points"];
+			}
+
+			$marked = false;
+			if(count($marked_questions))
+			{
+				if(array_key_exists($value["qid"], $marked_questions))
+				{
+					$obj = $marked_questions[$value["qid"]];
+					if($obj["solved"] == 1)
+					{
+						$marked = true;
+					}
+				}
+			}
+
+			$data[] = array('order' => $value["nr"], 'title' => $this->object->getQuestionTitle($value["title"]), 'description' => $description, 'worked_through' => $value["worked_through"], 'postponed' => $value["postponed"], 'points' => $points, 'marked' => $marked, 'sequence' => $value["sequence"], 'obligatory' => $value['obligatory'], 'isAnswered' => $value['isAnswered']);
+		}
+
+		return $data;
+	}
 }
 

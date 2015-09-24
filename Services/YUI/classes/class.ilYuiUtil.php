@@ -19,7 +19,6 @@ class ilYuiUtil
 	static function initConnection()
 	{
 		global $tpl;
-		
 		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/yahoo-dom-event/yahoo-dom-event.js");
 		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/connection/connection-min.js");
 	}

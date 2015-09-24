@@ -196,6 +196,10 @@ class ilLuceneUserSearchGUI extends ilSearchBaseGUI
 	 */
 	protected function getTabs()
 	{
+		global $ilHelp;
+
+		$ilHelp->setScreenIdComponent("src_luc");
+
 		$this->tabs_gui->addTarget('search',$this->ctrl->getLinkTargetByClass('illucenesearchgui'));
 		
 		if(ilSearchSettings::getInstance()->isLuceneUserSearchEnabled())

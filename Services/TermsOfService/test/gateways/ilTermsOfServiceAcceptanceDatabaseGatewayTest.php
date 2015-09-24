@@ -60,7 +60,7 @@ class ilTermsOfServiceAcceptanceDatabaseGatewayTest extends PHPUnit_Framework_Te
 			'lng'      => array('text', $entity->getIso2LanguageCode()),
 			'src'      => array('text', $entity->getSource()),
 			'src_type' => array('integer', $entity->getSourceType()),
-			'text'     => array('text', $entity->getText()),
+			'text'     => array('clob', $entity->getText()),
 			'hash'     => array('text', $entity->getHash()),
 			'ts'       => array('integer', $entity->getTimestamp())
 		);

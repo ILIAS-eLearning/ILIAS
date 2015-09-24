@@ -710,10 +710,11 @@ class ilObjectDefinition// extends ilSaxParser
 	*
 	* @param	string	object type
 	* @param	integer	context
+	* @param	integer	parent_ref_id
  	* @access	public
 	* @return	array	list of createable object types
 	*/
-	function getCreatableSubObjects($a_obj_type, $a_context = self::MODE_REPOSITORY)
+	function getCreatableSubObjects($a_obj_type, $a_context = self::MODE_REPOSITORY, $a_parent_ref_id = null)
 	{
 		$subobjects = $this->getSubObjects($a_obj_type);
 
@@ -741,11 +742,12 @@ class ilObjectDefinition// extends ilSaxParser
 			{
 				unset($subobjects[$type]);
 			}
-			// Filter for iLinc: Delete the following lines after we completely removed the iLinc object in ILIAS 4.5.x
-			if(in_array($type, array('icrs', 'icla')))
-			{
-				unset($subobjects[$type]);
-			}
+		}
+		
+		if ($a_obj_type == "prg") {
+			// ask study program which objects are allowed to create on the concrete node.
+			require_once("Modules/StudyProgramme/classes/class.ilObjStudyProgramme.php");
+			return ilObjStudyProgramme::getCreatableSubObjects($subobjects, $a_parent_ref_id);
 		}
 
 		return $subobjects;
@@ -785,7 +787,7 @@ class ilObjectDefinition// extends ilSaxParser
 		{
 			return false;
 		}
-		return count($this->obj_data[$a_obj_name]['subobjects']) > 1 ? true : false;
+		return count($this->obj_data[$a_obj_name]['subobjects']) >= 1 ? true : false;
 	}
 
 // PRIVATE METHODS
@@ -859,20 +861,6 @@ class ilObjectDefinition// extends ilSaxParser
 		{
 			switch($type)
 			{
-				case "chat":
-					if(!$this->ilias->getSetting("chat_active"))
-					{
-						unset($subobjects[$type]);
-					}
-					break;
-
-				case "icrs":
-					if(!$this->ilias->getSetting("ilinc_active"))
-					{
-						unset($subobjects[$type]);
-					}
-					break;					
-
 				default:
 					// DO NOTHING
 			}

@@ -713,6 +713,23 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 		include("ilias.php");
 		exit;
 	}
+
+	/**
+	 * Entry point for awareness tool
+	 */
+	function listSharedResourcesOfOtherUser()
+	{
+		global $ilCtrl;
+
+		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceShareTableGUI.php";
+		$tbl = new ilWorkspaceShareTableGUI($this, "share", $this->getAccessHandler(), $this->node_id);
+		$tbl->resetOffset();
+		$tbl->resetFilter();
+		$_POST["user"] = $_GET["user"];
+		$tbl->writeFilterToSession();
+		$this->share();
+	}
+
 }
 
 ?>

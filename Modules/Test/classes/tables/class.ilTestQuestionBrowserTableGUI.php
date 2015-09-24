@@ -77,7 +77,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 		
 		// title
 		include_once("./Services/Form/classes/class.ilTextInputGUI.php");
-		$ti = new ilTextInputGUI($lng->txt("tst_qbt_filter_question_title"), "title");
+		$ti = new ilTextInputGUI($this->lng->txt("tst_qbt_filter_question_title"), "title");
 		$ti->setMaxLength(64);
 		$ti->setSize(20);
 		$ti->setValidationRegexp('/(^[^%]+$)|(^$)/is');

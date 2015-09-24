@@ -15,4 +15,9 @@
 			<parent id="root">root</parent>		
 		</object>	
 	</objects>
+
+	<web_access_checker>
+		<secure_path path="ilPoll" checking-class="ilObjPollAccess" in-sec-folder='1'/>
+	</web_access_checker>
+
 </module>

@@ -98,6 +98,10 @@ class ilTreeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetPathIdsUsingNestedSet()
 	{
+		// This test leads to a fatal error, as getPathIdsUsingNestedSets is
+		// not defined on ilTree.
+		$this->assertTrue(false, "Testcase leads to fatal error.");
+		
 		$tree = new ilTree(ROOT_FOLDER_ID);
 		$ids = $tree->getPathIdsUsingNestedSets(24,9); // Administration -> Public Chat => should return 9,14,24 (chat server settings)
 		
@@ -107,7 +111,6 @@ class ilTreeTest extends PHPUnit_Framework_TestCase
 		$ids = $tree->getPathIdsUsingNestedSets(24); // Administration -> Public Chat => should return 9,14,24 (chat server settings)
 		
 		$this->assertEquals($ids,array(1,9,14,24));
-
 	}
 	
 	/**
@@ -118,6 +121,10 @@ class ilTreeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetPathIds()
 	{
+		// This test leads to a fatal error, as getPathIdsUsingNestedSets and
+		// getPathIdsUsingAdjacencyMap are not defined on ilTree.
+		$this->assertTrue(false, "Testcase leads to fatal error.");
+		
 		$tree = new ilTree(ROOT_FOLDER_ID);
 		$ids_ns = $tree->getPathIdsUsingNestedSets(24);
 		$ids_al = $tree->getPathIdsUsingAdjacencyMap(24);

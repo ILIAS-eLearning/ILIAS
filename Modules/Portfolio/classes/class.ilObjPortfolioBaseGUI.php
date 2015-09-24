@@ -278,57 +278,36 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		$button = ilLinkButton::getInstance();
 		$button->setCaption("prtf_add_page");
 		$button->setUrl($this->ctrl->getLinkTarget($this, "addPage"));
-		$ilToolbar->addButtonInstance($button);
+		$ilToolbar->addStickyItem($button);
 
 		if(!$ilSetting->get('disable_wsp_blogs'))
 		{
 			$button = ilLinkButton::getInstance();
 			$button->setCaption("prtf_add_blog");
 			$button->setUrl($this->ctrl->getLinkTarget($this, "addBlog"));
-			$ilToolbar->addButtonInstance($button);
+			$ilToolbar->addStickyItem($button);
 		}
 
 		$ilToolbar->addSeparator();
 		
-		$button = ilLinkButton::getInstance();
-		$button->setCaption("export_html");
-		$button->setUrl($this->ctrl->getLinkTarget($this, "export"));
-		$ilToolbar->addButtonInstance($button);
+		// #16571
+		if($this->getType() == "prtf")
+		{
+			$button = ilLinkButton::getInstance();
+			$button->setCaption("export_html");
+			$button->setUrl($this->ctrl->getLinkTarget($this, "export"));
+			$ilToolbar->addButtonInstance($button);
+		}
 		
 		include_once "Modules/Portfolio/classes/class.ilPortfolioPageTableGUI.php";
 		$table = new ilPortfolioPageTableGUI($this, "view");
 		
 		// exercise portfolio?			
-		include_once "Modules/Exercise/classes/class.ilObjExercise.php";			
-		$exercises = ilObjExercise::findUserFiles($this->user_id, $this->object->getId());
+		include_once "Modules/Portfolio/classes/class.ilPortfolioExerciseGUI.php";			
+		$exercises = ilPortfolioExerciseGUI::checkExercise($this->user_id, $this->object->getId(), $table->dataExists());
 		if($exercises)
-		{
-			$info = array();
-			foreach($exercises as $exercise)
-			{
-				// #9988
-				$active_ref = false;
-				foreach(ilObject::_getAllReferences($exercise["obj_id"]) as $ref_id)
-				{
-					if(!$tree->isSaved($ref_id))
-					{
-						$active_ref = true;
-						break;
-					}
-				}
-				if($active_ref)
-				{				
-					$part = $this->getExerciseInfo($exercise["ass_id"], $table->dataExists());
-					if($part)
-					{
-						$info[] = $part;
-					}
-				}
-			}
-			if(sizeof($info))
-			{
-				ilUtil::sendInfo(implode("<br />", $info));									
-			}
+		{			
+			ilUtil::sendInfo($exercises);												
 		}
 		
 		$this->tpl->setContent($table->getHTML());
@@ -603,6 +582,8 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		{
 			$this->tpl->setLoginTargetPar("prtf_".$this->object->getId()."_".$current_page);
 		}
+		
+		$back_caption = "";
 						
 		// public profile
 		if($_REQUEST["back_url"])
@@ -635,12 +616,17 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 			else
 			{
 				$back = $this->ctrl->getLinkTarget($this, "view");
+				$back_caption = $this->lng->txt("prtf_back_to_portfolio_owner");
 			}
 		}
 		
 		global $ilMainMenu;
-		$ilMainMenu->setMode(ilMainMenuGUI::MODE_TOPBAR_ONLY);		
-		$ilMainMenu->setTopBarBack($back);
+		$ilMainMenu->setMode(ilMainMenuGUI::MODE_TOPBAR_ONLY);	
+		if($back)
+		{
+			// might already be set in ilPublicUserProfileGUI
+			$ilMainMenu->setTopBarBack($back, $back_caption);
+		}
 		
 		// render tabs
 		$current_blog = null;
@@ -748,7 +734,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 	
 		// #10717
 		$this->tpl->setContent($content.
-			'<div class="ilClearFloat">'.$note.'</div>');					
+			'<div class="ilClearFloat">'.$notes.'</div>');					
 	}
 	
 	/**
@@ -768,7 +754,8 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		$prfa_set = new ilSetting("prfa");
 		if($prfa_set->get("banner"))
 		{		
-			$banner = $a_portfolio->getImageFullPath();
+			require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
+			$banner = ilWACSignedPath::signFile($a_portfolio->getImageFullPath());
 			$banner_width = $prfa_set->get("banner_width");
 			$banner_height = $prfa_set->get("banner_height");
 			if($a_export)

@@ -268,7 +268,7 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 			ilObjPortfolio::clonePagesAndSettings($source, $a_new_object);
 		}
 
-		ilUtil::sendSuccess($this->lng->txt("prtf_portfolio_created"), true);
+		ilUtil::sendSuccess($this->lng->txt("prtt_portfolio_created"), true);
 		$this->ctrl->setParameter($this, "prt_id", $a_new_object->getId());
 		$this->ctrl->redirect($this, "view");
 	}

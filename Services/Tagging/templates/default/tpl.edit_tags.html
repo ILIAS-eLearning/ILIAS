@@ -1,7 +1,4 @@
 <div class="ilNotesHeader">	
-	<h3 class="ilHeader">
-		{TXT_TAGS}
-	<br>
 	<span class="small">{TXT_OBJ_TITLE}</span>
 	</h3>
 </div>
@@ -13,8 +10,9 @@
 <h3>{TAGS_TITLE}</h3>
 <!-- END tags_title_bl -->
 <form id="ilTagFormAjax" method="post" name="cmd" action="#" onsubmit="{ON_SUBMIT}">
-<textarea id="tags" class="noRTEditor form-control" name="tags" wrap="virtual" style="width:450px;" rows="4">{VAL_TAGS}</textarea><br />
-<input class="btn btn-default" type="submit" name="cmd[{CMD_SAVE}]" value="{TXT_SAVE}">
+<textarea id="tags" class="noRTEditor form-control" name="tags" wrap="virtual" rows="4">{VAL_TAGS}</textarea>
+	<div class="help-block il_Description">{TXT_COMMA_SEPARATED}</div>
+	<input class="btn btn-default" type="submit" name="cmd[{CMD_SAVE}]" value="{TXT_SAVE}">
 </form>
 <!-- BEGIN other_users_bl -->
 <h3>{TITLE_OTHER}</h3>

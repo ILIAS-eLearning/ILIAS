@@ -108,7 +108,7 @@ class ilLuceneSearcher
 	 */
 	public function highlight($a_obj_ids)
 	{
-		global $ilBench,$ilSetting, $ilLog;
+		global $ilBench,$ilSetting;
 
 		include_once './Services/Search/classes/Lucene/class.ilLuceneHighlighterResultParser.php';
 		
@@ -131,24 +131,19 @@ class ilLuceneSearcher
 		}
 		catch(XML_RPC2_FaultException $e)
 		{
-			// TODO: better error handling
-			$ilLog->write(__METHOD__.': '.$e->getMessage());
+			ilLoggerFactory::getLogger('src')->critical('Highlighting failed with message: ' . $e->getMessage());
 			return new ilLuceneHighlighterResultParser();
 		}
 		catch(Exception $e)
 		{
-			$ilLog->write(__METHOD__.': '.$e->getMessage());
+			ilLoggerFactory::getLogger('src')->error('Highlighting failed with message: ' . $e->getMessage());
 			return new ilLuceneHighlighterResultParser();
 		}
-		$ilBench->stop('Lucene','SearchHighlight');
 
-		$ilBench->start('Lucene','SearchHighlightParser');
 		include_once './Services/Search/classes/Lucene/class.ilLuceneHighlighterResultParser.php';
 		$this->highlighter = new ilLuceneHighlighterResultParser();
-		#$GLOBALS['ilLog']->write(__METHOD__.' Result is '. $res);
 		$this->highlighter->setResultString($res);
 		$this->highlighter->parse();
-		$ilBench->stop('Lucene','SearchHighlightParser');
 
 		return $this->highlighter;
 	}
@@ -166,7 +161,7 @@ class ilLuceneSearcher
 	
 	/**
 	 * get highlighter 
-	 * @return
+	 * @return ilLuceneHighlightResultParser
 	 */
 	public function getHighlighter()
 	{
@@ -203,7 +198,7 @@ class ilLuceneSearcher
 	 */
 	protected function performSearch()
 	{
-		global $ilBench,$ilSetting, $ilLog;
+		global $ilBench,$ilSetting;
 
 		// TODO error handling
 		if(!$this->query_parser->getQuery())
@@ -235,32 +230,23 @@ class ilLuceneSearcher
 					break;
 				
 			}
+			ilLoggerFactory::getLogger('src')->debug('Searching for: ' . $this->query_parser->getQuery());
 		}
 		catch(XML_RPC2_FaultException $e)
 		{
-			// TODO: better error handling
-			$ilBench->stop('Lucene','SearchCombinedIndex');
-			$ilLog->write(__METHOD__.': '.$e->getMessage());
+			ilLoggerFactory::getLogger('src')->critical($e->getMessage());
 			return;
 		}
 		catch(Exception $e)
 		{
-			$ilBench->stop('Lucene','SearchCombinedIndex');
-			$ilLog->write(__METHOD__.': '.$e->getMessage());
+			ilLoggerFactory::getLogger('src')->error('Searching failed with message: ' . $e->getMessage());
 			return;
 		}
-		$ilBench->stop('Lucene','SearchCombinedIndex');		
-
 		
 		// Parse results
-		$ilBench->start('Lucene','ParseSearchResult');
 		include_once './Services/Search/classes/Lucene/class.ilLuceneSearchResultParser.php';
 		$parser = new ilLuceneSearchResultParser($res);
-		
-		#$GLOBALS['ilLog']->write(__METHOD__.' Result is: ' . $res);
-		
 		$parser->parse($this->result);
-		$ilBench->stop('Lucene','ParseSearchResult');
 		return;
 	}
 }

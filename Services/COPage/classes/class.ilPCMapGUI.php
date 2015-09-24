@@ -225,6 +225,8 @@ class ilPCMapGUI extends ilPageContentGUI
 	*/
 	function update()
 	{
+		global $tpl;
+		
 		$this->initForm("update");
 		if ($this->form->checkInput())
 		{

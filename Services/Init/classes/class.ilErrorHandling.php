@@ -1,5 +1,6 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 2015 Richard Klees, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Environment/classes/class.ilRuntime.php';
 
@@ -9,11 +10,37 @@ require_once 'Services/Environment/classes/class.ilRuntime.php';
 *
 * @author	Stefan Meyer <meyer@leifos.com>
 * @author	Sascha Hofmann <shofmann@databay.de>
+* @author	Richard Klees <richard.klees@concepts-and-training.de>
 * @version	$Id$
 * @extends PEAR
 * @todo		when an error occured and clicking the back button to return to previous page the referer-var in session is deleted -> server error
+* @todo		This class is a candidate for a singleton. initHandlers could only be called once per process anyways, as it checks for static $handlers_registered.
 */
 include_once 'PEAR.php';
+
+// TODO: This would clearly benefit from Autoloading...
+require_once("./Services/Exceptions/lib/Whoops/Run.php");
+require_once("./Services/Exceptions/lib/Whoops/Handler/HandlerInterface.php");
+require_once("./Services/Exceptions/lib/Whoops/Handler/Handler.php");
+require_once("./Services/Exceptions/lib/Whoops/Handler/CallbackHandler.php");
+require_once("./Services/Exceptions/lib/Whoops/Handler/PrettyPageHandler.php");
+require_once("./Services/Exceptions/lib/Whoops/Exception/Inspector.php");
+require_once("./Services/Exceptions/lib/Whoops/Exception/ErrorException.php");
+require_once("./Services/Exceptions/lib/Whoops/Exception/FrameCollection.php");
+require_once("./Services/Exceptions/lib/Whoops/Exception/Frame.php");
+require_once("./Services/Exceptions/lib/Whoops/Exception/Inspector.php");
+require_once("./Services/Exceptions/lib/Whoops/Exception/Formatter.php");
+require_once("./Services/Exceptions/lib/Whoops/Util/TemplateHelper.php");
+require_once("./Services/Exceptions/lib/Whoops/Util/Misc.php");
+
+require_once("Services/Exceptions/classes/class.ilDelegatingHandler.php");
+require_once("Services/Exceptions/classes/class.ilPlainTextHandler.php");
+require_once("Services/Exceptions/classes/class.ilTestingHandler.php");
+
+use Whoops\Run;
+use Whoops\Handler\PrettyPageHandler;
+use Whoops\Handler\CallbackHandler;
+use Whoops\Exception\Inspector;
 
 class ilErrorHandling extends PEAR
 {
@@ -46,6 +73,12 @@ class ilErrorHandling extends PEAR
 	var $MESSAGE;
 
 	/**
+	 * Are the error handlers already registered?
+	 * @var bool
+	 */
+	protected static $handlers_registered = false;
+
+	/**
 	* Constructor
 	* @access	public
 	*/
@@ -60,16 +93,56 @@ class ilErrorHandling extends PEAR
 		$this->MESSAGE	 = 3;
 
 		$this->error_obj = false;
-
-		// Runtime errors currently only handled for HHVM
-		if(ilRuntime::getInstance()->isHHVM())
-		{
-			set_error_handler(
-				array($this, 'handleRuntimeErrors'),
-				ilRuntime::getInstance()->getReportedErrorLevels()
-			);
+		
+		$this->initHandlers();
+	}
+	
+	/**
+	 * Initialize Error and Exception Handlers.
+	 *
+	 * Initializes Whoops, a logging handler and a delegate handler for the late initialisation
+	 * of an appropriate error handler.
+	 *
+	 * @return void
+	 */
+	protected function initHandlers() {
+		if (self::$handlers_registered) {
+			// Only register whoops error handlers once.
+			return;
 		}
-		set_exception_handler(array($this, 'handleUncaughtException'));
+		
+		$ilRuntime = $this->getIlRuntime();
+		$whoops = $this->getWhoops();
+		
+		$whoops->pushHandler(new ilDelegatingHandler($this));
+		
+		if ($ilRuntime->shouldLogErrors()) {
+			$whoops->pushHandler($this->loggingHandler());
+		}
+		
+		$whoops->register();
+		
+		self::$handlers_registered = true;
+	}
+
+	/**
+	 * Get a handler for an error or exception.
+	 *
+	 * Uses Whoops Pretty Page Handler in DEVMODE and the legacy ILIAS-Error handlers otherwise.
+	 *
+	 * @return Whoops\Handler
+	 */
+	public function getHandler() {
+		// TODO: * Use Whoops in production mode? This would require an appropriate
+		//		   error-handler.
+		//		 * Check for context? The current implementation e.g. would output HTML for
+		//		   for SOAP.
+
+		if ($this->isDevmodeActive()) {
+			return $this->devmodeHandler();
+		}
+
+		return $this->defaultHandler();
 	}
 
 	function getLastError()
@@ -94,7 +167,9 @@ class ilErrorHandling extends PEAR
 				"First error: ".$_SESSION["failure"].'<br>'.
 				"Last Error:". $a_error_obj->getMessage();
 			//return;
-			$log->logError($a_error_obj->getCode(), $m);
+			$log->write($m);
+			#$log->writeWarning($m);
+			#$log->logError($a_error_obj->getCode(), $m);
 			unset($_SESSION["failure"]);
 			die ($m);
 		}
@@ -134,7 +209,8 @@ class ilErrorHandling extends PEAR
 
 		if (is_object($log) and $log->enabled == true)
 		{
-			$log->logError($a_error_obj->getCode(),$a_error_obj->getMessage());
+			$log->write($a_error_obj->getMessage());
+			#$log->logError($a_error_obj->getCode(),$a_error_obj->getMessage());
 		}
 
 //echo $a_error_obj->getCode().":"; exit;
@@ -254,97 +330,81 @@ class ilErrorHandling extends PEAR
 	}
 	
 	/**
-	 * Called for each uncaught exception
-	 * @param Exception $e
+	 * Get ilRuntime.
+	 * @return ilRuntime
 	 */
-	public function handleUncaughtException(Exception $e)
-	{
-		$error = $e->getMessage();
-		if (DEVMODE)
-		{
-			$error.= '<br /><br />';
-			$error.= nl2br($e->getTraceAsString());
-		}
-		$this->raiseError($error,$this->WARNING);
+	protected function getIlRuntime() {
+		return ilRuntime::getInstance();
+	}
+	
+	/**
+	 * Get an instance of Whoops/Run.
+	 * @return Whoops\Run
+	 */
+	protected function getWhoops() {
+		return new Run();
+	}
+	
+	/**
+	 * Is the DEVMODE switched on?
+	 * @return bool
+	 */
+	protected function isDevmodeActive() {
+		return DEVMODE;
 	}
 
 	/**
-	 * We should enhance the error reporting in future releases (funding required).
-	 * Idea: We should convert php errors to exceptions and tweak the exception handling (already enhanced by smeyer in former releases)
-	 * We should implement handlers depending on the context (web/html, soap/xml, rest/json, cli/plain text, ...)
-	 * 
-	 * @param int $a_error_code
-	 * @param string $a_error_message
-	 * @param string $a_error_file
-	 * @param int $a_error_line
-	 * @return mixed The error handler must return FALSE to populate
+	 * Get a default error handler.
+	 * @return Whoops\Handler
 	 */
-	public function handleRuntimeErrors($a_error_code, $a_error_message, $a_error_file, $a_error_line)
-	{
-		// #15641 - the silence operator should suppress the error completely
-		if(error_reporting() === 0)
-		{
-			return;
-		}
+	protected function defaultHandler() {
+		return new CallbackHandler(function(Exception $exception, Inspector $inspector, Run $run) {
+			require_once("Services/Utilities/classes/class.ilUtil.php");
+			ilUtil::sendFailure($exception->getMessage(), true);
+			ilUtil::redirect("error.php");
+		});
+	}
+
+	/**
+	 * Get the handler to be used in DEVMODE.
+	 * @return Whoops\Handler
+	 */
+	protected function devmodeHandler() {
+		global $ilLog;
 		
-		$backtrace_array = $this->formatBacktraceArray(debug_backtrace());
-		$error_code      = $this->translateErrorCode($a_error_code);
-
-		if(ilRuntime::getInstance()->shouldLogErrors())
-		{
-			error_log($error_code . ': ' . $a_error_message . ' in '.$a_error_file . ' on line ' . $a_error_line . PHP_EOL . implode(PHP_EOL, $backtrace_array));
+		switch (ERROR_HANDLER) {
+			case "TESTING":
+				return new ilTestingHandler();
+			case "PLAIN_TEXT":
+				return new ilPlainTextHandler();
+			case "PRETTY_PAGE":
+				return new PrettyPageHandler();
+			default:
+				$ilLog->write("Unknown or undefined error handler '".ERROR_HANDLER."'. "
+							 ."Falling back to PrettyPageHandler.");
+				return new PrettyPageHandler();
 		}
-
-		if(ilRuntime::getInstance()->shouldDisplayErrors())
-		{
-			print '<br /><b>' . $error_code . '</b>: ' . $a_error_message . ' in <b>'.$a_error_file . '</b> on line <b>' . $a_error_line . '</b><br/>' . implode('<br />', $backtrace_array);
-		}
-
-		return true;
 	}
-
+	
 	/**
-	 * @param array $a_backtrace
-	 * @return array
+	 * Get the handler to be used to log errors.
+	 * @return Whoops\Handler
 	 */
-	protected function formatBacktraceArray(array $a_backtrace)
-	{
-		$stack = array();
-		$i     = 1;
+	protected function loggingHandler() {
+		return new CallbackHandler(function(Exception $exception, Inspector $inspector, Run $run) {
+			/**
+			 * Don't move this out of this callable
+			 * @var ilLog $ilLog;
+			 */
+			global $ilLog;
 
-		unset($a_backtrace[0]); // remove first call from stack trace
-		foreach($a_backtrace as $item)
-		{
-			$stack_line = "#$i " . $item['file'] . "(" . $item['line'] . "): ";
-			if(isset($item['class']))
-			{
-				$stack_line .= $item['class'] . "->";
+			if(is_object($ilLog) && $ilLog->enabled) {
+				$ilLog->write('ERROR (' . $exception->getCode() .') ' . $exception->getMessage());
 			}
-			$stack_line .= $item['function'] . "()";
-			array_push($stack, $stack_line);
-			$i++;
-		}
-
-		return $stack;
-	}
-
-	/**
-	 * Translates an integer error code to the corresponding error string
-	 * @param int $error_code
-	 * @return string
-	 */
-	protected function translateErrorCode($error_code)
-	{
-		$constants = get_defined_constants(true);
-		foreach($constants['Core'] as $constant => $value)
-		{
-			if(substr($constant, 0, 2) == 'E_' && $value == $error_code)
-			{
-				return $constant;
-			}
-		}
-
-		return 'E_UNKNOWN';
+			
+			// Send to system logger
+			error_log($exception->getMessage());
+		});
 	}
 } // END class.ilErrorHandling
 ?>

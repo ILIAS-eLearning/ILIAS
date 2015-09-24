@@ -27,7 +27,8 @@ class ilUserQuery
 	private $additional_fields = array();
 	private $users = array();
 	private $first_letter = '';
-	
+	private $has_access = false;
+
 	private $default_fields = array(
 		"usr_id", 
 		"login", 
@@ -200,6 +201,16 @@ class ilUserQuery
 	{
 		$this->first_letter = $a_fll;
 	}
+
+	/**
+	 * set filter for user that are limited but has access
+	 *
+	 * @param $a_access
+	 */
+	public function setAccessFilter($a_access)
+	{
+		$this->has_access = (bool) $a_access;
+	}
 	
 	/**
 	 * Query usr_data
@@ -322,6 +333,18 @@ class ilUserQuery
 		if ($this->limited_access)		// limited access
 		{
 			$add = $where." usr_data.time_limit_unlimited= ".$ilDB->quote(0, "integer");
+			$query.= $add;
+			$count_query.= $add;
+			$where = " AND";
+		}
+
+		if($this->has_access) //user is limited but has access
+		{
+			$unlimited = "time_limit_unlimited = ". $ilDB->quote(1, 'integer');
+			$from = "time_limit_from < ". $ilDB->quote(time(), 'integer');
+			$until = "time_limit_until > ". $ilDB->quote(time(), 'integer');
+
+			$add = $where.' (' .$unlimited.' OR ('.$from.' AND ' .$until.'))';
 			$query.= $add;
 			$count_query.= $add;
 			$where = " AND";

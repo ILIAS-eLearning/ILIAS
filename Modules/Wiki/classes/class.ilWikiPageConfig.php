@@ -29,6 +29,7 @@ class ilWikiPageConfig extends ilPageConfig
 		$this->addIntLinkFilter("WikiPage");
 		$this->setIntLinkHelpDefaultType("RepositoryItem");
 		$this->setEnablePCType("AMDPageList", true);
+		$this->setEnableUserLinks(true);
 	}
 	
 	/**

@@ -239,8 +239,8 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 				break;
 		}
 		if ($question_title)
-		{
-			$template->setVariable("QUESTION_TITLE", $this->object->getTitle());
+		{						
+			$template->setVariable("QUESTION_TITLE", $this->getPrintViewQuestionTitle($question_title));
 		}
 		if ($show_questiontext)
 		{
@@ -505,14 +505,27 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 		
 		$template->setCurrentBlock("detail_row");
 		$template->setVariable("TEXT_OPTION", $this->lng->txt("categories"));
-		$categories = "";
+		$table = array();
+		$idx = $selsum = 0;
 		foreach ($this->cumulated["variables"] as $key => $value)
 		{
-			$categories .= "<li>" . $value["title"] . ": n=" . $value["selected"] . 
-				" (" . sprintf("%.2f", 100*$value["percentage"]) . "%)</li>";
+			$table[] = array(
+				(++$idx).".",
+				$value["title"], 
+				$value["selected"], 
+				sprintf("%.2f", 100*$value["percentage"])."%"
+			);			
+			$selsum += (int)$value["selected"];
 		}
-		$categories = "<ol>$categories</ol>";
-		$template->setVariable("TEXT_OPTION_VALUE", $categories);
+		$head = array(
+			"", 
+			$this->lng->txt("title"), 
+			$this->lng->txt("category_nr_selected"), 
+			$this->lng->txt("percentage_of_selections")
+		);
+		$foot = array(null, null, $selsum, null);
+		$template->setVariable("TEXT_OPTION_VALUE", 
+			$this->renderStatisticsDetailsTable($head, $table, $foot));
 		$template->parseCurrentBlock();
 		
 		// add text answers to detailed results

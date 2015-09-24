@@ -620,3 +620,24 @@ https_settings#:#HTTPS-Einstellungen
 alert#:#Warnung
 pre_opcache_comments#:#opcache.load_comments muss eingeschaltet sein
 pre_load_comments#:#PHP-OPCache load_comments
+memcache_servers#:#Servers
+memcache_status#:#Status
+memcache_host#:#Host
+memcache_port#:#Port
+memcache_weight#:#Weight
+memcache_actions#:#Aktionen
+memcache_edit#:#Server bearbeiten
+memcache_add#:#Server hinzufügen
+memcache_delete#:#Server löschen
+memcache_cancel#:#Abbrechen
+memcache_update#:#Server speichern
+memcache_status_server#:#Erreichbarcache_activate_clng#:#Language###30 08 2015 new variable
+cache_activate_obj_def#:#Object Definition###30 08 2015 new variable
+cache_activate_ilctrl#:#Control Flow###30 08 2015 new variable
+cache_activate_comp#:#Components###30 08 2015 new variable
+cache_activate_tpl#:#Template (HTML)###30 08 2015 new variable
+cache_activate_events#:#Events###30 08 2015 new variable
+cache_activated_components#:#Activated Components###30 08 2015 new variable
+cache_flush#:#Flush all caches###30 08 2015 new variable
+cache_activate_tpl_blocks#:#Template (Blocks)###30 08 2015 new variable
+cache_activate_tpl_variables#:#Template (Variablen###30 08 2015 new variable

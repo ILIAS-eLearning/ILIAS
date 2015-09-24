@@ -64,6 +64,11 @@ class ilSoapUtils extends ilSoapAdministration
 
 		include_once 'Services/Mail/classes/class.ilMimeMail.php';
 
+		if(strpos($sender, '#:#') !== false)
+		{
+			$sender = explode('#:#', $sender);
+		}
+
 		$mmail = new ilMimeMail();
 		$mmail->autoCheck(false);
 		$mmail->From($sender);

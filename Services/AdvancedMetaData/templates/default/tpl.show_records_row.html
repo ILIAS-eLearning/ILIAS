@@ -1,6 +1,8 @@
 <tr class="{CSS_ROW} small">
 	<td class="std">
+		<!-- BEGIN check_bl -->
 		<input type="checkbox" name="record_id[]" value="{VAL_ID}" />
+		<!-- END check_bl -->
 	</td>
 	<td class="std">
 		{VAL_TITLE}
@@ -18,11 +20,13 @@
 	<td class="std">
 		<input type="checkbox" name="active[{ACTIVE_ID}]" value="1" {ACTIVE_CHECKED} {ACTIVE_DISABLED} />
 	</td>
+	<!-- BEGIN ass_obj_types_col -->
 	<td class="std">		
 		<!-- BEGIN ass_obj_types -->
-		<input type="checkbox" name="obj_types[{ASS_ID}][]" value="{ASS_NAME}" {ASS_CHECKED} {ASS_DISABLED} /> {VAL_OBJ_TYPE}<br />
+		{VAL_OBJ_TYPE_STATUS} {VAL_OBJ_TYPE}<br />
 		<!-- END ass_obj_types -->
 	</td>
+	<!-- END ass_obj_types_col -->
 	<td class="std">
 		<a href="{EDIT_LINK}">{TXT_EDIT_RECORD}</a><br />
 		<a href="{EDIT_FIELDS_LINK}">{TXT_EDIT_FIELDS}</a>

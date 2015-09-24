@@ -21,6 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
+include_once './Services/Object/classes/class.ilObject.php';
 /** 
 * 
 * 
@@ -160,6 +161,29 @@ class ilContainerReference extends ilObject
 	 	}
 	 	return false;
 	 }
+	
+	/**
+	 * Get ids of all container references that target the object with the
+	 * given id.
+	 *  
+	 * @param int $a_target_id obj_id of course or category
+	 * @return int[] obj_ids of references
+	 * @static
+	 */
+	public static function _lookupSourceIds($a_target_id)
+	{
+		global $ilDB;
+		
+		$query = "SELECT * FROM container_reference ".
+			"WHERE target_obj_id = ".$ilDB->quote($a_target_id,'integer')." ";
+		$res = $ilDB->query($query);
+		$ret = array();
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$ret[] = $row->obj_id;
+		}
+		return $ret;
+	}
 	
 	/**
 	 * get target id

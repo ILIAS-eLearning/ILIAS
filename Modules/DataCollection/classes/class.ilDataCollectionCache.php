@@ -3,6 +3,7 @@ require_once('class.ilDataCollectionReferenceField.php');
 require_once('class.ilDataCollectionRatingField.php');
 require_once('class.ilDataCollectionILIASRefField.php');
 require_once('./Modules/DataCollection/classes/Field/Formula/class.ilDataCollectionFormulaField.php');
+require_once('./Modules/DataCollection/classes/Field/Text/class.ilDataCollectionTextField.php');
 require_once('class.ilDataCollectionNReferenceField.php');
 
 /**
@@ -123,6 +124,8 @@ class ilDataCollectionCache {
 				}
 			case ilDataCollectionDatatype::INPUTFORMAT_FORMULA:
 				return new ilDataCollectionFormulaField($record, $field);
+			case ilDataCollectionDatatype::INPUTFORMAT_TEXT:
+				return new ilDataCollectionTextField($record, $field);
 			default:
 				return new ilDataCollectionRecordField($record, $field);
 		}

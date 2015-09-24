@@ -117,12 +117,18 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 		if($this->type == 'admin')
 		{
 			$this->setSelectAllCheckbox('admins');
+			// cognos-blu-patch: begin
+			$this->addColumn($this->lng->txt('crs_mem_contact'),'contact');
+			// cognos-blu-patch: end
 			$this->addColumn($this->lng->txt('crs_notification_list_title'), 'notification');
 			$this->addCommandButton('updateAdminStatus', $this->lng->txt('save'));
 		}
 		elseif($this->type == 'tutor')
 		{
 			$this->setSelectAllCheckbox('tutors');
+			// cognos-blu-patch: begin
+			$this->addColumn($this->lng->txt('crs_mem_contact'),'contact');
+			// cognos-blu-patch: end
 			$this->addColumn($this->lng->txt('crs_notification_list_title'), 'notification');
 			$this->addCommandButton('updateTutorStatus', $this->lng->txt('save'));
 		}
@@ -335,12 +341,20 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 		if($this->type == 'admin')
 		{
 			$this->tpl->setVariable('VAL_POSTNAME', 'admins');
+			// cognos-blu-patch: begin
+			$this->tpl->setVariable('VAL_CONTACT_ID',$a_set['usr_id']);
+			$this->tpl->setVariable('VAL_CONTACT_CHECKED',$a_set['contact'] ? 'checked="checked"' : '');
+			// cognos-blu-patch: end
 			$this->tpl->setVariable('VAL_NOTIFICATION_ID', $a_set['usr_id']);
 			$this->tpl->setVariable('VAL_NOTIFICATION_CHECKED', ($a_set['notification'] ? 'checked="checked"' : ''));
 		}
 		elseif($this->type == 'tutor')
 		{
 			$this->tpl->setVariable('VAL_POSTNAME', 'tutors');
+			// cognos-blu-patch: begin
+			$this->tpl->setVariable('VAL_CONTACT_ID',$a_set['usr_id']);
+			$this->tpl->setVariable('VAL_CONTACT_CHECKED',$a_set['contact'] ? 'checked="checked"' : '');
+			// cognos-blu-patch: end
 			$this->tpl->setVariable('VAL_NOTIFICATION_ID', $a_set['usr_id']);
 			$this->tpl->setVariable('VAL_NOTIFICATION_CHECKED', ($a_set['notification'] ? 'checked="checked"' : ''));
 		}

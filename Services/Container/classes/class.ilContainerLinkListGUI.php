@@ -71,7 +71,7 @@ class ilContainerLinkListGUI
 			"Services/Container");
 		
 		$type_ordering = array(
-			"cat", "fold", "crs", "icrs", "icla", "grp", "chat", "frm", "lres",
+			"cat", "fold", "crs", "grp", "chat", "frm", "lres",
 			"glo", "webr", "file", "exc",
 			"tst", "svy", "mep", "qpl", "spl");
 			

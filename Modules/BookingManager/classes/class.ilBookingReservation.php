@@ -342,6 +342,74 @@ class ilBookingReservation
 		}
 	}
 	
+	static function isObjectAvailableInPeriod($a_obj_id, ilBookingSchedule $a_schedule, $a_from, $a_to)
+	{
+		global $ilDB;
+			
+		if(!$a_from)
+		{
+			$a_from = time();
+		}
+		if(!$a_to)
+		{
+			$a_to = strtotime("+1year", $a_from);
+		}
+		
+		if($a_from > $a_to)
+		{
+			return;
+		}
+		
+		$from = $ilDB->quote($a_from, 'integer');
+		$to = $ilDB->quote($a_to, 'integer');				
+		
+		// all bookings in period
+		$set = $ilDB->query('SELECT count(*) cnt'.
+			' FROM booking_reservation'.
+			' WHERE object_id = '.$ilDB->quote($a_obj_id, 'integer').
+			' AND (status IS NULL OR status <> '.$ilDB->quote(self::STATUS_CANCELLED, 'integer').')'.
+			' AND ((date_from <= '.$from.' AND date_to >= '.$from.')'.
+			' OR (date_from <= '.$to.' AND date_to >= '.$to.')'.
+			' OR (date_from >= '.$from.' AND date_to <= '.$to.'))');			
+		$row = $ilDB->fetchAssoc($set);
+		$booked_in_period = $row["cnt"];
+		
+		$per_slot = ilBookingObject::getNrOfItemsForObjects(array($a_obj_id));		
+		$per_slot = $per_slot[$a_obj_id];
+				
+		// max available nr of items per (week)day
+		$schedule_slots = array();
+		$definition = $a_schedule->getDefinition();						
+		$map = array_flip(array("su", "mo", "tu", "we", "th", "fr", "sa"));
+		foreach($definition as $day => $day_slots)
+		{			
+			$schedule_slots[$map[$day]] += sizeof($day_slots)*$per_slot;			
+		}		
+		
+		// sum up max available items in period per (week)day
+		$available_in_period = 0;
+		$loop = 0;
+		while($a_from < $a_to &&
+			++$loop < 1000)
+		{
+			// we are only interested in available booking slots
+			if($a_from < time())
+			{
+				continue;
+			}
+			
+			$day_slots = $schedule_slots[date("w", $a_from)];						
+			if($day_slots)
+			{
+				$available_in_period += $day_slots;
+			}
+			
+			$a_from += (60*60*24);						
+		}
+		
+		return (bool)($available_in_period-$booked_in_period);
+	}
+	
 	static function isObjectAvailableNoSchedule($a_obj_id)
 	{
 		global $ilDB;
@@ -483,7 +551,7 @@ class ilBookingReservation
 	 * @param	array	$filter
 	 * @return	array
 	 */
-	static function getListByDate($a_has_schedule, array $a_object_ids, $a_order_field, $a_order_direction, $a_offset, $a_limit, array $filter = null)
+	static function getListByDate($a_has_schedule, array $a_object_ids, array $filter = null)
 	{		
 		global $ilDB;
 		
@@ -506,6 +574,11 @@ class ilBookingReservation
 					' OR status IS NULL)';
 			}
 		}
+		if($filter['title'])
+		{
+			$where[] = '('.$ilDB->like('title', 'text', '%'.$filter['title'].'%').
+				' OR '.$ilDB->like('description', 'text', '%'.$filter['title'].'%').')';
+		}
 		if($a_has_schedule)
 		{
 			if($filter['from'])
@@ -515,12 +588,12 @@ class ilBookingReservation
 			if($filter['to'])
 			{
 				$where[] = 'date_to <= '.$ilDB->quote($filter['to'], 'integer');
-			}
-			if($filter['user_id'])
-			{
-				$where[] = 'user_id = '.$ilDB->quote($filter['user_id'], 'integer');
-			}					
+			}							
 		}
+		if($filter['user_id']) // #16584
+		{
+			$where[] = 'user_id = '.$ilDB->quote($filter['user_id'], 'integer');
+		}	
 		/*
 		if($a_group_id)
 		{
@@ -535,6 +608,11 @@ class ilBookingReservation
 		if($a_has_schedule)
 		{			
 			$sql .= ' ORDER BY date_from DESC';			
+		}
+		else
+		{
+			// #16155 - could be cancelled and re-booked
+			$sql .= ' ORDER BY status';
 		}
 				
 		$set = $ilDB->query($sql);			
@@ -582,7 +660,8 @@ class ilBookingReservation
 					$res[$idx]["week"] = date("W",  $row["date_from"]);				
 					$res[$idx]["weekday"] = date("w",  $row["date_from"]);				
 					$res[$idx]["can_be_cancelled"] = ($row["status"] != self::STATUS_CANCELLED &&
-						$row["date_from"] > time());					
+						$row["date_from"] > time());	
+					$res[$idx]["_sortdate"] = $row["date_from"]; 
 				}
 				else
 				{
@@ -597,16 +676,7 @@ class ilBookingReservation
 			}
 		}				
 		
-		$size = sizeof($res);
-		
-		// order		
-		$numeric = in_array($a_order_field, array("counter", "date", "week", "weekday"));		
-		$res = ilUtil::sortArray($res, $a_order_field, $a_order_direction, $numeric);
-				
-		// offset/limit		
-		$res = array_splice($res, $a_offset, $a_limit);
-		
-		return array("data"=>$res, "counter"=>$size);
+		return $res;
 	}
 	
 	/**

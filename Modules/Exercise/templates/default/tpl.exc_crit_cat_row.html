@@ -1,0 +1,34 @@
+<tr>
+	<td>
+		<input class="form-control" type="checkbox" name="id[]" value="{ID}" />
+	</td>
+	<td>
+		<input class="form-control" type="text" size="3" name="pos[{ID}]" value="{POS}" />
+	</td>
+	<td>
+		{TITLE}
+	</td>		
+	<td>
+		<!-- BEGIN crit_list_bl -->	
+		<ul>
+			<!-- BEGIN crit_bl -->	
+			<li>{CRIT_TITLE} ({CRIT_TYPE})</li>
+			<!-- END crit_bl -->	
+		</ul>
+		<!-- END crit_list_bl -->	
+	</td>
+	<td>
+		<!-- BEGIN ass_bl -->
+		{ASS_TITLE}
+			<!-- BEGIN ass_protected_bl -->
+			<span class="ilAlert small">({ASS_PROTECTED})</span>
+			<!-- END ass_protected_bl -->
+		<br />
+		<!-- END ass_bl -->
+	</td>	
+	<td>
+		<!-- BEGIN action_bl -->	
+		<a href="{ACTION_URL}">{ACTION_TXT}</a><br />
+		<!-- END action_bl -->	
+	</td>
+</tr>

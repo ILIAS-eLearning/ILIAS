@@ -43,6 +43,7 @@ class ilGroupXMLParser extends ilSaxParser
 	
 	private $participants = null;
 	private $current_container_setting;
+	private $sort = null;
 
 	var $group_data;
 	var $group_obj;
@@ -215,11 +216,22 @@ class ilGroupXMLParser extends ilSaxParser
 				break;
 
 			case 'Sort':
-				// NOW SAVE THE NEW OBJECT (if it hasn't been imported)
-				$this->__save();
-				include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
-				ilContainerSortingSettings::_importContainerSortingSettings($a_attribs, $this->group_obj->getId());
+
+				if($this->group_imported)
+				{
+					$this->__initContainerSorting($a_attribs, $this->group_obj->getId());
+				}
+				else
+				{
+					$this->sort = $a_attribs;
+				}
+
 				break;
+			
+			case 'WaitingListAutoFill':
+			case 'CancellationEnd':
+			case 'MinMembers':
+				break;		
 		}
 	}
 
@@ -283,6 +295,24 @@ class ilGroupXMLParser extends ilSaxParser
 						$this->cdata);
 				}
 				break;
+				
+			case 'WaitingListAutoFill':
+				$this->group_data['auto_wait'] = trim($this->cdata);				
+				break;
+			
+			case 'CancellationEnd':
+				if((int)$this->cdata)
+				{
+					$this->group_data['cancel_end'] = new ilDateTime((int)$this->cdata, IL_CAL_UNIX);						
+				}
+				break;
+				
+			case 'MinMembers':
+				if((int)$this->cdata)
+				{
+					$this->group_data['min_members'] = (int)$this->cdata;								
+				}
+				break;				
 		}
 		$this->cdata = '';
 	}
@@ -413,6 +443,9 @@ class ilGroupXMLParser extends ilSaxParser
 		$this->group_obj->setMaxMembers($this->group_data['max_members'] ? $this->group_data['max_members'] : 0);
 		$this->group_obj->enableWaitingList($this->group_data['waiting_list_enabled']);
 		
+		$this->group_obj->setWaitingListAutoFill($this->group_data['auto_wait']);
+		$this->group_obj->setCancellationEnd($this->group_data['cancel_end']);
+		$this->group_obj->setMinMembers($this->group_data['min_members']);		
 		
 		if ($this->mode == ilGroupXMLParser::$CREATE)
 		{
@@ -426,6 +459,10 @@ class ilGroupXMLParser extends ilSaxParser
 
 		$this->__pushParentId($this->group_obj->getRefId());
 
+		if($this->sort)
+		{
+			$this->__initContainerSorting($this->sort, $this->group_obj->getId());
+		}
 
 		$this->group_imported = true;
 
@@ -478,11 +515,11 @@ class ilGroupXMLParser extends ilSaxParser
 
 	function __assignMembers()
 	{
-		global $ilias,$ilUser;
+		global $ilias,$ilUser, $ilSetting;
 
 		$this->participants = new ilGroupParticipants($this->group_obj->getId());
 		$this->participants->add($ilUser->getId(),IL_GRP_ADMIN);
-		$this->participants->updateNotification($ilUser->getId(),true);
+		$this->participants->updateNotification($ilUser->getId(),$ilSetting->get('mail_grp_admin_notification', true));
 		
 		// attach ADMINs
 		if (count($this->group_data["admin"]["attach"]))
@@ -639,6 +676,12 @@ class ilGroupXMLParser extends ilSaxParser
 
 	public function setGroup(& $grp) {
 		$this->grp = $grp;
+	}
+
+	function __initContainerSorting($a_attribs, $a_group_id)
+	{
+		include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
+		ilContainerSortingSettings::_importContainerSortingSettings($a_attribs, $a_group_id);
 	}
 }
 ?>

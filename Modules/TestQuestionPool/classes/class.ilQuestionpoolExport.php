@@ -50,6 +50,14 @@ class ilQuestionpoolExport
 		$this->qpl_obj->createExportDirectory();
 		switch($this->mode)
 		{
+			case "xml":
+				$this->export_dir = $this->qpl_obj->getExportDirectory('xml');
+				$this->subdir = $date."__".$this->inst_id."__".
+					"qpl"."_".$this->qpl_obj->getId();
+				$this->filename = $this->subdir.".xml";
+				$this->qti_filename = $date."__".$this->inst_id."__".
+					"qti"."_".$this->qpl_obj->getId().".xml";
+				break;
 			case "xls":
 				$this->export_dir = $this->qpl_obj->getExportDirectory('xls');
 				$this->filename = $date."__".$this->inst_id."__".
@@ -57,7 +65,6 @@ class ilQuestionpoolExport
 				$this->zipfilename = $date."__".$this->inst_id."__".
 					"qpl"."_".$this->qpl_obj->getId() . ".zip";
 				break;
-			case "xml":
 			default:
 				$this->export_dir = $this->qpl_obj->getExportDirectory('zip');
 				$this->subdir = $date."__".$this->inst_id."__".

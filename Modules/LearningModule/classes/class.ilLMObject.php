@@ -599,7 +599,8 @@ class ilLMObject
 
 			// link only in learning module, that is not trashed
 			include_once("./Services/Help/classes/class.ilObjHelpSettings.php");
-			if (ilObject::_hasUntrashedReference($lm_id) ||
+			$ref_ids  = ilObject::_getAllReferences($lm_id);	// will be 0 if import of lm is in progress (new import)
+			if (count($ref_ids) == 0 || ilObject::_hasUntrashedReference($lm_id) ||
 				ilObjHelpSettings::isHelpLM($lm_id))
 			{
 				return $obj_rec["obj_id"];
@@ -884,9 +885,10 @@ class ilLMObject
 		
 		// put them into the clipboard
 		$time = date("Y-m-d H:i:s", time());
+		$order = 0;
 		foreach ($a_ids as $id)
 		{
-			$curnode = "";
+			$curnode = array();
 			if ($tree->isInTree($id))
 			{
 				$curnode = $tree->getNodeData($id);
@@ -1027,9 +1029,12 @@ class ilLMObject
 						// Update Title and description
 						$md = new ilMD($a_lm->getId(), $id, $lmobj->getType());
 						$md_gen = $md->getGeneral();
-						$md_gen->setTitle($title);
-						$md_gen->update();
-						$md->update();
+						if (is_object($md_gen))			// see bug #0015843
+						{
+							$md_gen->setTitle($title);
+							$md_gen->update();
+							$md->update();
+						}
 						ilLMObject::_writeTitle($id, $title);
 					}
 				}
@@ -1508,11 +1513,13 @@ class ilLMObject
 		
 		if ($a_node["type"] == "st")
 		{
+			include_once './Modules/LearningModule/classes/class.ilStructureObject.php';
 			return ilStructureObject::_getPresentationTitle($a_node["child"],
 				$a_include_numbers, $a_time_scheduled_activation, $a_lm_id, $a_lang);
 		}
 		else
 		{
+			include_once './Modules/LearningModule/classes/class.ilLMPageObject.php';
 			return ilLMPageObject::_getPresentationTitle($a_node["child"],
 				$a_mode, $a_include_numbers, $a_time_scheduled_activation,
 				$a_force_content, $a_lm_id, $a_lang);

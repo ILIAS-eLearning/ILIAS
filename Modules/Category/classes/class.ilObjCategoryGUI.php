@@ -14,7 +14,7 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
 * @ilCtrl_Calls ilObjCategoryGUI: ilPermissionGUI, ilContainerPageGUI, ilContainerLinkListGUI, ilObjUserGUI, ilObjUserFolderGUI
 * @ilCtrl_Calls ilObjCategoryGUI: ilInfoScreenGUI, ilObjStyleSheetGUI, ilCommonActionDispatcherGUI, ilObjectTranslationGUI
 * @ilCtrl_Calls ilObjCategoryGUI: ilColumnGUI, ilObjectCopyGUI, ilUserTableGUI, ilDidacticTemplateGUI, ilExportGUI
-* @ilCtrl_Calls ilObjCategoryGUI: ilObjTaxonomyGUI
+* @ilCtrl_Calls ilObjCategoryGUI: ilObjTaxonomyGUI, ilObjectMetaDataGUI
 * 
 * @ingroup ModulesCategory
 */
@@ -210,6 +210,15 @@ class ilObjCategoryGUI extends ilContainerGUI
 				$tax->setListInfo($this->lng->txt("cntr_tax_list_info"));
 				$this->ctrl->forwardCommand($tax);				
 				break;
+			
+			case 'ilobjectmetadatagui';
+				$this->checkPermissionBool("write");
+				$this->prepareOutput();		
+				$this->tabs_gui->activateTab('meta_data');
+				include_once 'Services/Object/classes/class.ilObjectMetaDataGUI.php';
+				$md_gui = new ilObjectMetaDataGUI($this->object);	
+				$this->ctrl->forwardCommand($md_gui);
+				break;
 
 			default:
 				if ($cmd == "infoScreen")
@@ -225,8 +234,9 @@ class ilObjCategoryGUI extends ilContainerGUI
 				if (!$this->getCreationMode() &&
 					$ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 				{
+					include_once("./Services/Link/classes/class.ilLink.php");
 					$ilNavigationHistory->addItem($_GET["ref_id"],
-						$ilCtrl->getLinkTargetByClass("ilrepositorygui", "frameset"), "cat");
+						ilLink::_getLink($_GET["ref_id"], "cat"), "cat");
 				}
 
 				$this->prepareOutput();
@@ -299,6 +309,17 @@ class ilObjCategoryGUI extends ilContainerGUI
 			$tabs_gui->addTarget("settings",
 				$this->ctrl->getLinkTarget($this, "edit"), "edit", get_class($this)
 				, "", $force_active);
+			
+			// metadata
+			include_once "Services/Object/classes/class.ilObjectMetaDataGUI.php";
+			$mdgui = new ilObjectMetaDataGUI($this->object);					
+			$mdtab = $mdgui->getTab();
+			if($mdtab)
+			{			
+				$tabs_gui->addTab("meta_data",
+					$this->lng->txt("meta_data"),
+					$mdtab);
+			}	
 			
 			include_once "Services/Object/classes/class.ilObjectServiceSettingsGUI.php";
 			if(ilContainer::_lookupContainerSetting(
@@ -561,14 +582,6 @@ class ilObjCategoryGUI extends ilContainerGUI
 
 		$this->tabs_gui->activateTab("settings");
 		$this->tabs_gui->activateSubTab($active_tab);
-
-		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
-		if(in_array('cat',ilAdvancedMDRecord::_getActivatedObjTypes()))
-		{
-			$this->tabs_gui->addSubTabTarget("edit_cat_settings",
-				 $this->ctrl->getLinkTarget($this,'editInfo'),
-				 "editInfo", get_class($this));
-		}
 	}
 
 	function initEditForm()
@@ -649,7 +662,8 @@ class ilObjCategoryGUI extends ilContainerGUI
 				array(
 					ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY,
 					ilObjectServiceSettingsGUI::NEWS_VISIBILITY,
-					ilObjectServiceSettingsGUI::TAXONOMIES
+					ilObjectServiceSettingsGUI::TAXONOMIES,
+					ilObjectServiceSettingsGUI::CUSTOM_METADATA
 				)
 			);
 
@@ -728,7 +742,8 @@ class ilObjCategoryGUI extends ilContainerGUI
 					array(
 						ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY,
 						ilObjectServiceSettingsGUI::NEWS_VISIBILITY,
-						ilObjectServiceSettingsGUI::TAXONOMIES
+						ilObjectServiceSettingsGUI::TAXONOMIES,						
+						ilObjectServiceSettingsGUI::CUSTOM_METADATA
 					)
 				);
 				
@@ -1244,8 +1259,8 @@ class ilObjCategoryGUI extends ilContainerGUI
 														 'role_ids[]',
 														 $role['obj_id'],
 														 $disabled);
-			$f_result[$counter][] = $role_obj->getTitle();
-			$f_result[$counter][] = $role_obj->getDescription();
+			$f_result[$counter][] = $role_obj->getTitle() ? $role_obj->getTitle() : "";
+			$f_result[$counter][] = $role_obj->getDescription() ? $role_obj->getDescription() : "";
 			$f_result[$counter][] = $role['role_type'] == 'global' ? 
 				$this->lng->txt('global') :
 				$this->lng->txt('local');

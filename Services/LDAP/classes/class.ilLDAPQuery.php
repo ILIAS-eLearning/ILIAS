@@ -76,6 +76,16 @@ class ilLDAPQuery
 		$this->connect();
 	}
 	
+	// begin-patch ldap_multiple
+	/**
+	 * Get server
+	 * @return ilLDAPServer
+	 */
+	public function getServer()
+	{
+		return $this->settings;
+	}
+	
 	/**
 	 * Get one user by login name
 	 *
@@ -454,7 +464,7 @@ class ilLDAPQuery
 	 * Connect to LDAP server
 	 *
 	 * @access private
-	 * @throws ilLDAPQueryException on connection failure.
+	 * @throws ilLDAPQueryException
 	 * 
 	 */
 	private function connect()
@@ -507,6 +517,9 @@ class ilLDAPQuery
 	{
 		switch($a_binding_type)
 		{
+			case IL_LDAP_BIND_TEST:
+				ldap_set_option($this->lh, LDAP_OPT_NETWORK_TIMEOUT, ilLDAPServer::DEFAULT_NETWORK_TIMEOUT);
+				// fall through
 			case IL_LDAP_BIND_DEFAULT:
 				// Now bind anonymously or as user
 				if(
@@ -542,20 +555,13 @@ class ilLDAPQuery
 				define('IL_LDAP_REBIND_PASS',$pass);
 				break;
 				
-			case IL_LDAP_BIND_TEST:
-				if(!@ldap_bind($this->lh,$a_user_dn,$a_password))
-				{
-					return false;
-				}
-				return true;
-				
 			default:
 				throw new ilLDAPQueryException('LDAP: unknown binding type in: '.__METHOD__);
 		}
 		
 		if(!@ldap_bind($this->lh,$user,$pass))
 		{
-			throw new ilLDAPQueryException('LDAP: Cannot bind as '.$user);
+			throw new ilLDAPQueryException('LDAP: Cannot bind as '.$user.' with message: '. ldap_err2str(ldap_errno($this->lh)).' Trying fallback...', ldap_errno($this->lh));
 		}
 		else
 		{
@@ -578,7 +584,7 @@ class ilLDAPQuery
 			array($this->settings->getUserAttribute()),
 			array('dn'),
 			$this->mapping->getFields(),
-			ilLDAPRoleAssignmentRules::getAttributeNames()
+			ilLDAPRoleAssignmentRules::getAttributeNames($this->getServer()->getServerId())
 		);
 	}
 	

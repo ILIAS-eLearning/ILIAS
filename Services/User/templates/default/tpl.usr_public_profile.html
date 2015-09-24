@@ -17,6 +17,7 @@
 	<!-- END vcard -->
 </div>
 <h3 class="ilProfileName">{FIRSTNAME} {LASTNAME}</h3>
+{BUDDY_HTML}
 <!-- BEGIN address -->
 <div class="ilProfileSection">
 	<h3 class="ilProfileSectionHead">{TXT_ADDRESS}</h3>
@@ -36,7 +37,7 @@
 	<h3 class="ilProfileSectionHead">{TXT_CONTACT}</h3>
 	{CONTACT}
 </div>
-<!-- END inst_dep -->
+<!-- END contact -->
 <!-- BEGIN profile_data -->
 <div class="ilProfileSection">
 	<h3 class="ilProfileSectionHead">{TXT_DATA}</h3>
@@ -58,6 +59,14 @@
 	{MAP_CONTENT}
 </div>
 <!-- END map -->
+<!-- BEGIN portfolios -->
+<div class="ilProfileSection">
+	<h3 class="ilProfileSectionHead">{TXT_PORTFOLIO}</h3>
+	<!-- BEGIN portfolio -->
+	<div><a href="{HREF_PORTFOLIO}">{TITLE_PORTFOLIO}</a></div>
+	<!-- END portfolio -->
+</div>
+<!-- END portfolios -->
 <!-- BEGIN delicious_row -->
 <div class="ilProfileSection">
 	<h3 class="ilProfileSectionHead">{TXT_DELICIOUS}</h3>

@@ -12,8 +12,8 @@ class ilADTTextPresentationBridge extends ilADTPresentationBridge
 	public function getHTML()
 	{
 		if(!$this->getADT()->isNull())
-		{
-			return nl2br($this->getADT()->getText());
+		{			
+			return $this->decorate(nl2br($this->getADT()->getText()));
 		}
 	}
 	

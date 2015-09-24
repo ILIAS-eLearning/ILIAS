@@ -383,7 +383,8 @@ class ilShopPurchaseGUI extends ilObjectGUI
 				$prices[] = $price;
 			}
 		}
-		
+
+		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		

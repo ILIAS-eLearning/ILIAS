@@ -146,6 +146,16 @@ class ilModalGUI
 		return $tpl->get();
 	}
 
+	/**
+	 * Init javascript
+	 */
+	static function initJS()
+	{
+		global $tpl;
+
+		$tpl->addJavascript("./Services/UIComponent/Modal/js/Modal.js");
+	}
+
 
 }
 

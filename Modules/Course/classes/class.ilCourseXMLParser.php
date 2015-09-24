@@ -318,6 +318,15 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 			case 'ContainerSetting':
 				$this->current_container_setting = $a_attribs['id'];				
 				break;
+			
+			case 'Period':
+				$this->in_period = true;
+				break;
+			
+			case 'WaitingListAutoFill':
+			case 'CancellationEnd':
+			case 'MinMembers':
+				break;			
 		}
 	}
 
@@ -576,6 +585,13 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 				{
 					$this->course_obj->setArchiveStart(trim($this->cdata));
 				}
+				if($this->in_period)
+				{
+					if((int)$this->cdata)
+					{
+						$this->course_obj->setCourseStart(new ilDate((int)$this->cdata, IL_CAL_UNIX));
+					}
+				}
 				break;
 
 			case 'End':
@@ -590,6 +606,13 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 				if($this->in_archive)
 				{
 					$this->course_obj->setArchiveEnd(trim($this->cdata));
+				}
+				if($this->in_period)
+				{
+					if((int)$this->cdata)
+					{
+						$this->course_obj->setCourseEnd(new ilDate((int)$this->cdata, IL_CAL_UNIX));
+					}
 				}
 				break;
 
@@ -640,6 +663,28 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 						$this->cdata);
 				}
 				break;
+				
+			case 'Period':
+				$this->in_period = false;
+				break;
+			
+			case 'WaitingListAutoFill':
+				$this->course_obj->setWaitingListAutoFill($this->cdata);
+				break;
+			
+			case 'CancellationEnd':
+				if((int)$this->cdata)
+				{
+					$this->course_obj->setCancellationEnd(new ilDate((int)$this->cdata, IL_CAL_UNIX));
+				}
+				break;
+				
+			case 'MinMembers':
+				if((int)$this->cdata)
+				{
+					$this->course_obj->setSubscriptionMinMembers((int)$this->cdata);
+				}
+				break;						
 		}
 		$this->cdata = '';
 

@@ -430,16 +430,26 @@ class ilBookingObject
 	/**
 	 * Get list of booking objects for given type	 
 	 * @param	int	$a_pool_id
+	 * @param	string	$a_title
 	 * @return	array
 	 */
-	static function getList($a_pool_id)
+	static function getList($a_pool_id, $a_title = null)
 	{
 		global $ilDB;
-
-		$set = $ilDB->query('SELECT *'.
+		
+		$sql = 'SELECT *'.
 			' FROM booking_object'.
-			' WHERE pool_id = '.$ilDB->quote($a_pool_id, 'integer').
-			' ORDER BY title');
+			' WHERE pool_id = '.$ilDB->quote($a_pool_id, 'integer');
+		
+		if($a_title)
+		{
+			$sql .= ' AND ('.$ilDB->like('title', 'text', '%'.$a_title.'%').
+				' OR '.$ilDB->like('description', 'text', '%'.$a_title.'%').')';
+		}
+		
+		$sql .=	' ORDER BY title';
+
+		$set = $ilDB->query($sql);
 		$res = array();
 		while($row = $ilDB->fetchAssoc($set))
 		{
@@ -447,7 +457,7 @@ class ilBookingObject
 		}
 		return $res;
 	}
-
+	
 	/**
 	 * Delete single entry
 	 * @return bool

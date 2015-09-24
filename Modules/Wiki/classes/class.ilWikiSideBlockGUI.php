@@ -9,8 +9,6 @@ include_once("Services/Block/classes/class.ilBlockGUI.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @ilCtrl_Is+++CalledBy ilWikiSideBlockGUI: ilColumnGUI
-*
 * @ingroup ModulesWiki
 */
 class ilWikiSideBlockGUI extends ilBlockGUI

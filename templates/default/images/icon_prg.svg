@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 17.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [
+	<!ENTITY ns_extend "http://ns.adobe.com/Extensibility/1.0/">
+	<!ENTITY ns_ai "http://ns.adobe.com/AdobeIllustrator/10.0/">
+	<!ENTITY ns_graphs "http://ns.adobe.com/Graphs/1.0/">
+	<!ENTITY ns_vars "http://ns.adobe.com/Variables/1.0/">
+	<!ENTITY ns_imrep "http://ns.adobe.com/ImageReplacement/1.0/">
+	<!ENTITY ns_sfw "http://ns.adobe.com/SaveForWeb/1.0/">
+	<!ENTITY ns_custom "http://ns.adobe.com/GenericCustomNamespace/1.0/">
+	<!ENTITY ns_adobe_xpath "http://ns.adobe.com/XPath/1.0/">
+]>
+<svg version="1.1" id="Layer_1" xmlns:x="&ns_extend;" xmlns:i="&ns_ai;" xmlns:graph="&ns_graphs;"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="32px" height="32px"
+	 viewBox="0 0 32 32" enable-background="new 0 0 32 32" xml:space="preserve">
+<switch>
+	<foreignObject requiredExtensions="&ns_ai;" x="0" y="0" width="1" height="1">
+		<i:pgfRef  xlink:href="#adobe_illustrator_pgf">
+		</i:pgfRef>
+	</foreignObject>
+	<g i:extraneous="self">
+		<rect x="0" fill="none" width="32" height="32"/>
+		<g>
+			<g>
+				<defs>
+					<path id="SVGID_1_" d="M4.5,8c0,0-0.499,0-0.499,0.5v15c0,0,0,0.5,0.499,0.5h5.001c0,0,0.499,0,0.499-0.5v-15
+						c0,0,0-0.5-0.499-0.5H4.5z"/>
+				</defs>
+				<clipPath id="SVGID_2_">
+					<use xlink:href="#SVGID_1_"  overflow="visible"/>
+				</clipPath>
+				
+					<linearGradient id="SVGID_3_" gradientUnits="userSpaceOnUse" x1="-364.1704" y1="-330.4767" x2="-363.1706" y2="-330.4767" gradientTransform="matrix(6 0 0 6 2189.0237 1998.86)">
+					<stop  offset="0" style="stop-color:#536387"/>
+					<stop  offset="0.0198" style="stop-color:#536387"/>
+					<stop  offset="1" style="stop-color:#6276A2"/>
+				</linearGradient>
+				<rect x="4.001" y="8" clip-path="url(#SVGID_2_)" fill="url(#SVGID_3_)" width="5.999" height="16"/>
+			</g>
+		</g>
+		<g>
+			<g>
+				<defs>
+					<path id="SVGID_4_" d="M12.5,8c0,0-0.499,0-0.499,0.5v15c0,0,0,0.5,0.499,0.5h5.001c0,0,0.499,0,0.499-0.5v-15
+						c0,0,0-0.5-0.499-0.5H12.5z"/>
+				</defs>
+				<clipPath id="SVGID_5_">
+					<use xlink:href="#SVGID_4_"  overflow="visible"/>
+				</clipPath>
+				
+					<linearGradient id="SVGID_6_" gradientUnits="userSpaceOnUse" x1="-364.1704" y1="-330.4767" x2="-363.1706" y2="-330.4767" gradientTransform="matrix(6 0 0 6 2197.0237 1998.86)">
+					<stop  offset="0" style="stop-color:#536387"/>
+					<stop  offset="0.0198" style="stop-color:#536387"/>
+					<stop  offset="1" style="stop-color:#6276A2"/>
+				</linearGradient>
+				<rect x="12.001" y="8" clip-path="url(#SVGID_5_)" fill="url(#SVGID_6_)" width="5.999" height="16"/>
+			</g>
+		</g>
+		<rect x="5.5" y="10" fill="#FFFFFF" width="3.001" height="1"/>
+		<rect x="5.5" y="12" fill="#FFFFFF" width="3.001" height="1"/>
+		<rect x="13.5" y="10" fill="#FFFFFF" width="3.001" height="1"/>
+		<rect x="13.5" y="12" fill="#FFFFFF" width="3.001" height="1"/>
+		<g>
+			<g>
+				<defs>
+					<path id="SVGID_7_" d="M24.73,7.329l-4.924,0.869c0,0-0.493,0.086-0.406,0.579l2.605,14.772c0,0,0.087,0.493,0.579,0.406
+						l4.924-0.868c0,0,0.493-0.087,0.406-0.58L25.309,7.735c0,0-0.073-0.416-0.467-0.416C24.807,7.319,24.77,7.322,24.73,7.329"/>
+				</defs>
+				<clipPath id="SVGID_8_">
+					<use xlink:href="#SVGID_7_"  overflow="visible"/>
+				</clipPath>
+				
+					<linearGradient id="SVGID_9_" gradientUnits="userSpaceOnUse" x1="-356.5738" y1="-323.0159" x2="-355.5738" y2="-323.0159" gradientTransform="matrix(5.9088 -1.0419 1.0419 5.9088 2464.1707 1553.325)">
+					<stop  offset="0" style="stop-color:#536387"/>
+					<stop  offset="0.0198" style="stop-color:#536387"/>
+					<stop  offset="1" style="stop-color:#6276A2"/>
+				</linearGradient>
+				<polygon clip-path="url(#SVGID_8_)" fill="url(#SVGID_9_)" points="16.454,7.824 27.739,5.834 30.861,23.538 19.575,25.528 				
+					"/>
+			</g>
+		</g>
+		
+			<rect x="22.203" y="8.737" transform="matrix(0.1741 0.9847 -0.9847 0.1741 28.8306 -13.9014)" fill="#FFFFFF" width="0.999" height="2.999"/>
+		
+			<rect x="22.551" y="10.708" transform="matrix(0.1741 0.9847 -0.9847 0.1741 31.0578 -12.6166)" fill="#FFFFFF" width="0.999" height="2.999"/>
+	</g>
+</switch>
+</svg>

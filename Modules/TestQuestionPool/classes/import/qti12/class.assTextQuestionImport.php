@@ -146,17 +146,18 @@ class assTextQuestionImport extends assQuestionImport
 		
 		require_once './Modules/TestQuestionPool/classes/class.assAnswerMultipleResponseImage.php';
 		$no_keywords_found=true;
-		$termscoring = unserialize( base64_decode($item->getMetadataEntry('termscoring')) );
-		$termscoring = ( is_array($termscoring) ? $termscoring : array() );
+		
+		$termscoring = $this->fetchTermScoring($item);
 		for ($i = 0; $i < count($termscoring); $i++ )
 		{
 			$this->object->addAnswer($termscoring[$i]->getAnswertext(), $termscoring[$i]->getPoints() );
 			$no_keywords_found=false;
 		}
 		if(count($termscoring))
-			{
-				$this->object->setKeywordRelation($item->getMetadataEntry('termrelation'));
-			}
+		{
+			$this->object->setKeywordRelation($item->getMetadataEntry('termrelation'));
+		}
+		
 		$keywords = $item->getMetadataEntry("keywords");
 		if (strlen($keywords))
 		{
@@ -164,7 +165,7 @@ class assTextQuestionImport extends assQuestionImport
 			$answers = explode(' ', $keywords);
 			foreach ($answers as $answer)
 			{
-				$this->object->addAnswer($answer, $maxpoints/count($answers));	
+				$this->object->addAnswer($answer, 0);	
 			}
 			$this->object->setKeywordRelation('one');
 			$no_keywords_found=false;
@@ -172,7 +173,6 @@ class assTextQuestionImport extends assQuestionImport
 		if($no_keywords_found)
 		{
 			$this->object->setKeywordRelation('non');
-			$this->object->addAnswer('', $maxpoints);
 		}
 			
 		// additional content editing mode information
@@ -240,6 +240,33 @@ class assTextQuestionImport extends assQuestionImport
 		{
 			$import_mapping[$item->getIdent()] = array("pool" => $this->object->getId(), "test" => 0);
 		}
+	}
+	
+	protected function fetchTermScoring($item)
+	{
+		$termScoringString = $item->getMetadataEntry('termscoring');
+		
+		if( !strlen($termScoringString) )
+		{
+			return array();
+		}
+
+		$termScoring = unserialize($termScoringString);
+
+		if( is_array($termScoring) )
+		{
+			return $termScoring;
+		}
+
+		$termScoringString = base64_decode($termScoringString);
+		$termScoring = unserialize($termScoringString);
+
+		if( is_array($termScoring) )
+		{
+			return $termScoring;
+		}
+		
+		return array();		
 	}
 }
 

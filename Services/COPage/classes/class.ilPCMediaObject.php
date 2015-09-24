@@ -409,12 +409,51 @@ class ilPCMediaObject extends ilPageContent
 			$a_page->getLanguage());
 		foreach($usages as $mob_id => $val)
 		{
-			ilObjMediaObject::_saveUsage($mob_id, $a_page->getParentType().":pg", $a_page->getId(), $a_old_nr,
-				$a_page->getLanguage());
+			// save usage, if object exists...
+			if (ilObject::_lookupType($mob_id) == "mob")
+			{
+				ilObjMediaObject::_saveUsage($mob_id, $a_page->getParentType().":pg", $a_page->getId(), $a_old_nr,
+					$a_page->getLanguage());
+			}
 		}
 		
 		return $usages;
 	}
+
+	/**
+	 * Modify page content after xsl
+	 *
+	 * @param string $a_output
+	 * @return string
+	 */
+	function modifyPageContentPostXsl($a_html, $a_mode)
+	{
+		global $ilUser;
+
+		if ($a_mode == "offline")
+		{
+			$page = $this->getPage();
+
+			$mob_ids = ilObjMediaObject::_getMobsOfObject(
+				$page->getParentType().":pg", $page->getId(), 0, $page->getLanguage());
+			foreach ($mob_ids as $mob_id)
+			{
+				$mob = new ilObjMediaObject($mob_id);
+				$srts = $mob->getSrtFiles();
+				foreach ($srts as $srt)
+				{
+					if ($ilUser->getLanguage() == $srt["language"])
+					{
+						$srt_content = file_get_contents(ilObjMediaObject::_getDirectory($mob->getId())."/".$srt["full_path"]);
+						$a_html = str_replace("[[[[[mobsubtitle;il__mob_".$mob->getId()."_Standard]]]]]", $srt_content, $a_html);
+					}
+				}
+			}
+		}
+
+		return $a_html;
+	}
+
 
 }
 ?>

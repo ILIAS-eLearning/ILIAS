@@ -165,13 +165,6 @@ class ilMath
 			}
 		}
 		
-		// pow does calculate with a scale of 14,
-		// so rounding should not consider larger scale
-		if( $scale > 14 )
-		{
-			$scale = 14;
-		}
-
 		$res = pow($left_operand, $right_operand);
 		if (is_numeric($scale)) $res = round($res, $scale);
 		return $res;
@@ -287,6 +280,16 @@ class ilMath
 		{
 			return $a;
 		}
+	}
+
+	public static function _round($value, $precision = 0)
+	{
+		return number_format($value, $precision, '.', '');
+	}
+	
+	public static function _equals($value1, $value2, $scale)
+	{
+		return self::_comp($value1, $value2, $scale) === 0;
 	}
 
 	/**

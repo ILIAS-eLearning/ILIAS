@@ -80,6 +80,9 @@ class ilCourseEditParticipantsTableGUI extends ilTable2GUI
 	 	}
 	 	$this->addColumn($this->lng->txt('crs_passed'),'passed');
 	 	$this->addColumn($this->lng->txt('crs_blocked'),'blocked');
+		 // cognos-blu-patch: begin
+		$this->addColumn($this->lng->txt('crs_mem_contact'),'contact');
+		// cognos-blu-patch: end
 	 	$this->addColumn($this->lng->txt('crs_notification'),'notification');
 	 	$this->addColumn($this->lng->txt('objs_role'),'roles');
 
@@ -126,6 +129,10 @@ class ilCourseEditParticipantsTableGUI extends ilTable2GUI
 		{
 			$this->tpl->setVariable('VAL_ACCESS',$a_set['access_time']);
 		}
+		// cognos-blu-patch: begin
+		$this->tpl->setVariable('VAL_CONTACT_CHECKED',$a_set['contact'] ? 'checked="checked"' : '');
+		// cognos-blu-patch: end
+		
 		$this->tpl->setVariable('VAL_NOTIFICATION_CHECKED',$a_set['notification'] ? 'checked="checked"' : '');
 		$this->tpl->setVariable('VAL_PASSED_CHECKED',$a_set['passed'] ? 'checked="checked"' : '');
 		$this->tpl->setVariable('VAL_BLOCKED_CHECKED',$a_set['blocked'] ? 'checked="checked"' : '');

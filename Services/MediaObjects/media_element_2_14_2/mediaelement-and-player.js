@@ -4436,7 +4436,35 @@ if (typeof jQuery != 'undefined') {
 
 				};
 
+			// ilias tracking load patch start
+			var t_el = $(t.$node).parent().parent().parent().next();
+			if (t_el.length > 0 && t_el.hasClass("ilMobSubtitleText")) {
+				var d = il.Util.replaceAll(t_el.html(), "&lt;", "<");
+				d = il.Util.replaceAll(d, "&gt;", ">");
 
+				// parse the loaded file
+				if (typeof d == "string" && (/<tt\s+xml/ig).exec(d)) {
+					track.entries = mejs.TrackFormatParser.dfxp.parse(d);
+				} else {
+					track.entries = mejs.TrackFormatParser.webvvt.parse(d);
+				}
+
+				after();
+
+				if (track.kind == 'chapters') {
+					t.media.addEventListener('play', function(e) {
+						if (t.media.duration > 0) {
+							t.displayChapters(track);
+						}
+					}, false);
+				}
+
+				if (track.kind == 'slides') {
+					t.setupSlides(track);
+				}
+				return;
+			}
+			// ilias tracking load patch end
 			$.ajax({
 				url: track.src,
 				dataType: "text",

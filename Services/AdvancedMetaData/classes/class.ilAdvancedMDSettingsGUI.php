@@ -20,6 +20,9 @@ class ilAdvancedMDSettingsGUI
 	protected $ctrl;
 	protected $tabs;
 	protected $permissions; // [ilAdvancedMDPermissionHelper]
+	protected $obj_id; // [int]
+	protected $obj_type; // [string]
+	protected $sub_type; // [string]
 	
 	/**
 	 * Constructor
@@ -27,7 +30,7 @@ class ilAdvancedMDSettingsGUI
 	 * @access public
 	 * 
 	 */
-	public function __construct()
+	public function __construct($a_obj_id = null, $a_obj_type = null, $a_sub_type = null)
 	{
 	 	global $tpl,$lng,$ilCtrl,$ilTabs;
 	 	
@@ -36,6 +39,18 @@ class ilAdvancedMDSettingsGUI
 	 	$this->lng->loadLanguageModule('meta');
 	 	$this->tpl = $tpl;
 	 	$this->tabs_gui = $ilTabs;
+		
+		$this->obj_id = $a_obj_id;
+		$this->obj_type = $a_obj_type;
+		$this->sub_type = $a_sub_type 
+			? $a_sub_type
+			: "-";
+		
+		if($this->obj_id &&
+			!$this->obj_type)
+		{
+			$this->obj_type = ilObject::_lookupType($this->obj_id);
+		}
 		
 		$this->permissions = ilAdvancedMDPermissionHelper::getInstance();
 	}
@@ -57,7 +72,11 @@ class ilAdvancedMDSettingsGUI
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 		
-		$this->setSubTabs();
+		if(!$this->obj_id)
+		{
+			$this->setSubTabs();
+		}
+		
 		switch($next_class)
 		{
 			default:
@@ -111,13 +130,12 @@ class ilAdvancedMDSettingsGUI
 			$ilToolbar->addButtonInstance($button);			
 		}
 		
-		$this->record_objs = $this->getRecordObjects();
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.show_records.html','Services/AdvancedMetaData');
 
 		include_once("./Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordTableGUI.php");
-		$table_gui = new ilAdvancedMDRecordTableGUI($this, "showRecords", $this->getPermissions());
+		$table_gui = new ilAdvancedMDRecordTableGUI($this, "showRecords", $this->getPermissions(), (bool)$this->obj_id);
 		$table_gui->setTitle($this->lng->txt("md_record_list_table"));
-		$table_gui->parseRecords($this->record_objs);		
+		$table_gui->setData($this->getParsedRecordObjects());		
 		
 		// permissions?		
 		//$table_gui->addCommandButton('createRecord',$this->lng->txt('add'));			
@@ -125,7 +143,7 @@ class ilAdvancedMDSettingsGUI
 		$table_gui->setSelectAllCheckbox("record_id");
 		
 		if($ilAccess->checkAccess('write','',$_REQUEST["ref_id"]))
-		{		
+		{					
 			$table_gui->addMultiCommand("confirmDeleteRecords", $this->lng->txt("delete"));		
 			$table_gui->addCommandButton("updateRecords", $this->lng->txt("save"));
 		}
@@ -302,7 +320,7 @@ class ilAdvancedMDSettingsGUI
 	 	$xml_writer->write();
 	 	
 	 	include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordExportFiles.php');
-	 	$export_files = new ilAdvancedMDRecordExportFiles();
+	 	$export_files = new ilAdvancedMDRecordExportFiles($this->obj_id);
 	 	$export_files->create($xml_writer->xmlDumpMem());
 	 	
 	 	ilUtil::sendSuccess($this->lng->txt('md_adv_records_exported'));
@@ -321,7 +339,7 @@ class ilAdvancedMDSettingsGUI
 		$this->tabs_gui->setSubTabActive('md_adv_file_list');
 		
 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordExportFiles.php');
-		$files = new ilAdvancedMDRecordExportFiles();
+		$files = new ilAdvancedMDRecordExportFiles($this->obj_id);
 		$file_data = $files->readFilesInfo();
 
 		include_once("./Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordExportFilesTableGUI.php");
@@ -353,7 +371,7 @@ class ilAdvancedMDSettingsGUI
 	 	}
 	 	
 	 	include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordExportFiles.php');
-	 	$files = new ilAdvancedMDRecordExportFiles();
+	 	$files = new ilAdvancedMDRecordExportFiles($this->obj_id);
 	 	$abs_path = $files->getAbsolutePathByFileId((int) $_POST['file_id'][0]);
 		
 	 	ilUtil::deliverFile($abs_path,'ilias_meta_data_record.xml','application/xml');
@@ -384,7 +402,7 @@ class ilAdvancedMDSettingsGUI
 		$c_gui->setConfirm($this->lng->txt("confirm"), "deleteFiles");
 
 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordExportFiles.php');
-		$files = new ilAdvancedMDRecordExportFiles();
+		$files = new ilAdvancedMDRecordExportFiles($this->obj_id);
 		$file_data = $files->readFilesInfo();
 
 
@@ -414,7 +432,7 @@ class ilAdvancedMDSettingsGUI
 	 	}
 
 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordExportFiles.php');
-		$files = new ilAdvancedMDRecordExportFiles();
+		$files = new ilAdvancedMDRecordExportFiles($this->obj_id);
 		
 		foreach($_POST['file_id'] as $file_id)
 		{
@@ -476,12 +494,22 @@ class ilAdvancedMDSettingsGUI
 		$fail = array();
 		foreach($_POST['record_id'] as $record_id)
 		{
+			// must not delete global records in local context
+			if($this->obj_id)
+			{
+				$record = ilAdvancedMDRecord::_getInstanceByRecordId($record_id);			
+				if(!$record->getParentObject())
+				{
+					$fail[] = $record->getTitle();
+				}
+			}
+			
 			if(!$this->getPermissions()->hasPermission(
 				ilAdvancedMDPermissionHelper::CONTEXT_RECORD,
 				$record_id,
 				ilAdvancedMDPermissionHelper::ACTION_RECORD_DELETE))
 			{		
-				$record = ilAdvancedMDRecord::_getInstanceByRecordId($record_id);															
+				$record = ilAdvancedMDRecord::_getInstanceByRecordId($record_id);										
 				$fail[] = $record->getTitle(); 
 			}
 		}
@@ -509,41 +537,73 @@ class ilAdvancedMDSettingsGUI
 	 */
 	public function updateRecords()
 	{
-		foreach($this->getRecordObjects() as $record_obj)
-		{
+		$selected_global = array();
+		foreach($this->getParsedRecordObjects() as $item)
+		{			
 			$perm = $this->getPermissions()->hasPermissions(
 				ilAdvancedMDPermissionHelper::CONTEXT_RECORD,
-				$record_obj->getRecordId(),
+				$item['id'],
 				array(
 					ilAdvancedMDPermissionHelper::ACTION_RECORD_TOGGLE_ACTIVATION
 					,array(ilAdvancedMDPermissionHelper::ACTION_RECORD_EDIT_PROPERTY,  
 						ilAdvancedMDPermissionHelper::SUBACTION_RECORD_OBJECT_TYPES)
 				));
 						
-			if($perm[ilAdvancedMDPermissionHelper::ACTION_RECORD_EDIT_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_RECORD_OBJECT_TYPES])
+			if(!$this->obj_type)
 			{
-				$obj_types = array();
-				if (is_array($_POST['obj_types'][$record_obj->getRecordId()]))
+				$record_obj = ilAdvancedMDRecord::_getInstanceByRecordId($item['id']);			
+				
+				if($perm[ilAdvancedMDPermissionHelper::ACTION_RECORD_EDIT_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_RECORD_OBJECT_TYPES])
 				{
-					foreach ($_POST['obj_types'][$record_obj->getRecordId()] as $t)
+					$obj_types = array();
+					if (is_array($_POST['obj_types'][$record_obj->getRecordId()]))
 					{
-						$t = explode(":", $t);
-						$obj_types[] = array(
-							"obj_type" => ilUtil::stripSlashes($t[0]),
-							"sub_type" => ilUtil::stripSlashes($t[1])
-							);
+						foreach ($_POST['obj_types'][$record_obj->getRecordId()] as $type => $status)
+						{					
+							if($status)
+							{
+								$type = explode(":", $type);
+								$obj_types[] = array(
+									"obj_type" => ilUtil::stripSlashes($type[0]),
+									"sub_type" => ilUtil::stripSlashes($type[1]),
+									"optional" => ((int)$status == 2)
+								);
+							}						
+						}
 					}
+					$record_obj->setAssignedObjectTypes($obj_types);
 				}
-				$record_obj->setAssignedObjectTypes($obj_types);
+				
+				if($perm[ilAdvancedMDPermissionHelper::ACTION_RECORD_TOGGLE_ACTIVATION])
+				{
+					$record_obj->setActive(isset($_POST['active'][$record_obj->getRecordId()]));
+				}
+
+				$record_obj->update();
 			}
-			
-			if($perm[ilAdvancedMDPermissionHelper::ACTION_RECORD_TOGGLE_ACTIVATION])
-			{
-				$record_obj->setActive(isset($_POST['active'][$record_obj->getRecordId()]));
-			}
-			
-			$record_obj->update();
+			else if($perm[ilAdvancedMDPermissionHelper::ACTION_RECORD_TOGGLE_ACTIVATION])			
+			{		
+				// global, optional record
+				if($item['readonly'] &&
+					$item['optional'] &&
+					$_POST['active'][$item['id']])
+				{
+					$selected_global[] = $item['id'];
+				}
+				else if($item['local'])
+				{
+					$record_obj = ilAdvancedMDRecord::_getInstanceByRecordId($item['id']);	
+					$record_obj->setActive(isset($_POST['active'][$item['id']]));
+					$record_obj->update();
+				}
+			}			
 		}
+		
+		if($this->obj_type)
+		{
+			ilAdvancedMDRecord::saveObjRecSelection($this->obj_id, $this->sub_type, $selected_global);	
+		}
+		
 		ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
 	 	$this->ctrl->redirect($this, "showRecords");
 	}
@@ -872,6 +932,12 @@ class ilAdvancedMDSettingsGUI
 	 	{
 		 	include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordParser.php');
 		 	$parser = new ilAdvancedMDRecordParser($import_files->getImportFileByCreationDate($create_time));
+			
+			// local import?
+			if($this->obj_id)
+			{
+				$parser->setContext($this->obj_id, $this->obj_type, $this->sub_type);
+			}
 		 	
 		 	// Validate
 	 		$parser->setMode(ilAdvancedMDRecordParser::MODE_INSERT_VALIDATION);
@@ -909,6 +975,16 @@ class ilAdvancedMDSettingsGUI
 	 	$this->initRecordObject();
 	 	$this->loadRecordFormData();
 	 	
+		if($this->obj_type)
+		{			
+			$this->record->setAssignedObjectTypes(array(
+				array(
+					"obj_type"=>$this->obj_type, 
+					"sub_type"=>$this->sub_type,
+					"optional"=>false
+			)));								
+		}
+		
 	 	if(!$this->record->validate())
 	 	{
 	 		ilUtil::sendFailure($this->lng->txt($ilErr->getMessage()));
@@ -916,6 +992,7 @@ class ilAdvancedMDSettingsGUI
 	 		return false;
 	 	}
 	 	$this->record->save();
+		
 	 	ilUtil::sendSuccess($this->lng->txt('md_adv_added_new_record'));
 	 	$this->showRecords();
 	}
@@ -981,6 +1058,8 @@ class ilAdvancedMDSettingsGUI
 			}
 		}
 		
+		$form->setValuesByPost();		
+		
 		// fields needs confirmation of updated settings
 		if($confirm)
 		{
@@ -988,7 +1067,6 @@ class ilAdvancedMDSettingsGUI
 			$field_definition->prepareDefinitionFormConfirmation($form);
 		}		
 		
-		$form->setValuesByPost();
 		$this->editField($form);		
 	}
 	
@@ -1155,24 +1233,65 @@ class ilAdvancedMDSettingsGUI
 			$check->setDisabled(true);
 		}
 		
-		$section = new ilFormSectionHeaderGUI();
-		$section->setTitle($this->lng->txt('md_obj_types'));
-		$this->form->addItem($section);
-		
-		foreach(ilAdvancedMDRecord::_getAssignableObjectTypes(true) as $type)
+		if(!$this->obj_type)
 		{
-			$t = $type["obj_type"].":".$type["sub_type"];
-			$this->lng->loadLanguageModule($type["obj_type"]);
-			$check = new ilCheckboxInputGUI($type["text"],'obj_types[]');
-			$check->setChecked($this->record->isAssignedObjectType($type["obj_type"], $type["sub_type"]));
-			$check->setValue($t);
-			$this->form->addItem($check);
-						
-			if(!$perm[ilAdvancedMDPermissionHelper::ACTION_RECORD_EDIT_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_RECORD_OBJECT_TYPES])
+			$section = new ilFormSectionHeaderGUI();
+			$section->setTitle($this->lng->txt('md_obj_types'));
+			$this->form->addItem($section);
+		
+			// see ilAdvancedMDRecordTableGUI::fillRow()
+			$options = array(
+				0 => $this->lng->txt("meta_obj_type_inactive"),
+				1 => $this->lng->txt("meta_obj_type_mandatory"),
+				2 => $this->lng->txt("meta_obj_type_optional")
+			);		
+			
+
+			foreach(ilAdvancedMDRecord::_getAssignableObjectTypes(true) as $type)
 			{
-				$check->setDisabled(true);
-			}
-		}				
+				$t = $type["obj_type"].":".$type["sub_type"];
+				$this->lng->loadLanguageModule($type["obj_type"]);
+				
+				$type_options = $options;
+				switch($type["obj_type"])
+				{
+					case "orgu":
+						// currently only optional records for org unit (types)
+						unset($type_options[1]);
+						break;
+						
+					case "rcrs":
+						// optional makes no sense for ecs-courses
+						unset($type_options[2]);
+						break;																				
+				}
+				
+				$value = 0;
+				if($a_mode == "edit")
+				{
+					foreach($this->record->getAssignedObjectTypes() as $item)
+					{
+						if($item["obj_type"] == $type["obj_type"] &&
+							$item["sub_type"] == $type["sub_type"])
+						{
+							$value = $item["optional"]
+								? 2
+								: 1;
+						}
+					}
+				}
+					
+				$check = new ilSelectInputGUI($type["text"],'obj_types['.$t.']');
+				$check->setOptions($type_options);
+				$check->setValue($value);
+				$this->form->addItem($check);
+
+				if(!$perm[ilAdvancedMDPermissionHelper::ACTION_RECORD_EDIT_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_RECORD_OBJECT_TYPES])
+				{
+					$check->setDisabled(true);
+				}
+			}		
+		}
 		
 		switch($a_mode)
 		{
@@ -1438,21 +1557,29 @@ class ilAdvancedMDSettingsGUI
 		{
 			$this->record->setDescription(ilUtil::stripSlashes($_POST['desc']));
 		}
-		if($perm[ilAdvancedMDPermissionHelper::ACTION_RECORD_EDIT_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_RECORD_OBJECT_TYPES])
-		{					
-			$obj_types = array();
-			if (is_array($_POST['obj_types']))
-			{
-				foreach ($_POST['obj_types'] as $t)
+		
+		if(!$this->obj_type)
+		{
+			if($perm[ilAdvancedMDPermissionHelper::ACTION_RECORD_EDIT_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_RECORD_OBJECT_TYPES])
+			{					
+				$obj_types = array();
+				if (is_array($_POST['obj_types']))
 				{
-					$t = explode(":", $t);
-					$obj_types[] = array(
-						"obj_type" => ilUtil::stripSlashes($t[0]),
-						"sub_type" => ilUtil::stripSlashes($t[1])
-						);
+					foreach ($_POST['obj_types'] as $t => $value)
+					{
+						if($value)
+						{
+							$t = explode(":", $t);
+							$obj_types[] = array(
+								"obj_type" => ilUtil::stripSlashes($t[0]),
+								"sub_type" => ilUtil::stripSlashes($t[1]),
+								"optional" => ($value > 1)
+								);
+						}
+					}
 				}
+				$this->record->setAssignedObjectTypes($obj_types);
 			}
-			$this->record->setAssignedObjectTypes($obj_types);
 		}
 	}
 	
@@ -1463,15 +1590,22 @@ class ilAdvancedMDSettingsGUI
 	 */
 	protected function initRecordObject()
 	{
-		if(is_object($this->record))
+		if(!is_object($this->record))
 		{
-			return $this->record;
-		}
-		
-		$record_id = isset($_GET['record_id']) ?
-			$_GET['record_id'] :
-			0; 
-		return $this->record = ilAdvancedMDRecord::_getInstanceByRecordId($_GET['record_id']);
+			$record_id = isset($_GET['record_id']) 
+				? $_GET['record_id'] 
+				: 0; 
+			$this->record = ilAdvancedMDRecord::_getInstanceByRecordId($record_id);
+			
+			// bind to parent object (aka local adv md)
+			if(!$record_id &&
+				$this->obj_id)
+			{
+				$this->record->setParentObject($this->obj_id);
+			}			
+		}				
+						
+		return $this->record;
 	}
 
 	/**
@@ -1507,13 +1641,96 @@ class ilAdvancedMDSettingsGUI
 	 *
 	 * @access protected
 	 */
-	protected function getRecordObjects()
+	protected function getParsedRecordObjects()
 	{
-		if(!isset($this->record_objs))
-		{
-			return $this->record_objs = ilAdvancedMDRecord::_getRecords();
+		$res = array();
+		
+		if($this->obj_type)
+		{			
+			$selected = ilAdvancedMDRecord::getObjRecSelection($this->obj_id, $this->sub_type);
 		}
-		return $this->record_objs;
+
+		foreach(ilAdvancedMDRecord::_getRecords() as $record)
+		{			
+			$parent_id = $record->getParentObject();
+			
+			if(!$this->obj_type)
+			{
+				if($parent_id)
+				{
+					continue;
+				}
+			}
+			else
+			{
+				// matching parent object?
+				if($parent_id &&
+					$parent_id != $this->obj_id)
+				{
+					continue;
+				}
+				
+				// only globally activated records for object context
+				if(!$parent_id &&
+					!$record->isActive())
+				{
+					continue;
+				}
+			}
+			
+			$tmp_arr = array();
+			$tmp_arr['id'] = $record->getRecordId();
+			$tmp_arr['active'] = $record->isActive();
+			$tmp_arr['title'] = $record->getTitle();
+			$tmp_arr['description'] = $record->getDescription();
+			$tmp_arr['fields'] = array();
+			$tmp_arr['obj_types'] = $record->getAssignedObjectTypes();
+
+			$tmp_arr['perm'] = $this->permissions->hasPermissions(
+				ilAdvancedMDPermissionHelper::CONTEXT_RECORD, 
+				$record->getRecordId(),
+				array(
+					ilAdvancedMDPermissionHelper::ACTION_RECORD_EDIT
+					,ilAdvancedMDPermissionHelper::ACTION_RECORD_EDIT_FIELDS
+					,ilAdvancedMDPermissionHelper::ACTION_RECORD_TOGGLE_ACTIVATION
+					,array(ilAdvancedMDPermissionHelper::ACTION_RECORD_EDIT_PROPERTY,  
+						ilAdvancedMDPermissionHelper::SUBACTION_RECORD_OBJECT_TYPES)
+				));		
+
+			if($this->obj_type)
+			{						
+				$tmp_arr["readonly"] = !(bool)$parent_id;
+				$tmp_arr["local"] = $parent_id;
+
+				// local records are never optional
+				$assigned = $optional = false;
+				foreach($tmp_arr['obj_types'] as $idx => $item)
+				{
+					if($item["obj_type"] == $this->obj_type &&
+						$item["sub_type"] == $this->sub_type)
+					{						
+						$assigned = true;
+						$optional = $item["optional"];						
+						$tmp_arr['obj_types'][$idx]['context'] = true;
+						break;
+					}
+				}
+				if(!$assigned)
+				{
+					continue;
+				}	
+				$tmp_arr['optional'] = $optional;
+				if($optional)
+				{
+					// in object context "active" means selected record
+					$tmp_arr['active'] = in_array($record->getRecordId(), $selected);
+				}			
+			}
+
+			$res[] = $tmp_arr;
+		}		
+		
+		return $res;
 	}
 	
 }

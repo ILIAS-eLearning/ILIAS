@@ -24,6 +24,10 @@ class ilAccordionGUI
 	const FIRST_OPEN = "FirstOpen";
 	const ALL_CLOSED = "AllClosed";
 
+	static $owl_path = "./Services/Accordion/lib/owl.carousel.2.0.0-beta.2.4";
+	static $owl_js_path = "/owl.carousel.js";
+	static $owl_css_path = "/assets/owl.carousel.css";
+
 	/**
 	* Constructor
 	*/
@@ -330,6 +334,8 @@ class ilAccordionGUI
 		include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
 		iljQueryUtil::initjQueryUI();
 		$tpl->addJavaScript("./Services/Accordion/js/accordion.js", true, 3);
+
+		$tpl->addJavascript(self::$owl_path.self::$owl_js_path);
 	}
 	
 	/**
@@ -340,6 +346,8 @@ class ilAccordionGUI
 		global $tpl;
 		
 		$tpl->addCss("./Services/Accordion/css/accordion.css");
+
+		$tpl->addCss(self::$owl_path.self::$owl_css_path);
 	}
 
 	/**

@@ -58,4 +58,14 @@ abstract class ilAssQuestionProcessLocker
 	{
 		// overwrite method in concrete locker if something to do
 	}
+	
+	public function requestUserSolutionAdoptLock()
+	{
+		// overwrite method in concrete locker if something to do
+	}
+
+	public function releaseUserSolutionAdoptLock()
+	{
+		// overwrite method in concrete locker if something to do
+	}
 }

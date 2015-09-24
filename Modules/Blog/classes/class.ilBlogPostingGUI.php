@@ -282,15 +282,29 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		if(($this->getOutputMode() == "preview" || $this->getOutputMode() == "offline") 
 			&& !$this->getAbstractOnly() && $this->add_date)
 		{			
+			$author = "";
 			if(!$this->isInWorkspace())		
 			{
-				$author = "";
+				$authors = array();
 				$author_id = $this->getBlogPosting()->getAuthor();
 				if($author_id)
 				{
 					include_once "Services/User/classes/class.ilUserUtil.php";
-					$author = ilUserUtil::getNamePresentation($author_id)." - ";
+					$authors[] = ilUserUtil::getNamePresentation($author_id);
 				}		
+								
+				foreach(ilBlogPosting::getPageContributors("blp", $this->getBlogPosting()->getId()) as $editor)
+				{
+					if($editor["user_id"] != $author_id)
+					{
+						$authors[] = ilUserUtil::getNamePresentation($editor["user_id"]);
+					}
+				}
+				
+				if($authors)
+				{
+					$author = implode(", ", $authors)." - ";
+				}
 			}
 			
 			// prepend creation date
@@ -622,6 +636,32 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		{
 			asort($keywords[$ulang]);
 			$txt->setValue($keywords[$ulang]);
+		}
+		
+		// other keywords in blog
+		$other = array();
+		foreach(array_keys(ilBlogPosting::getAllPostings($this->getBlogPosting()->getBlogId())) as $posting_id)
+		{
+			if($posting_id != $this->getBlogPosting()->getId())
+			{
+				$other = array_merge($other, ilBlogPosting::getKeywords($this->getBlogPosting()->getBlogId(), $posting_id));
+			}
+		}
+		if(is_array($keywords[$ulang]))
+		{			
+			$other = array_diff($other, $keywords[$ulang]);
+		}
+		if(sizeof($other))
+		{
+			$html = "";
+			foreach($other as $item)
+			{
+				$html .= '<span class="ilTag">'.$item.'</span>';
+			}
+			$info = new ilNonEditableValueGUI($this->lng->txt("blog_keywords_other"), "", true);
+			$info->setInfo($this->lng->txt("blog_keywords_other_info"));
+			$info->setValue($html);
+			$form->addItem($info);
 		}
 		
 		$form->addCommandButton("saveKeywordsForm", $this->lng->txt("save"));

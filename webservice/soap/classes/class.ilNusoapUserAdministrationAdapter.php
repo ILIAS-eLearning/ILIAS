@@ -1317,8 +1317,25 @@ class ilNusoapUserAdministrationAdapter
 				SERVICE_USE,
 				'Delete user progress data of objects. '
 			);
-				
-								
+		
+		
+		$this->server->register(
+			'getProgressInfo', 
+			array(
+				'sid' => 'xsd:string',
+				'ref_id' => 'xsd:int',
+				'progress_filter' => 'tns:intArray'
+			), 
+			array('user_results' => 'xsd:string'), 
+			SERVICE_NAMESPACE, 
+			SERVICE_NAMESPACE . '#getProgressInfo', 
+			SERVICE_STYLE, 
+			SERVICE_USE, 
+			'Get object learning progress information'
+		);
+
+
+
 		return true;
 
 	}

@@ -18,8 +18,10 @@ require_once './Modules/Forum/classes/class.ilForumPost.php';
 class ilForum
 {
 	const SORT_TITLE = 1;
-	const SORT_DATE = 2;	
-	
+	const SORT_DATE = 2;
+
+	const DEFAULT_PAGE_HITS = 30;
+
 	/**
 	* ilias object
 	* @var object ilias
@@ -61,7 +63,7 @@ class ilForum
 	private $replQuote2 = '</blockquote>';
 	
 	// max. datasets per page
-	private $pageHits = 30;
+	private $pageHits = self::DEFAULT_PAGE_HITS;
 
 	// object id
 	private $id;
@@ -280,24 +282,20 @@ class ilForum
 			return $this->mdb2DataType;
 		}
 	}
-	
+
 	/**
-	* set number of max. visible datasets
-	* @param	integer	$pageHits 
-	* @see				$pageHits
-	* @access	public
-	*/
+	 * @param int $pageHits
+	 * @return bool
+	 */
 	public function setPageHits($pageHits)
 	{
-		if ($pageHits < 1)
+		if($pageHits < 1 || !is_numeric($pageHits))
 		{
-			die($this->className . "::setPageHits(): No int pageHits given.");
+			$pageHits = 1;
 		}
-		else
-		{
-			$this->pageHits = $pageHits;
-			return true;
-		}
+
+		$this->pageHits = (int)$pageHits;
+		return true;
 	}
 	
 	/**
@@ -489,8 +487,7 @@ class ilForum
 		{
 			$this->insertPostNode($objNewPost->getId(), $parent_pos, $objNewPost->getThreadId(), $objNewPost->getCreateDate());
 		}
-//echo "<br>->".$objNewPost->getId()."-".$parent_pos."-".$objNewPost->getThreadId()."-".
-//	$objNewPost->getCreateDate()."-".$forum_id."-".$message."-".$user."-";
+		
 		// string last post
 		$lastPost = $objNewPost->getForumId()."#".$objNewPost->getThreadId()."#".$objNewPost->getId();
 			
@@ -515,20 +512,9 @@ class ilForum
 		// MARK READ
 		$forum_obj = ilObjectFactory::getInstanceByRefId($this->getForumRefId());
 		$forum_obj->markPostRead($objNewPost->getPosAuthorId(), $objNewPost->getThreadId(), $objNewPost->getId());
-		
-		$pos_data = $objNewPost->getDataAsArray();
-		$pos_data["ref_id"] = $this->getForumRefId();
 
-		// Send notification to moderators if they have to enable a post
-		
-		if (!$status && $send_activation_mail)
-		{
-			$pos_data["top_name"] = $forum_obj->getTitle();			
-			$this->sendPostActivationNotification($pos_data);
-		}
-		
 		// Add Notification to news
-		if ($status)
+		if($status)
 		{
 			require_once 'Services/RTE/classes/class.ilRTE.php';
 			include_once("./Services/News/classes/class.ilNewsItem.php");
@@ -541,7 +527,7 @@ class ilForum
 			$news_item->setVisibility(NEWS_USERS);
 			$news_item->create();
 		}
-		
+
 		return $objNewPost->getId();
 	}
 	
@@ -738,15 +724,24 @@ class ilForum
 	{		
 		global $ilDB;
 
-		$statement = $ilDB->manipulateF('
+		if($cens > 0)
+		{
+			$cens_date = date("Y-m-d H:i:s");
+		}
+		else
+		{
+			$cens_date = NULL;
+		}
+
+		$ilDB->manipulateF('
 			UPDATE frm_posts
 			SET pos_cens_com = %s,
-				pos_update = %s,
+				pos_cens_date = %s,
 				pos_cens = %s,
 				update_user = %s
 			WHERE pos_pk = %s',
 			array('text', 'timestamp', 'integer', 'integer', 'integer'),
-			array($message, date("Y-m-d H:i:s"), $cens, $_SESSION['AccountId'], $pos_pk));
+			array($message, $cens_date, $cens, $_SESSION['AccountId'], $pos_pk));
 		
 		// Change news item accordingly
 		include_once("./Services/News/classes/class.ilNewsItem.php");
@@ -778,7 +773,17 @@ class ilForum
 			}
 		}
 
-		return true;		
+		require_once 'Modules/Forum/classes/class.ilForumPost.php';
+		$GLOBALS['ilAppEventHandler']->raise(
+			'Modules/Forum',
+			'censoredPost',
+			array(
+				'ref_id' => $this->getForumRefId(),
+				'post'   => new ilForumPost($pos_pk)
+			)
+		);
+
+		return true;
 	}
 	
 	/**
@@ -793,10 +798,20 @@ class ilForum
 
 		include_once "./Modules/Forum/classes/class.ilObjForum.php";
 
-		// delete tree and get id's of all posts to delete
-		$p_node = $this->getPostNode($post);	
-		$del_id = $this->deletePostTree($p_node);
+		$p_node = $this->getPostNode($post);
 
+		$GLOBALS['ilAppEventHandler']->raise(
+			'Modules/Forum',
+			'deletedPost',
+			array(
+				'ref_id' => $this->getForumRefId(),
+				'post'           => new ilForumPost($post),
+				'thread_deleted' => ($p_node["parent"] == 0)? true : false
+			)
+		);
+
+		// delete tree and get id's of all posts to delete
+		$del_id = $this->deletePostTree($p_node);
 
 		// Delete User read entries
 		foreach($del_id as $post_id)
@@ -1908,71 +1923,6 @@ class ilForum
 		return true;
 	}
 
-
-	function __sendMessage($a_parent_pos, $post_data = array())
-	{
-		global $ilUser, $ilDB;
-		
-		$parent_data = $this->getOnePost($a_parent_pos);
-				
-		// only if the current user is not the owner of the parent post and the parent's notification flag is set...
-		if($parent_data["notify"] && $parent_data["pos_author_id"] != $ilUser->getId())
-		{
-			// SEND MESSAGE
-			include_once "Services/Mail/classes/class.ilMail.php";
-			include_once './Services/User/classes/class.ilObjUser.php';
-
-			$tmp_user =& new ilObjUser($parent_data["pos_author_id"]);
-
-			// NONSENSE
-			$this->setMDB2WhereCondition('thr_pk = %s ', array('integer'), array($parent_data["pos_thr_fk"]));
-
-			$thread_data = $this->getOneThread();
-
-			$tmp_mail_obj = new ilMail(ANONYMOUS_USER_ID);
-			$message = $tmp_mail_obj->sendMail($tmp_user->getLogin(),"","",
-											  	$this->formatNotificationSubject($post_data),
-											   $this->__formatMessage($thread_data, $post_data, $tmp_user),
-											   array(),array("system"));
-
-			unset($tmp_user);
-			unset($tmp_mail_obj);
-		}
-	}
-
-	/**
-	 * generates the notificiation message, if a post has been answered
-	 * 
-	 * @param array $thread_data
-	 * @param array $post_data
-	 * @param object $user_obj ilObjUser
-	 * @return string
-	 */
-	private function __formatMessage($thread_data, $post_data = array(), $user_obj)
-	{
-		include_once "./Services/Object/classes/class.ilObjectFactory.php";
-		$user_lang = self::_getLanguageInstanceByUsrId($user_obj->getId());
-		
-		$frm_obj =& ilObjectFactory::getInstanceByRefId($this->getForumRefId());
-		$title = $frm_obj->getTitle();
-		unset($frm_obj);
-		
-		$message = '';
-		$message .= ilMail::getSalutation($user_obj->getId(), $user_lang);
-		
-		$message .= "\n\n";
-		$message .= $this->lng->txt("forum_post_replied");	
-		$message .= $this->lng->txt("forum").": ".$title." -> ".$thread_data["thr_subject"]."\n\n";
-
-		$message .= "\n------------------------------------------------------------\n";
-		$message .= $post_data["pos_message"];
-		$message .= "\n------------------------------------------------------------\n";
-		$message .= sprintf($this->lng->txt("forums_notification_show_post"), "http://".$_SERVER["HTTP_HOST"].dirname($_SERVER["PHP_SELF"])."/goto.php?target=frm_".$post_data["ref_id"]."_".$post_data["pos_thr_fk"].'&client_id='.CLIENT_ID)."\n\n";
-		
-		$message .= ilMail::_getInstallationSignature(); 
-		return $message;
-	}
-
 	function getImportName()
 	{
 		return $this->import_name;
@@ -2155,383 +2105,6 @@ class ilForum
 		}
 		
 		return false;
-	}
-
-	function sendThreadNotifications($post_data)
-	{
-		global $ilDB, $ilAccess, $lng;
-		
-		include_once "Services/Mail/classes/class.ilMail.php";
-		include_once './Services/User/classes/class.ilObjUser.php';
-
-		// GET THREAD DATA		
-		$result = $ilDB->queryf('
-			SELECT thr_subject FROM frm_threads 
-			WHERE thr_pk = %s',
-			array('integer'), array($post_data['pos_thr_fk']));
-			
-		while($record = $ilDB->fetchAssoc($result))
-		{
-			$post_data['thr_subject'] = $record['thr_subject'];
-			break;
-		}
-		
-		// determine obj_id of the forum
-		$obj_id = self::_lookupObjIdForForumId($post_data['pos_top_fk']);
-
-		// GET AUTHOR OF NEW POST
-		if($post_data['pos_display_user_id'])
-		{
-			$post_data['pos_usr_name'] = ilObjUser::_lookupLogin($post_data['pos_display_user_id']);
-		}
-		else if(strlen($post_data['pos_usr_alias']))
-		{
-			$post_data['pos_usr_name'] = $post_data['pos_usr_alias'].' ('.$lng->txt('frm_pseudonym').')';
-		}
-		
-		if($post_data['pos_usr_name'] == '')
-		{
-			$post_data['pos_usr_name'] = $this->lng->txt('forums_anonymous');
-		}
-
-		// GET USERS WHO WANT TO BE INFORMED ABOUT NEW POSTS
-		$res = $ilDB->queryf('
-			SELECT user_id FROM frm_notification 
-			WHERE thread_id = %s
-			AND user_id <> %s',
-			array('integer', 'integer'),
-			array($post_data['pos_thr_fk'], $_SESSION['AccountId']));
-		
-		// get all references of obj_id
-		$frm_references = ilObject::_getAllReferences($obj_id);
-		
-		// save language of the current user
-		global $lng;
-		$userLanguage = $lng;
-
-		// get attachments data
-		$fileDataForum = new ilFileDataForum($obj_id, $post_data['pos_pk']);
-		$filesOfPost   = $fileDataForum->getFilesOfPost();
-		
-		$attachments = array();
-		foreach($filesOfPost as $attachment)
-		{
-			$attachments[] = $attachment['name'];
-		}
-
-		$mail_obj = new ilMail(ANONYMOUS_USER_ID);
-		while($row = $ilDB->fetchAssoc($res))
-		{
-			// do rbac check before sending notification
-			$send_mail = false;			
-			foreach((array)$frm_references as $ref_id)
-			{
-				if($ilAccess->checkAccessOfUser($row['user_id'], 'read', '', $ref_id))
-				{
-					$send_mail = true;
-					break;
-				}
-			}
-
-			if($send_mail)
-			{
-				$this->setLanguage(self::_getLanguageInstanceByUsrId($row['user_id']));
-				$mail_obj->sendMail(
-					ilObjUser::_lookupLogin($row["user_id"]), "", "",
-					$this->formatNotificationSubject($post_data),
-					$this->formatNotification($post_data, 0, $attachments, $row['user_id']),
-					array(), array("system")
-				);
-			}
-		}
-		
-		// reset language
-		$this->setLanguage($userLanguage);
-	}
-	
-	function sendForumNotifications($post_data)
-	{
-		global $ilDB, $ilAccess, $lng, $ilUser;
-
-		include_once "Services/Mail/classes/class.ilMail.php";
-		include_once './Services/User/classes/class.ilObjUser.php';
-		
-		// GET THREAD DATA
-		$result = $ilDB->queryf('
-			SELECT thr_subject FROM frm_threads 
-			WHERE thr_pk = %s',
-			array('integer'), 
-			array($post_data['pos_thr_fk']));
-			
-		while($record = $ilDB->fetchAssoc($result))
-		{
-			$post_data['thr_subject'] = $record['thr_subject'];
-			break;
-		}
-				
-		// determine obj_id of the forum
-		$obj_id = self::_lookupObjIdForForumId($post_data['pos_top_fk']);
-
-		// GET AUTHOR OF NEW POST
-		if($post_data['pos_display_user_id'])
-		{
-			$post_data['pos_usr_name'] = ilObjUser::_lookupLogin($post_data['pos_display_user_id']);
-		}
-		else if(strlen($post_data['pos_usr_alias']))
-		{
-			$post_data['pos_usr_name'] = $post_data['pos_usr_alias'].' ('.$lng->txt('frm_pseudonym').')';
-		}
-		
-		if($post_data['pos_usr_name'] == '')
-		{
-			$post_data['pos_usr_name'] = $this->lng->txt('forums_anonymous');
-		}
-
-		// GET USERS WHO WANT TO BE INFORMED ABOUT NEW POSTS
-		$res = $ilDB->queryf('
-			SELECT frm_notification.user_id FROM frm_notification, frm_data 
-			WHERE frm_data.top_pk = %s
-			AND frm_notification.frm_id = frm_data.top_frm_fk 
-			AND frm_notification.user_id <> %s
-			GROUP BY frm_notification.user_id',
-			array('integer', 'integer'),
-			array($post_data['pos_top_fk'], $ilUser->getId()));
-		
-		// get all references of obj_id
-		$frm_references = ilObject::_getAllReferences($obj_id);
-		
-		// save language of the current user
-		global $lng;
-		$userLanguage = $lng;
-		
-		// get attachments data
-		$fileDataForum = new ilFileDataForum($obj_id, $post_data['pos_pk']);
-		$filesOfPost   = $fileDataForum->getFilesOfPost();
-		$attachments = array();
-		foreach($filesOfPost as $attachment)
-		{
-			$attachments[] = $attachment['name'];
-		}
-		
-		$mail_obj = new ilMail(ANONYMOUS_USER_ID);
-		while($row = $ilDB->fetchAssoc($res))
-		{			
-			// do rbac check before sending notification
-			$send_mail = false;			
-			foreach((array)$frm_references as $ref_id)
-			{
-				if($ilAccess->checkAccessOfUser($row['user_id'], 'read', '', $ref_id))
-				{
-					$send_mail = true;
-					break;
-				}
-			}
-			
-			if($send_mail)
-			{
-				$this->setLanguage(self::_getLanguageInstanceByUsrId($row['user_id']));
-				$mail_obj->sendMail(
-					ilObjUser::_lookupLogin($row["user_id"]), "", "",
-					$this->formatNotificationSubject($post_data),
-					$this->formatNotification($post_data, 0, $attachments, $row['user_id']),
-					array(), array("system")
-				);
-			}
-		}
-		
-		// reset language
-		$this->setLanguage($userLanguage);
-	}
-
-	/**
-	 * @param $post_data
-	 * @param $user_id
-	 * @return string
-	 */
-	private function formatPostActivationNotification($post_data, $user_id)
-	{		
-		$user_lang = self::_getLanguageInstanceByUsrId($user_id);
-		
-		$message = "";
-		$message .= ilMail::getSalutation($user_id, $user_lang);
-		$message .= "\n\n";
-		$message .= $this->lng->txt('forums_post_activation_mail')."\n\n";
-		
-		$message .= $this->lng->txt("forum").": ".$post_data["top_name"]."\n\n";
-		$message .= $this->lng->txt("thread").": ".$post_data["thr_subject"]."\n\n";
-		$message .= $this->lng->txt("new_post").":\n------------------------------------------------------------\n";
-		$message .= $this->lng->txt("author").": ".$post_data["pos_usr_name"]."\n";
-		$message .= $this->lng->txt("date").": ".$post_data["pos_date"]."\n";
-		$message .= $this->lng->txt("subject").": ".$post_data["pos_subject"]."\n\n";
-		if ($post_data["pos_cens"] == 1)
-		{
-			$message .= $post_data["pos_cens_com"]."\n";
-		}
-		else
-		{
-			$pos_message = $post_data['pos_message'];
-			if(strip_tags($pos_message) != $pos_message)
-			{
-				$pos_message = preg_replace("/\n/i", "", $pos_message);
-				$pos_message = preg_replace("/<br(\s*)(\/?)>/i", "\n", $pos_message);
-				$pos_message = preg_replace("/<p([^>]*)>/i", "\n\n", $pos_message);
-				$pos_message = preg_replace("/<\/p([^>]*)>/i", '', $pos_message);
-			}
-			$message .= strip_tags($pos_message)."\n";
-		}
-		$message .= "------------------------------------------------------------\n";
-	
-		$message .= sprintf($this->lng->txt('forums_notification_show_post'), ILIAS_HTTP_PATH."/goto.php?target=frm_".$post_data["ref_id"]."_".$post_data["pos_thr_fk"]."_".$post_data["pos_pk"].'&client_id='.CLIENT_ID)."\n\n";
-		$message .= sprintf($this->lng->txt('forums_notification_intro'),
-			$this->ilias->ini->readVariable('client', 'name'),
-			ILIAS_HTTP_PATH.'/?client_id='.CLIENT_ID)."\n\n";
-
-		return $message;
-	}
-	
-	function sendPostActivationNotification($post_data)
-	{		
-		global $ilDB, $ilUser, $lng;
-		
-		if (is_array($moderators = $this->getModerators()))
-		{
-			// GET THREAD DATA
-			$result = $ilDB->queryf('
-				SELECT thr_subject FROM frm_threads 
-				WHERE thr_pk = %s',
-			    array('integer'),
-			    array($post_data['pos_thr_fk']));
-			    
-			while($record = $ilDB->fetchAssoc($result))
-			{
-				$post_data['thr_subject'] = $record['thr_subject'];
-				break;
-			}
-	
-			// GET AUTHOR OF NEW POST
-			if($post_data['pos_display_user_id'])
-			{
-				$post_data['pos_usr_name'] = ilObjUser::_lookupLogin($post_data['pos_display_user_id']);
-			}
-			else if(strlen($post_data['pos_usr_alias']))
-			{
-				$post_data['pos_usr_name'] = $post_data['pos_usr_alias'].' ('.$lng->txt('frm_pseudonym').')';
-			}
-			
-			if($post_data['pos_usr_name'] == '')
-			{
-				$post_data['pos_usr_name'] = $this->lng->txt('forums_anonymous');
-			}
-			
-			// save language of the current user
-			global $lng;
-			$userLanguage = $lng;
-			
-			$mail_obj = new ilMail(ANONYMOUS_USER_ID);
-			foreach($moderators as $moderator)
-			{
-				// set forum language instance for earch user
-				$this->setLanguage(self::_getLanguageInstanceByUsrId($moderator));
-				$subject = $this->formatNotificationSubject($post_data);
-				$message = $this->formatPostActivationNotification($post_data, $moderator);
-				$mail_obj->sendMail(
-					ilObjUser::_lookupLogin($moderator), '', '',
-					$subject,
-					$message,
-					array(), array("system")
-				);
-			}
-			
-			// reset language
-			$this->setLanguage($userLanguage);
-		}
-	}
-
-	/**
-	 * @param array $post_data use $post_data['top_name'] for forum-title
-	 * @return string
-	 */
-	public function formatNotificationSubject($post_data)
-	{
-		return $this->lng->txt("forums_notification_subject").' '.$post_data['top_name'];
-	}
-
-	/**
-	 * @param      $post_data
-	 * @param int  $cron
-	 * @param array $attachments 
-	 * @param int 	$user_id 	user_id of mail-recipient
-	 * @return string
-	 */
-	public function formatNotification($post_data, $cron = 0, $attachments = array(), $user_id)
-	{
-		global $ilIliasIniFile;
-
-		$user_lang = self::_getLanguageInstanceByUsrId($user_id);
-		
-		$message = "";
-
-		$message .= ilMail::getSalutation($user_id, $user_lang);
-		$message .= "\n\n";
-		$message .= $this->lng->txt("forums_notification_subject")." ".$post_data['top_name']."\n\n";
-		
-		$message .= $this->lng->txt("forum").": ".$post_data["top_name"]."\n\n";
-		$message .= $this->lng->txt("thread").": ".$post_data["thr_subject"]."\n\n";
-		$message .= $this->lng->txt("new_post").":\n------------------------------------------------------------\n";
-		$message .= $this->lng->txt("author").": ".$post_data["pos_usr_name"]."\n";
-		$message .= $this->lng->txt("date").": ".$post_data["pos_date"]."\n";
-		$message .= $this->lng->txt("subject").": ".$post_data["pos_subject"]."\n\n";
-		
-		if ($post_data["pos_cens"] == 1)
-		{	
-			$message .= $post_data["pos_cens_com"]."\n";
-		}
-		else
-		{
-			$pos_message = $post_data['pos_message'];
-			if(strip_tags($pos_message) != $pos_message)
-			{
-				$pos_message = preg_replace("/\n/i", "", $pos_message);
-				$pos_message = preg_replace("/<br(\s*)(\/?)>/i", "\n", $pos_message);
-				$pos_message = preg_replace("/<p([^>]*)>/i", "\n\n", $pos_message);
-				$pos_message = preg_replace("/<\/p([^>]*)>/i", '', $pos_message);
-			}
-			$message .= strip_tags($pos_message)."\n";
-		}
-		$message .= "------------------------------------------------------------\n";
-
-		if(count($attachments) > 0)
-		{
-			foreach($attachments as $attachment)
-			{
-				$message .= $this->lng->txt('attachment').": ".$attachment."\n";
-			}
-			$message .= "\n------------------------------------------------------------\n";
-		}
-		
-		if ($cron == 1)
-		{
-			$message .= sprintf($this->lng->txt("forums_notification_show_post"), $ilIliasIniFile->readVariable("server","http_path")."/goto.php?target=frm_".$post_data["ref_id"]."_".$post_data["pos_thr_fk"]."_".$post_data["pos_pk"].'&client_id='.CLIENT_ID)."\n\n";
-		}
-		else
-		{
-			$message .= sprintf($this->lng->txt("forums_notification_show_post"), ILIAS_HTTP_PATH."/goto.php?target=frm_".$post_data["ref_id"]."_".$post_data["pos_thr_fk"]."_".$post_data["pos_pk"].'&client_id='.CLIENT_ID)."\n\n";
-		}
-
-		if ($cron == 1)
-		{
-			$message .= sprintf($this->lng->txt("forums_notification_intro"),
-				$this->ilias->ini->readVariable("client","name"),
-				$ilIliasIniFile->readVariable("server","http_path").'/?client_id='.CLIENT_ID)."\n\n";
-		}
-		else
-		{
-			$message .= sprintf($this->lng->txt("forums_notification_intro"),
-				$this->ilias->ini->readVariable("client","name"),
-				ILIAS_HTTP_PATH.'/?client_id='.CLIENT_ID)."\n\n";
-		}
-		
-		return $message;
 	}
 	
 	/**

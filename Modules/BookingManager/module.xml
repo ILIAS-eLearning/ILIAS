@@ -12,6 +12,7 @@
 			<parent id="grp">grp</parent>
 			<parent id="root">root</parent>
 			<parent id="fold">fold</parent>
+			<sub_type id="bobj" amet="1" />
 		</object>
 	</objects>
 </module>

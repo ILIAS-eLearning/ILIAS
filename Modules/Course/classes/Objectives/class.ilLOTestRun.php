@@ -52,6 +52,23 @@ class ilLOTestRun
 		}
 		return false;
 	}
+
+	/**
+	 * Delete runs
+	 * @global type $ilDB
+	 * @param type $a_container_id
+	 * @param type $a_user_id
+	 */
+	public static function deleteRuns($a_container_id, $a_user_id)
+	{
+		global $ilDB;
+		
+		$query = 'DELETE FROM loc_tst_run '.
+				'WHERE container_id = ' . $ilDB->quote($a_container_id,'integer').' '.
+				'AND user_id = '.$ilDB->quote($a_user_id,'integer').' ';
+		$ilDB->manipulate($query);
+		
+	}
 	
 	public static function deleteRun($a_container_id, $a_user_id, $a_test_id)
 	{

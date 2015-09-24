@@ -1039,16 +1039,23 @@ class ilSoapFunctions {
 	}
 	// mcs-patch end
 	
+
+	/**
+	 * Get learning progress info
+	 * @param type $sid
+	 * @param type $ref_id
+	 * @param type $progress_filter
+	 * @return type
+	 */
+	public static function getProgressInfo($sid, $ref_id, $progress_filter)
+	{
+		include_once './webservice/soap/classes/class.ilSoapLearningProgressAdministration.php';
+		$sla = new ilSoapLearningProgressAdministration();
+		return $sla->getProgressInfo($sid, $ref_id, $progress_filter);
+
+	}
+
+	
 }
 
-/*	function  ilClone($sid,$copy_identifier)
-	{
-		return ilSoapFunctions::ilClone($sid,$copy_identifier);
-	}
-	
-	function  ilCloneDependencies($sid,$copy_identifier)
-	{
-		return ilSoapFunctions::ilCloneDependencies($sid,$copy_identifier);
-	}*/
-
-	?>
+?>

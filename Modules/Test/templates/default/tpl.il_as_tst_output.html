@@ -13,47 +13,14 @@
 </div>
 <!-- END enableprocessingtime -->
 <input type="hidden" name="formtimestamp" value="{FORM_TIMESTAMP}" />
-<table class="fullwidth_invisible">
-		<tr>
-			<td>
-<!-- BEGIN view_sidelist -->
-	<input type="image" name="cmd[togglesidelist][list]" src="{IMAGE_SIDELIST}" title="{TEXT_SIDELIST}" />
-<!-- END view_sidelist -->
-<!-- BEGIN question_status -->
-<!-- BEGIN ismarked -->
-	<input type="image" name="cmd[{CMD_MARKED}][mark]" src="{IMAGE_MARKED}" class="ilTstMarkQuestionButton" title="{TEXT_MARKED}" />
-<!-- END ismarked -->
-<!-- BEGIN isnotmarked -->
-	<input type="image" name="cmd[{CMD_UNMARKED}][mark]" src="{IMAGE_UNMARKED}" class="ilTstMarkQuestionButton" title="{TEXT_UNMARKED}" />
-<!-- END isnotmarked -->
-<!-- END question_status -->
-			</td>
-		</tr>
-</table>
+<!-- BEGIN char_selector -->{CHAR_SELECTOR_TEMPLATE}<!-- END char_selector -->
+<!-- BEGIN test_nav_toolbar -->{TEST_NAV_TOOLBAR}<!-- END test_nav_toolbar -->
 <table class="fullwidth">
 	<tr>
 	<td align="left" width="33%" class="submit">
-<!-- BEGIN prev -->
-		<input type="submit" class="btn btn-default" name="cmd[{CMD_PREV}]" value="{BTN_PREV}" id="prevbutton" />
-<!-- END prev -->
-	</td>
-	<td align="center" width="1" class="submit">
-		<!-- BEGIN char_selector -->
-		<input type="submit" class="btn btn-default ilCharSelectorToggle" value="&nbsp;Ω&nbsp;" id="charselectorbutton" />
-		{CHAR_SELECTOR_TEMPLATE}
-		<!-- END char_selector -->
-<!-- BEGIN cancel_test -->
-	<a href="{HREF_CANCELTEXT}" class="btn btn-default">{TEXT_CANCELTEST}</a>
-<!-- END cancel_test -->
-<!-- BEGIN summary -->
-		<input type="submit" class="btn btn-default" name="cmd[{CMD_SUMMARY}]" value="{BTN_SUMMARY}" id="summarybutton" />
-<!-- END summary -->
+<!-- BEGIN prev -->{BTN_PREV}<!-- END prev -->
 	</td>
 	<td align="right" width="33%" class="submit">
-<!-- BEGIN postpone -->
-	<input type="submit" class="btn btn-default" name="cmd[{CMD_POSTPONE}]" value="{BTN_POSTPONE}" id="postponebutton" />
-	&nbsp;&nbsp;
-<!-- END postpone -->
 <!-- BEGIN next -->{BTN_NEXT}<!-- END next -->
 	</td>
 	</tr>
@@ -62,23 +29,9 @@
 <table class="fullwidth">
 	<tr class="std">
 		<td class="ilc_Page">
-			<div class="ilc_Page" id="ilc_Page">
-				<div id="javascript_switch" style="z-index: 10; float: right; display: none;"><a href="{JAVASCRIPT_URL}">{JAVASCRIPT_TITLE}</a></div>
-				{QUESTION_OUTPUT}
+			<div class="ilc_Page<!-- BEGIN readonly_css_class --> readonly<!-- END readonly_css_class -->" id="ilc_Page">
+				{QUESTION_OUTPUT}<!-- BEGIN discard_modal -->{DISCARD_MODAL}<!-- END discard_modal -->
             </div>
-			<!-- BEGIN question_related_navigation -->
-			<div class="ilAssQuestionRelatedNavigationContainer">
-				<!-- BEGIN direct_feedback -->
-					<input type="submit" class="btn btn-default" name="cmd[{CMD_SHOW_INSTANT_RESPONSE}]" id="directfeedback" value="{TEXT_SHOW_INSTANT_RESPONSE}" />
-				<!-- END direct_feedback -->
-				<!-- BEGIN button_request_next_question_hint -->
-					<input type="submit" class="btn btn-default" name="cmd[{CMD_REQUEST_NEXT_QUESTION_HINT}]" id="requestNextQuestionHint" value="{TEXT_REQUEST_NEXT_QUESTION_HINT}" />
-				<!-- END button_request_next_question_hint -->
-				<!-- BEGIN button_show_requested_question_hints -->
-					<input type="submit" class="btn btn-default" name="cmd[{CMD_SHOW_REQUESTED_QUESTION_HINTS}]" id="showRequestedQuestionHints" value="{TEXT_SHOW_REQUESTED_QUESTION_HINTS}" />
-				<!-- END button_show_requested_question_hints -->
-			</div>
-			<!-- END question_related_navigation -->
 			<!-- BEGIN received_points_information -->
             <p>{RECEIVED_POINTS_INFORMATION}</p>
 			<!-- END received_points_information -->
@@ -104,20 +57,9 @@
 <table class="fullwidth">
 	<tr>
 		<td align="left" width="33%" class="submit">
-<!-- BEGIN prev_bottom -->
-			<input type="submit" class="btn btn-default" name="cmd[{CMD_PREV}]" value="{BTN_PREV}" id="bottomprevbutton" />
-<!-- END prev_bottom -->
-		</td>
-		<td align="center" width="1" class="submit">
-<!-- BEGIN summary_bottom  -->
-			<input type="submit" class="btn btn-default" name="cmd[{CMD_SUMMARY}]" value="{BTN_SUMMARY}" id="bottomsummarybutton" />
-<!-- END summary_bottom -->
+<!-- BEGIN prev_bottom -->{BTN_PREV}<!-- END prev_bottom -->
 		</td>
 		<td align="right" width="33%" class="submit">
-<!-- BEGIN postpone_bottom -->
-			<input type="submit" class="btn btn-default" name="cmd[{CMD_POSTPONE}]" value="{BTN_POSTPONE}" id="bottompostponebutton" />
-			&nbsp;&nbsp;
-<!-- END postpone_bottom -->
 <!-- BEGIN next_bottom -->{BTN_NEXT}<!-- END next_bottom -->
 		</td>
 	</tr>

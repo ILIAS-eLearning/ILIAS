@@ -44,6 +44,16 @@ class ilGroupExporter extends ilXmlExporter
 	 */
 	public function getXmlExportHeadDependencies($a_entity, $a_target_release, $a_ids)
 	{
+		// always trigger container because of co-page(s)
+		return array(
+			array(
+				'component'		=> 'Services/Container',
+				'entity'		=> 'struct',
+				'ids'			=> $a_ids
+			)
+		);
+		
+		/*
 		include_once './Services/Export/classes/class.ilExportOptions.php';
 		$eo = ilExportOptions::getInstance();
 		
@@ -65,7 +75,8 @@ class ilGroupExporter extends ilXmlExporter
 				)
 			);
 		}
-		return array();
+		return array();		 
+		*/
 	}
 	
 	
@@ -109,6 +120,12 @@ class ilGroupExporter extends ilXmlExporter
 				"xsd_file" => "ilias_grp_4_1.xsd",
 				"uses_dataset" => false,
 				"min" => "4.1.0",
+				"max" => "4.4.999"),
+			"5.0.0" => array(
+				"namespace" => "http://www.ilias.de/Modules/Group/grp/5_0",
+				"xsd_file" => "ilias_grp_5_0.xsd",
+				"uses_dataset" => false,
+				"min" => "5.0.0",
 				"max" => "")
 		);
 	}

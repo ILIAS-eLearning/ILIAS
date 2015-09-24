@@ -1,0 +1,37 @@
+div#qpl_lac_legend
+{
+    top: 120px;
+    right: 20px;
+    max-height: 100%;
+    width: 500px;
+    position: fixed;
+}
+
+div.qpl_lac_legend
+{
+    margin: 10px;
+}
+div.qpl_lac_legend div.header
+{
+    margin: 30px 0 15px 0;
+    font-weight: bold;
+}
+div.qpl_lac_legend td.element
+{
+    padding: 5px 15px 0 0;
+    font-style: italic;
+}
+div.qpl_lac_legend td.description
+{
+    padding: 5px 0 0 0;
+}
+div.qpl_lac_legend td.operators
+{
+    padding: 0 0 5px 0;
+    font-size: 0.8em;
+}
+
+div.qpl_lac_expression_examples td.element
+{
+    width: 150px;
+}

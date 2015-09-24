@@ -10,7 +10,8 @@ include_once 'Services/Mail/classes/class.ilMailGlobalServices.php';
 * @author Alex Killing
 * @version $Id$
 */
-class ilMainMenuGUI
+class
+ilMainMenuGUI
 {
 	/**
 	* ilias objectm
@@ -215,6 +216,9 @@ class ilMainMenuGUI
 
 			// online help
 			$this->renderHelpButtons();
+
+			$this->populateWithBuddySystem();
+			$this->renderAwareness();
 		}
 
 		if($this->getMode() == self::MODE_FULL)
@@ -278,7 +282,7 @@ class ilMainMenuGUI
 			}
 			else
 			{
-				if($this->getMode() != self::MODE_TOPBAR_REDUCED)
+				if($this->getMode() != self::MODE_TOPBAR_REDUCED && !$ilUser->isAnonymous())
 				{
 					$notificationSettings = new ilSetting('notifications');
 					$chatSettings = new ilSetting('chatroom');
@@ -288,47 +292,25 @@ class ilMainMenuGUI
 					 */
 					global $tpl;
 
-					if($chatSettings->get('chat_enabled') && $notificationSettings->get('enable_osd'))
-					{
-						$this->tpl->touchBlock('osd_enabled');
-						$this->tpl->touchBlock('osd_container');
+					$this->tpl->touchBlock('osd_container');
 
-						include_once "Services/jQuery/classes/class.iljQueryUtil.php";
-						iljQueryUtil::initjQuery();
+					include_once "Services/jQuery/classes/class.iljQueryUtil.php";
+					iljQueryUtil::initjQuery();
 
-						include_once 'Services/MediaObjects/classes/class.ilPlayerUtil.php';
-						ilPlayerUtil::initMediaElementJs();
+					include_once 'Services/MediaObjects/classes/class.ilPlayerUtil.php';
+					ilPlayerUtil::initMediaElementJs();
 
-						$tpl->addJavaScript('Services/Notifications/templates/default/notifications.js');
-						$tpl->addCSS('Services/Notifications/templates/default/osd.css');
+					$tpl->addJavaScript('Services/Notifications/templates/default/notifications.js');
+					$tpl->addCSS('Services/Notifications/templates/default/osd.css');
 
-						require_once 'Services/Notifications/classes/class.ilNotificationOSDHandler.php';
-						require_once 'Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php';
+					require_once 'Services/Notifications/classes/class.ilNotificationOSDHandler.php';
+					require_once 'Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php';
 
-						$notifications = ilNotificationOSDHandler::getNotificationsForUser($ilUser->getId());
-						$this->tpl->setVariable('NOTIFICATION_CLOSE_HTML', json_encode(ilGlyphGUI::get(ilGlyphGUI::CLOSE, $lng->txt('close'))));
-						$this->tpl->setVariable('INITIAL_NOTIFICATIONS', json_encode($notifications));
-						$this->tpl->setVariable('OSD_POLLING_INTERVALL', $notificationSettings->get('osd_polling_intervall') ? $notificationSettings->get('osd_polling_intervall') : '5');
-						$this->tpl->setVariable(
-							'OSD_PLAY_SOUND',
-							$chatSettings->get('play_invitation_sound') && $ilUser->getPref('chat_play_invitation_sound') ? 'true' : 'false');
-						foreach($notifications as $notification)
-						{
-							if($notification['type'] == 'osd_maint')
-							{
-								continue;
-							}
-							$this->tpl->setCurrentBlock('osd_notification_item');
-
-							$this->tpl->setVariable('NOTIFICATION_ICON_PATH', $notification['data']->iconPath);
-							$this->tpl->setVariable('NOTIFICATION_TITLE', $notification['data']->title);
-							$this->tpl->setVariable('NOTIFICATION_LINK', $notification['data']->link);
-							$this->tpl->setVariable('NOTIFICATION_LINKTARGET', $notification['data']->linktarget);
-							$this->tpl->setVariable('NOTIFICATION_ID', $notification['notification_osd_id']);
-							$this->tpl->setVariable('NOTIFICATION_SHORT_DESCRIPTION', $notification['data']->shortDescription);
-							$this->tpl->parseCurrentBlock();
-						}
-					}
+					$notifications = ilNotificationOSDHandler::getNotificationsForUser($ilUser->getId());
+					$this->tpl->setVariable('NOTIFICATION_CLOSE_HTML', json_encode(ilGlyphGUI::get(ilGlyphGUI::CLOSE, $lng->txt('close'))));
+					$this->tpl->setVariable('INITIAL_NOTIFICATIONS', json_encode($notifications));
+					$this->tpl->setVariable('OSD_POLLING_INTERVALL', $notificationSettings->get('osd_polling_intervall') ? $notificationSettings->get('osd_polling_intervall') : '60');
+					$this->tpl->setVariable('OSD_PLAY_SOUND', $chatSettings->get('play_invitation_sound') && $ilUser->getPref('chat_play_invitation_sound') ? 'true' : 'false');
 				}
 
 				$this->tpl->setCurrentBlock("userisloggedin");
@@ -686,9 +668,8 @@ class ilMainMenuGUI
 			}
 
 			// contacts
-			if(!$this->ilias->getSetting('disable_contacts') &&
-				($this->ilias->getSetting('disable_contacts_require_mail') ||
-				$rbacsystem->checkAccess('internal_mail', ilMailGlobalServices::getMailObjectRefId())))
+			require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystem.php';
+			if(ilBuddySystem::getInstance()->isEnabled())
 			{
 				$gl->addEntry($lng->txt('mail_addressbook'),
 					'ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToContacts', '_top'
@@ -817,7 +798,14 @@ class ilMainMenuGUI
 	}
 	
 	function getHTML()
-	{		
+	{
+		// this is a workaround for bugs like 14016
+		// the main menu does not need the YUI connection, but many other
+		// features since they rely on il.Util.sendAjaxGetRequestToUrl (see Services/Javascript)
+		// which still uses YUI. This should be migrated to jQuery with a future major release
+		include_once "Services/YUI/classes/class.ilYuiUtil.php";
+		ilYUIUtil::initConnection();
+
 		$this->setTemplateVars();
 
 		return $this->tpl->get();
@@ -937,9 +925,8 @@ class ilMainMenuGUI
 				}
 
 				// contacts
-				if (!$this->ilias->getSetting('disable_contacts') &&
-					($this->ilias->getSetting('disable_contacts_require_mail') ||
-					$rbacsystem->checkAccess('internal_mail', ilMailGlobalServices::getMailObjectRefId())))
+				require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystem.php';
+				if(ilBuddySystem::getInstance()->isEnabled())
 				{
 					$selection->addItem($lng->txt('mail_addressbook'), '', 'ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToContacts', '', '', '_top');
 				}
@@ -1086,8 +1073,31 @@ class ilMainMenuGUI
 			$ilCtrl->setTargetScript($ts);
 		}
 	}
-	
-	
+
+	/**
+	 * Includes all buddy system/user connections related javascript code
+	 */
+	protected function populateWithBuddySystem()
+	{
+		require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystem.php';
+		if(ilBuddySystem::getInstance()->isEnabled())
+		{
+			require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystemGUI.php';
+			ilBuddySystemGUI::initializeFrontend();
+		}
+	}
+
+	/**
+	 * Render awareness tool
+	 */
+	function renderAwareness()
+	{
+		include_once("./Services/Awareness/classes/class.ilAwarenessGUI.php");
+		$aw = ilAwarenessGUI::getInstance();
+
+		$this->tpl->setVariable("AWARENESS", $aw->getMainMenuHTML());
+	}
+
 	/**
 	 * Toggle rendering of main menu, search, user info
 	 * 

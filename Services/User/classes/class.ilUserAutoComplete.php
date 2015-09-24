@@ -67,6 +67,8 @@ class ilUserAutoComplete
 	
 	private $limit = 0;
 
+	private $user_limitations = true;
+
 	/**
 	 * Default constructor
 	 */
@@ -436,6 +438,23 @@ class ilUserAutoComplete
 			$outer_conditions[] = '(' . implode(' OR ', $field_conditions) . ')';
 		}
 
+
+		$settings = ilSearchSettings::getInstance();
+
+		if(!$settings->isInactiveUserVisible() && $this->getUserLimitations())
+		{
+			$outer_conditions[] = "ud.active = ". $ilDB->quote(1, 'integer');
+		}
+
+		if(!$settings->isLimitedUserVisible() && $this->getUserLimitations())
+		{
+			$unlimited = "ud.time_limit_unlimited = ". $ilDB->quote(1, 'integer');
+			$from = "ud.time_limit_from < ". $ilDB->quote(time(), 'integer');
+			$until = "ud.time_limit_until > ". $ilDB->quote(time(), 'integer');
+
+			$outer_conditions[] = '(' .$unlimited.' OR ('.$from.' AND ' .$until.'))';
+		}
+
 		return implode(' AND ', $outer_conditions);
 	}
 
@@ -474,5 +493,24 @@ class ilUserAutoComplete
 		{
 			return $ilDB->like($field, 'text', $a_str);
 		}
+	}
+
+	/**
+	 * allow user limitations like inactive and access limitations
+	 *
+	 * @param bool $a_limitations
+	 */
+	public function setUserLimitations($a_limitations)
+	{
+		$this->user_limitations = (bool) $a_limitations;
+	}
+
+	/**
+	 * allow user limitations like inactive and access limitations
+	 * @return bool
+	 */
+	public function getUserLimitations()
+	{
+		return $this->user_limitations;
 	}
 }

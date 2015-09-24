@@ -704,6 +704,30 @@ class ilNewsItem extends ilNewsItemGen
 		$this->setContextSubObjId($a_sub_obj_id);
 		$this->setContextSubObjType($a_sub_obj_type);
 	}
+	
+	/**
+	 * Convert time period for DB-queries
+	 * 
+	 * @param mixed $a_time_period
+	 * @return string
+	 */
+	protected static function handleTimePeriod($a_time_period)
+	{
+		// time period is number of days
+		if(is_numeric($a_time_period))
+		{
+			if($a_time_period > 0)
+			{
+				return date('Y-m-d H:i:s', time() - ($a_time_period * 24 * 60 * 60));
+			}
+		}
+		// time period is datetime
+		else if(preg_match("/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/", $a_time_period))
+		{			
+			return $a_time_period;
+		}
+		// :TODO: what to return?		
+	}
 
 	/**
 	 * Query news for a context
@@ -719,9 +743,9 @@ class ilNewsItem extends ilNewsItemGen
 		global $ilDB, $ilUser, $lng;
 
 		$and = "";
-			if ($a_time_period > 0)
-			{
-				$limit_ts = date('Y-m-d H:i:s', time() - ($a_time_period * 24 * 60 * 60));
+		if ($a_time_period > 0)
+		{
+			$limit_ts = self::handleTimePeriod($a_time_period);
 			$and = " AND creation_date >= ".$ilDB->quote($limit_ts, "timestamp")." ";
 		}
 		
@@ -847,7 +871,7 @@ class ilNewsItem extends ilNewsItemGen
 				}
 			}
 
-			$limit_ts = date('Y-m-d H:i:s', time() - ($a_time_period * 24 * 60 * 60));
+			$limit_ts = self::handleTimePeriod($a_time_period);
 
 			// are there any news items for relevant objects and?
 			$query = $ilDB->query("SELECT id,context_obj_id,context_obj_type".
@@ -880,7 +904,7 @@ class ilNewsItem extends ilNewsItemGen
 		$and = "";
 		if ($a_time_period > 0)
 		{
-			$limit_ts = date('Y-m-d H:i:s', time() - ($a_time_period * 24 * 60 * 60));
+			$limit_ts = self::handleTimePeriod($a_time_period);
 			$and = " AND creation_date >= ".$ilDB->quote($limit_ts, "timestamp")." ";
 		}
 			
@@ -1047,7 +1071,7 @@ class ilNewsItem extends ilNewsItemGen
 			
 			foreach ($path as $key => $row)
 			{
-				if (!in_array($row["type"], array("root", "cat","crs", "fold", "grp", "icrs")))
+				if (!in_array($row["type"], array("root", "cat","crs", "fold", "grp")))
 				{
 					continue;
 				}
@@ -1179,11 +1203,11 @@ class ilNewsItem extends ilNewsItemGen
 		global $ilDB;
 
 		$and = "";
-			if ($a_time_period > 0)
-			{
-				$limit_ts = date('Y-m-d H:i:s', time() - ($a_time_period * 24 * 60 * 60));
-            $and = " AND creation_date >= ".$ilDB->quote($limit_ts, "timestamp")." ";
-			}
+		if ($a_time_period > 0)
+		{
+			$limit_ts = self::handleTimePeriod($a_time_period);
+			$and = " AND creation_date >= ".$ilDB->quote($limit_ts, "timestamp")." ";
+		}
 
 		if ($a_starting_date != "")
 		{
@@ -1484,7 +1508,8 @@ class ilNewsItem extends ilNewsItemGen
 		    	{
 		    		$this->increaseDownloadCounter();
 		    	}
-		        ilUtil::deliverFile($file, $m_item->getLocation());
+		        ilUtil::deliverFile($file, $m_item->getLocation(), "", false, false, false);
+				return true;
 		    }
 		    else
 		    {

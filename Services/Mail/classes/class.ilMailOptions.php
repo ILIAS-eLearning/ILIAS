@@ -129,37 +129,40 @@ class ilMailOptions
 	* @param int cronjob_notification
 	* @return	boolean
 	*/
-	function updateOptions($a_signature, $a_linebreak, $a_incoming_type, $a_cronjob_notification)
+	public function updateOptions($a_signature, $a_linebreak, $a_incoming_type, $a_cronjob_notification)
 	{
-		global $ilDB, $ilias;
+		/**
+		 * @var $ilDB      ilDB
+		 * @var $ilSetting ilSetting
+		 */
+		global $ilDB, $ilSetting;
 
-		$data = array();
-		$data_types = array();
-				
-		$query = 'UPDATE '.$this->table_mail_options.' 
-				SET signature = %s,
-				linebreak = %s, ';
-	
-		array_push($data_types, 'text', 'integer');
-		array_push($data, $a_signature, $a_linebreak);
-		
-		if ($ilias->getSetting('mail_notification'))
-		{		
-			$query .= 'cronjob_notification = %s, ';
-			array_push($data_types, 'integer');
-			array_push($data, $a_cronjob_notification);			
+		$this->cronjob_notification = $a_cronjob_notification;
+		$this->signature            = $a_signature;
+		$this->linebreak            = $a_linebreak;
+		$this->incoming_type        = $a_incoming_type;
+
+		$data = array(
+			'signature'     => array('text', $this->signature),
+			'linebreak'     => array('integer', $this->linebreak),
+			'incoming_type' => array('integer', $this->incoming_type)
+		);
+		if($ilSetting->get('mail_notification'))
+		{
+			$data['cronjob_notification']  = array('integer', $this->incoming_type);
+		}
+		else
+		{
+			$data['cronjob_notification']  = array('integer', self::lookupNotificationSetting($this->user_id));
 		}
 
-		$query .='incoming_type = %s WHERE user_id =  %s';			
-		array_push($data, $a_incoming_type, $this->user_id);
-		array_push($data_types, 'integer', 'integer');
-		
-		$statement = $ilDB->manipulateF($query, $data_types, $data);
-		
-		$this->cronjob_notification = $a_cronjob_notification;
-		$this->signature = $a_signature;
-		$this->linebreak = $a_linebreak;
-		$this->incoming_type = $a_incoming_type;
+		$ilDB->replace(
+			$this->table_mail_options,
+			array(
+				'user_id' => array('integer', $this->user_id)
+			),
+			$data
+		);
 
 		return true;
 	}
@@ -196,7 +199,21 @@ class ilMailOptions
 	{
 		return $this->cronjob_notification;
 	}
-	
-	
+
+	/**
+	 * @param int $usr_id
+	 * @return int
+	 */
+	protected static function lookupNotificationSetting($usr_id)
+	{
+		/**
+		 * @var $ilDB ilDB
+		 */
+		global $ilDB;
+
+		$query = "SELECT cronjob_notification FROM mail_options WHERE user_id = " . $ilDB->quote($usr_id, 'integer');
+		$row   = $ilDB->fetchAssoc($ilDB->query($query));
+		return (int)$row['cronjob_notification'];
+	}
 } // END class.ilFormatMail
 ?>

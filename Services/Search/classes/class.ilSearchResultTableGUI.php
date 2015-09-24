@@ -24,6 +24,7 @@ class ilSearchResultTableGUI extends ilTable2GUI
 		$this->setId("ilSearchResultsTable");
 
 		$this->presenter = $a_presenter;
+		$this->setId('search_'.$GLOBALS['ilUser']->getId());
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		$this->setTitle($lng->txt("search_results"));
 		$this->setLimit(999);
@@ -34,6 +35,13 @@ class ilSearchResultTableGUI extends ilTable2GUI
 		#$this->addColumn($this->lng->txt("search_title_description"), "title_sort");
 		$this->addColumn($this->lng->txt("type"), "type", "1");
 		$this->addColumn($this->lng->txt("search_title_description"), "title");
+
+		$all_cols = $this->getSelectableColumns();
+		foreach($this->getSelectedColumns() as $col)
+		{
+			$this->addColumn($all_cols[$col]['txt'], $col,'50px');
+		}
+
 		if($this->enabledRelevance())
 		{
 			#$this->addColumn($this->lng->txt('lucene_relevance_short'),'s_relevance','50px');
@@ -41,6 +49,8 @@ class ilSearchResultTableGUI extends ilTable2GUI
 			$this->setDefaultOrderField("s_relevance");
 			$this->setDefaultOrderDirection("desc");
 		}
+		
+		
 		$this->addColumn($this->lng->txt("actions"), "", "10px");
 		
 		$this->setEnableHeader(true);
@@ -64,6 +74,24 @@ class ilSearchResultTableGUI extends ilTable2GUI
 		
 		return parent::numericOrdering($a_field);
 	}
+	
+	/**
+	 * Get selectable columns
+	 * @return 
+	 */
+	public function getSelectableColumns()
+	{		
+		global $ilSetting;
+
+		
+		return array('create_date' =>
+						array(
+							'txt' => $this->lng->txt('create_date'),
+							'default' => false
+			)
+		);
+	}
+	
 	
 	/**
 	* Fill table row
@@ -117,8 +145,22 @@ class ilSearchResultTableGUI extends ilTable2GUI
 			$this->tpl->setVariable('REL_PBAR', $pbar->render());				
 			$this->tpl->parseCurrentBlock();
 		}
+		
 
 		$this->tpl->setVariable("ITEM_HTML", $html);
+		
+		foreach($this->getSelectedColumns() as $field)
+		{
+			switch($field)
+			{
+				case 'create_date':
+					$this->tpl->setCurrentBlock('creation');
+					$this->tpl->setVariable('CREATION_DATE',  ilDatePresentation::formatDate(new ilDateTime(ilObject::_lookupCreationDate($obj_id),IL_CAL_DATETIME)));
+					$this->tpl->parseCurrentBlock();
+			}
+		}
+		
+		
 
 		if(!$objDefinition->isPlugin($type))
 		{

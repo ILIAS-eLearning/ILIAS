@@ -12,7 +12,7 @@ require_once ("./Services/Object/classes/class.ilObjectGUI.php");
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
-* @ilCtrl_Calls ilObjMediaObjectGUI: ilMDEditorGUI, ilImageMapEditorGUI, ilFileSystemGUI
+* @ilCtrl_Calls ilObjMediaObjectGUI: ilObjectMetaDataGUI, ilImageMapEditorGUI, ilFileSystemGUI
 *
 * @ingroup ServicesMediaObjects
 */
@@ -142,12 +142,11 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
 		switch($next_class)
 		{
-			case 'ilmdeditorgui':
-				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
-
-				$md_gui =& new ilMDEditorGUI(0, $this->object->getId(), $this->object->getType());
-				$md_gui->addObserver($this->object,'MDUpdateListener','General');
-
+			case 'ilobjectmetadatagui':
+				include_once 'Services/Object/classes/class.ilObjectMetaDataGUI.php';
+				$md_gui = new ilObjectMetaDataGUI(null, $this->object->getType(), $this->object->getId());	
+				// object is subtype, so we have to do it ourselves
+				$md_gui->addMDObserver($this->object, 'MDUpdateListener', 'General');
 				$this->ctrl->forwardCommand($md_gui);
 				break;
 				
@@ -1830,10 +1829,15 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 					"ilfilesystemgui");
 			}
 
-			$ilTabs->addTarget("meta_data",
-				$this->ctrl->getLinkTargetByClass(
-					array("ilobjmediaobjectgui", "ilmdeditorgui"),'listSection'),
-				"", "ilmdeditorgui");
+			include_once "Services/Object/classes/class.ilObjectMetaDataGUI.php";
+			$mdgui = new ilObjectMetaDataGUI(null, $this->object->getType(), $this->object->getId());					
+			$mdtab = $mdgui->getTab("ilobjmediaobjectgui");
+			if($mdtab)
+			{
+				$ilTabs->addTarget("meta_data",
+					$mdtab,
+					"", "ilmdeditorgui");
+			}
 
 		}
 
@@ -1944,6 +1948,9 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		$ilToolbar->addInputItem($si, true);
 
 		$ilToolbar->addFormButton($lng->txt("upload"), "uploadSubtitleFile");
+
+		$ilToolbar->addSeparator();
+		$ilToolbar->addFormButton($lng->txt("mob_upload_multi_srt"), "uploadMultipleSubtitleFileForm");
 		
 		include_once("./Services/MediaObjects/classes/class.ilMobSubtitleTableGUI.php");
 		$tab = new ilMobSubtitleTableGUI($this, "listSubtitleFiles", $this->object);
@@ -2017,5 +2024,96 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		ilUtil::sendSuccess($lng->txt("mob_srt_files_deleted"), true);
 		$ilCtrl->redirect($this, "listSubtitleFiles");
 	}
+
+	/**
+	 *	Upload multiple stubtitles
+	 *
+	 * @param
+	 * @return
+	 */
+	function uploadMultipleSubtitleFileFormObject()
+	{
+		global $ilToolbar, $lng, $ilCtrl;
+
+		ilUtil::sendInfo($lng->txt("mob_upload_multi_srt_howto"));
+
+		$this->setPropertiesSubTabs("subtitles");
+
+		// upload file
+		$ilToolbar->setFormAction($ilCtrl->getFormAction($this), true);
+		include_once("./Services/Form/classes/class.ilFileInputGUI.php");
+		$fi = new ilFileInputGUI($lng->txt("mob_subtitle_file")." (.zip)", "subtitle_file");
+		$fi->setSuffixes(array("zip"));
+		$ilToolbar->addInputItem($fi, true);
+
+		$ilToolbar->addFormButton($lng->txt("upload"), "uploadMultipleSubtitleFile");
+	}
+
+	/**
+	 * Upload multiple subtitles
+	 */
+	function uploadMultipleSubtitleFileObject()
+	{
+		try
+		{
+			$this->object->uploadMultipleSubtitleFile(ilUtil::stripSlashesArray($_FILES["subtitle_file"]));
+			$this->ctrl->redirect($this, "showMultiSubtitleConfirmationTable");
+		}
+		catch (ilMediaObjectsException $e)
+		{
+			ilUtil::sendFailure($e->getMessage(), true);
+			$this->ctrl->redirect($this, "uploadMultipleSubtitleFileForm");
+		}
+
+	}
+
+	/**
+	 * List of srt files in zip file
+	 */
+	function showMultiSubtitleConfirmationTableObject()
+	{
+		global $tpl;
+
+		$this->setPropertiesSubTabs("subtitles");
+
+		include_once("./Services/MediaObjects/classes/class.ilMultiSrtConfirmationTable2GUI.php");
+		$tab = new ilMultiSrtConfirmationTable2GUI($this, "showMultiSubtitleConfirmationTable");
+		$tpl->setContent($tab->getHTML());
+	}
+
+	/**
+	 * Cancel Multi Feedback
+	 */
+	function cancelMultiSrtObject()
+	{
+		$this->object->clearMultiSrtDirectory();
+		$this->ctrl->redirect($this, "listSubtitleFiles");
+	}
+
+	/**
+	 * Save selected srt files as new srt files
+	 */
+	function saveMultiSrtObject()
+	{
+		global $ilCtrl;
+		$srt_files = $this->object->getMultiSrtFiles();
+		if (is_array($_POST["file"]))
+		{
+			foreach ($_POST["file"] as $f)
+			{
+				foreach ($srt_files as $srt_file)
+				{
+					if ($f == $srt_file["filename"])
+					{
+						$this->object->uploadSrtFile($this->object->getMultiSrtUploadDir()."/".$srt_file["filename"], $srt_file["lang"], "rename");
+					}
+				}
+			}
+		}
+		$this->object->clearMultiSrtDirectory();
+		$ilCtrl->redirect($this, "listSubtitleFiles");
+	}
+	
+
 }
 ?>

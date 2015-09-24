@@ -101,6 +101,15 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 				// Regular member
 				if($a_permission == 'leave')
 				{
+					include_once './Modules/Course/classes/class.ilObjCourse.php';
+					$limit = null;
+					if(!ilObjCourse::mayLeave($a_obj_id, $a_user_id, $limit))
+					{						
+						$ilAccess->addInfoItem(IL_STATUS_MESSAGE, 
+							sprintf($lng->txt("crs_cancellation_end_rbac_info"), ilDatePresentation::formatDate($limit)));
+						return false;
+					}			
+					
 					include_once './Modules/Course/classes/class.ilCourseParticipants.php';
 					if(!$participants->isAssigned($a_user_id))
 					{
@@ -175,6 +184,10 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 					return false;
 				}
 				break;
+				
+			case 'leave':
+				include_once './Modules/Course/classes/class.ilObjCourse.php';
+				return ilObjCourse::mayLeave($a_obj_id, $a_user_id);
 		}
 		return true;
 	}
@@ -455,8 +468,8 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 			$info['reg_info_list_prop']['value'] = $lng->txt('crs_list_reg_noreg');
 		}
 		
-		if($info['reg_info_mem_limit'] && $registration_possible)
-		{
+		if($info['reg_info_mem_limit'] && $info['reg_info_max_members'] && $registration_possible)
+		{		
 			// Check if users are on waiting list
 			// @todo
 			

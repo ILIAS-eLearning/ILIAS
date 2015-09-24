@@ -215,7 +215,7 @@ class ilTabsGUI
 		{
 			$ilHelp->setScreenIdComponent("");
 		}
-		
+
 		$this->target = array();
 		$this->sub_target = array();
 		$this->non_tabbed_link = array();

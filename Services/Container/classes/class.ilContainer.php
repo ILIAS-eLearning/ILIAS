@@ -49,8 +49,7 @@ class ilContainer extends ilObject
 	const VIEW_SIMPLE = 4;
 	const VIEW_BY_TYPE = 5;
 	const VIEW_INHERIT = 6;
-	const VIEW_ILINC = 7;
-	
+
 	const VIEW_DEFAULT = self::VIEW_BY_TYPE;
 
 	
@@ -479,9 +478,12 @@ class ilContainer extends ilObject
 	 * @param int $ref_id
 	 * @param int $clone_source
 	 * @param array $options
+	 * @param bool force soap
+	 * @param int submode 1 => copy all, 2 => copy content
 	 * @return new refid if clone has finished or parameter ref id if cloning is still in progress
+	 * @return array(copy_id => xyz, ref_id => new ref_id)
 	 */
-	public function cloneAllObject($session_id, $client_id, $new_type, $ref_id, $clone_source, $options, $soap_call = false)
+	public function cloneAllObject($session_id, $client_id, $new_type, $ref_id, $clone_source, $options, $soap_call = false, $a_submode = 1)
 	{
 		global $ilLog;
 		
@@ -506,15 +508,16 @@ class ilContainer extends ilObject
 		$wizard_options->read();
 		$wizard_options->storeTree($clone_source);
 		
-		// Special handling for course in existing courses
-		if($new_type == 'crs' and ilObject::_lookupType(ilObject::_lookupObjId($ref_id)) == 'crs')
+		include_once './Services/Object/classes/class.ilObjectCopyGUI.php';
+		if($a_submode == ilObjectCopyGUI::SUBMODE_CONTENT_ONLY)
 		{
-			$ilLog->write(__METHOD__.': Copy course in course...');
+			$ilLog->write(__METHOD__.': Copy content only...');
 			$ilLog->write(__METHOD__.': Added mapping, source ID: '.$clone_source.', target ID: '.$ref_id);
 			$wizard_options->read();
 			$wizard_options->dropFirstNode();
 			$wizard_options->appendMapping($clone_source,$ref_id);
 		}
+		
 		
 		#print_r($options);
 		// Duplicate session to avoid logout problems with backgrounded SOAP calls
@@ -523,7 +526,7 @@ class ilContainer extends ilObject
 		include_once 'Services/WebServices/SOAP/classes/class.ilSoapClient.php';
 
 		$soap_client = new ilSoapClient();
-		$soap_client->setResponseTimeout(30);
+		$soap_client->setResponseTimeout(5);
 		$soap_client->enableWSDL(true);
 
 		$ilLog->write(__METHOD__.': Trying to call Soap client...');
@@ -540,15 +543,10 @@ class ilContainer extends ilObject
 			include_once('./webservice/soap/include/inc.soap_functions.php');
 			$res = ilSoapFunctions::ilClone($new_session_id.'::'.$client_id, $copy_id);
 		}
-		// Check if copy is in progress or if this has been called by soap (don't wait for finishing)
-		if($soap_call || ilCopyWizardOptions::_isFinished($copy_id))
-		{
-			return $res;
-		}
-		else
-		{
-			return $ref_id;
-		}	
+		return array(
+				'copy_id' => $copy_id,
+				'ref_id' => (int) $res
+		);
 	}
 	
 	/**

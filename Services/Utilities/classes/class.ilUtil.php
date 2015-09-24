@@ -1699,9 +1699,17 @@ class ilUtil
 	* @static
 	* 
 	*/
-	public static function ilTempnam()
+	public static function ilTempnam($a_temp_path = null)
 	{
-		$temp_path = ilUtil::getDataDir() . "/temp";
+		if($a_temp_path === null )
+		{
+			$temp_path = ilUtil::getDataDir() . "/temp";
+		}
+		else
+		{
+			$temp_path = $a_temp_path;
+		}
+		
 		if (!is_dir($temp_path))
 		{
 			ilUtil::createDirectory($temp_path);
@@ -2318,7 +2326,15 @@ class ilUtil
 
 		/// $ascii_filename = mb_convert_encoding($a_filename,'US-ASCII','UTF-8');
 		/// $ascii_filename = preg_replace('/\&(.)[^;]*;/','\\1', $ascii_filename);
-
+				
+		// #15914 - try to fix german umlauts
+		$umlauts = array("Ä"=>"Ae", "Ö"=>"Oe", "Ü"=>"Ue", 
+			"ä"=>"ae", "ö"=>"oe", "ü"=>"ue", "ß"=>"ss");
+		foreach($umlauts as $src => $tgt)
+		{
+			$a_filename = str_replace($src, $tgt, $a_filename);
+		}		
+		
 		$ascii_filename = htmlentities($a_filename, ENT_NOQUOTES, 'UTF-8');
 		$ascii_filename = preg_replace('/\&(.)[^;]*;/', '\\1', $ascii_filename);
 		$ascii_filename = preg_replace('/[\x7f-\xff]/', '_', $ascii_filename);
@@ -4379,6 +4395,33 @@ class ilUtil
 		return $ref_ids ? $ref_ids : array();
 	}
 
+
+	/**
+	 * Include Mathjax
+	 *
+	 * @param
+	 * @return
+	 */
+	function includeMathjax($a_tpl = null)
+	{
+		global $tpl;
+
+		if ($a_tpl == null)
+		{
+			$a_tpl = $tpl;
+		}
+
+		// - take care of html exports (-> see buildLatexImages)
+		include_once "./Services/Administration/classes/class.ilSetting.php";
+		$mathJaxSetting = new ilSetting("MathJax");
+		$use_mathjax = $mathJaxSetting->get("enable");
+		if ($use_mathjax)
+		{
+			$a_tpl->addJavaScript($mathJaxSetting->get("path_to_mathjax"));
+		}
+	}
+
+
 	/**
 	* replace [text]...[/tex] tags with formula image code
 	*
@@ -4861,7 +4904,11 @@ class ilUtil
 	public static function sendFailure($a_info = "",$a_keep = false)
 	{
 		global $tpl;
-		$tpl->setMessage("failure", $a_info, $a_keep);
+
+		if(is_object($tpl))
+		{
+			$tpl->setMessage("failure", $a_info, $a_keep);
+		}
 	}
 
 	/**
@@ -4987,23 +5034,10 @@ class ilUtil
 		// Temporary fix for feed.php 
 		if(!(bool)$a_set_cookie_invalid) $expire = 0;
 		else $expire = time() - (365*24*60*60);
-		
-		// setcookie() supports 5th parameter
-		// only for php version 5.2.0 and above
-		if( version_compare(PHP_VERSION, '5.2.0', '>=') )
-		{
-			// PHP version >= 5.2.0
-			setcookie( $a_cookie_name, $a_cookie_value, $expire,
-				IL_COOKIE_PATH, IL_COOKIE_DOMAIN, IL_COOKIE_SECURE, IL_COOKIE_HTTPONLY
-			);
-		}
-		else
-		{
-			// PHP version < 5.2.0
-			setcookie( $a_cookie_name, $a_cookie_value, $expire,
-				IL_COOKIE_PATH, IL_COOKIE_DOMAIN, IL_COOKIE_SECURE
-			);
-		}
+
+		setcookie( $a_cookie_name, $a_cookie_value, $expire,
+			IL_COOKIE_PATH, IL_COOKIE_DOMAIN, IL_COOKIE_SECURE, IL_COOKIE_HTTPONLY
+		);
 					
 		if((bool)$a_also_set_super_global) $_COOKIE[$a_cookie_name] = $a_cookie_value;
 	}
@@ -5120,6 +5154,8 @@ class ilUtil
 	 * - https://gist.github.com/codler/3906826
 	 * - ...
 	 * @param string $file filename
+	 *
+	 * @deprecated use ilFileDelivery Class
 	 */
 	function rangeDownload($file) {
 

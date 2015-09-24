@@ -348,7 +348,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 			{
 				if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
 			}
-			$solutions =& $this->object->getSolutionValues($active_id, $pass);
+			$solutions = $this->object->getUserSolutionPreferingIntermediate($active_id, $pass);
 			foreach ($solutions as $idx => $solution_value)
 			{
 				$user_solution[$solution_value["value1"]] = $solution_value["value2"];
@@ -637,29 +637,53 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 			$template->setCurrentBlock("answer_row");
 			$template->setVariable("ANSWER_TEXT", $this->object->prepareTextareaOutput($answer->getAnswertext(), TRUE));
 
-			if( isset($user_solution[$answer->getPosition()]) )
+			if( isset($_GET['pdf']) && $_GET['pdf'] )
 			{
-				if( $user_solution[$answer->getPosition()] )
+				if( isset($user_solution[$answer->getPosition()]) )
 				{
-					$template->setVariable("SOLUTION_IMAGE_TRUE", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_checked.png")));
-					$template->setVariable("SOLUTION_ALT_TRUE", $this->lng->txt("checked"));
-					$template->setVariable("SOLUTION_IMAGE_FALSE", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_unchecked.png")));
-					$template->setVariable("SOLUTION_ALT_FALSE", $this->lng->txt("unchecked"));
+					if( $user_solution[$answer->getPosition()] )
+					{
+						$template->setVariable("SOLUTION_IMAGE_TRUE", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_checked.png")));
+						$template->setVariable("SOLUTION_ALT_TRUE", $this->lng->txt("checked"));
+						$template->setVariable("SOLUTION_IMAGE_FALSE", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_unchecked.png")));
+						$template->setVariable("SOLUTION_ALT_FALSE", $this->lng->txt("unchecked"));
+					}
+					else
+					{
+						$template->setVariable("SOLUTION_IMAGE_TRUE", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_unchecked.png")));
+						$template->setVariable("SOLUTION_ALT_TRUE", $this->lng->txt("unchecked"));
+						$template->setVariable("SOLUTION_IMAGE_FALSE", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_checked.png")));
+						$template->setVariable("SOLUTION_ALT_FALSE", $this->lng->txt("checked"));
+					}
 				}
 				else
 				{
 					$template->setVariable("SOLUTION_IMAGE_TRUE", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_unchecked.png")));
 					$template->setVariable("SOLUTION_ALT_TRUE", $this->lng->txt("unchecked"));
-					$template->setVariable("SOLUTION_IMAGE_FALSE", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_checked.png")));
-					$template->setVariable("SOLUTION_ALT_FALSE", $this->lng->txt("checked"));
+					$template->setVariable("SOLUTION_IMAGE_FALSE", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_unchecked.png")));
+					$template->setVariable("SOLUTION_ALT_FALSE", $this->lng->txt("unchecked"));
 				}
 			}
 			else
 			{
-				$template->setVariable("SOLUTION_IMAGE_TRUE", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_unchecked.png")));
-				$template->setVariable("SOLUTION_ALT_TRUE", $this->lng->txt("unchecked"));
-				$template->setVariable("SOLUTION_IMAGE_FALSE", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_unchecked.png")));
-				$template->setVariable("SOLUTION_ALT_FALSE", $this->lng->txt("unchecked"));
+				$template->setVariable('SOL_QID', $this->object->getId());
+				$template->setVariable('SOL_SUFFIX', $show_correct_solution ? 'bestsolution' : 'usersolution');
+				$template->setVariable('SOL_POSITION', $answer->getPosition());
+				
+				$template->setVariable('SOL_TRUE_VALUE', 1);
+				$template->setVariable('SOL_FALSE_VALUE', 0);
+
+				if( isset($user_solution[$answer->getPosition()]) )
+				{
+					if( $user_solution[$answer->getPosition()] )
+					{
+						$template->setVariable('SOL_TRUE_CHECKED', 'checked');
+					}
+					else
+					{
+						$template->setVariable('SOL_FALSE_CHECKED', 'checked');
+					}
+				}
 			}
 			
 			$template->parseCurrentBlock();
@@ -708,25 +732,14 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 
 	protected function getParticipantsAnswerKeySequence()
 	{
-		if( !$this->object->isShuffleAnswersEnabled() )
+		$choiceKeys = array_keys($this->object->getAnswers());
+
+		if( $this->object->isShuffleAnswersEnabled() )
 		{
-			return array_keys($this->object->getAnswers());
+			$choiceKeys = $this->object->getShuffler()->shuffle($choiceKeys);
 		}
-		
-		if (strcmp($_GET["activecommand"], "directfeedback") == 0)
-		{
-			if (is_array($_SESSION["choicekeys"])) $this->choiceKeys = $_SESSION["choicekeys"];
-		}
-		if (!is_array($this->choiceKeys))
-		{
-			$this->choiceKeys = array_keys($this->object->getAnswers());
-			if ($this->object->getShuffle())
-			{
-				$this->choiceKeys = $this->object->pcArrayShuffle($this->choiceKeys);
-			}
-		}
-		$_SESSION["choicekeys"] = $this->choiceKeys;
-		return $this->choiceKeys;
+
+		return $choiceKeys;
 	}
 	
 	private function populateSpecificFeedbackInline($user_solution, $answer_id, $template)

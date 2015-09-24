@@ -70,6 +70,10 @@ class ilDataCollectionTable {
 	/**
 	 * @var bool
 	 */
+	protected $delete_by_owner;
+	/**
+	 * @var bool
+	 */
 	protected $limited;
 	/**
 	 * @var string
@@ -152,6 +156,7 @@ class ilDataCollectionTable {
 		$this->setDefaultSortFieldOrder($rec['default_sort_field_order']);
 		$this->setPublicCommentsEnabled($rec['public_comments']);
 		$this->setViewOwnRecordsPerm($rec['view_own_records_perm']);
+		$this->setDeleteByOwner($rec['delete_by_owner']);
 	}
 
 
@@ -181,7 +186,7 @@ class ilDataCollectionTable {
 		if ($delete_main_table) {
 			$exec_delete = true;
 		}
-		if (!$exec_delete && $this->getCollectionObject()->getMainTableId() != $this->getId()) {
+		if (! $exec_delete && $this->getCollectionObject()->getMainTableId() != $this->getId()) {
 			$exec_delete = true;
 		}
 		if ($exec_delete) {
@@ -212,7 +217,7 @@ class ilDataCollectionTable {
 		$this->setId($id);
 		$query = "INSERT INTO il_dcl_table (" . "id" . ", obj_id" . ", title" . ", add_perm" . ", edit_perm" . ", delete_perm" . ", edit_by_owner"
 			. ", limited" . ", limit_start" . ", limit_end" . ", is_visible" . ", export_enabled" . ", default_sort_field_id"
-			. ", default_sort_field_order" . ", description" . ", public_comments" . ", view_own_records_perm" . " ) VALUES ("
+			. ", default_sort_field_order" . ", description" . ", public_comments" . ", view_own_records_perm" . ", delete_by_owner ) VALUES ("
 			. $ilDB->quote($this->getId(), "integer") . "," . $ilDB->quote($this->getObjId(), "integer") . ","
 			. $ilDB->quote($this->getTitle(), "text") . "," . $ilDB->quote($this->getAddPerm() ? 1 : 0, "integer") . ","
 			. $ilDB->quote($this->getEditPerm() ? 1 : 0, "integer") . "," . $ilDB->quote($this->getDeletePerm() ? 1 : 0, "integer") . ","
@@ -221,7 +226,7 @@ class ilDataCollectionTable {
 			. $ilDB->quote($this->getIsVisible() ? 1 : 0, "integer") . "," . $ilDB->quote($this->getExportEnabled() ? 1 : 0, "integer") . ","
 			. $ilDB->quote($this->getDefaultSortField(), "text") . "," . $ilDB->quote($this->getDefaultSortFieldOrder(), "text") . ","
 			. $ilDB->quote($this->getDescription(), "text") . "," . $ilDB->quote($this->getPublicCommentsEnabled(), "integer") . ","
-			. $ilDB->quote($this->getViewOwnRecordsPerm(), "integer") . ")";
+			. $ilDB->quote($this->getViewOwnRecordsPerm(), "integer") . "," . $ilDB->quote($this->getDeleteByOwner() ? 1 : 0, 'integer') . ")";
 
 		$ilDB->manipulate($query);
 
@@ -268,10 +273,10 @@ class ilDataCollectionTable {
 		$ilDB->update("il_dcl_table", array(
 			"obj_id" => array( "integer", $this->getObjId() ),
 			"title" => array( "text", $this->getTitle() ),
-			"add_perm" => array( "integer", $this->getAddPerm() ),
-			"edit_perm" => array( "integer", $this->getEditPerm() ),
-			"delete_perm" => array( "integer", $this->getDeletePerm() ),
-			"edit_by_owner" => array( "integer", $this->getEditByOwner() ),
+			"add_perm" => array( "integer", (int) $this->getAddPerm() ),
+			"edit_perm" => array( "integer", (int) $this->getEditPerm() ),
+			"delete_perm" => array( "integer", (int) $this->getDeletePerm() ),
+			"edit_by_owner" => array( "integer", (int) $this->getEditByOwner() ),
 			"limited" => array( "integer", $this->getLimited() ),
 			"limit_start" => array( "timestamp", $this->getLimitStart() ),
 			"limit_end" => array( "timestamp", $this->getLimitEnd() ),
@@ -282,6 +287,7 @@ class ilDataCollectionTable {
 			"default_sort_field_order" => array( "text", $this->getDefaultSortFieldOrder() ),
 			"public_comments" => array( "integer", $this->getPublicCommentsEnabled() ? 1 : 0 ),
 			"view_own_records_perm" => array( "integer", $this->getViewOwnRecordsPerm() ),
+			'delete_by_owner' => array('integer', $this->getDeleteByOwner() ? 1 : 0),
 		), array(
 			"id" => array( "integer", $this->getId() )
 		));
@@ -381,7 +387,7 @@ class ilDataCollectionTable {
 	public function getRecordsByFilter(array $filter = array()) {
 		$this->loadRecords();
 		// Only pass records trough filter if there is filtering required #performance-improvements
-		if (!count($filter)) {
+		if (! count($filter)) {
 			return $this->records;
 		}
 		$filtered = array();
@@ -505,7 +511,7 @@ class ilDataCollectionTable {
 		$fields = $this->getFields();
 		$place = 0;
 		foreach ($fields as $field) {
-			if (!$field->isStandardField()) {
+			if (! $field->isStandardField()) {
 				$place = $field->getOrder() + 1;
 			}
 		}
@@ -552,7 +558,7 @@ class ilDataCollectionTable {
 		 * @var $field ilDataCollectionField
 		 */
 		foreach ($this->fields as $field) {
-			if (!in_array($field->getDatatypeId(), $unsupported)) {
+			if (! in_array($field->getDatatypeId(), $unsupported)) {
 				$return[] = $field;
 			}
 		}
@@ -570,7 +576,7 @@ class ilDataCollectionTable {
 		if ($this->stdFields == NULL) {
 			$this->stdFields = ilDataCollectionStandardField::_getStandardFields($this->id);
 			// Don't return comments as field if this feature is not activated in the settings
-			if (!$this->getPublicCommentsEnabled()) {
+			if (! $this->getPublicCommentsEnabled()) {
 				/** @var $field ilDataCollectionStandardField */
 				foreach ($this->stdFields as $k => $field) {
 					if ($field->getId() == 'comments') {
@@ -625,7 +631,7 @@ class ilDataCollectionTable {
 		$editableFields = array();
 
 		foreach ($fields as $field) {
-			if (!$field->getLocked()) {
+			if (! $field->getLocked()) {
 				$editableFields[] = $field;
 			}
 		}
@@ -678,7 +684,7 @@ class ilDataCollectionTable {
 	 * @return bool
 	 */
 	public function hasPermissionToFields($ref_id) {
-		return ilObjDataCollectionAccess::_hasWriteAccess($ref_id);
+		return ilObjDataCollectionAccess::hasWriteAccess($ref_id);
 	}
 
 
@@ -688,7 +694,7 @@ class ilDataCollectionTable {
 	 * @return bool
 	 */
 	public function hasPermissionToAddTable($ref_id) {
-		return ilObjDataCollectionAccess::_hasWriteAccess($ref_id);
+		return ilObjDataCollectionAccess::hasWriteAccess($ref_id);
 	}
 
 
@@ -699,8 +705,14 @@ class ilDataCollectionTable {
 	 * @return bool
 	 */
 	public function hasPermissionToAddRecord($ref_id) {
-		return ($this->getAddPerm() AND ilObjDataCollectionAccess::_hasReadAccess($ref_id) AND $this->checkLimit())
-		OR ilObjDataCollectionAccess::_hasWriteAccess($ref_id);
+		if (ilObjDataCollectionAccess::hasWriteAccess($ref_id)) {
+			return true;
+		}
+		if (!ilObjDataCollectionAccess::hasAddRecordAccess($ref_id)) {
+			return false;
+		}
+
+		return ($this->getAddPerm() AND $this->checkLimit());
 	}
 
 
@@ -711,8 +723,23 @@ class ilDataCollectionTable {
 	 * @return bool
 	 */
 	public function hasPermissionToEditRecord($ref_id, ilDataCollectionRecord $record) {
-		return ($this->getEditPerm() AND ilObjDataCollectionAccess::_hasReadAccess($ref_id) AND $this->checkLimit())
-		OR $this->checkEditByOwner($record);
+		if (ilObjDataCollectionAccess::hasWriteAccess($ref_id)) {
+			return true;
+		}
+		if (!ilObjDataCollectionAccess::hasAddRecordAccess($ref_id)) {
+			return false;
+		}
+		if (!$this->checkLimit()) {
+			return false;
+		}
+		if ($this->getEditPerm() && !$this->getEditByOwner()) {
+			return true;
+		}
+		if ($this->getEditByOwner()) {
+			return $this->doesRecordBelongToUser($record);
+		}
+
+		return false;
 	}
 
 
@@ -723,8 +750,23 @@ class ilDataCollectionTable {
 	 * @return bool
 	 */
 	public function hasPermissionToDeleteRecord($ref_id, ilDataCollectionRecord $record) {
-		return ($this->getDeletePerm() AND ilObjDataCollectionAccess::_hasReadAccess($ref_id) AND $this->checkLimit())
-		OR $this->checkEditByOwner($record);
+		if (ilObjDataCollectionAccess::hasWriteAccess($ref_id)) {
+			return true;
+		}
+		if (!ilObjDataCollectionAccess::hasAddRecordAccess($ref_id)) {
+			return false;
+		}
+		if (!$this->checkLimit()) {
+			return false;
+		}
+		if ($this->getDeletePerm() && !$this->getDeleteByOwner()) {
+			return true;
+		}
+		if ($this->getDeleteByOwner()) {
+			return $this->doesRecordBelongToUser($record);
+		}
+
+		return false;
 	}
 
 
@@ -734,7 +776,7 @@ class ilDataCollectionTable {
 	 * @return bool
 	 */
 	public function hasPermissionToDeleteRecords($ref_id) {
-		return ($this->getDeletePerm() AND ilObjDataCollectionAccess::_hasReadAccess($ref_id));
+		return ($this->getDeletePerm() AND ilObjDataCollectionAccess::hasWriteAccess($ref_id));
 	}
 
 
@@ -747,11 +789,10 @@ class ilDataCollectionTable {
 	public function hasPermissionToViewRecord($ref_id, $record) {
 		global $ilUser, $rbacreview;
 		/** @var ilRbacReview $rbacreview */
-		// Owner of the DataCollection object and ILIAS Administrators can view each record by default
-		if ($this->getCollectionObject()->getOwner() == $ilUser->getId() || $rbacreview->isAssigned($ilUser->getId(), 2)) {
+		if (ilObjDataCollectionAccess::hasWriteAccess($ref_id)) {
 			return true;
 		}
-		if (ilObjDataCollectionAccess::_hasReadAccess($ref_id)) {
+		if (ilObjDataCollectionAccess::hasReadAccess($ref_id)) {
 			// Check for view only own entries setting
 			if ($this->getViewOwnRecordsPerm() && $ilUser->getId() != $record->getOwner()) {
 				return false;
@@ -769,14 +810,10 @@ class ilDataCollectionTable {
 	 *
 	 * @return bool
 	 */
-	protected function checkEditByOwner(ilDataCollectionRecord $record) {
+	protected function doesRecordBelongToUser(ilDataCollectionRecord $record) {
 		global $ilUser;
 
-		if ($this->getEditByOwner() AND $ilUser->getId() != $record->getOwner()) {
-			return false;
-		}
-
-		return true;
+		return ($ilUser->getId() == $record->getOwner());
 	}
 
 
@@ -789,7 +826,7 @@ class ilDataCollectionTable {
 			$from = new ilDateTime($this->getLimitStart(), IL_CAL_DATE);
 			$to = new ilDateTime($this->getLimitEnd(), IL_CAL_DATE);
 
-			if (!($from <= $now && $now <= $to)) {
+			if (! ($from <= $now && $now <= $to)) {
 				return false;
 			}
 		}
@@ -844,7 +881,7 @@ class ilDataCollectionTable {
 		$count = 10;
 		$offset = 10;
 		foreach ($fields as $field) {
-			if (!is_null($field->getOrder())) {
+			if (! is_null($field->getOrder())) {
 				$field->setOrder($count);
 				$count = $count + $offset;
 				$field->doUpdate();
@@ -885,7 +922,7 @@ class ilDataCollectionTable {
 	 * @return boolean
 	 */
 	public function getAddPerm() {
-		return $this->add_perm;
+		return (bool) $this->add_perm;
 	}
 
 
@@ -894,6 +931,9 @@ class ilDataCollectionTable {
 	 */
 	public function setDeletePerm($delete_perm) {
 		$this->delete_perm = $delete_perm;
+		if (!$delete_perm) {
+			$this->setDeleteByOwner(false);
+		}
 	}
 
 
@@ -902,7 +942,7 @@ class ilDataCollectionTable {
 	 */
 	public function getDeletePerm() {
 
-		return $this->delete_perm;
+		return (bool) $this->delete_perm;
 	}
 
 
@@ -911,6 +951,9 @@ class ilDataCollectionTable {
 	 */
 	public function setEditByOwner($edit_by_owner) {
 		$this->edit_by_owner = $edit_by_owner;
+		if ($edit_by_owner) {
+			$this->setEditPerm(true);
+		}
 	}
 
 
@@ -918,7 +961,28 @@ class ilDataCollectionTable {
 	 * @return boolean
 	 */
 	public function getEditByOwner() {
-		return $this->edit_by_owner;
+		return (bool) $this->edit_by_owner;
+	}
+
+
+	/**
+	 * @return boolean
+	 */
+	public function getDeleteByOwner()
+	{
+		return (bool) $this->delete_by_owner;
+	}
+
+
+	/**
+	 * @param boolean $delete_by_owner
+	 */
+	public function setDeleteByOwner($delete_by_owner)
+	{
+		$this->delete_by_owner = $delete_by_owner;
+		if ($delete_by_owner) {
+			$this->setDeletePerm(true);
+		}
 	}
 
 
@@ -927,6 +991,9 @@ class ilDataCollectionTable {
 	 */
 	public function setEditPerm($edit_perm) {
 		$this->edit_perm = $edit_perm;
+		if (!$edit_perm) {
+			$this->setEditByOwner(false);
+		}
 	}
 
 
@@ -934,7 +1001,7 @@ class ilDataCollectionTable {
 	 * @return boolean
 	 */
 	public function getEditPerm() {
-		return $this->edit_perm;
+		return (bool) $this->edit_perm;
 	}
 
 
@@ -1041,7 +1108,7 @@ class ilDataCollectionTable {
 	 * @param string $default_sort_field_order
 	 */
 	public function setDefaultSortFieldOrder($default_sort_field_order) {
-		if (!in_array($default_sort_field_order, array( 'asc', 'desc' ))) {
+		if (! in_array($default_sort_field_order, array( 'asc', 'desc' ))) {
 			$default_sort_field_order = 'asc';
 		}
 		$this->default_sort_field_order = $default_sort_field_order;
@@ -1150,7 +1217,7 @@ class ilDataCollectionTable {
 		// Clone fields
 		$new_fields = array();
 		foreach ($original->getFields() as $orig_field) {
-			if (!$orig_field->isStandardField()) {
+			if (! $orig_field->isStandardField()) {
 				$new_field = new ilDataCollectionField();
 				$new_field->setTableId($this->getId());
 				$new_field->cloneStructure($orig_field->getId());
@@ -1314,8 +1381,10 @@ class ilDataCollectionTable {
 		} else {
 			switch ($sort_field->getDatatypeId()) {
 				case ilDataCollectionDatatype::INPUTFORMAT_RATING:
-					$join_str .= "LEFT JOIN (SELECT AVG(sort_avg_rating.rating) AS avg_rating, sort_avg_rating.obj_id AS obj_id FROM il_rating as sort_avg_rating WHERE sort_avg_rating.sub_obj_id = {$sort_field->getId()} GROUP BY sort_avg_rating.obj_id) AS sort_avg_rating on sort_avg_rating.obj_id = record.id ";
-					$select_str .= " sort_avg_rating.avg_rating AS field_{$id},";
+					$rating_joined = true;
+					// FSX Bugfix 0015735: The average is multiplied with 10000 and added to the amount of votes
+					$join_str .= "LEFT JOIN (SELECT (ROUND(AVG(rating), 1) * 10000 + COUNT(rating)) as rating, obj_id FROM il_rating GROUP BY obj_id) AS average ON average.obj_id = record.id";
+					$select_str .= " average.rating AS field_{$id},";
 					break;
 				case ilDataCollectionDatatype::INPUTFORMAT_ILIAS_REF:
 					$join_str .=
@@ -1329,7 +1398,7 @@ class ilDataCollectionTable {
 						$join_str .= "LEFT JOIN ut_lp_marks AS ut ON (ut.obj_id = sort_object_data_{$id}.obj_id AND ut.usr_id = "
 							. $ilDB->quote($ilUser->getId(), 'integer') . ") ";
 					}
-					$select_str .= (!$sort_by_status) ? " sort_object_data_{$id}.title AS field_{$id}," : " ut.status AS field_{$id}";
+					$select_str .= (! $sort_by_status) ? " sort_object_data_{$id}.title AS field_{$id}," : " ut.status AS field_{$id}";
 					break;
 				case ilDataCollectionDatatype::INPUTFORMAT_FILE:
 				case ilDataCollectionDatatype::INPUTFORMAT_MOB:
@@ -1376,9 +1445,11 @@ class ilDataCollectionTable {
 				$filter_field = $this->getField($filter_field_id);
 				switch ($filter_field->getDatatypeId()) {
 					case ilDataCollectionDatatype::INPUTFORMAT_RATING:
-						$join_str .=
-							"INNER JOIN (SELECT AVG(avg_rating.rating) AS avg_rating, avg_rating.obj_id AS obj_id FROM il_rating as avg_rating WHERE avg_rating.sub_obj_id = {$filter_field_id} GROUP BY avg_rating.obj_id) AS avg_rating on avg_rating.avg_rating >= "
-							. $ilDB->quote($filter_value, 'integer') . " AND avg_rating.obj_id = record.id ";
+						if(!$rating_joined) {
+							$join_str .= "LEFT JOIN (SELECT (ROUND(AVG(rating), 1) * 10000 + COUNT(rating)) as rating, obj_id FROM il_rating GROUP BY obj_id) AS average ON average.obj_id = record.id";
+						}
+						// FSX Bugfix 0015735: The average is multiplied with 10000 and added to the amount of votes
+						$where_additions .= " AND average.rating >= " . $ilDB->quote($filter_value * 10000, 'integer');
 						break;
 					case ilDataCollectionDatatype::INPUTFORMAT_ILIAS_REF:
 						$join_str .=
@@ -1428,10 +1499,10 @@ class ilDataCollectionTable {
 						$from = (isset($filter_value['from'])) ? (int)$filter_value['from'] : NULL;
 						$to = (isset($filter_value['to'])) ? (int)$filter_value['to'] : NULL;
 						if ($filter_field->isStandardField()) {
-							if (!is_null($from)) {
+							if (! is_null($from)) {
 								$where_additions .= " AND record.{$filter_field_id} >= " . $ilDB->quote($from, 'integer');
 							}
-							if (!is_null($to)) {
+							if (! is_null($to)) {
 								$where_additions .= " AND record.{$filter_field_id} <= " . $ilDB->quote($to, 'integer');
 							}
 						} else {
@@ -1439,10 +1510,10 @@ class ilDataCollectionTable {
 								"INNER JOIN il_dcl_record_field AS filter_record_field_{$filter_field_id} ON (filter_record_field_{$filter_field_id}.record_id = record.id AND filter_record_field_{$filter_field_id}.field_id = "
 								. $ilDB->quote($filter_field_id, 'integer') . ") ";
 							$join_str .= "INNER JOIN il_dcl_stloc{$filter_field->getStorageLocation()}_value AS filter_stloc_{$filter_field_id} ON (filter_stloc_{$filter_field_id}.record_field_id = filter_record_field_{$filter_field_id}.id";
-							if (!is_null($from)) {
+							if (! is_null($from)) {
 								$join_str .= " AND filter_stloc_{$filter_field_id}.value >= " . $ilDB->quote($from, 'integer');
 							}
-							if (!is_null($to)) {
+							if (! is_null($to)) {
 								$join_str .= " AND filter_stloc_{$filter_field_id}.value <= " . $ilDB->quote($to, 'integer');
 							}
 							$join_str .= ") ";
@@ -1500,19 +1571,22 @@ class ilDataCollectionTable {
 		}
 
 		// Build the query string
-		$sql = "SELECT DISTINCT record.id, record.owner, ";
-		$sql .= rtrim($select_str, ',') . " FROM il_dcl_record AS record ";
+		$sql = "SELECT DISTINCT record.id, record.owner";
+		if($select_str) {
+			$sql .= ', ';
+		}		$sql .= rtrim($select_str, ',') . " FROM il_dcl_record AS record ";
 		$sql .= $join_str;
 		$sql .= " WHERE record.table_id = " . $ilDB->quote($this->getId(), 'integer') . $where_additions;
 		if ($has_nref) {
 			$sql .= " GROUP BY record.id";
 		}
-		$sql .= " ORDER BY field_{$id} {$direction}";
-		$set = $ilDB->query($sql);
+		if($id != 'comments' && $sort_field->getDatatypeId() != ilDataCollectionDatatype::INPUTFORMAT_FORMULA) {
+			$sql .= " ORDER BY field_{$id} {$direction}";
+		}		$set = $ilDB->query($sql);
 		$total_record_ids = array();
 		// Save record-ids in session to enable prev/next links in detail view
 		$_SESSION['dcl_record_ids'] = array();
-		$is_allowed_to_view = ($this->getCollectionObject()->getOwner() == $ilUser->getId() || ($rbacreview->isAssigned($ilUser->getId(), 2)));
+		$is_allowed_to_view = ilObjDataCollectionAccess::hasWriteAccess(array_pop(ilObject::_getAllReferences($this->getObjId())));
 		while ($rec = $ilDB->fetchAssoc($set)) {
 			// Quick check if the current user is allowed to view the record
 			if (!$is_allowed_to_view && ($this->getViewOwnRecordsPerm() && $ilUser->getId() != $rec['owner'])) {
@@ -1520,6 +1594,25 @@ class ilDataCollectionTable {
 			}
 			$total_record_ids[] = $rec['id'];
 			$_SESSION['dcl_record_ids'][] = $rec['id'];
+		}
+		// Sort by formula
+		if ($sort_field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_FORMULA) {
+			$sort_array = array();
+			foreach ($total_record_ids as $id) {
+				$formula_field = ilDataCollectionCache::getRecordFieldCache(new ilDataCollectionRecord($id), $sort_field);
+				$sort_array[$id] = $formula_field->getValue();
+			}
+			switch ($direction) {
+				case 'asc':
+				case 'ASC':
+					asort($sort_array);
+					break;
+				case 'desc':
+				case 'DESC':
+					arsort($sort_array);
+					break;
+			}
+			$total_record_ids = array_keys($sort_array);
 		}
 		// Now slice the array to load only the needed records in memory
 		$record_ids = array_slice($total_record_ids, $offset, $limit);
@@ -1531,5 +1624,3 @@ class ilDataCollectionTable {
 		return array( 'records' => $records, 'total' => count($total_record_ids) );
 	}
 }
-
-?>

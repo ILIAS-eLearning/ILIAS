@@ -730,7 +730,7 @@ class ilSCORM2004Node
 	*/
 	static function insertPageClip($a_slm_obj)
 	{
-		global $ilCtrl, $ilUser;
+		global $ilUser;
 		
 		// @todo: move this to a service since it can be used here, too
 		include_once("./Modules/LearningModule/classes/class.ilEditClipboard.php");
@@ -753,13 +753,23 @@ class ilSCORM2004Node
 		}
 
 		// cut and paste
-		$pages = $ilUser->getClipboardObjects("page");
+		$source_parent_type = "";
+		if ($ilUser->getClipboardObjects("page"))
+		{
+			$pages = $ilUser->getClipboardObjects("page");
+		}
+		else if ($ilUser->getClipboardObjects("pg"))
+		{
+			$source_parent_type = "lm";
+			$pages = $ilUser->getClipboardObjects("pg");
+		}
 		$copied_nodes = array();
+
 		foreach ($pages as $pg)
 		{
 			$cid = ilSCORM2004Node::pasteTree($a_slm_obj, $pg["id"], $parent_id, $target,
 				$pg["insert_time"], $copied_nodes,
-				(ilEditClipboard::getAction() == "copy"));
+				(ilEditClipboard::getAction() == "copy"), true, $source_parent_type);
 			$target = $cid;
 		}
 		//ilLMObject::updateInternalLinks($copied_nodes);
@@ -770,6 +780,7 @@ class ilSCORM2004Node
 			$ilUser->clipboardDeleteObjectsOfType("chap");
 			$ilUser->clipboardDeleteObjectsOfType("sco");
 			$ilUser->clipboardDeleteObjectsOfType("ass");
+			$ilUser->clipboardDeleteObjectsOfType("pg");
 			ilEditClipboard::clear();
 		}
 	}
@@ -916,17 +927,40 @@ class ilSCORM2004Node
 	 * @param bool $a_from_clipboard if true, child node information is read from clipboard, otherwise from source tree
 	 */
 	static function pasteTree($a_target_slm, $a_item_id, $a_parent_id, $a_target, $a_insert_time,
-		&$a_copied_nodes, $a_as_copy = false, $a_from_clipboard = true)
+		&$a_copied_nodes, $a_as_copy = false, $a_from_clipboard = true, $a_source_parent_type = "")
 	{
-		global $ilUser, $ilias, $ilLog;
+		global $ilUser, $ilLog;
 
-		// source lm id, item type and lm object
-		$item_slm_id = ilSCORM2004Node::_lookupSLMID($a_item_id);
-		$item_type = ilSCORM2004Node::_lookupType($a_item_id);
-		//$slm_obj = $ilias->obj_factory->getInstanceByObjId($item_slm_id);
-		include_once("./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php");
-		$slm_obj = new ilObjSCORM2004LearningModule($item_slm_id, false);
-		
+		$item_type = "";
+
+		if (in_array($a_source_parent_type, array("", "sahs")))
+		{
+			// source lm id, item type and lm object
+			$item_slm_id = ilSCORM2004Node::_lookupSLMID($a_item_id);
+			$item_type = ilSCORM2004Node::_lookupType($a_item_id);
+			//$slm_obj = $ilias->obj_factory->getInstanceByObjId($item_slm_id);
+
+			include_once("./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php");
+			$slm_obj = new ilObjSCORM2004LearningModule($item_slm_id, false);
+
+			$ilLog->write("Getting from clipboard type ".$item_type.", ".
+				"Item ID: ".$a_item_id.", of original SLM: ".$item_slm_id);
+		}
+		else if (in_array($a_source_parent_type, array("lm")))
+		{
+			include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
+			$item_lm_id = ilLMObject::_lookupContObjId($a_item_id);
+			$item_type = ilLMObject::_lookupType($a_item_id, $item_lm_id);
+
+			include_once("./Modules/LearningModule/classes/class.ilObjLearningModule.php");
+			$lm_obj = new ilObjLearningModule($item_lm_id, false);
+
+			$ilLog->write("Getting from clipboard type ".$item_type.", ".
+				"Item ID: ".$a_item_id.", of original SLM: ".$item_lm_id);
+		}
+
+
+
 		if ($item_type == "chap")
 		{
 			include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Chapter.php");
@@ -947,9 +981,12 @@ class ilSCORM2004Node
 			include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Asset.php");
 			$item = new ilSCORM2004Asset($slm_obj, $a_item_id);
 		}
+		else if ($item_type == "pg")
+		{
+			include_once("./Modules/LearningModule/classes/class.ilLMPageObject.php");
+			$item = new ilLMPageObject($lm_obj, $a_item_id);
+		}
 
-		$ilLog->write("Getting from clipboard type ".$item_type.", ".
-			"Item ID: ".$a_item_id.", of original SLM: ".$item_slm_id);
 
 		if ($item_slm_id != $a_target_slm->getId() && !$a_as_copy)
 		{
@@ -979,7 +1016,18 @@ class ilSCORM2004Node
 
 		if ($a_as_copy)
 		{
-			$target_item = $item->copy($a_target_slm);
+			if ($a_source_parent_type == "lm")
+			{
+				if ($item_type = "pg")
+				{
+					include_once("./Modules/Scorm2004/classes/class.ilSCORM2004PageNode.php");
+					$target_item = ilSCORM2004PageNode::copyPageFromLM($a_target_slm, $item);
+				}
+			}
+			else
+			{
+				$target_item = $item->copy($a_target_slm);
+			}
 			$a_copied_nodes[$item->getId()] = $target_item->getId();
 		}
 		else
@@ -1010,7 +1058,7 @@ class ilSCORM2004Node
 				? $child["id"]
 				: $child["child"];
 			ilSCORM2004Node::pasteTree($a_target_slm, $child_id, $target_item->getId(),
-				IL_LAST_NODE, $a_insert_time, $a_copied_nodes, $a_as_copy, $a_from_clipboard);
+				IL_LAST_NODE, $a_insert_time, $a_copied_nodes, $a_as_copy, $a_from_clipboard, $a_source_parent_type);
 		}
 		
 		return $target_item->getId();

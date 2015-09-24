@@ -17,10 +17,11 @@ require_once './Modules/Test/classes/class.ilTestExpressPage.php';
  * 
  * @version		$Id$
  *
- * @ilCtrl_Calls ilObjTestGUI: ilObjCourseGUI, ilMDEditorGUI, ilCertificateGUI, ilPermissionGUI
+ * @ilCtrl_Calls ilObjTestGUI: ilObjCourseGUI, ilObjectMetaDataGUI, ilCertificateGUI, ilPermissionGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestPlayerFixedQuestionSetGUI, ilTestPlayerRandomQuestionSetGUI, ilTestPlayerDynamicQuestionSetGUI
  * @ilCtrl_Calls ilObjTestGUI: ilLearningProgressGUI, ilMarkSchemaGUI
- * @ilCtrl_Calls ilObjTestGUI: ilTestEvaluationGUI, ilAssGenFeedbackPageGUI, ilAssSpecFeedbackPageGUI
+ * @ilCtrl_Calls ilObjTestGUI: ilTestEvaluationGUI, ilTestEvalObjectiveOrientedGUI
+ * @ilCtrl_Calls ilObjTestGUI: ilAssGenFeedbackPageGUI, ilAssSpecFeedbackPageGUI
  * @ilCtrl_Calls ilObjTestGUI: ilInfoScreenGUI, ilShopPurchaseGUI, ilObjectCopyGUI, ilTestScoringGUI
  * @ilCtrl_Calls ilObjTestGUI: ilRepositorySearchGUI, ilScoringAdjustmentGUI, ilTestExportGUI
  * @ilCtrl_Calls ilObjTestGUI: assMultipleChoiceGUI, assClozeTestGUI, assMatchingQuestionGUI
@@ -39,7 +40,7 @@ require_once './Modules/Test/classes/class.ilTestExpressPage.php';
  * @ilCtrl_Calls ilObjTestGUI: ilTestSettingsChangeConfirmationGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestSkillAdministrationGUI, ilTestSkillEvaluationGUI
  * @ilCtrl_Calls ilObjTestGUI: ilAssQuestionPreviewGUI
- * @ilCtrl_Calls ilObjTestGUI: assKprimChoiceGUI
+ * @ilCtrl_Calls ilObjTestGUI: assKprimChoiceGUI, assLongMenuGUI
  *
  * @ingroup ModulesTest
  */
@@ -61,9 +62,14 @@ class ilObjTestGUI extends ilObjectGUI
 	private $testSequenceFactory = null;
 	
 	/**
-	* Constructor
-	* @access public
-	*/
+	 * @var ilTestObjectiveOrientedContainer
+	 */
+	private $objectiveOrientedContainer;
+
+	/**
+	 * Constructor
+	 * @access public
+	 */
 	function ilObjTestGUI()
 	{
 		global $lng, $ilCtrl, $ilDB, $ilPluginAdmin, $tree;
@@ -87,6 +93,9 @@ class ilObjTestGUI extends ilObjectGUI
 			require_once 'Modules/Test/classes/class.ilTestSequenceFactory.php';
 			$this->testSequenceFactory = new ilTestSequenceFactory($ilDB, $lng, $ilPluginAdmin, $this->object);
 		}
+		
+		require_once 'Modules/Test/classes/class.ilTestObjectiveOrientedContainer.php';
+		$this->objectiveOrientedContainer = new ilTestObjectiveOrientedContainer();
 	}
 
 	/**
@@ -161,6 +170,8 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 		}
 		
+		$this->determineObjectiveOrientedContainer();
+		
 		switch($next_class)
 		{
 			case 'iltestexportgui':
@@ -180,7 +191,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->addHeaderAction();
 				$this->infoScreen(); // forwards command
 				break;
-			case 'ilmdeditorgui':
+			case 'ilobjectmetadatagui':
 				if(!$ilAccess->checkAccess('write', '', $this->object->getRefId()))
 				{
 					$ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->WARNING);
@@ -188,40 +199,41 @@ class ilObjTestGUI extends ilObjectGUI
 
 				$this->prepareOutput();
 				$this->addHeaderAction();
-				require_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
-				$md_gui =& new ilMDEditorGUI($this->object->getId(), 0, $this->object->getType());
-				$md_gui->addObserver($this->object, 'MDUpdateListener', 'General');
-
+				include_once 'Services/Object/classes/class.ilObjectMetaDataGUI.php';
+				$md_gui = new ilObjectMetaDataGUI($this->object);	
 				$this->ctrl->forwardCommand($md_gui);
 				break;
 
 			case "iltestplayerfixedquestionsetgui":
 				require_once "./Modules/Test/classes/class.ilTestPlayerFixedQuestionSetGUI.php";
 				if(!$this->object->getKioskMode()) $this->prepareOutput();
-				$output_gui =& new ilTestPlayerFixedQuestionSetGUI($this->object);
-				$this->ctrl->forwardCommand($output_gui);
+				$gui = new ilTestPlayerFixedQuestionSetGUI($this->object);
+				$gui->setObjectiveOrientedContainer($this->getObjectiveOrientedContainer());
+				$this->ctrl->forwardCommand($gui);
 				break;
 
 			case "iltestplayerrandomquestionsetgui":
 				require_once "./Modules/Test/classes/class.ilTestPlayerRandomQuestionSetGUI.php";
 				if(!$this->object->getKioskMode()) $this->prepareOutput();
-				$output_gui =& new ilTestPlayerRandomQuestionSetGUI($this->object);
-				$this->ctrl->forwardCommand($output_gui);
+				$gui = new ilTestPlayerRandomQuestionSetGUI($this->object);
+				$gui->setObjectiveOrientedContainer($this->getObjectiveOrientedContainer());
+				$this->ctrl->forwardCommand($gui);
 				break;
 
 			case "iltestplayerdynamicquestionsetgui":
 				require_once "./Modules/Test/classes/class.ilTestPlayerDynamicQuestionSetGUI.php";
 				if (!$this->object->getKioskMode()) $this->prepareOutput();
-				$output_gui =& new ilTestPlayerDynamicQuestionSetGUI($this->object);
-				$this->ctrl->forwardCommand($output_gui);
+				$gui = new ilTestPlayerDynamicQuestionSetGUI($this->object);
+				$gui->setObjectiveOrientedContainer($this->getObjectiveOrientedContainer());
+				$this->ctrl->forwardCommand($gui);
 				break;
 
 			case "iltestevaluationgui":
-				$this->prepareOutput();
-				$this->addHeaderAction();
-				include_once "./Modules/Test/classes/class.ilTestEvaluationGUI.php";
-				$evaluation_gui =& new ilTestEvaluationGUI($this->object);
-				$this->ctrl->forwardCommand($evaluation_gui);
+				$this->forwardToEvaluationGUI();
+				break;
+
+			case "iltestevalobjectiveorientedgui":
+				$this->forwardToEvalObjectiveOrientedGUI();
 				break;
 
 			case "iltestservicegui":
@@ -327,15 +339,43 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->prepareOutput();
 				$this->addHeaderAction();
 				require_once 'Modules/Test/classes/class.ilTestSkillAdministrationGUI.php';
-				$gui = new ilTestSkillAdministrationGUI($ilias, $this->ctrl, $ilAccess, $ilTabs, $this->tpl, $this->lng, $ilDB, $this->object, $this->ref_id);
+				$gui = new ilTestSkillAdministrationGUI($ilias, $this->ctrl, $ilAccess, $ilTabs, $this->tpl, $this->lng, $ilDB, $tree, $ilPluginAdmin, $this->object, $this->ref_id);
 				$this->ctrl->forwardCommand($gui);
 				break;
 
 			case 'iltestskillevaluationgui':
 				$this->prepareOutput();
 				$this->addHeaderAction();
+				
+				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionList.php';
+				if( $this->object->isDynamicTest() )
+				{
+					require_once 'Modules/Test/classes/class.ilObjTestDynamicQuestionSetConfig.php';
+					$dynamicQuestionSetConfig = new ilObjTestDynamicQuestionSetConfig($tree, $ilDB, $ilPluginAdmin, $this->object);
+					$dynamicQuestionSetConfig->loadFromDb();
+					$questionList = new ilAssQuestionList($ilDB, $this->lng, $ilPluginAdmin);
+					$questionList->setParentObjId($dynamicQuestionSetConfig->getSourceQuestionPoolId());
+					$questionList->setQuestionInstanceTypeFilter(ilAssQuestionList::QUESTION_INSTANCE_TYPE_ORIGINALS);
+				}
+				else
+				{
+					$questionList = new ilAssQuestionList($ilDB, $this->lng, $ilPluginAdmin);
+					$questionList->setParentObjId($this->object->getId());
+					$questionList->setQuestionInstanceTypeFilter(ilAssQuestionList::QUESTION_INSTANCE_TYPE_DUPLICATES);
+				}
+				$questionList->load();
+
+				require_once 'Modules/Test/classes/class.ilTestSessionFactory.php';
+				$testSessionFactory = new ilTestSessionFactory($this->object);
+				$testSession = $testSessionFactory->getSession();
+				$testResults = $this->object->getTestResult($testSession->getActiveId(), $testSession->getPass(), true);
+
 				require_once 'Modules/Test/classes/class.ilTestSkillEvaluationGUI.php';
-				$gui = new ilTestSkillEvaluationGUI($this->ctrl, $ilTabs, $this->tpl, $this->lng, $ilDB, $this->object);
+				$gui = new ilTestSkillEvaluationGUI($this->ctrl, $ilTabs, $this->tpl, $this->lng, $ilDB, $this->object->getTestId(),$this->object->getRefId(), $this->object->getId());
+				$gui->setQuestionList($questionList);
+				$gui->setTestSession($testSession);
+				$gui->setTestResults($testResults);
+				$gui->setObjectiveOrientedContainer($this->getObjectiveOrientedContainer());
 				$this->ctrl->forwardCommand($gui);
 				break;
 
@@ -427,6 +467,10 @@ class ilObjTestGUI extends ilObjectGUI
 
 				$q_gui->outAdditionalOutput();
 				$q_gui->object->setObjId($this->object->getId());
+				
+				$q_gui->setTargetGuiClass(null);
+				$q_gui->setQuestionActionCmd(null);
+				
 				$question = $q_gui->object;
 				$this->ctrl->saveParameter($this, "q_id");
 
@@ -472,7 +516,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->ctrl->saveParameter($this, "q_id");
 
 				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionPreviewGUI.php';
-				$gui = new ilAssQuestionPreviewGUI($this->ctrl, $this->tabs_gui, $this->tpl, $this->lng, $ilDB);
+				$gui = new ilAssQuestionPreviewGUI($this->ctrl, $this->tabs_gui, $this->tpl, $this->lng, $ilDB, $ilUser);
 
 				$gui->initQuestion((int)$_GET['q_id'], $this->object->getId());
 				$gui->initPreviewSettings($this->object->getRefId());
@@ -686,7 +730,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->show();
 		}
 	}
-	
+
 	private function questionsTabGatewayObject()
 	{
 		switch( $this->object->getQuestionSetType() )
@@ -701,7 +745,40 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->ctrl->redirectByClass('ilObjTestDynamicQuestionSetConfigGUI');
 		}
 	}
-	
+
+	private function userResultsGatewayObject()
+	{
+		$this->ctrl->setCmdClass('ilTestEvaluationGUI');
+		$this->ctrl->setCmd('outUserResultsOverview');
+		$this->tabs_gui->clearTargets();
+		
+		$this->forwardToEvaluationGUI();
+	}
+
+	private function forwardToEvaluationGUI()
+	{
+		$this->prepareOutput();
+		$this->addHeaderAction();
+
+		require_once 'Modules/Test/classes/class.ilTestEvaluationGUI.php';
+		$gui = new ilTestEvaluationGUI($this->object);
+		$gui->setObjectiveOrientedContainer($this->getObjectiveOrientedContainer());
+
+		$this->ctrl->forwardCommand($gui);
+	}
+
+	private function forwardToEvalObjectiveOrientedGUI()
+	{
+		$this->prepareOutput();
+		$this->addHeaderAction();
+
+		require_once 'Modules/Test/classes/class.ilTestEvalObjectiveOrientedGUI.php';
+		$gui = new ilTestEvalObjectiveOrientedGUI($this->object);
+		$gui->setObjectiveOrientedContainer($this->getObjectiveOrientedContainer());
+
+		$this->ctrl->forwardCommand($gui);
+	}
+
 	/**
 	 * @param $show_pass_details
 	 * @param $show_answers
@@ -717,6 +794,13 @@ class ilObjTestGUI extends ilObjectGUI
 		$ilTabs->setBackTarget(
 			$this->lng->txt('back'), $this->ctrl->getLinkTarget($this, 'participants')
 		);
+
+		if( $this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired() )
+		{
+			require_once 'Services/Link/classes/class.ilLink.php';
+			$courseLink = ilLink::_getLink($this->getObjectiveOrientedContainer()->getRefId());
+			$ilTabs->setBack2Target($this->lng->txt('back_to_objective_container'), $courseLink);
+		}
 
 		$template = new ilTemplate("tpl.il_as_tst_participants_result_output.html", TRUE, TRUE, "Modules/Test");
 		
@@ -774,6 +858,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 		include_once "./Modules/Test/classes/class.ilTestServiceGUI.php";
 		$serviceGUI = new ilTestServiceGUI($this->object);
+		$serviceGUI->setObjectiveOrientedContainer($this->getObjectiveOrientedContainer());
 		$serviceGUI->setParticipantData($participantData);
 
 		$count      = 0;
@@ -1065,6 +1150,10 @@ class ilObjTestGUI extends ilObjectGUI
 					break;
 				case KPRIM_CHOICE_QUESTION_IDENTIFIER:
 				case QT_KPRIM_CHOICE:
+					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assKprimChoice"));
+					break;
+				case LONG_MENU_QUESTION_IDENTIFIER:
+				case QT_LONG_MENU:
 					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assKprimChoice"));
 					break;
 				case "NUMERIC QUESTION":
@@ -2159,7 +2248,7 @@ class ilObjTestGUI extends ilObjectGUI
 					if ((!$this->object->getFixedParticipants() || $online_access) && $ilAccess->checkAccess("read", "", $this->ref_id))
 					{
 						$testSession = $this->testSessionFactory->getSession();
-						$testSequence = $this->testSequenceFactory->getSequence($testSession);
+						$testSequence = $this->testSequenceFactory->getSequenceByTestSession($testSession);
 
 						$testPlayerGUI = $this->testPlayerFactory->getPlayerGUI();
 
@@ -2226,22 +2315,12 @@ class ilObjTestGUI extends ilObjectGUI
 		global $ilDB, $lng;
 
 		require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
+		
 		$participantData = new ilTestParticipantData($ilDB, $lng);
 		$participantData->load($this->object->getTestId());
 
-		/* @var ilTestLP $testLP */
-		require_once 'Services/Object/classes/class.ilObjectLP.php';
-		$testLP = ilObjectLP::getInstance($this->object->getId());
-		$testLP->resetLPDataForUserIds($participantData->getUserIds(), false);
-
-		$this->object->removeTestActives($participantData->getActiveIds());
-
-		#$this->object->removeAllTestEditings();
-
-		// Update lp status
-		#include_once './Services/Tracking/classes/class.ilLPStatusWrapper.php';
-		#ilLPStatusWrapper::_refreshStatus($this->object->getId());
-
+		$this->object->removeTestResults($participantData);
+		
 		ilUtil::sendSuccess($this->lng->txt("tst_all_user_data_deleted"), true);
 		$this->ctrl->redirect($this, "participants");
 	}
@@ -2271,19 +2350,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 		$participantData->load($this->object->getTestId());
 
-		/* @var ilTestLP $testLP */
-		require_once 'Services/Object/classes/class.ilObjectLP.php';
-		$testLP = ilObjectLP::getInstance($this->object->getId());
-
-		$testLP->resetLPDataForUserIds($participantData->getUserIds(), false);
-
-		$this->object->removeTestActives($participantData->getActiveIds());
-
-		#$this->object->removeSelectedTestResults($active_ids);
-
-		// Update lp status
-		#include_once './Services/Tracking/classes/class.ilLPStatusWrapper.php';
-		#ilLPStatusWrapper::_refreshStatus($this->object->getId());
+		$this->object->removeTestResults($participantData);
 
 		ilUtil::sendSuccess($this->lng->txt("tst_selected_user_data_deleted"), true);
 		$this->ctrl->redirect($this, "participants");
@@ -3381,10 +3448,13 @@ class ilObjTestGUI extends ilObjectGUI
 		global $ilAccess, $ilUser, $ilToolbar;
 		
 		require_once 'Modules/Test/classes/class.ilTestDynamicQuestionSetFilterSelection.php';
+		
+		require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
+		require_once 'Services/UIComponent/Button/classes/class.ilSubmitButton.php';
 
 		$testQuestionSetConfig = $this->testQuestionSetConfigFactory->getQuestionSetConfig();
 		$testSession = $this->testSessionFactory->getSession();
-		$testSequence = $this->testSequenceFactory->getSequence($testSession);
+		$testSequence = $this->testSequenceFactory->getSequenceByTestSession($testSession);
 		$testSequence->loadFromDb();
 		$testSequence->loadQuestions($testQuestionSetConfig, new ilTestDynamicQuestionSetFilterSelection());
 		
@@ -3457,20 +3527,29 @@ class ilObjTestGUI extends ilObjectGUI
 						
 						if ($existingPasses > $closedPasses)
 						{
-							$resumeTestLabel = $this->lng->txt("tst_resume_test");
-							$big_button[] = array('resumePlayer', $resumeTestLabel, true);
+							$btn = ilSubmitButton::getInstance();
+							$btn->setCaption('tst_resume_test');
+							$btn->setCommand('resumePlayer');
+							$btn->setPrimary(true);
+							$big_button[] = $btn;
 						}
 						else
 						{
-							$resumeTestLabel = $this->object->getStartTestLabel($testSession->getActiveId());
-							$big_button[] = array('startPlayer', $resumeTestLabel, true);
+							$btn = ilSubmitButton::getInstance();
+							$btn->setCaption($this->object->getStartTestLabel($testSession->getActiveId()), false);
+							$btn->setCommand('startPlayer');
+							$btn->setPrimary(true);
+							$big_button[] = $btn;
 						}
 					}
 					else
 					{
 						// start new test
-
-						$big_button[] = array("startPlayer", $this->object->getStartTestLabel($testSession->getActiveId()), true);
+						$btn = ilSubmitButton::getInstance();
+						$btn->setCaption($this->object->getStartTestLabel($testSession->getActiveId()), false);
+						$btn->setCommand('startPlayer');
+						$btn->setPrimary(true);
+						$big_button[] = $btn;
 					}
 				}
 				else
@@ -3480,7 +3559,7 @@ class ilObjTestGUI extends ilObjectGUI
 				if ($testSession->getActiveId() > 0)
 				{
 					// test results button
-					
+
 					require_once 'Modules/Test/classes/class.ilTestPassesSelector.php';
 					$testPassesSelector = new ilTestPassesSelector($GLOBALS['ilDB'], $this->object);
 					$testPassesSelector->setActiveId($testSession->getActiveId());
@@ -3488,27 +3567,31 @@ class ilObjTestGUI extends ilObjectGUI
 					
 					if ($this->object->canShowTestResults($testSession, $ilUser->getId()) && count($testPassesSelector->getReportablePasses())) 
 					{
-						//$info->addFormButton("outUserResultsOverview", $this->lng->txt("tst_show_results"));
-
-						$big_button[] = array(
-							array('ilTestEvaluationGUI', 'outUserResultsOverview'),
-							$this->lng->txt("tst_show_results"), false
-						);
+						$btn = ilLinkButton::getInstance();
+						$btn->setCaption('tst_show_results');
+						$btn->setUrl($this->ctrl->getLinkTargetByClass('ilTestEvaluationGUI',  'outUserResultsOverview'));
+						$btn->setPrimary(false);
+						$big_button[] = $btn;
 
 						if ($this->object->getHighscoreEnabled())
 						{
 							// Can also compare results then
-							$big_button[] = array("outResultsToplist", $this->lng->txt("tst_show_toplist"), false);
+							$btn = ilSubmitButton::getInstance();
+							$btn->setCaption('tst_show_toplist');
+							$btn->setCommand('outResultsToplist');
+							$btn->setPrimary(false);
+							$big_button[] = $btn;
 						}
 
 						if( $this->object->isSkillServiceToBeConsidered() )
 						{
 							require_once 'Modules/Test/classes/class.ilTestSkillEvaluationGUI.php';
 
-							$big_button[] = array(
-								array('ilTestSkillEvaluationGUI', ilTestSkillEvaluationGUI::CMD_SHOW),
-								$this->lng->txt("tst_show_comp_results"), false
-							);
+							$btn = ilLinkButton::getInstance();
+							$btn->setCaption('tst_show_comp_results');
+							$btn->setUrl($this->ctrl->getLinkTargetByClass('ilTestSkillEvaluationGUI', ilTestSkillEvaluationGUI::CMD_SHOW));
+							$btn->setPrimary(false);
+							$big_button[] = $btn;
 						}
 					}
 					
@@ -3518,8 +3601,11 @@ class ilObjTestGUI extends ilObjectGUI
 			{
 				if ($this->object->canShowSolutionPrintview($ilUser->getId()))
 				{
-					//$info->addFormButton("outUserListOfAnswerPasses", $this->lng->txt("tst_list_of_answers_show"));
-					$big_button[] = array("outUserListOfAnswerPasses", $this->lng->txt("tst_list_of_answers_show"), false);
+					$btn = ilSubmitButton::getInstance();
+					$btn->setCaption('tst_list_of_answers_show');
+					$btn->setCommand('outUserListOfAnswerPasses');
+					$btn->setPrimary(false);
+					$big_button[] = $btn;
 				}
 			}
 			
@@ -3546,8 +3632,13 @@ class ilObjTestGUI extends ilObjectGUI
 
 			ilUtil::sendInfo($message);
 		}
-		
-		if( $ilAccess->checkAccess("write", "", $this->ref_id) )
+
+		if( $this->areSkillLevelThresholdsMissing() )
+		{
+			ilUtil::sendFailure($this->getSkillLevelThresholdsMissingInfo());
+		}
+
+		if($ilAccess->checkAccess("write", "", $this->ref_id))
 		{
 			$testQuestionSetConfig = $this->testQuestionSetConfigFactory->getQuestionSetConfig();
 			
@@ -3575,17 +3666,9 @@ class ilObjTestGUI extends ilObjectGUI
 
 			foreach($big_button as $button)
 			{
-				if( is_array($button[0]) )
-				{
-					$link = $this->ctrl->getLinkTargetByClass($button[0][0], $button[0][1]);
-					$ilToolbar->addButton($button[1], $link, '', '', '', '', $button[2] ? 'submit emphSubmit' : 'submit');
-				}
-				else
-				{
-					$ilToolbar->addFormButton($button[1], $button[0], "", $button[2]);
-				}
+				$ilToolbar->addButtonInstance($button);
 			}
-			
+
 			if($enter_anonymous_code)
 			{
 				if($big_button)
@@ -3636,7 +3719,7 @@ class ilObjTestGUI extends ilObjectGUI
 					}
 				}
 				// hide previous results
-				if( !$this->object->isRandomTest() )
+				if(!$this->object->isRandomTest() && !$this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired())
 				{
 					if ($this->object->getNrOfTries() != 1)
 					{
@@ -3721,13 +3804,13 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 		
 			$starting_time = $this->object->getStartingTime();
-			if ($starting_time)
+			if ($starting_time && $this->object->isStartingTimeEnabled())
 			{
 				$info->addProperty($this->lng->txt("tst_starting_time"),
 					ilDatePresentation::formatDate(new ilDateTime($starting_time,IL_CAL_TIMESTAMP)));
 			}
 			$ending_time = $this->object->getEndingTime();
-			if ($ending_time)
+			if ($ending_time && $this->object->isEndingTimeEnabled())
 			{
 				$info->addProperty($this->lng->txt("tst_ending_time"),
 					ilDatePresentation::formatDate(new ilDateTime($ending_time,IL_CAL_TIMESTAMP)));
@@ -3768,7 +3851,6 @@ class ilObjTestGUI extends ilObjectGUI
 			case "confirmSubmitAnswers":
 			case "finalSubmission":
 			case "postpone":
-			case "redirectQuestion":
 			case "outUserPassDetails":
 			case "checkPassword":
 				$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "infoScreen"), "", $_GET["ref_id"]);
@@ -4032,12 +4114,23 @@ class ilObjTestGUI extends ilObjectGUI
 		
 		// for local use in this fucking sledge hammer method
 		$curUserHasWriteAccess = $ilAccess->checkAccess("write", "", $this->ref_id);
-		
-		switch( $this->ctrl->getCmdClass() )
+
+		switch($this->ctrl->getCmdClass())
 		{
+			// no tabs .. no subtabs .. during test pass
 			case 'iltestoutputgui':
-				
-				return; // no tabs .. no subtabs .. during test pass
+
+			// tab handling happens within GUIs
+			case 'iltestevaluationgui':
+				$nonSelfTabbingCommands = array(
+					'outParticipantsResultsOverview', 'outEvaluation'
+				);
+				if( in_array($this->ctrl->getCmd(), $nonSelfTabbingCommands) )
+				{
+					break;
+				}
+			case 'iltestevalobjectiveorientedgui':
+				return;
 				
 			case 'ilmarkschemagui':
 			case 'ilobjtestsettingsgeneralgui':
@@ -4050,8 +4143,15 @@ class ilObjTestGUI extends ilObjectGUI
 				
 				break;
 		}
-		
-		switch ($this->ctrl->getCmd())
+
+		if( $this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired() )
+		{
+			require_once 'Services/Link/classes/class.ilLink.php';
+			$courseLink = ilLink::_getLink($this->getObjectiveOrientedContainer()->getRefId());
+			$tabs_gui->setBackTarget($this->lng->txt('back_to_objective_container'), $courseLink);
+		}
+
+		switch($this->ctrl->getCmd())
 		{
 			case "resume":
 			case "previous":
@@ -4075,7 +4175,6 @@ class ilObjTestGUI extends ilObjectGUI
 			case "confirmSubmitAnswers":
 			case "finalSubmission":
 			case "postpone":
-			case "redirectQuestion":
 			case "outUserPassDetails":
 			case "checkPassword":
 			case "exportCertificate":
@@ -4217,11 +4316,11 @@ class ilObjTestGUI extends ilObjectGUI
 				// skill service
 				if( $this->object->isSkillServiceEnabled() && ilObjTest::isSkillManagementGloballyActivated() )
 				{
-					require_once 'Modules/Test/classes/class.ilTestSkillQuestionAssignmentsGUI.php';
+					require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentsGUI.php';
 
 					$link = $this->ctrl->getLinkTargetByClass(
-						array('ilTestSkillAdministrationGUI', 'ilTestSkillQuestionAssignmentsGUI'),
-						ilTestSkillQuestionAssignmentsGUI::CMD_SHOW_SKILL_QUEST_ASSIGNS
+						array('ilTestSkillAdministrationGUI', 'ilAssQuestionSkillAssignmentsGUI'),
+						ilAssQuestionSkillAssignmentsGUI::CMD_SHOW_SKILL_QUEST_ASSIGNS
 					);
 
 					$tabs_gui->addTarget('tst_tab_competences', $link, array(), array());
@@ -4315,12 +4414,18 @@ class ilObjTestGUI extends ilObjectGUI
 					 "history", "");
                              }
 
-                             if (!in_array('meta_data', $hidden_tabs)) {
-				// meta data
-				$tabs_gui->addTarget("meta_data",
-					 $this->ctrl->getLinkTargetByClass('ilmdeditorgui','listSection'),
-					 "", "ilmdeditorgui");
-                             }
+                if (!in_array('meta_data', $hidden_tabs)) {
+					// meta data
+					include_once "Services/Object/classes/class.ilObjectMetaDataGUI.php";
+					$mdgui = new ilObjectMetaDataGUI($this->object);					
+					$mdtab = $mdgui->getTab();
+					if($mdtab)
+					{
+						$tabs_gui->addTarget("meta_data",
+							 $mdtab,
+							 "", "ilmdeditorgui");
+					}
+                }
 
 				if(!in_array('export', $hidden_tabs))
 				{
@@ -4600,7 +4705,7 @@ class ilObjTestGUI extends ilObjectGUI
 	public function copyQuestionsToPoolObject()
 	{
 		$this->copyQuestionsToPool($_REQUEST['q_id'], $_REQUEST['sel_qpl']);
-		$this->backObject();
+		$this->ctrl->redirect($this, 'questions');
 	}
 
 	public function copyQuestionsToPool($questionIds, $qplId)
@@ -4661,7 +4766,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$questionInstance->setNewOriginalId($newId);
 		}
 
-		$this->backObject();
+		$this->ctrl->redirect($this, 'questions');
 	}
 
 	private function getQuestionpoolCreationForm()
@@ -4727,7 +4832,7 @@ class ilObjTestGUI extends ilObjectGUI
 				if($type !== 'tst')
 				{
 					ilUtil::sendFailure($lng->txt('tst_link_only_unassigned'), true);
-					$this->backObject();
+					$this->ctrl->redirect($this, 'questions');
 					return;
 				}
 			}
@@ -5168,6 +5273,7 @@ class ilObjTestGUI extends ilObjectGUI
 	private function populateDeleteDynamicTestResultsButton($testSession, &$big_button)
 	{
 		require_once 'Modules/Test/classes/confirmations/class.ilTestPassDeletionConfirmationGUI.php';
+		require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
 
 		$this->ctrl->setParameterByClass(
 			'iltestevaluationgui', 'context',
@@ -5176,12 +5282,12 @@ class ilObjTestGUI extends ilObjectGUI
 		
 		$this->ctrl->setParameterByClass('iltestevaluationgui', 'active_id', $testSession->getActiveId());
 		$this->ctrl->setParameterByClass('iltestevaluationgui', 'pass', $testSession->getPass());
-		
-		$big_button[] = array(
-			array('iltestevaluationgui', 'confirmDeletePass'),
-			$this->lng->txt("tst_delete_dyn_test_results_btn"),
-			false
-		);
+
+		$btn = ilLinkButton::getInstance();
+		$btn->setCaption('tst_delete_dyn_test_results_btn');
+		$btn->setUrl($this->ctrl->getLinkTargetByClass('iltestevaluationgui',  'confirmDeletePass'));
+		$btn->setPrimary(false);
+		$big_button[] = $btn;
 	}
 
 	/**
@@ -5200,5 +5306,82 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 
 		return true;
+	}
+	
+	protected function determineObjectiveOrientedContainer()
+	{
+		require_once 'Modules/Course/classes/Objectives/class.ilLOSettings.php';
+		$containerObjId = (int)ilLOSettings::isObjectiveTest($this->ref_id);
+
+		$containerRefId = current(ilObject::_getAllReferences($containerObjId));
+
+		$this->objectiveOrientedContainer->setObjId($containerObjId);
+		$this->objectiveOrientedContainer->setRefId($containerRefId);
+	}
+	
+	protected function getObjectiveOrientedContainer()
+	{
+		return $this->objectiveOrientedContainer;
+	}
+
+	private function areSkillLevelThresholdsMissing()
+	{
+		if( !$this->object->isSkillServiceEnabled() )
+		{
+			return false;
+		}
+		
+		if( $this->object->isDynamicTest() )
+		{
+			$questionSetConfig = $this->testQuestionSetConfigFactory->getQuestionSetConfig();
+			$questionContainerId = $questionSetConfig->getSourceQuestionPoolId();
+		}
+		else
+		{
+			$questionContainerId = $this->object->getId();
+		}
+		
+		global $ilDB;
+		
+		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentList.php';
+		require_once 'Modules/Test/classes/class.ilTestSkillLevelThreshold.php';
+		
+		$assignmentList = new ilAssQuestionSkillAssignmentList($ilDB);
+		$assignmentList->setParentObjId($questionContainerId);
+		$assignmentList->loadFromDb();
+
+		foreach($assignmentList->getUniqueAssignedSkills() as $data)
+		{
+			foreach($data['skill']->getLevelData() as $level)
+			{
+				$treshold = new ilTestSkillLevelThreshold($ilDB);
+				$treshold->setTestId($this->object->getTestId());
+				$treshold->setSkillBaseId($data['skill_base_id']);
+				$treshold->setSkillTrefId($data['skill_tref_id']);
+				$treshold->setSkillLevelId($level['id']);
+				
+				if( !$treshold->dbRecordExists() )
+				{
+					return true;
+				}
+			}
+		}
+		
+		return false;
+	}
+	
+	private function getSkillLevelThresholdsMissingInfo()
+	{
+		require_once 'Modules/Test/classes/class.ilTestSkillLevelThresholdsGUI.php';
+		
+		$link = $this->ctrl->getLinkTargetByClass(
+			array('ilTestSkillAdministrationGUI', 'ilTestSkillLevelThresholdsGUI'),
+			ilTestSkillLevelThresholdsGUI::CMD_SHOW_SKILL_THRESHOLDS
+		);
+		
+		$msg = $this->lng->txt('tst_skl_level_thresholds_missing');
+		$msg .= '<br /><a href="'.$link.'">'.$this->lng->txt('tst_skl_level_thresholds_link').'</a>';
+		
+		return $msg;
 	}
 }

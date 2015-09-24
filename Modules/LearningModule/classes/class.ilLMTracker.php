@@ -352,7 +352,8 @@ class ilLMTracker
 		// load read event data
 		$this->re_arr = array();
 		$set = $ilDB->query("SELECT * FROM lm_read_event ".
-			" WHERE ".$ilDB->in("obj_id", $this->lm_obj_ids, false, "integer"));
+			" WHERE ".$ilDB->in("obj_id", $this->lm_obj_ids, false, "integer").
+			" AND usr_id = ".$ilDB->quote($this->user_id, "integer"));
 		while ($rec = $ilDB->fetchAssoc($set))
 		{
 			$this->re_arr[$rec["obj_id"]] = $rec;
@@ -429,7 +430,6 @@ class ilLMTracker
 						$cnt_completed++;
 						continue;
 					}
-
 					$c_stat = $this->determineProgressStatus($c["child"], $a_has_pred_incorrect_answers,
 						$a_has_pred_incorrect_not_unlocked_answers);
 					if ($status != ilLMTracker::FAILED)
@@ -448,7 +448,10 @@ class ilLMTracker
 							$cnt_completed++;
 						}
 					}
-					if ($c_stat == ilLMTracker::FAILED || $c_stat == ilLMTracker::IN_PROGRESS)
+					// if an item is failed or in progress or (not attempted and contains questions)
+					// the next item has predecessing incorrect answers
+					if ($c_stat == ilLMTracker::FAILED || $c_stat == ilLMTracker::IN_PROGRESS ||
+						($c_stat == ilLMTracker::NOT_ATTEMPTED && is_array($this->page_questions[$c["child"]]) && count($this->page_questions[$c["child"]]) > 0))
 					{
 						$a_has_pred_incorrect_answers = true;
 						if (!$this->tree_arr["nodes"][$c["child"]]["unlocked"])
@@ -501,7 +504,10 @@ class ilLMTracker
 							if (!is_array($this->answer_status[$q_id])
 								|| $this->answer_status[$q_id]["try"] == 0)
 							{
-								$status = ilLMTracker::IN_PROGRESS;
+								if ($status != ilLMTracker::NOT_ATTEMPTED)
+								{
+									$status = ilLMTracker::IN_PROGRESS;
+								}
 							}
 						}
 						$unlocked = false;
@@ -609,7 +615,8 @@ class ilLMTracker
 
 		// get question information
 		include_once("./Modules/TestQuestionPool/classes/class.ilAssQuestionList.php");
-		$qlist = new ilAssQuestionList($ilDB, $lng, $ilPluginAdmin, 0);
+		$qlist = new ilAssQuestionList($ilDB, $lng, $ilPluginAdmin);
+		$qlist->setParentObjId(0);
 		$qlist->addFieldFilter("question_id", $this->all_questions);
 		$qlist->load();
 		$qdata = $qlist->getQuestionDataArray();

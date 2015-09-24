@@ -260,7 +260,7 @@ class ilPCQuestion extends ilPageContent
 	function modifyPageContentPostXsl($a_output, $a_mode)
 	{
 		global $lng;
-		
+
 		if ($this->getPage()->getPageConfig()->getEnableSelfAssessment())
 		{
 			// #14154
@@ -271,7 +271,8 @@ class ilPCQuestion extends ilPageContent
 				foreach($q_ids as $q_id)
 				{
 					$q_gui = assQuestionGUI::_getQuestionGUI("", $q_id);
-					if(!$q_gui->object->isComplete())
+					// object check due to #16557
+					if(is_object($q_gui->object) && !$q_gui->object->isComplete())
 					{
 						$a_output = str_replace("{{{{{Question;il__qst_".$q_id."}}}}}", 
 							"<i>".$lng->txt("cont_empty_question")."</i>", 
@@ -284,7 +285,6 @@ class ilPCQuestion extends ilPageContent
 															
 				require_once './Modules/Scorm2004/classes/class.ilQuestionExporter.php';
 				$a_output = "<script>".ilQuestionExporter::questionsJS($q_ids)."</script>".$a_output;
-				
 				if(!self::$initial_done)
 				{
 					$a_output = "<script>var ScormApi=null; var questions = new Array();</script>".$a_output;
@@ -307,6 +307,14 @@ class ilPCQuestion extends ilPageContent
 		}
 
 		return $a_output;
+	}
+
+	/**
+	 * Reset initial state (for exports)
+	 */
+	static function resetInitialState()
+	{
+		self::$initial_done = false;
 	}
 
 	/**

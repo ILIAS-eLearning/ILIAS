@@ -124,7 +124,7 @@ $(function() {
 	
 	// Root node: This is the root node for yui tree, not for the forum tree
 	var node = {FRM_TREE_ROOT_NODE_LINK};
-	var {FRM_TREE_ROOT_NODE_VARIABLE} = new YAHOO.widget.ilHtmlFrmTreeNode(node.html, tree.getRoot(), false, true, {FRM_TREE_ROOT_NODE_HAS_CHILDREN});
+	var {FRM_TREE_ROOT_NODE_VARIABLE} = new YAHOO.widget.ilHtmlFrmTreeNode(node.html, tree.getRoot(), true, false, {FRM_TREE_ROOT_NODE_HAS_CHILDREN});
 	// Begin adding children<!-- BEGIN frm_nodes -->
 	var node = {FRM_NODES_LINK};
 	var {FRM_NODES_VARNAME} = new YAHOO.widget.ilHtmlFrmTreeNode(node.html, {FRM_NODES_PARENT_VARNAME}, false, true, {FRM_NODES_HAS_CHILDREN});<!-- END frm_nodes -->

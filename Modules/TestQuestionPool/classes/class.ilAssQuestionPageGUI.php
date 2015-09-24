@@ -17,6 +17,8 @@ require_once('./Modules/TestQuestionPool/classes/class.ilAssQuestionPage.php');
  */
 class ilAssQuestionPageGUI extends ilPageObjectGUI
 {
+	const TEMP_PRESENTATION_TITLE_PLACEHOLDER = '___TEMP_PRESENTATION_TITLE_PLACEHOLDER___';
+	
 	/**
 	 * Constructor
 	 *
@@ -34,6 +36,23 @@ class ilAssQuestionPageGUI extends ilPageObjectGUI
 	protected function isPageContainerToBeRendered()
 	{
 		return $this->getRenderPageContainer();
+	}
+	
+	public function showPage()
+	{
+		$presentationTitlePossiblyWithHTML = $this->getPresentationTitle();
+		
+		$this->setPresentationTitle(self::TEMP_PRESENTATION_TITLE_PLACEHOLDER);
+		
+		$presentation = parent::showPage();
+
+		$presentation = str_replace(
+			self::TEMP_PRESENTATION_TITLE_PLACEHOLDER, $presentationTitlePossiblyWithHTML, $presentation
+		);
+
+		$presentation = preg_replace("/src=\"\\.\\//ims", "src=\"" . ILIAS_HTTP_PATH . "/", $presentation);
+		
+		return $presentation;
 	}
 } 
 

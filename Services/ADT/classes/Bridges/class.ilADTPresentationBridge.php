@@ -11,6 +11,7 @@
 abstract class ilADTPresentationBridge
 {
 	protected $adt; // [ilADT]
+	protected $decorator; // [String|Array]
 	
 	/**
 	 * Constructor
@@ -87,6 +88,31 @@ abstract class ilADTPresentationBridge
 	 * @return mixed
 	 */
 	abstract public function getSortable();
+	
+	/**
+	 * Set decorator callback 
+	 * 
+	 * @param string|array $a_callback
+	 */
+	public function setDecoratorCallBack($a_callback)
+	{
+		$this->decorator = $a_callback;
+	}
+	
+	/**
+	 * Decorate value
+	 * 
+	 * @param mixed $a_value
+	 * @return mixed
+	 */
+	protected function decorate($a_value)
+	{
+		if(is_callable($this->decorator))
+		{
+			$a_value = call_user_func($this->decorator, $a_value);
+		}
+		return $a_value;
+	}
 }
 
 ?>

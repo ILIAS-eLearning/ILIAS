@@ -60,7 +60,9 @@ class ilColumnGUI
 		'ilPDTaggingBlockGUI' => 'Services/Tagging/',
 		'ilChatroomBlockGUI' => 'Modules/Chatroom/',
 		'ilPollBlockGUI' => 'Modules/Poll/',
-		'ilClassificationBlockGUI' => 'Services/Classification/',	
+		'ilClassificationBlockGUI' => 'Services/Classification/',
+		'ilPDPortfolioBlockGUI' => 'Modules/Portfolio/',
+		"ilPDStudyProgrammeSimpleListGUI" => "Modules/StudyProgramme/"
 	);
 	
 	static protected $block_types = array(
@@ -80,6 +82,8 @@ class ilColumnGUI
 		'ilChatroomBlockGUI' => 'chatviewer',
 		'ilPollBlockGUI' => 'poll',
 		'ilClassificationBlockGUI' => 'clsfct',
+		'ilPDPortfolioBlockGUI' => 'pdportf',
+		"ilPDStudyProgrammeSimpleListGUI" => "prgsimplelist"
 	);
 	
 		
@@ -104,12 +108,14 @@ class ilColumnGUI
 			"ilNewsForContextBlockGUI" => IL_COL_RIGHT),
 		"pd" => array(
 			"ilPDCalendarBlockGUI" => IL_COL_RIGHT,
+			"ilPDPortfolioBlockGUI" => IL_COL_RIGHT,
 			"ilPDSysMessageBlockGUI" => IL_COL_LEFT,
 			"ilPDNewsBlockGUI" => IL_COL_LEFT,
+			"ilPDStudyProgrammeSimpleListGUI" => IL_COL_CENTER,
 			"ilPDSelectedItemsBlockGUI" => IL_COL_CENTER,
 			"ilPDMailBlockGUI" => IL_COL_RIGHT,
 			"ilPDNotesBlockGUI" => IL_COL_RIGHT,
-			"ilUsersOnlineBlockGUI" => IL_COL_RIGHT,
+			//"ilUsersOnlineBlockGUI" => IL_COL_RIGHT,
 			"ilBookmarkBlockGUI" => IL_COL_RIGHT,
 			"ilPDTaggingBlockGUI" => IL_COL_RIGHT,
 			"ilChatroomBlockGUI" => IL_COL_RIGHT
@@ -142,7 +148,8 @@ class ilColumnGUI
 			"pdtag" => true,
 			"pdnotes" => true,
 			"chatviewer" => true,
-			"tagcld" => true);
+			"tagcld" => true,
+			"pdportf" => true);
 			
 	protected $check_nr_limit =
 		array("pdfeed" => true);
@@ -894,6 +901,10 @@ class ilColumnGUI
 					{
 						$nr = -10;
 					}
+					if ($type == "clsfct")		// mkunkel wants to have this on top
+					{
+						$nr = -16;
+					}
 					$side = ilBlockSetting::_lookupSide($type, $user_id);
 					if ($side === false)
 					{
@@ -1051,7 +1062,19 @@ class ilColumnGUI
 					return true;
 				}
 				return false;
-			}	
+			}
+			else if ($a_type == 'pdportf')
+			{
+				if ($ilSetting->get("user_portfolios"))
+				{
+					$prfa_set = new ilSetting("prfa");
+					if ($prfa_set->get("pd_block", false))
+					{
+						return true;
+					}
+				}
+				return false;
+			}
 			elseif($a_type == 'news')
 			{
 				include_once 'Services/Container/classes/class.ilContainer.php';

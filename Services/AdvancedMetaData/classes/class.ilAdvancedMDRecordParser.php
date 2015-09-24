@@ -47,6 +47,9 @@ class ilAdvancedMDRecordParser extends ilSAXParser
 	
 	private $is_error = false;
 	private $error_msg = array();
+	
+	protected $context; // [array]
+	
 	/**
 	 * Constructor
 	 *
@@ -360,6 +363,18 @@ class ilAdvancedMDRecordParser extends ilSAXParser
 	 			return true;	
 	 		
 	 		case self::MODE_INSERT:
+				// set local context
+				if(is_array($this->context))
+				{
+					$this->getCurrentRecord()->setParentObject($this->context["obj_id"]);
+					$this->getCurrentRecord()->setAssignedObjectTypes(array(
+						array(
+							"obj_type" => $this->context["obj_type"],
+							"sub_type" => $this->context["sub_type"],
+							"optional" => false							
+					)));
+				}
+				
 	 			$this->getCurrentRecord()->save();
 	 			break;
 	 	}	
@@ -374,6 +389,20 @@ class ilAdvancedMDRecordParser extends ilSAXParser
 			}
 			
 		}		
+	}
+	
+	public function setContext($a_obj_id, $a_obj_type, $a_sub_type = null)
+	{
+		if(!$a_sub_type)
+		{
+			$a_sub_type = "-";
+		}
+		
+		$this->context = array(
+			"obj_id" => $a_obj_id,
+			"obj_type" => $a_obj_type,
+			"sub_type" => $a_sub_type
+		);		
 	}
 	
 }

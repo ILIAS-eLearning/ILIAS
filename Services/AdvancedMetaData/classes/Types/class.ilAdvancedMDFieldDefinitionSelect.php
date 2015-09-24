@@ -100,7 +100,7 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
 	{
 		global $lng;
 		
-		return array($lng->txt("options") => implode(",", $this->getOptions()));		
+		return array($lng->txt("meta_advmd_select_options") => implode(",", $this->getOptions()));		
 	}
 	
 	/**
@@ -113,7 +113,7 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
 	{
 		global $lng;
 		
-		$field = new ilTextInputGUI($lng->txt("options"), "opts");			
+		$field = new ilTextInputGUI($lng->txt("meta_advmd_select_options"), "opts");			
 		$field->setRequired(true);
 		$field->setMulti(true, true);
 		$field->setMaxLength(255); // :TODO:
@@ -133,6 +133,46 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
 	}
 	
 	/**
+	 * Process custom post values from definition form
+	 * 
+	 * @param ilPropertyFormGUI $a_form
+	 */
+	protected function buildConfirmedObjects(ilPropertyFormGUI $a_form)
+	{
+		// #15719
+		$recipes = $a_form->getInput("conf_det");	
+		if(is_array($recipes[$this->getFieldId()]))
+		{			
+			$recipes = $recipes[$this->getFieldId()];
+			$sum = $a_form->getInput("conf_det_act");
+			$sum = $sum[$this->getFieldId()];
+			$sgl = $a_form->getInput("conf");
+			$sgl = $sgl[$this->getFieldId()];
+						
+			$res = array();
+			foreach($recipes as $old_option => $recipe)
+			{
+				$sum_act = $sum[$old_option];
+				$sgl_act = $sgl[$old_option];
+				
+				if($recipe == "sum")
+				{						
+					foreach(array_keys($sgl_act) as $obj_idx)
+					{
+						$res[$old_option][$obj_idx] = $sum_act;
+					}
+				}
+				else
+				{
+					$res[$old_option] = $sgl_act;
+				}
+			}
+			
+			return $res;
+		}		
+	}
+	
+	/**
 	 * Import custom post values from definition form
 	 * 
 	 * @param ilPropertyFormGUI $a_form
@@ -145,8 +185,7 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
 		$missing = array_diff($old, $new);
 		if(sizeof($missing))
 		{			
-			$this->confirmed_objects = $a_form->getInput("conf");
-			$this->confirmed_objects = $this->confirmed_objects[$this->getFieldId()];
+			$this->confirmed_objects = $this->buildConfirmedObjects($a_form);
 			if(!is_array($this->confirmed_objects))
 			{					
 				ilADTFactory::initActiveRecordByType();
@@ -187,11 +226,29 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
 			$sec = new ilFormSectionHeaderGUI();
 			$sec->setTitle($lng->txt("md_adv_confirm_definition_select_section"));
 			$a_form->addItem($sec);
-			
+									
 			foreach($this->confirm_objects as $old_option => $items)
-			{
-				$opt = new ilNonEditableValueGUI($lng->txt("md_adv_confirm_definition_select_option").': "'.$old_option.'"');
-				$a_form->addItem($opt);
+			{				
+				$details = new ilRadioGroupInputGUI($lng->txt("md_adv_confirm_definition_select_option").': "'.$old_option.'"', "conf_det[".$this->getFieldId()."][".$old_option."]");			
+				$details->setRequired(true);			
+				$details->setValue("sum");
+				$a_form->addItem($details);
+				
+				$sum = new ilRadioOption($lng->txt("md_adv_confirm_definition_select_option_all"), "sum");				
+				$details->addOption($sum);
+				
+				$sel = new ilSelectInputGUI($lng->txt("md_adv_confirm_definition_select_option_all_action"), 
+					"conf_det_act[".$this->getFieldId()."][".$old_option."]");					
+				$options = array(""=>$lng->txt("md_adv_confirm_definition_select_option_remove"));
+				foreach($new_options as $new_option)
+				{
+					$options[$new_option] = $lng->txt("md_adv_confirm_definition_select_option_overwrite").': "'.$new_option.'"';
+				}
+				$sel->setOptions($options);
+				$sum->addSubItem($sel);
+				
+				$single = new ilRadioOption($lng->txt("md_adv_confirm_definition_select_option_single"), "sgl");
+				$details->addOption($single);
 				
 				foreach($items as $item)
 				{
@@ -229,7 +286,7 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
 					}
 					$sel->setOptions($options);
 					
-					$opt->addSubItem($sel);
+					$single->addSubItem($sel);
 				}								
 			}
 		}		
@@ -278,6 +335,13 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
 						);
 						ilADTActiveRecordByType::writeByPrimary("adv_md_values", $primary, "Enum", $new_option);
 					}
+					
+					if($sub_type == "wpg")
+					{
+						// #15763 - adapt advmd page lists
+						include_once "Modules/Wiki/classes/class.ilPCAMDPageList.php";
+						ilPCAMDPageList::migrateField($obj_id, $this->getFieldId(), $old_option, $new_option);												
+					}		
 				}
 			}			
 		}		

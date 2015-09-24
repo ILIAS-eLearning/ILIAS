@@ -37,7 +37,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 
 	public function executeCommand()
 	{
-		global $ilCtrl;
+		global $ilCtrl, $lng;
 
 		$this->determineSelectedFilters();
 
@@ -63,6 +63,17 @@ class ilLPTableBaseGUI extends ilTable2GUI
 
 				case "hide":
 					$to_hide = array((int)$_GET["hide"]);
+					break;
+				
+				case "mailselectedusers":
+					if(!sizeof($_POST["uid"]))
+					{
+						ilUtil::sendFailure($lng->txt("no_checkbox"), true);
+					}
+					else
+					{
+						$this->sendMail($_POST["uid"], $this->parent_obj, $this->parent_cmd);												
+					}
 					break;
 				
 				// page selector
@@ -96,6 +107,59 @@ class ilLPTableBaseGUI extends ilTable2GUI
 			// e.g. repository selector
 			return parent::executeCommand();
 		}
+	}
+	
+	protected function sendMail(array $a_user_ids, $a_parent_obj, $a_parent_cmd)
+	{	
+		// see ilObjCourseGUI::sendMailToSelectedUsersObject()
+		
+		require_once 'Services/Mail/classes/class.ilMailFormCall.php';
+		
+		$rcps = array();
+		foreach($a_user_ids as $usr_id)
+		{
+			$rcps[] = ilObjUser::_lookupLogin($usr_id);
+		}
+		
+		$template = array();
+		$sig = null;
+		
+		// repository-object-specific
+		$ref_id = (int)$_REQUEST["ref_id"];
+		if($ref_id)
+		{							
+			$obj_lp = ilObjectLP::getInstance(ilObject::_lookupObjectId($ref_id));
+			$tmpl_id = $obj_lp->getMailTemplateId();
+	
+			if($tmpl_id)
+			{
+				$template = array(
+					ilMailFormCall::CONTEXT_KEY => $tmpl_id,
+					'ref_id' => $ref_id,
+					'ts'     => time()
+				);
+			}
+			else
+			{
+				include_once './Services/Link/classes/class.ilLink.php';
+				$sig = ilLink::_getLink($ref_id);
+				$sig = rawurlencode(base64_encode($sig));			
+			}
+		}
+		
+		ilUtil::redirect(
+			ilMailFormCall::getRedirectTarget(
+				$a_parent_obj, 
+				$a_parent_cmd,
+				array(),
+				array(
+					'type' => 'new',
+					'rcp_to' => implode(',', $rcps),
+					'sig' => $sig
+				),
+				$template
+			)
+		);	
 	}
 
 	/**
@@ -356,12 +420,14 @@ class ilLPTableBaseGUI extends ilTable2GUI
 		$options['crs'] = $lng->txt('objs_crs');
 		$options['grp'] = $lng->txt('objs_grp');
 		$options['exc'] = $lng->txt('objs_exc');
+		$options['file'] = $lng->txt('objs_file');
+		$options['mcst'] = $lng->txt('objs_mcst');
 		$options['svy'] = $lng->txt('objs_svy');		
 		$options['tst'] = $lng->txt('objs_tst');		
+		$options['prg'] = $lng->txt('objs_prg');
 		
 		if($a_allow_undefined_lp)
-		{
-			$options["file"] = $lng->txt("objs_file");
+		{			
 			$options["webr"] = $lng->txt("objs_webr");
 			$options["wiki"] = $lng->txt("objs_wiki");
 		}
@@ -425,7 +491,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 				break;
 
 			case "spent_seconds":
-				if(in_array($type, array("exc")))
+				if(in_array($type, array("exc", "file", "mcst")))
 				{
 					$value = "-";
 				}
@@ -584,6 +650,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 			ilLPObjSettings::LP_MODE_VISITS, 
 			// ilLPObjSettings::LP_MODE_OBJECTIVES, 
 			ilLPObjSettings::LP_MODE_SCORM,
+			ilLPObjSettings::LP_MODE_VISITED_PAGES,
 			ilLPObjSettings::LP_MODE_TEST_PASSED)))
 		{
 			return true;

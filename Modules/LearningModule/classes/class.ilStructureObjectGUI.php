@@ -14,7 +14,7 @@ require_once("./Modules/LearningModule/classes/class.ilLMObject.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @ilCtrl_Calls ilStructureObjectGUI: ilConditionHandlerGUI, ilMDEditorGUI
+* @ilCtrl_Calls ilStructureObjectGUI: ilConditionHandlerGUI, ilObjectMetaDataGUI
 *
 * @ingroup ModulesIliasLearningModule
 */
@@ -65,15 +65,13 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 
 		switch($next_class)
 		{
-			case 'ilmdeditorgui':
+			case 'ilobjectmetadatagui':
 				
 				$this->setTabs();
-				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
-
-				$md_gui =& new ilMDEditorGUI($this->content_object->getID(),
-					$this->obj->getId(), $this->obj->getType());
-				$md_gui->addObserver($this->obj,'MDUpdateListener','General');
-
+			
+				include_once 'Services/Object/classes/class.ilObjectMetaDataGUI.php';
+				$md_gui = new ilObjectMetaDataGUI($this->content_object, $this->obj->getType(), $this->obj->getId());	
+				$md_gui->addMDObserver($this->obj, 'MDUpdateListener', 'General');
 				$this->ctrl->forwardCommand($md_gui);
 				break;
 
@@ -619,9 +617,15 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 			 "listConditions", get_class($this));
 
 		// metadata
-		$ilTabs->addTarget("meta_data",
-			 $this->ctrl->getLinkTargetByClass("ilmdeditorgui",''),
-			 "", "ilmdeditorgui");
+		include_once "Services/Object/classes/class.ilObjectMetaDataGUI.php";
+		$mdgui = new ilObjectMetaDataGUI($this->content_object, $this->obj->getType(), $this->obj->getId());			
+		$mdtab = $mdgui->getTab();
+		if($mdtab)
+		{
+			$ilTabs->addTarget("meta_data",
+				 $mdtab,
+				 "", "ilmdeditorgui");
+		}
 			 
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_st.svg"));
 		$this->tpl->setTitle(

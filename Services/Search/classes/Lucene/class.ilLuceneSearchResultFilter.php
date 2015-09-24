@@ -59,7 +59,7 @@ class ilLuceneSearchResultFilter
 
 	 	include_once('Services/Search/classes/class.ilUserSearchCache.php');
 	 	$this->cache = ilUserSearchCache::_getInstance($this->getUserId());
-	 	
+		
 	 	$this->offset = $this->settings->getMaxHits() * ($this->cache->getResultPageNumber() - 1);
 	}
 	
@@ -196,7 +196,7 @@ class ilLuceneSearchResultFilter
 	 */
 	public function filter()
 	{
-		global $ilAccess,$ilLog,$tree;
+		global $ilAccess,$tree;
 
 		// get ref_ids and check access
 		$counter = 0;
@@ -222,7 +222,7 @@ class ilLuceneSearchResultFilter
 				// Offset check
 				if($this->cache->isChecked($ref_id) and !$this->isOffsetReached($offset_counter))
 				{
-					$ilLog->write(__METHOD__.': Result was checked.');
+					ilLoggerFactory::getLogger('src')->debug('Result was checked');
 					$offset_counter++;
 					break;
 				}

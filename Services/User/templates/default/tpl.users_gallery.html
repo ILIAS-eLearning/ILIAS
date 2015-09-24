@@ -1,0 +1,45 @@
+<div class="ilUsersGalleryContainer">
+	<!-- BEGIN users -->
+	<div class="ilUsersGalleryRow row">
+		<!-- BEGIN user -->
+		<div class="col-md-2">
+			<div class="ilUser {USER_CC_CLASS}" data-users-gallery-status="{BUDDYLIST_STATUS}" data-user-id="{USER_ID}">
+				<!-- BEGIN linked_image -->
+				<a href="{LINK_PROFILE}"><img class="img" src="{SRC_USR_IMAGE}" /><h3>{PUBLIC_NAME}</h3></a>
+				<!-- END linked_image -->
+				<!-- BEGIN unlinked_image -->
+				<img class="img" src="{SRC_USR_IMAGE}" /><h3>{PUBLIC_NAME}</h3>
+				<!-- END unlinked_image -->
+				<div class="action">
+					<!-- BEGIN link -->
+					{BUDDY_HTML}
+					<!-- END link -->
+				</div>
+			</div>
+		</div>
+		<!-- END user -->
+	</div>
+	<!-- END users -->
+	<!-- BEGIN no_users -->
+	{NO_GALLERY_USERS}
+	<!-- END no_users -->
+</div>
+<script type="text/javascript">
+(function($, $scope) {
+	var no_entries_html = {NO_ENTRIES_HTML};
+
+	$(function() {
+		var stateChangedListener = function(event, usr_id, is_state, was_state) {
+			if (is_state == "ilBuddySystemUnlinkedRelationState") {
+				$('.ilUsersGalleryContainer .ilUser.ilBuddySystemRemoveWhenUnlinked[data-user-id="' + usr_id + '"]').parent().remove();
+				if (!$('.ilUsersGalleryContainer .ilUser').size())  {
+					$('.ilUsersGalleryContainer').html(no_entries_html);
+				}
+			}
+			return true;
+		};
+
+		$($scope).on("il.bs.stateChange.afterStateChangePerformed", stateChangedListener);
+	});
+})(jQuery, window);
+</script>

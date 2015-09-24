@@ -265,7 +265,7 @@ class ilStartUpGUI
 
 				case AUTH_USER_TIME_LIMIT_EXCEEDED:
 					ilSession::setClosingContext(ilSession::SESSION_CLOSE_TIME);
-					$username = $ilAuth->getUsername();
+					$username = $ilAuth->getExceededUserName(); // #16327
 					$ilAuth->logout();
 
 					// user could reactivate by code?
@@ -1210,7 +1210,7 @@ class ilStartUpGUI
 	*/
 	function showClientList()
 	{
-		global $tpl, $ilIliasIniFile, $ilCtrl;
+		global $tpl, $ilIliasIniFile, $lng;
 //echo "1";
 		if (!$ilIliasIniFile->readVariable("clients","list"))
 		{
@@ -1222,7 +1222,7 @@ class ilStartUpGUI
 		$tpl->setAddFooter(false); // no client yet
 
 		// to do: get standard style
-		$tpl->setVariable("PAGETITLE","Client List");
+		$tpl->setVariable("PAGETITLE", $lng->txt("clientlist_clientlist"));
 		$tpl->setVariable("LOCATION_STYLESHEET","./templates/default/delos.css");
 
 		// load client list template
@@ -1259,12 +1259,12 @@ class ilStartUpGUI
 				$this->ctrl->setParameter($this, "client_id", $key);
 				$tmp = array();
 				$tmp[] = $client->getName();
-				$tmp[] = "<a href=\""."login.php?cmd=force_login&client_id=".urlencode($key)."\">Login page</a>";
+				$tmp[] = "<a href=\""."login.php?cmd=force_login&client_id=".urlencode($key)."\">".$lng->txt("clientlist_login_page")."</a>";
 
 				if($client->getSetting('pub_section'))
 				{
 					$hasPublicSection = true;
-					$tmp[] = "<a href=\"" . "ilias.php?baseClass=ilRepositoryGUI&client_id=" . urlencode($key) . "\">Start page</a>";
+					$tmp[] = "<a href=\"" . "ilias.php?baseClass=ilRepositoryGUI&client_id=" . urlencode($key) . "\">".$lng->txt("clientlist_start_page")."</a>";
 				}
 				else
 				{
@@ -1281,15 +1281,15 @@ class ilStartUpGUI
 		// title & header columns
 		if($hasPublicSection)
 		{
-			$tbl->setTitle("Available Clients");
-			$tbl->setHeaderNames(array("Installation Name","Login","Public Access"));
+			$tbl->setTitle($lng->txt("clientlist_available_clients"));
+			$tbl->setHeaderNames(array($lng->txt("clientlist_installation_name"), $lng->txt("clientlist_login"), $lng->txt("clientlist_public_access")));
 			$tbl->setHeaderVars(array("name","index","login"));
 			$tbl->setColumnWidth(array("50%","25%","25%"));
 		}
 		else
 		{
-			$tbl->setTitle("Available Clients");
-			$tbl->setHeaderNames(array("Installation Name","Login",''));
+			$tbl->setTitle($lng->txt("clientlist_available_clients"));
+			$tbl->setHeaderNames(array($lng->txt("clientlist_installation_name"), $lng->txt("clientlist_login"), ''));
 			$tbl->setHeaderVars(array("name","login",''));
 			$tbl->setColumnWidth(array("70%","25%",'1px'));
 		}
@@ -1404,7 +1404,8 @@ class ilStartUpGUI
 		}
 		catch(ilTermsOfServiceNoSignableDocumentFoundException $e)
 		{
-			$tpl->setVariable('TERMS_OF_SERVICE_CONTENT', sprintf($lng->txt('no_agreement_description'), 'mailto:' . ilUtil::prepareFormOutput($ilSetting->get('feedback_recipient'))));
+			include_once("./Modules/SystemFolder/classes/class.ilSystemSupportContacts.php");
+			$tpl->setVariable('TERMS_OF_SERVICE_CONTENT', sprintf($lng->txt('no_agreement_description'), 'mailto:' . ilUtil::prepareFormOutput(ilSystemSupportContacts::getMailToAddress())));
 		}
 
 		$tpl->show();

@@ -1106,7 +1106,7 @@ class ilInternalLinkGUI
 
 		include_once("./Services/UIComponent/Modal/classes/class.ilModalGUI.php");
 		$modal = ilModalGUI::getInstance();
-		$modal->setHeading($lng->txt("link_edit_int_link"));
+		$modal->setHeading($lng->txt("link_link"));
 		$modal->setId("ilIntLinkModal");
 		$modal->setBody("<div id='ilIntLinkModalContent'></div>");
 

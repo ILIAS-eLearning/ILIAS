@@ -30,7 +30,7 @@ var ilMultiFormValues = {
 		$('button[id*="ilMultiAdd"]').each(function() {						
 			var id = $(this).attr('id').split('~');	
 			// only text inputs are supported yet
-			$('div[id*="ilFormField~' + id[1] + '~' + id[2] + '"]').find('input:text[id*="' + id[1] + '"]').bind('keydown', function(e) {
+			$('div[id="ilFormField~' + id[1] + '~' + id[2] + '"]').find('input:text[id*="' + id[1] + '"]').bind('keydown', function(e) {
 				ilMultiFormValues.keyDown(e);
 			});		
 		});
@@ -59,10 +59,10 @@ var ilMultiFormValues = {
 	removeEvent: function(e) {
 		var id = $(e.delegateTarget).attr('id').split('~');			
 		if($('div[id*="ilFormField~' +  id[1] + '"]').length > 1) {
-			$('div[id*="ilFormField~' + id[1] + '~' + id[2] + '"]').remove();
+			$('div[id="ilFormField~' + id[1] + '~' + id[2] + '"]').remove();
 		}
 		else {
-			$('div[id*="ilFormField~' + id[1] + '~' + id[2] + '"]').find('input:text[id*="' + id[1] + '"]').attr('value', '');
+			$('div[id="ilFormField~' + id[1] + '~' + id[2] + '"]').find('input:text[id*="' + id[1] + '"]').attr('value', '');
 		}
 	},
 	
@@ -73,7 +73,7 @@ var ilMultiFormValues = {
 	 */
 	downEvent: function(e) {
 		var id = $(e.delegateTarget).attr('id').split('~');		
-		var original_element = $('div[id*="ilFormField~' + id[1] + '~' + id[2] + '"]');
+		var original_element = $('div[id="ilFormField~' + id[1] + '~' + id[2] + '"]');
 		var next = $(original_element).next();
 		if(next[0])
 		{
@@ -88,7 +88,7 @@ var ilMultiFormValues = {
 	 */
 	upEvent: function(e) {
 		var id = $(e.delegateTarget).attr('id').split('~');
-		var original_element = $('div[id*="ilFormField~' + id[1] + '~' + id[2] + '"]');		
+		var original_element = $('div[id="ilFormField~' + id[1] + '~' + id[2] + '"]');		
 		var prev = $(original_element).prev();
 		if(prev[0])
 		{
@@ -118,8 +118,8 @@ var ilMultiFormValues = {
 		});	
 		new_id = new_id + 1;
 
-		var original_element = $('div[id*="ilFormField~' + group_id + '~' + index + '"]');
-
+		var original_element = $('div[id="ilFormField~' + group_id + '~' + index + '"]');
+		
 		// clone original element
 		var new_element = $(original_element).clone();
 
@@ -164,6 +164,18 @@ var ilMultiFormValues = {
 		// insert clone into html	
 		$(original_element).after(new_element);
 		
+		// #15798 - remove multi-values hidden inputs (when disabled)
+		if(preset)
+		{			
+			$(new_element).find('input:hidden[name="' + group_id + '[]"]').each(function() { 
+				// #15944
+				if($(this).prev().attr("disabled"))
+				{				
+					$(this).remove(); 
+				}
+			});
+		}
+
 		// add autocomplete
 		if (typeof ilMultiFormValues.auto_complete_urls[group_id] != 'undefined' &&
 			ilMultiFormValues.auto_complete_urls[group_id] != "") {

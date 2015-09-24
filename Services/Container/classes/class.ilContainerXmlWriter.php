@@ -34,9 +34,7 @@ class ilContainerXmlWriter extends ilXmlWriter
 	 * @throws UnexpectedValueException Thrown if obj_id is not of type webr or no obj_id is given 
 	 */
 	public function write()
-	{
-		global $tree;
-		
+	{		
 		$this->xmlStartTag('Items');
 		$this->writeSubitems($this->source);
 		$this->xmlEndTag('Items');
@@ -52,21 +50,32 @@ class ilContainerXmlWriter extends ilXmlWriter
 	{
 		global $tree;
 	
-		$mode = $this->exp_options->getOptionByRefId($a_ref_id, ilExportOptions::KEY_ITEM_MODE);
-		if($mode == NULL or $mode == ilExportOptions::EXPORT_OMIT)
+		// because of the co-page-stuff (incl. styles) we also need to process the container itself
+		if($a_ref_id != $this->source)
 		{
-			return false;
+			$mode = $this->exp_options->getOptionByRefId($a_ref_id, ilExportOptions::KEY_ITEM_MODE);
+			if($mode == NULL or $mode == ilExportOptions::EXPORT_OMIT)
+			{
+				return false;
+			}
 		}
 
 		$obj_id = ilObject::_lookupObjId($a_ref_id);
-			
+		
+		include_once('./Services/Container/classes/class.ilContainerPage.php');	
+		include_once('./Services/Container/classes/class.ilContainerStartObjectsPage.php');		
+		include_once('./Services/Style/classes/class.ilObjStyleSheet.php');
+				
 		$this->xmlStartTag(
 			'Item',
 			array(
 				'RefId'		=> $a_ref_id,
 				'Id'		=> $obj_id,
 				'Title'		=> ilObject::_lookupTitle($obj_id),
-				'Type'		=> ilObject::_lookupType($obj_id)
+				'Type'		=> ilObject::_lookupType($obj_id),
+				'Page'		=> ilContainerPage::_exists('cont', $obj_id),
+				'StartPage'	=> ilContainerStartObjectsPage::_exists('cstr', $obj_id),
+				'Style'     => ilObjStyleSheet::lookupObjectStyle($obj_id)
 			)
 		);
 		

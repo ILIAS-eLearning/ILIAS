@@ -12,9 +12,7 @@ include_once './Services/Table/classes/class.ilTable2GUI.php';
 class ilExAssignmentTeamTableGUI extends ilTable2GUI
 {
 	protected $mode; // [int]
-	protected $team_id; // [int]
-	protected $assignment; // [ilExAssignment]
-	protected $member_ids; // [array]	
+	protected $team; // [ilExAssignmentTeam]	
 	protected $read_only; // [bool]	
 	
 	const MODE_ADD = 1;
@@ -31,14 +29,12 @@ class ilExAssignmentTeamTableGUI extends ilTable2GUI
 	 * @param array $a_member_ids
 	 * @param bool $a_read_only
 	 */
-	public function  __construct($a_parent_obj, $a_parent_cmd, $a_mode, $a_team_id, ilExAssignment $a_assignment, array $a_member_ids = null, $a_read_only = false)
+	public function  __construct($a_parent_obj, $a_parent_cmd, $a_mode, ilExAssignmentTeam $a_team, $a_read_only = false)
 	{
 		global $ilCtrl;
 				
 		$this->mode = $a_mode;
-		$this->team_id = $a_team_id;
-		$this->assignment = $a_assignment;
-		$this->member_ids = $a_member_ids;
+		$this->team = $a_team;
 		$this->read_only = (bool)$a_read_only;
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -78,12 +74,12 @@ class ilExAssignmentTeamTableGUI extends ilTable2GUI
 	{			
 		if($this->mode == self::MODE_ADD)
 		{
-			$assigned = $this->assignment->getMembersOfAllTeams();		
+			$assigned = $this->team->getMembersOfAllTeams();		
 		}
 		else
 		{
 			$assigned = array();						
-			$this->member_ids = $this->assignment->getTeamMembers($this->team_id);			
+			$this->member_ids = $this->team->getMembers();			
 		}
 	
 		include_once "Services/User/classes/class.ilUserUtil.php";

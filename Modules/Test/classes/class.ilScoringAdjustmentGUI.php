@@ -66,6 +66,12 @@ class ilScoringAdjustmentGUI
 	 */
 	public function executeCommand()
 	{
+		$setting = new ilSetting('assessment');
+		if( ! (bool)$setting->get('assessment_adjustments_enabled', false) )
+		{
+			$this->ctrl->redirectByClass('ilObjTestGUI');
+		}
+		
 		$cmd = $this->ctrl->getCmd();
 		$next_class = $this->ctrl->getNextClass($this);
 
@@ -373,6 +379,13 @@ class ilScoringAdjustmentGUI
 		$scoring = new ilTestScoring($this->object);
 		$scoring->setPreserveManualScores($_POST['preserve_manscoring'] == 1 ? true : false);
 		$scoring->recalculateSolutions();
+
+		if ($this->object->getEnableArchiving())
+		{
+			require_once 'Modules/Test/classes/class.ilTestArchiveService.php';
+			$archiveService = new ilTestArchiveService($this->object);
+			$archiveService->archivePassesByActives($scoring->getRecalculatedPassesByActives());
+		}
 
 		ilUtil::sendSuccess($this->lng->txt('saved_adjustment'));
 		$this->questionsObject();

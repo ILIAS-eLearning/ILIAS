@@ -68,6 +68,17 @@ class ilLDAPAttributeToUser
 		$this->initLDAPAttributeMapping();
 	}
 	
+	// begin-patch ldap_multiple
+	/**
+	 * Get server settings
+	 * @return ilLDAPServer
+	 */
+	public function getServer()
+	{
+		return $this->server_settings;
+	}
+	// end-patch ldap_multiple
+	
 	/**
 	 * Set user data received from pear auth or by ldap_search
 	 *
@@ -116,7 +127,7 @@ class ilLDAPAttributeToUser
 		
 		$importParser = new ilUserImportParser();
 		$importParser->setXMLContent($this->writer->xmlDumpMem(false));
-		$importParser->setRoleAssignment(ilLDAPRoleAssignmentRules::getAllPossibleRoles());
+		$importParser->setRoleAssignment(ilLDAPRoleAssignmentRules::getAllPossibleRoles($this->getServer()->getServerId()));
 		$importParser->setFolderId(7);
 		$importParser->startParsing();
 		$debug = $importParser->getProtocol();
@@ -160,7 +171,11 @@ class ilLDAPAttributeToUser
 				$rules = $this->mapping->getRulesForUpdate();
 				
 				include_once './Services/LDAP/classes/class.ilLDAPRoleAssignmentRules.php';
-				foreach(ilLDAPRoleAssignmentRules::getAssignmentsForUpdate($usr_id,$external_account, $user) as $role_data)
+				foreach(ilLDAPRoleAssignmentRules::getAssignmentsForUpdate(
+						$this->getServer()->getServerId(),
+						$usr_id,
+						$external_account, 
+						$user) as $role_data)
 				{
 					$this->writer->xmlElement('Role',
 						array('Id' => $role_data['id'],
@@ -176,7 +191,10 @@ class ilLDAPAttributeToUser
 				$this->writer->xmlElement('Login',array(),ilAuthUtils::_generateLogin($external_account));
 				
 				include_once './Services/LDAP/classes/class.ilLDAPRoleAssignmentRules.php';
-				foreach(ilLDAPRoleAssignmentRules::getAssignmentsForCreation($external_account, $user) as $role_data)
+				foreach(ilLDAPRoleAssignmentRules::getAssignmentsForCreation(
+						$this->getServer()->getServerId(),
+						$external_account, 
+						$user) as $role_data)
 				{
 					$this->writer->xmlElement('Role',
 						array('Id' => $role_data['id'],

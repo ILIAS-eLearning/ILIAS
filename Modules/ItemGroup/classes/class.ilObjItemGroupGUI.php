@@ -273,7 +273,41 @@ class ilObjItemGroupGUI extends ilObject2GUI
 		$items = new ilItemGroupItems($this->object->getRefId());
 		$items->addItem($a_obj->getRefId());
 		$items->update();
-	}	
+	}
+
+	/**
+	 * Init object edit form
+	 *
+	 * @param ilPropertyFormGUI $a_form form
+	 */
+	protected function initEditCustomForm(ilPropertyFormGUI $a_form)
+	{
+		// hide title
+		$cb = new ilCheckboxInputGUI($this->lng->txt("itgr_hide_title"), "hide_title");
+		$cb->setInfo($this->lng->txt("itgr_hide_title_info"));
+		$a_form->addItem($cb);
+	}
+
+	/**
+	 * Get edit form values (custom part)
+	 *
+	 * @param array $a_values form values
+	 */
+	function getEditFormCustomValues(&$a_values)
+	{
+		$a_values["hide_title"] = $this->object->getHideTitle();
+	}
+
+	/**
+	 * Update (custom part)
+	 *
+	 * @param ilPropertyFormGUI $a_form form
+	 */
+	function updateCustom(ilPropertyFormGUI $a_form)
+	{
+		$this->object->setHideTitle($a_form->getInput("hide_title"));
+	}
+
 
 }
 ?>

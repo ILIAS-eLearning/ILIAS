@@ -1,0 +1,36 @@
+<script type="text/javascript">
+(function($, $scope) {
+	$(function() {
+		var table          = $("#{TABLE_ID}");
+		var filter_val     = $("#{FILTER_ELM_ID}").val();
+		var no_entries_txt = '{NO_ENTRIES_TEXT}';
+
+		var stateChangedListener = function(event, usr_id, is_state, was_state) {
+			if (
+				(is_state == "ilBuddySystemUnlinkedRelationState") ||
+				(filter_val != "" && is_state != filter_val)
+			) {
+				var num_cells = table.find("tr[data-buddy-id=" + usr_id + "]").find("td").size();
+				table.find("tr[data-buddy-id=" + usr_id + "]").remove();
+
+				if (!table.find('.ilBuddySystemRelationRow').size()) {
+					var tform = table.closest('form');
+
+					table.find('tbody').append('<tr class="tblrow1"><td class="ilCenter" colspan="' + num_cells + '">' + no_entries_txt  + '</td></tr>');
+					table.find('thead').remove();
+					tform.find('.ilTableSelectAll').remove();
+					tform.find('.ilTableCommandRowTop').remove();
+					tform.find('.ilTableCommandRow').remove();
+					if (!tform.find('.ilTableNav label').size()) {
+						tform.find('.ilTableNav').remove();
+					}
+				}
+			}
+
+			return true;
+		};
+
+		$($scope).on("il.bs.stateChange.afterStateChangePerformed", stateChangedListener);
+	});
+})(jQuery, window);
+</script>

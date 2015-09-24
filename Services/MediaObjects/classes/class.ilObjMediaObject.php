@@ -1022,10 +1022,16 @@ class ilObjMediaObject extends ilObject
 	{
 		global $ilDB;
 
+		$lstr = "";
+		if ($a_lang != "")
+		{
+			$lstr = "usage_lang = ".$ilDB->quote($a_lang, "text")." AND ";
+		}
+
 		$q = "SELECT * FROM mob_usage WHERE ".
 			"usage_type = ".$ilDB->quote($a_type, "text")." AND ".
 			"usage_id = ".$ilDB->quote($a_id, "integer")." AND ".
-			"usage_lang = ".$ilDB->quote($a_lang, "text")." AND ".
+			$lstr.
 			"usage_hist_nr = ".$ilDB->quote($a_usage_hist_nr, "integer");
 		$mobs = array();
 		$mob_set = $ilDB->query($q);
@@ -1255,9 +1261,9 @@ class ilObjMediaObject extends ilObject
 					case "exca":
 						// Exercise assignment
 						$returned_pk = $a_usage['id'];					
-						// we are just checking against exercise object
-						include_once 'Modules/Exercise/classes/class.ilObjExercise.php';
-						$obj_id = ilObjExercise::lookupExerciseIdForReturnedId($returned_pk);			
+						// #15995 - we are just checking against exercise object
+						include_once 'Modules/Exercise/classes/class.ilExSubmission.php';
+						$obj_id = ilExSubmission::lookupExerciseIdForReturnedId($returned_pk);			
 						break;
 					
 					case "frm":		
@@ -1617,7 +1623,7 @@ class ilObjMediaObject extends ilObject
 	/**
 	 * Create new media object and update page in db and return new media object
 	 */
-	function uploadAdditionalFile($a_name, $tmp_name, $a_subdir = "")
+	function uploadAdditionalFile($a_name, $tmp_name, $a_subdir = "", $a_mode = "move_uploaded")
 	{
 		$a_subdir = str_replace("..", "", $a_subdir);
 		$dir = $mob_dir = ilObjMediaObject::_getDirectory($this->getId());
@@ -1626,7 +1632,7 @@ class ilObjMediaObject extends ilObject
 			$dir.= "/".$a_subdir;
 		}
 		ilUtil::makeDirParents($dir);
-		ilUtil::moveUploadedFile($tmp_name, $a_name, $dir."/".$a_name);
+		ilUtil::moveUploadedFile($tmp_name, $a_name, $dir."/".$a_name, true, $a_mode);
 		ilUtil::renameExecutables($mob_dir);
 	}
 	
@@ -1636,11 +1642,11 @@ class ilObjMediaObject extends ilObject
 	 * @param
 	 * @return
 	 */
-	function uploadSrtFile($a_tmp_name, $a_language)
+	function uploadSrtFile($a_tmp_name, $a_language, $a_mode = "move_uploaded")
 	{
 		if (is_file($a_tmp_name) && $a_language != "")
 		{
-			$this->uploadAdditionalFile("subtitle_".$a_language.".srt", $a_tmp_name, "srt");
+			$this->uploadAdditionalFile("subtitle_".$a_language.".srt", $a_tmp_name, "srt", $a_mode);
 			return true;
 		}
 		return false;
@@ -1902,6 +1908,84 @@ class ilObjMediaObject extends ilObject
 		return $a_name;
 	}
 
-	
+
+	/**
+	 * Get directory for multi srt upload
+	 *
+	 * @param
+	 * @return
+	 */
+	function getMultiSrtUploadDir()
+	{
+		return ilObjMediaObject::_getDirectory($this->getId()."/srt/tmp");
+	}
+
+
+	/**
+	 * Upload multi srt file
+	 *
+	 * @param array $a_file file info array
+	 * @throws ilMediaObjectsException
+	 */
+	function uploadMultipleSubtitleFile($a_file)
+	{
+		global $lng, $ilUser;
+
+		include_once("./Services/MediaObjects/exceptions/class.ilMediaObjectsException.php");
+		if (!is_file($a_file["tmp_name"]))
+		{
+			throw new ilMediaObjectsException($lng->txt("mob_file_could_not_be_uploaded"));
+		}
+
+		$dir = $this->getMultiSrtUploadDir();
+		ilUtil::delDir($dir, true);
+		ilUtil::makeDirParents($dir);
+		ilUtil::moveUploadedFile($a_file["tmp_name"], "multi_srt.zip", $dir."/"."multi_srt.zip");
+		ilUtil::unzip($dir."/multi_srt.zip", true);
+	}
+
+	/**
+	 * Clear multi feedback directory
+	 */
+	function clearMultiSrtDirectory()
+	{
+		ilUtil::delDir($this->getMultiSrtUploadDir());
+	}
+
+	/**
+	 * Get all srt files of srt multi upload
+	 */
+	function getMultiSrtFiles()
+	{
+		$items = array();
+
+		include_once("./Services/MetaData/classes/class.ilMDLanguageItem.php");
+		$lang_codes = ilMDLanguageItem::_getPossibleLanguageCodes();
+
+		$dir = $this->getMultiSrtUploadDir();
+		$files = ilUtil::getDir($dir);
+		foreach ($files as $k => $i)
+		{
+			// check directory
+			if ($i["type"] == "file" && !in_array($k, array(".", "..")))
+			{
+				if (pathinfo($k, PATHINFO_EXTENSION) == "srt")
+				{
+					$lang = "";
+					if (substr($k, strlen($k) - 7, 1) == "_")
+					{
+						$lang = substr($k, strlen($k) - 6, 2);
+						if (!in_array($lang, $lang_codes))
+						{
+							$lang = "";
+						}
+					}
+					$items[] = array("filename" => $k, "lang" => $lang);
+				}
+			}
+		}
+		return $items;
+	}
+
 }
 ?>

@@ -10,7 +10,7 @@ include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
  *
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
- * @ilCtrl_Calls ilLMPageGUI: ilPageEditorGUI, ilMDEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector, ilCommonActionDispatcherGUI, ilPageObjectGUI
+ * @ilCtrl_Calls ilLMPageGUI: ilPageEditorGUI, ilObjectMetaDataGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector, ilCommonActionDispatcherGUI, ilPageObjectGUI
  * @ilCtrl_Calls ilLMPageGUI: ilNewsItemGUI, ilQuestionEditGUI, ilAssQuestionFeedbackEditingGUI, ilPageMultiLangGUI, ilPropertyFormGUI
  * @ingroup ModuleLearningModule
  */
@@ -75,7 +75,8 @@ class ilLMPageGUI extends ilPageObjectGUI
 			$as = ilPageQuestionProcessor::getAnswerStatus($id, $ilUser->getId());
 			// get question information
 			include_once("./Modules/TestQuestionPool/classes/class.ilAssQuestionList.php");
-			$qlist = new ilAssQuestionList($ilDB, $lng, $ilPluginAdmin, 0);
+			$qlist = new ilAssQuestionList($ilDB, $lng, $ilPluginAdmin);
+			$qlist->setParentObjId(0);
 			$qlist->addFieldFilter("question_id", array($id));
 			$qlist->load();
 			$qdata = $qlist->getQuestionDataArray();

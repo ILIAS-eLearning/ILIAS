@@ -160,14 +160,6 @@ abstract class assQuestion
 	 * (Web) Path to images
 	 */
 	private $export_image_path;
-	
-	/**
-	 * this flag stores the fact wether obligations
-	 * are to be considered or not
-	 *
-	 * @var bool
-	 */
-	private $obligationsToBeConsidered = false;
 
 	/**
 	 * An external id of a qustion
@@ -243,6 +235,16 @@ abstract class assQuestion
 	protected $step = null;
 	
 	protected $lastChange;
+
+	/**
+	 * @var ilArrayElementShuffler
+	 */
+	protected $shuffler;
+
+	/**
+	 * @var bool
+	 */
+	private $obligationsToBeConsidered = false;
 	
 	/**
 	* assQuestion constructor
@@ -297,6 +299,25 @@ abstract class assQuestion
 		$this->questionActionCmd = 'handleQuestionAction';
 		
 		$this->lastChange = null;
+
+		require_once 'Services/Randomization/classes/class.ilArrayElementOrderKeeper.php';
+		$this->shuffler = new ilArrayElementOrderKeeper();
+	}
+
+	/**
+	 * @return ilArrayElementShuffler
+	 */
+	public function getShuffler()
+	{
+		return $this->shuffler;
+	}
+
+	/**
+	 * @param ilArrayElementShuffler $shuffler
+	 */
+	public function setShuffler(ilArrayElementShuffler $shuffler)
+	{
+		$this->shuffler = $shuffler;
 	}
 
 	/**
@@ -921,7 +942,7 @@ abstract class assQuestion
          * @param integer $pass
          * @return integer $reached_points 
          */
-        final public function getAdjustedReachedPoints($active_id, $pass = NULL)
+        final public function getAdjustedReachedPoints($active_id, $pass = NULL, $authorizedSolution = true)
         {
             if (is_null($pass))
             {
@@ -930,7 +951,7 @@ abstract class assQuestion
             }
             
             // determine reached points for submitted solution
-            $reached_points = $this->calculateReachedPoints($active_id, $pass);
+            $reached_points = $this->calculateReachedPoints($active_id, $pass, $authorizedSolution);
 			
 			
 
@@ -1068,7 +1089,7 @@ abstract class assQuestion
 	 * @param integer $active_id Active id of the user
 	 * @param integer $pass Test pass
 	 */
-	final public function persistWorkingState($active_id, $pass = NULL, $obligationsEnabled = false)
+	final public function persistWorkingState($active_id, $pass = NULL, $obligationsEnabled = false, $authorized = true)
 	{
 		if( $pass === null )
 		{
@@ -1078,11 +1099,14 @@ abstract class assQuestion
 		
 		$this->getProcessLocker()->requestPersistWorkingStateLock();
 		
-		$saveStatus = $this->saveWorkingData($active_id, $pass);
+		$saveStatus = $this->saveWorkingData($active_id, $pass, $authorized);
 		
-		$this->calculateResultsFromSolution($active_id, $pass, $obligationsEnabled);
+		if( $authorized )
+		{
+			$this->calculateResultsFromSolution($active_id, $pass, $obligationsEnabled);
+		}
 		
-		$this->reworkWorkingData($active_id, $pass, $obligationsEnabled);
+		$this->reworkWorkingData($active_id, $pass, $obligationsEnabled, $authorized);
 
 		$this->getProcessLocker()->releasePersistWorkingStateLock();
 		
@@ -1106,7 +1130,7 @@ abstract class assQuestion
 	 * @param integer $pass Test pass
 	 * @return boolean $status
 	 */
-	abstract public function saveWorkingData($active_id, $pass = NULL);
+	abstract public function saveWorkingData($active_id, $pass = NULL, $authorized = true);
 
 	/**
 	 * Reworks the allready saved working data if neccessary
@@ -1117,7 +1141,7 @@ abstract class assQuestion
 	 * @param integer $pass
 	 * @param boolean $obligationsAnswered
 	 */
-	abstract protected function reworkWorkingData($active_id, $pass, $obligationsAnswered);
+	//abstract protected function reworkWorkingData($active_id, $pass, $obligationsAnswered, $intermediate);
 
 	protected function savePreviewData(ilAssQuestionPreviewSession $previewSession)
 	{
@@ -1533,43 +1557,68 @@ abstract class assQuestion
 		return str_replace(ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH), ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
 	}
 	
+	public function getUserSolutionPreferingIntermediate($active_id, $pass = NULL)
+	{
+		$solution = $this->getSolutionValues($active_id, $pass, false);
+		
+		if( !count($solution) )
+		{
+			$solution = $this->getSolutionValues($active_id, $pass, true);
+		}
+		
+		return $solution;
+	}
+	
 	/**
 	* Loads solutions of a given user from the database an returns it
-	*
-	* @param integer $test_id The database id of the test containing this question
-	* @access public
-	* @see $answers
 	*/
-	function &getSolutionValues($active_id, $pass = NULL)
+	public function getSolutionValues($active_id, $pass = NULL, $authorized = true)
 	{
 		global $ilDB;
-
-		$values = array();
 		
 		if (is_null($pass))
 		{
 			$pass = $this->getSolutionMaxPass($active_id);
 		}
 
-		$result = null;
 		if( $this->getStep() !== NULL )
 		{
-			$result = $ilDB->queryF("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s AND step = %s ORDER BY solution_id",
-				array('integer','integer','integer', 'integer'),
-				array($active_id, $this->getId(), $pass, $this->getStep())
+			$query = "
+				SELECT *
+				FROM tst_solutions
+				WHERE active_fi = %s
+				AND question_fi = %s
+				AND pass = %s
+				AND step = %s
+				AND authorized = %s
+				ORDER BY solution_id";
+			
+			$result = $ilDB->queryF($query, array('integer', 'integer', 'integer', 'integer', 'integer'),
+				array($active_id, $this->getId(), $pass, $this->getStep(), (int)$authorized)
 			);	
 		}
 		else
 		{
-			$result = $ilDB->queryF("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s ORDER BY solution_id",
-				array('integer','integer','integer'),
-				array($active_id, $this->getId(), $pass)
+			$query = "
+				SELECT *
+				FROM tst_solutions
+				WHERE active_fi = %s
+				AND question_fi = %s 
+		  		AND pass = %s
+				AND authorized = %s
+				ORDER BY solution_id
+			";
+			
+			$result = $ilDB->queryF($query, array('integer', 'integer', 'integer', 'integer'),
+				array($active_id, $this->getId(), $pass, (int)$authorized)
 			);
 		}
 
-		while	($row = $ilDB->fetchAssoc($result))
+		$values = array();
+
+		while( $row = $ilDB->fetchAssoc($result) )
 		{
-			array_push($values, $row);
+			$values[] = $row;
 		}
 
 		return $values;
@@ -1875,6 +1924,17 @@ abstract class assQuestion
 		
 		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintList.php';
 		ilAssQuestionHintList::deleteHintsByQuestionIds(array($question_id));
+
+		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentList.php';
+		$assignmentList = new ilAssQuestionSkillAssignmentList($ilDB);
+		$assignmentList->setParentObjId($obj_id);
+		$assignmentList->setQuestionIdFilter($question_id);
+		$assignmentList->loadFromDb();
+		foreach($assignmentList->getAssignmentsByQuestionId($question_id) as $assignment)
+		{
+			/* @var ilAssQuestionSkillAssignment $assignment */
+			$assignment->deleteFromDb();
+		}
 
 		try
 		{
@@ -2361,6 +2421,9 @@ abstract class assQuestion
 		
 		// duplicate question hints
 		$this->duplicateQuestionHints($originalQuestionId, $duplicateQuestionId);
+		
+		// duplicate skill assignments
+		$this->duplicateSkillAssignments($originalParentId, $originalQuestionId, $duplicateParentId, $duplicateQuestionId);
 	}
 
 	protected function beforeSyncWithOriginal($origQuestionId, $dupQuestionId, $origParentObjId, $dupParentObjId)
@@ -2386,6 +2449,9 @@ abstract class assQuestion
 		
 		// duplicate question hints
 		$this->duplicateQuestionHints($sourceQuestionId, $targetQuestionId);
+
+		// duplicate skill assignments
+		$this->duplicateSkillAssignments($sourceParentId, $sourceQuestionId, $targetParentId, $targetQuestionId);
 	}
 	
 /**
@@ -2847,16 +2913,20 @@ abstract class assQuestion
 
 		$this->beforeSyncWithOriginal($original, $id, $originalObjId, $objId);
 
-		$this->setId($this->getOriginalId());
+		$this->setId($original);
 		$this->setOriginalId(NULL);
 		$this->setObjId($originalObjId);
+		
 		$this->saveToDb();
+		
 		$this->deletePageOfQuestion($original);
 		$this->createPageObject();
 		$this->copyPageOfQuestion($id);
 
 		$this->setId($id);
 		$this->setOriginalId($original);
+		$this->setObjId($objId);
+		
 		$this->updateSuggestedSolutions($original);
 		$this->syncXHTMLMediaObjectsOfQuestion();
 
@@ -2939,7 +3009,11 @@ abstract class assQuestion
 	{
 		return self::_instantiateQuestion($question_id);
 	}
-	
+
+	/**
+	 * @param $question_id
+	 * @return assQuestion
+	 */
 	public static function _instantiateQuestion($question_id)
 	{
 		global $ilCtrl, $ilDB, $lng;
@@ -3096,7 +3170,7 @@ abstract class assQuestion
 	 * @param boolean $returndetails (deprecated !!)
 	 * @return integer/array $points/$details (array $details is deprecated !!)
 	 */
-	abstract public function calculateReachedPoints($active_id, $pass = NULL, $returndetails = FALSE);
+	abstract public function calculateReachedPoints($active_id, $pass = NULL, $authorizedSolution = true, $returndetails = FALSE);
 
 	public function calculateReachedPointsFromPreviewSession(ilAssQuestionPreviewSession $previewSession)
 	{
@@ -3158,6 +3232,10 @@ abstract class assQuestion
 	*/
 	public static function _isWorkedThrough($active_id, $question_id, $pass = NULL)
 	{
+		return self::lookupResultRecordExist($active_id, $question_id, $pass);
+		
+		// oldschool "workedthru"
+
 		global $ilDB;
 
 		$points = 0;
@@ -3982,11 +4060,15 @@ abstract class assQuestion
 	function formatSAQuestion($a_q)
 	{
 		include_once("./Services/RTE/classes/class.ilRTE.php");
-		$a_q = nl2br((string) ilRTE::_replaceMediaObjectImageSrc($this->getQuestion(), 0));
+		$a_q = nl2br((string) ilRTE::_replaceMediaObjectImageSrc($a_q, 0));
 		$a_q = str_replace("</li><br />", "</li>", $a_q);
 		$a_q = str_replace("</li><br>", "</li>", $a_q);
 		
-		$a_q = ilUtil::insertLatexImages($a_q);
+		$a_q = ilUtil::insertLatexImages($a_q, "\[tex\]", "\[\/tex\]");
+		$a_q = ilUtil::insertLatexImages($a_q, "\<span class\=\"latex\">", "\<\/span>");
+
+		$a_q = str_replace('{', '&#123;', $a_q);
+		$a_q = str_replace('}', '&#125;', $a_q);
 		
 		return $a_q;
 	}
@@ -4109,6 +4191,46 @@ abstract class assQuestion
 			}
 		}
 	}
+
+	protected function duplicateSkillAssignments($srcParentId, $srcQuestionId, $trgParentId, $trgQuestionId)
+	{
+		global $ilDB;
+		
+		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentList.php';
+		$assignmentList = new ilAssQuestionSkillAssignmentList($ilDB);
+		$assignmentList->setParentObjId($srcParentId);
+		$assignmentList->setQuestionIdFilter($srcQuestionId);
+		$assignmentList->loadFromDb();
+		
+		foreach($assignmentList->getAssignmentsByQuestionId($srcQuestionId) as $assignment)
+		{
+			/* @var ilAssQuestionSkillAssignment $assignment */
+			
+			$assignment->setParentObjId($trgParentId);
+			$assignment->setQuestionId($trgQuestionId);
+			$assignment->saveToDb();
+		}
+	}
+
+	public function syncSkillAssignments($srcParentId, $srcQuestionId, $trgParentId, $trgQuestionId)
+	{
+		global $ilDB;
+
+		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentList.php';
+		$assignmentList = new ilAssQuestionSkillAssignmentList($ilDB);
+		$assignmentList->setParentObjId($trgParentId);
+		$assignmentList->setQuestionIdFilter($trgQuestionId);
+		$assignmentList->loadFromDb();
+		
+		foreach($assignmentList->getAssignmentsByQuestionId($trgQuestionId) as $assignment)
+		{
+			/* @var ilAssQuestionSkillAssignment $assignment */
+
+			$assignment->deleteFromDb();
+		}
+		
+		$this->duplicateSkillAssignments($srcParentId, $srcQuestionId, $trgParentId, $trgQuestionId);
+	}
 	
 	/**
 	 * returns boolean wether the question
@@ -4142,26 +4264,6 @@ abstract class assQuestion
 	public static function isObligationPossible($questionId)
 	{
 		return false;
-	}
-	
-	/**
-	 * sets the flag wether obligations are to be considered or not
-	 *
-	 * @param bool $obligationsToBeConsidered
-	 */
-	public function setObligationsToBeConsidered($obligationsToBeConsidered = true)
-	{
-		$this->obligationsToBeConsidered = (bool)$obligationsToBeConsidered;
-	}
-	
-	/**
-	 * gets the flag wether obligations are to be considered or not
-	 *
-	 * @return bool $obligationsToBeConsidered
-	 */
-	public function areObligationsToBeConsidered()
-	{
-		return (bool)$this->obligationsToBeConsidered;
 	}
 	
 	public function isAutosaveable()
@@ -4323,6 +4425,15 @@ abstract class assQuestion
 		require_once 'Services/Html/classes/class.ilHtmlPurifierFactory.php';
 		return ilHtmlPurifierFactory::_getInstanceByType('qpl_usersolution');
 	}
+
+	/**
+	 * @return ilAssHtmlUserSolutionPurifier
+	 */
+	public function getHtmlQuestionContentPurifier()
+	{
+		require_once 'Services/Html/classes/class.ilHtmlPurifierFactory.php';
+		return ilHtmlPurifierFactory::_getInstanceByType('qpl_usersolution');
+	}
 	
 	protected function buildQuestionDataQuery()
 	{
@@ -4351,59 +4462,118 @@ abstract class assQuestion
 	 *
 	 * @param int $active_id
 	 * @param int $pass
+	 * @param bool|true $authorized
+	 * @global ilDB $ilDB
 	 *
 	 * @return object
 	 */
-	protected function getCurrentSolutionResultSet($active_id, $pass)
+	protected function getCurrentSolutionResultSet($active_id, $pass, $authorized = true)
 	{
-		/** @var ilDB $ilDB */
 		global $ilDB;
 
 		if($this->getStep() !== NULL)
 		{
-			return $ilDB->queryF("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s AND step = %s",
-				array('integer','integer','integer', 'integer'),
-				array($active_id, $this->getId(), $pass, $this->getStep())
+			$query = "
+				SELECT *
+				FROM tst_solutions
+				WHERE active_fi = %s
+				AND question_fi = %s
+				AND pass = %s
+				AND step = %s
+				AND authorized = %s
+			";
+
+			return $ilDB->queryF($query, array('integer', 'integer', 'integer', 'integer', 'integer'),
+				array($active_id, $this->getId(), $pass, $this->getStep(), (int)$authorized)
 			);	
 		}
 		else
 		{
-			return $ilDB->queryF("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-				array('integer','integer','integer'),
-				array($active_id, $this->getId(), $pass)
+			$query = "
+				SELECT *
+				FROM tst_solutions
+				WHERE active_fi = %s
+				AND question_fi = %s
+				AND pass = %s
+				AND authorized = %s
+			";
+
+			return $ilDB->queryF($query, array('integer', 'integer', 'integer', 'integer'),
+				array($active_id, $this->getId(), $pass, (int)$authorized)
 			);
 		}
 
 	}
 
 	/**
-	 * @param int $active_id
-	 * @param int $pass
+	 * @param $solutionId
+	 * @global ilDB $ilDB
 	 *
 	 * @return int
 	 */
-	protected function removeCurrentSolution($active_id, $pass)
+	protected function removeSolutionRecordById($solutionId)
 	{
-		/**
-		 * @var ilDB $ilDB
-		 */
+		global $ilDB;
+
+		return $ilDB->manipulateF("DELETE FROM tst_solutions WHERE solution_id = %s",
+			array('integer'), array($solutionId)
+		);
+	}
+
+	/**
+	 * @param int $active_id
+	 * @param int $pass
+	 * @param bool|true $authorized
+	 * @global ilDB $ilDB
+	 *
+	 * @return int
+	 */
+	public function removeIntermediateSolution($active_id, $pass)
+	{
+		return $this->removeCurrentSolution($active_id, $pass, false);
+	}
+
+	/**
+	 * @param int $active_id
+	 * @param int $pass
+	 * @param bool|true $authorized
+	 * @global ilDB $ilDB
+	 *
+	 * @return int
+	 */
+	public function removeCurrentSolution($active_id, $pass, $authorized = true)
+	{
 		global $ilDB;
 
 		if($this->getStep() !== NULL)
 		{
-			return $ilDB->manipulateF("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s AND step = %s",
-				array('integer','integer','integer', 'integer'),
-				array($active_id, $this->getId(), $pass, $this->getStep())
+			$query = "
+				DELETE FROM tst_solutions
+				WHERE active_fi = %s
+				AND question_fi = %s
+				AND pass = %s
+				AND step = %s
+				AND authorized = %s
+			";
+
+			return $ilDB->manipulateF($query, array('integer', 'integer', 'integer', 'integer', 'integer'),
+				array($active_id, $this->getId(), $pass, $this->getStep(), (int)$authorized)
 			);	
 		}
 		else
 		{
-			return $ilDB->manipulateF("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-				array('integer','integer','integer'),
-				array($active_id, $this->getId(), $pass)
+			$query = "
+				DELETE FROM tst_solutions
+				WHERE active_fi = %s
+				AND question_fi = %s
+				AND pass = %s
+				AND authorized = %s
+			";
+
+			return $ilDB->manipulateF($query, array('integer', 'integer', 'integer', 'integer'),
+				array($active_id, $this->getId(), $pass, (int)$authorized)
 			);
 		}
-
 	}
 
 	/**
@@ -4411,12 +4581,13 @@ abstract class assQuestion
 	 * @param int $pass
 	 * @param mixed $value1
 	 * @param mixed $value2
+	 * @param bool|true $authorized
+	 * @global ilDB $ilDB
 	 *
 	 * @return int
 	 */
-	public function saveCurrentSolution($active_id, $pass, $value1, $value2)
+	public function saveCurrentSolution($active_id, $pass, $value1, $value2, $authorized = true)
 	{
-		/** @var ilDB $ilDB */
 		global $ilDB;
 
 		$next_id = $ilDB->nextId("tst_solutions");
@@ -4428,7 +4599,8 @@ abstract class assQuestion
 			"value1" => array("clob", $value1),
 			"value2" => array("clob", $value2),
 			"pass" => array("integer", $pass),
-			"tstamp" => array("integer", time())
+			"tstamp" => array("integer", time()),
+			'authorized' => array('integer', (int)$authorized)
 		);
 
 		if( $this->getStep() !== null )
@@ -4436,9 +4608,38 @@ abstract class assQuestion
 			$fieldData['step'] = array("integer", $this->getStep());
 		}
 
-		$aff = $ilDB->insert("tst_solutions", $fieldData);
-		
-		return $aff;
+		return $ilDB->insert("tst_solutions", $fieldData);
+	}
+
+	/**
+	 * @param int $active_id
+	 * @param int $pass
+	 * @param mixed $value1
+	 * @param mixed $value2
+	 * @param bool|true $authorized
+	 * @global ilDB $ilDB
+	 *
+	 * @return int
+	 */
+	public function updateCurrentSolution($solutionId, $value1, $value2, $authorized = true)
+	{
+		global $ilDB;
+
+		$fieldData = array(
+			"value1" => array("clob", $value1),
+			"value2" => array("clob", $value2),
+			"tstamp" => array("integer", time()),
+			'authorized' => array('integer', (int)$authorized)
+		);
+
+		if( $this->getStep() !== null )
+		{
+			$fieldData['step'] = array("integer", $this->getStep());
+		}
+
+		return $ilDB->update("tst_solutions", $fieldData, array(
+			'solution_id' => array('integer', $solutionId)
+		));
 	}
 
 
@@ -4502,4 +4703,110 @@ abstract class assQuestion
 		}
 		return $sec;
 	}
+
+	public function toJSON()
+	{
+		return json_encode(array());
+	}
+	
+	abstract public function duplicate($for_test = true, $title = "", $author = "", $owner = "", $testObjId = null);
+
+	/**
+	 * @param $active_id
+	 * @param $pass
+	 * @return integer
+	 */
+	protected function lookupMaxStep($active_id, $pass)
+	{
+		/** @var ilDB $ilDB */
+		global $ilDB;
+
+		$res = $ilDB->queryF(
+			"SELECT MAX(step) max_step FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s",
+			array("integer", "integer", "integer"), array($active_id, $pass, $this->getId())
+		);
+
+		$row = $ilDB->fetchAssoc($res);
+
+		$maxStep = $row['max_step'];
+
+		return $maxStep;
+	}
+		
+	public function removeExistingSolutions($activeId, $pass)
+	{
+		global $ilDB;
+
+		$query = "
+			DELETE FROM tst_solutions
+			WHERE active_fi = %s
+			AND question_fi = %s
+			AND pass = %s
+		";
+
+		return $ilDB->manipulateF($query, array('integer', 'integer', 'integer'),
+			array($activeId, $this->getId(), $pass)
+		);
+	}
+
+	public function resetUsersAnswer($activeId, $pass)
+	{
+		$this->removeExistingSolutions($activeId, $pass);
+		$this->removeResultRecord($activeId, $pass);
+
+		$this->_updateTestPassResults(
+			$activeId, $pass, $this->areObligationsToBeConsidered(), $this->getProcessLocker(), $this->getTestId()
+		);
+	}
+
+	public function removeResultRecord($activeId, $pass)
+	{
+		global $ilDB;
+		
+		$query = "
+			DELETE FROM tst_test_result
+			WHERE active_fi = %s
+			AND question_fi = %s
+			AND pass = %s
+		";
+		
+		return $ilDB->manipulateF($query, array('integer', 'integer', 'integer'),
+			array($activeId, $this->getId(), $pass)
+		);
+	}
+
+	public static function lookupResultRecordExist($activeId, $questionId, $pass)
+	{
+		global $ilDB;
+
+		$query = "
+			SELECT COUNT(*) cnt
+			FROM tst_test_result
+			WHERE active_fi = %s
+			AND question_fi = %s
+			AND pass = %s
+		";
+
+		$row = $ilDB->fetchAssoc($ilDB->queryF($query, array('integer', 'integer', 'integer'), array($activeId, $questionId, $pass)));
+
+		return $row['cnt'] > 0;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function areObligationsToBeConsidered()
+	{
+		return $this->obligationsToBeConsidered;
+	}
+
+	/**
+	 * @param boolean $obligationsToBeConsidered
+	 */
+	public function setObligationsToBeConsidered($obligationsToBeConsidered)
+	{
+		$this->obligationsToBeConsidered = $obligationsToBeConsidered;
+	}
+	
+	
 }

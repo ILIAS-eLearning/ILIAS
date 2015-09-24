@@ -93,7 +93,7 @@ class ilLocatorGUI
 			// add item for each node on path
 			foreach ((array) $path as $key => $row)
 			{
-				if (!in_array($row["type"], array("root", "cat","crs", "fold", "grp", "icrs")))
+				if (!in_array($row["type"], array("root", "cat","crs", "fold", "grp", "prg")))
 				{
 					continue;
 				}
@@ -133,7 +133,7 @@ class ilLocatorGUI
 			// add item for each node on path
 			foreach ($path as $key => $row)
 			{
-				if (!in_array($row["type"], array("root", "cat", "crs", "fold", "grp", "icrs")))
+				if (!in_array($row["type"], array("root", "cat", "crs", "fold", "grp")))
 				{
 					continue;
 				}

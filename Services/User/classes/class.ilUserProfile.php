@@ -298,6 +298,7 @@ class ilUserProfile
 						"group" => "settings"),
 		"hide_own_online_status" => array(
 						"input" => "selection",
+						"lang_var" => "awrn_hide_from_awareness",
 						"required_hide" => true,
 						"visib_reg_hide" => true,
 						"course_export_hide" => true,
@@ -333,8 +334,14 @@ class ilUserProfile
 	 */
 	function __construct()
 	{
+		global $lng;
+
 		$this->skip_groups = array();
 		$this->skip_fields = array();
+
+		// for hide me from awareness tool text
+		// not nicest workaround, but better than using common block
+		$lng->loadLanguageModule("awrn");
 	}
 	
 	/**
@@ -591,29 +598,6 @@ class ilUserProfile
 							{
 								$ii->setImage($im);
 								$ii->setAlt($lng->txt("personal_picture"));
-							}
-						}
-			
-						// ilinc link as info
-						if (ilUserProfile::userSettingVisible("upload") and
-							$ilSetting->get("ilinc_active"))
-						{
-							include_once ('./Modules/ILinc/classes/class.ilObjiLincUser.php');
-							$ilinc_user = new ilObjiLincUser($a_user);
-			
-							if ($ilinc_user->id)
-							{
-								include_once ('./Modules/ILinc/classes/class.ilnetucateXMLAPI.php');
-								$ilincAPI = new ilnetucateXMLAPI();
-								$ilincAPI->uploadPicture($ilinc_user);
-								$response = $ilincAPI->sendRequest("uploadPicture");
-			
-								// return URL to user's personal page
-								$url = trim($response->data['url']['cdata']);
-								$desc =
-									$lng->txt("ilinc_upload_pic_text")." ".
-									'<a href="'.$url.'">'.$lng->txt("ilinc_upload_pic_linktext").'</a>';
-								$ii->setInfo($desc);
 							}
 						}
 			

@@ -1,0 +1,22 @@
+<div class="movable_prototype">
+	<!-- BEGIN inline_in_bl -->
+	<div class="form-inline">
+	<!-- END inline_in_bl -->	
+		<select class="form-control" multiple id="{ID}" name="{POST_VAR}" {DISABLED}>
+		<!-- BEGIN prop_select_option -->
+		<option value="{VAL_SELECT_OPTION}" {CHK_SEL_OPTION}>{TXT_SELECT_OPTION}</option>
+		<!-- END prop_select_option -->
+		</select>
+	<!-- BEGIN inline_out_bl -->
+	</div>
+	<!-- END inline_out_bl -->
+</div>
+<!-- BEGIN initialize_on_page_load -->
+<script>
+		$('#{ID}').tagsinput({
+			maxTags	  : {MAXTAGS},
+			maxChars  : {MAXCHARS},
+			allowDuplicates : "{ALLOW_DUPLICATES}"
+		});
+</script>
+<!-- END initialize_on_page_load -->

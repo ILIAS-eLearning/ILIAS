@@ -63,16 +63,8 @@ class ilInitialisation
 		if(ilContext::usesTemplate())
 		{
 			// HTML_Template_IT support
-			@include_once "HTML/Template/ITX.php";		// new implementation
-			if (class_exists("HTML_Template_ITX"))
-			{
-				include_once "./Services/UICore/classes/class.ilTemplateHTMLITX.php";
-			}
-			else
-			{
-				include_once "HTML/ITX.php";		// old implementation
-				include_once "./Services/UICore/classes/class.ilTemplateITX.php";
-			}
+			require_once "HTML/Template/ITX.php";
+			require_once "./Services/UICore/classes/class.ilTemplateHTMLITX.php";
 			require_once "./Services/UICore/classes/class.ilTemplate.php";
 		}		
 				
@@ -92,16 +84,12 @@ class ilInitialisation
 	 */
 	protected static function includePhp5Compliance()
 	{
-		// php5 downward complaince to php 4 dom xml and clone method
-		if (version_compare(PHP_VERSION,'5','>='))
+		include_once 'Services/Authentication/classes/class.ilAuthFactory.php';
+		if(ilAuthFactory::getContext() != ilAuthFactory::CONTEXT_CAS)
 		{
-			include_once 'Services/Authentication/classes/class.ilAuthFactory.php';
-			if(ilAuthFactory::getContext() != ilAuthFactory::CONTEXT_CAS)
-			{
-				require_once("include/inc.xml5compliance.php");
-			}
-			require_once("include/inc.xsl5compliance.php");
+			require_once("include/inc.xml5compliance.php");
 		}
+		require_once("include/inc.xsl5compliance.php");
 	}
 
 	/**
@@ -168,15 +156,9 @@ class ilInitialisation
 				break;
 		}
 		
-		$tz = $ilIliasIniFile->readVariable("server","timezone");
-		if ($tz != "")
-		{
-			if (function_exists('date_default_timezone_set'))
-			{
-				date_default_timezone_set($tz);
-			}
-		}
-		define ("IL_TIMEZONE", $ilIliasIniFile->readVariable("server","timezone"));
+		include_once './Services/Calendar/classes/class.ilTimeZone.php';
+		$tz = ilTimeZone::initDefaultTimeZone($ilIliasIniFile);
+		define ("IL_TIMEZONE", $tz);
 	}
 
 	/**
@@ -187,7 +169,7 @@ class ilInitialisation
 		include_once './Services/Http/classes/class.ilHTTPS.php';
 		$https = new ilHTTPS();
 
-	    if($https->isDetected())
+		if($https->isDetected())
 		{
 			$protocol = 'https://';
 		}
@@ -337,10 +319,12 @@ class ilInitialisation
 		define ("DEBUG",$ilClientIniFile->readVariable("system","DEBUG"));
 		define ("DEVMODE",$ilClientIniFile->readVariable("system","DEVMODE"));
 		define ("SHOWNOTICES",$ilClientIniFile->readVariable("system","SHOWNOTICES"));
+		define ("DEBUGTOOLS",$ilClientIniFile->readVariable("system","DEBUGTOOLS"));
 		define ("ROOT_FOLDER_ID",$ilClientIniFile->readVariable('system','ROOT_FOLDER_ID'));
 		define ("SYSTEM_FOLDER_ID",$ilClientIniFile->readVariable('system','SYSTEM_FOLDER_ID'));
 		define ("ROLE_FOLDER_ID",$ilClientIniFile->readVariable('system','ROLE_FOLDER_ID'));
 		define ("MAIL_SETTINGS_ID",$ilClientIniFile->readVariable('system','MAIL_SETTINGS_ID'));
+		define ("ERROR_HANDLER",$ilClientIniFile->readVariable('system', 'ERROR_HANDLER'));
 		
 		// this is for the online help installation, which sets OH_REF_ID to the
 		// ref id of the online module
@@ -366,6 +350,11 @@ class ilInitialisation
 		{
 			define ("IL_DB_TYPE", $val);
 		}
+
+		require_once('./Services/GlobalCache/classes/Settings/class.ilGlobalCacheSettings.php');
+		$ilGlobalCacheSettings = new ilGlobalCacheSettings();
+		$ilGlobalCacheSettings->readFromIniFile($ilClientIniFile);
+		ilGlobalCache::setup($ilGlobalCacheSettings);
 		
 		return true;
 	}
@@ -477,23 +466,10 @@ class ilInitialisation
 		define('IL_COOKIE_DOMAIN','');
 		define('IL_COOKIE_SECURE', $cookie_secure); // Default Value
 
-		// session_set_cookie_params() supports 5th parameter
-		// only for php version 5.2.0 and above
-		if( version_compare(PHP_VERSION, '5.2.0', '>=') )
-		{
-			// PHP version >= 5.2.0
-			define('IL_COOKIE_HTTPONLY',true); // Default Value
-			session_set_cookie_params(
-					IL_COOKIE_EXPIRE, IL_COOKIE_PATH, IL_COOKIE_DOMAIN, IL_COOKIE_SECURE, IL_COOKIE_HTTPONLY
-			);
-		}
-		else
-		{
-			// PHP version < 5.2.0
-			session_set_cookie_params(
-					IL_COOKIE_EXPIRE, IL_COOKIE_PATH, IL_COOKIE_DOMAIN, IL_COOKIE_SECURE
-			);
-		}
+		define('IL_COOKIE_HTTPONLY',true); // Default Value
+		session_set_cookie_params(
+			IL_COOKIE_EXPIRE, IL_COOKIE_PATH, IL_COOKIE_DOMAIN, IL_COOKIE_SECURE, IL_COOKIE_HTTPONLY
+		);
 	}
 
 	/**
@@ -587,6 +563,11 @@ class ilInitialisation
 		{
 			$ilUser->setId($uid);	
 			$ilUser->read();
+			
+			// init console log handler
+			include_once './Services/Logging/classes/public/class.ilLoggerFactory.php';
+			ilLoggerFactory::getInstance()->initUser($ilUser->getLogin());
+			ilLoggerFactory::getRootLogger()->debug('Using default timezone: '. IL_TIMEZONE);
 		}
 		else
 		{
@@ -754,56 +735,13 @@ class ilInitialisation
 	 */
 	protected static function initLanguage()
 	{
-		global $ilUser, $ilSetting, $rbacsystem;
-		
-		if (!ilSession::get("lang"))
-		{
-			if ($_GET['lang'])
-			{
-				$_GET['lang'] = $_GET['lang'];
-			}
-			else
-			{
-				if (is_object($ilUser))
-				{
-					$_GET['lang'] = $ilUser->getPref('language');
-				}
-			}
-		}
+		/**
+		 * @var $rbacsystem ilRbacSystem
+		 */
+		global $rbacsystem;
 
-		if (isset($_POST['change_lang_to']) && $_POST['change_lang_to'] != "")
-		{
-			$_GET['lang'] = ilUtil::stripSlashes($_POST['change_lang_to']);
-		}
-
-		// prefer personal setting when coming from login screen
-		// Added check for ilUser->getId > 0 because it is 0 when the language is changed and the terms of service should be displayes (Helmut Schottmï¿½ï¿½ller, 2006-10-14)
-		if (is_object($ilUser) && $ilUser->getId() != ANONYMOUS_USER_ID && $ilUser->getId() > 0)
-		{
-			ilSession::set('lang', $ilUser->getPref('language'));
-		}
-
-		ilSession::set('lang', (isset($_GET['lang']) && $_GET['lang']) ? $_GET['lang'] : ilSession::get('lang'));
-
-		// check whether lang selection is valid
-		require_once "./Services/Language/classes/class.ilLanguage.php";
-		$langs = ilLanguage::getInstalledLanguages();
-		if (!in_array(ilSession::get('lang'), $langs))
-		{
-			if (is_object($ilSetting) && $ilSetting->get('language') != '')
-			{
-				ilSession::set('lang', $ilSetting->get('language'));
-			}
-			else
-			{
-				ilSession::set('lang', $langs[0]);
-			}
-		}
-		$_GET['lang'] = ilSession::get('lang');
-						
-		$lng = new ilLanguage(ilSession::get('lang'));
-		self::initGlobal('lng', $lng);
-		
+		require_once 'Services/Language/classes/class.ilLanguage.php';
+		self::initGlobal('lng', ilLanguage::getGlobalInstance());
 		if(is_object($rbacsystem))
 		{
 			$rbacsystem->initMemberView();
@@ -836,15 +774,18 @@ class ilInitialisation
 	 */
 	protected static function initLog() 
 	{		
-		require_once "./Services/Logging/classes/class.ilLog.php";
-		try
-		{
-			$log = new ilLog(ILIAS_LOG_DIR,ILIAS_LOG_FILE,CLIENT_ID,ILIAS_LOG_ENABLED,ILIAS_LOG_LEVEL);				
-		}
-		catch(ilLogException $e)
-		{
-			self::abortAndDie($e->getMessage());
-		}
+		include_once './Services/Logging/classes/public/class.ilLoggerFactory.php';
+		$log = ilLoggerFactory::getRootLogger();
+		
+//		require_once "./Services/Logging/classes/class.ilLog.php";
+//		try
+//		{
+//			$log = new ilLog(ILIAS_LOG_DIR,ILIAS_LOG_FILE,CLIENT_ID,ILIAS_LOG_ENABLED,ILIAS_LOG_LEVEL);				
+//		}
+//		catch(ilLogException $e)
+//		{
+//			self::abortAndDie($e->getMessage());
+//		}
 		self::initGlobal("ilLog", $log);
 		// deprecated
 		self::initGlobal("log", $log);
@@ -894,22 +835,24 @@ class ilInitialisation
 			// no further differentiating of php version regarding to 5.4 neccessary
 			// when the error reporting is set to E_ALL anyway
 			
-			// remove notices from error reporting
-			if (version_compare(PHP_VERSION, '5.3.0', '>='))
-			{
-				error_reporting(E_ALL);
-			}
-			else
-			{
-				error_reporting(E_ALL);
-			}
+			// add notices to error reporting
+			error_reporting(E_ALL);
 		}
-
-		include_once "include/inc.debug.php";
+		
+		if(defined('DEBUGTOOLS') && DEBUGTOOLS)
+		{
+			include_once "include/inc.debug.php";
+		}
 	}
 	
 	protected static $already_initialized;
-	
+
+
+	public static function reinitILIAS() {
+		self::$already_initialized = false;
+		self::initILIAS();
+	}
+
 	/**
 	 * ilias initialisation
 	 */
@@ -958,12 +901,10 @@ class ilInitialisation
 	}
 	
 	/**
-	 * Init core objects (level 0)
+	 * Set error reporting level
 	 */
-	protected static function initCore()
-	{
-		global $ilErr;
-		
+	public static function handleErrorReporting()
+	{		
 		// remove notices from error reporting
 		if (version_compare(PHP_VERSION, '5.4.0', '>='))
 		{
@@ -972,14 +913,24 @@ class ilInitialisation
 			
 			error_reporting(((ini_get("error_reporting") & ~E_NOTICE) & ~E_DEPRECATED) & ~E_STRICT);
 		}
-		elseif (version_compare(PHP_VERSION, '5.3.0', '>='))
+		else
 		{
 			error_reporting((ini_get("error_reporting") & ~E_NOTICE) & ~E_DEPRECATED);
 		}
-		else
-		{
-			error_reporting(ini_get('error_reporting') & ~E_NOTICE);
-		}
+		
+		// see handleDevMode() - error reporting might be overwritten again
+		// but we need the client ini first
+	}
+	
+	/**
+	 * Init core objects (level 0)
+	 */
+	protected static function initCore()
+	{
+		global $ilErr;
+		
+		self::handleErrorReporting();
+		
 		// breaks CAS: must be included after CAS context isset in AuthUtils
 		//self::includePhp5Compliance();
 
@@ -1005,6 +956,7 @@ class ilInitialisation
 
 		self::initIliasIniFile();
 
+		define('IL_INITIAL_WD', getcwd());
 		
 		// deprecated
 		self::initGlobal("ilias", "ILIAS", "./Services/Init/classes/class.ilias.php");				
@@ -1031,14 +983,13 @@ class ilInitialisation
 			self::handleDevMode();
 		}						
 	
-		self::initLog();		
 
 		self::handleMaintenanceMode();
 
 		self::initDatabase();
 		
-		
-		// --- needs database
+		// moved after databases 
+		self::initLog();		
 		
 		self::initGlobal("ilAppEventHandler", "ilAppEventHandler",
 			"./Services/EventHandling/classes/class.ilAppEventHandler.php");
@@ -1200,6 +1151,7 @@ class ilInitialisation
 						&& $current_script != "shib_logout.php"
 						&& $current_script != "error.php"
 						&& $current_script != "chat.php"
+						&& $current_script != "wac.php"
 						&& $current_script != "index.php"); // #10316
 				
 				if($mandatory_auth)
@@ -1236,7 +1188,7 @@ class ilInitialisation
 		global $ilAuth, $ilSetting;
 						
 		// #10608
-		if(ilContext::getType() == ilContext::CONTEXT_SOAP)
+		if(ilContext::getType() == ilContext::CONTEXT_SOAP || ilContext::getType() == ilContext::CONTEXT_WAC)
 		{
 			throw new Exception("Authentication failed.");
 		}				

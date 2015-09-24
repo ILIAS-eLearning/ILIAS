@@ -47,6 +47,8 @@ class ilTestProcessLockerDb extends ilTestProcessLocker
 		$tables[] = array('name' => 'qpl_qst_type', 'type' => ilDB::LOCK_WRITE);
 		$tables[] = array('name' => 'tst_test_rnd_qst', 'type' => ilDB::LOCK_WRITE);
 		$tables[] = array('name' => 'tst_test_rnd_qst', 'type' => ilDB::LOCK_WRITE, 'sequence' => true);
+		$tables[] = array('name' => 'il_pluginslot', 'type' => ilDB::LOCK_WRITE);
+		$tables[] = array('name' => 'il_plugin', 'type' => ilDB::LOCK_WRITE);
 
 		if( $withTaxonomyTables )
 		{

@@ -18,11 +18,20 @@ class shibUser extends ilObjUser {
 	/**
 	 * @param shibServerData $shibServerData
 	 *
-	 * @internal param $ext_id
-	 *
+	 * @deprecated
 	 * @return shibUser
 	 */
 	public static function getInstance(shibServerData $shibServerData) {
+		return self::buildInstance($shibServerData);
+	}
+
+
+	/**
+	 * @param shibServerData $shibServerData
+	 *
+	 * @return shibUser
+	 */
+	public static function buildInstance(shibServerData $shibServerData) {
 		$shibUser = new self();
 		$shibUser->shibServerData = $shibServerData;
 		$ext_id = $shibUser->shibServerData->getLogin();

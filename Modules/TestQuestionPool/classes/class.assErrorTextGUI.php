@@ -340,7 +340,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 			{
 				if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
 			}
-			$solutions =& $this->object->getSolutionValues($active_id, $pass);
+			$solutions = $this->object->getUserSolutionPreferingIntermediate($active_id, $pass);
 		}
 		$errortext_value = "";
 		$selections = array();
@@ -447,7 +447,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 	{
 		$selection = $this->object->getBestSelection(false);
 
-		if( !$this->object->feedbackOBJ->specificAnswerFeedbackExists(array_values($selection)) )
+		if( !$this->object->feedbackOBJ->specificAnswerFeedbackExists(array_keys($selection)) )
 		{
 			return '';
 		}

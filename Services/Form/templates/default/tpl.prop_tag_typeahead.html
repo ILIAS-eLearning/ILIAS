@@ -1,0 +1,92 @@
+<div class="movable_prototype">
+	<!-- BEGIN inline_in_bl -->
+	<div class="form-inline">
+	<!-- END inline_in_bl -->	
+		<select class="form-control" multiple id="{ID}" name="{POST_VAR}" {DISABLED}>
+		<!-- BEGIN prop_select_option -->
+		<option value="{VAL_SELECT_OPTION}">{TXT_SELECT_OPTION}</option>
+		<!-- END prop_select_option -->
+		</select>
+	<!-- BEGIN inline_out_bl -->
+	</div>
+	<!-- END inline_out_bl -->
+</div>
+
+<script>
+	var ilBootstrapTaggingOnLoad  = (function () 
+	{
+		'use strict';
+		var pub 	= {}, 
+			pri 	= {};
+		pub.id	 	= '';
+		pub.terms 	= {TERMS};
+		pub.callbackItemAdded = {};
+		pub.callbackItemRemoved = {};
+		
+		pub.Init = function() {
+			$(pub.id).tagsinput({
+				typeaheadjs: [{
+					minLength: parseInt({MIN_LENGTH}, 10),
+					highlight: {HIGHLIGHT}
+				},{
+					limit: parseInt({LIMIT}, 10),
+					source: pri.substringMatcher(pub.terms)
+
+				}],
+				freeInput : false,
+				maxTags	  : {MAXTAGS},
+				maxChars  : {MAXCHARS},
+				allowDuplicates : "{ALLOW_DUPLICATES}"
+			});
+
+			pri.preventFormSubmissionOnEnterInTypeahead();
+			
+			$(pub.id).on('itemAdded', function() {
+				if (typeof pub.callbackItemAdded === 'function') {
+					pub.callbackItemAdded();
+				}
+			});
+			$(pub.id).on('itemRemoved', function() {
+				if (typeof pub.callbackItemRemoved === 'function') {
+					pub.callbackItemRemoved();
+				}
+			});
+		};
+
+		pri.substringMatcher = function(strings) {
+			return function findMatches(query, callback) {
+				var matches, substringRegex;
+				matches = [];
+				substringRegex = new RegExp(query, "{CASE}");
+				$.each(strings, function(i, str) {
+					if (substringRegex.test(str)) {
+						matches.push(str);
+					}
+				});
+				callback(matches);
+			};
+		};
+		
+		pri.preventFormSubmissionOnEnterInTypeahead = function()
+		{
+			$(document).ready(function() {
+				$('.twitter-typeahead').keydown(function(event){
+					if( (event.keyCode == 13)) {
+						event.preventDefault();
+						return false;
+					}
+				});
+			});
+		};
+		
+		return pub;
+	}());
+</script>
+<!-- BEGIN initialize_on_page_load -->
+<script>
+	ilBootstrapTaggingOnLoad.id 	= '#{ID}' ;
+	ilBootstrapTaggingOnLoad.Init();
+</script>
+<!-- END initialize_on_page_load -->
+
+

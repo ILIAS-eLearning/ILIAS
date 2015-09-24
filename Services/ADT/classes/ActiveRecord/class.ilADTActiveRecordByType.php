@@ -231,8 +231,11 @@ class ilADTActiveRecordByType
 					{
 						$has_data = true;
 						
-						$element_row =  $this->processTableRowForElement($sub_table, $element_id, $row);						
-						$this->properties->getElement($element_id)->readRecord($element_row);
+						$element_row =  $this->processTableRowForElement($sub_table, $element_id, $row);	
+						if(is_array($element_row))
+						{
+							$this->properties->getElement($element_id)->readRecord($element_row);
+						}
 								
 						if($a_return_additional_data)
 						{

@@ -31,10 +31,14 @@ class ilTestScoring
 	/** @var bool $preserve_manual_scores */
 	protected $preserve_manual_scores;
 
+	private $recalculatedPasses;
+
 	public function __construct(ilObjTest $test)
 	{
 		$this->test = $test;
 		$this->preserve_manual_scores = false;
+		
+		$this->recalculatedPasses = array();
 
 		require_once './Modules/Test/classes/class.ilObjTestGUI.php';
 		$this->testGUI = new ilObjTestGUI();
@@ -79,28 +83,13 @@ class ilTestScoring
 	 */
 	public function recalculatePasses($userdata, $active_id)
 	{
-		require_once './Modules/Test/classes/class.ilTestEvaluationGUI.php'; // Below!
-		require_once './Modules/Test/classes/class.ilTestPDFGenerator.php';
-		require_once './Modules/Test/classes/class.ilTestArchiver.php';
-
 		$passes = $userdata->getPasses();
 		foreach ($passes as $pass => $passdata)
 		{
 			if (is_object( $passdata ))
 			{
 				$this->recalculatePass( $passdata, $active_id, $pass );
-				if ($this->test->getEnableArchiving())
-				{
-					// requires out of the loop!
-					$test_evaluation_gui = new ilTestEvaluationGUI($this->test);
-					$result_array = $this->test->getTestResult($active_id, $pass);
-					$overview = $test_evaluation_gui->getPassListOfAnswers($result_array, $active_id, $pass, true, false, false, true);
-					$filename = ilUtil::getWebspaceDir() . '/assessment/scores-'.$this->test->getId() . '-' . $active_id . '-' . $pass . '.pdf';
-					ilTestPDFGenerator::generatePDF($overview, ilTestPDFGenerator::PDF_OUTPUT_FILE, $filename);
-					$archiver = new ilTestArchiver($this->test->getId());
-					$archiver->handInTestResult($active_id, $pass, $filename);
-					unlink($filename);
-				}
+				$this->addRecalculatedPassByActive($active_id, $pass);
 			}
 		}
 	}
@@ -170,5 +159,25 @@ class ilTestScoring
 		}
 		
 		return $solution;
+	}
+
+	public function resetRecalculatedPassesByActives()
+	{
+		$this->recalculatedPasses = array();
+	}
+	
+	public function getRecalculatedPassesByActives()
+	{
+		return $this->recalculatedPasses;
+	}
+	
+	public function addRecalculatedPassByActive($activeId, $pass)
+	{
+		if( !is_array($this->recalculatedPasses[$activeId]) )
+		{
+			$this->recalculatedPasses[$activeId] = array();
+		}
+
+		$this->recalculatedPasses[$activeId][] = $pass;
 	}
 }

@@ -339,6 +339,14 @@ class ilBlogPosting extends ilPageObject
 				$post[$rec["id"]]["created"] = new ilDateTime($rec["created"], IL_CAL_DATETIME);
 				$post[$rec["id"]]["author"] = $rec["author"];
 				$post[$rec["id"]]["approved"] = (bool)$rec["approved"];
+								
+				foreach(self::getPageContributors("blp", $rec["id"]) as $editor)
+				{
+					if($editor["user_id"] != $rec["author"])
+					{
+						$post[$rec["id"]]["editors"][] = $editor["user_id"];
+					}
+				}
 			}
 		}
 

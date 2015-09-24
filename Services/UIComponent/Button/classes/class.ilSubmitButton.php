@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once "Services/UIComponent/Button/classes/class.ilButton.php";
+require_once "Services/UIComponent/Button/classes/class.ilButtonBase.php";
 
 /**
  * Submit Button GUI
@@ -10,7 +10,7 @@ require_once "Services/UIComponent/Button/classes/class.ilButton.php";
  * @version $Id: class.ilTabsGUI.php 45109 2013-09-30 15:46:28Z akill $
  * @package ServicesUIComponent
  */
-class ilSubmitButton extends ilButton
+class ilSubmitButton extends ilButtonBase
 {
 	protected $cmd; // [string]
 	

@@ -21,8 +21,6 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
  */
 class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable
 {
-	var $choiceKeys;
-
 	/**
 	 * assSingleChoiceGUI constructor
 	 *
@@ -290,16 +288,31 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 			}
 			$template->setCurrentBlock("answer_row");
 			$template->setVariable("ANSWER_TEXT", $this->object->prepareTextareaOutput($answer->getAnswertext(), TRUE));
-			if (strcmp($user_solution, $answer_id) == 0)
+			
+			if( isset($_GET['pdf']) && $_GET['pdf'] )
 			{
-				$template->setVariable("SOLUTION_IMAGE", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_checked.png")));
-				$template->setVariable("SOLUTION_ALT", $this->lng->txt("checked"));
+				if (strcmp($user_solution, $answer_id) == 0)
+				{
+					$template->setVariable("SOLUTION_IMAGE", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_checked.png")));
+					$template->setVariable("SOLUTION_ALT", $this->lng->txt("checked"));
+				}
+				else
+				{
+					$template->setVariable("SOLUTION_IMAGE", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_unchecked.png")));
+					$template->setVariable("SOLUTION_ALT", $this->lng->txt("unchecked"));
+				}
 			}
 			else
 			{
-				$template->setVariable("SOLUTION_IMAGE", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_unchecked.png")));
-				$template->setVariable("SOLUTION_ALT", $this->lng->txt("unchecked"));
+				$template->setVariable('QID', $this->object->getId());
+				$template->setVariable('SUFFIX', $show_correct_solution ? 'bestsolution' : 'usersolution');
+				$template->setVariable('SOLUTION_VALUE', $answer_id);
+				if (strcmp($user_solution, $answer_id) == 0)
+				{
+					$template->setVariable('SOLUTION_CHECKED', 'checked');
+				}
 			}
+			
 			if ($result_output)
 			{
 				$points = $this->object->answers[$answer_id]->getPoints();
@@ -419,7 +432,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 			{
 				if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
 			}
-			$solutions =& $this->object->getSolutionValues($active_id, $pass);
+			$solutions = $this->object->getUserSolutionPreferingIntermediate($active_id, $pass);
 			foreach ($solutions as $idx => $solution_value)
 			{
 				$user_solution = $solution_value["value1"];
@@ -601,20 +614,14 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 	 */
 	function getChoiceKeys()
 	{
-		if (strcmp($_GET["activecommand"], "directfeedback") == 0)
+		$choiceKeys = array_keys($this->object->answers);
+		
+		if( $this->object->getShuffle() )
 		{
-			if (is_array($_SESSION["choicekeys"])) $this->choiceKeys = $_SESSION["choicekeys"];
+			$choiceKeys = $this->object->getShuffler()->shuffle($choiceKeys);
 		}
-		if (!is_array($this->choiceKeys))
-		{
-			$this->choiceKeys = array_keys($this->object->answers);
-			if ($this->object->getShuffle())
-			{
-				$this->choiceKeys = $this->object->pcArrayShuffle($this->choiceKeys);
-			}
-		}
-		$_SESSION["choicekeys"] = $this->choiceKeys;
-		return $this->choiceKeys;
+		
+		return $choiceKeys;
 	}
 	
 	function getSpecificFeedbackOutput($active_id, $pass)

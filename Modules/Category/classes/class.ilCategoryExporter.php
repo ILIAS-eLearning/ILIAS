@@ -21,6 +21,16 @@ class ilCategoryExporter extends ilXmlExporter
 	 */
 	public function getXmlExportHeadDependencies($a_entity, $a_target_release, $a_ids)
 	{
+		// always trigger container because of co-page(s)
+		return array(
+			array(
+				'component'		=> 'Services/Container',
+				'entity'		=> 'struct',
+				'ids'			=> $a_ids
+			)
+		);
+		
+		/*
 		include_once './Services/Export/classes/class.ilExportOptions.php';
 		$eo = ilExportOptions::getInstance();
 
@@ -43,7 +53,8 @@ class ilCategoryExporter extends ilXmlExporter
 				)
 			);
 		}
-		return array();
+		return array();		 
+		*/
 	}
 	
 	/**
