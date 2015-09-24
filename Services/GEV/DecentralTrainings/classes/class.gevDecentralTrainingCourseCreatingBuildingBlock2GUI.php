@@ -30,7 +30,6 @@ class gevDecentralTrainingCourseCreatingBuildingBlock2GUI {
 
 	public function __construct($a_crs_obj_id, $a_crs_request_id = null, $no_changes = false, $show_cmd_buttons = true) {
 		global $lng, $ilCtrl, $tpl, $ilLog, $ilUser, $ilAppEventHandler;
-
 		$this->lng = $lng;
 		$this->ctrl = $ilCtrl;
 		$this->tpl = $tpl;
@@ -82,6 +81,7 @@ class gevDecentralTrainingCourseCreatingBuildingBlock2GUI {
 			case "toTEP";
 			case "toChangeCourseData":
 			case "toDownloadPDF":
+			case "backFromBooking":
 				$this->$cmd();
 				break;
 			default:
@@ -873,5 +873,14 @@ class gevDecentralTrainingCourseCreatingBuildingBlock2GUI {
 		}
 		
 		return $tpl->get();
+	}
+
+	protected function backFromBooking() {
+		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		require_once("Services/CourseBooking/classes/class.ilCourseBookingAdminGUI.php");
+		ilCourseBookingAdminGUI::setBackTarget(null);
+		
+		$this->ctrl->redirectByClass(array("ilTEPGUI"));
+		return;
 	}
 }
