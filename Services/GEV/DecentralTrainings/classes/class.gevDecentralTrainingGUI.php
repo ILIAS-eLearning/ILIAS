@@ -371,13 +371,16 @@ class gevDecentralTrainingGUI {
 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 		require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCreationRequest.php");
 
-		$form_prev = $this->buildTrainingOptionsForm(false,null,null);
+		$template_id = intval($_POST["template_id"]);
+		$form_values["utils_id"] = $template_id;
+
+		$form_prev = $this->buildTrainingOptionsForm(false,false,$form_values);
 		
 		if (!$form_prev->checkInput()) {
 			return $this->failCreateTraining($form_prev);
 		}
 		
-		$template_id = intval($form_prev->getInput("template_id"));
+		
 		if(!$this->checkDecentralTrainingConstraints($form_prev, $template_id)) {
 			return $this->failCreateTraining($form_prev);
 		}
@@ -1033,7 +1036,7 @@ class gevDecentralTrainingGUI {
 		$ltype->setValue($a_form_values["ltype"]);
 		$form->addItem($ltype);
 
-		if ($a_form_values["ltype"] == "Webinar") {
+		if ($crs_utils->isWebinar()) {
 			$webinar_link = new ilTextInputGUI($this->lng->txt("gev_webinar_link"), "webinar_link");
 			$webinar_link->setDisabled($a_form_values["no_changes_allowed"]);
 			if ($a_form_values["webinar_link"] && $a_fill) {
