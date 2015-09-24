@@ -8741,7 +8741,7 @@ $blog_type_id = ilDBUpdateNewObjectType::getObjectTypeId('blog');
 if($blog_type_id)
 {					
 	// not sure if we want to clone "write" or "contribute"?
-	$new_ops_id = ilDBUpdateNewObjectType::addCustomRBACOperation('redact', 'Redact', 'object', 3204);	
+	$new_ops_id = ilDBUpdateNewObjectType::addCustomRBACOperation('redact', 'Redact', 'object', 6100);	
 	if($new_ops_id)
 	{
 		ilDBUpdateNewObjectType::addRBACOperation($blog_type_id, $new_ops_id);						
