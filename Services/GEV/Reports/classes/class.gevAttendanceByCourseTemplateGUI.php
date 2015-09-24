@@ -368,7 +368,10 @@ class gevAttendanceByCourseTemplateGUI extends catBasicReportGUI{
 		}
 
 		$table->setData(array($this->summed_data));
-		return $table->getHtml();
+		$this->enableRelevantParametersCtrl();
+		$return = $table->getHtml();
+		$this->disableRelevantParametersCtrl();
+		return $return;
 	}
 
 }

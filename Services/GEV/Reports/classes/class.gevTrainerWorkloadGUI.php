@@ -349,7 +349,10 @@ class gevTrainerWorkloadGUI extends catBasicReportGUI{
 		}
 
 		$table->setData(array($this->sum_row));
-		return $table->getHtml();
+		$this->enableRelevantParametersCtrl();
+		$return = $table->getHtml();
+		$this->disableRelevantParametersCtrl();
+		return $return;
 	}
 
 
