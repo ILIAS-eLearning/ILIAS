@@ -417,13 +417,12 @@ class gevCourseBuildingBlockUtils {
 				." OR ((".$ilDB->quote($start,"time")." > start_time AND ".$ilDB->quote($start,"time")." < end_time) AND (".$ilDB->quote($end,"time")." > start_time AND ".$ilDB->quote($end,"time")." < end_time))\n"
 				.")\n";
 			
-
-		if($request_id !== null) {
-			$where .= " AND crs_request_id = ".$ilDB->quote($request_id,"integer")."\n";
-		}
-
 		if($crs_id !== null) {
 			$where .= " AND crs_id = ".$ilDB->quote($crs_id,"integer")."\n";
+		}
+		
+		if($crs_id === null && $request_id !== null) {
+			$where .= " AND crs_request_id = ".$ilDB->quote($request_id,"integer")."\n";
 		}
 
 		$res = $ilDB->query($sql.$where);

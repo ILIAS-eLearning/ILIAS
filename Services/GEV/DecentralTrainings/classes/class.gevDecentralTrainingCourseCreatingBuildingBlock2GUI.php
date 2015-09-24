@@ -788,7 +788,7 @@ class gevDecentralTrainingCourseCreatingBuildingBlock2GUI {
 	}
 
 	protected function noTimeIssuesBlocks($start,$end,$request_id = null, $crs_id = null) {
-		if(!gevCourseBuildingBlockUtils::checkTimeIssues($start,$end,$request_id,$crs_id)) {
+		if(!gevCourseBuildingBlockUtils::checkTimeIssues($start,$end,$crs_id,$request_id)) {
 			return false;
 		}
 
