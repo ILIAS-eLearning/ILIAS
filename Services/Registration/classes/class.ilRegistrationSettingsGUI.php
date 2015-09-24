@@ -1040,8 +1040,7 @@ class ilRegistrationSettingsGUI
 			switch($limit)
 			{
 				case "absolute":
-					$date = $this->form_gui->getInput("abs_date");			
-					$date = $date["date"];
+					$date = $this->form_gui->getInput("abs_date");	
 					if($date < date("Y-m-d"))
 					{
 						$valid = false;

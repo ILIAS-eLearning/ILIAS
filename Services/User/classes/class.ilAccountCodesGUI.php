@@ -147,7 +147,6 @@ class ilAccountCodesGUI
 				
 				case 'valid_static':
 					$valid = $this->form_gui->getInput('valid_date');
-					$valid = $valid['date'];
 					break;
 				
 				case 'valid_dynamic':

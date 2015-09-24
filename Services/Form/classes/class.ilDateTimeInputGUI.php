@@ -163,6 +163,11 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
 	{
 		return (int)$this->getShowTime() + (int)$this->getShowSeconds();
 	}
+	
+	public function hasInvalidInput()
+	{
+		return (bool)$this->invalid_input;
+	}
 
 	/**
 	* Check input, strip slashes etc. set alert, if input is not ok.
@@ -308,7 +313,10 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
 	*/
 	function serializeData()
 	{
-		return serialize($this->getDate());
+		if($this->getDate())
+		{
+			return serialize($this->getDate()->get(IL_CAL_UNIX));
+		}
 	}
 	
    /**
@@ -316,11 +324,17 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
 	*/
 	function unserializeData($a_data)
 	{
-		$data = unserialize($a_data);
-
-		if (is_object($data))
+		$tstamp = unserialize($a_data);
+		if($tstamp)
+		{			
+			$date = $this->getShowTime()
+				? new ilDateTime($tstamp, IL_CAL_UNIX)
+				: new ilDate($tstamp, IL_CAL_UNIX);					
+			$this->setDate($date);
+		}
+		else
 		{
-			$this->setDate($data);
+			$this->setDate(null);
 		}
 	}
 

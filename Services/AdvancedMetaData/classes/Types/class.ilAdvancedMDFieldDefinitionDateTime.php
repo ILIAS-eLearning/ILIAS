@@ -68,16 +68,6 @@ class ilAdvancedMDFieldDefinitionDateTime extends ilAdvancedMDFieldDefinition
 	}	
 	
 	
-	// 
-	// presentation
-	//
-	
-	public function prepareElementForEditor(ilADTFormBridge $a_bridge)
-	{
-		$a_bridge->setTextInputMode(true);
-	}
-	
-	
 	//
 	// search
 	// 
@@ -116,11 +106,6 @@ class ilAdvancedMDFieldDefinitionDateTime extends ilAdvancedMDFieldDefinition
 		
 			return "{".$start->get(IL_CAL_DATETIME)." TO ".$end->get(IL_CAL_DATETIME)."}";
 		}
-	}
-	
-	public function prepareElementForSearch(ilADTSearchBridge $a_bridge)
-	{
-		$a_bridge->setTextInputMode(true);
 	}
 }
 
