@@ -430,7 +430,6 @@ class ilLMTracker
 						$cnt_completed++;
 						continue;
 					}
-
 					$c_stat = $this->determineProgressStatus($c["child"], $a_has_pred_incorrect_answers,
 						$a_has_pred_incorrect_not_unlocked_answers);
 					if ($status != ilLMTracker::FAILED)
@@ -449,7 +448,10 @@ class ilLMTracker
 							$cnt_completed++;
 						}
 					}
-					if ($c_stat == ilLMTracker::FAILED || $c_stat == ilLMTracker::IN_PROGRESS)
+					// if an item is failed or in progress or (not attempted and contains questions)
+					// the next item has predecessing incorrect answers
+					if ($c_stat == ilLMTracker::FAILED || $c_stat == ilLMTracker::IN_PROGRESS ||
+						($c_stat == ilLMTracker::NOT_ATTEMPTED && is_array($this->page_questions[$c["child"]]) && count($this->page_questions[$c["child"]]) > 0))
 					{
 						$a_has_pred_incorrect_answers = true;
 						if (!$this->tree_arr["nodes"][$c["child"]]["unlocked"])

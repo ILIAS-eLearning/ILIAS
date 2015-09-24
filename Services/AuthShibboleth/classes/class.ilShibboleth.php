@@ -77,12 +77,14 @@ class ShibAuth extends Auth {
 		global $ilias, $ilSetting; // for backword compatibility of hook environment variables
 		$shibServerData = shibServerData::getInstance($_SERVER);
 		if ($shibServerData->getLogin()) {
-			$shibUser = shibUser::getInstance($shibServerData);
+			$shibUser = shibUser::buildInstance($shibServerData);
 			// for backword compatibility of hook environment variables
-			$userObj =& $shibUser;
-			$newUser = $shibUser->isNew();
+			$userObj =& $shibUser; // For shib_data_conv included Script
+			$newUser = $shibUser->isNew(); // For shib_data_conv included Script
 			if ($shibUser->isNew()) {
 				$shibUser->createFields();
+				$shibUser->setPref('hits_per_page', $ilSetting->get('hits_per_page'));
+
 				// Modify user data before creating the user
 				// Include custom code that can be used to further modify
 				// certain Shibboleth user attributes
@@ -95,6 +97,7 @@ class ShibAuth extends Auth {
 				$shibUser->create();
 				$shibUser->updateOwner();
 				$shibUser->saveAsNew();
+				$shibUser->writePrefs();
 				$shibUser = ilShibbolethPluginWrapper::getInstance()->afterCreateUser($shibUser);
 				ilShibbolethRoleAssignmentRules::doAssignments($shibUser->getId(), $_SERVER);
 			} else {
@@ -106,7 +109,7 @@ class ShibAuth extends Auth {
 				) {
 					include($ilias->getSetting('shib_data_conv'));
 				}
-				$shibUser->update();
+				//				$shibUser->update();
 				$shibUser = ilShibbolethPluginWrapper::getInstance()->beforeUpdateUser($shibUser);
 				$shibUser->update();
 				$shibUser = ilShibbolethPluginWrapper::getInstance()->afterUpdateUser($shibUser);

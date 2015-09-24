@@ -140,10 +140,13 @@ class ilSCORM13MDImporter extends ilMDXMLCopier
 				break;
 
 			case 'language':
-				$par = $this->__getParent();
-				$this->md_lan = $par->addLanguage();
-				$this->md_lan->save();
-				$this->__pushParent($this->md_lan);
+				if ($this->in("general"))
+				{
+					$par = $this->__getParent();
+					$this->md_lan = $par->addLanguage();
+					$this->md_lan->save();
+					$this->__pushParent($this->md_lan);
+				}
 				break;
 
 			case 'description':
@@ -461,10 +464,13 @@ class ilSCORM13MDImporter extends ilMDXMLCopier
 				break;
 
 			case 'language':
-				$par = $this->__getParent();
-				$par->setLanguage(new ilMDLanguageItem($this->__getCharacterData()));
-				$par->update();
-				$this->__popParent();
+				if ($this->in("general"))
+				{
+					$par = $this->__getParent();
+					$par->setLanguage(new ilMDLanguageItem($this->__getCharacterData()));
+					$par->update();
+					$this->__popParent();
+				}
 				break;
 
 			case 'description':

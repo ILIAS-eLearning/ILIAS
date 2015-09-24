@@ -1,5 +1,5 @@
 BEGIN:VTIMEZONE
-TZID=Europe/Bucharest
+TZID:Europe/Bucharest
 X-LIC-LOCATION:Europe/Bucharest
 BEGIN:DAYLIGHT
 TZOFFSETFROM:+0200

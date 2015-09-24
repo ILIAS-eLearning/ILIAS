@@ -3289,16 +3289,16 @@ class ilObjUser extends ilObject
 					if(!isset($all_parent_path[$parent_ref]))
 					{					
 						// #15746
-						if($is_nested_set)
-						{
-							$par_left = $tree->getLeftValue($parent_ref);
-							$all_parent_path[$parent_ref] = sprintf("%010d", $par_left);
-						}
-						else
-						{
+						//if($is_nested_set)
+						//{
+						//	$par_left = $tree->getLeftValue($parent_ref);
+						//	$all_parent_path[$parent_ref] = sprintf("%010d", $par_left);
+						//}
+						//else
+						//{
 							$node = $tree->getNodeData($parent_ref);						
-							$all_parent_path[$parent_ref] = $node["path"];
-						}
+							$all_parent_path[$parent_ref] = $node["title"];
+						//}
 					}
 					
 					$parent_path = $all_parent_path[$parent_ref];

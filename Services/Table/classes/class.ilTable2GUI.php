@@ -1055,10 +1055,12 @@ class ilTable2GUI extends ilTableGUI
 	* Set filter command
 	*
 	* @param	string		filter command
+	* @param	string		filter caption
 	*/
-	function setFilterCommand($a_val)
+	function setFilterCommand($a_val, $a_caption = null)
 	{
 		$this->filter_cmd = $a_val;
+		$this->filter_cmd_txt = $a_caption;
 	}
 
 	/**
@@ -1075,10 +1077,12 @@ class ilTable2GUI extends ilTableGUI
 	* Set reset filter command
 	*
 	* @param	string		reset command
+	* @param	string		reset caption
 	*/
-	function setResetCommand($a_val)
+	function setResetCommand($a_val, $a_caption = null)
 	{
 		$this->reset_cmd = $a_val;
+		$this->reset_cmd_txt = $a_caption;
 	}
 
 	/**
@@ -1570,7 +1574,7 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 	/**
 	* Get HTML
 	*/
-	final public function getHTML()
+	public function getHTML()
 	{
 		global $lng, $ilCtrl, $ilUser;
 
@@ -1952,9 +1956,13 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 
 				$this->tpl->setCurrentBlock("filter_buttons");				
 				$this->tpl->setVariable("CMD_APPLY", $this->filter_cmd);
-				$this->tpl->setVariable("TXT_APPLY", $lng->txt("apply_filter"));
+				$this->tpl->setVariable("TXT_APPLY", $this->filter_cmd_txt 
+					? $this->filter_cmd_txt
+					: $lng->txt("apply_filter"));
 				$this->tpl->setVariable("CMD_RESET", $this->reset_cmd);
-				$this->tpl->setVariable("TXT_RESET", $lng->txt("reset_filter"));
+				$this->tpl->setVariable("TXT_RESET", $this->reset_cmd_txt 
+					? $this->reset_cmd_txt 
+					: $lng->txt("reset_filter"));
 			}
 			else if(count($opt_filter) > 0)
 			{

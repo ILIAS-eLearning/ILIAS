@@ -119,6 +119,11 @@ class ilWikiPageGUI extends ilPageObjectGUI
 				
 			default:
 
+				if (strtolower($ilCtrl->getNextClass()) == "ilpageeditorgui")
+				{
+					self::initEditingJS($this->tpl);
+				}
+
 				if($_GET["ntf"])
 				{
 					include_once "./Services/Notification/classes/class.ilNotification.php";
@@ -797,7 +802,8 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	{
 		global $ilAccess, $tpl, $ilCtrl, $lng;
 
-		if ($ilAccess->checkAccess("edit_content", "", $_GET["ref_id"]))
+		if (($ilAccess->checkAccess("edit_content", "", $_GET["ref_id"]) && !$this->getPageObject()->getBlocked())
+			|| $ilAccess->checkAccess("write", "", $_GET["ref_id"]))
 		{
 			$this->initRenameForm();
 			$tpl->setContent($this->form->getHTML());
@@ -841,7 +847,8 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		$this->initRenameForm();
 		if ($this->form->checkInput())
 		{
-			if ($ilAccess->checkAccess("edit_content", "", $_GET["ref_id"]))
+			if (($ilAccess->checkAccess("edit_content", "", $_GET["ref_id"]) && !$this->getPageObject()->getBlocked())
+				|| $ilAccess->checkAccess("write", "", $_GET["ref_id"]))
 			{
 				$new_name = $this->form->getInput("new_page_name");
 				
@@ -1012,12 +1019,25 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	{
 		global $tpl, $lng;
 
-		$tpl->addJavascript("./Modules/Wiki/js/WikiEdit.js");
-		$tpl->addOnLoadCode("il.Wiki.Edit.txt.page_exists = '".$lng->txt("wiki_page_exists")."';");
-		$tpl->addOnLoadCode("il.Wiki.Edit.txt.new_page = '".$lng->txt("wiki_new_page")."';");
+		self::initEditingJS($tpl);
 
 		return parent::edit();
 	}
+
+	/**
+	 * Init wiki editing js
+	 *
+	 * @param ilTemplate $a_tpl template
+	 */
+	static function initEditingJS(ilTemplate $a_tpl)
+	{
+		global $lng;
+
+		$a_tpl->addJavascript("./Modules/Wiki/js/WikiEdit.js");
+		$a_tpl->addOnLoadCode("il.Wiki.Edit.txt.page_exists = '".$lng->txt("wiki_page_exists")."';");
+		$a_tpl->addOnLoadCode("il.Wiki.Edit.txt.new_page = '".$lng->txt("wiki_new_page")."';");
+	}
+
 
 	/**
 	 * Returns form to insert a wiki link per ajax

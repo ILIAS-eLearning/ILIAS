@@ -693,15 +693,35 @@ class ilPCDataTableGUI extends ilPCTableGUI
 			ilCOPage.editTD('cell_0_0');
 				");
 
+		$cfg = $this->getPageConfig();
+		/*$tpl->setVariable("IL_TINY_MENU",
+			self::getTinyMenu(
+				$this->getPageObject()->getParentType(),
+				$cfg->getEnableInternalLinks(),
+				$cfg->getEnableWikiLinks(),
+				$cfg->getEnableKeywords(),
+				$this->getStyleId(), true, true,
+				$cfg->getEnableAnchors()
+			));*/
 
 		$dtpl->setVariable("IL_TINY_MENU",
 			ilPageObjectGUI::getTinyMenu(
 			$this->pg_obj->getParentType(),
-			false,
-			$this->pg_obj->getParentType() == "wpg",
-			false,
+			$cfg->getEnableInternalLinks(),
+			$cfg->getEnableWikiLinks(),
+			$cfg->getEnableKeywords(),
 			$this->getStyleId(),
-			false, true, false, false));
+			false, true, $cfg->getEnableAnchors(), false));
+
+		// add int link parts
+		if ($cfg->getEnableInternalLinks() || $cfg->getEnableWikiLinks())
+		{
+			include_once("./Services/Link/classes/class.ilInternalLinkGUI.php");
+			$dtpl->setCurrentBlock("int_link_prep");
+			$dtpl->setVariable("INT_LINK_PREP", ilInternalLinkGUI::getInitHTML(
+				$ilCtrl->getLinkTargetByClass(array("ilpageeditorgui", "ilinternallinkgui"),
+					"", false, true, false)));
+		}
 
 		$this->tpl->setContent($dtpl->get());
 	}

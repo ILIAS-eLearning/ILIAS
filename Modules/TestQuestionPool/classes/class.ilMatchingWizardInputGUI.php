@@ -277,11 +277,6 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
 				}
 			}
 		}
-		else
-		{
-			$this->setAlert($lng->txt("msg_input_is_required"));
-			return FALSE;
-		}
 		return $this->checkSubItemsInput();
 	}
 

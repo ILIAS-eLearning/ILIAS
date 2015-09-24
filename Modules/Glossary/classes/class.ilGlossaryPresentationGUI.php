@@ -247,6 +247,36 @@ class ilGlossaryPresentationGUI
 
 		$oldoffset = (is_numeric ($_GET["oldoffset"]))?$_GET["oldoffset"]:$_GET["offset"];
 
+		if ($this->glossary->getPresentationMode() == "full_def")
+		{
+			// content style
+			$this->tpl->setCurrentBlock("ContentStyle");
+			if (!$this->offlineMode())
+			{
+				$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+					ilObjStyleSheet::getContentStylePath($this->glossary->getStyleSheetId()));
+			}
+			else
+			{
+				$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET","content.css");
+			}
+			$this->tpl->parseCurrentBlock();
+
+			// syntax style
+			$this->tpl->setCurrentBlock("SyntaxStyle");
+			if (!$this->offlineMode())
+			{
+				$this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
+					ilObjStyleSheet::getSyntaxStylePath());
+			}
+			else
+			{
+				$this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
+					"syntaxhighlight.css");
+			}
+			$this->tpl->parseCurrentBlock();
+		}
+
 		$table = $this->getPresentationTable();
 
 		if (!$this->offlineMode())
@@ -391,33 +421,6 @@ class ilGlossaryPresentationGUI
 		}
 		else
 		{
-			// content style
-			$this->tpl->setCurrentBlock("ContentStyle");
-			if (!$this->offlineMode())
-			{
-				$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-					ilObjStyleSheet::getContentStylePath($this->glossary->getStyleSheetId()));
-			}
-			else
-			{
-				$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET","content.css");
-			}
-			$this->tpl->parseCurrentBlock();
-
-			// syntax style
-			$this->tpl->setCurrentBlock("SyntaxStyle");
-			if (!$this->offlineMode())
-			{
-				$this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
-					ilObjStyleSheet::getSyntaxStylePath());
-			}
-			else
-			{
-				$this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
-					"syntaxhighlight.css");
-			}
-			$this->tpl->parseCurrentBlock();
-
 			$tpl = new ilTemplate("tpl.glossary_definition_list.html", true, true, "Modules/Glossary");
 		}
 

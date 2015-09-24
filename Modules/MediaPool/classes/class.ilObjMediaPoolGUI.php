@@ -436,7 +436,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 
 		include_once("./Modules/MediaPool/classes/class.ilMediaPoolTableGUI.php");
 		$mep_table_gui = new ilMediaPoolTableGUI($this, "listMedia", $this->object, "mepitem_id");
-		$tpl->setContent($mep_table_gui->getHTML().$this->getPreviewModalHTML());
+		$tpl->setContent($mep_table_gui->getHTML());
 //		$this->tpl->show();
 	}
 
@@ -479,7 +479,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 			"mepitem_id", ilMediaPoolTableGUI::IL_MEP_EDIT, true);
 		}
 
-		$tpl->setContent($mep_table_gui->getHTML().$this->getPreviewModalHTML());
+		$tpl->setContent($mep_table_gui->getHTML());
 //		$this->tpl->show();
 	}
 	
@@ -1636,18 +1636,20 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	/**
 	 * Get preview modal html
 	 */
-	function getPreviewModalHTML()
+	static function getPreviewModalHTML($a_mpool_ref_id, $a_tpl)
 	{
 		global $tpl, $ilCtrl, $lng;
 
 		require_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
-		ilObjMediaObjectGUI::includePresentationJS($this->tpl);
+		ilObjMediaObjectGUI::includePresentationJS($a_tpl);
 
 		$tpl->addJavaScript("./Modules/MediaPool/js/ilMediaPool.js");
 
-		$ilCtrl->setParameter($this, "mepitem_id", "");
-		$tpl->addOnloadCode("il.MediaPool.setPreviewUrl('".$ilCtrl->getLinkTarget($this, "showPreview", "", false, false)."');");
-		$ilCtrl->setParameter($this, "mepitem_id", $_GET["mepitem_id"]);
+		$ilCtrl->setParameterByClass("ilobjmediapoolgui", "mepitem_id", "");
+		$ilCtrl->setParameterByClass("ilobjmediapoolgui", "ref_id", $a_mpool_ref_id);
+		$tpl->addOnloadCode("il.MediaPool.setPreviewUrl('".$ilCtrl->getLinkTargetByClass(array("ilmediapoolpresentationgui", "ilobjmediapoolgui"), "showPreview", "", false, false)."');");
+		$ilCtrl->setParameterByClass("ilobjmediapoolgui", "mepitem_id", $_GET["mepitem_id"]);
+		$ilCtrl->setParameterByClass("ilobjmediapoolgui", "ref_id", $_GET["red_id"]);
 
 		include_once("./Services/UIComponent/Modal/classes/class.ilModalGUI.php");
 		$modal = ilModalGUI::getInstance();

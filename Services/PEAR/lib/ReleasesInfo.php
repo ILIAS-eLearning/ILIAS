@@ -73,5 +73,8 @@ patch for PEAR bug #17024
 MDB2/Driver/mysqli.php, line 425
 patch for hhvm usage
 
+Mail/RFC822.php, line 587
+http://www.ilias.de/mantis/view.php?id=16291#bugnotes (0016291: Ivalid character ß in mailadress)
+
 */
 ?>

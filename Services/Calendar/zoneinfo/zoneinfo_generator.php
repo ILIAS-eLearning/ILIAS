@@ -1,6 +1,5 @@
 <?php
-
-	exit();
+	exit;
 
 	define('ZONEINFO','/usr/share/zoneinfo');
 	define('TZ_CONVERT','tz_convert');
@@ -38,7 +37,7 @@
 			}
 			if($counter == 5)
 			{
-				fputs($writer, 'TZID='.$tz_name."\n");
+				fputs($writer, 'TZID:'.$tz_name."\n");
 			}
 			else
 			{
