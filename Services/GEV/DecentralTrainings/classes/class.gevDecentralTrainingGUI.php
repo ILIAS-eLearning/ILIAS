@@ -1060,7 +1060,7 @@ class gevDecentralTrainingGUI {
 		/*************************
 		* ABFRAGE
 		*************************/
-		$correct_data = new ilCheckboxInputGUI($this->lng->txt("gev_dec_training_correct_data"),"correct_data");
+		$correct_data = new ilCheckboxInputGUI($this->lng->txt("gev_dec_training_correct_data_confirm"),"correct_data");
 		$correct_data->setOptionTitle($this->lng->txt("gev_dec_training_correct_data_text"));
 		$form->addItem($correct_data);
 		
