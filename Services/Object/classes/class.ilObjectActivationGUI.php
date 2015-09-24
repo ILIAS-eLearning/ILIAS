@@ -145,13 +145,13 @@ class ilObjectActivationGUI
 		#$vis->setInfo($this->lng->txt('crs_timings_visibility'));
 		
 			$start = new ilDateTimeInputGUI($this->lng->txt('crs_timings_start'),'timing_start');
+			$start->setRequired(true);
 			$start->setShowTime(true);
-			#$start->setMinuteStepSize(5);
 			$vis->addSubItem($start);
 		
 			$end = new ilDateTimeInputGUI($this->lng->txt('crs_timings_end'),'timing_end');
+			$end->setRequired(true);
 			$end->setShowTime(true);
-			#$end->setMinuteStepSize(5);
 			$vis->addSubItem($end);
 			
 			$isv = new ilCheckboxInputGUI($this->lng->txt('crs_timings_visibility_short'),'visible');
@@ -166,9 +166,11 @@ class ilObjectActivationGUI
 		$tim->setInfo($this->lng->txt('crs_item_presetting_info'));
 		
 			$start = new ilDateTimeInputGUI($this->lng->txt('crs_timings_sug_begin'),'sug_start');
+			$start->setRequired(true);
 			$tim->addSubItem($start);
 			
 			$end = new ilDateTimeInputGUI($this->lng->txt('crs_timings_sug_end'),'sug_end');
+			$end->setRequired(true);
 			$tim->addSubItem($end);
 			
 			if ($tree->checkForParentType($this->parent_ref_id,'crs'))
@@ -177,9 +179,11 @@ class ilObjectActivationGUI
 				$tim->addSubItem($cha);
 
 				$start = new ilDateTimeInputGUI($this->lng->txt('crs_timings_early_begin'),'early_start');
+				$start->setRequired(true);
 				$tim->addSubItem($start);
 
 				$late = new ilDateTimeInputGUI($this->lng->txt('crs_timings_short_limit_start_end'),'late_end');
+				$late->setRequired(true);
 				$tim->addSubItem($late);
 			}
 				
@@ -217,35 +221,24 @@ class ilObjectActivationGUI
 			$data['visible'] = $item_data['visible'];
 			$data['changeable'] = $item_data['changeable'];
 			
-			// #14531
-			if($item_data['timing_start'] < 1)
+			$map = array(
+				'timing_start' => 'timing_start'
+				,'timing_end' => 'timing_end'
+				,'sug_start' => 'suggestion_start'
+				,'sug_end' => 'suggestion_end'
+				,'early_start' => 'earliest_start'
+				,'late_end' => 'latest_end'
+			);
+			foreach($map as $data_key => $item_key)
 			{
-				$item_data['timing_start'] = time();
-			}
-			if($item_data['timing_end'] < 1)
-			{
-				$item_data['timing_end'] = time();
-			}
-
-			$start = new ilDateTime($item_data['timing_start'],IL_CAL_UNIX);
-			$data['timing_start']['date'] = $start->get(IL_CAL_FKT_DATE,'Y-m-d',$ilUser->getTimeZone());
-			$data['timing_start']['time'] = $start->get(IL_CAL_FKT_DATE,'H:i:s',$ilUser->getTimeZone());
-
-			$end = new ilDateTime($item_data['timing_end'],IL_CAL_UNIX);
-			$data['timing_end']['date'] = $end->get(IL_CAL_FKT_DATE,'Y-m-d',$ilUser->getTimeZone());
-			$data['timing_end']['time'] = $end->get(IL_CAL_FKT_DATE,'H:i:s',$ilUser->getTimeZone());
-
-			$start = new ilDate(date('Y-m-d',$item_data['suggestion_start']),IL_CAL_DATE);
-			$data['sug_start']['date'] = $start->get(IL_CAL_FKT_DATE,'Y-m-d','UTC');
-
-			$end = new ilDate(date('Y-m-d',$item_data['suggestion_end']),IL_CAL_DATE);
-			$data['sug_end']['date'] = $end->get(IL_CAL_FKT_DATE,'Y-m-d','UTC');
-
-			$start = new ilDate(date('Y-m-d',$item_data['earliest_start']),IL_CAL_DATE);
-			$data['early_start']['date'] = $start->get(IL_CAL_FKT_DATE,'Y-m-d','UTC');
-
-			$end = new ilDate(date('Y-m-d',$item_data['latest_end']),IL_CAL_DATE);
-			$data['late_end']['date'] = $end->get(IL_CAL_FKT_DATE,'Y-m-d','UTC');
+				$data[$data_key] = null;
+				
+				// #14531
+				if($item_data[$item_key])
+				{
+					$data[$data_key] = new ilDateTime($item_data[$item_key], IL_CAL_UNIX);
+				}
+			}			
 		}
 		
 		$this->form->setValuesByArray($data);
@@ -276,29 +269,33 @@ class ilObjectActivationGUI
 			
 			$activation->setTimingType($this->form->getInput('timing_type'));
 			
-			$date = $this->form->getInput('timing_start');
-			$date = new ilDateTime($date['date'].' '.$date['time'],IL_CAL_DATETIME,$ilUser->getTimeZone());
-			$activation->setTimingStart($date->get(IL_CAL_UNIX));
+			$date = $this->form->getItemByPostVar('timing_start')->getDate();		
+			$activation->setTimingStart($date ? $date->get(IL_CAL_UNIX) : null);
 			
-			$date = $this->form->getInput('timing_end');
-			$date = new ilDateTime($date['date'].' '.$date['time'],IL_CAL_DATETIME,$ilUser->getTimeZone());
-			$activation->setTimingEnd($date->get(IL_CAL_UNIX));
+			$date = $this->form->getItemByPostVar('timing_end')->getDate();			
+			$activation->setTimingEnd($date ? $date->get(IL_CAL_UNIX) : null);
 	
-			$date = $this->form->getInput('sug_start');
-			$date = new ilDate($date['date'],IL_CAL_DATE);
-			$activation->setSuggestionStart($date->get(IL_CAL_UNIX));
+			$date = $this->form->getItemByPostVar('sug_start')->getDate();
+			$activation->setSuggestionStart($date ? $date->get(IL_CAL_UNIX) : null);
 	
-			$date = $this->form->getInput('sug_end');
-			$date = new ilDate($date['date'],IL_CAL_DATE);
-			$activation->setSuggestionEnd($date->get(IL_CAL_UNIX));
+			$date = $this->form->getItemByPostVar('sug_end')->getDate();
+			$activation->setSuggestionEnd($date ? $date->get(IL_CAL_UNIX) : null);
 	
-			$date = $this->form->getInput('early_start');
-			$date = new ilDate($date['date'],IL_CAL_DATE);
-			$activation->setEarliestStart($date->get(IL_CAL_UNIX));
+			$date = null;
+			$item = $this->form->getItemByPostVar('early_start');				
+			if($item)
+			{
+				$date = $date->getDate();			
+			}
+			$activation->setEarliestStart($date ? $date->get(IL_CAL_UNIX) : null);
 	
-			$date = $this->form->getInput('late_end');
-			$date = new ilDate($date['date'],IL_CAL_DATE);
-			$activation->setLatestEnd($date->get(IL_CAL_UNIX));
+			$date = null;
+			$item = $this->form->getItemByPostVar('late_end');
+			if($item)
+			{
+				$date = $date->getDate();									
+			}
+			$activation->setLatestEnd($date ? $date->get(IL_CAL_UNIX) : null);
 	
 			$activation->toggleVisible((bool) $this->form->getInput('visible'));
 			$activation->toggleChangeable((bool) $this->form->getInput('changeable'));
