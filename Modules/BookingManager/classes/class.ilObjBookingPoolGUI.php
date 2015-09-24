@@ -863,6 +863,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		$form->addItem($rec_mode);
 
 		$rec_end = new ilDateTimeInputGUI($this->lng->txt("cal_repeat_until"), "rece");		
+		$rec_end->setRequired(true);
 		$rec_mode->addSubItem($rec_end);	
 					
 		if(!$a_reload)
@@ -946,11 +947,15 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		}
 		
 		// recurrence
-		if((int)$_POST["recm"] > 0 && $current_first)
+		
+		// checkInput() has not been called yet, so we have to improvise
+		include_once 'Services/Calendar/classes/class.ilCalendarUtil.php';
+		$end = ilCalendarUtil::parseIncomingDate($_POST["rece"], null);		
+		
+		if((int)$_POST["recm"] > 0 && $end && $current_first)
 		{
 			ksort($counter);			
-			$end = $_POST["rece"]["date"];
-			$end = date("Y-m-d", mktime(23, 59, 59, $end["m"], $end["d"], $end["y"]));					
+			$end = $end->get(IL_CAL_DATE);	
 			$cycle = (int)$_POST["recm"]*7;			
 			$cut = 0;		
 			$org = $counter;

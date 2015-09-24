@@ -466,8 +466,8 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		$form = $this->initDateForm();
 		if($form->checkInput())
 		{
-			$dt = $form->getInput("date");
-			$dt = new ilDateTime($dt["date"]." ".$dt["time"], IL_CAL_DATETIME);
+			$dt = $form->getItemByPostVar("date");
+			$dt = $dt->getDate();
 			
 			$page = $this->getPageObject();
 			$page->setCreated($dt);

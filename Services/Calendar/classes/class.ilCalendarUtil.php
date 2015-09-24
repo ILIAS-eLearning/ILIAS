@@ -704,7 +704,7 @@ class ilCalendarUtil
 	 * @param int $a_add_time
 	 * @return ilDateTime|ilDate
 	 */
-	public static function parseIncomingDate($a_value, $a_add_time)
+	public static function parseIncomingDate($a_value, $a_add_time = null)
 	{						
 		// already datetime object?
 		if(is_object($a_value) && 
@@ -730,7 +730,6 @@ class ilCalendarUtil
 				}	
 			}			
 		}		
-	}
-		
+	}		
 }
 ?>
