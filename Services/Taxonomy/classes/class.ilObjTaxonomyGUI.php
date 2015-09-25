@@ -539,7 +539,8 @@ die("ilObjTaxonomyGUI::getTreeHTML is deprecated.");
 
 		if(!isset($_POST["id"]))
 		{
-			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+			ilUtil::sendFailure($this->lng->txt("no_checkbox"),true);
+			$ilCtrl->redirect($this, "listNodes");
 		}
 
 		$this->setTabs("list_items");
@@ -645,6 +646,12 @@ die("ilObjTaxonomyGUI::getTreeHTML is deprecated.");
 	function moveItems()
 	{
 		global $tpl, $ilCtrl, $lng, $ilToolbar, $ilHelp;
+
+		if(!isset($_POST["id"]))
+		{
+			ilUtil::sendFailure($this->lng->txt("no_checkbox"),true);
+			$ilCtrl->redirect($this, "listNodes");
+		}
 
 		$this->setTabs("list_items");
 		$ilHelp->setSubScreenId("move_items");
