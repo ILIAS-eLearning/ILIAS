@@ -251,8 +251,15 @@ class ilContainerSorting
 		{
 			return $a_items;
 		}
+		$sorted = array();
 		foreach((array) $a_items as $type => $data)
 		{
+			if($type == 'sess_link')
+			{
+				$sorted[$type] = $data;
+				continue;
+			}
+			
 			// Add position
 			$items = array();
 			foreach((array) $data as $key => $item)
