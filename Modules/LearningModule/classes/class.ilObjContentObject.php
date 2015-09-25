@@ -2093,10 +2093,14 @@ class ilObjContentObject extends ilObject
 		preg_match_all("/url\(([^\)]*)\)/",$css,$files);
 		foreach (array_unique($files[1]) as $fileref)
 		{
-			$fileref = dirname($location_stylesheet)."/".$fileref;
+			$css_fileref = str_replace(array("'", '"'), "", $fileref);
+			$fileref = dirname($location_stylesheet)."/".$css_fileref;
 			if (is_file($fileref))
 			{
-				copy($fileref, $style_img_dir."/".basename($fileref));
+//echo "<br>make dir: ".dirname($style_dir."/".$css_fileref);
+				ilUtil::makeDirParents(dirname($style_dir."/".$css_fileref));
+//echo "<br>copy: ".$fileref." TO ".$style_dir."/".$css_fileref;
+				copy($fileref, $style_dir."/".$css_fileref);
 			}
 		}
 		fclose($fh);
