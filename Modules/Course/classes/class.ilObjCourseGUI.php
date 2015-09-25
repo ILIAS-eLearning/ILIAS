@@ -1320,8 +1320,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		// cancellation limit		
 		$cancel = new ilDateTimeInputGUI($this->lng->txt('crs_cancellation_end'), 'cancel_end');
 		$cancel->setInfo($this->lng->txt('crs_cancellation_end_info'));
-		$cancel_end = $this->object->getCancellationEnd();
-		$cancel->enableDateActivation('', 'cancel_end_tgl', (bool)$cancel_end);
+		$cancel_end = $this->object->getCancellationEnd();	
 		if($cancel_end)
 		{
 			$cancel->setDate($cancel_end);

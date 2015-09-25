@@ -194,33 +194,39 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
 			$parsed = ilCalendarUtil::parseIncomingDate($post, $this->getDatePickerTimeFormat());
 			if($parsed)
 			{
-				$this->setDate($parsed);
+				$this->setDate($parsed);											
 				$valid = true;
-			}		
-			else
-			{
-				$this->invalid_input = $post;
-			}
+			}					
 		}
 		else if(!$this->getRequired())
 		{			
 			$valid = true;
+		}				
+		
+		if($valid && 
+			$this->getStartYear() &&
+			$this->getDate()->get(IL_CAL_FKT_DATE, "Y") < $this->getStartYear())
+		{
+			$valid = false;
 		}
 		
-		// getInput() should return a generic format
-		$post_format = $this->getShowTime()
-			? IL_CAL_DATETIME
-			: IL_CAL_DATE;
-		$_POST[$this->getPostVar()] = $this->getDate()
-			? $this->getDate()->get($post_format)
-			: null;
-	
-		// :TODO: proper messages?
 		if(!$valid)
 		{
+			$this->invalid_input = $post;	
+			$_POST[$this->getPostVar()] = null;
+			
+			// :TODO: proper messages?
 			$this->setAlert($lng->txt("exc_date_not_valid"));
 		}
-		
+		else
+		{
+			// getInput() should return a generic format
+			$post_format = $this->getShowTime()
+				? IL_CAL_DATETIME
+				: IL_CAL_DATE;
+			$_POST[$this->getPostVar()] = $this->getDate()->get($post_format);
+		}
+			
 		return $valid;
 	}
 	

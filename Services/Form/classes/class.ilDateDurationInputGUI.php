@@ -277,11 +277,7 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 			{									
 				$this->setStart($parsed);
 				$valid_start = true;
-			}		
-			else
-			{
-				$this->invalid_input_start = $start;
-			}		
+			}						
 		}
 		else if(!$this->getRequired() && !trim($end))
 		{
@@ -296,45 +292,56 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 			{
 				$this->setEnd($parsed);
 				$valid_end = true;
-			}		
-			else
-			{
-				$this->invalid_input_end = $end;
-			}
+			}					
 		}
 		else if(!$this->getRequired() && !trim($start))
 		{					
 			$valid_end = true;			
 		}
 		
-		$valid = ($valid_start && $valid_end);		
-		
-		if($this->getStart() && 
-			$this->getEnd())
+		if($this->getStartYear())
 		{
-			if($this->getEnd()->get(IL_CAL_UNIX) < $this->getStart()->get(IL_CAL_UNIX))
+			if($valid_start && 
+				$this->getStart()->get(IL_CAL_FKT_DATE, "Y") < $this->getStartYear())
 			{
-				$valid = false;
+				$valid_start = false;
+			}
+			if($valid_end && 
+				$this->getEnd()->get(IL_CAL_FKT_DATE, "Y") < $this->getStartYear())
+			{
+				$valid_end = false;
 			}
 		}
 		
-		// getInput() should return a generic format	
-		$post_format = $format
-			? IL_CAL_DATETIME
-			: IL_CAL_DATE;			
-		$_POST[$this->getPostVar()]["start"] = $this->getStart()
-			? $this->getStart()->get($post_format)
-			: null;
-		$_POST[$this->getPostVar()]["end"] = $this->getEnd()
-			? $this->getEnd()->get($post_format)
-			: null;
-		unset($_POST[$this->getPostVar()]["tgl"]);
+		$valid = ($valid_start && $valid_end);	
+				
+		if($valid &&
+			ilDateTime::_after($this->getStart(), $this->getEnd()))			
+		{
+			$valid = false;			
+		}
 		
 		// :TODO: proper messages?
 		if(!$valid)
 		{
+			$this->invalid_input_start = $start;
+			$this->invalid_input_end = $end;
+			
+			$_POST[$this->getPostVar()]["start"] = null;
+			$_POST[$this->getPostVar()]["end"] = null;
+			
 			$this->setAlert($lng->txt("exc_date_not_valid"));
-		}				
+		}	
+		else
+		{			
+			// getInput() should return a generic format	
+			$post_format = $format
+				? IL_CAL_DATETIME
+				: IL_CAL_DATE;			
+			$_POST[$this->getPostVar()]["start"] = $this->getStart()->get($post_format);
+			$_POST[$this->getPostVar()]["end"] = $this->getEnd()->get($post_format);				
+			unset($_POST[$this->getPostVar()]["tgl"]);		
+		}
 		
 		return $valid;
 	}
