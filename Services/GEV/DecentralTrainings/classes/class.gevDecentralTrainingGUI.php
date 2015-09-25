@@ -1284,14 +1284,6 @@ class gevDecentralTrainingGUI {
 		$now = new ilDate(date('Y-m-d'), IL_CAL_DATE);
 		$nowUnix = $now->get(IL_CAL_UNIX);
 
-		$confirmed = $a_form->getInput("correct_data");
-		
-		if($confirmed === "") {
-			ilUtil::sendFailure($this->lng->txt("gev_dec_training_correct_data_no_confirm"), false);
-			return false;
-		}
-		
-
 		if($dateUnix < $nowUnix){
 			ilUtil::sendFailure($this->lng->txt("gev_dec_training_date_before_now"), false);
 			return false;
@@ -1317,6 +1309,13 @@ class gevDecentralTrainingGUI {
 			}
 		}
 		// ench check venue
+		$confirmed = $a_form->getInput("correct_data");
+		if($confirmed === "") {
+			ilUtil::sendFailure($this->lng->txt("gev_dec_training_correct_data_no_confirm"), false);
+			$item = $a_form->getItemByPostVar("correct_data");
+			$item->setAlert($this->lng->txt("gev_dec_training_correct_data_no_confirm"));
+			return false;
+		}
 
 		//check total minutes are to small for credit points
 		$settings_utils = gevSettings::getInstance();
