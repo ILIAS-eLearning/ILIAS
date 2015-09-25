@@ -662,28 +662,35 @@ class ilCalendarUtil
 		
 		if(!$tmp["error_count"] &&
 			!$tmp["warning_count"])
-		{								
-			$hour = $minute = $second = 0;
-			if($a_add_time)
-			{								
-				$hour = (int)$tmp["hour"];
-				$minute = (int)$tmp["minute"];
-				$second = (int)$tmp["second"];					
+		{	
+			if($tmp["year"] >= 1903)
+			{
+				$hour = $minute = $second = 0;
+				if($a_add_time)
+				{								
+					$hour = (int)$tmp["hour"];
+					$minute = (int)$tmp["minute"];
+					$second = (int)$tmp["second"];					
+				}
+
+				$tstamp = date("Y-m-d H:i:s", mktime(
+					$hour,
+					$minute,
+					$second,
+					$tmp["month"],
+					$tmp["day"],
+					$tmp["year"]
+				));
+
+				// :TODO: timezone?
+				$date = $a_add_time
+					? new ilDateTime($tstamp, IL_CAL_DATETIME, $ilUser->getTimeZone())
+					: new ilDate($tstamp, IL_CAL_DATETIME, $ilUser->getTimeZone());				
 			}
-			
-			$tstamp = date("Y-m-d H:i:s", mktime(
-				$hour,
-				$minute,
-				$second,
-				$tmp["month"],
-				$tmp["day"],
-				$tmp["year"]
-			));
-			
-			// :TODO: timezone?
-			$date = $a_add_time
-				? new ilDateTime($tstamp, IL_CAL_DATETIME, $ilUser->getTimeZone())
-				: new ilDate($tstamp, IL_CAL_DATETIME, $ilUser->getTimeZone());								
+			else
+			{
+				$tmp["errors"][] = "No dates before 1903 supported.";
+			}
 		}
 		
 		return array(

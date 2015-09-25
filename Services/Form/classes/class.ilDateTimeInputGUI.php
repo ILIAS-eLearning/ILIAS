@@ -324,12 +324,20 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
 	*/
 	function unserializeData($a_data)
 	{
-		$tstamp = unserialize($a_data);
-		if($tstamp)
-		{			
-			$date = $this->getShowTime()
-				? new ilDateTime($tstamp, IL_CAL_UNIX)
-				: new ilDate($tstamp, IL_CAL_UNIX);					
+		$tmp = unserialize($a_data);
+		if($tmp)
+		{		
+			// we used to serialize the complete instance
+			if(is_object($tmp))
+			{
+				$date = $tmp;
+			}
+			else
+			{
+				$date = $this->getShowTime()
+					? new ilDateTime($tmp, IL_CAL_UNIX)
+					: new ilDate($tmp, IL_CAL_UNIX);		
+			}
 			$this->setDate($date);
 		}
 		else
