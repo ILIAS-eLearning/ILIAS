@@ -362,12 +362,12 @@ class ilObjUserGUI extends ilObjectGUI
 	*/
 	function saveObject()
 	{
-        global $ilAccess, $ilSetting, $tpl, $ilUser, $rbacadmin;
+        global $ilAccess, $ilSetting, $tpl, $ilUser, $rbacadmin, $rbacsystem;
 
         include_once('./Services/Authentication/classes/class.ilAuthUtils.php');
 
 		// User folder
-		if (!$ilAccess->checkAccess('create_usr', "", $this->usrf_ref_id) &&
+		if (!$rbacsystem->checkAccess('create_usr', $this->usrf_ref_id) &&
 			!$ilAccess->checkAccess('cat_administrate_users', "", $this->usrf_ref_id))
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
