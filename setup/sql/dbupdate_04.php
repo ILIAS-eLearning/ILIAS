@@ -7532,6 +7532,12 @@ $ilDB->addPrimaryKey('tst_addtime', array('active_fi'));
 ?>
 <#4573>
 <?php 
+
+// delete all entries
+// structure reload is done at end of db update.
+$query = 'DELETE from ctrl_calls';
+$ilDB->manipulate($query);
+
 if($ilDB->indexExistsByFields('ctrl_calls', array('parent')))
 {
 	$ilDB->dropIndexByFields('ctrl_calls', array('parent'));
