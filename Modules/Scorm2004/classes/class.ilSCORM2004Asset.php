@@ -864,7 +864,10 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 		foreach ($this->q_media as $media) {
 			if ($media !="") {
 				error_log($media);
-				copy($media, $a_target_dir."/objects/".basename($media));
+				if (is_file ($media))
+				{
+					copy($media, $a_target_dir."/objects/".basename($media));
+				}
 			}
 		}
 	}

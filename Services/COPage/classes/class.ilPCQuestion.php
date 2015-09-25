@@ -445,7 +445,20 @@ class ilPCQuestion extends ilPageContent
 			foreach ($q_ids as $q_id)
 			{
 				$q_exporter = new ilQuestionExporter($a_no_interaction);
-				$js[$q_id] = $q_exporter->exportQuestion($q_id, null, $a_mode);
+				$image_path = null;
+				if ($a_mode == "offline")
+				{
+					if ($this->getPage()->getParentType() == "sahs")
+					{
+						$image_path = "./objects/";
+					}
+					if ($this->getPage()->getParentType() == "lm")
+					{
+						$image_path = "./assessment/0/".$q_id."/images/";
+					}
+				}
+
+				$js[$q_id] = $q_exporter->exportQuestion($q_id, $image_path, $a_mode);
 			}
 		}
 		return $js;
