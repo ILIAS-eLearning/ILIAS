@@ -15304,3 +15304,4 @@ wsp#:#wsp_shared_filter_reset_button#:#Suche zurücksetzen
 wsp#:#wsp_shared_filter_button#:#Suche
 exc#:#exc_direct_submit#:#Abgeben
 export#:#no_file#:#Keine Datei
+content#:#lm_no_download_files#:#Zurzeit stehen keine Download-Dateien zur Verfügung.
