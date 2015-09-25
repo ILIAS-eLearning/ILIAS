@@ -111,7 +111,7 @@ class gevOrguSuperiorMailData extends ilMailData {
 				$val = $this->lastname;
 				break;
 			case "BERICHT":
-				$val = $this->getReportDataString($a_markup);
+				$val = $this->getReportDataString();
 				break;
 		}
 		
@@ -120,6 +120,11 @@ class gevOrguSuperiorMailData extends ilMailData {
 		}
 		
 		$this->cache[$a_placeholder_code] = $val;
+		
+		if(!$a_markup) {
+			$val = strip_tags($val);
+		}
+		
 		return $val;
 	}
 
@@ -138,7 +143,7 @@ class gevOrguSuperiorMailData extends ilMailData {
 		return true;
 	}
 
-	function getReportDataString($a_markup) {
+	function getReportDataString() {
 		require_once("Services/Calendar/classes/class.ilDate.php");
 		require_once("Services/Calendar/classes/class.ilDatePresentation.php");
 		
@@ -191,10 +196,6 @@ class gevOrguSuperiorMailData extends ilMailData {
 				$tpl->parseCurrentBlock();
 				$ret .= $tpl->get();
 			}
-		}
-
-		if(!$a_markup) {
-			$ret = strip_tags($ret);
 		}
 
 		return $ret;
