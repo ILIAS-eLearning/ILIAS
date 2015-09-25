@@ -78,6 +78,28 @@ class ilQuestionExporter
 			$this->q_gui->object->feedbackOBJ->setPageObjectOutputMode($a_output_mode);
 			$this->json = $this->q_gui->object->toJSON();
 			$this->json_decoded = json_decode($this->json);
+
+			// image path fix for offline mode
+			if ($a_output_mode == "offline")
+			{
+				if (isset($this->json_decoded->path))	// mc, single, ordering
+				{
+					if (is_int($p = strpos($this->json_decoded->path, "/assessment/0/")))
+					{
+						$this->json_decoded->path = ".".substr($this->json_decoded->path, $p);
+						$this->json = json_encode($this->json_decoded);
+					}
+				}
+				if (isset($this->json_decoded->image))	// hotspot
+				{
+					if (is_int($p = strpos($this->json_decoded->image, "/assessment/0/")))
+					{
+						$this->json_decoded->image = ".".substr($this->json_decoded->image, $p);
+						$this->json = json_encode($this->json_decoded);
+					}
+				}
+			}
+
 			self::$exported[$this->json_decoded->id] = $this->json;
 			self::$mobs[$this->json_decoded->id] = $this->json_decoded->mobs;
 			return $this->$type();

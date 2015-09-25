@@ -2087,6 +2087,17 @@ class ilObjContentObject extends ilObject
 		}
 		$ilBench->stop("ExportHTML", "exportHTMLFileObjects");
 
+		// export questions (images)
+		if (count($this->q_ids) > 0)
+		{
+			foreach ($this->q_ids as $q_id)
+			{
+				ilUtil::makeDirParents($a_target_dir."/assessment/0/".$q_id."/images");
+				ilUtil::rCopy(ilUtil::getWebspaceDir()."/assessment/0/".$q_id."/images",
+					$a_target_dir."/assessment/0/".$q_id."/images");
+			}
+		}
+
 		// export table of contents
 		$ilBench->start("ExportHTML", "exportHTMLTOC");
 		$ilLocator->clearItems();
@@ -2510,14 +2521,20 @@ class ilObjContentObject extends ilObject
 				include_once("./Modules/File/classes/class.ilObjFile.php");
 				$pg_files = ilObjFile::_getFilesOfObject($this->getType().":pg", $page["obj_id"], 0, $a_lang);
 				$this->offline_files = array_merge($this->offline_files, $pg_files);
-				
+
+				// collect all questions
+				include_once("./Services/COPage/classes/class.ilPCQuestion.php");
+				$q_ids = ilPCQuestion::_getQuestionIdsForPage($this->getType(), $page["obj_id"], $a_lang);
+				foreach($q_ids as $q_id)
+				{
+					$this->q_ids[$q_id] = $q_id;
+				}
+
 				$ilBench->stop("ExportHTML", "exportHTMLPage");
 			}
 		}
 		$this->offline_mobs = $mobs;
 		$this->offline_int_links = $int_links;
-		
-		
 	}
 
 
