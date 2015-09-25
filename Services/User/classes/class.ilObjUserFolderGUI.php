@@ -191,16 +191,20 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		global $rbacsystem, $ilUser, $ilToolbar, $tpl, $ilSetting, $lng;
 		
 		include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
-		
-		$button = ilLinkButton::getInstance();
-		$button->setCaption("usr_add");
-		$button->setUrl($this->ctrl->getLinkTarget($this, "addUser"));	
-		$ilToolbar->addButtonInstance($button);
-		
-		$button = ilLinkButton::getInstance();
-		$button->setCaption("import_users");
-		$button->setUrl($this->ctrl->getLinkTarget($this, "importUserForm"));	
-		$ilToolbar->addButtonInstance($button);
+
+		if ($rbacsystem->checkAccess('create_usr', $this->object->getRefId()) ||
+			$rbacsystem->checkAccess('cat_administrate_users', $this->object->getRefId()))
+		{
+			$button = ilLinkButton::getInstance();
+			$button->setCaption("usr_add");
+			$button->setUrl($this->ctrl->getLinkTarget($this, "addUser"));
+			$ilToolbar->addButtonInstance($button);
+
+			$button = ilLinkButton::getInstance();
+			$button->setCaption("import_users");
+			$button->setUrl($this->ctrl->getLinkTarget($this, "importUserForm"));
+			$ilToolbar->addButtonInstance($button);
+		}
 
 		// alphabetical navigation
 		include_once './Services/User/classes/class.ilUserAccountSettings.php';
