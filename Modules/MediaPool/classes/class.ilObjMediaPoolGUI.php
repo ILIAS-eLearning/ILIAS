@@ -934,14 +934,6 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 					$this->ctrl->setParameter($this, "mepitem_id", $_GET["mepitem_id"]);
 					$ilLocator->addItem($title, $link, "", $_GET["ref_id"]);
 				}
-				else
-				{
-					$this->ctrl->setParameter($this, "mepitem_id", $node["child"]);
-					$link = $this->ctrl->getLinkTarget($this, "listMedia");
-					$title = $node["title"];
-					$this->ctrl->setParameter($this, "mepitem_id", $_GET["mepitem_id"]);
-					$ilLocator->addItem($title, $link);
-				}
 			}
 		}
 	}
