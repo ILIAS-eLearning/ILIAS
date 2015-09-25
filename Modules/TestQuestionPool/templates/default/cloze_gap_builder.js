@@ -943,8 +943,13 @@ var ClozeGapBuilder = (function () {
                 var points = 0;
                 var counter = 0;
                 var number = true;
+                var select_at_least_on_positive = false;
                 entry.values.forEach(function (values) {
                     points += parseFloat(values.points);
+                    if(parseFloat(values.points) > 0)
+                    {
+                        select_at_least_on_positive = true;
+                    }
                     if(isNaN(values.points) || values.points === '' ){
                         pro.highlightRed($('#gap_' + row + '\\[points\\]\\[' + counter + '\\]'));
                         number=false;
@@ -976,6 +981,11 @@ var ClozeGapBuilder = (function () {
                 }
                 if (parseFloat(points) <= 0) {
                     if(ClozeSettings.unused_gaps_comb[row] === true)
+                    {
+                        pro.removeHighlight($('.gap_points_' + row));
+                        pro.showHidePrototypes(row,'points',false);
+                    }
+                    else if (entry.type === 'select' && select_at_least_on_positive === true)
                     {
                         pro.removeHighlight($('.gap_points_' + row));
                         pro.showHidePrototypes(row,'points',false);
