@@ -3550,7 +3550,10 @@ return;
 			foreach ($q_ids as $q_id)
 			{
 				$q_exporter = new ilQuestionExporter($a_no_interaction);
-				$js[$q_id] = $q_exporter->exportQuestion($q_id, null, $this->getOutputMode());
+				$image_path = ($this->getOutputMode() == "offline")
+					? "./assessment/0/".$q_id."/images/"
+					: null;
+				$js[$q_id] = $q_exporter->exportQuestion($q_id, $image_path, $this->getOutputMode());
 			}
 		}
 		return $js;
