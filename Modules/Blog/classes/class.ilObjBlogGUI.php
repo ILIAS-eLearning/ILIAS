@@ -792,6 +792,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		}
 		else
 		{
+			ilUtil::sendFailure($this->lng->txt("msg_no_title"), true);
 			$ilCtrl->redirect($this, "render");
 		}
 	}
