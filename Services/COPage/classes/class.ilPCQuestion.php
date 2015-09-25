@@ -328,7 +328,7 @@ class ilPCQuestion extends ilPageContent
 		{
 			$js_files[] = "./Modules/Scorm2004/scripts/questions/pure.js";
 			$js_files[] = "./Modules/Scorm2004/scripts/questions/question_handling.js";
-
+			$js_files[] = "Modules/TestQuestionPool/js/ilMatchingQuestion.js";
 		}
 
 		if (!$this->getPage()->getPageConfig()->getEnableSelfAssessmentScorm() && $a_mode != IL_PAGE_PREVIEW
@@ -347,7 +347,8 @@ class ilPCQuestion extends ilPageContent
 	{
 		if ($this->getPage()->getPageConfig()->getEnableSelfAssessment())
 		{
-			return array("./Modules/Scorm2004/templates/default/question_handling.css");
+			return array("./Modules/Scorm2004/templates/default/question_handling.css",
+				"Modules/TestQuestionPool/templates/default/test_javascript.css");
 		}
 		return array();
 	}
