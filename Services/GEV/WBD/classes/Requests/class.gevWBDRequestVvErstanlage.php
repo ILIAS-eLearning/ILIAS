@@ -147,7 +147,5 @@ class gevWBDRequestVvErstanlage extends gevWBDRequest {
 	*/
 	public function createWBDSuccess($response) {
 		$this->wbd_success = new gevWBDSuccessVvErstanlage($response,$this->row_id);
-
-		return true;
 	}
 }

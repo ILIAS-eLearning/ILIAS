@@ -11,6 +11,7 @@
 */
 require_once("Services/GEV/WBD/classes/Requests/class.gevWBDRequest.php");
 require_once("Services/GEV/WBD/classes/Data/class.gevWBDData.php");
+require_once("Services/GEV/WBD/classes/Success/class.gevWBDSuccessVermitVerwaltungTransferfaehig.php");
 class gevWBDRequestVermitVerwaltungTransferfaehig extends gevWBDRequest {
 	
 	protected $auth_email;
@@ -61,13 +62,11 @@ class gevWBDRequestVermitVerwaltungTransferfaehig extends gevWBDRequest {
 	}
 
 	/**
-	* creates the success object VvErstanlage
+	* creates the success object VermitVerwaltungTransferfaehig
 	*
 	* @throws LogicException
-	* 
-	* @return boolean
 	*/
 	public function createWBDSuccess($response) {
-		return true;
+		$this->wbd_success = new gevWBDSuccessVermitVerwaltungTransferfaehig($this->user_id,$this->row_id);
 	}
 }

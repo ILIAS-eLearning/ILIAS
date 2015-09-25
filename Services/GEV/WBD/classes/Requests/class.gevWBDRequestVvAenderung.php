@@ -133,12 +133,8 @@ class gevWBDRequestVvAenderung extends gevWBDRequest {
 	* creates the success object VvAenderung
 	*
 	* @throws LogicException
-	* 
-	* @return boolean
 	*/
 	public function createWBDSuccess($response) {
 		$this->wbd_success = new gevWBDSuccessVvAenderung($response,$this->row_id);
-
-		return true;
 	}
 }

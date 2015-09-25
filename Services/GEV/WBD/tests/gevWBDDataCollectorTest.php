@@ -15,6 +15,18 @@ class _gevWBDDataCollector extends gevWBDDataCollector {
 		return $this->_createNewUserList($db);
 	}
 
+	public function testable_createUpdateUserList($db) {
+		return $this->_createUpdateUserList($db);
+	}
+
+	public function testable_createReleaseUserList($db) {
+		return $this->_createReleaseUserList($db);
+	}
+
+	public function testable_createNewEduRecordList($db) {
+		return $this->_createNewEduRecordList($db);
+	}
+
 	public function error(gevWBDError $error) {
 		$this->called_error++;
 	}
@@ -65,7 +77,6 @@ class gevWBDDataCollectorTest extends PHPUnit_Framework_TestCase {
 		include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
 		ilUnitUtil::performInitialisation();
 		$this->data_collector = new _gevWBDDataCollector();
-		$this->counter = 0;
 	}
 
 	public function test_isWBDDataCollector() {
@@ -116,52 +127,88 @@ class gevWBDDataCollectorTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(count($data), count($recs));
 	}
 
-	
+	public function test_createUpdateUserList() {
+		$data = $this->getUpdateUserData();
+		
+		$db = new mock_db($data);
+
+		$this->data_collector->testable_createUpdateUserList($db);
+
+		$this->assertEquals(1, $db->called_query);
+		$this->assertEquals(count($data) + 1, $db->called_fetchAssoc);
+		$this->assertTrue($this->data_collector->called_error === 0);
+	}
+
+	public function test_createUpdateUserListError() {
+		$data = $this->getUpdateUserDataError();
+		
+		$db = new mock_db($data);
+
+		$this->data_collector->testable_createUpdateUserList($db);
+
+		$this->assertEquals(1, $db->called_query);
+		$this->assertEquals(count($data) + 1, $db->called_fetchAssoc);
+		$this->assertTrue($this->data_collector->called_error > 0);
+	}
+
+	public function test_createReleaseUserList() {
+		$data = $this->getRealeseUserData();
+		
+		$db = new mock_db($data);
+
+		$this->data_collector->testable_createReleaseUserList($db);
+
+		$this->assertEquals(1, $db->called_query);
+		$this->assertEquals(count($data) + 1, $db->called_fetchAssoc);
+		$this->assertTrue($this->data_collector->called_error === 0);
+	}
+
+	public function test_createReleaseUserListError() {
+		$data = $this->getRealeseUserDataError();
+		
+		$db = new mock_db($data);
+
+		$this->data_collector->testable_createReleaseUserList($db);
+
+		$this->assertEquals(1, $db->called_query);
+		$this->assertEquals(count($data) + 1, $db->called_fetchAssoc);
+		$this->assertTrue($this->data_collector->called_error > 0);
+	}
+
+	public function test_createNewEduRecordList() {
+		$data = $this->getNewEduRecordData();
+		
+		$db = new mock_db($data);
+
+		$this->data_collector->testable_createNewEduRecordList($db);
+
+		$this->assertEquals(1, $db->called_query);
+		$this->assertEquals(count($data) + 1, $db->called_fetchAssoc);
+		$this->assertTrue($this->data_collector->called_error === 0);
+	}
+
+	public function test_createNewEduRecordListError() {
+		$data = $this->getNewEduRecordDataError();
+		
+		$db = new mock_db($data);
+
+		$this->data_collector->testable_createNewEduRecordList($db);
+
+		$this->assertEquals(1, $db->called_query);
+		$this->assertEquals(count($data) + 1, $db->called_fetchAssoc);
+		$this->assertTrue($this->data_collector->called_error > 0);
+	}
 
 	/**
 	* @dataProvider wbdErrorProvider
 	*/
 	public function test_writeErrorToDB($error) {
-		
-		$this->counter++;
 		$db = new mock_db(array());
 		$this->data_collector->setDB($db);
 		$this->data_collector->testable_error($error);
 
-		$this->assertEquals($this->counter, $db->called_executed);
+		$this->assertEquals(1, $db->called_executed);
 	}
-	
-	/*public function test_createUpdateUserList() {
-		$this->data_collector->createUpdateUserList();
-		$this->assertNotNull($this->data_collector->getRecords());
-		$this->assertTrue(is_array($this->data_collector->getRecords()));
-	}
-
-	public function test_getNextUpdateUserRequest() {
-		$this->data_collector->createUpdateUserList();
-
-		while($rec = $this->data_collector->getNextRecord()) {
-			$this->assertInstanceOf("gevWBDRequestVvAenderung",$rec);
-		}
-
-		$this->assertNull($this->data_collector->getRecords());
-	}
-
-	public function test_createReleaseUserList() {
-		$this->data_collector->createReleaseUserList();
-		$this->assertNotNull($this->data_collector->getRecords());
-		$this->assertTrue(is_array($this->data_collector->getRecords()));
-	}
-
-	public function test_getNextReleaseUserRequest() {
-		$this->data_collector->createReleaseUserList();
-
-		while($rec = $this->data_collector->getNextRecord()) {
-			$this->assertInstanceOf("gevWBDRequestVvAenderung",$rec);
-		}
-
-		$this->assertNull($this->data_collector->getRecords());
-	}*/
 
 	protected function getNewUserData() {
 		return array(array("gender"=>"m"
@@ -236,6 +283,98 @@ class gevWBDDataCollectorTest extends PHPUnit_Framework_TestCase {
 					  ,"user_id"=>3215
 					  ,"street"=>"Vorgebirgstr. 338"
 					  ,"row_id"=>35214
+					));
+	}
+
+	protected function getUpdateUserData() {
+		return array(array("address_type"=>"geschäftlich"
+					  ,"gender"=>"m"
+					  ,"email"=>"shecken@cat06.de"
+					  ,"mobile_phone_nr"=>"0162/9800608"
+					  ,"info_via_mail"=>false
+					  ,"birthday"=>"1981-06-19"
+					  ,"country"=>"D"
+					  ,"lastname"=>"Hecken"
+					  ,"city"=>"Köln"
+					  ,"zipcode"=>"50969"
+					  ,"phone_nr"=>"0221/46757600"
+					  ,"degree"=>"Dr"
+					  ,"wbd_agent_status"=>"Makler"
+					  ,"okz"=>"OKZ1"
+					  ,"firstname"=>"Stefan"
+					  ,"user_id"=>3215
+					  ,"street"=>"Vorgebirgstr. 338"
+					  ,"row_id"=>35214
+					  ,"address_info"=>"Der wohnt bei Mutti"
+					  ,"bwv_id"=>"1212-2323-23-2323"
+					));
+	}
+
+	protected function getUpdateUserDataError() {
+		return array(array("address_type"=>"geschäftlich"
+					  ,"gender"=>"m"
+					  ,"email"=>"shecken@cat06.de"
+					  ,"mobile_phone_nr"=>"0162/9800608"
+					  ,"info_via_mail"=>false
+					  ,"birthday"=>"1981-06-19"
+					  ,"country"=>"D"
+					  ,"lastname"=>""
+					  ,"city"=>"Köln"
+					  ,"zipcode"=>"50969"
+					  ,"phone_nr"=>"0221/46757600"
+					  ,"degree"=>"Dr"
+					  ,"wbd_agent_status"=>"Makler"
+					  ,"okz"=>"OKZ1"
+					  ,"firstname"=>"Stefan"
+					  ,"user_id"=>3215
+					  ,"street"=>"Vorgebirgstr. 338"
+					  ,"row_id"=>35214
+					  ,"address_info"=>"Der wohnt bei Mutti"
+					  ,"bwv_id"=>"1212-2323-23-2323"
+					));
+	}
+
+	protected function getRealeseUserData() {
+		return array(array("email"=>"shecken@cat06.de"
+					  ,"mobile_phone_nr"=>"0162/9800608"
+					  ,"bwv_id"=>"1212-2323-23-2323"
+					  ,"user_id"=>3215
+					  ,"row_id"=>35214
+					));
+	}
+
+	protected function getRealeseUserDataError() {
+		return array(array("email"=>"shecken@cat06.de"
+					  ,"mobile_phone_nr"=>"0162/9800608"
+					  ,"bwv_id"=>""
+					  ,"user_id"=>3215
+					  ,"row_id"=>35214
+					));
+	}
+
+	protected function getNewEduRecordData() {
+		return array(array("title"=>"Berufsunfähigkeitsversicherung 2013"
+					  ,"begin_date" => "2015-12-20"
+					  ,"end_date" => "2015-12-20"
+					  ,"credit_points" => 5
+					  ,"type" => "Virtuelles Training"
+					  ,"wbd_topic" => "Privat-Vorsorge-Lebens-/Rentenversicherung"
+					  ,"row_id"=>35214
+					  ,"user_id"=>2323
+					  ,"bwv_id" => "22332-565-321-65" 
+					));
+	}
+
+	protected function getNewEduRecordDataError() {
+		return array(array("title"=>"Berufsunfähigkeitsversicherung 2013"
+					  ,"begin_date" => "2015-12-20"
+					  ,"end_date" => "2015-12-20"
+					  ,"credit_points" => 5
+					  ,"type" => ""
+					  ,"wbd_topic" => "Privat-Vorsorge-Lebens-/Rentenversicherung"
+					  ,"row_id"=>35214
+					  ,"user_id"=>2323
+					  ,"bwv_id" => "22332-565-321-65" 
 					));
 	}
 

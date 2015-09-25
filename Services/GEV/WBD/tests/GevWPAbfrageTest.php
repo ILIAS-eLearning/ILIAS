@@ -15,6 +15,8 @@ class GevWPAbfrageTest extends RequestTestBase {
 					  ,"row_id" => "442"
 					);
 
+		$this->user_id = 10;
+
 		$this->request = gevWBDRequestWPAbfrage::getInstance($data);
 	}
 
@@ -274,21 +276,13 @@ class GevWPAbfrageTest extends RequestTestBase {
 			);
 	}
 
-	//Bool = TRUE needed
-	/**
-     * @dataProvider xml_response_success
-     */
-	public function test_parseResponseXMLSuccess($xml) {
-		$this->assertTrue($this->request->createWBDSuccess($xml));
-	}
-
 	//Bool = False needed
 	/**
      * @dataProvider xml_response_success_xml_fails
      * @expectedException LogicException
      */
 	public function test_parseResponseXMLErrorInXML($xml) {
-		$this->assertTrue($this->request->createWBDSuccess($xml));
+		$this->request->createWBDSuccess($xml,$this->user_id);
 	}
 
 	//Array needed
@@ -296,7 +290,7 @@ class GevWPAbfrageTest extends RequestTestBase {
      * @dataProvider xml_response_success
      */
 	public function test_returnWBDSuccessObject($xml) {
-		$this->assertTrue($this->request->createWBDSuccess($xml));
+		$this->request->createWBDSuccess($xml,$this->user_id);
 		$this->assertInstanceOf("WBDSuccess",$this->request->getWBDSuccess());
 	}
 
@@ -305,7 +299,7 @@ class GevWPAbfrageTest extends RequestTestBase {
 	 * @expectedException LogicException
 	 */
 	public function test_returnWBDErrorObjectOnSuccess($xml) {
-		$this->assertTrue($this->request->createWBDSuccess($xml));
+		$this->request->createWBDSuccess($xml, $this->user_id);
 		$this->assertInstanceOf("WBDError",$this->request->getWBDError());
 	}
 }

@@ -1288,7 +1288,6 @@ class gevWBDDataConnector extends wbdDataConnector {
 	 * @param array $edu_records
 	 * @return boolean
 	 */
-
 	public function save_external_edu_records($bwv_id, $edu_records) {
 		global $IMPORT_FOREIGN_EDURECORDS;
 		if(! $IMPORT_FOREIGN_EDURECORDS){

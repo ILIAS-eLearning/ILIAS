@@ -77,6 +77,6 @@ class gevWBDRequestVermitVerwaltungAufnahme extends gevWBDRequest {
 	* @return boolean
 	*/
 	public function createWBDSuccess($response) {
-		return true;
+		
 	}
 }

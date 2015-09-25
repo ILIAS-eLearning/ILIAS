@@ -40,7 +40,7 @@ class GevWBDSuccessWPAbfrageTest extends SuccessTestBase {
 													.'</ns1:putResponse>'
 												.'</soap:Body>'
 											.'</soap:Envelope>'
-									));
+									),10);
 	}
 
 	public function success_xml_error() {
@@ -95,7 +95,7 @@ class GevWBDSuccessWPAbfrageTest extends SuccessTestBase {
 	* @expectedException LogicException
 	*/
 	public function test_cantCreateSuccessObject($xml) {
-		$success = new gevWBDSuccessWPAbfrage($xml);
+		$success = new gevWBDSuccessWPAbfrage($xml,10);
 		$this->assertNotInstanceOf("gevWBDSuccessWPAbfrage",$success);
 	}
 

@@ -22,6 +22,13 @@ class GevVermitVerwaltungTransferfaehigTest extends RequestTestBase {
 		$this->assertInstanceOf("gevWBDRequestVermitVerwaltungTransferfaehig",$this->request);
 	}
 
+	public function xml_response_success() {
+		return array(array("")
+					,array("")
+					,array("")
+					);
+	}
+
 	public function xml_response_error() {
 		return array(array(simplexml_load_string('<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">'
 													.'<soap:Body>'
@@ -36,5 +43,13 @@ class GevVermitVerwaltungTransferfaehigTest extends RequestTestBase {
 												.'</soap:Envelope>'
 									))
 			);
+	}
+
+	/**
+	* @dataProvider xml_response_success
+	*/
+	public function test_returnWBDSuccessObject($xml) {
+		$this->request->createWBDSuccess($xml);
+		$this->assertInstanceOf("WBDSuccess",$this->request->getWBDSuccess());
 	}
 }

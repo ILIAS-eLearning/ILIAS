@@ -61,12 +61,8 @@ class gevWBDRequestWPAbfrage extends gevWBDRequest {
 	* creates the success object VvErstanlage
 	*
 	* @throws LogicException
-	* 
-	* @return boolean
 	*/
 	public function createWBDSuccess($response) {
-		$this->wbd_success = new gevWBDSuccessWPAbfrage($response);
-
-		return true;
+		$this->wbd_success = new gevWBDSuccessWPAbfrage($response,$this->user_id);
 	}
 }
