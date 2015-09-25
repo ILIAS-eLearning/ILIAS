@@ -234,13 +234,13 @@ class gevDecentralTrainingCreateSchedulePDF
 			$y_value -= $this->crsBlockSpaceTopAdd - (0.14 + $jumper);
 
 			$this->pdf->setXY($x_thirdColoumn - 0.1, $y_value);
-			$this->pdf->MultiCell($coloumn_width,$this->crsBlockSpaceTopAdd,$this->encodeSpecialChars($base->getTitle()));
+			$this->pdf->MultiCell($coloumn_width,$this->crsBlockSpaceTopAdd,$this->encodeSpecialChars($base->getTitle()),0,"");
 
 			$this->pdf->setXY($x_fourthColoumn - 0.1, $y_value);
-			$this->pdf->MultiCell($coloumn_width,$this->crsBlockSpaceTopAdd,$this->encodeSpecialChars($base->getContent()));
+			$this->pdf->MultiCell($coloumn_width,$this->crsBlockSpaceTopAdd,$this->encodeSpecialChars($base->getContent()),0,"");
 
 			$this->pdf->setXY($x_fithColoumn - 0.1, $y_value);
-			$this->pdf->MultiCell($coloumn_width,$this->crsBlockSpaceTopAdd,$this->encodeSpecialChars($base->getLearningDestination()));
+			$this->pdf->MultiCell($coloumn_width,$this->crsBlockSpaceTopAdd,$this->encodeSpecialChars($base->getLearningDestination()),0,"");
 
 			$this->pdf->setXY($x_firstColoumn, $y_value + $max_height - (2*$this->crsBlockSpaceTopAdd));
 			$jumper += 0.01;
