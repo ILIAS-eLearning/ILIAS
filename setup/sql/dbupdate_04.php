@@ -12105,4 +12105,10 @@ if(!$ilDB->indexExistsByFields('frm_posts_tree', array('pos_fk')))
 		$ilDB->addIndex('role_data',array('auth_mode'),'i1');
 	}
 ?>
+<#4768>
+<?php
+$ilDB->modifyTableColumn('cmi_gobjective', 'objective_id', array(
+	'length'  => 253,
+));
+?>
 

@@ -2725,7 +2725,7 @@ CREATE TABLE `cmi_gobjective` (
   `measure` varchar(50) default NULL,
   `scope_id` int(11) default NULL,
   `status` varchar(50) default NULL,
-  `objective_id` varchar(255) default NULL,
+  `objective_id` varchar(253) default NULL,
   UNIQUE KEY `gobjective` (`user_id`,`objective_id`,`scope_id`)
 ) ENGINE=MyISAM;
 
