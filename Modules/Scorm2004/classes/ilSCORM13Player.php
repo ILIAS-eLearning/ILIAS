@@ -339,9 +339,13 @@ class ilSCORM13Player
 	public function getPlayer()
 	{
 		global $ilUser,$lng, $ilias, $ilSetting;
+		
+		//WAC
+		require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
+		ilWACSignedPath::signFolderOfStartFile($this->getDataDirectory().'/imsmanifest.xml');
+		
 		// player basic config data
 		
-
 		$initSuspendData = null;
 		$initAdlactData = null;
 		if ($this->slm->getSequencing() == true) {
@@ -355,7 +359,8 @@ class ilSCORM13Player
 		//session
 		if ($this->slm->getSession()) {
 //			$session_timeout = (int)($ilias->ini->readVariable("session","expire"))/2;
-			$session_timeout = (int)ilSession::getIdleValue()/2;
+//			$session_timeout = (int)ilSession::getIdleValue()/2;
+			$session_timeout = (int)ilWACSignedPath::getCookieMaxLifetimeInSeconds()-1;
 		} else {
 			$session_timeout = 0;
 		}
@@ -574,6 +579,9 @@ class ilSCORM13Player
 	
 	public function pingSession()
 	{
+		//WAC
+		require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
+		ilWACSignedPath::signFolderOfStartFile($this->getDataDirectory().'/imsmanifest.xml');
 		//do nothing except returning header
 		header('Content-Type: text/plain; charset=UTF-8');
 		print("");
