@@ -49,7 +49,7 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 		$this->virtualclass_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-classroom.png").'" />';
 		$this->maillog_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-invitation.png").'" />';
 		$this->signature_list_img = '<img src="'.ilUtil::getImagePath("GEV_img/icon-table-signature.png").'" />';
-		$this->schedule_list_img = '<img src="'.ilUtil::getImagePath("GEV_img/icon-table-signature.png").'" />';
+		$this->schedule_list_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-flowchart.png").'" />';
 
 		$legend = new catLegendGUI();
 		$legend->addItem($this->memberlist_img, "gev_mytrainingsap_legend_memberlist")
