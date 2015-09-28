@@ -845,12 +845,16 @@ class ilMediaItem
 	{
 		global $lng;
 	    $this->createWorkDirectory();
-		
+
+		$geom = ($this->getWidth() != "" && $this->getHeight() != "")
+			? $this->getWidth()."x".$this->getHeight()
+			: "";
+
 		if ($this->getLocationType() != "Reference")
 		{
 			ilUtil::convertImage($this->getDirectory()."/".$this->getLocation(),
 				$this->getMapWorkCopyName(),
-				$this->getMapWorkCopyType());
+				$this->getMapWorkCopyType(), $geom);
 		}
 		else
 		{
@@ -874,7 +878,7 @@ class ilMediaItem
 			// now, create working copy
 			ilUtil::convertImage($this->getMapWorkCopyName(true),
 				$this->getMapWorkCopyName(),
-				$this->getMapWorkCopyType());
+				$this->getMapWorkCopyType(), $geom);
 		}
 
 		if (!is_file($this->getMapWorkCopyName()))

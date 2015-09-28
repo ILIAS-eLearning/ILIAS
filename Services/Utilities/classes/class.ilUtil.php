@@ -3538,6 +3538,12 @@ class ilUtil
 			if ($im_types & IMG_JPG) return "jpg";
 			if ($im_types & IMG_GIF) return "gif";
 			break;
+
+			case "svg":
+			if ($im_types & IMG_PNG) return "png";
+			if ($im_types & IMG_JPG) return "jpg";
+			if ($im_types & IMG_GIF) return "gif";
+			break;
 		}
 
 		return "";
@@ -3762,6 +3768,7 @@ class ilUtil
 		{
 			$cmd .= " ".$args;
 		}
+//ilUtil::printBacktrace(5);
 //echo "<br>".$cmd; exit;
 		exec($cmd, $arr);
 //		$ilLog->write("ilUtil::execQuoted: ".$cmd.".");
