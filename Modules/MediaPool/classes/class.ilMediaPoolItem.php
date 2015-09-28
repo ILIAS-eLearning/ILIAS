@@ -177,7 +177,7 @@ class ilMediaPoolItem
 		$ilDB->manipulate("UPDATE mep_item SET ".
 			" type = ".$ilDB->quote($this->getType(), "text").",".
 			" foreign_id = ".$ilDB->quote($this->getForeignId(), "integer").",".
-			" title = ".$ilDB->quote($this->getTitle(), "text").
+			" title = ".$ilDB->quote($this->getTitle(), "text").",".
 			" import_id = ".$ilDB->quote($this->getImportId(), "text").
 			" WHERE obj_id = ".$ilDB->quote($this->getId(), "integer")
 			);
