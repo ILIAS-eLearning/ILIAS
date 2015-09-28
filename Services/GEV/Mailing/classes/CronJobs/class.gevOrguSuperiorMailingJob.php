@@ -65,6 +65,8 @@ class gevOrguSuperiorMailingJob extends ilCronJob {
  		while($row = $ilDB->fetchAssoc($res)) {
  			$superior_id = $row["usr_id"];
 
+ 			$ilLog->write("gevOrguSuperiorMailingJob::run: Sending mail to $superior_id");
+
 			try {
 				$mail->send(array($superior_id));
 			}
