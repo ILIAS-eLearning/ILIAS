@@ -15,7 +15,7 @@ require_once("Services/GEV/WBD/classes/Data/class.gevWBDData.php");
 class gevWBDRequestWPAbfrage extends gevWBDRequest {
 	
 	protected $certification_period;
-	protected $bwv_id;
+	protected $agent_id;
 
 	protected $xml_tmpl_file_name;
 
@@ -27,7 +27,7 @@ class gevWBDRequestWPAbfrage extends gevWBDRequest {
 	protected function __construct($data) {
 		parent::__construct();
 
-		$this->bwv_id 					= new gevWBDData("VermittlerId",$data["bwv_id"]);
+		$this->agent_id 					= new gevWBDData("VermittlerId",$data["bwv_id"]);
 		$this->certification_period 	= new gevWBDData("ZertifizierungsPeriode",$this->dictionary->getWBDName($data["certification_period"],gevWBDDictionary::SEARCH_IN_CERTIFICATION_PERIOD));
 		
 		$this->xml_tmpl_file_name = "WpAbfrage.xml";
@@ -64,5 +64,14 @@ class gevWBDRequestWPAbfrage extends gevWBDRequest {
 	*/
 	public function createWBDSuccess($response) {
 		$this->wbd_success = new gevWBDSuccessWPAbfrage($response,$this->user_id);
+	}
+
+	/**
+	* gets the agent_id
+	*
+	* @return string
+	*/
+	public function agentId() {
+		return $this->agent_id;
 	}
 }

@@ -148,4 +148,31 @@ class gevWBDRequestVvErstanlage extends gevWBDRequest {
 	public function createWBDSuccess($response) {
 		$this->wbd_success = new gevWBDSuccessVvErstanlage($response,$this->row_id);
 	}
+
+	/**
+	* gets the firstname
+	*
+	* @return string
+	*/
+	public function firstname() {
+		return $this->firstname;
+	}
+
+	/**
+	* gets the lasttname
+	*
+	* @return string
+	*/
+	public function lastname() {
+		return $this->lastname;
+	}
+
+	/**
+	* gets the user_id
+	*
+	* @return string
+	*/
+	public function userId() {
+		return $this->user_id;
+	}
 }

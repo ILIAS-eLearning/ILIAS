@@ -66,4 +66,13 @@ class gevWBDRequestWPStorno extends gevWBDRequest {
 	public function createWBDSuccess($response) {
 		$this->wbd_success = new gevWBDSuccessWPStorno($response,$this->row_id);
 	}
+
+	/**
+	* gets the wbd_booking_id
+	*
+	* @return string
+	*/
+	public function wbdBookingId() {
+		return $this->wbd_booking_id;
+	}
 }

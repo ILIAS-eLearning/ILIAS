@@ -21,7 +21,7 @@ class gevWBDRequestWPMeldung extends gevWBDRequest {
 	protected $type;
 	protected $wbd_topic;
 	protected $row_id;
-	protected $bwv_id;
+	protected $agent_id;
 
 	protected $xml_tmpl_file_name;
 
@@ -46,7 +46,7 @@ class gevWBDRequestWPMeldung extends gevWBDRequest {
 		$this->type 			= new gevWBDData("LernArt",$this->dictionary->getWBDName($data["type"],gevWBDDictionary::SERACH_IN_COURSE_TYPE));
 		$this->wbd_topic 		= new gevWBDData("LernInhalt",$this->dictionary->getWBDName($data["wbd_topic"],gevWBDDictionary::SEARCH_IN_STUDY_CONTENT));
 		$this->row_id 			= new gevWBDData("InterneBuchungsId",$data["row_id"]);
-		$this->bwv_id 			= new gevWBDData("VermittlerId",$data["bwv_id"]);
+		$this->agent_id 			= new gevWBDData("VermittlerId",$data["bwv_id"]);
 		
 
 		$this->xml_tmpl_file_name = "WpMeldung.xml";
@@ -83,5 +83,32 @@ class gevWBDRequestWPMeldung extends gevWBDRequest {
 	*/
 	public function createWBDSuccess($response) {
 		$this->wbd_success = new gevWBDSuccessWPMeldung($response);
+	}
+
+	/**
+	* gets the row id
+	*
+	* @return integer
+	*/
+	public function rowId() {
+		return $this->row_id;
+	}
+
+	/**
+	* gets the agent_id
+	*
+	* @return integer
+	*/
+	public function agentId() {
+		return $this->agent_id;
+	}
+
+	/**
+	* gets the user_id
+	*
+	* @return integer
+	*/
+	public function userId() {
+		return $this->user_id;
 	}
 }

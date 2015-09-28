@@ -1,5 +1,13 @@
 <?php
+/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+/**
+* implementation of WBD DataCollector
+*
+* @author	Stefan Hecken <shecken@concepts-and-training.de>
+* @version	$Id$
+*
+*/
 
 class gevWBDDataCollector implements WBDDataCollector {
 	
@@ -19,7 +27,7 @@ class gevWBDDataCollector implements WBDDataCollector {
 		$this->gAppEventHandler = $ilAppEventHandler;
 		$this->prepareErrorStatement();
 
-		$this->records = array();
+		$this->requests = array();
 	}
 
 	/**********************************
@@ -31,12 +39,12 @@ class gevWBDDataCollector implements WBDDataCollector {
 	* creates a list of users to register in WBD
 	*/
 	public function createNewUserList() {
-		if(!empty($this->records)) {
+		if(!empty($this->requests)) {
 			throw new LogicException("gevWBDDataCollector::createNewUserList: Can't build new list. Still records left in the old one.");
 		}
 
-		$this->records = $this->_createNewUserList($this->gDB);
-		echo(count($this->records));
+		$this->requests = $this->_createNewUserList($this->gDB);
+		echo(count($this->requests));
 	}
 
 	/**
@@ -73,11 +81,11 @@ class gevWBDDataCollector implements WBDDataCollector {
 	* 
 	*/
 	public function createUpdateUserList() {
-		if(!empty($this->records)) {
+		if(!empty($this->requests)) {
 			throw new LogicException("gevWBDDataCollector::createUpdateUserList: Can't build new list. Still records left.");
 		}
 		
-		$this->records = $this->_createUpdateUserList($this->gDB);
+		$this->requests = $this->_createUpdateUserList($this->gDB);
 	}
 
 	/**
@@ -112,11 +120,11 @@ class gevWBDDataCollector implements WBDDataCollector {
 	* 
 	*/
 	public function createReleaseUserList() {
-		if(!empty($this->records)) {
+		if(!empty($this->requests)) {
 			throw new LogicException("gevWBDDataCollector::createReleaseUserList: Can't build new list. Still records left.");
 		}
 
-		$this->records = $this->_createReleaseUserList($this->gDB);
+		$this->requests = $this->_createReleaseUserList($this->gDB);
 	}
 
 	/**
@@ -146,11 +154,11 @@ class gevWBDDataCollector implements WBDDataCollector {
 	* 
 	*/
 	public function createAffiliateUserList() {
-		if(!empty($this->records)) {
+		if(!empty($this->requests)) {
 			throw new LogicException("gevWBDDataCollector::createAffiliateUserList: Can't build new list. Still records left.");
 		}
 
-		$this->records = $this->_createAffiliateUserList($this->gDB);
+		$this->requests = $this->_createAffiliateUserList($this->gDB);
 	}
 
 	/**
@@ -171,11 +179,11 @@ class gevWBDDataCollector implements WBDDataCollector {
 	* 
 	*/
 	public function createNewEduRecordList() {
-		if(!empty($this->records)) {
+		if(!empty($this->requests)) {
 			throw new LogicException("gevWBDDataCollector::createAffiliateUserList: Can't build new list. Still records left.");
 		}
 
-		$this->records = $this->_createNewEduRecordList($this->gDB);
+		$this->requests = $this->_createNewEduRecordList($this->gDB);
 	}
 
 	/**
@@ -205,11 +213,11 @@ class gevWBDDataCollector implements WBDDataCollector {
 	* 
 	*/
 	public function createStornoRecordList() {
-		if(!empty($this->records)) {
+		if(!empty($this->requests)) {
 			throw new LogicException("gevWBDDataCollector::createAffiliateUserList: Can't build new list. Still records left.");
 		}
 
-		$this->records = $this->_createStornoRecordList($this->gDB);
+		$this->requests = $this->_createStornoRecordList($this->gDB);
 	}
 
 	/**
@@ -247,11 +255,11 @@ class gevWBDDataCollector implements WBDDataCollector {
 	* 
 	*/
 	public function createWPAbfrageRecordList() {
-		if(!empty($this->records)) {
+		if(!empty($this->requests)) {
 			throw new LogicException("gevWBDDataCollector::createWPAbfrageRecordList: Can't build new list. Still records left.");
 		}
 
-		$this->records = $this->_createWPAbfrageRecordList($this->gDB);
+		$this->requests = $this->_createWPAbfrageRecordList($this->gDB);
 	}
 
 	/**
@@ -676,8 +684,8 @@ class gevWBDDataCollector implements WBDDataCollector {
 	* 
 	* @return 	WBDRequest
 	*/
-	public function getNextRecord() {
-		return array_shift($this->records);
+	public function getNextRequest() {
+		return array_shift($this->requests);
 	}
 
 	/**********************************
@@ -744,7 +752,7 @@ class gevWBDDataCollector implements WBDDataCollector {
 	 *
 	 * @return boolean
 	 */
-	public function bookingIdExists($booking_id) {
+	protected function bookingIdExists($booking_id) {
 		
 		$sql = "SELECT wbd_booking_id\n" 
 				." FROM hist_usercoursestatus\n"
@@ -766,7 +774,7 @@ class gevWBDDataCollector implements WBDDataCollector {
 	 *
 	 * @return integer 	$crs_id 	ID of the course
 	**/
-	private function importSeminar(gevImportCourseData $values){
+	protected function importSeminar(gevImportCourseData $values){
 
 		$title 		= $values->title();
 		$type 		= $values->courseType(); 
@@ -853,7 +861,7 @@ class gevWBDDataCollector implements WBDDataCollector {
 	 * @param integer 				$crs_id 	id of course
 	 * @param integer 				$user_id 	id of user
 	**/
-	private function assignUserToSeminar(gevImportCourseData $values, $crs_id, $user_id){
+	protected function assignUserToSeminar(gevImportCourseData $values, $crs_id, $user_id) {
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 		$usr_id = $user_id;
 
