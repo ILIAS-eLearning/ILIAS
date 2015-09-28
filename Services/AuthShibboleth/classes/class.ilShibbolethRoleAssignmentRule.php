@@ -355,7 +355,7 @@ class ilShibbolethRoleAssignmentRule {
 		} else {
 			$pattern = str_replace('*', '.*?', $this->getValue());
 
-			return (bool)preg_match("/" . $pattern . "/us", $values);
+			return (bool)preg_match('/^' . $pattern . '$/us', $values);
 		}
 	}
 
