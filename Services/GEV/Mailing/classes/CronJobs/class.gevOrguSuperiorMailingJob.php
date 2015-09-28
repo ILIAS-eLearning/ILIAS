@@ -54,18 +54,19 @@ class gevOrguSuperiorMailingJob extends ilCronJob {
 			  JOIN rbac_fa fa ON ua.rol_id = fa.rol_id
 			  JOIN object_data od ON od.obj_id = fa.rol_id
 			  JOIN usr_data ud ON ua.usr_id = ud.usr_id
-			  JOIN mail_log ml ON ml.recipient_id = ua.usr_id AND ml.obj_id = ".gevOrguSuperiorMails::MAIL_LOG_ID."
+			  LEFT JOIN mail_log ml ON ml.recipient_id = ua.usr_id AND ml.obj_id = ".gevOrguSuperiorMails::MAIL_LOG_ID."
 			 WHERE od.title LIKE 'il_orgu_superior_%'
 			 GROUP BY ua.usr_id
-			 HAVING last_send < UNIX_TIMESTAMP() - 7 * 24 * 60 * 60
+			 HAVING (   last_send < UNIX_TIMESTAMP() - 7 * 24 * 60 * 60
+			         OR last_send IS NULL)
 			 LIMIT ".self::MAILS_PER_RUN;
 
- 		$res = $ilDB->query($sql);
- 		$ret = array();
- 		while($row = $ilDB->fetchAssoc($res)) {
- 			$superior_id = $row["usr_id"];
+		$res = $ilDB->query($sql);
 
- 			$ilLog->write("gevOrguSuperiorMailingJob::run: Sending mail to $superior_id");
+		while($row = $ilDB->fetchAssoc($res)) {
+			$superior_id = $row["usr_id"];
+
+			$ilLog->write("gevOrguSuperiorMailingJob::run: Sending mail to $superior_id");
 
 			try {
 				$mail->send(array($superior_id));
