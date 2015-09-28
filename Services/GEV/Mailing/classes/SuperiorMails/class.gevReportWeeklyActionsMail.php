@@ -4,11 +4,11 @@ require_once("Services/GEV/Mailing/classes/class.gevOrguSuperiorMail.php");
 
 class gevReportWeeklyActionsMail extends gevOrguSuperiorMail {
 	public function getTitle() {
-		return "Wochenbericht Führungskraft";
+		return "Wochenbericht Vorgesetzter";
 	}
 	
 	public function _getDescription() {
-		return "Die Führungskraft erhält einen Wochenbericht über ausgeführte Aktionen für die Ihm zugewiesenen Mitarbeiter bzw. Vertriebspartner.";
+		return "Der Vorgesetzte erhält einen Wochenbericht über ausgeführte Aktionen für die Ihm zugewiesenen Mitarbeiter bzw. Vertriebspartner.";
 	}
 	
 	public function getScheduledFor() {

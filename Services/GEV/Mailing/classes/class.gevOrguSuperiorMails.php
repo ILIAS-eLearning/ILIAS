@@ -11,6 +11,8 @@ require_once("Services/Mailing/classes/class.ilMailLog.php");
 */
 
 class gevOrguSuperiorMails extends ilAutoMails {
+	const MAIL_LOG_ID = -42;
+	
 	public function __construct() {
 		$this->mail_data = array(
 		  "report_weekly_actions"	=> "gevReportWeeklyActionsMail"
@@ -46,6 +48,6 @@ class gevOrguSuperiorMails extends ilAutoMails {
 	}
 
 	protected function initMailLog() {
-		$this->setMailLog(new ilMailLog(-1));
+		$this->setMailLog(new ilMailLog(self::MAIL_LOG_ID));
 	}
 }
