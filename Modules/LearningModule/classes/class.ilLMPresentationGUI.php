@@ -3844,9 +3844,9 @@ class ilLMPresentationGUI
 		$tbl->setMaxCount(count($export_files));
 		$export_files = array_slice($export_files, $_GET["offset"], $_GET["limit"]);
 
-		$tbl->render();
 		if(count($export_files) > 0)
 		{
+			$tbl->render();
 			$i=0;
 			foreach($export_files as $exp_file)
 			{
@@ -3861,12 +3861,15 @@ class ilLMPresentationGUI
 				$css_row = ilUtil::switchColor($i++, "tblrow1", "tblrow2");
 				$this->tpl->setVariable("CSS_ROW", $css_row);
 
-				$this->tpl->setVariable("TXT_SIZE", $exp_file["size"]);
+				include_once("./Services/Utilities/classes/class.ilFormat.php");
+				$this->tpl->setVariable("TXT_SIZE", ilFormat::formatSize($exp_file["size"]));
 				$this->tpl->setVariable("TXT_FORMAT", strtoupper($exp_file["type"]));
 				$this->tpl->setVariable("CHECKBOX_ID", $exp_file["type"].":".$exp_file["file"]);
 
 				$file_arr = explode("__", $exp_file["file"]);
-				$this->tpl->setVariable("TXT_DATE", date("Y-m-d H:i:s",$file_arr[0]));
+				include_once("./Services/Calendar/classes/class.ilDatePresentation.php");
+				ilDatePresentation::setUseRelativeDates(false);
+				$this->tpl->setVariable("TXT_DATE", ilDatePresentation::formatDate(new ilDateTime($file_arr[0], IL_CAL_UNIX)));
 
 				$this->tpl->setVariable("TXT_DOWNLOAD", $this->lng->txt("download"));
 				$this->ctrl->setParameter($this, "type", $exp_file["type"]);
@@ -3878,10 +3881,7 @@ class ilLMPresentationGUI
 		} //if is_array
 		else
 		{
-			$this->tpl->setCurrentBlock("notfound");
-			$this->tpl->setVariable("TXT_OBJECT_NOT_FOUND", $this->lng->txt("obj_not_found"));
-			$this->tpl->setVariable("NUM_COLS", 5);
-			$this->tpl->parseCurrentBlock();
+			ilUtil::sendInfo($this->lng->txt("lm_no_download_files"));
 		}
 
 		$this->tpl->show();

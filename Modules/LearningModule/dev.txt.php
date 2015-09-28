@@ -1,6 +1,15 @@
 <?php exit; ?>
 
 ===================================
+HTML Export
+===================================
+
+todo
+- ilObjContentObject::exportHTML: create directories move to page components
+- ilObjContentObject::exportHTML: export system style sheet -> system style class in
+
+
+===================================
 LMPresentation
 ===================================
 

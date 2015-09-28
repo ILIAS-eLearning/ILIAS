@@ -2076,10 +2076,14 @@ class ilObjContentObject extends ilObject
 		preg_match_all("/url\(([^\)]*)\)/",$css,$files);
 		foreach (array_unique($files[1]) as $fileref)
 		{
-			$fileref = dirname($location_stylesheet)."/".$fileref;
+			$css_fileref = str_replace(array("'", '"'), "", $fileref);
+			$fileref = dirname($location_stylesheet)."/".$css_fileref;
 			if (is_file($fileref))
 			{
-				copy($fileref, $style_img_dir."/".basename($fileref));
+//echo "<br>make dir: ".dirname($style_dir."/".$css_fileref);
+				ilUtil::makeDirParents(dirname($style_dir."/".$css_fileref));
+//echo "<br>copy: ".$fileref." TO ".$style_dir."/".$css_fileref;
+				copy($fileref, $style_dir."/".$css_fileref);
 			}
 		}
 		fclose($fh);
@@ -2175,6 +2179,17 @@ class ilObjContentObject extends ilObject
 			$this->exportHTMLFile($a_target_dir, $file);
 		}
 		$ilBench->stop("ExportHTML", "exportHTMLFileObjects");
+
+		// export questions (images)
+		if (count($this->q_ids) > 0)
+		{
+			foreach ($this->q_ids as $q_id)
+			{
+				ilUtil::makeDirParents($a_target_dir."/assessment/0/".$q_id."/images");
+				ilUtil::rCopy(ilUtil::getWebspaceDir()."/assessment/0/".$q_id."/images",
+					$a_target_dir."/assessment/0/".$q_id."/images");
+			}
+		}
 
 		// export table of contents
 		$ilBench->start("ExportHTML", "exportHTMLTOC");
@@ -2339,8 +2354,14 @@ class ilObjContentObject extends ilObject
 			array("source" => './Modules/Scorm2004/scripts/questions/question_handling.js',
 				"target" => $a_target_dir.'/js/question_handling.js',
 				"type" => "js"),
+			array("source" => './Modules/TestQuestionPool/js/ilMatchingQuestion.js',
+				"target" => $a_target_dir.'/js/ilMatchingQuestion.js',
+				"type" => "js"),
 			array("source" => './Modules/Scorm2004/templates/default/question_handling.css',
 				"target" => $a_target_dir.'/css/question_handling.css',
+				"type" => "css"),
+			array("source" => './Modules/TestQuestionPool/templates/default/test_javascript.css',
+				"target" => $a_target_dir.'/css/test_javascript.css',
 				"type" => "css"),
 			array("source" => ilPlayerUtil::getLocalMediaElementJsPath(),
 				"target" => $a_target_dir."/".ilPlayerUtil::getLocalMediaElementJsPath(),
@@ -2589,14 +2610,20 @@ class ilObjContentObject extends ilObject
 				include_once("./Modules/File/classes/class.ilObjFile.php");
 				$pg_files = ilObjFile::_getFilesOfObject($this->getType().":pg", $page["obj_id"], 0, $a_lang);
 				$this->offline_files = array_merge($this->offline_files, $pg_files);
-				
+
+				// collect all questions
+				include_once("./Services/COPage/classes/class.ilPCQuestion.php");
+				$q_ids = ilPCQuestion::_getQuestionIdsForPage($this->getType(), $page["obj_id"], $a_lang);
+				foreach($q_ids as $q_id)
+				{
+					$this->q_ids[$q_id] = $q_id;
+				}
+
 				$ilBench->stop("ExportHTML", "exportHTMLPage");
 			}
 		}
 		$this->offline_mobs = $mobs;
 		$this->offline_int_links = $int_links;
-		
-		
 	}
 
 
