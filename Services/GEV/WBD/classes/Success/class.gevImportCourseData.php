@@ -134,35 +134,4 @@ class gevImportCourseData{
 		
 		return $this->study_content;
 	}
-
-	/**
-	* gets the storno
-	*
-	* @throws LogicException
-	* 
-	* @return bool
-	*/
-	public function storno() {
-		if($this->storno === null) {
-			throw new LogicException("gevWBDSuccessWPAbfrage::storno:storno is NULL");
-		}
-
-		return $this->storno;
-	}
-
-	/**
-	* gets the correct_booking
-	*
-	* @throws LogicException
-	* 
-	* @return bool
-	*/
-	public function correctBooking() {
-		if($this->correct_booking === null) {
-			throw new LogicException("gevWBDSuccessWPAbfrage::correctBooking:correct_booking is NULL");
-		}
-		
-		return $this->correct_booking;
-	}
-}
 }

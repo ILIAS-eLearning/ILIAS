@@ -27,6 +27,10 @@ class _gevWBDDataCollector extends gevWBDDataCollector {
 		return $this->_createNewEduRecordList($db);
 	}
 
+	public function testable_createWPAbfrageRecordList($db) {
+		return $this->_createWPAbfrageRecordList($db);
+	}
+
 	public function error(gevWBDError $error) {
 		$this->called_error++;
 	}
@@ -107,26 +111,6 @@ class gevWBDDataCollectorTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue($this->data_collector->called_error > 0);
 	}
 
-	public function test_getNextNewUserRequest() {
-		$data = $this->getNewUserData();
-		
-		$db = new mock_db($data);
-
-		$res = $this->data_collector->testable_createNewUserList($db);
-
-		$this->assertEquals(1, $db->called_query);
-		$this->assertEquals(count($data) + 1, $db->called_fetchAssoc);
-		$this->assertTrue($this->data_collector->called_error == 0);
-
-		$recs = array();
-		foreach ($res as $key => $rec) {
-			$this->assertInstanceOf("gevWBDRequestVvErstanlage",$rec);
-			$recs[] = $rec;
-		}
-
-		$this->assertEquals(count($data), count($recs));
-	}
-
 	public function test_createUpdateUserList() {
 		$data = $this->getUpdateUserData();
 		
@@ -193,6 +177,30 @@ class gevWBDDataCollectorTest extends PHPUnit_Framework_TestCase {
 		$db = new mock_db($data);
 
 		$this->data_collector->testable_createNewEduRecordList($db);
+
+		$this->assertEquals(1, $db->called_query);
+		$this->assertEquals(count($data) + 1, $db->called_fetchAssoc);
+		$this->assertTrue($this->data_collector->called_error > 0);
+	}
+
+	public function test_createWPAbrageRecordList() {
+		$data = $this->getWPAbfrageRecordData();
+		
+		$db = new mock_db($data);
+
+		$this->data_collector->testable_createWPAbfrageRecordList($db);
+
+		$this->assertEquals(1, $db->called_query);
+		$this->assertEquals(count($data) + 1, $db->called_fetchAssoc);
+		$this->assertTrue($this->data_collector->called_error === 0);
+	}
+
+	public function test_createWPAbrageRecordListError() {
+		$data = $this->getWPAbfrageRecordDataError();
+		
+		$db = new mock_db($data);
+
+		$this->data_collector->testable_createWPAbfrageRecordList($db);
 
 		$this->assertEquals(1, $db->called_query);
 		$this->assertEquals(count($data) + 1, $db->called_fetchAssoc);
@@ -286,6 +294,49 @@ class gevWBDDataCollectorTest extends PHPUnit_Framework_TestCase {
 					));
 	}
 
+	public function successNewUser() {
+		return array(array(simplexml_load_string('<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope">'
+												.'<soap:Body>'
+													.'<ns1:putResponse xmlns:ns1="http://erstanlage.stammdaten.external.service.wbd.gdv.de/">'
+														.'<ErstanlageRueckgabewert>'
+															.'<TpInterneVermittlerId>7665</TpInterneVermittlerId>'
+															.'<VermittlerId>20150728-100390-74</VermittlerId>'
+															.'<AnlageDatum>2015-07-28T00:00:00+02:00</AnlageDatum>'
+															.'<BeginnZertifizierungsPeriode>2015-07-28T00:00:00+02:00</BeginnZertifizierungsPeriode>'
+														.'</ErstanlageRueckgabewert>'
+													.'</ns1:putResponse>'
+												.'</soap:Body>'
+											.'</soap:Envelope>'
+									))
+					,array(simplexml_load_string('<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope">'
+												.'<soap:Body>'
+												.'<ns1:putResponse xmlns:ns1="http://erstanlage.stammdaten.external.service.wbd.gdv.de/">'
+													.'<ErstanlageRueckgabewert>'
+														.'<TpInterneVermittlerId>7665</TpInterneVermittlerId>'
+														.'<VermittlerId>20150728-100390-74</VermittlerId>'
+														.'<AnlageDatum>2015-07-28T00:00:00+02:00</AnlageDatum>'
+														.'<BeginnZertifizierungsPeriode>2015-07-28T00:00:00+02:00</BeginnZertifizierungsPeriode>'
+													.'</ErstanlageRueckgabewert>'
+												.'</ns1:putResponse>'
+												.'</soap:Body>'
+											.'</soap:Envelope>'
+									))
+					,array(simplexml_load_string('<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope">'
+												.'<soap:Body>'
+												.'<ns1:putResponse xmlns:ns1="http://erstanlage.stammdaten.external.service.wbd.gdv.de/">'
+													.'<ErstanlageRueckgabewert>'
+														.'<TpInterneVermittlerId>7665</TpInterneVermittlerId>'
+														.'<VermittlerId>20150728-100390-74</VermittlerId>'
+														.'<AnlageDatum>2015-07-28T00:00:00+02:00</AnlageDatum>'
+														.'<BeginnZertifizierungsPeriode>2015-07-28T00:00:00+02:00</BeginnZertifizierungsPeriode>'
+													.'</ErstanlageRueckgabewert>'
+												.'</ns1:putResponse>'
+												.'</soap:Body>'
+											.'</soap:Envelope>'
+									))
+			);
+	}
+
 	protected function getUpdateUserData() {
 		return array(array("address_type"=>"geschäftlich"
 					  ,"gender"=>"m"
@@ -361,7 +412,7 @@ class gevWBDDataCollectorTest extends PHPUnit_Framework_TestCase {
 					  ,"wbd_topic" => "Privat-Vorsorge-Lebens-/Rentenversicherung"
 					  ,"row_id"=>35214
 					  ,"user_id"=>2323
-					  ,"bwv_id" => "22332-565-321-65" 
+					  ,"bwv_id" => "22332-565-321-65"
 					));
 	}
 
@@ -374,7 +425,21 @@ class gevWBDDataCollectorTest extends PHPUnit_Framework_TestCase {
 					  ,"wbd_topic" => "Privat-Vorsorge-Lebens-/Rentenversicherung"
 					  ,"row_id"=>35214
 					  ,"user_id"=>2323
-					  ,"bwv_id" => "22332-565-321-65" 
+					  ,"bwv_id" => "22332-565-321-65"
+					));
+	}
+
+	protected function getWPAbfrageRecordData() {
+		return array(array("row_id"=>35214
+					  ,"user_id"=>2323
+					  ,"bwv_id" => "22332-565-321-65"
+					));
+	}
+
+	protected function getWPAbfrageRecordDataError() {
+		return array(array("row_id"=>35214
+					  ,"user_id"=>2323
+					  ,"bwv_id" => ""
 					));
 	}
 

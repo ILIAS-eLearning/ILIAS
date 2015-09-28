@@ -119,6 +119,10 @@ class gevWBDDataCollector implements WBDDataCollector {
 		$this->records = $this->_createReleaseUserList($this->gDB);
 	}
 
+	/**
+	 * @param	ilDB 	$db
+	 * @return  gevWBDRequestVermitVerwaltungTransferfaehig[]
+	 */
 	protected function _createReleaseUserList($db) {
 		$returns = array();
 		$res = $db->query($this->releaseUserListQuery());
@@ -149,6 +153,10 @@ class gevWBDDataCollector implements WBDDataCollector {
 		$this->records = $this->_createAffiliateUserList($this->gDB);
 	}
 
+	/**
+	 * @param	ilDB 	$db
+	 * @return  gevWBDRequestVermitVerwaltungAufnahme[]
+	 */
 	protected function _createAffiliateUserList($db) {
 		$returns = array();
 		$res = $db->query($this->affiliateUserListQuery());
@@ -170,6 +178,10 @@ class gevWBDDataCollector implements WBDDataCollector {
 		$this->records = $this->_createNewEduRecordList($this->gDB);
 	}
 
+	/**
+	 * @param	ilDB 	$db
+	 * @return  gevWBDRequestWPMeldung[]
+	 */
 	protected function _createNewEduRecordList($db) {
 		$returns = array();
 		$res = $db->query($this->newEduRecordListQuery());
@@ -200,12 +212,16 @@ class gevWBDDataCollector implements WBDDataCollector {
 		$this->records = $this->_createStornoRecordList($this->gDB);
 	}
 
+	/**
+	 * @param	ilDB 	$db
+	 * @return  gevWBDRequestWPStorno[]
+	 */
 	protected function _createStornoRecordList($db) {
 		$returns = array();
 		$res = $db->query($this->storneEduRecordListQuery());
 
 		while ($rec = $db->fetchAssoc($res)) {
-			$object = gevWBDRequestWPMeldung::getInstance($rec);
+			$object = gevWBDRequestWPStorno::getInstance($rec);
 			if(is_array($object)) {
 				foreach ($object as $error) {
 					$this->error($error);
@@ -238,12 +254,16 @@ class gevWBDDataCollector implements WBDDataCollector {
 		$this->records = $this->_createWPAbfrageRecordList($this->gDB);
 	}
 
+	/**
+	 * @param	ilDB 	$db
+	 * @return  gevWBDRequestWPAbfrage[]
+	 */
 	protected function _createWPAbfrageRecordList($db) {
 		$returns = array();
 		$res = $db->query($this->WPAbfrageRecordList());
 
 		while ($rec = $db->fetchAssoc($res)) {
-			$returns["certification_period"] = "Selektiert nicht stornierte Weiterbildungsmaßnahmen aus der aktuelle Zertifizierungsperiode.";
+			$rec["certification_period"] = "Selektiert nicht stornierte Weiterbildungsmaßnahmen aus der aktuelle Zertifizierungsperiode.";
 
 			$object = gevWBDRequestWPAbfrage::getInstance($rec);
 			if(is_array($object)) {
@@ -265,6 +285,10 @@ class gevWBDDataCollector implements WBDDataCollector {
 	**********************************/
 	/**
 	* returns the query to acquire the new users list
+	* @param array 		$service_types 		which TP Types should be used
+	* @param intgeger 	$limit
+	*
+	* @return string 	$sql
 	*/
 	protected function newUserListQuery($service_types = array(self::WBD_TP_BASIS,self::WBD_TP_SERVICE), $limit = null) {
 		//check for valid service types
@@ -300,6 +324,13 @@ class gevWBDDataCollector implements WBDDataCollector {
 		return $sql;
 	}
 
+	/**
+	* returns the query to acquire the update users list
+	* @param array 		$service_types 		which TP Types should be used
+	* @param intgeger 	$limit
+	*
+	* @return string 	$sql
+	*/
 	protected function updatedUserListQuery($service_types = array(self::WBD_TP_SERVICE), $limit = null) {
 		//check for valid service types
 		if(count(array_intersect($service_types, array(self::WBD_TP_SERVICE))) != count($service_types)) {
@@ -328,6 +359,13 @@ class gevWBDDataCollector implements WBDDataCollector {
 		return $sql;
 	}
 
+	/**
+	* returns the query to acquire the release users list
+	* @param array 		$service_types 		which TP Types should be used
+	* @param intgeger 	$limit
+	*
+	* @return string 	$sql
+	*/
 	protected function releaseUserListQuery($service_types = array(self::WBD_TP_SERVICE), $limit = null) {
 		//check for valid service types
 		if(count(array_intersect($service_types, array(self::WBD_TP_SERVICE))) != count($service_types)) {
@@ -359,6 +397,13 @@ class gevWBDDataCollector implements WBDDataCollector {
 		return $sql;
 	}
 
+	/**
+	* returns the query to acquire the affiliate users list
+	* @param array 		$service_types 		which TP Types should be used
+	* @param intgeger 	$limit
+	*
+	* @return string 	$sql
+	*/
 	protected function affiliateUserListQuery($service_types = array(self::WBD_TP_SERVICE), $limit = null) {
 		//check for valid service types
 		if(count(array_intersect($service_types, array(self::WBD_TP_SERVICE))) != count($service_types)) {
@@ -370,6 +415,13 @@ class gevWBDDataCollector implements WBDDataCollector {
 		return $sql;
 	}
 
+	/**
+	* returns the query to acquire the new edu records list
+	* @param array 		$service_types 		which TP Types should be used
+	* @param intgeger 	$limit
+	*
+	* @return string 	$sql
+	*/
 	protected function newEduRecordListQuery($service_types = array(self::WBD_TP_SERVICE,self::WBD_TP_BASIS,self::WBD_EDU_PROVIDER), $limit = null) {
 		//check for valid service types
 		if(count(array_intersect($service_types, array(self::WBD_TP_SERVICE,self::WBD_TP_BASIS,self::WBD_EDU_PROVIDER))) != count($service_types)) {
@@ -417,6 +469,13 @@ class gevWBDDataCollector implements WBDDataCollector {
 		return $sql;
 	}
 
+	/**
+	* returns the query to acquire the storno record list
+	* @param array 		$service_types 		which TP Types should be used
+	* @param intgeger 	$limit
+	*
+	* @return string 	$sql
+	*/
 	protected function storneEduRecordListQuery($service_types = array(self::WBD_TP_SERVICE,self::WBD_TP_BASIS,self::WBD_EDU_PROVIDER), $limit = null) {
 		//check for valid service types
 		if(count(array_intersect($service_types, array(self::WBD_TP_SERVICE,self::WBD_TP_BASIS,self::WBD_EDU_PROVIDER))) != count($service_types)) {
@@ -442,6 +501,14 @@ class gevWBDDataCollector implements WBDDataCollector {
 		return $sql;
 	}
 
+	/**
+	* returns the query to acquire the wp abfrage list
+	* @param array 		$service_types 		which TP Types should be used
+	* @param intgeger 	$limit
+	* @param array 		$usr_ids 				user_id to search for
+	*
+	* @return string 	$sql
+	*/
 	protected function WPAbfrageRecordList($service_types = array(self::WBD_TP_SERVICE), $limit = null, array $usr_ids = null) {
 		//check for valid service types
 		if(count(array_intersect($service_types, array(self::WBD_TP_SERVICE))) != count($service_types)) {
@@ -530,7 +597,7 @@ class gevWBDDataCollector implements WBDDataCollector {
 	/** 
 	* callback public function if report was successfull
 	*
-	* @param array $success_data 
+	* @param gevWBDSuccessWPStorno $success_data 
 	*/
 	public function successStornoRecord(gevWBDSuccessWPStorno $success_data) {
 		//NOTHING HAPPENS!
@@ -549,10 +616,22 @@ class gevWBDDataCollector implements WBDDataCollector {
 	* callback public function if there are any WP reports for the user
 	* creates new courses id necessary
 	*
-	* @param array $success_data 
+	* @param gevWBDSuccessWPAbfrage $success_data 
 	*/
 	public function successWPAbfrageRecord(gevWBDSuccessWPAbfrage $success_data) {
 
+		$import_course_data = $success_data->importCourseData();
+		foreach ($import_course_data as $key => $value) {
+			if(!$this->bookingIdExists($value->wbdBookingId())){
+				$crs_id = $this->importSeminar($value);
+
+				if($crs_id === null) {
+					continue;
+				}
+
+				$this->assignUserToSeminar($value, $crs_id,$success_data->userId());
+			}
+		}
 	}
 
 	/**********************************
@@ -631,6 +710,8 @@ class gevWBDDataCollector implements WBDDataCollector {
 
 	/**
 	* set last_wbd_report for automaticly created hist rows
+	*
+	* @param integer 	$a_user_id
 	*/
 	public function setLastWBDReportForAutoHistRows($a_user_id) {
 		$sql = "SELECT row_id FROM hist_user\n"
@@ -657,70 +738,178 @@ class gevWBDDataCollector implements WBDDataCollector {
 	}
 
 	/**
-	 * save external edu-record for user
+	 * check the booking id exists
 	 *
-	 * @param string $bwv_id
-	 * @param array $edu_records
+	 * @param string $booking_id
+	 *
 	 * @return boolean
 	 */
-	public function saveExternalEduRecords($bwv_id, $edu_records) {
-		$recs = $edu_records['WeiterbildungsPunkteBuchungListe'];
-		if(count($recs) > 0){
-			foreach ($recs as $wpentry) {
-				//check, if the booking-ids are under our control
-				$booking_id = $wpentry['WeiterbildungsPunkteBuchungsId'];
-				$sql = "SELECT wbd_booking_id 
-						FROM hist_usercoursestatus 
-						WHERE wbd_booking_id = '$booking_id'";
-				
-				$temp_result = $this->ilDB->query($sql);
-				$num_rows = $temp_result->result->num_rows;
-
-				if($num_rows == 0){
-					// this is truly a foreign record
-
-					// ! Storno/Korrektur !
-					if($wpentry['Korrekturbuchung'] != 'false'){
-						print_r($wpentry);
-						die('Korrekturbuchung - not implemented');
-					}
-
-					if($wpentry['Storniert'] != 'false'){
-						print "\n\n STORNO: \n";
-						print_r($wpentry);
-
-						die('.');
-					}
-
-					if( $wpentry['Storniert'] == 'false' &&
-						$wpentry['Korrekturbuchung'] == 'false'){
-
-						$rec = array(
-							'bwv_id' 		=> $wpentry['VermittlerId'],
-							'wbd_booking_id'=> $booking_id,
-							'credit_points'	=> $wpentry['WeiterbildungsPunkte'],
-							'begin'			=> $wpentry['SeminarDatumVon'],
-							'end'			=> $wpentry['SeminarDatumBis'],
-							'title' 		=> $wpentry['Weiterbildung'],
-							'wbd_topic'		=> $wpentry['LernInhalt'],
-							'type'			=> $wpentry['LernArt']
-						);
-
-						$crs_id = $this->importSeminar($rec);
-						$this->assignUserToSeminar($rec, $crs_id);
-						print "\n\n imported seminar: \n";
-						print_r($wpentry);
-					}
-
-				} else {
-					//print "\n not a foreign record";
-				}
-			} 
-		} else {
-			print "\n no records.";
-		}
+	public function bookingIdExists($booking_id) {
 		
+		$sql = "SELECT wbd_booking_id\n" 
+				." FROM hist_usercoursestatus\n"
+				." WHERE wbd_booking_id = ".$this->gDB->quote($booking_id,"text")."\n";
+			
+		$temp_result = $this->ilDB->query($sql);
+			
+		if($this->gDB->numRows($temp_result) == 0) {
+			return false;
+		}
 		return true;
 	}
 
+	/**
+	 * new entry for foreign wbd-course
+	 * or matching for existing seminar
+	 *
+	 * @param gevImportCourseData $values
+	 *
+	 * @return integer 	$crs_id 	ID of the course
+	**/
+	private function importSeminar(gevImportCourseData $values){
+
+		$title 		= $values->title();
+		$type 		= $values->courseType(); 
+		$wbd_topic 	= $values->studyContent(); 
+		$begin_date	= $values->beginDate()->get(IL_CAL_DATE); // date('Y-m-d', strtotime($rec['Beginn']));
+		$end_date 	= $values->endDate()->get(IL_CAL_DATE); //date('Y-m-d', strtotime($rec['Ende']));
+		$creator_id = -200;
+
+
+		$sql = "SELECT crs_id\n"
+				." FROM hist_course\n"
+				." WHERE title = ".$this->gDB->quote($title,"text")."\n"
+				." AND begin_date = ".$this->gDB->quote($begin_date,"text")."\n"
+				." AND end_date = ".$this->gDB->quote($end_date,"text")."\n";
+
+		$result = $this->ilDB->query($sql);
+		if($this->ilDB->numRows($result) > 0){
+			$record = $this->ilDB->fetchAssoc($result);
+			return $record['crs_id'];
+		}
+		
+		//new seminar
+		$sql = "SELECT MIN(crs_id) - 1 AS new_crs_id\n"
+				." FROM hist_course\n"
+				." WHERE crs_id < 0\n";
+
+		$result = $this->ilDB->query($sql);
+		$record = $this->ilDB->fetchAssoc($result);
+		
+		$crs_id = $record['new_crs_id'];
+		//start with 4 digits
+		if($crs_id == -1){
+			$crs_id = -1000;
+		}
+
+		$next_id = $this->ilDB->nextId('hist_course');
+
+		$sql = "INSERT INTO hist_course\n"
+			." (\n"
+				." row_id,\n"
+				." hist_version,\n"
+				." created_ts,\n"
+				." creator_user_id,\n"
+		 		." is_template,\n"
+		 		." crs_id,\n"
+		 		." title,\n"
+		 		." type, \n"
+		 		." wbd_topic,\n"
+		 		." begin_date,\n"
+		 		." end_date,\n"
+		 		." custom_id,\n"
+		 		." template_title,\n"
+		 		." max_credit_points\n"
+			." )\n"
+			." VALUES\n"
+			." (\n"
+				."".$this->gDB->quote($next_id,"integer").",\n"
+				." 0,\n"
+				." NOW(),\n"
+				."".$this->gDB->quote($creator_id,"integer").",\n"
+				." 'Nein',\n"
+				."".$this->gDB->quote($crs_id,"integer").",\n"
+				."".$this->gDB->quote($title,"text").",\n"
+				."".$this->gDB->quote($type,"text").",\n"
+		 		."".$this->gDB->quote($wbd_topic,"text").",\n"
+		 		."".$this->gDB->quote($begin_date,"date").",\n"
+		 		."".$this->gDB->quote($end_date,"date").",\n"
+		 		." '-empty-',\n"
+		 		." '-empty-',\n"
+		 		." '-empty-'\n"
+			.")";
+
+			if(! $this->ilDB->query($sql)){
+				echo "Course could not be created....($sql)\n";
+				return null;
+			}
+
+		return $crs_id;
+	}
+
+	/**
+	 * new entry for foreign wbd-courses in hist_usercoursestatus
+	 * @param gevImportCourseData 	$values
+	 * @param integer 				$crs_id 	id of course
+	 * @param integer 				$user_id 	id of user
+	**/
+	private function assignUserToSeminar(gevImportCourseData $values, $crs_id, $user_id){
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		$usr_id = $user_id;
+
+		$uutils = gevUserUtils::getInstanceByObjOrId($usr_id);
+
+		$okz 			= $uutils->getWBDOKZ();
+		$booking_id		= $values->wbdBookingId();
+		$credit_points 	= $values->creditPoints();
+		$begin_date		= $values->beginDate()->get(IL_CAL_DATE); // date('Y-m-d', strtotime($rec['Beginn']));
+		$end_date 		= $values->endDate()->get(IL_CAL_DATE); //date('Y-m-d', strtotime($rec['Ende']));
+		$creator_id 	= -200;
+		$next_id 		= $this->ilDB->nextId('hist_usercoursestatus');
+
+		$sql = "INSERT INTO hist_usercoursestatus\n"
+			." (\n"
+				."row_id,\n"
+				."wbd_booking_id,\n"
+				."created_ts,\n"
+				."creator_user_id,\n"
+				."usr_id,\n"
+		 		."crs_id,\n"
+		 		."credit_points,\n"
+		 		."hist_historic,\n"
+		 		."hist_version,\n"
+		 		."okz,\n"
+		 		."function,\n"
+		 		."booking_status,\n"
+		 		."participation_status,\n"
+		 		."begin_date,\n"
+		 		."end_date,\n"
+		 		."bill_id,\n"
+		 		."certificate\n"
+			.") \n"
+			."VALUES \n"
+			."(\n"
+				."".$this->gDB->quote($next_id,"integer").",\n"
+				."".$this->gDB->quote($booking_id,"text").",\n"
+				."UNIX_TIMESTAMP(),\n"
+				."".$this->gDB->quote($creator_id,"integer").",\n"
+				."".$this->gDB->quote($usr_id,"integer").",\n"
+				."".$this->gDB->quote($crs_id,"integer").",\n"
+				."".$this->gDB->quote($credit_points,"integer").",\n"
+				."0,\n"
+				."0,\n"
+				."".$this->gDB->quote($okz,"text").",\n"
+				."'Mitglied',\n"
+				."'gebucht',\n"
+				."'teilgenommen',\n"
+				."".$this->gDB->quote($begin_date,"date").",\n"
+				."".$this->gDB->quote($end_date,"date").",\n"
+				."-1,\n"
+				."-1\n"
+			.")\n";
+
+		if(! $this->ilDB->query($sql)){
+			echo "User could not assigned...($sql)\n";
+		}
+	}
 }
