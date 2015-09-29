@@ -86,19 +86,23 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 				$title .= " (".$lng->txt("status_no_permission").")";
 			}
 			
-			$tooltip = "";
+			$tooltip = array();
 			if(isset($labels[$c]["icon"]))
 			{
 				$alt = $lng->txt($labels[$c]["type"]);
 				$icon = '<img src="'.$labels[$c]["icon"].'" alt="'.$alt.'" />';
 				if(sizeof($selected) > 5)
 				{
-					$tooltip = $title;
+					$tooltip[] = $title;
 					$title = $icon;
 				}
 				else
 				{
 					$title = $icon.' '.$title;
+				}
+				if($labels[$c]["path"])
+				{
+					$tooltip[] = $labels[$c]["path"];
 				}
 			}
 			
@@ -112,7 +116,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 				$sort_id = (substr($c, 0, 4) == "udf_") ? "" : $c;
 			}
 			
-			$this->addColumn($title, $sort_id, "", false, "", $tooltip);
+			$this->addColumn($title, $sort_id, "", false, "", implode(" - ", $tooltip));
 		}
 		
 		$this->setExportFormats(array(self::EXPORT_CSV, self::EXPORT_EXCEL));
@@ -176,9 +180,26 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 						$sess = new ilObjSession($obj_id, false);
 						$title = $sess->getPresentationTitle();
 					}
-					$tmp_cols[strtolower($title)."#~#obj_".$obj_id] = array("txt" => $title, "icon" => $icon, "type" => $type, "default" => true, "no_permission" => $no_perm);
+					
+					// #16453
+					$relpath = null;
+					include_once './Services/Tree/classes/class.ilPathGUI.php';
+					$path = new ilPathGUI();
+					$path = $path->getPath($this->ref_id, $ref_id);
+					if($path)
+					{
+						$relpath = $this->lng->txt('path').': '.$path;
+					}
+					
+					$tmp_cols[strtolower($title)."#~#obj_".$obj_id] = array(
+						"txt" => $title, 
+						"icon" => $icon, 
+						"type" => $type, 
+						"default" => true, 
+						"no_permission" => $no_perm,
+						"path" => $relpath);
 				}
-			}
+ 			}
 			if(sizeof($this->objective_ids))
 			{
 				foreach($this->objective_ids as $obj_id => $title)

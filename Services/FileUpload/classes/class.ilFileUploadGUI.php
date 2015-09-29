@@ -196,6 +196,8 @@ class ilFileUploadGUI
 		$tpl_panel->setVariable("TXT_HEADER", $lng->txt("upload_files_title"));
 		$tpl_panel->setVariable("TXT_SHOW_ALL_DETAILS", $lng->txt('show_all_details')); 
 		$tpl_panel->setVariable("TXT_HIDE_ALL_DETAILS", $lng->txt('hide_all_details'));
+		$tpl_panel->setVariable("TXT_SUBMIT", $lng->txt('upload_files'));
+		$tpl_panel->setVariable("TXT_CANCEL", $lng->txt('cancel'));
 			
 		$tpl_shared->setCurrentBlock("fileupload_panel_tmpl");
 		$tpl_shared->setVariable("PANEL_TEMPLATE_HTML", $tpl_panel->get());

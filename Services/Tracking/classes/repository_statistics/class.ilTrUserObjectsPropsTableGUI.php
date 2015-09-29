@@ -420,6 +420,15 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 			$this->tpl->setVariable("VAL_TITLE", $data["title"]);
 			$this->tpl->parseCurrentBlock();
 		}
+		
+		// #16453
+		include_once './Services/Tree/classes/class.ilPathGUI.php';
+		$path = new ilPathGUI();
+		$path = $path->getPath($this->ref_id, $data['ref_id']);
+		if($path)
+		{
+			$this->tpl->setVariable('COLL_PATH', $this->lng->txt('path').': '.$path);
+		}
 
 		// #13807
 		if($rbacsystem->checkAccess('edit_learning_progress', $data["ref_id"]))
