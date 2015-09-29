@@ -46,6 +46,21 @@ class ilForumMoveTopicsExplorer extends ilRepositorySelectorExplorerGUI
 	 */
 	function isNodeClickable($a_node)
 	{
+		/**
+		 * @var $ilAccess ilAccessHandler
+		 */
+		global $ilAccess;
+
+		if($a_node['type'] == 'frm')
+		{
+			if($this->getCurrentFrmRefId() && $this->getCurrentFrmRefId() == $a_node['child'])
+			{
+				return false;
+			}
+
+			return $ilAccess->checkAccess('moderate_frm', '', $a_node['child']);
+		}
+
 		return false;
 	}
 
