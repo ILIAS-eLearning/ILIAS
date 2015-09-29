@@ -515,7 +515,9 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 	 */
 	function _preloadData($a_obj_ids, $a_ref_ids)
 	{
-		global $ilUser;
+		global $ilUser, $lng;
+		
+		$lng->loadLanguageModule("crs");
 		
 		include_once("./Modules/Course/classes/class.ilCourseWaitingList.php");
 		ilCourseWaitingList::_preloadOnListInfo($ilUser->getId(), $a_obj_ids);
@@ -534,6 +536,39 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 		return self::$using_code;
 	}
 
+	/**
+	 * Lookup course period info
+	 * 
+	 * @param int $a_obj_id
+	 * @return array
+	 */
+	public static function lookupPeriodInfo($a_obj_id)
+	{
+		global $ilDB, $lng;
+		
+		$start = $end = null;
+		
+		$query = 'SELECT crs_start, crs_end FROM crs_settings'.
+			' WHERE obj_id = '.$ilDB->quote($a_obj_id);
+		$set = $ilDB->query($query);		
+		while($row = $ilDB->fetchAssoc($set))
+		{			
+			$start = $row['crs_start'] 
+				? new ilDateTime($row['crs_start'], IL_CAL_UNIX)
+				: null;
+			$end = $row['crs_end'] 
+				? new ilDateTime($row['crs_end'], IL_CAL_UNIX)
+				: null;
+		}
+		
+		if($start && $end)
+		{
+			return array(
+				'property' => $lng->txt('crs_period'),
+				'value' => ilDatePresentation::formatPeriod($start, $end)
+			);
+		}
+	}
 }
 
 ?>
