@@ -66,7 +66,7 @@ class ilForumMoveTopicsExplorer extends ilRepositorySelectorExplorerGUI
 				return false;
 			}
 
-			return $ilAccess->checkAccess('moderate_frm', '', $a_node['child']);
+			return $ilAccess->checkAccess('moderate_frm', '', $a_node['child']) && parent::isNodeClickable($a_node);
 		}
 
 		return false;
