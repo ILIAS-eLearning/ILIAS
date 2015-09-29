@@ -7,7 +7,7 @@
 
 <!-- new elements defined here -->
 
-<!ELEMENT Course (MetaData?,AdvancedMetaData?,Admin+,Tutor*,Member*,Subscriber*,WaitingList*,Settings?)>
+<!ELEMENT Course (MetaData?,AdvancedMetaData?,Admin+,Tutor*,Member*,Subscriber*,WaitingList*,Settings?,Sort?)>
 <!ATTLIST Course
     exportVersion CDATA #REQUIRED
     id CDATA #IMPLIED
@@ -67,7 +67,7 @@
 	action (Attach|Detach) #IMPLIED
 >
 <!-- Description of course settings -->
-<!ELEMENT Settings (Availability?,Syllabus?,ImportantInformation?,Contact?,Registration?,Sort?,Archive?)>
+<!ELEMENT Settings (Availability?,Syllabus?,ImportantInformation?,Contact?,Registration?,Archive?)>
 
 <!-- Availability -->
 <!ELEMENT Availability (NotAvailable | Unlimited | TemporarilyAvailable)>
