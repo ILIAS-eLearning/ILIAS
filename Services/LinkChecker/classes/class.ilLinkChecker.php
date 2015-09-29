@@ -589,8 +589,11 @@ class ilLinkChecker
 
 		foreach($this->getInvalidLinks() as $link)
 		{
-			$query = "INSERT INTO link_check (obj_id,page_id,url,parent_type,http_status_code,last_check) ".
+			$id = $ilDB->nextId('link_check');
+
+			$query = "INSERT INTO link_check (id, obj_id,page_id,url,parent_type,http_status_code,last_check) ".
 				"VALUES ( ".
+				$ilDB->quote($id, "integer").",".
 				$ilDB->quote($link['obj_id'],'integer').", ".
 				$ilDB->quote($link['page_id'],'integer').", ".
 				$ilDB->quote(substr($link['complete'],0,255),'text').", ".
