@@ -777,15 +777,6 @@ class ilInitialisation
 		include_once './Services/Logging/classes/public/class.ilLoggerFactory.php';
 		$log = ilLoggerFactory::getRootLogger();
 		
-//		require_once "./Services/Logging/classes/class.ilLog.php";
-//		try
-//		{
-//			$log = new ilLog(ILIAS_LOG_DIR,ILIAS_LOG_FILE,CLIENT_ID,ILIAS_LOG_ENABLED,ILIAS_LOG_LEVEL);				
-//		}
-//		catch(ilLogException $e)
-//		{
-//			self::abortAndDie($e->getMessage());
-//		}
 		self::initGlobal("ilLog", $log);
 		// deprecated
 		self::initGlobal("log", $log);

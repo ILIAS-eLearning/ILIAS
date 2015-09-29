@@ -136,6 +136,7 @@ class ilValidator extends PEAR
 			$this->deleteScanLog();
 		
 			// create scan log
+			include_once './Services/Logging/classes/class.ilLog.php';
 			$this->scan_log = new ilLog(CLIENT_DATA_DIR,"scanlog.log");
 			$this->scan_log->setLogFormat("");
 			$this->writeScanLogLine($this->scan_log_separator);

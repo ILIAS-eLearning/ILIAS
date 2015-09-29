@@ -128,6 +128,7 @@ class ilTestExport
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		ilUtil::makeDir($this->export_dir);
 
+		include_once './Services/Logging/classes/class.ilLog.php';
 		$expLog = new ilLog($expDir, "export.log");
 		$expLog->delete();
 		$expLog->setLogFormat("");
