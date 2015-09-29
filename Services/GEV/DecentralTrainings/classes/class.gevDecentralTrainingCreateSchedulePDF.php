@@ -50,12 +50,14 @@ class gevDecentralTrainingCreateSchedulePDF
 		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 		$this->blocks 	= gevCourseBuildingBlockUtils::getAllCourseBuildingBlocks(gevObjectUtils::getRefId($a_crs_id));
 		$this->pdf 		= new ilPDFHelper($this->mode, $this->unit, $this->format);
+		$this->customId = "";
 		
 		$this->spaceLeft = 1.0;
 		$this->spaceRight = 1.0;
 		$this->lastYValue = 0;
 		$this->maxRight = 28;
 		$this->maxPageHeight = 19;
+		$this->pageCounter = 0;
 
 		$this->headFontSize = 11;
 		$this->headerFontName = "Arial";
@@ -83,7 +85,9 @@ class gevDecentralTrainingCreateSchedulePDF
 		$this->number_couloums_after_time = 3;
 		$this->crsBlockMultiplikatorColoumnWidth = $this->number_couloums_after_time + 1.2;
 		
-		
+		$this->crsFooterFontSize = 8;
+		$this->crsFooterFontName = "Arial";
+		$this->crsFooterNoBold = "";
 
 	}
 
@@ -113,10 +117,12 @@ class gevDecentralTrainingCreateSchedulePDF
 		$this->pdf->SetMargins(0, 0, $this->spaceRight);
 		$this->pdf->AliasNbPages();
 		$this->pdf->AddPage();
+		$this->pageCounter++;
 
 		$this->createHeadline();
 		$this->createCrsInfo();
 		$this->createBlockInfo();
+		$this->createFooterRow();
 
 		$this->pdf->Output($a_path, 'F');
 	}
@@ -134,6 +140,7 @@ class gevDecentralTrainingCreateSchedulePDF
 	*/
 	private function createCrsInfo() {
 		$meta_data = $this->crs_utils->getListMetaData();
+		$this->customId = $meta_data["Nummer der Maßnahme"];
 		$trainers = explode(", ", $meta_data["Trainer"]);
 		$jump_trainers = count($trainers) - 1;
 
@@ -151,8 +158,8 @@ class gevDecentralTrainingCreateSchedulePDF
 		$this->pdf->WriteText($this->spaceLeft, $this->crsInfoSpaceTop + (7 * $this->crsInfoSpaceTopAdd), $this->encodeSpecialChars("Bildungspunkte"));
 		$this->pdf->WriteText($this->spaceLeft, $this->crsInfoSpaceTop + (8 * $this->crsInfoSpaceTopAdd), $this->encodeSpecialChars("Trainer"));
 		$this->pdf->WriteText($this->spaceLeft, $this->crsInfoSpaceTop + ((9 + $jump_trainers) * $this->crsInfoSpaceTopAdd), $this->encodeSpecialChars("Trainingsbetreuer"));
-		$this->pdf->WriteText($this->spaceLeft, $this->crsInfoSpaceTop + ((10 + $jump_trainers) * $this->crsInfoSpaceTopAdd), $this->encodeSpecialChars("Fachlich verantwortlich"));
-		$this->pdf->WriteText($this->spaceLeft, $this->crsInfoSpaceTop + ((11 + $jump_trainers) * $this->crsInfoSpaceTopAdd), $this->encodeSpecialChars("Bei Rückfragen"));
+		//$this->pdf->WriteText($this->spaceLeft, $this->crsInfoSpaceTop + ((10 + $jump_trainers) * $this->crsInfoSpaceTopAdd), $this->encodeSpecialChars("Fachlich verantwortlich"));
+		$this->pdf->WriteText($this->spaceLeft, $this->crsInfoSpaceTop + ((10 + $jump_trainers) * $this->crsInfoSpaceTopAdd), $this->encodeSpecialChars("Bei Rückfragen"));
 
 		$this->pdf->SetFont($this->crsInfoFontName, $this->crsInfoNoBold, $this->crsInfoFontSize);
 		$this->pdf->WriteText($this->crsInfoSecondColoumnSpaceLeft, $this->crsInfoSpaceTop + (2 * $this->crsInfoSpaceTopAdd), $this->encodeSpecialChars($meta_data["Titel"]));
@@ -167,10 +174,10 @@ class gevDecentralTrainingCreateSchedulePDF
 		}
 		
 		$this->pdf->WriteText($this->crsInfoSecondColoumnSpaceLeft, $this->crsInfoSpaceTop + ((9 + $jump_trainers) * $this->crsInfoSpaceTopAdd), $meta_data["Trainingsbetreuer"]);
-		$this->pdf->WriteText($this->crsInfoSecondColoumnSpaceLeft
+		/*$this->pdf->WriteText($this->crsInfoSecondColoumnSpaceLeft
 								,$this->crsInfoSpaceTop + ((10 + $jump_trainers) * $this->crsInfoSpaceTopAdd)
-								, $meta_data["Fachlich verantwortlich"]);
-		$this->pdf->WriteText($this->crsInfoSecondColoumnSpaceLeft, $this->crsInfoSpaceTop + ((11 + $jump_trainers) * $this->crsInfoSpaceTopAdd), $meta_data["Bei Rückfragen"]);
+								, $meta_data["Fachlich verantwortlich"]);*/
+		$this->pdf->WriteText($this->crsInfoSecondColoumnSpaceLeft, $this->crsInfoSpaceTop + ((10 + $jump_trainers) * $this->crsInfoSpaceTopAdd), $meta_data["Bei Rückfragen"]);
 		
 		$this->pdf->Line($this->spaceLeft,$this->pdf->getY() + 1,$this->maxRight,$this->pdf->getY() + 1);
 		$this->pdf->Line($this->spaceLeft,$this->pdf->getY() + 1.1,$this->maxRight,$this->pdf->getY() + 1.1);
@@ -209,7 +216,9 @@ class gevDecentralTrainingCreateSchedulePDF
 			$y_value = $this->pdf->GetY() + $this->crsBlockSpaceTopAdd;
 
 			if($y_value + $max_height - (2*$this->crsBlockSpaceTopAdd) > $this->maxPageHeight) {
+				$this->createFooterRow();
 				$this->pdf->AddPage();
+				$this->pageCounter++;
 
 				$y_value = $this->pdf->getY() + $this->crsBlockSpaceTop;
 				$this->pdf->SetFont($this->crsBlockFontName, $this->crsBlockBold, $this->crsBlockFontSize);
@@ -245,6 +254,12 @@ class gevDecentralTrainingCreateSchedulePDF
 			$this->pdf->setXY($x_firstColoumn, $y_value + $max_height - (2*$this->crsBlockSpaceTopAdd));
 			$jumper += 0.01;
 		}
+	}
+
+	private function createFooterRow() {
+		$this->pdf->SetFont($this->crsFooterFontName, $this->crsFooterNoBold, $this->crsFooterFontSize);
+		$this->pdf->WriteText($this->spaceLeft, 20, $this->encodeSpecialChars("Seite ".$this->pageCounter));
+		$this->pdf->WriteText($this->spaceLeft + 2, 20, $this->encodeSpecialChars("Nummer der Maßnahme ".$this->customId));
 	}
 
 	private function calcMaxRowHeight($block_title,$content,$targets, $width) {
