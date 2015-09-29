@@ -15712,7 +15712,7 @@ sess#:#sess_reg_waiting_list_autofill#:#With Auto-Fill
 sess#:#sess_reg_waiting_list_autofill_info#:#Participants are recruited from the waiting list automatically on cancellations.
 grp#:#grp_cancellation_end_info#:#From this date on particiants cannot unsubscribe anymore.
 crs#:#crs_cancellation_end_info#:#From this date on particiants cannot unsubscribe anymore.
-crs#:#crs_period_info#:#Start to end date of the course
+crs#:#crs_period_info#:#Information about the start and end date of the event, which is supported by the course
 meta#:#md_adv_deleted_fields#:#The fields have been deleted.
 cntr#:#tab_back_to_repository#:#Back to Repository
 obj#:#obj_target_location#:#Target Location

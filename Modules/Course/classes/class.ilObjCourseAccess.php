@@ -554,10 +554,10 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 		while($row = $ilDB->fetchAssoc($set))
 		{			
 			$start = $row['crs_start'] 
-				? new ilDateTime($row['crs_start'], IL_CAL_UNIX)
+				? new ilDate($row['crs_start'], IL_CAL_UNIX)
 				: null;
 			$end = $row['crs_end'] 
-				? new ilDateTime($row['crs_end'], IL_CAL_UNIX)
+				? new ilDate($row['crs_end'], IL_CAL_UNIX)
 				: null;
 		}
 		
