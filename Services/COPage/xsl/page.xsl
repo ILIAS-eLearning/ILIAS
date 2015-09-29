@@ -2563,8 +2563,8 @@
 		</xsl:when>
 
 		<!-- all image mime types, except svg -->
-		<!-- image/svgxxx, see bug #15857 -->
-		<xsl:when test="substring($type, 1, 5) = 'image' and not(substring($type, 1, 9) = 'image/svgxxx')">
+		<!-- image/svgxxx, see bug #15857 (reverted due to example clock.svg in the report)-->
+		<xsl:when test="substring($type, 1, 5) = 'image' and not(substring($type, 1, 9) = 'image/svg')">
 			<xsl:if test="$map_edit_mode != 'get_coords'">
 				<xsl:choose>
 					<xsl:when test = "(//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = $curPurpose]/MapArea[@Shape = 'WholePicture'] and not(./MapArea[1])) or ./MapArea[@Shape = 'WholePicture']">
