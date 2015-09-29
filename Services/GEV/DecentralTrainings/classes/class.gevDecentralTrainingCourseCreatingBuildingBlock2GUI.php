@@ -680,7 +680,8 @@ class gevDecentralTrainingCourseCreatingBuildingBlock2GUI {
 					$tpl->parseCurrentBlock();
 				}
 
-				$tpl->setVariable("MESSAGE",$this->lng->txt("gev_dec_training_block_time_overlap"));
+				$message = $this->lng->txt("gev_dec_training_block_time_overlap")."<br/>".$this->lng->txt("gev_dec_training_crs_will_not_created");
+				$tpl->setVariable("MESSAGE",$message);
 				$html .= $tpl->get();
 
 				ilUtil::sendInfo($html, false);
@@ -689,7 +690,8 @@ class gevDecentralTrainingCourseCreatingBuildingBlock2GUI {
 			}
 
 			if(gevCourseBuildingBlockUtils::timeIssuesCrs(null,$this->crs_request_id)) {
-				ilUtil::sendInfo($this->lng->txt("gev_dec_training_blocks_time_issue_course"), true);
+				$message = $this->lng->txt("gev_dec_training_blocks_time_issue_course")."<br/>".$this->lng->txt("gev_dec_training_crs_will_not_created");
+				ilUtil::sendInfo($message, false);
 				$this->render();
 				return;
 			}
