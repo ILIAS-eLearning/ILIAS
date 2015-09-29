@@ -12111,4 +12111,7 @@ $ilDB->modifyTableColumn('cmi_gobjective', 'objective_id', array(
 	'length'  => 253,
 ));
 ?>
-
+<#4769>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
