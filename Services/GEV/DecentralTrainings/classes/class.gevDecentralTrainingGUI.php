@@ -359,6 +359,7 @@ class gevDecentralTrainingGUI {
 		}
 
 		return   $title->render()
+				.$this->createMailPreview()
 				.$a_form->getHTML()
 				.$js;
 	}
