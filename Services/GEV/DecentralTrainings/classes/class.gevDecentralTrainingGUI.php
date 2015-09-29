@@ -372,8 +372,8 @@ class gevDecentralTrainingGUI {
 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 		require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCreationRequest.php");
 
-		$template_id = intval($_POST["template_id"]);
-		$form_values["utils_id"] = $template_id;
+		$this->template_id = intval($_POST["template_id"]);
+		$form_values["utils_id"] = $this->template_id;
 
 		$form_prev = $this->buildTrainingOptionsForm(false,false,$form_values);
 		
@@ -382,7 +382,7 @@ class gevDecentralTrainingGUI {
 		}
 		
 		
-		if(!$this->checkDecentralTrainingConstraints($form_prev, $template_id)) {
+		if(!$this->checkDecentralTrainingConstraints($form_prev, $this->template_id)) {
 			return $this->failCreateTraining($form_prev);
 		}
 		
@@ -391,7 +391,7 @@ class gevDecentralTrainingGUI {
 								);
 		
 		$crs_utils = gevCourseUtils::getInstance($template_id);
-		$settings = $this->getSettingsFromForm($crs_utils, $form_prev, $template_id);
+		$settings = $this->getSettingsFromForm($crs_utils, $form_prev, $this->template_id);
 		$creation_request = new gevDecentralTrainingCreationRequest
 									( $this->dctl_utils->getCreationRequestDB()
 									, (int)$this->current_user->getId()
@@ -415,6 +415,7 @@ class gevDecentralTrainingGUI {
 		$template_id = $_POST["template_id"];
 		$is_flexible = $this->isTemplateFelixible($template_id);
 		$form_values["utils_id"] = $template_id;
+		$this->template_id = $template_id;
 
 		$form = $this->buildTrainingOptionsForm(false,$is_flexible,$form_values);
 		$form->setValuesByPost();
