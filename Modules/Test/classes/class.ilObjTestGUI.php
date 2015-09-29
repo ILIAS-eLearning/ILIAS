@@ -4223,7 +4223,6 @@ class ilObjTestGUI extends ilObjectGUI
 			case "singleResults":
 			case "exportEvaluation":
 			case "evalUserDetail":
-			case "passDetails":
 			case "outStatisticsResultsOverview":
 			case "statisticsPassDetails":
 				$this->getStatisticsSubTabs();

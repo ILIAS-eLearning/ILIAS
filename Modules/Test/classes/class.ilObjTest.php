@@ -6176,9 +6176,6 @@ function getAnswerFeedbackPoints()
 				case 'instant_feedback_specific': 
 					$this->setSpecificAnswerFeedback($metadata['entry']);
 					break;
-				case 'instant_feedback_answer_fixation': 
-					$this->setInstantFeedbackAnswerFixationEnabled($metadata['entry']);
-					break;
 				case 'obligations_enabled': 
 					$this->setObligationsEnabled($metadata['entry']);
 					break;
