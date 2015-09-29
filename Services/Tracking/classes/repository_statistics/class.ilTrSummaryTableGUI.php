@@ -704,6 +704,17 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 			
 			$this->tpl->touchBlock("path_action");
 		}
+		else
+		{
+			// #16453
+			include_once './Services/Tree/classes/class.ilPathGUI.php';
+			$path = new ilPathGUI();
+			$path = $path->getPath($this->ref_id, array_pop($a_set["ref_ids"]));
+			if($path)
+			{
+				$this->tpl->setVariable('COLL_PATH', $this->lng->txt('path').': '.$path);
+			}
+		}
 	}
 
 	protected function renderPercentages($id, $data)
