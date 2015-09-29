@@ -188,6 +188,11 @@ class ilImageFileInputGUI extends ilFileInputGUI
 		$i_tpl->setVariable("POST_VAR", $this->getPostVar());
 		$i_tpl->setVariable("ID", $this->getFieldId());
 		
+		
+		/* experimental: bootstrap'ed file upload */
+		$i_tpl->setVariable("TXT_BROWSE", $lng->txt("select_file"));
+		
+		
 		if(!$quota_exceeded)
 		{
 			$i_tpl->setVariable("TXT_MAX_SIZE", $lng->txt("file_notice")." ".

@@ -3,7 +3,17 @@
 		<div class="help-block">{TXT_FILENAME_HINT}</div>
 <!--  END filename -->
 		<!-- BEGIN prop_file_propval --><div style="margin-bottom:3px; margin-left:3px;"><span class="subtitle">{FILE_VAL}</span></div><!-- END prop_file_propval -->
-		<input type="file" id="{ID}" name="{POST_VAR}" size="{SIZE}"{DISABLED} />
+		
+		<div class="input-group">
+			<span class="input-group-btn">
+				<span class="btn btn-default btn-file">
+					{TXT_BROWSE}<input type="file" id="{ID}" name="{POST_VAR}"{DISABLED}/>
+				</span>
+			</span>
+			<input type="text" class="form-control" readonly="readonly"{DISABLED}>
+		</div>
+				
+		<!--<input type="file" id="{ID}" name="{POST_VAR}" size="{SIZE}"{DISABLED} />-->
 		<!-- BEGIN max_size -->
 		<div class="help-block">{TXT_MAX_SIZE}</div>
 		<!-- END max_size -->
