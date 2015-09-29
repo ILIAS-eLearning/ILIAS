@@ -246,6 +246,7 @@ class gevCourseBuildingBlockUtils {
 			   ." FROM ".self::TABLE_NAME_JOIN1." base\n"
 			   ." JOIN ".self::TABLE_NAME." join1 ON base.obj_id = join1.bb_id\n"
 			   ." WHERE join1.crs_id = ".$a_db->quote($a_crs_ref_id,"integer")."\n"
+			   ." AND base.move_to_course = 1\n"
 			   ." AND base.gdv_topic IS NOT NULL";
 
 		$res = $a_db->query($sql);
@@ -272,7 +273,8 @@ class gevCourseBuildingBlockUtils {
 		$sql = "SELECT base.training_categories \n"
 			   ." FROM ".self::TABLE_NAME_JOIN1." base\n"
 			   ." JOIN ".self::TABLE_NAME." join1 ON base.obj_id = join1.bb_id\n"
-			   ." WHERE join1.crs_id = ".$a_db->quote($a_crs_ref_id,"integer")."\n";
+			   ." WHERE join1.crs_id = ".$a_db->quote($a_crs_ref_id,"integer")."\n"
+			   ." AND base.move_to_course = 1\n";
 
 		$res = $a_db->query($sql);
 		$categories = array();
@@ -298,10 +300,12 @@ class gevCourseBuildingBlockUtils {
 
 		if($a_crs_ref_id !== null) {
 			$sql .= " WHERE join1.crs_id = ".$a_db->quote($a_crs_ref_id,"integer")."\n";
+			$sql .= " AND base.move_to_course = 1\n";
 		}
 
 		if($a_crs_ref_id === null && $crs_request_id !== null) {
 			$sql .= " WHERE join1.crs_request_id = ".$a_db->quote($crs_request_id,"integer")."\n";
+			$sql .= " AND base.move_to_course = 1\n";
 		}
 
 		$res = $a_db->query($sql);
@@ -324,22 +328,24 @@ class gevCourseBuildingBlockUtils {
 	}
 
 	static public function content($a_crs_ref_id, $a_db,$crs_request_id = null) {
-		$sql = "SELECT DISTINCT base.content\n"
+		$sql = "SELECT DISTINCT base.title\n"
 			   ." FROM ".self::TABLE_NAME_JOIN1." base\n"
 			   ." JOIN ".self::TABLE_NAME." join1 ON base.obj_id = join1.bb_id\n";
 
 		if($a_crs_ref_id !== null) {
 			$sql .= " WHERE join1.crs_id = ".$a_db->quote($a_crs_ref_id,"integer")."\n";
+			$sql .= " AND base.move_to_course = 1\n";
 		}
 
 		if($a_crs_ref_id === null && $crs_request_id !== null) {
 			$sql .= " WHERE join1.crs_request_id = ".$a_db->quote($crs_request_id,"integer")."\n";
+			$sql .= " AND base.move_to_course = 1\n";
 		}
 
 		$res = $a_db->query($sql);
 		$content = array();
 		while($row = $a_db->fetchAssoc($res)) {
-			$content[] = $row["content"];
+			$content[] = $row["title"];
 		}
 
 		return $content;
@@ -358,7 +364,8 @@ class gevCourseBuildingBlockUtils {
 		      ." FROM ".self::TABLE_NAME." base\n"
 		      ." JOIN ".self::TABLE_NAME_JOIN1." join1\n"
 		      ." ON base.bb_id = join1.obj_id\n"
-		      ." WHERE join1.is_wp_relevant = 1\n";
+		      ." WHERE join1.is_wp_relevant = 1\n"
+		      ." AND join1.move_to_course = 1";
 
 		 if($a_crs_ref_id !== null) {
 			$sql .= " AND base.crs_id = ".$a_db->quote($a_crs_ref_id,"integer")."\n";
