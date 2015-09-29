@@ -145,6 +145,11 @@ class ilLuceneAdvancedSearchFields
 		include_once './Services/MetaData/classes/class.ilMDUtilSelect.php';
 
 		$a_post_name = 'query['.$a_field_name.']';
+		
+		if(!$a_query)
+		{
+			$a_query = array();
+		}
 
 		switch($a_field_name)
 		{
