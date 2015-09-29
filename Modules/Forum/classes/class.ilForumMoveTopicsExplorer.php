@@ -44,14 +44,6 @@ class ilForumMoveTopicsExplorer extends ilRepositorySelectorExplorerGUI
 	/**
 	 * {@inheritdoc}
 	 */
-	function isNodeClickable($a_node)
-	{
-		return false;
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
 	function isNodeVisible($a_node)
 	{
 		return parent::isNodeVisible($a_node);
@@ -60,7 +52,7 @@ class ilForumMoveTopicsExplorer extends ilRepositorySelectorExplorerGUI
 	/**
 	 * {@inheritdoc}
 	 */
-	protected function isNodeSelectable($a_node)
+	function isNodeClickable($a_node)
 	{
 		/**
 		 * @var $ilAccess ilAccessHandler
