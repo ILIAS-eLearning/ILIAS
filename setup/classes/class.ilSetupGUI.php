@@ -3401,7 +3401,7 @@ else
 
 		}
 
-		$this->setButtonPrev("proxy");
+		$this->setButtonPrev("passwd");
 
 		if ($this->setup->getClient()->status["nic"]["status"])
 		{
