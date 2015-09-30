@@ -15305,3 +15305,4 @@ wsp#:#wsp_shared_filter_button#:#Search
 exc#:#exc_direct_submit#:#Submit
 export#:#no_file#:#No file
 content#:#lm_no_download_files#:#There are currently no files for download available.
+rbac#:#feed_copy#:#User can copy webfeed
