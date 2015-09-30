@@ -523,7 +523,8 @@ echo "<br>+".$client_id;
 
 		$count = (int) round(count($languages) / 2);
 		$num = 1;
-
+		
+		sort($languages); // #16837
 		foreach ($languages as $lang_key)
 		{
 			/*
