@@ -1224,17 +1224,18 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 	
 	function getSpecificFeedbackOutput($active_id, $pass)
 	{
+		if( !$this->object->feedbackOBJ->specificAnswerFeedbackExists(array_values($this->object->gaps)) )
+		{
+			return '';
+		}
+
+		global $lng;
+
 		$feedback = '<table><tbody>';
 
 		foreach ($this->object->gaps as $index => $answer)
 		{
-			$caption = $ordinal = $index+1 .':<i> ';
-			foreach ($answer->items as $item)
-			{
-				$caption .= '"' . $item->getAnswertext().'" / ';
-			}
-			$caption = substr($caption, 0, strlen($caption)-3);
-			$caption .= '</i>';
+			$caption = $lng->txt('gap').' '.($index+1) .': ';
 
 			$feedback .= '<tr><td>';
 
