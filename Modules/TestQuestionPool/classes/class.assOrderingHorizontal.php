@@ -668,6 +668,16 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
 				break;
 		}
 	}
+	
+	public function supportsJavascriptOutput()
+	{
+		return true;
+	}
+
+	public function supportsNonJsOutput()
+	{
+		return false;
+	}
 
 	/**
 	 * Returns a JSON representation of the question
