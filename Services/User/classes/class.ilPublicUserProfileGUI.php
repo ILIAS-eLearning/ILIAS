@@ -358,7 +358,8 @@ class ilPublicUserProfileGUI
 			$imagefile = basename($imagefile);			
 		}
 
-		if ($this->getPublicPref($user, "public_upload")=="y" && $imagefile != "")
+		if ($this->getPublicPref($user, "public_upload")=="y" && $imagefile != "" &&
+			($ilUser->getId() != ANONYMOUS_USER_ID || $user->getPref("public_profile") == "g"))
 		{
 			//Getting the flexible path of image form ini file
 			//$webspace_dir = ilUtil::getWebspaceDir("output");
