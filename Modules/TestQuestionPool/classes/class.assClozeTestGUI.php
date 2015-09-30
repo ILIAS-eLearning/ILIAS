@@ -1420,17 +1420,14 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 		{
 			return '';
 		}
-		
+
+		global $lng;
+
 		$feedback = '<table class="test_specific_feedback"><tbody>';
 
 		foreach ($this->object->gaps as $index => $answer)
 		{
-			$caption = $ordinal = $index+1 .': ';
-			foreach ($answer->items as $item)
-			{
-				$caption .= '"' . $item->getAnswertext().'" / ';
-			}
-			$caption = substr($caption, 0, strlen($caption)-3);
+			$caption = $lng->txt('gap').' '.($index+1) .': ';
 
 			$feedback .= '<tr><td>';
 
