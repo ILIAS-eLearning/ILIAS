@@ -1100,9 +1100,14 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	* @return boolean TRUE if the question type supports JavaScript output, FALSE otherwise
 	* @access public
 	*/
-	function supportsJavascriptOutput()
+	public function supportsJavascriptOutput()
 	{
 		return TRUE;
+	}
+	
+	public function supportsNonJsOutput()
+	{
+		return false;
 	}
 
 	/**
