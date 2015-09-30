@@ -116,9 +116,9 @@ class ilADTEnumSearchBridgeMulti extends ilADTSearchBridgeMulti
 			{
 				include_once "Services/ADT/classes/Types/MultiEnum/class.ilADTMultiEnumDBBridge.php";
 				
-				$mode_concat = ($this->search_mode == self::SEARCH_MODE_ANY)
-					? " OR "
-					: " AND ";
+				$mode_concat = ($this->search_mode == self::SEARCH_MODE_ALL)
+					? " AND "
+					: " OR ";
 				
 				$parts = array();
 				foreach($this->getADT()->getSelections() as $item)
@@ -137,7 +137,27 @@ class ilADTEnumSearchBridgeMulti extends ilADTSearchBridgeMulti
 	
 	public function isInCondition(ilADTMultiEnum $a_adt)
 	{
-		return $this->getADT()->equals($a_adt);
+		if($this->search_mode == self::SEARCH_MODE_ALL)
+		{		
+			return $this->getADT()->equals($a_adt);
+		}
+		else
+		{
+			// #16827
+			$current = $this->getADT()->getSelections();
+			if(is_array($current) &&
+				sizeof($current))
+			{
+				foreach($a_adt->getSelections() as $value)
+				{
+					if(in_array($value, $current))
+					{
+						return true;
+					}
+				}
+			}
+			return false;
+		}
 	}	
 	
 	
