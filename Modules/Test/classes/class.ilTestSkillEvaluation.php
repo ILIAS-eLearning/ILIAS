@@ -325,9 +325,11 @@ class ilTestSkillEvaluation
 					continue;
 				}
 
-				if( $skillPointAccount->getTotalReachedSkillPercent() >= $threshold->getThreshold() )
+				$reachedLevelId = $level['id'];
+				
+				if( $skillPointAccount->getTotalReachedSkillPercent() <= $threshold->getThreshold() )
 				{
-					$reachedLevelId = $level['id'];
+					break;
 				}
 			}
 
