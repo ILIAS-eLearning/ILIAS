@@ -2541,6 +2541,21 @@ class gevUserUtils {
 	 	return $actions;
 	}
 
+	public function shouldSendSuperiorWeeklyReport($a_start_ts, $a_end_ts) {
+		$actions = $this->getUserDataForSuperiorWeeklyReport($a_start_ts, $a_end_ts);
+
+		$ret = false;
+
+		foreach ($actions as $key => $value) {
+			if(!empty($value)) {
+				$ret = true;
+				break;
+			}
+		}
+
+		return $ret;
+	}
+
 	public function seeBiproAgent() {
 		$roles = array("Administrator"
 					   ,"Admin-Voll"

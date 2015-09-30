@@ -8,6 +8,10 @@ require_once("Services/Calendar/classes/class.ilDateTime.php");
 
 class gevOrguSuperiorMailingJob extends ilCronJob {
 	const MAILS_PER_RUN = 100;
+	$this->start_timestamp = null;
+	$this->end_timestamp = null;
+	$this->end_date_str = "";
+
 	
 	public function getId() {
 		return "gev_orgu_superior_mailing";
@@ -31,6 +35,41 @@ class gevOrguSuperiorMailingJob extends ilCronJob {
 	
 	public function getDefaultScheduleValue() {
 		return 1;
+	}
+
+	protected function getStartTimestamp() {
+		if($this->start_timestamp === null) {
+			if($this->end_date_str == "") {
+				$this->createEndTimestamp();
+			}
+
+			$start_date = new DateTime($this->end_date_str);
+			$start_date->sub(date_interval_create_from_date_string('7 Days'));
+			$this->start_timestamp = $start_date->getTimestamp();
+		}
+
+		return $this->start_timestamp;
+	}
+
+	protected function getEndTimestamp() {
+		if($this->end_timestamp === null) {
+			$this->createEndTimestamp();
+		}
+
+		return $this->end_timestamp;
+	}
+
+	protected function createEndTimestamp() {
+		$timestamp_today = time();
+		$this->end_date_str = date("Y-m-d", $timestamp_today);
+		$end_date = new DateTime($this->end_date_str." 23:59:59");
+
+		if(date("l",$timestamp_today) == "Monday") {
+			$end_date->sub(date_interval_create_from_date_string('1 Day'));
+			$this->end_date_str = $end_date->format("Y-m-d");
+		}
+
+		$this->end_timestamp = $end_date->getTimestamp();
 	}
 	
 	public function run() {
@@ -65,6 +104,13 @@ class gevOrguSuperiorMailingJob extends ilCronJob {
 
 		while($row = $ilDB->fetchAssoc($res)) {
 			$superior_id = $row["usr_id"];
+			require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+			$usr_utils = gevUserUtils::getInstance($superior_id);
+
+			if($usr_utils->shouldSendSuperiorWeeklyReport($this->getStartTimestamp(), $this->getEndTimestamp())) {
+				$ilLog->write("gevOrguSuperiorMailingJob::run: no action for superior $superior_id");
+				continue;
+			}
 
 			$ilLog->write("gevOrguSuperiorMailingJob::run: Sending mail to $superior_id");
 
