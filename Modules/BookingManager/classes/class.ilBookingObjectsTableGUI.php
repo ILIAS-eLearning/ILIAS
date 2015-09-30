@@ -18,7 +18,7 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 	protected $has_schedule;	// [bool]
 	protected $may_edit;	// [bool]
 	protected $overall_limit;	// [int]
-	protected $reservations;	// [array]
+	protected $reservations = array();	// [array]
 	protected $current_bookings; // [int]
 	protected $advmd; // [array]
 	protected $filter; // [array]
