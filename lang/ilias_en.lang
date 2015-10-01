@@ -13106,7 +13106,7 @@ survey#:#svy_availability_until_info#:#Choose this mode for making the survey av
 survey#:#svy_activation_limited_visibility_info#:#Outside the indicated period, only the title of the survey will be displayed while the question are not accessible.
 blog#:#blog_add_contributor#:#Add Contributor
 blog#:#blog_search_users#:#Search Users
-common#:#il_blog_contributor#:#Blog-Contributor
+common#:#il_blog_contributor#:#Blog Author
 rbac#:#blog_contribute#:#User can contribute
 blog#:#blog_contribute_other_roles#:#In addition to the list of ‘Contributors’, users with one of the following roles can also add postings: %s
 dcl#:#dcl_no_content_warning#:#Attention, the Data Collection is online but does not have content yet!
@@ -15637,7 +15637,7 @@ content#:#cont_mycourses_sortorder_alphabetical#:#Alphabetical
 content#:#cont_mycourses_sortorder_location#:#By Location
 content#:#cont_mycourses_sortorder_info#:#This is a default setting. Every user can choose a personal order which affects all "My Courses"-elements of any portfolio.
 rbac#:#redact#:#Redact
-common#:#il_blog_editor#:#Blog-Editor
+common#:#il_blog_editor#:#Blog Chief Editor
 rbac#:#blog_redact#:#User can edit postings of other contributors, too
 blog#:#blog_contributors#:#Blog-Contributors
 meta#:#meta_obj_type_inactive#:#Not Used
