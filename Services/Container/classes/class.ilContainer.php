@@ -367,15 +367,15 @@ class ilContainer extends ilObject
 		{
 			$file_name = $cont_dir."/icon_custom.svg";
 			ilUtil::moveUploadedFile($a_custom_icon, "icon_custom.svg", $file_name);
-		}
 
-		if ($file_name != "" && is_file($file_name))
-		{
-			ilContainer::_writeContainerSetting($this->getId(), "icon_custom", 1);
-		}
-		else
-		{
-			ilContainer::_writeContainerSetting($this->getId(), "icon_custom", 0);
+			if ($file_name != "" && is_file($file_name))
+			{
+				ilContainer::_writeContainerSetting($this->getId(), "icon_custom", 1);
+			}
+			else
+			{
+				ilContainer::_writeContainerSetting($this->getId(), "icon_custom", 0);
+			}
 		}
 	}
 

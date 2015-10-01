@@ -16,6 +16,11 @@ class ilStr
 	{
 		if (function_exists("mb_substr"))
 		{
+			// see https://bugs.php.net/bug.php?id=62703
+			if ($a_length === NULL)
+			{
+				$a_length = self::strLen($a_str);
+			}
 			return mb_substr($a_str, $a_start, $a_length, "UTF-8");
 		}
 		else

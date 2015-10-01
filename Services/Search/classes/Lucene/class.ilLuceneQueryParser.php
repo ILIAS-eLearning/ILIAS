@@ -58,6 +58,24 @@ class ilLuceneQueryParser
 	}
 	
 	/**
+	 * Append asterisk for remote search from global search form field
+	 * @return boolean
+	 */
+	public function parseAutoWildcard()
+	{
+		$this->parsed_query = trim($this->query_string);
+		if(stristr($this->parsed_query, '*'))
+		{
+			return TRUE;
+		}
+		if(substr($this->parsed_query, -1) !== '"')
+		{
+			$this->parsed_query .= '*';
+		}
+		return TRUE;
+	}
+	
+	/**
 	 * get query 
 	 * @return
 	 */

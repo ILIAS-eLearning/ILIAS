@@ -615,9 +615,19 @@ abstract class assQuestion
 	* @return boolean TRUE if the question type supports JavaScript output, FALSE otherwise
 	* @access public
 	*/
-	function supportsJavascriptOutput()
+	public function supportsJavascriptOutput()
 	{
 		return FALSE;
+	}
+
+	public function supportsNonJsOutput()
+	{
+		return true;
+	}
+	
+	public function requiresJsSwitch()
+	{
+		return $this->supportsJavascriptOutput() && $this->supportsNonJsOutput();
 	}
 
 	/**

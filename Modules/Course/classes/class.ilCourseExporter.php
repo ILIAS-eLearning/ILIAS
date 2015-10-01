@@ -105,6 +105,12 @@ class ilCourseExporter extends ilXmlExporter
 				"xsd_file" => "ilias_course_4_1.xsd",
 				"uses_dataset" => false,
 				"min" => "4.1.0",
+				"max" => "4.4.999"),
+			"5.0.0" => array(
+				"namespace" => "http://www.ilias.de/Modules/Course/crs/5_0",
+				"xsd_file" => "ilias_crs_5_0.xsd",
+				"uses_dataset" => false,
+				"min" => "5.0.0",
 				"max" => "")
 		);
 	}

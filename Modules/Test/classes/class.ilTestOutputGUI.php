@@ -659,7 +659,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 			$this->tpl->setVariable("JAVASCRIPT_URL", $this->ctrl->getLinkTarget($this, "gotoQuestion"));
 		}
 
-		if ($question_gui->object->supportsJavascriptOutput())
+		if ($question_gui->object->requiresJsSwitch() && !$this->object->getForceJS())
 		{
 			$this->tpl->touchBlock("jsswitch");
 		}
