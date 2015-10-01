@@ -680,7 +680,7 @@ abstract class ilTEPViewGridBased extends ilTEPView
 			$crs_utils = gevCourseUtils::getInstance($crs_id);
 			
 			$actions = "";
-			if($crs_utils->isVirtualTraining()) {
+			if($crs_utils->isVirtualTraining() || $crs_utils->isPraesenztraining()) {
 				if($crs_utils->getVirtualClassLoginTutor()) {
 					$actions .= "VC Login: ".$crs_utils->getVirtualClassLoginTutor()."<br />";
 				}
