@@ -450,37 +450,38 @@ class gevCourseBuildingBlockUtils {
 		$block->setStartTime($start);
 		$block->setEndTime($end);
 
-		$start = split(":",$start);
-		$end = split(":",$end);
-		
-		$minutes = 0;
-		$hours = 0;
-		if($end[1] < $start[1]) {
-			$minutes = 60 - $start[1] + $end[1];
-			$hours = -1;
-		} else {
-			$minutes = $end[1] - $start[1];
+		if($block->getBuildingBlock()->isWPRelevant()) {
+			$start = split(":",$start);
+			$end = split(":",$end);
+			
+			$minutes = 0;
+			$hours = 0;
+			if($end[1] < $start[1]) {
+				$minutes = 60 - $start[1] + $end[1];
+				$hours = -1;
+			} else {
+				$minutes = $end[1] - $start[1];
+			}
+			$hours = $hours + $end[0] - $start[0];
+			$totalMinutes += $hours * 60 + $minutes;
+
+			$wp = null;
+			$wp_float = $totalMinutes / self::DURATION_PER_POINT;
+			
+			$wp_int = floor($wp_float);
+
+			$calc = $wp_float - $wp_int;
+			
+			if($calc > 0 && $calc < 0.6) {
+				$wp_int += 0.3; 
+			}
+
+			if($calc >= 0.6 && $calc < 1) {
+				$wp_int += 0.6; 
+			}
+
+			$block->setCreditPoints($wp_int);
 		}
-		$hours = $hours + $end[0] - $start[0];
-		$totalMinutes += $hours * 60 + $minutes;
-
-		$wp = null;
-		$wp_float = $totalMinutes / self::DURATION_PER_POINT;
-		
-		$wp_int = floor($wp_float);
-
-		$calc = $wp_float - $wp_int;
-		
-		if($calc > 0 && $calc < 0.6) {
-			$wp_int += 0.3; 
-		}
-
-		if($calc >= 0.6 && $calc < 1) {
-			$wp_int += 0.6; 
-		}
-
-		$block->setCreditPoints($wp_int);
-
 
 		$block->update();
 	}
