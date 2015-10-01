@@ -12137,3 +12137,98 @@ $ilDB->modifyTableColumn('cmi_gobjective', 'objective_id', array(
 	$query = 'INSERT INTO log_components (component_id) VALUES ('.$ilDB->quote('log_root', 'text').')';
 	$ilDB->manipulate($query);
 ?>
+
+<#4771>
+<?php
+
+// remove role entries in obj_members
+$query = 'update obj_members set admin = '.$ilDB->quote(0,'integer').', '.
+		'tutor = '.$ilDB->quote(0,'integer').', member = '.$ilDB->quote(0,'integer');
+$ilDB->manipulate($query);
+
+// iterate through all courses
+$offset = 0;
+$limit = 2;
+do
+{
+	$query = 'SELECT obr.ref_id, obr.obj_id FROM object_reference obr '.
+			'join object_data obd on obr.obj_id = obd.obj_id where (type = '.$ilDB->quote('crs','text').' or type = '.$ilDB->quote('grp','text').') '.
+			$ilDB->setLimit($limit, $offset);
+	$res = $ilDB->query($query);
+	
+	if(!$res->numRows())
+	{
+		break;
+	}
+	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	{
+		// find course members roles
+		$query = 'select rol_id, title from rbac_fa '.
+				'join object_data on rol_id = obj_id '.
+				'where parent = '.$ilDB->quote($row->ref_id,'integer').' '.
+				'and assign = '.$ilDB->quote('y','text');
+		$rol_res = $ilDB->query($query);
+		while($rol_row = $rol_res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			// find users which are not assigned to obj_members and create a default entry
+			$query = 'select ua.usr_id from rbac_ua ua '.
+					'left join obj_members om on ua.usr_id = om.usr_id '.
+					'where om.usr_id IS NULL '.
+					'and rol_id = '.$ilDB->quote($rol_row->rol_id,'integer').' '.
+					'and om.obj_id = '.$ilDB->quote($row->obj_id,'integer');
+			$ua_res = $ilDB->query($query);
+			while($ua_row = $ua_res->fetchRow(DB_FETCHMODE_OBJECT))
+			{
+				$query = 'insert into obj_members (obj_id, usr_id) '.
+						'values('.
+						$ilDB->quote($row->obj_id,'integer').', '.
+						$ilDB->quote($ua_row->usr_id,'integer').' '.
+						')';
+				$ilDB->manipulate($query);
+						
+			}
+			
+			// find users which are assigned to obj_members and update their role assignment
+			$query = 'select * from rbac_ua ua '.
+					'left join obj_members om on ua.usr_id = om.usr_id '.
+					'where om.usr_id IS NOT NULL '.
+					'and rol_id = '.$ilDB->quote($rol_row->rol_id,'integer').' '.
+					'and om.obj_id = '.$ilDB->quote($row->obj_id,'integer');
+			$ua_res = $ilDB->query($query);
+			while($ua_row = $ua_res->fetchRow(DB_FETCHMODE_OBJECT))
+			{
+				$admin = $tutor = $member = 0;
+				switch(substr($rol_row->title,0,8))
+				{
+					case 'il_crs_a':
+					case 'il_grp_a':
+						$admin = 1;
+						break;
+					
+					case 'il_crs_t':
+						$tutor = 1;
+						break;
+					
+					default:
+					case 'il_grp_m':
+					case 'il_crs_m':
+						$member = 1;
+						break;
+				}
+				
+				$query = 'update obj_members '.
+						'set admin = admin  + '.$ilDB->quote($admin,'integer').', '.
+						'tutor = tutor + '.$ilDB->quote($tutor,'integer').', '.
+						'member = member + '.$ilDB->quote($member,'integer').' '.
+						'WHERE usr_id = '.$ilDB->quote($ua_row->usr_id,'integer').' '.
+						'AND obj_id = '.$ilDB->quote($row->obj_id,'integer');
+				$ilDB->manipulate($query);
+			}
+		}
+	}
+		// increase offset
+	$offset += $limit;
+}
+while(TRUE);
+
+?>
