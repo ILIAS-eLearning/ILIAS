@@ -390,7 +390,7 @@ class ilDataCollectionRecordEditGUI {
 
 			$create_mode = false;
 
-			if (ilObjDataCollection::_hasWriteAccess($this->parent_obj->ref_id)) {
+			if (ilObjDataCollectionAccess::hasWriteAccess($this->parent_obj->ref_id)) {
 				$all_fields = $this->table->getRecordFields();
 			} else {
 				$all_fields = $this->table->getEditableFields();
