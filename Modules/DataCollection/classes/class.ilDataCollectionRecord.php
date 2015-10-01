@@ -83,12 +83,27 @@ class ilDataCollectionRecord {
 		global $ilDB;
 
 		$ilDB->update("il_dcl_record", array(
-			"table_id" => array( "integer", $this->getTableId() ),
-			"last_update" => array( "date", $this->getLastUpdate() ),
-			"owner" => array( "text", $this->getOwner() ),
-			"last_edit_by" => array( "text", $this->getLastEditBy() )
+			"table_id" => array(
+				"integer",
+				$this->getTableId()
+			),
+			"last_update" => array(
+				"date",
+				$this->getLastUpdate()
+			),
+			"owner" => array(
+				"text",
+				$this->getOwner()
+			),
+			"last_edit_by" => array(
+				"text",
+				$this->getLastEditBy()
+			)
 		), array(
-			"id" => array( "integer", $this->id )
+			"id" => array(
+				"integer",
+				$this->id
+			)
 		));
 
 		foreach ($this->getRecordFields() as $recordfield) {
@@ -276,7 +291,7 @@ class ilDataCollectionRecord {
 	/**
 	 * Set a field value
 	 *
-	 * @param int    $field_id
+	 * @param int $field_id
 	 * @param string $value
 	 */
 	public function setRecordFieldValue($field_id, $value) {
@@ -367,6 +382,7 @@ class ilDataCollectionRecord {
 
 		return $html;
 	}
+
 
 	/**
 	 * @param       $field_id
@@ -590,7 +606,7 @@ class ilDataCollectionRecord {
 	 * @param $obj_id
 	 */
 	public function deleteFile($obj_id) {
-		if (ilObject2::_lookupObjId($obj_id)) {
+		if (ilObject2::_exists($obj_id, false)) {
 			$file = new ilObjFile($obj_id, false);
 			$file->delete();
 		}
