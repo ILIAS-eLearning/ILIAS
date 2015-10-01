@@ -97,7 +97,13 @@ return;
 				$ilDB->manipulate("DELETE FROM benchmark");
 				foreach ($this->db_bench as $b)
 				{
+					//BEGIN Patch primary keys
+					$id = $ilDB->nextId('benchmark');
+					//END Patch primary keys
 					$ilDB->insert("benchmark", array(
+						//BEGIN Patch primary keys
+						"id" => array("integer", $id),
+						//END Patch primary keys
 						"duration" => array("float", $this->microtimeDiff($b["start"], $b["stop"])),
 						"sql_stmt" => array("clob", $b["sql"])
 					));
