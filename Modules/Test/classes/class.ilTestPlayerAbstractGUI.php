@@ -1056,7 +1056,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
 		$solutionoutput = $questionGui->getSolutionOutput(
 			$this->testSession->getActiveId(), 	#active_id
-			null, 								#pass
+			$this->testSession->getPass(),		#pass
 			false, 								#graphical_output
 			false,								#result_output
 			true, 								#show_question_only
