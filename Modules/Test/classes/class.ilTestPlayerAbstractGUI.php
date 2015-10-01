@@ -1048,11 +1048,11 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	
 	abstract protected function isShowingPostponeStatusReguired($questionId);
 
-	protected function showQuestionViewable(assQuestionGUI $questionGui, $formAction)
+	protected function showQuestionViewable(assQuestionGUI $questionGui, $formAction, $isQuestionWorkedThrough)
 	{
-		$questionGui->setNavigationGUI($this->buildReadOnlyStateQuestionNavigationGUI(
-			$questionGui->object->getId()
-		));
+		$questionNavigationGUI = $this->buildReadOnlyStateQuestionNavigationGUI($questionGui->object->getId());
+		$questionNavigationGUI->setQuestionWorkedThrough($isQuestionWorkedThrough);
+		$questionGui->setNavigationGUI($questionNavigationGUI);
 
 		$solutionoutput = $questionGui->getSolutionOutput(
 			$this->testSession->getActiveId(), 	#active_id
@@ -1084,11 +1084,22 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$this->tpl->setVariable("FORM_TIMESTAMP", time());
 	}
 
-	protected function showQuestionEditable(assQuestionGUI $questionGui, $instantResponse, $formAction)
+	protected function showQuestionEditable(assQuestionGUI $questionGui, $formAction, $isQuestionWorkedThrough, $instantResponse)
 	{
-		$questionGui->setNavigationGUI($this->buildEditableStateQuestionNavigationGUI(
+		$questionNavigationGUI = $this->buildEditableStateQuestionNavigationGUI(
 			$questionGui->object->getId(), $this->populateCharSelectorIfRequired()
-		));
+		);
+		if( $isQuestionWorkedThrough )
+		{
+			$questionNavigationGUI->setDiscardSolutionButtonEnabled(true);
+		}
+		else
+		{
+			$questionNavigationGUI->setSkipQuestionLinkTarget(
+				$this->ctrl->getLinkTarget($this, ilTestPlayerCommands::SKIP_QUESTION)
+			);
+		}
+		$questionGui->setNavigationGUI($questionNavigationGUI);
 
 		$isPostponed = $this->isShowingPostponeStatusReguired($questionGui->object->getId());
 		
@@ -1134,6 +1145,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	abstract protected function submitSolutionCmd();
 
 	abstract protected function discardSolutionCmd();
+	
+	abstract protected function skipQuestionCmd();
 
 	abstract protected function startTestCmd();
 /**
@@ -1835,10 +1848,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		if( !$this->isParticipantsAnswerFixed($questionId) )
 		{
 			$navigationGUI->setEditSolutionCommand(ilTestPlayerCommands::EDIT_SOLUTION);
-			
-			$navigationGUI->setQuestionWorkedThrough(assQuestion::_isWorkedThrough(
-				$this->testSession->getActiveId(), $questionId, $this->testSession->getPass()
-			));
 		}
 
 		if($this->object->getShowMarker())
@@ -1874,7 +1883,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$navigationGUI = new ilTestQuestionNavigationGUI($this->lng);
 
 		$navigationGUI->setSubmitSolutionCommand(ilTestPlayerCommands::SUBMIT_SOLUTION);
-		$navigationGUI->setDiscardSolutionButtonEnabled(true);
 		
 		// feedback
 		switch( 1 )
@@ -2246,13 +2254,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		}
 	}
 	
-	protected function determineQuestionsDefaultPresentationMode($questionId)
+	protected function getQuestionsDefaultPresentationMode($isQuestionWorkedThrough)
 	{
-		$isWorkedThrough = assQuestion::_isWorkedThrough(
-			$this->testSession->getActiveId(), $questionId, $this->testSession->getPass()
-		);
-		
-		if( $isWorkedThrough )
+		if( $isQuestionWorkedThrough )
 		{
 			return self::PRESENTATION_MODE_VIEW;
 		}

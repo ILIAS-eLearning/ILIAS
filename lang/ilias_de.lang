@@ -1033,8 +1033,9 @@ assessment#:#save_edit#:#Speichern und Inhalt bearbeiten
 assessment#:#finish_test#:#Test beenden
 assessment#:#next_question#:#Weiter 
 assessment#:#previous_question#:#Zurück
-assessment#:#submit_answer#:#Antwort einreichen
-assessment#:#discard_answer#:#Antwort verwerfen
+assessment#:#submit_answer#:#Speichern und Weiter
+assessment#:#skip_question#:#Nicht antworten und Weiter
+assessment#:#discard_answer#:#Antwort löschen
 assessment#:#discard_answer_confirmation#:#Ihre Antwort wird vollständig und endgültig verworfen. Die Frage verbleibt als unbeantwortet und kann erneut bearbeitet werden.<br /><br />Möchten Sie Ihre Antwort endgültig verwerfen?
 assessment#:#edit_answer#:#Antwort ändern
 assessment#:#answer_question#:#Frage beantworten

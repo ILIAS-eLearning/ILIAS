@@ -917,8 +917,9 @@ assessment#:#save_edit#:#Save and Edit Content
 assessment#:#finish_test#:#Finish the Test
 assessment#:#next_question#:#Next
 assessment#:#previous_question#:#Previous
-assessment#:#submit_answer#:#Submit Answer
-assessment#:#discard_answer#:#Discard Answer
+assessment#:#submit_answer#:#Save and Next
+assessment#:#skip_question#:#Do not Answer and Next
+assessment#:#discard_answer#:#Delete Answer
 assessment#:#discard_answer_confirmation#:#Your answer will be finally and completly discarded. The question keeps as unanswered until you submit another answer.<br /><br />Would you really like to discard your answer?
 assessment#:#edit_answer#:#Edit Answer
 assessment#:#answer_question#:#Answer Question
