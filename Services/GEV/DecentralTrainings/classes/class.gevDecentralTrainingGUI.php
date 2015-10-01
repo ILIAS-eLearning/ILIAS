@@ -365,15 +365,17 @@ class gevDecentralTrainingGUI {
 	}
 	
 	protected function finalizeTrainingCreation() {
+
 		if (!$this->dctl_utils->userCanOpenNewCreationRequest()) {
 			return $this->ctrl->redirect($this, "showOpenRequests");
 		}
 		
 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 		require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCreationRequest.php");
-
+		
 		$this->template_id = intval($_POST["template_id"]);
-		$form_values["utils_id"] = $this->template_id;
+		$form_values["utils_id"] = gevObjectUtils::getObjId($this->template_id);
 
 		$form_prev = $this->buildTrainingOptionsForm(false,false,$form_values);
 		
@@ -390,12 +392,12 @@ class gevDecentralTrainingGUI {
 								, explode("|",$form_prev->getInput("trainer_ids"))
 								);
 		
-		$crs_utils = gevCourseUtils::getInstance($template_id);
+		$crs_utils = gevCourseUtils::getInstance($this->template_id);
 		$settings = $this->getSettingsFromForm($crs_utils, $form_prev, $this->template_id);
 		$creation_request = new gevDecentralTrainingCreationRequest
 									( $this->dctl_utils->getCreationRequestDB()
 									, (int)$this->current_user->getId()
-									, (int)$template_id
+									, (int)$this->template_id
 									, $trainer_ids
 									, $settings
 									);
@@ -1358,9 +1360,13 @@ class gevDecentralTrainingGUI {
 	}
 
 	function updateCourseData() {
-		$obj_id = (int)$_POST["obj_id"];
-		
-		$form = $this->buildTrainingOptionsForm(false, $obj_id);
+		$obj_id = $_POST["obj_id"];
+		$form_values["utils_id"] = $obj_id;
+		$form_values["obj_id"] = $obj_id;
+		$is_flexible = $this->isCrsTemplateFlexible($obj_id);
+
+		$form = $this->buildTrainingOptionsForm(false, $is_flexible, $form_values);
+
 		$form->setValuesByPost();
 
 		if (!$form->checkInput()) {

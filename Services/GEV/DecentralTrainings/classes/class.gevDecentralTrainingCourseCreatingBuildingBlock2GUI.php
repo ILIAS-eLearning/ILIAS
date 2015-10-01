@@ -507,30 +507,6 @@ class gevDecentralTrainingCourseCreatingBuildingBlock2GUI {
 		$block = $_POST["blocks"];
 		$credit_points = $_POST["wp"];
 
-		if(!isset($block)) {
-			ilUtil::sendInfo($this->lng->txt("gev_dec_training_no_block_selected"), false);
-			$this->render();
-			return;
-		}
-
-		if(!$this->checkTimeData($start_time,$end_time)) {
-			ilUtil::sendInfo($this->lng->txt("gev_dec_training_block_end_before_start"), false);
-			$this->render();
-			return;
-		}
-		
-		if(!$this->noTimeIssuesBlocks($start_time,$end_time,$this->crs_request_id, $this->crs_ref_id)) {
-			ilUtil::sendInfo($this->lng->txt("gev_dec_training_block_in_timespan"), false);
-			$this->render();
-			return;
-		}
-
-		if(!$this->blockWithinCourseTime($start_time,$end_time,$this->crs_request_id, $this->crs_obj_id)) {
-			ilUtil::sendInfo($this->lng->txt("gev_dec_training_blocks_time_issue_course"), false);
-			$this->render();
-			return;
-		}
-
 		$new_crs_bb = gevCourseBuildingBlockUtils::getInstance(gevCourseBuildingBlockUtils::getNextCrsBBlockId());
 		$new_crs_bb->setStartTime($start_time);
 		$new_crs_bb->setEndTime($end_time);

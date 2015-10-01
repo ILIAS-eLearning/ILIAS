@@ -127,7 +127,7 @@ class gevCourseBuildingBlockUtils {
 			  ."   SET bb_id = ".$this->db->quote($this->getBuildingBlock()->getId(), "integer")."\n"
 			  ."     , start_time = ".$this->db->quote($this->getStartTime(), "time")."\n"
 			  ."     , end_time = ".$this->db->quote($this->getEndTime(), "time")."\n"
-			  ."     , credit_points = ".$this->db->quote($this->getCreditPoints(), "integer")."\n"
+			  ."     , credit_points = ".$this->db->quote($this->getCreditPoints(), "float")."\n"
 			  ."     , last_change_user = ".$this->db->quote($this->ilUser->getId(), "integer")."\n"
 			  ."     , last_change_date = NOW()"
 			  ." WHERE id = ".$this->db->quote($this->getId(), "integer");
@@ -449,6 +449,40 @@ class gevCourseBuildingBlockUtils {
 		$block->loadData();
 		$block->setStartTime($start);
 		$block->setEndTime($end);
+
+		$start = split(":",$start);
+		$end = split(":",$end);
+		
+		$minutes = 0;
+		$hours = 0;
+		if($end[1] < $start[1]) {
+			$minutes = 60 - $start[1] + $end[1];
+			$hours = -1;
+		} else {
+			$minutes = $end[1] - $start[1];
+		}
+		$hours = $hours + $end[0] - $start[0];
+		$totalMinutes += $hours * 60 + $minutes;
+
+		$wp = null;
+		$wp_float = $totalMinutes / self::DURATION_PER_POINT;
+		
+		$wp_int = floor($wp_float);
+
+		$calc = $wp_float - $wp_int;
+		
+		if($calc > 0 && $calc < 0.6) {
+			$wp_int += 0.3; 
+		}
+
+		if($calc >= 0.6 && $calc < 1) {
+			$wp_int += 0.6; 
+		}
+
+		echo $wp_int."<br/>";
+
+		$block->setCreditPoints($wp_int);
+
 
 		$block->update();
 	}

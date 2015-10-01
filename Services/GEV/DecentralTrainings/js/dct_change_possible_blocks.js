@@ -103,7 +103,17 @@ function calculateCreditPoints() {
 	tot_h =  tot_h + (end_h - start_h);
 	tot_m = tot_m + (tot_h * 60);
 	tot_m = tot_m / 45;
-	credit_points = tot_m.toFixed();
+	credit_points = Math.floor( tot_m );
+	calc = tot_m - credit_points;
+	calc = calc.toFixed(1);
+
+	if(calc > 0 && calc < 0.6) {
+		credit_points += 0.3; 
+	}
+
+	if(calc >= 0.6 && calc < 1) {
+		credit_points += 0.6; 
+	}
 
 	$('#wp').val(credit_points);
 }

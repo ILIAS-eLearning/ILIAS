@@ -4250,6 +4250,7 @@ if($ilDB->tableColumnExists('dct_building_block', 'learning_dest')) {
 	));
 }
 ?>
+
 <#161>
 <?php
 $new_crs_ops = array(
@@ -4266,6 +4267,36 @@ if($ilDB->tableColumnExists('dct_building_block', 'gdv_topic')) {
 		'type' => 'text',
 		'length' => 100,
 		'notnull' => false,
+	));
+}
+?>
+
+<#163>
+<?php
+if($ilDB->tableColumnExists('dct_building_block', 'content')) {
+
+	$ilDB->modifyTableColumn('dct_building_block','content', array(
+		'type' => 'text',
+		'length' => 500,
+		'notnull' => true,
+		'default' => ""
+	));
+}
+
+if($ilDB->tableColumnExists('dct_building_block', 'learning_dest')) {
+
+	$ilDB->modifyTableColumn('dct_building_block','learning_dest', array(
+		'type' => 'text',
+		'length' => 500,
+		'notnull' => true,
+		'default' => ""
+	));
+}
+
+if($ilDB->tableColumnExists('dct_crs_building_block', 'credit_points')) {
+
+	$ilDB->modifyTableColumn('dct_crs_building_block','credit_points', array(
+		'type' => 'float',
 	));
 }
 ?>

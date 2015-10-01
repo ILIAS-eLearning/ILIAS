@@ -16,7 +16,7 @@ require_once("Services/GEV/Utils/classes/class.gevBuildingBlockUtils.php");
 class gevDecentralTrainingBuildingBlockAdminGUI {
 	const NEW_UNIT = "new";
 	const EDIT_UNIT = "edit";
-	const MAX_TEXTAREA_LENGTH = 200;
+	const MAX_TEXTAREA_LENGTH = 500;
 
 	protected $obj_id = null;
 

@@ -157,9 +157,9 @@ class gevDecentralTrainingCreateSchedulePDF
 		$this->pdf->WriteText($this->spaceLeft, $this->crsInfoSpaceTop + (6 * $this->crsInfoSpaceTopAdd), $this->encodeSpecialChars("Veranstaltungsort"));
 		$this->pdf->WriteText($this->spaceLeft, $this->crsInfoSpaceTop + (7 * $this->crsInfoSpaceTopAdd), $this->encodeSpecialChars("Bildungspunkte"));
 		$this->pdf->WriteText($this->spaceLeft, $this->crsInfoSpaceTop + (8 * $this->crsInfoSpaceTopAdd), $this->encodeSpecialChars("Trainer"));
-		$this->pdf->WriteText($this->spaceLeft, $this->crsInfoSpaceTop + ((9 + $jump_trainers) * $this->crsInfoSpaceTopAdd), $this->encodeSpecialChars("Trainingsbetreuer"));
+		//$this->pdf->WriteText($this->spaceLeft, $this->crsInfoSpaceTop + ((9 + $jump_trainers) * $this->crsInfoSpaceTopAdd), $this->encodeSpecialChars("Trainingsbetreuer"));
 		//$this->pdf->WriteText($this->spaceLeft, $this->crsInfoSpaceTop + ((10 + $jump_trainers) * $this->crsInfoSpaceTopAdd), $this->encodeSpecialChars("Fachlich verantwortlich"));
-		$this->pdf->WriteText($this->spaceLeft, $this->crsInfoSpaceTop + ((10 + $jump_trainers) * $this->crsInfoSpaceTopAdd), $this->encodeSpecialChars("Bei Rückfragen"));
+		$this->pdf->WriteText($this->spaceLeft, $this->crsInfoSpaceTop + ((9 + $jump_trainers) * $this->crsInfoSpaceTopAdd), $this->encodeSpecialChars("Bei Rückfragen"));
 
 		$this->pdf->SetFont($this->crsInfoFontName, $this->crsInfoNoBold, $this->crsInfoFontSize);
 		$this->pdf->WriteText($this->crsInfoSecondColoumnSpaceLeft, $this->crsInfoSpaceTop + (2 * $this->crsInfoSpaceTopAdd), $this->encodeSpecialChars($meta_data["Titel"]));
@@ -173,11 +173,11 @@ class gevDecentralTrainingCreateSchedulePDF
 			$this->pdf->WriteText($this->crsInfoSecondColoumnSpaceLeft, $this->crsInfoSpaceTop + ((8+$key) * $this->crsInfoSpaceTopAdd), $value);
 		}
 		
-		$this->pdf->WriteText($this->crsInfoSecondColoumnSpaceLeft, $this->crsInfoSpaceTop + ((9 + $jump_trainers) * $this->crsInfoSpaceTopAdd), $meta_data["Trainingsbetreuer"]);
+		//$this->pdf->WriteText($this->crsInfoSecondColoumnSpaceLeft, $this->crsInfoSpaceTop + ((9 + $jump_trainers) * $this->crsInfoSpaceTopAdd), $meta_data["Trainingsbetreuer"]);
 		/*$this->pdf->WriteText($this->crsInfoSecondColoumnSpaceLeft
 								,$this->crsInfoSpaceTop + ((10 + $jump_trainers) * $this->crsInfoSpaceTopAdd)
 								, $meta_data["Fachlich verantwortlich"]);*/
-		$this->pdf->WriteText($this->crsInfoSecondColoumnSpaceLeft, $this->crsInfoSpaceTop + ((10 + $jump_trainers) * $this->crsInfoSpaceTopAdd), $meta_data["Bei Rückfragen"]);
+		$this->pdf->WriteText($this->crsInfoSecondColoumnSpaceLeft, $this->crsInfoSpaceTop + ((9 + $jump_trainers) * $this->crsInfoSpaceTopAdd), $meta_data["Bei Rückfragen"]);
 		
 		$this->pdf->Line($this->spaceLeft,$this->pdf->getY() + 1,$this->maxRight,$this->pdf->getY() + 1);
 		$this->pdf->Line($this->spaceLeft,$this->pdf->getY() + 1.1,$this->maxRight,$this->pdf->getY() + 1.1);
