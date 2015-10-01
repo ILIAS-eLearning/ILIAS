@@ -479,8 +479,6 @@ class gevCourseBuildingBlockUtils {
 			$wp_int += 0.6; 
 		}
 
-		echo $wp_int."<br/>";
-
 		$block->setCreditPoints($wp_int);
 
 
