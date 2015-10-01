@@ -7076,7 +7076,7 @@ dateplaner#:#yui_cal_choose_month#:#Month:
 dateplaner#:#yui_cal_choose_year#:#Year:
 dcl#:#dcl_actions#:#Actions
 dcl#:#dcl_activate_approval#:#Activate Record Approval
-dcl#:#dcl_activate_notification#:#Activate Notification
+dcl#:#dcl_activate_notification#:#Enable Notification
 dcl#:#dcl_activate_rating#:#Activate Record Rating
 dcl#:#dcl_add#:#Create Data Collection
 dcl#:#dcl_add_new_field#:#Add New Field
@@ -15204,7 +15204,7 @@ assessment#:#tst_finish_notification_no#:#No e-mail###06 02 2015 new variable
 assessment#:#redirect_none#:#no redirect###06 02 2015 new variable
 assessment#:#tst_show_solution_compare_desc#:#Participants are presented with an overview comparing their own answers with the best solutions. Please note that this view will be displayed in the ‘Detailed Results’ that can be accessed via the ‘Show Test Results‘-button on the ‘Info’-tab. It will not be displayed in the printable ‘List of Answers’ even though the setting is made here.###06 02 2015 new variable
 dcl#:#dcl_online_info#:#Only if the Data Collection is online, users are able to use the Data Collection.###06 02 2015 new variable
-dcl#:#dcl_notification_info#:#Enables the individual notification feature for users.###06 02 2015 new variable
+dcl#:#dcl_notification_info#:#Each user decides about notification###06 02 2015 new variable
 administration#:#adm_missing_entries#:#Missing Entries###06 02 2015 new variable
 administration#:#adm_missing_entry_add_action#:#Add###06 02 2015 new variable
 administration#:#adm_missing_entry_add#:#Add New Entry###06 02 2015 new variable

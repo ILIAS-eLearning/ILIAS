@@ -15204,7 +15204,7 @@ scormtrac#:#lvalue#:#Key###06 02 2015 new variable
 scormtrac#:#rvalue#:#Value###06 02 2015 new variable
 scormtrac#:#identifierref#:#SCO-Identifier###06 02 2015 new variable
 dcl#:#dcl_online_info#:#Only if the Data Collection is online, users are able to use the Data Collection.###06 02 2015 new variable
-dcl#:#dcl_notification_info#:#Enables the individual notification feature for users.###06 02 2015 new variable
+dcl#:#dcl_notification_info#:#Each user decides about notification###06 02 2015 new variable
 administration#:#adm_missing_entries#:#Missing Entries###06 02 2015 new variable
 administration#:#adm_missing_entry_add_action#:#Add###06 02 2015 new variable
 administration#:#adm_missing_entry_add#:#Add New Entry###06 02 2015 new variable

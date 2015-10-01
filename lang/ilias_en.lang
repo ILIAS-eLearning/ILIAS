@@ -12699,7 +12699,7 @@ survey#:#svy_neutral_answer#:#Text for a Neutral Answer (‘Not Specified’, �
 dcl#:#dcl_edit_type#:#Edit Type
 dcl#:#dcl_activate_rating#:#Activate Entry Rating
 dcl#:#dcl_activate_approval#:#Activate Entry Approval
-dcl#:#dcl_activate_notification#:#Activate Notification
+dcl#:#dcl_activate_notification#:#Enable Notification
 dcl#:#dcl_table_id#:#Table ID
 dcl#:#dcl_add_new_record#:#Add New Entry
 dcl#:#dcl_list_fields#:#Fields
@@ -15392,7 +15392,7 @@ scormtrac#:#lvalue#:#Key
 scormtrac#:#rvalue#:#Value
 scormtrac#:#identifierref#:#SCO-Identifier
 dcl#:#dcl_online_info#:#Only if the Data Collection is online, users are able to use the Data Collection.
-dcl#:#dcl_notification_info#:#Enables the individual notification feature for users.
+dcl#:#dcl_notification_info#:#Each user decides about notification
 administration#:#adm_missing_entries#:#Missing Entries
 administration#:#adm_missing_entry_add_action#:#Add
 administration#:#adm_missing_entry_add#:#Add New Entry
