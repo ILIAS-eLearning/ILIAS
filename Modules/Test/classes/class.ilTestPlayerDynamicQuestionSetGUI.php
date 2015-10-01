@@ -393,15 +393,15 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		$currentQuestionOBJ->resetUsersAnswer(
 			$this->testSession->getActiveId(), $this->testSession->getPass()
 		);
-
-		#$this->testSequence->setQuestionPostponed($questionId);
-		#$this->testSequence->saveToDb();
-
-		#$this->resetCurrentQuestion();
 		
 		$this->ctrl->setParameter($this, 'pmode', ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW);
 
 		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
+	}
+
+	protected function skipQuestionCmd()
+	{
+		$this->nextQuestionCmd();
 	}
 
 	protected function isCheckedQuestionResettingConfirmationRequired()
@@ -482,6 +482,10 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 				);
 			}
 
+			$isQuestionWorkedThrough = assQuestion::_isWorkedThrough(
+				$this->testSession->getActiveId(), $this->testSession->getCurrentQuestionId(), $this->testSession->getPass()
+			);
+
 			require_once 'Modules/Test/classes/class.ilTestQuestionHeaderBlockBuilder.php';
 			$headerBlockBuilder = new ilTestQuestionHeaderBlockBuilder($this->lng);
 			$headerBlockBuilder->setHeaderMode($this->object->getTitleOutput());
@@ -503,9 +507,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 			
 			if(!$presentationMode)
 			{
-				$presentationMode = $this->determineQuestionsDefaultPresentationMode(
-					$questionGui->object->getId()
-				);
+				$presentationMode = $this->getQuestionsDefaultPresentationMode($isQuestionWorkedThrough);
 			}
 
 			$instantResponse = $this->getInstantResponseParameter();
@@ -530,13 +532,13 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 
 					$navigationToolbarGUI->setDisabledStateEnabled(true);
 					
-					$this->showQuestionEditable($questionGui, $instantResponse, $formAction);
+					$this->showQuestionEditable($questionGui, $formAction, $isQuestionWorkedThrough, $instantResponse);
 					
 					break;
 
 				case ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW:
 
-					$this->showQuestionViewable($questionGui, $formAction);
+					$this->showQuestionViewable($questionGui, $formAction, $isQuestionWorkedThrough);
 					
 					break;
 

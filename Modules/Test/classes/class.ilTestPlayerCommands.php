@@ -26,6 +26,7 @@ class ilTestPlayerCommands
 
 	const SUBMIT_SOLUTION = 'submitSolution';
 	const DISCARD_SOLUTION = 'discardSolution';
+	const SKIP_QUESTION = 'skipQuestion';
 	const SHOW_INSTANT_RESPONSE = 'showInstantResponse';
 	
 	const CONFIRM_HINT_REQUEST = 'confirmHintRequest';

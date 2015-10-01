@@ -1033,8 +1033,9 @@ assessment#:#save_edit#:#Speichern und Inhalt bearbeiten
 assessment#:#finish_test#:#Test beenden
 assessment#:#next_question#:#Weiter 
 assessment#:#previous_question#:#Zurück
-assessment#:#submit_answer#:#Antwort einreichen
-assessment#:#discard_answer#:#Antwort verwerfen
+assessment#:#submit_answer#:#Speichern und Weiter
+assessment#:#skip_question#:#Nicht antworten und Weiter
+assessment#:#discard_answer#:#Antwort löschen
 assessment#:#discard_answer_confirmation#:#Ihre Antwort wird vollständig und endgültig verworfen. Die Frage verbleibt als unbeantwortet und kann erneut bearbeitet werden.<br /><br />Möchten Sie Ihre Antwort endgültig verwerfen?
 assessment#:#edit_answer#:#Antwort ändern
 assessment#:#answer_question#:#Frage beantworten
@@ -1063,6 +1064,8 @@ assessment#:#tst_instant_feedback_handling_freeze#:#Antworten festschreiben, Rü
 assessment#:#tst_instant_feedback_handling_freeze_desc#:#Klicken Teilnehmer auf 'Antwort einreichen', so können sie ihre Antworten danach nicht mehr ändern. Teilnehmer können über einen Button nach Bedarf eine Rückmeldung anfordern. Rückmeldungen werden in der Option 'Direkte Rückmeldung' konfiguriert . <br />
 assessment#:#tst_instant_feedback_handling_force_and_freeze#:#Antworten festschreiben und automatische Rückmeldung
 assessment#:#tst_instant_feedback_handling_force_and_freeze_desc#:#Klicken Teilnehmer auf 'Antwort einreichen', so können sie ihre Antworten danach nicht mehr ändern. ILIAS präsentiert sofort die in der Option 'Direkte Rückmeldung' konfigurierte Rückmeldung.
+assessment#:#tst_instant_feedback_handling_force#:#Antworten nicht festschreiben aber automatische Rückmeldung
+assessment#:#tst_instant_feedback_handling_force_desc#:#
 assessment#:#see_details_for_further_information#:#Inhalte zur Wiederholung: siehe Fragendetails
 assessment#:#select_an_answer#:#--- Bitte wählen Sie eine Antwort aus ---
 assessment#:#select_gap#:#Auswahl-Lücke

@@ -38,6 +38,11 @@ class ilTestQuestionNavigationGUI
 	/**
 	 * @var string
 	 */
+	private $skipQuestionLinkTarget = '';
+
+	/**
+	 * @var string
+	 */
 	private $instantFeedbackCommand = '';
 
 	/**
@@ -155,6 +160,22 @@ class ilTestQuestionNavigationGUI
 	public function setDiscardSolutionButtonEnabled($discardSolutionButtonEnabled)
 	{
 		$this->discardSolutionButtonEnabled = $discardSolutionButtonEnabled;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getSkipQuestionLinkTarget()
+	{
+		return $this->skipQuestionLinkTarget;
+	}
+
+	/**
+	 * @param string $skipQuestionLinkTarget
+	 */
+	public function setSkipQuestionLinkTarget($skipQuestionLinkTarget)
+	{
+		$this->skipQuestionLinkTarget = $skipQuestionLinkTarget;
 	}
 
 	/**
@@ -342,6 +363,11 @@ class ilTestQuestionNavigationGUI
 		{
 			$this->renderJsLinkedButton($tpl, 'tst_discard_answer_button', 'discard_answer', '');
 		}
+		
+		if( $this->getSkipQuestionLinkTarget() )
+		{
+			$this->renderLinkButton($tpl, $this->getSkipQuestionLinkTarget(), 'skip_question');
+		}
 
 		if( $this->getInstantFeedbackCommand() && !$this->isForceInstantResponseEnabled() )
 		{
@@ -501,6 +527,21 @@ class ilTestQuestionNavigationGUI
 		$button->setCommand($command);
 		$button->setCaption($label);
 		$button->setPrimary($primary);
+
+		$this->renderButtonInstance($tpl, $button);
+	}
+
+	/**
+	 * @param ilTemplate $tpl
+	 * @param $htmlId
+	 * @param $label
+	 * @param $cssClass
+	 */
+	private function renderLinkButton(ilTemplate $tpl, $href, $label)
+	{
+		$button = ilLinkButton::getInstance();
+		$button->setUrl($href);
+		$button->setCaption($label);
 
 		$this->renderButtonInstance($tpl, $button);
 	}

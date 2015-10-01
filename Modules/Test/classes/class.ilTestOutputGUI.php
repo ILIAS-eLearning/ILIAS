@@ -276,12 +276,16 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 			$this->handleTearsAndAngerNoObjectiveOrientedQuestion();
 		}
 
+		$isQuestionWorkedThrough = assQuestion::_isWorkedThrough(
+			$this->testSession->getActiveId(), $questionId, $this->testSession->getPass()
+		);
+		
 		$presentationMode = $this->getPresentationModeParameter();
 		$instantResponse = $this->getInstantResponseParameter();
 
 		if( !$presentationMode )
 		{
-			$presentationMode = $this->determineQuestionsDefaultPresentationMode($questionId);
+			$presentationMode = $this->getQuestionsDefaultPresentationMode($isQuestionWorkedThrough);
 		}
 
 		if( $this->isParticipantsAnswerFixed($questionId) )
@@ -338,7 +342,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
 				$navigationToolbarGUI->setDisabledStateEnabled(true);
 				
-				$this->showQuestionEditable($questionGui, $instantResponse, $formAction);
+				$this->showQuestionEditable($questionGui, $formAction, $isQuestionWorkedThrough, $instantResponse);
 				
 				break;
 			
@@ -349,7 +353,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 					$this->populateQuestionOptionalMessage();
 				}
 				
-				$this->showQuestionViewable($questionGui, $formAction);
+				$this->showQuestionViewable($questionGui, $formAction, $isQuestionWorkedThrough);
 				
 				break;
 			
@@ -435,28 +439,22 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 			$this->testSession->getActiveId(), $this->testSession->getPass()
 		);
 		
-		#$nextSequenceElement = $this->testSequence->getNextSequence($currentSequenceElement);
-
-		#if(!$this->isValidSequenceElement($nextSequenceElement))
-		#{
-		#	$nextSequenceElement = $this->testSequence->getFirstSequence();
-		#}
-		
-		#$this->testSession->setLastSequence($nextSequenceElement);
-		#$this->testSession->saveToDb();
-
-		#if( $this->object->isPostponingEnabled() )
-		#{
-		#	$this->testSequence->postponeSequence($currentSequenceElement);
-		#	$this->testSequence->saveToDb();
-		#}
-		
-		#$this->ctrl->setParameter($this, 'sequence', $nextSequenceElement);
 		$this->ctrl->saveParameter($this, 'sequence');
 
 		$this->ctrl->setParameter($this, 'pmode', ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW);
 
 		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
+	}
+	
+	protected function skipQuestionCmd()
+	{
+		if( $this->object->isPostponingEnabled() )
+		{
+			$this->testSequence->postponeSequence($this->getCurrentSequenceElement());
+			$this->testSequence->saveToDb();
+		}
+		
+		$this->nextQuestionCmd();
 	}
 
 	protected function nextQuestionCmd()

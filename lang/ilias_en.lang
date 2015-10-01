@@ -917,8 +917,9 @@ assessment#:#save_edit#:#Save and Edit Content
 assessment#:#finish_test#:#Finish the Test
 assessment#:#next_question#:#Next
 assessment#:#previous_question#:#Previous
-assessment#:#submit_answer#:#Submit Answer
-assessment#:#discard_answer#:#Discard Answer
+assessment#:#submit_answer#:#Save and Next
+assessment#:#skip_question#:#Do not Answer and Next
+assessment#:#discard_answer#:#Delete Answer
 assessment#:#discard_answer_confirmation#:#Your answer will be finally and completly discarded. The question keeps as unanswered until you submit another answer.<br /><br />Would you really like to discard your answer?
 assessment#:#edit_answer#:#Edit Answer
 assessment#:#answer_question#:#Answer Question
@@ -940,6 +941,8 @@ assessment#:#tst_instant_feedback_handling_freeze#:#tst_instant_feedback_handlin
 assessment#:#tst_instant_feedback_handling_freeze_desc#:#tst_instant_feedback_handling_freeze_desc
 assessment#:#tst_instant_feedback_handling_force_and_freeze#:#tst_instant_feedback_handling_force_and_freeze
 assessment#:#tst_instant_feedback_handling_force_and_freeze_desc#:#tst_instant_feedback_handling_force_and_freeze_desc
+assessment#:#tst_instant_feedback_handling_force#:#Do not freeze answers but force feedback
+assessment#:#tst_instant_feedback_handling_force_desc#:#tst_instant_feedback_handling_force_desc
 assessment#:#see_details_for_further_information#:#See details for suggested solutions
 assessment#:#select_an_answer#:#--- Please select an answer ---
 assessment#:#select_gap#:#Select Gap
@@ -12698,7 +12701,7 @@ survey#:#svy_neutral_answer#:#Text for a Neutral Answer (‘Not Specified’, �
 dcl#:#dcl_edit_type#:#Edit Type
 dcl#:#dcl_activate_rating#:#Activate Entry Rating
 dcl#:#dcl_activate_approval#:#Activate Entry Approval
-dcl#:#dcl_activate_notification#:#Activate Notification
+dcl#:#dcl_activate_notification#:#Enable Notification
 dcl#:#dcl_table_id#:#Table ID
 dcl#:#dcl_add_new_record#:#Add New Entry
 dcl#:#dcl_list_fields#:#Fields
@@ -15391,7 +15394,7 @@ scormtrac#:#lvalue#:#Key
 scormtrac#:#rvalue#:#Value
 scormtrac#:#identifierref#:#SCO-Identifier
 dcl#:#dcl_online_info#:#Only if the Data Collection is online, users are able to use the Data Collection.
-dcl#:#dcl_notification_info#:#Enables the individual notification feature for users.
+dcl#:#dcl_notification_info#:#Each user decides about notification
 administration#:#adm_missing_entries#:#Missing Entries
 administration#:#adm_missing_entry_add_action#:#Add
 administration#:#adm_missing_entry_add#:#Add New Entry

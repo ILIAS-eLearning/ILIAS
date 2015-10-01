@@ -12137,7 +12137,7 @@ survey#:#svy_neutral_answer#:#Text for a Neutral Answer ("Not Specified", "I don
 dcl#:#dcl_edit_type#:#Edit Type###28 08 2012 new variable
 dcl#:#dcl_activate_rating#:#Activate Record Rating###28 08 2012 new variable
 dcl#:#dcl_activate_approval#:#Activate Record Approval###28 08 2012 new variable
-dcl#:#dcl_activate_notification#:#Activate Notification###28 08 2012 new variable
+dcl#:#dcl_activate_notification#:#Enable Notification###28 08 2012 new variable
 dcl#:#dcl_table_id#:#Table ID###28 08 2012 new variable
 dcl#:#dcl_add_new_record#:#Add New Record###28 08 2012 new variable
 dcl#:#dcl_list_fields#:#List Fields###28 08 2012 new variable
@@ -15206,7 +15206,7 @@ assessment#:#tst_finish_notification_no#:#No e-mail###06 02 2015 new variable
 assessment#:#redirect_none#:#no redirect###06 02 2015 new variable
 assessment#:#tst_show_solution_compare_desc#:#Participants are presented with an overview comparing their own answers with the best solutions. Please note that this view will be displayed in the ‘Detailed Results’ that can be accessed via the ‘Show Test Results‘-button on the ‘Info’-tab. It will not be displayed in the printable ‘List of Answers’ even though the setting is made here.###06 02 2015 new variable
 dcl#:#dcl_online_info#:#Only if the Data Collection is online, users are able to use the Data Collection.###06 02 2015 new variable
-dcl#:#dcl_notification_info#:#Enables the individual notification feature for users.###06 02 2015 new variable
+dcl#:#dcl_notification_info#:#Each user decides about notification###06 02 2015 new variable
 administration#:#adm_missing_entries#:#Missing Entries###06 02 2015 new variable
 administration#:#adm_missing_entry_add_action#:#Add###06 02 2015 new variable
 administration#:#adm_missing_entry_add#:#Add New Entry###06 02 2015 new variable
