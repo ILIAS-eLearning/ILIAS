@@ -12148,7 +12148,7 @@ $ilDB->manipulate($query);
 
 // iterate through all courses
 $offset = 0;
-$limit = 2;
+$limit = 100;
 do
 {
 	$query = 'SELECT obr.ref_id, obr.obj_id FROM object_reference obr '.
@@ -12230,5 +12230,14 @@ do
 	$offset += $limit;
 }
 while(TRUE);
+
+?>
+<#4772>
+<?php
+
+if(!$ilDB->indexExistsByFields('obj_members',array('usr_id')))
+{
+	$ilDB->addIndex('obj_members',array('usr_id'),'i1');
+}
 
 ?>
