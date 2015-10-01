@@ -2072,16 +2072,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		return null;
 	}
 
-	protected function getCurrentPresentationMode()
-	{
-		if( $this->getPresentationModeParameter() )
-		{
-			return $this->getPresentationModeParameter();
-		}
-
-		return $this->testSession->getLastPresentationMode();
-	}
-
 	protected function getPresentationModeParameter()
 	{
 		if( isset($_GET['pmode']) )
@@ -2179,11 +2169,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		return $shuffler;
 	}
 
-	public static function getDefaultPresentationMode()
-	{
-		return ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW;
-	}
-
 	/**
 	 * @param $sequence
 	 * @param $questionId
@@ -2259,5 +2244,19 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		{
 			$this->tpl->addJavaScript('Services/UICore/lib/bootstrap-3.2.0/dist/js/bootstrap.min.js', true);
 		}
+	}
+	
+	protected function determineQuestionsDefaultPresentationMode($questionId)
+	{
+		$isWorkedThrough = assQuestion::_isWorkedThrough(
+			$this->testSession->getActiveId(), $questionId, $this->testSession->getPass()
+		);
+		
+		if( $isWorkedThrough )
+		{
+			return self::PRESENTATION_MODE_VIEW;
+		}
+
+		return self::PRESENTATION_MODE_EDIT;
 	}
 }

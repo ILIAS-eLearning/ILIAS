@@ -222,7 +222,7 @@ class ilTestQuestionSideListGUI
 	private function buildLink($sequenceElement)
 	{
 		$this->ctrl->setParameter(
-			$this->getTargetGUI(), 'pmode', ilTestPlayerAbstractGUI::getDefaultPresentationMode()
+			$this->getTargetGUI(), 'pmode', ''
 		);
 
 		$this->ctrl->setParameter(

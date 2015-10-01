@@ -147,7 +147,6 @@ class ilTestSession
 				$this->anonymous_id = $row["anonymous_id"];
 				$this->test_id = $row["test_fi"];
 				$this->lastsequence = $row["lastindex"];
-				$this->setLastPresentationMode($row['last_pmode']);
 				$this->pass = $row["tries"];
 				$this->submitted = ($row["submitted"]) ? TRUE : FALSE;
 				$this->submittedTimestamp = $row["submittimestamp"];
@@ -168,7 +167,6 @@ class ilTestSession
 
 		$this->increasePass();
 		$this->setLastSequence(0);
-		$this->setLastPresentationMode(null);
 		$submitted = ($this->isSubmitted()) ? 1 : 0;
 		// there has to be at least 10 seconds between new test passes (to ensure that noone double clicks the finish button and increases the test pass by more than 1)
 		if (time() - $_SESSION['tst_last_increase_pass'] > 10)
@@ -180,7 +178,6 @@ class ilTestSession
 				$ilDB->update('tst_active',
 					array(
 						'lastindex' => array('integer', $this->getLastSequence()),
-						'last_pmode' => array('text', $this->getLastPresentationMode()),
 						'tries' => array('integer', $this->getPass()),
 						'submitted' => array('integer', $submitted),
 						'submittimestamp' => array('timestamp', strlen($this->getSubmittedTimestamp()) ? $this->getSubmittedTimestamp() : NULL),
@@ -213,7 +210,6 @@ class ilTestSession
 						'anonymous_id' => array('text', $anonymous_id),
 						'test_fi' => array('integer', $this->getTestId()),
 						'lastindex' => array('integer', $this->getLastSequence()),
-						'last_pmode' => array('text', $this->getLastPresentationMode()),
 						'tries' => array('integer', $this->getPass()),
 						'submitted' => array('integer', $submitted),
 						'submittimestamp' => array('timestamp', $submittedTs),
@@ -243,7 +239,6 @@ class ilTestSession
 			$ilDB->update('tst_active',
 				array(
 					'lastindex' => array('integer', $this->getLastSequence()),
-					'last_pmode' => array('text', $this->getLastPresentationMode()),
 					'tries' => array('integer', $this->getPass()),
 					'submitted' => array('integer', $submitted),
 					'submittimestamp' => array('timestamp', (strlen($this->getSubmittedTimestamp())) ? $this->getSubmittedTimestamp() : NULL),
@@ -276,7 +271,6 @@ class ilTestSession
 						'anonymous_id' => array('text', $anonymous_id),
 						'test_fi' => array('integer', $this->getTestId()),
 						'lastindex' => array('integer', $this->getLastSequence()),
-						'last_pmode' => array('text', $this->getLastPresentationMode()),
 						'tries' => array('integer', $this->getPass()),
 						'submitted' => array('integer', $submitted),
 						'submittimestamp' => array('timestamp', (strlen($this->getSubmittedTimestamp())) ? $this->getSubmittedTimestamp() : NULL),
@@ -344,7 +338,6 @@ class ilTestSession
 			$this->anonymous_id = $row["anonymous_id"];
 			$this->test_id = $row["test_fi"];
 			$this->lastsequence = $row["lastindex"];
-			$this->setLastPresentationMode($row['last_pmode']);
 			$this->pass = $row["tries"];
 			$this->submitted = ($row["submitted"]) ? TRUE : FALSE;
 			$this->submittedTimestamp = $row["submittimestamp"];
@@ -379,7 +372,6 @@ class ilTestSession
 			$this->anonymous_id = $row["anonymous_id"];
 			$this->test_id = $row["test_fi"];
 			$this->lastsequence = $row["lastindex"];
-			$this->setLastPresentationMode($row['last_pmode']);
 			$this->pass = $row["tries"];
 			$this->submitted = ($row["submitted"]) ? TRUE : FALSE;
 			$this->submittedTimestamp = $row["submittimestamp"];
@@ -433,22 +425,6 @@ class ilTestSession
 	public function getLastSequence()
 	{
 		return $this->lastsequence;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getLastPresentationMode()
-	{
-		return $this->lastPresentationMode;
-	}
-
-	/**
-	 * @param string $lastPresentationMode
-	 */
-	public function setLastPresentationMode($lastPresentationMode)
-	{
-		$this->lastPresentationMode = $lastPresentationMode;
 	}
 	
 	function setPass($pass)

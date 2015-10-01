@@ -365,7 +365,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 			
 			$this->persistQuestionAnswerStatus();
 
-			$this->ctrl->setParameter($this, 'pmode', ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW);
+			$this->ctrl->setParameter($this, 'pmode', '');
 
 			if( $this->object->isForceInstantFeedbackEnabled() )
 			{
@@ -398,6 +398,8 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		#$this->testSequence->saveToDb();
 
 		#$this->resetCurrentQuestion();
+		
+		$this->ctrl->setParameter($this, 'pmode', ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW);
 
 		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
 	}
@@ -497,11 +499,13 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 			);
 			$questionGui->setQuestionHeaderBlockBuilder($headerBlockBuilder);
 
-			$presentationMode = $this->getCurrentPresentationMode();
+			$presentationMode = $this->getPresentationModeParameter();
 			
 			if(!$presentationMode)
 			{
-				$presentationMode = ilTestPlayerAbstractGUI::getDefaultPresentationMode();
+				$presentationMode = $this->determineQuestionsDefaultPresentationMode(
+					$questionGui->object->getId()
+				);
 			}
 
 			$instantResponse = $this->getInstantResponseParameter();
@@ -911,11 +915,10 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 	private function resetCurrentQuestion()
 	{
 		$this->testSession->setCurrentQuestionId(null);
-		$this->testSession->setCurrentPresentationMode(null);
 		$this->testSession->saveToDb();
 
 		$this->ctrl->setParameter($this, 'sequence', $this->testSession->getCurrentQuestionId());
-		$this->ctrl->setParameter($this, 'pmode', $this->testSession->getCurrentPresentationMode());
+		$this->ctrl->setParameter($this, 'pmode', '');
 	}
 
 	/**

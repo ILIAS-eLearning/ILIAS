@@ -218,11 +218,9 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		$_SESSION["active_time_id"] = $active_time_id;
 
 		$sequenceElement = $this->testSequence->getFirstSequence();
-		
-		$presentationMode = ilTestPlayerAbstractGUI::getDefaultPresentationMode();
 
 		$this->ctrl->setParameter($this, 'sequence', $sequenceElement);
-		$this->ctrl->setParameter($this, 'pmode', $presentationMode);
+		$this->ctrl->setParameter($this, 'pmode', '');
 
 		if ($this->object->getListOfQuestionsStart())
 		{
@@ -261,8 +259,6 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		);
 
 		$sequenceElement = $this->getCurrentSequenceElement();
-		$presentationMode = $this->getCurrentPresentationMode();
-		$instantResponse = $this->getInstantResponseParameter();
 
 		if( !$this->isValidSequenceElement($sequenceElement) )
 		{
@@ -270,18 +266,22 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		}
 
 		$this->testSession->setLastSequence($sequenceElement);
-		$this->testSession->setLastPresentationMode($presentationMode);
 		$this->testSession->saveToDb();
+
 
 		$questionId = $this->testSequence->getQuestionForSequence($sequenceElement);
 
 		if( !(int)$questionId && $this->testSession->isObjectiveOriented() )
 		{
-			ilUtil::sendFailure(
-				sprintf($this->lng->txt('tst_objective_oriented_test_pass_without_questions'), $this->object->getTitle()), true
-			);
-			
-			$this->performCustomRedirect();
+			$this->handleTearsAndAngerNoObjectiveOrientedQuestion();
+		}
+
+		$presentationMode = $this->getPresentationModeParameter();
+		$instantResponse = $this->getInstantResponseParameter();
+
+		if( !$presentationMode )
+		{
+			$presentationMode = $this->determineQuestionsDefaultPresentationMode($questionId);
 		}
 
 		if( $this->isParticipantsAnswerFixed($questionId) )
@@ -412,14 +412,11 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 					$nextSequenceElement = $this->testSequence->getFirstSequence();
 				}
 
-				$presentationMode = ilTestPlayerAbstractGUI::getDefaultPresentationMode();
-
 				$this->testSession->setLastSequence($nextSequenceElement);
-				$this->testSession->setLastPresentationMode($presentationMode);
 				$this->testSession->saveToDb();
 
 				$this->ctrl->setParameter($this, 'sequence', $nextSequenceElement);
-				$this->ctrl->setParameter($this, 'pmode', $presentationMode);
+				$this->ctrl->setParameter($this, 'pmode', '');
 			}
 		}
 
@@ -445,11 +442,8 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		#	$nextSequenceElement = $this->testSequence->getFirstSequence();
 		#}
 		
-		$presentationMode = ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW;
-		
 		#$this->testSession->setLastSequence($nextSequenceElement);
-		$this->testSession->setLastPresentationMode($presentationMode);
-		$this->testSession->saveToDb();
+		#$this->testSession->saveToDb();
 
 		#if( $this->object->isPostponingEnabled() )
 		#{
@@ -459,7 +453,8 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		
 		#$this->ctrl->setParameter($this, 'sequence', $nextSequenceElement);
 		$this->ctrl->saveParameter($this, 'sequence');
-		$this->ctrl->setParameter($this, 'pmode', $presentationMode);
+
+		$this->ctrl->setParameter($this, 'pmode', ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW);
 
 		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
 	}
@@ -475,10 +470,8 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 			$sequenceElement = $this->testSequence->getFirstSequence();
 		}
 
-		$presentationMode = ilTestPlayerAbstractGUI::getDefaultPresentationMode();
-		
 		$this->ctrl->setParameter($this, 'sequence', $sequenceElement);
-		$this->ctrl->setParameter($this, 'pmode', $presentationMode);
+		$this->ctrl->setParameter($this, 'pmode', '');
 
 		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
 	}
@@ -494,10 +487,8 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 			$sequenceElement = $this->testSequence->getLastSequence();
 		}
 
-		$presentationMode = ilTestPlayerAbstractGUI::getDefaultPresentationMode();
-
 		$this->ctrl->setParameter($this, 'sequence', $sequenceElement);
-		$this->ctrl->setParameter($this, 'pmode', $presentationMode);
+		$this->ctrl->setParameter($this, 'pmode', '');
 
 		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
 	}
@@ -730,7 +721,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		}
 		
 		$this->ctrl->setParameter($this, 'sequence', $this->testSession->getLastSequence());
-		$this->ctrl->setParameter($this, 'pmode', $this->testSession->getLastPresentationMode());
+		$this->ctrl->setParameter($this, 'pmode', '');
 		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
 	}
 
@@ -781,5 +772,12 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 	protected function isQuestionSummaryFinishTestButtonRequired()
 	{
 		return true;
+	}
+
+	protected function handleTearsAndAngerNoObjectiveOrientedQuestion()
+	{
+		ilUtil::sendFailure(sprintf($this->lng->txt('tst_objective_oriented_test_pass_without_questions'), $this->object->getTitle()), true);
+
+		$this->redirectBackCmd();
 	}
 }
