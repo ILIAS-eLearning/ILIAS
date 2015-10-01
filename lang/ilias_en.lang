@@ -16031,3 +16031,5 @@ exc#:#exc_direct_submit#:#Submit
 export#:#no_file#:#No file
 content#:#lm_no_download_files#:#There are currently no files for download available.
 rbac#:#feed_copy#:#User can copy webfeed
+log#:#log_level_off#:#Disabled
+log#:#log_component_root_desc#:#Leg-Level for message which are not assigned to any component.

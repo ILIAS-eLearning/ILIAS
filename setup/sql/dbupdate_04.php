@@ -12115,3 +12115,8 @@ $ilDB->modifyTableColumn('cmi_gobjective', 'objective_id', array(
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#4770>
+<?php
+	$query = 'INSERT INTO log_components (component_id) VALUES ('.$ilDB->quote('log_root', 'text').')';
+	$ilDB->manipulate($query);
+?>

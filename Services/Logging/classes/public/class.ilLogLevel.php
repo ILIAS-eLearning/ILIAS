@@ -22,6 +22,8 @@ class ilLogLevel
 	const CRITICAL = 500;
 	const ALERT = 550;
 	const EMERGENCY = 600;
+	
+	const OFF = 1000;
 
 	
 	
@@ -35,7 +37,8 @@ class ilLogLevel
 			self::ERROR,
 			self::CRITICAL,
 			self::ALERT,
-			self::EMERGENCY
+			self::EMERGENCY,
+			self::OFF
 		);
 		
 	}
@@ -57,7 +60,8 @@ class ilLogLevel
 			self::ERROR => $lng->txt('log_level_error'),
 			self::CRITICAL => $lng->txt('log_level_critical'),
 			self::ALERT => $lng->txt('log_level_alert'),
-			self::EMERGENCY => $lng->txt('log_level_emergency')
+			self::EMERGENCY => $lng->txt('log_level_emergency'),
+			self::OFF => $lng->txt('log_level_off')
 		);
 			
 	}

@@ -29,6 +29,7 @@ class ilLoggerFactory
 	const DEFAULT_FORMAT  = "[%suid%] [%datetime%] %channel%.%level_name%: %message% %context% %extra%\n";
 	
 	const ROOT_LOGGER = 'root';
+	const COMPONENT_ROOT = 'log_root';
 	const SETUP_LOGGER = 'setup';
 	
 	private static $instance = null;
@@ -174,7 +175,15 @@ class ilLoggerFactory
 				$this->getSettings()->getLogDir().'/'.$this->getSettings()->getLogFile(),
 				TRUE
 		);
-		$stream_handler->setLevel($this->getSettings()->getLevelByComponent($a_component_id));
+		
+		if($a_component_id == self::ROOT_LOGGER)
+		{
+			$stream_handler->setLevel($this->getSettings()->getLevelByComponent(self::COMPONENT_ROOT));
+		}
+		else
+		{
+			$stream_handler->setLevel($this->getSettings()->getLevelByComponent($a_component_id));
+		}
 		
 		// format lines
 		$line_formatter = new LineFormatter(static::DEFAULT_FORMAT, 'Y-m-d H:i:s.u',TRUE,TRUE);

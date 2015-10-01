@@ -38,13 +38,15 @@ class ilLogComponentTableGUI extends ilTable2GUI
 		$this->settings = ilLoggingDBSettings::getInstance();
 		
 		$this->setRowTemplate('tpl.log_component_row.html','Services/Logging');
-		$this->addColumn($this->lng->txt('log_component_col_component'), 'component');
+		$this->addColumn($this->lng->txt('log_component_col_component'), 'component_sortable');
 		$this->addColumn($this->lng->txt('log_component_col_level'), 'level');
 		
-		$this->setDefaultOrderField('component');
+		$this->setDefaultOrderField('component_sortable');
 		
 		$this->addCommandButton('saveComponentLevels', $this->lng->txt('save'));
 		$this->addCommandButton('resetComponentLevels', $this->lng->txt('log_component_btn_reset'));
+		
+		$this->setShowRowsSelector(FALSE);
 	}
 	
 	/**
@@ -67,17 +69,26 @@ class ilLogComponentTableGUI extends ilTable2GUI
 
 		ilLoggerFactory::getLogger('log')->dump($components,  ilLogLevel::DEBUG);
 
+
 		$rows = array();
 		foreach($components as $component)
 		{
 			$row['id'] = $component->getComponentId();
 			
-			include_once './Services/Component/classes/class.ilComponent.php';
-			$row['component'] = ilComponent::lookupComponentName($component->getComponentId());
+			if($component->getComponentId() == 'log_root')
+			{
+				$row['component'] = 'Root';
+				$row['component_sortable'] = '_'.$row['component'];
+			}
+			else
+			{
+				include_once './Services/Component/classes/class.ilComponent.php';
+				$row['component'] = ilComponent::lookupComponentName($component->getComponentId());
+				$row['component_sortable'] = $row['component'];
+			}
+			
 			ilLoggerFactory::getLogger('log')->debug($component->getComponentId());
 			$row['level'] = ($component->getLevel() ? $component->getLevel() : $this->getSettings()->getLevel());
-			
-			
 			
 			$rows[] = $row;
 		}
@@ -96,6 +107,12 @@ class ilLogComponentTableGUI extends ilTable2GUI
 	public function fillRow($a_set)
 	{
 		$this->tpl->setVariable('CNAME',$a_set['component']);
+		
+		ilLoggerFactory::getLogger('log')->debug('Component Id : ' . $a_set['component_id']);
+		if($a_set['id'] == 'log_root')
+		{
+			$this->tpl->setVariable('TXT_DESC', $GLOBALS['lng']->txt('log_component_root_desc'));
+		}
 		
 		include_once './Services/Form/classes/class.ilSelectInputGUI.php';
 		$levels = new ilSelectInputGUI('', 'level['.$a_set['id'].']');
