@@ -4300,3 +4300,14 @@ if($ilDB->tableColumnExists('dct_crs_building_block', 'credit_points')) {
 	));
 }
 ?>
+
+<#164>
+<?php
+if(!$ilDB->tableColumnExists('dct_crs_building_block', 'practice_session')) {
+
+	$ilDB->addTableColumn('dct_crs_building_block','practice_session', array(
+		'type' => 'float',
+		'notnull' => false
+	));
+}
+?>

@@ -816,6 +816,38 @@ class gevDecentralTrainingCourseCreatingBuildingBlock2GUI {
 	}
 
 	public function toChangeCourseData() {
+		if(count(gevCourseBuildingBlockUtils::getAllCourseBuildingBlocksRaw($this->crs_ref_id,$this->crs_request_id)) > 0) {
+			$fail_time = gevCourseBuildingBlockUtils::timeIssuesBlocks($this->crs_ref_id,$this->crs_request_id);
+			
+			if(!empty($fail_time)) {
+				$tpl = new ilTemplate("tpl.dct_block_overlaping.html", true, true, "Services/GEV/DecentralTrainings");
+				foreach ($fail_time as $key => $value) {
+					$tpl->setCurrentBlock("time_overlap");
+					$tpl->setVariable("START_BEFORE",$value["start_time_before"]);
+					$tpl->setVariable("END_BEFORE",$value["end_time_before"]);
+					$tpl->setVariable("START_END",$value["start_time_end"]);
+					$tpl->setVariable("END_END",$value["end_time_end"]);
+					$tpl->parseCurrentBlock();
+				}
+
+				$message = $this->lng->txt("gev_dec_training_block_time_overlap")."<br/>".$this->lng->txt("gev_dec_training_crs_will_not_created");
+				$tpl->setVariable("MESSAGE",$message);
+				$html .= $tpl->get();
+
+				ilUtil::sendInfo($html, false);
+				$this->render();
+				return;
+			}
+
+			if(gevCourseBuildingBlockUtils::timeIssuesCrs($this->crs_ref_id,$this->crs_request_id)) {
+				$message = $this->lng->txt("gev_dec_training_blocks_time_issue_course")."<br/>".$this->lng->txt("gev_dec_training_crs_will_not_created");
+				ilUtil::sendInfo($message, false);
+				$this->render();
+				return;
+			}
+		}
+
+
 		require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingGUI.php");
 		$gui = new gevDecentralTrainingGUI();
 		$ret = $this->ctrl->forwardCommand($gui);

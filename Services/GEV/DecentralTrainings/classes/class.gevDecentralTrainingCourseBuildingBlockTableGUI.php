@@ -49,6 +49,7 @@ class gevDecentralTrainingCourseBuildingBlockTableGUI extends catAccordionTableG
 		$this->addColumn($this->lng->txt("gev_dec_crs_building_block_block"), '');
 		$this->addColumn($this->lng->txt("gev_dec_crs_building_block_content"), "");
 		$this->addColumn($this->lng->txt("gev_dec_building_block_learn_dest"), "");
+		$this->addColumn($this->lng->txt("gev_dec_building_ue"), "");
 		$this->addColumn($this->lng->txt("gev_dec_building_wp"), "");
 		$this->addColumn($this->lng->txt("gev_dec_training_dbv_topic"), "");
 		$this->addColumn($this->lng->txt("action"), "");
@@ -79,6 +80,7 @@ class gevDecentralTrainingCourseBuildingBlockTableGUI extends catAccordionTableG
 		$this->tpl->setVariable("TITLE", $a_set["title"]);
 		$this->tpl->setVariable("CONTENT", $a_set["content"]);
 		$this->tpl->setVariable("LEARNING_DEST", $a_set["learning_dest"]);
+		$this->tpl->setVariable("PRACTICE_SESSION", "");//$a_set["practice_session"]);
 		$this->tpl->setVariable("CREDIT_POINTS", $a_set["credit_points"]);
 		$this->tpl->setVariable("DBV_TOPIC", $a_set["dbv_topic"]);
 

@@ -24,6 +24,7 @@ class gevCourseBuildingBlockUtils {
 	protected $end_time = "";
 	protected $crs_request_id = null;
 	protected $credit_points = 0;
+	protected $practice_session = 0;
 
 	protected function __construct($a_course_building_block_id) {
 		global $ilDB, $ilUser;
@@ -96,6 +97,14 @@ class gevCourseBuildingBlockUtils {
 		return $this->credit_points;
 	}
 
+	public function getPracticeSession() {
+		return $this->practice_session;
+	}
+
+	public function setPracticeSession($practice_session) {
+		$this->practice_session = $practice_session;
+	}
+
 	public function getTime() {
 		$start_time = $this->getStartTime();
 		$end_time = $this->getEndTime();
@@ -107,7 +116,7 @@ class gevCourseBuildingBlockUtils {
 	}
 
 	public function loadData() {
-		$sql = "SELECT crs_id, bb_id, start_time, end_time, credit_points\n"
+		$sql = "SELECT crs_id, bb_id, start_time, end_time, credit_points, practice_session\n"
 			  ."  FROM ".self::TABLE_NAME." WHERE id = ".$this->db->quote($this->getId(), "integer");
 
 		$res = $this->db->query($sql);
@@ -119,6 +128,7 @@ class gevCourseBuildingBlockUtils {
 			$this->setStartTime($row["start_time"]);
 			$this->setEndTime($row["end_time"]);
 			$this->setCreditPoints($row["credit_points"]);
+			$this->setPracticeSession($row["practice_session"]);
 		}
 	}
 
@@ -129,7 +139,8 @@ class gevCourseBuildingBlockUtils {
 			  ."     , end_time = ".$this->db->quote($this->getEndTime(), "time")."\n"
 			  ."     , credit_points = ".$this->db->quote($this->getCreditPoints(), "float")."\n"
 			  ."     , last_change_user = ".$this->db->quote($this->ilUser->getId(), "integer")."\n"
-			  ."     , last_change_date = NOW()"
+			  ."     , last_change_date = NOW()\n"
+			  ."     , practice_session = ".$this->db->quote($this->getPracticeSession(), "float")."\n"
 			  ." WHERE id = ".$this->db->quote($this->getId(), "integer");
 
 		$this->db->manipulate($sql);
@@ -144,7 +155,7 @@ class gevCourseBuildingBlockUtils {
 		$media_serial = preg_replace('/\"/','\\\"',serialize($this->getMedia()));*/
 
 		$sql = "INSERT INTO ".self::TABLE_NAME.""
-			  ." (id, crs_id, bb_id, start_time, end_time, last_change_user, last_change_date, crs_request_id, credit_points)\n"
+			  ." (id, crs_id, bb_id, start_time, end_time, last_change_user, last_change_date, crs_request_id, credit_points, practice_session)\n"
 			  ." VALUES ( ".$this->db->quote($this->getId(), "integer")."\n"
 			  ."        , ".$this->db->quote($this->getCrsId(), "integer")."\n"
 			  ."        , ".$this->db->quote($this->getBuildingBlock()->getId(), "integer")."\n"
@@ -153,7 +164,8 @@ class gevCourseBuildingBlockUtils {
 			  ."        , ".$this->db->quote($this->ilUser->getId(), "integer")."\n"
 			  ."        , NOW()\n"
 			  ."        , ".$this->db->quote($this->getCourseRequestId(), "integer")."\n"
-			  ."        , ".$this->db->quote($this->getCreditPoints(), "integer")."\n"
+			  ."        , ".$this->db->quote($this->getCreditPoints(), "float")."\n"
+			  ."        , ".$this->db->quote($this->getPracticeSession(), "float")."\n"
 			  ."        )";
 
 		$this->db->manipulate($sql);
@@ -176,7 +188,7 @@ class gevCourseBuildingBlockUtils {
 		global $ilDB;
 
 		$sql = "SELECT\n"
-			  ."    base.id, base.crs_id, base.bb_id, base.start_time, base.end_time, base.credit_points,\n"
+			  ."    base.id, base.crs_id, base.bb_id, base.start_time, base.end_time, base.credit_points, base.practice_session,\n"
 			  ."    join1.title, join1.learning_dest, join1.content, base.crs_request_id, base.bb_id, join1.dbv_topic\n"
 			  ." FROM ".self::TABLE_NAME." as base\n"
 			  ." JOIN ".self::TABLE_NAME_JOIN1." as join1\n"
@@ -210,6 +222,7 @@ class gevCourseBuildingBlockUtils {
 			$obj->setCourseRequestId($row["crs_request_id"]);
 			$obj->setBuildingBlock($row["bb_id"]);
 			$obj->setCreditPoints($row["credit_points"]);
+			$obj->setPracticeSession($row["practice_session"]);
 			return $obj;
 		}, self::getAllCourseBuildingBlocksRaw($a_crs_ref_id, $a_request_id));
 	}
@@ -450,36 +463,38 @@ class gevCourseBuildingBlockUtils {
 		$block->setStartTime($start);
 		$block->setEndTime($end);
 
+	
+		$start = split(":",$start);
+		$end = split(":",$end);
+		
+		$minutes = 0;
+		$hours = 0;
+		if($end[1] < $start[1]) {
+			$minutes = 60 - $start[1] + $end[1];
+			$hours = -1;
+		} else {
+			$minutes = $end[1] - $start[1];
+		}
+		$hours = $hours + $end[0] - $start[0];
+		$totalMinutes += $hours * 60 + $minutes;
+
+		$wp = null;
+		$wp_float = $totalMinutes / self::DURATION_PER_POINT;
+		
+		$wp_int = floor($wp_float);
+
+		$calc = $wp_float - $wp_int;
+		
+		if($calc > 0 && $calc < 0.6) {
+			$wp_int += 0.3; 
+		}
+
+		if($calc >= 0.6 && $calc < 1) {
+			$wp_int += 0.6; 
+		}
+		
+		$block->setPracticeSession($wp_int);
 		if($block->getBuildingBlock()->isWPRelevant()) {
-			$start = split(":",$start);
-			$end = split(":",$end);
-			
-			$minutes = 0;
-			$hours = 0;
-			if($end[1] < $start[1]) {
-				$minutes = 60 - $start[1] + $end[1];
-				$hours = -1;
-			} else {
-				$minutes = $end[1] - $start[1];
-			}
-			$hours = $hours + $end[0] - $start[0];
-			$totalMinutes += $hours * 60 + $minutes;
-
-			$wp = null;
-			$wp_float = $totalMinutes / self::DURATION_PER_POINT;
-			
-			$wp_int = floor($wp_float);
-
-			$calc = $wp_float - $wp_int;
-			
-			if($calc > 0 && $calc < 0.6) {
-				$wp_int += 0.3; 
-			}
-
-			if($calc >= 0.6 && $calc < 1) {
-				$wp_int += 0.6; 
-			}
-
 			$block->setCreditPoints($wp_int);
 		}
 
@@ -541,7 +556,7 @@ class gevCourseBuildingBlockUtils {
 		$where = "";
 		$sql = "SELECT A.start_time AS start_time_before, A.end_time AS end_time_before, B.start_time AS start_time_end, B.end_time AS end_time_end"
 				." FROM dct_crs_building_block A"
-				." JOIN dct_crs_building_block B ON A.end_time > B.start_time AND A.start_time < B.start_time";
+				." JOIN dct_crs_building_block B ON A.end_time < B.start_time AND A.start_time <= B.start_time";
 
 		if($crs_ref_id !== null) {
 			$where = " WHERE A.crs_id = ".$ilDB->quote($crs_ref_id,"integer")." AND B.crs_id = ".$ilDB->quote($crs_ref_id,"integer")."";
