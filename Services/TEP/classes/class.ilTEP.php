@@ -360,6 +360,9 @@ class ilTEP
 		
 		$uvg = gevOrgUnitUtils::getInstanceByImportId("uvg");
 		$ous[$uvg->getRefId()] = $uvg->getTitle();
+		foreach (gevOrgUnitUtils::getAllChildren(array($uvg->getRefId())) as $ids) {
+			$ous[$ids["ref_id"]] = ilObject::_lookupTitle($ids["obj_id"]);
+		}
 		
 		$base = gevOrgUnitUtils::getInstanceByImportId("gev_base");
 		$base_ref_id = $base->getRefId();
