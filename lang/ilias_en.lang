@@ -941,6 +941,8 @@ assessment#:#tst_instant_feedback_handling_freeze#:#tst_instant_feedback_handlin
 assessment#:#tst_instant_feedback_handling_freeze_desc#:#tst_instant_feedback_handling_freeze_desc
 assessment#:#tst_instant_feedback_handling_force_and_freeze#:#tst_instant_feedback_handling_force_and_freeze
 assessment#:#tst_instant_feedback_handling_force_and_freeze_desc#:#tst_instant_feedback_handling_force_and_freeze_desc
+assessment#:#tst_instant_feedback_handling_force#:#Do not freeze answers but force feedback
+assessment#:#tst_instant_feedback_handling_force_desc#:#tst_instant_feedback_handling_force_desc
 assessment#:#see_details_for_further_information#:#See details for suggested solutions
 assessment#:#select_an_answer#:#--- Please select an answer ---
 assessment#:#select_gap#:#Select Gap

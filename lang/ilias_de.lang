@@ -1064,6 +1064,8 @@ assessment#:#tst_instant_feedback_handling_freeze#:#Antworten festschreiben, Rü
 assessment#:#tst_instant_feedback_handling_freeze_desc#:#Klicken Teilnehmer auf 'Antwort einreichen', so können sie ihre Antworten danach nicht mehr ändern. Teilnehmer können über einen Button nach Bedarf eine Rückmeldung anfordern. Rückmeldungen werden in der Option 'Direkte Rückmeldung' konfiguriert . <br />
 assessment#:#tst_instant_feedback_handling_force_and_freeze#:#Antworten festschreiben und automatische Rückmeldung
 assessment#:#tst_instant_feedback_handling_force_and_freeze_desc#:#Klicken Teilnehmer auf 'Antwort einreichen', so können sie ihre Antworten danach nicht mehr ändern. ILIAS präsentiert sofort die in der Option 'Direkte Rückmeldung' konfigurierte Rückmeldung.
+assessment#:#tst_instant_feedback_handling_force#:#Antworten nicht festschreiben aber automatische Rückmeldung
+assessment#:#tst_instant_feedback_handling_force_desc#:#
 assessment#:#see_details_for_further_information#:#Inhalte zur Wiederholung: siehe Fragendetails
 assessment#:#select_an_answer#:#--- Bitte wählen Sie eine Antwort aus ---
 assessment#:#select_gap#:#Auswahl-Lücke
