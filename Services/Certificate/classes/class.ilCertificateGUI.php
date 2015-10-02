@@ -239,7 +239,10 @@ class ilCertificateGUI
 	*/
 	public function certificateEditor()
 	{
-		global $ilAccess;
+		/**
+		 * @var $ilToolbar ilToolbarGUI
+		 */
+		global $ilAccess, $ilToolbar;
 		
 		$form_fields = array();
 		if (strcmp($this->ctrl->getCmd(), "certificateSave") == 0)
@@ -410,9 +413,23 @@ class ilCertificateGUI
 		{
 			if ($this->object->isComplete() || $this->object->hasBackgroundImage())
 			{
-				$form->addCommandButton("certificatePreview", $this->lng->txt("certificate_preview"));
-				$form->addCommandButton("certificateExportFO", $this->lng->txt("certificate_export"));
-				$form->addCommandButton("certificateDelete", $this->lng->txt("delete"));
+				$ilToolbar->setFormAction($this->ctrl->getFormAction($this));
+
+				require_once 'Services/UIComponent/Button/classes/class.ilSubmitButton.php';
+				$preview = ilSubmitButton::getInstance();
+				$preview->setCaption('certificate_preview');
+				$preview->setCommand('certificatePreview');
+				$ilToolbar->addStickyItem($preview);
+
+				$export = ilSubmitButton::getInstance();
+				$export->setCaption('certificate_export');
+				$export->setCommand('certificateExportFO');
+				$ilToolbar->addButtonInstance($export);
+
+				$delete = ilSubmitButton::getInstance();
+				$delete->setCaption('delete');
+				$delete->setCommand('certificateDelete');
+				$ilToolbar->addButtonInstance($delete);
 			}
 			$form->addCommandButton("certificateSave", $this->lng->txt("save"));
 		}

@@ -1699,7 +1699,7 @@ certificate#:#certificate_enabled_scorm_introduction#:#If checked, the certifica
 certificate#:#certificate_enabled_scorm#:#Enabled
 certificate#:#certificate_error_import#:#An error occurred during the import of a certificate!
 certificate#:#certificate_error_upload_bgimage#:#An error occurred during the upload of the background image!
-certificate#:#certificate_export#:#Export Certificate
+certificate#:#certificate_export#:#Export
 certificate#:#certificate_failed#:#failed
 certificate#:#certificate_left#:#Left
 certificate#:#certificate_letter_landscape#:#Letter Landscape (8.5 inch x 11 inch)
@@ -1738,7 +1738,7 @@ certificate#:#certificate_ph_testtitle#:#Title of the test
 certificate#:#certificate_ph_title#:#Title of the user
 certificate#:#certificate_ph_zipcode#:#ZIP code of the user's address
 certificate#:#certificate_points_notavailable#:#This value cannot be calculated
-certificate#:#certificate_preview#:#Show Certificate Preview
+certificate#:#certificate_preview#:#Preview
 certificate#:#certificate_right#:#Right
 certificate#:#certificate_settings#:#Certificate Settings
 certificate#:#certificate_short_name_description#:#Please enter a short title for the certificate name. The short title will be part of the certificate name: YYMMDD_[surname]_[SHORT_TITLE]_certificate.pdf.

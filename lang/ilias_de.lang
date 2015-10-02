@@ -2023,7 +2023,7 @@ certificate#:#certificate_enabled_scorm#:#Aktiviert
 certificate#:#certificate_enabled_scorm_introduction#:#Wenn ausgewählt, wird das Zertifikat für alle Teilnehmer des SCORM-Lernmoduls angeboten, die das Lernmodul durchgearbeitet haben.
 certificate#:#certificate_error_import#:#Während des Zertifikat-Imports ist ein Fehler aufgetreten!
 certificate#:#certificate_error_upload_bgimage#:#Beim Hochladen des Hintergrundbildes ist ein Fehler aufgetreten!
-certificate#:#certificate_export#:#Zertifikat exportieren
+certificate#:#certificate_export#:#Exportieren
 certificate#:#certificate_failed#:#nicht bestanden
 certificate#:#certificate_left#:#Links
 certificate#:#certificate_letter#:#US Brief (11 inch x 8.5 inch)
@@ -2076,7 +2076,7 @@ certificate#:#certificate_ph_title#:#Titel des Teilnehmers oder der Teilnehmerin
 certificate#:#certificate_ph_title_sco#:#Titel
 certificate#:#certificate_ph_zipcode#:#Postleitzahl der Adresse des Teilnehmers oder der Teilnehmerin
 certificate#:#certificate_points_notavailable#:#Dieser Wert kann nicht ermittelt werden
-certificate#:#certificate_preview#:#Vorschau des Zertifikats anzeigen
+certificate#:#certificate_preview#:#Vorschau
 certificate#:#certificate_right#:#Rechts
 certificate#:#certificate_settings#:#Einstellungen für Zertifikate
 certificate#:#certificate_short_name#:#Kurztitel für die Dateibenennung
