@@ -251,6 +251,10 @@ class gevDecentralTrainingCourseCreatingBuildingBlock2GUI {
 			$hidden->insert($form_add_building_block->getTemplate());
 		}
 
+		$hidden = new ilHiddenInputGUI("ue");
+		$hidden->setValue($this->crs_request_id);
+		$hidden->insert($form_add_building_block->getTemplate());
+
 		$form_add_building_block->getTemplate()->setVariable("HEADER_TOPIC",$this->lng->txt("gev_dec_training_header_topic"));
 		$form_add_building_block->getTemplate()->setVariable("HEADER_BLOCK",$this->lng->txt("gev_dec_training_header_block"));
 		$form_add_building_block->getTemplate()->setVariable("HEADER_INFOS",$this->lng->txt("gev_dec_training_header_infos"));
@@ -506,6 +510,7 @@ class gevDecentralTrainingCourseCreatingBuildingBlock2GUI {
 		$end_time = implode(":",$_POST["duration"]["end"]["time"]).":00";
 		$block = $_POST["blocks"];
 		$credit_points = $_POST["wp"];
+		$practice_session = $_POST["ue"];
 
 		$new_crs_bb = gevCourseBuildingBlockUtils::getInstance(gevCourseBuildingBlockUtils::getNextCrsBBlockId());
 		$new_crs_bb->setStartTime($start_time);
@@ -514,6 +519,7 @@ class gevDecentralTrainingCourseCreatingBuildingBlock2GUI {
 		$new_crs_bb->setCourseRequestId($this->crs_request_id);
 		$new_crs_bb->setCrsId($this->crs_ref_id);
 		$new_crs_bb->setCreditPoints($credit_points);
+		$new_crs_bb->setPracticeSession($practice_session);
 
 		$new_crs_bb->save();
 
@@ -521,6 +527,8 @@ class gevDecentralTrainingCourseCreatingBuildingBlock2GUI {
 			require_once("Services/GEV/Mailing/classes/class.gevCrsAutoMails.php");
 			$crs_mails = new gevCrsAutoMails($this->crs_obj_id);
 			$crs_mails->sendDeferred("invitation");
+
+			gevCourseBuildingBlockUtils::courseUpdates($this->crs_ref_id);
 		}
 
 		$this->render();
@@ -622,6 +630,14 @@ class gevDecentralTrainingCourseCreatingBuildingBlock2GUI {
 			return;
 		}
 
+		if($this->crs_obj_id !== NULL) {
+			require_once("Services/GEV/Mailing/classes/class.gevCrsAutoMails.php");
+			$crs_mails = new gevCrsAutoMails($this->crs_obj_id);
+			$crs_mails->sendDeferred("invitation");
+
+			gevCourseBuildingBlockUtils::courseUpdates($this->crs_ref_id);
+		}
+		
 		$this->render();
 	}
 

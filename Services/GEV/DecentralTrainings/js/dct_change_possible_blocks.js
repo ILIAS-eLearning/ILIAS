@@ -81,9 +81,7 @@ function changeBuildingBlockInfos() {
 function calculateCreditPoints() {
 	var isWP = $('#isWP').val();
 
-	if(isWP == "Nein") {
-		return;
-	}
+	
 
 	var start_h = parseInt($('#duration\\[start\\]\\[time\\]_h option:selected').val());
 	var start_m = parseInt($('#duration\\[start\\]\\[time\\]_m option:selected').val());
@@ -115,5 +113,9 @@ function calculateCreditPoints() {
 		credit_points += 0.6; 
 	}
 
-	$('#wp').val(credit_points);
+	if(isWP == "Ja") {
+		$('#wp').val(credit_points);
+	}
+	
+	$('#ue').val(credit_points);
 }

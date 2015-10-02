@@ -19,6 +19,8 @@ $(document).ready(function() {
 			$(document).on("click",'.titleCommand a.submitDisabled',function(){
 				return false;
 			});
+
+			//$('#form_dct_navi input').attr("disabled",true);
 		}
 	});
 
@@ -134,7 +136,13 @@ function gevShowMailPreview(){
 				$.each(data, function(k,v){
 					var find = "\\["+k+"\\]";
 					var re = new RegExp(find, 'g');
-					html = html.replace(re, v);
+					
+					if(v === null) {
+						html = html.replace(re, "");
+					} else {
+						html = html.replace(re, v);
+					}
+					
 				});
 
 				$('#dct-mail_content').html(html);

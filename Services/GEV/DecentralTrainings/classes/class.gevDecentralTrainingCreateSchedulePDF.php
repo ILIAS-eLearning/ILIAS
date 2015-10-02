@@ -83,6 +83,7 @@ class gevDecentralTrainingCreateSchedulePDF
 		$this->crsBlockSecondColoumnSpaceLeft = 7;
 		$this->crsBlockColoumnSpace = 0.3;
 		$this->number_couloums_after_time = 3;
+		$this->crsBlockSpaceUeAndWp = 2;
 		$this->crsBlockMultiplikatorColoumnWidth = $this->number_couloums_after_time + 1.2;
 		
 		$this->crsFooterFontSize = 8;
@@ -188,13 +189,15 @@ class gevDecentralTrainingCreateSchedulePDF
 	*/
 	private function createBlockInfo() {
 		$date_string_width = $this->pdf->GetStringWidth("99:99:99") + $this->crsBlockColoumnSpace;
-		$coloumn_width = (($this->maxRight - $this->spaceLeft) / $this->number_couloums_after_time) - ($this->crsBlockMultiplikatorColoumnWidth * $this->crsBlockColoumnSpace);
+		$coloumn_width = ((($this->maxRight-4) - $this->spaceLeft) / $this->number_couloums_after_time) - ($this->crsBlockMultiplikatorColoumnWidth * $this->crsBlockColoumnSpace);
 
 		$x_firstColoumn = $this->spaceLeft;
 		$x_secondColoumn = $x_firstColoumn + $date_string_width;
 		$x_thirdColoumn = $x_secondColoumn + $date_string_width;
 		$x_fourthColoumn = $x_thirdColoumn + $coloumn_width + $this->crsBlockColoumnSpace;
 		$x_fithColoumn = $x_fourthColoumn + $coloumn_width + $this->crsBlockColoumnSpace;
+		$x_sixthColoumn = $x_fithColoumn + $coloumn_width + $this->crsBlockColoumnSpace;
+		$x_seventhColoumn = $x_sixthColoumn + $this->crsBlockSpaceUeAndWp + $this->crsBlockColoumnSpace;
 
 		$y_value = $this->pdf->getY() + $this->crsBlockSpaceTop;
 
@@ -204,6 +207,8 @@ class gevDecentralTrainingCreateSchedulePDF
 		$this->pdf->WriteText($x_thirdColoumn, $y_value, $this->encodeSpecialChars($this->lng->txt("gev_dec_crs_building_block_block")));
 		$this->pdf->WriteText($x_fourthColoumn, $y_value, $this->encodeSpecialChars($this->lng->txt("gev_dec_crs_building_block_content")));
 		$this->pdf->WriteText($x_fithColoumn, $y_value, $this->encodeSpecialChars($this->lng->txt("gev_dec_crs_building_block_lern_dest")));
+		$this->pdf->WriteText($x_sixthColoumn, $y_value, $this->encodeSpecialChars($this->lng->txt("gev_dec_building_ue")));
+		$this->pdf->WriteText($x_seventhColoumn, $y_value, $this->encodeSpecialChars($this->lng->txt("gev_dec_building_wp")));
 
 		$this->pdf->Line($this->spaceLeft,$y_value + 0.2,$this->maxRight,$y_value + 0.2);
 		$this->pdf->Line($this->spaceLeft,$y_value + 0.3,$this->maxRight,$y_value + 0.3);
@@ -227,6 +232,8 @@ class gevDecentralTrainingCreateSchedulePDF
 				$this->pdf->WriteText($x_thirdColoumn, $y_value, $this->encodeSpecialChars($this->lng->txt("gev_dec_crs_building_block_block")));
 				$this->pdf->WriteText($x_fourthColoumn, $y_value, $this->encodeSpecialChars($this->lng->txt("gev_dec_crs_building_block_content")));
 				$this->pdf->WriteText($x_fithColoumn, $y_value, $this->encodeSpecialChars($this->lng->txt("gev_dec_crs_building_block_lern_dest")));
+				$this->pdf->WriteText($x_sixthColoumn, $y_value, $this->encodeSpecialChars($this->lng->txt("gev_dec_building_ue")));
+				$this->pdf->WriteText($x_seventhColoumn, $y_value, $this->encodeSpecialChars($this->lng->txt("gev_dec_building_wp")));
 
 				$this->pdf->Line($this->spaceLeft,$y_value + 0.2,$this->maxRight,$y_value + 0.2);
 				$this->pdf->Line($this->spaceLeft,$y_value + 0.3,$this->maxRight,$y_value + 0.3);
@@ -250,6 +257,12 @@ class gevDecentralTrainingCreateSchedulePDF
 
 			$this->pdf->setXY($x_fithColoumn - 0.1, $y_value);
 			$this->pdf->MultiCell($coloumn_width,$this->crsBlockSpaceTopAdd,$this->encodeSpecialChars($base->getLearningDestination()),0,"");
+
+			$this->pdf->setXY($x_sixthColoumn - 0.1, $y_value);
+			$this->pdf->MultiCell($coloumn_width,$this->crsBlockSpaceTopAdd,$this->encodeSpecialChars($value->getPracticeSession()),0,"");
+
+			$this->pdf->setXY($x_seventhColoumn - 0.1, $y_value);
+			$this->pdf->MultiCell($coloumn_width,$this->crsBlockSpaceTopAdd,$this->encodeSpecialChars($value->getCreditPoints()),0,"");
 
 			$this->pdf->setXY($x_firstColoumn, $y_value + $max_height - (2*$this->crsBlockSpaceTopAdd));
 			$jumper += 0.01;
