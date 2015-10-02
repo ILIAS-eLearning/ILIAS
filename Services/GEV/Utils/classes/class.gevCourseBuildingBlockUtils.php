@@ -556,7 +556,7 @@ class gevCourseBuildingBlockUtils {
 		$where = "";
 		$sql = "SELECT A.start_time AS start_time_before, A.end_time AS end_time_before, B.start_time AS start_time_end, B.end_time AS end_time_end"
 				." FROM dct_crs_building_block A"
-				." JOIN dct_crs_building_block B ON A.end_time < B.start_time AND A.start_time <= B.start_time";
+				." JOIN dct_crs_building_block B ON A.end_time > B.start_time AND A.start_time < B.start_time";
 
 		if($crs_ref_id !== null) {
 			$where = " WHERE A.crs_id = ".$ilDB->quote($crs_ref_id,"integer")." AND B.crs_id = ".$ilDB->quote($crs_ref_id,"integer")."";

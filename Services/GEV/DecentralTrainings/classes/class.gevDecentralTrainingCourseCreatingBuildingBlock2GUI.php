@@ -546,6 +546,7 @@ class gevDecentralTrainingCourseCreatingBuildingBlock2GUI {
 		$fail_time = array();
 		$show_fail = false;
 		$html = "";
+		$counter = 0;
 
 		foreach ($_POST as $key => $value) {
 			if($key == "cmd") {
@@ -585,6 +586,8 @@ class gevDecentralTrainingCourseCreatingBuildingBlock2GUI {
 			gevCourseBuildingBlockUtils::updateTimesAndCreditPoints($id
 																	,$start_time
 																	,$end_time);
+
+			$counter++;
 		}
 		
 		if(!empty($fail_time)) {
@@ -603,26 +606,29 @@ class gevDecentralTrainingCourseCreatingBuildingBlock2GUI {
 			$this->render();
 			return;
 		}
+		if($counter > 1) {
+			echo "test";
+			$fail_time = gevCourseBuildingBlockUtils::timeIssuesBlocks($this->crs_ref_id,$this->crs_request_id);
+			if(!empty($fail_time)) {
+				$tpl = new ilTemplate("tpl.dct_block_overlaping.html", true, true, "Services/GEV/DecentralTrainings");
+				foreach ($fail_time as $key => $value) {
+					$tpl->setCurrentBlock("time_overlap");
+					$tpl->setVariable("START_BEFORE",$value["start_time_before"]);
+					$tpl->setVariable("END_BEFORE",$value["end_time_before"]);
+					$tpl->setVariable("START_END",$value["start_time_end"]);
+					$tpl->setVariable("END_END",$value["end_time_end"]);
+					$tpl->parseCurrentBlock();
+				}
 
-		$fail_time = gevCourseBuildingBlockUtils::timeIssuesBlocks($this->crs_ref_id,$this->crs_request_id);
-		if(!empty($fail_time)) {
-			$tpl = new ilTemplate("tpl.dct_block_overlaping.html", true, true, "Services/GEV/DecentralTrainings");
-			foreach ($fail_time as $key => $value) {
-				$tpl->setCurrentBlock("time_overlap");
-				$tpl->setVariable("START_BEFORE",$value["start_time_before"]);
-				$tpl->setVariable("END_BEFORE",$value["end_time_before"]);
-				$tpl->setVariable("START_END",$value["start_time_end"]);
-				$tpl->setVariable("END_END",$value["end_time_end"]);
-				$tpl->parseCurrentBlock();
+				$tpl->setVariable("MESSAGE",$this->lng->txt("gev_dec_training_block_time_overlap"));
+				$html .= $tpl->get();
+
+				ilUtil::sendInfo($html, false);
+				$this->render();
+				return;
 			}
-
-			$tpl->setVariable("MESSAGE",$this->lng->txt("gev_dec_training_block_time_overlap"));
-			$html .= $tpl->get();
-
-			ilUtil::sendInfo($html, false);
-			$this->render();
-			return;
 		}
+		
 
 		if(gevCourseBuildingBlockUtils::timeIssuesCrs($this->crs_ref_id,$this->crs_request_id)) {
 			ilUtil::sendInfo($this->lng->txt("gev_dec_training_blocks_time_issue_course"), true);
