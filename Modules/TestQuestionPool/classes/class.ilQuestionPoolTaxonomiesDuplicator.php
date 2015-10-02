@@ -1,9 +1,10 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
 require_once 'Services/Taxonomy/classes/class.ilTaxonomyTree.php';
 require_once 'Services/Taxonomy/classes/class.ilTaxNodeAssignment.php';
-require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetDuplicatedTaxonomiesKeysMap.php';
+require_once 'Modules/TestQuestionPool/classes/class.ilQuestionPoolDuplicatedTaxonomiesKeysMap.php';
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -11,14 +12,15 @@ require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetDuplicatedTaxono
  *
  * @package		Modules/Test
  */
-class ilTestRandomQuestionSetSourcePoolTaxonomiesDuplicator
+class ilQuestionPoolTaxonomiesDuplicator
 {
-	/**
-	 * @var ilObjTest
-	 */
-	public $testOBJ = null;
+	private $sourceObjId = null;
+	
+	private $sourceObjType = null;
 
-	private $sourcePoolId = null;
+	private $targetObjId = null;
+	
+	private $targetObjType = null;
 
 	/**
 	 * @var null
@@ -26,27 +28,53 @@ class ilTestRandomQuestionSetSourcePoolTaxonomiesDuplicator
 	private $questionIdMapping = null;
 
 	/**
-	 * @var ilTestRandomQuestionSetDuplicatedTaxonomiesKeysMap
+	 * @var ilQuestionPoolDuplicatedTaxonomiesKeysMap
 	 */
 	private $duplicatedTaxonomiesKeysMap = null;
 
-	public function __construct(ilObjTest $testOBJ, $sourcePoolId, $questionIdMapping)
+	public function __construct()
 	{
-		$this->testOBJ = $testOBJ;
-		$this->sourcePoolId = $sourcePoolId;
-		$this->questionIdMapping = $questionIdMapping;
-
-		$this->duplicatedTaxonomiesKeysMap = new ilTestRandomQuestionSetDuplicatedTaxonomiesKeysMap();
+		$this->duplicatedTaxonomiesKeysMap = new ilQuestionPoolDuplicatedTaxonomiesKeysMap();
 	}
 
-	public function setSourcePoolId($sourcePoolId)
+	public function setSourceObjId($sourceObjId)
 	{
-		$this->sourcePoolId = $sourcePoolId;
+		$this->sourceObjId = $sourceObjId;
 	}
 
-	public function getSourcePoolId()
+	public function getSourceObjId()
 	{
-		return $this->sourcePoolId;
+		return $this->sourceObjId;
+	}
+
+	public function getSourceObjType()
+	{
+		return $this->sourceObjType;
+	}
+
+	public function setSourceObjType($sourceObjType)
+	{
+		$this->sourceObjType = $sourceObjType;
+	}
+
+	public function getTargetObjId()
+	{
+		return $this->targetObjId;
+	}
+
+	public function setTargetObjId($targetObjId)
+	{
+		$this->targetObjId = $targetObjId;
+	}
+
+	public function getTargetObjType()
+	{
+		return $this->targetObjType;
+	}
+
+	public function setTargetObjType($targetObjType)
+	{
+		$this->targetObjType = $targetObjType;
 	}
 
 	public function setQuestionIdMapping($questionIdMapping)
@@ -61,7 +89,7 @@ class ilTestRandomQuestionSetSourcePoolTaxonomiesDuplicator
 
 	public function duplicate()
 	{
-		$poolTaxonomyIds = ilObjTaxonomy::getUsageOfObject($this->getSourcePoolId());
+		$poolTaxonomyIds = ilObjTaxonomy::getUsageOfObject($this->getSourceObjId());
 
 		foreach($poolTaxonomyIds as $poolTaxId)
 		{
@@ -86,16 +114,16 @@ class ilTestRandomQuestionSetSourcePoolTaxonomiesDuplicator
 
 		$testTaxonomy->update();
 
-		ilObjTaxonomy::saveUsage( $testTaxonomy->getId(), $this->testOBJ->getId() );
+		ilObjTaxonomy::saveUsage( $testTaxonomy->getId(), $this->getTargetObjId() );
 
 		$this->duplicatedTaxonomiesKeysMap->addDuplicatedTaxonomy($poolTaxonomy, $testTaxonomy);
 	}
 
 	private function transferAssignmentsFromOriginalToDuplicatedTaxonomy($originalTaxonomyId, $mappedTaxonomyId)
 	{
-		$originalTaxAssignment = new ilTaxNodeAssignment('qpl', $this->getSourcePoolId(), 'quest', $originalTaxonomyId);
+		$originalTaxAssignment = new ilTaxNodeAssignment($this->getSourceObjType(), $this->getSourceObjId(), 'quest', $originalTaxonomyId);
 
-		$duplicatedTaxAssignment = new ilTaxNodeAssignment('tst', $this->testOBJ->getId(), 'quest', $mappedTaxonomyId);
+		$duplicatedTaxAssignment = new ilTaxNodeAssignment($this->getTargetObjType(), $this->getTargetObjId(), 'quest', $mappedTaxonomyId);
 
 		foreach($this->getQuestionIdMapping() as $originalQuestionId => $duplicatedQuestionId)
 		{
@@ -111,7 +139,7 @@ class ilTestRandomQuestionSetSourcePoolTaxonomiesDuplicator
 	}
 
 	/**
-	 * @return ilTestRandomQuestionSetDuplicatedTaxonomiesKeysMap
+	 * @return ilQuestionPoolDuplicatedTaxonomiesKeysMap
 	 */
 	public function getDuplicatedTaxonomiesKeysMap()
 	{
