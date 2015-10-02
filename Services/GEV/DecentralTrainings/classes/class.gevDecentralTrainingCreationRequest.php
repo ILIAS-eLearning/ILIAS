@@ -180,7 +180,7 @@ class gevDecentralTrainingCreationRequest {
 		}
 		
 		$trgt_obj_id = $this->getObjectIdFor($trgt_ref_id);
-		$trgt_utils = $this->getCourseUtils($trgt_obj_id);
+		$trgt_utils = $this->getCourseUtils((int)$trgt_obj_id);
 		$trgt_crs = $trgt_utils->getCourse();
 		
 		// Roles and Members
@@ -204,6 +204,8 @@ class gevDecentralTrainingCreationRequest {
 			$this->updateCourseBuildingBlocks($trgt_utils->getRefId());
 			$this->updateCourseWithBuidlingBlockData($trgt_utils->getRefId());
 		}
+
+		$trgt_crs = $trgt_utils->getCourse();
 		
 		$this->createTEPEntry($trgt_crs);
 		

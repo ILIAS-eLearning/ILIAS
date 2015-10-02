@@ -179,13 +179,14 @@ class ilTEPCourseEntries
 		$start = $this->getCourseStart();
 		$end = $this->getCourseEnd();
 		
+		
 		if ($start !== null && $end !== null) {
 			// course settings
 			$changed = self::SYNC_NO_CHANGE;
 			
 			// gev-patch start
 			require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
-			$crs_utils = gevCourseUtils::getInstanceByObj($course);
+			$crs_utils = gevCourseUtils::getInstance((int)$course->getId());
 			
 			$title = $course->getTitle();
 			
@@ -347,7 +348,7 @@ class ilTEPCourseEntries
 			// new tutor
 			if(!array_key_exists($tutor_id, $tutor_entries))
 			{
-				$this->deriveEntryForUser($tutor_id);			
+				$this->deriveEntryForUser($tutor_id);
 			}
 			// existing
 			else
