@@ -1976,14 +1976,25 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	{
 		global $ilDB, $ilPluginAdmin;
 
+		$resultData = $this->object->getTestResult($active_id, $pass, false, $considerHiddenQuestions);
+		$questionIds = array();
+		foreach($resultData as $resultItemKey => $resultItemValue)
+		{
+			if($resultItemKey === 'test' || $resultItemKey === 'pass')
+			{
+				continue;
+			}
+
+			$questionIds[] = $resultItemValue['qid'];
+		}
+
 		$table_gui = $this->buildPassDetailsOverviewTableGUI($this, 'outUserPassDetails');
 		$table_gui->initFilter();
 
 		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionList.php';
 		$questionList = new ilAssQuestionList($ilDB, $this->lng, $ilPluginAdmin);
 
-		$questionList->setParentObjId($this->object->getId());
-		$questionList->setParentObjectType('tst');
+		$questionList->setQuestionIdsFilter($questionIds);
 		$questionList->setQuestionInstanceTypeFilter(null);
 
 		foreach ($table_gui->getFilterItems() as $item)
@@ -2009,8 +2020,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$questionList->load();
 
 		$filteredTestResult = array();
-
-		$resultData = $this->object->getTestResult($active_id, $pass, false, $considerHiddenQuestions);
 		
 		foreach($resultData as $resultItemKey => $resultItemValue)
 		{
