@@ -6461,7 +6461,7 @@ class ilObjSurvey extends ilObject
 		
 		if($this->getTutorNotificationStatus())
 		{
-			$user_ids = $this->getNotificationTargetUserIds();
+			$user_ids = $this->getNotificationTargetUserIds(($this->getTutorNotificationTarget() == self::NOTIFICATION_INVITED_USERS));
 			if($user_ids)
 			{
 				$set = $ilDB->query("SELECT COUNT(*) numall FROM svy_finished".
@@ -6477,11 +6477,11 @@ class ilObjSurvey extends ilObject
 		}
 	}
 	
-	protected function getNotificationTargetUserIds()
+	protected function getNotificationTargetUserIds($a_use_invited)
 	{
 		global $tree;
 		
-		if($this->getTutorNotificationTarget() == self::NOTIFICATION_INVITED_USERS)
+		if((bool)$a_use_invited)
 		{
 			$user_ids = $this->getInvitedUsers();				
 		}
@@ -6586,7 +6586,10 @@ class ilObjSurvey extends ilObject
 		if(!$this->getReminderLastSent() ||
 			$cut->get(IL_CAL_DATE) >= substr($this->getReminderLastSent(), 0, 10))					
 		{				
-			$user_ids = $this->getNotificationTargetUserIds();
+			$missing_ids = array();
+			
+			// #16871
+			$user_ids = $this->getNotificationTargetUserIds(($this->getReminderTarget() == self::NOTIFICATION_INVITED_USERS));
 			if($user_ids)
 			{
 				// gather participants who already finished
@@ -6622,7 +6625,7 @@ class ilObjSurvey extends ilObject
 			$this->setReminderLastSent($today);
 			$this->saveToDb();
 
-			return true;
+			return sizeof($missing_ids);
 		}
 		
 		return false;
