@@ -1866,7 +1866,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$questionList = new ilAssQuestionList($ilDB, $this->lng, $ilPluginAdmin, $this->object->getId());
 
 		$questionList->setParentObjectType('tst');
-		$questionList->setQuestionInstanceTypeFilter(ilAssQuestionList::QUESTION_INSTANCE_TYPE_DUPLICATES);
+		$questionList->setQuestionInstanceTypeFilter(null);
 
 		foreach ($table_gui->getFilterItems() as $item)
 		{
