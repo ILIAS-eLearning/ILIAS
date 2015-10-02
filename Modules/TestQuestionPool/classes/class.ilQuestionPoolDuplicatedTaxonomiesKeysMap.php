@@ -6,9 +6,9 @@
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
  *
- * @package     Modules/Test
+ * @package     Modules/TestQuestionPool
  */
-class ilTestRandomQuestionSetDuplicatedTaxonomiesKeysMap
+class ilQuestionPoolDuplicatedTaxonomiesKeysMap
 {
 	/**
 	 * @var array
