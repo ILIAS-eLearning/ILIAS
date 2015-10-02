@@ -66,9 +66,10 @@ class ilSurveyCronNotification extends ilCronJob
 		foreach($tree->getSubTree($root, false, "svy") as $svy_ref_id)
 		{
 			$svy = new ilObjSurvey($svy_ref_id);
-			if($svy->checkReminder())
+			$num = $svy->checkReminder();
+			if($num !== false)
 			{	
-				$message[] = $svy_ref_id;
+				$message[] = $svy_ref_id."(".$num.")";
 				$status = ilCronJobResult::STATUS_OK;				
 			}
 		}
