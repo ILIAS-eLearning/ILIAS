@@ -217,11 +217,13 @@ class gevDecentralTrainingCreateSchedulePDF
 
 		$this->pdf->SetFont($this->crsBlockFontName, $this->crsBlockNoBold, $this->crsBlockFontSize);
 		$jumper = 0;
-		$multi_top = 4;
+		$kk = 10;
 		foreach ($this->blocks as $key => $value) {
 			$y_value = $this->pdf->GetY() + $this->crsBlockSpaceTopAdd;
+			$base = $value->getBuildingBlock();
+			$max_height = $this->calcMaxRowHeight($base->getTitle(),$base->getContent(), $base->getLearningDestination(), $coloumn_width);
 
-			if($y_value + $max_height - (2*$this->crsBlockSpaceTopAdd) > $this->maxPageHeight) {
+			if(($y_value + $max_height * $this->crsBlockSpaceTopAdd) > $this->maxPageHeight) {
 				$this->createFooterRow();
 				$this->pdf->AddPage();
 				$this->pageCounter++;
@@ -240,12 +242,8 @@ class gevDecentralTrainingCreateSchedulePDF
 				$this->pdf->Line($this->spaceLeft,$y_value + 0.3,$this->maxRight,$y_value + 0.3);
 				$this->pdf->SetFont($this->crsBlockFontName, $this->crsBlockNoBold, $this->crsBlockFontSize);
 				$y_value += $this->crsBlockSpaceTopAdd + 0.3;
-
-				$multi_top = 4;
 			}
-			
-			$base = $value->getBuildingBlock();
-			$max_height = $this->calcMaxRowHeight($base->getTitle(),$base->getContent(), $base->getLearningDestination(), $coloumn_width);
+		
 
 			$this->pdf->WriteText($x_firstColoumn, $y_value, $this->encodeSpecialChars($value->getStartTime()));
 			$this->pdf->WriteText($x_secondColoumn, $y_value, $this->encodeSpecialChars($value->getEndTime()));
@@ -253,23 +251,22 @@ class gevDecentralTrainingCreateSchedulePDF
 			$y_value -= $this->crsBlockSpaceTopAdd - (0.14 + $jumper);
 
 			$this->pdf->setXY($x_thirdColoumn - 0.1, $y_value);
-			$this->pdf->MultiCell($coloumn_width,$this->crsBlockSpaceTopAdd,$this->encodeSpecialChars($base->getTitle()),1,"");
+			$this->pdf->MultiCell($coloumn_width,$this->crsBlockSpaceTopAdd,$this->encodeSpecialChars($base->getTitle()),0,"");
 
 			$this->pdf->setXY($x_fourthColoumn - 0.1, $y_value);
-			$this->pdf->MultiCell($coloumn_width,$this->crsBlockSpaceTopAdd,$this->encodeSpecialChars($base->getContent()),1,"");
+			$this->pdf->MultiCell($coloumn_width,$this->crsBlockSpaceTopAdd,$this->encodeSpecialChars($base->getContent()),0,"");
 
 			$this->pdf->setXY($x_fithColoumn - 0.1, $y_value);
-			$this->pdf->MultiCell($coloumn_width,$this->crsBlockSpaceTopAdd,$this->encodeSpecialChars($base->getLearningDestination()),1,"");
+			$this->pdf->MultiCell($coloumn_width,$this->crsBlockSpaceTopAdd,$this->encodeSpecialChars($base->getLearningDestination()),0,"");
 
 			$this->pdf->setXY($x_sixthColoumn - 0.1, $y_value);
-			$this->pdf->MultiCell($coloumn_width,$this->crsBlockSpaceTopAdd,$this->encodeSpecialChars($value->getPracticeSession()),1,"");
+			$this->pdf->MultiCell($coloumn_width,$this->crsBlockSpaceTopAdd,$this->encodeSpecialChars($value->getPracticeSession()),0,"");
 
 			$this->pdf->setXY($x_seventhColoumn - 0.1, $y_value);
-			$this->pdf->MultiCell($coloumn_width,$this->crsBlockSpaceTopAdd,$this->encodeSpecialChars($value->getCreditPoints()),1,"");
-			
-			$this->pdf->setXY($x_firstColoumn, $y_value + $max_height - ($multi_top*$this->crsBlockSpaceTopAdd));
+			$this->pdf->MultiCell($coloumn_width,$this->crsBlockSpaceTopAdd,$this->encodeSpecialChars($value->getCreditPoints()),0,"");
+
+			$this->pdf->setXY($x_firstColoumn, $this->crsBlockSpaceTopAdd + $y_value + $max_height * $this->crsBlockSpaceTopAdd);
 			$jumper += 0.01;
-			$multi_top -= 2;
 		}
 	}
 
