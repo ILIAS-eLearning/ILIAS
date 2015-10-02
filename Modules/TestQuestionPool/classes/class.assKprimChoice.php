@@ -684,12 +684,12 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 		
 		if( file_exists($answer->getImageFsPath()) )
 		{
-			unlink($answer->getImageFsPath());
+			ilUtil::delDir($answer->getImageFsPath());
 		}
 		
 		if( file_exists($answer->getThumbFsPath()) )
 		{
-			unlink($answer->getThumbFsPath());
+			ilUtil::delDir($answer->getThumbFsPath());
 		}
 
 		$answer->setImageFile(null);
