@@ -339,7 +339,6 @@ class ilInternalLinkGUI
 //echo "<br>link_type:".$this->link_type;
 //echo "<br>cont_obj:".$_SESSION["il_link_cont_obj"];
 //echo "<br>link_mep".$_SESSION["il_link_mep"];
-//echo $this->ctrl->getFormAction($this, "", "", true);
 		$tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "changeLinkType", "", true));
 		$tpl->setVariable("FORMACTION2", $this->ctrl->getFormAction($this));
 		$tpl->setVariable("TXT_HELP_HEADER", $this->lng->txt("cont_link_select"));
@@ -991,7 +990,7 @@ class ilInternalLinkGUI
 		}
 		else
 		{
-			$tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("cont_choose_cont_obj").$a_type);
+			$tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("cont_choose_cont_obj"));
 		}
 		$tpl->setVariable("EXPLORER",$output);
 		$tpl->setVariable("ACTION", $this->ctrl->getFormAction($this, "resetLinkList", "", true));

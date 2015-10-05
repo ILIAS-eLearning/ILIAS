@@ -1859,14 +1859,25 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	{
 		global $ilDB, $ilPluginAdmin;
 
+		$testResults = $this->object->getTestResult($active_id, $pass);
+		$questionIds = array();
+		foreach($testResults as $resultItemKey => $resultItemValue)
+		{
+			if($resultItemKey === 'test' || $resultItemKey === 'pass')
+			{
+				continue;
+			}
+
+			$questionIds[] = $resultItemValue['qid'];
+		}
+
 		$table_gui = $this->buildPassDetailsOverviewTableGUI($this, 'outUserPassDetails');
 		$table_gui->initFilter();
 
 		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionList.php';
-		$questionList = new ilAssQuestionList($ilDB, $this->lng, $ilPluginAdmin, $this->object->getId());
-
-		$questionList->setParentObjectType('tst');
-		$questionList->setQuestionInstanceTypeFilter(ilAssQuestionList::QUESTION_INSTANCE_TYPE_DUPLICATES);
+		$questionList = new ilAssQuestionList($ilDB, $this->lng, $ilPluginAdmin, null);
+		$questionList->setQuestionIdsFilter($questionIds);
+		$questionList->setQuestionInstanceTypeFilter(null);
 
 		foreach ($table_gui->getFilterItems() as $item)
 		{
@@ -1892,7 +1903,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
 		$filteredTestResult = array();
 
-		foreach($this->object->getTestResult($active_id, $pass) as $resultItemKey => $resultItemValue)
+		foreach($testResults as $resultItemKey => $resultItemValue)
 		{
 			if($resultItemKey === 'test' || $resultItemKey === 'pass')
 			{

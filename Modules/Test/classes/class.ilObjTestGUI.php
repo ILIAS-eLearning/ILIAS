@@ -45,6 +45,10 @@ require_once './Modules/Test/classes/class.ilTestExpressPage.php';
  */
 class ilObjTestGUI extends ilObjectGUI
 {
+	private static $infoScreenChildClasses = array(
+		'ilpublicuserprofilegui', 'ilobjportfoliogui'
+	);
+	
 	/** @var ilObjTest $object */
 	public $object = null;
 
@@ -3329,6 +3333,16 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->defaultsObject();
 	}
 	
+	private function isCommandClassAnyInfoScreenChild()
+	{
+		if( in_array($this->ctrl->getCmdClass(), self::$infoScreenChildClasses) )
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
 	/**
 	* this one is called from the info button in the repository
 	* not very nice to set cmdClass/Cmd manually, if everything
@@ -3387,7 +3401,12 @@ class ilObjTestGUI extends ilObjectGUI
 
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
-
+		
+		if( $this->isCommandClassAnyInfoScreenChild() )
+		{
+			return $this->ctrl->forwardCommand($info);
+		}
+		
 		$this->ctrl->setParameter($testPlayerGUI, "sequence", $testSession->getLastSequence());
 		
 		$info->setFormAction($this->ctrl->getFormAction($testPlayerGUI));

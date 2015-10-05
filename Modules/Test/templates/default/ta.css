@@ -331,7 +331,7 @@ table.kprimchoicewizard th
 table.kprimchoicewizard th.true,
 table.kprimchoicewizard th.false
 {
-    padding: 5px 15px;
+    padding: 5px 5px;
 }
 table.kprimchoicewizard td.correctness
 {
@@ -556,6 +556,12 @@ p.ilAssKprimInstruction
     font-style: italic;
     font-size: 0.9em;
     margin:5px 0 15px 0 !important;
+}
+
+table.kprimchoicewizard  th.optionLabel,
+table.ilAssKprimChoiceTable th.optionLabel
+{
+	font-size: 1.1em;
 }
 
 table.imagemapareas tr.active-area, table.imagemapareas tr.active-area td {
