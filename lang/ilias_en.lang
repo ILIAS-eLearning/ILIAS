@@ -12384,7 +12384,7 @@ crs#:#crs_course_status_of_users#:#Passed Status of Users
 crs#:#crs_status_determination#:#Determination
 crs#:#crs_status_determination_manual#:#Independent of Learning Progress
 crs#:#crs_status_determination_lp#:#Through Learning Progress
-crs#:#crs_status_determination_sync#:#Sync passed status with learning progress of all members now
+crs#:#crs_status_determination_sync#:#The course status will be automatically set to 'passed' once a learner completed all activities which determine the learning progress. Progress that was made before the change of settings will be accounted for, manually set 'passed' course status remain unchanged. Do you want to set the course status of all members based on their current learning progress now?
 trac#:#trac_session_statistics_mode_day#:#Day
 trac#:#trac_session_statistics_mode_week#:#Week
 trac#:#trac_session_statistics_mode_month#:#Month
