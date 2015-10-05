@@ -585,3 +585,8 @@ table.imagemapareas tr.active-area, table.imagemapareas tr.active-area td {
 	width: 16px;
 	height: 16px;
 }
+
+div.ilc_Page.readonly img.imagemap
+{
+	cursor: not-allowed;
+}
