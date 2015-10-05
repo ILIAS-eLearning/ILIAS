@@ -991,7 +991,7 @@ class ilInternalLinkGUI
 		}
 		else
 		{
-			$tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("cont_choose_cont_obj").$a_type);
+			$tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("cont_choose_cont_obj"));
 		}
 		$tpl->setVariable("EXPLORER",$output);
 		$tpl->setVariable("ACTION", $this->ctrl->getFormAction($this, "resetLinkList", "", true));
