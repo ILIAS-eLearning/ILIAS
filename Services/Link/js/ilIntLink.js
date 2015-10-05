@@ -67,6 +67,8 @@ il.IntLink =
 	 */
 	initPanel: function(internal_link, id)
 	{
+		// move node to body to prevent form in form, see e.g. #16369
+		$("#ilIntLinkModal").appendTo("body");
 		// new: get link from onclick event
 		if(internal_link != undefined)
 		{
