@@ -159,6 +159,8 @@ class gevOrguSuperiorMailData extends ilMailData {
 
 		$ret = "";
 
+		$has_entries = false;
+
 		foreach ($show_sections as $key => $title) {
 			
 			$section_data = $user_data[$key];
@@ -173,6 +175,7 @@ class gevOrguSuperiorMailData extends ilMailData {
 			$ret .= $tpl->get();
 
 			foreach ($section_data as $entry_data) {
+				$has_entries = true;
 				$tpl = $this->getTemplate();
 				$tpl->setCurrentBlock("entry");
 				$tpl->setVariable("USR_FIRSTNAME", $entry_data["firstname"]);
@@ -196,6 +199,10 @@ class gevOrguSuperiorMailData extends ilMailData {
 				$tpl->parseCurrentBlock();
 				$ret .= $tpl->get();
 			}
+		}
+		
+		if (!$has_entries) {
+			throw new Exception("There is no content in the weakly report for the superior.");
 		}
 
 		return $ret;

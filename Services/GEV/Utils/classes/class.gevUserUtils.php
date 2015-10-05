@@ -2451,14 +2451,15 @@ class gevUserUtils {
 		$booking_status = array("gebucht" => "gebucht"
 						,"kostenfrei_storniert" => "kostenfrei storniert"
 						,"kostenpflichtig_storniert" => "kostenpflichtig storniert"
-						,"auf_warteliste" => "auf Warteliste"
-						,"fehlt_ohne_absage" => "fehlt ohne Absage");
+//						,"auf_warteliste" => "auf Warteliste"
+						,"fehlt_ohne_absage" => "fehlt ohne Absage"
+						);
 
 		$actions = array(); 
  		$actions["gebucht"] = array();
 		$actions["kostenfrei_storniert"] = array();
 		$actions["kostenpflichtig_storniert"] = array();
-		$actions["auf_Warteliste"] = array();
+//		$actions["auf_Warteliste"] = array();
 		$actions["teilgenommen"] = array();
 		$actions["fehlt_ohne_Absage"] = array();
 
@@ -2529,9 +2530,9 @@ class gevUserUtils {
 					case "kostenpflichtig storniert":
 						$actions["kostenpflichtig_storniert"][] = $row_emp;
 						break;
-					case "auf Warteliste":
+/*					case "auf Warteliste":
 						$actions["auf_Warteliste"][] = $row_emp;
-						break;
+						break;*/
 					default:
 						break;
 				}
@@ -2539,21 +2540,6 @@ class gevUserUtils {
  		}
 
 	 	return $actions;
-	}
-
-	public function shouldSendSuperiorWeeklyReport($a_start_ts, $a_end_ts) {
-		$actions = $this->getUserDataForSuperiorWeeklyReport($a_start_ts, $a_end_ts);
-
-		$ret = false;
-
-		foreach ($actions as $key => $value) {
-			if(!empty($value)) {
-				$ret = true;
-				break;
-			}
-		}
-
-		return $ret;
 	}
 
 	public function seeBiproAgent() {

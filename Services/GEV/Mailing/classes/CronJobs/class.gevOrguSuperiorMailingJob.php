@@ -97,28 +97,28 @@ class gevOrguSuperiorMailingJob extends ilCronJob {
 			 WHERE od.title LIKE 'il_orgu_superior_%'
 			 GROUP BY ua.usr_id
 			 HAVING (   last_send < UNIX_TIMESTAMP() - 7 * 24 * 60 * 60
-			         OR last_send IS NULL)
-			 LIMIT ".self::MAILS_PER_RUN;
+			         OR last_send IS NULL)";
 
 		$res = $ilDB->query($sql);
+		$amount_mails = 0;
 
 		while($row = $ilDB->fetchAssoc($res)) {
+			if ($amount_mails >= self::MAILS_PER_RUN) {
+				break;
+			}
+			
 			$superior_id = $row["usr_id"];
 			require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 			$usr_utils = gevUserUtils::getInstance($superior_id);
-
-			if($usr_utils->shouldSendSuperiorWeeklyReport($this->getStartTimestamp(), $this->getEndTimestamp())) {
-				$ilLog->write("gevOrguSuperiorMailingJob::run: no action for superior $superior_id");
-				continue;
-			}
 
 			$ilLog->write("gevOrguSuperiorMailingJob::run: Sending mail to $superior_id");
 
 			try {
 				$mail->send(array($superior_id));
+				$amount_mails++;
 			}
 			catch (Exception $e) {
-				$ilLog->write("gevOrguSuperiorMailingJob::run: error when sending mail report_weekly_actions.".$e->getMessage());
+				$ilLog->write("gevOrguSuperiorMailingJob::run: error when sending mail report_weekly_actions. ".$e->getMessage());
 			}
 			// i'm alive!
 			ilCronManager::ping($this->getId());
