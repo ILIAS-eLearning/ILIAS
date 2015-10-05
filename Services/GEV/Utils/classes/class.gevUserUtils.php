@@ -2491,7 +2491,7 @@ class gevUserUtils {
 			$to_search = array_merge($empl,$sup);
 
 			$sql_emp = "SELECT DISTINCT" 
-					." histc.crs_id, histucs.begin_date, histucs.end_date, histucs.overnights, histucs.booking_status,"
+					." histc.crs_id, histc.begin_date, histc.end_date, histucs.overnights, histucs.booking_status,"
 					." histucs.participation_status, histu.firstname, histu.lastname, histc.title, histc.type,"
 					." IF(crsa_start.night IS NULL, false, true) AS prearrival,"
 					." IF(crsa_end.night IS NULL, false, true) AS postdeparture"
