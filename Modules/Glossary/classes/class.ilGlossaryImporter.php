@@ -106,10 +106,13 @@ class ilGlossaryImporter extends ilXmlImporter
 			{
 				// get all new taxonomys of this object
 				$new_tax_ids = $a_mapping->getMapping("Services/Taxonomy", "tax_usage_of_obj", $old);
-				$tax_ids = explode(":", $new_tax_ids);
-				foreach ($tax_ids as $tid)
+				if($new_tax_ids !== false)
 				{
-					ilObjTaxonomy::saveUsage($tid, $new);
+					$tax_ids = explode(":", $new_tax_ids);
+					foreach ($tax_ids as $tid)
+					{
+						ilObjTaxonomy::saveUsage($tid, $new);
+					}
 				}
 			}
 		}

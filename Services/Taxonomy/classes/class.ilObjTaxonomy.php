@@ -281,13 +281,16 @@ class ilObjTaxonomy extends ilObject2
 	static function saveUsage($a_tax_id, $a_obj_id)
 	{
 		global $ilDB;
-		
-		$ilDB->replace("tax_usage",
-			array("tax_id" => array("integer", $a_tax_id),
-				"obj_id" => array("integer", $a_obj_id)
-				),
-			array()
-			);
+
+		if ($a_tax_id > 0 &&  $a_obj_id > 0)
+		{
+			$ilDB->replace("tax_usage",
+				array("tax_id" => array("integer", $a_tax_id),
+					"obj_id" => array("integer", $a_obj_id)
+					),
+				array()
+				);
+		}
 	}
 	
 	/**
