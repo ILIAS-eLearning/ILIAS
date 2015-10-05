@@ -2498,6 +2498,11 @@ function setGenericAnswerFeedback($generic_answer_feedback = 0)
 		}
 	}
 
+	const SCORE_REPORTING_DISABLED = 0;
+	const SCORE_REPORTING_FINISHED = 1;
+	const SCORE_REPORTING_IMMIDIATLY = 2;
+	const SCORE_REPORTING_DATE = 3;
+
 /**
 * Gets the score reporting of the ilObjTest object
 *

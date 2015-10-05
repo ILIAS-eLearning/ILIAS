@@ -120,14 +120,24 @@ class ilTestPassesSelector
 	
 	private function isReportablePass($lastPass, $pass)
 	{
-		if($pass < $lastPass)
+		switch( $this->testOBJ->getScoreReporting() )
 		{
-			return true;
-		}
-		
-		if( $this->isClosedPass($pass) )
-		{
-			return true;
+			case ilObjTest::SCORE_REPORTING_IMMIDIATLY:
+				
+				return true;
+			
+			case ilObjTest::SCORE_REPORTING_DATE:
+				
+				return $this->isReportingDateReached();
+			
+			case ilObjTest::SCORE_REPORTING_FINISHED:
+
+				if($pass < $lastPass)
+				{
+					return true;
+				}
+
+				return $this->isClosedPass($pass);
 		}
 		
 		return false;
@@ -146,6 +156,22 @@ class ilTestPassesSelector
 		}
 		
 		return false;
+	}
+
+	private function isReportingDateReached()
+	{
+		$reg = '/^(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})$/';
+		$date = $this->testOBJ->getReportingDate();
+		$matches = null;
+		
+		if( !preg_match($reg, $date, $matches) )
+		{
+			return false;
+		}
+		
+		$repTS = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
+		
+		return time() >= $repTS;
 	}
 	
 	private function isProcessingTimeReached($pass)
