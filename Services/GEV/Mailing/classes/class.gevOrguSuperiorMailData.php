@@ -204,9 +204,7 @@ class gevOrguSuperiorMailData extends ilMailData {
 				
 				if ($end_date !== null && $begin_date !== null && $entry_data["type"] !== "Selbstlernkurs") {
 					$date = ilDatePresentation::formatPeriod($begin_date, $end_date);
-					$tpl->setCurrentBlock("date");
-					$tpl->setVariable("CRS_DATE", $date);
-					$tpl->parseCurrentBlock();
+					$tpl->setVariable("CRS_DATE", ", $date");
 				}
 
 				if ((!in_array($entry_data["type"], array("Selbstlernkurs", "Webinar", "Virtuelles Training"))) && $key == "gebucht") {
