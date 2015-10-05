@@ -182,10 +182,33 @@ class gevOrguSuperiorMailData extends ilMailData {
 				$tpl->setVariable("USR_LASTNAME", $entry_data["lastname"]);
 				$tpl->setVariable("CRS_TITLE", $entry_data["title"]);
 				$tpl->setVariable("CRS_TYPE", $entry_data["type"]);
-				$begin_date = new ilDate($entry_data["begin_date"], IL_CAL_DATE);
-				$end_date = new ilDate($entry_data["end_date"], IL_CAL_DATE);
-				$date = ilDatePresentation::formatPeriod($begin_date, $end_date);
-				$tpl->setVariable("CRS_DATE", $date);
+				
+				if ($begin_date != "0000-00-00") {
+					$begin_date = new ilDate($entry_data["begin_date"], IL_CAL_DATE);
+				}
+				else {
+					$begin_date = null;
+				}
+
+				if ($end_date != "0000-00-00") {
+					$end_date = new ilDate($entry_data["end_date"], IL_CAL_DATE);
+				}
+				else {
+					if ($begin_date !== null) {
+						$end_date = $begin_date;
+					}
+					else {
+						$end_date = null;
+					}
+				}
+				
+				if ($end_date !== null && $begin_date !== null && $entry_data["type"] !== "Selbstlernkurs") {
+					$date = ilDatePresentation::formatPeriod($begin_date, $end_date);
+					$tpl->setCurrentBlock("date");
+					$tpl->setVariable("CRS_DATE", $date);
+					$tpl->parseCurrentBlock();
+				}
+
 				if ((!in_array($entry_data["type"], array("Selbstlernkurs", "Webinar", "Virtuelles Training"))) && $key == "gebucht") {
 					$tpl->setCurrentBlock("overnights");
 					$tpl->setVariable("OVERNIGHTS_CAPTION", "Übernachtungen");
