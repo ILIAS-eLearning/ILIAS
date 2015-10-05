@@ -84,7 +84,11 @@ class ilCOPageImporter extends ilXmlImporter
 								$new_page->setLanguage($lstr);
 							}
 							$new_page->setXMLContent($next_xml);
-							$new_page->setActive($page_data["Active"]);
+							$new_page->setActive(true);
+							if (array_key_exists("Active", $page_data))
+							{
+								$new_page->setActive($page_data["Active"]);
+							}
 							$new_page->setActivationStart($page_data["ActivationStart"]);
 							$new_page->setActivationEnd($page_data["ActivationEnd"]);
 							$new_page->setShowActivationInfo($page_data["ShowActivationInfo"]);
