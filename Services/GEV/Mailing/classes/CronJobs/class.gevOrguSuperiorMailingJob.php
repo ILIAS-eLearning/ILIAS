@@ -95,6 +95,7 @@ class gevOrguSuperiorMailingJob extends ilCronJob {
 			  JOIN usr_data ud ON ua.usr_id = ud.usr_id
 			  LEFT JOIN mail_log ml ON ml.recipient_id = ua.usr_id AND ml.obj_id = ".gevOrguSuperiorMails::MAIL_LOG_ID."
 			 WHERE od.title LIKE 'il_orgu_superior_%'
+			   AND ud.active = 1
 			 GROUP BY ua.usr_id
 			 HAVING (   last_send < UNIX_TIMESTAMP() - 7 * 24 * 60 * 60
 			         OR last_send IS NULL)";
