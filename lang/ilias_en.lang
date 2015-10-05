@@ -16036,3 +16036,4 @@ content#:#lm_no_download_files#:#There are currently no files for download avail
 rbac#:#feed_copy#:#User can copy webfeed
 log#:#log_level_off#:#Disabled
 log#:#log_component_root_desc#:#Leg-Level for message which are not assigned to any component.
+administration#:#adm_user_starting_point_ref_id_info#:#Open the object that you would like to use as Personal Starting Point. Please copy the number directly following "ref_id=" in the browser bar into the textinput field. 

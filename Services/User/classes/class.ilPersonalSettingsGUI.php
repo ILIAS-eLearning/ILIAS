@@ -1015,6 +1015,7 @@ class ilPersonalSettingsGUI
 			// starting point: repository object
 			$repobj = new ilRadioOption($lng->txt("adm_user_starting_point_object"), ilUserUtil::START_REPOSITORY_OBJ);
 			$repobj_id = new ilTextInputGUI($lng->txt("adm_user_starting_point_ref_id"), "usr_start_ref_id");
+			$repobj_id->setInfo($lng->txt("adm_user_starting_point_ref_id_info"));
 			$repobj_id->setRequired(true);
 			$repobj_id->setSize(5);
 			if($si->getValue() == ilUserUtil::START_REPOSITORY_OBJ)
