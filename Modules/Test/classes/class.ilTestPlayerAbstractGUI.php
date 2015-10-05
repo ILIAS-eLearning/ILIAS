@@ -1048,11 +1048,15 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	
 	abstract protected function isShowingPostponeStatusReguired($questionId);
 
-	protected function showQuestionViewable(assQuestionGUI $questionGui, $formAction, $isQuestionWorkedThrough)
+	protected function showQuestionViewable(assQuestionGUI $questionGui, $formAction, $isQuestionWorkedThrough, $instantResponse)
 	{
 		$questionNavigationGUI = $this->buildReadOnlyStateQuestionNavigationGUI($questionGui->object->getId());
 		$questionNavigationGUI->setQuestionWorkedThrough($isQuestionWorkedThrough);
 		$questionGui->setNavigationGUI($questionNavigationGUI);
+		
+		$answerFeedbackEnabled = (
+			$instantResponse && $this->object->getSpecificAnswerFeedback()
+		);
 
 		$solutionoutput = $questionGui->getSolutionOutput(
 			$this->testSession->getActiveId(), 	#active_id
@@ -1060,7 +1064,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			false, 								#graphical_output
 			false,								#result_output
 			true, 								#show_question_only
-			false,								#show_feedback
+			$answerFeedbackEnabled,				#show_feedback
 			false, 								#show_correct_solution
 			false, 								#show_manual_scoring
 			true								#show_question_text
@@ -2116,6 +2120,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		{
 			$questionGui = $this->object->createQuestionGUI("", $questionId);
 			$questionGui->setTargetGui($this);
+			$questionGui->setPresentationContext(assQuestionGUI::PRESENTATION_CONTEXT_TEST);
 			$questionGui->object->setObligationsToBeConsidered($this->object->areObligationsEnabled());
 			$questionGui->object->setOutputType(OUTPUT_JAVASCRIPT);
 			$questionGui->object->setShuffler($this->buildQuestionAnswerShuffler($questionId));

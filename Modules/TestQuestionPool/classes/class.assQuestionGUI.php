@@ -64,6 +64,14 @@ abstract class assQuestionGUI
 	 * @var ilTestQuestionNavigationGUI
 	 */
 	private $navigationGUI;
+
+	const PRESENTATION_CONTEXT_TEST = 'pContextTest';
+	const PRESENTATION_CONTEXT_RESULTS = 'pContextResults';
+
+	/**
+	 * @var string
+	 */
+	private $presentationContext = null;
 	
 	/**
 	* assQuestionGUI constructor
@@ -128,6 +136,27 @@ abstract class assQuestionGUI
 	function getType()
 	{
 		return $this->getQuestionType();
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getPresentationContext()
+	{
+		return $this->presentationContext;
+	}
+
+	/**
+	 * @param string $presentationContext
+	 */
+	public function setPresentationContext($presentationContext)
+	{
+		$this->presentationContext = $presentationContext;
+	}
+	
+	public function isTestPresentationContext()
+	{
+		return $this->getPresentationContext() == self::PRESENTATION_CONTEXT_TEST;
 	}
 
 	/**
@@ -1074,6 +1103,11 @@ abstract class assQuestionGUI
 	*/
 	function getAnswerFeedbackOutput($active_id, $pass)
 	{
+		if( $this->isTestPresentationContext() )
+		{
+			return '';
+		}
+		
 		return $this->getGenericFeedbackOutput($active_id, $pass);
 	}
 
