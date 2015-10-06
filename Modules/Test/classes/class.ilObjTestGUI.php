@@ -46,6 +46,10 @@ require_once './Modules/Test/classes/class.ilTestExpressPage.php';
  */
 class ilObjTestGUI extends ilObjectGUI
 {
+	private static $infoScreenChildClasses = array(
+		'ilpublicuserprofilegui', 'ilobjportfoliogui'
+	);
+	
 	/** @var ilObjTest $object */
 	public $object = null;
 
@@ -3056,10 +3060,13 @@ class ilObjTestGUI extends ilObjectGUI
 			ilUtil::sendInfo($this->lng->txt("cannot_edit_test"), true);
 			$this->ctrl->redirect($this, "infoScreen");
 		}
+		
+		$isPdfDeliveryRequest = isset($_GET['pdf']) && $_GET['pdf'];
+		
 		$this->getQuestionsSubTabs();
 		$template = new ilTemplate("tpl.il_as_tst_print_test_confirm.html", TRUE, TRUE, "Modules/Test");
 
-		if(!array_key_exists("pdf", $_GET) || $_GET["pdf"] != 1) // #15243
+		if(!$isPdfDeliveryRequest) // #15243
 		{
 			$this->ctrl->setParameter($this, "pdf", "1");
 			$template->setCurrentBlock("pdf_export");
@@ -3079,11 +3086,17 @@ class ilObjTestGUI extends ilObjectGUI
 		$print_date = mktime(date("H"), date("i"), date("s"), date("m")  , date("d"), date("Y"));
 		$max_points= 0;
 		$counter = 1;
-					
+		
 		foreach ($this->object->questions as $question) 
 		{		
 			$template->setCurrentBlock("question");
 			$question_gui = $this->object->createQuestionGUI("", $question);
+			
+			if( $isPdfDeliveryRequest )
+			{
+				$question_gui->setOutputMode(assQuestionGUI::OUTPUT_MODE_PDF);
+			}
+			
 			$template->setVariable("COUNTER_QUESTION", $counter.".");
 			$template->setVariable("TXT_QUESTION_ID", $this->lng->txt('question_id_short'));
 			$template->setVariable("QUESTION_ID", $question_gui->object->getId());
@@ -3111,7 +3124,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$template->setVariable("TXT_MAXIMUM_POINTS", ilUtil::prepareFormOutput($this->lng->txt("tst_maximum_points")));
 		$template->setVariable("VALUE_MAXIMUM_POINTS", ilUtil::prepareFormOutput($max_points));
 		
-		if (array_key_exists("pdf", $_GET) && ($_GET["pdf"] == 1))
+		if( $isPdfDeliveryRequest )
 		{
 			//$this->object->deliverPDFfromHTML($template->get(), $this->object->getTitle());
 			require_once 'class.ilTestPDFGenerator.php';
@@ -3414,6 +3427,16 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->defaultsObject();
 	}
 	
+	private function isCommandClassAnyInfoScreenChild()
+	{
+		if( in_array($this->ctrl->getCmdClass(), self::$infoScreenChildClasses) )
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
 	/**
 	* this one is called from the info button in the repository
 	* not very nice to set cmdClass/Cmd manually, if everything
@@ -3472,7 +3495,12 @@ class ilObjTestGUI extends ilObjectGUI
 
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
-
+		
+		if( $this->isCommandClassAnyInfoScreenChild() )
+		{
+			return $this->ctrl->forwardCommand($info);
+		}
+		
 		$this->ctrl->setParameter($testPlayerGUI, "sequence", $testSession->getLastSequence());
 		
 		$info->setFormAction($this->ctrl->getFormAction($testPlayerGUI));
@@ -3633,7 +3661,7 @@ class ilObjTestGUI extends ilObjectGUI
 			ilUtil::sendInfo($message);
 		}
 
-		if( $this->areSkillLevelThresholdsMissing() )
+		if( $this->object->isSkillServiceToBeConsidered() && $this->areSkillLevelThresholdsMissing() )
 		{
 			ilUtil::sendFailure($this->getSkillLevelThresholdsMissingInfo());
 		}

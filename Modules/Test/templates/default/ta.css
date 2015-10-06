@@ -338,7 +338,7 @@ table.kprimchoicewizard th
 table.kprimchoicewizard th.true,
 table.kprimchoicewizard th.false
 {
-    padding: 5px 15px;
+    padding: 5px 5px;
 }
 table.kprimchoicewizard td.correctness
 {
@@ -577,6 +577,12 @@ p.ilAssKprimInstruction
     margin:5px 0 15px 0 !important;
 }
 
+table.kprimchoicewizard  th.optionLabel,
+table.ilAssKprimChoiceTable th.optionLabel
+{
+	font-size: 1.1em;
+}
+
 table.imagemapareas tr.active-area, table.imagemapareas tr.active-area td {
 	background-color: #fdfabb !important;
 }
@@ -584,4 +590,13 @@ table.imagemapareas tr.active-area, table.imagemapareas tr.active-area td {
 .ilTstMarkQuestionButton {
 	width: 16px;
 	height: 16px;
+}
+
+div.ilc_Page.readonly img.imagemap,
+div.ilc_Page.readonly div.filesContainer,
+div.ilc_Page.readonly div.filesContainer a,
+div.ilc_Page.readonly div.uploadContainer input
+{
+	pointer-events: all !important;
+	cursor: not-allowed !important;
 }

@@ -1001,6 +1001,7 @@ class ilMediaItem
 				break;
 
 			case "jpg":
+			case "jpeg":
 				$this->map_image = ImageCreateFromJPEG($this->getMapWorkCopyName());
 				break;
 
@@ -1037,6 +1038,7 @@ class ilMediaItem
 				break;
 
 			case "jpg":
+			case "jpeg":
 				ImageJPEG($this->map_image, $this->getMapWorkCopyName());
 				break;
 

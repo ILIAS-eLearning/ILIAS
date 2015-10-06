@@ -538,7 +538,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 
 				case ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW:
 
-					$this->showQuestionViewable($questionGui, $formAction, $isQuestionWorkedThrough);
+					$this->showQuestionViewable($questionGui, $formAction, $isQuestionWorkedThrough, $instantResponse);
 					
 					break;
 

@@ -493,7 +493,7 @@ class ilObjStudyProgramme extends ilContainer {
 				$lp_obj = $self->object_factory->getInstanceByRefId($node_data["child"]);
 
 				// filter out all StudyProgramme instances
-				return ($lp_obj instanceof $this)? null : $lp_obj;
+				return ($lp_obj instanceof $self)? null : $lp_obj;
 			}, $ref_ids);
 
 			$this->lp_children = array_filter($lp_children);
@@ -799,8 +799,8 @@ class ilObjStudyProgramme extends ilContainer {
 		$ass_mod = ilStudyProgrammeAssignment::createFor($this->settings, $a_usr_id, $a_assigning_usr_id);
 		$ass = new ilStudyProgrammeUserAssignment($ass_mod);
 		
-		$this->applyToSubTreeNodes(function($node) use ($ass_mod, $a_assigning_usr_id) {
-			$progress = ilStudyProgrammeProgress::createFor($node->settings, $ass_mod);
+		$this->applyToSubTreeNodes(function(ilObjStudyProgramme $node) use ($ass_mod, $a_assigning_usr_id) {
+			$progress = $node->createProgressForAssignment($ass_mod);
 			if ($node->getStatus() != ilStudyProgramme::STATUS_ACTIVE) {
 				$progress->setStatus(ilStudyProgrammeProgress::STATUS_NOT_RELEVANT)
 						 ->update();
@@ -916,6 +916,16 @@ class ilObjStudyProgramme extends ilContainer {
 	// USER PROGRESS
 	////////////////////////////////////
 	
+	/**
+	 * Create a progress on this programme for the given assignment.
+	 *
+	 * @param	ilStudyProgrammeAssignment
+	 * @return	ilStudyProgrammeProgress
+	 */
+	public function createProgressForAssignment(ilStudyProgrammeAssignment $ass) {
+		return ilStudyProgrammeProgress::createFor($this->settings, $ass);
+	}
+
 	/**
 	 * Get the progresses the user has on this node.
 	 *

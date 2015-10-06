@@ -393,12 +393,9 @@ class ilAssQuestionSkillAssignmentsGUI
 
 		$questionPageHTML = $this->buildQuestionPage($questionGUI);
 
-		require_once 'Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/class.ilAssLacLegendGUI.php';
-		$legend = new ilAssLacLegendGUI($this->lng, $this->tpl);
-		$legend->setQuestionOBJ($questionGUI->object);
-		$legend->setInitialVisibilityEnabled($assignment->hasEvalModeBySolution());
+		$lacLegendHTML = $this->buildLacLegendHTML($questionGUI->object, $assignment);
 
-		$this->tpl->setContent( $this->ctrl->getHTML($form).'<br />'.$questionPageHTML.$this->ctrl->getHTML($legend) );
+		$this->tpl->setContent( $this->ctrl->getHTML($form).'<br />'.$questionPageHTML.$lacLegendHTML );
 	}
 	
 	private function saveSkillQuestionAssignmentPropertiesFormCmd()
@@ -801,5 +798,26 @@ class ilAssQuestionSkillAssignmentsGUI
 	protected function doesObjectTypeMatch($objectId)
 	{
 		return ilObject::_lookupType($objectId) == 'qpl';
+	}
+
+	/**
+	 * @param assQuestionGUI $questionGUI
+	 * @param ilAssQuestionSkillAssignment $assignment
+	 * @return string
+	 * @throws ilCtrlException
+	 */
+	private function buildLacLegendHTML(assQuestion $questionOBJ, ilAssQuestionSkillAssignment $assignment)
+	{
+		if( $questionOBJ instanceof iQuestionCondition )
+		{
+			require_once 'Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/class.ilAssLacLegendGUI.php';
+			$legend = new ilAssLacLegendGUI($this->lng, $this->tpl);
+			$legend->setQuestionOBJ($questionOBJ);
+			$legend->setInitialVisibilityEnabled($assignment->hasEvalModeBySolution());
+			$lacLegendHTML = $this->ctrl->getHTML($legend);
+			return $lacLegendHTML;
+		}
+		
+		return '';
 	}
 }

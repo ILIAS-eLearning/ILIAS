@@ -81,7 +81,7 @@ class ilObjFolderGUI extends ilContainerGUI
 		$cmd = $this->ctrl->getCmd();
 		
 		// show repository tree
-		$this->showRepTree(true);
+		$this->showRepTree();
 
 		switch ($next_class)
 		{			

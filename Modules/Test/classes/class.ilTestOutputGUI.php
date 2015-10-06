@@ -353,7 +353,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 					$this->populateQuestionOptionalMessage();
 				}
 				
-				$this->showQuestionViewable($questionGui, $formAction, $isQuestionWorkedThrough);
+				$this->showQuestionViewable($questionGui, $formAction, $isQuestionWorkedThrough, $instantResponse);
 				
 				break;
 			

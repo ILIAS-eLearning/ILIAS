@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolTaxonomiesDuplicator.php';
+require_once 'Modules/TestQuestionPool/classes/class.ilQuestionPoolTaxonomiesDuplicator.php';
 require_once 'Modules/TestQuestionPool/classes/class.assQuestion.php';
 require_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
 
@@ -126,9 +126,13 @@ class ilTestRandomQuestionSetStagingPoolBuilder
 
 	private function mirrorSourcePoolTaxonomies($sourcePoolId, $questionIdMapping)
 	{
-		$duplicator = new ilTestRandomQuestionSetSourcePoolTaxonomiesDuplicator(
-			$this->testOBJ, $sourcePoolId, $questionIdMapping
-		);
+		$duplicator = new ilQuestionPoolTaxonomiesDuplicator();
+
+		$duplicator->setSourceObjId($sourcePoolId);
+		$duplicator->setSourceObjType('qpl');
+		$duplicator->setTargetObjId($this->testOBJ->getId());
+		$duplicator->setTargetObjType($this->testOBJ->getType());
+		$duplicator->setQuestionIdMapping($questionIdMapping);
 
 		$duplicator->duplicate();
 
@@ -137,10 +141,10 @@ class ilTestRandomQuestionSetStagingPoolBuilder
 
 	/**
 	 * @param ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList
-	 * @param ilTestRandomQuestionSetDuplicatedTaxonomiesKeysMap $taxonomiesKeysMap
+	 * @param ilQuestionPoolDuplicatedTaxonomiesKeysMap $taxonomiesKeysMap
 	 * @param integer $sourcePoolId
 	 */
-	private function applyMappedTaxonomiesKeys(ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList, ilTestRandomQuestionSetDuplicatedTaxonomiesKeysMap $taxonomiesKeysMap, $sourcePoolId)
+	private function applyMappedTaxonomiesKeys(ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList, ilQuestionPoolDuplicatedTaxonomiesKeysMap $taxonomiesKeysMap, $sourcePoolId)
 	{
 		foreach($sourcePoolDefinitionList as $definition)
 		{

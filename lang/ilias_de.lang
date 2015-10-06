@@ -2023,7 +2023,7 @@ certificate#:#certificate_enabled_scorm#:#Aktiviert
 certificate#:#certificate_enabled_scorm_introduction#:#Wenn ausgewählt, wird das Zertifikat für alle Teilnehmer des SCORM-Lernmoduls angeboten, die das Lernmodul durchgearbeitet haben.
 certificate#:#certificate_error_import#:#Während des Zertifikat-Imports ist ein Fehler aufgetreten!
 certificate#:#certificate_error_upload_bgimage#:#Beim Hochladen des Hintergrundbildes ist ein Fehler aufgetreten!
-certificate#:#certificate_export#:#Zertifikat exportieren
+certificate#:#certificate_export#:#Exportieren
 certificate#:#certificate_failed#:#nicht bestanden
 certificate#:#certificate_left#:#Links
 certificate#:#certificate_letter#:#US Brief (11 inch x 8.5 inch)
@@ -2076,7 +2076,7 @@ certificate#:#certificate_ph_title#:#Titel des Teilnehmers oder der Teilnehmerin
 certificate#:#certificate_ph_title_sco#:#Titel
 certificate#:#certificate_ph_zipcode#:#Postleitzahl der Adresse des Teilnehmers oder der Teilnehmerin
 certificate#:#certificate_points_notavailable#:#Dieser Wert kann nicht ermittelt werden
-certificate#:#certificate_preview#:#Vorschau des Zertifikats anzeigen
+certificate#:#certificate_preview#:#Vorschau
 certificate#:#certificate_right#:#Rechts
 certificate#:#certificate_settings#:#Einstellungen für Zertifikate
 certificate#:#certificate_short_name#:#Kurztitel für die Dateibenennung
@@ -6909,7 +6909,7 @@ crs#:#crs_status_determination#:#Bestimmung des Status "Bestanden"
 crs#:#crs_status_determination_lp#:#Aus Lernfortschritt ableiten
 crs#:#crs_status_determination_lp_info#:#Wechselt der Lernfortschritt auf "Bearbeitet", wird der Status "Bestanden" gesetzt. Der Tutor kann den Status manuell überschreiben.
 crs#:#crs_status_determination_manual#:#Nur manuell durch Tutor
-crs#:#crs_status_determination_sync#:#Den Bestanden-Status aller Mitglieder jetzt auf Grundlage des Lernfortschritts festlegen.
+crs#:#crs_status_determination_sync#:#Der Bestanden-Status des Kurses wird automatisch gesetzt, sobald ein Lerner alle Lernfortschritts-relevanten Aktivitäten abgeschlossen hat. Bereits bestehender Fortschritt wird berücksichtigt, manuell gesetzte Bestanden-Status bleiben unverändert. Möchten Sie den Bestanden-Status jetzt auf Basis des jeweiligen aktuellen Lernfortschritts setzen?
 crs#:#crs_structure#:#Kursstruktur
 crs#:#crs_subject_course_group_notification#:#Mail-Zusammenfassung für %s
 crs#:#crs_subscribe_member#:#Ihre Anmeldung für Kurs "%s"
@@ -11170,7 +11170,7 @@ survey#:#apply#:#Übernehmen
 survey#:#arithmetic_mean#:#Arithmetisches Mittel
 survey#:#ask_insert_questionblocks#:#Sind Sie sicher, dass Sie die folgenden Frageblöcke der Umfrage hinzufügen wollen?
 survey#:#ask_insert_questions#:#Sind Sie sicher, dass Sie die folgende(n) Frage(n) der Umfrage hinzufügen wollen?
-survey#:#back#:#<< Zurück
+survey#:#back#:#Zurück
 survey#:#before#:#vor
 survey#:#browse_for_questions#:#Aus Pool hinzufügen
 survey#:#cancel_survey#:#Umfrage unterbrechen
@@ -11184,7 +11184,7 @@ survey#:#cannot_participate_survey#:#Sie haben keine Zugriffsrechte, um an der U
 survey#:#cannot_read_questionpool#:#Sie haben keine ausreichende Berechtigung, um auf den Fragenpool zugreifen zu können!
 survey#:#cannot_read_survey#:#Sie haben keine ausreichende Berechtigung, um auf die Umfragedaten zugreifen zu können!
 survey#:#cannot_save_metaobject#:#Sie besitzen nicht die passenden Zugriffsrechte, um die Metadaten zu speichern!
-survey#:#cannot_switch_to_online_no_questions#:#Der Status kann nicht auf &quot;online (aktiviert)&quot; geändert werden, da die Umfrage noch keine Fragen hinzugefügt wurden!
+survey#:#cannot_switch_to_online_no_questions#:#Der Status kann nicht auf &quot;online (aktiviert)&quot; geändert werden, da der Umfrage noch keine Fragen hinzugefügt wurden!
 survey#:#categories#:#Antworten
 survey#:#category#:#Antwort
 survey#:#category_delete_confirm#:#Sind Sie sicher, dass Sie die folgende(n) Antwort(en) löschen wollen?
@@ -16036,3 +16036,4 @@ content#:#lm_no_download_files#:#Zurzeit stehen keine Download-Dateien zur Verf�
 rbac#:#feed_copy#:#Webfeed kopieren
 log#:#log_level_off#:#Deaktiviert
 log#:#log_component_root_desc#:#Log-Level für Nachrichten, die keiner Komponente zugeordnet sind.
+administration#:#adm_user_starting_point_ref_id_info#:# Öffnen Sie das Objekt, welches Sie als Persönliche Startseite festlegen wollen. Kopieren Sie aus der Browserzeile die Zahl hinter "ref_id=" und tragen Sie diese in das Eingabefeld ein. 

@@ -653,6 +653,8 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 
 		$this->getProcessLocker()->requestUserSolutionUpdateLock();
 
+		$this->updateCurrentSolutionsAuthorization($active_id, $pass, $authorized);
+
 		$entered_values = false;
 		if( $_POST['cmd'][$this->questionActionCmd] == $this->lng->txt('delete') )
 		{

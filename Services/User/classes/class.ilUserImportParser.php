@@ -1276,6 +1276,7 @@ class ilUserImportParser extends ilSaxParser
 							if (! is_null($this->userObj->getCity())) $updateUser->setCity($this->userObj->getCity());
 							if (! is_null($this->userObj->getZipCode())) $updateUser->setZipCode($this->userObj->getZipCode());
 							if (! is_null($this->userObj->getCountry())) $updateUser->setCountry($this->userObj->getCountry());
+							if (! is_null($this->userObj->getSelectedCountry())) $updateUser->setSelectedCountry($this->userObj->getSelectedCountry());
 							if (! is_null($this->userObj->getPhoneOffice())) $updateUser->setPhoneOffice($this->userObj->getPhoneOffice());
 							if (! is_null($this->userObj->getPhoneHome())) $updateUser->setPhoneHome($this->userObj->getPhoneHome());
 							if (! is_null($this->userObj->getPhoneMobile())) $updateUser->setPhoneMobile($this->userObj->getPhoneMobile());
@@ -1496,6 +1497,10 @@ class ilUserImportParser extends ilSaxParser
 
 			case "Country":
 				$this->userObj->setCountry($this->cdata);
+				break;
+
+			case "SelCountry":
+				$this->userObj->setSelectedCountry($this->cdata);
 				break;
 
 			case "PhoneOffice":
@@ -1907,6 +1912,10 @@ class ilUserImportParser extends ilSaxParser
 
 			case "Country":
 				$this->userObj->setCountry($this->cdata);
+				break;
+
+			case "SelCountry":
+				$this->userObj->setSelectedCountry($this->cdata);
 				break;
 
 			case "PhoneOffice":

@@ -1699,7 +1699,7 @@ certificate#:#certificate_enabled_scorm_introduction#:#If checked, the certifica
 certificate#:#certificate_enabled_scorm#:#Enabled
 certificate#:#certificate_error_import#:#An error occurred during the import of a certificate!
 certificate#:#certificate_error_upload_bgimage#:#An error occurred during the upload of the background image!
-certificate#:#certificate_export#:#Export Certificate
+certificate#:#certificate_export#:#Export
 certificate#:#certificate_failed#:#failed
 certificate#:#certificate_left#:#Left
 certificate#:#certificate_letter_landscape#:#Letter Landscape (8.5 inch x 11 inch)
@@ -1738,7 +1738,7 @@ certificate#:#certificate_ph_testtitle#:#Title of the test
 certificate#:#certificate_ph_title#:#Title of the user
 certificate#:#certificate_ph_zipcode#:#ZIP code of the user's address
 certificate#:#certificate_points_notavailable#:#This value cannot be calculated
-certificate#:#certificate_preview#:#Show Certificate Preview
+certificate#:#certificate_preview#:#Preview
 certificate#:#certificate_right#:#Right
 certificate#:#certificate_settings#:#Certificate Settings
 certificate#:#certificate_short_name_description#:#Please enter a short title for the certificate name. The short title will be part of the certificate name: YYMMDD_[surname]_[SHORT_TITLE]_certificate.pdf.
@@ -9418,7 +9418,7 @@ survey#:#apply#:#Apply
 survey#:#arithmetic_mean#:#Arithmetic Mean
 survey#:#ask_insert_questionblocks#:#Are you sure you want to insert the following question block(s) to the survey?
 survey#:#ask_insert_questions#:#Are you sure you want to insert the following question(s) to the survey?
-survey#:#back#:#<< Back
+survey#:#back#:#Back
 survey#:#before#:#before
 survey#:#browse_for_questions#:#Add from Pool
 survey#:#cancel_survey#:#Suspend the Survey
@@ -12384,7 +12384,7 @@ crs#:#crs_course_status_of_users#:#Passed Status of Users
 crs#:#crs_status_determination#:#Determination
 crs#:#crs_status_determination_manual#:#Independent of Learning Progress
 crs#:#crs_status_determination_lp#:#Through Learning Progress
-crs#:#crs_status_determination_sync#:#Sync passed status with learning progress of all members now
+crs#:#crs_status_determination_sync#:#The course status will be automatically set to 'passed' once a learner completed all activities which determine the learning progress. Progress that was made before the change of settings will be accounted for, manually set 'passed' course status remain unchanged. Do you want to set the course status of all members based on their current learning progress now?
 trac#:#trac_session_statistics_mode_day#:#Day
 trac#:#trac_session_statistics_mode_week#:#Week
 trac#:#trac_session_statistics_mode_month#:#Month
@@ -16036,3 +16036,4 @@ content#:#lm_no_download_files#:#There are currently no files for download avail
 rbac#:#feed_copy#:#User can copy webfeed
 log#:#log_level_off#:#Disabled
 log#:#log_component_root_desc#:#Leg-Level for message which are not assigned to any component.
+administration#:#adm_user_starting_point_ref_id_info#:#Open the object that you would like to use as Personal Starting Point. Please copy the number directly following "ref_id=" in the browser bar into the textinput field. 

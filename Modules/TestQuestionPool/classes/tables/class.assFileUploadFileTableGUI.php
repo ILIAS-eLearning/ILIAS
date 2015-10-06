@@ -40,13 +40,20 @@ class assFileUploadFileTableGUI extends ilTable2GUI
 		$this->setPrefix('deletefiles');
 		$this->setSelectAllCheckbox('deletefiles');
 		
-		$this->addCommandButton($a_parent_cmd, $this->lng->txt('delete'));
 		$this->setRowTemplate("tpl.il_as_qpl_fileupload_file_row.html", "Modules/TestQuestionPool");
 		
 		$this->disable('sort');
 		$this->disable('linkbar');
 		$this->enable('header');
 		$this->enable('select_all');
+	}
+	
+	public function init()
+	{
+		if( count($this->getData()) )
+		{
+			$this->addCommandButton($this->parent_cmd, $this->lng->txt('delete'));
+		}
 	}
 	
 	/**

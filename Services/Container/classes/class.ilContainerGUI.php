@@ -2093,8 +2093,16 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		// toolbars
 		$t = new ilToolbarGUI();
 		$t->setFormAction($this->ctrl->getFormAction($this, "performPasteIntoMultipleObjects"));
-		$t->addFormButton($this->lng->txt($txt_var), "performPasteIntoMultipleObjects");
-		$t->addSeparator();
+
+		include_once("./Services/UIComponent/Button/classes/class.ilSubmitButton.php");
+		$b = ilSubmitButton::getInstance();
+		$b->setCaption($txt_var);
+		$b->setCommand("performPasteIntoMultipleObjects");
+
+		//$t->addFormButton($this->lng->txt($txt_var), "performPasteIntoMultipleObjects");
+		$t->addStickyItem($b);
+
+			$t->addSeparator();
 		$t->addFormButton($this->lng->txt("obj_insert_into_clipboard"), "keepObjectsInClipboard");
 		$t->addFormButton($this->lng->txt("cancel"), "cancelMoveLink");
 		$t->setCloseFormTag(false);
@@ -3605,11 +3613,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		
 	/**
 	 * Show tree
-	 *
-	 * @param boolean $a_initial_call should be true if not called through standard
-	 *        $ilCtrl->getCmd() procedure 
 	 */
-	function showRepTree($a_initial_call = false)
+	function showRepTree()
 	{
 		global $tpl, $ilUser, $ilSetting, $ilCtrl;
 		
@@ -3641,8 +3646,9 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$mode = ($_SESSION["il_rep_mode"] != "")
 			? $_SESSION["il_rep_mode"]
 			: "flat";
-			
-		if ($mode == "tree")
+
+		// check for administration context, see #0016312
+		if ($mode == "tree" && (strtolower($_GET["baseClass"]) != "iladministrationgui"))
 		{
 			include_once("./Services/Repository/classes/class.ilRepositoryExplorerGUI.php");
 			$exp = new ilRepositoryExplorerGUI($this, "showRepTree");

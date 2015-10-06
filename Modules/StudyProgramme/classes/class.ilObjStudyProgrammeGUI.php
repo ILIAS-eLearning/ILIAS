@@ -94,6 +94,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 		$this->toolbar = $ilToolbar;
 		$this->ilLog = $ilLog;
 		$this->ilias = $ilias;
+		$this->type = "prg";
 
 		$lng->loadLanguageModule("prg");
 	}
@@ -111,6 +112,9 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 		
 		parent::prepareOutput();
 		
+		// show repository tree
+		$this->showRepTree();
+
 		switch ($next_class) {
 			case "ilinfoscreengui":
 				$this->tabs_gui->setTabActive(self::TAB_INFO);
@@ -220,6 +224,9 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 					case "infoScreen":
 						$this->ctrl->redirectByClass("ilInfoScreenGUI", "showSummary");
 						break;
+					case 'getAsynchItemList':
+						parent::getAsynchItemListObject();
+						break;
 					/*case 'editSettings':
 						$this->tabs_gui->setTabActive("settings");
 						$this->setSubTabsSettings('edit_settings');
@@ -260,9 +267,6 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 						break;
 					case 'disableAdministrationPanel':
 						parent::disableAdministrationPanelObject();
-						break;
-					case 'getAsynchItemList':
-						parent::getAsynchItemListObject();
 						break;
 					case 'editSettings':
 						$this->tabs_gui->setTabActive("settings");
@@ -344,7 +348,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 		// set default sort to manual
 		$settings = new ilContainerSortingSettings($a_new_object->getId());
 		$settings->setSortMode(ilContainer::SORT_MANUAL);
-		$settings->setSortDirection(ilContainer::SORT_DIRECTION_DESC);
+		$settings->setSortDirection(ilContainer::SORT_DIRECTION_ASC);
 		$settings->setSortNewItemsOrder(ilContainer::SORT_NEW_ITEMS_ORDER_CREATION);
 		$settings->setSortNewItemsPosition(ilContainer::SORT_NEW_ITEMS_POSITION_BOTTOM);
 		$settings->save();

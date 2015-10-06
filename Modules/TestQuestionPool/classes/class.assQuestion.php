@@ -4651,6 +4651,24 @@ abstract class assQuestion
 			'solution_id' => array('integer', $solutionId)
 		));
 	}
+	
+	public function updateCurrentSolutionsAuthorization($activeId, $pass, $authorized)
+	{
+		global $ilDB;
+
+		$fieldData = array(
+			'tstamp' => array('integer', time()),
+			'authorized' => array('integer', (int)$authorized)
+		);
+		
+		$whereData = array(
+			'question_fi' => array('integer', $this->getId()),
+			'active_fi' => array('integer', $activeId),
+			'pass' => array('integer', $pass)
+		);
+		
+		return $ilDB->update('tst_solutions', $fieldData, $whereData);
+	}
 
 
 	/**

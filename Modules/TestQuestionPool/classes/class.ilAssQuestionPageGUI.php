@@ -19,6 +19,8 @@ class ilAssQuestionPageGUI extends ilPageObjectGUI
 {
 	const TEMP_PRESENTATION_TITLE_PLACEHOLDER = '___TEMP_PRESENTATION_TITLE_PLACEHOLDER___';
 	
+	private $originalPresentationTitle = '';
+	
 	/**
 	 * Constructor
 	 *
@@ -33,6 +35,16 @@ class ilAssQuestionPageGUI extends ilPageObjectGUI
 		$this->setEnabledPageFocus(false);
 	}
 
+	public function getOriginalPresentationTitle()
+	{
+		return $this->originalPresentationTitle;
+	}
+
+	public function setOriginalPresentationTitle($originalPresentationTitle)
+	{
+		$this->originalPresentationTitle = $originalPresentationTitle;
+	}
+
 	protected function isPageContainerToBeRendered()
 	{
 		return $this->getRenderPageContainer();
@@ -40,19 +52,22 @@ class ilAssQuestionPageGUI extends ilPageObjectGUI
 	
 	public function showPage()
 	{
-		$presentationTitlePossiblyWithHTML = $this->getPresentationTitle();
+		$this->setOriginalPresentationTitle($this->getPresentationTitle());
 		
 		$this->setPresentationTitle(self::TEMP_PRESENTATION_TITLE_PLACEHOLDER);
 		
-		$presentation = parent::showPage();
+		return parent::showPage();
+	}
 
-		$presentation = str_replace(
-			self::TEMP_PRESENTATION_TITLE_PLACEHOLDER, $presentationTitlePossiblyWithHTML, $presentation
+	function postOutputProcessing($output)
+	{
+		$output = str_replace(
+			self::TEMP_PRESENTATION_TITLE_PLACEHOLDER, $this->getOriginalPresentationTitle(), $output
 		);
 
-		$presentation = preg_replace("/src=\"\\.\\//ims", "src=\"" . ILIAS_HTTP_PATH . "/", $presentation);
+		$output = preg_replace("/src=\"\\.\\//ims", "src=\"" . ILIAS_HTTP_PATH . "/", $output);
 		
-		return $presentation;
+		return $output;
 	}
 } 
 
