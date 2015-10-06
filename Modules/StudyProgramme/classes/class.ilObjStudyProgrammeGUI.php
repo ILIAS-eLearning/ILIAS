@@ -630,6 +630,13 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 			}
 		}
 	}
+	
+	// Overwritten from ilObjectGUI:
+	
+	protected function initDidacticTemplate(ilPropertyFormGUI $form) {
+		// No support for didactic templates.
+		return $form;
+	}
 
 	/**
 	 * _goto
