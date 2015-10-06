@@ -113,8 +113,8 @@ class gevDecentralTrainingCourseCreatingBuildingBlock2GUI {
 		$title = new catTitleGUI();
 		$title ->setTitle("gev_dec_training_add_buildingblocks")
 				->setSubtitle("gev_dec_crs_creation_building_block_sub_title")
-				->setImage("GEV_img/ico-head-search.png")
-				->setCommand("gev_dec_mail_preview", "-");
+				->setImage("GEV_img/ico-head-search.png");
+				//->setCommand("gev_dec_mail_preview", "-");
 
 		$legend = new catLegendGUI();
 		$legend->addItem($this->delete_image, "gev_dec_building_block_delete");
@@ -133,7 +133,7 @@ class gevDecentralTrainingCourseCreatingBuildingBlock2GUI {
 		$this->ctrl->setParameterByClass("gevDecentralTrainingCourseCreatingBuildingBlock2GUI","crs_ref_id",$this->crs_ref_id);
 
 		$form_navi = new catPropertyFormGUI();
-
+		$form_navi->addCommandButton("", $this->lng->txt("gev_dec_mail_preview"));
 		if($this->crs_obj_id === null && $this->crs_request_id !== null) {
 			$form_navi->addCommandButton("toSaveRequest", $this->lng->txt("gev_dec_training_save_request"));
 		}

@@ -34,7 +34,12 @@ $(document).ready(function() {
 			onOpen : gevShowMailPreview
 		};
 
-		$('.titleCommand a.submit').colorbox(colboxSettings);
+		$('input.submit').each(function(k,v){
+			var att = $(v).attr("name");
+			if(att == "cmd[]") {
+				$(v).colorbox(colboxSettings);
+			}
+		});
 
 		gevHideMailPreview();
 });
