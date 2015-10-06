@@ -360,6 +360,11 @@ class ilTestServiceGUI
 					$question_gui = $this->object->createQuestionGUI("", $question);
 					if (is_object($question_gui))
 					{
+						if( $this->isPdfDeliveryRequest() )
+						{
+							$question_gui->setOutputMode(assQuestionGUI::OUTPUT_MODE_PDF);
+						}
+						
 						if($anchorNav)
 						{
 							$template->setCurrentBlock('block_id');
@@ -689,6 +694,11 @@ class ilTestServiceGUI
 
 		$test_id = $this->object->getTestId();
 		$question_gui = $this->object->createQuestionGUI("", $question_id);
+
+		if( $this->isPdfDeliveryRequest() )
+		{
+			$question_gui->setOutputMode(assQuestionGUI::OUTPUT_MODE_PDF);
+		}
 
 		$template = new ilTemplate("tpl.il_as_tst_correct_solution_output.html", TRUE, TRUE, "Modules/Test");
 		$show_question_only = ($this->object->getShowSolutionAnswersOnly()) ? TRUE : FALSE;

@@ -72,6 +72,14 @@ abstract class assQuestionGUI
 	 * @var string
 	 */
 	private $presentationContext = null;
+
+	const OUTPUT_MODE_SCREEN = 'outModeScreen';
+	const OUTPUT_MODE_PDF = 'outModePdf';
+	
+	/**
+	 * @var string
+	 */
+	private $outputMode = self::OUTPUT_MODE_SCREEN;
 	
 	/**
 	* assQuestionGUI constructor
@@ -79,7 +87,6 @@ abstract class assQuestionGUI
 	function __construct()
 	{
 		global $lng, $tpl, $ilCtrl;
-
 
 		$this->lng =& $lng;
 		$this->tpl =& $tpl;
@@ -159,6 +166,27 @@ abstract class assQuestionGUI
 		return $this->getPresentationContext() == self::PRESENTATION_CONTEXT_TEST;
 	}
 
+	/**
+	 * @return string
+	 */
+	public function getOutputMode()
+	{
+		return $this->outputMode;
+	}
+
+	/**
+	 * @param string $outputMode
+	 */
+	public function setOutputMode($outputMode)
+	{
+		$this->outputMode = $outputMode;
+	}
+
+	public function isPdfOutputMode()
+	{
+		return $this->getOutputMode() == self::OUTPUT_MODE_PDF;
+	}
+	
 	/**
 	 * @return ilTestQuestionNavigationGUI
 	 */
