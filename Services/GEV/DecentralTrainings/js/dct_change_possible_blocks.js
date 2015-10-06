@@ -18,16 +18,16 @@ $(document).ready(function() {
 		var target_id = $(e.target).attr("id");
 		
 		switch(target_id) {
-			case "topic": changeBuildingBlocks();
-							break;
-			case "blocks": changeBuildingBlockInfos();
+			case "topic":	changeBuildingBlocks();
+						break;
+			case "blocks":	changeBuildingBlockInfos();
 						break;
 			case "duration[start][time]_h":
 			case "duration[start][time]_m":
 			case "duration[end][time]_h":
 			case "duration[end][time]_m":
 							calculateCreditPoints();
-			break;
+						break;
 		}
 	});
 });
@@ -85,14 +85,12 @@ function changeBuildingBlockInfos() {
 		$('#content').val(data["content"]);
 		$('#target').val(data["learning_dest"]);
 		$('#isWP').val(data["wp"]);
-		$('#wp').val(0);
+		calculateCreditPoints();
 	});
 }
 
 function calculateCreditPoints() {
 	var isWP = $('#isWP').val();
-
-	
 
 	var start_h = parseInt($('#duration\\[start\\]\\[time\\]_h option:selected').val());
 	var start_m = parseInt($('#duration\\[start\\]\\[time\\]_m option:selected').val());
@@ -126,6 +124,8 @@ function calculateCreditPoints() {
 
 	if(isWP == "Ja") {
 		$('#wp').val(credit_points);
+	} else {
+		$('#wp').val(0);
 	}
 	
 	$('#ue').val(credit_points);
