@@ -25,4 +25,5 @@
 	<crons>
 		<cron id="webr_link_check" class="ilWebResourceCronLinkCheck" />
 	</crons>
+	<logging />
 </module>
