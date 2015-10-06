@@ -263,8 +263,7 @@ class ilPublicUserProfileGUI
 		}
 		else
 		{
-			$this->renderTitle();
-			
+
 			if(!$is_active)
 			{
 				ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
@@ -279,7 +278,9 @@ class ilPublicUserProfileGUI
 			{
 				ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
 			}
-			
+
+			$this->renderTitle();
+
 			return $this->getEmbeddable(true);	
 		}		
 	}
