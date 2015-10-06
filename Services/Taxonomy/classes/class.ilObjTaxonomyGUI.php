@@ -807,6 +807,7 @@ die("ilObjTaxonomyGUI::getTreeHTML is deprecated.");
 
 		$tpl->clearHeader();
 		$tpl->setTitle(ilObject::_lookupTitle($this->getCurrentTaxonomyId()));
+		$tpl->setDescription(ilObject::_lookupDescription($this->getCurrentTaxonomyId()));
 		$tpl->setTitleIcon(ilUtil::getImagePath("icon_tax.svg"));
 		
 		$ilTabs->setBackTarget($lng->txt("back"),
