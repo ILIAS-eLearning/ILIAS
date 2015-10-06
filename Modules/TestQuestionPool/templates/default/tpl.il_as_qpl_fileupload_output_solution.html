@@ -1,8 +1,14 @@
 <div>{QUESTIONTEXT}</div>
-<div class="ilClearFloat">
+<div class="ilClearFloat assFileUpload">
 <!-- BEGIN files -->
-<div>{FILES}</div>
+<div class="filesContainer">{FILES}</div>
 <!-- END files -->
+<h2>{TXT_UPLOAD_FILE}</h2>
+<div class="uploadContainer"><input type="file" name="upload" disabled readonly /> <input type="submit" class="btn btn-default" name="cmd[{CMD_UPLOAD}]" value="{TEXT_UPLOAD}" disabled readonly /></div>
+<div style="margin-top:3px; margin-left:3px;"><span class="subtitle">{TXT_MAX_SIZE}</span></div>
+<!-- BEGIN allowed_extensions -->
+<div style="margin-top:3px; margin-left:3px;"><span class="subtitle">{TXT_ALLOWED_EXTENSIONS}</span></div>
+<!-- END allowed_extensions -->
 <p>
 <!-- BEGIN icon_ok -->
 				<img src="{ICON_OK}" alt="{TEXT_OK}" title="{TEXT_OK}" />

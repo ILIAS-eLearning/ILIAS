@@ -592,7 +592,11 @@ table.imagemapareas tr.active-area, table.imagemapareas tr.active-area td {
 	height: 16px;
 }
 
-div.ilc_Page.readonly img.imagemap
+div.ilc_Page.readonly img.imagemap,
+div.ilc_Page.readonly div.filesContainer,
+div.ilc_Page.readonly div.filesContainer a,
+div.ilc_Page.readonly div.uploadContainer input
 {
-	cursor: not-allowed;
+	pointer-events: all !important;
+	cursor: not-allowed !important;
 }
