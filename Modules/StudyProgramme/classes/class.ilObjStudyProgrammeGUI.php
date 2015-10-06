@@ -113,7 +113,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 		parent::prepareOutput();
 		
 		// show repository tree
-		$this->showRepTree(true);
+		$this->showRepTree();
 
 		switch ($next_class) {
 			case "ilinfoscreengui":

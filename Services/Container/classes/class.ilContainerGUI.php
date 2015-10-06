@@ -3613,11 +3613,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		
 	/**
 	 * Show tree
-	 *
-	 * @param boolean $a_initial_call should be true if not called through standard
-	 *        $ilCtrl->getCmd() procedure 
 	 */
-	function showRepTree($a_initial_call = false)
+	function showRepTree()
 	{
 		global $tpl, $ilUser, $ilSetting, $ilCtrl;
 		

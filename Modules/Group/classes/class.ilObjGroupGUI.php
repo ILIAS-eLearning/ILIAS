@@ -45,7 +45,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->prepareOutput();
 		
 		// show repository tree
-		$this->showRepTree(true);
+		$this->showRepTree();
 
 		// add entry to navigation history
 		if (!$this->getCreationMode() &&
