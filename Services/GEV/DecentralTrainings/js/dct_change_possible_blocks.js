@@ -7,6 +7,9 @@ $(document).ready(function() {
 		$('#duration\\[start\\]\\[time\\]_m').attr('disabled',true);
 		$('#duration\\[end\\]\\[time\\]_h').attr('disabled',true);
 		$('#duration\\[end\\]\\[time\\]_m').attr('disabled',true);
+		$('#form_dct_ab input:submit').addClass('submit_disabled');
+		$('#form_dct_ab input:submit').removeClass('submit');
+		$('#form_dct_ab input:submit').attr('disabled',true);
 	}
 
 	$('#wp').attr('readonly',true);
@@ -38,6 +41,11 @@ function changeBuildingBlocks() {
 	$('#duration\\[start\\]\\[time\\]_m').attr('disabled',true);
 	$('#duration\\[end\\]\\[time\\]_h').attr('disabled',true);
 	$('#duration\\[end\\]\\[time\\]_m').attr('disabled',true);
+	$('#form_dct_ab input:submit').addClass('submit_disabled');
+	$('#form_dct_ab input:submit').removeClass('submit');
+	$('#form_dct_ab input:submit').attr('disabled',true);
+
+
 
 	var selected = $('#topic option:selected').val();
 	$.getJSON("create_decentral_training_data_json.php","selected="+selected+"&type=0", function(data) {
@@ -68,6 +76,9 @@ function changeBuildingBlockInfos() {
 	$('#duration\\[start\\]\\[time\\]_m').attr('disabled',false);
 	$('#duration\\[end\\]\\[time\\]_h').attr('disabled',false);
 	$('#duration\\[end\\]\\[time\\]_m').attr('disabled',false);
+	$('#form_dct_ab input:submit').attr('disabled',false);
+	$('#form_dct_ab input:submit').removeClass('submit_disabled');
+	$('#form_dct_ab input:submit').addClass('submit');
 
 	var selected = $('#blocks option:selected').val();
 	$.getJSON("create_decentral_training_data_json.php","selected="+selected+"&type=1", function( data ) {

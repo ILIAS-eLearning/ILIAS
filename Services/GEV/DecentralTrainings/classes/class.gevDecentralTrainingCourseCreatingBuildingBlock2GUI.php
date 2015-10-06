@@ -490,6 +490,13 @@ class gevDecentralTrainingCourseCreatingBuildingBlock2GUI {
 	}
 
 	protected function toAddCrsBuildingBlock() {
+		if(!isset($_POST["blocks"])) {
+			ilUtil::sendInfo($this->lng->txt("gev_dec_please_select_building_block"), false);
+			$this->render();
+			return;
+		}
+
+
 		$_POST["duration"]["start"]["time"]["h"] = (strlen($_POST["duration"]["start"]["time"]["h"]) < 2) ? 
 																"0".$_POST["duration"]["start"]["time"]["h"] : 
 																$_POST["duration"]["start"]["time"]["h"];
