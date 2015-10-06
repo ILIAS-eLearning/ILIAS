@@ -9,13 +9,14 @@
 * @version	$Id$
 */
 
-require_once("Services/CaTUIComponents/classes/class.catAccordionTableGUI.php");
+require_once("Services/CaTUIComponents/classes/class.catTableGUI.php");
+require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
 require_once("Services/Utilities/classes/class.ilUtil.php");
 require_once("Services/Calendar/classes/class.ilDatePresentation.php");
 require_once("Services/CaTUIComponents/classes/class.catLegendGUI.php");
 require_once("Services/GEV/Utils/classes/class.gevBuildingBlockUtils.php");
 
-class gevDecentralTrainingCourseBuildingBlockTableGUI extends catAccordionTableGUI {
+class gevDecentralTrainingCourseBuildingBlockTableGUI extends catTableGUI {
 	const MINUTE_STEP_SIZE = 15;
 
 	public function __construct($a_parent_obj,$a_crs_id,$a_crs_request_id=null,$no_changes = false, $a_parent_cmd="", $a_template_context="") {
