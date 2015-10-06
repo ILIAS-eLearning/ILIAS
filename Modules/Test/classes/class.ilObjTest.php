@@ -766,43 +766,13 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 */
 	function deleteTest()
 	{
-		global $tree, $ilDB, $ilPluginAdmin;
+		global $tree, $ilDB, $ilPluginAdmin, $lng;
+
+		require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
+		$participantData = new ilTestParticipantData($ilDB, $lng);
+		$participantData->load($this->getTestId());
+		$this->removeTestResults($participantData);
 		
-		// first of all remove all test editings, because the delete statements used for this
-		// contain a subquery for active ids, that are deleted in the next steps
-		$this->removeAllTestEditings();
-
-		$result = $ilDB->queryF("SELECT active_id FROM tst_active WHERE test_fi = %s",
-			array('integer'),
-			array($this->getTestId())
-		);
-		$active_array = array();
-		while ($row = $ilDB->fetchAssoc($result))
-		{
-			array_push($active_array, $row["active_id"]);
-		}
-
-		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_active WHERE test_fi = %s",
-			array('integer'),
-			array($this->getTestId())
-		);
-
-		if (count($active_array))
-		{
-			foreach ($active_array as $active_id)
-			{
-				$affectedRows = $ilDB->manipulateF("DELETE FROM tst_times WHERE active_fi = %s",
-					array('integer'),
-					array($active_id)
-				);
-
-				$affectedRows = $ilDB->manipulateF("DELETE FROM tst_sequence WHERE active_fi = %s",
-					array('integer'),
-					array($active_id)
-				);
-			}
-		}
-
 		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_mark WHERE test_fi = %s",
 			array('integer'),
 			array($this->getTestId())
@@ -3406,113 +3376,6 @@ function getAnswerFeedbackPoints()
 			$this->logAction($this->lng->txtlng("assessment", "log_question_removed", ilObjAssessmentFolder::_getLogLanguage()), $question_id);
 		}
 		$question->delete($question_id);
-		$this->removeAllTestEditings($question_id);
-		$this->loadQuestions();
-		$this->saveQuestionsToDb();
-	}
-
-/**
-* Removes all references to the question in executed tests in case the question has been changed.
-* If a question was changed it cannot be guaranteed that the content and the meaning of the question
-* is the same as before. So we have to delete all already started or completed tests using that question.
-* Therefore we have to delete all references to that question in tst_solutions and the tst_active
-* entries which were created for the user and test in the tst_solutions entry.
-*/
-	public function removeAllTestEditings($question_id = "")
-	{
-		global $ilDB;
-
-		// remove the question from tst_solutions
-		if ($question_id)
-		{
-			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_solutions WHERE tst_solutions.active_fi IN (SELECT active_id FROM tst_active WHERE test_fi = %s) AND tst_solutions.question_fi = %s",
-				array('integer','integer'),
-				array($this->getTestId(), $question_id)
-			);
-			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_qst_solved WHERE tst_qst_solved.active_fi IN (SELECT active_id FROM tst_active WHERE test_fi = %s) AND tst_qst_solved.question_fi = %s",
-				array('integer','integer'),
-				array($this->getTestId(), $question_id)
-			);
-			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_test_result WHERE tst_test_result.active_fi IN (SELECT active_id FROM tst_active WHERE test_fi = %s) AND tst_test_result.question_fi = %s",
-				array('integer','integer'),
-				array($this->getTestId(), $question_id)
-			);
-			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_pass_result WHERE tst_pass_result.active_fi IN (SELECT active_id FROM tst_active WHERE test_fi = %s)",
-				array('integer'),
-				array($this->getTestId())
-			);
-			
-			require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintTracking.php';
-			ilAssQuestionHintTracking::deleteRequestsByQuestionIds(array($question_id));
-		} 
-		else 
-		{
-			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_solutions WHERE tst_solutions.active_fi IN  (SELECT active_id FROM tst_active WHERE test_fi = %s)",
-				array('integer'),
-				array($this->getTestId())
-			);
-			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_qst_solved WHERE tst_qst_solved.active_fi IN  (SELECT active_id FROM tst_active WHERE test_fi = %s)",
-				array('integer'),
-				array($this->getTestId())
-			);
-			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_test_result WHERE tst_test_result.active_fi IN  (SELECT active_id FROM tst_active WHERE test_fi = %s)",
-				array('integer'),
-				array($this->getTestId())
-			);
-			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_pass_result WHERE tst_pass_result.active_fi IN  (SELECT active_id FROM tst_active WHERE test_fi = %s)",
-				array('integer'),
-				array($this->getTestId())
-			);
-			
-			$query = "SELECT active_id FROM tst_active WHERE test_fi = %s";
-			$res = $ilDB->queryF($query, array('integer'), array($this->getTestId()));
-			$activeIds = array();
-			while( $row = $ilDB->fetchAssoc($res) )
-			{
-				$activeIds[] = $row['active_id'];
-			}
-			
-			require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintTracking.php';
-			ilAssQuestionHintTracking::deleteRequestsByActiveIds($activeIds);
-			
-			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
-			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
-			{
-				$this->logAction($this->lng->txtlng("assessment", "log_user_data_removed", ilObjAssessmentFolder::_getLogLanguage()));
-			}
-		}
-		
-		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_sequence WHERE tst_sequence.active_fi IN  (SELECT active_id FROM tst_active WHERE test_fi = %s)",
-			array('integer'),
-			array($this->getTestId())
-		);
-
-		if ($this->isRandomTest())
-		{
-			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_test_rnd_qst WHERE tst_test_rnd_qst.active_fi IN  (SELECT active_id FROM tst_active WHERE test_fi = %s)",
-				array('integer'),
-				array($this->getTestId())
-			);
-		}
-
-		// remove test_active entries, because test has changed
-		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_active WHERE test_fi = %s",
-			array('integer'),
-			array($this->getTestId())
-		);
-
-		// remove saved user passwords
-		$affectedRows = $ilDB->manipulateF("DELETE FROM usr_pref WHERE keyword = %s",
-			array('text'),
-			array("tst_password_".$this->getTestId())
-		);
-
-		// TODO: this shouldn't be here since it is question stuff and should be modular but there's no other solution yet
-		// remove file uploads
-		if (@is_dir(CLIENT_WEB_DIR . "/assessment/tst_" . $this->getTestId()))
-		{
-			ilUtil::delDir(CLIENT_WEB_DIR . "/assessment/tst_" . $this->getTestId());
-		}
 	}
 	
 	public function removeTestResults(ilTestParticipantData $participantData)
@@ -3568,6 +3431,7 @@ function getAnswerFeedbackPoints()
 		$ilDB->manipulate("DELETE FROM tst_pass_result WHERE $IN_activeIds");
 		$ilDB->manipulate("DELETE FROM tst_result_cache WHERE $IN_activeIds");
 		$ilDB->manipulate("DELETE FROM tst_sequence WHERE $IN_activeIds");
+		$ilDB->manipulate("DELETE FROM tst_times WHERE $IN_activeIds");
 		
 		if( $this->isRandomTest() )
 		{
@@ -3608,75 +3472,6 @@ function getAnswerFeedbackPoints()
 
 		$IN_activeIds = $ilDB->in('active_id', $activeIds, false, 'integer');
 		$ilDB->manipulate("DELETE FROM tst_active WHERE $IN_activeIds");
-	}
-
-	function removeTestResultsForUser($user_id)
-	{
-		global $ilDB;
-
-		$active_id = $this->getActiveIdOfUser($user_id);
-
-		// remove the question from tst_solutions
-		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_solutions WHERE active_fi = %s",
-			array('integer'),
-			array($active_id)
-		);
-		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_qst_solved WHERE active_fi = %s",
-			array('integer'),
-			array($active_id)
-		);
-		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_test_result WHERE active_fi = %s",
-			array('integer'),
-			array($active_id)
-		);
-		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_pass_result WHERE active_fi = %s",
-			array('integer'),
-			array($active_id)
-		);
-
-		if ($this->isRandomTest())
-		{
-			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_test_rnd_qst WHERE active_fi = %s",
-				array('integer'),
-				array($active_id)
-			);
-		}
-
-		include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
-		if (ilObjAssessmentFolder::_enabledAssessmentLogging())
-		{
-			$this->logAction(sprintf($this->lng->txtlng("assessment", "log_selected_user_data_removed", ilObjAssessmentFolder::_getLogLanguage()), $this->userLookupFullName($this->_getUserIdFromActiveId($active_id))));
-		}
-
-		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_sequence WHERE active_fi = %s",
-			array('integer'),
-			array($active_id)
-		);
-
-		// remove test_active entry
-		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_active WHERE active_id = %s",
-			array('integer'),
-			array($active_id)
-		);
-
-		// remove saved user password
-		if ($user_id > 0)
-		{
-			$affectedRows = $ilDB->manipulateF("DELETE FROM usr_pref WHERE usr_id = %s AND keyword = %s",
-				array('integer', 'text'),
-				array($user_id, "tst_password_".$this->getTestId())
-			);
-		}
-
-		// TODO: this shouldn't be here since it is question stuff and should be modular but there's no other solution yet
-		// remove file uploads
-		if (@is_dir(CLIENT_WEB_DIR . "/assessment/tst_" . $this->getTestId() . "/$active_id"))
-		{
-			ilUtil::delDir(CLIENT_WEB_DIR . "/assessment/tst_" . $this->getTestId() . "/$active_id");
-		}
-		
-		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintTracking.php';
-		ilAssQuestionHintTracking::deleteRequestsByActiveIds( array($active_id) );
 	}
 
 /**

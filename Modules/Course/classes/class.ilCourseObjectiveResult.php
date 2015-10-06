@@ -174,7 +174,14 @@ class ilCourseObjectiveResult
 			$tst = $factory->getInstanceByRefId($assignment->getTestRefId(),FALSE);
 			if($tst instanceof ilObjTest)
 			{
-				$tst->removeTestResultsForUser($this->getUserId());
+				global $lng;
+				
+				require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
+				$participantData = new ilTestParticipantData($ilDB, $lng);
+				$participantData->setUserIds(array($this->getUserId()));
+				$participantData->load($tst->getTestId());
+				$tst->removeTestResults($participantData);
+
 			}
 		}
 
