@@ -252,9 +252,9 @@ class gevDecentralTrainingGUI {
 		$form_values["date"] = ($this->date !== null) ? new ilDate($this->date, IL_CAL_DATE)
 															: new ilDate(date("Y-m-d"), IL_CAL_DATE);
 
-		/*if($is_flexible) {
+		if($is_flexible) {
 			$form_values["title"] = "";
-		}*/
+		}
 		
 		$title = new catTitleGUI("gev_dec_training_creation", "gev_dec_training_creation_header_note", "GEV_img/ico-head-create-decentral-training.png");
 		
