@@ -94,6 +94,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 		$this->toolbar = $ilToolbar;
 		$this->ilLog = $ilLog;
 		$this->ilias = $ilias;
+		$this->type = "prg";
 
 		$lng->loadLanguageModule("prg");
 	}
@@ -220,6 +221,9 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 					case "infoScreen":
 						$this->ctrl->redirectByClass("ilInfoScreenGUI", "showSummary");
 						break;
+					case 'getAsynchItemList':
+						parent::getAsynchItemListObject();
+						break;
 					/*case 'editSettings':
 						$this->tabs_gui->setTabActive("settings");
 						$this->setSubTabsSettings('edit_settings');
@@ -260,9 +264,6 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 						break;
 					case 'disableAdministrationPanel':
 						parent::disableAdministrationPanelObject();
-						break;
-					case 'getAsynchItemList':
-						parent::getAsynchItemListObject();
 						break;
 					case 'editSettings':
 						$this->tabs_gui->setTabActive("settings");

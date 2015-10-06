@@ -89,12 +89,12 @@ class ilStudyProgrammeTypeFormGUI extends ilPropertyFormGUI {
             $this->addTranslationInputs($lang_code);
         }
 
-        $this->addCommandButton('cancel', $this->lng->txt('cancel'));
         if ($this->type->getId()) {
             $this->addCommandButton('update', $this->lng->txt('save'));
         } else {
             $this->addCommandButton('create', $this->lng->txt('create'));
         }
+        $this->addCommandButton('cancel', $this->lng->txt('cancel'));
     }
 
     /**
