@@ -3613,11 +3613,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		
 	/**
 	 * Show tree
-	 *
-	 * @param boolean $a_initial_call should be true if not called through standard
-	 *        $ilCtrl->getCmd() procedure 
 	 */
-	function showRepTree($a_initial_call = false)
+	function showRepTree()
 	{
 		global $tpl, $ilUser, $ilSetting, $ilCtrl;
 		
@@ -3649,8 +3646,9 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$mode = ($_SESSION["il_rep_mode"] != "")
 			? $_SESSION["il_rep_mode"]
 			: "flat";
-			
-		if ($mode == "tree")
+
+		// check for administration context, see #0016312
+		if ($mode == "tree" && (strtolower($_GET["baseClass"]) != "iladministrationgui"))
 		{
 			include_once("./Services/Repository/classes/class.ilRepositoryExplorerGUI.php");
 			$exp = new ilRepositoryExplorerGUI($this, "showRepTree");

@@ -112,6 +112,9 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 		
 		parent::prepareOutput();
 		
+		// show repository tree
+		$this->showRepTree();
+
 		switch ($next_class) {
 			case "ilinfoscreengui":
 				$this->tabs_gui->setTabActive(self::TAB_INFO);

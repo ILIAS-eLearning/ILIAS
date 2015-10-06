@@ -1595,7 +1595,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 				{
 				   $item = ilParameterAppender::_append($item);
 				}
-
+				ilLoggerFactory::getLogger('webr')->debug('Redirecting to: '. $item['target']);
 				$this->redirectToLink($this->ref_id, $obj_id, $item["target"]);
 			}
 		}
