@@ -1249,6 +1249,8 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 				);
 			}
 		}
+		
+		ksort($user_result); // this is required when identical scoring for same solutions is disabled
 
 		if ($returndetails)
 		{
