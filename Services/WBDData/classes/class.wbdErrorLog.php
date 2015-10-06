@@ -32,6 +32,7 @@ class wbdErrorLog {
 		),		
 		'USER_DEACTIVATED' => array(
 			'Der Vermittler ist deaktiviert.',
+			'Der Vermittler ist deaktiviert',
 			"' ist deaktiviert",
 
 		),
