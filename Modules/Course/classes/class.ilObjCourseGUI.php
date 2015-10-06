@@ -2208,7 +2208,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		// i know this has timezone issues...
 		$now = @date("Y-m-d");
 		$start_date = $utils->getStartDate();
-		if (!$this->object->getOfflineStatus() && $start_date !== null && $start_date->get(IL_CAL_DATE) > $now) {
+		if (!$this->object->getOfflineStatus() && $start_date !== null && $start_date->get(IL_CAL_DATE) >= $now) {
 			$ilToolbar->addButton( $this->lng->txt("gev_cancellation")
 								 , $this->ctrl->getLinkTarget($this, "confirmTrainingCancellation"));
 		}
