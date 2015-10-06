@@ -4296,7 +4296,7 @@ if($ilDB->tableColumnExists('dct_building_block', 'learning_dest')) {
 if($ilDB->tableColumnExists('dct_crs_building_block', 'credit_points')) {
 
 	$ilDB->modifyTableColumn('dct_crs_building_block','credit_points', array(
-		'type' => 'float',
+		'type' => 'float'
 	));
 }
 ?>
@@ -4307,6 +4307,42 @@ if(!$ilDB->tableColumnExists('dct_crs_building_block', 'practice_session')) {
 
 	$ilDB->addTableColumn('dct_crs_building_block','practice_session', array(
 		'type' => 'float',
+		'notnull' => false
+	));
+}
+?>
+
+<#165>
+<?php
+if($ilDB->tableColumnExists('dct_building_block', 'content')) {
+
+	$ilDB->modifyTableColumn('dct_building_block','content', array(
+		'type' => 'text',
+		'length' => 500,
+		'notnull' => false
+	));
+}
+
+if($ilDB->tableColumnExists('dct_building_block', 'learning_dest')) {
+	$ilDB->modifyTableColumn('dct_building_block','learning_dest', array(
+		'type' => 'text',
+		'length' => 500,
+		'notnull' => false
+	));
+}
+
+if($ilDB->tableColumnExists('dct_building_block', 'dbv_topic')) {
+	$ilDB->modifyTableColumn('dct_building_block','dbv_topic', array(
+		'type' => 'text',
+		'length' => 100,
+		'notnull' => false
+	));
+}
+
+if($ilDB->tableColumnExists('dct_building_block', 'training_categories')) {
+	$ilDB->modifyTableColumn('dct_building_block','training_categories', array(
+		'type' => 'text',
+		'length' => 4000,
 		'notnull' => false
 	));
 }

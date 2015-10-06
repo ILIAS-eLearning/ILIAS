@@ -311,14 +311,12 @@ class gevDecentralTrainingBuildingBlockAdminGUI {
 		$content->setValue($vals["content"]);
 		$content->setRows(3);
 		$content->setCols(48);
-		$content->setRequired(true);
 		$form_gui->addItem($content);
 
 		$learn_dest = new ilTextAreaInputGUI($this->lng->txt("gev_dec_building_block_learn_dest"), "frm_learn_dest");
 		$learn_dest->setValue($vals["learning_dest"]);
 		$learn_dest->setRows(3);
 		$learn_dest->setCols(48);
-		$learn_dest->setRequired(true);
 		$form_gui->addItem($learn_dest);
 
 		/*************************
@@ -330,7 +328,6 @@ class gevDecentralTrainingBuildingBlockAdminGUI {
 
 		$training_cat = $amd_utils->getOptions(gevSettings::CRS_AMD_TOPIC);
 		$cbx_group_training_cat = new ilCheckBoxGroupInputGUI($this->lng->txt("gev_dec_training_training_category"),"frm_training_category");
-		$cbx_group_training_cat->setRequired(true);
 
 		foreach($training_cat as $value => $caption)
 		{
@@ -357,7 +354,6 @@ class gevDecentralTrainingBuildingBlockAdminGUI {
 		$dbv_topic = new ilSelectInputGUI($this->lng->txt("gev_dec_training_dbv_topic"),"frm_dbv_topic");
 		$options = array("" => "-") + $topic_options;
 		$dbv_topic->setOptions($options);
-		$dbv_topic->setRequired(true);
 		if($vals["dbv_topic"]){
 			$dbv_topic->setValue($vals["dbv_topic"]);
 		}
@@ -439,7 +435,10 @@ class gevDecentralTrainingBuildingBlockAdminGUI {
 		$bu_utils->setGDVTopic($form->getInput("frm_gdv_topic"));
 		$bu_utils->setIsWPRelevant(($bu_utils->getGDVTopic() != ""));
 
-		$bu_utils->setTraingCategories($form->getInput("frm_training_category"));
+		$training_category = $form->getInput("frm_training_category");
+		$training_category = ($training_category !== null) ? $training_category : array();
+		$bu_utils->setTraingCategories($training_category);
+		
 		$bu_utils->setTopic($form->getInput("frm_topic"));
 		$bu_utils->setDBVTopic($form->getInput("frm_dbv_topic"));
 		$bu_utils->setMoveToCourse(($form->getInput("frm_move_to_course") == "Ja") ? 1 : 0);
@@ -474,7 +473,10 @@ class gevDecentralTrainingBuildingBlockAdminGUI {
 		$bu_utils->setGDVTopic($form->getInput("frm_gdv_topic"));
 		$bu_utils->setIsWPRelevant(($bu_utils->getGDVTopic() != ""));
 
-		$bu_utils->setTraingCategories($form->getInput("frm_training_category"));
+		$training_category = $form->getInput("frm_training_category");
+		$training_category = ($training_category !== null) ? $training_category : array();
+		$bu_utils->setTraingCategories($training_category);
+
 		$bu_utils->setTopic($form->getInput("frm_topic"));
 		$bu_utils->setDBVTopic($form->getInput("frm_dbv_topic"));
 		$bu_utils->setMoveToCourse(($form->getInput("frm_move_to_course") == "Ja") ? 1 : 0);
