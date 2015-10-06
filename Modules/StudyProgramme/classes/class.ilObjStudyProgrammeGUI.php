@@ -94,6 +94,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 		$this->toolbar = $ilToolbar;
 		$this->ilLog = $ilLog;
 		$this->ilias = $ilias;
+		$this->type = "prg";
 
 		$lng->loadLanguageModule("prg");
 	}
@@ -629,13 +630,6 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 				}
 			}
 		}
-	}
-	
-	// Overwritten from ilObjectGUI:
-	
-	protected function initDidacticTemplate(ilPropertyFormGUI $form) {
-		// No support for didactic templates.
-		return $form;
 	}
 
 	/**
