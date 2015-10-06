@@ -350,7 +350,7 @@ class assFormulaQuestionResult
 				}
 				else
 				{
-					$frac_value = ilMath::_div($exp_val[0], $exp_val[1], $this->getPrecision());
+					$frac_value = ilMath::_div($exp_val[0], $exp_val[1]);
 					$frac_value = ilMath::_round($frac_value, $this->getPrecision());
 					$frac_value = str_replace(',', '.', $frac_value);
 

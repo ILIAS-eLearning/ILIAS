@@ -1262,11 +1262,14 @@ class assFormulaQuestion extends assQuestion
 				$value = assFormulaQuestionResult::convertDecimalToCoprimeFraction($resVal);
 				if(is_array($value))
 				{
-					$frac_helper = $value[1];
-					$value =  $value[0];
+					$user_solution[$result->getResult()]["value"] = $value[0];
+					$user_solution[$result->getResult()]["frac_helper"] = $value[1];
 				}
-				$user_solution[$result->getResult()]["value"] = $value;
-				$user_solution[$result->getResult()]["frac_helper"] = $frac_helper;
+				else
+				{
+					$user_solution[$result->getResult()]["value"] = $value;
+					$user_solution[$result->getResult()]["frac_helper"] = null;
+				}
 			}
 			else
 			{
