@@ -334,6 +334,11 @@ class gevDecentralTrainingCourseCreatingBuildingBlock2GUI {
 		$crs_tbl->setId("list");
 		$crs_tbl->addCommandButton("toUpdateBuildingBlock",$this->lng->txt("gev_dec_training_save_changes"));
 		$crs_tbl->setAdvice("gev_dec_training_break_advice");
+		
+
+		$wp = gevCourseBuildingBlockUtils::wp($this->crs_ref_id,null,$this->crs_request_id);
+		$crs_tbl->setAdiceInfoRight("gev_dec_training_wp_sum",$wp);
+		
 		$crs_tbl->setTopCommands(false);
 		$html = $crs_tbl->getHTML(); 
 

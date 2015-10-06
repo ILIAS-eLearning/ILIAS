@@ -373,6 +373,11 @@ class gevCourseBuildingBlockUtils {
 	}
 
 	static public function wp($a_crs_ref_id, $a_db,$crs_request_id = null) {
+		if($a_db === null) {
+			global $ilDB;
+			$a_db = $ilDB;
+		}
+
 		$sql = "SELECT base.id, base.start_time, base.end_time \n"
 		      ." FROM ".self::TABLE_NAME." base\n"
 		      ." JOIN ".self::TABLE_NAME_JOIN1." join1\n"

@@ -31,6 +31,9 @@ class gevDecentralTrainingCourseBuildingBlockTableGUI extends catTableGUI {
 
 		$this->crs_requerst_id = $a_crs_request_id;
 
+		$this->adviceInfoRightTitle = null;
+		$this->adviceInfoRightValue = null;
+
 		$this->delete_image = '<img src="'.ilUtil::getImagePath("gev_cancel_action.png").'" />';
 		//$this->edit_image = '<img src="'.ilUtil::getImagePath("GEV_img/ico-edit.png").'" />';
 
@@ -145,11 +148,21 @@ class gevDecentralTrainingCourseBuildingBlockTableGUI extends catTableGUI {
 		return $this->advice;
 	}
 
+	public function setAdiceInfoRight($title, $value = "") {
+		$this->adviceInfoRightTitle = $title;
+		$this->adviceInfoRightValue = $value;
+	}
+
 	private function renderAdvice() {
 		$tpl = new ilTemplate("tpl.gev_my_advice.html", true, true, "Services/GEV/Desktop");
 
 		$tpl->setCurrentBlock("advice");
 		$tpl->setVariable("ADVICE", $this->lng->txt($this->getAdvice()));
+		$tpl->parseCurrentBlock();
+
+		$tpl->setCurrentBlock("info_right");
+		$tpl->setVariable("TITLE", $this->lng->txt($this->adviceInfoRightTitle));
+		$tpl->setVariable("VALUE", $this->adviceInfoRightValue);
 		$tpl->parseCurrentBlock();
 
 		return $tpl->get();
@@ -162,7 +175,7 @@ class gevDecentralTrainingCourseBuildingBlockTableGUI extends catTableGUI {
 			$ret .= $this->_title->render()."<br />";
 		}
 
-		if($this->advice) {
+		if($this->advice || $this->adviceInfoRightTitle) {
 			$ret .= $this->renderAdvice()."<br />";
 		}
 
