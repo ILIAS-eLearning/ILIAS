@@ -10,6 +10,8 @@
 */
 
 require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+require_once("Services/Form/classes/class.ilSubEnabledFormPropertyGUI.php");
+require_once("Services/Form/classes/class.ilCheckboxInputGUI.php");
 
 class gevWBDTPServiceRegistrationGUI {
 	public function __construct() {
@@ -117,6 +119,11 @@ class gevWBDTPServiceRegistrationGUI {
 			return $this->noServiceReg();
 		}
 
+		if ($_POST["wbd_acceptance"] != 1) {
+			ilUtil::sendFailure($this->lng->txt("gev_needs_wbd_acceptance"));
+			return $this->noServiceReg();
+		}
+
 		$this->user_utils->setWBDBWVId($_POST["bwv_id"]);
 		$this->user_utils->setWBDTPType(gevUserUtils::WBD_EDU_PROVIDER);
 		$this->user_utils->setWBDRegistrationDone();
@@ -207,6 +214,11 @@ class gevWBDTPServiceRegistrationGUI {
 		$tpl = new ilTemplate("tpl.gev_wbd_tp_service_form_noreg.html", false, false, "Services/GEV/Registration");
 		
 		$tpl->setVariable("ACTION", $this->ctrl->getFormAction($this));
+
+		$chb = new ilCheckboxInputGUI("", "wbd_acceptance");
+		$chb->setOptionTitle($this->lng->txt("evg_wbd"));
+		$chb->setRequired(true);
+		$tpl->setVariable("WBD_ACCEPTANCE_CHECKBOX", $chb->render());
 		
 		$tpl->setVariable("QUESTION", $this->lng->txt("gev_wbd_registration_question_service"));
 		$tpl->setVariable("HAS_BWV_ID", $this->lng->txt("gev_wbd_registration_has_bwv_id"));
