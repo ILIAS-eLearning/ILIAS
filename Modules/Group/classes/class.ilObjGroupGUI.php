@@ -18,6 +18,7 @@ include_once('./Modules/Group/classes/class.ilObjGroup.php');
 * @ilCtrl_Calls ilObjGroupGUI: ilCourseContentGUI, ilColumnGUI, ilContainerPageGUI, ilObjectCopyGUI
 * @ilCtrl_Calls ilObjGroupGUI: ilObjectCustomUserFieldsGUI, ilMemberAgreementGUI, ilExportGUI, ilMemberExportGUI
 * @ilCtrl_Calls ilObjGroupGUI: ilCommonActionDispatcherGUI, ilObjectServiceSettingsGUI, ilSessionOverviewGUI
+* @ilCtrl_Calls ilObjGroupGUI: ilMailMemberSearchGUI
 * 
 *
 * @extends ilObjectGUI
@@ -254,7 +255,26 @@ class ilObjGroupGUI extends ilContainerGUI
 				$overview = new ilSessionOverviewGUI($this->object->getRefId(), $prt);
 				$this->ctrl->forwardCommand($overview);				
 				break;
+			case 'ilmailmembersearchgui':
+				include_once 'Services/Mail/classes/class.ilMail.php';
+				$mail = new ilMail($ilUser->getId());
 
+				if(!($ilAccess->checkAccess('write','',$this->object->getRefId()) ||
+					$this->object->getMailToMembersType() == ilObjGroup::MAIL_ALLOWED_ALL) &&
+					$rbacsystem->checkAccess('internal_mail',$mail->getMailObjectReferenceId()))
+				{
+					$ilErr->raiseError($this->lng->txt("msg_no_perm_read"),$ilErr->MESSAGE);
+				}
+
+				$this->tabs_gui->setTabActive('members');
+				
+				include_once './Services/Contact/classes/class.ilMailMemberSearchGUI.php';
+				include_once './Services/Contact/classes/class.ilMailMemberGroupRoles.php';
+
+				$mail_search = new ilMailMemberSearchGUI($this->object->getRefId(), new ilMailMemberGroupRoles());
+				$mail_search->setObjParticipants(ilCourseParticipants::_getInstanceByObjId($this->object->getId()));
+				$this->ctrl->forwardCommand($mail_search);
+				break;
 			default:
 			
 				// check visible permission
@@ -3193,7 +3213,8 @@ class ilObjGroupGUI extends ilContainerGUI
 			}
 
 			$ilToolbar->addButton($this->lng->txt("mail_members"),
-				$this->ctrl->getLinkTarget($this,'mailMembers'));
+				$this->ctrl->getLinkTargetByClass('ilMailMemberSearchGUI','')
+			);
 		}
 	}
 

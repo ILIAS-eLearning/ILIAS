@@ -12245,3 +12245,7 @@ if(!$ilDB->indexExistsByFields('obj_members',array('usr_id')))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#4774>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

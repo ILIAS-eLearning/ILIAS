@@ -20,6 +20,7 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
 * @ilCtrl_Calls ilObjCourseGUI: ilCourseParticipantsGroupsGUI, ilExportGUI, ilCommonActionDispatcherGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilDidacticTemplateGUI, ilCertificateGUI, ilObjectServiceSettingsGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilContainerStartObjectsGUI, ilContainerStartObjectsPageGUI
+* @ilCtrl_Calls ilObjCourseGUI: ilMailMemberSearchGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilLOPageGUI, ilObjectMetaDataGUI
 *
 * @extends ilContainerGUI
@@ -3496,12 +3497,12 @@ class ilObjCourseGUI extends ilContainerGUI
 		)
 		{
 			$tabs_gui->addTarget("members",
-								 $this->ctrl->getLinkTarget($this, "mailMembersBtn"),
-								 "members",
-								 get_class($this));
+				$this->ctrl->getLinkTarget($this, "mailMembersBtn"),
+				"members",
+				get_class($this));
 			
 		}
-			
+
 
 		// learning progress
 		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
@@ -4635,6 +4636,26 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->ctrl->forwardCommand($result_view);
 				break;
 
+			case 'ilmailmembersearchgui':
+				include_once 'Services/Mail/classes/class.ilMail.php';
+				$mail = new ilMail($ilUser->getId());
+
+				if(!($this->object->getMailToMembersType() == ilCourseConstants::MAIL_ALLOWED_ALL ||
+					$ilAccess->checkAccess('write',"",$this->object->getRefId())) &&
+					$rbacsystem->checkAccess('internal_mail',$mail->getMailObjectReferenceId()))
+				{
+					$ilErr->raiseError($this->lng->txt("msg_no_perm_read"),$ilErr->MESSAGE);
+				}
+				
+				$this->tabs_gui->setTabActive('members');
+
+				include_once './Services/Contact/classes/class.ilMailMemberSearchGUI.php';
+				include_once './Services/Contact/classes/class.ilMailMemberCourseRoles.php';
+				
+				$mail_search = new ilMailMemberSearchGUI($this->object->getRefId(), new ilMailMemberCourseRoles());
+				$mail_search->setObjParticipants(ilCourseParticipants::_getInstanceByObjId($this->object->getId()));
+				$this->ctrl->forwardCommand($mail_search);
+				break;
             default:
 /*                if(!$this->creation_mode)
                 {
@@ -5573,7 +5594,8 @@ class ilObjCourseGUI extends ilContainerGUI
 			}
 
 			$ilToolbar->addButton($this->lng->txt("mail_members"),
-				$this->ctrl->getLinkTarget($this,'mailMembers'));
+				$this->ctrl->getLinkTargetByClass('ilMailMemberSearchGUI','')
+			);
 		}
 	}
 
