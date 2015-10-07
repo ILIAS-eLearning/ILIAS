@@ -3506,6 +3506,7 @@ class ilUtil
 		switch($a_desired_type)
 		{
 			case "jpg":
+			case "jpeg":
 			if ($im_types & IMG_JPG) return "jpg";
 			if ($im_types & IMG_GIF) return "gif";
 			if ($im_types & IMG_PNG) return "png";

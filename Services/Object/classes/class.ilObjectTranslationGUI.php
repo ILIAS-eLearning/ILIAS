@@ -330,6 +330,13 @@ class ilObjectTranslationGUI
 		{
 			$ml = $form->getInput("master_lang");
 			$this->obj_trans->setMasterLanguage($ml);
+			$this->obj_trans->addLanguage($ml,
+				$this->obj->getTitle(),
+				$this->obj->getDescription(),
+				true
+			);
+			$this->obj_trans->setDefaultTitle($this->obj->getTitle());
+			$this->obj_trans->setDefaultDescription($this->obj->getDescription());
 			$this->obj_trans->save();
 		}
 
@@ -393,6 +400,12 @@ class ilObjectTranslationGUI
 	{
 		global $lng, $ilCtrl;
 
+		if (!$this->getTitleDescrOnlyMode())
+		{
+			$this->obj_trans->setMasterLanguage("");
+			$this->obj_trans->setLanguages(array());
+			$this->obj_trans->save();
+		}
 		$this->obj_trans->deactivateContentTranslation();
 		if ($this->getTitleDescrOnlyMode())
 		{

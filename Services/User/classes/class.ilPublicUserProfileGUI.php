@@ -252,13 +252,11 @@ class ilPublicUserProfileGUI
 		}
 		else
 		{
-			$this->renderTitle();
-			
 			if(!$is_active)
 			{
 				return;
-			}				
-			
+			}
+
 			// Check from Database if value
 			// of public_profile = "y" show user infomation
 			$user = new ilObjUser($this->getUserId());
@@ -267,8 +265,10 @@ class ilPublicUserProfileGUI
 				!$this->custom_prefs)
 			{
 				return;
-			}		
-			
+			}
+
+			$this->renderTitle();
+
 			return $this->getEmbeddable(true);	
 		}		
 	}
