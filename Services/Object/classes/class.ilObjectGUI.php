@@ -737,7 +737,6 @@ class ilObjectGUI
 			{
 				$forms = array(self::CFORM_CLONE => $forms[self::CFORM_CLONE]);
 			}
-			
 			$tpl->setContent($this->getCreationFormsHTML($forms));
 		}
 	}
@@ -782,8 +781,19 @@ class ilObjectGUI
 		// no accordion if there is just one form
 		if(sizeof($a_forms) == 1)
 		{
-			$a_forms = array_shift($a_forms);			
-			return $a_forms->getHTML();			
+			$form_type = key($a_forms);
+			$a_forms = array_shift($a_forms);
+
+			// see bug #0016217
+			if(method_exists($this, "getCreationFormTitle"))
+			{
+				$form_title = $this->getCreationFormTitle($form_type);
+				if ($form_title != "")
+				{
+					$a_forms->setTitle($form_title);
+				}
+			}
+			return $a_forms->getHTML();
 		}
 		else
 		{
