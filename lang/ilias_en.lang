@@ -16037,9 +16037,9 @@ rbac#:#feed_copy#:#User can copy webfeed
 log#:#log_level_off#:#Disabled
 log#:#log_component_root_desc#:#Leg-Level for message which are not assigned to any component.
 administration#:#adm_user_starting_point_ref_id_info#:#Open the object that you would like to use as Personal Starting Point. Please copy the number directly following "ref_id=" in the browser bar into the textinput field.
- mail#:#mail_crs_roles#:#Send Mail to Course Roles
- mail#:#mail_grp_roles#:#Send Mail to Group Roles
- mail#:#send_mail_members#:#All Members
- mail#:#send_mail_tutors#:#All Tutors
- mail#:#send_mail_admins#:#All Administrators
- mail#:#mail_sel_users#:#Send Mail to Selected Users
+mail#:#mail_crs_roles#:#Send Mail to Course Roles
+mail#:#mail_grp_roles#:#Send Mail to Group Roles
+mail#:#send_mail_members#:#All Members
+mail#:#send_mail_tutors#:#All Tutors
+mail#:#send_mail_admins#:#All Administrators
+mail#:#mail_sel_users#:#Send Mail to Selected Users
