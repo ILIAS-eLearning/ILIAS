@@ -41,6 +41,9 @@
 		$vc_link = $crs_utils->getVirtualClassLink();
 		$vc_link_http = ($vc_link) ? $crs_utils->getVirtualClassLinkWithHTTP() : null;
 
+		$venue_title = $crs_utils->getVenueTitle();
+		$venue_title = ($venue_title) ? $venue_title : $crs_utils->getVenueFreeText();
+
 		$data_base = array("TRAININGSTYP" 					=> $crs_utils->getType()
 							,"TRAININGSTITEL" 				=> $crs_utils->getTitle()
 							,"ID" 							=> $crs_utils->getCustomId()
@@ -49,7 +52,7 @@
 							,"INHALT" 						=> $crs_utils->getContents()
 							,"ZIELE UND NUTZEN" 			=> $crs_utils->getGoals()
 							,"WP" 							=> $crs_utils->getCreditPoints()
-							,"VO-NAME" 						=> $crs_utils->getVenueTitle()
+							,"VO-NAME" 						=> $venue_title
 							,"VO-STRAßE" 					=> $crs_utils->getVenueStreet()
 							,"VO-HAUSNUMMER" 				=> $crs_utils->getVenueHouseNumber()
 							,"VO-PLZ" 						=> $crs_utils->getVenueZipcode()
@@ -173,6 +176,9 @@
 
 		$targetGroup = implode(",",unserialize($request->settings()->targetGroup()));
 
+		$venue_title = "";
+		$venue_id = $request->settings()->venueObjId();
+
 		$data_base = array("TRAININGSTYP" 					=> $crs_utils->getType()
 							,"TRAININGSTITEL" 				=> $request->settings()->title()
 							,"ID" 							=> $crs_utils->getCustomId()
@@ -181,7 +187,7 @@
 							,"INHALT" 						=> gevCourseBuildingBlockUtils::content(null, $ilDB, $crs_request_id)
 							,"ZIELE UND NUTZEN" 			=> gevCourseBuildingBlockUtils::targetAndBenefits(null, $ilDB, $crs_request_id)
 							,"WP" 							=> gevCourseBuildingBlockUtils::wp(null, $ilDB, $crs_request_id)
-							,"VO-NAME" 						=> $crs_utils->getVenueTitle()
+							,"VO-NAME" 						=> ""
 							,"VO-STRAßE" 					=> $crs_utils->getVenueStreet()
 							,"VO-HAUSNUMMER" 				=> $crs_utils->getVenueHouseNumber()
 							,"VO-PLZ" 						=> $crs_utils->getVenueZipcode()
@@ -251,8 +257,11 @@
 		}
 
 		$venue = $request->settings()->venueObjId();
+
 		if($venue) {
 			addVenueData($data_base, $venue);
+		} else {
+			$data_base["VO-NAME"] = $request->settings()->venueText();
 		}
 
 		if($data_base["ZIELGRUPPEN"] !== null && is_array($data_base["ZIELGRUPPEN"])) {
@@ -265,10 +274,6 @@
 
 		if($data_base["ZIELE UND NUTZEN"] !== null) {
 			$data_base["ZIELE UND NUTZEN"] = implode(", ", $data_base["ZIELE UND NUTZEN"]);
-		}
-
-		if(isset($_GET["venue_id"])) {
-			addVenueData($data_base,gevObjectUtils::getObjId($_GET["venue_id"]));
 		}
 
 		if($data_base["MEDIA"] !== null) {
