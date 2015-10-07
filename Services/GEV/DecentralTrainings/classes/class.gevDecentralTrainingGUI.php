@@ -306,7 +306,6 @@ class gevDecentralTrainingGUI {
 		if($is_flexible) {
 			$form->addCommandButton("addBuildingBlock", $this->lng->txt("gev_dec_training_add_buildingblocks"));
 			$form->addCommandButton("", $this->lng->txt("gev_dec_mail_preview"));
-			$title->setCommand("gev_dec_mail_preview", "-");
 		} else {
 			$form->addCommandButton("finalizeTrainingCreation", $this->lng->txt("gev_dec_training_creation"));
 		}
@@ -1082,7 +1081,6 @@ class gevDecentralTrainingGUI {
 		$form = new catPropertyFormGUI();
 		$form->setTemplate("tpl.gev_dec_training_choose_template_form.html", "Services/GEV/Desktop");
 		$form->setTitle($this->lng->txt("gev_dec_training_settings"));
-		//$form->setCommand("gev_dec_mail_preview", "-");
 		
 		$crs_utils = gevCourseUtils::getInstance(intval($a_form_values["utils_id"]));
 
