@@ -2334,7 +2334,9 @@ class gevCourseUtils {
 			$email = $user_utils->getEmail();
 			$user_id = $name." (".$email.")";
 		}
-
+		
+		$venue_title = $this->getVenueTitle();
+		$venue_title = ($venue_title != "") ? $venue_title : $this->getVenueFreeText();
 
 		$arr = array("Titel" => $this->getTitle()
 					, "Untertitel" => $this->getSubtitle()
@@ -2342,7 +2344,7 @@ class gevCourseUtils {
 					, "Datum" => ($start_date !== null && $end_date !== null)
 								 ? ilDatePresentation::formatPeriod($this->getStartDate(), $this->getEndDate())
 								 : ""
-					, "Veranstaltungsort" => $this->getVenueTitle()
+					, "Veranstaltungsort" => $venue_title
 					, "Bildungspunkte" => $this->getCreditPoints()
 					, "Trainer" => 	($trainerList !== null)
 					 				? implode(", ", $trainerList)
