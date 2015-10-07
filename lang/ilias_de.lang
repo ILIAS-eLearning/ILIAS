@@ -16042,4 +16042,4 @@ mail#:#mail_grp_roles#:#Verschicke Mail an Gruppen-Rollen
 mail#:#send_mail_members#:#Alle Mitglieder
 mail#:#send_mail_tutors#:#Alle Tutoren
 mail#:#send_mail_admins#:#Alle Administratoren
-mail#:#mail_sel_users#:#Verschicke Mail an ausgewählte Benutzers Sie als Persönliche Startseite festlegen wollen. Kopieren Sie aus der Browserzeile die Zahl hinter "ref_id=" und tragen Sie diese in das Eingabefeld ein. 
+mail#:#mail_sel_users#:#Verschicke Mail an ausgewählte Benutzers Sie als Persönliche Startseite festlegen wollen.
