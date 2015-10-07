@@ -347,7 +347,7 @@ class gevDecentralTrainingGUI {
 
 		if($form_tpl_id == $presence_flexible_tpl_id || $form_tpl_id == $webinar_flexible_tpl_id) {
 			$a_form->addCommandButton("addBuildingBlock", $this->lng->txt("gev_dec_training_add_buildingblocks"));
-			$form->addCommandButton("", $this->lng->txt("gev_dec_mail_preview"));
+			$a_form->addCommandButton("", $this->lng->txt("gev_dec_mail_preview"));
 		} else {
 			$a_form->addCommandButton("finalizeTrainingCreation", $this->lng->txt("gev_dec_training_creation"));
 		}
