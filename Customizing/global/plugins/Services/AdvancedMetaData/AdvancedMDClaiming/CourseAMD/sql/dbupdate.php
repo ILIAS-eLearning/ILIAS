@@ -747,3 +747,27 @@ $amdutils->updatePositionOrderAMDField($gev_settings);
 	$amdutils->updateOptionsOfAMDField(gevSettings::CRS_AMD_WEBEX_VC_CLASS_TYPE, $options);
 
 ?>
+
+<#21>
+<?php
+
+require_once("Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php");
+require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
+require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+
+$records = 
+array( "Highlight"
+		=> array(null,
+				array( "Highlight" =>
+						array( gevSettings::CRS_AMD_HIGHLIGHT
+							 , null
+							 , false
+							 , array("Ja")
+							 , ilAdvancedMDFieldDefinition::TYPE_MULTI_SELECT
+							 )
+				)
+			)
+	);
+
+gevAMDUtils::createAMDRecords($records, array("crs"));
+?>

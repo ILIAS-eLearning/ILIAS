@@ -120,6 +120,9 @@ class gevSettings {
 	// Organisationseinheit TEP
 	const CRS_AMD_TEP_ORGU			= "crs_amd_tep_orgu";
 
+	//Highlight
+	const CRS_AMD_HIGHLIGHT			="crs_amd_highlight";
+
 	
 	// Typen von Organisationseinheiten
 	const ORG_TYPE_VENUE			= "org_unit_type_venue";

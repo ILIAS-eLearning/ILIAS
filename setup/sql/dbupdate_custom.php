@@ -3464,14 +3464,14 @@ ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "User", "udfc", "GEVUserData"
 						."   AND oref.deleted IS NULL"
 						."   AND od.type = 'orgu'"
 						);
-/*
+
 	if ($rec = $ilDB->fetchAssoc($res)) {
 		gevOrgUnitUtils::grantPermissionsRecursivelyFor($rec["ref_id"], "superior",
 					array( "view_learning_progress_rec"));
 	}
 	else {
 		die("Custom Update #109: Expected to find org_unit with import_id = 'gev_base'");
-	}*/
+	}
 
 ?>
 
@@ -4061,4 +4061,11 @@ if(!$ilDB->tableColumnExists('hist_usercoursestatus', 'gev_id')) {
 			"length" => 100,
 			"notnull" => false
 	));
+?>
+
+<#148>
+<?php
+require_once "Customizing/class.ilCustomInstaller.php";
+	ilCustomInstaller::initPluginEnv();
+	ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "AdvancedMetaData", "amdc", "CourseAMD");
 ?>
