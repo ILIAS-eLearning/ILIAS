@@ -1152,7 +1152,6 @@ assessment#:#tst_password_form#:#Adja meg a tesztjelszót
 assessment#:#tst_password#:#Tesztjelszó
 assessment#:#tst_percent_solved#:#Elért százalék
 assessment#:#tst_position#:#%s / %s kérdés
-assessment#:#tst_postpone_description#:#A résztvevők elhalaszthatják kérdéseket a teszt végére.
 assessment#:#tst_postpone_on#:#Meg nem válaszolt kérdések elhalasztása teszt végére
 assessment#:#tst_postpone_on_desc#:#A meg nem válaszolt kérdések a teszt végén újra megjelennek.
 assessment#:#tst_postpone_off#:#Meg nem válaszolt kérdések változatlanul hagyása
@@ -16026,3 +16025,24 @@ rbac#:#prgs_edit_permission#:#A felhasználó módosíthatja a Rendszerbeállít
 user#:#feedhash#:#Hírcsatorna-hash
 wsp#:#wsp_shared_filter_reset_button#:#Keresés feltételek törlése
 wsp#:#wsp_shared_filter_button#:#Keresés
+assessment#:#skip_question#:#Do not Answer and Next###08 10 2015 new variable
+assessment#:#tst_instant_feedback_handling_force#:#Do not freeze answers but force feedback###08 10 2015 new variable
+assessment#:#tst_instant_feedback_handling_force_desc#:#tst_instant_feedback_handling_force_desc###08 10 2015 new variable
+assessment#:#tst_postpone#:#Postpone Questions###08 10 2015 new variable
+wiki#:#wiki_page_title_too_long#:#Sorry, the title of the wiki page is too long. Please replace it with a shorter title.###08 10 2015 new variable
+exc#:#exc_direct_submit#:#Submit###08 10 2015 new variable
+export#:#no_file#:#No file###08 10 2015 new variable
+content#:#lm_no_download_files#:#There are currently no files for download available.###08 10 2015 new variable
+rbac#:#feed_copy#:#User can copy webfeed###08 10 2015 new variable
+log#:#log_level_off#:#Disabled###08 10 2015 new variable
+log#:#log_component_root_desc#:#Leg-Level for message which are not assigned to any component.###08 10 2015 new variable
+administration#:#adm_user_starting_point_ref_id_info#:#Open the object that you would like to use as Personal Starting Point. Please copy the number directly following "ref_id=" in the browser bar into the textinput field.###08 10 2015 new variable
+mail#:#mail_crs_roles#:#Send Mail to Course Roles###08 10 2015 new variable
+mail#:#mail_grp_roles#:#Send Mail to Group Roles###08 10 2015 new variable
+mail#:#send_mail_members#:#All Members###08 10 2015 new variable
+mail#:#send_mail_tutors#:#All Tutors###08 10 2015 new variable
+mail#:#send_mail_admins#:#All Administrators###08 10 2015 new variable
+mail#:#mail_sel_users#:#Send Mail to Selected Users###08 10 2015 new variable
+awrn#:#awrn_max_inactivity#:#Maximum Inactivity Period###08 10 2015 new variable
+awrn#:#awrn_max_inactivity_info#:#After this period users are considered being offline. If nothing is set, the session time will be used.###08 10 2015 new variable
+awrn#:#awrn_minutes#:#min###08 10 2015 new variable

@@ -16014,7 +16014,6 @@ forum#:#forums_threads_deleted#:#Die gewählten Themen einschließlich aller daz
 meta#:#meta_advmd_select_options#:#Einträge
 trac#:#trac_lp_settings_info_parent_legend#:#Der Lernfortschrittsstatus des Objekts wird durch "%s" beeinflusst.
 search#:#btn_search#:#Suchen
-exc#:#exc_members_already_assigned#:#Die ausgewählten Benutzer sind bereits Mitglieder anderer Teams dieser Übungseinheit.
 prg#:#prg_prg_type#:#Studienprogrammtyp
 rbac#:#prg_visible#:#Studienprogramm ist sichtbar
 rbac#:#prg_copy#:#Benutzer kann das Studienprogramm kopieren
@@ -16046,3 +16045,4 @@ mail#:#mail_sel_users#:#Verschicke Mail an ausgewählte Benutzer
 awrn#:#awrn_max_inactivity#:#Max. Inaktivität
 awrn#:#awrn_max_inactivity_info#:#Benutzer ohne Aktion in der angegebenen Zeitspanne werden als "offline" geführt. Wird kein Wert angegeben, so gilt die Gültigkeit der Session.
 awrn#:#awrn_minutes#:#min
+exc#:#exc_members_already_assigned_tean#:#These users are already assigned to other teams of this assignment.###08 10 2015 new variable

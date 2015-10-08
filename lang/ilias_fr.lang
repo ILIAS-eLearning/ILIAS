@@ -8542,8 +8542,6 @@ forum#:#add_re_to_subject_info#:#Si cela est activé, 'Re: ' est ajouté au titr
 forum#:#ascending_order#:#Les derniers sujets en bas
 forum#:#close_topics#:#Fermer
 forum#:#cont_captcha_code#:#Code
-forum#:#deactivate_current_and_childs#:#Désactiver tous les messages
-forum#:#deactivate_post_txt#:#Êtes-vous certain de vouloir désactiver ce message et toutes ses réponses ?
 forum#:#descending_order#:#Les derniers sujets en haut
 forum#:#empty_subject#:#Lors de la réponse, l'utilisateur doit entrer un nouveau titre
 forum#:#enter_new_subject#:#Rédiger un nouveau sujet
@@ -16002,3 +16000,49 @@ prg#:#prg_copy#:#User can copy study programme###30 08 2015 new variable
 prg#:#prg_write#:#User can edit study programme settings and manage content.###30 08 2015 new variable
 prg#:#prg_delete#:#User can delete the programme.###30 08 2015 new variable
 prg#:#prg_edit_permission#:#User can change permission settings.###30 08 2015 new variable
+assessment#:#grading_obligations_listlabel#:#Compulsory Questions###08 10 2015 new variable
+assessment#:#grading_obligations_answered_listentry#:#Answered###08 10 2015 new variable
+assessment#:#grading_obligations_missing_listentry#:#Open###08 10 2015 new variable
+assessment#:#tst_pass_finished_on#:#Test pass finished on###08 10 2015 new variable
+assessment#:#passed_status#:#Passed Status###08 10 2015 new variable
+assessment#:#skip_question#:#Do not Answer and Next###08 10 2015 new variable
+assessment#:#tst_instant_feedback_handling_force#:#Do not freeze answers but force feedback###08 10 2015 new variable
+assessment#:#tst_instant_feedback_handling_force_desc#:#tst_instant_feedback_handling_force_desc###08 10 2015 new variable
+dcl#:#dcl_locked_tooltip#:#Disable this field for users to edit. Does not include roles with the permission 'Edit Settings'###08 10 2015 new variable
+forum#:#forums_thread_deleted#:#The selected thread including all postings have been deleted.###08 10 2015 new variable
+forum#:#forums_threads_deleted#:#The selected threads including all postings have been deleted.###08 10 2015 new variable
+meta#:#meta_advmd_select_options#:#Entries###08 10 2015 new variable
+trac#:#trac_lp_settings_info_parent_legend#:#The learning progress status of this object is influenced by "%s".###08 10 2015 new variable
+search#:#btn_search#:#Search###08 10 2015 new variable
+exc#:#exc_members_already_assigned_tean#:#These users are already assigned to other teams of this assignment.###08 10 2015 new variable
+prg#:#prg_prg_type#:#Study Programme Type###08 10 2015 new variable
+rbac#:#prg_visible#:#Study Programme is visible###08 10 2015 new variable
+rbac#:#prg_copy#:#User can copy Study Programme###08 10 2015 new variable
+rbac#:#prg_write#:#User can edit settings of Study Programme###08 10 2015 new variable
+rbac#:#prg_delete#:#User can delete Study Programme###08 10 2015 new variable
+rbac#:#prg_edit_permission#:#User can change permission settings###08 10 2015 new variable
+rbac#:#rbac_create_prg#:#Create Study Programme###08 10 2015 new variable
+rbac#:#prgs_visible#:#Study Programme administration is visible###08 10 2015 new variable
+rbac#:#prgs_read#:#User has read access to Study Programme administration###08 10 2015 new variable
+rbac#:#prgs_write#:#Edit settings in Study Programme administration###08 10 2015 new variable
+rbac#:#prgs_edit_permission#:#Change permission settings in Study Programme administration###08 10 2015 new variable
+user#:#feedhash#:#Newsfeedhash###08 10 2015 new variable
+wsp#:#wsp_shared_filter_reset_button#:#Reset Search###08 10 2015 new variable
+wsp#:#wsp_shared_filter_button#:#Search###08 10 2015 new variable
+wiki#:#wiki_page_title_too_long#:#Sorry, the title of the wiki page is too long. Please replace it with a shorter title.###08 10 2015 new variable
+exc#:#exc_direct_submit#:#Submit###08 10 2015 new variable
+export#:#no_file#:#No file###08 10 2015 new variable
+content#:#lm_no_download_files#:#There are currently no files for download available.###08 10 2015 new variable
+rbac#:#feed_copy#:#User can copy webfeed###08 10 2015 new variable
+log#:#log_level_off#:#Disabled###08 10 2015 new variable
+log#:#log_component_root_desc#:#Leg-Level for message which are not assigned to any component.###08 10 2015 new variable
+administration#:#adm_user_starting_point_ref_id_info#:#Open the object that you would like to use as Personal Starting Point. Please copy the number directly following "ref_id=" in the browser bar into the textinput field.###08 10 2015 new variable
+mail#:#mail_crs_roles#:#Send Mail to Course Roles###08 10 2015 new variable
+mail#:#mail_grp_roles#:#Send Mail to Group Roles###08 10 2015 new variable
+mail#:#send_mail_members#:#All Members###08 10 2015 new variable
+mail#:#send_mail_tutors#:#All Tutors###08 10 2015 new variable
+mail#:#send_mail_admins#:#All Administrators###08 10 2015 new variable
+mail#:#mail_sel_users#:#Send Mail to Selected Users###08 10 2015 new variable
+awrn#:#awrn_max_inactivity#:#Maximum Inactivity Period###08 10 2015 new variable
+awrn#:#awrn_max_inactivity_info#:#After this period users are considered being offline. If nothing is set, the session time will be used.###08 10 2015 new variable
+awrn#:#awrn_minutes#:#min###08 10 2015 new variable
