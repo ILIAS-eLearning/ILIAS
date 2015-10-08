@@ -16037,8 +16037,8 @@ rbac#:#feed_copy#:#Webfeed kopieren
 log#:#log_level_off#:#Deaktiviert
 log#:#log_component_root_desc#:#Log-Level für Nachrichten, die keiner Komponente zugeordnet sind.
 administration#:#adm_user_starting_point_ref_id_info#:# Öffnen Sie das Objekt, welches Sie als Persönliche Startseite festlegen wollen. Kopieren Sie aus der Browserzeile die Zahl hinter "ref_id=" und tragen Sie diese in das Eingabefeld ein.
-mail#:#mail_crs_roles#:#Verschicke Mail an Kurs-Rollen
-mail#:#mail_grp_roles#:#Verschicke Mail an Gruppen-Rollen
+mail#:#mail_crs_roles#:#Verschicke Mail an folgende Rollen des Kurses
+mail#:#mail_grp_roles#:#Verschicke Mail an folgende Rollen der Gruppe
 mail#:#send_mail_members#:#Alle Mitglieder
 mail#:#send_mail_tutors#:#Alle Tutoren
 mail#:#send_mail_admins#:#Alle Administratoren
