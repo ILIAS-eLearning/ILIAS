@@ -130,7 +130,8 @@ class ilStudyProgrammeAppEventListener {
 	
 	private function adjustProgrammeLPMode($a_ref_id) {
 		$obj = self::getStudyProgramme($a_ref_id);
-		if ($obj->getStatus() == ilStudyProgramme::STATUS_DRAFT) {
+		if (   $obj->getStatus() == ilStudyProgramme::STATUS_DRAFT
+			|| $obj->getLPMode() == ilStudyProgramme::MODE_UNDEFINED) {
 			$obj->adjustLPMode();
 		}
 	}
