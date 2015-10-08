@@ -100,7 +100,8 @@ class ilStyleImportParser extends ilSaxParser
 					"class" => $this->current_class,
 					"parameter" => $a_attribs["Name"],
 					"type" => $this->current_type,
-					"value" => $a_attribs["Value"]);
+					"value" => $a_attribs["Value"],
+					"custom" => $a_attribs["Custom"]);
 				break;
 				
 			case "StyleColor":
