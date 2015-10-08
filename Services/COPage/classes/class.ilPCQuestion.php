@@ -328,7 +328,7 @@ class ilPCQuestion extends ilPageContent
 		{
 			$js_files[] = "./Modules/Scorm2004/scripts/questions/pure.js";
 			$js_files[] = "./Modules/Scorm2004/scripts/questions/question_handling.js";
-			$js_files[] = "Modules/TestQuestionPool/js/ilMatchingQuestion.js";
+//			$js_files[] = "Modules/TestQuestionPool/js/ilMatchingQuestion.js";
 		}
 
 		if (!$this->getPage()->getPageConfig()->getEnableSelfAssessmentScorm() && $a_mode != IL_PAGE_PREVIEW
