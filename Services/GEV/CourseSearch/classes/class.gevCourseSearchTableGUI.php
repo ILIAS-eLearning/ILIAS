@@ -17,8 +17,8 @@ require_once("Services/Calendar/classes/class.ilDatePresentation.php");
 require_once("Services/CourseBooking/classes/class.ilCourseBooking.php");
 require_once("Services/CourseBooking/classes/class.ilCourseBookingHelper.php");
 require_once("Services/CaTUIComponents/classes/class.catLegendGUI.php");
-require_once("Services/GEV/Desktop/classes/class.gevCourseSearch.php");
-require_once("Services/GEV/Desktop/classes/class.gevCourseSearchTabGUI.php");
+require_once("Services/GEV/CourseSearch/classes/class.gevCourseSearch.php");
+require_once("Services/GEV/CourseSearch/classes/class.gevCourseSearchTabGUI.php");
 
 class gevCourseSearchTableGUI extends catAccordionTableGUI {
 	public function __construct($a_search_options, $a_user_id, $a_parent_obj, $a_active_tab, $a_parent_cmd="", $a_template_context="") {
@@ -48,7 +48,7 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 		$this->determineOffsetAndOrder();
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, "view"));
 
-		$this->setRowTemplate("tpl.gev_course_search_row.html", "Services/GEV/Desktop");
+		$this->setRowTemplate("tpl.gev_course_search_row.html", "Services/GEV/CourseSearch");
 
 		//$this->addColumn("", "expand", "20px");
 		$this->addColumn("", "expand", "0px", false, "catTableExpandButton");

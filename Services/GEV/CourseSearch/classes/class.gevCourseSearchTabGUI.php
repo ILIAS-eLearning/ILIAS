@@ -9,7 +9,7 @@
 * @version	$Id$
 */
 
-require_once("Services/GEV/Desktop/classes/class.gevCourseSearch.php");
+require_once("Services/GEV/CourseSearch/classes/class.gevCourseSearch.php");
 class gevCourseSearchTabGUI {
 	
 
@@ -25,7 +25,7 @@ class gevCourseSearchTabGUI {
 
 		$this->tabs = $this->crs_srch->getPossibleTabs();
 
-		$this->tpl = new ilTemplate("tpl.gev_crs_search_tab.html", true, true, "Services/GEV/Desktop");
+		$this->tpl = new ilTemplate("tpl.gev_crs_search_tab.html", true, true, "Services/GEV/CourseSearch");
 		
 		$this->course_counting = $this->crs_srch->getCourseCounting($a_search_options);
 	}

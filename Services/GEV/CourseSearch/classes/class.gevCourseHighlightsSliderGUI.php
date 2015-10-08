@@ -34,7 +34,7 @@ class gevCourseHighlightsSliderGUI extends catSliderGUI {
 		
 		$this->user_utils = gevUserUtils::getInstance($this->user_id);
 		
-		$this->setTemplate("tpl.gev_course_highlights_slider.html", "Services/GEV/Desktop");
+		$this->setTemplate("tpl.gev_course_highlights_slider.html", "Services/GEV/CourseSearch");
 		$this->setSliderId("CourseHighlightsSlider");
 		$this->highlight_ids = $this->user_utils->getCourseHighlights();
 	}
@@ -70,7 +70,7 @@ class gevCourseHighlightsSliderGUI extends catSliderGUI {
 		$ret = "";
 		
 		foreach ($crs_data as $crs) {
-			$tpl = new ilTemplate("tpl.gev_course_highlight_slide.html", false, false, "Services/GEV/Desktop");
+			$tpl = new ilTemplate("tpl.gev_course_highlight_slide.html", false, false, "Services/GEV/CourseSearch");
 			$tpl->setVariable("CREDIT_POINT", $crs["credit_points"]);
 			$tpl->setVariable("TYPE", $crs["type"]);
 

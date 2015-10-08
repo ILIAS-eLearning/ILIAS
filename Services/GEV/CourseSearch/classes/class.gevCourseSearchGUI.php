@@ -9,13 +9,13 @@
 * @version	$Id$
 */
 
-require_once("Services/GEV/Desktop/classes/class.gevCourseHighlightsGUI.php");
+require_once("Services/GEV/CourseSearch/classes/class.gevCourseHighlightsGUI.php");
 require_once("Services/CaTUIComponents/classes/class.catHSpacerGUI.php");
 require_once("Services/GEV/Desktop/classes/class.gevUserSelectorGUI.php");
 //require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 require_once("Services/CaTUIComponents/classes/class.catLegendGUI.php");
-require_once("Services/GEV/Desktop/classes/class.gevCourseSearchTableGUI.php");
-require_once("Services/GEV/Desktop/classes/class.gevCourseSearch.php");
+require_once("Services/GEV/CourseSearch/classes/class.gevCourseSearchTableGUI.php");
+require_once("Services/GEV/CourseSearch/classes/class.gevCourseSearch.php");
 
 class gevCourseSearchGUI {
 	public function __construct($a_target_user_id = null) {
