@@ -16043,3 +16043,6 @@ mail#:#send_mail_members#:#All Members
 mail#:#send_mail_tutors#:#All Tutors
 mail#:#send_mail_admins#:#All Administrators
 mail#:#mail_sel_users#:#Send Mail to Selected Users
+awrn#:#awrn_max_inactivity#:#Maximum Inactivity Period
+awrn#:#awrn_max_inactivity_info#:#After this period users are considered being offline. If nothing is set, the session time will be used.
+awrn#:#awrn_minutes#:#min

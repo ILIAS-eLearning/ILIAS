@@ -16043,3 +16043,6 @@ mail#:#send_mail_members#:#Alle Mitglieder
 mail#:#send_mail_tutors#:#Alle Tutoren
 mail#:#send_mail_admins#:#Alle Administratoren
 mail#:#mail_sel_users#:#Verschicke Mail an ausgewählte Benutzer
+awrn#:#awrn_max_inactivity#:#Max. Inaktivität
+awrn#:#awrn_max_inactivity_info#:#Benutzer ohne Aktion in der angegebenen Zeitspanne werden als "offline" geführt. Wird kein Wert angegeben, so gilt die Gültigkeit der Session.
+awrn#:#awrn_minutes#:#min
