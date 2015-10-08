@@ -1,7 +1,7 @@
 /* Copyright (c) 1998-2015 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file ...
-* @author 4.4.x 2015-08-06 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
+* @author 4.4.x 2015-10-10 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
 * @author 4.2.2	Berecz Antónia <berecz@gdf.hu>
 * @module		language file Hungarian
 * @modulegroup	language
@@ -3296,7 +3296,7 @@ common#:#msg_obj_exists_in_folder#:#A(z) %s objektum már benne van a(z) %s mapp
 common#:#msg_obj_exists#:#Ez az objektum már létezik ebben a mappában
 common#:#msg_obj_may_not_contain_objects_of_type#:#A(z) %s objektum nem tartalmazhat ilyen típusú objektumokat: %s.
 common#:#msg_obj_modified#:#Módosítások mentése sikerült.
-common#:#msg_obj_no_link#:#linkelése nem engedélyezett
+common#:#msg_obj_no_link#:#Technika okok miatt tároló objektumok (kategória, kurzus, csoport, illetve mappa) linkelése nem lehetséges. Linkelni tudja az abban lévő objektumokat vagy használjon kategória-, illetve kurzuslink objektumot.
 common#:#msg_obj_not_deletable_sold#:#A fizetést már aktiválták az alábbi objektumokhoz. Az objektumok nem törölhetők.
 common#:#msg_paste_object_not_in_itself#:#Nem lehet beilleszteni a(z) %s objektumot saját magába.
 common#:#msg_perm_adopted_from_itself#:#Nem alkalmazhat jogosultsági beállításokat magából a jelenlegi szerepből/szerepmintából.
@@ -14398,11 +14398,11 @@ sysc#:#sysc_task_tree_missing_reference#:#Hiányzó objektumhivatkozások
 sysc#:#sysc_task_tree_missing_reference_desc#:#Hiányzó objektumhivatkozások keresése és javítása a Taneszköztároló-fában.
 sysc#:#sysc_task_structure#:#Fastruktúra
 sysc#:#sysc_task_structure_desc#:#Taneszköztároló-fa szerkezetének elemzése és javítása.
-common#:#il_orgu_superior#:#Superior###12 09 2015 new variable
-common#:#il_orgu_employee#:#Employee###12 09 2015 new variable
-common#:#view_learning_progress#:#View Learning Progress###12 09 2015 new variable
-common#:#view_learning_progress_rec#:#View Learning Progress of Unit incl. Subunits###12 09 2015 new variable
-rbac#:#orgu_copy#:#Copy Organisational Unit###12 09 2015 new variable
-rbac#:#orgu_view_learning_progress_rec#:#View Learning Progress of Unit incl. Subunits###12 09 2015 new variable
-user#:#feedhash#:#Newsfeedhash###08 10 2015 new variable
-export#:#no_file#:#No file###08 10 2015 new variable
+common#:#il_orgu_superior#:#Felettes
+common#:#il_orgu_employee#:#Alkalmazott
+common#:#view_learning_progress#:#Tanulási haladás megjelenítése
+common#:#view_learning_progress_rec#:#Egység és alegységei Tanulási haladásának megjelenítése
+rbac#:#orgu_copy#:#Szervezeti egység másolása
+rbac#:#orgu_view_learning_progress_rec#:#Egység és alegységei Tanulási haladásának megjelenítése
+user#:#feedhash#:#Hírcsatorna-hash
+export#:#no_file#:#Nincs fájl
