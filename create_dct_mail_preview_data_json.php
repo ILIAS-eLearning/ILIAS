@@ -174,7 +174,7 @@
 		$end_time = split(" ",$request->settings()->end()->get(IL_CAL_DATETIME))[1];
 		$end_time = substr($end_time,0,5);
 
-		$targetGroup = implode(",",unserialize($request->settings()->targetGroup()));
+		$targetGroup = implode(",",$request->settings()->targetGroup());
 
 		$venue_title = "";
 		$venue_id = $request->settings()->venueObjId();

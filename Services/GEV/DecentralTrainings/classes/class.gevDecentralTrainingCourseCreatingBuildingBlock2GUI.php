@@ -303,6 +303,8 @@ class gevDecentralTrainingCourseCreatingBuildingBlock2GUI {
 		$time->setEndText($this->lng->txt("until"));
 		$time->setDisabled($this->no_changes);
 		$time->setMinuteStepSize(self::MINUTE_STEP_SIZE);
+		$time->setStart($this->getCrsStartDate());
+		//$time->setEnd($start_date);
 		$form_add_building_block->getTemplate()->setVariable("TIME",$time->render());
 		$form_add_building_block->getTemplate()->setVariable("TIME_LABEL",$this->lng->txt("gev_duration"));
 
@@ -941,5 +943,22 @@ class gevDecentralTrainingCourseCreatingBuildingBlock2GUI {
 		
 		$this->ctrl->redirectByClass(array("ilTEPGUI"));
 		return;
+	}
+
+	public function getCrsStartDate() {
+		if($this->crs_obj_id !== null) {
+			$crs_start_date = $this->crs_utils->getStartDate();
+			$crs_start_time = $this->crs_utils->getFormattedStartTime()."00";
+
+			$start_date = new ilDateTime($crs_start_date->get(IL_CAL_DATE)." ".$crs_start_time, IL_CAL_DATETIME);
+		}
+
+		if($this->crs_ref_id === null && $this->crs_request_id !== null) {
+			$req_db = new gevDecentralTrainingCreationRequestDB();
+			$request = $req_db->request($this->crs_request_id);
+			$start_date = $request->settings()->start();
+		}
+
+		return $start_date;
 	}
 }

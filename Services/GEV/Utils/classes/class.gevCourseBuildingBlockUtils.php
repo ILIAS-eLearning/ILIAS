@@ -321,6 +321,8 @@ class gevCourseBuildingBlockUtils {
 			$sql .= " AND base.move_to_course = 1\n";
 		}
 
+		$sql .= " ORDER BY join1.start_time";
+
 		$res = $a_db->query($sql);
 		$learn_dest = array();
 		while($row = $a_db->fetchAssoc($res)) {
@@ -354,6 +356,8 @@ class gevCourseBuildingBlockUtils {
 			$sql .= " WHERE join1.crs_request_id = ".$a_db->quote($crs_request_id,"integer")."\n";
 			$sql .= " AND base.move_to_course = 1\n";
 		}
+
+		$sql .= " ORDER BY join1.start_time";
 
 		$res = $a_db->query($sql);
 		$content = array();
