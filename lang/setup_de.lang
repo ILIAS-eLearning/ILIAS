@@ -147,7 +147,7 @@ error_recipient#:#Empfänger von Fehlermeldungen
 example#:#Beispiel
 feedback_recipient#:#Empfänger von Feedbacknachrichten
 file_does_not_exist#:#Datei existiert nicht.
-file_version#:#file version
+file_version#:#Dateiversion
 fill_both_fields#:#Bitte beide Felder ausfüllen!
 fill_out_required_fields#:#Bitte füllen Sie alle benötigten Felder aus
 filled_out#:#korrekt ausgefüllt
@@ -248,7 +248,7 @@ lang_nl#:#Niederländisch
 lang_no#:#Norwegisch
 lang_none_installed#:#Keine Sprache installiert
 lang_not_installed_default#:#Die als Standard ausgewählte Sprache ist nicht installiert!
-lang_fa#:#Persischn (Farsi)
+lang_fa#:#Persisch (Farsi)
 lang_pl#:#Polnisch
 lang_pt#:#Portugiesisch
 lang_ro#:#Romänisch
@@ -552,7 +552,7 @@ proxy_status#:#Proxy
 proxy_status_info#:#Um einen Proxy in ILIAS zu verwenden (z.B. für Webfeeds und die Überprüfung von Weblinks) aktivieren Sie bitte dieses Häkchen.
 proxy_disabled#:#Proxy deaktiviert
 proxy_activated_configurated#:#Proxy aktiviert 
-info_text_proxy#:#Proxy Einstellungen
+info_text_proxy#:#Proxy-Einstellungen
 setup_process_step_proxy#:#Proxy
 step_proxy#:#Proxy
 db_innodb#:#MySQL (InnoDB)client_cloned#:#All files and settings of the source are copied into the client.###02 09 2012 new variable
@@ -567,7 +567,7 @@ clone_selectsource#:#Source###02 09 2012 new variable
 clone_areyousure#:#Are you sure?###02 09 2012 new variable
 cloneit#:#Start###02 09 2012 new variable
 info_text_clone#:#This function will overwrite the currently selected client with a copy of another.<p><i>Note that you can only populate clients that are disabled. Also, they cannot have 'master' in the name.<br>Currently, only MySQL is supported.</i><p><b>Warning! This cannot be undone! The client will be overwritten with the contents of the source you will select here!</b>###02 09 2012 new variable
-populate#:#Populate###02 09 2012 new variable
+populate#:#Populate
 show_update_steps#:#Show Update Step###02 09 2012 new variable
 client_cloned#:#All files and settings of the source are copied into the client.###04 09 2012 new variable
 ghostscript_path_comment_win#:#Optional um Vorschaubilder von PDFs zu erzeugen, z.B. 'C:/tools/Ghostscript/gswin32c.exe'.
@@ -577,7 +577,7 @@ db_master#:#Master
 db_slave#:#Slave
 mysql_replication_info_alpha#:#ILIAS MySQL Replication support has currently an experimental status. The code is non-stable. Data may be corrupted.###11 10 2013 new variable
 db_slave_settings#:#Einstellung Slave
-db_active#:#Activ
+db_active#:#Aktiv
 db_set_password#:#Passwort setzen
 tree_implementation#:#Tree Implementation
 tree_implementation_ns#:#Nested-Sets
@@ -591,8 +591,8 @@ setup_process_step_passwd#:#Passwörter
 info_text_passwd#:#Passwort-Einstellungen
 passwd_encoder_md5#:#md5
 passwd_encoder_bcrypt#:#bcrypt
-passwd_default_encoder#:#Kodierer
-passwd_default_encoder_info#:#Wählen Sie hier den Standard-Kodierer für die Speicherung von Passwörtern des ILIAS-Mandanten.
+passwd_default_encoder#:#Hashfunktion
+passwd_default_encoder_info#:#Wählen Sie hier kryptologische Hashfunktion, die bei der Speicherung von Passwörtern des ILIAS-Mandanten verwendet wird.
 passwd_encoder_bcrypt_client_salt#:#Mandantenweiter Salt
 passwd_encoder_client_bcrypt_salt_info#:#Für die Hashfunktion bcrypt wird ein globaler Salt vorausgesetzt. Dieser wird von ILIAS automatisch generiert und in oben genannter Datei hinterlegt, sobald Sie bcrypt <span style="font-weight:bold">zum ersten Mal auswählen</span>. Dieser Salt wird Teil der Kordierung sein, sobald ein Benutzerpasswort gespeichert wird. Daher empfehlen wir Ihnen, sich diesen Salt an einem geheimen Ort zusätzlich zu notieren. Vor jedem Speichern eines Passworts wird zudem noch ein invididueller Salt für das Passwort generiert. <span style="color:red">Achtung: Sobald der mandantenweite Salt einmal generiert wurde, darf dieser nicht mehr geändert werden. Gleiches gilt für Salts, die in der Datenbank gespeichert wurden. Ansonsten werden sich Benutzer nicht mehr anmelden können!</span>
 passwd_encoder_client_bcrypt_salt_info_php537#:#<span style="color:red;font-weight:bold">Die von Ihnen eingesetzte PHP Version %s weist bzgl. bcrypt Sicherheitslücken auf (<a href="http://php.net/security/crypt_blowfish.php" target="_blank">http://php.net/security/crypt_blowfish.php</a>). Wir empfehlen Ihnen daher ein Upgrade auf PHP 5.3.7+.</span>
