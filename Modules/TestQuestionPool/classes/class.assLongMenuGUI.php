@@ -153,6 +153,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 				$long_menu_text->addButton("latex");
 				$long_menu_text->addButton("pastelatex");
 				$long_menu_text->setRTESupport($this->object->getId(), "qpl", "assessment");
+				$long_menu_text->setUseRte(TRUE);
 			}
 		}
 		else
@@ -160,8 +161,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 			$long_menu_text->setRteTags(self::getSelfAssessmentTags());
 			$long_menu_text->setUseTagsForRteOnly(false);
 		}
-		$long_menu_text->setUseRte(TRUE);
-		$long_menu_text->setRTESupport($this->object->getId(), "qpl", "assessment");
+
 		$long_menu_text->setValue($this->object->prepareTextareaOutput($this->object->getLongMenuTextValue()));
 		$form->addItem($long_menu_text);
 		

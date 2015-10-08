@@ -417,7 +417,6 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 		}
 		else
 		{
-			$cloze_text->setUseRte(TRUE);
 			$cloze_text->setRteTags(self::getSelfAssessmentTags());
 			$cloze_text->setUseTagsForRteOnly(false);
 		}

@@ -26,6 +26,7 @@ class ilObjAwarenessAdministrationGUI extends ilObjectGUI
 		parent::ilObjectGUI($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 
 		$this->lng->loadLanguageModule("awrn");
+		$this->lng->loadLanguageModule("pd");
 	}
 
 	/**
@@ -124,6 +125,9 @@ class ilObjAwarenessAdministrationGUI extends ilObjectGUI
 
 			$awrn_set->set("max_nr_entries", (int) $form->getInput("max_nr_entries"));
 
+			$pd_set = new ilSetting("pd");
+			$pd_set->set("user_activity_time", (int) $_POST["time_removal"]);
+
 			include_once("./Services/Awareness/classes/class.ilAwarenessUserProviderFactory.php");
 			$prov = ilAwarenessUserProviderFactory::getAllProviders();
 			foreach ($prov as $p)
@@ -189,6 +193,21 @@ class ilObjAwarenessAdministrationGUI extends ilObjectGUI
 		$ti->setMaxValue(200);
 		$ti->setValue($awrn_set->get("max_nr_entries"));
 		$en->addSubItem($ti);
+
+		// maximum inactivity time
+		$pd_set = new ilSetting("pd");		// under pd settings due to historical reasons
+		$ti_prop = new ilNumberInputGUI($lng->txt("awrn_max_inactivity"),
+			"time_removal");
+		$ti_prop->setSuffix($this->lng->txt("awrn_minutes"));
+		if ($pd_set->get("user_activity_time") > 0)
+		{
+			$ti_prop->setValue($pd_set->get("user_activity_time"));
+		}
+		$ti_prop->setInfo($lng->txt("awrn_max_inactivity_info"));
+		$ti_prop->setMaxLength(3);
+		$ti_prop->setSize(3);
+		$en->addSubItem($ti_prop);
+
 
 		include_once("./Services/Awareness/classes/class.ilAwarenessUserProviderFactory.php");
 		$prov = ilAwarenessUserProviderFactory::getAllProviders();
