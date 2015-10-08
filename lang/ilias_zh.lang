@@ -14400,3 +14400,5 @@ sysc#:#sysc_task_tree_missing_reference#:#Missing Object References###12 09 2015
 sysc#:#sysc_task_tree_missing_reference_desc#:#Searches and repairs missing object references in the repository tree.###12 09 2015 new variable
 sysc#:#sysc_task_structure#:#Tree structure###12 09 2015 new variable
 sysc#:#sysc_task_structure_desc#:#Analyzes and corrects the repository tree structure.###12 09 2015 new variable
+user#:#feedhash#:#Newsfeedhash###08 10 2015 new variable
+export#:#no_file#:#No file###08 10 2015 new variable

@@ -13662,10 +13662,6 @@ cld#:#cld_auth_failed_no_object_created#:#Hitelesítés sikertelen, Felhőobjekt
 dcl#:#fieldtitle_allow_chars#:#Megengedett karakterek: %s
 common#:#objs_orgu#:#Szervezeti egységek
 common#:#obj_orgu#:#Szervezeti egység
-+common#:#il_orgu_superior#:#Felettes
-+common#:#il_orgu_employee#:#Alkalmazott
-+common#:#view_learning_progress#:#Tanulási haladás megjelenítése
-+common#:#view_learning_progress_rec#:#Egység és alegységei Tanulási haladásának megjelenítése
 orgu#:#view_learning_progress#:#Tanulási haladás megjelenítése
 orgu#:#il_orgu_employee#:#Alkalmazott
 orgu#:#orgu_staff_deassign#:#Biztos, hogy eltávolítja a felhasználókat a mintából?
@@ -14408,3 +14404,5 @@ common#:#view_learning_progress#:#View Learning Progress###12 09 2015 new variab
 common#:#view_learning_progress_rec#:#View Learning Progress of Unit incl. Subunits###12 09 2015 new variable
 rbac#:#orgu_copy#:#Copy Organisational Unit###12 09 2015 new variable
 rbac#:#orgu_view_learning_progress_rec#:#View Learning Progress of Unit incl. Subunits###12 09 2015 new variable
+user#:#feedhash#:#Newsfeedhash###08 10 2015 new variable
+export#:#no_file#:#No file###08 10 2015 new variable
