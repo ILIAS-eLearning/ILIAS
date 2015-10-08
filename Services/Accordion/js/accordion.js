@@ -51,20 +51,19 @@ il.Accordion = {
 
 	init: function (id) {
 		var t, el, next_el, acc_el, a = il.Accordion.data[id];
-
 		// open the inital opened tabs
 		if (a.initial_opened.length > 0) {
 			for (var i = 0; i < a.initial_opened.length; i++) {
 				acc_el = $("#" + id + " div." + a.content_class + ":eq(" + (parseInt(a.initial_opened[i])-1) + ")");
 				acc_el.removeClass("ilAccHideContent");
 				il.Accordion.addActiveHeadClass(id, acc_el[0]);
-				a.last_opened_acc = acc_el;
+				a.last_opened_acc = acc_el.get(0);
 			}
 		} else if (a.behaviour == "FirstOpen") {
 			acc_el = $("#" + id + " div." + a.content_class + ":eq(0)");
 			acc_el.removeClass("ilAccHideContent");
 			il.Accordion.addActiveHeadClass(id, acc_el[0]);
-			a.last_opened_acc = acc_el;
+			a.last_opened_acc = acc_el.get(0);
 		}
 
 		// register click handler (if not all opened is forced)
