@@ -236,6 +236,9 @@ class ilAwarenessData
 		$awrn_set = new ilSetting("awrn");
 		$max = $awrn_set->get("max_nr_entries");
 
+		$all_user_ids = array();
+		$hall_user_ids = array();
+
 		if ($this->data == null)
 		{
 			$online_users = ilAwarenessUserCollector::getOnlineUsers();
@@ -255,6 +258,21 @@ class ilAwarenessData
 
 				$user_collection = $uc["collection"];
 				$user_ids = $user_collection->getUsers();
+
+				foreach ($user_ids as $uid)
+				{
+					if (!in_array($uid, $all_user_ids))
+					{
+						if ($uc["highlighted"])
+						{
+							$hall_user_ids[] = $uid;
+						}
+						else
+						{
+							$all_user_ids[] = $uid;
+						}
+					}
+				}
 
 				include_once("./Services/User/classes/class.ilUserUtil.php");
 				$names = ilUserUtil::getNamePresentation($user_ids, true,
@@ -342,7 +360,7 @@ class ilAwarenessData
 			}
 		}
 
-		return $this->data;
+		return array("data" => $this->data, "cnt" => count($all_user_ids).":".count($hall_user_ids));
 	}
 
 }

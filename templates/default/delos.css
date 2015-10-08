@@ -11058,6 +11058,9 @@ div.ilPCMyCoursesPath {
   background-color: #ffff9d;
   color: #606060;
 }
+.ilAwrnBadgeHidden {
+  visibility: hidden;
+}
 .noMargin {
   margin: 0;
 }

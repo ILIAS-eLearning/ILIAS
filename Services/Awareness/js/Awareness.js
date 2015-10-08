@@ -112,14 +112,18 @@ il.Awareness = {
 	},
 
 	ajaxReplaceSuccess: function(o) {
-		var t = il.Awareness;
+		var t = il.Awareness, cnt;
 
 		// perform page modification
-		if(o.responseText !== undefined)
+		if(o.html !== undefined)
 		{
 			t.content = o.responseText;
-			$('#awareness-content').replaceWith(t.content);
+			$('#awareness-content').replaceWith(o.html);
 			t.afterListUpdate();
+
+			cnt = o.cnt.split(":");
+			t.setCounter(cnt[0], false);
+			t.setCounter(cnt[1], true);
 
 			// throw custom event
 			$("#awareness_trigger").trigger("awrn:shown");
@@ -184,8 +188,28 @@ il.Awareness = {
 	updateList: function(filter) {
 		var t = il.Awareness;
 
-		il.Util.sendAjaxGetRequestToUrl (t.getBaseUrl() + "&cmd=getAwarenessList"
-			+ "&filter=" + encodeURIComponent(filter),
-			{}, {}, t.ajaxReplaceSuccess);
+		$.ajax({
+			url: t.getBaseUrl() + "&cmd=getAwarenessList"
+				+ "&filter=" + encodeURIComponent(filter),
+			dataType: "json"
+		}).done(t.ajaxReplaceSuccess);
+
+		//il.Util.sendAjaxGetRequestToUrl (t.getBaseUrl() + "&cmd=getAwarenessList"
+		//	+ "&filter=" + encodeURIComponent(filter),
+		//	{}, {}, t.ajaxReplaceSuccess);
+	},
+
+	setCounter: function(c, highlighted) {
+		var id = "#awareness_badge";
+
+		if (highlighted) {
+			id = "#awareness_hbadge";
+		}
+		$(id + " span").html(c);
+		if (c > 0) {
+			$(id + " .badge").removeClass("ilAwrnBadgeHidden");
+		} else {
+			$(id + " .badge").addClass("ilAwrnBadgeHidden");
+		}
 	}
 };
