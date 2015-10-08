@@ -286,6 +286,12 @@ var GapInsertingWizard = (function () {
 			}
 			return false;
 		});
+		cloze_text_selector.keyup(function(e){
+			if(e.keyCode == 8 || e.keyCode == 46)
+			{
+				pro.checkDataConsitencyCallback();
+			}
+		});
 	};
 
 	pro.appendGapTrigger = function ()
