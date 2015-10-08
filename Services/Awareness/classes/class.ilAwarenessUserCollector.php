@@ -82,7 +82,7 @@ class ilAwarenessUserCollector
 			self::$online_user_ids = array();
 			include_once("./Services/User/classes/class.ilObjUser.php");
 			self::$online_users = ilObjUser::_getUsersOnline();
-			foreach (ilObjUser::_getUsersOnline() as $u)
+			foreach (self::$online_users as $u)
 			{
 				self::$online_user_ids[] = $u["user_id"];
 			}
