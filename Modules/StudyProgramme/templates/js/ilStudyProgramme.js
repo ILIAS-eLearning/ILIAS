@@ -16,11 +16,16 @@
 
             // helper functions
 
+
             /**
              * reloads the js tree
              */
-            var refresh_tree = function () {
-                $(element).jstree("refresh");
+            var refresh_tree = function (force_reload) {
+                if(force_reload) {
+                    window.location.reload(true);
+                } else {
+                    $(element).jstree("refresh");
+                }
             };
 
             /**
@@ -151,8 +156,14 @@
              * Trigger notification and refreshes the tree
              */
             $("body").on("async_form-success", function (event, data) {
-                $("body").trigger("study_programme-show_success", {message: data.message, type: 'success'});
-                refresh_tree();
+                // hmmmm ugly workaround: js-tree does not correctly refresh, when no element is available
+                if($(element).find("li > ul > li").length == 0) {
+                    refresh_tree(true);
+                } else {
+                    $("body").trigger("study_programme-show_success", {message: data.message, type: 'success'});
+                    refresh_tree();
+                }
+
             });
 
             /**
