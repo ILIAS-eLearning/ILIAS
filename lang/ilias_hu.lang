@@ -15302,3 +15302,7 @@ forum#:#forums_threads_deleted#:#A kiválasztott témákat azok összes hozzász
 user#:#feedhash#:#Hírcsatorna-hash
 wsp#:#wsp_shared_filter_reset_button#:#Keresés feltételek törlése
 wsp#:#wsp_shared_filter_button#:#Keresés
+exc#:#exc_direct_submit#:#Submit###08 10 2015 new variable
+export#:#no_file#:#No file###08 10 2015 new variable
+content#:#lm_no_download_files#:#There are currently no files for download available.###08 10 2015 new variable
+rbac#:#feed_copy#:#User can copy webfeed###08 10 2015 new variable
