@@ -1,7 +1,7 @@
 /* Copyright (c) 1998-2015 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
-* @author 5.1.x 2015-09-17 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
+* @author 5.1.x 2015-10-08 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
 * @author 4.2.2	Berecz Antónia <berecz@gdf.hu>
 * @module		language file Hungarian
 * @modulegroup	language
@@ -19,7 +19,7 @@ acc#:#acc_access_keys#:#Gyorsbillentyűk
 acc#:#acc_comp_frm#:#Fórum
 acc#:#acc_comp_global#:#Általános
 acc#:#acc_comp_mail#:#Levelek
-acc#:#acc_component#:#Komponens
+acc#:#acc_component#:#Összetevő
 acc#:#acc_delete#:#Törlés
 acc#:#acc_forward_mail#:#Továbbítás
 acc#:#acc_function#:#Funkció
@@ -917,11 +917,12 @@ assessment#:#save_edit#:#Tartalom mentése és előnézet
 assessment#:#finish_test#:#Teszt befejezése
 assessment#:#next_question#:#Következő
 assessment#:#previous_question#:#Előző
-assessment#:#submit_answer#:#Submit Answer###XXX
-assessment#:#discard_answer#:#Discard Answer
-assessment#:#discard_answer_confirmation#:#Your answer will be finally and completly discarded. The question keeps as unanswered until you submit another answer.<br /><br />Would you really like to discard your answer?
-assessment#:#edit_answer#:#Edit Answer
-assessment#:#answer_question#:#Answer Question
+assessment#:#submit_answer#:#Mentés és következő
+assessment#:#skip_question#:#Válaszadás kihagyása és következő
+assessment#:#discard_answer#:#Válasz törlése
+assessment#:#discard_answer_confirmation#:#Válaszát teljesen elvetni készül. Így a kérdés megválaszolatlan marad, amíg egy másik választ ad rá.<br /><br />Biztos, hogy elveti a választ?
+assessment#:#edit_answer#:#Válasz módosítása
+assessment#:#answer_question#:#Kérdés megválaszolása
 assessment#:#back_to_objective_container#:#Ugrás a kurzushoz
 assessment#:#save_text_answer_points#:#Esszé pontjainak mentése
 assessment#:#scored_pass#:#Sikeres kitöltés
@@ -1083,8 +1084,8 @@ assessment#:#tst_instant_feedback_answer_specific#:#Válaszlehetőségenkénti v
 assessment#:#tst_instant_feedback_answer_specific_desc#:#Az <i>Ellenőrzés</i> gombra kattintva előre meghatározott visszajelzés jelenik meg a felhasználó által kiválasztott akármelyik válaszadási lehetőségre. A kérdéssel együtt kell elkészíteni az összes válaszhoz tartozó a visszajelzést. Nem minden kérdéstípus esetén lehetséges válaszfüggő visszajelzés.
 assessment#:#tst_instant_feedback_fix_usr_answer#:#Válaszok befagyasztása
 assessment#:#tst_instant_feedback_fix_usr_answer_desc#:#Az <i>Ellenőrzés</i> gombra kattintás után a résztvevők már nem tudják módosítani válaszukat.
-assessment#:#tst_instant_feedback_forced#:#Force Instant Feedback###XXX
-assessment#:#tst_instant_feedback_forced_desc#:#On submitting answers the output of instant feedback will be forced.
+assessment#:#tst_instant_feedback_forced#:#Azonnali visszajelzés kikényszerítése###XXX
+assessment#:#tst_instant_feedback_forced_desc#:#Válaszok jóváhagyásakor kikényszerítjük az azonnali visszajelzést.
 assessment#:#tst_instant_feedback_results#:#Elért pontszámok
 assessment#:#tst_instant_feedback_results_desc#:#Az <i>Ellenőrzés</i> gombra kattintva megjelenítik az erre a kérdésre adott válaszra kapott pontszám.
 assessment#:#tst_instant_feedback_solution#:#Legjobb lehetséges válasz megjelenítése
@@ -1534,7 +1535,7 @@ assessment#:#tst_nr_of_tries_desc#:#Egy résztvevő maximális kitöltéseinek s
 assessment#:#tst_final_information#:#Teszt befejezése
 assessment#:#saved_adjustment#:#Változások mentése sikerült.
 assessment#:#sign_submission#:#Tesztbeadványok digitális aláírása
-assessment#:#sign_submission_info#:#Ha ez be van kapcsolva, és az aláíró plug-in telepítve van és aktív, akkor a résztvevő digitálisan aláírják beadványukat.
+assessment#:#sign_submission_info#:#Ha ez be van kapcsolva, és az aláíró-bővítmények telepítve van és aktív, akkor a résztvevő digitálisan aláírják beadványukat.
 assessment#:#preserve_manscoring#:#Manuális pontozások megőrzése
 assessment#:#preserve_manscoring_info#:#A kérdés pontozásának módosítása a manuális pontok érvénytelenítését vonhatja maga után. Ez az opció megengedi az ÖSSZES kézzel adott pontot érvénytelenítését a tesztben, amit csak kivételes esetben használunk.
 auth#:#auth_account_migration_keep#:#Felhasználói fiókok migrálása
@@ -1695,7 +1696,7 @@ certificate#:#certificate_enabled_scorm_introduction#:#Ha bejelölt, az igazolá
 certificate#:#certificate_enabled_scorm#:#Engedélyezve
 certificate#:#certificate_error_import#:#Hiba fordult elő egy igazolás importálásakor.
 certificate#:#certificate_error_upload_bgimage#:#Hiba fordult elő a háttérkép feltöltése közben.
-certificate#:#certificate_export#:#Igazolás exportálása
+certificate#:#certificate_export#:#Exportálás
 certificate#:#certificate_failed#:#sikertelen
 certificate#:#certificate_left#:#Balra
 certificate#:#certificate_letter_landscape#:#Levél fektetve (8,5 inch x 11 inch)
@@ -1734,7 +1735,7 @@ certificate#:#certificate_ph_testtitle#:#Teszt címe
 certificate#:#certificate_ph_title#:#Név előtag
 certificate#:#certificate_ph_zipcode#:#Felhasználó címe - irányítószám
 certificate#:#certificate_points_notavailable#:#Ez az érték nem számítható
-certificate#:#certificate_preview#:#Igazolás előnézete
+certificate#:#certificate_preview#:#Előnézet
 certificate#:#certificate_right#:#Jobbra
 certificate#:#certificate_settings#:#Igazolás beállításai
 certificate#:#certificate_short_name_description#:#Adja meg az igazolás rövid nevét! A rövid név az igazolásnév része lesz: ÉÉHHNN_[surname]_[SHORT_TITLE]_certificate.pdf
@@ -1785,7 +1786,7 @@ cmps#:#cmps_add_new_rank#:#Pozíció az Új objektum létrehozása listában
 cmps#:#cmps_available#:#Elérhető
 cmps#:#cmps_basic_files#:#Alapfájlok
 cmps#:#cmps_class_file#:#Osztályfájl
-cmps#:#cmps_component#:#Komponens
+cmps#:#cmps_component#:#Összetevő
 cmps#:#cmps_current_version#:#Jelenlegi verzió
 cmps#:#cmps_database#:#Adatbázis
 cmps#:#cmps_db_update#:#Adatbázis-frissítési szkript
@@ -2703,7 +2704,7 @@ common#:#file_suffix_repl_info#:#Adjon meg fájlokat kiterjesztésükkel (vessz�
 common#:#file_suffix_repl#:#Fájlfeltöltés a kiterjesztés változtatásával
 common#:#file_updated#:#A fájlt sikeresen törölte.
 common#:#file_valid#:#A fájl érvényes.
-common#:#file_version#:#A verziót a fájl tartalmazza.
+common#:#file_version#:#Verziókövetés elérhető.
 rbac#:#file_visible#:#A fájl látható.
 rbac#:#file_write#:#A felhasználó szerkesztheti a fájlbeállításokat, és tölthet fel új fájlverziót
 common#:#file#:#Fájl
@@ -2992,8 +2993,8 @@ common#:#hist_webr_add#:#'%1' című új weblink létrejött.
 common#:#hist_webr_delete#:#'%1' című weblinket sikeresen törölte.
 common#:#hist_webr_update#:#'%1' című weblinket sikeresen módosította.
 common#:#history#:#Történet
-common#:#hits_per_page#:#Találatok száma laponként
-common#:#hobby#:#További információk
+common#:#hits_per_page#:#Találatok száma oldalanként
+common#:#hobby#:#Érdeklődési körök/Hobbik
 common#:#home#:#Nyilvános terület
 common#:#host#:#Kiszolgáló
 common#:#hour#:#Óra
@@ -3365,7 +3366,7 @@ common#:#manage_members#:#Tagok kezelése
 common#:#mark_all_read#:#Összes megjelölése olvasottként
 common#:#mark_all_unread#:#Az összest olvasatlanként jelölte meg
 common#:#marked_entries#:#Megjelölt bejegyzések
-common#:#matriculation#:#Törzskönyvi szám
+common#:#matriculation#:#Nyilvántartási szám
 common#:#max_number_rec#:#Maximális rekordszám
 common#:#max_time#:#Maximális idő
 common#:#mcst_add#:#Médiasugárzás létrehozása
@@ -3550,7 +3551,7 @@ common#:#msg_obj_exists_in_folder#:#A(z) %s objektum már benne van a(z) %s mapp
 common#:#msg_obj_exists#:#Ez az objektum már létezik ebben a mappában
 common#:#msg_obj_may_not_contain_objects_of_type#:#A(z) %s objektum nem tartalmazhat ilyen típusú objektumokat: %s.
 common#:#msg_obj_modified#:#Módosítások mentése sikerült.
-common#:#msg_obj_no_link#:#linkelése nem engedélyezett
+common#:#msg_obj_no_link#:#Technika okok miatt tároló objektumok (kategória, kurzus, csoport, illetve mappa) linkelése nem lehetséges. Linkelni tudja az abban lévő objektumokat vagy használjon kategória-, illetve kurzuslink objektumot.
 common#:#msg_obj_not_deletable_sold#:#A fizetést már aktiválták az alábbi objektumokhoz. Az objektumok nem törölhetők.
 common#:#msg_paste_object_not_in_itself#:#Nem lehet beilleszteni a(z) %s objektumot saját magába.
 common#:#msg_perm_adopted_from_itself#:#Nem alkalmazhat jogosultsági beállításokat magából a jelenlegi szerepből/szerepmintából.
@@ -4075,8 +4076,8 @@ common#:#register_info#:#Regisztrációhoz töltse ki az űrlapot (a csillaggal 
 common#:#register#:#Regisztráció
 common#:#registered_since#:#Regisztráció kezdete
 common#:#registered_user#:#regisztrált felhasználó
-common#:#registered_users#:#regisztrált felhasználók
-common#:#registration_disabled#:#Csak akkor érhető el, ha helyi bejelentkezés van használva.
+common#:#registered_users#:#regisztrált felhasználó
+common#:#registration_disabled#:#Csak akkor érhető el, ha a helyi hitelesítést használják.
 common#:#registration_expired#:#A regisztrációs időszak lejárt
 common#:#registration#:#Regisztráció
 common#:#related_to#:#Kapcsolódik ehhez:
@@ -4167,7 +4168,7 @@ common#:#roles_of_import_local#:#Import fájl helyi szerepei
 common#:#roles#:#Szerepek
 common#:#rolf_added#:#Szerepmappa létrejött.
 common#:#rolf_create_role#:#Új szerep létrehozása
-common#:#rolf_create_rolt#:#Új szerepdefiníció létrehozása
+common#:#rolf_create_rolt#:#Új szerepminta létrehozása
 common#:#rolf_delete#:#Szerepek / szerepminták törlése
 common#:#rolf_edit_permission#:#Jogosultsági beállítások változtatása
 common#:#rolf_edit_userassignment#:#Szerep és felhasználó összerendelésének változtatása
@@ -5505,8 +5506,8 @@ content#:#cont_toc_mode#:#Tartalomjegyzék-elemek
 content#:#cont_toc#:#Tartalomjegyzék
 content#:#cont_top#:#Tetejére
 content#:#cont_total_time#:#Teljes idő
-content#:#cont_tracking_bysco#:#Fejezet által
-content#:#cont_tracking_byuser#:#Felhasználó által
+content#:#cont_tracking_bysco#:#Fejezet szerint
+content#:#cont_tracking_byuser#:#Felhasználó szerint
 content#:#cont_tracking_data#:#Nyomkövetési adatok
 content#:#cont_tracking_items#:#Nyomkövetési tételek
 content#:#cont_translations_assigned#:#Fordítás(ok) hozzárendelve
@@ -6728,12 +6729,12 @@ exc#:#exc_total_exc#:#Összes beadandó feladat
 exercise#:#exc_comment_for_learner#:#Megjegyzés a tanulónak
 exercise#:#exc_comment#:#Megjegyzés
 exercise#:#exc_crs_add_members#:#Tanulók hozzáadása ebből a kurzusból
-exercise#:#exc_failed#:#Nem teljesítette
+exercise#:#exc_failed#:#Nem elfogadható
 exercise#:#exc_feedback_from_tutor#:#Visszajelzés a tutortól
 exercise#:#exc_grading#:#Értékelés
 exercise#:#exc_mark#:#Érdemjegy
 exercise#:#exc_notgraded#:#Nincs értékelve
-exercise#:#exc_passed#:#Sikeresen teljesítette
+exercise#:#exc_passed#:#Elfogadva
 exercise#:#exc_send_mail#:#Küldés levélként
 exercise#:#exc_your_submission#:#Az Ön megoldása
 exp#:#exp_create_file#:#Exportfájl létrehozása
@@ -9414,7 +9415,7 @@ survey#:#apply#:#Alkalmaz
 survey#:#arithmetic_mean#:#Számtani átlag
 survey#:#ask_insert_questionblocks#:#Biztos, hogy beilleszti az alábbi kérdésblokk(oka)t a kérdőívbe?
 survey#:#ask_insert_questions#:#Biztos, hogy beilleszti az alábbi kérdés(eke)t a kérdőívbe?
-survey#:#back#:#<< Vissza
+survey#:#back#:#Vissza
 survey#:#before#:#mi előtt
 survey#:#browse_for_questions#:#Hozzáadás kérdésgyűjteményből
 survey#:#cancel_survey#:#Kérdőív kitöltésének felfüggesztése
@@ -11629,12 +11630,12 @@ didactic#:#didactic_do_export#:#Export
 didactic#:#didactic_import_table_title#:#Oktatói sablon importálása
 didactic#:#didactic_back_to_overview#:#Vissza az áttekintéshez
 didactic#:#didactic_import_success#:#Sikeresen importált didaktikai sablon
-rbac#:#rbac_auto_global#:#Automatikusan generált globális szerep
-rbac#:#rbac_ud_global#:#Felhasználó definiálta globális szerep
-rbac#:#rbac_auto_local#:#Automatikusan generált helyi szerep
-rbac#:#rbac_ud_local#:#Felhasználó definiálta helyi szerep
-rbac#:#rbac_auto_rolt#:#Automatikusan generált szerepsablon
-rbac#:#rbac_ud_rolt#:#Felhasználó definiálta szerepsablon
+rbac#:#rbac_auto_global#:#Automatikusan létrejött globális szerep
+rbac#:#rbac_ud_global#:#Felhasználó által létrehozott globális szerep
+rbac#:#rbac_auto_local#:#Automatikusan létrejött helyi szerep
+rbac#:#rbac_ud_local#:#Felhasználó által létrehozott helyi szerep
+rbac#:#rbac_auto_rolt#:#Automatikusan létrejött szerepsablon
+rbac#:#rbac_ud_rolt#:#Felhasználó által létrehozott szerepsablon
 didactic#:#didactic_import_failed#:#Oktatói sablon importálása sikertelen, hibaüzenete:
 rbac#:#rbac_context_global#:#Globális
 content#:#cont_select_other_qpool#:#Másik gyűjtemény választása
@@ -12189,7 +12190,7 @@ certificate#:#certificate_ph_passed_exercise#:#'Sikeresen teljesítette' vagy 'N
 certificate#:#certificate_ph_mark#:#Felhasználók értékelése
 certificate#:#certificate_ph_exercisetitle#:#Beadandó feladat címe
 rbac#:#rbac_back_to_overview#:#Vissza a szereplistához
-rbac#:#rbac_choose_copy_targets#:#Adjon meg kérdést a célszerep kiválasztásához.
+rbac#:#rbac_choose_copy_targets#:#Adjon meg egy lekérdezést a célszerep kiválasztásához.
 rbac#:#rbac_select_copy_targets#:#Válassza ki a célszerepeket.
 rbac#:#rbac_role_title#:#Szerepcím
 rbac#:#rbac_copy_behaviour#:#Szerepmásolási beállítások
@@ -12380,7 +12381,7 @@ crs#:#crs_course_status_of_users#:#Kurzus teljesítése
 crs#:#crs_status_determination#:#'Sikeresen teljesítette' állapot meghatározása
 crs#:#crs_status_determination_manual#:#Tanulási haladás alapján
 crs#:#crs_status_determination_lp#:#Tanulási haladástól függetlenül
-crs#:#crs_status_determination_sync#:#Most az összes felhasználó kurzusállapotát szinkronizáljuk a tanulási haladási állapotával
+crs#:#crs_status_determination_sync#:#A kurzusállapot értéke automatikusan 'Sikeresen teljesítette' lesz, amint a tanuló a tanulási haladását befolyásoló összes objektumot teljesítette. A beállítások módosítása előtti tanulási haladásokat figyelembe vesszük, a kézzel állított 'Sikeresen teljesített' állapotok sem változnak. Biztos, hogy módosítja az összes tag kurzusállapotát a jelenlegi tanulási haladásai alapján? 
 trac#:#trac_session_statistics_mode_day#:#Nap
 trac#:#trac_session_statistics_mode_week#:#Hét
 trac#:#trac_session_statistics_mode_month#:#Hónap
@@ -12532,7 +12533,7 @@ help#:#help_tooltips#:#Buboréksúgó
 help#:#help_tooltip_id#:#Buboréksúgó ID
 help#:#help_tt_text#:#Szöveg
 help#:#help_all#:#Minden
-help#:#help_component#:#Komponens
+help#:#help_component#:#Összetevő
 help#:#help_filter#:#Szűrő
 help#:#help_open_online_help#:#Online súgó megnyitása
 help#:#help_toggle_tooltips#:#Buboréksúgók be-/kikapcsolása
@@ -12870,7 +12871,7 @@ rbac#:#rbac_import_role#:#Szerep importálása
 rbac#:#rbac_role_imported#:#A szerepet importáltuk.
 common#:#objs_rcat#:#ECS kategória
 administration#:#adm_user_starting_point_object#:#Taneszköztárolóbeli objektum
-administration#:#adm_user_starting_point_ref_id#:#Hivatkozás ID
+administration#:#adm_user_starting_point_ref_id#:#ref_id
 administration#:#adm_user_starting_point_personal#:#Személyes beállítás
 administration#:#adm_user_starting_point_personal_info#:#Ha be van kapcsolva, a felhasználók kiválaszthatják kezdőlapjukat.
 rbac#:#internal_mail#:#Belső e-mail
@@ -13326,7 +13327,7 @@ assessment#:#oq_btn_define_terms#:#Kifejezés-megadó nézetre váltás
 assessment#:#oq_btn_define_pictures#:#Kép-megadó nézetre váltás
 assessment#:#oq_header_ordering_elements#:#Elemek rendezése
 cron#:#cron_job_id#:#Azonosító
-cron#:#cron_component#:#Komponens
+cron#:#cron_component#:#Összetevő
 cron#:#cron_schedule#:#Ütemezés
 cron#:#cron_status#:#Állapot
 cron#:#cron_status_info#:#Állapotinformáció
@@ -13772,18 +13773,18 @@ cld#:#cld_info_add_file_to_current_directory#:#Fájl hozzáadása az aktuális k
 cld#:#cld_info_add_folder_to_current_directory#:#Mappa hozzáadása az aktuális könyvtárhoz
 cld#:#cld_invalid_input#:#Érvénytelen input
 cld#:#cld_new#:#Új felhőobjektum
-cld#:#cld_no_service_active#:#Nincs aktív felhő-plug-in
+cld#:#cld_no_service_active#:#Nincs aktív felhőbővítmény
 cld#:#cld_no_service_selected#:#Egy szolgáltatást sem választott ki
 cld#:#cld_not_authenticated_offline#:#Nincs hitelesítve - Offline
 cld#:#cld_only_owner_has_permission_to_change_root_path#:#Adatvédelmi aggályok miatt csak a felhő-objektum létrehozójának van lehetősége a gyökérkönyvtár jogosultságain változtatni
 cld#:#cld_path_does_not_exist_in_file_tree_in_session#:#Az útvonal nem létezik a munkamenet fájl-faszerkezetében:
 cld#:#cld_permission_denied#:#Hozzáférés megtagadva
 cld#:#cld_permission_to_change_root_folder_denied#:#A gyökérkönyvtár jogosultságainak változtatása tiltva van
-cld#:#cld_plugin_hook_could_not_be_instantiated#:#Felhő hook Plug-in nem példányosítható
-cld#:#cld_plugin_not_active#:#Plug-in nem aktív
+cld#:#cld_plugin_hook_could_not_be_instantiated#:#A bővítménykampó (plug-in hook) nem példányosítható
+cld#:#cld_plugin_not_active#:#Bővítmény nem aktív
 cld#:#cld_root_folder#:#Gyökérkönyvtár
 cld#:#cld_service#:#Szolgáltatás
-cld#:#cld_service_class_file_not_found#:#Szolgáltatás osztály fájl nem található
+cld#:#cld_service_class_file_not_found#:#Szolgáltatásosztály-fájl nem található
 cld#:#cld_service_not_active#:#Szolgáltatás nem aktív
 cld#:#cld_service_specific_settings#:#Specifikus beállítások
 cld#:#cld_unknown_exception#:#Ismeretlen kivétel
@@ -13863,7 +13864,7 @@ common#:#preview_status_failed#:#Előnézet készítése sikertelen.
 common#:#preview_status_missing#:#Nincs előnézet ehhez a fájlhoz.
 common#:#preview_loading#:#Előnézet betöltése...
 common#:#loaded_preview_renderers#:#Előnézetkészítők betöltve
-common#:#renderer_type_plugin#:#Plug-in
+common#:#renderer_type_plugin#:#Bővítmény
 common#:#renderer_type_builtin#:#Beépített
 common#:#renderer_supported_repo_types#:#Támogatott Taneszköztároló típusok
 common#:#renderer_supported_file_types#:#Támogatott fájl típusok
@@ -14039,12 +14040,12 @@ orgu#:#orgu_types#:#Típusok
 orgu#:#orgu_type_msg_deleted#:#Törölt szervezeti egységtípus
 orgu#:#orgu_type_msg_missing_title#:#Alapértelmezett nyelven címének megadása kötelező
 orgu#:#orgu_type_msg_unable_delete#:#A típus nem törölhető, mert a következő szervezeti egységekhez hozzá van rendelve: %s
-orgu#:#orgu_type_msg_deletion_prevented#:#Az objektum a következő plug-in-ek miatt nem törölhető: %s 
-orgu#:#orgu_type_msg_setting_member_prevented#:#'%s' beállításai a következő plug-in-ek miatt nem törölhető: %s
-orgu#:#orgu_type_msg_updating_prevented#:#Az objektum a következő plug-in-ek miatt nem frissíthető: %s
-orgu#:#orgu_type_msg_assign_amd_prevented#:#AMDRecord a következő plug-in-ek miatt nem rendelhető hozzá: %s
-orgu#:#orgu_type_msg_deassign_amd_prevented#:#AMDRecord hozzárendelése a következő plug-in-ek miatt nem távolítható el: %s
-orgu#:#orgu_type_msg_setting_default_lang_prevented#:#'%s' alapértelmezett nyelvek történő beállítása a következő plug-in-ek miatt nem lehetséges: %s
+orgu#:#orgu_type_msg_deletion_prevented#:#Az objektum a következő bővítmények miatt nem törölhető: %s 
+orgu#:#orgu_type_msg_setting_member_prevented#:#'%s' beállításai a következő bővítmények miatt nem törölhető: %s
+orgu#:#orgu_type_msg_updating_prevented#:#Az objektum a következő bővítmények miatt nem frissíthető: %s
+orgu#:#orgu_type_msg_assign_amd_prevented#:#AMDRecord a következő bővítmények miatt nem rendelhető hozzá: %s
+orgu#:#orgu_type_msg_deassign_amd_prevented#:#AMDRecord hozzárendelése a következő bővítmények miatt nem távolítható el: %s
+orgu#:#orgu_type_msg_setting_default_lang_prevented#:#'%s' alapértelmezett nyelvek történő beállítása a következő bővítmények miatt nem lehetséges: %s
 orgu#:#orgu_type_msg_missing_title_default_language#:#Alapértelmezett nyelv és annak címének megadása kötelező
 orgu#:#orgu_type_custom_icon_info#:#Az összes olyan Szervezeti egységnél, melyhez ezt a típust rendeli, a fában és fejlécében ez az ikon jelenik meg.
 orgu#:#orgu_settings#:#Szervezeti egység beállításai
@@ -15288,7 +15289,7 @@ payment#:#enable_topics_info#:#Ha be van kapcsolva, a létrehozott témakörökh
 exc#:#exc_assignment_type#:#Beadás módja
 trac#:#trac_mode_event_info#:#A tanulási haladás állapotát a résztvételi állapot határozza meg.
 sess#:#sess_lp_preset#:#Tanulási haladás bekapcsolása
-sess#:#sess_lp_preset_info#:#Tanulási haladás be-/kikapcsolása az összes eseményre.
+sess#:#sess_lp_preset_info#:#Tanulási haladás bekapcsolása az összes eseményre.
 glo#:#glo_copy#:#Fogalomtár másolása
 form#:#form_open_answer#:#Szabadszöveges
 survey#:#survey_access_codes#:#Hitelesítés kódokkal
@@ -15390,7 +15391,7 @@ scormtrac#:#lvalue#:#Kulcs
 scormtrac#:#rvalue#:#Érték
 scormtrac#:#identifierref#:#SCO-Azonosító
 dcl#:#dcl_online_info#:#Az adatgyűjtést csak online állapotában használhatják a felhasználók.
-dcl#:#dcl_notification_info#:#Egyéni értesítési funkció engedélyezése a felhasználók számára.
+dcl#:#dcl_notification_info#:#Minden felhasználó maga dönt az értesítésről
 administration#:#adm_missing_entries#:#Hiányzó bejegyzések
 administration#:#adm_missing_entry_add_action#:#Hozzáadás
 administration#:#adm_missing_entry_add#:#Új bejegyzés hozzáadása
@@ -15606,7 +15607,7 @@ exc#:#exc_adopt_group_teams_conflict#:#'%1$s' felhasználót a(z) '%2$s' csoport
 exc#:#exc_adopt_group_teams_added#:#%s felhasználót sikeresen hozzáadta.
 exc#:#exc_adopt_group_teams_blocked#:#%s felhasználót már hozzárendelték.
 exc#:#exc_deadline_ext_mismatch#:#A türelmi időszaknak a határidő után kell véget érnie!
-exc#:#exc_peer_review_ass_setting_info#:#Felhasználók értékelhetik a társaik megoldását a határidő és a türelmi idő (amennyiben létezik) lejárta után. 
+exc#:#exc_peer_review_ass_setting_info#:#Felhasználók értékelhetik a társaik megoldását a határidő után és amennyiben létezik türelmi idő, annak lejárta után. A visszajelzés néhány tulajdonságát az adott fülön lehet beállítani. Ezen opció aktiválása és mentése után megjelenik a 'Visszajelzés' fül.
 exc#:#exc_peer_review_min_number#:#Szükséges visszajelzések száma
 exc#:#exc_peer_review_min_number_info#:#Ennyi felhasználó munkáját kell értékelnie egy résztvevőnek. Amennyiben a megoldások beadásainak száma ennél kisebb, automatikusan csökkentjük az értéket arra a számra.
 exc#:#exc_criteria_catalogues#:#Feltételgyűjtemény
@@ -15636,8 +15637,8 @@ content#:#cont_mycourses_sortorder_alphabetical#:#Alfabetikus
 content#:#cont_mycourses_sortorder_location#:#Hely szerint
 content#:#cont_mycourses_sortorder_info#:#Ez az alapértelmezett beállítás. Az összes felhasználó egyéni rendezést választhat, ami bármelyik portfólió összes 'Kurzusaim' elemeire vonatkozik.
 rbac#:#redact#:#Szerkesztő
-common#:#il_blog_editor#:#Blogszerkesztő
-rbac#:#blog_redact#:#Felhasználó módosíthatja a bejegyzéseket 
+common#:#il_blog_editor#:#Blog-főszerkesztő
+rbac#:#blog_redact#:#Felhasználó más szerzők bejegyzéseit is módosíthatja
 blog#:#blog_contributors#:#Blogközreműködők
 meta#:#meta_obj_type_inactive#:#Nincs használatban
 meta#:#meta_obj_type_mandatory#:#Mandatory
@@ -15679,7 +15680,7 @@ trac#:#trac_lp_settings_info_parent_usage#:#Tanulási haladása meghatározása
 trac#:#trac_lp_settings_info_parent_group#:#További objektumok a csoportosításban
 book#:#book_bobj#:#Foglalható objektumok
 crs#:#crs_subscription_min_members#:#Minimum szám
-crs#:#crs_subscription_min_members_info#:#A 'Kurzus/Csoport: Minimális taglétszám ellenőrzése' ütemezett feladat használja.###Nézd meg
+crs#:#crs_subscription_min_members_info#:#A kurzus indulásához szükséges minimális létszámot határozza meg. Amennyiben a kurzuslétszám nem éri el ezt a számot a kurzus regisztrációs, illetve lejelentkezési határidejéig, figyelmeztető levelet küldünk a kurzus azon vezetőinek és tutorainak, akinél aktív az értesítés a kurzus 'Tagok' fülén.
 crs#:#crs_waiting_list_no_autofill#:#Automatikus feltöltés nélkül
 crs#:#crs_waiting_list_autofill#:#Automatikus feltöltéssel
 crs#:#crs_waiting_list_autofill_info#:#Résztvevőket automatikusan felvesszük a várólistáról lemondás esetén.
@@ -15711,7 +15712,7 @@ sess#:#sess_reg_waiting_list_autofill#:#Automatikus feltöltéssel
 sess#:#sess_reg_waiting_list_autofill_info#:#Résztvevőket automatikusan felvesszük a várólistáról lemondás esetén.
 grp#:#grp_cancellation_end_info#:#Ezután a résztvevők már nem tudnak leiratkozni.
 crs#:#crs_cancellation_end_info#:#Ezután a résztvevők már nem tudnak leiratkozni.
-crs#:#crs_period_info#:#Kurzus kezdő és zárópontja
+crs#:#crs_period_info#:#Információ a kurzusidőszak kezdő és záró dátumáról
 meta#:#md_adv_deleted_fields#:#A mezőket már törölték.
 cntr#:#tab_back_to_repository#:#Vissza a Taneszköztárolóhoz
 obj#:#obj_target_location#:#Célhely
@@ -15902,7 +15903,7 @@ rbac#:#logs_visible#:#A felhasználó láthatja a Rendszerbeállítások » Napl
 rbac#:#logs_write#:#A felhasználó módosíthatja a Rendszerbeállítások » Naplózási beállítások beállításait
 logging#:#logs_settings#:#Naplózási beállítások
 log#:#log_general_settings#:#Naplózási beállítások
-log#:#log_components#:#Komponensek
+log#:#log_components#:#Összetevők
 log#:#log_log_level#:#Naplózás szintje
 log#:#log_level_debug#:#HIBAKERESÉS
 log#:#log_level_info#:#INFORMACIÓ
@@ -16025,24 +16026,24 @@ rbac#:#prgs_edit_permission#:#A felhasználó módosíthatja a Rendszerbeállít
 user#:#feedhash#:#Hírcsatorna-hash
 wsp#:#wsp_shared_filter_reset_button#:#Keresés feltételek törlése
 wsp#:#wsp_shared_filter_button#:#Keresés
-assessment#:#skip_question#:#Do not Answer and Next###08 10 2015 new variable
+assessment#:#skip_question#:#Válaszadás kihagyása és következő
 assessment#:#tst_instant_feedback_handling_force#:#Do not freeze answers but force feedback###08 10 2015 new variable
 assessment#:#tst_instant_feedback_handling_force_desc#:#tst_instant_feedback_handling_force_desc###08 10 2015 new variable
-assessment#:#tst_postpone#:#Postpone Questions###08 10 2015 new variable
-wiki#:#wiki_page_title_too_long#:#Sorry, the title of the wiki page is too long. Please replace it with a shorter title.###08 10 2015 new variable
-exc#:#exc_direct_submit#:#Submit###08 10 2015 new variable
-export#:#no_file#:#No file###08 10 2015 new variable
-content#:#lm_no_download_files#:#There are currently no files for download available.###08 10 2015 new variable
-rbac#:#feed_copy#:#User can copy webfeed###08 10 2015 new variable
-log#:#log_level_off#:#Disabled###08 10 2015 new variable
-log#:#log_component_root_desc#:#Leg-Level for message which are not assigned to any component.###08 10 2015 new variable
-administration#:#adm_user_starting_point_ref_id_info#:#Open the object that you would like to use as Personal Starting Point. Please copy the number directly following "ref_id=" in the browser bar into the textinput field.###08 10 2015 new variable
-mail#:#mail_crs_roles#:#Send Mail to Course Roles###08 10 2015 new variable
-mail#:#mail_grp_roles#:#Send Mail to Group Roles###08 10 2015 new variable
-mail#:#send_mail_members#:#All Members###08 10 2015 new variable
-mail#:#send_mail_tutors#:#All Tutors###08 10 2015 new variable
-mail#:#send_mail_admins#:#All Administrators###08 10 2015 new variable
-mail#:#mail_sel_users#:#Send Mail to Selected Users###08 10 2015 new variable
-awrn#:#awrn_max_inactivity#:#Maximum Inactivity Period###08 10 2015 new variable
-awrn#:#awrn_max_inactivity_info#:#After this period users are considered being offline. If nothing is set, the session time will be used.###08 10 2015 new variable
-awrn#:#awrn_minutes#:#min###08 10 2015 new variable
+assessment#:#tst_postpone#:#Kérdések elhalasztása
+wiki#:#wiki_page_title_too_long#:#A meg adott cím túl hosszú. Adjon a Wiki oldalnak rövidebb címet.
+exc#:#exc_direct_submit#:#Jóváhagyás
+export#:#no_file#:#Nincs fájl
+content#:#lm_no_download_files#:#Jelenleg nem áll rendelkezésre letölthető fájl.
+rbac#:#feed_copy#:#A felhasználó másolhat webhírforrást
+log#:#log_level_off#:#Kikapcsolva
+log#:#log_component_root_desc#:#Üzenethez log-szint, ami egy összetevőhöz sincs hozzárendelve.
+administration#:#adm_user_starting_point_ref_id_info#:#Nyissa meg az objektumot, amit Személyes kezdőpontnak szeretne beállítani, majd másolja böngészője címsorában lévő 'ref_id' számértékét a szövegmezőbe.
+mail#:#mail_crs_roles#:#Kurzusszerepeknek levélküldés
+mail#:#mail_grp_roles#:#Csoportszerepeknek levélküldés
+mail#:#send_mail_members#:#Összes tag
+mail#:#send_mail_tutors#:#Összes tutor
+mail#:#send_mail_admins#:#Összes vezető
+mail#:#mail_sel_users#:#Kiválasztott felhasználóknak levélküldés
+awrn#:#awrn_max_inactivity#:#Maximális tétlenségi időszak
+awrn#:#awrn_max_inactivity_info#:#Ennyi idő után tekintjük offline állapotúnak a felhasználót. Ha nem állít be értéket, a munkamenet idejét használjuk.
+awrn#:#awrn_minutes#:#perc
