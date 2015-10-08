@@ -172,7 +172,7 @@ class ilObjStudyProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
 	 * @return array
 	 */
 	protected function getNodeTitleClasses($node_config) {
-		$node_title_classes = array($this->class_configuration['node']['title']);
+		$node_title_classes = array($this->class_configuration['node']['node_title']);
 		if($node_config['is_study_programme']){
 			if ($node_config['is_current_node']) {
 				array_push($node_title_classes, $this->class_configuration['node']['node_current']);

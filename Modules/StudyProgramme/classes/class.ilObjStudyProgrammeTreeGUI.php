@@ -196,13 +196,13 @@ class ilObjStudyProgrammeTreeGUI {
 	 */
 	protected function saveTreeOrder() {
 		$this->checkAccessOrFail('write');
-
-		if(!isset($_POST['tree']) || is_null(json_decode($_POST['tree']))) {
+		
+		if(!isset($_POST['tree']) || is_null(json_decode(stripslashes($_POST['tree'])))) {
 			throw new ilStudyProgrammeTreeException("There is no tree data to save!");
 		}
 
 		// saves order recursive
-		$this->storeTreeOrder(json_decode($_POST['tree']));
+		$this->storeTreeOrder(json_decode(stripslashes($_POST['tree'])));
 
 		return ilAsyncOutputHandler::encodeAsyncResponse(array('success'=>true, 'message'=>$this->lng->txt('prg_saved_order_successful')));
 	}
