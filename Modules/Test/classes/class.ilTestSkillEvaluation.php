@@ -202,14 +202,16 @@ class ilTestSkillEvaluation
 			{
 				$threshold = $this->skillLevelThresholdList->getThreshold($skillBaseId, $skillTrefId, $level['id']);
 
-				if( !($threshold instanceof ilTestSkillLevelThreshold) )
+				if( !($threshold instanceof ilTestSkillLevelThreshold) || !$threshold->getThreshold() )
 				{
 					continue;
 				}
 
-				if( $threshold->getThreshold() && $skillPoints >= $threshold->getThreshold() )
+				$reachedLevelId = $level['id'];
+
+				if( $skillPoints <= $threshold->getThreshold() )
 				{
-					$reachedLevelId = $level['id'];
+					break;
 				}
 			}
 
