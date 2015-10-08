@@ -195,7 +195,7 @@ class ilObjStudyProgrammeTreeGUI {
 	 * @throws ilException
 	 */
 	protected function saveTreeOrder() {
-		$this->checkAccess('write');
+		$this->checkAccessOrFail('write');
 
 		if(!isset($_POST['tree']) || is_null(json_decode($_POST['tree']))) {
 			throw new ilStudyProgrammeTreeException("There is no tree data to save!");
@@ -258,7 +258,7 @@ class ilObjStudyProgrammeTreeGUI {
 	 * @throws ilException
 	 */
 	protected function createNewLeaf() {
-		$this->checkAccess('create', (int) $_POST['parent_id']);
+		$this->checkAccessOrFail('create', (int) $_POST['parent_id']);
 
 		if(isset($_POST['target_id'], $_POST['type'], $_POST['parent_id'])) {
 			$target_id = (int) $_POST['target_id'];

@@ -125,12 +125,15 @@ class ilObjStudyProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
 		$is_root_node = ($is_study_programme && $node->getRoot() == null);
 
 		// show delete only on not current elements and not root
-		$is_delete_enabled = ($is_study_programme && ($is_current_node || $is_root_node))? false : true;
+		$is_delete_enabled = ($is_study_programme && ($is_current_node || $is_root_node))? false : $this->checkAccess("delete", $current_ref_id);
+
+		$is_creation_enabled = ($this->checkAccess("create", $current_ref_id));
 
 		$node_config = array(
 			'current_ref_id' =>$current_ref_id,
 			'is_current_node' => $is_current_node,
 			'is_delete_enabled' => $is_delete_enabled,
+			'is_creation_enabled' => $is_creation_enabled,
 			'is_study_programme' => $is_study_programme,
 			'is_root_node' => $is_root_node
 		);
@@ -199,10 +202,13 @@ class ilObjStudyProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
 			$tpl->setVariable('NODE_INFO_BUTTON', $info_button);
 		}
 
-		$create_button = $this->getNodeButtonActionLink('ilObjStudyProgrammeTreeGUI', 'create', array('ref_id'=>$node->getRefId()), ilGlyphGUI::get(ilGlyphGUI::ADD));
-		$tpl->setVariable('NODE_CREATE_BUTTON', $create_button);
+		// only show add button when create permission is set
+		if($node_config['is_creation_enabled']) {
+			$create_button = $this->getNodeButtonActionLink('ilObjStudyProgrammeTreeGUI', 'create', array('ref_id'=>$node->getRefId()), ilGlyphGUI::get(ilGlyphGUI::ADD));
+			$tpl->setVariable('NODE_CREATE_BUTTON', $create_button);
+		}
 
-		// only show delete button when its not the current node, not the root-node
+		// only show delete button when its not the current node, not the root-node and delete permissions are set
 		if($node_config['is_delete_enabled']) {
 			$delete_button = $this->getNodeButtonActionLink('ilObjStudyProgrammeTreeGUI', 'delete', array('ref_id'=>$node->getRefId(), 'item_ref_id'=>$node_config['current_ref_id']), ilGlyphGUI::get(ilGlyphGUI::REMOVE));
 			$tpl->setVariable('NODE_DELETE_BUTTON', $delete_button);
@@ -355,19 +361,22 @@ class ilObjStudyProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
 
 		$parent_obj = ilObjectFactoryWrapper::singleton()->getInstanceByRefId($a_parent_node_id);
 
-		$children = array();
+		$children_with_permission = array();
 
 		// its currently only possible to have children on StudyProgrammes
 		if($parent_obj instanceof ilObjStudyProgramme) {
-			$children = $parent_obj->getChildren();
+			$children = ($parent_obj->hasChildren())? $parent_obj->getChildren() : $parent_obj->getLPChildren();
 
-			// only return lp-children if there are no StudyProgramme-children
-			if(!$parent_obj->hasChildren()) {
-				$children = $parent_obj->getLPChildren();
+			if(is_array($children)) {
+				foreach($children as $node) {
+					if($this->checkAccess('visible', $node->getRefId())) {
+						$children_with_permission[] = $node;
+					}
+				}
 			}
 		}
 
-		return $children;
+		return $children_with_permission;
 	}
 
 	/**
