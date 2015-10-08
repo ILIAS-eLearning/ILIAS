@@ -303,6 +303,7 @@ class ilObjStudyProgrammeTreeGUI {
 		$create_leaf_form->setExpandTarget($this->ctrl->getLinkTarget($this,'getContainerSelectionExplorer'));
 		$create_leaf_form->setAsynchExpanding(true);
 		$create_leaf_form->setTargetGet('target_id');
+		$create_leaf_form->setFrameTarget("_self");
 		$create_leaf_form->setClickable('crs', true);
 		$create_leaf_form->setTargetType('crs');
 		$create_leaf_form->setOutput(0);
