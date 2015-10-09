@@ -52,4 +52,8 @@ class gevWBDData implements WBDData{
 
 		return $this->WBDValue;
 	}
+
+	final public function __toString() {
+		return $this->WBDValue;
+	}
 }

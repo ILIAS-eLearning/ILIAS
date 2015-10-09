@@ -40,8 +40,14 @@ class gevWBDRequestWPStorno extends gevWBDRequest {
 
 	public static function getInstance(array $data) {
 		$errors = self::checkData($data);
-		if(!count($errors))  {
-			return new gevWBDRequestWPStorno($data);
+		if(!count($errors)) {
+			try {
+				return new gevWBDRequestWPStorno($data);
+			} catch(LogicException $e) {
+				$errors = array();
+				$errors[] =  new gevWBDError($e->getMessage(), static::$request_type, $data["user_id"], $data["row_id"]);
+				return $errors;
+			}
 		} else {
 			return $errors;
 		}
@@ -74,5 +80,14 @@ class gevWBDRequestWPStorno extends gevWBDRequest {
 	*/
 	public function wbdBookingId() {
 		return $this->wbd_booking_id;
+	}
+
+	/**
+	* gets the row_id
+	*
+	* @return integer
+	*/
+	public function rowId() {
+		return $this->row_id;
 	}
 }

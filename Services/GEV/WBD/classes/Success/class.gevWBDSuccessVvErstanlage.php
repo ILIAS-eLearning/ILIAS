@@ -38,11 +38,11 @@ class gevWBDSuccessVvErstanlage extends WBDSuccess {
 		$this->agent_id = $this->nodeValue($response,self::AGENT_ID);
 
 		$create_date = $this->nodeValue($response,self::CREATE_DATE);
-		$split = explode($create_date,self::DATE_SPLITTER);
+		$split = explode(self::DATE_SPLITTER,$create_date);
 		$this->create_date = new ilDate($split[0],IL_CAL_DATE);
 
 		$begin_of_certification_period = $this->nodeValue($response,self::BEGIN_OF_CERTIFICATION_PERIOD);
-		$split = explode($begin_of_certification_period,self::DATE_SPLITTER);
+		$split = explode(self::DATE_SPLITTER,$begin_of_certification_period);
 		$this->begin_of_certification_period = new ilDate($split[0],IL_CAL_DATE);
 	}
 

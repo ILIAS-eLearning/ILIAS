@@ -21,7 +21,7 @@ $GET_NEW_EXIT_USER = true;
 
 $GET_CHANGED_EDURECORDS = false;
 $IMPORT_FOREIGN_EDURECORDS = false;
-$STORNO_EDURECORDS = false;
+$STORNO_EDURECORDS = true;
 
 
 /*
@@ -90,6 +90,9 @@ class gevWBDDataConnector extends wbdDataConnector {
 	public $valid_newedurecords = array();
 	public $broken_newedurecords = array();
 
+	protected $stornoCounter;
+	protected $stornoRowIds;
+
 
 	public function __construct() {
 
@@ -97,6 +100,9 @@ class gevWBDDataConnector extends wbdDataConnector {
 		
 		require_once("./Services/WBDData/classes/class.wbdErrorLog.php");
 		wbdErrorLog::_install();
+
+		$this->stornoCounter = 0;
+		$this->stornoRowIds = array();
 	}
 
 
@@ -391,9 +397,9 @@ class gevWBDDataConnector extends wbdDataConnector {
 
 		$sql = "
 			UPDATE $table
-			SET last_wbd_report = NOW()
+			SET last_wbd_report = '".$this->getDate()."'
 			WHERE row_id=$row_id
-		";
+		";//NOW()
 		$result = $this->ilDB->query($sql);
 	}
 
@@ -416,7 +422,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 			require_once("Services/GEV/Utils/classes/class.gevUDFUtils.php");
 			$udf_utils = gevUDFUtils::getInstance();
 
-			$wbd_exit_date = date("Y-m-d");
+			$wbd_exit_date = $this->getDate();
 			$udf_utils->setField($usr_id,gevSettings::USR_WBD_EXIT_DATE, $wbd_exit_date);
 			$udf_utils->setField($usr_id,gevSettings::USR_TP_TYPE, "1 - Bildungsdienstleister");
 
@@ -658,7 +664,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 	 */
 	public function raiseEventUserChanged($a_user_id) {
 		global $ilAppEventHandler;
-
+		
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 		$uutils = gevUserUtils::getInstance($a_user_id);
 		$ilAppEventHandler->raise("Services/User", "afterUpdate", array("user_obj" => $uutils->getUser()));
@@ -750,13 +756,15 @@ class gevWBDDataConnector extends wbdDataConnector {
 			//." AND action='new_user'"
 			.")";
 
+		$sql .= " ORDER BY hist_user.row_id";
+
 
 		
 		
 		if($LIMIT_RECORDS){
 			$sql .= 'LIMIT ' .$LIMIT_RECORDS;
 		}
-
+//echo $sql;
 		$ret = array();
 		$result = $this->ilDB->query($sql);
 
@@ -804,6 +812,8 @@ class gevWBDDataConnector extends wbdDataConnector {
 					);
 				}
 			
+			} else {
+				echo "keine rolle";
 			}
 
 		}
@@ -889,6 +899,8 @@ class gevWBDDataConnector extends wbdDataConnector {
 			." AND reason IN ('WRONG_USERDATA','USER_EXISTS_TP', 'USER_SERVICETYPE', 'USER_DIFFERENT_TP', 'USER_DEACTIVATED', 'USER_UNKNOWN', 'CREATE_DUPLICATE')"
 			//." AND action='new_user'"
 			.")";
+
+		$sql .= " ORDER BY hist_user.row_id";
 
 
 		//$sql .= " GROUP BY user_id";
@@ -1032,6 +1044,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 		//dev-safety:
 		$sql .= ' AND usr_id in (SELECT usr_id FROM usr_data)';
 		$sql .= ' AND user_id NOT IN (6, 13)'; //root, anonymous
+		$sql .= " ORDER BY hist_usercoursestatus.row_id";
 
 		$ret = array();
 		$result = $this->ilDB->query($sql);
@@ -1119,6 +1132,12 @@ class gevWBDDataConnector extends wbdDataConnector {
 			WHERE row_id=$row_id
 		";
 		$result = $this->ilDB->query($sql);
+		$this->stornoCounter++;
+		//TEST ZEUGS FÜR STORNO
+		if($this->stornoCounter % 2 == 0) {
+			$this->stornoRowIds[] = $row_id;
+		}
+		//
 	}
 
 	public function fail_new_edu_record($row_id, $e){
@@ -1383,11 +1402,13 @@ class gevWBDDataConnector extends wbdDataConnector {
 				hist_course
 			ON
 				hist_usercoursestatus.crs_id = hist_course.crs_id
+				AND hist_course.hist_historic = 0
 
 			INNER JOIN
 				hist_user
 			ON
 				hist_usercoursestatus.usr_id = hist_user.user_id
+				AND hist_user.hist_historic = 0
 
 			WHERE
 				hist_user.bwv_id != '-empty-'
@@ -1406,17 +1427,22 @@ class gevWBDDataConnector extends wbdDataConnector {
 		//dev-safety:
 		$sql .= ' AND usr_id in (SELECT usr_id FROM usr_data)';
 		$sql .= ' AND user_id NOT IN (6, 13)'; //root, anonymous
-		
 
-		$sql .= ' and hist_usercoursestatus.row_id IN (
+		//TESTZEUG
+		$sql .= " AND ".$this->ilDB->in("hist_usercoursestatus.row_id", $this->stornoRowIds, false, "integer")."\n";
+		$sql .= " ORDER BY hist_usercoursestatus.row_id";
+		//
+		//echo $sql;
+		//die();
+		/*$sql .= ' and hist_usercoursestatus.row_id IN (
 260604,
 260603		
 		
 		)';
-		$sql .= ' AND FALSE';
+		$sql .= ' AND FALSE';*/
 		
-print $sql;
-
+//echo $sql;
+//return array();
 		$result = $this->ilDB->query($sql);
 		$ret = array();
 		while($record = $this->ilDB->fetchAssoc($result)) {
@@ -1483,6 +1509,9 @@ print $sql;
 			//." AND action='new_user'"
 			.")";
 
+		$sql .= " ORDER BY hist_user.row_id";
+		//echo $sql;
+
 		$res = $this->ilDB->query($sql);
 		$ret = array();
 		while($row = $this->ilDB->fetchAssoc($res)) {
@@ -1540,6 +1569,13 @@ print $sql;
 			$row_id
 		);
 	}
+
+	//TESTZEUG
+	protected function getDate() {
+		return date("Y-m-d");
+		//return "2015-09-29";
+	}
+	//TESTZEUGS
 
 }
 

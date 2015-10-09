@@ -2543,10 +2543,10 @@ class gevUserUtils {
 	* sets the WBD EXIT DATA on the GOA-User and hist_user
 	*
 	*/
-	private function setWbdExitUserData() {
+	public function setWbdExitUserData($exit_date) {
 		require_once("Services/GEV/Utils/classes/class.gevUDFUtils.php");
 		$udf_utils = gevUDFUtils::getInstance();
-		$udf_utils->setField($this->getId(),gevSettings::USR_WBD_EXIT_DATE, date("Y-m-d"));
+		$udf_utils->setField($this->getId(),gevSettings::USR_WBD_EXIT_DATE, $exit_date);
 		$udf_utils->setField($this->getId(),gevSettings::USR_TP_TYPE, "1 - Bildungsdienstleister");
 	}
 }

@@ -15,16 +15,16 @@ class gevWBDSuccessWPMeldung extends WBDSuccess {
 	protected $wbd_booking_id;
 	protected $begin_of_certification_period;
 	protected $row_id;
+	protected $user_id;
 
 	const WBD_BOOKING_ID = "WeiterbildungsPunkteBuchungsId";
 	const INTERNAL_AGENT_ID = "InterneVermittlerId";
 	const AGENT_ID = "VermittlerId";
 	const ROW_ID = "InterneBuchungsId";
-	const BEGIN_OF_CERTIFICATION_PERIOD = "BeginnZertifizierungsPeriode";
+	const BEGIN_OF_CERTIFICATION_PERIOD = "BeginnErstePeriode";
 	const DATE_SPLITTER = "T";
 
-	public function __construct($response) {
-		
+	public function __construct($response, $begin_of_certification, $user_id) {
 		$internal_agent_id = $this->nodeValue($response,self::INTERNAL_AGENT_ID);
 		if(!is_numeric($internal_agent_id)) {
 			throw new LogicException ("gevWBDSuccessWPMeldung::__construct:internal agent is not a number");
@@ -34,15 +34,18 @@ class gevWBDSuccessWPMeldung extends WBDSuccess {
 		if(!is_numeric($row_id)) {
 			throw new LogicException ("gevWBDSuccessWPMeldung::__construct:row_id is not a number");
 		}
-		
+
 		$this->internal_agent_id = (int)$internal_agent_id;
 		$this->row_id = (int)$row_id;
 		$this->agent_id = $this->nodeValue($response,self::AGENT_ID);
 		$this->wbd_booking_id = $this->nodeValue($response,self::WBD_BOOKING_ID);
 
 		$begin_of_certification_period = $this->nodeValue($response,self::BEGIN_OF_CERTIFICATION_PERIOD);
-		$split = explode($begin_of_certification_period,self::DATE_SPLITTER);
+		$split = explode(self::DATE_SPLITTER,$begin_of_certification_period);
 		$this->begin_of_certification_period = new ilDate($split[0],IL_CAL_DATE);
+
+		$this->old_begin_of_certification = new ilDate($begin_of_certification,IL_CAL_DATE);
+		$this->user_id = $user_id;
 	}
 
 	/**
@@ -111,5 +114,26 @@ class gevWBDSuccessWPMeldung extends WBDSuccess {
 		}
 		
 		return $this->begin_of_certification_period;
+	}
+
+	/**
+	* gets the user_id
+	* @return integer
+	*/
+	public function usrId() {
+		return $this->user_id;
+	}
+
+	/**
+	* should the begin_of_certification be updated
+	*
+	* @return boolean
+	*/
+	public function doUpdateBeginOfCertification(){
+		if($this->begin_of_certification_period->get(IL_CAL_UNIX) != $this->old_begin_of_certification->get(IL_CAL_UNIX)) {
+			return true;
+		}
+
+		return false;
 	}
 }

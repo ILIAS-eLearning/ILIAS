@@ -92,7 +92,10 @@ class gevWBDRequestVvErstanlage extends gevWBDRequest {
 		$this->info_via_mail 		= new gevWBDData("BenachrichtigungPerEmail",$data["info_via_mail"]);
 		$this->send_data 			= new gevWBDData("DatenuebermittlungsKennzeichen",$data["send_data"]);
 		$this->data_secure 			= new gevWBDData("DatenschutzKennzeichen",$data["data_secure"]);
-		$this->email 				= new gevWBDData("Emailadresse",$data["email"]);
+		
+		$normal_email = ($data['wbd_email'] != '') ? $data['wbd_email'] : $data['email'];
+		$this->email 				= new gevWBDData("Emailadresse",$normal_email);
+		
 		$this->birthday 			= new gevWBDData("Geburtsdatum",$data["birthday"]);
 		$this->house_number			= new gevWBDData("Hausnummer",$data["house_number"]);
 		$this->internal_agent_id 	= new gevWBDData("InterneVermittlerId",$data["user_id"]);
@@ -109,6 +112,7 @@ class gevWBDRequestVvErstanlage extends gevWBDRequest {
 		$this->firstname 			= new gevWBDData("VorName",$data["firstname"]);
 		$this->wbd_type 			= new gevWBDData("TpKennzeichen",$this->dictionary->getWBDName($data["wbd_type"],gevWBDDictionary::SEARCH_IN_WBD_TYPE));
 		$this->training_pass 		= new gevWBDData("WeiterbildungsAusweisBeantragt",$data["training_pass"]);
+		
 
 		$this->xml_tmpl_file_name = "VvErstanlage.xml";
 		$this->wbd_service_name = "VvErstanlageService";
@@ -120,8 +124,15 @@ class gevWBDRequestVvErstanlage extends gevWBDRequest {
 	public static function getInstance(array $data) {
 		$data = self::polishInternalData($data);
 		$errors = self::checkData($data);
-		if(!count($errors))  {
-			return new gevWBDRequestVvErstanlage($data);
+		
+		if(empty($errors)) {
+			try {
+				return new gevWBDRequestVvErstanlage($data);
+			} catch(LogicException $e) {
+				$errors = array();
+				$errors[] =  new gevWBDError($e->getMessage(), static::$request_type, $data["user_id"], $data["row_id"]);
+				return $errors;
+			}
 		} else {
 			return $errors;
 		}
@@ -134,8 +145,14 @@ class gevWBDRequestVvErstanlage extends gevWBDRequest {
 	* 
 	* @return string
 	*/
-	private static function checkData($data) {
-		return self::checkSzenarios($data);
+	private static function checkData(&$data) {
+		$result = self::checkSzenarios($data);
+		if(empty($result)) {
+			if($data["phone_nr"] == "") {
+				$data["phone_nr"] = $data["mobile_phone_nr"];
+			}
+		}
+		return $result;
 	}
 
 	/**
@@ -170,9 +187,18 @@ class gevWBDRequestVvErstanlage extends gevWBDRequest {
 	/**
 	* gets the user_id
 	*
-	* @return string
+	* @return integer
 	*/
 	public function userId() {
 		return $this->user_id;
+	}
+
+	/**
+	* gets the row_id
+	*
+	* @return integer
+	*/
+	public function rowId() {
+		return $this->row_id;
 	}
 }

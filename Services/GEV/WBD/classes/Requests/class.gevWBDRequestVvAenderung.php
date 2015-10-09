@@ -84,7 +84,10 @@ class gevWBDRequestVvAenderung extends gevWBDRequest {
 		$this->auth_email 			= new gevWBDData("AuthentifizierungsEmail",$data["email"]);
 		$this->auth_mobile_phone_nr = new gevWBDData("AuthentifizierungsTelefonnummer",$data["mobile_phone_nr"]);
 		$this->info_via_mail 		= new gevWBDData("BenachrichtigungPerEmail",$data["info_via_mail"]);
-		$this->email 				= new gevWBDData("Emailadresse",$data["email"]);
+
+		$normal_email = ($data['wbd_email'] != '') ? $data['wbd_email'] : $data['email'];
+		$this->email 				= new gevWBDData("Emailadresse",$normal_email);
+		
 		$this->birthday 			= new gevWBDData("Geburtsdatum",$data["birthday"]);
 		$this->house_number			= new gevWBDData("Hausnummer",$data["house_number"]);
 		$this->internal_agent_id 	= new gevWBDData("InterneVermittlerId",$data["user_id"]);
@@ -104,15 +107,22 @@ class gevWBDRequestVvAenderung extends gevWBDRequest {
 		$this->user_id = $data["user_id"];
 		$this->row_id = $data["row_id"];
 
-		$this->xml_tmpl_file = "VvAenderung.xml";
+		$this->xml_tmpl_file_name = "VvAenderung.xml";
 		$this->wbd_service_name = "VvAnderungService";
 	}
 
 	public static function getInstance(array $data) {
 		$data = self::polishInternalData($data);
 		$errors = self::checkData($data);
-		if(!count($errors))  {
-			return new gevWBDRequestVvAenderung($data);
+		
+		if(!count($errors)) {
+			try {
+				return new gevWBDRequestVvAenderung($data);
+			} catch(LogicException $e) {
+				$errors = array();
+				$errors[] =  new gevWBDError($e->getMessage(), static::$request_type, $data["user_id"], $data["row_id"]);
+				return $errors;
+			}
 		} else {
 			return $errors;
 		}
@@ -125,8 +135,14 @@ class gevWBDRequestVvAenderung extends gevWBDRequest {
 	* 
 	* @return string
 	*/
-	private static function checkData($values) {
-		return self::checkSzenarios($values);
+	private static function checkData(&$data) {
+		$result = self::checkSzenarios($data);
+		if(empty($result)) {
+			if($data["phone_nr"] == "") {
+				$data["phone_nr"] = $data["mobile_phone_nr"];
+			}
+		}
+		return $result;
 	}
 
 	/**
@@ -159,7 +175,7 @@ class gevWBDRequestVvAenderung extends gevWBDRequest {
 	/**
 	* gets the user_id
 	*
-	* @return string
+	* @return integer
 	*/
 	public function userId() {
 		return $this->user_id;
@@ -172,5 +188,14 @@ class gevWBDRequestVvAenderung extends gevWBDRequest {
 	*/
 	public function agentId() {
 		return $this->agent_id;
+	}
+
+	/**
+	* gets the row_id
+	*
+	* @return integer
+	*/
+	public function rowId() {
+		return $this->row_id;
 	}
 }

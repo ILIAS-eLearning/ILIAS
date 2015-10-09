@@ -43,8 +43,15 @@ class gevWBDRequestVermitVerwaltungTransferfaehig extends gevWBDRequest {
 	public static function getInstance(array $data) {
 		$data = self::polishInternalData($data);
 		$errors = self::checkData($data);
-		if(!count($errors))  {
-			return new gevWBDRequestVermitVerwaltungTransferfaehig($data);
+
+		if(!count($errors)) {
+			try {
+				return new gevWBDRequestVermitVerwaltungTransferfaehig($data);
+			} catch(LogicException $e) {
+				$errors = array();
+				$errors[] =  new gevWBDError($e->getMessage(), static::$request_type, $data["user_id"], $data["row_id"]);
+				return $errors;
+			}
 		} else {
 			return $errors;
 		}
@@ -68,5 +75,32 @@ class gevWBDRequestVermitVerwaltungTransferfaehig extends gevWBDRequest {
 	*/
 	public function createWBDSuccess($response) {
 		$this->wbd_success = new gevWBDSuccessVermitVerwaltungTransferfaehig($this->user_id,$this->row_id);
+	}
+
+	/**
+	* gets the row_id
+	*
+	* @return integer
+	*/
+	public function rowId() {
+		return $this->row_id;
+	}
+
+	/**
+	* gets the user_id
+	*
+	* @return integer
+	*/
+	public function userId() {
+		return $this->user_id;
+	}
+
+	/**
+	* gets the agent_id
+	*
+	* @return integer
+	*/
+	public function agentId() {
+		return $this->agent_id;
 	}
 }

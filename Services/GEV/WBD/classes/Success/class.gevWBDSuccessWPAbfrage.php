@@ -67,11 +67,11 @@ class gevWBDSuccessWPAbfrage extends WBDSuccess {
 			$wbd_booking_id = $value[self::WBD_BOOKING_ID];
 
 			$begin_date = $value[self::BEGIN_DATE];
-			$split = explode($begin_date,self::DATE_SPLITTER);
+			$split = explode(self::DATE_SPLITTER,$begin_date);
 			$begin_date = new ilDate($split[0],IL_CAL_DATE);
 
 			$end_date = $value[self::END_DATE];
-			$split = explode($end_date,self::DATE_SPLITTER);
+			$split = explode(self::DATE_SPLITTER,$end_date);
 			$end_date = new ilDate($split[0],IL_CAL_DATE);
 
 			$title = $value[self::TITLE];

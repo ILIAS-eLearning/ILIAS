@@ -11,6 +11,7 @@
 */
 require_once("Services/GEV/WBD/classes/Requests/class.gevWBDRequest.php");
 require_once("Services/GEV/WBD/classes/Data/class.gevWBDData.php");
+require_once("Services/GEV/WBD/classes/Success/class.gevWBDSuccessVermitVerwaltungAufnahme.php");
 class gevWBDRequestVermitVerwaltungAufnahme extends gevWBDRequest {
 	
 	protected $auth_email;
@@ -51,11 +52,27 @@ class gevWBDRequestVermitVerwaltungAufnahme extends gevWBDRequest {
 	public static function getInstance(array $data) {
 		$data = self::polishInternalData($data);
 		$errors = self::checkData($data);
-		if(!count($errors))  {
-			return new gevWBDRequestVermitVerwaltungAufnahme($data);
+
+		if(!count($errors)) {
+			try {
+				return new gevWBDRequestVermitVerwaltungAufnahme($data);
+			} catch(LogicException $e) {
+				$errors = array();
+				$errors[] =  new gevWBDError($e->getMessage(), static::$request_type, $data["user_id"], $data["row_id"]);
+				return $errors;
+			}
 		} else {
 			return $errors;
 		}
+	}
+
+	/**
+	* creates the success object VermitVerwaltungTransferfaehig
+	*
+	* @throws LogicException
+	*/
+	public function createWBDSuccess($response) {
+		$this->wbd_success = new gevWBDSuccessVermitVerwaltungAufnahme($this->user_id,$this->row_id);
 	}
 
 	/**
@@ -70,13 +87,29 @@ class gevWBDRequestVermitVerwaltungAufnahme extends gevWBDRequest {
 	}
 
 	/**
-	* creates the success object VvErstanlage
+	* gets the row_id
 	*
-	* @throws LogicException
-	* 
-	* @return boolean
+	* @return integer
 	*/
-	public function createWBDSuccess($response) {
-		
+	public function rowId() {
+		return $this->row_id;
+	}
+
+	/**
+	* gets the user_id
+	*
+	* @return integer
+	*/
+	public function userId() {
+		return $this->user_id;
+	}
+
+	/**
+	* gets the agent_id
+	*
+	* @return integer
+	*/
+	public function agentId() {
+		return $this->agent_id;
 	}
 }

@@ -47,9 +47,7 @@ class gevWBDError extends WBDError{
 		if($this->usr_id === null) {
 			throw new LogicException("gevWBDError::userId:user_id is null");
 		}
-		if($this->crs_id === null) {
-			throw new LogicException("gevWBDError::crsId:crs_id is null");
-		}
+
 		if($this->row_id === null) {
 			throw new LogicException("gevWBDError::rowId:row_id is null");
 		}

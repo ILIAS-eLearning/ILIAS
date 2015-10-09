@@ -27,7 +27,7 @@ class gevWBDDictionary implements Dictionary {
 														,"course_type" => array("Präsenzveranstaltung" => "001"
 																	,"Präsenztraining" => "001"
 																	,"Präsenz" => "001"
-																	,"Selbstlernkurs" => "001"
+																	,"Selbstlernkurs" => "005"
 																	,"gesteuertes E-Learning" => "004"
 																	,"Webinar" => "004"
 																	,"gesteuertes E-learning" => "004"
@@ -49,7 +49,7 @@ class gevWBDDictionary implements Dictionary {
 																	,'Privat-Sach-/Schadenversicherung' => '003'
 															)
 														,"wbd_type" => array("3 - TP-Service" => "ja"
-																	,"2 - TP-Service" => "nein"
+																	,"2 - TP-Basis" => "nein"
 															)
 														,"agent_status" => array("0 - aus Stellung" => "006"
 																	,"0 - aus Rolle" => "006"
@@ -124,17 +124,17 @@ class gevWBDDictionary implements Dictionary {
 		$name = $this->getName($key, $section, self::WBD_NAME); 
 		
 		if($name == "") {
-			throw new LogicException("value not found for key ".$key." in section ".$section." for direction ".self::WBD_NAME);
+			throw new LogicException("wbd value not found for: ".$key." db coloumn: ".$section);
 		}
 
 		return $name;
 	}
 
 	function getInternalName($key, $section) {
-				$name = $this->getName($key, $section, self::INTERNAL_NAME); 
+		$name = $this->getName($key, $section, self::INTERNAL_NAME); 
 		
 		if($name == "") {
-			throw new LogicException("value not found for key ".$key." in section ".$section." for direction ".self::INTERNAL_NAME);
+			throw new LogicException("internal value not found for: ".$key." db coloumn: ".$section);
 		}
 
 		return $name;

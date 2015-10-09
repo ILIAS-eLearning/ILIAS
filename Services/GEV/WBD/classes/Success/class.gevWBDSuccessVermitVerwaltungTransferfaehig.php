@@ -16,11 +16,11 @@ class gevWBDSuccessVermitVerwaltungTransferfaehig extends WBDSuccess {
 	
 	public function __construct($usr_id, $row_id) {
 		if(!$usr_id) {
-			throw new LogicException("gevWBDSuccessVvAenderung: a usr_id must be provided");
+			throw new LogicException("gevWBDSuccessVermitVerwaltungTransferfaehig: a usr_id must be provided");
 		}
 		
 		if(!$row_id) {
-			throw new LogicException("gevWBDSuccessVvAenderung: a row_id must be provided");
+			throw new LogicException("gevWBDSuccessVermitVerwaltungTransferfaehig: a row_id must be provided");
 		}
 
 		$this->row_id = $row_id;
@@ -34,7 +34,7 @@ class gevWBDSuccessVermitVerwaltungTransferfaehig extends WBDSuccess {
 	* 
 	*@return string
 	*/
-	public function userId() {
+	public function usrId() {
 		return $this->usr_id;
 	}
 

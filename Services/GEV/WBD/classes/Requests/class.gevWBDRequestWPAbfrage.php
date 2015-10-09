@@ -39,8 +39,15 @@ class gevWBDRequestWPAbfrage extends gevWBDRequest {
 
 	public static function getInstance(array $data) {
 		$errors = self::checkData($data);
-		if(!count($errors))  {
-			return new gevWBDRequestWPAbfrage($data);
+
+		if(!count($errors)) {
+			try {
+				return new gevWBDRequestWPAbfrage($data);
+			} catch(LogicException $e) {
+				$errors = array();
+				$errors[] =  new gevWBDError($e->getMessage(), static::$request_type, $data["user_id"], $data["row_id"]);
+				return $errors;
+			}
 		} else {
 			return $errors;
 		}

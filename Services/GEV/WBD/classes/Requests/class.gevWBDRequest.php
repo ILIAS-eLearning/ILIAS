@@ -32,7 +32,8 @@ abstract class gevWBDRequest implements WBDRequest {
 	static $USR_HOSE_NUMBER = "house_number";
 	static $USR_MOBILE_PHONE = "mobile_phone_nr";
 	static $USR_PHONE_NUMBER = "phone_nr";
-	static $PARENT_NODE_WBD_ERROR = "fault";
+
+	static $PARENT_NODE_WBD_ERROR = "Fault";
 	static $NODE_WBD_ERROR = "faultstring";
 
 	protected function __construct() {
@@ -65,7 +66,7 @@ abstract class gevWBDRequest implements WBDRequest {
 		foreach ($props as $key => $value) {
 			if($this->{$value->name} instanceof gevWBDData) {
 				$template = str_replace("{".$this->{$value->name}->WBDTagName()."}"
-									, $this->{$value->name}->WBDValue()
+									, $this->replaceSpecialChars($this->{$value->name}->WBDValue())
 									, $template);
 			}
 		}
@@ -149,7 +150,7 @@ abstract class gevWBDRequest implements WBDRequest {
 						break;
 					case "list":
 						if($value == ""){
-							$errors[] =  new gevWBDError( "empty value not in list", static::$request_type, $usr_id, $row_id, $crs_id);
+							$errors[] =  new gevWBDError( "empty value not in list: ".$field, static::$request_type, $usr_id, $row_id, $crs_id);
 						}
 						if(!in_array($value, $setting)){
 							$errors[] =  new gevWBDError("not in list: ".$field, static::$request_type, $usr_id, $row_id, $crs_id);
@@ -304,7 +305,13 @@ abstract class gevWBDRequest implements WBDRequest {
 	*
 	* @return array 	$data
 	*/
-	final static function polishInternalData($data) {
+	final static function polishInternalData(&$data) {
+		foreach ($data as $key => $value) {
+			if($value === "-empty-") {
+				$data[$key] = "";
+			}
+		}
+
 		if(array_key_exists(self::$USR_STREET,$data)) {
 			$street_and_number = self::extractHouseNumber($data[self::$USR_STREET]);
 			$data[self::$USR_STREET] = $street_and_number["street"];
@@ -453,15 +460,18 @@ abstract class gevWBDRequest implements WBDRequest {
 	*
 	* @param string 	$reason_xml 	response xml on error
 	*/
-	final function parseReason($reason_xml) {
-		$reason = $reason_xml;
+	final function parseReason($response) {
+		$result = $response->xpath("//" . self::$NODE_WBD_ERROR);
 
-		foreach($reason_xml->xpath("//".self::$PARENT_NODE_WBD_ERROR) as $event) {
- 			$error_node = self::$NODE_WBD_ERROR;
- 			$reason = $event->$error_node[0];
+		if (count($result) > 1) {
+			throw new LogicException("WBDSuccess::nodeValue:Tag Name is not unique: ".$tag_name);
+		}
+		
+		if (count($result) < 1) {
+			throw new LogicException("WBDSuccess::nodeValue:Tag Name not found: ".$tag_name);
 		}
 
-		return $reason;
+		return $result[0]->__toString();
 	}
 
 	
@@ -485,5 +495,31 @@ abstract class gevWBDRequest implements WBDRequest {
 	public function getXML() {
 		$xml_tmpl = $this->getServiceXML();
 		return $this->replaceArguments($xml_tmpl);
+	}
+
+	/**
+	* gets the request service name
+	*
+	* @return string
+	*/
+	final public function getServiceName() {
+		return $this->wbd_service_name;
+	}
+
+	/**
+	* replace html special chars
+	*
+	* @param string $value
+	*
+	* @return string
+	*/
+	final function replaceSpecialChars($value) {
+		$value = str_replace("&", "&amp;", $value);
+		$value = str_replace("<", "&lt;", $value);
+		$value = str_replace(">", "&gt;", $value);
+		$value = str_replace("'", "&apos;", $value);
+		$value = str_replace("\"", "&quot;", $value);
+
+		return $value;
 	}
 }
