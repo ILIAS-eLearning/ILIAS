@@ -109,9 +109,9 @@ il.Form = {
 		$("a.ilLinkInputRemove").click(function (e) {
 			var id = this.parentNode.id;
 			id = id.substr(0, id.length - 4);
-			$("input[name=" + Form.escapeSelector(id) + "_ajax_type]").val('');
-			$("input[name=" + Form.escapeSelector(id) + "_ajax_id]").val('');
-			$("input[name=" + Form.escapeSelector(id) + "_ajax_target]").val('');
+			$("input[name=" + il.Form.escapeSelector(id) + "_ajax_type]").val('');
+			$("input[name=" + il.Form.escapeSelector(id) + "_ajax_id]").val('');
+			$("input[name=" + il.Form.escapeSelector(id) + "_ajax_target]").val('');
 			$("#" + il.Form.escapeSelector(id) + "_value").html('');
 			$(this.parentNode).css('display', 'none');
 			console.log(id);

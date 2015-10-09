@@ -5,7 +5,7 @@
 * @module			language file German
 * @modulegroup		language
 * @author			Matthias Kunkel <mkunkel@me.com>
-* @version			$Id$
+* @version			$Id: ilias_de.lang 60971 2015-10-05 10:40:13Z gitmgr $
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
@@ -9881,7 +9881,7 @@ rating#:#rat_one_rating#:#Eine Bewertung
 rating#:#rating_average_rating#:#Durchschnittliche Bewertung
 rating#:#rating_nr_users#:#%s Benutzer
 rating#:#rating_your_rating#:#Ihre Bewertung
-rbac#:#active_preconditions#:#Vorbedingungen
+rbac#:#active_preconditions#:#Definierte Vorbedingungen
 rbac#:#add_consultation_hours#:#Sprechstundentermine anlegen
 rbac#:#add_reply#:#Antwort anlegen
 rbac#:#add_thread#:#Thema anlegen
@@ -10026,9 +10026,9 @@ rbac#:#rbac_not_change_existing_objects#:#Vorhandene Objekte NICHT anpassen
 rbac#:#rbac_precondition_minimum_optional#:#Es müssen mindestens zwei Vorbedingungen optional verbleiben.
 rbac#:#rbac_precondition_mode#:#Modus
 rbac#:#rbac_precondition_mode_all#:#Alle Vorbedingungen
-rbac#:#rbac_precondition_mode_all_info#:#Alle Vorbedingungen müssen für einen Zugriff erfüllt werden.
+rbac#:#rbac_precondition_mode_all_info#:#Alle definierten Vorbedingungen müssen für einen Zugriff erfüllt werden.
 rbac#:#rbac_precondition_mode_subset#:#Untermenge der Vorbedingungen
-rbac#:#rbac_precondition_mode_subset_info#:#Eine Untermenge der Vorbedingungen müssen für einen Zugriff erfüllt werden. Einige Vorbedingungen können trotzdem verpflichtend sein.
+rbac#:#rbac_precondition_mode_subset_info#:#Eine Untermenge der definierten Vorbedingungen müssen für einen Zugriff erfüllt werden. Einige Vorbedingungen können trotzdem verpflichtend sein.
 rbac#:#rbac_precondition_save_obligatory#:#Verpflichtend speichern
 rbac#:#rbac_precondition_source#:#Vorbedingung durch
 rbac#:#rbac_precondition_target#:#Vorbedingung für Zugriff auf
@@ -14577,7 +14577,7 @@ survey#:#svy_mail_own_results#:#Eigene Antworten per E-Mail versenden
 survey#:#svy_mail_own_results_subject#:#Umfrage "%s" - Ihre Antworten
 survey#:#svy_mail_own_results_body#:#nachfolgend ist Ihre Teilnahme gelistet.
 survey#:#svy_results_view_own#:#Teilnehmer kann eigene Antworten einsehen
-survey#:#svy_results_mail_own#:#Teilnehmer kann sich E-Mail eigenen Antworten senden
+survey#:#svy_results_mail_own#:#Teilnehmer kann sich E-Mail mit den eigenen Antworten senden
 exercise#:#exc_to_desktop_info#:#Nach Abgabe die Übung auf den Schreibtisch legen
 wiki#:#wiki_wpg#:#Wiki-Seite
 wiki#:#wiki_add_page_properties#:#Zusätzliche Eigenschaften von Wikiseiten
@@ -14830,7 +14830,7 @@ sess#:#sess_reg_added_to_wl#:#Sie sind in die Warteliste aufgenommen worden.
 rbac#:#condition_failed#:#Nicht bestanden
 rbac#:#condition_learning_progress#:#Status aus Lernfortschritt ableiten
 rbac#:#rbac_precondition_hide#:#Objekt verbergen
-rbac#:#rbac_precondition_hide_info#:#Das Objekt ist für Benutzer, die die Vorbedingungen nicht erfüllt haben, nicht sichtbar.
+rbac#:#rbac_precondition_hide_info#:#Dieses Objekt wird Benutzern solange nicht angezeigt, bis die definierten Vorbedingungen erfüllt sind.
 wsp#:#wsp_shared_table_title#:#Freigaben
 crs#:#crs_objective_status_configure#:#Checkliste Kurs
 crs#:#crs_objective_status_settings#:#Kurseinstellungen vornehmen

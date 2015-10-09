@@ -3502,7 +3502,7 @@ class ilObjTestGUI extends ilObjectGUI
 					if ($this->object->canShowTestResults($testSession, $ilUser->getId()) && count($testPassesSelector->getReportablePasses())) 
 					{
 						$btn = ilLinkButton::getInstance();
-						$btn->setCaption('tst_show_comp_results');
+						$btn->setCaption('tst_show_results');
 						$btn->setUrl($this->ctrl->getLinkTargetByClass('ilTestEvaluationGUI',  'outUserResultsOverview'));
 						$btn->setPrimary(false);
 						$big_button[] = $btn;

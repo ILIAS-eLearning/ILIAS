@@ -15301,3 +15301,10 @@ blog#:#blog_keywords_other#:#Other Keywords###12 09 2015 new variable
 blog#:#blog_keywords_other_info#:#These keywords were set for other blog postings.###12 09 2015 new variable
 forum#:#forums_thread_deleted#:#The selected thread including all postings have been deleted.###12 09 2015 new variable
 forum#:#forums_threads_deleted#:#The selected threads including all postings have been deleted.###12 09 2015 new variable
+user#:#feedhash#:#Newsfeedhash###08 10 2015 new variable
+wsp#:#wsp_shared_filter_reset_button#:#Reset Search###08 10 2015 new variable
+wsp#:#wsp_shared_filter_button#:#Search###08 10 2015 new variable
+exc#:#exc_direct_submit#:#Submit###08 10 2015 new variable
+export#:#no_file#:#No file###08 10 2015 new variable
+content#:#lm_no_download_files#:#There are currently no files for download available.###08 10 2015 new variable
+rbac#:#feed_copy#:#User can copy webfeed###08 10 2015 new variable
