@@ -115,7 +115,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 		return $errors;
 	}
 
-	function addBasicQuestionFormProperties(ilPropertyFormGUI $form)
+	function addBasicQuestionFormProperties($form)
 	{
 		parent::addBasicQuestionFormProperties($form);
 		$form->getItemByPostVar('question')->setInitialRteWidth('100');
