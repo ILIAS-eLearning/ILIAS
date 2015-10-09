@@ -92,7 +92,7 @@ class ilModulesTestQuestionPoolSuite extends PHPUnit_Framework_TestSuite
 
 		// Type: MultipleChoice
 		require_once("./Modules/TestQuestionPool/test/assMultipleChoiceTest.php");
-		//$suite->addTestSuite("assMultipleChoiceTest");
+		$suite->addTestSuite("assMultipleChoiceTest");
 		// Incompatible with local mode
 
 		require_once("./Modules/TestQuestionPool/test/assMultipleChoiceGUITest.php");
@@ -124,7 +124,7 @@ class ilModulesTestQuestionPoolSuite extends PHPUnit_Framework_TestSuite
 
 		// Type: SingleChoice
 		require_once("./Modules/TestQuestionPool/test/assSingleChoiceTest.php");
-		//$suite->addTestSuite("assSingleChoiceTest");
+		$suite->addTestSuite("assSingleChoiceTest");
 		// Incompatible with local mode
 
 		require_once("./Modules/TestQuestionPool/test/assSingleChoiceGUITest.php");
