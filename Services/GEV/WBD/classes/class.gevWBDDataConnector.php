@@ -1478,7 +1478,7 @@ print $sql;
 			." SELECT DISTINCT usr_id FROM wbd_errors WHERE"
 			." resolved=0"
 			." AND ".$this->ilDB->in("reason", 
-										array('WRONG_USERDATA', 'USER_SERVICETYPE', 'USER_DIFFERENT_TP', 'USER_UNKNOWN', 'NO_RELEASE'), false, "text"
+										array('WRONG_USERDATA', 'USER_SERVICETYPE', 'USER_DIFFERENT_TP', 'USER_UNKNOWN', 'NO_RELEASE', 'USER_DEACTIVATED'), false, "text"
 									).""
 			//." AND action='new_user'"
 			.")";
