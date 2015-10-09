@@ -511,8 +511,8 @@ class ilContainer extends ilObject
 		include_once './Services/Object/classes/class.ilObjectCopyGUI.php';
 		if($a_submode == ilObjectCopyGUI::SUBMODE_CONTENT_ONLY)
 		{
-			$ilLog->write(__METHOD__.': Copy content only...');
-			$ilLog->write(__METHOD__.': Added mapping, source ID: '.$clone_source.', target ID: '.$ref_id);
+			ilLoggerFactory::getLogger('obj')->info('Copy content only...');
+			ilLoggerFactory::getLogger('obj')->debug('Added mapping, source ID: '.$clone_source.', target ID: '.$ref_id);
 			$wizard_options->read();
 			$wizard_options->dropFirstNode();
 			$wizard_options->appendMapping($clone_source,$ref_id);
@@ -532,12 +532,12 @@ class ilContainer extends ilObject
 		$ilLog->write(__METHOD__.': Trying to call Soap client...');
 		if($soap_client->init())
 		{
-			$ilLog->write(__METHOD__.': Calling soap clone method...');
+			ilLoggerFactory::getLogger('obj')->info('Calling soap clone method');
 			$res = $soap_client->call('ilClone',array($new_session_id.'::'.$client_id, $copy_id));
 		}
 		else
 		{
-			$ilLog->write(__METHOD__.': SOAP call failed. Calling clone method manually. ');
+			ilLoggerFactory::getLogger('obj')->warning('SOAP clone call failed. Calling clone method manually');
 			$wizard_options->disableSOAP();
 			$wizard_options->read();			
 			include_once('./webservice/soap/include/inc.soap_functions.php');
@@ -651,7 +651,7 @@ class ilContainer extends ilObject
 			// including event items!
 			if (!self::$data_preloaded)
 			{
-				$preloader->addItem($object["obj_id"], $object["type"], $object["child"]);					
+				$preloader->addItem($object["obj_id"], $object["type"], $object["child"]);
 			}			
 			
 			// filter out items that are attached to an event

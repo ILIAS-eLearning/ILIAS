@@ -946,11 +946,13 @@ class ilObjectCopyGUI
 
 		if (count($a_sources) == 1)
 		{
+			ilLoggerFactory::getLogger('obj')->info('Object copy completed.');
 			ilUtil::sendSuccess($this->lng->txt("object_duplicated"),true);
 			ilUtil::redirect(ilLink::_getLink($new_obj->getRefId()));
 		}
 		else
 		{
+			ilLoggerFactory::getLogger('obj')->info('Object copy completed.');
 			ilUtil::sendSuccess($this->lng->txt("objects_duplicated"),true);
 			ilUtil::redirect(ilLink::_getLink($this->getFirstTarget()));
 		}
@@ -981,6 +983,7 @@ class ilObjectCopyGUI
 		include_once './Services/CopyWizard/classes/class.ilCopyWizardOptions.php';
 		if(ilCopyWizardOptions::_isFinished($result['copy_id']))
 		{
+			ilLoggerFactory::getLogger('obj')->info('Object copy completed.');
 			ilUtil::sendSuccess($this->lng->txt("object_duplicated"),true);
 			$ilCtrl->setParameterByClass(
 					"ilrepositorygui", 
@@ -992,6 +995,7 @@ class ilObjectCopyGUI
 		else
 		{
 			// show progress
+			ilLoggerFactory::getLogger('obj')->debug('Object copy in progress.');
 			return $this->showCopyProgress();
 		}
 	}
@@ -1028,6 +1032,7 @@ class ilObjectCopyGUI
 		$json->required_steps = $options->getRequiredSteps();
 		$json->id = (int) $_REQUEST['copy_id'];
 		
+		ilLoggerFactory::getLogger('obj')->debug('Update copy progress: '. json_encode($json));
 		
 		echo json_encode($json);
 		exit;
