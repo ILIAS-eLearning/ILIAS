@@ -16,6 +16,7 @@ class assSingleChoiceTest extends PHPUnit_Framework_TestCase
 
 	protected function setUp()
 	{
+		require_once './Modules/TestQuestionPool/classes/class.assSingleChoice.php';
 		if (defined('ILIAS_PHPUNIT_CONTEXT'))
 		{
 			include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
@@ -26,6 +27,7 @@ class assSingleChoiceTest extends PHPUnit_Framework_TestCase
 			chdir( dirname( __FILE__ ) );
 			chdir('../../../');
 		}
+		require_once './Services/Utilities/classes/class.ilUtil.php';
 	}
 
 	/**
@@ -34,7 +36,7 @@ class assSingleChoiceTest extends PHPUnit_Framework_TestCase
 	* @param integer $obj_id Object ID of the containing question pool object (optional)
 	* @return integer ID of the newly created question
 	*/
-	public static function createSampleQuestion($obj_id = null)
+	/*public static function createSampleQuestion($obj_id = null)
 	{
 		$obj_id = ($obj_id) ? $obj_id : 99999999;
 		include_once './Modules/TestQuestionPool/classes/class.assSingleChoice.php';
@@ -54,14 +56,14 @@ class assSingleChoiceTest extends PHPUnit_Framework_TestCase
 		$sc->setObjId($obj_id);
 		$sc->saveToDb();
 		return $sc->getId();
-	}
+	}*/
 
 	/**
 	 * Question creation test
 	 * @param
 	 * @return
 	 */
-	public function t_e_stCreation()
+	/*public function t_e_stCreation()
 	{
 		global $ilDB;
 
@@ -82,4 +84,69 @@ class assSingleChoiceTest extends PHPUnit_Framework_TestCase
 			$this->assertEquals($result,true);
 		}
 	}
+*/
+	public function test_isComplete_shouldReturnTrue()
+	{
+		$obj = new assSingleChoice();
+		$this->assertEquals(false, $obj->isComplete());
+		$obj->setTitle('Tilte');
+		$obj->setAuthor('Me or another');
+		$obj->setQuestion('My great Question.');
+		$obj->addAnswer('Super simple single Choice', 1);
+
+		$this->assertEquals(true, $obj->isComplete());
+	}
+
+	public function test_getThumbPrefix_shouldReturnString()
+	{
+		$obj = new assSingleChoice();
+		$this->assertEquals('thumb.', $obj->getThumbPrefix());
+	}
+
+	public function test_setOutputType_shouldReturngetOutputType()
+	{
+		$obj = new assSingleChoice();
+		$obj->setOutputType(0);
+		$this->assertEquals(0, $obj->getOutputType());
+	}
+
+	public function test_getAnswerCount_shouldReturnCount()
+	{
+		$obj = new assSingleChoice();
+		$this->assertEquals(0, $obj->getAnswerCount());
+		$obj->addAnswer('1', 1, 0);
+		$obj->addAnswer('1', 1, 1);
+		$this->assertEquals(2, $obj->getAnswerCount());
+		$obj->deleteAnswer(0);
+		$this->assertEquals(1, $obj->getAnswerCount());
+	}
+
+	public function test_flushAnswers_shouldClearAnswers()
+	{
+		$obj = new assSingleChoice();
+		$obj->addAnswer('1', 1, 0);
+		$obj->addAnswer('1', 1, 1);
+		$this->assertEquals(2, $obj->getAnswerCount());
+		$obj->flushAnswers();
+		$this->assertEquals(0, $obj->getAnswerCount());
+	}
+
+	public function test_getQuestionType_shouldReturnQuestionType()
+	{
+		$obj = new assSingleChoice();
+		$this->assertEquals('assSingleChoice', $obj->getQuestionType());
+	}
+
+	public function test_getAdditionalTableName_shouldReturnAdditionalTableName()
+	{
+		$obj = new assSingleChoice();
+		$this->assertEquals('qpl_qst_sc', $obj->getAdditionalTableName());
+	}
+
+	public function test_getAnswerTableName_shouldReturnAnswerTableName()
+	{
+		$obj = new assSingleChoice();
+		$this->assertEquals('qpl_a_sc', $obj->getAnswerTableName());
+	}
+
 }
