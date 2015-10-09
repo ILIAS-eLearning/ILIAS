@@ -29,7 +29,9 @@ require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevUVGOrgUnits.php");
 require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
 require_once("Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php");
+require_once("Services/Form/classes/class.ilMultiSelectInputGUI.php");
 
 class gevDecentralTrainingGUI {
 	const AUTO_RELOAD_TIMEOUT_MS = 5000;
@@ -48,6 +50,7 @@ class gevDecentralTrainingGUI {
 		$this->tpl = &$tpl;
 		$this->log = &$ilLog;
 		$this->current_user = &$ilUser;
+		$this->cur_user_utils = gevUserUtils::getInstance($this->current_user->getId());
 		$this->access = &$ilAccess;
 		$this->user_id = null;
 		$this->date = null;
@@ -522,12 +525,37 @@ class gevDecentralTrainingGUI {
 		$crs_utils = gevCourseUtils::getInstance($obj_id);
 		$tmpl_id = gevObjectUtils::getObjId($crs_utils->getTemplateRefId());
 
+		if($crs_utils->userHasRightOf($this->current_user->getId(),"change_trainer")) {
+			$trainer_ids_new = $form->getInput("tutor_change");
+			$trainer_ids_old = explode("|",$form->getInput("trainer_ids"));
+			$this->updateTrainers($trainer_ids_new,$trainer_ids_old,$crs_utils);
+		}
+
 		$settings = $this->getSettingsFromForm($crs_utils, $form, $tmpl_id);
 		$settings->applyTo((int)$_POST["obj_id"]);
 
 		require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCourseCreatingBuildingBlock2GUI.php");
 		$bb_gui = new gevDecentralTrainingCourseCreatingBuildingBlock2GUI($_POST["obj_id"]);
 		$this->ctrl->forwardCommand($bb_gui);
+	}
+
+	protected function updateTrainers($trainer_ids_new, $trainer_ids_old, $crs_utils) {
+		$to_delete = array();
+		foreach ($trainer_ids_old as $key => $value) {
+			$pos = array_search($value, $trainer_ids_new);
+			if($pos !== false){
+				unset($trainer_ids_new[$pos]);
+			} else {
+				$to_delete[] = $value;
+			}
+		}
+
+		$defaultTutorRole = $crs_utils->getCourse()->getDefaultTutorRole();
+		foreach ($trainer_ids_new as $value) {
+			gevRoleUtils::getRbacAdmin()->assignUser($defaultTutorRole, $value);
+		}
+
+		$crs_utils->cancelTrainer($to_delete);
 	}
 	
 	protected function redirectToBookingFormOfLastCreatedTraining() {
@@ -561,7 +589,7 @@ class gevDecentralTrainingGUI {
 	protected function showSettings($a_form = null) {
 		if ($a_form === null) {
 			require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
-			
+		
 			if ($this->crs_ref_id == null) {
 				throw new Exception("gevDecentralTrainingGUI::modifySettings: no ref id");
 			}
@@ -634,6 +662,7 @@ class gevDecentralTrainingGUI {
 		
 		$obj_id = $_POST["obj_id"];
 		$form_values["utils_id"] = $obj_id;
+		$this->crs_ref_id = gevObjectUtils::getRefId($obj_id);
 		$is_flexible = $this->isCrsTemplateFlexible($obj_id);
 		$form = $this->buildTrainingOptionsForm(false, $is_flexible, $form_values);
 
@@ -656,6 +685,12 @@ class gevDecentralTrainingGUI {
 			$this->log->write("gevDecentralTrainingGUI::updateSettings: User ".$this->current_user->getId()
 							 ." tried to update Settings but has no permission.");
 			throw new Exception("gevDecentralTrainingGUI::updateSettings: no permission");
+		}
+
+		if($crs_utils->userHasRightOf($this->current_user->getId(),"change_trainer")) {
+			$trainer_ids_new = $form->getInput("tutor_change");
+			$trainer_ids_old = explode("|",$form->getInput("trainer_ids"));
+			$this->updateTrainers($trainer_ids_new,$trainer_ids_old,$crs_utils);
 		}
 		
 		$settings = $this->getSettingsFromForm($crs_utils, $form, $tmpl_id);
@@ -989,12 +1024,31 @@ class gevDecentralTrainingGUI {
 		$time->setDisabled($a_form_values["no_changes_allowed"]);
 		$form->addItem($time);
 		
-		$trainers = new ilNonEditableValueGUI($this->lng->txt("tutor"), "tutor", true);
-		if ($a_fill) {
-			$trainers->setValue(implode("<br />", gevUserUtils::getFullNames($a_form_values["trainer_ids"])));
+		if($this->crs_ref_id !== null && $crs_utils->userHasRightOf($this->current_user->getId(),"change_trainer")) {
+			$trainer_ids = $this->dctl_utils->getUsersWhereCanCreateFor($this->current_user->getId());
+			
+			if ($this->dctl_utils->canCreateFor($this->current_user->getId(), $this->current_user->getId())) {
+				$trainer_ids = array_merge(array($this->current_user->getId()), $trainer_ids);
+			}
+			
+			$options = gevUserUtils::getFullNames($trainer_ids);
+
+			$trainer_select = new ilMultiSelectInputGUI($this->lng->txt("tutor"), "tutor_change");
+			$trainer_select->setOptions($options);
+			$trainer_select->setWidth(250);
+			$trainer_select->setValue($a_form_values["trainer_ids"]);
+			$trainer_select->setDisabled($a_form_values["no_changes_allowed"]);
+			$trainer_select->setRequired(true);
+			
+			$form->addItem($trainer_select);
+		} else {
+			$trainers = new ilNonEditableValueGUI($this->lng->txt("tutor"), "tutor", true);
+			if ($a_fill) {
+				$trainers->setValue(implode("<br />", gevUserUtils::getFullNames($a_form_values["trainer_ids"])));
+			}
+			$trainers->setDisabled($a_form_values["no_changes_allowed"]);
+			$form->addItem($trainers);
 		}
-		$trainers->setDisabled($a_form_values["no_changes_allowed"]);
-		$form->addItem($trainers);
 		
 		/*************************
 		* ORT UND ANBIETER
@@ -1155,12 +1209,31 @@ class gevDecentralTrainingGUI {
 		$time->setDisabled($a_form_values["no_changes_allowed"]);
 		$form->addItem($time);
 		
-		$trainers = new ilNonEditableValueGUI($this->lng->txt("tutor"), "tutor", true);
-		if ($a_fill) {
-			$trainers->setValue(implode("<br />", gevUserUtils::getFullNames($a_form_values["trainer_ids"])));
+		if($this->crs_ref_id !== null && $crs_utils->userHasRightOf($this->current_user->getId(),"change_trainer")) {
+			$trainer_ids = $this->dctl_utils->getUsersWhereCanCreateFor($this->current_user->getId());
+			
+			if ($this->dctl_utils->canCreateFor($this->current_user->getId(), $this->current_user->getId())) {
+				$trainer_ids = array_merge(array($this->current_user->getId()), $trainer_ids);
+			}
+			
+			$options = gevUserUtils::getFullNames($trainer_ids);
+
+			$trainer_select = new ilMultiSelectInputGUI($this->lng->txt("tutor"), "tutor_change");
+			$trainer_select->setOptions($options);
+			$trainer_select->setWidth(250);
+			$trainer_select->setValue($a_form_values["trainer_ids"]);
+			$trainer_select->setDisabled($a_form_values["no_changes_allowed"]);
+			$trainer_select->setRequired(true);
+			
+			$form->addItem($trainer_select);
+		} else {
+			$trainers = new ilNonEditableValueGUI($this->lng->txt("tutor"), "tutor", true);
+			if ($a_fill) {
+				$trainers->setValue(implode("<br />", gevUserUtils::getFullNames($a_form_values["trainer_ids"])));
+			}
+			$trainers->setDisabled($a_form_values["no_changes_allowed"]);
+			$form->addItem($trainers);
 		}
-		$trainers->setDisabled($a_form_values["no_changes_allowed"]);
-		$form->addItem($trainers);
 		
 		/*************************
 		* ORT UND ANBIETER
@@ -1382,6 +1455,12 @@ class gevDecentralTrainingGUI {
 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 		$crs_utils = gevCourseUtils::getInstance($obj_id);
 		$tmpl_id = gevObjectUtils::getObjId($crs_utils->getTemplateRefId());
+
+		if($crs_utils->userHasRightOf($this->current_user->getId(),"change_trainer")) {
+			$trainer_ids_new = $form->getInput("tutor_change");
+			$trainer_ids_old = explode("|",$form->getInput("trainer_ids"));
+			$this->updateTrainers($trainer_ids_new,$trainer_ids_old,$crs_utils);
+		}
 
 		$settings = $this->getSettingsFromForm($crs_utils, $form, $tmpl_id);
 		$settings->applyTo($obj_id);

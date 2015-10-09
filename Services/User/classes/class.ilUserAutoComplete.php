@@ -175,6 +175,26 @@ class ilUserAutoComplete
 		return $this->possible_fields;
 	}
 
+	//gev patch start
+	/**
+	* set searchable udf field
+	*
+	* @param array udf field ids
+	*/
+	public function setUDFSearchFieldIds(array $udf_search_field_ids) {
+		$this->udf_search_field_ids = $udf_search_field_ids;
+	}
+
+	/**
+	* set searchable udf field
+	*
+	* @param array udf field ids
+	*/
+	public function getUDFSearchFieldIds(array $udf_search_field_ids) {
+		return $this->udf_search_field_ids;
+	}
+	//gev patch end
+
 	/**
 	 * Get searchable fields
 	 * @return array
@@ -309,6 +329,14 @@ class ilUserAutoComplete
 				AND pubemail.keyword = ' . $ilDB->quote('public_email', 'text');
 		}
 
+		if($this->udf_search_field_ids) {
+			foreach ($this->udf_search_field_ids as $key => $field_id) {
+				$joins[] = "LEFT JOIN udf_text udft_".$field_id
+							." ON usr_data.usr_id = udft_".$field_id.".usr_id"
+							." AND udft_".$field_id.".field_id = ".$ilDB->quote($field_id,"integer");
+			}
+		}
+
 		if($joins)
 		{
 			return 'usr_data ' . implode(' ', $joins);
@@ -401,10 +429,20 @@ class ilUserAutoComplete
 			$outer_conditions[] = $ilDB->in('time_limit_owner', ilUserFilter::getInstance()->getFolderIds(), false, 'integer');
 		}
 
+		//gev patch start
+		if($this->udf_search_field_ids) {
+			foreach ($this->udf_search_field_ids as $key => $field_id) {
+				$field_conditions[] = "udft_".$field_id.".value LIKE ".$ilDB->quote($search_query."%","text");
+			}
+		}
+		//gev patch end
+
 		if($field_conditions)
 		{
 			$outer_conditions[] = '(' . implode(' OR ', $field_conditions) . ')';
 		}
+
+		
 
 		return implode(' AND ', $outer_conditions);
 	}

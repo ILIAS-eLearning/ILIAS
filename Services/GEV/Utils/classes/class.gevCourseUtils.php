@@ -2524,6 +2524,13 @@ class gevCourseUtils {
 			$membership->delete($trainer);
 		}
 	}
+
+	public function cancelTrainer(array $trainer_id) {
+		$membership = $this->getCourse()->getMembersObject();
+		foreach($trainer_id as $trainer) {
+			$membership->delete($trainer);
+		}
+	}
 	
 	// Participation
 	

@@ -1463,6 +1463,8 @@ class gevUserUtils {
 	
 	public function assignGlobalRole($a_role_title) {
 		require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
+		echo $a_role_title;
+		die();
 		gevRoleUtils::getInstance()->assignUserToGlobalRole($this->user_id, $a_role_title);
 	}
 	

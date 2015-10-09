@@ -4347,3 +4347,12 @@ if($ilDB->tableColumnExists('dct_building_block', 'training_categories')) {
 	));
 }
 ?>
+
+<#166>
+<?php
+$new_crs_ops = array(
+	'change_trainer' => array('Change Trainer', 6003)
+);
+require_once "Customizing/class.ilCustomInstaller.php";
+ilCustomInstaller::addRBACOps('crs', $new_crs_ops);
+?>

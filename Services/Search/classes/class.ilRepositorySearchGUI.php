@@ -226,6 +226,12 @@ class ilRepositorySearchGUI
 	 */
 	protected function doUserAutoComplete()
 	{
+		//gev patch start
+		require_once ("Services/GEV/Utils/classes/class.gevSettings.php");
+		$gev_set = gevSettings::getInstance();
+		$a_udf_fields = array($gev_set->getUDFFieldId(gevSettings::USR_UDF_JOB_NUMMER)
+							);
+		// gev patch end
 
 		if(!isset($_GET['autoCompleteField']))
 		{
@@ -243,6 +249,7 @@ class ilRepositorySearchGUI
 		$auto = new ilUserAutoComplete();
 		$auto->setSearchFields($a_fields);
 		$auto->setResultField($result_field);
+		$auto->setUDFSearchFieldIds($a_udf_fields);
 		$auto->enableFieldSearchableCheck(true);
 		echo $auto->getList($_REQUEST['term']);
 		exit();
