@@ -1149,7 +1149,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 	 * 
 	 * @return boolean $answered
 	 */
-	public function isAnswered($active_id, $pass)
+	public function isAnswered($active_id, $pass = NULL)
 	{
 		$numExistingSolutionRecords = assQuestion::getNumExistingSolutionRecords($active_id, $pass, $this->getId());
 
