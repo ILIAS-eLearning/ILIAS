@@ -1938,10 +1938,17 @@ class ilObject
 		{			
 			if ($objDefinition->isPluginTypeName($a_type))
 			{
-				$class_name = "il".$objDefinition->getClassName($a_type).'Plugin';
-				$location = $objDefinition->getLocation($a_type);
-				include_once($location."/class.".$class_name.".php");
-				return call_user_func(array($class_name, "_getIcon"), $a_type, $a_size, $a_obj_id);                                
+				if ($objDefinition->getClassName($a_type) != "")
+				{
+					$class_name = "il".$objDefinition->getClassName($a_type).'Plugin';
+					$location = $objDefinition->getLocation($a_type);
+					if (is_file($location."/class.".$class_name.".php"))
+					{
+						include_once($location."/class.".$class_name.".php");
+						return call_user_func(array($class_name, "_getIcon"), $a_type, $a_size, $a_obj_id);
+					}
+				}
+				return ilUtil::getImagePath("icon_cmps.svg");
 			}
 			
 			return ilUtil::getImagePath("icon_".$a_type.".svg");
