@@ -148,6 +148,10 @@ class ilModulesTestQuestionPoolSuite extends PHPUnit_Framework_TestSuite
 		require_once("./Modules/TestQuestionPool/test/assLongMenuTest.php");
 		$suite->addTestSuite("assLongMenuTest");
 
+		// Type: assKprimChoiceTest
+		require_once("./Modules/TestQuestionPool/test/assKprimChoiceTest.php");
+		$suite->addTestSuite("assKprimChoiceTest");
+
 		//require_once("./Modules/TestQuestionPool/test/assTextSubsetGUITest.php");
 		//$suite->addTestSuite("assTextSubsetGUITest");
 
