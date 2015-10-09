@@ -650,7 +650,7 @@ assessment#:#internal_links_update#:#Aktualisierung
 assessment#:#javaapplet#:#Java-Applet
 assessment#:#keywords_hint#:#Um eine automatische Punktevergabe bei einer Frage vom Typ Freitext eingeben zu erreichen, geben Sie hier bitte eine Liste von Schlagwörtern an. Die Schlagwörter müssen durch Leerzeichen oder Zeilenumbrüche voneinander getrennt sein. Ist eines der Schlagwörter im Antworttext vorhanden, vergibt ILIAS die für die Frage eingetragene maximale Punktezahl anstelle der üblichen Bewertung von 0 Punkten.
 assessment#:#kiosk#:#Prüfungsansicht
-assessment#:#kiosk_description#:#Die Prüfungsansicht zeigt den Test im Kiosk-Modus. Dabei werden alle Bildschirmelemente, die nicht zum Test gehören, ausgeblendet. Um Teilnehmer effektiv daran zu hindern, während des Tests andere Webseiten zu öffnen, setzen Sie bitte zusätzlich einen spezialisierten Browser (z.B. Safe Exam Browser) ein.
+assessment#:#kiosk_description#:#Die Prüfungsansicht zeigt den Test im Kiosk-Modus. Dabei werden alle Bildschirmelemente, die nicht zum Test gehören, ausgeblendet. Um Teilnehmer effektiv daran zu hindern, während des Tests andere Webseiten zu öffnen, setzen Sie bitte zusätzlich einen für E-Klausuren spezialisierten Browser ein, z.B. den <a href="https://github.com/SafeExamBrowser">Safe Exam Browser</a>.
 assessment#:#kiosk_options#:#Angezeigte Informationen
 assessment#:#kiosk_options_desc#:#Die ausgewählten Informationen werden im Kopfbereich der Seite angezeigt.
 assessment#:#kiosk_show_participant#:#Name des Teilnehmers
@@ -1019,10 +1019,10 @@ assessment#:#remove_as_participant#:#Als festen Teilnehmer entfernen
 assessment#:#remove_question#:#Entfernen
 assessment#:#remove_solution#:#Hinweis auf Inhalte zur Wiederholung entfernen
 assessment#:#report_date_not_reached#:#Das Datum für die Anzeige der Testergebnisse ist noch nicht erreicht. Sie können die Testergebnisse ab dem %s einsehen.
-assessment#:#reset_definitions#:#Positionen der Definitionen zurücksetzen
+assessment#:#reset_definitions#:#Anordnung zurücksetzen
 assessment#:#reset_filter#:#Filter zurücksetzen
 assessment#:#reset_pictures#:#Positionen der Bilder zurücksetzen
-assessment#:#reset_terms#:#Positionen der Terme zurücksetzen
+assessment#:#reset_terms#:#Anordnung zurücksetzen
 assessment#:#resize_images#:#Bildgröße anpassen
 assessment#:#result#:#Ergebnis
 assessment#:#result_successful_saved#:#Ihre Ergebnisse wurden erfolgreich gespeichert!
@@ -1033,10 +1033,10 @@ assessment#:#save_edit#:#Speichern und Inhalt bearbeiten
 assessment#:#finish_test#:#Test beenden
 assessment#:#next_question#:#Weiter 
 assessment#:#previous_question#:#Zurück
-assessment#:#submit_answer#:#Speichern und Weiter
-assessment#:#skip_question#:#Nicht antworten und Weiter
+assessment#:#submit_answer#:#Speichern und weiter
+assessment#:#skip_question#:#Nicht antworten und weiter
 assessment#:#discard_answer#:#Antwort löschen
-assessment#:#discard_answer_confirmation#:#Ihre Antwort wird vollständig und endgültig verworfen. Die Frage verbleibt als unbeantwortet und kann erneut bearbeitet werden.<br /><br />Möchten Sie Ihre Antwort endgültig verwerfen?
+assessment#:#discard_answer_confirmation#:#Ihre Antwort wird vollständig und endgültig gelöscht. Sie können die Frage aber später erneut beantworten.<br /><br />Soll Ihre Antwort endgültig gelöscht werden?
 assessment#:#edit_answer#:#Antwort ändern
 assessment#:#answer_question#:#Frage beantworten
 assessment#:#back_to_objective_container#:#Zurück zum Kurs
@@ -1046,7 +1046,7 @@ assessment#:#saveOrderAndObligations#:#Sortierung und Obligationen abspeichern
 assessment#:#obligatory#:#Verpflichtend
 assessment#:#not_all_obligations_answered#:#Sie müssen alle verpflichtenden Fragen beantworten, bevor Sie den Test abschließen können.
 assessment#:#tst_setting_enable_obligations_label#:#Verpflichtende Fragen
-assessment#:#tst_setting_enable_obligations_info#:#Nur wenn alle verpflichtenden Fragen beantwortet wurden, kann ein Test abgegeben werden. Autoren definieren Verpflichtende Fragen in der 'Listenansicht'. Für Teilnehmer sollte die Option "'Fragennavigation' und 'Bearbeitungstand' anzeigen" aktiviert werden.
+assessment#:#tst_setting_enable_obligations_info#:#Nur wenn alle verpflichtenden Fragen beantwortet wurden, kann ein Test abgegeben werden. Autoren definieren verpflichtende Fragen in der 'Listenansicht'. Für Teilnehmer sollte die Option "Fragenliste und Bearbeitungstand anzeigen" aktiviert sein.
 assessment#:#tst_test_contains_obligatory_questions#:#Um diesen Test beenden zu können, müssen Sie alle verpflichtenden Fragen (*) beantworten.
 assessment#:#scored_pass#:#Bewerteter Durchlauf
 assessment#:#scoring#:#Auswertung
@@ -1226,7 +1226,7 @@ assessment#:#tst_hide_previous_results#:#Vorherige Ergebnisse nicht anzeigen
 assessment#:#tst_hide_previous_results_description#:#Die vorherigen Ergebnisse von Lernenden werden in weiteren Testdurchläufen eines Tests nicht als voreingestellte Werte übernommen
 assessment#:#tst_hide_previous_results_hide#:#Meine Ergebnisse aus dem vorigen Testdurchlauf nicht anzeigen
 assessment#:#tst_hide_previous_results_introduction#:#Wenn Sie mehr als einen Durchlauf dieses Tests bearbeiten, werden Ihre vorherigen Ergebnisse nicht als voreingestellte Werte übernommen
-assessment#:#tst_hide_side_list#:#Fragennavigation aus
+assessment#:#tst_hide_side_list#:#Fragenliste aus
 assessment#:#tst_import_no_items#:#Fehler: Die Importdatei beinhaltet keine Fragen!
 assessment#:#tst_import_verify_found_questions#:#ILIAS hat die folgenden Fragen in der Importdatei gefunden. Bitte wählen Sie die Fragen aus, die Sie mit diesem Test importieren wollen.
 assessment#:#tst_in_use_edit_questions_disabled#:#Der Test wurde bereits von %s Teilnehmerin(nen) begonnen. Sie dürfen deshalb keine Fragen mehr bearbeiten oder verschieben!
@@ -1318,7 +1318,7 @@ assessment#:#tst_password_entered_wrong_password#:#Sie können den Test nicht st
 assessment#:#tst_password_introduction#:#Dieser Test kann nur mit einem Testpasswort gestartet werden. Bitte tragen Sie das Passwort hier ein.
 assessment#:#tst_percent_solved#:#Prozent gelöst
 assessment#:#tst_position#:#Frage %s von %s
-assessment#:#tst_postpone#:#Fragen zurückstellen
+assessment#:#tst_postpone#:#Nicht beantwortete Fragen
 assessment#:#tst_postpone_on#:#Nicht beantwortete Fragen werden ans Testende geschoben
 assessment#:#tst_postpone_on_desc#:#Fragen, deren Antworten die Teilnehmer verwerfen oder überblättern, präsentiert ILIAS am Ende des Test noch einmal. Diese Einstellung wirkt sich nicht auf den Modus 'Wiedervorlage' aus.
 assessment#:#tst_postpone_off#:#Nicht beantwortete Fragen bleiben an ihrem Platz
@@ -1329,7 +1329,7 @@ assessment#:#tst_print_date#:#Datum des Ausdrucks
 assessment#:#tst_processing_time#:#Bearbeitungsdauer begrenzen
 assessment#:#tst_processing_time_desc#:#Teilnehmer können den Test nur für eine begrenzte Zeit bearbeiten. Die Zeit läuft von dem Moment des ersten Startens durch den Teilnehmer. "Test unterbrechen" stoppt den Ablauf der Bearbeitungsdauer nicht.
 assessment#:#tst_properties#:#Test-Eigenschaften
-assessment#:#tst_qst_order#:#Reihenfolge
+assessment#:#tst_qst_order#:#Nr.
 assessment#:#tst_qst_resetsolved#:#markiere als ungelöst
 assessment#:#tst_qst_result_sheet#:#Ergebnisse anzeigen
 assessment#:#tst_qst_setsolved#:#markiere als gelöst
@@ -1337,7 +1337,7 @@ assessment#:#tst_qst_summary_text#:#Dies ist eine Übersicht aller Fragen aus de
 assessment#:#tst_question#:#Frage
 assessment#:#tst_question_mark#:#Diese Frage markieren
 assessment#:#tst_question_marked#:#Sie haben die Frage markiert
-assessment#:#tst_question_marker#:#Markierung
+assessment#:#tst_question_marker#:#Markiert
 assessment#:#tst_question_no#:#Reihenfolge
 assessment#:#tst_question_offer#:#Wollen Sie diese Zusammenstellung verwenden, oder soll eine neue Zusammenstellung generiert werden?
 assessment#:#tst_question_selection#:#Fragenauswahl
@@ -1453,7 +1453,7 @@ assessment#:#tst_show_cancel#:#"Test unterbrechen" anzeigen
 assessment#:#tst_show_cancel_description#:#Zeigt während der Durchführung des Tests einen Button an, mit der der Test unterbrochen werden kann. Achtung: Das Unterbrechen des Tests hält nicht die unter 'Maximale Bearbeitungsdauer' festgelegte Bearbeitungszeit an.
 assessment#:#tst_show_pass_details#:#'Tabelle mit detaillierten Testergebnissen' pro Durchlauf zum gewählten Zeitpunkt anzeigen
 assessment#:#tst_show_results#:#Testergebnisse anzeigen
-assessment#:#tst_show_side_list#:#Fragennavigation an
+assessment#:#tst_show_side_list#:#Fragenliste an
 assessment#:#tst_dyn_unfreeze_answers_confirmation#:#Es sind Fragen enthalten zu denen ihre initialen Antworten festgeschrieben, so dass sie keine Änderungen an den Antworten vornehmen können. Möchten sie die Fragen jetzt erneut beantworten und die festgeschrieben Antworten lösen?
 assessment#:#tst_dyn_unfreeze_answers#:#Erneut beantworten
 assessment#:#tst_dyn_keep_answ_freeze#:#Belasse festgeschriebene Antworten
@@ -1463,8 +1463,8 @@ assessment#:#tst_show_solution_feedback#:#Rückmeldungen
 assessment#:#tst_show_solution_printview#:#Druckbare Liste der Antworten
 assessment#:#tst_show_solution_signature#:#Platzhalter für Unterschrift
 assessment#:#tst_show_solution_suggested#:#Inhalte zur Wiederholung
-assessment#:#tst_show_summary#:#'Fragennavigation' und 'Bearbeitungstand' anzeigen
-assessment#:#tst_show_summary_description#:#Teilnehmer können sich links neben den Testfragen eine Fragennavigation anzeigen lassen. Mit einem Button 'Berabeitungsstand' können sie eine Übersicht aufrufen, die zeigt, welche Fragen sie bereits bearbeitet oder markiert haben. Das Verhalten der Übersicht 'Bearbeitungsstand' können Sie noch weiter konfigurieren:
+assessment#:#tst_show_summary#:#Fragenliste und Bearbeitungstand anzeigen
+assessment#:#tst_show_summary_description#:#Teilnehmer können sich links neben den Testfragen eine Fragenliste anzeigen lassen. Mit dem Button 'Bearbeitungsstand' rufen die Teilnehmer eine Übersicht auf, die zeigt, welche Fragen sie jeweils bereits bearbeitet oder markiert haben. Das Verhalten der Übersicht 'Bearbeitungsstand' können Sie noch weiter konfigurieren:
 assessment#:#tst_shuffle_questions#:#Fragen mischen
 assessment#:#tst_shuffle_questions_description#:#Die Reihenfolge der Fragen wird pro Teilnehmer und pro Testdurchlauf neu gemischt.
 assessment#:#tst_signature#:#Unterschrift
@@ -1588,8 +1588,8 @@ assessment#:#tst_highscore_hints_description#:#Es wird einen zusätzliche Spalte
 assessment#:#tst_highscore_wtime#:#Bearbeitungsdauer
 assessment#:#tst_highscore_wtime_description#:#Es wird einen zusätzliche Spalte mit der Bearbeitungsdauer eingeblendet.
 assessment#:#tst_highscore_mode#:#Modus
-assessment#:#tst_highscore_own_table#:#Nur eigenen Rang anzeigen
-assessment#:#tst_highscore_own_table_description#:#Teilnehmern wird ihr Rang in der Platzierung angezeigt.
+assessment#:#tst_highscore_own_table#:#Eigenen Rang anzeigen
+assessment#:#tst_highscore_own_table_description#:#Teilnehmern wird eine Tabelle mit ihrem Rang innerhalb aller Platzierungen angezeigt.
 assessment#:#tst_highscore_top_table#:#Bestenliste
 assessment#:#tst_highscore_top_table_description#:#Teilnehmern wird eine Tabelle mit den besten Platzierungen angezeigt.
 assessment#:#tst_highscore_all_tables#:#Eigener Rang und Bestenliste
@@ -1636,14 +1636,14 @@ assessment#:#tst_start_dyn_test_with_cur_quest_sel#:#Test mit aktueller Fragenau
 assessment#:#tst_resume_dyn_test_with_cur_quest_sel#:#Test mit aktueller Fragenauswahl fortsetzen
 assessment#:#tst_back_dyn_test_with_cur_quest_sel#:#Zurück zum Test mit aktueller Fragenauswahl
 assessment#:#tst_tracked_question_list#:#Vorherige beantwortete Fragen
-assessment#:#tst_dynamic_question_set_selection#:#Bearbeitungsstand der aktuell ausgewählten Fragen
+assessment#:#tst_dynamic_question_set_selection#:#Auswahl der Testfragen und Auswahlstatistik
 assessment#:#tst_dynamic_question_set_complete#:#Bearbeitungsstand aller verfügbaren Fragen
 assessment#:#tst_num_all_questions#:#Anzahl aller Fragen
 assessment#:#tst_num_selected_questions#:#Anzahl ausgewählter Fragen
-assessment#:#tst_num_non_answered_questions_skipped#:#Unbeantwortete, überblätterte Fragen
-assessment#:#tst_num_non_answered_questions_notseen#:#Unbeantwortete, nie gezeigte Fragen
-assessment#:#tst_num_wrong_answered_questions#:#Falsch beantwortete Fragen
-assessment#:#tst_num_correct_answered_questions#:#Richtig beantwortete Fragen
+assessment#:#tst_num_non_answered_questions_skipped#:#Angesehen, nicht beantwortet
+assessment#:#tst_num_non_answered_questions_notseen#:#Noch nicht angesehen
+assessment#:#tst_num_wrong_answered_questions#:#Falsch beantwortet
+assessment#:#tst_num_correct_answered_questions#:#Richtig beantwortet
 assessment#:#tst_num_postponed_questions#:#Zurückgestellte Fragen
 assessment#:#tst_num_marked_questions#:#Markierte Fragen
 assessment#:#tst_change_dyn_test_question_selection#:#Fragenauswahl ändern
@@ -1881,22 +1881,22 @@ block_html#:#block_html_block_content#:#Inhalt
 block_html#:#block_html_block_head#:#HTML-Block
 block_html#:#block_html_block_title#:#Titel
 blog#:#blog_add#:#Blog anlegen
-blog#:#blog_add_posting#:#Eintrag hinzufügen
+blog#:#blog_add_posting#:#Beitrag hinzufügen
 blog#:#blog_admin_inactive_info#:#Das Blog-Feature kann in der Administration des Persönlichen Schreibtischs aktiviert werden.
 blog#:#blog_admin_toggle_info#:#Das Blog-Feature kann in der Administration des Persönlichen Schreibtischs deaktiviert werden.
 blog#:#blog_back_to_ilias#:#Zurück zu ILIAS
 blog#:#blog_background_color#:#Hintergrundfarbe
 blog#:#blog_banner#:#Banner
-blog#:#blog_change_notification_body_comment#:#der folgende Blog-Eintrag wurde kommentiert.
-blog#:#blog_change_notification_body_new#:#der folgende Blog-Eintrag wurde neu angelegt.
-blog#:#blog_change_notification_body_update#:#der folgende Blog-Eintrag wurde editiert.
-blog#:#blog_change_notification_link#:#Link zum Blog-Eintrag
+blog#:#blog_change_notification_body_comment#:#der folgende Blogbeitrag wurde kommentiert:
+blog#:#blog_change_notification_body_new#:#der folgende Blogbeitrag wurde neu angelegt:
+blog#:#blog_change_notification_body_update#:#der folgende Blogbeitrag wurde editiert:
+blog#:#blog_change_notification_link#:#Link zum Beitrag
 blog#:#blog_change_notification_salutation#:#Hallo %s,
 blog#:#blog_change_notification_subject#:#Blog "%s" wurde aktualisiert
 blog#:#blog_changed_by#:#Letzte Änderung durch
 blog#:#blog_comments#:#Kommentare
 blog#:#blog_draft#:#Entwurf
-blog#:#blog_draft_info#:#Dieser Eintrag ist als Entwurf nur für den Autor sichtbar.
+blog#:#blog_draft_info#:#Dieser Beitrag ist als Entwurf nur für Sie sichtbar.
 blog#:#blog_edit#:#Blog bearbeiten
 blog#:#blog_enable_notes#:#Öffentliche Kommentare
 blog#:#blog_exercise_info#:#Dieses Blog ist der Übungseinheit "%s" in der Übung "%s" zugeordnet.
@@ -1912,21 +1912,21 @@ blog#:#blog_notification_activated#:#Änderungs-Benachrichtigung aktiviert
 blog#:#blog_notification_deactivated#:#Änderungs-Benachrichtigung deaktiviert
 blog#:#blog_notification_toggle_off#:#Änderungs-Benachrichtigung deaktivieren
 blog#:#blog_notification_toggle_on#:#Änderungs-Benachrichtigung aktivieren
-blog#:#blog_number_users_notes_or_comments#:#Anzahl Benutzer, die Notizen oder Kommentare zu diesem Eintrag verfasst haben.
+blog#:#blog_number_users_notes_or_comments#:#Anzahl der Benutzer, die zu diesem Beitrag Notizen oder Kommentare verfasst haben.
 blog#:#blog_permanent_link#:#Permalink
-blog#:#blog_posting#:#Blog-Eintrag
-blog#:#blog_posting_deleted#:#Der Eintrag wurde gelöscht.
-blog#:#blog_posting_deletion_confirmation#:#Wollen Sie diesen Eintrag wirklich löschen?
+blog#:#blog_posting#:#Beitrag
+blog#:#blog_posting_deleted#:#Der Beitrag wurde gelöscht.
+blog#:#blog_posting_deletion_confirmation#:#Wollen Sie diesen Beitrag wirklich löschen?
 blog#:#blog_preview#:#Vorschau
 blog#:#blog_preview_banner#:#Personalisiertes Banner
 blog#:#blog_preview_banner_height#:#Höhe des Banners
 blog#:#blog_preview_banner_info#:#Standardgrösse ist 1370x100 Pixel.
 blog#:#blog_preview_banner_width#:#Breite des Banners
 blog#:#blog_profile_picture#:#Profil-Bild anzeigen
-blog#:#blog_rename_posting#:#Eintrag umbenennen
+blog#:#blog_rename_posting#:#Beitrag umbenennen
 blog#:#blog_settings#:#Blog-Administration
 blog#:#blog_toggle_draft#:#Veröffentlichung zurücknehmen
-blog#:#blog_toggle_final#:#Eintrag veröffentlichen
+blog#:#blog_toggle_final#:#Beitrag veröffentlichen
 book#:#book_add#:#Buchungspool anlegen
 book#:#book_add_object#:#Objekt hinzufügen
 book#:#book_add_schedule#:#Zeitplan hinzufügen
@@ -2783,7 +2783,7 @@ common#:#chat_invite_public_room_tooltip#:#In den öffentlichen Chatraum einlade
 chatroom#:#chat_settings#:#Chat-Einstellungen
 common#:#chat_users_active#:#Aktive Benutzer
 common#:#check#:#Rückmeldung anfordern
-assessment#:#submit_and_check#:#Antwort einreichen und Rückmeldung anfordern
+assessment#:#submit_and_check#:#Speichern und prüfen
 common#:#check_all#:#Alle auswählen
 common#:#check_langfile#:#Bitte überprüfen Sie die Sprachdatei!
 common#:#check_languages#:#Alle Sprachen überprüfen
@@ -2931,7 +2931,7 @@ rbac#:#crs_edit_learning_progress#:#Benutzer kann Lernfortschrittseinstellungen 
 rbac#:#crs_edit_permission#:#Rechteeinstellungen ändern
 common#:#crs_info#:#Info
 rbac#:#crs_join#:#Kurs beitreten
-rbac#:#crs_leave#:#Kurs verlassen
+rbac#:#crs_leave#:#Kursmitgliedschaft beenden
 common#:#crs_management_system#:#Kursmanagementsystem
 common#:#crs_member_not_passed#:#Nicht bestanden
 common#:#crs_member_passed#:#Bestanden
@@ -3834,7 +3834,7 @@ common#:#links_user_name#:#ILIAS-Benutzername
 common#:#links_value#:#Parameter Wert
 common#:#list#:#Liste
 common#:#list_of_pages#:#Seitenliste
-common#:#list_of_questions#:#Fragennavigation
+common#:#list_of_questions#:#Fragenliste
 common#:#literature#:#Literatur
 common#:#literature_bookmarks#:#Literatur-Bookmarks
 common#:#lm#:#Lernmodul ILIAS
@@ -10089,7 +10089,7 @@ rbac#:#filter_roles_local_policy#:#Zeige nur Rollen mit lokaler Zugriffsregelung
 rbac#:#grp_edit_event#:#Kalendertermine bearbeiten
 rbac#:#info_user_view_changed#:#Benutzersicht gewechselt
 rbac#:#invite#:#Zu Umfrage einladen
-rbac#:#leave#:#Verlassen
+rbac#:#leave#:#Mitgliedschaft beenden
 rbac#:#log#:#Log
 rbac#:#mail_to_global_roles#:#Globale Mails
 rbac#:#mcts_edit_permission#:#Rechteeinstellung in Mediacast-Administration ändern
@@ -13100,7 +13100,7 @@ survey#:#svy_activation_online_info#:#Nur wenn die Umfrage online ist, können B
 survey#:#svy_availability_limitless_info#:#Wählen Sie diese Einstellung, um die Umfrage unbegrenzt freizuschalten.
 survey#:#svy_availability_until_info#:#Wählen Sie diese Einstellung, um die Umfrage nur während eines definierten Zeitraums freizuschalten.
 survey#:#svy_activation_limited_visibility_info#:#Außerhalb des angegebenen Zeitraums wird nur der Titel der Umfrage angezeigt, die Fragen sind nicht zugänglich.
-blog#:#blog_add_contributor#:#Autor hinzufügen
+blog#:#blog_add_contributor#:#Mitwirkende hinzufügen
 blog#:#blog_search_users#:#Benutzer suchen
 common#:#il_blog_contributor#:#Blog-Autor
 rbac#:#blog_contribute#:#Benutzer darf Einträge hinzufügen
@@ -13317,7 +13317,7 @@ forum#:#sticky_threads_always_on_top#:#"Top-Themen" erscheinen generell immer ga
 mail#:#cron_update_addressbook#:#Adressbucheinträge automatisch synchronisieren 
 mail#:#cron_update_addressbook_desc#:#Wenn diese Option eingeschaltet ist, haben Benutzer die Möglichkeit festzulegen, ob mit Benutzerkonten verknüpfte Adressbucheintrage durch den Cron-Job synchronisiert werden sollen. Es werden nur jene Daten aktualisiert, die vom Benutzer freigegeben wurden. 
 mail#:#auto_update#:#Aktualisierung
-blog#:#blog_toggle_draft_admin#:#Blog-Eintrag deaktivieren
+blog#:#blog_toggle_draft_admin#:#Beitrag deaktivieren
 blog#:#blog_keywords_info#:#Benutzen Sie die +/- Icons um Schlagwörter hinzuzufügen und zu entfernen.
 forum#:#merge#:#Zusammenführen
 forum#:#please_choose_target#:#Bitte wählen Sie ein Thema als Ziel der Zusammenführung.
@@ -13410,7 +13410,7 @@ dcl#:#dcl_record_from_total#:#%d von %d
 dcl#:#dcl_delete_fields#:#Felder löschen
 dcl#:#dcl_view_own_records_perm#:#Nur eigene Einträge anzeigen
 dcl#:#dcl_link_detail_page#:#Link zur Detailseite
-crs#:#crs_notification_list_title#:#Benachrichtigung über neue Mitglieder
+crs#:#crs_notification_list_title#:#Benachrichtigung
 common#:#objs_bibl#:#Literaturlisten
 common#:#obj_bibl#:#Literaturliste
 common#:#obj_bibs#:#Literaturliste
@@ -13505,7 +13505,7 @@ user#:#user_delete_own_account_logout_confirmation#:#Ihr Account wurde zur Lösc
 user#:#user_delete_own_account_logout_button#:#Mit Authentifizierung fortsetzen
 user#:#user_delete_own_account_aborted#:#Der Lösch-Prozess wurde abgebrochen, der Account ist unverändert.
 rbac#:#edit_userassignment#:#Benutzerzuweisung ändern
-blog#:#blog_posting_edit_approval_info#:#Der Eintrag muss vor der Veröffentlichung durch einen Tutor freigeschaltet werden.
+blog#:#blog_posting_edit_approval_info#:#Der Beitrag muss vor der Veröffentlichung durch einen Tutor freigeschaltet werden.
 survey#:#survey_code_delete_sure#:#Wollen Sie wirklich die folgenden Zugangsschlüssel löschen?
 survey#:#survey_360_title#:#360°
 survey#:#survey_360_mode#:#360°-Feedback
@@ -13682,7 +13682,7 @@ survey#:#survey_mode#:#Modus
 survey#:#survey_default_mode#:#Umfrage
 survey#:#survey_default_mode_info#:#Für Evaluationen
 survey#:#survey_360_mode_info#:#Für Peer-Reviews von Personen
-blog#:#blog_draft_info_contributors#:#Dieser Eintrag ist als Entwurf nur für die Mitwirkenden sichtbar.
+blog#:#blog_draft_info_contributors#:#Dieser Beitrag ist als Entwurf nur für die am Blog Mitwirkenden sichtbar.
 assessment#:#tst_extratime_added#:#Die Bearbeitungszeit des Teilnehmers wurde um %s Minuten verlängert.
 assessment#:#tst_extratime_nodata#:#Es gibt noch keine Einträge für den ausgewählten Teilnehmer.
 assessment#:#tst_extratime_notavailable#:#Zeitverlängerungen können nur für Tests mit einem Durchlauf und einer vorgegebenen Bearbeitungszeit durchgeführt werden.
@@ -14394,7 +14394,7 @@ administration#:#adm_captcha_anonymous_reg#:#Zeigt zusätzlich ein Captcha im Re
 administration#:#adm_captcha_anonymous_wiki#:#Captcha für nicht angemeldete Benutzer, die im Wiki eine Seite bearbeiten wollen. Bitte beachten Sie, dass der Einsatz eines Captchas die Barrierefreiheit Ihrer Installation einschränkt.
 auth#:#auth_auth_settings#:#Einstellungen
 book#:#book_reservation_failed_overbooked#:#Die Buchung ist fehlgeschlagen, da das Objekt nicht mehr verfügbar ist.
-blog#:#blog_edit_posting#:#Eintrag bearbeiten
+blog#:#blog_edit_posting#:#Beitrag bearbeiten
 common#:#offline_mode#:#Offline-Modus
 sop#:#sop_check_system_requirements#:#Systemvoraussetzungen werden überprüft
 sop#:#sop_already_exported#:#Das Lernmodul befindet sich schon im Offline-Modus. Bitte rufen Sie diese Seite mit Ihrem Firefox-Browser auf, in dem das SCORM-Offline-Player-Addon installiert ist.
@@ -14505,7 +14505,7 @@ rbac#:#wbrs_read#:#Lesezugriff auf Weblink-Verwaltung
 rbac#:#wbrs_write#:#Einstellungen in Weblink-Verwaltung bearbeiten
 rbac#:#wbrs_edit_permission#:#Rechteeinstellungen für die Weblink-Verwaltung ändern
 common#:#obj_nota#:#Benachrichtigungen
-blog#:#blog_posting_not_found#:#Der Blog-Eintrag ist nicht verfügbar.
+blog#:#blog_posting_not_found#:#Der Beitrag ist nicht verfügbar.
 ldap#:#ldap_choose_role#:#Rolle auswählen
 rep#:#rep_time_period#:#Zeitraum
 cntr#:#exc_next_deadline_single#:#Abgabefrist
@@ -14701,7 +14701,7 @@ forum#:#frm_max_notification_age_info#:#Bitte geben Sie hier das maximale Alter 
 dateplaner#:#cal_ical_url#:#iCal-URL
 book#:#book_confirm_cancel_aggregation#:#Anzahl Stornierungen
 survey#:#survey_not_available#:#n.a.
-blog#:#blog_change_notification_body_approve#:#der folgende Blog-Eintrag erwartet die Freischaltung.
+blog#:#blog_change_notification_body_approve#:#der folgende Blogbeitrag muss noch freigeschaltet werden:
 meta#:#md_adv_presentation#:#Darstellung
 meta#:#udf_type_integer#:#Ganzzahl
 meta#:#md_adv_number_max#:#Maximaler Wert
@@ -15679,8 +15679,8 @@ crs#:#crs_subscription_min_members_info#:#Wird die geforderte Mindestanzahl an M
 crs#:#crs_waiting_list_autofill#:#Mit automatischem Aufrücken
 crs#:#crs_waiting_list_no_autofill#:#Ohne automatisches Aufrücken
 crs#:#crs_waiting_list_autofill_info#:#Teilnehmer rücken automatisch bei Stornierungen von der Warteliste nach.
-crs#:#crs_cancellation_end#:#Stornierungsende
-crs#:#crs_period#:#Kurszeitraum
+crs#:#crs_cancellation_end#:#Spätester Kursaustritt
+crs#:#crs_period#:#Veranstaltungszeitraum
 crs#:#crs_course_period_not_valid#:#DerKurszeitraum ist nicht gültig.
 crs#:#crs_max_and_min_members_needed#:#Setzen Sie eine minimale oder maximale Anzahl - oder beides.
 crs#:#crs_max_members_needed#:#Für die Warteliste wird eine maximale Anzahl Mitglieder benötigt.
@@ -15691,7 +15691,7 @@ crs#:#crs_cancellation_end_rbac_info#:#Das Stornierungsende wurde am %s erreicht
 common#:#mem_min_users#:#Minimale Teilnehmeranzahl
 grp#:#grp_wrong_min_max_members#:#Bitte überprüfen Sie Ihre Eingabe für die mnimale und maximale Teilnehmeranzahl.
 grp#:#reg_grp_min_members#:#Minimale Anzahl
-grp#:#grp_cancellation_end#:#Stornierungsende
+grp#:#grp_cancellation_end#:#Spätester Gruppenaustritt
 grp#:#grp_cancellation_end_rbac_info#:#Das Stornierungsende wurde am %s erreicht, ein Austritt ist nicht mehr möglich.
 sess#:#sess_reg_min_members#:#Minimale Teilnehmeranzahl
 sess#:#sess_reg_min_members_info#:#Eine minimale Zahl an Teilnehmern muss sich registrieren.
@@ -15705,8 +15705,8 @@ sess#:#sess_reg_waiting_list_no_autofill#:#Ohne automatisches Aufrücken
 sess#:#sess_reg_waiting_list_no_autofill_info#:#Ist die maximale Mitgliederanzahl erreicht, können sich weitere Benutzer auf eine Warteliste setzen lassen.
 sess#:#sess_reg_waiting_list_autofill#:#Mit automatischem Aufrücken
 sess#:#sess_reg_waiting_list_autofill_info#:#Teilnehmer rücken automatisch bei Stornierungen von der Warteliste nach.
-grp#:#grp_cancellation_end_info#:#Ab diesem Datum können Teilnehmer nicht mehr die Kursmitgliedschaft beenden.
-crs#:#crs_cancellation_end_info#:#Ab diesem Datum können Teilnehmer nicht mehr die Kursmitgliedschaft beenden.
+grp#:#grp_cancellation_end_info#:#Mitglieder können nur bis zum gesetzten Datum selbständig die Gruppenmitgliedschaft beenden.
+crs#:#crs_cancellation_end_info#:#Mitglieder können nur bis zum gesetzten Datum selbständig die Kursmitgliedschaft beenden.
 crs#:#crs_period_info#:#Information zum Start und Ende der Veranstaltung, die mit dem Kurs unterstützt werden soll
 meta#:#md_adv_deleted_fields#:#Die Felder wurden gelöscht.
 cntr#:#tab_back_to_repository#:#Zurück zum Magazin
@@ -15835,18 +15835,18 @@ buddysystem#:#buddy_notification_contact_request_long#:#[SALUTATION][BR][BR]der 
 buddysystem#:#buddy_request_approved#:#Der Kontakt wurde erfolgreich hergestellt.
 buddysystem#:#buddy_request_ignored#:#Sie haben den Benutzer ignoriert.
 common#:#no_gallery_users_available#:#Aktuell befinden sich keine Benutzer in der Galerie.
-crs#:#crs_mem_contact#:#Betreuer
+crs#:#crs_mem_contact#:#Kursbetreuung
 awrn#:#awareness_now_online#:#Jetzt Online
 awrn#:#awareness_now_online_users#:#[ONLINE_USER_NAMES]
 common#:#obj_awra_desc#:#„Wer ist online?“-Anzeige administrieren
 common#:#obj_awra#:#„Wer ist online?“-Anzeige
 awrn#:#awareness_settings#:#Einstellungen
 awrn#:#awrn_enable#:#Aktiviere „Wer ist online?“-Anzeige
-crs#:#crs_mem_contacts#:#Tutorielle Betreuung
+crs#:#crs_mem_contacts#:#Kursbetreuung
 user#:#user_awrn_all_users#:#Alle Benutzer
 user#:#user_awrn_all_users_info#:#Alle Benutzer der Plattform werden aufgelistet.
-crs#:#crs_awrn_support_contacts#:#Tutorielle Betreuung
-crs#:#crs_awrn_support_contacts_info#:#Die Benutzer der tutoriellen Betreuung werden aufgelistet. Die Benutzer werden im Reiter Mitglieder des Kurses der tutoriellen Betreuung zugeordnet.
+crs#:#crs_awrn_support_contacts#:#Kursbetreuung
+crs#:#crs_awrn_support_contacts_info#:#Die Benutzer für die Kursbetreuung werden aufgelistet. Die Benutzer werden im Reiter Mitglieder des Kurses für die Kursbetreuung zugeordnet.
 awrn#:#awrn_inactive#:#Keine Anzeige
 awrn#:#awrn_online_only#:#Nur Online
 awrn#:#awrn_incl_offline#:#Online und Offline
