@@ -20,6 +20,12 @@ class ilTermsOfServiceAcceptanceDatabaseGatewayTest extends PHPUnit_Framework_Te
 	 */
 	public function setUp()
 	{
+		if(!defined('MDB2_AUTOQUERY_INSERT'))
+		{
+			define('MDB2_AUTOQUERY_INSERT', 1);
+		}
+
+		parent::setUp();
 	}
 
 	/**
@@ -126,6 +132,7 @@ class ilTermsOfServiceAcceptanceDatabaseGatewayTest extends PHPUnit_Framework_Te
 			'src'         => '/path/to/file',
 			'src_type'    => 0,
 			'text'        => 'PHP Unit',
+			'hash'        => md5('PHP Unit'),
 			'accepted_ts' => time()
 		);
 
@@ -141,6 +148,7 @@ class ilTermsOfServiceAcceptanceDatabaseGatewayTest extends PHPUnit_Framework_Te
 		$this->assertEquals($expected['src_type'], $entity->getSourceType());
 		$this->assertEquals($expected['text'], $entity->getText());
 		$this->assertEquals($expected['accepted_ts'], $entity->getTimestamp());
+		$this->assertEquals($expected['hash'], $entity->getHash());
 	}
 
 	/**
