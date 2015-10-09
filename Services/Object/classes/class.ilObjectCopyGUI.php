@@ -123,26 +123,28 @@ class ilObjectCopyGUI
 			$ilCtrl->setParameterByClass(get_class($this->parent_obj), 'selectMode', self::SOURCE_SELECTION);
 			$this->setTarget((int) $_GET['ref_id']);
 			$ilCtrl->setReturnByClass(get_class($this->parent_obj), '');
-			$GLOBALS['ilLog']->write(__METHOD__.': Source selection mode. Target is ' . $this->getFirstTarget());
+			
+			ilLoggerFactory::getLogger('obj')->debug('Source selection mode. Target is: '. $this->getFirstTarget());
 		}
 		elseif($_REQUEST['selectMode'] == self::TARGET_SELECTION)
 		{
 			$this->setMode(self::TARGET_SELECTION);
 			$ilCtrl->setReturnByClass(get_class($this->parent_obj),'');
-			$GLOBALS['ilLog']->write(__METHOD__.': Target selection mode. ' );
+			ilLoggerFactory::getLogger('obj')->debug('Target selection mode.');
 		}
 		
 		// save sources
 		if($_REQUEST['source_ids'])
 		{
 			$this->setSource(explode('_',$_REQUEST['source_ids']));
-			$GLOBALS['ilCtrl']->setParameter($this,'source_ids',  implode('_', $this->getSource()));
+			$GLOBALS['ilCtrl']->setParameter($this,'source_ids',  implode('_', $this->getSources()));
+			ilLoggerFactory::getLogger('obj')->debug('Multiple sources: ' . implode('_',$this->getSources()));
 		}
 		if($_REQUEST['source_id'])
 		{
 			$this->setSource(array((int) $_REQUEST['source_id']));
 			$GLOBALS['ilCtrl']->setParameter($this,'source_ids',  implode('_', $this->getSource()));
-			
+			ilLoggerFactory::getLogger('obj')->debug('source_id is set: '. implode('_',$this->getSources()));
 		}
 		
 		// save targets
@@ -286,7 +288,9 @@ class ilObjectCopyGUI
 			foreach((array) $path as $node_id)
 			{
 				if(!in_array($node_id, $_SESSION['paste_copy_repexpand']))
+				{
 					$_SESSION['paste_copy_repexpand'][] = $node_id;
+				}
 			}
 		}
 		// end-patch multi copy
@@ -903,7 +907,7 @@ class ilObjectCopyGUI
 		reset($a_sources);
 		
 		
-		ilLoggerFactory::getLogger('obj')->debug(print_r($a_sources,TRUE));
+		ilLoggerFactory::getLogger('obj')->debug('Copy multiple non containers. Sources: ' . print_r($a_sources,TRUE));
 
 		// clone
 		foreach ($a_sources as $source_ref_id)
@@ -960,7 +964,8 @@ class ilObjectCopyGUI
 	{
 		global $ilCtrl;
 		
-		$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($_REQUEST,TRUE));
+		ilLoggerFactory::getLogger('obj')->debug('Copy container to targets: '. print_r($_REQUEST,TRUE));
+		
 		
 		$last_target = 0;
 		$result = 1;
@@ -1065,7 +1070,7 @@ class ilObjectCopyGUI
 		$options = $_POST['cp_options'] ? $_POST['cp_options'] : array();
 		
 		
-		$GLOBALS['ilLog']->write(__METHOD__.': '. print_r($this->getSource(),TRUE));
+		ilLoggerFactory::getLogger('obj')->debug('Copy container (sources): '. print_r($this->getSources(),TRUE));
 		
 		$orig = ilObjectFactory::getInstanceByRefId($this->getFirstSource());
 		$result = $orig->cloneAllObject(
