@@ -219,13 +219,21 @@ class assClozeGapTest extends PHPUnit_Framework_TestCase
 		$item2 = new assAnswerCloze('Fred', 1.0, 1);
 		$item3 = new assAnswerCloze('Karl', 1.0, 2);
 		$item4 = new assAnswerCloze('Esther', 1.0, 3);
-		$expected = array($item1, $item2, $item3, $item4);
+		$item5 = new assAnswerCloze('Herbert', 1.0, 4);
+		$item6 = new assAnswerCloze('Karina', 1.0, 5);
+		$item7 = new assAnswerCloze('Helmut', 1.0, 6);
+		$item8 = new assAnswerCloze('Kerstin', 1.0, 7);
+		$expected = array($item1, $item2, $item3, $item4, $item5, $item6, $item7, $item8);
 
 		// Act
 		$instance->addItem($item1);
 		$instance->addItem($item2);
 		$instance->addItem($item3);
 		$instance->addItem($item4);
+		$instance->addItem($item5);
+		$instance->addItem($item6);
+		$instance->addItem($item7);
+		$instance->addItem($item8);
 		$actual = $instance->getItems(new ilArrayElementShuffler);
 
 		// Assert
@@ -234,6 +242,10 @@ class assClozeGapTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue(in_array($item2, $actual));
 		$this->assertTrue(in_array($item3, $actual));
 		$this->assertTrue(in_array($item4, $actual));
+		$this->assertTrue(in_array($item5, $actual));
+		$this->assertTrue(in_array($item6, $actual));
+		$this->assertTrue(in_array($item7, $actual));
+		$this->assertTrue(in_array($item8, $actual));
 		$this->assertNotEquals($expected, $actual);
 	}
 

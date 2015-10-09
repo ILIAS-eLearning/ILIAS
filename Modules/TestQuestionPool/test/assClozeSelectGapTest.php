@@ -85,15 +85,23 @@ class assClozeSelectGapTest extends PHPUnit_Framework_TestCase
 		$item2 = new assAnswerCloze('Fred', 2.0, 2);
 		$item3 = new assAnswerCloze('Karl', 4, 1);
 		$item4 = new assAnswerCloze('Esther', 4, 3);
+		$item5 = new assAnswerCloze('Herbert', 1.0, 4);
+		$item6 = new assAnswerCloze('Karina', 1.0, 5);
+		$item7 = new assAnswerCloze('Helmut', 1.0, 6);
+		$item8 = new assAnswerCloze('Kerstin', 1.0, 7);
 
 		$instance->addItem($item1);
 		$instance->addItem($item2);
 		$instance->addItem($item3);
 		$instance->addItem($item4);
+		$instance->addItem($item5);
+		$instance->addItem($item6);
+		$instance->addItem($item7);
+		$instance->addItem($item8);
 
 		$instance->setType(true);
 
-		$expected = array($item1, $item2, $item3, $item4);
+		$expected = array($item1, $item2, $item3, $item4, $item5, $item6, $item7, $item8);
 
 		$actual = $instance->getItems();
 
