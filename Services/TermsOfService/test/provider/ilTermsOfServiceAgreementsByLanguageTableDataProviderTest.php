@@ -36,10 +36,17 @@ class ilTermsOfServiceAgreementsByLanguageTableDataProviderTest extends PHPUnit_
 	 */
 	public function setUp()
 	{
+		if(!defined('CLIENT_ID'))
+		{
+			define('CLIENT_ID', 'phpunit');
+		}
+
 		if($this->isVsfStreamInstalled())
 		{
 			vfsStreamWrapper::register();
 		}
+		
+		parent::setUp();
 	}
 
 	/**
