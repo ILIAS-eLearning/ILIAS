@@ -41,7 +41,7 @@ class ilExcCriteriaRating extends ilExcCriteria
 		if(is_array($_POST) && 
 			array_key_exists("cmd", $_POST))
 		{
-			$_POST[$field_id] = $this->hasValue(null);
+			$_POST[$field_id] = $this->hasValue($a_value);
 		}
 		
 		$this->form_item = $input;
