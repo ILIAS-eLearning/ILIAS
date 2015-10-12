@@ -272,7 +272,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 		{
 			$correct_solution = $this->object->getCorrectAnswersForQuestionSolution($this->object->getId());
 		}
-		$template->setVariable('LONGMENU_TEXT_SOLUTION', $this->getLongMenuTextWithInputFieldsInsteadOfGaps($correct_solution, true));
+		$template->setVariable('LONGMENU_TEXT_SOLUTION', $this->getLongMenuTextWithInputFieldsInsteadOfGaps($correct_solution, true, $graphicalOutput));
 		$solution_template = new ilTemplate("tpl.il_as_tst_solution_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
 		$question_output = $template->get();
 		$feedback = '';
@@ -477,7 +477,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 		return ''; //print_r($relevant_answers,true);
 	}
 
-	public function getLongMenuTextWithInputFieldsInsteadOfGaps($user_solution = array(), $solution = false)
+	public function getLongMenuTextWithInputFieldsInsteadOfGaps($user_solution = array(), $solution = false, $graphical = false)
 	{
 		$return_value = '';
 		$text_array = preg_split("/\\[".assLongMenu::GAP_PLACEHOLDER." (\\d+)\\]/", $this->object->getLongMenuTextValue());
@@ -485,6 +485,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 		$answers = $this->object->getAnswers();
 		foreach($text_array as $key => $value)
 		{
+			$answer_is_correct = false;
 			$user_value = '';
 			$return_value .= $value;
 			if($key < sizeof($text_array) - 1 )
@@ -494,36 +495,59 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 					if(array_key_exists($key,$user_solution))
 					{
 						$user_value = $user_solution[$key];
+						if(in_array($user_value, $correct_answers[$key][0]))
+						{
+							$answer_is_correct = true;
+						}
 					}
-					$return_value .=  $this->getTextGapTemplate($key, $user_value, $solution);
+					
+					$return_value .=  $this->getTextGapTemplate($key, $user_value, $solution, $answer_is_correct, $graphical);
 				}
 				else if($correct_answers[$key][2] == assLongMenu::ANSWER_TYPE_SELECT_VAL)
 				{
 					if(array_key_exists($key,$user_solution))
 					{
 						$user_value = $user_solution[$key];
+						if(in_array($user_value, $correct_answers[$key][0]))
+						{
+							$answer_is_correct = true;
+						}
 					}
-					$return_value .=  $this->getSelectGapTemplate($key, $answers[$key], $user_value, $solution);
+					$return_value .=  $this->getSelectGapTemplate($key, $answers[$key], $user_value, $solution, $answer_is_correct, $graphical);
 				}
 			}
 		}
 		return $return_value;
 	}
 
-	private function getTextGapTemplate($key, $value, $solution)
+	private function getTextGapTemplate($key, $value, $solution, $ok = false, $graphical = false)
 	{
 		$tpl = new ilTemplate("tpl.il_as_qpl_long_menu_text_gap.html", TRUE, TRUE, "Modules/TestQuestionPool");
 		if($solution)
 		{
 			$tpl->setVariable('DISABLED', 'disabled');
 			$tpl->setVariable('JS_IGNORE', '_ignore');
+			if($graphical)
+			{
+				if($ok)
+				{
+					$tpl->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.svg"));
+					$tpl->setVariable("TEXT_OK", $this->lng->txt("answer_is_right"));
+				}
+				else
+				{
+					$tpl->setVariable("ICON_OK", ilUtil::getImagePath("icon_not_ok.svg"));
+					$tpl->setVariable("TEXT_OK", $this->lng->txt("answer_is_wrong"));
+				}
+			}
 		}
 		$tpl->setVariable('VALUE', $value);
 		$tpl->setVariable('KEY', $key);
+		
 		return $tpl->get();
 	}
 	
-	private function getSelectGapTemplate($key, $answers, $user_value, $solution)
+	private function getSelectGapTemplate($key, $answers, $user_value, $solution, $ok = false, $graphical = false)
 	{
 		$tpl = new ilTemplate("tpl.il_as_qpl_long_menu_select_gap.html", TRUE, TRUE, "Modules/TestQuestionPool");
 		$tpl->setVariable('KEY', $key);
@@ -539,6 +563,19 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 			else
 			{
 				$tpl->setVariable('SOLUTION', $user_value);
+			}
+			if($graphical)
+			{
+				if($ok)
+				{
+					$tpl->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.svg"));
+					$tpl->setVariable("TEXT_OK", $this->lng->txt("answer_is_right"));
+				}
+				else
+				{
+					$tpl->setVariable("ICON_OK", ilUtil::getImagePath("icon_not_ok.svg"));
+					$tpl->setVariable("TEXT_OK", $this->lng->txt("answer_is_wrong"));
+				}
 			}
 			$tpl->parseCurrentBlock();
 		}
