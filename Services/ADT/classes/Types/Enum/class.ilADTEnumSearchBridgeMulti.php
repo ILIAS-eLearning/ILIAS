@@ -148,7 +148,7 @@ class ilADTEnumSearchBridgeMulti extends ilADTSearchBridgeMulti
 			if(is_array($current) &&
 				sizeof($current))
 			{
-				foreach($a_adt->getSelections() as $value)
+				foreach((array)$a_adt->getSelections() as $value)
 				{
 					if(in_array($value, $current))
 					{
