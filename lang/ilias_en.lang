@@ -877,8 +877,8 @@ assessment#:#question_marking#:#Flagging Questions
 assessment#:#question_not_answered#:#The question was not answered
 assessment#:#question_saved_for_upload#:#The question was saved automatically in order to reserve hard disk space to store the uploaded file. If you cancel this form now, be aware that you must delete the question in the question pool if you do not want to keep it!
 assessment#:#question_short#:#Q
-assessment#:#question_summary#:#Processing Status
-assessment#:#question_summary_btn#:#Processing Status
+assessment#:#question_summary#:#Dashboard
+assessment#:#question_summary_btn#:#Dashboard
 assessment#:#obligations_summary#:#List of Compulsory Questions
 assessment#:#tst_you_have_to_answer_this_question#:#You have to answer this question to be able to finish the test.
 assessment#:#question_title#:#Question Title
