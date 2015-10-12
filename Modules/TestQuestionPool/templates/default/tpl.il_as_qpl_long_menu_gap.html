@@ -80,7 +80,7 @@
 		</div>
 	</div>
 	<div class="form-group" id="layout_dummy_points">
-		<label for="" class="col-sm-3 control-label">{POINTS}</label>
+		<label for="" class="col-sm-3 control-label">{POINTS} <span class="asterisk">*</span></label>
 		<div class="col-sm-9">
 			<div class="form-inline">
 				<input type="text" class="form-control text-right" size="5" value="0">
@@ -104,6 +104,17 @@
 		<div class="col-sm-2">
 			<button name="add_gap" class="clone_fields_add combination btn btn-link"><span class="sr-only"></span><span class="glyphicon glyphicon-plus"></span></button>
 			<button name="remove_gap" class="clone_fields_remove combination btn btn-link"><span class="sr-only"></span><span class="glyphicon glyphicon-minus"></span></button>
+		</div>
+	</div>
+	<div class="layout_dummy_help-block form-group" id="error_answer" class="col-sm-12">
+		<div class="col-sm-3">
+			<label></label>
+		</div>
+		<div>
+			<div id="error_answer_val" class="col-sm-9">
+				<span class="prototype_long_menu value_error form_error help-block alert alert-danger"><img border="0" src="./templates/default/images/./icon_alert.svg" alt="-alert-"> {MISSING_VALUE}</br></span>
+				<span class="prototype_long_menu points_error form_error help-block alert alert-danger"><img border="0" src="./templates/default/images/./icon_alert.svg" alt="-alert-">{POINTS_ERROR}</br></span>
+			</div>
 		</div>
 	</div>
 	{TAGGING_PROTOTYPE}

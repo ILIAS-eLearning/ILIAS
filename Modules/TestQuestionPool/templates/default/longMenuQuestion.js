@@ -110,7 +110,7 @@ var longMenuQuestion = (function () {
 		var id = 'answer_overview_' + index;
 		footer_class.parent().append($('#layout_dummy_answers').clone().attr({'id': id}).addClass('longmenu'));
 		var selector = $('#' + id);
-		selector.find('label').html(long_menu_language.answers);
+		selector.find('label').html(long_menu_language.answers + ' <span class="asterisk">*</span>');
 		var html = pro.buildAnswerOverview(index);
 		selector.find('.form-inline').html(html);
 		pro.appendPointsField(footer_class, index);
@@ -121,6 +121,7 @@ var longMenuQuestion = (function () {
 		var name = 'points[' + index + ']';
 		footer_class.parent().append($('#layout_dummy_points').clone().attr({'id': id}).addClass('longmenu'));
 		$('#' + id).find('input').attr({'name' : name, 'data-id' : index}).addClass('points').val(pub.questionParts.list[index][1]);
+		pro.appendErrorHandlerHtml(footer_class, index);
 	};
 
 	pro.buildAnswerOverview = function (question_id)  {
@@ -149,6 +150,7 @@ var longMenuQuestion = (function () {
 			var question_id = parseInt($(this).attr('data-id'), 10);
 			pub.questionParts.list[question_id][1] = $(this).val();
 			pro.syncWithHiddenTextField();
+			pro.displayErrors(question_id);
 		});
 	};
 
@@ -222,6 +224,42 @@ var longMenuQuestion = (function () {
 		});
 	};
 	
+	pro.appendErrorHandlerHtml = function(footer_class, index)
+	{
+		footer_class.parent().append($('#error_answer').clone().attr({'id': 'error_answer_' + index}).addClass('longmenu'));
+		pro.displayErrors(index);
+	};
+	
+	pro.displayErrors = function(index)
+	{
+		var value_error = false;
+		if(parseInt(pub.questionParts.list[index][1], 10) === 0)
+		{
+			$('#' +'error_answer_' + index).find('.points_error').removeClass('prototype_long_menu');
+		}
+		else
+		{
+			$('#' +'error_answer_' + index).find('.points_error').addClass('prototype_long_menu');
+		}
+		if(pub.questionParts.list[index][0].length === 0)
+		{
+			$('#' +'error_answer_' + index).find('.value_error').removeClass('prototype_long_menu');
+			value_error = true;
+		}
+		else
+		{
+			$('#' +'error_answer_' + index).find('.value_error').addClass('prototype_long_menu');
+		}
+		if( pub.answers[index].length === 0)
+		{
+			$('#' +'error_answer_' + index).find('.value_error').removeClass('prototype_long_menu');
+		}
+		else if(!value_error)
+		{
+			$('#' +'error_answer_' + index).find('.value_error').addClass('prototype_long_menu');
+		}
+	};
+	
 	pri.saveTagInputsToHiddenFieldsOnCallback = function()
 	{
 		if(pri.ignoreCallbackItemOnRedraw === false)
@@ -229,6 +267,7 @@ var longMenuQuestion = (function () {
 			$('.correct_answers').each(function() {
 				var question_id = parseInt($(this).attr('id').split('_')[1], 10);
 				pro.saveCorrectAnswersToHiddenField(question_id);
+				pro.displayErrors(question_id);
 			});
 		}
 	};
