@@ -29,14 +29,20 @@ class ilExcCriteriaRating extends ilExcCriteria
 			$ilCtrl->getLinkTargetByClass("ilExPeerReviewGUI", "updateCritAjax", "", true, false).
 			"')");
 		
-		$input = new ilCustomInputGUI($this->getTitle(), "prccc_rating_".$this->getId());
+		$field_id = "prccc_rating_".$this->getId();
+		
+		$input = new ilCustomInputGUI($this->getTitle(), $field_id);
 		$input->setInfo($this->getDescription());
-		
-		//  :TODO: see validate()
-		// $input->setRequired($this->isRequired());
-		
+		$input->setRequired($this->isRequired());		
 		$input->setHtml($this->renderWidget());
 		$this->form->addItem($input);	
+		
+		// #16993 - making form checkInput() work
+		if(is_array($_POST) && 
+			array_key_exists("cmd", $_POST))
+		{
+			$_POST[$field_id] = $this->hasValue(null);
+		}
 		
 		$this->form_item = $input;
 	}
