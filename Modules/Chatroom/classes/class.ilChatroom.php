@@ -1398,7 +1398,7 @@ public function getLastMessages($number, $chatuser = null) {
 	
 	if ($sub_room) {
 	    $ilDB->queryF(
-		    'DELETE FROM ' . self::$sessionTable . ' WHERE proom_id = %s AND disconnected < %s',
+		    'DELETE FROM ' . self::$privateSessionsTable . ' WHERE proom_id = %s AND disconnected < %s',
 		    array('integer', 'integer'),
 		    array($sub_room, time())
 	    );
