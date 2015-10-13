@@ -1288,3 +1288,5 @@ gev#:#gev_dec_training_block_end_before_start#:#Das Ende des Bausteins liegt vor
 gev#:#gev_dec_training_wp_sum#:#WP Gesamt:
 gev#:#gev_dec_training_block_time_issues#:#Der angelegte Baustein überschreitet die Trainingszeit, überschneidet sich mit einem anderen Baustein oder die Endzeit liegt vor der Startzeit. Bitte berichtigen Sie die Zeiten der Bausteine um die Anlage des Trainings abschließen zu können.
 gev#:#change_trainer#:#Trainer ändern
+gev#:#load_signature_list#:#Unterschriftenliste herunterladen
+gev#:#load_member_list#:#Mitgliederliste abrufen

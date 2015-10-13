@@ -291,6 +291,10 @@ class gevSettings {
 	const DCT_TPL_MAIL_WEBEX = "dct_tpl_mail_webex";
 	const DCT_TPL_MAIL_DECENTRAL_TRAINING = "dct_tpl_mail_decentral_training";
 
+	//new course rights
+	const LOAD_SIGNATURE_LIST = "load_signature_list";
+	const VIEW_SCHEDULE_PDF = "view_schedule_pdf";
+
 	static $UDF_FIELD_ORDER = array(
 		'Emailadresse (privat)'
 		,'Geburtsname'

@@ -699,16 +699,17 @@ abstract class ilTEPViewGridBased extends ilTEPView
 				$ilCtrl->setParameterByClass("gevMemberListDeliveryGUI", "ref_id", null);
 			}
 
-			if (!in_array($crs_utils->getType(), array("Webinar", "Spezialistenschulung Webinar"))
-					&& $crs_utils->canViewBookings($cur_user_id)) {
+			if ($crs_utils->userHasRightOf($cur_user_id, gevSettings::LOAD_SIGNATURE_LIST)) {
 				$signatures_img = '<img src="'.ilUtil::getImagePath("GEV_img/icon-table-signature.png").'" />';
 				$ilCtrl->setParameterByClass("gevMemberListDeliveryGUI", "ref_id", $ref_id);
 				$actions .=  "<a href='".$ilCtrl->getLinkTargetByClass("gevMemberListDeliveryGUI", "download_signature_list")
 							."' title='".$lng->txt("gev_mytrainingsap_legend_signature_list")."'>".$signatures_img."</a>&nbsp;";
 				$ilCtrl->setParameterByClass("gevMemberListDeliveryGUI", "ref_id", null);
 			}
+
 			$ilCtrl->setParameterByClass("ilTEPGUI", "ref_id", $ref_id);
 			$ilCtrl->setParameterByClass("ilTEPGUI", "crs_id", $crs_id);
+
 			if ( $crs_utils->canModifyParticipationStatus($cur_user_id)) {
 				$setstatus_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-table-state-neutral.png").'" />';
 				$actions .=  "<a href='".$ilCtrl->getLinkTargetByClass("ilTEPGUI", "showParticipationStatus")

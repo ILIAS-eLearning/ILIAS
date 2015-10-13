@@ -15,6 +15,7 @@ require_once("Services/CaTUIComponents/classes/class.catLegendGUI.php");
 
 require_once("Services/Utilities/classes/class.ilUtil.php");
 require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevGeneralUtils.php");
 require_once("Services/CourseBooking/classes/class.ilCourseBooking.php");
@@ -160,12 +161,15 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 			$actions .= '&nbsp;<a href="'.$crs_utils->getVirtualClassLink().'" target="_blank">'.$this->virtualclass_img.'</a>';
 		}
 
-		$this->ctrl->setParameterByClass("gevMaillogGUI", "obj_id", $a_set["obj_id"]);
-		$actions .= '&nbsp;<a href="'.$this->ctrl->getLinkTargetByClass("gevMaillogGUI", "showMaillog").'">'.$this->maillog_img.'</a>';
-		$this->ctrl->clearParametersByClass("gevMaillogGUI");
-		$actions .= "&nbsp;<a href=\"".$signature_list_link."\">".$this->signature_list_img."</a>";
+		if($crs_util->userHasRightOf($this->user_id, gevSettings::LOAD_SIGNATURE_LIST)){
+			$this->ctrl->setParameterByClass("gevMaillogGUI", "obj_id", $a_set["obj_id"]);
+			$actions .= '&nbsp;<a href="'.$this->ctrl->getLinkTargetByClass("gevMaillogGUI", "showMaillog").'">'.$this->maillog_img.'</a>';
+			$this->ctrl->clearParametersByClass("gevMaillogGUI");
+			$actions .= "&nbsp;<a href=\"".$signature_list_link."\">".$this->signature_list_img."</a>";
+		}
+		
 
-		if($crs_utils->isFlexibleDecentrallTraining() && ($crs_utils->hasTrainer($this->user_id) && $crs_utils->userHasRightOf($this->user_id,"view_schedule_pdf"))) {
+		if($crs_utils->isFlexibleDecentrallTraining() && ($crs_utils->hasTrainer($this->user_id) && $crs_utils->userHasRightOf($this->user_id, gevSettings::VIEW_SCHEDULE_PDF))) {
 			$actions .= "&nbsp;<a href=\"".$schedule_list_link."\">".$this->schedule_list_img."</a>";
 		}
 

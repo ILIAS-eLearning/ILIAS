@@ -4356,3 +4356,13 @@ $new_crs_ops = array(
 require_once "Customizing/class.ilCustomInstaller.php";
 ilCustomInstaller::addRBACOps('crs', $new_crs_ops);
 ?>
+
+<#167>
+<?php
+$new_crs_ops = array(
+	'load_signature_list' => array('Load Signature List', 6004)
+	,'load_member_list' => array('Load Member List', 6005)
+);
+require_once "Customizing/class.ilCustomInstaller.php";
+ilCustomInstaller::addRBACOps('crs', $new_crs_ops);
+?>
