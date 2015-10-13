@@ -161,7 +161,7 @@ il.Awareness = {
 
 	fixHeight: function() {
 
-		if (!$("#awareness-list").length) {
+		if (!$("#awareness-list").length || !$('.ilAwarenessDropDown .popover').length) {
 			return;
 		}
 
