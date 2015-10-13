@@ -11,7 +11,10 @@
 
 class ilStudyProgrammeProgressListGUI {
 	protected static $tpl_file = "tpl.progress_list_item.html";
-	
+
+	const SUCCESSFUL_PROGRESS_CSS_CLASS = "ilCourseObjectiveProgressBarCompleted";
+	const NON_SUCCESSFUL_PROGRESS_CSS_CLASS = "ilCourseObjectiveProgressBarNeutral";
+
 	/**
 	 * @var ilLanguage
 	 */
@@ -133,9 +136,15 @@ class ilStudyProgrammeProgressListGUI {
 		$tooltip_txt = $this->buildToolTip($a_progress);
 		$progress_status = $this->buildProgressStatus($a_progress);
 		
-		require_once("Services/Container/classes/class.ilContainerObjectiveGUI.php");
+		if ($a_progress->isSuccessful()) {
+			$css_class = self::SUCCESSFUL_PROGRESS_CSS_CLASS;
+		}
+		else {
+			$css_class = self::NON_SUCCESSFUL_PROGRESS_CSS_CLASS;
+		}
 		
-		return ilContainerObjectiveGUI::renderProgressBar($current_percent, $required_percent, null
+		require_once("Services/Container/classes/class.ilContainerObjectiveGUI.php");
+		return ilContainerObjectiveGUI::renderProgressBar($current_percent, $required_percent, $css_class
 														 , $progress_status, null, $tooltip_id, $tooltip_txt);
 	}
 	
