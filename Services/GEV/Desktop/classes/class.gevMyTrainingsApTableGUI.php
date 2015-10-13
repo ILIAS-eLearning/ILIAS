@@ -99,12 +99,13 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 		$this->tpl->setVariable("ACCORDION_ROW", $this->getAccordionRowClass());
 		$this->tpl->setVariable("COLSPAN", $this->getColspan());
 
-		$target_groups_str = '<ul>';
-		foreach ($a_set['target_group'] as $tg){
-			$target_groups_str .= '<li>' .$tg .'</li>';
+		if($a_set['target_group']){
+			$target_groups_str = '<ul>';
+			foreach ($a_set['target_group'] as $tg){
+				$target_groups_str .= '<li>' .$tg .'</li>';
+			}
+			$target_groups_str .= '</ul>';
 		}
-		$target_groups_str .= '</ul>';
-
 
 		if ($a_set["start_date"] == null || $a_set["end_date"] == null) {
 			if ($a_set["scheduled_for"] == null) {
