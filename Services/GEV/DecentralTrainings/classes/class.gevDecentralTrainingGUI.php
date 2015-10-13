@@ -1500,10 +1500,11 @@ class gevDecentralTrainingGUI {
 
 		if($usr_utils->isUVGDBV()) {
 			$uvg_org_units = gevUVGOrgUnits::getInstance();
-			$pers_org_unit = $uvg_org_units->getOrgUnitIdOf($this->current_user->getId());
-			$tree = ilObjOrgUnitTree::_getInstance();
-			$above_ref_id = $tree->getParent(gevObjectUtils::getRefId($pers_org_unit));
-			$training_info["orgu_id"] = $above_ref_id;
+			if($pers_org_unit = $uvg_org_units->getOrgUnitIdOf($this->current_user->getId())) {
+				$tree = ilObjOrgUnitTree::_getInstance();
+				$above_ref_id = $tree->getParent(gevObjectUtils::getRefId($pers_org_unit));
+				$training_info["orgu_id"] = $above_ref_id;
+			}
 		}
 
 		return $training_info;
