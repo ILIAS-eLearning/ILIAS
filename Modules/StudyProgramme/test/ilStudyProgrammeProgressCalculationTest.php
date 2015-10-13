@@ -195,9 +195,7 @@ class ilStudyProgrammeProgressCalculationTest extends PHPUnit_Framework_TestCase
 	}
 
 	public function testInitialProgressOnOptionalNodes() {
-		$this->root->setPoints(0);
-
-		$this->setUpNodes($this->root, array( "points" => 200
+		$this->setUpNodes($this->root, array( "points" => 0
 		, "node1" => array( "points" => 100 
 				, "leaf11" => null
 				, "leaf12" => null
