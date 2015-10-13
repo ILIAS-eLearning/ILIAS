@@ -1183,16 +1183,19 @@ class ilObjStudyProgramme extends ilContainer {
 		
 		$parent = ilObjStudyProgramme::getInstanceByRefId($a_ref_id);
 
-		if (!$parent->hasChildren() && !$parent->hasLPChildren()) {
-			return $a_subobjects;
+		$mode = $parent->getLPMode();
+
+		switch ($mode) {
+			case ilStudyProgramme::MODE_UNDEFINED:
+				return $a_subobjects;
+			case ilStudyProgramme::MODE_POINTS:
+				return array("prg" => $a_subobjects["prg"]);
+			case ilStudyProgramme::MODE_LP_COMPLETED:
+				unset($a_subobjects["prg"]);
+				return $a_subobjects;
 		}
 
-		if ($parent->hasChildren()) {
-			return array("prg" => $a_subobjects["prg"]);
-		}
-
-		unset($a_subobjects["prg"]);
-		return $a_subobjects;
+		throw new ilException("Undefined mode for study programme: '$mode'");
 	}
 }
 
