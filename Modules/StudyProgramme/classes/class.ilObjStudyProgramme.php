@@ -268,8 +268,14 @@ class ilObjStudyProgramme extends ilContainer {
 						   ->update();
 		}
 		else {
-			$this->settings->setLPMode(ilStudyProgramme::MODE_POINTS)
-						   ->update();
+			if ($this->getAmountOfChildren() > 0) {
+				$this->settings->setLPMode(ilStudyProgramme::MODE_POINTS)
+							   ->update();
+			}
+			else {
+				$this->settings->setLPMode(ilStudyProgramme::MODE_UNDEFINED)
+							   ->update();
+			}
 		}
 	}
 	
@@ -614,7 +620,7 @@ class ilObjStudyProgramme extends ilContainer {
 		}
 		
 		$this->clearChildrenCache();
-		$this->addProgressForNewNodes($a_prg);
+		$this->addMissingProgresses();
 	}
 	
 	/**
@@ -956,12 +962,9 @@ class ilObjStudyProgramme extends ilContainer {
 		return ilStudyProgrammeUserProgress::getInstanceForAssignment($this->getId(), $a_assignment_id);
 	}
 	
-	protected function addProgressForNewNodes(ilObjStudyProgramme $a_prg) {
-		require_once("Modules/StudyProgramme/classes/model/class.ilStudyProgrammeProgress.php");
-		foreach ($this->getAssignmentsRaw() as $ass) {
-			$progress = ilStudyProgrammeProgress::createFor($a_prg->settings, $ass);
-			$progress->setStatus(ilStudyProgrammeProgress::STATUS_NOT_RELEVANT)
-					 ->update();
+	public function addMissingProgresses() {
+		foreach ($this->getAssignments() as $ass) {
+			$ass->addMissingProgresses();
 		}
 	}
 	
