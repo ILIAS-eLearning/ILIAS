@@ -16048,3 +16048,4 @@ awrn#:#awrn_max_inactivity#:#Max. Inaktivität
 awrn#:#awrn_max_inactivity_info#:#Benutzer ohne Aktion in der angegebenen Zeitspanne werden als "offline" geführt. Wird kein Wert angegeben, so gilt die Gültigkeit der Session.
 awrn#:#awrn_minutes#:#min
 exc#:#exc_members_already_assigned_tean#:#These users are already assigned to other teams of this assignment.###08 10 2015 new variable
+bkm#:#bkm_fold_created#:#Bookmark-Ordner wurde angelegt.
