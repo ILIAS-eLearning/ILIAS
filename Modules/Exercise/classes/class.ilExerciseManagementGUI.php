@@ -422,6 +422,7 @@ class ilExerciseManagementGUI
 		}
 		else
 		{
+			/* #16921
 			// #9946 - create team for new user(s) for each team upload assignment
 			foreach(ilExAssignment::getInstancesByExercise($this->exercise->getId()) as $ass)
 			{
@@ -435,10 +436,11 @@ class ilExerciseManagementGUI
 					}
 				}
 			}						
+			*/ 
 			
 			ilUtil::sendSuccess($this->lng->txt("exc_members_assigned"),true);
 		}
-//exit;
+
 		$this->ctrl->redirect($this, "members");
 		return true;
 	}
