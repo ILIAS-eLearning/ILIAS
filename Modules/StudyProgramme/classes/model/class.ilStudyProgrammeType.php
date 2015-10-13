@@ -255,6 +255,7 @@ class ilStudyProgrammeType extends ActiveRecord {
 			$titles = array();
 			/** @var $prg ilStudyProgramme */
 			foreach ($prgs as $key=>$prg) {
+				require_once("Modules/StudyProgramme/classes/class.ilObjStudyProgramme.php");
 				$container = new ilObjStudyProgramme($prg->getObjId(), false);
 				$titles[] = $container->getTitle();
 			}
