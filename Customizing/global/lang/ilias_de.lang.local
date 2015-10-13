@@ -1290,3 +1290,4 @@ gev#:#gev_dec_training_block_time_issues#:#Der angelegte Baustein überschreitet
 gev#:#change_trainer#:#Trainer ändern
 gev#:#load_signature_list#:#Unterschriftenliste herunterladen
 gev#:#load_member_list#:#Mitgliederliste abrufen
+gev#:#view_maillog#:#Maillog einsehen

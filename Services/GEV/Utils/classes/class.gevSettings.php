@@ -295,6 +295,9 @@ class gevSettings {
 	const LOAD_SIGNATURE_LIST = "load_signature_list";
 	const LOAD_MEMBER_LIST = "load_member_list";
 	const VIEW_SCHEDULE_PDF = "view_schedule_pdf";
+	const LOAD_CSN_LIST = "load_csn_list";
+	const CHANGE_TRAINER = "change_trainer";
+	const VIEW_MAILLOG = "view_maillog";
 
 	static $UDF_FIELD_ORDER = array(
 		'Emailadresse (privat)'

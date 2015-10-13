@@ -4366,3 +4366,21 @@ $new_crs_ops = array(
 require_once "Customizing/class.ilCustomInstaller.php";
 ilCustomInstaller::addRBACOps('crs', $new_crs_ops);
 ?>
+
+<#168>
+<?php
+$new_crs_ops = array(
+	'load_csn_list' => array('Load CSN List', 6006)
+);
+require_once "Customizing/class.ilCustomInstaller.php";
+ilCustomInstaller::addRBACOps('crs', $new_crs_ops);
+?>
+
+<#169>
+<?php
+$new_crs_ops = array(
+	'view_maillog' => array('View Maillog', 6007)
+);
+require_once "Customizing/class.ilCustomInstaller.php";
+ilCustomInstaller::addRBACOps('crs', $new_crs_ops);
+?>

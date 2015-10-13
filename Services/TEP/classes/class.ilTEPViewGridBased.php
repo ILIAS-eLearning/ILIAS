@@ -725,19 +725,21 @@ abstract class ilTEPViewGridBased extends ilTEPView
 				$actions .=  "<a href='".$ilCtrl->getLinkTargetByClass("ilTEPGUI", "showBookings")
 							."' title='".$lng->txt("gev_mytrainingsap_legend_view_bookings")."'>".$bookings_img."</a>&nbsp;";
 			}
-			
+
 			if($crs_utils->getVirtualClassLink() !== null) {
 				$vc_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-classroom.png").'" />';
 				$actions .=  "<a href='".$crs_utils->getVirtualClassLink()
 							."' title='".$lng->txt("gev_virtual_class")."' target='_blank'>".$vc_img."</a>&nbsp;";
 			}
 
-			$ilCtrl->setParameterByClass("gevMaillogGUI", "obj_id", $a_set["obj_id"]);
-			$ilCtrl->setParameterByClass("ilTEPGUI", "obj_id", $a_set["obj_id"]);
-			$maillog_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-invitation.png").'" />';
-			$actions .= '<a href="'.$ilCtrl->getLinkTargetByClass("gevMaillogGUI", "showMaillog").'"'
+			if($crs_utils->userHasRightOf($cur_user_id, gevSettings::VIEW_MAILLOG)){
+				$ilCtrl->setParameterByClass("gevMaillogGUI", "obj_id", $a_set["obj_id"]);
+				$ilCtrl->setParameterByClass("ilTEPGUI", "obj_id", $a_set["obj_id"]);
+				$maillog_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-invitation.png").'" />';
+				$actions .= '<a href="'.$ilCtrl->getLinkTargetByClass("gevMaillogGUI", "showMaillog").'"'
 						.' title="'.$lng->txt("gev_maillog").'">'.$maillog_img.'</a>&nbsp;';
-			$ilCtrl->clearParametersByClass("gevMaillogGUI");
+				$ilCtrl->clearParametersByClass("gevMaillogGUI");
+			}
 
 			if($crs_utils->isFlexibleDecentrallTraining() && 
 					(($crs_utils->hasTrainer($cur_user_id) && $crs_utils->userHasRightOf($cur_user_id,gevSettings::VIEW_SCHEDULE_PDF)) 
@@ -749,8 +751,14 @@ abstract class ilTEPViewGridBased extends ilTEPView
 							."' title='".$lng->txt("gev_dec_crs_building_block_title")."'>".$schedule_img."</a>&nbsp;";
 				$ilCtrl->setParameterByClass("gevMemberListDeliveryGUI", "ref_id", null);
 			}
-
 			
+			if($crs_utils->userHasRightOf($cur_user_id, gevSettings::LOAD_CSN_LIST) && $crs_utils->getVirtualClassType() == "CSN"){
+				$csn_img = '<img src="'.ilUtil::getImagePath("GEV_img/icon-table-signature.png").'" />';
+				$ilCtrl->setParameterByClass("gevMemberListDeliveryGUI", "ref_id", $ref_id);
+				$actions .=  "<a href='".$ilCtrl->getLinkTargetByClass("gevMemberListDeliveryGUI", "csn")
+							."' title='".$lng->txt("gev_csn_list")."'>".$csn_img."</a>&nbsp;";
+				$ilCtrl->setParameterByClass("gevMemberListDeliveryGUI", "ref_id", null);
+			}
 
 			$ilCtrl->setParameterByClass("ilTEPGUI", "ref_id", null);
 			$ilCtrl->setParameterByClass("ilTEPGUI", "crs_id", null);
