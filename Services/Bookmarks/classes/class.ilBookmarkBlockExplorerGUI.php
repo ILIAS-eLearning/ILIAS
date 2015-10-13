@@ -94,6 +94,27 @@ class ilBookmarkBlockExplorerGUI extends ilBookmarkExplorerGUI
 		return "";
 	}
 
+	/**
+	 * Get HTML
+	 *
+	 * @param
+	 * @return
+	 */
+	function getHTML()
+	{
+		global $ilCtrl;
+
+		$add = "";
+		if ($ilCtrl->isAsynch())
+		{
+			$add = "<script>".$this->getOnLoadCode()."</script>";
+		}
+
+		return parent::getHTML().$add;
+
+	}
+
+
 }
 
 ?>
