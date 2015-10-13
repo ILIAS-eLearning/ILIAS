@@ -133,7 +133,7 @@ class ilObjStudyProgrammeSettingsGUI {
 		$form->setValuesByPost();
 		if ($this->checkForm($form)) {
 			$this->updateFromFrom($form);
-			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"));
+			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 			$response = ilAsyncOutputHandler::encodeAsyncResponse(array("success"=>true, "message"=>$this->lng->txt("msg_obj_modified")));
 		} else {
 			// TODO:
