@@ -95,7 +95,9 @@ class ilAsyncPropertyFormGUI extends ilPropertyFormGUI {
 
 		$errors = array();
 		foreach($this->getItems() as $item) {
-			if($item->getAlert() != "") {
+			// We call method exists as there are items in the form (ilFormSectionHeaderGUI)
+			// that do not have alerts. (#16956)
+			if(method_exists($item, "getAlert") && $item->getAlert() != "") {
 				$errors[] = array('key'=>$item->getFieldId(), 'message'=>$item->getAlert());
 			}
 		}
