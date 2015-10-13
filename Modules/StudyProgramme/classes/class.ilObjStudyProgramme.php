@@ -962,6 +962,13 @@ class ilObjStudyProgramme extends ilContainer {
 		return ilStudyProgrammeUserProgress::getInstanceForAssignment($this->getId(), $a_assignment_id);
 	}
 	
+	/**
+	 * Add missing progress records for all assignments of this programm.
+	 *
+	 * Use this after the structure of the programme was modified.
+	 *
+	 * @return null
+	 */
 	public function addMissingProgresses() {
 		foreach ($this->getAssignments() as $ass) {
 			$ass->addMissingProgresses();
