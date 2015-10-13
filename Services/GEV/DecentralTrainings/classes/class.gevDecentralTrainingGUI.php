@@ -381,7 +381,7 @@ class gevDecentralTrainingGUI {
 		require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCreationRequest.php");
 		
 		$this->template_id = intval($_POST["template_id"]);
-		$form_values["utils_id"] = $this->template_id;//gevObjectUtils::getObjId($this->template_id);
+		$form_values["utils_id"] = $this->template_id;
 
 		$form_prev = $this->buildTrainingOptionsForm(false,false,$form_values);
 		
