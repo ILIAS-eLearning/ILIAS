@@ -15987,6 +15987,8 @@ prg#:#prg_progress_info#:#Sieh haben %1$d Punkte. Das Studienprogramm ist mit %2
 prg#:#prg_progress_status#:# %1$d von %2$d Punkten
 prg#:#prg_no_members_not_active#:#Da das Studienprogramm nicht aktiv ist, können keine neuen Mitglieder hinzugefügt werden.
 prg#:#prg_type_msg_missing_title#:#Titel kann nicht leer sein.
+prg#:#prg_added_member#:#Das neue Mitglied wurde erfolgreich hinzugefügt.
+prg#:#prg_added_members#:#Die neuen Mitglieder wurden erfolgreich hinzugefügt.
 common#:#obj_prg_duplicate#:#Studienprogramm kopieren
 common#:#obj_prg_select#:#-- Bitte wählen Sie ein Studienprogramm --
 common#:#obj_prg#:#Studienprogramm
