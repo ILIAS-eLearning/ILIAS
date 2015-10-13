@@ -947,12 +947,7 @@ class gevDecentralTrainingGUI {
 			return $this->buildTrainingOptionsFormFlexible($a_fill, $a_form_values);
 		}
 		
-		if($crs_utils !== null) {
-			$credit_points = $crs_utils->getCreditPoints();
-			if($credit_points !== null && $credit_points > 0) {
-				$this->tpl_date_auto_change = new ilTemplate("tpl.gev_dct_duration_update_js.html", false, false, "Services/GEV/DecentralTrainings");
-			}
-		}
+		
 		
 		return $this->buildTrainingOptionsFormStable($a_fill, $a_form_values);
 	}
@@ -1127,6 +1122,16 @@ class gevDecentralTrainingGUI {
 		$correct_data = new ilCheckboxInputGUI($this->lng->txt("gev_dec_training_correct_data_confirm"),"correct_data");
 		$correct_data->setOptionTitle($this->lng->txt("gev_dec_training_correct_data_text"));
 		$form->addItem($correct_data);
+
+		/*************************
+		* DATUM SPERRE
+		*************************/
+		if($crs_utils !== null) {
+			$credit_points = $crs_utils->getCreditPoints();
+			if($credit_points !== null && $credit_points > 0) {
+				$this->tpl_date_auto_change = new ilTemplate("tpl.gev_dct_duration_update_js.html", false, false, "Services/GEV/DecentralTrainings");
+			}
+		}
 		
 		return $form;
 	}
