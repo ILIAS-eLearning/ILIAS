@@ -46,6 +46,8 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
 	public function __construct($a_parent_obj, $a_parent_cmd, $a_write_access = false)
 	{
 		$this->setId("spl");
+		$this->setPrefix('q_id'); // #16982
+		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
 		global $lng, $ilCtrl;
@@ -78,8 +80,6 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
 		}
 		
 		$this->addColumn("", "");		
-		
-		$this->setPrefix('q_id');
 		
 		if ($this->getWriteAccess())
 		{
