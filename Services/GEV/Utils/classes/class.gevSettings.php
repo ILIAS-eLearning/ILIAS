@@ -293,6 +293,7 @@ class gevSettings {
 
 	//new course rights
 	const LOAD_SIGNATURE_LIST = "load_signature_list";
+	const LOAD_MEMBER_LIST = "load_member_list";
 	const VIEW_SCHEDULE_PDF = "view_schedule_pdf";
 
 	static $UDF_FIELD_ORDER = array(

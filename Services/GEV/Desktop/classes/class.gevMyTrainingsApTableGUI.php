@@ -99,7 +99,6 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 		$this->tpl->setVariable("ACCORDION_ROW", $this->getAccordionRowClass());
 		$this->tpl->setVariable("COLSPAN", $this->getColspan());
 
-
 		$target_groups_str = '<ul>';
 		foreach ($a_set['target_group'] as $tg){
 			$target_groups_str .= '<li>' .$tg .'</li>';
@@ -142,7 +141,11 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 
 		$view_bookings = $crs_utils->canViewBookings($this->user_id);
 
-		$actions = "<a href=\"".$memberlist_link."\">".$this->memberlist_img."</a>";
+		$actions = "";
+
+		if($crs_utils->userHasRightOf($this->user_id, gevSettings::LOAD_MEMBER_LIST)){
+			$actions .= "<a href=\"".$memberlist_link."\">".$this->memberlist_img."</a>";
+		}
 
 		if($a_set['may_finalize']) {
 			$actions .="&nbsp;<a href=\"".$setstatus_link."\">".$this->setstatus_img."</a>";
@@ -161,7 +164,7 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 			$actions .= '&nbsp;<a href="'.$crs_utils->getVirtualClassLink().'" target="_blank">'.$this->virtualclass_img.'</a>';
 		}
 
-		if($crs_util->userHasRightOf($this->user_id, gevSettings::LOAD_SIGNATURE_LIST)){
+		if($crs_utils->userHasRightOf($this->user_id, gevSettings::LOAD_SIGNATURE_LIST)){
 			$this->ctrl->setParameterByClass("gevMaillogGUI", "obj_id", $a_set["obj_id"]);
 			$actions .= '&nbsp;<a href="'.$this->ctrl->getLinkTargetByClass("gevMaillogGUI", "showMaillog").'">'.$this->maillog_img.'</a>';
 			$this->ctrl->clearParametersByClass("gevMaillogGUI");

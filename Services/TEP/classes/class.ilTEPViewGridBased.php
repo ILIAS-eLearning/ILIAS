@@ -690,8 +690,7 @@ abstract class ilTEPViewGridBased extends ilTEPView
 				}
 			}
 
-			if ($crs_utils->hasTrainer($cur_user_id) || $crs_utils->hasAdmin($cur_user_id)
-				|| $crs_utils->canViewBookings($cur_user_id)) {
+			if ($crs_utils->userHasRightOf($cur_user_id,gevSettings::LOAD_MEMBER_LIST)) {
 				$memberlist_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-table-eye.png").'" />';
 				$ilCtrl->setParameterByClass("gevMemberListDeliveryGUI", "ref_id", $ref_id);
 				$actions .=  "<a href='".$ilCtrl->getLinkTargetByClass("gevMemberListDeliveryGUI", "trainer")
@@ -720,11 +719,13 @@ abstract class ilTEPViewGridBased extends ilTEPView
 				$actions .=  "<a href='".$ilCtrl->getLinkTargetByClass("ilTEPGUI", "showOvernights")
 							."' title='".$lng->txt("gev_mytrainingsap_legend_overnights")."'>".$overnight_img."</a>&nbsp;";
 			}
+
 			if ($crs_utils->canViewBookings($cur_user_id)) {
 				$bookings_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-table-booking.png").'" />';
 				$actions .=  "<a href='".$ilCtrl->getLinkTargetByClass("ilTEPGUI", "showBookings")
 							."' title='".$lng->txt("gev_mytrainingsap_legend_view_bookings")."'>".$bookings_img."</a>&nbsp;";
 			}
+			
 			if($crs_utils->getVirtualClassLink() !== null) {
 				$vc_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-classroom.png").'" />';
 				$actions .=  "<a href='".$crs_utils->getVirtualClassLink()
@@ -739,8 +740,8 @@ abstract class ilTEPViewGridBased extends ilTEPView
 			$ilCtrl->clearParametersByClass("gevMaillogGUI");
 
 			if($crs_utils->isFlexibleDecentrallTraining() && 
-					(($crs_utils->hasTrainer($cur_user_id) && $crs_utils->userHasRightOf($cur_user_id,"view_schedule_pdf")) 
-						|| $crs_utils->userHasRightOf($cur_user_id,"view_schedule_pdf"))) 
+					(($crs_utils->hasTrainer($cur_user_id) && $crs_utils->userHasRightOf($cur_user_id,gevSettings::VIEW_SCHEDULE_PDF)) 
+						|| $crs_utils->userHasRightOf($cur_user_id,gevSettings::VIEW_SCHEDULE_PDF))) 
 			{
 				$schedule_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-flowchart.png").'" />';
 				$ilCtrl->setParameterByClass("gevMemberListDeliveryGUI", "ref_id", $ref_id);
