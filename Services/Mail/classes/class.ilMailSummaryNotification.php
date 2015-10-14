@@ -4,6 +4,7 @@
 include_once './Services/Mail/classes/class.ilMailNotification.php';
 
 include_once 'Services/Mail/classes/class.ilMimeMail.php';
+include_once 'Services/Mail/classes/class.ilMail.php';
 
 /**
  * @author Nadia Ahmad <nahmad@databay.de>
@@ -79,7 +80,15 @@ class ilMailSummaryNotification extends ilMailNotification
 				$this->appendBody('#'.$counter."\n\n");
 				$this->appendBody($user_lang->txt('date') .": ".$mail['send_time']);
 				$this->appendBody("\n");
-				$this->appendBody($user_lang->txt('sender') .": ".ilObjUser::_lookupLogin($mail['sender_id'])."");
+				if($mail['sender_id'] == ANONYMOUS_USER_ID)
+				{
+					$sender = ilMail::_getIliasMailerName();
+				}
+				else
+				{
+					$sender = ilObjUser::_lookupLogin($mail['sender_id']);
+				}
+				$this->appendBody($user_lang->txt('sender') . ": " . $sender);
 				$this->appendBody("\n");
 				$this->appendBody($user_lang->txt('subject').": ". $mail['m_subject']);
 				$this->appendBody("\n\n");
