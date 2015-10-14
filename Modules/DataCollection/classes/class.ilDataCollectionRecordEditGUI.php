@@ -349,11 +349,15 @@ class ilDataCollectionRecordEditGUI {
 	public function setFormValues() {
 		//Get Record-Values
 		$record_obj = ilDataCollectionCache::getRecordCache($this->record_id);
-		//Get Table Field Definitions
-		$allFields = $this->table->getFields();
-		$values = array();
-		foreach ($allFields as $field) {
-			$record_obj->fillRecordFieldFormInput($field->getId(), $this->form);
+		if ($record_obj->getId()) {
+			//Get Table Field Definitions
+			$allFields = $this->table->getFields();
+			$values = array();
+			foreach ($allFields as $field) {
+				$record_obj->fillRecordFieldFormInput($field->getId(), $this->form);
+			}
+		} else {
+			$this->form->setValuesByPost();
 		}
 
 		return true;
