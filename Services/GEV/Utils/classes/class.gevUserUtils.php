@@ -896,7 +896,7 @@ class gevUserUtils {
 		$amd_util = gevAMDUtils::getInstance();
 
 		$info = $amd_util->getTable($crss, $crs_amd, 
-								array("CONCAT(od_city.title, ', ', city.value) as location","if(type_sort.value = 'Selbstlernkurs',1,0) as tp_sort"), 
+								array("CONCAT(od_city.title, IF(city.value IS NOT NULL , CONCAT(', ',city.value),'')) as location","if(type_sort.value = 'Selbstlernkurs',1,0) as tp_sort"), 
 								array(" LEFT JOIN object_data od_city ".
 									  "   ON od_city.obj_id = amd4.value "
 									 ," LEFT JOIN adv_md_values_text city ".
