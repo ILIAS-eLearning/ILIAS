@@ -84,7 +84,7 @@ function gevShowMailPreview(){
 	if(readForm) {
 		var values = [];
 
-		values["TRAININGSTYP"] = $('input[name=ltype').val();
+		values["TRAININGSTYP"] = $('input[name=ltype]').val();
 		values["TRAININGSTITEL"] = $('#title').val();
 		values["STARTDATUM"] = $('#date\\[date\\]_d').val().padLeft(2,"0") + "." + $('#date\\[date\\]_m').val().padLeft(2,"0") + "." + $('#date\\[date\\]_y').val();
 		values["ZEITPLAN"] = $('#time\\[start\\]\\[time\\]_h').val().padLeft(2,"0") + ":" + $('#time\\[start\\]\\[time\\]_m').val().padLeft(2,"0") + "-" + $('#time\\[end\\]\\[time\\]_h').val().padLeft(2,"0") + ":" + $('#time\\[end\\]\\[time\\]_m').val().padLeft(2,"0");
