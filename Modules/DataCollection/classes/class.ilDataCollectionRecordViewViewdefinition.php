@@ -229,20 +229,20 @@ class ilDataCollectionRecordViewViewdefinition extends ilPageObject {
 				if ($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_REFERENCE) {
 					$all[] = '[dclrefln field="' . $field->getTitle() . '"][/dclrefln]';
 				}
-
-				if ($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_ILIAS_REF) {
-					$all[] = '[dcliln field="' . $field->getTitle() . '"][/dcliln]';
-				}
+				// SW 14.10.2015 http://www.ilias.de/mantis/view.php?id=16874
+//				if ($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_ILIAS_REF) {
+//					$all[] = '[dcliln field="' . $field->getTitle() . '"][/dcliln]';
+//				}
 			} else {
 				$all["[" . $field->getTitle() . "]"] = $field;
 
 				if ($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_REFERENCE) {
 					$all['[dclrefln field="' . $field->getTitle() . '"][/dclrefln]'] = $field;
 				}
-
-				if ($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_ILIAS_REF) {
-					$all['[dcliln field="' . $field->getTitle() . '"][/dcliln]'] = $field;
-				}
+				// SW: 14.10.2015 http://www.ilias.de/mantis/view.php?id=16874
+//				if ($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_ILIAS_REF) {
+//					$all['[dcliln field="' . $field->getTitle() . '"][/dcliln]'] = $field;
+//				}
 			}
 		}
 
