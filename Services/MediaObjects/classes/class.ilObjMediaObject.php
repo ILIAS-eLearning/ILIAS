@@ -99,12 +99,17 @@ class ilObjMediaObject extends ilObject
 	*/
 	function delete()
 	{
+		$mob_logger = ilLoggerFactory::getLogger('mob');
+		$mob_logger->debug("ilObjMediaObject: Delete called for media object ID '".$this->getId()."'.");
+
 		if (!($this->getId() > 0))
 		{
 			return;
 		}
 
 		$usages = $this->getUsages();
+
+		$mob_logger->debug("ilObjMediaObject: ... Found ".count($usages)." usages.");
 
 		if (count($usages) == 0)
 		{
@@ -126,6 +131,19 @@ class ilObjMediaObject extends ilObject
 					
 			// delete object
 			parent::delete();
+
+			$mob_logger->debug("ilObjMediaObject: ... deleted.");
+		}
+		else
+		{
+			foreach ($usages as $u)
+			{
+				$mob_logger->debug("ilObjMediaObject: ... usage type:".$u["type"].
+					", id:".$u["id"].
+					", lang:".$u["lang"].
+					", hist_nr:".$u["hist_nr"].".");
+			}
+			$mob_logger->debug("ilObjMediaObject: ... not deleted.");
 		}
 	}
 
