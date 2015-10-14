@@ -67,14 +67,37 @@ class ilOrgUnitSimpleImportGUI {
 		$cmd = $this->ctrl->getCmd();
 
 		switch ($cmd) {
+			case 'chooseImport':
+				$this->chooseImport();
+				break;
 			case 'importScreen':
+				$this->tabs_gui->clearTargets();
+				$this->tabs_gui->setBackTarget($this->lng->txt("back"), $this->ctrl->getLinkTarget($this,'chooseImport'));
 				$this->importScreen();
 				break;
 			case 'startImport':
+				$this->tabs_gui->clearTargets();
+				$this->tabs_gui->setBackTarget($this->lng->txt("back"), $this->ctrl->getLinkTarget($this,'chooseImport'));
 				$this->startImport();
 				break;
 		}
 		return true;
+	}
+
+	public function chooseImport() {
+		if (!$this->ilAccess->checkAccess("write", "", $_GET["ref_id"]) OR !$this->parent_object->getRefId() == ilObjOrgUnit::getRootOrgRefId()) {
+			ilUtil::sendFailure($this->lng->txt("msg_no_perm_edit"));
+			$this->ctrl->redirectByClass('ilinfoscreengui', '');
+		}
+
+		$this->tabs_gui->setTabActive("import");
+		$this->tabs_gui->removeSubTab("page_editor");
+		$this->tabs_gui->removeSubTab("ordering"); // Mantis 0014728
+
+		if ($this->ilAccess->checkAccess("write", "", $_GET["ref_id"]) AND $this->parent_object->getRefId() == ilObjOrgUnit::getRootOrgRefId()) {
+			$this->toolbar->addButton($this->lng->txt("simple_import"), $this->ctrl->getLinkTargetByClass("ilOrgUnitSimpleImportGUI", "importScreen"));
+			$this->toolbar->addButton($this->lng->txt("simple_user_import"), $this->ctrl->getLinkTargetByClass("ilOrgUnitSimpleUserImportGUI", "userImportScreen"));
+		}
 	}
 
 	public function importScreen() {
