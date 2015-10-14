@@ -7455,6 +7455,11 @@ div.ilSideBarContent {
 .ui-menu .ui-menu-item a.ui-state-active {
   background-color: #FF9;
 }
+/* Icon Default */
+img.ilIcon {
+  width: 32px;
+  height: 32px;
+}
 /* Component Imports */
 /* Services/Accordion */
 .il_VAccordionHead,
