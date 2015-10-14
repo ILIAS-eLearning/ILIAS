@@ -292,19 +292,22 @@ class ilPCMediaObject extends ilPageContent
 	 */
 	static function afterPageUpdate($a_page, DOMDocument $a_domdoc, $a_xml, $a_creation)
 	{
-		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
-		$mob_ids = ilObjMediaObject::_getMobsOfObject(
-			$a_page->getParentType().":pg", $a_page->getId(), 0, $a_page->getLanguage());
-		self::saveMobUsage($a_page, $a_domdoc);
-		foreach($mob_ids as $mob)	// check, whether media object can be deleted
+		if (!$a_page->getImportMode())
 		{
-			if (ilObject::_exists($mob) && ilObject::_lookupType($mob) == "mob")
+			include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+			$mob_ids = ilObjMediaObject::_getMobsOfObject(
+				$a_page->getParentType().":pg", $a_page->getId(), 0, $a_page->getLanguage());
+			self::saveMobUsage($a_page, $a_domdoc);
+			foreach($mob_ids as $mob)	// check, whether media object can be deleted
 			{
-				$mob_obj = new ilObjMediaObject($mob);
-				$usages = $mob_obj->getUsages(false);
-				if (count($usages) == 0)	// delete, if no usage exists
+				if (ilObject::_exists($mob) && ilObject::_lookupType($mob) == "mob")
 				{
-					$mob_obj->delete();
+					$mob_obj = new ilObjMediaObject($mob);
+					$usages = $mob_obj->getUsages(false);
+					if (count($usages) == 0)	// delete, if no usage exists
+					{
+						$mob_obj->delete();
+					}
 				}
 			}
 		}

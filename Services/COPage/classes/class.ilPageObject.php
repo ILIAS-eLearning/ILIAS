@@ -65,6 +65,7 @@ abstract class ilPageObject
 	var $history_saved;
 	var $language = "-";
 	static protected $activation_data = array();
+	protected $import_mode = false;
 
 	/**
 	* Constructor
@@ -1390,6 +1391,26 @@ abstract class ilPageObject
 	function containsIntLink()
 	{
 		return $this->contains_int_link;
+	}
+	
+	/**
+	 * Set import mode
+	 *
+	 * @param bool $a_val import mode	
+	 */
+	function setImportMode($a_val)
+	{
+		$this->import_mode = $a_val;
+	}
+	
+	/**
+	 * Get import mode
+	 *
+	 * @return bool import mode
+	 */
+	function getImportMode()
+	{
+		return $this->import_mode;
 	}
 
 	function needsImportParsing($a_parse = "")
