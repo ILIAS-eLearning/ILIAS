@@ -135,3 +135,7 @@ if(!$ilDB->tableExists('sysc_tasks'))
 	$ilDB->createSequence("sysc_tasks");
 }
 ?>
+<#10>
+<?php
+	$ilDB->modifyTableColumn('il_dcl_field', 'description', array("type" => "clob"));
+?>
