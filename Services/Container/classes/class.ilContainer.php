@@ -824,10 +824,10 @@ class ilContainer extends ilObject
 		// using long descriptions?
 		$short_desc = $ilSetting->get("rep_shorten_description");
 		$short_desc_max_length = $ilSetting->get("rep_shorten_description_length");
-		if(!$short_desc || $short_desc_max_length != ilObject::TITLE_LENGTH)
+		if(!$short_desc || $short_desc_max_length != ilObject::DESC_LENGTH)
 		{
 			// using (part of) shortened description
-			if($short_desc && $short_desc_max_length && $short_desc_max_length < ilObject::TITLE_LENGTH)
+			if($short_desc && $short_desc_max_length && $short_desc_max_length < ilObject::DESC_LENGTH)
 			{
 				foreach($objects as $key => $object)
 				{
