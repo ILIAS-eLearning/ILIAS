@@ -68,6 +68,9 @@ class ilOrgUnitSimpleUserImportGUI {
 	public function executeCommand() {
 		$cmd = $this->ctrl->getCmd();
 
+		$this->tabs_gui->clearTargets();
+		$this->tabs_gui->setBackTarget($this->lng->txt("back"), $this->ctrl->getLinkTargetByClass('ilOrgUnitSimpleImportGUI','chooseImport'));
+
 		switch ($cmd) {
 			case 'userImportScreen':
 				$this->userImportScreen();

@@ -126,18 +126,15 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 				$this->ctrl->forwardCommand($ilLocalUserGUI);
 				break;
 			case "ilorgunitsimpleimportgui":
-				$this->tabs_gui->setTabActive("view_content");
+				$this->tabs_gui->setTabActive("view");
+				$this->setContentSubTabs();
+				$this->tabs_gui->setSubTabActive('import');
 				$ilOrgUnitSimpleImportGUI = new ilOrgUnitSimpleImportGUI($this);
 				$this->ctrl->forwardCommand($ilOrgUnitSimpleImportGUI);
-				$this->tabs_gui->clearTargets();
-				$this->tabs_gui->setBackTarget($this->lng->txt("back"), $this->ctrl->getLinkTarget($this));
 				break;
 			case "ilorgunitsimpleuserimportgui":
-				$this->tabs_gui->setTabActive("view_content");
 				$ilOrgUnitSimpleUserImportGUI = new ilOrgUnitSimpleUserImportGUI($this);
 				$this->ctrl->forwardCommand($ilOrgUnitSimpleUserImportGUI);
-				$this->tabs_gui->clearTargets();
-				$this->tabs_gui->setBackTarget($this->lng->txt("back"), $this->ctrl->getLinkTarget($this));
 				break;
 			case "ilorgunitstaffgui":
 			case "ilrepositorysearchgui":
@@ -336,12 +333,8 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 		$this->tabs_gui->setTabActive("view_content");
 		$this->tabs_gui->removeSubTab("page_editor");
 		$this->tabs_gui->removeSubTab("ordering"); // Mantis 0014728
-		if ($this->ilAccess->checkAccess("write", "", $_GET["ref_id"]) AND $this->object->getRefId() == ilObjOrgUnit::getRootOrgRefId()) {
-			$this->toolbar->addButton($this->lng->txt("simple_import"), $this->ctrl->getLinkTargetByClass("ilOrgUnitSimpleImportGUI", "importScreen"));
-			$this->toolbar->addButton($this->lng->txt("simple_user_import"), $this->ctrl->getLinkTargetByClass("ilOrgUnitSimpleUserImportGUI", "userImportScreen"));
-		}
-	}
 
+	}
 
 	/**
 	 * initCreationForms
@@ -502,6 +495,15 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 		}
 
 		return;
+	}
+
+	/**
+	 * Set content sub tabs
+	 */
+	function setContentSubTabs()
+	{
+		$this->addStandardContainerSubTabs();
+		$this->tabs_gui->addSubTab("import", $this->lng->txt("import"), $this->ctrl->getLinkTargetByClass("ilOrgUnitSimpleImportGUI", "chooseImport"));
 	}
 
 
