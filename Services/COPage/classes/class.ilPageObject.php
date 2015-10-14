@@ -2586,6 +2586,15 @@ abstract class ilPageObject
 			$this->buildDom();
 			$mobs = $this->collectMediaObjects(false);
 		}
+		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+		$mobs2 = ilObjMediaObject::_getMobsOfObject($this->getParentType().":pg", $this->getId(), false);
+		foreach ($mobs2 as $m)
+		{
+			if (!in_array($m, $mobs))
+			{
+				$mobs[] = $m;
+			}
+		}
 
 		$this->__beforeDelete();
 
@@ -2596,7 +2605,6 @@ abstract class ilPageObject
 		$this->deleteInternalLinks();
 
 		// delete all mob usages
-		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 		ilObjMediaObject::_deleteAllUsages($this->getParentType().":pg", $this->getId());
 
 		// delete news
