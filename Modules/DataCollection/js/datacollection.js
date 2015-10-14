@@ -41,21 +41,29 @@ $(document).ready(function () {
 	/**
 	 * Formula-Fields can't be unique or required
 	 */
-	dcl.checkFormulaFieldsAttribute = function () {
-		return $('#datatype_11').attr('checked') == 'checked';
-	}
+	dcl.checkForUnsupportedRequiredOrUniqueFields = function () {
+		var fields = ['#datatype_11', '#datatype_7'];
+		for (var i in fields) {
+			var id = fields[i];
+			if ($(id).attr('checked') == 'checked') {
+				return true;
+			}
+		}
 
-	dcl.changeStateForFormulaFields = function () {
-        var state = dcl.checkFormulaFieldsAttribute();
+		return false;
+	};
+
+	dcl.onDatatypeChange = function () {
+        var state = dcl.checkForUnsupportedRequiredOrUniqueFields();
         var required = $('#required');
         required.prop('disabled', state);
         var unique = $('#unique');
         unique.prop('disabled', state);
-	}
+	};
 
-	dcl.changeStateForFormulaFields();
+	dcl.onDatatypeChange();
 
-	$('#datatype').change(dcl.changeStateForFormulaFields);
+	$('#datatype').change(dcl.onDatatypeChange);
 
 	/**
 	 * @var $tr tr object to highlight

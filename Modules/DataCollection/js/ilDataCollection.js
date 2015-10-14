@@ -85,12 +85,12 @@ var ilDataCollection = (function() {
             failure : handleAjaxFailureJSON
         };
         YAHOO.util.Connect.asyncRequest('GET', this.data_url + '&record_id=' + record_id, callback);
-    }
+    };
 
     var showRightPanel = function(html) {
         il.UICore.showRightPanel();
         il.UICore.setRightPanelContent(html);
-    }
+    };
 
     var handleAjaxFailure = function(o) {
         il.UICore.showRightPanel();
