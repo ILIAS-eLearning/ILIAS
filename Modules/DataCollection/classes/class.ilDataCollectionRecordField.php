@@ -46,18 +46,23 @@ class ilDataCollectionRecordField {
 	 */
 	protected $db;
 
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
 
 	/**
 	 * @param ilDataCollectionRecord $record
 	 * @param ilDataCollectionField  $field
 	 */
 	public function __construct(ilDataCollectionRecord $record, ilDataCollectionField $field) {
-		global $ilCtrl, $ilUser, $ilDB;
+		global $ilCtrl, $ilUser, $ilDB, $lng;
 		$this->record = $record;
 		$this->field = $field;
 		$this->ctrl = $ilCtrl;
 		$this->user = $ilUser;
 		$this->db = $ilDB;
+		$this->lng = $lng;
 		$this->doRead();
 	}
 
