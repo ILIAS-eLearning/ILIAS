@@ -150,7 +150,7 @@ $(document).ready(function () {
 
 	$('.ilDclReferenceAddValueMS').on('click', function () {
 		var $elem = $(this);
-		var $div = $elem.prev('div');
+		var $div = $elem.prevAll('div.input');
 		var table_id = $div.attr('data-ref-table-id');
 		var field_id = $div.attr('data-ref-field-id');
 		var current_id = $div.find('input').attr("name");
@@ -163,11 +163,10 @@ $(document).ready(function () {
 					var record_data = $.parseJSON(o.responseText);
 					var new_value = record_data[field_id];
 					// Append to select and select new value
+					var new_id = current_id.replace('[]', '') + '_' + record_id;
 					var new_input = '<div style="white-space:nowrap">' +
-						'<input type="checkbox" name="' + current_id + '" id="' + current_id + '_' + record_id + '" value="' + record_id + '" checked="checked"/>' +
-						'<label for="' + current_id + '_' + record_id + '">' + new_value + '</label></div>';
-
-
+						'<input type="checkbox" name="' + current_id + '" id="' + new_id + '" value="' + record_id + '" checked="checked"/>' +
+						'<label for="' + new_id + '">' + new_value + '</label></div>';
 					$div.prepend(new_input);
 					$div.find('option[value=' + record_id + ']').attr('selected', 'selected');
 				});
