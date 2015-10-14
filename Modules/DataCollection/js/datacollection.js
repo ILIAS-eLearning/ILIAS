@@ -126,7 +126,7 @@ $(document).ready(function () {
 
 	$('.ilDclReferenceAddValue').on('click', function () {
 		var $elem = $(this);
-		var $select = $elem.prev('select');
+		var $select = $elem.prevAll('select');
 		var table_id = $select.attr('data-ref-table-id');
 		var field_id = $select.attr('data-ref-field-id');
 		var after_save = function (o) {
