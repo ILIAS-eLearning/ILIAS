@@ -103,7 +103,7 @@ class gevOrgUnitUtils {
 
 		$uvg_ref_id = gevOrgUnitUtils::getUVGOrgUnitRefId();
 		$ou_ids3 = array();
-		foreach (gevOrgUnitUtils::getAllChildren(array($uvg_ref_id)) as $ids) {
+		foreach (gevOrgUnitUtils::getOrgUnitsOneTreeLevelBelowRefId($uvg_ref_id) as $ids) {
 			$ou_ids3[] = $ids["obj_id"];
 		}
 
@@ -196,6 +196,27 @@ class gevOrgUnitUtils {
 			  ." FROM object_reference oref"
 			  ." JOIN object_data od ON od.obj_id = oref.obj_id"
 			  ." JOIN tree tr ON tr.parent = ".$ref_id
+			  ." WHERE od.type = 'orgu' AND oref.ref_id = tr.child AND oref.deleted IS NULL";
+
+		$res = $ilDB->query($sql);
+		$first_child_org = array();
+		while ($rec = $ilDB->fetchAssoc($res)) {
+			$first_child_org[] = array( "ref_id" => $rec["ref_id"]
+										 , "obj_id" => $rec["obj_id"]
+										 );
+		}
+
+		return $first_child_org;
+	}
+
+	static public function getOrgUnitsOneTreeLevelBelowRefId($a_ref_id) {
+		global $ilDB;
+
+
+		$sql = "SELECT DISTINCT oref.ref_id, oref.obj_id"
+			  ." FROM object_reference oref"
+			  ." JOIN object_data od ON od.obj_id = oref.obj_id"
+			  ." JOIN tree tr ON tr.parent = ".$a_ref_id
 			  ." WHERE od.type = 'orgu' AND oref.ref_id = tr.child AND oref.deleted IS NULL";
 
 		$res = $ilDB->query($sql);
