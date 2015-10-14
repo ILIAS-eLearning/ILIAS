@@ -2617,7 +2617,14 @@ abstract class ilPageObject
 	function delete()
 	{
 		global $ilDB;
-		
+
+		$copg_logger = ilLoggerFactory::getLogger('copg');
+		$copg_logger->debug("ilPageObject: Delete called for ID '".$this->getId()."',".
+			" parent type: '".$this->getParentType()."', ".
+			" hist nr: '".$this->old_nr."', ".
+			" lang: '".$this->getLanguage()."', "
+		);
+
 		$mobs = array();
 		$files = array();
 		
@@ -2626,6 +2633,8 @@ abstract class ilPageObject
 			$this->buildDom();
 			$mobs = $this->collectMediaObjects(false);
 		}
+
+		$copg_logger->debug("ilPageObject: ... found ".count($mobs)." media objects.");
 
 		$this->__beforeDelete();
 
@@ -2653,16 +2662,24 @@ abstract class ilPageObject
 		// delete media objects
 		foreach ($mobs as $mob_id)
 		{
+			$copg_logger->debug("ilPageObject: ... processing mob ".$mob_id.".");
+
 			if(ilObject::_lookupType($mob_id) != 'mob')
 			{
-				$GLOBALS['ilLog']->write(__METHOD__.': Type mismatch. Ignoring mob with id: '.$mob_id);
+				$copg_logger->debug("ilPageObject: ... type mismatch. Ignoring mob ".$mob_id.".");
 				continue;
 			}
 			
 			if (ilObject::_exists($mob_id))
 			{
+				$copg_logger->debug("ilPageObject: ... delete mob ".$mob_id.".");
+
 				$mob_obj =& new ilObjMediaObject($mob_id);
 				$mob_obj->delete();
+			}
+			else
+			{
+				$copg_logger->debug("ilPageObject: ... missing mob ".$mob_id.".");
 			}
 		}
 

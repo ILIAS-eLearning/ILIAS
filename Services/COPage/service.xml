@@ -33,4 +33,5 @@
 		<pagecontent pc_type="src" name="SourceCode" directory="classes" int_links="0" style_classes="0" xsl="0" def_enabled="1"/>
 		<pagecontent pc_type="templ" name="ContentTemplate" directory="classes" int_links="0" style_classes="0" xsl="0" def_enabled="0"/>
 	</copage>
+	<logging />
 </service>
