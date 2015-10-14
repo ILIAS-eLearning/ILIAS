@@ -72,12 +72,14 @@ class ilCOPageImporter extends ilXmlImporter
 						if ($this->config->getUpdateIfExists() && ilPageObject::_exists($id[0], $id[1], $lstr))
 						{
 							$page = ilPageObjectFactory::getInstance($id[0], $id[1], 0, $lstr);
+							$page->setImportMode(true);
 							$page->setXMLContent($next_xml);
 							$page->updateFromXML();
 						}
 						else
 						{
 							$new_page = ilPageObjectFactory::getInstance($id[0]);
+							$new_page->setImportMode(true);
 							$new_page->setId($id[1]);
 							if ($lstr != "" && $lstr != "-")
 							{
