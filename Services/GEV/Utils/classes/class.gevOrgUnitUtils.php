@@ -101,7 +101,13 @@ class gevOrgUnitUtils {
 			$ou_ids2[] = $ids["obj_id"];
 		}
 
-		$ou_info = gevAMDUtils::getInstance()->getTable(array_merge($ou_ids1, $ou_ids2), array(gevSettings::ORG_AMD_CITY => "city"));
+		$uvg_ref_id = gevOrgUnitUtils::getUVGOrgUnitRefId();
+		$ou_ids3 = array();
+		foreach (gevOrgUnitUtils::getAllChildren(array($uvg_ref_id)) as $ids) {
+			$ou_ids3[] = $ids["obj_id"];
+		}
+
+		$ou_info = gevAMDUtils::getInstance()->getTable(array_merge($ou_ids1, $ou_ids2, $ou_ids3), array(gevSettings::ORG_AMD_CITY => "city"));
 
 		gevOrgUnitUtils::$venue_names = array();
 		foreach ($ou_info as $values) {
