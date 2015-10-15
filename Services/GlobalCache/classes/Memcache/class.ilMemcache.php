@@ -107,7 +107,13 @@ class ilMemcache extends ilGlobalCacheService {
 	 */
 	protected function getActive() {
 		if ($this->getInstallable()) {
-			foreach ($this->getMemcacheObject()->getStats() as $server) {
+			$stats = $this->getMemcacheObject()->getStats();
+
+			if (!is_array($stats)) {
+				return false;
+			}
+
+			foreach ($stats as $server) {
 				if ($server['pid'] > 0) {
 					return true;
 				}
