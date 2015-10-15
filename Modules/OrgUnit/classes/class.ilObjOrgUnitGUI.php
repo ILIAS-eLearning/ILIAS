@@ -639,7 +639,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 		}
 		if (is_array($toolbar->items)) {
 			foreach ($toolbar->items as $key => $item) {
-				if ($item["cmd"] == "link" || $item["cmd"] == "copy") {
+				if ($item["cmd"] == "link" || $item["cmd"] == "copy" || $item["cmd"] == "download") {
 					unset($toolbar->items[$key]);
 				}
 			}
