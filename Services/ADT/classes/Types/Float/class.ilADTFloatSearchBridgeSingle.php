@@ -10,6 +10,18 @@ class ilADTFloatSearchBridgeSingle extends ilADTSearchBridgeSingle
 	}
 	
 	
+	// table2gui / filter	
+	
+	public function loadFilter()
+	{
+		$value = $this->readFilter();
+		if($value !== null)
+		{
+			$this->getADT()->setNumber($value);
+		}
+	}
+	
+	
 	// form
 	
 	public function addToForm()
@@ -73,6 +85,26 @@ class ilADTFloatSearchBridgeSingle extends ilADTSearchBridgeSingle
 	{
 		return $this->getADT()->equals($a_adt);
 	}		
+	
+	
+	//  import/export	
+		
+	public function getSerializedValue()
+	{		
+		if(!$this->isNull() && $this->isValid())		
+		{			
+			return serialize(array($this->getADT()->getNumber()));
+		}		
+	}
+	
+	public function setSerializedValue($a_value)
+	{		
+		$a_value = unserialize($a_value);
+		if(is_array($a_value))
+		{
+			$this->getADT()->setNumber($a_value[0]);			
+		}		
+	}
 }
 
 ?>
