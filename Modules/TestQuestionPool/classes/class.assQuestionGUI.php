@@ -919,6 +919,7 @@ abstract class assQuestionGUI
 	{
 	    // title
 		$title = new ilTextInputGUI($this->lng->txt("title"), "title");
+		$title->setMaxLength(100);
 		$title->setValue($this->object->getTitle());
 		$title->setRequired(TRUE);
 		$form->addItem($title);

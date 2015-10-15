@@ -286,9 +286,12 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 
 			if ($this->getEditable())
 			{
+				//$href = $this->ctrl->getLinkTargetByClass("ilAssQuestionPageGUI", "edit");
+				$href = $this->ctrl->getLinkTargetByClass($data['type_tag'].'GUI', 'editQuestion');
+				
 				$this->tpl->setCurrentBlock("edit_link");
 				$this->tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
-				$this->tpl->setVariable("LINK_EDIT", $this->ctrl->getLinkTargetByClass("ilAssQuestionPageGUI", "edit"));
+				$this->tpl->setVariable("LINK_EDIT", $href);
 				$this->tpl->parseCurrentBlock();
 			}
 			if ($data["complete"] == 0)
