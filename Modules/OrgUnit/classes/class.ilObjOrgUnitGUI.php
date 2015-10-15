@@ -503,7 +503,10 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 	function setContentSubTabs()
 	{
 		$this->addStandardContainerSubTabs();
-		$this->tabs_gui->addSubTab("import", $this->lng->txt("import"), $this->ctrl->getLinkTargetByClass("ilOrgUnitSimpleImportGUI", "chooseImport"));
+		//only display the import tab at the first level
+		if ($this->ilAccess->checkAccess("write", "", $_GET["ref_id"]) AND $this->object->getRefId() == ilObjOrgUnit::getRootOrgRefId()) {
+			$this->tabs_gui->addSubTab("import", $this->lng->txt("import"), $this->ctrl->getLinkTargetByClass("ilOrgUnitSimpleImportGUI", "chooseImport"));
+		}
 	}
 
 
