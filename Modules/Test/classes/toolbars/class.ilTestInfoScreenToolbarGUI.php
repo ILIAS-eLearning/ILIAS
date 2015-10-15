@@ -286,15 +286,25 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
 	{
 		if( is_object($target) )
 		{
-			return get_class($target);
+			$target = get_class($target);
 		}
 		
 		return $target;
 	}
 
+	private function getClassNameArray($target)
+	{
+		if( is_array($target) )
+		{
+			return $target;
+		}
+		
+		return array($this->getClassName($target));
+	}
+
 	private function getClassPath($target)
 	{
-		return array_merge(self::$TARGET_CLASS_PATH_BASE, array($this->getClassName($target)));
+		return array_merge(self::$TARGET_CLASS_PATH_BASE, $this->getClassNameArray($target));
 	}
 	
 	private function setParameter($target, $parameter, $value)
@@ -302,7 +312,7 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
 		$this->ctrl->setParameterByClass($this->getClassName($target), $parameter, $value);
 	}
 	
-	private function buildLinkTarget($target, $cmd)
+	private function buildLinkTarget($target, $cmd = null)
 	{
 		return $this->ctrl->getLinkTargetByClass($this->getClassPath($target), $cmd);
 	}
@@ -378,6 +388,65 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
 		$this->addButtonInstance($btn);
 	}
 
+	private function areSkillLevelThresholdsMissing()
+	{
+		if( !$this->getTestOBJ()->isSkillServiceEnabled() )
+		{
+			return false;
+		}
+
+		if( $this->getTestOBJ()->isDynamicTest() )
+		{
+			$questionSetConfig = $this->getTestQuestionSetConfig();
+			$questionContainerId = $questionSetConfig->getSourceQuestionPoolId();
+		}
+		else
+		{
+			$questionContainerId = $this->getTestOBJ()->getId();
+		}
+
+		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentList.php';
+		require_once 'Modules/Test/classes/class.ilTestSkillLevelThreshold.php';
+
+		$assignmentList = new ilAssQuestionSkillAssignmentList($this->db);
+		$assignmentList->setParentObjId($questionContainerId);
+		$assignmentList->loadFromDb();
+
+		foreach($assignmentList->getUniqueAssignedSkills() as $data)
+		{
+			foreach($data['skill']->getLevelData() as $level)
+			{
+				$treshold = new ilTestSkillLevelThreshold($this->db);
+				$treshold->setTestId($this->getTestOBJ()->getTestId());
+				$treshold->setSkillBaseId($data['skill_base_id']);
+				$treshold->setSkillTrefId($data['skill_tref_id']);
+				$treshold->setSkillLevelId($level['id']);
+
+				if( !$treshold->dbRecordExists() )
+				{
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	private function getSkillLevelThresholdsMissingInfo()
+	{
+		require_once 'Modules/Test/classes/class.ilTestSkillLevelThresholdsGUI.php';
+
+		$link = $this->buildLinkTarget(
+			array('ilTestSkillAdministrationGUI', 'ilTestSkillLevelThresholdsGUI'),
+			ilTestSkillLevelThresholdsGUI::CMD_SHOW_SKILL_THRESHOLDS
+		);
+
+		$msg = $this->lng->txt('tst_skl_level_thresholds_missing');
+		$msg .= '<br /><a href="'.$link.'">'.$this->lng->txt('tst_skl_level_thresholds_link').'</a>';
+
+		return $msg;
+	}
+
 	public function build()
 	{
 		$this->ensureInitialisedSessionLockString();
@@ -392,7 +461,7 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
 		if ($this->getTestOBJ()->getFixedParticipants())
 		{
 			include_once "./Modules/Test/classes/class.ilObjTestAccess.php";
-			$online_access_result = ilObjTestAccess::_lookupOnlineTestAccess($this->object->getId(), $ilUser->getId());
+			$online_access_result = ilObjTestAccess::_lookupOnlineTestAccess($this->getTestOBJ()->getId(), $this->getTestSession()->getUserId());
 			if ($online_access_result === true)
 			{
 				$online_access = true;
@@ -538,7 +607,7 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
 
 			if($this->access->checkAccess("write", "", $this->getTestOBJ()->getRefId()))
 			{
-				$message .= "<br /><a href=\"".$this->ctrl->getLinkTargetByClass('ilobjtestsettingsgeneralgui')."\">".
+				$message .= "<br /><a href=\"".$this->buildLinkTarget('ilobjtestsettingsgeneralgui')."\">".
 					$this->lng->txt("test_edit_settings")."</a>";
 			}
 
