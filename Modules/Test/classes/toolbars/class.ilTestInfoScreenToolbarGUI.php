@@ -270,6 +270,30 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
 		}
 	}
 	
+	public function addInputItem($inputItem)
+	{
+		if($this->globalToolbar instanceof parent)
+		{
+			$this->globalToolbar->addInputItem($inputItem);
+		}
+		else
+		{
+			parent::addInputItem($inputItem);
+		}
+	}
+	
+	public function addFormInput($formInput)
+	{
+		if($this->globalToolbar instanceof parent)
+		{
+			$this->globalToolbar->addFormInput($formInput);
+		}
+		else
+		{
+			parent::addFormInput($formInput);
+		}
+	}
+	
 	public function clearItems()
 	{
 		if($this->globalToolbar instanceof parent)
@@ -542,7 +566,7 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
 					{
 						$btn = ilLinkButton::getInstance();
 						$btn->setCaption('tst_show_results');
-						$btn->setUrl($this->ctrl->getLinkTargetByClass('ilTestEvaluationGUI',  'outUserResultsOverview'));
+						$btn->setUrl($this->buildLinkTarget('ilTestEvaluationGUI',  'outUserResultsOverview'));
 						$btn->setPrimary(false);
 						$this->addButtonInstance($btn);
 
@@ -562,7 +586,7 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
 
 							$btn = ilLinkButton::getInstance();
 							$btn->setCaption('tst_show_comp_results');
-							$btn->setUrl($this->ctrl->getLinkTargetByClass('ilTestSkillEvaluationGUI', ilTestSkillEvaluationGUI::CMD_SHOW));
+							$btn->setUrl($this->buildLinkTarget('ilTestSkillEvaluationGUI', ilTestSkillEvaluationGUI::CMD_SHOW));
 							$btn->setPrimary(false);
 							$this->addButtonInstance($btn);
 						}
