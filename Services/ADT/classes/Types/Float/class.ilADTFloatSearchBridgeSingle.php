@@ -48,6 +48,8 @@ class ilADTFloatSearchBridgeSingle extends ilADTSearchBridgeSingle
 			$number->setMaxLength($length);
 		}
 		
+		$number->setValue($this->getADT()->getNumber());
+		
 		$this->addToParentElement($number);
 	}
 	
