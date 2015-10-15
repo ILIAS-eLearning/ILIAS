@@ -551,7 +551,7 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
 				}
 				else
 				{
-					ilUtil::sendInfo($executable["errormessage"]);
+					$this->addInfoMessage($executable['errormessage']);
 				}
 				if ($this->getTestSession()->getActiveId() > 0)
 				{
@@ -635,7 +635,7 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
 					$this->lng->txt("test_edit_settings")."</a>";
 			}
 
-			ilUtil::sendInfo($message);
+			$this->addInfoMessage($message);
 		}
 
 		if( $this->getTestOBJ()->isSkillServiceToBeConsidered() && $this->areSkillLevelThresholdsMissing() )
@@ -647,7 +647,7 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
 		{
 			if( $this->getTestQuestionSetConfig()->areDepenciesBroken() )
 			{
-				ilUtil::sendFailure( $this->getTestQuestionSetConfig()->getDepenciesBrokenMessage($this->lng) );
+				$this->addFailureMessage($this->getTestQuestionSetConfig()->getDepenciesBrokenMessage($this->lng));
 
 				$this->clearItems();
 			}
