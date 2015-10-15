@@ -713,7 +713,7 @@ class ilObjectCopyGUI
 		$object_search->setFilter(array($_REQUEST['new_type']));
 		$res = $object_search->performSearch();
 		$res->setRequiredPermission('copy');
-		$res->filter($this->getFirstTarget(),true);
+		$res->filter(ROOT_FOLDER_ID,true);
 		
 		if(!count($results = $res->getResultsByObjId()))
 		{
