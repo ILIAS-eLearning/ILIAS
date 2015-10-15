@@ -85,14 +85,33 @@ function gevShowMailPreview(){
 		var values = [];
 
 		values["TRAININGSTYP"] = $('input[name=ltype]').val();
-		values["TRAININGSTITEL"] = $('#title').val();
+
+		if($('#title').is("span")) {
+			values["TRAININGSTITEL"] = $('#title').html();
+		} else if($('#title').is("input:text")) {
+			values["TRAININGSTITEL"] = $('#title').val();
+		} else {
+			values["TRAININGSTITEL"] = "";
+		}
+
 		values["STARTDATUM"] = $('#date\\[date\\]_d').val().padLeft(2,"0") + "." + $('#date\\[date\\]_m').val().padLeft(2,"0") + "." + $('#date\\[date\\]_y').val();
 		values["ZEITPLAN"] = $('#time\\[start\\]\\[time\\]_h').val().padLeft(2,"0") + ":" + $('#time\\[start\\]\\[time\\]_m').val().padLeft(2,"0") + "-" + $('#time\\[end\\]\\[time\\]_h').val().padLeft(2,"0") + ":" + $('#time\\[end\\]\\[time\\]_m').val().padLeft(2,"0");
-		values["ORGANISATORISCHES"] = $('#orgaInfo').val();
+		
+		if(typeof tinyMCE !== 'undefined') {
+			var org_info = tinyMCE.activeEditor.getContent();
+			org_info = org_info.replace("<p>","").replace("</p>","");
+			values["ORGANISATORISCHES"] = org_info;
+		} else {
+			values["ORGANISATORISCHES"] = $('#orgaInfo').val();
+		}
+
 		values["WEBINAR-LINK"] = $('#webinar_link').val();
 		values["WEBINAR-PASSWORT"] = $('#webinar_password').val();
-		values["VC-TYPE"] = $('#webinar_vc_type').val();
-
+		
+		if($('#webinar_vc_type').length){
+			values["VC-TYPE"] = $('#webinar_vc_type').val();
+		}
+		
 		var target_groups = $('input[name=target_groups\\[\\]]');
 		var tg_string = "";
 		$.each(target_groups,function(k,v){

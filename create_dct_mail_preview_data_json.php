@@ -145,8 +145,6 @@
 			$data_base["ZIELE UND NUTZEN"] = rtrim($data_base["ZIELE UND NUTZEN"],", ");
 		}
 
-		if($datr)
-
 		if(isset($_GET["venue_id"])) {
 			addVenueData($data_base,$_GET["venue_id"]);
 		}
@@ -282,6 +280,10 @@
 
 		if($data_base["METHODEN"] !== null) {
 			$data_base["METHODEN"] = implode(", ", $data_base["MEDIA"]);
+		}
+
+		if(isset($_GET["venue_id"])) {
+			addVenueData($data_base,$_GET["venue_id"]);
 		}
 
 		getTrainerFullName($data_base);

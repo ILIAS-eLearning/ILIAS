@@ -267,11 +267,10 @@ class gevDecentralTrainingGUI {
 		
 		if($is_flexible) {
 			$form->addCommandButton("addBuildingBlock", $this->lng->txt("gev_dec_training_add_buildingblocks"));
-			$form->addCommandButton("", $this->lng->txt("gev_dec_mail_preview"));
 		} else {
 			$form->addCommandButton("finalizeTrainingCreation", $this->lng->txt("gev_dec_training_creation"));
 		}
-		
+		$form->addCommandButton("", $this->lng->txt("gev_dec_mail_preview"));
 		$form->addCommandButton("cancel", $this->lng->txt("cancel"));
 		$form->setFormAction($this->ctrl->getFormAction($this));
 
@@ -308,11 +307,11 @@ class gevDecentralTrainingGUI {
 		
 		if($is_flexible) {
 			$form->addCommandButton("addBuildingBlock", $this->lng->txt("gev_dec_training_add_buildingblocks"));
-			$form->addCommandButton("", $this->lng->txt("gev_dec_mail_preview"));
 		} else {
 			$form->addCommandButton("finalizeTrainingCreation", $this->lng->txt("gev_dec_training_creation"));
 		}
 		
+		$form->addCommandButton("", $this->lng->txt("gev_dec_mail_preview"));
 		$form->addCommandButton("cancel", $this->lng->txt("cancel"));
 		$form->setFormAction($this->ctrl->getFormAction($this));
 
@@ -630,13 +629,13 @@ class gevDecentralTrainingGUI {
 			} else {
 				$form->addCommandButton("showBuildingBlock", $this->lng->txt("gev_dec_training_show_buildingblocks"));
 			}
-			$form->addCommandButton("", $this->lng->txt("gev_dec_mail_preview"));
 		} else {
 			if($should_save) {
 				$form->addCommandButton("updateSettings", $this->lng->txt("save"));
 			}
 		}
 
+		$form->addCommandButton("", $this->lng->txt("gev_dec_mail_preview"));
 		$form->addCommandButton("cancel", $this->lng->txt("back"));
 		$form->setFormAction($this->ctrl->getFormAction($this));
 				
