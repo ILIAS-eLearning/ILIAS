@@ -713,13 +713,15 @@ class ilObjectCopyGUI
 		$object_search->setFilter(array($_REQUEST['new_type']));
 		$res = $object_search->performSearch();
 		$res->setRequiredPermission('copy');
-		$res->filter(ROOT_FOLDER_ID,true);
+		$res->filter($this->getFirstTarget(),true);
 		
 		if(!count($results = $res->getResultsByObjId()))
 		{
 			ilUtil::sendFailure($this->lng->txt('search_no_match'),true);
 			$ilCtrl->returnToParent($this);
 		}
+		
+		
 	
 		include_once './Services/Object/classes/class.ilObjectCopySearchResultTableGUI.php';
 		$table = new ilObjectCopySearchResultTableGUI($this,'searchSource',$this->getType());
