@@ -453,7 +453,7 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
 		
 		$this->setParameter($this->getTestPlayerGUI(), 'lock', $this->getSessionLockString());
 		$this->setParameter($this->getTestPlayerGUI(), 'sequence', $this->getTestSession()->getLastSequence());
-		$this->setParameter($this->getTestPlayerGUI(), 'ref_id', $this->getTestOBJ()->getRefId());
+		$this->setParameter('ilObjTestGUI', 'ref_id', $this->getTestOBJ()->getRefId());
 		
 		$this->setFormAction($this->buildFormAction($this->testPlayerGUI));
 		
