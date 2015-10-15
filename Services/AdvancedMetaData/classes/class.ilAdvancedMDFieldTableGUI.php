@@ -82,7 +82,8 @@ class ilAdvancedMDFieldTableGUI extends ilTable2GUI
 		{
 			$this->tpl->setVariable('ASS_CHECKED','checked="checked"');
 		}
-		if(!$a_set["perm"][ilAdvancedMDPermissionHelper::ACTION_FIELD_EDIT_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_FIELD_SEARCHABLE])
+		if(!$a_set["perm"][ilAdvancedMDPermissionHelper::ACTION_FIELD_EDIT_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_FIELD_SEARCHABLE] ||
+			!(bool)$a_set['supports_search'])
 		{
 			$this->tpl->setVariable('ASS_DISABLED',' disabled="disabled"');
 		}
@@ -139,6 +140,7 @@ class ilAdvancedMDFieldTableGUI extends ilTable2GUI
 			$tmp_arr['searchable'] = $definition->isSearchable();
 			$tmp_arr['type'] = $this->lng->txt($definition->getTypeTitle());
 			$tmp_arr['properties'] = $definition->getFieldDefinitionForTableGUI();
+			$tmp_arr['supports_search'] = $definition->isSearchSupported();
 			
 			$tmp_arr['perm'] = $this->permissions->hasPermissions(
 				ilAdvancedMDPermissionHelper::CONTEXT_FIELD, 
