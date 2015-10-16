@@ -1126,12 +1126,12 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
 		if( !$this->object->getShowPassDetails() )
 		{
-			$executable = $this->object->isExecutable($testSession, $ilUser->getId());
+			#$executable = $this->object->isExecutable($testSession, $ilUser->getId());
 
-			if($executable["executable"])
-			{
+			#if($executable["executable"])
+			#{
 				$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
-			}
+			#}
 		}
 
 		$active_id = $testSession->getActiveId();
@@ -1328,11 +1328,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$templatehead->setVariable('RESULTS_TOOLBAR', $this->ctrl->getHTML($toolbar));
 
 		$passDetailsEnabled = $this->object->getShowPassDetails();
-		if (!$passDetailsEnabled)
-		{
-			$executable = $this->object->isExecutable($testSession, $ilUser->getId());
-			if (!$executable["executable"]) $passDetailsEnabled = true;
-		}
+		#if (!$passDetailsEnabled)
+		#{
+		#	$executable = $this->object->isExecutable($testSession, $ilUser->getId());
+		#	if (!$executable["executable"]) $passDetailsEnabled = true;
+		#}
 
 		require_once 'Modules/Test/classes/class.ilTestResultHeaderLabelBuilder.php';
 		$testResultHeaderLabelBuilder = new ilTestResultHeaderLabelBuilder($this->lng, $ilObjDataCache);
