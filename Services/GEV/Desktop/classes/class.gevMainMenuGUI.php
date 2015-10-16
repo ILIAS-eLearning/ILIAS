@@ -80,11 +80,10 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		$has_super_admin_menu = $this->access->checkAccess("write", "", $general_settings);
 		
 		require_once("Services/TEP/classes/class.ilTEPPermissions.php");
-		$tep_permissions = ilTEPPermissions::getInstance($this->user->getId());
 
 		$employee_booking = ($this->userUtils && $this->userUtils->canViewEmployeeBookings());
 		$my_org_unit = false;
-		$tep = ($this->userUtils && $this->userUtils->isAdmin()) || $tep_permissions->isTutor();
+		$tep = ($this->userUtils && ($this->userUtils->isAdmin() || ilTEPPermissions::getInstance($this->user->getId())->isTutor()));
 		$pot_participants = false;
 		$apprentices = false;
 		require_once("Services/GEV/Utils/classes/class.gevHAUtils.php");
