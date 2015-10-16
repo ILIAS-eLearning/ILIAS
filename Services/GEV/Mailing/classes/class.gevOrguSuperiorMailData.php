@@ -181,7 +181,7 @@ class gevOrguSuperiorMailData extends ilMailData {
 				$tpl->setVariable("USR_FIRSTNAME", $entry_data["firstname"]);
 				$tpl->setVariable("USR_LASTNAME", $entry_data["lastname"]);
 				$tpl->setVariable("CRS_TITLE", $entry_data["title"]);
-				$tpl->setVariable("CRS_TYPE", $entry_data["type"]);
+				$tpl->setVariable("CRS_TYPE", $this->mergeEduProgramAndType($entry_data["edu_program"], $entry_data["type"]));
 				
 				if ($begin_date != "0000-00-00") {
 					$begin_date = new ilDate($entry_data["begin_date"], IL_CAL_DATE);
@@ -229,6 +229,23 @@ class gevOrguSuperiorMailData extends ilMailData {
 		return $ret;
 	}
 
+	// This implements the requirement to output the type of the program and
+	// the edu program together (#1689), e.g. "Präsenztraining" from "zentrales
+	// Training" should be displayed as "zentrales Präsenztraining" 
+	function mergeEduProgramAndType($a_edu_program, $a_type) {
+		if (!in_array($a_type, array("Webinar", "Präsenztraining"))) {
+			return $a_type;
+		}
+		
+		switch ($a_edu_program) {
+			case "zentrales Training":
+				return "zentrales $a_type";
+			case "dezentrales Training":
+				return "dezentrales $a_type";
+			default:
+				return $a_type;
+		}
+	}
 
 	function getReportData() {
 		return $this->usr_utils->getUserDataForSuperiorWeeklyReport($this->getStartTimestamp(), $this->getEndTimestamp());
