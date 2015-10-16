@@ -20,7 +20,6 @@ class ilADTLocationSearchBridgeSingle extends ilADTSearchBridgeSingle
 		if($value !== null)
 		{
 			// :TODO:
-			// $this->getADT()->setDate(new ilDateTime($value, IL_CAL_DATETIME));
 		}
 	}
 	

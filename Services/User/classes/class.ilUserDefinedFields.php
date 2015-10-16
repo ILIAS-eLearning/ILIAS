@@ -503,10 +503,23 @@ class ilUserDefinedFields
 			$this->definitions[$row->field_id]['field_type'] = $row->field_type;
 			$this->definitions[$row->field_id]['il_id'] = 'il_'.$ilSetting->get('inst_id',0).'_udf_'.$row->field_id;
 
-			$tmp = (array) unserialize($row->field_values);
-			sort($tmp);
+			// #16953
+			$tmp = $sort = array();
+			$is_numeric = true;
+			foreach((array) unserialize($row->field_values) as $item)
+			{
+				if(!is_numeric($item))
+				{
+					$is_numeric = false;
+				}
+				$sort[] = array("value"=>$item);
+			}			
+			foreach(ilUtil::sortArray($sort, "value", "asc", $is_numeric) as $item)
+			{
+				$tmp[] = $item["value"];
+			}
+						
 			$this->definitions[$row->field_id]['field_values'] = $tmp;
-
 			$this->definitions[$row->field_id]['visible'] = $row->visible;
 			$this->definitions[$row->field_id]['changeable'] = $row->changeable;
 			$this->definitions[$row->field_id]['required'] = $row->required;
