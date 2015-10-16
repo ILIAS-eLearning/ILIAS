@@ -1461,8 +1461,8 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		$result['matching_mode'] = $this->getMatchingMode();
 		$result['shuffle'] = true;
 		$result['feedback'] = array(
-			"onenotcorrect" => $this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false),
-			"allcorrect" => $this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true)
+			'onenotcorrect' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false)),
+			'allcorrect' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
 		);
 				
 		$terms = array();
