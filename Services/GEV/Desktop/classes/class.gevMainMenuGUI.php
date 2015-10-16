@@ -93,9 +93,8 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		$has_others_menu = $employee_booking || $my_org_unit || $tep || $pot_participants || $apprentices || $local_user_admin || $can_create_ha_unit;
 
 		require_once("Services/GEV/Reports/classes/class.gevReportingPermissions.php");
-		$report_permissions = gevReportingPermissions::getInstance($this->user->getId());
 		
-		$report_permission_billing = $report_permissions->viewBillingReport();
+		$report_permission_billing = ($this->userUtils && gevReportingPermissions::getInstance($this->user->getId())->viewBillingReport());
 		$report_permission_attendancebyuser =  ($this->userUtils && ($this->userUtils->isAdmin() || $this->userUtils->isSuperior()));
 		$report_permission_bookingsbyvenue =  ($this->userUtils && ($this->userUtils->isAdmin() || $this->userUtils->hasRoleIn(array("Veranstalter"))));
 		$report_permission_employee_edu_bio = ($this->userUtils && ($this->userUtils->isAdmin() || $this->userUtils->hasRoleIn(array("OD-Betreuer")) || $this->userUtils->isSuperior()));
