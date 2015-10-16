@@ -889,7 +889,7 @@ class ilCourseBookingAdminGUI
 						$now = new ilDate(date("Y-m-d"), IL_CAL_DATE);
 						if ($date) {
 							$date_d = $date->get(IL_CAL_DATE);
-							$now_d = $date->get(IL_CAL_DATE);
+							$now_d = $now->get(IL_CAL_DATE);
 							
 							// Implementation of #1623: send invitations directly
 							// when user is booked at the day where the course starts.
