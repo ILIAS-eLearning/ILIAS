@@ -1624,7 +1624,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 				array_push($items, $jitem);
 			}
 
-			if( $gap->getType() == CLOZE_TEXT || $gap->getType() == CLOZE_NUMERIC )
+			if( $gap->getGapSize() && ($gap->getType() == CLOZE_TEXT || $gap->getType() == CLOZE_NUMERIC) )
 			{
 				$jgap['size'] = $gap->getGapSize();
 			}
