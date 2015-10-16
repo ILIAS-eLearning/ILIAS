@@ -384,8 +384,12 @@ abstract class ilTEPView
 	// this is introduced as a static method.
 	static public function getTitleLinkForCourse(ilAccessHandler $ilAccess, ilCtrl $ilCtrl, $a_course_ref_id) {
 		$url = "";
-		if (   $ilAccess->checkAccess("write_reduced_settings", "", $a_course_ref_id)
-			&& !$ilAccess->checkAccess("write", "", $a_course_ref_id)) {
+		if ($ilAccess->checkAccess("write", "", $a_course_ref_id)) {
+			$ilCtrl->setParameterByClass("ilrepositorygui","ref_id", $a_course_ref_id);
+			$url = $ilCtrl->getLinkTargetByClass("ilrepositorygui", "edit");
+			$ilCtrl->clearParametersByClass("ilrepositorygui");
+		}
+		else if ($ilAccess->checkAccess("write_reduced_settings", "", $a_course_ref_id)) {
 			$ilCtrl->setParameterByClass("gevDecentralTrainingGUI", "ref_id", $a_course_ref_id);
 			$url = $ilCtrl->getLinkTargetByClass(array("gevDesktopGUI", "gevDecentralTrainingGUI"), "showSettings");
 			$ilCtrl->setParameterByClass("gevDecentralTrainingGUI", "ref_id", null);
