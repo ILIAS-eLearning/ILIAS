@@ -31,10 +31,11 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 	public function __construct($a_user_id, $a_parent_obj, $a_parent_cmd="", $a_template_context="") {
 		parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
 
-		global $ilCtrl, $lng;
+		global $ilCtrl, $lng, $ilAccess;
 
-		$this->gLng = &$lng;
-		$this->gCtrl = &$ilCtrl;
+		$this->gLng = $lng;
+		$this->gCtrl = $ilCtrl;
+		$this->gAccess = $ilAccess;
 
 		$user_util = gevUserUtils::getInstance($a_user_id);
 		$this->user_id = $a_user_id;
@@ -188,11 +189,9 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 			$actions .= '&nbsp;<a href="'.$csn_list_link.'" title="'.$this->gLng->txt("gev_csn_list").'">'.$this->csn_list_img.'</a>';
 		}
 
-		$this->gCtrl->setParameterByClass("ilrepositorygui","ref_id",$a_set["crs_ref_id"]);
-		$course_link = $this->gCtrl->getLinkTargetByClass("ilrepositorygui", "view");
-		$this->gCtrl->clearParametersByClass("ilrepositorygui");
+		$course_link = ilTEPView::getTitleLinkForCourse($this->gAccess, $this->gCtrl, $a_set["crs_ref_id"]);
 
-		$this->tpl->setVariable("TITLE_LINK",$course_link);
+		$this->tpl->setVariable("TITLE_LINK", $course_link);
 		$this->tpl->setVariable("TITLE", $a_set["title"]);
 		$this->tpl->setVariable("CUSTOM_ID", $a_set["custom_id"]);
 		$this->tpl->setVariable("TYPE", $a_set["type"]);
