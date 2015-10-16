@@ -1302,6 +1302,7 @@ class gevDecentralTrainingGUI {
 
 			$webinar_link = new ilTextInputGUI($this->lng->txt("gev_webinar_link"), "webinar_link");
 			$webinar_link->setDisabled($a_form_values["no_changes_allowed"]);
+			$webinar_link->setRequired(true);
 			if ($a_form_values["webinar_link"] && $a_fill) {
 				$webinar_link->setValue($a_form_values["webinar_link"]);
 			}
