@@ -242,7 +242,7 @@ class gevDecentralTrainingGUI {
 		$this->template_id = $form_prev->getInput($this->ltype."_template");
 
 		$trainer_ids = $form_prev->getInput("trainers");
-		$is_flexible = $this->isTemplateFelixible($this->template_id);
+		$is_flexible = $this->isTemplateFlexible($this->template_id);
 		$fill = true;
 		$form_values = $this->getFormValuesByTemplateId($this->template_id);
 		//utils_id
@@ -291,7 +291,7 @@ class gevDecentralTrainingGUI {
 		$fill = true;
 
 		$form_values = $this->getFormValuesByRequestId($this->crs_request_id);
-		$is_flexible = $this->isTemplateFelixible($form_values["template_id"]);
+		$is_flexible = $this->isTemplateFlexible($form_values["template_id"]);
 		$crs_utils = gevCourseUtils::getInstance($form_values["template_id"]);
 		$form_values["ltype"] = $crs_utils->getType();
 		//utils_id
@@ -420,7 +420,7 @@ class gevDecentralTrainingGUI {
 
 	protected function addBuildingBlock() {
 		$template_id = $_POST["template_id"];
-		$is_flexible = $this->isTemplateFelixible($template_id);
+		$is_flexible = $this->isTemplateFlexible($template_id);
 		$form_values["utils_id"] = $template_id;
 		$this->template_id = $template_id;
 
@@ -1553,7 +1553,7 @@ class gevDecentralTrainingGUI {
 		return false;
 	}
 
-	protected function isTemplateFelixible($template_id) {
+	protected function isTemplateFlexible($template_id) {
 		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 		$settings_utils = gevSettings::getInstance();
 		$presence_flexible_tpl_id = $settings_utils->getDctTplFlexPresenceObjId();
