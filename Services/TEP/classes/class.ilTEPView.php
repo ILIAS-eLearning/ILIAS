@@ -241,18 +241,8 @@ abstract class ilTEPView
 				if($entry["course_ref_id"])
 				{
 					// gev-patch start
-					if (   $this->gAccess->checkAccess("write_reduced_settings", "", $entry["course_ref_id"])
-						&& !$this->gAccess->checkAccess("write", "", $entry["course_ref_id"])) {
-						$this->gCtrl->setParameterByClass("gevDecentralTrainingGUI", "ref_id", $entry["course_ref_id"]);
-						$url = $this->gCtrl->getLinkTargetByClass(array("gevDesktopGUI", "gevDecentralTrainingGUI"), "showSettings");
-						$this->gCtrl->setParameterByClass("gevDecentralTrainingGUI", "ref_id", null);
-					}
-					else 
+					$url = self::getTitleLinkForCourse($this->gAccess, $this->gCtrl, $entry["course_ref_id"]);
 					// gev-patch end
-					if($this->gAccess->checkAccess("read", "", $entry["course_ref_id"]))
-					{
-						$url = ilLink::_getStaticLink($entry["course_ref_id"]);
-					}
 				}
 				else
 				{									
@@ -387,5 +377,23 @@ abstract class ilTEPView
 		}
 
 		$workbook->close();		
+	}
+	
+	// This generates the link that is set on the titles of entries in the TEP.
+	// As the course titles in "My Training Appointments" should behave similarly,
+	// this is introduced as a static method.
+	static public function getTitleLinkForCourse(ilAccessHandler $ilAccess, ilCtrl $ilCtrl, $a_course_ref_id) {
+		$url = "";
+		if (   $ilAccess->checkAccess("write_reduced_settings", "", $a_course_ref_id)
+			&& !$ilAccess->checkAccess("write", "", $a_course_ref_id)) {
+			$ilCtrl->setParameterByClass("gevDecentralTrainingGUI", "ref_id", $a_course_ref_id);
+			$url = $ilCtrl->getLinkTargetByClass(array("gevDesktopGUI", "gevDecentralTrainingGUI"), "showSettings");
+			$ilCtrl->setParameterByClass("gevDecentralTrainingGUI", "ref_id", null);
+		}
+		else if($ilAccess->checkAccess("read", "", $a_course_ref_id))
+		{
+			$url = ilLink::_getStaticLink($a_course_ref_id);
+		}
+		return $url;
 	}
 }
