@@ -888,12 +888,22 @@ class ilCourseBookingAdminGUI
 						$date = $crs_utils->getStartDate();
 						$now = new ilDate(date("Y-m-d"), IL_CAL_DATE);
 						if ($date) {
-							$date->increment(IL_CAL_DAY, -1 * $days_before_course_start);
-							$date_unix = $date->get(IL_CAL_UNIX);
-							$now_unix = $now->get(IL_CAL_UNIX);
+							$date_d = $date->get(IL_CAL_DATE);
+							$now_d = $date->get(IL_CAL_DATE);
+							
+							// Implementation of #1623: send invitations directly
+							// when user is booked at the day where the course starts.
+							if ($now_d == $date_d) {
+								$automails->send("invitation", array($user_id));
+							}
+							else {
+								$date->increment(IL_CAL_DAY, -1 * $days_before_course_start);
+								$date_unix = $date->get(IL_CAL_UNIX);
+								$now_unix = $now->get(IL_CAL_UNIX);
 
-							if($now_unix > $date_unix && $deadline_job_runned) {
-								$automails->sendDeferred("invitation", array($user_id));
+								if($now_unix > $date_unix && $deadline_job_runned) {
+									$automails->sendDeferred("invitation", array($user_id));
+								}
 							}
 						}
 					}
