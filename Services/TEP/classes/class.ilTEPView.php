@@ -13,7 +13,12 @@ abstract class ilTEPView
 	protected $permissions; // [ilTEPPermissions]
 	protected $seed; // [ilDate] 
 	protected $entries; // [array] 
-
+	
+	// globals
+	protected $gUser;
+	protected $gAccess;
+	protected $gCtrl;
+	protected $gLng;
 	
 	const TYPE_MONTH = 1;
 	const TYPE_HALFYEAR = 2;
@@ -28,6 +33,13 @@ abstract class ilTEPView
 	 */
 	protected function __construct(ilTEPGUI $a_parent_gui, ilTEPPermissions $a_permissions)
 	{
+		global $ilUser, $ilAccess, $ilCtrl, $lng;
+		
+		$this->gUser = $ilUser;
+		$this->gAccess = $ilAccess;
+		$this->gCtrl = $ilCtrl;
+		$this->gLng = $lng;
+		
 		$this->setParentGUI($a_parent_gui);
 		$this->setPermissions($a_permissions);
 		$this->importRequest();
@@ -212,14 +224,12 @@ abstract class ilTEPView
 	 */
 	protected function prepareDataForPresentation()
 	{
-		global $ilAccess, $ilUser, $ilCtrl;
-		
 		include_once "Services/Link/classes/class.ilLink.php";
 		
 		$may_create_own = $this->getPermissions()->isTutor();
 		$may_create_other = $this->getPermissions()->mayEditOthers();
 		$may_view_other = $this->getPermissions()->mayViewOthers();
-		$user_cat = ilTEP::getPersonalCalendarId($ilUser->getId());
+		$user_cat = ilTEP::getPersonalCalendarId($this->gUser->getId());
 				
 		foreach($this->entries as $user_id => $entries)
 		{
@@ -231,15 +241,15 @@ abstract class ilTEPView
 				if($entry["course_ref_id"])
 				{
 					// gev-patch start
-					if (   $ilAccess->checkAccess("write_reduced_settings", "", $entry["course_ref_id"])
-						&& !$ilAccess->checkAccess("write", "", $entry["course_ref_id"])) {
-						$ilCtrl->setParameterByClass("gevDecentralTrainingGUI", "ref_id", $entry["course_ref_id"]);
-						$url = $ilCtrl->getLinkTargetByClass(array("gevDesktopGUI", "gevDecentralTrainingGUI"), "showSettings");
-						$ilCtrl->setParameterByClass("gevDecentralTrainingGUI", "ref_id", null);
+					if (   $this->gAccess->checkAccess("write_reduced_settings", "", $entry["course_ref_id"])
+						&& !$this->gAccess->checkAccess("write", "", $entry["course_ref_id"])) {
+						$this->gCtrl->setParameterByClass("gevDecentralTrainingGUI", "ref_id", $entry["course_ref_id"]);
+						$url = $this->gCtrl->getLinkTargetByClass(array("gevDesktopGUI", "gevDecentralTrainingGUI"), "showSettings");
+						$this->gCtrl->setParameterByClass("gevDecentralTrainingGUI", "ref_id", null);
 					}
 					else 
 					// gev-patch end
-					if($ilAccess->checkAccess("read", "", $entry["course_ref_id"]))
+					if($this->gAccess->checkAccess("read", "", $entry["course_ref_id"]))
 					{
 						$url = ilLink::_getStaticLink($entry["course_ref_id"]);
 					}
@@ -269,9 +279,9 @@ abstract class ilTEPView
 						{											
 							$cmd = "showEntry";							
 						}									
-						$ilCtrl->setParameterByClass("ilTEPEntryGUI", "eid", $entry_id);
-						$url = $ilCtrl->getLinkTargetByClass("ilTEPEntryGUI", $cmd);						
-						$ilCtrl->setParameterByClass("ilTEPEntryGUI", "eid", "");		
+						$this->gCtrl->setParameterByClass("ilTEPEntryGUI", "eid", $entry_id);
+						$url = $this->gCtrl->getLinkTargetByClass("ilTEPEntryGUI", $cmd);						
+						$this->gCtrl->setParameterByClass("ilTEPEntryGUI", "eid", "");		
 					}			
 				}	
 				$this->entries[$user_id][$idx]["url"] = $url;				
@@ -327,12 +337,12 @@ abstract class ilTEPView
 		$worksheet->setColumn(5, 5, 30);
 
 		$format_bold = $workbook->addFormat(array("bold" => 1));
-		$worksheet->writeString(0, 0, $lng->txt("tep_entry_owner"), $format_bold);
-		$worksheet->writeString(0, 1, $lng->txt("tep_entry_period"), $format_bold);
-		$worksheet->writeString(0, 2, $lng->txt("tep_entry_type"), $format_bold);
-		$worksheet->writeString(0, 3, $lng->txt("tep_entry_title"), $format_bold);
-		$worksheet->writeString(0, 4, $lng->txt("description"), $format_bold);
-		$worksheet->writeString(0, 5, $lng->txt("tep_entry_location"), $format_bold);
+		$worksheet->writeString(0, 0, $this->gLng->txt("tep_entry_owner"), $format_bold);
+		$worksheet->writeString(0, 1, $this->gLng->txt("tep_entry_period"), $format_bold);
+		$worksheet->writeString(0, 2, $this->gLng->txt("tep_entry_type"), $format_bold);
+		$worksheet->writeString(0, 3, $this->gLng->txt("tep_entry_title"), $format_bold);
+		$worksheet->writeString(0, 4, $this->gLng->txt("description"), $format_bold);
+		$worksheet->writeString(0, 5, $this->gLng->txt("tep_entry_location"), $format_bold);
 
 		$format_wrap = $workbook->addFormat();
 		$format_wrap->setTextWrap();
@@ -350,7 +360,7 @@ abstract class ilTEPView
 				}
 				else
 				{
-					$name = $lng->txt("column_no_tutor");
+					$name = $this->gLng->txt("column_no_tutor");
 				}
 				$worksheet->write($row, 0, $name);
 
