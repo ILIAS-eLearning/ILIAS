@@ -1265,6 +1265,12 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		$new_obj->setStatusDetermination($this->getStatusDetermination());
 		$new_obj->setMailToMembersType($this->getMailToMembersType());
 		
+		// #10271
+		$new_obj->setEnableCourseMap($this->getEnableCourseMap());
+		$new_obj->setLatitude($this->getLatitude());
+		$new_obj->setLongitude($this->getLongitude());
+		$new_obj->setLocationZoom($this->getLocationZoom());
+		
 		$new_obj->update();
 	}
 
