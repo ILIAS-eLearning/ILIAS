@@ -17,6 +17,7 @@ require_once("Modules/OrgUnit/classes/class.ilObjOrgUnitAccess.php");
 
 require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 
+
 class gevMainMenuGUI extends ilMainMenuGUI {
 	const IL_STANDARD_ADMIN = "gev_ilias_admin_menu";
 	/**
@@ -67,13 +68,13 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		
 		//permissions
 		$manage_courses = $this->access->checkAccess("write", "", $repository);
-		$search_courses = $manage_courses || $this->userUtils->hasRoleIn(array("Admin-Ansicht"));
+		$search_courses = $manage_courses || ($this->userUtils && $this->userUtils->hasRoleIn(array("Admin-Ansicht")));
 		$manage_users = $this->access->checkAccess("visible", "", $user_mgmt);
 		$manage_org_units = $this->access->checkAccess("visible", "", $org_mgmt);
 		$manage_mails = $this->access->checkAccess("visible", "", $mail_mgmt);
 		$manage_competences = $this->access->checkAccess("visible", "", $competence_mgmt);
 		$has_managment_menu = ($manage_courses || $search_courses || $manage_users || $manage_org_units || $manage_mails || $manage_competences)
-							&& !$this->userUtils->hasRoleIn(array("OD/BD", "FD", "UA", "ID FK", "DBV UVG", "HA 84"))
+							&& ($this->userUtils && !$this->userUtils->hasRoleIn(array("OD/BD", "FD", "UA", "ID FK", "DBV UVG", "HA 84")))
 							;
 		
 		$has_super_admin_menu = $this->access->checkAccess("write", "", $general_settings);
@@ -81,14 +82,14 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		require_once("Services/TEP/classes/class.ilTEPPermissions.php");
 		$tep_permissions = ilTEPPermissions::getInstance($this->user->getId());
 
-		$employee_booking = $this->userUtils->canViewEmployeeBookings();
+		$employee_booking = ($this->userUtils && $this->userUtils->canViewEmployeeBookings());
 		$my_org_unit = false;
-		$tep = $this->userUtils->isAdmin() || $tep_permissions->isTutor();
+		$tep = ($this->userUtils && $this->userUtils->isAdmin()) || $tep_permissions->isTutor();
 		$pot_participants = false;
 		$apprentices = false;
 		require_once("Services/GEV/Utils/classes/class.gevHAUtils.php");
-		$can_create_ha_unit = $this->userUtils->hasRoleIn(array("HA 84")) && !gevHAUtils::getInstance()->hasHAUnit($this->userUtils->getId());
-		$local_user_admin = $this->userUtils->isSuperior(); //Local User Administration Permission
+		$can_create_ha_unit = ($this->userUtils && ($this->userUtils->hasRoleIn(array("HA 84")) && !gevHAUtils::getInstance()->hasHAUnit($this->userUtils->getId())));
+		$local_user_admin = ($this->userUtils && $this->userUtils->isSuperior()); //Local User Administration Permission
 
 		$has_others_menu = $employee_booking || $my_org_unit || $tep || $pot_participants || $apprentices || $local_user_admin || $can_create_ha_unit;
 
@@ -96,15 +97,15 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		$report_permissions = gevReportingPermissions::getInstance($this->user->getId());
 		
 		$report_permission_billing = $report_permissions->viewBillingReport();
-		$report_permission_attendancebyuser =  $this->userUtils->isAdmin() || $this->userUtils->isSuperior();
-		$report_permission_bookingsbyvenue =  $this->userUtils->isAdmin() || $this->userUtils->hasRoleIn(array("Veranstalter"));
-		$report_permission_employee_edu_bio = $this->userUtils->isAdmin() || $this->userUtils->hasRoleIn(array("OD-Betreuer")) || $this->userUtils->isSuperior();
-		$report_permission_attendancebyorgunit = $this->userUtils->isAdmin() ||  $this->userUtils->hasRoleIn(array("Admin-Ansicht"));
-		$report_permission_attendancebycoursetemplate = $this->userUtils->isAdmin();
-		$report_permission_wbd = $this->userUtils->isAdmin();
-		$report_permission_traineroperationbytepcategory = $this->userUtils->isAdmin();
-		$report_permission_dbv = $this->userUtils->hasRoleIn(array("DBV-Fin-UVG"));
-		$report_permission_dbv_superior = $this->userUtils->isSuperior() || $this->userUtils->isAdmin();
+		$report_permission_attendancebyuser =  ($this->userUtils && ($this->userUtils->isAdmin() || $this->userUtils->isSuperior()));
+		$report_permission_bookingsbyvenue =  ($this->userUtils && ($this->userUtils->isAdmin() || $this->userUtils->hasRoleIn(array("Veranstalter"))));
+		$report_permission_employee_edu_bio = ($this->userUtils && ($this->userUtils->isAdmin() || $this->userUtils->hasRoleIn(array("OD-Betreuer")) || $this->userUtils->isSuperior()));
+		$report_permission_attendancebyorgunit = ($this->userUtils && ($this->userUtils->isAdmin() ||  $this->userUtils->hasRoleIn(array("Admin-Ansicht"))));
+		$report_permission_attendancebycoursetemplate = ($this->userUtils && $this->userUtils->isAdmin());
+		$report_permission_wbd = ($this->userUtils && $this->userUtils->isAdmin());
+		$report_permission_traineroperationbytepcategory = ($this->userUtils && $this->userUtils->isAdmin());
+		$report_permission_dbv = ($this->userUtils && $this->userUtils->hasRoleIn(array("DBV-Fin-UVG")));
+		$report_permission_dbv_superior = ($this->userUtils && ($this->userUtils->isSuperior() || $this->userUtils->isAdmin()));
 
 		$has_reporting_menu =  $report_permission_billing 
 							|| $report_permission_attendancebyuser 
@@ -118,7 +119,7 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		$manage_course_block_units = true;
 
 		//get all OrgUnits of superior
-		$arr_org_units_of_superior = $this->userUtils->getOrgUnitsWhereUserIsDirectSuperior();
+		$arr_org_units_of_superior = ($this->userUtils && $this->userUtils->getOrgUnitsWhereUserIsDirectSuperior());
 		$arr_local_user_admin_links = array();
 		if($arr_org_units_of_superior) {
 			foreach($arr_org_units_of_superior as $arr_org_unit_of_superior) {
@@ -176,8 +177,8 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 				, "gev_report_wbd_errors" => array($report_permission_wbd, "ilias.php?baseClass=gevDesktopGUI&cmd=toWBDErrors",$this->lng->txt("gev_report_wbd_errors"))
 				, "gev_report_dbv_report" => array($report_permission_dbv, "ilias.php?baseClass=gevDesktopGUI&cmd=toDBVReport",$this->lng->txt("gev_report_dbv_report"))
 				, "gev_report_dbv_report_superior" => array($report_permission_dbv_superior, "ilias.php?baseClass=gevDesktopGUI&cmd=toDBVReportSuperior",$this->lng->txt("gev_report_dbv_report_superior"))
-				, "gev_report_trainer_workload" => array($this->userUtils->isAdmin(), "ilias.php?baseClass=gevDesktopGUI&cmd=toTrainerWorkload",$this->lng->txt("gev_report_trainer_workload"))
-				, "gev_report_trainer_operation_by_orgu_trainer" => array($this->userUtils->isAdmin(), "ilias.php?baseClass=gevDesktopGUI&cmd=toTrainerOperationByOrgUnitAndTrainer",$this->lng->txt("gev_report_trainer_operation_by_orgu_trainer"))
+				, "gev_report_trainer_workload" => array(($this->userUtils && $this->userUtils->isAdmin()), "ilias.php?baseClass=gevDesktopGUI&cmd=toTrainerWorkload",$this->lng->txt("gev_report_trainer_workload"))
+				, "gev_report_trainer_operation_by_orgu_trainer" => array(($this->userUtils && $this->userUtils->isAdmin()), "ilias.php?baseClass=gevDesktopGUI&cmd=toTrainerOperationByOrgUnitAndTrainer",$this->lng->txt("gev_report_trainer_operation_by_orgu_trainer"))
 				), $this->lng->txt("gev_reporting_menu"))
 
 			, "gev_admin_menu" => array(false, $has_managment_menu, array(
