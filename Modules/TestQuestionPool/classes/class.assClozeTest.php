@@ -1610,7 +1610,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 			{				
 				$jitem = array();
 				$jitem['points'] = $item->getPoints();
-				$jitem['value'] = $item->getAnswertext();
+				$jitem['value'] = $this->formatSAQuestion($item->getAnswertext());
 				$jitem['order'] = $item->getOrder();
 				if ($gap->getType() == CLOZE_NUMERIC)
 				{
