@@ -1,7 +1,7 @@
 /* Copyright (c) 1998-2015 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
-* @author 5.1.x 2015-10-08 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
+* @author 5.1.x 2015-10-17 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
 * @author 4.2.2	Berecz Antónia <berecz@gdf.hu>
 * @module		language file Hungarian
 * @modulegroup	language
@@ -342,7 +342,7 @@ assessment#:#create_gaps#:#Kitöltendő helyek létrehozása és frissítése
 assessment#:#create_imagemap#:#Képtérkép létrehozása
 assessment#:#create_new#:#új létrehozása
 assessment#:#customstyle_description#:#Ehhez a teszthez használható testre szabott stíluslap. Válasszon egyet az elérhető stíluslapok közül, hogy hozzárendelje ehhez a teszthez.
-assessment#:#customstyle#:#Egyedi stílus
+assessment#:#customstyle#:#Egyéni stílus
 assessment#:#definition_image#:#Definíciókép
 assessment#:#definition_text#:#Definíciószöveg
 assessment#:#definition#:#Definíció
@@ -650,14 +650,14 @@ assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#A felhasznál�
 assessment#:#log_create_new_test#:#Új teszt jött létre
 assessment#:#log_manual_feedback#:#%s manuális visszajelzést adott %s tesztet kitöltőnek a(z) %s kérdéshez
 assessment#:#log_mark_added#:#Érdemjegy hozzáadva.
-assessment#:#log_mark_changed#:#Érdemjegy cserélve.
-assessment#:#log_mark_removed#:#Érdemjegy eltávolítva.
+assessment#:#log_mark_changed#:#Érdemjegyet sikeresen lecserélte.
+assessment#:#log_mark_removed#:#Érdemjegyet sikeresen eltávolította.
 assessment#:#log_modified_test#:#A teszt megváltozott.
 assessment#:#tst_results_presentation_description#:#Ha a 'Futó tesztek kitöltési részleteinek megjelenítése' be van kapcsolva, a még be nem fejezett tesztek összes kérdésének címe és rá kapott pontszáma elérhető.  Ha a 'Teszteredményekben a megoldások megjelenítése' be van kapcsolva, részletes megoldás elérhető a kitöltő számára teszteredményei bemutatásakor. Ez az összes válasz részletes pontozását jelenti, máskülönben csak a kérdés címét és az elért pontszámot tartalmazó áttekintés jelenik meg. Ha a válaszok felsorolása be van kapcsolva, egy áttekintést generálunk az összes kérdésről a résztvevő válaszával. Ez a felsorolás a tesztkitölés után közvetlenül a végső tesztbeadás előtt érhető el az 'Információ' fülön.  Ha a 'Válaszfüggő visszajelzés megjelenítése a teszteredményekben' be van kapcsolva, a teszteredményekben a kérdések után megjelennek a válaszfüggő visszajelzések. Ha a 'Eredmények nyomtatási nézete (csak válaszok)' be van kapcsolva, a kérdéshez a 'Tartalom szerkesztése' fülön megadott tartalom nem jelennek meg nyomtatáskor. Amennyiben papíron helyet szeretne megtakarítani, válassza ezt az opciót. Ha az 'Aláírás-helykitöltő megjelenítése' be van kapcsolva, a nyomtatásakor egy helykitöltő jelenik meg az aláírás számára. Ha a 'Javasolt megoldás megjelenítése' be van kapcsolva, a teszteredmények áttekintésében a kérdések javasolt megoldása megjelenik (amennyiben az létezik).
-assessment#:#log_question_added#:#Kérdés hozzáadva az adott helyhez.
-assessment#:#log_question_position_changed#:#A kérdés helye megváltozott.
-assessment#:#log_question_removed#:#Kérdés eltávolítva.
-assessment#:#log_random_question_pool_added#:#'%s' kérdésgyűjtemény %s kérdéssel létrejött a véletlen-kiválasztásos teszthez.
+assessment#:#log_question_added#:#A kérdést sikeren hozzáadta az megadott helyen.
+assessment#:#log_question_position_changed#:#A kérdés helyét sikeresen megváltoztatta.
+assessment#:#log_question_removed#:#Kérdést sikeresen eltávolította.
+assessment#:#log_random_question_pool_added#:#'%s' kérdésgyűjteményt %s kérdéssel sikeresen létrehozott a véletlen-kiválasztásos teszthez.
 assessment#:#log_random_question_pool_deleted#:#Minden véletlen-kiválasztásos tesztkérdésgyűjtemény eltávolítva.
 assessment#:#log_selected_user_data_removed#:#%s felhasználó tesztadatainak törlése
 assessment#:#log_total_amount_of_questions#:#Összkérdésszám megadása a %s véletlen-kiválasztásos teszthez
@@ -941,6 +941,8 @@ assessment#:#tst_instant_feedback_handling_freeze#:#tst_instant_feedback_handlin
 assessment#:#tst_instant_feedback_handling_freeze_desc#:#tst_instant_feedback_handling_freeze_desc
 assessment#:#tst_instant_feedback_handling_force_and_freeze#:#tst_instant_feedback_handling_force_and_freeze
 assessment#:#tst_instant_feedback_handling_force_and_freeze_desc#:#tst_instant_feedback_handling_force_and_freeze_desc
+assessment#:#tst_instant_feedback_handling_force#:#Ne fagyassza be a választ, de kötelező a visszajelzés
+assessment#:#tst_instant_feedback_handling_force_desc#:#tst_instant_feedback_handling_force_desc
 assessment#:#see_details_for_further_information#:#Nézze meg a javasolt megoldások részleteit!
 assessment#:#select_an_answer#:#--- Válasszon ki egy választ! ---
 assessment#:#select_gap#:#Szöveghelyre választás
@@ -1153,6 +1155,7 @@ assessment#:#tst_password_form#:#Adja meg a tesztjelszót
 assessment#:#tst_password#:#Tesztjelszó
 assessment#:#tst_percent_solved#:#Elért százalék
 assessment#:#tst_position#:#%s / %s kérdés
+assessment#:#tst_postpone_description#:#A résztvevők elhalaszthatják kérdéseket a teszt végére.
 assessment#:#tst_postpone_on#:#Meg nem válaszolt kérdések elhalasztása teszt végére
 assessment#:#tst_postpone_on_desc#:#A meg nem válaszolt kérdések a teszt végén újra megjelennek.
 assessment#:#tst_postpone_off#:#Meg nem válaszolt kérdések változatlanul hagyása
@@ -1689,7 +1692,7 @@ certificate#:#certificate_a5#:#A5 (210 mm x 148 mm)
 certificate#:#certificate_background_image#:#Háttérkép
 certificate#:#certificate_bottom#:#Alul
 certificate#:#certificate_confirm_deletion_text#:#Valóban törli az igazolást és annak minden kapcsolódó adatát?
-certificate#:#certificate_custom#:#Egyedi...
+certificate#:#certificate_custom#:#Egyéni...
 certificate#:#certificate_delete#:#Igazolásadatok törlése
 certificate#:#certificate_edit#:#Igazolássablon létrehozása/szerkesztése
 certificate#:#certificate_enabled_scorm_introduction#:#Ha bejelölt, az igazolás fel lesz ajánlva minden felhasználónak, aki befejezte a SCORM-tananyagot.
@@ -1907,7 +1910,7 @@ common#:#add_translation#:#Fordítás hozzáadása
 common#:#add_user_defined_field#:#Új mező létrehozása
 common#:#add_user#:#Helyi felhasználó létrehozása
 common#:#add#:#Hozzáad
-common#:#added_new_condition#:#Új előfeltétel létrejött.
+common#:#added_new_condition#:#Sikeresen létrehozott egy új előfeltételt.
 common#:#additional_info#:#További információk
 common#:#address#:#Cím
 common#:#adm_create_tax#:#Taxonómia létrehozása
@@ -2101,7 +2104,7 @@ common#:#auth_soap_allow_local_desc#:#Lehetővé teszi a SOAP felhasználóknak 
 common#:#auth_soap_auth_desc#:#Ez a beállítás csak a SOAP-alapú felhasználói hitelesítéssel foglalkozik, az ILIAS SOAP interfésszel nem.
 common#:#auth_soap_auth#:#SOAP hitelesítés konfigurálása
 common#:#auth_soap_create_users_desc#:#ILIAS-fiók automatikus létrehozása azon felhasználóknak, akiket sikeresen hitelesítettek SOAP-on keresztül anélkül, hogy lenne ILIAS-fiókjuk.
-common#:#auth_soap_namespace_desc#:#Ahogy a WSDL-ben meghatározott. Specifikálva kell legyen, ha a .NET SOAP stílus van használatban.
+common#:#auth_soap_namespace_desc#:#Ahogy a WSDL-ben került meghatározásra. Ha .NET SOAP stílust használ, meg kell adnia.
 common#:#auth_soap_namespace#:#Névtér
 common#:#auth_soap_port_desc#:#Pl. 8080, ha a teljes SOAP szerver URI http://auth.yourserver.com:8080/dir/server.php
 common#:#auth_soap_server_desc#:#Pl. auth.yourserver.com, ha a teljes SOAP szerver URI http://auth.yourserver.com:8080/dir/server.php
@@ -2109,8 +2112,8 @@ common#:#auth_soap_settings_saved#:#SOAP hitelesítési beállítások mentése 
 common#:#auth_soap_uri_desc#:#Helyi URI, pl. dir/server.php, ha a teljes SOAP szerver URI http://auth.yourserver.com:8080/dir/server.php
 common#:#auth_soap_use_dotnet#:#.NET SOAP stílus használata
 common#:#auth_soap_use_https#:#Használjon HTTPS-t
-common#:#auth_soap_user_default_role_desc#:#Ez a szerep kerül hozzárendelésre az automatikusan létrejött SOAP felhasználókhoz.
-common#:#auth_soap_user_default_role#:#Az alapértelmezett szerep hozzárendelése SOAP-hitelesítési felhasználókhoz
+common#:#auth_soap_user_default_role_desc#:#Ezt a szerepet rendeljük hozzá az automatikusan létrejött SOAP felhasználókhoz.
+common#:#auth_soap_user_default_role#:#Az alapértelmezett szerepet rendeljük hozzá a SOAP-hitelesítési felhasználókhoz
 common#:#auth_soap#:#SOAP
 common#:#auth_user_default_role#:#Alapértelmezett szerep
 rbac#:#auth_visible#:#A felhasználó láthatja a Rendszerbeállítások » Hitelesítés és regisztráció menüpontot
@@ -2153,7 +2156,7 @@ common#:#bm#:#Könyvjelző
 common#:#bmf#:#Könyvjelzőmappa
 common#:#bold#:#Félkövér
 common#:#bookings#:#Foglalások
-common#:#bookmark_added#:#A könyvjelző létrejött.
+common#:#bookmark_added#:#Sikeresen létrehozott egy könyvjelzőt.
 common#:#bookmark_edit#:#Könyvjelző szerkesztése
 common#:#bookmark_folder_edit#:#Könyvjelzőmappa szerkesztése
 common#:#bookmark_folder_new#:#Új könyvjelzőmappa
@@ -2187,7 +2190,7 @@ common#:#cannot_unzip_file#:#Nem lehet kicsomagolni a fájlt.
 common#:#cant_deactivate_if_users_assigned#:#Nem tudja kikapcsolni a stílust, amíg felhasználó van hozzárendelve.
 common#:#cat_a#:#egy kategória
 common#:#cat_add#:#Kategória létrehozása
-common#:#cat_added#:#Kategória létrejött.
+common#:#cat_added#:#Sikeresen létrehozott egy kategóriát.
 rbac#:#cat_cat_administrate_users#:#A felhasználó ebben a kategóriában létrehozhat és kezelhet helyi ILIAS-fiókokat
 common#:#cat_clear_page#:#Lap törlése
 common#:#cat_copy_threads_info#:#Döntse el, mely kategóriaelemeket kell másolni, csatolni vagy kihagyni!
@@ -2369,7 +2372,7 @@ common#:#cron_mail_notification#:#E-mail értesítések küldése
 common#:#crs_a#:#egy kurzus
 common#:#crs_activation_start_invalid#:#Nem érvényes a kezdő és a záró dátum.
 common#:#crs_add#:#Kurzus létrehozása
-common#:#crs_added#:#Kurzus létrejött
+common#:#crs_added#:#Sikeresen létrehozott egy kurzust
 common#:#crs_all_questions_answered_successfully#:#Sikeresen megválaszolt minden kérdést.
 common#:#crs_archives#:#Tömörített állományok
 common#:#crs_at_least_one_admin#:#Legalább egy kurzusvezetőnek kell, hogy legyen.
@@ -2585,7 +2588,7 @@ common#:#error#:#Hiba
 common#:#event_ass_materials_prop#:#Esemény segédanyagai
 common#:#event_assign_files#:#Fájlhozzárendelés
 common#:#exc_add#:#Beadandó feladat létrehozása
-common#:#exc_added#:#Beadandó feladat létrejött.
+common#:#exc_added#:#Sikeresen létrehozott egy beadandó feladatot.
 common#:#exc_ask_delete#:#Törli a fájlt?
 common#:#exc_assign_usr#:#Felhasználó hozzárendelése
 rbac#:#exc_copy#:#A felhasználó másolhat beadandó feladatot
@@ -2601,7 +2604,7 @@ common#:#exc_edit_exercise#:#Beadandó feladat szerkesztése
 rbac#:#exc_edit_learning_progress#:#A felhasználó módosíthatja a tanulási haladás beállításait
 rbac#:#exc_edit_permission#:#A felhasználó megváltoztathatja a jogosultsági beállításokat
 common#:#exc_edit_until#:#Beadási határidő
-common#:#exc_edit#:#Új beadandó feladat létrejött.
+common#:#exc_edit#:#Sikeresen létrehozott egy új beadandó feladatot.
 common#:#exc_exercise_sent#:#Küldés időpontja
 common#:#exc_feedback_sent#:#Visszajelzés küldése
 common#:#exc_files_returned#:#Beküldött fájl(ok)
@@ -2612,7 +2615,7 @@ common#:#exc_instruction#:#Feladatleírás
 common#:#exc_last_submission#:#Utolsó megoldás
 common#:#exc_mail_users#:#Levél küldése felhasználó(k)nak
 common#:#exc_members_already_assigned#:#Ezek a felhasználók már hozzá vannak rendelve ezen beadandó feladathoz.
-common#:#exc_members_assigned#:#Tagok hozzárendelve.
+common#:#exc_members_assigned#:#Tagokat sikeresen hozzárendelte.
 common#:#exc_members_comments_saved#:#A kiválasztott felhasználók számára a beadandó feladathoz tartozó megjegyzést sikeresen mentette.
 common#:#exc_new#:#Új beadandó feladat
 common#:#exc_no_members_assigned#:#Egy tag sincs hozzárendelve.
@@ -2686,7 +2689,7 @@ common#:#file_add#:#Fájl feltöltése
 common#:#file_added#:#Fájl feltöltve.
 common#:#file_allowed_suffixes#:#Engedélyezett fájltípusok:
 rbac#:#file_copy#:#A felhasználó másolhat fájlt
-common#:#file_created#:#A fájl létrejött.
+common#:#file_created#:#A fájl elkészült.
 rbac#:#file_delete#:#A felhasználó áthelyezhet vagy törölhet fájlt
 rbac#:#file_edit_permission#:#A felhasználó megváltoztathatja a jogosultsági beállításokat
 common#:#file_edit#:#Fájl szerkesztése és új verzió feltöltése
@@ -2735,7 +2738,7 @@ common#:#firstname#:#Vezetéknév
 common#:#flatview#:#Oldalsáv elrejtése
 common#:#fold_a#:#egy mappa
 common#:#fold_add#:#Mappa létrehozása
-common#:#fold_added#:#Mappa létrejött.
+common#:#fold_added#:#Sikeresen létrehozott egy mappát.
 common#:#fold_copy_threads_info#:#Jelölje be, mely segédanyagok legyenek másolva, csatolva vagy kihagyva.
 rbac#:#fold_copy#:#A felhasználó másolhat mappát
 rbac#:#fold_delete#:#A felhasználó áthelyezhet vagy törölhet mappát
@@ -2759,7 +2762,7 @@ common#:#form_input_not_valid#:#Néhány adat nem teljes vagy nem érvényes. Ja
 common#:#forum_attachments#:#Fórum mellékletei
 common#:#forum_direct_notification#:#Közvetlen értesítés
 common#:#forum_general_notification#:#Általános értesítés
-common#:#forum_import_file#:#Import fájl
+common#:#forum_import_file#:#Importfájl
 common#:#forum_import#:#Fórum importálása
 common#:#forum_notify_me_directly#:#Értesítsenek a hozzászólásomra érkező közvetlen hozzászólásokról!
 common#:#forum_notify_me_generally#:#Értesítsenek bármilyen új hozzászólásról, amely a témámhoz érkezik!
@@ -2785,7 +2788,7 @@ common#:#frm_a#:#egy fórum
 rbac#:#frm_add_reply#:#A felhasználó válaszolhat a hozzászólásra
 rbac#:#frm_add_thread#:#A felhasználó vehet fel új témát
 common#:#frm_add#:#Fórum létrehozása
-common#:#frm_added#:#Fórum létrejött.
+common#:#frm_added#:#Sikeresen létrehozott egy fórumot.
 common#:#frm_article#:#hozzászólás
 rbac#:#frm_copy#:#A felhasználó másolhat fórumot
 common#:#frm_create#:#Fórum létrehozása
@@ -2816,7 +2819,7 @@ common#:#gender#:#Nem
 common#:#general_settings#:#Általános beállítások
 common#:#generate#:#Generálás
 common#:#glo_add#:#Fogalomtár létrehozása
-common#:#glo_added#:#Fogalomtár létrejött.
+common#:#glo_added#:#Sikeresen létrehozott egy fogalomtárat.
 rbac#:#glo_copy#:#A felhasználó másolhat fogalomtárat
 common#:#glo_create#:#Fogalomtár létrehozása
 rbac#:#glo_delete#:#A felhasználó áthelyezhet vagy vagy törölhet fogalomtárat
@@ -2838,7 +2841,7 @@ common#:#global_settings#:#Globális beállítások
 common#:#global_user#:#Globális felhasználók
 common#:#global#:#Globális
 common#:#glossaries#:#Fogalomtárak
-common#:#glossary_added#:#Fogalomtár létrejött.
+common#:#glossary_added#:#Sikeresen létrehozott egy fogalomtárat.
 common#:#glossary#:#Fogalomtár
 common#:#go#:#Menj
 common#:#group_access_denied#:#Hozzáférés megtagadva.
@@ -2847,7 +2850,7 @@ common#:#group_create_chat#:#Csevegés létrehozása
 common#:#group_desc#:#Csoportleírás
 common#:#group_details#:#Részletek a csoportról
 common#:#group_filesharing#:#Csoport-fájlmegosztás
-common#:#group_import_file#:#Import fájl
+common#:#group_import_file#:#Importfájl
 common#:#group_import#:#Csoportimport
 common#:#group_info_reg#:#Csatlakozási folyamat
 common#:#group_members#:#Csoporttagok
@@ -2887,7 +2890,7 @@ common#:#groups#:#Csoportok
 common#:#grp_a#:#egy csoport
 common#:#grp_add_member#:#Tag(ok) hozzáadása
 common#:#grp_add#:#Csoport létrehozása
-common#:#grp_added#:#Csoport létrejött.
+common#:#grp_added#:#Sikeresen létrehozott egy csoportot.
 common#:#grp_already_applied#:#Már kérte felvételét a csoportba. Kérjük várja meg a visszaigazolást!
 common#:#grp_app_send_mail#:#Üzenet küldése a jelentkezőnek
 common#:#grp_back#:#Vissza
@@ -2970,26 +2973,26 @@ common#:#hide#:#Elrejtés
 common#:#hint#:#Útmutatás
 common#:#hist_dbk_delete_pg#:#'%1' [%2] lapot sikeresen törölte
 common#:#hist_dbk_delete_st#:#'%1' [%2] fejezetet sikeresen törölte.
-common#:#hist_dbk_pg_create#:#Lap létrejött.
+common#:#hist_dbk_pg_create#:#Sikeresen létrehozott egy lapot.
 common#:#hist_dbk_pg_cut#:#'%1' [%2] fejezetből sikeresen vágott ki lapot.
 common#:#hist_dbk_pg_paste#:#'%1' [%2] fejezetbe sikeresen illesztett be lapot.
 common#:#hist_dbk_pg_update#:#Lap módosult.
 common#:#hist_dbk_st_cut_page#:#'%1' [%2] lapot sikeresen kivágta a fejezetből.
-common#:#hist_dbk_st_paste_page#:#'%1' [%2] lapot sikeresen beillesztve a fejezetbe.
-common#:#hist_file_create#:#A fájl létrejött, neve: '%1'.
+common#:#hist_dbk_st_paste_page#:#'%1' [%2] lapot sikeresen beillesztette a fejezetbe.
+common#:#hist_file_create#:#A fájl elkészült, neve: '%1'.
 common#:#hist_file_new_version#:#Új fájlverzió jött létre. A fájl neve '%1', verziója %2.
 common#:#hist_file_replace#:#A fájlt sikeresen lecserélte. Az új fájl neve '%1', az új verzió %2.
 common#:#hist_lm_delete_pg#:#'%1' [%2] lapot sikeresen törölte.
 common#:#hist_lm_delete_st#:#'%1' [%2] fejezetet sikeresen törölte.
-common#:#hist_lm_pg_create#:#Lap létrejött.
+common#:#hist_lm_pg_create#:#Sikeresen létrehozott egy lapot.
 common#:#hist_lm_pg_cut#:#'%1' [%2] fejezetből sikeresen vágott ki lapot.
 common#:#hist_lm_pg_paste#:#'%1' [%2] fejezetbe sikeresen illesztett be lapot.
 common#:#hist_lm_pg_update#:#Lapot sikeresen módosította.
-common#:#hist_lm_st_create#:#Fejezet létrejött.
+common#:#hist_lm_st_create#:#Sikeresen létrehozott egy fejezetet.
 common#:#hist_lm_st_cut_page#:#'%1' [%2] lapot sikeresen vágott ki a fejezetből.
 common#:#hist_lm_st_paste_page#:#'%1' [%2] lapot sikeresen illesztett be a fejezetbe.
 common#:#hist_no_entries#:#Nincs bejegyzés a történetében.
-common#:#hist_webr_add#:#'%1' című új weblink létrejött.
+common#:#hist_webr_add#:#'%1' című új weblinket sikresen létrehozta.
 common#:#hist_webr_delete#:#'%1' című weblinket sikeresen törölte.
 common#:#hist_webr_update#:#'%1' című weblinket sikeresen módosította.
 common#:#history#:#Történet
@@ -3062,7 +3065,7 @@ common#:#import_cat_localrol#:#Helyi szerep létrehozása minden új kategóriá
 common#:#import_cat_table#:#Az alábbi táblázat csak akkor nyújt érdemleges adatokat, ha a jelölőnégyzet be van jelölve.
 common#:#import_categories#:#Kategóriák importja
 common#:#import_failure_log#:#Hibanapló importálása
-common#:#import_file_not_valid#:#Az import fájl nem érvényes.
+common#:#import_file_not_valid#:#Az importfájl nem érvényes.
 common#:#import_file#:#Importfájl
 common#:#import_finished#:#Importált üzenetek száma.
 common#:#import_forum_finished#:#A fórumot sikeresen importálta.
@@ -3246,7 +3249,7 @@ common#:#literature_bookmarks#:#Irodalom webcímei
 common#:#literature#:#Irodalom
 common#:#lm_a#:#egy ILIAS-tananyag
 common#:#lm_add#:#ILIAS-tananyag létrehozása
-common#:#lm_added#:#ILIAS-tananyag létrejött.
+common#:#lm_added#:#Sikeresen létrehozott egy ILIAS-tananyagot.
 rbac#:#lm_copy#:#A felhasználó másolhat ILIAS-tananyagot
 common#:#lm_create#:#ILIAS-tananyag létrehozása
 rbac#:#lm_delete#:#A felhasználó áthelyezhet vagy törölhet ILIAS-tananyagot
@@ -3498,7 +3501,7 @@ common#:#msg_invalid_filetype#:#Érvénytelen fájltípus
 common#:#msg_is_last_role#:#Eltávolította az utolsó szerepet az alábbi felhasználókról
 common#:#msg_last_role_for_registration#:#Legalább egy elérhető szerepnek kell lennie a regisztrációs nyomtatványon az új felhasználók számára. Jelenleg ez az egyetlen elérhető szerep.
 common#:#msg_link_clipboard#:#Most válassza ki, hová szeretné a kiválasztott objektumokat belinkelni, majd kattintson a Beillesztés gombra.
-common#:#msg_linked#:#Kiválasztott objektum(ok) belinkelve.
+common#:#msg_linked#:#Sikeresen belinkelte a választott objektumo(ka)t.
 common#:#msg_may_not_contain#:#Ez az objektum feltehetőleg nem tartalmazhatja a következő objektumtípusokat:
 common#:#msg_min_one_active_role#:#Minden felhasználónak legalább egy aktív globális szerepe kell legyen.
 common#:#msg_min_one_role#:#Minden felhasználónak legalább egy aktív globális szerepe kell legyen.
@@ -3544,9 +3547,9 @@ common#:#msg_no_type_accessible#:#Nincs elegendő jogosultsága, hogy elérje a 
 common#:#msg_no_type_available#:#Jelenleg nincs elérhető [type].
 common#:#msg_no_url#:#Nem URL-t adott meg
 common#:#msg_not_available_for_anon#:#A kiválasztott oldal csak bejelentkezett felhasználók számára érhető el.
-common#:#msg_not_in_itself#:#Nem lehet objektumot saját magába beilleszteni
+common#:#msg_not_in_itself#:#Objektumot nem lehet saját magába beilleszteni
 common#:#msg_nothing_found#:#Nincs találat.
-common#:#msg_obj_created#:#Objektum létrejött.
+common#:#msg_obj_created#:#Sikeresen létrehozott egy objektumot.
 common#:#msg_obj_exists_in_folder#:#A(z) %s objektum már benne van a(z) %s mappában.
 common#:#msg_obj_exists#:#Ez az objektum már létezik ebben a mappában
 common#:#msg_obj_may_not_contain_objects_of_type#:#A(z) %s objektum nem tartalmazhat ilyen típusú objektumokat: %s.
@@ -3612,7 +3615,7 @@ common#:#no_frm_in_personal_list#:#Nincs fórum a személyes listában.
 common#:#no_global_role_left#:#Minden felhasználónak hozzá kell lennie rendelve egy szerephez.
 common#:#no_grp_in_personal_list#:#Nincs csoport a személyes listában.
 common#:#no_import_available#:#Az import nem elérhető a típus számára
-common#:#no_import_file_found#:#Nem található import fájl.
+common#:#no_import_file_found#:#Nem található importfájl.
 common#:#no_invalid_links#:#Nem található érvénytelen link.
 common#:#no_items#:#Nincsenek objektumok
 common#:#no_license_available#:#Nincs elérhető licenc.
@@ -3964,7 +3967,7 @@ common#:#personal_profile#:#Felhasználói adatok és profil
 common#:#persons#:#Személyek
 common#:#pg_a#:#egy lap
 common#:#pg_add#:#Lap létrehozása
-common#:#pg_added#:#Lap létrejött.
+common#:#pg_added#:#Sikeresen létrehozott egy lapot.
 common#:#pg_edit#:#Lap szerkesztése
 common#:#pg_new#:#Új lap
 common#:#phone_home#:#Telefon - otthoni
@@ -4131,7 +4134,7 @@ common#:#role_a#:#egy szerep
 common#:#role_add_local#:#Helyi szerep hozzáadása
 common#:#role_add_user#:#Felhasználó(k) szerephez adása
 common#:#role_add#:#Szerep létrehozása
-common#:#role_added#:#Szerep létrejött.
+common#:#role_added#:#Sikeresen létrehozott egy szerepet.
 common#:#role_assigned_desk_items#:#Hozzárendelt munkaasztalelemek
 common#:#role_assigned_desktop_item#:#Létrehozott új hozzárendelés.
 common#:#role_assignment_updated#:#Szerep-összerendelést sikeresen frissítette.
@@ -4163,10 +4166,10 @@ common#:#role_user_deassign#:#Felhasználó szereptől való megfosztása
 common#:#role_user_edit#:#ILIAS-fiók adatainak szerkesztése
 common#:#role_user_send_mail#:#Üzenet küldése a felhasználónak
 common#:#role#:#Szerep
-common#:#roles_of_import_global#:#Import fájl globális szerepei
-common#:#roles_of_import_local#:#Import fájl helyi szerepei
+common#:#roles_of_import_global#:#Importfájl globális szerepei
+common#:#roles_of_import_local#:#Importfájl helyi szerepei
 common#:#roles#:#Szerepek
-common#:#rolf_added#:#Szerepmappa létrejött.
+common#:#rolf_added#:#Sikeresen létrehozott egy szerepmappát.
 common#:#rolf_create_role#:#Új szerep létrehozása
 common#:#rolf_create_rolt#:#Új szerepminta létrehozása
 common#:#rolf_delete#:#Szerepek / szerepminták törlése
@@ -4178,8 +4181,8 @@ common#:#rolf_write#:#Szerepek / szerepminták alapértelmezett jogosultsági be
 common#:#rolf#:#Szerepek
 common#:#rolt_a#:#egy szerepminta
 common#:#rolt_add#:#Szerepminta létrehozása
-common#:#rolt_added#:#Szerepminta létrejött.
-common#:#rolt_edit#:#Szerepminta szerkesztése
+common#:#rolt_added#:#Sikeresen létrehozott egy szerepmintát.
+common#:#rolt_edit#:#Szerepminta módosítása
 common#:#rolt_new#:#Új szerepminta
 common#:#rolt#:#Szerepminta
 rbac#:#rbac_create_cat#:#Kategóriák létrehozása
@@ -4192,7 +4195,7 @@ common#:#row#:#sor
 common#:#rows#:#Sorok
 common#:#rte_editor_disabled#:#Rich Text szerkesztő nincs engedélyezve
 common#:#rte_editor_enabled#:#Rich Text szerkesztő engedélyezve
-common#:#sahs_added#:#SCORM/AICC-tananyag létrejött.
+common#:#sahs_added#:#Sikeresen létrehozott egy SCORM/AICC-tananyagot.
 rbac#:#sahs_copy#:#A felhasználó másolhat SCORM/AICC-tananyagot
 common#:#sahs_create#:#SCORM/AICC-tananyag létrehozása
 rbac#:#sahs_delete#:#A felhasználó áthelyezhet vagy törölhet SCORM/AICC-tananyagot
@@ -4392,7 +4395,7 @@ common#:#spl#:#Kérdőívkérdés-gyűjtemény
 common#:#ssl#:#SSL (HTTPS)
 common#:#st_a#:#egy fejezet
 common#:#st_add#:#Fejezet létrehozása
-common#:#st_added#:#Fejezet létrejött.
+common#:#st_added#:#Sikeresen létrehozott egy fejezetet.
 common#:#st_edit#:#Fejezet szerkesztése
 common#:#st_new#:#Új fejezet
 common#:#standard_fields#:#Standard mezők
@@ -4574,7 +4577,7 @@ common#:#typ#:#Objektumtípus definíció
 common#:#type_your_message_here#:#Ide gépelje be üzenetét!
 common#:#type#:#Típus
 common#:#udf_add_field#:#Mező létrehozása
-common#:#udf_added_field#:#Új mező létrejött.
+common#:#udf_added_field#:#Sikeresen létrehozott egy új mezőt.
 common#:#udf_delete_header#:#Mező törlése
 common#:#udf_delete_sure#:#Biztos, hogy törli ezt a mezőt és minden hozzárendelt felhasználói adatot?
 common#:#udf_duplicate_entries#:#Az értékeknek egyedieknek kell lenniük.
@@ -4641,7 +4644,7 @@ common#:#use_customized_instructions#:#Egyéni utasítások használata:
 common#:#use_default_instructions#:#Alapértelmezett utasítások használata.
 common#:#user_access#:#Hozzáférés felhasználónként
 common#:#user_activated#:#Felhasználó jóváhagyva
-common#:#user_added#:#Felhasználó létrejött.
+common#:#user_added#:#Sikeresen létrehozott egy felhasználót.
 common#:#user_assignment#:#Felhasználó-hozzárendelés
 common#:#user_cant_receive_mail#:#a felhasználónak nem engedélyezett a levelezőrendszer használata
 common#:#user_comment#:#Felhasználói megjegyzés
@@ -4689,7 +4692,7 @@ common#:#usertracking#:#Felhasználói nyomkövetés
 common#:#usr_a#:#egy felhasználó
 common#:#usr_active_only#:#Csak aktív felhasználók
 common#:#usr_add#:#Felhasználó létrehozása
-common#:#usr_added#:#Felhasználó létrejött.
+common#:#usr_added#:#Sikeresen létrehozott egy felhasználót.
 common#:#usr_agreement_empty#:#A megállapodás nem tartalmaz szöveget.
 common#:#usr_agreement#:#Szolgáltatási feltételek
 common#:#usr_edit#:#Felhasználó szerkesztése
@@ -4972,7 +4975,7 @@ content#:#cont_delete_track_data#:#Nyomkövetési adatok törlése
 content#:#cont_dependencies#:#Függőségek
 content#:#cont_derive_from_obj#:#Objektumból származtatás
 content#:#cont_details#:#Részletek
-content#:#cont_dir_created#:#A könyvtár létrejött.
+content#:#cont_dir_created#:#Sikeresen létrehozott egy könyvtárat.
 content#:#cont_dir_deleted#:#A könyvtárt sikeresen törölte.
 content#:#cont_dir_file#:#Könyvtár / fájl
 content#:#cont_dir_renamed#:#A könyvtárat sikeresen átnevezte.
@@ -5074,11 +5077,11 @@ content#:#cont_Excursus#:#Eltérések
 content#:#cont_export_all#:#Minden exportálása
 content#:#cont_export_files#:#Fájlok exportálása
 content#:#cont_export_success#:#Eredmények (halmozott)
-content#:#cont_export_tracking#:#Nyomkövetési adatok exportja
+content#:#cont_export_tracking#:#Nyomkövetési adatok exportálása
 content#:#cont_export_type#:#Exporttípus
 content#:#cont_external_url#:#külső url
 content#:#cont_external#:#külső
-content#:#cont_file_created#:#A fájl létrejött.
+content#:#cont_file_created#:#A fájl elkészült.
 content#:#cont_file_deleted#:#A fájlt sikeresen törölte.
 content#:#cont_file_from_repository#:#Fájl taneszköztárolóból
 content#:#cont_file_renamed#:#A fájl neve megváltozott.
@@ -5808,7 +5811,7 @@ crs#:#crs_no_groups_selected#:#Válasszon egy csoportot!
 crs#:#crs_no_items_found#:#Nincsenek elemek.
 crs#:#crs_no_language#:#Nincs nyelv
 crs#:#crs_no_lm_selected#:#Válasszon ki egy tananyagot!
-crs#:#crs_no_lms_assigned#:#Nincsenek tanulási segédanyagok hozzárendelve.
+crs#:#crs_no_lms_assigned#:#Egy tanulási segédanyag sincs hozzárendelve.
 crs#:#crs_no_lms_inside_course#:#Nem találhatók tananyagok ebben a kurzusban.
 crs#:#crs_no_lms_inside_crs#:#Ebben a kurzusban nincsenek olyan tanulási segédanyagok, amelyek hozzárendelhetők ehhez a tanulási célhoz.
 crs#:#crs_no_member_selected#:#Egy tagot válasszon!
@@ -5816,7 +5819,7 @@ crs#:#crs_no_members_assigned#:#Nincsenek tagok hozzárendelve ehhez a kurzushoz
 crs#:#crs_no_notify#:#Nincs értesítés az új regisztrációhoz
 crs#:#crs_no_objective_lms_found#:#Ez a kurzus nem tartalmaz segédanyagokat, amit tanulási célhoz lehetne rendelni.
 crs#:#crs_no_objective_selected#:#Válasszon ki egy célt.
-crs#:#crs_no_objectives_created#:#Nincsenek célok hozzárendelve.
+crs#:#crs_no_objectives_created#:#Egy cél sincs hozzárendelve.
 crs#:#crs_no_question_selected#:#Válasszon ki egy kérdést.
 crs#:#crs_no_questions_assigned#:#Nincsenek hozzárendelt kérdések.
 crs#:#crs_no_results_found#:#Nincs eredmény
@@ -6840,8 +6843,8 @@ forum#:#forums_notification#:#Értesítés
 forum#:#forums_post_and_children_were_activated#:#A hozzászólást és annak hozzászólásait sikeresen kikapcsolta.
 forum#:#forums_post_deleted#:#A hozzászólást sikeresen törölte.
 forum#:#forums_post_modified#:#A hozzászólást sikeresen módosította.
-forum#:#forums_post_needs_to_be_activated#:#Egy új hozzászólás létrejött, de azt egy moderátornak jóvá kell hagynia.
-forum#:#forums_post_new_entry#:#Új hozzászólás létrejött.
+forum#:#forums_post_needs_to_be_activated#:#Sikeresen létrehozott egy új hozzászólást, de azt egy moderátornak jóvá kell hagynia.
+forum#:#forums_post_new_entry#:#Sikeresen létrehozott egy új hozzászólást.
 forum#:#forums_post_was_activated#:#A hozzászólást jóváhagyták.
 forum#:#forums_posts_not_available#:#A hozzászólások nem elérhetőek
 forum#:#forums_posts#:#Hozzászólások száma
@@ -6896,7 +6899,7 @@ grp#:#crs_add_grouping#:#Tagságkorlátozás létrehozása
 grp#:#crs_grouping_delete_sure#:#Biztos, hogy törli ezt a tagsági korlátozást?
 grp#:#crs_grouping_deleted#:#Törölt tagsági korlátozás
 grp#:#crs_grouping_select_one#:#Válasszon egy tagságkorlátozást.
-grp#:#crs_grp_added_grouping#:#Új tagságkorlátozás létrejött.
+grp#:#crs_grp_added_grouping#:#Sikeresen létrehozott egy új tagságkorlátozást.
 grp#:#crs_grp_assign_crs#:#Csoportok hozzárendelése
 grp#:#crs_grp_enter_title#:#Töltsön ki minden kötelező mezőt!
 grp#:#crs_grp_no_courses_assigned#:#Nincsenek hozzárendelt kurzusok
@@ -7260,7 +7263,7 @@ mail#:#mail_external_sender_noreply#:#noreply-cím
 mail#:#mail_file_name#:#Fájlnév
 mail#:#mail_file_size#:#Fájlméret
 mail#:#mail_files_deleted#:#A fájl(oka)t sikeresen törölte.
-mail#:#mail_folder_created#:#Az új mappa létrejött.
+mail#:#mail_folder_created#:#Sikeresen létrehozott egy  új mappát.
 mail#:#mail_folder_deleted#:#A mappát sikeresen törölte
 mail#:#mail_folder_edit#:#Mappa szerkesztése
 mail#:#mail_folder_exists#:#Mappa már létezik ezen a néven.
@@ -8123,7 +8126,7 @@ news#:#news_time_period#:#Időszak
 news#:#news_unsubscribe#:#Leiratkozás
 news#:#news_visibility_public#:#Nyilvános
 news#:#news_visibility_users#:#Bejelentkezett felhasználók
-news#:#news_x_files_created#:#%s fájl létrejött.
+news#:#news_x_files_created#:#%s fájl elkészült.
 news#:#news_x_files_updated#:#%s fájl frissült.
 news#:#news_x_postings#:#%s új hozzászólás érkezett.
 news#:#passwd_equals_ilpasswd#:#Adjon meg egy, az ILIAS-jelszavától különböző jelszót!
@@ -8307,7 +8310,7 @@ payment#:#paya_access#:#Elérés
 payment#:#paya_add_customer#:#Eladási eljárás létrehozása 
 payment#:#paya_add_price_title#:#Új ár
 payment#:#paya_add_price#:#Új ár létrehozása 
-payment#:#paya_added_new_object#:#Az új objektum létrejött. Állítsa be a fizetési módot és az árakat.
+payment#:#paya_added_new_object#:#Sikeresen létrehozott egy új objektumot. Állítsa be a fizetési módot és az árakat.
 payment#:#paya_added_new_price#:#Létrehozott új ár.
 payment#:#paya_added_trustee#:#Létrehozott új meghatalmazott.
 payment#:#paya_bookings_available#:#Ez az objektumot már eladták. Először töröljön minden statisztikai adatot!
@@ -8452,7 +8455,7 @@ payment#:#payment_login_to_buy_object#:#Kérjük jelentkezzen be, hogy megvásá
 payment#:#payment_news_add_news#:#Áruházi hír létrehozása 
 payment#:#payment_news_archive_period_info#:#Időszak a hírek archiválásának meghatározásához
 payment#:#payment_news_archive_period#:#Archiválási időszak
-payment#:#payment_news_created#:#Áruházi hír létrejött
+payment#:#payment_news_created#:#Sikeresen létrehozott egy áruházi hírt
 payment#:#payment_news_delete_sure#:#Biztos, hogy törli ezt az áruházi hírt?
 payment#:#payment_news_deleted#:#Áruházi hírt sikeresen törölte.
 payment#:#payment_news_no_news_items#:#Nincsenek elérhető hírek
@@ -10045,7 +10048,7 @@ trac#:#trac_mark#:#Érdemjegy
 trac#:#trac_marks#:#Érdemjegyek
 trac#:#trac_mode_collection_info#:#A tanulási haladást a segédanyagok tanulási haladása határozza meg.
 trac#:#trac_mode_collection#:#Automatikus a segédanyagok tanulási haladása alapján
-trac#:#trac_mode_deactivated_info#:#Az előrehaladás nem lesz kiértékelve.
+trac#:#trac_mode_deactivated_info#:#Az előrehaladást nem értékeljük ki.
 trac#:#trac_mode_deactivated#:#Kikapcsolva
 trac#:#trac_mode_event#:#Jelenlét eseményeken
 trac#:#trac_mode_exercise_returned_info#:#Csak tutor állíthatja be a 'Befejezett' állapotot.
@@ -10658,13 +10661,13 @@ book#:#book_schedule_slot#:#Időtartam
 book#:#book_deadline#:#Határidő
 book#:#book_minutes#:#Perc
 book#:#book_deadline_info#:#Minimális idő a foglalás és a foglalt időszakok között
-book#:#book_type_added#:#A foglalási típus létrejött.
-book#:#book_type_updated#:#A foglalási típust sikeresen frissítette.
-book#:#book_type_deleted#:#A foglalási típust sikeresen törölte.
-book#:#book_object_added#:#Egy foglalási típus létrejött.
+book#:#book_type_added#:#Sikeresen létrehozott egy foglalástípust.
+book#:#book_type_updated#:#A foglalástípust sikeresen frissítette.
+book#:#book_type_deleted#:#A foglalástípust sikeresen törölte.
+book#:#book_object_added#:#Sikeresen létrehozott egy foglalástípust.
 book#:#book_object_updated#:#A foglalható objektumot sikeresen frissítette.
 book#:#book_object_deleted#:#A foglalható objektumot sikeresen törölte.
-book#:#book_schedule_added#:#A foglalási ütemezés létrejött.
+book#:#book_schedule_added#:#Sikeresen létrehozta a foglalás ütemezését.
 book#:#book_schedule_updated#:#A foglalási ütemezést sikeresen frissítette.
 book#:#book_schedule_deleted#:#A foglalási ütemezést sikeresen törölte.
 book#:#book_confirm_delete#:#Biztos, hogy törli az alábbi tételeket?
@@ -10673,7 +10676,7 @@ dateplaner#:#cal_cg_registrations#:#Regisztráció kurzus-/csoporteseményekre
 dateplaner#:#cal_cg_registration_info#:#A felhasználók kurzus- és csoporteseményekre regisztrálhatnak.
 common#:#obj_book#:#Foglalásgyűjtemény
 common#:#objs_book#:#Foglalásgyűjtemények
-book#:#book_pool_added#:#Egy foglalásgyűjtemény létrejött.
+book#:#book_pool_added#:#Sikeresen létrehozott egy foglalásgyűjteményt.
 book#:#book_create_title#:#Foglalásgyűjtemény létrehozása
 dateplaner#:#cal_reg_register#:#Résztvétel
 dateplaner#:#cal_reg_unregister#:#Résztvétel lemondása
@@ -10877,7 +10880,7 @@ trac#:#trac_first_and_last_access#:#Első és utolsó hozzáférés
 user#:#user_save_ordering_and_titles#:#Sorrend és címek mentése
 content#:#cont_wrong_answers_single#:#Hibás válasz.
 survey#:#question_changed_in_survey_only#:#A kérdés csak a kérdőívben változott meg
-content#:#cont_added_tab#:#Panel létrejött.
+content#:#cont_added_tab#:#Sikeresen létrehozott egy panelt.
 trac#:#trac_read_count_spent_seconds#:#Felhasznált idő/elérés
 trac#:#trac_object_stat_access#:#Hozzáférés gyakorisága
 trac#:#trac_show_graph#:#Grafikon megjelenítése
@@ -11023,7 +11026,7 @@ wiki#:#wiki_save_ordering_and_indent#:#Rendezés és behúzás mentése
 wiki#:#wiki_sure_remove_imp_pages#:#Biztos, hogy eltávolítja az alábbi lapokat a fontos lapok listájáról?
 wiki#:#wiki_removed_imp_pages#:#A fontos lapokat eltávolította a listáról.
 wiki#:#wiki_ordering_and_indent_saved#:#A rendezést és a behúzást sikeresen mentette.
-wiki#:#wiki_imp_page_added#:#Lap létrejött.
+wiki#:#wiki_imp_page_added#:#Sikeresen létrehozott egy lapot.
 administration#:#adm_settings_templates#:#Sablonok beállításai
 administration#:#adm_add_settings_template#:#Sablon létrehozása
 administration#:#adm_edit_settings_template#:#Sablon szerkesztése
@@ -11100,7 +11103,7 @@ assessment#:#test_question_pool_usage_optional_info#:#A kérdéseket másik tesz
 assessment#:#test_question_pool_usage_tst_directly#:#A kérdéseket közvetlenül a tesztben hozzuk létre
 assessment#:#test_question_pool_usage_tst_directly_info#:#A kérdéseket nem lehet másik tesztben felhasználni.
 assessment#:#add_new_question#:#Új kérdés létrehozása
-wiki#:#wiki_news_page_created#:#Az új wikilap létrejött.
+wiki#:#wiki_news_page_created#:#Sikeresen létrehozott egy új wikilapot.
 wiki#:#wiki_news_page_changed#:#A wikilap frissült
 wiki#:#wiki_changed_by#:#Módosította
 wiki#:#wiki_page_status_blocked#:#A lap írásvédett.
@@ -11236,13 +11239,13 @@ prtf#:#prtf_portfolios#:#Portfóliók
 prtf#:#prtf_add_portfolio#:#Portfólió hozzáadása
 prtf#:#prtf_edit_portfolio#:#Portfólió szerkesztése
 prtf#:#prtf_create_portfolio#:#Portfólió létrehozása
-prtf#:#prtf_portfolio_created#:#Portfólió létrejött
+prtf#:#prtf_portfolio_created#:#Sikeresen létrehozott egy portfóliót
 prtf#:#prtf_portfolio_updated#:#Portfólió frissült
 prtf#:#prtf_set_as_default#:#Beállítása profilomként
 prtf#:#prtf_sure_delete_portfolios#:#Biztos, hogy törli az alábbi portfóliókat?
 prtf#:#prtf_portfolio_deleted#:#Portfóliókat sikeresen törölte.
 prtf#:#prtf_add_page#:#Lap létrehozása
-prtf#:#prtf_page_created#:#Lap létrejött
+prtf#:#prtf_page_created#:#Sikeresen létrehozott egy lapot
 prtf#:#prtf_sure_delete_portfolio_pages#:#Biztos, hogy törli az alábbi portfólió-/bloglapokat?
 prtf#:#prtf_portfolio_page_deleted#:#Portfólió-/bloglapokat sikeresen törölte.
 content#:#cont_ed_insert_profile#:#Személyes adatok beszúrása
@@ -11393,7 +11396,7 @@ payment#:#credit#:#Hitel
 payment#:#period_of_service_provision#:#Szolgáltatásnyújtás időszaka
 wsp#:#wsp_permissions#:#Megosztás
 wsp#:#wsp_shared_with#:#Megosztva ezzel:
-wsp#:#wsp_set_permission_single_user#:#Egyedi felhasználó
+wsp#:#wsp_set_permission_single_user#:#Egy egyszerű felhasználó
 wsp#:#wsp_set_permission_group#:#Csoport
 wsp#:#wsp_set_permission_course#:#Kurzus
 wsp#:#wsp_set_permission_all_password#:#World Wide Web (jelszóval)
@@ -11456,8 +11459,8 @@ exc#:#exc_create_blog#:#Blog létrehozása
 exc#:#exc_create_portfolio#:#Portfólió létrehozása
 exc#:#exc_create_blog_select_info#:#Válassza ki a forrásmappát a bloghoz hozzáadáshoz.
 exc#:#exc_create_portfolio_select_info#:#Válassza ki a forrásmappát a portfólióhoz hozzáadáshoz.
-exc#:#exc_blog_created#:#A blog létrejött.
-exc#:#exc_portfolio_created#:#A portfólió létrejött.
+exc#:#exc_blog_created#:#Sikeresen létrehozott egy blogot.
+exc#:#exc_portfolio_created#:#Sikeresen létrehozott egy portfóliót.
 mail#:#mail_member_notification#:#Résztvevők értesítése
 mail#:#mail_enable_crs_member_notification#:#Kurzustagok értesítése
 mail#:#mail_enable_grp_member_notification#:#Csoporttagok értesítése
@@ -11699,8 +11702,8 @@ chatroom#:#fontstyle#:#Betűstílus
 chatroom#:#fontsize#:#Betűméret
 chatroom#:#italic#:#Dőlt
 chatroom#:#underlined#:#Aláhúzott
-chatroom#:#select_custom_username#:#Egyedi felhasználónév kiválasztása
-chatroom#:#custom_username#:#Egyedi felhasználónév
+chatroom#:#select_custom_username#:#Egyéni felhasználónév kiválasztása
+chatroom#:#custom_username#:#Egyéni felhasználónév
 chatroom#:#enter#:#Csevegőszobába belépés
 chatroom#:#fontfamily#:#Betűcsalád
 chatroom#:#small#:#Kicsi
@@ -12124,10 +12127,10 @@ chatroom#:#hint_osd#:#Ha be van kapcsolva, a felhasználók felbukkanó ablakban
 chatroom#:#hint_osd_interval#:#Lekérdezési intervallum az új értesítések ellenőrzéséhez. Alacsonyabb szám esetén a felhasználó gyakrabban kap értesítést, de a webszervernek több kérést kell lekezelnie.
 chatroom#:#hint_unique_name#:#Az ILIAS és a csevegőszerver által használt név az ILIAS azonosításához. Ha több mint egy kliens van használatban csevegőszerverenként, ennek a névnek egyedinek kell lennie ILIAS-példányonként. <br/>A név tartalmazhat betűket (A-Z/a-z), számokat (0-9), a '-' és a '_' karaktereket.
 chatroom#:#enable_smilies#:#Hangulatjelek engedélyezése
-chatroom#:#hint_enable_smilies#:#Ha be van kapcsolva, a konfigurált szövegszekvenciák ikonra lesznek lecserélve. Lásd a hangulatjelek fület a konfigurációhoz.
+chatroom#:#hint_enable_smilies#:#Ha be van kapcsolva, a konfigurált szövegrészeket ikonra cseréljük. Beállításokhoz tekints meg a hangulatjelek fület.
 chatroom#:#display_past_msgs#:#Elküldött üzenetek száma
 chatroom#:#hint_display_past_msgs#:#A szobába belépéskor megjelenítendő korábbi üzenetek száma. A '0' érték kikapcsolja ezt a funkciót.
-chatroom#:#speak_to#:#Beszélgetés hozzás: <b>#user#</b>
+chatroom#:#speak_to#:#Beszélgetés hozzá: <b>#user#</b>
 chatroom#:#whisper_to#:#Suttogás hozzá: <b>#user#</b>
 chatroom_adm#:#chat_cannot_connect_to_server#:#Az ILIAS nem tud socket kapcsolatot felépíteni a csevegőszerverhez.
 chatroom#:#leave_private_room#:#Privát szoba elhagyása
@@ -12609,7 +12612,7 @@ rating#:#rating_categories#:#Értékelési kategóriák
 rating#:#rating_add_category#:#Kategória létrehozása
 rating#:#rating_category_create#:#Kategória létrehozása
 rating#:#rating_category_add#:#Hozzáadás
-rating#:#rating_category_created#:#Kategória létrejött
+rating#:#rating_category_created#:#Sikeresen létrehozott egy kategóriát.
 rating#:#rating_category_edit#:#Kategória szerkesztése
 rating#:#rating_category_update#:#Mentés
 rating#:#rating_category_updated#:#Kategória mentése sikerült
@@ -12773,7 +12776,7 @@ pd#:#pd_private_calendars#:#Privát naptár
 exc#:#exc_team_log#:#Csapatlog
 exc#:#exc_team_log_remove_member#:#Eltávolított tag: %s.
 exc#:#exc_team_log_add_member#:#Felvett tag: %s.
-exc#:#exc_team_log_create_team#:#Csapat létrejött.
+exc#:#exc_team_log_create_team#:#Sikeresen létrehozott egy csapatot.
 exc#:#exc_team_log_add_file#:#Felvett fájl: %s.
 exc#:#exc_team_log_remove_file#:#Eltávolított fájl: %s.
 administration#:#adm_imprint#:#Impresszum
@@ -12908,7 +12911,7 @@ dcl#:#dcl_owner_editable#:#Csak saját bejegyzések szerkesztése
 dcl#:#dcl_order#:#Sorrend
 dcl#:#dcl_title#:#Mező címe
 dcl#:#dcl_description#:#Mező leírása
-dcl#:#dcl_msg_table_created#:#Tábla létrejött
+dcl#:#dcl_msg_table_created#:#Sikeresen létrehozott egy táblát
 dcl#:#dcl_save#:#Tábla mentése
 dcl#:#dcl_record_deleted#:#Bejegyzést sikeresen törölte
 dcl#:#dcl_confirm_delete_record#:#Biztos, hogy törli ezt a bejegyzést?
@@ -13285,7 +13288,7 @@ tos#:#tos_status_enable#:#Engedélyezés
 tos#:#tos_status_desc#:#Ha be van kapcsolva, a felhasználóknak az ILAS-ba belépés előtt el kell fogadniuk a Szolgáltatási feltételeket.
 tos#:#tos_reset_tos_for_all_users#:#Szolgáltatási feltételek reset
 tos#:#tos_sure_reset_tos#:#Biztos, hogy törli az összes felhasználó Szolgáltatási feltételeit? Ez azokra a fiókokra is hatással van, melyeket SOAP webszolgáltatások, chat szerver, vagy az ütemezett feladatok használnak.
-tos#:#tos_reset_successfull#:#Szolgáltatási feltételek sikeresen resetelve.
+tos#:#tos_reset_successfull#:#Szolgáltatási feltételeket sikeresen resetelte.
 user#:#tos_show_signed_text#:#Részletek megjelenítése
 user#:#tos_not_accepted_yet#:#Még nincs elfogadva
 user#:#tos_accepted_content#:#Elfogadott tartalom
@@ -13690,7 +13693,7 @@ survey#:#survey_mode#:#Mód
 survey#:#survey_default_mode#:#Kérdőív
 survey#:#survey_default_mode_info#:#Kiértékelési célokra használható
 survey#:#survey_360_mode_info#:#Személyek teljes körű vizsgálata
-exp#:#exp_file_created#:#Az export fájl létrejött.
+exp#:#exp_file_created#:#Elkészült az exportfájl.
 blog#:#blog_draft_info_contributors#:#Ezt a bejegyzéstervezetet csak a szerkesztők láthatják.
 assessment#:#tst_extratime_added#:#A résztvevő munkaideje megnövelve %s perccel.
 assessment#:#tst_extratime_nodata#:#A kiválasztott résztvevőnek nincsenek bejegyzései.
@@ -13711,8 +13714,8 @@ assessment#:#redirect_none#:#Nincs átirányítás
 assessment#:#redirect_in_kiosk_mode#:#csak akkor, ha a vizsganézet be van kapcsolva
 assessment#:#redirect_always#:#mindig a megadott URL-re
 assessment#:#redirection_url#:#URL
-assessment#:#exp_file_created#:#Export fájl létrejött.
-tax#:#tax_added#:#Taxonómia létrejött.
+assessment#:#exp_file_created#:#Elkészült az exportfájl.
+tax#:#tax_added#:#Sikeresen létrehozott egy taxonómiát.
 tax#:#tax_max_one_tax#:#Maximum egy taxonómia használható ezzel kapcsolatban.
 tax#:#tax_node_sorting#:#Csomópontok sorrendbe rendezése
 tax#:#tax_item_sorting#:#Hozzárendelt elemek sorrendbe rendezésének támogatása
@@ -13763,7 +13766,7 @@ cld#:#cld_edit_Settings#:#Felhő beállítások
 cld#:#cld_empty#:#Üres
 cld#:#cld_file_not_existing_on_service#:#Fájl nem létezik a szolgáltatásban:
 cld#:#cld_folder_already_existing_on_service#:#Mappa már létezik a szolgáltatásban:
-cld#:#cld_folder_created#:#Mappa létrejött
+cld#:#cld_folder_created#:#Sikeresen létrehozott egy mappát
 cld#:#cld_folder_creation_failed#:#Mappa létrehozása sikertelen
 cld#:#cld_folder_name#:#Mappa neve
 cld#:#cld_folder_not_existing_on_service#:#Mappa nem létezik a szolgáltatásban:
@@ -13894,7 +13897,7 @@ administration#:#adm_https#:#HTTPS
 common#:#obj_reps#:#Taneszköztároló
 common#:#obj_reps_desc#:#Taneszköztároló általános beállításai
 rep#:#rep_object_lists#:#Objektum listák
-rep#:#rep_custom_icons#:#Egyedi ikonok
+rep#:#rep_custom_icons#:#Egyéni ikonok
 cmps#:#cmps_enable_creation#:#Létrehozás engedélyezése
 cmps#:#cmps_slots#:#Foglalatok
 pd#:#pd_personal_workspace#:#Magánterület
@@ -14051,9 +14054,9 @@ orgu#:#orgu_type_custom_icon_info#:#Az összes olyan Szervezeti egységnél, mel
 orgu#:#orgu_settings#:#Szervezeti egység beállításai
 orgu#:#orgu_type#:#Szervezeti egységtípus
 orgu#:#orgu_orgu_type#:#Szervezeti egységtípus
-orgu#:#orgu_type_custom_icon#:#Szervezeti egységtípus egyedi ikonja
+orgu#:#orgu_type_custom_icon#:#Szervezeti egységtípus egyéni ikonja
 orgu#:#orgu_adv_settings#:#További beállítások
-orgu#:#orgu_type_msg_error_custom_icon#:#Egyedi ikon beállítása sikertelen
+orgu#:#orgu_type_msg_error_custom_icon#:#Egyéni ikon beállítása sikertelen
 orgu#:#orgu_type_available_amd_sets#:#Elérhető bővített metaadat készletek
 orgu#:#orgu_type_assign_amd_sets#:#Bővített metaadata készletek hozzárendelése
 cld#:#cld_object_added#:#Új felhő-objektum hozzáadva
@@ -14823,7 +14826,7 @@ wiki#:#wiki_stat_edit_pages_avg#:#Felhasználónkénti módosított oldalak átl
 wiki#:#wiki_page_templates#:#Oldalsablonok
 wiki#:#wiki_template_status_removed#:#A sablont sikeresen eltávolította.
 wiki#:#wiki_remove_template_status#:#Sablonok közül eltávolít
-wiki#:#wiki_template_added#:#A sablon létrejött.
+wiki#:#wiki_template_added#:#Sikeresen létrehozott egy sablont.
 wiki#:#wiki_templ_new_pages#:#Új oldalhoz használható
 wiki#:#wiki_templ_add_to_page#:#Meglévő oldalhoz használható
 wiki#:#wiki_add_template#:#Sablonként megjelöl
@@ -15241,7 +15244,7 @@ sess#:#sess_mail_sub_acc_bod#:#'%s' eseményre sikerrel regisztrált.
 administration#:#language_mode_existing_delete_info#:#Importálás előtt az összes bejegyzés törlése az adatbázisból.<br /> FIGYELEM: Az importálandó nyelvi fájlnak teljesnek kell lennie, különben nem minden nyelvi változó jelenik meg hibátlanul. Amennyiben ez bekövetkezik, kapcsolja be a 'Karbantartás'-t és válassza a 'Helyi változatok törlése az adatbázisban' opciók.
 administration#:#language_mode_existing_keepall_info#:#Csak az új, adatbázisban még nem létező bejegyzések importálása.
 administration#:#language_mode_existing_keepnew_info#:#Új begyezések importálása és az alapértelmezett értékűek felülírása. A megváltozott, nem alapértelmezett értékűek változatlanok maradnak az adatbázisban.
-administration#:#language_mode_existing_replace_info#:#Új begyezések importálása és az összes adatbázisban lévő érték cseréje az import fájlban lévő értékre.
+administration#:#language_mode_existing_replace_info#:#Új begyezések importálása és az összes adatbázisban lévő érték cseréje az importfájlban lévő értékre.
 administration#:#language_scope_global_info#:#Ezen nyelv összes adatbázis bejegyzésének exportálása. Ez biztonsági mentésre használható.
 administration#:#language_scope_local_info#:#Az összes helyiként hozzáadott vagy az adatbázisban megváltoztatott bejegyzés exportálása. Ez hasonló, mint a 'Karbantartás' fülön lévő helyi nyelvi fájl mentése.
 administration#:#language_scope_added_info#:#Az összes, az adatbázisba helyiként hozzáadott bejegyzés exportálása. A fejlesztés alatt lévő változatok biztonsági mentésére lehet felhasználni a 'Karbantartás' fülön történő helyi változatok törlése előtt.
@@ -15289,7 +15292,7 @@ payment#:#enable_topics_info#:#Ha be van kapcsolva, a létrehozott témakörökh
 exc#:#exc_assignment_type#:#Beadás módja
 trac#:#trac_mode_event_info#:#A tanulási haladás állapotát a résztvételi állapot határozza meg.
 sess#:#sess_lp_preset#:#Tanulási haladás bekapcsolása
-sess#:#sess_lp_preset_info#:#Tanulási haladás bekapcsolása az összes eseményre.
+sess#:#sess_lp_preset_info#:#Tanulási haladás bekapcsolása az összes létrehozandó eseményre.
 glo#:#glo_copy#:#Fogalomtár másolása
 form#:#form_open_answer#:#Szabadszöveges
 survey#:#survey_access_codes#:#Hitelesítés kódokkal
@@ -15306,7 +15309,7 @@ survey#:#survey_constraint_deleted#:#Az elágazási szabályt sikeresen törölt
 error#:#error_back_to_repository#:#Vissza a Taneszköztárolóba
 error#:#error_sry_error#:#Sajnáljuk, hiba történt.
 form#:#form_hier_click_to_add#:#Új elemek hozzáadásához kattintson ide.
-scormtrac#:#exportselectedsuccess#:#Sikeres exportok alapriportjai
+scormtrac#:#exportselectedsuccess#:#Sikeresek alapriportja
 scormtrac#:#LearningModuleId#:#Tananyag azonosítója
 scormtrac#:#LearningModuleTitle#:#Tananyag címe
 scormtrac#:#LearningModuleVersion#:#Tananyag verziója
@@ -15340,7 +15343,7 @@ scormtrac#:#scope#:#hatókör
 scormtrac#:#counter#:#számláló
 scormtrac#:#student_response#:#student_response: válasz
 scormtrac#:#ostatus#:#Cél állapota
-prtf#:#prtf_blog_page_created#:#Blog létrejött.
+prtf#:#prtf_blog_page_created#:#Sikeresen létrehozott egy blogot.
 wiki#:#wiki_adv_md_hidden#:#Ez a blokk jelenleg el van rejtve.
 wiki#:#wiki_page_list_form_info#:#Az alábbi kiválasztott metaadathoz rendelt wikioldalakat sorolja fel.
 content#:#cont_pc_amdpl#:#Oldallista
@@ -15956,12 +15959,12 @@ prg#:#prg_mark_accredited#:#Abszolváltként megjelölése
 prg#:#prg_unmark_accredited#:#Abszolvált jelölés eltávolítása
 prg#:#prg_mark_accredited_success#:#A felhasználó programcsomópont teljesítettségét sikeresen beállította.
 prg#:#prg_unmark_accredited_success#:#A felhasználó programcsomópont teljesítettségét sikeresen eltávolította.
-prg#:#prg_remove_user_success#:#Felhasználó sikeresen törölve.
+prg#:#prg_remove_user_success#:#Felhasználót sikeresen törölte.
 prg#:#prg_type_add#:#Tanulmány programtípus
 prg#:#prg_subtypes#:#Altípus
 prg#:#prg_subtype_add#:#Új altípus hozzáadása
 prg#:#prg_adv_settings#:#Speciális beállítások
-prg#:#prg_type_custom_icon#:#Egyedi ikonok
+prg#:#prg_type_custom_icon#:#Egyéni ikonok
 prg#:#prg_type_custom_icon_info#:#Egyéni ikoninformáció
 prg#:#prg_type_msg_error_custom_icon#:#Hiba az ion mentésekor
 prg#:#prg_type_assign_amd_sets#:#Bővített metaadat készletek hozzárendelés
@@ -15994,6 +15997,8 @@ prg#:#prg_progress_info#:#%1$d pontja van. A Tanulmányi programot %2$d ponttal 
 prg#:#prg_progress_status#:# %1$d %2$d pontból
 prg#:#prg_no_members_not_active#:#Nem adhat hozzá felhasználókat, mert a program nem aktív.
 prg#:#prg_type_msg_missing_title#:#Cím nem lehet üres.
+prg#:#prg_added_member#:#Sikeresen hozzáadta az új tagot.
+prg#:#prg_added_members#:#Sikeresen hozzáadta az új tagokat.
 common#:#obj_prg_duplicate#:#Tanulmányi program másolása
 common#:#obj_prg_select#:#-- Válasszon egy Tanulmányi programot --
 common#:#obj_prg#:#Tanulmányi program
@@ -16026,10 +16031,6 @@ rbac#:#prgs_edit_permission#:#A felhasználó módosíthatja a Rendszerbeállít
 user#:#feedhash#:#Hírcsatorna-hash
 wsp#:#wsp_shared_filter_reset_button#:#Keresés feltételek törlése
 wsp#:#wsp_shared_filter_button#:#Keresés
-assessment#:#skip_question#:#Válaszadás kihagyása és következő
-assessment#:#tst_instant_feedback_handling_force#:#Do not freeze answers but force feedback###08 10 2015 new variable
-assessment#:#tst_instant_feedback_handling_force_desc#:#tst_instant_feedback_handling_force_desc###08 10 2015 new variable
-assessment#:#tst_postpone#:#Kérdések elhalasztása
 wiki#:#wiki_page_title_too_long#:#A meg adott cím túl hosszú. Adjon a Wiki oldalnak rövidebb címet.
 exc#:#exc_direct_submit#:#Jóváhagyás
 export#:#no_file#:#Nincs fájl
@@ -16047,3 +16048,4 @@ mail#:#mail_sel_users#:#Kiválasztott felhasználóknak levélküldés
 awrn#:#awrn_max_inactivity#:#Maximális tétlenségi időszak
 awrn#:#awrn_max_inactivity_info#:#Ennyi idő után tekintjük offline állapotúnak a felhasználót. Ha nem állít be értéket, a munkamenet idejét használjuk.
 awrn#:#awrn_minutes#:#perc
+bkm#:#bkm_fold_created#:#Sikeresen létrehozott egy könyvjelzőmappát.
