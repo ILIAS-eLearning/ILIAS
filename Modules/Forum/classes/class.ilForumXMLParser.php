@@ -306,7 +306,8 @@ class ilForumXMLParser extends ilSaxParser
 					$newObjProp->setNotificationType($this->forumArray['NotificationType'] ? $this->forumArray['NotificationType'] : 'all_users');
 					$newObjProp->setAdminForceNoti((int)$this->forumArray['ForceNotification']);
 					$newObjProp->setUserToggleNoti((int)$this->forumArray['ToggleNotification']);
-					$newObjProp->setFileUploadAllowed((int)$this->forumArray['FileUpload'] );
+					$newObjProp->setFileUploadAllowed((int)$this->forumArray['FileUpload']);
+					$newObjProp->setThreadSorting($this->forumArray['Sorting']);
 					$newObjProp->update();
 
 					$id = $this->getNewForumPk();
@@ -340,6 +341,10 @@ class ilForumXMLParser extends ilSaxParser
 
 			case 'Sticky':
 				$x['Sticky'] = $this->cdata;
+				break;
+
+			case 'Sorting':
+				$x['Sorting'] = $this->cdata;
 				break;
 
 			case 'Closed':
