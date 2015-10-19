@@ -152,6 +152,34 @@ class assQuestionImport
 		return ilObjTest::_getImportDirectory() . '/' . $_SESSION["tst_import_subdir"];
 	}
 	
+	protected function processNonAbstractedImageReferences($text, $sourceNic)
+	{
+		$reg = '/<img.*src=".*\\/mm_(\\d+)\\/(.*?)".*>/m';
+		$matches = null;
+		
+		if( preg_match_all($reg, $text, $matches) )
+		{
+			for($i = 0, $max = count($matches[1]); $i < $max; $i++)
+			{
+				$mobSrcId = $matches[1][$i];
+				$mobSrcName = $matches[2][$i];
+				$mobSrcLabel = 'il_'.$sourceNic.'_mob_'.$mobSrcId;
+
+				if (!is_array($_SESSION["import_mob_xhtml"]))
+				{
+					$_SESSION["import_mob_xhtml"] = array();
+				}
+
+				$_SESSION["import_mob_xhtml"][] = array(
+					"mob" => $mobSrcLabel, "uri" => 'objects/'.$mobSrcLabel.'/'.$mobSrcName
+				);
+			}
+		}
+
+		include_once "./Services/RTE/classes/class.ilRTE.php";
+		return ilRTE::_replaceMediaObjectImageSrc($text, 0, $sourceNic);
+	}
+	
 	/**
 	 * fetches the "additional content editing mode" information from qti item
 	 * and falls back to ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT when no or invalid information is given
