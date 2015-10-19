@@ -693,8 +693,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		if(!$ilAccess->checkAccess('write','',$this->object->getRefId()))
 		{
 			$ilErr->raiseError($this->lng->txt('msg_no_perm_read'),$ilErr->MESSAGE);
-		}
-		*/
+		}*/
 		$this->setSubTabs('properties');
 		$this->tabs_gui->setTabActive('settings');
 		$this->tabs_gui->setSubTabActive('crs_info_settings');
@@ -812,6 +811,8 @@ class ilObjCourseGUI extends ilContainerGUI
 	 */
 	public function initInfoEditor()
 	{
+		global $ilUser;
+
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this,'updateInfo'));
@@ -892,6 +893,19 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_EDITOR,'crs',$this->object->getId());
 		$this->record_gui->setPropertyForm($form);
 		$this->record_gui->parse();
+
+		//gev patch start
+		include_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		include_once("Services/GEV/Utils/classes/class.gevSettings.php");
+		$user_util = gevUserUtils::getInstance($ilUser->getId());
+		$gev_set = gevSettings::getInstance();
+		$highlight_field_id = $gev_set->getAMDFieldId(gevSettings::CRS_AMD_HIGHLIGHT);
+
+		if(!$user_util->isAdmin()) {
+			$ele = $form->getItemByPostvar($highlight_field_id);
+			$ele->setDisabled (true);
+		}
+		//gev patch end
 
 		return $form;
 	}
@@ -4553,7 +4567,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
-	
+		
 		$this->prepareOutput();
 		
 		// show repository tree

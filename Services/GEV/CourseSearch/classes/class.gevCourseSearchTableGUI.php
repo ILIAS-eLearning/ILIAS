@@ -26,8 +26,8 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 
 		global $ilCtrl, $lng, $ilUser;
 
-		$this->lng = &$lng;
-		$this->ctrl = &$ilCtrl;
+		$this->gLng = $lng;
+		$this->gCtrl = $ilCtrl;
 
 		$this->active_tab = $a_active_tab;
 		$this->parent_obj = $a_parent_obj;
@@ -52,12 +52,12 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 
 		//$this->addColumn("", "expand", "20px");
 		$this->addColumn("", "expand", "0px", false, "catTableExpandButton");
-		$this->addColumn($this->lng->txt("title"), "title");
-		$this->addColumn($this->lng->txt("status"));
-		$this->addColumn($this->lng->txt("gev_learning_type"), "type");
-		$this->addColumn($this->lng->txt("gev_location"), "location");
-		$this->addColumn($this->lng->txt("date"), "date");
-		$this->addColumn($this->lng->txt("gev_points"), "points");
+		$this->addColumn($this->gLng->txt("title"), "title");
+		$this->addColumn($this->gLng->txt("status"));
+		$this->addColumn($this->gLng->txt("gev_learning_type"), "type");
+		$this->addColumn($this->gLng->txt("gev_location"), "location");
+		$this->addColumn($this->gLng->txt("date"), "date");
+		$this->addColumn($this->gLng->txt("gev_points"), "points");
 		$this->addColumn("&euro;", "fee");
 		//$this->addColumn('<img src="'.ilUtil::getImagePath("gev_action.png").'" />', "", "20px");
 		$this->addColumn('<img src="'.ilUtil::getImagePath("gev_action.png").'" />', null, "20px", false);
@@ -116,7 +116,7 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 		}
 
 		if ($a_set["start_date"] == null) {
-			$date = $this->lng->txt("gev_table_no_entry");
+			$date = $this->gLng->txt("gev_table_no_entry");
 		}
 		else {
 			$date = ilDatePresentation::formatPeriod($a_set["start_date"], $a_set["end_date"]);
@@ -132,8 +132,8 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 		$target = $this->is_logged_in ? "" : 'target="_blank"';
 		$booking_action = '<a href="'.gevCourseUtils::getBookingLinkTo($a_set["obj_id"], $this->user_id).'" '.$target.'>'.
 						  $this->book_img."</a>";
-		$contact_onside_action = '<a href="mailto:'.$this->lng->txt("gev_book_contact_onside").'">'.$this->email_img.'</a>';
-		$contact_webinar_action = '<a href="mailto:'.$this->lng->txt("gev_book_contact_webinar").'">'.$this->email_img.'</a>';
+		$contact_onside_action = '<a href="mailto:'.$this->gLng->txt("gev_book_contact_onside").'">'.$this->email_img.'</a>';
+		$contact_webinar_action = '<a href="mailto:'.$this->gLng->txt("gev_book_contact_webinar").'">'.$this->email_img.'</a>';
 		
 		if (!$booking_deadline_expired && ($a_set["free_places"] > 0 || $unlimited)) {
 			$status = $this->bookable_img;
@@ -190,7 +190,7 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 		}
 		else if ($status == $this->almost_not_bookable_img) {
 			$this->tpl->setCurrentBlock("pe_note");
-			$this->tpl->setVariable("PE_NOTE", $this->lng->txt("gev_booking_request_pe_note"));
+			$this->tpl->setVariable("PE_NOTE", $this->gLng->txt("gev_booking_request_pe_note"));
 			$this->tpl->parseCurrentBlock();
 		}
 
@@ -201,7 +201,7 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 		$this->tpl->setVariable("TUTORS", $tutors);
 
 		$this->tpl->setVariable("FREE_PLACES", $unlimited
-											 ? $this->lng->txt("gev_unlimited")
+											 ? $this->gLng->txt("gev_unlimited")
 											 : $a_set["free_places"]
 											 );
 		if ($a_set["booking_date"] !== null) {
@@ -238,7 +238,7 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 		$tpl = new ilTemplate("tpl.gev_my_advice.html", true, true, "Services/GEV/Desktop");
 
 		$tpl->setCurrentBlock("advice");
-		$tpl->setVariable("ADVICE", $this->lng->txt($this->getAdvice()));
+		$tpl->setVariable("ADVICE", $this->gLng->txt($this->getAdvice()));
 		$tpl->parseCurrentBlock();
 
 		return $tpl->get();
@@ -256,12 +256,10 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 		if($this->advice) {
 			$ret .= $this->renderAdvice()."<br />";
 		}
-		$this->ctrl->setParameter($this->parent_obj,"active_tab",$this->active_tab);
+		$this->gCtrl->setParameter($this->parent_obj,"active_tab",$this->active_tab);
 		$ret .= ilTable2GUI::render();
-		$this->ctrl->clearParameters($this->parent_obj);
+		$this->gCtrl->clearParameters($this->parent_obj);
 
 		return $ret;
 	}
 }
-
-?>

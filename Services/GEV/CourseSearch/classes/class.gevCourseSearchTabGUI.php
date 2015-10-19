@@ -14,13 +14,12 @@ class gevCourseSearchTabGUI {
 	
 
 	public function __construct($a_search_options, $a_parent_obj, $a_selected_tab) {
-		global $ilCtrl, $lng, $ilUser;
+		global $ilCtrl, $ilUser;
 
 		$this->selected_tab = $a_selected_tab;
 		$this->parent_obj = $a_parent_obj;
 
-		$this->lng = &$lng;
-		$this->ctrl = &$ilCtrl;
+		$this->gCtrl = $ilCtrl;
 		$this->crs_srch = gevCourseSearch::getInstance($ilUser->getId());
 
 		$this->tabs = $this->crs_srch->getPossibleTabs();
@@ -33,22 +32,22 @@ class gevCourseSearchTabGUI {
 	public function render() {
 		
 		foreach ($this->tabs as $key => $value) {
-			$this->ctrl->setParameter($this->parent_obj,"active_tab",$key);
+			$this->gCtrl->setParameter($this->parent_obj,"active_tab",$key);
 
 			$this->tpl->setCurrentBlock("tab");
+			$class = gevCourseSearch::CSS_NOT_SELECTED_TAB;
 			if($this->selected_tab == $key) {
-				$this->tpl->setVariable("SELECTED",gevCourseSearch::CSS_SELECTED_TAB);
+				$class = gevCourseSearch::CSS_SELECTED_TAB;
 			}
+			$this->tpl->setVariable("SELECTED",$class);
+			$this->tpl->setVariable("A_SELECTED",$class);
 			
-			$this->tpl->setVariable("LINK",$this->ctrl->getLinkTarget($this->parent_obj));
+			$this->tpl->setVariable("LINK",$this->gCtrl->getLinkTarget($this->parent_obj));
 			$this->tpl->setVariable("TAB_NAME",$value." (".$this->course_counting[$key].")");
 			$this->tpl->parseCurrentBlock();
-
-			$this->ctrl->clearParameters($this->parent_obj);
 		}
+		$this->gCtrl->clearParameters($this->parent_obj);
 
 		return $this->tpl->get();
 	}
 }
-
-?>

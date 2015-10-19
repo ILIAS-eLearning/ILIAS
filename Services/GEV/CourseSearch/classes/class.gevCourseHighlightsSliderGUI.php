@@ -20,10 +20,7 @@ class gevCourseHighlightsSliderGUI extends catSliderGUI {
 	public function __construct($a_user_id = null) {
 		parent::__construct();
 		
-		global $lng, $ilCtrl, $ilUser;
-		
-		$this->lng = &$lng;
-		$this->ctrl = &$ilCtrl;
+		global $ilUser;
 		
 		if ($a_user_id === null) {
 			$this->user_id = $ilUser->getId();
@@ -32,7 +29,7 @@ class gevCourseHighlightsSliderGUI extends catSliderGUI {
 			$this->user_id = $a_user_id;
 		}
 		
-		$this->user_utils = gevUserUtils::getInstance($this->user_id);
+		$this->user_utils = gevCourseSearch::getInstance($this->user_id);
 		
 		$this->setTemplate("tpl.gev_course_highlights_slider.html", "Services/GEV/CourseSearch");
 		$this->setSliderId("CourseHighlightsSlider");
@@ -101,5 +98,3 @@ class gevCourseHighlightsSliderGUI extends catSliderGUI {
 		return $ret;
 	}
 }
-
-?>
