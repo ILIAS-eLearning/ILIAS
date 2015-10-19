@@ -453,7 +453,15 @@ class ilObjMediaObject extends ilObject
 			}
 		}
 
-		self::handleQuotaUpdate($this);		
+		self::handleQuotaUpdate($this);	
+
+		global $ilAppEventHandler;
+		$ilAppEventHandler->raise('Services/MediaObjects',
+		'create',
+		array('object' => $this,
+			'obj_type' => 'mob',
+			'obj_id' => $this->getId())
+		);	
 	}
 
 
