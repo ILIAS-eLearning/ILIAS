@@ -962,6 +962,9 @@ class ilQTIParser extends ilSaxParser
 						{
 							case "ident":
 								$this->item->setIdent($value);
+								$this->item->setIliasSourceNic(
+									$this->fetchSourceNicFromItemIdent($value)
+								);
 								if (count($this->import_idents) > 0)
 								{
 									if (!in_array($value, $this->import_idents))
@@ -1053,6 +1056,12 @@ class ilQTIParser extends ilSaxParser
 				switch ($this->metadata["label"])
 				{
 					case "ILIAS_VERSION":
+						if ($this->item != NULL)
+						{
+							$this->item->setIliasSourceVersion(
+								$this->fetchNumericVersionFromVersionDateString($this->metadata["entry"])
+							);
+						}
 						break;
 					case "QUESTIONTYPE":
 						if ($this->item != NULL)
@@ -1706,6 +1715,30 @@ class ilQTIParser extends ilSaxParser
 		file_put_contents($this->xml_file, $xmlContent);
 		
 		return parent::openXMLFile();
+	}
+	
+	protected function fetchNumericVersionFromVersionDateString($versionDateString)
+	{
+		$matches = null;
+		
+		if( preg_match('/^(\d+\.\d+\.\d+) .*$/', $versionDateString, $matches) )
+		{
+			return $matches[1];
+		}
+		
+		return null;
+	}
+	
+	protected function fetchSourceNicFromItemIdent($itemIdent)
+	{
+		$matches = null;
+
+		if( preg_match('/^il_(\d+?)_qst_\d+$/', $itemIdent, $matches) )
+		{
+			return $matches[1];
+		}
+
+		return null;
 	}
 	
 	protected function cleanInvalidXmlChars($xmlContent)

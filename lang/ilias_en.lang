@@ -877,8 +877,8 @@ assessment#:#question_marking#:#Flagging Questions
 assessment#:#question_not_answered#:#The question was not answered
 assessment#:#question_saved_for_upload#:#The question was saved automatically in order to reserve hard disk space to store the uploaded file. If you cancel this form now, be aware that you must delete the question in the question pool if you do not want to keep it!
 assessment#:#question_short#:#Q
-assessment#:#question_summary#:#Processing Status
-assessment#:#question_summary_btn#:#Processing Status
+assessment#:#question_summary#:#Dashboard
+assessment#:#question_summary_btn#:#Dashboard
 assessment#:#obligations_summary#:#List of Compulsory Questions
 assessment#:#tst_you_have_to_answer_this_question#:#You have to answer this question to be able to finish the test.
 assessment#:#question_title#:#Question Title
@@ -3480,7 +3480,7 @@ common#:#msg_cancel#:#Action cancelled
 common#:#msg_changes_ok#:#The changes were OK
 common#:#msg_clear_clipboard#:#Clipboard cleared
 common#:#msg_cloned#:#Selected object(s) copied
-common#:#msg_copy_clipboard_source#:#Now, please select the desired course or group, whose content should be copied and click the button ‘Next’.
+common#:#msg_copy_clipboard_source#:#Now, please select the desired course or group, whose content should be copied and click the button ‘Continue’.
 common#:#msg_copy_clipboard#:#Now, please select the desired location, where the selected objects should be pasted into and click the button ‘Paste’.
 common#:#msg_copy_clipboard_container#:#Now, please select the desired location, where the selected objects should be pasted into and click the button ‘Continue’.
 common#:#msg_cut_clipboard#:#Now, please select the desired location, where the selected objects should be pasted into and click the button ‘Paste’.

@@ -1995,31 +1995,68 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 	}
 	
 	/**
+	 * Check if filter element is based on adv md
+	 * 
+	 * @param ilAdvancedMDRecordGUI $a_gui
+	 * @param type $a_element
+	 * @return boolean
+	 */
+	protected function isAdvMDFilter(ilAdvancedMDRecordGUI $a_gui, $a_element)
+	{		
+		foreach($a_gui->getFilterElements(false) as $item)
+		{
+			if($item === $a_element)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
 	* Write filter values to session
 	*/
 	public function writeFilterToSession()
-	{
-		global $lng;
-		
-		$filter = $this->getFilterItems();
-		$opt_filter = $this->getFilterItems(true);
-		
-		foreach ($filter as $item)
+	{				
+		$advmd_record_gui = null;
+		if(method_exists($this, "getAdvMDRecordGUI"))
 		{
+			$advmd_record_gui = $this->getAdvMDRecordGUI();
+		}
+	
+		foreach ($this->getFilterItems() as $item)
+		{				
+			if($advmd_record_gui &&
+				$this->isAdvMDFilter($advmd_record_gui, $item))
+			{
+				continue;
+			}					
+			
 			if ($item->checkInput())
 			{
 				$item->setValueByArray($_POST);
 				$item->writeToSession();
 			}
 		}
-		foreach ($opt_filter as $item)
+		foreach ($this->getFilterItems(true) as $item)
 		{
+			if($advmd_record_gui &&
+				$this->isAdvMDFilter($advmd_record_gui, $item))
+			{
+				continue;
+			}	
+			
 			if ($item->checkInput())
 			{
 				$item->setValueByArray($_POST);
 				$item->writeToSession();
 			}
 		}
+		
+		if($advmd_record_gui)
+		{	
+			$advmd_record_gui->importFilter();
+		}	
 		
 		// #13209
 		unset($_REQUEST["tbltplcrt"]);

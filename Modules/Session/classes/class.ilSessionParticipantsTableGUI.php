@@ -63,11 +63,7 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
 		
 		
         $this->setId('sess_'.$a_type.'_'.$a_parent_obj->object->getId());
-		
-		parent::__construct($a_parent_obj,'members');
-		
-		$this->setFormName('participants');
-		
+
 		switch($a_type)
 		{
 			case self::TYPE_ADMIN:
@@ -80,6 +76,12 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
 				$this->setPrefix('member');
 				break;
 		}
+
+		parent::__construct($a_parent_obj,'members');
+		
+		$this->setFormName('participants');
+		
+
 		$this->setSelectAllCheckbox($this->getRoleType());
 		$this->setShowRowsSelector(TRUE);
 		

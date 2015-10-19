@@ -64,6 +64,9 @@ class ilQTIItem
 	var $suggested_solutions;
 	var $itemmetadata;
 	
+	protected $iliasSourceVersion;
+	protected $iliasSourceNic;
+	
 	function ilQTIItem()
 	{
 		$this->response = array();
@@ -73,6 +76,9 @@ class ilQTIItem
 		$this->presentationitem = array();
 		$this->suggested_solutions = array();
 		$this->itemmetadata = array();
+		
+		$this->iliasSourceVersion = null;
+		$this->iliasSourceNic = null;
 	}
 	
 	function setIdent($a_ident)
@@ -321,6 +327,38 @@ class ilQTIItem
 	function getAuthor()
 	{
 		return $this->author;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getIliasSourceVersion()
+	{
+		return $this->iliasSourceVersion;
+	}
+
+	/**
+	 * @param string $iliasSourceVersion
+	 */
+	public function setIliasSourceVersion($iliasSourceVersion)
+	{
+		$this->iliasSourceVersion = $iliasSourceVersion;
+	}
+
+	/**
+	 * @return null
+	 */
+	public function getIliasSourceNic()
+	{
+		return $this->iliasSourceNic;
+	}
+
+	/**
+	 * @param null $iliasSourceNic
+	 */
+	public function setIliasSourceNic($iliasSourceNic)
+	{
+		$this->iliasSourceNic = $iliasSourceNic;
 	}
 	
 	function addSuggestedSolution($a_solution, $a_gap_index)

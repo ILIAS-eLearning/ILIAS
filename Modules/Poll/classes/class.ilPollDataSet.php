@@ -135,7 +135,7 @@ class ilPollDataSet extends ilDataSet
 			switch ($a_version)
 			{				
 				case "4.3.0":
-				case "4.5.0":
+				case "5.0.0":
 					$this->getDirectDataFromQuery("SELECT id,poll_id,answer,pos".
 						" FROM il_poll_answer WHERE ".
 						$ilDB->in("poll_id", $a_ids, false, "integer"));
