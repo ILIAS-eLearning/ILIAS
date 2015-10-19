@@ -49,14 +49,21 @@ class gevCourseSignatureList extends fpdf {
 		$this->SetFont('Arial','B',10);
 		$this->Row(array($lng->txt("lastname"),$lng->txt("firstname"),$lng->txt("objs_orgu"),"Unterschrift"));
 		$this->SetFont('Arial','',10);
-		$y0 = $this->GetY();	
+		$y0 = $this->GetY();
+		$participants = array();
 		foreach ($this->participant_ids as $usr_id) {
 			$usr_utils = gevUserUtils::getInstance($usr_id);
 			$firstname =  $usr_utils->getFirstname();
 			$lastname = $usr_utils->getLastname();
 			$orgus = $usr_utils->getAllOrgUnitTitlesUserIsMember();
 			$orgus = implode(",",$orgus);
-			$this->Row(array(utf8_decode($lastname),utf8_decode($firstname),utf8_decode($orgus),""));
+			$participants["$lastname $firstname"] = array($firstname, $lastname, $orgus);
+		}
+		
+		ksort($participants, SORT_NATURAL | SORT_FLAG_CASE);
+		
+		foreach ($participants as $participant) {
+			$this->Row(array(utf8_decode($participant[0]),utf8_decode($participant[1]),utf8_decode($participant[2]),""));
 		}
 	}
 
@@ -150,53 +157,53 @@ class gevCourseSignatureList extends fpdf {
 	}
 
 	public function NbLines($w, $txt) {
-	    //Computes the number of lines a MultiCell of width w will take
-	    $cw=&$this->CurrentFont['cw'];
-	    if($w==0)
-	        $w=$this->w-$this->rMargin-$this->x;
-	    $wmax=($w-2*$this->cMargin)*1000/$this->FontSize;
-	    $s=str_replace("\r", '', $txt);
-	    $nb=strlen($s);
-	    if($nb>0 and $s[$nb-1]=="\n")
-	        $nb--;
-	    $sep=-1;
-	    $i=0;
-	    $j=0;
-	    $l=0;
-	    $nl=1;
-	    while($i<$nb)
-	    {
-	        $c=$s[$i];
-	        if($c=="\n")
-	        {
-	            $i++;
-	            $sep=-1;
-	            $j=$i;
-	            $l=0;
-	            $nl++;
-	            continue;
-	        }
-	        if($c==' ')
-	            $sep=$i;
-	        $l+=$cw[$c];
-	        if($l>$wmax)
-	        {
-	            if($sep==-1)
-	            {
-	                if($i==$j)
-	                    $i++;
-	            }
-	            else
-	                $i=$sep+1;
-	            $sep=-1;
-	            $j=$i;
-	            $l=0;
-	            $nl++;
-	        }
-	        else
-	            $i++;
-	    }
-	    return $nl;
+		//Computes the number of lines a MultiCell of width w will take
+		$cw=&$this->CurrentFont['cw'];
+		if($w==0)
+			$w=$this->w-$this->rMargin-$this->x;
+		$wmax=($w-2*$this->cMargin)*1000/$this->FontSize;
+		$s=str_replace("\r", '', $txt);
+		$nb=strlen($s);
+		if($nb>0 and $s[$nb-1]=="\n")
+			$nb--;
+		$sep=-1;
+		$i=0;
+		$j=0;
+		$l=0;
+		$nl=1;
+		while($i<$nb)
+		{
+			$c=$s[$i];
+			if($c=="\n")
+			{
+				$i++;
+				$sep=-1;
+				$j=$i;
+				$l=0;
+				$nl++;
+				continue;
+			}
+			if($c==' ')
+				$sep=$i;
+			$l+=$cw[$c];
+			if($l>$wmax)
+			{
+				if($sep==-1)
+				{
+					if($i==$j)
+						$i++;
+				}
+				else
+					$i=$sep+1;
+				$sep=-1;
+				$j=$i;
+				$l=0;
+				$nl++;
+			}
+			else
+				$i++;
+		}
+		return $nl;
 	}
 
 }
