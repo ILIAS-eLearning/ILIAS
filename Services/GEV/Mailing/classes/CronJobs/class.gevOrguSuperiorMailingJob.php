@@ -78,8 +78,12 @@ class gevOrguSuperiorMailingJob extends ilCronJob {
 		global $ilLog, $ilDB;
 
 		$cron_result = new ilCronJobResult();
+		$cron_result->setStatus(ilCronJobResult::STATUS_OK);
 		$auto_mails = new gevOrguSuperiorMails();
 
+		if (!$this->shouldRunNow()) {
+			return $cron_result;
+		}
 
 		$ilLog->write("gevOrguSuperiorMailingJob::run: start sending mails");
 		$mail = $auto_mails->getAutoMail("report_weekly_actions");
@@ -125,8 +129,25 @@ class gevOrguSuperiorMailingJob extends ilCronJob {
 			ilCronManager::ping($this->getId());
 		}
 
-		$cron_result->setStatus(ilCronJobResult::STATUS_OK);
 		return $cron_result;
+	}
+	
+	// This job should send mails once in a week on sundays. It also needs to
+	// not send all emails in one run to not swamp the mail server.
+	public function shouldRunNow() {
+		$day_of_week = date("D");
+		$hour = date("G");
+		
+		// Run from 18:00 on sundays...
+		if ($day_of_week === "Sun" && $hour >= 18) {
+			return true;
+		}
+		// to 05:00 in the morning
+		if ($day_week === "Mon" && $hour < 5) {
+			return true;
+		}
+		
+		return false;
 	}
 }
 
