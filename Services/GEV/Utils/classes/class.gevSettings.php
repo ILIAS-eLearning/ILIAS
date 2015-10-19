@@ -129,12 +129,12 @@ class gevSettings {
 	const CRS_AMD_TEP_ORGU			= "crs_amd_tep_orgu";
 
 	// Crs User PState
-	const CRS_URS_STATE_SUCCESS			= "erfolgreich";
-	const CRS_URS_STATE_SUCCESS_VAL		= "2";
-	const CRS_URS_STATE_EXCUSED			= "entschuldigt";
-	const CRS_URS_STATE_EXCUSED_VAL		= "3";
-	const CRS_URS_STATE_NOT_EXCUSED		= "unentschuldigt";
-	const CRS_URS_STATE_NOT_EXCUSED_VAL	= "4";
+	const CRS_USR_STATE_SUCCESS			= "erfolgreich";
+	const CRS_USR_STATE_SUCCESS_VAL		= "2";
+	const CRS_USR_STATE_EXCUSED			= "entschuldigt";
+	const CRS_USR_STATE_EXCUSED_VAL		= "3";
+	const CRS_USR_STATE_NOT_EXCUSED		= "unentschuldigt";
+	const CRS_USR_STATE_NOT_EXCUSED_VAL	= "4";
 
 	//Highlight
 	const CRS_AMD_HIGHLIGHT			="crs_amd_highlight";

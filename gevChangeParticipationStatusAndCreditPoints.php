@@ -63,7 +63,7 @@ class gevChangeParticipationStatusAndCreditPoints {
 				continue;
 			}
 
-			if($state != gevSettings::CRS_URS_STATE_SUCCESS_VAL && $value["cpoints"] != 0) {
+			if($state != gevSettings::CRS_USR_STATE_SUCCESS_VAL && $value["cpoints"] != 0) {
 				echo '<span style="background-color:#8B0000; color:#FFF">Kurs nicht erfolgreich abgeschlossen und trotzdem sollen Punkte gesetzt werden: '.$key.'</span><br/><br/>';
 				$this->gIlLog->write("gevChangeParticipationStatusAndCreditPoints::run: points with no success ".$key);
 				continue;
@@ -123,20 +123,20 @@ class gevChangeParticipationStatusAndCreditPoints {
 	}
 
 	private function getStateCode($state) {
-		/*const CRS_URS_STATE_SUCCESS		= "erfolgreich";
-		const CRS_URS_STATE_SUCCESS_VAL		= "2";
-		const CRS_URS_STATE_EXCUSED			= "entschuldigt";
-		const CRS_URS_STATE_EXCUSED_VAL		= "3";
-		const CRS_URS_STATE_NOT_EXCUSED		= "unentschuldigt";
-		const CRS_URS_STATE_NOT_EXCUSED_VAL	= "4";*/
+		/*const CRS_USR_STATE_SUCCESS		= "erfolgreich";
+		const CRS_USR_STATE_SUCCESS_VAL		= "2";
+		const CRS_USR_STATE_EXCUSED			= "entschuldigt";
+		const CRS_USR_STATE_EXCUSED_VAL		= "3";
+		const CRS_USR_STATE_NOT_EXCUSED		= "unentschuldigt";
+		const CRS_USR_STATE_NOT_EXCUSED_VAL	= "4";*/
 
 		switch(strtolower($state)) {
-			case gevSettings::CRS_URS_STATE_SUCCESS:
-					return gevSettings::CRS_URS_STATE_SUCCESS_VAL;
-			case gevSettings::CRS_URS_STATE_EXCUSED:
-					return gevSettings::CRS_URS_STATE_EXCUSED_VAL;
-			case gevSettings::CRS_URS_STATE_NOT_EXCUSED:
-					return gevSettings::CRS_URS_STATE_NOT_EXCUSED_VAL;
+			case gevSettings::CRS_USR_STATE_SUCCESS:
+					return gevSettings::CRS_USR_STATE_SUCCESS_VAL;
+			case gevSettings::CRS_USR_STATE_EXCUSED:
+					return gevSettings::CRS_USR_STATE_EXCUSED_VAL;
+			case gevSettings::CRS_USR_STATE_NOT_EXCUSED:
+					return gevSettings::CRS_USR_STATE_NOT_EXCUSED_VAL;
 			default: 
 					return null;
 		}
