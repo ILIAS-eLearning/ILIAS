@@ -2474,7 +2474,7 @@ class gevCourseUtils {
 	
 	public function canBookCourseForOther($a_user_id, $a_other_id) {
 		require_once("Services/GEV/CourseSearch/classes/class.gevCourseSearch.php");
-		$crs_srch = gevCourseSearch::getInstance();
+		$crs_srch = gevCourseSearch::getInstance($a_user_id);
 		return    $this->getBookingPermissions($a_user_id)->bookCourseForUser($a_other_id)
 			   || in_array($a_other_id, $crs_srch->getEmployeeIdsForCourseSearch())
 			   ;
