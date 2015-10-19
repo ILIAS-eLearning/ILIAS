@@ -751,7 +751,19 @@ class ilSurveyExecutionGUI
 				$ilToolbar->addButtonInstance($button);		
 				
 				$has_button = true;
-			}										
+			}			
+			
+			// #6307
+			include_once "Modules/Survey/classes/class.ilObjSurveyAccess.php";
+			if(ilObjSurveyAccess::_hasEvaluationAccess($this->object->getId(), $ilUser->getId()))
+			{
+				$button = ilLinkButton::getInstance();
+				$button->setCaption("svy_results");								
+				$button->setUrl($this->ctrl->getLinkTargetByClass("ilObjSurveyGUI", "evaluation"));										
+				$ilToolbar->addButtonInstance($button);		
+			
+				$has_button = true;
+			}
 		}
 		
 		if (!$has_button &&
