@@ -530,9 +530,9 @@ class ilStudyProgrammeUserProgress {
 		$prg = $this->getStudyProgramme();
 		$this->progress->setAmountOfPoints($prg->getPoints())
 					   ->setStatus($prg->getStatus() == ilStudyProgramme::STATUS_ACTIVE 
-					   				? ilStudyProgrammeProgress::STATUS_NOT_RELEVANT
-					   				: ilStudyProgrammeProgress::STATUS_IN_PROGRESS
-					   			   )
+									? ilStudyProgrammeProgress::STATUS_IN_PROGRESS
+									: ilStudyProgrammeProgress::STATUS_NOT_RELEVANT
+								   )
 					   ->update();
 		
 		$this->updateStatus();
