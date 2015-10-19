@@ -193,4 +193,25 @@ class ilStudyProgrammeProgressCalculationTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals( ilStudyProgrammeProgress::STATUS_COMPLETED
 						   , $this->node2->getProgressForAssignment($ass_id)->getStatus());
 	}
+
+	public function testInitialProgressOnOptionalNodes() {
+		$this->setUpNodes($this->root, array( "points" => 0
+		, "node1" => array( "points" => 100 
+				, "leaf11" => null
+				, "leaf12" => null
+				)
+		, "node2" => array( "points" => 100 
+				, "leaf21" => null
+				, "leaf22" => null
+				)
+		));
+
+		$user = $this->newUser();
+		$user_id = $user->getId();
+		$ass = $this->root->assignUser($user->getId());
+		$ass_id = $ass->getId();
+
+		$this->assertEquals( ilStudyProgrammeProgress::STATUS_COMPLETED
+						   , $this->root->getProgressForAssignment($ass_id)->getStatus());
+	}
 }

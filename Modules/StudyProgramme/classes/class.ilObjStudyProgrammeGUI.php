@@ -401,7 +401,6 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 
 		$gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_EDITOR, 'prg', $this->object->getId(), 'prg_type', $this->object->getSubtypeId());
 		$gui->setPropertyForm($form);
-		$gui->setSelectedOnly(true);
 		$gui->parse();
 		$this->tpl->setContent($form->getHTML());
 	}
@@ -419,7 +418,6 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 		$form = $this->initAdvancedSettingsForm();
 		$gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_EDITOR, 'prg', $this->object->getId(), 'prg_type', $this->object->getSubtypeId());
 		$gui->setPropertyForm($form);
-		$gui->setSelectedOnly(true);
 		$form->checkInput();
 		$gui->parse();
 		if ($gui->importEditFormPostValues()) {

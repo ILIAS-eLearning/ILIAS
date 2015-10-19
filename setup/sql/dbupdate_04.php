@@ -12249,3 +12249,16 @@ if(!$ilDB->indexExistsByFields('obj_members',array('usr_id')))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#4775>
+<?php
+$ilDB->modifyTableColumn(
+	'il_dcl_field',
+	'description',
+	array("type" => "clob")
+);
+?>
+<#4776>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+

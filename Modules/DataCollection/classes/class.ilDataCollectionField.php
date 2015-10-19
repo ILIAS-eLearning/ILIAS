@@ -1021,9 +1021,11 @@ class ilDataCollectionField {
 	 * @return string
 	 */
 	protected function normalizeValue($value) {
-		$value = preg_replace("/\\s+/uism", " ", $value);
+		if (is_string($value)) {
+			$value = trim(preg_replace("/\\s+/uism", " ", $value));
+		}
 
-		return trim($value);
+		return $value;
 	}
 
 

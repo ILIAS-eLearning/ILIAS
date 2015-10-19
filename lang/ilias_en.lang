@@ -3480,7 +3480,7 @@ common#:#msg_cancel#:#Action cancelled
 common#:#msg_changes_ok#:#The changes were OK
 common#:#msg_clear_clipboard#:#Clipboard cleared
 common#:#msg_cloned#:#Selected object(s) copied
-common#:#msg_copy_clipboard_source#:#Now, please select the desired course or group, whose content should be copied and click the button ‘Next’.
+common#:#msg_copy_clipboard_source#:#Now, please select the desired course or group, whose content should be copied and click the button ‘Continue’.
 common#:#msg_copy_clipboard#:#Now, please select the desired location, where the selected objects should be pasted into and click the button ‘Paste’.
 common#:#msg_copy_clipboard_container#:#Now, please select the desired location, where the selected objects should be pasted into and click the button ‘Continue’.
 common#:#msg_cut_clipboard#:#Now, please select the desired location, where the selected objects should be pasted into and click the button ‘Paste’.
@@ -15292,7 +15292,7 @@ payment#:#enable_topics_info#:#If enabled, you can assign purchasable objects to
 exc#:#exc_assignment_type#:#Type of Submission
 trac#:#trac_mode_event_info#:#The learning progress status will be determined by the participation status.
 sess#:#sess_lp_preset#:#Activate Learning Progress
-sess#:#sess_lp_preset_info#:#Activates the learning progress for all session events.
+sess#:#sess_lp_preset_info#:#Activates the learning progress for all session events to be created. 
 glo#:#glo_copy#:#Copy Glossary
 form#:#form_open_answer#:#Open Answer
 survey#:#survey_access_codes#:#Authentication by Access Codes
@@ -15997,6 +15997,8 @@ prg#:#prg_progress_info#:#You have %1$d points. The Study Programme is completed
 prg#:#prg_progress_status#:# %1$d of %2$d Points
 prg#:#prg_no_members_not_active#:#Can't add members, as this programme is not active.
 prg#:#prg_type_msg_missing_title#:#Title cannot be empty.
+prg#:#prg_added_member#:#The new member was added successfully.
+prg#:#prg_added_members#:#The new members were added successfully.
 common#:#obj_prg_duplicate#:#Copy Study Programme
 common#:#obj_prg_select#:#-- Please select one Study Programme --
 common#:#obj_prg#:#Study Programme
@@ -16046,3 +16048,4 @@ mail#:#mail_sel_users#:#Send Mail to Selected Users
 awrn#:#awrn_max_inactivity#:#Maximum Inactivity Period
 awrn#:#awrn_max_inactivity_info#:#After this period users are considered being offline. If nothing is set, the session time will be used.
 awrn#:#awrn_minutes#:#min
+bkm#:#bkm_fold_created#:#Bookmark folder has been created.

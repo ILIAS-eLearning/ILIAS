@@ -674,7 +674,13 @@ abstract class ilExplorerBaseGUI
 		$etpl->setVariable("CONTAINER_ID", $container_id);
 		$etpl->setVariable("CONTAINER_OUTER_ID", $container_outer_id);
 
-		return $etpl->get();
+		$add = "";
+		if ($ilCtrl->isAsynch())
+		{
+			$add = "<script>".$this->getOnLoadCode()."</script>";
+		}
+
+		return $etpl->get().$add;
 	}
 	
 	/**

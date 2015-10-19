@@ -1160,8 +1160,8 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		$result['shuffle'] = (bool) true;
 		$result['points'] =  $this->getPoints();
 		$result['feedback'] = array(
-			"onenotcorrect" => $this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false),
-			"allcorrect" => $this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true)
+			'onenotcorrect' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false)),
+			'allcorrect' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
 		);
 		if ($this->getOrderingType() == OQ_PICTURES)
 		{

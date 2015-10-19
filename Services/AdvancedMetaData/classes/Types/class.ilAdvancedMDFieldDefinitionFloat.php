@@ -30,6 +30,11 @@ class ilAdvancedMDFieldDefinitionFloat extends ilAdvancedMDFieldDefinitionIntege
 		$this->setDecimals(2);
 	}
 	
+	public function isFilterSupported() 
+	{
+		return false;
+	}
+	
 	
 	//
 	// ADT

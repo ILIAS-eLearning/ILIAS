@@ -268,8 +268,14 @@ class ilObjStudyProgramme extends ilContainer {
 						   ->update();
 		}
 		else {
-			$this->settings->setLPMode(ilStudyProgramme::MODE_POINTS)
-						   ->update();
+			if ($this->getAmountOfChildren() > 0) {
+				$this->settings->setLPMode(ilStudyProgramme::MODE_POINTS)
+							   ->update();
+			}
+			else {
+				$this->settings->setLPMode(ilStudyProgramme::MODE_UNDEFINED)
+							   ->update();
+			}
 		}
 	}
 	
@@ -614,7 +620,7 @@ class ilObjStudyProgramme extends ilContainer {
 		}
 		
 		$this->clearChildrenCache();
-		$this->addProgressForNewNodes($a_prg);
+		$this->addMissingProgresses();
 	}
 	
 	/**
@@ -956,12 +962,16 @@ class ilObjStudyProgramme extends ilContainer {
 		return ilStudyProgrammeUserProgress::getInstanceForAssignment($this->getId(), $a_assignment_id);
 	}
 	
-	protected function addProgressForNewNodes(ilObjStudyProgramme $a_prg) {
-		require_once("Modules/StudyProgramme/classes/model/class.ilStudyProgrammeProgress.php");
-		foreach ($this->getAssignmentsRaw() as $ass) {
-			$progress = ilStudyProgrammeProgress::createFor($a_prg->settings, $ass);
-			$progress->setStatus(ilStudyProgrammeProgress::STATUS_NOT_RELEVANT)
-					 ->update();
+	/**
+	 * Add missing progress records for all assignments of this programm.
+	 *
+	 * Use this after the structure of the programme was modified.
+	 *
+	 * @return null
+	 */
+	public function addMissingProgresses() {
+		foreach ($this->getAssignments() as $ass) {
+			$ass->addMissingProgresses();
 		}
 	}
 	
@@ -1173,16 +1183,19 @@ class ilObjStudyProgramme extends ilContainer {
 		
 		$parent = ilObjStudyProgramme::getInstanceByRefId($a_ref_id);
 
-		if (!$parent->hasChildren() && !$parent->hasLPChildren()) {
-			return $a_subobjects;
+		$mode = $parent->getLPMode();
+
+		switch ($mode) {
+			case ilStudyProgramme::MODE_UNDEFINED:
+				return $a_subobjects;
+			case ilStudyProgramme::MODE_POINTS:
+				return array("prg" => $a_subobjects["prg"]);
+			case ilStudyProgramme::MODE_LP_COMPLETED:
+				unset($a_subobjects["prg"]);
+				return $a_subobjects;
 		}
 
-		if ($parent->hasChildren()) {
-			return array("prg" => $a_subobjects["prg"]);
-		}
-
-		unset($a_subobjects["prg"]);
-		return $a_subobjects;
+		throw new ilException("Undefined mode for study programme: '$mode'");
 	}
 }
 

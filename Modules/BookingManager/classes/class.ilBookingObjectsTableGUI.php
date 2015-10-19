@@ -74,6 +74,17 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 		$this->initFilter();
 		$this->getItems();
 	}
+		
+	/**
+	 * needed for advmd filter handling
+	 * 
+	 * @return ilAdvancedMDRecordGUI
+	 */
+	protected function getAdvMDRecordGUI()
+	{
+		// #16827
+		return $this->record_gui;
+	}
 	
 	function initFilter()
 	{		
@@ -114,7 +125,7 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 		);
 		$this->filter["period"] = $period->getValue();
 	}
-
+	
 	/**
 	 * Gather data and build rows
 	 */

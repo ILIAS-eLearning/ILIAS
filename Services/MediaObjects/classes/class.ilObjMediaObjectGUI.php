@@ -1387,28 +1387,16 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	/**
 	* assign file to standard view
 	*/
-	function assignStandardObject()
-	{
-		if (!isset($_POST["file"]))
-		{
-			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		if (count($_POST["file"]) > 1)
-		{
-			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
-		}
-
+	function assignStandardObject($a_file)
+	{						
 		// determine directory
-		$cur_subdir = str_replace(".", "", $_GET["cdir"]);
+		$cur_subdir = dirname($a_file);
 		$mob_dir = ilUtil::getWebspaceDir()."/mobs/mm_".$this->object->getId();
 		$cur_dir = (!empty($cur_subdir))
 			? $mob_dir."/".$cur_subdir
 			: $mob_dir;
-		$file = $cur_dir."/".$_POST["file"][0];
-		$location = (!empty($cur_subdir))
-			? $cur_subdir."/".$_POST["file"][0]
-			: $_POST["file"][0];
+		$file = $cur_dir."/".basename($a_file);
+		$location = $a_file;
 
 		if(!is_file($file))
 		{
@@ -1429,28 +1417,16 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	/**
 	* assign file to fullscreen view
 	*/
-	function assignFullscreenObject()
-	{
-		if (!isset($_POST["file"]))
-		{
-			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		if (count($_POST["file"]) > 1)
-		{
-			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
-		}
-
+	function assignFullscreenObject($a_file)
+	{		
 		// determine directory
-		$cur_subdir = str_replace(".", "", $_GET["cdir"]);
+		$cur_subdir = dirname($a_file);
 		$mob_dir = ilUtil::getWebspaceDir()."/mobs/mm_".$this->object->getId();
 		$cur_dir = (!empty($cur_subdir))
 			? $mob_dir."/".$cur_subdir
 			: $mob_dir;
-		$file = $cur_dir."/".$_POST["file"][0];
-		$location = (!empty($cur_subdir))
-			? $cur_subdir."/".$_POST["file"][0]
-			: $_POST["file"][0];
+		$file = $cur_dir."/".basename($a_file);
+		$location = $a_file;
 
 		if(!is_file($file))
 		{

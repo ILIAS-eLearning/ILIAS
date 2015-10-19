@@ -15295,7 +15295,7 @@ payment#:#enable_topics_info#:#Wenn aktiviert, können Sie kaufbare Objekte selb
 exc#:#exc_assignment_type#:#Abgabetyp
 trac#:#trac_mode_event_info#:#Der Status des Lernfortschritts wird durch den Teilnahmestatus bestimmt.
 sess#:#sess_lp_preset#:#Lernfortschritt aktivieren
-sess#:#sess_lp_preset_info#:#Den Lernfortschritt für alle Session-Termine aktivieren.
+sess#:#sess_lp_preset_info#:#Den Lernfortschritt für alle anzulegenden Session-Termine aktivieren.
 glo#:#glo_copy#:#Glossar kopieren
 form#:#form_open_answer#:#Freitext
 survey#:#survey_access_codes#:#Authentifizierung mit Zugangsschlüsseln
@@ -15987,6 +15987,8 @@ prg#:#prg_progress_info#:#Sieh haben %1$d Punkte. Das Studienprogramm ist mit %2
 prg#:#prg_progress_status#:# %1$d von %2$d Punkten
 prg#:#prg_no_members_not_active#:#Da das Studienprogramm nicht aktiv ist, können keine neuen Mitglieder hinzugefügt werden.
 prg#:#prg_type_msg_missing_title#:#Titel kann nicht leer sein.
+prg#:#prg_added_member#:#Das neue Mitglied wurde erfolgreich hinzugefügt.
+prg#:#prg_added_members#:#Die neuen Mitglieder wurden erfolgreich hinzugefügt.
 common#:#obj_prg_duplicate#:#Studienprogramm kopieren
 common#:#obj_prg_select#:#-- Bitte wählen Sie ein Studienprogramm --
 common#:#obj_prg#:#Studienprogramm
@@ -16046,3 +16048,4 @@ awrn#:#awrn_max_inactivity#:#Max. Inaktivität
 awrn#:#awrn_max_inactivity_info#:#Benutzer ohne Aktion in der angegebenen Zeitspanne werden als "offline" geführt. Wird kein Wert angegeben, so gilt die Gültigkeit der Session.
 awrn#:#awrn_minutes#:#min
 exc#:#exc_members_already_assigned_tean#:#These users are already assigned to other teams of this assignment.###08 10 2015 new variable
+bkm#:#bkm_fold_created#:#Bookmark-Ordner wurde angelegt.

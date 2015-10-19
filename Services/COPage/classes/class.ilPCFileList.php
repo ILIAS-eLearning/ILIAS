@@ -261,22 +261,26 @@ class ilPCFileList extends ilPageContent
 	 */
 	static function afterPageUpdate($a_page, DOMDocument $a_domdoc, $a_xml, $a_creation)
 	{
-		// pc filelist
-		include_once("./Modules/File/classes/class.ilObjFile.php");
-		$file_ids = ilObjFile::_getFilesOfObject(
-			$a_page->getParentType().":pg", $a_page->getId(), 0, $a_page->getLanguage());
-		self::saveFileUsage($a_page, $a_domdoc);
-		foreach($file_ids as $file)	// check, whether file object can be deleted
+		if (!$a_page->getImportMode())
 		{
-			if (ilObject::_exists($file))
+			// pc filelist
+			include_once("./Modules/File/classes/class.ilObjFile.php");
+			$file_ids = ilObjFile::_getFilesOfObject(
+				$a_page->getParentType().":pg", $a_page->getId(), 0, $a_page->getLanguage());
+			self::saveFileUsage($a_page, $a_domdoc);
+
+			foreach($file_ids as $file)	// check, whether file object can be deleted
 			{
-				$file_obj = new ilObjFile($file, false);
-				$usages = $file_obj->getUsages();
-				if (count($usages) == 0)	// delete, if no usage exists
+				if (ilObject::_exists($file) && ilObject::_lookupType($file) == "file")
 				{
-					if ($file_obj->getMode() == "filelist")		// non-repository object
+					$file_obj = new ilObjFile($file, false);
+					$usages = $file_obj->getUsages();
+					if (count($usages) == 0)	// delete, if no usage exists
 					{
-						$file_obj->delete();
+						if ($file_obj->getMode() == "filelist")		// non-repository object
+						{
+							$file_obj->delete();
+						}
 					}
 				}
 			}

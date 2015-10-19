@@ -93,7 +93,6 @@ class ilBookmarkBlockExplorerGUI extends ilBookmarkExplorerGUI
 		}
 		return "";
 	}
-
 }
 
 ?>

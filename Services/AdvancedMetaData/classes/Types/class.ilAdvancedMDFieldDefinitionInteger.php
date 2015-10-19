@@ -26,6 +26,11 @@ class ilAdvancedMDFieldDefinitionInteger extends ilAdvancedMDFieldDefinition
 		return self::TYPE_INTEGER;
 	}
 	
+	public function isFilterSupported() 
+	{
+		return false;
+	}
+	
 	
 	//
 	// ADT

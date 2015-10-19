@@ -194,9 +194,9 @@ class ilStudyProgrammeProgress extends ActiveRecord {
 		$prg->setAssignmentId($a_ass->getId())
 			->setNodeId($a_prg->getObjId())
 			->setUserId($a_ass->getUserId())
+			->setStatus(ilStudyProgrammeProgress::STATUS_IN_PROGRESS)
 			->setAmountOfPoints($a_prg->getPoints())
 			->setCurrentAmountOfPoints(0)
-			->setStatus(ilStudyProgrammeProgress::STATUS_IN_PROGRESS)
 			->setCompletionBy(null)
 			->setLastChangeBy(null)
 			->updateLastChange()
@@ -274,6 +274,13 @@ class ilStudyProgrammeProgress extends ActiveRecord {
 		}
 		
 		$this->points = (int)$a_points;
+
+		// If the amount of required points is zero, the status is completed
+		// for sure.
+		if ($this->points == 0) {
+			$this->setStatus(ilStudyProgrammeProgress::STATUS_COMPLETED);
+		}
+
 		$this->updateLastChange();
 		return $this;
 	}

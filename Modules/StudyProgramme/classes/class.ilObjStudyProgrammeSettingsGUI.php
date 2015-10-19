@@ -137,7 +137,7 @@ class ilObjStudyProgrammeSettingsGUI {
 			$response = ilAsyncOutputHandler::encodeAsyncResponse(array("success"=>true, "message"=>$this->lng->txt("msg_obj_modified")));
 		} else {
 			// TODO:
-			ilUtil::sendFailure($this->lng->txt("TODO"));
+			ilUtil::sendFailure($this->lng->txt("msg_form_save_error"));
 			$response = ilAsyncOutputHandler::encodeAsyncResponse(array("success"=>false, "errors"=>$form->getErrors()));
 		}
 
@@ -145,7 +145,7 @@ class ilObjStudyProgrammeSettingsGUI {
 		if($this->ctrl->isAsynch()) {
 			return ilAsyncOutputHandler::handleAsyncOutput($form->getHTML(), $response, false);
 		} else {
-			$this->ctrl->redirect($this);
+			return $form->getHTML();
 		}
 	}
 

@@ -149,6 +149,13 @@ class ilObjStudyProgrammeMembersGUI {
 		foreach ($a_users as $user_id) {
 			$prg->assignUser($user_id);
 		}
+
+		if (count($a_users) == 1) {
+			ilUtil::sendSuccess($this->lng->txt("prg_added_member"), true);
+		}
+		if (count($a_users) > 1) {
+			ilUtil::sendSuccess($this->lng->txt("prg_added_members"), true);
+		}
 	}
 	
 	public function markAccredited() {

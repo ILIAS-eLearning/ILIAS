@@ -101,7 +101,6 @@ il.Awareness = {
 
 	getContent: function () {
 		var t = il.Awareness;
-
 		if (!t.rendered) {
 			t.content = $("#awareness-content-container").html();
 			$("#awareness-content-container").html("");
@@ -117,7 +116,7 @@ il.Awareness = {
 		// perform page modification
 		if(o.html !== undefined)
 		{
-			t.content = o.responseText;
+			t.content = o.html;
 			$('#awareness-content').replaceWith(o.html);
 			t.afterListUpdate();
 
@@ -162,7 +161,7 @@ il.Awareness = {
 
 	fixHeight: function() {
 
-		if (!$("#awareness-list").length) {
+		if (!$("#awareness-list").length || !$('.ilAwarenessDropDown .popover').length) {
 			return;
 		}
 

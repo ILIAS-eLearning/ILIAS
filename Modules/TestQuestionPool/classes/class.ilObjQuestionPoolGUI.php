@@ -1007,10 +1007,12 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		{
 			$toolbar = new ilToolbarGUI();
 			
-			$toolbar->addButton(
-					$this->lng->txt("ass_create_question"),
-					$this->ctrl->getLinkTarget($this, 'createQuestionForm')
-			);
+			require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
+			$btn = ilLinkButton::getInstance();
+			$btn->setCaption('ass_create_question');
+			$btn->setUrl($this->ctrl->getLinkTarget($this, 'createQuestionForm'));
+			$btn->setPrimary(true);
+			$toolbar->addButtonInstance($btn);
 			
 			$this->tpl->setContent(
 					$this->ctrl->getHTML($toolbar) . $this->ctrl->getHTML($table_gui)
