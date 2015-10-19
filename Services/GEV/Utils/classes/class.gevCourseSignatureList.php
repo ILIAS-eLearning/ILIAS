@@ -63,7 +63,7 @@ class gevCourseSignatureList extends fpdf {
 		ksort($participants, SORT_NATURAL | SORT_FLAG_CASE);
 		
 		foreach ($participants as $participant) {
-			$this->Row(array(utf8_decode($participant[0]),utf8_decode($participant[1]),utf8_decode($participant[2]),""));
+			$this->Row(array(utf8_decode($participant[1]),utf8_decode($participant[0]),utf8_decode($participant[2]),""));
 		}
 	}
 
