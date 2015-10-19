@@ -482,6 +482,13 @@ class gevCourseUtils {
 	public function setStartDate(ilDate $a_date) {
 		$this->amd->setField($this->crs_id, gevSettings::CRS_AMD_START_DATE, $a_date);
 	}
+
+	public function getStartDateTime() {
+		$start_date = $this->getStartDate()->get(IL_CAL_DATE);
+		$start_time = $this->getFormattedStartTime().":00";
+
+		return $start_date." ".$start_time;
+	}
 	
 	public function getEndDate() {
 		$val = $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_END_DATE);
@@ -1765,6 +1772,19 @@ class gevCourseUtils {
 	
 	public function isFinalized() {
 		return $this->getParticipations()->getProcessState() == ilParticipationStatus::STATE_FINALIZED;
+	}
+
+	/**
+	* get status started if start datetime is passed.
+	* just calculated value
+	*
+	* @return boolean
+	*/
+	public function isStarted() {
+		$start_datetime = $this->getStartDateTime();
+		$now = date("Y-m-d H:m:00");
+		
+		return $now > $start_datetime;
 	}
 	
 	// Memberlist creation
