@@ -59,7 +59,7 @@ class ilCourseBilling {
 
 			$sql .= " LIMIT ".$a_offset.", ".$a_limit."";
 		}
-		//die($sql);
+
 		$res = array();
 		$set = $this->gIldb->query($sql);
 		while($row =  $this->gIldb->fetchAssoc($set)) {

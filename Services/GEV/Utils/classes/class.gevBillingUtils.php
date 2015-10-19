@@ -145,38 +145,8 @@ class gevBillingUtils {
 		
 		$coupon_dummy = new ilCoupon();
 		
-		// Take Coupon codes as long as the amount of the bill is
-		// larger then 0.
 		foreach($a_coupons as $code) {
-			$coupon = $coupon_dummy->getInstance($code);
-			if ($coupon->isExpired()) {
-				continue;
-			}
-			$value = $coupon->getValue();
-			if ($fee > $value) {
-				// Take complete coupon value and preceed afterwards
-				$diff = $value;
-				$break = false;
-			}
-			else {
-				// Take only the leftover of the fee.
-				$diff = $fee;
-				$break = true;
-			}
-			$fee -= $diff;
-			$coupon->subtractValue($diff);
-			
-			$this->createItem( sprintf($this->lng->txt("gev_coupon_bill_item")
-									  , $code
-									  )
-							 , -1 * $diff
-							 , null
-							 , $bill
-							 );
-
-			if ($break) {
-				break;
-			}
+			$this->chargeCouponAgainstBill($code, $bill);
 		}
 		
 		$bill->update();
@@ -190,7 +160,7 @@ class gevBillingUtils {
 		$amount_left = $a_bill->getAmount();
 
 		if($amount_left == 0) {
-			ilUtil::sendInfo("bill is covered, no more coupons needed");
+			ilUtil::sendInfo($this->lng->txt("gev_bill_covered_skip_coupons"));
 			return false;
 		}
 		$coupon_dummy = new ilCoupon();
@@ -205,7 +175,7 @@ class gevBillingUtils {
 		}
 		$value = $coupon->getValue();
 		if($value == 0) {
-			ilUtil::sendInfo("No value left on coupon");
+			ilUtil::sendInfo($this->lng->txt("gev_cupon_has_no_value"));
 			return false;
 		}
 		if ($amount_left > $value) {
@@ -226,6 +196,28 @@ class gevBillingUtils {
 		return true;
 	}
 
+	/**
+	* get all coupon codes, that belong to a bill
+	* @param ilBill $a_bill
+	* @return array
+	*/
+	public function getCouponCodesAssociatedWithBill(ilBill $a_bill) {
+		$bill_items = $a_bill->getItems();
+		$codes = array();
+		foreach($bill_items as $bill_item) {
+			$bill_item_amount = $bill_item->getAmount();
+			if( $bill_item_amount >= 0 ) {
+				continue;
+			}
+			$bill_item_title = $bill_item->getTitle();
+			$bill_item_title = explode(" ", $bill_item_title);
+			$code = implode("",array_slice($bill_item_title,1));
+			
+			$codes[] = $code;
+		}
+		return $codes;
+	}
+
 	protected function createItem( $a_title
 								 , $a_posttax_amount
 								 , $a_context_id
@@ -239,6 +231,7 @@ class gevBillingUtils {
 		$item->setContextId($a_context_id);
 		$item->setBill($bill);
 		$item->create();
+		$bill->addItem($item);
 		return $item;
 	}
 	

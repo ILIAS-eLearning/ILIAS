@@ -3,8 +3,8 @@
 
 /**
  * Course booking GUI base class
- *
- *  @ingroup ServicesCourseBilling
+ *  @author Denis Klöpfer <denis.kloepfer@concepts-and-training.de>
+ *  @ingroup ServicesBilling
  * @ilCtrl_Calls ilCourseBillingGUI: ilCourseBillingAdminGUI
  */
 class ilCourseBillingGUI {

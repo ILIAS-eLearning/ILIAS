@@ -3,12 +3,11 @@ require_once "Services/CourseBooking/classes/class.ilCourseBookingPermissions.ph
 require_once "Services/GEV/Utils/classes/class.gevCourseUtils.php";
 require_once "Services/GEV/Utils/classes/class.gevUserUtils.php";
 require_once "Services/GEV/Utils/classes/class.gevBillingUtils.php";
-require_once "Services/Billing/classes/class.ilCourseBillingHelper.php";
 require_once 'Services/Billing/classes/class.ilCourseBilling.php';
 /**
- * Course booking administration GUI
+ * Course billing administration GUI
  * @author Denis Klöpfer <denis.kloepfer@concepts-and-training.de>
- * @ingroup ServicesCourseBooking
+ * @ingroup ServicesBilling
  */
 class ilCourseBillingAdminGUI {
 	protected $course; // [ilObjCourse]
@@ -16,6 +15,7 @@ class ilCourseBillingAdminGUI {
 
 	protected $crs_utils;
 	protected $user_utils;
+	protected $bill_utils;
 
 	protected $crs_finalized;
 
@@ -26,13 +26,10 @@ class ilCourseBillingAdminGUI {
 	protected $gTpl;
 	protected $gUser;
 
-	
 	/**
-	 * Constructor
-	 * 
-	 * @param ilObjCourse $a_course
-	 * @return self
-	 */
+	* Constructor
+	* @param ilObjCourse $a_course
+	*/
 	public function __construct(ilObjCourse $a_course) {
 		global $lng, $ilUser, $ilCtrl, $tpl, $ilTabs, $ilToolbar;
 		$this->gTabs = $ilTabs;
@@ -62,14 +59,12 @@ class ilCourseBillingAdminGUI {
 		$this->crs_finalized = $this->crs_utils->isFinalized();
 		$this->crs_billing = ilCourseBilling::getInstance($a_course);
 		$this->bill_utils = gevBillingUtils::getInstance();
-		$this->crs_billing_helper = ilCourseBillingHelper::getInstance();
-		$this->gLng->loadLanguageModule("crsbook");
 	}
 	
 	/**
 	 * Execute request command
 	 * 
-	 * @return boolean
+	 * @return bool
 	 */
 	public function executeCommand() {
 
@@ -78,9 +73,17 @@ class ilCourseBillingAdminGUI {
 		$this->setTabs();
 		
 		switch($cmd) {	
-			case "listParticipationBills":
+			case "confirmCreateBill":
 			case "paymentInfo":
 			case "savePaymentInfo":
+				$this->user_utils = gevUserUtils::getInstance($_GET["user_id"]);
+				if(!$this->crs_billing->userMayHaveBill($this->user_utils)) {
+					ilUtil::sendFailure($this->gLng->txt("crs_bill_user_not_in_range"), true);
+					$this->returnToParent();
+				}
+				$this->$cmd();
+				break;
+			case "listParticipationBills":
 				$this->$cmd();
 				break;
 			default:				
@@ -111,12 +114,10 @@ class ilCourseBillingAdminGUI {
 	/**
 	 * Return to parent GUI
 	 */
-	protected function returnToParent()
-	{
-		global $ilCtrl;
-		
-		$ilCtrl->redirectByClass(array("ilRepositoryGUI", "ilObjCourseGUI"), "members");		
-		// $ilCtrl->returnToParent($this);
+	protected function returnToParent() {
+		$this->gCtrl->setParameterByClass('ilobjcoursegui', 'ref_id', $this->course->getRefId());
+		$this->gCtrl->redirectByClass(array("ilRepositoryGUI", "ilObjCourseGUI"), "members");	
+		$this->gCtrl->setParameterByClass('ilobjcoursegui', 'ref_id', null);	
 	}
 	
 	/**
@@ -135,7 +136,6 @@ class ilCourseBillingAdminGUI {
 	* Build form containing bill-data of an user.
 	* @param array $a_bill_data
 	*/
-
 	protected function buildPaymentForm($a_bill_data = null) {
 
 		require_once("Services/CaTUIComponents/classes/class.catPropertyFormGUI.php");
@@ -209,7 +209,6 @@ class ilCourseBillingAdminGUI {
 	* Build form containing bill-data of an user. Which represents finalized bills.
 	* @param array $a_bill_data
 	*/
-
 	protected function buildPaymentFormNoneditable($a_bill_data = null) {
 		require_once("Services/CaTUIComponents/classes/class.catPropertyFormGUI.php");
 		require_once("Services/Form/classes/class.ilNonEditableValueGUI.php");
@@ -264,21 +263,14 @@ class ilCourseBillingAdminGUI {
 	/**
 	*	$cmd = paymentInfo. Loads User bill data associated with course fpr editing.
 	*/
-
 	protected function paymentInfo() {
 		if($this->crs_finalized) {																							
 			$this->showFinalBill();
 			return;
 		}
 
-		$this->user_utils = gevUserUtils::getInstance($_GET["user_id"]);
-		if(!$this->crs_billing->userMayHaveBill($this->user_utils)) {
-			ilUtil::sendFailure("User pays no fees or is not a member of the course.", true);
-			$this->returnToParent();
-		}
-
-		$bill_db = $this->bill_utils->getNonFinalizedBillForCourseAndUser($_GET["user_id"], $this->crs_utils->getId());
-		$bill_db_data = $bill_db ? $this->crs_billing_helper->extractRelevantDataFromBill($bill_db) : array();				//get current bill data for this course, if exists
+		$bill_db = $this->bill_utils->getNonFinalizedBillForCourseAndUser($this->crs_utils->getId(), $_GET["user_id"]);
+		$bill_db_data = $bill_db ? $this->extractRelevantDataFromBill($bill_db) : array();				//get current bill data for this course, if exists
 		$bill_last_data = $this->user_utils->getLastBillingDataMaybe(); 													//try to guess bill data from bills for other courses
 
 
@@ -289,37 +281,29 @@ class ilCourseBillingAdminGUI {
 		$form->setTemplate("tpl.gev_booking_form.html", "Services/GEV/Desktop");
 		$form->setTitle($this->gLng->txt("bill_data_of_user")." ".$this->user_utils->getFullName());
 
+		$this->gCtrl->setParameter($this, "user_id", $_GET["user_id"]);
+		if(!$bill_db) {
+			$form->addCommandButton("confirmCreateBill", $this->gLng->txt("save"));
+		} else {
+			$form->addCommandButton("savePaymentInfo", $this->gLng->txt("save"));
+		}
 		$this->gCtrl->setParameter($this, "user_id", null);
 		$form->addCommandButton("listParticipationBills", $this->gLng->txt("back"));
-		$this->gCtrl->setParameter($this, "user_id", $_GET["user_id"]);
-		$form->addCommandButton("savePaymentInfo", $this->gLng->txt("save"));
-		$this->gCtrl->setParameter($this, "user_id", null);
 		
-		$bill_db_coupons = array();
-
-		if($bill_db = $this->bill_utils->getNonFinalizedBillForCourseAndUser($this->crs_utils->getId(),$_GET["user_id"])) {
-			$bill_db_coupons = $this->crs_billing_helper->getCouponCodesAssociatedWithBill($bill_db);
-		}
-		if(count($bill_db_coupons)) {
-			$form->getItemByPostVar("coupons_used")->setValue(implode(", ",$bill_db_coupons));
-		}
+		$bill_db = $this->bill_utils->getNonFinalizedBillForCourseAndUser($this->crs_utils->getId(),$_GET["user_id"]);
+		$form->getItemByPostVar("coupons_used")->setValue($this->getCouponsForBillString($bill_db));
 		$this->gTpl->setContent($form->getHTML());
 	}
 
 	/**
 	*	$cmd = savePaymentInfo. Stores edited user bill data to databse.
 	*/
-
 	protected function savePaymentInfo() {
 		if($this->crs_finalized) {
 			$this->showFinalBill();
 			return;
 		}
-		$this->user_utils = gevUserUtils::getInstance($_GET["user_id"]);
-		if(!$this->crs_billing->userMayHaveBill($this->user_utils)) {
-			ilUtil::sendFailure("User pays no fees or is not a member of the course.", true);
-			$this->returnToParent();
-		}
+
 		$form = $this->buildPaymentForm();
 		$form->setValuesByPost();
 
@@ -350,8 +334,7 @@ class ilCourseBillingAdminGUI {
 				ilUtil::sendSuccess($this->gLng->txt("new_bill_saved"), true);
 
 			} else {
-				$bill_db_data = $this->crs_billing_helper->extractRelevantDataFromBill($bill_db);
-				$bill_db_coupons = $this->crs_billing_helper->getCouponCodesAssociatedWithBill($bill_db);
+				$bill_db_data = $this->extractRelevantDataFromBill($bill_db);
 				$bill_data_same = true;
 				foreach ($bill_db_data as $key => $value) {
 					if($value != $form->getItemByPostVar($key)->getValue()) {
@@ -360,7 +343,7 @@ class ilCourseBillingAdminGUI {
 					}
 				}
 				if(!$bill_data_same) {
-					$this->crs_billing_helper->updateBillDataByArray($bill_db,$_POST);
+					$this->updateBillDataByArray($bill_db,$_POST);
 
 					ilUtil::sendSuccess($this->gLng->txt("bill_data_saved"), true);
 				} else {
@@ -381,53 +364,124 @@ class ilCourseBillingAdminGUI {
 		$form->setTemplate("tpl.gev_booking_form.html", "Services/GEV/Desktop");
 		$form->setTitle($this->gLng->txt("bill_data_of_user")." ".$this->user_utils->getFullName());
 
-		$this->gCtrl->setParameter($this, "user_id", null);
-		$form->addCommandButton("listParticipationBills", $this->gLng->txt("back"));
 		$this->gCtrl->setParameter($this, "user_id", $_GET["user_id"]);
 		$form->addCommandButton("savePaymentInfo", $this->gLng->txt("save"));
 		$this->gCtrl->setParameter($this, "user_id", null);
+		$form->addCommandButton("listParticipationBills", $this->gLng->txt("back"));
 
-		$bill_db_coupons = array();
-
-		if($bill_db = $this->bill_utils->getNonFinalizedBillForCourseAndUser($this->crs_utils->getId(),$_GET["user_id"])) {
-			$bill_db_coupons = $this->crs_billing_helper->getCouponCodesAssociatedWithBill($bill_db);
-		}
-		if(count($bill_db_coupons)) {
-			$form->getItemByPostVar("coupons_used")->setValue(implode(", ",$bill_db_coupons));
-		}
+		$bill_db = $this->bill_utils->getNonFinalizedBillForCourseAndUser($this->crs_utils->getId(),$_GET["user_id"]);
+		$form->getItemByPostVar("coupons_used")->setValue($this->getCouponsForBillString($bill_db));
 		$this->gTpl->setContent($form->getHTML());
 	}
 
+	/**
+	* Show bills after course is finalized, editing not possible.	
+	*/
 	protected function showFinalBill() {
-		$this->user_utils = gevUserUtils::getInstance($_GET["user_id"]);
-		if(!$this->crs_billing->userMayHaveBill($this->user_utils)) {
-			ilUtil::sendFailure("This user may not have a bill for that particular course.", true);
-			$this->returnToParent();
-		}
-
-
 		$bill = $this->bill_utils->getBillsForCourseAndUser((int) $_GET["user_id"],(int) $this->crs_utils->getId())[0];
 		if($bill) {
 			if(!$bill->getFinal()) {
-				ilUtil::sendFailure("This user has a nonfinal bill, allthough the course is final. Something is wrong...", true);
+				ilUtil::sendFailure($this->gLng->txt("crs_bill_nonfin_usr_fin_crs"), true);
 				return;
 			}
 		}
 
-		$show_bill_data = $bill ? $this->crs_billing_helper->extractRelevantDataFromBill($bill) : array();
+		$show_bill_data = $bill ? $this->extractRelevantDataFromBill($bill) : array();
 		$form = $this->buildPaymentFormNoneditable($show_bill_data);
 		
 		$form->setTemplate("tpl.gev_booking_form.html", "Services/GEV/Desktop");
 
 		$form->setTitle($this->gLng->txt("bill_data_of_user")." ".$this->user_utils->getFullName());
-		$this->gCtrl->setParameter($this, "user_id", null);
 		$form->addCommandButton("listParticipationBills", $this->gLng->txt("back"));
-		if($bill) {
-			$bill_db_coupons = $this->crs_billing_helper->getCouponCodesAssociatedWithBill($bill);
-		}
-		if(count($bill_db_coupons)) {
-			$form->getItemByPostVar("coupons_used")->setValue(implode(", ",$bill_db_coupons));
-		}
+
+		$form->getItemByPostVar("coupons_used")->setValue($this->getCouponsForBillString($bill));
 		$this->gTpl->setContent($form->getHTML());
-	}	
+	}
+
+	/**
+	* confirm the creation of a new bill for user participation in course.
+	*/	
+
+	protected function confirmCreateBill() {
+		
+		include_once "./Services/User/classes/class.ilUserUtil.php";
+		include_once "./Services/Utilities/classes/class.ilConfirmationGUI.php";
+
+		$confirm = new ilConfirmationGUI();
+
+		$confirm->addHiddenItem("recipient", $_POST["recipient"]);
+		$confirm->addHiddenItem("agency", $_POST["agency"]);
+		$confirm->addHiddenItem("street", $_POST["street"]);
+		$confirm->addHiddenItem("housenumber", $_POST["housenumber"]);
+		$confirm->addHiddenItem("zipcode", $_POST["zipcode"]);
+		$confirm->addHiddenItem("city", $_POST["city"]);
+		$confirm->addHiddenItem("costcenter", $_POST["costcenter"]);
+		$confirm->addHiddenItem("email", $_POST["email"]);
+		if(count($_POST["coupons"])) {
+			foreach ($_POST["coupons"] as $coupon) {
+				$confirm->addHiddenItem("coupons[]", $coupon);
+			}
+		}
+		$this->gCtrl->setParameter($this, "user_id", $_GET["user_id"]);
+		$confirm->setFormAction($this->gCtrl->getFormAction($this, "savePaymentInfo"));
+		$confirm->setHeaderText($this->gLng->txt("should_create_bill_for_crs_part"));
+		$confirm->addItem("explanation","notice",$this->gLng->txt("should_create_bill_for_crs_part_explain"));
+		$confirm->setConfirm($this->gLng->txt("confirm"), "savePaymentInfo");
+		$confirm->setCancel($this->gLng->txt("cancel"), "listParticipationBills");
+				
+		$this->gTpl->setContent($confirm->getHTML());
+	}
+
+	/**
+	* @param ilBill $bill
+	* Formats all coupons associated with a bill to a string.
+	*/
+
+	protected function getCouponsForBillString($bill) {
+		if($bill) {
+			$bill_db_coupons = $this->bill_utils->getCouponCodesAssociatedWithBill($bill);
+		}
+		return implode(", ",$bill_db_coupons);
+	}
+
+	public  function extractRelevantDataFromBill(ilBill $a_bill) {
+		$res = array();
+		$aux = $a_bill->getRecipientName();
+		$aux = explode(", ",$aux);
+
+		$res["agency"] = $aux[0];
+		$res["recipient"] = implode(", ",array_slice($aux,1));
+		$res["street"] = $a_bill->getRecipientStreet();
+		$res["housenumber"] = $a_bill->getRecipientHousenumber();
+		$res["zipcode"] = $a_bill->getRecipientZipcode();
+		$res["city"] = $a_bill->getRecipientCity();
+		$res["costcenter"] = $a_bill->getCostcenter();
+		$res["email"] = $a_bill->getRecipientEmail();
+		return $res;
+	}
+
+	public function updateBillDataByArray(ilBill &$a_bill, array $a_new_data) {
+		if($a_new_data["agency"] && $a_new_data["recipient"] ) {
+			$a_bill->setRecipientName($a_new_data["agency"].", ".$a_new_data["recipient"]);
+		}
+		if($a_new_data["street"] ) {
+			$a_bill->setRecipientStreet($a_new_data["street"]);
+		}
+		if($a_new_data["housenumber"] ) {
+			$a_bill->setRecipientHousenumber($a_new_data["housenumber"] );
+		}
+		if($a_new_data["zipcode"] ) {
+			$a_bill->setRecipientZipcode($a_new_data["zipcode"]);
+		}
+		if($a_new_data["city"] ) {
+			$a_bill->setRecipientCity($a_new_data["city"]);
+		}
+		if($a_new_data["costcenter"] ) {
+			$a_bill->setCostcenter($a_new_data["costcenter"]);
+		}
+		if($a_new_data["email"]) {
+			$a_bill->setRecipientEmail($a_new_data["email"]);
+		}
+		$a_bill->update();
+	}
 }

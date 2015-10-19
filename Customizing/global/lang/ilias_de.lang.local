@@ -406,7 +406,10 @@ gev#:#gev_booking#:#Buchung
 gev#:#gev_booking_bill_data#:#Rechnungsdaten
 gev#:#gev_booking_check_bill_data#:#Rechnungsdaten überprüfen
 gev#:#bill_data_of_user#:#Rechnungsdaten von:
-gev#:#gev_booking_for#:#Buchung für:
+gev#:#should_create_bill_for_crs_part#:#Wollen sie für diesen Teilnehmer wirklich eine Rechunung erstellen?
+gev#:#should_create_bill_for_crs_part_explain#:#Damit wird die Teilnahme kostenpflichtig. Dieser Vorgang ist irreversiebel!
+gev#:#crs_bill_user_not_in_range#:#Für diesen Benutzer kann an diesem Kurs keine Rechnung angelegt werden.
+gev#:#crs_bill_nonfin_usr_fin_crs#:#Trotz des finalisierten Kursstatus hat der Teilnehmer eine nichtfinalisierte Rechnung. Bitte kontaktieren Sie den Administrator!
 gev#:#gev_booking_header_note#:#Bitte bestätigen Sie die verbindliche Buchung über die Schaltfläche.
 gev#:#gev_booking_header_note_bill_data#:#Bitte betätigen Sie die Schaltfläche "Rechnungsdaten eingeben".
 gev#:#gev_booking_header_note_check_bill_data#:#Bitte betätigen Sie die Schaltfläche "Rechnungsdaten überprüfen".
@@ -519,6 +522,8 @@ gev#:#gev_excel_member_title#:#Mitgliederliste
 gev#:#gev_exit_date#:#Austrittsdatum
 gev#:#gev_failed#:#nicht teilgenommen
 gev#:#gev_fee_bill_item#:#Teilnahmegebühr Training "%s"
+gev#:#gev_bill_covered_skip_coupons#:#Die Rechnung ist schon gedeckt. Keine weiteren Gutscheine nötig.
+gev#:#gev_cupon_has_no_value#:#Der Gutschein hat keinen Restwert.
 gev#:#gev_filter#:#Filter
 gev#:#gev_finalize_booking_error#:#Beim Finalisieren der Buchung ist ein Fehler aufgetreten.
 gev#:#gev_finalize_cancellation_error#:#Beim Finalisieren der Stornierung ist ein Fehler aufgetreten.
