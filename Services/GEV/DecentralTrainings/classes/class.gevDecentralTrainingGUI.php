@@ -93,6 +93,7 @@ class gevDecentralTrainingGUI {
 			case "updateCourseData":
 			case "saveTrainingSettings":
 			case "toChangeCourseData":
+			case "forwardCrs":
 				$cont = $this->$cmd();
 				break;
 			default:
@@ -618,6 +619,7 @@ class gevDecentralTrainingGUI {
 								, "GEV_img/ico-head-create-decentral-training.png"
 								);
 
+		$form->addCommandButton("forwardCrs", $this->lng->txt("gev_dec_forward_to_kurs"));
 		if($is_flexible) {
 			if(!$is_started) {
 				$this->ctrl->setParameter($this,"ref_id", $this->crs_ref_id);
@@ -631,7 +633,7 @@ class gevDecentralTrainingGUI {
 				$form->addCommandButton("updateSettings", $this->lng->txt("save"));
 			}
 		}
-
+		
 		$form->addCommandButton("", $this->lng->txt("gev_dec_mail_preview"));
 		$form->addCommandButton("cancel", $this->lng->txt("back"));
 		$form->setFormAction($this->ctrl->getFormAction($this));
@@ -1632,6 +1634,21 @@ class gevDecentralTrainingGUI {
 		}
 		
 		return $tpl->get();
+	}
+
+	protected function forwardCrs() {
+		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+		$crs_utils = gevCourseUtils::getInstance($_POST["obj_id"]);
+		$ref_id = gevObjectUtils::getRefId($_POST["obj_id"]);
+
+		if($crs_utils->userHasRightOf($this->current_user->getId(),"read")){
+			$this->ctrl->setParameterByClass("ilObjCourseGUI", "ref_id", $ref_id);
+			$this->ctrl->redirectByClass(array("ilRepositoryGUI","ilObjCourseGUI"), "view");
+		} else {
+			$this->ctrl->setParameterByClass("ilInfoScreenGUI", "ref_id", $ref_id);
+			$this->ctrl->redirectByClass(array("ilRepositoryGUI","ilObjCourseGUI","ilInfoScreenGUI"), "showSummary");
+		}
 	}
 }
 ?>
