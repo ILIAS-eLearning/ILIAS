@@ -763,7 +763,7 @@ array( "Highlight"
 							 , null
 							 , false
 							 , array("Ja")
-							 , ilAdvancedMDFieldDefinition::TYPE_MULTI_SELECT
+							 , ilAdvancedMDFieldDefinition::TYPE_SELECT
 							 )
 				)
 			)

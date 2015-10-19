@@ -1148,7 +1148,7 @@ gev#:#gev_import_staff_member#:#Mitarbeiter importieren
 gev#:#gev_default_role_agtid_does_not_exist#:#Lokale Benutzer können nicht hinzugefügt werden, da die Rolle 'Agt-ID' fehlt.
 gev#:#gev_new_pos_self_learnings_in_table#:#Die Selbstlernkurse finden Sie ab sofort am Ende der Trainingsübersicht!
 gev#:#gev_finalize_booking_booked_out_error#:#Das Training konnte leider nicht für Sie gebucht werden, da es inzwischen ausgebucht ist.
-gev#:#gev_crs_srch_my_table_desc_advice#:#Hinweis:<br />Die Selbstlernkurse finden Sie ab sofort am Ende der Trainingsübersicht bzw. im Filter unter "Suche eingrenzen" - "Trainingstyp" - "Selbstlernkurs"!
+gev#:#gev_crs_srch_my_table_desc_advice#:#Hinweis:<br />Die Selbstlernkurse finden Sie ab sofort am Ende der Trainingsübersicht bzw. im Reiter "Selbstlernkurs"!
 gev#:#gev_venue_free_text#:#Freitext Veranstaltungsort
 gev#:#gev_orga_info#:#Organisatorisches
 gev#:#gev_training_id2#:#Trainings-Id

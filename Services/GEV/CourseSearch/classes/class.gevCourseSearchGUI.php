@@ -19,14 +19,15 @@ require_once("Services/GEV/CourseSearch/classes/class.gevCourseSearch.php");
 
 class gevCourseSearchGUI {
 	public function __construct($a_target_user_id = null) {
-		global $lng, $ilCtrl, $tpl, $ilUser, $ilLog;
+		global $lng, $ilCtrl, $tpl, $ilUser;
 
-		$this->lng = &$lng;
-		$this->ctrl = &$ilCtrl;
-		$this->tpl = &$tpl;
-		$this->log = &$ilLog;
-		$this->user_id = $ilUser->getId();
-		$this->user = &$ilUser;
+		$this->gLng = $lng;
+		$this->gCtrl = $ilCtrl;
+		$this->gTpl = $tpl;
+		$this->gUser = $ilUser;
+
+		$this->gUser_id = $ilUser->getId();
+		
 		//$this->crs_srch = gevUserUtils::getInstanceByObj($ilUser);
 		$this->crs_srch = gevCourseSearch::getInstance($ilUser->getId());
 		$this->search_form = null;
@@ -50,13 +51,13 @@ class gevCourseSearchGUI {
 			$this->target_user_id = $a_target_user_id;
 		}
 		
-		$this->ctrl->setParameter($this, "target_user_id", $this->target_user_id);
+		$this->gCtrl->setParameter($this, "target_user_id", $this->target_user_id);
 
-		$this->tpl->getStandardTemplate();
+		$this->gTpl->getStandardTemplate();
 		}
 
 	public function executeCommand() {
-		$cmd = $this->ctrl->getCmd();
+		$cmd = $this->gCtrl->getCmd();
 		
 		$in_search = $cmd == "search";
 		
@@ -68,16 +69,16 @@ class gevCourseSearchGUI {
 
 		if ($this->crs_srch->hasUserSelectorOnSearchGUI()) {
 			$user_selector = new gevUserSelectorGUI($this->target_user_id);
-			$users = array_merge( array(array("usr_id" => $this->user_id
-											 , "firstname" => $this->user->getFirstname()
-											 , "lastname" => $this->user->getLastname()
+			$users = array_merge( array(array("usr_id" => $this->gUser_id
+											 , "firstname" => $this->gUser->getFirstname()
+											 , "lastname" => $this->gUser->getLastname()
 											 )
 									   )
 								, $this->crs_srch->getEmployeesForCourseSearch()
 								);
 			$user_selector->setUsers($users)
 						  ->setCaption("gev_crs_srch_usr_slctr_caption")
-						  ->setAction($this->ctrl->getLinkTargetByClass("gevCourseSearchGUI"));
+						  ->setAction($this->gCtrl->getLinkTargetByClass("gevCourseSearchGUI"));
 			$usrsel = $user_selector->render() . $spacer->render();
 		}
 		else {
@@ -97,7 +98,7 @@ class gevCourseSearchGUI {
 					$search_opts = $form->getInputs();
 					// clean empty or "all"-options
 					foreach($search_opts as $key => $value) {
-						if (!$value || $value == $this->lng->txt("gev_crs_srch_all")) {
+						if (!$value || $value == $this->gLng->txt("gev_crs_srch_all")) {
 							unset($search_opts[$key]);
 						}
 					}
@@ -132,7 +133,7 @@ class gevCourseSearchGUI {
 			}
 			
 			// click on table nav should lead to search again.
-			$this->ctrl->setParameter($this, "cmd", "search");
+			$this->gCtrl->setParameter($this, "cmd", "search");
 		}
 		else {
 			$search_opts = array();
@@ -145,21 +146,21 @@ class gevCourseSearchGUI {
 			// when i try to serialize that array, ilias seems to remove '"'
 			// which makes deserialisation fail
 			if ($key == "period") {
-				$this->ctrl->setParameter($this, "start", urlencode($value["start"]));
-				$this->ctrl->setParameter($this, "end", urlencode($value["end"]));
+				$this->gCtrl->setParameter($this, "start", urlencode($value["start"]));
+				$this->gCtrl->setParameter($this, "end", urlencode($value["end"]));
 			}
 			else {
-				$this->ctrl->setParameter($this, $key, urlencode($value));
+				$this->gCtrl->setParameter($this, $key, urlencode($value));
 			}
 		}
 
 		//ADD Course Type depending on active Tab
-		$search_opts = $this->crs_srch->addSearchForTypeByActiveTab($serach_opts, $this->active_tab);
+		$search_opts = $this->crs_srch->addSearchForTypeByActiveTab($search_opts, $this->active_tab);
 
 		$crs_tbl = new gevCourseSearchTableGUI($search_opts, $this->target_user_id, $this, $this->active_tab);
 		$crs_tbl->setTitle(!$a_in_search?"gev_crs_srch_title":"gev_crs_srch_results")
-				->setSubtitle( ($this->target_user_id == $this->user_id 
-								|| $this->user_id == 0 )// Someone is viewing the offers for agents as anonymus.
+				->setSubtitle( ($this->target_user_id == $this->gUser_id 
+								|| $this->gUser_id == 0 )// Someone is viewing the offers for agents as anonymus.
 							 ? "gev_crs_srch_my_table_desc"
 							 : "gev_crs_srch_theirs_table_desc"
 							 )
@@ -209,8 +210,8 @@ class gevCourseSearchGUI {
 
 		$form = new catPropertyFormGUI();
 		$form->setTemplate("tpl.gev_search_form.html", "Services/GEV/Desktop");
-		$form->setFormAction($this->ctrl->getFormAction($this));
-		$form->addCommandButton("search", $this->lng->txt("search"));
+		$form->setFormAction($this->gCtrl->getFormAction($this));
+		$form->addCommandButton("search", $this->gLng->txt("search"));
 		
 		$form->setId('gevCourseSearchForm');
 		
@@ -222,33 +223,33 @@ class gevCourseSearchGUI {
 		$search_title = new catTitleGUI("gev_course_search", "gev_course_search_desc", "GEV_img/ico-head-search.png");
 		$form->setTitle($search_title->render());
 
-		$title = new ilTextInputGUI($this->lng->txt("title"), "title");
+		$title = new ilTextInputGUI($this->gLng->txt("title"), "title");
 		$form->addItem($title);
 		
-		$custom_id = new ilTextInputGUI($this->lng->txt("gev_course_id"), "custom_id");
+		$custom_id = new ilTextInputGUI($this->gLng->txt("gev_course_id"), "custom_id");
 		$form->addItem($custom_id);
 		
-		/*$type = new ilSelectInputGUI($this->lng->txt("gev_course_type"), "type");
+		/*$type = new ilSelectInputGUI($this->gLng->txt("gev_course_type"), "type");
 		$type->setOptions(gevCourseUtils::getTypeOptions());
 		$form->addItem($type);*/
 		
-		$categorie = new ilSelectInputGUI($this->lng->txt("gev_course_categorie"), "categorie");
+		$categorie = new ilSelectInputGUI($this->gLng->txt("gev_course_categorie"), "categorie");
 		$categorie->setOptions(gevCourseUtils::getCategorieOptions());
 		$form->addItem($categorie);
 		
-		$target_group = new ilSelectInputGUI($this->lng->txt("gev_target_group"), "target_group");
+		$target_group = new ilSelectInputGUI($this->gLng->txt("gev_target_group"), "target_group");
 		$target_group->setOptions(gevCourseUtils::getTargetGroupOptions());
 		$form->addItem($target_group);
 
-		$location = new ilSelectInputGUI($this->lng->txt("udf_type_venueselect"), "location");
+		$location = new ilSelectInputGUI($this->gLng->txt("udf_type_venueselect"), "location");
 		$location->setOptions(gevCourseUtils::getLocationOptions());
 		$form->addItem($location);
 		
-		/*$provider = new ilSelectInputGUI($this->lng->txt("udf_type_providerselect"), "provider");
+		/*$provider = new ilSelectInputGUI($this->gLng->txt("udf_type_providerselect"), "provider");
 		$provider->setOptions(gevCourseUtils::getProviderOptions());
 		$form->addItem($provider);*/
 		
-		$period = new ilDateDurationInputGUI($this->lng->txt("time_segment"), "period");
+		$period = new ilDateDurationInputGUI($this->gLng->txt("time_segment"), "period");
 		$now = new ilDate(date("Y-m-d"), IL_CAL_DATE);
 		$period->setStart($now);
 		$one_year = new ilDate(date("Y-m-d"), IL_CAL_DATE);
@@ -260,5 +261,3 @@ class gevCourseSearchGUI {
 		return $form;
 	}
 }
-
-?>

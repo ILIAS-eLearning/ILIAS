@@ -17,10 +17,8 @@ require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 
 class gevCourseHighlightsGUI {
 	public function __construct($a_target_user_id = null) {
-		global $lng, $ilCtrl, $ilUser;
-
-		$this->lng = &$lng;
-		$this->ctrl = &$ilCtrl;
+		global $ilUser;
+		
 		$this->user_id = $ilUser->getId();
 
 		if ($a_target_user_id === null) {
@@ -51,5 +49,3 @@ class gevCourseHighlightsGUI {
 				. $this->hl_slider->render();
 	}
 }
-
-?>
