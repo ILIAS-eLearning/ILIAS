@@ -15292,7 +15292,7 @@ payment#:#enable_topics_info#:#If enabled, you can assign purchasable objects to
 exc#:#exc_assignment_type#:#Type of Submission
 trac#:#trac_mode_event_info#:#The learning progress status will be determined by the participation status.
 sess#:#sess_lp_preset#:#Activate Learning Progress
-sess#:#sess_lp_preset_info#:#Activates the learning progress for all session events.
+sess#:#sess_lp_preset_info#:#Activates the learning progress for all session events to be created. 
 glo#:#glo_copy#:#Copy Glossary
 form#:#form_open_answer#:#Open Answer
 survey#:#survey_access_codes#:#Authentication by Access Codes
