@@ -46,8 +46,21 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
         
         include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
         $this->privacy = ilPrivacySettings::_getInstance();
-        
-        $this->setId('grp_'.$a_type.'_'.$this->getRole().'_'.$a_parent_obj->object->getId());
+
+		switch($this->type)
+		{
+			case 'admin':
+				$this->setPrefix('admin');
+				break;
+			case 'member':
+				$this->setPrefix('member');
+				break;
+			default:
+				$this->setPrefix('role');
+				break;
+		}
+		
+		$this->setId('grp_'.$a_type.'_'.$this->getRole().'_'.$a_parent_obj->object->getId());
         parent::__construct($a_parent_obj,'members');
 		
 		$this->initSettings();
@@ -73,20 +86,17 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
             $this->addColumn($this->lng->txt('last_access'),'access_time_unix');
         }
         if($this->type == 'admin')
-        {
-            $this->setPrefix('admin');
+		{
             $this->setSelectAllCheckbox('admins');
             $this->addColumn($this->lng->txt('grp_notification'),'notification');
             $this->addCommandButton('updateStatus',$this->lng->txt('save'));
         }
         elseif($this->type == 'member')
         {
-            $this->setPrefix('member');
             $this->setSelectAllCheckbox('members');
         }
 		else
 		{
-            $this->setPrefix('role');
             $this->setSelectAllCheckbox('roles');
 		}
         $this->addColumn($this->lng->txt(''),'optional');

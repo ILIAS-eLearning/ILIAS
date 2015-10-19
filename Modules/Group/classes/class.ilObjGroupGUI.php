@@ -1361,8 +1361,8 @@ class ilObjGroupGUI extends ilContainerGUI
 		}
 		if($added_users)
 		{
-			ilUtil::sendSuccess($this->lng->txt("grp_users_added"));
-			$this->membersObject();
+			ilUtil::sendSuccess($this->lng->txt("grp_users_added"), true);
+			$this->ctrl->redirect($this, "members");
 
 			return true;
 		}
@@ -1405,8 +1405,8 @@ class ilObjGroupGUI extends ilContainerGUI
 			);
 		}
 		
-		ilUtil::sendSuccess($this->lng->txt('grp_users_removed_from_list'));
-		$this->membersObject();
+		ilUtil::sendSuccess($this->lng->txt('grp_users_removed_from_list'), true);
+		$this->ctrl->redirect($this, "members");
 		return true;
 	}
 	
