@@ -602,19 +602,16 @@ class gevDecentralTrainingGUI {
 			$this->webinar_vc_type = $form_values["webinar_vc_type"];
 
 			$form = $this->buildTrainingOptionsForm(true, $is_flexible, $form_values);
+			$is_started = $form_values["no_changes_allowed"];
 		}
 		else {
 			$form = $a_form;
 			$obj_id = intval($_POST["obj_id"]);
 			$is_flexible = $this->isCrsTemplateFlexible($obj_id);
+			require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+			$crs_utils = gevCourseUtils::getInstance($obj_id);
+			$is_started = $crs_utils->isStarted();
 		}
-		
-		
-		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
-		$crs_utils = gevCourseUtils::getInstance($obj_id);
-		$start_date = $crs_utils->getStartDate()->get(IL_CAL_DATE);
-		$now = date("Y-m-d");
-		$should_save = $start_date > $now;
 
 		$title = new catTitleGUI("gev_dec_training_settings_header"
 								, "gev_dec_training_settings_header_note"
@@ -622,7 +619,7 @@ class gevDecentralTrainingGUI {
 								);
 
 		if($is_flexible) {
-			if($should_save) {
+			if(!$is_started) {
 				$this->ctrl->setParameter($this,"ref_id", $this->crs_ref_id);
 				$form->addCommandButton("updateCourseData", $this->lng->txt("save"));
 				$form->addCommandButton("updateBuildingBlock", $this->lng->txt("gev_dec_training_update_buildingblocks"));
@@ -630,7 +627,7 @@ class gevDecentralTrainingGUI {
 				$form->addCommandButton("showBuildingBlock", $this->lng->txt("gev_dec_training_show_buildingblocks"));
 			}
 		} else {
-			if($should_save) {
+			if(!$is_started) {
 				$form->addCommandButton("updateSettings", $this->lng->txt("save"));
 			}
 		}
@@ -945,9 +942,7 @@ class gevDecentralTrainingGUI {
 		if($a_is_flexible) {
 			return $this->buildTrainingOptionsFormFlexible($a_fill, $a_form_values);
 		}
-		
-		
-		
+
 		return $this->buildTrainingOptionsFormStable($a_fill, $a_form_values);
 	}
 
@@ -1078,6 +1073,7 @@ class gevDecentralTrainingGUI {
 		}
 		$orgu_selection->setRecursive(false);
 		$orgu_selection->setRequired(true);
+		$orgu_selection->setDisabled($a_form_values["no_changes_allowed"]);
 		$form->addItem($orgu_selection);
 
 		/*************************
@@ -1533,7 +1529,7 @@ class gevDecentralTrainingGUI {
 			, "webinar_vc_type" => $crs_utils->getVirtualClassType()
 			, "target_groups" => $crs_utils->getTargetGroup()
 			, "trainer_ids" => $crs_utils->getTrainers()
-			, "no_changes_allowed" => $crs_utils->isFinalized()
+			, "no_changes_allowed" => $crs_utils->isStarted()
 			);
 
 		return $training_info;
