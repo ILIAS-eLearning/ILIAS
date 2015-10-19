@@ -254,7 +254,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
 				$this->object->setTitle($form->getInput('title'));
 			}
 			$this->object->update();
-			ilUtil::sendSuccess($this->lng->txt('settings_saved'));
+			ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
 			$this->ctrl->redirect($this,'editTitle');
 		}
 		$form->setValuesByPost();
