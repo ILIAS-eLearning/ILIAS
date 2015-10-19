@@ -9,12 +9,13 @@
 * @version	$Id$
 */
 
-require_once("Services/GEV/Desktop/classes/class.gevCourseHighlightsGUI.php");
+require_once("Services/GEV/CourseSearch/classes/class.gevCourseHighlightsGUI.php");
 require_once("Services/CaTUIComponents/classes/class.catHSpacerGUI.php");
 require_once("Services/GEV/Desktop/classes/class.gevUserSelectorGUI.php");
-require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+//require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 require_once("Services/CaTUIComponents/classes/class.catLegendGUI.php");
-require_once("Services/GEV/Desktop/classes/class.gevCourseSearchTableGUI.php");
+require_once("Services/GEV/CourseSearch/classes/class.gevCourseSearchTableGUI.php");
+require_once("Services/GEV/CourseSearch/classes/class.gevCourseSearch.php");
 
 class gevCourseSearchGUI {
 	public function __construct($a_target_user_id = null) {
@@ -26,11 +27,14 @@ class gevCourseSearchGUI {
 		$this->log = &$ilLog;
 		$this->user_id = $ilUser->getId();
 		$this->user = &$ilUser;
-		$this->user_utils = gevUserUtils::getInstanceByObj($ilUser);
+		//$this->crs_srch = gevUserUtils::getInstanceByObj($ilUser);
+		$this->crs_srch = gevCourseSearch::getInstance($ilUser->getId());
 		$this->search_form = null;
 
+		$this->active_tab = $_GET["active_tab"] ? $_GET["active_tab"] : gevCourseSearch::TAB_TO_SHOW_ADVICE;
+
 		if ($a_target_user_id === null) {
-			if ($this->user_utils->hasUserSelectorOnSearchGUI()) {
+			if ($this->crs_srch->hasUserSelectorOnSearchGUI()) {
 				$this->target_user_id = $_POST["target_user_id"]
 									  ? $_POST["target_user_id"]
 									  : (   $_GET["target_user_id"]
@@ -62,14 +66,14 @@ class gevCourseSearchGUI {
 	public function render($a_in_search = false) {
 		$spacer = new catHSpacerGUI();
 
-		if ($this->user_utils->hasUserSelectorOnSearchGUI()) {
+		if ($this->crs_srch->hasUserSelectorOnSearchGUI()) {
 			$user_selector = new gevUserSelectorGUI($this->target_user_id);
 			$users = array_merge( array(array("usr_id" => $this->user_id
 											 , "firstname" => $this->user->getFirstname()
 											 , "lastname" => $this->user->getLastname()
 											 )
 									   )
-								, $this->user_utils->getEmployeesForCourseSearch()
+								, $this->crs_srch->getEmployeesForCourseSearch()
 								);
 			$user_selector->setUsers($users)
 						  ->setCaption("gev_crs_srch_usr_slctr_caption")
@@ -149,7 +153,10 @@ class gevCourseSearchGUI {
 			}
 		}
 
-		$crs_tbl = new gevCourseSearchTableGUI($search_opts, $this->target_user_id, $this);
+		//ADD Course Type depending on active Tab
+		$search_opts = $this->crs_srch->addSearchForTypeByActiveTab($serach_opts, $this->active_tab);
+
+		$crs_tbl = new gevCourseSearchTableGUI($search_opts, $this->target_user_id, $this, $this->active_tab);
 		$crs_tbl->setTitle(!$a_in_search?"gev_crs_srch_title":"gev_crs_srch_results")
 				->setSubtitle( ($this->target_user_id == $this->user_id 
 								|| $this->user_id == 0 )// Someone is viewing the offers for agents as anonymus.
@@ -159,8 +166,11 @@ class gevCourseSearchGUI {
 				->setImage("GEV_img/ico-head-search.png")
 				//->setCommand("gev_crs_srch_limit", "www.google.de"); // TODO: set this properly
 				//->setCommand("gev_crs_srch_limit", "javascript:gevShowSearchFilter();"); // TODO: set this properly
-				->setCommand("gev_crs_srch_limit", "-") // TODO: set this properly
-				->setAdvice("gev_crs_srch_my_table_desc_advice"); // TO DISPLAY AN ADIVCE!
+				->setCommand("gev_crs_srch_limit", "-"); // TODO: set this properly
+
+		if($this->active_tab == gevCourseSearch::TAB_TO_SHOW_ADVICE) {
+			$crs_tbl->setAdvice("gev_crs_srch_my_table_desc_advice"); // TO DISPLAY AN ADIVCE!
+		}
 
 		return $usrsel
 			 . ( ($hls->countHighlights() > 0 && !$a_in_search)
@@ -218,9 +228,9 @@ class gevCourseSearchGUI {
 		$custom_id = new ilTextInputGUI($this->lng->txt("gev_course_id"), "custom_id");
 		$form->addItem($custom_id);
 		
-		$type = new ilSelectInputGUI($this->lng->txt("gev_course_type"), "type");
+		/*$type = new ilSelectInputGUI($this->lng->txt("gev_course_type"), "type");
 		$type->setOptions(gevCourseUtils::getTypeOptions());
-		$form->addItem($type);
+		$form->addItem($type);*/
 		
 		$categorie = new ilSelectInputGUI($this->lng->txt("gev_course_categorie"), "categorie");
 		$categorie->setOptions(gevCourseUtils::getCategorieOptions());

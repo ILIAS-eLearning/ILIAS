@@ -10,7 +10,7 @@
 */
 
 require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
-require_once("Services/GEV/Desktop/classes/class.gevCourseHighlightsSliderGUI.php");
+require_once("Services/GEV/CourseSearch/classes/class.gevCourseHighlightsSliderGUI.php");
 require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevSettings.php");

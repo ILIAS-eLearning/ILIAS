@@ -17,9 +17,11 @@ require_once("Services/Calendar/classes/class.ilDatePresentation.php");
 require_once("Services/CourseBooking/classes/class.ilCourseBooking.php");
 require_once("Services/CourseBooking/classes/class.ilCourseBookingHelper.php");
 require_once("Services/CaTUIComponents/classes/class.catLegendGUI.php");
+require_once("Services/GEV/CourseSearch/classes/class.gevCourseSearch.php");
+require_once("Services/GEV/CourseSearch/classes/class.gevCourseSearchTabGUI.php");
 
 class gevCourseSearchTableGUI extends catAccordionTableGUI {
-	public function __construct($a_search_options, $a_user_id, $a_parent_obj, $a_parent_cmd="", $a_template_context="") {
+	public function __construct($a_search_options, $a_user_id, $a_parent_obj, $a_active_tab, $a_parent_cmd="", $a_template_context="") {
 		parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
 
 		global $ilCtrl, $lng, $ilUser;
@@ -27,7 +29,11 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 		$this->lng = &$lng;
 		$this->ctrl = &$ilCtrl;
 
-		$user_util = gevUserUtils::getInstance($a_user_id);
+		$this->active_tab = $a_active_tab;
+		$this->parent_obj = $a_parent_obj;
+
+		//$crs_srch = gevUserUtils::getInstance($a_user_id);
+		$crs_srch = gevCourseSearch::getInstance($a_user_id);
 		$this->user_id = $a_user_id;
 		$this->is_logged_in = $ilUser->getId() != 0;
 
@@ -36,12 +42,13 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 		$this->setEnableHeader(true);
 		$this->setExternalSorting(true);
 		$this->setExternalSegmentation(true);
-		$cnt = count($user_util->getPotentiallyBookableCourseIds($a_search_options));
+		//$cnt = count($crs_srch->getPotentiallyBookableCourseIds($a_search_options));
+		//var_dump($cnt);
 		$this->setMaxCount($cnt);
 		$this->determineOffsetAndOrder();
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, "view"));
 
-		$this->setRowTemplate("tpl.gev_course_search_row.html", "Services/GEV/Desktop");
+		$this->setRowTemplate("tpl.gev_course_search_row.html", "Services/GEV/CourseSearch");
 
 		//$this->addColumn("", "expand", "20px");
 		$this->addColumn("", "expand", "0px", false, "catTableExpandButton");
@@ -71,6 +78,8 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 			   ->addItem($this->almost_not_bookable_img, "gev_booking_request_pe");
 		$this->setLegend($legend);
 
+		$this->tabs = new gevCourseSearchTabGUI($a_search_options, $this->parent_obj, $this->active_tab);
+
 		$order = $this->getOrderField();
 		
 		if ($order == "status") {
@@ -78,11 +87,17 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 			$order = "title";
 		}
 		//                      #671
-		if ($order == "date" || $order == "") {
-			$order = "start_date";
+		// new course search
+		if(!$crs_srch->isActiveTabSelflearning($this->active_tab)){
+			if ($order == "date" || $order == "") {
+				$order = "start_date";
+			}
+		} else {
+			$order = "title";
 		}
+		
 
-		$this->setData($user_util->getPotentiallyBookableCourseInformation(
+		$this->setData($crs_srch->getPotentiallyBookableCourseInformation(
 										$a_search_options, 
 										$this->getOffset(),
 										$this->getLimit(),
@@ -236,11 +251,14 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 			$ret .= $this->_title->render()."<br />";
 		}
 
+		$ret .= $this->tabs->render();
+
 		if($this->advice) {
 			$ret .= $this->renderAdvice()."<br />";
 		}
-
+		$this->ctrl->setParameter($this->parent_obj,"active_tab",$this->active_tab);
 		$ret .= ilTable2GUI::render();
+		$this->ctrl->clearParameters($this->parent_obj);
 
 		return $ret;
 	}

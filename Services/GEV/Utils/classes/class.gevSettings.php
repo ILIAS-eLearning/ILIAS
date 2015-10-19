@@ -135,7 +135,10 @@ class gevSettings {
 	const CRS_URS_STATE_EXCUSED_VAL		= "3";
 	const CRS_URS_STATE_NOT_EXCUSED		= "unentschuldigt";
 	const CRS_URS_STATE_NOT_EXCUSED_VAL	= "4";
-	
+
+	//Highlight
+	const CRS_AMD_HIGHLIGHT			="crs_amd_highlight";
+
 	// Typen von Organisationseinheiten
 	const ORG_TYPE_VENUE			= "org_unit_type_venue";
 	const ORG_TYPE_PROVIDER			= "org_unit_type_provider";

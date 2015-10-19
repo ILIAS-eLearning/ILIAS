@@ -75,7 +75,7 @@ class gevDesktopGUI {
 				break;
 			case "gevcoursesearchgui":
 				$ilMainMenu->setActive("gev_search_menu");
-				require_once("Services/GEV/Desktop/classes/class.gevCourseSearchGUI.php");
+				require_once("Services/GEV/CourseSearch/classes/class.gevCourseSearchGUI.php");
 				$gui = new gevCourseSearchGUI();
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;
