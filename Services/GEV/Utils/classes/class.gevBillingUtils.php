@@ -54,7 +54,6 @@ class gevBillingUtils {
 			$coup = $coupon_dummy->getInstance($coupon);
 			$ret[$coupon] = $coup->getValue();
 		}
-		
 		return $ret;
 	}
 	
@@ -184,6 +183,47 @@ class gevBillingUtils {
 		
 		$this->log->write("gevBillingUtils::createCourseBill: created bill with id '".$bill->getId()."'".
 						  " for user ".$a_user_id." at course ".$a_crs_id);
+	}
+
+	public function chargeCouponAgainstBill($a_coupon_code, ilBill $a_bill) {
+		require_once("Services/Billing/classes/class.ilCoupon.php");
+		$amount_left = $a_bill->getAmount();
+
+		if($amount_left == 0) {
+			ilUtil::sendInfo("bill is covered, no more coupons needed");
+			return false;
+		}
+		$coupon_dummy = new ilCoupon();
+		try {
+			$coupon = $coupon_dummy->getInstance($a_coupon_code);
+		} catch (ilException $e) {
+			ilUtil::sendFailure($e->getMessage());
+			return false;
+		}
+		if ($coupon->isExpired()) {
+			return false;
+		}
+		$value = $coupon->getValue();
+		if($value == 0) {
+			ilUtil::sendInfo("No value left on coupon");
+			return false;
+		}
+		if ($amount_left > $value) {
+			$diff = $value;
+		}
+		else {
+			$diff = $amount_left;
+		}
+		$coupon->subtractValue($diff);
+		$this->createItem( sprintf($this->lng->txt("gev_coupon_bill_item")
+								  , $a_coupon_code
+								  )
+						 , -1 * $diff
+						 , null
+						 , $a_bill
+						 );
+
+		return true;
 	}
 
 	protected function createItem( $a_title

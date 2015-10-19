@@ -405,6 +405,7 @@ gev#:#gev_booked_similar_course_self#:#Sie sind auf dieses Training bereits gebu
 gev#:#gev_booking#:#Buchung
 gev#:#gev_booking_bill_data#:#Rechnungsdaten
 gev#:#gev_booking_check_bill_data#:#Rechnungsdaten überprüfen
+gev#:#bill_data_of_user#:#Rechnungsdaten von:
 gev#:#gev_booking_for#:#Buchung für:
 gev#:#gev_booking_header_note#:#Bitte bestätigen Sie die verbindliche Buchung über die Schaltfläche.
 gev#:#gev_booking_header_note_bill_data#:#Bitte betätigen Sie die Schaltfläche "Rechnungsdaten eingeben".
@@ -449,10 +450,14 @@ gev#:#gev_contents#:#Inhalte
 gev#:#gev_costly_cancellation_action#:#Kostenpflichtig Stornieren
 gev#:#gev_costly_cancellation_msg#:#Die Stornierung Ihrer Buchung des Trainings "%s" ist leider nicht mehr kostenlos möglich. Möchten Sie die Buchung trotzdem stornieren?
 gev#:#gev_costs#:#Kosten
+gev#:#no_bills_for_free_training#:#Für dieses Training können keine Rechnungen erstellt werden, das es gebührenfrei ist.
 gev#:#gev_coupon_bill_item#:#Gutschein %s
 gev#:#gev_coupon_codes#:#Gutscheincode(s) einlösen
 gev#:#gev_coupon_pretax#:#Gutscheinbetrag netto
 gev#:#gev_coupon_posttax#:#Gutscheinbetrag brutto
+gev#:#coupon_codes_used#:#Gutschein(e) eingelöst.
+gev#:#coupon_codes_used_sofar#:#Eingelöste Gutscheincodes
+gev#:#edit_course_bill_data#:#Rechungsdaten bearbeiten
 gev#:#gev_course_bill_title#:#Buchung des Trainings "%s" für "%s"
 gev#:#gev_course_categorie#:#Trainingskategorie
 gev#:#gev_course_expired#:#Der gewählte Kurs ist nicht mehr verfügbar.
@@ -600,7 +605,12 @@ gev#:#gev_passed#:#teilgenommen
 gev#:#gev_passed_similar_course_employee#:#Ihr Mitarbeit hat bereits ein ähnliches Training erfolgreich abgeschlossen. Sie dürfen dieses Angebot daher für Ihren Mitarbeiter nicht buchen.
 gev#:#gev_passed_similar_course_self#:#Sie sind auf dieses Training bereits an einem anderen Termin gebucht. Sie können keinen zweiten Termin buchen. Sollten Sie den Termin wechseln wollen, stornieren Sie zunächst das bereits gebuchte Training und buchen Sie dann den gewünschten neuen Termin.
 gev#:#gev_payment_type#:#Zahlungsart
+gev#:#user_pays_fees#:#zahlungspflichtig
 gev#:#gev_payment_type_bill#:#Rechnung
+gev#:#bill_data_not_changed#:#Rechnungsdaten beibehalten.
+gev#:#bill_data_saved#:#Rechnungsdaten gespeichert.
+gev#:#new_bill_saved#:#Neue Rechung angelegt.
+gev#:#bill_data_complete#:#Rechungsdaten komplett
 gev#:#gev_period#:#Zeitraum:
 gev#:#gev_personal_data#:#Personendaten
 gev#:#gev_points#:#Punkte

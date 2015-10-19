@@ -1808,6 +1808,14 @@ class ilObjCourseGUI extends ilContainerGUI
 					$this->ctrl->getLinkTargetByClass(array('ilcoursebookinggui', 'ilcoursebookingadmingui'),''),
 					"", 'ilcoursebookingadmingui');		
 				$this->ctrl->setParameterByClass('ilcoursebookingadmingui', 'ref_id', '');
+	
+				if( $rbacsystem->checkAccess('book_users',$this->object->getRefId())) {
+					$this->ctrl->setParameterByClass('ilcoursebillingadmingui', 'ref_id', $this->object->getRefId());
+					$this->tabs_gui->addSubTabTarget("edit_course_bill_data",
+						$this->ctrl->getLinkTargetByClass(array('ilcoursebillinggui', 'ilcoursebillingadmingui'),''),
+						"", 'ilcoursebillingadmingui');		
+					$this->ctrl->setParameterByClass('ilcoursebillingadmingui', 'ref_id', '');
+				}
 				
 				require_once("Services/ParticipationStatus/classes/class.ilParticipationStatusHelper.php");
 				$ps_helper = ilParticipationStatusHelper::getInstance($this->object);
