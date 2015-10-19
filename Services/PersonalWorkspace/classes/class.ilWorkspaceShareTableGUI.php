@@ -43,7 +43,7 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
-		$this->setId("il_tbl_wspsh");
+		$this->setId("il_tbl_wspsh".(int)$this->portfolio_mode);
 
 		$this->setTitle($lng->txt("wsp_shared_resources"));
 
@@ -77,11 +77,11 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
 			
 		$this->initFilter();
 		
-		// reset will remove all filters
+		// reset will remove all filters		
 		if($this->portfolio_mode &&
 			!$this->filter["obj_type"])
-		{
-			$this->filter["obj_type"] = "prtf";
+		{			
+			$this->filter["obj_type"] = "prtf";		
 		}
 		
 		// incoming request:  check for validity
