@@ -303,8 +303,10 @@ class ASS_MarkSchema
 	{
 		for ($i = count($this->mark_steps) - 1; $i >= 0; $i--) 
 		{
-			if ($percentage >= $this->mark_steps[$i]->getMinimumLevel()) 
-			{
+			$curMinLevel = $this->mark_steps[$i]->getMinimumLevel();
+
+			if( $percentage > $curMinLevel || (string)$percentage == (string)$curMinLevel )
+			{ // >= does NOT work since PHP is a fucking female float pig !!!!
 				return $this->mark_steps[$i];
 			}
 		}
