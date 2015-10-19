@@ -6192,7 +6192,7 @@ function getAnswerFeedbackPoints()
 			include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
 			foreach ($_SESSION["import_mob_xhtml"] as $mob)
 			{
-				$importfile = ilObjTest::_getImportDirectory() . '/' . $mob["uri"];
+				$importfile = ilObjTest::_getImportDirectory() . '/' . $_SESSION["tst_import_subdir"] . '/' . $mob["uri"];
 				if (file_exists($importfile))
 				{
 					$media_object =& ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, FALSE);

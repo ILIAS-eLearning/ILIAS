@@ -142,6 +142,7 @@ $(document).ready(function () {
 						text: new_value
 					}));
 					$select.find('option[value=' + record_id + ']').attr('selected', 'selected');
+					il.Overlay.hideAllOverlays(window.event, true);
 				});
 			}
 		};
@@ -169,6 +170,7 @@ $(document).ready(function () {
 						'<label for="' + new_id + '">' + new_value + '</label></div>';
 					$div.prepend(new_input);
 					$div.find('option[value=' + record_id + ']').attr('selected', 'selected');
+					il.Overlay.hideAllOverlays(window.event, true);
 				});
 			}
 		};
