@@ -338,10 +338,7 @@ class ilStudyProgrammeProgress extends ActiveRecord {
 			throw new ilException("ilStudyProgrammeProgress::setStatus: No status: "
 								 ."'$a_status'");
 		}
-		if ($this->getStatus() == self::STATUS_COMPLETED) {
-			throw new ilException("ilStudyProgrammeProgress::setStatus: Can't set "
-								 ."status when node is completed.");
-		}
+
 		$this->status = $a_status;
 		$this->updateLastChange();
 		return $this;

@@ -351,7 +351,7 @@ class ilStudyProgrammeUserProgress {
 		$this->progress->setStatus(ilStudyProgrammeProgress::STATUS_IN_PROGRESS)
 					   ->setCompletionBy(null)
 					   ->update();
-		
+
 		$this->refreshLPStatus();
 		
 		$this->updateParentStatus();
@@ -549,13 +549,7 @@ class ilStudyProgrammeUserProgress {
 			// Nothing to do here, as the status will be set by LP.
 			return;
 		}
-		
-		if ($this->isSuccessful()) {
-			// Nothing to do here. The status of the parents should have been
-			// calculated already at some point before.
-			return;
-		}
-		
+
 		$add = function($a, $b) { return $a + $b; };
 		$get_points = function($child) {
 			if (!$child->isSuccessful()) {
@@ -576,6 +570,8 @@ class ilStudyProgrammeUserProgress {
 			$this->progress->setStatus(ilStudyProgrammeProgress::STATUS_COMPLETED);
 			require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeEvents.php");
 			ilStudyProgrammeEvents::userSuccessful($this);
+		} else {
+			$this->progress->setStatus(ilStudyProgrammeProgress::STATUS_IN_PROGRESS);
 		}
 		
 		$this->progress->update();
@@ -588,7 +584,7 @@ class ilStudyProgrammeUserProgress {
 	 */
 	protected function updateParentStatus() {
 		$parent = $this->getParentProgress();
-		if ($this->isSuccessful() && $parent) {
+		if ($parent) {
 			$parent->updateStatus();
 		}
 	}
