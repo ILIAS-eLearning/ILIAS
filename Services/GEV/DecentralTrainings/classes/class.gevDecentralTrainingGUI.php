@@ -1026,7 +1026,10 @@ class gevDecentralTrainingGUI {
 			$trainer_select->setOptions($options);
 			$trainer_select->setWidth(250);
 			$trainer_select->setValue($a_form_values["trainer_ids"]);
-			$trainer_select->setDisabled($a_form_values["no_changes_allowed"]);
+
+			$now = date("Y-m-d");
+			$trainer_select->setDisabled(($now > $crs_utils->getStartDate()->get(IL_CAL_DATE)));
+
 			$trainer_select->setRequired(true);
 			
 			$form->addItem($trainer_select);
@@ -1222,9 +1225,12 @@ class gevDecentralTrainingGUI {
 			$trainer_select->setOptions($options);
 			$trainer_select->setWidth(250);
 			$trainer_select->setValue($a_form_values["trainer_ids"]);
-			$trainer_select->setDisabled($a_form_values["no_changes_allowed"]);
-			$trainer_select->setRequired(true);
 			
+			$now = date("Y-m-d");
+			$trainer_select->setDisabled(($now > $crs_utils->getStartDate()->get(IL_CAL_DATE)));
+
+			$trainer_select->setRequired(true);
+
 			$form->addItem($trainer_select);
 		} else {
 			$trainers = new ilNonEditableValueGUI($this->lng->txt("tutor"), "tutor", true);
