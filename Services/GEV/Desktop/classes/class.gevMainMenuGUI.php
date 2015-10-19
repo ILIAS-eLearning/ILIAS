@@ -117,7 +117,7 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		$manage_course_block_units = true;
 
 		//get all OrgUnits of superior
-		$arr_org_units_of_superior = ($this->userUtils && $this->userUtils->getOrgUnitsWhereUserIsDirectSuperior());
+		$arr_org_units_of_superior = $this->userUtils ? $this->userUtils->getOrgUnitsWhereUserIsDirectSuperior() : array();
 		$arr_local_user_admin_links = array();
 		if($arr_org_units_of_superior) {
 			foreach($arr_org_units_of_superior as $arr_org_unit_of_superior) {
