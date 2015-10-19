@@ -410,8 +410,9 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-		// #13807
-		if($rbacsystem->checkAccess('edit_learning_progress', $data["ref_id"]))
+		// #13807 / #17069
+		if($data["ref_id"] &&
+			$rbacsystem->checkAccess('edit_learning_progress', $data["ref_id"]))
 		{
 			if(!in_array($data["type"], array("sco", "lobj")) && !$this->getPrintMode())
 			{
