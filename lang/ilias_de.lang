@@ -15252,7 +15252,7 @@ cron#:#cron_result_status_fail#:#Fehler
 wiki#:#wiki_unhide_meta_adv_records#:#Zusätzliche Eigenschaften anzeigen
 content#:#cont_wiki_link_dialog#:#Link zu einer Wikiseite (Dialog)
 link#:#link_link#:#Link
-common#:#msg_copy_clipboard_source#:#Now, please select the desired course, whose content should be copied and click the button ‘Next’.###25 06 2015 new variable
+common#:#msg_copy_clipboard_source#:#Wählen Sie nun den Kurs aus, dessen Inhalte kopiert werden sollen. Klicken Sie abschließende auf den Weiter-Button.
 prtt#:#prtt_portfolio_created#:#Portfoliovorlage wurde hinzugefügt
 forum#:#frm_censorship#:#Zensieren
 forum#:#frm_revoke_censorship#:#Zensur aufheben

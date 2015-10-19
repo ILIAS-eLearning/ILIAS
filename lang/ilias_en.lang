@@ -3316,7 +3316,7 @@ common#:#msg_cancel#:#Action cancelled
 common#:#msg_changes_ok#:#The changes were OK
 common#:#msg_clear_clipboard#:#Clipboard cleared
 common#:#msg_cloned#:#Selected object(s) copied
-common#:#msg_copy_clipboard_source#:#Now, please select the desired course, whose content should be copied and click the button ‘Next’.
+common#:#msg_copy_clipboard_source#:#Now, please select the desired course, whose content should be copied and click the button ‘Continue’.
 common#:#msg_copy_clipboard#:#Now, please select the desired location, where the selected objects should be pasted into and click the button ‘Paste’.
 common#:#msg_copy_clipboard_container#:#Now, please select the desired location, where the selected objects should be pasted into and click the button ‘Continue’.
 common#:#msg_cut_clipboard#:#Now, please select the desired location, where the selected objects should be pasted into and click the button ‘Paste’.
