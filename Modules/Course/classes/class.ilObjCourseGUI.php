@@ -3147,10 +3147,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		$this->checkPermission('write');
 		
-		$this->setSubTabs('members');
-		$this->tabs_gui->setTabActive('members');
-		$this->tabs_gui->setSubTabActive('crs_member_administration');
-		
 		$participants = array_merge((array) $_POST['admins'],(array) $_POST['tutors'], (array) $_POST['members'], (array) $_POST['roles']);
 		
 		if(!$participants)
@@ -3186,7 +3182,10 @@ class ilObjCourseGUI extends ilContainerGUI
 				}
 			}
 		}
-		
+
+		$this->setSubTabs('members');
+		$this->tabs_gui->setTabActive('members');
+		$this->tabs_gui->setSubTabActive('crs_member_administration');
 		
 		include_once('./Services/Utilities/classes/class.ilConfirmationGUI.php');
 		$confirm = new ilConfirmationGUI();

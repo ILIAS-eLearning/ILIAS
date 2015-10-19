@@ -1466,10 +1466,6 @@ class ilObjGroupGUI extends ilContainerGUI
 	{
 		$this->checkPermission('write');
 		
-		$this->setSubTabs('members');
-		$this->tabs_gui->setTabActive('members');
-		$this->tabs_gui->setSubTabActive('grp_edit_members');
-		
 		$participants_to_delete = (array) array_unique(array_merge((array) $_POST['admins'],(array) $_POST['members'], (array) $_POST['roles']));
 		
 		if(!count($participants_to_delete))
@@ -1489,6 +1485,10 @@ class ilObjGroupGUI extends ilContainerGUI
 			$this->membersObject();
 			return false;
 		}
+
+		$this->setSubTabs('members');
+		$this->tabs_gui->setTabActive('members');
+		$this->tabs_gui->setSubTabActive('grp_edit_members');
 		
 		include_once('./Services/Utilities/classes/class.ilConfirmationGUI.php');
 		$confirm = new ilConfirmationGUI();
