@@ -1808,15 +1808,7 @@ class ilObjCourseGUI extends ilContainerGUI
 					$this->ctrl->getLinkTargetByClass(array('ilcoursebookinggui', 'ilcoursebookingadmingui'),''),
 					"", 'ilcoursebookingadmingui');		
 				$this->ctrl->setParameterByClass('ilcoursebookingadmingui', 'ref_id', '');
-	
-				if( $rbacsystem->checkAccess('book_users',$this->object->getRefId())) {
-					$this->ctrl->setParameterByClass('ilcoursebillingadmingui', 'ref_id', $this->object->getRefId());
-					$this->tabs_gui->addSubTabTarget("edit_course_bill_data",
-						$this->ctrl->getLinkTargetByClass(array('ilcoursebillinggui', 'ilcoursebillingadmingui'),''),
-						"", 'ilcoursebillingadmingui');		
-					$this->ctrl->setParameterByClass('ilcoursebillingadmingui', 'ref_id', '');
-				}
-				
+
 				require_once("Services/ParticipationStatus/classes/class.ilParticipationStatusHelper.php");
 				$ps_helper = ilParticipationStatusHelper::getInstance($this->object);
 				if (   $ps_helper->isStartForParticipationStatusSettingReached()
@@ -1832,7 +1824,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				$crs_utils = gevCourseUtils::getInstanceByObj($this->object);
 				$crs_start = $crs_utils->getStartDate();
 				$crs_end = $crs_utils->getEndDate();
-				
+					
 				if ( $crs_utils->getAccomodation() !== null 
 				  && $crs_start !== null
 				  && $crs_end !== null) {
@@ -1850,6 +1842,14 @@ class ilObjCourseGUI extends ilContainerGUI
 						$this->ctrl->getLinkTargetByClass(array('iltepgui', 'iltepoperationdaysgui'),''),
 						"", 'ilcoursebookingadmingui');		
 					$this->ctrl->setParameterByClass('iltepoperationdaysgui', 'ref_id', '');
+				}
+
+				if( $rbacsystem->checkAccess('book_users',$this->object->getRefId()) && $crs_utils->getFee()) {
+					$this->ctrl->setParameterByClass('ilcoursebillingadmingui', 'ref_id', $this->object->getRefId());
+					$this->tabs_gui->addSubTabTarget("edit_course_bill_data",
+						$this->ctrl->getLinkTargetByClass(array('ilcoursebillinggui', 'ilcoursebillingadmingui'),''),
+						"", 'ilcoursebillingadmingui');		
+					$this->ctrl->setParameterByClass('ilcoursebillingadmingui', 'ref_id', '');
 				}
 				// gev-patch end
 				
