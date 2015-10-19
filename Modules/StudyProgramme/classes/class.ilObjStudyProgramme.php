@@ -574,6 +574,30 @@ class ilObjStudyProgramme extends ilContainer {
 		}
 	}
 
+	/**
+	 * Get courses in this program that the given user already completed.
+	 *
+	 * @param	int		$a_user_id
+	 * @return	array	$obj_id => $ref_id
+	 */
+	public function getCompletedCourses($a_user_id) {
+		require_once("Services/ContainerReference/classes/class.ilContainerReference.php");
+		require_once("Services/Tracking/classes/class.ilLPStatus.php");
+
+		$node_data = $this->tree->getNodeData($this->getRefId());
+		$crsr_refs = $this->tree->getSubTree($node_data, true, "crsr");
+
+		$completed_crss = array();
+		foreach ($crsr_refs as $ref) {
+			$crs_id = ilContainerReference::_lookupTargetId($ref["obj_id"]);
+			if (ilLPStatus::_hasUserCompleted($crs_id, $a_user_id)) {
+				$completed_crss[$crs_id] = ilContainerReference::_lookupTargetId($ref["obj_id"]);
+			}
+		}
+		
+		return $completed_crss;
+	}
+
 	////////////////////////////////////
 	// TREE MANIPULATION
 	////////////////////////////////////
