@@ -497,9 +497,10 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 	 */
 	public function getTabs() {
 		if ($this->checkAccess("visible")) {
-			/*$this->tabs_gui->addTab( self::TAB_VIEW_CONTENT
+			$this->tabs_gui->addTab( self::TAB_VIEW_CONTENT
 								   , $this->lng->txt("content")
-								   , $this->getLinkTarget("view"));*/
+								   , $this->getLinkTarget("view"));
+			
 			$this->tabs_gui->addTab( self::TAB_INFO
 								   , $this->lng->txt("info_short")
 								   , $this->getLinkTarget("info_short")
