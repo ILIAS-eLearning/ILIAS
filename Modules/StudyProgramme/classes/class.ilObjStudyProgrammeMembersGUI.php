@@ -87,6 +87,7 @@ class ilObjStudyProgrammeMembersGUI {
 		$cmd = $this->ctrl->getCmd();
 		$next_class = $this->ctrl->getNextClass($this);
 		
+		
 		if ($cmd == "") {
 			$cmd = "view";
 		}
@@ -97,7 +98,7 @@ class ilObjStudyProgrammeMembersGUI {
 			case "ilrepositorysearchgui":		
 				require_once("./Services/Search/classes/class.ilRepositorySearchGUI.php");
 				$rep_search = new ilRepositorySearchGUI();
-				$rep_search->setCallback($this, "addUsers");				
+				$rep_search->setCallback($this, "addUsers");
 				
 				$this->ctrl->setReturn($this, "view");
 				$this->ctrl->forwardCommand($rep_search);
@@ -110,6 +111,7 @@ class ilObjStudyProgrammeMembersGUI {
 			case false:
 				switch ($cmd) {
 					case "view":
+					// TODO: remove this, it does not exist.
 					case "addUserFromAutoComplete":
 					case "markAccredited":
 					case "unmarkAccredited":
@@ -146,6 +148,21 @@ class ilObjStudyProgrammeMembersGUI {
 
 	public function addUsers($a_users) {
 		$prg = $this->getStudyProgramme();
+
+		$completed_courses = array();
+
+		foreach ($a_users as $user_id) {
+			$completed_crss = $prg->getCompletedCourses($user_id);
+			if ($completed_crss) {
+				$completed_courses[$user_id] = $completed_crss;
+			}
+		}
+
+		if (count($completed_courses) > 0) {
+			$this->viewCompletedCourses($completed_courses, $a_users);
+			return true;
+		}
+
 		foreach ($a_users as $user_id) {
 			$prg->assignUser($user_id);
 		}
@@ -156,6 +173,12 @@ class ilObjStudyProgrammeMembersGUI {
 		if (count($a_users) > 1) {
 			ilUtil::sendSuccess($this->lng->txt("prg_added_members"), true);
 		}
+
+		$this->ctrl->redirect($this, "view");
+	}
+
+	public function viewCompletedCourses($a_completed_courses, $a_users) {
+		$this->tpl->setContent("<pre>".print_r($a_completed_courses, true)."</pre><br /><br /><pre>".print_r($a_users, true)."</pre>");
 	}
 	
 	public function markAccredited() {
