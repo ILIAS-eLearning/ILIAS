@@ -233,13 +233,13 @@ class ilRTE
 	* @param  integer $a_direction 0 to replace image src => mob id, 1 to replace mob id => image src
 	* @return string The text containing the replaced media object src
 	*/
-	public static function _replaceMediaObjectImageSrc($a_text, $a_direction = 0)
+	public static function _replaceMediaObjectImageSrc($a_text, $a_direction = 0, $nic = IL_INST_ID)
 	{
 		if (!strlen($a_text)) return "";
 		switch ($a_direction)
 		{
 			case 0:
-				$a_text = preg_replace("/src\=\"(.*?\/mobs\/mm_([0-9]+)\/.*?)\"/", "src=\"il_" . IL_INST_ID . "_mob_" . "\\2" . "\"", $a_text);
+				$a_text = preg_replace("/src\=\"(.*?\/mobs\/mm_([0-9]+)\/.*?)\"/", "src=\"il_" . $nic . "_mob_" . "\\2" . "\"", $a_text);
 				break;
 			default:
 				include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");

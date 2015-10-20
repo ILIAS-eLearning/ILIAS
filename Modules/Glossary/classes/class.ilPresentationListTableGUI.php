@@ -100,6 +100,16 @@ class ilPresentationListTableGUI extends ilTable2GUI
 	}
 	
 	/**
+	 * needed for advmd filter handling
+	 * 
+	 * @return ilAdvancedMDRecordGUI
+	 */
+	protected function getAdvMDRecordGUI()
+	{
+		return $this->record_gui;
+	}
+	
+	/**
 	 * Init filter
 	 */
 	function initFilter()
@@ -130,29 +140,6 @@ class ilPresentationListTableGUI extends ilTable2GUI
 		}		
 	}
 	
-	public function writeFilterToSession()
-	{
-		// #14488
-		$term_filter = $this->getFilterItemByPostVar("term");
-		if ($term_filter &&
-			$term_filter->checkInput())
-		{
-			$term_filter->setValueByArray($_POST);
-			$term_filter->writeToSession();
-		}
-		 
-		$def_filter = $this->getFilterItemByPostVar("defintion");		
-		if ($def_filter && 
-			$def_filter->checkInput())
-		{
-			$def_filter->setValueByArray($_POST);
-			$def_filter->writeToSession();
-		}		 
-		
-		// we cannot use the tablegui filter handling for adv md
-		$this->record_gui->importFilter();		
-	}
-
 	/**
 	 * Should this field be sorted numeric?
 	 *

@@ -35,18 +35,22 @@ class assClozeTestImport extends assQuestionImport
 		unset($_SESSION["import_mob_xhtml"]);
 		$presentation = $item->getPresentation(); 
 		$duration = $item->getDuration();
-		$questiontext = array();
 
-		//$questiontext[] = method_exists($item, 'getQuestion')  ? $item->getQuestion() : '&nbsp';
+		$packageIliasVersion = $item->getIliasSourceVersion('ILIAS_VERSION');
 		$seperate_question_field = $item->getMetadataEntry("question");
-		if($seperate_question_field)
+
+		$questiontext = null;
+		if( !$packageIliasVersion || version_compare($packageIliasVersion, '5.0.0', '<') )
 		{
-			$questiontext[] = $seperate_question_field;
+			$questiontext = '&nbsp';
 		}
-		else
+		elseif($seperate_question_field)
 		{
-			$questiontext[] = '&nbsp';
+			$questiontext = $this->processNonAbstractedImageReferences(
+				$seperate_question_field, $item->getIliasSourceNic()
+			);
 		}
+			
 		$clozetext = array();
 		$shuffle = 0;
 		$now = getdate();
@@ -58,8 +62,18 @@ class assClozeTestImport extends assQuestionImport
 			{
 				case "material":
 
-					$material = $presentation->material[$entry["index"]];
-					array_push($clozetext, $this->object->QTIMaterialToString($material));
+					$materialString = $this->object->QTIMaterialToString(
+						$presentation->material[$entry["index"]]
+					);
+					
+					if($questiontext === null)
+					{
+						$questiontext = $materialString;
+					}
+					else
+					{
+						array_push($clozetext, $materialString);
+					}
 					
 					break;
 				case "response":
@@ -317,7 +331,7 @@ class assClozeTestImport extends assQuestionImport
 			$gaptext[$gap["ident"]] = "[gap]" . join(",", $gapcontent). "[/gap]";
 		}
 	
-		$this->object->setQuestion(join('',$questiontext));
+		$this->object->setQuestion($questiontext);
 		$clozetext = join("", $clozetext);
 		
 		foreach ($gaptext as $idx => $val)

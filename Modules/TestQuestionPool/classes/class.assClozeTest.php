@@ -338,7 +338,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 								$this->getTextgapRating(),
 								$this->getIdenticalScoring(),
 								$this->getFixedTextLength() ? $this->getFixedTextLength() : NULL,
-								$this->getClozeText()
+								ilRTE::_replaceMediaObjectImageSrc($this->getClozeText(), 0)
 							)
 		);
 	}

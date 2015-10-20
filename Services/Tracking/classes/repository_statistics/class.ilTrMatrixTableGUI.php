@@ -133,7 +133,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 		if(isset($_GET[$this->prefix."_tpl"]))
         {
 			$this->filter["name"] = null;
-			$item->setValue(null);
+			$this->SetFilterValue($item, null);
 		}		
 	}
 
@@ -259,7 +259,15 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 	}
 
 	function getItems(array $a_user_fields, array $a_privary_fields = null)
-	{		
+	{				
+		// #17081
+		if($this->restore_filter)
+		{
+			$name = $this->restore_filter_values["name"];
+			$this->SetFilterValue($this->filters[0], $name);
+			$this->filter["name"] = $name;		
+		}
+				
 		include_once("./Services/Tracking/classes/class.ilTrQuery.php");
 		$collection = ilTrQuery::getObjectIds($this->obj_id, $this->ref_id, true);
 		if($collection["object_ids"])
@@ -289,7 +297,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 					$check_agreement = $this->in_group;
 				}
 			}
-			
+		
 			$data = ilTrQuery::getUserObjectMatrix($this->ref_id, $collection["object_ids"], $this->filter["name"], $a_user_fields, $a_privary_fields, $check_agreement);			
 			if($collection["objectives_parent_id"] && $data["users"])
 			{				
