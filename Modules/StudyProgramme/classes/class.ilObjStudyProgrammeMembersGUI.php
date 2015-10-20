@@ -111,8 +111,6 @@ class ilObjStudyProgrammeMembersGUI {
 			case false:
 				switch ($cmd) {
 					case "view":
-					// TODO: remove this, it does not exist.
-					case "addUserFromAutoComplete":
 					case "markAccredited":
 					case "unmarkAccredited":
 					case "removeUser":
