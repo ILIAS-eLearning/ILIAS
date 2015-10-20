@@ -16054,3 +16054,4 @@ content#:#cont_nomenu_info#:#Das obere Navigationsmenü kann ausgeblendet werden
 content#:#cont_hidenavig_info#:#Der linke Navigationsbaum zum Wechseln zwischen mehreren Abschnitten des Lernmoduls kann ausgeblendet werden, wenn das SCORM-Lernmodul eine eigene Navigation enthält oder das obere Navigationsmenü angezeigt wird.
 content#:#cont_width_height_info#:#Die Größe der Darstellung kann festgelegt werden. In der Praxis hat sich eine Berite von 950 Pixeln und eine Höhe von 650 Pixeln bewährt. Wenn keine Angabe gemacht wird, steuert der Browser die Darstellung der Größe.
 content#:#cont_sc_score_was_higher_message#:#erreichter Punktestand war höher
+meta#:#md_adv_field_filter_warning#:#Die Feld-Typen %s werden aktuell nicht als Tabellenfilter unterstützt.

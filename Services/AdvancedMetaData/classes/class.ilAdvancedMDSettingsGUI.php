@@ -720,6 +720,7 @@ class ilAdvancedMDSettingsGUI
 				,ilAdvancedMDPermissionHelper::ACTION_RECORD_FIELD_POSITIONS
 		));
 		
+		$filter_warn = array();
 		if($perm[ilAdvancedMDPermissionHelper::ACTION_RECORD_CREATE_FIELD])
 		{		
 			// type selection
@@ -730,6 +731,11 @@ class ilAdvancedMDSettingsGUI
 			{
 				$field = ilAdvancedMDFieldDefinition::getInstance(null, $type);
 				$options[$type] = $this->lng->txt($field->getTypeTitle());
+				
+				if(!$field->isFilterSupported())
+				{
+					$filter_warn[] = $this->lng->txt($field->getTypeTitle());
+				}
 			}	
 			$types->setOptions($options);		
 			$ilToolbar->addInputItem($types);		
@@ -741,6 +747,12 @@ class ilAdvancedMDSettingsGUI
 			$button->setCaption("add");
 			$button->setCommand("createField");
 			$ilToolbar->addButtonInstance($button);			
+		}
+		
+		// #17092
+		if(sizeof($filter_warn))
+		{
+			ilUtil::sendInfo(sprintf($this->lng->txt("md_adv_field_filter_warning"), implode(", ", $filter_warn)));
 		}
 	
 		// show field table

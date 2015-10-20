@@ -16054,3 +16054,4 @@ content#:#cont_nomenu_info#:#The Top Navigation Bar can be hidden, if the SCORM 
 content#:#cont_hidenavig_info#:#The left navigation tree can be hidden, if the SCORM Learning module contains sufficient functionality to navigate the content or the top navigation bar is displayed.
 content#:#cont_width_height_info#:#The size of the display can be set at a fixed size. 950 pixels for Width and 650 pixels for Height are proven values for setting the size. If no entry is made the browser will determine the size of the display.
 content#:#cont_sc_score_was_higher_message#:#achieved score was higher
+meta#:#md_adv_field_filter_warning#:#The field types %s are currently not supported as table filters.
