@@ -16,6 +16,7 @@
 				<element name="Statistics" type="integer" minOccurs="1" maxOccurs="1" />
 				<element name="ThreadRatings" type="integer" minOccurs="1" maxOccurs="1" />
 				<element name="Sorting" type="integer" minOccurs="1" maxOccurs="1" />
+				<element name="MarkModeratorPosts" type="integer" minOccurs="1" maxOccurs="1" />
 				<element name="PostingActivation" type="integer" minOccurs="1" maxOccurs="1" />
 				<element name="PresetSubject" type="integer" minOccurs="1" maxOccurs="1" />
 				<element name="PresetRe" type="integer" minOccurs="1" maxOccurs="1" />
