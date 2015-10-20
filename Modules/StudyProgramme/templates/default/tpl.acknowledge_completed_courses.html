@@ -1,5 +1,26 @@
-<h3 class="ilHeader">{TITLE}</h3>
-<!-- BEGIN usr_section -->
-<h4 class="ilHeader">{LASTNAME}, {FIRSTNAME}</h4>
-{TABLE}
-<!-- END usr_section -->
+<form action="{FORM_ACTION}" class="form-horizontal preventDoubleSubmission" method="post" name="acknowledge_completed_courses">
+	<div class="form-horizontal">
+		<div class="ilFormHeader">
+			<h3 class="ilHeader">{TITLE}</h3>
+			<div class="ilFormCmds">
+				<input class="btn btn-default btn-sm" type="SUBMIT" value="{CAPTION_ADD}" name="cmd[addUsersWithAcknowledgedCourses]" />
+				<input class="btn btn-default btn-sm" type="SUBMIT" value="{CAPTION_CANCEL}" name="cmd[view]" />
+			</div>
+		</div>
+		<!-- BEGIN usr_section -->
+		<div class="ilFormHeader">
+			<h4 class="ilHeader">{LASTNAME}, {FIRSTNAME}</h4>
+		</div>
+		<div class="form-group">
+			{TABLE}
+		</div>
+		<!-- END usr_section -->
+		<div class="ilFormHeader"></div><!-- FOR SPACING -->
+		<div class="ilFormFooter clearfix">
+			<div class="ilFormCmds">
+				<input class="btn btn-default btn-sm" type="SUBMIT" value="{CAPTION_ADD}" name="cmd[addUsersWithAcknowledgedCourses]" />
+				<input class="btn btn-default btn-sm" type="SUBMIT" value="{CAPTION_CANCEL}" name="cmd[view]" />
+			</div>
+		</div>
+	</div>
+</form>

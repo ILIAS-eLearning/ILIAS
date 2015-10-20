@@ -182,6 +182,9 @@ class ilObjStudyProgrammeMembersGUI {
 
 		$tpl = new ilTemplate("tpl.acknowledge_completed_courses.html", true, true, "Modules/StudyProgramme");
 		$tpl->setVariable("TITLE", $this->lng->txt("prg_acknowledge_completed_courses"));
+		$tpl->setVariable("CAPTION_ADD", $this->lng->txt("btn_next"));
+		$tpl->setVariable("CAPTION_CANCEL", $this->lng->txt("cancel"));
+		$tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
 
 		foreach ($a_completed_courses as $user_id => $completed_courses) {
 			$names = ilObjUser::_lookupName($user_id);
