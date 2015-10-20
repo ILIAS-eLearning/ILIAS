@@ -13,6 +13,7 @@ require_once('./Services/Container/classes/class.ilContainerSortingSettings.php'
 require_once("./Modules/StudyProgramme/classes/types/class.ilStudyProgrammeTypeGUI.php");
 require_once("./Modules/StudyProgramme/classes/model/class.ilStudyProgrammeAdvancedMetadataRecord.php");
 require_once("./Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php");
+require_once("./Services/Object/classes/class.ilObjectCopyGUI.php");
 //require_once("./Modules/OrgUnit/classes/Translation/class.ilTranslationGUI.php");
 
 /**
@@ -27,6 +28,7 @@ require_once("./Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.ph
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjStudyProgrammeSettingsGUI
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjStudyProgrammeTreeGUI
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjStudyProgrammeMembersGUI
+ * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjectCopyGUI
  */
 
 class ilObjStudyProgrammeGUI extends ilContainerGUI {
@@ -189,6 +191,10 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 
 				$types_gui = new ilStudyProgrammeTypeGUI($this);
 				$this->ctrl->forwardCommand($types_gui);
+				break;
+			case 'ilobjectcopygui':
+				$gui = new ilobjectcopygui($this);
+				$this->ctrl->forwardCommand($gui);
 				break;
 			case false:
 				$this->getSubTabs($cmd);
