@@ -36,7 +36,7 @@ class ilStudyProgrammeAcknowledgeCompletedCoursesTableGUI extends ilTable2GUI
 	*/
 	protected function fillRow($a_set) {
 		$this->tpl->setVariable("USR_ID", $this->user_id);
-		$this->tpl->setVariable("CRS_ID",  $a_set["title"]);
-		$this->tpl->setVariable("CRS_TITLE",  $a_set["crs_id"]);
+		$this->tpl->setVariable("CRS_ID",  $a_set["crs_id"]);
+		$this->tpl->setVariable("CRS_TITLE",  $a_set["title"]);
 	}
 }
