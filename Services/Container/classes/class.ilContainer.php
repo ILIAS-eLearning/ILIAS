@@ -432,7 +432,12 @@ class ilContainer extends ilObject
 			/*include_once("./Services/COPage/classes/class.ilPageMultiLang.php");
 			$ml = new ilPageMultiLang("cont", $this->getId());
 			$ml->copy("cont", $new_obj->getId());*/
-
+		}
+		
+		// #10271
+		foreach(self::_getContainerSettings($this->getId()) as $keyword => $value)
+		{
+			self::_writeContainerSetting($new_obj->getId(), $keyword, $value);
 		}
 		
 		return $new_obj;

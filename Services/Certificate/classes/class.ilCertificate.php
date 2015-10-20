@@ -198,7 +198,7 @@ class ilCertificate
 	*
 	* @param $newObject The new certificate object
 	*/
-	public function cloneCertificate($newObject)
+	public function cloneCertificate(ilCertificate $newObject)
 	{
 		$xsl = $this->getXSLPath();
 		$bgimage = $this->getBackgroundImagePath();
@@ -216,6 +216,12 @@ class ilCertificate
 			@copy($xsl, $new_xsl);
 			if (@file_exists($bgimage)) @copy($bgimage, $new_bgimage);
 			if (@file_exists($bgimagethumb)) @copy($bgimagethumb, $new_bgimagethumb);
+		}
+		
+		// #10271
+		if($this->readActive())
+		{
+			$newObject->writeActive(true);
 		}
 	}
 

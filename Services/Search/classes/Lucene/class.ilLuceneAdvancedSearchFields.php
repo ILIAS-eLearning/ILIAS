@@ -426,8 +426,9 @@ class ilLuceneAdvancedSearchFields
 				$field_form->setTitle($this->active_fields[$a_field_name]);			
 				$field_form->addToForm();
 				
-				// reload search values
-				if(isset($a_query[$a_field_name]))
+				// #17071 - reload search values
+				if(is_array($a_query) &&
+					array_key_exists($a_field_name, $a_query))
 				{
 					$field_form->importFromPost($a_query);
 					$field_form->validate();

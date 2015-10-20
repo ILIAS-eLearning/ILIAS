@@ -10785,6 +10785,14 @@ div.ilChecklist ul li img {
 .ilFileUploadEntryOptions label.control-label {
   padding-top: 3px;
 }
+/* Services/UIComponent/Modal */
+.modal-body .jstree li {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.modal-body .jstree a {
+  display: inline;
+}
 .noMargin {
   margin: 0;
 }

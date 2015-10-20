@@ -820,7 +820,7 @@ abstract class assQuestion
 					array_push($output, '<a href="' . $this->getSuggestedSolutionPathWeb() . $solution["value"]["name"] . '">' . $possible_texts[0] . '</a>');
 					break;
 				case "text":
-					array_push($output, $this->prepareTextareaOutput($solution["value"]));
+					array_push($output, $this->prepareTextareaOutput($solution["value"], true));
 					break;
 			}
 		}
