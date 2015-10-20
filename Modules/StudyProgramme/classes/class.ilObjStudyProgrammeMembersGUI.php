@@ -8,7 +8,7 @@
  *
  * @author: Richard Klees <richard.klees@concepts-and-training.de>
  *
- * @ilCtrl_Calls ilObjStudyProgrammeMembersGUI: ilRepositorySearchGUI
+ * @ilCtrl_Calls ilObjStudyProgrammeMembersGUI: ilStudyProgrammeRepositorySearchGUI
  * @ilCtrl_Calls ilObjStudyProgrammeMembersGUI: ilObjStudyProgrammeIndividualPlanGUI
  * @ilCtrl_Calls ilObjStudyProgrammeMembersGUI: ilObjFileGUI
  */
@@ -95,9 +95,9 @@ class ilObjStudyProgrammeMembersGUI {
 		# TODO: Check permission of user!!
 		
 		switch ($next_class) {
-			case "ilrepositorysearchgui":		
-				require_once("./Services/Search/classes/class.ilRepositorySearchGUI.php");
-				$rep_search = new ilRepositorySearchGUI();
+			case "ilstudyprogrammerepositorysearchgui":		
+				require_once("./Modules/StudyProgramme/classes/class.ilStudyProgrammeRepositorySearchGUI.php");
+				$rep_search = new ilStudyProgrammeRepositorySearchGUI();
 				$rep_search->setCallback($this, "addUsers");
 				
 				$this->ctrl->setReturn($this, "view");
@@ -178,7 +178,22 @@ class ilObjStudyProgrammeMembersGUI {
 	}
 
 	public function viewCompletedCourses($a_completed_courses, $a_users) {
-		$this->tpl->setContent("<pre>".print_r($a_completed_courses, true)."</pre><br /><br /><pre>".print_r($a_users, true)."</pre>");
+		require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeAcknowledgeCompletedCoursesTableGUI.php");
+
+		$tpl = new ilTemplate("tpl.acknowledge_completed_courses.html", true, true, "Modules/StudyProgramme");
+		$tpl->setVariable("TITLE", $this->lng->txt("prg_acknowledge_completed_courses"));
+
+		foreach ($a_completed_courses as $user_id => $completed_courses) {
+			$names = ilObjUser::_lookupName($user_id);
+			$tpl->setCurrentBlock("usr_section");
+			$tpl->setVariable("FIRSTNAME", $names["firstname"]);
+			$tpl->setVariable("LASTNAME", $names["lastname"]);
+			$table = new ilStudyProgrammeAcknowledgeCompletedCoursesTableGUI($this, $user_id, $completed_courses);
+			$tpl->setVariable("TABLE", $table->getHTML());
+			$tpl->parseCurrentBlock();
+		}
+
+		$this->tpl->setContent($tpl->get());
 	}
 	
 	public function markAccredited() {
@@ -228,8 +243,8 @@ class ilObjStudyProgrammeMembersGUI {
 	}
 	
 	protected function initSearchGUI() {
-		require_once("./Services/Search/classes/class.ilRepositorySearchGUI.php");
-		ilRepositorySearchGUI::fillAutoCompleteToolbar(
+		require_once("./Modules/StudyProgramme/classes/class.ilStudyProgrammeRepositorySearchGUI.php");
+		ilStudyProgrammeRepositorySearchGUI::fillAutoCompleteToolbar(
 			$this,
 			$this->toolbar,
 			array(

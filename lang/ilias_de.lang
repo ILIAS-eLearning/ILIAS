@@ -15986,6 +15986,7 @@ prg#:#prg_no_members_not_active#:#Da das Studienprogramm nicht aktiv ist, könne
 prg#:#prg_type_msg_missing_title#:#Titel kann nicht leer sein.
 prg#:#prg_added_member#:#Das neue Mitglied wurde erfolgreich hinzugefügt.
 prg#:#prg_added_members#:#Die neuen Mitglieder wurden erfolgreich hinzugefügt.
+prg#:#prg_acknowledge_completed_courses#:#Bestandene Kurse anerkennen
 common#:#obj_prg_duplicate#:#Studienprogramm kopieren
 common#:#obj_prg_select#:#-- Bitte wählen Sie ein Studienprogramm --
 common#:#obj_prg#:#Studienprogramm

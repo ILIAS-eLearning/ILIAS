@@ -591,10 +591,12 @@ class ilObjStudyProgramme extends ilContainer {
 		foreach ($crsr_refs as $ref) {
 			$crs_id = ilContainerReference::_lookupTargetId($ref["obj_id"]);
 			if (ilLPStatus::_hasUserCompleted($crs_id, $a_user_id)) {
-				$completed_crss[$crs_id] = ilContainerReference::_lookupTargetId($ref["obj_id"]);
+				$completed_crss[] = array( "crs_id" => $crs_id
+										 , "title" => ilContainerReference::_lookupTargetTitle($ref["obj_id"])
+										 );
 			}
 		}
-		
+
 		return $completed_crss;
 	}
 
