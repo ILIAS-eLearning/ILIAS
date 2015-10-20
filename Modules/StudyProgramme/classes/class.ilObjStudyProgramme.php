@@ -585,13 +585,16 @@ class ilObjStudyProgramme extends ilContainer {
 		require_once("Services/Tracking/classes/class.ilLPStatus.php");
 
 		$node_data = $this->tree->getNodeData($this->getRefId());
-		$crsr_refs = $this->tree->getSubTree($node_data, true, "crsr");
+		$crsrs = $this->tree->getSubTree($node_data, true, "crsr");
 
 		$completed_crss = array();
-		foreach ($crsr_refs as $ref) {
+		foreach ($crsrs as $ref) {
 			$crs_id = ilContainerReference::_lookupTargetId($ref["obj_id"]);
 			if (ilLPStatus::_hasUserCompleted($crs_id, $a_user_id)) {
 				$completed_crss[] = array( "crs_id" => $crs_id
+										 , "prg_ref_id" => $ref["parent"]
+										 , "crsr_ref_id" => $ref["child"]
+										 , "crsr_id" => $ref["obj_id"]
 										 , "title" => ilContainerReference::_lookupTargetTitle($ref["obj_id"])
 										 );
 			}

@@ -114,6 +114,7 @@ class ilObjStudyProgrammeMembersGUI {
 					case "markAccredited":
 					case "unmarkAccredited":
 					case "removeUser":
+					case "addUsersWithAcknowledgedCourses":
 						$cont = $this->$cmd();
 						break;
 					default:
@@ -161,16 +162,7 @@ class ilObjStudyProgrammeMembersGUI {
 			return true;
 		}
 
-		foreach ($a_users as $user_id) {
-			$prg->assignUser($user_id);
-		}
-
-		if (count($a_users) == 1) {
-			ilUtil::sendSuccess($this->lng->txt("prg_added_member"), true);
-		}
-		if (count($a_users) > 1) {
-			ilUtil::sendSuccess($this->lng->txt("prg_added_members"), true);
-		}
+		$this->_addUsers($a_users);
 
 		$this->ctrl->redirect($this, "view");
 	}
@@ -183,6 +175,8 @@ class ilObjStudyProgrammeMembersGUI {
 		$tpl->setVariable("CAPTION_ADD", $this->lng->txt("btn_next"));
 		$tpl->setVariable("CAPTION_CANCEL", $this->lng->txt("cancel"));
 		$tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+		$tpl->setVariable("ADD_CMD", "addUsersWithAcknowledgedCourses");
+		$tpl->setVariable("CANCEL_CMD", "view");
 
 		foreach ($a_completed_courses as $user_id => $completed_courses) {
 			$names = ilObjUser::_lookupName($user_id);
@@ -194,9 +188,52 @@ class ilObjStudyProgrammeMembersGUI {
 			$tpl->parseCurrentBlock();
 		}
 
+		foreach ($a_users as $usr_id) {
+			$tpl->setCurrentBlock("usr_ids_section");
+			$tpl->setVariable("USR_ID", $usr_id);
+			$tpl->parseCurrentBlock();
+		}
+
 		$this->tpl->setContent($tpl->get());
 	}
-	
+
+	public function addUsersWithAcknowledgedCourses() {
+		$users = $_POST["users"];
+		$assignments = $this->_addUsers($users);
+
+		$completed_programmes = $_POST["courses"];
+		foreach ($completed_programmes as $user_id => $prg_ref_ids) {
+			$ass_id = $assignments[$user_id]->getId();
+			foreach ($prg_ref_ids as $ids) {
+				list($prg_ref_id, $crs_id, $crsr_id) = split(";", $ids);
+				$prg = $this->getStudyProgramme($prg_ref_id);
+				$progress = $prg->getProgressForAssignment($ass_id);
+				$progress->setLPCompleted($crsr_id, $user_id);
+			}
+		}
+
+		$this->ctrl->redirect($this, "view");
+	}
+
+	protected function _addUsers($a_users) {
+		$prg = $this->getStudyProgramme();
+
+		$assignments = array();
+
+		foreach ($a_users as $user_id) {
+			$assignments[$user_id] = $prg->assignUser($user_id);
+		}
+
+		if (count($a_users) == 1) {
+			ilUtil::sendSuccess($this->lng->txt("prg_added_member"), true);
+		}
+		if (count($a_users) > 1) {
+			ilUtil::sendSuccess($this->lng->txt("prg_added_members"), true);
+		}
+
+		return $assignments;
+	}
+
 	public function markAccredited() {
 		require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeUserProgress.php");
 		$prgrs = $this->getProgressObject();
@@ -256,9 +293,12 @@ class ilObjStudyProgrammeMembersGUI {
 		);
 	}
 	
-	protected function getStudyProgramme() {
+	protected function getStudyProgramme($a_ref_id = null) {
+		if ($a_ref_id === null) {
+			$a_ref_id = $this->ref_id;
+		}
 		require_once("Modules/StudyProgramme/classes/class.ilObjStudyProgramme.php");
-		return ilObjStudyProgramme::getInstanceByRefId($this->ref_id);
+		return ilObjStudyProgramme::getInstanceByRefId($a_ref_id);
 	}
 	
 	/**
