@@ -146,11 +146,17 @@ class gevAttendanceByCourseTemplateGUI extends catBasicReportGUI{
 						->multiselect("participation_status"
 									 , $this->lng->txt("gev_participation_status")
 									 , "participation_status"
-									 , gevCourseUtils::getParticipationStatusFromHisto()
+									 , array(	"teilgenommen"=>"teilgenommen"
+									 			,"fehlt ohne Absage"=>"fehlt ohne Absage"
+									 			,"fehlt entschuldigt"=>"fehlt entschuldigt"
+									 			,"gebucht, noch nicht abgeschlossen"=>"nicht gesetzt")
 									 , array()
 									 , ""
-									 , 200
+									 , 220
 									 , 160
+									 , "text"
+									 , "asc"
+									 , true
 									 )
 						->multiselect("booking_status"
 									 , $this->lng->txt("gev_booking_status")

@@ -600,8 +600,8 @@ gev#:#gev_course_online_status#:#Online-Status
 gev#:#gev_org_mgmt#:#Organisationseinheiten
 gev#:#gev_org_unit#:#zugehörige Organisationseinheit
 gev#:#gev_org_unit_short#:#Org.-Einheit
-gev#:#gev_others_edu_bio#:#Bildungsbiographie von %s
-gev#:#gev_others_edu_bio_desc#:#Hier sehen Sie die Bildungspunkte und die von %s besuchten Trainings.
+gev#:#gev_others_edu_bio_desc#:#Hier sehen Sie die Bildungspunkte und besuchten Trainings von %s.<br>In der Zeile „Zeitraum“ können Sie den Auswertungszeitraum verändern, indem Sie die Voreinstellung verändern und auf die Schaltfläche „Filter“ klicken. Voreingestellt ist immer das laufende Kalenderjahr.<br>Bei Klick auf die Spaltenüberschrift der Ergebnistabelle (z.B. Titel) erfolgt eine Sortierung der Tabelle nach diesem Kriterium.
+gev#:#gev_others_edu_bio#:#Hier sehen Sie die Bildungspunkte und die von %s besuchten Trainings.
 gev#:#gev_others_menu#:#Organisation
 gev#:#gev_overall_prize#:#Gesamtpreis
 gev#:#gev_overall_points#:#Gesamtpunktzahl
@@ -620,9 +620,9 @@ gev#:#gev_period#:#Zeitraum:
 gev#:#gev_personal_data#:#Personendaten
 gev#:#gev_points#:#Punkte
 gev#:#gev_points_at_end_of_cert_year#:#voraussichtliche Punkte bis zum Ende des aktuellen Zertifizierungsjahres
-gev#:#gev_points_in_academy#:#Bildungspunkte in der Generali Online Akademie
+gev#:#gev_points_in_academy#:#Bildungspunkte in der Generali Online Akademie im ausgewählten Zeitraum
 gev#:#gev_points_in_five_years#:#Punkte im 5-Jahres-Zeitraum
-gev#:#gev_points_in_wbd#:#Bildungspunkte in der WBD<br><small>Die Angaben erfolgen ohne Gewähr. Die verbindliche Angabe Ihrer Weiterbildungspunkte erhalten Sie ausschließlich auf den Seiten der WBD.</small>
+gev#:#gev_points_in_wbd#:#Bildungspunkte in der WBD im ausgewählten Zeitraum<br><small>Die Angaben erfolgen ohne Gewähr. Die verbindliche Angabe Ihrer Weiterbildungspunkte erhalten Sie ausschließlich auf den Seiten der WBD.</small>
 gev#:#gev_points_in_wbd_cert_period#:#Punkte in der aktuellen Zertifizierungsperiode
 gev#:#gev_points_in_wbd_cert_year#:#Punkte im aktuellen Zertifizierungsjahr
 gev#:#gev_position#:#Vermittlernummer
@@ -650,17 +650,17 @@ gev#:#gev_na_registration_label#:#Erstregistrierung als:
 gev#:#gev_agent_registration_button#:#unabhängiger Vertriebspartner
 gev#:#gev_na_registration_button#:#Nebenberufsagentur / VA-Praktikant
 gev#:#gev_registration_posttext#:#Bei Rückfragen wenden Sie sich an: <a href="mailto:bildungspunkte.de@generali.com" class="blue">bildungspunkte.de@generali.com</a>
-gev#:#gev_rep_attendance_by_employee_desc#:#Hier sehen Sie die Buchungen und Trainingsteilnahmen Ihrer Mitarbeiter.
-gev#:#gev_rep_attendance_by_employee_title#:#Teilnahme nach Mitarbeiter
+gev#:#gev_rep_attendance_by_employee_desc#:#Hier sehen Sie die Buchungen und Trainingsteilnahmen Ihrer Mitarbeiter / Vertriebspartner.<br>Bitte wählen Sie:<ul><li>Zeitraum des Reports</li><li>OrgEinheit, falls Ihnen mehrere Einheiten zugeordnet sind</li><li>Trainingstitel (alle Titel in Klammern gehören zur VA-Grundausbildung)</li><li>Teilnahmestatus, z.B. zeige nur TN, die teilgenommen haben</li></ul>Bei Klick auf die Spaltenüberschrift der Ergebnistabelle (z.B. ADP-Nummer) erfolgt eine Sortierung der Tabelle nach diesem Kriterium.
+gev#:#gev_rep_attendance_by_employee_title#:#Teilnahme nach Mitarbeiter / Vertriebspartner.
 gev#:#gev_rep_billing_title#:#Rechnungen
 gev#:#gev_rep_billing_desc#:#Hier sehen Sie alle vom System versandten Rechnungen
-gev#:#gev_rep_employee_edu_bios_title#:#Bildungsbiographien meiner Mitarbeiter
-gev#:#gev_rep_employee_edu_bios_desc#:#Hier bekommen Sie einen Überblick über die Bildungsbiographien Ihrer Mitarbeiter.
+gev#:#gev_rep_employee_edu_bios_title#:#Bildungsbiographien meiner Mitarbeiter / Vertriebspartner
+gev#:#gev_rep_employee_edu_bios_desc#:#Hier bekommen Sie einen Überblick über die Bildungsbiographien Ihrer Mitarbeiter / Vertriebspartner. Bei der Auswahl „kritische Personen“ werden die Personen angezeigt, die nicht mind. 40 Weiterbildungspunkte pro abgelaufene Zertifizierungsperiode ereicht haben.<br>Bei Klick auf die Spaltenüberschrift der Ergebnistabelle (z.B. ADP-Nummer) erfolgt eine Sortierung der Tabelle nach diesem Kriterium.<br>Bei Klick auf den Namen gelangen Sie direkt in die Bildungsbiographie des Mitarbeiters / Vertriebspartners.<br>Die Zertifizierungsperiode und Punktzahl werden nur angezeigt bei Personen, die verpflichtet sind WP zu sammeln und die Generali Trusted Partner Service ist (EVG oder DBV).
 gev#:#gev_report_billing#:#Rechnungen
 gev#:#gev_report_filter_crs_region#:#Trainingsregion
 gev#:#gev_report_dbv_report_superior#:#DBV Report für Führungskräfte
 gev#:#gev_rep_dbv_report_superior_title#:#DBV Report für Führungskräfte
-gev#:#gev_rep_dbv_report_superior_desc#:#Hier finden Sie die jährlich gesammelten Punkte eines DBV.
+gev#:#gev_rep_dbv_report_superior_desc#:#Hier finden Sie die gesammelten Weiterbildungspunkte eines DBV Finanzen entsprechend der Zielvereinbarung pro Jahr für die Themen<ul><li>Betriebliche Altersversorgung</li><li>3-D Pflegevorsorge</li><li>Rente Profil Plus.</li></ul>„Gesamtpunktzahl“ sind die Punkte aller abgeschlossenen Trainings.<br>Die „Gesamten Gebuchte Bildungspunkte“ sind die „Gesamtpunktzahl“ einschließlich der zukünftig gebuchten Punkte.<br>Bei Klick auf die Spaltenüberschrift der Ergebnistabelle (z.B. Typ) erfolgt eine Sortierung der Tabelle nach diesem Kriterium.
 gev#:#gev_report_dbv_report#:#DBV Report
 gev#:#gev_rep_dbv_report_title#:#DBV Report
 gev#:#gev_rep_dbv_report_desc#:#Hier finden Sie die jährlich gesammelten Punkte Ihrer Vermittler.
