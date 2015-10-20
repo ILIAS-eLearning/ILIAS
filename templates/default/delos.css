@@ -11066,6 +11066,14 @@ div.ilPCMyCoursesPath {
 .ilAwrnBadgeHidden {
   visibility: hidden;
 }
+/* Services/UIComponent/Modal */
+.modal-body .jstree li {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.modal-body .jstree a {
+  display: inline;
+}
 .noMargin {
   margin: 0;
 }
