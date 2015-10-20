@@ -16049,3 +16049,4 @@ awrn#:#awrn_max_inactivity_info#:#Benutzer ohne Aktion in der angegebenen Zeitsp
 awrn#:#awrn_minutes#:#min
 exc#:#exc_members_already_assigned_tean#:#These users are already assigned to other teams of this assignment.###08 10 2015 new variable
 bkm#:#bkm_fold_created#:#Bookmark-Ordner wurde angelegt.
+mcst#:#mcst_input_either_file_or_url#:#Bitte geben Sie entweder eine Datei oder eine URL an. Achten Sie bei Angabe einer Datei bitte auf die maximal erlaubte Upload-Größe.

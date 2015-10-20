@@ -16049,3 +16049,4 @@ awrn#:#awrn_max_inactivity#:#Maximum Inactivity Period
 awrn#:#awrn_max_inactivity_info#:#After this period users are considered being offline. If nothing is set, the session time will be used.
 awrn#:#awrn_minutes#:#min
 bkm#:#bkm_fold_created#:#Bookmark folder has been created.
+mcst#:#mcst_input_either_file_or_url#:#Please specify a file or an URL. If you provide a file, please note the maximum allowed upload file size.
