@@ -753,7 +753,7 @@ abstract class ilTEPViewGridBased extends ilTEPView
 			}
 			
 			if($crs_utils->userHasRightOf($cur_user_id, gevSettings::LOAD_CSN_LIST) && $crs_utils->getVirtualClassType() == "CSN"){
-				$csn_img = '<img src="'.ilUtil::getImagePath("GEV_img/icon-table-signature.png").'" />';
+				$csn_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-calllist.png").'" />';
 				$ilCtrl->setParameterByClass("gevMemberListDeliveryGUI", "ref_id", $ref_id);
 				$actions .=  "<a href='".$ilCtrl->getLinkTargetByClass("gevMemberListDeliveryGUI", "csn")
 							."' title='".$lng->txt("gev_csn_list")."'>".$csn_img."</a>&nbsp;";
