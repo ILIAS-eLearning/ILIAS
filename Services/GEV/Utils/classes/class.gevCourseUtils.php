@@ -693,7 +693,7 @@ class gevCourseUtils {
 		
 		if ($a_update_course) {
 			$this->getCourse()->enableSubscriptionMembershipLimitation(true);
-			$this->getCourse()->enableWaitingList(true);
+			$this->getCourse()->enableWaitingList($a_active);
 			$this->getCourse()->update();
 		}
 	}
@@ -2506,6 +2506,7 @@ class gevCourseUtils {
 	
 	public function cleanWaitingList() {
 		$ws = $this->getBookings()->cleanWaitingList();
+		$this->setWaitingListActive(false);
 	}
 	
 	public function cancel() {
