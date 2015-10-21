@@ -16004,11 +16004,6 @@ common#:#obj_prgs#:#Study Programmes
 common#:#obj_prgs_desc#:#Study Programme Administration
 trac#:#trac_mode_study_programme#:#Study Programme Completed
 trac#:#trac_mode_study_programme_info#:#The Study Programme has to be completed by a user to receive the Learning Progress 'Completed'.
-prg#:#prg_visible#:#Programme is visible
-prg#:#prg_copy#:#User can copy study programme
-prg#:#prg_write#:#User can edit study programme settings and manage content.
-prg#:#prg_delete#:#User can delete the programme.
-prg#:#prg_edit_permission#:#User can change permission settings.
 forum#:#forums_thread_deleted#:#The selected thread including all postings have been deleted.
 forum#:#forums_threads_deleted#:#The selected threads including all postings have been deleted.
 meta#:#meta_advmd_select_options#:#Entries
