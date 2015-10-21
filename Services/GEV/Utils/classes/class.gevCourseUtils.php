@@ -692,7 +692,7 @@ class gevCourseUtils {
 		$this->amd->setField($this->crs_id, gevSettings::CRS_AMD_WAITING_LIST_ACTIVE, $a_active ? "Ja" : "Nein");
 		
 		if ($a_update_course) {
-			$this->getCourse()->enableSubscriptionMembershipLimitation(true);
+			$this->getCourse()->enableSubscriptionMembershipLimitation($a_active);
 			$this->getCourse()->enableWaitingList($a_active);
 			$this->getCourse()->update();
 		}
