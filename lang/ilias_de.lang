@@ -8148,7 +8148,7 @@ grp#:#grp_waiting_list_info#:#Ist die maximale Mitgliederanzahl erreicht, könne
 grp#:#grp_warn_grp_type_changed#:#Sind Sie sicher, dass Sie die Gruppenart ändern möchten? Die Rechteeinstellungen dieser Gruppe werden überschrieben und an die neue Art der Gruppe angepasst.
 grp#:#grp_warn_no_max_set_on_waiting_list#:#Die maximale Teilnehmeranzahl ist erreicht. Sie können sich jedoch auf die Warteliste für dieser Gruppe setzen lassen und werden dann per Mail benachrichtigt, wenn Sie nachrücken können
 grp#:#grp_warn_wl_set_on_waiting_list#:#Es sind bereits Benutzer in der Warteliste eingetragen. Sie können sich jedoch auf die Warteliste für diese Gruppe setzenund werden dann per Mail benachrichtigt, wenn Sie nachrücken können.
-grp#:#grp_wrong_max_members#:#Bitte überprüfen Sie Ihre Eingabe für die maximale Teilnehmeranzahl.
+grp#:#grp_wrong_max_members#:#Für die Warteliste wird eine maximale Anzahl Mitglieder benötigt.
 grp#:#grp_wrong_reg_time_limit#:#Bitte überprüfen Sie Ihre Eingaben zum Anmeldungszeitraum.
 grp#:#reg_grp_max_members_short#:#Begrenzte Mitgliederanzahl
 grp#:#reg_grp_max_members#:#Maximale Anzahl
@@ -15686,7 +15686,7 @@ common#:#mem_cron_min_members#:#Kurs/Gruppe: Prüfung der minimalen Teilnehmerza
 common#:#mem_cron_min_members_info#:#Die Administratoren werden benachrichtigt sofern die minimale Anzahl nicht erreicht wird.
 crs#:#crs_cancellation_end_rbac_info#:#Das Stornierungsende wurde am %s erreicht, ein Austritt ist nicht mehr möglich.
 common#:#mem_min_users#:#Minimale Teilnehmeranzahl
-grp#:#grp_wrong_min_max_members#:#Bitte überprüfen Sie Ihre Eingabe für die mnimale und maximale Teilnehmeranzahl.
+grp#:#grp_wrong_min_max_members#:#Setzen Sie eine minimale oder maximale Anzahl - oder beides.
 grp#:#reg_grp_min_members#:#Minimale Anzahl
 grp#:#grp_cancellation_end#:#Spätester Gruppenaustritt
 grp#:#grp_cancellation_end_rbac_info#:#Das Stornierungsende wurde am %s erreicht, ein Austritt ist nicht mehr möglich.
@@ -16057,3 +16057,5 @@ content#:#cont_hidenavig_info#:#Der linke Navigationsbaum zum Wechseln zwischen 
 content#:#cont_width_height_info#:#Die Größe der Darstellung kann festgelegt werden. In der Praxis hat sich eine Berite von 950 Pixeln und eine Höhe von 650 Pixeln bewährt. Wenn keine Angabe gemacht wird, steuert der Browser die Darstellung der Größe.
 content#:#cont_sc_score_was_higher_message#:#erreichter Punktestand war höher
 meta#:#md_adv_field_filter_warning#:#Die Feld-Typen %s werden aktuell nicht als Tabellenfilter unterstützt.
+grp#:#grp_subscription_min_members_info#:#Wird die geforderte Mindestanzahl an Mitgliedern nicht erreicht, kann die Gruppe nicht stattfinden. Wird die Mindestanzahl bis zum Ende des Beitrittszeitraums bzw. dem spätesten Gruppenaustritt nicht erreicht, dann wird eine Mail an jene Gruppenadministratoren oder -tutoren versendet, die im Reiter 'Mitglieder' die Option'Benachrichtigung' aktiviert haben. 
+grp#:#grp_max_and_min_members_invalid#:#Die minimale Anzahl muss kleiner als die maximale Anzahl sein.

@@ -7008,7 +7008,7 @@ grp#:#grp_waiting_list#:#Waiting List
 grp#:#grp_warn_grp_type_changed#:#Do you really want to change the group type? All permission settings will be reset.
 grp#:#grp_warn_no_max_set_on_waiting_list#:#The maximum number of group members is exceeded. You can add your join request to the waiting list. You will receive a message from a group administrator when your request has been approved or rejected.
 grp#:#grp_warn_wl_set_on_waiting_list#:#Some users are already assigned to the waiting list. You can add your join request to the waiting list. You will receive a message from a group administrator when your request has been approved or rejected.
-grp#:#grp_wrong_max_members#:#Please check the maximum number of users.
+grp#:#grp_wrong_max_members#:#A maximum number of members is needed for the waiting list feature.
 grp#:#grp_wrong_reg_time_limit#:#Please check the registration start and finish time.
 grp#:#reg_grp_max_members_short#:#Number of Members
 grp#:#reg_grp_max_members#:#Limited Number of Members
@@ -15694,7 +15694,7 @@ common#:#mem_cron_min_members#:#Course/Group: Minimum Members Check
 common#:#mem_cron_min_members_info#:#The administrators will be notified if the minimum number is not met.
 crs#:#crs_cancellation_end_rbac_info#:#The cancellation deadline was met on %s, a cancellation is not possible anymore.
 common#:#mem_min_users#:#Minimum of Users
-grp#:#grp_wrong_min_max_members#:#Please check the minimum and maximum number of users.
+grp#:#grp_wrong_min_max_members#:#Set a minimum or maximum number of members - or both.
 grp#:#reg_grp_min_members#:#Minimum Number of Members
 grp#:#grp_cancellation_end#:#Cancellation Limit
 grp#:#grp_cancellation_end_rbac_info#:#The cancellation deadline was met on %s, a cancellation is not possible anymore.
@@ -16057,3 +16057,5 @@ content#:#cont_hidenavig_info#:#The left navigation tree can be hidden, if the S
 content#:#cont_width_height_info#:#The size of the display can be set at a fixed size. 950 pixels for Width and 650 pixels for Height are proven values for setting the size. If no entry is made the browser will determine the size of the display.
 content#:#cont_sc_score_was_higher_message#:#achieved score was higher
 meta#:#md_adv_field_filter_warning#:#The field types %s are currently not supported as table filters.
+grp#:#grp_subscription_min_members_info#:#Define the number of users that is minimally required for this group to be held at all. If this number is not met either after the date until which users can register or unsubscribe from the group a mail will be send to those group administrators or tutors that have activated the 'Notification' flag in the 'Members'-tab.
+grp#:#grp_max_and_min_members_invalid#:#The minimum number must be smaller than the maximum number of members.
