@@ -116,9 +116,10 @@ class ilADTEnumSearchBridgeMulti extends ilADTSearchBridgeMulti
 			{
 				include_once "Services/ADT/classes/Types/MultiEnum/class.ilADTMultiEnumDBBridge.php";
 				
-				$mode_concat = ($this->search_mode == self::SEARCH_MODE_ALL)
-					? " AND "
-					: " OR ";
+				// #17087
+				$mode_concat = ($this->search_mode == self::SEARCH_MODE_ANY)
+					? " OR "
+					: " AND ";
 				
 				$parts = array();
 				foreach($this->getADT()->getSelections() as $item)
