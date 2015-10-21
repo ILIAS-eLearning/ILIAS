@@ -291,6 +291,9 @@ var GapInsertingWizard = (function () {
 			{
 				pro.checkDataConsitencyCallback();
 			}
+			else if ( (e.metaKey || e.ctrlKey) && ( String.fromCharCode(e.which) === 'x' || String.fromCharCode(e.which) === 'X' ) ) {
+				pro.checkDataConsitencyCallback();
+			}
 		});
 	};
 
@@ -378,7 +381,7 @@ var GapInsertingWizard = (function () {
 			{
 				if(pub.active_gap === -1)
 				{
-					pro.setCaretPosition(textarea, cursor);
+					pro.setCaretPosition( document.getElementById(pub.textarea), cursor);
 				}
 				else
 				{
@@ -387,6 +390,7 @@ var GapInsertingWizard = (function () {
 				}
 				pub.active_gap = parseInt(inGap[0], 10);
 			}
+			pro.setCaretPosition(document.getElementById(pub.textarea), parseInt(cursor, 10));
 		}
 	};
 	pub.protect = pro;

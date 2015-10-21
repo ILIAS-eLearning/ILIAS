@@ -412,6 +412,9 @@ class ilSCORM13Player
 		$langstrings['linkexpandTree']=$lng->txt('scplayer_expandtree');
 		$langstrings['linkcollapseTree']=$lng->txt('scplayer_collapsetree');
 		$langstrings['contCreditOff']=$lng->txt('cont_credit_off');
+		if ($this->slm->getAutoReviewChar() == "s") {
+			$langstrings['contCreditOff']=$lng->txt('cont_sc_score_was_higher_message');
+		}
 		$config['langstrings'] = $langstrings;
 		
 		//template variables	

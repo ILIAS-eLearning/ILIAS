@@ -75,10 +75,20 @@ class ilLMObject
 					$md_des = $md_gen->getDescription($id);
 //					ilLMObject::_writeDescription($this->getId(),$md_des->getDescription());
 					break;
-				}
-
+				}				
 				break;
-
+				
+			case 'Educational':
+				include_once("./Services/Object/classes/class.ilObjectLP.php");				
+				$obj_lp = ilObjectLP::getInstance($this->getLMId());
+				if(in_array($obj_lp->getCurrentMode(), 
+					array(ilLPObjSettings::LP_MODE_TLT, ilLPObjSettings::LP_MODE_COLLECTION_TLT)))
+				{								 
+					include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");				
+					ilLPStatusWrapper::_refreshStatus($this->getLMId());
+				}
+				break;
+			
 			default:
 		}
 		return true;

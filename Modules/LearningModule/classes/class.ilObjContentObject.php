@@ -3508,5 +3508,30 @@ class ilObjContentObject extends ilObject
 	}
 	
 	
+	public function MDUpdateListener($a_element)
+	{
+		parent::MDUpdateListener($a_element);
+		
+		include_once 'Services/MetaData/classes/class.ilMD.php';
+
+		switch($a_element)
+		{			
+			case 'Educational':
+				include_once("./Services/Object/classes/class.ilObjectLP.php");				
+				$obj_lp = ilObjectLP::getInstance($this->getId());
+				if(in_array($obj_lp->getCurrentMode(), 
+					array(ilLPObjSettings::LP_MODE_TLT, ilLPObjSettings::LP_MODE_COLLECTION_TLT)))
+				{								 
+					include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");				
+					ilLPStatusWrapper::_refreshStatus($this->getId());
+				}
+				break;
+			
+			default:
+		}
+		return true;
+	}
+	
+	
 }
 ?>

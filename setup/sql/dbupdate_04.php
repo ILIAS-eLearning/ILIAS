@@ -12249,3 +12249,49 @@ if(!$ilDB->indexExistsByFields('obj_members',array('usr_id')))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#4775>
+<?php
+$ilDB->modifyTableColumn(
+	'il_dcl_field',
+	'description',
+	array("type" => "clob")
+);
+?>
+<#4776>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#4777>
+<?php
+
+	// see #3172
+	if($ilDB->getDBType() == 'oracle')
+	{
+		if(!$ilDB->tableColumnExists('svy_qst_matrixrows', 'title_tmp'))
+		{
+			$ilDB->addTableColumn('svy_qst_matrixrows', 'title_tmp', array(
+				"type" => "text",
+				"length" => 1000,
+				"notnull" => false,
+				"default" => null)
+			);			
+			$ilDB->manipulate('UPDATE svy_qst_matrixrows SET title_tmp = title');			
+			$ilDB->dropTableColumn('svy_qst_matrixrows', 'title');			
+			$ilDB->renameTableColumn('svy_qst_matrixrows', 'title_tmp', 'title');
+		}			
+	}
+	else
+	{
+		$ilDB->modifyTableColumn('svy_qst_matrixrows','title', array(
+			"type" => "text", 
+			"length" => 1000, 
+			"default" => null, 
+			"notnull" => false)
+		);
+	}
+	
+?>
+<#4778>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

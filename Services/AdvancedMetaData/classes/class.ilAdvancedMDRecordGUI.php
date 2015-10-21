@@ -640,13 +640,8 @@ class ilAdvancedMDRecordGUI
 			$defs = ilAdvancedMDFieldDefinition::getInstancesByRecordId($record_id);
 			foreach($defs as $def)
 			{
-				// :TODO: not all types supported yet
-				if(!in_array($def->getType(), array(
-					ilAdvancedMDFieldDefinition::TYPE_TEXT,
-					ilAdvancedMDFieldDefinition::TYPE_SELECT,
-					ilAdvancedMDFieldDefinition::TYPE_SELECT_MULTI,
-					ilAdvancedMDFieldDefinition::TYPE_DATE,
-					ilAdvancedMDFieldDefinition::TYPE_DATETIME)))
+				// some input GUIs do NOT support filter rendering yet
+				if(!$def->isFilterSupported())
 				{
 					continue;
 				}

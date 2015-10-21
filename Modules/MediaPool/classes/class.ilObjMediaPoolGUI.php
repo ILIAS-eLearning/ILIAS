@@ -1583,9 +1583,14 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	/**
 	 * Select files from upload directory
 	 */
-	function selectUploadDirFiles()
+	function selectUploadDirFiles($a_files = null)
 	{
 		global $tpl, $ilTabs, $lng, $ilCtrl, $ilToolbar;
+		
+		if(!$a_files)
+		{
+			$a_files = $_POST["file"];
+		}
 
 		$ilTabs->clearTargets();
 		$ilTabs->setBackTarget($lng->txt("back"),
@@ -1611,7 +1616,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 
 			include_once("./Modules/MediaPool/classes/class.ilUploadDirFilesTableGUI.php");
 			$tab = new ilUploadDirFilesTableGUI($this, "selectUploadDirFiles",
-				$_POST["file"]);
+				$a_files);
 			$tab->setFormName("mep_up_form");
 			$tpl->setContent($tab->getHTML());
 		}

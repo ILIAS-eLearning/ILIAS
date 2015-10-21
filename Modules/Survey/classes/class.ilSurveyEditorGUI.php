@@ -1321,12 +1321,13 @@ class ilSurveyEditorGUI
 		$template = new ilTemplate("tpl.il_svy_svy_printview.html", TRUE, TRUE, "Modules/Survey");
 	
 		$pages =& $this->object->getSurveyPages();
+		$required = false;
 		foreach ($pages as $page)
 		{
 			if (count($page) > 0)
 			{
 				foreach ($page as $question)
-				{
+				{					
 					$questionGUI = $this->object->getQuestionGUI($question["type_tag"], $question["question_id"]);
 					if (is_object($questionGUI))
 					{
@@ -1339,6 +1340,11 @@ class ilSurveyEditorGUI
 						$template->setCurrentBlock("question");
 						$template->setVariable("QUESTION_DATA", $questionGUI->getPrintView($current_title, $question["questionblock_show_questiontext"], $this->object->getSurveyId()));
 						$template->parseCurrentBlock();
+						
+						if($question["obligatory"])
+						{
+							$required = true;
+						}
 					}
 				}
 				if (count($page) > 1 && $page[0]["questionblock_show_blocktitle"])
@@ -1354,6 +1360,13 @@ class ilSurveyEditorGUI
 				}
 			}
 		}
+		
+		// #6412
+		if($required)
+		{
+			$template->setVariable("TEXT_REQUIRED", $this->lng->txt("required_field"));
+		}			
+		
 		$this->tpl->addCss("./Modules/Survey/templates/default/survey_print.css", "print");
 		if (array_key_exists("pdf", $_GET) && ($_GET["pdf"] == 1))
 		{

@@ -268,8 +268,14 @@ class ilObjStudyProgramme extends ilContainer {
 						   ->update();
 		}
 		else {
-			$this->settings->setLPMode(ilStudyProgramme::MODE_POINTS)
-						   ->update();
+			if ($this->getAmountOfChildren() > 0) {
+				$this->settings->setLPMode(ilStudyProgramme::MODE_POINTS)
+							   ->update();
+			}
+			else {
+				$this->settings->setLPMode(ilStudyProgramme::MODE_UNDEFINED)
+							   ->update();
+			}
 		}
 	}
 	
@@ -568,6 +574,35 @@ class ilObjStudyProgramme extends ilContainer {
 		}
 	}
 
+	/**
+	 * Get courses in this program that the given user already completed.
+	 *
+	 * @param	int		$a_user_id
+	 * @return	array	$obj_id => $ref_id
+	 */
+	public function getCompletedCourses($a_user_id) {
+		require_once("Services/ContainerReference/classes/class.ilContainerReference.php");
+		require_once("Services/Tracking/classes/class.ilLPStatus.php");
+
+		$node_data = $this->tree->getNodeData($this->getRefId());
+		$crsrs = $this->tree->getSubTree($node_data, true, "crsr");
+
+		$completed_crss = array();
+		foreach ($crsrs as $ref) {
+			$crs_id = ilContainerReference::_lookupTargetId($ref["obj_id"]);
+			if (ilLPStatus::_hasUserCompleted($crs_id, $a_user_id)) {
+				$completed_crss[] = array( "crs_id" => $crs_id
+										 , "prg_ref_id" => $ref["parent"]
+										 , "crsr_ref_id" => $ref["child"]
+										 , "crsr_id" => $ref["obj_id"]
+										 , "title" => ilContainerReference::_lookupTargetTitle($ref["obj_id"])
+										 );
+			}
+		}
+
+		return $completed_crss;
+	}
+
 	////////////////////////////////////
 	// TREE MANIPULATION
 	////////////////////////////////////
@@ -614,7 +649,7 @@ class ilObjStudyProgramme extends ilContainer {
 		}
 		
 		$this->clearChildrenCache();
-		$this->addProgressForNewNodes($a_prg);
+		$this->addMissingProgresses();
 	}
 	
 	/**
@@ -956,12 +991,16 @@ class ilObjStudyProgramme extends ilContainer {
 		return ilStudyProgrammeUserProgress::getInstanceForAssignment($this->getId(), $a_assignment_id);
 	}
 	
-	protected function addProgressForNewNodes(ilObjStudyProgramme $a_prg) {
-		require_once("Modules/StudyProgramme/classes/model/class.ilStudyProgrammeProgress.php");
-		foreach ($this->getAssignmentsRaw() as $ass) {
-			$progress = ilStudyProgrammeProgress::createFor($a_prg->settings, $ass);
-			$progress->setStatus(ilStudyProgrammeProgress::STATUS_NOT_RELEVANT)
-					 ->update();
+	/**
+	 * Add missing progress records for all assignments of this programm.
+	 *
+	 * Use this after the structure of the programme was modified.
+	 *
+	 * @return null
+	 */
+	public function addMissingProgresses() {
+		foreach ($this->getAssignments() as $ass) {
+			$ass->addMissingProgresses();
 		}
 	}
 	
@@ -1173,16 +1212,19 @@ class ilObjStudyProgramme extends ilContainer {
 		
 		$parent = ilObjStudyProgramme::getInstanceByRefId($a_ref_id);
 
-		if (!$parent->hasChildren() && !$parent->hasLPChildren()) {
-			return $a_subobjects;
+		$mode = $parent->getLPMode();
+
+		switch ($mode) {
+			case ilStudyProgramme::MODE_UNDEFINED:
+				return $a_subobjects;
+			case ilStudyProgramme::MODE_POINTS:
+				return array("prg" => $a_subobjects["prg"]);
+			case ilStudyProgramme::MODE_LP_COMPLETED:
+				unset($a_subobjects["prg"]);
+				return $a_subobjects;
 		}
 
-		if ($parent->hasChildren()) {
-			return array("prg" => $a_subobjects["prg"]);
-		}
-
-		unset($a_subobjects["prg"]);
-		return $a_subobjects;
+		throw new ilException("Undefined mode for study programme: '$mode'");
 	}
 }
 

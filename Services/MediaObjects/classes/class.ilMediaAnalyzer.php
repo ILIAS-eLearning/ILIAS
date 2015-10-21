@@ -36,7 +36,8 @@ class ilMediaAnalyzer
 
 	function __construct()
 	{
-		include_once("./Services/MediaObjects/getid3/getid3/getid3.php");
+		include_once("./Services/MediaObjects/lib/getID3-1.9.10/getid3/getid3.php");
+		//include_once("./Services/MediaObjects/getid3/getid3/getid3.php");
 		$this->getid3 = new getID3();
 	}
 

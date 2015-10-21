@@ -48,9 +48,12 @@ class ilGlobalCacheSettings {
 		if (! $this->isActive()) {
 			$this->resetActivatedComponents();
 		} else {
-			foreach ($ilIniFile->readGroup(self::INI_HEADER_CACHE_ACTIVATED_COMPONENTS) as $comp => $v) {
-				if ($v) {
-					$this->addActivatedComponent($comp);
+			$cache_components = $ilIniFile->readGroup(self::INI_HEADER_CACHE_ACTIVATED_COMPONENTS);
+			if (is_array($cache_components)) {
+				foreach ($cache_components as $comp => $v) {
+					if ($v) {
+						$this->addActivatedComponent($comp);
+					}
 				}
 			}
 		}

@@ -1,0 +1,29 @@
+<form action="{FORM_ACTION}" class="form-horizontal preventDoubleSubmission" method="post" name="acknowledge_completed_courses">
+	<div class="form-horizontal">
+		<div class="ilFormHeader">
+			<h3 class="ilHeader">{TITLE}</h3>
+			<div class="ilFormCmds">
+				<input class="btn btn-default btn-sm" type="SUBMIT" value="{CAPTION_ADD}" name="cmd[{ADD_CMD}]" />
+				<input class="btn btn-default btn-sm" type="SUBMIT" value="{CAPTION_CANCEL}" name="cmd[{CANCEL_CMD}]" />
+			</div>
+		</div>
+		<!-- BEGIN usr_section -->
+		<div class="ilFormHeader">
+			<h4 class="ilHeader">{LASTNAME}, {FIRSTNAME}</h4>
+		</div>
+		<div class="form-group">
+			{TABLE}
+		</div>
+		<!-- END usr_section -->
+		<!-- BEGIN usr_ids_section -->
+		<input type="hidden" name="users[]" value="{USR_ID}" />
+		<!-- END usr_ids_section -->
+		<div class="ilFormHeader"></div><!-- FOR SPACING -->
+		<div class="ilFormFooter clearfix">
+			<div class="ilFormCmds">
+				<input class="btn btn-default btn-sm" type="SUBMIT" value="{CAPTION_ADD}" name="cmd[{ADD_CMD}]" />
+				<input class="btn btn-default btn-sm" type="SUBMIT" value="{CAPTION_CANCEL}" name="cmd[{CANCEL_CMD}]" />
+			</div>
+		</div>
+	</div>
+</form>

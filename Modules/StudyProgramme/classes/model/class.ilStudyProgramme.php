@@ -277,12 +277,6 @@ class ilStudyProgramme extends ActiveRecord {
 	 */
 	public function setLPMode($a_mode) {
 		$a_mode = (int)$a_mode;
-		if ($this->getStatus() !== self::STATUS_DRAFT 
-		&&  $this->getLPMode() !== self::MODE_UNDEFINED) {
-			throw new ilException("ilStudyProgramme::setLPMode: Can't set "
-								 ."lp mode when not in draft status and mode "
-								 ."already defined");
-		}
 		if (!in_array($a_mode, self::$MODES)) {
 			throw new ilException("ilStudyProgramme::setLPMode: No lp mode: "
 								 ."'$a_mode'");

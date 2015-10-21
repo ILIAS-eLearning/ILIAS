@@ -871,14 +871,9 @@ class ilInternalLinkGUI
 		include_once("./Services/Link/classes/class.ilLinkTargetObjectExplorerGUI.php");
 		$exp = new ilLinkTargetObjectExplorerGUI($this, "getTargetExplorer");
 
-		$script = "";
 		if ($a_type == "")
 		{
 			$a_type = $_GET["target_type"];
-		}
-		else
-		{
-			$script = "<script>".$exp->getOnLoadCode()."</script>";
 		}
 
 		$white = array("root", "cat", "crs", "fold", "grp");
@@ -911,7 +906,7 @@ class ilInternalLinkGUI
 
 		if (!$exp->handleCommand())
 		{
-			return $exp->getHTML().$script;
+			return $exp->getHTML();
 		}
 	}
 
@@ -1036,11 +1031,10 @@ class ilInternalLinkGUI
 		include_once("./Services/Link/classes/class.ilIntLinkRepItemExplorerGUI.php");
 		$exp = new ilIntLinkRepItemExplorerGUI($this, "selectRepositoryItem");
 		$exp->setSetLinkTargetScript($this->getSetLinkTargetScript());
-		$script = "<script>".$exp->getOnLoadCode()."</script>";
 
 		if (!$exp->handleCommand())
 		{
-			return $exp->getHTML().$script;
+			return $exp->getHTML();
 		}
 	}
 

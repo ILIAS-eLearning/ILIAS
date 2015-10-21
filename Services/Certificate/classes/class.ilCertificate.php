@@ -217,6 +217,12 @@ class ilCertificate
 			if (@file_exists($bgimage)) @copy($bgimage, $new_bgimage);
 			if (@file_exists($bgimagethumb)) @copy($bgimagethumb, $new_bgimagethumb);
 		}
+		
+		// #10271
+		if($this->readActive())
+		{
+			$newObject->writeActive(true);
+		}
 	}
 
 	/**

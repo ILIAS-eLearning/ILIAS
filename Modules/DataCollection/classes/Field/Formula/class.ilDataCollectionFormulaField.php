@@ -133,5 +133,3 @@ class ilDataCollectionFormulaField extends ilDataCollectionRecordField {
 		return $this->parsed_value;
 	}
 }
-
-?>

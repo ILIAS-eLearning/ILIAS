@@ -720,6 +720,8 @@ class ilObjectCopyGUI
 			ilUtil::sendFailure($this->lng->txt('search_no_match'),true);
 			$ilCtrl->returnToParent($this);
 		}
+		
+		
 	
 		include_once './Services/Object/classes/class.ilObjectCopySearchResultTableGUI.php';
 		$table = new ilObjectCopySearchResultTableGUI($this,'searchSource',$this->getType());

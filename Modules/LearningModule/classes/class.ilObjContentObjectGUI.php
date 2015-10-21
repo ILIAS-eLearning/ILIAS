@@ -95,7 +95,8 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 				$this->setTabs("meta");
 				
 				include_once 'Services/Object/classes/class.ilObjectMetaDataGUI.php';
-				$md_gui = new ilObjectMetaDataGUI($this->object);					
+				$md_gui = new ilObjectMetaDataGUI($this->object);			
+				$md_gui->addMDObserver($this->object, 'MDUpdateListener', 'Educational'); // #9510
 				$this->ctrl->forwardCommand($md_gui);
 				break;
 
