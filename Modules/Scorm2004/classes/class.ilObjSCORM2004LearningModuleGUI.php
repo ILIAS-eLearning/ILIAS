@@ -367,13 +367,12 @@ $this->ctrl->redirect($this, "properties");
 		//title
 		$ti = new ilTextInputGUI($this->lng->txt("title"), "Fobject_title");
 		$ti->setMaxLength(200);
-		// $ni->setSize(4);
-		// $ti->setValue($this->object->getTitle());
+		$ti->setValue($this->object->getTitle());
 		$this->form->addItem($ti);
 		
 		//description
 		$ti = new ilTextAreaInputGUI($this->lng->txt("description"), "Fobject_description");
-		//
+		$ti->setValue($this->object->getDescription());
 		$this->form->addItem($ti);
 
 		// SCORM-type
@@ -624,18 +623,21 @@ $this->ctrl->redirect($this, "properties");
 		$cb = new ilCheckboxInputGUI($this->lng->txt("cont_interactions"), "cobj_interactions");
 		$cb->setValue("y");
 		$cb->setChecked($this->object->getInteractions());
+		$cb->setInfo($this->lng->txt("cont_interactions_info"));
 		$this->form->addItem($cb);
 		
 		// objectives
 		$cb = new ilCheckboxInputGUI($this->lng->txt("cont_objectives"), "cobj_objectives");
 		$cb->setValue("y");
 		$cb->setChecked($this->object->getObjectives());
+		$cb->setInfo($this->lng->txt("cont_objectives_info"));
 		$this->form->addItem($cb);
 
 		// comments
 		$cb = new ilCheckboxInputGUI($this->lng->txt("cont_comments"), "cobj_comments");
 		$cb->setValue("y");
 		$cb->setChecked($this->object->getComments());
+		$cb->setInfo($this->lng->txt("cont_comments_info"));
 		$this->form->addItem($cb);
 
 		// time from lms
@@ -649,6 +651,7 @@ $this->ctrl->redirect($this, "properties");
 		$cb = new ilCheckboxInputGUI($this->lng->txt("cont_check_values"), "cobj_check_values");
 		$cb->setValue("y");
 		$cb->setChecked($this->object->getCheck_values());
+		$cb->setInfo($this->lng->txt("cont_check_values_info"));
 		$this->form->addItem($cb);
 
 		// auto cmi.exit to suspend
@@ -850,6 +853,9 @@ $this->ctrl->redirect($this, "properties");
 			$this->object->setOfflineMode($tmpOfflineMode);
 			$this->object->setDebug(ilUtil::yn2tf($_POST["cobj_debug"]));
 			//$this->object->setDebugPw($_POST["debug_pw"]);
+			
+			$this->object->setTitle($_POST["Fobject_title"]);
+			$this->object->setDescription($_POST["Fobject_description"]);
 
 		}
 		else
