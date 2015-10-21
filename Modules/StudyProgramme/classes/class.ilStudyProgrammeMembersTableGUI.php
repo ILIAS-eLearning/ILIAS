@@ -93,7 +93,12 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 		$this->tpl->setVariable("STATUS", ilStudyProgrammeUserProgress::statusToRepr($a_set["status"]));
 		$this->tpl->setVariable("COMPLETION_BY", $completion_by);
 		$this->tpl->setVariable("POINTS_REQUIRED", $a_set["points"]);
-		$this->tpl->setVariable("POINTS_CURRENT", $a_set["points_cur"]);
+
+		$curr_points = $a_set["points_cur"];
+		if($a_set["status"] == ilStudyProgrammeProgress::STATUS_ACCREDITED) {
+			$curr_points = $a_set["points"];
+		}
+		$this->tpl->setVariable("POINTS_CURRENT", $curr_points);
 		$this->tpl->setVariable("CUSTOM_PLAN", $a_set["last_change_by"] 
 												? $this->lng->txt("yes")
 												: $this->lng->txt("no"));

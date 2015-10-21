@@ -77,6 +77,8 @@ class ilObjStudyProgrammeIndividualPlanGUI {
 		$this->object = null;
 
 		$lng->loadLanguageModule("prg");
+
+		$this->tpl->addCss("Modules/StudyProgramme/templates/css/ilStudyProgramme.css");
 	}
 	
 	public function executeCommand() {

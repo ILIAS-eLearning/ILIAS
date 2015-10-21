@@ -173,7 +173,7 @@ class ilStudyProgrammeLPTest extends PHPUnit_Framework_TestCase {
 		
 		$node2_progress->unmarkAccredited();
 
-		$this->assertEquals( ilLPStatus::LP_STATUS_COMPLETED_NUM
+		$this->assertEquals( ilLPStatus::LP_STATUS_IN_PROGRESS_NUM
 						   , ilLPStatusWrapper::_determineStatus($this->root->getId(), $user->getId())
 						   );
 		$this->assertEquals( ilLPStatus::LP_STATUS_IN_PROGRESS_NUM

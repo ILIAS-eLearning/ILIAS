@@ -15980,8 +15980,9 @@ prg#:#prg_update_from_plan_successful#:#Die Aktualisierung aus dem aktuellen Pla
 prg#:#prg_warning_img_alt#:#Warnung!
 prg#:#prg_successful_img_alt#:#erfolgreich
 prg#:#prg_in_progress_img_alt#:#in Bearbeitung
-prg#:#prg_progress_info#:#Sieh haben %1$d Punkte. Das Studienprogramm ist mit %2$d Punkten bestanden.
+prg#:#prg_progress_info#:#Sie haben %1$d Punkte. Das Studienprogramm ist mit %2$d Punkten bestanden.
 prg#:#prg_progress_status#:# %1$d von %2$d Punkten
+prg#:#prg_progress_status_with_child_sp#:# %1$d von möglichen %2$d Punkten
 prg#:#prg_no_members_not_active#:#Da das Studienprogramm nicht aktiv ist, können keine neuen Mitglieder hinzugefügt werden.
 prg#:#prg_type_msg_missing_title#:#Titel kann nicht leer sein.
 prg#:#prg_added_member#:#Das neue Mitglied wurde erfolgreich hinzugefügt.
