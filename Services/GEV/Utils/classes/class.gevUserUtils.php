@@ -1312,30 +1312,42 @@ class gevUserUtils {
 	
 	public function getDirectSuperiors() {
 		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php");
+		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
 		$tree = ilObjOrgUnitTree::_getInstance();
-		$sups = $tree->getSuperiorsOfUser($this->user_id, false);
-		if (count($sups) > 0) {
-			return gevUserUtils::removeInactiveUsers($sups);
-		}
-		// ok, so there are no superiors in any org-unit where the user is employee
-		// we need to find the superiors by ourselves
 		$sups = array();
+		//$sups = gevOrgUnitUtils::getSuperiorsOfUser($this->user_id);
+		$look_above_orgus = array();
 		$orgus = $tree->getOrgUnitOfUser($this->user_id);
-		$parents = array();
-		
-		while (count ($sups) == 0) {
-			foreach ($orgus as $ref) {
-				$parents = $tree->getParent($ref);
+		foreach( $orgus as $ref_id ) {
+			$employees = $tree->getEmployees($ref_id);
+			$superiors = $tree->getSuperiors($ref_id);
+			$any_superiors = count($superiors);
+			if(!$any_superiors) {
+				$look_above_orgus[] = $ref_id; 
+				continue;
 			}
-			if (count($parents) == 0) {
-				return array();
+			if(in_array($this->user_id,$employees)) {
+				$sups = array_merge($sups,$superiors);
+			} else {
+					$look_above_orgus[] = $ref_id;		
 			}
-			$parents = array_unique($parents);
-			foreach ($parents as $ref) {
-				$sups = array_merge($sups, $tree->getSuperiors($ref, false));
+			if(in_array($this->user_id,$superiors)) {
+					$look_above_orgus[] = $ref_id;			
 			}
-			$orgus = $parents;
 		}
+
+		$look_above_orgus = array_unique($look_above_orgus);
+
+		foreach($look_above_orgus as $org) {
+			$sups_aux = array();
+			$org_aux = $org;
+			while (count($sups_aux) == 0 && $org_aux) {
+				$org_aux = $tree->getParent($org_aux);
+				$sups_aux = $tree->getSuperiors($org_aux);
+			}
+			$sups = array_merge($sups,$sups_aux);
+		}
+		$sups = array_unique($sups);
 		return gevUserUtils::removeInactiveUsers($sups);
 	}
 	
