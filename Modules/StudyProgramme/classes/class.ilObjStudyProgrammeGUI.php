@@ -502,11 +502,13 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 	 * Adds the default tabs to the gui
 	 */
 	public function getTabs() {
-		if ($this->checkAccess("visible")) {
+		if ($this->checkAccess("write")) {
 			$this->tabs_gui->addTab( self::TAB_VIEW_CONTENT
 								   , $this->lng->txt("content")
 								   , $this->getLinkTarget("view"));
-			
+		}
+
+		if ($this->checkAccess("visible")) {
 			$this->tabs_gui->addTab( self::TAB_INFO
 								   , $this->lng->txt("info_short")
 								   , $this->getLinkTarget("info_short")
@@ -518,10 +520,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 								   , $this->lng->txt("settings")
 								   , $this->getLinkTarget("settings")
 								   );
-		}
-		
-		//Maybe some time this will be: if ($this->checkAccess("manage_members")) {
-		if ($this->checkAccess("write")) {
+			//Maybe some time this will be: if ($this->checkAccess("manage_members")) {
 			$this->tabs_gui->addTab( self::TAB_MEMBERS
 								   , $this->lng->txt("members")
 								   , $this->getLinkTarget("members")
