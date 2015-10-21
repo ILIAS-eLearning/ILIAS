@@ -428,10 +428,9 @@ tinyMCEPopup.onInit.add(function(ed) {
 </div>
 <!-- BEGIN on_load_code -->
 <script type="text/javascript">
-	il.Util.addOnLoad(function() {
-		<!-- BEGIN on_load_code_inner -->{OLCODE}
-		<!-- END on_load_code_inner -->
-	});
+	if(typeof il != "undefined") {
+		<!-- BEGIN on_load_code_inner -->{OLCODE}<!-- END on_load_code_inner -->
+	}
 </script>
 <!-- END on_load_code -->
 </body>
