@@ -724,6 +724,8 @@ class ilObjSession extends ilObject
 		if($this->isRegistrationWaitingListEnabled() &&
 			$this->hasWaitingListAutoFill())
 		{
+			include_once './Modules/Session/classes/class.ilSessionParticipants.php'; 
+			
 			$max = $this->getRegistrationMaxUsers();
 			$now = ilSessionParticipants::lookupNumberOfMembers($this->getRefId());
 			if($max > $now)
