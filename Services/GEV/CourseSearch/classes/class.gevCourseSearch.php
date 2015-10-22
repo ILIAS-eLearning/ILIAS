@@ -497,14 +497,13 @@ class gevCourseSearch {
 			$crs_utils = gevCourseUtils::getInstanceByObj($crs);
 			$crs_booking = ilCourseBookings::getInstance($crs);
 			
-			$crs_booking->getFreePlaces();
-			
 			if ( $this->gUser->getId() && !$crs_utils->canBookCourseForOther($this->gUser->getId(), $this->usr_id)) {
 				continue;
 			}
 			
+			$free_places = $crs_booking->getFreePlaces();
 			if (gevObjectUtils::checkAccessOfUser($this->usr_id, "visible",  "", $val["obj_id"], "crs")
-			&& $crs_booking->getFreePlaces() > 4) {
+			&&  ($free_places === null || $free_places > 4)) {
 				$ret[] = $val["obj_id"];
 			}
 		}
