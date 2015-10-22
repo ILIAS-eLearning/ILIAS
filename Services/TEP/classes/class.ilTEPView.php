@@ -395,7 +395,8 @@ abstract class ilTEPView
 			$ilCtrl->setParameterByClass("gevDecentralTrainingGUI", "ref_id", null);
 		}
 		else if($ilAccess->checkAccess("read", "", $a_course_ref_id))
-		{
+		{	
+			require_once("Services/Link/classes/class.ilLink.php");
 			$url = ilLink::_getStaticLink($a_course_ref_id);
 		}
 		return $url;
