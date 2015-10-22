@@ -20,6 +20,7 @@ require_once("Modules/Course/classes/class.ilObjCourse.php");
 
 class gevCourseUtils {
 	static $instances = array();
+	const CREATOR_ROLE_TITLE = "Trainingsersteller";
 	
 	protected function __construct($a_crs_id) {
 		global $ilDB, $ilLog, $lng, $ilCtrl, $rbacreview, $rbacadmin, $rbacsystem;
@@ -46,6 +47,7 @@ class gevCourseUtils {
 		$this->membership = null;
 		$this->main_trainer = null;
 		$this->main_admin = null;
+		$this->main_training_creator = null;
 	
 		$this->material_list = null;
 	}
@@ -1543,6 +1545,20 @@ class gevCourseUtils {
 	public function getAdmins() {
 		return $this->getMembership()->getAdmins();
 	}
+
+	public function getTrainingCreator() {
+		require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
+		$role_utils = gevRoleUtils::getInstance();
+		$local_roles = $role_utils->getLocalRoleIdsAndTitles($this->getCourse()->getId());
+		$role_id = null;
+		foreach ($local_roles as $key => $value) {
+			if($value == self::CREATOR_ROLE_TITLE) {
+				$role_id = $key;
+			}
+		}
+
+		return $role_utils->getRbacReview()->assignedUsers($role_id);
+	}
 	
 	public function hasAdmin($admin_id) {
 		return in_array($trainer_id, $this->getAdmins());
@@ -1586,6 +1602,17 @@ class gevCourseUtils {
 		}
 		
 		return $this->main_admin;
+	}
+
+	public function getMainTrainingCreator() {
+		if($this->main_training_creator === null) {
+			$training_creator = $this->getTrainingCreator();
+			if (count($training_creator) != 0) {
+				$this->main_training_creator = new ilObjUser($training_creator[0]);
+			}
+		}
+
+		return $this->main_training_creator;
 	}
 	
 	public function getCancelledMembers() {
@@ -1756,7 +1783,48 @@ class gevCourseUtils {
 		return "";
 	}
 	
+	// Main Trainig Creator info
 	
+	public function getMainTrainingCreatorFirstname() {
+		$tr = $this->getMainTrainingCreator();
+		if ($tr !== null) {
+			return $tr->getFirstname();
+		}
+		return "";
+	}
+	
+	public function getMainTrainingCreatorLastname() {
+		$tr = $this->getMainTrainingCreator();
+		if ($tr !== null) {
+			return $tr->getLastname();
+		}
+		return "";
+	}
+	
+	public function getMainTrainingCreatorName() {
+		$tr = $this->getMainTrainingCreator();
+		if ($tr !== null) {
+			return $this->getMainTrainingCreatorFirstname()." ".$this->getMainTrainingCreatorLastname();
+		}
+		return "";
+	}
+	
+	public function getMainTrainingCreatorPhone() {
+		$tr = $this->getMainTrainingCreator();
+		if ($tr !== null) {
+			return $tr->getPhoneOffice();
+		}
+		return "";
+	}
+	
+	public function getMainTrainingCreatorEMail() {
+		$tr = $this->getMainTrainingCreator();
+		if ($tr !== null) {
+			return $tr->getEmail();
+		}
+		return "";
+	}
+
 	public function getInvitationMailPreview() {
 		require_once("Services/GEV/Mailing/classes/class.gevCrsAutoMails.php");
 		$am = new gevCrsAutoMails($this->getId());

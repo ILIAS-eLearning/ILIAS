@@ -186,6 +186,18 @@ class gevCrsMailData extends ilMailData {
 			case "TRAININGSBETREUER-EMAIL":
 				$val = $this->crs_utils->getMainAdminEmail();
 				break;
+			case "TRAININGSERSTELLER-VORNAME":
+				$val = $this->crs_utils->getMainTrainingCreatorFirstname();
+				break;
+			case "TRAININGSERSTELLER-NACHNAME":
+				$val = $this->crs_utils->getMainTrainingCreatorLastname();
+				break;
+			case "TRAININGSERSTELLER-TELEFON":
+				$val = $this->crs_utils->getMainTrainingCreatorPhone();
+				break;
+			case "TRAININGSERSTELLER-EMAIL":
+				$val = $this->crs_utils->getMainTrainingCreatorEmail();
+				break;
 			case "TRAINER-NAME":
 				$val = $this->crs_utils->getMainTrainerName();
 				break;
