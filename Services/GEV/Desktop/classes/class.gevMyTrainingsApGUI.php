@@ -85,6 +85,11 @@ class gevMyTrainingsApGUI {
 				$gui = new gevMaillogGUI("mytrainigsapgui");
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;
+			case "showSettings":
+				require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingGUI.php");
+				$gui = new gevDecentralTrainingGUI();
+				$ret = $this->ctrl->forwardCommand($gui);
+				break;
 			default:
 				$errstr = "gevMyTrainingsApGUI: Unknown command '".$cmd."'";
 				$this->log->write($errstr);
