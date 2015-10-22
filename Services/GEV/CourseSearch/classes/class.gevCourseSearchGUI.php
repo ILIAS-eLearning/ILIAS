@@ -169,10 +169,6 @@ class gevCourseSearchGUI {
 				//->setCommand("gev_crs_srch_limit", "javascript:gevShowSearchFilter();"); // TODO: set this properly
 				->setCommand("gev_crs_srch_limit", "-"); // TODO: set this properly
 
-		if($this->active_tab == gevCourseSearch::TAB_TO_SHOW_ADVICE) {
-			$crs_tbl->setAdvice("gev_crs_srch_my_table_desc_advice"); // TO DISPLAY AN ADIVCE!
-		}
-
 		return $usrsel
 			 . ( ($hls->countHighlights() > 0 && !$a_in_search)
 			   ?   $hls->render()
