@@ -188,7 +188,7 @@ class gevDecentralTrainingCreationRequest {
 		$this->adjustTrainerPermissions($trgt_crs);
 		$this->adjustOwnerAndAdmin($src_utils, $trgt_crs);
 		$this->assignTrainers($trgt_crs);
-		$this->maybeAssignCreatorToCreatorRole($creator_role_id);
+		$this->assignCreatorToCreatorRole($creator_role_id);
 		
 		$rbacsystem->resetRoleCache();
 		
@@ -316,11 +316,9 @@ class gevDecentralTrainingCreationRequest {
 		return $creator_role->getId();
 	}
 	
-	protected function maybeAssignCreatorToCreatorRole($creator_role_id) {
+	protected function assignCreatorToCreatorRole($creator_role_id) {
 		$rbacadmin = $this->getRBACAdmin();
-		if (!in_array($this->user_id,$this->trainer_ids)) {
-			$rbacadmin->assignUser($creator_role_id, $this->user_id);
-		}
+		$rbacadmin->assignUser($creator_role_id, $this->user_id);
 	}
 	
 	protected function adjustTrainerPermissions(ilObjCourse $a_trgt_crs) {
