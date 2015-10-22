@@ -54,8 +54,8 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 
 		if ($ilSetting->get("repository_tree_pres") == "" ||
 			($ilSetting->get("rep_tree_limit_grp_crs") && $this->top_node_id == 0))
-		{
-			$this->setTypeWhiteList(array("root", "cat", "catr", "grp", "crs", "crsr", "rcrs", "itgr", "prg"));
+		{			
+			$this->setTypeWhiteList($objDefinition->getExplorerContainerTypes());
 		}
 		else if ($ilSetting->get("repository_tree_pres") == "all_types")
 		{
@@ -74,7 +74,7 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 			$this->setPathOpen((int) $_GET["ref_id"]);
 		}
 	}
-
+		
 	/**
 	 * Get root node
 	 *

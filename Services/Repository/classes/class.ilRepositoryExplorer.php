@@ -49,16 +49,10 @@ class ilRepositoryExplorer extends ilExplorer
 		if ($ilSetting->get("repository_tree_pres") == "" ||
 			($ilSetting->get("rep_tree_limit_grp_crs") && $a_top_node == 0))
 		{
-			$this->addFilter("root");
-			$this->addFilter("cat");
-			$this->addFilter('catr');
-			$this->addFilter('rcat');
-			$this->addFilter("grp");
-			$this->addFilter('rgrp');
-			$this->addFilter("crs");
-			$this->addFilter('crsr');
-			$this->addFilter('rcrs');
-			$this->addFilter('prg');
+			foreach($objDefinition->getExplorerContainerTypes() as $type)
+			{
+				$this->addFilter($type);
+			}			
 			$this->setFiltered(true);
 			$this->setFilterMode(IL_FM_POSITIVE);
 		}
