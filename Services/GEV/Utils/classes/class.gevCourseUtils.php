@@ -1557,6 +1557,10 @@ class gevCourseUtils {
 			}
 		}
 
+		if($role_id === null) {
+			return null;
+		}
+
 		return $role_utils->getRbacReview()->assignedUsers($role_id);
 	}
 	
