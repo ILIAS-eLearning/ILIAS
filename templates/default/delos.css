@@ -7455,6 +7455,11 @@ div.ilSideBarContent {
 .ui-menu .ui-menu-item a.ui-state-active {
   background-color: #FF9;
 }
+/* Icon Default */
+img.ilIcon {
+  width: 32px;
+  height: 32px;
+}
 /* Component Imports */
 /* Services/Accordion */
 .il_VAccordionHead,
@@ -10779,6 +10784,14 @@ div.ilChecklist ul li img {
 }
 .ilFileUploadEntryOptions label.control-label {
   padding-top: 3px;
+}
+/* Services/UIComponent/Modal */
+.modal-body .jstree li {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.modal-body .jstree a {
+  display: inline;
 }
 .noMargin {
   margin: 0;

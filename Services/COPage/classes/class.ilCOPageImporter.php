@@ -50,6 +50,7 @@ class ilCOPageImporter extends ilXmlImporter
 				{
 					include_once("./Services/COPage/classes/class.ilPageObjectFactory.php");
 					$new_page = ilPageObjectFactory::getInstance($id[0]);
+					$new_page->setImportMode(true);
 					$new_page->setId($id[1]);
 					$new_page->setXMLContent($a_xml);
 					//$new_page->saveMobUsage($a_xml); (will be done in final processing)

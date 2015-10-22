@@ -1,7 +1,7 @@
 /* Copyright (c) 1998-2015 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
-* @author 5.0.x 2015-09-17 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
+* @author 5.0.x 2015-10-08 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
 * @author 4.2.2	Berecz Antónia <berecz@gdf.hu>
 * @module		language file Hungarian
 * @modulegroup	language
@@ -3390,7 +3390,7 @@ common#:#msg_obj_exists_in_folder#:#A(z) %s objektum már benne van a(z) %s mapp
 common#:#msg_obj_exists#:#Ez az objektum már létezik ebben a mappában
 common#:#msg_obj_may_not_contain_objects_of_type#:#A(z) %s objektum nem tartalmazhat ilyen típusú objektumokat: %s.
 common#:#msg_obj_modified#:#Módosítások mentése sikerült.
-common#:#msg_obj_no_link#:#linkelése nem engedélyezett
+common#:#msg_obj_no_link#:#Technika okok miatt tároló objektumok (kategória, kurzus, csoport, illetve mappa) linkelése nem lehetséges. Linkelni tudja az abban lévő objektumokat vagy használjon kategória-, illetve kurzuslink objektumot.
 common#:#msg_obj_not_deletable_sold#:#A fizetést már aktiválták az alábbi objektumokhoz. Az objektumok nem törölhetők.
 common#:#msg_paste_object_not_in_itself#:#Nem lehet beilleszteni a(z) %s objektumot saját magába.
 common#:#msg_perm_adopted_from_itself#:#Nem alkalmazhat jogosultsági beállításokat magából a jelenlegi szerepből/szerepmintából.
@@ -9249,7 +9249,7 @@ survey#:#apply#:#Alkalmaz
 survey#:#arithmetic_mean#:#Számtani átlag
 survey#:#ask_insert_questionblocks#:#Biztos, hogy beilleszti az alábbi kérdésblokk(oka)t a kérdőívbe?
 survey#:#ask_insert_questions#:#Biztos, hogy beilleszti az alábbi kérdés(eke)t a kérdőívbe?
-survey#:#back#:#<< Vissza
+survey#:#back#:#Vissza
 survey#:#before#:#mi előtt
 survey#:#browse_for_questions#:#Hozzáadás kérdésgyűjteményből
 survey#:#cancel_survey#:#Kérdőív kitöltésének felfüggesztése
@@ -15302,3 +15302,7 @@ forum#:#forums_threads_deleted#:#A kiválasztott témákat azok összes hozzász
 user#:#feedhash#:#Hírcsatorna-hash
 wsp#:#wsp_shared_filter_reset_button#:#Keresés feltételek törlése
 wsp#:#wsp_shared_filter_button#:#Keresés
+exc#:#exc_direct_submit#:#Jóváhagyás
+export#:#no_file#:#Nincs fájl
+content#:#lm_no_download_files#:#Jelenleg nem áll rendelkezésre letölthető fájl.
+rbac#:#feed_copy#:#A felhasználó másolhat webhírforrást

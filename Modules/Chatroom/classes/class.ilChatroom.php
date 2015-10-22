@@ -1065,7 +1065,10 @@ class ilChatroom
 	public function listUsersInPrivateRoom($private_room_id) {
 		global $ilDB;
 
-		$query	= 'SELECT user_id FROM ' . self::$privateSessionsTable . ' WHERE proom_id = %s AND disconnected = 0 OR disconnected IS NULL';
+		$query	= '
+			SELECT chatroom_users.user_id FROM ' . self::$privateSessionsTable . '
+			INNER JOIN chatroom_users ON chatroom_users.user_id = ' . self::$privateSessionsTable . '.user_id WHERE proom_id = %s AND disconnected = 0
+		';
 		$types	= array('integer');
 		$values = array($private_room_id);
 		$rset	= $ilDB->queryF( $query, $types, $values );
@@ -1073,10 +1076,10 @@ class ilChatroom
 		$users = array();
 
 		while ($row = $ilDB->fetchAssoc($rset)) {
-			$users[] = $row['user_id'];
+			$users[$row['user_id']] = $row['user_id'];
 		}
 
-		return $users;
+		return array_values($users);
 	}
 
 	public function userIsInPrivateRoom($room_id, $user_id)
@@ -1395,7 +1398,7 @@ public function getLastMessages($number, $chatuser = null) {
 	
 	if ($sub_room) {
 	    $ilDB->queryF(
-		    'DELETE FROM ' . self::$sessionTable . ' WHERE proom_id = %s AND disconnected < %s',
+		    'DELETE FROM ' . self::$privateSessionsTable . ' WHERE proom_id = %s AND disconnected < %s',
 		    array('integer', 'integer'),
 		    array($sub_room, time())
 	    );

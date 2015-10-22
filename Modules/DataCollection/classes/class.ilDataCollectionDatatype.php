@@ -15,6 +15,7 @@ require_once("./Services/Preview/classes/class.ilPreview.php");
 require_once('./Services/Preview/classes/class.ilPreviewGUI.php');
 require_once('class.ilDataCollectionRecordViewViewdefinition.php');
 require_once("./Services/MediaObjects/classes/class.ilMediaPlayerGUI.php");
+require_once('class.ilDclCheckboxInputGUI.php');
 
 /**
  * Class ilDataCollectionDatatype
@@ -250,7 +251,7 @@ class ilDataCollectionDatatype {
 				$input = new ilTextInputGUI($title, 'field_' . $field->getId());
 				break;
 			case ilDataCollectionDatatype::INPUTFORMAT_BOOLEAN:
-				$input = new ilCheckboxInputGUI($title, 'field_' . $field->getId());
+				$input = new ilDclCheckboxInputGUI($title, 'field_' . $field->getId());
 				break;
 			case ilDataCollectionDatatype::INPUTFORMAT_DATETIME:
 				$input = new ilDateTimeInputGUI($title, 'field_' . $field->getId());

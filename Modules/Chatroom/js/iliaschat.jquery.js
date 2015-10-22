@@ -136,7 +136,7 @@ il.Util.addOnLoad(function () {
 					return {success: false};
 				}
 			}
-		}
+		};
 
 		$.fn.chat = function (lang, baseurl, session_id, instance, scope, posturl, initial) {
 			var smileys = initial.smileys;
@@ -880,7 +880,7 @@ il.Util.addOnLoad(function () {
 										}
 
 										if (!response.success) {
-											alert(response.reason);
+											console.log(response.reason);
 										}
 
 										$('#chat_messages').ilChatMessageArea('show', 0);
@@ -953,15 +953,11 @@ il.Util.addOnLoad(function () {
 							label:    translate('invite_users'),
 							callback: function () {
 
-								var invitationChangeTimeout;
 								$('#invite_users_container')
 									.ilChatDialog({
 										title:            translate('invite_users'),
 										close:            function () {
-											if (invitationChangeTimeout) {
-												window.clearInterval(invitationChangeTimeout);
-												invitationChangeTimeout = undefined;
-											}
+											$("#invite_user_text").val("");
 										},
 										positiveAction:   function () {
 
@@ -990,7 +986,7 @@ il.Util.addOnLoad(function () {
 											}
 										}
 									);
-								}
+								};
 
 								$('#invite_users_global').click(function () {
 									$('#invite_user_text_wrapper').show();
@@ -1033,22 +1029,37 @@ il.Util.addOnLoad(function () {
 										$('#invite_users_in_room').show();
 										$('#radioText').show();
 									}
-
 								});
 
 								$('#invite_users_in_room').click();
 
-								var cb;
-								if (invitationChangeTimeout) {
-									window.clearTimeout(invitationChangeTimeout);
-								}
+								var invitationChangeTimeout = (function(){
+									var timer = 0;
 
-								var oldValue = $('#invite_user_text').val();
-								invitationChangeTimeout = window.setTimeout(cb = function () {
-									if ($('#invite_user_text').val() != oldValue && $('#invite_user_text').val().length > 2) {
-										oldValue = $('#invite_user_text').val();
+									return function(callback, ms){
+										clearTimeout(timer);
+										timer = setTimeout(callback, ms);
+									};
+								})();
+
+								var $invinput = $('#invite_user_text');
+								var oldValue = $invinput.val();
+								$invinput.keyup(function() {
+									var val = $(this).val();
+
+									invitationChangeTimeout(function() {
+
+										if (val.length < 2 || val == oldValue) {
+											if (!val.length) {
+												$('#invite_users_available').html('');
+											}
+											return;
+										}
+
+										oldValue = val;
+
 										$.get(
-											posturl.replace(/postMessage/, 'inviteUsersToPrivateRoom-getUserList') + '&q=' + $('#invite_user_text').val(),
+											posturl.replace(/postMessage/, 'inviteUsersToPrivateRoom-getUserList') + '&q=' + oldValue,
 											function (response) {
 												response = $.getAsObject(response);
 												$('#invite_users_available').html('');
@@ -1068,18 +1079,12 @@ il.Util.addOnLoad(function () {
 														).appendTo($('#invite_users_available'));
 													});
 												}
-												invitationChangeTimeout = window.setTimeout(cb, 500);
 											},
-											'json');
-									}
-									else {
-										if (!$('#invite_user_text').val().length) {
-											$('#invite_users_available').html('');
-										}
-										invitationChangeTimeout = window.setTimeout(cb, 300);
-									}
-								}, 500);
-
+											'json'
+										);
+										
+									}, 500);
+								});
 							}
 						}
 					);

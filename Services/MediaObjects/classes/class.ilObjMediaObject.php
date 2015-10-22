@@ -453,7 +453,15 @@ class ilObjMediaObject extends ilObject
 			}
 		}
 
-		self::handleQuotaUpdate($this);		
+		self::handleQuotaUpdate($this);	
+
+		global $ilAppEventHandler;
+		$ilAppEventHandler->raise('Services/MediaObjects',
+		'create',
+		array('object' => $this,
+			'obj_type' => 'mob',
+			'obj_id' => $this->getId())
+		);	
 	}
 
 
@@ -1022,11 +1030,21 @@ class ilObjMediaObject extends ilObject
 	{
 		global $ilDB;
 
+		$lstr = "";
+		if ($a_lang != "")
+		{
+			$lstr = " AND usage_lang = ".$ilDB->quote($a_lang, "text");
+		}
+		$hist_str = "";
+		if ($a_usage_hist_nr !== false)
+		{
+			$hist_str = " AND usage_hist_nr = ".$ilDB->quote($a_usage_hist_nr, "integer");
+		}
+
 		$q = "SELECT * FROM mob_usage WHERE ".
 			"usage_type = ".$ilDB->quote($a_type, "text")." AND ".
-			"usage_id = ".$ilDB->quote($a_id, "integer")." AND ".
-			"usage_lang = ".$ilDB->quote($a_lang, "text")." AND ".
-			"usage_hist_nr = ".$ilDB->quote($a_usage_hist_nr, "integer");
+			"usage_id = ".$ilDB->quote($a_id, "integer").
+			$lstr.$hist_str;
 		$mobs = array();
 		$mob_set = $ilDB->query($q);
 		while($mob_rec = $ilDB->fetchAssoc($mob_set))

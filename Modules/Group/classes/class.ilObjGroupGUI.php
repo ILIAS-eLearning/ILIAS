@@ -1361,8 +1361,8 @@ class ilObjGroupGUI extends ilContainerGUI
 		}
 		if($added_users)
 		{
-			ilUtil::sendSuccess($this->lng->txt("grp_users_added"));
-			$this->membersObject();
+			ilUtil::sendSuccess($this->lng->txt("grp_users_added"), true);
+			$this->ctrl->redirect($this, "members");
 
 			return true;
 		}
@@ -1405,8 +1405,8 @@ class ilObjGroupGUI extends ilContainerGUI
 			);
 		}
 		
-		ilUtil::sendSuccess($this->lng->txt('grp_users_removed_from_list'));
-		$this->membersObject();
+		ilUtil::sendSuccess($this->lng->txt('grp_users_removed_from_list'), true);
+		$this->ctrl->redirect($this, "members");
 		return true;
 	}
 	
@@ -1418,10 +1418,6 @@ class ilObjGroupGUI extends ilContainerGUI
 	public function confirmDeleteMembersObject()
 	{
 		$this->checkPermission('write');
-		
-		$this->setSubTabs('members');
-		$this->tabs_gui->setTabActive('members');
-		$this->tabs_gui->setSubTabActive('grp_edit_members');
 		
 		$participants_to_delete = (array) array_unique(array_merge((array) $_POST['admins'],(array) $_POST['members'], (array) $_POST['roles']));
 		
@@ -1442,6 +1438,10 @@ class ilObjGroupGUI extends ilContainerGUI
 			$this->membersObject();
 			return false;
 		}
+
+		$this->setSubTabs('members');
+		$this->tabs_gui->setTabActive('members');
+		$this->tabs_gui->setSubTabActive('grp_edit_members');
 		
 		include_once('./Services/Utilities/classes/class.ilConfirmationGUI.php');
 		$confirm = new ilConfirmationGUI();

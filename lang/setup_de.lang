@@ -1,4 +1,4 @@
-﻿/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
+﻿/* Copyright (c) 1998-2015 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
 *
@@ -34,7 +34,7 @@ change_basic_settings#:#Grundeinstellungen ändern
 change_password#:#Passwort ändern
 change_sort_direction#:#Sortierrichtung ändern
 change#:#ändern
-check_db_versions#:#Please ensure that the database mode determined by ILIAS matches to your version of MySQL. This should be the case usually. If not, your database version is not supported.<br> Example 1: If the mode is 'MySQL 4.1.x or higher' and your database version is '4.0.12' then this MySQL version is not supported. Please contact the ILIAS team.<br />Example 2: If the mode is 'MySQL 4.1.x or higher' and your database version is '4.1.14' then everything is ok.###20 Jun 2005 new variable
+check_db_versions#:#Stellen Sie sicher, dass der gewählte Datenbankmodus zu Ihrer MySQL-Version passt.
 check_failed_convert#:#Convert-Test fehlgeschlagen
 check_failed_htmldoc#:#HTMLdoc-Test fehlgeschlagen
 check_failed_java#:#Java-Test fehlgeschlagen
@@ -50,18 +50,18 @@ clean_command#:#Clean-Kommando
 client_access_mode_changed#:#Zugangsstatus des Mandanten geändert
 client_data#:#Informationen über den Mandanten
 client_deleted#:#Mandant Gelöscht
-client_id#:#Mandanten ID
+client_id#:#Mandanten-ID
 client_info#:#Beschreibung
 client_institution#:#Institution
 client_login#:#Bei einem Mandanten anmelden
 client_name#:#Name
-client_setup_not_finished#:#Die Installation dieses Mandanten wurde noch nicht abgeschlossen
+client_setup_not_finished#:#Die Installation dieses Mandanten wurde noch nicht abgeschlossen.
 client#:#Mandant
 clients#:#Mandanten
-collation#:#Collation###23 Mar 2005 new variable
+collation#:#Zeichensatz/Kollation
 contact_data#:#Kontaktdaten des Systemadministrators
 contact#:#Kontaktdaten
-convert_path_comment_win#:#Required for displaying thumbnails of images, e.g. 'C:/tools/ImageMagick/convert.exe'.###18 08 2009 new variable
+convert_path_comment_win#:#Wird benötigt zur Darstellung von Vorschaubildern, z. B. 'C:/tools/ImageMagick/convert.exe'
 convert_path_comment#:#Wird benötigt, um Vorschaubilder zu erzeugen
 convert_path#:#Convert-Befehlszeile
 could_not_create_logfile#:#Logdatei konnte nicht angelegt werden
@@ -98,7 +98,7 @@ datadir_path#:#Pfad zum Datenverzeichnis
 datadir_webspacedir_match#:#Datenverzeichnis und Webspaceverzeichnis sind gleich! Sie müssen für das Datenverzeichnis ein eigenes Verzeichnis angeben.
 date#:#Datum
 db_conn#:#Verbindungsdaten zur Datenbank
-db_control_structure_missing#:#Kontrollstruktur fehlt. (Siehe 'Details' -> 'Tools')
+db_control_structure_missing#:#Kontrollstruktur fehlt. (Siehe 'Details' » 'Tools')
 db_error_please_check#:#Bitte überprüfen Sie Datenbank Host, Benutzer und Passwort.
 db_host#:#Datenbankserver
 db_mysql#:#MySQL (MyISAM)
@@ -108,8 +108,8 @@ db_not_installed#:#Datenbank nicht installiert
 db_oracle#:#Oracle
 db_pass#:#Datenbankpasswort
 db_port#:#Datenbank Port
-db_selection#:#Database Selection###26 06 2009 new variable
-db_service_name#:#Service Name###26 06 2009 new variable
+db_selection#:#Datenbankauswahl
+db_service_name#:#Service Name
 db_type#:#Datenbanktyp
 db_update_interrupted_avoid#:#Um diese Problem zu verhindern, überprüfen Sie bitte die Einstellungen max_execution_time und memory_limit in Ihrer php.ini. Außerdem empfiehlt es sich, je Update-Lauf weniger Schritte ausführen zu lassen.
 db_update_interrupted#:#Das Datenbank-Updateskript wurde im letzten Lauf unerwartet unterbrochen. Dies kann zu einem <b>inkonsistenten</b> Zustand Ihres Systems führen. Es wird dringend empfohlen, das letzte Backup einzuspielen und auf diesem Stand das Updateskript erneut auszuführen.
@@ -147,7 +147,7 @@ error_recipient#:#Empfänger von Fehlermeldungen
 example#:#Beispiel
 feedback_recipient#:#Empfänger von Feedbacknachrichten
 file_does_not_exist#:#Datei existiert nicht.
-file_version#:#file version
+file_version#:#Dateiversion
 fill_both_fields#:#Bitte beide Felder ausfüllen!
 fill_out_required_fields#:#Bitte füllen Sie alle benötigten Felder aus
 filled_out#:#korrekt ausgefüllt
@@ -157,15 +157,15 @@ finish#:#Installation abschliessen
 firstname#:#Vorname
 fop_path_comment#:#Wird benötigt um PDF-Dokumente zu erzeugen
 fop_path#:#Pfad zum FOP
-form_input_not_valid#:#Some data is incomplete or not valid. Please correct the form input.###24 07 2009 new variable
+form_input_not_valid#:#Einige Angaben sind entweder unvollständig oder nicht gültig. Bitte korrigieren Sie die Angaben.
 form_retype_password#:#Passwortwiederholung
 hide_clientlist#:#keine Mandantenauswahl
 host#:#Host
 hotfix_applied#:#Hotfix ausgeführt
 hotfix_available#:#Es steht ein Hotfix zur Verfügung.
 hotfix_available#:#Hotfix verfügbar
-htmldoc_path_comment_win#:#Optional to generate PDF documents, e.g. 'C:/tools/htmldoc/htmldoc.exe'.###18 08 2009 new variable
-htmldoc_path_comment#:#Wird benötigt, um PDF-Dokumente zu erzeugen (Digilib-Objekt)
+htmldoc_path_comment_win#:#Optional zur Generierung von PDF-Dokumenten, z.B. 'C:/tools/htmldoc/htmldoc.exe'.
+htmldoc_path_comment#:#Wird benötigt, um PDF-Dokumente zu erzeugen
 htmldoc_path#:#HTMLdoc-Befehlszeile
 http_path#:#HTTP-Pfad
 id#:#ID
@@ -175,7 +175,7 @@ ilias_nic_id#:#NIC-ID
 ilias_nic#:#NIC-Registrierung
 ilias_setup#:#ILIAS-Setup
 ilias_version#:#ILIAS-Version
-include_local#:#include local###include local language file when updating language
+include_local#:#Mit lokaler Sprachdatei
 info_text_3rdparty#:#In diesem Schritt werden die Erweiterungen von Fremdanbietern konfiguriert, die in ILIAS benötigt werden. Folgen Sie bitte den Installationsanweisungen, die zu den jweiligen Erweiterungen angegeben werden, um diesen Schritt zu komplettieren.
 info_text_contact#:#Geben Sie hier zusätzliche informationen zu ihrer Installation an und tragen Sie den Namen und Kontaktinformationen des verantwortlichen Systemadministrators ein. Alle Informationen werden in ihrer Datenbank gespeichert. Im nächsten Installationsschritt haben Sie die Möglichkeit, Ihre Installation per ILIAS-NIC zu registrieren. Die als Pflichtfelder gekennzeichneten Angaben werden bei der Registrierung übermittelt.
 info_text_db_collation1#:#If your desired collation is not supported in the list of UTF-8 collations, you have to create your database manually too. In any case, please make sure that the character set for the database is set to utf8.###23 Mar 2005 new variable
@@ -193,17 +193,17 @@ info_text_list#:#Diese Übersicht zeigt alle vorhandenen Installationen an und i
 info_text_login#:#Geben Sie bitte Ihre Mandanten ID und Ihre Zugangsdaten an. Ihr Benutzerkonto muss der Rolle 'Administrator' zugeordnet sein.
 info_text_nic#:#Registrieren Sie sich freiwillig beim ILIAS open source-Community-Server und erhalten einen eindeutige NIC-ID für diesen Mandanten. Die NIC-ID kann beim Austausch von Inhalten zwischen ILIAS-Installation genutzt werden, um die Herkunft der Inhalte zu dokumentieren.
 info_text_nic1#:#Wenn Sie Ihre Installation über ILIAS-NIC-Server registrieren erhalten Sie eine eindeutige Kennung zugewiesen. Die Registrierung ist freiwillig. Wenn Sie sich nicht registrieren wollen, wählen Sie bitte 'Keine Registrierung' (Sie können jederzeit zu einem späteren Zeitpunkt die Registrierung nachholen). Möchten Sie oder benötigen Sie eine eindeutige Kennung, wählen Sie bitte 'Online-´Registrierung'. Sie bekommen ihre Kennung dann automatisch übermittelt. Falls Sie keine aktive Online-Verbindung oder die Registrierung fehlschlägt (z.B. wegen einer Firewall), dann schicken Sie bitte diese
-info_text_nic2#:#an ilias-info@uni-koeln.de. Sie erhalten dann umgehend ihre Kennung per Email zugeschickt. tragen Sie diese Nummer bitte bei der Option 'Email-Registrierung' in das Freifeld ein.
+info_text_nic2#:#an info@ilias.de. Sie erhalten dann umgehend ihre Kennung per Email zugeschickt. tragen Sie diese Nummer bitte bei der Option 'Email-Registrierung' in das Freifeld ein.
 info_text_nic3#:#Sie haben Ihre Installation registriert. Ihre Kennung ist
 info_text_password#:#Hier könnnen Sie das Administrator-Password für das Setup-Programm ändern.
 info_text_pathes#:#ILIAS ist mandantenfähig. Sie können mit einer Installation mehrere ILIAS-Instanzen (Mandanten) betreiben, die jeweils eigene Datenbanken und Datenverzeichnisse nutzen. Geben Sie bitte ein Verzeichnis für Daten ausserhalb des Webspaces, den Pfad der Log-Datei, sowie die Pfade zu den unten aufgeführten Drittanbieter-Programmen an. Diese Einstellung sind für alle Mandanten gültig.<br/><br/>Bei aktivierten Safe Mode müssen Sie bei den Drittanbieter-Programmen nur die auszuführende Datei ohne den Pfad angeben. Diese Dateien müssen im geschützten Basisverzeichnis von PHP liegen (ggf. per Symlink).
-ini_client_id_exists#:#Diese Mandanten ID ist bereits vergeben. Wählen Sie eine andere Kennung
-ini_client_id_invalid#:#Die gewählte Mandanten ID enthält ungültige Zeichen.
-ini_client_id_no_change#:#Die Mandanten ID kann nicht mehr geändert werden, nachdem die Datenverzeichnisse angelegt wurden.
-ini_client_id_too_long#:#Mandanten ID zu lang
-ini_client_id_too_short#:#Mandanten ID zu kurz
+ini_client_id_exists#:#Diese Mandanten-ID ist bereits vergeben. Wählen Sie eine andere Kennung
+ini_client_id_invalid#:#Die gewählte Mandanten-ID enthält ungültige Zeichen.
+ini_client_id_no_change#:#Die Mandanten-ID kann nicht mehr geändert werden, nachdem die Datenverzeichnisse angelegt wurden.
+ini_client_id_too_long#:#Mandanten-ID zu lang
+ini_client_id_too_short#:#Mandanten-ID zu kurz
 ini_db_name_exists#:#exisitiert bereits! Bitte wählen Sie einen anderen Datenbanknamen
-ini_no_client_id#:#Keine Mandanten ID angegeben
+ini_no_client_id#:#Keine Mandanten-ID angegeben
 ini_no_db_host#:#Keinen Host angegeben
 ini_no_db_name#:#Keine Datenbanknamen angegeben
 ini_no_db_user#:#Geben Sie einen Datenbankbenutzer an
@@ -221,11 +221,11 @@ inst_name#:#Installationsname
 install#:#installieren
 installation#:#Installation
 installed_local#:#Mit lokaler Sprachdatei installiert
-installed#:#installiert
+installed#:#Installiert
 institution#:#Institution
 intro_install#:#Das ist das Hauptmenü von ILIAS-Setup. Hier können Sie Schritt für Schritt die Installation von ILIAS durchführen.
 ip_address#:#IP-Adresse
-java_path_comment_win#:#Optional for validating SCORM Learning Modules, e.g. 'C:/Program Files/Java/bin/java.exe'.###18 08 2009 new variable
+java_path_comment_win#:#Optional zur Validierung von SCORM-Lernmodulen, z.B. 'C:/Program Files/Java/bin/java.exe'.
 java_path_comment#:#Wird benötigt, um SCORM-Lernmodule anzuzeigen
 java_path#:#Java-Befehlszeile
 lang_ar#:#Arabisch
@@ -248,6 +248,7 @@ lang_nl#:#Niederländisch
 lang_no#:#Norwegisch
 lang_none_installed#:#Keine Sprache installiert
 lang_not_installed_default#:#Die als Standard ausgewählte Sprache ist nicht installiert!
+lang_fa#:#Persisch (Farsi)
 lang_pl#:#Polnisch
 lang_pt#:#Portugiesisch
 lang_ro#:#Romänisch
@@ -260,7 +261,7 @@ lang_uk#:#Ukrainisch
 lang_vi#:#Vietnamesisch
 lang_xx#:#benutzerdefiniert
 lang_zh#:#Chinesisch
-langs_not_valid_not_installed#:#Folgende Sprachen wurden nicht installiert, aufgrund fehlerhafter Sprachdateien
+langs_not_valid_not_installed#:#Folgende Sprachen konnten wegen fehlerhafter Sprachdateien nicht installiert werden:
 language#:#Sprache
 languages_installed#:#Sprache(n) installiert
 languages#:#Sprachen
@@ -270,7 +271,7 @@ list_clients#:#Alle Mandanten
 list_disabled#:#Mandantenauswahl deaktiviert
 list_enabled#:#Mandantenauswahl aktiviert
 list#:#Liste
-log_path_comment_win#:#E.g. 'C:/iliasdata/iliaslog.txt' (File will be created)###18 08 2009 new variable
+log_path_comment_win#:#Z.B. 'C:/iliasdata/iliaslog.txt' (Datei wird erzeugt)
 log_path_comment#:#Pfad und Dateiname angeben. Datei wird ggf. erzeugt
 log_path#:#Ort der Logdatei
 logged_out#:#Sie sind nun ausgeloggt.
@@ -284,11 +285,11 @@ master_password#:#Master-Passwort
 missing_data#:#Daten unvollständig
 ffmpeg_path_comment#:#Optional für Audio-/Videokonvertierung
 ffmpeg_path#:#FFmpeg-Befehlszeile
-msg_input_is_required#:#This input is required. Please enter a value.###24 07 2009 new variable
+msg_input_is_required#:#Diese Angabe ist verpflichtend. Bitte machen Sie einen Eintrag.
 mysql_4_0_x_or_lower_mode#:#MySQL 4.0.x oder niedriger
 mysql_4_1_x_or_higher_mode#:#MySQL 4.1.x oder höher
 name#:#Name
-need_mysql_4_1_or_higher#:#Diese MySQL Version wird leider nicht unterstüzt. Bitte installieren Sie MysQL 4.1.x oder höher.
+need_mysql_4_1_or_higher#:#Diese MySQL-Version wird leider nicht unterstützt. Bitte installieren Sie MySQL 4.1.x oder höher.
 new_client#:#Neuer Mandant
 new#:#neu
 next_update_break_info#:#Je nach Grösse Ihrer Installation ist es nicht ratsam, das Update in einem Durchlauf auszuführen.
@@ -296,10 +297,10 @@ next_update_break#:#Nächste Unterbrechung des Updates
 next#:#Weiter
 nic_not_disabled#:#Keine NIC-ID & nicht deaktiviert
 nic_reg_disable_comment#:#(später registrieren)
-nic_reg_disable_info#:#You may register later anytime.###24 07 2009 new variable
+nic_reg_disable_info#:#Sie können die Installation noch später registrieren.
 nic_reg_disable#:#Keine Registrierung
 nic_reg_disabled#:#NIC-Registrierung abgeschaltet
-nic_reg_email#:#Per Email
+nic_reg_email#:#Per E-Mail
 nic_reg_enabled#:#NIC-ID erhalten!
 nic_reg_enter_checksum#:#Übermittelte Prüfsumme
 nic_reg_enter_correct_id#:#Bitte geben Sie die korrekte NIC-ID an
@@ -324,14 +325,14 @@ no_path_given#:#Keinen Pfad angegeben
 no_path_htmldoc#:#HTMLdoc-Pfad nicht angegeben
 no_path_java#:#Java-Pfad nicht angegeben
 no_path_log#:#Log-Pfad nicht angegeben
-no_path_mkisofs#:#No mkisofs path given.###26 06 2009 new variable
+no_path_mkisofs#:#Kein Pfad für mkisofs angegeben.
 no_path_unzip#:#Unzip-Pfad nicht angegeben
 no_path_zip#:#Zip-Pfad nicht angegeben
 no_setup_pass_given#:#Geben Sie bitte ein Passwort für den Administatorzugriff an
 no_username#:#Kein Benutzername angegeben
 no_valid_client_id#:#Keine gültige Mandanten ID
 none#:#Keine Angaben
-not_configured#:#Not Configured###24 07 2009 new variable
+not_configured#:#Nicht konfiguriert
 not_connected_to_db#:#Sie sind nicht mit der Datenbank verbunden.
 online#:#Online
 or#:#oder
@@ -339,7 +340,7 @@ out_of_webspace#:#(außerhalb des Webspace)
 overall_status#:#Installationsstatus
 overview#:#Übersicht
 pass_does_not_match#:#Die eingebenen Passwörter stimmen nicht überein
-passwd_not_match#:#Your entries for the new password don't match! Please re-enter your new password.###24 07 2009 new variable
+passwd_not_match#:#Ihre Angaben für das neue Passwort stimmen nicht überein. Bitte tragen Sie das neue Passwort erneut ein.
 password_changed#:#Das Passwort wurde geändert.
 password_empty#:#Kein Passwort angegeben!
 password_enter_old#:#Bitte geben Sie zuerst Ihr altes Passwort ein!
@@ -356,7 +357,7 @@ path_to_convert#:#Convert-Befehlszeile
 path_to_fop#:#FOP-Pfad
 path_to_htmldoc#:#HTMLdoc-Befehlszeile
 path_to_java#:#Java-Befehlszeile
-path_to_mkisofs#:#Path to mkisofs###26 06 2009 new variable
+path_to_mkisofs#:#Pfad zu mkisofs
 path_to_unzip#:#Unzip-Befehlszeile
 path_to_zip#:#Zip-Befehlszeile
 pathes#:#Pfade
@@ -375,7 +376,7 @@ pre_folder_write_error#:#Das ILIAS-Verzeichnis ist nicht schreibbar. Bitte über
 pre_folder_write#:#Schreibbares ILIAS-Verzeichnis
 pre_gd_missing#:#Bitte aktivieren Sie die GD-Unterstützung in Ihrer PHP-Installation. Siehe <a target="_blank" href="%s">PHP Dokumentation</a>.
 pre_gd#:#GD-Unterstützung
-pre_intro#:#Die Setup-Routine prüft, ob alle Vorraussetzungen für die Installation und den Betrieb von ILIAS erfüllt sind.
+pre_intro#:#Die Setup-Routine prüft, ob alle Voraussetzungen für die Installation und den Betrieb von ILIAS erfüllt sind.
 pre_javascript_comment#:#Sie können ILIAS auch ohne Javascript nutzen. Allerdings sind einige Komfortfunktion in der Bedienung deaktiviert.
 pre_javascript_enabled#:#Javascript ist eingeschaltet
 pre_memory_limit_recommend#:#Wir empfehlen einen Wert von 80M oder mehr.
@@ -389,7 +390,7 @@ pre_php_version_4.1#:#Einige PEAR Module arbeiten nicht zufriedenstellend unter 
 pre_php_version_4.2#:#Die DOMXML und XSLT Unterstüzung arbeiten nicht zufriedenstellend unter dieser PHP-Version.
 pre_php_version_4#:#Diese PHP-Version wird nicht unterstützt. Bitte installieren Sie PHP 5.2.1 oder höher.
 pre_php_version_5#:#ILIAS wurde noch nicht getestet mit PHP 5. Benutzung also auf eigene Gefahr.
-pre_php_version_too_low#:#Your PHP version is not supported. We recommend to use PHP 5.2.1 or higher. PHP 6 has not been tested yet.###24 07 2009 new variable
+pre_php_version_too_low#:#Ihre PHP-Version wird nicht unterstützt. Wir empfehlen die Nutzung von PHP 5.2.1 oder höher.
 pre_php_version_unknown#:#Unbekannte PHP-Version. Benutzung auf eigene Gefahr.
 pre_php_version#:#PHP-Version
 pre_php#:#PHP Version
@@ -526,9 +527,9 @@ settings_longer_values#:#Längere Werte
 settings_no_longer_values#:#Es wurden keine Werte mit mehr als 4000 Zeichen gefunden. Sie können den Datentyp auf TEXT ändern.
 settings_key_info#:#Module:<br />%s<br />Keyword:<br />%s
 settings_too_long#:#Einige Systemeinstellungen sind zu lang, um konvertiert zu werden. Bitte ändern Sie diese, bevor Sie den Datentyp ändern.lang_ja#:#Japanisch###04 10 2011 new variable
-lang_ka#:#Georgian###04 10 2011 new variable
-lang_sk#:#Slovakian###04 10 2011 new variable
-lang_ja#:#Japanisch###04 10 2011 new variable
+lang_ka#:#Georgisch
+lang_sk#:#Slovakisch
+lang_ja#:#Japanisch
 sess_mode#:#Session-Modus
 sess_fixed_duration#:#Fixe Session-Dauer
 sess_load_dependent_session_handling#:#Lastabhängige Session-Einstellungen
@@ -551,7 +552,7 @@ proxy_status#:#Proxy
 proxy_status_info#:#Um einen Proxy in ILIAS zu verwenden (z.B. für Webfeeds und die Überprüfung von Weblinks) aktivieren Sie bitte dieses Häkchen.
 proxy_disabled#:#Proxy deaktiviert
 proxy_activated_configurated#:#Proxy aktiviert 
-info_text_proxy#:#Proxy Einstellungen
+info_text_proxy#:#Proxy-Einstellungen
 setup_process_step_proxy#:#Proxy
 step_proxy#:#Proxy
 db_innodb#:#MySQL (InnoDB)client_cloned#:#All files and settings of the source are copied into the client.###02 09 2012 new variable
@@ -566,33 +567,32 @@ clone_selectsource#:#Source###02 09 2012 new variable
 clone_areyousure#:#Are you sure?###02 09 2012 new variable
 cloneit#:#Start###02 09 2012 new variable
 info_text_clone#:#This function will overwrite the currently selected client with a copy of another.<p><i>Note that you can only populate clients that are disabled. Also, they cannot have 'master' in the name.<br>Currently, only MySQL is supported.</i><p><b>Warning! This cannot be undone! The client will be overwritten with the contents of the source you will select here!</b>###02 09 2012 new variable
-populate#:#Populate###02 09 2012 new variable
+populate#:#Populate
 show_update_steps#:#Show Update Step###02 09 2012 new variable
 client_cloned#:#All files and settings of the source are copied into the client.###04 09 2012 new variable
 ghostscript_path_comment_win#:#Optional um Vorschaubilder von PDFs zu erzeugen, z.B. 'C:/tools/Ghostscript/gswin32c.exe'.
 ghostscript_path_comment#:#Optional um Vorschaubilder von PDFs zu erzeugen, z.B. '/your_path/gs'.
 ghostscript_path#:#Ghostscript-Befehlszeile
-lang_fa#:#Persian (farsi)###11 10 2013 new variable
-db_master#:#Master###11 10 2013 new variable
-db_slave#:#Slave###11 10 2013 new variable
+db_master#:#Master
+db_slave#:#Slave
 mysql_replication_info_alpha#:#ILIAS MySQL Replication support has currently an experimental status. The code is non-stable. Data may be corrupted.###11 10 2013 new variable
-db_slave_settings#:#Slave Settings###11 10 2013 new variable
-db_active#:#Active###11 10 2013 new variable
-db_set_password#:#Set Password###11 10 2013 new variable
+db_slave_settings#:#Einstellung Slave
+db_active#:#Aktiv
+db_set_password#:#Passwort setzen
 tree_implementation#:#Tree Implementation
-tree_implementation_ns#:#Nested-Set Model
-tree_implementation_mp#:#Materialized-Path Model
+tree_implementation_ns#:#Nested-Sets
+tree_implementation_mp#:#Materialized Path
 tree_implementation_switch_btn#:#Switch Tree Implementation
 tree_implementation_switched#:#The tree implementation type has been switched.
 feedback_recipient_info#:#Diese Adresse wird in der Fusszeile für den Link "Administration kontaktieren" genutzt.
-passwd#:#Passwort Kodierung
-step_passwd#:#Passwort Kodierung
+passwd#:#Passwort-Kodierung
+step_passwd#:#Passwort-Kodierung
 setup_process_step_passwd#:#Passwörter
-info_text_passwd#:#Passwort Einstellungen
+info_text_passwd#:#Passwort-Einstellungen
 passwd_encoder_md5#:#md5
 passwd_encoder_bcrypt#:#bcrypt
-passwd_default_encoder#:#Kodierer
-passwd_default_encoder_info#:#Wählen Sie hier den Standard-Kodierer für die Speicherung von Passwörtern des ILIAS-Mandanten.
+passwd_default_encoder#:#Hashfunktion
+passwd_default_encoder_info#:#Wählen Sie hier kryptologische Hashfunktion, die bei der Speicherung von Passwörtern des ILIAS-Mandanten verwendet wird.
 passwd_encoder_bcrypt_client_salt#:#Mandantenweiter Salt
 passwd_encoder_client_bcrypt_salt_info#:#Für die Hashfunktion bcrypt wird ein globaler Salt vorausgesetzt. Dieser wird von ILIAS automatisch generiert und in oben genannter Datei hinterlegt, sobald Sie bcrypt <span style="font-weight:bold">zum ersten Mal auswählen</span>. Dieser Salt wird Teil der Kordierung sein, sobald ein Benutzerpasswort gespeichert wird. Daher empfehlen wir Ihnen, sich diesen Salt an einem geheimen Ort zusätzlich zu notieren. Vor jedem Speichern eines Passworts wird zudem noch ein invididueller Salt für das Passwort generiert. <span style="color:red">Achtung: Sobald der mandantenweite Salt einmal generiert wurde, darf dieser nicht mehr geändert werden. Gleiches gilt für Salts, die in der Datenbank gespeichert wurden. Ansonsten werden sich Benutzer nicht mehr anmelden können!</span>
 passwd_encoder_client_bcrypt_salt_info_php537#:#<span style="color:red;font-weight:bold">Die von Ihnen eingesetzte PHP Version %s weist bzgl. bcrypt Sicherheitslücken auf (<a href="http://php.net/security/crypt_blowfish.php" target="_blank">http://php.net/security/crypt_blowfish.php</a>). Wir empfehlen Ihnen daher ein Upgrade auf PHP 5.3.7+.</span>

@@ -136,7 +136,12 @@ class ilSearchResultTableGUI extends ilTable2GUI
 			"TYPE_IMG",
 			ilUtil::img(
 				$icon,
-				$type_txt
+				$type_txt,
+				'',
+				'',
+				0,
+				'',
+				'ilIcon'
 			)
 		);
 	}

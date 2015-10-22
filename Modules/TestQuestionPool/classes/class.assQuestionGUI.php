@@ -919,6 +919,7 @@ abstract class assQuestionGUI
 	{
 	    // title
 		$title = new ilTextInputGUI($this->lng->txt("title"), "title");
+		$title->setMaxLength(100);
 		$title->setValue($this->object->getTitle());
 		$title->setRequired(TRUE);
 		$form->addItem($title);
@@ -1905,7 +1906,7 @@ abstract class assQuestionGUI
 		{
 			$this->object->setNrOfTries( $_POST['nr_of_tries'] );
 		}
-		$this->object->setQuestion( $_POST['question'] ); // ?
+		$this->object->setQuestion( ilUtil::stripOnlySlashes($_POST['question']) ); // ?
 		$this->object->setEstimatedWorkingTime(
 			$_POST["Estimated"]["hh"],
 			$_POST["Estimated"]["mm"],
