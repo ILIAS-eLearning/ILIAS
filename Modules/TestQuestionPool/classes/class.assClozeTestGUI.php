@@ -71,7 +71,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 				$clozetype = $_POST['clozetype_' . $idx];
 
 				$db_gap = $this->object->getGap($idx);
-				if($db_gap->getGapType != $clozetype )
+				if( !is_object($db_gap) || $db_gap->getType() != $clozetype )
 				{
 					// if gap-type has been changed: set always = true and ignore "required inputs" and save new gap-type
 					$always = true;
@@ -198,12 +198,12 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 
 						if (array_key_exists( 'gap_' . $idx . '_numeric', $_POST ))
 						{
-							if ($this->ctrl->getCmd() != 'createGaps')
-							{
+							#if ($this->ctrl->getCmd() != 'createGaps')
+							#{
 								$this->object->addGapAnswer(
 									$idx, 0, str_replace(",", ".", $_POST['gap_' . $idx . '_numeric'])
 								);
-							}
+							#}
 
 							$this->object->setGapAnswerLowerBound(
 								$idx, 0, str_replace(",", ".", $_POST['gap_' . $idx . '_numeric_lower'])
@@ -217,10 +217,10 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 						}
 						else
 						{
-							if ($this->ctrl->getCmd() != 'createGaps')
-							{
+							#if ($this->ctrl->getCmd() != 'createGaps')
+							#{
 								$this->object->addGapAnswer($idx, 0, '');
-							}
+							#}
 							
 							$this->object->setGapAnswerLowerBound($idx, 0, '');
 
