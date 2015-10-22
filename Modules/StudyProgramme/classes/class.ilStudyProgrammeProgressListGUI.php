@@ -156,9 +156,20 @@ class ilStudyProgrammeProgressListGUI {
 	}
 	
 	protected function buildProgressStatus(ilStudyProgrammeUserProgress $a_progress) {
-		return sprintf( $this->il_lng->txt("prg_progress_status")
+		$lang_val = "prg_progress_status";
+		$max_points = $a_progress->getAmountOfPoints();
+		$study_programm = $a_progress->getStudyProgramme();
+
+		if($study_programm->hasChildren() && !$study_programm->hasLPChildren()) {
+			$lang_val = "prg_progress_status_with_child_sp";
+		}
+
+		if($a_progress->getStudyProgramme()->hasChildren()) {
+			$max_points = $a_progress->getMaximumPossibleAmountOfPoints();
+		}
+		return sprintf( $this->il_lng->txt($lang_val)
 					  , $a_progress->getCurrentAmountOfPoints()
-					  , $a_progress->getAmountOfPoints()
+					  , $max_points
 					  );
 	}
 }

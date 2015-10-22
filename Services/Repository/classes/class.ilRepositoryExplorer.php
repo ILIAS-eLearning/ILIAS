@@ -58,6 +58,7 @@ class ilRepositoryExplorer extends ilExplorer
 			$this->addFilter("crs");
 			$this->addFilter('crsr');
 			$this->addFilter('rcrs');
+			$this->addFilter('prg');
 			$this->setFiltered(true);
 			$this->setFilterMode(IL_FM_POSITIVE);
 		}
@@ -127,6 +128,12 @@ class ilRepositoryExplorer extends ilExplorer
 				$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
 				return $link;
 
+			case 'prg':
+				$ilCtrl->setParameterByClass("ilobjstudyprogrammegui", "ref_id", $a_node_id);
+				$link = $ilCtrl->getLinkTargetByClass("ilobjstudyprogrammegui", "view");
+				$ilCtrl->setParameterByClass("ilobjstudyprogrammegui", "ref_id", $_GET["ref_id"]);
+				return $link;
+
 			default:
 				include_once('./Services/Link/classes/class.ilLink.php');
 				return ilLink::_getStaticLink($a_node_id, $a_type, true);
@@ -168,6 +175,10 @@ class ilRepositoryExplorer extends ilExplorer
 
 			case 'rcrs':
 				$t_frame = ilFrameTargetInfo::_getFrame("RepositoryContent",'rcrs');
+				return $t_frame;
+
+			case 'prg':
+				$t_frame = ilFrameTargetInfo::_getFrame("RepositoryContent",'prg');
 				return $t_frame;
 
 			default:
@@ -251,6 +262,9 @@ class ilRepositoryExplorer extends ilExplorer
 			case 'catr':
 				include_once('./Services/ContainerReference/classes/class.ilContainerReferenceAccess.php');
 				return ilContainerReferenceAccess::_isAccessible($a_ref_id);
+			case 'prg': 
+					return $rbacsystem->checkAccess("visible", $a_ref_id);
+
 				
 
 			// all other types are only clickable, if read permission is given

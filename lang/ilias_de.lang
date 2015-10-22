@@ -8148,7 +8148,7 @@ grp#:#grp_waiting_list_info#:#Ist die maximale Mitgliederanzahl erreicht, könne
 grp#:#grp_warn_grp_type_changed#:#Sind Sie sicher, dass Sie die Gruppenart ändern möchten? Die Rechteeinstellungen dieser Gruppe werden überschrieben und an die neue Art der Gruppe angepasst.
 grp#:#grp_warn_no_max_set_on_waiting_list#:#Die maximale Teilnehmeranzahl ist erreicht. Sie können sich jedoch auf die Warteliste für dieser Gruppe setzen lassen und werden dann per Mail benachrichtigt, wenn Sie nachrücken können
 grp#:#grp_warn_wl_set_on_waiting_list#:#Es sind bereits Benutzer in der Warteliste eingetragen. Sie können sich jedoch auf die Warteliste für diese Gruppe setzenund werden dann per Mail benachrichtigt, wenn Sie nachrücken können.
-grp#:#grp_wrong_max_members#:#Bitte überprüfen Sie Ihre Eingabe für die maximale Teilnehmeranzahl.
+grp#:#grp_wrong_max_members#:#Für die Warteliste wird eine maximale Anzahl Mitglieder benötigt.
 grp#:#grp_wrong_reg_time_limit#:#Bitte überprüfen Sie Ihre Eingaben zum Anmeldungszeitraum.
 grp#:#reg_grp_max_members_short#:#Begrenzte Mitgliederanzahl
 grp#:#reg_grp_max_members#:#Maximale Anzahl
@@ -15686,14 +15686,14 @@ common#:#mem_cron_min_members#:#Kurs/Gruppe: Prüfung der minimalen Teilnehmerza
 common#:#mem_cron_min_members_info#:#Die Administratoren werden benachrichtigt sofern die minimale Anzahl nicht erreicht wird.
 crs#:#crs_cancellation_end_rbac_info#:#Das Stornierungsende wurde am %s erreicht, ein Austritt ist nicht mehr möglich.
 common#:#mem_min_users#:#Minimale Teilnehmeranzahl
-grp#:#grp_wrong_min_max_members#:#Bitte überprüfen Sie Ihre Eingabe für die mnimale und maximale Teilnehmeranzahl.
+grp#:#grp_wrong_min_max_members#:#Setzen Sie eine minimale oder maximale Anzahl - oder beides.
 grp#:#reg_grp_min_members#:#Minimale Anzahl
 grp#:#grp_cancellation_end#:#Spätester Gruppenaustritt
 grp#:#grp_cancellation_end_rbac_info#:#Das Stornierungsende wurde am %s erreicht, ein Austritt ist nicht mehr möglich.
 sess#:#sess_reg_min_members#:#Minimale Teilnehmeranzahl
 sess#:#sess_reg_min_members_info#:#Eine minimale Zahl an Teilnehmern muss sich registrieren.
-common#:#mem_cron_min_members_subject#:#Kurs/Gruppe: Prüfung der minimalen Teilnehmerzahl
-common#:#mem_cron_min_members_intro#:#Die folgenden Kurse und Gruppen erreichen aktuell nicht die minimale Teilnehmerzahl.
+crs#:#mem_cron_min_members_subject#:#Kurs/Gruppe: Prüfung der minimalen Teilnehmerzahl
+crs#:#mem_cron_min_members_intro#:#Die folgenden Kurse und Gruppen erreichen aktuell nicht die minimale Teilnehmerzahl.
 grp#:#grp_waiting_list_autofill#:#Mit automatischem Aufrücken
 grp#:#grp_waiting_list_no_autofill#:#Ohne automatisches Aufrücken
 grp#:#grp_waiting_list_autofill_info#:#Teilnehmer rücken automatisch bei Stornierungen von der Warteliste nach.
@@ -15980,8 +15980,9 @@ prg#:#prg_update_from_plan_successful#:#Die Aktualisierung aus dem aktuellen Pla
 prg#:#prg_warning_img_alt#:#Warnung!
 prg#:#prg_successful_img_alt#:#erfolgreich
 prg#:#prg_in_progress_img_alt#:#in Bearbeitung
-prg#:#prg_progress_info#:#Sieh haben %1$d Punkte. Das Studienprogramm ist mit %2$d Punkten bestanden.
+prg#:#prg_progress_info#:#Sie haben %1$d Punkte. Das Studienprogramm ist mit %2$d Punkten bestanden.
 prg#:#prg_progress_status#:# %1$d von %2$d Punkten
+prg#:#prg_progress_status_with_child_sp#:# %1$d von möglichen %2$d Punkten
 prg#:#prg_no_members_not_active#:#Da das Studienprogramm nicht aktiv ist, können keine neuen Mitglieder hinzugefügt werden.
 prg#:#prg_type_msg_missing_title#:#Titel kann nicht leer sein.
 prg#:#prg_added_member#:#Das neue Mitglied wurde erfolgreich hinzugefügt.
@@ -16004,11 +16005,6 @@ mail#:#orphaned_mail_body#:#There are old or orphaned mails in the following mai
 rbac#:#rbac_permissions#:#Permissions###30 08 2015 new variable
 buddysystem#:#buddy_bs_state_requested_p#:#Requested###30 08 2015 new variable
 common#:#obj_prgs#:#Studienprogramme
-prg#:#prg_visible#:#Programme is visible###30 08 2015 new variable
-prg#:#prg_copy#:#User can copy study programme###30 08 2015 new variable
-prg#:#prg_write#:#User can edit study programme settings and manage content.###30 08 2015 new variable
-prg#:#prg_delete#:#User can delete the programme.###30 08 2015 new variable
-prg#:#prg_edit_permission#:#User can change permission settings.###30 08 2015 new variable
 forum#:#forums_thread_deleted#:#Das gewählte Thema einschließlich aller dazugehörigen Beiträge wurde gelöscht.
 forum#:#forums_threads_deleted#:#Die gewählten Themen einschließlich aller dazugehörigen Beiträge wurden gelöscht.
 meta#:#meta_advmd_select_options#:#Einträge
@@ -16057,3 +16053,7 @@ content#:#cont_hidenavig_info#:#Der linke Navigationsbaum zum Wechseln zwischen 
 content#:#cont_width_height_info#:#Die Größe der Darstellung kann festgelegt werden. In der Praxis hat sich eine Berite von 950 Pixeln und eine Höhe von 650 Pixeln bewährt. Wenn keine Angabe gemacht wird, steuert der Browser die Darstellung der Größe.
 content#:#cont_sc_score_was_higher_message#:#erreichter Punktestand war höher
 meta#:#md_adv_field_filter_warning#:#Die Feld-Typen %s werden aktuell nicht als Tabellenfilter unterstützt.
+grp#:#grp_subscription_min_members_info#:#Wird die geforderte Mindestanzahl an Mitgliedern nicht erreicht, kann die Gruppe nicht stattfinden. Wird die Mindestanzahl bis zum Ende des Beitrittszeitraums bzw. dem spätesten Gruppenaustritt nicht erreicht, dann wird eine Mail an jene Gruppenadministratoren oder -tutoren versendet, die im Reiter 'Mitglieder' die Option'Benachrichtigung' aktiviert haben. 
+grp#:#grp_max_and_min_members_invalid#:#Die minimale Anzahl muss kleiner als die maximale Anzahl sein.
+crs#:#mem_cron_min_members_reason#:#Sie erhalten diese Email, da Sie die Benachrichtigung im jeweiligen Mitglieder-Tab aktiviert haben.
+crs#:#mem_cron_min_members_task#:#Informieren Sie die Teilnehmenden rechtzeitig, falls der Kurs wegen Nicht-Erreichung der geforderten Mindestanzahl nicht stattfindet. Passen Sie nach Ablauf des Beitrittszeitraums die Kurseinstellungen an.

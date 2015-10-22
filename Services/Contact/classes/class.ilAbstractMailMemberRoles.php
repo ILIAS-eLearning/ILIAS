@@ -1,5 +1,5 @@
 <?php
-
+/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 /**
  * Class ilAbstractMailMemberRoles
  * @author Nadia Matuschek <nmatuschek@databay.de>
@@ -7,18 +7,21 @@
 abstract class ilAbstractMailMemberRoles
 {
 	/**
-	 * @param $ref_id
-	 * @return mixed
+	 * @param int $ref_id
+	 * @return array
 	 */
 	abstract public function getMailRoles($ref_id);
-
+	
+	/**
+	 * @return string
+	 */
 	abstract public function getRadioOptionTitle();
 	
 	/**
-	 * @param $role_id
+	 * @param int $role_id
 	 * @return string 
 	 */
-	protected final function getMailboxRoleAddress($role_id)
+	public final function getMailboxRoleAddress($role_id)
 	{
 		global $rbacreview, $ilSetting, $ilObjDataCache;
 
@@ -31,8 +34,6 @@ abstract class ilAbstractMailMemberRoles
 		{
 			$ilSetting->set('pear_mail_enable', 1);
 		}
-
-		$mailbox = htmlspecialchars($role_addr);
 
 		if(ilMail::_usePearMail() && substr($role_addr, 0, 4) != '#il_')
 		{

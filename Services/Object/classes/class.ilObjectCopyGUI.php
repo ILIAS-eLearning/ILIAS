@@ -465,6 +465,29 @@ class ilObjectCopyGUI
 			return false;	
 		}
 		
+		// validate allowed subtypes
+		foreach($this->getSources() as $source_ref_id)
+		{
+			foreach((array) $this->getTargets() as $target_ref_id)
+			{
+				#$target_type = ilObject::_lookupType($target_ref_id, TRUE);
+				#$source_type = ilObject::_lookupType($source_ref_id, TRUE);
+				#$possible_subtypes = $objDefinition->getSubObjects($target_type);
+				
+				if(!array_key_exists($source_type, $possible_subtypes))
+				{
+					ilUtil::sendFailure(
+							sprintf(
+								$this->lng->txt('msg_obj_may_not_contain_objects_of_type'),
+								$this->lng->txt('obj_'.$target_type),
+								$this->lng->txt('obj_'.$source_type))
+					);
+					$this->showTargetSelectionTree();
+					return FALSE;
+				}
+			}
+		}
+		
 		if(count($this->getSource() == 1) && $objDefinition->isContainer($this->getType()))
 		{
 			// check, if object should be copied into itself
@@ -751,6 +774,42 @@ class ilObjectCopyGUI
 			$this->searchSource();
 			return false;	
 		}
+		
+		// validate allowed subtypes
+		foreach($this->getSources() as $source_ref_id)
+		{
+			foreach((array) $this->getTargets() as $target_ref_id)
+			{
+				$target_type = ilObject::_lookupType($target_ref_id, TRUE);
+				$source_type = ilObject::_lookupType($source_ref_id, TRUE);
+				$possible_subtypes = $objDefinition->getSubObjects($target_type);
+				
+				if(!array_key_exists($source_type, $possible_subtypes))
+				{
+					#ilLoggerFactory::getLogger('obj')->debug('Source type: '.  $source_type);
+					#ilLoggerFactory::getLogger('obj')->debug('Target type: '.  $target_type);
+					#ilLoggerFactory::getLogger('obj')->debug('Submode: '.  $this->getSubMode());
+					
+					// adopt content mode
+					if(
+						$this->getSubMode() != self::SUBMODE_CONTENT_ONLY and
+						($source_type != 'crs' or $target_type != 'crs')
+					)
+					{	
+						ilUtil::sendFailure(
+								sprintf(
+									$this->lng->txt('msg_obj_may_not_contain_objects_of_type'),
+									$this->lng->txt('obj_'.$target_type),
+									$this->lng->txt('obj_'.$source_type))
+						);
+						$this->searchSource();
+						return FALSE;
+						
+					}
+				}
+			}
+		}
+		
 		
 		if($objDefinition->isContainer($this->getType()))
 		{

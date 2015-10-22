@@ -12,7 +12,7 @@
 class ilSCORM2004StoreData
 {
 
-	public function scormPlayerUnload($userId=null, $packageId)
+	public function scormPlayerUnload($userId=null, $packageId, $time_from_lms)
 	{
 		global $ilDB;
 				
@@ -25,19 +25,38 @@ class ilSCORM2004StoreData
 		$last_visited = "";
 		if ($data->last !="") $last_visited = $data->last;
 		$endDate = date('Y-m-d H:i:s', mktime(date('H'), date('i')+5, date('s'), date('m'), date('d'), date('Y')));
-		$ilDB->manipulateF('UPDATE sahs_user 
-			SET last_visited = %s, hash_end =%s, last_access = %s
-			WHERE obj_id = %s AND user_id = %s',  
-			array('text', 'timestamp', 'timestamp', 'integer', 'integer'),
-			array($last_visited, $endDate, date('Y-m-d H:i:s'), $packageId, $userId)
-		);
+		$total_time_sec = null;
+		if ($data->total_time_sec !="") {
+			$total_time_sec = $data->total_time_sec;
+			$ilDB->manipulateF('UPDATE sahs_user 
+				SET total_time_sec = %s, last_visited = %s, hash_end =%s, last_access = %s
+				WHERE obj_id = %s AND user_id = %s',  
+				array('integer', 'text', 'timestamp', 'timestamp', 'integer', 'integer'),
+				array($total_time_sec,$last_visited, $endDate, date('Y-m-d H:i:s'), $packageId, $userId)
+			);
+			if ($time_from_lms==true) {
+				self::ensureObjectDataCacheExistence();
+				global $ilObjDataCache;
+				// sync access number and time in read event table
+				include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Tracking.php");
+				ilSCORM2004Tracking::_syncReadEvent($packageId, $userId, "sahs", (int)$_GET['ref_id'], $time_from_lms);
+				//end sync access number and time in read event table
+			}
+		} else {
+			$ilDB->manipulateF('UPDATE sahs_user 
+				SET last_visited = %s, hash_end =%s, last_access = %s
+				WHERE obj_id = %s AND user_id = %s',  
+				array('text', 'timestamp', 'timestamp', 'integer', 'integer'),
+				array($last_visited, $endDate, date('Y-m-d H:i:s'), $packageId, $userId)
+			);
+		}
 
 		header('Content-Type: text/plain; charset=UTF-8');
 		print("");
 	}
 
 
-	public function persistCMIData($userId=null, $packageId, $defaultLessonMode, $comments, $interactions, $objectives, $data = null)
+	public function persistCMIData($userId=null, $packageId, $defaultLessonMode, $comments, $interactions, $objectives, $time_from_lms, $data = null)
 	{
 		global $ilLog;
 
@@ -68,7 +87,7 @@ class ilSCORM2004StoreData
 		$new_global_status = $data->now_global_status;
 		$return["new_global_status"] = $new_global_status;
 		
-		ilSCORM2004StoreData::syncGlobalStatus($userId, $packageId, $data, $new_global_status);
+		ilSCORM2004StoreData::syncGlobalStatus($userId, $packageId, $data, $new_global_status, $time_from_lms);
 		
 		$ilLog->write("SCORM: return of persistCMIData: ".json_encode($return));
 		if ($jsMode) 
@@ -338,51 +357,38 @@ class ilSCORM2004StoreData
 		}
 	}
 
-	public function syncGlobalStatus($userId, $packageId, $data, $new_global_status) {
+	public function syncGlobalStatus($userId, $packageId, $data, $new_global_status, $time_from_lms) {
 
 		global $ilDB, $ilLog;
 		$saved_global_status=$data->saved_global_status;
 		$ilLog->write("saved_global_status=".$saved_global_status);
 
-		// sync access number and time in read event table
-		//include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Tracking.php");
-		//ilSCORM2004Tracking::_syncReadEvent($packageId, $userId, "sahs", $a_ref_id);
 		
-		// get attempts
-		if (!$data->packageAttempts) {
-			$val_set = $ilDB->queryF('SELECT package_attempts FROM sahs_user WHERE obj_id = %s AND user_id = %s',
-				array('integer','integer'), array($packageId,$userId));
-			$val_rec = $ilDB->fetchAssoc($val_set);
-			$attempts = $val_rec["package_attempts"];
-		} else {
-			$attempts=$data->packageAttempts;
-		}
-		if ($attempts == null) $attempts = "";
-
 		//update percentage_completed, sco_total_time_sec,status in sahs_user
 		$totalTime=(int)$data->totalTimeCentisec;
 		$totalTime=round($totalTime/100);
-		$ilDB->queryF('UPDATE sahs_user SET sco_total_time_sec=%s, status=%s, percentage_completed=%s, package_attempts=%s WHERE obj_id = %s AND user_id = %s',
-			array('integer', 'integer', 'integer', 'integer', 'integer', 'integer'), 
-			array($totalTime, $new_global_status, $data->percentageCompleted, $attempts, $packageId, $userId));
+		$ilDB->queryF('UPDATE sahs_user SET sco_total_time_sec=%s, status=%s, percentage_completed=%s WHERE obj_id = %s AND user_id = %s',
+			array('integer', 'integer', 'integer', 'integer', 'integer'), 
+			array($totalTime, $new_global_status, $data->percentageCompleted, $packageId, $userId));
 
 		self::ensureObjectDataCacheExistence();
 		global $ilObjDataCache;
-		include_once("./Services/Tracking/classes/class.ilChangeEvent.php");
-		ilChangeEvent::_recordReadEvent("sahs", (int)$_GET['ref_id'],$packageId, $userId, false, $attempts, $totalTime);
-
-		//end sync access number and time in read event table
 
 		// update learning progress
 		if ($new_global_status != null) {//could only happen when synchronising from SCORM Offline Player
-//			include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
-//			ilLPStatusWrapper::_updateStatus($packageId, $userId);
 			include_once("./Services/Tracking/classes/class.ilObjUserTracking.php");
 			include_once("./Services/Tracking/classes/class.ilLPStatus.php");
 			ilLPStatus::writeStatus($packageId, $userId,$new_global_status,$data->percentageCompleted);
 
 //			here put code for soap to MaxCMS e.g. when if($saved_global_status != $new_global_status)
 		}
+		// sync access number and time in read event table
+		if ($time_from_lms==false) {
+			include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Tracking.php");
+			ilSCORM2004Tracking::_syncReadEvent($packageId, $userId, "sahs", (int)$_GET['ref_id'], $time_from_lms);
+		}
+		//end sync access number and time in read event table
+		
 		return true;
 	}
 
