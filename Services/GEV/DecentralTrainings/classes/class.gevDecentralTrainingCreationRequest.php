@@ -185,10 +185,10 @@ class gevDecentralTrainingCreationRequest {
 		
 		// Roles and Members
 		$creator_role_id = $this->createCreatorRole($trgt_ref_id);
-		$this->maybeAssignCreatorToCreatorRole($creator_role_id);
 		$this->adjustTrainerPermissions($trgt_crs);
 		$this->adjustOwnerAndAdmin($src_utils, $trgt_crs);
 		$this->assignTrainers($trgt_crs);
+		$this->maybeAssignCreatorToCreatorRole($creator_role_id);
 		
 		$rbacsystem->resetRoleCache();
 		
