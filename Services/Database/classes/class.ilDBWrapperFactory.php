@@ -74,8 +74,14 @@ class ilDBWrapperFactory
 				include_once("./Services/Database/classes/class.ilDBOracle.php");
 				$ilDB = new ilDBOracle();
 				break;
+            case "pdo":
+                require_once("./Services/Database/classes/PDO/class.ilDBPdo.php");
+                $ilDB = new ilDBPdo();
+                break;
+            default:
+                throw new ilDatabaseException("No viable database-type given: ".var_export($a_type, true));
 		}
-		
+
 		return $ilDB;
 	}
 }

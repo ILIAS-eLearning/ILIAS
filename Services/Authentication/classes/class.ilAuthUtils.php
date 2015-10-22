@@ -251,9 +251,14 @@ class ilAuthUtils
 
 			// begin-patch auth_plugin
 			case AUTH_LOCAL:
-				global $ilLog;
-				include_once './Services/Database/classes/class.ilAuthContainerMDB2.php';
-				$ilAuth = ilAuthFactory::factory(new ilAuthContainerMDB2());
+				global $ilDB;
+                if($ilDB instanceof ilDBPdo) {
+                    require_once 'Services/Authentication/classes/PDO/class.ilPDOAuthentication.php';
+                    $ilAuth = new ilPDOAuthentication();
+                } else {
+                    include_once './Services/Database/classes/class.ilAuthContainerMDB2.php';
+                    $ilAuth = ilAuthFactory::factory(new ilAuthContainerMDB2());
+                }
 				break;
 
 			default:
@@ -273,8 +278,13 @@ class ilAuthUtils
 				}
 				#$GLOBALS['ilLog']->write(__METHOD__.' Using default authentication');
 				// default for logged in users
-				include_once './Services/Database/classes/class.ilAuthContainerMDB2.php';
-				$ilAuth = ilAuthFactory::factory(new ilAuthContainerMDB2());
+                if($ilDB instanceof ilDBPdo) {
+                    require_once 'Services/Authentication/classes/PDO/class.ilPDOAuthentication.php';
+                    $ilAuth = new ilPDOAuthentication();
+                } else {
+                    include_once './Services/Database/classes/class.ilAuthContainerMDB2.php';
+                    $ilAuth = ilAuthFactory::factory(new ilAuthContainerMDB2());
+                }
 				break;
 			// end-patch auth_plugin
 		}

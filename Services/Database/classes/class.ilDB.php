@@ -6,6 +6,7 @@
 
 //pear MDB2 abstraction layer
 include_once ("Services/PEAR/lib/MDB2.php");
+require_once 'Services/Database/classes/MySQL/class.ilMySQLQueryUtils.php';
 
 define("DB_FETCHMODE_ASSOC", MDB2_FETCHMODE_ASSOC);
 define("DB_FETCHMODE_OBJECT", MDB2_FETCHMODE_OBJECT);
@@ -1922,6 +1923,8 @@ abstract class ilDB extends PEAR
 	*/
 	function in($a_field, $a_values, $negate = false, $a_type = "")
 	{
+        return ilMySQLQueryUtils::getInstance()->in($a_field, $a_values, $negate, $a_type);
+
 		if (count($a_values) == 0)
 		{
 			// BEGIN fixed mantis #0014191:
