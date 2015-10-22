@@ -146,7 +146,11 @@ class ilMembershipCronMinMembers extends ilCronJob
 		include_once "Services/Link/classes/class.ilLink.php";		
 		include_once "./Services/Notification/classes/class.ilSystemNotification.php";
 		$ntf = new ilSystemNotification();		
-		$ntf->setLangModules(array("crs"));
+		$ntf->setLangModules(array("crs"));	
+		
+		// #17097
+		$ntf->setReasonLangId("mem_cron_min_members_reason");
+		$ntf->setTaskLangId("mem_cron_min_members_task");
 		
 		// user specific language
 		$lng = $ntf->getUserLanguage($a_reci_id);
@@ -166,7 +170,7 @@ class ilMembershipCronMinMembers extends ilCronJob
 		$list = implode($ntf->getBlockBorder(), $list);
 				
 		$ntf->addAdditionalInfo("mem_cron_min_members_intro", $list, true);		
-
+		
 		$mail = new ilMail($ilUser->getId());
 		$mail->enableSOAP(false); // #10410
 		$mail->sendMail(ilObjUser::_lookupLogin($a_reci_id), 

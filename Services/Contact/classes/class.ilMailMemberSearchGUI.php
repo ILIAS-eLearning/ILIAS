@@ -3,7 +3,6 @@
 
 /**
  * Class ilMailMemberSearchGUI
- * 
  * @author Nadia Matuschek <nmatuschek@databay.de>
  *
 **/
@@ -95,17 +94,26 @@ class ilMailMemberSearchGUI
 			{
 				if(count($form->getInput('roles')) > 0)
 				{
+					$role_mail_boxes = array();
+					$roles = $form->getInput('roles');
+					foreach($roles as $role_id)
+					{
+						$mailbox = $this->objMailMemberRoles->getMailboxRoleAddress($role_id);
+						$role_mail_boxes[] = $mailbox;
+					}
+					
 					require_once 'Services/Mail/classes/class.ilMailFormCall.php';
-					$_SESSION['mail_roles'] = $_POST['roles'];
+					$_SESSION['mail_roles'] = $role_mail_boxes;
 					ilUtil::redirect(ilMailFormCall::getRedirectTarget(
-							$this, 'showSearchForm', array('type' => 'role'), array('type' => 'role', 'rcp_to' => implode(',', $_POST['roles']), 'sig' => ''
+							$this, 'showSearchForm', array('type' => 'role'), array('type' => 'role', 'rcp_to' => implode(',', $role_mail_boxes), 'sig' => ''
 					)));
 				}
 				else
 				{
 					$form->setValuesByPost();
 					ilUtil::sendFailure($lng->txt('no_checkbox'));
-					return $this->showSearchForm();
+					$this->showSearchForm();
+					return;
 				}
 			}
 			else
@@ -239,8 +247,9 @@ class ilMailMemberSearchGUI
 		$radio_roles = new ilRadioOption($this->objMailMemberRoles->getRadioOptionTitle(), 'mail_member_roles');
 		foreach($mail_roles as $role)
 		{
-			$chk_role     = new ilCheckboxInputGUI($role['form_option_title'], 'roles['.$role['mailbox'].']');
-			$chk_role->setValue($role['mailbox']);
+			$chk_role     = new ilCheckboxInputGUI($role['form_option_title'], 'roles[]');
+			$chk_role->setValue($role['role_id']);
+			$chk_role->setInfo($role['mailbox']);
 			$radio_roles->addSubItem($chk_role);
 		}
 
