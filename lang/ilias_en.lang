@@ -15700,8 +15700,8 @@ grp#:#grp_cancellation_end#:#Cancellation Limit
 grp#:#grp_cancellation_end_rbac_info#:#The cancellation deadline was met on %s, a cancellation is not possible anymore.
 sess#:#sess_reg_min_members#:#Minimum of Users
 sess#:#sess_reg_min_members_info#:#A minimum number of users has to register.
-common#:#mem_cron_min_members_subject#:#Course/Group: Minimum Members Check
-common#:#mem_cron_min_members_intro#:#The following courses and groups do not meet the minimum number of members (yet).
+crs#:#mem_cron_min_members_subject#:#Course/Group: Minimum Members Check
+crs#:#mem_cron_min_members_intro#:#The following courses and groups do not meet the minimum number of members (yet).
 grp#:#grp_waiting_list_no_autofill#:#Without Auto-Fill
 grp#:#grp_waiting_list_autofill#:#With Auto-Fill
 grp#:#grp_waiting_list_autofill_info#:#Participants are recruited from the waiting list automatically on cancellations.
@@ -16055,3 +16055,5 @@ content#:#cont_sc_score_was_higher_message#:#achieved score was higher
 meta#:#md_adv_field_filter_warning#:#The field types %s are currently not supported as table filters.
 grp#:#grp_subscription_min_members_info#:#Define the number of users that is minimally required for this group to be held at all. If this number is not met either after the date until which users can register or unsubscribe from the group a mail will be send to those group administrators or tutors that have activated the 'Notification' flag in the 'Members'-tab.
 grp#:#grp_max_and_min_members_invalid#:#The minimum number must be smaller than the maximum number of members.
+crs#:#mem_cron_min_members_reason#:#You receive this message because you have activated the notification in the members-tab.
+crs#:#mem_cron_min_members_task#:#Please inform the participants if the course will not take place because of not enough attendants. Adjust the settings afterwards.
