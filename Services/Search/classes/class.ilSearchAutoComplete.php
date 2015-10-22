@@ -68,7 +68,7 @@ class ilSearchAutoComplete
 		global $ilDB;
 
 		include_once './Services/Search/classes/class.ilSearchSettings.php';
-		if(ilSearchSettings::getInstance()->isLuceneUserSearchEnabled())
+		if(ilSearchSettings::getInstance()->enabledLucene())
 		{
 			return self::getLuceneList($a_str);
 		}
