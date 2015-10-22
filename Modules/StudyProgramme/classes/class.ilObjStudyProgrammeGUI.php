@@ -13,6 +13,7 @@ require_once('./Services/Container/classes/class.ilContainerSortingSettings.php'
 require_once("./Modules/StudyProgramme/classes/types/class.ilStudyProgrammeTypeGUI.php");
 require_once("./Modules/StudyProgramme/classes/model/class.ilStudyProgrammeAdvancedMetadataRecord.php");
 require_once("./Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php");
+require_once("./Services/Object/classes/class.ilObjectCopyGUI.php");
 //require_once("./Modules/OrgUnit/classes/Translation/class.ilTranslationGUI.php");
 
 /**
@@ -27,6 +28,7 @@ require_once("./Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.ph
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjStudyProgrammeSettingsGUI
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjStudyProgrammeTreeGUI
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjStudyProgrammeMembersGUI
+ * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjectCopyGUI
  */
 
 class ilObjStudyProgrammeGUI extends ilContainerGUI {
@@ -164,7 +166,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 				$this->ctrl->forwardCommand($ilTranslationGui);
 				break;*/
 			case "ilobjstudyprogrammemembersgui":
-				$this->denyAccessIfNot("manage_members");
+				$this->denyAccessIfNot("write");
 				$this->tabs_gui->setTabActive(self::TAB_MEMBERS);
 				require_once("Modules/StudyProgramme/classes/class.ilObjStudyProgrammeMembersGUI.php");
 				$gui = new ilObjStudyProgrammeMembersGUI($this, $this->ref_id);
@@ -189,6 +191,10 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 
 				$types_gui = new ilStudyProgrammeTypeGUI($this);
 				$this->ctrl->forwardCommand($types_gui);
+				break;
+			case 'ilobjectcopygui':
+				$gui = new ilobjectcopygui($this);
+				$this->ctrl->forwardCommand($gui);
 				break;
 			case false:
 				$this->getSubTabs($cmd);
@@ -496,10 +502,13 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 	 * Adds the default tabs to the gui
 	 */
 	public function getTabs() {
-		if ($this->checkAccess("read")) {
+		if ($this->checkAccess("write")) {
 			$this->tabs_gui->addTab( self::TAB_VIEW_CONTENT
 								   , $this->lng->txt("content")
 								   , $this->getLinkTarget("view"));
+		}
+
+		if ($this->checkAccess("visible")) {
 			$this->tabs_gui->addTab( self::TAB_INFO
 								   , $this->lng->txt("info_short")
 								   , $this->getLinkTarget("info_short")
@@ -511,9 +520,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 								   , $this->lng->txt("settings")
 								   , $this->getLinkTarget("settings")
 								   );
-		}
-		
-		if ($this->checkAccess("manage_members")) {
+			//Maybe some time this will be: if ($this->checkAccess("manage_members")) {
 			$this->tabs_gui->addTab( self::TAB_MEMBERS
 								   , $this->lng->txt("members")
 								   , $this->getLinkTarget("members")

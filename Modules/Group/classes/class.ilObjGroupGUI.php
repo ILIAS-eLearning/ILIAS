@@ -543,10 +543,13 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 		if(!$this->object->validate())
 		{
+			/*
 			$err = $this->lng->txt('err_check_input');
 			ilUtil::sendFailure($err);
 			$err = $ilErr->getMessage();
-			ilUtil::sendInfo($err);
+			ilUtil::sendInfo($err);			
+			*/
+			ilUtil::sendFailure($ilErr->getMessage()); // #16975
 			$this->editObject();
 			return true;
 		}
@@ -2584,7 +2587,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			$min->setSize(3);
 			$min->setMaxLength(4);
 			$min->setValue($this->object->getMinMembers() ? $this->object->getMinMembers() : '');
-			// $min->setInfo($this->lng->txt('reg_grp_min_members_info'));			
+			$min->setInfo($this->lng->txt('grp_subscription_min_members_info'));			
 			$lim->addSubItem($min);
 
 			$max = new ilTextInputGUI($this->lng->txt('reg_grp_max_members'),'registration_max_members');

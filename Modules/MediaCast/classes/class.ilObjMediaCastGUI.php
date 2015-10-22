@@ -572,12 +572,17 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		$ilTabs->activateTab("edit_content");
 		
 		$this->initAddCastItemForm();
-		
-		if ($_POST["url_Standard"] == "" && !$_FILES['file_Standard']['tmp_name']) {
-			ilUtil::sendFailure($lng->txt("msg_input_either_file_or_url"));
+
+		if (!$this->form_gui->checkInput() ||
+			($_POST["url_Standard"] == "" && !$_FILES['file_Standard']['tmp_name']))
+		{
+			if (($_POST["url_Standard"] == "" && !$_FILES['file_Standard']['tmp_name']))
+			{
+				ilUtil::sendFailure($lng->txt("mcst_input_either_file_or_url"));
+			}
 			$this->populateFormFromPost();
 		}
-		else if ($this->form_gui->checkInput())
+		else
 		{
 			// create dummy object in db (we need an id)
 			include_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
@@ -655,10 +660,6 @@ class ilObjMediaCastGUI extends ilObjectGUI
 			$mc_item->create();
 			
 			$ilCtrl->redirect($this, "listItems");
-		}
-		else
-		{
-			$this->populateFormFromPost();
 		}
 	}
 	

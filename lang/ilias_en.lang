@@ -4614,7 +4614,7 @@ common#:#unlabeled#:#Unlabeled
 common#:#unread_lowercase#:#unread
 common#:#unread#:#Unread
 common#:#unselected#:#Unselected
-common#:#unsubscribe#:#Remove from desktop
+common#:#unsubscribe#:#Remove from Desktop
 common#:#unzip#:#Unzip
 common#:#up#:#Up
 common#:#update_applied#:#Update Applied
@@ -7008,7 +7008,7 @@ grp#:#grp_waiting_list#:#Waiting List
 grp#:#grp_warn_grp_type_changed#:#Do you really want to change the group type? All permission settings will be reset.
 grp#:#grp_warn_no_max_set_on_waiting_list#:#The maximum number of group members is exceeded. You can add your join request to the waiting list. You will receive a message from a group administrator when your request has been approved or rejected.
 grp#:#grp_warn_wl_set_on_waiting_list#:#Some users are already assigned to the waiting list. You can add your join request to the waiting list. You will receive a message from a group administrator when your request has been approved or rejected.
-grp#:#grp_wrong_max_members#:#Please check the maximum number of users.
+grp#:#grp_wrong_max_members#:#A maximum number of members is needed for the waiting list feature.
 grp#:#grp_wrong_reg_time_limit#:#Please check the registration start and finish time.
 grp#:#reg_grp_max_members_short#:#Number of Members
 grp#:#reg_grp_max_members#:#Limited Number of Members
@@ -11825,11 +11825,7 @@ grp#:#grp_presentation_type#:#Presentation Type
 grp#:#grp_view_inherit#:#Default
 grp#:#grp_view_inherit_info#:#The group presentation type is adopted from a parent course.
 content#:#cont_open#:#Display
-content#:#cont_open_normal#:#in tab / new window with link
-content#:#cont_open_iframe_max#:#in iframe with full size
-content#:#cont_open_iframe_defined#:#in iframe with defined width and height
-content#:#cont_open_window_undefined#:#in new window without defined width and height
-content#:#cont_open_window_defined#:#in new window with defined width and height
+content#:#cont_open_normal#:#Opens in a new tab or alternatively in a new window, without ILIAS main menue
 content#:#cont_open_width#:#width
 content#:#cont_open_heigth#:#height
 scormdebug#:#scormdebug_global_activate#:#Enable SCORM test tool
@@ -13147,7 +13143,7 @@ content#:#cont_credit_mode_info#:#This setting is only affective if the lesson m
 content#:#cont_sc_auto_review_info_12#:#Set the lesson mode to ‘review’ when a learner has completed or passed a SCO.
 content#:#cont_sc_usession_info#:#This setting activates periodical requests to the server to keep the session alive.
 content#:#cont_sequencing_info#:#Enable the sequencing and navigation behaviour as defined by the learning module.
-content#:#cont_time_from_lms_info#:#Strict (according to the SCORM standard) check of values sent by the learning module to ILIAS.
+content#:#cont_time_from_lms_info#:#Processing time is set by ILIAS, not by SCOs.
 survey#:#survey_question_pool_usage_active#:#Questions can be added optionally to a question pool
 survey#:#survey_question_pool_usage_active_info#:#Each time a question is created it has to be decided if a question pool is to be used. 
 survey#:#survey_question_pool_usage_inactive#:#Questions are created directly in the survey.
@@ -14413,15 +14409,16 @@ adve#:#char_selector_unicode_all#:#All Unicode Blocks
 adve#:#adve_char_selector_settings#:#Character Selector
 common#:#scorm_login_as_learner_id#:#SCORM 2004: set ILIAS Username as cmi.learner_id
 common#:#scorm_login_as_learner_id_info#:#If enabled, the Username instead of the User ID is set for cmi.learner_id.
-content#:#cont_sc_auto_review_2004#:#Automatic Review Mode
-content#:#cont_sc_auto_review_info_2004#:#If the automatic review mode is enabled, then the tracking data for a chapter (SCO) of the learning module are not stored when one of these options apply. In the rare case however, that the learning module makes use of Sequencing & Navigation according to SCORM 2004, this option should not be enabled.
-content#:#cont_sc_auto_review_no#:#disabled
-content#:#cont_sc_auto_review_completed_not_failed_or_passed#:#if completed or passed, but not failed (recommended for Automatic Review Mode)
-content#:#cont_sc_auto_review_passed#:#if passed
-content#:#cont_sc_auto_review_passed_or_failed#:#if passed or failed
-content#:#cont_sc_auto_review_completed#:#if completed
-content#:#cont_sc_auto_review_completed_and_passed#:#if completed and passed
-content#:#cont_sc_auto_review_completed_or_passed#:#if completed or passed
+content#:#cont_sc_auto_review_2004#:#Store Tracking Data
+content#:#cont_sc_auto_review_info_2004#:#If an option corresponding to a status is enabled, an automatic review mode prevents further storing of tracking data for a chapter (SCO). Choose 'always' if the learning module makes use of Sequencing & Navigation according to SCORM 2004.
+content#:#cont_sc_auto_review_no#:#always (recommended)
+content#:#cont_sc_auto_review_completed_not_failed_or_passed#:#keep tracking data if achieved status is completed or passed, but not failed
+content#:#cont_sc_auto_review_passed#:#keep tracking data if achieved status is passed
+content#:#cont_sc_auto_review_passed_or_failed#:#keep tracking data if achieved status is passed or failed
+content#:#cont_sc_auto_review_completed#:#keep tracking data if achieved status is completed
+content#:#cont_sc_auto_review_completed_and_passed#:#keep tracking data if achieved status is completed and passed
+content#:#cont_sc_auto_review_completed_or_passed#:#keep tracking data if achieved status is completed or passed
+content#:#cont_sc_store_if_previous_score_was_lower#:#keep tracking data if achieved score in previous attempt was higher or equal
 content#:#cont_auto_suspend#:#Ensure getting tracking data from previous attempts
 content#:#cont_auto_suspend_info#:#This option is for SCORM learning modules, which support SCORM 2004 in an inadequate way by not sending proper values for cmi.exit.
 administration#:#adm_captcha_anonymous_frm#:#Activate captcha for anonymous in forums. Please keep in mind that this may effect the accessibility of your installation.
@@ -15697,14 +15694,14 @@ common#:#mem_cron_min_members#:#Course/Group: Minimum Members Check
 common#:#mem_cron_min_members_info#:#The administrators will be notified if the minimum number is not met.
 crs#:#crs_cancellation_end_rbac_info#:#The cancellation deadline was met on %s, a cancellation is not possible anymore.
 common#:#mem_min_users#:#Minimum of Users
-grp#:#grp_wrong_min_max_members#:#Please check the minimum and maximum number of users.
+grp#:#grp_wrong_min_max_members#:#Set a minimum or maximum number of members - or both.
 grp#:#reg_grp_min_members#:#Minimum Number of Members
 grp#:#grp_cancellation_end#:#Cancellation Limit
 grp#:#grp_cancellation_end_rbac_info#:#The cancellation deadline was met on %s, a cancellation is not possible anymore.
 sess#:#sess_reg_min_members#:#Minimum of Users
 sess#:#sess_reg_min_members_info#:#A minimum number of users has to register.
-common#:#mem_cron_min_members_subject#:#Course/Group: Minimum Members Check
-common#:#mem_cron_min_members_intro#:#The following courses and groups do not meet the minimum number of members (yet).
+crs#:#mem_cron_min_members_subject#:#Course/Group: Minimum Members Check
+crs#:#mem_cron_min_members_intro#:#The following courses and groups do not meet the minimum number of members (yet).
 grp#:#grp_waiting_list_no_autofill#:#Without Auto-Fill
 grp#:#grp_waiting_list_autofill#:#With Auto-Fill
 grp#:#grp_waiting_list_autofill_info#:#Participants are recruited from the waiting list automatically on cancellations.
@@ -15994,11 +15991,13 @@ prg#:#prg_warning_img_alt#:#Warning!
 prg#:#prg_successful_img_alt#:#successful
 prg#:#prg_in_progress_img_alt#:#in progress
 prg#:#prg_progress_info#:#You have %1$d points. The Study Programme is completed with %2$d points.
-prg#:#prg_progress_status#:# %1$d of %2$d Points
+prg#:#prg_progress_status#:# %1$d of possible %2$d Points
+prg#:#prg_progress_status_with_child_sp#:# %1$d of %2$d Points
 prg#:#prg_no_members_not_active#:#Can't add members, as this programme is not active.
 prg#:#prg_type_msg_missing_title#:#Title cannot be empty.
 prg#:#prg_added_member#:#The new member was added successfully.
 prg#:#prg_added_members#:#The new members were added successfully.
+prg#:#prg_acknowledge_completed_courses#:#Acknowledge Completed Courses
 common#:#obj_prg_duplicate#:#Copy Study Programme
 common#:#obj_prg_select#:#-- Please select one Study Programme --
 common#:#obj_prg#:#Study Programme
@@ -16006,11 +16005,6 @@ common#:#obj_prgs#:#Study Programmes
 common#:#obj_prgs_desc#:#Study Programme Administration
 trac#:#trac_mode_study_programme#:#Study Programme Completed
 trac#:#trac_mode_study_programme_info#:#The Study Programme has to be completed by a user to receive the Learning Progress 'Completed'.
-prg#:#prg_visible#:#Programme is visible
-prg#:#prg_copy#:#User can copy study programme
-prg#:#prg_write#:#User can edit study programme settings and manage content.
-prg#:#prg_delete#:#User can delete the programme.
-prg#:#prg_edit_permission#:#User can change permission settings.
 forum#:#forums_thread_deleted#:#The selected thread including all postings have been deleted.
 forum#:#forums_threads_deleted#:#The selected threads including all postings have been deleted.
 meta#:#meta_advmd_select_options#:#Entries
@@ -16049,3 +16043,17 @@ awrn#:#awrn_max_inactivity#:#Maximum Inactivity Period
 awrn#:#awrn_max_inactivity_info#:#After this period users are considered being offline. If nothing is set, the session time will be used.
 awrn#:#awrn_minutes#:#min
 bkm#:#bkm_fold_created#:#Bookmark folder has been created.
+mcst#:#mcst_input_either_file_or_url#:#Please specify a file or an URL. If you provide a file, please note the maximum allowed upload file size.
+content#:#cont_sc_version_info#:#The version management will automatically insert the correct version number.
+content#:#cont_online_info#:#Set the SCORM learning module online to make it visible and available for users. If not, only users with 'Edit'-permission will have access to it.
+content#:#cont_open_window#:#Definitely opens in a new window, without ILIAS main menue
+content#:#cont_open_iframe#:#Opens in the same window, the ILIAS main menue is displayed
+content#:#cont_nomenu_info#:#The Top Navigation Bar can be hidden, if the SCORM Learning module contains sufficient functionality to suspend, finish and navigate the content.
+content#:#cont_hidenavig_info#:#The left navigation tree can be hidden, if the SCORM Learning module contains sufficient functionality to navigate the content or the top navigation bar is displayed.
+content#:#cont_width_height_info#:#The size of the display can be set at a fixed size. 950 pixels for Width and 650 pixels for Height are proven values for setting the size. If no entry is made the browser will determine the size of the display.
+content#:#cont_sc_score_was_higher_message#:#achieved score was higher
+meta#:#md_adv_field_filter_warning#:#The field types %s are currently not supported as table filters.
+grp#:#grp_subscription_min_members_info#:#Define the number of users that is minimally required for this group to be held at all. If this number is not met either after the date until which users can register or unsubscribe from the group a mail will be send to those group administrators or tutors that have activated the 'Notification' flag in the 'Members'-tab.
+grp#:#grp_max_and_min_members_invalid#:#The minimum number must be smaller than the maximum number of members.
+crs#:#mem_cron_min_members_reason#:#You receive this message because you have activated the notification in the members-tab.
+crs#:#mem_cron_min_members_task#:#Please inform the participants if the course will not take place because of not enough attendants. Adjust the settings afterwards.

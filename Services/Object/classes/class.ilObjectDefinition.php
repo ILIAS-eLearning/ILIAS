@@ -1144,6 +1144,58 @@ class ilObjectDefinition// extends ilSaxParser
 		}
 		return $plugins;
 	}
-	
+		
+	/**
+	 * Get all object types which are defined as container in an explorer context
+	 * 
+	 * @return array
+	 */
+	public function getExplorerContainerTypes()
+	{						
+		$res = $grp_map = $cnt_grp = array();		
+		
+		// all repository object types
+		foreach ($this->getSubObjectsRecursively("root") as $rtype)
+		{				
+			$type = $rtype["name"];
+			
+			// obsolete
+			if($type == "rolf")
+			{
+				continue;
+			}
+
+			// gather group data
+			$type_grp = $this->getGroupOfObj($type);
+			if($type_grp)
+			{
+				$grp_map[$type_grp][] = $type;
+			}
+
+			// add basic container types
+			if($this->isContainer($type))
+			{
+				// add to cnt_grp
+				if($type_grp)
+				{
+					$cnt_grp[] = $type_grp;
+				}
+
+				$res[] = $type;
+			}
+		}
+		
+		// add complete groups (cat => rcat, catr; crs => rcrs, crsr; ...)
+		foreach($cnt_grp as $grp)
+		{
+			$res = array_merge($res, $grp_map[$grp]);
+		}
+		
+		// add very special case
+		$res[] = "itgr";
+		
+		return array_unique($res);		
+	}
+
 }
 ?>

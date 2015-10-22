@@ -54,8 +54,8 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 
 		if ($ilSetting->get("repository_tree_pres") == "" ||
 			($ilSetting->get("rep_tree_limit_grp_crs") && $this->top_node_id == 0))
-		{
-			$this->setTypeWhiteList(array("root", "cat", "catr", "grp", "crs", "crsr", "rcrs", "itgr"));
+		{			
+			$this->setTypeWhiteList($objDefinition->getExplorerContainerTypes());
 		}
 		else if ($ilSetting->get("repository_tree_pres") == "all_types")
 		{
@@ -74,7 +74,7 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 			$this->setPathOpen((int) $_GET["ref_id"]);
 		}
 	}
-
+		
 	/**
 	 * Get root node
 	 *
@@ -228,6 +228,12 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 				$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $a_node["child"]);
 				$link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", "infoScreen");
 				$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
+				return $link;
+
+			case 'prg':
+				$ilCtrl->setParameterByClass("ilobjstudyprogrammegui", "ref_id", $a_node["child"]);
+				$link = $ilCtrl->getLinkTargetByClass("ilobjstudyprogrammegui", "view");
+				$ilCtrl->setParameterByClass("ilobjstudyprogrammegui", "ref_id", $_GET["ref_id"]);
 				return $link;
 
 			default:
@@ -568,7 +574,9 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 			case 'catr':
 				include_once('./Services/ContainerReference/classes/class.ilContainerReferenceAccess.php');
 				return ilContainerReferenceAccess::_isAccessible($a_node["child"]);
-				
+			
+			case 'prg': 
+					return $rbacsystem->checkAccess("visible", $a_node["child"]);
 
 			// all other types are only clickable, if read permission is given
 			default:

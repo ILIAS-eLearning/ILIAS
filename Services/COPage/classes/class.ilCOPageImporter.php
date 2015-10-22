@@ -87,7 +87,8 @@ class ilCOPageImporter extends ilXmlImporter
 							}
 							$new_page->setXMLContent($next_xml);
 							$new_page->setActive(true);
-							if (array_key_exists("Active", $page_data))
+							// array_key_exists does NOT work on simplexml!
+							if (isset($page_data["Active"]))
 							{
 								$new_page->setActive($page_data["Active"]);
 							}

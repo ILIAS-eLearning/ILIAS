@@ -6073,12 +6073,8 @@ content#:#cont_online#:#Online
 content#:#cont_online_help_ids#:#Screen-IDs
 content#:#cont_open#:#Anzeige des Lernmoduls
 content#:#cont_open_heigth#:#Höhe
-content#:#cont_open_iframe_defined#:#in iframe mit festgelegter Breite und Höhe
-content#:#cont_open_iframe_max#:#in iFrame mit voller Größe
-content#:#cont_open_normal#:#in neuem Tab / neuem Fenster
+content#:#cont_open_normal#:#Öffnet in einem neuen Tab oder ersatzweise in einem neuem Fenster ohne ILIAS Hauptmenü
 content#:#cont_open_width#:#Breite
-content#:#cont_open_window_defined#:#in neuem Fenster mit festgelegter Breite und Höhe
-content#:#cont_open_window_undefined#:#in neuem Fenster ohne festgelegte Breite und Höhe
 content#:#cont_operation_not_allowed#:#Diese Aktion ist nicht erlaubt
 content#:#cont_or#:#oder
 content#:#cont_order#:#Aufzählungstyp
@@ -8152,7 +8148,7 @@ grp#:#grp_waiting_list_info#:#Ist die maximale Mitgliederanzahl erreicht, könne
 grp#:#grp_warn_grp_type_changed#:#Sind Sie sicher, dass Sie die Gruppenart ändern möchten? Die Rechteeinstellungen dieser Gruppe werden überschrieben und an die neue Art der Gruppe angepasst.
 grp#:#grp_warn_no_max_set_on_waiting_list#:#Die maximale Teilnehmeranzahl ist erreicht. Sie können sich jedoch auf die Warteliste für dieser Gruppe setzen lassen und werden dann per Mail benachrichtigt, wenn Sie nachrücken können
 grp#:#grp_warn_wl_set_on_waiting_list#:#Es sind bereits Benutzer in der Warteliste eingetragen. Sie können sich jedoch auf die Warteliste für diese Gruppe setzenund werden dann per Mail benachrichtigt, wenn Sie nachrücken können.
-grp#:#grp_wrong_max_members#:#Bitte überprüfen Sie Ihre Eingabe für die maximale Teilnehmeranzahl.
+grp#:#grp_wrong_max_members#:#Für die Warteliste wird eine maximale Anzahl Mitglieder benötigt.
 grp#:#grp_wrong_reg_time_limit#:#Bitte überprüfen Sie Ihre Eingaben zum Anmeldungszeitraum.
 grp#:#reg_grp_max_members_short#:#Begrenzte Mitgliederanzahl
 grp#:#reg_grp_max_members#:#Maximale Anzahl
@@ -13172,7 +13168,7 @@ content#:#cont_credit_mode_info#:#Diese Einstellung ist nur wirksam im Modus 'no
 content#:#cont_sc_auto_review_info_12#:#Setzt den Modus auf 'review', wenn der Lerner das SCO vollständig bearbeitet oder bestanden hat.
 content#:#cont_sc_usession_info#:#Wenn aktiviert werden periodisch Anfragen an den Server gesendet, um die Session des Benutzers aufrecht zu erhalten.
 content#:#cont_sequencing_info#:#Aktiviert das Verhalten für Sequencing & Navigation gemäß den Vorgaben des Lernmoduls
-content#:#cont_time_from_lms_info#:#Die Bearbeitungszeiten des SCOs werden von ILIAS und nach den strikten Vorgagen des SCORM-Standards ermittelt.
+content#:#cont_time_from_lms_info#:#Die Bearbeitungszeiten werden nicht von SCOs sondern von ILIAS bestimmt.
 mcst#:#mcst_viewmode#:#Ansicht
 mcst#:#mcst_list#:#Liste
 mcst#:#mcst_gallery#:#Kacheln
@@ -14354,15 +14350,16 @@ adve#:#char_selector_unicode_all#:#Alle Unicode-Blöcke
 adve#:#adve_char_selector_settings#:#Zeichenauswahl
 common#:#scorm_login_as_learner_id#:#SCORM 2004: verwende ILIAS-Benutzername als cmi.learner_id
 common#:#scorm_login_as_learner_id_info#:#Lernmodule erhalten den ILIAS-Benutzernamen statt der UserId bei Abfrage von cmi.learner_id.
-content#:#cont_sc_auto_review_2004#:#Automatischer Review-Modus
-content#:#cont_sc_auto_review_info_2004#:#Wenn der automatische Review-Modus aktiviert ist, dann wird der Lernstand für ein Kapitel (SCO) des Lernmoduls nicht mehr gespeichert sobald eine der genannten Bedingungen zutrifft. Sofern der seltene Fall zutrifft, dass das Lernmodul Sequencing & Navigation gemäß SCORM 2004 nutzt, sollte diese Option nicht aktiviert werden.
-content#:#cont_sc_auto_review_no#:#deaktiviert
-content#:#cont_sc_auto_review_completed_not_failed_or_passed#:#wenn 'vollständig bearbeitet' oder 'bestanden', jedoch nicht 'nicht bestanden' (empfohlen)
-content#:#cont_sc_auto_review_passed#:#wenn 'bestanden'
-content#:#cont_sc_auto_review_passed_or_failed#:#wenn 'bestanden' oder 'nicht bestanden'
-content#:#cont_sc_auto_review_completed#:#wenn 'vollständig bearbeitet'
-content#:#cont_sc_auto_review_completed_and_passed#:#wenn 'vollständig bearbeitet' und 'bestanden'
-content#:#cont_sc_auto_review_completed_or_passed#:#wenn 'vollständig bearbeitet' oder 'bestanden'
+content#:#cont_sc_auto_review_2004#:#Daten speichern
+content#:#cont_sc_auto_review_info_2004#:#Bei an einen Status geknüpften Bedingung verhindert ein automatischer Rückschau-Modus (review mode) die weitere Speicherung von Daten für ein Kapitel (SCO) des Lernmoduls. Wählen Sie 'immer' wenn das Lernmodul Sequencing & Navigation gemäß SCORM 2004 nutzt.
+content#:#cont_sc_auto_review_no#:#immer (empfohlen)
+content#:#cont_sc_auto_review_completed_not_failed_or_passed#:#nicht speichern ab Status 'vollständig bearbeitet' (sofern nicht 'nicht bestanden') oder 'bestanden' 
+content#:#cont_sc_auto_review_passed#:#nicht speichern ab Status 'bestanden'
+content#:#cont_sc_auto_review_passed_or_failed#:#nicht speichern ab Status 'bestanden' oder 'nicht bestanden'
+content#:#cont_sc_auto_review_completed#:#nicht speichern ab Status 'vollständig bearbeitet'
+content#:#cont_sc_auto_review_completed_and_passed#:#nicht speichern ab Status 'vollständig bearbeitet' und 'bestanden'
+content#:#cont_sc_auto_review_completed_or_passed#:#nicht speichern ab Status 'vollständig bearbeitet' oder 'bestanden'
+content#:#cont_sc_store_if_previous_score_was_lower#:#nicht speichern wenn der zuvor erzielte Punktestand höher oder gleich war
 content#:#cont_auto_suspend#:#Abruf vorhandener Lernstandsdaten sicherstellen
 content#:#cont_auto_suspend_info#:#Diese Option ist für SCORM-Lernmodule, die SCORM 2004 in einer unzureichenden Weise unterstützen, indem sie keine geeigneten Werte für cmi.exit senden.
 content#:#cont_current_lang#:#Aktuelle Sprache
@@ -15689,14 +15686,14 @@ common#:#mem_cron_min_members#:#Kurs/Gruppe: Prüfung der minimalen Teilnehmerza
 common#:#mem_cron_min_members_info#:#Die Administratoren werden benachrichtigt sofern die minimale Anzahl nicht erreicht wird.
 crs#:#crs_cancellation_end_rbac_info#:#Das Stornierungsende wurde am %s erreicht, ein Austritt ist nicht mehr möglich.
 common#:#mem_min_users#:#Minimale Teilnehmeranzahl
-grp#:#grp_wrong_min_max_members#:#Bitte überprüfen Sie Ihre Eingabe für die mnimale und maximale Teilnehmeranzahl.
+grp#:#grp_wrong_min_max_members#:#Setzen Sie eine minimale oder maximale Anzahl - oder beides.
 grp#:#reg_grp_min_members#:#Minimale Anzahl
 grp#:#grp_cancellation_end#:#Spätester Gruppenaustritt
 grp#:#grp_cancellation_end_rbac_info#:#Das Stornierungsende wurde am %s erreicht, ein Austritt ist nicht mehr möglich.
 sess#:#sess_reg_min_members#:#Minimale Teilnehmeranzahl
 sess#:#sess_reg_min_members_info#:#Eine minimale Zahl an Teilnehmern muss sich registrieren.
-common#:#mem_cron_min_members_subject#:#Kurs/Gruppe: Prüfung der minimalen Teilnehmerzahl
-common#:#mem_cron_min_members_intro#:#Die folgenden Kurse und Gruppen erreichen aktuell nicht die minimale Teilnehmerzahl.
+crs#:#mem_cron_min_members_subject#:#Kurs/Gruppe: Prüfung der minimalen Teilnehmerzahl
+crs#:#mem_cron_min_members_intro#:#Die folgenden Kurse und Gruppen erreichen aktuell nicht die minimale Teilnehmerzahl.
 grp#:#grp_waiting_list_autofill#:#Mit automatischem Aufrücken
 grp#:#grp_waiting_list_no_autofill#:#Ohne automatisches Aufrücken
 grp#:#grp_waiting_list_autofill_info#:#Teilnehmer rücken automatisch bei Stornierungen von der Warteliste nach.
@@ -15983,12 +15980,14 @@ prg#:#prg_update_from_plan_successful#:#Die Aktualisierung aus dem aktuellen Pla
 prg#:#prg_warning_img_alt#:#Warnung!
 prg#:#prg_successful_img_alt#:#erfolgreich
 prg#:#prg_in_progress_img_alt#:#in Bearbeitung
-prg#:#prg_progress_info#:#Sieh haben %1$d Punkte. Das Studienprogramm ist mit %2$d Punkten bestanden.
+prg#:#prg_progress_info#:#Sie haben %1$d Punkte. Das Studienprogramm ist mit %2$d Punkten bestanden.
 prg#:#prg_progress_status#:# %1$d von %2$d Punkten
+prg#:#prg_progress_status_with_child_sp#:# %1$d von möglichen %2$d Punkten
 prg#:#prg_no_members_not_active#:#Da das Studienprogramm nicht aktiv ist, können keine neuen Mitglieder hinzugefügt werden.
 prg#:#prg_type_msg_missing_title#:#Titel kann nicht leer sein.
 prg#:#prg_added_member#:#Das neue Mitglied wurde erfolgreich hinzugefügt.
 prg#:#prg_added_members#:#Die neuen Mitglieder wurden erfolgreich hinzugefügt.
+prg#:#prg_acknowledge_completed_courses#:#Bestandene Kurse anerkennen
 common#:#obj_prg_duplicate#:#Studienprogramm kopieren
 common#:#obj_prg_select#:#-- Bitte wählen Sie ein Studienprogramm --
 common#:#obj_prg#:#Studienprogramm
@@ -16006,11 +16005,6 @@ mail#:#orphaned_mail_body#:#There are old or orphaned mails in the following mai
 rbac#:#rbac_permissions#:#Permissions###30 08 2015 new variable
 buddysystem#:#buddy_bs_state_requested_p#:#Requested###30 08 2015 new variable
 common#:#obj_prgs#:#Studienprogramme
-prg#:#prg_visible#:#Programme is visible###30 08 2015 new variable
-prg#:#prg_copy#:#User can copy study programme###30 08 2015 new variable
-prg#:#prg_write#:#User can edit study programme settings and manage content.###30 08 2015 new variable
-prg#:#prg_delete#:#User can delete the programme.###30 08 2015 new variable
-prg#:#prg_edit_permission#:#User can change permission settings.###30 08 2015 new variable
 forum#:#forums_thread_deleted#:#Das gewählte Thema einschließlich aller dazugehörigen Beiträge wurde gelöscht.
 forum#:#forums_threads_deleted#:#Die gewählten Themen einschließlich aller dazugehörigen Beiträge wurden gelöscht.
 meta#:#meta_advmd_select_options#:#Einträge
@@ -16049,3 +16043,17 @@ awrn#:#awrn_max_inactivity_info#:#Benutzer ohne Aktion in der angegebenen Zeitsp
 awrn#:#awrn_minutes#:#min
 exc#:#exc_members_already_assigned_tean#:#These users are already assigned to other teams of this assignment.###08 10 2015 new variable
 bkm#:#bkm_fold_created#:#Bookmark-Ordner wurde angelegt.
+mcst#:#mcst_input_either_file_or_url#:#Bitte geben Sie entweder eine Datei oder eine URL an. Achten Sie bei Angabe einer Datei bitte auf die maximal erlaubte Upload-Größe.
+content#:#cont_sc_version_info#:#Die laufende Nummer wird automatisch aus dem Versionsmanagement des Lernmoduls gelesen.
+content#:#cont_online_info#:#Nur wenn das SCORM-Lernmodul online geschaltet ist, können Benutzer auf das Lernmodul zugreifen. Wenn nicht ist das SCORM-Lernmodul nur für Personen mit Bearbeitungsrechten verfügbar.
+content#:#cont_open_window#:#Öffnet zwingend in einem neuen Fenster ohne ILIAS Hauptmenü
+content#:#cont_open_iframe#:#Öffnet im selben Fenster (iFrame) unterhalb des ILIAS Hauptmenüs
+content#:#cont_nomenu_info#:#Das obere Navigationsmenü kann ausgeblendet werden, wenn das SCORM-Lernmodul ausreichende Funktionalität zum Unterbrechen, Beenden und Navigieren mitbringt.
+content#:#cont_hidenavig_info#:#Der linke Navigationsbaum zum Wechseln zwischen mehreren Abschnitten des Lernmoduls kann ausgeblendet werden, wenn das SCORM-Lernmodul eine eigene Navigation enthält oder das obere Navigationsmenü angezeigt wird.
+content#:#cont_width_height_info#:#Die Größe der Darstellung kann festgelegt werden. In der Praxis hat sich eine Berite von 950 Pixeln und eine Höhe von 650 Pixeln bewährt. Wenn keine Angabe gemacht wird, steuert der Browser die Darstellung der Größe.
+content#:#cont_sc_score_was_higher_message#:#erreichter Punktestand war höher
+meta#:#md_adv_field_filter_warning#:#Die Feld-Typen %s werden aktuell nicht als Tabellenfilter unterstützt.
+grp#:#grp_subscription_min_members_info#:#Wird die geforderte Mindestanzahl an Mitgliedern nicht erreicht, kann die Gruppe nicht stattfinden. Wird die Mindestanzahl bis zum Ende des Beitrittszeitraums bzw. dem spätesten Gruppenaustritt nicht erreicht, dann wird eine Mail an jene Gruppenadministratoren oder -tutoren versendet, die im Reiter 'Mitglieder' die Option'Benachrichtigung' aktiviert haben. 
+grp#:#grp_max_and_min_members_invalid#:#Die minimale Anzahl muss kleiner als die maximale Anzahl sein.
+crs#:#mem_cron_min_members_reason#:#Sie erhalten diese Email, da Sie die Benachrichtigung im jeweiligen Mitglieder-Tab aktiviert haben.
+crs#:#mem_cron_min_members_task#:#Informieren Sie die Teilnehmenden rechtzeitig, falls der Kurs wegen Nicht-Erreichung der geforderten Mindestanzahl nicht stattfindet. Passen Sie nach Ablauf des Beitrittszeitraums die Kurseinstellungen an.
