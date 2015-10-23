@@ -1289,10 +1289,8 @@ class gevUserUtils {
 	}
 	
 	public function isSuperiorOf($a_user_id) {
-		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php");
-		$tree = ilObjOrgUnitTree::_getInstance();
-		// propably faster then checking the employees of this->user
-		return in_array($this->user_id, $tree->getSuperiorsOfUser($a_user_id));
+		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+		return in_array($this->user_id, gevOrgUnitUtils::getSuperiorsOfUser($a_user_id));
 	}
 	
 	static public function removeInactiveUsers($a_usr_ids) {
@@ -1340,8 +1338,8 @@ class gevUserUtils {
 
 		foreach($look_above_orgus as $org) {
 			$sups_aux = array();
-			$org_aux = $org;
-			while (count($sups_aux) == 0 && $org_aux) {
+			$org_aux = $tree->getParent($org);
+			while (count($sups_aux) == 0 &&$org_aux != ROOT_FOLDER_ID) {
 				$org_aux = $tree->getParent($org_aux);
 				$sups_aux = $tree->getSuperiors($org_aux);
 			}
