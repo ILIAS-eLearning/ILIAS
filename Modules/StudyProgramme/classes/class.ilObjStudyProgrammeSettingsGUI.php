@@ -247,7 +247,13 @@ class ilObjStudyProgrammeSettingsGUI {
 		
 		$obj->setTitle($a_form->getItemByPostVar(self::PROP_TITLE)->getValue());
 		$obj->setDescription($a_form->getItemByPostVar(self::PROP_DESC)->getValue());
-		$obj->setSubtypeId($a_form->getItemByPostVar(self::PROP_TYPE)->getValue());
+
+		if($obj->getSubtypeId() != $a_form->getItemByPostVar(self::PROP_TYPE)->getValue()) {
+			$obj->setSubtypeId($a_form->getItemByPostVar(self::PROP_TYPE)->getValue());
+			$obj->updateCustomIcon();
+			$this->parent_gui->setTitleAndDescription();
+		}
+
 		$obj->setPoints($a_form->getItemByPostVar(self::PROP_POINTS)->getValue());
 		$obj->setStatus($a_form->getItemByPostVar(self::PROP_STATUS)->getValue());
 	}

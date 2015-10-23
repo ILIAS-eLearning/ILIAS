@@ -10,6 +10,7 @@ require_once('./Services/UIComponent/Button/classes/class.ilLinkButton.php');
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
  * @author Fabian Schmid <fs@studer-raimann.ch>
  * @author Michael Herren <mh@studer-raimann.ch>
+ * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
  */
 class ilStudyProgrammeTypeGUI {
 
@@ -145,7 +146,7 @@ class ilStudyProgrammeTypeGUI {
 	protected function setSubTabsEdit($active_tab_id) {
 		$this->tabs->addSubTab('general', $this->lng->txt('meta_general'), $this->ctrl->getLinkTarget($this, 'edit'));
 		if ($this->ilias->getSetting('custom_icons')) {
-			//$this->tabs->addSubTab('custom_icons', $this->lng->txt('icon_settings'), $this->ctrl->getLinkTarget($this, 'editCustomIcons'));
+			$this->tabs->addSubTab('custom_icons', $this->lng->txt('icon_settings'), $this->ctrl->getLinkTarget($this, 'editCustomIcons'));
 		}
 		if (count(ilStudyProgrammeType::getAvailableAdvancedMDRecordIds())) {
 			$this->tabs->addSubTab('amd', $this->lng->txt('md_advanced'), $this->ctrl->getLinkTarget($this, 'editAMD'));

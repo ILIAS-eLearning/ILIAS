@@ -481,7 +481,7 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 			$this->tpl->touchBlock("member_has_no_team_bl");
 		}
 		
-		$ilCtrl->setParameter($this->parent_obj, "ass_id", "");
+		$ilCtrl->setParameter($this->parent_obj, "ass_id", $this->ass_id); // #17140
 		$ilCtrl->setParameter($this->parent_obj, "member_id", "");
 	}
 
