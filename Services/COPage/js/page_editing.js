@@ -2706,6 +2706,10 @@ function showToolbar(ed_id)
 {
 // todo tinynew
 
+    //#0017152
+    $('#tinytarget_ifr').contents().find("html").attr('lang', $('html').attr('lang'));
+    $('#tinytarget_ifr').contents().find("html").attr('dir', $('html').attr('dir'));
+
 	$("#tinytarget_ifr").parent().css("border-width", "0px");
 	$("#tinytarget_ifr").parent().parent().parent().css("border-width", "0px");
 
