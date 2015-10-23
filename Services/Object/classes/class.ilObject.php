@@ -1899,17 +1899,8 @@ class ilObject
 			$a_size = "big";
 		}
 
-		if($ilSetting->get("custom_icons") && $a_type == "prg" && $a_obj_id) {
-			require_once("Modules/StudyProgramme/classes/model/class.ilStudyProgrammeType.php");
-			$path = ilStudyProgrammeType::getIconPathByStudyProgrammObjId($a_obj_id);
-
-			if($path) {
-				return $path;
-			}
-		}
-		
 		if ($ilSetting->get("custom_icons") &&
-			in_array($a_type, array("cat","grp","crs", "root", "fold")))
+			in_array($a_type, array("cat","grp","crs", "root", "fold", "prg")))
 		{
 			require_once("./Services/Container/classes/class.ilContainer.php");
 			if (ilContainer::_lookupContainerSetting($a_obj_id, "icon_custom"))
