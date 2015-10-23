@@ -967,23 +967,36 @@ class gevOrgUnitUtils {
 }
 
 public static function getSuperiorsOfUser($user_id) {
-		global $ilDB;
+		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php");
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 
-		$sql = "SELECT DISTINCT sup_users.usr_id FROM object_data orgu
-				INNER JOIN object_reference refr ON refr.obj_id = orgu.obj_id
-				INNER JOIN object_data roles ON roles.title LIKE CONCAT('il_orgu_employee_',refr.ref_id)
-				INNER JOIN rbac_ua rbac ON rbac.usr_id = ".$ilDB->quote($user_id, "integer")." AND roles.obj_id = rbac.rol_id
-				INNER JOIN object_data sup_roles ON sup_roles.title LIKE CONCAT('il_orgu_superior_',refr.ref_id)
-				INNER JOIN rbac_ua sup_users ON sup_users.rol_id = sup_roles.obj_id
-				WHERE orgu.type = 'orgu'";
+		$tree = ilObjOrgUnitTree::_getInstance();
+		$sups = array();
+		$look_above_orgus = array();
+		$orgus = $tree->getOrgUnitOfUser($user_id);
+		foreach( $orgus as $ref_id ) {
+			$employees = $tree->getEmployees($ref_id);
+			$superiors = $tree->getSuperiors($ref_id);
+			$any_superiors = count($superiors);
+			$look_above_orgus[] = $ref_id;
 
-		$res = $ilDB->query($sql);
-
-		$user_superiors = array();
-		while ($rec = $ilDB->fetchAssoc($res)) {
-			$user_superiors[] = $rec["usr_id"];
+			if(in_array($user_id,$employees)) {
+				$sups = array_merge($sups,$superiors);
+			}
 		}
-		return $user_superiors;
+
+		$look_above_orgus = array_unique($look_above_orgus);
+
+		foreach($look_above_orgus as $org) {
+			$org_aux = $org;
+			while ($org_aux) {
+				$org_aux = $tree->getParent($org_aux);
+				$sups = array_merge($sups,$tree->getSuperiors($org_aux));
+			}
+		}
+		$sups = array_unique($sups);
+		return gevUserUtils::removeInactiveUsers($sups);
+	}
 }
 
 class gevOrgUnitCache {
