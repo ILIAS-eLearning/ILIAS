@@ -16057,3 +16057,6 @@ grp#:#grp_subscription_min_members_info#:#Define the number of users that is min
 grp#:#grp_max_and_min_members_invalid#:#The minimum number must be smaller than the maximum number of members.
 crs#:#mem_cron_min_members_reason#:#You receive this message because you have activated the notification in the members-tab.
 crs#:#mem_cron_min_members_task#:#Please inform the participants if the course will not take place because of not enough attendants. Adjust the settings afterwards.
+crs#:#crs_loc_settings_passed_mode#:#Bestandene Lernziele
+crs#:#crs_loc_settings_passed_mode_hide#:#Testfragen zu bestandenen Lernzielen werden ausgeblendet
+crs#:#crs_loc_settings_passed_mode_mark#:#Testfragen zu bestandenen Lernzielen werden markiert
