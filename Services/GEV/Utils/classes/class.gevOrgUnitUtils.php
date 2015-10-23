@@ -978,20 +978,17 @@ public static function getSuperiorsOfUser($user_id) {
 			$employees = $tree->getEmployees($ref_id);
 			$superiors = $tree->getSuperiors($ref_id);
 			$any_superiors = count($superiors);
-			$look_above_orgus[] = $ref_id;
 
 			if(in_array($user_id,$employees)) {
 				$sups = array_merge($sups,$superiors);
 			}
 		}
 
-		$look_above_orgus = array_unique($look_above_orgus);
-
-		foreach($look_above_orgus as $org) {
-			$org_aux = $org;
+		foreach($orgus as $org) {
+			$org_aux = $tree->getParent($org);
 			while ($org_aux) {
-				$org_aux = $tree->getParent($org_aux);
 				$sups = array_merge($sups,$tree->getSuperiors($org_aux));
+				$org_aux = $tree->getParent($org_aux);
 			}
 		}
 		$sups = array_unique($sups);
