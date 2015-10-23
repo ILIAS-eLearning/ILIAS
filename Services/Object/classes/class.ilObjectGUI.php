@@ -1317,7 +1317,7 @@ class ilObjectGUI
 		if ($form->checkInput())
 		{
 			// :todo: make some check on manifest file
-			
+
 			if($objDefinition->isContainer($new_type))
 			{
 				include_once './Services/Export/classes/class.ilImportContainer.php';

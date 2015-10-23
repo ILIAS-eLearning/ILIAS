@@ -13,6 +13,16 @@ include_once("./Services/Export/classes/class.ilXmlImporter.php");
 class ilGlossaryImporter extends ilXmlImporter
 {
 	/**
+	 * Initialisation
+	 */
+	function init()
+	{
+		include_once("./Modules/Glossary/classes/class.ilGlossaryDataSet.php");
+		$this->ds = new ilGlossaryDataSet();
+		$this->ds->setDSPrefix("ds");
+	}
+
+	/**
 	 * Import XML
 	 *
 	 * @param
@@ -40,51 +50,57 @@ class ilGlossaryImporter extends ilXmlImporter
 			}
 			else
 			{
-				// Shouldn't happen
-				$GLOBALS['ilLog']->write(__METHOD__.': Called in non container mode');
-				$GLOBALS['ilLog']->logStack();
-				return false;
+				// in the new version (5.1)  we are also here, but the following file should not exist
+				// if being exported with 5.1 or higher
+				$xml_file = $this->getImportDirectory().'/'.basename($this->getImportDirectory()).'.xml';
 			}
-	
-			if(!file_exists($xml_file))
+
+			// old school import
+			if (file_exists($xml_file))
 			{
-				$GLOBALS['ilLog']->write(__METHOD__.': ERROR Cannot find '.$xml_file);
-				return false;
-			}
-	
-			include_once './Modules/LearningModule/classes/class.ilContObjParser.php';
-			$contParser = new ilContObjParser(
-				$newObj, 
-				$xml_file,
-				basename($this->getImportDirectory())
-			);
-			
-			$contParser->startParsing();
-			ilObject::_writeImportId($newObj->getId(), $newObj->getImportId());
-			
-			// write term map for taxonomies to mapping object
-			$term_map = $contParser->getGlossaryTermMap();
-			foreach ($term_map as $k => $v)
-			{
-				$a_mapping->addMapping("Services/Taxonomy", "tax_item",
+				include_once './Modules/LearningModule/classes/class.ilContObjParser.php';
+				$contParser = new ilContObjParser(
+					$newObj,
+					$xml_file,
+					basename($this->getImportDirectory())
+				);
+
+				$contParser->startParsing();
+
+				ilObject::_writeImportId($newObj->getId(), $newObj->getImportId());
+
+				// write term map for taxonomies to mapping object
+				$term_map = $contParser->getGlossaryTermMap();
+				foreach ($term_map as $k => $v)
+				{
+					$a_mapping->addMapping("Services/Taxonomy", "tax_item",
 						"glo:term:".$k, $v);
 
-				// this is since 4.3 does not export these ids but 4.4 tax node assignment needs it
-				$a_mapping->addMapping("Services/Taxonomy", "tax_item_obj_id",
-					"glo:term:".$k, $newObj->getId());
-				
-				$a_mapping->addMapping("Services/AdvancedMetaData", "advmd_sub_item",
-					"advmd:term:".$k, $v);
+					// this is since 4.3 does not export these ids but 4.4 tax node assignment needs it
+					$a_mapping->addMapping("Services/Taxonomy", "tax_item_obj_id",
+						"glo:term:".$k, $newObj->getId());
+
+					$a_mapping->addMapping("Services/AdvancedMetaData", "advmd_sub_item",
+						"advmd:term:".$k, $v);
+				}
+
+				$a_mapping->addMapping("Modules/Glossary", "glo", $a_id, $newObj->getId());
+				$a_mapping->addMapping("Services/AdvancedMetaData", "parent", $a_id, $newObj->getId());
+
+				$this->current_glo = $newObj;
+			}
+			else
+			{
+				// necessary?
+				// ilObject::_writeImportId($newObj->getId(), $newObj->getImportId());
+				include_once("./Services/DataSet/classes/class.ilDataSetImportParser.php");
+				$parser = new ilDataSetImportParser($a_entity, $this->getSchemaVersion(),
+					$a_xml, $this->ds, $a_mapping);
+
+				// in the new version the mapping above is done in the dataset
 			}
 
-			// ???
-			$a_mapping->addMapping("Services/Taxonomy", "tax_item",
-				"glo:term:".$k, $v);
 
-			$a_mapping->addMapping("Modules/Glossary", "glo", $a_id, $newObj->getId());
-			$a_mapping->addMapping("Services/AdvancedMetaData", "parent", $a_id, $newObj->getId());
-			
-			$this->current_glo = $newObj;
 		}
 	}
 	
@@ -114,8 +130,16 @@ class ilGlossaryImporter extends ilXmlImporter
 						ilObjTaxonomy::saveUsage($tid, $new);
 					}
 				}
+
+				// get style
+				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+				$sty_map = $a_mapping->getMappingsOfEntity("Services/Style", "sty");
+
 			}
 		}
+
+
+
 	}
 	
 }

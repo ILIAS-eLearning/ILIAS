@@ -127,7 +127,6 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 
 		$from_styles = $to_styles = $data = array();
 		$styles = $this->object->getStyles();
-
 		foreach($styles as $style)
 		{
 			$style["active"] = ilObjStyleSheet::_lookupActive($style["id"]);

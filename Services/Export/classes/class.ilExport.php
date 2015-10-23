@@ -308,9 +308,16 @@ class ilExport
 	 *
 	 * @return array success and info array
 	 */
-	function exportObject($a_type, $a_id, $a_target_release)
+	function exportObject($a_type, $a_id, $a_target_release = "")
 	{
 		global $objDefinition, $tpl;
+
+		// if no target release specified, use latest major release number
+		if ($a_target_release == "")
+		{
+			$v = explode(".", ILIAS_VERSION_NUMERIC);
+			$a_target_release = $v[0].".".$v[1].".0";
+		}
 				
 		$comp = $objDefinition->getComponentForType($a_type);
 		$c = explode("/", $comp);

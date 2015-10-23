@@ -181,7 +181,7 @@ class ilGlossaryDefinition
 	 *
 	 * @param boolean upload true/false
 	 */
-	function create($a_upload = false)
+	function create($a_upload = false, $a_omit_page_creation = false)
 	{
 		global $ilDB;
 		
@@ -228,10 +228,13 @@ class ilGlossaryDefinition
 			$this->createMetaData();
 		}
 
-		$this->page_object = new ilGlossaryDefPage();
-		$this->page_object->setId($this->getId());
-		$this->page_object->setParentId($term->getGlossaryId());
-		$this->page_object->create();
+		if (!$a_omit_page_creation)
+		{
+			$this->page_object = new ilGlossaryDefPage();
+			$this->page_object->setId($this->getId());
+			$this->page_object->setParentId($term->getGlossaryId());
+			$this->page_object->create();
+		}
 	}
 
 	function delete()

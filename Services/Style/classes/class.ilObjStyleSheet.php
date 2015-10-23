@@ -868,6 +868,15 @@ class ilObjStyleSheet extends ilObject
 				ilUtil::rCopy(self::$basic_style_image_dir,
 					$this->getImagesDirectory());
 			}
+			else
+			{
+				// add style_data record
+				$q = "INSERT INTO style_data (id, uptodate, category) VALUES ".
+					"(".$ilDB->quote($this->getId(), "integer").", 0,".
+					$ilDB->quote((int) $this->getScope(), "integer").")";
+				$ilDB->manipulate($q);
+				ilObjStyleSheet::_createImagesDirectory($this->getId());
+			}
 		}
 		else
 		{
@@ -1022,7 +1031,7 @@ class ilObjStyleSheet extends ilObject
 	function addCharacteristic($a_type, $a_char, $a_hidden = false)
 	{
 		global $ilDB;
-		
+
 		// delete characteristic record
 		$ilDB->manipulateF("INSERT INTO style_char (style_id, type, characteristic, hide)".
 			" VALUES (%s,%s,%s,%s) ",
@@ -3223,12 +3232,15 @@ class ilObjStyleSheet extends ilObject
 	 * Add media query
 	 * @param string $a_mquery media query
 	 */
-	function addMediaQuery($a_mquery)
+	function addMediaQuery($a_mquery, $order_nr = 0)
 	{
 		global $ilDB;
 
 		$id = $ilDB->nextId("sty_media_query");
-		$order_nr = $this->getMaxMQueryOrderNr() + 10;
+		if ($order_nr == 0)
+		{
+			$order_nr = $this->getMaxMQueryOrderNr() + 10;
+		}
 
 		$ilDB->manipulate("INSERT INTO sty_media_query (id, style_id, mquery, order_nr)".
 			" VALUES (".
@@ -3442,6 +3454,23 @@ class ilObjStyleSheet extends ilObject
 		}
 
 	}
+
+	/**
+	 * Update table template
+	 */
+	function addTemplateClass($a_t_id, $a_type, $a_class)
+	{
+		global $ilDB;
+
+		$ilDB->manipulate($q = "INSERT INTO style_template_class ".
+			"(template_id, class_type, class)".
+			" VALUES (".
+			$ilDB->quote($a_t_id, "integer").",".
+			$ilDB->quote($a_type, "text").",".
+			$ilDB->quote($a_class, "text").
+			")");
+	}
+
 
 	/**
 	* Check whether template exists

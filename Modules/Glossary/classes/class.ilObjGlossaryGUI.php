@@ -374,7 +374,27 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	function importFileObject()
 	{
 		global $tpl, $ilErr;
-		
+
+		$no_manifest = false;
+		try
+		{
+			// the new import
+			parent::importFileObject();
+			return;
+		}
+		catch (ilManifestFileNotFoundImportException $e)
+		{
+			// we just run through in this case.
+			$no_manifest = true;
+		}
+
+		if (!$no_manifest)
+		{
+			return;			// something different has gone wrong, but we have a manifest, this is definitely not "the old" import
+		}
+
+		// old import
+
 		$new_type = $_REQUEST["new_type"];
 
 		// create permission is already checked in createObject. This check here is done to prevent hacking attempts
