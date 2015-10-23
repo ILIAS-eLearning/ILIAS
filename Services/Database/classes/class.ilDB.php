@@ -7,6 +7,7 @@
 //pear MDB2 abstraction layer
 include_once ("Services/PEAR/lib/MDB2.php");
 require_once 'Services/Database/classes/MySQL/class.ilMySQLQueryUtils.php';
+require_once 'Services/Database/classes/interface.ilDBInterface.php';
 
 define("DB_FETCHMODE_ASSOC", MDB2_FETCHMODE_ASSOC);
 define("DB_FETCHMODE_OBJECT", MDB2_FETCHMODE_OBJECT);
@@ -26,7 +27,7 @@ define("DB_FETCHMODE_OBJECT", MDB2_FETCHMODE_OBJECT);
 * @version $Id$
 * @ingroup ServicesDatabase
 */
-abstract class ilDB extends PEAR
+abstract class ilDB extends PEAR implements ilDBInterface
 {
 	const LOCK_WRITE = 1;
 	const LOCK_READ  = 2;
@@ -2082,8 +2083,8 @@ abstract class ilDB extends PEAR
 		$locate .= ') ';
 		return $locate;
 	}
-	
-	
+
+
 	/**
 	* Like
 	*

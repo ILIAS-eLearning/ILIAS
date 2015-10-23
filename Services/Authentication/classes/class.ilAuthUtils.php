@@ -254,7 +254,8 @@ class ilAuthUtils
 				global $ilDB;
                 if($ilDB instanceof ilDBPdo) {
                     require_once 'Services/Authentication/classes/PDO/class.ilPDOAuthentication.php';
-                    $ilAuth = new ilPDOAuthentication();
+                    $a = ilAuthFactory::$context_options;
+                    $ilAuth = new ilPDOAuthentication(ilAuthFactory::getContextOptions(ilAuthFactory::getContext()));
                 } else {
                     include_once './Services/Database/classes/class.ilAuthContainerMDB2.php';
                     $ilAuth = ilAuthFactory::factory(new ilAuthContainerMDB2());

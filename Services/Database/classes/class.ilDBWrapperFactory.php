@@ -14,7 +14,13 @@ include_once ("./Services/Database/classes/class.ilDB.php");
 */
 class ilDBWrapperFactory
 {
-	static function getWrapper($a_type, $a_inactive_mysqli = null)
+    /**
+     * @param $a_type
+     * @param null $a_inactive_mysqli
+     * @return ilDBInterface
+     * @throws ilDatabaseException
+     */
+	static public function getWrapper($a_type, $a_inactive_mysqli = null)
 	{
 		global $ilClientIniFile;
 		
@@ -74,7 +80,7 @@ class ilDBWrapperFactory
 				include_once("./Services/Database/classes/class.ilDBOracle.php");
 				$ilDB = new ilDBOracle();
 				break;
-            case "pdo":
+            case "pdo-mysql":
                 require_once("./Services/Database/classes/PDO/class.ilDBPdo.php");
                 $ilDB = new ilDBPdo();
                 break;

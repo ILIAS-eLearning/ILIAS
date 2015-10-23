@@ -75,7 +75,7 @@ interface ilDBInterface {
     /**
      * @param $query string
      *
-     * @return \PDOStatement
+     * @return \ilDBStatement
      */
     public function query($query);
 
@@ -84,7 +84,7 @@ interface ilDBInterface {
      *
      * @return array
      */
-    public function fetchAll($query_result);
+    //public function fetchAll($query_result);
 
     /**
      * @param $table_name string
@@ -167,7 +167,7 @@ interface ilDBInterface {
      * @return mixed
      * @throws ilDatabaseException
      */
-    function fetchRow($fetchMode = DB_FETCHMODE_ASSOC);
+    //function fetchRow($fetchMode = DB_FETCHMODE_ASSOC);
 
     /**
      * Get DSN. This must be overwritten in DBMS specific class.
@@ -205,7 +205,7 @@ interface ilDBInterface {
      * @param $query string
      * @param $types string[]
      * @param $values mixed[]
-     * @return string
+     * @return \ilDBStatement
      */
     public function queryF($query, $types, $values);
 
@@ -246,4 +246,22 @@ interface ilDBInterface {
      * @return string the now statement
      */
     public function now();
+
+    /**
+     * Replace into method.
+     *
+     * @param	string		table name
+     * @param	array		primary key values: array("field1" => array("text", $name), "field2" => ...)
+     * @param	array		other values: array("field1" => array("text", $name), "field2" => ...)
+     */
+    public function replace($table, $primaryKeys, $otherColumns);
+
+    /**
+     * @param $columns
+     * @param $value
+     * @param $type
+     * @param bool $emptyOrNull
+     * @return string
+     */
+    public function equals($columns, $value, $type, $emptyOrNull = false);
 }

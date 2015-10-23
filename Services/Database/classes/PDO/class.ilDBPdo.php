@@ -1,4 +1,4 @@
-    <?php
+<?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once("./Services/Database/classes/interface.ilDBInterface.php");
@@ -6,11 +6,15 @@ require_once("Services/Database/classes/PDO/class.ilPDOStatement.php");
 require_once("Services/Database/classes/MySQL/class.ilMySQLQueryUtils.php");
 require_once("Services/Database/classes/Exceptions/ilDatabaseException.php");
 
+
 /**
  * Class pdoDB
  * @author Oskar Truffer <ot@studer-raimann.ch>
+ *
+ * TODO: Quote, Oursource QueryBuilder stuff.
  */
-class ilDBPdo implements ilDBInterface {
+class ilDBPdo implements ilDBInterface
+{
 
     /**
      * @var PDO
@@ -39,17 +43,21 @@ class ilDBPdo implements ilDBInterface {
     );
 
 
-    public function __construct() {
+    public function __construct()
+    {
         $attr = PDO::MYSQL_ATTR_USE_BUFFERED_QUERY;
     }
 
-    public function connect() {
+    public function connect()
+    {
         $this->pdo = new PDO('mysql:host=localhost;dbname=ilias_trunk;charset=utf8', 'ilias_trunk', 'ilias_trunk');
         $this->pdo->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
+        $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 
-    public function initFromIniFile() {
-     //TODO
+    public function initFromIniFile()
+    {
+        //TODO
     }
 
     /**
@@ -57,7 +65,8 @@ class ilDBPdo implements ilDBInterface {
      *
      * @return int
      */
-    public function nextId($table_name) {
+    public function nextId($table_name)
+    {
         if ($this->tableExists($table_name . '_seq')) {
             $table_seq = $table_name . '_seq';
             $stmt = $this->pdo->prepare("SELECT * FROM $table_seq");
@@ -67,7 +76,7 @@ class ilDBPdo implements ilDBInterface {
 
             return count($rows) ? 0 : $rows['seq'];
         } else {
-            //            return $this->pdo->lastInsertId($table_name) + 1;
+            //            return $this->pdo->lastId($table_name) + 1;
             return 0;
         }
     }
@@ -79,7 +88,8 @@ class ilDBPdo implements ilDBInterface {
      * @param $table_name string
      * @param $fields     array
      */
-    public function createTable($table_name, $fields) {
+    public function createTable($table_name, $fields)
+    {
         $fields_query = $this->createTableFields($fields);
         $query = "CREATE TABLE $table_name ($fields_query);";
         $this->pdo->exec($query);
@@ -91,7 +101,8 @@ class ilDBPdo implements ilDBInterface {
      *
      * @return string
      */
-    protected function createTableFields($fields) {
+    protected function createTableFields($fields)
+    {
         $query = "";
         foreach ($fields as $name => $field) {
             $type = $this->type_to_mysql_type[$field['type']];
@@ -102,7 +113,7 @@ class ilDBPdo implements ilDBInterface {
             $query .= "$name $type ($length) $sequence $primary $notnull,";
         }
 
-        return substr($query, 0, - 1);
+        return substr($query, 0, -1);
     }
 
 
@@ -110,7 +121,8 @@ class ilDBPdo implements ilDBInterface {
      * @param $table_name   string
      * @param $primary_keys array
      */
-    public function addPrimaryKey($table_name, $primary_keys) {
+    public function addPrimaryKey($table_name, $primary_keys)
+    {
         $keys = implode($primary_keys);
         $this->pdo->exec("ALTER TABLE $table_name ADD PRIMARY KEY ($keys)");
     }
@@ -119,7 +131,8 @@ class ilDBPdo implements ilDBInterface {
     /**
      * @param $table_name string
      */
-    public function createSequence($table_name) {
+    public function createSequence($table_name)
+    {
         //TODO
     }
 
@@ -129,9 +142,10 @@ class ilDBPdo implements ilDBInterface {
      *
      * @return bool
      */
-    public function tableExists($table_name) {
+    public function tableExists($table_name)
+    {
         $result = $this->pdo->prepare("SHOW TABLES LIKE :table_name");
-        $result->execute(array( ':table_name' => $table_name ));
+        $result->execute(array(':table_name' => $table_name));
         $return = $result->rowCount();
         $result->closeCursor();
 
@@ -145,7 +159,8 @@ class ilDBPdo implements ilDBInterface {
      *
      * @return bool
      */
-    public function tableColumnExists($table_name, $column_name) {
+    public function tableColumnExists($table_name, $column_name)
+    {
         $statement = $this->pdo->query("SHOW COLUMNS FROM $table_name WHERE Field = '$column_name'");
         $statement != NULL ? $statement->closeCursor() : "";
 
@@ -158,8 +173,9 @@ class ilDBPdo implements ilDBInterface {
      * @param $column_name string
      * @param $attributes  array
      */
-    public function addTableColumn($table_name, $column_name, $attributes) {
-        $col = array( $column_name => $attributes );
+    public function addTableColumn($table_name, $column_name, $attributes)
+    {
+        $col = array($column_name => $attributes);
         $col_str = $this->createTableFields($col);
         $this->pdo->exec("ALTER TABLE $$table_name ADD $$col_str");
     }
@@ -168,21 +184,23 @@ class ilDBPdo implements ilDBInterface {
     /**
      * @param $table_name string
      */
-    public function dropTable($table_name) {
+    public function dropTable($table_name)
+    {
         $this->pdo->exec("DROP TABLE $table_name");
     }
 
 
     /**
      * @param $query string
-     *
-     * @return \PDOStatement
+     * @return PDOStatement
+     * @throws ilDatabaseException
      */
-    public function query($query) {
+    public function query($query)
+    {
         $res = $this->pdo->query($query);
 //        $err = $this->pdo->errorInfo();
         $err = $this->pdo->errorCode();
-        if($err != '00000') {
+        if ($err != '00000') {
             $info = $this->pdo->errorInfo();
             $infoMessage = $info[2];
             echo "$query";
@@ -198,7 +216,8 @@ class ilDBPdo implements ilDBInterface {
      *
      * @return array
      */
-    public function fetchAll($query_result) {
+    public function fetchAll($query_result)
+    {
         return $query_result->fetchAll($query_result);
     }
 
@@ -206,7 +225,8 @@ class ilDBPdo implements ilDBInterface {
     /**
      * @param $table_name string
      */
-    public function dropSequence($table_name) {
+    public function dropSequence($table_name)
+    {
         $table_seq = $table_name . "_seq";
         if ($this->tableExists($table_seq)) {
             $this->pdo->exec("DROP TABLE $table_seq");
@@ -218,7 +238,8 @@ class ilDBPdo implements ilDBInterface {
      * @param $table_name  string
      * @param $column_name string
      */
-    public function dropTableColumn($table_name, $column_name) {
+    public function dropTableColumn($table_name, $column_name)
+    {
         $this->pdo->exec("ALTER TABLE $$table_name DROP COLUMN $column_name");
     }
 
@@ -228,7 +249,8 @@ class ilDBPdo implements ilDBInterface {
      * @param $column_old_name string
      * @param $column_new_name string
      */
-    public function renameTableColumn($table_name, $column_old_name, $column_new_name) {
+    public function renameTableColumn($table_name, $column_old_name, $column_new_name)
+    {
         $this->pdo->exec("alter table $table_name change $column_old_name $column_new_name");
     }
 
@@ -238,13 +260,18 @@ class ilDBPdo implements ilDBInterface {
      * @param $values
      * @return int|void
      */
-    public function insert($table_name, $values) {
+    public function insert($table_name, $values)
+    {
         $real = array();
-        foreach ($values as $val) {
+        $fields = array();
+        foreach ($values as $key => $val) {
             $real[] = $this->quote($val[1], $val[0]);
+            $fields[] = $key;
         }
         $values = implode(",", $real);
-        $this->pdo->exec("INSERT INTO $table_name VALUES ($values)");
+        $fields = implode(",", $fields);
+        $query = "INSERT INTO ".$table_name." (".$fields.") VALUES (".$values.")";
+        $this->pdo->exec($query);
     }
 
 
@@ -253,7 +280,8 @@ class ilDBPdo implements ilDBInterface {
      *
      * @return mixed|null
      */
-    public function fetchObject($query_result) {
+    public function fetchObject($query_result)
+    {
         $res = $query_result->fetchObject();
         if ($res == NULL) {
             $query_result->closeCursor();
@@ -271,27 +299,29 @@ class ilDBPdo implements ilDBInterface {
      * @param $where      array
      * @return int|void
      */
-    public function update($table_name, $values, $where) {
+    public function update($table_name, $values, $where)
+    {
         $query = "UPDATE $table_name SET ";
         foreach ($values as $key => $val) {
             $qval = $this->quote($val[1], $val[0]);
             $query .= "$key=$qval,";
         }
-        $query = substr($query, 0, - 1) . " WHERE ";
+        $query = substr($query, 0, -1) . " WHERE ";
         foreach ($where as $key => $val) {
             $qval = $this->quote($val[1], $val[0]);
             $query .= "$key=$qval,";
         }
-        $query = substr($query, 0, - 1);
+        $query = substr($query, 0, -1);
         $this->pdo->exec($query);
     }
 
 
     /**
      * @param $query string
-     * @return int|void
+     * @return int
      */
-    public function manipulate($query) {
+    public function manipulate($query)
+    {
         $this->pdo->exec($query);
     }
 
@@ -301,7 +331,8 @@ class ilDBPdo implements ilDBInterface {
      *
      * @return mixed
      */
-    public function fetchAssoc($query_result) {
+    public function fetchAssoc($query_result)
+    {
         $res = $query_result->fetch(PDO::FETCH_ASSOC);
         if ($res == NULL) {
             $query_result->closeCursor();
@@ -318,7 +349,8 @@ class ilDBPdo implements ilDBInterface {
      *
      * @return int
      */
-    public function numRows($query_result) {
+    public function numRows($query_result)
+    {
         return $query_result->rowCount();
     }
 
@@ -329,7 +361,8 @@ class ilDBPdo implements ilDBInterface {
      *
      * @return string
      */
-    public function quote($value, $type) {
+    public function quote($value, $type)
+    {
         //TODO TYPE SENSITIVE.
         return $this->pdo->quote($value);
     }
@@ -341,7 +374,8 @@ class ilDBPdo implements ilDBInterface {
      *
      * @return null
      */
-    public function addIndex($table_name, $index_name) {
+    public function addIndex($table_name, $index_name)
+    {
         return NULL;
     }
 
@@ -352,7 +386,7 @@ class ilDBPdo implements ilDBInterface {
      */
     function fetchRow($fetchMode = DB_FETCHMODE_ASSOC)
     {
-        if($fetchMode == DB_FETCHMODE_ASSOC) {
+        if ($fetchMode == DB_FETCHMODE_ASSOC) {
             return $this->fetchRowAssoc();
         } elseif ($fetchMode == DB_FETCHMODE_OBJECT) {
             return $this->fetchRowObject();
@@ -400,8 +434,8 @@ class ilDBPdo implements ilDBInterface {
 
     /**
      * Abstraction of lock table
-     * @param array table definitions
-     * @return
+     * @param $a_tables
+     * @internal param table $array definitions
      */
     public function lockTables($a_tables)
     {
@@ -410,7 +444,6 @@ class ilDBPdo implements ilDBInterface {
 
     /**
      * Unlock tables locked by previous lock table calls
-     * @return
      */
     public function unlockTables()
     {
@@ -434,20 +467,19 @@ class ilDBPdo implements ilDBInterface {
      * @param $query string
      * @param $types string[]
      * @param $values mixed[]
-     * @return string
+     * @return \ilDBStatement
      */
     public function queryF($query, $types, $values)
     {
         // TODO: EXTRACT FOR THIS AND ilDB.
 
         if (!is_array($types) || !is_array($values) ||
-            count($types) != count($values))
-        {
+            count($types) != count($values)
+        ) {
             $this->raisePearError("ilDB::queryF: Types and values must be arrays of same size. ($query)");
         }
         $quoted_values = array();
-        foreach($types as $k => $t)
-        {
+        foreach ($types as $k => $t) {
             $quoted_values[] = $this->quote($values[$k], $t);
         }
         $query = vsprintf($query, $quoted_values);
@@ -465,13 +497,12 @@ class ilDBPdo implements ilDBInterface {
     public function manipulateF($query, $types, $values)
     {
         if (!is_array($types) || !is_array($values) ||
-            count($types) != count($values))
-        {
+            count($types) != count($values)
+        ) {
             throw new ilDatabaseException("ilDB::manipulateF: types and values must be arrays of same size. ($query)");
         }
         $quoted_values = array();
-        foreach($types as $k => $t)
-        {
+        foreach ($types as $k => $t) {
             $quoted_values[] = $this->quote($values[$k], $t);
         }
         $query = vsprintf($query, $quoted_values);
@@ -479,7 +510,8 @@ class ilDBPdo implements ilDBInterface {
         return $this->manipulate($query);
     }
 
-    public function useSlave($bool) {
+    public function useSlave($bool)
+    {
         return false;
     }
 
@@ -507,32 +539,22 @@ class ilDBPdo implements ilDBInterface {
     {
         // TODO: Implement like() method.
 
-        if (!in_array($type, array("text", "clob", "blob")))
-        {
-            $this->raisePearError("Like: Invalid column type '".$type."'.", $this->error_class->FATAL);
+        if (!in_array($type, array("text", "clob", "blob"))) {
+            $this->raisePearError("Like: Invalid column type '" . $type . "'.", $this->error_class->FATAL);
         }
-        if ($value == "?")
-        {
-            if ($caseInsensitive)
-            {
-                return "UPPER(".$column.") LIKE(UPPER(?))";
+        if ($value == "?") {
+            if ($caseInsensitive) {
+                return "UPPER(" . $column . ") LIKE(UPPER(?))";
+            } else {
+                return $column . " LIKE(?)";
             }
-            else
-            {
-                return $column ." LIKE(?)";
-            }
-        }
-        else
-        {
-            if ($caseInsensitive)
-            {
+        } else {
+            if ($caseInsensitive) {
                 // Always quote as text
-                return " UPPER(".$column.") LIKE(UPPER(".$this->quote($value, 'text')."))";
-            }
-            else
-            {
+                return " UPPER(" . $column . ") LIKE(UPPER(" . $this->quote($value, 'text') . "))";
+            } else {
                 // Always quote as text
-                return " ".$column." LIKE(".$this->quote($value, 'text').")";
+                return " " . $column . " LIKE(" . $this->quote($value, 'text') . ")";
             }
         }
     }
@@ -544,6 +566,81 @@ class ilDBPdo implements ilDBInterface {
     {
         return "now()";
     }
+
+    /**
+     * Replace into method.
+     *
+     * @param    string        table name
+     * @param    array        primary key values: array("field1" => array("text", $name), "field2" => ...)
+     * @param    array        other values: array("field1" => array("text", $name), "field2" => ...)
+     * @return string
+     */
+    public function replace($table, $primaryKeys, $otherColumns)
+    {
+        // TODO: Implement replace() method.
+
+        // this is the mysql implementation
+        $a_columns = array_merge($primaryKeys, $otherColumns);
+        $fields = array();
+        $field_values = array();
+        $placeholders = array();
+        $types = array();
+        $values = array();
+        $lobs = false;
+        $lob = array();
+        foreach ($a_columns as $k => $col) {
+            $fields[] = $k;
+            $placeholders[] = "%s";
+            $placeholders2[] = ":$k";
+            $types[] = $col[0];
+
+            // integer auto-typecast (this casts bool values to integer)
+            if ($col[0] == 'integer' && !is_null($col[1])) {
+                $col[1] = (int)$col[1];
+            }
+
+            $values[] = $col[1];
+            $field_values[$k] = $col[1];
+            if ($col[0] == "blob" || $col[0] == "clob") {
+                $lobs = true;
+                $lob[$k] = $k;
+            }
+        }
+        if ($lobs)    // lobs -> use prepare execute (autoexecute broken in PEAR 2.4.1)
+        {
+            $st = $this->db->prepare("REPLACE INTO " . $table . " (" . implode($fields, ",") . ") VALUES (" .
+                implode($placeholders2, ",") . ")", $types, MDB2_PREPARE_MANIP, $lob);
+            $this->handleError($st, "insert / prepare/execute(" . $table . ")");
+            $r = $st->execute($field_values);
+            //$r = $this->db->extended->autoExecute($a_table, $field_values, MDB2_AUTOQUERY_INSERT, null, $types);
+            $this->handleError($r, "insert / prepare/execute(" . $table . ")");
+            $this->free($st);
+        } else    // if no lobs are used, take simple manipulateF
+        {
+            $q = "REPLACE INTO " . $table . " (" . implode($fields, ",") . ") VALUES (" .
+                implode($placeholders, ",") . ")";
+            $r = $this->manipulateF($q, $types, $values);
+        }
+        return $r;
+    }
+
+    /**
+     * @param $columns
+     * @param $value
+     * @param $type
+     * @param bool $emptyOrNull
+     * @return string
+     */
+    public function equals($columns, $value, $type, $emptyOrNull = false)
+    {
+        if (!$emptyOrNull || $value != "") {
+            return $columns . " = " . $this->quote($value, $type);
+        } else {
+            return "(" . $columns . " = '' OR $columns IS NULL)";
+        }
+    }
+
+
 }
 
 ?>

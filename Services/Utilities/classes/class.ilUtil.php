@@ -3620,7 +3620,13 @@ class ilUtil
 				}
 			}
 		}
-		  		
+
+        // Manually trigger to write and close the session. This has the advantage that if an exception is thrown
+        // during the writing of the session (ILIAS writes the session into the database by default) we get an exception
+        // if the session_write_close() is triggered by exit() then the exception will be dismissed but the session
+        // is never written, which is a nightmare to develop with.
+        session_write_close();
+
 		header("Location: ".$a_script);
 		exit();
 	}
