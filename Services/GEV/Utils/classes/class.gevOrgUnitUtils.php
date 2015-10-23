@@ -983,10 +983,11 @@ public static function getSuperiorsOfUser($user_id) {
 				$sups = array_merge($sups,$superiors);
 			}
 		}
-
 		foreach($orgus as $org) {
+
 			$org_aux = $tree->getParent($org);
-			while ((int)$org_aux > 0) {
+
+			while ($org_aux != ROOT_FOLDER_ID) {
 				$sups = array_merge($sups,$tree->getSuperiors($org_aux));
 				$org_aux = $tree->getParent($org_aux);
 			}
