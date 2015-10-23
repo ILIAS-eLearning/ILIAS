@@ -495,6 +495,8 @@ class ilExerciseManagementGUI
 			$_GET["part_id"] = key($mems);
 		}
 		
+		$current_participant = $_GET["part_id"];
+		
 		reset($mems);
 		if (count($mems) > 1)
 		{
@@ -507,7 +509,7 @@ class ilExerciseManagementGUI
 			include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
 			$si = new ilSelectInputGUI($this->lng->txt(""), "part_id");
 			$si->setOptions($options);
-			$si->setValue($_GET["part_id"]);
+			$si->setValue($current_participant);
 			$ilToolbar->addStickyItem($si);
 			
 			include_once("./Services/UIComponent/Button/classes/class.ilSubmitButton.php");
@@ -522,10 +524,11 @@ class ilExerciseManagementGUI
 		if (count($mems) > 0)
 		{
 			$this->ctrl->setParameter($this, "vw", self::VIEW_PARTICIPANT);
+			$this->ctrl->setParameter($this, "part_id", $current_participant);
 			
 			include_once("./Modules/Exercise/classes/class.ilExParticipantTableGUI.php");
 			$part_tab = new ilExParticipantTableGUI($this, "showParticipant",
-				$this->exercise, $_GET["part_id"]);
+				$this->exercise, $current_participant);
 			$tpl->setContent($part_tab->getHTML());
 		}
 		else
