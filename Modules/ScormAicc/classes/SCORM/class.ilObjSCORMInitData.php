@@ -108,7 +108,7 @@ class ilObjSCORMInitData
 			.'"i_lessonMasteryScore":'.$i_lessonMasteryScore.','
 			.'"b_debug":'.$b_debug.','
 			.'"a_itemParameter":'.json_encode($a_man).','
-			.'"status":'.json_encode(self::getStatus($slm_obj->getId(), $ilUser->getID())).','
+			.'"status":'.json_encode(self::getStatus($slm_obj->getId(), $ilUser->getID(), $slm_obj->getAuto_last_visited())).','
 			.'"dataDirectory":"'.self::encodeURIComponent($slm_obj->getDataDirectory("output").'/').'",'
 			.'"img":{'
 				.'"asset":"'.self::encodeURIComponent(ilUtil::getImagePath('scorm/asset.svg')).'",'
@@ -213,7 +213,8 @@ class ilObjSCORMInitData
 		return json_encode($a_out);
 	}
 
-	function getStatus($a_packageId,$a_user_id) {
+	function getStatus($a_packageId,$a_user_id,$auto_last_visited,$scormType="1.2") {
+		global $ilDB;
 		include_once './Services/Tracking/classes/class.ilLPStatus.php';
 		$oldStatus = ilLPStatus::_lookupStatus($a_packageId, $a_user_id);
 		$status['saved_global_status']=(int) $oldStatus;
@@ -228,6 +229,28 @@ class ilObjSCORMInitData
 		else $status['scos'] = array();
 		$status['hash'] = ilObjSCORMInitData::setHash($a_packageId,$a_user_id);
 		$status['p'] = $a_user_id;
+		
+		$status['last_visited'] = null;
+		$status['total_time_sec'] = 0;
+		$val_set = $ilDB->queryF(
+			'SELECT last_visited, sco_total_time_sec, total_time_sec FROM sahs_user WHERE obj_id = %s AND user_id = %s',
+			array('integer','integer'),
+			array($a_packageId,$a_user_id));
+		$val_rec = $ilDB->fetchAssoc($val_set);
+		if($auto_last_visited) $status['last_visited'] = $val_rec["last_visited"];
+		if ($val_rec["total_time_sec"]==null) {
+			if ($val_rec["sco_total_time_sec"]==null) {
+				//fall back for old ILIAS-Versions
+				if ($scormType == "2004") {
+					include_once './Modules/Scorm2004/classes/class.ilSCORM2004Tracking.php';
+					$status['total_time_sec'] = (int) ilSCORM2004Tracking::getSumTotalTimeSecondsFromScos($a_packageId, $a_user_id, true);
+				}
+			} else {
+				$status['total_time_sec'] = (int) $val_rec["sco_total_time_sec"];
+			}
+		} else {
+			$status['total_time_sec'] = (int) $val_rec["total_time_sec"];
+		}
 		return $status;
 	}
 	// hash for storing data without session

@@ -12983,7 +12983,7 @@ content#:#cont_credit_mode_info#:#This setting is only affective if the lesson m
 content#:#cont_sc_auto_review_info_12#:#Set the lesson mode to ‘review’ when a learner has completed or passed a SCO.
 content#:#cont_sc_usession_info#:#This setting activates periodical requests to the server to keep the session alive.
 content#:#cont_sequencing_info#:#Enable the sequencing and navigation behaviour as defined by the learning module.
-content#:#cont_time_from_lms_info#:#Strict (according to the SCORM standard) check of values sent by the learning module to ILIAS.
+content#:#cont_time_from_lms_info#:#Processing time is set by ILIAS, not by SCOs.
 survey#:#survey_question_pool_usage_active#:#Questions can be added optionally to a question pool
 survey#:#survey_question_pool_usage_active_info#:#Each time a question is created it has to be decided if a question pool is to be used. 
 survey#:#survey_question_pool_usage_inactive#:#Questions are created directly in the survey.
