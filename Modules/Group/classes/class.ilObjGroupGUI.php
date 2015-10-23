@@ -392,8 +392,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			$this->object = new ilObjGroup();
 		}
 		
-		$this->initForm('create');
-		return $this->form;
+		return $this->initForm('create');
 	}
 	
 	/**
@@ -476,10 +475,10 @@ class ilObjGroupGUI extends ilContainerGUI
 	 * Edit object
 	 *
 	 * @access public
-	 * @param bool show warning, if group type has been changed
+	 * @param ilPropertyFormGUI 
 	 * @return
 	 */
-	public function editObject()
+	public function editObject(ilPropertyFormGUI $a_form = null)
 	{
 		$this->checkPermission("write");
 		
@@ -487,9 +486,12 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->tabs_gui->setTabActive('settings');
 		$this->tabs_gui->setSubTabActive('grp_settings');
 
-		$this->initForm('edit');
+		if(!$a_form)
+		{
+			$a_form = $this->initForm('edit');
+		}
 
-		$this->tpl->setVariable('ADM_CONTENT',$this->form->getHTML());
+		$this->tpl->setVariable('ADM_CONTENT', $a_form->getHTML());
 	}
 	
 	/**
@@ -532,13 +534,13 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->checkPermission('write');
 		
 		
-		$this->initForm();
-		$this->form->checkInput();
+		$form = $this->initForm();
+		$form->checkInput();
 		
 		$old_type = $this->object->getGroupType();
 		$old_autofill = $this->object->hasWaitingListAutoFill();
 		
-		$this->load();
+		$this->load($form);
 		$ilErr->setMessage('');
 		
 		if(!$this->object->validate())
@@ -550,7 +552,10 @@ class ilObjGroupGUI extends ilContainerGUI
 			ilUtil::sendInfo($err);			
 			*/
 			ilUtil::sendFailure($ilErr->getMessage()); // #16975
-			$this->editObject();
+			
+			// #17144
+			$form->setValuesByPost();
+			$this->editObject($form); 
 			return true;
 		}
 
@@ -567,7 +572,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		include_once './Services/Object/classes/class.ilObjectServiceSettingsGUI.php';
 		ilObjectServiceSettingsGUI::updateServiceSettingsForm(
 			$this->object->getId(),
-			$this->form,
+			$form,
 			array(
 				ilObjectServiceSettingsGUI::CALENDAR_VISIBILITY,
 				ilObjectServiceSettingsGUI::NEWS_VISIBILITY,
@@ -577,7 +582,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		);
 			
 		// Save sorting
-		$this->saveSortingSettings($this->form);
+		$this->saveSortingSettings($form);
 		
 		// if autofill has been activated trigger process
 		if(!$old_autofill &&
@@ -819,8 +824,8 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->tabs_gui->setTabActive('settings');
 		$this->tabs_gui->setSubTabActive('grp_info_settings');
 	 	
-	 	$this->initInfoEditor();
-		$this->tpl->setContent($this->form->getHTML());
+	 	$form = $this->initInfoEditor();
+		$this->tpl->setContent($form->getHTML());
 	}
 	
 	/**
@@ -830,25 +835,22 @@ class ilObjGroupGUI extends ilContainerGUI
 	 * @return
 	 */
 	protected function initInfoEditor()
-	{
-		if(is_object($this->form))
-		{
-			return true;
-		}
-	
+	{		
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
-		$this->form = new ilPropertyFormGUI();
-		$this->form->setFormAction($this->ctrl->getFormAction($this,'updateInfo'));
-		$this->form->setTitle($this->lng->txt('grp_general_informations'));
-		$this->form->addCommandButton('updateInfo',$this->lng->txt('save'));
-		$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this,'updateInfo'));
+		$form->setTitle($this->lng->txt('grp_general_informations'));
+		$form->addCommandButton('updateInfo',$this->lng->txt('save'));
+		$form->addCommandButton('cancel',$this->lng->txt('cancel'));
 		
 		$area = new ilTextAreaInputGUI($this->lng->txt('grp_information'),'important');
 		$area->setInfo($this->lng->txt('grp_information_info'));
 		$area->setValue($this->object->getInformation());
 		$area->setRows(8);
 		$area->setCols(80);
-		$this->form->addItem($area);
+		$form->addItem($area);
+		
+		return $form;
 	}
 	
 	/**
@@ -2431,23 +2433,18 @@ class ilObjGroupGUI extends ilContainerGUI
 	{
 		global $ilUser,$tpl,$tree;
 		
-		if(is_object($this->form))
-		{
-			return true;
-		}
-	
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		
-		$this->form = new ilPropertyFormGUI();
+		$form = new ilPropertyFormGUI();
 		switch($a_mode)
 		{
 			case 'edit':
-				$this->form->setFormAction($this->ctrl->getFormAction($this,'update'));
+				$form->setFormAction($this->ctrl->getFormAction($this,'update'));
 				break;
 				
 			default:
-				$this->form->setTableWidth('600px');
-				$this->form->setFormAction($this->ctrl->getFormAction($this,'save'));
+				$form->setTableWidth('600px');
+				$form->setFormAction($this->ctrl->getFormAction($this,'save'));
 				break;
 		}
 		
@@ -2458,14 +2455,14 @@ class ilObjGroupGUI extends ilContainerGUI
 		$title->setSize(min(40, ilObject::TITLE_LENGTH));
 		$title->setMaxLength(ilObject::TITLE_LENGTH);
 		$title->setRequired(true);
-		$this->form->addItem($title);
+		$form->addItem($title);
 		
 		// desc
 		$desc = new ilTextAreaInputGUI($this->lng->txt('description'),'desc');
 		$desc->setValue($this->object->getLongDescription());
 		$desc->setRows(2);
 		$desc->setCols(40);
-		$this->form->addItem($desc);
+		$form->addItem($desc);
 		
 		// Group type
 		$grp_type = new ilRadioGroupInputGUI($this->lng->txt('grp_typ'),'grp_type');
@@ -2492,14 +2489,14 @@ class ilObjGroupGUI extends ilContainerGUI
 		$opt_closed = new ilRadioOption($this->lng->txt('grp_closed'),GRP_TYPE_CLOSED,$this->lng->txt('grp_closed_info'));
 		$grp_type->addOption($opt_closed);
 
-		$this->form->addItem($grp_type);
+		$form->addItem($grp_type);
 
 		if($a_mode == 'edit')
 		{
 			// Group registration ############################################################
 			$pres = new ilFormSectionHeaderGUI();
 			$pres->setTitle($this->lng->txt('grp_setting_header_registration'));
-			$this->form->addItem($pres);
+			$form->addItem($pres);
 
 			// Registration type
 			$reg_type = new ilRadioGroupInputGUI($this->lng->txt('group_registration_mode'),'registration_type');
@@ -2528,7 +2525,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			$reg_code->setChecked($this->object->isRegistrationAccessCodeEnabled());
 			$reg_code->setValue(1);
 			$reg_code->setInfo($this->lng->txt('grp_reg_code_enabled_info'));
-			$this->form->addItem($reg_type);
+			$form->addItem($reg_type);
 
 			// Registration codes
 			if(!$this->object->getRegistrationAccessCode())
@@ -2538,14 +2535,14 @@ class ilObjGroupGUI extends ilContainerGUI
 			}
 			$reg_link = new ilHiddenInputGUI('reg_code');
 			$reg_link->setValue($this->object->getRegistrationAccessCode());
-			$this->form->addItem($reg_link);
+			$form->addItem($reg_link);
 
 			$link = new ilCustomInputGUI($this->lng->txt('grp_reg_code_link'));
 			include_once './Services/Link/classes/class.ilLink.php';
 			$val = ilLink::_getLink($this->object->getRefId(),$this->object->getType(),array(),'_rcode'.$this->object->getRegistrationAccessCode());
 			$link->setHTML('<font class="small">'.$val.'</font>');
 			$reg_code->addSubItem($link);
-			$this->form->addItem($reg_code);
+			$form->addItem($reg_code);
 
 
 			// time limit
@@ -2564,7 +2561,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			$dur->setEnd($this->object->getRegistrationEnd());
 
 			$time_limit->addSubItem($dur);
-			$this->form->addItem($time_limit);
+			$form->addItem($time_limit);
 			
 			// cancellation limit		
 			$cancel = new ilDateTimeInputGUI($this->lng->txt('grp_cancellation_end'), 'cancel_end');
@@ -2575,7 +2572,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			{
 				$cancel->setDate($cancel_end);
 			}
-			$this->form->addItem($cancel);
+			$form->addItem($cancel);
 
 			// max member
 			$lim = new ilCheckboxInputGUI($this->lng->txt('reg_grp_max_members_short'),'registration_membership_limited');
@@ -2605,7 +2602,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			$wait->setInfo($this->lng->txt('grp_waiting_list_info'));
 			$wait->setChecked($this->object->isWaitingListEnabled() ? true : false);
 			$lim->addSubItem($wait);
-			$this->form->addItem($lim);
+			$form->addItem($lim);
 			*/
 			 
 			$wait = new ilRadioGroupInputGUI($this->lng->txt('grp_waiting_list'), 'waiting_list');
@@ -2632,7 +2629,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			
 			$lim->addSubItem($wait);
 			
-			$this->form->addItem($lim);			
+			$form->addItem($lim);			
 			
 
 			// Group presentation
@@ -2644,7 +2641,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			
 			$pres = new ilFormSectionHeaderGUI();
 			$pres->setTitle($this->lng->txt('grp_setting_header_presentation'));
-			$this->form->addItem($pres);
+			$form->addItem($pres);
 			
 			// presentation type							
 			$view_type = new ilRadioGroupInputGUI($this->lng->txt('grp_presentation_type'),'view_mode');		
@@ -2687,7 +2684,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			$opt = new ilRadioOption($this->lng->txt('cntr_view_by_type'),  ilContainer::VIEW_BY_TYPE);
 			$opt->setInfo($this->lng->txt('grp_view_info_by_type'));
 			$view_type->addOption($opt);
-			$this->form->addItem($view_type);
+			$form->addItem($view_type);
 
 			
 			// Sorting
@@ -2699,17 +2696,17 @@ class ilObjGroupGUI extends ilContainerGUI
 			$sorting_settings[] = ilContainer::SORT_TITLE;
 			$sorting_settings[] = ilContainer::SORT_CREATION;
 			$sorting_settings[] = ilContainer::SORT_MANUAL;
-			$this->initSortingForm($this->form, $sorting_settings);
+			$this->initSortingForm($form, $sorting_settings);
 
 			// additional features
 			$feat = new ilFormSectionHeaderGUI();
 			$feat->setTitle($this->lng->txt('obj_features'));
-			$this->form->addItem($feat);
+			$form->addItem($feat);
 
 			include_once './Services/Object/classes/class.ilObjectServiceSettingsGUI.php';
 			ilObjectServiceSettingsGUI::initServiceSettingsForm(
 					$this->object->getId(),
-					$this->form,
+					$form,
 					array(
 						ilObjectServiceSettingsGUI::CALENDAR_VISIBILITY,
 						ilObjectServiceSettingsGUI::NEWS_VISIBILITY,
@@ -2721,7 +2718,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			// Notification Settings
 			/*$notification = new ilFormSectionHeaderGUI();
 			$notification->setTitle($this->lng->txt('grp_notification'));
-			$this->form->addItem($notification);*/
+			$form->addItem($notification);*/
 		
 			// Show members type
 			$mail_type = new ilRadioGroupInputGUI($this->lng->txt('grp_mail_type'), 'mail_type');
@@ -2734,34 +2731,33 @@ class ilObjGroupGUI extends ilContainerGUI
 			$mail_all = new ilRadioOption($this->lng->txt('grp_mail_all'),  ilObjGroup::MAIL_ALLOWED_ALL,
 				$this->lng->txt('grp_mail_all_info'));
 			$mail_type->addOption($mail_all);
-			$this->form->addItem($mail_type);
+			$form->addItem($mail_type);
 		}
 		
 		switch($a_mode)
 		{
 			case 'create':
-				$this->form->setTitle($this->lng->txt('grp_new'));
-				$this->form->setTitleIcon(ilUtil::getImagePath('icon_grp.svg'));
+				$form->setTitle($this->lng->txt('grp_new'));
+				$form->setTitleIcon(ilUtil::getImagePath('icon_grp.svg'));
 		
-				$this->form->addCommandButton('save',$this->lng->txt('grp_new'));
-				$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
-				return true;
+				$form->addCommandButton('save',$this->lng->txt('grp_new'));
+				$form->addCommandButton('cancel',$this->lng->txt('cancel'));
+				break;
 			
 			case 'edit':
-				$this->form->setTitle($this->lng->txt('grp_edit'));
-				$this->form->setTitleIcon(ilUtil::getImagePath('icon_grp.svg'));
+				$form->setTitle($this->lng->txt('grp_edit'));
+				$form->setTitleIcon(ilUtil::getImagePath('icon_grp.svg'));
 				
 				// Edit ecs export settings
 				include_once 'Modules/Group/classes/class.ilECSGroupSettings.php';
 				$ecs = new ilECSGroupSettings($this->object);		
-				$ecs->addSettingsToForm($this->form, 'grp');
+				$ecs->addSettingsToForm($form, 'grp');
 			
-				$this->form->addCommandButton('update',$this->lng->txt('save'));
-				$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
-				return true;
-
+				$form->addCommandButton('update',$this->lng->txt('save'));
+				$form->addCommandButton('cancel',$this->lng->txt('cancel'));
+				break;
 		}
-		return true;
+		return $form;
 	}
 	
 	/**
@@ -2770,7 +2766,7 @@ class ilObjGroupGUI extends ilContainerGUI
 	 * @access public
 	 * @return
 	 */
-	public function load()
+	public function load(ilPropertyFormGUI $a_form)
 	{
 		$this->object->setTitle(ilUtil::stripSlashes($_POST['title']));
 		$this->object->setDescription(ilUtil::stripSlashes($_POST['desc']));
@@ -2788,7 +2784,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->object->setViewMode(ilUtil::stripSlashes($_POST['view_mode']));
 		$this->object->setMailToMembersType((int) $_POST['mail_type']);
 		
-		$cancel_end = $this->form->getItemByPostVar("cancel_end");
+		$cancel_end = $a_form->getItemByPostVar('cancel_end');
 		if($_POST[$cancel_end->getActivationPostVar()])
 		{
 			$dt = $cancel_end->getDate()->get(IL_CAL_DATETIME);
