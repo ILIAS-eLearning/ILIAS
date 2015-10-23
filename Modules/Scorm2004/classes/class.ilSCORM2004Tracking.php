@@ -420,18 +420,27 @@ die("Not Implemented: ilSCORM2004Tracking_getFailed");
 	 * @param
 	 * @return
 	 */
-	function _syncReadEvent($a_obj_id, $a_user_id, $a_type, $a_ref_id)
+	function _syncReadEvent($a_obj_id, $a_user_id, $a_type, $a_ref_id, $time_from_lms = null)
 	{
 		global $ilDB;
+		
+		//get condition to select time
+		$val_set = $ilDB->queryF(
+			'SELECT time_from_lms FROM sahs_lm WHERE id = %s', 
+			array('integer'),array($a_obj_id));
+		$val_rec = $ilDB->fetchAssoc($val_set);
+		$time_from_lms=(ilUtil::yn2tf($val_rec["time_from_lms"]));
+		
 		// get attempts and time
 		$val_set = $ilDB->queryF('
-			SELECT package_attempts, sco_total_time_sec 
+			SELECT package_attempts, sco_total_time_sec, total_time_sec 
 			FROM sahs_user WHERE obj_id = %s AND user_id = %s',
 			array('integer','integer'), array($a_obj_id,$a_user_id));
 		$val_rec = $ilDB->fetchAssoc($val_set);
-		$time = $val_rec["sco_total_time_sec"]; //could be changed to total_time_sec if switch is available
+		if ($time_from_lms == false) $time = $val_rec["sco_total_time_sec"];
+		else $time = $val_rec["total_time_sec"];
 		$attempts = $val_rec["package_attempts"];
-		if ($attempts == null) $attempts = "";
+		if ($attempts == null) $attempts = ""; //??
 
 		if ($attempts != "" && $time == null) { //use old way
 			$time = self::getSumTotalTimeSecondsFromScos($a_obj_id, $a_user_id,true);

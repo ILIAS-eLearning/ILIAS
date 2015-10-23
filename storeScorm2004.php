@@ -15,29 +15,31 @@ ilInitialisation::initILIAS();
 
 include_once 'Modules/Scorm2004/classes/class.ilSCORM2004StoreData.php';
 
+//conditions for storing data
+global $ilDB;
+$packageId=(int)$_GET['package_id'];
+$lm_set = $ilDB->queryF('SELECT default_lesson_mode, interactions, objectives, time_from_lms, comments FROM sahs_lm WHERE id = %s', 
+	array('integer'),array($packageId));
+while($lm_rec = $ilDB->fetchAssoc($lm_set))
+{
+	$defaultLessonMode=($lm_rec["default_lesson_mode"]);
+	$interactions=(ilUtil::yn2tf($lm_rec["interactions"]));
+	$objectives=(ilUtil::yn2tf($lm_rec["objectives"]));
+	$time_from_lms=(ilUtil::yn2tf($lm_rec["time_from_lms"]));
+	$comments=(ilUtil::yn2tf($lm_rec["comments"]));
+}
 
 if ((string) $_GET['do'] == "unload") {
 	include_once 'Modules/Scorm2004/classes/class.ilSCORM2004StoreData.php';
-	ilSCORM2004StoreData::scormPlayerUnload(null, (int)$_GET['package_id']);
+	ilSCORM2004StoreData::scormPlayerUnload(null, $packageId, $time_from_lms);
 } else {
-	global $ilLog, $ilDB, $ilUser;
-	$packageId=(int)$_GET['package_id'];
-	$lm_set = $ilDB->queryF('SELECT default_lesson_mode, interactions, objectives, comments FROM sahs_lm WHERE id = %s', 
-		array('integer'),array($packageId));
-	
-	while($lm_rec = $ilDB->fetchAssoc($lm_set))
-	{
-		$defaultLessonMode=($lm_rec["default_lesson_mode"]);
-		$interactions=(ilUtil::yn2tf($lm_rec["interactions"]));
-		$objectives=(ilUtil::yn2tf($lm_rec["objectives"]));
-		$comments=(ilUtil::yn2tf($lm_rec["comments"]));
-	}
+	global $ilUser;
 	$data = file_get_contents('php://input');
 	$ilUser->setId($data->p);
 
 	//until now only 2004
 	include_once 'Modules/Scorm2004/classes/class.ilSCORM2004StoreData.php';
-	ilSCORM2004StoreData::persistCMIData(null, $packageId, $defaultLessonMode, $comments, $interactions, $objectives, $data);
+	ilSCORM2004StoreData::persistCMIData(null, $packageId, $defaultLessonMode, $comments, $interactions, $objectives, $time_from_lms, $data);
 }
 
 

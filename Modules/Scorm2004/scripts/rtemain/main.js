@@ -3078,6 +3078,8 @@ function onWindowUnload ()
 	result["p"]=config.status.p;
 	result["last"]="";
 	if (config.auto_last_visited==true) result["last"]=activities[mlaunch.mActivityID].id;
+	result["total_time_sec"]="";
+	if (config.mode!="browse") result["total_time_sec"]=((currentTime() - wbtStartTime)/1000) + config.status.total_time_sec;
 	if (typeof SOP!="undefined" && SOP==true) result=scormPlayerUnload(result);
 	else result=this.config.scorm_player_unload_url ? sendJSONRequest(this.config.scorm_player_unload_url, result): {};
 	removeResource();
@@ -4089,6 +4091,7 @@ var saved={
 // SCO related Variables
 var currentAPI; // reference to API during runtime of a SCO
 var scoStartTime = null;
+var wbtStartTime = currentTime();
 
 var openedResource = new Array();
 

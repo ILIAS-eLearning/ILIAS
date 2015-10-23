@@ -13006,7 +13006,7 @@ content#:#cont_credit_mode_info#:#Diese Einstellung ist nur wirksam im Modus 'no
 content#:#cont_sc_auto_review_info_12#:#Setzt den Modus auf 'review', wenn der Lerner das SCO vollständig bearbeitet oder bestanden hat.
 content#:#cont_sc_usession_info#:#Wenn aktiviert werden periodisch Anfragen an den Server gesendet, um die Session des Benutzers aufrecht zu erhalten.
 content#:#cont_sequencing_info#:#Aktiviert das Verhalten für Sequencing & Navigation gemäß den Vorgaben des Lernmoduls
-content#:#cont_time_from_lms_info#:#Die Bearbeitungszeiten des SCOs werden von ILIAS und nach den strikten Vorgagen des SCORM-Standards ermittelt.
+content#:#cont_time_from_lms_info#:#Die Bearbeitungszeiten werden nicht von SCOs sondern von ILIAS bestimmt.
 mcst#:#mcst_viewmode#:#Ansicht
 mcst#:#mcst_list#:#Liste
 mcst#:#mcst_gallery#:#Kacheln

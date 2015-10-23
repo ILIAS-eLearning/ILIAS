@@ -621,7 +621,12 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 	{
 		if( is_object($this->getPreviewSession()) )
 		{
-			$user_solution = array_values($this->getPreviewSession()->getParticipantsSolution());
+			$user_solution = array();
+			
+			if( is_array($this->getPreviewSession()->getParticipantsSolution()) )
+			{
+				$user_solution = array_values($this->getPreviewSession()->getParticipantsSolution());
+			}
 			
 			include_once "./Modules/TestQuestionPool/classes/class.ilImagemapPreview.php";
 			$preview = new ilImagemapPreview($this->object->getImagePath().$this->object->getImageFilename());
