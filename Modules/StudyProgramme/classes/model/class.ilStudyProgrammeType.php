@@ -11,6 +11,7 @@ require_once('./Modules/StudyProgramme/classes/model/class.ilStudyProgrammeAdvan
  * Class ilStudyProgrammeType
  *
  * @author Michael Herren <mh@studer-raimann.ch>
+ * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
  */
 class ilStudyProgrammeType extends ActiveRecord {
 
@@ -869,6 +870,39 @@ class ilStudyProgrammeType extends ActiveRecord {
 		return $path;
 	}
 
+	/**
+	* Return the path to the icon by studyprogramme obj id
+	*
+	* @param int 		$obj_id 	study prgramm obj id
+	*
+	* @return string 	icon path
+	*/
+	public static function getIconPathByStudyProgrammObjId($obj_id) {
+		global $ilDB;
+
+		$sql = "SELECT prgt.id, prgt.icon\n"
+				." FROM prg_type prgt\n"
+				." JOIN prg_settings prgs\n"
+					." ON prgt.id = prgs.subtype_id\n"
+				." WHERE prgs.obj_id = ".$ilDB->quote($obj_id,"integer")."\n";
+
+		$res = $ilDB->query($sql);
+
+		if($ilDB->numRows($res) == 1) {
+			$row = $ilDB->fetchAssoc($res);
+
+			if($row["icon"]) {
+				$path = ilUtil::getWebspaceDir() . '/' . self::WEB_DATA_FOLDER . '/' . 'type_' . $row["id"] . '/';
+				$path .= $row["icon"];
+
+				return $path;
+			}
+
+			return null;
+		}
+
+		return null;
+	}
 
 	/**
 	 * @param string $default_lang

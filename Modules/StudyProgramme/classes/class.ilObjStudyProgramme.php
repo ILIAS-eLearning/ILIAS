@@ -331,6 +331,20 @@ class ilObjStudyProgramme extends ilContainer {
 		return $this;
 	}
 
+	/**
+	* Gets the SubType Object
+	*
+	* @return ilStudyProgrammeType
+	*/
+	public function getSubType() {
+		if($this->getSubtypeId() != "-") {
+			$subtype_id = $this->getSubtypeId();
+			return new ilStudyProgrammeType($subtype_id);
+		}
+
+		return null;
+	}
+
 	////////////////////////////////////
 	// TREE NAVIGATION
 	////////////////////////////////////
@@ -1186,6 +1200,21 @@ class ilObjStudyProgramme extends ilContainer {
 	public function getRawSettings() {
 		return $this->settings;
 	}
+
+	/**
+	* updates the selected custom icon in container folder by type
+	*
+	*/
+	public function updateCustomIcon() {
+		$subtype = $this->getSubType();
+
+		if($subtype) {
+			$icon = $subtype->getIconPath(true);
+			$this->saveIcons($icon);
+		} else {
+			$this->removeCustomIcon();
+		}
+	}
 	
 	////////////////////////////////////
 	// HOOKS
@@ -1225,6 +1254,37 @@ class ilObjStudyProgramme extends ilContainer {
 		}
 
 		throw new ilException("Undefined mode for study programme: '$mode'");
+	}
+
+	////////////////////////////////////
+	// REWRITES FROM PARENT
+	////////////////////////////////////
+
+	/**
+	* save container icons
+	*/
+	function saveIcons($a_custom_icon)
+	{
+		global $ilDB;
+
+		$this->createContainerDirectory();
+		$cont_dir = $this->getContainerDirectory();
+		$file_name = "";
+		if ($a_custom_icon != "")
+		{
+			$file_name = $cont_dir."/icon_custom.svg";
+
+			ilUtil::moveUploadedFile($a_custom_icon, "icon_custom.svg", $file_name, true, "copy");
+
+			if ($file_name != "" && is_file($file_name))
+			{
+				ilContainer::_writeContainerSetting($this->getId(), "icon_custom", 1);
+			}
+			else
+			{
+				ilContainer::_writeContainerSetting($this->getId(), "icon_custom", 0);
+			}
+		}
 	}
 }
 
