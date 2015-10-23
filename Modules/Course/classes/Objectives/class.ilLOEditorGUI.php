@@ -64,7 +64,7 @@ class ilLOEditorGUI
 		{
 			case 'ilcourseobjectivesgui':
 
-				$this->ctrl->setReturn($this,'listObjectives');
+				$this->ctrl->setReturn($this,'returnFromObjectives');
 				$GLOBALS['ilTabs']->clearTargets();
 				$GLOBALS['ilTabs']->setBackTarget(
 						$this->lng->txt('back'),
@@ -167,6 +167,17 @@ class ilLOEditorGUI
 				break;
 		}
 		return true;
+	}
+	
+	/**
+	 * Return from objectives
+	 * @return type
+	 */
+	protected function returnFromObjectives()
+	{
+		include_once './Modules/Course/classes/class.ilCourseObjectivesGUI.php';
+		$_SESSION['objective_mode'] = ilCourseObjectivesGUI::MODE_UNDEFINED;
+		return $this->listObjectives();
 	}
 	
 	/**
@@ -1001,6 +1012,10 @@ class ilLOEditorGUI
 	protected function listObjectives()
 	{
 		global $ilToolbar;
+
+		include_once './Modules/Course/classes/class.ilCourseObjectivesGUI.php';
+		$_SESSION['objective_mode'] = ilCourseObjectivesGUI::MODE_UNDEFINED;
+		
 		
 		$GLOBALS['ilTabs']->activateSubTab('objectives');
 		
