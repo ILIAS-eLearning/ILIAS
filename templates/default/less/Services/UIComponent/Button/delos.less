@@ -66,6 +66,22 @@ button.btn:not(.btn-link) > span:first-child:not(:empty) {
   }
 }
 
+.btn {
+    &.disabled,
+    &[disabled],
+    fieldset[disabled] & {
+        &,
+        &:hover,
+        &:focus,
+        &:active,
+        &.active {
+            background-color: @disabled-btn-bg;
+            border-color: @disabled-btn-border;
+            color: @disabled-btn-color;
+            cursor: default;
+        }
+    }
+}
 
 /* old stuff */
 
