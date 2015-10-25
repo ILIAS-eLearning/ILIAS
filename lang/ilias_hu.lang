@@ -11823,10 +11823,6 @@ grp#:#grp_view_inherit#:#Alapértelmezett
 grp#:#grp_view_inherit_info#:#A megjelenítés típusát a szülőkurzustól vesszük át.
 content#:#cont_open#:#Kijelzés
 content#:#cont_open_normal#:#fülön / új ablakban linkkel
-content#:#cont_open_iframe_max#:#beágyazott keretben (iframe-ben) teljes mérettel
-content#:#cont_open_iframe_defined#:#beágyazott keretben (iframe-ben) megadott szélességgel és magassággal
-content#:#cont_open_window_undefined#:#új ablakban szélesség és magasság megadása nélkül
-content#:#cont_open_window_defined#:#új ablakban megadott szélességgel és magassággal
 content#:#cont_open_width#:#szélesség
 content#:#cont_open_heigth#:#magasság
 scormdebug#:#scormdebug_global_activate#:#SCORM teszteszköz engedélyezése
@@ -15700,8 +15696,6 @@ grp#:#grp_cancellation_end#:#Lemondás időkorlátja
 grp#:#grp_cancellation_end_rbac_info#:#A lemondást határideje %s volt, lemondása utána már nem lehetséges.
 sess#:#sess_reg_min_members#:#Felhasználók minimális száma
 sess#:#sess_reg_min_members_info#:#Legalább ennyi felhasználónak kell jelentkeznie.
-common#:#mem_cron_min_members_subject#:#Kurzus/Csoport: Minimális taglétszám ellenőrzése
-common#:#mem_cron_min_members_intro#:#Ezúton értesítjük, hogy az alábbi kurzusok és csoportok esetén nincs meg a minimális taglétszám (még):
 grp#:#grp_waiting_list_no_autofill#:#Automatikus feltöltés nélkül
 grp#:#grp_waiting_list_autofill#:#Automatikus feltöltéssel
 grp#:#grp_waiting_list_autofill_info#:#Résztvevőket automatikusan felvesszük a várólistáról lemondás esetén.
@@ -16001,11 +15995,6 @@ common#:#obj_prgs#:#Tanulmányi programok
 common#:#obj_prgs_desc#:#Tanulmányi program vezetője
 trac#:#trac_mode_study_programme#:#Tanulmányi program teljesítve
 trac#:#trac_mode_study_programme_info#:#A Tanulmányi programot teljesíteni kell a felhasználónak, hogy tanulási haladása 'Befejezett' legyen.
-prg#:#prg_visible#:#A felhasználó láthatja a Rendszerbeállítások » Tanulmányi programok menüpontot
-prg#:#prg_copy#:#A felhasználó másolhat Tanulmányi programot
-prg#:#prg_write#:#A felhasználó módosíthatja a Rendszerbeállítások » Tanulmányi programok beállításait
-prg#:#prg_delete#:#A felhasználó áthelyezhet vagy törölhet Tanulmányi programot.
-prg#:#prg_edit_permission#:#A felhasználó módosíthatja a Rendszerbeállítások » Tanulmányi programok beállításait
 forum#:#forums_thread_deleted#:#A kiválasztott témát annak összes hozzászólásával sikeren törölte.
 forum#:#forums_threads_deleted#:#A kiválasztott témákat azok összes hozzászólásával sikeren törölte.
 meta#:#meta_advmd_select_options#:#Bejegyzések
@@ -16047,3 +16036,28 @@ mail#:#mail_sel_users#:#Kiválasztott felhasználóknak levélküldés
 awrn#:#awrn_max_inactivity#:#Maximális tétlenségi időszak
 awrn#:#awrn_max_inactivity_info#:#Ennyi idő után tekintjük offline állapotúnak a felhasználót. Ha nem állít be értéket, a munkamenet idejét használjuk.
 awrn#:#awrn_minutes#:#perc
+content#:#cont_sc_store_if_previous_score_was_lower#:#keep tracking data if achieved score in previous attempt was higher or equal###25 10 2015 new variable
+crs#:#mem_cron_min_members_subject#:#Course/Group: Minimum Members Check###25 10 2015 new variable
+crs#:#mem_cron_min_members_intro#:#The following courses and groups do not meet the minimum number of members (yet).###25 10 2015 new variable
+prg#:#prg_progress_status_with_child_sp#:# %1$d of %2$d Points###25 10 2015 new variable
+prg#:#prg_added_member#:#The new member was added successfully.###25 10 2015 new variable
+prg#:#prg_added_members#:#The new members were added successfully.###25 10 2015 new variable
+prg#:#prg_acknowledge_completed_courses#:#Acknowledge Completed Courses###25 10 2015 new variable
+bkm#:#bkm_fold_created#:#Bookmark folder has been created.###25 10 2015 new variable
+mcst#:#mcst_input_either_file_or_url#:#Please specify a file or an URL. If you provide a file, please note the maximum allowed upload file size.###25 10 2015 new variable
+content#:#cont_sc_version_info#:#The version management will automatically insert the correct version number.###25 10 2015 new variable
+content#:#cont_online_info#:#Set the SCORM learning module online to make it visible and available for users. If not, only users with 'Edit'-permission will have access to it.###25 10 2015 new variable
+content#:#cont_open_window#:#Definitely opens in a new window, without ILIAS main menue###25 10 2015 new variable
+content#:#cont_open_iframe#:#Opens in the same window, the ILIAS main menue is displayed###25 10 2015 new variable
+content#:#cont_nomenu_info#:#The Top Navigation Bar can be hidden, if the SCORM Learning module contains sufficient functionality to suspend, finish and navigate the content.###25 10 2015 new variable
+content#:#cont_hidenavig_info#:#The left navigation tree can be hidden, if the SCORM Learning module contains sufficient functionality to navigate the content or the top navigation bar is displayed.###25 10 2015 new variable
+content#:#cont_width_height_info#:#The size of the display can be set at a fixed size. 950 pixels for Width and 650 pixels for Height are proven values for setting the size. If no entry is made the browser will determine the size of the display.###25 10 2015 new variable
+content#:#cont_sc_score_was_higher_message#:#achieved score was higher###25 10 2015 new variable
+meta#:#md_adv_field_filter_warning#:#The field types %s are currently not supported as table filters.###25 10 2015 new variable
+grp#:#grp_subscription_min_members_info#:#Define the number of users that is minimally required for this group to be held at all. If this number is not met either after the date until which users can register or unsubscribe from the group a mail will be send to those group administrators or tutors that have activated the 'Notification' flag in the 'Members'-tab.###25 10 2015 new variable
+grp#:#grp_max_and_min_members_invalid#:#The minimum number must be smaller than the maximum number of members.###25 10 2015 new variable
+crs#:#mem_cron_min_members_reason#:#You receive this message because you have activated the notification in the members-tab.###25 10 2015 new variable
+crs#:#mem_cron_min_members_task#:#Please inform the participants if the course will not take place because of not enough attendants. Adjust the settings afterwards.###25 10 2015 new variable
+crs#:#crs_loc_settings_passed_mode#:#Bestandene Lernziele###25 10 2015 new variable
+crs#:#crs_loc_settings_passed_mode_hide#:#Testfragen zu bestandenen Lernzielen werden ausgeblendet###25 10 2015 new variable
+crs#:#crs_loc_settings_passed_mode_mark#:#Testfragen zu bestandenen Lernzielen werden markiert###25 10 2015 new variable
