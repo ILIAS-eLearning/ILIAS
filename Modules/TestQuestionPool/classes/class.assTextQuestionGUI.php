@@ -177,7 +177,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 		}
 		else
 		{
-			$solution = $this->getBestAnswer();
+			$solution = $this->getBestAnswer($_GET['pdf']);
 		}
 		
 		// generate the question output
@@ -186,8 +186,18 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 		$solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
 
 		$solution = $this->object->getHtmlUserSolutionPurifier()->purify($solution);
-		$template->setVariable("ESSAY", $this->object->prepareTextareaOutput($solution, TRUE));
-		
+		if( $_GET['pdf'] )
+		{
+			$template->setCurrentBlock('essay_div');
+			$template->setVariable("DIV_ESSAY", $this->object->prepareTextareaOutput($solution, TRUE));
+		}
+		else
+		{
+			$template->setCurrentBlock('essay_textarea');
+			$template->setVariable("TA_ESSAY", $this->object->prepareTextareaOutput($solution, TRUE, true));
+		}
+		$template->parseCurrentBlock();
+
 		$questiontext = $this->object->getQuestion();
 		
 		if (!$show_correct_solution)
@@ -261,41 +271,57 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 		return $solutionoutput;
 	}
 
-	private function getBestAnswer()
+	private function getBestAnswer($asHtml)
 	{
 		$answers = $this->object->getAnswers();
-		if (count( $answers ))
+		if( !count($answers) )
 		{
-			$user_solution = $this->lng->txt( "solution_contain_keywords" ) . "<ul>";
-			
-			foreach ($answers as $answer)
-			{
-				$user_solution .= '<li>'. $answer->getAnswertext();
-				
-				if( in_array($this->object->getKeywordRelation(), assTextQuestion::getScoringModesWithPointsByKeyword()) )
-				{
-					$user_solution .= ' ' . $this->lng->txt('for') . ' ';
-					$user_solution .= $answer->getPoints() . ' ' . $this->lng->txt('points') . '</li>';
-				}
-			}
-			$user_solution .= '</ul>';
-			
-			$user_solution .= $this->lng->txt('essay_scoring_mode') . ': ';
-			
-			switch( $this->object->getKeywordRelation() )
-			{
-				case 'any':
-					$user_solution .= $this->lng->txt('essay_scoring_mode_keyword_relation_any');
-					break;
-				case 'all':
-					$user_solution .= $this->lng->txt('essay_scoring_mode_keyword_relation_all');
-					break;
-				case 'one':
-					$user_solution .= $this->lng->txt('essay_scoring_mode_keyword_relation_one');
-					break;
-			}
+			return '';
 		}
-		return $user_solution;
+		
+		if($asHtml)
+		{
+			$tplFile = 'tpl.il_as_qpl_text_question_best_solution_html.html';
+		}
+		else
+		{
+			$tplFile = 'tpl.il_as_qpl_text_question_best_solution_ta.html';
+		}
+
+		$tpl = new ilTemplate($tplFile, true, true, 'Modules/TestQuestionPool');
+		
+		foreach ($answers as $answer)
+		{
+			$keywordString = $answer->getAnswertext();
+			
+			if( in_array($this->object->getKeywordRelation(), assTextQuestion::getScoringModesWithPointsByKeyword()) )
+			{
+				$keywordString .= ' ' . $this->lng->txt('for') . ' ';
+				$keywordString .= $answer->getPoints() . ' ' . $this->lng->txt('points');
+			}
+
+			$tpl->setCurrentBlock('keyword');
+			$tpl->setVariable('KEYWORD', $keywordString);
+			$tpl->parseCurrentBlock();
+		}
+		
+		$tpl->setVariable('KEYWORD_HEADER', $this->lng->txt('solution_contain_keywords'));
+		$tpl->setVariable('SCORING_LABEL', $this->lng->txt('essay_scoring_mode').': ');
+		
+		switch( $this->object->getKeywordRelation() )
+		{
+			case 'any':
+				$tpl->setVariable('SCORING_MODE', $this->lng->txt('essay_scoring_mode_keyword_relation_any'));
+				break;
+			case 'all':
+				$tpl->setVariable('SCORING_MODE', $this->lng->txt('essay_scoring_mode_keyword_relation_all'));
+				break;
+			case 'one':
+				$tpl->setVariable('SCORING_MODE', $this->lng->txt('essay_scoring_mode_keyword_relation_one'));
+				break;
+		}
+
+		return $tpl->get();
 	}
 
 	private function getUserAnswer($active_id, $pass)

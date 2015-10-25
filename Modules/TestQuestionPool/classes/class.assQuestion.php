@@ -3315,10 +3315,10 @@ abstract class assQuestion
 	* @param string $txt_output String which should be prepared for output
 	* @access public
 	*/
-	function prepareTextareaOutput($txt_output, $prepare_for_latex_output = FALSE)
+	function prepareTextareaOutput($txt_output, $prepare_for_latex_output = FALSE, $omitNl2BrWhenTextArea = false)
 	{
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
-		return ilUtil::prepareTextareaOutput($txt_output, $prepare_for_latex_output);
+		return ilUtil::prepareTextareaOutput($txt_output, $prepare_for_latex_output, $omitNl2BrWhenTextArea);
 	}
 
 	/**
