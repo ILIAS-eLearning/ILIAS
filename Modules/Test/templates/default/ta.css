@@ -592,6 +592,15 @@ table.imagemapareas tr.active-area, table.imagemapareas tr.active-area td {
 	height: 16px;
 }
 
+div.ilAssClozeTest
+{
+	line-height: 2.5em;
+}
+div.ilAssClozeTest input
+{
+	line-height: 1.25em;
+}
+
 div.ilc_Page.readonly img.imagemap,
 div.ilc_Page.readonly div.filesContainer,
 div.ilc_Page.readonly div.filesContainer a,
