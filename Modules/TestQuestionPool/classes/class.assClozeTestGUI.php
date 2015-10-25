@@ -1093,7 +1093,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 							$this->object->getShuffler()
 						));
 					}
-					$gaptemplate->setVariable("SOLUTION", $solutiontext);
+					$this->populateSolutiontextToGapTpl($gaptemplate, $gap, $solutiontext);
 					$output = preg_replace("/\[gap\].*?\[\/gap\]/", $gaptemplate->get(), $output, 1);
 					break;
 				case CLOZE_SELECT:
@@ -1129,7 +1129,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 							$this->object->getShuffler()
 						));
 					}
-					$gaptemplate->setVariable("SOLUTION", $solutiontext);
+					$this->populateSolutiontextToGapTpl($gaptemplate, $gap, $solutiontext);
 					$output = preg_replace("/\[gap\].*?\[\/gap\]/", $gaptemplate->get(), $output, 1);
 					break;
 				case CLOZE_NUMERIC:
@@ -1154,7 +1154,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 							$this->object->getShuffler()
 						));
 					}
-					$gaptemplate->setVariable("SOLUTION", $solutiontext);
+					$this->populateSolutiontextToGapTpl($gaptemplate, $gap, $solutiontext);
 					$output = preg_replace("/\[gap\].*?\[\/gap\]/", $gaptemplate->get(), $output, 1);
 					break;
 			}
@@ -1587,5 +1587,40 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 		$parts         = preg_split( '/\[gap \d*\]/', $question_text );
 		$question_text = implode( '[gap]', $parts );
 		return $question_text;
+	}
+
+	/**
+	 * @param $gaptemplate
+	 * @param $solutiontext
+	 */
+	private function populateSolutiontextToGapTpl($gaptemplate, $gap, $solutiontext)
+	{
+		if ($_GET['pdf'])
+		{
+			$gaptemplate->setCurrentBlock('gap_span');
+			$gaptemplate->setVariable('SPAN_SOLUTION', $solutiontext);
+		}
+		elseif($gap->getType() == CLOZE_SELECT)
+		{
+			$gaptemplate->setCurrentBlock('gap_select');
+			$gaptemplate->setVariable('SELECT_SOLUTION', $solutiontext);
+		}
+		else
+		{
+			$gap_size = $gap->getGapSize() > 0 ? $gap->getGapSize() : $this->object->getFixedTextLength();
+			
+			if($gap_size > 0)
+			{
+				$gaptemplate->setCurrentBlock('gap_size');
+				$gaptemplate->setVariable("GAP_SIZE", $gap_size);
+				$gaptemplate->parseCurrentBlock();
+			}
+			
+			$gaptemplate->setCurrentBlock('gap_input');
+			$gaptemplate->setVariable('INPUT_SOLUTION', $solutiontext);
+		}
+		
+		
+		$gaptemplate->parseCurrentBlock();
 	}
 }
