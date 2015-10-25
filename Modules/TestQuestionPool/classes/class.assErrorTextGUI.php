@@ -273,7 +273,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 		if ($show_question_text==true)
 			$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->getQuestion(), TRUE));
 
-		$errortext = $this->object->createErrorTextOutput($selections, $graphicalOutput, $show_correct_solution);
+		$errortext = $this->object->createErrorTextOutput($selections, $graphicalOutput, $show_correct_solution, false);
 
 		$template->setVariable("ERRORTEXT", $errortext);
 		$questionoutput = $template->get();
