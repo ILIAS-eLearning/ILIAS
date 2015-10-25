@@ -606,8 +606,8 @@ div.ilc_Page.readonly div.filesContainer,
 div.ilc_Page.readonly div.filesContainer a,
 div.ilc_Page.readonly div.uploadContainer input,
 div.ilc_Page.readonly div.ilAssErrorText span,
-div.ilc_Page.readonly input.solutionbox,
-div.ilc_Page.readonly select.solutionbox,
+div.ilc_Page.readonly input[disabled],
+div.ilc_Page.readonly select[disabled],
 div.ilc_Page.readonly textarea[disabled]
 {
 	pointer-events: all !important;
