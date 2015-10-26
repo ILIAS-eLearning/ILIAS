@@ -1,6 +1,6 @@
 <?php
 require_once 'Services/Repository/classes/class.ilObjectPluginAccess.php';
-class ilObjBaseReportAccess extends ilObjPluginAccess {
+class ilObjReportBaseAccess extends ilObjPluginAccess {
 
 	/**
 	* Checks wether a user may invoke a command or not

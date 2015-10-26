@@ -5,7 +5,7 @@ require_once 'Services/Repository/classes/class.ilObjectPlugin.php';
 * This class performs all interactions with the database in order to get report-content. Puplic methods may be accessed in 
 * in the GUI via $this->object->{method-name}.
 */
-class ilObjBaseReport extends ilObjectPlugin {
+class ilObjReportBase extends ilObjectPlugin {
 	protected $online;
 	protected $gIldb;
 

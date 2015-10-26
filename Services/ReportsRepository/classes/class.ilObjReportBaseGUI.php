@@ -2,7 +2,7 @@
 
 require_once 'Services/Repository/classes/class.ilObjectPluginGUI.php';
 
-class ilObjBaseReportGUI extends ilObjPluginGUI {
+class ilObjReportBaseGUI extends ilObjPluginGUI {
 
 	protected $gLng;
 	protected $gCtrl;
@@ -20,9 +20,9 @@ class ilObjBaseReportGUI extends ilObjPluginGUI {
 
 	abstract public function getType();
 	abstract public function getAfterCreationCmd();
-	abstract public function getStandartCmd() {
+	abstract public function getStandartCmd();
 
-	}
+	abstract protected function constructFilter();
 
 	public function setTabs() {
 
@@ -36,6 +36,7 @@ class ilObjBaseReportGUI extends ilObjPluginGUI {
 		$this->gUser = $ilUser;
 		$this->gLog = $ilLog;
 		$this->gAccess = $ilAccess;
+
 	}
 	/**
 	* Besides usual report commands (exportXLS, view, ...) showMenu goes here
@@ -43,12 +44,14 @@ class ilObjBaseReportGUI extends ilObjPluginGUI {
 	public function performCommand() {
 	
 	}
-	
+
+	/**
+	* render report.
+	*/
 	protected function render() {
 	
 	}
-	
-	
+		
 	protected function renderView() {
 	
 	}
@@ -57,12 +60,10 @@ class ilObjBaseReportGUI extends ilObjPluginGUI {
 	
 	}
 	
-	
 	protected function renderExportButton() {
 	
 	}
 	
-
 	protected function renderUngroupedTable($data) {
 	
 	}
@@ -75,10 +76,16 @@ class ilObjBaseReportGUI extends ilObjPluginGUI {
 	
 	}
 
+	/**
+	* provide xls version of report for download.
+	*/
 	protected function exportXLS() {
 
 	}
 
+	/**
+	* housekeeping the get parameters passed to ctrl
+	*/
 	protected function enableRelevantParametersCtrl() {
 
 	}
@@ -87,4 +94,10 @@ class ilObjBaseReportGUI extends ilObjPluginGUI {
 
 	}
 
+	/**
+	* Settings menu of the report. Note that any setting query will be performed inside ilObjBaseReport.
+	*/
+	protected function renderSettings() {
+
+	}
 }
