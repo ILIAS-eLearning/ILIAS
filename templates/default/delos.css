@@ -10417,6 +10417,10 @@ div#il_startup_logo img {
   height: 20px;
   width: 20px;
 }
+.iosPdBmListImg[src$="spacer.png"] {
+  height: 0;
+  width: 0;
+}
 /* Services/UIComponent/Toolbar */
 .ilToolbar.navbar {
   border: 0;
