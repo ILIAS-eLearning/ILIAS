@@ -134,7 +134,22 @@ class ilGlossaryAdvMetaDataAdapter
 		}
 	}
 
+	/**
+	 * Write single column order
+	 *
+	 * @param
+	 * @return
+	 */
+	static function writeColumnOrder($a_glo_id, $a_field_id, $a_order_nr)
+	{
+		global $ilDB;
 
+		$ilDB->replace("glo_advmd_col_order",
+			array("glo_id" => array("integer", $a_glo_id),
+				"field_id" => array("integer", $a_field_id)),
+			array("order_nr" => array("integer", $a_order_nr))
+			);
+	}
 }
 
 ?>

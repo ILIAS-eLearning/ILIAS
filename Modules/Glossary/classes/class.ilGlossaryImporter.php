@@ -131,14 +131,22 @@ class ilGlossaryImporter extends ilXmlImporter
 					}
 				}
 
-				// get style
-				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
-				$sty_map = $a_mapping->getMappingsOfEntity("Services/Style", "sty");
-
+				// advmd column order
+				if ($this->exportedFromSameInstallation())
+				{
+					include_once("./Modules/Glossary/classes/class.ilGlossaryAdvMetaDataAdapter.php");
+					$advmdco = $a_mapping->getMappingsOfEntity("Modules/Glossary", "advmd_col_order");
+					foreach ($advmdco as $id => $order)
+					{
+						$id = explode(":", $id);
+						if ($id[0] == $old)
+						{
+							ilGlossaryAdvMetaDataAdapter::writeColumnOrder($new, $id[1], $order);
+						}
+					}
+				}
 			}
 		}
-
-
 
 	}
 	
