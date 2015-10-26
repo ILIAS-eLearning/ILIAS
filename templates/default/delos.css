@@ -11246,6 +11246,9 @@ table.mceToolbar td {
     max-width: 100%;
     overflow: auto;
   }
+  .table-responsive .dropdown-menu {
+    position: relative;
+  }
   a#il_mhead_t_focus {
     font-size: 20px;
   }
