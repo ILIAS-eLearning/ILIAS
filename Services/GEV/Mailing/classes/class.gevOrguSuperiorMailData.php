@@ -223,7 +223,7 @@ class gevOrguSuperiorMailData extends ilMailData {
 		}
 		
 		if (!$has_entries) {
-			throw new Exception("There is no content in the weakly report for the superior.");
+			throw new Exception("There is no content in the weekly report for the superior.");
 		}
 
 		return $ret;
