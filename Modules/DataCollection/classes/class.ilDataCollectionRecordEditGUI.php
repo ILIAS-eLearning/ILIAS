@@ -352,7 +352,6 @@ class ilDataCollectionRecordEditGUI {
 		if ($record_obj->getId()) {
 			//Get Table Field Definitions
 			$allFields = $this->table->getFields();
-			$values = array();
 			foreach ($allFields as $field) {
 				$record_obj->fillRecordFieldFormInput($field->getId(), $this->form);
 			}
@@ -479,8 +478,7 @@ class ilDataCollectionRecordEditGUI {
 		} else {
 			// Form not valid...
 			//TODO: URL title flushes on invalid form
-//			$this->form->setValuesByPost();
-			$this->setFormValues();
+			$this->form->setValuesByPost();
 			if ($this->ctrl->isAsynch()) {
 				echo $this->form->getHTML();
 				exit();

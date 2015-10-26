@@ -16,6 +16,7 @@ require_once('./Services/Preview/classes/class.ilPreviewGUI.php');
 require_once('class.ilDataCollectionRecordViewViewdefinition.php');
 require_once("./Services/MediaObjects/classes/class.ilMediaPlayerGUI.php");
 require_once('class.ilDclCheckboxInputGUI.php');
+require_once('class.ilDclTextInputGUI.php');
 
 /**
  * Class ilDataCollectionDatatype
@@ -236,7 +237,7 @@ class ilDataCollectionDatatype {
 		$input = NULL;
 		switch ($type_id) {
 			case ilDataCollectionDatatype::INPUTFORMAT_TEXT:
-				$input = new ilTextInputGUI($title, 'field_' . $field->getId());
+				$input = new ilDclTextInputGUI($title, 'field_' . $field->getId());
 				if ($field->getTextArea()) {
 					$input = new ilTextAreaInputGUI($title, 'field_' . $field->getId());
 				}
