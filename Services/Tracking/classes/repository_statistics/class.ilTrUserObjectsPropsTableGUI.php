@@ -421,13 +421,16 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 			$this->tpl->parseCurrentBlock();
 		}
 		
-		// #16453
-		include_once './Services/Tree/classes/class.ilPathGUI.php';
-		$path = new ilPathGUI();
-		$path = $path->getPath($this->ref_id, $data['ref_id']);
-		if($path)
+		// #16453 / #17163
+		if($data['ref_id'])
 		{
-			$this->tpl->setVariable('COLL_PATH', $this->lng->txt('path').': '.$path);
+			include_once './Services/Tree/classes/class.ilPathGUI.php';
+			$path = new ilPathGUI();
+			$path = $path->getPath($this->ref_id, $data['ref_id']);
+			if($path)
+			{
+				$this->tpl->setVariable('COLL_PATH', $this->lng->txt('path').': '.$path);
+			}
 		}
 
 		// #13807 / #17069
