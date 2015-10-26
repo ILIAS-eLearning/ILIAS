@@ -981,7 +981,7 @@ class gevDecentralTrainingGUI {
 		$title->setValue($a_form_values["title"]);
 		$form->addItem($title);
 		
-		$description = new ilTextAreaInputGUI($this->lng->txt("description"), "description");
+		$description = new ilTextAreaInputGUI($this->lng->txt("crs_description"), "description");
 		if ($a_fill) {
 			$description->setValue($a_form_values["description"]);
 		}
