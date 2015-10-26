@@ -156,11 +156,12 @@
              * Trigger notification and refreshes the tree
              */
             $("body").on("async_form-success", function (event, data) {
+
                 // hmmmm ugly workaround: js-tree does not correctly refresh, when no element is available
-                if($(element).find("li > ul > li").length == 0) {
+                if($(element).find("li > ul > li").length == 0 || (data['cmd'] == 'confirmedDelete' && $(element).find("li > ul > li").length == 1)) {
                     refresh_tree(true);
                 } else {
-                    $("body").trigger("study_programme-show_success", {message: data.message, type: 'success'});
+                    $("body").trigger("study_programme-show_success", {message: data.message, type: 'success', cmd: data.cmd});
                     refresh_tree();
                 }
 
@@ -202,7 +203,7 @@
                         success: function (response) {
                             //try {
                             if (response) {
-                                $("body").trigger("study_programme-show_success", {message: response.message, type: 'success'});
+                                $("body").trigger("study_programme-show_success", {message: response.message, type: 'success', cmd: response.cmd});
                                 $("body").trigger("study_programme-saved_order");
                             }
                             /*} catch (error) {
@@ -307,7 +308,7 @@
                     success: function (response) {
                         //try {
                         if (response) {
-                            $("body").trigger("async_form-success", {message: response.message, type: 'success'});
+                            $("body").trigger("async_form-success", {message: response.message, type: 'success', cmd: response.cmd});
                         }
                         /*} catch (error) {
                          console.log("The AJAX-response for the async form " + form.attr('id') + " is not JSON. Please check if the return values are set correctly: " + error);

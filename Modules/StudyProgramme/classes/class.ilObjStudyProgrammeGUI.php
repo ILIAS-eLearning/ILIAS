@@ -14,7 +14,7 @@ require_once("./Modules/StudyProgramme/classes/types/class.ilStudyProgrammeTypeG
 require_once("./Modules/StudyProgramme/classes/model/class.ilStudyProgrammeAdvancedMetadataRecord.php");
 require_once("./Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php");
 require_once("./Services/Object/classes/class.ilObjectCopyGUI.php");
-//require_once("./Modules/OrgUnit/classes/Translation/class.ilTranslationGUI.php");
+require_once("./Services/Repository/classes/class.ilRepUtil.php");
 
 /**
  * Class ilObjStudyProgrammeGUI class

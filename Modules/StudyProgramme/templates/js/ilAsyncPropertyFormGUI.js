@@ -54,15 +54,15 @@
                         if (response) {
                             // error on while saving
                             if (is_save_cmd(response.cmd) !== -1 && response.success === false && $.isArray(response.errors)) {
-                                $("body").trigger("async_form-error", {message: response.message, errors: response.errors, form: form_reference});
+                                $("body").trigger("async_form-error", {message: response.message, errors: response.errors, cmd: response.cmd, form: form_reference});
 
                             // saving was successful
                             } else if (is_save_cmd(response.cmd) !== -1 && response.success === true) {
-                                $("body").trigger("async_form-success", {message: response.message, form: form_reference});
+                                $("body").trigger("async_form-success", {message: response.message, cmd: response.cmd, form: form_reference});
 
                             // cancel was clicked
                             } else if (is_cancel_cmd(response.cmd) !== -1) {
-                                $("body").trigger("async_form-cancel", {form: form_reference});
+                                $("body").trigger("async_form-cancel", {cmd: response.cmd, form: form_reference});
 
                             }
                         }

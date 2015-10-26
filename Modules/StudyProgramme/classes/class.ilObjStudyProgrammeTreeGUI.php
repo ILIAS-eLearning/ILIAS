@@ -462,19 +462,19 @@ class ilObjStudyProgrammeTreeGUI {
 			}
 
 			if($current_node != $id && $not_root && $not_parent_of_current && $this->checkAccess('delete', $obj->getRefId())) {
-				if($obj->delete()) {
-					// deletes the tree-open-node-session storage
-					if(isset($children_of_node)) {
-						$this->tree->closeCertainNode($id);
-						foreach($children_of_node as $child) {
-							$this->tree->closeCertainNode($child->getRefId());
-						}
-					}
 
-					$msg = $this->lng->txt("prg_deleted_safely");
-				} else {
-					$result = false;
+				ilRepUtil::deleteObjects(null, $id);
+
+				// deletes the tree-open-node-session storage
+				if(isset($children_of_node)) {
+					$this->tree->closeCertainNode($id);
+					foreach($children_of_node as $child) {
+						$this->tree->closeCertainNode($child->getRefId());
+					}
 				}
+
+				$msg = $this->lng->txt("prg_deleted_safely");
+
 			} else {
 				$msg = $this->lng->txt("prg_not_allowed_node_to_delete");
 				$result = false;
