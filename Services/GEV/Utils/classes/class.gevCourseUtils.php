@@ -3165,7 +3165,7 @@ class gevCourseUtils {
 			$role = $crs->getDefaultAdminRole();
 		}
 		else {
-			$local_roles = gevRoleUtils::getLocalRoleIdsAndTitles($crs->getId());
+			$local_roles = gevRoleUtils::getInstance()->getLocalRoleIdsAndTitles($crs->getId());
 			$role = array_search($a_role_name, $local_roles);
 
 			if (!$role) {
