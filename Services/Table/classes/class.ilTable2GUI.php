@@ -35,6 +35,7 @@ class ilTable2GUI extends ilTableGUI
 	protected $selected_column = array();
 	protected $show_templates = false;
 	protected $show_rows_selector = true; // JF, 2014-10-27
+	protected $rows_selector_off = false;
 
 	protected $nav_determined= false;
 	protected $limit_determined = false;
@@ -2365,7 +2366,7 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 				if ($this->getShowRowsSelector() && 
 					is_object($ilUser) &&
 					$this->getId() &&
-					$this->getLimit() < 9999) // JF, 2014-10-27
+					!$this->rows_selector_off) // JF, 2014-10-27
 				{
 					include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 					$alist = new ilAdvancedSelectionListGUI();
@@ -3416,6 +3417,18 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 	public function getPreventDoubleSubmission()
 	{
 		return $this->prevent_double_submission;
+	}
+	
+	function setLimit($a_limit = 0, $a_default_limit = 0)
+	{
+		parent::setLimit($a_limit, $a_default_limit);
+		
+		// #17077 - if limit is set "manually" to 9999, force rows selector off
+		if($a_limit == 9999 &&
+			$this->limit_determined)
+		{		
+			$this->rows_selector_off = true;
+		}
 	}
 }
 
