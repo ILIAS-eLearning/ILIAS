@@ -503,7 +503,7 @@ class gevCourseSearch {
 			
 			$free_places = $crs_booking->getFreePlaces();
 			if (gevObjectUtils::checkAccessOfUser($this->usr_id, "visible",  "", $val["obj_id"], "crs")
-			&&  ($free_places === null || $free_places > 4)) {
+			&&  ($free_places === null || $free_places > 0)) {
 				$ret[] = $val["obj_id"];
 			}
 		}
