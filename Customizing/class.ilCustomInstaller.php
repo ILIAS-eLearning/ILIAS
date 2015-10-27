@@ -283,7 +283,7 @@ class ilCustomInstaller
 		if (isset($GLOBALS["ilClientIniFile"])) {
 			return;
 		}
-		$_COOKIE["ilClientId"] = "Generali2";
+		$_COOKIE["ilClientId"] = "Generali";
 		$ini_file = "./".ILIAS_WEB_DIR."/".$_COOKIE["ilClientId"]."/client.ini.php";
 		require_once("./Services/Init/classes/class.ilIniFile.php");
 		$ilClientIniFile = new ilIniFile($ini_file);
