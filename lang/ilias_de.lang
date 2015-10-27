@@ -650,7 +650,7 @@ assessment#:#internal_links_update#:#Aktualisierung
 assessment#:#javaapplet#:#Java-Applet
 assessment#:#keywords_hint#:#Um eine automatische Punktevergabe bei einer Frage vom Typ Freitext eingeben zu erreichen, geben Sie hier bitte eine Liste von Schlagwörtern an. Die Schlagwörter müssen durch Leerzeichen oder Zeilenumbrüche voneinander getrennt sein. Ist eines der Schlagwörter im Antworttext vorhanden, vergibt ILIAS die für die Frage eingetragene maximale Punktezahl anstelle der üblichen Bewertung von 0 Punkten.
 assessment#:#kiosk#:#Prüfungsansicht
-assessment#:#kiosk_description#:#Die Prüfungsansicht zeigt den Test im Kiosk-Modus. Dabei werden alle Bildschirmelemente, die nicht zum Test gehören, ausgeblendet. Um Teilnehmer effektiv daran zu hindern, während des Tests andere Webseiten zu öffnen, setzen Sie bitte zusätzlich einen für E-Klausuren spezialisierten Browser ein, z.B. den <a href="https://github.com/SafeExamBrowser">Safe Exam Browser</a>.
+assessment#:#kiosk_description#:#Die Prüfungsansicht zeigt den Test im Kiosk-Modus. Dabei werden alle Bildschirm- und Navigationselemente, die nicht zum Test gehören, ausgeblendet. Um Teilnehmer effektiv daran zu hindern, während des Tests andere Webseiten zu öffnen, setzen bitte Sie einen hierfür spezialisierten Browser, z.B. Safe Exam Browser.
 assessment#:#kiosk_options#:#Angezeigte Informationen
 assessment#:#kiosk_options_desc#:#Die ausgewählten Informationen werden im Kopfbereich der Seite angezeigt.
 assessment#:#kiosk_show_participant#:#Name des Teilnehmers
@@ -1036,7 +1036,7 @@ assessment#:#previous_question#:#Zurück
 assessment#:#submit_answer#:#Speichern und weiter
 assessment#:#skip_question#:#Nicht antworten und weiter
 assessment#:#discard_answer#:#Antwort löschen
-assessment#:#discard_answer_confirmation#:#Ihre Antwort wird vollständig und endgültig gelöscht. Sie können die Frage aber später erneut beantworten.<br /><br />Soll Ihre Antwort endgültig gelöscht werden?
+assessment#:#discard_answer_confirmation#:#Ihre Antwort wird vollständig und endgültig gelöscht. Zu einem späteren Zeitpunkt können Sie die Frage aber erneut beantworten.<br /><br />Soll Ihre Antwort endgültig gelöscht werden?
 assessment#:#edit_answer#:#Antwort ändern
 assessment#:#answer_question#:#Frage beantworten
 assessment#:#back_to_objective_container#:#Zurück zum Kurs
@@ -1887,16 +1887,16 @@ blog#:#blog_admin_toggle_info#:#Das Blog-Feature kann in der Administration des 
 blog#:#blog_back_to_ilias#:#Zurück zu ILIAS
 blog#:#blog_background_color#:#Hintergrundfarbe
 blog#:#blog_banner#:#Banner
-blog#:#blog_change_notification_body_comment#:#der folgende Blogbeitrag wurde kommentiert:
-blog#:#blog_change_notification_body_new#:#der folgende Blogbeitrag wurde neu angelegt:
-blog#:#blog_change_notification_body_update#:#der folgende Blogbeitrag wurde editiert:
+blog#:#blog_change_notification_body_comment#:#der folgende Beitrag wurde kommentiert:
+blog#:#blog_change_notification_body_new#:#der folgende Beitrag wurde neu angelegt:
+blog#:#blog_change_notification_body_update#:#der folgende Beitrag wurde geändert:
 blog#:#blog_change_notification_link#:#Link zum Beitrag
 blog#:#blog_change_notification_salutation#:#Hallo %s,
 blog#:#blog_change_notification_subject#:#Blog "%s" wurde aktualisiert
 blog#:#blog_changed_by#:#Letzte Änderung durch
 blog#:#blog_comments#:#Kommentare
 blog#:#blog_draft#:#Entwurf
-blog#:#blog_draft_info#:#Dieser Beitrag ist als Entwurf nur für Sie sichtbar.
+blog#:#blog_draft_info#:#Der Inhalt dieses Beitrags ist als Entwurf nur für Sie sichtbar.
 blog#:#blog_edit#:#Blog bearbeiten
 blog#:#blog_enable_notes#:#Öffentliche Kommentare
 blog#:#blog_exercise_info#:#Dieses Blog ist der Übungseinheit "%s" in der Übung "%s" zugeordnet.
@@ -1905,7 +1905,7 @@ blog#:#blog_finalize_blog#:#Blog abschliessen und abgeben
 blog#:#blog_finalized#:#Das Blog wurde abgegeben.
 blog#:#blog_font_color#:#Schriftfarbe
 blog#:#blog_list_more#:#mehr
-blog#:#blog_navigation#:#Einträge
+blog#:#blog_navigation#:#Beiträge
 blog#:#blog_new#:#Neues Blog anlegen
 blog#:#blog_new_posting_info#:#Der erste Textblock wird als Auszug in der Liste der Einträge verwendet.
 blog#:#blog_notification_activated#:#Änderungs-Benachrichtigung aktiviert
@@ -2853,7 +2853,7 @@ common#:#confirm#:#Bestätigen
 common#:#confirm_delete_parameter#:#Wollen Sie den Parameter wirklich löschen?
 common#:#confirmation#:#Aktion bestätigen
 common#:#conflict_handling#:#Konfliktbehandlung
-common#:#cont_iim_content_popups_info#:#Content-Popups werden angezeigt, wenn Benutzer auf die interaktiven Teile des zugrundeliegenden Basis-Bilds klicken. Auf dieser Seite definieren Sie nur die Pop-ups. Ihr Inhalt wird auf der Hauptseite editiert.
+common#:#cont_iim_content_popups_info#:#Content-Popups werden angezeigt, wenn Benutzer auf die interaktiven Teile des zugrundeliegenden Basis-Bilds klicken. Auf dieser Seite definieren Sie nur die Pop-ups. Ihr Inhalt wird auf der Hauptseite bearbeitet.
 common#:#cont_iim_create_info#:#Bitte laden Sie die zugrundeliegende Bilddatei für das interaktive Bild hoch.
 common#:#cont_iim_overlay_info#:#Ein Overlay-Bild wird angezeigt, wenn Benutzer mit der Maus über den definierten Bereich des zugrundeliegenen Bildes fahren. Das jeweilige Overlay-Bild weisen Sie nach dem Hochladen im Register "Auslöser" dem zugehörigen Auslösebereich zu.
 common#:#cont_object#:#Objekt
@@ -5622,7 +5622,7 @@ content#:#cont_click_starting_point#:#Bitte klicken Sie auf den Startpunkt des P
 content#:#cont_click_tl_corner#:#Bitte klicken Sie in die obere linke Ecke des gewünschten Bereichs
 content#:#cont_Code#:#Code
 content#:#cont_colspan#:#Verbund Spalte
-content#:#cont_comments#:#Speicherung von Kommentaren ermöglichen
+content#:#cont_comments#:#Kommentare erlauben
 content#:#cont_confirm_delete#:#Wollen Sie diese Inhalte wirklich löschen?
 content#:#cont_constrain_proportions#:#Proportionen erhalten
 content#:#cont_content#:#Inhalt
@@ -5672,13 +5672,13 @@ content#:#cont_deactivate_js#:#Formularmodus aktivieren
 content#:#cont_deactivate_media#:#Medien deaktivieren
 content#:#cont_deactivate_page#:#Seite deaktivieren
 content#:#cont_deactivated#:#Deaktiviert
-content#:#cont_debug#:#Testwerkzeug anzeigen
-content#:#cont_debug_deactivate#:#Hinweis: Das Werkzeug zum Überprüfen des Lernmoduls auf SCORM-Konformität kann global für alle Lernmodule deaktiviert werden.
+content#:#cont_debug#:#Testwerkzeug bereitsstellen
+content#:#cont_debug_deactivate#:#Es wird ein Testwerkzeug angezeigt. Es liefert im Präsentationsmodus des SCORM-Lernmoduls Daten, anhand welcher überprüft werden kann, wie das Lernmodul mit ILIAS interagiert. Um das Testwerkzeug aufzurufen, muss der linke Navigationsbaum angezeigt werden.
 content#:#cont_debug_deactivated#:#Hinweis: Das Werkzeug zum Überprüfen des Lernmoduls auf SCORM-Konformität ist global für alle Lernmodule deaktiviert.
 content#:#cont_debugpw#:#Zugangspasswort
 content#:#cont_decimal#:#Dezimal
 content#:#cont_def_layout#:#Standard-Layout
-content#:#cont_def_lesson_mode#:#Modus für SCO-Nutzung
+content#:#cont_def_lesson_mode#:#Bearbeitungsdaten aufzeichnen
 content#:#cont_def_map_areas#:#Verlinkte Bereiche (Standard)
 content#:#cont_def_organization#:#Standard
 content#:#cont_default#:#Standard
@@ -5879,7 +5879,7 @@ content#:#cont_id_ref#:#identifierref
 content#:#cont_imagemap#:#Image Map
 content#:#cont_import_id#:#identifier
 content#:#cont_import_tracking#:#Protokolldaten importieren
-content#:#cont_import_validation_errors#:#Bei der Validierung des Lernmoduls sind Fehler aufgetreten. Die Darstellung kann trotzdem funktionieren. Allerdings ist es wahrscheinlich, dass die fehlerhaften Seiten nicht editiert werden können.
+content#:#cont_import_validation_errors#:#Bei der Validierung des Lernmoduls sind Fehler aufgetreten. Die Darstellung kann trotzdem funktionieren. Allerdings ist es wahrscheinlich, dass die fehlerhaften Seiten nicht bearbeitet werden können.
 content#:#cont_insert_as_chapter#:#Als Kapitel einfügen
 content#:#cont_insert_as_subchapter#:#Als Unterkapitel einfügen
 content#:#cont_insert_blog#:#Blog-Eintrag hinzufügen
@@ -5908,7 +5908,8 @@ content#:#cont_insert_table#:#Tabelle einfügen
 content#:#cont_insert_tabs#:#Akkordeon einfügen
 content#:#cont_insert_verification#:#Zertifikat hinzufügen
 content#:#cont_inst_map_areas#:#Verlinkte Bereiche der Instanz
-content#:#cont_interactions#:#Speicherung der Ergebnisse aus Aufgaben (interactions) ermöglichen
+content#:#cont_interactions#:#Ergebnisse der Aufgaben speichern
+content#:#cont_interactions_info#:#Die Daten zu Ergebnissen aus Aufgaben (interactions) werden von Lernmodulen meist nur geschrieben und nicht mehr eingelesen. Wenn Sie sicher sind, dass dieses Lernmodul so verfährt, erhöht diese Option die Performanz.
 content#:#cont_internal#:#intern
 content#:#cont_internal_link#:#interner Link
 content#:#cont_internal_links#:#Interne Links
@@ -6065,8 +6066,9 @@ content#:#cont_number_std#:#Standard
 content#:#cont_number_type#:#Nummerntyp
 content#:#cont_numbered_list#:#Nummerierte Liste
 content#:#cont_obj_removed#:#Objekte entfernt
-content#:#cont_objectives#:#Speicherung der Ergebnisse zu Lernzielen (objectives) ermöglichen
-content#:#cont_offline#:#Offline Versionen
+content#:#cont_objectives#:#Ergebnisse zu Lernzielen speichern
+content#:#cont_objectives_info#:#Nur wenn Sie sehr sicher sind, dass der korrekte Ablauf dieses Lernmoduls gewährleistet ist, können Sie zur Vermeidung von Nutzerdaten und zur Erhöhung der Performanz diese Speicherung deaktivieren.
+content#:#cont_offline#:#Offline-Versionen
 content#:#cont_offline_files#:#Offline-Version
 content#:#cont_offline_versions#:#Offline-Versionen
 content#:#cont_online#:#Online
@@ -6228,7 +6230,7 @@ content#:#cont_sc_stat_not_attempted#:#Nicht begonnen
 content#:#cont_sc_stat_passed#:#Bestanden
 content#:#cont_sc_stat_running#:#Aktiv
 content#:#cont_sc_title#:#Titel
-content#:#cont_sc_usession#:#Session-Timeout verhindern
+content#:#cont_sc_usession#:#Automatische Abmeldung aus ILIAS verhindern
 content#:#cont_sc_version#:#Version des Lernmoduls
 content#:#cont_scheduled_activation#:#Zeitliche Aktivierung
 content#:#cont_school#:#Schule
@@ -7196,7 +7198,7 @@ dateplaner#:#cal_ch_num_bookings#:#Anmeldungen pro Termin
 dateplaner#:#cal_ch_personal_book#:#Persönliche Buchungen
 dateplaner#:#cal_ch_personal_ch#:#Persönliche Sprechstundentermine
 dateplaner#:#cal_ch_target_object#:#Objekt im Magazin
-dateplaner#:#cal_ch_target_object_info#:#Begrenzt Sprechstunden auf die ausgewählten Kurse und Gruppen im Magazin. Mehrere Objekte können kommagetrennt angegeben werden.
+dateplaner#:#cal_ch_target_object_info#:#Die Sprechstunden werden nur in den ausgewählten Kursen und Gruppen in einem kleinen Block rechts angezeigt. Geben Sie die Ref-ID des betreffenden Objektes ein. Sie finden diese in der URL des entsprechenden Objekts. Mehrere Ref-IDs geben Sie kommagetrennt ein.
 dateplaner#:#cal_ch_unknown_repository_object#:#Die angegebene Kennung des Objekts ist nicht gültig.
 dateplaner#:#cal_ch_unknown_user#:#Der eingegebene Benutzername existiert nicht.
 dateplaner#:#cal_change_responsible_users#:#Verantwortliche Mitglieder ändern
@@ -9811,7 +9813,7 @@ payment#:#statistics_filter_advice#:#Bitte tätigen Sie die gewünschten Filtere
 payment#:#sure_delete_topics#:#Sollen die gewählten Themen wirklich gelöscht werden?
 payment#:#terms_conditions#:#AGB
 payment#:#topic#:#Thema
-payment#:#topic_edited#:#Das Thema wurde erfolgreich editiert
+payment#:#topic_edited#:#Das Thema wurde erfolgreich bearbeitet
 payment#:#topic_saved#:#Das Thema wurde erfolgreich gespeichert
 payment#:#topic_title#:#Titel
 payment#:#topics#:#Themen
@@ -11986,12 +11988,12 @@ trac#:#trac_log_info_link#:#Aktualisieren
 trac#:#trac_long_system_load#:#Langzeithistorie
 trac#:#trac_lp_determination#:#Ermittlung des Lernfortschritts
 trac#:#trac_lp_determination_info_crs#:#Auswahl der Materialien, anhand derer der Gesamtstatus ermittelt wird.
-trac#:#trac_lp_determination_info_crs_tutor#:#Diese Auswahl hat keinen Einfluss auf den Lernfortschrittsstatus.
+trac#:#trac_lp_determination_info_crs_tutor#:#Wählen Sie diejenigen Objekte aus, welche zur Bestimmung des Lernfortschritts beitragen sollen.
 trac#:#trac_lp_determination_info_sco#:#Auswahl der SCOx, anhand derer der Gesamtstatus des SCORM-Moduls ermittelt wird.
-trac#:#trac_lp_determination_tutor#:#Anzeige von Objekten im Lernfortschritt
+trac#:#trac_lp_determination_tutor#:#Auswahl von Objekten, die den Lernfortschrittschritt bestimmen
 trac#:#trac_lp_filter#:#Filter
 trac#:#trac_manual_display#:#Im Lernfortschritt anzeigen
-trac#:#trac_manual_is_displayed#:#Wird angezeigt
+trac#:#trac_manual_is_displayed#:#Bestimmt Lernfortschritt
 trac#:#trac_manual_no_display#:#Im Lernfortschritt nicht anzeigen
 trac#:#trac_mark#:#Note
 trac#:#trac_marks#:#Noten
@@ -12002,33 +12004,33 @@ trac#:#trac_measure#:#Kennzahl
 trac#:#trac_members_short#:#Teil.
 trac#:#trac_min_passed#:#Minimalanzahl zu bestehender Materialien:
 trac#:#trac_mode#:#Lernfortschrittsmodus
-trac#:#trac_mode_collection#:#Automatisch durch Auswahl von Objekten
-trac#:#trac_mode_collection_info#:#Der Gesamtstatus wird automatisch anhand der ausgewählten Materialien bestimmt.
-trac#:#trac_mode_deactivated#:#Lernfortschritt deaktiviert
+trac#:#trac_mode_collection#:#Status wird anhand einer Auswahl von Objekten bestimmt
+trac#:#trac_mode_collection_info#:#Der Status des Lernfortschritts des Objekts wird automatisch durch den Status der ausgewählten Objekten bestimmt. <br />Nach dem Speichern dieser Einstellung können auf dieser Seite die gewünschten Objekte ausgewählt werden.
+trac#:#trac_mode_deactivated#:#Lernfortschritt ist deaktiviert
 trac#:#trac_mode_deactivated_info#:#Es wird kein Lernfortschritt ermittelt.
 trac#:#trac_mode_deactivated_info_new#:#Der Lernfortschrittsstatus wird nicht angezeigt.
-trac#:#trac_mode_event#:#Teilnahme an Sitzungen
-trac#:#trac_mode_exercise_returned#:#Übung gelöst
-trac#:#trac_mode_exercise_returned_info#:#Den Lernstand der Benutzer (etwa 'Bearbeitet' oder 'Nicht bestanden') bestimmen Tutoren.
-trac#:#trac_mode_manual#:#Manuell durch Benutzer
-trac#:#trac_mode_manual_by_tutor#:#Manuell durch Tutor
-trac#:#trac_mode_manual_by_tutor_info#:#Den Lernstand der Benutzer (etwa 'Bearbeitet' oder 'Nicht bestanden') bestimmen Tutoren.
-trac#:#trac_mode_manual_info#:#Die Benutzer entscheiden selbst, ob Sie den Lernstand 'Bearbeitet' erreicht haben.
+trac#:#trac_mode_event#:#Tutoren erfassen Teilnahme
+trac#:#trac_mode_exercise_returned#:#Tutor entscheidet über den Status des Lernfortschritts
+trac#:#trac_mode_exercise_returned_info#:#Tutoren entscheiden anhand der Einreichungen, ob Teilnehmer die Übung gelöst haben. Tutoren setzen händisch den Status auf 'Bearbeitet' oder 'Nicht bestanden'.
+trac#:#trac_mode_manual#:#Benutzer entscheidet selbst über den Status des Lernfortschritts für das gesamte Lernmodul.
+trac#:#trac_mode_manual_by_tutor#:#Tutor entscheidet über den Status des Lernfortschritts
+trac#:#trac_mode_manual_by_tutor_info#:#Tutoren entscheiden, ob Teilnehmer das Objekt erfolgreich bearbeitet haben. Tutoren setzen händisch den Status auf 'Bearbeitet' oder 'Nicht bestanden'.
+trac#:#trac_mode_manual_info#:#Benutzer entscheiden selbst, wann sie das Lernmodul erfolgreich durchgearbeitet haben. Sowie die Bearbeitung abgeschlossen ist, setzen sie den Status im Reiter 'Info' auf 'Bearbeitet'.
 trac#:#trac_mode_objectives#:#Lernziele
 trac#:#trac_mode_objectives_info#:#Der Lernfortschritt wird automatisch aus der Anzahl der erfüllten Lernziele ermittelt.
-trac#:#trac_mode_scorm#:#SCORM/AICC
+trac#:#trac_mode_scorm#:#Status wird anhand einer Auswahl von SCORM-Kapiteln bestimmt (je SCO)
 trac#:#trac_mode_scorm_aicc#:#Durch ausgewählte SCOs
-trac#:#trac_mode_scorm_info#:#Der Gesamtstatus wird durch die ausgewählten SCORM-Materialien bestimmt.
-trac#:#trac_mode_scorm_package#:#Automatisch durch SCORM-Kursstatus
-trac#:#trac_mode_scorm_package_info#:#Der Lernfortschrittsstatus wird durch den Gesamtstatus des SCORM-Moduls bestimmt.
-trac#:#trac_mode_test_finished#:#Test durchgeführt
-trac#:#trac_mode_test_finished_info#:#Benutzer müssen einen Test komplett beenden
-trac#:#trac_mode_test_passed#:#Test bestanden
-trac#:#trac_mode_test_passed_info#:#Der Test muss bestanden sein.
-trac#:#trac_mode_tlt#:#Typische Lerndauer
-trac#:#trac_mode_tlt_info#:#Die Bearbeitungszeit der Benutzer muss die 'Typische Lernzeit' überschreiten, um den Status 'Bearbeitet' zu erreichen. Finden zwei Anfragen eines Benutzers innerhalb von %s Sekunden statt, so wird die entsprechende Zeitspanne als ein zusammenhängender Aufruf gewertet.
-trac#:#trac_mode_visits#:#Anzahl der Aufrufe
-trac#:#trac_mode_visits_info#:#Nur die Benutzer, die eine festgelegte Anzahl von Aufrufen erreicht haben, erhalten den Status 'Bearbeitet'.
+trac#:#trac_mode_scorm_info#:#Der Status des Lernfortschritts des gesamten Lernmoduls wird automatisch durch den Status der ausgewählten Kapitel (SCOs) bestimmt. <br />Nach dem Speichern dieser Einstellung können auf dieser Seite die gewünschten SCOs ausgewählt werden.
+trac#:#trac_mode_scorm_package#:#Status wird vom SCORM-Paket bestimmt (gesamtes Lernmodul)
+trac#:#trac_mode_scorm_package_info#:#Der Status eines Benutzers wird automatisch auf 'Bearbeitet' gesetzt, wenn das gesamte Lernmodul durchgearbeitet wurde. Alle im Paket enthaltenen SCOs werden im Lernfortschritt berücksichtigt.
+trac#:#trac_mode_test_finished#:#Benutzer müssen Test beenden
+trac#:#trac_mode_test_finished_info#:#Der Status eines Benutzers wird automatisch auf 'Bearbeitet' gesetzt, nachdem der Benutzer 'Test beenden' geklickt hat. Dabei ist es gleichgültig, ob der Benutzer den Test bestanden hat oder nicht.
+trac#:#trac_mode_test_passed#:#Benutzer müssen Test bestehen
+trac#:#trac_mode_test_passed_info#:#Der Status eines Benutzers wird automatisch auf 'Bearbeitet' gesetzt, nachdem der Benutzer den Test bestanden hat. Im Reiter 'Einstellungen' können im Abschnitt 'Notenschema' Schwellenwerte für das Bestehen des Tests festgelegt werden.
+trac#:#trac_mode_tlt#:#Mindestlerndauer für gesamtes Lernmodul
+trac#:#trac_mode_tlt_info#:#Der Status eines Benutzers wird automatisch entsprechend der Dauer gesetzt, die dieser Benutzer mit der Bearbeitung des Lernmoduls verbringt. Der Status 'Bearbeitet' wird vergeben, soabld die 'Typische Lernzeit' überschritten ist. <br />Die 'Typische Lernzeit' des Lernmoduls wird im Reiter 'Metadaten' festgelegt.
+trac#:#trac_mode_visits#:#Status wird anhand der Anzahl der Aufrufe bestimmt
+trac#:#trac_mode_visits_info#:#Der Status eines Benutzers wird automatisch auf 'Bearbeitet' gesetzt, wenn dieser Benutzer das Lernmodul häufiger aufgerufen hat als die Mindestanzahl der Aufrufe fordert. Benutzern wird die Anzahl ihrer Aufrufe angezeigt und zu welchem Prozentsatz sie die Mindestanforderungen erfüllen.
 trac#:#trac_modifications_saved#:#Die Änderungen wurden übernommen
 trac#:#trac_modus#:#Modus
 trac#:#trac_name_of_installation#:#Name der Installation
@@ -12129,7 +12131,7 @@ trac#:#trac_view_list#:#Zur Übersicht
 trac#:#trac_view_mode#:#Anzeigemodus
 trac#:#trac_view_mode_all#:#Alle Objekte
 trac#:#trac_view_mode_collection#:#Nur Objekte, die Gesamtstatus bestimmen
-trac#:#trac_visits#:#Anzahl der Besuche
+trac#:#trac_visits#:#Mindestanzahl Aufrufe
 trac#:#trac_visits_info#:#Ein Aufruf wird erst nach %s Sekunden als neuer Aufruf gezählt.
 trac#:#tracking_time_span_not_valid#:#Bitte geben Sie eine Sekundenzahl ein.
 trac#:#user_total#:#Anzahl Benutzer
@@ -12232,10 +12234,10 @@ wiki#:#wiki_change_notification_body_new#:#die folgende Wiki-Seite wurde neu ang
 wiki#:#wiki_change_notification_link#:#URL
 wiki#:#wiki_change_notification_page_body_comment#:#die folgende Wiki-Seite wurde kommentiert
 wiki#:#wiki_change_notification_page_body_delete#:#die folgende Wiki-Seite wurde gelöscht
-wiki#:#wiki_change_notification_page_body_update#:#die folgende Wiki-Seite wurde editiert
+wiki#:#wiki_change_notification_page_body_update#:#die folgende Wiki-Seite wurde bearbeitet
 wiki#:#wiki_change_notification_page_link#:#URL
 wiki#:#wiki_change_notification_salutation#:#Hallo %s,
-wiki#:#wiki_change_notification_subject#:#Wiki "%1$s" wurde editiert: %2$s
+wiki#:#wiki_change_notification_subject#:#Wiki "%1$s" wurde bearbeitet: %2$s
 wiki#:#wiki_changed_by#:#Geändert von
 wiki#:#wiki_contributor#:#Mitwirkende/r
 wiki#:#wiki_contributors#:#Mitwirkende
@@ -12244,7 +12246,7 @@ wiki#:#wiki_delete_page#:#Seite löschen
 wiki#:#wiki_discussion#:#Diskussion
 wiki#:#wiki_edit#:#Bearbeiten
 wiki#:#wiki_edit_notification#:#Mail Benachrichtigung bei Änderungen
-wiki#:#wiki_edit_notification_info#:#Sie werden benachrichtigt wenn eine Seite editiert wird.
+wiki#:#wiki_edit_notification_info#:#Sie werden benachrichtigt, wenn eine Seite bearbeitet wurde.
 wiki#:#wiki_failed#:#Durchgefallen
 wiki#:#wiki_feedback_from_tutor#:#Feedback des Tutors
 wiki#:#wiki_functions#:#Wiki-Funktionen
@@ -12833,9 +12835,9 @@ dateplaner#:#cal_setting_global_crs_vis#:#Anzeige in Kursen
 dateplaner#:#cal_setting_global_grp_vis#:#Anzeige in Gruppen
 dateplaner#:#cal_setting_global_crs_vis_info#:#Wenn aktiviert, wird der Kurskalender standardmäßig in Kursen angezeigt. Unabhängig davon kann der Kalender in den Kurseinstellungen de/aktiviert werden.
 dateplaner#:#cal_setting_global_grp_vis_info#:#Wenn aktiviert, wird der Gruppenkalender standardmäßig in Gruppen angezeigt. Unabhängig davon kann der Kalender in den Gruppeneinstellungen de/aktiviert werden.
-dcl#:#dcl_change_notification_subject#:#Die Datensatzsammlung "%s" wurde editiert
+dcl#:#dcl_change_notification_subject#:#Die Datensatzsammlung "%s" wurde bearbeitet.
 dcl#:#dcl_edit_notification#:#E-Mail-Benachrichtigung Datensatzsammlung
-dcl#:#dcl_edit_notification_info#:#Sie werden benachrichtigt, sobald Datensätze editiert werden
+dcl#:#dcl_edit_notification_info#:#Sie werden benachrichtigt, sobald Datensätze bearbeitet werden.
 dcl#:#dcl_change_notification_link#:#Zur Datensammlung gehen
 dcl#:#dcl_change_notification_dcl_new_record#:#Der folgende Eintrag wurde erzeugt
 dcl#:#dcl_change_notification_dcl_update_record#:#Der folgende Eintrag wurde aktualisiert
@@ -13063,8 +13065,8 @@ blog#:#blog_authors#:#Autoren
 blog#:#blog_author#:#Beiträge von
 blog#:#blog_enable_approval#:#Neue Beiträge freischalten
 blog#:#blog_enable_approval_info#:#Ist diese Option eingeschaltet, müssen alle Beiträge durch einen Benutzer mit dem Recht "Einstellungen bearbeiten" freigeschaltet werden.
-blog#:#blog_approve#:#Abnahme erteilen
-blog#:#blog_needs_approval#:#Abnahme benötigt
+blog#:#blog_approve#:#Beitrag freischalten
+blog#:#blog_needs_approval#:#Beitrag ist noch nicht freigeschaltet
 sess#:#sess_copy#:#Sitzung kopieren
 grp#:#events#:#Sitzungen
 book#:#book_additional_info_file#:#Zusätzliche Beschreibung
@@ -13099,7 +13101,7 @@ survey#:#svy_activation_limited_visibility_info#:#Außerhalb des angegebenen Zei
 blog#:#blog_add_contributor#:#Mitwirkende hinzufügen
 blog#:#blog_search_users#:#Benutzer suchen
 common#:#il_blog_contributor#:#Blog-Autor
-rbac#:#blog_contribute#:#Benutzer darf Einträge hinzufügen
+rbac#:#blog_contribute#:#Benutzer darf Beiträge hinzufügen
 blog#:#blog_contribute_other_roles#:#Neben den eingetragenen 'Blog-Autoren' können auch Benutzer mit einer der folgenden Rollen Einträge hinzufügen: %s
 dcl#:#dcl_no_content_warning#:#Achtung, die Datensammlung ist bereits online, hat aber noch keinen Inhalt!
 dcl#:#dcl_visible#:#Im Menu zeigen
@@ -13160,15 +13162,15 @@ search#:#search_option_offline#:#Offline
 forum#:#sort_by_date#:#Sortieren nach Datum
 forum#:#error_reading_file#:#Beim Lesen der Datei ist ein Fehler aufgetreten
 content#:#cont_presentation#:#Darstellung
-content#:#cont_scorm_options#:#SCORM-Optionen
+content#:#cont_scorm_options#:#Aufzeichnung von Bearbeitungsdaten
 content#:#cont_rte_settings#:#RTE-Einstellungen
 content#:#cont_debugging#:#Debugging
 content#:#cont_auto_last_visited_info#:#Dem Benutzer wird beim erneuten Aufrufen des SCORM-Lernmoduls das zuletzt besuchte SCO oder Asset angezeigt.
 content#:#cont_credit_mode_info#:#Diese Einstellung ist nur wirksam im Modus 'normal'.
 content#:#cont_sc_auto_review_info_12#:#Setzt den Modus auf 'review', wenn der Lerner das SCO vollständig bearbeitet oder bestanden hat.
-content#:#cont_sc_usession_info#:#Wenn aktiviert werden periodisch Anfragen an den Server gesendet, um die Session des Benutzers aufrecht zu erhalten.
-content#:#cont_sequencing_info#:#Aktiviert das Verhalten für Sequencing & Navigation gemäß den Vorgaben des Lernmoduls
-content#:#cont_time_from_lms_info#:#Die Bearbeitungszeiten werden nicht von SCOs sondern von ILIAS bestimmt.
+content#:#cont_sc_usession_info#:#Es werden regelmäßig Anfragen an ILIAS gesendet, damit der Benutzer in der Plattform weiter eingeloggt bleibt. ILIAS würde sonst die Bearbeitung des SCORM-Lernmoduls nicht als Aktivität werten und die ILIAS-Sitzung beenden. Dadurch gingen Bearbeitungsdaten verloren.
+content#:#cont_sequencing_info#:#Aktiviert die Vorgaben des Lernmoduls zur interaktiven Steuerung der Navigationsmöglichkeiten von Benutzern innerhalb des Lernmoduls in Abhängigkeit von Ereignissen oder Ergebnissen. <br />Prüfen Sie zunächst, ob Ihr Lernmodul solche Angaben zu 'Sequencing & Navigation' überhaupt enthält. Dies ist nur selten der Fall.
+content#:#cont_time_from_lms_info#:#Um häufig auftretende Schwierigkeiten bei der Zeiterfassung durch das SCORM-Lernmodul vorzubeugen, kann die Zeiterfassung durch ILIAS selbst vorgenommen werden. Die strikten Vorgaben des SCORM-Standards werden hierbei eingehalten.
 mcst#:#mcst_viewmode#:#Ansicht
 mcst#:#mcst_list#:#Liste
 mcst#:#mcst_gallery#:#Kacheln
@@ -13450,10 +13452,10 @@ rbac#:#bibs_write#:#Einstellungen und Bibliotheken bearbeiten
 rbac#:#bibs_delete#:#Bibliothek-Eintrag löschen
 rbac#:#bibs_edit_permission#:#Rechteeinstellungen ändern
 ldap#:#ldap_edit_role_assignment#:#Zuordnung bearbeiten
-trac#:#trac_mode_collection_tlt#:#Typische Lerndauer (je Kapitel)
-trac#:#trac_mode_collection_tlt_info#:#Die Bearbeitungszeit der NutzerInnen aller relevanten Kapitel muss die 'Typische Lernzeit' überschreiten, um den Status 'Bearbeitet' zu erreichen.
-trac#:#trac_mode_collection_manual#:#Manuell durch NutzerInnen (je Kapitel)
-trac#:#trac_mode_collection_manual_info#:#Die NutzerInnen entscheiden selbst (je Kapitel), ob Sie den Status 'Bearbeitet' haben oder nicht.
+trac#:#trac_mode_collection_tlt#:#Mindestlerndauer je Kapitel
+trac#:#trac_mode_collection_tlt_info#:#Der Status eines Benutzers wird entsprechend der Dauer, die dieser Benutzer mit der Bearbeitung eines Kapitels verbringt, automatisch gesetzt. Der Status eines Kapitels auf 'Bearbeitet' wird vergeben, wenn die 'Typische Lernzeit' aller lernfortschritts-relevanten Kapitel überschritten wird. <br />Nach dem Speichern dieser Einstellungen, können auf dieser Seite Kapitel ausgewählt und für diese die 'Typische Lernzeiten' festlegt werden.
+trac#:#trac_mode_collection_manual#:#Benutzer entscheidet selbst über den Status des Lernfortschritts im jeweiligen Kapitel.
+trac#:#trac_mode_collection_manual_info#:#Benutzer entscheiden selbst, wann sie ein Kapitel des Lernmoduls erfolgreich durchgearbeitet haben. Sowie die Bearbeitung eines Kapitels abgeschlossen ist, setzen sie auf dem Reiter 'Info' den Status dieses Kapitels auf 'Bearbeitet'.<br />Nach dem Speichern dieser Einstellungen, können auf dieser Seite Kapitel für den Lernfortschritt ausgewählt werden.
 trac#:#trac_collection_manual_learner_info#:#Der Lernfortschritt für dieses Objekt wird manuell gesetzt.
 trac#:#trac_collection_manual_learner_changed_ts#:#Geändert am
 trac#:#trac_collection_manual_learner_lm_info#:#Aktivieren Sie alle Kapitel, die sie abgeschlossen haben.
@@ -13678,7 +13680,7 @@ survey#:#survey_mode#:#Modus
 survey#:#survey_default_mode#:#Umfrage
 survey#:#survey_default_mode_info#:#Für Evaluationen
 survey#:#survey_360_mode_info#:#Für Peer-Reviews von Personen
-blog#:#blog_draft_info_contributors#:#Dieser Beitrag ist als Entwurf nur für die am Blog Mitwirkenden sichtbar.
+blog#:#blog_draft_info_contributors#:#Dieser Beitrag ist als Entwurf nur für die Mitwirkenden sichtbar.
 assessment#:#tst_extratime_added#:#Die Bearbeitungszeit des Teilnehmers wurde um %s Minuten verlängert.
 assessment#:#tst_extratime_nodata#:#Es gibt noch keine Einträge für den ausgewählten Teilnehmer.
 assessment#:#tst_extratime_notavailable#:#Zeitverlängerungen können nur für Tests mit einem Durchlauf und einer vorgegebenen Bearbeitungszeit durchgeführt werden.
@@ -13868,7 +13870,7 @@ blog#:#blog_change_notification_reason#:#Sie erhalten diese Nachricht, da Sie di
 survey#:#survey_notification_finished_introduction#:#der folgende Teilnehmer hat die Umfrage beendet.
 survey#:#survey_notification_finished_reason#:#Sie erhalten diese Nachricht, da Sie die Benachrichtigungsfunktion für die oben genannte Umfrage aktiviert haben.
 content#:#cont_offline_mode_allow#:#Offline-Modus erlauben
-content#:#cont_offline_mode_allow_info#:#Erlaubt die Nutzung des Lernmoduls ohne Internet-Anbindung im SCORM-Offline-Player. Dazu wird das Lernmodul über das 'Aktionen'-Menü  heruntergeladen und mit einem Add-on des Browsers Firefox dargestellt. Nach dem Bearbeiten des Lernmoduls müssen Benutzer über die Option 'Offline-Modus' ihre Lernstandsdaten in ILIAS importieren.
+content#:#cont_offline_mode_allow_info#:#Erlaubt die Nutzung des Lernmoduls ohne Internet-Anbindung im SCORM-Offline-Player. Dazu wird das Lernmodul über das &#x25bc;-Menü  heruntergeladen und mit einem Add-on des Browsers Firefox dargestellt. Nach dem Bearbeiten des Lernmoduls müssen Benutzer über die Option 'Offline-Modus' ihre Lernstandsdaten in ILIAS importieren.
 wiki#:#wiki_start_page_info#:#Gibt es noch keine Wikiseite mit diesem Titel, wird eine neue, leere Seite erstellt.
 administration#:#adm_https#:#HTTPS
 common#:#obj_reps#:#Magazin 
@@ -14351,7 +14353,7 @@ adve#:#adve_char_selector_settings#:#Zeichenauswahl
 common#:#scorm_login_as_learner_id#:#SCORM 2004: verwende ILIAS-Benutzername als cmi.learner_id
 common#:#scorm_login_as_learner_id_info#:#Lernmodule erhalten den ILIAS-Benutzernamen statt der UserId bei Abfrage von cmi.learner_id.
 content#:#cont_sc_auto_review_2004#:#Daten speichern
-content#:#cont_sc_auto_review_info_2004#:#Bei an einen Status geknüpften Bedingung verhindert ein automatischer Rückschau-Modus (review mode) die weitere Speicherung von Daten für ein Kapitel (SCO) des Lernmoduls. Wählen Sie 'immer' wenn das Lernmodul Sequencing & Navigation gemäß SCORM 2004 nutzt.
+content#:#cont_sc_auto_review_info_2004#:#Wenn Benutzer für ein Kapitel / SCO den ausgewählten Status in einer Bearbeitungssitzung erreicht haben, wird dieser festgeschrieben. Benutzer können den Status auch in späteren Bearbeitungssitzungen nicht mehr ändern. <br />Im seltenen Fall, dass das Lernmodul 'Sequencing & Navigation' gemäß SCORM 2004 nutzt, sollte die Option 'immer (empfohlen)' gewählt werden.<br />
 content#:#cont_sc_auto_review_no#:#immer (empfohlen)
 content#:#cont_sc_auto_review_completed_not_failed_or_passed#:#nicht speichern ab Status 'vollständig bearbeitet' (sofern nicht 'nicht bestanden') oder 'bestanden' 
 content#:#cont_sc_auto_review_passed#:#nicht speichern ab Status 'bestanden'
@@ -14361,7 +14363,8 @@ content#:#cont_sc_auto_review_completed_and_passed#:#nicht speichern ab Status '
 content#:#cont_sc_auto_review_completed_or_passed#:#nicht speichern ab Status 'vollständig bearbeitet' oder 'bestanden'
 content#:#cont_sc_store_if_previous_score_was_lower#:#nicht speichern wenn der zuvor erzielte Punktestand höher oder gleich war
 content#:#cont_auto_suspend#:#Abruf vorhandener Lernstandsdaten sicherstellen
-content#:#cont_auto_suspend_info#:#Diese Option ist für SCORM-Lernmodule, die SCORM 2004 in einer unzureichenden Weise unterstützen, indem sie keine geeigneten Werte für cmi.exit senden.
+content#:#cont_auto_suspend_info#:#Diese Option ist für SCORM-Lernmodule, die SCORM 2004 in unzureichender Weise unterstützen, indem sie keine geeigneten Werte für cmi.exit senden.<br />Unabhängig von der Vorgehensweise des Benutzers beim Beenden des Lernmoduls, etwa durch Schließen des Browser-Fensters, wird die letzte Aktion des Benutzers aufgezeichnet und der Lernstand gespeichert.
+content#:#cont_check_values_info#:#Das Testwerkzeug prüft die vom SCO geschickten Werte auf Standard-Kompatibilität.<br />Der SCORM-Standard ist sehr genau, was die zu speichernden Daten angeht. Nicht jedes SCORM-Lernmodul ist in seiner Datenausgabe so präzise wie der Standard es eigentlich erfordert. Daher kann das Überprüfen der Werte deaktiviert werden, wenn Sie etwa nur prüfen wollen, ob das Lernmodul in ILIAS lauffähig ist und nicht, ob es genau dem SCORM-Standard entspricht.<br />
 content#:#cont_current_lang#:#Aktuelle Sprache
 content#:#cont_edit_language_version#:#Version bearbeiten
 content#:#cont_page_translation_does_not_exist#:#Die Seite existiert noch nicht in dieser Sprache. Sie wird nun als Kopie der Standardsprache erstellt. Sprache der neuen Seite
@@ -14564,8 +14567,8 @@ orgu#:#no_assignment#:#Bitte prüfen Sie Ihre XML-Datei. Es konnte keine Benutze
 obj#:#obj_insert_into_clipboard#:#In Zwischenablage einfügen
 obj#:#obj_inserted_clipboard#:#Die Objekte wurden in die Zwischenablage eingefügt
 orgu#:#org_unit_not_found#:#Die Organisationseinheit wurde nicht gefunden.
-content#:#cont_fourth_edition#:#SCORM 2004 4th edition
-content#:#cont_fourth_edition_info#:#SCORM 2004 4th edition bietet gegenüber der 3rd edition einige Vorteile. So können weitere Daten über SCO-Grenzen hinweg ausgetauscht werden. Diese Optionen werden allerdings nur selten genutzt und wirken sich negativ auf die Geschwindigkeit aus.
+content#:#cont_fourth_edition#:#Neueste Version 'SCORM 2004 4th edition'
+content#:#cont_fourth_edition_info#:#'SCORM 2004 4th edition' bietet gegenüber der '3rd edition' einige Erweiterungen. Es können Daten über SCO-Grenzen hinweg ausgetauscht werden. Diese Möglichkeiten werden allerdings nur selten genutzt und wirken sich negativ auf die Geschwindigkeit aus.
 content#:#offline_mode_manager#:#Offline-Nutzung
 content#:#offline_mode_users#:#Nutzer im Offline-Modus
 content#:#cont_offline_mode_disable_not_allowed_info#:#Da das Lernmodul von Nutzern aktuell im Offline-Modus genutzt wird, kann der Offline-Modus nicht deaktiviert werden.
@@ -14698,7 +14701,7 @@ forum#:#frm_max_notification_age_info#:#Bitte geben Sie hier das maximale Alter 
 dateplaner#:#cal_ical_url#:#iCal-URL
 book#:#book_confirm_cancel_aggregation#:#Anzahl Stornierungen
 survey#:#survey_not_available#:#n.a.
-blog#:#blog_change_notification_body_approve#:#der folgende Blogbeitrag muss noch freigeschaltet werden:
+blog#:#blog_change_notification_body_approve#:#der folgende Beitrag muss noch freigeschaltet werden:
 meta#:#md_adv_presentation#:#Darstellung
 meta#:#udf_type_integer#:#Ganzzahl
 meta#:#md_adv_number_max#:#Maximaler Wert
@@ -14962,8 +14965,8 @@ content#:#cont_blocked_users_mail_link#:#Klicken Sie auf den folgenden Link, um 
 wiki#:#wiki_set_as_start_page#:#Als Startseite setzen
 wiki#:#wiki_purpose#:#Zweck
 wiki#:#wiki_select_one_item#:#Bitte wählen Sie ein Element aus.
-trac#:#trac_mode_questions#:#Fragen
-trac#:#trac_mode_questions_info#:#Nutzer, die alle Fragen richtig beantwortet haben, erhalten den Status 'Bearbeitet'.
+trac#:#trac_mode_questions#:#Alle Fragen richtig beantwortet
+trac#:#trac_mode_questions_info#:#Benutzer, die alle Fragen richtig beantwortet haben, erhalten automatisch den Status 'Bearbeitet'. Bitte nutzen Sie diese Option nur, wenn auch tatsächlich Fragen im Lernmodul vorliegen.
 mmbr#:#mmbr_selected_users#:#Ausgewählte Teilnehmer
 mmbr#:#mmbr_btn_mail_selected_users#:#Mail verschicken
 sess#:#sess_mail_permanent_link#:#Wählen Sie den folgenden Link, um auf den Sitzungsinhalt zuzugreifen:
@@ -15048,7 +15051,7 @@ common#:#il_astpl_loc_qualified#:#Qualifizierender Test
 common#:#il_astpl_loc_initial_desc#:#Einstellungsvorlage für Einstiegstests lernzielorientierter Kurse
 common#:#il_astpl_loc_qualified_desc#:#Einstellungsvorlage für Qualifizierende Tests lernzielorientierter Kurse
 crs#:#crs_loc_confirm_delete_tst#:#Sind sie sicher, dass die Zuordnung der Tests zum Lernzielorientierten Kurs gelöscht werden soll?
-crs#:#crs_loc_tbl_tst_type#:#Testmodus
+crs#:#crs_loc_tbl_tst_type#:#Auswahl der Testfragen
 crs#:#crs_loc_form_assign_it#:#Test auswählen 
 crs#:#crs_loc_form_tst_new#:#Neuen Test erstellen
 crs#:#crs_loc_form_assign#:#Vorhandenen Test verwenden
@@ -15088,7 +15091,7 @@ bibl#:#bibl_library_show_in_list#:#Link auch in der Liste anzeigen
 content#:#cont_ie_compatibility#:#Internet Explorer 7 Kompatibilitätsmodus
 content#:#cont_ie_compatibility_info#:#Vermindert Darstellungsprobleme älterer SCORM-Lernmodule, die für den Internet Explorer optimiert wurden. Wenn bei neueren Versionen des Internet Explorers der Kompatibilitätsmodus deaktiviert ist, greift diese Einstellung nicht. <br />
 content#:#cont_ie_force_render#:#Internet Explorer neu rendern lassen
-content#:#cont_ie_force_render_info#:#Aktivieren Sie diese Option nur, wenn Inhalte des Lernmoduls im Internet Explorer auf Grund vieler Frames oder iFrames nicht korrekt angezeigt werden. Die Anzeige des Lernmoduls muss in einem neuen Fenster erfolgen.
+content#:#cont_ie_force_render_info#:#Korrekte Anzeige der Inhalte des SCORM-Lernmoduls mit vielen Frames oder iFrames wird durch erneutes Rendern des Inhaltes erreicht.
 maps#:#maps_enable_maps_info#:#Activiert Karten in Benutzerprofil, Gruppen und Kursen
 maps#:#maps_enable_maps#:#Aktiviere Karten
 maps#:#maps_extt_maps#:#Karten
@@ -15280,7 +15283,7 @@ exc#:#exc_peer_review_reset#:#Peer-Feedback löschen und zurücksetzen
 exc#:#exc_peer_review_reset_sure#:#Wollen Sie wirklich das komplette Peer-Feedback für die Übungseinheit "%s" löschen?
 exc#:#exc_peer_review_reset_done#:#Sämtliche Peer-Feedback-Daten wurde für die Übungseinheit gelöscht.
 adve#:#char_selector_msg_blocks_or_custom_needed#:#Wenn Sie die Auswahl aktivieren, wählen Sie bitte einen Zeichenblock oder geben Sie eine eigene Auswahl von Zeichen ein!
-crs#:#crs_loc_form_tst_new_initial_info#:#Einen neuen Test als Einstiegstest anlegen
+crs#:#crs_loc_form_tst_new_initial_info#:#Aus diesem neu erstellten Test werden später die Fragen zu den Lernzielen zugeordnet.
 crs#:#crs_loc_form_tst_new_qualified_info#:#--
 crs#:#crs_loc_form_assign_initial_info#:#Einen der bereits im Kurs vorliegenden Tests als Einstiegstest auswählen
 crs#:#crs_loc_form_assign_qualified_info#:#--
@@ -15290,7 +15293,7 @@ payment#:#topics_settings#:#Themen-Einstellungen
 payment#:#enable_topics#:#Aktiviere Themen
 payment#:#enable_topics_info#:#Wenn aktiviert, können Sie kaufbare Objekte selbsterstellten Themen zuordnen.
 exc#:#exc_assignment_type#:#Abgabetyp
-trac#:#trac_mode_event_info#:#Der Status des Lernfortschritts wird durch den Teilnahmestatus bestimmt.
+trac#:#trac_mode_event_info#:#Tutoren prüfen, welche Teilnehmer an der Sitzung teilgenommen haben, und erfassen die Teilnahme händisch im Reiter 'Sitzungsteilnehmer verwalten'.
 sess#:#sess_lp_preset#:#Lernfortschritt aktivieren
 sess#:#sess_lp_preset_info#:#Den Lernfortschritt für alle anzulegenden Session-Termine aktivieren.
 glo#:#glo_copy#:#Glossar kopieren
@@ -15561,7 +15564,7 @@ search#:#search_show_inactive_user_info#:#Inaktive Benutzer werden in der Benutz
 search#:#search_show_limited_user#:#Zeige Begrenzte Benutzer
 search#:#search_show_limited_user_info#:#Benutzer mit begrenztem Zugang, die außerhalb ihrer zeitlichen Begrenzung sind werden in der Benutzersuche angezeigt.
 trac#:#trac_mode_visited_pages#:#Besuchte Seiten
-trac#:#trac_mode_visited_pages_info#:#Nutzer, die alle Seiten besucht haben, erhalten den Status 'Bearbeitet'.
+trac#:#trac_mode_visited_pages_info#:#Benutzer, die alle Seiten des Lernmoduls besucht haben, erhalten automatisch den Status 'Bearbeitet'.
 exc#:#exc_peer_review_given#:#Gegebenes Feedback zeigen
 exc#:#exc_peer_review_show_received_none#:#Sie haben kein Feedback erhalten.
 exc#:#exc_peer_review_min_chars_tgl#:#Mindestlänge
@@ -15843,7 +15846,7 @@ crs#:#crs_mem_contacts#:#Kursbetreuung
 user#:#user_awrn_all_users#:#Alle Benutzer
 user#:#user_awrn_all_users_info#:#Alle Benutzer der Plattform werden aufgelistet.
 crs#:#crs_awrn_support_contacts#:#Kursbetreuung
-crs#:#crs_awrn_support_contacts_info#:#Die Benutzer für die Kursbetreuung werden aufgelistet. Die Benutzer werden im Reiter Mitglieder des Kurses für die Kursbetreuung zugeordnet.
+crs#:#crs_awrn_support_contacts_info#:#Benutzer, die den Kurs betreuen, werden aufgelistet. Die jeweiligen Benutzer werden im Reiter Mitglieder des Kurses für die Kursbetreuung eingetragen.
 awrn#:#awrn_inactive#:#Keine Anzeige
 awrn#:#awrn_online_only#:#Nur Online
 awrn#:#awrn_incl_offline#:#Online und Offline
@@ -16060,3 +16063,5 @@ crs#:#mem_cron_min_members_task#:#Informieren Sie die Teilnehmenden rechtzeitig,
 crs#:#crs_loc_settings_passed_mode#:#Bestandene Lernziele
 crs#:#crs_loc_settings_passed_mode_hide#:#Testfragen zu bestandenen Lernzielen werden ausgeblendet
 crs#:#crs_loc_settings_passed_mode_mark#:#Testfragen zu bestandenen Lernzielen werden markiert
+content#:#cont_comments_info#:#SCORM 2004-Lernmodule können Benutzern die Gelegenheit bieten, im Lernmodul Kommentare zu verfassen. Diese Option aktiviert das Eingeben und Speichern der Kommentare (comments).
+crs#:#crs_checklist_objective#:#Checkliste Lernziel
