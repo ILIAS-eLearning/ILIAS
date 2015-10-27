@@ -157,6 +157,8 @@ class gevCourseSearchGUI {
 		//ADD Course Type depending on active Tab
 		$search_opts = $this->crs_srch->addSearchForTypeByActiveTab($search_opts, $this->active_tab);
 
+		$this->gCtrl->setParameter($this, "active_tab", $this->active_tab);
+
 		$crs_tbl = new gevCourseSearchTableGUI($search_opts, $this->target_user_id, $this, $this->active_tab);
 		$crs_tbl->setTitle(!$a_in_search?"gev_crs_srch_title":"gev_crs_srch_results")
 				->setSubtitle( ($this->target_user_id == $this->gUser_id 
@@ -206,9 +208,7 @@ class gevCourseSearchGUI {
 
 		$form = new catPropertyFormGUI();
 		$form->setTemplate("tpl.gev_search_form.html", "Services/GEV/Desktop");
-		$this->gCtrl->setParameter($this, "active_tab", $this->active_tab);
 		$form->setFormAction($this->gCtrl->getFormAction($this));
-		$this->gCtrl->setParameter($this, "active_tab", null);
 		$form->addCommandButton("search", $this->gLng->txt("search"));
 		
 		$form->setId('gevCourseSearchForm');
