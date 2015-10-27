@@ -533,7 +533,8 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 					$params["gotolp"] = 1;
 				}
 				
-				if($ilAccess->checkAccess("read", "", $parent_ref_id))
+				if($ilAccess->checkAccess("read", "", $parent_ref_id) &&
+					$parent_ref_id != $ref_id) // #17170
 				{
 					$tpl->setCurrentBlock("parent_link_bl");
 					$tpl->setVariable("PARENT_LINK_TITLE", $node["title"]);			
