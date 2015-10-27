@@ -3165,9 +3165,14 @@ class gevCourseUtils {
 			$role = $crs->getDefaultAdminRole();
 		}
 		else {
-			$role = gevRoleUtils::getInstance()->getRoleIdByName($a_role_name);
+			$local_roles = gevRoleUtils::getLocalRoleIdsAndTitles($crs->getId());
+			$role = array_search($a_role_name, $local_roles);
+
 			if (!$role) {
-				throw new Exception("gevOrgUnitUtils::grantPermissionFor: unknown role name '".$a_role_name);
+				$role = gevRoleUtils::getInstance()->getRoleIdByName($a_role_name);
+				if (!$role) {
+					throw new Exception("gevOrgUnitUtils::grantPermissionFor: unknown role name '".$a_role_name);
+				}
 			}
 		}
 		
