@@ -52,6 +52,7 @@ if($files) {
 			
 			echo "##########################<br/>";
 			echo "Datei: ".$folder_path."/".$value." wird ausgelesen!<br/>";
+			echo "##########################<br/>";
 
 			while($row = fgets($fh)) {
 				$row = str_replace("\n", "", $row);
@@ -130,7 +131,7 @@ function getRoleIdByName($a_role_name) {
 	global $ilDB;
 	$res = $ilDB->query( "SELECT od.obj_id"
 							."  FROM object_data od"
-							." WHERE title = ".$ilDB->quote($a_role_name, "text")
+							." WHERE title LIKE ".$ilDB->quote($a_role_name, "text")
 							."   AND type = 'role'"
 							);
 
@@ -151,7 +152,7 @@ function updatePermissions($role_id,$ref_id,$permissions) {
 	//alte rechte laden
 	$cur_ops = $rbacreview->getRoleOperationsOnObject($role_id,$ref_id);
 	//ids von neuen rechten suchen
-	echo "Folgende Rechte werden f&uuml;r <strong>'".$role."'</strong> hinzugef&uuml;gt.";
+	echo "Folgende Rechte werden f&uuml;r <strong>'".$role_id."'</strong> an <strong>'".$ref_id."'</strong>hinzugef&uuml;gt";
 	echo "<ul>";
 	foreach (explode("|",$permissions) as $value) {
 		echo "<li>".$value."</li>";
