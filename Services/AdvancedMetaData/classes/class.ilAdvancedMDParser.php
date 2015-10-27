@@ -161,8 +161,10 @@ class ilAdvancedMDParser extends ilSaxParser implements ilSaxSubsetParser
 			$this->local_rec_id = $this->createLocalRecord($this->local_record, $new_parent_id, $a_sub_type);	
 			$this->local_record = null;
 		}		
+				
+		$rec_id = null;
 		
-		// find record via import id		
+		// find record via import id
 		if(!$this->local_rec_id)
 		{
 			if($field = ilAdvancedMDFieldDefinition::getInstanceByImportId($a_import_id))
@@ -174,6 +176,11 @@ class ilAdvancedMDParser extends ilSaxParser implements ilSaxSubsetParser
 		else
 		{
 			$rec_id = $this->local_rec_id;
+		}
+		
+		if(!$rec_id)
+		{
+			return;
 		}
 					
 		// init record definitions		
@@ -211,6 +218,7 @@ class ilAdvancedMDParser extends ilSaxParser implements ilSaxSubsetParser
 		}
 		else
 		{			
+			// find element in new local record
 		    $field_id = $this->local_rec_map[$rec_id][$a_import_id];
 			if($field_id)
 			{
