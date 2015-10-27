@@ -33,6 +33,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 		$this->setId("trsmtx_".$ref_id);
 		$this->ref_id = $ref_id;
 		$this->obj_id = ilObject::_lookupObjId($ref_id);
+		$this->type = ilObject::_lookupType($this->obj_id); // #17188
 		
 		$this->in_group = $tree->checkForParentType($this->ref_id, "grp");
 		if($this->in_group)
