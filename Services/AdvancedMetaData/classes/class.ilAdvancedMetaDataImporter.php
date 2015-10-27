@@ -16,19 +16,17 @@ class ilAdvancedMetaDataImporter extends ilXmlImporter
 	{				
 		include_once "Services/AdvancedMetaData/classes/class.ilAdvancedMDParser.php";
 		include_once "Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php";
+		include_once "Services/Container/classes/class.ilContainer.php";
+		include_once "Services/Object/classes/class.ilObjectServiceSettingsGUI.php";
 		
 		$parser = new ilAdvancedMDParser($a_id, $a_mapping);
 		$parser->setXMLContent($a_xml);
 		$parser->startParsing();
-								
-		// select records for object
+									
+		// records with imported values should be selected
 		foreach($parser->getRecordIds() as $obj_id => $sub_types)
-		{					
-			// currently only supported for wikis and glossary
-			if(!in_array(ilObject::_lookupType($obj_id), array("glo", "wiki")))
-			{
-				continue;
-			}
+		{						
+			ilContainer::_writeContainerSetting($obj_id, ilObjectServiceSettingsGUI::CUSTOM_METADATA, 1);
 			
 			foreach($sub_types as $sub_type => $rec_ids)
 			{
