@@ -1,4 +1,4 @@
-﻿/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
+﻿/* Copyright (c) 1998-2016 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
 *
@@ -34,7 +34,7 @@ change_basic_settings#:#Grundeinstellungen ändern
 change_password#:#Passwort ändern
 change_sort_direction#:#Sortierrichtung ändern
 change#:#ändern
-check_db_versions#:#Please ensure that the database mode determined by ILIAS matches to your version of MySQL. This should be the case usually. If not, your database version is not supported.<br> Example 1: If the mode is 'MySQL 4.1.x or higher' and your database version is '4.0.12' then this MySQL version is not supported. Please contact the ILIAS team.<br />Example 2: If the mode is 'MySQL 4.1.x or higher' and your database version is '4.1.14' then everything is ok.###20 Jun 2005 new variable
+check_db_versions#:#Stellen Sie sicher, dass der Datenbankmodus von Ihrer MySQL-Version unterstützt wird.
 check_failed_convert#:#Convert-Test fehlgeschlagen
 check_failed_htmldoc#:#HTMLdoc-Test fehlgeschlagen
 check_failed_java#:#Java-Test fehlgeschlagen
@@ -58,10 +58,10 @@ client_name#:#Name
 client_setup_not_finished#:#Die Installation dieses Mandanten wurde noch nicht abgeschlossen
 client#:#Mandant
 clients#:#Mandanten
-collation#:#Collation###23 Mar 2005 new variable
+collation#:#Collation / Sortierfolge
 contact_data#:#Kontaktdaten des Systemadministrators
 contact#:#Kontaktdaten
-convert_path_comment_win#:#Required for displaying thumbnails of images, e.g. 'C:/tools/ImageMagick/convert.exe'.###18 08 2009 new variable
+convert_path_comment_win#:#Wird benötigt, um Thumbnails (kleine Vorschaubilder) zu erzeugen, e.g. 'C:/tools/ImageMagick/convert.exe'.
 convert_path_comment#:#Wird benötigt, um Vorschaubilder zu erzeugen
 convert_path#:#Convert-Befehlszeile
 could_not_create_logfile#:#Logdatei konnte nicht angelegt werden
@@ -108,8 +108,8 @@ db_not_installed#:#Datenbank nicht installiert
 db_oracle#:#Oracle
 db_pass#:#Datenbankpasswort
 db_port#:#Datenbank Port
-db_selection#:#Database Selection###26 06 2009 new variable
-db_service_name#:#Service Name###26 06 2009 new variable
+db_selection#:#Auswahl der Datenbank
+db_service_name#:#Service-Name
 db_type#:#Datenbanktyp
 db_update_interrupted_avoid#:#Um diese Problem zu verhindern, überprüfen Sie bitte die Einstellungen max_execution_time und memory_limit in Ihrer php.ini. Außerdem empfiehlt es sich, je Update-Lauf weniger Schritte ausführen zu lassen.
 db_update_interrupted#:#Das Datenbank-Updateskript wurde im letzten Lauf unerwartet unterbrochen. Dies kann zu einem <b>inkonsistenten</b> Zustand Ihres Systems führen. Es wird dringend empfohlen, das letzte Backup einzuspielen und auf diesem Stand das Updateskript erneut auszuführen.
@@ -157,15 +157,15 @@ finish#:#Installation abschliessen
 firstname#:#Vorname
 fop_path_comment#:#Wird benötigt um PDF-Dokumente zu erzeugen
 fop_path#:#Pfad zum FOP
-form_input_not_valid#:#Some data is incomplete or not valid. Please correct the form input.###24 07 2009 new variable
+form_input_not_valid#:#Einige Angaben sind unvollständig oder ungültig. Bitte korrigieren Sie Ihre Eingabe.
 form_retype_password#:#Passwortwiederholung
 hide_clientlist#:#keine Mandantenauswahl
 host#:#Host
 hotfix_applied#:#Hotfix ausgeführt
 hotfix_available#:#Es steht ein Hotfix zur Verfügung.
 hotfix_available#:#Hotfix verfügbar
-htmldoc_path_comment_win#:#Optional to generate PDF documents, e.g. 'C:/tools/htmldoc/htmldoc.exe'.###18 08 2009 new variable
-htmldoc_path_comment#:#Wird benötigt, um PDF-Dokumente zu erzeugen (Digilib-Objekt)
+htmldoc_path_comment_win#:#Wird benötigt, um PDF-Dokumente zu erzeugen, z.B. 'C:/tools/htmldoc/htmldoc.exe'.
+htmldoc_path_comment#:#Wird benötigt, um PDF-Dokumente zu erzeugen.
 htmldoc_path#:#HTMLdoc-Befehlszeile
 http_path#:#HTTP-Pfad
 id#:#ID
@@ -175,10 +175,10 @@ ilias_nic_id#:#NIC-ID
 ilias_nic#:#NIC-Registrierung
 ilias_setup#:#ILIAS-Setup
 ilias_version#:#ILIAS-Version
-include_local#:#include local###include local language file when updating language
+include_local#:#Mit lokaler Sprachdatei
 info_text_3rdparty#:#In diesem Schritt werden die Erweiterungen von Fremdanbietern konfiguriert, die in ILIAS benötigt werden. Folgen Sie bitte den Installationsanweisungen, die zu den jweiligen Erweiterungen angegeben werden, um diesen Schritt zu komplettieren.
 info_text_contact#:#Geben Sie hier zusätzliche informationen zu ihrer Installation an und tragen Sie den Namen und Kontaktinformationen des verantwortlichen Systemadministrators ein. Alle Informationen werden in ihrer Datenbank gespeichert. Im nächsten Installationsschritt haben Sie die Möglichkeit, Ihre Installation per ILIAS-NIC zu registrieren. Die als Pflichtfelder gekennzeichneten Angaben werden bei der Registrierung übermittelt.
-info_text_db_collation1#:#If your desired collation is not supported in the list of UTF-8 collations, you have to create your database manually too. In any case, please make sure that the character set for the database is set to utf8.###23 Mar 2005 new variable
+info_text_db_collation1#:#Wenn Ihre gewünschte Kollation nicht in der Liste der UTF-8-Kollationen ist, müssen Sie die Datenbank manuell anlegen. Stellen Sie sicher, dass UTF-8 als Zeichensatz (character set) gesetzt ist.
 info_text_db_collation2#:#Mehr Information zum Thema MySQL-Collations entnehmen Sie bitte der MySQL Webseite.
 info_text_db#:#Die Datenbank ist leer oder nicht vorhanden. Klicken Sie unten auf den Button, um die Datenbank zu installieren. Sollte eine Datenbank mit dem angegebenen Namen noch nicht existieren, kreuzen Sie bitte die Option 'Datenbank erzeugen' an. Setup versucht dann die Datenbank automatisch zu erzeugen. Wenn das nicht klappt (z.B. aufgrund eingeschränkter Zugangsberechtigung), müssen Sie den verantwortlichen Systemadministrator des Datenbankservers bitten, eine Datenbank mit dem gewünschten Namen einzurichten.
 info_text_db2#:#Bitte stellen Sie sicher, dass die Datenbank mit der Option "CHARACTER SET utf8" erstellt wird.
@@ -191,9 +191,9 @@ info_text_ini#:#Hier geben Sie bitte eine Kennung für Ihren Mandanten an. Erlau
 info_text_lang#:#Bitte wählen Sie die gewünschten zusätzlichen Sprachen aus und/oder entfernen Sie bereits installierte Sprachen wieder. Über die Option 'Standard' legen Sie fest, welche Sprache neu angemeldete Benutzer bzw. Benutzer bekommen, die über ihre persönlichen Einsellungen noch keine Sprache ausgewählt haben.
 info_text_list#:#Diese Übersicht zeigt alle vorhandenen Installationen an und informiert über deren Installations- und Zugangsstatus. Oben rechts können sie die Mandantenauswahl ein- und ausschalten. Ist die Mandantenauswahl aktiviert, werden auf der ILIAS-Startseite (index) alle verfügbaren und freigebene Mandanten angezeigt. Ist die Mandantenauswahl ausgeschaltet, wird die Login-Seite des als <i>Standard</i> deklarierten Mandanten angezeigt. Über den Button unter der Übersichtsliste können Sie einen Mandanten als Standard bestimmen.
 info_text_login#:#Geben Sie bitte Ihre Mandanten ID und Ihre Zugangsdaten an. Ihr Benutzerkonto muss der Rolle 'Administrator' zugeordnet sein.
-info_text_nic#:#Registrieren Sie sich freiwillig beim ILIAS open source-Community-Server und erhalten einen eindeutige NIC-ID für diesen Mandanten. Die NIC-ID kann beim Austausch von Inhalten zwischen ILIAS-Installation genutzt werden, um die Herkunft der Inhalte zu dokumentieren.
+info_text_nic#:#Registrieren Sie sich freiwillig beim ILIAS open source-Community-Server und erhalte einen eindeutige NIC-ID für diesen Mandanten. Die NIC-ID kann beim Austausch von Inhalten zwischen ILIAS-Installation genutzt werden, um die Herkunft der Inhalte zu dokumentieren.
 info_text_nic1#:#Wenn Sie Ihre Installation über ILIAS-NIC-Server registrieren erhalten Sie eine eindeutige Kennung zugewiesen. Die Registrierung ist freiwillig. Wenn Sie sich nicht registrieren wollen, wählen Sie bitte 'Keine Registrierung' (Sie können jederzeit zu einem späteren Zeitpunkt die Registrierung nachholen). Möchten Sie oder benötigen Sie eine eindeutige Kennung, wählen Sie bitte 'Online-´Registrierung'. Sie bekommen ihre Kennung dann automatisch übermittelt. Falls Sie keine aktive Online-Verbindung oder die Registrierung fehlschlägt (z.B. wegen einer Firewall), dann schicken Sie bitte diese
-info_text_nic2#:#an ilias-info@uni-koeln.de. Sie erhalten dann umgehend ihre Kennung per Email zugeschickt. tragen Sie diese Nummer bitte bei der Option 'Email-Registrierung' in das Freifeld ein.
+info_text_nic2#:#an info@ilias.de. Sie erhalten dann umgehend ihre Kennung per Email zugeschickt. tragen Sie diese Nummer bitte bei der Option 'Email-Registrierung' in das Freifeld ein.
 info_text_nic3#:#Sie haben Ihre Installation registriert. Ihre Kennung ist
 info_text_password#:#Hier könnnen Sie das Administrator-Password für das Setup-Programm ändern.
 info_text_pathes#:#ILIAS ist mandantenfähig. Sie können mit einer Installation mehrere ILIAS-Instanzen (Mandanten) betreiben, die jeweils eigene Datenbanken und Datenverzeichnisse nutzen. Geben Sie bitte ein Verzeichnis für Daten ausserhalb des Webspaces, den Pfad der Log-Datei, sowie die Pfade zu den unten aufgeführten Drittanbieter-Programmen an. Diese Einstellung sind für alle Mandanten gültig.<br/><br/>Bei aktivierten Safe Mode müssen Sie bei den Drittanbieter-Programmen nur die auszuführende Datei ohne den Pfad angeben. Diese Dateien müssen im geschützten Basisverzeichnis von PHP liegen (ggf. per Symlink).
@@ -225,7 +225,7 @@ installed#:#installiert
 institution#:#Institution
 intro_install#:#Das ist das Hauptmenü von ILIAS-Setup. Hier können Sie Schritt für Schritt die Installation von ILIAS durchführen.
 ip_address#:#IP-Adresse
-java_path_comment_win#:#Optional for validating SCORM Learning Modules, e.g. 'C:/Program Files/Java/bin/java.exe'.###18 08 2009 new variable
+java_path_comment_win#:#Wird benötigt, um SCORM-Lernmodule anzuzeigen, z.B. 'C:/Program Files/Java/bin/java.exe'.
 java_path_comment#:#Wird benötigt, um SCORM-Lernmodule anzuzeigen
 java_path#:#Java-Befehlszeile
 lang_ar#:#Arabisch
@@ -270,8 +270,8 @@ list_clients#:#Alle Mandanten
 list_disabled#:#Mandantenauswahl deaktiviert
 list_enabled#:#Mandantenauswahl aktiviert
 list#:#Liste
-log_path_comment_win#:#E.g. 'C:/iliasdata/iliaslog.txt' (File will be created)###18 08 2009 new variable
-log_path_comment#:#Pfad und Dateiname angeben. Datei wird ggf. erzeugt
+log_path_comment_win#:#Pfad und Dateiname angeben, z. B. 'C:/iliasdata/iliaslog.txt'. Datei wird ggf. erzeugt.
+log_path_comment#:#Pfad und Dateiname angeben. Datei wird ggf. erzeugt.
 log_path#:#Ort der Logdatei
 logged_out#:#Sie sind nun ausgeloggt.
 logging#:#Logging
@@ -284,7 +284,7 @@ master_password#:#Master-Passwort
 missing_data#:#Daten unvollständig
 ffmpeg_path_comment#:#Optional für Audio-/Videokonvertierung
 ffmpeg_path#:#FFmpeg-Befehlszeile
-msg_input_is_required#:#This input is required. Please enter a value.###24 07 2009 new variable
+msg_input_is_required#:#Notwendige Angabe! Bitte einen Wert eintragen.
 mysql_4_0_x_or_lower_mode#:#MySQL 4.0.x oder niedriger
 mysql_4_1_x_or_higher_mode#:#MySQL 4.1.x oder höher
 name#:#Name
@@ -296,13 +296,13 @@ next_update_break#:#Nächste Unterbrechung des Updates
 next#:#Weiter
 nic_not_disabled#:#Keine NIC-ID & nicht deaktiviert
 nic_reg_disable_comment#:#(später registrieren)
-nic_reg_disable_info#:#You may register later anytime.###24 07 2009 new variable
+nic_reg_disable_info#:#Sie können sich zu einem späteren Zeitpunkt jederzeit registrieren.
 nic_reg_disable#:#Keine Registrierung
 nic_reg_disabled#:#NIC-Registrierung abgeschaltet
 nic_reg_email#:#Per Email
 nic_reg_enabled#:#NIC-ID erhalten!
 nic_reg_enter_checksum#:#Übermittelte Prüfsumme
-nic_reg_enter_correct_id#:#Bitte geben Sie die korrekte NIC-ID an
+nic_reg_enter_correct_id#:#Bitte geben Sie die korrekte NIC-ID an.
 nic_reg_enter_id#:#Übermittelte NIC-ID
 nic_reg_failed#:#NIC-Registrierung fehlgeschlagen
 nic_reg_online#:#Über das Internet
@@ -312,10 +312,10 @@ no_client_id#:#Keine Mandanten ID angegeben
 no_client_name#:#KEIN NAME
 no_clients_available#:#Keine Mandanten verfügbar
 no_database#:#Keine Datenbank
-no_db_connect_consult_admin#:#Es konnte keine Verbindung zur Datenbank hergestellt werden. Bitte kontaktieren Sie den Systemadministrator
+no_db_connect_consult_admin#:#Es konnte keine Verbindung zur Datenbank hergestellt werden. Bitte kontaktieren Sie den Systemadministrator.
 no_db_update_file#:#dbupdate.php nicht gefunden!
 no_items#:#Keine Einträge
-no_latex_url#:#Es wurde keine URL für ein LaTeX CGI-Skript angegeben
+no_latex_url#:#Es wurde keine URL für ein LaTeX CGI-Skript angegeben.
 no_password#:#Kein Passwort angegeben
 no_path_convert#:#Convert-Pfad nicht angegeben
 no_path_datadir#:#Kein Datenverzeichnis angegeben
@@ -324,39 +324,39 @@ no_path_given#:#Keinen Pfad angegeben
 no_path_htmldoc#:#HTMLdoc-Pfad nicht angegeben
 no_path_java#:#Java-Pfad nicht angegeben
 no_path_log#:#Log-Pfad nicht angegeben
-no_path_mkisofs#:#No mkisofs path given.###26 06 2009 new variable
+no_path_mkisofs#:#Kein Pfad zu mkisofs angegeben
 no_path_unzip#:#Unzip-Pfad nicht angegeben
 no_path_zip#:#Zip-Pfad nicht angegeben
-no_setup_pass_given#:#Geben Sie bitte ein Passwort für den Administatorzugriff an
+no_setup_pass_given#:#Geben Sie bitte ein Passwort für den Administatorzugriff an.
 no_username#:#Kein Benutzername angegeben
-no_valid_client_id#:#Keine gültige Mandanten ID
+no_valid_client_id#:#Keine gültige Mandanten-ID
 none#:#Keine Angaben
-not_configured#:#Not Configured###24 07 2009 new variable
+not_configured#:#Nicht konfiguriert
 not_connected_to_db#:#Sie sind nicht mit der Datenbank verbunden.
 online#:#Online
 or#:#oder
-out_of_webspace#:#(außerhalb des Webspace)
+out_of_webspace#:#(außerhalb des Webspaces)
 overall_status#:#Installationsstatus
 overview#:#Übersicht
-pass_does_not_match#:#Die eingebenen Passwörter stimmen nicht überein
-passwd_not_match#:#Your entries for the new password don't match! Please re-enter your new password.###24 07 2009 new variable
+pass_does_not_match#:#Die eingebenen Passwörter stimmen nicht überein.
+passwd_not_match#:#Die eingebenen Passwörter stimmen nicht überein! Bitte geben Sie ihr neues Passwort erneut ein.
 password_changed#:#Das Passwort wurde geändert.
 password_empty#:#Kein Passwort angegeben!
 password_enter_old#:#Bitte geben Sie zuerst Ihr altes Passwort ein!
-password_info#:#Um das Setup-Programm vor unbefugten Zugriff Dritter zu schützen, wählen Sie bitte ein Passwort. Sie benötigen dieses Passwort, um später diese Einstellungen zu ändern oder neue Mandanten anzulegen.
+password_info#:#Um das Setup-Programm vor unbefugtem Zugriff durch Dritte zu schützen, wählen Sie bitte ein Passwort. Sie benötigen dieses Passwort, um später diese Einstellungen zu ändern oder neue Mandanten anzulegen.
 password_new_master#:#Administrator-Passwort ändern
-password_not_match#:#Passworteingaben stimmen nicht überein
+password_not_match#:#Passworteingaben stimmen nicht überein.
 password_old_wrong#:#Falsches Passwort
 password_retype#:#Passwort wiederholen
-password_same#:#Altes und neues Passwort sind gleich
-password_set#:#Das Passwort wurde gespeichert
+password_same#:#Altes und neues Passwort sind gleich.
+password_set#:#Das Passwort wurde gespeichert.
 password#:#Passwort
 path_not_set#:#nicht angegeben
 path_to_convert#:#Convert-Befehlszeile
-path_to_fop#:#FOP-Pfad
+path_to_fop#:#FOP-Befehlszeile
 path_to_htmldoc#:#HTMLdoc-Befehlszeile
 path_to_java#:#Java-Befehlszeile
-path_to_mkisofs#:#Path to mkisofs###26 06 2009 new variable
+path_to_mkisofs#:#mkisofs-Befehlszeile
 path_to_unzip#:#Unzip-Befehlszeile
 path_to_zip#:#Zip-Befehlszeile
 pathes#:#Pfade
@@ -494,14 +494,14 @@ tools#:#Werkzeuge
 unknown_client_id#:#Unbekannter Mandant
 unknown_command#:#Unbekannter Befehl
 unknown_display_mode#:#Unbekannter Anzeigemodus
-unzip_path_comment_win#:#Required for extracting import files, e.g. 'C:/tools/unzip/unzip.exe'.###18 08 2009 new variable
+unzip_path_comment_win#:#Wird benötigt, um Lernmodule zu importieren, z.B.. 'C:/tools/unzip/unzip.exe'.
 unzip_path_comment#:#Wird benötigt, um Lernmodule zu importieren
 unzip_path#:#Unzip-Befehlszeile
 unzip#:#Auspacken
 update_applied#:#Update eingespielt
 update_error#:#Fehler beim Update der Datenbank
 update_not_found#:#Update nicht gefunden!
-url_to_latex#:#URL zum LaTeX CGI Skript
+url_to_latex#:#URL zum LaTeX CGI-Skript
 user#:#Benutzer
 username#:#Benutzername
 version#:#Version
@@ -509,26 +509,26 @@ virus_scanner#:#Virus-Scanner
 webspace_dir#:#Datenverzeichnis im Webspace
 with#:#mit
 wrong_password#:#Falsches Passwort!
-zip_path_comment_win#:#Required for extracting import files, e.g. 'C:/tools/zip/zip.exe'.###18 08 2009 new variable
+zip_path_comment_win#:#Wird benötigt, um Lernmodule zu exportieren, z.B. 'C:/tools/zip/zip.exe'.
 zip_path_comment#:#Wird benötigt, um Lernmodule zu exportieren
 zip_path#:#Zip-Befehlszeile
 zipcode#:#PLZ
 ctrl_structure_reload#:#Kontrollstruktur neu laden
 settings_type#:#Datentyp für Systemeinstellungen
 settings_type_current#:#Aktueller Typ
-settings_info_text#:#Der Typ TEXT ermöglich Werte bis zu 4000 Zeichen. Wenn Sie den Typ auf CLOB ändern, sind mehr als 4000 Zeichen möglich, aber die Geschwindigkeit sinkt bei ORACLE-Datenbanken.
-settings_info_clob#:#Der Typ CLOB ermöglicht mehr als 4000 Zeichen. Wenn Sie den Typ auf TEXT ändern, erhöht sich die Geschwindigkeit bei ORACLE-Datenbanken. Bevor Sie dies tun, überprüfen Sie bitte, ob Sie Einstellungen mit mehr als 4000 Zeichen haben.
+settings_info_text#:#Der Typ TEXT ermöglich Werte bis zu 4.000 Zeichen. Wenn Sie den Typ auf CLOB ändern, sind mehr als 4000 Zeichen möglich, aber die Geschwindigkeit sinkt bei ORACLE-Datenbanken.
+settings_info_clob#:#Der Typ CLOB ermöglicht mehr als 4.000 Zeichen. Wenn Sie den Typ auf TEXT ändern, erhöht sich die Geschwindigkeit bei ORACLE-Datenbanken. Bevor Sie dies tun, überprüfen Sie bitte, ob Sie Einstellungen mit mehr als 4000 Zeichen haben.
 settings_change_clob#:#Auf CLOB ändern
 settings_change_text#:#Auf TEXT ändern
 settings_type_changed#:#Der Datentyp für die Systemeinstellungen wurde geändert.
 settings_show_longer#:#Längere Werte anzeigen
 settings_longer_values#:#Längere Werte
-settings_no_longer_values#:#Es wurden keine Werte mit mehr als 4000 Zeichen gefunden. Sie können den Datentyp auf TEXT ändern.
+settings_no_longer_values#:#Es wurden keine Werte mit mehr als 4.000 Zeichen gefunden. Sie können den Datentyp auf TEXT ändern.
 settings_key_info#:#Module:<br />%s<br />Keyword:<br />%s
-settings_too_long#:#Einige Systemeinstellungen sind zu lang, um konvertiert zu werden. Bitte ändern Sie diese, bevor Sie den Datentyp ändern.lang_ja#:#Japanisch###04 10 2011 new variable
-lang_ka#:#Georgian###04 10 2011 new variable
-lang_sk#:#Slovakian###04 10 2011 new variable
-lang_ja#:#Japanisch###04 10 2011 new variable
+settings_too_long#:#Einige Systemeinstellungen sind zu lang, um konvertiert zu werden. Bitte ändern Sie diese, bevor Sie den Datentyp ändern.
+lang_ja#:#Japanisch
+lang_ka#:#Georgisch
+lang_sk#:#Slowakisch
 sess_mode#:#Session-Modus
 sess_fixed_duration#:#Fixe Session-Dauer
 sess_load_dependent_session_handling#:#Lastabhängige Session-Einstellungen
@@ -572,18 +572,18 @@ client_cloned#:#All files and settings of the source are copied into the client.
 ghostscript_path_comment_win#:#Optional um Vorschaubilder von PDFs zu erzeugen, z.B. 'C:/tools/Ghostscript/gswin32c.exe'.
 ghostscript_path_comment#:#Optional um Vorschaubilder von PDFs zu erzeugen, z.B. '/your_path/gs'.
 ghostscript_path#:#Ghostscript-Befehlszeile
-lang_fa#:#Persian (farsi)###11 10 2013 new variable
-db_master#:#Master###11 10 2013 new variable
-db_slave#:#Slave###11 10 2013 new variable
-mysql_replication_info_alpha#:#ILIAS MySQL Replication support has currently an experimental status. The code is non-stable. Data may be corrupted.###11 10 2013 new variable
-db_slave_settings#:#Slave Settings###11 10 2013 new variable
-db_active#:#Active###11 10 2013 new variable
-db_set_password#:#Set Password###11 10 2013 new variable
-tree_implementation#:#Tree Implementation
-tree_implementation_ns#:#Nested-Set Model
-tree_implementation_mp#:#Materialized-Path Model
-tree_implementation_switch_btn#:#Switch Tree Implementation
-tree_implementation_switched#:#The tree implementation type has been switched.
+lang_fa#:#Persisch
+db_master#:#Master
+db_slave#:#Slave
+mysql_replication_info_alpha#:#Die Unterstützung von MySQL Replication hat in ILIAS aktuell nur experimentellen Status. Der Code ist nicht stable. Daten können verloren gehen.
+db_slave_settings#:#Einstellungen Slave
+db_active#:#Aktiv
+db_set_password#:#Passwort setzen
+tree_implementation#:#Implementierung Baumstruktur
+tree_implementation_ns#:#Nested Set-Modell
+tree_implementation_mp#:#Materialized Path-Modell
+tree_implementation_switch_btn#:#Ändere Baumstruktur-Implementierung
+tree_implementation_switched#:#Baumstruktur-Implementierung wurde geändert.
 feedback_recipient_info#:#Diese Adresse wird in der Fusszeile für den Link "Administration kontaktieren" genutzt.
 passwd#:#Passwort Kodierung
 step_passwd#:#Passwort Kodierung
@@ -600,7 +600,7 @@ passwd_encoder_bcrypt_client_salt_invalid#:#ILIAS konnte keinen Mandanten-Salt e
 passwd_encoding_configured#:#konfiguriert
 passwd_encoding_not_configured#:#nicht konfiguriert
 global_cache#:#Global Cache
-global_cache_configuration#:#Global-Cache Konfiguration
+global_cache_configuration#:#Global Cache-Konfiguration
 activate_global_cache#:#Aktivieren
 global_cache_service_type#:#Caching-Service
 global_cache_service_type_0#:#PHP-Static-Cache
@@ -614,8 +614,8 @@ global_cache_install_info_2#:#http://php.net/manual/de/memcached.installation.ph
 global_cache_install_info_3#:#http://php.net/manual/de/apc.installation.php
 ps_auto_https#:#Automatische HTTPS-Erkennung
 ps_auto_https_description#:#Wenn aktiviert, versucht ILIAS den HTTPS-Status eines Request per Header-Analyse zu bestimmen.
-ps_auto_https_header_name#:#Headername
-ps_auto_https_header_value#:#Headerwert
+ps_auto_https_header_name#:#Header-Name
+ps_auto_https_header_value#:#Header-Wert
 https_settings#:#HTTPS-Einstellungen
 alert#:#Warnung
 pre_opcache_comments#:#opcache.load_comments muss eingeschaltet sein
@@ -631,7 +631,8 @@ memcache_add#:#Server hinzufügen
 memcache_delete#:#Server löschen
 memcache_cancel#:#Abbrechen
 memcache_update#:#Server speichern
-memcache_status_server#:#Erreichbarcache_activate_clng#:#Language###30 08 2015 new variable
+memcache_status_server#:#Erreichbar
+cache_activate_clng#:#Language###30 08 2015 new variable
 cache_activate_obj_def#:#Object Definition###30 08 2015 new variable
 cache_activate_ilctrl#:#Control Flow###30 08 2015 new variable
 cache_activate_comp#:#Components###30 08 2015 new variable
