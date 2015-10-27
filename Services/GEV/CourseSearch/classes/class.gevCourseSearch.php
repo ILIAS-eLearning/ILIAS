@@ -420,7 +420,7 @@ class gevCourseSearch {
 
 	public function getPossibleTabs() {
 		return array("all"=>"Alle"
-							,"praes"=>"Päsenztraining"
+							,"praes"=>"Präsenztraining"
 							,"webinar"=>"Webinar"
 							,"self"=>"Selbstlernkurs"
 							,"virt"=>"Virtuelles Training"
