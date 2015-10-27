@@ -208,6 +208,7 @@ class gevCourseSearchGUI {
 
 		$form = new catPropertyFormGUI();
 		$form->setTemplate("tpl.gev_search_form.html", "Services/GEV/Desktop");
+		$this->gCtrl->setParameter($this, "active_tab", $this->active_tab);
 		$form->setFormAction($this->gCtrl->getFormAction($this));
 		$form->addCommandButton("search", $this->gLng->txt("search"));
 		
