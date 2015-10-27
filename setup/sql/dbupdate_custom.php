@@ -4410,6 +4410,9 @@ ilCustomInstaller::maybeInitSettings();
 
 require_once("Services/Object/classes/class.ilObjectFactory.php");
 
+global $ilias;
+$ilias->db = $ilDB;
+
 require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 
 $central_training_category_ref_ids = array(1696, 1783, 1621, 1644, 1686, 47318 , 43277, 1699, 34937);
