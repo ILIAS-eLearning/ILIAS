@@ -338,7 +338,7 @@ class ilSurveyPageGUI
 	 */
 	protected function addQuestion($a_type, $a_use_pool, $a_pos, $a_special_position)
 	{
-		global $ilCtrl;
+		global $ilCtrl, $ilTabs;
 		
 		// get translated type
 		include_once "./Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPool.php";
@@ -382,12 +382,13 @@ class ilSurveyPageGUI
 		}
 
 		if($a_use_pool)
-		{
+		{												
 			$_GET["sel_question_types"] = $type_trans;
 			$_REQUEST["pgov_pos"] = $id;
 			$ilCtrl->setParameter($this->editor_gui, "pgov_pos", $id);
 			if(!$_POST["usage"])
 			{
+				$ilTabs->clearSubTabs(); // #17193		
 				$this->editor_gui->createQuestionObject();
 			}
 			else

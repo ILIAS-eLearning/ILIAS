@@ -883,6 +883,8 @@ abstract class ilAdvancedMDFieldDefinition
 		$fields["field_id"] = array("integer", $next_id);
 		
 		$ilDB->insert("adv_mdf_definition", $fields);
+		
+		$this->setFieldId($next_id);
 	}
 	
 	/**

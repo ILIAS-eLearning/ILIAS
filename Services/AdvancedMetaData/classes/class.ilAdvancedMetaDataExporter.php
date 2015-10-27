@@ -58,7 +58,7 @@ class ilAdvancedMetaDataExporter extends ilXmlExporter
 	 * @return	string		xml string
 	 */
 	public function getXmlRepresentation($a_entity, $a_schema_version, $a_id)
-	{		
+	{				
 		$parts = explode(":", $a_id);
 		if(sizeof($parts) != 2)
 		{
@@ -107,6 +107,18 @@ class ilAdvancedMetaDataExporter extends ilXmlExporter
 			}
 		}
 		
+		// #17066 - local advmd record
+		$local_recs = array();
+		$rec_obj = new ilAdvancedMDRecord($rec_id);		
+		if($rec_obj->getParentObject())
+		{
+			$xml = new ilXmlWriter;	
+			$rec_obj->toXML($xml);
+			$xml = $xml->xmlDumpMem(false);
+			
+			$local_recs[$rec_obj->getRecordId()] = base64_encode($xml);			
+		}
+		
 		// we only want non-empty fields
 		if(sizeof($items))
 		{			
@@ -116,6 +128,12 @@ class ilAdvancedMetaDataExporter extends ilXmlExporter
 			{
 				// no need to state record id here
 				$xml->xmlStartTag('AdvancedMetaData');
+				
+				// add local record data
+				if(array_key_exists($record_id, $local_recs))
+				{
+					$xml->xmlElement('Record', null, $local_recs[$record_id]);
+				}
 		
 				foreach($record_items as $item)
 				{

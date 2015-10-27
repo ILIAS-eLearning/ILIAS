@@ -238,7 +238,7 @@ class ilGlossaryDataSet extends ilDataSet
 				$a_mapping->addMapping("Services/Object", "obj", $a_rec["Id"], $newObj->getId());
 				$a_mapping->addMapping("Services/MetaData", "md",
 					$a_rec["Id"].":0:glo", $newObj->getId().":0:glo");
-				$a_mapping->addMapping("Services/AdvancedMetaData", $a_rec["Id"], $a_id, $newObj->getId());
+				$a_mapping->addMapping("Services/AdvancedMetaData", "parent", $a_rec["Id"], $newObj->getId());
 				break;
 
 			case "glo_term":

@@ -385,9 +385,11 @@ class ilAdvancedMDRecordParser extends ilSAXParser
 			{
 				case self::MODE_INSERT:
 					$field->save();
+					
+					// see getRecordMap()
+					$this->rec_map[$this->getCurrentRecord()->getRecordId()][$field->getImportId()] = $field->getFieldId();
 					break;
-			}
-			
+			}			
 		}		
 	}
 	
@@ -405,5 +407,9 @@ class ilAdvancedMDRecordParser extends ilSAXParser
 		);		
 	}
 	
+	public function getRecordMap()
+	{
+		return $this->rec_map;
+	}	
 }
 ?>
