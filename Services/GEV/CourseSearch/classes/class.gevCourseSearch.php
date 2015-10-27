@@ -486,8 +486,8 @@ class gevCourseSearch {
 					." OR (".$this->gDB->in("ltype.value", array("Webinar","Virtuelles Training"), false, "text")."\n"
 						."AND ADDDATE(start_date.value, -1 * bk_deadl.value) > ".$this->gDB->quote(date("Y-m-d"), "date").")\n"
 					." OR ( ltype.value = ".$this->gDB->quote("Selbstlernkurs", "text")."))\n"
-			." AND ADDDATE(start_date.value, -1 * bk_deadl.value) >= ".$this->gDB->quote(date("Y-m-d"), "text")."\n"
-			." AND highlight.value = ".$this->gDB->quote("Ja", "text")."\n";
+			." AND ADDDATE(start_date.value, -1 * bk_deadl.value) >= ".$this->gDB->quote(date("Y-m-d"), "text")."\n";
+			//." AND highlight.value = ".$this->gDB->quote("Ja", "text")."\n";
 
 		$res = $this->gDB->query($query);
 
@@ -503,7 +503,7 @@ class gevCourseSearch {
 			
 			$free_places = $crs_booking->getFreePlaces();
 			if (gevObjectUtils::checkAccessOfUser($this->usr_id, "visible",  "", $val["obj_id"], "crs")
-			&&  ($free_places === null || $free_places > 0)) {
+			&&  ($free_places === null || $free_places > 4)) {
 				$ret[] = $val["obj_id"];
 			}
 		}
