@@ -641,9 +641,13 @@ class ilLinkResourceItems
 	 */
 	public function toXML(ilXmlWriter $writer)
 	{
-		foreach(self::getAllItemIds($this->getLinkResourceId()) as $link_id)
+		$items = $this->sortItems($this->getAllItems());
+		
+		$position = 0;
+		foreach((array) $items as $item_id => $item)
 		{
-			$link = self::lookupItem($this->getLinkResourceId(), $link_id);
+			++$position;
+			$link = self::lookupItem($this->getLinkResourceId(), $item_id);
 			
 			$writer->xmlStartTag(
 				'WebLink',
@@ -652,7 +656,7 @@ class ilLinkResourceItems
 					'active'			=> $link['active'] ? 1 : 0,
 					'valid'				=> $link['valid'] ? 1 : 0,
 					'disableValidation'	=> $link['disable_check'] ? 1 : 0,
-#					'action'			=> 'Delete'
+					'position'			=> $position
 				)
 			);
 			$writer->xmlElement('Title',array(),$link['title']);
