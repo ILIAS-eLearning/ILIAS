@@ -911,6 +911,13 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		if (isset($a_user_id) && isset($a_mem_role) )
 		{
 			$this->join($a_user_id,$a_mem_role);
+			
+			// Check whether there is a forum inside of the group.
+			// If so, check if the user must be added to the notification list (= whenever "Notification activated for all course/group members" is activated inside of the forum settings)
+			// If so, add a new entry to database table "frm_notification"
+			require_once('Modules/Forum/classes/class.ilForumAppEventListener.php');
+			ilForumAppEventListener::handleEvent("Modules/Group", "addParticipant", array('obj_id' => $this->getId(), 'usr_id' => $a_user_id, 'obj_id' => $this->getId()));
+
 			return true;
 		}
 		else
