@@ -4475,3 +4475,37 @@ gevCourseUtils::grantPermissionsForAllCoursesBelow($flex_dec_training_category_r
 
 ?>
 
+<#173>
+<?php
+
+require_once "Customizing/class.ilCustomInstaller.php";
+
+ilCustomInstaller::maybeInitClientIni();
+ilCustomInstaller::maybeInitPluginAdmin();
+ilCustomInstaller::maybeInitObjDefinition();
+ilCustomInstaller::maybeInitAppEventHandler();
+ilCustomInstaller::maybeInitTree();
+ilCustomInstaller::maybeInitRBAC();
+ilCustomInstaller::maybeInitObjDataCache();
+ilCustomInstaller::maybeInitUserToRoot();
+ilCustomInstaller::maybeInitSettings();
+
+require_once("Services/Object/classes/class.ilObjectFactory.php");
+
+global $ilias;
+$ilias->db = $ilDB;
+
+require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+
+$fixed_dec_training_category_ref_id = 49841;
+$fixed_dec_training_category_ref_id = 49821;
+
+gevCourseUtils::revokePermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "DBV UVG", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf"));
+gevCourseUtils::revokePermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "DBV EVG", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf"));
+
+$flex_dec_training_category_ref_id = 49840;
+$flex_dec_training_category_ref_id = 49822;
+
+gevCourseUtils::grantPermissionsForAllCoursesBelow($flex_dec_training_category_ref_id, "DBV UVG", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf"));
+
+?>
