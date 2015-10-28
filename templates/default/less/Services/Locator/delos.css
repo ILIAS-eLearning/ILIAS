@@ -5,6 +5,9 @@ ol.breadcrumb {
   padding-left: 15px;
   font-size: 0.8em;
 }
+[dir="rtl"] ol.breadcrumb {
+  padding-right: 15px;
+}
 .breadcrumb a {
   /*	color: #A0A0A0; */
 }
