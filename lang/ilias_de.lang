@@ -16065,3 +16065,5 @@ crs#:#crs_loc_settings_passed_mode_hide#:#Testfragen zu bestandenen Lernzielen w
 crs#:#crs_loc_settings_passed_mode_mark#:#Testfragen zu bestandenen Lernzielen werden markiert
 content#:#cont_comments_info#:#SCORM 2004-Lernmodule können Benutzern die Gelegenheit bieten, im Lernmodul Kommentare zu verfassen. Diese Option aktiviert das Eingeben und Speichern der Kommentare (comments).
 crs#:#crs_checklist_objective#:#Checkliste Lernziel
+prtf#:#prtf_set_default_publish_global#:#Auch für unregistrierte Benutzer freigeben
+prtf#:#prtf_set_default_publish_registered#:#Nur für registrierte Nutzer freigeben
