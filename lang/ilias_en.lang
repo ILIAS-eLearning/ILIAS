@@ -903,10 +903,10 @@ assessment#:#remove_as_participant#:#Remove as Fixed Participant
 assessment#:#remove_question#:#Remove
 assessment#:#remove_solution#:#Remove Suggested Solution
 assessment#:#report_date_not_reached#:#You have not reached the reporting date. You will be able to view the test results at %s
-assessment#:#reset_definitions#:#Reset Definition Positions
+assessment#:#reset_definitions#:#Reset Ordering
 assessment#:#reset_filter#:#Reset Filter
 assessment#:#reset_pictures#:#Reset Picture Positions
-assessment#:#reset_terms#:#Reset Term Positions
+assessment#:#reset_terms#:#Reset Ordering
 assessment#:#resize_images#:#Resize Images
 assessment#:#result_successful_saved#:#Your results have been saved successful!
 assessment#:#result_unsuccessful_saved#:#There was an error saving the question results!
@@ -917,10 +917,10 @@ assessment#:#save_edit#:#Save and Edit Content
 assessment#:#finish_test#:#Finish the Test
 assessment#:#next_question#:#Next
 assessment#:#previous_question#:#Previous
-assessment#:#submit_answer#:#Save and Next
+assessment#:#submit_answer#:#Save Answer and Next
 assessment#:#skip_question#:#Do not Answer and Next
 assessment#:#discard_answer#:#Delete Answer
-assessment#:#discard_answer_confirmation#:#Your answer will be finally and completly discarded. The question keeps as unanswered until you submit another answer.<br /><br />Would you really like to discard your answer?
+assessment#:#discard_answer_confirmation#:#Your answer will be finally and completely deleted. You can provide a new answer at any time. But this one will be purged.<br /><br />Do you want to delete your answer?
 assessment#:#edit_answer#:#Edit Answer
 assessment#:#answer_question#:#Answer Question
 assessment#:#back_to_objective_container#:#Go to Course
@@ -1045,11 +1045,11 @@ assessment#:#tst_eval_results_by_pass_lo#:#List of Answers for Attempt %s
 assessment#:#tst_eval_results_lo#:#List of Answers
 assessment#:#tst_eval_show_answer#:#Show Answer
 assessment#:#tst_eval_total_finished_average_time#:#Average test processing time
-assessment#:#tst_eval_total_finished#:#Total finished tests (Users that used up all possible passes.)
+assessment#:#tst_eval_total_finished#:#Total finished tests (Participants that used up all possible passes.)
 assessment#:#tst_eval_total_passed_average_points#:#Average points of passed tests
 assessment#:#tst_eval_total_passed_average_time#:#Average processing time of all passed tests
 assessment#:#tst_eval_total_passed#:#Total passed tests
-assessment#:#tst_eval_total_persons#:#Total number of people who started the test
+assessment#:#tst_eval_total_persons#:#Total number of participants who started the test
 assessment#:#tst_eval_user_answer#:#User Answer
 assessment#:#review_view#:#Review
 assessment#:#tst_finish_confirm_button#:#Yes, I want to finish the test
@@ -1073,7 +1073,7 @@ assessment#:#tst_hide_previous_results_description#:#If checked, the previous re
 assessment#:#tst_hide_previous_results_hide#:#Hide my results from a previous test pass
 assessment#:#tst_hide_previous_results_introduction#:#If you’re processing more than one pass of this test, your previous entered results will not be used as default values
 assessment#:#tst_hide_previous_results#:#Hide Previous Results
-assessment#:#tst_hide_side_list#:#Navigation Tree Off
+assessment#:#tst_hide_side_list#:#Hide List of Questions
 assessment#:#tst_import_no_items#:#Error: The import file contains no questions!
 assessment#:#tst_import_verify_found_questions#:#ILIAS found the following questions in the test import file. Please select the questions you want to import with this test.
 assessment#:#tst_in_use_edit_questions_disabled#:#The test is in use by %d user(s). You are not allowed to edit or move the questions in this test!
@@ -1155,24 +1155,24 @@ assessment#:#tst_password_form#:#Enter Test Password
 assessment#:#tst_password#:#Test Password
 assessment#:#tst_percent_solved#:#Percent Solved
 assessment#:#tst_position#:#Question %s of %s
-assessment#:#tst_postpone#:#Postpone Questions
-assessment#:#tst_postpone_on#:#Not answered questions will be postponed
-assessment#:#tst_postpone_on_desc#:#Not answered questions will be postponed to the end of the test.
-assessment#:#tst_postpone_off#:#Not answered questions will not be postponed
-assessment#:#tst_postpone_off_desc#:#Not answered questions will be kept at their position.
+assessment#:#tst_postpone#:#Unanswered Questions
+assessment#:#tst_postpone_on#:#Unanswered questions will be enqueued
+assessment#:#tst_postpone_on_desc#:#Question that users just look at and flip over without answering them, will be enqueued to be presented again automatically the end of the test.
+assessment#:#tst_postpone_off#:#Unanswered Questions Stay in Position
+assessment#:#tst_postpone_off_desc#:#Question that users just look at and flip over without answering them, will stay at their position in the test and will not be enqueued at the end of the test.
 assessment#:#tst_print_date#:#Date of Print
 assessment#:#tst_print#:#Test and Assessment - Print View
 assessment#:#tst_processing_time_desc#:#Participants can work through the test only for a specified period of time. Time is clocking away from the moment a user starts a test for the first time. Suspending the test does not stop the clock.
 assessment#:#tst_processing_time#:#Limit Duration of Test
 assessment#:#tst_properties#:#Test Properties
-assessment#:#tst_qst_order#:#Order
+assessment#:#tst_qst_order#:#No.
 assessment#:#tst_qst_resetsolved#:#Set Unsolved
 assessment#:#tst_qst_result_sheet#:#Show Result Sheet
 assessment#:#tst_qst_setsolved#:#Set Solved
 assessment#:#tst_qst_summary_text#:#Here you can see all questions. Use the bulbs to mark a question as solved.
 assessment#:#tst_question_mark#:#Mark this question
 assessment#:#tst_question_marked#:#You marked the question
-assessment#:#tst_question_marker#:#Marker
+assessment#:#tst_question_marker#:#Flagged
 assessment#:#tst_question_no#:#Order
 assessment#:#tst_question_offer#:#Do you accept this sample or do you want another one?
 assessment#:#tst_question_selection_description#:#If you only use question pools which contain questions with an equal maximum number of available points, the test will have an equal number of maximum points for all participating users and thus the test results will be better comparable. It is recommended to choose this selection mode.
@@ -1272,7 +1272,7 @@ assessment#:#tst_show_cancel#:#Suspend Test
 assessment#:#tst_show_pass_details#:#Show ‘Table of Detailed Test Results’ for each Test Pass upon Selected Point in Time
 assessment#:#tst_show_pass_details_desc#:#The summary of results will be appended at the point in time indicated in the setting above: A ‘Table of Detailed Test Results’ will show the title of the questionsn and the points scored in a particular test pass. <br> Other than that the table will be displayed after the last test pass possible (setting in link ‘General’, option ‘Limit Number of Test Passes’) or after the test is officially finished (setting in link ‘General’, option ‘Finishing Time’). <br> Further settings about the content of the ‘Table of Detailed Test Results’ can be made in the section ‘Further Details to be Included in Test Results’ of this form.
 assessment#:#tst_show_results#:#Show Test Results
-assessment#:#tst_show_side_list#:#Navigation Tree On
+assessment#:#tst_show_side_list#:#Show List of Questions
 assessment#:#tst_dyn_unfreeze_answers_confirmation#:#There are questions to which your inital answers were fixed and you could not make any changes. Do you want to answer them one more time now and thus unfreeze your answers?
 assessment#:#tst_dyn_unfreeze_answers#:#Answer once more
 assessment#:#tst_dyn_keep_answ_freeze#:#Keep my current answers frozen
@@ -1442,10 +1442,10 @@ assessment#:#tst_dyn_quest_set_src_qpl_summary_string_deleted#:#%s (Removed Perm
 assessment#:#tst_input_dynamic_question_set_taxonomie_filter_enabled#:#Provide Taxonomy Filter
 assessment#:#tst_input_dyn_quest_set_answer_status_filter_enabled#:#Provide Answer Status Filter
 assessment#:#tst_input_dyn_quest_set_prev_quest_list_enabled#:#Provide List of Previously Answered Questions
-assessment#:#tst_question_answer_status#:#Answer Status
-assessment#:#tst_question_answer_status_all_non_correct#:#All Questions (Except Correct Answered Ones)
+assessment#:#tst_question_answer_status#:#Which questions should be presented?
+assessment#:#tst_question_answer_status_all_non_correct#:#All Questions Except those Answered Correctly
 assessment#:#tst_question_answer_status_non_answered#:#Non Answered Questions
-assessment#:#tst_question_answer_status_wrong_answered#:#Wrong Answered Questions
+assessment#:#tst_question_answer_status_wrong_answered#:#Only wrongly answered questions
 assessment#:#tst_input_dynamic_question_set_question_ordering#:#Question Ordering
 assessment#:#tst_input_dynamic_question_set_question_ordering_by_date#:#Order Questions by Date
 assessment#:#tst_inp_dyn_quest_set_quest_ordering_by_date_desc#:#The presentation order for the questions bases upon the question's last editing date.
@@ -1461,10 +1461,10 @@ assessment#:#tst_dynamic_question_set_selection#:#Test Question Selection and Se
 assessment#:#tst_dynamic_question_set_complete#:#Total-Statistic
 assessment#:#tst_num_all_questions#:#Number of All Questions
 assessment#:#tst_num_selected_questions#:#Number of Selected Questions
-assessment#:#tst_num_non_answered_questions_skipped#:#Non Answered Questions (skipped)
-assessment#:#tst_num_non_answered_questions_notseen#:#Non Answered Questions (never seen)
-assessment#:#tst_num_wrong_answered_questions#:#Wrong Answered Questions
-assessment#:#tst_num_correct_answered_questions#:#Correct Answered Questions
+assessment#:#tst_num_non_answered_questions_skipped#:#Skipped
+assessment#:#tst_num_non_answered_questions_notseen#:#Not Presented, Yet
+assessment#:#tst_num_wrong_answered_questions#:# Answered Wrongly
+assessment#:#tst_num_correct_answered_questions#:#Answered Correctly
 assessment#:#tst_num_postponed_questions#:#Postponed Questions
 assessment#:#tst_num_marked_questions#:#Marked Questions
 assessment#:#tst_change_dyn_test_question_selection#:#Change Question Selection
@@ -2267,7 +2267,7 @@ common#:#check_user_accounts#:#Check user accounts
 common#:#check_web_resources_desc#:#If enabled all Weblinks will be checked if they are active.
 common#:#check_web_resources#:#Check Weblinks
 common#:#check#:#Check
-assessment#:#submit_and_check#:#Submit and Check Answer
+assessment#:#submit_and_check#:#Save Answer and Check
 common#:#checked_files#:#Importable files
 common#:#checked#:#Checked
 common#:#chg_ilias_and_webfolder_password#:#Change Webfolder Password
@@ -3243,7 +3243,7 @@ common#:#links_user_id#:#ILIAS user id
 common#:#links_user_name#:#ILIAS username
 common#:#links_value#:#Parameter Value
 common#:#list_of_pages#:#Pages List
-common#:#list_of_questions#:#Question List
+common#:#list_of_questions#:#List of Questions
 common#:#list#:#List
 common#:#literature_bookmarks#:#Literature Bookmarks
 common#:#literature#:#Literature
@@ -3617,7 +3617,7 @@ common#:#no_grp_in_personal_list#:#No groups in personal list.
 common#:#no_import_available#:#Import not available for type
 common#:#no_import_file_found#:#No import file found
 common#:#no_invalid_links#:#No invalid links found.
-common#:#no_items#:#No Items
+common#:#no_items#:#This object is empty and contains no items.
 common#:#no_license_available#:#No license available!
 common#:#no_limit#:#No limit
 common#:#no_lo_in_personal_list#:#No learning objects in personal list.
@@ -13067,8 +13067,8 @@ blog#:#blog_authors#:#Authors
 blog#:#blog_author#:#Written by
 blog#:#blog_enable_approval#:#Approve Postings
 blog#:#blog_enable_approval_info#:#Postings are published only after being approved by a user with permission ‘Edit Settings’ for this blog.
-blog#:#blog_approve#:#Approve
-blog#:#blog_needs_approval#:#Needs Approval
+blog#:#blog_approve#:#Approve Posting
+blog#:#blog_needs_approval#:#Posting is not approved yet
 sess#:#sess_copy#:#Copy Session
 grp#:#events#:#Sessions
 book#:#book_additional_info_file#:#Additional Description
