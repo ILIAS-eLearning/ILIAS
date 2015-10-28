@@ -2160,7 +2160,7 @@ class SurveyQuestion
 		array_push($csvrow, $eval_data["USERS_SKIPPED"]);
 		array_push($csvrow, $eval_data["MODE"]);
 		array_push($csvrow, $eval_data["MODE_NR_OF_SELECTIONS"]);
-		array_push($csvrow, $eval_data["MEDIAN"]);
+		array_push($csvrow, str_replace("<br />", " ", $eval_data["MEDIAN"])); // #17214
 		array_push($csvrow, $eval_data["ARITHMETIC_MEAN"]);
 		$result = array();
 		array_push($result, $csvrow);

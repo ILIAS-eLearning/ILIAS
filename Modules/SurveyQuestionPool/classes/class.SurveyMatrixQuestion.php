@@ -1575,7 +1575,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 			array_push($csvrow, $evalvalue["USERS_SKIPPED"]);
 			array_push($csvrow, $evalvalue["MODE"]);
 			array_push($csvrow, $evalvalue["MODE_NR_OF_SELECTIONS"]);
-			array_push($csvrow, $evalvalue["MEDIAN"]);
+			array_push($csvrow, str_replace("<br />", " ", $evalvalue["MEDIAN"])); // #17214
 			array_push($csvrow, $evalvalue["ARITHMETIC_MEAN"]);
 			array_push($result, $csvrow);
 		}
