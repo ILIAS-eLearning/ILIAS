@@ -3183,6 +3183,42 @@ class gevCourseUtils {
 		$this->rbacadmin->grantPermission($role, $new_ops, $ref_id);
 	}
 	
+	public function revokePermissionsOf($a_role_name, $a_permissions) {
+		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
+		
+		$crs = $this->getCourse();
+		$ref_id = gevObjectUtils::getRefId($crs->getId());
+		$crs->setRefId($ref_id);
+
+		if ($a_role_name == "tutor" || $a_role_name == "trainer") {
+			$role = $crs->getDefaultTutorRole();
+		}
+		elseif ($a_role_name == "member") {
+			$role = $crs->getDefaultMemberRole();
+		}
+		elseif ($a_role_name == "admin") {
+			$role = $crs->getDefaultAdminRole();
+		}
+		else {
+			$local_roles = gevRoleUtils::getInstance()->getLocalRoleIdsAndTitles($crs->getId());
+			$role = array_search($a_role_name, $local_roles);
+
+			if (!$role) {
+				$role = gevRoleUtils::getInstance()->getRoleIdByName($a_role_name);
+				if (!$role) {
+					throw new Exception("gevOrgUnitUtils::grantPermissionFor: unknown role name '".$a_role_name);
+				}
+			}
+		}
+
+		$cur_ops = $this->rbacreview->getRoleOperationsOnObject($role, $ref_id);
+		$grant_ops = ilRbacReview::_getOperationIdsByName($a_permissions);
+		$new_ops = array_diff($cur_ops, $grant_ops);
+		$this->rbacadmin->revokePermission($ref_id, $role);
+		$this->rbacadmin->grantPermission($role, $new_ops, $ref_id);
+	}
+
 	static public function grantPermissionsForAllCoursesBelow($a_ref_id, $a_role_name, $a_permissions) {
 		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 
@@ -3190,6 +3226,16 @@ class gevCourseUtils {
 		foreach($children as $child) {
 			$crs_utils = gevCourseUtils::getInstance($child["obj_id"]);
 			$crs_utils->grantPermissionsFor($a_role_name, $a_permissions);
+		}
+	}
+
+	static public function revokePermissionsForAllCoursesBelow($a_ref_id, $a_role_name, $a_permissions) {
+		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+
+		$children = self::getAllCoursesBelow(array($a_ref_id));
+		foreach($children as $child) {
+			$crs_utils = gevCourseUtils::getInstance($child["obj_id"]);
+			$crs_utils->revokePermissionsOf($a_role_name, $a_permissions);
 		}
 	}
 
