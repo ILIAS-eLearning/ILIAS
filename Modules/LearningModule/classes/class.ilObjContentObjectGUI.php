@@ -278,6 +278,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 				$cp = new ilObjectCopyGUI($this);
 				$cp->setType('lm');
 				$this->ctrl->forwardCommand($cp);
+				break;
 
 /*			case "ilpagemultilanggui":
 				$this->addHeaderAction();
