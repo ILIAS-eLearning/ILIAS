@@ -4943,9 +4943,9 @@ content#:#cont_create_export_file#:#Create Export File
 content#:#cont_create_folder#:#Create Folder
 content#:#cont_create_html_version#:#Create HTML Package
 content#:#cont_create_mob#:#Create Media Object
-content#:#cont_credit_mode#:#Credit Mode
-content#:#cont_credit_off#:#No Credit
-content#:#cont_credit_on#:#Credit
+content#:#cont_credit_mode#:#Grading Tracking Status
+content#:#cont_credit_off#:#Tracking Status not Graded
+content#:#cont_credit_on#:#Grade Tracking Status (Passed or Failed)
 content#:#cont_credits#:#Credits
 content#:#cont_cross_reference#:#Cross reference
 content#:#cont_current_chapter#:#Current Chapter
@@ -4962,7 +4962,7 @@ content#:#cont_debug#:#Enable Test Tool
 content#:#cont_debugpw#:#Password
 content#:#cont_decimal#:#Decimal
 content#:#cont_def_layout#:#Default Layout
-content#:#cont_def_lesson_mode#:#Default Lesson Mode
+content#:#cont_def_lesson_mode#:#Record Tracking Data
 content#:#cont_def_map_areas#:#Default Link Areas
 content#:#cont_def_organization#:#default
 content#:#cont_default#:#Default
@@ -5257,7 +5257,7 @@ content#:#cont_no_parameters#:#No Parameters
 content#:#cont_no_subdir_in_zip#:#Zip command failed or import file invalid.<br>It does not contain a sub-folder '%s'.
 content#:#cont_no_text#:#No Text
 content#:#cont_no_zip_file#:#Import file is not a zip file.
-content#:#cont_nomenu#:#Hide Navigation Bar
+content#:#cont_nomenu#:#Hide Top Navigation Bar
 content#:#cont_none#:#None
 content#:#cont_not_js_chap_editing#:#Use No-JavaScript Editing Mode
 content#:#cont_nr_col_footer#:#Footer Columns
@@ -5392,8 +5392,8 @@ content#:#cont_sc_stat_not_attempted#:#Not attempted
 content#:#cont_sc_stat_passed#:#Passed
 content#:#cont_sc_stat_running#:#Running
 content#:#cont_sc_title#:#title
-content#:#cont_sc_usession#:#Unlimited Session Timeout
-content#:#cont_sc_version#:#Version
+content#:#cont_sc_usession#:#Prevent from Logging-Out Automatically
+content#:#cont_sc_version#:#Version of Learning Module
 content#:#cont_scheduled_activation#:#Scheduled Activation
 content#:#cont_school#:#School
 content#:#cont_score#:#Score
@@ -6140,7 +6140,7 @@ crs#:#event_table_update#:#Edit Session
 crs#:#event_tbl_admins#:#Administrators
 crs#:#event_tbl_members#:#Members
 crs#:#event_tbl_participants#:#List of Participants
-crs#:#event_tbl_participated#:#Participated
+crs#:#event_tbl_participated#:#Attended
 crs#:#event_tbl_registered#:#Registered
 crs#:#event_tbl_tutors#:#Tutors
 crs#:#event_time#:#Time
@@ -6808,10 +6808,10 @@ form#:#form_password_required_for_auth#:#Password is required for the chosen aut
 form#:#form_retype_password#:#Retype Password
 form#:#form_seconds#:#Seconds
 forum#:#activate_current_and_childs#:#Activate All Postings
-forum#:#activate_new_posts#:#Activate Postings
-forum#:#activate_only_current#:#Activate Posting
-forum#:#activate_post_txt#:#Would you really like to activate the current posting?
-forum#:#activate_post#:#Activate
+forum#:#activate_new_posts#:#Approve Postings
+forum#:#activate_only_current#:#Approve Posting
+forum#:#activate_post_txt#:#Would you really like to approve the current posting?
+forum#:#activate_post#:#Approve
 forum#:#close_topics#:#Close
 forum#:#fmr_copy_threads_info#:#You have the possibility to copy single threads. Only the beginning of the chosen threads will be duplicated.
 forum#:#forum_add_quote#:#Add Quotation
@@ -8787,7 +8787,7 @@ rbac#:#filter_local_roles#:#Show only local roles of current context
 rbac#:#filter_roles_local_policy#:#Show only roles using a local policy at this position
 rbac#:#grp_edit_event#:#Edit Calendar Events
 rbac#:#info_user_view_changed#:#User view changed
-rbac#:#leave#:#Leave
+rbac#:#leave#:#Unsubscribe
 rbac#:#mcts_edit_permission#:#User can change permission settings in Mediacast administration
 rbac#:#mcts_read#:#User has read access to Mediacast administration
 rbac#:#mcts_visible#:#Mediacast administration is visible
@@ -10764,7 +10764,7 @@ dateplaner#:#cal_ch_manager#:#Consultation Hour Manager
 dateplaner#:#cal_ch_manager_info#:#Login of the user who will manage your consultation hours.
 dateplaner#:#cal_ch_unknown_user#:#The given login does not match any user.
 dateplaner#:#cal_ch_target_object#:#Repository Object
-dateplaner#:#cal_ch_target_object_info#:#Restrict appointments to given repository object.
+dateplaner#:#cal_ch_target_object_info#:#Consultation hours will be displayed in a block to the right of the course / group content. To restrict the display of consultation hours to specific courses or groups, please enter the Ref-ID of the said objects. You find the Ref-ID in the URL of the respective objects. Add more than one Ref-ID separated by comma.
 dateplaner#:#cal_ch_unknown_repository_object#:#The given repository object ref-id is not valid.
 rbac#:#push_desktop_items#:#Push Items on the Personal Desktop
 rbac#:#smtp_mail#:#SMTP E-Mail
@@ -11824,13 +11824,13 @@ grp#:#grp_view_info_simple#:#This content presentation lists all items in one bl
 grp#:#grp_presentation_type#:#Presentation Type
 grp#:#grp_view_inherit#:#Default
 grp#:#grp_view_inherit_info#:#The group presentation type is adopted from a parent course.
-content#:#cont_open#:#Display
-content#:#cont_open_normal#:#Opens in a new tab or alternatively in a new window, without ILIAS main menue
+content#:#cont_open#:#Presentation of Learning Module
+content#:#cont_open_normal#:#Opens in a New Tab or Alternatively in a New Window, Without ILIAS Main Menu
 content#:#cont_open_width#:#width
 content#:#cont_open_heigth#:#height
 scormdebug#:#scormdebug_global_activate#:#Enable SCORM test tool
 scormdebug#:#scormdebug_global_activate_info#:#If enabled, the SCORM test tool can be activated for desired learning modules. If disabled, the test tool is deactivated for all learning modules.
-content#:#cont_debug_deactivate#:#The test tool can be globally deactivated in the ILIAS administration (Administration » Learning Resources).
+content#:#cont_debug_deactivate#:#A Test Tool will be displayed in the presentation mode of the learning module. Based on the data provided by it the interaction of the learning module and ILIAS can be evaluated. To use the Test Tool, the navigation tree has to be switched on.
 content#:#cont_debug_deactivated#:#The test tool is currently globally deactivated in the ILIAS administration (Administration » Learning Resources).
 scormdebug#:#error0#:#No error
 scormdebug#:#error101#:#General Exception
@@ -12223,8 +12223,11 @@ scormdebug#:#scormdebug_disable_cache#:#Disable SCORM 2004 Browser Cache
 scormdebug#:#scormdebug_disable_cache_info#:#This prevents the storage of the SCORM 2004 javascript files in the browser cache. Please use this function in time before a new release!
 content#:#cont_sequencing#:#Sequencing and Navigation
 content#:#cont_interactions#:#Store Results of Interactions
+content#:#cont_interactions_info#:#Typically results from interactions in learning modules are simply stored without being read / loaded again. If you ensured this is how your learning module operates, this option will improve performance.
 content#:#cont_objectives#:#Store Learning Objectives Data
+content#:#cont_objectives_info#:#If you ensured that this learning module runs properly, this option improves performance.
 content#:#cont_comments#:#Store Comments
+content#:#cont_comments_info#:#Some SCORM 2004 learning modules allow users providing comments within the module. This option allows saving those comments.
 content#:#cont_time_from_lms#:#Processing Time Determination by ILIAS
 scormdebug#:#completion_status_by_progress_measure#:#Because there is a value for cmi.completion_threshold, the value for cmi.completion_status is evaluated by the LMS! This is done by comparing the value for cmi.completion_threshold with the value for cmi.progress_measure. The value for cmi.completion_status is currently:
 scormdebug#:#success_status_by_score_scaled#:#Because there is a value for cmi.scaled_passing_score, the value for cmi.success_status is evaluated by the LMS! This is done by comparing the value for cmi.scaled_passing_score with the value for cmi.score.scaled. The value for cmi.success_status is currently:
@@ -12896,8 +12899,9 @@ common#:#itgr_new#:#New Item Group
 common#:#itgr_import#:#Import Item Group
 common#:#itgr_copy#:#Copy Item Group
 common#:#itgr_add#:#Add Item Group
-content#:#cont_auto_last_visited#:#Open Last Visited Chapter
-content#:#cont_check_values#:#Value Check
+content#:#cont_auto_last_visited#:#Continue with Chapter Last Visited
+content#:#cont_check_values#:#Check Values sent from SCO
+content#:#cont_check_values_info#:#The Test Tool will check whether the values sent from the SCOs adhere to the SCORM standard. <br /> The SCORM Standard is very demanding concerning the saving of values. Not all learning modules meet the requirements of the standard. This Options allows checking if the module adheres to the Standard or not. Do not check this option if you just want to check if ILIAS can run this module or not.
 administration#:#adm_social_bm_create#:#Create Social Bookmark
 administration#:#adm_social_bm_edit#:#Edit Social Bookmark
 dcl#:#dcl_actions#:#Actions
@@ -13106,7 +13110,7 @@ survey#:#svy_activation_limited_visibility_info#:#Outside the indicated period, 
 blog#:#blog_add_contributor#:#Add Contributor
 blog#:#blog_search_users#:#Search Users
 common#:#il_blog_contributor#:#Blog Author
-rbac#:#blog_contribute#:#User can contribute
+rbac#:#blog_contribute#:#User can create postings
 blog#:#blog_contribute_other_roles#:#In addition to the list of ‘Contributors’, users with one of the following roles can also add postings: %s
 dcl#:#dcl_no_content_warning#:#Attention, the Data Collection is online but does not have content yet!
 dcl#:#dcl_visible#:#Visible for all users
@@ -13138,12 +13142,12 @@ content#:#cont_presentation#:#Presentation
 content#:#cont_scorm_options#:#SCORM Options
 content#:#cont_rte_settings#:#RTE Settings
 content#:#cont_debugging#:#Debugging
-content#:#cont_auto_last_visited_info#:#Opens the last visited SCO/Asset when the learner reenters the learning module.
+content#:#cont_auto_last_visited_info#:#Users are presented with the SCO/asset they most recently visited when opening the learning module again.
 content#:#cont_credit_mode_info#:#This setting is only affective if the lesson mode is ‘normal’.
 content#:#cont_sc_auto_review_info_12#:#Set the lesson mode to ‘review’ when a learner has completed or passed a SCO.
-content#:#cont_sc_usession_info#:#This setting activates periodical requests to the server to keep the session alive.
-content#:#cont_sequencing_info#:#Enable the sequencing and navigation behaviour as defined by the learning module.
-content#:#cont_time_from_lms_info#:#Processing time is set by ILIAS, not by SCOs.
+content#:#cont_sc_usession_info#:#Periodical requests will be sent to ILIAS to keep the session alive. Otherwise ILIAS will categorize working on the learning module as idleness, terminate the session and loose the tracking data.
+content#:#cont_sequencing_info#:#Enable the sequencing and navigation behaviour as defined by the learning module: Navigational options will be determined from the results of interactions with the contant. Please check whether or not your learning module does actually contain this kind of sequencing & navigation data, since this is rare.
+content#:#cont_time_from_lms_info#:#Frequently SCORM learning modules are returning faulted data on processing time. To avoid this issue ILIAS can determine the processing time adhering to the strict standards of SCORM.
 survey#:#survey_question_pool_usage_active#:#Questions can be added optionally to a question pool
 survey#:#survey_question_pool_usage_active_info#:#Each time a question is created it has to be decided if a question pool is to be used. 
 survey#:#survey_question_pool_usage_inactive#:#Questions are created directly in the survey.
@@ -13631,7 +13635,7 @@ registration#:#registration_codes_roles_limitation_none#:#No Predefined Access L
 registration#:#reg_access_limitation_mode_absolute_target#:#Valid until
 registration#:#reg_access_limitation_mode_relative_target#:#Valid for
 registration#:#registration_codes_access_limitation_all#:#All
-crs#:#crs_notification_list_title#:#Notification About New Members
+crs#:#crs_notification_list_title#:#Notification
 dateplaner#:#cal_ch_app_grp#:#Consultation Hour Groups
 dateplaner#:#cal_ch_app_list#:#Consultation Hour Appointments
 dateplaner#:#cal_ch_grp_header#:#Consultation Hour Group
@@ -13886,8 +13890,8 @@ exc#:#exc_team_notification_reason#:#You are receiving this email because you ar
 blog#:#blog_change_notification_reason#:#You are receiving this email because you activated notifications for the blog mentioned above.
 survey#:#survey_notification_finished_introduction#:#The following participant has finished the survey.
 survey#:#survey_notification_finished_reason#:#You are receiving this email because you activated notifications for the survey mentioned above.
-content#:#cont_offline_mode_allow#:#Allow Offline Mode
-content#:#cont_offline_mode_allow_info#:#In offline mode, learning modules can only be processed with the SCORM offline player. The tracking data are transferred if the learner clicks on ‘finish offline mode’ in ILIAS.
+content#:#cont_offline_mode_allow#:#Enable Offline Mode
+content#:#cont_offline_mode_allow_info#:#Users can use the learning module without connecting to the Internet in the SCORM Offline Player. They download the learning module using the &#x25bc;-menu. The learning module is presented with an add-on to the Firefox browser. The tracking data are transferred when the user clicks on ‘finish offline mode’.
 wiki#:#wiki_start_page_info#:#If there does not exist a page with this title yet, a new page will be created.
 administration#:#adm_https#:#HTTPS
 common#:#obj_reps#:#Repository
@@ -14409,8 +14413,8 @@ adve#:#char_selector_unicode_all#:#All Unicode Blocks
 adve#:#adve_char_selector_settings#:#Character Selector
 common#:#scorm_login_as_learner_id#:#SCORM 2004: set ILIAS Username as cmi.learner_id
 common#:#scorm_login_as_learner_id_info#:#If enabled, the Username instead of the User ID is set for cmi.learner_id.
-content#:#cont_sc_auto_review_2004#:#Store Tracking Data
-content#:#cont_sc_auto_review_info_2004#:#If an option corresponding to a status is enabled, an automatic review mode prevents further storing of tracking data for a chapter (SCO). Choose 'always' if the learning module makes use of Sequencing & Navigation according to SCORM 2004.
+content#:#cont_sc_auto_review_2004#:#Lock Tracking Status Once it is Established
+content#:#cont_sc_auto_review_info_2004#:#After a user has acquired the tracking status set above for a chapter / SCO, this status is locked. No further tracking data will recorded for these chapters / SCOs in later visits. Select 'always' if the learning module makes use of Sequencing & Navigation according to SCORM 2004.
 content#:#cont_sc_auto_review_no#:#always (recommended)
 content#:#cont_sc_auto_review_completed_not_failed_or_passed#:#keep tracking data if achieved status is completed or passed, but not failed
 content#:#cont_sc_auto_review_passed#:#keep tracking data if achieved status is passed
@@ -14419,8 +14423,8 @@ content#:#cont_sc_auto_review_completed#:#keep tracking data if achieved status 
 content#:#cont_sc_auto_review_completed_and_passed#:#keep tracking data if achieved status is completed and passed
 content#:#cont_sc_auto_review_completed_or_passed#:#keep tracking data if achieved status is completed or passed
 content#:#cont_sc_store_if_previous_score_was_lower#:#keep tracking data if achieved score in previous attempt was higher or equal
-content#:#cont_auto_suspend#:#Ensure getting tracking data from previous attempts
-content#:#cont_auto_suspend_info#:#This option is for SCORM learning modules, which support SCORM 2004 in an inadequate way by not sending proper values for cmi.exit.
+content#:#cont_auto_suspend#:#Safeguard tracking data
+content#:#cont_auto_suspend_info#:#This option is for SCORM learning modules, which support SCORM 2004 in an inadequate way by not sending proper values for cmi.exit<br />It will ensure that tracking data is stored irrespectively of the user not closing the learning module properly for instance by simply closing the browser.
 administration#:#adm_captcha_anonymous_frm#:#Activate captcha for anonymous in forums. Please keep in mind that this may effect the accessibility of your installation.
 administration#:#adm_captcha_anonymous_auth#:#Activate captcha for anonymous in login form. Please keep in mind that this may effect the accessibility of your installation.
 administration#:#adm_captcha_anonymous_reg#:#Activate captcha for anonymous in registration form. Please keep in mind that this may effect the accessibility of your installation.
@@ -14614,7 +14618,7 @@ obj#:#obj_insert_into_clipboard#:#Insert into Clipboard
 obj#:#obj_inserted_clipboard#:#Objects have been moved to the clipboard.
 orgu#:#org_unit_not_found#:#Organisational Unit not found.
 content#:#cont_fourth_edition#:#SCORM 2004 4th edition
-content#:#cont_fourth_edition_info#:#SCORM 2004 4th edition offers some advantages compared to the 3rd edition. Further data over SCO boundaries can be exchanged for example. These options are however rarely used and have a negative effect on the speed.
+content#:#cont_fourth_edition_info#:#SCORM 2004 4th edition offers some advantages compared to the 3rd Edition: Data can be carried over between SCOs. Few learning modules actually use this feature and it has a negative Impact on performance.
 content#:#offline_mode_manager#:#Offline use
 content#:#offline_mode_users#:#Users in offline mode
 content#:#cont_offline_mode_disable_not_allowed_info#:#Since the learning module is currently used in offline mode, the offline mode can not be disabled.
@@ -15119,9 +15123,9 @@ crs#:#crs_loc_qst_resume_tst_itest#:#You have already started an initial test to
 crs#:#crs_loc_qst_resume_tst_qtest#:#You have already started a qualifying test to another learning objective. Either you finish the started test or you stop it and start this one. But running two qualifying tests at the same time is not supported.
 bibl#:#bibl_library_show_in_list#:#Show as link in the list
 content#:#cont_ie_compatibility#:#Internet Explorer 7 Compatibility Mode
-content#:#cont_ie_compatibility_info#:#Reduces problems with displaying older SCORM Learning Modules that were optimised for the Internet Explorer. If the Compatibility Mode is switched off in newer versions of the Internet Explorer, this setting does not become effective. <br />
-content#:#cont_ie_force_render#:#Force Internet Explorer to render again
-content#:#cont_ie_force_render_info#:#Enable this option only if content of the learning module is not displayed correctly with Internet Explorer due to many frames or iFrames. Additionally you have to set the option ‘Display’ to ‘in new window’.
+content#:#cont_ie_compatibility_info#:#Reduces problems with displaying older SCORM Learning Modules that were optimised for the Internet Explorer. If the Compatibility Mode is switched off in newer versions of the Internet Explorer, this setting does not become effective.
+content#:#cont_ie_force_render#:#Force Internet Explorer to re-render
+content#:#cont_ie_force_render_info#:#Learning modules with many frames or iFrames will be displayed correctly after rendering the Content once more.
 ecs#:#ecs_token_mechanism#:#Authentication Token
 ecs#:#ecs_token_mechanism_info#:#If enabled, the authentication on the hosting platform for remote objects, is done by the ECS-Token-Mechanism.
 ecs#:#ecs_part_settings#:#Settings for Participant:
@@ -15684,7 +15688,7 @@ crs#:#crs_subscription_min_members_info#:#Define the number of users that is min
 crs#:#crs_waiting_list_no_autofill#:#Without Auto-Fill
 crs#:#crs_waiting_list_autofill#:#With Auto-Fill
 crs#:#crs_waiting_list_autofill_info#:#Participants are recruited from the waiting list automatically on cancellations.
-crs#:#crs_cancellation_end#:#Cancellation Limit
+crs#:#crs_cancellation_end#:#Limit for 'Unsubscribe from Course'
 crs#:#crs_period#:#Course Period
 crs#:#crs_course_period_not_valid#:#The course period is not valid.
 crs#:#crs_max_and_min_members_needed#:#Set a minimum or maximum number of members - or both.
@@ -15710,8 +15714,8 @@ sess#:#sess_reg_waiting_list_no_autofill#:#Without Auto-Fill
 sess#:#sess_reg_waiting_list_no_autofill_info#:#If the maximum number of users is exceeded, new registrations will be placed on a waiting list.
 sess#:#sess_reg_waiting_list_autofill#:#With Auto-Fill
 sess#:#sess_reg_waiting_list_autofill_info#:#Participants are recruited from the waiting list automatically on cancellations.
-grp#:#grp_cancellation_end_info#:#From this date on particiants cannot unsubscribe anymore.
-crs#:#crs_cancellation_end_info#:#From this date on particiants cannot unsubscribe anymore.
+grp#:#grp_cancellation_end_info#:#Until the date selected members can unsubscribe from the group.
+crs#:#crs_cancellation_end_info#:#Until the date selected members can unsubscribe from the course.
 crs#:#crs_period_info#:#Information about the start and end date of the event, which is supported by the course
 meta#:#md_adv_deleted_fields#:#The fields have been deleted.
 cntr#:#tab_back_to_repository#:#Back to Repository
@@ -15844,14 +15848,14 @@ buddysystem#:#buddy_notification_contact_request_long#:#[SALUTATION][BR][BR]the 
 buddysystem#:#buddy_request_approved#:#You successfully approved the contact.
 buddysystem#:#buddy_request_ignored#:#You ignored the user.
 common#:#no_gallery_users_available#:#There are currently no users in the gallery.
-crs#:#crs_mem_contact#:#Support Contact
+crs#:#crs_mem_contact#:#Tutorial Support
 awrn#:#awareness_now_online#:#Online Now
 awrn#:#awareness_now_online_users#:#[ONLINE_USER_NAMES]
 common#:#obj_awra_desc#:#Manage ‘Who is online?’-Tool
 common#:#obj_awra#:#‘Who is online?’-Tool
 awrn#:#awareness_settings#:#Settings
 awrn#:#awrn_enable#:#Enable ‘Who is online?’-Tool
-crs#:#crs_mem_contacts#:#Support Contacts
+crs#:#crs_mem_contacts#:#Tutorial Support
 user#:#user_awrn_all_users#:#All Users
 user#:#user_awrn_all_users_info#:#All users of the platform are listed.
 crs#:#crs_awrn_support_contacts#:#Tutorial Support
@@ -16044,22 +16048,22 @@ awrn#:#awrn_max_inactivity_info#:#After this period users are considered being o
 awrn#:#awrn_minutes#:#min
 bkm#:#bkm_fold_created#:#Bookmark folder has been created.
 mcst#:#mcst_input_either_file_or_url#:#Please specify a file or an URL. If you provide a file, please note the maximum allowed upload file size.
-content#:#cont_sc_version_info#:#The version management will automatically insert the correct version number.
+content#:#cont_sc_version_info#:#The version number is provided automatically by the version management of the learning module.
 content#:#cont_online_info#:#Set the SCORM learning module online to make it visible and available for users. If not, only users with 'Edit'-permission will have access to it.
-content#:#cont_open_window#:#Definitely opens in a new window, without ILIAS main menue
-content#:#cont_open_iframe#:#Opens in the same window, the ILIAS main menue is displayed
-content#:#cont_nomenu_info#:#The Top Navigation Bar can be hidden, if the SCORM Learning module contains sufficient functionality to suspend, finish and navigate the content.
-content#:#cont_hidenavig_info#:#The left navigation tree can be hidden, if the SCORM Learning module contains sufficient functionality to navigate the content or the top navigation bar is displayed.
-content#:#cont_width_height_info#:#The size of the display can be set at a fixed size. 950 pixels for Width and 650 pixels for Height are proven values for setting the size. If no entry is made the browser will determine the size of the display.
+content#:#cont_open_window#:#Enforced to Open in New Window , Without ILIAS Main Menu
+content#:#cont_open_iframe#:#Opens in the Same Window Underneath the ILIAS Main Menu
+content#:#cont_nomenu_info#:#The top navigation bar can be hidden, if the SCORM Learning module contains sufficient functionality to suspend, finish and navigate the content.
+content#:#cont_hidenavig_info#:#The navigation tree on the left can be hidden, if the SCORM Learning module contains sufficient functionality to navigate between sections of content or the top navigation bar is displayed.
+content#:#cont_width_height_info#:#The presentation can be set to a fixed size. 950 pixels for width and 650 pixels for height are proven values for setting the size. If no value is entered the browser will determine the size of the presentation.
 content#:#cont_sc_score_was_higher_message#:#achieved score was higher
 meta#:#md_adv_field_filter_warning#:#The field types %s are currently not supported as table filters.
 grp#:#grp_subscription_min_members_info#:#Define the number of users that is minimally required for this group to be held at all. If this number is not met either after the date until which users can register or unsubscribe from the group a mail will be send to those group administrators or tutors that have activated the 'Notification' flag in the 'Members'-tab.
 grp#:#grp_max_and_min_members_invalid#:#The minimum number must be smaller than the maximum number of members.
 crs#:#mem_cron_min_members_reason#:#You receive this message because you have activated the notification in the members-tab.
 crs#:#mem_cron_min_members_task#:#Please inform the participants if the course will not take place because of not enough attendants. Adjust the settings afterwards.
-crs#:#crs_loc_settings_passed_mode#:#Bestandene Lernziele
-crs#:#crs_loc_settings_passed_mode_hide#:#Testfragen zu bestandenen Lernzielen werden ausgeblendet
-crs#:#crs_loc_settings_passed_mode_mark#:#Testfragen zu bestandenen Lernzielen werden markiert
+crs#:#crs_loc_settings_passed_mode#:#Mastered Learning Objectives
+crs#:#crs_loc_settings_passed_mode_hide#:#Test questions for mastered learning objectives will be hidden
+crs#:#crs_loc_settings_passed_mode_mark#:#Test questions for mastered learning objectives will be flagged
 crs#:#crs_checklist_objective#:#Checklist Objective
 prtf#:#prtf_set_default_publish_global#:#Share with unregistered users also
 prtf#:#prtf_set_default_publish_registered#:#Share with registered users only
