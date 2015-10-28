@@ -19,6 +19,10 @@ db_template_writer.php
 # /Customizing/
 /Customizing/global/*
 
+#/Customizing/global but not plugins
+
+!/Customizing/global/plugins/
+
 # /Modules/BookingManager/js/
 
 # /Modules/Chatroom/classes/admintasks/
