@@ -10375,7 +10375,7 @@ sahs#:#sahs_desc_objectives#:#Beschreibung/Ziele
 sahs#:#sahs_hide_objectives_page#:#Beschreibungs-/Lernziel-Seite ausblenden
 sahs#:#sahs_hide_objectives_page_info#:#Wenn aktiviert werden SCO-Beschreibung und Lernziele nicht in der Präsentationsansicht angezeigt.
 sahs#:#sahs_import_sequencing#:#Sequencing-Informationen importieren
-sahs#:#sahs_import_sequencing_info#:#Es werden die Sequencing-Informationtn des SCORM-Packages importiert (Sequencing-Expertenmodus)
+sahs#:#sahs_import_sequencing_info#:#Es werden die Sequencing-Informationen des SCORM-Packages importiert (Sequencing-Expertenmodus)
 sahs#:#sahs_insert_ass#:#Asset einfügen
 sahs#:#sahs_insert_ass_from_clip#:#Assets aus Zwischenablage einfügen
 sahs#:#sahs_insert_ass_from_clip_inside_chap#:#Assets aus Zwischenablage einfügen (innerhalb eines Kapitels)
@@ -16065,3 +16065,5 @@ crs#:#crs_loc_settings_passed_mode_hide#:#Testfragen zu bestandenen Lernzielen w
 crs#:#crs_loc_settings_passed_mode_mark#:#Testfragen zu bestandenen Lernzielen werden markiert
 content#:#cont_comments_info#:#SCORM 2004-Lernmodule können Benutzern die Gelegenheit bieten, im Lernmodul Kommentare zu verfassen. Diese Option aktiviert das Eingeben und Speichern der Kommentare (comments).
 crs#:#crs_checklist_objective#:#Checkliste Lernziel
+prtf#:#prtf_set_default_publish_global#:#Auch für unregistrierte Benutzer freigeben
+prtf#:#prtf_set_default_publish_registered#:#Nur für registrierte Nutzer freigeben
