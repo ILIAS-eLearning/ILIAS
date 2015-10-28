@@ -151,6 +151,10 @@ class ilLearningModuleDataSet extends ilDataSet
 						"HideHeadFootPrint" => "integer",
 						"DisableDefFeedback" => "integer",
 						"RatingPages" => "integer",
+						"ProgrIcons" => "integer",
+						"StoreTries" => "integer",
+						"RestrictForwNav" => "integer",
+						"Comments" => "integer",
 						"ForTranslation" => "integer"
 					);
 			}
@@ -229,8 +233,8 @@ class ilLearningModuleDataSet extends ilDataSet
 				case "5.1.0":
 					$q = "SELECT id, title, description,".
 						" default_layout, page_header, toc_active, lm_menu_active, toc_mode, print_view_active, numbering,".
-						" hist_user_comments, public_access_mode, header_page, footer_page, layout_per_page, rating".
-						" hide_head_foot_print, disable_def_feedback, rating_pages".
+						" hist_user_comments, public_access_mode, header_page, footer_page, layout_per_page, rating, ".
+						" hide_head_foot_print, disable_def_feedback, rating_pages, store_tries, restrict_forw_nav, progr_icons".
 						" FROM content_object JOIN object_data ON (content_object.id = object_data.obj_id)".
 						" WHERE ".$ilDB->in("id", $a_ids, false, "integer");
 
@@ -238,6 +242,10 @@ class ilLearningModuleDataSet extends ilDataSet
 					$this->data = array();
 					while ($rec  = $ilDB->fetchAssoc($set))
 					{
+						// comments activated?
+						include_once("./Services/Notes/classes/class.ilNote.php");
+						$rec["comments"] = ilNote::commentsActivated($rec["id"], 0, "lm");
+
 						if ($this->getMasterLanguageOnly())
 						{
 							$rec["for_translation"] = 1;
@@ -403,9 +411,25 @@ class ilLearningModuleDataSet extends ilDataSet
 				$newObj->setDisableDefaultFeedback($a_rec["DisableDefFeedback"]);
 				$newObj->setRatingPages($a_rec["RatingPages"]);
 				$newObj->setForTranslation($a_rec["ForTranslation"]);
-				$newObj->update(true);
+				$newObj->setProgressIcons($a_rec["ProgrIcons"]);
+				$newObj->setStoreTries($a_rec["StoreTries"]);
+				$newObj->setRestrictForwardNavigation($a_rec["RestrictForwNav"]);
+				if ($a_rec["HeaderPage"] > 0)
+				{
+					$a_mapping->addMapping("Modules/LearningModule", "lm_header_page", $a_rec["HeaderPage"], "-");
+				}
+				if ($a_rec["FooterPage"] > 0)
+				{
+					$a_mapping->addMapping("Modules/LearningModule", "lm_footer_page", $a_rec["FooterPage"], "-");
+				}
 
+				$newObj->update(true);
 				$this->current_obj = $newObj;
+
+				// activated comments
+				include_once("./Services/Notes/classes/class.ilNote.php");
+				ilNote::activateComments($newObj->getId(), 0, "lm", (int) $a_rec["Comments"]);
+
 				$a_mapping->addMapping("Modules/LearningModule", "lm", $a_rec["Id"], $newObj->getId());
 				$a_mapping->addMapping("Services/Object", "obj", $a_rec["Id"], $newObj->getId());
 				$a_mapping->addMapping("Services/MetaData", "md",

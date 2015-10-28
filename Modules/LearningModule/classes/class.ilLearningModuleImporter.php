@@ -90,7 +90,28 @@ class ilLearningModuleImporter extends ilXmlImporter
 			ilLMPage::_writeParentId("lm", $pg_id, $lm_id);
 		}
 
-		// in translation mode use link mapping to fix internal links
+		// header footer page
+		foreach ($a_mapping->getMappingsOfEntity("Modules/LearningModule", "lm_header_page") as $old_id => $dummy)
+		{
+			$new_page_id = (int) $a_mapping->getMapping("Modules/LearningModule", "pg", $old_id);
+			if ($new_page_id > 0)
+			{
+				$lm_id = ilLMPageObject::_lookupContObjID($new_page_id);
+				ilObjLearningModule::writeHeaderPage($lm_id, $new_page_id);
+			}
+		}
+		foreach ($a_mapping->getMappingsOfEntity("Modules/LearningModule", "lm_footer_page") as $old_id => $dummy)
+		{
+			$new_page_id = (int) $a_mapping->getMapping("Modules/LearningModule", "pg", $old_id);
+			if ($new_page_id > 0)
+			{
+				$lm_id = ilLMPageObject::_lookupContObjID($new_page_id);
+				ilObjLearningModule::writeFooterPage($lm_id, $new_page_id);
+			}
+		}
+
+
+	// in translation mode use link mapping to fix internal links
 		//$a_mapping->addMapping("Modules/LearningModule", "link",
 		if ($this->config->getTranslationImportMode())
 		{

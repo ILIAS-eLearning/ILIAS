@@ -700,7 +700,40 @@ class ilObjContentObject extends ilObject
 
 		$this->style_id = $a_style_id;
 	}
-	
+
+	/**
+	 * Write header page
+	 *
+	 * @param int $a_lm_id learning module id
+	 * @param int $a_page_id page
+	 */
+	static function writeHeaderPage($a_lm_id, $a_page_id)
+	{
+		global $ilDB;
+
+		$ilDB->manipulate("UPDATE content_object SET ".
+			" header_page = ".$ilDB->quote($a_page_id, "integer").
+			" WHERE id = ".$ilDB->quote($a_lm_id, "integer")
+			);
+	}
+
+	/**
+	 * Write footer page
+	 *
+	 * @param int $a_lm_id learning module id
+	 * @param int $a_page_id page
+	 */
+	static function writeFooterPage($a_lm_id, $a_page_id)
+	{
+		global $ilDB;
+
+		$ilDB->manipulate("UPDATE content_object SET ".
+			" footer_page = ".$ilDB->quote($a_page_id, "integer").
+			" WHERE id = ".$ilDB->quote($a_lm_id, "integer")
+		);
+	}
+
+
 	/**
 	* move learning modules from one style to another
 	*/
