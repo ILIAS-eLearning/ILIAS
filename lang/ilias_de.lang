@@ -10375,7 +10375,7 @@ sahs#:#sahs_desc_objectives#:#Beschreibung/Ziele
 sahs#:#sahs_hide_objectives_page#:#Beschreibungs-/Lernziel-Seite ausblenden
 sahs#:#sahs_hide_objectives_page_info#:#Wenn aktiviert werden SCO-Beschreibung und Lernziele nicht in der Präsentationsansicht angezeigt.
 sahs#:#sahs_import_sequencing#:#Sequencing-Informationen importieren
-sahs#:#sahs_import_sequencing_info#:#Es werden die Sequencing-Informationtn des SCORM-Packages importiert (Sequencing-Expertenmodus)
+sahs#:#sahs_import_sequencing_info#:#Es werden die Sequencing-Informationen des SCORM-Packages importiert (Sequencing-Expertenmodus)
 sahs#:#sahs_insert_ass#:#Asset einfügen
 sahs#:#sahs_insert_ass_from_clip#:#Assets aus Zwischenablage einfügen
 sahs#:#sahs_insert_ass_from_clip_inside_chap#:#Assets aus Zwischenablage einfügen (innerhalb eines Kapitels)
