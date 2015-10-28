@@ -12,6 +12,7 @@
 /.settings
 /nbproject
 /.idea
+.DS_Store
 /ilias.log
 *~
 db_template_writer.php
