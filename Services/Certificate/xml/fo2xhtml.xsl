@@ -5,7 +5,6 @@
 	<xsl:param name="pagewidth" select="'21cm'"/>
 	<xsl:param name="backgroundimage"/>
 	<xsl:param name="marginbody" select="'0cm 1cm 0cm 1cm'"/>
-	<xsl:param name="paddingtop" select="'10cm'"/>
 
 	<xsl:template match="/">
 		<xsl:apply-templates select="node()"/>

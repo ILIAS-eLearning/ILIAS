@@ -293,11 +293,6 @@ class ilCertificate
 		}
 		if (!strlen($xslfo)) $pagesize = $certificatesettings->get("pageformat");;
 		
-		$paddingtop = "0cm";
-		if (preg_match("/padding-top\=\"([^\"]+)\"/", $xslfo, $matches))
-		{
-			$paddingtop = $matches[1];
-		}
 		$marginbody_top = "0cm";
 		$marginbody_right = "2cm";
 		$marginbody_bottom = "0cm";
@@ -345,7 +340,6 @@ class ilCertificate
 			"pageformat" => $pagesize,
 			"pagewidth" => $pagewidth,
 			"pageheight" => $pageheight,
-			"padding_top" => $paddingtop,
 			"margin_body_top" => $marginbody_top,
 			"margin_body_right" => $marginbody_right,
 			"margin_body_bottom" => $marginbody_bottom,
@@ -410,8 +404,7 @@ class ilCertificate
 			"pageheight" => $pageheight, 
 			"pagewidth" => $pagewidth,
 			"backgroundimage" => $backgroundimage,
-			"marginbody" => $form_data["margin_body_top"] . " " . $form_data["margin_body_right"] . " " . $form_data["margin_body_bottom"] . " " . $form_data["margin_body_left"],
-			"paddingtop" => $form_data["padding_top"]
+			"marginbody" => $form_data["margin_body_top"] . " " . $form_data["margin_body_right"] . " " . $form_data["margin_body_bottom"] . " " . $form_data["margin_body_left"]
 		);
 		$output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", NULL, $args, $params);
 		xslt_error($xh);

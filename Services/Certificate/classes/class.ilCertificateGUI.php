@@ -209,7 +209,6 @@ class ilCertificateGUI
 	{
 		$form_fields = array(
 			"pageformat" => ilUtil::stripSlashes($_POST["pageformat"]),
-			"padding_top" => ilUtil::stripSlashes($_POST["padding_top"]),
 			"margin_body_top" => ilUtil::stripSlashes($_POST["margin_body"]["top"]),
 			"margin_body_right" => ilUtil::stripSlashes($_POST["margin_body"]["right"]),
 			"margin_body_bottom" => ilUtil::stripSlashes($_POST["margin_body"]["bottom"]),
@@ -349,16 +348,7 @@ class ilCertificateGUI
 			$bgimage->setImage($this->object->getBackgroundImageThumbPathWeb());
 		}
 		$form->addItem($bgimage);
-		
-		$padding_top = new ilTextInputGUI($this->lng->txt("certificate_padding_top"), "padding_top");
-		$padding_top->setRequired(TRUE);
-		$padding_top->setValue($form_fields["padding_top"]);
-		$padding_top->setSize(6);
-		$padding_top->setValidationRegexp("/[0123456789\\.](cm|mm|in|pt|pc|px|em)/is");
-		$padding_top->setInfo($this->lng->txt("certificate_unit_description"));
-		if (strcmp($this->ctrl->getCmd(), "certificateSave") == 0) $padding_top->checkInput();
-		$form->addItem($padding_top);
-		
+
 		$rect = new ilCSSRectInputGUI($this->lng->txt("certificate_margin_body"), "margin_body");
 		$rect->setRequired(TRUE);
 		$rect->setUseUnits(TRUE);
