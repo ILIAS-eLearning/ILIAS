@@ -2436,7 +2436,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		// BEGIN TABLE DATA		
 		foreach($_POST["file"] as $file)
 		{							
-			$cgui->addItem("file[]", $file, $file, ilUtil::getTypeIconPath("usrf"), $this->lng->txt("obj_usrf"));
+			$cgui->addItem("file[]", $file, $file, ilObject::_getIcon($this->object->getId()), $this->lng->txt("obj_usrf"));
 		}
 
 		$this->tpl->setContent($cgui->getHTML());

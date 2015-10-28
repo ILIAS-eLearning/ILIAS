@@ -3354,7 +3354,7 @@ class ilObjContentObject extends ilObject
 			$new_obj->setOnline($this->getOnline());
 		}
 	 	
-		$new_obj->setTitle($this->getTitle());
+//		$new_obj->setTitle($this->getTitle());
 		$new_obj->setDescription($this->getDescription());
 		$new_obj->setLayoutPerPage($this->getLayoutPerPage());
 		$new_obj->setLayout($this->getLayout());
@@ -3375,6 +3375,8 @@ class ilObjContentObject extends ilObject
 		$new_obj->setRatingPages($this->hasRatingPages());
 		$new_obj->setDisableDefaultFeedback($this->getDisableDefaultFeedback());
 		$new_obj->setProgressIcons($this->getProgressIcons());
+		$new_obj->setStoreTries($this->getStoreTries());
+		$new_obj->setRestrictForwardNavigation($this->getRestrictForwardNavigation());
 		
 		$new_obj->update();
 		
@@ -3393,7 +3395,18 @@ class ilObjContentObject extends ilObject
 		}
 		
 		// copy content
-		$this->copyAllPagesAndChapters($new_obj, $a_copy_id);
+		$copied_nodes = $this->copyAllPagesAndChapters($new_obj, $a_copy_id);
+
+		// page header and footer
+		if ($this->getHeaderPage() > 0 && ($new_page_header = $copied_nodes[$this->getHeaderPage()]) > 0)
+		{
+			$new_obj->setHeaderPage($new_page_header);
+		}
+		if ($this->getFooterPage() > 0 && ($new_page_footer = $copied_nodes[$this->getFooterPage()]) > 0)
+		{
+			$new_obj->setFooterPage($new_page_footer);
+		}
+		$new_obj->update();
 
 		// Copy learning progress settings
 		include_once('Services/Tracking/classes/class.ilLPObjSettings.php');
@@ -3459,6 +3472,7 @@ class ilObjContentObject extends ilObject
 
 		$a_target_obj->checkTree();
 
+		return $copied_nodes;
 	}
 
 
