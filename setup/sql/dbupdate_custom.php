@@ -4425,7 +4425,31 @@ foreach ($central_training_category_ref_ids as $ref_id) {
 	gevCourseUtils::grantPermissionsForAllCoursesBelow($ref_id, "trainer", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf"));
 }
 
-$fixed_dec_training_category_ref_id = 49821;
+?>
+
+<#172>
+<?php
+
+require_once "Customizing/class.ilCustomInstaller.php";
+
+ilCustomInstaller::maybeInitClientIni();
+ilCustomInstaller::maybeInitPluginAdmin();
+ilCustomInstaller::maybeInitObjDefinition();
+ilCustomInstaller::maybeInitAppEventHandler();
+ilCustomInstaller::maybeInitTree();
+ilCustomInstaller::maybeInitRBAC();
+ilCustomInstaller::maybeInitObjDataCache();
+ilCustomInstaller::maybeInitUserToRoot();
+ilCustomInstaller::maybeInitSettings();
+
+require_once("Services/Object/classes/class.ilObjectFactory.php");
+
+global $ilias;
+$ilias->db = $ilDB;
+
+require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+
+$fixed_dec_training_category_ref_id = 49841;
 
 gevCourseUtils::grantPermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "Administrator", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf"));
 gevCourseUtils::grantPermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "Admin-Voll", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf"));
@@ -4439,7 +4463,7 @@ gevCourseUtils::grantPermissionsForAllCoursesBelow($fixed_dec_training_category_
 gevCourseUtils::grantPermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "Trainingsersteller", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf"));
 
 
-$flex_dec_training_category_ref_id = 49822;
+$flex_dec_training_category_ref_id = 49840;
 
 gevCourseUtils::grantPermissionsForAllCoursesBelow($flex_dec_training_category_ref_id, "Administrator", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf"));
 gevCourseUtils::grantPermissionsForAllCoursesBelow($flex_dec_training_category_ref_id, "Admin-Voll", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf"));
