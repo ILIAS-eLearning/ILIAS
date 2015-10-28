@@ -1275,6 +1275,14 @@ class ilObjSAHSLearningModule extends ilObject
 		$new_obj = parent::cloneObject($a_target_id,$a_copy_id);
 		$this->cloneMetaData($new_obj);
 
+		//copy online status if object is not the root copy object
+		$cp_options = ilCopyWizardOptions::_getInstance($a_copy_id);
+
+		if(!$cp_options->isRootNode($this->getRefId()))
+		{
+			$new_obj->setOnline($this->getOnline());
+		}
+
 		// copy properties
 		$new_obj->setTitle($this->getTitle());
 		$new_obj->setDescription($this->getDescription());

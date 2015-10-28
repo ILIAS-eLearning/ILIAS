@@ -12,7 +12,8 @@ require_once "./Services/Object/classes/class.ilObject.php";
 */
 class ilObjBookingPool extends ilObject
 {
-	protected $offline;			// [bool]
+	//offline default should be true
+	protected $offline = true;			// [bool]
 	protected $public_log;		// [bool]
 	protected $schedule_type;	// [int]
 	protected $overall_limit;   // [int]
@@ -154,8 +155,15 @@ class ilObjBookingPool extends ilObject
 	public function cloneObject($a_target_id,$a_copy_id = 0,$a_omit_tree = false)
 	{
 		$new_obj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
-		
-		$new_obj->setOffline($this->isOffline());
+
+		//copy online status if object is not the root copy object
+		$cp_options = ilCopyWizardOptions::_getInstance($a_copy_id);
+
+		if(!$cp_options->isRootNode($this->getRefId()))
+		{
+			$new_obj->setOffline($this->isOffline());
+		}
+
 		$new_obj->setScheduleType($this->getScheduleType());
 		$new_obj->setPublicLog($this->hasPublicLog());
 		$new_obj->setOverallLimit($this->getOverallLimit());
