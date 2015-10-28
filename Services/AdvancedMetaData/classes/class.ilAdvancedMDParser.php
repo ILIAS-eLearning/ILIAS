@@ -28,9 +28,9 @@ class ilAdvancedMDParser extends ilSaxParser implements ilSaxSubsetParser
 	protected $record_ids = array(); // [array]
 	
 	// local adv md record support
-	protected $local_record; // [string]
-	protected $local_rec_id; // [int]
+	protected $local_record; // [array]
 	protected $local_rec_map = array(); // [array]
+	protected $local_rec_fields_map = array(); // [array]
 	
 	function __construct($a_obj_id, $a_mapping)
 	{		
@@ -48,7 +48,7 @@ class ilAdvancedMDParser extends ilSaxParser implements ilSaxSubsetParser
 		$this->sax_controller->setDefaultElementHandler($this);		
 	}
 	
-	function createLocalRecord($a_xml, $a_obj_id, $a_sub_type = null)
+	function createLocalRecord($a_old_id, $a_xml, $a_obj_id, $a_sub_type = null)
 	{		
 		$tmp_file = ilUtil::ilTempnam();
 		file_put_contents($tmp_file, $a_xml);
@@ -71,10 +71,15 @@ class ilAdvancedMDParser extends ilSaxParser implements ilSaxSubsetParser
 		}
 				
 		unlink($tmp_file);	
-		
+			
 		$map = $parser->getRecordMap();
-		$this->local_rec_map = $map;
-		return array_shift(array_keys($map));
+		foreach($map as $record_id => $fields)
+		{
+			$this->local_rec_fields_map[$record_id] = $fields;
+		}
+		
+		$new_id = array_shift(array_keys($map));
+		$this->local_rec_map[$a_old_id] = $new_id;
 	}
 	
 	function handlerBeginTag($a_xml_parser,$a_name,$a_attribs)
@@ -84,11 +89,12 @@ class ilAdvancedMDParser extends ilSaxParser implements ilSaxSubsetParser
 			case 'AdvancedMetaData':									
 				break;
 			
-			case 'Record':				
+			case 'Record':		
+				$this->local_record = array('id'=>$a_attribs['local_id']);
 				break;
 				
 			case 'Value':				
-				$this->initValue($a_attribs['id'], $a_attribs['sub_type'], $a_attribs['sub_id']);
+				$this->initValue($a_attribs['id'], $a_attribs['sub_type'], $a_attribs['sub_id'], $a_attribs['local_rec_id']);
 				break;
 		}
 	}
@@ -98,10 +104,6 @@ class ilAdvancedMDParser extends ilSaxParser implements ilSaxSubsetParser
 		switch($a_name)
 		{
 			case 'AdvancedMetaData':	
-				// get rid of temp local record
-				$this->local_rec_id = null;
-				$this->local_rec_map = null;
-				
 				// we need to write all records that have been created (1 for each sub-item)
 				foreach($this->value_records as $record)
 				{
@@ -110,7 +112,7 @@ class ilAdvancedMDParser extends ilSaxParser implements ilSaxSubsetParser
 				break;
 				
 			case 'Record':				
-				$this->local_record = base64_decode(trim($this->cdata));					
+				$this->local_record['xml'] = base64_decode(trim($this->cdata));					
 				break;
 				
 			case 'Value':
@@ -135,7 +137,7 @@ class ilAdvancedMDParser extends ilSaxParser implements ilSaxSubsetParser
 		}
 	}
 	
-	protected function initValue($a_import_id, $a_sub_type = "", $a_sub_id = 0)
+	protected function initValue($a_import_id, $a_sub_type = "", $a_sub_id = 0, $a_local_rec_id = null)
 	{
 		$this->current_value = null;
 				
@@ -156,16 +158,16 @@ class ilAdvancedMDParser extends ilSaxParser implements ilSaxSubsetParser
 				
 		// init local record?	
 		// done here because we need object context
-		if($this->local_record)
+		if(is_array($this->local_record))
 		{
-			$this->local_rec_id = $this->createLocalRecord($this->local_record, $new_parent_id, $a_sub_type);	
+			$this->createLocalRecord($this->local_record['id'], $this->local_record['xml'], $new_parent_id, $a_sub_type);	
 			$this->local_record = null;
 		}		
 				
 		$rec_id = null;
 		
 		// find record via import id
-		if(!$this->local_rec_id)
+		if(!$a_local_rec_id)
 		{
 			if($field = ilAdvancedMDFieldDefinition::getInstanceByImportId($a_import_id))
 			{
@@ -175,7 +177,7 @@ class ilAdvancedMDParser extends ilSaxParser implements ilSaxSubsetParser
 		// (new) local record
 		else
 		{
-			$rec_id = $this->local_rec_id;
+			$rec_id = $this->local_rec_map[$a_local_rec_id];
 		}
 		
 		if(!$rec_id)
@@ -205,7 +207,7 @@ class ilAdvancedMDParser extends ilSaxParser implements ilSaxSubsetParser
 		$this->value_records[$rec_idx]->getADTGroup();
 
 		// find element with import id
-		if(!$this->local_rec_id)
+		if(!$a_local_rec_id)
 		{		
 			foreach($this->value_records[$rec_idx]->getDefinitions() as $def)
 			{										
@@ -219,7 +221,7 @@ class ilAdvancedMDParser extends ilSaxParser implements ilSaxSubsetParser
 		else
 		{			
 			// find element in new local record
-		    $field_id = $this->local_rec_map[$rec_id][$a_import_id];
+		    $field_id = $this->local_rec_fields_map[$rec_id][$a_import_id];
 			if($field_id)
 			{
 				foreach($this->value_records[$rec_idx]->getDefinitions() as $def)
@@ -236,7 +238,7 @@ class ilAdvancedMDParser extends ilSaxParser implements ilSaxSubsetParser
 		// record will be selected for parent
 		// see ilAdvancedMetaDataImporter
 		if($this->current_value && 
-			!$this->local_rec_id)
+			!$a_local_rec_id)
 		{								
 			$this->record_ids[$new_parent_id][$a_sub_type][] = $rec_id;
 		}	 	 	

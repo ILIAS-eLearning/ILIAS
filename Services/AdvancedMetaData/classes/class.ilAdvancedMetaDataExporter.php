@@ -13,6 +13,8 @@ include_once("./Services/Export/classes/class.ilXmlExporter.php");
 class ilAdvancedMetaDataExporter extends ilXmlExporter
 {
 	private $ds;
+	
+	private static $local_recs_done = array();
 
 	/**
 	 * Initialisation
@@ -126,24 +128,42 @@ class ilAdvancedMetaDataExporter extends ilXmlExporter
 			
 			foreach($items as $record_id => $record_items)
 			{
-				// no need to state record id here
 				$xml->xmlStartTag('AdvancedMetaData');
 				
-				// add local record data
-				if(array_key_exists($record_id, $local_recs))
+				$is_local = array_key_exists($record_id, $local_recs);
+
+				// add local record data?
+				if($is_local)
 				{
-					$xml->xmlElement('Record', null, $local_recs[$record_id]);
+					// we need to add this only once
+					if(!array_key_exists($record_id, self::$local_recs_done))
+					{
+						$xml->xmlElement(
+							'Record', 
+							array('local_id' => $record_id),
+							$local_recs[$record_id]
+						);
+						
+						self::$local_recs_done[] = $record_id;
+					}
 				}
 		
 				foreach($record_items as $item)
 				{
+					$att = array(
+						'id' => $item['id'],
+						'sub_type' => $item['sub_type'],
+						'sub_id' => $item['sub_id']
+					);
+					
+					if($is_local)
+					{
+						$att['local_rec_id'] = $record_id;
+					}
+					
 					$xml->xmlElement(
 						'Value',
-						array(
-							'id' => $item['id'],
-							'sub_type' => $item['sub_type'],
-							'sub_id' => $item['sub_id']
-						),
+						$att,
 						$item['value']
 					);
 				}
