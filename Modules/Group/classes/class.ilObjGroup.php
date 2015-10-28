@@ -2053,7 +2053,6 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		return true;
 	}	
 	
-	// :TODO: attach to unsubscribe event
 	public function handleAutoFill()
 	{	
 		if($this->isWaitingListEnabled() &&

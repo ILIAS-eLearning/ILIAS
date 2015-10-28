@@ -2213,7 +2213,6 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		return parent::getOrderType();
 	}
 	
-	// :TODO: attach to unsubscribe event
 	public function handleAutoFill()
 	{	
 		if($this->enabledWaitingList() &&

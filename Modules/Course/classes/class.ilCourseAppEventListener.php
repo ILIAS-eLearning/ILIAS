@@ -67,8 +67,26 @@ class ilCourseAppEventListener
 				$a_parameters['role_id'],
 				$new_status
 		);
+		
+		if($a_event == 'deassignUser')
+		{
+			self::doAutoFill($a_parameters['obj_id']);
+		}
 	}
 	
+	/**
+	 * Trigger autofill from waiting list
+	 * 
+	 * @param int $a_obj_id
+	 */
+	protected static function doAutoFill($a_obj_id)
+	{
+		// #16694
+		include_once("./Modules/Course/classes/class.ilObjCourse.php");
+		$ref_id = array_pop(ilObject::_getAllReferences($a_obj_id));			
+		$course = new ilObjCourse($ref_id);
+		$course->handleAutoFill();
+	}	
 
 	/**
 	* Handle an event in a listener.
@@ -84,7 +102,7 @@ class ilCourseAppEventListener
 			$listener = new self();
 			$listener->handleUserAssignments($a_event, $a_parameter);
 		}
-		
+	
 		if($a_component == "Services/Tracking" && $a_event == "updateStatus")
 		{
 			// see ilObjCourseGUI::updateLPFromStatus()
