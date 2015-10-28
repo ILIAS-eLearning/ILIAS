@@ -912,6 +912,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		{
 			$this->join($a_user_id,$a_mem_role);
 			
+			// Bug 17215
 			// Check whether there is a forum inside of the group.
 			// If so, check if the user must be added to the notification list (= whenever "Notification activated for all course/group members" is activated inside of the forum settings)
 			// If so, add a new entry to database table "frm_notification"
