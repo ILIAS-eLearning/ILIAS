@@ -121,7 +121,6 @@ class ilObjectListGUI
 	function ilObjectListGUI()
 	{
 		global $rbacsystem, $ilCtrl, $lng, $ilias;
-
 		$this->rbacsystem = $rbacsystem;
 		$this->ilias = $ilias;
 		$this->ctrl = $ilCtrl;
@@ -135,13 +134,11 @@ class ilObjectListGUI
 		
 		// unique js-ids
 		$this->setParentRefId($_REQUEST["ref_id"]);
-		
 //echo "list";
 		$this->init();
-		
 		include_once('Services/LDAP/classes/class.ilLDAPRoleGroupMapping.php');
 		$this->ldap_mapping = ilLDAPRoleGroupMapping::_getInstance();
-		
+
 		$lng->loadLanguageModule("obj");
 	}
 

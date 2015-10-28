@@ -1,0 +1,24 @@
+<form id="form_{POST_VAR_PREFIX}" enctype="multipart/form-data" action="{ACTION}" method="post">
+	
+	<!-- BEGIN checkbox -->
+	<div class="cat_filter_checkbox ilFloatLeft filter_tile filter_tile_{CSSID}" id="{POST_VAR}">
+		{FILTER_ITEM}
+	</div><br /><br />
+	<!-- END checkbox -->
+		
+	<!-- BEGIN dateperiod -->
+	<div class="cat_filter_dateperiod ilFloatLeft filter_tile filter_tile_{CSSID}" id="{POST_VAR}">
+		{FILTER_ITEM}
+	</div><br /><br />
+	<!-- END dateperiod -->
+	
+	<!-- BEGIN multiselect -->
+	<div class="ilFloatLeft filter_tile filter_tile_{CSSID}">
+		{FILTER_ITEM}
+	</div>
+	<!-- END multiselect -->
+	
+	<div class="ilClearFloat"></div>
+	<br />
+	<div><input class="submit" type="SUBMIT" name="cmd[view]" value="{FILTER}"></div>
+</form>

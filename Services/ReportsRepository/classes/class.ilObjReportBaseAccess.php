@@ -1,6 +1,7 @@
 <?php
 require_once 'Services/Repository/classes/class.ilObjectPluginAccess.php';
-class ilObjReportBaseAccess extends ilObjPluginAccess {
+
+abstract class ilObjReportBaseAccess extends ilObjectPluginAccess {
 
 	/**
 	* Checks wether a user may invoke a command or not
@@ -17,10 +18,9 @@ class ilObjReportBaseAccess extends ilObjPluginAccess {
 	*
 	* @return        boolean                true, if everything is ok
 	*/
-	abstract public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "");
 
 	/**
 	* Check online status of example object
 	*/
-	public function checkOnline($a_id);
+	abstract static public function checkOnline($a_id);
 }

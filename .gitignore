@@ -18,7 +18,6 @@ db_template_writer.php
 
 # /Customizing/
 /Customizing/global/*
-!/Customizing/global/plugin
 
 # /Modules/BookingManager/js/
 
