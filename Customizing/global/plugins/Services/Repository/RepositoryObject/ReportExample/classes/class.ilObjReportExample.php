@@ -40,8 +40,11 @@ class ilObjReportExample extends ilObjReportBase {
 				->action($ilCtrl->getLinkTargetByClass('ilObjReportExampleGUI', "showContent"))
 				->compile()
 				;
-		$this->relevant_parameters[$filter->getGETName()] = $filter->encodeSearchParamsForGET();
 		return $filter;
+	}
+
+	protected function buildRelevantParameters() {
+		$this->relevant_parameters[$this->filter->getGETName()] = $this->filter->encodeSearchParamsForGET();
 	}
 
 	public function deliverFilter() {

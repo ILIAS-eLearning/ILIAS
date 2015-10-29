@@ -28,7 +28,7 @@ class ilObjReportExampleAccess extends ilObjReportBaseAccess {
 	}
 
 	/**
-	* Check online status of example object
+	* {@inheritdoc}
 	*/
 	static public function checkOnline($a_id) {
 		global $ilDB;
