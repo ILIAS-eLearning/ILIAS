@@ -54,6 +54,19 @@ class ilCourseLP extends ilObjectLP
 		return false;
 	}
 	
+	public function getSettingsInfo()
+	{
+		global $lng;
+	
+		// #9004
+		include_once("./Modules/Course/classes/class.ilObjCourse.php");
+		$crs = new ilObjCourse($this->obj_id, false);
+		if($crs->getStatusDetermination() == ilObjCourse::STATUS_DETERMINATION_LP)
+		{
+			return $lng->txt("crs_status_determination_lp_info");
+		}
+	}
+	
 	public function getMembers($a_search = true)
 	{	
 		include_once "Modules/Course/classes/class.ilCourseParticipants.php";
