@@ -32,9 +32,11 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 
 	final public function prepareReport() {
 		$this->filter = $this->buildFilter(catFilter::create());
+
 		$this->table = $this->buildTable(catReportTable::create());
 		$this->query = $this->buildQuery(catReportQuery::create());
 		$this->order = $this->buildOrder(catReportOrder::create($this->table));
+		$this->buildRelevantParameters();
 	}
 
 	public function deliverFilter() {
@@ -54,7 +56,8 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 	abstract protected function buildFilter($filter);
 	abstract protected function buildTable($table);
 	abstract protected function buildOrder($order);
-
+	abstract protected function buildRelevantParameters();
+	
 	/**
 	* The sql-query is built by the following methods.
 	*/
