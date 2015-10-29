@@ -129,7 +129,7 @@ var longMenuQuestion = (function () {
 		var html 	= '';
 		if( length > 0 )
 		{
-			html =	'<p>' + long_menu_language.answer_options + pub.answers[question_id].length;
+			html =	'<p>' + long_menu_language.answer_options + ' ' + pub.answers[question_id].length;
 			html += ' <a data-id="' + question_id +
 					'" class="answer_options"> ' +
 					long_menu_language.edit + '</a></p>';
@@ -204,7 +204,7 @@ var longMenuQuestion = (function () {
 															'data-id' : question_id
 															});
 			$(this).parent().html(dom_object);
-			$('#' +'tagsinput_' + question_id).parent().prepend('Correct answers: ' );
+			$('#' +'tagsinput_' + question_id).parent().prepend(long_menu_language.correct_answers);
 			ilBootstrapTaggingOnLoad.id = '#tagsinput_' + question_id;
 			ilBootstrapTaggingOnLoad.terms = pub.answers[question_id];
 			pri.ignoreCallbackItemOnRedraw = true;

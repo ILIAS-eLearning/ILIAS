@@ -398,6 +398,9 @@ assessment#:#answers_select#:#Auswahl
 assessment#:#info_text_upload#:#Wählen Sie eine Antwort Datei zum hochladen aus
 assessment#:#manual_editing#:#Manuelle Editierung
 assessment#:#longmenu_text#:#Langes Menü Text
+assessment#:#correct_answers#:#Richtige Antworten: 
+assessment#:#answer_options#:#Antwortoptionen: 
+assessment#:#add_answers#:#Antworten hinzufügen 
 assessment#:#by#:#nach
 assessment#:#cancel_test#:#Test unterbrechen
 assessment#:#cannot_edit_marks#:#Der Test wurde bereits von Teilnehmern durchgeführt. Sie können die Bewertung nur ändern, wenn ein Datum für die Ergebnisausgabe eingestellt wurde, das aktuell noch in der Zukunft liegt.
