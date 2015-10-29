@@ -22,6 +22,13 @@ class ilObjReportExampleGUI extends ilObjReportBaseGUI {
 	public function getType() {
 		return 'xrts';
 	}
+	protected function prepareTitle() {
+		require_once 'Services/CaTUIComponents/classes/class.catTitleGUI.php';
+		$this->title = catTitleGUI::create()
+						->title("gev_rep_coupon_title")
+						->subTitle("gev_rep_coupon_desc")
+						->image("GEV_img/ico-head-edubio.png");
+	}
 
 	protected function renderSettings() {
 		$is_online = new ilCheckboxInputGUI('online','online');
