@@ -15632,7 +15632,7 @@ content#:#cont_mycourses_sortorder_alphabetical#:#Alphabetisch
 content#:#cont_mycourses_sortorder_location#:#Nach Ort
 content#:#cont_mycourses_sortorder_info#:#Dies ist die Default-Einstellung. Jeder Benutzer kann eine eigene Sortierung wählen, die für alle "Meine Kurse"-Elemente sämtlicher Portfolios gilt.
 rbac#:#redact#:#Redigieren
-common#:#il_blog_editor#:#Blog-Chefredakteur
+common#:#il_blog_editor#:#Blog-Redakteur
 rbac#:#blog_redact#:#Benutzer kann auch Beiträge anderer Mitwirkender bearbeiten
 blog#:#blog_contributors#:#Mitwirkende
 meta#:#meta_obj_type_inactive#:#Inaktiv
@@ -15643,16 +15643,16 @@ common#:#obj_tool_setting_custom_metadata_info#:#Wenn aktiviert können Metadate
 meta#:#meta_section#:#Bereich
 meta#:#meta_tab_lom#:#LOM
 meta#:#meta_tab_advmd#:#Benutzerdefinierte Metadaten
-meta#:#meta_tab_advmd_def#:#Benutzerdefinierte Metadaten Definition
+meta#:#meta_tab_advmd_def#:#Benutzerdefinierte Metadaten-Definition
 meta#:#meta_global#:#Global
 wiki#:#wiki_unhide_meta_adv_records#:#Zusätzliche Eigenschaften anzeigen
 prtf#:#prtf_back_to_portfolio_owner#:#Portfolio bearbeiten
 blog#:#blog_back_to_blog_owner#:#Blog bearbeiten
 content#:#cont_assign_to_parent#:#Dem übergordneten Knoten zuordnen
 content#:#cont_type_not_allowed#:#Dieses Element ist an dieser Stelle nicht erlaubt
-content#:#sahs_insert_st_from_clip#:#Kapitel aus ILIAS Lernmodul importieren
-content#:#sahs_insert_st_from_clip_inside_chap#:#Kapitel aus ILIAS Lernmodul importieren (innerhalb eines Kapitels)
-content#:#sahs_insert_pg_from_clip#:#Seiten aus ILIAS Lernmodul importieren
+content#:#sahs_insert_st_from_clip#:#Kapitel aus ILIAS-Lernmodul importieren
+content#:#sahs_insert_st_from_clip_inside_chap#:#Kapitel aus ILIAS-Lernmodul importieren (innerhalb eines Kapitels)
+content#:#sahs_insert_pg_from_clip#:#Seiten aus ILIAS-Lernmodul importieren
 content#:#cont_active_from#:#Aktiv ab
 content#:#cont_active_to#:#Aktiv bis
 pd#:#pd_comments_notification#:#Generelle Benachrichtigung über alle Kommentare

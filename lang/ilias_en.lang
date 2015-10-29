@@ -15641,7 +15641,7 @@ content#:#cont_mycourses_sortorder_alphabetical#:#Alphabetical
 content#:#cont_mycourses_sortorder_location#:#By Location
 content#:#cont_mycourses_sortorder_info#:#This is a default setting. Every user can choose a personal order which affects all "My Courses"-elements of any portfolio.
 rbac#:#redact#:#Redact
-common#:#il_blog_editor#:#Blog Chief Editor
+common#:#il_blog_editor#:#Blog Editor
 rbac#:#blog_redact#:#User can edit postings of other contributors, too
 blog#:#blog_contributors#:#Blog-Contributors
 meta#:#meta_obj_type_inactive#:#Not Used
