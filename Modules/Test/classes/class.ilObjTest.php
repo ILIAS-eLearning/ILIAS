@@ -7246,6 +7246,15 @@ function getAnswerFeedbackPoints()
 		/** @var $newObj ilObjTest */
 		$newObj = parent::cloneObject($a_target_id,$a_copy_id);
 		$this->cloneMetaData($newObj);
+
+		//copy online status if object is not the root copy object
+		$cp_options = ilCopyWizardOptions::_getInstance($a_copy_id);
+
+		if(!$cp_options->isRootNode($this->getRefId()))
+		{
+			$newObj->setOnline($this->isOnline());
+		}
+
 		$newObj->setAnonymity($this->getAnonymity());
 		$newObj->setAnswerFeedback($this->getAnswerFeedback());
 		$newObj->setAnswerFeedbackPoints($this->getAnswerFeedbackPoints());

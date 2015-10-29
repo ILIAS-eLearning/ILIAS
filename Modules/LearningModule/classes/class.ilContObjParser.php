@@ -753,6 +753,27 @@ case "InteractiveImage":
 								}
 							}
 							break;
+
+						case "LayoutPerPage":
+							$this->content_object->setLayoutPerPage($a_attribs["Value"]);
+							break;
+
+						case "ProgressIcons":
+							$this->content_object->setProgressIcons($a_attribs["Value"]);
+							break;
+
+						case "StoreTries":
+							$this->content_object->setStoreTries($a_attribs["Value"]);
+							break;
+
+						case "RestrictForwardNavigation":
+							$this->content_object->setRestrictForwardNavigation($a_attribs["Value"]);
+							break;
+
+						case "DisableDefaultFeedback":
+							$this->content_object->setDisableDefaultFeedback($a_attribs["Value"]);
+							break;
+
 					}
 			//echo "<br>+".$a_attribs["Name"]."+";
 				}

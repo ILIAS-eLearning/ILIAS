@@ -1837,30 +1837,36 @@ class ilObjGroupGUI extends ilContainerGUI
 			return false;
 		}
 
-		foreach ($user_ids as $new_member)
+		$part = ilGroupParticipants::_getInstanceByObjId($this->object->getId());
+		$assigned = FALSE;
+		foreach((array) $user_ids as $new_member)
 		{
-			if(in_array($a_type,$this->object->getLocalGroupRoles(false)))
+			if($part->isAssigned($new_member))
 			{
-				if (!$this->object->addMember($new_member,$a_type))
-				{
-					$this->ilErr->raiseError("An Error occured while assigning user to group !",$this->ilErr->MESSAGE);
-				}
+				continue;
 			}
-
-			ilObjUser::_addDesktopItem($new_member, $this->object->getRefId(), 'grp');
-			
-			include_once './Modules/Group/classes/class.ilGroupMembershipMailNotification.php';
-			$this->object->members_obj->sendNotification(
-				ilGroupMembershipMailNotification::TYPE_ADMISSION_MEMBER,
-				$new_member
-			);
-
+			switch($a_type)
+			{
+				case $this->object->getDefaultAdminRole():
+					$part->add($new_member, IL_GRP_ADMIN);
+					$assigned = TRUE;
+					break;
+				
+				default:
+					$part->add($new_member, IL_GRP_MEMBER);
+					$assigned = TRUE;
+					break;
+			}
 		}
 		
-		unset($_SESSION["saved_post"]);
-		unset($_SESSION['grp_usr_search_result']);
-
-		ilUtil::sendSuccess($this->lng->txt("grp_msg_member_assigned"),true);
+		if($assigned)
+		{
+			ilUtil::sendSuccess($this->lng->txt("grp_msg_member_assigned"),true);
+		}
+		else
+		{
+			ilUtil::sendSuccess($this->lng->txt('grp_users_already_assigned'),TRUE);
+		}
 		$this->ctrl->redirect($this,'members');
 	}
 

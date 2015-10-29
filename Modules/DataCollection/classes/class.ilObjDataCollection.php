@@ -230,6 +230,15 @@ class ilObjDataCollection extends ilObject2 {
 	 * @return ilObjPoll
 	 */
 	public function doCloneObject(ilObjDataCollection $new_obj, $a_target_id, $a_copy_id = 0) {
+
+		//copy online status if object is not the root copy object
+		$cp_options = ilCopyWizardOptions::_getInstance($a_copy_id);
+
+		if(!$cp_options->isRootNode($this->getRefId()))
+		{
+			$new_obj->setOnline($this->getOnline());
+		}
+
 		$new_obj->cloneStructure($this->getRefId());
 
 		return $new_obj;

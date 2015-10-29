@@ -1874,6 +1874,31 @@ class ilObjContentObject extends ilObject
 			$a_xml_writer->xmlElement("Property", $attrs);
 		}
 
+		// layout per page
+		$attrs = array("Name" => "LayoutPerPage", "Value" =>
+			$this->getLayoutPerPage($this->getLayoutPerPage()));
+		$a_xml_writer->xmlElement("Property", $attrs);
+
+		// progress icons
+		$attrs = array("Name" => "ProgressIcons", "Value" =>
+			$this->getLayoutPerPage($this->getProgressIcons()));
+		$a_xml_writer->xmlElement("Property", $attrs);
+
+		// store tries
+		$attrs = array("Name" => "StoreTries", "Value" =>
+			$this->getLayoutPerPage($this->getStoreTries()));
+		$a_xml_writer->xmlElement("Property", $attrs);
+
+		// restrict forward navigation
+		$attrs = array("Name" => "RestrictForwardNavigation", "Value" =>
+			$this->getLayoutPerPage($this->getRestrictForwardNavigation()));
+		$a_xml_writer->xmlElement("Property", $attrs);
+
+		// disable default feedback
+		$attrs = array("Name" => "DisableDefaultFeedback", "Value" =>
+			$this->getLayoutPerPage($this->getDisableDefaultFeedback()));
+		$a_xml_writer->xmlElement("Property", $attrs);
+
 		$a_xml_writer->xmlEndTag("Properties");
 	}
 
@@ -3229,6 +3254,14 @@ class ilObjContentObject extends ilObject
 		$new_obj = parent::cloneObject($a_target_id,$a_copy_id);
 		$this->cloneMetaData($new_obj);
 		//$new_obj->createProperties();
+
+		//copy online status if object is not the root copy object
+		$cp_options = ilCopyWizardOptions::_getInstance($a_copy_id);
+
+		if(!$cp_options->isRootNode($this->getRefId()))
+		{
+			$new_obj->setOnline($this->getOnline());
+		}
 	 	
 		$new_obj->setTitle($this->getTitle());
 		$new_obj->setDescription($this->getDescription());

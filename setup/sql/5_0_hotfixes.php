@@ -139,3 +139,7 @@ if(!$ilDB->tableExists('sysc_tasks'))
 <?php
 	$ilDB->modifyTableColumn('il_dcl_field', 'description', array("type" => "clob"));
 ?>
+<#11>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

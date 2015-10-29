@@ -1408,7 +1408,15 @@ class ilObjQuestionPool extends ilObject
 		global $ilLog;
 
 		$newObj = parent::cloneObject($a_target_id,$a_copy_id);
-		$newObj->setOnline($this->getOnline());
+
+		//copy online status if object is not the root copy object
+		$cp_options = ilCopyWizardOptions::_getInstance($a_copy_id);
+
+		if(!$cp_options->isRootNode($this->getRefId()))
+		{
+			$newObj->setOnline($this->getOnline());
+		}
+
 		$newObj->setShowTaxonomies($this->getShowTaxonomies());
 		$newObj->saveToDb();
 		

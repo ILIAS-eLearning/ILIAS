@@ -4342,7 +4342,15 @@ class ilObjSurvey extends ilObject
 		// Copy settings
 		$newObj = parent::cloneObject($a_target_id,$a_copy_id);
 		$this->cloneMetaData($newObj);
-		$newObj->updateMetaData();		
+		$newObj->updateMetaData();
+
+		//copy online status if object is not the root copy object
+		$cp_options = ilCopyWizardOptions::_getInstance($a_copy_id);
+
+		if(!$cp_options->isRootNode($this->getRefId()))
+		{
+			$newObj->setStatus($this->getStatus());
+		}
 	 	
 		$newObj->setAuthor($this->getAuthor());
 		$newObj->setIntroduction($this->getIntroduction());

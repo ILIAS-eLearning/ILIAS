@@ -360,7 +360,16 @@ class ilObjPoll extends ilObject2
 			$image = array("tmp_name"=>$image,
 				"name"=>$this->getImage());		
 			$new_obj->uploadImage($image, true);
-		}		
+		}
+
+		//copy online status if object is not the root copy object
+		$cp_options = ilCopyWizardOptions::_getInstance($a_copy_id);
+
+		if(!$cp_options->isRootNode($this->getRefId()))
+		{
+			$new_obj->setOnline($this->isOnline());
+		}
+
 		$new_obj->setViewResults($this->getViewResults());
 		$new_obj->setShowComments($this->getShowComments());
 		$new_obj->setShowResultsAs($this->getShowResultsAs());
