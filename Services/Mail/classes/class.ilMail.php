@@ -2018,13 +2018,14 @@ class ilMail
 					{
 						foreach ($this->mlists->getCurrentMailingList()->getAssignedEntries() as $entry)
 						{
+							$login = ilObjUser::_lookupLogin($entry['usr_id']);
 							if(!$maintain_lists)
 							{
-								$new_rcpt[] = ($entry['login'] != '' ? $entry['login'] : $entry['email']);
+								$new_rcpt[] = $login;
 							}
 							else
 							{
-								$new_rcpt[$item->mailbox][] = ($entry['login'] != '' ? $entry['login'] : $entry['email']);
+								$new_rcpt[$item->mailbox][] = $login;
 							}
 						}
 					}
@@ -2049,13 +2050,14 @@ class ilMail
 					{
 						foreach ($this->mlists->getCurrentMailingList()->getAssignedEntries() as $entry)
 						{
+							$login = ilObjUser::_lookupLogin($entry['usr_id']);
 							if(!$maintain_lists)
 							{
-								$new_rcpt[] = ($entry['login'] != '' ? $entry['login'] : $entry['email']);
+								$new_rcpt[] = $login;
 							}
 							else
 							{
-								$new_rcpt[$item][] = ($entry['login'] != '' ? $entry['login'] : $entry['email']);
+								$new_rcpt[$item][] = $login;
 							}
 						}
 					}
