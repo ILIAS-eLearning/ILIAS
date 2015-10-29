@@ -2750,17 +2750,17 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 					if($this->objProperties->getMarkModeratorPosts() == 1)
 					{
-				 		if($node->getIsAuthorModerator() === null && $is_moderator = ilForum::_isModerator($_GET['ref_id'], $node->getPosAuthorId()))
+						if(!$node->isActivated() && $this->is_moderator && !$this->objCurrentTopic->isClosed())
+						{
+							$rowCol = 'ilPostingNeedsActivation';
+						}
+				 		else if($node->getIsAuthorModerator() === null && $is_moderator = ilForum::_isModerator($_GET['ref_id'], $node->getPosAuthorId()))
 						{
 							$rowCol = 'ilModeratorPosting';
 						}
 						elseif($node->getIsAuthorModerator())
 						{
 							$rowCol = 'ilModeratorPosting';
-						}
-						else if(!$node->isActivated() && $this->is_moderator && !$this->objCurrentTopic->isClosed())
-						{
-							$rowCol = 'ilPostingNeedsActivation';
 						}
 						else $rowCol = ilUtil::switchColor($z, 'tblrow1', 'tblrow2');
 					}
