@@ -21,6 +21,8 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 		$this->gAccess = $ilAccess;
 		$this->gTabs = $ilTabs;
 
+		$this->setFilterAction();
+
 		$this->order = null;
 		$this->title = null;
 	}
@@ -315,10 +317,21 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 		}
 	}
 
+	protected function setFilterAction() {
+		$this->enableRelevantParametersCtrl();
+		$this->object->setFilterAction($this->gCtrl->getLinkTarget($this,'showContent'));
+		$this->disableRelevantParametersCtrl();
+	}
+
+
 	/**
 	* Settings menu of the report. Note that any setting query will be performed inside ilObjBaseReport.
 	*/
 	protected function renderSettings() {
+		return;
+	}
+
+	protected function saveSettings() {
 		return;
 	}
 }

@@ -27,7 +27,6 @@ class ilObjReportExample extends ilObjReportBase {
 	}
 
 	protected function buildFilter($filter) {
-		global $ilCtrl;
 		$filter	->multiselect( "type"
 							 , "Obj.Type"
 							 , array("type")
@@ -37,14 +36,10 @@ class ilObjReportExample extends ilObjReportBase {
 							 , 300
 							 , 160
 							 )
-				->action($ilCtrl->getLinkTargetByClass('ilObjReportExampleGUI', "showContent"))
+				->action($this->filter_action)
 				->compile()
 				;
 		return $filter;
-	}
-
-	protected function buildRelevantParameters() {
-		$this->relevant_parameters[$this->filter->getGETName()] = $this->filter->encodeSearchParamsForGET();
 	}
 
 	public function deliverFilter() {
