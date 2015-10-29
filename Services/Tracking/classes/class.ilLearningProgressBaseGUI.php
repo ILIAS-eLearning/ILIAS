@@ -517,10 +517,11 @@ class ilLearningProgressBaseGUI
 				break;
 
 		}
+		
+		include_once 'Services/Tracking/classes/class.ilLPMarks.php';
 
 		if(ilObjectLP::supportsMark($type))
-		{
-			include_once 'Services/Tracking/classes/class.ilLPMarks.php';
+		{			
 			if(strlen($mark = ilLPMarks::_lookupMark($user_id,$item_id)))
 			{
 				$info->addProperty($this->lng->txt('trac_mark'),$mark);

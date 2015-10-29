@@ -955,7 +955,8 @@ class ilLPTableBaseGUI extends ilTable2GUI
 				"txt" => $lng->txt("trac_read_count"),
 				"default" => true);
 		}
-		if($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_SPENT_SECONDS))
+		if($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_SPENT_SECONDS) &&
+			ilObjectLP::supportsSpentSeconds($this->type))
 		{
 			$cols["spent_seconds"] = array(
 				"txt" => $lng->txt("trac_spent_seconds"),
@@ -982,7 +983,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 				'default' => false);
 		}
 
-		if($this->type != "lm")
+		if(ilObjectLP::supportsMark($this->type))
 		{
 			$cols["mark"] = array(
 				"txt" => $lng->txt("trac_mark"),

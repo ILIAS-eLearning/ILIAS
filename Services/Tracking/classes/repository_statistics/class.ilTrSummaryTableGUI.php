@@ -19,7 +19,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 	 */
 	function __construct($a_parent_obj, $a_parent_cmd, $a_ref_id, $a_print_mode = false)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng;
+		global $ilCtrl, $objDefinition;
 
 		$this->setId("trsmy");
 
@@ -29,8 +29,15 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 		
 		if(!$this->is_root)
 		{
-			include_once './Services/Object/classes/class.ilObjectLP.php';
-			$this->olp = ilObjectLP::getInstance($this->obj_id);		
+			// #17084 - are we multi-object or not?
+			//  we cannot parse type filter (too complicated)
+			$type = ilObject::_lookupType($this->obj_id);
+			if(!$objDefinition->isContainer($type))
+			{				
+				$this->type = $type;
+				include_once './Services/Object/classes/class.ilObjectLP.php';
+				$this->olp = ilObjectLP::getInstance($this->obj_id);						
+			}						
 		}
 
 		parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -59,6 +66,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 			$this->addColumn($this->lng->txt("path"));
 			$this->addColumn($this->lng->txt("action"));
 		}
+		
 		$this->initFilter();
 
 		// $this->setExternalSorting(true);
@@ -84,7 +92,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 		
 		$all = array("user_total");
 		$default = array();
-
+		
 		// show only if extended data was activated in lp settings
 		include_once 'Services/Tracking/classes/class.ilObjUserTracking.php';
 		$tracking = new ilObjUserTracking();
@@ -96,30 +104,39 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 		}
 		if($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_SPENT_SECONDS))
 		{
-			$all[] = "spent_seconds_avg";
-			$default[] = "spent_seconds_avg";
+			if($this->is_root || !$this->type || ilObjectLP::supportsSpentSeconds($this->type))
+			{
+				$all[] = "spent_seconds_avg";
+				$default[] = "spent_seconds_avg";
+			}
 		}
 		if($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_READ_COUNT) &&
 			$tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_SPENT_SECONDS))
 		{
-			$all[] = "read_count_spent_seconds_avg";
-			// $default[] = "read_count_spent_seconds_avg";
+			if($this->is_root || !$this->type || ilObjectLP::supportsSpentSeconds($this->type))
+			{
+				$all[] = "read_count_spent_seconds_avg";
+				// $default[] = "read_count_spent_seconds_avg";
+			}
 		}
 
-		$all[] = "percentage_avg";
 		
-		// do not show status if learning progress is deactivated					
-		if($this->is_root || $this->olp->isActive())
-		{		
-			$all[] = "status";
-			$all[] = 'status_changed_max';
+		if($this->is_root || !$this->type || $this->isPercentageAvailable($this->obj_id))
+		{
+			$all[] = "percentage_avg";		
 		}
 		
-		if($this->is_root || ilObject::_lookupType($this->obj_id) != "lm")
+		if($this->is_root || !$this->olp || $this->olp->isActive())
+		{
+			$all[] = "status";
+			$all[] = 'status_changed_max';		
+		}
+		
+		if($this->is_root || !$this->type || ilObjectLP::supportsMark($this->type))
 		{
 			$all[] = "mark";
 		}
-
+		
 		$privacy = array("gender", "city", "country", "sel_country");
 		foreach($privacy as $field)
 		{
@@ -130,10 +147,10 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 		}
 		
 		$all[] = "language";
-
+		
 		$default[] = "percentage_avg";
-		$default[] = "status";
-		$default[] = "mark";
+		$default[] = "status";	
+		$default[] = "mark";		
 	
 		if($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_LAST_ACCESS))
 		{
@@ -144,7 +161,6 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 		$all[] = "create_date_min";
 		$all[] = "create_date_max";
 
-		
 		$columns = array();
 		foreach($all as $column)
 		{
@@ -209,19 +225,24 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 
 		if($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_SPENT_SECONDS))
 		{
-			$item = $this->addFilterItemByMetaType("spent_seconds", ilTable2GUI::FILTER_DURATION_RANGE,
-				true, "&#216; ".$lng->txt("trac_spent_seconds")." / ".$lng->txt("user"));
-			$this->filter["spent_seconds"]["from"] = $item->getCombinationItem("from")->getValueInSeconds();
-			$this->filter["spent_seconds"]["to"] = $item->getCombinationItem("to")->getValueInSeconds();
+			if($this->is_root || !$this->type || ilObjectLP::supportsSpentSeconds($this->type))
+			{
+				$item = $this->addFilterItemByMetaType("spent_seconds", ilTable2GUI::FILTER_DURATION_RANGE,
+					true, "&#216; ".$lng->txt("trac_spent_seconds")." / ".$lng->txt("user"));
+				$this->filter["spent_seconds"]["from"] = $item->getCombinationItem("from")->getValueInSeconds();
+				$this->filter["spent_seconds"]["to"] = $item->getCombinationItem("to")->getValueInSeconds();
+			}
 		}
 
-		$item = $this->addFilterItemByMetaType("percentage", ilTable2GUI::FILTER_NUMBER_RANGE, true,
-			"&#216; ".$lng->txt("trac_percentage")." / ".$lng->txt("user"));
-		$this->filter["percentage"] = $item->getValue();
-
-		// do not show status if learning progress is deactivated				
-		if($this->olp->isActive())
-		{		
+		if($this->is_root || !$this->type || $this->isPercentageAvailable($this->obj_id))
+		{
+			$item = $this->addFilterItemByMetaType("percentage", ilTable2GUI::FILTER_NUMBER_RANGE, true,
+				"&#216; ".$lng->txt("trac_percentage")." / ".$lng->txt("user"));
+			$this->filter["percentage"] = $item->getValue();
+		}
+	
+		if($this->is_root || !$this->olp || $this->olp->isActive())
+		{
 			include_once "Services/Tracking/classes/class.ilLPStatus.php";
 			$item = $this->addFilterItemByMetaType("status", ilTable2GUI::FILTER_SELECT, true);
 			$item->setOptions(array("" => $lng->txt("trac_all"),
@@ -234,16 +255,16 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 			{
 				$this->filter["status"]--;
 			}
-
+		
 			$item = $this->addFilterItemByMetaType("trac_status_changed", ilTable2GUI::FILTER_DATE_RANGE, true);
 			$this->filter["status_changed"] = $item->getDate();
 		}
-
-		if(ilObject::_lookupType($this->obj_id) != "lm")
+	
+		if($this->is_root || !$this->type || ilObjectLP::supportsMark($this->type))
 		{
 			$item = $this->addFilterItemByMetaType("mark", ilTable2GUI::FILTER_TEXT, true,
 				$lng->txt("trac_mark"));
-			$this->filter["mark"] = $item->getValue();
+			$this->filter["mark"] = $item->getValue();		
 		}
 
 		if($ilSetting->get("usr_settings_course_export_gender"))
