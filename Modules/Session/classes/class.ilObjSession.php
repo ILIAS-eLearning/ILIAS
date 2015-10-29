@@ -717,8 +717,6 @@ class ilObjSession extends ilObject
 		}
 	}
 	
-	// :TODO: attach to unsubscribe event
-	// move to Services/Membership?
 	public function handleAutoFill()
 	{	
 		if($this->isRegistrationWaitingListEnabled() &&
