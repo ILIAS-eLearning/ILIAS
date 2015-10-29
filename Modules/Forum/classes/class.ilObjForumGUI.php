@@ -2750,7 +2750,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 					if($this->objProperties->getMarkModeratorPosts() == 1)
 					{
-						if(!$node->isActivated() && $this->is_moderator && !$this->objCurrentTopic->isClosed())
+						if(!$node->isActivated() && !$this->objCurrentTopic->isClosed() && $this->is_moderator)
 						{
 							$rowCol = 'ilPostingNeedsActivation';
 						}
