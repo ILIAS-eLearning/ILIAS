@@ -451,7 +451,6 @@ class ilMailSearchCoursesGUI
 			include_once 'Services/Contact/classes/class.ilMailSearchCoursesMembersTableGUI.php';
 			$context = $_GET["ref"] ? $_GET["ref"] : "mail"; 
 			$table = new ilMailSearchCoursesMembersTableGUI($this, 'crs', $context);
-			$table->setId('show_crs_mmbrs_tbl');
 			$tableData = array();
 			$searchTpl = new ilTemplate('tpl.mail_search_template.html', true, true, 'Services/Contact');
 			foreach($_POST["search_crs"] as $crs_id) 
