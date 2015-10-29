@@ -491,7 +491,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 				break;
 
 			case "spent_seconds":
-				if(in_array($type, array("exc", "file", "mcst")))
+				if(!ilObjectLP::supportsSpentSeconds($type))				
 				{
 					$value = "-";
 				}
@@ -502,13 +502,8 @@ class ilLPTableBaseGUI extends ilTable2GUI
 				}
 				break;
 
-			case "percentage":
-				/* :TODO:
-				if(in_array(strtolower($this->status_class),
-						  array("illpstatusmanual", "illpstatusscormpackage", "illpstatustestfinished")) ||
-				$type == "exc"))
-				*/
-			    if(false)
+			case "percentage":				
+			    if(false /* $this->isPercentageAvailable() */)
 				{
 					$value = "-";
 				}
@@ -519,7 +514,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 				break;
 
 			case "mark":
-				if(in_array($type, array("lm", "dbk")))
+				if(!ilObjectLP::supportsMark($type))			
 				{
 					$value = "-";
 				}

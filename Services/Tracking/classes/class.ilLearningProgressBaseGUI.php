@@ -171,7 +171,9 @@ class ilLearningProgressBaseGUI
 
 					if($has_read)
 					{
-						if(!$this->isAnonymized() && !in_array($this->obj_type, array('svy', 'tst', 'htlm', 'exc', 'sess', 'file', 'prg')) && !($olp instanceof ilPluginLP))
+						if(!$this->isAnonymized() && 
+							!($olp instanceof ilPluginLP) &&
+							ilObjectLP::supportsMatrixView($this->obj_type))
 						{
 							$this->tabs_gui->addSubTabTarget("trac_matrix",
 															$this->ctrl->getLinkTargetByClass("illplistofobjectsgui", 'showUserObjectMatrix'),
@@ -478,7 +480,7 @@ class ilLearningProgressBaseGUI
 					$info->addProperty($this->lng->txt('last_access'),$this->lng->txt('trac_not_accessed'));
 				}
 				$info->addProperty($this->lng->txt('trac_visits'),(int) $progress['visits']);
-				if($type == 'lm')
+				if(ilObjectLP::supportsSpentSeconds($type))
 				{
 					$info->addProperty($this->lng->txt('trac_spent_time'),ilFormat::_secondsToString($progress['spent_seconds']));
 				}
@@ -516,11 +518,15 @@ class ilLearningProgressBaseGUI
 
 		}
 
-		include_once 'Services/Tracking/classes/class.ilLPMarks.php';
-		if(strlen($mark = ilLPMarks::_lookupMark($user_id,$item_id)))
+		if(ilObjectLP::supportsMark($type))
 		{
-			$info->addProperty($this->lng->txt('trac_mark'),$mark);
+			include_once 'Services/Tracking/classes/class.ilLPMarks.php';
+			if(strlen($mark = ilLPMarks::_lookupMark($user_id,$item_id)))
+			{
+				$info->addProperty($this->lng->txt('trac_mark'),$mark);
+			}
 		}
+		
 		if(strlen($comment = ilLPMarks::_lookupComment($user_id,$item_id)))
 		{
 			$info->addProperty($this->lng->txt('trac_comment'),$comment);
@@ -686,8 +692,7 @@ class ilLearningProgressBaseGUI
 		include_once 'Services/Tracking/classes/class.ilLPMarks.php';
 		$marks = new ilLPMarks($a_obj_id, $a_user_id);
 		
-		$type = ilObject::_lookupType($a_obj_id);
-		if($type != 'lm')
+		if(ilObjectLP::supportsMark(ilObject::_lookupType($a_obj_id)))
 		{
 			$mark = new ilTextInputGUI($lng->txt("trac_mark"), "mark");
 			$mark->setValue($marks->getMark());

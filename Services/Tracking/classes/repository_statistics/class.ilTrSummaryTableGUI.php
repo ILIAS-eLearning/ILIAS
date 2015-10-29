@@ -576,7 +576,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 
 			case "spent_seconds":
 			case "read_count_spent_seconds":
-				if(in_array($type, array("exc", "file", "mcst")))
+				if(!ilObjectLP::supportsSpentSeconds($type))
 				{
 					$value = "-";
 				}
@@ -588,12 +588,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 				break;
 
 			case "percentage":
-				/* :TODO:
-				if(in_array(strtolower($this->status_class),
-						  array("illpstatusmanual", "illpstatusscormpackage", "illpstatustestfinished")) ||
-				$type == "exc"))
-				*/
-			    if(false)
+				if(false /* $this->isPercentageAvailable() */)
 				{
 					$value = "-";
 				}
@@ -604,7 +599,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 				break;
 
 			case "mark":
-				if(in_array($type, array("lm", "dbk")))
+				if(!ilObjectLP::supportsMark($type))				
 				{
 					$value = "-";
 				}
