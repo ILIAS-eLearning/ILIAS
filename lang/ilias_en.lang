@@ -189,7 +189,7 @@ assessment#:#autosave_ival#:#Interval
 assessment#:#for#:#for
 assessment#:#char_selector_btn_label#:#&nbsp;Ω&nbsp;
 assessment#:#tst_objective_oriented_test_pass_without_questions#:#The started pass for test "%s" does not contain any questions.
-assessment#:#tst_dyn_quest_set_pool_deleted#:#The currently configured questionpool "%s" has been deleted.
+assessment#:#tst_dyn_quest_set_pool_deleted#:#The currently configured question pool "%s" has been deleted.
 assessment#:#tst_old_style_rnd_quest_set_broken#:#This random test is in a irreparable state, because one or more connected question pools have been deleted. Therefor participants cannot take the test any longer.
 assessment#:#solution_contain_keywords#:#Score is granted based on the occurrence of the following keywords:
 assessment#:#essay_scoring_mode#:#Scoring Mode
@@ -591,7 +591,7 @@ assessment#:#lacex_assOrderingQuestion_OrderingResultExpression_d#:#The question
 assessment#:#lacex_assOrderingHorizontal_OrderingResultExpression_e#:#R = $2,5,1,4,3$
 assessment#:#lacex_assOrderingHorizontal_OrderingResultExpression_d#:#The question's elements were ordered as follows: 2, 5, 1, 4, 3
 assessment#:#lacex_assMatchingQuestion_MatchingResultExpression_e#:#R = ;1:2; & R = ;2:3; & R = ;3:1;
-assessment#:#lacex_assMatchingQuestion_MatchingResultExpression_d#:#The question's terms were assigned to defintions as follows: 1 => 2 and 2 => 3 and 3 => 1
+assessment#:#lacex_assMatchingQuestion_MatchingResultExpression_d#:#The question's terms were assigned to definitions as follows: 1 &rarr; 2 and 2 &rarr; 3 and 3 &rarr; 1
 assessment#:#lacex_assTextSubset_StringResultExpression_e#:#R[2] = ~sodium chloride~
 assessment#:#lacex_assTextSubset_StringResultExpression_d#:#For the second answer option the answer „sodium chloride“ was entered
 assessment#:#lacex_assFormulaQuestion_NumericResultExpression_e#:#R[1] = #3.14159#
@@ -726,11 +726,11 @@ assessment#:#tst_msg_rand_quest_set_no_src_pool_defs#:#A test with a random set 
 assessment#:#tst_msg_rand_quest_set_incomplete_quest_amount_cfg#:#A test with a random set of questions is not possible without a correctly defined amount of questions.
 assessment#:#tst_msg_rand_quest_set_no_pools_available#:#Currently you cannot add new rules for the question selection, because there are no question pools available.
 assessment#:#tst_msg_rand_quest_set_change_quest_amount_here#:#You can change the question amount here: %s
-assessment#:#tst_wf_info_optional_question#:#This question relates to an allready passed learning objective.
+assessment#:#tst_wf_info_optional_question#:#This question relates to an already passed learning objective.
 assessment#:#tst_wf_info_answer_adopted_from_prev_pass#:#Your answer from a previous attempt was adopted.
-assessment#:#tst_wf_info_answer_not_adopted#:#There was no answer from previous attempts adopted, so you have to workthru this question, because otherwise your learning objective result will be degraded.
-assessment#:#tst_optional_questions_confirmation_fixed_test#:#<b>Question related to allready passed learning objectives were answered in previous passes.</b><br /><br />You want to navigate to a question, that relates to an allready passed learning objective.<br />You can choose:<br /><br />I you proceed, you can work on or simply review these questions. If you change your answers that were adopted from previous passes, you can also degrade your learning objective result.<br /><br />If you decide to not work on or review these questions, you can go back. The questions will be considered in the evaluation in every case.
-assessment#:#tst_optional_questions_confirmation_non_fixed_test#:#<b>Question related to allready passed learning objectives are optional.</b><br /><br />You want to navigate to a question, that relates to an allready passed learning objective.<br />You can choose:<br /><br />I you proceed, you can work on these questions. Your answers from previous attempts were not adopted, since new random questions were selected for this attempt. With working on this questions you can also degrade your learning objective result.<br /><br />If you decide to not work on these questions, you can go back. In this case these questions won't be considered in the evaluation.
+assessment#:#tst_wf_info_answer_not_adopted#:#There was no answer from previous attempts adopted, so you have to work through this question, because otherwise your learning objective result will be degraded.
+assessment#:#tst_optional_questions_confirmation_fixed_test#:#<b>Question related to already passed learning objectives were answered in previous passes.</b><br /><br />You want to navigate to a question, that relates to an already passed learning objective.<br />You can choose:<br /><br />I you proceed, you can work on or simply review these questions. If you change your answers that were adopted from previous passes, you can also degrade your learning objective result.<br /><br />If you decide to not work on or review these questions, you can go back. The questions will be considered in the evaluation in every case.
+assessment#:#tst_optional_questions_confirmation_non_fixed_test#:#<b>Question related to already passed learning objectives are optional.</b><br /><br />You want to navigate to a question, that relates to an already passed learning objective.<br />You can choose:<br /><br />I you proceed, you can work on these questions. Your answers from previous attempts were not adopted, since new random questions were selected for this attempt. With working on this questions you can also degrade your learning objective result.<br /><br />If you decide to not work on these questions, you can go back. In this case these questions won't be considered in the evaluation.
 assessment#:#tst_tab_results_pass_oriented#:#Results by Attempts
 assessment#:#tst_tab_results_objective_oriented#:#Results by Learning Objectives
 assessment#:#tst_rnd_quest_set_cfg_pool_form#:#Rule for Selection of Questions
@@ -781,13 +781,13 @@ assessment#:#output#:#Output
 assessment#:#participants_data#:#Participants Data
 assessment#:#participants_evaluation#:#Evaluation for all Test Participants
 assessment#:#participants_invitation_description#:#This test can only be accessed by users you have manually added in tab ‘Participants’.
-assessment#:#participants_invitation_search_introduction#:#To add defined participants to this test, please select the users in the search below form and invite them into the test. All test participants will be shown on the Participants Data subtab.
+assessment#:#participants_invitation_search_introduction#:#To add defined participants to this test, please select the users in the search below form and invite them into the test. All test participants will be shown on the Participants Data sub tab.
 assessment#:#participants_invitation#:#Manually Selected Participants
 assessment#:#participants#:#Participants
 assessment#:#pass_finished#:#%s pass
 assessment#:#pass#:#Pass
 assessment#:#tst_attempt#:#Attempt
-assessment#:#tst_back_to_virtual_pass#:#Back to Questionoverview
+assessment#:#tst_back_to_virtual_pass#:#Back to Question Overview
 assessment#:#passed_status#:#Passed Status
 assessment#:#passed_official#:#passed
 assessment#:#passed_only#:#Passed Tests Only
@@ -903,10 +903,10 @@ assessment#:#remove_as_participant#:#Remove as Fixed Participant
 assessment#:#remove_question#:#Remove
 assessment#:#remove_solution#:#Remove Suggested Solution
 assessment#:#report_date_not_reached#:#You have not reached the reporting date. You will be able to view the test results at %s
-assessment#:#reset_definitions#:#Reset Definition Positions
+assessment#:#reset_definitions#:#Reset Ordering
 assessment#:#reset_filter#:#Reset Filter
 assessment#:#reset_pictures#:#Reset Picture Positions
-assessment#:#reset_terms#:#Reset Term Positions
+assessment#:#reset_terms#:#Reset Ordering
 assessment#:#resize_images#:#Resize Images
 assessment#:#result_successful_saved#:#Your results have been saved successful!
 assessment#:#result_unsuccessful_saved#:#There was an error saving the question results!
@@ -917,10 +917,10 @@ assessment#:#save_edit#:#Save and Edit Content
 assessment#:#finish_test#:#Finish the Test
 assessment#:#next_question#:#Next
 assessment#:#previous_question#:#Previous
-assessment#:#submit_answer#:#Save and Next
+assessment#:#submit_answer#:#Save Answer and Next
 assessment#:#skip_question#:#Do not Answer and Next
 assessment#:#discard_answer#:#Delete Answer
-assessment#:#discard_answer_confirmation#:#Your answer will be finally and completly discarded. The question keeps as unanswered until you submit another answer.<br /><br />Would you really like to discard your answer?
+assessment#:#discard_answer_confirmation#:#Your answer will be finally and completely deleted. You can provide a new answer at any time. But this one will be purged.<br /><br />Do you want to delete your answer?
 assessment#:#edit_answer#:#Edit Answer
 assessment#:#answer_question#:#Answer Question
 assessment#:#back_to_objective_container#:#Go to Course
@@ -1025,7 +1025,7 @@ assessment#:#tst_count_correct_solutions_desc#:#Participants score either the ma
 assessment#:#tst_count_partial_solutions#:#Incomplete or Partly Wrong Answers Score Points
 assessment#:#tst_count_partial_solutions_desc#:#Points for correctly provided partial answers are added up: Participants can score points for incomplete or partly wrong answers.
 assessment#:#tst_defaults_applied#:#The selected test defaults have been applied.
-assessment#:#tst_defaults_apply_not_possible#:#ILIAS could not apply the selected test defaults to this test! Maybe this test already contains participant datasets.
+assessment#:#tst_defaults_apply_not_possible#:#ILIAS could not apply the selected test defaults to this test! Maybe this test already contains participant data sets.
 assessment#:#tst_defaults_apply_select_one#:#Please select exact one test defaults entry to apply the defaults to this test!
 assessment#:#tst_defaults_available#:#Available test defaults
 assessment#:#tst_defaults_defaults_of_test#:#the settings of this test as
@@ -1045,11 +1045,11 @@ assessment#:#tst_eval_results_by_pass_lo#:#List of Answers for Attempt %s
 assessment#:#tst_eval_results_lo#:#List of Answers
 assessment#:#tst_eval_show_answer#:#Show Answer
 assessment#:#tst_eval_total_finished_average_time#:#Average test processing time
-assessment#:#tst_eval_total_finished#:#Total finished tests (Users that used up all possible passes.)
+assessment#:#tst_eval_total_finished#:#Total finished tests (Participants that used up all possible passes.)
 assessment#:#tst_eval_total_passed_average_points#:#Average points of passed tests
 assessment#:#tst_eval_total_passed_average_time#:#Average processing time of all passed tests
 assessment#:#tst_eval_total_passed#:#Total passed tests
-assessment#:#tst_eval_total_persons#:#Total number of people who started the test
+assessment#:#tst_eval_total_persons#:#Total number of participants who started the test
 assessment#:#tst_eval_user_answer#:#User Answer
 assessment#:#review_view#:#Review
 assessment#:#tst_finish_confirm_button#:#Yes, I want to finish the test
@@ -1073,7 +1073,7 @@ assessment#:#tst_hide_previous_results_description#:#If checked, the previous re
 assessment#:#tst_hide_previous_results_hide#:#Hide my results from a previous test pass
 assessment#:#tst_hide_previous_results_introduction#:#If you’re processing more than one pass of this test, your previous entered results will not be used as default values
 assessment#:#tst_hide_previous_results#:#Hide Previous Results
-assessment#:#tst_hide_side_list#:#Navigation Tree Off
+assessment#:#tst_hide_side_list#:#Hide List of Questions
 assessment#:#tst_import_no_items#:#Error: The import file contains no questions!
 assessment#:#tst_import_verify_found_questions#:#ILIAS found the following questions in the test import file. Please select the questions you want to import with this test.
 assessment#:#tst_in_use_edit_questions_disabled#:#The test is in use by %d user(s). You are not allowed to edit or move the questions in this test!
@@ -1155,24 +1155,24 @@ assessment#:#tst_password_form#:#Enter Test Password
 assessment#:#tst_password#:#Test Password
 assessment#:#tst_percent_solved#:#Percent Solved
 assessment#:#tst_position#:#Question %s of %s
-assessment#:#tst_postpone#:#Postpone Questions
-assessment#:#tst_postpone_on#:#Not answered questions will be postponed
-assessment#:#tst_postpone_on_desc#:#Not answered questions will be postponed to the end of the test.
-assessment#:#tst_postpone_off#:#Not answered questions will not be postponed
-assessment#:#tst_postpone_off_desc#:#Not answered questions will be kept at their position.
+assessment#:#tst_postpone#:#Unanswered Questions
+assessment#:#tst_postpone_on#:#Unanswered questions will be enqueued
+assessment#:#tst_postpone_on_desc#:#Question that users just look at and flip over without answering them, will be enqueued to be presented again automatically the end of the test.
+assessment#:#tst_postpone_off#:#Unanswered Questions Stay in Position
+assessment#:#tst_postpone_off_desc#:#Question that users just look at and flip over without answering them, will stay at their position in the test and will not be enqueued at the end of the test.
 assessment#:#tst_print_date#:#Date of Print
 assessment#:#tst_print#:#Test and Assessment - Print View
 assessment#:#tst_processing_time_desc#:#Participants can work through the test only for a specified period of time. Time is clocking away from the moment a user starts a test for the first time. Suspending the test does not stop the clock.
 assessment#:#tst_processing_time#:#Limit Duration of Test
 assessment#:#tst_properties#:#Test Properties
-assessment#:#tst_qst_order#:#Order
+assessment#:#tst_qst_order#:#No.
 assessment#:#tst_qst_resetsolved#:#Set Unsolved
 assessment#:#tst_qst_result_sheet#:#Show Result Sheet
 assessment#:#tst_qst_setsolved#:#Set Solved
 assessment#:#tst_qst_summary_text#:#Here you can see all questions. Use the bulbs to mark a question as solved.
 assessment#:#tst_question_mark#:#Mark this question
 assessment#:#tst_question_marked#:#You marked the question
-assessment#:#tst_question_marker#:#Marker
+assessment#:#tst_question_marker#:#Flagged
 assessment#:#tst_question_no#:#Order
 assessment#:#tst_question_offer#:#Do you accept this sample or do you want another one?
 assessment#:#tst_question_selection_description#:#If you only use question pools which contain questions with an equal maximum number of available points, the test will have an equal number of maximum points for all participating users and thus the test results will be better comparable. It is recommended to choose this selection mode.
@@ -1248,7 +1248,7 @@ assessment#:#tst_score_cut_test_desc#:#Participants might score negative points 
 assessment#:#tst_score_cutting#:#Negative Points
 assessment#:#tst_score_mcmr_questions#:#Multiple Choice Questions not Answered
 assessment#:#tst_score_mcmr_use_scoring_system#:#Score Points for Unanswered Questions as Defined in Question
-assessment#:#tst_score_mcmr_use_scoring_system_desc#:#Despite a multiple choice question was not answered, it still scores points for selecting or not-selecting the answer options as definied in the question. This setting is appropriate only for few cases.
+assessment#:#tst_score_mcmr_use_scoring_system_desc#:#Despite a multiple choice question was not answered, it still scores points for selecting or not-selecting the answer options as defined in the question. This setting is appropriate only for few cases.
 assessment#:#tst_score_mcmr_zero_points_when_unanswered#:#Score 0 Points for Unchecked Answers
 assessment#:#tst_score_mcmr_zero_points_when_unanswered_desc#:#Participants score 0 points for multiple choice questions in which they have not checked any answer option. This setting is appropriate for most tests.
 assessment#:#tst_score_reporting_date#:#Score Reporting Date
@@ -1270,10 +1270,10 @@ assessment#:#tst_show_answer_sheet#:#Show Answers
 assessment#:#tst_show_cancel_description#:#Participants are presented with a button to stop the test run and to continue it later. Caution: Suspending the test does not stop the countdown of the maximum duration of the test.
 assessment#:#tst_show_cancel#:#Suspend Test
 assessment#:#tst_show_pass_details#:#Show ‘Table of Detailed Test Results’ for each Test Pass upon Selected Point in Time
-assessment#:#tst_show_pass_details_desc#:#The summary of results will be appended at the point in time indicated in the setting above: A ‘Table of Detailed Test Results’ will show the title of the questionsn and the points scored in a particular test pass. <br> Other than that the table will be displayed after the last test pass possible (setting in link ‘General’, option ‘Limit Number of Test Passes’) or after the test is officially finished (setting in link ‘General’, option ‘Finishing Time’). <br> Further settings about the content of the ‘Table of Detailed Test Results’ can be made in the section ‘Further Details to be Included in Test Results’ of this form.
+assessment#:#tst_show_pass_details_desc#:#The summary of results will be appended at the point in time indicated in the setting above: A ‘Table of Detailed Test Results’ will show the title of the questions and the points scored in a particular test pass. <br> Other than that the table will be displayed after the last test pass possible (setting in link ‘General’, option ‘Limit Number of Test Passes’) or after the test is officially finished (setting in link ‘General’, option ‘Finishing Time’). <br> Further settings about the content of the ‘Table of Detailed Test Results’ can be made in the section ‘Further Details to be Included in Test Results’ of this form.
 assessment#:#tst_show_results#:#Show Test Results
-assessment#:#tst_show_side_list#:#Navigation Tree On
-assessment#:#tst_dyn_unfreeze_answers_confirmation#:#There are questions to which your inital answers were fixed and you could not make any changes. Do you want to answer them one more time now and thus unfreeze your answers?
+assessment#:#tst_show_side_list#:#Show List of Questions
+assessment#:#tst_dyn_unfreeze_answers_confirmation#:#There are questions to which your initial answers were fixed and you could not make any changes. Do you want to answer them one more time now and thus unfreeze your answers?
 assessment#:#tst_dyn_unfreeze_answers#:#Answer once more
 assessment#:#tst_dyn_keep_answ_freeze#:#Keep my current answers frozen
 assessment#:#tst_show_solution_answers_only#:#Print View of Results (Answers Only)
@@ -1340,10 +1340,10 @@ assessment#:#tst_type_comment#:#Warning: Changing the test type of a running tes
 assessment#:#tst_type#:#Test Type
 assessment#:#tst_types#:#Test Types
 assessment#:#exam_id#:#Testpass ID:
-assessment#:#examid_in_test_pass#:#Display Testpass ID
-assessment#:#examid_in_test_pass_desc#:#A testpass ID is diplayed in the test. A new ID is generated for every testpass.
-assessment#:#examid_in_test_res#:#ILIAS Testpass ID
-assessment#:#examid_in_test_res_desc#:#The ILIAS Testpass ID will be included in the test results.
+assessment#:#examid_in_test_pass#:#Display Test Pass ID
+assessment#:#examid_in_test_pass_desc#:#A test pass ID is displayed in the test. A new ID is generated for every test pass.
+assessment#:#examid_in_test_res#:#ILIAS Test Pass ID
+assessment#:#examid_in_test_res_desc#:#The ILIAS test pass ID will be included in the test results.
 assessment#:#tst_use_javascript#:#Use Javascript for drag and drop actions
 assessment#:#tst_use_previous_answers_description#:#Participants will be presented with their answers from previous test passes. This option has to be activated by individual participants on the Info-tab before starting a test pass.
 assessment#:#tst_use_previous_answers_user#:#Use my previous answers as default values in future test passes
@@ -1395,7 +1395,7 @@ assessment#:#toplist_col_hints#:#Hints
 assessment#:#toplist_col_wtime#:#Working Time
 assessment#:#toplist_your_result#:#Your ranking
 assessment#:#tst_highscore_enabled#:#Ranking
-assessment#:#tst_highscore_description#:#On the 'Info'-tab participants are presented with a button 'Show Ranking'. On clicking it participants are presented with a league table on the performance in the test. You have to activate 'Access to Test Results', too in order to use this funtionality.
+assessment#:#tst_highscore_description#:#On the 'Info'-tab participants are presented with a button 'Show Ranking'. On clicking it participants are presented with a league table on the performance in the test. You have to activate 'Access to Test Results', too in order to use this functionality.
 assessment#:#tst_highscore_anon#:#Without Names
 assessment#:#tst_highscore_anon_description#:#Ranking is displayed without listing the names of the other participants. This will be the case anyway if the test was taken anonymously.
 assessment#:#tst_highscore_achieved_ts#:#Date
@@ -1425,15 +1425,15 @@ assessment#:#tst_question_set_type_fixed#:#Fixed Set of Questions
 assessment#:#tst_question_set_type_fixed_desc#:#All participants get the same set of questions. 
 assessment#:#tst_question_set_type_random#:#Random Set of Questions
 assessment#:#tst_question_set_type_random_desc#:#Each participant gets a different set of questions. Questions are randomly selected from one or more question pools. 
-assessment#:#tst_question_set_type_dynamic#:#Question Queue - All Questions from a Questionpool
+assessment#:#tst_question_set_type_dynamic#:#Question Queue - All Questions from a Question Pool
 assessment#:#tst_question_set_type_dynamic_desc#:#Participants work through questions from one question pool. Questions answered incorrectly will be presented again. Questions can be added and edited in a running test.
-assessment#:#tst_change_quest_set_type_from_old_to_new_with_conflict#:#You are about to change the test mode from <b>%s</b> to <b>%s</b>, although a questions/questionpool configuration dependent on the current test mode already exists.<br />This already existing configuration will be lost.
+assessment#:#tst_change_quest_set_type_from_old_to_new_with_conflict#:#You are about to change the test mode from <b>%s</b> to <b>%s</b>, although a questions/question pool configuration dependent on the current test mode already exists.<br />This already existing configuration will be lost.
 assessment#:#tst_msg_dynamic_question_set_config_modified#:#Continues question selection configuration has been modified.
 assessment#:#tst_msg_cannot_modify_dynamic_question_set_conf_due_to_part#:#Continues question selection configuration cannot be modified due to existing participant data.
 assessment#:#tst_msg_cannot_modify_random_question_set_conf_due_to_part#:#The random question set configuration cannot be modified due to existing participant data.
 assessment#:#tst_delete_dyn_test_results_btn#:#Remove Test Results
 assessment#:#tst_dyn_test_msg_pass_deletion_link#:#Remove Previous Answers
-assessment#:#tst_dyn_test_pass_deletion_button#:#Reset All Testanswers
+assessment#:#tst_dyn_test_pass_deletion_button#:#Reset All Answers
 assessment#:#tst_form_dynamic_question_set_config#:#Continues Question Selection
 assessment#:#tst_input_dynamic_question_set_source_questionpool#:#Source Question Pool
 assessment#:#tst_dynamic_question_set_source_questionpool_summary_string#:#%s (Path: %s) [%s Questions]
@@ -1442,10 +1442,10 @@ assessment#:#tst_dyn_quest_set_src_qpl_summary_string_deleted#:#%s (Removed Perm
 assessment#:#tst_input_dynamic_question_set_taxonomie_filter_enabled#:#Provide Taxonomy Filter
 assessment#:#tst_input_dyn_quest_set_answer_status_filter_enabled#:#Provide Answer Status Filter
 assessment#:#tst_input_dyn_quest_set_prev_quest_list_enabled#:#Provide List of Previously Answered Questions
-assessment#:#tst_question_answer_status#:#Answer Status
-assessment#:#tst_question_answer_status_all_non_correct#:#All Questions (Except Correct Answered Ones)
+assessment#:#tst_question_answer_status#:#Which questions should be presented?
+assessment#:#tst_question_answer_status_all_non_correct#:#All Questions Except those Answered Correctly
 assessment#:#tst_question_answer_status_non_answered#:#Non Answered Questions
-assessment#:#tst_question_answer_status_wrong_answered#:#Wrong Answered Questions
+assessment#:#tst_question_answer_status_wrong_answered#:#Only wrongly answered questions
 assessment#:#tst_input_dynamic_question_set_question_ordering#:#Question Ordering
 assessment#:#tst_input_dynamic_question_set_question_ordering_by_date#:#Order Questions by Date
 assessment#:#tst_inp_dyn_quest_set_quest_ordering_by_date_desc#:#The presentation order for the questions bases upon the question's last editing date.
@@ -1461,10 +1461,10 @@ assessment#:#tst_dynamic_question_set_selection#:#Test Question Selection and Se
 assessment#:#tst_dynamic_question_set_complete#:#Total-Statistic
 assessment#:#tst_num_all_questions#:#Number of All Questions
 assessment#:#tst_num_selected_questions#:#Number of Selected Questions
-assessment#:#tst_num_non_answered_questions_skipped#:#Non Answered Questions (skipped)
-assessment#:#tst_num_non_answered_questions_notseen#:#Non Answered Questions (never seen)
-assessment#:#tst_num_wrong_answered_questions#:#Wrong Answered Questions
-assessment#:#tst_num_correct_answered_questions#:#Correct Answered Questions
+assessment#:#tst_num_non_answered_questions_skipped#:#Skipped
+assessment#:#tst_num_non_answered_questions_notseen#:#Not Presented, Yet
+assessment#:#tst_num_wrong_answered_questions#:# Answered Wrongly
+assessment#:#tst_num_correct_answered_questions#:#Answered Correctly
 assessment#:#tst_num_postponed_questions#:#Postponed Questions
 assessment#:#tst_num_marked_questions#:#Marked Questions
 assessment#:#tst_change_dyn_test_question_selection#:#Change Question Selection
@@ -1533,7 +1533,7 @@ assessment#:#tst_starting_time_desc#:#Point in time after which the test can be 
 assessment#:#tst_ending_time_desc#:#Point in time at which the test will be finished: Participants an no longer answer questions, the test is finished by ILIAS.
 assessment#:#tst_allowed_users_desc#:#ILIAS will monitor the number of participants taking the test at the same time. If more users than maximally allowed try to access ILIAS will prevent them from starting the test.
 assessment#:#tst_allowed_users_time_gap_desc#:#Participants that do not click in the test for the indicated amount of time will be categorized as ‚inactive‘ and removed from the test.
-assessment#:#tst_settings_header_test_run#:#Administering the Test: Testrun
+assessment#:#tst_settings_header_test_run#:#Administering the Test: Test Run
 assessment#:#tst_nr_of_tries_desc#:#Maximum number of passes a participant can take.
 assessment#:#tst_final_information#:#Finishing the Test
 assessment#:#saved_adjustment#:#Changes saved.
@@ -1750,7 +1750,7 @@ certificate#:#certificate_status#:#Status
 certificate#:#certificate_text#:#Certificate Text
 certificate#:#certificate_top#:#Top
 certificate#:#certificate_unit_description#:#Enter units of measure as VALUE[cm|mm|in|pt|pc|px|em], e.g. 10mm or 3in
-certificate#:#certificate_usage#:#Please note that the usage of certificates is only available if the ILIAS Java-Server is running. The configuration for Java-Server is available on the main page of the ILIAS administration in section Webservices.
+certificate#:#certificate_usage#:#Please note that the usage of certificates is only available if the ILIAS Java-Server is running. The configuration for Java-Server is available in Administration » General Settings » Server, sub-tab Java-Server.
 certificate#:#certificate_var_max_points#:#46
 certificate#:#certificate_var_result_mark_long#:#Good
 certificate#:#certificate_var_result_mark_short#:#B
@@ -2267,7 +2267,7 @@ common#:#check_user_accounts#:#Check user accounts
 common#:#check_web_resources_desc#:#If enabled all Weblinks will be checked if they are active.
 common#:#check_web_resources#:#Check Weblinks
 common#:#check#:#Check
-assessment#:#submit_and_check#:#Submit and Check Answer
+assessment#:#submit_and_check#:#Save Answer and Check
 common#:#checked_files#:#Importable files
 common#:#checked#:#Checked
 common#:#chg_ilias_and_webfolder_password#:#Change Webfolder Password
@@ -3243,7 +3243,7 @@ common#:#links_user_id#:#ILIAS user id
 common#:#links_user_name#:#ILIAS username
 common#:#links_value#:#Parameter Value
 common#:#list_of_pages#:#Pages List
-common#:#list_of_questions#:#Question List
+common#:#list_of_questions#:#List of Questions
 common#:#list#:#List
 common#:#literature_bookmarks#:#Literature Bookmarks
 common#:#literature#:#Literature
@@ -3617,7 +3617,7 @@ common#:#no_grp_in_personal_list#:#No groups in personal list.
 common#:#no_import_available#:#Import not available for type
 common#:#no_import_file_found#:#No import file found
 common#:#no_invalid_links#:#No invalid links found.
-common#:#no_items#:#No Items
+common#:#no_items#:#This object is empty and contains no items.
 common#:#no_license_available#:#No license available!
 common#:#no_limit#:#No limit
 common#:#no_lo_in_personal_list#:#No learning objects in personal list.
@@ -4943,9 +4943,9 @@ content#:#cont_create_export_file#:#Create Export File
 content#:#cont_create_folder#:#Create Folder
 content#:#cont_create_html_version#:#Create HTML Package
 content#:#cont_create_mob#:#Create Media Object
-content#:#cont_credit_mode#:#Credit Mode
-content#:#cont_credit_off#:#No Credit
-content#:#cont_credit_on#:#Credit
+content#:#cont_credit_mode#:#Grading Tracking Status
+content#:#cont_credit_off#:#Tracking Status not Graded
+content#:#cont_credit_on#:#Grade Tracking Status (Passed or Failed)
 content#:#cont_credits#:#Credits
 content#:#cont_cross_reference#:#Cross reference
 content#:#cont_current_chapter#:#Current Chapter
@@ -4962,7 +4962,7 @@ content#:#cont_debug#:#Enable Test Tool
 content#:#cont_debugpw#:#Password
 content#:#cont_decimal#:#Decimal
 content#:#cont_def_layout#:#Default Layout
-content#:#cont_def_lesson_mode#:#Default Lesson Mode
+content#:#cont_def_lesson_mode#:#Record Tracking Data
 content#:#cont_def_map_areas#:#Default Link Areas
 content#:#cont_def_organization#:#default
 content#:#cont_default#:#Default
@@ -5257,7 +5257,7 @@ content#:#cont_no_parameters#:#No Parameters
 content#:#cont_no_subdir_in_zip#:#Zip command failed or import file invalid.<br>It does not contain a sub-folder '%s'.
 content#:#cont_no_text#:#No Text
 content#:#cont_no_zip_file#:#Import file is not a zip file.
-content#:#cont_nomenu#:#Hide Navigation Bar
+content#:#cont_nomenu#:#Hide Top Navigation Bar
 content#:#cont_none#:#None
 content#:#cont_not_js_chap_editing#:#Use No-JavaScript Editing Mode
 content#:#cont_nr_col_footer#:#Footer Columns
@@ -5392,8 +5392,8 @@ content#:#cont_sc_stat_not_attempted#:#Not attempted
 content#:#cont_sc_stat_passed#:#Passed
 content#:#cont_sc_stat_running#:#Running
 content#:#cont_sc_title#:#title
-content#:#cont_sc_usession#:#Unlimited Session Timeout
-content#:#cont_sc_version#:#Version
+content#:#cont_sc_usession#:#Prevent from Logging-Out Automatically
+content#:#cont_sc_version#:#Version of Learning Module
 content#:#cont_scheduled_activation#:#Scheduled Activation
 content#:#cont_school#:#School
 content#:#cont_score#:#Score
@@ -6140,7 +6140,7 @@ crs#:#event_table_update#:#Edit Session
 crs#:#event_tbl_admins#:#Administrators
 crs#:#event_tbl_members#:#Members
 crs#:#event_tbl_participants#:#List of Participants
-crs#:#event_tbl_participated#:#Participated
+crs#:#event_tbl_participated#:#Attended
 crs#:#event_tbl_registered#:#Registered
 crs#:#event_tbl_tutors#:#Tutors
 crs#:#event_time#:#Time
@@ -6808,10 +6808,10 @@ form#:#form_password_required_for_auth#:#Password is required for the chosen aut
 form#:#form_retype_password#:#Retype Password
 form#:#form_seconds#:#Seconds
 forum#:#activate_current_and_childs#:#Activate All Postings
-forum#:#activate_new_posts#:#Activate Postings
-forum#:#activate_only_current#:#Activate Posting
-forum#:#activate_post_txt#:#Would you really like to activate the current posting?
-forum#:#activate_post#:#Activate
+forum#:#activate_new_posts#:#Approve Postings
+forum#:#activate_only_current#:#Approve Posting
+forum#:#activate_post_txt#:#Would you really like to approve the current posting?
+forum#:#activate_post#:#Approve
 forum#:#close_topics#:#Close
 forum#:#fmr_copy_threads_info#:#You have the possibility to copy single threads. Only the beginning of the chosen threads will be duplicated.
 forum#:#forum_add_quote#:#Add Quotation
@@ -8200,7 +8200,7 @@ payment#:#pay_bmf_house_number#:#House number
 payment#:#pay_bmf_optional#:#optional
 payment#:#pay_bmf_or#:#or
 payment#:#pay_bmf_password_not_valid#:#Your password wasn't valid.
-payment#:#pay_bmf_payment_type_not_valid#:#The kind of paying you've choosen isn't valid. Please select another option.
+payment#:#pay_bmf_payment_type_not_valid#:#The kind of paying you've chosen isn't valid. Please select another option.
 payment#:#pay_bmf_payment_type#:#Kind of paying
 payment#:#pay_bmf_personal_data_not_valid#:#Your personal data isn't valid. Please check out whether all fields are filled out correctly.
 payment#:#pay_bmf_personal_data#:#Your personal data
@@ -8787,7 +8787,7 @@ rbac#:#filter_local_roles#:#Show only local roles of current context
 rbac#:#filter_roles_local_policy#:#Show only roles using a local policy at this position
 rbac#:#grp_edit_event#:#Edit Calendar Events
 rbac#:#info_user_view_changed#:#User view changed
-rbac#:#leave#:#Leave
+rbac#:#leave#:#Unsubscribe
 rbac#:#mcts_edit_permission#:#User can change permission settings in Mediacast administration
 rbac#:#mcts_read#:#User has read access to Mediacast administration
 rbac#:#mcts_visible#:#Mediacast administration is visible
@@ -8928,7 +8928,7 @@ registration#:#reg_settings_header#:#New Registration Settings
 registration#:#reg_type_confirmation_info#:#This type allows self-registration of users but requires an email confirmation to activate the account. This avoids self-registration to ILIAS with wrong or non-existent email addresses.
 registration#:#reg_type_confirmation#:#Registration with E-Mail Confirmation
 registration#:#reg_type#:#Registration Type
-registration#:#reg_unknown_recipients#:#The following logins are not valid:
+registration#:#reg_unknown_recipients#:#The following accounts are not valid:
 registration#:#registration_settings#:#ILIAS Auth / Self-Registration
 registration#:#registration_user_new_account_mail#:#Edit New Account Mail
 registration#:#registration_tab_settings#:#Registration Settings
@@ -10042,36 +10042,36 @@ trac#:#trac_learning_progress#:#Learning Progress
 trac#:#trac_lm_statistics#:#Access Statistics
 trac#:#trac_lp_determination_info_crs#:#Select the items that determine the overall learning progress status.
 trac#:#trac_lp_determination_info_sco#:#Select the items that determine the overall learning progress status of the SCORM learning module.
-trac#:#trac_lp_determination#:#Determination of Learning Progress
+trac#:#trac_lp_determination#:#Items Determining the Learning Progress
 trac#:#trac_lp_filter#:#Filter
 trac#:#trac_mark#:#Mark
 trac#:#trac_marks#:#Marks
-trac#:#trac_mode_collection_info#:#Define the materials that will determine the learning progress status.
-trac#:#trac_mode_collection#:#Automatic by Collection of Objects
+trac#:#trac_mode_collection_info#:#A user's learning progress status is determined by the learning progress status of a collection of items:  If the status of all items in the collection is ‘Completed’ the overall status is ‘Completed’ .<br />Items can be assigned to the collection on this screen after saving this setting.
+trac#:#trac_mode_collection#:#Status is Determined by a Collection of Items
 trac#:#trac_mode_deactivated_info#:#No progress will be calculated.
-trac#:#trac_mode_deactivated#:#Deactivated
-trac#:#trac_mode_event#:#Participation in Sessions
-trac#:#trac_mode_exercise_returned_info#:#The status ‘Completed’ can be set only by tutors.
-trac#:#trac_mode_exercise_returned#:#Exercise Solved
-trac#:#trac_mode_manual_by_tutor_info#:#The overall status (i.e. ‘Completed’ or ‘Failed’) is be set by tutors.
-trac#:#trac_mode_manual_by_tutor#:#Manual by Tutor
-trac#:#trac_mode_manual_info#:#Users have to decide if they reached the ‘Completed’ status.
-trac#:#trac_mode_manual#:#Manual by Learner
-trac#:#trac_mode_objectives_info#:#The learning progress will be calculated automatically according to the number of passed learning objectives.
-trac#:#trac_mode_objectives#:#Automatic by Learning Objectives
+trac#:#trac_mode_deactivated#:#Learning Progress is Deactivated
+trac#:#trac_mode_event#:#Tutors Monitor and Record Attendance in Session
+trac#:#trac_mode_exercise_returned_info#:#Tutors decide if users have accomplished the excercise. Tutors manually set the overall status i.e. ‘Completed’ or ‘Failed’.
+trac#:#trac_mode_exercise_returned#:#Tutors Monitor and Set Status
+trac#:#trac_mode_manual_by_tutor_info#:#Tutors decide if users have accomplished the object. Tutors manually set the overall status i.e. ‘Completed’ or ‘Failed’.
+trac#:#trac_mode_manual_by_tutor#:#Tutors Monitor and Set Status
+trac#:#trac_mode_manual_info#:#Users decide themselves if they have accomplished the learning module. Once they are done, they have to set their status to ‘Completed’ on the 'Info'-tab.
+trac#:#trac_mode_manual#:#Users Monitor and Set Status Themselves (Complete Module)
+trac#:#trac_mode_objectives_info#:#The learning progress will be automatically determined according to the number of passed learning objectives.
+trac#:#trac_mode_objectives#:#Status is Determined by Learning Objectives
 trac#:#trac_mode_scorm_aicc#:#Automatic by Collection of SCORM Items
-trac#:#trac_mode_scorm_info#:#The learning progress status will be determined by the status of selected SCOs.
-trac#:#trac_mode_scorm_package_info#:#The learning progress status will be determined by the SCORM course package status directly.
-trac#:#trac_mode_scorm_package#:#Automatic by SCORM Course Status
-trac#:#trac_mode_scorm#:#Automatic by Collection of SCORM Items
-trac#:#trac_mode_test_finished_info#:#Users have to finish a test completely.
-trac#:#trac_mode_test_finished#:#Test Finished
-trac#:#trac_mode_test_passed_info#:#The test has to be passed by a user to receive the status ‘Completed’.
-trac#:#trac_mode_test_passed#:#Test Passed
-trac#:#trac_mode_tlt_info#:#Users who reached the Typical Learning Time will gain the status ‘Completed’. Two requests of a user within %s seconds will be counted as one coherent visit.
-trac#:#trac_mode_tlt#:#Typical Learning Time
-trac#:#trac_mode_visits_info#:#Define the number of visits that is required for completing this learning material.
-trac#:#trac_mode_visits#:#Number of Visits
+trac#:#trac_mode_scorm_info#:#The learning progress status will automatically be determined by the status of selected SCOs.<br />A user's learning progress status is determined by the learning progress status of a collection of SCOs: SCOs can be assigned to the collection on this screen after saving this setting.
+trac#:#trac_mode_scorm_package_info#:#The learning progress status will automatically be determined by the status of the complete SCORM package. All comprised SCOs will matter for the learning progress.
+trac#:#trac_mode_scorm_package#:#Status is Determined by the Whole SCORM Package
+trac#:#trac_mode_scorm#:#Status is Determined by a Collection of SCORM Items
+trac#:#trac_mode_test_finished_info#:#A user's learning progress status is set to ‘Completed’ after the user clicks 'Finish the Test'. Regardless of whether or not the test was passed, the learning progress will be set to ‘Completed’.
+trac#:#trac_mode_test_finished#:#Test Must be Finished
+trac#:#trac_mode_test_passed_info#:#A user's learning progress status is set to ‘Completed’ after the user passed the test. Thresholds for passing the test can be set in the 'Settings'-tab at the section 'Mark Schema'.
+trac#:#trac_mode_test_passed#:#Test Must be Passed
+trac#:#trac_mode_tlt_info#:#The status will be automatically set according to time a user spends working with the learning module. The status 'Completed' is assigned once users exceed the minimally required Typical Learning Time. <br />The Typical Learning Time can be specified in the 'Metadata'-tab.
+trac#:#trac_mode_tlt#:#Minimally Required Amount of Time Spent on Learning Module
+trac#:#trac_mode_visits_info#:#A user's status will be automatically set to 'Completed' after this user has visited the learning module more than a specified number of times. Users will be informed about their number of visits to the learning module and to what percentage they have met the set requirements.
+trac#:#trac_mode_visits#:#Status is Determined from Number of Visits
 trac#:#trac_mode#:#Mode
 trac#:#trac_modifications_saved#:#Saved settings
 trac#:#trac_modus#:#Mode
@@ -10119,7 +10119,7 @@ trac#:#trac_valid_request#:#Max. Time Between Requests
 trac#:#trac_view_crs#:#Back to Course
 trac#:#trac_view_list#:#Back to List
 trac#:#trac_visits_info#:#A click counts as new visit only after %s seconds.
-trac#:#trac_visits#:#Number of Visits
+trac#:#trac_visits#:#Required Number of Visits
 trac#:#tracking_time_span_not_valid#:#Please enter a valid number of seconds.
 trac#:#view_mode#:#View Mode
 trac#:#vm_access_of_users#:#Access of Users
@@ -10764,7 +10764,7 @@ dateplaner#:#cal_ch_manager#:#Consultation Hour Manager
 dateplaner#:#cal_ch_manager_info#:#Login of the user who will manage your consultation hours.
 dateplaner#:#cal_ch_unknown_user#:#The given login does not match any user.
 dateplaner#:#cal_ch_target_object#:#Repository Object
-dateplaner#:#cal_ch_target_object_info#:#Restrict appointments to given repository object.
+dateplaner#:#cal_ch_target_object_info#:#Consultation hours will be displayed in a block to the right of the course / group content. To restrict the display of consultation hours to specific courses or groups, please enter the Ref-ID of the said objects. You find the Ref-ID in the URL of the respective objects. Add more than one Ref-ID separated by comma.
 dateplaner#:#cal_ch_unknown_repository_object#:#The given repository object ref-id is not valid.
 rbac#:#push_desktop_items#:#Push Items on the Personal Desktop
 rbac#:#smtp_mail#:#SMTP E-Mail
@@ -11193,7 +11193,7 @@ content#:#cont_char_style_acc#:#Accentuated
 content#:#cont_char_style_code#:#Code
 adve#:#adve_pe_general#:#General
 adve#:#adve_use_physical#:#Use b/i/u instead of str/emp/imp
-adve#:#adve_use_physical_info#:#This setting replaces the semantic style class buttons for strong, emphatic and important with physical attribute buttons b (bold), i (italic) and u (underline). Please note, that this may result in inconsistencies, if the style editor is used and other phyisical attributes are assigned to the strong/emphatic/important style classes.
+adve#:#adve_use_physical_info#:#This setting replaces the semantic style class buttons for strong, emphatic and important with physical attribute buttons b (bold), i (italic) and u (underline). Please note, that this may result in inconsistencies, if the style editor is used and other physical attributes are assigned to the strong/emphatic/important style classes.
 content#:#cont_tex#:#Latex Code
 payment#:#terms_conditions#:#GTC
 payment#:#accept_terms_conditions#:#Please accept the %s to continue the purchasing process.
@@ -11824,13 +11824,13 @@ grp#:#grp_view_info_simple#:#This content presentation lists all items in one bl
 grp#:#grp_presentation_type#:#Presentation Type
 grp#:#grp_view_inherit#:#Default
 grp#:#grp_view_inherit_info#:#The group presentation type is adopted from a parent course.
-content#:#cont_open#:#Display
-content#:#cont_open_normal#:#Opens in a new tab or alternatively in a new window, without ILIAS main menue
+content#:#cont_open#:#Presentation of Learning Module
+content#:#cont_open_normal#:#Opens in a New Tab or Alternatively in a New Window, Without ILIAS Main Menu
 content#:#cont_open_width#:#width
 content#:#cont_open_heigth#:#height
 scormdebug#:#scormdebug_global_activate#:#Enable SCORM test tool
 scormdebug#:#scormdebug_global_activate_info#:#If enabled, the SCORM test tool can be activated for desired learning modules. If disabled, the test tool is deactivated for all learning modules.
-content#:#cont_debug_deactivate#:#The test tool can be globally deactivated in the ILIAS administration (Administration » Learning Resources).
+content#:#cont_debug_deactivate#:#A Test Tool will be displayed in the presentation mode of the learning module. Based on the data provided by it the interaction of the learning module and ILIAS can be evaluated. To use the Test Tool, the navigation tree has to be switched on.
 content#:#cont_debug_deactivated#:#The test tool is currently globally deactivated in the ILIAS administration (Administration » Learning Resources).
 scormdebug#:#error0#:#No error
 scormdebug#:#error101#:#General Exception
@@ -12223,8 +12223,11 @@ scormdebug#:#scormdebug_disable_cache#:#Disable SCORM 2004 Browser Cache
 scormdebug#:#scormdebug_disable_cache_info#:#This prevents the storage of the SCORM 2004 javascript files in the browser cache. Please use this function in time before a new release!
 content#:#cont_sequencing#:#Sequencing and Navigation
 content#:#cont_interactions#:#Store Results of Interactions
+content#:#cont_interactions_info#:#Typically results from interactions in learning modules are simply stored without being read / loaded again. If you ensured this is how your learning module operates, this option will improve performance.
 content#:#cont_objectives#:#Store Learning Objectives Data
+content#:#cont_objectives_info#:#If you ensured that this learning module runs properly, this option improves performance.
 content#:#cont_comments#:#Store Comments
+content#:#cont_comments_info#:#Some SCORM 2004 learning modules allow users providing comments within the module. This option allows saving those comments.
 content#:#cont_time_from_lms#:#Processing Time Determination by ILIAS
 scormdebug#:#completion_status_by_progress_measure#:#Because there is a value for cmi.completion_threshold, the value for cmi.completion_status is evaluated by the LMS! This is done by comparing the value for cmi.completion_threshold with the value for cmi.progress_measure. The value for cmi.completion_status is currently:
 scormdebug#:#success_status_by_score_scaled#:#Because there is a value for cmi.scaled_passing_score, the value for cmi.success_status is evaluated by the LMS! This is done by comparing the value for cmi.scaled_passing_score with the value for cmi.score.scaled. The value for cmi.success_status is currently:
@@ -12896,8 +12899,9 @@ common#:#itgr_new#:#New Item Group
 common#:#itgr_import#:#Import Item Group
 common#:#itgr_copy#:#Copy Item Group
 common#:#itgr_add#:#Add Item Group
-content#:#cont_auto_last_visited#:#Open Last Visited Chapter
-content#:#cont_check_values#:#Value Check
+content#:#cont_auto_last_visited#:#Continue with Chapter Last Visited
+content#:#cont_check_values#:#Check Values sent from SCO
+content#:#cont_check_values_info#:#The Test Tool will check whether the values sent from the SCOs adhere to the SCORM standard. <br /> The SCORM Standard is very demanding concerning the saving of values. Not all learning modules meet the requirements of the standard. This Options allows checking if the module adheres to the Standard or not. Do not check this option if you just want to check if ILIAS can run this module or not.
 administration#:#adm_social_bm_create#:#Create Social Bookmark
 administration#:#adm_social_bm_edit#:#Edit Social Bookmark
 dcl#:#dcl_actions#:#Actions
@@ -13067,8 +13071,8 @@ blog#:#blog_authors#:#Authors
 blog#:#blog_author#:#Written by
 blog#:#blog_enable_approval#:#Approve Postings
 blog#:#blog_enable_approval_info#:#Postings are published only after being approved by a user with permission ‘Edit Settings’ for this blog.
-blog#:#blog_approve#:#Approve
-blog#:#blog_needs_approval#:#Needs Approval
+blog#:#blog_approve#:#Approve Posting
+blog#:#blog_needs_approval#:#Posting is not approved yet
 sess#:#sess_copy#:#Copy Session
 grp#:#events#:#Sessions
 book#:#book_additional_info_file#:#Additional Description
@@ -13106,7 +13110,7 @@ survey#:#svy_activation_limited_visibility_info#:#Outside the indicated period, 
 blog#:#blog_add_contributor#:#Add Contributor
 blog#:#blog_search_users#:#Search Users
 common#:#il_blog_contributor#:#Blog Author
-rbac#:#blog_contribute#:#User can contribute
+rbac#:#blog_contribute#:#User can create postings
 blog#:#blog_contribute_other_roles#:#In addition to the list of ‘Contributors’, users with one of the following roles can also add postings: %s
 dcl#:#dcl_no_content_warning#:#Attention, the Data Collection is online but does not have content yet!
 dcl#:#dcl_visible#:#Visible for all users
@@ -13138,12 +13142,12 @@ content#:#cont_presentation#:#Presentation
 content#:#cont_scorm_options#:#SCORM Options
 content#:#cont_rte_settings#:#RTE Settings
 content#:#cont_debugging#:#Debugging
-content#:#cont_auto_last_visited_info#:#Opens the last visited SCO/Asset when the learner reenters the learning module.
+content#:#cont_auto_last_visited_info#:#Users are presented with the SCO/asset they most recently visited when opening the learning module again.
 content#:#cont_credit_mode_info#:#This setting is only affective if the lesson mode is ‘normal’.
 content#:#cont_sc_auto_review_info_12#:#Set the lesson mode to ‘review’ when a learner has completed or passed a SCO.
-content#:#cont_sc_usession_info#:#This setting activates periodical requests to the server to keep the session alive.
-content#:#cont_sequencing_info#:#Enable the sequencing and navigation behaviour as defined by the learning module.
-content#:#cont_time_from_lms_info#:#Processing time is set by ILIAS, not by SCOs.
+content#:#cont_sc_usession_info#:#Periodical requests will be sent to ILIAS to keep the session alive. Otherwise ILIAS will categorize working on the learning module as idleness, terminate the session and loose the tracking data.
+content#:#cont_sequencing_info#:#Enable the sequencing and navigation behaviour as defined by the learning module: Navigational options will be determined from the results of interactions with the content. Please check whether or not your learning module does actually contain this kind of sequencing & navigation data, since this is rare.
+content#:#cont_time_from_lms_info#:#Frequently SCORM learning modules are returning faulted data on processing time. To avoid this issue ILIAS can determine the processing time adhering to the strict standards of SCORM.
 survey#:#survey_question_pool_usage_active#:#Questions can be added optionally to a question pool
 survey#:#survey_question_pool_usage_active_info#:#Each time a question is created it has to be decided if a question pool is to be used. 
 survey#:#survey_question_pool_usage_inactive#:#Questions are created directly in the survey.
@@ -13460,10 +13464,10 @@ rbac#:#bibs_delete#:#User can delete library entries
 rbac#:#bibs_copy#:#User can copy bibliography
 rbac#:#bibs_edit_permission#:#User can change permission settings
 ldap#:#ldap_edit_role_assignment#:#Edit Role -> Group Assignment
-trac#:#trac_mode_collection_tlt#:#Typical Learning Time (per Chapter)
-trac#:#trac_mode_collection_tlt_info#:#Users who reached the Typical Learning Time of all relevant chapters will gain the status ‘Completed’.
-trac#:#trac_mode_collection_manual#:#Manual by Learner (per Chapter)
-trac#:#trac_mode_collection_manual_info#:#Users have to decide for each chapter whether their status is completed or not.
+trac#:#trac_mode_collection_tlt#:#Minimally Required Amount of Time Spent per Chapter
+trac#:#trac_mode_collection_tlt_info#:#The status will be automatically set according to time a user spends working on the chapters . The status 'Completed' is assigned once users exceed the minimally required Typical Learning Time for all progress-relevant chapters.<br />The Typical Learning Time per chapter can be set on this screen after you have saved this setting.
+trac#:#trac_mode_collection_manual#:#Users Monitor and Set Status per Chapter Themselves
+trac#:#trac_mode_collection_manual_info#:#Users decide themselves if they have accomplished a chapter of the learning module. After completing a chapter, users have to set this chapter's status to ‘Completed’ on the 'Info'-tab. <br />Chapters can be selected as Progress-relevant on this screen after you have saved this setting.
 trac#:#trac_collection_manual_learner_info#:#The learning progress for this object has to be set manually.
 trac#:#trac_collection_manual_learner_changed_ts#:#Changed on
 trac#:#trac_collection_manual_learner_lm_info#:#Activate all chapters you completed.
@@ -13631,7 +13635,7 @@ registration#:#registration_codes_roles_limitation_none#:#No Predefined Access L
 registration#:#reg_access_limitation_mode_absolute_target#:#Valid until
 registration#:#reg_access_limitation_mode_relative_target#:#Valid for
 registration#:#registration_codes_access_limitation_all#:#All
-crs#:#crs_notification_list_title#:#Notification About New Members
+crs#:#crs_notification_list_title#:#Notification
 dateplaner#:#cal_ch_app_grp#:#Consultation Hour Groups
 dateplaner#:#cal_ch_app_list#:#Consultation Hour Appointments
 dateplaner#:#cal_ch_grp_header#:#Consultation Hour Group
@@ -13886,8 +13890,8 @@ exc#:#exc_team_notification_reason#:#You are receiving this email because you ar
 blog#:#blog_change_notification_reason#:#You are receiving this email because you activated notifications for the blog mentioned above.
 survey#:#survey_notification_finished_introduction#:#The following participant has finished the survey.
 survey#:#survey_notification_finished_reason#:#You are receiving this email because you activated notifications for the survey mentioned above.
-content#:#cont_offline_mode_allow#:#Allow Offline Mode
-content#:#cont_offline_mode_allow_info#:#In offline mode, learning modules can only be processed with the SCORM offline player. The tracking data are transferred if the learner clicks on ‘finish offline mode’ in ILIAS.
+content#:#cont_offline_mode_allow#:#Enable Offline Mode
+content#:#cont_offline_mode_allow_info#:#Users can use the learning module without connecting to the Internet in the SCORM Offline Player. They download the learning module using the &#x25bc;-menu. The learning module is presented with an add-on to the Firefox browser. The tracking data are transferred when the user clicks on ‘finish offline mode’.
 wiki#:#wiki_start_page_info#:#If there does not exist a page with this title yet, a new page will be created.
 administration#:#adm_https#:#HTTPS
 common#:#obj_reps#:#Repository
@@ -14212,7 +14216,7 @@ search#:#lucene_show_sub_relevance#:#Show Sub-Item Relevance
 search#:#search_mime_filter_form#:#Mime Type Filter
 search#:#lucene_prefix_wildcard#:#Prefix Wildcard Queries
 search#:#lucene_prefix_wildcard_info#:#Supports prefix wildcard queries: ‘*LIAS’ finds ‘ILIAS’
-content#:#cont_activate_multi_lang#:#Activate Multilinguality
+content#:#cont_activate_multi_lang#:#Activate Multilingualism
 obj#:#obj_select_master_lang#:#Please select the master language. The current content will be assigned to the master language. The master language cannot be changed afterwards.
 assessment#:#show_answer_overview#:#Show Answer Overview
 obj#:#obj_master_lang#:#Master Language
@@ -14338,7 +14342,7 @@ bibl#:#ris_default_in#:#In
 bibl#:#ris_default_et#:#Edition
 bibl#:#ris_default_dp#:#Database Provider
 bibl#:#ris_default_st#:#Short Title
-content#:#cont_multilang_currently_deactivated#:#Multilinguality support is currently not activated.
+content#:#cont_multilang_currently_deactivated#:#Multilingualism support is currently not activated.
 mail#:#mail_filter#:#Filter
 mail#:#mail_filter_sender#:#Sender
 mail#:#mail_filter_recipients#:#Recipients
@@ -14353,7 +14357,7 @@ prtf#:#prtf_properties#:#Portfolio Properties
 prtf#:#prtf_style#:#Portfolio Style
 prtt#:#prtt_properties#:#Portfolio Template Properties
 prtt#:#prtt_style#:#Portfolio Template Style
-obj#:#obj_multilinguality#:#Multilinguality
+obj#:#obj_multilinguality#:#Multilingualism
 exc#:#exc_save_all#:#Save All
 exc#:#exc_save_selected#:#Save Selected
 mail#:#search_content#:#Search Result
@@ -14409,8 +14413,8 @@ adve#:#char_selector_unicode_all#:#All Unicode Blocks
 adve#:#adve_char_selector_settings#:#Character Selector
 common#:#scorm_login_as_learner_id#:#SCORM 2004: set ILIAS Username as cmi.learner_id
 common#:#scorm_login_as_learner_id_info#:#If enabled, the Username instead of the User ID is set for cmi.learner_id.
-content#:#cont_sc_auto_review_2004#:#Store Tracking Data
-content#:#cont_sc_auto_review_info_2004#:#If an option corresponding to a status is enabled, an automatic review mode prevents further storing of tracking data for a chapter (SCO). Choose 'always' if the learning module makes use of Sequencing & Navigation according to SCORM 2004.
+content#:#cont_sc_auto_review_2004#:#Lock Tracking Status Once it is Established
+content#:#cont_sc_auto_review_info_2004#:#After a user has acquired the tracking status set above for a chapter / SCO, this status is locked. No further tracking data will recorded for these chapters / SCOs in later visits. Select 'always' if the learning module makes use of Sequencing & Navigation according to SCORM 2004.
 content#:#cont_sc_auto_review_no#:#always (recommended)
 content#:#cont_sc_auto_review_completed_not_failed_or_passed#:#keep tracking data if achieved status is completed or passed, but not failed
 content#:#cont_sc_auto_review_passed#:#keep tracking data if achieved status is passed
@@ -14419,8 +14423,8 @@ content#:#cont_sc_auto_review_completed#:#keep tracking data if achieved status 
 content#:#cont_sc_auto_review_completed_and_passed#:#keep tracking data if achieved status is completed and passed
 content#:#cont_sc_auto_review_completed_or_passed#:#keep tracking data if achieved status is completed or passed
 content#:#cont_sc_store_if_previous_score_was_lower#:#keep tracking data if achieved score in previous attempt was higher or equal
-content#:#cont_auto_suspend#:#Ensure getting tracking data from previous attempts
-content#:#cont_auto_suspend_info#:#This option is for SCORM learning modules, which support SCORM 2004 in an inadequate way by not sending proper values for cmi.exit.
+content#:#cont_auto_suspend#:#Safeguard tracking data
+content#:#cont_auto_suspend_info#:#This option is for SCORM learning modules, which support SCORM 2004 in an inadequate way by not sending proper values for cmi.exit<br />It will ensure that tracking data is stored irrespectively of the user not closing the learning module properly for instance by simply closing the browser.
 administration#:#adm_captcha_anonymous_frm#:#Activate captcha for anonymous in forums. Please keep in mind that this may effect the accessibility of your installation.
 administration#:#adm_captcha_anonymous_auth#:#Activate captcha for anonymous in login form. Please keep in mind that this may effect the accessibility of your installation.
 administration#:#adm_captcha_anonymous_reg#:#Activate captcha for anonymous in registration form. Please keep in mind that this may effect the accessibility of your installation.
@@ -14594,7 +14598,7 @@ crs#:#crs_reg_password_info#:#Users need to type in this password when joining t
 cat#:#cat_more_translations#:#More Translations
 obj#:#obj_deactivate_content_transl_conf#:#Do you really want to deactivate translation for page editing? Only contents of the master language will be kept.
 obj#:#obj_cont_transl_deactivated#:#Translation for page editing has been deactivated.
-content#:#cont_manage_multilang#:#Manage Multilinguality
+content#:#cont_manage_multilang#:#Manage Multilingualism
 content#:#cont_languages#:#Languages
 content#:#cont_language#:#Language
 content#:#cont_add_lang#:#Add Language
@@ -14614,7 +14618,7 @@ obj#:#obj_insert_into_clipboard#:#Insert into Clipboard
 obj#:#obj_inserted_clipboard#:#Objects have been moved to the clipboard.
 orgu#:#org_unit_not_found#:#Organisational Unit not found.
 content#:#cont_fourth_edition#:#SCORM 2004 4th edition
-content#:#cont_fourth_edition_info#:#SCORM 2004 4th edition offers some advantages compared to the 3rd edition. Further data over SCO boundaries can be exchanged for example. These options are however rarely used and have a negative effect on the speed.
+content#:#cont_fourth_edition_info#:#SCORM 2004 4th edition offers some advantages compared to the 3rd Edition: Data can be carried over between SCOs. Few learning modules actually use this feature and it has a negative Impact on performance.
 content#:#offline_mode_manager#:#Offline use
 content#:#offline_mode_users#:#Users in offline mode
 content#:#cont_offline_mode_disable_not_allowed_info#:#Since the learning module is currently used in offline mode, the offline mode can not be disabled.
@@ -14629,10 +14633,10 @@ init#:#init_error_authentication_fail#:#Authentication failed.
 obj#:#obj_multilang_title_descr_only#:#Translation is activated for title and description only. Translation support for Page editing (‘Customize Page’) needs additional activation.
 obj#:#obj_activate_content_lang#:#Activate Translation for Page Editing
 obj#:#obj_add_languages#:#Add Languages
-obj#:#obj_activate_multilang#:#Activate Multilinguality
-obj#:#obj_deactivate_multilang#:#Deactivate Multilinguality
-obj#:#obj_deactivate_multilang_conf#:#Do you really want to deactivate multilinguality? Only contents of the master language will be kept.
-obj#:#obj_multilang_deactivated#:#Multilinguality has been deactivated.
+obj#:#obj_activate_multilang#:#Activate Multilingualism
+obj#:#obj_deactivate_multilang#:#Deactivate Multilingualism
+obj#:#obj_deactivate_multilang_conf#:#Do you really want to deactivate multilingualism? Only contents of the master language will be kept.
+obj#:#obj_multilang_deactivated#:#Multilingualism has been deactivated.
 cntr#:#cntr_container_only_on_their_own#:#Categories, courses, groups or folders can only be copied as single objects. Please select one item only.
 cntr#:#objects_duplicated#:#Objects copied
 poll#:#poll_max_number_of_answers#:#Maximum Number Of Answers per Participant
@@ -14976,8 +14980,8 @@ wiki#:#wiki_set_as_start_page#:#Set as Start Page
 wiki#:#wiki_purpose#:#Purpose
 wiki#:#wiki_select_one_item#:#Please select one item.
 exc#:#exc_peer_deadline_mismatch#:#As feedback is given after the deadline has passed the feedback deadline must not be earlier than the assignment deadline.
-trac#:#trac_mode_questions#:#Questions
-trac#:#trac_mode_questions_info#:#Users who answered all questions correctly will gain the status ‘Completed’.
+trac#:#trac_mode_questions#:#Answering All Questions Correctly
+trac#:#trac_mode_questions_info#:#Users who answered all questions correctly will automatically be assigned with the status ‘Completed’. Please use this setting only if there actually are questions in the learning module.
 wiki#:#wiki_link#:#Wiki Link
 wiki#:#wiki_add_link#:#Add Link
 wiki#:#wiki_link_text#:#Link Text
@@ -15119,9 +15123,9 @@ crs#:#crs_loc_qst_resume_tst_itest#:#You have already started an initial test to
 crs#:#crs_loc_qst_resume_tst_qtest#:#You have already started a qualifying test to another learning objective. Either you finish the started test or you stop it and start this one. But running two qualifying tests at the same time is not supported.
 bibl#:#bibl_library_show_in_list#:#Show as link in the list
 content#:#cont_ie_compatibility#:#Internet Explorer 7 Compatibility Mode
-content#:#cont_ie_compatibility_info#:#Reduces problems with displaying older SCORM Learning Modules that were optimised for the Internet Explorer. If the Compatibility Mode is switched off in newer versions of the Internet Explorer, this setting does not become effective. <br />
-content#:#cont_ie_force_render#:#Force Internet Explorer to render again
-content#:#cont_ie_force_render_info#:#Enable this option only if content of the learning module is not displayed correctly with Internet Explorer due to many frames or iFrames. Additionally you have to set the option ‘Display’ to ‘in new window’.
+content#:#cont_ie_compatibility_info#:#Reduces problems with displaying older SCORM Learning Modules that were optimised for the Internet Explorer. If the Compatibility Mode is switched off in newer versions of the Internet Explorer, this setting does not become effective.
+content#:#cont_ie_force_render#:#Force Internet Explorer to re-render
+content#:#cont_ie_force_render_info#:#Learning modules with many frames or iFrames will be displayed correctly after rendering the Content once more.
 ecs#:#ecs_token_mechanism#:#Authentication Token
 ecs#:#ecs_token_mechanism_info#:#If enabled, the authentication on the hosting platform for remote objects, is done by the ECS-Token-Mechanism.
 ecs#:#ecs_part_settings#:#Settings for Participant:
@@ -15247,12 +15251,12 @@ administration#:#language_scope_local_info#:#Export all entries that are locally
 administration#:#language_scope_added_info#:#Export all entries that are locally added in the database. This can be used to backup additional development entries before local changes are deleted on the tab ‘Maintain’.
 administration#:#language_scope_unchanged_info#:#Export all default language entries that are not changed in the database. This is the opposite to ‘Local changes only’. Both together are a complete backup of the current language in the database.
 administration#:#language_scope_merged_info#:#Export the standard ILIAS language file with all local changes merged in alphabetically by module and identifier. This can be used to update the global language file on the ILIAS SVN server.
-administration#:#language_save_local_changes_info#:#Save all locally added or changed database entries to the file Customizing/global/lang/ilias_%s_lang.local and set the language status to ‘Installed With Local’. The web server must have write permission in this folder. Please note that this file is the same for all clients of this installation.
-administration#:#language_load_local_changes_info#:#Load the file Customizing/global/lang/ilias_%s_lang.local to the database. New entries of this file are added to the database and existing entries are overwritten.
+administration#:#language_save_local_changes_info#:#Save all locally added or changed database entries to the file Customizing/global/lang/ilias_%s.lang.local and set the language status to ‘Installed With Local’. The web server must have write permission in this folder. Please note that this file is the same for all clients of this installation.
+administration#:#language_load_local_changes_info#:#Load the file Customizing/global/lang/ilias_%s.lang.local to the database. New entries of this file are added to the database and existing entries are overwritten.
 administration#:#language_clear_local_changes_info#:#Reset the database entries of this language to the default entries defined in lang/ilias_%s.lang. All local changes or additions will be removed.
 administration#:#language_delete_local_additions_info#:#Delete all entries that were locally added to the database.
 administration#:#language_merge_local_changes_info#:#Merge all local changes and additions alphabetically into the standard language file lang/ilias_%s.lang. The web server must have write permission on this file.
-administration#:#language_remove_local_file_info#:#Remove the file Customizing/global/lang/ilias_%s_lang.local and change the language status from ‘Installed With Local’ to ‘Installed’. The changes in the database are not touched.
+administration#:#language_remove_local_file_info#:#Remove the file Customizing/global/lang/ilias_%s.lang.local and change the language status from ‘Installed With Local’ to ‘Installed’. The changes in the database are not touched.
 crs#:#crs_loc_type_initial_all_info#:#Based on individual results of the placement test, ILIAS recommends learning content for the not-yet-sufficient learning objectives. The final achievement test assesses whether a test participant already mastered the learning objectives or if additional learning and training is needed.
 crs#:#crs_loc_type_qualified_info#:#The course starts with a test to assess if a course member already mastered the learning objectives. For all passed learning objectives, users do not have to work through any of the learning content or take more tests. For all not-yet-sufficient learning objectives, ILIAS recommends learning content. The mastery of the remaining learning objectives is tested in an additional test run. 
 crs#:#crs_loc_type_practise_info#:#Course members can use the full range of learning objectives and assigned learning content immediately. They can take the achievement testto assess whether they mastered the learning objectives already of if additional learning and training is needed.
@@ -15287,7 +15291,7 @@ payment#:#topics_settings#:#Topics Settings
 payment#:#enable_topics#:#Enable Topics
 payment#:#enable_topics_info#:#If enabled, you can assign purchasable objects to self-created topics. 
 exc#:#exc_assignment_type#:#Type of Submission
-trac#:#trac_mode_event_info#:#The learning progress status will be determined by the participation status.
+trac#:#trac_mode_event_info#:#Tutors monitor whether or not participants attend the session. Tutors record attendance manually in the 'Edit Participants'-tab.
 sess#:#sess_lp_preset#:#Activate Learning Progress
 sess#:#sess_lp_preset_info#:#Activates the learning progress for all session events to be created. 
 glo#:#glo_copy#:#Copy Glossary
@@ -15480,8 +15484,8 @@ sysc#:#sysc_overview#:#Overview
 sysc#:#sysc_groups#:#System Check Groups
 sysc#:#sysc_grp_tree#:#Repository Tree
 sysc#:#sysc_grp_tree_desc#:#Performs an analysis of the tree and prints all tree nodes along with analysis data.
-sysc#:#sysc_completed_num#:#Fullfilled Tasks
-sysc#:#sysc_failed_num#:#Not Fullfilled Tasks
+sysc#:#sysc_completed_num#:#Fulfilled Tasks
+sysc#:#sysc_failed_num#:#Not Fulfilled Tasks
 sysc#:#sysc_task_overview#:#Tasks
 sysc#:#sysc_action_validate#:#Validate
 sysc#:#sysc_action_repair#:#Repair
@@ -15491,7 +15495,7 @@ sysc#:#sysc_task_tree_dump#:#List Tree
 sysc#:#sysc_task_tree_dump_desc#:#Analyses and prints the repository tree structure
 sysc#:#sysc_action_list_tree#:#Create Repository Tree Dump
 sysc#:#sysc_action_show_tree#:#Show Repository Tree Dump
-sysc#:#sysc_tree_duplicate_failures#:#Found duplicate entries in tree structure. Number of duoplicate entries
+sysc#:#sysc_tree_duplicate_failures#:#Found duplicate entries in tree structure. Number of duplicate entries
 sysc#:#sysc_message_success#:#No errors found
 sysc#:#sysc_tree_list_failures#:#A dump of the the repository tree has been created. Number of errors in tree structure:
 sysc#:#sysc_status_na#:#Not Executed
@@ -15512,7 +15516,7 @@ sysc#:#sysc_task_tree_missing_reference_desc#:#Searches and repairs missing obje
 sysc#:#sysc_task_structure#:#Tree structure
 sysc#:#sysc_task_structure_desc#:#Analyzes and corrects the repository tree structure.
 forum#:#sel_threads_already_sticky#:#At least one of the selected threads is already sticky
-forum#:#sel_threads_already_unsticky#:#At least one of the selected threads is already unsticky
+forum#:#sel_threads_already_unsticky#:#At least one of the selected threads is not marked as sticky
 forum#:#sel_threads_make_sticky#:#The selected threads has been marked as sticky
 forum#:#sel_threads_make_unsticky#:#The selected threads are not marked as sticky anymore
 forum#:#selected_threads_closed#:#The selected threads has been closed
@@ -15535,7 +15539,7 @@ style#:#sty_ca_icntr_class#:#Carousel Item Container
 style#:#sty_ca_icont_class#:#Carousel Item Content
 style#:#sty_ca_ihead_class#:#Carousel Item Header
 membership#:#mem_force_notification#:#Notification per Mail
-membership#:#mem_force_notification_mode_self#:#Members have to manually activate notifcation
+membership#:#mem_force_notification_mode_self#:#Members have to manually activate notification
 membership#:#mem_force_notification_mode_blocked#:#Members will be notified automatically 
 membership#:#mem_force_notification_mode_all#:#Notification activated for all members (changeable)
 membership#:#mem_force_notification_mode_all_sub_blocked#:#Members can deactivate notifications
@@ -15569,8 +15573,8 @@ search#:#search_show_inactive_user#:#Show Inactive Users
 search#:#search_show_inactive_user_info#:#If enabled, the user search will show inactive users.
 search#:#search_show_limited_user#:#Show Limited Users
 search#:#search_show_limited_user_info#:#If enabled, the user search will show users with limited access and outside their allowed time period.
-trac#:#trac_mode_visited_pages#:#Visited Pages
-trac#:#trac_mode_visited_pages_info#:#Users who visited all pages will gain the status ‘Completed’.
+trac#:#trac_mode_visited_pages#:#Visiting All Pages
+trac#:#trac_mode_visited_pages_info#:#The status ‘Completed’ is automatically assigned to a user once this user visited all pages of the learning module.
 exc#:#exc_peer_review_given#:#Show Given Feedback
 exc#:#exc_peer_review_show_received_none#:#You received no feedback.
 exc#:#exc_peer_review_min_chars_tgl#:#Mininum Length
@@ -15587,7 +15591,7 @@ exc#:#exc_peer_review_completion_none_info#:#The assignment will be automaticall
 exc#:#exc_peer_review_completion_one#:#At least one feedback 
 exc#:#exc_peer_review_completion_one_info#:#The assignment will be automatically set to "Passed" only after submission of a solution and at least one feedback.
 exc#:#exc_peer_review_completion_all#:#All required feedbacks 
-exc#:#exc_peer_review_completion_all_info#:#The assignment will be automatically set to "Passed" only after aubmission of a solution and all required feedbacks.
+exc#:#exc_peer_review_completion_all_info#:#The assignment will be automatically set to "Passed" only after submission of a solution and all required feedbacks.
 exc#:#exc_team_multi_create#:#Create Team
 exc#:#exc_team_multi_dissolve#:#Dissolve Team(s)
 exc#:#exc_team_management_tutor#:#Team Management by Tutors
@@ -15612,15 +15616,15 @@ exc#:#exc_peer_review_min_number#:#Required Number of Feedbacks
 exc#:#exc_peer_review_min_number_info#:#Number of feedbacks a participant is required to give to peers. In case the minimum number of required feedbacks is greater than the actual number of submissions, the required minimum is automatically reduced to the the number of peer submissions.
 exc#:#exc_criteria_catalogues#:#Criteria Catalogues
 exc#:#exc_add_criteria_catalogue#:#Add Catalogue
-exc#:#exc_criterias#:#Criterias
+exc#:#exc_criterias#:#Criteria
 exc#:#exc_criteria_catalogue_create_form#:#Add New Criteria Catalogue
 exc#:#exc_criteria_catalogue_update_form#:#Edit Criteria Catalogue
 exc#:#exc_criteria_catalogue_deletion_confirmation#:#Are you sure you want to delete the following criteria catalogues?
-exc#:#exc_edit_criterias#:#Edit Criterias
+exc#:#exc_edit_criterias#:#Edit Criteria
 exc#:#exc_add_criteria#:#Add Criteria
-exc#:#exc_criteria_create_form#:#Add New Criteria 
+exc#:#exc_criteria_create_form#:#Add New Criterion
 exc#:#exc_criteria_update_form#:#Edit Criteria
-exc#:#exc_criteria_deletion_confirmation#:#Are you sure you want to delete the following criterias?
+exc#:#exc_criteria_deletion_confirmation#:#Are you sure you want to delete the following criteria?
 exc#:#exc_criteria_type_bool#:#Fulfilled Yes/No
 exc#:#exc_criteria_type_rating#:#5-Star-Rating
 exc#:#exc_criteria_type_text#:#Text
@@ -15637,7 +15641,7 @@ content#:#cont_mycourses_sortorder_alphabetical#:#Alphabetical
 content#:#cont_mycourses_sortorder_location#:#By Location
 content#:#cont_mycourses_sortorder_info#:#This is a default setting. Every user can choose a personal order which affects all "My Courses"-elements of any portfolio.
 rbac#:#redact#:#Redact
-common#:#il_blog_editor#:#Blog Chief Editor
+common#:#il_blog_editor#:#Blog Editor
 rbac#:#blog_redact#:#User can edit postings of other contributors, too
 blog#:#blog_contributors#:#Blog-Contributors
 meta#:#meta_obj_type_inactive#:#Not Used
@@ -15675,7 +15679,7 @@ trac#:#trac_mode_downloaded_info#:#The learning progress is determined by the do
 trac#:#trac_mode_collection_mobs#:#Collection of Media Objects
 trac#:#trac_mode_collection_mobs_info#:#The learning progress status will be determined by the viewing status of selected media objects.
 trac#:#trac_lp_determination_info_mob#:#Select the items that determine the overall learning progress status of the Mediacast
-trac#:#trac_lp_settings_info_parent_container#:#Learning Progress of Parent Objects
+trac#:#trac_lp_settings_info_parent_container#:#Learning Progress of Atop Container Objects
 trac#:#trac_lp_settings_info_parent_usage#:#Determines Learning Progress
 trac#:#trac_lp_settings_info_parent_group#:#Other objects in grouping
 book#:#book_bobj#:#Booking Object
@@ -15684,7 +15688,7 @@ crs#:#crs_subscription_min_members_info#:#Define the number of users that is min
 crs#:#crs_waiting_list_no_autofill#:#Without Auto-Fill
 crs#:#crs_waiting_list_autofill#:#With Auto-Fill
 crs#:#crs_waiting_list_autofill_info#:#Participants are recruited from the waiting list automatically on cancellations.
-crs#:#crs_cancellation_end#:#Cancellation Limit
+crs#:#crs_cancellation_end#:#Limit for 'Unsubscribe from Course'
 crs#:#crs_period#:#Course Period
 crs#:#crs_course_period_not_valid#:#The course period is not valid.
 crs#:#crs_max_and_min_members_needed#:#Set a minimum or maximum number of members - or both.
@@ -15710,8 +15714,8 @@ sess#:#sess_reg_waiting_list_no_autofill#:#Without Auto-Fill
 sess#:#sess_reg_waiting_list_no_autofill_info#:#If the maximum number of users is exceeded, new registrations will be placed on a waiting list.
 sess#:#sess_reg_waiting_list_autofill#:#With Auto-Fill
 sess#:#sess_reg_waiting_list_autofill_info#:#Participants are recruited from the waiting list automatically on cancellations.
-grp#:#grp_cancellation_end_info#:#From this date on particiants cannot unsubscribe anymore.
-crs#:#crs_cancellation_end_info#:#From this date on particiants cannot unsubscribe anymore.
+grp#:#grp_cancellation_end_info#:#Until the date selected members can unsubscribe from the group.
+crs#:#crs_cancellation_end_info#:#Until the date selected members can unsubscribe from the course.
 crs#:#crs_period_info#:#Information about the start and end date of the event, which is supported by the course
 meta#:#md_adv_deleted_fields#:#The fields have been deleted.
 cntr#:#tab_back_to_repository#:#Back to Repository
@@ -15764,7 +15768,7 @@ rbac#:#activate_wiki_protection#:#Set Read-Only
 obj#:#obj_permission_settings#:#Permission Settings
 rbac#:#rbac_permissions#:#Permissions
 rbac#:#wiki_html_export#:#Export HTML
-wiki#:#wiki_html_export#:#HTML exportieren
+wiki#:#wiki_html_export#:#Export HTML
 rbac#:#wiki_edit_wiki_navigation#:#Edit Wiki Navigation
 rbac#:#wiki_delete_wiki_pages#:#Delete Wiki Pages
 rbac#:#wiki_activate_wiki_protection#:#Set Wiki Pages to Read-Only
@@ -15844,14 +15848,14 @@ buddysystem#:#buddy_notification_contact_request_long#:#[SALUTATION][BR][BR]the 
 buddysystem#:#buddy_request_approved#:#You successfully approved the contact.
 buddysystem#:#buddy_request_ignored#:#You ignored the user.
 common#:#no_gallery_users_available#:#There are currently no users in the gallery.
-crs#:#crs_mem_contact#:#Support Contact
+crs#:#crs_mem_contact#:#Tutorial Support
 awrn#:#awareness_now_online#:#Online Now
 awrn#:#awareness_now_online_users#:#[ONLINE_USER_NAMES]
 common#:#obj_awra_desc#:#Manage ‘Who is online?’-Tool
 common#:#obj_awra#:#‘Who is online?’-Tool
 awrn#:#awareness_settings#:#Settings
 awrn#:#awrn_enable#:#Enable ‘Who is online?’-Tool
-crs#:#crs_mem_contacts#:#Support Contacts
+crs#:#crs_mem_contacts#:#Tutorial Support
 user#:#user_awrn_all_users#:#All Users
 user#:#user_awrn_all_users_info#:#All users of the platform are listed.
 crs#:#crs_awrn_support_contacts#:#Tutorial Support
@@ -16032,7 +16036,7 @@ content#:#lm_no_download_files#:#There are currently no files for download avail
 rbac#:#feed_copy#:#User can copy webfeed
 log#:#log_level_off#:#Disabled
 log#:#log_component_root_desc#:#Leg-Level for message which are not assigned to any component.
-administration#:#adm_user_starting_point_ref_id_info#:#Open the object that you would like to use as Personal Starting Point. Please copy the number directly following "ref_id=" in the browser bar into the textinput field.
+administration#:#adm_user_starting_point_ref_id_info#:#Open the object that you would like to use as Personal Starting Point. Please copy the number directly following "ref_id=" in the browser bar into the text input field.
 mail#:#mail_crs_roles#:#Send Mail to Course Roles
 mail#:#mail_grp_roles#:#Send Mail to Group Roles
 mail#:#send_mail_members#:#All Members
@@ -16044,22 +16048,22 @@ awrn#:#awrn_max_inactivity_info#:#After this period users are considered being o
 awrn#:#awrn_minutes#:#min
 bkm#:#bkm_fold_created#:#Bookmark folder has been created.
 mcst#:#mcst_input_either_file_or_url#:#Please specify a file or an URL. If you provide a file, please note the maximum allowed upload file size.
-content#:#cont_sc_version_info#:#The version management will automatically insert the correct version number.
+content#:#cont_sc_version_info#:#The version number is provided automatically by the version management of the learning module.
 content#:#cont_online_info#:#Set the SCORM learning module online to make it visible and available for users. If not, only users with 'Edit'-permission will have access to it.
-content#:#cont_open_window#:#Definitely opens in a new window, without ILIAS main menue
-content#:#cont_open_iframe#:#Opens in the same window, the ILIAS main menue is displayed
-content#:#cont_nomenu_info#:#The Top Navigation Bar can be hidden, if the SCORM Learning module contains sufficient functionality to suspend, finish and navigate the content.
-content#:#cont_hidenavig_info#:#The left navigation tree can be hidden, if the SCORM Learning module contains sufficient functionality to navigate the content or the top navigation bar is displayed.
-content#:#cont_width_height_info#:#The size of the display can be set at a fixed size. 950 pixels for Width and 650 pixels for Height are proven values for setting the size. If no entry is made the browser will determine the size of the display.
+content#:#cont_open_window#:#Enforced to Open in New Window , Without ILIAS Main Menu
+content#:#cont_open_iframe#:#Opens in the Same Window Underneath the ILIAS Main Menu
+content#:#cont_nomenu_info#:#The top navigation bar can be hidden, if the SCORM Learning module contains sufficient functionality to suspend, finish and navigate the content.
+content#:#cont_hidenavig_info#:#The navigation tree on the left can be hidden, if the SCORM Learning module contains sufficient functionality to navigate between sections of content or the top navigation bar is displayed.
+content#:#cont_width_height_info#:#The presentation can be set to a fixed size. 950 pixels for width and 650 pixels for height are proven values for setting the size. If no value is entered the browser will determine the size of the presentation.
 content#:#cont_sc_score_was_higher_message#:#achieved score was higher
 meta#:#md_adv_field_filter_warning#:#The field types %s are currently not supported as table filters.
 grp#:#grp_subscription_min_members_info#:#Define the number of users that is minimally required for this group to be held at all. If this number is not met either after the date until which users can register or unsubscribe from the group a mail will be send to those group administrators or tutors that have activated the 'Notification' flag in the 'Members'-tab.
 grp#:#grp_max_and_min_members_invalid#:#The minimum number must be smaller than the maximum number of members.
 crs#:#mem_cron_min_members_reason#:#You receive this message because you have activated the notification in the members-tab.
 crs#:#mem_cron_min_members_task#:#Please inform the participants if the course will not take place because of not enough attendants. Adjust the settings afterwards.
-crs#:#crs_loc_settings_passed_mode#:#Bestandene Lernziele
-crs#:#crs_loc_settings_passed_mode_hide#:#Testfragen zu bestandenen Lernzielen werden ausgeblendet
-crs#:#crs_loc_settings_passed_mode_mark#:#Testfragen zu bestandenen Lernzielen werden markiert
+crs#:#crs_loc_settings_passed_mode#:#Mastered Learning Objectives
+crs#:#crs_loc_settings_passed_mode_hide#:#Test questions for mastered learning objectives will be hidden
+crs#:#crs_loc_settings_passed_mode_mark#:#Test questions for mastered learning objectives will be flagged
 crs#:#crs_checklist_objective#:#Checklist Objective
 prtf#:#prtf_set_default_publish_global#:#Share with unregistered users also
 prtf#:#prtf_set_default_publish_registered#:#Share with registered users only

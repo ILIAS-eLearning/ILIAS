@@ -572,13 +572,13 @@ class ilObjMediaObject extends ilObject
 	{
 		return ilUtil::getWebspaceDir()."/mobs/mm_".$a_mob_id;
 	}
-	
-/**
-	* get directory for files of media object (static)
-	*
-	* @param	int		$a_mob_id		media object id
-	*/
-	function _getURL($a_mob_id)
+
+	/**
+	 * get directory for files of media object (static)
+	 * @param int $a_mob_id media object id
+	 * @return string
+	 */
+	public static function _getURL($a_mob_id)
 	{
 		return ilUtil::getHtmlPath(ilUtil::getWebspaceDir()."/mobs/mm_".$a_mob_id);
 	}
@@ -1608,7 +1608,7 @@ class ilObjMediaObject extends ilObject
 	/**
 	 * Create new media object and update page in db and return new media object
 	 */
-	function &_saveTempFileAsMediaObject($name, $tmp_name, $upload = TRUE)
+	public static function _saveTempFileAsMediaObject($name, $tmp_name, $upload = TRUE)
 	{
 		// create dummy object in db (we need an id)
 		$media_object = new ilObjMediaObject();

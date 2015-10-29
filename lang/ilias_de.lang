@@ -702,7 +702,7 @@ assessment#:#lacex_assOrderingQuestion_OrderingResultExpression_d#:#Die zu sorti
 assessment#:#lacex_assOrderingHorizontal_OrderingResultExpression_e#:#R = $2,5,1,4,3$
 assessment#:#lacex_assOrderingHorizontal_OrderingResultExpression_d#:#Die zu sortierenden Elemente wurden in folgender Reihenfolge angeordnet: 2, 5, 1, 5, 3
 assessment#:#lacex_assMatchingQuestion_MatchingResultExpression_e#:#R = ;1:2; & R = ;2:3; & R = ;3:1;
-assessment#:#lacex_assMatchingQuestion_MatchingResultExpression_d#:#Die Elemente wurden wie folgt zugeordnet: 1 => 2 und 2 => 3 und 3 => 1
+assessment#:#lacex_assMatchingQuestion_MatchingResultExpression_d#:#Die Elemente wurden wie folgt zugeordnet: 1 &rarr; 2 and 2 &rarr; 3 and 3 &rarr; 1
 assessment#:#lacex_assTextSubset_StringResultExpression_e#:#R[2] = ~Natriumchlorid~
 assessment#:#lacex_assTextSubset_StringResultExpression_d#:#Für die 2te Anwortoption wurde der Text „Natriumchlorid“ eingetragen
 assessment#:#lacex_assFormulaQuestion_NumericResultExpression_e#:#R[1] = #3.14159#
@@ -15250,12 +15250,12 @@ administration#:#language_scope_local_info#:#Exportiert alle Einträge, die in d
 administration#:#language_scope_added_info#:#Exportiert alle Einträge, die in der Datenbank lokal hinzugefügt wurden. Dies kann genutzt werden, um zusätzliche Entwicklungs-Einträge zu sichern, bevor die lokalen Änderungen auf dem Reiter "Wartung" zurückgesetzt werden.
 administration#:#language_scope_unchanged_info#:#Exportiert alle Datenbank-Einträge, die gegenüber den Standardwerten nicht verändert wurden. Dies ist das Gegenteil zu "Nur lokale Änderungen". Beide Dateien zusammen ergeben ein Gesamt-Backup der Sprache in der Datenbank.
 administration#:#language_scope_merged_info#:#Exportiert die Standard-Sprachdatei von ILIAS, in der alle lokalen Änderungen und Ergänzungen alphabetisch nach Modul und Sprachvariable eingemischt sind. Dies kann verwendet werden, um die Sprachdatei auf dem SVN-Server zu aktualisieren.
-administration#:#language_save_local_changes_info#:#Speichert alle lokalen Änderungen oder Ergänzungen in der Datei Customizing/global/lang/ilias_%s_lang.local und setzt den Status der Sprache auf "Mit lokaler Version installiert". Der Web-Server muss Schreibrecht in dem Verzeichnis besitzen. Beachten Sie, dass diese Datei für alle Mandanten der Installation dieselbe ist.
-administration#:#language_load_local_changes_info#:#Lädt die Datei Customizing/global/lang/ilias_%s_lang.local in die Datenbank. Neue Einträge aus der Datei werden hinzugefügt und vorhandene Einträge in der Datenbank werden überschrieben.
+administration#:#language_save_local_changes_info#:#Speichert alle lokalen Änderungen oder Ergänzungen in der Datei Customizing/global/lang/ilias_%s.lang.local und setzt den Status der Sprache auf "Mit lokaler Version installiert". Der Web-Server muss Schreibrecht in dem Verzeichnis besitzen. Beachten Sie, dass diese Datei für alle Mandanten der Installation dieselbe ist.
+administration#:#language_load_local_changes_info#:#Lädt die Datei Customizing/global/lang/ilias_%s.lang.local in die Datenbank. Neue Einträge aus der Datei werden hinzugefügt und vorhandene Einträge in der Datenbank werden überschrieben.
 administration#:#language_clear_local_changes_info#:#Setzt die Einträge dieser Sprache in der Datenbank auf auf die Standard-Einträge in der Datei lang/ilias_%s.lang zurück. Alle lokalen Änderungen oder Ergänzungen werden entfernt.
 administration#:#language_delete_local_additions_info#:#Löscht alle Einträge in der Datenbank, die lokal hinzugefügt wurden.
 administration#:#language_merge_local_changes_info#:#Mischt alle lokalen Änderungen oder Ergänzungen in die Standard-Sprachdatei lang/ilias_%s.lang. Der Web-Server muss Schreibrecht auf dieser Datei besitzen.
-administration#:#language_remove_local_file_info#:#Entfernt die Datei Customizing/global/lang/ilias_%s_lang.local und setzt den Status der Sprache von "Mit lokaler Version installiert" auf "Installiert". Die Einträge in der Datenbank sind davon nicht betroffen.
+administration#:#language_remove_local_file_info#:#Entfernt die Datei Customizing/global/lang/ilias_%s.lang.local und setzt den Status der Sprache von "Mit lokaler Version installiert" auf "Installiert". Die Einträge in der Datenbank sind davon nicht betroffen.
 crs#:#crs_loc_type_initial_all_info#:#Anhand der Ergebnisse des Einstiegstests empfiehlt ILIAS Lerninhalte für die  noch nicht erreichten Lernziele. Ein Qualifizierender Test prüft zum Abschluss  die Erreichung aller Lernziele. 
 crs#:#crs_loc_type_qualified_info#:#Der Kurs startet mit einem Test, der individuell prüft, ob die Kursmitglieder die Lernziele bereits beherrschen. Beim Bestehen des Tests, brauchen weder weitere Lerninhalte noch Tests bearbeitet werden. Für alle nicht erreichten Lernziele empfiehlt ILIAS Lerninhalte. Die Erreichung dieser Lernziele wird in einem weiteren Testdurchlauf abgeprüft. 
 crs#:#crs_loc_type_practise_info#:#Kursmitgliedern werden Lerninhalte zu sämtlichen Lernzielen des Kurses präsentiert. Sie können frei navigieren und zu jedem Zeitpunkt einen Qualifizierenden Test durchführen. Dieser prüft die Erreichung aller Lernziele.  
@@ -15585,7 +15585,7 @@ exc#:#exc_peer_review_completion_all_info#:#Die Übungseinheit wird automatisch 
 exc#:#exc_team_multi_create#:#Team erstellen
 exc#:#exc_team_multi_dissolve#:#Team(s) auflösen
 exc#:#exc_team_management_tutor#:#Team-Management durch Tutoren
-exc#:#exc_team_management_tutor_info#:#Bei Aktivierung dieser Option könne Teilnehmer ihre Teams nicht selbst organisieren.
+exc#:#exc_team_management_tutor_info#:#Bei Aktivierung dieser Option können Teilnehmer ihre Teams nicht selbst organisieren.
 exc#:#exc_no_team_yet_info_tutor#:#Teams werden von den Übungstutoren verwaltet.
 exc#:#exc_max_file#:#Maximale Dateianzahl
 exc#:#exc_max_file_info#:#Nach Erreichen des Limits können Teilnehmer keine weiteren Dateien hochladen.
@@ -15632,7 +15632,7 @@ content#:#cont_mycourses_sortorder_alphabetical#:#Alphabetisch
 content#:#cont_mycourses_sortorder_location#:#Nach Ort
 content#:#cont_mycourses_sortorder_info#:#Dies ist die Default-Einstellung. Jeder Benutzer kann eine eigene Sortierung wählen, die für alle "Meine Kurse"-Elemente sämtlicher Portfolios gilt.
 rbac#:#redact#:#Redigieren
-common#:#il_blog_editor#:#Blog-Chefredakteur
+common#:#il_blog_editor#:#Blog-Redakteur
 rbac#:#blog_redact#:#Benutzer kann auch Beiträge anderer Mitwirkender bearbeiten
 blog#:#blog_contributors#:#Mitwirkende
 meta#:#meta_obj_type_inactive#:#Inaktiv
@@ -15643,16 +15643,16 @@ common#:#obj_tool_setting_custom_metadata_info#:#Wenn aktiviert können Metadate
 meta#:#meta_section#:#Bereich
 meta#:#meta_tab_lom#:#LOM
 meta#:#meta_tab_advmd#:#Benutzerdefinierte Metadaten
-meta#:#meta_tab_advmd_def#:#Benutzerdefinierte Metadaten Definition
+meta#:#meta_tab_advmd_def#:#Benutzerdefinierte Metadaten-Definition
 meta#:#meta_global#:#Global
 wiki#:#wiki_unhide_meta_adv_records#:#Zusätzliche Eigenschaften anzeigen
 prtf#:#prtf_back_to_portfolio_owner#:#Portfolio bearbeiten
 blog#:#blog_back_to_blog_owner#:#Blog bearbeiten
 content#:#cont_assign_to_parent#:#Dem übergordneten Knoten zuordnen
 content#:#cont_type_not_allowed#:#Dieses Element ist an dieser Stelle nicht erlaubt
-content#:#sahs_insert_st_from_clip#:#Kapitel aus ILIAS Lernmodul importieren
-content#:#sahs_insert_st_from_clip_inside_chap#:#Kapitel aus ILIAS Lernmodul importieren (innerhalb eines Kapitels)
-content#:#sahs_insert_pg_from_clip#:#Seiten aus ILIAS Lernmodul importieren
+content#:#sahs_insert_st_from_clip#:#Kapitel aus ILIAS-Lernmodul importieren
+content#:#sahs_insert_st_from_clip_inside_chap#:#Kapitel aus ILIAS-Lernmodul importieren (innerhalb eines Kapitels)
+content#:#sahs_insert_pg_from_clip#:#Seiten aus ILIAS-Lernmodul importieren
 content#:#cont_active_from#:#Aktiv ab
 content#:#cont_active_to#:#Aktiv bis
 pd#:#pd_comments_notification#:#Generelle Benachrichtigung über alle Kommentare
@@ -15675,7 +15675,7 @@ trac#:#trac_lp_settings_info_parent_usage#:#Bestimmt Lernfortschritt
 trac#:#trac_lp_settings_info_parent_group#:#Andere Objekte in der Gruppierung
 book#:#book_bobj#:#Buchungsobjekt
 crs#:#crs_subscription_min_members#:#Minimale Anzahl
-crs#:#crs_subscription_min_members_info#:#Wird die geforderte Mindestanzahl an Mitgliedern nicht erreicht, kann der Kurs nicht stattfinden. Wird die Mindestanzahl bis zum Ende des Beitrittszeitraums bzw. dem spätesten Kursaustritt nicht erreicht, dann wird eine Mail an jene Kursadministratoren oder -tutoren versendet, die im Reiter 'Mitglieder' die Option'Benachrichtigung' aktiviert haben. 
+crs#:#crs_subscription_min_members_info#:#Wird die geforderte Mindestanzahl an Mitgliedern nicht erreicht, kann der Kurs nicht stattfinden. Wird die Mindestanzahl bis zum Ende des Beitrittszeitraums bzw. dem spätesten Kursaustritt nicht erreicht, versendet ILIAS eine Mail an jene Kursadministratoren oder -tutoren, für die im Reiter 'Mitglieder' die Option 'Benachrichtigung' aktiviert ist.
 crs#:#crs_waiting_list_autofill#:#Mit automatischem Aufrücken
 crs#:#crs_waiting_list_no_autofill#:#Ohne automatisches Aufrücken
 crs#:#crs_waiting_list_autofill_info#:#Teilnehmer rücken automatisch bei Stornierungen von der Warteliste nach.
@@ -15687,19 +15687,19 @@ crs#:#crs_max_members_needed#:#Für die Warteliste wird eine maximale Anzahl Mit
 crs#:#crs_max_and_min_members_invalid#:#Die minimale Anzahl muss kleiner als die maximale Anzahl sein.
 common#:#mem_cron_min_members#:#Kurs/Gruppe: Prüfung der minimalen Teilnehmerzahl
 common#:#mem_cron_min_members_info#:#Die Administratoren werden benachrichtigt sofern die minimale Anzahl nicht erreicht wird.
-crs#:#crs_cancellation_end_rbac_info#:#Das Stornierungsende wurde am %s erreicht, ein Austritt ist nicht mehr möglich.
+crs#:#crs_cancellation_end_rbac_info#:#Das Stornierungsende wurde am %s erreicht. Ein Austritt aus dem Kurs ist jetzt nicht mehr möglich.
 common#:#mem_min_users#:#Minimale Teilnehmeranzahl
 grp#:#grp_wrong_min_max_members#:#Setzen Sie eine minimale oder maximale Anzahl - oder beides.
 grp#:#reg_grp_min_members#:#Minimale Anzahl
 grp#:#grp_cancellation_end#:#Spätester Gruppenaustritt
-grp#:#grp_cancellation_end_rbac_info#:#Das Stornierungsende wurde am %s erreicht, ein Austritt ist nicht mehr möglich.
+grp#:#grp_cancellation_end_rbac_info#:#Das Stornierungsende wurde am %s erreicht. Ein Austritt aus der Gruppe ist jetzt nicht mehr möglich.
 sess#:#sess_reg_min_members#:#Minimale Teilnehmeranzahl
 sess#:#sess_reg_min_members_info#:#Eine minimale Zahl an Teilnehmern muss sich registrieren.
 crs#:#mem_cron_min_members_subject#:#Kurs/Gruppe: Prüfung der minimalen Teilnehmerzahl
-crs#:#mem_cron_min_members_intro#:#Die folgenden Kurse und Gruppen erreichen aktuell nicht die minimale Teilnehmerzahl.
+crs#:#mem_cron_min_members_intro#:#Die folgenden Kurse und Gruppen erreichen aktuell nicht die für sie definierte minimale Teilnehmerzahl.
 grp#:#grp_waiting_list_autofill#:#Mit automatischem Aufrücken
 grp#:#grp_waiting_list_no_autofill#:#Ohne automatisches Aufrücken
-grp#:#grp_waiting_list_autofill_info#:#Teilnehmer rücken automatisch bei Stornierungen von der Warteliste nach.
+grp#:#grp_waiting_list_autofill_info#:#Teilnehmer rücken automatisch bei Stornierungen von der Warteliste auf.
 sess#:#sess_reg_waiting_list_none#:#Keine
 sess#:#sess_reg_waiting_list_no_autofill#:#Ohne automatisches Aufrücken
 sess#:#sess_reg_waiting_list_no_autofill_info#:#Ist die maximale Mitgliederanzahl erreicht, können sich weitere Benutzer auf eine Warteliste setzen lassen.
@@ -15707,7 +15707,7 @@ sess#:#sess_reg_waiting_list_autofill#:#Mit automatischem Aufrücken
 sess#:#sess_reg_waiting_list_autofill_info#:#Teilnehmer rücken automatisch bei Stornierungen von der Warteliste nach.
 grp#:#grp_cancellation_end_info#:#Mitglieder können nur bis zum gesetzten Datum selbständig die Gruppenmitgliedschaft beenden.
 crs#:#crs_cancellation_end_info#:#Mitglieder können nur bis zum gesetzten Datum selbständig die Kursmitgliedschaft beenden.
-crs#:#crs_period_info#:#Information zum Start und Ende der Veranstaltung, die mit dem Kurs unterstützt werden soll
+crs#:#crs_period_info#:#Information zum Start und Ende der Veranstaltung, die mit dem Kurs unterstützt werden soll.
 meta#:#md_adv_deleted_fields#:#Die Felder wurden gelöscht.
 cntr#:#tab_back_to_repository#:#Zurück zum Magazin
 obj#:#obj_target_location#:#Zielordner
@@ -15716,7 +15716,7 @@ cntr#:#cntr_copy_repo_tree#:#Auswahl Magazinbaum
 cntr#:#cntr_copy_crs_grp#:#Auswahl Mitgliedschaften
 crs#:#crs_mail_context_tutor_title#:#Kurs-Tutor
 crs#:#crs_mail_context_member_title#:#Kurs-Mitglied
-sahs#:#sahs_mail_context_lp#:#SCORM Lernfortschritt
+sahs#:#sahs_mail_context_lp#:#SCORM-Lernfortschritt
 mail#:#mail_templates#:#Textvorlagen
 mail#:#mail_new_template#:#Neue Textvorlage
 mail#:#mail_template_title#:#Name der Textvorlage
@@ -15725,7 +15725,7 @@ mail#:#mail_template_no_context_available#:#Aktuell wird von keinem ILIAS-Servic
 mail#:#mail_template_orphaned_context#:#Kontext verwaist
 mail#:#mail_create_tpl#:#Textvorlage erstellen
 mail#:#mail_edit_tpl#:#Textvorlage bearbeiten
-mail#:#mail_tpl_deleted_p#:#Die Textvorlagen wurded erfolgreich gelöscht.
+mail#:#mail_tpl_deleted_p#:#Die Textvorlagen wurden erfolgreich gelöscht.
 mail#:#mail_tpl_deleted_s#:#Die Textvorlage wurde erfolgreich gelöscht.
 mail#:#mail_template_missing_id#:#Die Aktion kann nicht ausgeführt werden, da die ID der Textvorlage nicht korrekt übertragen wurde.
 mail#:#mail_template_no_valid_context#:#Der gewählte Kontext ist nicht gültig.
@@ -15733,30 +15733,30 @@ mail#:#mail_template_client#:#Textvorlage
 mail#:#mail_template_client_info#:#Wählen Sie zwischen einer der verfügbaren Textvorlagen. Sie haben die Möglichkeit, die durch die Textvorlage angebotenen Platzhalter zu nutzen. Beim Wahl einer Textvorlage werden Nachrichte und Betreff in diesem Formular (falls in der Vorlage definiert) ersetzt.
 itgr#:#itgr_hide_title#:#Titel verbergen
 itgr#:#itgr_hide_title_info#:#Der Titel des Objektblocks wird in der Präsentation für Lerner nicht angezeigt.
-content#:#cont_all_languages#:#All Languages
-mob#:#mob_upload_multi_srt#:#Upload as ZIP
-mob#:#mob_upload_multi_srt_howto#:#The .zip file should contain no subdirectory, all .srt files should be located on the top level. The file names should end with "_&lt;lang code&gt;.srt" where lang code is e.g. "en", "it", "de".
-mob#:#mob_file_could_not_be_uploaded#:#File could not be uploaded.
-mob#:#mob_multi_srt_files#:#SRT Files
-content#:#cont_subtitle_files#:#Media Subtitles
-content#:#cont_upload_multi_srt_howto#:#This feature allows you to upload multiple subtitle (srt) files in a zip file for all media objects of the learning module. Your .zip file should contain all .srt files on the top level (no subdirectories). The file names should end with "_&lt;lang code&gt;.srt" where lang code is e.g. "en", "it", "de". The rest of the filename should correspond to the name of the video file, e.g. "my_video.mp4" -> "my_video_en.srt".
-content#:#cont_moved_srt_files#:#Moved subtitles files to media objects.
-content#:#cont_subtitle_file#:#SRT ZIP File
-content#:#cont_multi_srt_files#:#SRT Files
-content#:#cont_master_language_only#:#Master Language for Translation
+content#:#cont_all_languages#:#Alle Sprachen
+mob#:#mob_upload_multi_srt#:#Hochladen als ZIP-Datei
+mob#:#mob_upload_multi_srt_howto#:#Die .zip-Datei / .zip-Archiv darf keine Unterverzeichnisse enthalten. Alle .srt-Dateien müssen auf oberster Ebene liegen, um erkannt zu werden. Die Dateinamen müssen enden mit "_&lt;SPRACHE&gt;.srt", wobei SPRACHE die entsprechende Sprachkennung ist (z. B. "en", "it" oder "de"). Der Rest des Dateinamens muss dem Namen der zugehörigen Videodatei entsprechen. Die Datei für englische Untertitel des Videos "my_video.mp4" heißt entsprechend "my_video_en.srt".
+mob#:#mob_file_could_not_be_uploaded#:#Datei konnte nicht hochgeladen werden.
+mob#:#mob_multi_srt_files#:#SRT-Dateien
+content#:#cont_subtitle_files#:#Untertitel Medienobjekte
+content#:#cont_upload_multi_srt_howto#:#Erlaubt das Hochladen mehrerer Untertitel-Dateien (.srt) in einer .zip-Datei für alle Medienobjekte eines Lernmoduls. Die .zip-Datei / .zip-Archiv darf keine Unterverzeichnisse enthalten. Alle .srt-Dateien müssen auf oberster Ebene liegen, um erkannt zu werden. Die Dateinamen müssen enden mit "_&lt;SPRACHE&gt;.srt", wobei SPRACHE die entsprechende Sprachkennung ist (z. B. "en", "it" oder "de"). Der Rest des Dateinamens muss dem Namen der zugehörigen Videodatei entsprechen. Die Datei für englische Untertitel des Videos "my_video.mp4" heißt entsprechend "my_video_en.srt".
+content#:#cont_moved_srt_files#:#Die Untertitel-Dateien wurden den Medienobjekten zugeordnet.
+content#:#cont_subtitle_file#:#SRT-ZIP-Datei
+content#:#cont_multi_srt_files#:#SRT-Dateien
+content#:#cont_master_language_only#:#Hauptsprache für Übersetzung (Master)
 content#:#cont_import#:#Import
-content#:#cont_trans_import_info#:#If you exported this module as XML/Master Language for Translation to another installation, you can now re-import translated export files from this second installation here.
-content#:#cont_import_trans#:#Import Translation
-content#:#cont_import_lang#:#Target Language
-mep#:#mep_master_language_only#:#Master Language for Translation
-mep#:#mep_trans_import_info#:#If you exported this module as XML/Master Language for Translation to another installation, you can now re-import translated export files from this second installation here.
-mep#:#mep_import_trans#:#Import Translation
-mep#:#mep_import_lang#:#Target Language
-content#:#cont_snippet_from_another_installation#:#Snippet comes from another installation.
+content#:#cont_trans_import_info#:#Wenn Sie dieses Modul als "XML/Hauptsprache für Übersetzung (Master)" in eine andere Installation exportiert haben, können Sie hier die übersetzten Export-Dateien dieser Installation wieder importieren.
+content#:#cont_import_trans#:#Übersetzung importieren
+content#:#cont_import_lang#:#Zielsprache
+mep#:#mep_master_language_only#:#Hauptsprache für Übersetzung (Master)
+mep#:#mep_trans_import_info#:#Wenn Sie dieses Modul als "XML/Hauptsprache für Übersetzung (Master)" in eine andere Installation exportiert haben, können Sie hier die übersetzten Export-Dateien dieser Installation wieder importieren.
+mep#:#mep_import_trans#:#Übersetzung importieren
+mep#:#mep_import_lang#:#Zielsprache
+content#:#cont_snippet_from_another_installation#:#Inhaltsbaustein stammt von einer anderen ILIAS-Installation.
 rbac#:#edit_wiki_navigation#:#Navigation bearbeiten
 rbac#:#delete_wiki_pages#:#Seite löschen
 rbac#:#activate_wiki_protection#:#Schreibschutz aktivieren
-obj#:#obj_permission_settings#:#Permission Settings
+obj#:#obj_permission_settings#:#Rechteeinstellungen
 rbac#:#wiki_html_export#:#HTML exportieren
 wiki#:#wiki_html_export#:#HTML exportieren
 rbac#:#wiki_edit_wiki_navigation#:#Wiki-Navigation bearbeiten
@@ -15998,15 +15998,15 @@ common#:#objs_prg#:#Studienprogramme
 common#:#obj_prgs_desc#:#Studienprogramm Administration
 trac#:#trac_mode_study_programme#:#Studienprogramm abgeschlossen
 trac#:#trac_mode_study_programme_info#:#Das Studienprogramm muss vom Benutzer abgeschlossen sein um den Lernfortschritt "bearbeitet" zu erhalten.
-common#:#manage_members#:#Manage Members###30 08 2015 new variable
+common#:#manage_members#:#Mitglieder verwalten
 maps#:#maps_use_custom_server#:#Use custom server###30 08 2015 new variable
 maps#:#maps_custom_server_info#:#Activate custom servers to provide tile- and geolocation-data. Multiple inputs should be separated by spaces. Defaults are "%s" for tiles and "%s" for geolocation.###30 08 2015 new variable
 maps#:#maps_tile_server#:#Server for Tiles###30 08 2015 new variable
 maps#:#maps_geolocation_server#:#Server for Reverse Geolocation###30 08 2015 new variable
-mail#:#orphaned_mail_subject#:#Notification about orphaned mails###30 08 2015 new variable
-mail#:#orphaned_mail_body#:#There are old or orphaned mails in the following mailboxes. Please note, that these mails will be deleted automatically soon.###30 08 2015 new variable
-rbac#:#rbac_permissions#:#Permissions###30 08 2015 new variable
-buddysystem#:#buddy_bs_state_requested_p#:#Requested###30 08 2015 new variable
+mail#:#orphaned_mail_subject#:#Benachrichtigung über verwaiste Mails
+mail#:#orphaned_mail_body#:#Es existieren veraltete oder verwaiste Mails in den folgenden Postfächern. Beachten Sie, dass diese Mails in kürze automatisch gelöscht werden.
+rbac#:#rbac_permissions#:#Rechte
+buddysystem#:#buddy_bs_state_requested_p#:#Angefragt
 common#:#obj_prgs#:#Studienprogramme
 forum#:#forums_thread_deleted#:#Das gewählte Thema einschließlich aller dazugehörigen Beiträge wurde gelöscht.
 forum#:#forums_threads_deleted#:#Die gewählten Themen einschließlich aller dazugehörigen Beiträge wurden gelöscht.
@@ -16024,7 +16024,7 @@ rbac#:#prgs_visible#:#Studienprogramm-Administration ist sichtbar
 rbac#:#prgs_read#:#Lesezugriff auf Studienprogramm-Administration
 rbac#:#prgs_write#:#Einstellungen in Studienprogramm-Administration bearbeiten
 rbac#:#prgs_edit_permission#:#Rechteeinstellungen in Studienprogramm-Administration ändern
-user#:#feedhash#:#Newsfeedhash
+user#:#feedhash#:#Newsfeed-Hash
 wsp#:#wsp_shared_filter_reset_button#:#Suche zurücksetzen
 wsp#:#wsp_shared_filter_button#:#Suche
 wiki#:#wiki_page_title_too_long#:#Die Seite konnte nicht angelegt werden, da der Titel zu lang ist. Bitte wählen Sie einen kürzeren Seitentitel.
@@ -16044,26 +16044,26 @@ mail#:#mail_sel_users#:#Verschicke Mail an ausgewählte Benutzer
 awrn#:#awrn_max_inactivity#:#Max. Inaktivität
 awrn#:#awrn_max_inactivity_info#:#Benutzer ohne Aktion in der angegebenen Zeitspanne werden als "offline" geführt. Wird kein Wert angegeben, so gilt die Gültigkeit der Session.
 awrn#:#awrn_minutes#:#min
-exc#:#exc_members_already_assigned_tean#:#These users are already assigned to other teams of this assignment.###08 10 2015 new variable
+exc#:#exc_members_already_assigned_tean#:#Diese Teilnehmer sind bereits zu anderen Teams der Übungseinheit zugewiesen.
 bkm#:#bkm_fold_created#:#Bookmark-Ordner wurde angelegt.
 mcst#:#mcst_input_either_file_or_url#:#Bitte geben Sie entweder eine Datei oder eine URL an. Achten Sie bei Angabe einer Datei bitte auf die maximal erlaubte Upload-Größe.
 content#:#cont_sc_version_info#:#Die laufende Nummer wird automatisch aus dem Versionsmanagement des Lernmoduls gelesen.
 content#:#cont_online_info#:#Nur wenn das SCORM-Lernmodul online geschaltet ist, können Benutzer auf das Lernmodul zugreifen. Wenn nicht ist das SCORM-Lernmodul nur für Personen mit Bearbeitungsrechten verfügbar.
-content#:#cont_open_window#:#Öffnet zwingend in einem neuen Fenster ohne ILIAS Hauptmenü
-content#:#cont_open_iframe#:#Öffnet im selben Fenster (iFrame) unterhalb des ILIAS Hauptmenüs
+content#:#cont_open_window#:#Öffnet zwingend in einem neuen Fenster ohne ILIAS-Hauptmenü
+content#:#cont_open_iframe#:#Öffnet im selben Fenster (iFrame) unterhalb des ILIAS-Hauptmenüs
 content#:#cont_nomenu_info#:#Das obere Navigationsmenü kann ausgeblendet werden, wenn das SCORM-Lernmodul ausreichende Funktionalität zum Unterbrechen, Beenden und Navigieren mitbringt.
 content#:#cont_hidenavig_info#:#Der linke Navigationsbaum zum Wechseln zwischen mehreren Abschnitten des Lernmoduls kann ausgeblendet werden, wenn das SCORM-Lernmodul eine eigene Navigation enthält oder das obere Navigationsmenü angezeigt wird.
-content#:#cont_width_height_info#:#Die Größe der Darstellung kann festgelegt werden. In der Praxis hat sich eine Berite von 950 Pixeln und eine Höhe von 650 Pixeln bewährt. Wenn keine Angabe gemacht wird, steuert der Browser die Darstellung der Größe.
+content#:#cont_width_height_info#:#Die Größe der Darstellung kann festgelegt werden. In der Praxis hat sich eine Breite von 950 Pixeln und eine Höhe von 650 Pixeln bewährt. Wenn keine Angabe gemacht wird, bestimmt der Browser die Fenstergröße.
 content#:#cont_sc_score_was_higher_message#:#erreichter Punktestand war höher
-meta#:#md_adv_field_filter_warning#:#Die Feld-Typen %s werden aktuell nicht als Tabellenfilter unterstützt.
-grp#:#grp_subscription_min_members_info#:#Wird die geforderte Mindestanzahl an Mitgliedern nicht erreicht, kann die Gruppe nicht stattfinden. Wird die Mindestanzahl bis zum Ende des Beitrittszeitraums bzw. dem spätesten Gruppenaustritt nicht erreicht, dann wird eine Mail an jene Gruppenadministratoren oder -tutoren versendet, die im Reiter 'Mitglieder' die Option'Benachrichtigung' aktiviert haben. 
+meta#:#md_adv_field_filter_warning#:#Die Feldtypen %s werden aktuell nicht als Tabellenfilter unterstützt.
+grp#:#grp_subscription_min_members_info#:#Wird die geforderte Mindestanzahl an Mitgliedern nicht erreicht, kann die Gruppe nicht stattfinden. Wird die Mindestanzahl bis zum Ende des Beitrittszeitraums bzw. dem spätesten Gruppenaustritt nicht erreicht, versendet ILIAS eine Mail an jene Gruppenadministratoren, für die im Reiter 'Mitglieder' die Option 'Benachrichtigung' aktiviert ist.
 grp#:#grp_max_and_min_members_invalid#:#Die minimale Anzahl muss kleiner als die maximale Anzahl sein.
 crs#:#mem_cron_min_members_reason#:#Sie erhalten diese Email, da Sie die Benachrichtigung im jeweiligen Mitglieder-Tab aktiviert haben.
-crs#:#mem_cron_min_members_task#:#Informieren Sie die Teilnehmenden rechtzeitig, falls der Kurs wegen Nicht-Erreichung der geforderten Mindestanzahl nicht stattfindet. Passen Sie nach Ablauf des Beitrittszeitraums die Kurseinstellungen an.
+crs#:#mem_cron_min_members_task#:#Informieren Sie die Teilnehmenden rechtzeitig, falls der Kurs wegen Nicht-Erreichens der geforderten Mindestanzahl nicht stattfindet. Passen Sie nach Ablauf des Beitrittszeitraums die Kurseinstellungen an.
 crs#:#crs_loc_settings_passed_mode#:#Bestandene Lernziele
-crs#:#crs_loc_settings_passed_mode_hide#:#Testfragen zu bestandenen Lernzielen werden ausgeblendet
-crs#:#crs_loc_settings_passed_mode_mark#:#Testfragen zu bestandenen Lernzielen werden markiert
-content#:#cont_comments_info#:#SCORM 2004-Lernmodule können Benutzern die Gelegenheit bieten, im Lernmodul Kommentare zu verfassen. Diese Option aktiviert das Eingeben und Speichern der Kommentare (comments).
+crs#:#crs_loc_settings_passed_mode_hide#:#Testfragen zu bestandenen Lernzielen werden ausgeblendet.
+crs#:#crs_loc_settings_passed_mode_mark#:#Testfragen zu bestandenen Lernzielen werden markiert.
+content#:#cont_comments_info#:#SCORM 2004-Lernmodule erlauben Benutzern, im Lernmodul Kommentare zu verfassen. Diese Option aktiviert das Eingeben und Speichern der Kommentare (comments).
 crs#:#crs_checklist_objective#:#Checkliste Lernziel
 prtf#:#prtf_set_default_publish_global#:#Auch für unregistrierte Benutzer freigeben
 prtf#:#prtf_set_default_publish_registered#:#Nur für registrierte Nutzer freigeben
