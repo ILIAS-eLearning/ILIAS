@@ -225,7 +225,8 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 	protected function exportXLS() {
 		require_once "Services/Excel/classes/class.ilExcelUtils.php";
 		require_once "Services/Excel/classes/class.ilExcelWriterAdapter.php";
-		
+		$this->object->prepareReport();
+
 		$adapter = new ilExcelWriterAdapter("Report.xls", true); 
 		$workbook = $adapter->getWorkbook();
 		$worksheet = $workbook->addWorksheet();
@@ -238,7 +239,7 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 		
 		//init cols and write titles
 		$colcount = 0;
-		foreach ($this->object->table->all_columns as $col) {
+		foreach ($this->object->deliverTable()->all_columns as $col) {
 			if ($col[4]) {
 				continue;
 			}
@@ -255,9 +256,9 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 		//write data-rows
 		$rowcount = 1;
 		$callback = get_class($this).'::transformResultRowXLS';
-		foreach ($this->object->getData($calllback) as $entry) {
+		foreach ($this->object->deliverData($callback) as $entry) {
 			$colcount = 0;
-			foreach ($this->object->table->all_columns as $col) {
+			foreach ($this->object->deliverTable()->all_columns as $col) {
 				if ($col[4]) {
 					continue;
 				}
@@ -290,9 +291,10 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 	}
 
 	final protected static function replaceEmpty($a_rec) {
+		global $lng;
 		foreach ($a_rec as $key => $value) {
 			if ($a_rec[$key] == "-empty-" || $a_rec[$key] == "0000-00-00" || $a_rec[$key] === null) {
-				$a_rec[$key] = $this->lng->txt("gev_table_no_entry");
+				$a_rec[$key] = $lng->txt("gev_table_no_entry");
 			}
 		}
 		return $a_rec;
