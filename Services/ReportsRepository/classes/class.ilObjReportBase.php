@@ -14,6 +14,7 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 	protected $gIldb;
 
 	protected $filter = null;
+	protected $filter_action = null;
 	protected $query = null;
 	protected $table = null;
 	protected $order = null;
@@ -32,11 +33,20 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 
 	final public function prepareReport() {
 		$this->filter = $this->buildFilter(catFilter::create());
-
 		$this->table = $this->buildTable(catReportTable::create());
 		$this->query = $this->buildQuery(catReportQuery::create());
 		$this->order = $this->buildOrder(catReportOrder::create($this->table));
-		$this->buildRelevantParameters();
+		$this->addFilterToRelevantParameters();
+	}
+
+	public function addRelevantParameter($key, $value) {
+		$this->relevant_parameters[$key] = $value;
+	}
+
+	protected function addFilterToRelevantParameters() {
+		if($this->filter) {
+			$this->addRelevantParameter($this->filter->getGETName(),$this->filter->encodeSearchParamsForGET());
+		}
 	}
 
 	public function deliverFilter() {
@@ -56,7 +66,6 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 	abstract protected function buildFilter($filter);
 	abstract protected function buildTable($table);
 	abstract protected function buildOrder($order);
-	abstract protected function buildRelevantParameters();
 	
 	/**
 	* The sql-query is built by the following methods.
@@ -154,6 +163,11 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 
 		return $data;
 	}
+
+	public function setFilterAction($link) {
+		$this->filter_action = $link;
+	}
+
 	public function getRelevantaParameters() {
 		return $this->relevant_parameters;
 	}
