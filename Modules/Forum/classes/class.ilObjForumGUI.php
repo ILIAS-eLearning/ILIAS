@@ -2758,6 +2758,10 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 						{
 							$rowCol = 'ilModeratorPosting';
 						}
+						else if(!$node->isActivated() && $this->is_moderator && !$this->objCurrentTopic->isClosed())
+						{
+							$rowCol = 'ilPostingNeedsActivation';
+						}
 						else $rowCol = ilUtil::switchColor($z, 'tblrow1', 'tblrow2');
 					}
 					else $rowCol = ilUtil::switchColor($z, 'tblrow1', 'tblrow2');
