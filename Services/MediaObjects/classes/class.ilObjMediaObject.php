@@ -1608,7 +1608,7 @@ class ilObjMediaObject extends ilObject
 	/**
 	 * Create new media object and update page in db and return new media object
 	 */
-	function &_saveTempFileAsMediaObject($name, $tmp_name, $upload = TRUE)
+	public static function _saveTempFileAsMediaObject($name, $tmp_name, $upload = TRUE)
 	{
 		// create dummy object in db (we need an id)
 		$media_object = new ilObjMediaObject();
