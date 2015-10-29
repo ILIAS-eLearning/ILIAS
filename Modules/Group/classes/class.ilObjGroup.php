@@ -2053,7 +2053,6 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		return true;
 	}	
 	
-	// :TODO: attach to unsubscribe event
 	public function handleAutoFill()
 	{	
 		if($this->isWaitingListEnabled() &&
@@ -2130,6 +2129,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		$set = $ilDB->query("SELECT obj_id, registration_min_members".
 			" FROM grp_settings".
 			" WHERE registration_min_members > ".$ilDB->quote(0, "integer").
+			" AND registration_mem_limit = ".$ilDB->quote(1, "integer"). // #17206				
 			" AND ((leave_end IS NOT NULL".
 				" AND leave_end < ".$ilDB->quote($now, "text").")".
 				" OR (leave_end IS NULL".

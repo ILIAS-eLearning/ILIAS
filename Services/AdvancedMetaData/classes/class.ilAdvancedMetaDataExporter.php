@@ -13,6 +13,8 @@ include_once("./Services/Export/classes/class.ilXmlExporter.php");
 class ilAdvancedMetaDataExporter extends ilXmlExporter
 {
 	private $ds;
+	
+	private static $local_recs_done = array();
 
 	/**
 	 * Initialisation
@@ -58,7 +60,7 @@ class ilAdvancedMetaDataExporter extends ilXmlExporter
 	 * @return	string		xml string
 	 */
 	public function getXmlRepresentation($a_entity, $a_schema_version, $a_id)
-	{		
+	{				
 		$parts = explode(":", $a_id);
 		if(sizeof($parts) != 2)
 		{
@@ -107,6 +109,18 @@ class ilAdvancedMetaDataExporter extends ilXmlExporter
 			}
 		}
 		
+		// #17066 - local advmd record
+		$local_recs = array();
+		$rec_obj = new ilAdvancedMDRecord($rec_id);		
+		if($rec_obj->getParentObject())
+		{
+			$xml = new ilXmlWriter;	
+			$rec_obj->toXML($xml);
+			$xml = $xml->xmlDumpMem(false);
+			
+			$local_recs[$rec_obj->getRecordId()] = base64_encode($xml);			
+		}
+		
 		// we only want non-empty fields
 		if(sizeof($items))
 		{			
@@ -114,18 +128,42 @@ class ilAdvancedMetaDataExporter extends ilXmlExporter
 			
 			foreach($items as $record_id => $record_items)
 			{
-				// no need to state record id here
 				$xml->xmlStartTag('AdvancedMetaData');
+				
+				$is_local = array_key_exists($record_id, $local_recs);
+
+				// add local record data?
+				if($is_local)
+				{
+					// we need to add this only once
+					if(!array_key_exists($record_id, self::$local_recs_done))
+					{
+						$xml->xmlElement(
+							'Record', 
+							array('local_id' => $record_id),
+							$local_recs[$record_id]
+						);
+						
+						self::$local_recs_done[] = $record_id;
+					}
+				}
 		
 				foreach($record_items as $item)
 				{
+					$att = array(
+						'id' => $item['id'],
+						'sub_type' => $item['sub_type'],
+						'sub_id' => $item['sub_id']
+					);
+					
+					if($is_local)
+					{
+						$att['local_rec_id'] = $record_id;
+					}
+					
 					$xml->xmlElement(
 						'Value',
-						array(
-							'id' => $item['id'],
-							'sub_type' => $item['sub_type'],
-							'sub_id' => $item['sub_id']
-						),
+						$att,
 						$item['value']
 					);
 				}

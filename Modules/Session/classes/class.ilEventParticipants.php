@@ -103,6 +103,11 @@ class ilEventParticipants
 		// refresh learning progress status after updating participant
 		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
 		ilLPStatusWrapper::_updateStatus($this->getEventId(), $this->getUserId());
+		
+		if(!$this->getRegistered())
+		{
+			self::handleAutoFill($this->getEventId());
+		}
 
 		return true;
 	}
@@ -298,6 +303,8 @@ class ilEventParticipants
 		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
 		ilLPStatusWrapper::_updateStatus($a_event_id, $a_usr_id);
 		
+		self::handleAutoFill($a_event_id);
+		
 		return true;
 	}
 	function unregister($a_usr_id)
@@ -417,6 +424,17 @@ class ilEventParticipants
 				$this->participated[] = $row->usr_id;
 			}
 		}
+	}
+	
+	/**
+	 * Trigger auto-fill from waiting list
+	 * 
+	 * @param int $a_obj_id
+	 */
+	protected static function handleAutoFill($a_obj_id)
+	{
+		$sess = new ilObjSession($a_obj_id, false);
+		$sess->handleAutoFill();
 	}
 }
 ?>

@@ -410,7 +410,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 		{
 			if(array_key_exists($data['gap_number'], $correct_answers))
 			{
-				$correct_answers[$data['gap_number']] .= ' ' . $this->lng->txtlng("assessment", "or", ilObjAssessmentFolder::_getLogLanguage()) . ' ';
+				$correct_answers[$data['gap_number']] .= ' ' . $this->lng->txt("or") . ' ';
 				$correct_answers[$data['gap_number']] .= $data['answer_text'];
 			}
 			else

@@ -151,7 +151,14 @@ class ilObjCloud extends ilObject2
     {
         global $ilDB;
 
-        $new_obj->setOnline($this->getOnline());
+        //copy online status if object is not the root copy object
+        $cp_options = ilCopyWizardOptions::_getInstance($a_copy_id);
+
+        if(!$cp_options->isRootNode($this->getRefId()))
+        {
+            $new_obj->setOnline($this->getOnline());
+        }
+
         $new_obj->setRootFolder($this->getRootFolder());
         $new_obj->getRootId($this->getRootId());
         $new_obj->setServiceName($this->getServiceName());

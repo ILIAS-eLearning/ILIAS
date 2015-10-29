@@ -58,7 +58,7 @@ class ilWebLinkXmlWriter extends ilXmlWriter
 	 */
 	protected function buildHeader()
 	{
-		$this->xmlSetDtdDef("<!DOCTYPE WebLinks PUBLIC \"-//ILIAS//DTD WebLinkAdministration//EN\" \"".ILIAS_HTTP_PATH."/xml/ilias_weblinks_4_0.dtd\">");
+		$this->xmlSetDtdDef("<!DOCTYPE WebLinks PUBLIC \"-//ILIAS//DTD WebLinkAdministration//EN\" \"".ILIAS_HTTP_PATH."/xml/ilias_weblinks_5_1.dtd\">");
 		$this->xmlSetGenCmt("WebLink Object");
 		$this->xmlHeader();
 

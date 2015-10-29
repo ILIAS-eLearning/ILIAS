@@ -700,7 +700,40 @@ class ilObjContentObject extends ilObject
 
 		$this->style_id = $a_style_id;
 	}
-	
+
+	/**
+	 * Write header page
+	 *
+	 * @param int $a_lm_id learning module id
+	 * @param int $a_page_id page
+	 */
+	static function writeHeaderPage($a_lm_id, $a_page_id)
+	{
+		global $ilDB;
+
+		$ilDB->manipulate("UPDATE content_object SET ".
+			" header_page = ".$ilDB->quote($a_page_id, "integer").
+			" WHERE id = ".$ilDB->quote($a_lm_id, "integer")
+			);
+	}
+
+	/**
+	 * Write footer page
+	 *
+	 * @param int $a_lm_id learning module id
+	 * @param int $a_page_id page
+	 */
+	static function writeFooterPage($a_lm_id, $a_page_id)
+	{
+		global $ilDB;
+
+		$ilDB->manipulate("UPDATE content_object SET ".
+			" footer_page = ".$ilDB->quote($a_page_id, "integer").
+			" WHERE id = ".$ilDB->quote($a_lm_id, "integer")
+		);
+	}
+
+
 	/**
 	* move learning modules from one style to another
 	*/
@@ -1896,6 +1929,31 @@ class ilObjContentObject extends ilObject
 				"il_".IL_INST_ID."_pg_".$this->getFooterPage());
 			$a_xml_writer->xmlElement("Property", $attrs);
 		}
+
+		// layout per page
+		$attrs = array("Name" => "LayoutPerPage", "Value" =>
+			$this->getLayoutPerPage($this->getLayoutPerPage()));
+		$a_xml_writer->xmlElement("Property", $attrs);
+
+		// progress icons
+		$attrs = array("Name" => "ProgressIcons", "Value" =>
+			$this->getLayoutPerPage($this->getProgressIcons()));
+		$a_xml_writer->xmlElement("Property", $attrs);
+
+		// store tries
+		$attrs = array("Name" => "StoreTries", "Value" =>
+			$this->getLayoutPerPage($this->getStoreTries()));
+		$a_xml_writer->xmlElement("Property", $attrs);
+
+		// restrict forward navigation
+		$attrs = array("Name" => "RestrictForwardNavigation", "Value" =>
+			$this->getLayoutPerPage($this->getRestrictForwardNavigation()));
+		$a_xml_writer->xmlElement("Property", $attrs);
+
+		// disable default feedback
+		$attrs = array("Name" => "DisableDefaultFeedback", "Value" =>
+			$this->getLayoutPerPage($this->getDisableDefaultFeedback()));
+		$a_xml_writer->xmlElement("Property", $attrs);
 
 		$a_xml_writer->xmlEndTag("Properties");
 	}
@@ -3287,8 +3345,16 @@ class ilObjContentObject extends ilObject
 		$new_obj = parent::cloneObject($a_target_id,$a_copy_id);
 		$this->cloneMetaData($new_obj);
 		//$new_obj->createProperties();
+
+		//copy online status if object is not the root copy object
+		$cp_options = ilCopyWizardOptions::_getInstance($a_copy_id);
+
+		if(!$cp_options->isRootNode($this->getRefId()))
+		{
+			$new_obj->setOnline($this->getOnline());
+		}
 	 	
-		$new_obj->setTitle($this->getTitle());
+//		$new_obj->setTitle($this->getTitle());
 		$new_obj->setDescription($this->getDescription());
 		$new_obj->setLayoutPerPage($this->getLayoutPerPage());
 		$new_obj->setLayout($this->getLayout());
@@ -3309,6 +3375,8 @@ class ilObjContentObject extends ilObject
 		$new_obj->setRatingPages($this->hasRatingPages());
 		$new_obj->setDisableDefaultFeedback($this->getDisableDefaultFeedback());
 		$new_obj->setProgressIcons($this->getProgressIcons());
+		$new_obj->setStoreTries($this->getStoreTries());
+		$new_obj->setRestrictForwardNavigation($this->getRestrictForwardNavigation());
 		
 		$new_obj->update();
 		
@@ -3327,7 +3395,18 @@ class ilObjContentObject extends ilObject
 		}
 		
 		// copy content
-		$this->copyAllPagesAndChapters($new_obj, $a_copy_id);
+		$copied_nodes = $this->copyAllPagesAndChapters($new_obj, $a_copy_id);
+
+		// page header and footer
+		if ($this->getHeaderPage() > 0 && ($new_page_header = $copied_nodes[$this->getHeaderPage()]) > 0)
+		{
+			$new_obj->setHeaderPage($new_page_header);
+		}
+		if ($this->getFooterPage() > 0 && ($new_page_footer = $copied_nodes[$this->getFooterPage()]) > 0)
+		{
+			$new_obj->setFooterPage($new_page_footer);
+		}
+		$new_obj->update();
 
 		// Copy learning progress settings
 		include_once('Services/Tracking/classes/class.ilLPObjSettings.php');
@@ -3393,6 +3472,7 @@ class ilObjContentObject extends ilObject
 
 		$a_target_obj->checkTree();
 
+		return $copied_nodes;
 	}
 
 
