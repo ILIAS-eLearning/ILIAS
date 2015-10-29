@@ -86,6 +86,8 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 	*/
 	final public function renderReport() {
 		$this->object->prepareReport();
+		$this->prepareTitle();
+		$this->prepareSpacer();
 		$this->prepareTable();
 		$this->gTpl->setContent($this->render());
 	}
@@ -93,7 +95,7 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 	protected function render() {
 		return 	($this->title !== null ? $this->title->render() : "")
 				. ($this->object->deliverFilter() !== null ? $this->object->deliverFilter()->render() : "")
-				. ($this->spacer !== null ? $this->space->render() : "")
+				. ($this->spacer !== null ? $this->spacer->render() : "")
 				. $this->renderTable();
 	}
 	
@@ -130,13 +132,11 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 	}
 
 	protected function prepareTable() {
-		require_once 'Services/Table/classes/class.ilTable2GUI.php';
-		$this->table = new ilTable2GUI($this);
-		/*require_once("Services/CaTUIComponents/classes/class.catTableGUI.php");
-		$this->table = new catTableGUI($this, "view");
+		require_once("Services/CaTUIComponents/classes/class.catTableGUI.php");
+		$this->table = new catTableGUI($this, "showContent");
 		$this->table->setEnableTitle(false);
 		$this->table->setTopCommands(false);
-		$this->table->setEnableHeader(true);*/
+		$this->table->setEnableHeader(true);
 	}
 
 	protected function prepareTitle() {
@@ -144,7 +144,8 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 	}
 
 	protected function prepareSpacer() {
-		$this->spacer = null;
+		require_once("Services/CaTUIComponents/classes/class.catHSpacerGUI.php");
+		$this->spacer =  new catHSpacerGUI();
 	}
 
 	protected function renderUngroupedTable($data) {
