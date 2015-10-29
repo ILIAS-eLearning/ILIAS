@@ -296,6 +296,7 @@ assessment#:#manual_editing#:#Manual Editing
 assessment#:#longmenu_text#:#Long Menu Text
 assessment#:#correct_answers#:#Correct Answers: 
 assessment#:#answer_options#:#Answer Options: 
+assessment#:#add_answers#:#Add Antworten 
 assessment#:#by#:#by
 assessment#:#cancel_test#:#Suspend the Test
 assessment#:#cannot_edit_marks#:#There are already learners who ran the test. You can only change the marks if a score reporting date is enabled and the reporting date is not yet reached.
