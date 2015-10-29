@@ -16,53 +16,51 @@ class ilObjReportExample extends ilObjReportBase {
 		 $this->setType("xrts");
 	}
 
-	protected function buildQuery() {
-		$this->query = catReportQuery::create()
-						->select('obj_id')
-						->select('type')
-						->select('title')
-						->from('object_data')
-						->compile()
-						;
+	protected function buildQuery($query) {
+		$query 	->select('obj_id')
+				->select('type')
+				->select('title')
+				->from('object_data')
+				->compile()
+				;
+		return $query;
 	}
 
-	protected function buildFilter() {
+	protected function buildFilter($filter) {
 		global $ilCtrl;
-  		$this->filter = catFilter::create()
-  						->multiselect( "type"
-									 , "Obj.Type"
-									 , array("type")
-									 , $this->getObjectTypes()
-									 , array()
-									 , ""
-									 , 300
-									 , 160
-									 )
-						->action($ilCtrl->getLinkTargetByClass('ilObjReportExampleGUI', "showContent"))
-						->compile()
-						;
-		$this->relevant_parameters = array(
-			$this->filter->getGETName() => $this->filter->encodeSearchParamsForGET()
-			);
+		$filter	->multiselect( "type"
+							 , "Obj.Type"
+							 , array("type")
+							 , $this->getObjectTypes()
+							 , array()
+							 , ""
+							 , 300
+							 , 160
+							 )
+				->action($ilCtrl->getLinkTargetByClass('ilObjReportExampleGUI', "showContent"))
+				->compile()
+				;
+		$this->relevant_parameters[$filter->getGETName()] = $filter->encodeSearchParamsForGET();
+		return $filter;
 	}
 
 	public function deliverFilter() {
 		return $this->getShowFilter() ? $this->filter : null;
 	}
 
-	protected function buildTable() {
-		$this->table = catReportTable::create()
-						->column("obj_id","obj_id")
-						->column("type", "type")
-						->column("title", "title")
-						->template("tpl.gev_report_test_row.html", "Services/ReportsRepository")
-						;
+	protected function buildTable($table) {
+		$table 	->column("obj_id","obj_id")
+				->column("type", "type")
+				->column("title", "title")
+				->template("tpl.gev_report_test_row.html", "Services/ReportsRepository")
+				;
+		return $table;
 	}
 
-	protected function buildOrder() {
-		$this->order = catReportOrder::create($this->table)
-						->defaultOrder("obj_id", "ASC")
-						;
+	protected function buildOrder($order) {
+		$order 	->defaultOrder("obj_id", "ASC")
+				;
+		return $order;
 	}
 
 	protected function getObjectTypes() {

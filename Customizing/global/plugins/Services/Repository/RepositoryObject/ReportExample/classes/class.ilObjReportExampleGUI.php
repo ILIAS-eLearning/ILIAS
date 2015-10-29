@@ -19,12 +19,9 @@ class ilObjReportExampleGUI extends ilObjReportBaseGUI {
 		$this->settings_form->setFormAction($this->gCtrl->getLinkTarget($this, "saveSettings"));
 	}
 
-
-
 	public function getType() {
 		return 'xrts';
 	}
-
 
 	protected function renderSettings() {
 		$is_online = new ilCheckboxInputGUI('online','online');
@@ -38,7 +35,6 @@ class ilObjReportExampleGUI extends ilObjReportBaseGUI {
 		$show_filter = new ilCheckboxInputGUI('filter','filter');
 		$show_filter->setValue(1);
 		$show_filter->setChecked(0);
-
 		if($this->object->getShowFilter()) {
 			$show_filter->setChecked(1);
 		}
@@ -49,16 +45,10 @@ class ilObjReportExampleGUI extends ilObjReportBaseGUI {
 	}
 
 	protected function saveSettings() {
-
 		$this->object->setOnline($_POST["online"]);
-
-
 		$this->object->setShowFilter($_POST["filter"]);
-
 		$this->object->doUpdate();
 		$this->object->update();
 		$this->renderSettings();
 	}
-
-
 }

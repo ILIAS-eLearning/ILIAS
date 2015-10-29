@@ -16,6 +16,7 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 	protected $filter = null;
 	protected $query = null;
 	protected $table = null;
+	protected $order = null;
 
 	public function __construct($a_ref_id = 0) {
 		parent::__construct($a_ref_id);
@@ -30,10 +31,10 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 
 
 	final public function prepareReport() {
-		$this->buildFilter();
-		$this->buildTable();
-		$this->buildQuery();
-		$this->buildOrder();
+		$this->filter = $this->buildFilter(catFilter::create());
+		$this->table = $this->buildTable(catReportTable::create());
+		$this->query = $this->buildQuery(catReportQuery::create());
+		$this->order = $this->buildOrder(catReportOrder::create($this->table));
 	}
 
 	public function deliverFilter() {
@@ -49,10 +50,10 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 		return $this->order;
 	}
 
-	abstract protected function buildQuery();
-	abstract protected function buildFilter();
-	abstract protected function buildTable();
-	abstract protected function buildOrder();
+	abstract protected function buildQuery($query);
+	abstract protected function buildFilter($filter);
+	abstract protected function buildTable($table);
+	abstract protected function buildOrder($order);
 
 	/**
 	* The sql-query is built by the following methods.

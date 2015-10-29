@@ -11,8 +11,6 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 	protected $gLog;
 	protected $gAccess;
 
-
-
 	protected function afterConstructor() {
 		global $lng, $ilCtrl, $tpl, $ilUser, $ilLog, $ilAccess, $ilTabs;	
 		$this->gLng = $lng;
@@ -52,8 +50,7 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 	*/
 	final public function performCommand() {
 		$cmd = $this->gCtrl->getCmd();
-		
-		        
+			        
 		switch ($cmd) {
 			case "saveSettings":
 				return $this->saveSettings();
@@ -92,8 +89,6 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 	}
 		
 	protected function render() {
-		//require_once("Services/CaTUIComponents/classes/class.catHSpacerGUI.php");
-
 		return 	($this->title !== null ? $this->title->render() : "")
 				. ($this->object->deliverFilter() !== null ? $this->object->deliverFilter()->render() : "")
 				. ($this->spacer !== null ? $this->space->render() : "")
@@ -101,9 +96,7 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 	}
 	
 	protected function renderTable() {
-		
 		$callback = get_class($this).'::transformResultRow';
-
 		if ($this->object->deliverTable()->_group_by === null) {
 			$data = $this->object->deliverGroupedData($callback);
 			$content = $this->renderGroupedTable($data);
@@ -111,7 +104,6 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 			$data = $this->object->deliverData($callback);
 			$content = $this->renderUngroupedTable($data);
 		}
-
 		//export-button
 		$export_btn = "";
 		if (count($data) > 0) {
@@ -122,7 +114,6 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 				.$content
 				.$export_btn;
 	}
-
 	
 	protected function renderExportButton() {
 		$this->enableRelevantParametersCtrl();
@@ -144,7 +135,6 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 		$this->table->setEnableTitle(false);
 		$this->table->setTopCommands(false);
 		$this->table->setEnableHeader(true);*/
-
 	}
 
 	protected function prepareTitle() {
@@ -155,7 +145,6 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 		$this->spacer = null;
 	}
 
-	
 	protected function renderUngroupedTable($data) {
 
 		if(!$this->object->deliverTable()->row_template_filename) {
@@ -182,22 +171,21 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 		$cnt = count($data);
 		$this->table->setLimit($cnt);
 		$this->table->setMaxCount($cnt);
-
 		$external_sorting = true;
+
 		if($this->object->deliverOrder() === null || 
 			in_array($this->object->deliverOrder()->getOrderField(), 
 				$this->internal_sorting_fields ? $this->internal_sorting_fields : array())
 			) {
 				$external_sorting = false;	
 		}
+		
 		$this->table->setExternalSorting($external_sorting);
-
 		if ($this->internal_sorting_numeric) {
 			foreach ($this->internal_sorting_numeric as $col) {
 				$table->numericOrdering($col);
 			}
 		}
-
 
 		$this->table->setData($data);
 		$this->enableRelevantParametersCtrl();
@@ -217,7 +205,6 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 		return $content;
 	}
 
-
 	protected function renderGroupHeader($data) {
 		$tpl = new ilTemplate( $this->object->deliverTable()->group_head_template_filename
 							 , true, true
@@ -229,14 +216,13 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 			$tpl->setVariable("TITLE_".strtoupper($key)
 							 , $conf[2] ? $conf[1] : $this->lng->txt($conf[1]));
 		}
-		
 		return $tpl->get();
 	}
 
 	/**
 	* provide xls version of report for download.
 	*/
-protected function exportXLS() {
+	protected function exportXLS() {
 		require_once "Services/Excel/classes/class.ilExcelUtils.php";
 		require_once "Services/Excel/classes/class.ilExcelWriterAdapter.php";
 		
@@ -282,14 +268,11 @@ protected function exportXLS() {
 				if (method_exists($this, $method_name)) {
 					$v = $this->$method_name($v);
 				}
-
 				$worksheet->write($rowcount, $colcount, $v, $format_wrap);
 				$colcount++;
 			}
-
 			$rowcount++;
 		}
-
 		$workbook->close();		
 	}
 
@@ -314,8 +297,6 @@ protected function exportXLS() {
 		}
 		return $a_rec;
 	}
-
-
 
 	/**
 	* housekeeping the get parameters passed to ctrl
