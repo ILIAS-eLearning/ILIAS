@@ -226,6 +226,8 @@ class ilSkillUsage implements ilSkillUsageInfo
 			$skill_logger->debug("ilSkillUsage: ... skill_id: ".$a_tempate_id.", tref_id: ".$tref.".");
 		}
 
+		$skill_logger->debug("ilSkillUsage: ... count cskill_ids: ".count($cskill_ids).".");
+
 		return $this->getAllUsagesInfoOfSubtrees($cskill_ids);
 	}
 
