@@ -211,6 +211,9 @@ class ilSkillUsage implements ilSkillUsageInfo
 	 */
 	function getAllUsagesOfTemplate($a_tempate_id)
 	{
+		$skill_logger = ilLoggerFactory::getLogger('skll');
+		$skill_logger->debug("ilSkillUsage: getAllUsagesOfTemplate(".$a_tempate_id.")");
+
 		// get all trefs for template id
 		include_once("./Services/Skill/classes/class.ilSkillTemplateReference.php");
 		$trefs = ilSkillTemplateReference::_lookupTrefIdsForTemplateId($a_tempate_id);
@@ -220,6 +223,7 @@ class ilSkillUsage implements ilSkillUsageInfo
 		foreach ($trefs as $tref)
 		{
 			$cskill_ids[] = array("skill_id" => $a_tempate_id, "tref_id" => $tref);
+			$skill_logger->debug("ilSkillUsage: ... skill_id: ".$a_tempate_id.", tref_id: ".$tref.".");
 		}
 
 		return $this->getAllUsagesInfoOfSubtrees($cskill_ids);
