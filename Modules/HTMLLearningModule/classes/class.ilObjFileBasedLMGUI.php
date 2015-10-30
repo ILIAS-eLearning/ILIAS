@@ -935,7 +935,8 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	{
 		global $rbacsystem, $ilErr, $lng, $ilAccess;
 
-		if ($ilAccess->checkAccess("visible", "", $a_target))
+		if ($ilAccess->checkAccess("read", "", $a_target) ||
+			$ilAccess->checkAccess("visible", "", $a_target))
 		{
 			ilObjectGUI::_gotoRepositoryNode($a_target, "infoScreen");
 		}
