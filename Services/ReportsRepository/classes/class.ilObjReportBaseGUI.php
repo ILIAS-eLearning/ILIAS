@@ -60,17 +60,23 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 			        
 		switch ($cmd) {
 			case "saveSettings":
-				return $this->saveSettings();
+				if($this->gAccess->checkAccess("write", "", $this->object->getRefId())) {
+					return $this->saveSettings();
+				}
 				break;
 			case "settings":
-				return $this->renderSettings();
+				if($this->gAccess->checkAccess("write", "", $this->object->getRefId())) {
+					return $this->renderSettings();
+				}
 				break;
 			case "exportxls":
 				$this->exportXLS();
 				exit();
 			//no "break;" !
 			case "showContent":
-				return $this->renderReport();
+				if($this->gAccess->checkAccess("read", "", $this->object->getRefId())) {
+					return $this->renderReport();
+				}
 				break;
 			default:
 				throw new ilException("Unknown Command '$cmd'.");
