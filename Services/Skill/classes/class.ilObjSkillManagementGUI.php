@@ -417,6 +417,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 					$html.= $tab->getHTML()."<br/><br/>";
 				}
 				$tpl->setContent($html);
+				$ilCtrl->saveParameter($a_gui, "tmpmode");
 				$ilToolbar->addButton($lng->txt("back"),
 					$ilCtrl->getLinkTarget($a_gui, "cancelDelete"));
 				ilUtil::sendFailure($lng->txt("skmg_cannot_delete_nodes_in_use"));
