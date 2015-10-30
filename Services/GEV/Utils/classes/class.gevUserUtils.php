@@ -1338,11 +1338,15 @@ class gevUserUtils {
 
 			$superiors = $tree->getSuperiors($ref_id);
 
-			// Skip this org unit if the user is superior there or the
-			// org unit has no superiors. We need to look in the unit
-			// above then.
-			if ( ($i < $initial_amount && in_array($this->user_id, $superiors))
-			||   count($superiors) == 0) {
+			// Skip the orgu if there are no superiors there.
+			if ( count($superiors) == 0
+			|| (   $i < $initial_amount
+				// This is only about the org units the user actually is a member of
+				&& in_array($this->user_id, $superiors)
+				// If a user is an employee and a superior in one orgunit, he
+				// actually seem to be his own superior.
+				&& !in_array($this->user_id, $tree->getEmployees($ref_id)))
+			) {
 				$orgus[] = $tree->getParent($ref_id);
 				continue;
 			}
