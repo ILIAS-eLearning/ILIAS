@@ -160,7 +160,7 @@ class ilContainerStartObjectsGUI
 		$cgui->setFormAction($this->ctrl->getFormAction($this, "listStructure"));
 		$cgui->setHeaderText($this->lng->txt("crs_starter_delete_sure"));
 		$cgui->setCancel($this->lng->txt("cancel"), "listStructure");
-		$cgui->setConfirm($this->lng->txt("delete"), "deleteStarter");
+		$cgui->setConfirm($this->lng->txt("remove"), "deleteStarter");
 
 		// list objects that should be deleted		
 		$all = $this->start_object->getStartObjects();		
