@@ -16077,3 +16077,6 @@ crs#:#crs_loc_settings_type_it_qualifying_sel_info#:#Qualifizierender Einstiegst
 crs#:#crs_loc_settings_type_it_none_info#:#Kein Einstiegstest
 crs#:#crs_loc_settings_type_q_all_info#:#Abschlusstest über alle Lernziele
 crs#:#crs_loc_settings_type_q_selected_info#:#Abschlusstest pro Lernziel
+crs#:#crs_visibility_until_info#:#---
+crs#:#crs_registration_limited_info#:#---
+crs#:#crs_subscription_max_members_short_info#:#---
