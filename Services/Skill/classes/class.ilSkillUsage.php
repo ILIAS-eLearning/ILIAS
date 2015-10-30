@@ -121,7 +121,12 @@ class ilSkillUsage implements ilSkillUsageInfo
 			$a_skill_field = "skill_id", $a_tref_field = "tref_id")
 	{
 		global $ilDB;
-		
+
+		if (count($a_cskill_ids) == 0)
+		{
+			return;
+		}
+
 		$w = "WHERE";
 		$q = "SELECT ".$a_key_field.", ".$a_skill_field.", ".$a_tref_field." FROM ".$a_table." ";
 		foreach ($a_cskill_ids as $sk)
