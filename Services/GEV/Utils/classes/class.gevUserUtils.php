@@ -1310,43 +1310,46 @@ class gevUserUtils {
 	
 	public function getDirectSuperiors() {
 		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php");
-		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
 		$tree = ilObjOrgUnitTree::_getInstance();
-		$sups = array();
-		//$sups = gevOrgUnitUtils::getSuperiorsOfUser($this->user_id);
-		$look_above_orgus = array();
-		$orgus = $tree->getOrgUnitOfUser($this->user_id);
-		foreach( $orgus as $ref_id ) {
-			$employees = $tree->getEmployees($ref_id);
-			$superiors = $tree->getSuperiors($ref_id);
-			$any_superiors = count($superiors);
-			if(!$any_superiors) {
-				$look_above_orgus[] = $ref_id; 
+
+		// This starts with all the org units the user is member in.
+		// During the loop we might fill this array with more org units
+		// if we could not find any superiors for the user in them.
+		$orgus = array_values($tree->getOrgUnitOfUser($this->user_id));
+
+		if (count($orgus) == 0) {
+			return array();
+		}
+
+		$the_superiors = array();
+
+		$i = -1;
+		while ($i < count($orgus)) {
+			$i++;
+			$ref_id = $orgus[$i];
+
+			// Reached the top of the tree.
+			if (!$ref_id || $ref_id == ROOT_FOLDER_ID) {
 				continue;
 			}
-			if(in_array($this->user_id,$employees)) {
-				$sups = array_merge($sups,$superiors);
-			} else {
-					$look_above_orgus[] = $ref_id;		
+
+			$superiors = $tree->getSuperiors($ref_id);
+
+			// Skip this org unit if the user is superior there or the
+			// org unit has no superiors. We need to look in the unit
+			// above then.
+			if ( in_array($this->user_id, $superiors)
+			||   count($superiors) == 0) {
+				$orgus[] = $tree->getParent($ref_id);
+				continue;
 			}
-			if(in_array($this->user_id,$superiors)) {
-					$look_above_orgus[] = $ref_id;			
-			}
+
+			$the_superiors[] = $superiors;
 		}
 
-		$look_above_orgus = array_unique($look_above_orgus);
+		$the_superiors = call_user_func_array("array_merge", $the_superiors);
 
-		foreach($look_above_orgus as $org) {
-			$sups_aux = array();
-			$org_aux = $tree->getParent($org);
-			while (count($sups_aux) == 0 && $org_aux != ROOT_FOLDER_ID) {
-				$org_aux = $tree->getParent($org_aux);
-				$sups_aux = $tree->getSuperiors($org_aux);
-			}
-			$sups = array_merge($sups,$sups_aux);
-		}
-		$sups = array_unique($sups);
-		return gevUserUtils::removeInactiveUsers($sups);
+		return gevUserUtils::removeInactiveUsers(array_unique($the_superiors));
 	}
 	
 	public function isEmployeeOf($a_user_id) {
