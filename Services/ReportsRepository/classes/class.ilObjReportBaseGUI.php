@@ -21,7 +21,12 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 		$this->gAccess = $ilAccess;
 		$this->gTabs = $ilTabs;
 
-		$this->setFilterAction();
+		// TODO: this is crapy. The root cause of this problem is, that the
+		// filter should no need to know about it's action. The _rendering_
+		// of the filter needs to know about the action.
+		if ($this->object !== null) {
+			$this->setFilterAction();
+		}
 
 		$this->order = null;
 		$this->title = null;
@@ -68,7 +73,7 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 				return $this->renderReport();
 				break;
 			default:
-				return $this->renderReport();
+				throw new ilException("Unknown Command '$cmd'.");
 		}
 	}
 
