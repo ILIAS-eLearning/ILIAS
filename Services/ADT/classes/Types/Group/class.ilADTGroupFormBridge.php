@@ -120,7 +120,12 @@ class ilADTGroupFormBridge extends ilADTFormBridge
 				$field = $this->getForm()->getItemByPostvar($element_id);					
 				$field->setAlert($lng->txt("msg_input_is_required"));
 				$valid = false;
-			}			
+			}						
+			// #17232 - date time input GUI special case
+			else if(!$element->validate())
+			{
+				$valid = false;
+			}
 		}
 				
 		if(!$this->getADT()->isValid())

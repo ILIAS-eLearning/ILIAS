@@ -535,6 +535,12 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
 					$input_hint = $lng->txt("mm_dd_yyyy");
 					break;
 			}
+			
+			// #17232
+			if($this->invalid_input)
+			{
+				$value = $this->invalid_input;
+			}
 
 			$tpl->setCurrentBlock("prop_date_input_field");
 			$tpl->setVariable("DATE_ID", $this->getPostVar());
