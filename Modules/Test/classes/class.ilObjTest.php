@@ -10455,7 +10455,6 @@ function getAnswerFeedbackPoints()
 				if ($user_id != 13)
 				{
 					include_once "./Modules/Test/classes/class.ilTestSession.php";
-					$testSession = FALSE;
 					$testSession = new ilTestSession();
 					$testSession->setRefId($this->getRefId());
 					$testSession->setTestId($this->getTestId());
@@ -10468,6 +10467,8 @@ function getAnswerFeedbackPoints()
 					{
 						include_once "./Modules/Test/classes/class.ilTestSequence.php";
 						$testSequence = new ilTestSequence($active_id, $pass, $this->isRandomTest());
+						$testSequence->loadFromDb();
+						$testSequence->loadQuestions();
 						if (!$testSequence->hasSequence())
 						{
 							$testSequence->createNewSequence($this->getQuestionCount(), $shuffle);
@@ -10477,20 +10478,22 @@ function getAnswerFeedbackPoints()
 						{
 							$question_id = $testSequence->getQuestionForSequence($seq);
 							$objQuestion = ilObjTest::_instanciateQuestion($question_id);
+							$assSettings = new ilSetting('assessment');
+							require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionProcessLockerFactory.php';
+							$processLockerFactory = new ilAssQuestionProcessLockerFactory($assSettings, $ilDB);
+							$processLockerFactory->setQuestionId($objQuestion->getId());
+							$processLockerFactory->setUserId($testSession->getUserId());
+							include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
+							$processLockerFactory->setAssessmentLogEnabled(ilObjAssessmentFolder::_enabledAssessmentLogging());
+							$objQuestion->setProcessLocker($processLockerFactory->getLocker());
 							$objQuestion->createRandomSolution($testSession->getActiveId(), $pass);
 						}
-						if ($pass < $nr_of_passes - 1)
-						{
-							$testSession->increasePass();
-							$testSession->setLastSequence(0);
-							$testSession->saveToDb();
-						}
-						else
-						{
-							$testSession->setSubmitted(1);
-							$testSession->setSubmittedTimestamp(date('Y-m-d H:i:s'));
-							$testSession->saveToDb();
-						}
+						$testSession->increasePass();
+						$testSession->setLastSequence(0);
+						$testSession->setLastFinishedPass($pass);
+						$testSession->setSubmitted(1);
+						$testSession->setSubmittedTimestamp(date('Y-m-d H:i:s'));
+						$testSession->saveToDb();
 					}
 					$number--;
 					if ($number == 0) return;

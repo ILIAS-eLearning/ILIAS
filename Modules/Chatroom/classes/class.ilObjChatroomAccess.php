@@ -61,7 +61,7 @@ class ilObjChatroomAccess extends ilObjectAccess
 			return false;
 		}
 
-		if ($rbacsystem->checkAccess("visible", $t_arr[1]))
+		if ($rbacsystem->checkAccess("read", $t_arr[1]))
 		{
 			return true;
 		}

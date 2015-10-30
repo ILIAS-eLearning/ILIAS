@@ -324,7 +324,7 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 							break;
 
 						case "spent_seconds":							
-							if(in_array($data["type"], array("exc", "file", "mcst", "mob")))				
+							if(!ilObjectLP::supportsSpentSeconds($data["type"]))				
 							{
 								$val = "-";
 							}
@@ -341,18 +341,18 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 
 					}
 				}
-				if ($c == "mark" && in_array($this->type, array("lm", "dbk")))
+				if ($c == "mark" && 
+					!ilObjectLP::supportsMark($this->type))				
 				{
 					$val = "-";
 				}
-				if ($c == "spent_seconds" && in_array($this->type, array("exc", "file", "mcst")))
+				if ($c == "spent_seconds" && 
+					!ilObjectLP::supportsSpentSeconds($this->type))
 				{
 					$val = "-";
-				}
+				}				
 				if ($c == "percentage" &&
-					(in_array(strtolower($this->status_class),
-							  array("illpstatusmanual", "illpstatusscormpackage", "illpstatustestfinished")) ||
-					in_array($this->type, array("exc", "file", "mcst"))))
+					!$this->isPercentageAvailable($data["obj_id"]))
 				{
 					$val = "-";
 				}

@@ -42,6 +42,7 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 			$this->mailing_allowed = $rbacsystem->checkAccess('internal_mail',$mail->getMailObjectReferenceId());
 		}
 
+		$this->setId($type. 'table_members');
 		parent::__construct($a_parent_obj, 'showMembers');
 		$lng->loadLanguageModule('crs');
 		$this->parentObject = $a_parent_obj;
@@ -53,7 +54,6 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 			$mode["long"] = 'course';
 			$mode["lng_type"] = $lng->txt('course');
 			$mode["view"] = "crs_members";
-			$mode["tableprefix"] = "crstable_members";
 		}
 		else if ($type == 'grp')
 		{
@@ -62,7 +62,6 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 			$mode["long"] = 'group';
 			$mode["lng_type"] = $lng->txt('group');
 			$mode["view"] = "grp_members";
-			$mode["tableprefix"] = "grptable_members";
 		}
 		$this->setTitle($lng->txt('members'));
 		$this->mode = $mode;
@@ -75,7 +74,6 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
 		$ilCtrl->clearParameters($a_parent_obj);
 
-		$this->setPrefix($mode['tableprefix']);
 		$this->setRowTemplate('tpl.mail_search_courses_members_row.html', 'Services/Contact');
 
 		// setup columns

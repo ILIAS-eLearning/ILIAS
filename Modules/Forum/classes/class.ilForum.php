@@ -23,6 +23,11 @@ class ilForum
 	const DEFAULT_PAGE_HITS = 30;
 
 	/**
+	 * @var array
+	 */
+	protected static $moderators_by_ref_id_map = array();
+
+	/**
 	* ilias object
 	* @var object ilias
 	* @access public
@@ -454,7 +459,7 @@ class ilForum
 		$objNewPost->setUserAlias($alias);
 		$objNewPost->setPosAuthorId($author_id);
 		
-		$this->_isModerator($this->getForumRefId(), $author_id) ? $is_moderator = true : $is_moderator = false; 
+		self::_isModerator($this->getForumRefId(), $author_id) ? $is_moderator = true : $is_moderator = false; 
 		$objNewPost->setIsAuthorModerator($is_moderator);
 		
 		if ($date == "")
@@ -1387,8 +1392,12 @@ class ilForum
 	*/
 	public static function _isModerator($a_ref_id, $a_usr_id)
 	{
-		return in_array($a_usr_id, ilForum::_getModerators($a_ref_id));
-	}	
+		if(!self::$moderators_by_ref_id_map[$a_ref_id])
+		{
+			self::$moderators_by_ref_id_map[$a_ref_id] = ilForum::_getModerators($a_ref_id);
+		}
+		return in_array($a_usr_id, self::$moderators_by_ref_id_map[$a_ref_id]);
+	}
 	
 	/**
    	* get number of articles from given user-ID

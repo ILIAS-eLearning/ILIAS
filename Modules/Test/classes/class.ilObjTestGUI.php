@@ -3485,7 +3485,11 @@ class ilObjTestGUI extends ilObjectGUI
 		
 		if ($_GET['createRandomSolutions'])
 		{
+			global $ilCtrl;
+			
 			$this->object->createRandomSolutions($_GET['createRandomSolutions']);
+			
+			$ilCtrl->redirect($this);
 		}
 
 		if (!$ilAccess->checkAccess("read", "", $this->ref_id))
