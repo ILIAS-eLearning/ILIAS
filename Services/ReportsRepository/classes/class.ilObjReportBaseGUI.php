@@ -11,6 +11,8 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 	protected $gLog;
 	protected $gAccess;
 
+	protected $title;
+
 	protected function afterConstructor() {
 		global $lng, $ilCtrl, $tpl, $ilUser, $ilLog, $ilAccess, $ilTabs;	
 		$this->gLng = $lng;
@@ -28,7 +30,6 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 			$this->setFilterAction();
 		}
 
-		$this->order = null;
 		$this->title = null;
 	}
 
@@ -60,9 +61,11 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 			        
 		switch ($cmd) {
 			case "saveSettings":
+				$this->gTabs->activateTab("properties");
 				return $this->saveSettings();
 				break;
 			case "settings":
+				$this->gTabs->activateTab("properties");
 				return $this->renderSettings();
 				break;
 			case "exportxls":
@@ -70,6 +73,7 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 				exit();
 			//no "break;" !
 			case "showContent":
+				$this->gTabs->activateTab("content");
 				return $this->renderReport();
 				break;
 			default:
@@ -331,7 +335,7 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 
 
 	/**
-	* Settings menu of the report. Note that any setting query will be performed inside ilObjBaseReport.
+	* Settings menu of the report. Note that any setting query will be performed inside ilObj<>Reoport.
 	*/
 	protected function renderSettings() {
 		return;
