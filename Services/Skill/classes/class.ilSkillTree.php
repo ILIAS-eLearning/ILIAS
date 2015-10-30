@@ -74,6 +74,10 @@ class ilSkillTree extends ilTree
 					$path[$k]["tref_id"] = 0;
 				}
 			}
+			else
+			{
+				$path = array();
+			}
 		}
 		
 		return $path;

@@ -203,6 +203,27 @@ class ilSkillUsage implements ilSkillUsageInfo
 		return $this->getAllUsagesInfo($allnodes);
 	}
 
+	/**
+	 * Get all usages of template
+	 *
+	 * @param int $a_tempate_id template
+	 * @return array usages array
+	 */
+	function getAllUsagesOfTemplate($a_tempate_id)
+	{
+		// get all trefs for template id
+		include_once("./Services/Skill/classes/class.ilSkillTemplateReference.php");
+		$trefs = ilSkillTemplateReference::_lookupTrefIdsForTemplateId($a_tempate_id);
+
+		// get all usages of subtrees of template_id:tref
+		$cskill_ids = array();
+		foreach ($trefs as $tref)
+		{
+			$cskill_ids[] = array("skill_id" => $a_tempate_id, "tref_id" => $tref);
+		}
+
+		return $this->getAllUsagesInfoOfSubtrees($cskill_ids);
+	}
 
 	/**
 	 * Get type info string
