@@ -60,11 +60,13 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 		switch ($cmd) {
 			case "saveSettings":
 				if($this->gAccess->checkAccess("write", "", $this->object->getRefId())) {
+					$this->gTabs->setActive("protperties");
 					return $this->saveSettings();
 				}
 				break;
 			case "settings":
 				if($this->gAccess->checkAccess("write", "", $this->object->getRefId())) {
+					$this->gTabs->setActive("protperties");
 					return $this->renderSettings();
 				}
 				break;
@@ -74,6 +76,7 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 			//no "break;" !
 			case "showContent":
 				if($this->gAccess->checkAccess("read", "", $this->object->getRefId())) {
+					$this->gTabs->setActive("content");
 					return $this->renderReport();
 				}
 				break;
