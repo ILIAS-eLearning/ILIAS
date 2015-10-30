@@ -159,20 +159,31 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			$this->tpl->show();
 		}
 	}
-
-	/**
-	* Questionpool properties
-	*/
-	public function propertiesObject()
+	
+	protected function initEditForm()
 	{
-		$save = ((strcmp($this->ctrl->getCmd(), "save") == 0)) ? true : false;
-
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this, 'properties'));
 		$form->setTitle($this->lng->txt("properties"));
 		$form->setMultipart(false);
 		$form->setId("properties");
+		
+		// title
+		$title = new ilTextInputGUI($this->lng->txt('title'),'title');
+		$title->setSubmitFormOnEnter(true);
+		$title->setValue($this->object->getTitle());
+		$title->setSize(min(40, ilObject::TITLE_LENGTH));
+		$title->setMaxLength(ilObject::TITLE_LENGTH);
+		$title->setRequired(true);
+		$form->addItem($title);
+		
+		// desc
+		$desc = new ilTextAreaInputGUI($this->lng->txt('description'),'desc');
+		$desc->setValue($this->object->getLongDescription());
+		$desc->setRows(2);
+		$desc->setCols(40);
+		$form->addItem($desc);
 
 		// online
 		$online = new ilCheckboxInputGUI($this->lng->txt("spl_online_property"), "online");
@@ -181,12 +192,21 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		$form->addItem($online);
 
 		$form->addCommandButton("saveProperties", $this->lng->txt("save"));
+		
+		return $form;
+	}
 
-		if ($save)
+	/**
+	* Questionpool properties
+	*/
+	public function propertiesObject(ilPropertyFormGUI $a_form = null)
+	{
+		if(!$a_form)
 		{
-			$form->checkInput();
+			$a_form = $this->initEditForm();
 		}
-		$this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
+		
+		$this->tpl->setVariable("ADM_CONTENT", $a_form->getHTML());
 	}
 	
 	/**
@@ -194,12 +214,21 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	*/
 	public function savePropertiesObject()
 	{
-		$qpl_online = $_POST["online"];
-		if (strlen($qpl_online) == 0) $qpl_online = "0";
-		$this->object->setOnline($qpl_online);
-		$this->object->saveToDb();
-		ilUtil::sendSuccess($this->lng->txt("saved_successfully"), true);
-		$this->ctrl->redirect($this, "properties");
+		$form = $this->initEditForm();
+		if($form->checkInput())
+		{
+			$this->object->setTitle($form->getInput("title"));
+			$this->object->setDescription($form->getInput("desc"));
+			$this->object->setOnline((int)$form->getInput("online"));
+			
+			$this->object->saveToDb();
+			
+			ilUtil::sendSuccess($this->lng->txt("saved_successfully"), true);
+			$this->ctrl->redirect($this, "properties");
+		}
+		
+		$form->setValuesByPost();
+		$this->propertiesObject($form);
 	}
 	
 
@@ -856,7 +885,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			// properties
 			$tabs_gui->addTarget("settings",
 			 $this->ctrl->getLinkTarget($this,'properties'),
-			 "properties",
+			 array("properties", "saveProperties"),
 			 "", "");
 			 
 			// manage phrases
