@@ -11,8 +11,6 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 	protected $gLog;
 	protected $gAccess;
 
-	protected $title;
-
 	protected function afterConstructor() {
 		global $lng, $ilCtrl, $tpl, $ilUser, $ilLog, $ilAccess, $ilTabs;	
 		$this->gLng = $lng;
@@ -61,20 +59,23 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 			        
 		switch ($cmd) {
 			case "saveSettings":
-				$this->gTabs->activateTab("properties");
-				return $this->saveSettings();
+				if($this->gAccess->checkAccess("write", "", $this->object->getRefId())) {
+					return $this->saveSettings();
+				}
 				break;
 			case "settings":
-				$this->gTabs->activateTab("properties");
-				return $this->renderSettings();
+				if($this->gAccess->checkAccess("write", "", $this->object->getRefId())) {
+					return $this->renderSettings();
+				}
 				break;
 			case "exportxls":
 				$this->exportXLS();
 				exit();
 			//no "break;" !
 			case "showContent":
-				$this->gTabs->activateTab("content");
-				return $this->renderReport();
+				if($this->gAccess->checkAccess("read", "", $this->object->getRefId())) {
+					return $this->renderReport();
+				}
 				break;
 			default:
 				throw new ilException("Unknown Command '$cmd'.");
