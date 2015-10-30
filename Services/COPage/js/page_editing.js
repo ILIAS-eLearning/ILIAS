@@ -2398,6 +2398,9 @@ function editParagraph(div_id, mode, switched)
 						ilCOPage.focusTiny(true);
 						cmd_called = false;
 					}
+
+					$('#tinytarget_ifr').contents().find("html").attr('lang', $('html').attr('lang'));
+					$('#tinytarget_ifr').contents().find("html").attr('dir', $('html').attr('dir'));
 				});
 			}
 
