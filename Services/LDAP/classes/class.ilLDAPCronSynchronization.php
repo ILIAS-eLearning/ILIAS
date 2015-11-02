@@ -89,6 +89,10 @@ class ilLDAPCronSynchronization extends ilCronJob
 		 		if(count($users))
 		 		{											
 			 		$ilLog->write("LDAP: Starting update/creation of users ...");
+
+					include_once './Services/User/classes/class.ilUserCreationContext.php';
+					ilUserCreationContext::getInstance()->addContext(ilUserCreationContext::CONTEXT_LDAP);
+
 			 		$this->ldap_to_ilias = new ilLDAPAttributeToUser($this->current_server);
 					$this->ldap_to_ilias->setNewUserAuthMode($this->current_server->getAuthenticationMappingKey());
 					#$ilLog->write(print_r($users,true));

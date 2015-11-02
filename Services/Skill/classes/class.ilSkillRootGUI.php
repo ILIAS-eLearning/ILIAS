@@ -116,6 +116,7 @@ class ilSkillRootGUI extends ilSkillTreeNodeGUI
 	function cancelDelete()
 	{
 		global $ilCtrl;
+
 		if ($_GET["tmpmode"])
 		{
 			$ilCtrl->redirect($this, "listTemplates");

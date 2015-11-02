@@ -16070,3 +16070,13 @@ content#:#cont_comments_info#:#SCORM 2004-Lernmodule erlauben Benutzern, im Lern
 crs#:#crs_checklist_objective#:#Checkliste Lernziel
 prtf#:#prtf_set_default_publish_global#:#Auch für unregistrierte Benutzer freigeben
 prtf#:#prtf_set_default_publish_registered#:#Nur für registrierte Nutzer freigeben
+crs#:#crs_loc_settings_type_it_placement_all_info#:#Diagnostischer Einstiegstest über alle Lernziele
+crs#:#crs_loc_settings_type_it_placement_sel_info#:#Diagnostischer Einstiegstest pro Lernziel
+crs#:#crs_loc_settings_type_it_qualifying_all_info#:#Qualifizierender Einstiegstest über alle Lernziele
+crs#:#crs_loc_settings_type_it_qualifying_sel_info#:#Qualifizierender Einstiegstest pro Lernziel
+crs#:#crs_loc_settings_type_it_none_info#:#Kein Einstiegstest
+crs#:#crs_loc_settings_type_q_all_info#:#Abschlusstest über alle Lernziele
+crs#:#crs_loc_settings_type_q_selected_info#:#Abschlusstest pro Lernziel
+crs#:#crs_visibility_until_info#:#---
+crs#:#crs_registration_limited_info#:#---
+crs#:#crs_subscription_max_members_short_info#:#---

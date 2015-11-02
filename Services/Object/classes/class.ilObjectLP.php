@@ -200,6 +200,11 @@ class ilObjectLP
 		return ilLPObjSettings::_mode2InfoText($a_mode);		
 	}
 	
+	public function getSettingsInfo()
+	{
+		// type-specific		
+	}
+	
 	
 	//
 	// COLLECTION
@@ -632,6 +637,26 @@ class ilObjectLP
 	{
 		// type-specific
 	}
+	
+	
+	//
+	// type-specific support of features (should be enhanced)
+	// 
+	
+	public static function supportsSpentSeconds($a_obj_type)
+	{
+		return !in_array($a_obj_type, array("exc", "file", "mcst", "mob", "htlm"));
+	}
+	
+	public static function supportsMark($a_obj_type)
+	{
+		return !in_array($a_obj_type, array("lm", "dbk"));
+	}
+	
+	public static function supportsMatrixView($a_obj_type)
+	{
+		return !in_array($a_obj_type, array('svy', 'tst', 'htlm', 'exc', 'sess', 'file', 'prg'));
+	}		
 }
 
 ?>

@@ -609,4 +609,30 @@ class ilObjAssessmentFolder extends ilObject
 	{
 		$this->setting->set('ass_skl_trig_num_answ_barrier', $skillTriggeringNumAnswersBarrier);
 	}
+
+	public function fetchScoringAdjustableTypes($allQuestionTypes)
+	{
+		require_once 'Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
+		$scoringAdjustableQuestionTypes = array();
+		
+		foreach($allQuestionTypes as $type => $typeData)
+		{
+			$questionGui = assQuestionGUI::_getQuestionGUI($typeData['type_tag']);
+			
+			if( $this->questionSupportsScoringAdjustment($questionGui) )
+			{
+				$scoringAdjustableQuestionTypes[$type] = $typeData;
+			}
+		}
+		
+		return $scoringAdjustableQuestionTypes;
+	}
+	
+	private function questionSupportsScoringAdjustment(\assQuestionGUI $question_object)
+	{
+		return ($question_object instanceof ilGuiQuestionScoringAdjustable
+			|| $question_object instanceof ilGuiAnswerScoringAdjustable)
+		&& ($question_object->object instanceof ilObjQuestionScoringAdjustable
+			|| $question_object->object instanceof ilObjAnswerScoringAdjustable);
+	}
 }

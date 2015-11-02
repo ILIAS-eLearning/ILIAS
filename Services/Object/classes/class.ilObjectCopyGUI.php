@@ -677,6 +677,7 @@ class ilObjectCopyGUI
 	protected function cancel()
 	{
 		global $ilCtrl;
+		$ilCtrl->setReturnByClass(get_class($this->parent_obj),'cancel');
 		$ilCtrl->returnToParent($this);
 	}
 
@@ -1224,6 +1225,7 @@ class ilObjectCopyGUI
 		$this->form->setTitle($lng->txt($this->getType().'_copy'));
 		
 		$this->form->addCommandButton('searchSource', $lng->txt('btn_next'));
+		$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
 		
 		$tit = new ilTextInputGUI($lng->txt('title'),'tit');
 		$tit->setSize(40);

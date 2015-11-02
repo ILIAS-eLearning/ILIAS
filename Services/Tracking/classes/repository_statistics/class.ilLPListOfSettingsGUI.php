@@ -55,6 +55,12 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 		global $ilHelp;
 
 		$ilHelp->setSubScreenId("trac_settings");
+		
+		$info = $this->obj_lp->getSettingsInfo();
+		if($info)
+		{
+			ilUtil::sendInfo($info);
+		}
 
 		$form = $this->initFormSettings();
 		$this->tpl->setContent(

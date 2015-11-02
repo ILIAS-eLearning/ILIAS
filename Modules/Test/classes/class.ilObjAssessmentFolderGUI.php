@@ -244,7 +244,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		$scoring = new ilCheckboxGroupInputGUI($this->lng->txt('assessment_log_scoring_adjustment_activate'), "chb_scoring_adjustment");
 		$scoring_active = $this->object->getScoringAdjustableQuestions();
 		$scoring->setValue($scoring_active);
-		foreach ($questiontypes as $type_name => $qtype)
+		foreach ($this->object->fetchScoringAdjustableTypes($questiontypes) as $type_name => $qtype)
 		{
 			$scoring->addOption(new ilCheckboxOption($type_name, $qtype["question_type_id"]));
 		}

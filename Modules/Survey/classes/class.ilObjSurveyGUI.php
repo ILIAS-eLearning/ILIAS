@@ -49,8 +49,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 		
 		if(!$this->external_rater_360)
 		{
-			if (!$ilAccess->checkAccess("read", "", $this->ref_id) && 
-				!$ilAccess->checkAccess("visible", "", $this->ref_id))
+			if (!$ilAccess->checkAccess("visible", "", $this->ref_id) &&
+				!$ilAccess->checkAccess("read", "", $this->ref_id))
 			{
 				$ilErr->raiseError($this->lng->txt("permission_denied"), $ilErr->MESSAGE);
 			}
@@ -309,7 +309,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$this->ctrl->getLinkTargetByClass(array("ilsurveyeditorgui", "ilsurveypagegui"), "renderPage"));
 		}
 		
-		if ($ilAccess->checkAccess("visible", "", $this->ref_id))
+		if ($ilAccess->checkAccess("read", "", $this->ref_id))
 		{
 			$tabs_gui->addTab("info_short",
 				$this->lng->txt("info_short"),
@@ -1595,7 +1595,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 		global $ilAccess, $ilTabs, $ilUser, $ilToolbar;
 		
 		if (!$this->external_rater_360 &&
-			!$ilAccess->checkAccess("visible", "", $this->ref_id))
+			!$ilAccess->checkAccess("visible", "", $this->ref_id) &&
+			!$ilAccess->checkAccess("read", "", $this->ref_id))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
 		}
@@ -2030,7 +2031,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 			exit;
 		}
 		
-		if ($ilAccess->checkAccess("read", "", $a_target))
+		if ($ilAccess->checkAccess("visible", "", $a_target) ||
+			$ilAccess->checkAccess("read", "", $a_target))
 		{			
 			$_GET["baseClass"] = "ilObjSurveyGUI";
 			$_GET["cmd"] = "infoScreen";
