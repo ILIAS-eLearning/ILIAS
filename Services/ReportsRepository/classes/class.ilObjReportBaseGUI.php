@@ -1,6 +1,10 @@
 <?php
 
 require_once 'Services/Repository/classes/class.ilObjectPluginGUI.php';
+require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
+require_once 'Services/Form/classes/class.ilTextInputGUI.php';
+require_once 'Services/Form/classes/class.ilTextAreaInputGUI.php';
+
 
 abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 
@@ -10,6 +14,7 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 	protected $gUser;
 	protected $gLog;
 	protected $gAccess;
+	protected $settings_form;
 
 	protected function afterConstructor() {
 		global $lng, $ilCtrl, $tpl, $ilUser, $ilLog, $ilAccess, $ilTabs;	
@@ -30,6 +35,7 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 
 		$this->order = null;
 		$this->title = null;
+
 	}
 
 	public function setTabs() {
@@ -341,12 +347,62 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 
 	/**
 	* Settings menu of the report. Note that any setting query will be performed inside ilObjBaseReport.
+	* Allways call parent methods in final plugin-classmethod static::settingFrom, static::getSettingsData and static::saveSettingsData.
 	*/
 	protected function renderSettings() {
-		return;
+		$data = $this->getSettingsData();
+		$settings_form = $this->settingsForm($data);
+		$this->gTpl->setContent($settings_form->getHtml());
 	}
 
 	protected function saveSettings() {
-		return;
+		$settings_form = $this->settingsForm();
+		$settings_form->setValuesByPost();
+		if($settings_form->checkInput()) {
+			$this->saveSettingsData($_POST);
+		}
+		$this->gTpl->setContent($settings_form->getHtml());
+	}
+
+	protected function getSettingsData() {
+
+		$data["title"] = $this->object->getTitle();
+		$data["description"] = $this->object->getDescription();
+
+		return $data;
+	}
+
+	/*
+	* call this method last in static::saveSettingsData
+	*/
+	protected function saveSettingsData($data) {
+		$this->object->setTitle($data["title"]);
+		$this->object->setDescription($data["description"]);
+		$this->object->doUpdate();
+		$this->object->update();
+	}
+
+	/*
+	* call this method first in static::settingsForm
+	*/
+	protected function settingsForm($data = null) {
+		$settings_form = new ilPropertyFormGUI();
+		$settings_form->setFormAction($this->gCtrl->getFormAction($this));
+		$settings_form->addCommandButton("saveSettings", $this->gLng->txt("save"));
+
+		$title = new ilTextInputGUI('title','title');
+		if(isset($data["title"])) {
+			$title->setValue($data["title"]);
+		}
+		$title->setRequired(true);
+		$settings_form->addItem($title);
+
+		$description = new ilTextAreaInputGUI('description','description');
+		if(isset($data["description"])) {
+			$description->setValue($data["description"]);
+		}
+		$settings_form->addItem($description);
+
+		return $settings_form;
 	}
 }
