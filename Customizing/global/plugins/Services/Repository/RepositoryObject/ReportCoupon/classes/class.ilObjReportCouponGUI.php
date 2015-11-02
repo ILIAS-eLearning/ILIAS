@@ -11,13 +11,7 @@ require_once 'Services/Form/classes/class.ilCheckboxInputGUI.php';
 * @ilCtrl_Calls ilObjReportCouponGUI: ilCommonActionDispatcherGUI
 */
 class ilObjReportCouponGUI extends ilObjReportBaseGUI {
-	protected $form;
 
-	protected function afterConstructor() {
-		parent::afterConstructor();
-		$this->settings_form = new ilPropertyFormGUI();
-		$this->settings_form->setFormAction($this->gCtrl->getLinkTarget($this, "saveSettings"));
-	}
 
 	public function getType() {
 		return 'xrcp';
@@ -31,32 +25,35 @@ class ilObjReportCouponGUI extends ilObjReportBaseGUI {
 						->image("GEV_img/ico-head-edubio.png");
 	}
 
-	protected function renderSettings() {
+		protected function settingsForm($data) {
+		$settings_form = parent::settingsForm($data);
+
 		$is_online = new ilCheckboxInputGUI('online','online');
-		$is_online->setValue(1);
-		$is_online->setChecked(0);
-		if($this->object->getOnline()) {
-			$is_online->setChecked(1);
+		if(isset($data["online"])) {
+			$is_online->setChecked($data["online"]);
 		}
-		$this->settings_form->addItem($is_online);
+		$settings_form->addItem($is_online);
 
-		$show_filter = new ilCheckboxInputGUI('admin','admin');
-		$show_filter->setValue(1);
-		$show_filter->setChecked(0);
-		if($this->object->getAdminMode()) {
-			$show_filter->setChecked(1);
+		$admin_mode = new ilCheckboxInputGUI('admin_mode','admin_mode');
+		if(isset($data["admin_mode"])) {
+			$admin_mode->setChecked($data["admin_mode"]);
 		}
-		$this->settings_form->addItem($show_filter);
+		$settings_form->addItem($admin_mode);
 
-		$this->settings_form->addCommandButton("saveSettings", $this->gLng->txt("save"));
-		$this->gTpl->setContent($this->settings_form->getHtml());
+		return $settings_form;
 	}
 
-	protected function saveSettings() {
-		$this->object->setOnline($_POST["online"]);
-		$this->object->setAdminMode($_POST["admin"]);
-		$this->object->doUpdate();
-		$this->object->update();
-		$this->renderSettings();
+	protected function getSettingsData() {
+		$data = parent::getSettingsData();
+		$data["online"] = $this->object->getOnline();
+		$data["admin_mode"] = $this->object->getAdminMode();
+		return $data;
+	}
+
+
+	protected function saveSettingsData($data) {
+		$this->object->setOnline($data["online"]);
+		$this->object->setAdminMode($data["admin_mode"]);
+		parent::saveSettingsData($data);
 	}
 }
