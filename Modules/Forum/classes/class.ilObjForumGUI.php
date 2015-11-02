@@ -2748,13 +2748,13 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 					$tpl->setVariable('TXT_PERMA_LINK', $lng->txt('perma_link'));
 					$tpl->setVariable('PERMA_TARGET', '_top');
 
-					if($this->objProperties->getMarkModeratorPosts() == 1)
+					if(!$node->isActivated() && !$this->objCurrentTopic->isClosed() && $this->is_moderator)
 					{
-						if(!$node->isActivated() && !$this->objCurrentTopic->isClosed() && $this->is_moderator)
-						{
-							$rowCol = 'ilPostingNeedsActivation';
-						}
-				 		else if($node->getIsAuthorModerator() === null && $is_moderator = ilForum::_isModerator($_GET['ref_id'], $node->getPosAuthorId()))
+						$rowCol = 'ilPostingNeedsActivation';
+					}
+					else if($this->objProperties->getMarkModeratorPosts() == 1)
+					{
+						if($node->getIsAuthorModerator() === null && $is_moderator = ilForum::_isModerator($_GET['ref_id'], $node->getPosAuthorId()))
 						{
 							$rowCol = 'ilModeratorPosting';
 						}
