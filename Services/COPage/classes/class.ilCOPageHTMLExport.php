@@ -315,6 +315,7 @@ class ilCOPageHTMLExport
 					$vtree = new ilVirtualSkillTree();
 					$tref_id = 0;
 					$skill_id = (int) $skill_id;
+					include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
 					if (ilSkillTreeNode::_lookupType($skill_id) == "sktr")
 					{
 						include_once("./Services/Skill/classes/class.ilSkillTemplateReference.php");
