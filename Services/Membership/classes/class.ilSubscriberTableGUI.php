@@ -144,7 +144,7 @@ class ilSubscriberTableGUI extends ilTable2GUI
 		
 				
 		include_once './Modules/Course/classes/class.ilObjCourseGrouping.php';
-		if(!ilObjCourseGrouping::_checkGroupingDependencies($this->getParentObject()->object,$a_set['id']) and
+		if(!ilObjCourseGrouping::_checkGroupingDependencies($this->getParentObject()->object,$a_set['usr_id']) and
 			($ids = ilObjCourseGrouping::getAssignedObjects()))
 		{
 			$prefix = $this->getParentObject()->object->getType();

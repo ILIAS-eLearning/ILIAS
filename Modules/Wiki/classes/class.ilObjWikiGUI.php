@@ -781,7 +781,16 @@ class ilObjWikiGUI extends ilObjectGUI
 		$this->form_gui->addItem($page_toc);
 		
 		if($a_mode == "edit")
-		{		
+		{					
+			// advanced metadata auto-linking
+			include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
+			if(count(ilAdvancedMDRecord::_getSelectedRecordsByObject("wiki", $this->object->getId(), "wpg")) > 0)
+			{			
+				$link_md = new ilCheckboxInputGUI($lng->txt("wiki_link_md_values"), "link_md_values");
+				$link_md->setInfo($lng->txt("wiki_link_md_values_info"));
+				$this->form_gui->addItem($link_md);
+			}		
+			
 			// additional features
 			$feat = new ilFormSectionHeaderGUI();
 			$feat->setTitle($this->lng->txt('obj_features'));

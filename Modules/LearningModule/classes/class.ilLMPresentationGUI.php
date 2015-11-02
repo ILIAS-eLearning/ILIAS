@@ -4269,6 +4269,7 @@ class ilLMPresentationGUI
 	{
 		$this->tpl->setHeaderPageTitle($this->getLMPresentationTitle());
 		$this->tpl->fillWindowTitle();
+		$this->tpl->fillContentLanguage();
 	}	
 	
 
