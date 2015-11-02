@@ -37,6 +37,7 @@ class ilObjReportCoupon extends ilObjReportBase {
 				->select_raw("c.coupon_value current")
 				->select_raw("c2.coupon_value start")
 				->select_raw("c2.coupon_value - c.coupon_value diff")
+				->select("c.coupon_expires")
 				->select_raw("FROM_UNIXTIME(c.coupon_expires,'%Y-%m-%d') expires")
 				->from("coupon c")
 				->join("coupon c2")
@@ -59,9 +60,9 @@ class ilObjReportCoupon extends ilObjReportBase {
 	protected function buildFilter($filter) {
 		$filter	->checkbox("active_only"
 								, $this->lng->txt("gev_active")
-								," c.coupon_value > 0 AND c.coupon_expires > ".$this->gIldb->quote(time(),"integer")
+								," current > 0 AND c.coupon_expires > ".$this->gIldb->quote(time(),"integer")
 								," TRUE"
-								, false
+								, true
 								)
 				->dateperiod( "period"
 								, $this->lng->txt("gev_period")
