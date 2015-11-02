@@ -66,8 +66,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	{
 		global $ilAccess, $ilNavigationHistory, $ilErr;
 						
-		if (!$ilAccess->checkAccess("read", "", $this->ref_id) && 
-			!$ilAccess->checkAccess("visible", "", $this->ref_id))
+		if (!$ilAccess->checkAccess("read", "", $this->ref_id))
 		{
 			global $ilias;
 			$ilias->raiseError($this->lng->txt("permission_denied"), $ilias->error_obj->MESSAGE);
@@ -776,7 +775,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	{
 		global $ilErr, $ilAccess;
 		
-		if(!$ilAccess->checkAccess("visible", "", $this->ref_id))
+		if(!$ilAccess->checkAccess("read", "", $this->ref_id))
 		{
 			$ilErr->raiseError($this->lng->txt("msg_no_perm_read"));
 		}
@@ -873,7 +872,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			 ),
 			 array("ilobjsurveyquestionpoolgui", "ilsurveyphrasesgui"), "", $force_active);
 		
-		if ($ilAccess->checkAccess("visible", "", $this->ref_id))
+		if ($ilAccess->checkAccess("read", "", $this->ref_id))
 		{
 			$tabs_gui->addTarget("info_short",
 				 $this->ctrl->getLinkTarget($this, "infoScreen"),
