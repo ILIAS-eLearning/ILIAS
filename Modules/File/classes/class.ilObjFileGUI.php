@@ -970,7 +970,8 @@ class ilObjFileGUI extends ilObject2GUI
 
 		// static method, no workspace support yet
 
-		if ($ilAccess->checkAccess("visible", "", $a_target))
+		if ($ilAccess->checkAccess("visible", "", $a_target) ||
+			$ilAccess->checkAccess("read", "", $a_target))
 		{
 			ilObjectGUI::_gotoRepositoryNode($a_target, "infoScreen");
 		}

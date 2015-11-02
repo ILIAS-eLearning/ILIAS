@@ -145,7 +145,8 @@ class ilExportTableGUI extends ilTable2GUI
 			: $a_set['type'];
 		$this->tpl->setVariable('VAL_TYPE', $type);
 		$this->tpl->setVariable('VAL_FILE', $a_set['file']);
-		$this->tpl->setVariable('VAL_SIZE', $a_set['size']);
+		include_once("./Services/Utilities/classes/class.ilFormat.php");
+		$this->tpl->setVariable('VAL_SIZE', ilFormat::formatSize($a_set['size']));
 		$this->tpl->setVariable('VAL_DATE', ilDatePresentation::formatDate(new ilDateTime($a_set['timestamp'], IL_CAL_UNIX)));
 		
 		$this->tpl->setVariable('TXT_DOWNLOAD', $this->lng->txt('download'));

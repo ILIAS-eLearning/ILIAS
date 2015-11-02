@@ -66,8 +66,8 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	{
 		global $ilAccess, $ilNavigationHistory, $ilErr;
 						
-		if (!$ilAccess->checkAccess("read", "", $this->ref_id) && 
-			!$ilAccess->checkAccess("visible", "", $this->ref_id))
+		if (!$ilAccess->checkAccess("visible", "", $this->ref_id) &&
+			!$ilAccess->checkAccess("read", "", $this->ref_id))
 		{
 			global $ilias;
 			$ilias->raiseError($this->lng->txt("permission_denied"), $ilias->error_obj->MESSAGE);
@@ -159,20 +159,31 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			$this->tpl->show();
 		}
 	}
-
-	/**
-	* Questionpool properties
-	*/
-	public function propertiesObject()
+	
+	protected function initEditForm()
 	{
-		$save = ((strcmp($this->ctrl->getCmd(), "save") == 0)) ? true : false;
-
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this, 'properties'));
 		$form->setTitle($this->lng->txt("properties"));
 		$form->setMultipart(false);
 		$form->setId("properties");
+		
+		// title
+		$title = new ilTextInputGUI($this->lng->txt('title'),'title');
+		$title->setSubmitFormOnEnter(true);
+		$title->setValue($this->object->getTitle());
+		$title->setSize(min(40, ilObject::TITLE_LENGTH));
+		$title->setMaxLength(ilObject::TITLE_LENGTH);
+		$title->setRequired(true);
+		$form->addItem($title);
+		
+		// desc
+		$desc = new ilTextAreaInputGUI($this->lng->txt('description'),'desc');
+		$desc->setValue($this->object->getLongDescription());
+		$desc->setRows(2);
+		$desc->setCols(40);
+		$form->addItem($desc);
 
 		// online
 		$online = new ilCheckboxInputGUI($this->lng->txt("spl_online_property"), "online");
@@ -181,12 +192,21 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		$form->addItem($online);
 
 		$form->addCommandButton("saveProperties", $this->lng->txt("save"));
+		
+		return $form;
+	}
 
-		if ($save)
+	/**
+	* Questionpool properties
+	*/
+	public function propertiesObject(ilPropertyFormGUI $a_form = null)
+	{
+		if(!$a_form)
 		{
-			$form->checkInput();
+			$a_form = $this->initEditForm();
 		}
-		$this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
+		
+		$this->tpl->setVariable("ADM_CONTENT", $a_form->getHTML());
 	}
 	
 	/**
@@ -194,12 +214,21 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	*/
 	public function savePropertiesObject()
 	{
-		$qpl_online = $_POST["online"];
-		if (strlen($qpl_online) == 0) $qpl_online = "0";
-		$this->object->setOnline($qpl_online);
-		$this->object->saveToDb();
-		ilUtil::sendSuccess($this->lng->txt("saved_successfully"), true);
-		$this->ctrl->redirect($this, "properties");
+		$form = $this->initEditForm();
+		if($form->checkInput())
+		{
+			$this->object->setTitle($form->getInput("title"));
+			$this->object->setDescription($form->getInput("desc"));
+			$this->object->setOnline((int)$form->getInput("online"));
+			
+			$this->object->saveToDb();
+			
+			ilUtil::sendSuccess($this->lng->txt("saved_successfully"), true);
+			$this->ctrl->redirect($this, "properties");
+		}
+		
+		$form->setValuesByPost();
+		$this->propertiesObject($form);
 	}
 	
 
@@ -747,7 +776,8 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	{
 		global $ilErr, $ilAccess;
 		
-		if(!$ilAccess->checkAccess("visible", "", $this->ref_id))
+		if(!$ilAccess->checkAccess("visible", "", $this->ref_id) &&
+			!$ilAccess->checkAccess("read", "", $this->ref_id))
 		{
 			$ilErr->raiseError($this->lng->txt("msg_no_perm_read"));
 		}
@@ -814,10 +844,10 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 				return;
 				break;
 		}
-		
+			
 		// questions
 		$force_active = (($this->ctrl->getCmdClass() == "" &&
-			$this->ctrl->getCmd() != "properties") ||
+			$this->ctrl->getCmd() != "properties" && $this->ctrl->getCmd() != "infoScreen") ||
 			$this->ctrl->getCmd() == "")
 			? true
 			: false;
@@ -828,24 +858,25 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 				$force_active = true;
 			}
 		}
-		$tabs_gui->addTarget("survey_questions",
-			 $this->ctrl->getLinkTarget($this,'questions'),
-			 array("questions", "filterQuestionBrowser", "filter", "reset", "createQuestion", 
-			 "importQuestions", "deleteQuestions", "copy", "paste", 
-			 "exportQuestions", "confirmDeleteQuestions", "cancelDeleteQuestions",
-			 "confirmPasteQuestions", "cancelPasteQuestions", "uploadQuestions",
-			 "editQuestion", "addMaterial", "removeMaterial", "save", "cancel",
-			 "cancelExplorer", "linkChilds", "addGIT", "addST", "addPG", "preview",
-			 "moveCategory", "deleteCategory", "addPhrase", "addCategory", "savePhrase",
-			 "addSelectedPhrase", "cancelViewPhrase", "confirmSavePhrase", "cancelSavePhrase",
-			 "insertBeforeCategory", "insertAfterCategory", "confirmDeleteCategory",
-			 "cancelDeleteCategory", "categories", "saveCategories", 
-			 "savePhrase", "addPhrase"
-			 ),
-			 array("ilobjsurveyquestionpoolgui", "ilsurveyphrasesgui"), "", $force_active);
 		
-		if ($ilAccess->checkAccess("visible", "", $this->ref_id))
+		if ($ilAccess->checkAccess("read", "", $this->ref_id))
 		{
+			$tabs_gui->addTarget("survey_questions",
+				 $this->ctrl->getLinkTarget($this,'questions'),
+				 array("questions", "filterQuestionBrowser", "filter", "reset", "createQuestion", 
+				 "importQuestions", "deleteQuestions", "copy", "paste", 
+				 "exportQuestions", "confirmDeleteQuestions", "cancelDeleteQuestions",
+				 "confirmPasteQuestions", "cancelPasteQuestions", "uploadQuestions",
+				 "editQuestion", "addMaterial", "removeMaterial", "save", "cancel",
+				 "cancelExplorer", "linkChilds", "addGIT", "addST", "addPG", "preview",
+				 "moveCategory", "deleteCategory", "addPhrase", "addCategory", "savePhrase",
+				 "addSelectedPhrase", "cancelViewPhrase", "confirmSavePhrase", "cancelSavePhrase",
+				 "insertBeforeCategory", "insertAfterCategory", "confirmDeleteCategory",
+				 "cancelDeleteCategory", "categories", "saveCategories", 
+				 "savePhrase", "addPhrase"
+				 ),
+				 array("ilobjsurveyquestionpoolgui", "ilsurveyphrasesgui"), "", $force_active);
+						
 			$tabs_gui->addTarget("info_short",
 				 $this->ctrl->getLinkTarget($this, "infoScreen"),
 				array("infoScreen", "showSummary"));		
@@ -856,7 +887,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			// properties
 			$tabs_gui->addTarget("settings",
 			 $this->ctrl->getLinkTarget($this,'properties'),
-			 "properties",
+			 array("properties", "saveProperties"),
 			 "", "");
 			 
 			// manage phrases
@@ -919,10 +950,11 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	public static function _goto($a_target)
 	{
 		global $ilAccess, $ilErr, $lng;
-		if ($ilAccess->checkAccess("write", "", $a_target))
+		if ($ilAccess->checkAccess("visible", "", $a_target) ||
+			$ilAccess->checkAccess("read", "", $a_target))
 		{
 			$_GET["baseClass"] = "ilObjSurveyQuestionPoolGUI";
-			$_GET["cmd"] = "questions";
+			$_GET["cmd"] = "infoScreen";
 			$_GET["ref_id"] = $a_target;
 			include_once("ilias.php");
 			exit;

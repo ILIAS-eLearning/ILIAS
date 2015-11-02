@@ -63,6 +63,19 @@ class ilObjSurveyQuestionPoolAccess extends ilObjectAccess
 		return $commands;
 	}
 
+	function _checkGoto($a_target)
+	{
+		global $ilAccess;
+		
+		$t_arr = explode("_", $a_target);
+
+		if ($ilAccess->checkAccess("visible", "", $t_arr[1]) ||
+			$ilAccess->checkAccess("read", "", $t_arr[1]))
+		{
+			return true;
+		}
+		return false;
+	}
 }
 
 ?>

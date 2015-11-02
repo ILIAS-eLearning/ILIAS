@@ -20,7 +20,7 @@ class ilMediaCastDataSet extends ilDataSet
 	 */
 	public function getSupportedVersions()
 	{
-		return array("4.1.0");
+		return array("5.0.0", "4.1.0");
 	}
 	
 	/**
@@ -54,6 +54,20 @@ class ilMediaCastDataSet extends ilDataSet
 						"PublicFiles" => "integer",
 						"Downloadable" => "integer",
 						"DefaultAccess" => "integer");
+
+				case "5.0.0":
+					return array(
+						"Id" => "integer",
+						"Title" => "text",
+						"Description" => "text",
+						"PublicFiles" => "integer",
+						"Downloadable" => "integer",
+						"DefaultAccess" => "integer",
+						"Sortmode" => "integer",
+						"Viewmode" => "text",
+						"PublicFeed" => "integer",
+						"KeepRssMin" => "integer",
+					);
 			}
 		}
 
@@ -84,6 +98,20 @@ class ilMediaCastDataSet extends ilDataSet
 						" FROM il_media_cast_data JOIN object_data ON (il_media_cast_data.id = object_data.obj_id) ".
 						"WHERE ".
 						$ilDB->in("id", $a_ids, false, "integer"));
+					break;
+
+				case "5.0.0":
+					$this->getDirectDataFromQuery("SELECT id, title, description, ".
+						" public_files, downloadable, def_access default_access, sortmode, viewmode".
+						" FROM il_media_cast_data JOIN object_data ON (il_media_cast_data.id = object_data.obj_id) ".
+						"WHERE ".
+						$ilDB->in("id", $a_ids, false, "integer"));
+					include_once("./Services/Block/classes/class.ilBlockSetting.php");
+					foreach ($this->data as $k => $v)
+					{
+						$this->data[$k]["PublicFeed"] = ilBlockSetting::_lookup("news", "public_feed", 0, $v["Id"]);
+						$this->data[$k]["KeepRssMin"] = (int) ilBlockSetting::_lookup("news", "keep_rss_min", 0, $v["Id"]);
+					}
 					break;
 			}
 		}
@@ -131,6 +159,22 @@ class ilMediaCastDataSet extends ilDataSet
 				$newObj->setDefaultAccess($a_rec["DefaultAccess"]);
 				$newObj->setDownloadable($a_rec["Downloadable"]);
 				$newObj->setPublicFiles($a_rec["PublicFiles"]);
+
+				if ($a_schema_version == "5.0.0")
+				{
+					$newObj->setOrder($a_rec["Sortmode"]);
+					$newObj->setViewMode($a_rec["Viewmode"]);
+
+					include_once("./Services/Block/classes/class.ilBlockSetting.php");
+					ilBlockSetting::_write("news", "public_feed",
+						$a_rec["PublicFeed"],
+						0, $newObj->getId());
+
+					ilBlockSetting::_write("news", "keep_rss_min",
+						$a_rec["KeepRssMin"],
+						0, $newObj->getId());
+				}
+
 				$newObj->update(true);
 				$this->current_obj = $newObj;
 				$a_mapping->addMapping("Modules/MediaCast", "mcst", $a_rec["Id"], $newObj->getId());
