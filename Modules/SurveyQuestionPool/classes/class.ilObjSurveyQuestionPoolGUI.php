@@ -66,7 +66,8 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	{
 		global $ilAccess, $ilNavigationHistory, $ilErr;
 						
-		if (!$ilAccess->checkAccess("read", "", $this->ref_id))
+		if (!$ilAccess->checkAccess("visible", "", $this->ref_id) &&
+			!$ilAccess->checkAccess("read", "", $this->ref_id))
 		{
 			global $ilias;
 			$ilias->raiseError($this->lng->txt("permission_denied"), $ilias->error_obj->MESSAGE);
@@ -775,7 +776,8 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	{
 		global $ilErr, $ilAccess;
 		
-		if(!$ilAccess->checkAccess("read", "", $this->ref_id))
+		if(!$ilAccess->checkAccess("visible", "", $this->ref_id) &&
+			!$ilAccess->checkAccess("read", "", $this->ref_id))
 		{
 			$ilErr->raiseError($this->lng->txt("msg_no_perm_read"));
 		}
@@ -842,10 +844,10 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 				return;
 				break;
 		}
-		
+			
 		// questions
 		$force_active = (($this->ctrl->getCmdClass() == "" &&
-			$this->ctrl->getCmd() != "properties") ||
+			$this->ctrl->getCmd() != "properties" && $this->ctrl->getCmd() != "infoScreen") ||
 			$this->ctrl->getCmd() == "")
 			? true
 			: false;
@@ -856,24 +858,25 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 				$force_active = true;
 			}
 		}
-		$tabs_gui->addTarget("survey_questions",
-			 $this->ctrl->getLinkTarget($this,'questions'),
-			 array("questions", "filterQuestionBrowser", "filter", "reset", "createQuestion", 
-			 "importQuestions", "deleteQuestions", "copy", "paste", 
-			 "exportQuestions", "confirmDeleteQuestions", "cancelDeleteQuestions",
-			 "confirmPasteQuestions", "cancelPasteQuestions", "uploadQuestions",
-			 "editQuestion", "addMaterial", "removeMaterial", "save", "cancel",
-			 "cancelExplorer", "linkChilds", "addGIT", "addST", "addPG", "preview",
-			 "moveCategory", "deleteCategory", "addPhrase", "addCategory", "savePhrase",
-			 "addSelectedPhrase", "cancelViewPhrase", "confirmSavePhrase", "cancelSavePhrase",
-			 "insertBeforeCategory", "insertAfterCategory", "confirmDeleteCategory",
-			 "cancelDeleteCategory", "categories", "saveCategories", 
-			 "savePhrase", "addPhrase"
-			 ),
-			 array("ilobjsurveyquestionpoolgui", "ilsurveyphrasesgui"), "", $force_active);
 		
 		if ($ilAccess->checkAccess("read", "", $this->ref_id))
 		{
+			$tabs_gui->addTarget("survey_questions",
+				 $this->ctrl->getLinkTarget($this,'questions'),
+				 array("questions", "filterQuestionBrowser", "filter", "reset", "createQuestion", 
+				 "importQuestions", "deleteQuestions", "copy", "paste", 
+				 "exportQuestions", "confirmDeleteQuestions", "cancelDeleteQuestions",
+				 "confirmPasteQuestions", "cancelPasteQuestions", "uploadQuestions",
+				 "editQuestion", "addMaterial", "removeMaterial", "save", "cancel",
+				 "cancelExplorer", "linkChilds", "addGIT", "addST", "addPG", "preview",
+				 "moveCategory", "deleteCategory", "addPhrase", "addCategory", "savePhrase",
+				 "addSelectedPhrase", "cancelViewPhrase", "confirmSavePhrase", "cancelSavePhrase",
+				 "insertBeforeCategory", "insertAfterCategory", "confirmDeleteCategory",
+				 "cancelDeleteCategory", "categories", "saveCategories", 
+				 "savePhrase", "addPhrase"
+				 ),
+				 array("ilobjsurveyquestionpoolgui", "ilsurveyphrasesgui"), "", $force_active);
+						
 			$tabs_gui->addTarget("info_short",
 				 $this->ctrl->getLinkTarget($this, "infoScreen"),
 				array("infoScreen", "showSummary"));		
@@ -947,10 +950,11 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	public static function _goto($a_target)
 	{
 		global $ilAccess, $ilErr, $lng;
-		if ($ilAccess->checkAccess("write", "", $a_target))
+		if ($ilAccess->checkAccess("visible", "", $a_target) ||
+			$ilAccess->checkAccess("read", "", $a_target))
 		{
 			$_GET["baseClass"] = "ilObjSurveyQuestionPoolGUI";
-			$_GET["cmd"] = "questions";
+			$_GET["cmd"] = "infoScreen";
 			$_GET["ref_id"] = $a_target;
 			include_once("ilias.php");
 			exit;
