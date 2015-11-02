@@ -140,10 +140,10 @@ class ilHTMLLearningModuleDataSet extends ilDataSet
 					$newObj->setType("htlm");
 					$newObj->create(true);
 				}
-					
+
 				$newObj->setTitle($a_rec["Title"]);
 				$newObj->setDescription($a_rec["Description"]);
-				$newObj->setStartFile($a_rec["StartFile"]);
+				$newObj->setStartFile($a_rec["StartFile"], true);
 				$newObj->update();
 				$this->current_obj = $newObj;
 

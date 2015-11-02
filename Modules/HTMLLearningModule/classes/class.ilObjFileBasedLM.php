@@ -55,13 +55,12 @@ class ilObjFileBasedLM extends ilObject
 		$this->updateMetaData();
 		parent::update();
 
-		$ilDB->manipulate("UPDATE file_based_lm SET ".
+		$ilDB->manipulate($q = "UPDATE file_based_lm SET ".
 			" is_online = ".$ilDB->quote(ilUtil::tf2yn($this->getOnline()), "text").
 			", startfile = ".$ilDB->quote($this->getStartFile(), "text")." ".
 			", show_lic = ".$ilDB->quote($this->getShowLicense(), "integer")." ".
 			", show_bib = ".$ilDB->quote($this->getShowBibliographicalData(), "integer")." ".
 			" WHERE id = ".$ilDB->quote($this->getId(), "integer"));
-
 		return true;
 	}
 
@@ -133,10 +132,10 @@ class ilObjFileBasedLM extends ilObject
 		return $this->start_file;		
 	}
 
-	function setStartFile($a_file)
+	function setStartFile($a_file, $a_omit_file_check = false)
 	{
 		if($a_file &&
-			file_exists($this->getDataDirectory()."/".$a_file))
+			(file_exists($this->getDataDirectory()."/".$a_file) || $a_omit_file_check))
 		{				
 			$this->start_file = $a_file;
 		}
