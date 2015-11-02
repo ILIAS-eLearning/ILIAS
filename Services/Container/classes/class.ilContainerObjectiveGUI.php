@@ -405,7 +405,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 			$node_data['objective_status'] = 
 				(
 					$a_lo_result['status'] == ilLOUserResults::STATUS_COMPLETED ?
-					false : 
+					false :
 					false
 				);
 		}
@@ -944,7 +944,15 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 			$acc_content = $sort_content;
 			
 			$initial_shown = false;
-			if($this->getSettings()->hasSeparateInitialTests() and !$a_lo_result['initial_status'])
+			$initial_test_ref_id = $this->getTestAssignments()->getTestByObjective($a_objective_id, ilLOSettings::TYPE_TEST_INITIAL);
+			$initial_test_obj_id = ilObject::_lookupObjId($initial_test_ref_id);
+			include_once './Modules/Test/classes/class.ilObjTestAccess.php';
+			
+			if(
+				$initial_test_obj_id &&
+				$this->getSettings()->hasSeparateInitialTests() &&
+				!ilObjTestAccess::checkCondition($initial_test_obj_id, ilConditionHandler::OPERATOR_FINISHED, '', $ilUser->getId())
+			)
 			{
 				$acc_content[] = $this->renderTest(
 						$this->getTestAssignments()->getTestByObjective($a_objective_id, ilLOSettings::TYPE_TEST_INITIAL), 
