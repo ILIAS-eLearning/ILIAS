@@ -1308,3 +1308,8 @@ gev#:#load_member_list#:#Mitgliederliste abrufen
 gev#:#view_maillog#:#Maillog einsehen
 gev#:#load_csn_list#:#CSN Liste herunterladen
 gev#:#gev_dec_forward_to_kurs#:#zum Kurs
+gev#:#gev_crs_search_all#:#Alle Trainings
+gev#:#gev_crs_search_present#:#Präsenztraining
+gev#:#gev_crs_search_webinar#:#Webinar
+gev#:#gev_crs_search_self_learn#:#Selbstlernkurs
+gev#:#gev_crs_search_virtual_training#:#Virtuelles Training
