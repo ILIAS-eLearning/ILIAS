@@ -61,13 +61,13 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 		switch ($cmd) {
 			case "saveSettings":
 				if($this->gAccess->checkAccess("write", "", $this->object->getRefId())) {
-					$this->gTabs->setActive("protperties");
+					$this->gTabs->activateTab("properties");
 					return $this->saveSettings();
 				}
 				break;
 			case "settings":
 				if($this->gAccess->checkAccess("write", "", $this->object->getRefId())) {
-					$this->gTabs->setActive("protperties");
+					$this->gTabs->activateTab("properties");
 					return $this->renderSettings();
 				}
 				break;
@@ -77,7 +77,7 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 			//no "break;" !
 			case "showContent":
 				if($this->gAccess->checkAccess("read", "", $this->object->getRefId())) {
-					$this->gTabs->setActive("content");
+					$this->gTabs->activateTab("content");
 					return $this->renderReport();
 				}
 				break;
@@ -115,7 +115,7 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 	
 	protected function renderTable() {
 		$callback = get_class($this).'::transformResultRow';
-		if ($this->object->deliverTable()->_group_by === null) {
+		if ($this->object->deliverTable()->_group_by !== null) {
 			$data = $this->object->deliverGroupedData($callback);
 			$content = $this->renderGroupedTable($data);
 		} else {
