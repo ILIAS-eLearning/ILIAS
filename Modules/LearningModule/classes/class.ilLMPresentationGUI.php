@@ -353,7 +353,7 @@ class ilLMPresentationGUI
 	{		
 		global $ilUser;
 		
-		if ($ilUser->getId() != ANONYMOUS_USER_ID)
+		if ($ilUser->getId() != ANONYMOUS_USER_ID && $_GET["focus_id"] == "")
 		{
 			include_once("./Modules/LearningModule/classes/class.ilObjLearningModuleAccess.php");
 			$last_accessed_page = ilObjLearningModuleAccess::_getLastAccessedPage((int)$_GET["ref_id"], $ilUser->getId());
