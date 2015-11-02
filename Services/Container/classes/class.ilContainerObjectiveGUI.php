@@ -157,11 +157,14 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 			include_once './Modules/Course/classes/Objectives/class.ilLOUserResults.php';
 			$has_results = ilLOUserResults::hasResults($this->getContainerObject()->getId(), $ilUser->getId());
 			
+			include_once './Modules/Test/classes/class.ilObjTestAccess.php';
+			$tst_obj_id = ilObject::_lookupObjId($this->loc_settings->getInitialTest());
+			
 			if(
 				$this->loc_settings->getInitialTest() &&
 				$this->loc_settings->isGeneralInitialTestVisible() && 
-				!$this->loc_settings->isInitialTestStart() &&
-				!$has_results // :TODO: only if initial test not taken?
+				!$this->loc_settings->isInitialTestStart() && 
+				!ilObjTestAccess::checkCondition($tst_obj_id, ilConditionHandler::OPERATOR_FINISHED, '', $ilUser->getId())
 			)
 			{
 				$this->output_html .= $this->renderTest($this->loc_settings->getInitialTest(), null, true, true);
@@ -386,7 +389,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 		{
 			return '';
 		}
-
+		
 		// update ti
 		if($a_objective_id)
 		{
