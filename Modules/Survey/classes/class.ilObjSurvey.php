@@ -4609,42 +4609,6 @@ class ilObjSurvey extends ilObject
 	}
 	
 	/**
-	* get export files
-	*/
-	function getExportFiles($dir)
-	{
-		// quit if import dir not available
-		if (!@is_dir($dir) or
-			!is_writeable($dir))
-		{
-			return array();
-		}
-
-		// open directory
-		$dir = dir($dir);
-
-		// initialize array
-		$file = array();
-
-		// get files and save the in the array
-		while ($entry = $dir->read())
-		{
-			if ($entry != "." && $entry != ".." && ereg("^[0-9]{10}_{2}[0-9]+_{2}(svy_)*[0-9]+\.[a-z]{1,3}\$", $entry))
-			{
-				$file[] = $entry;
-			}
-		}
-
-		// close import directory
-		$dir->close();
-		// sort files
-		sort ($file);
-		reset ($file);
-
-		return $file;
-	}
-
-	/**
 	* creates data directory for import files
 	* (data_dir/svy_data/svy_<id>/import, depending on data
 	* directory that is set in ILIAS setup/ini)
