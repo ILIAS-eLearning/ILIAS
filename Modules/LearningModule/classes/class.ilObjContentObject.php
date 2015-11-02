@@ -3606,8 +3606,32 @@ class ilObjContentObject extends ilObject
 					ilLPStatusWrapper::_refreshStatus($this->getId());
 				}
 				break;
-			
-			default:
+
+			case 'General':
+
+				// Update Title and description
+				$md = new ilMD($this->getId(),0, $this->getType());
+				if(!is_object($md_gen = $md->getGeneral()))
+				{
+					return false;
+				}
+
+				include_once("./Services/Object/classes/class.ilObjectTranslation.php");
+				$ot = ilObjectTranslation::getInstance($this->getId());
+				if ($ot->getContentActivated())
+				{
+					$ot->setDefaultTitle($md_gen->getTitle());
+
+					foreach($md_gen->getDescriptionIds() as $id)
+					{
+						$md_des = $md_gen->getDescription($id);
+						$ot->setDefaultDescription($md_des->getDescription());
+						break;
+					}
+					$ot->save();
+				}
+				break;
+
 		}
 		return true;
 	}
