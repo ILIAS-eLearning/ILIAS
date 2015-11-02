@@ -148,6 +148,64 @@ div[id^="ilFormField"] {
 	margin-bottom: 10px;
 }
 
+/* Hierarchy Form */
+div.ilHFormHeader, div.ilHFormFooter {
+	color: darken(@ilFormColor, 20%);
+	background-color: @body-bg;
+	padding: 4px 0px 4px 22px;
+}
+
+[dir="rtl"] div.ilHFormHeader, [dir="rtl"] div.ilHFormFooter {
+	padding: 4px 22px 4px 0px;
+}
+
+div.ilHFormContent {
+	padding: 20px 0px;
+}
+
+div.ilHFormItem {
+	margin-bottom: 5px;
+	display: table-row;
+}
+
+div.ilHFormHeader .ilFormCmds, div.ilHFormFooter .ilFormCmds {
+	float: right;
+}
+
+[dir="rtl"] div.ilHFormHeader .ilFormCmds, [dir="rtl"] div.ilHFormFooter .ilFormCmds {
+	float: left;
+}
+
+.ilHFormExpIcon, .ilHFormCheckbox, .ilHFormIcon, .ilHFormInput, .ilHFormItemCmd {
+}
+
+.ilHFormExpIcon, .ilHFormCheckbox, .ilHFormIcon {
+	min-width: 20px;
+	padding: 0 0px;
+}
+
+.ilHFormItemCmd {
+	padding: 0 10px;
+}
+
+.ilHFormChilds {
+
+}
+
+.ilHFormExpIcon img, .ilHFormIcon img {
+	width: 19px;
+	height: 19px;
+}
+
+.ilHFormInput, .ilHFormInput input.form-control {
+	width: 100%;
+}
+
+.ilHFormDropArea {
+	margin: 6px 0px;
+	width: auto;
+}
+
 /* deprecated */
 div.ilFormInfo {
 }
