@@ -5889,7 +5889,7 @@ crs#:#crs_unblocked_member_body#:#your membership in course "%s" has been restor
 crs#:#crs_unblocked_member#:#Access granted in course "%s"
 crs#:#crs_unblocked#:#Free entrance
 crs#:#crs_unlimited#:#Unlimited
-crs#:#crs_unsubscribe_member_body#:#we confirm your cancellation of membership in course "%s". We hope that you find an opportunity to participate in another course.
+crs#:#crs_unsubscribe_member_body#:#We confirm your cancellation of membership in course "%s".
 crs#:#crs_unsubscribe_member#:#Your cancellation of membership in course "%s"
 crs#:#crs_unsubscribe_sure#:#Are you sure you want to unsubscribe from this course?
 crs#:#crs_unsubscribed_from_crs#:#You have been unsubscribed from this course.
@@ -15306,3 +15306,4 @@ exc#:#exc_direct_submit#:#Submit
 export#:#no_file#:#No file
 content#:#lm_no_download_files#:#There are currently no files for download available.
 rbac#:#feed_copy#:#User can copy webfeed
+crs#:#crs_unsubscribe_member_explanation#:#You receive this message because you unsubscribed from the course mentioned above.
