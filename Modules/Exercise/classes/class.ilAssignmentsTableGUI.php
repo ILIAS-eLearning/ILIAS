@@ -125,7 +125,7 @@ class ilAssignmentsTableGUI extends ilTable2GUI
 				ilDatePresentation::formatDate(new ilDateTime($d["start_time"],IL_CAL_UNIX)));
 		}
 		$this->tpl->setVariable("TXT_INSTRUCTIONS",
-			ilUtil::shortenText($d["instruction"], 200, true));
+			nl2br(trim(ilUtil::shortenText(strip_tags($d["instruction"]), 200, true))));
 		
 		if ($d["mandatory"])
 		{
