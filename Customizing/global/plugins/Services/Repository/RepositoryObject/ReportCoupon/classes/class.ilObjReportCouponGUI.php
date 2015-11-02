@@ -25,7 +25,7 @@ class ilObjReportCouponGUI extends ilObjReportBaseGUI {
 						->image("GEV_img/ico-head-edubio.png");
 	}
 
-		protected function settingsForm($data) {
+		protected function settingsForm($data = null) {
 		$settings_form = parent::settingsForm($data);
 
 		$is_online = new ilCheckboxInputGUI('online','online');
