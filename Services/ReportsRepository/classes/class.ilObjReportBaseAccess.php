@@ -18,6 +18,29 @@ abstract class ilObjReportBaseAccess extends ilObjectPluginAccess {
 	*
 	* @return        boolean                true, if everything is ok
 	*/
+	public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "") {
+		global $ilUser, $ilAccess;
+
+		/*
+		* This Routine is called within ilAccess::checkAccessOfUser::doStatusCheck.
+		* We rely on standart ilAccess::checkAccessOfUser procedure, i.e. return true here, except when the object is offline,
+		* then redirect to read-permission check.
+		*/
+
+		if ($a_user_id == "") {
+			$a_user_id = $ilUser->getId();
+		}
+		switch ($a_permission) {
+			case "read":
+				if (!static::checkOnline($a_obj_id) &&
+				!$ilAccess->checkAccessOfUser($a_user_id, "write", "", $a_ref_id))	{
+					return false;
+				}
+				break;
+		}
+
+		return true;
+	}
 
 	/**
 	* Check online status of example object
