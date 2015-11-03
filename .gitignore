@@ -12,13 +12,17 @@
 /.settings
 /nbproject
 /.idea
+.DS_Store
 /ilias.log
 *~
 db_template_writer.php
 
 # /Customizing/
 /Customizing/global/*
-!/Customizing/global/plugin
+
+#/Customizing/global but not plugins
+
+!/Customizing/global/plugins/
 
 # /Modules/BookingManager/js/
 
