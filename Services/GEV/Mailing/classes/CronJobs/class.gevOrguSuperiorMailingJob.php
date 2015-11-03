@@ -7,7 +7,7 @@ require_once("Services/Calendar/classes/class.ilDateTime.php");
 
 
 class gevOrguSuperiorMailingJob extends ilCronJob {
-	const MAILS_PER_RUN = 100;
+	const MAILS_PER_RUN = 500;
 	protected $start_timestamp = null;
 	protected $end_timestamp = null;
 	protected $end_date_str = "";
