@@ -38,7 +38,7 @@ class gevAgentOfferGUI {
 
 		switch($next_class) {
 			case "gevcoursesearchgui":
-				require_once("Services/GEV/Desktop/classes/class.gevCourseSearchGUI.php");
+				require_once("Services/GEV/CourseSearch/classes/class.gevCourseSearchGUI.php");
 				require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 				$gui = new gevCourseSearchGUI(gevSettings::getInstance()->get(gevSettings::AGENT_OFFER_USER_ID));
 				$ret = $this->ctrl->forwardCommand($gui);
