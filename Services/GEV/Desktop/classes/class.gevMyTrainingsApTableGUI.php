@@ -54,6 +54,7 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 		$this->signature_list_img = '<img src="'.ilUtil::getImagePath("GEV_img/icon-table-signature.png").'" />';
 		$this->schedule_list_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-flowchart.png").'" />';
 		$this->csn_list_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-calllist.png").'" />';
+		$this->cancel_training_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-calllist.png").'" />';
 
 		$legend = new catLegendGUI();
 		$legend->addItem($this->memberlist_img, "gev_mytrainingsap_legend_memberlist")
@@ -65,6 +66,7 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 			   ->addItem($this->signature_list_img, "gev_signature_list")
 			   ->addItem($this->schedule_list_img, "gev_dec_crs_building_block_title")
 			   ->addItem($this->csn_list_img, "gev_csn_list")
+			   ->addItem($this->cancel_training_img, "gev_cancel_training")
 			   ;
 		$this->setLegend($legend);
 
@@ -145,6 +147,10 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 		$bookings_link = $this->gCtrl->getLinkTarget($this->parent_obj, "viewBookings");
 		$this->gCtrl->clearParameters($this->parent_obj);
 
+		$this->gCtrl->setParameterByClass("ilObjCourseGUI", "ref_id", $a_set["crs_ref_id"]);
+		$cancel_training_link = $this->gCtrl->getLinkTargetByClass("ilObjCourseGUI","confirmTrainingCancellation");
+		$this->gCtrl->clearParametersByClass("ilObjCourseGUI");
+
 		$view_bookings = $crs_utils->canViewBookings($this->user_id);
 
 		$actions = "";
@@ -187,6 +193,16 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 
 		if($crs_utils->userHasRightOf($this->user_id, gevSettings::LOAD_CSN_LIST) && $crs_utils->getVirtualClassType() == "CSN"){
 			$actions .= '&nbsp;<a href="'.$csn_list_link.'" title="'.$this->gLng->txt("gev_csn_list").'">'.$this->csn_list_img.'</a>';
+		}
+
+		$now = @date("Y-m-d");
+		$start_date = $crs_utils->getStartDate();
+		if ($crs_utils->userHasRightOf($this->user_id, gevSettings::CANCEL_TRAINING) && 
+			!$crs_utils->getCourse()->getOfflineStatus() && 
+			$start_date !== null && 
+			($start_date->get(IL_CAL_DATE) > $now || ($start_date->get(IL_CAL_DATE) == $now && !$crs_utils->isFinalized()))) 
+		{
+			$actions .= '&nbsp;<a href="'.$cancel_training_link.'" title="'.$this->gLng->txt("gev_cancel_training").'">'.$this->cancel_training_img.'</a>';
 		}
 
 		$course_link = ilTEPView::getTitleLinkForCourse($this->gAccess, $this->gCtrl, $a_set["crs_ref_id"]);

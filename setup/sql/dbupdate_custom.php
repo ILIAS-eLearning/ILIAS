@@ -4507,3 +4507,13 @@ $flex_dec_training_category_ref_id = 49840;
 gevCourseUtils::revokePermissionsForAllCoursesBelow($flex_dec_training_category_ref_id, "DBV UVG", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf"));
 
 ?>
+
+<#174>
+<?php
+$new_crs_ops = array(
+	'cancel_training' => array('Cancel Training', 6008)
+);
+require_once "Customizing/class.ilCustomInstaller.php";
+ilCustomInstaller::addRBACOps('crs', $new_crs_ops);
+
+?>
