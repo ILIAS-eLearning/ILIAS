@@ -455,6 +455,10 @@ gev#:#gev_costly_cancellation_msg#:#Die Stornierung Ihrer Buchung des Trainings 
 gev#:#gev_costs#:#Kosten
 gev#:#no_bills_for_free_training#:#Für dieses Training können keine Rechnungen erstellt werden, das es gebührenfrei ist.
 gev#:#gev_coupon_bill_item#:#Gutschein %s
+gev#:#gev_coupon_start_ammount#:#gesamtes Guthaben
+gev#:#gev_coupon_diff_ammount#:#bereits verbrauchtes Guthaben
+gev#:#gev_coupon_current_ammount#:#Restuthaben
+gev#:#gev_coupon_bill_item_code#:#Gutscheincode(s)
 gev#:#gev_coupon_codes#:#Gutscheincode(s) einlösen
 gev#:#gev_coupon_pretax#:#Gutscheinbetrag netto
 gev#:#gev_coupon_posttax#:#Gutscheinbetrag brutto
@@ -654,6 +658,9 @@ gev#:#gev_rep_attendance_by_employee_desc#:#Hier sehen Sie die Buchungen und Tra
 gev#:#gev_rep_attendance_by_employee_title#:#Teilnahme nach Mitarbeiter / Vertriebspartner.
 gev#:#gev_rep_billing_title#:#Rechnungen
 gev#:#gev_rep_billing_desc#:#Hier sehen Sie alle vom System versandten Rechnungen
+gev#:#gev_rep_coupon_title#:#Gutscheine
+gev#:#gev_rep_coupon_desc_admin#:#Hier sehen Sie alle Gutscheine
+gev#:#gev_rep_coupon_desc#:#Hier sehen Sie Ihre Gutscheine
 gev#:#gev_rep_employee_edu_bios_title#:#Bildungsbiographien meiner Mitarbeiter / Vertriebspartner
 gev#:#gev_rep_employee_edu_bios_desc#:#Hier bekommen Sie einen Überblick über die Bildungsbiographien Ihrer Mitarbeiter / Vertriebspartner. Bei der Auswahl „kritische Personen“ werden die Personen angezeigt, die nicht mind. 40 Weiterbildungspunkte pro abgelaufene Zertifizierungsperiode erreicht haben.<br>Bei Klick auf die Spaltenüberschrift der Ergebnistabelle (z.B. ADP-Nummer) erfolgt eine Sortierung der Tabelle nach diesem Kriterium.<br>Bei Klick auf den Namen gelangen Sie direkt in die Bildungsbiographie des Mitarbeiters / Vertriebspartners.<br>Die Zertifizierungsperiode und Punktzahl werden nur angezeigt bei Personen, die verpflichtet sind WP zu sammeln und die Generali Trusted Partner Service ist (EVG oder DBV).
 gev#:#gev_report_billing#:#Rechnungen
@@ -1310,3 +1317,8 @@ gev#:#load_csn_list#:#CSN Liste herunterladen
 gev#:#gev_dec_forward_to_kurs#:#zum Kurs
 gev#:#rep_robj_xrbi_content#:#Rechnungsreport
 gev#:#rep_robj_xrbi_properties#:#Reporteigenschaften
+gev#:#rep_robj_xrcp_content#:#Gutscheinreport
+gev#:#rep_robj_xrcp_properties#:#Reporteigenschaften
+gev#:#gev_coupon_active_only#:#Nur aktive Gutscheine zeigen
+gev#:#gev_coupon_expires#:#gültig bis
+gev#:#gev_coupon_report_admin_mode#:#Admin-Modus
