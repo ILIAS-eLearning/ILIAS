@@ -10,7 +10,7 @@ class ilObjReportBill extends ilObjReportBase {
 	const REPORT_MODE_VFS = 1;
 	const REPORT_MODE_ADMIN = 2;
 
-	protected static $config =
+	static $config =
 		array( 	self::REPORT_MODE_GEV => 	
 					array("label" => "GEV","tpl" => "tpl.gev_billing_row_gev.html")
 				,self::REPORT_MODE_VFS => 	

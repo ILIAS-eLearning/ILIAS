@@ -2,7 +2,7 @@
 
 require_once 'Services/ReportsRepository/classes/class.ilObjReportBaseGUI.php';
 require_once 'Services/Form/classes/class.ilCheckboxInputGUI.php';
-require_once 'Services/Form/classes/class.ilTextInputGUI.php';
+require_once 'Services/Form/classes/class.ilSelectInputGUI.php';
 /**
 * User Interface class for example repository object.
 * ...
@@ -57,7 +57,13 @@ class ilObjReportBillGUI extends ilObjReportBaseGUI {
 		}
 		$settings_form->addItem($is_online);
 
-		$report_mode = new ilTextInputGUI('report_mode','report_mode');
+		$report_mode = new ilSelectInputGUI('report_mode','report_mode');
+		$options = array();
+
+		foreach(ilObjReportBill::$config as $key => $settings) {
+			$options[$key] = $settings["label"];
+		}
+		$report_mode->setOptions($options);
 		if(isset($data["report_mode"])) {
 			$report_mode->setValue($data["report_mode"]);
 		}
@@ -121,7 +127,6 @@ class ilObjReportBillGUI extends ilObjReportBaseGUI {
 		if (!preg_match("/\d{6}-\d{5}/", $billnumber)) {
 			throw Exception("gevBillingReportGUI::deliverBillPDF: This is no billnumber: '".$billnumber."'");
 		}
-		
 		require_once("Services/Utilities/classes/class.ilUtil.php");
 		require_once("Services/GEV/Utils/classes/class.gevBillStorage.php");
 		$filename = gevBillStorage::getInstance()->getPathByBillNumber($billnumber);
