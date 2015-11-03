@@ -456,7 +456,6 @@ class ilObjBibliographic extends ilObject2 {
 	 * @return ilObjPoll
 	 */
 	public function doCloneObject(ilObjBibliographic $new_obj, $a_target_id, $a_copy_id = 0) {
-		$new_obj->cloneStructure($this->getId());
 
 		//copy online status if object is not the root copy object
 		$cp_options = ilCopyWizardOptions::_getInstance($a_copy_id);
@@ -465,6 +464,8 @@ class ilObjBibliographic extends ilObject2 {
 		{
 			$new_obj->setOnline($this->getOnline());
 		}
+
+		$new_obj->cloneStructure($this->getId());
 
 		return $new_obj;
 	}
@@ -480,7 +481,6 @@ class ilObjBibliographic extends ilObject2 {
 	public function cloneStructure($original_id) {
 		$original = new ilObjBibliographic($original_id);
 		$this->moveFile($original->getFileAbsolutePath());
-		$this->setOnline(false);
 		$this->setDescription($original->getDescription());
 		$this->setTitle($original->getTitle());
 		$this->setType($original->getType());
