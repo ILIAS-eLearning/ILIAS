@@ -1241,7 +1241,6 @@ gev#:#gev_dec_crs_creation_building_block_edit_sub_title#:#Hier können Sie den 
 gev#:#gev_dec_training_no_open_requests#:#Derzeit sind keine dezentralen Trainings zur Anlage vorgesehen.
 gev#:#gev_dec_training_open_requests_title#:#Anlage von dezentralen Trainings
 gev#:#gev_dec_training_open_requests_header_note#:#Hier erfahren sie, welche dezentralen Trainings derzeit für sie angelegt werden.
-gev#:#gev_dec_training_min_participation_count_not_reached#:#Bitte beachten Sie, dass bei allen dezentralen Trainings, bei denen Bildungspunkte vergeben werden sollen, eine Mindestteilnehmerzahl von 3 punkteberechtigten Personen erforderlich ist.
 gev#:#gev_dec_training_save_request#:#Dezentrales Training anlegen
 gev#:#gev_dec_training_show_buildingblocks#:#Ablaufplan anzeigen
 gev#:#gev_dec_ready#:#Fertig
@@ -1313,3 +1312,4 @@ gev#:#gev_crs_search_present#:#Präsenztraining
 gev#:#gev_crs_search_webinar#:#Webinar
 gev#:#gev_crs_search_self_learn#:#Selbstlernkurs
 gev#:#gev_crs_search_virtual_training#:#Virtuelles Training
+gev#:#gev_training_min_participation_count_not_reached#:#Bitte beachten Sie! Wenn für dieses Training Bildungspunkte vergeben werden sollen, ist eine Mindestteilnehmerzahl von %s punkteberechtigten Personen erforderlich.
