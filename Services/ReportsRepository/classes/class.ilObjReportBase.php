@@ -171,4 +171,84 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 	public function getRelevantaParameters() {
 		return $this->relevant_parameters;
 	}
+
+	// Report discovery
+
+	/**
+	 * Get a list with object data (obj_id, title, type, description, icon_small) of all
+	 * Report Objects in the system that are not in the trash. The id is
+	 * the obj_id, not the ref_id.
+	 *
+	 * @return array
+	 */
+	static public function getReportsObjectData() {
+		require_once("Services/Repository/classes/class.ilRepositoryObjectPlugin.php");
+
+		global $ilPluginAdmin;
+
+		$c_type = ilRepositoryObjectPlugin::getComponentType();
+		$c_name = ilRepositoryObjectPlugin::getComponentName();
+		$slot_id = ilRepositoryObjectPlugin::getSlotId();
+		$plugin_names = $ilPluginAdmin->getActivePluginsForSlot($c_type, $c_name, $slot_id);
+
+		$obj_data = array();
+
+		foreach ($plugin_names as $plugin_name) {
+			$plugin = $ilPluginAdmin->getPluginObject($c_type, $c_name, $slot_id, $plugin_name);
+			assert($plugin instanceof ilRepositoryObjectPlugin);
+
+			if (!($plugin instanceof ilReportBasePlugin)) {
+				continue;
+			}
+
+			// this actually is the object type
+			$type = $plugin->getId();
+
+			$icon = ilRepositoryObjectPlugin::_getIcon($type, "small");
+
+			$obj_data[] = array_map(function(&$data) use (&$icon) {
+					// adjust data to fit the documentation.
+					$data["obj_id"] = $data["id"];
+					unset($data["id"]);
+					$data["icon"] = $icon;
+					return $data;
+											// second parameter is $a_omit_trash
+				}, ilObject::_getObjectsDataForType($type, true));
+		}
+
+		return call_user_func_array("array_merge", $obj_data);
+	}
+
+	/**
+	 * Get a list of all reports visible to the given user. Returns a list with entries
+	 * title.obj_id => (obj_id, title, type, description, icon). If a report is visible
+	 * via two different ref_ids only one of those will appear in the result.
+	 *
+	 * @param	ilObjUser $user
+	 * @return	array
+	 */
+	static public function getVisibleReportsObjectData(ilObjUser $user) {
+		require_once("Services/Object/classes/class.ilObject.php");
+
+		global $ilAccess;
+
+		$reports = self::getReportsObjectData();
+
+		$visible_reports = array();
+
+		foreach ($reports as $key => &$report) {
+			$obj_id = $report["obj_id"];
+			$type = $report["type"];
+			foreach (ilObject::_getAllReferences($report["obj_id"]) as $ref_id) {
+				if ($ilAccess->checkAccessOfUser($user->getId(), "read", null, $ref_id)) {//, $type, $obj_id)) {
+					$report["ref_id"] = $ref_id;
+					$visible_reports[$key] = $report;
+					break;
+				}
+			}
+		}
+
+		ksort($visible_reports, SORT_NATURAL | SORT_FLAG_CASE);
+		return $visible_reports;
+	}
 }
