@@ -33,7 +33,6 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 			$this->setFilterAction();
 		}
 
-		$this->order = null;
 		$this->title = null;
 
 	}
