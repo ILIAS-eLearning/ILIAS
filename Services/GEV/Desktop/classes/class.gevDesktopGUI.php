@@ -37,6 +37,7 @@
 * @ilCtrl_Calls gevDesktopGUI: gevDecentralTrainingCourseCreatingBuildingBlock2GUI
 * @ilCtrl_Calls gevDesktopGUI: gevTrainerWorkloadGUI
 * @ilCtrl_Calls gevDesktopGUI: gevTrainerOperationByOrgUnitAndTrainerGUI
+* @ilCtrl_Calls gevDesktopGUI: ilObjCourseGUI
 */
 
 class gevDesktopGUI {
@@ -253,6 +254,11 @@ class gevDesktopGUI {
 				require_once("Services/GEV/Reports/classes/class.gevTrainerOperationByOrgUnitAndTrainerGUI.php");
 				$gui = new gevTrainerOperationByOrgUnitAndTrainerGUI();
 				$ret = $this->ctrl->forwardCommand($gui);
+				break;
+			case "ilobjcoursegui":
+				require_once("Modules/Course/classes/class.ilObjCourseGUI.php");
+				$gui = new ilObjCourseGUI();
+				$this->ctrl->forwardCommand($gui);
 				break;
 			default:
 				$this->dispatchCmd($cmd);

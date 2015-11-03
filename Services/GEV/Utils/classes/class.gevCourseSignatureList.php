@@ -21,6 +21,12 @@ class gevCourseSignatureList extends fpdf {
 			$user_id = $name." (".$email.")";
 		}
 
+		$venue = $crs_utils->getVenueTitle();
+
+		if($venue === null || $venue == "") {
+			$venue = $crs_utils->getVenueFreeText();
+		}
+
 		$this->metadata = array(
 			"Titel" => $crs_utils->getTitle()
 			, "Untertitel" => $crs_utils->getSubtitle()
@@ -28,7 +34,7 @@ class gevCourseSignatureList extends fpdf {
 			, "Datum" => ($crs_utils->getStartDate() !== null && $crs_utils->getEndDate() !== null)
 						 	? ilDatePresentation::formatPeriod($crs_utils->getStartDate(), $crs_utils->getEndDate())
 							: ""
-			, "Veranstaltungsort" => $crs_utils->getVenueTitle()
+			, "Veranstaltungsort" => $venue
 			, "Trainer" => implode(", ", $trainer_list)
 			, "Trainingsbetreuer" => $crs_utils->getMainAdminName(). " (".$crs_utils->getMainAdminContactInfo().")"
 			, "Fachlich verantwortlich" => $crs_utils->getTrainingOfficerContactInfo());

@@ -419,11 +419,11 @@ class gevCourseSearch {
 	}
 
 	public function getPossibleTabs() {
-		return array("all"=>"Alle Trainings"
-							,"praes"=>"Präsenztraining"
-							,"webinar"=>"Webinar"
-							,"self"=>"Selbstlernkurs"
-							,"virt"=>"Virtuelles Training"
+		return array("all"=>"gev_crs_search_all"
+							,"praes"=>"gev_crs_search_present"
+							,"webinar"=>"gev_crs_search_webinar"
+							,"self"=>"gev_crs_search_self_learn"
+							,"virt"=>"gev_crs_search_virtual_training"
 						   );
 	}
 
