@@ -1,4 +1,4 @@
-<?php
+	<?php
 
 require_once 'Services/ReportsRepository/classes/class.ilObjReportBaseGUI.php';
 require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
@@ -19,9 +19,10 @@ class ilObjReportCouponGUI extends ilObjReportBaseGUI {
 
 	protected function prepareTitle() {
 		require_once 'Services/CaTUIComponents/classes/class.catTitleGUI.php';
+		$desc = $this->object->getAdminMode() ? "gev_rep_coupon_desc_admin" : "gev_rep_coupon_desc";
 		$this->title = catTitleGUI::create()
 						->title("gev_rep_coupon_title")
-						->subTitle("gev_rep_coupon_desc")
+						->subTitle($desc)
 						->image("GEV_img/ico-head-edubio.png");
 	}
 
@@ -55,5 +56,19 @@ class ilObjReportCouponGUI extends ilObjReportBaseGUI {
 		$this->object->setOnline($data["online"]);
 		$this->object->setAdminMode($data["admin_mode"]);
 		parent::saveSettingsData($data);
+	}
+
+	public static function transformResultRow($a_rec) {
+		$a_rec = parent::transformResultRow($a_rec);
+		$a_rec["odbd"] = str_replace("-empty-/-empty-", "Generali", $a_rec["odbd"]);		
+		$a_rec["odbd"] = str_replace("/-empty-", "/Generali", $a_rec["odbd"]);
+		return $a_rec;
+	}
+
+	public static function transformResultRowXLS($a_rec) {
+		$a_rec = parent::transformResultRowXLS($a_rec);
+		$a_rec["odbd"] = str_replace("-empty-/-empty-", "Generali", $a_rec["odbd"]);		
+		$a_rec["odbd"] = str_replace("/-empty-", "/Generali", $a_rec["odbd"]);
+		return $a_rec;
 	}
 }
