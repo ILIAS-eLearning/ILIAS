@@ -3004,7 +3004,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$jsTpl->setVariable('IL_FRM_QUOTE_CALLBACK_SRC',
 					$this->ctrl->getLinkTarget($this, 'getQuotationHTMLAsynch', '', true));
 				$this->ctrl->clearParameters($this);
-				$this->tpl->setVariable('FORM_ADDITIONAL_JS', $jsTpl->get());
+				$tpl->setVariable('BOTTOM_FORM_ADDITIONAL_JS', $jsTpl->get());;
 				$tpl->setVariable('BOTTOM_FORM', $form->getHTML());
 			}
 		}
