@@ -42,8 +42,8 @@ class ilObjReportBillGUI extends ilObjReportBaseGUI {
 	protected function prepareTitle() {
 		require_once 'Services/CaTUIComponents/classes/class.catTitleGUI.php';
 		$this->title = catTitleGUI::create()
-						->title("gev_rep_coupon_title")
-						->subTitle("gev_rep_coupon_desc")
+						->title("gev_rep_billing_title")
+						->subTitle("gev_rep_billing_desc")
 						->image("GEV_img/ico-head-edubio.png");
 	}
 

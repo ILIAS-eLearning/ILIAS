@@ -195,7 +195,7 @@ class ilObjReportBill extends ilObjReportBase {
 				->column("date", "gev_training_date")
 				->column("venue", "gev_venue");
 		if(self::REPORT_MODE_ADMIN === (int)$this->report_mode) {
-			$table->column("assigment", "assigment");
+			$table->column("assigment","gev_company_title");
 		}
 		/*var_dump($this->is_vfs);
 		echo "<br>";

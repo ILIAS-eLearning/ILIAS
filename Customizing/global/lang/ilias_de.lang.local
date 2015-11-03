@@ -1308,3 +1308,5 @@ gev#:#load_member_list#:#Mitgliederliste abrufen
 gev#:#view_maillog#:#Maillog einsehen
 gev#:#load_csn_list#:#CSN Liste herunterladen
 gev#:#gev_dec_forward_to_kurs#:#zum Kurs
+gev#:#rep_robj_xrbi_content#:#Rechnungsreport
+gev#:#rep_robj_xrbi_properties#:#Reporteigenschaften
