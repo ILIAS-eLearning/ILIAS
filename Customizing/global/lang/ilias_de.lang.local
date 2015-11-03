@@ -457,7 +457,7 @@ gev#:#no_bills_for_free_training#:#Für dieses Training können keine Rechnungen
 gev#:#gev_coupon_bill_item#:#Gutschein %s
 gev#:#gev_coupon_start_ammount#:#gesamtes Guthaben
 gev#:#gev_coupon_diff_ammount#:#bereits verbrauchtes Guthaben
-gev#:#gev_coupon_current_ammount#:#Restuthaben
+gev#:#gev_coupon_current_ammount#:#Restguthaben
 gev#:#gev_coupon_bill_item_code#:#Gutscheincode(s)
 gev#:#gev_coupon_codes#:#Gutscheincode(s) einlösen
 gev#:#gev_coupon_pretax#:#Gutscheinbetrag netto
@@ -1314,7 +1314,7 @@ gev#:#load_signature_list#:#Unterschriftenliste herunterladen
 gev#:#load_member_list#:#Mitgliederliste abrufen
 gev#:#view_maillog#:#Maillog einsehen
 gev#:#load_csn_list#:#CSN Liste herunterladen
-gev#:#gev_dec_forward_to_kurs#:#zum Kurs
+gev#:#gev_dec_forward_to_kurs#:#Zum Kurs
 gev#:#rep_robj_xrbi_content#:#Rechnungsreport
 gev#:#rep_robj_xrbi_properties#:#Reporteigenschaften
 gev#:#rep_robj_xrcp_content#:#Gutscheinreport
