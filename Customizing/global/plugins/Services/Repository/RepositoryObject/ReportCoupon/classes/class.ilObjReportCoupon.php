@@ -59,7 +59,7 @@ class ilObjReportCoupon extends ilObjReportBase {
 
 	protected function buildFilter($filter) {
 		$filter	->checkbox("active_only"
-								, $this->lng->txt("gev_active")
+								, $this->lng->txt("gev_coupon_active_only")
 								," current > 0 AND c.coupon_expires > ".$this->gIldb->quote(time(),"integer")
 								," TRUE"
 								, true
@@ -86,16 +86,16 @@ class ilObjReportCoupon extends ilObjReportBase {
 
 
 	protected function buildTable($table) {
-		$table	->column("code","code")
-				->column("start","start")
-				->column("diff","diff")
-				->column("current","current")
-				->column("expires","expires");
+		$table	->column("code","gev_coupon_bill_item_code")
+				->column("start","gev_coupon_start_ammount")
+				->column("diff","gev_coupon_diff_ammount")
+				->column("current","gev_coupon_current_ammount")
+				->column("expires","gev_coupon_expires");
 		if($this->getAdminMode()) {
 			$table	->column("firstname","firstname")
 					->column("lastname","lastname")
-					->column("odbd","odbd")
-					->column("orgu","orgu")
+					->column("odbd","gev_od_bd")
+					->column("orgu","gev_org_unit_short")
 					->template("tpl.report_coupons_admin_row.html","Services/ReportsRepository");
 		} else {
 			$table	->template("tpl.report_coupons_row.html","Services/ReportsRepository");
