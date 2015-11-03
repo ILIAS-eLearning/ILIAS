@@ -4517,3 +4517,8 @@ require_once "Customizing/class.ilCustomInstaller.php";
 ilCustomInstaller::addRBACOps('crs', $new_crs_ops);
 
 ?>
+
+<#175>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
