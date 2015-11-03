@@ -301,6 +301,7 @@ class gevSettings {
 	const LOAD_CSN_LIST = "load_csn_list";
 	const CHANGE_TRAINER = "change_trainer";
 	const VIEW_MAILLOG = "view_maillog";
+	const CANCEL_TRAINING = "cancel_training";
 
 	static $UDF_FIELD_ORDER = array(
 		'Emailadresse (privat)'

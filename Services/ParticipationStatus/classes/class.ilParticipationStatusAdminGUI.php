@@ -21,8 +21,6 @@ class ilParticipationStatusAdminGUI
 	// gev-patch start
 	public $from_foreign_class = false;
 	public $crs_ref_id = false;
-
-	const MINIMUM_SUCCESSFULL_PARTICIPANTS = 3;
 	// gev-patch end
 
 	/**
@@ -60,6 +58,10 @@ class ilParticipationStatusAdminGUI
 		$lng->loadLanguageModule("ptst");
 
 		$this->setParticipationStatus(ilParticipationStatus::getInstance($this->getCourse()));
+
+		//gev patch start
+		$this->gLng = $lng;
+		//gev patch end
 	}
 	
 	/**
@@ -343,7 +345,25 @@ class ilParticipationStatusAdminGUI
 		
 		require_once "Services/ParticipationStatus/classes/class.ilParticipationStatusTableGUI.php";
 		$tbl = new ilParticipationStatusTableGUI($this, "listStatus", $this->getCourse(), $may_write, $may_finalize, $a_invalid);
-		$tpl->setContent($tbl->getHTML());		
+		
+		//gev patch start
+		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		$crs_utils = gevCourseUtils::getInstanceByObj($this->getCourse());
+		$min_parti = ($crs_utils->getMinParticipants() === null) ? 0 : $crs_utils->getMinParticipants();
+		$succ_parti = $crs_utils->getSuccessfullParticipants();
+
+		$getSuccessfullParticipants = "";
+		if($min_parti > count($succ_parti)) {
+			$tpl_adivce = new ilTemplate("tpl.gev_my_advice.html", true, true, "Services/GEV/Desktop");
+			$tpl_adivce->setCurrentBlock("advice");
+			$tpl_adivce->setVariable("ADVICE", sprintf($this->gLng->txt("gev_training_min_participation_count_not_reached"),$min_parti));
+			$tpl_adivce->parseCurrentBlock();
+
+			$getSuccessfullParticipants = $tpl_adivce->get();
+		}
+		// gev patch end
+
+		$tpl->setContent($getSuccessfullParticipants.$tbl->getHTML());
 	}
 	
 	// gev-patch start
@@ -575,13 +595,13 @@ class ilParticipationStatusAdminGUI
 
 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 		$crs_utils = gevCourseUtils::getInstanceByObj($this->getCourse());
+		$min_parti = ($crs_utils->getMinParticipants() === null) ? 0 : $crs_utils->getMinParticipants();
 
-		if($crs_utils->isDecentralTraining() && count($crs_utils->getSuccessfullParticipants()) < self::MINIMUM_SUCCESSFULL_PARTICIPANTS) {
-			$confirm->addItem("",
+		$confirm->addItem("",
 				"",
-				$lng->txt("gev_dec_training_min_participation_count_not_reached")
+				sprintf($lng->txt("gev_training_min_participation_count_not_reached"),$min_parti)
+
 			);
-		}
 
 
 		if(!$this->from_foreign_class){

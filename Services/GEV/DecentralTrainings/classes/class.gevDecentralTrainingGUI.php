@@ -39,6 +39,7 @@ class gevDecentralTrainingGUI {
 	const VC_TYPE_CSN = "CSN";
 	const VC_TYPE_WEBEX = "Webex";
 	const LTPYE_WEBINAR = "Webinar";
+	const UVG_BASE_ORG_UNIT = "UVG";
 
 	protected $ltype;
 	
@@ -245,7 +246,7 @@ class gevDecentralTrainingGUI {
 		$trainer_ids = $form_prev->getInput("trainers");
 		$is_flexible = $this->isTemplateFlexible($this->template_id);
 		$fill = true;
-		$form_values = $this->getFormValuesByTemplateId($this->template_id);
+		$form_values = $this->getFormValuesByTemplateId($this->template_id, $trainer_ids);
 		//utils_id
 		$form_values["utils_id"] = $this->template_id;
 		//template id
@@ -1488,9 +1489,11 @@ class gevDecentralTrainingGUI {
 		}
 	}
 
-	protected function getFormValuesByTemplateId($a_template_id) {
+	protected function getFormValuesByTemplateId($a_template_id, $trainer_ids) {
 		$training_info = $this->dctl_utils->getTemplateInfoFor($this->current_user->getId(), $a_template_id);
+		$uvg_org_units = gevUVGOrgUnits::getInstance();
 		$crs_utils = gevCourseUtils::getInstance($a_template_id);
+
 		$tmp = $crs_utils->getSchedule();
 		$sched = explode("-",$tmp[0]);
 		$training_info["start_datetime"] = new ilDateTime("1970-01-01 ".$sched[0].":00", IL_CAL_DATETIME);
@@ -1499,18 +1502,31 @@ class gevDecentralTrainingGUI {
 		
 		$training_info["credit_points"] = gevCourseUtils::getInstance($a_template_id)->getCreditPoints();
 		$training_info["no_changes_allowed"] = false;
+		$training_info["orgu_id"] = "";
 
-		$usr_utils = gevUserUtils::getInstance($this->current_user->getId());
-
-		if($usr_utils->isUVGDBV()) {
-			$uvg_org_units = gevUVGOrgUnits::getInstance();
-			if($pers_org_unit = $uvg_org_units->getOrgUnitIdOf($this->current_user->getId())) {
-				$tree = ilObjOrgUnitTree::_getInstance();
-				$above_ref_id = $tree->getParent(gevObjectUtils::getRefId($pers_org_unit));
-				$training_info["orgu_id"] = $above_ref_id;
+		$trainer_orgus = array();
+		foreach ($trainer_ids as $key => $trainer_id) {
+			$usr_utils = gevUserUtils::getInstance($trainer_id);
+			if($usr_utils->isUVGDBV()) {
+				if($pers_org_unit = $uvg_org_units->getOrgUnitIdOf($usr_utils->getId())) {
+					$tree = ilObjOrgUnitTree::_getInstance();
+					$above_ref_id = $tree->getParent(gevObjectUtils::getRefId($pers_org_unit));
+					$trainer_orgus[] = $above_ref_id;
+				}
+			} else {
+				$trainer_orgus = null;
+				break;
 			}
 		}
-
+		
+		if($trainer_orgus !== null) {
+			$trainer_orgus = array_unique($trainer_orgus);
+			if(count($trainer_orgus) == 1) {
+				$training_info["orgu_id"] = $trainer_orgus[0];
+			} else {
+				$training_info["orgu_id"] = $uvg_org_units->getBaseRefId();
+			}
+		}
 		return $training_info;
 	}
 
