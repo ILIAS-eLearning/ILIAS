@@ -139,6 +139,13 @@ class gevCourseSearchGUI {
 			$search_opts = array();
 		}
 
+		foreach ($search_opts as $key => $value) {
+			if (is_string($value)) {
+				$search_opts[$key] = trim($value);
+			}
+		}
+
+
 		// this is needed to pass the search parameter via the sorting
 		// links of the table.
 		foreach( $search_opts as $key => $value) {
