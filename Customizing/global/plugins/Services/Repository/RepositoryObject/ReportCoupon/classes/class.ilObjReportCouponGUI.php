@@ -35,7 +35,7 @@ class ilObjReportCouponGUI extends ilObjReportBaseGUI {
 		}
 		$settings_form->addItem($is_online);
 
-		$admin_mode = new ilCheckboxInputGUI('admin_mode','admin_mode');
+		$admin_mode = new ilCheckboxInputGUI($this->gLng->txt('gev_coupon_report_admin_mode'),'admin_mode');
 		if(isset($data["admin_mode"])) {
 			$admin_mode->setChecked($data["admin_mode"]);
 		}
