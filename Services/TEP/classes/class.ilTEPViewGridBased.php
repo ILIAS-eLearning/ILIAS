@@ -767,7 +767,7 @@ abstract class ilTEPViewGridBased extends ilTEPView
 				$start_date !== null && 
 				($start_date->get(IL_CAL_DATE) > $now || ($start_date->get(IL_CAL_DATE) == $now && !$crs_utils->isFinalized()))) 
 			{
-				$cancel_training_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-calllist.png").'" />';
+				$cancel_training_img = '<img src="'.ilUtil::getImagePath("gev_cancel_action.png").'" />';
 				$ilCtrl->setParameterByClass("ilObjCourseGUI", "ref_id", $ref_id);
 				$actions .=  "<a href='".$ilCtrl->getLinkTargetByClass("ilObjCourseGUI", "confirmTrainingCancellation")
 							."' title='".$lng->txt("gev_cancel_training")."'>".$cancel_training_img."</a>&nbsp;";
