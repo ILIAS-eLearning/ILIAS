@@ -394,14 +394,14 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 		$settings_form->setFormAction($this->gCtrl->getFormAction($this));
 		$settings_form->addCommandButton("saveSettings", $this->gLng->txt("save"));
 
-		$title = new ilTextInputGUI('title','title');
+		$title = new ilTextInputGUI($this->gLng->txt('title'),'title');
 		if(isset($data["title"])) {
 			$title->setValue($data["title"]);
 		}
 		$title->setRequired(true);
 		$settings_form->addItem($title);
 
-		$description = new ilTextAreaInputGUI('description','description');
+		$description = new ilTextAreaInputGUI($this->gLng->txt('description'),'description');
 		if(isset($data["description"])) {
 			$description->setValue($data["description"]);
 		}
