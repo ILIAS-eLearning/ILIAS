@@ -506,7 +506,7 @@ gev#:#gev_dec_training_choose_min_one_trainer#:#Sie müssen mindestens einen Tra
 gev#:#gev_dev_training_creator#:#Trainingsersteller
 gev#:#gev_dev_training_creator_desc#:#Ersteller des dezentralen Trainings mit Ref-Id %d
 gev#:#gev_duration#:#Dauer
-gev#:#gev_edu_bio#:#Bildungsbiografie
+gev#:#gev_edu_bio#:#Bildungsbiographie
 gev#:#gev_edu_program#:#Bildungsprogramm
 gev#:#gev_edit_overnights#:#Ihre Übernachtungen beim Training "%s"
 gev#:#gev_edit_overnights_desc#:#Hier können Sie Ihre Übernachtungen beim Training bearbeiten.
@@ -663,8 +663,6 @@ gev#:#gev_rep_coupon_desc_admin#:#Hier sehen Sie alle Gutscheine
 gev#:#gev_rep_coupon_desc#:#Hier sehen Sie Ihre Gutscheine
 gev#:#gev_rep_employee_edu_bios_title#:#Bildungsbiographien meiner Mitarbeiter / Vertriebspartner
 gev#:#gev_rep_employee_edu_bios_desc#:#Hier bekommen Sie einen Überblick über die Bildungsbiographien Ihrer Mitarbeiter / Vertriebspartner. Bei der Auswahl „kritische Personen“ werden die Personen angezeigt, die nicht mind. 40 Weiterbildungspunkte pro abgelaufene Zertifizierungsperiode erreicht haben.<br>Bei Klick auf die Spaltenüberschrift der Ergebnistabelle (z.B. ADP-Nummer) erfolgt eine Sortierung der Tabelle nach diesem Kriterium.<br>Bei Klick auf den Namen gelangen Sie direkt in die Bildungsbiographie des Mitarbeiters / Vertriebspartners.<br>Die Zertifizierungsperiode und Punktzahl werden nur angezeigt bei Personen, die verpflichtet sind WP zu sammeln und die Generali Trusted Partner Service ist (EVG oder DBV).
-gev#:#gev_rep_employee_edu_bios_title#:#Bildungsbiografien meiner Mitarbeiter / Vertriebspartner
-gev#:#gev_rep_employee_edu_bios_desc#:#Hier bekommen Sie einen Überblick über die Bildungsbiografien Ihrer Mitarbeiter / Vertriebspartner. Bei der Auswahl „kritische Personen“ werden die Personen angezeigt, die nicht mind. 40 Weiterbildungspunkte pro abgelaufene Zertifizierungsperiode erreicht haben.<br>Bei Klick auf die Spaltenüberschrift der Ergebnistabelle (z.B. ADP-Nummer) erfolgt eine Sortierung der Tabelle nach diesem Kriterium.<br>Bei Klick auf den Namen gelangen Sie direkt in die Bildungsbiografie des Mitarbeiters / Vertriebspartners.<br>Die Zertifizierungsperiode und Punktzahl werden nur angezeigt bei Personen, die verpflichtet sind WP zu sammeln und die Generali Trusted Partner Service ist (EVG oder DBV).
 gev#:#gev_report_billing#:#Rechnungen
 gev#:#gev_report_filter_crs_region#:#Trainingsregion
 gev#:#gev_report_dbv_report_superior#:#DBV Report für Führungskräfte
@@ -685,7 +683,7 @@ gev#:#gev_report_attendance_by_employee#:#Teilnahmen nach Mitarbeiter
 gev#:#gev_rep_filter_show_critical_persons#:#Zeige mir nur kritische Personen.
 gev#:#gev_rep_filter_show_critical_dbvs#:#Zeige mir nur kritische DBVen.
 gev#:#gev_rep_filter_show_critical_persons_4th_year#:#Zeige mir nur kritische Personen nach dem vierten Jahr.
-gev#:#gev_report_employee_edu_bios#:#Bildungsbiografien meiner Mitarbeiter
+gev#:#gev_report_employee_edu_bios#:#Bildungsbiographien meiner Mitarbeiter
 gev#:#gev_registration_install_note#:#Generali Vermittler melden sich bitte mit der Generali E-Mail-Adresse an.
 gev#:#gev_reporting_menu#:#Reports
 gev#:#gev_search_menu#:#Trainingssuche
@@ -763,7 +761,7 @@ gev#:#gev_wbd_transfer_on#:#Ihre Bildungspunkte werden an die WBD gemeldet.
 gev#:#gev_webinar_link#:#Webinar Link
 gev#:#gev_webinar_password#:#Webinar Passwort
 gev#:#housenumber#:#Hausnummer
-gev#:#no_edu_bio_permission#:#Sie haben keine Berechtigung auf diese Bildungsbiografie zuzugreifen.
+gev#:#no_edu_bio_permission#:#Sie haben keine Berechtigung auf diese Bildungsbiographie zuzugreifen.
 gev#:#no_invitation_mail_available#:#Keine Einladungsmail ausgewählt.
 gev#:#register_tp_basis#:#Registrierung eines Weiterbildungskontos
 gev#:#register_tp_service#:#Registrierung eines Weiterbildungskontos
@@ -1250,6 +1248,7 @@ gev#:#gev_dec_crs_creation_building_block_edit_sub_title#:#Hier können Sie den 
 gev#:#gev_dec_training_no_open_requests#:#Derzeit sind keine dezentralen Trainings zur Anlage vorgesehen.
 gev#:#gev_dec_training_open_requests_title#:#Anlage von dezentralen Trainings
 gev#:#gev_dec_training_open_requests_header_note#:#Hier erfahren sie, welche dezentralen Trainings derzeit für sie angelegt werden.
+gev#:#gev_dec_training_min_participation_count_not_reached#:#Bitte beachten Sie, dass bei allen dezentralen Trainings, bei denen Bildungspunkte vergeben werden sollen, eine Mindestteilnehmerzahl von 3 punkteberechtigten Personen erforderlich ist.
 gev#:#gev_dec_training_save_request#:#Dezentrales Training anlegen
 gev#:#gev_dec_training_show_buildingblocks#:#Ablaufplan anzeigen
 gev#:#gev_dec_ready#:#Fertig
@@ -1324,10 +1323,10 @@ gev#:#crs_view_maillog#:#Maillog einsehen
 gev#:#load_csn_list#:#CSN Liste herunterladen
 gev#:#crs_load_csn_list#:#CSN Liste herunterladen
 gev#:#gev_dec_forward_to_kurs#:#Zum Kurs
-gev#:#rep_robj_xrbi_content#:#Rechnungsreport
-gev#:#rep_robj_xrbi_properties#:#Reporteigenschaften
-gev#:#rep_robj_xrcp_content#:#Gutscheinreport
-gev#:#rep_robj_xrcp_properties#:#Reporteigenschaften
+gev#:#rep_robj_xrbi_content#:#Report
+gev#:#rep_robj_xrbi_properties#:#Eigenschaften
+gev#:#rep_robj_xrcp_content#:#Report
+gev#:#rep_robj_xrcp_properties#:#Eigenschaften
 gev#:#gev_coupon_active_only#:#Nur aktive Gutscheine zeigen
 gev#:#gev_coupon_expires#:#gültig bis
 gev#:#gev_coupon_report_admin_mode#:#Admin-Modus
