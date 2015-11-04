@@ -1,4 +1,4 @@
-/* Copyright (c) 1998-2014 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2015 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
 *
@@ -253,7 +253,7 @@ lang_fr#:#French
 lang_hu#:#Hungarian
 lang_id#:#Indonesian
 lang_it#:#Italian
-lang_ja#:#Japanisch
+lang_ja#:#Japanese
 lang_ka#:#Georgian
 lang_lt#:#Lithuanian
 lang_min_one_language#:#You must install at least one language!
