@@ -164,7 +164,7 @@ class ilForumMailNotification extends ilMailNotification
 					else
 					{
 						$pos_message = $this->getSecurePostMessage();
-						$this->appendBody($pos_message . "\n");
+						$this->appendBody(strip_tags($pos_message) . "\n");
 					}
 					$this->appendBody("------------------------------------------------------------\n");
 
@@ -226,7 +226,7 @@ class ilForumMailNotification extends ilMailNotification
 					else
 					{
 						$pos_message = $this->getSecurePostMessage();
-						$this->appendBody($pos_message . "\n");
+						$this->appendBody(strip_tags($pos_message) . "\n");
 					}
 					$this->appendBody("------------------------------------------------------------\n");
 
@@ -409,7 +409,7 @@ class ilForumMailNotification extends ilMailNotification
 					else
 					{
 						$pos_message = $this->getSecurePostMessage();
-						$this->appendBody($pos_message . "\n");
+						$this->appendBody(strip_tags($pos_message) . "\n");
 					}
 					$this->appendBody("------------------------------------------------------------\n");
 
@@ -462,7 +462,7 @@ class ilForumMailNotification extends ilMailNotification
 					$this->appendBody("\n");
 
 					$pos_message = $this->getSecurePostMessage();
-					$this->appendBody($pos_message . "\n");
+					$this->appendBody(strip_tags($pos_message) . "\n");
 
 					$this->appendBody("------------------------------------------------------------\n");
 

@@ -1,7 +1,7 @@
 <style>
 	.modal-dialog, .modal-content, .modal-body
 	{
-		height: 90%
+		height: auto
 	}
 	.modal_answer_options
 	{
@@ -15,6 +15,9 @@
 	}
 	.prototype_long_menu{
 		display:none;
+	}
+	.modal-content{
+		padding-bottom:20px;
 	}
 </style>
 
@@ -83,7 +86,7 @@
 		<label for="" class="col-sm-3 control-label">{POINTS} <span class="asterisk">*</span></label>
 		<div class="col-sm-9">
 			<div class="form-inline">
-				<input type="text" class="form-control text-right" size="5" value="0">
+				<input type="text" class="form-control" size="5" value="0">
 			</div>
 		</div>
 	</div>
@@ -93,8 +96,8 @@
 	</div>
 	<div class="form-group" id="layout_dummy_buttons">
 			<div class="modal-submit">
-				<input type="submit" class="btn btn-default save-modal" value="{Save}save" />
-				<input type="submit" class="btn btn-default cancel-modal" value="{Cancel}cancel" />
+				<input type="submit" class="btn btn-default save-modal" value="{SAVE}" />
+				<input type="submit" class="btn btn-default cancel-modal" value="{CANCEL}" />
 			</div>
 	</div>
 	<div class="layout_dummy_help-block">
