@@ -19,7 +19,6 @@
 */
 
 require_once("Services/GEV/Reports/classes/class.catBasicReportGUI.php");
-require_once("Services/GEV/Reports/classes/class.catFilter.php");
 require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
 
 
