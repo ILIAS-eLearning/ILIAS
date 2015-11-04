@@ -392,12 +392,12 @@ assessment#:#available_points#:#Erreichbare Punkte
 assessment#:#available_terms#:#Auswählbare Terme
 assessment#:#average_reached_points#:#Durchschnittlich erreichte Punktezahl
 assessment#:#backtocallingtest#:#Zurück zum aufrufenden Test
-assessment#:#assLongMenu#:#Langes Menü
+assessment#:#assLongMenu#:#‘Long Menu’-Frage
 assessment#:#answers_text_box#:#Textfeld
 assessment#:#answers_select#:#Auswahl
-assessment#:#info_text_upload#:#Wählen Sie eine Antwort Text Datei (UTF-8) zum hochladen aus.
+assessment#:#info_text_upload#:#Wählen Sie eine Textdatei (UTF-8) mit Antworten zum Hochladen aus.
 assessment#:#manual_editing#:#Manuelle Editierung
-assessment#:#longmenu_text#:#Langes Menü Text
+assessment#:#longmenu_text#:#‘Long Menu’-Text
 assessment#:#correct_answers#:#Richtige Antworten: 
 assessment#:#answer_options#:#Antwortoptionen: 
 assessment#:#add_answers#:#Antworten hinzufügen 
