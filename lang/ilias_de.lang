@@ -13784,9 +13784,9 @@ assessment#:#tst_header_participant#:#Ihre Antwort:
 assessment#:#tst_header_solution#:#Bestmögliche Lösung:
 common#:#obj_cld#:#Cloud-Objekt
 common#:#objs_cld#:#Cloud-Objekte
-rbac#:#delete_files#:#Dateien Löschen
+rbac#:#delete_files#:#Dateien löschen
 rbac#:#cld_delete_files#:#Benutzer können Dateien im Cloud-Objekt löschen
-rbac#:#delete_folders#:#Ordner Löschen
+rbac#:#delete_folders#:#Ordner löschen
 rbac#:#cld_delete_folders#:#Benutzer können Ordner im Cloud-Objekt löschen
 rbac#:#files_visible#:#Dateien sichtbar
 rbac#:#cld_files_visible#:#Dateien im Cloud-Objekt sind für die Benutzer sichtbar
@@ -13797,7 +13797,7 @@ rbac#:#cld_folders_create#:#Ordner können im Cloud-Objekt erstellt werden
 rbac#:#cld_visible#:#Cloud-Objekt sichtbar
 rbac#:#cld_read#:#Benutzer können Cloud-Objekt öffnen
 rbac#:#cld_write#:#Benutzer können Cloud-Objekt Einstellungen bearbeiten
-rbac#:#cld_delete#:#Benutzer können können Cloud-Objekte löschen
+rbac#:#cld_delete#:#Benutzer können Cloud-Objekte löschen
 rbac#:#cld_permission#:#Benutzer können Rechteeinstellungen bearbeiten
 rbac#:#cld_upload#:#Benutzer können Dateien in das Cloud-Objekt laden
 rbac#:#cld_download#:#Benutzer können Dateien vom Cloud-Objekt herunterladen
