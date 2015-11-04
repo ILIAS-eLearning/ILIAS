@@ -84,6 +84,8 @@ class ilGEVCourseUpdatePlugin extends ilEventHookPlugin
 				}
 			}
 
+			$this->crs_utils->fillFreePlacesFromWaitingList();
+
 			$this->crs_utils->adjustVCAssignment();
 		}
 		catch (Exception $e) {

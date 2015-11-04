@@ -1302,8 +1302,11 @@ gev#:#gev_dec_training_org_unit_advice#:#Bitte wählen sie die Organisationseinh
 gev#:#gev_dec_training_move_to_course#:#Trainingsinhalt übernehmen
 gev#:#gev_dec_training_schedule_download#:#Ablaufplan PDF
 gev#:#view_material#:#Materialliste einsehen
+gev#:#crs_view_material#:#Materialliste einsehen
 gev#:#edit_material#:#Materialliste bearbeiten
+gev#:#crs_edit_material#:#Materialliste bearbeiten
 gev#:#view_schedule_pdf#:#Ablaufplan PDF einsehen
+gev#:#crs_view_schedule_pdf#:#Ablaufplan PDF einsehen
 gev#:#gev_dec_training_text_to_long#:#Sie dürfen maximal %d Zeichen verwenden.
 gev#:#gev_dec_training_crs_will_not_created#:#Das dezentrale Training wird nicht angelegt.
 gev#:#gev_dec_building_ue#:#UE
@@ -1311,10 +1314,15 @@ gev#:#gev_dec_training_block_end_before_start#:#Das Ende des Bausteins liegt vor
 gev#:#gev_dec_training_wp_sum#:#WP Gesamt:
 gev#:#gev_dec_training_block_time_issues#:#Der angelegte Baustein überschreitet die Trainingszeit, überschneidet sich mit einem anderen Baustein oder die Endzeit liegt vor der Startzeit. Bitte berichtigen Sie die Zeiten der Bausteine um die Anlage des Trainings abschließen zu können.
 gev#:#change_trainer#:#Trainer ändern
+gev#:#crs_change_trainer#:#Trainer ändern
 gev#:#load_signature_list#:#Unterschriftenliste herunterladen
+gev#:#crs_load_signature_list#:#Unterschriftenliste herunterladen
 gev#:#load_member_list#:#Mitgliederliste abrufen
+gev#:#crs_load_member_list#:#Mitgliederliste abrufen
 gev#:#view_maillog#:#Maillog einsehen
+gev#:#crs_view_maillog#:#Maillog einsehen
 gev#:#load_csn_list#:#CSN Liste herunterladen
+gev#:#crs_load_csn_list#:#CSN Liste herunterladen
 gev#:#gev_dec_forward_to_kurs#:#Zum Kurs
 gev#:#rep_robj_xrbi_content#:#Rechnungsreport
 gev#:#rep_robj_xrbi_properties#:#Reporteigenschaften
@@ -1330,4 +1338,5 @@ gev#:#gev_crs_search_webinar#:#Webinar
 gev#:#gev_crs_search_self_learn#:#Selbstlernkurs
 gev#:#gev_crs_search_virtual_training#:#Virtuelles Training
 gev#:#gev_training_min_participation_count_not_reached#:#Bitte beachten Sie! Wenn für dieses Training Bildungspunkte vergeben werden sollen, ist eine Mindestteilnehmerzahl von %s punkteberechtigten Personen erforderlich.
-gev#:#gev_cancel_training#:#Training absagen
+gev#:#cancel_training#:#Training absagen
+gev#:#crs_cancel_training#:#Training absagen
