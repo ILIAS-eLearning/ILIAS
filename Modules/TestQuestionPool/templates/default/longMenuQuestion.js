@@ -328,12 +328,12 @@ var longMenuQuestion = (function () {
 		{
 			var t0 = pro.benchmarkCallsDummyNotForUsage('redrawAnswerList');
 			$.each(pub.answers[question_id] , function( index, value ) {
-				html += '<input type="text" class="col-sm-10 text-right answerlist" size="5" value="' +
+				html += '<input type="text" class="col-sm-10 answerlist" size="5" value="' +
 						value + '" data-id="' + index + '">' + buttons;
 			});
 			if(html === '')
 			{
-				html += '<input type="text" class="col-sm-10 text-right answerlist" size="5" value="" data-id="0">' + buttons;
+				html += '<input type="text" class="col-sm-10 answerlist" size="5" value="" data-id="0">' + buttons;
 			}
 			pro.benchmarkCallsDummyNotForUsage('redrawAnswerList only html build', t0);
 			$('.modal_answer_options').html(html);
@@ -363,7 +363,7 @@ var longMenuQuestion = (function () {
 			{
 				debugPrinter('Added answer ' + answer_id + ' in gap ' + gap_id);
 				var buttons = $('.layout_dummy_add_remove_buttons').html();
-				var input_string = 'type="text" class="col-sm-10 text-right answerlist" size="5" value=""';
+				var input_string = 'type="text" class="col-sm-10 answerlist" size="5" value=""';
 				answerList_object.eq(answer_id).before('<input ' + input_string + '>' + buttons);
 			}
 			else
