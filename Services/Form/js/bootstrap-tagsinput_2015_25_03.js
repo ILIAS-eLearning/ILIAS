@@ -465,6 +465,13 @@
 					});
 				}
 			}
+			//patch for bug #17340 begin
+			self.$container.on('paste', function () {
+				setTimeout(function(){
+					self.$container.find('input').keydown();
+				}, 20);
+			});
+			//patch for bug #17340 end
 		},
 
 		/**

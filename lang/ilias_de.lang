@@ -8625,7 +8625,7 @@ meta#:#md_adv_select_one_file#:#Bitte wählen Sie eine Datei aus.
 meta#:#md_adv_show#:#Anzeigen
 meta#:#md_adv_substitution#:#Text
 meta#:#md_adv_substitution_table#:#Darstellung im Magazin
-meta#:#md_advanced#:#Erweiterte Metadaten
+meta#:#md_advanced#:#Benutzerdefinierte Metadaten
 meta#:#md_copyright#:#Copyright
 meta#:#md_copyright_add#:#Neue Vorgabe
 meta#:#md_copyright_edit#:#Copyright Vorgabe bearbeiten
@@ -8645,7 +8645,7 @@ meta#:#md_general_settings#:#Einstellungen
 meta#:#md_months#:#Monate:
 meta#:#md_obj_types#:#Zugeordnete Objekte
 meta#:#md_record_export_table#:#Exportdateien
-meta#:#md_record_list_table#:#Verfügbare Metadatensätze
+meta#:#md_record_list_table#:#Benutzerdefinierte Metadatensätze
 meta#:#md_separated_by#:#Getrennt mit %s
 meta#:#md_time#:#Zeit:
 meta#:#md_used#:#Verwendung (Anzahl)
@@ -15642,11 +15642,11 @@ meta#:#meta_obj_type_inactive#:#Inaktiv
 meta#:#meta_obj_type_mandatory#:#Verpflichtend
 meta#:#meta_obj_type_optional#:#Optional
 common#:#obj_tool_setting_custom_metadata#:#Benutzerdefinierte Metadaten
-common#:#obj_tool_setting_custom_metadata_info#:#Wenn aktiviert können Metadaten konfiguriert werden.
+common#:#obj_tool_setting_custom_metadata_info#:#Wenn aktiviert können benutzerdefinierte Metadaten konfiguriert werden.
 meta#:#meta_section#:#Bereich
 meta#:#meta_tab_lom#:#LOM
 meta#:#meta_tab_advmd#:#Benutzerdefinierte Metadaten
-meta#:#meta_tab_advmd_def#:#Benutzerdefinierte Metadaten-Definition
+meta#:#meta_tab_advmd_def#:#Metadatensätze verwalten
 meta#:#meta_global#:#Global
 wiki#:#wiki_unhide_meta_adv_records#:#Zusätzliche Eigenschaften anzeigen
 prtf#:#prtf_back_to_portfolio_owner#:#Portfolio bearbeiten
