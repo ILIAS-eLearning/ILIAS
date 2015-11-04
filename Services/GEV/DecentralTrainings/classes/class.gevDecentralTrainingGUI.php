@@ -1017,6 +1017,10 @@ class gevDecentralTrainingGUI {
 			if ($this->dctl_utils->canCreateFor($this->current_user->getId(), $this->current_user->getId())) {
 				$trainer_ids = array_merge(array($this->current_user->getId()), $trainer_ids);
 			}
+
+			if(isset($a_form_values["trainer_ids"]) && is_array($a_form_values["trainer_ids"])) {
+				$trainer_ids = array_merge($a_form_values["trainer_ids"], $trainer_ids);
+			}
 			
 			$options = gevUserUtils::getFullNames($trainer_ids);
 
@@ -1216,7 +1220,11 @@ class gevDecentralTrainingGUI {
 			if ($this->dctl_utils->canCreateFor($this->current_user->getId(), $this->current_user->getId())) {
 				$trainer_ids = array_merge(array($this->current_user->getId()), $trainer_ids);
 			}
-			
+
+			if(isset($a_form_values["trainer_ids"]) && is_array($a_form_values["trainer_ids"])) {
+				$trainer_ids = array_merge($a_form_values["trainer_ids"], $trainer_ids);
+			}
+
 			$options = gevUserUtils::getFullNames($trainer_ids);
 
 			$trainer_select = new ilMultiSelectInputGUI($this->lng->txt("tutor"), "tutor_change");
