@@ -20,7 +20,7 @@ class ilObjReportCouponGUI extends ilObjReportBaseGUI {
 	protected function settingsForm($data = null) {
 		$settings_form = parent::settingsForm($data);
 
-		$is_online = new ilCheckboxInputGUI('online','online');
+		$is_online = new ilCheckboxInputGUI($this->gLng->txt('online'),'online');
 		if(isset($data["online"])) {
 			$is_online->setChecked($data["online"]);
 		}
