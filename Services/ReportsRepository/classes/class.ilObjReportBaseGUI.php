@@ -115,7 +115,6 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 	}
 		
 	protected function render() {
-		$title_content = $this->title !== null ? $this->title->render() : "";
 		$this->gTpl->setTitle(null);
 		return 	($this->title !== null ? $this->title->render() : "")
 				. ($this->object->deliverFilter() !== null ? $this->object->deliverFilter()->render() : "")
