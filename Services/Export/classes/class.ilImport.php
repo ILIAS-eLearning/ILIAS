@@ -189,6 +189,20 @@ class ilImport
 	}
 
 	/**
+	 * Import from directory
+	 *
+	 * @param
+	 * @return
+	 */
+	function importFromDirectory($dir, $a_type, $a_comp)
+	{
+		$new_id = $this->doImportObject($dir, $a_type, $a_comp);
+		return $new_id;
+
+	}
+
+
+	/**
 	 * Set temporary import directory
 	 *
 	 * @param string $a_val temporary import directory (used to unzip and read import)
