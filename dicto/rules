@@ -1,3 +1,10 @@
+/**
+ * A documentation for writing dicto rules could be found at:
+ *
+ * http://scg.unibe.ch/dicto/examples.php
+ *
+ */ 
+
 ilClasses = PhpClass with name:"il*"
 assClasses = PhpClass with name:"ass*"
 WholeIliasCodebase = {ilClasses, assClasses}
