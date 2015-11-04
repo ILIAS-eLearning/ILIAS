@@ -51,7 +51,7 @@ class ilContainerStartObjectsTableGUI extends ilTable2GUI
 		else
 		{
 			$this->setTitle($this->lng->txt('crs_start_objects'));					
-			$this->addMultiCommand('askDeleteStarter', $this->lng->txt('delete'));
+			$this->addMultiCommand('askDeleteStarter', $this->lng->txt('remove'));
 			$this->addCommandButton('saveSorting', $this->lng->txt('sorting_save'));
 			
 			$this->setDefaultOrderField('pos');

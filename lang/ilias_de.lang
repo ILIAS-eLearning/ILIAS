@@ -392,12 +392,12 @@ assessment#:#available_points#:#Erreichbare Punkte
 assessment#:#available_terms#:#Auswählbare Terme
 assessment#:#average_reached_points#:#Durchschnittlich erreichte Punktezahl
 assessment#:#backtocallingtest#:#Zurück zum aufrufenden Test
-assessment#:#assLongMenu#:#Langes Menü
+assessment#:#assLongMenu#:#‘Long Menu’-Frage
 assessment#:#answers_text_box#:#Textfeld
 assessment#:#answers_select#:#Auswahl
-assessment#:#info_text_upload#:#Wählen Sie eine Antwort Datei zum hochladen aus
+assessment#:#info_text_upload#:#Wählen Sie eine Textdatei (UTF-8) mit Antworten zum Hochladen aus.
 assessment#:#manual_editing#:#Manuelle Editierung
-assessment#:#longmenu_text#:#Langes Menü Text
+assessment#:#longmenu_text#:#‘Long Menu’-Text
 assessment#:#correct_answers#:#Richtige Antworten: 
 assessment#:#answer_options#:#Antwortoptionen: 
 assessment#:#add_answers#:#Antworten hinzufügen 
@@ -13784,9 +13784,9 @@ assessment#:#tst_header_participant#:#Ihre Antwort:
 assessment#:#tst_header_solution#:#Bestmögliche Lösung:
 common#:#obj_cld#:#Cloud-Objekt
 common#:#objs_cld#:#Cloud-Objekte
-rbac#:#delete_files#:#Dateien Löschen
+rbac#:#delete_files#:#Dateien löschen
 rbac#:#cld_delete_files#:#Benutzer können Dateien im Cloud-Objekt löschen
-rbac#:#delete_folders#:#Ordner Löschen
+rbac#:#delete_folders#:#Ordner löschen
 rbac#:#cld_delete_folders#:#Benutzer können Ordner im Cloud-Objekt löschen
 rbac#:#files_visible#:#Dateien sichtbar
 rbac#:#cld_files_visible#:#Dateien im Cloud-Objekt sind für die Benutzer sichtbar
@@ -13797,7 +13797,7 @@ rbac#:#cld_folders_create#:#Ordner können im Cloud-Objekt erstellt werden
 rbac#:#cld_visible#:#Cloud-Objekt sichtbar
 rbac#:#cld_read#:#Benutzer können Cloud-Objekt öffnen
 rbac#:#cld_write#:#Benutzer können Cloud-Objekt Einstellungen bearbeiten
-rbac#:#cld_delete#:#Benutzer können können Cloud-Objekte löschen
+rbac#:#cld_delete#:#Benutzer können Cloud-Objekte löschen
 rbac#:#cld_permission#:#Benutzer können Rechteeinstellungen bearbeiten
 rbac#:#cld_upload#:#Benutzer können Dateien in das Cloud-Objekt laden
 rbac#:#cld_download#:#Benutzer können Dateien vom Cloud-Objekt herunterladen
@@ -16077,3 +16077,7 @@ crs#:#crs_loc_settings_type_it_qualifying_sel_info#:#Qualifizierender Einstiegst
 crs#:#crs_loc_settings_type_it_none_info#:#Kein Einstiegstest
 crs#:#crs_loc_settings_type_q_all_info#:#Abschlusstest über alle Lernziele
 crs#:#crs_loc_settings_type_q_selected_info#:#Abschlusstest pro Lernziel
+crs#:#crs_visibility_until_info#:#---
+crs#:#crs_registration_limited_info#:#---
+crs#:#crs_subscription_max_members_short_info#:#---
+crs#:#crs_unsubscribe_member_explanation#:#Sie erhalten diese Mail, da Sie die Kursmitgliedschaft des oben genannten Kurses beendet haben.

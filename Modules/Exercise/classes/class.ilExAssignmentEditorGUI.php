@@ -349,7 +349,7 @@ class ilExAssignmentEditorGUI
 			$time_deadline = $a_form->getInput("deadline_cb")
 				? $a_form->getItemByPostVar("deadline")->getDate()->get(IL_CAL_UNIX)
 				: null;
-			$time_deadline_ext = $a_form->getInput("deadline2_cb")
+			$time_deadline_ext = ($a_form->getInput("deadline_cb") && $a_form->getInput("deadline2_cb")) // #17325
 				? $a_form->getItemByPostVar("deadline2")->getDate()->get(IL_CAL_UNIX)
 				: null;			
 			

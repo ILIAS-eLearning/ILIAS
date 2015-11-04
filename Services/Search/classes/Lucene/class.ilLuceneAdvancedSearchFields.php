@@ -146,7 +146,8 @@ class ilLuceneAdvancedSearchFields
 
 		$a_post_name = 'query['.$a_field_name.']';
 		
-		if(!$a_query)
+		ilLoggerFactory::getLogger('sea')->debug('Query was: '. print_r($a_query,TRUE));
+		if(!is_array($a_query))
 		{
 			$a_query = array();
 		}

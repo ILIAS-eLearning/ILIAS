@@ -6,11 +6,9 @@
 <input type="hidden" id="il_hform_source_id" name="il_hform_source_id" value="" />
 <input type="hidden" id="il_hform_target_id" name="il_hform_target_id" value="" />
 <input type="hidden" id="il_hform_expand" name="il_hform_expand" value="" />
-<table class="fullwidth">
 <!-- BEGIN commands2 -->
-<tr>
-	<td class="submit" colspan="2" style="padding-left:22px;">
-		<div style="float:right;">
+<div class="ilHFormHeader">
+		<div class="ilFormCmds">
 			<!-- BEGIN cmd2 -->
 			<input class="btn btn-default" type="submit" name="cmd[{CMD}]" value="{CMD_TXT}" />
 			<!-- END cmd2 -->
@@ -21,18 +19,14 @@
 		<input class="btn btn-default" type="submit" name="cmd[{MULTI_CMD}]" value="{MULTI_CMD_TXT}" />
 		<!-- END multi_cmd2 -->
 		<!-- END multi_cmds2 -->
-	</td>
-</tr>
+</div>
 <!-- END commands2 -->
-<tr class="std">
-	<td class="tblrow1" style="padding: 20px 0px;">
-	<div class="form-inline">{NODES}</div>
-	</td>
-</tr>
+<div class="ilHFormContent form-inline">
+	{NODES}
+</div>
 <!-- BEGIN commands1 -->
-<tr>
-	<td class="submit" colspan="2" style="padding-left:22px;">
-		<div style="float:right;">
+<div class="ilHFormFooter">
+		<div class="ilFormCmds">
 			<!-- BEGIN cmd1 -->
 			<input class="btn btn-default" type="submit" name="cmd[{CMD}]" value="{CMD_TXT}" />
 			<!-- END cmd1 -->
@@ -43,10 +37,8 @@
 		<input class="btn btn-default" type="submit" name="cmd[{MULTI_CMD}]" value="{MULTI_CMD_TXT}" />
 		<!-- END multi_cmd1 -->
 		<!-- END multi_cmds1 -->
-	</td>
-</tr>
+</div>
 <!-- END commands1 -->
-</table>
 
 
 <!-- BEGIN disambiguation_menu -->

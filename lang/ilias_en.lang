@@ -291,7 +291,7 @@ assessment#:#backtocallingtest#:#Back to the calling test
 assessment#:#assLongMenu#:#Long Menu
 assessment#:#answers_text_box#:#Text
 assessment#:#answers_select#:#Select
-assessment#:#info_text_upload#:#Choose an answer file to upload
+assessment#:#info_text_upload#:#Choose an answer text (UTF-8) file to upload.
 assessment#:#manual_editing#:#Manual Editing
 assessment#:#longmenu_text#:#Long Menu Text
 assessment#:#correct_answers#:#Correct Answers: 
@@ -6057,7 +6057,7 @@ crs#:#crs_unblocked_member_body#:#your membership in course "%s" has been restor
 crs#:#crs_unblocked_member#:#Access granted in course "%s"
 crs#:#crs_unblocked#:#Free entrance
 crs#:#crs_unlimited#:#Unlimited
-crs#:#crs_unsubscribe_member_body#:#we confirm your cancellation of membership in course "%s". We hope that you find an opportunity to participate in another course.
+crs#:#crs_unsubscribe_member_body#:#We confirm your cancellation of membership in course "%s".
 crs#:#crs_unsubscribe_member#:#Your cancellation of membership in course "%s"
 crs#:#crs_unsubscribe_sure#:#Are you sure you want to unsubscribe from this course?
 crs#:#crs_unsubscribed_from_crs#:#You have been unsubscribed from this course.
@@ -7840,7 +7840,7 @@ meta#:#meta_l_be#:#Byelorussian
 meta#:#meta_l_bg#:#Bulgarian
 meta#:#meta_l_bh#:#Bihari
 meta#:#meta_l_bi#:#Bislama
-meta#:#meta_l_bn#:#Bengali;bangla
+meta#:#meta_l_bn#:#Bengali; Bangla
 meta#:#meta_l_bo#:#Tibetan
 meta#:#meta_l_br#:#Breton
 meta#:#meta_l_ca#:#Catalan
@@ -7915,7 +7915,7 @@ meta#:#meta_l_om#:#Afan (oromo)
 meta#:#meta_l_or#:#Oriya
 meta#:#meta_l_pa#:#Punjabi
 meta#:#meta_l_pl#:#Polish
-meta#:#meta_l_ps#:#Pashto;pushto
+meta#:#meta_l_ps#:#Pashto; Pushto
 meta#:#meta_l_pt#:#Portuguese
 meta#:#meta_l_qu#:#Quechua
 meta#:#meta_l_rm#:#Rhaeto-romance
@@ -16077,3 +16077,7 @@ crs#:#crs_loc_settings_type_it_qualifying_sel_info#:#Qualifizierender Einstiegst
 crs#:#crs_loc_settings_type_it_none_info#:#Kein Einstiegstest
 crs#:#crs_loc_settings_type_q_all_info#:#Abschlusstest über alle Lernziele
 crs#:#crs_loc_settings_type_q_selected_info#:#Abschlusstest pro Lernziel
+crs#:#crs_visibility_until_info#:#---
+crs#:#crs_registration_limited_info#:#---
+crs#:#crs_subscription_max_members_short_info#:#---
+crs#:#crs_unsubscribe_member_explanation#:#You receive this message because you unsubscribed from the course mentioned above.

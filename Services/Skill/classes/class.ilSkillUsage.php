@@ -121,7 +121,12 @@ class ilSkillUsage implements ilSkillUsageInfo
 			$a_skill_field = "skill_id", $a_tref_field = "tref_id")
 	{
 		global $ilDB;
-		
+
+		if (count($a_cskill_ids) == 0)
+		{
+			return;
+		}
+
 		$w = "WHERE";
 		$q = "SELECT ".$a_key_field.", ".$a_skill_field.", ".$a_tref_field." FROM ".$a_table." ";
 		foreach ($a_cskill_ids as $sk)
@@ -203,6 +208,33 @@ class ilSkillUsage implements ilSkillUsageInfo
 		return $this->getAllUsagesInfo($allnodes);
 	}
 
+	/**
+	 * Get all usages of template
+	 *
+	 * @param int $a_tempate_id template
+	 * @return array usages array
+	 */
+	function getAllUsagesOfTemplate($a_tempate_id)
+	{
+		$skill_logger = ilLoggerFactory::getLogger('skll');
+		$skill_logger->debug("ilSkillUsage: getAllUsagesOfTemplate(".$a_tempate_id.")");
+
+		// get all trefs for template id
+		include_once("./Services/Skill/classes/class.ilSkillTemplateReference.php");
+		$trefs = ilSkillTemplateReference::_lookupTrefIdsForTemplateId($a_tempate_id);
+
+		// get all usages of subtrees of template_id:tref
+		$cskill_ids = array();
+		foreach ($trefs as $tref)
+		{
+			$cskill_ids[] = array("skill_id" => $a_tempate_id, "tref_id" => $tref);
+			$skill_logger->debug("ilSkillUsage: ... skill_id: ".$a_tempate_id.", tref_id: ".$tref.".");
+		}
+
+		$skill_logger->debug("ilSkillUsage: ... count cskill_ids: ".count($cskill_ids).".");
+
+		return $this->getAllUsagesInfoOfSubtrees($cskill_ids);
+	}
 
 	/**
 	 * Get type info string

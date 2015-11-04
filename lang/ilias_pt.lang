@@ -1,4 +1,4 @@
-﻿/* Copyright (c) 1998-2014 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
+﻿/* Copyright (c) 1998-2015 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file (Local changes merged into the global language file)
 *
@@ -8349,145 +8349,145 @@ meta#:#meta_is_required_by#:#É Requerido Por
 meta#:#meta_is_version_of#:#É Versão De
 meta#:#meta_keyword#:#Palavra-chave
 meta#:#meta_kind#:#Tipo
-meta#:#meta_l_aa#:#afar
-meta#:#meta_l_ab#:#abkaziano
-meta#:#meta_l_af#:#africano
-meta#:#meta_l_am#:#amharico
+meta#:#meta_l_aa#:#Afar
+meta#:#meta_l_ab#:#Abkaziano
+meta#:#meta_l_af#:#Africano
+meta#:#meta_l_am#:#Amharico
 meta#:#meta_l_ar#:#Arábe###14 Sep 2004 content changed
-meta#:#meta_l_as#:#assamese
-meta#:#meta_l_ay#:#aimara
-meta#:#meta_l_az#:#azerbaijanes
-meta#:#meta_l_ba#:#bashkir
-meta#:#meta_l_be#:#bielorusso
+meta#:#meta_l_as#:#Assamese
+meta#:#meta_l_ay#:#Aimara
+meta#:#meta_l_az#:#Azerbaijanes
+meta#:#meta_l_ba#:#Bashkir
+meta#:#meta_l_be#:#Bielorusso
 meta#:#meta_l_bg#:#Búlgaro###14 Sep 2004 content changed
-meta#:#meta_l_bh#:#bihari
-meta#:#meta_l_bi#:#bislama
-meta#:#meta_l_bn#:#bengali;bangla
-meta#:#meta_l_bo#:#tibetano
-meta#:#meta_l_br#:#bretão
-meta#:#meta_l_ca#:#catalão
-meta#:#meta_l_co#:#corsicão
+meta#:#meta_l_bh#:#Bihari
+meta#:#meta_l_bi#:#Bislama
+meta#:#meta_l_bn#:#Bengali; Bangla
+meta#:#meta_l_bo#:#Tibetano
+meta#:#meta_l_br#:#Bretão
+meta#:#meta_l_ca#:#Catalão
+meta#:#meta_l_co#:#Corsicão
 meta#:#meta_l_cs#:#Checo###14 Sep 2004 content changed
-meta#:#meta_l_cy#:#welsh
+meta#:#meta_l_cy#:#Welsh
 meta#:#meta_l_da#:#Dinamarquês###14 Sep 2004 content changed
 meta#:#meta_l_de#:#Alemão###14 Sep 2004 content changed
-meta#:#meta_l_dz#:#butanez
+meta#:#meta_l_dz#:#Butanez
 meta#:#meta_l_el#:#Grego###14 Sep 2004 content changed
 meta#:#meta_l_en#:#Inglês###14 Sep 2004 content changed
-meta#:#meta_l_eo#:#esperanto
+meta#:#meta_l_eo#:#Esperanto
 meta#:#meta_l_es#:#Espanhol###14 Sep 2004 content changed
 meta#:#meta_l_et#:#Estoniano###14 Sep 2004 content changed
-meta#:#meta_l_eu#:#basco
-meta#:#meta_l_fa#:#persa (farsi)
-meta#:#meta_l_fi#:#finlandês
-meta#:#meta_l_fj#:#fiji
-meta#:#meta_l_fo#:#faroese
+meta#:#meta_l_eu#:#Basco
+meta#:#meta_l_fa#:#Persa (farsi)
+meta#:#meta_l_fi#:#Finlandês
+meta#:#meta_l_fj#:#Fiji
+meta#:#meta_l_fo#:#Faroese
 meta#:#meta_l_fr#:#Francês###14 Sep 2004 content changed
-meta#:#meta_l_fy#:#frisian
-meta#:#meta_l_ga#:#irlândes
-meta#:#meta_l_gd#:#scots gaelic
-meta#:#meta_l_gl#:#galego
-meta#:#meta_l_gn#:#guarani
-meta#:#meta_l_gu#:#gujarati
-meta#:#meta_l_ha#:#hausa
-meta#:#meta_l_he#:#hebreu
-meta#:#meta_l_hi#:#hindi
-meta#:#meta_l_hr#:#croáta
+meta#:#meta_l_fy#:#Frisian
+meta#:#meta_l_ga#:#Irlândes
+meta#:#meta_l_gd#:#Scots gaelic
+meta#:#meta_l_gl#:#Galego
+meta#:#meta_l_gn#:#Guarani
+meta#:#meta_l_gu#:#Gujarati
+meta#:#meta_l_ha#:#Hausa
+meta#:#meta_l_he#:#Hebreu
+meta#:#meta_l_hi#:#Hindi
+meta#:#meta_l_hr#:#Croáta
 meta#:#meta_l_hu#:#Húngaro###14 Sep 2004 content changed
-meta#:#meta_l_hy#:#arménio
-meta#:#meta_l_ia#:#interlíngua
-meta#:#meta_l_id#:#indonésio
-meta#:#meta_l_ie#:#interlingue
-meta#:#meta_l_ik#:#inupiak
-meta#:#meta_l_is#:#islandês
+meta#:#meta_l_hy#:#Arménio
+meta#:#meta_l_ia#:#Interlíngua
+meta#:#meta_l_id#:#Indonésio
+meta#:#meta_l_ie#:#Interlingue
+meta#:#meta_l_ik#:#Inupiak
+meta#:#meta_l_is#:#Islandês
 meta#:#meta_l_it#:#Italiano###14 Sep 2004 content changed
-meta#:#meta_l_iu#:#inuktitut
+meta#:#meta_l_iu#:#Inuktitut
 meta#:#meta_l_ja#:#Japonês###14 Sep 2004 content changed
-meta#:#meta_l_jv#:#javanês
-meta#:#meta_l_ka#:#georgiano
-meta#:#meta_l_kk#:#kazakh
-meta#:#meta_l_kl#:#gronelandês
-meta#:#meta_l_km#:#cambodjiano
-meta#:#meta_l_kn#:#cannada
-meta#:#meta_l_ko#:#coreano
-meta#:#meta_l_ks#:#kashmiri
-meta#:#meta_l_ku#:#kurdish
-meta#:#meta_l_ky#:#kirghiz
-meta#:#meta_l_la#:#latin
-meta#:#meta_l_ln#:#lingala
-meta#:#meta_l_lo#:#laothian
+meta#:#meta_l_jv#:#Javanês
+meta#:#meta_l_ka#:#Georgiano
+meta#:#meta_l_kk#:#Kazakh
+meta#:#meta_l_kl#:#Gronelandês
+meta#:#meta_l_km#:#Cambodjiano
+meta#:#meta_l_kn#:#Cannada
+meta#:#meta_l_ko#:#Coreano
+meta#:#meta_l_ks#:#Kashmiri
+meta#:#meta_l_ku#:#Kurdish
+meta#:#meta_l_ky#:#Kirghiz
+meta#:#meta_l_la#:#Latin
+meta#:#meta_l_ln#:#Lingala
+meta#:#meta_l_lo#:#Laothian
 meta#:#meta_l_lt#:#Lituano###14 Sep 2004 content changed
-meta#:#meta_l_lv#:#latvian;lettish
-meta#:#meta_l_mg#:#malagasy
-meta#:#meta_l_mi#:#maori
-meta#:#meta_l_mk#:#macedónio
-meta#:#meta_l_ml#:#malayalam
-meta#:#meta_l_mn#:#mongólio
-meta#:#meta_l_mo#:#moldávo
-meta#:#meta_l_mr#:#marathi
-meta#:#meta_l_ms#:#malay
-meta#:#meta_l_mt#:#maltese
-meta#:#meta_l_my#:#burmese
-meta#:#meta_l_na#:#nauru
-meta#:#meta_l_ne#:#nepali
+meta#:#meta_l_lv#:#Latvian; Lettish
+meta#:#meta_l_mg#:#Malagasy
+meta#:#meta_l_mi#:#Maori
+meta#:#meta_l_mk#:#Macedónio
+meta#:#meta_l_ml#:#Malayalam
+meta#:#meta_l_mn#:#Mongólio
+meta#:#meta_l_mo#:#Moldávo
+meta#:#meta_l_mr#:#Marathi
+meta#:#meta_l_ms#:#Malay
+meta#:#meta_l_mt#:#Maltese
+meta#:#meta_l_my#:#Burmese
+meta#:#meta_l_na#:#Nauru
+meta#:#meta_l_ne#:#Nepali
 meta#:#meta_l_nl#:#Holandês###14 Sep 2004 content changed
-meta#:#meta_l_no#:#norueguês
-meta#:#meta_l_oc#:#occitan
-meta#:#meta_l_om#:#afan (oromo)
-meta#:#meta_l_or#:#oriya
-meta#:#meta_l_pa#:#punjabi
+meta#:#meta_l_no#:#Norueguês
+meta#:#meta_l_oc#:#Occitan
+meta#:#meta_l_om#:#Afan (oromo)
+meta#:#meta_l_or#:#Oriya
+meta#:#meta_l_pa#:#Punjabi
 meta#:#meta_l_pl#:#Poláco###14 Sep 2004 content changed
-meta#:#meta_l_ps#:#pashto;pushto
+meta#:#meta_l_ps#:#Pashto;pushto
 meta#:#meta_l_pt#:#Português
-meta#:#meta_l_qu#:#quechua
-meta#:#meta_l_rm#:#rhaeto-romance
-meta#:#meta_l_rn#:#kurundi
+meta#:#meta_l_qu#:#Quechua
+meta#:#meta_l_rm#:#Rhaeto-romance
+meta#:#meta_l_rn#:#Kurundi
 meta#:#meta_l_ro#:#Romeno###14 Sep 2004 content changed
 meta#:#meta_l_ru#:#Russo###14 Sep 2004 content changed
-meta#:#meta_l_rw#:#kinyarwanda
-meta#:#meta_l_sa#:#sanskrit
-meta#:#meta_l_sd#:#sindhi
-meta#:#meta_l_sg#:#sangho
-meta#:#meta_l_sh#:#servo-croáta
-meta#:#meta_l_si#:#singhalese
+meta#:#meta_l_rw#:#Kinyarwanda
+meta#:#meta_l_sa#:#Sanskrit
+meta#:#meta_l_sd#:#Sindhi
+meta#:#meta_l_sg#:#Sangho
+meta#:#meta_l_sh#:#Servo-croáta
+meta#:#meta_l_si#:#Singhalese
 meta#:#meta_l_sk#:#Eslováco###14 Sep 2004 content changed
-meta#:#meta_l_sl#:#esloveno
-meta#:#meta_l_sm#:#samoan
-meta#:#meta_l_sn#:#shona
-meta#:#meta_l_so#:#somali
+meta#:#meta_l_sl#:#Esloveno
+meta#:#meta_l_sm#:#Samoan
+meta#:#meta_l_sn#:#Shona
+meta#:#meta_l_so#:#Somali
 meta#:#meta_l_sq#:#Albanês###14 Sep 2004 content changed
 meta#:#meta_l_sr#:#Servio###14 Sep 2004 content changed
-meta#:#meta_l_ss#:#siswati
-meta#:#meta_l_st#:#sesotho
-meta#:#meta_l_su#:#sundanês
-meta#:#meta_l_sv#:#suéco
-meta#:#meta_l_sw#:#swahili
-meta#:#meta_l_ta#:#tamil
-meta#:#meta_l_te#:#telugu
-meta#:#meta_l_tg#:#tajik
-meta#:#meta_l_th#:#thai
-meta#:#meta_l_ti#:#tigrinya
-meta#:#meta_l_tk#:#turkmen
-meta#:#meta_l_tl#:#tagalog
-meta#:#meta_l_tn#:#setswana
-meta#:#meta_l_to#:#tonga
+meta#:#meta_l_ss#:#Siswati
+meta#:#meta_l_st#:#Sesotho
+meta#:#meta_l_su#:#Sundanês
+meta#:#meta_l_sv#:#Suéco
+meta#:#meta_l_sw#:#Swahili
+meta#:#meta_l_ta#:#Tamil
+meta#:#meta_l_te#:#Telugu
+meta#:#meta_l_tg#:#Tajik
+meta#:#meta_l_th#:#Thai
+meta#:#meta_l_ti#:#Tigrinya
+meta#:#meta_l_tk#:#Turkmen
+meta#:#meta_l_tl#:#Tagalog
+meta#:#meta_l_tn#:#Setswana
+meta#:#meta_l_to#:#Tonga
 meta#:#meta_l_tr#:#Turco###14 Sep 2004 content changed
-meta#:#meta_l_ts#:#tsonga
-meta#:#meta_l_tt#:#tatar
-meta#:#meta_l_tw#:#twi
-meta#:#meta_l_ug#:#uigur
+meta#:#meta_l_ts#:#Tsonga
+meta#:#meta_l_tt#:#Tatar
+meta#:#meta_l_tw#:#Twi
+meta#:#meta_l_ug#:#Uigur
 meta#:#meta_l_uk#:#Ucraniano###14 Sep 2004 content changed
-meta#:#meta_l_ur#:#urdu
-meta#:#meta_l_uz#:#uzbek
+meta#:#meta_l_ur#:#Urdu
+meta#:#meta_l_uz#:#Uzbek
 meta#:#meta_l_vi#:#Vietnamês###14 Sep 2004 content changed
-meta#:#meta_l_vo#:#volapuk
-meta#:#meta_l_wo#:#wolof
-meta#:#meta_l_xh#:#xhosa
-meta#:#meta_l_yi#:#yiddish
-meta#:#meta_l_yo#:#yoruba
-meta#:#meta_l_za#:#zhuang
+meta#:#meta_l_vo#:#Volapuk
+meta#:#meta_l_wo#:#Wolof
+meta#:#meta_l_xh#:#Xhosa
+meta#:#meta_l_yi#:#Yiddish
+meta#:#meta_l_yo#:#Yoruba
+meta#:#meta_l_za#:#Zhuang
 meta#:#meta_l_zh#:#Chinês###14 Sep 2004 content changed
-meta#:#meta_l_zu#:#zulu
+meta#:#meta_l_zu#:#Zulu
 meta#:#meta_language#:#Linguagem
 meta#:#meta_learner#:#Estudante
 meta#:#meta_learning_resource_type#:#Tipo de Recurso de Apredizagem

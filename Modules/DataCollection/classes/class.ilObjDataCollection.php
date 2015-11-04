@@ -285,7 +285,6 @@ class ilObjDataCollection extends ilObject2 {
 
 		$this->setApproval($original->getApproval());
 		$this->setNotification($original->getNotification());
-		$this->setOnline(false); // FSX: Standard is offline on cloned objects
 		$this->setPublicNotes($original->getPublicNotes());
 		$this->setRating($original->getRating());
 

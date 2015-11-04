@@ -240,8 +240,12 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 				case "email":
 				case "matriculation":
 				case "login":
-					$item = $this->addFilterItemByMetaType($column, ilTable2GUI::FILTER_TEXT, true, $meta["txt"]);
-					$this->filter[$column] = $item->getValue();
+					if($column != "mark" ||
+						ilObjectLP::supportsMark($this->type))
+					{
+						$item = $this->addFilterItemByMetaType($column, ilTable2GUI::FILTER_TEXT, true, $meta["txt"]);
+						$this->filter[$column] = $item->getValue();
+					}
 					break;
 
 				case "first_access":
@@ -305,9 +309,12 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 					break;
 
 				case "spent_seconds":
-					$item = $this->addFilterItemByMetaType("spent_seconds", ilTable2GUI::FILTER_DURATION_RANGE, true, $meta["txt"]);
-					$this->filter["spent_seconds"]["from"] = $item->getCombinationItem("from")->getValueInSeconds();
-					$this->filter["spent_seconds"]["to"] = $item->getCombinationItem("to")->getValueInSeconds();
+					if(ilObjectLP::supportsSpentSeconds($this->type))
+					{
+						$item = $this->addFilterItemByMetaType("spent_seconds", ilTable2GUI::FILTER_DURATION_RANGE, true, $meta["txt"]);
+						$this->filter["spent_seconds"]["from"] = $item->getCombinationItem("from")->getValueInSeconds();
+						$this->filter["spent_seconds"]["to"] = $item->getCombinationItem("to")->getValueInSeconds();
+					}
 					break;
 			}
 		}
@@ -318,7 +325,7 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 	*/
 	protected function fillRow($data)
 	{
-		global $ilCtrl, $lng;
+		global $ilCtrl, $lng, $objDefinition;
 		
 		if($this->has_multi)
 		{
@@ -382,7 +389,7 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 		{
 			// details for containers and collections
 			if($this->has_collection ||
-				in_array($this->type, array("crs", "grp", "cat", "fold", "mcst")))
+				$objDefinition->isContainer($this->type))
 			{
 				$this->tpl->setCurrentBlock("item_command");
 				$this->tpl->setVariable("HREF_COMMAND", $ilCtrl->getLinkTargetByClass("illplistofobjectsgui", "userdetails"));

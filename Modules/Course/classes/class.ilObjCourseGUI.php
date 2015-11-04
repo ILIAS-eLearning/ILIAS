@@ -1212,6 +1212,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$form->addItem($online);				
 		
 		$act_type = new ilCheckboxInputGUI($this->lng->txt('crs_visibility_until'), 'activation_type');
+		$act_type->setInfo($this->lng->txt('crs_visibility_until_info'));
 		$act_type->setChecked($this->object->getActivationType() == IL_CRS_ACTIVATION_LIMITED);
 		// $act_type->setInfo($this->lng->txt('crs_availability_until_info'));
 		
@@ -1304,6 +1305,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		// time limit
 		$time_limit = new ilCheckboxInputGUI($this->lng->txt('crs_registration_limited'),'subscription_limitation_type');
+		$time_limit->setInfo($this->lng->txt('crs_registration_limited_info'));
 		$time_limit->setChecked(($this->object->getSubscriptionLimitationType() ==  IL_CRS_SUBSCRIPTION_LIMITED) ? true : false);
 
 			include_once "Services/Form/classes/class.ilDateDurationInputGUI.php";
@@ -1330,6 +1332,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		// Max members
 		$lim = new ilCheckboxInputGUI($this->lng->txt('crs_subscription_max_members_short'),'subscription_membership_limitation');
+		$lim->setInfo($this->lng->txt('crs_subscription_max_members_short_info'));
 		$lim->setValue(1);
 		$lim->setChecked($this->object->isSubscriptionMembershipLimited());
 		

@@ -59,34 +59,24 @@ class ilMailOptions
 	}
 
 	/**
-	* create entry in table_mail_options for a new user
-	* this method should only be called from createUser()
-	* @access	public
-	* @return	boolean
-	*/
-    function createMailOptionsEntry()
+	 * create entry in table_mail_options for a new user
+	 * this method should only be called from createUser()
+	 * @return bool
+	 */
+    public function createMailOptionsEntry()
     {
-    	global $ilDB;
+    	global $ilDB, $ilSetting;
     		
-		/* Get setting for incoming mails */
-		if (!($incomingMail = $this->ilias->getSetting("mail_incoming_mail")))
-		{
-			/* No setting found -> set it to "local and forwarding" [2] */
-			$incomingMail = IL_MAIL_BOTH;
-		}
-
-		$statement = $ilDB->manipulateF('
-			INSERT INTO '.$this->table_mail_options.'
-			(	user_id, 
-				linebreak, 
-				signature, 
-				incoming_type, 
-				cronjob_notification
-			)
-			VALUES(%s, %s, %s, %s, %s)', 
-			array('integer', 'integer', 'text', 'integer', 'integer'),
-			array($this->user_id, DEFAULT_LINEBREAK, NULL, $incomingMail, '0'));
-		
+	    $incomingMail = $ilSetting->get('mail_incoming_mail') ? $ilSetting->get('mail_incoming_mail'): IL_MAIL_LOCAL;
+	    $ilDB->insert('mail_options',
+				array(
+						'user_id'              => array('integer', $this->user_id),
+						'linebreak'            => array('integer', DEFAULT_LINEBREAK),
+						'signature'            => array('text', NULL),
+						'incoming_type'        => array('integer', $incomingMail),
+						'cronjob_notification' => array('integer', 0)
+				));
+	    
 		return true;
     }
 

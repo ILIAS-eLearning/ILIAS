@@ -1932,27 +1932,27 @@ class ilObjContentObject extends ilObject
 
 		// layout per page
 		$attrs = array("Name" => "LayoutPerPage", "Value" =>
-			$this->getLayoutPerPage($this->getLayoutPerPage()));
+			$this->getLayoutPerPage());
 		$a_xml_writer->xmlElement("Property", $attrs);
 
 		// progress icons
 		$attrs = array("Name" => "ProgressIcons", "Value" =>
-			$this->getLayoutPerPage($this->getProgressIcons()));
+			$this->getProgressIcons());
 		$a_xml_writer->xmlElement("Property", $attrs);
 
 		// store tries
 		$attrs = array("Name" => "StoreTries", "Value" =>
-			$this->getLayoutPerPage($this->getStoreTries()));
+			$this->getStoreTries());
 		$a_xml_writer->xmlElement("Property", $attrs);
 
 		// restrict forward navigation
 		$attrs = array("Name" => "RestrictForwardNavigation", "Value" =>
-			$this->getLayoutPerPage($this->getRestrictForwardNavigation()));
+			$this->getRestrictForwardNavigation());
 		$a_xml_writer->xmlElement("Property", $attrs);
 
 		// disable default feedback
 		$attrs = array("Name" => "DisableDefaultFeedback", "Value" =>
-			$this->getLayoutPerPage($this->getDisableDefaultFeedback()));
+			$this->getDisableDefaultFeedback());
 		$a_xml_writer->xmlElement("Property", $attrs);
 
 		$a_xml_writer->xmlEndTag("Properties");
@@ -3606,8 +3606,32 @@ class ilObjContentObject extends ilObject
 					ilLPStatusWrapper::_refreshStatus($this->getId());
 				}
 				break;
-			
-			default:
+
+			case 'General':
+
+				// Update Title and description
+				$md = new ilMD($this->getId(),0, $this->getType());
+				if(!is_object($md_gen = $md->getGeneral()))
+				{
+					return false;
+				}
+
+				include_once("./Services/Object/classes/class.ilObjectTranslation.php");
+				$ot = ilObjectTranslation::getInstance($this->getId());
+				if ($ot->getContentActivated())
+				{
+					$ot->setDefaultTitle($md_gen->getTitle());
+
+					foreach($md_gen->getDescriptionIds() as $id)
+					{
+						$md_des = $md_gen->getDescription($id);
+						$ot->setDefaultDescription($md_des->getDescription());
+						break;
+					}
+					$ot->save();
+				}
+				break;
+
 		}
 		return true;
 	}
