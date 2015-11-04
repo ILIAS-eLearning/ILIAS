@@ -23,6 +23,7 @@
 			<element ref='t:Viewmode' minOccurs='1' maxOccurs='1'/>
 			<element ref='t:PublicFeed' minOccurs='1' maxOccurs='1'/>
 			<element ref='t:KeepRssMin' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Order' minOccurs='0' maxOccurs='1'/>
 		</sequence>
 		</complexType>
 	</element>
@@ -37,5 +38,6 @@
 	<element name='Viewmode' type='t:Data' />
 	<element name='PublicFeed' type='t:Data' />
 	<element name='KeepRssMin' type='t:Data' />
+	<element name='Order' type='t:Data' />
 
 </schema>
