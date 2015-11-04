@@ -136,31 +136,5 @@ class ilSolutionExplorer extends ilExplorer
 			return false;
 		}
 	}
-
-
-	/**
-	* overwritten method from base class
-	* @access	public
-	* @param	integer obj_id
-	* @param	integer array options
-	* @return	string
-	*/
-	function formatHeader($a_obj_id,$a_option)
-	{
-		global $lng, $ilias;
-
-		include_once "./Services/UICore/classes/class.ilTemplate.php";
-		$tpl = new ilTemplate("tpl.tree.html", true, true, "Services/UIComponent/Explorer");
-
-		$tpl->setCurrentBlock("text");
-		$tpl->setVariable("OBJ_TITLE", $lng->txt("repository"));
-		$tpl->parseCurrentBlock();
-
-		$tpl->setCurrentBlock("row");
-		$tpl->parseCurrentBlock();
-
-		$this->output[] = $tpl->get();
-	}
-
+	
 } // END class ilSolutionExplorer
-?>
