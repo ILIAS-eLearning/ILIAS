@@ -1,18 +1,18 @@
 <!-- language file start -->
-obj_xrcp#:#Meine Gutscheincodes - Report
-objs_xrcp#:#Meine Gutscheincodes - Reports
-obj_xrcp_duplicate#:#Meine Gutscheincodes - Report kopieren
-objs_xrcp_duplicate#:#Meine Gutscheincodes - Reports kopieren
-obj_xrcp_select#:#Meine Gutscheincodes - Report auswählen
-xrcp_add#:#Meine Gutscheincodes - Report hinzufügen
-xrcp_new#:#Neuen Meine Gutscheincodes - Report hinzufügen
-xrcp_read#:#Lesezugriff zum Meine Gutscheincodes - Report
-xrcp_write#:#Meine Gutscheincodes - Report bearbeiten
-xrcp_delete#:#Meine Gutscheincodes - Report löschen
+obj_xrcp#:#Gutscheincodes - Report
+objs_xrcp#:#Gutscheincodes - Reports
+obj_xrcp_duplicate#:#Gutscheincodes - Report kopieren
+objs_xrcp_duplicate#:#Gutscheincodes - Reports kopieren
+obj_xrcp_select#:#Gutscheincodes - Report auswählen
+xrcp_add#:#Gutscheincodes - Report hinzufügen
+xrcp_new#:#Neuen Gutscheincodes - Report hinzufügen
+xrcp_read#:#Lesezugriff zum Gutscheincodes - Report
+xrcp_write#:#Gutscheincodes - Report bearbeiten
+xrcp_delete#:#Gutscheincodes - Report löschen
 xrcp_visible#:#sichtbar
 xrcp_edit_permission#:#schreibberechtigt
-crs_create_xrcp#:#Meine Gutscheincodes - Report erzeugen
-grp_create_xrcp#:#Meine Gutscheincodes - Report erzeugen
-fold_create_xrcp#:#Meine Gutscheincodes - Report erzeugen
-root_create_xrcp#:#Meine Gutscheincodes - Report erzeugen
-cat_create_xrcp#:#Meine Gutscheincodes - Report erzeugen
+crs_create_xrcp#:#Gutscheincodes - Report erzeugen
+grp_create_xrcp#:#Gutscheincodes - Report erzeugen
+fold_create_xrcp#:#Gutscheincodes - Report erzeugen
+root_create_xrcp#:#Gutscheincodes - Report erzeugen
+cat_create_xrcp#:#Gutscheincodes - Report erzeugen
