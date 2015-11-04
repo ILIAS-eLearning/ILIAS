@@ -879,6 +879,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		foreach ($_POST["q_id"] as $key => $value)
 		{
 			$this->object->deleteQuestion($value);
+			$this->object->cleanupClipboard($value);
 		}
 		if (count($_POST["q_id"])) ilUtil::sendSuccess($this->lng->txt("qpl_questions_deleted"), true);
 
