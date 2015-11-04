@@ -112,14 +112,14 @@ class ilNotificationOSDHandler extends ilNotificationEchoHandler {
 
 			// sends a "delete the given notification" notification using the
 			// osd_maint channel
-            $deletedNotification = new ilNotificationConfig('osd_maint');
+            /*$deletedNotification = new ilNotificationConfig('osd_maint');
             $deletedNotification->setValidForSeconds(120);
             $deletedNotification->setTitleVar('deleted');
             $deletedNotification->setShortDescriptionVar($notification_osd_id);
             $deletedNotification->setLongDescriptionVar('dummy');
 
             require_once 'Services/Notifications/classes/class.ilNotificationSystem.php';
-            ilNotificationSystem::sendNotificationToUsers($deletedNotification, array($row['usr_id']));
+            ilNotificationSystem::sendNotificationToUsers($deletedNotification, array($row['usr_id']));*/
         }
     }
 
