@@ -291,7 +291,7 @@ assessment#:#backtocallingtest#:#Back to the calling test
 assessment#:#assLongMenu#:#Long Menu
 assessment#:#answers_text_box#:#Text
 assessment#:#answers_select#:#Select
-assessment#:#info_text_upload#:#Choose an answer file to upload
+assessment#:#info_text_upload#:#Choose an answer text (UTF-8) file to upload.
 assessment#:#manual_editing#:#Manual Editing
 assessment#:#longmenu_text#:#Long Menu Text
 assessment#:#correct_answers#:#Correct Answers: 
