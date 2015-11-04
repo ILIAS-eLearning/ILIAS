@@ -1169,6 +1169,7 @@ assessment#:#tst_password_entered_wrong_password#:#Sie können den Test nicht st
 assessment#:#tst_password_introduction#:#Dieser Test kann nur mit einem Testpasswort gestartet werden. Bitte tragen Sie das Passwort hier ein.
 assessment#:#tst_percent_solved#:#Prozent gelöst
 assessment#:#tst_position#:#Frage %s von %s
+assessment#:#tst_position_without_total#:#Frage %s
 assessment#:#tst_postpone#:#Fragen zurückstellen
 assessment#:#tst_postpone_description#:#Erlaubt Teilnehmern, einzelne Fragen zur späteren Bearbeitung an das Ende des Tests zu stellen.
 assessment#:#tst_presentation_properties#:#Durchführung: Verhalten der Frage

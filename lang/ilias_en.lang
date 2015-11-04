@@ -1006,6 +1006,7 @@ assessment#:#tst_password_form#:#Enter Test Password
 assessment#:#tst_password#:#Test Password
 assessment#:#tst_percent_solved#:#Percent Solved
 assessment#:#tst_position#:#Question %s of %s
+assessment#:#tst_position_without_total#:#Question %s
 assessment#:#tst_postpone_description#:#The participants may postpone questions to the end of the test.
 assessment#:#tst_postpone#:#Postpone Questions
 assessment#:#tst_print_date#:#Date of Print
