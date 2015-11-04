@@ -1315,10 +1315,11 @@ gev#:#load_member_list#:#Mitgliederliste abrufen
 gev#:#view_maillog#:#Maillog einsehen
 gev#:#load_csn_list#:#CSN Liste herunterladen
 gev#:#gev_dec_forward_to_kurs#:#Zum Kurs
-gev#:#rep_robj_xrbi_content#:#Rechnungsreport
-gev#:#rep_robj_xrbi_properties#:#Reporteigenschaften
-gev#:#rep_robj_xrcp_content#:#Gutscheinreport
-gev#:#rep_robj_xrcp_properties#:#Reporteigenschaften
+gev#:#rep_robj_xrbi_content#:#Report
+gev#:#rep_robj_xrbi_properties#:#Eigenschaften
+gev#:#rep_robj_xrcp_content#:#Report
+gev#:#rep_robj_xrcp_properties#:#Eigenschaften
 gev#:#gev_coupon_active_only#:#Nur aktive Gutscheine zeigen
 gev#:#gev_coupon_expires#:#gültig bis
 gev#:#gev_coupon_report_admin_mode#:#Admin-Modus
+gev#:#gev_report_mode#:#Report - Ausführung
