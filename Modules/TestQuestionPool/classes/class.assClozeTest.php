@@ -1689,7 +1689,13 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 		if( $maxStep !== null )
 		{
 			$data = $ilDB->queryF(
-				"SELECT sol.value1+1 as val, sol.value2, cloze.cloze_type FROM tst_solutions sol INNER JOIN qpl_a_cloze cloze ON cloze.gap_id = value1 AND cloze.question_fi = sol.question_fi WHERE sol.active_fi = %s AND sol.pass = %s AND sol.question_fi = %s AND sol.step = %s GROUP BY sol.solution_id",
+				"
+				SELECT sol.value1+1 as val, sol.value2, cloze.cloze_type
+				FROM tst_solutions sol
+				INNER JOIN qpl_a_cloze cloze ON cloze.gap_id = value1 AND cloze.question_fi = sol.question_fi
+				WHERE sol.active_fi = %s AND sol.pass = %s AND sol.question_fi = %s AND sol.step = %s
+				GROUP BY sol.solution_id, sol.value1+1, sol.value2, cloze.cloze_type
+				",
 				array("integer", "integer", "integer","integer"),
 				array($active_id, $pass, $this->getId(), $maxStep)
 			);
@@ -1697,7 +1703,13 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 		else
 		{
 			$data = $ilDB->queryF(
-				"SELECT sol.value1+1 as val, sol.value2, cloze.cloze_type FROM tst_solutions sol INNER JOIN qpl_a_cloze cloze ON cloze.gap_id = value1 AND cloze.question_fi = sol.question_fi WHERE sol.active_fi = %s AND sol.pass = %s AND sol.question_fi = %s GROUP BY sol.solution_id",
+				"
+				SELECT sol.value1+1 as val, sol.value2, cloze.cloze_type
+				FROM tst_solutions sol
+				INNER JOIN qpl_a_cloze cloze ON cloze.gap_id = value1 AND cloze.question_fi = sol.question_fi
+				WHERE sol.active_fi = %s AND sol.pass = %s AND sol.question_fi = %s
+				GROUP BY sol.solution_id, sol.value1+1, sol.value2, cloze.cloze_type
+				",
 				array("integer", "integer", "integer"),
 				array($active_id, $pass, $this->getId())
 			);
