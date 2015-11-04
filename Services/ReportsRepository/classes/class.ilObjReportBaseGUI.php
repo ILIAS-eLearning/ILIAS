@@ -162,8 +162,8 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 	}
 
 	protected function prepareTitle($a_title) {
-		$a_title->title($this->object->getTitle(),false)
-				->subTitle($this->object->getDescription(),false)
+		$a_title->title($this->object->getTitle())
+				->subTitle($this->object->getDescription())
 				->useLng(false);
 		return $a_title;
 	}
