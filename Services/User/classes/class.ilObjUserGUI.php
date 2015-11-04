@@ -1580,6 +1580,7 @@ class ilObjUserGUI extends ilObjectGUI
 			if($this->isSettingChangeable('instant_messengers'))
 			{
 				$im = new ilTextInputGUI($lng->txt("im_".$field), "im_".$field);
+				$im->setRequired(isset($settings["require_instant_messengers"]) && $settings["require_instant_messengers"]);
 				$im->setSize(40);
 				$im->setMaxLength(40);
 				$this->form_gui->addItem($im);

@@ -4361,19 +4361,10 @@ class ilObjSurvey extends ilObject
 		$newObj = parent::cloneObject($a_target_id,$a_copy_id);
 		$this->cloneMetaData($newObj);
 		$newObj->updateMetaData();
-
-		//copy online status if object is not the root copy object
-		$cp_options = ilCopyWizardOptions::_getInstance($a_copy_id);
-
-		if(!$cp_options->isRootNode($this->getRefId()))
-		{
-			$newObj->setStatus($this->getStatus());
-		}
 	 	
 		$newObj->setAuthor($this->getAuthor());
 		$newObj->setIntroduction($this->getIntroduction());
 		$newObj->setOutro($this->getOutro());
-		$newObj->setStatus($this->getStatus());
 		$newObj->setEvaluationAccess($this->getEvaluationAccess());
 		$newObj->setStartDate($this->getStartDate());
 		$newObj->setEndDate($this->getEndDate());
@@ -4425,6 +4416,14 @@ class ilObjSurvey extends ilObject
 				$question_pointer[$question_id] = $question->getId();
 				$mapping[$question_id] = $question->getId();				
 			}
+		}
+
+		//copy online status if object is not the root copy object
+		$cp_options = ilCopyWizardOptions::_getInstance($a_copy_id);
+
+		if(!$cp_options->isRootNode($this->getRefId()))
+		{
+			$newObj->setStatus($this->isOnline()?self::STATUS_ONLINE: self::STATUS_OFFLINE);
 		}
 
 		$newObj->saveToDb();		
@@ -4608,42 +4607,6 @@ class ilObjSurvey extends ilObject
 		return $export_dir;
 	}
 	
-	/**
-	* get export files
-	*/
-	function getExportFiles($dir)
-	{
-		// quit if import dir not available
-		if (!@is_dir($dir) or
-			!is_writeable($dir))
-		{
-			return array();
-		}
-
-		// open directory
-		$dir = dir($dir);
-
-		// initialize array
-		$file = array();
-
-		// get files and save the in the array
-		while ($entry = $dir->read())
-		{
-			if ($entry != "." && $entry != ".." && ereg("^[0-9]{10}_{2}[0-9]+_{2}(svy_)*[0-9]+\.[a-z]{1,3}\$", $entry))
-			{
-				$file[] = $entry;
-			}
-		}
-
-		// close import directory
-		$dir->close();
-		// sort files
-		sort ($file);
-		reset ($file);
-
-		return $file;
-	}
-
 	/**
 	* creates data directory for import files
 	* (data_dir/svy_data/svy_<id>/import, depending on data

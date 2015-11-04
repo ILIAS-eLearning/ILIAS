@@ -225,8 +225,8 @@ class ilPollDataSet extends ilDataSet
 				$newObj->setImage($a_rec["Image"]);
 				$newObj->setViewResults($a_rec["ViewResults"]);
 				$newObj->setVotingPeriod($a_rec["Period"]);
-				$newObj->setVotingPeriodBegin($a_rec["PeriodStart"]);
-				$newObj->setAccessEnd($a_rec["PeriodEnd"]);
+				$newObj->setVotingPeriodBegin($a_rec["PeriodBegin"]);
+				$newObj->setVotingPeriodEnd($a_rec["PeriodEnd"]);
 				$newObj->update();
 				
 				// handle image(s)

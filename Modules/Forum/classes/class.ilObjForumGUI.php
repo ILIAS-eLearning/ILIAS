@@ -2310,7 +2310,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 			if(
 				!$this->isTopLevelReplyCommand() &&
-				$subtree_nodes[0] instanceof ilForumPost &&
+				$first_node instanceof ilForumPost &&
 				!$this->objCurrentTopic->isClosed() &&
 				$ilAccess->checkAccess('add_reply', '', (int)$_GET['ref_id'])
 			)
@@ -2320,7 +2320,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$reply_button->setPrimary(true);
 				$reply_button->setCaption('add_new_answer');
 				$this->ctrl->setParameter($this, 'action',  'showreply');
-				$this->ctrl->setParameter($this, 'pos_pk', $subtree_nodes[0]->getId());
+				$this->ctrl->setParameter($this, 'pos_pk', $first_node->getId());
 				$this->ctrl->setParameter($this, 'thr_pk',  $this->objCurrentTopic->getId());
 				$this->ctrl->setParameter($this, 'offset', (int)$_GET['offset']);
 				$this->ctrl->setParameter($this, 'orderby', $_GET['orderby']);
@@ -2748,13 +2748,13 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 					$tpl->setVariable('TXT_PERMA_LINK', $lng->txt('perma_link'));
 					$tpl->setVariable('PERMA_TARGET', '_top');
 
-					if($this->objProperties->getMarkModeratorPosts() == 1)
+					if(!$node->isActivated() && !$this->objCurrentTopic->isClosed() && $this->is_moderator)
 					{
-						if(!$node->isActivated() && !$this->objCurrentTopic->isClosed() && $this->is_moderator)
-						{
-							$rowCol = 'ilPostingNeedsActivation';
-						}
-				 		else if($node->getIsAuthorModerator() === null && $is_moderator = ilForum::_isModerator($_GET['ref_id'], $node->getPosAuthorId()))
+						$rowCol = 'ilPostingNeedsActivation';
+					}
+					else if($this->objProperties->getMarkModeratorPosts() == 1)
+					{
+						if($node->getIsAuthorModerator() === null && $is_moderator = ilForum::_isModerator($_GET['ref_id'], $node->getPosAuthorId()))
 						{
 							$rowCol = 'ilModeratorPosting';
 						}
@@ -2970,13 +2970,17 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$z++;
 			}
 
+			$first_node = $this->objCurrentTopic->getFirstPostNode();
 			if(
-				$subtree_nodes[0] instanceof ilForumPost &&
+				$first_node instanceof ilForumPost &&
 				in_array($this->ctrl->getCmd(), array('createToLevelPost', 'saveTopLevelPost', 'quoteTopLevelPost')) &&
 				!$this->objCurrentTopic->isClosed() &&
 				$ilAccess->checkAccess('add_reply', '', (int)$_GET['ref_id']))
 			{
+				// Important: Don't separate the following two lines (very fragile code ...) 
+				$this->objCurrentPost->setId($first_node->getId());
 				$form = $this->getReplyEditForm();
+
 				if($this->ctrl->getCmd() == 'saveTopLevelPost')
 				{
 					$form->setValuesByPost();
@@ -2985,26 +2989,26 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 				{
 					require_once 'Modules/Forum/classes/class.ilForumAuthorInformation.php';
 					$authorinfo = new ilForumAuthorInformation(
-						$subtree_nodes[0]->getPosAuthorId(),
-						$subtree_nodes[0]->getDisplayUserId(),
-						$subtree_nodes[0]->getUserAlias(),
-						$subtree_nodes[0]->getImportName()
+						$first_node->getPosAuthorId(),
+						$first_node->getDisplayUserId(),
+						$first_node->getUserAlias(),
+						$first_node->getImportName()
 					);
 
 					$form->setValuesByPost();
 					$form->getItemByPostVar('message')->setValue(
 						ilRTE::_replaceMediaObjectImageSrc(
-							$frm->prepareText($subtree_nodes[0]->getMessage(), 1, $authorinfo->getAuthorName())."\n".$form->getInput('message'),    1
+							$frm->prepareText($first_node->getMessage(), 1, $authorinfo->getAuthorName())."\n".$form->getInput('message'),    1
 						)
 					);
 				}
-				$this->ctrl->setParameter($this, 'pos_pk', $subtree_nodes[0]->getId());
-				$this->ctrl->setParameter($this, 'thr_pk', $subtree_nodes[0]->getThreadId());
+				$this->ctrl->setParameter($this, 'pos_pk', $first_node->getId());
+				$this->ctrl->setParameter($this, 'thr_pk', $first_node->getThreadId());
 				$jsTpl = new ilTemplate('tpl.forum_post_quoation_ajax_handler.html', true, true, 'Modules/Forum');
 				$jsTpl->setVariable('IL_FRM_QUOTE_CALLBACK_SRC',
 					$this->ctrl->getLinkTarget($this, 'getQuotationHTMLAsynch', '', true));
 				$this->ctrl->clearParameters($this);
-				$this->tpl->setVariable('FORM_ADDITIONAL_JS', $jsTpl->get());
+				$tpl->setVariable('BOTTOM_FORM_ADDITIONAL_JS', $jsTpl->get());;
 				$tpl->setVariable('BOTTOM_FORM', $form->getHTML());
 			}
 		}
