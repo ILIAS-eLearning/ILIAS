@@ -2002,18 +2002,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	/**
 	 * @param assQuestionGUI $questionGui
 	 */
-	protected function populateObligationIndicatorIfRequired(assQuestionGUI $questionGui)
-	{
-		if($this->object->areObligationsEnabled() && ilObjTest::isQuestionObligatory($questionGui->object->getId()))
-		{
-			$this->tpl->touchBlock('question_obligatory');
-			$this->tpl->setVariable('QUESTION_OBLIGATORY', $this->lng->txt('required_field'));
-		}
-	}
-
-	/**
-	 * @param assQuestionGUI $questionGui
-	 */
 	protected function populateInstantResponseBlocks(assQuestionGUI $questionGui, $authorizedSolution)
 	{
 		// This controls if the solution should be shown.

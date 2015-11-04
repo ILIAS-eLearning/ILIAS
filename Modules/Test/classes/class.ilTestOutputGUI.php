@@ -370,8 +370,6 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 			$sequenceElement, $presentationMode == ilTestPlayerAbstractGUI::PRESENTATION_MODE_EDIT
 		);
 		
-		$this->populateObligationIndicatorIfRequired($questionGui);
-
 		if ($instantResponse)
 		{
 			$this->populateInstantResponseBlocks(
