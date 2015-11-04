@@ -131,12 +131,6 @@ class gevDeadlineMailingJob extends ilCronJob {
 			// send the mails that need to be send and store the fact, the mails where send, in the
 			// deadline mailing table.
 			foreach ($mails_to_send as $key) {
-				//if it is a decentral training do not send any invitations
-				if($key === "invitation" && $crs_utils->isDecentralTraining()) {
-					$this->setIsSend($crs_id, $key);
-					continue;
-				}
-
 				$mail = $auto_mails->getAutoMail($key);
 				$scheduled_time = $mail->getScheduledFor();
 				
