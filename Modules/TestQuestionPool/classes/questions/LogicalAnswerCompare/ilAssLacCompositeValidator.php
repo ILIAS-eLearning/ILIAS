@@ -163,7 +163,7 @@ class ilAssLacCompositeValidator
 					elseif($answer_expression instanceof ilAssLacNumberOfResultExpression)
 					{
 
-						foreach($options->getItems() as $item)
+						foreach($options->getItems($question->getShuffler()) as $item)
 						{
 							if($item->getOrder() == $answer_expression->getNumericValue()-1)
 							{
