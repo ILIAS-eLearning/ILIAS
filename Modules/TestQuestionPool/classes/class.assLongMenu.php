@@ -254,6 +254,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 	{
 		$this->clearAnswerSpecificDataFromDb($this->getId());
 		$type_array = $this->getAnswerType();
+		$points = 0;
 		foreach($this->getCorrectAnswers() as $gap_number => $gap)
 		{
 			foreach($gap[0] as $position => $answer)
@@ -280,7 +281,9 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 						)
 				);
 			}
+			$points += $gap[1];
 		}
+		$this->setPoints($points);
 	}
 	
 	private function createFileFromArray()
