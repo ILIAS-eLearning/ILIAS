@@ -7,7 +7,7 @@
 
 <!-- new elements defined here -->
 
-<!ELEMENT Course (MetaData?,AdvancedMetaData?,Admin+,Tutor*,Member*,Subscriber*,WaitingList*,Settings?,Sort?)>
+<!ELEMENT Course (MetaData?,AdvancedMetaData?,Admin+,Tutor*,Member*,Subscriber*,WaitingList*,Settings?,Sort?,ContainerSetting*)>
 <!ATTLIST Course
     exportVersion CDATA #REQUIRED
     id CDATA #IMPLIED
@@ -144,3 +144,7 @@
 <!ATTLIST Archive
     Access (Disabled | Read | Download) #REQUIRED
 >
+
+<!ELEMENT ContainerSetting (#PCDATA)>
+<!ATTLIST ContainerSetting
+	id CDATA #REQUIRED>
