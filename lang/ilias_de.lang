@@ -1321,6 +1321,7 @@ assessment#:#tst_password_entered_wrong_password#:#Sie können den Test nicht st
 assessment#:#tst_password_introduction#:#Dieser Test kann nur mit einem Testpasswort gestartet werden. Bitte tragen Sie das Passwort hier ein.
 assessment#:#tst_percent_solved#:#Prozent gelöst
 assessment#:#tst_position#:#Frage %s von %s
+assessment#:#tst_position_without_total#:#Frage %s
 assessment#:#tst_postpone#:#Nicht beantwortete Fragen
 assessment#:#tst_postpone_on#:#Nicht beantwortete Fragen werden ans Testende geschoben
 assessment#:#tst_postpone_on_desc#:#Fragen, deren Antworten die Teilnehmer verwerfen oder überblättern, präsentiert ILIAS am Ende des Test noch einmal. Diese Einstellung wirkt sich nicht auf den Modus 'Wiedervorlage' aus.

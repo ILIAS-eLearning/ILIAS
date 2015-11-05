@@ -1159,6 +1159,7 @@ assessment#:#tst_password_form#:#Enter Test Password
 assessment#:#tst_password#:#Test Password
 assessment#:#tst_percent_solved#:#Percent Solved
 assessment#:#tst_position#:#Question %s of %s
+assessment#:#tst_position_without_total#:#Question %s
 assessment#:#tst_postpone#:#Unanswered Questions
 assessment#:#tst_postpone_on#:#Unanswered questions will be enqueued
 assessment#:#tst_postpone_on_desc#:#Question that users just look at and flip over without answering them, will be enqueued to be presented again automatically the end of the test.
