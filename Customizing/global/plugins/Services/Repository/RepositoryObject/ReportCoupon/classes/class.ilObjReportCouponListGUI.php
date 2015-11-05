@@ -1,7 +1,6 @@
 <?php
  
-//require_once 'Services/ReportsRepository/classes/class.ilObjReportBaseListGUI.php';
- require_once 'Services/Repository/classes/class.ilObjectPluginListGUI.php';
+require_once 'Services/ReportsRepository/classes/class.ilObjReportBaseListGUI.php';
 /**
 * ListGUI implementation for Example object plugin. This one
 * handles the presentation in container items (categories, courses, ...)
@@ -10,13 +9,14 @@
 * PLEASE do not create instances of larger classes here. Use the
 * ...Access class to get DB data and keep it small.
 */
-class ilObjReportCouponListGUI extends ilObjectPluginListGUI {
+class ilObjReportCouponListGUI extends ilObjReportBaseListGUI {
 
 /**
 * Init type
 */
 	public function initType() {
 		$this->setType("xrcp");
+		parent::initType();
 	}
 
 	/**
@@ -30,7 +30,6 @@ class ilObjReportCouponListGUI extends ilObjectPluginListGUI {
 	* Get commands
 	*/
 	public function initCommands() {
-
 		return array(
 			array(
 				"permission" => "read",
@@ -40,21 +39,19 @@ class ilObjReportCouponListGUI extends ilObjectPluginListGUI {
 			array(
 				"permission" => "write",
 				"cmd" => "settings",
-				"txt" => "edit",
+				"txt" => $this->lng->txt("edit"),
 				"default" => false)
 		);
 	}
 
-	function getProperties() {
-		global $lng;
-
+	public function getProperties() {
 		$props = array();
 
 		$this->plugin->includeClass("class.ilObjReportCouponAccess.php");
 		if (!ilObjReportCouponAccess::checkOnline($this->obj_id))
 		{
-		$props[] = array("alert" => true, "property" => $this->txt("status"),
-		"value" => $this->txt("offline"));
+		$props[] = array("alert" => true, "property" => $this->lng->txt("status"),
+		"value" => $this->lng->txt("offline"));
 		}
 		 
 		return $props;
