@@ -4,6 +4,9 @@ require_once 'Services/Repository/classes/class.ilObjectPluginGUI.php';
 require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 require_once 'Services/Form/classes/class.ilTextInputGUI.php';
 require_once 'Services/Form/classes/class.ilTextAreaInputGUI.php';
+require_once 'Services/CaTUIComponents/classes/class.catTitleGUI.php';
+require_once("Services/CaTUIComponents/classes/class.catTableGUI.php");
+require_once("Services/CaTUIComponents/classes/class.catHSpacerGUI.php");
 
 
 abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
@@ -34,27 +37,27 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 		}
 
 		$this->title = null;
-
 	}
 
 	public function setTabs() {
-		// tab for the "show content" command
-		if ($this->gAccess->checkAccess("read", "", $this->object->getRefId())) {
-			$this->gTabs->addTab("content", $this->txt("content"),
-			$this->gCtrl->getLinkTarget($this, "showContent"));
-		}
+		if($this->gAccess->checkAccess("write", "", $this->object->getRefId())) {
+			
+			// tab for the "show content" command
+			if ($this->gAccess->checkAccess("read", "", $this->object->getRefId())) {
+				$this->gTabs->addTab("content", $this->txt("content"),
+				$this->gCtrl->getLinkTarget($this, "showContent"));
+			}
 
-		// standard info screen tab
-		$this->addInfoTab();
+			// standard info screen tab
+			$this->addInfoTab();
 
-		// a "properties" tab
-		if ($this->gAccess->checkAccess("write", "", $this->object->getRefId())) {
+			// a "properties" tab
 			$this->gTabs->addTab("properties", $this->txt("properties"),
-			$this->gCtrl->getLinkTarget($this, "settings"));
-		}
+			$this->gCtrl->getLinkTarget($this, "settings"));			
 
-		// standard epermission tab
-		$this->addPermissionTab();
+			// standard epermission tab
+			$this->addPermissionTab();
+		}
 	}
 
 	/**
@@ -62,7 +65,7 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 	*/
 	public function performCommand() {
 		$cmd = $this->gCtrl->getCmd("showContent");
-			        
+
 		switch ($cmd) {
 			case "saveSettings":
 				if($this->gAccess->checkAccess("write", "", $this->object->getRefId())) {
@@ -105,13 +108,14 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 	*/
 	final public function renderReport() {
 		$this->object->prepareReport();
-		$this->prepareTitle();
-		$this->prepareSpacer();
-		$this->prepareTable();
+		$this->title = $this->prepareTitle(catTitleGUI::create());
+		$this->spacer = $this->prepareSpacer(new catHSpacerGUI());
+		$this->table = $this->prepareTable(new catTableGUI($this, "showContent"));
 		$this->gTpl->setContent($this->render());
 	}
 		
 	protected function render() {
+		$this->gTpl->setTitle(null);
 		return 	($this->title !== null ? $this->title->render() : "")
 				. ($this->object->deliverFilter() !== null ? $this->object->deliverFilter()->render() : "")
 				. ($this->spacer !== null ? $this->spacer->render() : "")
@@ -150,21 +154,22 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 		return $export_btn;
 	}
 
-	protected function prepareTable() {
-		require_once("Services/CaTUIComponents/classes/class.catTableGUI.php");
-		$this->table = new catTableGUI($this, "showContent");
-		$this->table->setEnableTitle(false);
-		$this->table->setTopCommands(false);
-		$this->table->setEnableHeader(true);
+	protected function prepareTable($a_table) {
+		$a_table->setEnableTitle(false);
+		$a_table->setTopCommands(false);
+		$a_table->setEnableHeader(true);
+		return $a_table;
 	}
 
-	protected function prepareTitle() {
-		$this->title = null;
+	protected function prepareTitle($a_title) {
+		$a_title->title($this->object->getTitle())
+				->subTitle($this->object->getDescription())
+				->useLng(false);
+		return $a_title;
 	}
 
-	protected function prepareSpacer() {
-		require_once("Services/CaTUIComponents/classes/class.catHSpacerGUI.php");
-		$this->spacer =  new catHSpacerGUI();
+	protected function prepareSpacer($a_spacer) {
+		return $a_spacer;
 	}
 
 	protected function renderUngroupedTable($data) {
@@ -389,14 +394,14 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 		$settings_form->setFormAction($this->gCtrl->getFormAction($this));
 		$settings_form->addCommandButton("saveSettings", $this->gLng->txt("save"));
 
-		$title = new ilTextInputGUI('title','title');
+		$title = new ilTextInputGUI($this->gLng->txt('title'),'title');
 		if(isset($data["title"])) {
 			$title->setValue($data["title"]);
 		}
 		$title->setRequired(true);
 		$settings_form->addItem($title);
 
-		$description = new ilTextAreaInputGUI('description','description');
+		$description = new ilTextAreaInputGUI($this->gLng->txt('description'),'description');
 		if(isset($data["description"])) {
 			$description->setValue($data["description"]);
 		}

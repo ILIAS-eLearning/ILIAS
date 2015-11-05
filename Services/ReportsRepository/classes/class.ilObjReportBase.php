@@ -1,10 +1,11 @@
 <?php
 require_once 'Services/Repository/classes/class.ilObjectPlugin.php';
+require_once 'Services/ReportsRepository/classes/class.catReportTable.php';
 require_once 'Services/ReportsRepository/classes/class.catReportOrder.php';
 require_once 'Services/ReportsRepository/classes/class.catReportQuery.php';
 require_once 'Services/ReportsRepository/classes/class.catReportQueryOn.php';
 require_once 'Services/ReportsRepository/classes/class.catFilter.php';
-require_once 'Services/ReportsRepository/classes/class.catReportTable.php';
+
 /**
 * This class performs all interactions with the database in order to get report-content. Puplic methods may be accessed in 
 * in the GUI via $this->object->{method-name}.

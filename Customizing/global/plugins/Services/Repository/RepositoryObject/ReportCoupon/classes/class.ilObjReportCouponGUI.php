@@ -17,19 +17,10 @@ class ilObjReportCouponGUI extends ilObjReportBaseGUI {
 		return 'xrcp';
 	}
 
-	protected function prepareTitle() {
-		require_once 'Services/CaTUIComponents/classes/class.catTitleGUI.php';
-		$desc = $this->object->getAdminMode() ? "gev_rep_coupon_desc_admin" : "gev_rep_coupon_desc";
-		$this->title = catTitleGUI::create()
-						->title("gev_rep_coupon_title")
-						->subTitle($desc)
-						->image("GEV_img/ico-head-edubio.png");
-	}
-
-		protected function settingsForm($data = null) {
+	protected function settingsForm($data = null) {
 		$settings_form = parent::settingsForm($data);
 
-		$is_online = new ilCheckboxInputGUI('online','online');
+		$is_online = new ilCheckboxInputGUI($this->gLng->txt('online'),'online');
 		if(isset($data["online"])) {
 			$is_online->setChecked($data["online"]);
 		}
@@ -42,6 +33,12 @@ class ilObjReportCouponGUI extends ilObjReportBaseGUI {
 		$settings_form->addItem($admin_mode);
 
 		return $settings_form;
+	}
+
+	protected function prepareTitle($a_title) {
+		$a_title = parent::prepareTitle($a_title);
+		$a_title->image("GEV_img/ico-head-rep-billing.png");
+		return $a_title;
 	}
 
 	protected function getSettingsData() {
