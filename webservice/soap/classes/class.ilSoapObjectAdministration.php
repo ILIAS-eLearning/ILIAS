@@ -26,6 +26,7 @@
    * Soap object administration methods
    *
    * @author Stefan Meyer <meyer@leifos.com>
+   * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
    * @version $Id$
    *
    * @package ilias
@@ -596,7 +597,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 									   'Client');
 		}
 
-		$allowed_subtypes = $objDefinition->getSubObjects($target_obj->getType());
+		$allowed_subtypes = $target_obj->getPossibleSubObjects();
 
 		foreach($allowed_subtypes as $row)
 		{
@@ -767,7 +768,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 									   'Client');
 		}
 
-		$allowed_subtypes = $objDefinition->getSubObjects($target_obj->getType());
+		$allowed_subtypes = $target_obj->getPossibleSubObjects();
 		foreach($allowed_subtypes as $row)
 		{
 			if($row['name'] != 'rolf')

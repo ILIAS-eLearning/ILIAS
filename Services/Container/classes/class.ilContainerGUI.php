@@ -12,6 +12,7 @@ include_once './Services/PersonalDesktop/interfaces/interface.ilDesktopItemHandl
 * root folder, course, group, category, folder
 *
 * @author Alex Killing <alex.killing@gmx.de>
+* @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
 * @version $Id$
 *
 * @extends ilObjectGUI
@@ -1849,7 +1850,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 				}
 	
 				// CHECK IF OBJECT IS ALLOWED TO CONTAIN PASTED OBJECT AS SUBOBJECT	
-				if(!in_array($obj_data->getType(), array_keys($this->objDefinition->getSubObjects($folder_objects_cache[$folder_ref_id]->getType()))))
+				if(!in_array($obj_data->getType(), array_keys($folder_objects_cache[$folder_ref_id]->getPossibleSubObjects())))
 				{
 					$not_allowed_subobject[] = sprintf($this->lng->txt('msg_obj_may_not_contain_objects_of_type'), $folder_objects_cache[$folder_ref_id]->getTitle().' ['.$folder_objects_cache[$folder_ref_id]->getRefId().']', 
 							$GLOBALS['lng']->txt('obj_'.$obj_data->getType()));
@@ -2381,7 +2382,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			// CHECK IF OBJECT IS ALLOWED TO CONTAIN PASTED OBJECT AS SUBOBJECT
 			$obj_type = $obj_data->getType();
 
-			if (!in_array($obj_type, array_keys($this->objDefinition->getSubObjects($this->object->getType()))))
+			if (!in_array($obj_type, array_keys($this->object->getPossibleSubObjects())))
 			{
 				$not_allowed_subobject[] = $obj_data->getType();
 			}
