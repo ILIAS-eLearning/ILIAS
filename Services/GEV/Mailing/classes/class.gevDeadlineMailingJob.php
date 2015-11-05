@@ -159,12 +159,6 @@ class gevDeadlineMailingJob extends ilCronJob {
 					$this->log->write("ilDeadlineMailingJob:run: No need to send Mail.");
 				}
 				
-				/*$this->db->manipulate("INSERT INTO gev_crs_dl_mail_cron (crs_id, title, send_at) VALUES ".
-								  "    ( ".$this->db->quote($crs_id, "integer").
-								  "    , ".$this->db->quote($key, "text").
-								  "    , NOW()".
-								  "    )"
-								 );*/
 				$this->setIsSend($crs_id, $key);
 			
 				ilCronManager::ping($this->getId());
