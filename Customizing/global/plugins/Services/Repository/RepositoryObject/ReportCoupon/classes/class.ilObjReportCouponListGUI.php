@@ -53,8 +53,8 @@ class ilObjReportCouponListGUI extends ilObjReportBaseListGUI {
 		$this->plugin->includeClass("class.ilObjReportCouponAccess.php");
 		if (!ilObjReportCouponAccess::checkOnline($this->obj_id))
 		{
-		$props[] = array("alert" => true, "property" => $this->txt("status"),
-		"value" => $this->txt("offline"));
+		$props[] = array("alert" => true, "property" => $lng->txt("status"),
+		"value" => $lng->txt("offline"));
 		}
 		 
 		return $props;
