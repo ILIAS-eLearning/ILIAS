@@ -1,4 +1,4 @@
-	<?php
+<?php
 
 require_once 'Services/ReportsRepository/classes/class.ilObjReportBaseGUI.php';
 require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
