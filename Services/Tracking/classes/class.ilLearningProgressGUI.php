@@ -8,7 +8,7 @@ include_once './Services/Tracking/classes/class.ilLearningProgressBaseGUI.php';
 *
 * @author Stefan Meyer <meyer@leifos.com>
 *
-* @version $Id$
+* @version $Id: class.ilLearningProgressGUI.php 57670 2015-01-30 11:45:44Z jluetzen $
 *
 * @ilCtrl_Calls ilLearningProgressGUI: ilLPListOfObjectsGUI, ilLPListOfSettingsGUI, ilLPListOfProgressGUI
 * @ilCtrl_Calls ilLearningProgressGUI: ilLPObjectStatisticsGUI
@@ -26,7 +26,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 	*/
 	function &executeCommand()
 	{
-		global $ilBench, $ilHelp, $ilAccess;
+		global $ilBench, $ilHelp;
 		
 		$ilBench->start('LearningProgress','0000_Start');
 
@@ -49,12 +49,6 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 				break;
 
 			case 'illplistofobjectsgui':
-				if($this->getRefId() &&
-					!$ilAccess->checkAccess('read_learning_progress', '', $this->getRefId()))
-				{
-					return;
-				}
-				
 				include_once 'Services/Tracking/classes/repository_statistics/class.ilLPListOfObjectsGUI.php';
 				if(stristr($this->ctrl->getCmd(), "matrix"))
 				{
@@ -63,6 +57,10 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 				else if(stristr($this->ctrl->getCmd(), "summary"))
 				{
 					$this->__setSubTabs(self::LP_ACTIVE_SUMMARY);
+				}
+                else if(stristr($this->ctrl->getCmd(), "rubric"))
+				{
+					$this->__setSubTabs(self::LP_ACTIVE_RUBRIC);
 				}
 				else
 				{
@@ -74,12 +72,6 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 				break;
 
 			case 'illplistofsettingsgui':
-				if($this->getRefId() &&
-					!$ilAccess->checkAccess('edit_learning_progress', '', $this->getRefId()))
-				{
-					return;
-				}
-				
 				include_once 'Services/Tracking/classes/repository_statistics/class.ilLPListOfSettingsGUI.php';
 
 				$this->__setSubTabs(self::LP_ACTIVE_SETTINGS);
@@ -411,12 +403,6 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 		
 		foreach($coll_items as $item_id)
 		{
-			// #16599 - deleted items should not be displayed
-			if(!array_key_exists($item_id, $possible_items))
-			{
-				continue;
-			}
-			
 			$field = new ilCustomInputGUI($possible_items[$item_id]["title"]);
 			
 			// lp status

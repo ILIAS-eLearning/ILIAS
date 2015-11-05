@@ -28,11 +28,14 @@ class ilCourseLP extends ilObjectLP
 		{
 			return array(ilLPObjSettings::LP_MODE_OBJECTIVES);
 		}
+        // START PATCH RUBRIC CPKN 2015 
 		return array(
 			ilLPObjSettings::LP_MODE_DEACTIVATED,
 			ilLPObjSettings::LP_MODE_MANUAL_BY_TUTOR, 
-			ilLPObjSettings::LP_MODE_COLLECTION
+			ilLPObjSettings::LP_MODE_COLLECTION,
+            ilLPObjSettings::LP_MODE_RUBRIC,
 		);
+        // END PATCH RUBRIC CPKN 2015
 	}	
 	
 	public function getCurrentMode()

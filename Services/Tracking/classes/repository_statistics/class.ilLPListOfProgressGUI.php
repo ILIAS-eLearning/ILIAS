@@ -6,7 +6,7 @@
 *
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
 *
-* @version $Id$
+* @version $Id: class.ilLPListOfProgressGUI.php 57460 2015-01-26 11:37:42Z jluetzen $
 *
 * @ilCtrl_Calls ilLPListOfProgressGUI: ilLPProgressTableGUI
 *
@@ -149,6 +149,26 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		}
 		
 		$this->tpl->setVariable("LEGEND",$this->__getLegendHTML());
+        
+        // START PATCH RUBRIC CPKN 2015
+        if($olp->getCurrentMode()==ilLPObjSettings::LP_MODE_RUBRIC){
+            include_once('./Services/Tracking/classes/rubric/class.ilLPRubricCard.php');
+            include_once('./Services/Tracking/classes/rubric/class.ilLPRubricCardGUI.php');
+            
+            $rubricObj=new ilLPRubricCard($this->getObjId());
+            $rubricGui=new ilLPRubricCardGUI();
+            
+            $a_user = ilObjectFactory::getInstanceByObjId($_SESSION['AccountId']);
+            
+            if($rubricObj->objHasRubric()){            
+                $rubricGui->setRubricData($rubricObj->load());
+                $rubricGui->setUserData($rubricObj->getRubricUserGradeData($_SESSION['AccountId']));
+                $this->tpl->setVariable("LP_OBJECTS", $rubricGui->getStudentViewHTML($a_user->getFullname()));
+            }
+            
+            
+        }
+        // END PATCH RUBRIC CPKN 2015
 	}
 
 	function __showProgressList()
