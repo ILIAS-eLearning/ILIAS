@@ -205,6 +205,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 					case "save":
 					case "view":
 					case "cancel":
+					case "edit":
 						$this->$cmd();
 						break;
 					case "delete":
@@ -638,6 +639,19 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 				}
 			}
 		}
+	}
+
+	protected function edit(){
+		$this->denyAccessIfNot("write");
+
+		$this->getSubTabs('settings');
+		$this->tabs_gui->setTabActive(self::TAB_SETTINGS);
+		$this->tabs_gui->setSubTabActive('settings');
+
+		require_once("Modules/StudyProgramme/classes/class.ilObjStudyProgrammeSettingsGUI.php");
+		$gui = new ilObjStudyProgrammeSettingsGUI($this, $this->ref_id);
+		$this->ctrl->setCmd("view");
+		$this->ctrl->forwardCommand($gui);
 	}
 
 	/**
