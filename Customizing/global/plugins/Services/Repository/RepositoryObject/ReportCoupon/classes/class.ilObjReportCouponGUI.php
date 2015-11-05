@@ -59,13 +59,15 @@ class ilObjReportCouponGUI extends ilObjReportBaseGUI {
 		$a_rec = parent::transformResultRow($a_rec);
 		$a_rec["odbd"] = str_replace("-empty-/-empty-", "Generali", $a_rec["odbd"]);		
 		$a_rec["odbd"] = str_replace("/-empty-", "/Generali", $a_rec["odbd"]);
+		$a_rec["current"] = number_format($a_rec["current"], 2, ',', '');
+		$a_rec["start"] = number_format($a_rec["current"], 2, ',', '');
+		$a_rec["diff"] = number_format($a_rec["current"], 2, ',', '');
 		return $a_rec;
 	}
 
 	public static function transformResultRowXLS($a_rec) {
 		$a_rec = parent::transformResultRowXLS($a_rec);
-		$a_rec["odbd"] = str_replace("-empty-/-empty-", "Generali", $a_rec["odbd"]);		
-		$a_rec["odbd"] = str_replace("/-empty-", "/Generali", $a_rec["odbd"]);
+		$a_rec = static::transformResultRow($a_rec);
 		return $a_rec;
 	}
 }
