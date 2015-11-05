@@ -389,7 +389,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		try
 		{
 			// the new import
-			parent::importFileObject();
+			parent::importFileObject(null, false);
 			return;
 		}
 		catch (ilGlossaryOldImportException $e)
