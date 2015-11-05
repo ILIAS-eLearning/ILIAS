@@ -53,7 +53,7 @@ class ilDataBibliographicRecordListTableGUI extends ilTable2GUI {
 	 */
 	public function fillRow($a_set) {
 		$il_obj_entry = ilBibliographicEntry::getInstance($this->parent_obj->object->getFiletype(), $a_set['entry_id']);
-		$this->tpl->setVariable('SINGLE_ENTRY', $il_obj_entry->getOverwiew());
+		$this->tpl->setVariable('SINGLE_ENTRY', $il_obj_entry->getOverview());
 		//Detail-Link
 		$this->ctrl->setParameter($this->parent_obj, ilObjBibliographicGUI::P_ENTRY_ID, $a_set['entry_id']);
 		$this->tpl->setVariable('DETAIL_LINK', $this->ctrl->getLinkTarget($this->parent_obj, 'showDetails'));
@@ -75,7 +75,7 @@ class ilDataBibliographicRecordListTableGUI extends ilTable2GUI {
 		$entries = array();
 		foreach (ilBibliographicEntry::getAllEntries($this->parent_obj->object->getId()) as $entry) {
 			$ilBibliographicEntry = ilBibliographicEntry::getInstance($this->parent_obj->object->getFiletype(), $entry['entry_id']);
-			$entry['content'] = strip_tags($ilBibliographicEntry->getOverwiew());
+			$entry['content'] = strip_tags($ilBibliographicEntry->getOverview());
 			$entries[] = $entry;
 		}
 		$this->setData($entries);
