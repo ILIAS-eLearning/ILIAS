@@ -97,8 +97,8 @@ class ilObjBibliographicAdminLibrariesGUI {
 			$result[] = array(
 				"id" => $set->getId(),
 				"name" => $set->getName(),
-				"url" => $set->getBaseUrl(),
-				"img" => $set->getImageUrl()
+				"url" => $set->getUrl(),
+				"img" => $set->getImg()
 			);
 		}
 		$table->setData($result);
