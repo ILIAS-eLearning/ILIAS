@@ -16,3 +16,5 @@ grp_create_xrcp#:#Gutscheincodereport erzeugen
 fold_create_xrcp#:#Gutscheincodereport erzeugen
 root_create_xrcp#:#Gutscheincodereport erzeugen
 cat_create_xrcp#:#Gutscheincodereport erzeugen
+rep_robj_xrcp_status#:#Status
+rep_robj_xrcp_offline#:#Offline
