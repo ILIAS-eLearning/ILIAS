@@ -1,3 +1,4 @@
+
 /* Copyright (c) 1998-2015 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
@@ -1158,7 +1159,6 @@ assessment#:#tst_password_form#:#Enter Test Password
 assessment#:#tst_password#:#Test Password
 assessment#:#tst_percent_solved#:#Percent Solved
 assessment#:#tst_position#:#Question %s of %s
-assessment#:#tst_position_without_total#:#Question %s
 assessment#:#tst_postpone#:#Unanswered Questions
 assessment#:#tst_postpone_on#:#Unanswered questions will be enqueued
 assessment#:#tst_postpone_on_desc#:#Question that users just look at and flip over without answering them, will be enqueued to be presented again automatically the end of the test.
@@ -16065,6 +16065,8 @@ grp#:#grp_subscription_min_members_info#:#Define the number of users that is min
 grp#:#grp_max_and_min_members_invalid#:#The minimum number must be smaller than the maximum number of members.
 crs#:#mem_cron_min_members_reason#:#You receive this message because you have activated the notification in the members-tab.
 crs#:#mem_cron_min_members_task#:#Please inform the participants if the course will not take place because of not enough attendants. Adjust the settings afterwards.
+common#:#prg_copy_threads_info#:#Please decide which Study Program elements should be copied, linked or even omitted.
+common#:#prg_wizard_page#:#Copy Study Program (Step 2/2)
 crs#:#crs_loc_settings_passed_mode#:#Mastered Learning Objectives
 crs#:#crs_loc_settings_passed_mode_hide#:#Test questions for mastered learning objectives will be hidden
 crs#:#crs_loc_settings_passed_mode_mark#:#Test questions for mastered learning objectives will be flagged
