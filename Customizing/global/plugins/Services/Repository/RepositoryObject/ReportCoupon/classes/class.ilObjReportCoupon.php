@@ -65,7 +65,7 @@ class ilObjReportCoupon extends ilObjReportBase {
 								, true
 								)
 				->dateperiod( "period"
-								, $this->lng->txt("gev_period")
+								, $this->lng->txt("gev_date_of_issue")
 								, $this->lng->txt("gev_until")
 								, "c.coupon_created"
 								, "c.coupon_created"
@@ -75,8 +75,8 @@ class ilObjReportCoupon extends ilObjReportBase {
 								)
 				->static_condition("c.coupon_active = 1");
 		if($this->getAdminMode()) {
-			$filter	->static_condition("huo.hist_historic = 0 OR huo.hist_historic IS NULL ")
-					->static_condition("hu.hist_historic = 0 OR hu.hist_historic IS NULL ");
+			$filter	->static_condition(" (huo.hist_historic = 0 OR huo.hist_historic IS NULL) ")
+					->static_condition(" (hu.hist_historic = 0 OR hu.hist_historic IS NULL) ");
 		} else {
 			$filter	->static_condition("c.coupon_usr_id = ".$this->gIldb->quote($this->gUser->getId(),"integer"));
 		}
