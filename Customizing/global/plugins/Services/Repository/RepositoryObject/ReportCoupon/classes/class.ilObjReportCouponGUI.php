@@ -12,6 +12,7 @@ require_once 'Services/Form/classes/class.ilCheckboxInputGUI.php';
 */
 class ilObjReportCouponGUI extends ilObjReportBaseGUI {
 
+	static $od_bd_strings;
 
 	public function getType() {
 		return 'xrcp';
@@ -56,17 +57,31 @@ class ilObjReportCouponGUI extends ilObjReportBaseGUI {
 	}
 
 	public static function transformResultRow($a_rec) {
-		$a_rec = parent::transformResultRow($a_rec);
-		$a_rec["odbd"] = str_replace("-empty-/-empty-", "Generali", $a_rec["odbd"]);		
-		$a_rec["odbd"] = str_replace("/-empty-", "/Generali", $a_rec["odbd"]);
+
+		if(!self::$od_bd_strings) {
+			require_once './Customizing/global/plugins/Services/Repository/RepositoryObject/ReportCoupon/config/od_bd_strings.php';
+			self::$od_bd_strings = $pattern;
+		}
+		$orgus_above1 = explode(';', $a_rec["above1"]);
+		$orgus_above2 = explode(';', $a_rec["above2"]);
+		$orgus = array();
+		foreach (array_unique(array_merge($orgus_above1, $orgus_above2)) as $value) {
+			foreach(self::$od_bd_strings as $string) {
+				if(	strpos($value, $string) !== false ) {
+					$orgus[] = $value;
+					break;
+				}
+			}
+		}
+		$a_rec["odbd"]	=  implode(', ', array_unique($orgus));
 		$a_rec["current"] = number_format($a_rec["current"], 2, ',', '');
 		$a_rec["start"] = number_format($a_rec["current"], 2, ',', '');
 		$a_rec["diff"] = number_format($a_rec["current"], 2, ',', '');
+		$a_rec = parent::transformResultRow($a_rec);
 		return $a_rec;
 	}
 
 	public static function transformResultRowXLS($a_rec) {
-		$a_rec = parent::transformResultRowXLS($a_rec);
 		$a_rec = static::transformResultRow($a_rec);
 		return $a_rec;
 	}
