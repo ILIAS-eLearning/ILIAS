@@ -4,6 +4,7 @@ require_once("./Services/Object/classes/class.ilObjectGUI.php");
 require_once("./Modules/Bibliographic/classes/Admin/class.ilObjBibliographicAdminLibrariesFormGUI.php");
 require_once("./Modules/Bibliographic/classes/Admin/class.ilObjBibliographicAdminTableGUI.php");
 require_once("./Modules/Bibliographic/classes/Admin/class.ilBibliographicSetting.php");
+
 /**
  * Bibliographic Administration Settings.
  *
@@ -121,8 +122,8 @@ class ilObjBibliographicAdminLibrariesGUI {
 	 * delete library
 	 */
 	public function delete() {
-		global $ilDB;
-		$ilDB->manipulate("DELETE FROM il_bibl_settings WHERE id = " . $ilDB->quote($_REQUEST["lib_id"], "integer"));
+		$ilBibliographicSetting = new ilBibliographicSetting($_REQUEST["lib_id"]);
+		$ilBibliographicSetting->delete();
 		$this->ctrl->redirect($this, 'view');
 	}
 
