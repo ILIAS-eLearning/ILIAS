@@ -63,8 +63,7 @@ class ilObjStudyProgrammeAccess extends ilObjectAccess {
 	public function _getCommands()
 	{
 		$commands = array();
-//		$commands[] = array( 'permission' => 'read', 'cmd' => 'view', 'lang_var' => 'show', 'default' => true );
-		$commands[] = array('permission' => 'read', 'cmd' => 'render', 'lang_var' => 'show', 'default' => true);
+		$commands[] = array('permission' => 'read', 'cmd' => 'view', 'lang_var' => 'show', 'default' => true);
 		$commands[] = array('permission' => 'write', 'cmd' => 'view', 'lang_var' => 'edit_content');
 		$commands[] = array( 'permission' => 'write', 'cmd' => 'edit', 'lang_var' => 'settings');
 

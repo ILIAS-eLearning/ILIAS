@@ -16085,3 +16085,4 @@ crs#:#crs_visibility_until_info#:#---
 crs#:#crs_registration_limited_info#:#---
 crs#:#crs_subscription_max_members_short_info#:#---
 crs#:#crs_unsubscribe_member_explanation#:#You receive this message because you unsubscribed from the course mentioned above.
+rbac#:#prg_read#:#User has read access to Study Programme

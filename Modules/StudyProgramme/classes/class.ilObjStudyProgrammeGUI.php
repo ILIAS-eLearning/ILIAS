@@ -503,7 +503,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 	 * Adds the default tabs to the gui
 	 */
 	public function getTabs() {
-		if ($this->checkAccess("write")) {
+		if ($this->checkAccess("read")) {
 			$this->tabs_gui->addTab( self::TAB_VIEW_CONTENT
 								   , $this->lng->txt("content")
 								   , $this->getLinkTarget("view"));
