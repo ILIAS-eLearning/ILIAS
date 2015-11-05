@@ -38,7 +38,7 @@ class ilObjReportCoupon extends ilObjReportBase {
 				->select_raw("c2.coupon_value start")
 				->select_raw("c2.coupon_value - c.coupon_value diff")
 				->select("c.coupon_expires")
-				->select_raw("FROM_UNIXTIME(c.coupon_expires,'%Y-%m-%d') expires")
+				->select_raw("FROM_UNIXTIME(c.coupon_expires,'%d.%m.%Y') expires")
 				->from("coupon c")
 				->join("coupon c2")
 					->on("	c.coupon_code = c2.coupon_code"
