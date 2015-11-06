@@ -60,7 +60,10 @@ class gevCourseSearchGUI {
 		$cmd = $this->gCtrl->getCmd();
 		
 		$in_search = $cmd == "search";
-		
+		if(isset($_GET["cmdSearch"]) && $_GET["cmdSearch"]) {
+			$in_search = true;
+		}
+
 		return $this->render($in_search);
 	}
 
@@ -92,7 +95,7 @@ class gevCourseSearchGUI {
 		$form = $this->getSearchForm();
 		if ($a_in_search) {
 			// search params are passed via form post
-			if (isset($_POST["cmd"])) {
+			if (isset($_POST["cmd"]) && !$_GET["cmdSearch"]) {
 				$form->setValuesByPost();
 				if ($form->checkInput()) {
 					$search_opts = $form->getInputs();
@@ -163,8 +166,8 @@ class gevCourseSearchGUI {
 
 		//ADD Course Type depending on active Tab
 		$search_opts = $this->crs_srch->addSearchForTypeByActiveTab($search_opts, $this->active_tab);
-
 		$this->gCtrl->setParameter($this, "active_tab", $this->active_tab);
+		$this->gCtrl->setParameter($this, "cmdSearch", $a_in_search);
 
 		$crs_tbl = new gevCourseSearchTableGUI($search_opts, $this->target_user_id, $this, $this->active_tab);
 		$crs_tbl->setTitle(!$a_in_search?"gev_crs_srch_title":"gev_crs_srch_results")
