@@ -33,8 +33,11 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 	{
 	 	global $lng,$ilCtrl, $ilUser, $lng, $rbacsystem;
 
+		$this->setId($type. 'table_members');
+		parent::__construct($a_parent_obj, 'showMembers');
+
 		$this->context = $context;
-		if($this->context == "mail")
+		if($this->context == 'mail')
 		{
 			// check if current user may send mails
 			include_once "Services/Mail/classes/class.ilMail.php";
@@ -42,8 +45,6 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 			$this->mailing_allowed = $rbacsystem->checkAccess('internal_mail',$mail->getMailObjectReferenceId());
 		}
 
-		$this->setId($type. 'table_members');
-		parent::__construct($a_parent_obj, 'showMembers');
 		$lng->loadLanguageModule('crs');
 		$this->parentObject = $a_parent_obj;
 		$mode = array();
