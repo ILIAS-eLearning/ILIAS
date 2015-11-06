@@ -40,7 +40,6 @@ class ilObjBibliographicAdminTableGUI extends ilTable2GUI {
 		$this->addColumn($lng->txt('bibl_library_url'), '' . '30%');
 		$this->addColumn($lng->txt('bibl_library_img'), '', '30%');
 		$this->addColumn($lng->txt('actions'), '', '8%');
-		$this->addCommandButton('add', $this->lng->txt("add"));
 		$this->setEnableNumInfo(false);
 		$this->setFormAction($ilCtrl->getFormAction($parent_gui));
 		$this->setRowTemplate('tpl.bibl_settings_lib_list_row.html', 'Modules/Bibliographic');
