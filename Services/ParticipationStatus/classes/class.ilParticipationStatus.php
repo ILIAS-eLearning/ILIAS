@@ -98,13 +98,19 @@ class ilParticipationStatus
 	/**
 	 * Get course
 	 * 
-	 * @return ilObjCourse 
 	 */	
 	protected function getCourse()
 	{
 		return $this->course;
 	}
 	
+	/**
+	 * Get CourseUtils.
+	 */
+	protected function getCourseUtils() {
+		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		return gevCourseUtils::getInstanceByObj($this->getCourse());
+	}
 	
 	// 
 	// status
@@ -255,7 +261,7 @@ class ilParticipationStatus
 		$res = array();
 		
 		$all = $this->getDBUsersData();
-		foreach($this->getCourse()->getMembersObject()->getMembers() as $user_id)
+		foreach($this->getCourseUtils()->getParticipants() as $user_id)
 		{
 			if(isset($all[$user_id]) && $all[$user_id]["status"])
 			{
@@ -456,7 +462,7 @@ class ilParticipationStatus
 		$max = $this->getMaxCreditPoints();
 		
 		$all = $this->getDBUsersData();
-		foreach($this->getCourse()->getMembersObject()->getMembers() as $user_id)
+		foreach($this->getCourseUtils()->getParticipants() as $user_id)
 		{					
 			if(!isset($all[$user_id]) || $all[$user_id]["status"] != self::STATUS_SUCCESSFUL)
 			{
@@ -534,7 +540,7 @@ class ilParticipationStatus
 		$max = $this->getMaxCreditPoints();
 		
 		$all = $this->getDBUsersData();
-		foreach($this->getCourse()->getMembersObject()->getMembers() as $user_id)
+		foreach($this->getCourseUtils()->getParticipants() as $user_id)
 		{	
 			$status = $points = null;
 			
@@ -686,7 +692,7 @@ class ilParticipationStatus
 						
 			if($new == self::STATE_FINALIZED)
 			{
-				foreach($this->getCourse()->getMembersObject()->getMembers() as $user_id)
+				foreach($this->getCourseUtils()->getParticipants() as $user_id)
 				{
 					$this->raiseEvent("setStatusAndPoints", $user_id);
 

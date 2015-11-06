@@ -39,7 +39,7 @@ class gevCourseSignatureList extends fpdf {
 			, "Trainingsbetreuer" => $crs_utils->getMainAdminName(). " (".$crs_utils->getMainAdminContactInfo().")"
 			, "Fachlich verantwortlich" => $crs_utils->getTrainingOfficerContactInfo());
 
-		$this->participant_ids = $crs_utils->getCourse()->getMembersObject()->getMembers();
+		$this->participant_ids = $crs_utils->getParticipants();
 
 		parent::__construct();
 		$this->AliasNbPages();
