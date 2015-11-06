@@ -77,7 +77,21 @@ class ilObjBibliographicAdminLibrariesGUI {
 	}
 
 
+	/**
+	 * @global $ilToolbar ilToolbarGUI;
+	 *
+	 * @return bool
+	 */
 	public function view() {
+		global $ilToolbar;
+		/**
+		 * @var $ilToolbar ilToolbarGUI;
+		 */
+		$b = ilLinkButton::getInstance();
+		$b->setCaption('add');
+		$b->setUrl($this->ctrl->getLinkTarget($this, 'add'));
+		$b->setPrimary(true);
+		$ilToolbar->addButtonInstance($b);
 		$a_table = $this->initTable();
 		$this->parent_gui->tpl->setContent($a_table->getHTML());
 
@@ -89,6 +103,7 @@ class ilObjBibliographicAdminLibrariesGUI {
 	 * Init Table with library entries
 	 *
 	 * @access protected
+	 * @return ilObjBibliographicAdminTableGUI
 	 */
 	protected function initTable() {
 		$table = new ilObjBibliographicAdminTableGUI($this, 'library');
