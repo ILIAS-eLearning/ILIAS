@@ -3332,4 +3332,18 @@ class gevCourseUtils {
 	public function userHasRightOf($user_id, $right_name) {
 		return $this->rbacsystem->checkAccessOfUser($user_id, $right_name, $this->getRefId());
 	}
+
+	public function userCanCancelCourse($user_id) {
+		$now = @date("Y-m-d");
+		$start_date = $this->getStartDate();
+		if ($this->userHasRightOf($user_id, gevSettings::CANCEL_TRAINING) && 
+			!$this->getCourse()->getOfflineStatus() && 
+			$start_date !== null && 
+			($start_date->get(IL_CAL_DATE) > $now || ($start_date->get(IL_CAL_DATE) == $now && !$this->isFinalized()))) 
+		{
+			return true;
+		}
+
+		return false;
+	}
 }

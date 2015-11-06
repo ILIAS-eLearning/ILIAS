@@ -2228,12 +2228,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 		
 		// i know this has timezone issues...
-		$now = @date("Y-m-d");
-		$start_date = $utils->getStartDate();
-		if ($utils->userHasRightOf($ilUser->getId(), gevSettings::CANCEL_TRAINING) && 
-			!$this->object->getOfflineStatus() && 
-			$start_date !== null && 
-			($start_date->get(IL_CAL_DATE) > $now || ($start_date->get(IL_CAL_DATE) == $now && !$utils->isFinalized()))) 
+		if ($utils->userCanCancelCourse($ilUser->getId())) 
 		{
 			$ilToolbar->addButton( $this->lng->txt("gev_cancellation")
 								 , $this->ctrl->getLinkTarget($this, "confirmTrainingCancellation"));
@@ -4571,7 +4566,6 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
-		
 		$this->prepareOutput();
 		
 		// show repository tree

@@ -195,12 +195,7 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 			$actions .= '&nbsp;<a href="'.$csn_list_link.'" title="'.$this->gLng->txt("gev_csn_list").'">'.$this->csn_list_img.'</a>';
 		}
 
-		$now = @date("Y-m-d");
-		$start_date = $crs_utils->getStartDate();
-		if ($crs_utils->userHasRightOf($this->user_id, gevSettings::CANCEL_TRAINING) && 
-			!$crs_utils->getCourse()->getOfflineStatus() && 
-			$start_date !== null && 
-			($start_date->get(IL_CAL_DATE) > $now || ($start_date->get(IL_CAL_DATE) == $now && !$crs_utils->isFinalized()))) 
+		if ($crs_utils->userCanCancelCourse($this->user_id)) 
 		{
 			$actions .= '&nbsp;<a href="'.$cancel_training_link.'" title="'.$this->gLng->txt("gev_cancel_training").'">'.$this->cancel_training_img.'</a>';
 		}
