@@ -70,9 +70,9 @@ class ilObjReportCouponGUI extends ilObjReportBaseGUI {
 			}
 		}
 		$a_rec["odbd"]	=  implode(', ', array_unique($orgus));
-		$a_rec["current"] = number_format($a_rec["current"], 2, ',', '');
-		$a_rec["start"] = number_format($a_rec["start"], 2, ',', '');
-		$a_rec["diff"] = number_format($a_rec["diff"], 2, ',', '');
+		$a_rec["current"] = number_format($a_rec["current"], 2, ',', '.');
+		$a_rec["start"] = number_format($a_rec["start"], 2, ',', '.');
+		$a_rec["diff"] = number_format($a_rec["diff"], 2, ',', '.');
 		$a_rec = parent::transformResultRow($a_rec);
 		return $a_rec;
 	}
