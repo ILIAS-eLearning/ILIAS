@@ -623,13 +623,7 @@ class gevDecentralTrainingGUI {
 								, "GEV_img/ico-head-create-decentral-training.png"
 								);
 
-		$now = @date("Y-m-d");
-		$start_date = $crs_utils->getStartDate();
-		if ($crs_utils->userHasRightOf($this->current_user->getId(), gevSettings::CANCEL_TRAINING) && 
-			!$crs_utils->getCourse()->getOfflineStatus() && 
-			$start_date !== null && 
-			($start_date->get(IL_CAL_DATE) > $now || ($start_date->get(IL_CAL_DATE) == $now && !$crs_utils->isFinalized()))) 
-		{
+		if($crs_utils->userCanCancelCourse($this->current_user->getId())) {
 			$form->addCommandButton("confirmTrainingCancellation", $this->lng->txt("cancel_training"));
 		}
 

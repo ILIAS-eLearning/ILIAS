@@ -760,12 +760,7 @@ abstract class ilTEPViewGridBased extends ilTEPView
 				$ilCtrl->setParameterByClass("gevMemberListDeliveryGUI", "ref_id", null);
 			}
 
-			$now = @date("Y-m-d");
-			$start_date = $crs_utils->getStartDate();
-			if ($crs_utils->userHasRightOf($cur_user_id, gevSettings::CANCEL_TRAINING) && 
-				!$crs_utils->getCourse()->getOfflineStatus() && 
-				$start_date !== null && 
-				($start_date->get(IL_CAL_DATE) > $now || ($start_date->get(IL_CAL_DATE) == $now && !$crs_utils->isFinalized()))) 
+			if($crs_utils->userCanCancelCourse($cur_user_id))
 			{
 				$cancel_training_img = '<img src="'.ilUtil::getImagePath("gev_cancel_action.png").'" />';
 				$ilCtrl->setParameterByClass("ilObjCourseGUI", "ref_id", $ref_id);
