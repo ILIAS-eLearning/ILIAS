@@ -1294,7 +1294,7 @@ class ilObjectGUI
 	/**
 	 * Import
 	 */
-	protected function importFileObject($parent_id = null)
+	protected function importFileObject($parent_id = null, $a_catch_errors = true)
 	{
 		global $objDefinition, $tpl, $ilErr;
 
@@ -1337,7 +1337,15 @@ class ilObjectGUI
 			catch (ilException $e)
 			{
 				$this->tmp_import_dir = $imp->getTemporaryImportDir();
-				throw $e;
+				if (!$a_catch_errors)
+				{
+					throw $e;
+				}
+				// display message and form again
+				ilUtil::sendFailure($this->lng->txt("obj_import_file_error")." <br />".$e->getMessage());
+				$form->setValuesByPost();
+				$tpl->setContent($form->getHtml());
+				return;
 			}
 
 			if ($new_id > 0)
