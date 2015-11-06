@@ -1393,3 +1393,5 @@ gev#:#grp_create_xrds#:#DBV Report für Vorgesetzteerzeugen
 gev#:#fold_create_xrds#:#DBV Report für Vorgesetzte erzeugen
 gev#:#root_create_xrds#:#DBV Report für Vorgesetzte erzeugen
 gev#:#cat_create_xrds#:#DBV Report für Vorgesetzte erzeugen
+gev#:#rep_robj_xrds_content#:#Report
+gev#:#rep_robj_xrds_properties#:#Eigenschaften
