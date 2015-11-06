@@ -109,7 +109,18 @@ class ilObjReportBillGUI extends ilObjReportBaseGUI {
 			}
 			$rec['date'] = $date;
 		}
-			
+
+		$rec["fee_pretax"] = number_format($rec["fee_pretax"], 2, ',', '.');
+		$rec["fee_tax"] = number_format($rec["fee_tax"], 2, ',', '.');
+		$rec["fee_posttax"] = number_format($rec["fee_posttax"], 2, ',', '.');
+		$rec["coupon_pretax"] = number_format($rec["coupon_pretax"], 2, ',', '.');
+		$rec["coupon_tax"] = number_format($rec["coupon_tax"], 2, ',', '.');
+		$rec["coupon_posttax"] = number_format($rec["coupon_posttax"], 2, ',', '.');
+		$rec["amount_pretax"] = number_format($rec["amount_pretax"], 2, ',', '.');
+		$rec["amount_tax"] = number_format($rec["amount_tax"], 2, ',', '.');
+		$rec["amount_posttax"] = number_format($rec["amount_posttax"], 2, ',', '.');
+
+
 		$ilCtrl->setParameterByClass("ilObjReportBillGUI", "billnumber", $rec["billnumber"]);
 		$target = $ilCtrl->getLinkTargetByClass("ilObjReportBillGUI", "deliverBillPDF");
 		//$this->ctrl->clearParameters();
