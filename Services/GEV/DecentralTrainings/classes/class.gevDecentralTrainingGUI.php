@@ -149,10 +149,6 @@ class gevDecentralTrainingGUI {
 		if(isset($_GET["crs_ref_id"])) {
 			$this->crs_ref_id = $_GET["crs_ref_id"];
 		}
-
-		if(isset($_POST["obj_id"])) {
-			$this->crs_ref_id = gevObjectUtils::getRefId($_POST["obj_id"]);
-		}
 		
 		if($this->crs_ref_id == "") {$this->crs_ref_id = null; }
 	}
