@@ -102,7 +102,7 @@ class ilObjReportBill extends ilObjReportBase {
 
 				default:
 					$this->external_sorting = true;
-					$sql_order_str = " ORDER BY ".$this->db->quoteIdentifier($table_nav_cmd[0])." ".$direction;
+					$sql_order_str = " ORDER BY ".$this->gIldb->quoteIdentifier($table_nav_cmd[0])." ".$direction;
 					break;
 			}
 		}
