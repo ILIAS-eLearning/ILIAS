@@ -56,10 +56,7 @@ class assLongMenuImport extends assQuestionImport
 							$equals = $conditionvar->varequal[$order["index"]]->getContent();
 							$gapident = $conditionvar->varequal[$order["index"]]->getRespident();
 							$id = $this->getIdFromGapIdent($gapident);
-							if(!in_array($equals, $answers[$id]))
-							{
-								$answers[$id][] = $equals;
-							}
+							$answers[$id][] = $equals;
 							break;
 					}
 				}
@@ -172,15 +169,21 @@ class assLongMenuImport extends assQuestionImport
 		}
 		$this->object->setAnswers($answers);
 		// handle the import of media objects in XHTML code
-		foreach ($feedbacks as $ident => $material)
+		if(count($feedbacks) > 0)
 		{
-			$m = $this->object->QTIMaterialToString($material);
-			$feedbacks[$ident] = $m;
+			foreach($feedbacks as $ident => $material)
+			{
+				$m                 = $this->object->QTIMaterialToString($material);
+				$feedbacks[$ident] = $m;
+			}
 		}
-		foreach ($feedbacksgeneric as $correctness => $material)
+		if(count($feedbacksgeneric) > 0)
 		{
-			$m = $this->object->QTIMaterialToString($material);
-			$feedbacksgeneric[$correctness] = $m;
+			foreach ($feedbacksgeneric as $correctness => $material)
+			{
+				$m = $this->object->QTIMaterialToString($material);
+				$feedbacksgeneric[$correctness] = $m;
+			}
 		}
 		
 		$this->addGeneralMetadata($item);
@@ -191,8 +194,7 @@ class assLongMenuImport extends assQuestionImport
 		$this->object->setOwner($ilUser->getId());
 		$this->object->setObjId($questionpool_id);
 		$this->object->setEstimatedWorkingTime($duration["h"], $duration["m"], $duration["s"]);
-		$_POST['hidden_text_files'] 		= json_encode($answers);
-		$_POST['hidden_correct_answers'] 	= json_encode($correct_answers);
+		$this->object->setCorrectAnswers($correct_answers);
 		$this->object->setPoints($sum);
 		// additional content editing mode information
 		$this->object->setAdditionalContentEditingMode(
@@ -200,17 +202,23 @@ class assLongMenuImport extends assQuestionImport
 		);
 		$this->object->saveToDb();
 
-		foreach ($feedbacks as $ident => $material)
+		if(count($feedbacks) > 0)
 		{
-			$this->object->feedbackOBJ->importSpecificAnswerFeedback(
-				$this->object->getId(), $ident, ilRTE::_replaceMediaObjectImageSrc($material, 1)
-			);
+			foreach($feedbacks as $ident => $material)
+			{
+				$this->object->feedbackOBJ->importSpecificAnswerFeedback(
+					$this->object->getId(), $ident, ilRTE::_replaceMediaObjectImageSrc($material, 1)
+				);
+			}
 		}
-		foreach ($feedbacksgeneric as $correctness => $material)
+		if(count($feedbacksgeneric) > 0)
 		{
-			$this->object->feedbackOBJ->importGenericFeedback(
-				$this->object->getId(), $correctness, ilRTE::_replaceMediaObjectImageSrc($material, 1)
-			);
+			foreach($feedbacksgeneric as $correctness => $material)
+			{
+				$this->object->feedbackOBJ->importGenericFeedback(
+					$this->object->getId(), $correctness, ilRTE::_replaceMediaObjectImageSrc($material, 1)
+				);
+			}
 		}
 		$this->object->saveToDb();
 		if (count($item->suggested_solutions))
