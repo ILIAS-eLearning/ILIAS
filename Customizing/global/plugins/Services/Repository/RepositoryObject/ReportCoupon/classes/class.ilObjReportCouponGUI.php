@@ -12,7 +12,7 @@ require_once 'Services/Form/classes/class.ilCheckboxInputGUI.php';
 */
 class ilObjReportCouponGUI extends ilObjReportBaseGUI {
 
-	static $od_bd_strings;
+	static $od_bd_regexp = null;
 
 	public function getType() {
 		return 'xrcp';
@@ -58,19 +58,15 @@ class ilObjReportCouponGUI extends ilObjReportBaseGUI {
 
 	public static function transformResultRow($a_rec) {
 
-		if(!self::$od_bd_strings) {
+		if(!self::$od_bd_regexp) {
 			require_once './Customizing/global/plugins/Services/Repository/RepositoryObject/ReportCoupon/config/od_bd_strings.php';
-			self::$od_bd_strings = $pattern;
 		}
 		$orgus_above1 = explode(';', $a_rec["above1"]);
 		$orgus_above2 = explode(';', $a_rec["above2"]);
 		$orgus = array();
 		foreach (array_unique(array_merge($orgus_above1, $orgus_above2)) as $value) {
-			foreach(self::$od_bd_strings as $string) {
-				if(	strpos($value, $string) !== false ) {
-					$orgus[] = $value;
-					break;
-				}
+			if (preg_match(self::$od_bd_regexp, $value)) {
+				$orgus[] = $value;
 			}
 		}
 		$a_rec["odbd"]	=  implode(', ', array_unique($orgus));
