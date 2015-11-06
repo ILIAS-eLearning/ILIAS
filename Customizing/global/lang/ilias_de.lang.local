@@ -1376,3 +1376,20 @@ gev#:#fold_create_xrbi#:#Rechnungsreport erzeugen
 gev#:#root_create_xrbi#:#Rechnungsreport erzeugen
 gev#:#cat_create_xrbi#:#Rechnungsreport erzeugen
 gev#:#all#:#alle
+gev#:#obj_xrds#:#DBV Report für Vorgesetzte
+gev#:#objs_xrds#:#DBV Reports für Vorgesetzte
+gev#:#obj_xrds_duplicate#:#DBV Report für Vorgesetzte kopieren
+gev#:#objs_xrds_duplicate#:#DBV Reports für Vorgesetzte kopieren
+gev#:#obj_xrds_select#:#DBV Report für Vorgesetzte auswählen
+gev#:#xrds_add#:#DBV Report für Vorgesetzte hinzufügen
+gev#:#xrds_new#:#Neuen DBV Report für Vorgesetzte hinzufügen
+gev#:#xrds_read#:#Lesezugriff zum DBV Report für Vorgesetzte
+gev#:#xrds_write#:#DBV Report für Vorgesetzte bearbeiten
+gev#:#xrds_delete#:#DBV Report für Vorgesetzte löschen
+gev#:#xrds_visible#:#sichtbar
+gev#:#xrds_edit_permission#:#schreibberechtigt
+gev#:#crs_create_xrds#:#DBV Report für Vorgesetzte erzeugen
+gev#:#grp_create_xrds#:#DBV Report für Vorgesetzteerzeugen
+gev#:#fold_create_xrds#:#DBV Report für Vorgesetzte erzeugen
+gev#:#root_create_xrds#:#DBV Report für Vorgesetzte erzeugen
+gev#:#cat_create_xrds#:#DBV Report für Vorgesetzte erzeugen
