@@ -38,26 +38,17 @@ class ilObjReportBillGUI extends ilObjReportBaseGUI {
 		}
 	}
 
-
-	protected function prepareTitle() {
-		require_once 'Services/CaTUIComponents/classes/class.catTitleGUI.php';
-		$this->title = catTitleGUI::create()
-						->title("gev_rep_billing_title")
-						->subTitle("gev_rep_billing_desc")
-						->image("GEV_img/ico-head-edubio.png");
-	}
-
 	protected function settingsForm($data = null) {
 		$settings_form = parent::settingsForm($data);
 
-		$is_online = new ilCheckboxInputGUI('online','online');
+		$is_online = new ilCheckboxInputGUI($this->gLng->txt('online'),'online');
 		$is_online->setValue(1);
 		if(isset($data["online"])) {
 			$is_online->setChecked($data["online"]);
 		}
 		$settings_form->addItem($is_online);
 
-		$report_mode = new ilSelectInputGUI('report_mode','report_mode');
+		$report_mode = new ilSelectInputGUI($this->gLng->txt('gev_report_mode'),'report_mode');
 		$options = array();
 
 		foreach(ilObjReportBill::$config as $key => $settings) {
@@ -70,6 +61,12 @@ class ilObjReportBillGUI extends ilObjReportBaseGUI {
 		$settings_form->addItem($report_mode);
 
 		return $settings_form;
+	}
+
+	protected function prepareTitle($a_title) {
+		$a_title = parent::prepareTitle($a_title);
+		$a_title->image("GEV_img/ico-head-rep-billing.png");
+		return $a_title;
 	}
 
 	protected function getSettingsData() {

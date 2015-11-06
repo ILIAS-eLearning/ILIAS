@@ -541,22 +541,15 @@ class gevDecentralTrainingGUI {
 	}
 
 	protected function updateTrainers($trainer_ids_new, $trainer_ids_old, $crs_utils) {
-		$to_delete = array();
-		foreach ($trainer_ids_old as $key => $value) {
-			$pos = array_search($value, $trainer_ids_new);
-			if($pos !== false){
-				unset($trainer_ids_new[$pos]);
-			} else {
-				$to_delete[] = $value;
-			}
-		}
+		$delete = array_diff($trainer_ids_old, $trainer_ids_new);
+		$add = array_diff($trainer_ids_new, $trainer_ids_old);
 
 		$defaultTutorRole = $crs_utils->getCourse()->getDefaultTutorRole();
-		foreach ($trainer_ids_new as $value) {
+		foreach ($add as $value) {
 			gevRoleUtils::getRbacAdmin()->assignUser($defaultTutorRole, $value);
 		}
 
-		$crs_utils->cancelTrainer($to_delete);
+		$crs_utils->cancelTrainer($delete);
 	}
 	
 	protected function redirectToBookingFormOfLastCreatedTraining() {
