@@ -11,7 +11,7 @@ require_once 'Services/ReportsRepository/classes/class.ilObjReportBaseGUI.php';
 class ilObjReportDBVSuperiorGUI extends ilObjReportBaseGUI {
 
 	public function getType() {
-		return 'xrbi';
+		return 'xrds';
 	}
 
 	protected function prepareTitle($a_title) {
