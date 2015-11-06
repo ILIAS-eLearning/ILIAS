@@ -156,7 +156,7 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 				$current_selection_list->addItem($this->lng->txt("mail_member"), '', $ilCtrl->getLinkTarget($this->parentObject, "mail"));
 			}
 
-			if($a_set['members_id'] != $ilUser->getId() &&$relation->isUnlinked())
+			if($a_set['members_id'] != $ilUser->getId() && $relation->isUnlinked())
 			{
 				$ilCtrl->setParameterByClass('ilBuddySystemGUI', 'user_id', $a_set['members_id']);
 				$current_selection_list->addItem($this->lng->txt('buddy_bs_btn_txt_unlinked_a'), '', $ilCtrl->getLinkTargetByClass('ilBuddySystemGUI', 'request'));
