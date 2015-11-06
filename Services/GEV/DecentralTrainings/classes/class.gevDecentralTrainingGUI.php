@@ -605,6 +605,8 @@ class gevDecentralTrainingGUI {
 
 			$form = $this->buildTrainingOptionsForm(true, $is_flexible, $form_values);
 			$is_started = $form_values["no_changes_allowed"];
+			require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+			$crs_utils = gevCourseUtils::getInstance($obj_id);
 		}
 		else {
 			$form = $a_form;
@@ -619,6 +621,16 @@ class gevDecentralTrainingGUI {
 								, "gev_dec_training_settings_header_note"
 								, "GEV_img/ico-head-create-decentral-training.png"
 								);
+
+		$now = @date("Y-m-d");
+		$start_date = $crs_utils->getStartDate();
+		if ($crs_utils->userHasRightOf($this->current_user->getId(), gevSettings::CANCEL_TRAINING) && 
+			!$crs_utils->getCourse()->getOfflineStatus() && 
+			$start_date !== null && 
+			($start_date->get(IL_CAL_DATE) > $now || ($start_date->get(IL_CAL_DATE) == $now && !$crs_utils->isFinalized()))) 
+		{
+			$form->addCommandButton("forwardCrs", $this->lng->txt("cancel_training"));
+		}
 
 		$form->addCommandButton("forwardCrs", $this->lng->txt("gev_dec_forward_to_kurs"));
 		if($is_flexible) {
