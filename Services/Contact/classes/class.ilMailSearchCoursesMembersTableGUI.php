@@ -33,8 +33,11 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 	{
 	 	global $lng,$ilCtrl, $ilUser, $lng, $rbacsystem;
 
+		$this->setId($type. 'table_members');
+		parent::__construct($a_parent_obj, 'showMembers');
+
 		$this->context = $context;
-		if($this->context == "mail")
+		if($this->context == 'mail')
 		{
 			// check if current user may send mails
 			include_once "Services/Mail/classes/class.ilMail.php";
@@ -42,8 +45,6 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 			$this->mailing_allowed = $rbacsystem->checkAccess('internal_mail',$mail->getMailObjectReferenceId());
 		}
 
-		$this->setId($type. 'table_members');
-		parent::__construct($a_parent_obj, 'showMembers');
 		$lng->loadLanguageModule('crs');
 		$this->parentObject = $a_parent_obj;
 		$mode = array();
@@ -114,8 +115,9 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 	{
 		/**
 		 * @var $ilCtrl ilCtrl
+		 * @var $ilUser ilObjUser
 		 */
-		global $ilCtrl;
+		global $ilCtrl, $ilUser;
 
 		require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
 		$current_selection_list = new ilAdvancedSelectionListGUI();
@@ -132,13 +134,18 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 
 		$relation = ilBuddyList::getInstanceByGlobalUser()->getRelationByUserId($a_set['members_id']);
 		$state_name = ilStr::convertUpperCamelCaseToUnderscoreCase($relation->getState()->getName());
-		if($relation->isOwnedByRequest())
+
+		$a_set['status'] = '';
+		if($a_set['members_id'] != $ilUser->getId())
 		{
-			$a_set['status'] = $this->lng->txt('buddy_bs_state_' . $state_name . '_a');
-		}
-		else
-		{
-			$a_set['status'] = $this->lng->txt('buddy_bs_state_' . $state_name . '_p');
+			if($relation->isOwnedByRequest())
+			{
+				$a_set['status'] = $this->lng->txt('buddy_bs_state_' . $state_name . '_a');
+			}
+			else
+			{
+				$a_set['status'] = $this->lng->txt('buddy_bs_state_' . $state_name . '_p');
+			}
 		}
 
 		$action_html = '';
@@ -147,6 +154,16 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 			if($this->mailing_allowed)
 			{
 				$current_selection_list->addItem($this->lng->txt("mail_member"), '', $ilCtrl->getLinkTarget($this->parentObject, "mail"));
+			}
+
+			if($a_set['members_id'] != $ilUser->getId() && $relation->isUnlinked())
+			{
+				$ilCtrl->setParameterByClass('ilBuddySystemGUI', 'user_id', $a_set['members_id']);
+				$current_selection_list->addItem($this->lng->txt('buddy_bs_btn_txt_unlinked_a'), '', $ilCtrl->getLinkTargetByClass('ilBuddySystemGUI', 'request'));
+			}
+
+			if($current_selection_list->getItems())
+			{
 				$action_html = $current_selection_list->getHTML();
 			}
 		}

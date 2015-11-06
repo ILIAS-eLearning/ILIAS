@@ -9,7 +9,7 @@ require_once "Services/Mail/classes/class.ilFormatMail.php";
 /**
 * @author Jens Conze
 * @version $Id$
-*
+* @ilCtrl_Calls ilMailSearchCoursesGUI: ilBuddySystemGUI
 * @ingroup ServicesMail
 */
 class ilMailSearchCoursesGUI
@@ -51,6 +51,13 @@ class ilMailSearchCoursesGUI
 		$forward_class = $this->ctrl->getNextClass($this);
 		switch($forward_class)
 		{
+			case 'ilbuddysystemgui':
+				require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystemGUI.php';
+				$this->ctrl->saveParameter($this, 'search_crs');
+				$this->ctrl->setReturn($this, 'showMembers');
+				$this->ctrl->forwardCommand(new ilBuddySystemGUI());
+				break;
+
 			default:
 				if (!($cmd = $this->ctrl->getCmd()))
 				{

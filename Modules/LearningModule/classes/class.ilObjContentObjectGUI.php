@@ -1316,7 +1316,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		try
 		{
 			// the new import
-			parent::importFileObject();
+			parent::importFileObject(null, false);
 			return;
 		}
 		catch (ilManifestFileNotFoundImportException $e)

@@ -45,12 +45,12 @@ class ilDataCollectionRecordViewViewdefinitionGUI extends ilPageObjectGUI {
 		//TODO Permission-Check
 		$this->table_id = $table_id;
 
-		if (!$a_definition_id) {
+		if (! $a_definition_id) {
 			$a_definition_id = ilDataCollectionRecordViewViewdefinition::getIdByTableId($this->table_id);
 		}
 
 		// we always need a page object - create on demand
-		if (!$a_definition_id) {
+		if (! $a_definition_id) {
 			$viewdef = new ilDataCollectionRecordViewViewdefinition();
 			$viewdef->setTableId($this->table_id);
 			$viewdef->setActive(false);
@@ -186,15 +186,11 @@ class ilDataCollectionRecordViewViewdefinitionGUI extends ilPageObjectGUI {
 		global $ilCtrl, $lng;
 
 		if ($this->table_id && ilDataCollectionRecordViewViewdefinition::getIdByTableId($this->table_id)) {
-			global $ilDB;
 			$id = ilDataCollectionRecordViewViewdefinition::getIdByTableId($this->table_id);
 			include_once("./Modules/DataCollection/classes/class.ilDataCollectionRecordViewViewdefinition.php");
 			$pageObject = new ilDataCollectionRecordViewViewdefinition($id);
+			$pageObject->removeDclView($this->table_id);
 			$pageObject->delete();
-
-			$query = "DELETE FROM il_dcl_view WHERE table_id = " . $this->table_id . " AND type = " . $ilDB->quote(0, "integer") . " AND formtype = "
-				. $ilDB->quote(0, "integer");
-			$ilDB->manipulate($query);
 		}
 
 		ilUtil::sendSuccess($lng->txt("dcl_empty_view_success"), true);

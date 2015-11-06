@@ -15,7 +15,9 @@ var help_line = {
 		t: '{TXT_TEX} [tex]LaTeX code[/tex]  (alt+t)',
 		m: '{TXT_IMP} [imp]text[/imp]  (alt+m)',
 		a: '{TXT_ACC} [acc]text[/acc]  (alt+a)',
-		k: '{TXT_KW} [kw]text[/kw]  (alt+k)'
+		k: '{TXT_KW} [kw]text[/kw]  (alt+k)',
+		p: '{TXT_SUP} [sup]text[/sup]  (alt+p)',
+		b: '{TXT_SUB} [sub]text[/sub]  (alt+b)'
 }
 
 function myhelpline(help)
@@ -30,7 +32,7 @@ function myhelpline(help)
 // Define the bbCode tags
 var bbcode = new Array();
 var bbtags = new Array('[str]','[/str]','[emp]','[/emp]','[com]','[/com]','[quot]','[/quot]','[code]','[/code]','[fn]','[/fn]','[iln page=""]','[/iln]','[xln url="http://"]','[/xln]',
-	'[url]','[/url]', '[tex]','[/tex]','[[',']]','[anc name=""]','[/anc]','[acc]','[/acc]','[imp]','[/imp]','[kw]','[/kw]');
+	'[url]','[/url]', '[tex]','[/tex]','[[',']]','[anc name=""]','[/anc]','[acc]','[/acc]','[imp]','[/imp]','[kw]','[/kw]','[sup]','[/sup]','[sub]','[/sub]');
 imageTag = false;
 
 var form_name = 'post';
@@ -50,9 +52,15 @@ var upload = false;
 <!-- BEGIN bb_emp_button -->
 <a style="color:black;" class="ilEditSubmit" href="#" accesskey="e" name="addbbcode2" onClick="bbstyle(2)" onMouseOver="myhelpline('e')" ><span class="ilc_text_inline_Emph">&nbsp;emp&nbsp;</span></a>&nbsp;
 <!-- END bb_emp_button -->
-<!-- BEGIN bb_imp_button -->
-<a style="color:black;" class="ilEditSubmit" href="#" accesskey="m" name="addbbcode26" onClick="bbstyle(26)" onMouseOver="myhelpline('m')" ><span class="ilc_text_inline_Important">&nbsp;imp&nbsp;</span></a>&nbsp;
-<!-- END bb_imp_button -->
+	<!-- BEGIN bb_imp_button -->
+	<a style="color:black;" class="ilEditSubmit" href="#" accesskey="m" name="addbbcode26" onClick="bbstyle(26)" onMouseOver="myhelpline('m')" ><span class="ilc_text_inline_Important">&nbsp;imp&nbsp;</span></a>&nbsp;
+	<!-- END bb_imp_button -->
+	<!-- BEGIN bb_sup_button -->
+	<a style="color:black;" class="ilEditSubmit" href="#" accesskey="p" name="addbbcode30" onClick="bbstyle(30)" onMouseOver="myhelpline('p')" >&nbsp;x<sup class="ilc_sub_Sup">2</sup>&nbsp;</a>&nbsp;
+	<!-- END bb_sup_button -->
+	<!-- BEGIN bb_sub_button -->
+	<a style="color:black;" class="ilEditSubmit" href="#" accesskey="b" name="addbbcode32" onClick="bbstyle(32)" onMouseOver="myhelpline('b')" >&nbsp;x<sub class="ilc_sub_Sub">2</sub>&nbsp;</a>&nbsp;
+	<!-- END bb_sub_button -->
 <!-- BEGIN bb_com_button -->
 <a style="color:black;" class="ilEditSubmit" href="#" accesskey="c" name="addbbcode4" onClick="bbstyle(4)" onMouseOver="myhelpline('c')" ><span class="ilc_text_inline_Comment">&nbsp;com&nbsp;</span></a>&nbsp;
 <!-- END bb_com_button -->

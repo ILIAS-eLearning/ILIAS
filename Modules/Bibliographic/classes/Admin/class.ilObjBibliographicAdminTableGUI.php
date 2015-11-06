@@ -1,5 +1,8 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+require_once("./Services/Table/classes/class.ilTable2GUI.php");
+require_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+
 /**
  * Bibliographic ilObjBibliographicAdminTableGUI
  *
@@ -9,35 +12,36 @@
  *
  * @ingroup ModulesBibliographic
  */
-require_once("./Services/Table/classes/class.ilTable2GUI.php");
-require_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 class ilObjBibliographicAdminTableGUI extends ilTable2GUI {
 
-	var $gui = NULL;
+	/**
+	 * @var ilObjChatroomAdminGUI|null
+	 */
+	protected $gui = NULL;
 
 
 	/**
 	 * Constructor
 	 *
-	 * @global ilLanguage           $lng
-	 * @global ilCtrl2              $ilCtrl
+	 * @global ilLanguage                         $lng
+	 * @global ilCtrl2                            $ilCtrl
 	 *
-	 * @param ilObjChatroomAdminGUI $a_ref
-	 * @param string                $cmd
+	 * @param ilObjBibliographicAdminLibrariesGUI $parent_gui
+	 * @param string                              $cmd
 	 */
-	public function __construct($a_ref, $cmd) {
+	public function __construct(ilObjBibliographicAdminLibrariesGUI $parent_gui, $cmd) {
 		global $lng, $ilCtrl;
-		parent::__construct($a_ref, $cmd);
-		$this->gui = $a_ref;
+
+		parent::__construct($parent_gui, $cmd);
+		$this->gui = $parent_gui;
 		$this->setTitle($lng->txt('bibl_settings_libraries'));
 		$this->setId('bibl_libraries_tbl');
 		$this->addColumn($lng->txt('bibl_library_name'), '', '30%');
 		$this->addColumn($lng->txt('bibl_library_url'), '' . '30%');
 		$this->addColumn($lng->txt('bibl_library_img'), '', '30%');
 		$this->addColumn($lng->txt('actions'), '', '8%');
-		$this->addCommandButton('add', $this->lng->txt("add"));
 		$this->setEnableNumInfo(false);
-		$this->setFormAction($ilCtrl->getFormAction($a_ref));
+		$this->setFormAction($ilCtrl->getFormAction($parent_gui));
 		$this->setRowTemplate('tpl.bibl_settings_lib_list_row.html', 'Modules/Bibliographic');
 	}
 
@@ -57,10 +61,8 @@ class ilObjBibliographicAdminTableGUI extends ilTable2GUI {
 		$current_selection_list = new ilAdvancedSelectionListGUI();
 		$current_selection_list->setListTitle($this->lng->txt("actions"));
 		$current_selection_list->setId($a_set['id']);
-		$current_selection_list->addItem($this->lng->txt("edit"), "",
-			$ilCtrl->getLinkTarget($this->gui, 'edit') . "&lib_id=" . $a_set['id']);
-		$current_selection_list->addItem($this->lng->txt("delete"), "",
-			$ilCtrl->getLinkTarget($this->gui, 'delete') . "&lib_id=" . $a_set['id']);
+		$current_selection_list->addItem($this->lng->txt("edit"), "", $ilCtrl->getLinkTarget($this->gui, 'edit') . "&lib_id=" . $a_set['id']);
+		$current_selection_list->addItem($this->lng->txt("delete"), "", $ilCtrl->getLinkTarget($this->gui, 'delete') . "&lib_id=" . $a_set['id']);
 		$this->tpl->setVariable('VAL_ACTIONS', $current_selection_list->getHTML());
 	}
 }
