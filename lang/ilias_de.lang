@@ -15838,6 +15838,7 @@ buddysystem#:#buddy_notification_contact_request_ignore_osd#:#Anfrage Ignorieren
 buddysystem#:#buddy_notification_contact_request_long#:#[SALUTATION][BR][BR]der Benutzer "[REQUESTING_USER]" möchte mit Ihnen in Kontakt treten.[BR][BR][APPROVE_REQUEST_TXT] [APPROVE_REQUEST][BR][IGNORE_REQUEST_TXT] [IGNORE_REQUEST]
 buddysystem#:#buddy_request_approved#:#Der Kontakt wurde erfolgreich hergestellt.
 buddysystem#:#buddy_request_ignored#:#Sie haben den Benutzer ignoriert.
+buddysystem#:#buddy_relation_requested#:#Dem Benutzer wurde eine Kontaktanfrage gesendet.
 common#:#no_gallery_users_available#:#Aktuell befinden sich keine Benutzer in der Galerie.
 crs#:#crs_mem_contact#:#Kursbetreuung
 awrn#:#awareness_now_online#:#Jetzt Online

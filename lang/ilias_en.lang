@@ -15851,6 +15851,7 @@ buddysystem#:#buddy_notification_contact_request_ignore_osd#:#Ignore Request
 buddysystem#:#buddy_notification_contact_request_long#:#[SALUTATION][BR][BR]the user "[REQUESTING_USER]" wants to add you to his friends list.[BR][BR][APPROVE_REQUEST_TXT] [APPROVE_REQUEST][BR][IGNORE_REQUEST_TXT] [IGNORE_REQUEST]
 buddysystem#:#buddy_request_approved#:#You successfully approved the contact.
 buddysystem#:#buddy_request_ignored#:#You ignored the user.
+buddysystem#:#buddy_relation_requested#:#A request has been sent to the user.
 common#:#no_gallery_users_available#:#There are currently no users in the gallery.
 crs#:#crs_mem_contact#:#Tutorial Support
 awrn#:#awareness_now_online#:#Online Now
