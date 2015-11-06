@@ -38,7 +38,7 @@ class ilObjReportCoupon extends ilObjReportBase {
 				->select_raw("c2.coupon_value start")
 				->select_raw("c2.coupon_value - c.coupon_value diff")
 				->select("c.coupon_expires")
-				->select_raw("FROM_UNIXTIME(c.coupon_expires,'%Y-%m-%d') expires")
+				->select_raw("FROM_UNIXTIME(c.coupon_expires,'%d.%m.%Y') expires")
 				->from("coupon c")
 				->join("coupon c2")
 					->on("	c.coupon_code = c2.coupon_code"
@@ -47,7 +47,8 @@ class ilObjReportCoupon extends ilObjReportBase {
 			$query	->select("hu.firstname")
 					->select("hu.lastname")
 					->select_raw("GROUP_CONCAT(DISTINCT huo.orgu_title SEPARATOR ', ') as orgu")
-					->select_raw("GROUP_CONCAT(DISTINCT CONCAT(huo.org_unit_above1,'/',huo.org_unit_above2) SEPARATOR ', ') as odbd")
+					->select_raw("GROUP_CONCAT(DISTINCT huo.org_unit_above1 SEPARATOR ';') as above1")
+					->select_raw("GROUP_CONCAT(DISTINCT huo.org_unit_above2 SEPARATOR ';') as above2")
 					->left_join("hist_userorgu huo")
 						->on("huo.usr_id = c.coupon_usr_id")
 					->left_join("hist_user hu")
@@ -65,7 +66,7 @@ class ilObjReportCoupon extends ilObjReportBase {
 								, true
 								)
 				->dateperiod( "period"
-								, $this->lng->txt("gev_period")
+								, $this->lng->txt("gev_date_of_issue")
 								, $this->lng->txt("gev_until")
 								, "c.coupon_created"
 								, "c.coupon_created"
@@ -75,8 +76,8 @@ class ilObjReportCoupon extends ilObjReportBase {
 								)
 				->static_condition("c.coupon_active = 1");
 		if($this->getAdminMode()) {
-			$filter	->static_condition("huo.hist_historic = 0 OR huo.hist_historic IS NULL ")
-					->static_condition("hu.hist_historic = 0 OR hu.hist_historic IS NULL ");
+			$filter	->static_condition(" (huo.hist_historic = 0 OR huo.hist_historic IS NULL) ")
+					->static_condition(" (hu.hist_historic = 0 OR hu.hist_historic IS NULL) ");
 		} else {
 			$filter	->static_condition("c.coupon_usr_id = ".$this->gIldb->quote($this->gUser->getId(),"integer"));
 		}
