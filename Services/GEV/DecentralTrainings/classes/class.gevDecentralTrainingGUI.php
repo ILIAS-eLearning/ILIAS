@@ -7,6 +7,8 @@
 *
 * @author	Richard Klees <richard.klees@concepts-and-training.de>
 * @version	$Id$
+*
+* @ilCtrl_Calls gevDecentralTrainingGUI: ilObjCourseGUI
 */
 
 require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
@@ -95,6 +97,8 @@ class gevDecentralTrainingGUI {
 			case "saveTrainingSettings":
 			case "toChangeCourseData":
 			case "forwardCrs":
+			case "confirmTrainingCancellation":
+			case "cancelTraining":
 				$cont = $this->$cmd();
 				break;
 			default:
@@ -144,6 +148,10 @@ class gevDecentralTrainingGUI {
 		
 		if(isset($_GET["crs_ref_id"])) {
 			$this->crs_ref_id = $_GET["crs_ref_id"];
+		}
+
+		if(isset($_POST["obj_id"])) {
+			$this->crs_ref_id = gevObjectUtils::getRefId($_POST["obj_id"]);
 		}
 		
 		if($this->crs_ref_id == "") {$this->crs_ref_id = null; }
@@ -598,6 +606,8 @@ class gevDecentralTrainingGUI {
 
 			$form = $this->buildTrainingOptionsForm(true, $is_flexible, $form_values);
 			$is_started = $form_values["no_changes_allowed"];
+			require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+			$crs_utils = gevCourseUtils::getInstance($obj_id);
 		}
 		else {
 			$form = $a_form;
@@ -612,6 +622,10 @@ class gevDecentralTrainingGUI {
 								, "gev_dec_training_settings_header_note"
 								, "GEV_img/ico-head-create-decentral-training.png"
 								);
+
+		if($crs_utils->userCanCancelCourse($this->current_user->getId())) {
+			$form->addCommandButton("confirmTrainingCancellation", $this->lng->txt("cancel_training"));
+		}
 
 		$form->addCommandButton("forwardCrs", $this->lng->txt("gev_dec_forward_to_kurs"));
 		if($is_flexible) {
@@ -1668,6 +1682,34 @@ class gevDecentralTrainingGUI {
 			$this->ctrl->setParameterByClass("ilInfoScreenGUI", "ref_id", $ref_id);
 			$this->ctrl->redirectByClass(array("ilRepositoryGUI","ilObjCourseGUI","ilInfoScreenGUI"), "showSummary");
 		}
+	}
+
+	protected function confirmTrainingCancellation() {
+		require_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+
+		$conf = new ilConfirmationGUI();
+		$conf->setFormAction($this->ctrl->getFormAction($this));
+		$conf->setHeaderText($this->lng->txt("gev_confirm_training_cancellation"));
+
+		$conf->setConfirm($this->lng->txt("gev_cancel_training_action"), "cancelTraining");
+		$conf->setCancel($this->lng->txt("cancel"), "showSettings");
+
+		require_once("./Services/GEV/Utils/classes/class.gevCourseUtils.php");
+
+		$crs_utils = gevCourseUtils::getInstance($_POST["obj_id"]);
+		$conf->addItem("obj_id", $_POST["obj_id"]
+					  , $crs_utils->getTitle()." (".$crs_utils->getFormattedAppointment().")"
+					  );
+
+		$this->tpl->setContent($conf->getHTML());	
+	}
+
+	protected function cancelTraining() {
+		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		gevCourseUtils::getInstance($_POST["obj_id"])->cancel();
+		
+		ilUtil::sendSuccess($this->lng->txt("gev_training_cancelled"), true);
+		$this->ctrl->redirectByClass("ilTEPGUI");
 	}
 }
 ?>

@@ -295,7 +295,7 @@ class gevImportOldData {
 	//returns course_id
 	*/
 	public function importSeminar($rec){
-		global $CORRECTIONS;
+		global $CORRECTIONS, $LERNART;
 		$title = $rec['Titel'];
 		
 		$type = $rec['Lernart']; //validate/check/map
