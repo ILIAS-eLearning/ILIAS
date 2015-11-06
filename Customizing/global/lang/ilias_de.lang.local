@@ -1340,4 +1340,38 @@ gev#:#gev_training_min_participation_count_not_reached#:#Bitte beachten Sie! Wen
 gev#:#cancel_training#:#Training absagen
 gev#:#crs_cancel_training#:#Training absagen
 gev#:#gev_report_mode#:#Report Ansicht
-gev#:#gev_date_of_issue#:#Ausstellungsdatum
+gev#:#gev_date_of_issue#:#Ausstellungsdatum#
+gev#:#obj_xrcp#:#Gutscheincodereport
+gev#:#objs_xrcp#:#Gutscheincodereports
+gev#:#obj_xrcp_duplicate#:#Gutscheincodereport kopieren
+gev#:#objs_xrcp_duplicate#:#Gutscheincodereports kopieren
+gev#:#obj_xrcp_select#:#Gutscheincodereport auswählen
+gev#:#xrcp_add#:#Gutscheincodereport hinzufügen
+gev#:#xrcp_new#:#Neuen Gutscheincodereport hinzufügen
+gev#:#xrcp_read#:#Lesezugriff zum Gutscheincodereport
+gev#:#xrcp_write#:#Gutscheincodereport bearbeiten
+gev#:#xrcp_delete#:#Gutscheincodereport löschen
+gev#:#xrcp_visible#:#sichtbar
+gev#:#xrcp_edit_permission#:#schreibberechtigt
+gev#:#crs_create_xrcp#:#Gutscheincodereport erzeugen
+gev#:#grp_create_xrcp#:#Gutscheincodereport erzeugen
+gev#:#fold_create_xrcp#:#Gutscheincodereport erzeugen
+gev#:#root_create_xrcp#:#Gutscheincodereport erzeugen
+gev#:#cat_create_xrcp#:#Gutscheincodereport erzeugen
+gev#:#obj_xrbi#:#Rechnungsreport
+gev#:#objs_xrbi#:#Rechnungsreports
+gev#:#obj_xrbi_duplicate#:#Rechnungsreport kopieren
+gev#:#objs_xrbi_duplicate#:#Rechnungsreports kopieren
+gev#:#obj_xrbi_select#:#Rechnungsreport auswählen
+gev#:#xrbi_add#:#Rechnungsreport hinzufügen
+gev#:#xrbi_new#:#Neuen Rechnungsreport hinzufügen
+gev#:#xrbi_read#:#Lesezugriff zum Rechnungsreport
+gev#:#xrbi_write#:#Rechnungsreport bearbeiten
+gev#:#xrbi_delete#:#Rechnungsreport löschen
+gev#:#xrbi_visible#:#sichtbar
+gev#:#xrbi_edit_permission#:#schreibberechtigt
+gev#:#crs_create_xrbi#:#Rechnungsreport erzeugen
+gev#:#grp_create_xrbi#:#Rechnungsreport erzeugen
+gev#:#fold_create_xrbi#:#Rechnungsreport erzeugen
+gev#:#root_create_xrbi#:#Rechnungsreport erzeugen
+gev#:#cat_create_xrbi#:#Rechnungsreport erzeugen
