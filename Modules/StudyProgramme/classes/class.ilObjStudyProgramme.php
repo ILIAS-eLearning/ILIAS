@@ -1209,8 +1209,12 @@ class ilObjStudyProgramme extends ilContainer {
 		$subtype = $this->getSubType();
 
 		if($subtype) {
-			$icon = $subtype->getIconPath(true);
-			$this->saveIcons($icon);
+			if(is_file($subtype->getIconPath(true))) {
+				$icon = $subtype->getIconPath(true);
+				$this->saveIcons($icon);
+			} else {
+				$this->removeCustomIcon();
+			}
 		} else {
 			$this->removeCustomIcon();
 		}

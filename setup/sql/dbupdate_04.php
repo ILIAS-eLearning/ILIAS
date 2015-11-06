@@ -12313,5 +12313,15 @@ $ilDB->modifyTableColumn(
 ?>
 <#4783>
 <?php
-$ilCtrlStructureReader->getStructure();
+	$ilCtrlStructureReader->getStructure();
+?>
+<#4784>
+<?php
+	include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+	$obj_type_id = ilDBUpdateNewObjectType::getObjectTypeId("prg");
+	$existing_ops = array("read");
+	foreach ($existing_ops as $op) {
+		$op_id = ilDBUpdateNewObjectType::getCustomRBACOperationId($op);
+		ilDBUpdateNewObjectType::addRBACOperation($obj_type_id, $op_id);
+	}
 ?>
