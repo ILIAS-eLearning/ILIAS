@@ -363,7 +363,6 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 				|| $this->canViewReport("gev_report_wbd_edupoints")
 				|| $this->canViewReport("gev_report_wbd_errors")
 				|| $this->canViewReport("gev_report_dbv_report")
-				|| $this->canViewReport("gev_report_dbv_report_superior")
 				|| $this->canViewReport("gev_report_trainer_workload")
 				|| $this->canViewReport("gev_report_trainer_operation_by_orgu_trainer")
 				|| count($visible_repo_reports) > 0
