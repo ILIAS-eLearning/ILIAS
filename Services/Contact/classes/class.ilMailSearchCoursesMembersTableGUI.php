@@ -115,8 +115,9 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 	{
 		/**
 		 * @var $ilCtrl ilCtrl
+		 * @var $ilUser ilObjUser
 		 */
-		global $ilCtrl;
+		global $ilCtrl, $ilUser;
 
 		require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
 		$current_selection_list = new ilAdvancedSelectionListGUI();
@@ -133,13 +134,18 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 
 		$relation = ilBuddyList::getInstanceByGlobalUser()->getRelationByUserId($a_set['members_id']);
 		$state_name = ilStr::convertUpperCamelCaseToUnderscoreCase($relation->getState()->getName());
-		if($relation->isOwnedByRequest())
+
+		$a_set['status'] = '';
+		if($a_set['members_id'] != $ilUser->getId())
 		{
-			$a_set['status'] = $this->lng->txt('buddy_bs_state_' . $state_name . '_a');
-		}
-		else
-		{
-			$a_set['status'] = $this->lng->txt('buddy_bs_state_' . $state_name . '_p');
+			if($relation->isOwnedByRequest())
+			{
+				$a_set['status'] = $this->lng->txt('buddy_bs_state_' . $state_name . '_a');
+			}
+			else
+			{
+				$a_set['status'] = $this->lng->txt('buddy_bs_state_' . $state_name . '_p');
+			}
 		}
 
 		$action_html = '';
@@ -150,7 +156,7 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 				$current_selection_list->addItem($this->lng->txt("mail_member"), '', $ilCtrl->getLinkTarget($this->parentObject, "mail"));
 			}
 
-			if($relation->isUnlinked())
+			if($a_set['members_id'] != $ilUser->getId() &&$relation->isUnlinked())
 			{
 				$ilCtrl->setParameterByClass('ilBuddySystemGUI', 'user_id', $a_set['members_id']);
 				$current_selection_list->addItem($this->lng->txt('buddy_bs_btn_txt_unlinked_a'), '', $ilCtrl->getLinkTargetByClass('ilBuddySystemGUI', 'request'));
