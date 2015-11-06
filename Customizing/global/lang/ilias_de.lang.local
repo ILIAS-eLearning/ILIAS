@@ -1340,7 +1340,7 @@ gev#:#gev_training_min_participation_count_not_reached#:#Bitte beachten Sie! Wen
 gev#:#cancel_training#:#Training absagen
 gev#:#crs_cancel_training#:#Training absagen
 gev#:#gev_report_mode#:#Report Ansicht
-gev#:#gev_date_of_issue#:#Ausstellungsdatum#
+gev#:#gev_date_of_issue#:#Ausstellungsdatum
 gev#:#obj_xrcp#:#Gutscheincodereport
 gev#:#objs_xrcp#:#Gutscheincodereports
 gev#:#obj_xrcp_duplicate#:#Gutscheincodereport kopieren
