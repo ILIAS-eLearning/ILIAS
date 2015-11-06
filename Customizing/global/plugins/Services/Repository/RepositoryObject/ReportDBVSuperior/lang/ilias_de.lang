@@ -1,0 +1,18 @@
+<!-- language file start -->
+obj_xrds#:#DBV Report für Vorgesetzte
+objs_xrds#:#DBV Reports für Vorgesetzte
+obj_xrds_duplicate#:#DBV Report für Vorgesetzte kopieren
+objs_xrds_duplicate#:#DBV Reports für Vorgesetzte kopieren
+obj_xrds_select#:#DBV Report für Vorgesetzte auswählen
+xrds_add#:#DBV Report für Vorgesetzte hinzufügen
+xrds_new#:#Neuen DBV Report für Vorgesetzte hinzufügen
+xrds_read#:#Lesezugriff zum DBV Report für Vorgesetzte
+xrds_write#:#DBV Report für Vorgesetzte bearbeiten
+xrds_delete#:#DBV Report für Vorgesetzte löschen
+xrds_visible#:#sichtbar
+xrds_edit_permission#:#schreibberechtigt
+crs_create_xrds#:#DBV Report für Vorgesetzte erzeugen
+grp_create_xrds#:#DBV Report für Vorgesetzte erzeugen
+fold_create_xrds#:#DBV Report für Vorgesetzte erzeugen
+root_create_xrds#:#DBV Report für Vorgesetzte erzeugen
+cat_create_xrds#:#DBV Report für Vorgesetzte erzeugen
