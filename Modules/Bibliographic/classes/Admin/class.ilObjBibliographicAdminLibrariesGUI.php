@@ -4,6 +4,7 @@ require_once("./Services/Object/classes/class.ilObjectGUI.php");
 require_once("./Modules/Bibliographic/classes/Admin/class.ilObjBibliographicAdminLibrariesFormGUI.php");
 require_once("./Modules/Bibliographic/classes/Admin/class.ilObjBibliographicAdminTableGUI.php");
 require_once("./Modules/Bibliographic/classes/Admin/class.ilBibliographicSetting.php");
+
 /**
  * Bibliographic Administration Settings.
  *
@@ -76,7 +77,21 @@ class ilObjBibliographicAdminLibrariesGUI {
 	}
 
 
+	/**
+	 * @global $ilToolbar ilToolbarGUI;
+	 *
+	 * @return bool
+	 */
 	public function view() {
+		global $ilToolbar;
+		/**
+		 * @var $ilToolbar ilToolbarGUI;
+		 */
+		$b = ilLinkButton::getInstance();
+		$b->setCaption('add');
+		$b->setUrl($this->ctrl->getLinkTarget($this, 'add'));
+		$b->setPrimary(true);
+		$ilToolbar->addButtonInstance($b);
 		$a_table = $this->initTable();
 		$this->parent_gui->tpl->setContent($a_table->getHTML());
 
@@ -88,6 +103,7 @@ class ilObjBibliographicAdminLibrariesGUI {
 	 * Init Table with library entries
 	 *
 	 * @access protected
+	 * @return ilObjBibliographicAdminTableGUI
 	 */
 	protected function initTable() {
 		$table = new ilObjBibliographicAdminTableGUI($this, 'library');
@@ -97,8 +113,8 @@ class ilObjBibliographicAdminLibrariesGUI {
 			$result[] = array(
 				"id" => $set->getId(),
 				"name" => $set->getName(),
-				"url" => $set->getBaseUrl(),
-				"img" => $set->getImageUrl()
+				"url" => $set->getUrl(),
+				"img" => $set->getImg()
 			);
 		}
 		$table->setData($result);
@@ -121,8 +137,8 @@ class ilObjBibliographicAdminLibrariesGUI {
 	 * delete library
 	 */
 	public function delete() {
-		global $ilDB;
-		$ilDB->manipulate("DELETE FROM il_bibl_settings WHERE id = " . $ilDB->quote($_REQUEST["lib_id"], "integer"));
+		$ilBibliographicSetting = new ilBibliographicSetting($_REQUEST["lib_id"]);
+		$ilBibliographicSetting->delete();
 		$this->ctrl->redirect($this, 'view');
 	}
 

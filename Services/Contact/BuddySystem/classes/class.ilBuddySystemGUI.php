@@ -146,6 +146,33 @@ class ilBuddySystemGUI
 	}
 
 	/**
+	 *
+	 */
+	private function requestCommand()
+	{
+		if(!$this->isRequestParameterGiven('user_id', self::BS_REQUEST_HTTP_GET))
+		{
+			ilUtil::sendInfo($this->lng->txt('buddy_bs_action_not_possible'), true);
+			$this->ctrl->returnToParent($this);
+		}
+
+		try
+		{
+			require_once 'Services/Contact/BuddySystem/classes/class.ilBuddyList.php';
+			ilBuddyList::getInstanceByGlobalUser()->request(
+				ilBuddyList::getInstanceByGlobalUser()->getRelationByUserId((int)$_GET['user_id'])
+			);
+			ilUtil::sendSuccess($this->lng->txt('buddy_relation_requested'), true);
+		}
+		catch(ilException $e)
+		{
+			ilUtil::sendInfo($this->lng->txt('buddy_bs_action_not_possible'), true);
+		}
+
+		$this->ctrl->returnToParent($this);
+	}
+
+	/**
 	 * 
 	 */
 	private function ignoreCommand()
