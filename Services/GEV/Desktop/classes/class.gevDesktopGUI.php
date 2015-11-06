@@ -18,7 +18,6 @@
 * @ilCtrl_Calls gevDesktopGUI: gevWBDTPServiceRegistrationGUI
 * @ilCtrl_Calls gevDesktopGUI: gevWBDTPBasicRegistrationGUI
 * @ilCtrl_Calls gevDesktopGUI: gevAttendanceByEmployeeGUI
-* @ilCtrl_Calls gevDesktopGUI: gevBillingReportGUI
 * @ilCtrl_Calls gevDesktopGUI: gevBookingsByVenueGUI
 * @ilCtrl_Calls gevDesktopGUI: gevMyTrainingsApGUI
 * @ilCtrl_Calls gevDesktopGUI: gevWBDEdupointsReportedGUI
@@ -31,7 +30,6 @@
 * @ilCtrl_Calls gevDesktopGUI: gevAttendanceByCourseTemplateGUI
 * @ilCtrl_Calls gevDesktopGUI: gevTrainerOperationByTEPCategoryGUI
 * @ilCtrl_Calls gevDesktopGUI: gevDBVReportGUI
-* @ilCtrl_Calls gevDesktopGUI: gevDBVReportSuperiorGUI
 * @ilCtrl_Calls gevDesktopGUI: gevDecentralTrainingBuildingBlockAdminGUI
 * @ilCtrl_Calls gevDesktopGUI: gevDecentralTrainingCourseCreatingBuildingBlockGUI
 * @ilCtrl_Calls gevDesktopGUI: gevDecentralTrainingCourseCreatingBuildingBlock2GUI
@@ -137,12 +135,6 @@ class gevDesktopGUI {
 				$gui = new gevTrainerOperationByTEPCategoryGUI();
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;
-			case "gevbillingreportgui":
-				$ilMainMenu->setActive("gev_reporting_menu");
-				require_once("Services/GEV/Reports/classes/class.gevBillingReportGUI.php");
-				$gui = new gevBillingReportGUI();
-				$ret = $this->ctrl->forwardCommand($gui);
-				break;
 			case "gevbookingsbyvenuegui":
 				$ilMainMenu->setActive("gev_reporting_menu");
 				require_once("Services/GEV/Reports/classes/class.gevBookingsByVenueGUI.php");
@@ -203,12 +195,6 @@ class gevDesktopGUI {
 				$ilMainMenu->setActive("gev_reporting_menu");
 				require_once("Services/GEV/Reports/classes/class.gevDBVReportGUI.php");
 				$gui = new gevDBVReportGUI();
-				$ret = $this->ctrl->forwardCommand($gui);
-				break;
-			case "gevdbvreportsuperiorgui":
-				$ilMainMenu->setActive("gev_reporting_menu");
-				require_once("Services/GEV/Reports/classes/class.gevDBVReportSuperiorGUI.php");
-				$gui = new gevDBVReportSuperiorGUI();
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;
 			case "gevdecentraltrainingbuildingblockadmingui":
@@ -281,7 +267,6 @@ class gevDesktopGUI {
 			case "toStaticPages":
 			case "toMyTrainingsAp":
 			case "toReportAttendanceByEmployee":
-			case "toBillingReport":
 			case "toReportBookingsByVenue":
 			case "toBooking":
 			case "toEmployeeBookings":
@@ -291,7 +276,6 @@ class gevDesktopGUI {
 			case "toReportTrainerOperationByTEPCategory":
 			case "toReportWBDEdupoints":
 			case "toDBVReport":
-			case "toDBVReportSuperior":
 			case "toWBDErrors":
 			case "createHAUnit":
 			case "toDctBuildingBlockAdm":
@@ -349,9 +333,6 @@ class gevDesktopGUI {
 		$this->ctrl->redirectByClass("gevAttendanceByEmployeeGUI");
 	}
 	
-	protected function toBillingReport() {
-		$this->ctrl->redirectByClass("gevBillingReportGUI");
-	}
 	protected function toReportBookingsByVenue() {
 		$this->ctrl->redirectByClass("gevBookingsByVenueGUI");
 	}
@@ -365,10 +346,6 @@ class gevDesktopGUI {
 
 	protected function toDBVReport() {
 		$this->ctrl->redirectByClass("gevDBVReportGUI");
-	}
-
-	protected function toDBVReportSuperior() {
-		$this->ctrl->redirectByClass("gevDBVReportSuperiorGUI");
 	}
 
 	protected function toTrainerWorkload() {

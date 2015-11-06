@@ -319,7 +319,6 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		$entries = array
 			( "gev_report_attendance_by_employee" => array($this->canViewReport("gev_report_attendance_by_employee"), "ilias.php?baseClass=gevDesktopGUI&cmd=toReportAttendanceByEmployee",$this->gLng->txt("gev_report_attendance_by_employee"))
 			, "gev_report_employee_edu_bio" => array($this->canViewReport("gev_report_employee_edu_bio"), "ilias.php?baseClass=gevDesktopGUI&cmd=toReportEmployeeEduBios",$this->gLng->txt("gev_report_employee_edu_bios"))
-			, "gev_report_billing" => array($this->canViewReport("gev_report_billing"), "ilias.php?baseClass=gevDesktopGUI&cmd=toBillingReport",$this->gLng->txt("gev_report_billing"))
 			, "gev_report_bookingbyvenue" => array($this->canViewReport("gev_report_bookingbyvenue"), "ilias.php?baseClass=gevDesktopGUI&cmd=toReportBookingsByVenue",$this->gLng->txt("gev_report_bookingbyvenue"))
 			, "gev_report_trainer_operation_by_tep_category" => array($this->canViewReport("gev_report_trainer_operation_by_tep_category"), "ilias.php?baseClass=gevDesktopGUI&cmd=toReportTrainerOperationByTEPCategory",$this->gLng->txt("gev_report_trainer_operation_by_tep_category"))
 			, "gev_report_attendance_by_orgunit" => array($this->canViewReport("gev_report_attendance_by_orgunit"), "ilias.php?baseClass=gevDesktopGUI&cmd=toReportAttendanceByOrgUnit",$this->gLng->txt("gev_report_attendancebyorgunit"))
@@ -327,7 +326,6 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 			, "gev_report_wbd_edupoints" => array($this->canViewReport("gev_report_wbd_edupoints"), "ilias.php?baseClass=gevDesktopGUI&cmd=toReportWBDEdupoints",$this->gLng->txt("gev_report_wbd_edupoints"))
 			, "gev_report_wbd_errors" => array($this->canViewReport("gev_report_wbd_errors"), "ilias.php?baseClass=gevDesktopGUI&cmd=toWBDErrors",$this->gLng->txt("gev_report_wbd_errors"))
 			, "gev_report_dbv_report" => array($this->canViewReport("gev_report_dbv_report"), "ilias.php?baseClass=gevDesktopGUI&cmd=toDBVReport",$this->gLng->txt("gev_report_dbv_report"))
-			, "gev_report_dbv_report_superior" => array($this->canViewReport("gev_report_dbv_report_superior"), "ilias.php?baseClass=gevDesktopGUI&cmd=toDBVReportSuperior",$this->gLng->txt("gev_report_dbv_report_superior"))
 			, "gev_report_trainer_workload" => array($this->canViewReport("gev_report_trainer_workload"), "ilias.php?baseClass=gevDesktopGUI&cmd=toTrainerWorkload",$this->gLng->txt("gev_report_trainer_workload"))
 			, "gev_report_trainer_operation_by_orgu_trainer" => array($this->canViewReport("gev_report_trainer_operation_by_orgu_trainer"), "ilias.php?baseClass=gevDesktopGUI&cmd=toTrainerOperationByOrgUnitAndTrainer",$this->gLng->txt("gev_report_trainer_operation_by_orgu_trainer"))
 			);
@@ -356,8 +354,7 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 			$visible_repo_reports = ilObjReportBase::getVisibleReportsObjectData($this->gUser);
 
 			$has_reporting_menu
-				=  $this->canViewReport("gev_report_billing")
-				|| $this->canViewReport("gev_report_attendance_by_employee")
+				=  $this->canViewReport("gev_report_attendance_by_employee")
 				|| $this->canViewReport("gev_report_bookingbyvenue")
 				|| $this->canViewReport("gev_report_employee_edu_bio")
 				|| $this->canViewReport("gev_report_trainer_operation_by_tep_category")
@@ -366,7 +363,6 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 				|| $this->canViewReport("gev_report_wbd_edupoints")
 				|| $this->canViewReport("gev_report_wbd_errors")
 				|| $this->canViewReport("gev_report_dbv_report")
-				|| $this->canViewReport("gev_report_dbv_report_superior")
 				|| $this->canViewReport("gev_report_trainer_workload")
 				|| $this->canViewReport("gev_report_trainer_operation_by_orgu_trainer")
 				|| count($visible_repo_reports) > 0
@@ -385,8 +381,6 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 				return $this->gUserUtils && ($this->gUserUtils->isAdmin() || $this->gUserUtils->isSuperior());
 			case "gev_report_employee_edu_bio":
 				return $this->gUserUtils && ($this->gUserUtils->isAdmin() || $this->gUserUtils->hasRoleIn(array("OD-Betreuer")) || $this->gUserUtils->isSuperior());
-			case "gev_report_billing":
-				return $this->gUserUtils && gevReportingPermissions::getInstance($this->gUser->getId())->viewBillingReport();
 			case "gev_report_bookingbyvenue":
 				return $this->gUserUtils && ($this->gUserUtils->isAdmin() || $this->gUserUtils->hasRoleIn(array("Veranstalter")));
 			case "gev_report_trainer_operation_by_tep_category":
@@ -400,8 +394,6 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 				return $this->gUserUtils && $this->gUserUtils->isAdmin();
 			case "gev_report_dbv_report":
 				return $this->gUserUtils && $this->gUserUtils->hasRoleIn(array("DBV-Fin-UVG"));
-			case "gev_report_dbv_report_superior":
-				return $this->gUserUtils && ($this->gUserUtils->isSuperior() || $this->gUserUtils->isAdmin());
 			case "gev_report_trainer_workload":
 			case "gev_report_trainer_operation_by_orgu_trainer":
 				return $this->gUserUtils && $this->gUserUtils->isAdmin();
