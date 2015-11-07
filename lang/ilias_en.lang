@@ -15308,3 +15308,4 @@ export#:#no_file#:#No file
 content#:#lm_no_download_files#:#There are currently no files for download available.
 rbac#:#feed_copy#:#User can copy webfeed
 crs#:#crs_unsubscribe_member_explanation#:#You receive this message because you unsubscribed from the course mentioned above.
+content#:#cont_sqst#:#Survey Question (Assigned Material)
