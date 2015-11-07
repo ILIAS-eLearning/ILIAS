@@ -192,6 +192,21 @@ class ilTermUsagesTableGUI extends ilTable2GUI
 				$item["sub_txt"] = $this->lng->txt("cont_link_area");
 				break;
 
+			case "sqst":
+				$item["obj_type_txt"] = $this->lng->txt("cont_sqst");
+				include_once("./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php");
+				$obj_id = SurveyQuestion::lookupObjFi($usage["id"]);
+				$item["obj_title"] = ilObject::_lookupTitle($obj_id);
+				$item["sub_txt"] = $this->lng->txt("question");
+				$item["sub_title"] = SurveyQuestion::_getTitle($usage["id"]);
+				$ref_id = $this->getFirstWritableRefId($obj_id);
+				if ($ref_id > 0)
+				{
+					$item["obj_link"] = ilLink::_getStaticLink($ref_id);
+				}
+
+				break;
+
 			default:
 				$item["obj_title"] = "Type ".$usage["type"].", ".$usage["id"];
 				break;

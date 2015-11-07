@@ -16089,3 +16089,4 @@ crs#:#crs_unsubscribe_member_explanation#:#You receive this message because you 
 rbac#:#prg_read#:#User has read access to Study Programme
 sess#:#sess_max_members_needed#:#A maximum number of members is needed for the waiting list feature.
 obj#:#obj_import_file_error#:#This file could not be imported. Please make sure that this is a valid ILIAS export file (XML Export), of the same object type. The filename must not be modified after export. Error Message:
+content#:#cont_sqst#:#Survey Question (Assigned Material)
