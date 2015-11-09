@@ -78,8 +78,8 @@ class ilWaitingListTableGUI extends ilTable2GUI
 	 	$this->addColumn($this->lng->txt('application_date'),'sub_time',"10%");
 	 	$this->addColumn('','mail','10%');
 		
-		$this->addMultiCommand('assignFromWaitingList',$this->lng->txt('assign'));
-		$this->addMultiCommand('refuseFromList',$this->lng->txt('refuse'));
+		$this->addMultiCommand('confirmAssignFromWaitingList',$this->lng->txt('assign'));
+		$this->addMultiCommand('confirmRefuseFromList',$this->lng->txt('refuse'));
 		$this->addMultiCommand('sendMailToSelectedUsers',$this->lng->txt('crs_mem_send_mail'));
 		
 		$this->setPrefix('waiting');
