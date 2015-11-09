@@ -242,6 +242,9 @@ class ilPCFileListGUI extends ilPageContentGUI
 	{
 		include_once("./Modules/File/classes/class.ilObjFile.php");
 
+		$form = $this->initEditForm("create");
+		$form->checkInput();
+
 		// from personal workspace
 		if(substr($_POST["file_ref_id"], 0, 4) == "wsp_")
 		{
@@ -718,6 +721,10 @@ class ilPCFileListGUI extends ilPageContentGUI
 			ilUtil::sendFailure($lng->txt("upload_error_file_not_found"));
 			return false;
 		}
+
+		$form = $this->initEditForm();
+		$form->checkInput();
+
 		include_once("./Modules/File/classes/class.ilObjFile.php");
 		$fileObj = new ilObjFile();
 		$fileObj->setType("file");
