@@ -2225,6 +2225,9 @@ class ilSetup extends PEAR
             }
             $insert = $target->db->query("INSERT INTO " . $cTable[0] . " SELECT * FROM ".$source->getDbName().".".$cTable[0]);
         }
+
+		$target->db->query("UPDATE settings SET VALUE = ".$target->db->quote(0, "integer")." WHERE keyword = ".$target->db->quote("inst_id", "text"));
+		$target->db->query("UPDATE settings SET VALUE = ".$target->db->quote(0, "integer")." WHERE keyword = ".$target->db->quote("nic_enabled", "text"));
 		return true;
 	}
 	/**
