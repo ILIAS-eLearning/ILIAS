@@ -70,8 +70,16 @@ class ilMailMemberSearchGUI
 					case 'nextMailForm':
 						$this->nextMailForm();
 						break;
-
+			
+					case 'cancel':
+						$this->redirectToParentReferer();
+						break;
+					
 					default:
+						if(isset($_GET['returned_from_mail']) && $_GET['returned_from_mail'] == '1')
+						{
+							$this->redirectToParentReferer();
+						}	
 						$this->showSearchForm();
 						break;
 				}	
@@ -79,7 +87,40 @@ class ilMailMemberSearchGUI
 		}
 		return true;
 	}
-
+	
+	private function redirectToParentReferer()
+	{
+		$redirect_target = $this->getStoredReferer();
+		$this->unsetStoredReferer();
+		ilUtil::redirect($redirect_target);
+	}
+	
+	/**
+	 * 
+	 */
+	public function storeReferer()
+	{
+		$referer = ilSession::get('referer');
+		ilSession::set('ilMailMemberSearchGUIReferer', $referer);
+	}
+	
+	/**
+	 * @return bool || redirect target 
+	 */
+	private function getStoredReferer()
+	{
+		$stored_referer = ilSession::get('ilMailMemberSearchGUIReferer');
+		return (strlen($stored_referer) ? $stored_referer : false);
+	}
+	
+	/**
+	 * 
+	 */
+	private function unsetStoredReferer()
+	{
+		ilSession::set('ilMailMemberSearchGUIReferer','');
+	}
+	
 	/**
 	 * 
 	 */
@@ -184,6 +225,7 @@ class ilMailMemberSearchGUI
 	{
 		global $tpl;
 		
+		$this->storeReferer();
 		$tpl->getStandardTemplate();
 		
 		$form = $this->initMailToMembersForm();
@@ -223,7 +265,7 @@ class ilMailMemberSearchGUI
 
 		$form->addItem($radio_grp);
 		$form->addCommandButton('nextMailForm', $this->lng->txt('continue'));
-		$form->addCommandButton('members', $this->lng->txt('cancel'));
+		$form->addCommandButton('cancel', $this->lng->txt('cancel'));
 
 		return $form;
 	}
