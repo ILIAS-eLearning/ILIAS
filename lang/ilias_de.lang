@@ -15839,6 +15839,12 @@ buddysystem#:#buddy_notification_contact_request_long#:#[SALUTATION][BR][BR]der 
 buddysystem#:#buddy_request_approved#:#Der Kontakt wurde erfolgreich hergestellt.
 buddysystem#:#buddy_request_ignored#:#Sie haben den Benutzer ignoriert.
 buddysystem#:#buddy_relation_requested#:#Dem Benutzer wurde eine Kontaktanfrage gesendet.
+common#:#obj_cadm#:#Benutzerkontakte
+common#:#obj_cadm_desc#:#Administration für Benutzerkontakte
+rbac#:#cadm_visible#:#Administration für Benutzerkontakte ist sichtbar
+rbac#:#cadm_read#:#Administration für Benutzerkontakte lesen
+rbac#:#cadm_write#:#Administration für Benutzerkontakte editieren
+rbac#:#cadm_edit_permission#:#Rechteeinstellungen ändern
 common#:#no_gallery_users_available#:#Aktuell befinden sich keine Benutzer in der Galerie.
 crs#:#crs_mem_contact#:#Kursbetreuung
 awrn#:#awareness_now_online#:#Jetzt Online

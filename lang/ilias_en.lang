@@ -15853,6 +15853,12 @@ buddysystem#:#buddy_notification_contact_request_long#:#[SALUTATION][BR][BR]the 
 buddysystem#:#buddy_request_approved#:#You successfully approved the contact.
 buddysystem#:#buddy_request_ignored#:#You ignored the user.
 buddysystem#:#buddy_relation_requested#:#A request has been sent to the user.
+common#:#obj_cadm#:#User Connections
+common#:#obj_cadm_desc#:#User Connection Administration
+rbac#:#cadm_visible#:#User connection administration is visible
+rbac#:#cadm_read#:#User has read access to user connection administration
+rbac#:#cadm_write#:#User has write access to user connection administration
+rbac#:#cadm_edit_permission#:#User can change permission settings
 common#:#no_gallery_users_available#:#There are currently no users in the gallery.
 crs#:#crs_mem_contact#:#Tutorial Support
 awrn#:#awareness_now_online#:#Online Now
