@@ -60,7 +60,8 @@ class ilLPRubricCard
         for($a=0;$a<7;$a++){
             $tmp_point=$form->getInput("Points$a",false);
             $tmp_label=$form->getInput("Label$a",false);
-            if(!empty($tmp_point)&&!empty($tmp_label)){
+            if(is_numeric($tmp_point)&&!empty($tmp_label)){
+            //if(is_integer($tmp_point)&&is_string($tmp_label)){
                 array_push($points,array('weight'=>$tmp_point,'label'=>$tmp_label));                
             }                                    
         }
@@ -143,6 +144,7 @@ class ilLPRubricCard
         // null out grades
         $this->ilDB->manipulate("update rubric_data set deleted = NOW() where rubric_id=".$this->ilDB->quote($this->rubric_id, "integer")." and usr_id=".$this->ilDB->quote($user_id, "integer"));
         
+        $count=0;
         foreach($grades as $criteria_id => $grade){
             
             // does this grade already exist?
@@ -188,12 +190,16 @@ class ilLPRubricCard
                 
             }
             
+            $count++;
+                        
         }
     }
     
     public function save()
     {
         $data=$this->getCardPostData();
+        
+        file_put_contents('adam_save.txt',var_export($data,true)."\n======\n".var_export($_POST,true));
         
         $this->saveRubricCardTbl();
         
@@ -332,7 +338,7 @@ class ilLPRubricCard
     {
         $data=array();
         
-        $res=$this->ilDB->query("select rubric_label_id,label,weight,create_date,last_update from rubric_label where deleted is null and rubric_id=".$this->ilDB->quote($this->rubric_id, "integer"));
+        $res=$this->ilDB->query("select rubric_label_id,label,weight,create_date,last_update from rubric_label where deleted is null and rubric_id=".$this->ilDB->quote($this->rubric_id, "integer")." order by sort_order");
         while($row=$res->fetchRow(DB_FETCHMODE_OBJECT)){
             array_push($data,array(
                 'rubric_label_id'=>$row->rubric_label_id,
@@ -562,17 +568,20 @@ class ilLPRubricCard
         // null out labels
         $this->ilDB->manipulate("update rubric_label set deleted=NOW() where deleted is null and rubric_id=".$this->ilDB->quote($this->rubric_id, "integer"));
         
+        $sort_order=0;
         foreach($labels as $k => $new_label){
                         
             //does this label already exist?
             $is_new_label=true;
+            
+            
                         
             foreach($current_labels as $rubric_label_id => $compare_label){
                 
                 if($compare_label['label']==$new_label['label']&&$compare_label['weight']==$new_label['weight']){
                     
                     //nothing has changed, remove deleted status
-                    $this->ilDB->manipulate("update rubric_label set deleted=null where rubric_label_id=".$this->ilDB->quote($rubric_label_id, "integer"));
+                    $this->ilDB->manipulate("update rubric_label set deleted=null, sort_order=".$this->ilDB->quote($sort_order, "integer")." where rubric_label_id=".$this->ilDB->quote($rubric_label_id, "integer"));
                     
                     $is_new_label=false;
                     
@@ -605,12 +614,13 @@ class ilLPRubricCard
                 
                 // now add it in
                 $this->ilDB->manipulate(
-                    "insert into rubric_label (rubric_label_id,rubric_id,label,weight,owner,create_date,last_update) 
+                    "insert into rubric_label (rubric_label_id,rubric_id,label,weight,sort_order,owner,create_date,last_update) 
                     values (
                         ".$this->ilDB->quote($new_rubric_label_id, "integer").",
                         ".$this->ilDB->quote($this->rubric_id, "integer").",
                         ".$this->ilDB->quote($new_label['label'], "text").",
                         ".$this->ilDB->quote(number_format($new_label['weight'],2), "text").",
+                        ".$this->ilDB->quote($sort_order, "integer").",
                         ".$this->ilDB->quote($_SESSION['AccountId'], "integer").",
                         NOW(),
                         NOW()
@@ -619,6 +629,8 @@ class ilLPRubricCard
                 
                 $labels[$k]['rubric_label_id']=$new_rubric_label_id;
             }
+            
+            $sort_order++;
             
         }// foreach label
         

@@ -1,4 +1,4 @@
-<#1>
+<#3>
 <?php
 
 // Active Record

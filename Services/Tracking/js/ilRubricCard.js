@@ -806,7 +806,7 @@ function validate(obj){
         break;
         case 'point':
             modified_object=obj.parentNode;
-            if(obj.value>0){
+            if(obj.value>=0){
                 validated=true;
             }
         break;
