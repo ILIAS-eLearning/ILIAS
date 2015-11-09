@@ -284,6 +284,11 @@ class ilGroupXMLParser extends ilSaxParser
 			case 'ContainerSetting':
 				if($this->current_container_setting)
 				{
+					// #17357
+					if(!($this->group_obj instanceof ilObjGroup))
+					{
+						$this->__initGroupObject();						
+					}					
 					ilContainer::_writeContainerSetting(
 						$this->group_obj->getId(), 
 						$this->current_container_setting, 

@@ -232,13 +232,15 @@ class ilSearchResultPresentation
 	 */
 	protected function renderItemList()
 	{
-		global $tree,$ilBench;
+		global $tree,$ilBench,$lng;
 
 		$this->html = '';
 		
 		$ilBench->start('Lucene','2000_pr');
 		$this->parseResultReferences();
 		$ilBench->stop('Lucene','2000_pr');
+		
+		$lng->loadLanguageModule("cntr"); // #16834
 		
 		include_once("./Services/Object/classes/class.ilObjectListGUIPreloader.php");
 		$preloader = new ilObjectListGUIPreloader(ilObjectListGUI::CONTEXT_SEARCH);

@@ -26,6 +26,8 @@ class ilPageContentGUI
 	var $return_location;
 	var $page_config = null;
 
+	static $style_selector_reset = "margin-top:2px; margin-bottom:2px; text-indent:0px; position:static; float:none; width: auto;";
+
 	// common bb buttons (special ones are iln and wln)
 	protected static $common_bb_buttons = array(
 		"str" => "Strong", "emp" => "Emph", "imp" => "Important", "com" => "Comment",

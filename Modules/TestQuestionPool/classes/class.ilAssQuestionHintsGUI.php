@@ -247,7 +247,9 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 	{
 		global $ilCtrl, $lng;
 		
-		$hintIndexes = self::fetchPreparedHintIndexesParameter();
+		$hintIndexes = self::orderHintIndexes(
+			self::fetchHintIndexesParameter()
+		);
 		
 		if( !count($hintIndexes) )
 		{
@@ -259,7 +261,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 		
 		$newQuestionHintList = new ilAssQuestionHintList();
 		
-		foreach($hintIndexes as $hintIndex => $hintId)
+		foreach($hintIndexes as $hintId => $hintIndex)
 		{
 			if( !$curQuestionHintList->hintExists($hintId) )
 			{
@@ -557,17 +559,13 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 	}
 	
 	/**
-	 * fetches an array of hint index values from POST and prepares this array
-	 * to be used for saving the hint list's order
+	 * fetches an array of hint index values from POST
 	 * 
-	 * flips and sorts the array so index values become the key
-	 * and the element values (the hint ids) get into new order submitted by user
-	 *
 	 * @access	private
 	 * @static
 	 * @return	array	$hintIndexes
 	 */
-	private static function fetchPreparedHintIndexesParameter()
+	private static function fetchHintIndexesParameter()
 	{
 		$hintIndexes = array();
 		
@@ -578,10 +576,21 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 				if( (int)$hintId ) $hintIndexes[(int)$hintId] = $hintIndex;
 			}
 		}
-		
-		$hintIndexes = array_flip($hintIndexes);		
-		
-		ksort($hintIndexes);
+
+		return $hintIndexes;
+	}
+
+	/**
+	 * sorts the array of indexes by index value so keys (hint ids)
+	 * get into new order submitted by user
+	 *
+	 * @access	private
+	 * @static
+	 * @return	array	$hintIndexes
+	 */
+	private static function orderHintIndexes($hintIndexes)
+	{
+		asort($hintIndexes);
 
 		return $hintIndexes;
 	}

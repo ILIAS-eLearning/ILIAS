@@ -4343,19 +4343,10 @@ class ilObjSurvey extends ilObject
 		$newObj = parent::cloneObject($a_target_id,$a_copy_id);
 		$this->cloneMetaData($newObj);
 		$newObj->updateMetaData();
-
-		//copy online status if object is not the root copy object
-		$cp_options = ilCopyWizardOptions::_getInstance($a_copy_id);
-
-		if(!$cp_options->isRootNode($this->getRefId()))
-		{
-			$newObj->setStatus($this->getStatus());
-		}
 	 	
 		$newObj->setAuthor($this->getAuthor());
 		$newObj->setIntroduction($this->getIntroduction());
 		$newObj->setOutro($this->getOutro());
-		$newObj->setStatus($this->getStatus());
 		$newObj->setEvaluationAccess($this->getEvaluationAccess());
 		$newObj->setStartDate($this->getStartDate());
 		$newObj->setEndDate($this->getEndDate());
@@ -4407,6 +4398,14 @@ class ilObjSurvey extends ilObject
 				$question_pointer[$question_id] = $question->getId();
 				$mapping[$question_id] = $question->getId();				
 			}
+		}
+
+		//copy online status if object is not the root copy object
+		$cp_options = ilCopyWizardOptions::_getInstance($a_copy_id);
+
+		if(!$cp_options->isRootNode($this->getRefId()))
+		{
+			$newObj->setStatus($this->isOnline()?self::STATUS_ONLINE: self::STATUS_OFFLINE);
 		}
 
 		$newObj->saveToDb();		
