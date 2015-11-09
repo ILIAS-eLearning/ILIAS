@@ -95,7 +95,8 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 				$this->addMultiCommand('deleteQuestions', $this->lng->txt('delete'));
 
 				$this->addCommandButton('importQuestions', $this->lng->txt('import'));
-				if (array_key_exists("qpl_clipboard", $_SESSION))
+
+				if (array_key_exists("qpl_clipboard", $_SESSION) && count($_SESSION['qpl_clipboard']))
 				{
 					$this->addCommandButton('paste', $this->lng->txt('paste'));
 				}

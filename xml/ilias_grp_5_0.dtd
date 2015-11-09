@@ -4,7 +4,7 @@
 
 <!-- GROUP -->
 <!-- Added registration as optional due to BC to ILIAS 2 export -->
-<!ELEMENT group (title,description,owner?,information?,registration?,admin*,member*,file*,folder*,Sort?)>
+<!ELEMENT group (title,description,owner?,information?,registration?,admin*,member*,file*,folder*,Sort?,ContainerSetting*)>
 <!-- type is 'open' or 'closed' -->
 <!ATTLIST group
     exportVersion CDATA #REQUIRED
@@ -104,3 +104,8 @@
         position (TOP | Bottom) #IMPLIED
         order (Title | Creation) #IMPLIED
 >
+
+<!ELEMENT ContainerSetting (#PCDATA)>
+<!ATTLIST ContainerSetting
+		id CDATA #REQUIRED>
+        

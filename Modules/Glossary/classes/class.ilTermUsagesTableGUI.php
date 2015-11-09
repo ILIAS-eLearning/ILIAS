@@ -160,6 +160,7 @@ class ilTermUsagesTableGUI extends ilTable2GUI
 					case "crs":
 					case "grp":
 					case "cat":
+					case "cont":
 						$item["obj_type_txt"] = $this->lng->txt("obj_".$cont_type);
 						$item["obj_title"] = ilObject::_lookupTitle($usage["id"]);
 						$ref_id = $this->getFirstWritableRefId($usage["id"]);
@@ -167,6 +168,10 @@ class ilTermUsagesTableGUI extends ilTable2GUI
 						{
 							$item["obj_link"] = ilLink::_getStaticLink($ref_id, $cont_type);
 						}
+						break;
+
+					default:
+						$item["obj_title"] = "Page ".$cont_type.", ".$usage["id"];
 						break;
 				}
 				break;
@@ -185,6 +190,25 @@ class ilTermUsagesTableGUI extends ilTable2GUI
 				$item["obj_type_txt"] = $this->lng->txt("obj_mob");
 				$item["obj_title"] = ilObject::_lookupTitle($usage["id"]);
 				$item["sub_txt"] = $this->lng->txt("cont_link_area");
+				break;
+
+			case "sqst":
+				$item["obj_type_txt"] = $this->lng->txt("cont_sqst");
+				include_once("./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php");
+				$obj_id = SurveyQuestion::lookupObjFi($usage["id"]);
+				$item["obj_title"] = ilObject::_lookupTitle($obj_id);
+				$item["sub_txt"] = $this->lng->txt("question");
+				$item["sub_title"] = SurveyQuestion::_getTitle($usage["id"]);
+				$ref_id = $this->getFirstWritableRefId($obj_id);
+				if ($ref_id > 0)
+				{
+					$item["obj_link"] = ilLink::_getStaticLink($ref_id);
+				}
+
+				break;
+
+			default:
+				$item["obj_title"] = "Type ".$usage["type"].", ".$usage["id"];
 				break;
 		}
 		

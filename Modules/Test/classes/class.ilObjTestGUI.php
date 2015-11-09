@@ -2998,23 +2998,23 @@ class ilObjTestGUI extends ilObjectGUI
 		$print_date = mktime(date("H"), date("i"), date("s"), date("m")  , date("d"), date("Y"));
 		$max_points= 0;
 		$counter = 1;
-					
+
+		require_once 'Modules/Test/classes/class.ilTestQuestionHeaderBlockBuilder.php';
+		$questionHeaderBlockBuilder = new ilTestQuestionHeaderBlockBuilder($this->lng);
+		$questionHeaderBlockBuilder->setHeaderMode($this->object->getTitleOutput());
+
 		foreach ($this->object->questions as $question) 
 		{		
 			$template->setCurrentBlock("question");
 			$question_gui = $this->object->createQuestionGUI("", $question);
-			$template->setVariable("COUNTER_QUESTION", $counter.".");
+
+			$questionHeaderBlockBuilder->setQuestionTitle($question_gui->object->getTitle());
+			$questionHeaderBlockBuilder->setQuestionPoints($question_gui->object->getMaximumPoints());
+			$questionHeaderBlockBuilder->setQuestionPosition($counter);
+			$template->setVariable("QUESTION_HEADER", $questionHeaderBlockBuilder->getHTML());
+
 			$template->setVariable("TXT_QUESTION_ID", $this->lng->txt('question_id_short'));
 			$template->setVariable("QUESTION_ID", $question_gui->object->getId());
-			$template->setVariable("QUESTION_TITLE", ilUtil::prepareFormOutput($question_gui->object->getTitle()));
-			if ($question_gui->object->getMaximumPoints() == 1)
-			{
-				$template->setVariable("QUESTION_POINTS", $question_gui->object->getMaximumPoints() . " " . $this->lng->txt("point"));
-			}
-			else
-			{
-				$template->setVariable("QUESTION_POINTS", $question_gui->object->getMaximumPoints() . " " . $this->lng->txt("points"));
-			}
 			$result_output = $question_gui->getSolutionOutput("", NULL, FALSE, TRUE, FALSE, $this->object->getShowSolutionFeedback());
 			if (strlen($result_output) == 0) $result_output = $question_gui->getPreview(FALSE);
 			$template->setVariable("SOLUTION_OUTPUT", $result_output);
@@ -3068,20 +3068,20 @@ class ilObjTestGUI extends ilObjectGUI
 		$max_points= 0;
 		$counter = 1;
 
+		require_once 'Modules/Test/classes/class.ilTestQuestionHeaderBlockBuilder.php';
+		$questionHeaderBlockBuilder = new ilTestQuestionHeaderBlockBuilder($this->lng);
+		$questionHeaderBlockBuilder->setHeaderMode($this->object->getTitleOutput());
+		
 		foreach ($this->object->questions as $question)
 		{
 			$template->setCurrentBlock("question");
 			$question_gui = $this->object->createQuestionGUI("", $question);
-			$template->setVariable("COUNTER_QUESTION", $counter.".");
-			$template->setVariable("QUESTION_TITLE", ilUtil::prepareFormOutput($question_gui->object->getTitle()));
-			if ($question_gui->object->getMaximumPoints() == 1)
-			{
-				$template->setVariable("QUESTION_POINTS", $question_gui->object->getMaximumPoints() . " " . $this->lng->txt("point"));
-			}
-			else
-			{
-				$template->setVariable("QUESTION_POINTS", $question_gui->object->getMaximumPoints() . " " . $this->lng->txt("points"));
-			}
+			
+			$questionHeaderBlockBuilder->setQuestionTitle($question_gui->object->getTitle());
+			$questionHeaderBlockBuilder->setQuestionPoints($question_gui->object->getMaximumPoints());
+			$questionHeaderBlockBuilder->setQuestionPosition($counter);
+			$template->setVariable("QUESTION_HEADER", $questionHeaderBlockBuilder->getHTML());
+			
 			/** @var $question_gui assQuestionGUI  */
 			//$result_output = $question_gui->getTestOutput('', NULL, FALSE, FALSE, FALSE);
 			$result_output = $question_gui->getPreview(false);

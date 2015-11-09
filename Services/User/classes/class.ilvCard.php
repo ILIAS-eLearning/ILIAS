@@ -258,23 +258,23 @@ class ilvCard
 					}
 					break;
 				case "PHOTO":
-					if (strcmp($this->types["PHOTO"]["VALUE"], "") != 0)
+					$photo = "";
+					if (is_array($this->types["PHOTO"]))
 					{
-						$photo = $this->fold("PHOTO;VALUE=uri:" . $this->types["PHOTO"]["VALUE"]) . "\n";
-					}
-					elseif (strcmp($this->types["PHOTO"]["ENCODING"], "") != 0)
-					{
-						$photo = "PHOTO;ENCODING=" . $this->types["PHOTO"]["ENCODING"];
-						if (strcmp($this->types["PHOTO"]["TYPE"], "") != 0)
+						if (strcmp($this->types["PHOTO"]["VALUE"], "") != 0)
 						{
-							$photo .= ";TYPE=" . $this->types["PHOTO"]["TYPE"];
+							$photo = $this->fold("PHOTO;VALUE=uri:" . $this->types["PHOTO"]["VALUE"]) . "\n";
 						}
-						$photo .= ":" . $this->types["PHOTO"]["PHOTO"];
-						$photo = $this->fold($photo) . "\n";
-					}
-					else
-					{
-						$photo = "";
+						elseif (strcmp($this->types["PHOTO"]["ENCODING"], "") != 0)
+						{
+							$photo = "PHOTO;ENCODING=" . $this->types["PHOTO"]["ENCODING"];
+							if (strcmp($this->types["PHOTO"]["TYPE"], "") != 0)
+							{
+								$photo .= ";TYPE=" . $this->types["PHOTO"]["TYPE"];
+							}
+							$photo .= ":" . $this->types["PHOTO"]["PHOTO"];
+							$photo = $this->fold($photo) . "\n";
+						}				
 					}
 					break;
 				case "BDAY":
@@ -350,48 +350,48 @@ class ilvCard
 					}
 					break;
 				case "LABEL":
-					if (strcmp($this->types["LABEL"]["LABEL"], "") != 0)
+					$label = "";
+					if (is_array($this->types["LABEL"]))
 					{
-						$label = "LABEL";
-						$adr_types = array();
-						if ($this->types["LABEL"]["TYPE"] > 0)
+						if (strcmp($this->types["LABEL"]["LABEL"], "") != 0)
 						{
-							if (($this->types["LABEL"]["TYPE"] & ADR_TYPE_DOM) > 0)
+							$label = "LABEL";
+							$adr_types = array();
+							if ($this->types["LABEL"]["TYPE"] > 0)
 							{
-								array_push($adr_types, "dom");
+								if (($this->types["LABEL"]["TYPE"] & ADR_TYPE_DOM) > 0)
+								{
+									array_push($adr_types, "dom");
+								}
+								if (($this->types["LABEL"]["TYPE"] & ADR_TYPE_INTL) > 0)
+								{
+									array_push($adr_types, "intl");
+								}
+								if (($this->types["LABEL"]["TYPE"] & ADR_TYPE_POSTAL) > 0)
+								{
+									array_push($adr_types, "postal");
+								}
+								if (($this->types["LABEL"]["TYPE"] & ADR_TYPE_PARCEL) > 0)
+								{
+									array_push($adr_types, "parcel");
+								}
+								if (($this->types["LABEL"]["TYPE"] & ADR_TYPE_HOME) > 0)
+								{
+									array_push($adr_types, "home");
+								}
+								if (($this->types["LABEL"]["TYPE"] & ADR_TYPE_WORK) > 0)
+								{
+									array_push($adr_types, "work");
+								}
+								if (($this->types["LABEL"]["TYPE"] & ADR_TYPE_PREF) > 0)
+								{
+									array_push($adr_types, "pref");
+								}
+								$label .= ";TYPE=" . join(",", $adr_types);
 							}
-							if (($this->types["LABEL"]["TYPE"] & ADR_TYPE_INTL) > 0)
-							{
-								array_push($adr_types, "intl");
-							}
-							if (($this->types["LABEL"]["TYPE"] & ADR_TYPE_POSTAL) > 0)
-							{
-								array_push($adr_types, "postal");
-							}
-							if (($this->types["LABEL"]["TYPE"] & ADR_TYPE_PARCEL) > 0)
-							{
-								array_push($adr_types, "parcel");
-							}
-							if (($this->types["LABEL"]["TYPE"] & ADR_TYPE_HOME) > 0)
-							{
-								array_push($adr_types, "home");
-							}
-							if (($this->types["LABEL"]["TYPE"] & ADR_TYPE_WORK) > 0)
-							{
-								array_push($adr_types, "work");
-							}
-							if (($this->types["LABEL"]["TYPE"] & ADR_TYPE_PREF) > 0)
-							{
-								array_push($adr_types, "pref");
-							}
-							$label .= ";TYPE=" . join(",", $adr_types);
-						}
-						$label .= ":" . $this->types["LABEL"]["LABEL"];
-						$label = $this->fold($label) . "\n";
-					}
-					else
-					{
-						$label = "";
+							$label .= ":" . $this->types["LABEL"]["LABEL"];
+							$label = $this->fold($label) . "\n";
+						}				
 					}
 					break;
 				case "TEL":
@@ -534,8 +534,10 @@ class ilvCard
 						$tz = "";
 					}
 					break;
-				case "GEO":
-					if ((strcmp($this->types["GEO"]["LAT"], "") != 0) and (strcmp($this->types["GEO"]["LON"], "") != 0))
+				case "GEO":					
+					if (is_array($this->types["GEO"]) and 
+						(strcmp($this->types["GEO"]["LAT"], "") != 0) and 
+						(strcmp($this->types["GEO"]["LON"], "") != 0))
 					{
 						$geo = $this->fold("GEO:" . $this->types["GEO"]["LAT"] . ";" . $this->types["GEO"]["LON"]) . "\n";
 					}
@@ -565,23 +567,23 @@ class ilvCard
 					}
 					break;
 				case "LOGO":
-					if (strcmp($this->types["LOGO"]["VALUE"], "") != 0)
+					$logo = "";
+					if (is_array($this->types["LOGO"]))
 					{
-						$logo = $this->fold("LOGO;VALUE=uri:" . $this->types["LOGO"]["VALUE"]) . "\n";
-					}
-					elseif (strcmp($this->types["LOGO"]["ENCODING"], "") != 0)
-					{
-						$logo = "LOGO;ENCODING=" . $this->types["LOGO"]["ENCODING"];
-						if (strcmp($this->types["LOGO"]["TYPE"], "") != 0)
+						if (strcmp($this->types["LOGO"]["VALUE"], "") != 0)
 						{
-							$logo .= ";TYPE=" . $this->types["LOGO"]["TYPE"];
+							$logo = $this->fold("LOGO;VALUE=uri:" . $this->types["LOGO"]["VALUE"]) . "\n";
 						}
-						$logo .= ":" . $this->types["LOGO"]["LOGO"];
-						$logo = $this->fold($logo) . "\n";
-					}
-					else
-					{
-						$logo = "";
+						elseif (strcmp($this->types["LOGO"]["ENCODING"], "") != 0)
+						{
+							$logo = "LOGO;ENCODING=" . $this->types["LOGO"]["ENCODING"];
+							if (strcmp($this->types["LOGO"]["TYPE"], "") != 0)
+							{
+								$logo .= ";TYPE=" . $this->types["LOGO"]["TYPE"];
+							}
+							$logo .= ":" . $this->types["LOGO"]["LOGO"];
+							$logo = $this->fold($logo) . "\n";
+						}					
 					}
 					break;
 				case "AGENT":
@@ -655,39 +657,39 @@ class ilvCard
 					}
 					break;
 				case "SOUND":
-					if (strcmp($this->types["SOUND"]["VALUE"], "") != 0)
+					$sound = "";
+					if (is_array($this->types["SOUND"]))
 					{
-						$sound = $this->fold("SOUND;VALUE=uri:" . $this->types["SOUND"]["VALUE"]) . "\n";
-					}
-					elseif (strcmp($this->types["SOUND"]["ENCODING"], "") != 0)
-					{
-						$sound = "SOUND;ENCODING=" . $this->types["SOUND"]["ENCODING"];
-						if (strcmp($this->types["SOUND"]["TYPE"], "") != 0)
+						if (strcmp($this->types["SOUND"]["VALUE"], "") != 0)
 						{
-							$sound .= ";TYPE=" . $this->types["SOUND"]["TYPE"];
+							$sound = $this->fold("SOUND;VALUE=uri:" . $this->types["SOUND"]["VALUE"]) . "\n";
 						}
-						$sound .= ":" . $this->types["SOUND"]["SOUND"];
-						$sound = $this->fold($sound) . "\n";
-					}
-					else
-					{
-						$sound = "";
+						elseif (strcmp($this->types["SOUND"]["ENCODING"], "") != 0)
+						{
+							$sound = "SOUND;ENCODING=" . $this->types["SOUND"]["ENCODING"];
+							if (strcmp($this->types["SOUND"]["TYPE"], "") != 0)
+							{
+								$sound .= ";TYPE=" . $this->types["SOUND"]["TYPE"];
+							}
+							$sound .= ":" . $this->types["SOUND"]["SOUND"];
+							$sound = $this->fold($sound) . "\n";
+						}											
 					}
 					break;
 				case "UID":
-					if (strcmp($this->types["UID"]["UID"], "") != 0)
+					$uid = "";
+					if (is_array($this->types["UID"]))
 					{
-						$uid = "UID";
-						if (strcmp($this->types["UID"]["TYPE"], "") != 0)
+						if (strcmp($this->types["UID"]["UID"], "") != 0)
 						{
-							$uid .= ";TYPE=" . $this->types["UID"]["TYPE"];
-						}
-						$uid .= ":" . $this->types["UID"]["UID"];
-						$uid = $this->fold($uid) . "\n";
-					}
-					else
-					{
-						$uid = "";
+							$uid = "UID";
+							if (strcmp($this->types["UID"]["TYPE"], "") != 0)
+							{
+								$uid .= ";TYPE=" . $this->types["UID"]["TYPE"];
+							}
+							$uid .= ":" . $this->types["UID"]["UID"];
+							$uid = $this->fold($uid) . "\n";
+						}					
 					}
 					break;
 				case "URL":
@@ -701,23 +703,23 @@ class ilvCard
 					}
 					break;
 				case "KEY":
-					if (strcmp($this->types["KEY"]["KEY"], "") != 0)
+					$key = "";
+					if (is_array($this->types["KEY"]))
 					{
-						$key = "KEY";
-						if (strcmp($this->types["KEY"]["TYPE"], "") != 0)
+						if (strcmp($this->types["KEY"]["KEY"], "") != 0)
 						{
-							$key .= ";TYPE=" . $this->types["KEY"]["TYPE"];
-						}
-						if (strcmp($this->types["KEY"]["ENCODING"], "") != 0)
-						{
-							$key .= ";ENCODING=" . $this->types["KEY"]["ENCODING"];
-						}
-						$key .= ":" . $this->types["KEY"]["KEY"];
-						$key = $this->fold($key) . "\n";
-					}
-					else
-					{
-						$key = "";
+							$key = "KEY";
+							if (strcmp($this->types["KEY"]["TYPE"], "") != 0)
+							{
+								$key .= ";TYPE=" . $this->types["KEY"]["TYPE"];
+							}
+							if (strcmp($this->types["KEY"]["ENCODING"], "") != 0)
+							{
+								$key .= ";ENCODING=" . $this->types["KEY"]["ENCODING"];
+							}
+							$key .= ":" . $this->types["KEY"]["KEY"];
+							$key = $this->fold($key) . "\n";
+						}					
 					}
 					break;
 				case "CLASS":

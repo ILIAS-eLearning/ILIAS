@@ -261,13 +261,13 @@ class ilObjBibliographicGUI extends ilObject2GUI {
 		if ($ilAccess->checkAccess('write', "", $this->object->getRefId())) {
 			$ilTabs->addTab("settings", $lng->txt("settings"), $this->ctrl->getLinkTarget($this, "editObject"));
 		}
-		// edit permissions
-		if ($ilAccess->checkAccess('edit_permission', "", $this->object->getRefId())) {
-			$ilTabs->addTab("id_permissions", $lng->txt("perm_settings"), $this->ctrl->getLinkTargetByClass("ilpermissiongui", "perm"));
-		}
 		// export
 		if ($ilAccess->checkAccess("write", "", $this->object->getRefId())) {
 			$ilTabs->addTab("export", $lng->txt("export"), $this->ctrl->getLinkTargetByClass("ilexportgui", ""));
+		}
+		// edit permissions
+		if ($ilAccess->checkAccess('edit_permission', "", $this->object->getRefId())) {
+			$ilTabs->addTab("id_permissions", $lng->txt("perm_settings"), $this->ctrl->getLinkTargetByClass("ilpermissiongui", "perm"));
 		}
 	}
 

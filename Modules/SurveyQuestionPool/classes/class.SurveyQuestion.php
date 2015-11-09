@@ -2435,5 +2435,23 @@ class SurveyQuestion
 			return $row["obj_fi"];
 		}
 	}
+
+	/**
+	 * Lookip obj fi
+	 *
+	 * @param
+	 * @return
+	 */
+	static function lookupObjFi($a_qid)
+	{
+		global $ilDB;
+
+		$set = $ilDB->query("SELECT obj_fi FROM svy_question ".
+			" WHERE question_id = ".$ilDB->quote($a_qid, "integer")
+			);
+		$rec = $ilDB->fetchAssoc($set);
+		return $rec["obj_fi"];
+	}
+
 }
 ?>

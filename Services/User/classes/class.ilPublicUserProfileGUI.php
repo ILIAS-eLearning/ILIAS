@@ -627,7 +627,8 @@ class ilPublicUserProfileGUI
 			"getZipcode" => "zipcode", "getCity" => "city", "getCountry" => "country",
 			"getPhoneOffice" => "phone_office", "getPhoneHome" => "phone_home",
 			"getPhoneMobile" => "phone_mobile", "getFax" => "fax", "getEmail" => "email",
-			"getHobby" => "hobby", "getMatriculation" => "matriculation", "getClientIP" => "client_ip");
+			"getHobby" => "hobby", "getMatriculation" => "matriculation", "getClientIP" => "client_ip",
+			"dummy" => "location");
 
 		$org = array();
 		$adr = array();
@@ -674,10 +675,13 @@ class ilPublicUserProfileGUI
 					case "hobby":
 						$vcard->setNote($user->$key());
 						break;
+					case "location":
+						$vcard->setPosition($user->getLatitude(), $user->getLongitude());
+						break;
 				}
 			}
 		}
-
+		
 		if (count($org))
 		{
 			$vcard->setOrganization(join(";", $org));
