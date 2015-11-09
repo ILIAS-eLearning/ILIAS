@@ -596,13 +596,15 @@ class ilParticipationStatusAdminGUI
 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 		$crs_utils = gevCourseUtils::getInstanceByObj($this->getCourse());
 		$min_parti = ($crs_utils->getMinParticipants() === null) ? 0 : $crs_utils->getMinParticipants();
+		$succ_parti = $crs_utils->getSuccessfullParticipants();
 
-		$confirm->addItem("",
+		if($min_parti > count($succ_parti)) {
+			$confirm->addItem("",
 				"",
 				sprintf($lng->txt("gev_training_min_participation_count_not_reached"),$min_parti)
 
 			);
-
+		}
 
 		if(!$this->from_foreign_class){
 			$this->setTabs("listStatus");
