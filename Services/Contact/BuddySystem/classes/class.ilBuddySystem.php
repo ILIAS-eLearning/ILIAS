@@ -84,6 +84,6 @@ class ilBuddySystem
 		}
 
 		self::$is_enabled = $this->settings->get('enabled', false);
-		return false;
+		return self::$is_enabled;
 	}
 }
