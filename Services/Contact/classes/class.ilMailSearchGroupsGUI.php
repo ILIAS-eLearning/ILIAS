@@ -48,10 +48,22 @@ class ilMailSearchGroupsGUI
 
 	public function executeCommand()
 	{
+		/**
+		 * @var $ilErr ilErrorHandling
+		 */
+		global $ilErr;
+
 		$forward_class = $this->ctrl->getNextClass($this);
 		switch($forward_class)
 		{
 			case 'ilbuddysystemgui':
+				require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystem.php';
+
+				if(!ilBuddySystem::getInstance()->isEnabled())
+				{
+					$ilErr->raiseError($this->lng->txt('msg_no_perm_read'), $ilErr->MESSAGE);
+				}
+
 				require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystemGUI.php';
 				$this->ctrl->saveParameter($this, 'search_grp');
 				$this->ctrl->setReturn($this, 'showMembers');
