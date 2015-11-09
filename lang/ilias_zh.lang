@@ -1,4 +1,4 @@
-﻿/* Copyright (c) 1998-2014 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
+﻿/* Copyright (c) 1998-2015 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
 *
@@ -2569,7 +2569,7 @@ common#:#lang_path#:#语言路径
 common#:#lang_refresh_confirm#:#您真的要刷新所有语言吗？
 common#:#lang_refresh_confirm_info#:#扩展语言维护当前处于激活状态。刷新语言从ILIAS语言文件装载所有语言数据到数据库中。如果之前没有事先导出，则本地改变(在数据库中)可能被覆盖。这并不影响自定义目录中的任何“*.lang.local”文件。
 common#:#lang_refresh_confirm_selected#:#您真的要刷新选定的语言吗？
-common#:#lang_sep_decimal#:#。
+common#:#lang_sep_decimal#:#.
 common#:#lang_sep_thousand#:#，
 common#:#lang_size_bytes#:#bytes
 common#:#lang_size_gb#:#GB
