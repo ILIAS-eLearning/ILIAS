@@ -79,13 +79,13 @@ class gevOrguSuperiorMailingJob extends ilCronJob {
 
 		$cron_result = new ilCronJobResult();
 		$cron_result->setStatus(ilCronJobResult::STATUS_OK);
-		$auto_mails = new gevOrguSuperiorMails();
 
 		if (!$this->shouldRunNow()) {
 			return $cron_result;
 		}
 
 		$ilLog->write("gevOrguSuperiorMailingJob::run: start sending mails");
+		$auto_mails = new gevOrguSuperiorMails();
 		$mail = $auto_mails->getAutoMail("report_weekly_actions");
 		
 		ilCronManager::ping($this->getId());
@@ -143,7 +143,7 @@ class gevOrguSuperiorMailingJob extends ilCronJob {
 			return true;
 		}
 		// to 05:00 in the morning
-		if ($day_week === "Mon" && $hour < 5) {
+		if ($day_of_week === "Mon" && $hour < 5) {
 			return true;
 		}
 		
