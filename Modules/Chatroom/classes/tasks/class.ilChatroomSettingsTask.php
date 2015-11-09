@@ -63,27 +63,27 @@ class ilChatroomSettingsTask extends ilChatroomTaskHandler
 
 		$formFactory = new ilChatroomFormFactory();
 
+		$room = ilChatRoom::byObjectId($this->gui->object->getId());
+
 		if(!$settingsForm)
 		{
 			$settingsForm = $formFactory->getSettingsForm();
-		}
 
-		$room = ilChatRoom::byObjectId($this->gui->object->getId());
-
-		$settings = array(
-			'title' => $this->gui->object->getTitle(),
-			'desc'  => $this->gui->object->getDescription(),
-		);
-
-		if($room)
-		{
-			ilChatroomFormFactory::applyValues(
-				$settingsForm, array_merge($settings, $room->getSettings())
+			$settings = array(
+				'title' => $this->gui->object->getTitle(),
+				'desc'  => $this->gui->object->getDescription(),
 			);
-		}
-		else
-		{
-			ilChatroomFormFactory::applyValues($settingsForm, $settings);
+
+			if($room)
+			{
+				ilChatroomFormFactory::applyValues(
+					$settingsForm, array_merge($settings, $room->getSettings())
+				);
+			}
+			else
+			{
+				ilChatroomFormFactory::applyValues($settingsForm, $settings);
+			}
 		}
 
 		$settingsForm->setTitle($lng->txt('settings_title'));
@@ -109,6 +109,7 @@ class ilChatroomSettingsTask extends ilChatroomTaskHandler
 
 		if(!$settingsForm->checkInput())
 		{
+			$settingsForm->setValuesByPost();
 			$this->general($settingsForm);
 		}
 		else

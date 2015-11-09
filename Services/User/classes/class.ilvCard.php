@@ -225,6 +225,9 @@ class ilvCard
 		$vcard .= "VERSION:" . $this->types["VERSION"] . "\n";
 		foreach ($this->types as $type => $var)
 		{
+			
+			ilLoggerFactory::getLogger('user')->debug(print_r($this->types,TRUE));
+			
 			switch ($type)
 			{
 				case "FN":

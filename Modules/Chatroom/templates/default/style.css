@@ -1,7 +1,3 @@
-body {
-    height: 100%;
-}
-
 .chat.messageLine.dateline {
 	background-color: #ECF0F9;
 }
@@ -236,7 +232,6 @@ h2.current_room_title {
 	padding: 5px;
 	border-bottom: 2px solid #293E6A;
 	bottom: 19px;
-	position: absolute;
 	display: none;
 }
 
@@ -275,4 +270,9 @@ h2.current_room_title {
 
 .ilNoDisplayChat {
 	display: none;
+}
+
+#iosChatEmoticonsPanel img, .messageLine img {
+	max-width: 24px;
+	max-height: 24px;
 }

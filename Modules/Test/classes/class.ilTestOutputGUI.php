@@ -313,7 +313,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		$headerBlockBuilder->setQuestionCount($this->testSequence->getUserQuestionCount());
 		$headerBlockBuilder->setQuestionPostponed($this->testSequence->isPostponedQuestion($questionId));
 		$headerBlockBuilder->setQuestionObligatory(
-			$this->object->areObligationsEnabled() && ilObjTest::isQuestionObligatory($this->object->getId())
+			$this->object->areObligationsEnabled() && ilObjTest::isQuestionObligatory($questionGui->object->getId())
 		);
 		if( $this->testSession->isObjectiveOriented() )
 		{
@@ -370,8 +370,6 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 			$sequenceElement, $presentationMode == ilTestPlayerAbstractGUI::PRESENTATION_MODE_EDIT
 		);
 		
-		$this->populateObligationIndicatorIfRequired($questionGui);
-
 		if ($instantResponse)
 		{
 			$this->populateInstantResponseBlocks(

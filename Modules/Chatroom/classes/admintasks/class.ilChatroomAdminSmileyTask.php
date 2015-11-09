@@ -286,6 +286,7 @@ class ilChatroomAdminSmileyTask extends ilChatroomTaskHandler
 		$inp = new ilImageFileInputGUI(
 			$lng->txt('chatroom_image_path'), 'chatroom_image_path'
 		);
+		$inp->setSuffixes(array("jpg", "jpeg", "png", "gif", "svg"));
 
 		$inp->setRequired(true);
 		$this->form_gui->addItem($inp);
@@ -430,6 +431,7 @@ class ilChatroomAdminSmileyTask extends ilChatroomTaskHandler
 		$inp = new ilImageFileInputGUI(
 			$lng->txt('chatroom_image_path'), 'chatroom_image_path'
 		);
+		$inp->setSuffixes(array("jpg", "jpeg", "png", "gif", "svg"));
 
 		$inp->setRequired(false);
 		$inp->setInfo($lng->txt('chatroom_smiley_image_only_if_changed'));

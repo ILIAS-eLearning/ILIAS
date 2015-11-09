@@ -55,10 +55,18 @@ class ilStudyProgrammeTypeTableGUI extends ilTable2GUI {
      * @param array $set
      */
     public function fillRow($set){
+        $icon = "";
+        $type = new ilStudyProgrammeType($set['id']);
+
+        if(is_file($type->getIconPath(true))) {
+            $icon = $type->getIconPath(true);
+        }
+
         $this->tpl->setVariable('TITLE', $set['title']);
         $this->tpl->setVariable('DESCRIPTION', $set['description']);
         $this->tpl->setVariable('DEFAULT_LANG', $set['default_language']);
-        $this->tpl->setVariable('ICON', $set['icon']);
+        $this->tpl->setVariable('ICON', $icon);
+        $this->tpl->setVariable('ICON_ALT', $set["icon"]);
         $this->ctrl->setParameterByClass("ilstudyprogrammetypegui", "type_id", $set['id']);
         $selection = new ilAdvancedSelectionListGUI();
         $selection->setListTitle($this->lng->txt('actions'));

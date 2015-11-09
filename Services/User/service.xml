@@ -30,5 +30,5 @@
 	<web_access_checker>
 		<secure_path path="usr_images" checking-class="ilObjUserAccess" />
 	</web_access_checker>
-
+	<logging />
 </service>

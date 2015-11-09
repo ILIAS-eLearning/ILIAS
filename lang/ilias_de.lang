@@ -1321,6 +1321,7 @@ assessment#:#tst_password_entered_wrong_password#:#Sie können den Test nicht st
 assessment#:#tst_password_introduction#:#Dieser Test kann nur mit einem Testpasswort gestartet werden. Bitte tragen Sie das Passwort hier ein.
 assessment#:#tst_percent_solved#:#Prozent gelöst
 assessment#:#tst_position#:#Frage %s von %s
+assessment#:#tst_position_without_total#:#Frage %s
 assessment#:#tst_postpone#:#Nicht beantwortete Fragen
 assessment#:#tst_postpone_on#:#Nicht beantwortete Fragen werden ans Testende geschoben
 assessment#:#tst_postpone_on_desc#:#Fragen, deren Antworten die Teilnehmer verwerfen oder überblättern, präsentiert ILIAS am Ende des Test noch einmal. Diese Einstellung wirkt sich nicht auf den Modus 'Wiedervorlage' aus.
@@ -15837,6 +15838,7 @@ buddysystem#:#buddy_notification_contact_request_ignore_osd#:#Anfrage Ignorieren
 buddysystem#:#buddy_notification_contact_request_long#:#[SALUTATION][BR][BR]der Benutzer "[REQUESTING_USER]" möchte mit Ihnen in Kontakt treten.[BR][BR][APPROVE_REQUEST_TXT] [APPROVE_REQUEST][BR][IGNORE_REQUEST_TXT] [IGNORE_REQUEST]
 buddysystem#:#buddy_request_approved#:#Der Kontakt wurde erfolgreich hergestellt.
 buddysystem#:#buddy_request_ignored#:#Sie haben den Benutzer ignoriert.
+buddysystem#:#buddy_relation_requested#:#Dem Benutzer wurde eine Kontaktanfrage gesendet.
 common#:#no_gallery_users_available#:#Aktuell befinden sich keine Benutzer in der Galerie.
 crs#:#crs_mem_contact#:#Kursbetreuung
 awrn#:#awareness_now_online#:#Jetzt Online
@@ -16062,7 +16064,9 @@ meta#:#md_adv_field_filter_warning#:#Die Feldtypen %s werden aktuell nicht als T
 grp#:#grp_subscription_min_members_info#:#Wird die geforderte Mindestanzahl an Mitgliedern nicht erreicht, kann die Gruppe nicht stattfinden. Wird die Mindestanzahl bis zum Ende des Beitrittszeitraums bzw. dem spätesten Gruppenaustritt nicht erreicht, versendet ILIAS eine Mail an jene Gruppenadministratoren, für die im Reiter 'Mitglieder' die Option 'Benachrichtigung' aktiviert ist.
 grp#:#grp_max_and_min_members_invalid#:#Die minimale Anzahl muss kleiner als die maximale Anzahl sein.
 crs#:#mem_cron_min_members_reason#:#Sie erhalten diese Email, da Sie die Benachrichtigung im jeweiligen Mitglieder-Tab aktiviert haben.
-crs#:#mem_cron_min_members_task#:#Informieren Sie die Teilnehmenden rechtzeitig, falls der Kurs wegen Nicht-Erreichens der geforderten Mindestanzahl nicht stattfindet. Passen Sie nach Ablauf des Beitrittszeitraums die Kurseinstellungen an.
+crs#:#mem_cron_min_members_task#:#Informieren Sie die Teilnehmenden rechtzeitig, falls der Kurs wegen Nicht-Erreichung der geforderten Mindestanzahl nicht stattfindet. Passen Sie nach Ablauf des Beitrittszeitraums die Kurseinstellungen an.
+common#:#prg_copy_threads_info#:#Bitte wählen Sie aus, welche Elemente des Studienprogramms kopiert, verknüpft oder aber bei dem Kopiervorgang ausgelassen werden sollen.
+common#:#prg_wizard_page#:#Studienprogramm kopieren (Schritt 2/2)
 crs#:#crs_loc_settings_passed_mode#:#Bestandene Lernziele
 crs#:#crs_loc_settings_passed_mode_hide#:#Testfragen zu bestandenen Lernzielen werden ausgeblendet.
 crs#:#crs_loc_settings_passed_mode_mark#:#Testfragen zu bestandenen Lernzielen werden markiert.
@@ -16081,3 +16085,7 @@ crs#:#crs_visibility_until_info#:#---
 crs#:#crs_registration_limited_info#:#---
 crs#:#crs_subscription_max_members_short_info#:#---
 crs#:#crs_unsubscribe_member_explanation#:#Sie erhalten diese Mail, da Sie die Kursmitgliedschaft des oben genannten Kurses beendet haben.
+rbac#:#prg_read#:#Seiteninhalt des Studienprogramms kann gelesen werden
+sess#:#sess_max_members_needed#:#Für die Warteliste wird eine maximale Anzahl Mitglieder benötigt.
+obj#:#obj_import_file_error#:#Die Datei konnte nicht importiert werden. Bitte stellen Sie sicher, dass es sich um eine ILIAS-Exportdatei (XML-Export) des gleichen Objekttyps handelt und der Dateiename unverändert ist. Fehlermeldung:
+content#:#cont_sqst#:#Frage in Umfrage (Material)

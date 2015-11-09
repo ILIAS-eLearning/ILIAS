@@ -20,6 +20,7 @@ class ilGlossaryImporter extends ilXmlImporter
 		include_once("./Modules/Glossary/classes/class.ilGlossaryDataSet.php");
 		$this->ds = new ilGlossaryDataSet();
 		$this->ds->setDSPrefix("ds");
+		$this->config = $this->getImport()->getConfig("Modules/Glossary");
 	}
 
 	/**
@@ -58,6 +59,12 @@ class ilGlossaryImporter extends ilXmlImporter
 			// old school import
 			if (file_exists($xml_file))
 			{
+				if (!$this->config->getPre51Import())
+				{
+					include_once("./Modules/Glossary/exceptions/class.ilGlossaryOldImportException.php");
+					throw new ilGlossaryOldImportException("Old glossary import file.");
+				}
+
 				include_once './Modules/LearningModule/classes/class.ilContObjParser.php';
 				$contParser = new ilContObjParser(
 					$newObj,

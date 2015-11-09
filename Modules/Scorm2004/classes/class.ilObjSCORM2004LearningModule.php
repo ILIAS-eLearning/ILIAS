@@ -1755,8 +1755,9 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		// init co page html exporter
 		include_once("./Services/COPage/classes/class.ilCOPageHTMLExport.php");
 		$this->co_page_html_export = new ilCOPageHTMLExport($a_target_dir);
+		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 		$this->co_page_html_export->setContentStyleId(
-			$this->getStyleSheetId());
+			ilObjStyleSheet::getEffectiveContentStyleId($this->getStyleSheetId()));
 		$this->co_page_html_export->createDirectories();
 		$this->co_page_html_export->exportStyles();
 		$this->co_page_html_export->exportSupportScripts();

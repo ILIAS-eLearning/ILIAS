@@ -395,6 +395,16 @@ class ilObjSession extends ilObject
 	 */
 	public function validate()
 	{
+		global $ilErr;
+		
+		// #17114
+		if($this->isRegistrationUserLimitEnabled() &&
+			!$this->getRegistrationMaxUsers())
+		{			
+			$ilErr->appendMessage($this->lng->txt("sess_max_members_needed"));
+			return false;
+		}
+		
 		return true;
 	}
 	
