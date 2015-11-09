@@ -16089,3 +16089,4 @@ rbac#:#prg_read#:#Seiteninhalt des Studienprogramms kann gelesen werden
 sess#:#sess_max_members_needed#:#Für die Warteliste wird eine maximale Anzahl Mitglieder benötigt.
 obj#:#obj_import_file_error#:#Die Datei konnte nicht importiert werden. Bitte stellen Sie sicher, dass es sich um eine ILIAS-Exportdatei (XML-Export) des gleichen Objekttyps handelt und der Dateiename unverändert ist. Fehlermeldung:
 content#:#cont_sqst#:#Frage in Umfrage (Material)
+mmbr#:#info_refuse_sure#:#Sind Sie sicher, dass Sie den/die folgenden Benutzer ablehnen möchten?
