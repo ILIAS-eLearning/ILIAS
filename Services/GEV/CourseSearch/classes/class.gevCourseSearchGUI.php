@@ -58,8 +58,8 @@ class gevCourseSearchGUI {
 
 	public function executeCommand() {
 		$cmd = $this->gCtrl->getCmd();
-		
 		$in_search = $cmd == "search";
+
 		if(isset($_GET["cmdSearch"]) && $_GET["cmdSearch"]) {
 			$in_search = true;
 		}
@@ -169,7 +169,7 @@ class gevCourseSearchGUI {
 		$this->gCtrl->setParameter($this, "active_tab", $this->active_tab);
 		$this->gCtrl->setParameter($this, "cmdSearch", $a_in_search);
 
-		$crs_tbl = new gevCourseSearchTableGUI($search_opts, $this->target_user_id, $this, $this->active_tab);
+		$crs_tbl = new gevCourseSearchTableGUI($search_opts, $this->target_user_id, $this, $this->active_tab,$a_in_search);
 		$crs_tbl->setTitle(!$a_in_search?"gev_crs_srch_title":"gev_crs_srch_results")
 				->setSubtitle( ($this->target_user_id == $this->gUser_id 
 								|| $this->gUser_id == 0 )// Someone is viewing the offers for agents as anonymus.
