@@ -15839,6 +15839,8 @@ buddysystem#:#buddy_notification_contact_request_long#:#[SALUTATION][BR][BR]der 
 buddysystem#:#buddy_request_approved#:#Der Kontakt wurde erfolgreich hergestellt.
 buddysystem#:#buddy_request_ignored#:#Sie haben den Benutzer ignoriert.
 buddysystem#:#buddy_relation_requested#:#Dem Benutzer wurde eine Kontaktanfrage gesendet.
+buddysystem#:#buddy_enable#:#Aktviere „Benutzerkontakte“
+buddysystem#:#buddy_enable_info#:#Falls aktiviert, können Benutzer im System über Kontaktanfragen miteinander in Verbindung treten.
 common#:#obj_cadm#:#Benutzerkontakte
 common#:#obj_cadm_desc#:#Administration für Benutzerkontakte
 rbac#:#cadm_visible#:#Administration für Benutzerkontakte ist sichtbar
