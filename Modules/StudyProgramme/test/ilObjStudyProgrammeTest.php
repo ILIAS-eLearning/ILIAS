@@ -28,6 +28,7 @@ require_once(__DIR__."/mocks.php");
  *
  * @author Michael Herren <mh@studer-raimann.ch>
  * @author Richard Klees <richard.klees@concepts-and-training.de>
+ * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
  * @version 1.0.0
  */
 class ilObjStudyProgrammeTest extends PHPUnit_Framework_TestCase {
@@ -540,7 +541,7 @@ class ilObjStudyProgrammeTest extends PHPUnit_Framework_TestCase {
 		$children = $this->root_object->getChildren();
 		$child_l = $children[0];
 		
-		$all_possible_subobjects = $this->obj_definition->getSubObjects($this->root_object->getType());
+		$all_possible_subobjects = $this->root_object->getPossibleSubObjects();
 		// don't take rolfs into account, we don't need rolf anymore
 		unset($all_possible_subobjects["rolf"]);
 		

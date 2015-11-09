@@ -5,6 +5,7 @@
  * GUI class for the workflow of copying objects
  * 
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
+ * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
  * @version $Id$
  * 
  * @ilCtrl_Calls ilObjectCopyGUI: 
@@ -472,9 +473,12 @@ class ilObjectCopyGUI
 			foreach((array) $this->getTargets() as $target_ref_id)
 			{
 				$target_type = ilObject::_lookupType($target_ref_id, TRUE);
+				$target_class_name = ilObjectFactory::getClassByType($taget_type);
+				$target_object = new $target_class_name($target_ref_id);
+				$possible_subtypes = $target_object->getPossibleSubObjects();
+
 				$source_type = ilObject::_lookupType($source_ref_id, TRUE);
-				$possible_subtypes = $objDefinition->getSubObjects($target_type);
-				
+
 				if(!array_key_exists($source_type, (array) $possible_subtypes))
 				{
 					ilUtil::sendFailure(
@@ -783,8 +787,11 @@ class ilObjectCopyGUI
 			foreach((array) $this->getTargets() as $target_ref_id)
 			{
 				$target_type = ilObject::_lookupType($target_ref_id, TRUE);
+				$target_class_name = ilObjectFactory::getClassByType($taget_type);
+				$target_object = new $target_class_name($target_ref_id);
+				$possible_subtypes = $target_object->getPossibleSubObjects();
+
 				$source_type = ilObject::_lookupType($source_ref_id, TRUE);
-				$possible_subtypes = $objDefinition->getSubObjects($target_type);
 				
 				if(!array_key_exists($source_type, $possible_subtypes))
 				{

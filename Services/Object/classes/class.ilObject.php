@@ -8,6 +8,7 @@
 *
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
 * @author Alex Killing <alex.killing@gmx.de>
+* @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
 * @version $Id$
 */
 class ilObject
@@ -98,7 +99,7 @@ class ilObject
 	*/
 	function ilObject($a_id = 0, $a_reference = true)
 	{
-		global $ilias, $lng, $ilBench;
+		global $ilias, $lng, $ilBench, $objDefinition;
 
 		$ilBench->start("Core", "ilObject_Constructor");
 
@@ -109,6 +110,7 @@ class ilObject
 
 		$this->ilias =& $ilias;
 		$this->lng =& $lng;
+		$this->objDefinition = $objDefinition;
 
 		$this->max_title = self::TITLE_LENGTH;
 		$this->max_desc = self::DESC_LENGTH;
@@ -2110,6 +2112,19 @@ class ilObject
 			);
 		}
 		return false;
-	}	
+	}
+
+	/**
+	* get all possible subobjects of this type
+	* the object can decide which types of subobjects are possible jut in time
+	* overwrite if the decision distinguish from standard model
+	*
+	* @param boolean filter disabled objects? ($a_filter = true)
+	* @access public
+	* @return array list of allowed object types
+	*/
+	function getPossibleSubObjects($a_filter = true) {
+		return $this->objDefinition->getSubObjects($this->type, $a_filter);
+	}
 } // END class.ilObject
 ?>

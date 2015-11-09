@@ -8,6 +8,7 @@ require_once "./Services/Object/classes/class.ilObject2GUI.php";
 * Class ilObjWorkspaceFolderGUI
 *
 * @author Alex Killing <alex.killing@gmx.de>
+* @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
 * $Id: class.ilObjFolderGUI.php 25134 2010-08-13 14:22:11Z smeyer $
 *
 * @ilCtrl_Calls ilObjWorkspaceFolderGUI: ilCommonActionDispatcherGUI, ilObjectOwnershipManagementGUI
@@ -473,7 +474,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 				$source_object->getTitle(), $target_object->getTitle());
 		}
 
-		if(!in_array($source_object->getType(), array_keys($objDefinition->getSubObjects($target_object->getType()))))
+		if(!in_array($source_object->getType(), array_keys($target_object->getPossibleSubObjects())))
 		{
 			$fail[] = sprintf($this->lng->txt('msg_obj_may_not_contain_objects_of_type'),
 					$target_object->getTitle(), $source_object->getType());
