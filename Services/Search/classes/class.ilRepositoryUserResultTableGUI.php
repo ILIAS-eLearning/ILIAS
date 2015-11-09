@@ -192,7 +192,10 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
 	*/
 	protected function fillRow($a_set)
 	{
-		global $ilCtrl, $lng;
+		/**
+		 * @var $ilCtrl ilCtrl
+		 */
+		global $ilCtrl, $ilUser;
 
 		$this->tpl->setVariable("VAL_ID", $a_set["usr_id"]);
 		
@@ -285,10 +288,14 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
 		if($this->getType() == self::TYPE_GLOBAL_SEARCH)
 		{
 			$this->tpl->setVariable('SEARCH_RELEVANCE',$this->getRelevanceHTML($a_set['relevance']));
-			if(ilBuddySystem::getInstance()->isEnabled())
+			if(ilBuddySystem::getInstance()->isEnabled() && $a_set['usr_id'] != $ilUser->getId())
 			{
 				require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystemLinkButton.php';
 				$this->tpl->setVariable('CONTACT_ACTIONS', ilBuddySystemLinkButton::getInstanceByUserId($a_set['usr_id'])->getHtml());
+			}
+			else
+			{
+				$this->tpl->setVariable('CONTACT_ACTIONS', '');
 			}
 		}
 
