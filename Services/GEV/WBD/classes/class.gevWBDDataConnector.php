@@ -1383,12 +1383,12 @@ class gevWBDDataConnector extends wbdDataConnector {
 				hist_course
 			ON
 				hist_usercoursestatus.crs_id = hist_course.crs_id
-
+			AND	hist_course.hist_historic = 0 
 			INNER JOIN
 				hist_user
 			ON
 				hist_usercoursestatus.usr_id = hist_user.user_id
-
+			AND	hist_user.hist_historic = 0
 			WHERE
 				hist_user.bwv_id != '-empty-'
 		
