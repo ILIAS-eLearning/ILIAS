@@ -199,8 +199,6 @@ class ilLPRubricCard
     {
         $data=$this->getCardPostData();
         
-        file_put_contents('adam_save.txt',var_export($data,true)."\n======\n".var_export($_POST,true));
-        
         $this->saveRubricCardTbl();
         
         $labels=$this->saveRubricLabelTbl($data['points']);
