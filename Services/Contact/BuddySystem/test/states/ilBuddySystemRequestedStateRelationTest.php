@@ -1,28 +1,20 @@
 <?php
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once 'Services/Contact/BuddySystem/test/states/ilBuddySystemBaseStateTest.php';
+
 /**
- * Class ilBuddySystemLinkedRelationTest
+ * Class ilBuddySystemRequestedStateRelationTest
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilBuddySystemLinkedRelationTest extends PHPUnit_Framework_TestCase
+class ilBuddySystemRequestedStateRelationTest extends ilBuddySystemBaseStateTest
 {
 	/**
-	 * @var bool
+	 * {@inheritdoc}
 	 */
-	protected $backupGlobals = false;
-
-	/**
-	 * @var ilBuddySystemRelation
-	 */
-	protected $relation;
-
-	/**
-	 *
-	 */
-	public function setUp()
+	public function getInitialState()
 	{
-		$this->relation = new ilBuddySystemRelation(new ilBuddySystemLinkedRelationState());
+		return new ilBuddySystemRequestedRelationState();
 	}
 
 	/**
@@ -38,7 +30,7 @@ class ilBuddySystemLinkedRelationTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testIsLinked()
 	{
-		$this->assertTrue($this->relation->isLinked());
+		$this->assertFalse($this->relation->isLinked());
 	}
 
 	/**
@@ -46,7 +38,7 @@ class ilBuddySystemLinkedRelationTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testIsRequested()
 	{
-		$this->assertFalse($this->relation->isRequested());
+		$this->assertTrue($this->relation->isRequested());
 	}
 
 	/**
@@ -58,21 +50,23 @@ class ilBuddySystemLinkedRelationTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public function testCanBeUnlinked()
 	{
 		$this->relation->unlink();
 		$this->assertTrue($this->relation->isUnlinked());
-		$this->assertTrue($this->relation->wasLinked());
+		$this->assertTrue($this->relation->wasRequested());
 	}
 
 	/**
-	 * @expectedException ilBuddySystemRelationStateException
+	 *
 	 */
 	public function testCanBeLinked()
 	{
 		$this->relation->link();
+		$this->assertTrue($this->relation->isLinked());
+		$this->assertTrue($this->relation->wasRequested());
 	}
 
 	/**
@@ -84,10 +78,11 @@ class ilBuddySystemLinkedRelationTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException ilBuddySystemRelationStateException
+	 * 
 	 */
 	public function testCanBeIgnored()
 	{
 		$this->relation->ignore();
+		$this->assertTrue($this->relation->isIgnored());
 	}
 }

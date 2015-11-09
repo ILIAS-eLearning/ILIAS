@@ -1,36 +1,28 @@
 <?php
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once 'Services/Contact/BuddySystem/test/states/ilBuddySystemBaseStateTest.php';
+
 /**
- * Class ilBuddySystemUnlinkedRelationTest
+ * Class ilBuddySystemRequestIgnoredStateRelationTest
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilBuddySystemUnlinkedRelationTest extends PHPUnit_Framework_TestCase
+class ilBuddySystemRequestIgnoredStateRelationTest extends ilBuddySystemBaseStateTest
 {
 	/**
-	 * @var bool
+	 * {@inheritdoc}
 	 */
-	protected $backupGlobals = false;
-
-	/**
-	 * @var ilBuddySystemRelation
-	 */
-	protected $relation;
+	public function getInitialState()
+	{
+		return new ilBuddySystemIgnoredRequestRelationState();
+	}
 
 	/**
 	 *
 	 */
-	public function setUp()
-	{
-		$this->relation = new ilBuddySystemRelation(new ilBuddySystemUnlinkedRelationState());
-	}
-
-	/**
-	 * 
-	 */
 	public function testIsUnlinked()
 	{
-		$this->assertTrue($this->relation->isUnlinked());
+		$this->assertFalse($this->relation->isUnlinked());
 	}
 
 	/**
@@ -54,37 +46,39 @@ class ilBuddySystemUnlinkedRelationTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testIsIgnored()
 	{
-		$this->assertFalse($this->relation->isIgnored());
-	}
-
-	/**
-	 * @expectedException ilBuddySystemRelationStateException
-	 */
-	public function testCanBeUnlinked()
-	{
-		$this->relation->unlink();
-	}
-
-	/**
-	 * @expectedException ilBuddySystemRelationStateException
-	 */
-	public function testCanBeLinked()
-	{
-		$this->relation->link();
+		$this->assertTrue($this->relation->isIgnored());
 	}
 
 	/**
 	 *
 	 */
-	public function testCanBeRequested()
+	public function testCanBeUnlinked()
 	{
-		$this->relation->request();
-		$this->assertTrue($this->relation->isRequested());
-		$this->assertTrue($this->relation->wasUnlinked());
+		$this->relation->unlink();
+		$this->assertTrue($this->relation->isUnlinked());
+		$this->assertTrue($this->relation->wasIgnored());
+	}
+
+	/**
+	 *
+	 */
+	public function testCanBeLinked()
+	{
+		$this->relation->link();
+		$this->assertTrue($this->relation->isLinked());
+		$this->assertTrue($this->relation->wasIgnored());
 	}
 
 	/**
 	 * @expectedException ilBuddySystemRelationStateException
+	 */
+	public function testCanBeRequested()
+	{
+		$this->relation->request();
+	}
+
+	/**
+	 *  @expectedException ilBuddySystemRelationStateException
 	 */
 	public function testCanBeIgnored()
 	{

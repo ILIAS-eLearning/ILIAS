@@ -173,6 +173,11 @@ class ilBuddySystemRelation
 	 */
 	public function link()
 	{
+		if($this->getUserId() == $this->getBuddyUserId())
+		{
+			throw new ilBuddySystemRelationStateException("Can't change a state between when the requester equals the requestee.");
+		}
+
 		$this->getState()->link($this);
 		return $this;
 	}
@@ -183,6 +188,11 @@ class ilBuddySystemRelation
 	 */
 	public function unlink()
 	{
+		if($this->getUserId() == $this->getBuddyUserId())
+		{
+			throw new ilBuddySystemRelationStateException("Can't change a state between when the requester equals the requestee.");
+		}
+
 		$this->getState()->unlink($this);
 		return $this;
 	}
@@ -193,6 +203,11 @@ class ilBuddySystemRelation
 	 */
 	public function request()
 	{
+		if($this->getUserId() == $this->getBuddyUserId())
+		{
+			throw new ilBuddySystemRelationStateException("Can't change a state between when the requester equals the requestee.");
+		}
+
 		$this->getState()->request($this);
 		return $this;
 	}
@@ -203,6 +218,11 @@ class ilBuddySystemRelation
 	 */
 	public function ignore()
 	{
+		if($this->getUserId() == $this->getBuddyUserId())
+		{
+			throw new ilBuddySystemRelationStateException("Can't change a state between when the requester equals the requestee.");
+		}
+
 		$this->getState()->ignore($this);
 		return $this;
 	}

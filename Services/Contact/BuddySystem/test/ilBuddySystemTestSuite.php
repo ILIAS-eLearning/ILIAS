@@ -20,7 +20,7 @@ require_once 'Services/Contact/BuddySystem/exceptions/class.ilBuddySystemRelatio
 class ilBuddySystemTestSuite extends PHPUnit_Framework_TestSuite
 {
 	/**
-	 * @return ilTermsOfServiceTestSuite
+	 * @return self
 	 */
 	public static function suite()
 	{
@@ -31,17 +31,17 @@ class ilBuddySystemTestSuite extends PHPUnit_Framework_TestSuite
 
 		$suite = new self();
 
-		require_once 'Services/Contact/BuddySystem/test/states/ilBuddySystemUnlinkedRelationTest.php';
-		$suite->addTestSuite('ilBuddySystemUnlinkedRelationTest');
+		require_once 'Services/Contact/BuddySystem/test/states/ilBuddySystemUnlinkedStateRelationTest.php';
+		$suite->addTestSuite('ilBuddySystemUnlinkedStateRelationTest');
 
-		require_once 'Services/Contact/BuddySystem/test/states/ilBuddySystemRequestedRelationTest.php';
-		$suite->addTestSuite('ilBuddySystemRequestedRelationTest');
+		require_once 'Services/Contact/BuddySystem/test/states/ilBuddySystemRequestedStateRelationTest.php';
+		$suite->addTestSuite('ilBuddySystemRequestedStateRelationTest');
 
-		require_once 'Services/Contact/BuddySystem/test/states/ilBuddySystemRequestIgnoredRelationTest.php';
-		$suite->addTestSuite('ilBuddySystemRequestIgnoredRelationTest');
+		require_once 'Services/Contact/BuddySystem/test/states/ilBuddySystemRequestIgnoredStateRelationTest.php';
+		$suite->addTestSuite('ilBuddySystemRequestIgnoredStateRelationTest');
 
-		require_once 'Services/Contact/BuddySystem/test/states/ilBuddySystemLinkedRelationTest.php';
-		$suite->addTestSuite('ilBuddySystemLinkedRelationTest');
+		require_once 'Services/Contact/BuddySystem/test/states/ilBuddySystemLinkedStateRelationTest.php';
+		$suite->addTestSuite('ilBuddySystemLinkedStateRelationTest');
 
 		require_once 'Services/Contact/BuddySystem/test/ilBuddyListTest.php';
 		$suite->addTestSuite('ilBuddyListTest');

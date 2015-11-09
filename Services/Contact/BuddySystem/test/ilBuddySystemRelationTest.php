@@ -8,6 +8,9 @@
  */
 class ilBuddySystemRelationTest extends PHPUnit_Framework_TestCase
 {
+	const RELATION_OWNER_ID = -1;
+	const RELATION_BUDDY_ID = -2;
+
 	/**
 	 * @var ilBuddyList
 	 */
@@ -64,5 +67,58 @@ class ilBuddySystemRelationTest extends PHPUnit_Framework_TestCase
 		$ts = time();
 		$relation->setTimestamp($ts);
 		$this->assertEquals($ts, $relation->getTimestamp());
+	}
+
+	/**
+	 * @expectedException ilBuddySystemRelationStateException
+	 */
+	public function testUsersAreNotAbleToRequestThemselves()
+	{
+		$state_mock = $this->getMock('ilBuddySystemUnlinkedRelationState');
+		$expected_relation  = new ilBuddySystemRelation($state_mock);
+
+		$expected_relation->setUserId(self::RELATION_OWNER_ID);
+		$expected_relation->setBuddyUserId(self::RELATION_OWNER_ID);
+
+		$expected_relation->request();
+	}
+
+	/**
+	 * @expectedException ilBuddySystemRelationStateException
+	 */
+	public function testUsersAreNotAbleToUnlinkThemselves()
+	{
+		$state_mock = $this->getMock('ilBuddySystemLinkedRelationState');
+		$expected_relation  = new ilBuddySystemRelation($state_mock);
+		$expected_relation->setUserId(self::RELATION_OWNER_ID);
+		$expected_relation->setBuddyUserId(self::RELATION_OWNER_ID);
+
+		$expected_relation->unlink();
+	}
+
+	/**
+	 * @expectedException ilBuddySystemRelationStateException
+	 */
+	public function testUsersAreNotAbleToLinkThemselves()
+	{
+		$state_mock = $this->getMock('ilBuddySystemRequestedRelationState');
+		$expected_relation  = new ilBuddySystemRelation($state_mock);
+		$expected_relation->setUserId(self::RELATION_OWNER_ID);
+		$expected_relation->setBuddyUserId(self::RELATION_OWNER_ID);
+
+		$expected_relation->link();
+	}
+
+	/**
+	 * @expectedException ilBuddySystemRelationStateException
+	 */
+	public function testUsersAreNotAbleToIgnoreThemselves()
+	{
+		$state_mock = $this->getMock('ilBuddySystemRequestedRelationState');
+		$expected_relation  = new ilBuddySystemRelation($state_mock);
+		$expected_relation->setUserId(self::RELATION_OWNER_ID);
+		$expected_relation->setBuddyUserId(self::RELATION_OWNER_ID);
+
+		$expected_relation->ignore();
 	}
 }

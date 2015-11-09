@@ -1,28 +1,20 @@
 <?php
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once 'Services/Contact/BuddySystem/test/states/ilBuddySystemBaseStateTest.php';
+
 /**
- * Class ilBuddySystemRequestIgnoredRelationTest
+ * Class ilBuddySystemLinkedStateRelationTest
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilBuddySystemRequestIgnoredRelationTest extends PHPUnit_Framework_TestCase
+class ilBuddySystemLinkedStateRelationTest extends ilBuddySystemBaseStateTest
 {
 	/**
-	 * @var bool
+	 * {@inheritdoc}
 	 */
-	protected $backupGlobals = false;
-
-	/**
-	 * @var ilBuddySystemRelation
-	 */
-	protected $relation;
-
-	/**
-	 *
-	 */
-	public function setUp()
+	public function getInitialState()
 	{
-		$this->relation = new ilBuddySystemRelation(new ilBuddySystemIgnoredRequestRelationState());
+		return new ilBuddySystemLinkedRelationState();
 	}
 
 	/**
@@ -38,7 +30,7 @@ class ilBuddySystemRequestIgnoredRelationTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testIsLinked()
 	{
-		$this->assertFalse($this->relation->isLinked());
+		$this->assertTrue($this->relation->isLinked());
 	}
 
 	/**
@@ -54,27 +46,25 @@ class ilBuddySystemRequestIgnoredRelationTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testIsIgnored()
 	{
-		$this->assertTrue($this->relation->isIgnored());
+		$this->assertFalse($this->relation->isIgnored());
 	}
 
 	/**
-	 *
+	 * 
 	 */
 	public function testCanBeUnlinked()
 	{
 		$this->relation->unlink();
 		$this->assertTrue($this->relation->isUnlinked());
-		$this->assertTrue($this->relation->wasIgnored());
+		$this->assertTrue($this->relation->wasLinked());
 	}
 
 	/**
-	 *
+	 * @expectedException ilBuddySystemRelationStateException
 	 */
 	public function testCanBeLinked()
 	{
 		$this->relation->link();
-		$this->assertTrue($this->relation->isLinked());
-		$this->assertTrue($this->relation->wasIgnored());
 	}
 
 	/**
@@ -86,7 +76,7 @@ class ilBuddySystemRequestIgnoredRelationTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 *  @expectedException ilBuddySystemRelationStateException
+	 * @expectedException ilBuddySystemRelationStateException
 	 */
 	public function testCanBeIgnored()
 	{
