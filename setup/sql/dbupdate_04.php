@@ -12329,3 +12329,12 @@ $ilDB->modifyTableColumn(
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#4786>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#4787>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+ilDBUpdateNewObjectType::addAdminNode('cadm', 'Contact');
+?>

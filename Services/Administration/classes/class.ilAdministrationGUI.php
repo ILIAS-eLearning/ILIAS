@@ -449,7 +449,7 @@ class ilAdministrationGUI
 			2 => array(
 				"services" =>
 					array("pdts", "nwss", "tags", "prfa", "skmg", "cals", "mail", 
-						"---", "seas", "awra", "mds", "taxs", "cert", 'ecss', "pays", "extt", 'logs')
+						"---", "seas", "awra", "cadm", "mds", "taxs", "cert", 'ecss', "pays", "extt", 'logs')
 				),
 			3 => array(
 				"objects" =>
