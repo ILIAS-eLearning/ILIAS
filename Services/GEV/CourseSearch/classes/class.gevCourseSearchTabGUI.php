@@ -33,21 +33,18 @@ class gevCourseSearchTabGUI {
 	public function render() {
 		
 		foreach ($this->tabs as $key => $value) {
-			$this->gCtrl->setParameter($this->parent_obj,"active_tab",$key);
-
 			$this->tpl->setCurrentBlock("tab");
 			$class = gevCourseSearch::CSS_NOT_SELECTED_TAB;
 			if($this->selected_tab == $key) {
 				$class = gevCourseSearch::CSS_SELECTED_TAB;
 			}
+
 			$this->tpl->setVariable("SELECTED",$class);
 			$this->tpl->setVariable("A_SELECTED",$class);
-			
 			$this->tpl->setVariable("LINK",$this->gCtrl->getLinkTarget($this->parent_obj));
 			$this->tpl->setVariable("TAB_NAME",$this->gLng->txt($value)." (".$this->course_counting[$key].")");
 			$this->tpl->parseCurrentBlock();
 		}
-		$this->gCtrl->clearParameters($this->parent_obj);
 
 		return $this->tpl->get();
 	}

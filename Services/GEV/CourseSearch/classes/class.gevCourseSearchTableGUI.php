@@ -21,7 +21,7 @@ require_once("Services/GEV/CourseSearch/classes/class.gevCourseSearch.php");
 require_once("Services/GEV/CourseSearch/classes/class.gevCourseSearchTabGUI.php");
 
 class gevCourseSearchTableGUI extends catAccordionTableGUI {
-	public function __construct($a_search_options, $a_user_id, $a_parent_obj, $a_active_tab, $a_parent_cmd="", $a_template_context="") {
+	public function __construct($a_search_options, $a_user_id, $a_parent_obj, $a_active_tab, $a_in_search = false, $a_parent_cmd="", $a_template_context="") {
 		parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
 
 		global $ilCtrl, $lng, $ilUser;
@@ -30,7 +30,9 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 		$this->gCtrl = $ilCtrl;
 
 		$this->active_tab = $a_active_tab;
+		$this->in_search = $a_in_search;
 		$this->parent_obj = $a_parent_obj;
+		$this->search_options = $a_search_options;
 
 		//$crs_srch = gevUserUtils::getInstance($a_user_id);
 		$crs_srch = gevCourseSearch::getInstance($a_user_id);
@@ -246,16 +248,20 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 	public function render() {
 		$ret = "";
 
+		$this->gCtrl->setParameter($this->parent_obj,"active_tab",$this->active_tab);
+		if($this->in_search) {
+			$this->gCtrl->setParameter($this->parent_obj,"cmd", "search");
+		}
+
 		if ($this->_title_enabled) {
 			$ret .= $this->_title->render()."<br />";
 		}
 
 		$ret .= $this->tabs->render();
-
 		if($this->advice) {
 			$ret .= $this->renderAdvice()."<br />";
 		}
-		$this->gCtrl->setParameter($this->parent_obj,"active_tab",$this->active_tab);
+
 		$ret .= ilTable2GUI::render();
 		$this->gCtrl->clearParameters($this->parent_obj);
 
