@@ -12325,3 +12325,7 @@ $ilDB->modifyTableColumn(
 		ilDBUpdateNewObjectType::addRBACOperation($obj_type_id, $op_id);
 	}
 ?>
+<#4785>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

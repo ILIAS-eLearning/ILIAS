@@ -25,6 +25,7 @@ class ilObjFile extends ilObject2
 	protected $rating;
 	
 	private $file_storage = null;
+	protected $log = null;
 
 
 	/**
@@ -37,6 +38,9 @@ class ilObjFile extends ilObject2
 	{
 		$this->version = 0;
 		$this->raise_upload_error = true;
+
+		$this->log = ilLoggerFactory::getLogger('file');
+
 		parent::__construct($a_id,$a_call_by_reference);
 		
 		if($this->getId())
@@ -45,6 +49,9 @@ class ilObjFile extends ilObject2
 		}
 	}
 
+	/**
+	 * Init type
+	 */
 	function initType()
 	{
 		$this->type = "file";
@@ -97,6 +104,17 @@ class ilObjFile extends ilObject2
 				1, 0, $this->getId());
 		}
 
+		// log creation
+		include_once("./Services/Utilities/classes/class.ilStr.php");
+		$this->log->debug("ilObjFile::createProperties, ID: ".$this->getId().
+			", Name: ".$this->getFileName().
+			", Type: ".$this->getFileType().
+			", Size: ".$this->getFileSize().
+			", Mode: ".$this->getMode().
+			", Name(Bytes): ".implode(":", ilStr::getBytesForString($this->getFileName()))
+		);
+		$this->log->logStack(ilLogLevel::DEBUG);
+
 		$q = "INSERT INTO file_data (file_id,file_name,file_type,file_size,version,f_mode) "
 			."VALUES (".$ilDB->quote($this->getId() ,'integer').","
 			.$ilDB->quote($this->getFileName() ,'text').","
@@ -104,7 +122,7 @@ class ilObjFile extends ilObject2
 			.$ilDB->quote((int) $this->getFileSize() ,'integer').","
 			.$ilDB->quote(1 ,'integer').",".$ilDB->quote($this->getMode() ,'text').")";
 		$res = $ilDB->manipulate($q);
-		
+
 		// no meta data handling for file list files
 		if ($this->getMode() != "filelist")
 		{

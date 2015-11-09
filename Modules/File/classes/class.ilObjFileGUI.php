@@ -20,6 +20,21 @@ require_once "./Modules/File/classes/class.ilObjFileAccess.php";
 */
 class ilObjFileGUI extends ilObject2GUI
 {
+	protected $log = null;
+
+	/**
+	 * Constructor
+	 *
+	 * @param int $a_id
+	 * @param int $a_id_type
+	 * @param int $a_parent_node_id
+	 */
+	function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
+	{
+		$this->log = ilLoggerFactory::getLogger('file');
+		parent::__construct($a_id, $a_id_type, $a_parent_node_id);
+	}
+
 	function getType()
 	{
 		return "file";
@@ -1066,7 +1081,10 @@ class ilObjFileGUI extends ilObject2GUI
 				else
 				{
 					// handle the file
-					$fileresult = $this->handleFileUpload($dnd_form_gui->getInput("upload_files"));
+					$inp = $dnd_form_gui->getInput("upload_files");
+					$this->log->debug("ilObjFileGUI::uploadFiles ".print_r($_POST, true));
+					$this->log->debug("ilObjFileGUI::uploadFiles ".print_r($_FILES, true));
+					$fileresult = $this->handleFileUpload($inp);
 					if ($fileresult)
 						$response = (object)array_merge((array)$response, (array)$fileresult);
 				}
