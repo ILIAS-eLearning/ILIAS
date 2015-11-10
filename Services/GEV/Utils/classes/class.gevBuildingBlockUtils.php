@@ -15,7 +15,7 @@ class gevBuildingBlockUtils {
 	protected $building_block_id = "";
 	protected $title = "";
 	protected $content = "";
-	protected $learning_dest = "";
+	protected $target = "";
 	protected $is_wp_relevant = false;
 	protected $is_active = false;
 	protected $gdv_topic;
@@ -75,12 +75,12 @@ class gevBuildingBlockUtils {
 		$this->content = $a_content;
 	}
 
-	public function getLearningDestination() {
-		return $this->learning_dest;
+	public function getTarget() {
+		return $this->target;
 	}
 
-	public function setLearningDestination($a_learning_destination) {
-		$this->learning_dest = $a_learning_destination;
+	public function setTarget($a_target) {
+		$this->target = $a_target;
 	}
 
 	public function isWPRelevant() {
@@ -148,7 +148,7 @@ class gevBuildingBlockUtils {
 	}
 
 	public function loadData() {
-		$sql = "SELECT obj_id, title, content, learning_dest, is_wp_relevant, is_active, gdv_topic, training_categories,topic, dbv_topic, move_to_course\n".
+		$sql = "SELECT obj_id, title, content, target, is_wp_relevant, is_active, gdv_topic, training_categories,topic, dbv_topic, move_to_course\n".
 			   "  FROM ".self::TABLE_NAME.
 			   " WHERE obj_id = ".$this->db->quote($this->getId(), "integer");
 
@@ -159,7 +159,7 @@ class gevBuildingBlockUtils {
 
 			$this->title = $row["title"];
 			$this->content = $row["content"];
-			$this->learning_dest = $row["learning_dest"];
+			$this->target = $row["target"];
 			$this->is_wp_relevant = $row["is_wp_relevant"];
 			$this->is_active = $row["is_active"];
 			$this->gdv_topic = $row["gdv_topic"];
@@ -174,7 +174,7 @@ class gevBuildingBlockUtils {
 		$sql = "UPDATE ".self::TABLE_NAME
 			  ."   SET title = ".$this->db->quote($this->getTitle(), "text")."\n"
 			  ."     , content = ".$this->db->quote($this->getContent(), "text")."\n"
-			  ."     , learning_dest = ".$this->db->quote($this->getLearningDestination(), "text")."\n"
+			  ."     , target = ".$this->db->quote($this->getTarget(), "text")."\n"
 			  ."     , is_wp_relevant = ".$this->db->quote($this->isWPRelevant(), "integer")."\n"
 			  ."     , is_active = ".$this->db->quote($this->isActive(), "integer")."\n"
 			  ."     , last_change_user = ".$this->db->quote($this->ilUser->getId(), "integer")."\n"
@@ -197,12 +197,12 @@ class gevBuildingBlockUtils {
 		$isActive = ($this->isActive() === "") ? "0" : "1";
 
 		$sql = "INSERT INTO ".self::TABLE_NAME.""
-			  ." (obj_id, title, content, learning_dest, is_wp_relevant, is_active, last_change_user\n"
+			  ." (obj_id, title, content, target, is_wp_relevant, is_active, last_change_user\n"
 			  .", last_change_date, is_deleted, gdv_topic, training_categories, topic, dbv_topic, move_to_course)\n"
 			  ." VALUES (".$this->db->quote($this->getId(), "integer")."\n"
 			  ."        ,".$this->db->quote($this->getTitle(), "text")."\n"
 			  ."        ,".$this->db->quote($this->getContent(), "text")."\n"
-			  ."        ,".$this->db->quote($this->getLearningDestination(), "text")."\n"
+			  ."        ,".$this->db->quote($this->getTarget(), "text")."\n"
 			  ."        ,".$this->db->quote($isWPRelevant, "integer")."\n"
 			  ."        ,".$this->db->quote($isActive, "integer")."\n"
 			  ."        ,".$this->db->quote($this->ilUser->getId(), "integer")."\n"
@@ -224,7 +224,7 @@ class gevBuildingBlockUtils {
 		global $ilDB;
 
 		$add_where = self::createAdditionalWhere($a_search_opts);
-		$sql = "SELECT bb.obj_id, bb.title, bb.content, bb.learning_dest\n"
+		$sql = "SELECT bb.obj_id, bb.title, bb.content, bb.target\n"
 			  ."     , bb.is_wp_relevant, bb.is_active, bb.gdv_topic, bb.training_categories, bb.topic, bb.dbv_topic\n"
 			  ."	 , usr.login, bb.last_change_date, bb.move_to_course\n"
 			  ."  FROM ".self::TABLE_NAME." bb\n"
@@ -253,7 +253,7 @@ class gevBuildingBlockUtils {
 			switch($key) {
 				case "title":
 				case "content":
-				case "learning_dest":
+				case "target":
 					$ret .= " AND ".$key." LIKE ".$this->db->quote("%".$value."%", "text");
 					break;
 				case "is_wp_relevant":
@@ -411,7 +411,7 @@ class gevBuildingBlockUtils {
 	static function getBuildingBlockInfosById($id) {
 		global $ilDB;
 
-		$sql = "SELECT content, learning_dest, if(is_wp_relevant,'Ja','Nein') AS wp"
+		$sql = "SELECT content, target, if(is_wp_relevant,'Ja','Nein') AS wp"
 			   ." FROM ".self::TABLE_NAME."\n"
 			   ." WHERE obj_id = ".$ilDB->quote($id, "integer");
 
@@ -421,7 +421,7 @@ class gevBuildingBlockUtils {
 			return $ilDB->fetchAssoc($res);
 		}
 
-		return array("content" => "", "learning_dest" => "");
+		return array("content" => "", "target" => "");
 	}
 
 	static public function getMoveToCourseOptions() {

@@ -4522,3 +4522,10 @@ ilCustomInstaller::addRBACOps('crs', $new_crs_ops);
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+
+<#176>
+<?php
+if($ilDB->tableColumnExists('dct_building_block', 'learning_dest')) {
+	$ilDB->renameTableColumn('dct_building_block','learning_dest','target');
+}
+?>

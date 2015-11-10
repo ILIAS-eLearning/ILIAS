@@ -41,12 +41,12 @@ class gevDecentralTrainingBuildingBlockAdminTableGUI extends catTableGUI {
 
 		$this->addColumn($this->lng->txt("title"), "title");
 		$this->addColumn($this->lng->txt("gev_dec_building_block_content"),"content");
-		$this->addColumn($this->lng->txt("gev_dec_building_block_learn_dest"), 'learning_dest');
+		$this->addColumn($this->lng->txt("gev_dec_building_block_learn_dest"), 'target');
 		
-		$this->addColumn($this->lng->txt("gev_dec_training_training_category"), 'learning_dest');
-		$this->addColumn($this->lng->txt("gev_dec_training_gdv_topic"), 'learning_dest');
-		$this->addColumn($this->lng->txt("gev_dec_training_dbv_topic"), 'learning_dest');
-		$this->addColumn($this->lng->txt("gev_dec_training_topic"), 'learning_dest');
+		$this->addColumn($this->lng->txt("gev_dec_training_training_category"), 'target');
+		$this->addColumn($this->lng->txt("gev_dec_training_gdv_topic"), 'target');
+		$this->addColumn($this->lng->txt("gev_dec_training_dbv_topic"), 'target');
+		$this->addColumn($this->lng->txt("gev_dec_training_topic"), 'target');
 
 		$this->addColumn($this->lng->txt("gev_dec_building_block_is_wp_relevant"), "is_wp_relevant");
 		$this->addColumn($this->lng->txt("gev_dec_building_block_active"), "is_active");
@@ -71,7 +71,7 @@ class gevDecentralTrainingBuildingBlockAdminTableGUI extends catTableGUI {
 	protected function fillRow($a_set) {
 		$this->tpl->setVariable("TITLE", $a_set["title"]);
 		$this->tpl->setVariable("CONTENT", $a_set["content"]);
-		$this->tpl->setVariable("LEARNING_DEST", $a_set["learning_dest"]);
+		$this->tpl->setVariable("TARGET", $a_set["target"]);
 
 		$this->tpl->setVariable("TRAINING_CAT", implode("<br />",$a_set["training_categories"]));
 		$this->tpl->setVariable("GDV_TOPIC", $a_set["gdv_topic"]);

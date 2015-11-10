@@ -246,7 +246,7 @@ class gevDecentralTrainingUtils {
 			$worksheet->write($row, 1, $block->getEndTime(), $format_wrap);
 			$worksheet->write($row, 2, $base->getTitle(), $format_wrap);
 			$worksheet->write($row, 3, $base->getContent(), $format_wrap);
-			$worksheet->write($row, 4, $base->getLearningDestination(), $format_wrap);
+			$worksheet->write($row, 4, $base->getTarget(), $format_wrap);
 		}
 		
 		$workbook->close();

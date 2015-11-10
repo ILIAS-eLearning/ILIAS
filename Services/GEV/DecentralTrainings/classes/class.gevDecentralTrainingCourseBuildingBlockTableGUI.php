@@ -83,7 +83,7 @@ class gevDecentralTrainingCourseBuildingBlockTableGUI extends catTableGUI {
 		$this->tpl->setVariable("END_DATE", $end_date->render());
 		$this->tpl->setVariable("TITLE", $a_set["title"]);
 		$this->tpl->setVariable("CONTENT", $a_set["content"]);
-		$this->tpl->setVariable("LEARNING_DEST", $a_set["learning_dest"]);
+		$this->tpl->setVariable("TARGET", $a_set["target"]);
 		$this->tpl->setVariable("PRACTICE_SESSION", $a_set["practice_session"]);//$a_set["practice_session"]);
 		$this->tpl->setVariable("CREDIT_POINTS", $a_set["credit_points"]);
 		$this->tpl->setVariable("DBV_TOPIC", $a_set["dbv_topic"]);
