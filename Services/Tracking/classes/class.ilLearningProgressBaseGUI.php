@@ -771,9 +771,6 @@ class ilLearningProgressBaseGUI
             
             include_once("./Services/Tracking/classes/class.ilLPStatus.php");
             
-            file_put_contents('adam_what.log',$marks->getMark()."||".$passing_grade_minimum."||".ilLPStatus::LP_STATUS_COMPLETED_NUM."||".$obj_id);
-            
-            
             if($marks->getMark()>=$passing_grade_minimum){
                 ilLPStatus::writeStatus($obj_id, $user_id, ilLPStatus::LP_STATUS_COMPLETED_NUM, false, true);
             }else{

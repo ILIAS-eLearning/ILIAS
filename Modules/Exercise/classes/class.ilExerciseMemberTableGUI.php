@@ -324,6 +324,7 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
                 include_once("./Services/Tracking/classes/repository_statistics/class.ilLPListOfObjectsGUI.php");
                 $lp_gui=new ilLPListOfObjectsGUI($lp_mode,$_GET['ref_id']);
                 //$link=$ilCtrl->getLinkTarget($lp_gui, "edituser");
+                //$url_link=$ilCtrl->getLinkTargetByClass(array("ilobjexercisegui", "illearningprogressgui", "illplistofobjectsgui"),'edituser');
                 
                 //$lp_gui->userDetails()
                 //include_once("./Services/Tracking/classes/class.ilLearningProgressBaseGUI.php");
@@ -334,6 +335,8 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
                 //LP https://adam-lms.cpkn.ca/ilias.php?ref_id=127&ass_id=3&details_id=127&user_id=271&cmd=edituser&cmdClass=illplistofobjectsgui&cmdNode=ce:cd:uo:s2&baseClass=ilExerciseHandlerGUI
                 //ME https://adam-lms.cpkn.ca/ilias.php?ref_id=127&ass_id=3&details_id=127&user_id=&cmd=edituser&cmdClass=illplistofobjectsgui&cmdNode=ce:cd:uo:s2&baseClass=ilExerciseHandlerGUI
                 
+                //GOOD>  ilias.php?ref_id=".$_GET['ref_id']."&ass_id=".$this->ass_id."&details_id=".$_GET['ref_id']."&user_id=".$member_id."&cmd=edituser&cmdClass=illplistofobjectsgui&cmdNode=ce:cd:uo:s2&baseClass=ilExerciseHandlerGUI
+                //NEW>   ilias.php?ref_id=127&ass_id=3&member_id=271&cmd=edituser&cmdClass=illplistofobjectsgui&cmdNode=ce:cd:uo:s2&baseClass=ilExerciseHandlerGUI
                 $link="<a href=\"ilias.php?ref_id=".$_GET['ref_id']."&ass_id=".$this->ass_id."&details_id=".$_GET['ref_id']."&user_id=".$member_id."&cmd=edituser&cmdClass=illplistofobjectsgui&cmdNode=ce:cd:uo:s2&baseClass=ilExerciseHandlerGUI\">".$this->lng->txt('trac_rubric')."</a>";
                 
                 $this->tpl->setVariable("RUBRIC_LINK", $link);                

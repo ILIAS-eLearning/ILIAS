@@ -372,9 +372,7 @@ class ilLPStatus
 			" usr_id = ".$ilDB->quote($a_user_id, "integer")
 			);
 		$rec = $ilDB->fetchAssoc($set);	
-		file_put_contents('adam_write.txt',"SELECT usr_id,status,status_dirty FROM ut_lp_marks WHERE ".
-			" obj_id = ".$ilDB->quote($a_obj_id, "integer")." AND ".
-			" usr_id = ".$ilDB->quote($a_user_id, "integer"),FILE_APPEND);
+        
 		// update
 		if ($rec)
 		{
@@ -388,12 +386,7 @@ class ilLPStatus
 					" WHERE usr_id = ".$ilDB->quote($a_user_id, "integer").
 					" AND obj_id = ".$ilDB->quote($a_obj_id, "integer")
 					);
-                file_put_contents('adam_write.txt',"UPDATE ut_lp_marks SET ".
-					" status = ".$ilDB->quote($a_status, "integer").",".
-					" status_changed = ".$ilDB->now().",".
-					" status_dirty = ".$ilDB->quote(0, "integer").
-					" WHERE usr_id = ".$ilDB->quote($a_user_id, "integer").
-					" AND obj_id = ".$ilDB->quote($a_obj_id, "integer"),FILE_APPEND);
+                
 				if ($ret != 0)
 				{
 					$update_collections = true;
