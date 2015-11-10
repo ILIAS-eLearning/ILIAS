@@ -12343,3 +12343,15 @@ ilDBUpdateNewObjectType::addAdminNode('cadm', 'Contact');
 $ilSetting = new ilSetting('buddysystem');
 $ilSetting->set('enabled', 1);
 ?>
+<#4789>
+<?php
+$stmt = $ilDB->prepareManip('INSERT INTO usr_pref (usr_id, keyword, value) VALUES(?, ?, ?)', array('integer', 'text', 'text'));
+
+$notin = $ilDB->in('usr_data.usr_id', array(13), true, 'integer');
+$query = 'SELECT usr_data.usr_id FROM usr_data LEFT JOIN usr_pref ON usr_pref.usr_id = usr_data.usr_id AND usr_pref.keyword = %s WHERE usr_pref.keyword IS NULL AND ' . $notin;
+$res   = $ilDB->queryF($query, array('text'), array('bs_allow_to_contact_me'));
+while($row = $ilDB->fetchAssoc($res))
+{
+	$ilDB->execute($stmt, array($row['usr_id'], 'bs_allow_to_contact_me', 'y'));
+}
+?>
