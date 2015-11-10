@@ -323,22 +323,8 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
             if($lp_mode==92){
                 include_once("./Services/Tracking/classes/repository_statistics/class.ilLPListOfObjectsGUI.php");
                 $lp_gui=new ilLPListOfObjectsGUI($lp_mode,$_GET['ref_id']);
-                //$link=$ilCtrl->getLinkTarget($lp_gui, "edituser");
-                //$url_link=$ilCtrl->getLinkTargetByClass(array("ilobjexercisegui", "illearningprogressgui", "illplistofobjectsgui"),'edituser');
-                
-                //$lp_gui->userDetails()
-                //include_once("./Services/Tracking/classes/class.ilLearningProgressBaseGUI.php");
-                //$lp_gui=new ilLearningProgressBaseGUI($lp_mode,$_GET['ref_id'],$member_id);
-                //global $ilCtrl;                
-                
-                //SG https://adam-lms.cpkn.ca/ilias.php?ref_id=127&ass_id=3&cmd=members&cmdClass=ilobjexercisegui&cmdNode=ce:cd&baseClass=ilExerciseHandlerGUI
-                //LP https://adam-lms.cpkn.ca/ilias.php?ref_id=127&ass_id=3&details_id=127&user_id=271&cmd=edituser&cmdClass=illplistofobjectsgui&cmdNode=ce:cd:uo:s2&baseClass=ilExerciseHandlerGUI
-                //ME https://adam-lms.cpkn.ca/ilias.php?ref_id=127&ass_id=3&details_id=127&user_id=&cmd=edituser&cmdClass=illplistofobjectsgui&cmdNode=ce:cd:uo:s2&baseClass=ilExerciseHandlerGUI
-                
-                //GOOD>  ilias.php?ref_id=".$_GET['ref_id']."&ass_id=".$this->ass_id."&details_id=".$_GET['ref_id']."&user_id=".$member_id."&cmd=edituser&cmdClass=illplistofobjectsgui&cmdNode=ce:cd:uo:s2&baseClass=ilExerciseHandlerGUI
-                //NEW>   ilias.php?ref_id=127&ass_id=3&member_id=271&cmd=edituser&cmdClass=illplistofobjectsgui&cmdNode=ce:cd:uo:s2&baseClass=ilExerciseHandlerGUI
-                $link="<a href=\"ilias.php?ref_id=".$_GET['ref_id']."&ass_id=".$this->ass_id."&details_id=".$_GET['ref_id']."&user_id=".$member_id."&cmd=edituser&cmdClass=illplistofobjectsgui&cmdNode=ce:cd:uo:s2&baseClass=ilExerciseHandlerGUI\">".$this->lng->txt('trac_rubric')."</a>";
-                
+                $url_link=$ilCtrl->getLinkTargetByClass(array("ilobjexercisegui","illearningprogressgui", "illplistofobjectsgui"),'edituser');                
+                $link="<a href=\"${url_link}&details_id=".$_GET['ref_id']."&user_id=".$member_id."\">".$this->lng->txt('trac_rubric')."</a>";                
                 $this->tpl->setVariable("RUBRIC_LINK", $link);                
             }            
             // END PATCH RUBRIC CPKN 2015
