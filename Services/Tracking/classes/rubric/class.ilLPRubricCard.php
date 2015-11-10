@@ -658,7 +658,7 @@ class ilLPRubricCard
         $this->rubric_id=$row['rubric_id'];
         
         if(empty($this->rubric_id)){            
-            $this->rubric_id=$this->incrementSequence('rubric_label_seq');
+            $this->rubric_id=$this->incrementSequence('rubric_seq');
         }
         
         // insert or update the rubric        

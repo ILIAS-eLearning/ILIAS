@@ -24,10 +24,6 @@ rubricCriteriaConfig::installDB();
 require_once('./Services/Tracking/classes/rubric/class.ilRubricBehaviorConfig.php');
 rubricBehaviorConfig::installDB();
 
-// Rubric Points
-require_once('./Services/Tracking/classes/rubric/class.ilRubricPointConfig.php');
-rubricPointConfig::installDB();
-
 // Rubric Data
 require_once('./Services/Tracking/classes/rubric/class.ilRubricDataConfig.php');
 rubricDataConfig::installDB();
