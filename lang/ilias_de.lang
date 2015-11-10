@@ -15833,8 +15833,8 @@ buddysystem#:#buddy_notification_contact_request#:#Kontaktanfrage
 buddysystem#:#buddy_notification_contact_request_short#:#Der Benutzer "[REQUESTING_USER]" möchte mit Ihnen in Kontakt treten.[BR][BR][APPROVE_REQUEST][BR][IGNORE_REQUEST]
 buddysystem#:#buddy_notification_contact_request_link#:#Anfrage bestätigen:
 buddysystem#:#buddy_notification_contact_request_link_osd#:#Anfrage bestätigen
-buddysystem#:#buddy_notification_contact_request_ignore#:#Anfrage Ignorieren: 
-buddysystem#:#buddy_notification_contact_request_ignore_osd#:#Anfrage Ignorieren
+buddysystem#:#buddy_notification_contact_request_ignore#:#Anfrage ignorieren:
+buddysystem#:#buddy_notification_contact_request_ignore_osd#:#Anfrage ignorieren
 buddysystem#:#buddy_notification_contact_request_long#:#[SALUTATION][BR][BR]der Benutzer "[REQUESTING_USER]" möchte mit Ihnen in Kontakt treten.[BR][BR][APPROVE_REQUEST_TXT] [APPROVE_REQUEST][BR][IGNORE_REQUEST_TXT] [IGNORE_REQUEST]
 buddysystem#:#buddy_request_approved#:#Der Kontakt wurde erfolgreich hergestellt.
 buddysystem#:#buddy_request_ignored#:#Sie haben den Benutzer ignoriert.
@@ -15848,10 +15848,10 @@ common#:#obj_cadm_desc#:#Administration für Benutzerkontakte
 rbac#:#cadm_visible#:#Administration für Benutzerkontakte ist sichtbar
 rbac#:#cadm_read#:#Administration für Benutzerkontakte lesen
 rbac#:#cadm_write#:#Administration für Benutzerkontakte editieren
-rbac#:#cadm_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#cadm_edit_permission#:#Rechteeinstellungen der Administration für Benutzerkontakte ändern
 common#:#no_gallery_users_available#:#Aktuell befinden sich keine Benutzer in der Galerie.
 crs#:#crs_mem_contact#:#Kursbetreuung
-awrn#:#awareness_now_online#:#Jetzt Online
+awrn#:#awareness_now_online#:#Jetzt online
 awrn#:#awareness_now_online_users#:#[ONLINE_USER_NAMES]
 common#:#obj_awra_desc#:#„Wer ist online?“-Anzeige administrieren
 common#:#obj_awra#:#„Wer ist online?“-Anzeige
@@ -15864,31 +15864,31 @@ crs#:#crs_awrn_support_contacts#:#Kursbetreuung
 crs#:#crs_awrn_support_contacts_info#:#Benutzer, die den Kurs betreuen, werden aufgelistet. Die jeweiligen Benutzer werden im Reiter Mitglieder des Kurses für die Kursbetreuung eingetragen.
 awrn#:#awrn_inactive#:#Keine Anzeige
 awrn#:#awrn_online_only#:#Nur Online
-awrn#:#awrn_incl_offline#:#Online und Offline
+awrn#:#awrn_incl_offline#:#Online und offline
 contact#:#contact_awrn_ap_contacts#:#Bestätigte Kontakte
 contact#:#contact_awrn_ap_contacts_info#:#Alle bestätigten Kontakte eines Benutzers werden aufgelistet.
 adm#:#adm_support_contacts#:#Technische Betreuung
-adm#:#adm_awrn_support_contacts_info#:#Die Benutzer der technischen Betreuung werden aufgelistet. Die Benutzer werden im Bereich "Allgemeine Einstellungen" > "Kontaktinformationen" der technischen Betreuung zugeordnet.
-adm#:#adm_support_contacts_info#:#Technische Betreuer werden in der Fußzeile verlinkt und (wenn aktiviert) in der „Wer ist online?“-Anzeige aufgelistet. Komma-separierte Liste von Benutzer-Logins.
+adm#:#adm_awrn_support_contacts_info#:#Die Benutzer für die technische Betreuung werden aufgelistet. Die Benutzer werden im Bereich "Allgemeine Einstellungen" » "Kontaktinformationen" der technischen Betreuung zugeordnet.
+adm#:#adm_support_contacts_info#:#Technische Betreuer werden in der Fußzeile verlinkt und - wenn aktiviert - in der „Wer ist online?“-Anzeige aufgelistet. Komma-separierte Liste von Benutzeraccounts.
 mmbr#:#mmbr_awrn_my_groups_courses#:#Meine Kurse und Gruppen
 mmbr#:#mmbr_awrn_my_groups_courses_info#:#Alle Mitglieder von Gruppen und Kursen eines Benutzers werden aufgelistet.
 crs#:#crs_awrn_current_course#:#Aktueller Kurs
 crs#:#crs_awrn_current_course_info#:#Innerhalb eines Kurses werden alle Mitglieder des Kurses aufgelistet.
 awrn#:#awrn_caching_period#:#Caching-Zeitraum
-awrn#:#awrn_caching_period_info#:#Dieser Zeitraum wird gewartet, bevor die Anzahl der Benutzer in der Top-Anzeige aktualisiert wird und bevor neue Online-Benutzer ermittelt werden.
+awrn#:#awrn_caching_period_info#:#Dieser Zeitraum wird abgewartet, bevor die Anzahl der Benutzer in der Top-Anzeige aktualisiert und neue Online-Benutzer ermittelt werden.
 awrn#:#awrn_seconds#:#Sek.
 awrn#:#awrn_max_nr_entries#:#Anzahl max. Einträge
-awrn#:#awrn_max_nr_entries_info#:#Diese Anzahl an Einträgen wird maximal in der Awareness-Liste angezeigt.
+awrn#:#awrn_max_nr_entries_info#:#Diese Anzahl an Einträgen wird maximal in der „Wer ist online?“-Liste angezeigt.
 awrn#:#awrn_hide_from_awareness#:#Mich nicht in „Wer ist online?“-Anzeige auflisten
 awrn#:#awrn_hide_from_awareness_info#:#Die „Wer ist online?“-Anzeige erscheint oben im Kopf der Anwendung und listet ausgewählte Benutzer auf (z.B. Kontakte oder Mitglieder Ihrer Kurse).
 common#:#contact_sysadmin#:#Technische Betreuung kontaktieren
 ldap#:#ldap_servers#:#LDAP Server
-ldap#:#add_ldap_server#:#Server Hinzufügen
+ldap#:#add_ldap_server#:#Server hinzufügen
 ldap#:#ldap_username_filter#:#Benutzernamen Filter
 ldap#:#ldap_username_filter_info#:#Benutzen Sie * als Wildcard.
 search#:#search_filter_cd#:#Filter nach Erstellungsdatum
 search#:#search_filter_date#:#Nach Datum
-search#:#search_filter_duration#:#Search by duration
+search#:#search_filter_duration#:#Nach Dauer
 search#:#search_created_before#:#Objekte erstellt vor dem...
 search#:#search_created_after#:#Objekte erstellt nach dem...
 search#:#search_created_on#:#Objekte erstellt am...
@@ -15949,7 +15949,7 @@ prg#:#prg_status_outdated#:#abgelaufen
 prg#:#prg_status_in_progress#:#In Bearbeitung
 prg#:#prg_status_completed#:#Abgeschlossen
 prg#:#prg_status_accredited#:#Akkreditiert
-prg#:#prg_status_not_relevant#:#Nicht Relevant
+prg#:#prg_status_not_relevant#:#Nicht relevant
 prg#:#prg_possible#:#Möglich
 prg#:#prg_completion_by#:#Abgeschlossen durch
 prg#:#prg_changed_by#:#Geändert durch

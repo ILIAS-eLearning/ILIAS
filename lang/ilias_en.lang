@@ -15853,12 +15853,12 @@ buddysystem#:#buddy_notification_contact_request_long#:#[SALUTATION][BR][BR]the 
 buddysystem#:#buddy_request_approved#:#You successfully approved the contact.
 buddysystem#:#buddy_request_ignored#:#You ignored the user.
 buddysystem#:#buddy_relation_requested#:#A request has been sent to the user.
-buddysystem#:#buddy_enable#:#Activate „User Connections“
+buddysystem#:#buddy_enable#:#Activate ‘Contacts’
 buddysystem#:#buddy_enable_info#:#If enabled, users are allowed to contact each other by initiating contact requests.
 buddysystem#:#buddy_allow_to_contact_me#:#Allow to contact me
-buddysystem#:#buddy_allow_to_contact_me_info#:#If enabled, other users are able to request my friendship.
-common#:#obj_cadm#:#User Connections
-common#:#obj_cadm_desc#:#User Connection Administration
+buddysystem#:#buddy_allow_to_contact_me_info#:#If enabled, other users are able to send me request for getting into contact.
+common#:#obj_cadm#:#Contacts
+common#:#obj_cadm_desc#:#Contacts Administration
 rbac#:#cadm_visible#:#User connection administration is visible
 rbac#:#cadm_read#:#User has read access to user connection administration
 rbac#:#cadm_write#:#User has write access to user connection administration
