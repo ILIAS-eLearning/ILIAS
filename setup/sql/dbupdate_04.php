@@ -12338,3 +12338,8 @@ $ilCtrlStructureReader->getStructure();
 include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
 ilDBUpdateNewObjectType::addAdminNode('cadm', 'Contact');
 ?>
+<#4788>
+<?php
+$ilSetting = new ilSetting('buddysystem');
+$ilSetting->set('enabled', 1);
+?>
