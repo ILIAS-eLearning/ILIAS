@@ -387,11 +387,13 @@ class ilLPRubricCard
                         "select 
                             c.rubric_criteria_id,b.rubric_behavior_id,b.rubric_label_id 
                          from rubric_behavior b 
-                            inner join rubric_criteria c on b.rubric_criteria_id=c.rubric_criteria_id 
+                            inner join rubric_criteria c on b.rubric_criteria_id=c.rubric_criteria_id
+                            inner join rubric_group as g on c.rubric_group_id=g.rubric_group_id 
                          where 
                             c.deleted is null and
                             b.description=".$this->ilDB->quote($behavior_name, "text")." and
-                            c.criteria=".$this->ilDB->quote($new_criteria_name, "text")
+                            c.criteria=".$this->ilDB->quote($new_criteria_name, "text")." and 
+                            g.rubric_id=".$this->ilDB->quote($this->rubric_id, "integer")
                     );
                     $row=$this->ilDB->fetchAssoc($set);
                     
