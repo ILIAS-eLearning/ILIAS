@@ -8,12 +8,10 @@
 * @version	$Id$
 *
 */
-class gevWBDSuccessVermitVerwaltungTransferfaehig extends WBDSuccess {
+class gevWBDSuccessVermitVerwaltungTransferfaehig extends WBDSuccessVermitVerwaltungTransferfaehig {
 	protected $usr_id;
 	protected $row_id;
 
-	const AGENT_ID = "VermittlerId";
-	
 	public function __construct($usr_id, $row_id) {
 		if(!$usr_id) {
 			throw new LogicException("gevWBDSuccessVermitVerwaltungTransferfaehig: a usr_id must be provided");

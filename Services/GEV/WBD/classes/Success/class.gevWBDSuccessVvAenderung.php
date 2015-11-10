@@ -8,33 +8,16 @@
 * @version	$Id$
 *
 */
-class gevWBDSuccessVvAenderung extends WBDSuccess {
-	protected $agent_id;
+class gevWBDSuccessVvAenderung extends WBDSuccessVvAenderung {
 	protected $row_id;
 
-	const AGENT_ID = "VermittlerId";
-	
 	public function __construct($response, $row_id) {
 		if(!$row_id) {
 			throw new LogicException("gevWBDSuccessVvAenderung: a row_id must be provided");
 		}
+		parent::__construct($response);
 		$this->row_id = $row_id;
-		$this->agent_id = $this->nodeValue($response,self::AGENT_ID);
-	}
-	
-	/**
-	* gets the WBD Agent id
-	*
-	* @throws LogicException
-	* 
-	*@return string
-	*/
-	public function AgentId() {
-		if($this->agent_id === null) {
-			throw new LogicalException("gevWBDSuccessVvErstanlage::AgentId:agent_id is NULL");
-		}
-
-		return $this->agent_id;
+		
 	}
 
 	public function rowId() {
