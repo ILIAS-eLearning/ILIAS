@@ -1907,10 +1907,10 @@ class ilRbacReview
 	public function isProtected($a_ref_id,$a_role_id)
 	{
 		global $ilDB;
-		
+
+		// ref_id not used yet. protected permission acts 'global' for each role,
 		$query = "SELECT protected FROM rbac_fa ".
-			 "WHERE rol_id = ".$ilDB->quote($a_role_id,'integer')." ".
-			 "AND parent = ".$ilDB->quote($a_ref_id,'integer')." ";
+			 "WHERE rol_id = ".$ilDB->quote($a_role_id,'integer')." ";
 		$res = $ilDB->query($query);
 		$row = $ilDB->fetchAssoc($res);
 		
