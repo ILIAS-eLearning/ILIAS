@@ -457,6 +457,10 @@ class ilObjUserGUI extends ilObjectGUI
 			{
 				$userObj->setPref("hide_own_online_status", $_POST["hide_own_online_status"] ? 'y' : 'n');
 			}
+			if($this->isSettingChangeable('bs_allow_to_contact_me'))
+			{
+				$userObj->setPref('bs_allow_to_contact_me', $_POST['bs_allow_to_contact_me'] ? 'y' : 'n');
+			}
 			if((int)$ilSetting->get('session_reminder_enabled'))
 			{
 				$userObj->setPref('session_reminder_enabled', (int)$_POST['session_reminder_enabled']);
@@ -888,6 +892,10 @@ class ilObjUserGUI extends ilObjectGUI
 			{
 				$this->object->setPref("hide_own_online_status", $_POST["hide_own_online_status"] ? 'y' : 'n');
 			}
+			if($this->isSettingChangeable('bs_allow_to_contact_me'))
+			{
+				$this->object->setPref('bs_allow_to_contact_me', $_POST['bs_allow_to_contact_me'] ? 'y' : 'n');
+			}
 
 			// set a timestamp for last_password_change
 			// this ts is needed by ilSecuritySettings
@@ -1077,6 +1085,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$data["hits_per_page"] = $this->object->prefs["hits_per_page"];
 		$data["show_users_online"] = $this->object->prefs["show_users_online"];
 		$data["hide_own_online_status"] = $this->object->prefs["hide_own_online_status"] == 'y';
+		$data['bs_allow_to_contact_me'] = $this->object->prefs['bs_allow_to_contact_me'] == 'y';
 		$data["session_reminder_enabled"] = (int)$this->object->prefs["session_reminder_enabled"];
 
 		$this->form_gui->setValuesByArray($data);
@@ -1670,7 +1679,8 @@ class ilObjUserGUI extends ilObjectGUI
 			$this->isSettingChangeable( 'language') or
 			$this->isSettingChangeable( 'skin_style') or
 			$this->isSettingChangeable( 'hits_per_page') or
-			$this->isSettingChangeable( 'hide_own_online_status')
+			$this->isSettingChangeable( 'hide_own_online_status') or
+			$this->isSettingChangeable( 'bs_allow_to_contact_me')
 		)
 		{
 			$sec_st = new ilFormSectionHeaderGUI();
@@ -1769,6 +1779,14 @@ class ilObjUserGUI extends ilObjectGUI
 		{
 			$lng->loadLanguageModule("awrn");
 			$os = new ilCheckboxInputGUI($lng->txt("awrn_hide_from_awareness"), "hide_own_online_status");
+			$this->form_gui->addItem($os);
+		}
+
+		// allow to contact me
+		if($this->isSettingChangeable('bs_allow_to_contact_me'))
+		{
+			$lng->loadLanguageModule('buddysystem');
+			$os = new ilCheckboxInputGUI($lng->txt('buddy_allow_to_contact_me'), 'bs_allow_to_contact_me');
 			$this->form_gui->addItem($os);
 		}
 
@@ -2436,6 +2454,15 @@ class ilObjUserGUI extends ilObjectGUI
 		}
 		else {
 			$this->object->setPref("hide_own_online_status", "n");
+		}
+		// set allow to contact me
+		if(isset($_POST['Fobject']['bs_allow_to_contact_me']) && $_POST['Fobject']['bs_allow_to_contact_me'] == 1)
+		{
+			$this->object->setPref('bs_allow_to_contact_me', 'y');
+		}
+		else
+		{
+			$this->object->setPref('bs_allow_to_contact_me', 'n');
 		}
 
 		$this->update = $this->object->update();

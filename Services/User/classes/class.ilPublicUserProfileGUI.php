@@ -612,8 +612,9 @@ class ilPublicUserProfileGUI
 				$tpl->parseCurrentBlock();
 			}
 		}
+
 		if(
-			$this->getUserId() != $ilUser->getId() &&
+			($this->getUserId() != $ilUser->getId()) &&
 			!$ilUser->isAnonymous() &&
 			!ilObjUser::_isAnonymous($this->getUserId())
 		)
@@ -622,6 +623,7 @@ class ilPublicUserProfileGUI
 			$button = ilBuddySystemLinkButton::getInstanceByUserId($user->getId());
 			$tpl->setVariable('BUDDY_HTML', $button->getHtml());
 		}
+
 		$goto = "";
 		if($a_add_goto)
 		{			

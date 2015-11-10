@@ -926,7 +926,18 @@ class ilPersonalSettingsGUI
 			$cb->setDisabled($ilSetting->get("usr_settings_disable_hide_own_online_status"));
 			$this->form->addItem($cb);
 		}
-		
+
+		require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystem.php';
+		if(ilBuddySystem::getInstance()->isEnabled() && $this->userSettingVisible('bs_allow_to_contact_me'))
+		{
+			$this->lng->loadLanguageModule('buddysystem');
+			$allow_to_contact_be = new ilCheckboxInputGUI($this->lng->txt('buddy_allow_to_contact_me'), 'bs_allow_to_contact_me');
+			$allow_to_contact_be->setInfo($this->lng->txt('buddy_allow_to_contact_me_info'));
+			$allow_to_contact_be->setChecked($ilUser->prefs['bs_allow_to_contact_me'] == 'y');
+			$allow_to_contact_be->setDisabled($ilSetting->get('usr_settings_disable_bs_allow_to_contact_me'));
+			$this->form->addItem($allow_to_contact_be);
+		}
+
 		include_once 'Services/Authentication/classes/class.ilSessionReminder.php';
 		if(ilSessionReminder::isGloballyActivated())
 		{
@@ -1123,6 +1134,19 @@ class ilPersonalSettingsGUI
 				else
 				{
 					$ilUser->setPref("hide_own_online_status","n");
+				}
+			}
+
+			require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystem.php';
+			if(ilBuddySystem::getInstance()->isEnabled() && $this->workWithUserSetting('bs_allow_to_contact_me'))
+			{
+				if(isset($_POST['bs_allow_to_contact_me']) && $_POST['bs_allow_to_contact_me'] == 1)
+				{
+					$ilUser->setPref('bs_allow_to_contact_me', 'y');
+				}
+				else
+				{
+					$ilUser->setPref('bs_allow_to_contact_me', 'n');
 				}
 			}
 

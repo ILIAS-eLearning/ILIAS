@@ -85,7 +85,7 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 		$this->addColumn($lng->txt($mode['long']), 'members_crs_grp', '22%');
 		if(ilBuddySystem::getInstance()->isEnabled())
 		{
-			$this->addColumn($lng->txt('buddy_tbl_filter_state'), '', '23%');
+			$this->addColumn($lng->txt('buddy_tbl_filter_state'), 'status', '23%');
 		}
 		$this->addColumn($lng->txt('actions'), '', '10%');
 
@@ -152,22 +152,11 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 		if($this->context == 'mail' && ilBuddySystem::getInstance()->isEnabled())
 		{
 			$relation = ilBuddyList::getInstanceByGlobalUser()->getRelationByUserId($a_set['members_id']);
-			$state_name = ilStr::convertUpperCamelCaseToUnderscoreCase($relation->getState()->getName());
-
-			$a_set['status'] = '';
-			if($a_set['members_id'] != $ilUser->getId())
-			{
-				if($relation->isOwnedByRequest())
-				{
-					$a_set['status'] = $this->lng->txt('buddy_bs_state_' . $state_name . '_a');
-				}
-				else
-				{
-					$a_set['status'] = $this->lng->txt('buddy_bs_state_' . $state_name . '_p');
-				}
-			}
-
-			if($a_set['members_id'] != $ilUser->getId() && $relation->isUnlinked())
+			if(
+				$a_set['members_id'] != $ilUser->getId() &&
+				$relation->isUnlinked() &&
+				ilUtil::yn2tf(ilObjUser::_lookupPref($a_set['members_id'], 'bs_allow_to_contact_me'))
+			)
 			{
 				$ilCtrl->setParameterByClass('ilBuddySystemGUI', 'user_id', $a_set['members_id']);
 				$current_selection_list->addItem($this->lng->txt('buddy_bs_btn_txt_unlinked_a'), '', $ilCtrl->getLinkTargetByClass('ilBuddySystemGUI', 'request'));

@@ -409,6 +409,7 @@ class ilUserXMLWriter extends ilXmlWriter
 				'send_info_mails',
 				'show_users_online',
 				'hide_own_online_status',
+				'bs_allow_to_contact_me',
 				'user_tz',
 				'weekstart',
 				'mail_incoming_type',

@@ -304,6 +304,14 @@ class ilUserProfile
 						"course_export_hide" => true,
 						"group_export_hide" => true,
 						"group" => "settings"),
+		"bs_allow_to_contact_me" => array(
+			"input" => "selection",
+			"lang_var" => "buddy_allow_to_contact_me",
+			"required_hide" => true,
+			"visib_reg_hide" => true,
+			"course_export_hide" => true,
+			"group_export_hide" => true,
+			"group" => "settings"),
 		"preferences" => array(
 						"visible_fix_value" => 1,
 						"changeable_fix_value" => 1,
@@ -342,6 +350,7 @@ class ilUserProfile
 		// for hide me from awareness tool text
 		// not nicest workaround, but better than using common block
 		$lng->loadLanguageModule("awrn");
+		$lng->loadLanguageModule("buddysystem");
 	}
 	
 	/**

@@ -85,6 +85,12 @@ class ilBuddySystemLinkButton implements ilBuddySystemLinkButtonType
 		{
 			$relation = $this->buddylist->getRelationByUserId($this->getUsrId());
 
+			// The ILIAS JF decided to add a new personal setting
+			if($relation->isUnlinked() && !ilUtil::yn2tf(ilObjUser::_lookupPref($relation->getBuddyUserId(), 'bs_allow_to_contact_me')))
+			{
+				return '';
+			}
+
 			$button_tpl = new ilTemplate('tpl.buddy_system_link_button.html', true, true, 'Services/Contact/BuddySystem');
 			$button_tpl->setVariable('BUTTON_HTML', ilBuddySystemRelationStateFactory::getInstance()->getRendererByOwnerAndRelation($ilUser->getId(), $relation)->getHtml());
 			$button_tpl->setVariable('BUTTON_BUDDY_ID', $this->getUsrId());

@@ -15855,6 +15855,8 @@ buddysystem#:#buddy_request_ignored#:#You ignored the user.
 buddysystem#:#buddy_relation_requested#:#A request has been sent to the user.
 buddysystem#:#buddy_enable#:#Activate „User Connections“
 buddysystem#:#buddy_enable_info#:#If enabled, users are allowed to contact each other by initiating contact requests.
+buddysystem#:#buddy_allow_to_contact_me#:#Allow to contact me
+buddysystem#:#buddy_allow_to_contact_me_info#:#If enabled, other users are able to request my friendship.
 common#:#obj_cadm#:#User Connections
 common#:#obj_cadm_desc#:#User Connection Administration
 rbac#:#cadm_visible#:#User connection administration is visible

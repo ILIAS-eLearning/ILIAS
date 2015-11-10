@@ -222,8 +222,9 @@ class ilUserDataSet extends ilDataSet
 			{
 				case "4.3.0":
 				case "4.5.0":
+				case "5.1.0":
 					// for all user ids get data from usr_pref and mail options, create records user_id/name/value
-					$prefs = array("date_format", "day_end", "day_start", "hide_own_online_status", "hits_per_page", "language",
+					$prefs = array("date_format", "day_end", "day_start", "bs_allow_to_contact_me", "hide_own_online_status", "hits_per_page", "language",
 						"public_birthday", "puplic_city", "public_country", "public_delicious", "public_department", "public_email",
 						"public_fax", "public_gender", "public_hobby", "public_im_aim", "public_im_icq", "public_im_jabber",
 						"public_im_msn", "public_im_skype", "public_im_voip", "public_im_yahoo", "public_institution", "public_location",
