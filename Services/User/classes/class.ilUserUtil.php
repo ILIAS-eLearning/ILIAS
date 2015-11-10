@@ -368,6 +368,17 @@ class ilUserUtil
 		return $ilSetting->get("usr_starting_point_personal");
 	}
 	
+	/**
+	 * Did user set any personal starting point (yet)?
+	 * 
+	 * @return bool
+	 */
+	public static function hasPersonalStartPointPref()
+	{
+		global $ilUser;
+		
+		return (bool)$ilUser->getPref("usr_starting_point");	
+	}	
 	
 	/**
 	 * Get current personal starting point 
@@ -401,6 +412,13 @@ class ilUserUtil
 	public static function setPersonalStartingPoint($a_value, $a_ref_id = null)
 	{
 		global $ilUser, $tree;
+		
+		if(!$a_value)
+		{
+			$ilUser->setPref("usr_starting_point", null);
+			$ilUser->setPref("usr_starting_point_ref_id", null);
+			return;
+		}
 		
 		if($a_value == self::START_REPOSITORY_OBJ)
 		{

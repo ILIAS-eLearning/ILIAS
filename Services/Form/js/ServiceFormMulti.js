@@ -179,8 +179,30 @@ var ilMultiFormValues = {
 		// add autocomplete
 		if (typeof ilMultiFormValues.auto_complete_urls[group_id] != 'undefined' &&
 			ilMultiFormValues.auto_complete_urls[group_id] != "") {
+		
+			/*
 			$('[id="' + group_id + '~' + new_id + '"]').autocomplete({
 				source: ilMultiFormValues.auto_complete_urls[group_id],
+				minLength: 3
+			});
+			*/
+		   
+			// #17418 - request result structure has changed due to "more"
+			$('[id="' + group_id + '~' + new_id + '"]').iladvancedautocomplete({
+				requestUrl: ilMultiFormValues.auto_complete_urls[group_id],
+				source: function( request, response ) {
+					var that = this;
+					$.getJSON( that.options.requestUrl, {
+						term: request.term
+					}, function(data) {
+						if (typeof data.items == "undefined") {
+							response(data);
+						} else {
+							that.more = data.hasMoreResults;
+							response(data.items);
+						}
+					});
+				},
 				minLength: 3
 			});
 		}

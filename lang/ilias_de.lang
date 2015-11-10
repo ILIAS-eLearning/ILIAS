@@ -3521,7 +3521,7 @@ common#:#info_access_and_status_info#:#Zugriffs- und Statusinformationen
 common#:#info_access_permissions#:#Zugriffsrechte
 common#:#info_accessFree_sure#:#Sind Sie sicher, dass für die folgenden Benutzer die Begrenzung des zeitlichen Zugriffs aufheben wollen?
 common#:#info_activate_sure#:#Sind Sie sicher, dass Sie die folgenden Benutzer als aktive Benutzer bestätigen wollen?
-common#:#info_assign_sure#:# Sind Sie sicher, dass Sie den/die folgenden Benutzer aufnehmen möchten?
+common#:#info_assign_sure#:#Sind Sie sicher, dass Sie den/die folgenden Benutzer aufnehmen möchten?
 common#:#info_assigned#:#zugewiesen
 common#:#info_available_roles#:#Verfügbare Rollen
 common#:#info_change_user_view#:#Rechte dieses Benutzers anzeigen
@@ -15309,3 +15309,6 @@ content#:#lm_no_download_files#:#Zurzeit stehen keine Download-Dateien zur Verf�
 rbac#:#feed_copy#:#Webfeed kopieren
 crs#:#crs_unsubscribe_member_explanation#:#Sie erhalten diese Mail, da Sie die Kursmitgliedschaft des oben genannten Kurses beendet haben.
 content#:#cont_sqst#:#Frage in Umfrage (Material)
+mmbr#:#info_refuse_sure#:#Sind Sie sicher, dass Sie den/die folgenden Benutzer ablehnen möchten?
+administration#:#adm_user_starting_point_inherit#:#Standard-Einstellungen übernehmen
+administration#:#adm_user_starting_point_inherit_info#:#Es werden die Einstellungen übernommen, wie sie vom Administrator für die ganze Plattform  global aktiviert wurden.

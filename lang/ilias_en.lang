@@ -15309,3 +15309,6 @@ content#:#lm_no_download_files#:#There are currently no files for download avail
 rbac#:#feed_copy#:#User can copy webfeed
 crs#:#crs_unsubscribe_member_explanation#:#You receive this message because you unsubscribed from the course mentioned above.
 content#:#cont_sqst#:#Survey Question (Assigned Material)
+mmbr#:#info_refuse_sure#:#Are you sure you want to refuse the following user(s)?
+administration#:#adm_user_starting_point_inherit#:#Use Standard-Settings
+administration#:#adm_user_starting_point_inherit_info#:#The settings that were made by the administrator of the platform as a whole will be used.

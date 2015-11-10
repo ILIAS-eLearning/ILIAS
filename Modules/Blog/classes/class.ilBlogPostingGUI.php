@@ -633,6 +633,9 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 				$other = array_merge($other, ilBlogPosting::getKeywords($this->getBlogPosting()->getBlogId(), $posting_id));
 			}
 		}
+		// #17414
+		$other = array_unique($other);
+		sort($other, SORT_LOCALE_STRING);
 		if(is_array($keywords[$ulang]))
 		{			
 			$other = array_diff($other, $keywords[$ulang]);
