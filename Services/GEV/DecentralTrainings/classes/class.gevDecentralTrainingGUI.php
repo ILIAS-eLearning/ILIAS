@@ -1708,4 +1708,3 @@ class gevDecentralTrainingGUI {
 		$this->ctrl->redirectByClass("ilTEPGUI");
 	}
 }
-?>
