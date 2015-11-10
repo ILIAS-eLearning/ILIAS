@@ -2107,21 +2107,14 @@ class ilRbacReview
 	{
 		global $ilDB;
 		
-		$query = 'SELECT parent ref FROM rbac_fa '.
+		$query = 'SELECT parent role_ref FROM rbac_fa '.
 				'WHERE rol_id = '.$ilDB->quote($a_role_id,'integer').' '.
 				'AND assign = '.$ilDB->quote('y','text');
 		
-		
-		#$query = "SELECT tree.parent ref FROM rbac_fa fa ".
-		#	"JOIN tree ON fa.parent = tree.child ".
-		#	"WHERE tree.tree = 1 ".
-		#	"AND assign = ".$ilDB->quote('y','text').' '.
-		#	"AND rol_id = ".$ilDB->quote($a_role_id,'integer');
-
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			return $row->ref;
+			return $row->role_ref;
 		}
 		return 0;
 	}
