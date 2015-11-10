@@ -1371,8 +1371,12 @@ class ilObjWikiGUI extends ilObjectGUI
 					);
 				}				
 				include_once("./Services/Object/classes/class.ilObjectMetaDataGUI.php");				
-				$mdgui = new ilObjectMetaDataGUI(new ilObjWiki($wiki_id, false), "wpg", $a_wpg_id);				
-				$rcontent .= $mdgui->getBlockHTML($cmd);				
+				$wiki = new ilObjWiki($a_wiki_ref_id);
+				$callback = $wiki->getLinkMetadataValues()
+					? array($wiki, "decorateAdvMDValue")
+					: null;				
+				$mdgui = new ilObjectMetaDataGUI($wiki, "wpg", $a_wpg_id);				
+				$rcontent .= $mdgui->getBlockHTML($cmd, $callback); // #17291			
 			}
 		}
 			
@@ -1395,7 +1399,7 @@ class ilObjWikiGUI extends ilObjectGUI
 
 		$tpl->setRightContent($rcontent);
 	}
-
+	
 	/**
 	* Latest pages
 	*/
