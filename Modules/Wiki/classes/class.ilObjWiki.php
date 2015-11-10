@@ -1209,6 +1209,26 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
 		$user_export = new ilWikiUserHTMLExport($this, $ilDB, $ilUser);
 		return $user_export->deliverFile();
 	}
+	
+	
+	/**
+	 * Decorate adv md value
+	 *
+	 * @param string $a_value value
+	 * @return string decorated value (includes HTML)
+	 */
+	public function decorateAdvMDValue($a_value)
+	{		
+		include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
+		if (ilWikiPage::_wikiPageExists($this->getId(), $a_value))
+		{
+			$url = ilObjWikiGUI::getGotoLink($this->getRefId(), $a_value);
+			return "<a href='".$url."'>".$a_value."</a>";
+		}		
+
+		return $a_value;
+	}
+
 
 
 }
