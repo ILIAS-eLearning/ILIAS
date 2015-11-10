@@ -16100,3 +16100,5 @@ sess#:#sess_max_members_needed#:#Für die Warteliste wird eine maximale Anzahl M
 obj#:#obj_import_file_error#:#Die Datei konnte nicht importiert werden. Bitte stellen Sie sicher, dass es sich um eine ILIAS-Exportdatei (XML-Export) des gleichen Objekttyps handelt und der Dateiename unverändert ist. Fehlermeldung:
 content#:#cont_sqst#:#Frage in Umfrage (Material)
 mmbr#:#info_refuse_sure#:#Sind Sie sicher, dass Sie den/die folgenden Benutzer ablehnen möchten?
+administration#:#adm_user_starting_point_inherit#:#Standard-Einstellungen übernehmen
+administration#:#adm_user_starting_point_inherit_info#:#Es werden die Einstellungen übernommen, wie sie vom Administrator für die ganze Plattform  global aktiviert wurden.
