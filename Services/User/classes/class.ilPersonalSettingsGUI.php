@@ -1002,11 +1002,16 @@ class ilPersonalSettingsGUI
 			$si = new ilRadioGroupInputGUI($this->lng->txt("adm_user_starting_point"), "usr_start");
 			$si->setRequired(true);
 			$si->setInfo($this->lng->txt("adm_user_starting_point_info"));
+			$def_opt = new ilRadioOption($this->lng->txt("adm_user_starting_point_inherit"), 0);
+			$def_opt->setInfo($this->lng->txt("adm_user_starting_point_inherit_info"));
+			$si->addOption($def_opt);
 			foreach(ilUserUtil::getPossibleStartingPoints() as $value => $caption)
 			{
 				$si->addOption(new ilRadioOption($caption, $value));
 			}
-			$si->setValue(ilUserUtil::getPersonalStartingPoint());		
+			$si->setValue(ilUserUtil::hasPersonalStartPointPref()
+				? ilUserUtil::getPersonalStartingPoint()
+				: 0);
 			$this->form->addItem($si);
 						
 			// starting point: repository object
@@ -1139,9 +1144,9 @@ class ilPersonalSettingsGUI
 			// starting point	
 			include_once "Services/User/classes/class.ilUserUtil.php";
 			if(ilUserUtil::hasPersonalStartingPoint())
-			{
+			{				
 				ilUserUtil::setPersonalStartingPoint($this->form->getInput('usr_start'), 
-					$this->form->getInput('usr_start_ref_id'));
+					$this->form->getInput('usr_start_ref_id'));				
 			}
 
 			// selector for unicode characters
