@@ -81,24 +81,24 @@ class ilBuddySystemLinkButton implements ilBuddySystemLinkButtonType
 		ilBuddySystemGUI::initializeFrontend();
 
 		require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystem.php';
-		if(ilBuddySystem::getInstance()->isEnabled())
+		if(!ilBuddySystem::getInstance()->isEnabled())
 		{
-			$relation = $this->buddylist->getRelationByUserId($this->getUsrId());
-
-			// The ILIAS JF decided to add a new personal setting
-			if($relation->isUnlinked() && !ilUtil::yn2tf(ilObjUser::_lookupPref($relation->getBuddyUserId(), 'bs_allow_to_contact_me')))
-			{
-				return '';
-			}
-
-			$button_tpl = new ilTemplate('tpl.buddy_system_link_button.html', true, true, 'Services/Contact/BuddySystem');
-			$button_tpl->setVariable('BUTTON_HTML', ilBuddySystemRelationStateFactory::getInstance()->getRendererByOwnerAndRelation($ilUser->getId(), $relation)->getHtml());
-			$button_tpl->setVariable('BUTTON_BUDDY_ID', $this->getUsrId());
-			$button_tpl->setVariable('BUTTON_CSS_CLASS', 'ilBuddySystemLinkWidget');
-			$button_tpl->setVariable('BUTTON_CURRENT_STATE', get_class($relation->getState()));
-			return $button_tpl->get();
+			return '';
 		}
 
-		return '';
+		$relation = $this->buddylist->getRelationByUserId($this->getUsrId());
+
+		// The ILIAS JF decided to add a new personal setting
+		if($relation->isUnlinked() && !ilUtil::yn2tf(ilObjUser::_lookupPref($this->getUsrId(), 'bs_allow_to_contact_me')))
+		{
+			return '';
+		}
+
+		$button_tpl = new ilTemplate('tpl.buddy_system_link_button.html', true, true, 'Services/Contact/BuddySystem');
+		$button_tpl->setVariable('BUTTON_HTML', ilBuddySystemRelationStateFactory::getInstance()->getRendererByOwnerAndRelation($ilUser->getId(), $relation)->getHtml());
+		$button_tpl->setVariable('BUTTON_BUDDY_ID', $this->getUsrId());
+		$button_tpl->setVariable('BUTTON_CSS_CLASS', 'ilBuddySystemLinkWidget');
+		$button_tpl->setVariable('BUTTON_CURRENT_STATE', get_class($relation->getState()));
+		return $button_tpl->get();
 	}
 }
