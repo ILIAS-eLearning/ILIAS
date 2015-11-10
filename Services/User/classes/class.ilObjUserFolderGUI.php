@@ -2225,7 +2225,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			"language" => 0,
 			"skin_style" => 0,
 			"hits_per_page" => 0,
-			"show_users_online" => 0,
+			/*"show_users_online" => 0,*/
 			"hide_own_online_status" => 0
 		);
 		
@@ -2354,10 +2354,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			$ilias->setSetting("hits_per_page",$_POST["select"]["default_hits_per_page"]);
 		}
 
-		if ($_POST["select"]["default_show_users_online"])
+		/*if ($_POST["select"]["default_show_users_online"])
 		{
 			$ilias->setSetting("show_users_online",$_POST["select"]["default_show_users_online"]);
-		}
+		}*/
 		
 		if ($_POST["chb"]["export_preferences"])
 		{

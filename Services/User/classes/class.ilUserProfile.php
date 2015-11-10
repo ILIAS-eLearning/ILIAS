@@ -284,7 +284,7 @@ class ilUserProfile
 						"course_export_hide" => true,
 						"group_export_hide" => true,
 						"group" => "settings"),
-		"show_users_online" => array(
+		/*"show_users_online" => array(
 						"input" => "selection",
 						"default" => "y",
 						"options" => array(
@@ -295,7 +295,7 @@ class ilUserProfile
 						"visib_reg_hide" => true,
 						"course_export_hide" => true,
 						"group_export_hide" => true,
-						"group" => "settings"),
+						"group" => "settings"),*/
 		"hide_own_online_status" => array(
 						"input" => "selection",
 						"lang_var" => "awrn_hide_from_awareness",

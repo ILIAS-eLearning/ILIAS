@@ -891,6 +891,7 @@ class ilPersonalSettingsGUI
 		}
 
 		// Users Online
+		/*
 		if ($this->userSettingVisible("show_users_online"))
 		{
 			$si = new ilSelectInputGUI($this->lng->txt("show_users_online"), "show_users_online");
@@ -903,7 +904,7 @@ class ilPersonalSettingsGUI
 			$si->setValue($ilUser->prefs["show_users_online"]);
 			$si->setDisabled($ilSetting->get("usr_settings_disable_show_users_online"));
 			$this->form->addItem($si);
-		}
+		}*/
 
 		// Store last visited
 		$lv = new ilSelectInputGUI($this->lng->txt("user_store_last_visited"), "store_last_visited");
@@ -1112,10 +1113,11 @@ class ilPersonalSettingsGUI
 			}
 
 			// set show users online
+			/*
 			if ($this->workWithUserSetting("show_users_online"))
 			{
 				$ilUser->setPref("show_users_online", $_POST["show_users_online"]);
-			}
+			}*/
 			
 			// store last visited?
 			global $ilNavigationHistory;

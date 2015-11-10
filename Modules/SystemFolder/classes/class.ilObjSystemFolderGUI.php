@@ -1540,14 +1540,14 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		- footer
 		- terms of service: no document found message
 		*/
-		$ti = new ilEmailInputGUI($this->lng->txt("feedback_recipient"), "feedback_recipient");
+		/*$ti = new ilEmailInputGUI($this->lng->txt("feedback_recipient"), "feedback_recipient");
 		$ti->setInfo(sprintf($this->lng->txt("feedback_recipient_info"), $this->lng->txt("contact_sysadmin")));
 		$ti->setMaxLength(64);
 		$ti->setSize(40);
 		$ti->setRequired(true);
 		$ti->allowRFC822(true);
 		$ti->setValue($ilSetting->get("feedback_recipient"));		
-		$this->form->addItem($ti);
+		$this->form->addItem($ti);*/
 
 		// System support contacts
 		include_once("./Modules/SystemFolder/classes/class.ilSystemSupportContacts.php");
@@ -1560,12 +1560,12 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
 		
 		// error recipient
-		$ti = new ilEmailInputGUI($this->lng->txt("error_recipient"), "error_recipient");
+		/*$ti = new ilEmailInputGUI($this->lng->txt("error_recipient"), "error_recipient");
 		$ti->setMaxLength(64);
 		$ti->setSize(40);
 		$ti->allowRFC822(true);
 		$ti->setValue($ilSetting->get("error_recipient"));
-		$this->form->addItem($ti);
+		$this->form->addItem($ti);*/
 		
 		$this->form->addCommandButton("saveContactInformation", $lng->txt("save"));
 	                
@@ -1592,8 +1592,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		{
 			$fs = array("admin_firstname", "admin_lastname", "admin_title", "admin_position", 
 				"admin_institution", "admin_street", "admin_zipcode", "admin_city", 
-				"admin_country", "admin_phone", "admin_email",
-				"feedback_recipient", "error_recipient");
+				"admin_country", "admin_phone", "admin_email");
 			foreach ($fs as $f)
 			{
 				$ilSetting->set($f, $_POST[$f]);
