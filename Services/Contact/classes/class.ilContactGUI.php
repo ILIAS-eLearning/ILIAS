@@ -152,29 +152,30 @@ class ilContactGUI
 
 		if($this->tabs_gui->hasTabs())
 		{
-			if(
-				ilBuddySystem::getInstance()->isEnabled() &&
-				in_array(strtolower($this->ctrl->getCmdClass()), array_map('strtolower', array('ilUsersGalleryGUI', get_class($this)))))
+			if(ilBuddySystem::getInstance()->isEnabled())
 			{
 				$this->tabs_gui->addSubTab('my_contacts', $this->lng->txt('my_contacts'), $this->ctrl->getLinkTarget($this));
 
-				require_once 'Services/Form/classes/class.ilSelectInputGUI.php';
-				$view_selection = new ilSelectInputGUI('', 'contacts_view');
-				$view_selection->setOptions(array(
-					self::CONTACTS_VIEW_TABLE   => $this->lng->txt('buddy_view_table'),
-					self::CONTACTS_VIEW_GALLERY => $this->lng->txt('buddy_view_gallery')
-				));
-				$view_selection->setValue(
-					strtolower($this->ctrl->getCmdClass()) == 'ilusersgallerygui' ? self::CONTACTS_VIEW_GALLERY : self::CONTACTS_VIEW_TABLE
-				);
-				$ilToolbar->addInputItem($view_selection);
+				if(in_array(strtolower($this->ctrl->getCmdClass()), array_map('strtolower', array('ilUsersGalleryGUI', get_class($this)))))
+				{
+					require_once 'Services/Form/classes/class.ilSelectInputGUI.php';
+					$view_selection = new ilSelectInputGUI('', 'contacts_view');
+					$view_selection->setOptions(array(
+						self::CONTACTS_VIEW_TABLE   => $this->lng->txt('buddy_view_table'),
+						self::CONTACTS_VIEW_GALLERY => $this->lng->txt('buddy_view_gallery')
+					));
+					$view_selection->setValue(
+						strtolower($this->ctrl->getCmdClass()) == 'ilusersgallerygui' ? self::CONTACTS_VIEW_GALLERY : self::CONTACTS_VIEW_TABLE
+					);
+					$ilToolbar->addInputItem($view_selection);
 
-				require_once 'Services/UIComponent/Button/classes/class.ilSubmitButton.php';
-				$contact_view_btn = ilSubmitButton::getInstance();
-				$contact_view_btn->setCaption('submit');
-				$contact_view_btn->setCommand('changeContactsView');
-				$ilToolbar->addButtonInstance($contact_view_btn);
-				$ilToolbar->setFormAction($this->ctrl->getFormAction($this, 'changeContactsView'));
+					require_once 'Services/UIComponent/Button/classes/class.ilSubmitButton.php';
+					$contact_view_btn = ilSubmitButton::getInstance();
+					$contact_view_btn->setCaption('submit');
+					$contact_view_btn->setCommand('changeContactsView');
+					$ilToolbar->addButtonInstance($contact_view_btn);
+					$ilToolbar->setFormAction($this->ctrl->getFormAction($this, 'changeContactsView'));
+				}
 
 				$this->tabs_gui->addSubTab('mail_my_mailing_lists', $this->lng->txt('mail_my_mailing_lists'), $this->ctrl->getLinkTargetByClass('ilmailinglistsgui'));
 			}
