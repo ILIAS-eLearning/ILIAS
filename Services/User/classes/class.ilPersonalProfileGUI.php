@@ -448,10 +448,10 @@ class ilPersonalProfileGUI
 			}
 
 			// set show users online
-			if ($this->workWithUserSetting("show_users_online"))
+			/*if ($this->workWithUserSetting("show_users_online"))
 			{
 				$ilUser->setPref("show_users_online", $_POST["show_users_online"]);
-			}
+			}*/
 
 			// set hide own online_status
 			if ($this->workWithUserSetting("hide_own_online_status"))

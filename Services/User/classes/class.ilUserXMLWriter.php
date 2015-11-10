@@ -407,7 +407,7 @@ class ilUserXMLWriter extends ilXmlWriter
 				'public_upload',
 				'public_zip',
 				'send_info_mails',
-				'show_users_online',
+				/*'show_users_online',*/
 				'hide_own_online_status',
 				'bs_allow_to_contact_me',
 				'user_tz',

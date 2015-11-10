@@ -449,10 +449,10 @@ class ilObjUserGUI extends ilObjectGUI
 			{
 				$userObj->setPref("hits_per_page", $_POST["hits_per_page"]);
 			}
-			if($this->isSettingChangeable('show_users_online'))
+			/*if($this->isSettingChangeable('show_users_online'))
 			{
 				$userObj->setPref("show_users_online", $_POST["show_users_online"]);
-			}
+			}*/
 			if($this->isSettingChangeable('hide_own_online_status'))
 			{
 				$userObj->setPref("hide_own_online_status", $_POST["hide_own_online_status"] ? 'y' : 'n');
@@ -884,10 +884,10 @@ class ilObjUserGUI extends ilObjectGUI
 			{
 				$this->object->setPref("hits_per_page", $_POST["hits_per_page"]);
 			}
-			if($this->isSettingChangeable('show_users_online'))
+			/*if($this->isSettingChangeable('show_users_online'))
 			{
 				$this->object->setPref("show_users_online", $_POST["show_users_online"]);
-			}
+			}*/
 			if($this->isSettingChangeable('hide_own_online_status'))
 			{
 				$this->object->setPref("hide_own_online_status", $_POST["hide_own_online_status"] ? 'y' : 'n');
@@ -1083,7 +1083,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$data["language"] = $this->object->getLanguage();
 		$data["skin_style"] = $this->object->skin.":".$this->object->prefs["style"];
 		$data["hits_per_page"] = $this->object->prefs["hits_per_page"];
-		$data["show_users_online"] = $this->object->prefs["show_users_online"];
+		//$data["show_users_online"] = $this->object->prefs["show_users_online"];
 		$data["hide_own_online_status"] = $this->object->prefs["hide_own_online_status"] == 'y';
 		$data['bs_allow_to_contact_me'] = $this->object->prefs['bs_allow_to_contact_me'] == 'y';
 		$data["session_reminder_enabled"] = (int)$this->object->prefs["session_reminder_enabled"];
@@ -1763,7 +1763,7 @@ class ilObjUserGUI extends ilObjectGUI
 			$this->form_gui->addItem($hpp);
 	
 			// users online
-			$uo = new ilSelectInputGUI($lng->txt("users_online"),
+			/*$uo = new ilSelectInputGUI($lng->txt("users_online"),
 				'show_users_online');
 			$options = array(
 				"y" => $lng->txt("users_online_show_y"),
@@ -1771,7 +1771,7 @@ class ilObjUserGUI extends ilObjectGUI
 				"n" => $lng->txt("users_online_show_n"));
 			$uo->setOptions($options);
 			$uo->setValue($ilSetting->get("show_users_online"));
-			$this->form_gui->addItem($uo);
+			$this->form_gui->addItem($uo);*/
 		}
 
 		// hide online status
@@ -2447,7 +2447,7 @@ class ilObjUserGUI extends ilObjectGUI
 		// set hits per pages
 		$this->object->setPref("hits_per_page", $_POST["Fobject"]["hits_per_page"]);
 		// set show users online
-		$this->object->setPref("show_users_online", $_POST["Fobject"]["show_users_online"]);
+		//$this->object->setPref("show_users_online", $_POST["Fobject"]["show_users_online"]);
 		// set hide_own_online_status
 		if ($_POST["Fobject"]["hide_own_online_status"]) {
 			$this->object->setPref("hide_own_online_status", $_POST["Fobject"]["hide_own_online_status"]);

@@ -207,7 +207,7 @@ class ilObjUser extends ilObject
 			$this->skin = $this->ilias->ini->readVariable("layout","skin");
 
 			$this->prefs["skin"] = $this->skin;
-			$this->prefs["show_users_online"] = "y";
+//			$this->prefs["show_users_online"] = "y";
 
 			//style (css)
 		 	$this->prefs["style"] = $this->ilias->ini->readVariable("layout","style");

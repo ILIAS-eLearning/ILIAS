@@ -1162,7 +1162,7 @@ class ilUserImportParser extends ilSaxParser
 							
 							// Set default prefs						
 							$this->userObj->setPref('hits_per_page',$ilSetting->get('hits_per_page',30));
-							$this->userObj->setPref('show_users_online',$ilSetting->get('show_users_online','y'));
+							//$this->userObj->setPref('show_users_online',$ilSetting->get('show_users_online','y'));
 
 							if (count ($this->prefs)) 
 							{
