@@ -243,7 +243,7 @@ class gevDecentralTrainingGUI {
 		$this->ltype = $form_prev->getInput("ltype");
 		require_once("Services/GEV/Mailing/classes/class.gevCrsInvitationMailSettings.php");
 		$inv_mail_settings = new gevCrsInvitationMailSettings($template_id);
-		$this->mail_tpl_id = $inv_mail_settings->getTemplateFor();
+		$this->mail_tpl_id = $inv_mail_settings->getTemplateFor("invitation");
 
 		$this->template_id = $form_prev->getInput($this->ltype."_template");
 
