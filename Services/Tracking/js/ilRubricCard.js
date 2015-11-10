@@ -554,11 +554,17 @@ var RUBRIC = {
                 }
                 
                 if(verified_object===false||verified_object.childNodes[0].nodeValue!='(ok)'){
-                    throw 'Missing data for Rubric';                
+                    throw 'Missing Data for Rubric';                
                 }
             
             }
             
+        }
+        
+        // verfiy passing grade value
+        verified_object=document.getElementById('passing_grade').parentNode.children[3];
+        if(verified_object.childNodes[0].nodeValue!='(ok)'){
+            throw 'Missing Passing Grade for Rubric';                
         }
     },
     
@@ -807,6 +813,12 @@ function validate(obj){
         case 'point':
             modified_object=obj.parentNode;
             if(obj.value>=0){
+                validated=true;
+            }
+        break;
+        case 'passi':
+            modified_object=obj.parentNode;            
+            if(obj.value>=0&&obj.value<=100&&obj.value!=''){
                 validated=true;
             }
         break;

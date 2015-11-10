@@ -13,6 +13,7 @@ class ilLPRubricCard
     protected $obj_id;
     
     private $rubric_id;
+    private $passing_grade=50;
     
     public function __construct($obj_id)
     {
@@ -29,6 +30,11 @@ class ilLPRubricCard
         $this->rubric_id=$rubric_id;        
     } 
     */   
+    
+    public function getPassingGrade()
+    {
+        return($this->passing_grade);    
+    }
     
     private function incrementSequence($table)
     {
@@ -65,6 +71,9 @@ class ilLPRubricCard
                 array_push($points,array('weight'=>$tmp_point,'label'=>$tmp_label));                
             }                                    
         }
+        
+        // gather passing grade
+        $this->passing_grade=$form->getInput('passing_grade',false);
         
         // gather group, critiera, behavior
         $g=1;// set group increment
@@ -198,7 +207,7 @@ class ilLPRubricCard
     public function save()
     {
         $data=$this->getCardPostData();
-        
+        file_put_contents('adam_save.txt',var_export($_POST,true)."\n============\n".var_export($data,true));
         $this->saveRubricCardTbl();
         
         $labels=$this->saveRubricLabelTbl($data['points']);
@@ -248,11 +257,12 @@ class ilLPRubricCard
     public function objHasRubric()
     {
         $res=$this->ilDB->query(
-            "select rubric_id from rubric where obj_id=".$this->ilDB->quote($this->obj_id, "integer")." and deleted is null"
+            "select rubric_id,passing_grade from rubric where obj_id=".$this->ilDB->quote($this->obj_id, "integer")." and deleted is null"
         );
         $row=$res->fetchRow(DB_FETCHMODE_OBJECT);
         if(!empty($row->rubric_id)){
             $this->rubric_id=$row->rubric_id;
+            $this->passing_grade=$row->passing_grade;
             return(true);
         }else{
             return(false);
@@ -313,12 +323,13 @@ class ilLPRubricCard
     {
         $data=array();
         
-        $res=$this->ilDB->query('select rubric_behavior_id,description,rubric_label_id 
-                                        from rubric_behavior
+        $res=$this->ilDB->query('select b.rubric_behavior_id,b.description,b.rubric_label_id 
+                                        from rubric_behavior b
+                                            inner join rubric_label l on b.rubric_label_id=l.rubric_label_id
                                         where
-                                            rubric_criteria_id='.$this->ilDB->quote($rubric_criteria_id, "integer").' and 
-                                            deleted is null
-                                        order by rubric_label_id
+                                            b.rubric_criteria_id='.$this->ilDB->quote($rubric_criteria_id, "integer").' and 
+                                            b.deleted is null
+                                        order by l.sort_order
         ');
         
         while($row=$res->fetchRow(DB_FETCHMODE_OBJECT)){
@@ -652,14 +663,16 @@ class ilLPRubricCard
         
         // insert or update the rubric        
         $this->ilDB->manipulate(
-            "insert into rubric (rubric_id,obj_id,owner,create_date,last_update) values (
+            "insert into rubric (rubric_id,obj_id,passing_grade,owner,create_date,last_update) values (
                 ".$this->ilDB->quote($this->rubric_id, "integer").",                
                 ".$this->ilDB->quote($this->obj_id, "integer").",
+                ".$this->ilDB->quote($this->passing_grade, "integer").",
                 ".$this->ilDB->quote($_SESSION['AccountId'], "integer").",                
                 NOW(),
                 NOW()
             ) on duplicate key update 
                 last_update=NOW(),
+                passing_grade=".$this->ilDB->quote($this->passing_grade, "integer").",
                 owner=".$this->ilDB->quote($_SESSION['AccountId'], "integer")
         );
     }

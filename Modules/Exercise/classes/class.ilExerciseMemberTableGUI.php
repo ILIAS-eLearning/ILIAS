@@ -316,7 +316,30 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 			$this->tpl->setVariable("VAL_NOTE",
 				ilUtil::prepareFormOutput(ilExAssignment::lookupNoticeOfUser($this->ass_id, $member_id)));
 
-			
+			// START PATCH RUBRIC CPKN 2015
+            include_once 'Services/Object/classes/class.ilObjectLP.php';
+    		$olp = ilObjectLP::getInstance($this->exc_id);
+    		$lp_mode = $olp->getCurrentMode();
+            if($lp_mode==92){
+                include_once("./Services/Tracking/classes/repository_statistics/class.ilLPListOfObjectsGUI.php");
+                $lp_gui=new ilLPListOfObjectsGUI($lp_mode,$_GET['ref_id']);
+                //$link=$ilCtrl->getLinkTarget($lp_gui, "edituser");
+                
+                //$lp_gui->userDetails()
+                //include_once("./Services/Tracking/classes/class.ilLearningProgressBaseGUI.php");
+                //$lp_gui=new ilLearningProgressBaseGUI($lp_mode,$_GET['ref_id'],$member_id);
+                //global $ilCtrl;                
+                
+                //SG https://adam-lms.cpkn.ca/ilias.php?ref_id=127&ass_id=3&cmd=members&cmdClass=ilobjexercisegui&cmdNode=ce:cd&baseClass=ilExerciseHandlerGUI
+                //LP https://adam-lms.cpkn.ca/ilias.php?ref_id=127&ass_id=3&details_id=127&user_id=271&cmd=edituser&cmdClass=illplistofobjectsgui&cmdNode=ce:cd:uo:s2&baseClass=ilExerciseHandlerGUI
+                //ME https://adam-lms.cpkn.ca/ilias.php?ref_id=127&ass_id=3&details_id=127&user_id=&cmd=edituser&cmdClass=illplistofobjectsgui&cmdNode=ce:cd:uo:s2&baseClass=ilExerciseHandlerGUI
+                
+                $link="<a href=\"ilias.php?ref_id=".$_GET['ref_id']."&ass_id=".$this->ass_id."&details_id=".$_GET['ref_id']."&user_id=".$member_id."&cmd=edituser&cmdClass=illplistofobjectsgui&cmdNode=ce:cd:uo:s2&baseClass=ilExerciseHandlerGUI\">".$this->lng->txt('trac_rubric')."</a>";
+                
+                $this->tpl->setVariable("RUBRIC_LINK", $link);                
+            }            
+            // END PATCH RUBRIC CPKN 2015
+            
 			// comment for learner	
 			
 			$lcomment_value = ilExAssignment::lookupCommentForUser($this->ass_id, $member_id);

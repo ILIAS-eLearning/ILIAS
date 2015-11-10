@@ -12,52 +12,13 @@ class rubricConfig extends ActiveRecord {
         const TRACE             = false;
         
         /**
-         * @var array
-         */
-        //protected static $cache = array();
-        /**
-         * @var array
-         */
-        //protected static $cacheLoaded = array();
-
-        /**
          * @return string
          * @description Return the Name of your Database Table
          */
         static function returnDbTableName() {
                 return self::TABLE_NAME;
-        }
-        
-        /** 
-         * @param $name 
-         * 
-         * @return string 
-         */ 
-        /*public static function get($name) { 
-        	if (!self::$cache_loaded[$name]) { 
-        		$obj = new self($name); 
-        		self::$cache[$name] = $obj->getValue(); 
-        		self::$cache_loaded[$name] = true; 
-        	} 
-        
-        	return self::$cache[$name]; 
-        } 
-        
-        
-        /** 
-         * @param $name 
-         * @param $value 
-         * / 
-        public static function set($name, $value) { 
-        	$obj = new self($name); 
-        	$obj->setValue($value); 
-        	if (self::where(array( 'name' => $name ))->hasSets()) { 
-        		$obj->update(); 
-        	} else { 
-        		$obj->create(); 
-        	} 
-        } */
-        
+        }        
+                
         /**
          * @var int
          *
@@ -100,6 +61,15 @@ class rubricConfig extends ActiveRecord {
         public function setObjId($obj_id){
             $this->obj_id=$obj_id;
         }
+        
+        /**
+         * @var int
+         *
+         * @db_has_field    true
+         * @db_fieldtype    integer
+         * @db_length       4
+         */
+        protected $passing_grade = null;
         
         /**
          * @var int

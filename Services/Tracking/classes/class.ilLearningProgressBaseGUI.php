@@ -506,8 +506,9 @@ class ilLearningProgressBaseGUI
 				$info->addProperty($this->lng->txt('trac_status'), 
 					ilUtil::img($status_path, $status_text)." ".$status_text);
 				
-				// #15334 - see ilLPTableBaseGUI::isPercentageAvailable()
+				// #15334 - see ilLPTableBaseGUI::isPercentageAvailable()                
 				$mode = $olp->getCurrentMode();
+                
 				if(in_array($mode, array(ilLPObjSettings::LP_MODE_TLT, 
 					ilLPObjSettings::LP_MODE_VISITS, 
 					// ilLPObjSettings::LP_MODE_OBJECTIVES, 
@@ -516,7 +517,7 @@ class ilLearningProgressBaseGUI
 				{
 					include_once 'Services/Tracking/classes/class.ilLPStatus.php';
 					$perc = ilLPStatus::_lookupPercentage($item_id, $user_id);
-					$info->addProperty($this->lng->txt('trac_percentage'), (int)$perc."%");
+					$info->addProperty($this->lng->txt('trac_percentage'), (int)$perc."%");                    
 				}				
 				break;
 
@@ -749,7 +750,7 @@ class ilLearningProgressBaseGUI
 	}    
     
     // START PATCH RUBRIC CPKN 2015
-    function __updateUserRubric($user_id, $obj_id)
+    function __updateUserRubric($user_id, $obj_id, $passing_grade_minimum)
 	{		
 		$form = $this->initEditUserForm($user_id, $obj_id);
 		if($form->checkInput())
@@ -760,17 +761,38 @@ class ilLearningProgressBaseGUI
 			$marks->setMark($form->getInput("mark"));
 			$marks->setComment($form->getInput("comment"));
             $marks->setCompleted(1);
-			
+            
             $do_lp=true;
 
 			$marks->update();
-
-			// #11600
-			if($do_lp)
-			{
-				include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
-				ilLPStatusWrapper::_updateStatus($obj_id, $user_id);			
-			}
+            
+            include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
+			ilLPStatusWrapper::_updateStatus($obj_id, $user_id);
+            
+            include_once("./Services/Tracking/classes/class.ilLPStatus.php");
+            
+            file_put_contents('adam_what.log',$marks->getMark()."||".$passing_grade_minimum."||".ilLPStatus::LP_STATUS_COMPLETED_NUM."||".$obj_id);
+            
+            
+            if($marks->getMark()>=$passing_grade_minimum){
+                ilLPStatus::writeStatus($obj_id, $user_id, ilLPStatus::LP_STATUS_COMPLETED_NUM, false, true);
+            }else{
+                ilLPStatus::writeStatus($obj_id, $user_id, ilLPStatus::LP_STATUS_FAILED_NUM, false, true);                
+            }
+            
+            // if assignment, updated exc_mem_ass_status
+            $obj_type=ilObject::_lookupType($obj_id);
+            if($obj_type=='exc'){
+                include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
+                if($marks->getMark()>=$passing_grade_minimum){
+                    ilExAssignment::updateStatusOfUser($_GET['ass_id'],$user_id,'passed');
+                }else{
+                    ilExAssignment::updateStatusOfUser($_GET['ass_id'],$user_id,'failed');
+                }
+                ilExAssignment::updateMarkOfUser($_GET['ass_id'],$user_id,$marks->getMark());
+            }
+            
+            
 		}
 	}
     // END PATCH RUBRIC CPKN 2015

@@ -17,6 +17,7 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
     protected $tpl;
     protected $rubric_data;
     protected $user_data;
+    protected $passing_grade;
     private $student_view=false;
 
 	/**
@@ -28,6 +29,11 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
        $this->lng=$lng;
        $this->tpl=$tpl;       
 	}
+    
+    public function setPassingGrade($passing_grade)
+    {
+        $this->passing_grade=$passing_grade;        
+    }
     
     public function setRubricData($rubric_data)
     {
@@ -66,7 +72,7 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
         $rubric_commandrow_tpl=new ilTemplate('tpl.lp_rubricgrade_commandrow.html',true,true,'Services/Tracking');        
         $rubric_commandrow_tpl->setVariable('RUBRIC_SAVE',$this->lng->txt('save'));        
         $rubric_commandrow_tpl->setVariable('FORM_ACTION',$form_action);
-        $rubric_commandrow_tpl->setVariable('USER_ID',$user_id);
+        $rubric_commandrow_tpl->setVariable('USER_ID',$user_id);        
         
         return($rubric_commandrow_tpl);
     }
@@ -95,6 +101,7 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
         $rubric_commandrow_tpl->setVariable('RUBRIC_CANCEL',$this->lng->txt('cancel'));
         $rubric_commandrow_tpl->setVariable('RUBRIC_EXECUTE',$this->lng->txt('execute'));
         $rubric_commandrow_tpl->setVariable('FORM_ACTION',$form_action);
+        $rubric_commandrow_tpl->setVariable('PASSING_GRADE_VALUE',"$this->passing_grade");
         
         return($rubric_commandrow_tpl);
     }
@@ -526,7 +533,7 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
     {
         $tmp_write="";
         foreach($this->rubric_data['labels'] as $k => $label){
-            $tmp_write.="<th scope=\"col\">
+            $tmp_write.="<th scope=\"col\" class=\"col-sm-2\">
                             <div class=\"form-group has-success has-feedback\">
                                 <label class=\"control-label\" for=\"Label${k}\">{LABEL}</label>
                                 <input id=\"Label${k}\" name=\"Label${k}\" type=\"text\" class=\"form-control\" placeholder=\"".$label['label']."\" value=\"".$label['label']."\" aria-describedby=\"Label${k}WarningStatus\" onkeyup=\"validate(this)\" onblur=\"recalculate()\">
