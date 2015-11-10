@@ -614,7 +614,7 @@ class ilPublicUserProfileGUI
 		}
 
 		if(
-			($this->getUserId() != $ilUser->getId()) &&
+			$this->getUserId() != $ilUser->getId() &&
 			!$ilUser->isAnonymous() &&
 			!ilObjUser::_isAnonymous($this->getUserId())
 		)
