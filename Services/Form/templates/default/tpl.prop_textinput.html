@@ -25,7 +25,7 @@
 						that.options.requestUrl = that.options.requestUrl.replace(/&fetchall=1/g, '');
 
 						if (that.more) {
-							ul.append("<li class='ui-menu-category ui-menu-more'><span>&raquo;{MORE_TXT}</span></li>");
+							ul.append("<li class='ui-menu-category ui-menu-more ui-state-disabled'><span>&raquo;{MORE_TXT}</span></li>");
 							ul.find('li').last().on('click', function(e) {
 								that.options.requestUrl += '&fetchall=1';
 								that.close(e);
