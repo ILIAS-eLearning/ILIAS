@@ -15840,7 +15840,7 @@ buddysystem#:#buddy_request_approved#:#Der Kontakt wurde erfolgreich hergestellt
 buddysystem#:#buddy_request_ignored#:#Sie haben den Benutzer ignoriert.
 buddysystem#:#buddy_relation_requested#:#Dem Benutzer wurde eine Kontaktanfrage gesendet.
 buddysystem#:#buddy_enable#:#Aktviere „Benutzerkontakte“
-buddysystem#:#buddy_enable_info#:#Falls aktiviert, können Benutzer im System über Kontaktanfragen miteinander in Verbindung treten.
+buddysystem#:#buddy_enable_info#:#Falls aktiviert, können Benutzer im System über Kontaktanfragen miteinander in Verbindung treten. Eine zusätzliche persönliche Einstellung ermöglicht jedem Benutzer, Kontaktaufnahmen zuzulassen oder zu verhindern.
 buddysystem#:#buddy_allow_to_contact_me#:#Kontaktanfragen erlauben
 buddysystem#:#buddy_allow_to_contact_me_info#:#Wenn aktiviert, können andere Benutzer mir Kontaktanfragen senden. 
 common#:#obj_cadm#:#Benutzerkontakte
