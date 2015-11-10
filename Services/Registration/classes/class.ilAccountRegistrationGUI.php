@@ -690,6 +690,7 @@ class ilAccountRegistrationGUI
 			$show_online = "y";
 		}
 		$this->userObj->setPref("show_users_online", $show_online);
+		$this->userObj->setPref('bs_allow_to_contact_me', 'y');
 		$this->userObj->writePrefs();
 
 		
