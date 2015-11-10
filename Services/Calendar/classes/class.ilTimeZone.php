@@ -293,7 +293,8 @@ class ilTimeZone
 			return self::$default_timezone;
 		}
 		// PHP >= 5.2.0
-		if(function_exists('date_default_timezone_get') and $tz = date_default_timezone_get())
+		// php throws a warning date_default_timezone_get relies on os determination. There is no way to check if this could happen.
+		if(function_exists('date_default_timezone_get') and $tz = @date_default_timezone_get())
 		{
 			return self::$default_timezone = $tz;
 		}
