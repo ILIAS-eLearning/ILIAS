@@ -4809,7 +4809,9 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$comment = trim($_POST["comm"]);
 			
 			if($ass_id && $user_id)
-			{				
+			{								
+				include_once "Modules/Exercise/classes/class.ilExAssignment.php";
+				
 				// team upload?
 				if(is_object($this->ass) && $this->ass->getType() == ilExAssignment::TYPE_UPLOAD_TEAM)
 				{
