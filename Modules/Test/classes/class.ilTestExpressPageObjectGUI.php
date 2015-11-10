@@ -258,14 +258,13 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
 		{
 			$addContEditMode = assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT;
 		}
-		
-        $q_gui =& assQuestionGUI::_getQuestionGUI($questionType);
 
-	// CHECK THIS !!! --> obj or ref id ???
-        $q_gui->object->setObjId($_GET['ref_id']);
+		$q_gui =& assQuestionGUI::_getQuestionGUI($questionType);
+
+		$q_gui->object->setObjId($_GET['ref_id']);
 		$q_gui->object->setAdditionalContentEditingMode($addContEditMode);
 
-        $q_gui->object->createNewQuestion();
+		$q_gui->object->createNewQuestion();
 
 		$previousQuestionId = $_REQUEST['position'];
 
