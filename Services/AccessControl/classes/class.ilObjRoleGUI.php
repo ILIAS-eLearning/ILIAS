@@ -453,8 +453,13 @@ class ilObjRoleGUI extends ilObjectGUI
 		{
 			$title->setDisabled(true);
 		}
-		$title->setValidationRegexp('/^(?!il_).*$/');
-		$title->setValidationFailureMessage($this->lng->txt('msg_role_reserved_prefix'));
+		else
+		{
+			//#17111 No validation for disabled fields
+			$title->setValidationRegexp('/^(?!il_).*$/');
+			$title->setValidationFailureMessage($this->lng->txt('msg_role_reserved_prefix'));
+		}
+
 		$title->setSize(40);
 		$title->setMaxLength(70);
 		$title->setRequired(true);
@@ -522,8 +527,16 @@ class ilObjRoleGUI extends ilObjectGUI
 	 */
 	protected function loadRoleProperties(ilObjRole $role)
 	{
-		$role->setTitle($this->form->getInput('title'));
-		$role->setDescription($this->form->getInput('desc'));
+		//Don't set if fields are disabled to prevent html manipulation.
+		if(!$this->form->getItemByPostVar('title')->getDisabled())
+		{
+			$role->setTitle($this->form->getInput('title'));
+
+		}
+		if(!$this->form->getItemByPostVar('desc')->getDisabled())
+		{
+			$role->setDescription($this->form->getInput('desc'));
+		}
 		$role->setAllowRegister($this->form->getInput('reg'));
 		$role->toggleAssignUsersStatus($this->form->getInput('la'));
 		$role->setDiskQuota($this->form->getInput('disk_quota') * pow(ilFormat::_getSizeMagnitude(),2));
