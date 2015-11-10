@@ -110,12 +110,32 @@ class ilLoggerFactory
 		
 		foreach($this->loggers as $a_component_id => $logger)
 		{
-			$browser_handler = new BrowserConsoleHandler();
-			$browser_handler->setLevel($this->getSettings()->getLevelByComponent($a_component_id));
-			$browser_handler->setFormatter(new LineFormatter(static::DEFAULT_FORMAT, 'Y-m-d H:i:s.u',TRUE,TRUE));
-			
-			$logger->getLogger()->pushHandler($browser_handler);
+			if($this->isConsoleAvailable())
+			{
+				$browser_handler = new BrowserConsoleHandler();
+				$browser_handler->setLevel($this->getSettings()->getLevelByComponent($a_component_id));
+				$browser_handler->setFormatter(new LineFormatter(static::DEFAULT_FORMAT, 'Y-m-d H:i:s.u',TRUE,TRUE));
+				$logger->getLogger()->pushHandler($browser_handler);
+			}
 		}
+	}
+	
+	/**
+	 * Check if console handler is available
+	 * @return boolean
+	 */
+	protected function isConsoleAvailable()
+	{
+		include_once './Services/Context/classes/class.ilContext.php';
+		if(ilContext::getType() != ilContext::CONTEXT_WEB)
+		{
+			return FALSE;
+		}
+		if (isset($_GET["cmdMode"]) && $_GET["cmdMode"] == "asynch")
+		{
+			return FALSE;
+		}
+		return TRUE;
 	}
 	
 	/**
@@ -208,11 +228,14 @@ class ilLoggerFactory
 		{
 			if($this->getSettings()->isBrowserLogEnabledForUser($GLOBALS['ilUser']->getLogin()))
 			{
-				$browser_handler = new BrowserConsoleHandler();
-				#$browser_handler->setLevel($this->getSettings()->getLevelByComponent($a_component_id));
-				$browser_handler->setLevel($this->getSettings()->getLevel());
-				$browser_handler->setFormatter($line_formatter);
-				$logger->pushHandler($browser_handler);
+				if($this->isConsoleAvailable())
+				{
+					$browser_handler = new BrowserConsoleHandler();
+					#$browser_handler->setLevel($this->getSettings()->getLevelByComponent($a_component_id));
+					$browser_handler->setLevel($this->getSettings()->getLevel());
+					$browser_handler->setFormatter($line_formatter);
+					$logger->pushHandler($browser_handler);
+				}
 			}
 		}
 		
