@@ -107,9 +107,6 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		$local_user_admin = ($this->gUserUtils && $this->gUserUtils->isSuperior()); //Local User Administration Permission
 
 		$has_others_menu = $employee_booking || $my_org_unit || $tep || $pot_participants || $apprentices || $local_user_admin || $can_create_ha_unit;
-
-		require_once("Services/GEV/Reports/classes/class.gevReportingPermissions.php");
-
 		$is_trainer = $tep; // $tep_permissions->isTutor();
 
 		$manage_course_block_units = true;
@@ -313,7 +310,6 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 	}
 
 	protected function getReportingMenuDropDown() {
-		require_once("Services/GEV/Reports/classes/class.gevReportingPermissions.php");
 		require_once("Services/Link/classes/class.ilLink.php");
 		require_once("Services/ReportsRepository/classes/class.ilObjReportBase.php");
 		$entries = array
@@ -375,7 +371,6 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 	}
 
 	protected function canViewReport($report_name) {
-		require_once("Services/GEV/Reports/classes/class.gevReportingPermissions.php");
 		switch ($report_name) {
 			case "gev_report_attendance_by_employee":
 				return $this->gUserUtils && ($this->gUserUtils->isAdmin() || $this->gUserUtils->isSuperior());
