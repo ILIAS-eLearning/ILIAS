@@ -161,11 +161,11 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
 		{
 			$action[$lng->txt("cmps_activate")] = 
 				$ilCtrl->getLinkTarget($this->parent_obj, "activatePlugin");	
+						
+			// #17428
+			$action[$lng->txt("cmps_uninstall")] = 
+				$ilCtrl->getLinkTarget($this->parent_obj, "confirmUninstallPlugin");			
 		}
-		
-		// #17428
-		$action[$lng->txt("cmps_uninstall")] = 
-			$ilCtrl->getLinkTarget($this->parent_obj, "confirmUninstallPlugin");	
 		
 		// update button
 		if ($a_set["needs_update"])
