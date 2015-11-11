@@ -143,3 +143,10 @@ if(!$ilDB->tableExists('sysc_tasks'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#12>
+<?php
+	if(!$ilDB->indexExistsByFields('page_question',array('question_id')))
+	{
+		$ilDB->addIndex('page_question',array('question_id'),'i2');
+	}
+?>
