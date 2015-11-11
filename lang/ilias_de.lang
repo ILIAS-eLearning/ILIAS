@@ -15524,8 +15524,8 @@ style#:#sty_type_sup#:#Hochgestellt
 content#:#cont_text_sub#:#Tiefgestellt
 content#:#cont_text_sup#:#Hochgestellt
 cmps#:#cmps_uninstall#:#Deinstallieren
-cmps#:#cmps_uninstall_confirm#:#Wollen Sie wirklich das Plugin "%s" deinstallieren? 
-cmps#:#cmps_plugin_uninstalled#:#Das Plugin wurde deinstalliert.
+cmps#:#cmps_uninstall_confirm#:#Wollen Sie wirklich das Plugin "%s" deinstallieren und alle zugehörigen Datenbankeinträge löschen?
+cmps#:#cmps_plugin_uninstalled#:#Alle Sprach- und Datenbankeinträge, die sich auf das Plugin beziehen, wurden gelöscht und das Plugin deaktiviert. Sie können jetzt das Verzeichnis und den Quellcode des Plugins aus dem ‘Customizing’-Verzeichnis entfernen, um das Plugin endgültig zu deinstallieren.
 content#:#cont_pc_carousel#:#Karussell
 style#:#sty_carousel_templates#:#Karussell Templates
 style#:#sty_ca_cntr_class#:#Carousel Container

@@ -15535,8 +15535,8 @@ style#:#sty_type_sup#:#Superscript
 content#:#cont_text_sub#:#Subscript
 content#:#cont_text_sup#:#Superscript
 cmps#:#cmps_uninstall#:#Uninstall
-cmps#:#cmps_uninstall_confirm#:#Are you sure you want to uninstall the plugin "%s"?
-cmps#:#cmps_plugin_uninstalled#:#The plugin has been uninstalled.
+cmps#:#cmps_uninstall_confirm#:#Are you sure you want to uninstall the plugin "%s" and remove all related database entries?
+cmps#:#cmps_plugin_uninstalled#:#All language and database related entries have been deleted and the plugin has been set inactive. Now you can remove the plugin's directory and source code in the ‘Customizing’ directory to uninstall the plugin definitely.
 content#:#cont_pc_carousel#:#Carousel
 style#:#sty_carousel_templates#:#Carousel Templates
 style#:#sty_ca_cntr_class#:#Carousel Container
