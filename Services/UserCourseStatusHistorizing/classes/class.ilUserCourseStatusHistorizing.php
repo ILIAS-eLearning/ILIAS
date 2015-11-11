@@ -179,7 +179,7 @@ class ilUserCourseStatusHistorizing extends ilHistorizingStorage
 	 * @param null $a_creation_timestamp          Integer|Null    Unix-timestamp of creation, set to now if null.
 	 * @param bool $mass_modification_allowed     Boolean|False    In order to make mass-updates, set this true.
 	 *
-	 * @throws Exception|ilException
+	 * @throws Exception|ilHistorizingException
 	 */
 	public static function updateHistorizedData(
 		$a_case_id,
@@ -196,7 +196,7 @@ class ilUserCourseStatusHistorizing extends ilHistorizingStorage
 			try {
 				$current = parent::getCurrentRecordByCase($a_case_id);
 			}
-			catch (ilException $e) {
+			catch (ilHistorizingException $e) {
 				$current = array();
 			}
 

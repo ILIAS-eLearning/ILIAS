@@ -347,7 +347,7 @@ abstract class ilHistorizingStorage
 	 * @param null $a_creation_timestamp          Integer|Null    Unix-timestamp of creation, set to now if null.
 	 * @param bool $mass_modification_allowed     Boolean|False    In order to make mass-updates, set this true.
 	 *
-	 * @throws Exception|ilException
+	 * @throws Exception|ilHistorizingException
 	 */
 	public static function updateHistorizedData(
 		$a_case_id,
@@ -406,7 +406,7 @@ abstract class ilHistorizingStorage
 				$ilDB->setUnfatal(true);
 				self::createRecord($case, $new_data, $new_data[static::getVersionColumnName()],$a_record_creator, $a_creation_timestamp);
 			}
-			catch (ilException $ex)
+			catch (ilHistorizingException $ex)
 			{
 				self::createRecord($case, $current_data, $current_data[static::getVersionColumnName()], $a_record_creator, $a_creation_timestamp);
 				throw $ex;
@@ -496,7 +496,7 @@ abstract class ilHistorizingStorage
 			self::getCurrentRecordByCase($a_case_id);
 			$case_exists = true;
 		}
-		catch (ilException $ex)
+		catch (ilHistorizingException $ex)
 		{
 			$case_exists = false;
 		}
@@ -903,7 +903,7 @@ abstract class ilHistorizingStorage
 	 *
 	 * @param $a_case_id Array Array holding an eventually partly given case-id.
 	 *
-	 * @throws ilException Thrown if no case is found.
+	 * @throws ilHistorizingException Thrown if no case is found.
 	 *
 	 * @return array Array holding the full record. ( array('field' => 'value', 'field' => 'value') )
 	 */
@@ -918,8 +918,8 @@ abstract class ilHistorizingStorage
 		$result = $ilDB->execute($statement, $values);
 		if ($ilDB->numRows($result) == 0)
 		{
-			require_once './Services/Exceptions/classes/class.ilException.php';
-			throw new ilException('ilHistorizingStorage::getCurrentRecordByCase: No case.');
+			require_once './Services/HistorizingStorage/classes/class.ilHistorizingException.php';
+			throw new ilHistorizingException('ilHistorizingStorage::getCurrentRecordByCase: No case.');
 		}
 		$row = $ilDB->fetchAssoc($result);
 		return $row;
