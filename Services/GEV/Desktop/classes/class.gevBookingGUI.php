@@ -38,6 +38,7 @@ class gevBookingGUI {
 		$this->checkIfCourseIsOnlineAndBookable();
 		$this->checkIfUserAlreadyBookedASimilarCourse();
 		$this->checkIfCourseIsFull();
+		$this->checkIfWaitingListIsFull();
 		$this->checkIfUserIsAllowedToBookCourseForOtherUser();
 		$this->checkIfUserIsAllowedToBookCourse();
 		$this->checkOtherBookingsInPeriod();
@@ -121,6 +122,13 @@ class gevBookingGUI {
 		$free_places = $this->crs_utils->getFreePlaces();
 		if ( $free_places && $free_places <= 0 
 		  && !$this->crs_utils->isWaitingListActivated()) {
+			ilUtil::sendFailure($this->lng->txt("gev_course_is_full"), true);
+			$this->toCourseSearch();
+		}
+	}
+
+	protected function checkIfWaitingListIsFull() {
+		if($this->crs_utils->isWaitingListFull()){
 			ilUtil::sendFailure($this->lng->txt("gev_course_is_full"), true);
 			$this->toCourseSearch();
 		}

@@ -793,3 +793,32 @@ array( "Highlight"
 
 gevAMDUtils::createAMDRecords($records, array("crs"));
 ?>
+
+<#23>
+<?php
+
+require_once("Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php");
+require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
+require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+
+gevAMDUtils::addAMDField( "Buchungsmodalitäten"
+						, "Länge Warteliste"
+						, gevSettings::CRS_AMD_MAX_WAITING_LIST_LENGTH
+						, "Anzahl der Plätze auf der Warteliste."
+						, false
+						, array("min" => 0)
+						, ilAdvancedMDFieldDefinition::TYPE_INTEGER
+						);
+
+$gev_settings = array(gevSettings::CRS_AMD_MIN_PARTICIPANTS
+					 ,gevSettings::CRS_AMD_MAX_PARTICIPANTS
+					 ,gevSettings::CRS_AMD_BOOKING_DEADLINE
+					 ,gevSettings::CRS_AMD_CANCEL_DEADLINE
+					 ,gevSettings::CRS_AMD_ABSOLUTE_CANCEL_DEADLINE
+					 ,gevSettings::CRS_AMD_WAITING_LIST_ACTIVE
+					 ,gevSettings::CRS_AMD_MAX_WAITING_LIST_LENGTH
+					 ,gevSettings::CRS_AMD_CANCEL_WAITING);
+	
+	$amdutils = gevAMDUtils::getInstance();
+	$amdutils->updatePositionOrderAMDField($gev_settings);
+?>
