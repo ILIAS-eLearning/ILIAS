@@ -14,6 +14,8 @@ require_once("Services/Cron/classes/class.ilCronJob.php");
 require_once("Services/Cron/classes/class.ilCronJobResult.php");
 
 class gevDecentralTrainingCreationJob extends ilCronJob {
+	const MAX_REQUESTS_PER_RUN = 10;
+	
 	protected $request_db = null;
 	protected $auto_mails = null;
 	
@@ -73,8 +75,13 @@ class gevDecentralTrainingCreationJob extends ilCronJob {
 	
 	public function run() {
 		$request_db = $this->getRequestDB();
+		$counter = 0;
 		
 		while($request = $request_db->nextOpenRequest()) {
+			if ($counter >= self::MAX_REQUESTS_PER_RUN) {
+				break;
+			}
+
 			// Create Training
 			try {
 				$this->log("Running request: ".$request->requestId());
@@ -87,22 +94,32 @@ class gevDecentralTrainingCreationJob extends ilCronJob {
 						  ."--------------------------------------\n"
 						  .$e
 						  ."--------------------------------------\n");
-				$request->abort();
-				$this->log("Aborted request: ".$request->requestId());
-				$mail = "failure";
+
+				if ($e instanceof ilHistorizingException) {
+					$this->log("Retrying request...");
+					$mail = false;
+				}
+				else {
+					$request->abort();
+					$this->log("Aborted request: ".$request->requestId());
+					$mail = "failure";
+				}
 			}
 			
-			// Send Mail
-			try {
-				$this->sendAutoMail($mail, $request);
-			}
-			catch(Exception $e) {
-				$this->log("Exception when sending $mail mail: ".$request->requestId()."\n"
-						  ."--------------------------------------\n"
-						  .$e
-						  ."--------------------------------------\n");
+			if ($mail) {
+				// Send Mail
+				try {
+					$this->sendAutoMail($mail, $request);
+				}
+				catch(Exception $e) {
+					$this->log("Exception when sending $mail mail: ".$request->requestId()."\n"
+							  ."--------------------------------------\n"
+							  .$e
+							  ."--------------------------------------\n");
+				}
 			}
 
+			$counter++;
 			$this->ping();
 		}
 		
