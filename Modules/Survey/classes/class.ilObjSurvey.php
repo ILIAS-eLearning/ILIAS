@@ -5885,6 +5885,7 @@ class ilObjSurvey extends ilObject
 		{		
 			$name = ilObjUser::_lookupName($row["user_id"]);
 			$name["email"] = ilObjUser::_lookupEmail($row["user_id"]);
+			$name["name"] = $name["lastname"].", ".$name["firstname"];
 			$res[$row["user_id"]] = $name;
 			
 			$finished = 0;

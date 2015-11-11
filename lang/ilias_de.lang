@@ -16102,3 +16102,4 @@ content#:#cont_sqst#:#Frage in Umfrage (Material)
 mmbr#:#info_refuse_sure#:#Sind Sie sicher, dass Sie den/die folgenden Benutzer ablehnen möchten?
 administration#:#adm_user_starting_point_inherit#:#Standard-Einstellungen übernehmen
 administration#:#adm_user_starting_point_inherit_info#:#Es werden die Einstellungen übernommen, wie sie vom Administrator für die ganze Plattform  global aktiviert wurden.
+survey#:#svy_export_format#:#Umfragen exportieren als

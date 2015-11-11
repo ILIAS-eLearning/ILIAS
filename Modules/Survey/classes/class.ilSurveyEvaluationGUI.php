@@ -568,12 +568,12 @@ class ilSurveyEvaluationGUI
 
 		if(!$this->object->get360Mode() || $appr_id)
 		{
-			$format = new ilSelectInputGUI("", "export_format");
+			$format = new ilSelectInputGUI($this->lng->txt("svy_export_format"), "export_format");
 			$format->setOptions(array(
 				self::TYPE_XLS => $this->lng->txt('exp_type_excel'),
 				self::TYPE_SPSS => $this->lng->txt('exp_type_csv')
 				));
-			$ilToolbar->addInputItem($format);
+			$ilToolbar->addInputItem($format, true);
 
 			$label = new ilSelectInputGUI("", "export_label");
 			$label->setOptions(array(
@@ -596,6 +596,15 @@ class ilSurveyEvaluationGUI
 			}
 			$button->setOmitPreventDoubleSubmission(true);
 			$ilToolbar->addButtonInstance($button);	
+				
+			$ilToolbar->addSeparator();
+
+			include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
+			$button = ilLinkButton::getInstance();
+			$button->setCaption("print");
+			$button->setOnClick("window.print(); return false;");
+			$button->setOmitPreventDoubleSubmission(true);
+			$ilToolbar->addButtonInstance($button);		
 			
 			$finished_ids = null;
 			if($appr_id)
@@ -1036,12 +1045,12 @@ class ilSurveyEvaluationGUI
 		$tabledata = null;
 		if(!$this->object->get360Mode() || $appr_id)
 		{
-			$format = new ilSelectInputGUI("", "export_format");
+			$format = new ilSelectInputGUI($this->lng->txt("svy_export_format"), "export_format");
 			$format->setOptions(array(
 				self::TYPE_XLS => $this->lng->txt('exp_type_excel'),
 				self::TYPE_SPSS => $this->lng->txt('exp_type_csv')
 				));
-			$ilToolbar->addInputItem($format);
+			$ilToolbar->addInputItem($format, true);
 
 			$label = new ilSelectInputGUI("", "export_label");
 			$label->setOptions(array(

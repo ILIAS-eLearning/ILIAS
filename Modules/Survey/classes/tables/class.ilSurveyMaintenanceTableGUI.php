@@ -76,8 +76,7 @@ class ilSurveyMaintenanceTableGUI extends ilTable2GUI
 		}
 		else
 		{
-			$this->addMultiCommand('deleteSingleUserResults', $this->lng->txt('delete_user_data'));
-			$this->addCommandButton('deleteAllUserData', $this->lng->txt('svy_delete_all_user_data'));
+			$this->addMultiCommand('deleteSingleUserResults', $this->lng->txt('delete_user_data'));			
 		}
 
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));

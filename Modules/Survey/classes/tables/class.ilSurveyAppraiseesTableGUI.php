@@ -58,10 +58,9 @@ class ilSurveyAppraiseesTableGUI extends ilTable2GUI
 		$this->setFormName('apprform');
 		
 		$this->addColumn('','','1%');		
-		$this->addColumn($this->lng->txt("lastname"),'lastname', '');
-		$this->addColumn($this->lng->txt("firstname"),'firstname', '');	
-		$this->addColumn($this->lng->txt("email"),'email', '');
+		$this->addColumn($this->lng->txt("name"),'name', '');
 		$this->addColumn($this->lng->txt("login"),'login', '');
+		$this->addColumn($this->lng->txt("email"),'email', '');		
 						
 		if(!$this->raters_mode)
 		{
@@ -90,8 +89,7 @@ class ilSurveyAppraiseesTableGUI extends ilTable2GUI
 		$this->setDefaultOrderDirection("asc");
 	
 		if(!$this->raters_mode)
-		{
-			$this->addCommandButton('deleteAllUserData', $this->lng->txt('svy_delete_all_user_data'));
+		{			
 			$this->addMultiCommand('confirmAdminAppraiseesClose', $this->lng->txt('survey_360_appraisee_close_action'));
 			$this->addMultiCommand('confirmDeleteAppraisees', $this->lng->txt('survey_360_remove_appraisees'));			
 			$this->setPrefix('appr_id');
@@ -124,8 +122,7 @@ class ilSurveyAppraiseesTableGUI extends ilTable2GUI
 		$this->tpl->setVariable('ID', $data['user_id']);
 		$this->tpl->setVariable("LOGIN", $data['login']);
 		$this->tpl->setVariable("EMAIL", $data['email']);
-		$this->tpl->setVariable("LAST_NAME", $data['lastname']);
-		$this->tpl->setVariable("FIRST_NAME", $data['firstname']);
+		$this->tpl->setVariable("NAME", $data['name']);
 								
 		if(!$this->raters_mode)
 		{

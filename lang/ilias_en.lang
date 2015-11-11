@@ -16103,3 +16103,4 @@ content#:#cont_sqst#:#Survey Question (Assigned Material)
 mmbr#:#info_refuse_sure#:#Are you sure you want to refuse the following user(s)?
 administration#:#adm_user_starting_point_inherit#:#Use Standard-Settings
 administration#:#adm_user_starting_point_inherit_info#:#The settings that were made by the administrator of the platform as a whole will be used.
+survey#:#svy_export_format#:#Export survey data as
