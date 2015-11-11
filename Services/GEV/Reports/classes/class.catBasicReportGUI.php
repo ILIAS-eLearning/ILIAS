@@ -38,8 +38,6 @@ class catBasicReportGUI {
 		$this->data = false;
 		$this->filter = null;
 		$this->order = null;
-		
-		$this->permissions = gevReportingPermissions::getInstance($this->user->getId());
 	}
 	
 
