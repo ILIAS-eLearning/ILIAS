@@ -12363,3 +12363,10 @@ while($row = $ilDB->fetchAssoc($res))
 		$ilDB->addIndex('page_question',array('question_id'),'i2');
 	}
 ?>
+<#4791>
+<?php
+	if(!$ilDB->indexExistsByFields('help_tooltip', array('tt_id', 'module_id')))
+	{
+		$ilDB->addIndex('help_tooltip', array('tt_id', 'module_id'), 'i1');
+	}
+?>
