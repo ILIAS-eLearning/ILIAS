@@ -247,8 +247,6 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 
 	public function render() {
 		$ret = "";
-
-		$this->gCtrl->setParameter($this->parent_obj,"active_tab",$this->active_tab);
 		if($this->in_search) {
 			$this->gCtrl->setParameter($this->parent_obj,"cmd", "search");
 		}
@@ -261,7 +259,8 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 		if($this->advice) {
 			$ret .= $this->renderAdvice()."<br />";
 		}
-
+		
+		$this->gCtrl->setParameter($this->parent_obj,"active_tab",$this->active_tab);
 		$ret .= ilTable2GUI::render();
 		$this->gCtrl->clearParameters($this->parent_obj);
 
