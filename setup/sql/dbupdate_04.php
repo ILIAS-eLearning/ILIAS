@@ -12355,3 +12355,11 @@ while($row = $ilDB->fetchAssoc($res))
 	$ilDB->execute($stmt, array($row['usr_id'], 'bs_allow_to_contact_me', 'y'));
 }
 ?>
+<#4790>
+<?php
+
+	if(!$ilDB->indexExistsByFields('page_question',array('question_id')))
+	{
+		$ilDB->addIndex('page_question',array('question_id'),'i2');
+	}
+?>
