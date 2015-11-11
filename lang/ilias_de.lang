@@ -16103,3 +16103,4 @@ mmbr#:#info_refuse_sure#:#Sind Sie sicher, dass Sie den/die folgenden Benutzer a
 administration#:#adm_user_starting_point_inherit#:#Standard-Einstellungen übernehmen
 administration#:#adm_user_starting_point_inherit_info#:#Es werden die Einstellungen übernommen, wie sie vom Administrator für die ganze Plattform  global aktiviert wurden.
 survey#:#svy_export_format#:#Umfragen exportieren als
+survey#:#svy_fraction_of_selections#:#Anteil an den insgesamt ausgewählten Antwortoptionen

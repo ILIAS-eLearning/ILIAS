@@ -768,7 +768,7 @@ class SurveyMetricQuestion extends SurveyQuestion
 		$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("values")), $format_bold);
 		$worksheet->write($rowcounter, 1, ilExcelUtils::_convert_text($this->lng->txt("value")), $format_title);
 		$worksheet->write($rowcounter, 2, ilExcelUtils::_convert_text($this->lng->txt("category_nr_selected")), $format_title);
-		$worksheet->write($rowcounter++, 3, ilExcelUtils::_convert_text($this->lng->txt("percentage_of_selections")), $format_title);
+		$worksheet->write($rowcounter++, 3, ilExcelUtils::_convert_text($this->lng->txt("svy_fraction_of_selections")), $format_title);
 		$values = "";
 		if (is_array($eval_data["values"]))
 		{
