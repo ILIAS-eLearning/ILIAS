@@ -202,9 +202,9 @@ class gevDecentralTrainingBuildingBlockAdminGUI {
 		$content->setInfo($this->lng->txt("gev_block_unit_like_search"));
 		$form->addItem($content);
 	
-		$learn_dest = new ilTextInputGUI($this->lng->txt("gev_dec_building_block_learn_dest"), "learning_dest");
-		$learn_dest->setInfo($this->lng->txt("gev_block_unit_like_search"));
-		$form->addItem($learn_dest);
+		$target = new ilTextInputGUI($this->lng->txt("gev_dec_building_block_target"), "target");
+		$target->setInfo($this->lng->txt("gev_block_unit_like_search"));
+		$form->addItem($target);
 
 		$is_wp_relevant = new ilSelectInputGUI($this->lng->txt("gev_dec_building_block_is_wp_relevant"), "is_wp_relevant");
 		$option = array("-1"=>"-", "ja"=>"Ja", "nein"=>"Nein");
@@ -261,7 +261,7 @@ class gevDecentralTrainingBuildingBlockAdminGUI {
 					 "obj_id" => $bu_utils->getId()
 					,"title" => $bu_utils->getTitle()
 					,"content" => $bu_utils->getContent()
-					,"learning_dest" => $bu_utils->getLearningDestination()
+					,"target" => $bu_utils->getTarget()
 					,"is_wp_relevant" => $bu_utils->isWPRelevant()
 					,"active" => $bu_utils->isActive()
 					,"training_categories" => $bu_utils->getTrainingCategories()
@@ -282,7 +282,7 @@ class gevDecentralTrainingBuildingBlockAdminGUI {
 					 "obj_id" => ""
 					,"title" => ""
 					,"content" => ""
-					,"learning_dest" => ""
+					,"target" => ""
 					,"is_wp_relevant" => false
 					,"active" => false
 					,"move_to_course" => "Ja"
@@ -313,11 +313,11 @@ class gevDecentralTrainingBuildingBlockAdminGUI {
 		$content->setCols(48);
 		$form_gui->addItem($content);
 
-		$learn_dest = new ilTextAreaInputGUI($this->lng->txt("gev_dec_building_block_learn_dest"), "frm_learn_dest");
-		$learn_dest->setValue($vals["learning_dest"]);
-		$learn_dest->setRows(3);
-		$learn_dest->setCols(48);
-		$form_gui->addItem($learn_dest);
+		$target = new ilTextAreaInputGUI($this->lng->txt("gev_dec_building_block_target"), "frm_target");
+		$target->setValue($vals["target"]);
+		$target->setRows(3);
+		$target->setCols(48);
+		$form_gui->addItem($target);
 
 		/*************************
 		* INHALT
@@ -429,7 +429,7 @@ class gevDecentralTrainingBuildingBlockAdminGUI {
 
 		$bu_utils->setTitle($form->getInput("frm_title"));
 		$bu_utils->setContent($form->getInput("frm_content"));
-		$bu_utils->setLearningDestination($form->getInput("frm_learn_dest"));
+		$bu_utils->setTarget($form->getInput("frm_target"));
 		$bu_utils->setIsActice($form->getInput("frm_active"));
 
 		$bu_utils->setGDVTopic($form->getInput("frm_gdv_topic"));
@@ -467,7 +467,7 @@ class gevDecentralTrainingBuildingBlockAdminGUI {
 
 		$bu_utils->setTitle($form->getInput("frm_title"));
 		$bu_utils->setContent($form->getInput("frm_content"));
-		$bu_utils->setLearningDestination($form->getInput("frm_learn_dest"));
+		$bu_utils->setTarget($form->getInput("frm_target"));
 		$bu_utils->setIsActice($form->getInput("frm_active"));
 
 		$bu_utils->setGDVTopic($form->getInput("frm_gdv_topic"));

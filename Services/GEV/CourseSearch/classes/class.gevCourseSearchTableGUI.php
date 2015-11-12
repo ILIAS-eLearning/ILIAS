@@ -135,12 +135,12 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 						  $this->book_img."</a>";
 		$contact_onside_action = '<a href="mailto:'.$this->gLng->txt("gev_book_contact_onside").'">'.$this->email_img.'</a>';
 		$contact_webinar_action = '<a href="mailto:'.$this->gLng->txt("gev_book_contact_webinar").'">'.$this->email_img.'</a>';
-		
+
 		if (!$booking_deadline_expired && ($a_set["free_places"] > 0 || $unlimited)) {
 			$status = $this->bookable_img;
 			$action = $booking_action;
 		}
-		else if(!$booking_deadline_expired && $a_set["free_places"] == 0 && $a_set["waiting_list_active"]) {
+		else if(!$booking_deadline_expired && $a_set["free_places"] == 0 && $a_set["waiting_list_active"] && !$a_set["waiting_list_full"]) {
 			$status = $this->bookable_waiting_img;
 			$action = $booking_action;
 		}
@@ -247,8 +247,6 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 
 	public function render() {
 		$ret = "";
-
-		$this->gCtrl->setParameter($this->parent_obj,"active_tab",$this->active_tab);
 		if($this->in_search) {
 			$this->gCtrl->setParameter($this->parent_obj,"cmd", "search");
 		}
@@ -261,7 +259,8 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 		if($this->advice) {
 			$ret .= $this->renderAdvice()."<br />";
 		}
-
+		
+		$this->gCtrl->setParameter($this->parent_obj,"active_tab",$this->active_tab);
 		$ret .= ilTable2GUI::render();
 		$this->gCtrl->clearParameters($this->parent_obj);
 

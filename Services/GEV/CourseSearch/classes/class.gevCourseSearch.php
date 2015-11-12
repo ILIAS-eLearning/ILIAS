@@ -382,6 +382,7 @@ class gevCourseSearch {
 
 			$info[$key]["free_places"] = $crs_utils->getFreePlaces();
 			$info[$key]["waiting_list_active"] = $crs_utils->isWaitingListActivated();
+			$info[$key]["waiting_list_full"] = $crs_utils->isWaitingListFull();
 		}
 
 		return $info;

@@ -83,7 +83,7 @@ function changeBuildingBlockInfos() {
 	var selected = $('#blocks option:selected').val();
 	$.getJSON("create_decentral_training_data_json.php","selected="+selected+"&type=1", function( data ) {
 		$('#content').val(data["content"]);
-		$('#target').val(data["learning_dest"]);
+		$('#target').val(data["target"]);
 		$('#isWP').val(data["wp"]);
 		calculateCreditPoints();
 	});

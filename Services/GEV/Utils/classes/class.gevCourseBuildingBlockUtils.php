@@ -189,7 +189,7 @@ class gevCourseBuildingBlockUtils {
 
 		$sql = "SELECT\n"
 			  ."    base.id, base.crs_id, base.bb_id, base.start_time, base.end_time, base.credit_points, base.practice_session,\n"
-			  ."    join1.title, join1.learning_dest, join1.content, base.crs_request_id, base.bb_id, join1.dbv_topic\n"
+			  ."    join1.title, join1.target, join1.content, base.crs_request_id, base.bb_id, join1.dbv_topic\n"
 			  ." FROM ".self::TABLE_NAME." as base\n"
 			  ." JOIN ".self::TABLE_NAME_JOIN1." as join1\n"
 			  ."   ON  base.bb_id = join1.obj_id\n";
@@ -307,7 +307,7 @@ class gevCourseBuildingBlockUtils {
 	}
 
 	static public function targetAndBenefits($a_crs_ref_id,$a_db,$crs_request_id = null) {
-		$sql = "SELECT DISTINCT base.learning_dest\n"
+		$sql = "SELECT DISTINCT base.target\n"
 			   ." FROM ".self::TABLE_NAME_JOIN1." base\n"
 			   ." JOIN ".self::TABLE_NAME." join1 ON base.obj_id = join1.bb_id\n";
 
@@ -324,22 +324,22 @@ class gevCourseBuildingBlockUtils {
 		$sql .= " ORDER BY join1.start_time";
 
 		$res = $a_db->query($sql);
-		$learn_dest = array();
+		$target = array();
 		while($row = $a_db->fetchAssoc($res)) {
-			$learn_dest[] = $row["learning_dest"];
+			$target[] = $row["target"];
 		}
 
 		//REPLACE "\n" !!!!
 
-		return $learn_dest;
+		return $target;
 	}
 
 	static private function updateTargetAndBenefits($a_crs_ref_id,$a_db) {
-		$learn_dest = self::targetAndBenefits($a_crs_ref_id,$a_db);
-		$learn_dest = implode("\n", $learn_dest);
+		$target = self::targetAndBenefits($a_crs_ref_id,$a_db);
+		$target = implode("\n", $target);
 
 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
-		gevCourseUtils::updateTargetAndBenefits($learn_dest, $a_crs_ref_id);
+		gevCourseUtils::updateTargetAndBenefits($target, $a_crs_ref_id);
 	}
 
 	static public function content($a_crs_ref_id, $a_db,$crs_request_id = null) {
