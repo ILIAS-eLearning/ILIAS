@@ -139,7 +139,7 @@ class ilGlossaryTermGUI
 	/**
 	 * Edit term
 	 */
-	function editTerm()
+	function editTerm(ilPropertyFormGUI $a_form = null)
 	{
 		global $ilTabs, $ilCtrl;
 
@@ -151,9 +151,12 @@ class ilGlossaryTermGUI
 		$this->tpl->setTitle($this->lng->txt("cont_term").": ".$this->term->getTerm());
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_glo.svg"));
 
-		$form = $this->getEditTermForm();
+		if(!$a_form)
+		{
+			$a_form = $this->getEditTermForm();
+		}
 		
-		$this->tpl->setContent($ilCtrl->getHTML($form));
+		$this->tpl->setContent($ilCtrl->getHTML($a_form));
 
 		$this->quickList();
 	}
@@ -223,43 +226,38 @@ class ilGlossaryTermGUI
 	*/
 	function updateTerm()
 	{
-		// update term
-		$this->term->setTerm(ilUtil::stripSlashes($_POST["term"]));
-		$this->term->setLanguage($_POST["term_language"]);
-		$this->term->update();
-		
-		// update taxonomy assignment
-		if ($this->glossary->getTaxonomyId() > 0)
-		{
-			include_once("./Services/Taxonomy/classes/class.ilTaxNodeAssignment.php");
-			$ta = new ilTaxNodeAssignment("glo", $this->glossary->getId(), "term", $this->glossary->getTaxonomyId());
-			$ta->deleteAssignmentsOfItem($this->term->getId());
-			if (is_array($_POST["tax_node"]))
-			{
-				foreach ($_POST["tax_node"] as $node_id)
-				{
-					$ta->addAssignment($node_id, $this->term->getId());
-				}
-			}		
-
-		}
-		
-		// advanced metadata
-		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
-		$record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_EDITOR,
-			'glo',$this->glossary->getId(),'term', $this->term->getId());
-		
-		// :TODO: proper validation
 		$form = $this->getEditTermForm();
-		$form->checkInput();
-		
-		if($this->record_gui->importEditFormPostValues())
+		if($form->checkInput() &&
+			$this->record_gui->importEditFormPostValues())
 		{		
-			$this->record_gui->writeEditForm();
+			// update term
+			$this->term->setTerm(ilUtil::stripSlashes($_POST["term"]));
+			$this->term->setLanguage($_POST["term_language"]);
+			$this->term->update();
+
+			// update taxonomy assignment
+			if ($this->glossary->getTaxonomyId() > 0)
+			{
+				include_once("./Services/Taxonomy/classes/class.ilTaxNodeAssignment.php");
+				$ta = new ilTaxNodeAssignment("glo", $this->glossary->getId(), "term", $this->glossary->getTaxonomyId());
+				$ta->deleteAssignmentsOfItem($this->term->getId());
+				if (is_array($_POST["tax_node"]))
+				{
+					foreach ($_POST["tax_node"] as $node_id)
+					{
+						$ta->addAssignment($node_id, $this->term->getId());
+					}
+				}		
+
+			}
+
+			$this->record_gui->writeEditForm();			
+			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
+			$this->ctrl->redirect($this, "editTerm");
 		}
-	
-		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
-		$this->ctrl->redirect($this, "editTerm");
+			
+		$form->setValuesByPost();
+		$this->editTerm($form);
 	}
 
 	/**
