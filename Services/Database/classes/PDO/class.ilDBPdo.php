@@ -50,8 +50,9 @@ class ilDBPdo implements ilDBInterface
 
     public function connect()
     {
-        $this->pdo = new PDO('mysql:host=localhost;dbname=ilias_trunk;charset=utf8', 'ilias_trunk', 'ilias_trunk');
+        $this->pdo = new PDO('mysql:host=localhost;dbname=ilias_trunk;charset=utf8', 'ilias_trunk', 'ilias_trunk', array (PDO::MYSQL_ATTR_MAX_BUFFER_SIZE=>1024*1024*1));
         $this->pdo->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
+        $this->pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
         $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 
@@ -69,15 +70,18 @@ class ilDBPdo implements ilDBInterface
     {
         if ($this->tableExists($table_name . '_seq')) {
             $table_seq = $table_name . '_seq';
-            $stmt = $this->pdo->prepare("SELECT * FROM $table_seq");
+            $stmt = $this->pdo->prepare("SELECT sequence FROM $table_seq");
             $stmt->execute();
             $rows = $stmt->fetch(PDO::FETCH_ASSOC);
             $stmt->closeCursor();
 
-            return count($rows) ? 0 : $rows['seq'];
+            $nextId = (count($rows) ? ($rows['sequence'] + 1) : 0);
+            $stmt = $this->pdo->prepare("UPDATE $table_seq SET sequence = :next_id");
+            $stmt->execute(array("next_id" => $nextId));
+
+            return $nextId;
         } else {
-            //            return $this->pdo->lastId($table_name) + 1;
-            return 0;
+            return $this->pdo->lastInsertId($table_name) + 1;
         }
     }
 
@@ -145,7 +149,7 @@ class ilDBPdo implements ilDBInterface
     public function tableExists($table_name)
     {
         $result = $this->pdo->prepare("SHOW TABLES LIKE :table_name");
-        $result->execute(array(':table_name' => $table_name));
+        $result->execute(array('table_name' => $table_name));
         $return = $result->rowCount();
         $result->closeCursor();
 
