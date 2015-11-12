@@ -41,7 +41,7 @@ class gevDecentralTrainingBuildingBlockAdminTableGUI extends catTableGUI {
 
 		$this->addColumn($this->lng->txt("title"), "title");
 		$this->addColumn($this->lng->txt("gev_dec_building_block_content"),"content");
-		$this->addColumn($this->lng->txt("gev_dec_building_block_learn_dest"), 'target');
+		$this->addColumn($this->lng->txt("gev_dec_building_block_target"), 'target');
 		
 		$this->addColumn($this->lng->txt("gev_dec_training_training_category"), 'target');
 		$this->addColumn($this->lng->txt("gev_dec_training_gdv_topic"), 'target');
