@@ -323,9 +323,11 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
             if($lp_mode==92){
                 include_once("./Services/Tracking/classes/repository_statistics/class.ilLPListOfObjectsGUI.php");
                 $lp_gui=new ilLPListOfObjectsGUI($lp_mode,$_GET['ref_id']);
-                $url_link=$ilCtrl->getLinkTargetByClass(array("ilobjexercisegui","illearningprogressgui", "illplistofobjectsgui"),'edituser');                
-                $link="<a href=\"${url_link}&details_id=".$_GET['ref_id']."&user_id=".$member_id."\">".$this->lng->txt('trac_rubric')."</a>";                
-                $this->tpl->setVariable("RUBRIC_LINK", $link);                
+                $ilCtrl->setParameterByClass('illplistofobjectsgui','user_id',$member_id);
+                $ilCtrl->setParameterByClass('illplistofobjectsgui','details_id',$_GET['ref_id']);
+                $url_link=$ilCtrl->getLinkTargetByClass(array("ilobjexercisegui","illearningprogressgui", "illplistofobjectsgui"),'edituser');
+                $link="<a href=\"${url_link}\">".$this->lng->txt('trac_rubric')."</a>";
+                $this->tpl->setVariable("RUBRIC_LINK", $link);                                
             }            
             // END PATCH RUBRIC CPKN 2015
             
