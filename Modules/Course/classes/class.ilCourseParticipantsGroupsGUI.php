@@ -84,7 +84,7 @@ class ilCourseParticipantsGroupsGUI
 
 	function remove()
 	{
-		global $ilAccess, $ilObjDataCache, $lng;
+		global $ilAccess, $ilObjDataCache, $lng, $ilCtrl;
 		
 		if (!$ilAccess->checkAccess("write", "", $_POST["grp_id"]))
 		{
@@ -107,8 +107,8 @@ class ilCourseParticipantsGroupsGUI
 	    include_once './Modules/Forum/classes/class.ilForumNotification.php';
 		ilForumNotification::checkForumsExistsDelete($this->ref_id, $_POST["usr_id"]);
 
-		ilUtil::sendSuccess($lng->txt("grp_msg_membership_annulled"));
-		$this->show();
+		ilUtil::sendSuccess($lng->txt("grp_msg_membership_annulled"), true);
+		$ilCtrl->redirect($this, "show");
 	}
 
 	function add()
