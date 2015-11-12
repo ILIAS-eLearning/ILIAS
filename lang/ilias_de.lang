@@ -6733,7 +6733,7 @@ crs#:#crs_no_members_assigned#:#Diesem Kurs sind noch keine Mitglieder zugeordne
 crs#:#crs_no_notify#:#Keine Benachrichtigung bei Beitritten
 crs#:#crs_no_objective_lms_found#:#Dieser Kurs enthält keine Lerninhalte, die dem Lernziel zugeordnet werden könnten.
 crs#:#crs_no_objective_selected#:#Bitte wählen Sie mindestens ein Lernziel aus.
-crs#:#crs_no_objectives_created#:#Diesem Kurs sind keine Lernziele zugeordnet.
+crs#:#crs_no_objectives_created#:#Keine Lernziele angelegt
 crs#:#crs_no_question_selected#:#Bitte wählen Sie mindestens eine Frage aus.
 crs#:#crs_no_questions_assigned#:#Diesem Lernziel sind keine Fragen zugeordnet.
 crs#:#crs_no_results_found#:#Es wurden keine passenden Ergebnisse gefunden

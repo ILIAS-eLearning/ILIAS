@@ -5824,7 +5824,7 @@ crs#:#crs_no_members_assigned#:#There are no members assigned to this course
 crs#:#crs_no_notify#:#No notify for new registrations
 crs#:#crs_no_objective_lms_found#:#This course does not contain learning material that could be assigned to the learning objective.
 crs#:#crs_no_objective_selected#:#Please select one objective.
-crs#:#crs_no_objectives_created#:#There are no objectives assigned.
+crs#:#crs_no_objectives_created#:#No Course Materials created
 crs#:#crs_no_question_selected#:#Please select one question.
 crs#:#crs_no_questions_assigned#:#There are no questions assigned.
 crs#:#crs_no_results_found#:#No results found
