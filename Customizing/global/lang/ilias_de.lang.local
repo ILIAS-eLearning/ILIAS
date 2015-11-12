@@ -1188,7 +1188,7 @@ gev#:#gev_dec_building_block_new#:#Neuer Baustein
 gev#:#gev_dec_building_block_base_data#:#Bausteininformationen
 gev#:#gev_dec_building_block_create_title#:#Titel
 gev#:#gev_dec_building_block_content#:#Trainingsinhalte
-gev#:#gev_dec_building_block_learn_dest#:#Ziele und Nutzen
+gev#:#gev_dec_building_block_target#:#Ziele und Nutzen
 gev#:#gev_dec_building_block_is_wp_relevant#:#WP relevant
 gev#:#gev_dec_building_block_active#:#Aktiv
 gev#:#gev_dec_building_block_title#:#Trainingsbausteine
@@ -1395,3 +1395,4 @@ gev#:#root_create_xrds#:#DBV Report für Vorgesetzte erzeugen
 gev#:#cat_create_xrds#:#DBV Report für Vorgesetzte erzeugen
 gev#:#rep_robj_xrds_content#:#Report
 gev#:#rep_robj_xrds_properties#:#Eigenschaften
+gev#:#gev_dec_training_attachment#:#Anhang

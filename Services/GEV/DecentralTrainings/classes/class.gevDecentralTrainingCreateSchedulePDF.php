@@ -221,7 +221,7 @@ class gevDecentralTrainingCreateSchedulePDF
 		foreach ($this->blocks as $key => $value) {
 			$y_value = $this->pdf->GetY() + $this->crsBlockSpaceTopAdd;
 			$base = $value->getBuildingBlock();
-			$max_height = $this->calcMaxRowHeight($base->getTitle(),$base->getContent(), $base->getLearningDestination(), $coloumn_width);
+			$max_height = $this->calcMaxRowHeight($base->getTitle(),$base->getContent(), $base->getTarget(), $coloumn_width);
 
 			if(($y_value + $max_height * $this->crsBlockSpaceTopAdd) > $this->maxPageHeight) {
 				$this->createFooterRow();
@@ -257,7 +257,7 @@ class gevDecentralTrainingCreateSchedulePDF
 			$this->pdf->MultiCell($coloumn_width,$this->crsBlockSpaceTopAdd,$this->encodeSpecialChars($base->getContent()),0,"");
 
 			$this->pdf->setXY($x_fithColoumn - 0.1, $y_value);
-			$this->pdf->MultiCell($coloumn_width,$this->crsBlockSpaceTopAdd,$this->encodeSpecialChars($base->getLearningDestination()),0,"");
+			$this->pdf->MultiCell($coloumn_width,$this->crsBlockSpaceTopAdd,$this->encodeSpecialChars($base->getTarget()),0,"");
 
 			$this->pdf->setXY($x_sixthColoumn - 0.1, $y_value);
 			$this->pdf->MultiCell($coloumn_width,$this->crsBlockSpaceTopAdd,$this->encodeSpecialChars($value->getPracticeSession()),0,"");

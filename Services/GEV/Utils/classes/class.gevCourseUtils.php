@@ -2543,6 +2543,21 @@ class gevCourseUtils {
 	public function isWaitingListActivated() {
 		return $this->getBookings()->isWaitingListActivated();
 	}
+
+	public function isWaitingListFull() {
+		$waiting_list_lenght = $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_MAX_WAITING_LIST_LENGTH);
+		$waiting_list_count = count($this->getBookings()->getWaitingUsers());
+		
+		if($waiting_list_lenght === null || $waiting_list_lenght == 0) {
+			return false;
+		}
+
+		if($waiting_list_count < $waiting_list_lenght) {
+			return false;
+		}
+
+		return true;
+	}
 	
 	public function canBookCourseForOther($a_user_id, $a_other_id) {
 		require_once("Services/GEV/CourseSearch/classes/class.gevCourseSearch.php");
