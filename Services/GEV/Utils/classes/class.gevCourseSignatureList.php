@@ -7,7 +7,7 @@
 require_once "Services/Billing/lib/fpdf/fpdf.php";
 require_once "Services/GEV/Utils/classes/class.gevUserUtils.php";
 class gevCourseSignatureList extends fpdf {
-	
+	const ADDITIONAL_LINES = 5;
 	protected $img = "Customizing/global/skin/genv/images/HeaderIcon.png";
 	protected $metadata;
 	protected $participant_ids;
@@ -78,7 +78,7 @@ class gevCourseSignatureList extends fpdf {
 		/**
 		*	5 additional lines for people, who were not registered via ILIAS
 		*/
-		for( $count = 0; $count < 5; $count++) {
+		for( $count = 0; $count < self::ADDITIONAL_LINES; $count++) {
 			$this->Row(array("","","",""));
 		}
 	}
