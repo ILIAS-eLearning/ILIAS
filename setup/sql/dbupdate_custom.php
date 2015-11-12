@@ -4522,3 +4522,10 @@ ilCustomInstaller::addRBACOps('crs', $new_crs_ops);
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+
+<#176>
+<?php
+	require_once("Services/Administration/classes/class.ilSetting.php");
+	$set = new ilSetting();
+	$set->set("enable_trash",0);
+?>

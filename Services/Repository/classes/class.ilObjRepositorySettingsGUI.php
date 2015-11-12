@@ -168,13 +168,13 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 		*/
 	
 		// trash
-		$cb = new ilCheckboxInputGUI($this->lng->txt("enable_trash"), "enable_trash");
+		/*$cb = new ilCheckboxInputGUI($this->lng->txt("enable_trash"), "enable_trash");
 		$cb->setInfo($this->lng->txt("enable_trash_info"));
 		if ($ilSetting->get("enable_trash"))
 		{
 			$cb->setChecked(true);
 		}
-		$form->addItem($cb);
+		$form->addItem($cb);*/
 	
 		// change event
 		require_once 'Services/Tracking/classes/class.ilChangeEvent.php';
@@ -253,7 +253,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 			// $ilSetting->set('rep_cache',(int) $_POST['rep_cache']);
 			// $ilSetting->set("rep_tree_synchronize", $_POST["rep_tree_synchronize"]);	
 			
-			$ilSetting->set("enable_trash", $_POST["enable_trash"]);	
+			//$ilSetting->set("enable_trash", $_POST["enable_trash"]);	
 			 
 			$ilSetting->set("rep_shorten_description", $form->getInput('rep_shorten_description'));
 			$ilSetting->set("rep_shorten_description_length", (int)$form->getInput('rep_shorten_description_length'));										
