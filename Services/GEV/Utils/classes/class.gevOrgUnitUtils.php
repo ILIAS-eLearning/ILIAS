@@ -964,9 +964,37 @@ class gevOrgUnitUtils {
 
 		}
 	}
+
+	public static function getSuperiorsOfUser($user_id) {
+		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php");
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+
+		$tree = ilObjOrgUnitTree::_getInstance();
+		$sups = array();
+		$look_above_orgus = array();
+		$orgus = $tree->getOrgUnitOfUser($user_id);
+
+		foreach( $orgus as $ref_id ) {
+			$employees = $tree->getEmployees($ref_id);
+			$superiors = $tree->getSuperiors($ref_id);
+
+			if(in_array($user_id,$employees)) {
+				$sups = array_merge($sups,$superiors);
+			}
+		}
+		foreach($orgus as $org) {
+
+			$org_aux = $tree->getParent($org);
+
+			while ($org_aux != ROOT_FOLDER_ID) {
+				$sups = array_merge($sups,$tree->getSuperiors($org_aux));
+				$org_aux = $tree->getParent($org_aux);
+			}
+		}
+		$sups = array_unique($sups);
+		return gevUserUtils::removeInactiveUsers($sups);
+	}
 }
-
-
 
 class gevOrgUnitCache {
 	protected $root_id;
@@ -1007,5 +1035,3 @@ class gevOrgUnitCache {
 		return $this->cache[$import_id];
 	}
 }
-
-?>
