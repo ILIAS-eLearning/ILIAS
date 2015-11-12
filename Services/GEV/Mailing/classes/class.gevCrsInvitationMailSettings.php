@@ -33,9 +33,10 @@ class gevCrsInvitationMailSettings {
 		$this->read();
 	}
 
-	// Returns the id of the template set for the function.
+	// Returns the id of the template set for the function (e.g. Trainer,
+	// Mitglied, ...).
 	// Return -1 if none is set.
-	public function getTemplateFor($a_function_name) {
+	public function getTemplateFor($a_local_role_name) {
 		if(array_key_exists($a_function_name, $this->settings)) {
 			return $this->settings[$a_function_name]["template_id"];
 		}
