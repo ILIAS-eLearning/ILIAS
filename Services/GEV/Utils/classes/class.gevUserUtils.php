@@ -2183,5 +2183,3 @@ class gevUserUtils {
 		return $this->hasRoleIn($roles);
 	}
 }
-
-?>
