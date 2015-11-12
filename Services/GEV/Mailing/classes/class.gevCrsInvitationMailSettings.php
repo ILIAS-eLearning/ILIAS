@@ -53,18 +53,18 @@ class gevCrsInvitationMailSettings {
 	}
 
 	// Get names of attached files.
-	public function getAttachmentNamesFor($a_function_name) {
-		if (array_key_exists($a_function_name, $this->settings)) {
-			return $this->settings[$a_function_name]["attachments"];
+	public function getAttachmentNamesFor($a_local_role_name) {
+		if (array_key_exists($a_local_role_name, $this->settings)) {
+			return $this->settings[$a_local_role_name]["attachments"];
 		}
 
 		return array();
 	}
 
 	// Get names of attached files.
-	public function getAttachmentsFor($a_function_name) {
+	public function getAttachmentsFor($a_local_role_name) {
 		return $this->attachmentNamesToCompleteArray(
-						$this->getAttachmentNamesFor($a_function_name));
+						$this->getAttachmentNamesFor($a_local_role_name));
 	}
 
 	protected function getAttachments() {
