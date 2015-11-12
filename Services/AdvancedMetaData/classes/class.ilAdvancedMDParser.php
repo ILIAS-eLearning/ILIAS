@@ -76,6 +76,13 @@ class ilAdvancedMDParser extends ilSaxParser implements ilSaxSubsetParser
 		foreach($map as $record_id => $fields)
 		{
 			$this->local_rec_fields_map[$record_id] = $fields;
+			
+			// needed for glossary field order
+			foreach($fields as $import_id => $new_id)
+			{
+				$old_id = array_pop(explode("_", $import_id));			
+				$this->mapping->addMapping("Services/AdvancedMetaData", "lfld", $old_id, $new_id);		
+			}
 		}
 		
 		$new_id = array_shift(array_keys($map));

@@ -146,15 +146,22 @@ class ilGlossaryImporter extends ilXmlImporter
 					foreach ($advmdco as $id => $order)
 					{
 						$id = explode(":", $id);
-						if ($id[0] == $old)
+						$field_glo_id = $id[0];
+						$field_id = $id[1];
+						if ($field_glo_id == $old)
 						{
-							ilGlossaryAdvMetaDataAdapter::writeColumnOrder($new, $id[1], $order);
+							// #17454
+							$new_local_id = $a_mapping->getMapping("Services/AdvancedMetaData", "lfld", $field_id);							
+							if($new_local_id)
+							{
+								$field_id = $new_local_id;
+							}
+							ilGlossaryAdvMetaDataAdapter::writeColumnOrder($new, $field_id, $order);
 						}
 					}
 				}
 			}
 		}
-
 	}
 	
 }
