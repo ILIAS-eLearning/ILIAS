@@ -1,18 +1,21 @@
 <?php
 
 /**
+*	Signature list for trainings, fed by ILIAS participation list
 *	@description Variable MultiSpaceTables are developed by olivier@fpdf.org.
 */
 require_once "Services/Billing/lib/fpdf/fpdf.php";
 require_once "Services/GEV/Utils/classes/class.gevUserUtils.php";
 class gevCourseSignatureList extends fpdf {
-	
+	const ADDITIONAL_LINES = 5;
 	protected $img = "Customizing/global/skin/genv/images/HeaderIcon.png";
 	protected $metadata;
 	protected $participant_ids;
+	protected $gLng;
 	public function __construct(gevCourseUtils $crs_utils) {
+		global $lng;
 
-
+		$this->gLng = $lng;
 		$trainer_list = $crs_utils->getTrainers();
 		foreach($trainer_list as &$user_id) {
 			$user_utils = gevUserUtils::getInstance($user_id);
@@ -49,11 +52,14 @@ class gevCourseSignatureList extends fpdf {
 		ob_clean();
 	}
 
+	/**
+	* get all the participants and write them into table including some UDF
+	*/
 	protected function buildParticipantsTable() {
-		global $lng;
+
 		$this->SetWidths(array(45,45,45,55));
 		$this->SetFont('Arial','B',10);
-		$this->Row(array($lng->txt("lastname"),$lng->txt("firstname"),$lng->txt("objs_orgu"),"Unterschrift"));
+		$this->Row(array($this->gLng->txt("lastname"),$this->gLng->txt("firstname"),$this->gLng->txt("objs_orgu"),$this->gLng->txt("gev_signature")));
 		$this->SetFont('Arial','',10);
 		$y0 = $this->GetY();
 		$participants = array();
@@ -71,8 +77,17 @@ class gevCourseSignatureList extends fpdf {
 		foreach ($participants as $participant) {
 			$this->Row(array(utf8_decode($participant[1]),utf8_decode($participant[0]),utf8_decode($participant[2]),""));
 		}
+		/**
+		*	5 additional lines for people, who were not registered via ILIAS
+		*/
+		for( $count = 0; $count < self::ADDITIONAL_LINES; $count++) {
+			$this->Row(array("","","",""));
+		}
 	}
 
+	/**
+	* Training metadata
+	*/
 	protected function buildMetaTable() {
 		$this->SetLinewidth(0.1);
 		$this->SetFont('Arial','B',10);
@@ -91,6 +106,9 @@ class gevCourseSignatureList extends fpdf {
 		$this->SetLinewidth(0.2);
 	}
 
+	/**
+	* Build header, image, training title...
+	*/
 	public function Header() {
 		$this->SetFont('Arial','B',14);
 		$this->Cell(30,10,'Unterschriftenliste');
@@ -103,10 +121,11 @@ class gevCourseSignatureList extends fpdf {
 		$this->Cell(20,10,$header_info);
 		$this->Image($this->img,170,6,30);
 		$this->Ln(30);
-
 	}
 
-
+	/**
+	* Build footer.
+	*/
 	public function Footer() {	
 		// Position at 1.5 cm from bottom
 		$this->SetY(-15);
@@ -116,6 +135,9 @@ class gevCourseSignatureList extends fpdf {
 		$this->Cell(0,10,'Seite '.$this->PageNo().' von {nb}' ,0,0,'C');
 	}
 
+	/**
+	* MultiSpaceTables follows
+	*/
 	protected $widths;
 	protected $aligns;
 
@@ -213,5 +235,3 @@ class gevCourseSignatureList extends fpdf {
 	}
 
 }
-
-?>
