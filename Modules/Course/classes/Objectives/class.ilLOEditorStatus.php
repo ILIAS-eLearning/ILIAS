@@ -360,7 +360,7 @@ class ilLOEditorStatus
 			$this->appendFailure(self::SECTION_OBJECTIVES_NEW, 'crs_no_objectives_created');
 		}
 
-		return count($this->getObjectives());
+		return $ret;
 	}
 	
 	/**
