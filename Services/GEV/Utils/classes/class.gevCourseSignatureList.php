@@ -11,9 +11,11 @@ class gevCourseSignatureList extends fpdf {
 	protected $img = "Customizing/global/skin/genv/images/HeaderIcon.png";
 	protected $metadata;
 	protected $participant_ids;
+	protected $gLng;
 	public function __construct(gevCourseUtils $crs_utils) {
+		global $lng;
 
-
+		$this->gLng = $lng;
 		$trainer_list = $crs_utils->getTrainers();
 		foreach($trainer_list as &$user_id) {
 			$user_utils = gevUserUtils::getInstance($user_id);
@@ -54,10 +56,10 @@ class gevCourseSignatureList extends fpdf {
 	* get all the participants and write them into table including some UDF
 	*/
 	protected function buildParticipantsTable() {
-		global $lng;
+
 		$this->SetWidths(array(45,45,45,55));
 		$this->SetFont('Arial','B',10);
-		$this->Row(array($lng->txt("lastname"),$lng->txt("firstname"),$lng->txt("objs_orgu"),"Unterschrift"));
+		$this->Row(array($this->gLng->txt("lastname"),$this->gLng->txt("firstname"),$this->gLng->txt("objs_orgu"),$this->gLng->txt("gev_signature")));
 		$this->SetFont('Arial','',10);
 		$y0 = $this->GetY();
 		$participants = array();
