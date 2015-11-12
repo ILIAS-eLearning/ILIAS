@@ -964,9 +964,8 @@ class gevOrgUnitUtils {
 
 		}
 	}
-}
 
-public static function getSuperiorsOfUser($user_id) {
+	public static function getSuperiorsOfUser($user_id) {
 		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php");
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 
