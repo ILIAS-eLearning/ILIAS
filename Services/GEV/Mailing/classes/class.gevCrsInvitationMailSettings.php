@@ -37,15 +37,15 @@ class gevCrsInvitationMailSettings {
 	// Mitglied, ...).
 	// Return -1 if none is set.
 	public function getTemplateFor($a_local_role_name) {
-		if(array_key_exists($a_function_name, $this->settings)) {
-			return $this->settings[$a_function_name]["template_id"];
+		if(array_key_exists($a_local_role_name, $this->settings)) {
+			return $this->settings[$a_local_role_name]["template_id"];
 		}
 
 		/*IF there is no template for searched function_name 
 		* AND function_name euqals tutor standard function name
 		* return tutor standard template id
 		*/
-		if($this->tutor_standard_function_name == $a_function_name) {
+		if($this->tutor_standard_function_name == $a_local_role_name) {
 			return $this->tutor_standard_template_id;
 		}
 
