@@ -982,6 +982,21 @@ class gevUserUtils {
 			return null;
 		}
 	}
+
+	public function isExitDatePassed() {
+		$now = date("Y-m-d");
+		$exit_date = $this->getExitDate();
+
+		if(!$exit_date) {
+			return false;
+		}
+
+		if($now > $exit_date) {
+			return true;
+		}
+
+		return false;
+	}
 	
 	public function setExitDate(ilDate $a_date) {
 		$this->udf_utils->setField($this->user_id, gevSettings::USR_UDF_EXIT_DATE, $a_date->get(IL_CAL_DATE));

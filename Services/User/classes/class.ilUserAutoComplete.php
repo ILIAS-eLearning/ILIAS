@@ -237,7 +237,7 @@ class ilUserAutoComplete
 		 * @var $ilDB  ilDB
 		 * @var $ilLog ilLog
 		 */
-		global $ilDB, $ilLog;
+		global $ilDB, $ilLog, $lng;
 
 		$select_part   = $this->getSelectPart();
 		$where_part    = $this->getWherePart($a_str);
@@ -267,8 +267,17 @@ class ilUserAutoComplete
 		$result = array();
 		while(($rec = $ilDB->fetchAssoc($res)) && $cnt < $max)
 		{
+			//gev-patch start
+			$exit = "";
+			require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+			$usr_utils = gevUserUtils::getInstance($rec['usr_id']);
+			if($usr_utils->isExitDatePassed()){
+				$exit = $lng->txt("gev_user_is_inactive");
+			}
+
 			// @todo: Open discussion: We should remove all non public fields from result
-			$label = $rec['lastname'] . ', ' . $rec['firstname'] . ' [' . $rec['login'] . ']';
+			$label = $rec['lastname'] .', ' . $rec['firstname'] . ' [' . $rec['login'] . ']'.' '.$exit;
+			//gev-oatch end
 
 			if($add_email && $rec['email'] && (self::PRIVACY_MODE_RESPECT_USER_SETTING != $this->getPrivacyMode() || 'y' == $rec['email_value']))
 			{
@@ -291,6 +300,9 @@ class ilUserAutoComplete
 	protected function getSelectPart()
 	{
 		$fields = array(
+			//gev-patch start
+			'usr_data.usr_id',
+			//gev-patch end
 			'login',
 			'firstname',
 			'lastname',
