@@ -12,6 +12,7 @@
 class gevDecentralTrainingCreationRequest {
 	const CREATOR_ROLE_TITLE = "Trainingsersteller";
 	const CREATOR_ROLE_DESC = "Ersteller des dezentralen Trainings mit Ref-Id %d";
+	const WEB_DATA_FOLDER = 'request_data';
 	
 	// @var gevDecentralTrainingCreationRequestDB
 	protected $db;
@@ -455,5 +456,21 @@ class gevDecentralTrainingCreationRequest {
 	protected function updateCourseWithBuidlingBlockData($a_trgt_crs_ref_id) {
 		require_once("Services/GEV/Utils/classes/class.gevCourseBuildingBlockUtils.php");
 		gevCourseBuildingBlockUtils::courseUpdates($a_trgt_crs_ref_id);
+	}
+
+	public function getRequestFilePath() {
+		$base_dir = ilUtil::getWebspaceDir() . '/' . self::WEB_DATA_FOLDER . '/';
+		$request_dir = $base_dir. 'request_' . $this->requestId() . '/';
+		
+		if (!is_dir($base_dir))
+		{
+			ilUtil::makeDir($base_dir);
+		}
+
+		if(!is_dir($request_dir)) {
+			ilUtil::makeDir($request_dir);
+		}
+		
+		return $request_dir;
 	}
 }

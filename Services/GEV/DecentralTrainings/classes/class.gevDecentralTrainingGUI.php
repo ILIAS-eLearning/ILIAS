@@ -16,6 +16,7 @@ require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTraining
 require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCreationRequestDB.php");
 require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
 require_once("Services/CaTUIComponents/classes/class.catPropertyFormGUI.php");
+require_once("Services/CaTUIComponents/classes/class.catUploadedFilesGUI.php");
 
 require_once("Services/Form/classes/class.ilNonEditableValueGUI.php");
 require_once("Services/Form/classes/class.ilSelectInputGUI.php");
@@ -42,17 +43,19 @@ class gevDecentralTrainingGUI {
 	const VC_TYPE_WEBEX = "Webex";
 	const LTPYE_WEBINAR = "Webinar";
 	const UVG_BASE_ORG_UNIT = "UVG";
+	const UPLOAD_ERROR_VALUE = 4;
 
 	protected $ltype;
 	
 	public function __construct() {
-		global $lng, $ilCtrl, $tpl, $ilUser, $ilLog, $ilAccess;
+		global $lng, $ilCtrl, $tpl, $ilUser, $ilLog, $ilAccess, $ilToolbar;
 
 		$this->lng = &$lng;
 		$this->ctrl = &$ilCtrl;
 		$this->tpl = &$tpl;
 		$this->log = &$ilLog;
 		$this->current_user = &$ilUser;
+		$this->toolbar = &$ilToolbar;
 		$this->cur_user_utils = gevUserUtils::getInstance($this->current_user->getId());
 		$this->access = &$ilAccess;
 		$this->user_id = null;
@@ -69,6 +72,7 @@ class gevDecentralTrainingGUI {
 		$this->tpl->addJavaScript('Services/GEV/DecentralTrainings/js/dct_date_duration_update.js');
 		$this->tpl->addJavaScript("Services/GEV/DecentralTrainings/js/dct_disable_mail_preview.js");
 		$this->tpl->addJavaScript("Services/CaTUIComponents/js/colorbox-master/jquery.colorbox-min.js");
+		$this->tpl->addJavaScript("Services/CaTUIComponents/js/catDeleteUploadedFile.js");
 
 		iljQueryUtil::initjQuery();
 	}
@@ -243,7 +247,7 @@ class gevDecentralTrainingGUI {
 		$this->ltype = $form_prev->getInput("ltype");
 		require_once("Services/GEV/Mailing/classes/class.gevCrsInvitationMailSettings.php");
 		$inv_mail_settings = new gevCrsInvitationMailSettings($template_id);
-		$this->mail_tpl_id = $inv_mail_settings->getTemplateFor("invitation");
+		$this->mail_tpl_id = $inv_mail_settings->getTemplateFor("Teilnehmer");
 
 		$this->template_id = $form_prev->getInput($this->ltype."_template");
 
@@ -257,6 +261,7 @@ class gevDecentralTrainingGUI {
 		$form_values["template_id"] = $this->template_id;
 		//trainer hinzufügen
 		$form_values["trainer_ids"] = $trainer_ids;
+		//$form_values["files"] = array(array("name"=>"hallo"));
 		//datum hinzufügen
 		$form_values["date"] = ($this->date !== null) ? new ilDate($this->date, IL_CAL_DATE)
 															: new ilDate(date("Y-m-d"), IL_CAL_DATE);
@@ -345,20 +350,16 @@ class gevDecentralTrainingGUI {
 
 		$a_form->setValuesByPost();
 
-		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
-		$settings_utils = gevSettings::getInstance();
-		$presence_flexible_tpl_id = $settings_utils->getDctTplFlexPresenceObjId();
-		$webinar_flexible_tpl_id = $settings_utils->getDctTplFlexWebinarObjId();
-
 		$form_tpl_id = $a_form->getInput("template_id");
-
-		if($form_tpl_id == $presence_flexible_tpl_id || $form_tpl_id == $webinar_flexible_tpl_id) {
+		$is_flexible = $this->isTemplateFlexible($tmplt_id);
+		
+		if($is_flexible) {
 			$a_form->addCommandButton("addBuildingBlock", $this->lng->txt("gev_dec_training_add_buildingblocks"));
-			$a_form->addCommandButton("", $this->lng->txt("gev_dec_mail_preview"));
 		} else {
 			$a_form->addCommandButton("finalizeTrainingCreation", $this->lng->txt("gev_dec_training_creation"));
 		}
 
+		$a_form->addCommandButton("", $this->lng->txt("gev_dec_mail_preview"));
 		$a_form->addCommandButton("cancel", $this->lng->txt("cancel"));
 		$a_form->setFormAction($this->ctrl->getFormAction($this));
 
@@ -387,6 +388,16 @@ class gevDecentralTrainingGUI {
 		
 		$this->template_id = intval($_POST["template_id"]);
 		$form_values["utils_id"] = $this->template_id;
+		
+		if(!isset($_POST["random_path_string"])) {
+			$random_path_string = $this->randomstring();
+		} else {
+			$random_path_string = $_POST["random_path_string"];
+		}
+		$form_values["random_path_string"] = $random_path_string;
+
+		//ATTACHMENTS
+		$form_values["files"] = $this->attachmentHandling($random_path_string);
 
 		$form_prev = $this->buildTrainingOptionsForm(false,false,$form_values);
 		
@@ -394,27 +405,30 @@ class gevDecentralTrainingGUI {
 			return $this->failCreateTraining($form_prev);
 		}
 		
-		
 		if(!$this->checkDecentralTrainingConstraints($form_prev, $this->template_id)) {
 			return $this->failCreateTraining($form_prev);
 		}
-		
+
 		$trainer_ids = array_map(function($inp) {return (int)$inp; }
 								, explode("|",$form_prev->getInput("trainer_ids"))
 								);
+		$attachment = $_POST["attachment_upload"];
 		
 		$crs_utils = gevCourseUtils::getInstance($this->template_id);
 		$settings = $this->getSettingsFromForm($crs_utils, $form_prev, $this->template_id);
 		$creation_request = new gevDecentralTrainingCreationRequest
-									( $this->dctl_utils->getCreationRequestDB()
-									, (int)$this->current_user->getId()
-									, (int)$this->template_id
-									, $trainer_ids
-									, $settings
-									);
+								( $this->dctl_utils->getCreationRequestDB()
+								, (int)$this->current_user->getId()
+								, (int)$this->template_id
+								, $trainer_ids
+								, $settings
+								);
 		$creation_request->request();
 		$this->dctl_utils->flushOpenCreationRequests();
-		
+
+		if(!$attachment["error"]) {
+			$this->_uploadFile($attachment["tmp_name"], $creation_request->getRequestFilePath().$attachment["name"]);
+		}
 		ilUtil::sendSuccess($this->lng->txt("gev_dec_training_creation_requested"), true);
 		if (!$this->dctl_utils->userCanOpenNewCreationRequest()) {
 			$this->ctrl->redirect($this, "showOpenRequests");
@@ -429,6 +443,16 @@ class gevDecentralTrainingGUI {
 		$is_flexible = $this->isTemplateFlexible($template_id);
 		$form_values["utils_id"] = $template_id;
 		$this->template_id = $template_id;
+
+		if(!isset($_POST["random_path_string"])) {
+			$random_path_string = $this->randomstring();
+		} else {
+			$random_path_string = $_POST["random_path_string"];
+		}
+		$form_values["random_path_string"] = $random_path_string;
+
+		//ATTACHMENTS
+		$form_values["files"] = $this->attachmentHandling($random_path_string);
 
 		$form = $this->buildTrainingOptionsForm(false,$is_flexible,$form_values);
 		$form->setValuesByPost();
@@ -450,7 +474,7 @@ class gevDecentralTrainingGUI {
 		$dec_utils = gevDecentralTrainingUtils::getInstance();
 		$crs_utils = gevCourseUtils::getInstance($_POST["template_id"]);
 		$settings = $this->getSettingsFromForm($crs_utils, $form, $_POST["template_id"]);
-		
+
 		if($this->crs_request_id === null) {
 			$creation_request = new gevDecentralTrainingCreationRequest
 												( $dec_utils->getCreationRequestDB()
@@ -766,6 +790,8 @@ class gevDecentralTrainingGUI {
 		$training_category = null;
 		$target_group = null;
 		$gdv_topic = null;
+		$random_path_string = $a_form->getInput("random_path_string");
+		$uploaded_files = 
 
 		//GDV_TOPIC und TRAINING_CATEGORY JUST DISABLED
 		if($is_flexible) {
@@ -973,7 +999,9 @@ class gevDecentralTrainingGUI {
 		$form->addItem($obj_id);
 		
 		$trnrs = new ilHiddenInputGUI("trainer_ids");
-		$trnrs->setValue(implode("|",$a_form_values["trainer_ids"]));
+		if($a_form_values["trainer_ids"]) {
+			$trnrs->setValue(implode("|",$a_form_values["trainer_ids"]));
+		}		
 		$form->addItem($trnrs);
 
 		/*************************
@@ -1074,6 +1102,7 @@ class gevDecentralTrainingGUI {
 			$venue_free_text = new ilTextInputGUI($this->lng->txt("gev_venue_free_text"), "venue_free_text");
 			$venue_free_text->setInfo($this->lng->txt("gev_dec_training_venue_free_text_info"));
 			$venue_free_text->setDisabled($a_form_values["no_changes_allowed"]);
+			//$venue_free_text->setMulti(true);
 			if ($a_form_values["venue_free_text"] && $a_fill) {
 				$venue_free_text->setValue($a_form_values["venue_free_text"]);
 			}
@@ -1125,7 +1154,32 @@ class gevDecentralTrainingGUI {
 		}
 		$orgaInfo->setUseRte(true);
 		$form->addItem($orgaInfo);
-		
+
+		/*************************
+		* ANHANG
+		*************************/
+		$orga_section = new ilFormSectionHeaderGUI();
+		$orga_section->setTitle($this->lng->txt("gev_dec_training_attachment"));
+		$form->addItem($orga_section);
+		$form->addItem($this->createAttachmentUploadForm());
+
+		if($a_form_values["files"]) {
+			foreach ($a_form_values["files"] as $key => $value) {
+				$file = new catUploadedFilesGUI("", "added_files[]", false);
+				$file->setValue($value);
+				$file->setBtnValue($key);
+				$file->setBtnDescription($this->lng->txt("gev_dec_training_attachment_delete"));
+				$file->showBtn(true);
+				$form->addItem($file);
+			}
+		}
+
+		if($a_form_values["random_path_string"]) {
+			$path_hidden = new ilHiddenInputGUI("random_path_string");
+			$path_hidden->setValue($a_form_values["random_path_string"]);
+			$form->addItem($path_hidden);
+		}
+
 		/*************************
 		* ABFRAGE
 		*************************/
@@ -1367,6 +1421,31 @@ class gevDecentralTrainingGUI {
 			$cbx_group_target_groups->setValue(array("Unabhängige Vertriebspartner"));
 		}
 		$form->addItem($cbx_group_target_groups);
+
+		/*************************
+		* ANHANG
+		*************************/
+		$orga_section = new ilFormSectionHeaderGUI();
+		$orga_section->setTitle($this->lng->txt("gev_dec_training_attachment"));
+		$form->addItem($orga_section);
+		$form->addItem($this->createAttachmentUploadForm());
+
+		if($a_form_values["files"]) {
+			foreach ($a_form_values["files"] as $key => $value) {
+				$file = new catUploadedFilesGUI("", "added_files[]", false);
+				$file->setValue($value);
+				$file->setBtnValue($key);
+				$file->setBtnDescription($this->lng->txt("gev_dec_training_attachment_delete"));
+				$file->showBtn(true);
+				$form->addItem($file);
+			}
+		}
+
+		if($a_form_values["random_path_string"]) {
+			$path_hidden = new ilHiddenInputGUI("random_path_string");
+			$path_hidden->setValue($a_form_values["random_path_string"]);
+			$form->addItem($path_hidden);
+		}
 
 		/*************************
 		* ABFRAGE
@@ -1706,5 +1785,119 @@ class gevDecentralTrainingGUI {
 		
 		ilUtil::sendSuccess($this->lng->txt("gev_training_cancelled"), true);
 		$this->ctrl->redirectByClass("ilTEPGUI");
+	}
+
+	/**
+	 * Build the form used to upload an attachment and attach it to
+	 * the toolbar. Will only do that once.
+	 *
+	 * @return ilFileInputGUI The upload form.
+	 */
+	protected function createAttachmentUploadForm() {
+		require_once("Services/CaTUIComponents/classes/class.catFileInputGUI.php");
+
+		$file_upload_form = new catFileInputGUI();
+		$file_upload_form->setPostVar("attachment_upload");
+		$file_upload_form->setMulti(true);
+		
+		return $file_upload_form;
+	}
+
+	protected function uploadFiles($files, $folder_string = null) {
+		require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingFileStorage.php");
+		if($folder_string === null) {
+			$folder_string = $this->randomstring();
+		}
+		
+		$file_storage = new gevDecentralTrainingFileStorage($folder_string);
+		
+		foreach ($files as $key => $value) {
+			$file_storage->addFile($value["tmp_name"],$value["name"]);
+		}
+		
+		return $folder_string;
+	}
+
+	protected function randomstring($length = 6) {
+		// $chars - String aller erlaubten Zahlen
+		$chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+		
+		srand((double)microtime()*1000000);
+		$i = 0;
+		while ($i < $length) {
+			$num = rand() % strlen($chars);
+			$tmp = substr($chars, $num, 1);
+			$pass = $pass . $tmp;
+			$i++;
+		}
+
+		return $pass;
+	}
+
+	protected function switchUploadFileArray(array $files) {
+		$amount_of_files = count($files["name"]);
+		$ret = array();
+		for($i = 0; $i < $amount_of_files; $i++) {
+			$ret[$i] = array();
+			foreach ($files as $key => $value) {
+				$ret[$i][$key] = $value[$i];
+			}
+			if($ret[$i]["error"] == self::UPLOAD_ERROR_VALUE) {
+				unset($ret[$i]);
+			}
+		}
+		return $ret;
+	}
+
+	protected function splitNewFiles(array $files) {
+		$ret = array();
+
+		foreach ($files as $key => $value) {
+			$ret[$value["name"]] = $value["name"];
+		}
+
+		return $ret;
+	}
+
+	protected function deleteRemovedFiles($folder_string, array $files = null) {
+		require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingFileStorage.php");
+		$file_storage = new gevDecentralTrainingFileStorage($folder_string);
+		if($files === null) {
+			$file_storage->deleteDirectory();
+		}
+
+		$current_files = $file_storage->getAllFiles();
+		if($current_files) {
+			foreach ($current_files as $key => $value) {
+				if($value == "." || $value == "..") {
+					continue;
+				}
+				if(!in_array($value,$files)) {
+					$file_storage->deleteFile($value);
+				}
+			}
+		}
+	}
+
+	protected function attachmentHandling($random_path_string) {
+		$files_old = array();
+		$files_new = array();
+		if(isset($_POST["added_files"])) {
+			foreach ($_POST["added_files"] as $key => $value) {
+				$files_old[$value] = $value;
+			}
+		}
+
+		$this->deleteRemovedFiles($random_path_string, $_POST["added_files"]);
+
+		if(isset($_FILES["attachment_upload"])){
+			$files_new = $this->switchUploadFileArray($_FILES["attachment_upload"]);
+			$random_path_string = $this->uploadFiles($files_new, $random_path_string);
+			$files_new_for_form = $this->splitNewFiles($files_new);
+			$_POST["random_path_string"] = $random_path_string;
+		}
+
+		$files = array_merge($files_old, $files_new_for_form);
+		return $files;
 	}
 }
