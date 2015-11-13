@@ -505,11 +505,11 @@ class ilObjectGUI
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), "", "ilpermissiongui");
 		}
 			
-		if ($tree->getSavedNodeData($this->object->getRefId()))
+		/*if ($tree->getSavedNodeData($this->object->getRefId()))
 		{
 			$tabs_gui->addTarget("trash",
 				$this->ctrl->getLinkTarget($this, "trash"), "trash", get_class($this));
-		}
+		}*/
 	}
 
 

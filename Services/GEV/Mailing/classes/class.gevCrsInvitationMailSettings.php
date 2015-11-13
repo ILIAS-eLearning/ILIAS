@@ -33,18 +33,19 @@ class gevCrsInvitationMailSettings {
 		$this->read();
 	}
 
-	// Returns the id of the template set for the function.
+	// Returns the id of the template set for the function (e.g. Trainer,
+	// Mitglied, ...).
 	// Return -1 if none is set.
-	public function getTemplateFor($a_function_name) {
-		if(array_key_exists($a_function_name, $this->settings)) {
-			return $this->settings[$a_function_name]["template_id"];
+	public function getTemplateFor($a_local_role_name) {
+		if(array_key_exists($a_local_role_name, $this->settings)) {
+			return $this->settings[$a_local_role_name]["template_id"];
 		}
 
 		/*IF there is no template for searched function_name 
 		* AND function_name euqals tutor standard function name
 		* return tutor standard template id
 		*/
-		if($this->tutor_standard_function_name == $a_function_name) {
+		if($this->tutor_standard_function_name == $a_local_role_name) {
 			return $this->tutor_standard_template_id;
 		}
 
@@ -52,18 +53,18 @@ class gevCrsInvitationMailSettings {
 	}
 
 	// Get names of attached files.
-	public function getAttachmentNamesFor($a_function_name) {
-		if (array_key_exists($a_function_name, $this->settings)) {
-			return $this->settings[$a_function_name]["attachments"];
+	public function getAttachmentNamesFor($a_local_role_name) {
+		if (array_key_exists($a_local_role_name, $this->settings)) {
+			return $this->settings[$a_local_role_name]["attachments"];
 		}
 
 		return array();
 	}
 
 	// Get names of attached files.
-	public function getAttachmentsFor($a_function_name) {
+	public function getAttachmentsFor($a_local_role_name) {
 		return $this->attachmentNamesToCompleteArray(
-						$this->getAttachmentNamesFor($a_function_name));
+						$this->getAttachmentNamesFor($a_local_role_name));
 	}
 
 	protected function getAttachments() {

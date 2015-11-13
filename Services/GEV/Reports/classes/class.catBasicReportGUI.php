@@ -20,7 +20,6 @@ class catBasicReportGUI {
 	public function __construct() {
 		require_once("Services/Calendar/classes/class.ilDatePresentation.php");
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
-		require_once("Services/GEV/Reports/classes/class.gevReportingPermissions.php");
 
 		global $lng, $ilCtrl, $tpl, $ilUser, $ilDB, $ilLog;
 		
@@ -38,8 +37,6 @@ class catBasicReportGUI {
 		$this->data = false;
 		$this->filter = null;
 		$this->order = null;
-		
-		$this->permissions = gevReportingPermissions::getInstance($this->user->getId());
 	}
 	
 
