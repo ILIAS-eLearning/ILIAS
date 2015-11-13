@@ -172,7 +172,7 @@ class ilLPStatusRubric extends ilLPStatus
 				$member_obj = ilCourseParticipants::_getInstanceByObjId($a_obj_id);
 				return $member_obj->getMembers();
 			case 'exc':
-                include_once './Modules/Exercises/classes/class.ilExerciseMembers.php';
+                include_once './Modules/Exercise/classes/class.ilExerciseMembers.php';
                 return ilExerciseMembers::_getMembers($a_obj_id);
 			case 'grp':
 				include_once './Modules/Group/classes/class.ilObjGroup.php';
