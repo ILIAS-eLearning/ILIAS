@@ -48,6 +48,15 @@ class rubricCriteriaConfig extends ActiveRecord {
          * @db_fieldtype    integer
          * @db_length       4
          */
+        protected $sort_order = null;
+        
+        /**
+         * @var int
+         *
+         * @db_has_field    true
+         * @db_fieldtype    integer
+         * @db_length       4
+         */
         protected $owner = null;
         
         /**
