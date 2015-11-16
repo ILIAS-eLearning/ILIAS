@@ -385,6 +385,10 @@ class gevCrsMailingGUI extends ilMailingGUI {
 	}
 
 	protected function getInvitationAttachmentSelect($a_function_name) {
+		var_dump($a_function_name);
+		echo "<br>";
+var_dump($this->getInvitationMailSettings()->getAttachmentNamesFor($a_function_name));
+echo "<br>";
 		$select = $this->getAttachmentSelect();
 		$select->setValue($this->getInvitationMailSettings()->getAttachmentNamesFor($a_function_name));
 		$select->setTitle("");

@@ -94,7 +94,46 @@ class gevCrsInvitationMailSettings {
 			$this->settings[$a_function_name] = array();
 		}
 		$this->settings[$a_function_name]["template_id"] = $a_template_id;
-		$this->settings[$a_function_name]["attachments"] = $a_attachments;
+
+		$current_attachments = $this->settings[$function_name]["attachments"];
+		if(!$current_attachments) {
+			$current_attachments = array();
+			$this->settings[$a_function_name]["template_id"] = 6;
+		}
+		
+		$new = array_unique($current_attachments + $a_attachments);
+		sort($new);
+		$this->settings[$a_function_name]["attachments"] = $new;
+	}
+
+	public function addCustomAttachments($function_name, array $attachments) {
+		if (!array_key_exists($a_function_name, $this->settings)) {
+			$this->settings[$a_function_name] = array();
+		}
+
+		$current_attachments = $this->settings[$function_name]["attachments"];
+		if(!$current_attachments) {
+			$current_attachments = array();
+		}
+		
+		$new = array_unique($current_attachments + $attachments);
+		sort($new);
+		$this->settings[$function_name]["attachments"] = $new;
+	}
+
+	public function removeCustomAttachment($function_name, $attachemnts) {
+		if (!array_key_exists($function_name, $this->settings)) {
+			return;
+		}
+
+		$current_attachments = $this->settings[$function_name]["attachments"];
+
+		if(!$current_attachments) {
+			return;
+		}
+
+		$this->settings[$function_name]["attachments"] = array_diff($current_attachments, $attachemnts);
+
 	}
 
 	/**

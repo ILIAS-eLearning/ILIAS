@@ -4549,3 +4549,28 @@ require_once "Customizing/class.ilCustomInstaller.php";
 require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCreationRequestDB.php");
 gevDecentralTrainingCreationRequestDB::install_step6($ilDB);
 ?>
+
+<#180>
+<?php
+
+if( !$ilDB->tableExists('crs_custom_attachments') )
+{
+	$ilDB->createTable('crs_custom_attachments', array(
+		'obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'file_name' => array(
+			'type' => 'text',
+			'length' => 250,
+			'notnull' => true,
+			'default' => "-"
+		)	
+	));
+		
+	$ilDB->addPrimaryKey('crs_custom_attachments', array('obj_id', 'file_name'));
+}
+
+?>

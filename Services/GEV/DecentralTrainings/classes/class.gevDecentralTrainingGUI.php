@@ -701,6 +701,9 @@ class gevDecentralTrainingGUI {
 		$form_values["utils_id"] = $obj_id;
 		$this->crs_ref_id = gevObjectUtils::getRefId($obj_id);
 		$is_flexible = $this->isCrsTemplateFlexible($obj_id);
+
+		$form_values["added_files"] = $this->handleCustomAttachments();
+
 		$form = $this->buildTrainingOptionsForm(false, $is_flexible, $form_values);
 
 		//gev patch start
@@ -1649,6 +1652,7 @@ class gevDecentralTrainingGUI {
 			, "target_groups" => $crs_utils->getTargetGroup()
 			, "trainer_ids" => $crs_utils->getTrainers()
 			, "no_changes_allowed" => $crs_utils->isStarted()
+			, "added_files" => $crs_utils->getCustomAttachments()
 			);
 
 		return $training_info;
@@ -1885,24 +1889,27 @@ class gevDecentralTrainingGUI {
 	}
 
 	protected function attachmentHandling() {
-		$files_old = array();
-		$files_new = array();
+		$old_files = array();
+		$new_files = array();
 		if($this->added_files) {
 			foreach ($this->added_files as $key => $value) {
-				$files_old[$value] = $value;
+				$old_files[$value] = $value;
 			}
 		}
 
 		$this->deleteRemovedFiles($this->tmp_path_string, $this->added_files);
 
 		if(isset($_FILES["attachment_upload"])){
-			$files_new = $this->switchUploadFileArray($_FILES["attachment_upload"]);
-			$this->tmp_path_string = $this->uploadFiles($files_new, $this->tmp_path_string);
-			$files_new_for_form = $this->splitNewFiles($files_new);
+			$new_files = $this->switchUploadFileArray($_FILES["attachment_upload"]);
+			
+			if(count($new_files)>0) {
+				$this->tmp_path_string = $this->uploadFiles($new_files, $this->tmp_path_string);
+				$files_new_for_form = $this->splitNewFiles($new_files);
+			}
 			$_POST["tmp_path_string"] = $this->tmp_path_string;
 		}
 
-		$this->added_files = array_merge($files_old, $files_new_for_form);
+		$this->added_files = array_merge($old_files, $files_new_for_form);
 		return $this->added_files;
 	}
 
@@ -1914,5 +1921,52 @@ class gevDecentralTrainingGUI {
 		$file->showBtn(true);
 
 		return $file;
+	}
+
+	protected function handleCustomAttachments() {
+		$old_files = array();
+		if($this->added_files) {
+			foreach ($this->added_files as $key => $value) {
+				$old_files[$value] = $value;
+			}
+		}
+
+		$this->deleteRemovedCustomAttachments();
+		$files_new_for_form = $this->addCustomAttachments();
+
+		$this->added_files = array_merge($old_files, $files_new_for_form);
+		
+		return $this->added_files;
+	}
+
+	protected function deleteRemovedCustomAttachments() {
+		$obj_id = gevObjectUtils::getObjId($this->crs_ref_id);
+		$crs_utils = gevCourseUtils::getInstance($obj_id);
+
+		$old_files = $crs_utils->getCustomAttachments();
+
+		$removed_files = array_diff($old_files,$this->added_files);
+		$crs_utils->removeAttachmentsFromMail($removed_files);
+		$crs_utils->removePreselectedAttachments(gevCourseUtils::RECIPIENT_MEMBER, $removed_files);
+		$crs_utils->deleteCustomAttachment($removed_files);
+	}
+
+	protected function addCustomAttachments() {
+		$obj_id = gevObjectUtils::getObjId($this->crs_ref_id);
+		$crs_utils = gevCourseUtils::getInstance($obj_id);
+
+		$files_new_for_form = array();
+
+		if(isset($_FILES["attachment_upload"])){
+			$new_files = $this->switchUploadFileArray($_FILES["attachment_upload"]);
+			
+			if(count($new_files)>0){
+				$this->tmp_path_string = $crs_utils->addAttachmentsToMailSeperateFolder($new_files);
+				$files_new_for_form = $this->splitNewFiles($new_files);
+				$crs_utils->addPreselectedAttachments(gevCourseUtils::RECIPIENT_MEMBER, $files_new_for_form);
+			}
+		}
+
+		return $files_new_for_form;
 	}
 }

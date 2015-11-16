@@ -149,6 +149,47 @@ class gevDecentralTrainingCreationRequestDB {
 			$this->throwException("Unknown request: $a_request_id");
 		}
 	}
+
+	public function requestByCrsId($crs_id) {
+		assert(is_int($a_request_id));
+		$ilDB = $this->getDB();
+		$query = "SELECT * FROM ".self::TABLE_NAME." WHERE created_obj_id = ".$ilDB->quote($crs_id, "integer");
+		$res = $ilDB->query($query);
+		if ($rec = $ilDB->fetchAssoc($res)) {
+			$settings = $this->newSettings( new ilDateTime($rec["start_dt"], IL_CAL_DATETIME)
+										  , new ilDateTime($rec["end_dt"], IL_CAL_DATETIME)
+										  , $rec["venue_obj_id"] ? (int)$rec["venue_obj_id"] : null
+										  , $rec["venue_text"] ? $rec["venue_text"] : null
+										  , $rec["orgu_ref_id"] ? (int)$rec["orgu_ref_id"] : null
+										  , $rec["description"] ? $rec["description"] : ""
+										  , $rec["orga_info"] ? $rec["orga_info"] : ""
+										  , $rec["webinar_link"]
+										  , $rec["webinar_password"]
+										  , $rec["title"] ? $rec["title"] : null
+										  , $rec["vc_type"] ? $rec["vc_type"] : null
+										  , unserialize($rec["training_category"])
+										  , unserialize($rec["target_group"])
+										  , $rec["gdv_topic"] ? $rec["gdv_topic"] : null
+										  , $rec["tmp_path_string"] ? $rec["tmp_path_string"] : null
+										  , $rec["added_files"] ? unserialize($rec["added_files"]) : null
+										  );
+			$trainer_ids = array_map(function($v) {return (int)$v;}, explode(self::ARRAY_DELIM, $rec["trainer_ids"]));
+			$request = $this->newCreationRequest( (int)$rec["user_id"]
+												, (int)$rec["template_obj_id"]
+												, $trainer_ids
+												, $settings
+												, (int)$a_request_id
+												, $rec["session_id"]
+												, $rec["requested_ts"] ? new ilDateTime($rec["requested_ts"], IL_CAL_DATETIME) : null
+												, $rec["finished_ts"] ? new ilDateTime($rec["finished_ts"], IL_CAL_DATETIME) : null
+												, $rec["created_obj_id"] ? (int)$rec["created_obj_id"] : null
+												);
+			return $request;
+		}
+		else {
+			$this->throwException("Unknown request: $a_request_id");
+		}
+	}
 	
 	public function openRequestsOfUser($a_user_id) {
 		assert(is_int($a_user_id));

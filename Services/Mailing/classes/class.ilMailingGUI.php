@@ -1317,6 +1317,8 @@ abstract class ilMailingGUI {
 		require_once("Services/Form/classes/class.ilMultiSelectInputGUI.php");
 
 		$available = $this->getMailAttachments()->getList();
+		var_dump($available);
+		echo "<br><br>";
 
 		if(count($available) == 0) {
 			return null;
