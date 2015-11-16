@@ -15307,3 +15307,9 @@ exc#:#exc_direct_submit#:#Submit###08 10 2015 new variable
 export#:#no_file#:#No file###08 10 2015 new variable
 content#:#lm_no_download_files#:#There are currently no files for download available.###08 10 2015 new variable
 rbac#:#feed_copy#:#User can copy webfeed###08 10 2015 new variable
+assessment#:#tst_position_without_total#:#Question %s###16 11 2015 new variable
+crs#:#crs_unsubscribe_member_explanation#:#You receive this message because you unsubscribed from the course mentioned above.###16 11 2015 new variable
+content#:#cont_sqst#:#Survey Question (Assigned Material)###16 11 2015 new variable
+mmbr#:#info_refuse_sure#:#Are you sure you want to refuse the following user(s)?###16 11 2015 new variable
+administration#:#adm_user_starting_point_inherit#:#Use Standard-Settings###16 11 2015 new variable
+administration#:#adm_user_starting_point_inherit_info#:#The settings that were made by the administrator of the platform as a whole will be used.###16 11 2015 new variable
