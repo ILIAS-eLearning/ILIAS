@@ -272,8 +272,16 @@ class ilPublicUserProfileGUI
 			// Check from Database if value
 			// of public_profile = "y" show user infomation
 			$user = new ilObjUser($this->getUserId());
-			if ($user->getPref("public_profile") != "y" &&
-				($user->getPref("public_profile") != "g" || !$ilSetting->get('enable_global_profiles')) &&
+			$current = $user->getPref("public_profile");
+							
+			// #17462 - see ilPersonalProfileGUI::initPublicProfileForm()
+			if($user->getPref("public_profile") == "g" && !$ilSetting->get('enable_global_profiles'))
+			{
+				$current = "y";
+			}
+			
+			if ($current != "y" &&
+				($current != "g" || !$ilSetting->get('enable_global_profiles')) &&
 				!$this->custom_prefs)
 			{
 				ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
