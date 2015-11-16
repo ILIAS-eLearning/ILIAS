@@ -4543,3 +4543,9 @@ require_once "Customizing/class.ilCustomInstaller.php";
 	$set = new ilSetting();
 	$set->set("enable_trash",0);
 ?>
+
+<#179>
+<?php
+require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCreationRequestDB.php");
+gevDecentralTrainingCreationRequestDB::install_step6($ilDB);
+?>
