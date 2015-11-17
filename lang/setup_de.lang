@@ -90,7 +90,7 @@ database_needs_update#:#Datenbank benötigt ein Update
 database_not_exists_create_first#:#Datenbank existiert nicht. Bitte legen Sie zunächst eine neue Datenbank an.
 database_ready#:#Datenbank ist eingerichtet
 database_update#:#Datenbank aktualisieren
-database_version#:#Ihre Datenbankversion
+database_version#:#Versionsnummer der Datenbank
 database#:#Datenbank
 datadir_path_comment1#:#Basisverzeichnis für Dateien
 datadir_path_comment2#:#Kann nicht geändert werden.
@@ -147,7 +147,7 @@ error_recipient#:#Empfänger von Fehlermeldungen
 example#:#Beispiel
 feedback_recipient#:#Empfänger von Feedbacknachrichten
 file_does_not_exist#:#Datei existiert nicht.
-file_version#:#file version
+file_version#:#Versionsnummer DB-Update-Datei
 fill_both_fields#:#Bitte beide Felder ausfüllen!
 fill_out_required_fields#:#Bitte füllen Sie alle benötigten Felder aus
 filled_out#:#korrekt ausgefüllt
