@@ -44,7 +44,7 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		$this->gUser = &$ilUser;
 		
 		if($this->gUser->getId() !== 0) {
-			$this->gUserUtils = gevUserUtils::getInstance($this->gUser->getId());
+			$this->user_utils = gevUserUtils::getInstance($this->gUser->getId());
 		}
 
 		$this->gLng->loadLanguageModule("gev");
@@ -84,27 +84,27 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		
 		//permissions
 		$manage_courses = $this->gAccess->checkAccess("write", "", $repository);
-		$search_courses = $manage_courses || ($this->gUserUtils && $this->gUserUtils->hasRoleIn(array("Admin-Ansicht")));
+		$search_courses = $manage_courses || ($this->user_utils && $this->user_utils->hasRoleIn(array("Admin-Ansicht")));
 		$manage_users = $this->gAccess->checkAccess("visible", "", $user_mgmt);
 		$manage_org_units = $this->gAccess->checkAccess("visible", "", $org_mgmt);
 		$manage_mails = $this->gAccess->checkAccess("visible", "", $mail_mgmt);
 		$manage_competences = $this->gAccess->checkAccess("visible", "", $competence_mgmt);
 		$has_managment_menu = ($manage_courses || $search_courses || $manage_users || $manage_org_units || $manage_mails || $manage_competences)
-							&& ($this->gUserUtils && !$this->gUserUtils->hasRoleIn(array("OD/BD", "FD", "UA", "ID FK", "DBV UVG", "HA 84")))
+							&& ($this->user_utils && !$this->user_utils->hasRoleIn(array("OD/BD", "FD", "UA", "ID FK", "DBV UVG", "HA 84")))
 							;
 		
 		$has_super_admin_menu = $this->gAccess->checkAccess("write", "", $general_settings);
 		
 		require_once("Services/TEP/classes/class.ilTEPPermissions.php");
 
-		$employee_booking = ($this->gUserUtils && $this->gUserUtils->canViewEmployeeBookings());
+		$employee_booking = ($this->user_utils && $this->user_utils->canViewEmployeeBookings());
 		$my_org_unit = false;
-		$tep = ($this->gUserUtils && ($this->gUserUtils->isAdmin() || ilTEPPermissions::getInstance($this->gUser->getId())->isTutor()));
+		$tep = ($this->user_utils && ($this->user_utils->isAdmin() || ilTEPPermissions::getInstance($this->gUser->getId())->isTutor()));
 		$pot_participants = false;
 		$apprentices = false;
 		require_once("Services/GEV/Utils/classes/class.gevHAUtils.php");
-		$can_create_ha_unit = ($this->gUserUtils && ($this->gUserUtils->hasRoleIn(array("HA 84")) && !gevHAUtils::getInstance()->hasHAUnit($this->gUserUtils->getId())));
-		$local_user_admin = ($this->gUserUtils && $this->gUserUtils->isSuperior()); //Local User Administration Permission
+		$can_create_ha_unit = ($this->user_utils && ($this->user_utils->hasRoleIn(array("HA 84")) && !gevHAUtils::getInstance()->hasHAUnit($this->user_utils->getId())));
+		$local_user_admin = ($this->user_utils && $this->user_utils->isSuperior()); //Local User Administration Permission
 
 		$has_others_menu = $employee_booking || $my_org_unit || $tep || $pot_participants || $apprentices || $local_user_admin || $can_create_ha_unit;
 		$is_trainer = $tep; // $tep_permissions->isTutor();
@@ -112,7 +112,7 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		$manage_course_block_units = true;
 
 		//get all OrgUnits of superior
-		$arr_org_units_of_superior = $this->gUserUtils ? $this->gUserUtils->getOrgUnitsWhereUserIsDirectSuperior() : array();
+		$arr_org_units_of_superior = $this->user_utils ? $this->user_utils->getOrgUnitsWhereUserIsDirectSuperior() : array();
 		$arr_local_user_admin_links = array();
 		if($arr_org_units_of_superior) {
 			foreach($arr_org_units_of_superior as $arr_org_unit_of_superior) {
@@ -373,25 +373,25 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 	protected function canViewReport($report_name) {
 		switch ($report_name) {
 			case "gev_report_attendance_by_employee":
-				return $this->gUserUtils && ($this->gUserUtils->isAdmin() || $this->gUserUtils->isSuperior());
+				return $this->user_utils && ($this->user_utils->isAdmin() || $this->user_utils->isSuperior());
 			case "gev_report_employee_edu_bio":
-				return $this->gUserUtils && ($this->gUserUtils->isAdmin() || $this->gUserUtils->hasRoleIn(array("OD-Betreuer")) || $this->gUserUtils->isSuperior());
+				return $this->user_utils && ($this->user_utils->isAdmin() || $this->user_utils->hasRoleIn(array("OD-Betreuer")) || $this->user_utils->isSuperior());
 			case "gev_report_bookingbyvenue":
-				return $this->gUserUtils && ($this->gUserUtils->isAdmin() || $this->gUserUtils->hasRoleIn(array("Veranstalter")));
+				return $this->user_utils && ($this->user_utils->isAdmin() || $this->user_utils->hasRoleIn(array("Veranstalter")));
 			case "gev_report_trainer_operation_by_tep_category":
-				return $this->gUserUtils && $this->gUserUtils->isAdmin();
+				return $this->user_utils && $this->user_utils->isAdmin();
 			case "gev_report_attendance_by_orgunit":
-				return $this->gUserUtils && ($this->gUserUtils->isAdmin() ||  $this->gUserUtils->hasRoleIn(array("Admin-Ansicht")));
+				return $this->user_utils && ($this->user_utils->isAdmin() ||  $this->user_utils->hasRoleIn(array("Admin-Ansicht")));
 			case "gev_report_attendance_by_coursetemplate":
-				return $this->gUserUtils && $this->gUserUtils->isAdmin();
+				return $this->user_utils && $this->user_utils->isAdmin();
 			case "gev_report_wbd_edupoints":
 			case "gev_report_wbd_errors":
-				return $this->gUserUtils && $this->gUserUtils->isAdmin();
+				return $this->user_utils && $this->user_utils->isAdmin();
 			case "gev_report_dbv_report":
-				return $this->gUserUtils && $this->gUserUtils->hasRoleIn(array("DBV-Fin-UVG"));
+				return $this->user_utils && $this->user_utils->hasRoleIn(array("DBV-Fin-UVG"));
 			case "gev_report_trainer_workload":
 			case "gev_report_trainer_operation_by_orgu_trainer":
-				return $this->gUserUtils && $this->gUserUtils->isAdmin();
+				return $this->user_utils && $this->user_utils->isAdmin();
 			default:
 				throw new Exception("Can't tell permission for unknown report $report_name");
 		}
