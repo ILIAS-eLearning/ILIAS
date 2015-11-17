@@ -151,7 +151,7 @@ class gevAgentRegistrationGUI {
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 		$user_utils = gevUserUtils::getInstanceByObj($user);
 		
-		$user_utils->setPrivateEmail($form->getInput("email"));
+		$user_utils->setEmail($form->getInput("email"));
 		$user_utils->setCompanyName($form->getInput("company_name"));
 		
 		require_once("Services/GEV/Utils/classes/class.gevSettings.php");

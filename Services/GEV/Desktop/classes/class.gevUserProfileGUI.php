@@ -97,7 +97,6 @@ class gevUserProfileGUI {
 				$this->user_utils->setBirthplace($form->getInput("birthplace"));
 				$this->user_utils->setBirthname($form->getInput("birthname"));
 				$this->user_utils->setIHKNumber($form->getInput("ihk_number"));
-				$this->user_utils->setPrivateEmail($form->getInput("p_email"));
 				$this->user_utils->setPrivateStreet($form->getInput("p_street"));
 				$this->user_utils->setPrivateCity($form->getInput("p_city"));
 				$this->user_utils->setPrivateZipcode($form->getInput("p_zipcode"));
@@ -272,12 +271,6 @@ class gevUserProfileGUI {
 		$info = new ilNonEditableValueGUI("");
 		$info->setValue($this->lng->txt("gev_private_contact_info"));
 		$form->addItem($info);
-		
-		$p_email = new ilEMailInputGUI($this->lng->txt("gev_com_email"), "p_email");
-		$_p_email = $this->user_utils->getPrivateEmail();
-		$p_email->setValue($_p_email?$_p_email:$_b_email);
-		$p_email->setRequired($this->user_utils->forceWBDUserProfileFields());
-		$form->addItem($p_email);
 		
 		$p_phone = new ilTextInputGUI($this->lng->txt("gev_mobile"), "p_phone");
 		$telno = $this->user_utils->getMobilePhone();

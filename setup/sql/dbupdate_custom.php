@@ -1,4 +1,4 @@
-<#1>
+#1>
 <?php
 
 if( !$ilDB->tableExists('adv_md_values_text') )
@@ -4566,12 +4566,10 @@ $private_email_field_id = $gev_set->getUDFFieldId(gevSettings::USR_UDF_PRIV_EMAI
 
 $res = $ilDB->query(
 <<<SQL
-	SELECT usr.usr_id
+	SELECT usr.usr_id, udf.value
 	FROM usr_data usr
-	JOIN udf_text udf ON usr.usr_id = udf.usr_id
+	JOIN udf_text udf ON usr.usr_id = udf.usr_id AND udf.field_id = $private_email_field_id
 	WHERE
-		udf.field_id = $private_email_field_id
-	AND
 		NOT udf.value IS NULL
 SQL
 );
@@ -4580,7 +4578,7 @@ while ($rec = $ilDB->fetchAssoc($res)) {
 	$usr_id = $rec["usr_id"];
 	$utils = gevUserUtils::getInstance($usr_id);
 	$user = $utils->getUser();
-	$user->setEmail($utils->getPrivateEmail());
+	$user->setEmail($rec["value"]);
 	$user->update();
 }
 
