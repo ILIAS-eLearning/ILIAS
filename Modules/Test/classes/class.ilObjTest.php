@@ -8081,7 +8081,7 @@ function getAnswerFeedbackPoints()
 			$testPassesSelector->setActiveId($active_id);
 			$testPassesSelector->setLastFinishedPass($testSession->getLastFinishedPass());
 
-			$closedPasses = $testPassesSelector->getReportablePasses();
+			$closedPasses = $testPassesSelector->getClosedPasses();
 
 			if( count($closedPasses) >= $this->getNrOfTries() )
 			{

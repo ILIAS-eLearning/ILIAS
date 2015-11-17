@@ -3959,7 +3959,7 @@ class ilObjTestGUI extends ilObjectGUI
 						$testPassesSelector->setActiveId($testSession->getActiveId());
 						$testPassesSelector->setLastFinishedPass($testSession->getLastFinishedPass());
 						
-						$closedPasses = $testPassesSelector->getReportablePasses();
+						$closedPasses = $testPassesSelector->getClosedPasses();
 						$existingPasses = $testPassesSelector->getExistingPasses();
 						
 						if ($existingPasses > $closedPasses)
