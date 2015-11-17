@@ -89,9 +89,7 @@ class gevUserProfileGUI {
 				$this->user->setStreet($form->getInput("b_street"));
 				$this->user->setCity($form->getInput("b_city"));
 				$this->user->setZipcode($form->getInput("b_zipcode"));
-				//$this->user->setCountry($form->getInput("b_country"));
 				$this->user->setPhoneOffice($form->getInput("b_phone"));
-				//$this->user->setFax($form->getInput("b_fax"));
 				$this->user->setPhoneMobile($form->getInput("p_phone"));
 
 				$this->user_utils->setBirthplace($form->getInput("birthplace"));
@@ -100,10 +98,6 @@ class gevUserProfileGUI {
 				$this->user_utils->setPrivateStreet($form->getInput("p_street"));
 				$this->user_utils->setPrivateCity($form->getInput("p_city"));
 				$this->user_utils->setPrivateZipcode($form->getInput("p_zipcode"));
-				//$this->user_utils->setPrivateState($form->getInput("p_country"));
-				//$this->user_utils->setPrivatePhone($form->getInput("p_phone"));
-
-				//$this->user_utils->setPrivateFax($form->getInput("p_fax"));
 				
 				$this->user->readUserDefinedFields();
 				$this->user->update();
@@ -244,9 +238,10 @@ class gevUserProfileGUI {
 		$section2->setTitle($this->lng->txt("gev_business_contact"));
 		$form->addItem($section2);
 		
-		$b_email = new ilNonEditableValueGUI($this->lng->txt("gev_email"), "b_email");
+		$b_email = new ilEMailInputGUI($this->lng->txt("gev_email"), "b_email");
 		$_b_email = $this->user->getEmail();
 		$b_email->setValue($_b_email);
+		$b_email->setRequired($this->user_utils->forceWBDUserProfileFields());
 		$form->addItem($b_email);
 		
 		$b_phone = new ilTextInputGUI($this->lng->txt("gev_profile_phone"), "b_phone");
