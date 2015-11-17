@@ -155,13 +155,4 @@ class gevUDFUtils {
 		$sql = "UPDATE udf_definition SET field_name = '$a_name' WHERE field_id=$field_id";
 		$ilDB->manipulate($sql);
 	}
-
-
-
-
-
-
-
 }
-
-?>
