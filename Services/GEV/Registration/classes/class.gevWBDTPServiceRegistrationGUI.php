@@ -274,6 +274,7 @@ class gevWBDTPServiceRegistrationGUI {
 	protected function buildTPServiceForm() {
 		$form = new ilPropertyFormGUI();
 		$form->addCommandButton("registerTPService", $this->lng->txt("register_tp_service"));
+		$form->addCommandButton("createTPServiceRegistrationStart", $this->lng->txt("back"));
 		//$form->addCommandButton("startRegistration", $this->lng->txt("back"));
 		$form->setFormAction($this->ctrl->getFormAction($this));
 
@@ -313,6 +314,7 @@ class gevWBDTPServiceRegistrationGUI {
 	protected function buildCreateWBDAccountExistForm() {
 		$form = new ilPropertyFormGUI();
 		$form->addCommandButton("affiliateUser", $this->lng->txt("gev_wbd_register_affiliate"));
+		$form->addCommandButton("createTPServiceRegistrationStart", $this->lng->txt("back"));
 		//$form->addCommandButton("startRegistration", $this->lng->txt("back"));
 		$form->setFormAction($this->ctrl->getFormAction($this));
 
