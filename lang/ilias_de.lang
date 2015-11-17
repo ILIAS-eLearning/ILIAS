@@ -14955,7 +14955,7 @@ wiki#:#wiki_template_added#:#Seitenvorlage hinzugefügt
 wiki#:#wiki_templ_new_pages#:#Verfügbar für neue Seite
 wiki#:#wiki_templ_add_to_page#:#Verfügbar für bestehende Seite
 wiki#:#wiki_add_template#:#Als Seitenvorlage nutzen
-wiki#:#wiki_empty_page_template#:#Keine Seitenvorlage beim Erstellen einer neuen Seite anwenden
+wiki#:#wiki_empty_page_template#:#Erstellen einer neuen Seite ohne Vorlage anbieten (leere Seite)
 wiki#:#wiki_page_not_exist_select_templ#:#Diese Seite existiert noch nicht. Bitte wählen Sie eine Vorlage für die neue Seite.
 wiki#:#wiki_new_page#:#Neue Seite
 wiki#:#wiki_page_template#:#Seitenvorlage
