@@ -4543,3 +4543,63 @@ require_once "Customizing/class.ilCustomInstaller.php";
 	$set = new ilSetting();
 	$set->set("enable_trash",0);
 ?>
+
+<#179>
+<?php
+
+require_once "Customizing/class.ilCustomInstaller.php";
+
+ilCustomInstaller::maybeInitClientIni();
+ilCustomInstaller::maybeInitPluginAdmin();
+ilCustomInstaller::maybeInitObjDefinition();
+ilCustomInstaller::maybeInitAppEventHandler();
+ilCustomInstaller::maybeInitTree();
+ilCustomInstaller::maybeInitRBAC();
+ilCustomInstaller::maybeInitObjDataCache();
+ilCustomInstaller::maybeInitUserToRoot();
+ilCustomInstaller::maybeInitSettings();
+
+require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+$gev_set = gevSettings::getInstance();
+$private_email_field_id = $gev_set->getUDFFieldId(gevSettings::USR_UDF_PRIV_EMAIL);
+
+$res = $ilDB->query(
+<<<SQL
+	SELECT usr.usr_id, udf.value
+	FROM usr_data usr
+	JOIN udf_text udf ON usr.usr_id = udf.usr_id AND udf.field_id = $private_email_field_id
+	WHERE
+		NOT udf.value IS NULL
+SQL
+);
+
+while ($rec = $ilDB->fetchAssoc($res)) {
+	$usr_id = $rec["usr_id"];
+	$utils = gevUserUtils::getInstance($usr_id);
+	$user = $utils->getUser();
+	$user->setEmail($rec["value"]);
+	$user->update();
+}
+
+?>
+
+<#180>
+<?php
+
+require_once "Customizing/class.ilCustomInstaller.php";
+
+ilCustomInstaller::maybeInitClientIni();
+ilCustomInstaller::maybeInitPluginAdmin();
+ilCustomInstaller::maybeInitObjDefinition();
+ilCustomInstaller::maybeInitAppEventHandler();
+ilCustomInstaller::maybeInitTree();
+ilCustomInstaller::maybeInitRBAC();
+ilCustomInstaller::maybeInitObjDataCache();
+ilCustomInstaller::maybeInitUserToRoot();
+ilCustomInstaller::maybeInitSettings();
+
+require_once("Services/GEV/Utils/classes/class.gevUDFUtils.php");
+gevUDFUtils::removeUDFField(gevSettings::USR_UDF_PRIV_EMAIL);
+
+?>

@@ -142,7 +142,7 @@ class gevNARegistrationGUI {
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 		$user_utils = gevUserUtils::getInstanceByObj($user);
 		
-		$user_utils->setPrivateEmail($form->getInput("p_email"));
+		$user_utils->setEmail($form->getInput("p_email"));
 		$user_utils->setPrivateStreet($form->getInput("p_street"));
 		$user_utils->setPrivateCity($form->getInput("p_city"));
 		$user_utils->setPrivateZipcode($form->getInput("p_zipcode"));
@@ -353,5 +353,3 @@ class gevNARegistrationGUI {
 		$na_mails->send("na_confirmation", array($a_adviser_id));
 	}
 }
-
-?>
