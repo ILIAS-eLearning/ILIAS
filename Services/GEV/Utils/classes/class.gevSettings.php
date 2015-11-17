@@ -753,5 +753,3 @@ class gevSettings {
 		$this->settings->set(self::DCT_TPL_MAIL_DECENTRAL_TRAINING, $a_templade_id);
 	}
 }
-
-?>

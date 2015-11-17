@@ -309,5 +309,3 @@ class gevUserProfileGUI {
 		return $form;
 	}
 }
-
-?>

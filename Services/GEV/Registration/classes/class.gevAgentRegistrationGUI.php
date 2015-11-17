@@ -290,5 +290,3 @@ class gevAgentRegistrationGUI {
 		return $form;
 	}
 }
-
-?>

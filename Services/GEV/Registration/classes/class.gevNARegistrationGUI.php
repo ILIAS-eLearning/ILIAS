@@ -353,5 +353,3 @@ class gevNARegistrationGUI {
 		$na_mails->send("na_confirmation", array($a_adviser_id));
 	}
 }
-
-?>
