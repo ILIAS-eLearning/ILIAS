@@ -327,8 +327,7 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
                 $ilCtrl->setParameterByClass('illplistofobjectsgui','details_id',$_GET['ref_id']);
                 $url_link=$ilCtrl->getLinkTargetByClass(array("ilobjexercisegui","illearningprogressgui", "illplistofobjectsgui"),'edituser');
                 $link="<a href=\"${url_link}\">".$this->lng->txt('trac_rubric')."</a>";
-                $this->tpl->setVariable("RUBRIC_LINK", $link);
-				$this->tpl->setVariable("RUBRIC_DISABLED", "disabled='disabled'");
+                $this->tpl->setVariable("RUBRIC_LINK", $link);                                
             }            
             // END PATCH RUBRIC CPKN 2015
             

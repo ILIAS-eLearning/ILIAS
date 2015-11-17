@@ -766,33 +766,8 @@ class ilLearningProgressBaseGUI
 
 			$marks->update();
             
-            // if assignment, updated exc_mem_ass_status
-            $obj_type=ilObject::_lookupType($obj_id);
-            if($obj_type=='exc'){
-                include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
-                
-                // do we have an ass id?
-                $ass_id=0;
-                if(isset($_GET['ass_id'])){
-                    // yes, came from submission and grades
-                    $ass_id=$_GET['ass_id'];                    
-                }else{
-                    // no, we need to get it
-                    $ass_ids=ilExAssignment::getAssignmentDataOfExercise($obj_id);
-                    $ass_id=$ass_ids[0]['id'];
-                }
-                
-                if($marks->getMark()>=$passing_grade_minimum){
-                    ilExAssignment::updateStatusOfUser($ass_id,$user_id,'passed');
-                }else{
-                    ilExAssignment::updateStatusOfUser($ass_id,$user_id,'failed');
-                }
-                
-                ilExAssignment::updateMarkOfUser($ass_id,$user_id,$marks->getMark());
-            }else{
-                include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
-                ilLPStatusWrapper::_updateStatus($obj_id, $user_id);
-            }
+            include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
+			ilLPStatusWrapper::_updateStatus($obj_id, $user_id);
             
             include_once("./Services/Tracking/classes/class.ilLPStatus.php");
             
@@ -801,6 +776,19 @@ class ilLearningProgressBaseGUI
             }else{
                 ilLPStatus::writeStatus($obj_id, $user_id, ilLPStatus::LP_STATUS_FAILED_NUM, false, true);                
             }
+            
+            // if assignment, updated exc_mem_ass_status
+            $obj_type=ilObject::_lookupType($obj_id);
+            if($obj_type=='exc'){
+                include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
+                if($marks->getMark()>=$passing_grade_minimum){
+                    ilExAssignment::updateStatusOfUser($_GET['ass_id'],$user_id,'passed');
+                }else{
+                    ilExAssignment::updateStatusOfUser($_GET['ass_id'],$user_id,'failed');
+                }
+                ilExAssignment::updateMarkOfUser($_GET['ass_id'],$user_id,$marks->getMark());
+            }
+            
             
 		}
 	}

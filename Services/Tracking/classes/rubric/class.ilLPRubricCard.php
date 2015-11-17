@@ -67,6 +67,7 @@ class ilLPRubricCard
             $tmp_point=$form->getInput("Points$a",false);
             $tmp_label=$form->getInput("Label$a",false);
             if(is_numeric($tmp_point)&&!empty($tmp_label)){
+            //if(is_integer($tmp_point)&&is_string($tmp_label)){
                 array_push($points,array('weight'=>$tmp_point,'label'=>$tmp_label));                
             }                                    
         }
@@ -80,18 +81,18 @@ class ilLPRubricCard
         $tmp_group=$form->getInput("Group_${g}",false);
         while(!empty($tmp_group)){
             
-            $c=1;// set criteria increment
-            $groups[$g]=array('group_name'=>$tmp_group);
+            $c=1;// set criteria increment            
+            $groups[$tmp_group]=array();
             
             $tmp_criteria=$form->getInput("Criteria_${g}_${c}",false);
             
             do{
                 
                 // set array for criteria behaviors
-                $groups[$g]['criteria'][$c]=array('criteria_name'=>$tmp_criteria);
+                $groups[$tmp_group][$tmp_criteria]=array();
                 
                 for($b=1;$b<=count($points);$b++){
-                    $groups[$g]['criteria'][$c]['behavior'][$b]=array('behavior_name'=>$form->getInput("Behavior_${g}_${c}_${b}",false));
+                    $groups[$tmp_group][$tmp_criteria][$b]=$form->getInput("Behavior_${g}_${c}_${b}",false);
                 }
                 
                 $c++;
@@ -375,28 +376,24 @@ class ilLPRubricCard
         );
         
         // insert or update behaviors
-        foreach($data as $new_sort_order => $new_group_name){
+        foreach($data as $new_group_name => $new_criteria_data){
             
             //new criteria
-            foreach($new_group_name['criteria'] as $_new_sort_order => $new_criteria_name){
+            foreach($new_criteria_data as $new_criteria_name => $new_behavior_data){
                 
-                foreach($new_criteria_name['behavior'] as $__new_sort_order => $behavior_name){
+                foreach($new_behavior_data as $k => $behavior_name){
                     //does this new behavior already exist for this criteria?
                     $set=$this->ilDB->query(
                         "select 
-                            c.rubric_criteria_id,b.rubric_behavior_id,b.rubric_label_id,b.sort_order
+                            c.rubric_criteria_id,b.rubric_behavior_id,b.rubric_label_id 
                          from rubric_behavior b 
                             inner join rubric_criteria c on b.rubric_criteria_id=c.rubric_criteria_id
                             inner join rubric_group as g on c.rubric_group_id=g.rubric_group_id 
                          where 
                             c.deleted is null and
-                            b.description=".$this->ilDB->quote($behavior_name['behavior_name'], "text")." and
-                            c.criteria=".$this->ilDB->quote($new_criteria_name['criteria_name'], "text")." and 
-                            g.rubric_id=".$this->ilDB->quote($this->rubric_id, "integer")." and
-                            b.sort_order=".$this->ilDB->quote($__new_sort_order, "integer")." and
-                            c.sort_order=".$this->ilDB->quote($_new_sort_order, "integer")." and
-                            g.sort_order=".$this->ilDB->quote($new_sort_order,"integer")
-                            
+                            b.description=".$this->ilDB->quote($behavior_name, "text")." and
+                            c.criteria=".$this->ilDB->quote($new_criteria_name, "text")." and 
+                            g.rubric_id=".$this->ilDB->quote($this->rubric_id, "integer")
                     );
                     $row=$this->ilDB->fetchAssoc($set);
                     
@@ -404,7 +401,7 @@ class ilLPRubricCard
                     $is_new_behavior=true;
                     if(count($row)>0){
                         //does this new behavior already exist for this label (weight)
-                        if($row['rubric_label_id']==$labels[($__new_sort_order-1)]['rubric_label_id']&&$row['sort_order']==$__new_sort_order){
+                        if($row['rubric_label_id']==$labels[($k-1)]['rubric_label_id']){
                             //not a new behavior, update deleted to not null
                             $this->ilDB->manipulate("update rubric_behavior set deleted=null where rubric_behavior_id=".$this->ilDB->quote($row['rubric_behavior_id'], "integer"));
                             $is_new_behavior=false;
@@ -425,19 +422,16 @@ class ilLPRubricCard
                             where 
                                 c.deleted is null and 
                                 g.rubric_id= ".$this->ilDB->quote($this->rubric_id, "integer")." and 
-                                c.criteria=".$this->ilDB->quote($new_criteria_name['criteria_name'], "text")." and
-                                g.sort_order=".$this->ilDB->quote($new_sort_order,"integer")." and
-                                c.sort_order=".$this->ilDB->quote($_new_sort_order,"integer")
+                                c.criteria=".$this->ilDB->quote($new_criteria_name, "text")
                         );
                         $row_criteria=$this->ilDB->fetchAssoc($set);
                         
                         $this->ilDB->manipulate(
-                            "insert into rubric_behavior (rubric_behavior_id,rubric_criteria_id,rubric_label_id,description,sort_order,owner,create_date,last_update) values (
+                            "insert into rubric_behavior (rubric_behavior_id,rubric_criteria_id,rubric_label_id,description,owner,create_date,last_update) values (
                                 ".$this->ilDB->quote($new_rubric_behavior_id, "integer").",
                                 ".$this->ilDB->quote($row_criteria['rubric_criteria_id'], "integer").",
-                                ".$this->ilDB->quote($labels[($__new_sort_order-1)]['rubric_label_id'], "integer").",
-                                ".$this->ilDB->quote($behavior_name['behavior_name'], "text").",
-                                ".$this->ilDB->quote($__new_sort_order, "integer").",
+                                ".$this->ilDB->quote($labels[($k-1)]['rubric_label_id'], "integer").",
+                                ".$this->ilDB->quote($behavior_name, "text").",
                                 ".$this->ilDB->quote($_SESSION['AccountId'], "integer").",
                                 NOW(),
                                 NOW()                                
@@ -458,10 +452,11 @@ class ilLPRubricCard
         $this->ilDB->manipulate("update rubric_criteria as c inner join rubric_group as g on c.rubric_group_id=g.rubric_group_id set c.deleted = NOW() where g.rubric_id=".$this->ilDB->quote($this->rubric_id, "integer"));
         
         // insert or update the criteria
-        foreach($data as $new_sort_order => $new_group_name){
+        //new data        
+        foreach($data as $new_group_name => $new_criteria_data){
             
             //new criteria
-            foreach($new_group_name['criteria'] as $_new_sort_order => $new_criteria_name){
+            foreach($new_criteria_data as $new_criteria_name => $new_behavior_data){
                 
                 //does this new criteria already exist for this group?
                 $set=$this->ilDB->query(
@@ -471,10 +466,8 @@ class ilLPRubricCard
                         inner join rubric_criteria c on g.rubric_group_id=c.rubric_group_id 
                      where 
                         g.deleted is null and
-                        criteria=".$this->ilDB->quote($new_criteria_name['criteria_name'], "text")." and
-                        g.group_name=".$this->ilDB->quote($new_group_name['group_name'], "text")." and
-                        c.sort_order=".$this->ilDB->quote($_new_sort_order, "integer")." and
-                        g.sort_order=".$this->ilDB->quote($new_sort_order,"integer")                        
+                        criteria=".$this->ilDB->quote($new_criteria_name, "text")." and
+                        g.group_name=".$this->ilDB->quote($new_group_name, "text")
                 );
                 $row=$this->ilDB->fetchAssoc($set);
                 
@@ -495,17 +488,15 @@ class ilLPRubricCard
                         where 
                             deleted is null and 
                             rubric_id= ".$this->ilDB->quote($this->rubric_id, "integer")." and 
-                            group_name=".$this->ilDB->quote($new_group_name['group_name'], "text")." and
-                            sort_order=".$this->ilDB->quote($new_sort_order,"integer")
+                            group_name=".$this->ilDB->quote($new_group_name, "text")
                     );
                     $row_group=$this->ilDB->fetchAssoc($set);
                     
                     $this->ilDB->manipulate(
-                        "insert into rubric_criteria (rubric_criteria_id,rubric_group_id,criteria,sort_order,owner,create_date,last_update) values (
+                        "insert into rubric_criteria (rubric_criteria_id,rubric_group_id,criteria,owner,create_date,last_update) values (
                             ".$this->ilDB->quote($new_rubric_criteria_id, "integer").",
                             ".$this->ilDB->quote($row_group['rubric_group_id'], "integer").",
-                            ".$this->ilDB->quote($new_criteria_name['criteria_name'], "text").",
-                            ".$this->ilDB->quote($_new_sort_order,"integer").",
+                            ".$this->ilDB->quote($new_criteria_name, "text").",
                             ".$this->ilDB->quote($_SESSION['AccountId'], "integer").",
                             NOW(),
                             NOW()
@@ -522,32 +513,32 @@ class ilLPRubricCard
     {
         /**
          *      Add/Update Groups
-         */        
+         */
+        //$active_group_id=array(); 
         //get the current active groups
         $current_groups=array();
-        $set=$this->ilDB->query("select rubric_group_id,group_name,sort_order from rubric_group where deleted is null and rubric_id=".$this->ilDB->quote($this->rubric_id, "integer"));
+        $set=$this->ilDB->query("select rubric_group_id,group_name from rubric_group where deleted is null and rubric_id=".$this->ilDB->quote($this->rubric_id, "integer"));
         while($row=$this->ilDB->fetchAssoc($set)){
-            $current_groups[$row['rubric_group_id']]=array('group_name'=>$row['group_name'],'sort_order'=>$row['sort_order']);
+            $current_groups[$row['rubric_group_id']]=$row['group_name'];
         }
         
         // null out groups
         $this->ilDB->manipulate("update rubric_group set deleted=NOW() where deleted is null and rubric_id=".$this->ilDB->quote($this->rubric_id, "integer"));
         
-        //foreach($data as $new_group_name => $criteria_data){
-        foreach($data as $new_sort_order => $new_group_name){
+        // insert or update the groups
+        
+        foreach($data as $new_group_name => $criteria_data){
+            
             $is_new_group=true;
             // does this group already exist
-            $current_sort_order=0;
             foreach($current_groups as $rubric_group_id => $current_group_name){
-                
-                if($new_group_name['group_name']==$current_group_name['group_name']&&$new_sort_order==$current_group_name['sort_order']){
+                if($new_group_name==$current_group_name){
                     
                     $this->ilDB->manipulate("update rubric_group set deleted=null where rubric_group_id=".$this->ilDB->quote($rubric_group_id, "integer"));
                     
                     $is_new_group=false;
                     
                 }
-                $current_sort_order++;
                 
             }
             
@@ -556,11 +547,10 @@ class ilLPRubricCard
                 $new_rubric_group_id=$this->incrementSequence('rubric_group_seq');
                 
                 $this->ilDB->manipulate(
-                    "insert into rubric_group (rubric_group_id,rubric_id,group_name,sort_order,owner,create_date,last_update) values (
+                    "insert into rubric_group (rubric_group_id,rubric_id,group_name,owner,create_date,last_update) values (
                         ".$this->ilDB->quote($new_rubric_group_id, "integer").",
                         ".$this->ilDB->quote($this->rubric_id, "integer").",
-                        ".$this->ilDB->quote($new_group_name['group_name'], "text").",
-                        ".$this->ilDB->quote($new_sort_order, "integer").",
+                        ".$this->ilDB->quote($new_group_name, "text").",
                         ".$this->ilDB->quote($_SESSION['AccountId'], "integer").",
                         NOW(),
                         NOW()
@@ -568,6 +558,7 @@ class ilLPRubricCard
                 );
                 
             }
+            
             
         }// foreach data
     }
