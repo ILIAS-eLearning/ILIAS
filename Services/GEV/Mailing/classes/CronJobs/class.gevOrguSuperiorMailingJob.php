@@ -74,23 +74,24 @@ class gevOrguSuperiorMailingJob extends ilCronJob {
 	
 	public function run() {
 		require_once("Services/GEV/Mailing/classes/class.gevOrguSuperiorMails.php");
-		
+
 		global $ilLog, $ilDB;
 
 		$cron_result = new ilCronJobResult();
 		$cron_result->setStatus(ilCronJobResult::STATUS_OK);
 
 		if (!$this->shouldRunNow()) {
+			$ilLog->write("gevOrguSuperiorMailingJob::run: mails are not due.");
 			return $cron_result;
 		}
 
-		$ilLog->write("gevOrguSuperiorMailingJob::run: start sending mails");
+		$ilLog->write("gevOrguSuperiorMailingJob::run: mails are due.");
 		$auto_mails = new gevOrguSuperiorMails();
 		$mail = $auto_mails->getAutoMail("report_weekly_actions");
-		
+
 		ilCronManager::ping($this->getId());
 
-		$ilLog->write("gevOrguSuperiorMailingJob::run: Send mail report_weekly_actions.");
+		$ilLog->write("gevOrguSuperiorMailingJob::run: Collecting data for Mails.");
 
 		$sql = "SELECT DISTINCT ua.usr_id, MAX(ml.moment) as last_send
 			  FROM rbac_ua ua
@@ -107,8 +108,11 @@ class gevOrguSuperiorMailingJob extends ilCronJob {
 		$res = $ilDB->query($sql);
 		$amount_mails = 0;
 
+		$ilLog->write("gevOrguSuperiorMailingJob::run: Start sending mails.");
+
 		while($row = $ilDB->fetchAssoc($res)) {
 			if ($amount_mails >= self::MAILS_PER_RUN) {
+				$ilLog->write("gevOrguSuperiorMailingJob::run: Maximum amount of mails per run reached.");
 				break;
 			}
 			
@@ -129,6 +133,7 @@ class gevOrguSuperiorMailingJob extends ilCronJob {
 			ilCronManager::ping($this->getId());
 		}
 
+		$ilLog->write("gevOrguSuperiorMailingJob::run: Finishing run.");
 		return $cron_result;
 	}
 	

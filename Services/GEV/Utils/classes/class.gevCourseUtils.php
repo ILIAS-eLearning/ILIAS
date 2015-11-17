@@ -2239,7 +2239,7 @@ class gevCourseUtils {
 		$user_ids = $this->getCourse()->getMembersObject()->getMembers();
 		$tutor_ids = $this->getCourse()->getMembersObject()->getTutors();
 
-		$user_ids = array_merge($user_ids, $tutor_ids);
+		$user_ids = array_unique(array_merge($user_ids, $tutor_ids));
 
 		if($user_ids)
 		{
