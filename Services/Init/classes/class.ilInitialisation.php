@@ -193,7 +193,10 @@ class ilInitialisation
 		}
 		else
 		{
-			$protocol = 'http://';
+            // START PATCH CPKN HTTPS
+			$protocol = 'https://';
+            //$protocol = 'http://';
+            // END PATCH CPKN HTTPS
 		}
 		$host = $_SERVER['HTTP_HOST'];
 
