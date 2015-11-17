@@ -101,6 +101,8 @@ class gevSettings {
 	const CRS_AMD_ABSOLUTE_CANCEL_DEADLINE = "crs_amd_absolute_cancel_deadline";
 	// relevante Themen
 	const CRS_AMD_DBV_HOT_TOPIC = "crs_amd_dbv_hot_topic";
+	// maximale Teilnehmer auf der Warteliste
+	const CRS_AMD_MAX_WAITING_LIST_LENGTH = "crs_amd_max_waiting_list_length";
 	
 	// Anbieter
 	const CRS_AMD_PROVIDER			= "crs_amd_provider";
