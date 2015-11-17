@@ -78,7 +78,7 @@ class ilLPStatusRubric extends ilLPStatus
 	function _getCompleted($a_obj_id)
 	{
 		global $ilDB;
-		
+        
 		$usr_ids = array();
 
 		$query = "SELECT DISTINCT(usr_id) user_id FROM ut_lp_marks ".
@@ -99,6 +99,7 @@ class ilLPStatusRubric extends ilLPStatus
 
 		return $usr_ids;
 	}
+
 	
 	/**
 	 * Determine status
@@ -109,35 +110,47 @@ class ilLPStatusRubric extends ilLPStatus
 	 * @return	integer		status
 	 */
 	function determineStatus($a_obj_id, $a_user_id, $a_obj = null)
-	{
-		global $ilObjDataCache, $ilDB;
-		
-		$status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
-		switch ($ilObjDataCache->lookupType($a_obj_id))
-		{
-			case "crs":
-			case "grp":
-				// completed?
-				$set = $ilDB->query($q = "SELECT usr_id FROM ut_lp_marks ".
-					"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ".
-					"AND usr_id = ".$ilDB->quote($a_user_id ,'integer')." ".
-					"AND completed = '1' ");
-				if ($rec = $ilDB->fetchAssoc($set))
-				{
-					$status = self::LP_STATUS_COMPLETED_NUM;
-				}
-				else
-				{				
-					include_once './Services/Tracking/classes/class.ilChangeEvent.php';
-					if (ilChangeEvent::hasAccessed($a_obj_id, $a_user_id))
-					{
-						$status = self::LP_STATUS_IN_PROGRESS_NUM;
-					}
-				}
-				break;
-		}
-		return $status;
-	}
+    {
+        global $ilObjDataCache, $ilDB;
+        
+        $status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
+        switch ($ilObjDataCache->lookupType($a_obj_id))
+        {
+        case "crs":
+        case "grp":
+        case "exc":
+            // completed?
+            $set = $ilDB->query($q = "SELECT usr_id,mark FROM ut_lp_marks ".
+            "WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ".
+            "AND usr_id = ".$ilDB->quote($a_user_id ,'integer')." ".
+            "AND completed = '1' ");
+            
+            $grade = $ilDB->fetchAssoc($ilDB->query("SELECT passing_grade FROM rubric WHERE obj_id = ".$ilDB->quote($a_obj_id, 'integer')));            
+            
+            if ($rec = $ilDB->fetchAssoc($set))
+            {
+                if($rec['mark']<$grade['passing_grade'])
+                {
+                $status = self::LP_STATUS_FAILED_NUM;
+                }
+                else
+                {
+                $status = self::LP_STATUS_COMPLETED_NUM;
+                }
+            }
+            else
+            {
+                include_once './Services/Tracking/classes/class.ilChangeEvent.php';
+                if (ilChangeEvent::hasAccessed($a_obj_id, $a_user_id))
+                {
+                    $status = self::LP_STATUS_IN_PROGRESS_NUM;
+                }
+            }   
+        break;
+        
+        }
+        return $status;
+    }
 	
 	/**
 	 * Get members for object
@@ -147,14 +160,16 @@ class ilLPStatusRubric extends ilLPStatus
 	protected static function getMembers($a_obj_id)
 	{
 		global $ilObjDataCache;
-	
+        
 		switch($ilObjDataCache->lookupType($a_obj_id))
 		{
 			case 'crs':
 				include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
 				$member_obj = ilCourseParticipants::_getInstanceByObjId($a_obj_id);
 				return $member_obj->getMembers();
-				
+			case 'exc':
+                include_once './Modules/Exercise/classes/class.ilExerciseMembers.php';
+                return ilExerciseMembers::_getMembers($a_obj_id);
 			case 'grp':
 				include_once './Modules/Group/classes/class.ilObjGroup.php';
 				return ilObjGroup::_getMembers($a_obj_id);			

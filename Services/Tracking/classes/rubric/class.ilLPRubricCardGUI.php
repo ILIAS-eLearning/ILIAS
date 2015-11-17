@@ -282,7 +282,7 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
         $tmp_radio_name="Criteria_${group_increment}_${criteria_increment}";
         
         $checked='';
-        $class='style="color:rgba(0,0,0,0.3)"';
+        $class='';
         foreach($this->user_data as $k => $user_data){
             if($user_data['rubric_behavior_id']==$behavior['behavior_id']){
                 $checked='checked="checked"';
