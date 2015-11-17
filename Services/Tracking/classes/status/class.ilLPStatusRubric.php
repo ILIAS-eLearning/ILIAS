@@ -99,11 +99,7 @@ class ilLPStatusRubric extends ilLPStatus
 
 		return $usr_ids;
 	}
-    
-    function determinePercentage($a_obj_id, $a_usr_id, $a_obj = null)
-	{
-		return 100;
-	}
+
 	
 	/**
 	 * Determine status
