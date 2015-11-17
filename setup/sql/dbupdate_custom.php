@@ -4583,3 +4583,23 @@ while ($rec = $ilDB->fetchAssoc($res)) {
 }
 
 ?>
+
+<#180>
+<?php
+
+require_once "Customizing/class.ilCustomInstaller.php";
+
+ilCustomInstaller::maybeInitClientIni();
+ilCustomInstaller::maybeInitPluginAdmin();
+ilCustomInstaller::maybeInitObjDefinition();
+ilCustomInstaller::maybeInitAppEventHandler();
+ilCustomInstaller::maybeInitTree();
+ilCustomInstaller::maybeInitRBAC();
+ilCustomInstaller::maybeInitObjDataCache();
+ilCustomInstaller::maybeInitUserToRoot();
+ilCustomInstaller::maybeInitSettings();
+
+require_once("Services/GEV/Utils/classes/class.gevUDFUtils.php");
+gevUDFUtils::removeUDFField(gevSettings::USR_UDF_PRIV_EMAIL);
+
+?>
