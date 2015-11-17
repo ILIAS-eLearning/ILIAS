@@ -382,6 +382,11 @@ class gevDecentralTrainingCreationRequest {
 	protected function getOperationIdsByNames(array $names) {
 		return  ilRbacReview::_getOperationIdsByName($names);
 	}
+
+	protected function getDecentralTrainingFileStorage($tmpPathString) {
+		require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingFileStorage.php");
+		return new gevDecentralTrainingFileStorage($tmpPathString);
+	}
 	
 	// GETTERS FOR GLOBALS
 	
@@ -461,8 +466,7 @@ class gevDecentralTrainingCreationRequest {
 	}
 
 	protected function addAttachmentsToMail($trgt_obj_id) {
-		require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingFileStorage.php");
-		$file_storage = new gevDecentralTrainingFileStorage($this->settings()->tmpPathString());
+		$file_storage = $this->getDecentralTrainingFileStorage($this->settings()->tmpPathString());
 		$trgt_utils = $this->getCourseUtils((int)$trgt_obj_id);
 
 		$added_files = $this->settings()->addedFiles();
@@ -470,22 +474,8 @@ class gevDecentralTrainingCreationRequest {
 		$trgt_utils->addPreselectedAttachments(gevCourseUtils::RECIPIENT_MEMBER, $added_files);
 		$trgt_utils->saveCustomAttachments($added_files);
 
+		//Achtiung!!!
+		//Hiernach sind die Anhänge inklusive des Temporären Verzeichnisses gelöscht!!!
 		$file_storage->deleteDirectory();
-	}
-
-	public function getRequestFilePath() {
-		$base_dir = ilUtil::getWebspaceDir() . '/' . self::WEB_DATA_FOLDER . '/';
-		$request_dir = $base_dir. 'request_' . $this->requestId() . '/';
-		
-		if (!is_dir($base_dir))
-		{
-			ilUtil::makeDir($base_dir);
-		}
-
-		if(!is_dir($request_dir)) {
-			ilUtil::makeDir($request_dir);
-		}
-		
-		return $request_dir;
 	}
 }

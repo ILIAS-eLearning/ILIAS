@@ -8,7 +8,7 @@
 */
 require_once("Services/FileSystem/classes/class.ilFileSystemStorage.php");
 class gevDecentralTrainingFileStorage extends ilFileSystemStorage {
-private $obj_prefix;
+	private $obj_prefix;
 
 	/**
 	 * Construct the storage for the mail log.

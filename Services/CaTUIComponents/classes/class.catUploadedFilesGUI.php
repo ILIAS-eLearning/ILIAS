@@ -4,9 +4,9 @@
 include_once 'Services/Form/classes/class.ilSubEnabledFormPropertyGUI.php';
 
 /**
-* This class represents an uploaded file in a property form.
+* This class represents a gui to display uploaded files with delete button
 *
-* @author Alex Killing <alex.killing@gmx.de> 
+* @author Stefan Hecken <stefan.hecken@concepts-and-training.de> 
 * @version $Id$
 * @ingroup	ServicesForm
 */

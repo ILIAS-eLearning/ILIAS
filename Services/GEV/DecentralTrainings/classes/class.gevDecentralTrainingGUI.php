@@ -439,9 +439,6 @@ class gevDecentralTrainingGUI {
 		$creation_request->request();
 		$this->dctl_utils->flushOpenCreationRequests();
 
-		if(!$attachment["error"]) {
-			$this->_uploadFile($attachment["tmp_name"], $creation_request->getRequestFilePath().$attachment["name"]);
-		}
 		ilUtil::sendSuccess($this->lng->txt("gev_dec_training_creation_requested"), true);
 		if (!$this->dctl_utils->userCanOpenNewCreationRequest()) {
 			$this->ctrl->redirect($this, "showOpenRequests");
@@ -1118,7 +1115,7 @@ class gevDecentralTrainingGUI {
 			$venue_free_text = new ilTextInputGUI($this->lng->txt("gev_venue_free_text"), "venue_free_text");
 			$venue_free_text->setInfo($this->lng->txt("gev_dec_training_venue_free_text_info"));
 			$venue_free_text->setDisabled($a_form_values["no_changes_allowed"]);
-			//$venue_free_text->setMulti(true);
+			
 			if ($a_form_values["venue_free_text"] && $a_fill) {
 				$venue_free_text->setValue($a_form_values["venue_free_text"]);
 			}

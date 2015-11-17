@@ -1,6 +1,15 @@
 <?php
+/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 require_once("Services/Form/classes/class.ilFileInputGUI.php");
 include_once 'Services/Form/interfaces/interface.ilMultiValuesItem.php';
+/**
+* This class represents a file upload gui.
+* different to extended class, you can initialice it an MultiValueItem
+*
+* @author Stefan Hecken <stefan.hecken@concepts-and-training.de> 
+* @version $Id$
+* @ingroup	ServicesForm
+*/
 class catFileInputGUI extends ilFileInputGUI implements ilMultiValuesItem {
 
 	/**
