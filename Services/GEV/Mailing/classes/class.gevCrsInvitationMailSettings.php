@@ -94,21 +94,12 @@ class gevCrsInvitationMailSettings {
 			$this->settings[$a_function_name] = array();
 		}
 		$this->settings[$a_function_name]["template_id"] = $a_template_id;
-
-		$current_attachments = $this->settings[$function_name]["attachments"];
-		if(!$current_attachments) {
-			$current_attachments = array();
-			$this->settings[$a_function_name]["template_id"] = 6;
-		}
-		
-		$new = array_unique($current_attachments + $a_attachments);
-		sort($new);
-		$this->settings[$a_function_name]["attachments"] = $new;
+		$this->settings[$a_function_name]["attachments"] = $a_attachments;
 	}
 
 	public function addCustomAttachments($function_name, array $attachments) {
-		if (!array_key_exists($a_function_name, $this->settings)) {
-			$this->settings[$a_function_name] = array();
+		if (!array_key_exists($function_name, $this->settings)) {
+			$this->settings[$function_name] = array();
 		}
 
 		$current_attachments = $this->settings[$function_name]["attachments"];
@@ -121,19 +112,16 @@ class gevCrsInvitationMailSettings {
 		$this->settings[$function_name]["attachments"] = $new;
 	}
 
-	public function removeCustomAttachment($function_name, $attachemnts) {
+	public function removeCustomAttachment($function_name, $attachments) {
 		if (!array_key_exists($function_name, $this->settings)) {
 			return;
 		}
 
 		$current_attachments = $this->settings[$function_name]["attachments"];
-
 		if(!$current_attachments) {
 			return;
 		}
-
-		$this->settings[$function_name]["attachments"] = array_diff($current_attachments, $attachemnts);
-
+		$this->settings[$function_name]["attachments"] = array_diff($current_attachments, $attachments);
 	}
 
 	/**
@@ -196,11 +184,15 @@ class gevCrsInvitationMailSettings {
 	}
 
 	public function save() {
+		//Speichert die aktuellen Settings
 		$new_settings = $this->settings;
+		//Liest die alten erneut ein
 		$this->read();
-
+		//Unlocked die alten Anhänge
 		$this->unlockAttachments();
+		//Setz wieder wieder die aktuellen Settings
 		$this->settings = $new_settings;
+		//Locked die neuen Anhänge
 		$this->lockAttachments();
 
 		foreach ($this->settings as $function_name => $settings) {

@@ -513,7 +513,7 @@ class gevDecentralTrainingGUI {
 		$form_values["utils_id"] = $obj_id;
 		$form_values["obj_id"] = $obj_id;
 		$is_flexible = $this->isCrsTemplateFlexible($obj_id);
-
+		$form_values["added_files"] = $this->handleCustomAttachments();
 		$form = $this->buildTrainingOptionsForm(false, $is_flexible, $form_values);
 		$form->setValuesByPost();
 
@@ -1548,6 +1548,8 @@ class gevDecentralTrainingGUI {
 		$form_values["obj_id"] = $obj_id;
 		$is_flexible = $this->isCrsTemplateFlexible($obj_id);
 
+		$form_values["added_files"] = $this->handleCustomAttachments();
+
 		$form = $this->buildTrainingOptionsForm(false, $is_flexible, $form_values);
 
 		$form->setValuesByPost();
@@ -1934,6 +1936,7 @@ class gevDecentralTrainingGUI {
 		$this->deleteRemovedCustomAttachments();
 		$files_new_for_form = $this->addCustomAttachments();
 
+
 		$this->added_files = array_merge($old_files, $files_new_for_form);
 		
 		return $this->added_files;
@@ -1945,10 +1948,21 @@ class gevDecentralTrainingGUI {
 
 		$old_files = $crs_utils->getCustomAttachments();
 
-		$removed_files = array_diff($old_files,$this->added_files);
-		$crs_utils->removeAttachmentsFromMail($removed_files);
-		$crs_utils->removePreselectedAttachments(gevCourseUtils::RECIPIENT_MEMBER, $removed_files);
-		$crs_utils->deleteCustomAttachment($removed_files);
+		if($this->added_files === null) {
+			 $removed_files = $old_files;
+		} else {
+			$removed_files = array_diff($old_files,$this->added_files);
+		}
+		
+		if(count($removed_files) > 0) {
+			//Reihenfolge wichtig!!!!
+			//1. Die Auswahl in den Einladungsmails entfernen
+			//2. Mailanhang löschen
+			//3. Anhang aus Custom Tabelle löschen
+			$crs_utils->removePreselectedAttachments(gevCourseUtils::RECIPIENT_MEMBER, $removed_files);
+			$crs_utils->removeAttachmentsFromMail($removed_files);
+			$crs_utils->deleteCustomAttachment($removed_files);
+		}
 	}
 
 	protected function addCustomAttachments() {
@@ -1964,6 +1978,7 @@ class gevDecentralTrainingGUI {
 				$this->tmp_path_string = $crs_utils->addAttachmentsToMailSeperateFolder($new_files);
 				$files_new_for_form = $this->splitNewFiles($new_files);
 				$crs_utils->addPreselectedAttachments(gevCourseUtils::RECIPIENT_MEMBER, $files_new_for_form);
+				$crs_utils->saveCustomAttachments($files_new_for_form);
 			}
 		}
 

@@ -3433,11 +3433,12 @@ class gevCourseUtils {
 
 	public function addAttachmentsToMailSingleFolder($files, $folder) {
 		foreach ($files as $filename) {
-			$this->addAttachmentsToMail($folder."/".$filename,$folder);
+			$this->log->write("File: ".$filename." Folder: ".$folder);
+			$this->addAttachmentsToMail($filename,$folder."/".$filename);
 		}
 	}
 
-	public function addAttachmentsToMailSeperateFolder($funtion, $files) {
+	public function addAttachmentsToMailSeperateFolder($files) {
 		foreach ($files as $file) {
 			$this->addAttachmentsToMail($file["name"],$file["tmp_name"]);
 		}

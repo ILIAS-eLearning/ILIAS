@@ -210,7 +210,7 @@ class gevDecentralTrainingCreationRequest {
 		
 		$this->createTEPEntry($trgt_crs);
 
-		$this->addAttachmentsToMail((int)$trgt_crs->getId(),$trgt_utils);
+		$this->addAttachmentsToMail((int)$trgt_crs->getId());
 
 		$this->finished_ts = new ilDateTime(time(),IL_CAL_UNIX);
 		$this->created_obj_id = $trgt_obj_id;
@@ -460,13 +460,14 @@ class gevDecentralTrainingCreationRequest {
 		gevCourseBuildingBlockUtils::courseUpdates($a_trgt_crs_ref_id);
 	}
 
-	protected function addAttachmentsToMail($trgt_obj_id, $trgt_utils) {
+	protected function addAttachmentsToMail($trgt_obj_id) {
 		require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingFileStorage.php");
 		$file_storage = new gevDecentralTrainingFileStorage($this->settings()->tmpPathString());
+		$trgt_utils = $this->getCourseUtils((int)$trgt_obj_id);
 
 		$added_files = $this->settings()->addedFiles();
 		$trgt_utils->addAttachmentsToMailSingleFolder($added_files, $file_storage->getAbsolutePath());
-		$crs_utils->addPreselectedAttachments(gevCourseUtils::RECIPIENT_MEMBER, $added_files);
+		$trgt_utils->addPreselectedAttachments(gevCourseUtils::RECIPIENT_MEMBER, $added_files);
 		$trgt_utils->saveCustomAttachments($added_files);
 
 		$file_storage->deleteDirectory();
