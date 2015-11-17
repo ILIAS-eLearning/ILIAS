@@ -108,6 +108,7 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 
 		$has_others_menu = $employee_booking || $my_org_unit || $tep || $pot_participants || $apprentices || $local_user_admin || $can_create_ha_unit;
 		$is_trainer = $tep; // $tep_permissions->isTutor();
+		$could_do_wbd_registration = $this->user_utils->hasWBDRelevantRole() && !$this->user_utils->getWBDBWVId();
 
 		$manage_course_block_units = true;
 
@@ -141,6 +142,7 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 				, "gev_my_groups" => array(false, "NYI!",$this->gLng->txt("gev_my_groups"))
 				, "gev_my_roadmap" => array(false, "NYI!",$this->gLng->txt("gev_my_roadmap"))
 				, "gev_my_trainer_ap" => array($is_trainer, "ilias.php?baseClass=gevDesktopGUI&cmd=toMyTrainingsAp",$this->gLng->txt("gev_my_trainer_ap"))
+				, "gev_wbd_registration" => array($could_do_wbd_registration, "ilias.php?baseClass=gevDesktopGUI&cmd=toWBDRegistration",$this->gLng->txt("gev_wbd_registration"))
 
 				), $this->gLng->txt("gev_me_menu"))
 			, "gev_others_menu" => array(false, $has_others_menu, array(

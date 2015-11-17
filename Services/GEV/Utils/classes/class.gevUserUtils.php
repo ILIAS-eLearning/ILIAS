@@ -1768,6 +1768,14 @@ class gevUserUtils {
 
 		$this->udf_utils->setField($this->user_id, gevSettings::USR_TP_TYPE, $a_type);
 	}
+
+	public function getNextWBDAction() {
+		return $this->udf_utils->getField($this->user_id, gevSettings::USR_WBD_NEXT_ACTION);
+	}
+
+	public function setNextWBDAction($action) {
+		$this->udf_utils->setField($this->user_id, gevSettings::USR_WBD_NEXT_ACTION, $action);
+	}
 	
 	public function getWBDBWVId() {
 		return $this->udf_utils->getField($this->user_id, gevSettings::USR_BWV_ID);
