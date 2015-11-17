@@ -52,7 +52,7 @@ class gevDecentralTrainingCourseBuildingBlockTableGUI extends catTableGUI {
 		$this->addColumn($this->lng->txt("gev_dec_crs_building_block_to"),"","100");
 		$this->addColumn($this->lng->txt("gev_dec_crs_building_block_block"), '');
 		$this->addColumn($this->lng->txt("gev_dec_crs_building_block_content"), "");
-		$this->addColumn($this->lng->txt("gev_dec_building_block_learn_dest"), "");
+		$this->addColumn($this->lng->txt("gev_dec_building_block_target"), "");
 		$this->addColumn($this->lng->txt("gev_dec_building_ue"), "");
 		$this->addColumn($this->lng->txt("gev_dec_building_wp"), "");
 		$this->addColumn($this->lng->txt("gev_dec_training_dbv_topic"), "");

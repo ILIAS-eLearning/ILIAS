@@ -324,22 +324,22 @@ class gevCourseBuildingBlockUtils {
 		$sql .= " ORDER BY join1.start_time";
 
 		$res = $a_db->query($sql);
-		$learn_dest = array();
+		$target = array();
 		while($row = $a_db->fetchAssoc($res)) {
-			$learn_dest[] = $row["target"];
+			$target[] = $row["target"];
 		}
 
 		//REPLACE "\n" !!!!
 
-		return $learn_dest;
+		return $target;
 	}
 
 	static private function updateTargetAndBenefits($a_crs_ref_id,$a_db) {
-		$learn_dest = self::targetAndBenefits($a_crs_ref_id,$a_db);
-		$learn_dest = implode("\n", $learn_dest);
+		$target = self::targetAndBenefits($a_crs_ref_id,$a_db);
+		$target = implode("\n", $target);
 
 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
-		gevCourseUtils::updateTargetAndBenefits($learn_dest, $a_crs_ref_id);
+		gevCourseUtils::updateTargetAndBenefits($target, $a_crs_ref_id);
 	}
 
 	static public function content($a_crs_ref_id, $a_db,$crs_request_id = null) {

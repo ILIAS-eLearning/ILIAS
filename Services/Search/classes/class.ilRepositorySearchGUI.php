@@ -601,18 +601,31 @@ class ilRepositorySearchGUI
 	{
 		include_once 'Services/Search/classes/class.ilUserSearchOptions.php';
 		include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
+		include_once 'Services/GEV/classes/class.gevSettings.php';
 
 		foreach(ilUserSearchOptions::_getSearchableFieldsInfo(!$this->isSearchableCheckEnabled()) as $info)
 		{
 			$name = $info['db'];
 			$query_string = $_SESSION['rep_query']['usr'][$name];
-
+			
 			// continue if no query string is given
 			if(!$query_string)
 			{
 				continue;
 			}
-		
+			//gev-patch start
+			$gev_settings = gevSettings::getInstance();
+			$jobnumber_field_id = $gev_settings->getUDFFieldId(gevSettings::USR_UDF_JOB_NUMMER);
+
+			if($name == $jobnumber_field_id) {
+				$ret = $this->specialUDFFieldSearch($name, $query_string);
+				if(!$ret) {
+					return $ret;
+				}
+				continue;
+			}
+			//gev-patch ende
+
 			if(!is_object($query_parser = $this->__parseQueryString($query_string)))
 			{
 				ilUtil::sendInfo($query_parser);
@@ -648,6 +661,30 @@ class ilRepositorySearchGUI
 			}
 		}
 	}
+
+	//gev-patch start
+	protected function specialUDFFieldSearch($name, $query_string) {
+		$queries = explode(",",$query_string);
+		$res = array();
+		foreach ($queries as $key => $query) {
+			$query = trim($query);
+
+			if(!is_object($query_parser = $this->__parseQueryString($query)))
+			{
+				ilUtil::sendInfo($query_parser);
+				return false;
+			}
+
+			$udf_search = ilObjectSearchFactory::_getUserDefinedFieldSearchInstance($query_parser);
+			$udf_search->setFields(array($name));
+			$result_obj = $udf_search->performSearch();
+			// Store entries
+			$this->stored = false;
+			$this->__storeEntries($result_obj);
+		}
+	}
+
+	//gev-patch end
 
 	/**
 	 * Search groups

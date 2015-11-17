@@ -982,6 +982,21 @@ class gevUserUtils {
 			return null;
 		}
 	}
+
+	public function isExitDatePassed() {
+		$now = date("Y-m-d");
+		$exit_date = $this->getExitDate();
+
+		if(!$exit_date) {
+			return false;
+		}
+
+		if($now > $exit_date) {
+			return true;
+		}
+
+		return false;
+	}
 	
 	public function setExitDate(ilDate $a_date) {
 		$this->udf_utils->setField($this->user_id, gevSettings::USR_UDF_EXIT_DATE, $a_date->get(IL_CAL_DATE));
@@ -1289,10 +1304,8 @@ class gevUserUtils {
 	}
 	
 	public function isSuperiorOf($a_user_id) {
-		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php");
-		$tree = ilObjOrgUnitTree::_getInstance();
-		// propably faster then checking the employees of this->user
-		return in_array($this->user_id, $tree->getSuperiorsOfUser($a_user_id));
+		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+		return in_array($this->user_id, gevOrgUnitUtils::getSuperiorsOfUser($a_user_id));
 	}
 	
 	static public function removeInactiveUsers($a_usr_ids) {
@@ -1313,30 +1326,60 @@ class gevUserUtils {
 	public function getDirectSuperiors() {
 		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php");
 		$tree = ilObjOrgUnitTree::_getInstance();
-		$sups = $tree->getSuperiorsOfUser($this->user_id, false);
-		if (count($sups) > 0) {
-			return gevUserUtils::removeInactiveUsers($sups);
+
+		// This starts with all the org units the user is member in.
+		// During the loop we might fill this array with more org units
+		// if we could not find any superiors for the user in them.
+		$orgus = array_values($tree->getOrgUnitOfUser($this->user_id));
+
+		if (count($orgus) == 0) {
+			return array();
 		}
-		// ok, so there are no superiors in any org-unit where the user is employee
-		// we need to find the superiors by ourselves
-		$sups = array();
-		$orgus = $tree->getOrgUnitOfUser($this->user_id);
-		$parents = array();
-		
-		while (count ($sups) == 0) {
-			foreach ($orgus as $ref) {
-				$parents = $tree->getParent($ref);
+
+		$the_superiors = array();
+
+		$i = -1;
+		$initial_amount = count($orgus);
+		// We need to check this on every loop as the amount of orgus might change
+		// during looping.
+		while ($i < count($orgus)) {
+			$i++;
+			$ref_id = $orgus[$i];
+
+			// Reached the top of the tree.
+			if (!$ref_id || $ref_id == ROOT_FOLDER_ID) {
+				continue;
 			}
-			if (count($parents) == 0) {
-				return array();
+
+			$superiors = $tree->getSuperiors($ref_id);
+			$user_is_superior = in_array($this->user_id, $superiors);
+			$in_initial_orgus = $i < $initial_amount;
+
+			// I always need to go one org unit up if we are in the original
+			// orgu and the user is superior there.
+			if ( $in_initial_orgus && $user_is_superior) {
+				$orgus[] = $tree->getParent($ref_id);
 			}
-			$parents = array_unique($parents);
-			foreach ($parents as $ref) {
-				$sups = array_merge($sups, $tree->getSuperiors($ref, false));
+
+			// Skip the orgu if there are no superiors there.
+			if ( count($superiors) == 0
+			|| (   $in_initial_orgus
+				// This is only about the org units the user actually is a member of
+				&& $user_is_superior
+				// If a user is an employee and a superior in one orgunit, he
+				// actually seem to be his own superior.
+				&& !in_array($this->user_id, $tree->getEmployees($ref_id)))
+			) {
+				$orgus[] = $tree->getParent($ref_id);
+				continue;
 			}
-			$orgus = $parents;
+
+			$the_superiors[] = $superiors;
 		}
-		return gevUserUtils::removeInactiveUsers($sups);
+
+		$the_superiors = call_user_func_array("array_merge", $the_superiors);
+
+		return gevUserUtils::removeInactiveUsers(array_unique($the_superiors));
 	}
 	
 	public function isEmployeeOf($a_user_id) {
@@ -2155,5 +2198,3 @@ class gevUserUtils {
 		return $this->hasRoleIn($roles);
 	}
 }
-
-?>

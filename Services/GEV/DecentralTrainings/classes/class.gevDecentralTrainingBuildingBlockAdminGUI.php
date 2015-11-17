@@ -202,9 +202,9 @@ class gevDecentralTrainingBuildingBlockAdminGUI {
 		$content->setInfo($this->lng->txt("gev_block_unit_like_search"));
 		$form->addItem($content);
 	
-		$learn_dest = new ilTextInputGUI($this->lng->txt("gev_dec_building_block_learn_dest"), "target");
-		$learn_dest->setInfo($this->lng->txt("gev_block_unit_like_search"));
-		$form->addItem($learn_dest);
+		$target = new ilTextInputGUI($this->lng->txt("gev_dec_building_block_target"), "target");
+		$target->setInfo($this->lng->txt("gev_block_unit_like_search"));
+		$form->addItem($target);
 
 		$is_wp_relevant = new ilSelectInputGUI($this->lng->txt("gev_dec_building_block_is_wp_relevant"), "is_wp_relevant");
 		$option = array("-1"=>"-", "ja"=>"Ja", "nein"=>"Nein");
@@ -313,11 +313,11 @@ class gevDecentralTrainingBuildingBlockAdminGUI {
 		$content->setCols(48);
 		$form_gui->addItem($content);
 
-		$learn_dest = new ilTextAreaInputGUI($this->lng->txt("gev_dec_building_block_learn_dest"), "frm_target");
-		$learn_dest->setValue($vals["target"]);
-		$learn_dest->setRows(3);
-		$learn_dest->setCols(48);
-		$form_gui->addItem($learn_dest);
+		$target = new ilTextAreaInputGUI($this->lng->txt("gev_dec_building_block_target"), "frm_target");
+		$target->setValue($vals["target"]);
+		$target->setRows(3);
+		$target->setCols(48);
+		$form_gui->addItem($target);
 
 		/*************************
 		* INHALT
