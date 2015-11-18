@@ -29,7 +29,7 @@ class gevDecentralTrainingCreationRequestDB {
 			"       finished_ts, created_obj_id, trainer_ids, start_dt,\n".
 			"       end_dt, venue_obj_id, venue_text, orgu_ref_id, description,\n".
 			"       orga_info, webinar_link, webinar_password, session_id,title,vc_type,\n".
-			"       training_category,target_group,gdv_topic)\n".
+			"       training_category,target_group,gdv_topic,tmp_path_string,added_files)\n".
 			" VALUES ( ".$ilDB->quote($request_id, "integer")."\n".
 			"        , ".$ilDB->quote($a_request->userId(), "integer")."\n".
 			"        , ".$ilDB->quote($a_request->templateObjId(), "integer")."\n".
@@ -52,6 +52,8 @@ class gevDecentralTrainingCreationRequestDB {
 			"        , ".$ilDB->quote(serialize($settings->trainingCategory()), "text")."\n".
 			"        , ".$ilDB->quote(serialize($settings->targetGroup()), "text")."\n".
 			"        , ".$ilDB->quote($settings->gdvTopic(), "text")."\n".
+			"        , ".$ilDB->quote($settings->tmpPathString(), "text")."\n".
+			"        , ".$ilDB->quote(serialize($settings->addedFiles()), "text")."\n".
 			"        )\n"
 		);
 		return $request_id;
@@ -88,6 +90,8 @@ class gevDecentralTrainingCreationRequestDB {
 			"     , training_category = ".$ilDB->quote(serialize($settings->trainingCategory()), "text")."\n".
 			"     , target_group = ".$ilDB->quote(serialize($settings->targetGroup()), "text")."\n".
 			"     , gdv_topic = ".$ilDB->quote($settings->gdvTopic(), "text")."\n".
+			"     , tmp_path_string = ".$ilDB->quote($settings->tmpPathString(), "text")."\n".
+			"     , added_files = ".$ilDB->quote(serialize($settings->addedFiles()), "text")."\n".
 
 			" WHERE request_id = ".$ilDB->quote($a_request->requestId(), "integer")."\n"
 		);
@@ -125,6 +129,8 @@ class gevDecentralTrainingCreationRequestDB {
 										  , unserialize($rec["training_category"])
 										  , unserialize($rec["target_group"])
 										  , $rec["gdv_topic"] ? $rec["gdv_topic"] : null
+										  , $rec["tmp_path_string"] ? $rec["tmp_path_string"] : null
+										  , unserialize($rec["added_files"])
 										  );
 			$trainer_ids = array_map(function($v) {return (int)$v;}, explode(self::ARRAY_DELIM, $rec["trainer_ids"]));
 			$request = $this->newCreationRequest( (int)$rec["user_id"]
@@ -143,7 +149,7 @@ class gevDecentralTrainingCreationRequestDB {
 			$this->throwException("Unknown request: $a_request_id");
 		}
 	}
-	
+
 	public function openRequestsOfUser($a_user_id) {
 		assert(is_int($a_user_id));
 		assert(ilObject::_lookupType($a_user_id) == "usr");
@@ -170,6 +176,8 @@ class gevDecentralTrainingCreationRequestDB {
 										  , unserialize($rec["training_category"])
 										  , unserialize($rec["target_group"])
 										  , $rec["gdv_topic"] ? $rec["gdv_topic"] : null
+										  , $rec["tmp_path_string"] ? $rec["tmp_path_string"] : null
+										  , unserialize($rec["added_files"])
 										  );
 			$trainer_ids = array_map(function($v) {return (int)$v;}, explode(self::ARRAY_DELIM, $rec["trainer_ids"]));
 			$request = $this->newCreationRequest( (int)$rec["user_id"]
@@ -210,6 +218,8 @@ class gevDecentralTrainingCreationRequestDB {
 										  , unserialize($rec["training_category"])
 										  , unserialize($rec["target_group"])
 										  , $rec["gdv_topic"] ? $rec["gdv_topic"] : null
+										  , $rec["tmp_path_string"] ? $rec["tmp_path_string"] : null
+										  , unserialize($rec["added_files"])
 										  );
 			$trainer_ids = array_map(function($v) {return (int)$v;}, explode(self::ARRAY_DELIM, $rec["trainer_ids"]));
 			$request = $this->newCreationRequest( (int)$rec["user_id"]
@@ -295,12 +305,15 @@ class gevDecentralTrainingCreationRequestDB {
 							   , $a_vc_type
 							   , $a_training_category
 							   , $a_target_group
-							   , $a_gdv_topic 
+							   , $a_gdv_topic
+							   , $a_tmp_path_string
+							   , $a_added_files
 								  ) {
 		require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingSettings.php");
 		return new gevDecentralTrainingSettings( $a_start_datetime, $a_end_datetime, $a_venue_obj_id, $a_venue_text
 											   , $a_orgu_ref_id, $a_description, $a_orga_info, $a_webinar_link
-											   , $a_webinar_password,$a_title,$a_vc_type,$a_training_category,$a_target_group,$a_gdv_topic);
+											   , $a_webinar_password,$a_title,$a_vc_type,$a_training_category,$a_target_group,$a_gdv_topic
+											   , $a_tmp_path_string, $a_added_files);
 	}
 	
 	protected function newCreationRequest( $a_user_id
@@ -471,6 +484,20 @@ class gevDecentralTrainingCreationRequestDB {
 		$ilDB->modifyTableColumn(self::TABLE_NAME, 'session_id', array(
 			"type" => "text",
 			"length" => 250,
+			"notnull" => false
+		));
+	}
+
+	static public function install_step6(ilDB $ilDB) {
+		$ilDB->addTableColumn(self::TABLE_NAME, 'tmp_path_string', array(
+			"type" => "text",
+			"length" => 250,
+			"notnull" => false
+		));
+
+		$ilDB->addTableColumn(self::TABLE_NAME, 'added_files', array(
+			"type" => "text",
+			"length" => 4000,
 			"notnull" => false
 		));
 	}

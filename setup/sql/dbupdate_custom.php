@@ -4546,7 +4546,6 @@ require_once "Customizing/class.ilCustomInstaller.php";
 
 <#179>
 <?php
-
 require_once "Customizing/class.ilCustomInstaller.php";
 
 ilCustomInstaller::maybeInitClientIni();
@@ -4581,12 +4580,10 @@ while ($rec = $ilDB->fetchAssoc($res)) {
 	$user->setEmail($rec["value"]);
 	$user->update();
 }
-
 ?>
 
 <#180>
 <?php
-
 require_once "Customizing/class.ilCustomInstaller.php";
 
 ilCustomInstaller::maybeInitClientIni();
@@ -4601,5 +4598,33 @@ ilCustomInstaller::maybeInitSettings();
 
 require_once("Services/GEV/Utils/classes/class.gevUDFUtils.php");
 gevUDFUtils::removeUDFField(gevSettings::USR_UDF_PRIV_EMAIL);
+?>
 
+<#181>
+<?php
+require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCreationRequestDB.php");
+gevDecentralTrainingCreationRequestDB::install_step6($ilDB);
+?>
+
+<#182>
+<?php
+if( !$ilDB->tableExists('crs_custom_attachments') )
+{
+	$ilDB->createTable('crs_custom_attachments', array(
+		'obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'file_name' => array(
+			'type' => 'text',
+			'length' => 250,
+			'notnull' => true,
+			'default' => "-"
+		)	
+	));
+		
+	$ilDB->addPrimaryKey('crs_custom_attachments', array('obj_id', 'file_name'));
+}
 ?>

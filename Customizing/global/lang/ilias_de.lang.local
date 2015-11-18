@@ -1396,3 +1396,5 @@ gev#:#cat_create_xrds#:#DBV Report für Vorgesetzte erzeugen
 gev#:#rep_robj_xrds_content#:#Report
 gev#:#rep_robj_xrds_properties#:#Eigenschaften
 gev#:#gev_dec_training_attachment#:#Anhang
+gev#:#gev_user_is_inactive#:#(AUSGESCHIEDEN)
+gev#:#gev_dec_training_attachment_delete#:#Anhang entfernen
