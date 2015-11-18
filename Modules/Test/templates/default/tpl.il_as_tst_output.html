@@ -18,10 +18,10 @@
 <table class="fullwidth">
 	<tr>
 	<td align="left" width="33%" class="submit">
-<!-- BEGIN prev -->{BTN_PREV}<!-- END prev -->
+<!-- BEGIN prev --><div class="ilTstNavElem">{BTN_PREV}</div><!-- END prev -->
 	</td>
 	<td align="right" width="33%" class="submit">
-<!-- BEGIN next -->{BTN_NEXT}<!-- END next -->
+<!-- BEGIN next --><div class="ilTstNavElem">{BTN_NEXT}</div><!-- END next -->
 	</td>
 	</tr>
 </table>
@@ -30,7 +30,9 @@
 	<tr class="std">
 		<td class="ilc_Page">
 			<div class="ilc_Page<!-- BEGIN readonly_css_class --> readonly<!-- END readonly_css_class -->" id="ilc_Page">
-				{QUESTION_OUTPUT}<!-- BEGIN discard_modal -->{DISCARD_MODAL}<!-- END discard_modal -->
+				{QUESTION_OUTPUT}
+				<!-- BEGIN discard_solution_modal -->{DISCARD_SOLUTION_MODAL}<!-- END discard_solution_modal -->
+				<!-- BEGIN denied_nav_modal -->{DENIED_NAV_MODAL}<!-- END denied_nav_modal -->
             </div>
 			<!-- BEGIN received_points_information -->
             <p>{RECEIVED_POINTS_INFORMATION}</p>
@@ -57,10 +59,10 @@
 <table class="fullwidth">
 	<tr>
 		<td align="left" width="33%" class="submit">
-<!-- BEGIN prev_bottom -->{BTN_PREV}<!-- END prev_bottom -->
+<!-- BEGIN prev_bottom --><div class="ilTstNavElem">{BTN_PREV}</div><!-- END prev_bottom -->
 		</td>
 		<td align="right" width="33%" class="submit">
-<!-- BEGIN next_bottom -->{BTN_NEXT}<!-- END next_bottom -->
+<!-- BEGIN next_bottom --><div class="ilTstNavElem">{BTN_NEXT}</div><!-- END next_bottom -->
 		</td>
 	</tr>
 </table>
