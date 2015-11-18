@@ -1137,7 +1137,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		// questions, while the multiple-choice questions do well.
 
 
-		$this->populateDiscardSolutionModal();
+		$this->populateModals();
 
 		$this->populateIntermediateSolutionSaver($questionGui);
 	}
@@ -1885,8 +1885,16 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	{
 		require_once 'Modules/Test/classes/class.ilTestQuestionNavigationGUI.php';
 		$navigationGUI = new ilTestQuestionNavigationGUI($this->lng);
-
-		$navigationGUI->setSubmitSolutionCommand(ilTestPlayerCommands::SUBMIT_SOLUTION);
+		
+		if( $this->object->isForceInstantFeedbackEnabled() )
+		{
+			$navigationGUI->setSubmitSolutionCommand(ilTestPlayerCommands::SUBMIT_SOLUTION);
+		}
+		else
+		{
+			$navigationGUI->setSubmitSolutionCommand(ilTestPlayerCommands::SUBMIT_SOLUTION_AND_NEXT);
+		}
+		
 		
 		// feedback
 		switch( 1 )
@@ -2207,13 +2215,24 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		}
 	}
 	
-	protected function populateDiscardSolutionModal()
+	protected function populateModals()
 	{
 		require_once 'Services/UIComponent/Button/classes/class.ilSubmitButton.php';
 		require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
 		require_once 'Services/UIComponent/Modal/classes/class.ilModalGUI.php';
 
-		$tpl = new ilTemplate('tpl.discard_answer_confirmation_modal.html', true, true, 'Modules/Test');
+		$this->populateDiscardSolutionModal();
+		$this->populateDeniedNavigationModal();
+
+		if( $this->object->getKioskMode() )
+		{
+			$this->tpl->addJavaScript('Services/UICore/lib/bootstrap-3.2.0/dist/js/bootstrap.min.js', true);
+		}
+	}
+	
+	protected function populateDiscardSolutionModal()
+	{
+		$tpl = new ilTemplate('tpl.tst_player_confirmation_modal.html', true, true, 'Modules/Test');
 		
 		$tpl->setVariable('CONFIRMATION_TEXT', $this->lng->txt('discard_answer_confirmation'));
 
@@ -2233,18 +2252,57 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$tpl->parseCurrentBlock();
 		
 		$modal = ilModalGUI::getInstance();
-		$modal->setId('tst_discard_answer_modal');
+		$modal->setId('tst_discard_solution_modal');
 		$modal->setHeading($this->lng->txt('discard_answer'));
 		$modal->setBody($tpl->get());
 		
-		$this->tpl->setCurrentBlock('discard_modal');
-		$this->tpl->setVariable('DISCARD_MODAL', $modal->getHTML());
+		$this->tpl->setCurrentBlock('discard_solution_modal');
+		$this->tpl->setVariable('DISCARD_SOLUTION_MODAL', $modal->getHTML());
 		$this->tpl->parseCurrentBlock();
 		
-		if( $this->object->getKioskMode() )
-		{
-			$this->tpl->addJavaScript('Services/UICore/lib/bootstrap-3.2.0/dist/js/bootstrap.min.js', true);
-		}
+		$this->tpl->addJavaScript('Modules/Test/js/ilTestPlayerDiscardSolutionModal.js', true);
+	}
+
+	protected function populateDeniedNavigationModal()
+	{
+		$tpl = new ilTemplate('tpl.tst_player_confirmation_modal.html', true, true, 'Modules/Test');
+
+		$tpl->setVariable('CONFIRMATION_TEXT', $this->lng->txt('tst_denied_nav_modal_text'));
+
+		$button = ilSubmitButton::getInstance();
+		$button->setCommand(ilTestPlayerCommands::SUBMIT_SOLUTION);
+		$button->setCaption('tst_denied_nav_modal_save_btn');
+		$button->setPrimary(true);
+		$tpl->setCurrentBlock('buttons');
+		$tpl->setVariable('BUTTON', $button->render());
+		$tpl->parseCurrentBlock();
+		
+		$button = ilLinkButton::getInstance();
+		$this->ctrl->setParameter($this, 'pmode', self::PRESENTATION_MODE_VIEW);
+		$button->setUrl($this->ctrl->getLinkTarget($this, ilTestPlayerCommands::SHOW_QUESTION));
+		$this->ctrl->setParameter($this, 'pmode', $this->getPresentationModeParameter());
+		$button->setCaption('tst_denied_nav_modal_nosave_btn');
+		$tpl->setCurrentBlock('buttons');
+		$tpl->setVariable('BUTTON', $button->render());
+		$tpl->parseCurrentBlock();
+
+		$button = ilLinkButton::getInstance();
+		$button->setId('tst_cancel_denied_nav_button');
+		$button->setCaption('tst_denied_nav_modal_cancel_btn');
+		$tpl->setCurrentBlock('buttons');
+		$tpl->setVariable('BUTTON', $button->render());
+		$tpl->parseCurrentBlock();
+
+		$modal = ilModalGUI::getInstance();
+		$modal->setId('tst_denied_nav_modal');
+		$modal->setHeading($this->lng->txt('tst_denied_nav_modal_header'));
+		$modal->setBody($tpl->get());
+		
+		$this->tpl->setCurrentBlock('denied_nav_modal');
+		$this->tpl->setVariable('DENIED_NAV_MODAL', $modal->getHTML());
+		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->addJavaScript('Modules/Test/js/ilTestPlayerDeniedNavModal.js', true);
 	}
 	
 	protected function getQuestionsDefaultPresentationMode($isQuestionWorkedThrough)

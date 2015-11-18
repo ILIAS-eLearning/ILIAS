@@ -25,6 +25,7 @@ class ilTestPlayerCommands
 	const UNMARK_QUESTION_SAVE = 'unmarkQuestionAndSaveIntermediate';
 
 	const SUBMIT_SOLUTION = 'submitSolution';
+	const SUBMIT_SOLUTION_AND_NEXT = 'submitSolutionAndNext';
 	const DISCARD_SOLUTION = 'discardSolution';
 	const SKIP_QUESTION = 'skipQuestion';
 	const SHOW_INSTANT_RESPONSE = 'showInstantResponse';

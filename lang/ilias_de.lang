@@ -1040,6 +1040,11 @@ assessment#:#submit_answer#:#Speichern und weiter
 assessment#:#skip_question#:#Nicht antworten und weiter
 assessment#:#discard_answer#:#Antwort löschen
 assessment#:#discard_answer_confirmation#:#Ihre Antwort wird vollständig und endgültig gelöscht. Zu einem späteren Zeitpunkt können Sie die Frage aber erneut beantworten.<br /><br />Soll Ihre Antwort endgültig gelöscht werden?
+assessment#:#tst_denied_nav_modal_header#:#Entscheidung über Antworten
+assessment#:#tst_denied_nav_modal_text#:#Was soll mit den Antworten dieser Fragen geschehen, die Sie ggfs. bereits gegeben haben?
+assessment#:#tst_denied_nav_modal_save_btn#:#Speichern
+assessment#:#tst_denied_nav_modal_nosave_btn#:#Nicht Speichern
+assessment#:#tst_denied_nav_modal_cancel_btn#:#Abbrechen
 assessment#:#edit_answer#:#Antwort ändern
 assessment#:#answer_question#:#Frage beantworten
 assessment#:#back_to_objective_container#:#Zurück zum Kurs
