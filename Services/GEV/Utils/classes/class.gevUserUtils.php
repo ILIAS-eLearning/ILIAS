@@ -47,6 +47,16 @@ class gevUserUtils {
 	const WBD_AGENTSTATUS6	= "6 - Sonstiges";
 	const WBD_AGENTSTATUS7	= "7 - keine Zuordnung";
 	
+	const WBD_EMPTY_BWV_ID = "-empty-";
+
+	const WBD_ERROR_WRONG_USERDATA 		= 'WRONG_USERDATA'; 
+	const WBD_ERROR_USER_SERVICETYPE 	= 'USER_SERVICETYPE'; 
+	const WBD_ERROR_USER_DIFFERENT_TP 	= 'USER_DIFFERENT_TP'; 
+	const WBD_ERROR_USER_UNKNOWN 		= 'USER_UNKNOWN';
+	const WBD_ERROR_USER_DEACTIVATED 	= 'USER_DEACTIVATED';
+	const WBD_ERROR_NO_RELEASE			= 'NO_RELEASE';
+
+	static $specialUserIds = array(6,13);
 
 	static $wbd_agent_status_mapping = array(
 		//1 - Angestellter Außendienst
@@ -1994,7 +2004,7 @@ class gevUserUtils {
 	}
 	
 	public function getExitDateWBD() {
-		$date = $this->udf_utils->getField($this->user_id, gevSettings::USR_WBD_EXIT_DATE);		
+		$date = $this->udf_utils->getField($this->user_id, gevSettings::USR_WBD_EXIT_DATE);
 		if (!trim($date)) {
 			return null;
 		}
@@ -2205,4 +2215,94 @@ class gevUserUtils {
 		
 		return $this->hasRoleIn($roles);
 	}
+
+	public function wbdCheckForNew() {
+		return $this->hasDoneWBDRegistration() && $this->isWBDBWVIdEmpty() && $this->userExists() && !$this->hasSpecialUserId() 
+				&& $this->isActive() && !$this->hasWBDType(self::WBD_TP_SERVICE) && $this->entryDatePassed();
+	}
+
+	public function wbdCheckForAffiliate() {
+		$wbd_errors = array(WBD_ERROR_WRONG_USERDATA
+							, WBD_ERROR_USER_SERVICETYPE
+							, WBD_ERROR_USER_DIFFERENT_TP
+							, WBD_ERROR_USER_UNKNOWN
+							, WBD_ERROR_USER_DEACTIVATED);
+
+		return $this->hasDoneWBDRegistration() && !$this->isWBDBWVIdEmpty() && $this->hasWBDRelevantRole() && $this->isActive() 
+				&& !$this->hasWBDType(self::WBD_TP_SERVICE) && $this->entryDatePassed() && $this->userExists() && !$this->hasSpecialUserId() 
+				&& !$this->hasOpenWBDErrors($wbd_errors);/**/
+	}
+
+	public function wbdCheckForRelease() {
+		$wbd_errors = array(WBD_ERROR_WRONG_USERDATA
+							, WBD_ERROR_USER_SERVICETYPE
+							, WBD_ERROR_USER_DIFFERENT_TP
+							, WBD_ERROR_USER_UNKNOWN
+							, WBD_ERROR_USER_DEACTIVATED
+							, WBD_ERROR_NO_RELEASE);
+
+		return $this->isExitDatePassed() && !$this->hasExitDateWBD() && $this->hasWBDType(self::WBD_TP_SERVICE)
+				&& $this->userExists() && !$this->hasSpecialUserId() && !$this->isWBDBWVIdEmpty();
+	}
+
+	protected function isWBDBWVIdEmpty() {
+		return $this->getWBDBWVId() === null;
+	}
+
+	protected function isActive() {
+		return $this->getUser()->getActive();
+	}
+
+	protected function hasOneWBDTypeOf(array $wbd_types) {
+		foreach ($variable as $value) {
+			if($this->hasWBDType($value)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	protected function hasWBDType($wbd_type) {
+		return $this->getWBDTPType() == $wbd_type;
+	}
+
+	protected function entryDatePassed() {
+		$now = date("Y-m-d");
+		$entry_date = $this->getEntryDate();
+
+		if(!$entry_date) {
+			return false;
+		}
+
+		return $entry_date->get(IL_CALC_DATE) <= $now;
+	}
+
+	protected function userExists() {
+		return ilObjUser::_lookupLogin($this->user_id) !== false;
+	}
+
+	protected function hasSpecialUserId() {
+		return in_array($this->user_id, self::$specialUserIds);
+	}
+
+	protected function hasOpenWBDErrors(array $wbd_errors) {
+		$sql = "SELECT DISTINCT count(usr_id) as cnt\n"
+				." FROM wbd_errors\n"
+				." WHERE resolved=0\n"
+				."   AND ".$this->db->in("reason", $wbd_errors, false, "text")."\n"
+				."   AND usr_id = ".$this->db->quote($this->user_id,"integer")."\n";
+
+		$res = $this->db->query($sql);
+		while($row = $this->db->fetchAssoc($res)) {
+			return $row["cnt"] > 0;
+		}
+
+		return false;
+	}
+
+	protected function hasExitDateWBD() {
+		return $this->getExitDateWBD() !== null;
+	}
+
 }

@@ -231,6 +231,7 @@ class gevWBDTPServiceRegistrationGUI {
 			return $this->existingWBDAccount($form);
 		}
 
+		$user_utils->setWBDTPType(gevUserUtils::WBD_EDU_PROVIDER);
 		$this->user_utils->setNextWBDAction(gevSettings::USR_WBD_NEXT_ACTION_AFILIATE);
 		$this->user_utils->setWBDBWVId($form->getInput("bwv_id"));
 
@@ -356,7 +357,7 @@ class gevWBDTPServiceRegistrationGUI {
 		$form->addCommandButton("createTPServiceBWVId", $this->lng->txt("btn_next"));
 		$form->setFormAction($this->ctrl->getFormAction($this));
 
-		$opt1 = new ilRadioGroupInputGUI($this->lng->txt("gev_wbd_notifications"), "registration_type");
+		$opt1 = new ilRadioGroupInputGUI($this->lng->txt("gev_wbd_register_selections"), "registration_type");
 		$opt1->addOption(new ilRadioOption($this->lng->txt("gev_wbd_register_new"), "new"));
 		$opt1->addOption(new ilRadioOption($this->lng->txt("gev_wbd_register_exist"), "exist"));
 		$opt1->setValue("new");

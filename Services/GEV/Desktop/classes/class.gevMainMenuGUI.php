@@ -16,6 +16,7 @@ require_once("Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php");
 require_once("Modules/OrgUnit/classes/class.ilObjOrgUnitAccess.php");
 
 require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 
 
 class gevMainMenuGUI extends ilMainMenuGUI {
@@ -108,7 +109,7 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 
 		$has_others_menu = $employee_booking || $my_org_unit || $tep || $pot_participants || $apprentices || $local_user_admin || $can_create_ha_unit;
 		$is_trainer = $tep; // $tep_permissions->isTutor();
-		$could_do_wbd_registration = $this->user_utils->hasWBDRelevantRole() && !$this->user_utils->getWBDBWVId();
+		$could_do_wbd_registration = $this->user_utils->hasWBDRelevantRole() && !$this->user_utils->getWBDBWVId() && ($this->user_utils->getNextWBDAction() == gevSettings::USR_WBD_NEXT_ACTION_NOTHING);
 
 		$manage_course_block_units = true;
 
