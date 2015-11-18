@@ -1,4 +1,4 @@
-// Build: 20151023070503 
+// Build: 20151118145607 
 
 function ADLAuxiliaryResource()
 {}
@@ -2865,7 +2865,8 @@ if(this.config.sequencing_enabled){msequencer.getCourseStatusByGlobalObjectives(
 else{result["changed_seq_utilities"]=0;}}else{result["adl_seq_utilities"]={};result["changed_seq_utilities"]=0;}
 var LP_STATUS_IN_PROGRESS_NUM=1,LP_STATUS_COMPLETED_NUM=2,LP_STATUS_FAILED_NUM=3;var percentageCompleted=0;var now_global_status=LP_STATUS_IN_PROGRESS_NUM;if(config.status.lp_mode==6){if(b_statusFailed==true)now_global_status=LP_STATUS_FAILED_NUM;else if(config.status.scos.length==i_numCompleted)now_global_status=LP_STATUS_COMPLETED_NUM;percentageCompleted=Math.round(i_numCompleted*100/config.status.scos.length);}
 else if(config.status.lp_mode==12){var measure=this.adl_seq_utilities.status[this.config.course_id][this.config.learner_id]["measure"];var satisfied=this.adl_seq_utilities.status[this.config.course_id][this.config.learner_id]["satisfied"];var completed=this.adl_seq_utilities.status[this.config.course_id][this.config.learner_id]["completed"];if(completed=="completed"||satisfied=="satisfied")now_global_status=LP_STATUS_COMPLETED_NUM;if(satisfied=="notSatisfied")now_global_status=LP_STATUS_FAILED_NUM;if(!isNaN(measure))percentageCompleted=Math.round(measure*100);}
-result["saved_global_status"]=config.status.saved_global_status;result["now_global_status"]=now_global_status;result["percentageCompleted"]=percentageCompleted;result["lp_mode"]=config.status.lp_mode;result["hash"]=config.status.hash;result["p"]=config.status.p;result["totalTimeCentisec"]=totalTimeCentisec;var to_saved_result=toJSONString(result);if(saved_result==to_saved_result){return true;}else{if(typeof SOP!="undefined"&&SOP==true)result=saveRequest(result);else result=this.config.store_url?sendJSONRequest(this.config.store_url,result):{};updateNavForSequencing();if(typeof result=="object"){saved_result=to_saved_result;var new_global_status=null;for(k in result){if(k=="new_global_status")new_global_status=result[k];}
+result["saved_global_status"]=config.status.saved_global_status;result["now_global_status"]=now_global_status;result["percentageCompleted"]=percentageCompleted;result["lp_mode"]=config.status.lp_mode;result["hash"]=config.status.hash;result["p"]=config.status.p;result["totalTimeCentisec"]=totalTimeCentisec;var to_saved_result=toJSONString(result);if(saved_result==to_saved_result){return true;}else{if(typeof SOP!="undefined"&&SOP==true)result=saveRequest(result);else{try{result=this.config.store_url?sendJSONRequest(this.config.store_url,result):{};}catch(e){return false;}}
+updateNavForSequencing();if(typeof result=="object"){saved_result=to_saved_result;var new_global_status=null;for(k in result){if(k=="new_global_status")new_global_status=result[k];}
 if(config.status.saved_global_status!=new_global_status){try{windowOpenerLoc.reload();}catch(e){}}
 config.status.saved_global_status=new_global_status;return true;}}
 return false;}

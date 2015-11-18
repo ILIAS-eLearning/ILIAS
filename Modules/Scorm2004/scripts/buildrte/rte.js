@@ -1,4 +1,4 @@
-// Build: 20151023070503 
+// Build: 20151118145607 
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -13588,8 +13588,13 @@ function save()
 		//alert("Before save "+result.node.length);
 		//if (!result.node.length) {return;} 
 		if (typeof SOP!="undefined" && SOP==true) result=saveRequest(result);
-		else result = this.config.store_url ? sendJSONRequest(this.config.store_url, result): {};
-		
+		else {
+			try{
+				result = this.config.store_url ? sendJSONRequest(this.config.store_url, result): {};
+			}catch(e){
+				return false;
+			}
+		}
 		// added to synchronize the new data. it might update the navigation
 		updateNavForSequencing();
 
