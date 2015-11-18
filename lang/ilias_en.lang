@@ -11809,7 +11809,7 @@ user#:#user_account_code_setting_info#:#Inactive Accounts can be re-activated by
 registration#:#registration_code_optional_info#:#If you have got a registration code, please enter it here.
 registration#:#registration_code_required_info#:#A pre-defined code is mandatory for the registration process.
 auth#:#auth_account_code#:#Code
-auth#:#auth_account_code_info#:#To re-activate your account you can use a ILIAS account code.
+auth#:#auth_account_code_info#:#To re-activate your account you can use an ILIAS account code.
 auth#:#auth_account_code_title#:#Account Code
 auth#:#auth_account_code_used#:#Your account has been re-activated. Please login once again for security reasons.
 prtf#:#prtf_no_blogs_info#:#Your "%s" does not contain any blogs. Create blogs to use them as part of your portfolios.
