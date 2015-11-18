@@ -90,7 +90,7 @@ database_needs_update#:#Datenbank benötigt ein Update
 database_not_exists_create_first#:#Datenbank existiert nicht. Bitte legen Sie zunächst eine neue Datenbank an.
 database_ready#:#Datenbank ist eingerichtet
 database_update#:#Datenbank aktualisieren
-database_version#:#Ihre Datenbankversion
+database_version#:#Versionsnummer der Datenbank
 database#:#Datenbank
 datadir_path_comment1#:#Basisverzeichnis für Dateien
 datadir_path_comment2#:#Kann nicht geändert werden.
@@ -147,7 +147,7 @@ error_recipient#:#Empfänger von Fehlermeldungen
 example#:#Beispiel
 feedback_recipient#:#Empfänger von Feedbacknachrichten
 file_does_not_exist#:#Datei existiert nicht.
-file_version#:#file version
+file_version#:#Versionsnummer DB-Update-Datei
 fill_both_fields#:#Bitte beide Felder ausfüllen!
 fill_out_required_fields#:#Bitte füllen Sie alle benötigten Felder aus
 filled_out#:#korrekt ausgefüllt
@@ -567,7 +567,7 @@ clone_areyousure#:#Are you sure?###02 09 2012 new variable
 cloneit#:#Start###02 09 2012 new variable
 info_text_clone#:#This function will overwrite the currently selected client with a copy of another.<p><i>Note that you can only populate clients that are disabled. Also, they cannot have 'master' in the name.<br>Currently, only MySQL is supported.</i><p><b>Warning! This cannot be undone! The client will be overwritten with the contents of the source you will select here!</b>###02 09 2012 new variable
 populate#:#Populate###02 09 2012 new variable
-show_update_steps#:#Show Update Step###02 09 2012 new variable
+show_update_steps#:#Zeige Update-Schritte
 client_cloned#:#All files and settings of the source are copied into the client.###04 09 2012 new variable
 ghostscript_path_comment_win#:#Wird benötigt, um Vorschaubilder von PDFs zu erzeugen, z.B. 'C:/tools/Ghostscript/gswin32c.exe'.
 ghostscript_path_comment#:#Wird benötigt, um Vorschaubilder von PDFs zu erzeugen, z.B. '/your_path/gs'.
