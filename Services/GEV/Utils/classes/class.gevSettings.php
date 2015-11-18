@@ -249,7 +249,7 @@ class gevSettings {
 	
 	// private Kontaktdaten, für geschäftliche Kontaktdaten werden
 	// die Standard-ILIAS-Felder verwendet
-	const USR_UDF_PRIV_EMAIL		= "usr_udf_priv_email";
+	const USR_UDF_PRIV_EMAIL		= "usr_udf_priv_email";		// NOT IN USE ANYMORE
 	const USR_UDF_PRIV_STREET		= "usr_udf_priv_street";
 	const USR_UDF_PRIV_CITY			= "usr_udf_priv_city";
 	const USR_UDF_PRIV_ZIPCODE		= "usr_udf_priv_zipcode";
@@ -428,7 +428,6 @@ class gevSettings {
 		, "FDA"
 		, "Ausbilder"
 		, "Azubi"
-		, "Buchhaltung"
 		, "Veranstalter"
 		, "int. Trainer"
 		, "ext. Trainer"
@@ -460,7 +459,6 @@ class gevSettings {
 		, "FDA"
 		, "Ausbilder"
 		, "Azubi"
-		, "Buchhaltung"
 		, "Veranstalter"
 		, "int. Trainer"
 		, "ext. Trainer"
@@ -620,7 +618,6 @@ class gevSettings {
 		, "FDA"						=> "AAD"
 		//, "Ausbilder"				=> "nicht relevant"
 		, "Azubi"					=> "AAD"
-		, "Buchhaltung"				=> "ID"
 		//, "Veranstalter"			=> "nicht relevant"
 		, "int. Trainer"			=> "ID"
 		//, "ext. Trainer"			=> "nicht relevant"
@@ -753,5 +750,3 @@ class gevSettings {
 		$this->settings->set(self::DCT_TPL_MAIL_DECENTRAL_TRAINING, $a_templade_id);
 	}
 }
-
-?>

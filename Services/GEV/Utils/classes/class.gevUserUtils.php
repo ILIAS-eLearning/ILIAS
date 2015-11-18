@@ -105,7 +105,6 @@ class gevUserUtils {
 			,'FDA'
 			,'Ausbilder'
 			,'Azubi'
-			,'Buchhaltung'
 			,'Veranstalter'
 			,'int. Trainer'
 			,'ext. Trainer'
@@ -664,7 +663,7 @@ class gevUserUtils {
 			return true;
 		}
 		require_once("Services/GEV/Desktop/classes/class.gevUserProfileGUI.php");
-		$email = $this->getPrivateEmail();
+		$email = $this->getEmail();
 		$mobile = $this->getMobilePhone();
 		$bday = $this->getUser()->getBirthday();
 		$street = $this->getUser()->getStreet();
@@ -713,6 +712,10 @@ class gevUserUtils {
 	
 	public function getEMail() {
 		return $this->getUser()->getEmail();
+	}
+	
+	public function setEMail($email) {
+		return $this->getUser()->setEmail($email);
 	}
 	
 	public function getOrgUnitId() {
@@ -884,14 +887,6 @@ class gevUserUtils {
 
 	public function setCompanyName($a_name) {
 		$this->udf_utils->setField($this->user_id, gevSettings::USR_UDF_COMPANY_NAME, $a_name);
-	}
-	
-	public function getPrivateEmail() {
-		return $this->udf_utils->getField($this->user_id, gevSettings::USR_UDF_PRIV_EMAIL);
-	}
-	
-	public function setPrivateEmail($a_email) {
-		$this->udf_utils->setField($this->user_id, gevSettings::USR_UDF_PRIV_EMAIL, $a_email);
 	}
 	
 	public function getPrivateStreet() {
