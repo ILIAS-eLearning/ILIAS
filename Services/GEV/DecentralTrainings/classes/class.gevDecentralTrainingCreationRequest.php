@@ -210,6 +210,9 @@ class gevDecentralTrainingCreationRequest {
 		
 		$this->createTEPEntry($trgt_crs);
 
+		// ATTENTION: This will delete the temporary files if successfull,
+		// so we could only call it once per request. If there is some issue
+		// afterwards and an exception is thrown, the attachments will be gone.
 		$this->addAttachmentsToMail((int)$trgt_crs->getId());
 
 		$this->finished_ts = new ilDateTime(time(),IL_CAL_UNIX);
