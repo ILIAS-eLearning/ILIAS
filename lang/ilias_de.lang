@@ -5507,7 +5507,7 @@ common#:#with#:#mit
 common#:#wizard_search_list#:#Ihre Suche ergab folgende Ergebnisse. Bitte wählen Sie eines aus.
 common#:#wizard_title_info#:#Bitte geben Sie den Titel des zu kopierenden Objektes ein.
 common#:#write#:#Schreiben
-common#:#wrong_ip_detected#:#Der Zugang zum System wird aufgrund einer falschen Client IP verweigert.<br />Bitte kontaktieren Sie den Systemadministrator.
+common#:#wrong_ip_detected#:#Der Zugang zum System wird aufgrund einer falschen Client IP verweigert.<br>Ihre aktuelle IP-Adresse: %s<br>Bitte kontaktieren Sie den Systemadministrator.
 common#:#year#:#Jahr
 common#:#yearly#:#jährlich
 common#:#years#:#Jahre
