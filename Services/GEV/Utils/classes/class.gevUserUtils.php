@@ -105,7 +105,6 @@ class gevUserUtils {
 			,'FDA'
 			,'Ausbilder'
 			,'Azubi'
-			,'Buchhaltung'
 			,'Veranstalter'
 			,'int. Trainer'
 			,'ext. Trainer'
