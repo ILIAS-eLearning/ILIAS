@@ -1,0 +1,139 @@
+<div id="jkn_div_rubric" class="table-responsive" style="margin-top: 20px;">
+    
+    <table id="jkn_table_rubric" class="table table-striped">
+    
+        <thead>            
+            <tr>
+            
+                <th scope="col" class="col-sm-2">
+                    {GROUP}
+                </th>
+                
+                <th scope="col" class="col-sm-2">
+                    {CRITERIA}
+                </th>
+                
+                <th scope="col">
+                    <div class="form-group has-warning has-feedback">
+                        <label class="control-label" for="Label0">{LABEL}</label>
+                        <input id="Label0" name="Label0" type="text" class="form-control" placeholder="{EXCELLENT}" aria-describedby="Label0WarningStatus" onkeyup="validate(this)" onblur="recalculate()">
+                        <span class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+                        <span id="Label0WarningStatus" class="sr-only">(warning)</span>
+                    </div>
+                    <div class="form-group has-warning has-feedback">
+                        <label class="control-label" for="Points0">{POINT}</label>
+                        <input id="Points0" name="Points0" type="text" class="form-control" placeholder="1.00" aria-describedby="Points0WarningStatus" onkeyup="validate(this)" onblur="recalculate()">
+                        <span class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+                        <span id="Points0WarningStatus" class="sr-only">(warning)</span>
+                    </div>
+                </th>
+                
+                <th scope="col">
+                    <div class="form-group has-warning has-feedback">
+                        <label class="control-label" for="Label1">{LABEL}</label>
+                        <input id="Label1" name="Label1" type="text" class="form-control" placeholder="{GOOD}" aria-describedby="Label1WarningStatus" onkeyup="validate(this)" onblur="recalculate()">
+                        <span class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+                        <span id="Label1WarningStatus" class="sr-only">(warning)</span>
+                    </div>
+                    <div class="form-group has-warning has-feedback">
+                        <label class="control-label" for="Points1">{POINT}</label>
+                        <input id="Points1" name="Points1" type="text" class="form-control" placeholder="0.50" aria-describedby="Points1WarningStatus" onkeyup="validate(this)" onblur="recalculate()">
+                        <span class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+                        <span id="Points1WarningStatus" class="sr-only">(warning)</span>
+                    </div>
+                </th>
+                
+                <th scope="col">
+                    <div class="form-group has-warning has-feedback">
+                        <label class="control-label" for="Label2">{LABEL}</label>
+                        <input id="Label2" name="Label2" type="text" class="form-control" placeholder="{ACCEPTABLE}" aria-describedby="Label2WarningStatus" onkeyup="validate(this)" onblur="recalculate()">
+                        <span class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+                        <span id="Label2WarningStatus" class="sr-only">(warning)</span>
+                    </div>
+                    <div class="form-group has-warning has-feedback">
+                        <label class="control-label" for="Points2">{POINT}</label>
+                        <input id="Points2" name="Points2" type="text" class="form-control" placeholder="0.25" aria-describedby="Points2WarningStatus" onkeyup="validate(this)" onblur="recalculate()">
+                        <span class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+                        <span id="Points2WarningStatus" class="sr-only">(warning)</span>
+                    </div>
+                </th>
+                
+            </tr>            
+        </thead>
+        
+        <tfoot>
+            <tr>
+                <th colspan="2">{OVERALL_POINT}</th>
+                <td colspan="3">{NO_POINT}</td>
+            </tr>
+        </tfoot>
+        
+        <tbody>
+        
+            <tr class="tblrow1 small">
+                <td scope="rowgroup">
+                    <div class="form-group has-warning has-feedback">
+                        <label class="control-label" for="groupname0_0">{GROUP_NAME}</label>                        
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <input type="checkbox" id="groupname0_0_checkbox">
+                            </span>
+                            <input id="groupname0_0" name="groupname0_0" type="text" class="form-control" placeholder="{GROUP_NAME}" aria-describedby="groupname0_0WarningStatus" onkeyup="validate(this)">                                                        
+                        </div>
+                        <span class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+                        <span id="groupname0_0WarningStatus" class="sr-only">(warning)</span>
+                    </div>
+                </td>
+                <td scope="rowgroup">
+                    <div class="form-group has-warning has-feedback">
+                        <label class="control-label" for="criterianame0_0">{CRITERIA_NAME}</label>                        
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <input type="checkbox" id="criterianame0_0_checkbox">
+                            </span>
+                            <input id="criterianame0_0" name="criterianame0_0" type="text" class="form-control" placeholder="{CRITERIA_NAME}" aria-describedby="criterianame0_0WarningStatus" onkeyup="validate(this)">                                                        
+                        </div>
+                        <span class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+                        <span id="criterianame0_0WarningStatus" class="sr-only">(warning)</span>
+                    </div>
+                </td>
+                <td scope="rowgroup">
+                    <div class="form-group has-warning has-feedback">
+                        <label class="control-label" for="behaviorname0_0">{BEHAVIOR_NAME}</label>
+                        <input id="behaviorname0_0" name="behaviorname0_0" type="text" class="form-control" placeholder="{BEHAVIOR_NAME}" aria-describedby="behaviorname0_0WarningStatus" onkeyup="validate(this)">
+                        <span class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+                        <span id="behaviorname0_0WarningStatus" class="sr-only">(warning)</span>
+                    </div>
+                </td>
+                <td scope="rowgroup">
+                    <div class="form-group has-warning has-feedback">
+                        <label class="control-label" for="behaviorname0_1">{BEHAVIOR_NAME}</label>
+                        <input id="behaviorname0_1" name="behaviorname0_1" type="text" class="form-control" placeholder="{BEHAVIOR_NAME}" aria-describedby="behaviorname0_1WarningStatus" onkeyup="validate(this)">
+                        <span class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+                        <span id="behaviorname0_1WarningStatus" class="sr-only">(warning)</span>
+                    </div>
+                </td>
+                <td scope="rowgroup">
+                    <div class="form-group has-warning has-feedback">
+                        <label class="control-label" for="behaviorname0_2">{BEHAVIOR_NAME}</label>
+                        <input id="behaviorname0_2" name="behaviorname0_2" type="text" class="form-control" placeholder="{BEHAVIOR_NAME}" aria-describedby="behaviorname0_2WarningStatus" onkeyup="validate(this)">
+                        <span class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+                        <span id="behaviorname0_2WarningStatus" class="sr-only">(warning)</span>
+                    </div>
+                </td>
+            </tr>
+            
+            <tr>
+                <th colspan="2" scope="rowgroup" class="text-right">{GROUP_POINT}</th>
+                <td colspan="3">{NO_POINT}</td>
+            
+            </tr>
+            
+            
+        </tbody>
+    
+    </table>
+
+</div>
+
+</form>

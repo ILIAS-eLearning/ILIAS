@@ -316,7 +316,22 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 			$this->tpl->setVariable("VAL_NOTE",
 				ilUtil::prepareFormOutput(ilExAssignment::lookupNoticeOfUser($this->ass_id, $member_id)));
 
-			
+			// START PATCH RUBRIC CPKN 2015
+            include_once 'Services/Object/classes/class.ilObjectLP.php';
+    		$olp = ilObjectLP::getInstance($this->exc_id);
+    		$lp_mode = $olp->getCurrentMode();
+            if($lp_mode==92){
+                include_once("./Services/Tracking/classes/repository_statistics/class.ilLPListOfObjectsGUI.php");
+                $lp_gui=new ilLPListOfObjectsGUI($lp_mode,$_GET['ref_id']);
+                $ilCtrl->setParameterByClass('illplistofobjectsgui','user_id',$member_id);
+                $ilCtrl->setParameterByClass('illplistofobjectsgui','details_id',$_GET['ref_id']);
+                $url_link=$ilCtrl->getLinkTargetByClass(array("ilobjexercisegui","illearningprogressgui", "illplistofobjectsgui"),'edituser');
+                $link="<a href=\"${url_link}\">".$this->lng->txt('trac_rubric')."</a>";
+                $this->tpl->setVariable("RUBRIC_LINK", $link);
+				$this->tpl->setVariable("RUBRIC_DISABLED", "disabled='disabled'");
+            }            
+            // END PATCH RUBRIC CPKN 2015
+            
 			// comment for learner	
 			
 			$lcomment_value = ilExAssignment::lookupCommentForUser($this->ass_id, $member_id);
