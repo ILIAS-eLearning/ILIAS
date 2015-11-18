@@ -61,6 +61,21 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 
 		$this->ilObjectGUI("",$_GET["ref_id"], true, false);
 	}
+	
+	private function isPagePreparationRequired($cmd)
+	{
+		if( $this->object instanceof ilObjQuestionPool )
+		{
+			return true;
+		}
+		
+		if( $this->getCreationMode() )
+		{
+			return true;
+		}
+		
+		return false;
+	}
 
 	/**
 	 * execute command
@@ -102,8 +117,12 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		{
 			$_GET['q_id'] = '';
 		}
-				
-		$this->prepareOutput();
+		
+		if($this->isPagePreparationRequired($cmd))
+		{
+			$this->prepareOutput();
+		}
+		
 		
 		$this->ctrl->setReturn($this, "questions");
 		
@@ -659,6 +678,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 
 		if (is_file($_SESSION["qpl_import_dir"].'/'.$_SESSION["qpl_import_subdir"]."/manifest.xml"))
 		{
+			$_SESSION["qpl_import_idents"] = $_POST["ident"];
+			
 			$fileName = $_SESSION["qpl_import_subdir"].'.zip';
 			$fullPath = $_SESSION["qpl_import_dir"].'/'.$fileName;
 			
@@ -667,22 +688,22 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$map = $imp->getMapping();
 			$map->addMapping("Modules/TestQuestionPool", "qpl", "new_id", $newObj->getId());
 			$imp->importObject($newObj, $fullPath, $fileName, "qpl", "Modules/TestQuestionPool", true);
-			ilUtil::sendSuccess($this->lng->txt("object_imported"),true);
-			ilUtil::redirect("ilias.php?ref_id=".$newObj->getRefId()."&baseClass=ilObjQuestionPoolGUI");
 		}
-
-		// start parsing of QTI files
-		include_once "./Services/QTI/classes/class.ilQTIParser.php";
-		$qtiParser = new ilQTIParser($_SESSION["qpl_import_qti_file"], IL_MO_PARSE_QTI, $newObj->getId(), $_POST["ident"]);
-		$result = $qtiParser->startParsing();
-
-		// import page data
-		if (strlen($_SESSION["qpl_import_xml_file"]))
+		else
 		{
-			include_once ("./Modules/LearningModule/classes/class.ilContObjParser.php");
-			$contParser = new ilContObjParser($newObj, $_SESSION["qpl_import_xml_file"], $_SESSION["qpl_import_subdir"]);
-			$contParser->setQuestionMapping($qtiParser->getImportMapping());
-			$contParser->startParsing();
+			// start parsing of QTI files
+			include_once "./Services/QTI/classes/class.ilQTIParser.php";
+			$qtiParser = new ilQTIParser($_SESSION["qpl_import_qti_file"], IL_MO_PARSE_QTI, $newObj->getId(), $_POST["ident"]);
+			$result = $qtiParser->startParsing();
+
+			// import page data
+			if (strlen($_SESSION["qpl_import_xml_file"]))
+			{
+				include_once ("./Modules/LearningModule/classes/class.ilContObjParser.php");
+				$contParser = new ilContObjParser($newObj, $_SESSION["qpl_import_xml_file"], $_SESSION["qpl_import_subdir"]);
+				$contParser->setQuestionMapping($qtiParser->getImportMapping());
+				$contParser->startParsing();
+			}
 		}
 
 		// set another question pool name (if possible)

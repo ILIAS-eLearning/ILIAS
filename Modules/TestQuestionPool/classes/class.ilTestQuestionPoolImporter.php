@@ -65,9 +65,18 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
 
 		$GLOBALS['ilLog']->write(__METHOD__.': xml file: '. $xml_file . ", qti file:" . $qti_file);
 		
+		if( isset($_SESSION["qpl_import_idents"]) )
+		{
+			$idents = $_SESSION["qpl_import_idents"];
+		}
+		else
+		{
+			$idents = null;
+		}
+		
 		// start parsing of QTI files
 		include_once "./Services/QTI/classes/class.ilQTIParser.php";
-		$qtiParser = new ilQTIParser($qti_file, IL_MO_PARSE_QTI, $newObj->getId(), null);
+		$qtiParser = new ilQTIParser($qti_file, IL_MO_PARSE_QTI, $newObj->getId(), $idents);
 		$result = $qtiParser->startParsing();
 
 		// import page data
