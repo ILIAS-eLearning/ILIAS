@@ -3145,7 +3145,17 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			$mail_data['tpl_ctx_params']
 		);		
 
-		ilUtil::redirect("ilias.php?baseClass=ilMailGUI&type=search_res");		
+		require_once 'Services/Mail/classes/class.ilMailFormCall.php';
+		ilUtil::redirect(
+			ilMailFormCall::getRedirectTarget(
+				$this,
+				'',
+				array(),
+				array(
+					'type' => 'search_res'
+				)
+			)
+		);
 	}
 	
 	public function addToExternalSettingsForm($a_form_id)

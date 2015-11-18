@@ -60,6 +60,8 @@ class ilMailGUI
 	{
 		if ($_GET["type"] == "search_res")
 		{
+			ilMailFormCall::storeReferer($_GET);
+
 			$this->ctrl->setParameterByClass("ilmailformgui", "cmd", "searchResults");
 			$this->ctrl->redirectByClass("ilmailformgui");
 		}
