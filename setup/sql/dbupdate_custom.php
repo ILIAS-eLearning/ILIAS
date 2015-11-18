@@ -4558,6 +4558,12 @@ ilCustomInstaller::maybeInitObjDataCache();
 ilCustomInstaller::maybeInitUserToRoot();
 ilCustomInstaller::maybeInitSettings();
 
+
+global $ilias;
+$ilias->db = $ilDB;
+global $ilClientIniFile;
+$ilias->ini = $ilClientIniFile;
+
 require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 $gev_set = gevSettings::getInstance();
