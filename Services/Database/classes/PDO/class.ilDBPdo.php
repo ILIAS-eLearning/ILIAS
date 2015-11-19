@@ -52,7 +52,7 @@ class ilDBPdo implements ilDBInterface
     {
         $this->pdo = new PDO('mysql:host=localhost;dbname=ilias_trunk;charset=utf8', 'ilias_trunk', 'ilias_trunk', array (PDO::MYSQL_ATTR_MAX_BUFFER_SIZE=>1024*1024*1));
         $this->pdo->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
-        $this->pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+        $this->pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
         $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 
@@ -60,6 +60,14 @@ class ilDBPdo implements ilDBInterface
     {
         //TODO
     }
+
+    public function quoteIdentifier($identifier) {
+        return '`'.$identifier.'`';
+    }
+//
+//    public function queryRow($query, $something, $fetchmode = DB_FETCHMODE_ASSOC) {
+//
+//    }
 
     /**
      * @param $table_name string
