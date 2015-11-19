@@ -429,8 +429,6 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 			$this->getQuestionInstance($questionId)->removeIntermediateSolution(
 				$this->testSession->getActiveId(), $this->testSession->getPass()
 			);
-			
-			$this->ctrl->setParameter($this, 'pmode', ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW);
 
 			if( $this->object->isForceInstantFeedbackEnabled() )
 			{

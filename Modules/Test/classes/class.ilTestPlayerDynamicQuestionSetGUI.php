@@ -352,6 +352,31 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		$this->ctrl->setParameter($this, 'pmode', ilTestPlayerAbstractGUI::PRESENTATION_MODE_EDIT);
 		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
 	}
+
+	protected function submitSolutionAndNextCmd()
+	{
+		if( $this->object->isForceInstantFeedbackEnabled() )
+		{
+			return $this->submitSolutionCmd();
+		}
+
+		if( $this->saveQuestionSolution(true, false) )
+		{
+			$questionId = $this->testSession->getCurrentQuestionId();
+
+			$this->getQuestionInstance($questionId)->removeIntermediateSolution(
+				$this->testSession->getActiveId(), $this->testSession->getPass()
+			);
+
+			$this->persistQuestionAnswerStatus();
+
+			$this->ctrl->setParameter($this, 'pmode', '');
+
+			$this->resetCurrentQuestion();
+		}
+
+		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
+	}
 	
 	protected function submitSolutionCmd()
 	{
@@ -374,10 +399,6 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 				$this->testSequence->unsetQuestionPostponed($questionId);
 				$this->testSequence->setQuestionChecked($questionId);
 				$this->testSequence->saveToDb();
-			}
-			else
-			{
-				$this->resetCurrentQuestion();
 			}
 		}
 
