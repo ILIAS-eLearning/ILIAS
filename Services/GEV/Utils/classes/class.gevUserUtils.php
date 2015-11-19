@@ -2068,11 +2068,18 @@ class gevUserUtils {
 		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
 		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php");
 		$tree = ilObjOrgUnitTree::_getInstance();
-		$org_units = $tree->getOrgusWhereUserHasPermissionForOperation("view_employee_bookings", null, true);
+		$org_units = $this->getOrgUnitsWhereUserIsDirectSuperior();
+		$has_view_empl_perm_ref_ids = $this->getOrgUnitsWhereUserCanViewEmployeeBookings();
 		$ref_ids = array();
 		$ref_id_child_orgunit = array();
 		
 		foreach ($org_units as $org_unit) {
+			// Only take the org units where the user is superior and also has the permission
+			// to view bookings of employees.
+			if (!in_array($has_view_empl_perm_ref_ids, $org_unit["ref_id"])) {
+				continue;
+			}
+
 			$ref_ids[] = $org_unit["ref_id"];
 			$org_util = gevOrgUnitUtils::getInstance($org_unit["obj_id"]);
 			foreach($org_util->getOrgUnitsOneTreeLevelBelow() as $org_unit_child) {
