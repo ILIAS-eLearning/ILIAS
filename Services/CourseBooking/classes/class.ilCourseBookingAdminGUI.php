@@ -878,7 +878,7 @@ class ilCourseBookingAdminGUI
 						$crs_utils = gevCourseUtils::getInstance($this->getCourse()->getId());
 
 						require_once "Services/GEV/Mailing/classes/class.gevDeadlineMailingJob.php";
-						$deadline_job_runned = gevDeadlineMailingJob::isMailSend($this->getCourse()->getId(), "invitation");
+						$deadline_job_ran = gevDeadlineMailingJob::isMailSend($this->getCourse()->getId(), "invitation");
 
 						if(!$crs_utils->isDecentralTraining()) {
 							$automails->sendDeferred("admin_booking_to_booked", array($user_id));
@@ -901,7 +901,7 @@ class ilCourseBookingAdminGUI
 								$date_unix = $date->get(IL_CAL_UNIX);
 								$now_unix = $now->get(IL_CAL_UNIX);
 
-								if($now_unix > $date_unix && $deadline_job_runned) {
+								if($now_unix > $date_unix && $deadline_job_ran) {
 									$automails->sendDeferred("invitation", array($user_id));
 								}
 							}
