@@ -4546,7 +4546,7 @@ require_once "Customizing/class.ilCustomInstaller.php";
 
 <#179>
 <?php
-/*require_once "Customizing/class.ilCustomInstaller.php";
+require_once "Customizing/class.ilCustomInstaller.php";
 
 ilCustomInstaller::maybeInitClientIni();
 ilCustomInstaller::maybeInitPluginAdmin();
@@ -4585,12 +4585,12 @@ while ($rec = $ilDB->fetchAssoc($res)) {
 	$user = $utils->getUser();
 	$user->setEmail($rec["value"]);
 	$user->update();
-}*/
+}
 ?>
 
 <#180>
 <?php
-/*require_once "Customizing/class.ilCustomInstaller.php";
+require_once "Customizing/class.ilCustomInstaller.php";
 
 ilCustomInstaller::maybeInitClientIni();
 ilCustomInstaller::maybeInitPluginAdmin();
@@ -4603,7 +4603,7 @@ ilCustomInstaller::maybeInitUserToRoot();
 ilCustomInstaller::maybeInitSettings();
 
 require_once("Services/GEV/Utils/classes/class.gevUDFUtils.php");
-gevUDFUtils::removeUDFField(gevSettings::USR_UDF_PRIV_EMAIL);*/
+gevUDFUtils::removeUDFField(gevSettings::USR_UDF_PRIV_EMAIL);
 ?>
 
 <#181>
