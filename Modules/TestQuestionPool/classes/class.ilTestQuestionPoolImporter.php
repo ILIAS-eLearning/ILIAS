@@ -38,7 +38,6 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
 			$_SESSION['qpl_import_subdir'] = $this->getImportPackageName();
 
 			$newObj->setOnline(true);
-			$newObj->saveToDb();
 		}
 		else if ($new_id = $a_mapping->getMapping('Modules/TestQuestionPool','qpl', "new_id"))
 		{
@@ -65,6 +64,9 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
 			$GLOBALS['ilLog']->write(__METHOD__.': Cannot find qti definition: '. $qti_file);
 			return false;
 		}
+
+		include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
+		ilObjQuestionPool::_setImportDirectory($this->getImportDirectory());
 		
 		$newObj->fromXML($xml_file);
 
@@ -166,36 +168,6 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
 						$this->poolOBJ->setNavTaxonomyId($newTaxId);
 						$this->poolOBJ->saveToDb();
 						break;
-					}
-				}
-			}
-		}
-	}
-
-	/**
-	 * Final processing
-	 *
-	 * @param
-	 * @return
-	 */
-	function finalProcessing($a_mapping)
-	{
-		//echo "<pre>".print_r($a_mapping, true)."</pre>"; exit;
-		// get all glossaries of the import
-		include_once("./Services/Taxonomy/classes/class.ilObjTaxonomy.php");
-		$maps = $a_mapping->getMappingsOfEntity("Modules/TestQuestionPool", "qpl");
-		foreach ($maps as $old => $new)
-		{
-			if ($old != "new_id" && (int) $old > 0)
-			{
-				// get all new taxonomys of this object
-				$new_tax_ids = $a_mapping->getMapping("Services/Taxonomy", "tax_usage_of_obj", $old);
-				if($new_tax_ids !== false)
-				{
-					$tax_ids = explode(":", $new_tax_ids);
-					foreach($tax_ids as $tid)
-					{
-						ilObjTaxonomy::saveUsage($tid, $new);
 					}
 				}
 			}
