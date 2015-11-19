@@ -3346,4 +3346,16 @@ class gevCourseUtils {
 
 		return false;
 	}
+
+	public function getFunctionsForInvitationMails() {
+		$roles = $this->getCustomRoles($this->crs_id);
+		$ret = array($this->lng->txt("crs_member"));
+		$ret[] = $this->lng->txt("crs_tutor");
+
+		foreach($roles as $role) {
+			$ret[] = $role["title"];
+		}
+
+		return $ret;
+	}
 }

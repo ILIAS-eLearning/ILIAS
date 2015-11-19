@@ -241,11 +241,11 @@ class gevDecentralTrainingGUI {
 		*
 		***********************/
 		$this->ltype = $form_prev->getInput("ltype");
-		require_once("Services/GEV/Mailing/classes/class.gevCrsInvitationMailSettings.php");
-		$inv_mail_settings = new gevCrsInvitationMailSettings($template_id);
-		$this->mail_tpl_id = $inv_mail_settings->getTemplateFor();
-
 		$this->template_id = $form_prev->getInput($this->ltype."_template");
+
+		require_once("Services/GEV/Mailing/classes/class.gevCrsInvitationMailSettings.php");
+		$inv_mail_settings = new gevCrsInvitationMailSettings($this->template_id);
+		$this->mail_tpl_id = $inv_mail_settings->getTemplateFor("Teilnehmer");
 
 		$trainer_ids = $form_prev->getInput("trainers");
 		$is_flexible = $this->isTemplateFlexible($this->template_id);
