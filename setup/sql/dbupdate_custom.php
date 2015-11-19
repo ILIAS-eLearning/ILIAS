@@ -4559,7 +4559,7 @@ ilCustomInstaller::maybeInitUserToRoot();
 ilCustomInstaller::maybeInitSettings();
 
 
-global $ilias, $ilDB;
+global $ilias;
 $ilias->db = $ilDB;
 global $ilClientIniFile;
 $ilias->ini = $ilClientIniFile;
@@ -4646,8 +4646,6 @@ ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "User", "udfc", "GEVUserData"
 
 <#184>
 <?php
-global $ilDB;
-
 if(!$ilDB->tableColumnExists('hist_user', 'next_wbd_action')) {
 	$ilDB->addTableColumn('hist_user', 'next_wbd_action', array(
 		'type' => 'text',
