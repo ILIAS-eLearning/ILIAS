@@ -4546,6 +4546,97 @@ require_once "Customizing/class.ilCustomInstaller.php";
 
 <#179>
 <?php
+require_once "Customizing/class.ilCustomInstaller.php";
+
+ilCustomInstaller::maybeInitClientIni();
+ilCustomInstaller::maybeInitPluginAdmin();
+ilCustomInstaller::maybeInitObjDefinition();
+ilCustomInstaller::maybeInitAppEventHandler();
+ilCustomInstaller::maybeInitTree();
+ilCustomInstaller::maybeInitRBAC();
+ilCustomInstaller::maybeInitObjDataCache();
+ilCustomInstaller::maybeInitUserToRoot();
+ilCustomInstaller::maybeInitSettings();
+
+
+global $ilias;
+$ilias->db = $ilDB;
+global $ilClientIniFile;
+$ilias->ini = $ilClientIniFile;
+
+require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+$gev_set = gevSettings::getInstance();
+$private_email_field_id = $gev_set->getUDFFieldId(gevSettings::USR_UDF_PRIV_EMAIL);
+
+$res = $ilDB->query(
+<<<SQL
+	SELECT usr.usr_id, udf.value
+	FROM usr_data usr
+	JOIN udf_text udf ON usr.usr_id = udf.usr_id AND udf.field_id = $private_email_field_id
+	WHERE
+		NOT udf.value IS NULL
+SQL
+);
+
+while ($rec = $ilDB->fetchAssoc($res)) {
+	$usr_id = $rec["usr_id"];
+	$utils = gevUserUtils::getInstance($usr_id);
+	$user = $utils->getUser();
+	$user->setEmail($rec["value"]);
+	$user->update();
+}
+?>
+
+<#180>
+<?php
+require_once "Customizing/class.ilCustomInstaller.php";
+
+ilCustomInstaller::maybeInitClientIni();
+ilCustomInstaller::maybeInitPluginAdmin();
+ilCustomInstaller::maybeInitObjDefinition();
+ilCustomInstaller::maybeInitAppEventHandler();
+ilCustomInstaller::maybeInitTree();
+ilCustomInstaller::maybeInitRBAC();
+ilCustomInstaller::maybeInitObjDataCache();
+ilCustomInstaller::maybeInitUserToRoot();
+ilCustomInstaller::maybeInitSettings();
+
+require_once("Services/GEV/Utils/classes/class.gevUDFUtils.php");
+gevUDFUtils::removeUDFField(gevSettings::USR_UDF_PRIV_EMAIL);
+?>
+
+<#181>
+<?php
+require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCreationRequestDB.php");
+gevDecentralTrainingCreationRequestDB::install_step6($ilDB);
+?>
+
+<#182>
+<?php
+if( !$ilDB->tableExists('crs_custom_attachments') )
+{
+	$ilDB->createTable('crs_custom_attachments', array(
+		'obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'file_name' => array(
+			'type' => 'text',
+			'length' => 250,
+			'notnull' => true,
+			'default' => "-"
+		)	
+	));
+		
+	$ilDB->addPrimaryKey('crs_custom_attachments', array('obj_id', 'file_name'));
+}
+?>
+
+<#183>
+<?php
 // init helper class
 require_once "Customizing/class.ilCustomInstaller.php";
 
@@ -4553,7 +4644,7 @@ ilCustomInstaller::initPluginEnv();
 ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "User", "udfc", "GEVUserData");
 ?>
 
-<#180>
+<#184>
 <?php
 if(!$ilDB->tableColumnExists('hist_user', 'next_wbd_action')) {
 	$ilDB->addTableColumn('hist_user', 'next_wbd_action', array(
@@ -4562,5 +4653,4 @@ if(!$ilDB->tableColumnExists('hist_user', 'next_wbd_action')) {
 		'notnull' => false
 		)
 	);
-}
 ?>

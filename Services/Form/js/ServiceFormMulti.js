@@ -65,6 +65,11 @@ var ilMultiFormValues = {
 			$('input[id="ilMultiAdd~'+id[1]+'~'+(id[2]-1)+'"]').css("display", "inline");
 			$('input[id="ilMultiRmv~'+id[1]+'~'+(id[2]-1)+'"]').css("display", "inline");
 		}
+
+		if($('div[id*="ilFormField~' + id[1] + '~' + id[2] + '"]').children(".gev_fileInput").length > 0) {
+			$('input[id="ilMultiAdd~'+id[1]+'~'+(id[2]-1)+'"]').css("display", "inline");
+			$('input[id="ilMultiRmv~'+id[1]+'~'+(id[2]-1)+'"]').css("display", "inline");
+		}
 		// gev-patch end
 
 		
@@ -136,6 +141,11 @@ var ilMultiFormValues = {
 		// gev-patch start
 		// pretty hacky
 		if(original_element.children(".gev_schedule").length > 0) {
+			$('input[id="ilMultiAdd~'+group_id+'~'+index+'"]').css("display", "none");
+			$('input[id="ilMultiRmv~'+group_id+'~'+index+'"]').css("display", "none");
+		}
+
+		if(original_element.children(".gev_fileInput").length > 0) {
 			$('input[id="ilMultiAdd~'+group_id+'~'+index+'"]').css("display", "none");
 			$('input[id="ilMultiRmv~'+group_id+'~'+index+'"]').css("display", "none");
 		}

@@ -12,6 +12,7 @@
 class gevDecentralTrainingCreationRequest {
 	const CREATOR_ROLE_TITLE = "Trainingsersteller";
 	const CREATOR_ROLE_DESC = "Ersteller des dezentralen Trainings mit Ref-Id %d";
+	const WEB_DATA_FOLDER = 'request_data';
 	
 	// @var gevDecentralTrainingCreationRequestDB
 	protected $db;
@@ -208,7 +209,12 @@ class gevDecentralTrainingCreationRequest {
 		$trgt_crs = $trgt_utils->getCourse();
 		
 		$this->createTEPEntry($trgt_crs);
-		
+
+		// ATTENTION: This will delete the temporary files if successfull,
+		// so we could only call it once per request. If there is some issue
+		// afterwards and an exception is thrown, the attachments will be gone.
+		$this->addAttachmentsToMail((int)$trgt_crs->getId());
+
 		$this->finished_ts = new ilDateTime(time(),IL_CAL_UNIX);
 		$this->created_obj_id = $trgt_obj_id;
 		
@@ -379,6 +385,11 @@ class gevDecentralTrainingCreationRequest {
 	protected function getOperationIdsByNames(array $names) {
 		return  ilRbacReview::_getOperationIdsByName($names);
 	}
+
+	protected function getDecentralTrainingFileStorage($tmpPathString) {
+		require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingFileStorage.php");
+		return new gevDecentralTrainingFileStorage($tmpPathString);
+	}
 	
 	// GETTERS FOR GLOBALS
 	
@@ -455,5 +466,19 @@ class gevDecentralTrainingCreationRequest {
 	protected function updateCourseWithBuidlingBlockData($a_trgt_crs_ref_id) {
 		require_once("Services/GEV/Utils/classes/class.gevCourseBuildingBlockUtils.php");
 		gevCourseBuildingBlockUtils::courseUpdates($a_trgt_crs_ref_id);
+	}
+
+	protected function addAttachmentsToMail($trgt_obj_id) {
+		$file_storage = $this->getDecentralTrainingFileStorage($this->settings()->tmpPathString());
+		$trgt_utils = $this->getCourseUtils((int)$trgt_obj_id);
+
+		$added_files = $this->settings()->addedFiles();
+		$trgt_utils->addAttachmentsToMailSingleFolder($added_files, $file_storage->getAbsolutePath());
+		$trgt_utils->addPreselectedAttachments(gevCourseUtils::RECIPIENT_MEMBER, $added_files);
+		$trgt_utils->saveCustomAttachments($added_files);
+
+		//Achtiung!!!
+		//Hiernach sind die Anhänge inklusive des Temporären Verzeichnisses gelöscht!!!
+		$file_storage->deleteDirectory();
 	}
 }
