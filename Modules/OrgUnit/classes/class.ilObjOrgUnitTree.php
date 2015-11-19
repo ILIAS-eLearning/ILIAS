@@ -130,11 +130,10 @@ class ilObjOrgUnitTree {
 	 * If you want to have all orgunits where the current user has the write permission: use this with the parameter "write".
 	 * @param string		$operation
 	 * @param int|null		$a_user_id
-	 * @param bool			$a_obj_and_ref_ids		Defaults to ref ids only.
 	 * @return int[] ids of the org units.
 	 */
 	// gev-patch start
-	public function getOrgusWhereUserHasPermissionForOperation($operation, $a_user_id = null, $a_obj_and_ref_ids = false) {
+	public function getOrgusWhereUserHasPermissionForOperation($operation, $a_user_id = null) {
 		if ($a_user_id === null) {
 			global $ilUser;
 			$a_user_id = $ilUser->getId();
@@ -165,14 +164,7 @@ class ilObjOrgUnitTree {
 			if(!in_array($res["op_id"], $perm_check))
 				continue;
 
-			if (!$a_obj_and_ref_ids) {
-				$orgus[] = $res["ref_id"];
-			}
-			else {
-				$orgus[] = array( "obj_id" => $res["obj_id"]
-								, "ref_id" => $res["ref_id"]
-								);
-			}
+			$orgus[] = $res["ref_id"];
 		}
 		return $orgus;
 	}
