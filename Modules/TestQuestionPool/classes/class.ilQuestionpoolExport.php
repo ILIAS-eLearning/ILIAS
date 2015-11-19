@@ -17,6 +17,9 @@ class ilQuestionpoolExport
 	var $err;			// error object
 	var $db;			// database object
 	var $ilias;			// ilias object
+	/**
+	 * @var ilObjQuestionPool
+	 */
 	var $qpl_obj;		// questionpool object
 	var $questions; // array with question ids to export
 	var $inst_id;		// installation id
