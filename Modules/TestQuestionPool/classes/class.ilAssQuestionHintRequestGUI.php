@@ -184,8 +184,15 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
 	private function confirmRequestCmd()
 	{
 		global $ilCtrl, $tpl, $lng;
-		
-		$nextRequestableHint = $this->questionHintTracking->getNextRequestableHint();
+
+		try
+		{
+			$nextRequestableHint = $this->questionHintTracking->getNextRequestableHint();
+		}
+		catch(ilTestNoNextRequestableHintExistsException $e)
+		{
+			$ilCtrl->redirect($this, self::CMD_BACK_TO_QUESTION);
+		}
 		
 		require_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
 		
@@ -225,7 +232,14 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
 			throw new ilTestException('no hint id given');
 		}
 		
-		$nextRequestableHint = $this->questionHintTracking->getNextRequestableHint();
+		try
+		{
+			$nextRequestableHint = $this->questionHintTracking->getNextRequestableHint();
+		}
+		catch(ilTestNoNextRequestableHintExistsException $e)
+		{
+			$ilCtrl->redirect($this, self::CMD_BACK_TO_QUESTION);
+		}
 		
 		if( $nextRequestableHint->getId() != (int)$_GET['hintId'] )
 		{
