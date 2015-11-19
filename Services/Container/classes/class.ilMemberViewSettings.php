@@ -35,6 +35,8 @@ class ilMemberViewSettings
 	private $container = null;
 	private $container_items = array();
 	
+	private $current_ref_id = 0;
+	
 	/**
 	 * Constructor (singleton)
 	 * @return 
@@ -65,6 +67,15 @@ class ilMemberViewSettings
     {
         return $this->container;
     }
+	
+	/**
+	 * Get current ref_id of request
+	 * @return type
+	 */
+	public function getCurrentRefId()
+	{
+		return $this->current_ref_id;
+	}
     
     /**
      * Sets $container.
@@ -92,21 +103,15 @@ class ilMemberViewSettings
 			return false;
 		}
 				
-		$ref_id = $_GET['ref_id'] ? $_GET['ref_id'] : null;
-		if(!$ref_id)
-		{
-			$target_arr = explode('_',(string) $_GET['target']);
-			$ref_id = $target_arr[1] ? $target_arr[1] : null;		
-		}		
 
-		if(!$ref_id)
+		if(!$this->getCurrentRefId())
 		{
 			// No ref id given => mail, search, personal desktop menu in other tab
 			return false;
 		}
 		
-		if(!in_array($ref_id,$this->container_items) and 
-			$this->getContainer() != $ref_id) 
+		if(!in_array($this->getCurrentRefId(),$this->container_items) and 
+			$this->getContainer() != $this->getCurrentRefId()) 
 		{
 			// outside of course
 			return false;
@@ -194,6 +199,8 @@ class ilMemberViewSettings
 	{
 		global $ilSetting,$tree;
 		
+		$this->findEffectiveRefId();
+		
 		// member view is always enabled 
 		// (2013-06-18, http://www.ilias.de/docu/goto_docu_wiki_1357_Reorganising_Administration.html) 		
 		
@@ -207,5 +214,22 @@ class ilMemberViewSettings
 			$this->container_items = $tree->getSubTreeIds($this->getContainer());
 		}
 	} 
+	
+	/**
+	 * Find effective ref_id for request
+	 */
+	protected function findEffectiveRefId()
+	{
+		if((int) $_GET['ref_id'])
+		{
+			return $this->current_ref_id = (int) $_GET['ref_id'];
+		}
+		
+		$target_arr = explode('_',(string) $_GET['target']);
+		if(isset($target_arr[1]) and (int) $target_arr[1])
+		{
+			$this->current_ref_id = (int) $target_arr[1];
+		}
+	}
 }
 ?>
