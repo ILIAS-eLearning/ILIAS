@@ -442,13 +442,12 @@ class gevWBDDataConnector extends wbdDataConnector {
 		$creator_id = -200;
 
 
-		$sql = "SELECT crs_id FROM hist_course WHERE 
-			title = '$title'
-			AND
-			begin_date = '$begin_date'
-			AND 
-			end_date = '$end_date'
-		";
+		$sql = "SELECT crs_id\n"
+				." FROM hist_course\n"
+				." WHERE title = ".$this->ilDB->quote($title,"text")."\n"
+				."    AND begin_date = ".$this->ilDB->quote($begin_date,"text")."\n"
+				."    AND end_date = ".$this->ilDB->quote($end_date,"text")."\n";
+
 		$result = $this->ilDB->query($sql);
 		if($this->ilDB->numRows($result) > 0){
 			$record = $this->ilDB->fetchAssoc($result);
@@ -456,11 +455,14 @@ class gevWBDDataConnector extends wbdDataConnector {
 		}
 		
 		//new seminar
-		$sql = "SELECT crs_id FROM hist_course WHERE 
-				crs_id < 0
-				ORDER BY crs_id ASC
-				LIMIT 1
-		";	
+		$sql = "SELECT crs_id\n"
+				." FROM hist_course\n"
+				." WHERE crs_id < ".$this->ilDB->quote(0,"integer")."\n"
+				." ORDER BY crs_id ASC\n"
+				." LIMIT 1\n";
+
+		//HINWEIS!!!
+		//Was ist wenn hier wieder erwarten doch nichts raus kommt?
 		$result = $this->ilDB->query($sql);
 		$record = $this->ilDB->fetchAssoc($result);
 		
@@ -472,47 +474,45 @@ class gevWBDDataConnector extends wbdDataConnector {
 
 		$next_id = $this->ilDB->nextId('hist_course');
 
-		$sql = "INSERT INTO hist_course
-			(
-				row_id,
-				hist_version,
-				created_ts,
-				creator_user_id,
-		 		is_template,
-		 		crs_id,
-		 		title,
-		 		type, 
-		 		wbd_topic,
-		 		begin_date,
-		 		end_date,
-		 		
-		 		custom_id,
-		 		template_title,
-		 		max_credit_points
-			) 
-			VALUES 
-			(
-				$next_id,
-				0,
-				NOW(),
-				$creator_id,
-				'Nein',
-				$crs_id,
-				'$title',
-				'$type',
-		 		'$wbd_topic',
-		 		'$begin_date',
-		 		'$end_date',
-		 		'-empty-',
-		 		'-empty-',
-		 		'-empty-'
-			)";
+		$sql = "INSERT INTO hist_course\n
+			(\n
+				row_id,\n
+				hist_version,\n
+				created_ts,\n
+				creator_user_id,\n
+		 		is_template,\n
+		 		crs_id,\n
+		 		title,\n
+		 		type,\n
+		 		wbd_topic,\n
+		 		begin_date,\n
+		 		end_date,\n
+		 		custom_id,\n
+		 		template_title,\n
+		 		max_credit_points\n
+			)\n
+			VALUES\n
+			(\n"
+				.$this->ilDB->quote($next_id, "integer").",\n"
+				.$this->ilDB->quote(0,"integer").",\n"
+				."NOW(),\n"
+				.$this->ilDB->quote($creator_id, "integer").",\n"
+				.$this->ilDB->quote('Nein', "text").",\n"
+				.$this->ilDB->quote($crs_id, "integer").",\n"
+				.$this->ilDB->quote($title, "text").",\n"
+				.$this->ilDB->quote($type, "text").",\n"
+		 		.$this->ilDB->quote($wbd_topic, "text").",\n"
+		 		.$this->ilDB->quote($begin_date, "text").",\n"
+		 		.$this->ilDB->quote($end_date, "text").",\n"
+		 		.$this->ilDB->quote('-empty-', "text").",\n"
+		 		.$this->ilDB->quote('-empty-', "text").",\n"
+		 		.$this->ilDB->quote('-empty-', "text"),",\n"
+			.")\n";
 
-			
-
-//print "\n\n$sql\n\n";
-
-			if(! $this->ilDB->query($sql)){
+			if(!$this->ilDB->query($sql)){
+				//HINWEIS!!!
+				//Fehlgeschlagene QUERY ins log schreiben und weiter??
+				//heißt ja nicht das andere querys grundsätzlich auch fehlschlagen
 				die($sql);
 			}
 
@@ -527,14 +527,21 @@ class gevWBDDataConnector extends wbdDataConnector {
 
 		// get user (hist_user is ok, since bwv-id must not change 
 		// and was the starting point, anyway)
-		$sql = "SELECT user_id FROM hist_user "
-			." WHERE bwv_id = '" .$rec['bwv_id'] ."'"
-			." AND hist_historic=0";
+		$sql = "SELECT user_id\n"
+				." FROM hist_user "
+				." WHERE bwv_id = ".$this->IlDB->quote($rec['bwv_id'],"text")."\n"
+				."    AND hist_historic = ".$this->ilDB->quote(0,"integer")."\n";
+
 		$result = $this->ilDB->query($sql);
+
+		//HINWEIS!!!
+		//Was ist wenn hier wieder erwarten doch nichts raus kommt?
 		$user_rec = $this->ilDB->fetchAssoc($result);
 
 		$usr_id = $user_rec['user_id'];
 
+		//HINWEIS!!!
+		//Schmeißt neuerdings eine Fehlermeldung, wenn die usr_id nicht vorhanden ist
 		$uutils = gevUserUtils::getInstanceByObjOrId($usr_id);
 
 		$okz 			= $uutils->getWBDOKZ();
@@ -545,59 +552,53 @@ class gevWBDDataConnector extends wbdDataConnector {
 		$creator_id 	= -200;
 		$next_id 		= $this->ilDB->nextId('hist_usercoursestatus');
 
-		$sql = "INSERT INTO hist_usercoursestatus
-			(
-				row_id,
-				wbd_booking_id,
-				created_ts,
-				creator_user_id,
-				usr_id,
-		 		crs_id,
-		 		credit_points,
-		 		hist_historic,
-		 		hist_version,
-		 		okz,
-		 		function,
-		 		booking_status,
-		 		participation_status,
-		 		begin_date,
-		 		end_date,
-		 		bill_id,
-		 		certificate
-			) 
-			VALUES 
-			(
-				$next_id,
-				'$booking_id',
-				UNIX_TIMESTAMP(),
-				$creator_id,
-				$usr_id,
-				$crs_id,
-				$credit_points,
-				0,
-				0,
-				'$okz',
-				'Mitglied',
-				'gebucht',
-				'teilgenommen',
-				'$begin_date',
-				'$end_date',
-				-1,
-				-1
-			)";
-		
+		$sql = "INSERT INTO hist_usercoursestatus\n
+			(\n
+				row_id,\n
+				wbd_booking_id,\n
+				created_ts,\n
+				creator_user_id,\n
+				usr_id,\n
+		 		crs_id,\n
+		 		credit_points,\n
+		 		hist_historic,\n
+		 		hist_version,\n
+		 		okz,\n
+		 		function,\n
+		 		booking_status,\n
+		 		participation_status,\n
+		 		begin_date,\n
+		 		end_date,\n
+		 		bill_id,\n
+		 		certificate\n
+			)\n
+			VALUES\n
+			(\n"
+				.$this->ilDB->quote($next_id,"integer").",\n"
+				.$this->ilDB->quote($booking_id,"text").",\n"
+				."UNIX_TIMESTAMP(),\n"
+				.$this->ilDB->quote($creator_id,"integer").",\n"
+				.$this->ilDB->quote($usr_id,"integer").",\n"
+				.$this->ilDB->quote($crs_id,"integer").",\n"
+				.$this->ilDB->quote($credit_points,"integer").",\n"
+				.$this->ilDB->quote(0,"integer").",\n"
+				.$this->ilDB->quote(0,"integer").",\n"
+				.$this->ilDB->quote('$okz',"text").",\n"
+				.$this->ilDB->quote('Mitglied',"text").",\n"
+				.$this->ilDB->quote('gebucht',"text").",\n"
+				.$this->ilDB->quote('teilgenommen',"text").",\n"
+				.$this->ilDB->quote('$begin_date',"text").",\n"
+				.$this->ilDB->quote('$end_date',"text").",\n"
+				.$this->ilDB->quote(-1,"integer").",\n"
+				.$this->ilDB->quote(-1"integer").",\n"
+			.")";
 
-//print "\n\n$sql\n\n";
-
-			if(! $this->ilDB->query($sql)){
+			if(!$this->ilDB->query($sql)){
+				//HINWEIS!!!
+				//WARUM???
 				die($sql);
 			}
-
-	
 	}
-
-
-
 
 
 
@@ -1297,6 +1298,9 @@ class gevWBDDataConnector extends wbdDataConnector {
 					// ! Storno/Korrektur !
 					if($wpentry['Korrekturbuchung'] != 'false'){
 						print_r($wpentry);
+						//HINWEIS!!!
+						//Ist das clever hier zu sterben nur wei EINE Buchungsliste eine Korrektur ist?
+						//continue???
 						die('Korrekturbuchung - not implemented');
 					}
 
@@ -1306,7 +1310,9 @@ class gevWBDDataConnector extends wbdDataConnector {
 						
 						print "\n\n STORNO: \n";
 						print_r($wpentry);
-
+						//HINWEIS!!!
+						//Ist das clever hier zu sterben nur wei EINE Buchungsliste storniert ist?
+						//continue???
 						die('.');	
 					}
 
