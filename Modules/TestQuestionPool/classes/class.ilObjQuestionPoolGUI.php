@@ -61,21 +61,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 
 		$this->ilObjectGUI("",$_GET["ref_id"], true, false);
 	}
-	
-	private function isPagePreparationRequired($cmd)
-	{
-		if( $this->object instanceof ilObjQuestionPool )
-		{
-			return true;
-		}
-		
-		if( $this->getCreationMode() )
-		{
-			return true;
-		}
-		
-		return false;
-	}
 
 	/**
 	 * execute command
@@ -118,11 +103,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$_GET['q_id'] = '';
 		}
 		
-		if($this->isPagePreparationRequired($cmd))
-		{
-			$this->prepareOutput();
-		}
-		
+		$this->prepareOutput();
 		
 		$this->ctrl->setReturn($this, "questions");
 		
@@ -1483,7 +1464,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			);
 
 			// skill service
-			if( $this->object->isSkillServiceEnabled() && ilObjQuestionPool::isSkillManagementGloballyActivated() )
+			if( $this->isSkillsTabRequired() )
 			{
 				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentsGUI.php';
 
@@ -1533,6 +1514,26 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$tabs_gui->addTarget("perm_settings",
 			$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
 		}
+	}
+	
+	private function isSkillsTabRequired()
+	{
+		if( !($this->object instanceof ilObjQuestionPool) )
+		{
+			return false;
+		}
+		
+		if( !$this->object->isSkillServiceEnabled() )
+		{
+			return false;
+		}
+		
+		if( !ilObjQuestionPool::isSkillManagementGloballyActivated() )
+		{
+			return false;
+		}
+		
+		return true;
 	}
 	
 	private function addSettingsSubTabs(ilTabsGUI $tabs)
