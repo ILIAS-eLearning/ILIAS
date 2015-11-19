@@ -4564,6 +4564,11 @@ $ilias->db = $ilDB;
 global $ilClientIniFile;
 $ilias->ini = $ilClientIniFile;
 
+require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+$gev_set = gevSettings::getInstance();
+$private_email_field_id = $gev_set->getUDFFieldId(gevSettings::USR_UDF_PRIV_EMAIL);
+
 $res = $ilDB->query(
 <<<SQL
 	SELECT usr.usr_id, udf.value
@@ -4585,14 +4590,6 @@ while ($rec = $ilDB->fetchAssoc($res)) {
 
 <#181>
 <?php
-require_once("Services/GEV/Utils/classes/class.gevSettings.php");
-require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
-$gev_set = gevSettings::getInstance();
-$private_email_field_id = $gev_set->getUDFFieldId(gevSettings::USR_UDF_PRIV_EMAIL);
-?>
-
-<#182>
-<?php
 require_once "Customizing/class.ilCustomInstaller.php";
 
 ilCustomInstaller::maybeInitClientIni();
@@ -4609,13 +4606,13 @@ require_once("Services/GEV/Utils/classes/class.gevUDFUtils.php");
 gevUDFUtils::removeUDFField(gevSettings::USR_UDF_PRIV_EMAIL);
 ?>
 
-<#183>
+<#182>
 <?php
 require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCreationRequestDB.php");
 gevDecentralTrainingCreationRequestDB::install_step6($ilDB);
 ?>
 
-<#184>
+<#183>
 <?php
 if( !$ilDB->tableExists('crs_custom_attachments') )
 {
@@ -4638,7 +4635,7 @@ if( !$ilDB->tableExists('crs_custom_attachments') )
 }
 ?>
 
-<#183>
+<#184>
 <?php
 // init helper class
 require_once "Customizing/class.ilCustomInstaller.php";
