@@ -4655,4 +4655,5 @@ if(!$ilDB->tableColumnExists('hist_user', 'next_wbd_action')) {
 		'notnull' => false
 		)
 	);
+}
 ?>
