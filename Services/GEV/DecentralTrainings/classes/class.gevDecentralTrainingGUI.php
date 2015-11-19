@@ -802,7 +802,7 @@ class gevDecentralTrainingGUI {
 		$target_group = null;
 		$gdv_topic = null;
 		$tmp_path_string = $this->tmp_path_string;
-		$uploaded_files = $this->added_files;
+		$uploaded_files = ($this->added_files === null) ? array() : $this->added_files;
 
 		//GDV_TOPIC und TRAINING_CATEGORY JUST DISABLED
 		if($is_flexible) {
