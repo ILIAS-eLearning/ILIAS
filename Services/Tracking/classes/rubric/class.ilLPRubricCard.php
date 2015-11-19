@@ -474,7 +474,8 @@ class ilLPRubricCard
                         criteria=".$this->ilDB->quote($new_criteria_name['criteria_name'], "text")." and
                         g.group_name=".$this->ilDB->quote($new_group_name['group_name'], "text")." and
                         c.sort_order=".$this->ilDB->quote($_new_sort_order, "integer")." and
-                        g.sort_order=".$this->ilDB->quote($new_sort_order,"integer")                        
+                        g.sort_order=".$this->ilDB->quote($new_sort_order,"integer")." and
+			g.rubric_id=".$this->ilDB->quote($this->rubric_id,"integer")
                 );
                 $row=$this->ilDB->fetchAssoc($set);
                 
