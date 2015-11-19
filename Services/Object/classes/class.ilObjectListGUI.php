@@ -2570,6 +2570,14 @@ class ilObjectListGUI
 			}
 			*/
 			// END WebDAV: Lock/Unlock objects
+			
+			// #17467 - add ref_id to link (in repository only!)
+			if(is_object($this->container_obj) &&
+				!($this->container_obj instanceof ilAdministrationCommandHandling) &&
+				is_object($this->container_obj->object))
+			{				
+				$this->ctrl->setParameter($this->container_obj, "ref_id", $this->container_obj->object->getRefId());
+			}
 
 			if (!$ilUser->isDesktopItem($this->getCommandId(), $type))
 			{
