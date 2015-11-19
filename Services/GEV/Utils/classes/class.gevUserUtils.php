@@ -2028,7 +2028,9 @@ class gevUserUtils {
 		$actions["fehlt_ohne_Absage"] = array();
 
 		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
-		$org_units = $this->getOrgUnitsWhereUserIsDirectSuperior();
+		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php");
+		$tree = ilObjOrgUnitTree::_getInstance();
+		$org_units = $tree->getOrgusWhereUserHasPermissionForOperation("view_employee_bookings", null, true);
 		$ref_ids = array();
 		$ref_id_child_orgunit = array();
 		
