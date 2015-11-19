@@ -4637,12 +4637,13 @@ if( !$ilDB->tableExists('crs_custom_attachments') )
 
 <#183>
 <?php
-
+	if(!$ilDB->tableColumnExists('hist_course', 'dct_type')) {
 		$ilDB->addTableColumn('hist_course', 'dct_type', array(
 			'type' => 'text',
 			'length' => 30,
-			'notnull' => false
+			'notnull' => false,
+			'default' => '-empty-'
 			)
-		);	
-
+		);
+	}
 ?>
