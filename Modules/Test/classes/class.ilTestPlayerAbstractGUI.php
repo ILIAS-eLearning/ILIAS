@@ -1453,7 +1453,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	
 	function backConfirmFinishCmd()
 	{
-		$this->ctrl->redirect($this, 'gotoQuestion');
+		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
 	}
 	
 	/**
