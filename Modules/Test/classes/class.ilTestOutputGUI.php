@@ -131,7 +131,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
 			default:
 
-				if( $this->isTestExecutionCommand($cmd) )
+				if( ilTestPlayerCommands::isTestExecutionCommand($cmd) )
 				{
 					$this->checkTestExecutable();
 				}
@@ -141,16 +141,6 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 				break;
 		}
 		return $ret;
-	}
-
-	protected function isTestExecutionCommand($cmd)
-	{
-		if( $cmd == 'autosave' || $cmd == 'redirectAfterAutosave' )
-		{
-			return false;
-		}
-		
-		return true;
 	}
 
 	protected function startTestCmd()

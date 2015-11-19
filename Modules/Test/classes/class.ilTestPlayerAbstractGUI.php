@@ -509,11 +509,13 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
 		$this->testSession->setLastFinishedPass($this->testSession->getPass());
 		$this->testSession->increaseTestPass();
+		
+		$url = $this->ctrl->getLinkTarget($this, ilTestPlayerCommands::AFTER_TEST_PASS_FINISHED);
 
 		$this->tpl->addBlockFile($this->getContentBlockName(), "adm_content", "tpl.il_as_tst_redirect_autosave.html", "Modules/Test");	
 		$this->tpl->setVariable("TEXT_REDIRECT", $this->lng->txt("redirectAfterSave"));
 		$this->tpl->setCurrentBlock("HeadContent");
-		$this->tpl->setVariable("CONTENT_BLOCK", "<meta http-equiv=\"refresh\" content=\"5; url=" . $this->ctrl->getLinkTarget($this, "afterTestPassFinished") . "\">");
+		$this->tpl->setVariable("CONTENT_BLOCK", "<meta http-equiv=\"refresh\" content=\"5; url=" . $url . "\">");
 		$this->tpl->parseCurrentBlock();
 	}
 
@@ -538,7 +540,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		if (!$canSaveResult)
 		{
 			// this was the last action in the test, saving is no longer allowed
-			$result = $this->ctrl->getLinkTarget($this, "redirectAfterAutosave", "", true);
+			$result = $this->ctrl->getLinkTarget($this, ilTestPlayerCommands::REDIRECT_ON_TIME_LIMIT, "", true);
 		}
 		echo $result;
 		exit;
@@ -751,7 +753,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		{
 			if ($this->object->getShowFinalStatement())
 			{
-				$this->ctrl->redirect($this, 'showFinalStatement');
+				$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_FINAL_STATMENT);
 			}
 		}
 
@@ -936,7 +938,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	{
 		$template = new ilTemplate("tpl.il_as_tst_final_statement.html", TRUE, TRUE, "Modules/Test");
 		$this->ctrl->setParameter($this, "skipfinalstatement", 1);
-		$template->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "afterTestPassFinished"));
+		$template->setVariable("FORMACTION", $this->ctrl->getFormAction($this, ilTestPlayerCommands::AFTER_TEST_PASS_FINISHED));
 		$template->setVariable("FINALSTATEMENT", $this->object->prepareTextareaOutput($this->object->getFinalStatement(), true));
 		$template->setVariable("BUTTON_CONTINUE", $this->lng->txt("btn_next"));
 		$this->tpl->setVariable($this->getContentBlockName(), $template->get());
@@ -1997,12 +1999,17 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	protected function populateIntermediateSolutionSaver(assQuestionGUI $questionGui)
 	{
 		$this->tpl->addJavaScript(ilUtil::getJSLocation("autosave.js", "Modules/Test"));
-		$this->tpl->setVariable("AUTOSAVE_URL", $this->ctrl->getFormAction($this, "autosave", "", true));
+
+		$this->tpl->setVariable("AUTOSAVE_URL", $this->ctrl->getFormAction(
+			$this, ilTestPlayerCommands::AUTO_SAVE, "", true
+		));
 
 		if( $questionGui->isAutosaveable() && $this->object->getAutosave() )
 		{
+			$formAction = $this->ctrl->getLinkTarget($this, ilTestPlayerCommands::AUTO_SAVE, '', false, false);
+			
 			$this->tpl->touchBlock('autosave');
-			$this->tpl->setVariable("AUTOSAVEFORMACTION", $this->ctrl->getLinkTarget($this, 'autosave', '', false, false));
+			$this->tpl->setVariable("AUTOSAVEFORMACTION", $formAction);
 			$this->tpl->setVariable("AUTOSAVEINTERVAL", $this->object->getAutosaveIval());
 		}
 	}
