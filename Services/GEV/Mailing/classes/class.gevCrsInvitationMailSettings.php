@@ -93,7 +93,7 @@ class gevCrsInvitationMailSettings {
 		$crs_utils = gevCourseUtils::getInstance($this->crs_id);
 		$functions = $crs_utils->getFunctionsForInvitationMails();
 
-		foreach ($functions as $key => $function) {
+		foreach ($functions as $function) {
 			$this->settings[$function]["template_id"] = $this->getTemplateFor($function);
 		}
 	}
