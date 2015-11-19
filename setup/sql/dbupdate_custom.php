@@ -4634,3 +4634,15 @@ if( !$ilDB->tableExists('crs_custom_attachments') )
 	$ilDB->addPrimaryKey('crs_custom_attachments', array('obj_id', 'file_name'));
 }
 ?>
+
+<#183>
+<?php
+
+		$ilDB->addTableColumn('hist_course', 'dct_type', array(
+			'type' => 'text',
+			'length' => 30,
+			'notnull' => false
+			)
+		);	
+
+?>
