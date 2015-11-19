@@ -2212,8 +2212,8 @@ class gevUserUtils {
 	}
 
 	public function wbdCheckForNew() {
-		return $this->hasDoneWBDRegistration() && $this->isWBDBWVIdEmpty() && $this->userExists() && !$this->hasSpecialUserId() 
-				&& $this->isActive() && !$this->hasWBDType(self::WBD_TP_SERVICE) && $this->entryDatePassed();
+		return $this->hasDoneWBDRegistration() && $this->hasWBDRelevantRole() && $this->userExists() && $this->isActive() && !$this->hasSpecialUserId()
+				&& $this->entryDatePassed() && $this->isWBDBWVIdEmpty() && !$this->hasWBDType(self::WBD_TP_SERVICE);
 	}
 
 	public function wbdCheckForAffiliate() {
@@ -2223,9 +2223,9 @@ class gevUserUtils {
 							, WBD_ERROR_USER_UNKNOWN
 							, WBD_ERROR_USER_DEACTIVATED);
 
-		return $this->hasDoneWBDRegistration() && !$this->isWBDBWVIdEmpty() && $this->hasWBDRelevantRole() && $this->isActive() 
-				&& !$this->hasWBDType(self::WBD_TP_SERVICE) && $this->entryDatePassed() && $this->userExists() && !$this->hasSpecialUserId() 
-				&& !$this->hasOpenWBDErrors($wbd_errors);/**/
+		return $this->hasDoneWBDRegistration() && $this->hasWBDRelevantRole() && $this->userExists() && $this->isActive() && !$this->hasSpecialUserId()
+				&& $this->entryDatePassed() && !$this->isWBDBWVIdEmpty() && !$this->hasWBDType(self::WBD_TP_SERVICE) 
+				&& !$this->hasOpenWBDErrors($wbd_errors);
 	}
 
 	public function wbdCheckForRelease() {
@@ -2236,8 +2236,9 @@ class gevUserUtils {
 							, WBD_ERROR_USER_DEACTIVATED
 							, WBD_ERROR_NO_RELEASE);
 
-		return $this->isExitDatePassed() && !$this->hasExitDateWBD() && $this->hasWBDType(self::WBD_TP_SERVICE)
-				&& $this->userExists() && !$this->hasSpecialUserId() && !$this->isWBDBWVIdEmpty();
+		return $this->userExists() && !$this->hasSpecialUserId()
+				&& $this->isExitDatePassed() && !$this->hasExitDateWBD() && $this->hasWBDType(self::WBD_TP_SERVICE) && !$this->isWBDBWVIdEmpty()
+				&& !$this->hasOpenWBDErrors($wbd_errors);
 	}
 
 	protected function isWBDBWVIdEmpty() {

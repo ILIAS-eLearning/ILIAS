@@ -699,8 +699,8 @@ class gevWBDDataConnector extends wbdDataConnector {
 		$sql = "SELECT * FROM hist_user\n"
 				." WHERE hist_historic = ".$this->ilDB->quote(0, "integer")."\n"
 				."    AND deleted = ".$this->ilDB->quote(0, "integer")."\n"
-				."    AND last_wbd_report IS NULL";
-				."    AND next_wbd_action = ".$this->ilDB->quote(gevSttings::USR_WBD_NEXT_ACTION_NEW, "text")."\n"
+				."    AND last_wbd_report IS NULL"
+				."    AND next_wbd_action = ".$this->ilDB->quote(gevSttings::USR_WBD_NEXT_ACTION_NEW, "text")."\n";
 
 // 		$sql = "
 // 			SELECT
