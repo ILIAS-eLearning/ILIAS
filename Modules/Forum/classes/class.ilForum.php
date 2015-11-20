@@ -1044,22 +1044,22 @@ class ilForum
 	public function getAllThreads($a_topic_id, array $params = array(), $limit = 0, $offset = 0)
 	{
 		/**
-		 * @var $ilDB   ilDB
-		 * @var $ilUser ilObjUser
+		 * @var $ilDB      ilDB
+		 * @var $ilUser    ilObjUser
 		 * @var $ilSetting ilSetting
 		 */
 		global $ilDB, $ilUser, $ilSetting;
 		
-		$frm_overview_setting = (int)$ilSetting::_lookupValue('frma','forum_overview');
-		$frm_props = ilForumProperties::getInstance($this->getForumId());
+		$frm_overview_setting = (int)$ilSetting::_lookupValue('frma', 'forum_overview');
+		$frm_props            = ilForumProperties::getInstance($this->getForumId());
 		
 		$excluded_ids_condition = '';
 		if(isset($params['excluded_ids']) && is_array($params['excluded_ids']) && $params['excluded_ids'])
 		{
-			$excluded_ids_condition = ' AND ' . $ilDB->in('thr_pk', $params['excluded_ids'], true, 'integer'). ' ';
+			$excluded_ids_condition = ' AND ' . $ilDB->in('thr_pk', $params['excluded_ids'], true, 'integer') . ' ';
 		}
-
-		if(!in_array(strtolower($params['order_column']), array('lp_date', 'rating')))
+		
+		if(!in_array(strtolower($params['order_column']), array('lp_date', 'rating', 'thr_subject')))
 		{
 			$params['order_column'] = 'post_date';
 		}
@@ -1067,22 +1067,22 @@ class ilForum
 		{
 			$params['order_direction'] = 'desc';
 		}
-
+		
 		// Count all threads for the passed forum
 		$query = "SELECT COUNT(thr_pk) cnt
 				  FROM frm_threads
 				  WHERE thr_top_fk = %s {$excluded_ids_condition}";
-		$res = $ilDB->queryF($query, array('integer'), array($a_topic_id));
-		$data = $ilDB->fetchAssoc($res);
-		$cnt = (int) $data['cnt'];
-
+		$res   = $ilDB->queryF($query, array('integer'), array($a_topic_id));
+		$data  = $ilDB->fetchAssoc($res);
+		$cnt   = (int)$data['cnt'];
+		
 		$threads = array();
-
-		$data = array();
+		
+		$data       = array();
 		$data_types = array();
-
-		$active_query = '';
-		$active_inner_query = '';
+		
+		$active_query               = '';
+		$active_inner_query         = '';
 		$is_post_activation_enabled = $frm_props->isPostActivationEnabled();
 		if($is_post_activation_enabled && !$params['is_moderator'])
 		{
@@ -1106,9 +1106,15 @@ class ilForum
 			$additional_sort .= ' ,thread_sorting ASC ';
 		}
 		
-		$dynamic_columns = array(
-			' ,post_date ' . $params['order_direction']
-		);
+		if($params['order_column'] == 'thr_subject')
+		{
+			$dynamic_columns = array(',thr_subject ' . $params['order_direction']);
+		}
+		else
+		{
+			$dynamic_columns = array(' ,post_date ' . $params['order_direction']);
+		}
+		
 		if($frm_props->isIsThreadRatingEnabled())
 		{
 			$dynamic_columns[] = ' ,avg_rating ' . $params['order_direction'];
