@@ -459,7 +459,16 @@ class ilForum
 		$objNewPost->setUserAlias($alias);
 		$objNewPost->setPosAuthorId($author_id);
 		
-		self::_isModerator($this->getForumRefId(), $author_id) ? $is_moderator = true : $is_moderator = false; 
+		$frm_settings = ilForumProperties::getInstance($this->getForumId());
+		
+		if($frm_settings->getMarkModeratorPosts() == 1)
+		{
+			self::_isModerator($this->getForumRefId(), $author_id) ? $is_moderator = true : $is_moderator = false;
+		}
+		else
+		{
+			$is_moderator = false;
+		}
 		$objNewPost->setIsAuthorModerator($is_moderator);
 		
 		if ($date == "")

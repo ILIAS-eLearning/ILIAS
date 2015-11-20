@@ -686,6 +686,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			{
 				$cmd = 'showThreads';
 			}
+			$a = $topicData;
 			$tbl = new ilForumTopicTableGUI($this, $cmd, '', (int) $_GET['ref_id'], $topicData, $this->is_moderator, $this->forum_overview_setting);
 			$tbl->setMapper($frm)->fetchData();
 			$tbl->populate();
@@ -1371,6 +1372,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		// alias
 		if($this->objProperties->isAnonymized() && 
+				$this->is_moderator == false &&
 		   in_array($_GET['action'], array('showreply', 'ready_showreply')))
 		{
 			$oAnonymousNameGUI = new ilTextInputGUI($this->lng->txt('forums_your_name'), 'alias');
@@ -1633,7 +1635,12 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 					}
 				}
 
-				if($this->objProperties->isAnonymized())
+				if(!$this->objProperties->isAnonymized() || $this->is_moderator)
+				{
+					$user_alias = $ilUser->getLogin();
+					$display_user_id = $ilUser->getId();
+				}	
+				else
 				{
 					if(!strlen($oReplyEditForm->getInput('alias')))
 					{
@@ -1643,17 +1650,14 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 					{
 						$user_alias = $oReplyEditForm->getInput('alias');
 					}
+					$display_user_id = 0;
 				}
-				else
-				{
-					$user_alias = $ilUser->getLogin();	
-				}
-
+				
 				$newPost = $frm->generatePost(
 					$topicData['top_pk'], 
 					$this->objCurrentTopic->getId(),
 					$ilUser->getId(),
-					($this->objProperties->isAnonymized() ? 0 : $ilUser->getId()), 
+					$display_user_id, 
 					ilRTE::_replaceMediaObjectImageSrc($oReplyEditForm->getInput('message'), 0),
 					$this->objCurrentPost->getId(),
 					(int)$oReplyEditForm->getInput('notify'),
@@ -3487,7 +3491,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		// form action
 		$this->create_topic_form_gui->setFormAction($this->ctrl->getFormAction($this, 'addThread'));
 
-		if($this->objProperties->isAnonymized() == 1)
+		if($this->objProperties->isAnonymized() == 1 && !$this->is_moderator)
 		{
 			$alias_gui = new ilTextInputGUI($this->lng->txt('forums_your_name'), 'alias');
 			$alias_gui->setInfo($this->lng->txt('forums_use_alias'));
@@ -3660,7 +3664,12 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$ilUser->setCaptchaVerified(true);
 			}
 
-			if($this->objProperties->isAnonymized())
+			if(!$this->objProperties->isAnonymized() || $this->is_moderator)
+			{
+				$user_alias = $ilUser->getLogin();
+				$display_user_id = $ilUser->getId();
+			}
+			else
 			{
 				if(!strlen($this->create_topic_form_gui->getInput('alias')))
 				{
@@ -3670,12 +3679,9 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 				{
 					$user_alias = $this->create_topic_form_gui->getInput('alias');
 				}
+				$display_user_id = 0;
 			}
-			else
-			{
-				$user_alias = $ilUser->getLogin();	
-			}
-
+			
 			$status = 1;
 			if(
 				$this->objProperties->isPostActivationEnabled() &&
@@ -3689,7 +3695,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$newPost = $frm->generateThread(
 				$topicData['top_pk'],
 				$ilUser->getId(),
-				($this->objProperties->isAnonymized() ? 0 : $ilUser->getId()),
+				$display_user_id,
 				$this->handleFormInput($this->create_topic_form_gui->getInput('subject'), false),
 				ilRTE::_replaceMediaObjectImageSrc($this->create_topic_form_gui->getInput('message'), 0),
 				$this->create_topic_form_gui->getItemByPostVar('notify') ? (int)$this->create_topic_form_gui->getInput('notify') : 0,

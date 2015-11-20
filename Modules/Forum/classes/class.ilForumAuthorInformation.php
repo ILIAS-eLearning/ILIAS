@@ -197,12 +197,10 @@ class ilForumAuthorInformation
 
 		if($this->doesAuthorAccountExists())
 		{
-			if(!$this->isAuthorAnonymous() &&
-				(
-					(
-						$this->isCurrentUserSessionLoggedIn() && $this->getAuthor()->getPref('public_profile') == 'y'
-					) ||
-					$this->getAuthor()->getPref('public_profile') == 'g')
+			if(!$this->isAuthorAnonymous() 
+				&& (( $this->isCurrentUserSessionLoggedIn() 
+						&& $this->getAuthor()->getPref('public_profile') == 'y') 
+					|| $this->getAuthor()->getPref('public_profile') == 'g')
 			)
 			{
 				// Author is NOT anonymous and (the current user session is logged in and the profile is public (y) or the profile is globally public (g))
