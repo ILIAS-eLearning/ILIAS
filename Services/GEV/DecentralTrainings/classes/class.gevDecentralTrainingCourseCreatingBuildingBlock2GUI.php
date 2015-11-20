@@ -927,14 +927,21 @@ class gevDecentralTrainingCourseCreatingBuildingBlock2GUI {
 			$mail_tpl_id = $inv_mail_settings->getTemplateFor("Mitglied");
 		}
 		
+		//-2 = "keine E-Mail versenden"
 		if($mail_tpl_id != -2) {
+			//-1 = Nutze die Standardvorlage
 			if($mail_tpl_id == -1) {
 				require_once("Services/GEV/Mailing/classes/class.gevCrsInvitationMailSettings.php");
 				$mail_tpl_id = $inv_mail_settings->getTemplateFor("standard");
 			}
-
-			$mail_tpl = $mail_utils->getMailTemplateByIdAndLanguage($mail_tpl_id,$this->lng->getLangKey());
-			$tpl->setVariable("MAILTEMPLATE",nl2br($mail_tpl));
+			
+			//immer noch -1 = keine Email versenden an der Standardvorlage
+			if($mail_tpl_id > 0) {
+				$mail_tpl = $mail_utils->getMailTemplateByIdAndLanguage($mail_tpl_id,$this->lng->getLangKey());
+				$tpl->setVariable("MAILTEMPLATE",nl2br($mail_tpl));
+			} else {
+				$tpl->setVariable("MAILTEMPLATE",$this->lng->txt("gev_dec_training_no_mail"));
+			}
 		} else {
 			$tpl->setVariable("MAILTEMPLATE",$this->lng->txt("gev_dec_training_no_mail"));
 		}
