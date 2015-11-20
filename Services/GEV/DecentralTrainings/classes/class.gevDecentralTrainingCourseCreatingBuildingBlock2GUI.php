@@ -908,29 +908,35 @@ class gevDecentralTrainingCourseCreatingBuildingBlock2GUI {
 		$tpl = new IlTemplate("tpl.dct_mail_preview.html",true,true,"Services/GEV/DecentralTrainings");
 		require_once("Services/GEV/Utils/classes/class.gevMailUtils.php");
 		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+		require_once("Services/GEV/Mailing/classes/class.gevCrsInvitationMailSettings.php");
 		$settings = gevSettings::getInstance();
 		$mail_utils = gevMailUtils::getInstance();
 		
-		$mail_tpl = $mail_utils->getMailTemplateByIdAndLanguage($settings->getDecentralTrainingMailTemplateId(),$this->lng->getLangKey());
-		$tpl->setVariable("MAILTEMPLATE_PRAE",nl2br($mail_tpl));
+		if($this->crs_ref_id !== null) {
+			$tpl->setVariable("CRS_REF","crs_ref_id_".$this->crs_ref_id);
+			$inv_mail_settings = new gevCrsInvitationMailSettings(gevObjectUtils::getObjId($this->crs_ref_id));
+			$mail_tpl_id = $inv_mail_settings->getTemplateFor("Mitglied");
+		}
 
-		$mail_tpl = $mail_utils->getMailTemplateByIdAndLanguage($settings->getCSNMailTemplateId(),$this->lng->getLangKey());
-		$tpl->setVariable("MAILTEMPLATE_CSN",nl2br($mail_tpl));
+		if($this->crs_ref_id === null && $this->crs_request_id !== null) {
+			$tpl->setVariable("CRS_REQUEST","crs_request_id_".$this->crs_request_id);
+			$requ_db = new gevDecentralTrainingCreationRequestDB();
+			$request = $requ_db->request($this->crs_request_id);
 
-		$mail_tpl = $mail_utils->getMailTemplateByIdAndLanguage($settings->getWebExMailTemplateId(),$this->lng->getLangKey());
-		$tpl->setVariable("MAILTEMPLATE_WEBEX",nl2br($mail_tpl));
+			$inv_mail_settings = new gevCrsInvitationMailSettings($request->templateObjId());
+			$mail_tpl_id = $inv_mail_settings->getTemplateFor("Mitglied");
+		}
+		
+		if($mail_tpl_id != -2) {
+			if($mail_tpl_id == -1) {
+				require_once("Services/GEV/Mailing/classes/class.gevCrsInvitationMailSettings.php");
+				$mail_tpl_id = $inv_mail_settings->getTemplateFor("standard");
+			}
 
-		if($this->template_id !== null){
-			$tpl_ref = gevObjectUtils::getRefId($this->template_id);
-			$tpl->setVariable("CRS_TPL","crs_template_id_".$tpl_ref);
+			$mail_tpl = $mail_utils->getMailTemplateByIdAndLanguage($mail_tpl_id,$this->lng->getLangKey());
+			$tpl->setVariable("MAILTEMPLATE",nl2br($mail_tpl));
 		} else {
-			if($this->crs_ref_id !== null) {
-				$tpl->setVariable("CRS_REF","crs_ref_id_".$this->crs_ref_id);
-			}
-
-			if($this->crs_ref_id === null && $this->crs_request_id !== null) {
-				$tpl->setVariable("CRS_REQUEST","crs_request_id_".$this->crs_request_id);
-			}
+			$tpl->setVariable("MAILTEMPLATE",$this->lng->txt("gev_dec_training_no_mail"));
 		}
 		
 		return $tpl->get();
