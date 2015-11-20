@@ -10,8 +10,9 @@
 class ilTestSessionFactory
 {
 	/**
-	 * singleton instance of test session
-	 * @var ilTestSession|ilTestSessionDynamicQuestionSet
+	 * singleton instances of test sessions
+	 *
+	 * @var array[ilTestSession|ilTestSessionDynamicQuestionSet]
 	 */
 	private $testSession = array();
 	
