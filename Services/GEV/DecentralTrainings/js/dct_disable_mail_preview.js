@@ -150,7 +150,7 @@ function gevShowMailPreview(){
 				});
 			}
 			
-			var html = getPlaceholderText(data["TRAININGSTYP"],data["VC-TYPE"]);
+			var html = getPlaceholderText();
 			var trainers = data["ALLE TRAINER"].split("|");
 			data["ALLE TRAINER"] = trainers.join("<br />");
 			
@@ -183,20 +183,6 @@ function gevHideMailPreview(){
 	//$('div[id^="dct-mail_template_"]').css('display', "none");
 }
 
-function getPlaceholderText(ltype, vcType) {
-	if(ltype.match(/.*senztraining/)) {
-		return $('#dct-mail_template_prae').html();
-	}
-
-	if (ltype == "Webinar") {
-		if(vcType == "CSN") {
-			return $('#dct-mail_template_csn').html();
-		}
-
-		if(vcType == "Webex") {
-			return $('#dct-mail_template_webex').html();
-		}
-	}
-
+function getPlaceholderText() {
 	return $('#dct-mail_template_base').html();
 }

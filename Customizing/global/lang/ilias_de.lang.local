@@ -1395,3 +1395,4 @@ gev#:#root_create_xrds#:#DBV Report für Vorgesetzte erzeugen
 gev#:#cat_create_xrds#:#DBV Report für Vorgesetzte erzeugen
 gev#:#rep_robj_xrds_content#:#Report
 gev#:#rep_robj_xrds_properties#:#Eigenschaften
+gev#:#gev_dec_training_no_mail#:#Es soll keine Einladung versendet werden.
