@@ -10,12 +10,6 @@
 *
 */
 require_once("Services/GEV/Utils/classes/class.gevCourseBuildingBlockUtils.php");
-require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
-require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
-require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
-require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
-require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingUtils.php");
-require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCreationRequestDB.php");
 
 class gevDecentralTrainingCreateBuildingBlockDataGUI {
 
