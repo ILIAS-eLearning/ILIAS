@@ -164,6 +164,11 @@ class ilTestParticipantData
 	{
 		return $this->byActiveId[$activeId]['user_id'];
 	}
+
+	public function getActiveIdByUserId($userId)
+	{
+		return $this->byUserId[$userId]['active_id'];
+	}
 	
 	public function getConcatedFullnameByActiveId($activeId)
 	{

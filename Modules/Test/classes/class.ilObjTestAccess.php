@@ -384,10 +384,10 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
 				return ilObjTestAccess::isFailed($a_usr_id, $a_obj_id);
 
 			case ilConditionHandler::OPERATOR_FINISHED:
-				return ilObjTestAccess::_hasFinished($a_usr_id,$a_obj_id);
+				return ilObjTestAccess::hasFinished($a_usr_id,$a_obj_id);
 
 			case ilConditionHandler::OPERATOR_NOT_FINISHED:
-				return !ilObjTestAccess::_hasFinished($a_usr_id,$a_obj_id);
+				return !ilObjTestAccess::hasFinished($a_usr_id,$a_obj_id);
 
 			default:
 				return true;
@@ -445,24 +445,49 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
 		return ($row['complete']) ? true : false;
 	}
 
-/**
-* Returns information if a specific user has finished a test
-*
-* @param integer $user_id Database id of the user
-* @param integer test obj_id
-* @return bool
-* @access public
-* @static
-*/
-	function _hasFinished($a_user_id,$a_obj_id)
-	{
-		global $ilDB;
+	/**
+	 * Request Cache for hasFinished Information
+	 *
+	 * @var array
+	 */
+	private static $hasFinishedCache = array();
 
-		$res = $ilDB->queryF("SELECT active_id FROM tst_active WHERE user_fi = %s AND test_fi = %s AND tries > '0'",
-			array('integer','integer'),
-			array($a_user_id, ilObjTestAccess::_getTestIDFromObjectID($a_obj_id))
-		);
-		return $res->numRows() ? true : false;
+	/**
+	 * Returns (request cached) information if a specific user has finished at least one test pass
+	 *
+	 * @param integer $user_id obj_id of the user
+	 * @param integer $a_obj_id obj_id of the test
+	 * @return bool
+	 */
+	public static function hasFinished($a_user_id, $a_obj_id)
+	{
+		if( !isset(self::$hasFinishedCache["{$a_user_id}:{$a_obj_id}"]) )
+		{
+			require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
+			require_once 'Modules/Test/classes/class.ilTestSessionFactory.php';
+			require_once 'Modules/Test/classes/class.ilTestPassesSelector.php';
+
+			global $ilDB, $lng;
+
+			$testOBJ = ilObjectFactory::getInstanceByObjId($a_obj_id);
+
+			$partData = new ilTestParticipantData($ilDB, $lng);
+			$partData->setUserIds(array($a_user_id));
+			$partData->load($testOBJ->getTestId());
+
+			$activeId = $partData->getActiveIdByUserId($a_user_id);
+
+			$testSessionFactory = new ilTestSessionFactory($testOBJ);
+			$testSession = $testSessionFactory->getSession($activeId);
+
+			$testPassesSelector = new ilTestPassesSelector($ilDB, $testOBJ);
+			$testPassesSelector->setActiveId($activeId);
+			$testPassesSelector->setLastFinishedPass($testSession->getLastFinishedPass());
+
+			self::$hasFinishedCache["{$a_user_id}:{$a_obj_id}"] = count($testPassesSelector->getClosedPasses());
+		}
+
+		return self::$hasFinishedCache["{$a_user_id}:{$a_obj_id}"];
 	}
 
 /**
