@@ -181,7 +181,7 @@ class ilQuestionPoolPrintViewTableGUI extends ilTable2GUI
 	 */
 	public function numericOrdering($column)
 	{
-		if(in_array($column, array('created', 'updated')))
+		if(in_array($column, array('points', 'created', 'updated')))
 		{
 			return true;
 		}
