@@ -1371,9 +1371,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		}
 
 		// alias
-		if($this->objProperties->isAnonymized() && 
-				$this->is_moderator == false &&
-		   in_array($_GET['action'], array('showreply', 'ready_showreply')))
+		if($this->isWritingWithPseudonymAllowed()				
+		  && in_array($_GET['action'], array('showreply', 'ready_showreply')))
 		{
 			$oAnonymousNameGUI = new ilTextInputGUI($this->lng->txt('forums_your_name'), 'alias');
 			$oAnonymousNameGUI->setMaxLength(64);
@@ -1635,12 +1634,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 					}
 				}
 
-				if(!$this->objProperties->isAnonymized() || $this->is_moderator)
-				{
-					$user_alias = $ilUser->getLogin();
-					$display_user_id = $ilUser->getId();
-				}	
-				else
+				if($this->isWritingWithPseudonymAllowed())
 				{
 					if(!strlen($oReplyEditForm->getInput('alias')))
 					{
@@ -1652,6 +1646,12 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 					}
 					$display_user_id = 0;
 				}
+				else
+				{
+					$user_alias = $ilUser->getLogin();
+					$display_user_id = $ilUser->getId();
+				}
+					
 				
 				$newPost = $frm->generatePost(
 					$topicData['top_pk'], 
@@ -3472,6 +3472,16 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		return true;
 	}
 	
+	private function isWritingWithPseudonymAllowed()
+	{
+		if($this->objProperties->isAnonymized()
+		&& (!$this->is_moderator || ($this->is_moderator && !$this->objProperties->getMarkModeratorPosts()))) 
+		{
+			return true;
+		}
+		return false;
+	}
+	
 	private function initTopicCreateForm()
 	{
 		/**
@@ -3491,7 +3501,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		// form action
 		$this->create_topic_form_gui->setFormAction($this->ctrl->getFormAction($this, 'addThread'));
 
-		if($this->objProperties->isAnonymized() == 1 && !$this->is_moderator)
+		if($this->isWritingWithPseudonymAllowed())
 		{
 			$alias_gui = new ilTextInputGUI($this->lng->txt('forums_your_name'), 'alias');
 			$alias_gui->setInfo($this->lng->txt('forums_use_alias'));
@@ -3664,12 +3674,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$ilUser->setCaptchaVerified(true);
 			}
 
-			if(!$this->objProperties->isAnonymized() || $this->is_moderator)
-			{
-				$user_alias = $ilUser->getLogin();
-				$display_user_id = $ilUser->getId();
-			}
-			else
+			if($this->isWritingWithPseudonymAllowed())
 			{
 				if(!strlen($this->create_topic_form_gui->getInput('alias')))
 				{
@@ -3680,6 +3685,11 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 					$user_alias = $this->create_topic_form_gui->getInput('alias');
 				}
 				$display_user_id = 0;
+			}
+			else
+			{
+				$user_alias = $ilUser->getLogin();
+				$display_user_id = $ilUser->getId();
 			}
 			
 			$status = 1;
