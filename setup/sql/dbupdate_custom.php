@@ -4634,3 +4634,8 @@ if( !$ilDB->tableExists('crs_custom_attachments') )
 	$ilDB->addPrimaryKey('crs_custom_attachments', array('obj_id', 'file_name'));
 }
 ?>
+
+<#183>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

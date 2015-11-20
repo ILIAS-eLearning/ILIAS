@@ -48,7 +48,7 @@ function changeBuildingBlocks() {
 
 
 	var selected = $('#topic option:selected').val();
-	$.getJSON("create_decentral_training_data_json.php","selected="+selected+"&type=0", function(data) {
+	$.getJSON(il.buildingBlock,"selected="+selected+"&type=0", function(data) {
 		$('#blocks').empty();
 		$('#content').val("");
 		$('#target').val("");
@@ -81,7 +81,7 @@ function changeBuildingBlockInfos() {
 	$('#form_dct_ab input:submit').addClass('submit');
 
 	var selected = $('#blocks option:selected').val();
-	$.getJSON("create_decentral_training_data_json.php","selected="+selected+"&type=1", function( data ) {
+	$.getJSON(il.buildingBlock,"selected="+selected+"&type=1", function( data ) {
 		$('#content').val(data["content"]);
 		$('#target').val(data["target"]);
 		$('#isWP').val(data["wp"]);

@@ -1,40 +1,63 @@
 <?php
-	require_once("./Services/Init/classes/class.ilInitialisation.php");
-	ilInitialisation::initILIAS();
 
-	require_once("Services/GEV/Utils/classes/class.gevCourseBuildingBlockUtils.php");
-	require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
-	require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
-	require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
-	require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
-	require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingUtils.php");
-	require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCreationRequestDB.php");
-	
+/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */#
 
-	if(isset($_GET["crs_ref_id"]) || isset($_GET["crs_template_id"])) {
+/**
+* Collects data for MailPreview
+*
+* @author	Stefan Hecken <stefan.hecken@concepts-and-training.de>
+* @version	$Id$
+*
+*/
+require_once("Services/GEV/Utils/classes/class.gevCourseBuildingBlockUtils.php");
+require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingUtils.php");
+require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCreationRequestDB.php");
 
-		$id = isset($_GET["crs_ref_id"]) ? $_GET["crs_ref_id"] : null;
+class gevDecentralTrainingCreateMailPreviewDataGUI {
 
-		if($id === null) {
-			$id = isset($_GET["crs_template_id"]) ? $_GET["crs_template_id"] : null;
-		}
-		
-		$data = getMailDataByCrsRefId($id);
-		createJson($data);
+	public function __construct() {
+		global $ilDB, $ilCtrl;
+		$this->gDB = $ilDB;
+		$this->gCtrl = $ilCtrl;
 	}
 
-	if(isset($_GET["crs_request_id"])) {
-		$data = getMailDataByCrsRequestId($_GET["crs_request_id"]);
-		createJson($data);
+	public function executeCommand() {
+		$cmd = $this->gCtrl->getCmd();
+
+		switch($cmd) {
+			default:
+				$this->$cmd();
+		}
+	}
+
+	protected function createPreviewData() {
+		if(isset($_GET["crs_ref_id"]) || isset($_GET["crs_template_id"])) {
+			$id = isset($_GET["crs_ref_id"]) ? $_GET["crs_ref_id"] : null;
+
+			if($id === null) {
+				$id = isset($_GET["crs_template_id"]) ? $_GET["crs_template_id"] : null;
+			}
+
+			$data = $this->getMailDataByCrsRefId($id);
+			$this->createJson($data);
+		}
+
+		if(isset($_GET["crs_request_id"])) {
+			$data = $this->getMailDataByCrsRequestId($_GET["crs_request_id"]);
+			$this->createJson($data);
+		}
 	}
 
 	function createJson($data) {
 		echo json_encode($data);
+		exit;
 	}
 
 	function getMailDataByCrsRefId($crs_ref_id) {
-		global $ilDB;
-
 		$crs_obj_id = gevObjectUtils::getObjId($crs_ref_id);
 		$crs_utils = gevCourseUtils::getInstance($crs_obj_id);
 
@@ -150,22 +173,20 @@
 		}
 
 		if(isset($_GET["venue_id"])) {
-			addVenueData($data_base,$_GET["venue_id"]);
+			$this->addVenueData($data_base,$_GET["venue_id"]);
 		}
 
 		if(isset($_GET["trainer_ids"])) {
 			$data_base["ALLE TRAINER"] = explode("|",$_GET["trainer_ids"]);
 		}
 
-		getTrainerFullName($data_base);
-		replaceLastNewLine($data_base);
+		$this->getTrainerFullName($data_base);
+		$this->replaceLastNewLine($data_base);
 		
 		return $data_base;
 	}
 
 	function getMailDataByCrsRequestId($crs_request_id) {
-		global $ilDB;
-
 		$request_db = new gevDecentralTrainingCreationRequestDB();
 
 		$request = $request_db->request($crs_request_id);
@@ -186,9 +207,9 @@
 							,"ID" 							=> $crs_utils->getCustomId()
 							,"STARTDATUM" 					=> $request->settings()->start()->get(IL_CAL_DATE)
 							,"ZEITPLAN" 					=> $start_time."-".$end_time
-							,"INHALT" 						=> gevCourseBuildingBlockUtils::content(null, $ilDB, $crs_request_id)
-							,"ZIELE UND NUTZEN" 			=> gevCourseBuildingBlockUtils::targetAndBenefits(null, $ilDB, $crs_request_id)
-							,"WP" 							=> gevCourseBuildingBlockUtils::wp(null, $ilDB, $crs_request_id)
+							,"INHALT" 						=> gevCourseBuildingBlockUtils::content(null, $this->gDB, $crs_request_id)
+							,"ZIELE UND NUTZEN" 			=> gevCourseBuildingBlockUtils::targetAndBenefits(null, $this->gDB, $crs_request_id)
+							,"WP" 							=> gevCourseBuildingBlockUtils::wp(null, $this->gDB, $crs_request_id)
 							,"VO-NAME" 						=> ""
 							,"VO-STRAßE" 					=> $crs_utils->getVenueStreet()
 							,"VO-HAUSNUMMER" 				=> $crs_utils->getVenueHouseNumber()
@@ -265,7 +286,7 @@
 		$venue = $request->settings()->venueObjId();
 
 		if($venue) {
-			addVenueData($data_base, $venue);
+			$this->addVenueData($data_base, $venue);
 		} else {
 			$data_base["VO-NAME"] = $request->settings()->venueText();
 		}
@@ -291,11 +312,11 @@
 		}
 
 		if(isset($_GET["venue_id"])) {
-			addVenueData($data_base,$_GET["venue_id"]);
+			$this->addVenueData($data_base,$_GET["venue_id"]);
 		}
 
-		getTrainerFullName($data_base);
-		replaceLastNewLine($data_base);
+		$this->getTrainerFullName($data_base);
+		$this->replaceLastNewLine($data_base);
 
 		return $data_base;
 	}
@@ -328,3 +349,4 @@
 	function replaceLastNewLine(&$data_base) {
 		$data_base["ZIELE UND NUTZEN"] =  rtrim($data_base["ZIELE UND NUTZEN"],"\n");
 	}
+}
