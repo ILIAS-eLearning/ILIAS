@@ -427,6 +427,8 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 				$this->testSequence->setQuestionChecked($questionId);
 				$this->testSequence->saveToDb();
 			}
+			
+			$this->ctrl->setParameter($this, 'pmode', ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW);
 		}
 
 		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
