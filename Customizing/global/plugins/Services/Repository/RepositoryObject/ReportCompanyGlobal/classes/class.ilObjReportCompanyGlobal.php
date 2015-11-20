@@ -3,6 +3,7 @@
 require_once 'Services/ReportsRepository/classes/class.ilObjReportBase.php';
 require_once 'Services/GEV/Utils/classses/class.gevAMDUtils.php';
 require_once 'Services/GEV/Utils/classses/class.gevSettings.php';
+require_once 'Services/GEV/Utils/classses/class.gevCourseUtils.php';
 
 class ilObjReportCompanyGlobal extends ilObjReportBase {
 	
@@ -24,8 +25,22 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 		 $this->setType("xrcg");
 	}
 
+	/**
+	* We can not use regular query logic here (since there is no outer-join in mysql)
+	* so lets take this opportunity to at least do some preparation work for the actual query construction in getTrainingTypeQuery.
+	*/
 	protected function buildQuery($query) {
-		$this->$query_class = get_class($query);
+		return $this->prepareQueryComponents($query);
+	}
+
+	protected function prepareQueryComponents($query) {
+		// this will be used later to invoke other query objects. A cloning of a virgin query object would be more formal, but since right now __clone is not defined for queries...
+		$this->query_class = get_class($query);
+
+		$this->types = gecCourseUtils::getTypeOptions();
+		unset($this->types[$lng->txt("gev_crs_srch_all")]); //not nice, but what you gona do...
+
+		// this also is quite a hack, but once we have the new filter-api it can be fixed
 		$filter_orgus = $this->filter->get('orgu');
 		if(count($filter_orgus) > 0) {
 			$this->sql_filter_orgus = 
@@ -41,58 +56,13 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 	}
 
 	protected function fetchData(callable $callback){
-		$created = $this->filter->get("created");
-		if ($created["end"]->get(IL_CAL_UNIX) < $created["start"]->get(IL_CAL_UNIX) ) {
-			return array();
+		$data = $this->joinPartialDatas(
+				$this->fetchPartialData(getPartialQuery(true))
+				,$this->fetchPartialData(getPartialQuery(false))
+				);
+		foreach($data as &$row) {
+			$row = call_user_func($callback,$row);
 		}
-		
-		//fetch retrieves the data 
-		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
-		require_once("Services/Calendar/classes/class.ilDatePresentation.php");
-
-		$no_entry = $this->lng->txt("gev_table_no_entry");
-		$data = array();
-
-
-		//when ordering the table, watch out for date!
-		//_table_nav=date:asc:0
-		//btw, what is the third parameter?
-		if(isset($_GET['_table_nav'])){
-			$this->external_sorting = true; //set to false again, 
-											//if the field is not relevant
-
-			$table_nav_cmd = split(':', $_GET['_table_nav']);
-			
-			if ($table_nav_cmd[1] == "asc") {
-				$direction = " ASC";
-			}
-			else {
-				$direction = " DESC";
-			}
-			
-			switch ($table_nav_cmd[0]) { //field
-				case 'date':
-					$direction = strtoupper($table_nav_cmd[1]);
-					$sql_order_str = " ORDER BY crs.begin_date ";
-					$sql_order_str .= $direction;
-					break;
-				
-				//append more fields, simply for performance...
-
-				default:
-					$this->external_sorting = true;
-					$sql_order_str = " ORDER BY ".$this->gIldb->quoteIdentifier($table_nav_cmd[0])." ".$direction;
-					break;
-			}
-		}
-
-
-		$res = $this->gIldb->query($query);
-
-		while($rec = $this->gIldb->fetchAssoc($res)) {
-			$data[] = call_user_func($callback,$rec);
-		}
-
 		return $data;
 	}
 
@@ -106,16 +76,13 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 		return $order;
 	}
 
-	protected function getTrainingTypeData($training_type) {
-
-	}
-
-	protected function getTrainingTypeQuery($training_type,$has_participated) {
+	protected function getPartialQuery($has_participated) {
+		$prefix = $has_participated ? 'part' : 'book';
 		$query = {$this->query_class}::create()
 					->select('hc.type')
 					->select('hc.training_programm')
-					->select_raw('COUNT(book.usr_id) book')
-					->select_raw('COUNT(DISTINCT book.usr_id) user');
+					->select_raw('COUNT(book.usr_id) '.$prefix.'_book')
+					->select_raw('COUNT(DISTINCT book.usr_id) '.$prefix.'_user');
 		if($has_participated) {
 			$query	->select_raw('SUM( IF( part.credit_points IS NOT NULL AND part.credit_points > 0, part.credit_points, 0) ) wp_part');
 		}
@@ -123,15 +90,41 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 					->join('hist_usercoursestatus hucs')
 						->on('hc.crs_id = hucs.crs_id'
 							.'	AND '.$this->gIldb->in('book.participation_status' ,$this->not_participated, $has_participated, 'text'));
-					->left_join('adv_md_values_int amd')
-						->on('hc.crs_id = amd.obj_id'
-							.' AND amd.field_id = '.$this->gIldb->quote($this->template_ref_field_id,'integer')	)
 		if($this->sql_filter_orgus) {
 			$query	->raw_join('('.$this->sql_filter_orgus.') as orgu ON ')
 					->select('orgu.orgu')
 		}
-					->group_by('hc_type')
+					->group_by('hc.type')
 					->compile();
+		return $query;
+	}
+
+	protected function fetchPartialData($a_query) {
+		$query = $a_query->sql()."\n "
+				. $this->queryWhere()."\n "
+				. $a_query->sqlGroupBy()."\n"
+				. $this->queryHaving()."\n"
+				. $this->queryOrder();
+		$res = $this->gIldb->query($query);
+		$return = array();
+		while($rec = $this->gIldb->fetchAssoc($res)) {
+			$return[$rec["type"]] = $rec;
+		}
+		return $return;
+	}
+
+	protected function joinPartialDatas(array $a_data, array $b_data) {
+		$return = array();
+		foreach ($this->types as $type) {
+			if(!isset($a_data[$type])) {
+				$a_data[$type] = array();
+			}
+			if(!isset($b_data[$type])) {
+				$b_data[$type] = array();
+			}
+			$return[] = array_merge($a_data[$type],$b_data[$type])
+		}
+		return $return;
 	}
  
 	public function doCreate() {
