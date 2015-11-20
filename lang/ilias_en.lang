@@ -10169,7 +10169,7 @@ content#:#cont_edit_shape_whole_picture#:#Edit Shape (Whole Picture)
 common#:#settings_for_all_members#:#Notification activated for all course/group members
 common#:#settings_per_users#:#Settings per Course/Group Member
 user#:#enable_local_user_administration#:#Enable Local User Administration
-user#:#enable_local_user_administration_info#:#If enabled, local user accounts can be administrated in categories.
+user#:#enable_local_user_administration_info#:#If enabled, local user accounts can be administrated in categories and organisational units.
 user#:#restrict_user_access#:#Restricted Access to User Accounts
 user#:#restrict_user_access_info#:#Enabled this option only if you want to restrict the access to user accounts. If enabled access to local and global user accounts is only granted when a role has the permission ‘Read Access to User Account’.
 common#:#backto_lua#:#Back to Local User Administration
