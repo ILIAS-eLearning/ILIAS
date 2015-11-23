@@ -43,8 +43,7 @@ class ilDBInnoDB extends ilDBMySQL
 		{
 			$this->query("SET SESSION SQL_MODE = 'ONLY_FULL_GROUP_BY'");
 		}
-
-		$this->query("SET SESSION STORAGE_ENGINE = 'INNODB'");
+		$this->setStorageEngine('INNODB');
 	}
 
 	/**
