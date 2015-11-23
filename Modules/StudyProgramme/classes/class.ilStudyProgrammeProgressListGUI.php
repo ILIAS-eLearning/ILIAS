@@ -57,7 +57,6 @@ class ilStudyProgrammeProgressListGUI {
 	
 	protected function fillTemplate($tpl) {
 		$programme = $this->progress->getStudyProgramme();
-		
 		$title_and_icon_target = $this->getTitleAndIconTarget($this->progress);
 		
 		if ($title_and_icon_target) {
