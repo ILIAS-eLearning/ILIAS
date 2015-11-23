@@ -430,11 +430,12 @@ class ilDBMySQL extends ilDB
 	* - classes/class.ilDB.php
 	* - setup/classes/class.ilClient.php
 	*/
-	function isMysql5_6OrHigher()
+	public function isMysql5_6OrHigher()
 	{
 		$version = explode(".", $this->getDBVersion());
-		if ((int)$version[0] >= 5 ||
-			((int)$version[0] == 5 && (int)$version[1] >= 6))
+		if(
+			(int) $version[0] > 5 ||
+			((int) $version[0] == 5 && (int) $version[1] >= 6))
 		{
 			return true;
 		}		
