@@ -101,6 +101,7 @@
     padding: 10px;
     text-align: center;
     margin: 0 20px;
+	box-sizing: content-box;
 }
 .ilPreviewTooltipPrev {
     position: absolute;

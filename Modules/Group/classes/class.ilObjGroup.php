@@ -43,7 +43,8 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 	const ERR_MISSING_PASSWORD = 'grp_missing_password';
 	const ERR_WRONG_MAX_MEMBERS = 'grp_wrong_max_members';
 	const ERR_WRONG_REG_TIME_LIMIT = 'grp_wrong_reg_time_limit';
-	const ERR_WRONG_MIN_MAX_MEMBERS = 'grp_wrong_min_max_members';
+	const ERR_MISSING_MIN_MAX_MEMBERS = 'grp_wrong_min_max_members';
+	const ERR_WRONG_MIN_MAX_MEMBERS = 'grp_max_and_min_members_invalid';
 	
 	const MAIL_ALLOWED_ALL = 1;
 	const MAIL_ALLOWED_TUTORS = 2;
@@ -600,7 +601,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		{
 			if($this->getMinMembers() <= 0 && $this->getMaxMembers() <= 0)
 			{
-				$ilErr->appendMessage($this->lng->txt(self::ERR_WRONG_MIN_MAX_MEMBERS));
+				$ilErr->appendMessage($this->lng->txt(self::ERR_MISSING_MIN_MAX_MEMBERS));
 			}
 			if($this->getMaxMembers() <= 0 && $this->isWaitingListEnabled())
 			{
@@ -2052,7 +2053,6 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		return true;
 	}	
 	
-	// :TODO: attach to unsubscribe event
 	public function handleAutoFill()
 	{	
 		if($this->isWaitingListEnabled() &&
@@ -2129,6 +2129,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		$set = $ilDB->query("SELECT obj_id, registration_min_members".
 			" FROM grp_settings".
 			" WHERE registration_min_members > ".$ilDB->quote(0, "integer").
+			" AND registration_mem_limit = ".$ilDB->quote(1, "integer"). // #17206				
 			" AND ((leave_end IS NOT NULL".
 				" AND leave_end < ".$ilDB->quote($now, "text").")".
 				" OR (leave_end IS NULL".

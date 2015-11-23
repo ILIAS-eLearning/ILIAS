@@ -1197,6 +1197,7 @@ class ilGlossaryPresentationGUI
 		$this->form->addItem($radg);
 
 		$this->form->addCommandButton("printView", $lng->txt("cont_show_print_view"));
+		$this->form->setPreventDoubleSubmission(false);
 
 		$this->form->setTitle($lng->txt("cont_print_selection"));
 	}

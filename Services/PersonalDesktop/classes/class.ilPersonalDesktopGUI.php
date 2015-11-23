@@ -52,6 +52,7 @@ class ilPersonalDesktopGUI
 
 		$ilMainMenu->setActive("desktop");
 		$this->lng->loadLanguageModule("pdesk");
+		$this->lng->loadLanguageModule("pd"); // #16813
 		
 		// catch hack attempts
 		if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)

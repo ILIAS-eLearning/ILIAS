@@ -16,6 +16,7 @@ include_once "./Services/Object/classes/class.ilObjectGUI.php";
 * @ilCtrl_Calls ilObjSurveyGUI: ilCommonActionDispatcherGUI, ilSurveySkillGUI
 * @ilCtrl_Calls ilObjSurveyGUI: ilSurveyEditorGUI, ilSurveyConstraintsGUI
 * @ilCtrl_Calls ilObjSurveyGUI: ilSurveyParticipantsGUI, ilLearningProgressGUI
+* @ilCtrl_Calls ilObjSurveyGUI: ilExportGUI
 *
 * @ingroup ModulesSurvey
 */
@@ -49,8 +50,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 		
 		if(!$this->external_rater_360)
 		{
-			if (!$ilAccess->checkAccess("read", "", $this->ref_id) && 
-				!$ilAccess->checkAccess("visible", "", $this->ref_id))
+			if (!$ilAccess->checkAccess("visible", "", $this->ref_id) &&
+				!$ilAccess->checkAccess("read", "", $this->ref_id))
 			{
 				$ilErr->raiseError($this->lng->txt("permission_denied"), $ilErr->MESSAGE);
 			}
@@ -89,8 +90,20 @@ class ilObjSurveyGUI extends ilObjectGUI
 		switch($next_class)
 		{
 			case "ilinfoscreengui":
-				$this->addHeaderAction();
-				$this->infoScreen();	// forwards command
+				if(!in_array($this->ctrl->getCmdClass(),
+					array('ilpublicuserprofilegui', 'ilobjportfoliogui')))
+				{		
+					$this->addHeaderAction();
+					$this->infoScreen(); // forwards command
+				}
+				else 
+				{
+					// #16891
+					$ilTabs->clearTargets();
+					include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
+					$info = new ilInfoScreenGUI($this);
+					$this->ctrl->forwardCommand($info);
+				}
 				break;
 			
 			case 'ilobjectmetadatagui':
@@ -189,6 +202,14 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$new_gui = new ilLearningProgressGUI(ilLearningProgressBaseGUI::LP_CONTEXT_REPOSITORY,
 					$this->object->getRefId());
 				$this->ctrl->forwardCommand($new_gui);				
+				break;
+			
+			case 'ilexportgui':				
+				$ilTabs->activateTab("export");
+				include_once("./Services/Export/classes/class.ilExportGUI.php");
+				$exp_gui = new ilExportGUI($this); 
+				$exp_gui->addFormat("xml");
+				$this->ctrl->forwardCommand($exp_gui);
 				break;
 
 			default:
@@ -297,7 +318,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$this->ctrl->getLinkTargetByClass(array("ilsurveyeditorgui", "ilsurveypagegui"), "renderPage"));
 		}
 		
-		if ($ilAccess->checkAccess("visible", "", $this->ref_id))
+		if ($ilAccess->checkAccess("read", "", $this->ref_id))
 		{
 			$tabs_gui->addTab("info_short",
 				$this->lng->txt("info_short"),
@@ -406,7 +427,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				// export
 				$tabs_gui->addTab("export",
 					$this->lng->txt("export"),
-					$this->ctrl->getLinkTarget($this,'export'));
+					$this->ctrl->getLinkTargetByClass("ilexportgui", ""));				
 			}
 		}
 
@@ -689,6 +710,11 @@ class ilObjSurveyGUI extends ilObjectGUI
 					ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
 				}
 				$this->ctrl->redirect($this, "properties");
+			}
+			else
+			{
+				// #16714
+				ilUtil::sendFailure($this->lng->txt("form_input_not_valid"));
 			}
 		}
 		
@@ -1399,160 +1425,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$form->setValuesByPost();
 		$tpl->setContent($form->getHtml());
 	}
-
-  /*
-	* list all export files
-	*/
-	public function exportObject()
-	{
-		global $ilTabs, $ilToolbar;
-		
-		$this->handleWriteAccess();
-		$ilTabs->activateTab("export");
-		
-		include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
-		$button = ilLinkButton::getInstance();
-		$button->setCaption("svy_create_export_file");								
-		$button->setUrl($this->ctrl->getLinkTarget($this, "createExportFile"));										
-		$ilToolbar->addButtonInstance($button);		
-
-		$export_dir = $this->object->getExportDirectory();
-		$export_files = $this->object->getExportFiles($export_dir);
-		$data = array();
-		if(count($export_files) > 0)
-		{
-			foreach($export_files as $exp_file)
-			{
-				$file_arr = explode("__", $exp_file);
-				$date = new ilDateTime($file_arr[0], IL_CAL_UNIX);
-				array_push($data, array(
-					'file' => $exp_file,
-					'size' => filesize($export_dir."/".$exp_file),
-					'date' => $date->get(IL_CAL_DATETIME)
-				));
-			}
-		}
-		
-		include_once "./Modules/Survey/classes/tables/class.ilSurveyExportTableGUI.php";
-		$table_gui = new ilSurveyExportTableGUI($this, 'export');
-		$table_gui->setData($data);
-		$this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());	
-	}
-
-	/**
-	* create export file
-	*/
-	public function createExportFileObject()
-	{
-		$this->handleWriteAccess();
-		include_once("./Modules/Survey/classes/class.ilSurveyExport.php");
-		$survey_exp = new ilSurveyExport($this->object);
-		$survey_exp->buildExportFile();
-		$this->ctrl->redirect($this, "export");
-	}
-
-	/**
-	* download export file
-	*/
-	public function downloadExportFileObject()
-	{
-		if(!isset($_POST["file"]))
-		{
-			ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);
-			$this->ctrl->redirect($this, "export");
-		}
-
-		if (count($_POST["file"]) > 1)
-		{
-			ilUtil::sendFailure($this->lng->txt("select_max_one_item"), true);
-			$this->ctrl->redirect($this, "export");
-		}
-
-		$file = basename($_POST["file"][0]);
 	
-		$export_dir = $this->object->getExportDirectory();
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
-		ilUtil::deliverFile($export_dir."/".$file, $file);
-	}
-
-	/**
-	* confirmation screen for export file deletion
-	*/
-	function confirmDeleteExportFileObject()
-	{
-		global $ilTabs;
-		
-		$this->handleWriteAccess();
-		$ilTabs->activateTab("export");
-
-		if (!isset($_POST["file"]))
-		{
-			ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);
-			$this->ctrl->redirect($this, "export");
-		}
-
-		ilUtil::sendQuestion($this->lng->txt("info_delete_sure"));
-
-		$export_dir = $this->object->getExportDirectory();
-		$export_files = $this->object->getExportFiles($export_dir);
-		$data = array();
-		if (count($_POST["file"]) > 0)
-		{
-			foreach ($_POST["file"] as $exp_file)
-			{
-				$file_arr = explode("__", $exp_file);
-				$date = new ilDateTime($file_arr[0], IL_CAL_UNIX);
-				array_push($data, array(
-					'file' => $exp_file,
-					'size' => filesize($export_dir."/".$exp_file),
-					'date' => $date->get(IL_CAL_DATETIME)
-				));
-			}
-		}
-
-		include_once "./Modules/Survey/classes/tables/class.ilSurveyExportTableGUI.php";
-		$table_gui = new ilSurveyExportTableGUI($this, 'export', true);
-		$table_gui->setData($data);
-		$this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());	
-	}
-
-
-	/**
-	* cancel deletion of export files
-	*/
-	public function cancelDeleteExportFileObject()
-	{
-		ilUtil::sendInfo($this->lng->txt('msg_cancel'), true);
-		$this->ctrl->redirect($this, "export");
-	}
-
-
-	/**
-	* delete export files
-	*/
-	public function deleteExportFileObject()
-	{
-		$export_dir = $this->object->getExportDirectory();
-		foreach ($_POST["file"] as $file)
-		{
-			$file = basename($file);
-			
-			$exp_file = $export_dir."/".$file;
-			$exp_dir = $export_dir."/".substr($file, 0, strlen($file) - 4);
-			if (@is_file($exp_file))
-			{
-				unlink($exp_file);
-			}
-			if (@is_dir($exp_dir))
-			{
-				include_once "./Services/Utilities/classes/class.ilUtil.php";
-				ilUtil::delDir($exp_dir);
-			}
-		}
-		ilUtil::sendSuccess($this->lng->txt('msg_deleted_export_files'), true);
-		$this->ctrl->redirect($this, "export");
-	}
-
 	
 	// 
 	// INFOSCREEN
@@ -1578,7 +1451,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 		global $ilAccess, $ilTabs, $ilUser, $ilToolbar;
 		
 		if (!$this->external_rater_360 &&
-			!$ilAccess->checkAccess("visible", "", $this->ref_id))
+			!$ilAccess->checkAccess("visible", "", $this->ref_id) &&
+			!$ilAccess->checkAccess("read", "", $this->ref_id))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
 		}
@@ -2013,7 +1887,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 			exit;
 		}
 		
-		if ($ilAccess->checkAccess("read", "", $a_target))
+		if ($ilAccess->checkAccess("visible", "", $a_target) ||
+			$ilAccess->checkAccess("read", "", $a_target))
 		{			
 			$_GET["baseClass"] = "ilObjSurveyGUI";
 			$_GET["cmd"] = "infoScreen";

@@ -636,9 +636,19 @@ abstract class assQuestion
 	* @return boolean TRUE if the question type supports JavaScript output, FALSE otherwise
 	* @access public
 	*/
-	function supportsJavascriptOutput()
+	public function supportsJavascriptOutput()
 	{
 		return FALSE;
+	}
+
+	public function supportsNonJsOutput()
+	{
+		return true;
+	}
+	
+	public function requiresJsSwitch()
+	{
+		return $this->supportsJavascriptOutput() && $this->supportsNonJsOutput();
 	}
 
 	/**
@@ -831,7 +841,7 @@ abstract class assQuestion
 					array_push($output, '<a href="' . $this->getSuggestedSolutionPathWeb() . $solution["value"]["name"] . '">' . $possible_texts[0] . '</a>');
 					break;
 				case "text":
-					array_push($output, $this->prepareTextareaOutput($solution["value"]));
+					array_push($output, $this->prepareTextareaOutput($solution["value"], true));
 					break;
 			}
 		}
@@ -3305,10 +3315,10 @@ abstract class assQuestion
 	* @param string $txt_output String which should be prepared for output
 	* @access public
 	*/
-	function prepareTextareaOutput($txt_output, $prepare_for_latex_output = FALSE)
+	function prepareTextareaOutput($txt_output, $prepare_for_latex_output = FALSE, $omitNl2BrWhenTextArea = false)
 	{
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
-		return ilUtil::prepareTextareaOutput($txt_output, $prepare_for_latex_output);
+		return ilUtil::prepareTextareaOutput($txt_output, $prepare_for_latex_output, $omitNl2BrWhenTextArea);
 	}
 
 	/**
@@ -4640,6 +4650,24 @@ abstract class assQuestion
 		return $ilDB->update("tst_solutions", $fieldData, array(
 			'solution_id' => array('integer', $solutionId)
 		));
+	}
+	
+	public function updateCurrentSolutionsAuthorization($activeId, $pass, $authorized)
+	{
+		global $ilDB;
+
+		$fieldData = array(
+			'tstamp' => array('integer', time()),
+			'authorized' => array('integer', (int)$authorized)
+		);
+		
+		$whereData = array(
+			'question_fi' => array('integer', $this->getId()),
+			'active_fi' => array('integer', $activeId),
+			'pass' => array('integer', $pass)
+		);
+		
+		return $ilDB->update('tst_solutions', $fieldData, $whereData);
 	}
 
 

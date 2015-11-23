@@ -797,10 +797,13 @@ class ilSCORM2004Asset extends ilSCORM2004Node
         if(is_array($this->file_ids))
             foreach ($this->file_ids as $file_id)
             {
-                $expLog->write(date("[y-m-d H:i:s] ")."File Item ".$file_id);
-                $file_obj = new ilObjFile($file_id, false);
-                $file_obj->export($a_target_dir);
-                unset($file_obj);
+				if (ilObject::_lookupType($file_id) == "file")
+				{
+                	$expLog->write(date("[y-m-d H:i:s] ")."File Item ".$file_id);
+                	$file_obj = new ilObjFile($file_id, false);
+                	$file_obj->export($a_target_dir);
+                	unset($file_obj);
+				}
             }
 
 	}
@@ -864,7 +867,10 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 		foreach ($this->q_media as $media) {
 			if ($media !="") {
 				error_log($media);
-				copy($media, $a_target_dir."/objects/".basename($media));
+				if (is_file ($media))
+				{
+					copy($media, $a_target_dir."/objects/".basename($media));
+				}
 			}
 		}
 	}

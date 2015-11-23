@@ -2310,7 +2310,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 			if(
 				!$this->isTopLevelReplyCommand() &&
-				$subtree_nodes[0] instanceof ilForumPost &&
+				$first_node instanceof ilForumPost &&
 				!$this->objCurrentTopic->isClosed() &&
 				$ilAccess->checkAccess('add_reply', '', (int)$_GET['ref_id'])
 			)
@@ -2320,7 +2320,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$reply_button->setPrimary(true);
 				$reply_button->setCaption('add_new_answer');
 				$this->ctrl->setParameter($this, 'action',  'showreply');
-				$this->ctrl->setParameter($this, 'pos_pk', $subtree_nodes[0]->getId());
+				$this->ctrl->setParameter($this, 'pos_pk', $first_node->getId());
 				$this->ctrl->setParameter($this, 'thr_pk',  $this->objCurrentTopic->getId());
 				$this->ctrl->setParameter($this, 'offset', (int)$_GET['offset']);
 				$this->ctrl->setParameter($this, 'orderby', $_GET['orderby']);
@@ -2748,9 +2748,13 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 					$tpl->setVariable('TXT_PERMA_LINK', $lng->txt('perma_link'));
 					$tpl->setVariable('PERMA_TARGET', '_top');
 
-					if($this->objProperties->getMarkModeratorPosts() == 1)
+					if(!$node->isActivated() && !$this->objCurrentTopic->isClosed() && $this->is_moderator)
 					{
-				 		if($node->getIsAuthorModerator() === null && $is_moderator = ilForum::_isModerator($_GET['ref_id'], $node->getPosAuthorId()))
+						$rowCol = 'ilPostingNeedsActivation';
+					}
+					else if($this->objProperties->getMarkModeratorPosts() == 1)
+					{
+						if($node->getIsAuthorModerator() === null && $is_moderator = ilForum::_isModerator($_GET['ref_id'], $node->getPosAuthorId()))
 						{
 							$rowCol = 'ilModeratorPosting';
 						}
@@ -2966,13 +2970,17 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$z++;
 			}
 
+			$first_node = $this->objCurrentTopic->getFirstPostNode();
 			if(
-				$subtree_nodes[0] instanceof ilForumPost &&
+				$first_node instanceof ilForumPost &&
 				in_array($this->ctrl->getCmd(), array('createToLevelPost', 'saveTopLevelPost', 'quoteTopLevelPost')) &&
 				!$this->objCurrentTopic->isClosed() &&
 				$ilAccess->checkAccess('add_reply', '', (int)$_GET['ref_id']))
 			{
+				// Important: Don't separate the following two lines (very fragile code ...) 
+				$this->objCurrentPost->setId($first_node->getId());
 				$form = $this->getReplyEditForm();
+
 				if($this->ctrl->getCmd() == 'saveTopLevelPost')
 				{
 					$form->setValuesByPost();
@@ -2981,26 +2989,26 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 				{
 					require_once 'Modules/Forum/classes/class.ilForumAuthorInformation.php';
 					$authorinfo = new ilForumAuthorInformation(
-						$subtree_nodes[0]->getPosAuthorId(),
-						$subtree_nodes[0]->getDisplayUserId(),
-						$subtree_nodes[0]->getUserAlias(),
-						$subtree_nodes[0]->getImportName()
+						$first_node->getPosAuthorId(),
+						$first_node->getDisplayUserId(),
+						$first_node->getUserAlias(),
+						$first_node->getImportName()
 					);
 
 					$form->setValuesByPost();
 					$form->getItemByPostVar('message')->setValue(
 						ilRTE::_replaceMediaObjectImageSrc(
-							$frm->prepareText($subtree_nodes[0]->getMessage(), 1, $authorinfo->getAuthorName())."\n".$form->getInput('message'),    1
+							$frm->prepareText($first_node->getMessage(), 1, $authorinfo->getAuthorName())."\n".$form->getInput('message'),    1
 						)
 					);
 				}
-				$this->ctrl->setParameter($this, 'pos_pk', $subtree_nodes[0]->getId());
-				$this->ctrl->setParameter($this, 'thr_pk', $subtree_nodes[0]->getThreadId());
+				$this->ctrl->setParameter($this, 'pos_pk', $first_node->getId());
+				$this->ctrl->setParameter($this, 'thr_pk', $first_node->getThreadId());
 				$jsTpl = new ilTemplate('tpl.forum_post_quoation_ajax_handler.html', true, true, 'Modules/Forum');
 				$jsTpl->setVariable('IL_FRM_QUOTE_CALLBACK_SRC',
 					$this->ctrl->getLinkTarget($this, 'getQuotationHTMLAsynch', '', true));
 				$this->ctrl->clearParameters($this);
-				$this->tpl->setVariable('FORM_ADDITIONAL_JS', $jsTpl->get());
+				$tpl->setVariable('BOTTOM_FORM_ADDITIONAL_JS', $jsTpl->get());;
 				$tpl->setVariable('BOTTOM_FORM', $form->getHTML());
 			}
 		}
@@ -3185,7 +3193,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		global $ilUser;
 
 		unset($_SESSION['threads2move']);
-		unset($_SESSION['frm_topic_paste_expand']);
 
 		if(isset($_POST['thread_ids']) && is_array($_POST['thread_ids']))
 		{
@@ -3364,7 +3371,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$this->object->Forum->moveThreads((array) $_SESSION['threads2move'], $this->object->getRefId(), $ilObjDataCache->lookupObjId($_POST['frm_ref_id']));
 
 			unset($_SESSION['threads2move']);
-			unset($_SESSION['frm_topic_paste_expand']);
 			ilUtil::sendInfo($lng->txt('threads_moved_successfully'), true);
 			$this->ctrl->redirect($this, 'showThreads');
 		}
@@ -3388,7 +3394,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		}
 		
 		unset($_SESSION['threads2move']);
-		unset($_SESSION['frm_topic_paste_expand']);
 		
 		$this->ctrl->redirect($this, 'showThreads');
 	}
@@ -3408,84 +3413,57 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		}
 
 		$threads2move = $_SESSION['threads2move'];
-		
-		if(empty($threads2move))
+		if(!count($threads2move))
 		{
 			ilUtil::sendInfo($this->lng->txt('select_at_least_one_thread'), true);
 			$this->ctrl->redirect($this, 'showThreads');
 		}
-		
-		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.forums_threads_move.html', 'Modules/Forum');
-		
-		if(!$this->hideToolbar())
-			$ilToolbar->addButton($this->lng->txt('back'), $this->ctrl->getLinkTarget($this));
 
-		$tblThr = new ilTable2GUI($this);
-		$tblThr->setId('il_frm_thread_move_table_'.$this->object->getRefId());
-		$tblThr->setTitle($this->lng->txt('move_chosen_topics'));
-		$tblThr->addColumn($this->lng->txt('subject'), 'top_name', '100%');
-		$tblThr->disable('header');
-		$tblThr->disable('footer');
-		$tblThr->disable('linkbar');
-		$tblThr->disable('sort');
-		$tblThr->disable('linkbar');
-		$tblThr->setLimit(0);
-		$tblThr->setRowTemplate('tpl.forums_threads_move_thr_row.html', 'Modules/Forum');
-		$tblThr->setDefaultOrderField('is_sticky');	
-		$counter = 0;
-		$result = array();
-		foreach($threads2move as $thr_pk)
-		{
-			$objCurrentTopic = new ilForumTopic($thr_pk, $this->is_moderator);
-
-			$result[$counter]['num'] = $counter + 1;
-			$result[$counter]['thr_subject'] = $objCurrentTopic->getSubject();
-			
-			unset($objCurrentTopic);
-			++$counter;
-		}
-		$tblThr->setData($result);
-		$this->tpl->setVariable('THREADS_TABLE', $tblThr->getHTML());
-		
-		// selection tree
 		require_once 'Modules/Forum/classes/class.ilForumMoveTopicsExplorer.php';
-		$exp = new ilForumMoveTopicsExplorer($this->ctrl->getLinkTarget($this, 'moveThreads'), 'frm_topic_paste_expand');
-		$exp->setExpandTarget($this->ctrl->getLinkTarget($this, 'moveThreads'));
-		$exp->setTargetGet('ref_id');
-		$exp->setPostVar('frm_ref_id');
-		$exp->excludeObjIdFromSelection($this->object->getId());
-		$exp->setCheckedItem(isset($_POST['frm_ref_id']) && (int) $_POST['frm_ref_id'] ? (int) $_POST['frm_ref_id'] : 0);
-		
-		// open current position in tree
-		if(!is_array($_SESSION['frm_topic_paste_expand']))
+		$exp = new ilForumMoveTopicsExplorer($this, 'moveThreads');
+		$exp->setPathOpen($this->object->getRefId());
+		$exp->setNodeSelected(isset($_POST['frm_ref_id']) && (int)$_POST['frm_ref_id'] ? (int)$_POST['frm_ref_id'] : 0);
+		$exp->setCurrentFrmRefId($this->object->getRefId());
+		$exp->setHighlightedNode($this->object->getRefId());
+		if(!$exp->handleCommand())
 		{
-			$_SESSION['frm_topic_paste_expand'] = array();
-			
-			$path = $tree->getPathId($this->object->getRefId());
-			foreach((array)$path as $node_id)
+			$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.forums_threads_move.html', 'Modules/Forum');
+
+			if(!$this->hideToolbar())
+				$ilToolbar->addButton($this->lng->txt('back'), $this->ctrl->getLinkTarget($this));
+
+			$tblThr = new ilTable2GUI($this);
+			$tblThr->setId('il_frm_thread_move_table_'.$this->object->getRefId());
+			$tblThr->setTitle($this->lng->txt('move_chosen_topics'));
+			$tblThr->addColumn($this->lng->txt('subject'), 'top_name', '100%');
+			$tblThr->disable('header');
+			$tblThr->disable('footer');
+			$tblThr->disable('linkbar');
+			$tblThr->disable('sort');
+			$tblThr->disable('linkbar');
+			$tblThr->setLimit(PHP_INT_MAX);
+			$tblThr->setRowTemplate('tpl.forums_threads_move_thr_row.html', 'Modules/Forum');
+			$tblThr->setDefaultOrderField('is_sticky');
+			$counter = 0;
+			$result = array();
+			foreach($threads2move as $thr_pk)
 			{
-				if(!in_array($node_id, $_SESSION['frm_topic_paste_expand']))
-					$_SESSION['frm_topic_paste_expand'][] = $node_id;
+				$objCurrentTopic = new ilForumTopic($thr_pk, $this->is_moderator);
+
+				$result[$counter]['num'] = $counter + 1;
+				$result[$counter]['thr_subject'] = $objCurrentTopic->getSubject();
+
+				unset($objCurrentTopic);
+				++$counter;
 			}
-		}
+			$tblThr->setData($result);
+			$this->tpl->setVariable('THREADS_TABLE', $tblThr->getHTML());
 
-		if(!isset($_GET['frm_topic_paste_expand']) || $_GET['frm_topic_paste_expand'] == '')
-		{
-			$expanded = $tree->readRootId();
+			$this->tpl->setVariable('FRM_SELECTION_TREE', $exp->getHTML());
+			$this->tpl->setVariable('CMD_SUBMIT', 'performMoveThreads');
+			$this->tpl->setVariable('TXT_SUBMIT', $this->lng->txt('move'));
+			$this->tpl->setVariable('FORMACTION', $this->ctrl->getFormAction($this, 'performMoveThreads'));
 		}
-		else
-		{
-			$expanded = $_GET['frm_topic_paste_expand'];
-		}
-
-		$exp->setExpand($expanded);
-		// build html-output
-		$exp->setOutput(0);
-		$output = $exp->getOutput();
-		$this->tpl->setVariable('FRM_SELECTION_TREE', $output);
-		$this->tpl->setVariable('CMD_SUBMIT', 'performMoveThreads');
-		$this->tpl->setVariable('TXT_SUBMIT', $this->lng->txt('move'));
-		$this->tpl->setVariable('FORMACTION', $this->ctrl->getFormAction($this, 'performMoveThreads'));
 
 		return true;
 	}

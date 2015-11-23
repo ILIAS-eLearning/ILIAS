@@ -263,8 +263,7 @@ class ilPublicUserProfileGUI
 		}
 		else
 		{
-			$this->renderTitle();
-			
+
 			if(!$is_active)
 			{
 				ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
@@ -273,13 +272,23 @@ class ilPublicUserProfileGUI
 			// Check from Database if value
 			// of public_profile = "y" show user infomation
 			$user = new ilObjUser($this->getUserId());
-			if ($user->getPref("public_profile") != "y" &&
-				($user->getPref("public_profile") != "g" || !$ilSetting->get('enable_global_profiles')) &&
+			$current = $user->getPref("public_profile");
+							
+			// #17462 - see ilPersonalProfileGUI::initPublicProfileForm()
+			if($user->getPref("public_profile") == "g" && !$ilSetting->get('enable_global_profiles'))
+			{
+				$current = "y";
+			}
+			
+			if ($current != "y" &&
+				($current != "g" || !$ilSetting->get('enable_global_profiles')) &&
 				!$this->custom_prefs)
 			{
 				ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
 			}
-			
+
+			$this->renderTitle();
+
 			return $this->getEmbeddable(true);	
 		}		
 	}
@@ -358,7 +367,8 @@ class ilPublicUserProfileGUI
 			$imagefile = basename($imagefile);			
 		}
 
-		if ($this->getPublicPref($user, "public_upload")=="y" && $imagefile != "")
+		if ($this->getPublicPref($user, "public_upload")=="y" && $imagefile != "" &&
+			($ilUser->getId() != ANONYMOUS_USER_ID || $user->getPref("public_profile") == "g"))
 		{
 			//Getting the flexible path of image form ini file
 			//$webspace_dir = ilUtil::getWebspaceDir("output");
@@ -610,6 +620,7 @@ class ilPublicUserProfileGUI
 				$tpl->parseCurrentBlock();
 			}
 		}
+
 		if(
 			$this->getUserId() != $ilUser->getId() &&
 			!$ilUser->isAnonymous() &&
@@ -620,6 +631,7 @@ class ilPublicUserProfileGUI
 			$button = ilBuddySystemLinkButton::getInstanceByUserId($user->getId());
 			$tpl->setVariable('BUDDY_HTML', $button->getHtml());
 		}
+
 		$goto = "";
 		if($a_add_goto)
 		{			
@@ -681,7 +693,8 @@ class ilPublicUserProfileGUI
 			"getZipcode" => "zipcode", "getCity" => "city", "getCountry" => "country",
 			"getPhoneOffice" => "phone_office", "getPhoneHome" => "phone_home",
 			"getPhoneMobile" => "phone_mobile", "getFax" => "fax", "getEmail" => "email",
-			"getHobby" => "hobby", "getMatriculation" => "matriculation", "getClientIP" => "client_ip");
+			"getHobby" => "hobby", "getMatriculation" => "matriculation", "getClientIP" => "client_ip",
+			"dummy" => "location");
 
 		$org = array();
 		$adr = array();
@@ -728,10 +741,13 @@ class ilPublicUserProfileGUI
 					case "hobby":
 						$vcard->setNote($user->$key());
 						break;
+					case "location":
+						$vcard->setPosition($user->getLatitude(), $user->getLongitude());
+						break;
 				}
 			}
 		}
-
+		
 		if (count($org))
 		{
 			$vcard->setOrganization(join(";", $org));
@@ -741,7 +757,7 @@ class ilPublicUserProfileGUI
 			$vcard->setAddress($adr[0], $adr[1], $adr[2], $adr[3], $adr[4], $adr[5], $adr[6]);
 		}
 		
-		ilUtil::deliverData(utf8_decode($vcard->buildVCard()), $vcard->getFilename(), $vcard->getMimetype());
+		ilUtil::deliverData($vcard->buildVCard(), $vcard->getFilename(), $vcard->getMimetype());
 	}
 	
 	/**

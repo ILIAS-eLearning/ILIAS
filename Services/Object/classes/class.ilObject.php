@@ -8,6 +8,7 @@
 *
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
 * @author Alex Killing <alex.killing@gmx.de>
+* @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
 * @version $Id$
 */
 class ilObject
@@ -98,7 +99,7 @@ class ilObject
 	*/
 	function ilObject($a_id = 0, $a_reference = true)
 	{
-		global $ilias, $lng, $ilBench;
+		global $ilias, $lng, $ilBench, $objDefinition;
 
 		$ilBench->start("Core", "ilObject_Constructor");
 
@@ -109,6 +110,7 @@ class ilObject
 
 		$this->ilias =& $ilias;
 		$this->lng =& $lng;
+		$this->objDefinition = $objDefinition;
 
 		$this->max_title = self::TITLE_LENGTH;
 		$this->max_desc = self::DESC_LENGTH;
@@ -1838,42 +1840,9 @@ class ilObject
 	 */
 	public function cloneDependencies($a_target_id,$a_copy_id)
 	{
-		include_once './Services/AccessControl/classes/class.ilConditionHandler.php';
-		include_once './Services/CopyWizard/classes/class.ilCopyWizardOptions.php';
-
-		$cwo = ilCopyWizardOptions::_getInstance($a_copy_id);
-		$mappings = $cwo->getMappings();
-
-		$conditions = ilConditionHandler::_getConditionsOfTarget($this->getRefId(), $this->getId());
-		foreach($conditions as $con)
-		{
-			if($mappings[$con['trigger_ref_id']])
-			{
-				$newCondition = new ilConditionHandler();
-
-				$target_obj = ilObject::_lookupObjId($a_target_id);
-				$target_typ = ilObject::_lookupType($target_obj);
-
-				$newCondition->setTargetRefId($a_target_id);
-				$newCondition->setTargetObjId($target_obj);
-				$newCondition->setTargetType($target_typ);
-
-				$trigger_ref = $mappings[$con['trigger_ref_id']];
-				$trigger_obj = ilObject::_lookupObjId($trigger_ref);
-				$trigger_typ = ilObject::_lookupType($trigger_obj);
-
-				$newCondition->setTriggerRefId($trigger_ref);
-				$newCondition->setTriggerObjId($trigger_obj);
-				$newCondition->setTriggerType($trigger_typ);
-				$newCondition->setOperator($con['operator']);
-				$newCondition->setValue($con['value']);
-				$newCondition->setReferenceHandlingType($con['ref_handling']);
-				$newCondition->setObligatory($con['obligatory']);
-				$newCondition->setHiddenStatus(ilConditionHandler::lookupHiddenStatusByTarget($this->getRefId()));
-				$newCondition->storeCondition();
-			}
-		}
-
+		include_once './Services/AccessControl/classes/class.ilConditionHandler.php' ;
+		ilConditionHandler::cloneDependencies($this->getRefId(),$a_target_id,$a_copy_id);
+		
 		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateObjSettings.php';
 		$tpl_id = ilDidacticTemplateObjSettings::lookupTemplateId($this->getRefId());
 		if($tpl_id)
@@ -1931,9 +1900,9 @@ class ilObject
 		{
 			$a_size = "big";
 		}
-		
+
 		if ($ilSetting->get("custom_icons") &&
-			in_array($a_type, array("cat","grp","crs", "root", "fold")))
+			in_array($a_type, array("cat","grp","crs", "root", "fold", "prg")))
 		{
 			require_once("./Services/Container/classes/class.ilContainer.php");
 			if (ilContainer::_lookupContainerSetting($a_obj_id, "icon_custom"))
@@ -1952,10 +1921,17 @@ class ilObject
 		{			
 			if ($objDefinition->isPluginTypeName($a_type))
 			{
-				$class_name = "il".$objDefinition->getClassName($a_type).'Plugin';
-				$location = $objDefinition->getLocation($a_type);
-				include_once($location."/class.".$class_name.".php");
-				return call_user_func(array($class_name, "_getIcon"), $a_type, $a_size, $a_obj_id);                                
+				if ($objDefinition->getClassName($a_type) != "")
+				{
+					$class_name = "il".$objDefinition->getClassName($a_type).'Plugin';
+					$location = $objDefinition->getLocation($a_type);
+					if (is_file($location."/class.".$class_name.".php"))
+					{
+						include_once($location."/class.".$class_name.".php");
+						return call_user_func(array($class_name, "_getIcon"), $a_type, $a_size, $a_obj_id);
+					}
+				}
+				return ilUtil::getImagePath("icon_cmps.svg");
 			}
 			
 			return ilUtil::getImagePath("icon_".$a_type.".svg");
@@ -2136,6 +2112,19 @@ class ilObject
 			);
 		}
 		return false;
-	}	
+	}
+
+	/**
+	* get all possible subobjects of this type
+	* the object can decide which types of subobjects are possible jut in time
+	* overwrite if the decision distinguish from standard model
+	*
+	* @param boolean filter disabled objects? ($a_filter = true)
+	* @access public
+	* @return array list of allowed object types
+	*/
+	function getPossibleSubObjects($a_filter = true) {
+		return $this->objDefinition->getSubObjects($this->type, $a_filter);
+	}
 } // END class.ilObject
 ?>

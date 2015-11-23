@@ -438,7 +438,7 @@ class ilUserAutoComplete
 			$outer_conditions[] = '(' . implode(' OR ', $field_conditions) . ')';
 		}
 
-
+		include_once './Services/Search/classes/class.ilSearchSettings.php';
 		$settings = ilSearchSettings::getInstance();
 
 		if(!$settings->isInactiveUserVisible() && $this->getUserLimitations())

@@ -900,7 +900,7 @@ abstract class ilParticipants
 		include_once './Services/Membership/classes/class.ilWaitingList.php';
 		ilWaitingList::deleteUserEntry($a_usr_id,$this->obj_id);
 
-		$ilLog->write(__METHOD__.': Raise new event: Modules/Course|Group addParticipant');
+		$ilLog->write(__METHOD__.': Raise new event: '.$this->getComponent().' addParticipant');
 		$ilAppEventHandler->raise(
 				$this->getComponent(),
 				"addParticipant", 

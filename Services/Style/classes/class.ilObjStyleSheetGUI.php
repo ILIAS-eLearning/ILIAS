@@ -1,21 +1,18 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
-/**
-* Class ilObjStyleSheetGUI
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* $Id$
-*
-* @ilCtrl_Calls ilObjStyleSheetGUI:
-*
-* @extends ilObjectGUI
-*/
-
 require_once "./Services/Object/classes/class.ilObjectGUI.php";
 require_once "./Services/Style/classes/class.ilObjStyleSheet.php";
 
+/**
+ * Class ilObjStyleSheetGUI
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ * $Id$
+ *
+ * @ilCtrl_Calls ilObjStyleSheetGUI:
+ *
+ */
 class ilObjStyleSheetGUI extends ilObjectGUI
 {
 	var $cmd_update;
@@ -122,7 +119,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		$form->setTitle($this->lng->txt("sty_import_stylesheet"));
 		
 		// title
-		$ti = new ilFileInputGUI($this->lng->txt("import_file"), "stylefile");
+		$ti = new ilFileInputGUI($this->lng->txt("import_file"), "importfile");
 		$ti->setRequired(true);
 		$form->addItem($ti);
 		
@@ -832,9 +829,11 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function exportStyleObject()
 	{
-		$file = $this->object->export();
-		
-		ilUtil::deliverFile($file, "sty_".$this->object->getId().".zip");
+		include_once("./Services/Export/classes/class.ilExport.php");
+		$exp = new ilExport();
+		$r = $exp->exportObject($this->object->getType(),$this->object->getId());
+
+		ilUtil::deliverFile($r["directory"]."/".$r["file"], $r["file"], '', false, true);
 	}
 
 	function extractParametersOfTag($a_tag, $a_class, $a_style, $a_type, $a_mq_id = 0, $a_custom = false)
@@ -1016,32 +1015,43 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	function importStyleObject()
 	{
 		// check file
-		$source = $_FILES["stylefile"]["tmp_name"];
+		$source = $_FILES["importfile"]["tmp_name"];
 		if (($source == 'none') || (!$source))
 		{
 			$this->ilias->raiseError("No file selected!",$this->ilias->error_obj->MESSAGE);
 		}
 		
 		// check correct file type
-		$info = pathinfo($_FILES["stylefile"]["name"]);
+		$info = pathinfo($_FILES["importfile"]["name"]);
 		if (strtolower($info["extension"]) != "zip" && strtolower($info["extension"]) != "xml")
 		{
 			$this->ilias->raiseError("File must be a zip or xml file!",$this->ilias->error_obj->MESSAGE);
 		}
 
-		$class_name = "ilObjStyleSheet";
-		require_once("./Services/Style/classes/class.ilObjStyleSheet.php");
-		$newObj = new ilObjStyleSheet();
-		//$newObj->setTitle();
-		//$newObj->setDescription($_POST["style_description"]);
-		$newObj->import($_FILES["stylefile"]);
-		//$newObj->createFromXMLFile($_FILES["stylefile"]["tmp_name"]);
+		// new import
+		$fname = explode("_", $_FILES["importfile"]["name"]);
+		if (strtolower($info["extension"]) == "zip" && $fname[4] == "sty")
+		{
+			include_once("./Services/Export/classes/class.ilImport.php");
+			$imp = new ilImport();
+			$new_id = $imp->importObject(null, $_FILES["importfile"]["tmp_name"],
+				$_FILES["importfile"]["name"], "sty");
+			if ($new_id > 0)
+			{
+				$newObj = ilObjectFactory::getInstanceByObjId($new_id);
+			}
+		}
+		else	// old import
+		{
+			require_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+			$newObj = new ilObjStyleSheet();
+			$newObj->import($_FILES["importfile"]);
+		}
 
 		// assign style to style sheet folder,
 		// if parent is style sheet folder
 		if ($_GET["ref_id"] > 0)
 		{
-
 			$fold =& ilObjectFactory::getInstanceByRefId($_GET["ref_id"]);
 			if ($fold->getType() == "stys")
 			{
@@ -1051,9 +1061,20 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 				$this->ctrl->redirectByClass("ilobjstylesettingsgui", "editContentStyles");
 			}
 		}
-
 		return $newObj->getId();
 	}
+
+	/**
+	 * After import
+	 *
+	 * @param
+	 * @return
+	 */
+	function afterImport($a_new_obj)
+	{
+
+	}
+
 
 	/**
 	* update style sheet

@@ -1085,7 +1085,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
 		
 		if( is_object($this->getPreviewSession()) )
 		{
-			$solutions = $this->getPreviewSession()->getParticipantsSolution();
+			$solutions = (array)$this->getPreviewSession()->getParticipantsSolution();
 	
 			foreach($solutions as $val1 => $val2)
 			{

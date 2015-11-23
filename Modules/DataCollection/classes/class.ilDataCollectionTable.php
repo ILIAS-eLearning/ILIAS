@@ -481,7 +481,7 @@ class ilDataCollectionTable {
 
 
 	protected function loadFields() {
-		if ($this->fields == NULL) {
+		if ($this->fields === NULL) {
 			global $ilDB;
 
 			$query = "SELECT DISTINCT field.* FROM il_dcl_field AS field

@@ -1170,6 +1170,9 @@ class ilExSubmission
 		$result["last_submission"]["txt"] = $lng->txt("exc_last_submission");
 		$result["last_submission"]["value"] = $last_sub;
 		
+		// #16994
+		$ilCtrl->setParameterByClass("ilexsubmissionfilegui", "member_id", $this->getUserId());
+		
 		// assignment type specific
 		switch($this->assignment->getType())
 		{			
@@ -1298,6 +1301,8 @@ class ilExSubmission
 				}
 				break;
 		}
+		
+		$ilCtrl->setParameterByClass("ilexsubmissionfilegui", "member_id", "");
 		
 		return $result;
 	}

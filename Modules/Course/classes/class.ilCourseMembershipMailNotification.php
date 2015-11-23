@@ -347,6 +347,8 @@ class ilCourseMembershipMailNotification extends ilMailNotification
 					$this->appendBody(
 						sprintf($this->getLanguageText('crs_unsubscribe_member_body'),$this->getObjectTitle())
 					);
+					$this->appendBody("\n\n");
+					$this->appendBody($this->getLanguageText('crs_unsubscribe_member_explanation'));
 					$this->getMail()->appendInstallationSignature(true);
 					$this->sendMail(array($rcp),array('system'));
 				}

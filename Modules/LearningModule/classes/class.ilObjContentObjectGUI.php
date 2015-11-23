@@ -95,7 +95,9 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 				$this->setTabs("meta");
 				
 				include_once 'Services/Object/classes/class.ilObjectMetaDataGUI.php';
-				$md_gui = new ilObjectMetaDataGUI($this->object);					
+				$md_gui = new ilObjectMetaDataGUI($this->object);			
+				$md_gui->addMDObserver($this->object, 'MDUpdateListener', 'Educational'); // #9510
+				$md_gui->addMDObserver($this->object, 'MDUpdateListener', 'General');
 				$this->ctrl->forwardCommand($md_gui);
 				break;
 
@@ -277,6 +279,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 				$cp = new ilObjectCopyGUI($this);
 				$cp->setType('lm');
 				$this->ctrl->forwardCommand($cp);
+				break;
 
 /*			case "ilpagemultilanggui":
 				$this->addHeaderAction();
@@ -1313,7 +1316,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		try
 		{
 			// the new import
-			parent::importFileObject();
+			parent::importFileObject(null, false);
 			return;
 		}
 		catch (ilManifestFileNotFoundImportException $e)

@@ -72,19 +72,37 @@ class ilObjBlogAccess extends ilObjectAccess implements ilWACCheckingClass
 	 *
 	 * @return bool
 	 */
-	public function canBeDelivered(ilWACPath $ilWACPath) {
-		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
-		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
-
-		global $ilUser;
-		preg_match("/\\/blog_([\\d]*)\\//uism", $ilWACPath->getPath(), $results);
-
-		$tree = new ilWorkspaceTree(0);
-		$node_id = $tree->lookupNodeId($results[1]);
-
-		$access_handler = new ilWorkspaceAccessHandler($tree);
-		if ($access_handler->checkAccessOfUser($tree, $ilUser->getId(), "read", "view", $node_id, "blog")) {
-			return true;
+	public function canBeDelivered(ilWACPath $ilWACPath) {		
+		global $ilUser, $ilAccess;
+		
+		if(preg_match("/\\/blog_([\\d]*)\\//uism", $ilWACPath->getPath(), $results))
+		{
+			$obj_id = $results[1];
+			
+			// personal workspace
+			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
+			$tree = new ilWorkspaceTree(0);
+			$node_id = $tree->lookupNodeId($obj_id);
+			if($node_id)
+			{					
+				include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";	
+				$access_handler = new ilWorkspaceAccessHandler($tree);
+				if ($access_handler->checkAccessOfUser($tree, $ilUser->getId(), "read", "view", $node_id, "blog")) {
+					return true;
+				}
+			}
+			// repository (RBAC)
+			else
+			{
+				$ref_ids  = ilObject::_getAllReferences($obj_id);
+				foreach($ref_ids as $ref_id)
+				{						
+					if ($ilAccess->checkAccessOfUser($ilUser->getId(), "read", "view", $ref_id, "blog", $obj_id))
+					{
+						return true;
+					}					
+				}
+			}
 		}
 
 		return false;

@@ -115,7 +115,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 		return $errors;
 	}
 
-	function addBasicQuestionFormProperties(ilPropertyFormGUI $form)
+	function addBasicQuestionFormProperties($form)
 	{
 		parent::addBasicQuestionFormProperties($form);
 		$form->getItemByPostVar('question')->setInitialRteWidth('100');
@@ -372,7 +372,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 			{
 				if (strcmp($mc_solution, $answer_id) == 0)
 				{
-					if( isset($_GET['pdf']) && $_GET['pdf'] )
+					if( $this->isPdfOutputMode() )
 					{
 						$template->setVariable("SOLUTION_IMAGE", ilUtil::getHtmlPath(ilUtil::getImagePath("checkbox_checked.png")));
 						$template->setVariable("SOLUTION_ALT", $this->lng->txt("checked"));
@@ -389,7 +389,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 			}
 			if (!$checked)
 			{
-				if( isset($_GET['pdf']) && $_GET['pdf'] )
+				if( $this->isPdfOutputMode() )
 				{
 					$template->setVariable("SOLUTION_IMAGE", ilUtil::getHtmlPath(ilUtil::getImagePath("checkbox_unchecked.png")));
 					$template->setVariable("SOLUTION_ALT", $this->lng->txt("unchecked"));

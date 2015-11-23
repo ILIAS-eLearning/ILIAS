@@ -195,15 +195,5 @@ class ilTestSessionDynamicQuestionSet extends ilTestSession
 	{
 		$this->setLastSequence((int)$currentQuestionId);
 	}
-	
-	public function getCurrentPresentationMode()
-	{
-		return $this->getLastPresentationMode();
-	}
-
-	public function setCurrentPresentationMode($presentationMode)
-	{
-		$this->setLastPresentationMode($presentationMode);
-	}
 }
 

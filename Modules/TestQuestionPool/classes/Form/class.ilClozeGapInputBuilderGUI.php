@@ -124,6 +124,7 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
 				$getType                    		= $_POST['clozetype_' . $key];
 				$gapsize                          	= $_POST['gap_' . $key . '_gapsize'];
 				$json[0][$key]->text_field_length 	= $gapsize > 0 ? $gapsize : '';
+				$select_at_least_on_positive 		= false;
 				if($getType == CLOZE_TEXT || $getType == CLOZE_SELECT)
 				{
 					$_POST['gap_' . $key] = ilUtil::stripSlashesRecursive($_POST['gap_' . $key]);
@@ -143,6 +144,10 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
 							if(isset($points) && $points != '' && is_numeric($points))
 							{
 								$points_sum += $points;
+								if($points > 0)
+								{
+									$select_at_least_on_positive = true;
+								}
 							}
 							else
 							{
@@ -153,9 +158,9 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
 						{
 							$points_sum += $gap_with_points[$key];
 						}
-						if($points_sum == 0)
+						if($points_sum <= 0)
 						{
-							if(!array_key_exists($key, $gaps_used_in_combination))
+							if(!array_key_exists($key, $gaps_used_in_combination) && (!$getType == 'select' || $select_at_least_on_positive == false))
 							{
 								$error = true;
 							}

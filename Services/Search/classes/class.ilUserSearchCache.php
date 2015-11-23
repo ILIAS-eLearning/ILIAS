@@ -443,7 +443,7 @@ class ilUserSearchCache
 	 */
 	public function save()
 	{
-		global $ilDB,$ilLog;
+		global $ilDB;
 		
 		if($this->isAnonymous())
 		{

@@ -4,6 +4,7 @@
 require_once 'Services/Table/classes/class.ilTable2GUI.php';
 require_once 'Services/Contact/BuddySystem/classes/class.ilBuddyList.php';
 require_once 'Services/Utilities/classes/class.ilStr.php';
+require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystem.php';
 
 /** 
 * 
@@ -33,8 +34,11 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 	{
 	 	global $lng,$ilCtrl, $ilUser, $lng, $rbacsystem;
 
+		$this->setId($type. 'table_members');
+		parent::__construct($a_parent_obj, 'showMembers');
+
 		$this->context = $context;
-		if($this->context == "mail")
+		if($this->context == 'mail')
 		{
 			// check if current user may send mails
 			include_once "Services/Mail/classes/class.ilMail.php";
@@ -42,7 +46,6 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 			$this->mailing_allowed = $rbacsystem->checkAccess('internal_mail',$mail->getMailObjectReferenceId());
 		}
 
-		parent::__construct($a_parent_obj, 'showMembers');
 		$lng->loadLanguageModule('crs');
 		$this->parentObject = $a_parent_obj;
 		$mode = array();
@@ -53,7 +56,6 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 			$mode["long"] = 'course';
 			$mode["lng_type"] = $lng->txt('course');
 			$mode["view"] = "crs_members";
-			$mode["tableprefix"] = "crstable_members";
 		}
 		else if ($type == 'grp')
 		{
@@ -62,7 +64,6 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 			$mode["long"] = 'group';
 			$mode["lng_type"] = $lng->txt('group');
 			$mode["view"] = "grp_members";
-			$mode["tableprefix"] = "grptable_members";
 		}
 		$this->setTitle($lng->txt('members'));
 		$this->mode = $mode;
@@ -75,7 +76,6 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
 		$ilCtrl->clearParameters($a_parent_obj);
 
-		$this->setPrefix($mode['tableprefix']);
 		$this->setRowTemplate('tpl.mail_search_courses_members_row.html', 'Services/Contact');
 
 		// setup columns
@@ -83,7 +83,10 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 		$this->addColumn($lng->txt('login'), 'members_login', '22%');
 		$this->addColumn($lng->txt('name'), 'members_name', '22%');
 		$this->addColumn($lng->txt($mode['long']), 'members_crs_grp', '22%');
-		$this->addColumn($lng->txt('buddy_tbl_filter_state'), '', '23%');
+		if(ilBuddySystem::getInstance()->isEnabled())
+		{
+			$this->addColumn($lng->txt('buddy_tbl_filter_state'), 'status', '23%');
+		}
 		$this->addColumn($lng->txt('actions'), '', '10%');
 
 		if($this->context == "mail")
@@ -116,8 +119,9 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 	{
 		/**
 		 * @var $ilCtrl ilCtrl
+		 * @var $ilUser ilObjUser
 		 */
-		global $ilCtrl;
+		global $ilCtrl, $ilUser;
 
 		require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
 		$current_selection_list = new ilAdvancedSelectionListGUI();
@@ -132,32 +136,37 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 		);
 		$ilCtrl->setParameter($this->parentObject, 'view', $this->mode['view']);
 
-		$relation = ilBuddyList::getInstanceByGlobalUser()->getRelationByUserId($a_set['members_id']);
-		$state_name = ilStr::convertUpperCamelCaseToUnderscoreCase($relation->getState()->getName());
-		if($relation->isOwnedByRequest())
-		{
-			$a_set['status'] = $this->lng->txt('buddy_bs_state_' . $state_name . '_a');
-		}
-		else
-		{
-			$a_set['status'] = $this->lng->txt('buddy_bs_state_' . $state_name . '_p');
-		}
-
 		$action_html = '';
 		if($this->context == "mail")
 		{
 			if($this->mailing_allowed)
 			{
 				$current_selection_list->addItem($this->lng->txt("mail_member"), '', $ilCtrl->getLinkTarget($this->parentObject, "mail"));
-				$action_html = $current_selection_list->getHTML();
 			}
 		}
 		else
 		{
 			$current_selection_list->addItem($this->lng->txt("wsp_share_with_members"), '', $ilCtrl->getLinkTarget($this->parentObject, "share"));
+		}
+
+		if($this->context == 'mail' && ilBuddySystem::getInstance()->isEnabled())
+		{
+			$relation = ilBuddyList::getInstanceByGlobalUser()->getRelationByUserId($a_set['members_id']);
+			if(
+				$a_set['members_id'] != $ilUser->getId() &&
+				$relation->isUnlinked() &&
+				ilUtil::yn2tf(ilObjUser::_lookupPref($a_set['members_id'], 'bs_allow_to_contact_me'))
+			)
+			{
+				$ilCtrl->setParameterByClass('ilBuddySystemGUI', 'user_id', $a_set['members_id']);
+				$current_selection_list->addItem($this->lng->txt('buddy_bs_btn_txt_unlinked_a'), '', $ilCtrl->getLinkTargetByClass('ilBuddySystemGUI', 'request'));
+			}
+		}
+
+		if($current_selection_list->getItems())
+		{
 			$action_html = $current_selection_list->getHTML();
 		}
-		
 		$this->tpl->setVariable(strtoupper('CURRENT_ACTION_LIST'), $action_html);
 
 		foreach($a_set as $key => $value)

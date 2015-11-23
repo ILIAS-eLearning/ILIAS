@@ -186,20 +186,19 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
 			$ilTabs->addTab("levels", $lng->txt("skmg_skill_levels"),
 				$ilCtrl->getLinkTarget($this, 'edit'));
 
-			if ($this->tref_id > 0)
-			{
-				// usage
-				$this->addUsageTab($ilTabs);
-			}
-
-
 			// properties
 			if ($this->tref_id == 0)
 			{
 				$ilTabs->addTab("properties", $lng->txt("settings"),
 					$ilCtrl->getLinkTarget($this, 'editProperties'));
 			}
-			
+
+			//			if ($this->tref_id > 0)
+//			{
+			// usage
+			$this->addUsageTab($ilTabs);
+//			}
+
 			$ilTabs->activateTab($a_tab);
 
 			parent::setTitleIcon();
@@ -260,5 +259,39 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
 		$table = new ilSkillLevelTableGUI((int) $_GET["obj_id"], $this, "edit", $this->tref_id);
 		$tpl->setContent($table->getHTML());
 	}
+
+	/**
+	 * Show skill usage
+	 */
+	function showUsage()
+	{
+		global $tpl;
+
+
+		// (a) referenced skill template in main tree
+		if ($this->tref_id > 0)
+		{
+			return parent::showUsage();
+		}
+
+		// (b) skill template in templates view
+
+		$this->setTabs("usage");
+
+		include_once("./Services/Skill/classes/class.ilSkillUsage.php");
+		$usage_info = new ilSkillUsage();
+		$usages = $usage_info->getAllUsagesOfTemplate($this->base_skill_id);
+
+		$html = "";
+		include_once("./Services/Skill/classes/class.ilSkillUsageTableGUI.php");
+		foreach ($usages as $k => $usage)
+		{
+			$tab = new ilSkillUsageTableGUI($this, "showUsage", $k, $usage);
+			$html.= $tab->getHTML()."<br/><br/>";
+		}
+
+		$tpl->setContent($html);
+	}
+
 }
 ?>

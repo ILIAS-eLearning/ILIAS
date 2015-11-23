@@ -2673,7 +2673,7 @@ class soap_transport_http extends nusoap_base {
 				$this->setHeader('Connection', 'close');
 				$this->persistentConnection = false;
 			}
-			set_magic_quotes_runtime(0);
+			#set_magic_quotes_runtime(0);
 			// deprecated
 			$this->encoding = $enc;
 		}

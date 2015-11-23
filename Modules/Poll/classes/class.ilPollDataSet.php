@@ -67,7 +67,11 @@ class ilPollDataSet extends ilDataSet
 						"ShowComments" => "integer",
 						"MaxAnswers" => "integer",
 						"ResultSort" => "integer",
-						"NonAnon" => "integer"
+						"NonAnon" => "integer",
+						"Period" => "integer",
+						"PeriodBegin" => "integer",
+						"PeriodEnd" => "integer"
+
 					);
 				break;
 			}
@@ -120,7 +124,7 @@ class ilPollDataSet extends ilDataSet
 				case "5.0.0":
 					$this->getDirectDataFromQuery("SELECT pl.id,od.title,od.description".
 						",pl.question,pl.image,pl.view_results,pl.show_results_as".
-						",pl.max_answers,pl.result_sort,pl.non_anon".
+						",pl.max_answers,pl.result_sort,pl.non_anon,pl.period,pl.period_begin,pl.period_end".
 						" FROM il_poll pl".
 						" JOIN object_data od ON (od.obj_id = pl.id)".
 						" WHERE " . $ilDB->in("pl.id", $a_ids, false, "integer").
@@ -135,7 +139,7 @@ class ilPollDataSet extends ilDataSet
 			switch ($a_version)
 			{				
 				case "4.3.0":
-				case "4.5.0":
+				case "5.0.0":
 					$this->getDirectDataFromQuery("SELECT id,poll_id,answer,pos".
 						" FROM il_poll_answer WHERE ".
 						$ilDB->in("poll_id", $a_ids, false, "integer"));
@@ -220,6 +224,9 @@ class ilPollDataSet extends ilDataSet
 				$newObj->setQuestion($a_rec["Question"]);				
 				$newObj->setImage($a_rec["Image"]);
 				$newObj->setViewResults($a_rec["ViewResults"]);
+				$newObj->setVotingPeriod($a_rec["Period"]);
+				$newObj->setVotingPeriodBegin($a_rec["PeriodBegin"]);
+				$newObj->setVotingPeriodEnd($a_rec["PeriodEnd"]);
 				$newObj->update();
 				
 				// handle image(s)

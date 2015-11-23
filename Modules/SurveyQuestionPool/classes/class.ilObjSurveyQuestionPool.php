@@ -105,7 +105,15 @@ class ilObjSurveyQuestionPool extends ilObject
 		{
 			global $ilLog;
 			$newObj = parent::cloneObject($a_target_id,$a_copy_id);
-			$newObj->setOnline($this->getOnline());
+
+			//copy online status if object is not the root copy object
+			$cp_options = ilCopyWizardOptions::_getInstance($a_copy_id);
+
+			if(!$cp_options->isRootNode($this->getRefId()))
+			{
+				$newObj->setOnline($this->getOnline());
+			}
+
 			$newObj->saveToDb();
 			// clone the questions in the question pool
 			$questions =& $this->getQuestions();
@@ -203,6 +211,8 @@ class ilObjSurveyQuestionPool extends ilObject
   function saveToDb()
   {
 		global $ilDB;
+		
+		parent::update();
 		
 		$result = $ilDB->queryF("SELECT * FROM svy_qpl WHERE obj_fi = %s",
 			array('integer'),
@@ -337,25 +347,6 @@ class ilObjSurveyQuestionPool extends ilObject
 		}
 		
 		parent::notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$a_node_id,$a_params);
-	}
-
-	/**
-	* get title of survey question pool object
-	*
-	* @return	string		title
-	*/
-	function getTitle()
-	{
-		//return $this->title;
-		return parent::getTitle();
-	}
-
-	/**
-	* set title of survey question pool object
-	*/
-	function setTitle($a_title)
-	{
-		parent::setTitle($a_title);
 	}
 
 /**

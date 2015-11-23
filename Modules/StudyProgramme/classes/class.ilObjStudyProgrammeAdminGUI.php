@@ -7,8 +7,10 @@ include_once('./Modules/StudyProgramme/classes/types/class.ilStudyProgrammeTypeG
  * StudyProgramme Administration Settings.
  *
  * @author       Michael Herren <mh@studer-raimann.ch>
+ * @author       Stefan Hecken <stefan.hecken@concepts-and-training.de>
  *
  * @ilCtrl_Calls ilObjStudyProgrammeAdminGUI: ilStudyProgrammeTypeGUI
+ * @ilCtrl_Calls ilObjStudyProgrammeAdminGUI: ilPermissionGUI
  */
 class ilObjStudyProgrammeAdminGUI extends ilObjectGUI {
 
@@ -19,6 +21,8 @@ class ilObjStudyProgrammeAdminGUI extends ilObjectGUI {
 	 * @param bool $a_prepare_output
 	 */
 	public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true) {
+		global $ilCtrl;
+		$this->ctrl = $ilCtrl;
 		$this->type = 'prgs';
 		parent::ilObjectGUI($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 		$this->lng->loadLanguageModule('prg');
@@ -33,16 +37,15 @@ class ilObjStudyProgrammeAdminGUI extends ilObjectGUI {
 	 */
 	public function executeCommand() {
 		$next_class = $this->ctrl->getNextClass($this);
+		$this->prepareOutput();
 		switch ($next_class) {
-			/*case 'ilpermissiongui':
-				$this->prepareOutput();
+			case 'ilpermissiongui':
 				$this->tabs_gui->setTabActive('perm_settings');
 				include_once('Services/AccessControl/classes/class.ilPermissionGUI.php');
 				$perm_gui = new ilPermissionGUI($this);
 				$this->ctrl->forwardCommand($perm_gui);
-				break;*/
+				break;
 			default:
-				$this->prepareOutput();
 				$type_gui = new ilStudyProgrammeTypeGUI($this);
 				$this->ctrl->forwardCommand($type_gui);
 				break;
@@ -57,13 +60,21 @@ class ilObjStudyProgrammeAdminGUI extends ilObjectGUI {
 		 */
 
 		if ($rbacsystem->checkAccess('visible,read', $this->object->getRefId())) {
-			$this->tabs_gui->addTarget('settings', $this->ctrl->getLinkTargetByClass(array(
+			$this->tabs_gui->addTarget('prg_subtypes', $this->ctrl->getLinkTargetByClass(array(
 				'ilObjStudyProgrammeAdminGUI',
 				'ilStudyProgrammeTypeGUI'
 			), 'listTypes'));
 		}
-		/*if ($rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
+		if ($rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
 			$this->tabs_gui->addTarget('perm_settings', $this->ctrl->getLinkTargetByClass('ilpermissiongui', 'perm'), array(), 'ilpermissiongui');
-		}*/
+		}
+	}
+
+	public function _goto($ref_id) {
+		$this->ctrl->initBaseClass("ilAdministrationGUI");
+		$this->ctrl->setTargetScript("ilias.php");
+		$this->ctrl->setParameterByClass("ilObjStudyProgrammeAdminGUI", "ref_id", $ref_id);
+		$this->ctrl->setParameterByClass("ilObjStudyProgrammeAdminGUI", "admin_mode", "settings");
+		$this->ctrl->redirectByClass(array( "ilAdministrationGUI", "ilObjStudyProgrammeAdminGUI" ), "view");
 	}
 }

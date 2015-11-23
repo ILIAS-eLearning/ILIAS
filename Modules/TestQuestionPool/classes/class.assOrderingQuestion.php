@@ -1003,6 +1003,22 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	}
 
 	/**
+	* Returns true if the question type supports JavaScript output
+	*
+	* @return boolean TRUE if the question type supports JavaScript output, FALSE otherwise
+	* @access public
+	*/
+	public function supportsJavascriptOutput()
+	{
+		return TRUE;
+	}
+	
+	public function supportsNonJsOutput()
+	{
+		return false;
+	}
+
+	/**
 	 * Creates an Excel worksheet for the detailed cumulated results of this question
 	 *
 	 * @param object $worksheet    Reference to the parent excel worksheet
@@ -1144,8 +1160,8 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		$result['shuffle'] = (bool) true;
 		$result['points'] =  $this->getPoints();
 		$result['feedback'] = array(
-			"onenotcorrect" => $this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false),
-			"allcorrect" => $this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true)
+			'onenotcorrect' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false)),
+			'allcorrect' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
 		);
 		if ($this->getOrderingType() == OQ_PICTURES)
 		{

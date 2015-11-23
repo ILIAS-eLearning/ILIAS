@@ -1,4 +1,4 @@
-﻿/* Copyright (c) 1998-2014 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
+﻿/* Copyright (c) 1998-2015 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
 *
@@ -643,4 +643,4 @@ cache_activate_events#:#Events###30 08 2015 new variable
 cache_activated_components#:#Activated Components###30 08 2015 new variable
 cache_flush#:#Flush all caches###30 08 2015 new variable
 cache_activate_tpl_blocks#:#Template (Blocks)###30 08 2015 new variable
-cache_activate_tpl_variables#:#Template (Variablen###30 08 2015 new variable
+cache_activate_tpl_variables#:#Template (Variablen)###30 08 2015 new variable

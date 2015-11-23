@@ -78,7 +78,7 @@ class ilItemGroupItemsTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("ITEM_REF_ID", $a_set["child"]);
 		$this->tpl->setVariable("TITLE", $a_set["title"]);
 		$this->tpl->setVariable("IMG", ilUtil::img(
-			ilObject::_getIcon($a_set["obj_id"], "tiny")));
+			ilObject::_getIcon($a_set["obj_id"], "tiny"), "", "", "", "", "", "ilIcon"));
 		
 		if (in_array($a_set["child"], $this->items))
 		{

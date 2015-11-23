@@ -27,6 +27,9 @@ class ilWebLinkXmlParser extends ilMDSaxParser
 	private $mode = self::MODE_UNDEFINED;
 	
 	private $in_metadata = false;
+	
+	private $sorting_positions = array();
+	private $current_sorting_position = 0;
 
 	/**
 	 * Constructor
@@ -135,6 +138,7 @@ class ilWebLinkXmlParser extends ilMDSaxParser
 
 			case 'WebLink':
 				
+				$this->current_sorting_position = ($a_attribs['position'] ? $a_attribs['position'] : 0);
 				$this->current_link_update = false;
 				$this->current_link_delete = false;
 				$this->current_parameters = array();
@@ -209,6 +213,7 @@ class ilWebLinkXmlParser extends ilMDSaxParser
 				break;
 				
 			case 'WebLinks':
+				$this->sorting_positions = array();
 			case 'Title':
 			case 'Description':
 			case 'Target':
@@ -274,6 +279,12 @@ class ilWebLinkXmlParser extends ilMDSaxParser
 			case 'WebLinks':
 				$this->getWebLink()->MDUpdateListener('General');
 				$this->getWebLink()->update();
+				
+				// save sorting
+				include_once './Services/Container/classes/class.ilContainerSorting.php';
+				$sorting = ilContainerSorting::_getInstance($this->getWebLink()->getId());
+				$sorting->savePost($this->sorting_positions);
+				ilLoggerFactory::getLogger('webr')->dump($this->sorting_positions);
 				break;
 				
 			case 'WebLink':
@@ -306,6 +317,10 @@ class ilWebLinkXmlParser extends ilMDSaxParser
 					$param->add($this->current_link->getLinkId());
 				}
 				
+				
+				// store positions
+				$this->sorting_positions[$this->current_link->getLinkId()] = (int) $this->current_sorting_position;
+
 				unset($this->current_link);
 				break;
 				

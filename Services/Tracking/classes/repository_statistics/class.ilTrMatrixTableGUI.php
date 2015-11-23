@@ -33,6 +33,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 		$this->setId("trsmtx_".$ref_id);
 		$this->ref_id = $ref_id;
 		$this->obj_id = ilObject::_lookupObjId($ref_id);
+		$this->type = ilObject::_lookupType($this->obj_id); // #17188
 		
 		$this->in_group = $tree->checkForParentType($this->ref_id, "grp");
 		if($this->in_group)
@@ -86,19 +87,23 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 				$title .= " (".$lng->txt("status_no_permission").")";
 			}
 			
-			$tooltip = "";
+			$tooltip = array();
 			if(isset($labels[$c]["icon"]))
 			{
 				$alt = $lng->txt($labels[$c]["type"]);
 				$icon = '<img src="'.$labels[$c]["icon"].'" alt="'.$alt.'" />';
 				if(sizeof($selected) > 5)
 				{
-					$tooltip = $title;
+					$tooltip[] = $title;
 					$title = $icon;
 				}
 				else
 				{
 					$title = $icon.' '.$title;
+				}
+				if($labels[$c]["path"])
+				{
+					$tooltip[] = $labels[$c]["path"];
 				}
 			}
 			
@@ -112,7 +117,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 				$sort_id = (substr($c, 0, 4) == "udf_") ? "" : $c;
 			}
 			
-			$this->addColumn($title, $sort_id, "", false, "", $tooltip);
+			$this->addColumn($title, $sort_id, "", false, "", implode(" - ", $tooltip));
 		}
 		
 		$this->setExportFormats(array(self::EXPORT_CSV, self::EXPORT_EXCEL));
@@ -129,7 +134,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 		if(isset($_GET[$this->prefix."_tpl"]))
         {
 			$this->filter["name"] = null;
-			$item->setValue(null);
+			$this->SetFilterValue($item, null);
 		}		
 	}
 
@@ -176,9 +181,26 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 						$sess = new ilObjSession($obj_id, false);
 						$title = $sess->getPresentationTitle();
 					}
-					$tmp_cols[strtolower($title)."#~#obj_".$obj_id] = array("txt" => $title, "icon" => $icon, "type" => $type, "default" => true, "no_permission" => $no_perm);
+					
+					// #16453
+					$relpath = null;
+					include_once './Services/Tree/classes/class.ilPathGUI.php';
+					$path = new ilPathGUI();
+					$path = $path->getPath($this->ref_id, $ref_id);
+					if($path)
+					{
+						$relpath = $this->lng->txt('path').': '.$path;
+					}
+					
+					$tmp_cols[strtolower($title)."#~#obj_".$obj_id] = array(
+						"txt" => $title, 
+						"icon" => $icon, 
+						"type" => $type, 
+						"default" => true, 
+						"no_permission" => $no_perm,
+						"path" => $relpath);
 				}
-			}
+ 			}
 			if(sizeof($this->objective_ids))
 			{
 				foreach($this->objective_ids as $obj_id => $title)
@@ -238,7 +260,15 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 	}
 
 	function getItems(array $a_user_fields, array $a_privary_fields = null)
-	{		
+	{				
+		// #17081
+		if($this->restore_filter)
+		{
+			$name = $this->restore_filter_values["name"];
+			$this->SetFilterValue($this->filters[0], $name);
+			$this->filter["name"] = $name;		
+		}
+				
 		include_once("./Services/Tracking/classes/class.ilTrQuery.php");
 		$collection = ilTrQuery::getObjectIds($this->obj_id, $this->ref_id, true);
 		if($collection["object_ids"])
@@ -268,7 +298,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 					$check_agreement = $this->in_group;
 				}
 			}
-			
+		
 			$data = ilTrQuery::getUserObjectMatrix($this->ref_id, $collection["object_ids"], $this->filter["name"], $a_user_fields, $a_privary_fields, $check_agreement);			
 			if($collection["objectives_parent_id"] && $data["users"])
 			{				

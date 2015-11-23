@@ -13,7 +13,8 @@ require_once('./Services/Container/classes/class.ilContainerSortingSettings.php'
 require_once("./Modules/StudyProgramme/classes/types/class.ilStudyProgrammeTypeGUI.php");
 require_once("./Modules/StudyProgramme/classes/model/class.ilStudyProgrammeAdvancedMetadataRecord.php");
 require_once("./Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php");
-//require_once("./Modules/OrgUnit/classes/Translation/class.ilTranslationGUI.php");
+require_once("./Services/Object/classes/class.ilObjectCopyGUI.php");
+require_once("./Services/Repository/classes/class.ilRepUtil.php");
 
 /**
  * Class ilObjStudyProgrammeGUI class
@@ -27,6 +28,7 @@ require_once("./Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.ph
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjStudyProgrammeSettingsGUI
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjStudyProgrammeTreeGUI
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjStudyProgrammeMembersGUI
+ * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjectCopyGUI
  */
 
 class ilObjStudyProgrammeGUI extends ilContainerGUI {
@@ -94,6 +96,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 		$this->toolbar = $ilToolbar;
 		$this->ilLog = $ilLog;
 		$this->ilias = $ilias;
+		$this->type = "prg";
 
 		$lng->loadLanguageModule("prg");
 	}
@@ -111,6 +114,9 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 		
 		parent::prepareOutput();
 		
+		// show repository tree
+		$this->showRepTree();
+
 		switch ($next_class) {
 			case "ilinfoscreengui":
 				$this->tabs_gui->setTabActive(self::TAB_INFO);
@@ -160,7 +166,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 				$this->ctrl->forwardCommand($ilTranslationGui);
 				break;*/
 			case "ilobjstudyprogrammemembersgui":
-				$this->denyAccessIfNot("manage_members");
+				$this->denyAccessIfNot("write");
 				$this->tabs_gui->setTabActive(self::TAB_MEMBERS);
 				require_once("Modules/StudyProgramme/classes/class.ilObjStudyProgrammeMembersGUI.php");
 				$gui = new ilObjStudyProgrammeMembersGUI($this, $this->ref_id);
@@ -186,6 +192,10 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 				$types_gui = new ilStudyProgrammeTypeGUI($this);
 				$this->ctrl->forwardCommand($types_gui);
 				break;
+			case 'ilobjectcopygui':
+				$gui = new ilobjectcopygui($this);
+				$this->ctrl->forwardCommand($gui);
+				break;
 			case false:
 				$this->getSubTabs($cmd);
 				switch ($cmd) {
@@ -195,6 +205,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 					case "save":
 					case "view":
 					case "cancel":
+					case "edit":
 						$this->$cmd();
 						break;
 					case "delete":
@@ -219,6 +230,9 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 						break;
 					case "infoScreen":
 						$this->ctrl->redirectByClass("ilInfoScreenGUI", "showSummary");
+						break;
+					case 'getAsynchItemList':
+						parent::getAsynchItemListObject();
 						break;
 					/*case 'editSettings':
 						$this->tabs_gui->setTabActive("settings");
@@ -260,9 +274,6 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 						break;
 					case 'disableAdministrationPanel':
 						parent::disableAdministrationPanelObject();
-						break;
-					case 'getAsynchItemList':
-						parent::getAsynchItemListObject();
 						break;
 					case 'editSettings':
 						$this->tabs_gui->setTabActive("settings");
@@ -344,7 +355,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 		// set default sort to manual
 		$settings = new ilContainerSortingSettings($a_new_object->getId());
 		$settings->setSortMode(ilContainer::SORT_MANUAL);
-		$settings->setSortDirection(ilContainer::SORT_DIRECTION_DESC);
+		$settings->setSortDirection(ilContainer::SORT_DIRECTION_ASC);
 		$settings->setSortNewItemsOrder(ilContainer::SORT_NEW_ITEMS_ORDER_CREATION);
 		$settings->setSortNewItemsPosition(ilContainer::SORT_NEW_ITEMS_POSITION_BOTTOM);
 		$settings->save();
@@ -397,7 +408,6 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 
 		$gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_EDITOR, 'prg', $this->object->getId(), 'prg_type', $this->object->getSubtypeId());
 		$gui->setPropertyForm($form);
-		$gui->setSelectedOnly(true);
 		$gui->parse();
 		$this->tpl->setContent($form->getHTML());
 	}
@@ -415,7 +425,6 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 		$form = $this->initAdvancedSettingsForm();
 		$gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_EDITOR, 'prg', $this->object->getId(), 'prg_type', $this->object->getSubtypeId());
 		$gui->setPropertyForm($form);
-		$gui->setSelectedOnly(true);
 		$form->checkInput();
 		$gui->parse();
 		if ($gui->importEditFormPostValues()) {
@@ -498,6 +507,9 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 			$this->tabs_gui->addTab( self::TAB_VIEW_CONTENT
 								   , $this->lng->txt("content")
 								   , $this->getLinkTarget("view"));
+		}
+
+		if ($this->checkAccess("visible")) {
 			$this->tabs_gui->addTab( self::TAB_INFO
 								   , $this->lng->txt("info_short")
 								   , $this->getLinkTarget("info_short")
@@ -509,9 +521,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 								   , $this->lng->txt("settings")
 								   , $this->getLinkTarget("settings")
 								   );
-		}
-		
-		if ($this->checkAccess("manage_members")) {
+			//Maybe some time this will be: if ($this->checkAccess("manage_members")) {
 			$this->tabs_gui->addTab( self::TAB_MEMBERS
 								   , $this->lng->txt("members")
 								   , $this->getLinkTarget("members")
@@ -629,6 +639,19 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 				}
 			}
 		}
+	}
+
+	protected function edit(){
+		$this->denyAccessIfNot("write");
+
+		$this->getSubTabs('settings');
+		$this->tabs_gui->setTabActive(self::TAB_SETTINGS);
+		$this->tabs_gui->setSubTabActive('settings');
+
+		require_once("Modules/StudyProgramme/classes/class.ilObjStudyProgrammeSettingsGUI.php");
+		$gui = new ilObjStudyProgrammeSettingsGUI($this, $this->ref_id);
+		$this->ctrl->setCmd("view");
+		$this->ctrl->forwardCommand($gui);
 	}
 
 	/**

@@ -22,6 +22,11 @@ class ilAdvancedMDFieldDefinitionLocation extends ilAdvancedMDFieldDefinition
 		return self::TYPE_LOCATION;
 	}
 	
+	public function isFilterSupported() 
+	{
+		return false;
+	}
+	
 	
 	//
 	// ADT

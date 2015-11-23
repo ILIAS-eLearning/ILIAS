@@ -976,6 +976,14 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
 		global $ilDB, $ilUser, $ilias;
 
 		$new_obj = parent::cloneObject($a_target_id,$a_copy_id);
+
+		//copy online status if object is not the root copy object
+		$cp_options = ilCopyWizardOptions::_getInstance($a_copy_id);
+
+		if(!$cp_options->isRootNode($this->getRefId()))
+		{
+			$new_obj->setOnline($this->getOnline());
+		}
 	 	
 		$new_obj->setTitle($this->getTitle());
 		$new_obj->setStartPage($this->getStartPage());
@@ -1201,6 +1209,26 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
 		$user_export = new ilWikiUserHTMLExport($this, $ilDB, $ilUser);
 		return $user_export->deliverFile();
 	}
+	
+	
+	/**
+	 * Decorate adv md value
+	 *
+	 * @param string $a_value value
+	 * @return string decorated value (includes HTML)
+	 */
+	public function decorateAdvMDValue($a_value)
+	{		
+		include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
+		if (ilWikiPage::_wikiPageExists($this->getId(), $a_value))
+		{
+			$url = ilObjWikiGUI::getGotoLink($this->getRefId(), $a_value);
+			return "<a href='".$url."'>".$a_value."</a>";
+		}		
+
+		return $a_value;
+	}
+
 
 
 }

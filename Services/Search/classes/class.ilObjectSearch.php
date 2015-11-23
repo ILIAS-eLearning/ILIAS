@@ -103,9 +103,7 @@ class ilObjectSearch extends ilAbstractSearch
 			$where." ".$cdate.' '.$in.' '.
 			"ORDER BY obj_id DESC";
 		
-		
-		$GLOBALS['ilLog']->write($query);
-		
+		ilLoggerFactory::getLogger('src')->debug('Object search query: '. $query);
 		
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))

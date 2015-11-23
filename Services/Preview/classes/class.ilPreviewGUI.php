@@ -368,7 +368,7 @@ class ilPreviewGUI
 		include_once("./Services/JSON/classes/class.ilJsonUtil.php");
 		$tpl->addOnLoadCode("il.Preview.texts.preview = \"" . self::jsonSafeString($lng->txt("preview")) . "\";");
 		$tpl->addOnLoadCode("il.Preview.texts.showPreview = \"" . self::jsonSafeString($lng->txt("preview_show")) . "\";");
-		$tpl->addOnLoadCode("il.Preview.texts.close = \"" . self::jsonSafeString($lng->txt("close")) . "\";");
+		$tpl->addOnLoadCode("il.Preview.texts.close = \"" . ilUtil::prepareFormOutput($lng->txt("close")) . "\";");
 		$tpl->addOnLoadCode("il.Preview.previewSize = " . ilPreviewSettings::getImageSize() . ";");
 		$tpl->addOnLoadCode("il.Preview.initialHtml = " . ilJsonUtil::encode($initialHtml) . ";");
 		$tpl->addOnLoadCode("il.Preview.highlightClass = \"ilContainerListItemOuterHighlight\";");

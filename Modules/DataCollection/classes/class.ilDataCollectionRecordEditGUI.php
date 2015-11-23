@@ -349,11 +349,14 @@ class ilDataCollectionRecordEditGUI {
 	public function setFormValues() {
 		//Get Record-Values
 		$record_obj = ilDataCollectionCache::getRecordCache($this->record_id);
-		//Get Table Field Definitions
-		$allFields = $this->table->getFields();
-		$values = array();
-		foreach ($allFields as $field) {
-			$record_obj->fillRecordFieldFormInput($field->getId(), $this->form);
+		if ($record_obj->getId()) {
+			//Get Table Field Definitions
+			$allFields = $this->table->getFields();
+			foreach ($allFields as $field) {
+				$record_obj->fillRecordFieldFormInput($field->getId(), $this->form);
+			}
+		} else {
+			$this->form->setValuesByPost();
 		}
 
 		return true;
@@ -390,7 +393,7 @@ class ilDataCollectionRecordEditGUI {
 
 			$create_mode = false;
 
-			if (ilObjDataCollection::_hasWriteAccess($this->parent_obj->ref_id)) {
+			if (ilObjDataCollectionAccess::hasWriteAccess($this->parent_obj->ref_id)) {
 				$all_fields = $this->table->getRecordFields();
 			} else {
 				$all_fields = $this->table->getEditableFields();
@@ -475,8 +478,7 @@ class ilDataCollectionRecordEditGUI {
 		} else {
 			// Form not valid...
 			//TODO: URL title flushes on invalid form
-//			$this->form->setValuesByPost();
-			$this->setFormValues();
+			$this->form->setValuesByPost();
 			if ($this->ctrl->isAsynch()) {
 				echo $this->form->getHTML();
 				exit();

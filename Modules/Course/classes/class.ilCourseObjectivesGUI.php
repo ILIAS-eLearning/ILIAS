@@ -1518,13 +1518,13 @@ class ilCourseObjectivesGUI
 		if($_SESSION['objective_mode'] == self::MODE_CREATE)
 		{
 			// checklist gui start
-			$check_list->setHeading($this->lng->txt('crs_add_objective'));
+			$check_list->setHeading($this->lng->txt('crs_checklist_objective'));
 			// checklist gui end
 		}
 		else
 		{
 			// checklist gui start
-			$check_list->setHeading($this->lng->txt('crs_update_objective'));
+			$check_list->setHeading($this->lng->txt('crs_checklist_objective'));
 			// checklist gui end
 		}
 		

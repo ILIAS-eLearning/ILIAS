@@ -115,8 +115,8 @@ class ilStudyProgrammeAppEventListener {
 		
 		$node_type = $a_parameter["type"];
 		$old_parent_type = ilObject::_lookupType($old_parent_ref_id, true);
-		
-		if ($node_type != "crsr" || $old_parent_type != "prg") {
+
+		if ($old_parent_type != "prg") {
 			return;
 		}
 		
@@ -130,15 +130,11 @@ class ilStudyProgrammeAppEventListener {
 	
 	private function adjustProgrammeLPMode($a_ref_id) {
 		$obj = self::getStudyProgramme($a_ref_id);
-		if ($obj->getStatus() == ilStudyProgramme::STATUS_DRAFT) {
-			$obj->adjustLPMode();
-		}
+		$obj->adjustLPMode();
 	}
 	
 	private function addMissingProgresses($a_ref_id) {
 		$obj = self::getStudyProgramme($a_ref_id);
-		foreach ($obj->getAssignments() as $ass) {
-			$ass->addMissingProgresses();
-		}
+		$obj->addMissingProgresses();
 	}
 }

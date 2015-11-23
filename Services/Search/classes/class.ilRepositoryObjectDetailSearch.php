@@ -103,7 +103,7 @@ class ilRepositoryObjectDetailSearch
 		} 
 		catch (ilLuceneQueryParserException $e) 
 		{
-			$GLOBALS['ilLog']->write('Invalid query '. $e->getMessage());
+			ilLoggerFactory::getLogger('src')->warning('Invalid query: ' . $e->getMessage());
 			throw $e;
 		}
 		

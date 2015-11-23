@@ -186,7 +186,7 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 		$hits = new ilSelectInputGUI($this->lng->txt('seas_max_hits'),'max_hits');
 		$hits->setValue($settings->getMaxHits());
 		$hits->setRequired(true);
-		for($value = 5; $value <= 15; $value += 5)
+		for($value = 5; $value <= 50; $value += 5)
 		{
 			$values[$value] = $value;
 		}
@@ -526,7 +526,7 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 			}
 			catch(Exception $e)
 			{
-				$ilLog->write(__METHOD__.': '.$e->getMessage());
+				ilLoggerFactory::getLogger('src')->error('Searching failed with message: ' . $e->getMessage());
 				ilUtil::sendFailure($e->getMessage());
 				$this->luceneSettingsObject();
 				return false;

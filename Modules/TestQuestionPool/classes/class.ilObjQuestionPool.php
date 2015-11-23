@@ -538,6 +538,20 @@ class ilObjQuestionPool extends ilObject
 	}
 
 	/**
+	 * @param ilXmlWriter $xmlWriter
+	 */
+	private function exportXMLSettings($xmlWriter)
+	{
+		$xmlWriter->xmlStartTag('Settings');
+
+		$xmlWriter->xmlElement('ShowTaxonomies', null, (int)$this->getShowTaxonomies());
+		$xmlWriter->xmlElement('NavTaxonomy', null, (int)$this->getNavTaxonomyId());
+		$xmlWriter->xmlElement('SkillService', null, (int)$this->isSkillServiceEnabled());
+		
+		$xmlWriter->xmlEndTag('Settings');
+	}
+
+	/**
 	* export pages of test to xml (see ilias_co.dtd)
 	*
 	* @param	object		$a_xml_writer	ilXmlWriter object that receives the
@@ -556,6 +570,9 @@ class ilObjQuestionPool extends ilObject
 
 		// MetaData
 		$this->exportXMLMetaData($a_xml_writer);
+
+		// Settings
+		$this->exportXMLSettings($a_xml_writer);
 
 		// PageObjects
 		$expLog->write(date("[y-m-d H:i:s] ")."Start Export Page Objects");
@@ -1170,6 +1187,26 @@ class ilObjQuestionPool extends ilObject
 		$_SESSION["qpl_clipboard"][$question_id] = array("question_id" => $question_id, "action" => "move");
 	}
 	
+	public function cleanupClipboard($deletedQuestionId)
+	{
+		if( !isset($_SESSION['qpl_clipboard']) )
+		{
+			return;
+		}
+		
+		if( !isset($_SESSION['qpl_clipboard'][$deletedQuestionId]) )
+		{
+			return;
+		}
+
+		unset($_SESSION['qpl_clipboard'][$deletedQuestionId]);
+		
+		if( !count($_SESSION['qpl_clipboard']) )
+		{
+			unset($_SESSION['qpl_clipboard']);
+		}
+	}
+	
 /**
 * Returns true, if the question pool is writeable by a given user
 * 
@@ -1420,15 +1457,28 @@ class ilObjQuestionPool extends ilObject
 	function cloneObject($a_target_id,$a_copy_id = 0)
 	{
 		global $ilLog;
+
 		$newObj = parent::cloneObject($a_target_id,$a_copy_id);
-		$newObj->setOnline($this->getOnline());
+
+		//copy online status if object is not the root copy object
+		$cp_options = ilCopyWizardOptions::_getInstance($a_copy_id);
+
+		if(!$cp_options->isRootNode($this->getRefId()))
+		{
+			$newObj->setOnline($this->getOnline());
+		}
+
 		$newObj->setSkillServiceEnabled($this->isSkillServiceEnabled());
+		$newObj->setShowTaxonomies($this->getShowTaxonomies());
 		$newObj->saveToDb();
+		
 		// clone the questions in the question pool
 		$questions =& $this->getQplQuestions();
+		$questionIdsMap = array();
 		foreach ($questions as $question_id)
 		{
-			$newObj->copyQuestion($question_id, $newObj->getId());
+			$newQuestionId = $newObj->copyQuestion($question_id, $newObj->getId());
+			$questionIdsMap[$question_id] = $newQuestionId;
 		}
 		
 		// clone meta data
@@ -1438,6 +1488,20 @@ class ilObjQuestionPool extends ilObject
 
 		// update the metadata with the new title of the question pool
 		$newObj->updateMetaData();
+
+		require_once 'Modules/TestQuestionPool/classes/class.ilQuestionPoolTaxonomiesDuplicator.php';
+		$duplicator = new ilQuestionPoolTaxonomiesDuplicator();
+		$duplicator->setSourceObjId($this->getId());
+		$duplicator->setSourceObjType($this->getType());
+		$duplicator->setTargetObjId($newObj->getId());
+		$duplicator->setTargetObjType($newObj->getType());
+		$duplicator->setQuestionIdMapping($questionIdsMap);
+		$duplicator->duplicate();
+
+		$duplicatedTaxKeyMap = $duplicator->getDuplicatedTaxonomiesKeysMap();
+		$newObj->setNavTaxonomyId($duplicatedTaxKeyMap->getMappedTaxonomyId($this->getNavTaxonomyId()));
+		$newObj->saveToDb();
+
 		return $newObj;
 	}
 
@@ -1686,5 +1750,11 @@ class ilObjQuestionPool extends ilObject
 		return self::$isSkillManagementGloballyActivated;
 	}
 	
+	public function fromXML($xmlFile)
+	{
+		require_once 'Modules/TestQuestionPool/classes/class.ilObjQuestionPoolXMLParser.php';
+		$parser = new ilObjQuestionPoolXMLParser($this, $xmlFile);
+		$parser->startParsing();
+	}
 } // END class.ilObjQuestionPool
 ?>

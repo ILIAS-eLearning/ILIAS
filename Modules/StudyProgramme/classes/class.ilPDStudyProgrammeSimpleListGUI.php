@@ -38,6 +38,7 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI {
 		$this->il_lng = $lng;
 		$this->il_user = $ilUser;
 		$this->il_access = $ilAccess;
+		$this->il_logger = ilLoggerFactory::getLogger('prg');
 		
 		// No need to load data, as we won't display this. 
 		if (!$this->shouldShowThisList()) {
@@ -77,8 +78,13 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI {
 				continue;
 			}
 			
-			$list_item = $this->new_ilStudyProgrammeAssignmentListGUI($assignment);
-			$content .= $list_item->getHTML();
+			try {
+				$list_item = $this->new_ilStudyProgrammeAssignmentListGUI($assignment);
+				$content .= $list_item->getHTML();
+			}
+			catch (ilStudyProgrammeNoProgressForAssignmentException $e) {
+				$this->il_logger->alert("$e");
+			}
 		}
 		
 		return $content;

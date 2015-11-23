@@ -14,7 +14,9 @@ require_once(dirname(__FILE__)."/../../../../Services/ActiveRecord/class.ActiveR
 class ilStudyProgramme extends ActiveRecord {
 	
 	// There are two different modes the programs calculation of the learning
-	// progress can run in.
+	// progress can run in. It is also possible, that the mode is not defined
+	// yet.
+	const MODE_UNDEFINED = 0;
 	
 	// User is successful if he collected enough points in the subnodes of
 	// this node. 
@@ -23,7 +25,8 @@ class ilStudyProgramme extends ActiveRecord {
 	// subobject.
 	const MODE_LP_COMPLETED = 2;
 
-	static $MODES = array( ilStudyProgramme::MODE_POINTS
+	static $MODES = array( ilStudyProgramme::MODE_UNDEFINED
+						 , ilStudyProgramme::MODE_POINTS
 						 , ilStudyProgramme::MODE_LP_COMPLETED
 						 );
 
@@ -156,7 +159,7 @@ class ilStudyProgramme extends ActiveRecord {
 		$prg->subtype_id = self::DEFAULT_SUBTYPE;
 		$prg->setObjId($a_object->getId())
 			->setStatus(self::STATUS_DRAFT)
-			->setLPMode(self::MODE_POINTS)
+			->setLPMode(self::MODE_UNDEFINED)
 			->setPoints(self::DEFAULT_POINTS)
 			->create();
 		return $prg;
@@ -274,10 +277,6 @@ class ilStudyProgramme extends ActiveRecord {
 	 */
 	public function setLPMode($a_mode) {
 		$a_mode = (int)$a_mode;
-		if ($this->getStatus() !== self::STATUS_DRAFT) {
-			throw new ilException("ilStudyProgramme::setLPMode: Can't set "
-								 ." lp mode when not in draft status.");
-		}
 		if (!in_array($a_mode, self::$MODES)) {
 			throw new ilException("ilStudyProgramme::setLPMode: No lp mode: "
 								 ."'$a_mode'");

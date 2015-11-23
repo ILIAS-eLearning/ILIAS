@@ -151,9 +151,16 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 	 */
 	protected function remoteSearch()
 	{
-		$_POST['query'] = $_POST['queryString'];
+		$query = trim(ilUtil::stripSlashes($_POST['queryString']));
+
+		include_once './Services/Search/classes/Lucene/class.ilLuceneQueryParser.php';
+		$qp = new ilLuceneQueryParser($query);
+		$qp->parseAutoWildcard();
+		
+		$query = $qp->getQuery();
+		
 		$this->search_cache->setRoot((int) $_POST['root_id']);
-		$this->search_cache->setQuery(ilUtil::stripSlashes($_POST['queryString']));
+		$this->search_cache->setQuery(ilUtil::stripSlashes($query));
 		$this->search_cache->save();
 		
 		$this->search();
@@ -603,9 +610,12 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 	}
 	
 	
+	/**
+	 * Parse creation date
+	 * @return string
+	 */
 	protected function parseCreationFilter()
 	{
-		
 		$options = $this->search_cache->getCreationFilter();
 		
 		if(!$options['enabled'])
@@ -618,6 +628,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 		{
 			case 1:
 				// after
+				$limit->increment(IL_CAL_DAY, 1);
 				$now = new ilDate(time(),IL_CAL_UNIX);
 				return '+(cdate:['.$limit->get(IL_CAL_DATE).' TO '.$now->get(IL_CAL_DATE).'*]) ';
 						

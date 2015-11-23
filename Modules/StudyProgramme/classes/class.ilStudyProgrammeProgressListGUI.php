@@ -11,7 +11,10 @@
 
 class ilStudyProgrammeProgressListGUI {
 	protected static $tpl_file = "tpl.progress_list_item.html";
-	
+
+	const SUCCESSFUL_PROGRESS_CSS_CLASS = "ilCourseObjectiveProgressBarCompleted";
+	const NON_SUCCESSFUL_PROGRESS_CSS_CLASS = "ilCourseObjectiveProgressBarNeutral";
+
 	/**
 	 * @var ilLanguage
 	 */
@@ -130,10 +133,19 @@ class ilStudyProgrammeProgressListGUI {
 			}
 		}
 		
-		$tt_txt = $this->buildToolTip($a_progress);
+		$tooltip_txt = $this->buildToolTip($a_progress);
 		$progress_status = $this->buildProgressStatus($a_progress);
 		
-		return $this->buildProgressBarRaw($tooltip_id, $tt_txt, $current_percent, $required_percent, $progress_status);
+		if ($a_progress->isSuccessful()) {
+			$css_class = self::SUCCESSFUL_PROGRESS_CSS_CLASS;
+		}
+		else {
+			$css_class = self::NON_SUCCESSFUL_PROGRESS_CSS_CLASS;
+		}
+		
+		require_once("Services/Container/classes/class.ilContainerObjectiveGUI.php");
+		return ilContainerObjectiveGUI::renderProgressBar($current_percent, $required_percent, $css_class
+														 , $progress_status, null, $tooltip_id, $tooltip_txt);
 	}
 	
 	protected function buildToolTip(ilStudyProgrammeUserProgress $a_progress) {
@@ -144,55 +156,21 @@ class ilStudyProgrammeProgressListGUI {
 	}
 	
 	protected function buildProgressStatus(ilStudyProgrammeUserProgress $a_progress) {
-		return sprintf( $this->il_lng->txt("prg_progress_status")
-					  , $a_progress->getCurrentAmountOfPoints()
-					  , $a_progress->getAmountOfPoints()
-					  );
-	}
+		$lang_val = "prg_progress_status";
+		$max_points = $a_progress->getAmountOfPoints();
+		$study_programm = $a_progress->getStudyProgramme();
 
-	protected function buildProgressBarRaw($a_tooltip_id, $a_tt_txt, $a_result_in_percent, $a_limit_in_percent, $a_progress_status = null) {
-		assert(is_string($a_tooltip_id));
-		assert(is_string($a_tt_txt));
-		assert(is_int($a_result_in_percent));
-		assert($a_result_in_percent >= 0);
-		assert($a_result_in_percent <= 100);
-		assert(is_int($a_limit_in_percent));
-		assert($a_limit_in_percent >= 0);
-		assert($a_limit_in_percent <= 100);
-		assert($a_progress_status === null || is_string($a_progress_status));
-		
-		// Shameless copy of ilContainerObjectiveGUI::buildObjectiveProgressBar with modifications.
-		// I wish i could just use it, but there are some crs specific things that aren't parametrized...
-		$tpl = new ilTemplate("tpl.objective_progressbar.html", true, true, "Services/Container");
-		
-		if($a_result_in_percent >= $a_limit_in_percent) {
-			$bar_color = "#80f080";
+		if($study_programm->hasChildren() && !$study_programm->hasLPChildren()) {
+			$lang_val = "prg_progress_status_with_child_sp";
 		}
-		else {
-			$bar_color = "#f0f080";
+
+		if($a_progress->getStudyProgramme()->hasChildren()) {
+			$max_points = $a_progress->getMaximumPossibleAmountOfPoints();
 		}
-		
-		$limit_pos = (121-ceil(125/100*$a_limit_in_percent))*-1;
-		
-		$tpl->setCurrentBlock("statusbar_bl");
-		$tpl->setVariable("PERC_STATUS", $a_result_in_percent);
-		$tpl->setVariable("LIMIT_POS", $limit_pos);
-		$tpl->setVariable("PERC_WIDTH", $a_result_in_percent);
-		$tpl->setVariable("PERC_COLOR", $bar_color);
-		$tpl->setVariable("BG_COLOR", "#fff");
-		$tpl->setVariable("TT_ID", $a_tooltip_id);
-		$tpl->parseCurrentBlock();
-		
-		if ($a_progress_status) {
-			$tpl->setCurrentBlock("statustxt_bl");
-			$tpl->setVariable("TXT_PROGRESS_STATUS", $a_progress_status);
-			$tpl->parseCurrentBlock();
-		}
-		
-		include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
-		ilTooltipGUI::addTooltip($a_tooltip_id, $a_tt_txt);
-		
-		return $tpl->get();
+		return sprintf( $this->il_lng->txt($lang_val)
+					  , $a_progress->getCurrentAmountOfPoints()
+					  , $max_points
+					  );
 	}
 }
 

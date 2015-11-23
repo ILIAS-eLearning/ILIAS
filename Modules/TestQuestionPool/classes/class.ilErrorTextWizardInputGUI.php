@@ -236,7 +236,7 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
 						$this->setAlert($lng->txt("form_msg_numeric_value_required"));
 						return FALSE;
 					}
-					if((int)$val <= 0)
+					if((float)$val <= 0)
 					{
 						$this->setAlert($lng->txt("positive_numbers_required"));
 						return FALSE;

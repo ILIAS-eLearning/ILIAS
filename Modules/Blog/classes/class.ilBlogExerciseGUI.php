@@ -126,10 +126,10 @@ class ilBlogExerciseGUI
 		// submitted files
 		include_once "Modules/Exercise/classes/class.ilExSubmission.php";		
 		$submission = new ilExSubmission($ass, $ilUser->getId());
-		$submitted = $submission->getFiles();
-		if($submitted)
-		{						
-			$submitted = array_pop($submitted);
+		if($submission->hasSubmitted())
+		{
+			// #16888
+			$submitted = $submission->getSelectedObject();				
 			
 			$ilCtrl->setParameterByClass("ilblogexercisegui", "ass", $a_assignment_id);
 			$dl_link = $ilCtrl->getLinkTargetByClass("ilblogexercisegui", "downloadExcSubFile");

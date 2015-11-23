@@ -378,12 +378,23 @@ var ClozeGapBuilder = (function () {
             else if (value == 1) {
                 ClozeSettings.gaps_php[0][id[1]].type = 'select';
             }
-            else if (value == 2) {
+            else if (value == 2) 
+            {
+                var points = 0;
+                var float = parseFloat(ClozeSettings.gaps_php[0][id[1]].values[0].answer);
+                if(!isNaN(float))
+                {
+                    points  = ClozeSettings.gaps_php[0][id[1]].values[0].points;
+                }
+                else
+                {
+                    float = '';
+                }
                 ClozeSettings.gaps_php[0][id[1]].values = new Object(new Array({
-                    answer  : '',
-                    lower   : '',
-                    upper   : '',
-                    points  : 0
+                    answer  : float,
+                    lower   : float,
+                    upper   : float,
+                    points  : points
                 }));
                 ClozeSettings.gaps_php[0][id[1]].type = 'numeric';
                 pro.editTextarea(id[1]);
@@ -943,8 +954,13 @@ var ClozeGapBuilder = (function () {
                 var points = 0;
                 var counter = 0;
                 var number = true;
+                var select_at_least_on_positive = false;
                 entry.values.forEach(function (values) {
                     points += parseFloat(values.points);
+                    if(parseFloat(values.points) > 0)
+                    {
+                        select_at_least_on_positive = true;
+                    }
                     if(isNaN(values.points) || values.points === '' ){
                         pro.highlightRed($('#gap_' + row + '\\[points\\]\\[' + counter + '\\]'));
                         number=false;
@@ -974,8 +990,13 @@ var ClozeGapBuilder = (function () {
                 {
                     pro.showHidePrototypes(row,'number',false);
                 }
-                if (parseFloat(points) === 0) {
+                if (parseFloat(points) <= 0) {
                     if(ClozeSettings.unused_gaps_comb[row] === true)
+                    {
+                        pro.removeHighlight($('.gap_points_' + row));
+                        pro.showHidePrototypes(row,'points',false);
+                    }
+                    else if (entry.type === 'select' && select_at_least_on_positive === true)
                     {
                         pro.removeHighlight($('.gap_points_' + row));
                         pro.showHidePrototypes(row,'points',false);

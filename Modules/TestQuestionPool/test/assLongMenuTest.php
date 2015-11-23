@@ -188,4 +188,32 @@ class assLongmenuTest  extends PHPUnit_Framework_TestCase
 		$this->assertEquals($obj->getSolutionSubmit(), $array);
 	}
 
+	public function test_setAnswerType_shouldReturnGetAnswerType()
+	{
+		$obj = new assLongMenu();
+		$obj->setAnswerType(0);
+		$this->assertEquals(0, $obj->getAnswerType());
+	}
+	public function test_setLongMenuTextValue_shouldReturnGetLongMenuTextValue()
+	{
+		$obj = new assLongMenu();
+		$this->assertEquals('', $obj->getLongMenuTextValue());
+		$obj->setLongMenuTextValue('dummy text');
+		$this->assertEquals('dummy text', $obj->getLongMenuTextValue());
+	}
+
+	public function test_setJsonStructure_shouldReturnGetJsonStructure()
+	{
+		$obj = new assLongMenu();
+		$obj->setJsonStructure(json_encode(array(1 => 'bla')));
+		$this->assertEquals('{"1":"bla"}', $obj->getJsonStructure());
+	}
+
+	public function test_isShuffleAnswersEnabled_shouldReturnFalse()
+	{
+		$obj = new assLongMenu();
+		$this->assertEquals(false, $obj->isShuffleAnswersEnabled());
+		$this->assertNotEquals(true, $obj->isShuffleAnswersEnabled());
+	}
+
 }

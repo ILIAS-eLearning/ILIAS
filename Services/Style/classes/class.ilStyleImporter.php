@@ -14,11 +14,22 @@ class ilStyleImporter extends ilXmlImporter
 {	
 	function init()
 	{
-			
+		include_once("./Services/Style/classes/class.ilStyleDataSet.php");
+		$this->ds = new ilStyleDataSet();
+		$this->ds->setDSPrefix("ds");
+		$this->ds->setImportDirectory($this->getImportDirectory());
 	}
 
 	function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
-	{				
+	{
+		if (true)
+		{
+			include_once("./Services/DataSet/classes/class.ilDataSetImportParser.php");
+			$parser = new ilDataSetImportParser($a_entity, $this->getSchemaVersion(),
+				$a_xml, $this->ds, $a_mapping);
+			return;
+		}
+
 		// see ilStyleExporter::getXmlRepresentation()
 		if(preg_match("/<StyleSheetExport><ImagePath>(.+)<\/ImagePath>/", $a_xml, $hits))
 		{

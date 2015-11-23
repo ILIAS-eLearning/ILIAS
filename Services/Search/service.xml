@@ -1,6 +1,5 @@
 <?xml version = "1.0" encoding = "UTF-8"?>
-<service xmlns="http://www.w3.org" version="$Id$"
-	id="src">
+<service xmlns="http://www.w3.org" version="$Id$" id="src">
 	<baseclasses>
 		<baseclass name="ilSearchController" dir="classes" />
 	</baseclasses>
@@ -16,4 +15,5 @@
 	<crons>
 		<cron id="src_lucene_indexer" class="ilLuceneIndexer" path="Services/Search/classes/Lucene/" />
 	</crons>
+	<logging />
 </service>

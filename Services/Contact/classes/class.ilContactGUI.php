@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Mail/classes/class.ilFormatMail.php';
+require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystem.php';
 
 /**
 * @author Jens Conze
@@ -43,7 +44,12 @@ class ilContactGUI
 
 	public function executeCommand()
 	{
-		global $ilUser;
+		/**
+		 * @var $ilUser ilObjUser
+		 * @var $ilErr  ilErrorHandling
+		 */
+		global $ilUser, $ilErr;
+
 		$this->showSubTabs();
 
 		$forward_class = $this->ctrl->getNextClass($this);
@@ -77,6 +83,11 @@ class ilContactGUI
 				break;
 			
 			case 'ilmailinglistsgui':
+				if(!ilBuddySystem::getInstance()->isEnabled())
+				{
+					$ilErr->raiseError($this->lng->txt('msg_no_perm_read'), $ilErr->MESSAGE);
+				}
+
 				include_once 'Services/Contact/classes/class.ilMailingListsGUI.php';
 
 				$this->activateTab('mail_my_mailing_lists');
@@ -86,6 +97,11 @@ class ilContactGUI
 				break;
 
 			case 'ilusersgallerygui':
+				if(!ilBuddySystem::getInstance()->isEnabled())
+				{
+					$ilErr->raiseError($this->lng->txt('msg_no_perm_read'), $ilErr->MESSAGE);
+				}
+
 				$this->tabs_gui->activateSubTab('buddy_view_gallery');
 				$this->activateTab('my_contacts');
 				require_once 'Services/User/classes/class.ilUsersGalleryUsers.php';
@@ -107,7 +123,14 @@ class ilContactGUI
 
 				if (!($cmd = $this->ctrl->getCmd()))
 				{
-					$cmd = "showContacts";
+					if(ilBuddySystem::getInstance()->isEnabled())
+					{
+						$cmd = 'showContacts';
+					}
+					else
+					{
+						$this->ctrl->redirectByClass('ilmailsearchcoursesgui');
+					}
 				}
 
 				$this->$cmd();
@@ -129,29 +152,34 @@ class ilContactGUI
 
 		if($this->tabs_gui->hasTabs())
 		{
-			$this->tabs_gui->addSubTab('my_contacts', $this->lng->txt('my_contacts'), $this->ctrl->getLinkTarget($this));
-
-			if(in_array(strtolower($this->ctrl->getCmdClass()), array_map('strtolower', array('ilUsersGalleryGUI', get_class($this)))))
+			if(ilBuddySystem::getInstance()->isEnabled())
 			{
-				require_once 'Services/Form/classes/class.ilSelectInputGUI.php';
-				$view_selection = new ilSelectInputGUI('', 'contacts_view');
-				$view_selection->setOptions(array(
-					self::CONTACTS_VIEW_TABLE   => $this->lng->txt('buddy_view_table'),
-					self::CONTACTS_VIEW_GALLERY => $this->lng->txt('buddy_view_gallery')
-				));
-				$view_selection->setValue(
-					strtolower($this->ctrl->getCmdClass()) == 'ilusersgallerygui' ? self::CONTACTS_VIEW_GALLERY : self::CONTACTS_VIEW_TABLE
-				);
-				$ilToolbar->addInputItem($view_selection);
+				$this->tabs_gui->addSubTab('my_contacts', $this->lng->txt('my_contacts'), $this->ctrl->getLinkTarget($this));
 
-				require_once 'Services/UIComponent/Button/classes/class.ilSubmitButton.php';
-				$contact_view_btn = ilSubmitButton::getInstance();
-				$contact_view_btn->setCaption('submit');
-				$contact_view_btn->setCommand('changeContactsView');
-				$ilToolbar->addButtonInstance($contact_view_btn);
-				$ilToolbar->setFormAction($this->ctrl->getFormAction($this, 'changeContactsView'));
+				if(in_array(strtolower($this->ctrl->getCmdClass()), array_map('strtolower', array('ilUsersGalleryGUI', get_class($this)))))
+				{
+					require_once 'Services/Form/classes/class.ilSelectInputGUI.php';
+					$view_selection = new ilSelectInputGUI('', 'contacts_view');
+					$view_selection->setOptions(array(
+						self::CONTACTS_VIEW_TABLE   => $this->lng->txt('buddy_view_table'),
+						self::CONTACTS_VIEW_GALLERY => $this->lng->txt('buddy_view_gallery')
+					));
+					$view_selection->setValue(
+						strtolower($this->ctrl->getCmdClass()) == 'ilusersgallerygui' ? self::CONTACTS_VIEW_GALLERY : self::CONTACTS_VIEW_TABLE
+					);
+					$ilToolbar->addInputItem($view_selection);
+
+					require_once 'Services/UIComponent/Button/classes/class.ilSubmitButton.php';
+					$contact_view_btn = ilSubmitButton::getInstance();
+					$contact_view_btn->setCaption('submit');
+					$contact_view_btn->setCommand('changeContactsView');
+					$ilToolbar->addButtonInstance($contact_view_btn);
+					$ilToolbar->setFormAction($this->ctrl->getFormAction($this, 'changeContactsView'));
+				}
+
+				$this->tabs_gui->addSubTab('mail_my_mailing_lists', $this->lng->txt('mail_my_mailing_lists'), $this->ctrl->getLinkTargetByClass('ilmailinglistsgui'));
 			}
-			$this->tabs_gui->addSubTab('mail_my_mailing_lists', $this->lng->txt('mail_my_mailing_lists'), $this->ctrl->getLinkTargetByClass('ilmailinglistsgui'));
+
 			$this->tabs_gui->addSubTab('mail_my_courses', $this->lng->txt('mail_my_courses'), $this->ctrl->getLinkTargetByClass('ilmailsearchcoursesgui'));
 			$this->tabs_gui->addSubTab('mail_my_groups', $this->lng->txt('mail_my_groups'), $this->ctrl->getLinkTargetByClass('ilmailsearchgroupsgui'));
 			$this->has_sub_tabs = true;
@@ -160,13 +188,19 @@ class ilContactGUI
 		{
 			$ilHelp->setScreenIdComponent("contacts");
 
-			$this->tabs_gui->addTab('my_contacts', $this->lng->txt('my_contacts'), $this->ctrl->getLinkTarget($this));
-			if(in_array(strtolower($this->ctrl->getCmdClass()), array_map('strtolower', array('ilUsersGalleryGUI', get_class($this)))))
+			if(ilBuddySystem::getInstance()->isEnabled())
 			{
-				$this->tabs_gui->addSubTab('buddy_view_table', $this->lng->txt('buddy_view_table'), $this->ctrl->getLinkTarget($this));
-				$this->tabs_gui->addSubTab('buddy_view_gallery', $this->lng->txt('buddy_view_gallery'), $this->ctrl->getLinkTargetByClass('ilUsersGalleryGUI'));
+				$this->tabs_gui->addTab('my_contacts', $this->lng->txt('my_contacts'), $this->ctrl->getLinkTarget($this));
+
+				if(in_array(strtolower($this->ctrl->getCmdClass()), array_map('strtolower', array('ilUsersGalleryGUI', get_class($this)))))
+				{
+					$this->tabs_gui->addSubTab('buddy_view_table', $this->lng->txt('buddy_view_table'), $this->ctrl->getLinkTarget($this));
+					$this->tabs_gui->addSubTab('buddy_view_gallery', $this->lng->txt('buddy_view_gallery'), $this->ctrl->getLinkTargetByClass('ilUsersGalleryGUI'));
+				}
+
+				$this->tabs_gui->addTab('mail_my_mailing_lists', $this->lng->txt('mail_my_mailing_lists'), $this->ctrl->getLinkTargetByClass('ilmailinglistsgui'));
 			}
-			$this->tabs_gui->addTab('mail_my_mailing_lists', $this->lng->txt('mail_my_mailing_lists'), $this->ctrl->getLinkTargetByClass('ilmailinglistsgui'));
+
 			$this->tabs_gui->addTab('mail_my_courses', $this->lng->txt('mail_my_courses'), $this->ctrl->getLinkTargetByClass('ilmailsearchcoursesgui'));
 			$this->tabs_gui->addTab('mail_my_groups', $this->lng->txt('mail_my_groups'), $this->ctrl->getLinkTargetByClass('ilmailsearchgroupsgui'));
 		}
@@ -189,6 +223,16 @@ class ilContactGUI
 	 */
 	protected function changeContactsView()
 	{
+		/**
+		 * @var $ilErr ilErrorHandling
+		 */
+		global $ilErr;
+
+		if(!ilBuddySystem::getInstance()->isEnabled())
+		{
+			$ilErr->raiseError($this->lng->txt('msg_no_perm_read'), $ilErr->MESSAGE);
+		}
+
 		if(isset($_POST['contacts_view']))
 		{
 			switch($_POST['contacts_view'])
@@ -211,6 +255,16 @@ class ilContactGUI
 	 */
 	protected function applyContactsTableFilter()
 	{
+		/**
+		 * @var $ilErr ilErrorHandling
+		 */
+		global $ilErr;
+
+		if(!ilBuddySystem::getInstance()->isEnabled())
+		{
+			$ilErr->raiseError($this->lng->txt('msg_no_perm_read'), $ilErr->MESSAGE);
+		}
+
 		require_once 'Services/Contact/BuddySystem/classes/tables/class.ilBuddySystemRelationsTableGUI.php';
 		$table = new ilBuddySystemRelationsTableGUI($this, 'showContacts');
 
@@ -225,6 +279,16 @@ class ilContactGUI
 	 */
 	protected function resetContactsTableFilter()
 	{
+		/**
+		 * @var $ilErr ilErrorHandling
+		 */
+		global $ilErr;
+
+		if(!ilBuddySystem::getInstance()->isEnabled())
+		{
+			$ilErr->raiseError($this->lng->txt('msg_no_perm_read'), $ilErr->MESSAGE);
+		}
+
 		require_once 'Services/Contact/BuddySystem/classes/tables/class.ilBuddySystemRelationsTableGUI.php';
 		$table = new ilBuddySystemRelationsTableGUI($this, 'showContacts');
 
@@ -239,6 +303,16 @@ class ilContactGUI
 	 */
 	protected function showContacts()
 	{
+		/**
+		 * @var $ilErr ilErrorHandling
+		 */
+		global $ilErr;
+
+		if(!ilBuddySystem::getInstance()->isEnabled())
+		{
+			$ilErr->raiseError($this->lng->txt('msg_no_perm_read'), $ilErr->MESSAGE);
+		}
+
 		$this->tabs_gui->activateSubTab('buddy_view_table');
 		$this->activateTab('my_contacts');
 

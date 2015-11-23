@@ -5,7 +5,6 @@
 	<xsl:param name="pagewidth" select="'21cm'"/>
 	<xsl:param name="backgroundimage"/>
 	<xsl:param name="marginbody" select="'0cm 1cm 0cm 1cm'"/>
-	<xsl:param name="paddingtop" select="'10cm'"/>
 
 	<xsl:template match="/">
 		<xsl:apply-templates select="node()"/>
@@ -58,11 +57,6 @@
 					<xsl:attribute name="flow-name">
 						<xsl:text>xsl-region-body</xsl:text>
 					</xsl:attribute>
-					<fo:block padding-top="10cm">
-						<xsl:attribute name="padding-top">
-							<xsl:value-of select="$paddingtop"/>
-						</xsl:attribute>
-					</fo:block>
 					<fo:block>
 						<xsl:apply-templates select="node()"/>
 					</fo:block>

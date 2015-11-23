@@ -64,8 +64,25 @@ class ilGroupAppEventListener
 				$a_parameters['role_id'],
 				$new_status
 		);
+		
+		if($a_event == 'deassignUser')
+		{
+			self::doAutoFill($a_parameters['obj_id']);
+		}
 	}
 	
+	/**
+	 * Trigger autofill from waiting list
+	 * 
+	 * @param int $a_obj_id
+	 */
+	protected static function doAutoFill($a_obj_id)
+	{
+		include_once("./Modules/Group/classes/class.ilObjGroup.php");
+		$ref_id = array_pop(ilObject::_getAllReferences($a_obj_id));			
+		$group = new ilObjGroup($ref_id);
+		$group->handleAutoFill();
+	}	
 
 	/**
 	* Handle an event in a listener.
@@ -80,7 +97,7 @@ class ilGroupAppEventListener
 		{
 			$listener = new self();
 			$listener->handleUserAssignments($a_event, $a_parameter);
-		}
+		}		
 	}
 }
 

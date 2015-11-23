@@ -951,8 +951,8 @@ class ilRepositorySearchGUI
 		{
 			$table->addMultiCommand('addUser', $this->lng->txt('btn_add'));
 		}
-		$table->parseUserIds($a_usr_ids);
 		$table->setUserLimitations($this->getUserLimitations());
+		$table->parseUserIds($a_usr_ids);
 		
 		$this->tpl->setVariable('RES_TABLE',$table->getHTML());
 	}

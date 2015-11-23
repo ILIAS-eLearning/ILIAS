@@ -72,19 +72,26 @@ class ilCOPageImporter extends ilXmlImporter
 						if ($this->config->getUpdateIfExists() && ilPageObject::_exists($id[0], $id[1], $lstr))
 						{
 							$page = ilPageObjectFactory::getInstance($id[0], $id[1], 0, $lstr);
+							$page->setImportMode(true);
 							$page->setXMLContent($next_xml);
 							$page->updateFromXML();
 						}
 						else
 						{
 							$new_page = ilPageObjectFactory::getInstance($id[0]);
+							$new_page->setImportMode(true);
 							$new_page->setId($id[1]);
 							if ($lstr != "" && $lstr != "-")
 							{
 								$new_page->setLanguage($lstr);
 							}
 							$new_page->setXMLContent($next_xml);
-							$new_page->setActive($page_data["Active"]);
+							$new_page->setActive(true);
+							// array_key_exists does NOT work on simplexml!
+							if (isset($page_data["Active"]))
+							{
+								$new_page->setActive($page_data["Active"]);
+							}
 							$new_page->setActivationStart($page_data["ActivationStart"]);
 							$new_page->setActivationEnd($page_data["ActivationEnd"]);
 							$new_page->setShowActivationInfo($page_data["ShowActivationInfo"]);

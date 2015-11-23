@@ -1162,7 +1162,7 @@ class ilUserImportParser extends ilSaxParser
 							
 							// Set default prefs						
 							$this->userObj->setPref('hits_per_page',$ilSetting->get('hits_per_page',30));
-							$this->userObj->setPref('show_users_online',$ilSetting->get('show_users_online','y'));
+							//$this->userObj->setPref('show_users_online',$ilSetting->get('show_users_online','y'));
 
 							if (count ($this->prefs)) 
 							{
@@ -1276,6 +1276,7 @@ class ilUserImportParser extends ilSaxParser
 							if (! is_null($this->userObj->getCity())) $updateUser->setCity($this->userObj->getCity());
 							if (! is_null($this->userObj->getZipCode())) $updateUser->setZipCode($this->userObj->getZipCode());
 							if (! is_null($this->userObj->getCountry())) $updateUser->setCountry($this->userObj->getCountry());
+							if (! is_null($this->userObj->getSelectedCountry())) $updateUser->setSelectedCountry($this->userObj->getSelectedCountry());
 							if (! is_null($this->userObj->getPhoneOffice())) $updateUser->setPhoneOffice($this->userObj->getPhoneOffice());
 							if (! is_null($this->userObj->getPhoneHome())) $updateUser->setPhoneHome($this->userObj->getPhoneHome());
 							if (! is_null($this->userObj->getPhoneMobile())) $updateUser->setPhoneMobile($this->userObj->getPhoneMobile());
@@ -1496,6 +1497,10 @@ class ilUserImportParser extends ilSaxParser
 
 			case "Country":
 				$this->userObj->setCountry($this->cdata);
+				break;
+
+			case "SelCountry":
+				$this->userObj->setSelectedCountry($this->cdata);
 				break;
 
 			case "PhoneOffice":
@@ -1907,6 +1912,10 @@ class ilUserImportParser extends ilSaxParser
 
 			case "Country":
 				$this->userObj->setCountry($this->cdata);
+				break;
+
+			case "SelCountry":
+				$this->userObj->setSelectedCountry($this->cdata);
 				break;
 
 			case "PhoneOffice":
@@ -2423,6 +2432,12 @@ class ilUserImportParser extends ilSaxParser
 			case 'hide_own_online_status':
 				if (!in_array($value, array('y', 'n')))
 					$this->logFailure("---", "Wrong value '$value': Value 'y' or 'n' expected for preference $key.");				
+				break;
+			case 'bs_allow_to_contact_me':
+				if(!in_array($value, array('y', 'n')))
+				{
+					$this->logFailure("---", "Wrong value '$value': Value 'y' or 'n' expected for preference $key.");
+				}
 				break;
 			case 'public_profile':
 				if (!in_array($value, array('y', 'n', 'g')))

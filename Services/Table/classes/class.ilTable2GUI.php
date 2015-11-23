@@ -35,6 +35,7 @@ class ilTable2GUI extends ilTableGUI
 	protected $selected_column = array();
 	protected $show_templates = false;
 	protected $show_rows_selector = true; // JF, 2014-10-27
+	protected $rows_selector_off = false;
 
 	protected $nav_determined= false;
 	protected $limit_determined = false;
@@ -1995,31 +1996,68 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 	}
 	
 	/**
+	 * Check if filter element is based on adv md
+	 * 
+	 * @param ilAdvancedMDRecordGUI $a_gui
+	 * @param type $a_element
+	 * @return boolean
+	 */
+	protected function isAdvMDFilter(ilAdvancedMDRecordGUI $a_gui, $a_element)
+	{		
+		foreach($a_gui->getFilterElements(false) as $item)
+		{
+			if($item === $a_element)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
 	* Write filter values to session
 	*/
 	public function writeFilterToSession()
-	{
-		global $lng;
-		
-		$filter = $this->getFilterItems();
-		$opt_filter = $this->getFilterItems(true);
-		
-		foreach ($filter as $item)
+	{				
+		$advmd_record_gui = null;
+		if(method_exists($this, "getAdvMDRecordGUI"))
 		{
+			$advmd_record_gui = $this->getAdvMDRecordGUI();
+		}
+	
+		foreach ($this->getFilterItems() as $item)
+		{				
+			if($advmd_record_gui &&
+				$this->isAdvMDFilter($advmd_record_gui, $item))
+			{
+				continue;
+			}					
+			
 			if ($item->checkInput())
 			{
 				$item->setValueByArray($_POST);
 				$item->writeToSession();
 			}
 		}
-		foreach ($opt_filter as $item)
+		foreach ($this->getFilterItems(true) as $item)
 		{
+			if($advmd_record_gui &&
+				$this->isAdvMDFilter($advmd_record_gui, $item))
+			{
+				continue;
+			}	
+			
 			if ($item->checkInput())
 			{
 				$item->setValueByArray($_POST);
 				$item->writeToSession();
 			}
 		}
+		
+		if($advmd_record_gui)
+		{	
+			$advmd_record_gui->importFilter();
+		}	
 		
 		// #13209
 		unset($_REQUEST["tbltplcrt"]);
@@ -2328,7 +2366,7 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 				if ($this->getShowRowsSelector() && 
 					is_object($ilUser) &&
 					$this->getId() &&
-					$this->getLimit() < 9999) // JF, 2014-10-27
+					!$this->rows_selector_off) // JF, 2014-10-27
 				{
 					include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 					$alist = new ilAdvancedSelectionListGUI();
@@ -3379,6 +3417,18 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 	public function getPreventDoubleSubmission()
 	{
 		return $this->prevent_double_submission;
+	}
+	
+	function setLimit($a_limit = 0, $a_default_limit = 0)
+	{
+		parent::setLimit($a_limit, $a_default_limit);
+		
+		// #17077 - if limit is set "manually" to 9999, force rows selector off
+		if($a_limit == 9999 &&
+			$this->limit_determined)
+		{		
+			$this->rows_selector_off = true;
+		}
 	}
 }
 

@@ -56,21 +56,28 @@ class ilAwarenessUserProviderCurrentCourse extends ilAwarenessUserProvider
 
 		$ub = array();
 
+		$awrn_logger = ilLoggerFactory::getLogger('awrn');
+
 		if ($this->getRefId() > 0)
 		{
 			$path = $tree->getPathFull($this->getRefId());
-			foreach ($path as $p)
+			if (is_array($path))
 			{
-				if ($p["type"] == "crs")
+				foreach ($path as $p)
 				{
-					$set = $ilDB->query("SELECT DISTINCT usr_id FROM obj_members ".
-						" WHERE obj_id = ".$ilDB->quote($p["obj_id"], "integer"));
-					$ub = array();
-					while ($rec = $ilDB->fetchAssoc($set))
+					if ($p["type"] == "crs")
 					{
-						$ub[] = $rec["usr_id"];
-					}
+						$set = $ilDB->query($q = "SELECT DISTINCT usr_id FROM obj_members ".
+							" WHERE obj_id = ".$ilDB->quote($p["obj_id"], "integer"));
+						$ub = array();
+						while ($rec = $ilDB->fetchAssoc($set))
+						{
+							$ub[] = $rec["usr_id"];
 
+							$awrn_logger->debug("ilAwarenessUserProviderCurrentCourse: obj_id: ".$p["obj_id"].", ".
+								"Collected User: ".$rec["usr_id"]);
+						}
+					}
 				}
 			}
 		}

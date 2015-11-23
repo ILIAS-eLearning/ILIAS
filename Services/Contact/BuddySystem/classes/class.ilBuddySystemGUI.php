@@ -146,6 +146,39 @@ class ilBuddySystemGUI
 	}
 
 	/**
+	 *
+	 */
+	private function requestCommand()
+	{
+		if(!$this->isRequestParameterGiven('user_id', self::BS_REQUEST_HTTP_GET))
+		{
+			ilUtil::sendInfo($this->lng->txt('buddy_bs_action_not_possible'), true);
+			$this->ctrl->returnToParent($this);
+		}
+
+		try
+		{
+			require_once 'Services/Contact/BuddySystem/classes/class.ilBuddyList.php';
+			$relation = ilBuddyList::getInstanceByGlobalUser()->getRelationByUserId((int)$_GET['user_id']);
+
+			// The ILIAS JF decided to add a new personal setting
+			if($relation->isUnlinked() && !ilUtil::yn2tf(ilObjUser::_lookupPref($relation->getBuddyUserId(), 'bs_allow_to_contact_me')))
+			{
+				throw new ilException("The requested user does not want to get contact requests");
+			}
+
+			ilBuddyList::getInstanceByGlobalUser()->request($relation);
+			ilUtil::sendSuccess($this->lng->txt('buddy_relation_requested'), true);
+		}
+		catch(ilException $e)
+		{
+			ilUtil::sendInfo($this->lng->txt('buddy_bs_action_not_possible'), true);
+		}
+
+		$this->ctrl->returnToParent($this);
+	}
+
+	/**
 	 * 
 	 */
 	private function ignoreCommand()
@@ -243,6 +276,13 @@ class ilBuddySystemGUI
 			}
 
 			$relation = $this->buddylist->getRelationByUserId($usr_id);
+
+			// The ILIAS JF decided to add a new personal setting 
+			if($relation->isUnlinked() && !ilUtil::yn2tf(ilObjUser::_lookupPref($relation->getBuddyUserId(), 'bs_allow_to_contact_me')))
+			{
+				throw new ilException("The requested user does not want to get contact requests");
+			}
+
 			try
 			{
 				$this->buddylist->{$action}($relation);

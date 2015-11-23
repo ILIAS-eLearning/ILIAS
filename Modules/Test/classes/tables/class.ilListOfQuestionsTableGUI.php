@@ -171,7 +171,7 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
 		}
 		
 		$this->ctrl->setParameter($this->parent_obj, 'sequence', $data['sequence']);
-		$this->ctrl->setParameter($this->parent_obj, 'pmode', ilTestPlayerAbstractGUI::getDefaultPresentationMode());
+		$this->ctrl->setParameter($this->parent_obj, 'pmode', '');
 		$href = $this->ctrl->getLinkTarget($this->parent_obj, ilTestPlayerCommands::SHOW_QUESTION);
 		
 		$postponed = (

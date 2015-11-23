@@ -4360,12 +4360,11 @@ class ilObjSurvey extends ilObject
 		// Copy settings
 		$newObj = parent::cloneObject($a_target_id,$a_copy_id);
 		$this->cloneMetaData($newObj);
-		$newObj->updateMetaData();		
+		$newObj->updateMetaData();
 	 	
 		$newObj->setAuthor($this->getAuthor());
 		$newObj->setIntroduction($this->getIntroduction());
 		$newObj->setOutro($this->getOutro());
-		$newObj->setStatus($this->getStatus());
 		$newObj->setEvaluationAccess($this->getEvaluationAccess());
 		$newObj->setStartDate($this->getStartDate());
 		$newObj->setEndDate($this->getEndDate());
@@ -4417,6 +4416,14 @@ class ilObjSurvey extends ilObject
 				$question_pointer[$question_id] = $question->getId();
 				$mapping[$question_id] = $question->getId();				
 			}
+		}
+
+		//copy online status if object is not the root copy object
+		$cp_options = ilCopyWizardOptions::_getInstance($a_copy_id);
+
+		if(!$cp_options->isRootNode($this->getRefId()))
+		{
+			$newObj->setStatus($this->isOnline()?self::STATUS_ONLINE: self::STATUS_OFFLINE);
 		}
 
 		$newObj->saveToDb();		
@@ -4600,42 +4607,6 @@ class ilObjSurvey extends ilObject
 		return $export_dir;
 	}
 	
-	/**
-	* get export files
-	*/
-	function getExportFiles($dir)
-	{
-		// quit if import dir not available
-		if (!@is_dir($dir) or
-			!is_writeable($dir))
-		{
-			return array();
-		}
-
-		// open directory
-		$dir = dir($dir);
-
-		// initialize array
-		$file = array();
-
-		// get files and save the in the array
-		while ($entry = $dir->read())
-		{
-			if ($entry != "." && $entry != ".." && ereg("^[0-9]{10}_{2}[0-9]+_{2}(svy_)*[0-9]+\.[a-z]{1,3}\$", $entry))
-			{
-				$file[] = $entry;
-			}
-		}
-
-		// close import directory
-		$dir->close();
-		// sort files
-		sort ($file);
-		reset ($file);
-
-		return $file;
-	}
-
 	/**
 	* creates data directory for import files
 	* (data_dir/svy_data/svy_<id>/import, depending on data
@@ -5914,6 +5885,7 @@ class ilObjSurvey extends ilObject
 		{		
 			$name = ilObjUser::_lookupName($row["user_id"]);
 			$name["email"] = ilObjUser::_lookupEmail($row["user_id"]);
+			$name["name"] = $name["lastname"].", ".$name["firstname"];
 			$res[$row["user_id"]] = $name;
 			
 			$finished = 0;
@@ -6461,7 +6433,7 @@ class ilObjSurvey extends ilObject
 		
 		if($this->getTutorNotificationStatus())
 		{
-			$user_ids = $this->getNotificationTargetUserIds();
+			$user_ids = $this->getNotificationTargetUserIds(($this->getTutorNotificationTarget() == self::NOTIFICATION_INVITED_USERS));
 			if($user_ids)
 			{
 				$set = $ilDB->query("SELECT COUNT(*) numall FROM svy_finished".
@@ -6477,11 +6449,11 @@ class ilObjSurvey extends ilObject
 		}
 	}
 	
-	protected function getNotificationTargetUserIds()
+	protected function getNotificationTargetUserIds($a_use_invited)
 	{
 		global $tree;
 		
-		if($this->getTutorNotificationTarget() == self::NOTIFICATION_INVITED_USERS)
+		if((bool)$a_use_invited)
 		{
 			$user_ids = $this->getInvitedUsers();				
 		}
@@ -6586,7 +6558,10 @@ class ilObjSurvey extends ilObject
 		if(!$this->getReminderLastSent() ||
 			$cut->get(IL_CAL_DATE) >= substr($this->getReminderLastSent(), 0, 10))					
 		{				
-			$user_ids = $this->getNotificationTargetUserIds();
+			$missing_ids = array();
+			
+			// #16871
+			$user_ids = $this->getNotificationTargetUserIds(($this->getReminderTarget() == self::NOTIFICATION_INVITED_USERS));
 			if($user_ids)
 			{
 				// gather participants who already finished
@@ -6622,7 +6597,7 @@ class ilObjSurvey extends ilObject
 			$this->setReminderLastSent($today);
 			$this->saveToDb();
 
-			return true;
+			return sizeof($missing_ids);
 		}
 		
 		return false;

@@ -495,9 +495,24 @@ var ilCOPage =
 
 	cmdListIndent: function()
 	{
-		var ed = tinyMCE.get('tinytarget');
+		var blockq = false, range, ed = tinyMCE.get('tinytarget');
+
 		ed.focus();
 		ed.execCommand('Indent', false);
+		range = ed.selection.getRng(true);
+
+		// if path contains blockquote, top level list has been indented -> undo, see bug #0016243
+		cnode = range.startContainer;
+		while (cnode = cnode.parentNode) {
+			if (cnode.nodeName == "BLOCKQUOTE") {
+				blockq = true;
+			}
+		}
+		if (blockq) {
+			ed.execCommand('Undo', false);
+		}
+
+		//tinyMCE.execCommand('mceCleanup', false, 'tinytarget');
 		this.fixListClasses(false);
 		this.autoResize(ed);
 	},
@@ -2412,6 +2427,9 @@ function editParagraph(div_id, mode, switched)
 						ilCOPage.focusTiny(true);
 						cmd_called = false;
 					}
+
+					$('#tinytarget_ifr').contents().find("html").attr('lang', $('html').attr('lang'));
+					$('#tinytarget_ifr').contents().find("html").attr('dir', $('html').attr('dir'));
 				});
 			}
 
@@ -2690,6 +2708,10 @@ function ilEditMultiAction(cmd)
 function showToolbar(ed_id)
 {
 // todo tinynew
+
+    //#0017152
+    $('#tinytarget_ifr').contents().find("html").attr('lang', $('html').attr('lang'));
+    $('#tinytarget_ifr').contents().find("html").attr('dir', $('html').attr('dir'));
 
 	$("#tinytarget_ifr").parent().css("border-width", "0px");
 	$("#tinytarget_ifr").parent().parent().parent().css("border-width", "0px");

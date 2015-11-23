@@ -151,6 +151,22 @@ abstract class ilXmlImporter
 	}
 
 	/**
+	 * Is exporting and importing installation identical?
+	 *
+	 * @param
+	 * @return
+	 */
+	function exportedFromSameInstallation()
+	{
+		if ($this->getInstallId() > 0 && ($this->getInstallId() == IL_INST_ID))
+		{
+			return true;
+		}
+		return false;
+	}
+
+
+	/**
 	 * Import xml representation
 	 *
 	 * @param	string		entity

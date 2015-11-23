@@ -395,6 +395,16 @@ class ilObjSession extends ilObject
 	 */
 	public function validate()
 	{
+		global $ilErr;
+		
+		// #17114
+		if($this->isRegistrationUserLimitEnabled() &&
+			!$this->getRegistrationMaxUsers())
+		{			
+			$ilErr->appendMessage($this->lng->txt("sess_max_members_needed"));
+			return false;
+		}
+		
 		return true;
 	}
 	
@@ -717,18 +727,20 @@ class ilObjSession extends ilObject
 		}
 	}
 	
-	// :TODO: attach to unsubscribe event
-	// move to Services/Membership?
 	public function handleAutoFill()
 	{	
 		if($this->isRegistrationWaitingListEnabled() &&
 			$this->hasWaitingListAutoFill())
-		{
+		{					
+			// :TODO: what about ilSessionParticipants?
+			
+			include_once './Modules/Session/classes/class.ilEventParticipants.php'; 
+			$part_obj = new ilEventParticipants($this->getId());			
+			$all_reg = $part_obj->getRegistered();
+			$now = sizeof($all_reg);
 			$max = $this->getRegistrationMaxUsers();
-			$now = ilSessionParticipants::lookupNumberOfMembers($this->getRefId());
 			if($max > $now)
-			{
-				// see assignFromWaitingListObject()
+			{				
 				include_once('./Modules/Session/classes/class.ilSessionWaitingList.php');
 				$waiting_list = new ilSessionWaitingList($this->getId());
 
@@ -738,12 +750,12 @@ class ilObjSession extends ilObject
 					{
 						continue;
 					}
-					if($this->getMembersObject()->isAssigned($user_id))
+					if(in_array($user_id, $all_reg))
 					{
 						continue;
 					}
-					$this->getMembersObject()->add($user_id,IL_CRS_MEMBER);
-					$this->getMembersObject()->sendNotification($this->getMembersObject()->NOTIFY_ACCEPT_USER,$user_id);
+					
+					ilEventParticipants::_register($user_id, $this->getId());					
 					$waiting_list->removeFromList($user_id);
 
 					$now++;

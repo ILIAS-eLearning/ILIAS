@@ -36,6 +36,26 @@ class ilMediaCastImporter extends ilXmlImporter
 		$parser = new ilDataSetImportParser($a_entity, $this->getSchemaVersion(),
 			$a_xml, $this->ds, $a_mapping);
 	}
+	
+	function finalProcessing($a_mapping)
+	{
+		// restore manual order
+		$order = $this->ds->getOrder();
+		if(sizeof($order))
+		{
+			foreach($order as $obj_id => $items)
+			{				
+				$map = array();
+				foreach($items as $old_id)
+				{
+					$map[] = $a_mapping->getMapping("Services/News", "news", $old_id);
+				}
+				
+				$mcst = new ilObjMediaCast($obj_id, false);
+				$mcst->saveOrder($map);				
+			}						
+		}
+	}
 }
 
 ?>

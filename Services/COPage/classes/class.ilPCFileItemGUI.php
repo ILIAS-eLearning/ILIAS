@@ -79,6 +79,10 @@ class ilPCFileItemGUI extends ilPageContentGUI
 			ilUtil::sendFailure($lng->txt("upload_error_file_not_found"));
 			return false;
 		}
+
+		$form = $this->initAddFileForm();
+		$form->checkInput();
+
 		include_once("./Modules/File/classes/class.ilObjFile.php");
 		$fileObj = new ilObjFile();
 		$fileObj->setType("file");

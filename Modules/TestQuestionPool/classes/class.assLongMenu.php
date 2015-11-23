@@ -254,6 +254,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 	{
 		$this->clearAnswerSpecificDataFromDb($this->getId());
 		$type_array = $this->getAnswerType();
+		$points = 0;
 		foreach($this->getCorrectAnswers() as $gap_number => $gap)
 		{
 			foreach($gap[0] as $position => $answer)
@@ -280,7 +281,9 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 						)
 				);
 			}
+			$points += $gap[1];
 		}
+		$this->setPoints($points);
 	}
 	
 	private function createFileFromArray()
@@ -410,7 +413,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 		{
 			if(array_key_exists($data['gap_number'], $correct_answers))
 			{
-				$correct_answers[$data['gap_number']] .= ' ' . $this->lng->txtlng("assessment", "or", ilObjAssessmentFolder::_getLogLanguage()) . ' ';
+				$correct_answers[$data['gap_number']] .= ' ' . $this->lng->txt("or") . ' ';
 				$correct_answers[$data['gap_number']] .= $data['answer_text'];
 			}
 			else
@@ -756,7 +759,37 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 	 */
 	public function setExportDetailsXLS(&$worksheet, $startrow, $active_id, $pass, &$format_title, &$format_bold)
 	{
-
+		include_once ("./Services/Excel/classes/class.ilExcelUtils.php");
+		$solution = $this->getSolutionValues($active_id, $pass);
+		$worksheet->writeString($startrow, 0, ilExcelUtils::_convert_text($this->lng->txt($this->getQuestionType())), $format_title);
+		$worksheet->writeString($startrow, 1, ilExcelUtils::_convert_text($this->getTitle()), $format_title);
+		$i = 1;
+		foreach ($this->getCorrectAnswers() as $gap_index => $gap)
+		{
+			$worksheet->writeString($startrow + $i, 0, ilExcelUtils::_convert_text($this->lng->txt('assLongMenu') . " $i"), $format_bold);
+			foreach ($solution as $solutionvalue)
+			{
+				if ($gap_index == $solutionvalue["value1"])
+				{
+					switch ($gap[2])
+					{
+						case self::ANSWER_TYPE_SELECT_VAL:
+							$value = $solutionvalue["value2"];
+							if($value == -1)
+							{
+								$value = '';
+							}
+							$worksheet->writeString($startrow + $i, 1, $value);
+							break;
+						case self::ANSWER_TYPE_TEXT_VAL:
+							$worksheet->writeString($startrow + $i, 1, $solutionvalue["value2"]);
+							break;
+					}
+				}
+			}
+			$i++;
+		}
+		return $startrow + $i + 1;
 	}
 	
 	/**
@@ -826,8 +859,8 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 		$result['nr_of_tries'] = (int) $this->getNrOfTries();
 		$result['shuffle'] = (bool) $this->getShuffle();
 		$result['feedback'] = array(
-			"onenotcorrect" => $this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false),
-			"allcorrect" => $this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true)
+			'onenotcorrect' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false)),
+			'allcorrect' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
 		);
 		
 		$mobs = ilObjMediaObject::_getMobsOfObject("qpl:html", $this->getId());

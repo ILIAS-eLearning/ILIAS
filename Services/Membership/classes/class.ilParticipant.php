@@ -392,7 +392,7 @@ abstract class ilParticipant
 	}
 	
 	/**
-	 * Add user to course
+	 * Add user to course/group
 	 *
 	 * @access public
 	 * @param int user id
@@ -443,7 +443,7 @@ abstract class ilParticipant
 		include_once './Services/Membership/classes/class.ilWaitingList.php';
 		ilWaitingList::deleteUserEntry($a_usr_id,$this->obj_id);
 
-		$ilLog->write(__METHOD__.': Raise new event: Modules/Course addParticipant');
+		$ilLog->write(__METHOD__.': Raise new event: '.$this->getComponent().' addParticipant');
 		$ilAppEventHandler->raise(
 				$this->getComponent(),
 				"addParticipant", 
@@ -478,7 +478,7 @@ abstract class ilParticipant
 		$res = $ilDB->manipulate($query);
 		
 		$ilAppEventHandler->raise(
-				"Modules/Course", 
+				$this->getComponent(), 
 				"deleteParticipant", 
 				array(
 					'obj_id' => $this->obj_id, 

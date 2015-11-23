@@ -28,7 +28,7 @@ class ilUserFieldSettingsTableGUI extends ilTable2GUI
 		$this->setLimit(9999);
 		
 		//$this->addColumn($this->lng->txt("usrs_group"), "");
-		$this->addColumn("", "");
+		//$this->addColumn("", "");
 		$this->addColumn($this->lng->txt("user_field"), "");
 		$this->addColumn($this->lng->txt("access"), "");
 		$this->addColumn($this->lng->txt("export")." / ".$this->lng->txt("search"), "");

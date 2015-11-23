@@ -41,10 +41,7 @@ class ilLuceneFileSearch
 	*/
 	function ilLuceneFileSearch(&$qp_obj)
 	{
-		global $ilLog;
-
-		
-		$this->log =& $ilLog;
+		$this->log = ilLoggerFactory::getLogger('src');
 		$this->query_parser =& $qp_obj;
 	}
 	function &performSearch()
@@ -61,7 +58,7 @@ class ilLuceneFileSearch
 
 		if(($res = $rpc_adapter->send()) === false)
 		{
-			$this->log->write('Lucene searcher: Error performing search');
+			$this->log->error('Lucene searcher: Error performing search');
 		}
 		elseif(count($res))
 		{

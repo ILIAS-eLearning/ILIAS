@@ -231,7 +231,7 @@ class ilLOEditorStatus
 		
 		
 		// Step 1.1
-		$done = $this->getObjectivesAvailableStatus();
+		$done = $this->getObjectivesAvailableStatus(true);
 
 		$list->addEntry($this->lng->txt('crs_objective_status_objective_creation'),
 			$done
@@ -347,11 +347,20 @@ class ilLOEditorStatus
 
 	/**
 	 * Get objectives
+	 * @var bool $a_set_errors
+	 *
 	 * @return type
 	 */
-	protected function getObjectivesAvailableStatus()
+	protected function getObjectivesAvailableStatus($a_set_errors = false)
 	{
-		return count($this->getObjectives());
+		$ret = count($this->getObjectives());
+
+		if(!$ret && $a_set_errors)
+		{
+			$this->appendFailure(self::SECTION_OBJECTIVES_NEW, 'crs_no_objectives_created');
+		}
+
+		return $ret;
 	}
 	
 	/**

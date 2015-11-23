@@ -518,13 +518,28 @@ class ilObjMediaCast extends ilObject
 		global $ilDB, $ilUser, $ilias;
 
 		$new_obj = parent::cloneObject($a_target_id,$a_copy_id);
+
+		//copy online status if object is not the root copy object
+		$cp_options = ilCopyWizardOptions::_getInstance($a_copy_id);
+
+		if(!$cp_options->isRootNode($this->getRefId()))
+		{
+			$new_obj->setOnline($this->getOnline());
+		}
 	 	
-		$new_obj->setTitle($this->getTitle());
+		//$new_obj->setTitle($this->getTitle());
 		$new_obj->setPublicFiles($this->getPublicFiles());
 		$new_obj->setDownloadable($this->getDownloadable());
 		$new_obj->setDefaultAccess($this->getDefaultAccess());
 		$new_obj->setOrder($this->getOrder());
+		$new_obj->setViewMode($this->getViewMode());
 		$new_obj->update();
+
+		include_once("./Services/Block/classes/class.ilBlockSetting.php");
+		$pf = ilBlockSetting::_lookup("news", "public_feed", 0, $this->getId());
+		$keeprss = (int) ilBlockSetting::_lookup("news", "keep_rss_min", 0, $this->getId());
+		ilBlockSetting::_write("news", "public_feed", $pf, 0, $new_obj->getId());
+		ilBlockSetting::_write("news", "keep_rss_min", $keeprss, 0, $new_obj->getId());
 
 		// copy items
 		$this->copyItems($new_obj);

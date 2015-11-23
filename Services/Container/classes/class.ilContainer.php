@@ -366,15 +366,15 @@ class ilContainer extends ilObject
 		{
 			$file_name = $cont_dir."/icon_custom.svg";
 			ilUtil::moveUploadedFile($a_custom_icon, "icon_custom.svg", $file_name);
-		}
 
-		if ($file_name != "" && is_file($file_name))
-		{
-			ilContainer::_writeContainerSetting($this->getId(), "icon_custom", 1);
-		}
-		else
-		{
-			ilContainer::_writeContainerSetting($this->getId(), "icon_custom", 0);
+			if ($file_name != "" && is_file($file_name))
+			{
+				ilContainer::_writeContainerSetting($this->getId(), "icon_custom", 1);
+			}
+			else
+			{
+				ilContainer::_writeContainerSetting($this->getId(), "icon_custom", 0);
+			}
 		}
 	}
 
@@ -409,29 +409,43 @@ class ilContainer extends ilObject
 		$sorting->update();
 		
 		// copy content page
-//		$ilLog->write("copy container, lookup page");
 		include_once("./Services/Container/classes/class.ilContainerPage.php");
 		if (ilContainerPage::_exists("cont",
 			$this->getId()))
 		{
-			//$ilLog->write("...page found");
 			$orig_page = new ilContainerPage($this->getId());
-			$orig_page->copy($new_obj->getId(), "cont", $new_obj->getId());
-			/*$new_page_object = new ilContainerPage();
-			$new_page_object->setParentId($new_obj->getId());
-			$new_page_object->setId($new_obj->getId());
-			$new_page_object->createFromXML();
-			$new_page_object->setXMLContent($orig_page->getXMLContent());
-			$new_page_object->buildDom(true);
-			$new_page_object->update();*/
-
-			//$ilLog->write("...copy ml");
-
-			// copy (page) multilang settings
-			/*include_once("./Services/COPage/classes/class.ilPageMultiLang.php");
-			$ml = new ilPageMultiLang("cont", $this->getId());
-			$ml->copy("cont", $new_obj->getId());*/
-
+			$orig_page->copy($new_obj->getId(), "cont", $new_obj->getId());			
+		}
+		
+		// #10271 - copy start objects page
+		include_once("./Services/Container/classes/class.ilContainerStartObjectsPage.php");
+		if (ilContainerStartObjectsPage::_exists("cstr",
+			$this->getId()))
+		{
+			$orig_page = new ilContainerStartObjectsPage($this->getId());
+			$orig_page->copy($new_obj->getId(), "cstr", $new_obj->getId());
+		}
+		
+		// #10271 
+		foreach(self::_getContainerSettings($this->getId()) as $keyword => $value)
+		{						
+			self::_writeContainerSetting($new_obj->getId(), $keyword, $value);
+			
+			// copy custom icons
+			if($keyword == "icon_custom" && 
+				$value)
+			{
+				// see saveIcons()
+				$new_obj->createContainerDirectory();
+				$tgt_dir = $new_obj->getContainerDirectory();
+				$src_dir = $this->getContainerDirectory();				
+				$file = "icon_custom.svg";
+				$src_file = $src_dir."/".$file;
+				if(file_exists($src_file))
+				{
+					copy($src_file, $tgt_dir."/".$file);
+				}
+			}
 		}
 		
 		return $new_obj;
@@ -511,8 +525,8 @@ class ilContainer extends ilObject
 		include_once './Services/Object/classes/class.ilObjectCopyGUI.php';
 		if($a_submode == ilObjectCopyGUI::SUBMODE_CONTENT_ONLY)
 		{
-			$ilLog->write(__METHOD__.': Copy content only...');
-			$ilLog->write(__METHOD__.': Added mapping, source ID: '.$clone_source.', target ID: '.$ref_id);
+			ilLoggerFactory::getLogger('obj')->info('Copy content only...');
+			ilLoggerFactory::getLogger('obj')->debug('Added mapping, source ID: '.$clone_source.', target ID: '.$ref_id);
 			$wizard_options->read();
 			$wizard_options->dropFirstNode();
 			$wizard_options->appendMapping($clone_source,$ref_id);
@@ -532,12 +546,12 @@ class ilContainer extends ilObject
 		$ilLog->write(__METHOD__.': Trying to call Soap client...');
 		if($soap_client->init())
 		{
-			$ilLog->write(__METHOD__.': Calling soap clone method...');
+			ilLoggerFactory::getLogger('obj')->info('Calling soap clone method');
 			$res = $soap_client->call('ilClone',array($new_session_id.'::'.$client_id, $copy_id));
 		}
 		else
 		{
-			$ilLog->write(__METHOD__.': SOAP call failed. Calling clone method manually. ');
+			ilLoggerFactory::getLogger('obj')->warning('SOAP clone call failed. Calling clone method manually');
 			$wizard_options->disableSOAP();
 			$wizard_options->read();			
 			include_once('./webservice/soap/include/inc.soap_functions.php');
@@ -651,7 +665,7 @@ class ilContainer extends ilObject
 			// including event items!
 			if (!self::$data_preloaded)
 			{
-				$preloader->addItem($object["obj_id"], $object["type"], $object["child"]);					
+				$preloader->addItem($object["obj_id"], $object["type"], $object["child"]);
 			}			
 			
 			// filter out items that are attached to an event
@@ -822,10 +836,10 @@ class ilContainer extends ilObject
 		// using long descriptions?
 		$short_desc = $ilSetting->get("rep_shorten_description");
 		$short_desc_max_length = $ilSetting->get("rep_shorten_description_length");
-		if(!$short_desc || $short_desc_max_length != ilObject::TITLE_LENGTH)
+		if(!$short_desc || $short_desc_max_length != ilObject::DESC_LENGTH)
 		{
 			// using (part of) shortened description
-			if($short_desc && $short_desc_max_length && $short_desc_max_length < ilObject::TITLE_LENGTH)
+			if($short_desc && $short_desc_max_length && $short_desc_max_length < ilObject::DESC_LENGTH)
 			{
 				foreach($objects as $key => $object)
 				{

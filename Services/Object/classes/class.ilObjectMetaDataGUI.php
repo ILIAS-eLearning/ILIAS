@@ -329,7 +329,7 @@ class ilObjectMetaDataGUI
 	// BLOCK
 	// 
 	
-	public function getBlockHTML(array $a_cmds = null)
+	public function getBlockHTML(array $a_cmds = null, $a_callback = null)
 	{
 		global $lng;
 		
@@ -340,8 +340,8 @@ class ilObjectMetaDataGUI
 		include_once "Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php";
 		foreach(ilAdvancedMDRecord::_getSelectedRecordsByObject($this->obj_type, $this->obj_id, $this->sub_type) as $record)			
 		{				
-			$block = new ilObjectMetaDataBlockGUI($record);
-			$block->setValues(new ilAdvancedMDValues($record->getRecordId(), $this->obj_id, $this->sub_type, $this->sub_id));
+			$block = new ilObjectMetaDataBlockGUI($record, $a_callback);
+			$block->setValues(new ilAdvancedMDValues($record->getRecordId(), $this->obj_id, $this->sub_type, $this->sub_id));			
 			if($a_cmds)
 			{
 				foreach($a_cmds as $caption => $url)

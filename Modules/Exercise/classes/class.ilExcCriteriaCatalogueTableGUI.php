@@ -143,7 +143,6 @@ class ilExcCriteriaCatalogueTableGUI extends ilTable2GUI
 		
 		if(is_array($a_set["assigned"]))
 		{
-			var_dump($a_set["protected"]);
 			foreach($a_set["assigned"] as $ass_id => $ass_title)
 			{
 				if(is_array($a_set["protected"]) &&

@@ -20,17 +20,19 @@ class ilObjectMetaDataBlockGUI extends ilBlockGUI
 	
 	protected $record; // [ilAdvancedMDRecord]
 	protected $values; // [ilAdvancedMDValues]
+	protected $callback; // [string]
 	
 	static protected $records = array(); // [array]
 	
 	/**
 	* Constructor
 	*/
-	function __construct(ilAdvancedMDRecord $a_record)
+	function __construct(ilAdvancedMDRecord $a_record, $a_decorator_callback = null)
 	{		
 		parent::ilBlockGUI();
 						
 		$this->record = $a_record;		
+		$this->callback = $a_decorator_callback;
 		
 		$this->setTitle($this->record->getTitle());		
 		$this->setBlockId("advmd_".$this->record->getRecordId());				
@@ -125,6 +127,11 @@ class ilObjectMetaDataBlockGUI extends ilBlockGUI
 				if($element instanceof ilADTLocation)
 				{
 					$value->setSize("100%", "200px");
+				}
+				
+				if(in_array($element->getType(), array("MultiEnum", "Enum", "Text")))
+				{
+					$value->setDecoratorCallBack($this->callback);
 				}
 
 				$value = $value->getHTML();

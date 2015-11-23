@@ -95,7 +95,8 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 				$this->addMultiCommand('deleteQuestions', $this->lng->txt('delete'));
 
 				$this->addCommandButton('importQuestions', $this->lng->txt('import'));
-				if (array_key_exists("qpl_clipboard", $_SESSION))
+
+				if (array_key_exists("qpl_clipboard", $_SESSION) && count($_SESSION['qpl_clipboard']))
 				{
 					$this->addCommandButton('paste', $this->lng->txt('paste'));
 				}
@@ -286,9 +287,12 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 
 			if ($this->getEditable())
 			{
+				//$href = $this->ctrl->getLinkTargetByClass("ilAssQuestionPageGUI", "edit");
+				$href = $this->ctrl->getLinkTargetByClass($data['type_tag'].'GUI', 'editQuestion');
+				
 				$this->tpl->setCurrentBlock("edit_link");
 				$this->tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
-				$this->tpl->setVariable("LINK_EDIT", $this->ctrl->getLinkTargetByClass("ilAssQuestionPageGUI", "edit"));
+				$this->tpl->setVariable("LINK_EDIT", $href);
 				$this->tpl->parseCurrentBlock();
 			}
 			if ($data["complete"] == 0)

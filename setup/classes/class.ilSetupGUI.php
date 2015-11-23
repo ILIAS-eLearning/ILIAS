@@ -523,7 +523,8 @@ echo "<br>+".$client_id;
 
 		$count = (int) round(count($languages) / 2);
 		$num = 1;
-
+		
+		sort($languages); // #16837
 		foreach ($languages as $lang_key)
 		{
 			/*
@@ -3285,16 +3286,16 @@ else
 		$this->form->addItem($ti);
 
 		// feedback recipient
-		$ti = new ilEmailInputGUI($lng->txt("feedback_recipient"), "feedback_recipient");
+		/*$ti = new ilEmailInputGUI($lng->txt("feedback_recipient"), "feedback_recipient");
 		$ti->setInfo($lng->txt("feedback_recipient_info"));
 		$ti->setRequired(true);
 		$ti->allowRFC822(true);
-		$this->form->addItem($ti);
+		$this->form->addItem($ti);*/
 
 		// error recipient
-		$ti = new ilEmailInputGUI($lng->txt("error_recipient"), "error_recipient");
+		/*$ti = new ilEmailInputGUI($lng->txt("error_recipient"), "error_recipient");
 		$ti->allowRFC822(true);
-		$this->form->addItem($ti);
+		$this->form->addItem($ti);*/
 
 		$this->form->addCommandButton("saveContact", $lng->txt("save"));
 
@@ -3343,8 +3344,8 @@ else
 			$this->setup->getClient()->setSetting("admin_email", $_POST["admin_email"]);
 			$this->setup->getClient()->setSetting("inst_institution", $_POST["inst_institution"]);
 			$this->setup->getClient()->setSetting("inst_name", $_POST["inst_name"]);
-			$this->setup->getClient()->setSetting("feedback_recipient", $_POST["feedback_recipient"]);
-			$this->setup->getClient()->setSetting("error_recipient", $_POST["error_recipient"]);
+			//$this->setup->getClient()->setSetting("feedback_recipient", $_POST["feedback_recipient"]);
+			//$this->setup->getClient()->setSetting("error_recipient", $_POST["error_recipient"]);
 
 			// update client.ini
 			$this->setup->getClient()->setName($_POST["inst_name"]);
@@ -3400,7 +3401,7 @@ else
 
 		}
 
-		$this->setButtonPrev("proxy");
+		$this->setButtonPrev("passwd");
 
 		if ($this->setup->getClient()->status["nic"]["status"])
 		{

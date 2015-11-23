@@ -83,11 +83,6 @@ class assClozeTestExport extends assQuestionExport
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
 
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
-		$a_xml_writer->xmlElement("fieldlabel", NULL, "question");
-		$a_xml_writer->xmlElement("fieldentry", NULL, $this->object->getQuestion());
-		$a_xml_writer->xmlEndTag("qtimetadatafield");
-
-		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "combinations");
 		$a_xml_writer->xmlElement("fieldentry", NULL, base64_encode(json_encode($this->object->getGapCombinations())));
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
@@ -103,27 +98,15 @@ class assClozeTestExport extends assQuestionExport
 		// add flow to presentation
 		$a_xml_writer->xmlStartTag("flow");
 		
-		if($this->object->getClozeText() == NULL)
-		{
-			$text_parts = preg_split("/\[gap.*?\[\/gap\]/", $this->object->getQuestion());
-		}	
-		else
-		{
-			$text_parts = preg_split("/\[gap.*?\[\/gap\]/", $this->object->getClozeText());	
-		}
+		$questionText = $this->object->getQuestion() ? $this->object->getQuestion() : '&nbsp;';
+		$this->object->addQTIMaterial($a_xml_writer, $questionText);
+		
+		$text_parts = preg_split("/\[gap.*?\[\/gap\]/", $this->object->getClozeText());
 		
 		// add material with question text to presentation
 		for ($i = 0; $i <= $this->object->getGapCount(); $i++)
 		{
-			// n-th text part
-			if ($i == 0)
-			{
-				$this->object->addQTIMaterial($a_xml_writer, $text_parts[$i]);
-			}
-			else
-			{
-				$this->object->addQTIMaterial($a_xml_writer, $text_parts[$i], TRUE, FALSE);
-			}
+			$this->object->addQTIMaterial($a_xml_writer, $text_parts[$i]);
 
 			if ($i < $this->object->getGapCount())
 			{
@@ -161,7 +144,7 @@ class assClozeTestExport extends assQuestionExport
 						$a_xml_writer->xmlStartTag("render_choice", $attrs);
 
 						// add answers
-						foreach ($gap->getItems() as $answeritem)
+						foreach ($gap->getItems(new ilArrayElementShuffler) as $answeritem)
 						{
 							$attrs = array(
 								"ident" => $answeritem->getOrder()
@@ -276,7 +259,7 @@ class assClozeTestExport extends assQuestionExport
 			switch ($gap->getType())
 			{
 				case CLOZE_SELECT:
-					foreach ($gap->getItems() as $answer)
+					foreach ($gap->getItems(new ilArrayElementShuffler) as $answer)
 					{
 						$attrs = array(
 							"continue" => "Yes"
@@ -307,7 +290,7 @@ class assClozeTestExport extends assQuestionExport
 					}
 					break;
 				case CLOZE_TEXT:
-					foreach ($gap->getItems() as $answer)
+					foreach ($gap->getItems(new ilArrayElementShuffler) as $answer)
 					{
 						$attrs = array(
 							"continue" => "Yes"
@@ -336,7 +319,7 @@ class assClozeTestExport extends assQuestionExport
 					}
 					break;
 				case CLOZE_NUMERIC:
-					foreach ($gap->getItems() as $answer)
+					foreach ($gap->getItems(new ilArrayElementShuffler) as $answer)
 					{
 						$attrs = array(
 							"continue" => "Yes"

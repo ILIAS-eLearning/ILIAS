@@ -21,7 +21,6 @@ class ilDataCollectionRecordViewViewdefinition extends ilPageObject {
 	 * @var bool
 	 */
 	protected $active = false;
-
 	/**
 	 * @var int
 	 */
@@ -50,13 +49,28 @@ class ilDataCollectionRecordViewViewdefinition extends ilPageObject {
 	 * @return ilDataCollectionRecordViewViewdefinition
 	 */
 	public static function getInstance($key) {
-		//		if (!isset(self::$instances[$key])) {
-//		var_dump($key); // FSX
 		self::$instances[$key] = new self($key);
 
-		//		}
-
 		return self::$instances[$key];
+	}
+
+
+	/**
+	 * @param $table_id
+	 *
+	 * @return bool
+	 */
+	public function removeDclView($table_id) {
+		if (! $table_id) {
+			return false;
+		}
+		global $ilDB;
+
+		$query = "DELETE FROM il_dcl_view WHERE table_id = " . $table_id . " AND type = " . $ilDB->quote(0, "integer") . " AND formtype = "
+			. $ilDB->quote(0, "integer");
+		$ilDB->manipulate($query);
+
+		return true;
 	}
 
 
@@ -142,7 +156,7 @@ class ilDataCollectionRecordViewViewdefinition extends ilPageObject {
 			. $ilDB->quote($this->getFormtype(), "integer") . ")";
 		$ilDB->manipulate($query);
 
-		if (!$prevent_page_creation) {
+		if (! $prevent_page_creation) {
 			parent::create();
 		}
 	}
@@ -179,11 +193,12 @@ class ilDataCollectionRecordViewViewdefinition extends ilPageObject {
 	 * @return inte
 	 */
 	public static function getIdByTableId($a_table_id) {
-		if (!isset(self::$record_view_cache[$a_table_id])) {
+		if (! isset(self::$record_view_cache[$a_table_id])) {
 			global $ilDB;
 			//FIXME die werte bei type und formtype sollten vom constructor genommen werden
-			$set = $ilDB->query("SELECT id FROM il_dcl_view" . " WHERE table_id = " . $ilDB->quote($a_table_id, "integer") . " AND type = "
-				. $ilDB->quote(0, "integer") . " and formtype = " . $ilDB->quote(0, "integer"));
+			$query = "SELECT id FROM il_dcl_view" . " WHERE table_id = " . $ilDB->quote($a_table_id, "integer") . " AND type = "
+				. $ilDB->quote(0, "integer") . " and formtype = " . $ilDB->quote(0, "integer");
+			$set = $ilDB->query($query);
 			$row = $ilDB->fetchObject($set);
 
 			self::$record_view_cache[$a_table_id] = $row->id;
@@ -223,26 +238,26 @@ class ilDataCollectionRecordViewViewdefinition extends ilPageObject {
 
 		foreach ($fields as $field) {
 
-			if (!$a_verbose) {
+			if (! $a_verbose) {
 				$all[] = "[" . $field->getTitle() . "]";
 
 				if ($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_REFERENCE) {
 					$all[] = '[dclrefln field="' . $field->getTitle() . '"][/dclrefln]';
 				}
-
-				if ($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_ILIAS_REF) {
-					$all[] = '[dcliln field="' . $field->getTitle() . '"][/dcliln]';
-				}
+				// SW 14.10.2015 http://www.ilias.de/mantis/view.php?id=16874
+				//				if ($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_ILIAS_REF) {
+				//					$all[] = '[dcliln field="' . $field->getTitle() . '"][/dcliln]';
+				//				}
 			} else {
 				$all["[" . $field->getTitle() . "]"] = $field;
 
 				if ($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_REFERENCE) {
 					$all['[dclrefln field="' . $field->getTitle() . '"][/dclrefln]'] = $field;
 				}
-
-				if ($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_ILIAS_REF) {
-					$all['[dcliln field="' . $field->getTitle() . '"][/dcliln]'] = $field;
-				}
+				// SW: 14.10.2015 http://www.ilias.de/mantis/view.php?id=16874
+				//				if ($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_ILIAS_REF) {
+				//					$all['[dcliln field="' . $field->getTitle() . '"][/dcliln]'] = $field;
+				//				}
 			}
 		}
 

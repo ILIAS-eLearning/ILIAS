@@ -195,6 +195,17 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 					}
 					break;
 			}
+			
+			// #15334 
+			foreach($data as $idx => $row)
+			{
+				if(!$this->isPercentageAvailable($row["obj_id"]))
+				{
+					// #17000 - enable proper (numeric) sorting
+					$data[$idx]["percentage"] = -1;			
+				}				
+			}
+			
 			$this->setData($data);
 		}
 	}
@@ -243,7 +254,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 			$this->tpl->setVariable("MARK_VALUE", $a_set["mark"]);
 			$this->tpl->setVariable("COMMENT_TEXT", $a_set["comment"]);
 						
-			if(!$this->isPercentageAvailable($a_set["obj_id"]) /* || (int)$a_set["percentage"] === 0 */) // #15334
+			if($a_set["percentage"] < 0)
 			{
 				$this->tpl->setVariable("PERCENTAGE_VALUE", "");
 			}

@@ -65,6 +65,7 @@ abstract class ilPageObject
 	var $history_saved;
 	var $language = "-";
 	static protected $activation_data = array();
+	protected $import_mode = false;
 
 	/**
 	* Constructor
@@ -1400,6 +1401,26 @@ abstract class ilPageObject
 	{
 		return $this->contains_int_link;
 	}
+	
+	/**
+	 * Set import mode
+	 *
+	 * @param bool $a_val import mode	
+	 */
+	function setImportMode($a_val)
+	{
+		$this->import_mode = $a_val;
+	}
+	
+	/**
+	 * Get import mode
+	 *
+	 * @return bool import mode
+	 */
+	function getImportMode()
+	{
+		return $this->import_mode;
+	}
 
 	function needsImportParsing($a_parse = "")
 	{
@@ -2348,10 +2369,10 @@ abstract class ilPageObject
 			"parent_type" => array("text", $this->getParentType()),
 			"create_user" => array("integer", $ilUser->getId()),
 			"last_change_user" => array("integer", $ilUser->getId()),
-			"active" => array("integer", $this->getActive()),
+			"active" => array("integer", (int) $this->getActive()),
 			"activation_start" => array("timestamp", $this->getActivationStart()),
 			"activation_end" => array("timestamp", $this->getActivationEnd()),
-			"show_activation_info" => array("integer", $this->getShowActivationInfo()),
+			"show_activation_info" => array("integer", (int) $this->getShowActivationInfo()),
 			"inactive_elements" => array("integer", $iel),
 			"int_links" => array("integer", $inl),
 			"created" => array("timestamp", ilUtil::now()),
@@ -2617,7 +2638,14 @@ abstract class ilPageObject
 	function delete()
 	{
 		global $ilDB;
-		
+
+		$copg_logger = ilLoggerFactory::getLogger('copg');
+		$copg_logger->debug("ilPageObject: Delete called for ID '".$this->getId()."',".
+			" parent type: '".$this->getParentType()."', ".
+			" hist nr: '".$this->old_nr."', ".
+			" lang: '".$this->getLanguage()."', "
+		);
+
 		$mobs = array();
 		$files = array();
 		
@@ -2626,6 +2654,17 @@ abstract class ilPageObject
 			$this->buildDom();
 			$mobs = $this->collectMediaObjects(false);
 		}
+		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+		$mobs2 = ilObjMediaObject::_getMobsOfObject($this->getParentType().":pg", $this->getId(), false);
+		foreach ($mobs2 as $m)
+		{
+			if (!in_array($m, $mobs))
+			{
+				$mobs[] = $m;
+			}
+		}
+
+		$copg_logger->debug("ilPageObject: ... found ".count($mobs)." media objects.");
 
 		$this->__beforeDelete();
 
@@ -2636,7 +2675,6 @@ abstract class ilPageObject
 		$this->deleteInternalLinks();
 
 		// delete all mob usages
-		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 		ilObjMediaObject::_deleteAllUsages($this->getParentType().":pg", $this->getId());
 
 		// delete news
@@ -2653,16 +2691,24 @@ abstract class ilPageObject
 		// delete media objects
 		foreach ($mobs as $mob_id)
 		{
+			$copg_logger->debug("ilPageObject: ... processing mob ".$mob_id.".");
+
 			if(ilObject::_lookupType($mob_id) != 'mob')
 			{
-				$GLOBALS['ilLog']->write(__METHOD__.': Type mismatch. Ignoring mob with id: '.$mob_id);
+				$copg_logger->debug("ilPageObject: ... type mismatch. Ignoring mob ".$mob_id.".");
 				continue;
 			}
 			
 			if (ilObject::_exists($mob_id))
 			{
+				$copg_logger->debug("ilPageObject: ... delete mob ".$mob_id.".");
+
 				$mob_obj =& new ilObjMediaObject($mob_id);
 				$mob_obj->delete();
+			}
+			else
+			{
+				$copg_logger->debug("ilPageObject: ... missing mob ".$mob_id.".");
 			}
 		}
 

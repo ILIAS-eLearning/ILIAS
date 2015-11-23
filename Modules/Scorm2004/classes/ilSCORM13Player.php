@@ -219,7 +219,7 @@ class ilSCORM13Player
 					include_once './Modules/Scorm2004/classes/class.ilSCORM2004StoreData.php';
 					ilSCORM2004StoreData::persistCMIData($this->userId, $this->packageId, 
 					$this->slm->getDefaultLessonMode(), $this->slm->getComments(), 
-					$this->slm->getInteractions(), $this->slm->getObjectives());
+					$this->slm->getInteractions(), $this->slm->getObjectives(), $this->slm->getTime_from_lms());
 					//error_log("Saved CMI Data");
 				} else {
 					$this->fetchCMIData();
@@ -251,7 +251,7 @@ class ilSCORM13Player
 				break;
 			case 'scormPlayerUnload':
 				include_once './Modules/Scorm2004/classes/class.ilSCORM2004StoreData.php';
-				ilSCORM2004StoreData::scormPlayerUnload($this->userId, $this->packageId);
+				ilSCORM2004StoreData::scormPlayerUnload($this->userId, $this->packageId, $this->slm->getTime_from_lms());
 				break;
 				
 			// case 'getConfigForPlayer':
@@ -325,13 +325,13 @@ class ilSCORM13Player
 			'globalobj_data' => null
 		);
 		include_once './Modules/ScormAicc/classes/SCORM/class.ilObjSCORMInitData.php';
-		$status=ilObjSCORMInitData::getStatus($this->packageId, $ilUser->getID());
-		$status['last_visited']=null;
-		if($this->slm->getAuto_last_visited()) 
-		{
-			$status['last_visited']=$this->get_last_visited($this->packageId, $ilUser->getID());
-		}
-		$config['status'] = $status;
+		$config['status'] = ilObjSCORMInitData::getStatus($this->packageId, $ilUser->getID(), $this->slm->getAuto_last_visited(), "2004");
+		// $status['last_visited']=null;
+		// if($this->slm->getAuto_last_visited()) 
+		// {
+			// $status['last_visited']=$this->get_last_visited($this->packageId, $ilUser->getID());
+		// }
+		// $config['status'] = $status;
 
 		return $config;
 	}
@@ -339,9 +339,13 @@ class ilSCORM13Player
 	public function getPlayer()
 	{
 		global $ilUser,$lng, $ilias, $ilSetting;
+		
+		//WAC
+		require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
+		ilWACSignedPath::signFolderOfStartFile($this->getDataDirectory().'/imsmanifest.xml');
+		
 		// player basic config data
 		
-
 		$initSuspendData = null;
 		$initAdlactData = null;
 		if ($this->slm->getSequencing() == true) {
@@ -355,7 +359,8 @@ class ilSCORM13Player
 		//session
 		if ($this->slm->getSession()) {
 //			$session_timeout = (int)($ilias->ini->readVariable("session","expire"))/2;
-			$session_timeout = (int)ilSession::getIdleValue()/2;
+//			$session_timeout = (int)ilSession::getIdleValue()/2;
+			$session_timeout = (int)ilWACSignedPath::getCookieMaxLifetimeInSeconds()-1;
 		} else {
 			$session_timeout = 0;
 		}
@@ -407,6 +412,9 @@ class ilSCORM13Player
 		$langstrings['linkexpandTree']=$lng->txt('scplayer_expandtree');
 		$langstrings['linkcollapseTree']=$lng->txt('scplayer_collapsetree');
 		$langstrings['contCreditOff']=$lng->txt('cont_credit_off');
+		if ($this->slm->getAutoReviewChar() == "s") {
+			$langstrings['contCreditOff']=$lng->txt('cont_sc_score_was_higher_message');
+		}
 		$config['langstrings'] = $langstrings;
 		
 		//template variables	
@@ -574,6 +582,9 @@ class ilSCORM13Player
 	
 	public function pingSession()
 	{
+		//WAC
+		require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
+		ilWACSignedPath::signFolderOfStartFile($this->getDataDirectory().'/imsmanifest.xml');
 		//do nothing except returning header
 		header('Content-Type: text/plain; charset=UTF-8');
 		print("");
@@ -2131,16 +2142,16 @@ class ilSCORM13Player
 	*	functions for last_visited_sco
 	*/
 
-	function get_last_visited($a_obj_id, $a_user_id)
-	{
-		global $ilDB;
-		$val_set = $ilDB->queryF('SELECT last_visited FROM sahs_user WHERE obj_id = %s AND user_id = %s',
-		array('integer','integer'),
-		array($a_obj_id,$a_user_id));
+	// function get_last_visited($a_obj_id, $a_user_id)
+	// {
+		// global $ilDB;
+		// $val_set = $ilDB->queryF('SELECT last_visited FROM sahs_user WHERE obj_id = %s AND user_id = %s',
+		// array('integer','integer'),
+		// array($a_obj_id,$a_user_id));
 		
-		$val_rec = $ilDB->fetchAssoc($val_set);
-		return $val_rec["last_visited"];
-	}
+		// $val_rec = $ilDB->fetchAssoc($val_set);
+		// return $val_rec["last_visited"];
+	// }
 }
 
 function datecmp($a, $b){

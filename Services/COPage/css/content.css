@@ -707,6 +707,14 @@ div.ilc_va_ihead_VAccordIHead
 	background-repeat: no-repeat;
 	background-position: 3px 4px;
 }
+[dir="rtl"] div.ilc_va_ihead_VAccordIHead {
+    -webkit-transform: scaleX(-1);
+    -khtml-transform: scaleX(-1);
+    -moz-transform: scaleX(-1);
+    -ms-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    transform: scaleX(-1);
+}
 
 div.ilc_va_iheada_VAccordIHeadActive
 {
@@ -715,6 +723,15 @@ div.ilc_va_iheada_VAccordIHeadActive
 
 div.ilc_va_ihcap_VAccordIHeadCap
 {
+}
+[dir="rtl"] div.ilc_va_ihcap_VAccordIHeadCap {
+    //text-align: left;
+    -webkit-transform: scaleX(-1);
+    -khtml-transform: scaleX(-1);
+    -moz-transform: scaleX(-1);
+    -ms-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    transform: scaleX(-1);
 }
 
 div.ilc_va_ihead_VAccordIHead:hover

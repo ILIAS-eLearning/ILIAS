@@ -169,6 +169,7 @@ class ilScorm2004Export
 
 		// get Log File
 		$expDir = $this->export_dir;
+		include_once './Services/Logging/classes/class.ilLog.php';
 		$expLog = new ilLog($expDir, "export.log");
 		$expLog->delete();
 		$expLog->setLogFormat("");
@@ -206,6 +207,7 @@ class ilScorm2004Export
 
 		// get Log File
 		$expDir = $this->export_dir;
+		include_once './Services/Logging/classes/class.ilLog.php';
 		$expLog = new ilLog($expDir, "export.log");
 		$expLog->delete();
 		$expLog->setLogFormat("");
@@ -237,6 +239,7 @@ class ilScorm2004Export
 
 		// get Log File
 		$expDir = $this->export_dir;
+		include_once './Services/Logging/classes/class.ilLog.php';
 		$expLog = new ilLog($expDir, "export.log");
 		$expLog->delete();
 		$expLog->setLogFormat("");
@@ -269,6 +272,7 @@ class ilScorm2004Export
 
 		// get Log File
 		$expDir = $this->export_dir;
+		include_once './Services/Logging/classes/class.ilLog.php';
 		$expLog = new ilLog($expDir, "export.log");
 		$expLog->delete();
 		$expLog->setLogFormat("");
@@ -317,6 +321,7 @@ class ilScorm2004Export
 
 		// get Log File
 		$expDir = $this->export_dir;
+		include_once './Services/Logging/classes/class.ilLog.php';
 		$expLog = new ilLog($expDir, "export.log");
 		$expLog->delete();
 		$expLog->setLogFormat("");

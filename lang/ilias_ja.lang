@@ -6527,12 +6527,8 @@ content#:#cont_online#:#オンライン
 content#:#cont_online_help_ids#:#ヘルプID
 content#:#cont_open#:#表示
 content#:#cont_open_heigth#:#高さ
-content#:#cont_open_iframe_defined#:#定義の幅と高さのiフレーム
-content#:#cont_open_iframe_max#:#フルサイズのiフレーム
 content#:#cont_open_normal#:#タブ / 新しいリンク付のウィンドウ
 content#:#cont_open_width#:#幅
-content#:#cont_open_window_defined#:#定義の幅と高さの新しいウィンドウ
-content#:#cont_open_window_undefined#:#未定義の幅と高さの新しいウィンドウ
 content#:#cont_operation_not_allowed#:#この操作は認められません。
 content#:#cont_or#:#or
 content#:#cont_order#:#オーダータイプ
@@ -9157,8 +9153,6 @@ forum#:#add_re_to_subject_info#:#ONの場合、返信時に 'Re：' をSubject�
 forum#:#ascending_order#:#最後列の最新投稿
 forum#:#close_topics#:#終了
 forum#:#cont_captcha_code#:#コード
-forum#:#deactivate_current_and_childs#:#全ての投稿をアクティブ不可
-forum#:#deactivate_post_txt#:#本当に現在の投稿と全てのその子の投稿をアクティブ不可にしますか?
 forum#:#descending_order#:#最前列の最新投稿
 forum#:#empty_subject#:#返信するにはユーザは新しいタイトルを入力する必要があります。
 forum#:#enable_thread_ratings#:#スレッドレート
@@ -15697,8 +15691,6 @@ grp#:#grp_cancellation_end#:#Cancellation Limit###30 08 2015 new variable
 grp#:#grp_cancellation_end_rbac_info#:#The cancellation deadline was met on %s, a cancellation is not possible anymore.###30 08 2015 new variable
 sess#:#sess_reg_min_members#:#Minimum of Users###30 08 2015 new variable
 sess#:#sess_reg_min_members_info#:#A minimum number of users has to register.###30 08 2015 new variable
-common#:#mem_cron_min_members_subject#:#Course/Group: Minimum Members Check###30 08 2015 new variable
-common#:#mem_cron_min_members_intro#:#The following courses and groups do not meet the minimum number of members (yet).###30 08 2015 new variable
 grp#:#grp_waiting_list_no_autofill#:#Without Auto-Fill###30 08 2015 new variable
 grp#:#grp_waiting_list_autofill#:#With Auto-Fill###30 08 2015 new variable
 grp#:#grp_waiting_list_autofill_info#:#Participants are recruited from the waiting list automatically on cancellations.###30 08 2015 new variable
@@ -15997,8 +15989,74 @@ common#:#obj_prgs#:#Study Programmes###30 08 2015 new variable
 common#:#obj_prgs_desc#:#Study Programme Administration###30 08 2015 new variable
 trac#:#trac_mode_study_programme#:#Study Programme Completed###30 08 2015 new variable
 trac#:#trac_mode_study_programme_info#:#The Study Programme has to be completed by a user to receive the Learning Progress 'Completed'.###30 08 2015 new variable
-prg#:#prg_visible#:#Programme is visible###30 08 2015 new variable
-prg#:#prg_copy#:#User can copy study programme###30 08 2015 new variable
-prg#:#prg_write#:#User can edit study programme settings and manage content.###30 08 2015 new variable
-prg#:#prg_delete#:#User can delete the programme.###30 08 2015 new variable
-prg#:#prg_edit_permission#:#User can change permission settings.###30 08 2015 new variable
+assessment#:#grading_obligations_listlabel#:#Compulsory Questions###08 10 2015 new variable
+assessment#:#grading_obligations_answered_listentry#:#Answered###08 10 2015 new variable
+assessment#:#grading_obligations_missing_listentry#:#Open###08 10 2015 new variable
+assessment#:#tst_pass_finished_on#:#Test pass finished on###08 10 2015 new variable
+assessment#:#passed_status#:#Passed Status###08 10 2015 new variable
+assessment#:#skip_question#:#Do not Answer and Next###08 10 2015 new variable
+assessment#:#tst_instant_feedback_handling_force#:#Do not freeze answers but force feedback###08 10 2015 new variable
+assessment#:#tst_instant_feedback_handling_force_desc#:#tst_instant_feedback_handling_force_desc###08 10 2015 new variable
+dcl#:#dcl_locked_tooltip#:#Disable this field for users to edit. Does not include roles with the permission 'Edit Settings'###08 10 2015 new variable
+forum#:#forums_thread_deleted#:#The selected thread including all postings have been deleted.###08 10 2015 new variable
+forum#:#forums_threads_deleted#:#The selected threads including all postings have been deleted.###08 10 2015 new variable
+meta#:#meta_advmd_select_options#:#Entries###08 10 2015 new variable
+trac#:#trac_lp_settings_info_parent_legend#:#The learning progress status of this object is influenced by "%s".###08 10 2015 new variable
+search#:#btn_search#:#Search###08 10 2015 new variable
+exc#:#exc_members_already_assigned_tean#:#These users are already assigned to other teams of this assignment.###08 10 2015 new variable
+prg#:#prg_prg_type#:#Study Programme Type###08 10 2015 new variable
+rbac#:#prg_visible#:#Study Programme is visible###08 10 2015 new variable
+rbac#:#prg_copy#:#User can copy Study Programme###08 10 2015 new variable
+rbac#:#prg_write#:#User can edit settings of Study Programme###08 10 2015 new variable
+rbac#:#prg_delete#:#User can delete Study Programme###08 10 2015 new variable
+rbac#:#prg_edit_permission#:#User can change permission settings###08 10 2015 new variable
+rbac#:#rbac_create_prg#:#Create Study Programme###08 10 2015 new variable
+rbac#:#prgs_visible#:#Study Programme administration is visible###08 10 2015 new variable
+rbac#:#prgs_read#:#User has read access to Study Programme administration###08 10 2015 new variable
+rbac#:#prgs_write#:#Edit settings in Study Programme administration###08 10 2015 new variable
+rbac#:#prgs_edit_permission#:#Change permission settings in Study Programme administration###08 10 2015 new variable
+user#:#feedhash#:#Newsfeedhash###08 10 2015 new variable
+wsp#:#wsp_shared_filter_reset_button#:#Reset Search###08 10 2015 new variable
+wsp#:#wsp_shared_filter_button#:#Search###08 10 2015 new variable
+wiki#:#wiki_page_title_too_long#:#Sorry, the title of the wiki page is too long. Please replace it with a shorter title.###08 10 2015 new variable
+exc#:#exc_direct_submit#:#Submit###08 10 2015 new variable
+export#:#no_file#:#No file###08 10 2015 new variable
+content#:#lm_no_download_files#:#There are currently no files for download available.###08 10 2015 new variable
+rbac#:#feed_copy#:#User can copy webfeed###08 10 2015 new variable
+log#:#log_level_off#:#Disabled###08 10 2015 new variable
+log#:#log_component_root_desc#:#Leg-Level for message which are not assigned to any component.###08 10 2015 new variable
+administration#:#adm_user_starting_point_ref_id_info#:#Open the object that you would like to use as Personal Starting Point. Please copy the number directly following "ref_id=" in the browser bar into the textinput field.###08 10 2015 new variable
+mail#:#mail_crs_roles#:#Send Mail to Course Roles###08 10 2015 new variable
+mail#:#mail_grp_roles#:#Send Mail to Group Roles###08 10 2015 new variable
+mail#:#send_mail_members#:#All Members###08 10 2015 new variable
+mail#:#send_mail_tutors#:#All Tutors###08 10 2015 new variable
+mail#:#send_mail_admins#:#All Administrators###08 10 2015 new variable
+mail#:#mail_sel_users#:#Send Mail to Selected Users###08 10 2015 new variable
+awrn#:#awrn_max_inactivity#:#Maximum Inactivity Period###08 10 2015 new variable
+awrn#:#awrn_max_inactivity_info#:#After this period users are considered being offline. If nothing is set, the session time will be used.###08 10 2015 new variable
+awrn#:#awrn_minutes#:#min###08 10 2015 new variable
+content#:#cont_sc_store_if_previous_score_was_lower#:#keep tracking data if achieved score in previous attempt was higher or equal###25 10 2015 new variable
+crs#:#mem_cron_min_members_subject#:#Course/Group: Minimum Members Check###25 10 2015 new variable
+crs#:#mem_cron_min_members_intro#:#The following courses and groups do not meet the minimum number of members (yet).###25 10 2015 new variable
+prg#:#prg_progress_status_with_child_sp#:# %1$d of %2$d Points###25 10 2015 new variable
+prg#:#prg_added_member#:#The new member was added successfully.###25 10 2015 new variable
+prg#:#prg_added_members#:#The new members were added successfully.###25 10 2015 new variable
+prg#:#prg_acknowledge_completed_courses#:#Acknowledge Completed Courses###25 10 2015 new variable
+bkm#:#bkm_fold_created#:#Bookmark folder has been created.###25 10 2015 new variable
+mcst#:#mcst_input_either_file_or_url#:#Please specify a file or an URL. If you provide a file, please note the maximum allowed upload file size.###25 10 2015 new variable
+content#:#cont_sc_version_info#:#The version management will automatically insert the correct version number.###25 10 2015 new variable
+content#:#cont_online_info#:#Set the SCORM learning module online to make it visible and available for users. If not, only users with 'Edit'-permission will have access to it.###25 10 2015 new variable
+content#:#cont_open_window#:#Definitely opens in a new window, without ILIAS main menue###25 10 2015 new variable
+content#:#cont_open_iframe#:#Opens in the same window, the ILIAS main menue is displayed###25 10 2015 new variable
+content#:#cont_nomenu_info#:#The Top Navigation Bar can be hidden, if the SCORM Learning module contains sufficient functionality to suspend, finish and navigate the content.###25 10 2015 new variable
+content#:#cont_hidenavig_info#:#The left navigation tree can be hidden, if the SCORM Learning module contains sufficient functionality to navigate the content or the top navigation bar is displayed.###25 10 2015 new variable
+content#:#cont_width_height_info#:#The size of the display can be set at a fixed size. 950 pixels for Width and 650 pixels for Height are proven values for setting the size. If no entry is made the browser will determine the size of the display.###25 10 2015 new variable
+content#:#cont_sc_score_was_higher_message#:#achieved score was higher###25 10 2015 new variable
+meta#:#md_adv_field_filter_warning#:#The field types %s are currently not supported as table filters.###25 10 2015 new variable
+grp#:#grp_subscription_min_members_info#:#Define the number of users that is minimally required for this group to be held at all. If this number is not met either after the date until which users can register or unsubscribe from the group a mail will be send to those group administrators or tutors that have activated the 'Notification' flag in the 'Members'-tab.###25 10 2015 new variable
+grp#:#grp_max_and_min_members_invalid#:#The minimum number must be smaller than the maximum number of members.###25 10 2015 new variable
+crs#:#mem_cron_min_members_reason#:#You receive this message because you have activated the notification in the members-tab.###25 10 2015 new variable
+crs#:#mem_cron_min_members_task#:#Please inform the participants if the course will not take place because of not enough attendants. Adjust the settings afterwards.###25 10 2015 new variable
+crs#:#crs_loc_settings_passed_mode#:#Bestandene Lernziele###25 10 2015 new variable
+crs#:#crs_loc_settings_passed_mode_hide#:#Testfragen zu bestandenen Lernzielen werden ausgeblendet###25 10 2015 new variable
+crs#:#crs_loc_settings_passed_mode_mark#:#Testfragen zu bestandenen Lernzielen werden markiert###25 10 2015 new variable

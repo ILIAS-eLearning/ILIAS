@@ -59,7 +59,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 		$cmd = $this->ctrl->getCmd();
 		
 		// show repository tree
-		$this->showRepTree(true);
+		$this->showRepTree();
 		
 		switch($next_class)
 		{
@@ -1686,7 +1686,10 @@ class ilObjCategoryGUI extends ilContainerGUI
 				}
 				$this->object->saveIcons($_FILES["cont_icon"]['tmp_name']);
 			}
-			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
+			if ($_FILES["cont_icon"]['tmp_name'] || $_POST["cont_icon_delete"])
+			{
+				ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
+			}
 			$this->ctrl->redirect($this,"editIcons");
 		}
 
@@ -1753,7 +1756,8 @@ class ilObjCategoryGUI extends ilContainerGUI
 		
 		foreach($tax as $tax_id => $tax_item)
 		{			
-			$option = new ilCheckboxOption($tax_item["title"], $tax_id);
+			$option = new ilCheckboxOption($tax_item["title"], $tax_id,
+				ilObject::_lookupDescription($tax_id));
 			
 			if($tax_item["source"] != $this->object->getRefId())
 			{

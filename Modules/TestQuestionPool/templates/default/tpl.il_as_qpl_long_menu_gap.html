@@ -1,7 +1,7 @@
 <style>
 	.modal-dialog, .modal-content, .modal-body
 	{
-		height: 90%
+		height: auto
 	}
 	.modal_answer_options
 	{
@@ -15,6 +15,9 @@
 	}
 	.prototype_long_menu{
 		display:none;
+	}
+	.modal-content{
+		padding-bottom:20px;
 	}
 </style>
 
@@ -30,12 +33,12 @@
 		}
 	}
 	var long_menu_language = {
-		'edit' 				: '[Edit]',
-		'type' 				: 'Typ',
-		'answers'			: 'Answers',
-		'answer_options' 	: 'Answer Options: ',
-		'correct_answers'	: 'Correct Answers: ',
-		'add_answers'	 	: '[Add Answers]',
+		'edit' 				: '[{EDIT_TXT}]',
+		'type' 				: '{TYPE_TXT}',
+		'answers'			: '{ANSWERS_TXT}',
+		'answer_options' 	: '{ANSWER_OPTIONS_TXT}',
+		'correct_answers'	: '{CORRECT_ANSWER_TXT}',
+		'add_answers'	 	: '[{ADD_ANSWER_TXT}]',
 		'info_text_gap'	 	: '{INFO_TEXT_GAP}',
 		'manual_editing' 	: '{MANUAL_EDITING}'
 	};
@@ -80,10 +83,10 @@
 		</div>
 	</div>
 	<div class="form-group" id="layout_dummy_points">
-		<label for="" class="col-sm-3 control-label">{POINTS}</label>
+		<label for="" class="col-sm-3 control-label">{POINTS} <span class="asterisk">*</span></label>
 		<div class="col-sm-9">
 			<div class="form-inline">
-				<input type="text" class="form-control text-right" size="5" value="0">
+				<input type="text" class="form-control" size="5" value="0">
 			</div>
 		</div>
 	</div>
@@ -93,8 +96,8 @@
 	</div>
 	<div class="form-group" id="layout_dummy_buttons">
 			<div class="modal-submit">
-				<input type="submit" class="btn btn-default save-modal" value="{Save}save" />
-				<input type="submit" class="btn btn-default cancel-modal" value="{Cancel}cancel" />
+				<input type="submit" class="btn btn-default save-modal" value="{SAVE}" />
+				<input type="submit" class="btn btn-default cancel-modal" value="{CANCEL}" />
 			</div>
 	</div>
 	<div class="layout_dummy_help-block">
@@ -104,6 +107,17 @@
 		<div class="col-sm-2">
 			<button name="add_gap" class="clone_fields_add combination btn btn-link"><span class="sr-only"></span><span class="glyphicon glyphicon-plus"></span></button>
 			<button name="remove_gap" class="clone_fields_remove combination btn btn-link"><span class="sr-only"></span><span class="glyphicon glyphicon-minus"></span></button>
+		</div>
+	</div>
+	<div class="layout_dummy_help-block form-group" id="error_answer" class="col-sm-12">
+		<div class="col-sm-3">
+			<label></label>
+		</div>
+		<div>
+			<div id="error_answer_val" class="col-sm-9">
+				<span class="prototype_long_menu value_error form_error help-block alert alert-danger"><img border="0" src="./templates/default/images/./icon_alert.svg" alt="-alert-"> {MISSING_VALUE}</br></span>
+				<span class="prototype_long_menu points_error form_error help-block alert alert-danger"><img border="0" src="./templates/default/images/./icon_alert.svg" alt="-alert-">{POINTS_ERROR}</br></span>
+			</div>
 		</div>
 	</div>
 	{TAGGING_PROTOTYPE}

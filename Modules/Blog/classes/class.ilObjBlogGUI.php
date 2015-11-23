@@ -792,6 +792,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		}
 		else
 		{
+			ilUtil::sendFailure($this->lng->txt("msg_no_title"), true);
 			$ilCtrl->redirect($this, "render");
 		}
 	}
@@ -2633,9 +2634,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				'submit_name'			=> $lng->txt('add'),
 				'add_search'			=> true,
 				'add_from_container'    => $this->node_id,
-				'user_type'				=> (sizeof($local_roles) > 1)
-					? $local_roles
-					: null
+				'user_type'				=> $local_roles
 			),
 			true
 		);

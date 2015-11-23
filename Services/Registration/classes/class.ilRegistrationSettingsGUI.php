@@ -933,33 +933,12 @@ class ilRegistrationSettingsGUI
 		$opt = new ilRadioOption($this->lng->txt("reg_access_limitation_mode_relative"), "relative");
 		$limit->addOption($opt);
 		
-		$days = new ilTextInputGUI("", "rel_date[d]");
-		$days->setSize(5);
-		$days->setSuffix($this->lng->txt("days"));
-		
-		$mon = new ilTextInputGUI("", "rel_date[m]");
-		$mon->setSize(5);
-		$mon->setSuffix($this->lng->txt("months"));
-		
-		$yr = new ilTextInputGUI("", "rel_date[y]");
-		$yr->setSize(5);
-		$yr->setSuffix($this->lng->txt("years"));
-		
-		// custom input won't reload
-		if(is_array($_POST["rel_date"]))
-		{
-			$days->setValue($_POST["rel_date"]["d"]);
-			$mon->setValue($_POST["rel_date"]["m"]);
-			$yr->setValue($_POST["rel_date"]["y"]);
-		}
-		
-		$dur = new ilCustomInputGUI($this->lng->txt("reg_access_limitation_mode_relative_target"));
+		$dur = new ilDurationInputGUI($this->lng->txt("reg_access_limitation_mode_relative_target"), "rel_date");
 		$dur->setRequired(true);
-		$dur->setHTML(
-			$days->getToolbarHTML()." ".
-			$mon->getToolbarHTML()." ".
-			$yr->getToolbarHTML()
-		);
+		$dur->setShowMonths(true);
+		$dur->setShowDays(true);
+		$dur->setShowHours(false);
+		$dur->setShowMinutes(false);
 		$opt->addSubItem($dur);
 		
 		$this->form_gui->addCommandButton('createCodes', $this->lng->txt('create'));
@@ -1054,12 +1033,20 @@ class ilRegistrationSettingsGUI
 					{
 						$valid = false;
 					}
+					else
+					{						
+						$date = array(
+							"d" => $date["dd"],
+							"m" => $date["MM"]%12,
+							"y" => floor($date["MM"]/12)
+						);						
+					}
 					break;
 					
 				case "none":
 					$limit = null;
 					break;
-			}
+			}			
 		}
 		
 		if($valid)

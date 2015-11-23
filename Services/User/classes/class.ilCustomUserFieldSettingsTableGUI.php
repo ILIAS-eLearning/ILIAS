@@ -154,7 +154,9 @@ class ilCustomUserFieldSettingsTableGUI extends ilTable2GUI
 		}
 		
 		// field name
+		$this->tpl->setCurrentBlock("cb");
 		$this->tpl->setVariable("FIELD_ID", $a_set["field_id"]);
+		$this->tpl->parseCurrentBlock();
 		$this->tpl->setVariable("TXT_FIELD", $a_set["field_name"]);
 	}
 	

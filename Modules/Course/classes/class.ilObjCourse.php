@@ -39,6 +39,8 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	const CAL_REG_END = 2;
 	const CAL_ACTIVATION_START = 3;
 	const CAL_ACTIVATION_END = 4;
+	const CAL_COURSE_START = 5;
+	const CAL_COURSE_END = 6;
 	
 	const STATUS_DETERMINATION_LP = 1;
 	const STATUS_DETERMINATION_MANUAL = 2;
@@ -1355,6 +1357,12 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		$new_obj->setWaitingListAutoFill($this->hasWaitingListAutoFill());
 		$new_obj->setSubscriptionMinMembers($this->getSubscriptionMinMembers());
 		
+		// #10271
+		$new_obj->setEnableCourseMap($this->getEnableCourseMap());
+		$new_obj->setLatitude($this->getLatitude());
+		$new_obj->setLongitude($this->getLongitude());
+		$new_obj->setLocationZoom($this->getLocationZoom());
+		
 		$new_obj->update();
 	}
 
@@ -1975,6 +1983,27 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 					$app->setStart(new ilDateTime($this->getSubscriptionEnd(),IL_CAL_UNIX));
 					$apps[] = $app;
 				}
+				if($this->getCourseStart() && $this->getCourseEnd())
+				{
+					$app = new ilCalendarAppointmentTemplate(self::CAL_COURSE_START);
+					$app->setTitle($this->getTitle());
+					$app->setSubtitle('crs_start');
+					$app->setTranslationType(IL_CAL_TRANSLATION_SYSTEM);
+					$app->setDescription($this->getLongDescription());	
+					$app->setStart($this->getCourseStart());
+					$app->setFullday(true);
+					$apps[] = $app;
+
+					$app = new ilCalendarAppointmentTemplate(self::CAL_COURSE_END);
+					$app->setTitle($this->getTitle());
+					$app->setSubtitle('crs_end');
+					$app->setTranslationType(IL_CAL_TRANSLATION_SYSTEM);
+					$app->setDescription($this->getLongDescription());	
+					$app->setStart($this->getCourseEnd());
+					$app->setFullday(true);
+					$apps[] = $app;
+				}
+				
 				
 				return $apps ? $apps : array();
 				
@@ -2184,7 +2213,6 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		return parent::getOrderType();
 	}
 	
-	// :TODO: attach to unsubscribe event
 	public function handleAutoFill()
 	{	
 		if($this->enabledWaitingList() &&
@@ -2263,6 +2291,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		$set = $ilDB->query("SELECT obj_id, min_members".
 			" FROM crs_settings".
 			" WHERE min_members > ".$ilDB->quote(0, "integer").
+			" AND sub_mem_limit = ".$ilDB->quote(1, "integer"). // #17206
 			" AND ((leave_end IS NOT NULL".
 				" AND leave_end < ".$ilDB->quote($now, "text").")".
 				" OR (leave_end IS NULL".

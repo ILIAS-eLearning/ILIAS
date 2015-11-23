@@ -2064,7 +2064,7 @@ class ilUtil
 	* @static
 	* 
 	*/
-	public static function img($a_src, $a_alt = "", $a_width = "", $a_height = "", $a_border = 0, $a_id = "")
+	public static function img($a_src, $a_alt = "", $a_width = "", $a_height = "", $a_border = 0, $a_id = "", $a_class = "")
 	{
 		$img = '<img src="'.$a_src.'"';
 		if ($a_alt != "")
@@ -2078,6 +2078,10 @@ class ilUtil
 		if ($a_height != "")
 		{
 			$img.= ' height="'.$a_height.'"';
+		}
+		if ($a_class != "")
+		{
+			$img.= ' class="'.$a_class.'"';
 		}
 		if ($a_id != "")
 		{
@@ -3522,6 +3526,7 @@ class ilUtil
 		switch($a_desired_type)
 		{
 			case "jpg":
+			case "jpeg":
 			if ($im_types & IMG_JPG) return "jpg";
 			if ($im_types & IMG_GIF) return "gif";
 			if ($im_types & IMG_PNG) return "png";
@@ -3534,6 +3539,12 @@ class ilUtil
 			break;
 
 			case "png":
+			if ($im_types & IMG_PNG) return "png";
+			if ($im_types & IMG_JPG) return "jpg";
+			if ($im_types & IMG_GIF) return "gif";
+			break;
+
+			case "svg":
 			if ($im_types & IMG_PNG) return "png";
 			if ($im_types & IMG_JPG) return "jpg";
 			if ($im_types & IMG_GIF) return "gif";
@@ -3762,6 +3773,7 @@ class ilUtil
 		{
 			$cmd .= " ".$args;
 		}
+//ilUtil::printBacktrace(5);
 //echo "<br>".$cmd; exit;
 		exec($cmd, $arr);
 //		$ilLog->write("ilUtil::execQuoted: ".$cmd.".");

@@ -1,11 +1,16 @@
+/**
+ * A documentation for writing dicto rules could be found at:
+ *
+ * http://scg.unibe.ch/dicto/examples.php
+ *
+ */
+
 ilClasses = PhpClass with name:"il*"
 assClasses = PhpClass with name:"ass*"
 WholeIliasCodebase = {ilClasses, assClasses}
 GUIClasses = PhpClass with name:"*GUI*"
 triggerError = PhpFunction with name:"trigger_error"
 raiseError = PhpFunction with name:"raiseError"
-ilLanguageGlobal = PhpGlobal with name:"lng"
-ilLanguageClass = PhpClass with name:"ilLanguage"
 exitOrDie = PhpFunction with name:"exit/die"
 eval = PhpFunction with name:"eval"
 ilTopLevelException = PhpClass with name:"ilException"
@@ -46,7 +51,7 @@ WholeIliasCodebase cannot invoke SetErrorOrExceptionHandler
 /**
  * The php function eval() is not good practice. Its use often comes with a high security risk, because it is generally not a trivial task to make sure that a paramater of eval() can be fully trusted. And if it is, then eval() is usually not neccessary. It is also tricky to debug, because it obfuscates control flow. Last but not least, it does not work with HHVM in the special "RepoAuthoritative" mode, which makes PHP run extra-fast.
  */
- WholeIliasCodebase cannot invoke eval
+WholeIliasCodebase cannot invoke eval
 
 
 /**
@@ -59,7 +64,8 @@ WholeIliasCodebase cannot depend on SuppressErrors
  *
  * See: http://www.ilias.de/docu/goto_docu_pg_42740_42.html
  */
-ilExceptionsWithoutTopLevelException can only depend on ilExceptions
+//temporary disabled.
+//ilExceptionsWithoutTopLevelException must depend on any ilExceptions
 
 /**
  * The GUI-Layer should not itself interact with the database. Try to build reusable Model classes, adding a layer of abstraction instead of accessing the database.

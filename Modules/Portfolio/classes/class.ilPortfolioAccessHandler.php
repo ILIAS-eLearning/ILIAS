@@ -567,11 +567,30 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
 	 * @return bool
 	 */
 	public function canBeDelivered(ilWACPath $ilWACPath) {
-		global $ilUser;
-		preg_match("/\\/prtf_([\\d]*)\\//uism", $ilWACPath->getPath(), $results);
-
-		if ($this->checkAccessOfUser($ilUser->getId(), "read", "view", $results[1], "prtf")) {
-			return true;
+		global $ilUser, $ilAccess;
+				
+		if (preg_match("/\\/prtf_([\\d]*)\\//uism", $ilWACPath->getPath(), $results))
+		{		
+			// portfolio (custom)
+			$obj_id = $results[1];
+			if(ilObject::_lookupType($obj_id) == "prtf")
+			{		
+				if ($this->checkAccessOfUser($ilUser->getId(), "read", "view", $obj_id, "prtf")) {
+					return true;
+				}
+			}
+			// portfolio template (RBAC)
+			else
+			{
+				$ref_ids  = ilObject::_getAllReferences($obj_id);
+				foreach($ref_ids as $ref_id)
+				{						
+					if ($ilAccess->checkAccessOfUser($ilUser->getId(), "read", "view", $ref_id, "prtt", $obj_id))
+					{
+						return true;
+					}					
+				}
+			}
 		}
 
 		return false;

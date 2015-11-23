@@ -134,6 +134,7 @@ class ilGlossaryExport
 
 		// get Log File
 		$expDir = $this->glo_obj->getExportDirectory();
+		include_once './Services/Logging/classes/class.ilLog.php';
 		$expLog = new ilLog($expDir, "export.log");
 		$expLog->delete();
 		$expLog->setLogFormat("");

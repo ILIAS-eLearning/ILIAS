@@ -132,7 +132,6 @@ class ilObjCourseListGUI extends ilObjectListGUI
 			);
 		}
 		
-		
 		// waiting list
 		include_once './Modules/Course/classes/class.ilCourseWaitingList.php';
 		if(ilCourseWaitingList::_isOnList($ilUser->getId(),$this->obj_id))
@@ -143,6 +142,18 @@ class ilObjCourseListGUI extends ilObjectListGUI
 				"value"		=> $lng->txt('on_waiting_list')
 			);
 		}
+		
+		// course period
+		$info = ilObjCourseAccess::lookupPeriodInfo($this->obj_id);
+		if(is_array($info))
+		{
+			$props[] = array(
+				'alert' => false,
+				'newline' => true,
+				'property' => $info['property'],
+				'value' => $info['value']
+			);
+		}				
 		
 		// check for certificates	
 		include_once "./Modules/Course/classes/class.ilCourseCertificateAdapter.php";

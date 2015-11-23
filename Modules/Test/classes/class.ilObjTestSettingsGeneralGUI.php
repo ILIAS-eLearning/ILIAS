@@ -30,6 +30,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 	
 	const INST_FB_HANDLING_OPT_NONE = 'none';
 	const INST_FB_HANDLING_OPT_FREEZE = 'freeze';
+	const INST_FB_HANDLING_OPT_FORCE = 'force';
 	const INST_FB_HANDLING_OPT_FORCE_AND_FREEZE = 'force_freeze';
 
 	/** @var ilCtrl $ctrl */
@@ -1121,6 +1122,12 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		);
 		$radioOption->setInfo($this->lng->txt('tst_instant_feedback_handling_force_and_freeze_desc'));
 		$radioGroup->addOption($radioOption);
+		$radioOption = new ilRadioOption(
+			$this->lng->txt('tst_instant_feedback_handling_force'),
+			self::INST_FB_HANDLING_OPT_FORCE
+		);
+		$radioOption->setInfo($this->lng->txt('tst_instant_feedback_handling_force_desc'));
+		$radioGroup->addOption($radioOption);
 		$radioGroup->setValue($this->getInstFbHandlingValue(
 			$this->testOBJ->isInstantFeedbackAnswerFixationEnabled(),
 			$this->testOBJ->isForceInstantFeedbackEnabled()
@@ -1457,6 +1464,11 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 				$this->testOBJ->setForceInstantFeedbackEnabled(false);
 				break;
 
+			case self::INST_FB_HANDLING_OPT_FORCE:
+				$this->testOBJ->setInstantFeedbackAnswerFixationEnabled(false);
+				$this->testOBJ->setForceInstantFeedbackEnabled(true);
+				break;
+
 			case self::INST_FB_HANDLING_OPT_FORCE_AND_FREEZE:
 				$this->testOBJ->setInstantFeedbackAnswerFixationEnabled(true);
 				$this->testOBJ->setForceInstantFeedbackEnabled(true);
@@ -1466,16 +1478,12 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 	
 	private function getInstFbHandlingValue($freezeAnswersEnabled, $forceInstFbEnabled)
 	{
-		if($freezeAnswersEnabled)
+		switch( true )
 		{
-			if($forceInstFbEnabled)
-			{
-				return self::INST_FB_HANDLING_OPT_FORCE_AND_FREEZE;
-			}
-			
-			return self::INST_FB_HANDLING_OPT_FREEZE;
+			case !$freezeAnswersEnabled && !$forceInstFbEnabled: return self::INST_FB_HANDLING_OPT_NONE;
+			case $freezeAnswersEnabled && !$forceInstFbEnabled: return self::INST_FB_HANDLING_OPT_FREEZE;
+			case !$freezeAnswersEnabled && $forceInstFbEnabled: return self::INST_FB_HANDLING_OPT_FORCE;
+			case $freezeAnswersEnabled && $forceInstFbEnabled: return self::INST_FB_HANDLING_OPT_FORCE_AND_FREEZE;
 		}
-		
-		return self::INST_FB_HANDLING_OPT_NONE;
 	}
 }

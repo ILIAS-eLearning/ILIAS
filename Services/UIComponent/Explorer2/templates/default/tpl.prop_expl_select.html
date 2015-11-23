@@ -1,8 +1,12 @@
 <div id="{ID}_cont">
 <div id="{ID}_cont_txt" style="white-space: normal; max-width: 150px; max-height: 75px; overflow: auto;">{VAL_TXT}</div>
 <div><a name="{ID}_anchor" class="ilAccAnchor">{TXT_ITEM}</a></div>
-<a href="#" id="{ID}_select">{TXT_SELECT}</a><br />
-<a href="#" id="{ID}_reset">{TXT_RESET}</a>
+<!-- BEGIN txt_select -->
+<a href="#" id="{ID_TXT_SELECT}_select">{TXT_SELECT}</a><br />
+<!-- END txt_select -->
+<!-- BEGIN txt_reset -->
+<a href="#" id="{ID_TXT_RESET}_reset">{TXT_RESET}</a>
+<!-- END txt_reset -->
 <script type="text/javascript">
 il.Util.addOnLoad(function() {
 	il.Explorer2.initSelect('{ID}');

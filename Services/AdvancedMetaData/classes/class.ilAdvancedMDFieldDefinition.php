@@ -496,12 +496,37 @@ abstract class ilAdvancedMDFieldDefinition
 	}
 	
 	/**
+	 * Is search supported at all
+	 * 
+	 * @return boolean
+	 */
+	public function isSearchSupported()
+	{
+		return true;
+	}	
+	
+	/**
+	 * Is search by filter supported
+	 * 
+	 * @return boolean
+	 */
+	public function isFilterSupported()
+	{
+		return true;
+	}	
+	
+	/**
 	 * Toggle searchable
 	 *
 	 * @param bool searchable	 
 	 */
 	public function setSearchable($a_status)
 	{
+		// see above
+		if(!$this->isSearchSupported())
+		{
+			$a_status = false;
+		}
 	 	$this->searchable = (bool)$a_status;
 	}
 	
@@ -636,7 +661,8 @@ abstract class ilAdvancedMDFieldDefinition
 		$check->setValue(1);
 		$a_form->addItem($check);
 		
-		if(!$perm[ilAdvancedMDPermissionHelper::ACTION_FIELD_EDIT_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_FIELD_SEARCHABLE])
+		if(!$perm[ilAdvancedMDPermissionHelper::ACTION_FIELD_EDIT_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_FIELD_SEARCHABLE] ||
+			!$this->isSearchSupported())
 		{
 			$check->setDisabled(true);
 		}
@@ -857,6 +883,8 @@ abstract class ilAdvancedMDFieldDefinition
 		$fields["field_id"] = array("integer", $next_id);
 		
 		$ilDB->insert("adv_mdf_definition", $fields);
+		
+		$this->setFieldId($next_id);
 	}
 	
 	/**

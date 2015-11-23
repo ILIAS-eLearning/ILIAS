@@ -137,7 +137,7 @@ class ilObjStudyProgrammeSettingsGUI {
 			$response = ilAsyncOutputHandler::encodeAsyncResponse(array("success"=>true, "message"=>$this->lng->txt("msg_obj_modified")));
 		} else {
 			// TODO:
-			ilUtil::sendFailure($this->lng->txt("TODO"));
+			ilUtil::sendFailure($this->lng->txt("msg_form_save_error"));
 			$response = ilAsyncOutputHandler::encodeAsyncResponse(array("success"=>false, "errors"=>$form->getErrors()));
 		}
 
@@ -145,7 +145,7 @@ class ilObjStudyProgrammeSettingsGUI {
 		if($this->ctrl->isAsynch()) {
 			return ilAsyncOutputHandler::handleAsyncOutput($form->getHTML(), $response, false);
 		} else {
-			$this->ctrl->redirect($this);
+			return $form->getHTML();
 		}
 	}
 
@@ -247,7 +247,13 @@ class ilObjStudyProgrammeSettingsGUI {
 		
 		$obj->setTitle($a_form->getItemByPostVar(self::PROP_TITLE)->getValue());
 		$obj->setDescription($a_form->getItemByPostVar(self::PROP_DESC)->getValue());
-		$obj->setSubtypeId($a_form->getItemByPostVar(self::PROP_TYPE)->getValue());
+
+		if($obj->getSubtypeId() != $a_form->getItemByPostVar(self::PROP_TYPE)->getValue()) {
+			$obj->setSubtypeId($a_form->getItemByPostVar(self::PROP_TYPE)->getValue());
+			$obj->updateCustomIcon();
+			$this->parent_gui->setTitleAndDescription();
+		}
+
 		$obj->setPoints($a_form->getItemByPostVar(self::PROP_POINTS)->getValue());
 		$obj->setStatus($a_form->getItemByPostVar(self::PROP_STATUS)->getValue());
 	}

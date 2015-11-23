@@ -122,7 +122,7 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
 				return "";
 			}
 			$gui = $self->newSubItem($progress);
-			$gui->setIndent($this->getIndent() + 1);
+			$gui->setIndent($self->getIndent() + 1);
 			return $gui->getHTML();
 		}, $this->progress->getChildrenProgress()));
 	}

@@ -55,13 +55,12 @@ class ilObjFileBasedLM extends ilObject
 		$this->updateMetaData();
 		parent::update();
 
-		$ilDB->manipulate("UPDATE file_based_lm SET ".
+		$ilDB->manipulate($q = "UPDATE file_based_lm SET ".
 			" is_online = ".$ilDB->quote(ilUtil::tf2yn($this->getOnline()), "text").
 			", startfile = ".$ilDB->quote($this->getStartFile(), "text")." ".
 			", show_lic = ".$ilDB->quote($this->getShowLicense(), "integer")." ".
 			", show_bib = ".$ilDB->quote($this->getShowBibliographicalData(), "integer")." ".
 			" WHERE id = ".$ilDB->quote($this->getId(), "integer"));
-
 		return true;
 	}
 
@@ -133,10 +132,10 @@ class ilObjFileBasedLM extends ilObject
 		return $this->start_file;		
 	}
 
-	function setStartFile($a_file)
+	function setStartFile($a_file, $a_omit_file_check = false)
 	{
 		if($a_file &&
-			file_exists($this->getDataDirectory()."/".$a_file))
+			(file_exists($this->getDataDirectory()."/".$a_file) || $a_omit_file_check))
 		{				
 			$this->start_file = $a_file;
 		}
@@ -345,6 +344,14 @@ class ilObjFileBasedLM extends ilObject
 
 		$new_obj = parent::cloneObject($a_target_id,$a_copy_id);
 	 	$this->cloneMetaData($new_obj);
+
+		//copy online status if object is not the root copy object
+		$cp_options = ilCopyWizardOptions::_getInstance($a_copy_id);
+
+		if(!$cp_options->isRootNode($this->getRefId()))
+		{
+			$new_obj->setOnline($this->getOnline());
+		}
 	 	
 		$new_obj->setTitle($this->getTitle());
 		$new_obj->setDescription($this->getDescription());

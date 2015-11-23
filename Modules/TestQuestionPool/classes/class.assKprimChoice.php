@@ -684,12 +684,12 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 		
 		if( file_exists($answer->getImageFsPath()) )
 		{
-			unlink($answer->getImageFsPath());
+			ilUtil::delDir($answer->getImageFsPath());
 		}
 		
 		if( file_exists($answer->getThumbFsPath()) )
 		{
-			unlink($answer->getThumbFsPath());
+			ilUtil::delDir($answer->getThumbFsPath());
 		}
 
 		$answer->setImageFile(null);
@@ -968,8 +968,8 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 		$result['nr_of_tries'] = (int) $this->getNrOfTries();
 		$result['shuffle'] = (bool) $this->isShuffleAnswersEnabled();
 		$result['feedback'] = array(
-			'onenotcorrect' => $this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false),
-			'allcorrect' => $this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true)
+			'onenotcorrect' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false)),
+			'allcorrect' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
 		);
 
 		$result['trueOptionLabel'] = $this->getTrueOptionLabelTranslation($this->lng, $this->getOptionLabel());

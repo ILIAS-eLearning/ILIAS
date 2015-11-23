@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schema xmlns = "http://www.w3.org/2001/XMLSchema"
-		targetNamespace = "http://www.ilias.de/Modules/Forum/frm/4_5"
-		xmlns:t = "http://www.ilias.de/Modules/Forum/frm/4_5"
+		targetNamespace = "http://www.ilias.de/Modules/Forum/frm/5_1"
+		xmlns:t = "http://www.ilias.de/Modules/Forum/frm/5_1"
 		elementFormDefault = "qualified">
 
 	<element name="Forum">
@@ -15,6 +15,8 @@
 				<element name="Pseudonyms" type="integer" minOccurs="1" maxOccurs="1" />
 				<element name="Statistics" type="integer" minOccurs="1" maxOccurs="1" />
 				<element name="ThreadRatings" type="integer" minOccurs="1" maxOccurs="1" />
+				<element name="Sorting" type="integer" minOccurs="1" maxOccurs="1" />
+				<element name="MarkModeratorPosts" type="integer" minOccurs="1" maxOccurs="1" />
 				<element name="PostingActivation" type="integer" minOccurs="1" maxOccurs="1" />
 				<element name="PresetSubject" type="integer" minOccurs="1" maxOccurs="1" />
 				<element name="PresetRe" type="integer" minOccurs="1" maxOccurs="1" />

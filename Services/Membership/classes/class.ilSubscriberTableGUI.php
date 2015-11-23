@@ -81,8 +81,8 @@ class ilSubscriberTableGUI extends ilTable2GUI
 
 		$this->addColumn('','mail','10%');
 		
-		$this->addMultiCommand('assignSubscribers',$this->lng->txt('assign'));
-		$this->addMultiCommand('refuseSubscribers',$this->lng->txt('refuse'));
+		$this->addMultiCommand('confirmAssignSubscribers',$this->lng->txt('assign'));
+		$this->addMultiCommand('confirmRefuseSubscribers',$this->lng->txt('refuse'));
 		$this->addMultiCommand('sendMailToSelectedUsers',$this->lng->txt('crs_mem_send_mail'));
 		
 
@@ -144,7 +144,7 @@ class ilSubscriberTableGUI extends ilTable2GUI
 		
 				
 		include_once './Modules/Course/classes/class.ilObjCourseGrouping.php';
-		if(!ilObjCourseGrouping::_checkGroupingDependencies($this->getParentObject()->object,$a_set['id']) and
+		if(!ilObjCourseGrouping::_checkGroupingDependencies($this->getParentObject()->object,$a_set['usr_id']) and
 			($ids = ilObjCourseGrouping::getAssignedObjects()))
 		{
 			$prefix = $this->getParentObject()->object->getType();

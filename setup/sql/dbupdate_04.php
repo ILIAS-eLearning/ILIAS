@@ -7226,14 +7226,6 @@ ilDBUpdate4550::cleanupOrphanedChatRoomData();
 ?>
 <#4557>
 <?php
-$ilDB->addIndex('chatroom_prooms', array('parent_id'), 'i1');
-?>
-<#4558>
-<?php
-$ilDB->addIndex('chatroom_prooms', array('owner'), 'i2');
-?>
-<#4559>
-<?php
 if($ilDB->getDBType() == 'postgres')
 {
 	$ilDB->manipulate("ALTER TABLE chatroom_prooms ALTER COLUMN parent_id SET DEFAULT 0");
@@ -7248,6 +7240,31 @@ else
 		'default' => 0
 	));
 }
+$ilDB->addIndex('chatroom_prooms', array('parent_id'), 'i1');
+?>
+<#4558>
+<?php
+$ilDB->addIndex('chatroom_prooms', array('owner'), 'i2');
+?>
+<#4559>
+<?php
+/*
+Moved to 4557
+if($ilDB->getDBType() == 'postgres')
+{
+	$ilDB->manipulate("ALTER TABLE chatroom_prooms ALTER COLUMN parent_id SET DEFAULT 0");
+	$ilDB->manipulate("ALTER TABLE chatroom_prooms ALTER parent_id TYPE INTEGER USING (parent_id::INTEGER)");
+}
+else
+{
+	$ilDB->modifyTableColumn('chatroom_prooms', 'parent_id', array(
+		'type'    => 'integer',
+		'length'  => 4,
+		'notnull' => true,
+		'default' => 0
+	));
+}
+*/
 ?>
 <#4560>
 <?php
@@ -7532,6 +7549,12 @@ $ilDB->addPrimaryKey('tst_addtime', array('active_fi'));
 ?>
 <#4573>
 <?php 
+
+// delete all entries
+// structure reload is done at end of db update.
+$query = 'DELETE from ctrl_calls';
+$ilDB->manipulate($query);
+
 if($ilDB->indexExistsByFields('ctrl_calls', array('parent')))
 {
 	$ilDB->dropIndexByFields('ctrl_calls', array('parent'));
@@ -8741,7 +8764,7 @@ $blog_type_id = ilDBUpdateNewObjectType::getObjectTypeId('blog');
 if($blog_type_id)
 {					
 	// not sure if we want to clone "write" or "contribute"?
-	$new_ops_id = ilDBUpdateNewObjectType::addCustomRBACOperation('redact', 'Redact', 'object', 3204);	
+	$new_ops_id = ilDBUpdateNewObjectType::addCustomRBACOperation('redact', 'Redact', 'object', 6100);	
 	if($new_ops_id)
 	{
 		ilDBUpdateNewObjectType::addRBACOperation($blog_type_id, $new_ops_id);						
@@ -10011,6 +10034,13 @@ if ($ilDB->tableExists('rbac_log_old'))
 //step 1/3 rbac_templates removes all dublicates
 if ($ilDB->tableExists('rbac_templates'))
 {
+	$res = $ilDB->query(
+		'select * from rbac_templates GROUP BY rol_id, type, ops_id, parent '.
+		'having count(*) > 1'
+	);
+	
+	
+	/*
 	$res = $ilDB->query("
 		SELECT first.rol_id rol_id, first.type type, first.ops_id ops_id, first.parent parent
 		FROM rbac_templates first
@@ -10026,6 +10056,7 @@ if ($ilDB->tableExists('rbac_templates'))
 		)
 		GROUP BY first.rol_id, first.type, first.ops_id, first.parent
 	");
+	 */
 
 	while($row = $ilDB->fetchAssoc($res))
 	{
@@ -12064,4 +12095,278 @@ if($data['cnt'] > 0)
 {
 	die("There are still wrong child entries in table 'mail_tree'. Please execute database update step 4761 again. Execute the following SQL string manually: UPDATE settings SET value = 4760 WHERE keyword = 'db_version'; ");
 }
+?>
+<#4764>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#4765>
+<?php
+if(!$ilDB->indexExistsByFields('frm_posts_tree', array('thr_fk')))
+{
+	$ilDB->addIndex('frm_posts_tree', array('thr_fk'), 'i1');
+}
+?>
+<#4766>
+<?php
+if(!$ilDB->indexExistsByFields('frm_posts_tree', array('pos_fk')))
+{
+	$ilDB->addIndex('frm_posts_tree', array('pos_fk'), 'i2');
+}
+?>
+<#4767>
+<?php
+
+	if(!$ilDB->indexExistsByFields('role_data',array('auth_mode')))
+	{
+		$ilDB->addIndex('role_data',array('auth_mode'),'i1');
+	}
+?>
+<#4768>
+<?php
+$ilDB->modifyTableColumn('cmi_gobjective', 'objective_id', array(
+	'length'  => 253,
+));
+?>
+<#4769>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#4770>
+<?php
+	$query = 'INSERT INTO log_components (component_id) VALUES ('.$ilDB->quote('log_root', 'text').')';
+	$ilDB->manipulate($query);
+?>
+
+<#4771>
+<?php
+
+// remove role entries in obj_members
+$query = 'update obj_members set admin = '.$ilDB->quote(0,'integer').', '.
+		'tutor = '.$ilDB->quote(0,'integer').', member = '.$ilDB->quote(0,'integer');
+$ilDB->manipulate($query);
+
+// iterate through all courses
+$offset = 0;
+$limit = 100;
+do
+{
+	$query = 'SELECT obr.ref_id, obr.obj_id FROM object_reference obr '.
+			'join object_data obd on obr.obj_id = obd.obj_id where (type = '.$ilDB->quote('crs','text').' or type = '.$ilDB->quote('grp','text').') '.
+			$ilDB->setLimit($limit, $offset);
+	$res = $ilDB->query($query);
+	
+	if(!$res->numRows())
+	{
+		break;
+	}
+	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	{
+		// find course members roles
+		$query = 'select rol_id, title from rbac_fa '.
+				'join object_data on rol_id = obj_id '.
+				'where parent = '.$ilDB->quote($row->ref_id,'integer').' '.
+				'and assign = '.$ilDB->quote('y','text');
+		$rol_res = $ilDB->query($query);
+		while($rol_row = $rol_res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			// find users which are not assigned to obj_members and create a default entry
+			$query = 'select ua.usr_id from rbac_ua ua '.
+					'left join obj_members om on ua.usr_id = om.usr_id '.
+					'where om.usr_id IS NULL '.
+					'and rol_id = '.$ilDB->quote($rol_row->rol_id,'integer').' '.
+					'and om.obj_id = '.$ilDB->quote($row->obj_id,'integer');
+			$ua_res = $ilDB->query($query);
+			while($ua_row = $ua_res->fetchRow(DB_FETCHMODE_OBJECT))
+			{
+				$query = 'insert into obj_members (obj_id, usr_id) '.
+						'values('.
+						$ilDB->quote($row->obj_id,'integer').', '.
+						$ilDB->quote($ua_row->usr_id,'integer').' '.
+						')';
+				$ilDB->manipulate($query);
+						
+			}
+			
+			// find users which are assigned to obj_members and update their role assignment
+			$query = 'select * from rbac_ua ua '.
+					'left join obj_members om on ua.usr_id = om.usr_id '.
+					'where om.usr_id IS NOT NULL '.
+					'and rol_id = '.$ilDB->quote($rol_row->rol_id,'integer').' '.
+					'and om.obj_id = '.$ilDB->quote($row->obj_id,'integer');
+			$ua_res = $ilDB->query($query);
+			while($ua_row = $ua_res->fetchRow(DB_FETCHMODE_OBJECT))
+			{
+				$admin = $tutor = $member = 0;
+				switch(substr($rol_row->title,0,8))
+				{
+					case 'il_crs_a':
+					case 'il_grp_a':
+						$admin = 1;
+						break;
+					
+					case 'il_crs_t':
+						$tutor = 1;
+						break;
+					
+					default:
+					case 'il_grp_m':
+					case 'il_crs_m':
+						$member = 1;
+						break;
+				}
+				
+				$query = 'update obj_members '.
+						'set admin = admin  + '.$ilDB->quote($admin,'integer').', '.
+						'tutor = tutor + '.$ilDB->quote($tutor,'integer').', '.
+						'member = member + '.$ilDB->quote($member,'integer').' '.
+						'WHERE usr_id = '.$ilDB->quote($ua_row->usr_id,'integer').' '.
+						'AND obj_id = '.$ilDB->quote($row->obj_id,'integer');
+				$ilDB->manipulate($query);
+			}
+		}
+	}
+		// increase offset
+	$offset += $limit;
+}
+while(TRUE);
+
+?>
+<#4772>
+<?php
+
+if(!$ilDB->indexExistsByFields('obj_members',array('usr_id')))
+{
+	$ilDB->addIndex('obj_members',array('usr_id'),'i1');
+}
+
+?>
+<#4773>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#4774>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#4775>
+<?php
+$ilDB->modifyTableColumn(
+	'il_dcl_field',
+	'description',
+	array("type" => "clob")
+);
+?>
+<#4776>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#4777>
+<?php
+
+	// see #3172
+	if($ilDB->getDBType() == 'oracle')
+	{
+		if(!$ilDB->tableColumnExists('svy_qst_matrixrows', 'title_tmp'))
+		{
+			$ilDB->addTableColumn('svy_qst_matrixrows', 'title_tmp', array(
+				"type" => "text",
+				"length" => 1000,
+				"notnull" => false,
+				"default" => null)
+			);			
+			$ilDB->manipulate('UPDATE svy_qst_matrixrows SET title_tmp = title');			
+			$ilDB->dropTableColumn('svy_qst_matrixrows', 'title');			
+			$ilDB->renameTableColumn('svy_qst_matrixrows', 'title_tmp', 'title');
+		}			
+	}
+	else
+	{
+		$ilDB->modifyTableColumn('svy_qst_matrixrows','title', array(
+			"type" => "text", 
+			"length" => 1000, 
+			"default" => null, 
+			"notnull" => false)
+		);
+	}
+	
+?>
+<#4778>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#4779>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#4780>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#4781>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#4782>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#4783>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#4784>
+<?php
+	include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+	$obj_type_id = ilDBUpdateNewObjectType::getObjectTypeId("prg");
+	$existing_ops = array("read");
+	foreach ($existing_ops as $op) {
+		$op_id = ilDBUpdateNewObjectType::getCustomRBACOperationId($op);
+		ilDBUpdateNewObjectType::addRBACOperation($obj_type_id, $op_id);
+	}
+?>
+<#4785>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#4786>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#4787>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+ilDBUpdateNewObjectType::addAdminNode('cadm', 'Contact');
+?>
+<#4788>
+<?php
+$ilSetting = new ilSetting('buddysystem');
+$ilSetting->set('enabled', 1);
+?>
+<#4789>
+<?php
+$stmt = $ilDB->prepareManip('INSERT INTO usr_pref (usr_id, keyword, value) VALUES(?, ?, ?)', array('integer', 'text', 'text'));
+
+$notin = $ilDB->in('usr_data.usr_id', array(13), true, 'integer');
+$query = 'SELECT usr_data.usr_id FROM usr_data LEFT JOIN usr_pref ON usr_pref.usr_id = usr_data.usr_id AND usr_pref.keyword = %s WHERE usr_pref.keyword IS NULL AND ' . $notin;
+$res   = $ilDB->queryF($query, array('text'), array('bs_allow_to_contact_me'));
+while($row = $ilDB->fetchAssoc($res))
+{
+	$ilDB->execute($stmt, array($row['usr_id'], 'bs_allow_to_contact_me', 'y'));
+}
+?>
+<#4790>
+<?php
+
+	if(!$ilDB->indexExistsByFields('page_question',array('question_id')))
+	{
+		$ilDB->addIndex('page_question',array('question_id'),'i2');
+	}
+?>
+<#4791>
+<?php
+	if(!$ilDB->indexExistsByFields('help_tooltip', array('tt_id', 'module_id')))
+	{
+		$ilDB->addIndex('help_tooltip', array('tt_id', 'module_id'), 'i1');
+	}
 ?>

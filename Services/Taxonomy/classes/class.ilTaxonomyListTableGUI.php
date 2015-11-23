@@ -28,8 +28,9 @@ class ilTaxonomyListTableGUI extends ilTable2GUI
 		$this->setData(ilObjTaxonomy::getUsageOfObject($this->assigned_object_id, true));
 		$this->setTitle($lng->txt("obj_taxf"));		
 		$this->setDescription($a_info);
-		
+
 		$this->addColumn($this->lng->txt("title"), "title");
+		$this->addColumn($this->lng->txt("description"));
 		$this->addColumn($this->lng->txt("actions"));
 		
 		$this->setDefaultOrderField("title");
@@ -61,6 +62,7 @@ class ilTaxonomyListTableGUI extends ilTable2GUI
 		$ilCtrl->setParameter($this->parent_obj, "tax_id", $_GET["tax_id"]);
 
 		$this->tpl->setVariable("TITLE", $a_set["title"]);
+		$this->tpl->setVariable("DESCRIPTION", ilObject::_lookupDescription($a_set["tax_id"]));
 	}
 
 }

@@ -199,7 +199,9 @@ il.LearningModule = {
 $(function() {
 	$('body').focus();
 	il.LearningModule.refreshLayout();
-	ilCOPageQuestionHandler.setSuccessHandler(il.LearningModule.refreshToc);
+	if (typeof ilCOPageQuestionHandler != "undefined") {
+		ilCOPageQuestionHandler.setSuccessHandler(il.LearningModule.refreshToc);
+	}
 	$(document).keydown(function(e) {
 	if (e.target.tagName != "TEXTAREA" &&
 		e.target.tagName != "INPUT") {

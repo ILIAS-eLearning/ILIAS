@@ -252,7 +252,7 @@ class ilStartUpGUI
 					$ilAuth->logout();
 					session_destroy();
 
-					$failure = $lng->txt("wrong_ip_detected")." (".$_SERVER["REMOTE_ADDR"].")";
+					$failure = sprintf($lng->txt('wrong_ip_detected'), $_SERVER['REMOTE_ADDR']);
 					break;
 
 				case AUTH_USER_SIMULTANEOUS_LOGIN:

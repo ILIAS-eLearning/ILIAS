@@ -87,7 +87,7 @@ class ilExportSelectionTableGUI extends ilTable2GUI
 		}
 		else
 		{
-			$this->tpl->setVariable('VAL_LAST_EXPORT',$this->lng->txt('no_date'));			
+			$this->tpl->setVariable('VAL_LAST_EXPORT',$this->lng->txt('no_file'));
 		}
 
 		if($s['source'])

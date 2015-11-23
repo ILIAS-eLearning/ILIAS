@@ -1126,12 +1126,12 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
 		if( !$this->object->getShowPassDetails() )
 		{
-			$executable = $this->object->isExecutable($testSession, $ilUser->getId());
+			#$executable = $this->object->isExecutable($testSession, $ilUser->getId());
 
-			if($executable["executable"])
-			{
+			#if($executable["executable"])
+			#{
 				$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
-			}
+			#}
 		}
 
 		$active_id = $testSession->getActiveId();
@@ -1328,11 +1328,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$templatehead->setVariable('RESULTS_TOOLBAR', $this->ctrl->getHTML($toolbar));
 
 		$passDetailsEnabled = $this->object->getShowPassDetails();
-		if (!$passDetailsEnabled)
-		{
-			$executable = $this->object->isExecutable($testSession, $ilUser->getId());
-			if (!$executable["executable"]) $passDetailsEnabled = true;
-		}
+		#if (!$passDetailsEnabled)
+		#{
+		#	$executable = $this->object->isExecutable($testSession, $ilUser->getId());
+		#	if (!$executable["executable"]) $passDetailsEnabled = true;
+		#}
 
 		require_once 'Modules/Test/classes/class.ilTestResultHeaderLabelBuilder.php';
 		$testResultHeaderLabelBuilder = new ilTestResultHeaderLabelBuilder($this->lng, $ilObjDataCache);
@@ -1976,15 +1976,26 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	{
 		global $ilDB, $ilPluginAdmin;
 
+		$resultData = $this->object->getTestResult($active_id, $pass, false, $considerHiddenQuestions);
+		$questionIds = array();
+		foreach($resultData as $resultItemKey => $resultItemValue)
+		{
+			if($resultItemKey === 'test' || $resultItemKey === 'pass')
+			{
+				continue;
+			}
+
+			$questionIds[] = $resultItemValue['qid'];
+		}
+
 		$table_gui = $this->buildPassDetailsOverviewTableGUI($this, 'outUserPassDetails');
 		$table_gui->initFilter();
 
 		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionList.php';
 		$questionList = new ilAssQuestionList($ilDB, $this->lng, $ilPluginAdmin);
 
-		$questionList->setParentObjId($this->object->getId());
-		$questionList->setParentObjectType('tst');
-		$questionList->setQuestionInstanceTypeFilter(ilAssQuestionList::QUESTION_INSTANCE_TYPE_DUPLICATES);
+		$questionList->setQuestionIdsFilter($questionIds);
+		$questionList->setQuestionInstanceTypeFilter(null);
 
 		foreach ($table_gui->getFilterItems() as $item)
 		{
@@ -2009,8 +2020,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$questionList->load();
 
 		$filteredTestResult = array();
-
-		$resultData = $this->object->getTestResult($active_id, $pass, false, $considerHiddenQuestions);
 		
 		foreach($resultData as $resultItemKey => $resultItemValue)
 		{

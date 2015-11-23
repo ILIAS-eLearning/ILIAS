@@ -44,7 +44,8 @@ class ilBlogImporter extends ilXmlImporter
 	 * @param	array		mapping array
 	 */
 	function finalProcessing($a_mapping)
-	{		
+	{				
+		include_once("./Modules/Blog/classes/class.ilBlogPosting.php");
 		$blp_map = $a_mapping->getMappingsOfEntity("Services/COPage", "pg");
 		foreach ($blp_map as $blp_id)
 		{

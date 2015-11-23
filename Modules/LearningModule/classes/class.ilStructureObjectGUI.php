@@ -72,6 +72,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 				include_once 'Services/Object/classes/class.ilObjectMetaDataGUI.php';
 				$md_gui = new ilObjectMetaDataGUI($this->content_object, $this->obj->getType(), $this->obj->getId());	
 				$md_gui->addMDObserver($this->obj, 'MDUpdateListener', 'General');
+				$md_gui->addMDObserver($this->obj, 'MDUpdateListener', 'Educational'); // #9510
 				$this->ctrl->forwardCommand($md_gui);
 				break;
 

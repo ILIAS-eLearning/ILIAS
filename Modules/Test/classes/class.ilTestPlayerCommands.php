@@ -25,7 +25,9 @@ class ilTestPlayerCommands
 	const UNMARK_QUESTION_SAVE = 'unmarkQuestionAndSaveIntermediate';
 
 	const SUBMIT_SOLUTION = 'submitSolution';
+	const SUBMIT_SOLUTION_AND_NEXT = 'submitSolutionAndNext';
 	const DISCARD_SOLUTION = 'discardSolution';
+	const SKIP_QUESTION = 'skipQuestion';
 	const SHOW_INSTANT_RESPONSE = 'showInstantResponse';
 	
 	const CONFIRM_HINT_REQUEST = 'confirmHintRequest';
@@ -38,8 +40,29 @@ class ilTestPlayerCommands
 	
 	const SHOW_QUESTION_SELECTION = 'showQuestionSelection';
 	const UNFREEZE_ANSWERS = 'unfreezeCheckedQuestionsAnswers';
+	
+	const AUTO_SAVE = 'autosave';
+	const REDIRECT_ON_TIME_LIMIT = 'redirectAfterAutosave';
 
 	const SUSPEND_TEST = 'suspendTest';
 	const FINISH_TEST = 'finishTest';
 	const AFTER_TEST_PASS_FINISHED = 'afterTestPassFinished';
+	const SHOW_FINAL_STATMENT = 'showFinalStatement';
+
+	/**
+	 * @var array
+	 */
+	private static $nonExecutionCommands = array(
+		self::AUTO_SAVE, self::REDIRECT_ON_TIME_LIMIT,
+		self::AFTER_TEST_PASS_FINISHED, self::SHOW_FINAL_STATMENT
+	);
+
+	/**
+	 * @param $cmd
+	 * @return bool
+	 */
+	public static function isTestExecutionCommand($cmd)
+	{
+		return !in_array($cmd, self::$nonExecutionCommands);
+	}
 }

@@ -1,6 +1,7 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+include_once 'Modules/TestQuestionPool/interfaces/interface.iQuestionCondition.php';
 include_once 'Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php';
 
 /**

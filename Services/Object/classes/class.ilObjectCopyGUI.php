@@ -5,6 +5,7 @@
  * GUI class for the workflow of copying objects
  * 
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
+ * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
  * @version $Id$
  * 
  * @ilCtrl_Calls ilObjectCopyGUI: 
@@ -98,7 +99,26 @@ class ilObjectCopyGUI
 			$GLOBALS['ilCtrl']->setParameter($this,'smode',$this->getSubMode());
 			ilLoggerFactory::getLogger('obj')->debug('Submode is: '. $this->getSubMode());
 		}
-		
+
+		// save sources
+		if($_REQUEST['source_ids'])
+		{
+			$this->setSource(explode('_',$_REQUEST['source_ids']));
+			$GLOBALS['ilCtrl']->setParameter($this,'source_ids',  implode('_', $this->getSources()));
+			ilLoggerFactory::getLogger('obj')->debug('Multiple sources: ' . implode('_',$this->getSources()));
+		}
+		if($_REQUEST['source_id'])
+		{
+			$this->setSource(array((int) $_REQUEST['source_id']));
+			$GLOBALS['ilCtrl']->setParameter($this,'source_ids',  implode('_', $this->getSource()));
+			ilLoggerFactory::getLogger('obj')->debug('source_id is set: '. implode('_',$this->getSources()));
+		}
+		if($this->getFirstSource())
+		{
+			$this->setType(
+					ilObject::_lookupType(ilObject::_lookupObjId($this->getFirstSource()))
+			);
+		}
 		
 		// creation screen: copy section
 		if($_REQUEST['new_type'])
@@ -123,40 +143,24 @@ class ilObjectCopyGUI
 			$ilCtrl->setParameterByClass(get_class($this->parent_obj), 'selectMode', self::SOURCE_SELECTION);
 			$this->setTarget((int) $_GET['ref_id']);
 			$ilCtrl->setReturnByClass(get_class($this->parent_obj), '');
-			$GLOBALS['ilLog']->write(__METHOD__.': Source selection mode. Target is ' . $this->getFirstTarget());
+			
+			ilLoggerFactory::getLogger('obj')->debug('Source selection mode. Target is: '. $this->getFirstTarget());
 		}
 		elseif($_REQUEST['selectMode'] == self::TARGET_SELECTION)
 		{
 			$this->setMode(self::TARGET_SELECTION);
 			$ilCtrl->setReturnByClass(get_class($this->parent_obj),'');
-			$GLOBALS['ilLog']->write(__METHOD__.': Target selection mode. ' );
+			ilLoggerFactory::getLogger('obj')->debug('Target selection mode.');
 		}
 		
-		// save sources
-		if($_REQUEST['source_ids'])
-		{
-			$this->setSource(explode('_',$_REQUEST['source_ids']));
-			$GLOBALS['ilCtrl']->setParameter($this,'source_ids',  implode('_', $this->getSource()));
-		}
-		if($_REQUEST['source_id'])
-		{
-			$this->setSource(array((int) $_REQUEST['source_id']));
-			$GLOBALS['ilCtrl']->setParameter($this,'source_ids',  implode('_', $this->getSource()));
-			
-		}
 		
 		// save targets
 		if($_REQUEST['target_ids'])
 		{
 			$this->setTargets(explode('_',$_REQUEST['target_ids']));
+			ilLoggerFactory::getLogger('obj')->debug('targets are: '. print_r($this->getTargets(),TRUE));
 		}
 		
-		if($this->getFirstSource())
-		{
-			$this->setType(
-					ilObject::_lookupType(ilObject::_lookupObjId($this->getFirstSource()))
-			);
-		}
 	}
 	
 	/**
@@ -286,7 +290,9 @@ class ilObjectCopyGUI
 			foreach((array) $path as $node_id)
 			{
 				if(!in_array($node_id, $_SESSION['paste_copy_repexpand']))
+				{
 					$_SESSION['paste_copy_repexpand'][] = $node_id;
+				}
 			}
 		}
 		// end-patch multi copy
@@ -459,6 +465,32 @@ class ilObjectCopyGUI
 			ilUtil::sendFailure($this->lng->txt('select_one'));
 			$this->showTargetSelectionTree();
 			return false;	
+		}
+		
+		// validate allowed subtypes
+		foreach($this->getSources() as $source_ref_id)
+		{
+			foreach((array) $this->getTargets() as $target_ref_id)
+			{
+				$target_type = ilObject::_lookupType($target_ref_id, TRUE);
+				$target_class_name = ilObjectFactory::getClassByType($taget_type);
+				$target_object = new $target_class_name($target_ref_id);
+				$possible_subtypes = $target_object->getPossibleSubObjects();
+
+				$source_type = ilObject::_lookupType($source_ref_id, TRUE);
+
+				if(!array_key_exists($source_type, (array) $possible_subtypes))
+				{
+					ilUtil::sendFailure(
+							sprintf(
+								$this->lng->txt('msg_obj_may_not_contain_objects_of_type'),
+								$this->lng->txt('obj_'.$target_type),
+								$this->lng->txt('obj_'.$source_type))
+					);
+					$this->showTargetSelectionTree();
+					return FALSE;
+				}
+			}
 		}
 		
 		if(count($this->getSource() == 1) && $objDefinition->isContainer($this->getType()))
@@ -649,6 +681,7 @@ class ilObjectCopyGUI
 	protected function cancel()
 	{
 		global $ilCtrl;
+		$ilCtrl->setReturnByClass(get_class($this->parent_obj),'cancel');
 		$ilCtrl->returnToParent($this);
 	}
 
@@ -716,6 +749,8 @@ class ilObjectCopyGUI
 			ilUtil::sendFailure($this->lng->txt('search_no_match'),true);
 			$ilCtrl->returnToParent($this);
 		}
+		
+		
 	
 		include_once './Services/Object/classes/class.ilObjectCopySearchResultTableGUI.php';
 		$table = new ilObjectCopySearchResultTableGUI($this,'searchSource',$this->getType());
@@ -745,6 +780,45 @@ class ilObjectCopyGUI
 			$this->searchSource();
 			return false;	
 		}
+		
+		// validate allowed subtypes
+		foreach($this->getSources() as $source_ref_id)
+		{
+			foreach((array) $this->getTargets() as $target_ref_id)
+			{
+				$target_type = ilObject::_lookupType($target_ref_id, TRUE);
+				$target_class_name = ilObjectFactory::getClassByType($taget_type);
+				$target_object = new $target_class_name($target_ref_id);
+				$possible_subtypes = $target_object->getPossibleSubObjects();
+
+				$source_type = ilObject::_lookupType($source_ref_id, TRUE);
+				
+				if(!array_key_exists($source_type, $possible_subtypes))
+				{
+					#ilLoggerFactory::getLogger('obj')->debug('Source type: '.  $source_type);
+					#ilLoggerFactory::getLogger('obj')->debug('Target type: '.  $target_type);
+					#ilLoggerFactory::getLogger('obj')->debug('Submode: '.  $this->getSubMode());
+					
+					// adopt content mode
+					if(
+						$this->getSubMode() != self::SUBMODE_CONTENT_ONLY and
+						($source_type != 'crs' or $target_type != 'crs')
+					)
+					{	
+						ilUtil::sendFailure(
+								sprintf(
+									$this->lng->txt('msg_obj_may_not_contain_objects_of_type'),
+									$this->lng->txt('obj_'.$target_type),
+									$this->lng->txt('obj_'.$source_type))
+						);
+						$this->searchSource();
+						return FALSE;
+						
+					}
+				}
+			}
+		}
+		
 		
 		if($objDefinition->isContainer($this->getType()))
 		{
@@ -799,6 +873,9 @@ class ilObjectCopyGUI
 			return false;
 		}
 		
+		ilLoggerFactory::getLogger('obj')->debug('Source(s): '. print_r($this->getSources(),TRUE));
+		ilLoggerFactory::getLogger('obj')->debug('Target(s): '. print_r($this->getTargets(),TRUE));
+
 		ilUtil::sendInfo($this->lng->txt($this->getType().'_copy_threads_info'));
 		include_once './Services/Object/classes/class.ilObjectCopySelectionTableGUI.php';
 		
@@ -903,7 +980,7 @@ class ilObjectCopyGUI
 		reset($a_sources);
 		
 		
-		ilLoggerFactory::getLogger('obj')->debug(print_r($a_sources,TRUE));
+		ilLoggerFactory::getLogger('obj')->debug('Copy multiple non containers. Sources: ' . print_r($a_sources,TRUE));
 
 		// clone
 		foreach ($a_sources as $source_ref_id)
@@ -942,11 +1019,13 @@ class ilObjectCopyGUI
 
 		if (count($a_sources) == 1)
 		{
+			ilLoggerFactory::getLogger('obj')->info('Object copy completed.');
 			ilUtil::sendSuccess($this->lng->txt("object_duplicated"),true);
 			ilUtil::redirect(ilLink::_getLink($new_obj->getRefId()));
 		}
 		else
 		{
+			ilLoggerFactory::getLogger('obj')->info('Object copy completed.');
 			ilUtil::sendSuccess($this->lng->txt("objects_duplicated"),true);
 			ilUtil::redirect(ilLink::_getLink($this->getFirstTarget()));
 		}
@@ -960,7 +1039,10 @@ class ilObjectCopyGUI
 	{
 		global $ilCtrl;
 		
-		$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($_REQUEST,TRUE));
+		ilLoggerFactory::getLogger('obj')->debug('Copy container to targets: '. print_r($_REQUEST,TRUE));
+		ilLoggerFactory::getLogger('obj')->debug('Source(s): '. print_r($this->getSources(),TRUE));
+		ilLoggerFactory::getLogger('obj')->debug('Target(s): '. print_r($this->getTargets(),TRUE));
+		
 		
 		$last_target = 0;
 		$result = 1;
@@ -976,6 +1058,7 @@ class ilObjectCopyGUI
 		include_once './Services/CopyWizard/classes/class.ilCopyWizardOptions.php';
 		if(ilCopyWizardOptions::_isFinished($result['copy_id']))
 		{
+			ilLoggerFactory::getLogger('obj')->info('Object copy completed.');
 			ilUtil::sendSuccess($this->lng->txt("object_duplicated"),true);
 			$ilCtrl->setParameterByClass(
 					"ilrepositorygui", 
@@ -987,6 +1070,7 @@ class ilObjectCopyGUI
 		else
 		{
 			// show progress
+			ilLoggerFactory::getLogger('obj')->debug('Object copy in progress.');
 			return $this->showCopyProgress();
 		}
 	}
@@ -1023,6 +1107,7 @@ class ilObjectCopyGUI
 		$json->required_steps = $options->getRequiredSteps();
 		$json->id = (int) $_REQUEST['copy_id'];
 		
+		ilLoggerFactory::getLogger('obj')->debug('Update copy progress: '. json_encode($json));
 		
 		echo json_encode($json);
 		exit;
@@ -1065,7 +1150,7 @@ class ilObjectCopyGUI
 		$options = $_POST['cp_options'] ? $_POST['cp_options'] : array();
 		
 		
-		$GLOBALS['ilLog']->write(__METHOD__.': '. print_r($this->getSource(),TRUE));
+		ilLoggerFactory::getLogger('obj')->debug('Copy container (sources): '. print_r($this->getSources(),TRUE));
 		
 		$orig = ilObjectFactory::getInstanceByRefId($this->getFirstSource());
 		$result = $orig->cloneAllObject(
@@ -1147,6 +1232,7 @@ class ilObjectCopyGUI
 		$this->form->setTitle($lng->txt($this->getType().'_copy'));
 		
 		$this->form->addCommandButton('searchSource', $lng->txt('btn_next'));
+		$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
 		
 		$tit = new ilTextInputGUI($lng->txt('title'),'tit');
 		$tit->setSize(40);

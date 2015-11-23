@@ -43,8 +43,6 @@ class ilTestFixedQuestionSetConfig extends ilTestQuestionSetConfig
 	 */
 	public function removeQuestionSetRelatedData()
 	{
-		$this->testOBJ->removeAllTestEditings();
-
 		$res = $this->db->queryF(
 			"SELECT question_fi FROM tst_test_question WHERE test_fi = %s",
 			array('integer'), array($this->testOBJ->getTestId())

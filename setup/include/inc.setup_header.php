@@ -124,8 +124,6 @@ $lng = new ilLanguage($lang);
 
 
 
-#$log = new ilLog(ILIAS_ABSOLUTE_PATH,"ilias.log","SETUP",false);
-#$ilLog =& $log;
 
 
 include_once './Services/Logging/classes/class.ilLoggingSetupSettings.php';

@@ -41,31 +41,36 @@ abstract class ilLogger
 		return $this->getLogger()->debug($a_message,$a_context);
 	}
 	
+	public function info($a_message)
+	{
+		return $this->getLogger()->info($a_message);
+	}
+
 	public function notice($a_message)
 	{
 		return $this->getLogger()->notice($a_message);
 	}
 
-	public function info($a_message)
-	{
-		return $this->getLogger()->info($a_message);
-	}
-	
 	public function warning($a_message)
 	{
 		return $this->getLogger()->warning($a_message);
 	}
 	
-	
-	public function alert($a_message)
+	public function error($a_message)
 	{
-		return $this->getLogger()->alert($a_message);
+		return $this->getLogger()->error($a_message);
 	}
 	
 	public function critical($a_message)
 	{
 		$this->getLogger()->critical($a_message);
 	}
+
+	public function alert($a_message)
+	{
+		return $this->getLogger()->alert($a_message);
+	}
+	
 	
 	public function emergency($a_message)
 	{

@@ -25,6 +25,20 @@ class ilObjUserPasswordTest extends PHPUnit_Framework_TestCase
 	const ENCODED_PASSWORD = 'encoded';
 
 	/**
+	 * Sets up the fixture, for example, open a network connection.
+	 * This method is called before a test is executed.
+	 */
+	protected function setUp()
+	{
+		if(!defined('CLIENT_DATA_DIR'))
+		{
+			define('CLIENT_DATA_DIR', '/tmp');
+		}
+
+		parent::setUp();
+	}
+
+	/**
 	 * @expectedException ilUserException
 	 */
 	public function testExceptionIsRaisedIfPasswordManagerIsCreatedWithoutEncoderInformation()

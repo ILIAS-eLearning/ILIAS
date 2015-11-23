@@ -373,6 +373,8 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	*/
 	function importFileObject()
 	{
+		global $tpl, $ilErr;
+
 		$new_type = $_REQUEST["new_type"];
 
 		// create permission is already checked in createObject. This check here is done to prevent hacking attempts
@@ -384,6 +386,17 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$this->lng->loadLanguageModule($new_type);
 		$this->ctrl->setParameter($this, "new_type", $new_type);
 
+		try
+		{
+			// the new import
+			parent::importFileObject(null, false);
+			return;
+		}
+		catch (ilGlossaryOldImportException $e)
+		{
+		}
+
+		// old import
 		$form = $this->initImportForm($new_type);
 		if ($form->checkInput())
 		{
@@ -398,41 +411,48 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			$newObj->create(true);
 			
 			$this->putObjectInTree($newObj);
-			
+
+
+			$import_dir = $newObj->getImportDirectory();
+			$import_dir = $this->tmp_import_dir;
+
 			// create import directory
-			$newObj->createImportDirectory();
+			//$newObj->createImportDirectory();
 
 			// copy uploaded file to import directory
 			$file = pathinfo($upload["name"]);
-			$full_path = $newObj->getImportDirectory()."/".$upload["name"];
+			$full_path = $import_dir."/".$upload["name"];
 
-			ilUtil::moveUploadedFile($upload["tmp_name"], $upload["name"],
-				$full_path);
+			//ilUtil::moveUploadedFile($upload["tmp_name"], $upload["name"],
+			//	$full_path);
 
 			// unzip file
-			ilUtil::unzip($full_path);
+			//ilUtil::unzip($full_path);
 
 			// determine filename of xml file
 			$subdir = basename($file["basename"],".".$file["extension"]);
-			$xml_file = $newObj->getImportDirectory()."/".$subdir."/".$subdir.".xml";
-			
+			// $xml_file = $import_dir."/".$subdir."/".$subdir.".xml";
+			$xml_file = $import_dir."/".$subdir.".xml";
+
 			// check whether this is a new export file.
 			// this is the case if manifest.xml exits
-//echo "1-".$newObj->getImportDirectory()."/".$subdir."/manifest.xml"."-";
-			if (is_file($newObj->getImportDirectory()."/".$subdir."/manifest.xml"))
+//echo "1-".$import_dir."/".$subdir."/manifest.xml"."-";
+			if (is_file($import_dir."/manifest.xml"))
 			{
 				include_once("./Services/Export/classes/class.ilImport.php");
 				$imp = new ilImport((int) $_GET["ref_id"]);
+				$conf = $imp->getConfig("Modules/Glossary");
+				$conf->setPre51Import(true);
 				$map = $imp->getMapping();
 				$map->addMapping("Modules/Glossary", "glo", "new_id", $newObj->getId());
-				$imp->importObject($newObj, $full_path, $upload["name"], "glo",
-					"Modules/Glossary", true);
+				$imp->importFromDirectory($import_dir, "glo", "Modules/Glossary");
+				//$imp->importObject($newObj, $full_path, $upload["name"], "glo",
+				//	"Modules/Glossary", true);
 				ilUtil::sendSuccess($this->lng->txt("glo_added"),true);
 				ilUtil::redirect("ilias.php?baseClass=ilGlossaryEditorGUI&ref_id=".$newObj->getRefId());
 			}
-
 			// check whether subdirectory exists within zip file
-			if (!is_dir($newObj->getImportDirectory()."/".$subdir))
+			if (!is_dir($newObj->getImportDirectory()))
 			{
 				$this->ilias->raiseError(sprintf($this->lng->txt("cont_no_subdir_in_zip"), $subdir),
 					$this->ilias->error_obj->MESSAGE);

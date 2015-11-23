@@ -48,6 +48,7 @@ class ilObjectCopySearchResultTableGUI extends ilTable2GUI
 	{
 		global $lng,$ilCtrl,$ilUser,$objDefinition;
 		
+		$this->setId('obj_copy_'.$a_type);
 		parent::__construct($a_parent_class,$a_parent_cmd);
 		$this->type = $a_type;
 		
@@ -76,6 +77,7 @@ class ilObjectCopySearchResultTableGUI extends ilTable2GUI
 		$this->setEnableTitle(true);
 		$this->setEnableNumInfo(true);
 		$this->setDefaultOrderField('title');
+		$this->setShowRowsSelector(TRUE);
 		
 		if($objDefinition->isContainer($this->type))
 		{

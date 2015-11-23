@@ -54,8 +54,8 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 
 		if ($ilSetting->get("repository_tree_pres") == "" ||
 			($ilSetting->get("rep_tree_limit_grp_crs") && $this->top_node_id == 0))
-		{
-			$this->setTypeWhiteList(array("root", "cat", "catr", "grp", "crs", "crsr", "rcrs", "itgr"));
+		{			
+			$this->setTypeWhiteList($objDefinition->getExplorerContainerTypes());
 		}
 		else if ($ilSetting->get("repository_tree_pres") == "all_types")
 		{
@@ -74,7 +74,7 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 			$this->setPathOpen((int) $_GET["ref_id"]);
 		}
 	}
-
+		
 	/**
 	 * Get root node
 	 *
@@ -230,6 +230,12 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 				$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
 				return $link;
 
+			case 'prg':
+				$ilCtrl->setParameterByClass("ilobjstudyprogrammegui", "ref_id", $a_node["child"]);
+				$link = $ilCtrl->getLinkTargetByClass("ilobjstudyprogrammegui", "view");
+				$ilCtrl->setParameterByClass("ilobjstudyprogrammegui", "ref_id", $_GET["ref_id"]);
+				return $link;
+
 			default:
 				include_once('./Services/Link/classes/class.ilLink.php');
 				return ilLink::_getStaticLink($a_node["child"], $a_node["type"], true);
@@ -290,7 +296,7 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 	 */
 	function sortChilds($a_childs, $a_parent_node_id)
 	{
-		global $objDefinition;
+		global $objDefinition, $ilAccess;
 
 		$parent_obj_id = ilObject::_lookupObjId($a_parent_node_id);
 		if ($parent_obj_id > 0)
@@ -317,6 +323,7 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 		include_once('./Services/Object/classes/class.ilObjectActivation.php');									
 		$group = array();
 		$igroup = array(); // used for item groups, see bug #0015978
+		$in_any_group = array(); 
 		foreach ($a_childs as $child)
 		{					
 			// item group: get childs
@@ -329,14 +336,25 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 					// add item group ref id to item group block
 					$this->type_grps[$parent_type]["itgr"]["ref_ids"][] = $g;
 
+					// #16697 - check item group permissions
+					$may_read = $ilAccess->checkAccess('read', '', $g);
+					
 					// see bug #0015978
-					include_once("./Services/Container/classes/class.ilContainerSorting.php");
-					$items = ilContainerSorting::_getInstance($parent_obj_id)->sortSubItems('itgr', $child["obj_id"], $items);
+					if ($may_read)
+					{
+						include_once("./Services/Container/classes/class.ilContainerSorting.php");
+						$items = ilContainerSorting::_getInstance($parent_obj_id)->sortSubItems('itgr', $child["obj_id"], $items);
+					}
 
 					foreach($items as $item)
 					{
-						$igroup[$g][] = $item;
-						$group[$g][] = $item;
+						$in_any_group[] = $item["child"];
+						
+						if ($may_read)
+						{
+							$igroup[$g][] = $item;
+							$group[$g][] = $item;
+						}
 					}
 				}
 			}
@@ -351,6 +369,8 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 				$group[$g][] = $child;		
 			}
 		}
+		
+		$in_any_group = array_unique($in_any_group);
 
 		// custom block sorting?
 		include_once("./Services/Container/classes/class.ilContainerSorting.php");	
@@ -427,7 +447,8 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 
 					foreach ($group[$t] as $k => $item)
 					{
-						if (!in_array($item["child"], $done))
+						if (!in_array($item["child"], $done) &&
+							!in_array($item["child"], $in_any_group)) // #16697
 						{
 							$childs[] = $item;
 							$done[] = $item["child"];
@@ -553,7 +574,9 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 			case 'catr':
 				include_once('./Services/ContainerReference/classes/class.ilContainerReferenceAccess.php');
 				return ilContainerReferenceAccess::_isAccessible($a_node["child"]);
-				
+			
+			case 'prg': 
+					return $rbacsystem->checkAccess("visible", $a_node["child"]);
 
 			// all other types are only clickable, if read permission is given
 			default:

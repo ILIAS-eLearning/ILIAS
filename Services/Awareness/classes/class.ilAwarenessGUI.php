@@ -81,7 +81,7 @@ class ilAwarenessGUI
 
 		if ($last_update == "" || ($now - $last_update) >= $cache_period)
 		{
-			$cnt = explode(":",$act->getAwarenessUserCounter());
+			$cnt = explode(":", $act->getAwarenessUserCounter());
 			$hcnt = $cnt[1];
 			$cnt = $cnt[0];
 			$act->notifyOnNewOnlineContacts();
@@ -97,22 +97,21 @@ class ilAwarenessGUI
 
 		if ($hcnt > 0 || $cnt > 0)
 		{
-			if ($cnt > 0)
+			$tpl->setCurrentBlock("status_text");
+			$tpl->setVariable("STATUS_TXT", $cnt);
+			if ($cnt == 0)
 			{
-				$tpl->setCurrentBlock("status_text");
-				$tpl->setVariable("STATUS_TXT", $cnt);
-				$tpl->parseCurrentBlock();
+				$tpl->setVariable("HIDDEN", "ilAwrnBadgeHidden");
 			}
-			if ($hcnt > 0)
+			$tpl->parseCurrentBlock();
+			$tpl->setCurrentBlock("h_status_text");
+			$tpl->setVariable("H_STATUS_TXT", $hcnt);
+			if ($hcnt == 0)
 			{
-				$tpl->setCurrentBlock("h_status_text");
-				$tpl->setVariable("H_STATUS_TXT", $hcnt);
-				$tpl->parseCurrentBlock();
+				$tpl->setVariable("H_HIDDEN", "ilAwrnBadgeHidden");
 			}
-			else
-			{
-				$tpl->setVariable("HSP", "&nbsp;");
-			}
+			$tpl->parseCurrentBlock();
+			$tpl->setVariable("HSP", "&nbsp;");
 
 			$tpl->setVariable("LOADER", ilUtil::getImagePath("loader.svg"));
 
@@ -137,7 +136,19 @@ class ilAwarenessGUI
 		$act = ilAwarenessAct::getInstance($ilUser->getId());
 		$act->setRefId($this->ref_id);
 
-		$users = $act->getAwarenessData($filter);
+		$ad = $act->getAwarenessData($filter);
+
+		// update counter
+		$now = time();
+		$cnt = explode(":",$ad["cnt"]);
+		$hcnt = $cnt[1];
+		$cnt = $cnt[0];
+		ilSession::set("awrn_last_update", $now);
+		ilSession::set("awrn_nr_users", $cnt);
+		ilSession::set("awrn_nr_husers", $hcnt);
+
+
+		$users = $ad["data"];
 
 		$ucnt = 0;
 		$last_uc_title = "";
@@ -214,7 +225,8 @@ class ilAwarenessGUI
 		$tpl->setVariable("VAL_FILTER", ilUtil::prepareFormOutput($filter));
 		$tpl->parseCurrentBlock();
 
-		echo $tpl->get();
+		echo json_encode(array("html" => $tpl->get(),
+			"cnt" => $ad["cnt"]));
 		exit;
 	}
 	

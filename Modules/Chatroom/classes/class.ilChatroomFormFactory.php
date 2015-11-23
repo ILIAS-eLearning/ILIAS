@@ -93,12 +93,12 @@ class ilChatroomFormFactory
 
 		$cb = new ilCheckboxInputGUI($lng->txt('allow_anonymous'), 'allow_anonymous');
 		$cb->setInfo($lng->txt('anonymous_hint'));
-		$form->addItem($cb);
 
 		$txt = new ilTextInputGUI($lng->txt('autogen_usernames'), 'autogen_usernames');
 		$txt->setRequired(true);
 		$txt->setInfo($lng->txt('autogen_usernames_info'));
-		$form->addItem($txt);
+		$cb->addSubItem($txt);
+		$form->addItem($cb);
 
 		$cb = new ilCheckboxInputGUI($lng->txt('allow_custom_usernames'), 'allow_custom_usernames');
 		$form->addItem($cb);

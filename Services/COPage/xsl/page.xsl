@@ -2563,6 +2563,7 @@
 		</xsl:when>
 
 		<!-- all image mime types, except svg -->
+		<!-- image/svgxxx, see bug #15857 (reverted due to example clock.svg in the report)-->
 		<xsl:when test="substring($type, 1, 5) = 'image' and not(substring($type, 1, 9) = 'image/svg')">
 			<xsl:if test="$map_edit_mode != 'get_coords'">
 				<xsl:choose>

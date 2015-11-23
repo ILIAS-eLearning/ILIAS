@@ -64,7 +64,7 @@ class ilLOEditorGUI
 		{
 			case 'ilcourseobjectivesgui':
 
-				$this->ctrl->setReturn($this,'listObjectives');
+				$this->ctrl->setReturn($this,'returnFromObjectives');
 				$GLOBALS['ilTabs']->clearTargets();
 				$GLOBALS['ilTabs']->setBackTarget(
 						$this->lng->txt('back'),
@@ -167,6 +167,17 @@ class ilLOEditorGUI
 				break;
 		}
 		return true;
+	}
+	
+	/**
+	 * Return from objectives
+	 * @return type
+	 */
+	protected function returnFromObjectives()
+	{
+		include_once './Modules/Course/classes/class.ilCourseObjectivesGUI.php';
+		$_SESSION['objective_mode'] = ilCourseObjectivesGUI::MODE_UNDEFINED;
+		return $this->listObjectives();
 	}
 	
 	/**
@@ -319,6 +330,7 @@ class ilLOEditorGUI
 		$type_selector->setValue($this->getSettings()->getInitialTestType());
 		
 		$type_ipa = new ilRadioOption($this->lng->txt('crs_loc_settings_type_it_placement_all'), ilLOSettings::TYPE_INITIAL_PLACEMENT_ALL);
+		$type_ipa->setInfo($this->lng->txt('crs_loc_settings_type_it_placement_all_info'));
 		$type_selector->addOption($type_ipa);
 
 		$start_ip = new ilCheckboxInputGUI($this->lng->txt('crs_loc_settings_it_start_object'),'start_ip');
@@ -327,9 +339,11 @@ class ilLOEditorGUI
 		$type_ipa->addSubItem($start_ip);
 		
 		$type_ips = new ilRadioOption($this->lng->txt('crs_loc_settings_type_it_placement_sel'), ilLOSettings::TYPE_INITIAL_PLACEMENT_SELECTED);
+		$type_ips->setInfo($this->lng->txt('crs_loc_settings_type_it_placement_sel_info'));
 		$type_selector->addOption($type_ips);
 		
 		$type_iqa = new ilRadioOption($this->lng->txt('crs_loc_settings_type_it_qualifying_all'), ilLOSettings::TYPE_INITIAL_QUALIFYING_ALL);
+		$type_iqa->setInfo($this->lng->txt('crs_loc_settings_type_it_qualifying_all_info'));
 		$type_selector->addOption($type_iqa);
 		
 		$start_iq = new ilCheckboxInputGUI($this->lng->txt('crs_loc_settings_it_start_object'),'start_iq');
@@ -338,9 +352,11 @@ class ilLOEditorGUI
 		$type_iqa->addSubItem($start_iq);
 
 		$type_iqs = new ilRadioOption($this->lng->txt('crs_loc_settings_type_it_qualifying_sel'), ilLOSettings::TYPE_INITIAL_QUALIFYING_SELECTED);
+		$type_iqs->setInfo($this->lng->txt('crs_loc_settings_type_it_qualifying_sel_info'));
 		$type_selector->addOption($type_iqs);
 		
 		$type_ino = new ilRadioOption($this->lng->txt('crs_loc_settings_type_it_none'), ilLOSettings::TYPE_INITIAL_NONE);
+		$type_ino->setInfo($this->lng->txt('crs_loc_settings_type_it_none_info'));
 		$type_selector->addOption($type_ino);
 		
 		$form->addItem($type_selector);
@@ -351,6 +367,7 @@ class ilLOEditorGUI
 		$qt_selector->setValue($this->getSettings()->getQualifyingTestType());
 		
 		$type_qa = new ilRadioOption($this->lng->txt('crs_loc_settings_type_q_all'), ilLOSettings::TYPE_QUALIFYING_ALL);
+		$type_qa->setInfo($this->lng->txt('crs_loc_settings_type_q_all_info'));
 		$qt_selector->addOption($type_qa);
 		
 		$start_q = new ilCheckboxInputGUI($this->lng->txt('crs_loc_settings_qt_start_object'),'start_q');
@@ -374,6 +391,7 @@ class ilLOEditorGUI
 		$type_qa->addSubItem($passed_mode);
 		
 		$type_qs = new ilRadioOption($this->lng->txt('crs_loc_settings_type_q_selected'), ilLOSettings::TYPE_QUALIFYING_SELECTED);
+		$type_qs->setInfo($this->lng->txt('crs_loc_settings_type_q_selected_info'));
 		$qt_selector->addOption($type_qs);
 		
 		$form->addItem($qt_selector);
@@ -1001,6 +1019,10 @@ class ilLOEditorGUI
 	protected function listObjectives()
 	{
 		global $ilToolbar;
+
+		include_once './Modules/Course/classes/class.ilCourseObjectivesGUI.php';
+		$_SESSION['objective_mode'] = ilCourseObjectivesGUI::MODE_UNDEFINED;
+		
 		
 		$GLOBALS['ilTabs']->activateSubTab('objectives');
 		

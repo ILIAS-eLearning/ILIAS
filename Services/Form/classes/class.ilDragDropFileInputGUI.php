@@ -167,6 +167,11 @@ class ilDragDropFileInputGUI extends ilFileInputGUI
 			$_POST[$this->getPostVar()]["title"] = isset($_POST["title"]) ? $_POST["title"] : "";
 			$_POST[$this->getPostVar()]["description"] = isset($_POST["description"]) ? $_POST["description"] : "";
 			$_POST[$this->getPostVar()]["keep_structure"] = isset($_POST["keep_structure"]) ? (bool)$_POST["keep_structure"] : true;
+
+			include_once("./Services/Utilities/classes/class.ilStr.php");
+			$_POST[$this->getPostVar()]["name"] = ilStr::normalizeUtf8String($_POST[$this->getPostVar()]["name"]);
+			$_POST[$this->getPostVar()]["title"] = ilStr::normalizeUtf8String($_POST[$this->getPostVar()]["title"]);
+
 		}
 		
 		return $inputValid;

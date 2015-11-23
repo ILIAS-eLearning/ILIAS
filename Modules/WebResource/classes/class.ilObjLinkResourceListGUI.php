@@ -94,6 +94,9 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
 	*/
 	function getCommandFrame($a_cmd)
 	{
+		// #16820
+		return;
+		
 		switch($a_cmd)
 		{
 			case "":

@@ -195,14 +195,14 @@ class ilObjStudyProgrammeTreeGUI {
 	 * @throws ilException
 	 */
 	protected function saveTreeOrder() {
-		$this->checkAccess('write');
-
-		if(!isset($_POST['tree']) || is_null(json_decode($_POST['tree']))) {
+		$this->checkAccessOrFail('write');
+		
+		if(!isset($_POST['tree']) || is_null(json_decode(stripslashes($_POST['tree'])))) {
 			throw new ilStudyProgrammeTreeException("There is no tree data to save!");
 		}
 
 		// saves order recursive
-		$this->storeTreeOrder(json_decode($_POST['tree']));
+		$this->storeTreeOrder(json_decode(stripslashes($_POST['tree'])));
 
 		return ilAsyncOutputHandler::encodeAsyncResponse(array('success'=>true, 'message'=>$this->lng->txt('prg_saved_order_successful')));
 	}
@@ -258,7 +258,7 @@ class ilObjStudyProgrammeTreeGUI {
 	 * @throws ilException
 	 */
 	protected function createNewLeaf() {
-		$this->checkAccess('create', (int) $_POST['parent_id']);
+		$this->checkAccessOrFail('create', (int) $_POST['parent_id']);
 
 		if(isset($_POST['target_id'], $_POST['type'], $_POST['parent_id'])) {
 			$target_id = (int) $_POST['target_id'];
@@ -303,6 +303,7 @@ class ilObjStudyProgrammeTreeGUI {
 		$create_leaf_form->setExpandTarget($this->ctrl->getLinkTarget($this,'getContainerSelectionExplorer'));
 		$create_leaf_form->setAsynchExpanding(true);
 		$create_leaf_form->setTargetGet('target_id');
+		$create_leaf_form->setFrameTarget("_self");
 		$create_leaf_form->setClickable('crs', true);
 		$create_leaf_form->setTargetType('crs');
 		$create_leaf_form->setOutput(0);
@@ -461,19 +462,19 @@ class ilObjStudyProgrammeTreeGUI {
 			}
 
 			if($current_node != $id && $not_root && $not_parent_of_current && $this->checkAccess('delete', $obj->getRefId())) {
-				if($obj->delete()) {
-					// deletes the tree-open-node-session storage
-					if(isset($children_of_node)) {
-						$this->tree->closeCertainNode($id);
-						foreach($children_of_node as $child) {
-							$this->tree->closeCertainNode($child->getRefId());
-						}
-					}
 
-					$msg = $this->lng->txt("prg_deleted_safely");
-				} else {
-					$result = false;
+				ilRepUtil::deleteObjects(null, $id);
+
+				// deletes the tree-open-node-session storage
+				if(isset($children_of_node)) {
+					$this->tree->closeCertainNode($id);
+					foreach($children_of_node as $child) {
+						$this->tree->closeCertainNode($child->getRefId());
+					}
 				}
+
+				$msg = $this->lng->txt("prg_deleted_safely");
+
 			} else {
 				$msg = $this->lng->txt("prg_not_allowed_node_to_delete");
 				$result = false;

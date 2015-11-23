@@ -1131,7 +1131,6 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 				$ilBench->stop("ilPersonalDesktopGUI", "getListHTML");
 				if ($html != "")
 				{
-					// BEGIN WebDAV: Use $item_list_gui to determine icon image type
 					$item_html[] = array(
 						"html" => $html, 
 						"item_ref_id" => $item["ref_id"],
@@ -1140,7 +1139,6 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 						"type" => $item["type"],
 						'item_icon_image_type' => $item_list_gui->getIconImageType()
 						);
-					// END WebDAV: Use $item_list_gui to determine icon image type
 				}
 			}
 			
@@ -1167,11 +1165,9 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 						$cur_parent_ref = $item["parent_ref"];
 					}
 					
-					// BEGIN WebDAV: Use $item_list_gui to determine icon image type.
-					$this->addStandardRow($tpl, $item["html"], $item["item_ref_id"], $item["item_obj_id"], 
+					$this->addStandardRow($tpl, $item["html"], $item["item_ref_id"], $item["item_obj_id"],
 						$item['item_icon_image_type'], 
 						"th_".$cur_parent_ref);
-					// END WebDAV: Use $item_list_gui to determine icon image type.
 					$output = true;
 				}
 			}
@@ -1518,30 +1514,30 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		$top_tb = new ilToolbarGUI();
 		$top_tb->setFormAction($ilCtrl->getFormAction($this));
 		$top_tb->setLeadingImage(ilUtil::getImagePath("arrow_upright.svg"), $lng->txt("actions"));
+
+		$button = ilSubmitButton::getInstance();
 		if($this->view == self::VIEW_SELECTED_ITEMS)
 		{
-			$top_tb->addFormButton($lng->txt("remove"), "confirmRemove");
+			$button->setCaption("remove");
 		}
 		else
 		{
-			$top_tb->addFormButton($lng->txt("pd_unsubscribe_memberships"), "confirmRemove");
+			$button->setCaption("pd_unsubscribe_memberships");
 		}
-		$top_tb->addSeparator();
-		$top_tb->addFormButton($lng->txt("cancel"), "getHTML");
+		$button->setCommand("confirmRemove");
+		$top_tb->addStickyItem($button);
+
+		$button2 = ilSubmitButton::getInstance();
+		$button2->setCaption("cancel");
+		$button2->setCommand("getHTML");
+		$top_tb->addStickyItem($button2);
+
 		$top_tb->setCloseFormTag(false);
 
 		$bot_tb = new ilToolbarGUI();
 		$bot_tb->setLeadingImage(ilUtil::getImagePath("arrow_downright.svg"), $lng->txt("actions"));
-		if($this->view == self::VIEW_SELECTED_ITEMS)
-		{
-			$bot_tb->addFormButton($lng->txt("remove"), "confirmRemove");
-		}
-		else
-		{
-			$bot_tb->addFormButton($lng->txt("pd_unsubscribe_memberships"), "confirmRemove");
-		}
-		$bot_tb->addSeparator();
-		$bot_tb->addFormButton($lng->txt("cancel"), "getHTML");
+		$bot_tb->addStickyItem($button);
+		$bot_tb->addStickyItem($button2);
 		$bot_tb->setOpenFormTag(false);
 		
 		return $top_tb->getHTML().$this->getHTML().$bot_tb->getHTML();

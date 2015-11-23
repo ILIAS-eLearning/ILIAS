@@ -2347,44 +2347,43 @@ class ilObjectListGUI
 	*/
 	function insertLinkCommand()
 	{
-		global $ilAccess;
+		global $objDefinition;
 
 		if ($this->std_cmd_only)
 		{
 			return;
 		}
+		
+		// #17307
+		if(!$this->checkCommandAccess('delete','',$this->ref_id,$this->type) or
+			!$objDefinition->allowLink($this->type))
+		{
+			return false;
+		}
+		
 		// BEGIN PATCH Lucene search
 		
 		if(is_object($this->getContainerObject()) and 
 			$this->getContainerObject() instanceof ilAdministrationCommandHandling)
-		{
-			global $objDefinition;
-	
-			if($this->checkCommandAccess('delete','',$this->ref_id,$this->type) and
-				$objDefinition->allowLink(ilObject::_lookupType($this->obj_id)))
-			{
-				$this->ctrl->setParameter($this->getContainerObject(),'item_ref_id',$this->getCommandId());
-				$cmd_link = $this->ctrl->getLinkTarget($this->getContainerObject(), "link");
-				$this->insertCommand($cmd_link, $this->lng->txt("link"));
-				$this->adm_commands_included = true;
-				return true;
-			}
-			return false;		
+		{						
+			$this->ctrl->setParameter($this->getContainerObject(),'item_ref_id',$this->getCommandId());
+			$cmd_link = $this->ctrl->getLinkTarget($this->getContainerObject(), "link");
+			$this->insertCommand($cmd_link, $this->lng->txt("link"));
+			$this->adm_commands_included = true;
+			return true;
 		}
 		// END PATCH Lucene Search
 
 		// if the permission is changed here, it  has
-		// also to be changed in ilContainerGUI, admin command check
-		if($this->checkCommandAccess('delete','',$this->ref_id,$this->type))
-		{
-			$this->ctrl->setParameter($this->container_obj, "ref_id",
-				$this->container_obj->object->getRefId());
-			$this->ctrl->setParameter($this->container_obj, "item_ref_id", $this->getCommandId());
-			$cmd_link = $this->ctrl->getLinkTarget($this->container_obj, "link");
-			$this->insertCommand($cmd_link, $this->lng->txt("link"), "",
-				"");
-			$this->adm_commands_included = true;
-		}
+		// also to be changed in ilContainerGUI, admin command check		
+		$this->ctrl->setParameter($this->container_obj, "ref_id",
+			$this->container_obj->object->getRefId());
+		$this->ctrl->setParameter($this->container_obj, "item_ref_id", $this->getCommandId());
+		$cmd_link = $this->ctrl->getLinkTarget($this->container_obj, "link");
+		$this->insertCommand($cmd_link, $this->lng->txt("link"), "",
+			"");
+		$this->adm_commands_included = true;
+		return true;
 	}
 
 	/**
@@ -2450,12 +2449,15 @@ class ilObjectListGUI
 	 */
 	public function insertCopyCommand($a_to_repository = false)
 	{
+		global $objDefinition;
+		
 		if($this->std_cmd_only)
 		{
 			return;
 		}
 		
-		if($this->checkCommandAccess('copy', 'copy', $this->ref_id, $this->type))
+		if($this->checkCommandAccess('copy', 'copy', $this->ref_id, $this->type) &&
+			$objDefinition->allowCopy($this->type))
 		{
 			if($this->context != self::CONTEXT_WORKSPACE && $this->context != self::CONTEXT_WORKSPACE_SHARING)
 			{
@@ -2568,6 +2570,14 @@ class ilObjectListGUI
 			}
 			*/
 			// END WebDAV: Lock/Unlock objects
+			
+			// #17467 - add ref_id to link (in repository only!)
+			if(is_object($this->container_obj) &&
+				!($this->container_obj instanceof ilAdministrationCommandHandling) &&
+				is_object($this->container_obj->object))
+			{				
+				$this->ctrl->setParameter($this->container_obj, "ref_id", $this->container_obj->object->getRefId());
+			}
 
 			if (!$ilUser->isDesktopItem($this->getCommandId(), $type))
 			{
@@ -3637,12 +3647,14 @@ class ilObjectListGUI
 		if (!$this->checkCommandAccess("visible", "", $a_ref_id, "", $a_obj_id))
 		{			
 			$ilBench->stop("ilObjectListGUI", "2000_getListHTML_check_visible");
+			$this->resetCustomData();
 			return "";
 		}
 		
 		// BEGIN WEBDAV
 		if($type=='file' AND ilObjFileAccess::_isFileHidden($a_title))
 		{
+			$this->resetCustomData();
 			return "";
 		}
 		// END WEBDAV
@@ -3736,11 +3748,7 @@ class ilObjectListGUI
 			$this->insertFileUpload();	
 		}
 
-		// reset properties and commands
-		$this->cust_prop = array();
-		$this->cust_commands = array();
-		$this->sub_item_html = array();
-		$this->position_enabled = false;
+		$this->resetCustomData();
 
 		$this->tpl->setVariable("DIV_CLASS",'ilContainerListItemOuter');
 		$this->tpl->setVariable("DIV_ID", 'id = "'.$this->getUniqueItemId(true).'"');
@@ -3750,6 +3758,18 @@ class ilObjectListGUI
 		$this->ctrl->setParameter($this->getContainerObject(), "item_ref_id", "");
 		
 		return $this->tpl->get();
+	}
+	
+	/**
+	 * reset properties and commands
+	 */
+	protected function resetCustomData()
+	{
+		// #15747
+		$this->cust_prop = array();
+		$this->cust_commands = array();
+		$this->sub_item_html = array();
+		$this->position_enabled = false;
 	}
 	
 	/**

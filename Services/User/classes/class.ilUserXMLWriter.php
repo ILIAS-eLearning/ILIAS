@@ -102,7 +102,7 @@ class ilUserXMLWriter extends ilXmlWriter
 
 	function __buildHeader()
 	{
-		$this->xmlSetDtdDef("<!DOCTYPE Users PUBLIC \"-//ILIAS//DTD UserImport//EN\" \"".ILIAS_HTTP_PATH."/xml/ilias_user_4_0.dtd\">");
+		$this->xmlSetDtdDef("<!DOCTYPE Users PUBLIC \"-//ILIAS//DTD UserImport//EN\" \"".ILIAS_HTTP_PATH."/xml/ilias_user_5_1.dtd\">");
 		$this->xmlSetGenCmt("User of ilias system");
 		$this->xmlHeader();
 
@@ -202,6 +202,7 @@ class ilUserXMLWriter extends ilXmlWriter
 		$this->__addElement ("City", $row["city"]);
 		$this->__addElement ("PostalCode", $row["zipcode"], null, "zipcode");
 		$this->__addElement ("Country", $row["country"]);
+		$this->__addElement ("SelCountry", $row["sel_country"], null, "sel_country");
 		$this->__addElement ("PhoneOffice", $row["phone_office"], null, "phone_office");
 		$this->__addElement ("PhoneHome", $row["phone_home"], null, "phone_home");
 		$this->__addElement ("PhoneMobile", $row["phone_mobile"],  null, "phone_mobile");
@@ -304,9 +305,12 @@ class ilUserXMLWriter extends ilXmlWriter
 	function __addElement ($tagname, $value, $attrs = null, $settingsname = null, $requiredTag = false)
 	{
 		if ($this->canExport($tagname, $settingsname))
+		{
 			if (strlen($value) > 0 || $requiredTag || (is_array($attrs) && count($attrs) > 0))
+			{
 				$this->xmlElement ($tagname, $attrs, $value);
-
+			}
+		}
 	}
 
 	private function canExport ($tagname, $settingsname = null)
@@ -403,8 +407,9 @@ class ilUserXMLWriter extends ilXmlWriter
 				'public_upload',
 				'public_zip',
 				'send_info_mails',
-				'show_users_online',
+				/*'show_users_online',*/
 				'hide_own_online_status',
+				'bs_allow_to_contact_me',
 				'user_tz',
 				'weekstart',
 				'mail_incoming_type',

@@ -1,4 +1,4 @@
-// Build: 2015826234002 
+// Build: 20151022020047 
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -13863,6 +13863,8 @@ function onWindowUnload ()
 	result["p"]=config.status.p;
 	result["last"]="";
 	if (config.auto_last_visited==true) result["last"]=activities[mlaunch.mActivityID].id;
+	result["total_time_sec"]="";
+	if (config.mode!="browse") result["total_time_sec"]=((currentTime() - wbtStartTime)/1000) + config.status.total_time_sec;
 	if (typeof SOP!="undefined" && SOP==true) result=scormPlayerUnload(result);
 	else result=this.config.scorm_player_unload_url ? sendJSONRequest(this.config.scorm_player_unload_url, result): {};
 	removeResource();
@@ -13976,6 +13978,22 @@ function onItemDeliverDo(item, wasSuspendAll) // onDeliver called from sequencin
 		}
 		window.document.getElementById("noCredit").style.display='none';
 		//support for auto-review
+		saved_score_scaled=0;
+		if (globalAct.auto_review == 's') {
+			if (data.cmi.score.scaled != "" && typeof parseFloat(data.cmi.score.scaled) == "number") {
+				var b_in_ar=false;
+				for (var i=0;i<ar_saved_score_scaled.length;i++) {
+					if (ar_saved_score_scaled[i][0]==item.id) {
+						saved_score_scaled=ar_saved_score_scaled[i][1];
+						b_in_ar=true;
+					}
+				}
+				if (b_in_ar==false) {
+					saved_score_scaled=parseFloat(data.cmi.score.scaled);
+					ar_saved_score_scaled[ar_saved_score_scaled.length]=new Array(item.id,parseFloat(data.cmi.score.scaled));
+				}
+			}
+		}
 		if (globalAct.auto_review != 'n') {
 			if (
 				(globalAct.auto_review == 'r' && ((item.completion_status == 'completed' && item.success_status != 'failed') || item.success_status == 'passed') ) ||
@@ -14872,9 +14890,12 @@ var saved={
 	"interaction":{"data":[],"checkplus":2},
 	"objective":{"data":[],"checkplus":1}
 	};
+var saved_score_scaled=0;
+var ar_saved_score_scaled=[];
 // SCO related Variables
 var currentAPI; // reference to API during runtime of a SCO
 var scoStartTime = null;
+var wbtStartTime = currentTime();
 
 var openedResource = new Array();
 
@@ -15107,6 +15128,21 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 				//auto suspend
 				if (config.auto_suspend==true) cmiItem.cmi.exit="suspend";
 
+				//store only if score is equal or hiher than in precious attempt
+				var saveRespScore = true;
+				if (saveOnCommit == true && config.auto_review == 's') {
+
+					if (cmiItem.cmi.score.scaled == "" && saved_score_scaled > 0) {
+						saveRespScore = false; //special for Articulate
+					}
+					else if (cmiItem.cmi.score.scaled != "" && typeof parseFloat(cmiItem.cmi.score.scaled) == "number" && parseFloat(cmiItem.cmi.score.scaled) <= saved_score_scaled) {
+						saveRespScore = false;
+						window.document.getElementById("noCredit").style.display = "inline";
+					} else {
+						window.document.getElementById("noCredit").style.display = "none";
+					}
+				}
+
 				//store correct status in DB; returnValue because of IE;
 				var returnValue=false;
 				if(cmiItem.cmi.credit=="no-credit") {returnValue=true;}
@@ -15115,7 +15151,7 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 					//statusHandler(cmiItem.scoid,"completion",statusValues[0]);
 					//statusHandler(cmiItem.scoid,"success",statusValues[1]);
 					returnValue = onCommit(cmiItem);
-					if (returnValue && saveOnCommit == true) {
+					if (returnValue && saveOnCommit == true && saveRespScore == true) {
 						if (config.fourth_edition) {
 							var sgo=saveSharedData(cmiItem);
 						}

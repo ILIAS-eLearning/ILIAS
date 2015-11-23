@@ -977,14 +977,6 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 					$this->ctrl->setParameter($this, "mepitem_id", $_GET["mepitem_id"]);
 					$ilLocator->addItem($title, $link, "", $_GET["ref_id"]);
 				}
-				else
-				{
-					$this->ctrl->setParameter($this, "mepitem_id", $node["child"]);
-					$link = $this->ctrl->getLinkTarget($this, "listMedia");
-					$title = $node["title"];
-					$this->ctrl->setParameter($this, "mepitem_id", $_GET["mepitem_id"]);
-					$ilLocator->addItem($title, $link);
-				}
 			}
 		}
 	}
@@ -1591,9 +1583,14 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	/**
 	 * Select files from upload directory
 	 */
-	function selectUploadDirFiles()
+	function selectUploadDirFiles($a_files = null)
 	{
 		global $tpl, $ilTabs, $lng, $ilCtrl, $ilToolbar;
+		
+		if(!$a_files)
+		{
+			$a_files = $_POST["file"];
+		}
 
 		$ilTabs->clearTargets();
 		$ilTabs->setBackTarget($lng->txt("back"),
@@ -1619,7 +1616,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 
 			include_once("./Modules/MediaPool/classes/class.ilUploadDirFilesTableGUI.php");
 			$tab = new ilUploadDirFilesTableGUI($this, "selectUploadDirFiles",
-				$_POST["file"]);
+				$a_files);
 			$tab->setFormName("mep_up_form");
 			$tpl->setContent($tab->getHTML());
 		}

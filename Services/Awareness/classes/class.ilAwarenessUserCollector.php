@@ -82,7 +82,7 @@ class ilAwarenessUserCollector
 			self::$online_user_ids = array();
 			include_once("./Services/User/classes/class.ilObjUser.php");
 			self::$online_users = ilObjUser::_getUsersOnline();
-			foreach (ilObjUser::_getUsersOnline() as $u)
+			foreach (self::$online_users as $u)
 			{
 				self::$online_user_ids[] = $u["user_id"];
 			}
@@ -99,6 +99,9 @@ class ilAwarenessUserCollector
 	public function collectUsers($a_online_only = false)
 	{
 		$this->collections = array();
+
+		$awrn_logger = ilLoggerFactory::getLogger('awrn');
+
 		self::getOnlineUsers();
 		include_once("./Services/Awareness/classes/class.ilAwarenessUserProviderFactory.php");
 		$all_users = array();
@@ -126,6 +129,9 @@ class ilAwarenessUserCollector
 					{
 						continue;
 					}
+
+					$awrn_logger->debug("AwarenessUserCollector: Current User: ".$this->user_id.", ".
+						"Provider: ".$prov->getProviderId().", Collected User: ".$user_id);
 
 					// cross check online, filter out offline users (if necessary)
 					if ((!$a_online_only && $prov->getActivationMode() == ilAwarenessUserProvider::MODE_INCL_OFFLINE)

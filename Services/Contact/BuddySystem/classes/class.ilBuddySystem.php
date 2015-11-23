@@ -27,7 +27,7 @@ class ilBuddySystem
 	 */
 	protected function __construct()
 	{
-		$this->settings =  new ilSetting('pd');
+		$this->settings =  new ilSetting('buddysystem');
 	}
 
 	/**
@@ -44,15 +44,33 @@ class ilBuddySystem
 	}
 
 	/**
+	 * @param string $keyword
+	 * @param mixed $value
+	 */
+	public function setSetting($keyword, $value)
+	{
+		$this->settings->set($keyword, $value);
+	}
+
+	/**
+	 * @param string $keyword
+	 * @param bool|false $default
+	 * @return string
+	 */
+	public function getSetting($keyword, $default = false)
+	{
+		return $this->settings->get($keyword, $default);
+	}
+
+	/**
 	 * @return bool
 	 */
 	public function isEnabled()
 	{
 		/**
-		 * @var $ilUser     ilObjUser
-		 * @var $rbacsystem ilRbacSystem
+		 * @var $ilUser ilObjUser
 		 */
-		global $ilUser, $rbacsystem;
+		global $ilUser;
 
 		if(self::$is_enabled !== null)
 		{
@@ -65,21 +83,7 @@ class ilBuddySystem
 			return false;
 		}
 
-		$awrn_set = new ilSetting('awrn');
-		if($awrn_set->get('awrn_enabled', false))
-		{
-			self::$is_enabled = true;
-			return true;
-		}
-
-
-		if($rbacsystem->checkAccess('internal_mail', ilMailGlobalServices::getMailObjectRefId()))
-		{
-			self::$is_enabled = true;
-			return true;
-		}
-
-		self::$is_enabled = false;
-		return false;
+		self::$is_enabled = $this->settings->get('enabled', false);
+		return self::$is_enabled;
 	}
 }

@@ -189,6 +189,20 @@ class ilImport
 	}
 
 	/**
+	 * Import from directory
+	 *
+	 * @param
+	 * @return
+	 */
+	function importFromDirectory($dir, $a_type, $a_comp)
+	{
+		$new_id = $this->doImportObject($dir, $a_type, $a_comp);
+		return $new_id;
+
+	}
+
+
+	/**
 	 * Set temporary import directory
 	 *
 	 * @param string $a_val temporary import directory (used to unzip and read import)
@@ -239,7 +253,10 @@ class ilImport
 		if (!is_file($dir."/manifest.xml"))
 		{
 			include_once("./Services/Export/exceptions/class.ilManifestFileNotFoundImportException.php");
-			$e = new ilManifestFileNotFoundImportException('Manifest file not found: "'.$dir."/manifest.xml".'".');
+			$mess = (DEVMODE)
+				? 'Manifest file not found: "'.$dir."/manifest.xml".'".'
+				: 'Manifest file not found: "manifest.xml."';
+			$e = new ilManifestFileNotFoundImportException($mess);
 			$e->setManifestDir($dir);
 			$e->setTmpDir($a_tmpdir);
 			throw $e;
@@ -247,6 +264,14 @@ class ilImport
 		$parser = new ilManifestParser($dir."/manifest.xml");
 		$this->mapping->setInstallUrl($parser->getInstallUrl());
 		$this->mapping->setInstallId($parser->getInstallId());
+
+		// check for correct type
+		if ($parser->getMainEntity() != $a_type)
+		{
+			include_once("./Services/Export/exceptions/class.ilImportObjectTypeMismatchException.php");
+			$e = new ilImportObjectTypeMismatchException("Object type does not match. Import file has type '".$parser->getMainEntity()."' but import being processed for '".$a_type."'.");
+			throw $e;
+		}
 
 		// process export files
 		$expfiles = $parser->getExportFiles();

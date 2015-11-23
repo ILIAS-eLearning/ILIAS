@@ -19,6 +19,10 @@ class ilGlossaryExporter extends ilXmlExporter
 	 */
 	function init()
 	{
+		include_once("./Modules/Glossary/classes/class.ilGlossaryDataSet.php");
+		$this->ds = new ilGlossaryDataSet();
+		$this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
+		$this->ds->setDSPrefix("ds");
 	}
 
 	/**
@@ -33,8 +37,44 @@ class ilGlossaryExporter extends ilXmlExporter
 	{
 		if ($a_entity == "glo")
 		{
-			$deps = array();
-			
+			include_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
+
+			$md_ids = array();
+
+			// glo related ids
+			foreach ($a_ids as $id)
+			{
+				$md_ids[] = $id.":0:glo";
+			}
+
+			// definition related ids
+			$page_ids = array();
+			foreach ($a_ids as $id)
+			{
+				$terms = ilGlossaryTerm::getTermList($id);
+				foreach ($terms as $t)
+				{
+					$defs = ilGlossaryDefinition::getDefinitionList($t["id"]);
+					foreach ($defs as $d)
+					{
+						$page_ids[] = "gdf:".$d["id"];
+						$md_ids[] = $id.":".$d["id"].":gdf";
+					}
+				}
+			}
+			// definition pages and their metadat
+			$deps = array (
+				array(
+					"component" => "Services/COPage",
+					"entity" => "pg",
+					"ids" => $page_ids),
+				array(
+					"component" => "Services/MetaData",
+					"entity" => "md",
+					"ids" => $md_ids),
+			);
+
+			// taxonomy
 			include_once("./Services/Taxonomy/classes/class.ilObjTaxonomy.php");
 			$tax_ids = array();
 			foreach ($a_ids as $id)
@@ -53,7 +93,8 @@ class ilGlossaryExporter extends ilXmlExporter
 					"ids" => $tax_ids
 				);
 			}
-			
+
+			// advanced metadata
 			$advmd_ids = array();
 			foreach($a_ids as $id)
 			{
@@ -75,6 +116,16 @@ class ilGlossaryExporter extends ilXmlExporter
 				);	
 			}
 			
+			// style
+			$obj_ids = (is_array($a_ids))
+				? $a_ids
+				: array($a_ids);
+			$deps[] = array(
+				"component" => "Services/Style",
+				"entity" => "object_style",
+				"ids" => $obj_ids
+			);
+
 			return $deps;
 		}
 		return array();
@@ -82,13 +133,15 @@ class ilGlossaryExporter extends ilXmlExporter
 
 	protected function getActiveAdvMDRecords($a_id)
 	{			
-		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
 		$active = array();		
-		foreach(ilAdvancedMDRecord::_getActivatedRecordsByObjectType("glo", "term") as $record_obj)
+		
+		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');				
+		foreach(ilAdvancedMDRecord::_getSelectedRecordsByObject("glo", $a_id, "term") as $record_obj)
 		{
 			$active[] = $record_obj->getRecordId();
 		}		
-		return array_intersect($active, ilAdvancedMDRecord::getObjRecSelection($a_id, "term"));						
+		
+		return $active;						
 	}
 
 	/**
@@ -101,12 +154,14 @@ class ilGlossaryExporter extends ilXmlExporter
 	 */
 	public function getXmlRepresentation($a_entity, $a_schema_version, $a_id)
 	{
-		include_once './Modules/Glossary/classes/class.ilObjGlossary.php';
+		return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, $a_id, "", true, true);
+
+		/*include_once './Modules/Glossary/classes/class.ilObjGlossary.php';
 		$glo = new ilObjGlossary($a_id,false);
 
 		include_once './Modules/Glossary/classes/class.ilGlossaryExport.php';
 		$exp = new ilGlossaryExport($glo,'xml');
-		$zip = $exp->buildExportFile();
+		$zip = $exp->buildExportFile();*/
 	}
 
 	/**
@@ -119,13 +174,19 @@ class ilGlossaryExporter extends ilXmlExporter
 	function getValidSchemaVersions($a_entity)
 	{
 		return array (
+			"5.1.0" => array(
+				"namespace" => "http://www.ilias.de/Modules/Glossary/htlm/4_1",
+				"xsd_file" => "ilias_glo_5_1.xsd",
+				"uses_dataset" => true,
+				"min" => "5.1.0",
+				"max" => ""),
 			"4.1.0" => array(
 				"namespace" => "http://www.ilias.de/Modules/Glossary/htlm/4_1",
 				"xsd_file" => "ilias_glo_4_1.xsd",
 				"uses_dataset" => false,
 				"min" => "4.1.0",
 				"max" => "")
-		);
+			);
 	}
 
 }

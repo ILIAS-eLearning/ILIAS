@@ -250,6 +250,7 @@ class ilTestSettingsTemplateConfig extends ilSettingsTemplateConfig
 				ilObjTestSettingsGeneralGUI::INST_FB_HANDLING_OPT_NONE => $this->lng->txt('tst_instant_feedback_handling_none'),
 				ilObjTestSettingsGeneralGUI::INST_FB_HANDLING_OPT_FREEZE => $this->lng->txt('tst_instant_feedback_handling_freeze'),
 				ilObjTestSettingsGeneralGUI::INST_FB_HANDLING_OPT_FORCE_AND_FREEZE => $this->lng->txt('tst_instant_feedback_handling_force_and_freeze'),
+				ilObjTestSettingsGeneralGUI::INST_FB_HANDLING_OPT_FORCE => $this->lng->txt('tst_instant_feedback_handling_force'),
 			)
 		);
 

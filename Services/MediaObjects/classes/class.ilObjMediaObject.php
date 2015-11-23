@@ -99,12 +99,17 @@ class ilObjMediaObject extends ilObject
 	*/
 	function delete()
 	{
+		$mob_logger = ilLoggerFactory::getLogger('mob');
+		$mob_logger->debug("ilObjMediaObject: Delete called for media object ID '".$this->getId()."'.");
+
 		if (!($this->getId() > 0))
 		{
 			return;
 		}
 
 		$usages = $this->getUsages();
+
+		$mob_logger->debug("ilObjMediaObject: ... Found ".count($usages)." usages.");
 
 		if (count($usages) == 0)
 		{
@@ -126,6 +131,19 @@ class ilObjMediaObject extends ilObject
 					
 			// delete object
 			parent::delete();
+
+			$mob_logger->debug("ilObjMediaObject: ... deleted.");
+		}
+		else
+		{
+			foreach ($usages as $u)
+			{
+				$mob_logger->debug("ilObjMediaObject: ... usage type:".$u["type"].
+					", id:".$u["id"].
+					", lang:".$u["lang"].
+					", hist_nr:".$u["hist_nr"].".");
+			}
+			$mob_logger->debug("ilObjMediaObject: ... not deleted.");
 		}
 	}
 
@@ -453,7 +471,15 @@ class ilObjMediaObject extends ilObject
 			}
 		}
 
-		self::handleQuotaUpdate($this);		
+		self::handleQuotaUpdate($this);	
+
+		global $ilAppEventHandler;
+		$ilAppEventHandler->raise('Services/MediaObjects',
+		'create',
+		array('object' => $this,
+			'obj_type' => 'mob',
+			'obj_id' => $this->getId())
+		);	
 	}
 
 
@@ -491,6 +517,13 @@ class ilObjMediaObject extends ilObject
 		}
 		
 		self::handleQuotaUpdate($this);		
+		global $ilAppEventHandler;
+		$ilAppEventHandler->raise('Services/MediaObjects',
+        	'update',
+		array('object' => $this,
+            		'obj_type' => 'mob',
+            		'obj_id' => $this->getId())
+        	);  
 	}
 	
 	protected static function handleQuotaUpdate(ilObjMediaObject $a_mob)
@@ -539,13 +572,13 @@ class ilObjMediaObject extends ilObject
 	{
 		return ilUtil::getWebspaceDir()."/mobs/mm_".$a_mob_id;
 	}
-	
-/**
-	* get directory for files of media object (static)
-	*
-	* @param	int		$a_mob_id		media object id
-	*/
-	function _getURL($a_mob_id)
+
+	/**
+	 * get directory for files of media object (static)
+	 * @param int $a_mob_id media object id
+	 * @return string
+	 */
+	public static function _getURL($a_mob_id)
 	{
 		return ilUtil::getHtmlPath(ilUtil::getWebspaceDir()."/mobs/mm_".$a_mob_id);
 	}
@@ -1025,14 +1058,18 @@ class ilObjMediaObject extends ilObject
 		$lstr = "";
 		if ($a_lang != "")
 		{
-			$lstr = "usage_lang = ".$ilDB->quote($a_lang, "text")." AND ";
+			$lstr = " AND usage_lang = ".$ilDB->quote($a_lang, "text");
+		}
+		$hist_str = "";
+		if ($a_usage_hist_nr !== false)
+		{
+			$hist_str = " AND usage_hist_nr = ".$ilDB->quote($a_usage_hist_nr, "integer");
 		}
 
 		$q = "SELECT * FROM mob_usage WHERE ".
 			"usage_type = ".$ilDB->quote($a_type, "text")." AND ".
-			"usage_id = ".$ilDB->quote($a_id, "integer")." AND ".
-			$lstr.
-			"usage_hist_nr = ".$ilDB->quote($a_usage_hist_nr, "integer");
+			"usage_id = ".$ilDB->quote($a_id, "integer").
+			$lstr.$hist_str;
 		$mobs = array();
 		$mob_set = $ilDB->query($q);
 		while($mob_rec = $ilDB->fetchAssoc($mob_set))
@@ -1571,7 +1608,7 @@ class ilObjMediaObject extends ilObject
 	/**
 	 * Create new media object and update page in db and return new media object
 	 */
-	function &_saveTempFileAsMediaObject($name, $tmp_name, $upload = TRUE)
+	public static function _saveTempFileAsMediaObject($name, $tmp_name, $upload = TRUE)
 	{
 		// create dummy object in db (we need an id)
 		$media_object = new ilObjMediaObject();
