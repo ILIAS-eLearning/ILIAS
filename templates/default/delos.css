@@ -7550,6 +7550,10 @@ select.form-control {
   color: #4d4d4d;
   font-size: 100%;
 }
+.form-horizontal .control-label + div > span {
+  display: inline-block;
+  padding-top: 4px;
+}
 .form-horizontal .control-label.col-sm-3.il_textarea {
   text-align: left;
   width: 100%;
