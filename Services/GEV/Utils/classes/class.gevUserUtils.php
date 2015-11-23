@@ -2038,7 +2038,7 @@ class gevUserUtils {
 		foreach ($org_units as $org_unit) {
 			// Only take the org units where the user is superior and also has the permission
 			// to view bookings of employees.
-			if (!in_array($has_view_empl_perm_ref_ids, $org_unit["ref_id"])) {
+			if (!in_array($org_unit["ref_id"], $has_view_empl_perm_ref_ids)) {
 				continue;
 			}
 
