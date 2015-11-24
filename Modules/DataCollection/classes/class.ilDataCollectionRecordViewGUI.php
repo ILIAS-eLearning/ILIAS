@@ -340,7 +340,7 @@ class ilDataCollectionRecordViewGUI {
 	 * Find the previous/next record from the current position. Also determine position of current record in whole set.
 	 */
 	protected function determineNextPrevRecords() {
-        if(!isset($_SESSION['dcl_record_ids'])) {
+        if(!isset($_SESSION['dcl_record_ids']) || $_SESSION['dcl_table_id'] != $this->table->getId()) {
             $this->loadSession();
         }
 
