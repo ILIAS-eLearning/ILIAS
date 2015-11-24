@@ -1398,3 +1398,22 @@ gev#:#rep_robj_xrds_properties#:#Eigenschaften
 gev#:#gev_dec_training_attachment#:#Anhang
 gev#:#gev_user_is_inactive#:#(AUSGESCHIEDEN)
 gev#:#gev_dec_training_attachment_delete#:#Anhang entfernen
+gev#:#gev_crs_members#:#Teilnehmer
+gev#:#gev_edupoints#:#Weiterbildungspunkte
+gev#:#gev_sum#:#Summe
+gev#:#gev_header_company_global_book#:#Buchungen <br> (noch kein Teilnahmestatus)
+gev#:#gev_header_company_global_part#:#Teilnahmen <br> (Teilnahmestatus vorhanden)
+gev#:#gev_dec_trainings_fixed#:#feste dezentrale Trainings
+gev#:#gev_dec_trainings_flexible#:#flexible dezentrale Trainings
+gev#:#non_dec_trainings#:#nicht-dezentrale Trainings
+gev#:#gev_trainings_w_points#:#Trainings mit Bildungspunkten
+gev#:#gev_trainings_wo_points#:#Trainings ohne Bildungspunkte
+gev#:#rep_robj_xrcg_content#:#Report
+gev#:#rep_robj_xrcg_properties#:#Eigenschaften
+gev#:#xrcg_add#:#DBV Report für Vorgesetzte hinzufügen
+gev#:#xrcg_new#:#Neuen DBV Report für Vorgesetzte hinzufügen
+gev#:#xrcg_read#:#Lesezugriff zum DBV Report für Vorgesetzte
+gev#:#xrcg_write#:#DBV Report für Vorgesetzte bearbeiten
+gev#:#xrcg_delete#:#DBV Report für Vorgesetzte löschen
+gev#:#xrcg_visible#:#sichtbar
+gev#:#xrcg_edit_permission#:#schreibberechtigt
