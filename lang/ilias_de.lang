@@ -15949,8 +15949,8 @@ prg#:#prg_assessment#:#Studienprogrammbewertung
 prg#:#prg_points#:#Punkte
 prg#:#prg_status#:#Status
 prg#:#prg_status_draft#:#Entwurf
-prg#:#prg_status_active#:#aktiv
-prg#:#prg_status_outdated#:#abgelaufen
+prg#:#prg_status_active#:#Aktiv
+prg#:#prg_status_outdated#:#Abgelaufen
 prg#:#prg_status_in_progress#:#In Bearbeitung
 prg#:#prg_status_completed#:#Abgeschlossen
 prg#:#prg_status_accredited#:#Akkreditiert
