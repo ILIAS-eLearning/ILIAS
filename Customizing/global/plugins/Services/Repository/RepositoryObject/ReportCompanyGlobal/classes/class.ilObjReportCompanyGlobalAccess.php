@@ -1,4 +1,3 @@
-
 <?php
 
 require_once 'Services/ReportsRepository/classes/class.ilObjReportBaseAccess.php';
