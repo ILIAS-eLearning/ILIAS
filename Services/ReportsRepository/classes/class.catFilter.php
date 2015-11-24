@@ -900,7 +900,7 @@ class catMultiSelectCustomFilter {
 			$a_tpl->setVariable("OPTION_VALUE", $value);
 			$a_tpl->setVariable("OPTION_TITLE", $title);
 			$a_tpl->setVariable("POST_VAR", $a_postvar);
-			if (in_array($title, $a_pars)) {
+			if (in_array($value, $a_pars)) {
 					$a_tpl->setVariable("CHECKED", "checked");
 			}
 			$a_tpl->parseCurrentBlock();
