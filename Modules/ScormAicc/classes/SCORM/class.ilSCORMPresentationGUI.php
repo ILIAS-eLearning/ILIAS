@@ -406,7 +406,8 @@ class ilSCORMPresentationGUI
 		$this->tpl->setVariable("ACTION", "ilias.php?baseClass=ilSAHSPresentationGUI&cmd=".$_GET["cmd"]."&frame=".$_GET["frame"].
 			"&ref_id=".$this->slm->getRefId()."&scexpand=".$_GET["scexpand"]);
 		$this->tpl->parseCurrentBlock();
-		$this->tpl->show();
+		//BUG 16794? $this->tpl->show();
+		$this->tpl->show("DEFAULT", false);
 	}
 
 

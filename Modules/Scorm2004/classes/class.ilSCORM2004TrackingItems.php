@@ -698,7 +698,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 			. 'FROM cmi_node '
 			. 'WHERE '.$ilDB->in('cp_node_id', $a_sco, false, 'integer') .' '
 			. 'AND '.$ilDB->in('user_id', $a_user, false, 'integer') .' '
-			. 'GROUP BY user_id '
+			// . 'GROUP BY user_id '
 			. 'ORDER BY ';
 			if ($b_orderBySCO) $query.='cp_node_id, user_id';
 			else $query.='user_id, cp_node_id';
