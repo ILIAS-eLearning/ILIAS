@@ -24,10 +24,12 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 		$this->gLng = $lng;
 		$this->gCtrl = $ilCtrl;
 		$this->gTpl = $tpl;
+		$this->gTpl->addCSS('Services/ReportsRepository/templates/css/report.css');
 		$this->gUser = $ilUser;
 		$this->gLog = $ilLog;
 		$this->gAccess = $ilAccess;
 		$this->gTabs = $ilTabs;
+
 
 		// TODO: this is crapy. The root cause of this problem is, that the
 		// filter should no need to know about it's action. The _rendering_
