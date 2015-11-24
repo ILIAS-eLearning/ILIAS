@@ -88,6 +88,16 @@ class gevCrsInvitationMailSettings {
 		return $attachments;
 	}
 
+	public function setBasicSettings() {
+		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		$crs_utils = gevCourseUtils::getInstance($this->crs_id);
+		$functions = $crs_utils->getFunctionsForInvitationMails();
+
+		foreach ($functions as $function) {
+			$this->settings[$function]["template_id"] = $this->getTemplateFor($function);
+		}
+	}
+
 	public function setSettingsFor($a_function_name, $a_template_id, $a_attachments) {
 		//TODO: check validity of function_name here?		
 		if (!array_key_exists($a_function_name, $this->settings)) {
@@ -160,6 +170,10 @@ class gevCrsInvitationMailSettings {
 					"template_id" => $record["template_id"],
 					"attachments" => unserialize($record["attachments"])
 				);
+		}
+
+		if(empty($this->settings)) {
+			$this->setBasicSettings();
 		}
 	}
 

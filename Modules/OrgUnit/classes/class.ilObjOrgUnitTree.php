@@ -128,7 +128,8 @@ class ilObjOrgUnitTree {
 
 	/**
 	 * If you want to have all orgunits where the current user has the write permission: use this with the parameter "write".
-	 * @param $operation string
+	 * @param string		$operation
+	 * @param int|null		$a_user_id
 	 * @return int[] ids of the org units.
 	 */
 	// gev-patch start
