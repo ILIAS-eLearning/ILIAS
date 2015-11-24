@@ -160,11 +160,7 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
 		else if ($a_set["activation_possible"])		
 		{
 			$action[$lng->txt("cmps_activate")] = 
-				$ilCtrl->getLinkTarget($this->parent_obj, "activatePlugin");	
-						
-			// #17428
-			$action[$lng->txt("cmps_uninstall")] = 
-				$ilCtrl->getLinkTarget($this->parent_obj, "confirmUninstallPlugin");			
+				$ilCtrl->getLinkTarget($this->parent_obj, "activatePlugin");						
 		}
 		
 		// update button
@@ -173,6 +169,10 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
 			$action[$lng->txt("cmps_update")] =	
 				$ilCtrl->getLinkTarget($this->parent_obj, "updatePlugin");
 		}
+						
+		// #17428
+		$action[$lng->txt("cmps_uninstall")] = 
+			$ilCtrl->getLinkTarget($this->parent_obj, "confirmUninstallPlugin");	
 		
 		$ilCtrl->setParameter($this->parent_obj, "pname", "");
 
