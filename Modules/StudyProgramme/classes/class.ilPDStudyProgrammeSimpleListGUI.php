@@ -65,16 +65,15 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI {
 		}
 
 		$this->loadUsersAssignments();
+		//check which kind of option is selected in settings
+		$this->setVisibleOnPDMode();
+		//check to display info message if option "read" is selected
+		$this->checkToShowInfoMessage();
 		
 		// As this won't be visible we don't have to initialize this.
 		if (!$this->userHasReadableStudyProgrammes()) {
 			return;
 		}
-
-		//check which kind of option is selected in settings
-		$this->setVisibleOnPDMode();
-		//check to display info message if option "read" is selected
-		$this->checkToShowInfoMessage();
 
 		$this->setTitle($this->il_lng->txt("objs_prg"));
 	}
@@ -102,6 +101,8 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI {
 
 			try {
 				$list_item = $this->new_ilStudyProgrammeAssignmentListGUI($assignment);
+				$list_item->setShowInfoMessage($this->show_info_message);
+				$list_item->setVisibleOnPDMode($this->visible_on_pd_mode);
 				$content .= $list_item->getHTML();
 			}
 			catch (ilStudyProgrammeNoProgressForAssignmentException $e) {

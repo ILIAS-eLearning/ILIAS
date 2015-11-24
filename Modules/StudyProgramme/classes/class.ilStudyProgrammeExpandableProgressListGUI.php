@@ -132,15 +132,13 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
 	
 	public function shouldShowSubProgress(ilStudyProgrammeUserProgress $a_progress) {
 		if($a_progress->isRelevant()) {
-			$visible_on_pd_mode = $this->il_setting->get(ilObjStudyProgrammeAdmin::SETTING_VISIBLE_ON_PD);
-
 			$prg = $a_progress->getStudyProgramme();
 			$can_read = $this->il_access->checkAccess("read", "", $prg->getRefId(), "prg", $prg->getId());
-			if($visible_on_pd_mode == ilObjStudyProgrammeAdmin::SETTING_VISIBLE_ON_PD_READ && $can_read) {
-				return true;
+			if($this->visible_on_pd_mode == ilObjStudyProgrammeAdmin::SETTING_VISIBLE_ON_PD_READ && !$can_read) {
+				return false;
 			}
 
-			return false;
+			return true;
 		}
 		
 		return false;
