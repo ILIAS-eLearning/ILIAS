@@ -489,16 +489,20 @@ class gevDecentralTrainingCreationRequestDB {
 	}
 
 	static public function install_step6(ilDB $ilDB) {
-		$ilDB->addTableColumn(self::TABLE_NAME, 'tmp_path_string', array(
-			"type" => "text",
-			"length" => 250,
-			"notnull" => false
-		));
-
-		$ilDB->addTableColumn(self::TABLE_NAME, 'added_files', array(
-			"type" => "text",
-			"length" => 4000,
-			"notnull" => false
-		));
+		if(!$ilDB->tableColumnExists(self::TABLE_NAME, 'tmp_path_string')) {
+			$ilDB->addTableColumn(self::TABLE_NAME, 'tmp_path_string', array(
+				"type" => "text",
+				"length" => 250,
+				"notnull" => false
+			));
+		}
+		
+		if(!$ilDB->tableColumnExists(self::TABLE_NAME, 'added_files')) {
+			$ilDB->addTableColumn(self::TABLE_NAME, 'added_files', array(
+				"type" => "text",
+				"length" => 4000,
+				"notnull" => false
+			));
+		}
 	}
 }

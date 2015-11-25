@@ -141,7 +141,7 @@ function gevShowMailPreview(){
 	}
 	
 	if(crs_data !== "") {
-		$.getJSON("create_dct_mail_preview_data_json.php",crs_data, function(data) {
+		$.getJSON(il.mail_data_json_url,crs_data, function(data) {
 			if(readForm) {
 				$.each(data, function(k,v) {
 					if(k in values) {
