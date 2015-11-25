@@ -20,6 +20,13 @@ class gevWBDSuccessVvAenderung extends WBDSuccessVvAenderung {
 		
 	}
 
+	/**
+	* gets the row id
+	*
+	* @throws LogicException
+	* 
+	*@return integer
+	*/
 	public function rowId() {
 		if($this->row_id === null) {
 			throw new LogicalException("gevWBDSuccessVvErstanlage::rowId:row_id is NULL");

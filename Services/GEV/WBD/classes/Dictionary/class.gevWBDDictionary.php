@@ -130,7 +130,7 @@ class gevWBDDictionary implements Dictionary {
 		return $name;
 	}
 
-	function getInternalName($key, $section) {
+	public function getInternalName($key, $section) {
 		$name = $this->getName($key, $section, self::INTERNAL_NAME); 
 		
 		if($name == "") {

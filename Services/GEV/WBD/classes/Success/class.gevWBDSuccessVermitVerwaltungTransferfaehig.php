@@ -36,6 +36,13 @@ class gevWBDSuccessVermitVerwaltungTransferfaehig extends WBDSuccessVermitVerwal
 		return $this->usr_id;
 	}
 
+	/**
+	* gets the row id
+	*
+	* @throws LogicException
+	* 
+	*@return integer
+	*/
 	public function rowId() {
 		return $this->row_id;
 	}

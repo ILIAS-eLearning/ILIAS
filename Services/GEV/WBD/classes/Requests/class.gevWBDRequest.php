@@ -460,7 +460,7 @@ abstract class gevWBDRequest implements WBDRequest {
 	*
 	* @param string 	$reason_xml 	response xml on error
 	*/
-	final function parseReason($response) {
+	final protected function parseReason($response) {
 		$result = $response->xpath("//" . self::$NODE_WBD_ERROR);
 
 		if (count($result) > 1) {
@@ -481,7 +481,7 @@ abstract class gevWBDRequest implements WBDRequest {
 	*
 	* @return string 	$template_xml
 	*/
-	final function getServiceXML() {
+	final protected function getServiceXML() {
 		$fp = $this->xml_tmpl_path."/".$this->xml_tmpl_file_name;
 		$template_xml = file_get_contents($fp);
 		return $template_xml;
@@ -513,7 +513,7 @@ abstract class gevWBDRequest implements WBDRequest {
 	*
 	* @return string
 	*/
-	final function replaceSpecialChars($value) {
+	final protected function replaceSpecialChars($value) {
 		$value = str_replace("&", "&amp;", $value);
 		$value = str_replace("<", "&lt;", $value);
 		$value = str_replace(">", "&gt;", $value);

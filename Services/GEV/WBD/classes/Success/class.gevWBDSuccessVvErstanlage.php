@@ -18,9 +18,13 @@ class gevWBDSuccessVvErstanlage extends WBDSuccessVvErstanlage{
 		$this->row_id = $row_id;
 		parent::__construct($response);
 	}
+	
 	/**
+	* gets the row id
+	*
 	* @throws LogicException
-	* @return user_id
+	* 
+	*@return integer
 	*/
 	public function rowId() {
 		return $this->row_id;

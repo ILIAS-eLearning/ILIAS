@@ -80,7 +80,7 @@ class gevWBDError extends WBDError{
 	*
 	* @return string $errMessage
 	*/
-	final function userId() {
+	final public function userId() {
 		return $this->usr_id;
 	}
 
@@ -91,7 +91,7 @@ class gevWBDError extends WBDError{
 	*
 	* @return string $errMessage
 	*/
-	final function rowId() {
+	final public function rowId() {
 		return $this->row_id;
 	}
 
@@ -102,7 +102,7 @@ class gevWBDError extends WBDError{
 	*
 	* @return string $errMessage
 	*/
-	final function crsId() {
+	final public function crsId() {
 		return $this->crs_id;
 	}
 
@@ -111,7 +111,7 @@ class gevWBDError extends WBDError{
 	*
 	*@return string $reason;
 	*/
-	final function reason() {
+	final public function reason() {
 		return $this->reason;
 	}
 	/**
@@ -119,7 +119,7 @@ class gevWBDError extends WBDError{
 	*
 	*@return bool;
 	*/
-	final function internal() {
+	final public function internal() {
 		return $this->internal;
 	}
 	/**
@@ -127,7 +127,7 @@ class gevWBDError extends WBDError{
 	*
 	*@return string $service;
 	*/
-	final function service() {
+	final public function service() {
 		return $this->service;
 	}
 }
