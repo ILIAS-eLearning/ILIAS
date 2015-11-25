@@ -495,7 +495,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 			(\n"
 				.$this->ilDB->quote($next_id, "integer").",\n"
 				.$this->ilDB->quote(0,"integer").",\n"
-				."NOW(),\n"
+				."UNIX_TIMESTAMP(),\n"
 				.$this->ilDB->quote($creator_id, "integer").",\n"
 				.$this->ilDB->quote('Nein', "text").",\n"
 				.$this->ilDB->quote($crs_id, "integer").",\n"
@@ -697,67 +697,12 @@ class gevWBDDataConnector extends wbdDataConnector {
 			return array();
 		}
 
+		$tp_types = array(gevSttings::USR_WBD_NEXT_ACTION_NEW_TP_SERVICE, gevSttings::USR_WBD_NEXT_ACTION_NEW_TP_Basis);
 		$sql = "SELECT * FROM hist_user\n"
 				." WHERE hist_historic = ".$this->ilDB->quote(0, "integer")."\n"
 				."    AND deleted = ".$this->ilDB->quote(0, "integer")."\n"
 				."    AND last_wbd_report IS NULL"
-				."    AND next_wbd_action = ".$this->ilDB->quote(gevSttings::USR_WBD_NEXT_ACTION_NEW, "text")."\n";
-
-// 		$sql = "
-// 			SELECT
-// 				*
-// 			FROM
-// 				hist_user
-// 			WHERE
-// 				hist_historic = 0
-// 			AND
-// 				deleted = 0
-// 			AND
-// 				bwv_id = '-empty-'
-// 			AND
-// 				last_wbd_report IS NULL
-// 			"
-// 			//exclude pending users;
-// 			//pending users were reported, changed,
-// 			//but still do not have an bwv_id
-// 			."
-// 			AND user_id NOT IN (
-// 				SELECT DISTINCT user_id
-// 				FROM hist_user
-// 				WHERE
-// 					hist_historic = 1
-// 				AND NOT
-// 					last_wbd_report IS NULL
-// 			)
-// 			";
-
-
-// 		// new accounts for TP_Service, TP_Basic only:
-// 		$sql .= " AND wbd_type IN ('"
-// 			.self::WBD_TP_BASIS."', '".self::WBD_TP_SERVICE
-// 			."')";
-
-// // 2015-01-06
-// //NA, FD will not get an OKZ, i.e.
-// //only report with valid okz!
-// //$sql .= " AND okz IN ('OKZ1', 'OKZ2','OKZ3')";
-	
-
-// 		//dev-safety:
-// 		$sql .= ' AND user_id IN (SELECT usr_id FROM usr_data)';
-// 		$sql .= ' AND user_id NOT IN (6, 13)'; //root, anonymous
-// 		$sql .= ' AND hist_user.is_active = 1'; //exclude inactive users
-		
-
-
-
-// 		//ERROR-LOG:
-// 		$sql .= " AND user_id NOT IN ("
-// 			." SELECT DISTINCT usr_id FROM wbd_errors WHERE"
-// 			." resolved=0"
-// 			." AND reason IN ('WRONG_USERDATA','USER_EXISTS_TP', 'USER_EXISTS', 'USER_SERVICETYPE')"
-// 			//." AND action='new_user'"
-// 			.")";
+				."    AND ".$this->ilDB->in("next_wbd_action",$tp_types,false, "text")."\n";
 
 		$ret = array();
 		$result = $this->ilDB->query($sql);
@@ -766,7 +711,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 		while($record = $this->ilDB->fetchAssoc($result)) {
 
 			$uutils = gevUserUtils::getInstanceByObjOrId($record['user_id']);
-			if ($uutils->wbdCheckForNew()) {
+			if ($uutils->wbdShouldBeRegisteredAsNew()) {
 
 				$udata = $this->_map_userdata($record);
 
@@ -1481,9 +1426,9 @@ print $sql;
 		$ret = array();
 		while($row = $this->ilDB->fetchAssoc($res)) {
 			require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
-			$user_uitls = gevUserUtils::getInstance($row["user_id"]);
+			$user_utils = gevUserUtils::getInstance($row["user_id"]);
 			
-			if($user_utils->wbdCheckForRelease()) {
+			if($user_utils->wbdShouldBeReleased()) {
 				$udata = $this->_map_userdata($row);
 
 				$valid = $this->validateUserRecord($udata);
@@ -1540,7 +1485,7 @@ print $sql;
 	}
 
 	/**
-	* BLOCK affilaite user
+	* BLOCK affiliate user
 	*/
 
 	/** 
@@ -1548,7 +1493,7 @@ print $sql;
 	* 
 	* @return 	array 	user records 
 	*/
-	public function get_affilaite_users() {
+	public function get_affiliate_users() {
 		global $GET_AFFILIATE_USER;
 		if(! $GET_AFFILIATE_USER){
 			return array();
@@ -1559,15 +1504,15 @@ print $sql;
 				." WHERE hist_historic = ".$this->ilDB->quote(0, "integer")."\n"
 				."    AND deleted = ".$this->ilDB->quote(0, "integer")."\n"
 				."    AND last_wbd_report IS NULL\n"
-				."    AND next_wbd_action = ".$this->ilDB->quote(gevSttings::USR_WBD_NEXT_ACTION_AFILIATE, "text")."\n";
+				."    AND next_wbd_action = ".$this->ilDB->quote(gevSttings::USR_WBD_NEXT_ACTION_AFFILIATE, "text")."\n";
 
 		$res = $this->ilDB->query($sql);
 		$ret = array();
 		while($row = $this->ilDB->fetchAssoc($res)) {
 			require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
-			$user_uitls = gevUserUtils::getInstance($row["user_id"]);
+			$user_utils = gevUserUtils::getInstance($row["user_id"]);
 			
-			if($user_utils->checkForAffiliate()) {
+			if($user_utils->wbdShouldBeAffiliateAsTPService()) {
 				$udata = $this->_map_userdata($row);
 				$valid = $this->validateUserRecord($udata);
 
@@ -1622,7 +1567,7 @@ print $sql;
 	*/
 	public function fail_affiliate_user($a_row_id, $a_exception) {
 		print "\n";
-		print 'ERROR on updateUser: ';
+		print 'ERROR on affiliateUser: ';
 		print $row_id;
 		print "\n";
 		print_r($a_exception->getReason());

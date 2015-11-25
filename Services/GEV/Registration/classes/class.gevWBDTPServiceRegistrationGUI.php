@@ -32,32 +32,18 @@ class gevWBDTPServiceRegistrationGUI {
 
 	public function executeCommand() {
 		$this->checkWBDRelevantRole();
-		//$this->checkAlreadyRegistered();
-
 		$cmd = $this->ctrl->getCmd();
 
 		switch ($cmd) {
-			//case "startRegistration":
 			case "setBWVId":
 			case "noBWVId":
-			case "createBWVId":
-			//case "registerTPBasis":
 			case "registerTPService":
 			case "noServiceReg":
 			case "createTPServiceBWVId":
 			case "affiliateUser":
 				$ret = $this->$cmd();
 				break;
-				
-				break;
 			default:
-				/*
-				if ($this->user_utils->canBeRegisteredAsTPService()) {
-					$ret = $this->createTPServiceBWVId();
-				} else {
-					$ret = $this->startRegistration();
-				}
-				*/
 				$ret = $this->createTPServiceRegistrationStart();
 		}
 
@@ -127,10 +113,6 @@ class gevWBDTPServiceRegistrationGUI {
 		$this->redirectToBookingOr("");
 	}
 
-	protected function createBWVId() {
-		return $this->createTPBasisBWVId();
-	}
-
 	protected function createTPServiceBWVId() {
 		if($_POST["registration_type"] == "new") {
 			return $this->newWBDAccount();
@@ -154,11 +136,11 @@ class gevWBDTPServiceRegistrationGUI {
 
 	protected function existingWBDAccount($a_form = null) {
 		$tpl = new ilTemplate("tpl.gev_wbd_tp_exist_form.html", false, false, "Services/GEV/Registration");
-			$form = $a_form===null ? $this->buildCreateWBDAccountExistForm() : $a_form;
-			$tpl->setVariable("ACTION", $this->ctrl->getFormAction($this));
-			$tpl->setVariable("FORM", $form->getHTML());
+		$form = $a_form===null ? $this->buildCreateWBDAccountExistForm() : $a_form;
+		$tpl->setVariable("ACTION", $this->ctrl->getFormAction($this));
+		$tpl->setVariable("FORM", $form->getHTML());
 
-			return $tpl->get();
+		return $tpl->get();
 	}
 
 	protected function createTPServiceRegistrationStart($a_form = null) {
@@ -193,7 +175,7 @@ class gevWBDTPServiceRegistrationGUI {
 			return $this->newWBDAccount($form);
 		}
 
-		$this->user_utils->setNextWBDAction(gevSettings::USR_WBD_NEXT_ACTION_NEW);
+		$this->user_utils->setNextWBDAction(gevSettings::USR_WBD_NEXT_ACTION_NEW_TP_SERVICE);
 
 		if ($form->getInput("notifications") == "diff") {
 			$this->user_utils->setWBDCommunicationEmail($form->getInput("email"));
@@ -232,7 +214,7 @@ class gevWBDTPServiceRegistrationGUI {
 		}
 
 		$user_utils->setWBDTPType(gevUserUtils::WBD_EDU_PROVIDER);
-		$this->user_utils->setNextWBDAction(gevSettings::USR_WBD_NEXT_ACTION_AFILIATE);
+		$this->user_utils->setNextWBDAction(gevSettings::USR_WBD_NEXT_ACTION_AFFILIATE);
 		$this->user_utils->setWBDBWVId($form->getInput("bwv_id"));
 
 		if ($form->getInput("notifications") == "diff") {
@@ -264,19 +246,14 @@ class gevWBDTPServiceRegistrationGUI {
 		$tpl->setVariable("HAS_BWV_ID_COMMAND", $this->lng->txt("gev_wbd_registration_has_bwv_id_cmd_service"));
 		$tpl->setVariable("NO_BWV_ID", $this->lng->txt("gev_wbd_registration_no_bwv_id"));
 		$tpl->setVariable("NO_BWV_ID_COMMAND", $this->lng->txt("gev_wbd_registration_no_bwv_id_cmd"));
-		
-		//$form->addCommandButton("startRegistration", $this->lng->txt("back"));
+
 		return $tpl->get();
-
 	}
-
-
 
 	protected function buildTPServiceForm() {
 		$form = new ilPropertyFormGUI();
 		$form->addCommandButton("registerTPService", $this->lng->txt("register_tp_service"));
 		$form->addCommandButton("createTPServiceRegistrationStart", $this->lng->txt("back"));
-		//$form->addCommandButton("startRegistration", $this->lng->txt("back"));
 		$form->setFormAction($this->ctrl->getFormAction($this));
 
 		$wbd_link = "<a href='/Customizing/global/skin/genv/static/documents/02_AGB_WBD.pdf' target='_blank' class='blue'>".$this->lng->txt("gev_agb_wbd")."</a>";
@@ -316,7 +293,6 @@ class gevWBDTPServiceRegistrationGUI {
 		$form = new ilPropertyFormGUI();
 		$form->addCommandButton("affiliateUser", $this->lng->txt("gev_wbd_register_affiliate"));
 		$form->addCommandButton("createTPServiceRegistrationStart", $this->lng->txt("back"));
-		//$form->addCommandButton("startRegistration", $this->lng->txt("back"));
 		$form->setFormAction($this->ctrl->getFormAction($this));
 
 		$chb1 = new ilCheckboxInputGUI("", "chb1");
@@ -339,13 +315,18 @@ class gevWBDTPServiceRegistrationGUI {
 		$bwv_id->setRequired(true);
 		$form->addItem($bwv_id);
 
+		//Options for option group
+		$diff = new ilRadioOption($this->lng->txt("gev_wbd_notifications_to_diff"), "diff");
+			$email = new ilEMailInputGUI($this->lng->txt("gev_alternative_email"), "email");
+			$email->setRequired(true);
+		$diff->addSubItem($email);
+
+		$auth = new ilRadioOption($this->lng->txt("gev_wbd_notifications_to_auth"), "auth");
+		
+		//Optiongroup
 		$opt1 = new ilRadioGroupInputGUI($this->lng->txt("gev_wbd_notifications"), "notifications");
-		$opt1->addOption(new ilRadioOption($this->lng->txt("gev_wbd_notifications_to_auth"), "auth"));
-		$extra = new ilRadioOption($this->lng->txt("gev_wbd_notifications_to_diff"), "diff");
-		$email = new ilEMailInputGUI($this->lng->txt("gev_alternative_email"), "email");
-		$email->setRequired(true);
-		$extra->addSubItem($email);
-		$opt1->addOption($extra);
+		$opt1->addOption($auth);
+		$opt1->addOption($diff);
 		$opt1->setValue("auth");
 		$form->addItem($opt1);
 
@@ -366,97 +347,5 @@ class gevWBDTPServiceRegistrationGUI {
 		return $form;
 	}
 
-	protected function createTPBasisBWVId($a_form = null) {
-		$tpl = new ilTemplate("tpl.gev_wbd_tp_service_form.html", false, false, "Services/GEV/Registration");
-		$form = $a_form===null ? $this->buildTPBasisForm() : $a_form;
-
-		$tpl->setVariable("FORM", $form->getHTML());
-
-		return $tpl->get();
-	}
-/*
-	protected function registerTPBasis() {
-		$form = $this->buildTPBasisForm();
-
-		$err = false;
-		$form->setValuesByPost();
-		if (!$form->checkInput()) {
-			$err = true;
-		}
-		else {
-			for ($i = 1; $i <= 5; ++$i) {
-				$chb = $form->getItemByPostVar("chb".$i);
-				if (!$chb->getChecked()) {
-					$err = true;
-					$chb->setAlert($this->lng->txt("gev_wbd_registration_cb_mandatory"));
-				}
-			}
-		}
-
-		if ($err) {
-			return $this->createTPBasisBWVId($form);
-		}
-
-		$this->user_utils->setWBDTPType(gevUserUtils::WBD_TP_BASIS);
-
-		if ($form->getInput("notifications") == "diff") {
-			$this->user_utils->setWBDCommunicationEmail($form->getInput("email"));
-		}
-
-		$this->user_utils->setWBDRegistrationDone();
-
-		ilUtil::sendSuccess($this->lng->txt("gev_wbd_registration_finished_create_bwv_id"), true);
-		ilUtil::redirect("ilias.php?baseClass=gevDesktopGUI&cmdClass=toMyCourses");
-	}
-*/
-	protected function buildTPBasisForm() {
-		require_once("Services/Form/classes/class.ilPropertyFormGUI.php");
-		require_once("Services/Form/classes/class.ilCheckboxInputGUI.php");
-		require_once("Services/Form/classes/class.ilRadioGroupInputGUI.php");
-		require_once("Services/Form/classes/class.ilEMailInputGUI.php");
-		require_once("Services/Form/classes/class.ilRadioOption.php");
-
-		$form = new ilPropertyFormGUI();
-		//$form->addCommandButton("registerTPBasis", $this->lng->txt("register_tp_basis"));
-		//$form->addCommandButton("startRegistration", $this->lng->txt("back"));
-		$form->setFormAction($this->ctrl->getFormAction($this));
-
-		$wbd_link = "<a href='/Customizing/global/skin/genv/static/documents/02_AGB_WBD.pdf' target='_blank' class='blue'>".$this->lng->txt("gev_agb_wbd")."</a>";
-		$auftrag_link = "<a href='/Customizing/global/skin/genv/static/documents/GEV_TPBUVG_Finaler_Auftrag_TP_Basis_Makler.pdf' target='_blank' class='blue'>".$this->lng->txt("gev_mandate")."</a>";
-		$agb_link = "<a href='/Customizing/global/skin/genv/static/documents/01_AGB_TGIC.pdf' target='_blank' class='blue'>".$this->lng->txt("gev_agb_tgic")."</a>";
-
-		$chb1 = new ilCheckboxInputGUI("", "chb1");
-		$chb1->setOptionTitle(sprintf($this->lng->txt("gev_give_mandate"), $auftrag_link));
-		$form->addItem($chb1);
-
-		$chb2 = new ilCheckboxInputGUI("", "chb2");
-		$chb2->setOptionTitle(sprintf($this->lng->txt("gev_confirm_wbd"), $wbd_link));
-		$form->addItem($chb2);
-
-		$chb3 = new ilCheckboxInputGUI("", "chb3");
-		$chb3->setOptionTitle(sprintf($this->lng->txt("gev_confirm_agb"), $agb_link));
-		$form->addItem($chb3);
-
-		$chb4 = new ilCheckboxInputGUI("", "chb4");
-		$chb4->setOptionTitle($this->lng->txt("gev_confirm_qualification"));
-		$form->addItem($chb4);
-
-		$chb5 = new ilCheckboxInputGUI("", "chb5");
-		$chb5->setOptionTitle($this->lng->txt("gev_no_other_wbd_mandate"));
-		$form->addItem($chb5);
-
-		$opt1 = new ilRadioGroupInputGUI($this->lng->txt("gev_wbd_notifications"), "notifications");
-		$opt1->addOption(new ilRadioOption($this->lng->txt("gev_wbd_notifications_to_auth"), "auth"));
-		$extra = new ilRadioOption($this->lng->txt("gev_wbd_notifications_to_diff"), "diff");
-		$email = new ilEMailInputGUI($this->lng->txt("gev_alternative_email"), "email");
-		$email->setRequired(true);
-		$extra->addSubItem($email);
-		$opt1->addOption($extra);
-		$opt1->setValue("auth");
-		$form->addItem($opt1);
-
-		return $form;
-	}
 }
-
 ?>
