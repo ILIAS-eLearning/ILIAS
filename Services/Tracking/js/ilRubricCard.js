@@ -818,7 +818,7 @@ function validate(obj){
         break;
         case 'passi':
             modified_object=obj.parentNode;            
-            if(obj.value>=0&&obj.value<=100&&obj.value!=''){
+            if(obj.value>=0&&obj.value<=100&&obj.value!=''&&obj.value.indexOf( '.' ) == -1){
                 validated=true;
             }
         break;
