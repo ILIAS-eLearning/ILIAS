@@ -62,6 +62,7 @@ require_once("./include/inc.header.php");
 
 //get base class
 require_once("./Services/WBDData/classes/class.wbdDataConnector.php");
+require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 
 
 class gevWBDDataConnector extends wbdDataConnector {
@@ -234,6 +235,20 @@ class gevWBDDataConnector extends wbdDataConnector {
 		}
 
 		$street_and_nr = $this->_extract_house_nr( $record['street']);
+		$wbd_type = "";
+		$wbd_next_action = $record['next_wbd_action'];
+
+		switch($wbd_next_action) {
+			case gevSettings::USR_WBD_NEXT_ACTION_NEW_TP_SERVICE:
+				$wbd_type = self::WBD_TP_SERVICE;
+				break;
+			case gevSettings::USR_WBD_NEXT_ACTION_NEW_TP_BASIS:
+				$wbd_type = self::WBD_TP_BASIS;
+				break;
+			default:
+				$wbd_type = $record['wbd_type'];
+		}
+
 		$udata = array(
 				'internal_agent_id' 		=> $record['user_id']
 				,'title' 					=> $this->VALUE_MAPPINGS['salutation'][$record['gender']]
@@ -652,6 +667,37 @@ class gevWBDDataConnector extends wbdDataConnector {
 		$uutils->setWBDFirstCertificationPeriodBegin($begin_of_certification);
 
 		return;
+	}
+
+	/**
+	* set TP Type according to next wbd action
+	*
+	* @param string $user_id
+	*/
+	public function setNewTPType($user_id) {
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		$uutils = gevUserUtils::getInstance($user_id);
+		$next_action = $uutils->getNextWBDAction();
+
+		switch ($next_action) {
+			case gevSettings::USR_WBD_NEXT_ACTION_NEW_TP_SERVICE:
+				$uutils->setWBDTPType(gevUserUtils::WBD_TP_SERVICE);
+				break;
+			case gevSettings::USR_WBD_NEXT_ACTION_NEW_TP_BASIS:
+				$uutils->setWBDTPType(gevUserUtils::WBD_TP_BASIS);
+				break;
+		}
+	}
+
+	/**
+	* set next wbd action to nothing
+	*
+	* @param string $user_id 
+	*/
+	public function setNextWBDActionToNothing($user_id) {
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		$uutils = gevUserUtils::getInstance($user_id);
+		$uutils->setNextWBDAction(gevSettings::USR_WBD_NEXT_ACTION_NOTHING);
 	}
 
 	/**
