@@ -24,7 +24,6 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 		$this->gLng = $lng;
 		$this->gCtrl = $ilCtrl;
 		$this->gTpl = $tpl;
-		$this->gTpl->addCSS('Services/ReportsRepository/templates/css/report.css');
 		$this->gUser = $ilUser;
 		$this->gLog = $ilLog;
 		$this->gAccess = $ilAccess;
