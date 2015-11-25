@@ -817,3 +817,119 @@ class catTextInputFilter {
 	}
 }
 catFilter::addFilterType(catTextInputFilter::ID, new catTextInputFilter());
+
+class catMultiSelectCustomFilter {
+	const ID = "multiselect_custom";
+
+	public function getId() {
+		return catMultiSelectCustomFilter::ID;
+	}
+
+	// config:
+	// id
+	// label
+	// values => statement
+	// default_values
+	// additional_clause (optional, defaults to "")
+	// width (optional, defaults to 160)
+	// height (optional, defaults to 75)
+	// field type (optional, default to "text")
+	// filter-options sorting (defaults to "asc", also possible  "desc", "none")
+
+	public function checkConfig($a_conf) {
+		if (count($a_conf) < 6) {
+			// one parameter less, since type is encoded in first parameter but not passed by user.
+			throw new Exception ("catMultiselectCustomFilter::checkConfig: expected at least 5 parameters for multiselect.");
+		}
+
+		if (count($a_conf) === 5) {
+			$a_conf[] = ""; // additional_clause
+			$a_conf[] = 200; // width
+			$a_conf[] = 160; // height
+			$a_conf[] = "text"; // type
+			$a_conf[] = "asc"; //filter-options sorting
+		}
+		else if (count($a_conf) === 6) {
+			$a_conf[] = 200; // width
+			$a_conf[] = 160; // height
+			$a_conf[] = "text"; // type
+			$a_conf[] = "asc"; //filter-options sorting
+		}
+		else if (count($a_conf) === 7) {
+			$a_conf[] = 160; // height
+			$a_conf[] = "text"; // type
+			$a_conf[] = "asc"; //filter-options sorting
+		}
+		else if (count($a_conf) === 8) {
+			$a_conf[] = "text"; // type
+			$a_conf[] = "asc"; //filter-options sorting
+		}
+		else if (count($a_conf) === 9) {
+			$a_conf[] = "asc"; //filter-options sorting
+		}
+
+		return $a_conf;
+	}
+
+	public function isInWhere($a_conf) {
+		return true;
+	}
+
+	public function render($a_tpl, $a_postvar, $a_conf, $a_pars) {
+		if (count($a_conf[3]) == 0) {
+			return false;
+		}
+
+		$a_tpl->setVariable("MULTI_SELECT_LABEL", $a_conf[2]);
+		$a_tpl->setVariable("WIDTH", $a_conf[6]);
+		$a_tpl->setVariable("HEIGHT", $a_conf[7]);
+
+		$count = 0;
+		if($a_conf[10] == "asc") {
+			asort($a_conf[3]);
+		} else if($a_conf[9] == "desc") {
+			arsort($a_conf[3]);
+		} else if($a_conf[9] !== "none") {
+			throw new ilException($a_conf[1]." catMultiSelectFilter::render: invalid sorting option.");
+		}
+		// for some unknown reason, the var POST_VAR gets
+		// not filled in all places if i call it from catFilter::render.
+		foreach ($a_conf[3] as $title => $value) {
+			$a_tpl->setCurrentBlock("multiselect_item");
+			$a_tpl->setVariable("CNT", $count);
+			$a_tpl->setVariable("OPTION_VALUE", $value);
+			$a_tpl->setVariable("OPTION_TITLE", $title);
+			$a_tpl->setVariable("POST_VAR", $a_postvar);
+			if (in_array($value, $a_pars)) {
+					$a_tpl->setVariable("CHECKED", "checked");
+			}
+			$a_tpl->parseCurrentBlock();
+			$count++;
+		}
+
+		return true;
+	}
+
+	public function sql($a_conf, $a_pars) {
+		global $ilDB;
+		if (count($a_pars) == 0) {
+			return " TRUE ";
+		}
+
+		return "(".implode(' OR ',$a_pars).")";
+	}
+
+	public function get($a_pars) {
+		return $a_pars;
+	}
+
+	public function _default($a_conf) {
+		return $a_conf[4];
+	}
+
+	public function preprocess_post($a_post) {
+		unset($a_post["send"]);
+		return $a_post;
+	}
+}
+catFilter::addFilterType(catMultiSelectCustomFilter::ID, new catMultiSelectCustomFilter());

@@ -5,6 +5,7 @@ require_once 'Services/ReportsRepository/classes/class.catReportOrder.php';
 require_once 'Services/ReportsRepository/classes/class.catReportQuery.php';
 require_once 'Services/ReportsRepository/classes/class.catReportQueryOn.php';
 require_once 'Services/ReportsRepository/classes/class.catFilter.php';
+require_once 'Services/GEV/Utils/classes/class.gevUserUtils.php';
 
 /**
 * This class performs all interactions with the database in order to get report-content. Puplic methods may be accessed in 
@@ -19,10 +20,12 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 	protected $query = null;
 	protected $table = null;
 	protected $order = null;
+	protected $user_utils;
 
 	public function __construct($a_ref_id = 0) {
 		parent::__construct($a_ref_id);
-		global $ilDB;
+		global $ilDB, $ilUser;
+		$this->user_utils = gevUserUtils::getInstanceByObj($ilUser);
 		$this->gIldb = $ilDB;
 		$this->table = null;
 		$this->query = null;
