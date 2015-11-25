@@ -15569,9 +15569,9 @@ forum#:#frm_noti_subject_cens_post#:#Beitrag im Forum "%1$s" zum Thema "%2$s" ze
 forum#:#frm_noti_subject_uncens_post#:#Zensur aufgehoben für einen Beitrag im Forum "%1$s" zum Thema "%2$s"
 forum#:#frm_noti_subject_del_post#:#Beitrag im Forum "%1$s" zum Thema "%2$s" gelöscht
 search#:#search_show_inactive_user#:#Zeige Inaktive Benutzer
-search#:#search_show_inactive_user_info#:#Inaktive Benutzer werden in der Benutzersuche angezeigt.
+search#:#search_show_inactive_user_info#:#In der Benutzersuche werden auch Benutzer angezeigt, deren Konto nicht aktiv ist.
 search#:#search_show_limited_user#:#Zeige Begrenzte Benutzer
-search#:#search_show_limited_user_info#:#Benutzer mit begrenztem Zugang, die außerhalb ihrer zeitlichen Begrenzung sind werden in der Benutzersuche angezeigt.
+search#:#search_show_limited_user_info#:#In der Benutzersuche werden auch Benutzer mit zeitlichem begrenztem Zugang angezeigt, die entweder noch nicht oder nicht mehr auf ILIAS zugreifen können.
 trac#:#trac_mode_visited_pages#:#Besuchte Seiten
 trac#:#trac_mode_visited_pages_info#:#Benutzer, die alle Seiten des Lernmoduls besucht haben, erhalten automatisch den Status 'Bearbeitet'.
 exc#:#exc_peer_review_given#:#Gegebenes Feedback zeigen
