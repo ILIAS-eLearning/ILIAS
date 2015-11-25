@@ -1,12 +1,8 @@
 <?php
 require_once 'Services/ReportsRepository/classes/class.ilObjReportBaseListGUI.php';
-  /**
-* ListGUI implementation for Example object plugin. This one
-* handles the presentation in container items (categories, courses, ...)
-* together with the corresponfing ...Access class.
-*
-* PLEASE do not create instances of larger classes here. Use the
-* ...Access class to get DB data and keep it small.
+
+/**
+* {@inheritdoc}
 */
 class ilObjReportCompanyGlobalListGUI extends ilObjReportBaseListGUI {
 
