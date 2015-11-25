@@ -12,6 +12,11 @@ require_once 'Services/Form/classes/class.ilCheckboxInputGUI.php';
 class ilObjReportCompanyGlobalGUI extends ilObjReportBaseGUI {
 	static $rows = array("type", "part_book", "part_user", "wp_part", "book_book", "book_user");
 
+	protected function afterConstructor() {
+		parent::afterConstructor();
+		$this->gTpl->addCSS('Services/ReportsRepository/templates/css/report.css');
+	}
+
 	public function getType() {
 		return 'xrcg';
 	}
@@ -29,14 +34,6 @@ class ilObjReportCompanyGlobalGUI extends ilObjReportBaseGUI {
 
 		return $settings_form;
 	}
-	/*	protected function render() {
-		$callback = get_class($this).'::transformResultRow';
-		$this->gTpl->setTitle(null);
-		return 	($this->title !== null ? $this->title->render() : "")
-				. ($this->object->deliverFilter() !== null ? $this->object->deliverFilter()->render() : "")
-				. ($this->spacer !== null ? $this->spacer->render() : "")
-				. print_r($this->object->deliverData($callback));
-	}*/
 
 	protected function prepareTitle($a_title) {
 		$a_title = parent::prepareTitle($a_title);
@@ -58,7 +55,6 @@ class ilObjReportCompanyGlobalGUI extends ilObjReportBaseGUI {
 	protected function renderUngroupedTable($data) {
 		$table = $this->object->deliverTable();	
 		$tpl_table = new ilTemplate("tpl.cat_global_company_report.html", true, true, "Services/ReportsRepository");
-
 		$tpl_table->setCurrentBlock('row');
 			$tpl_header = new ilTemplate("tpl.cat_global_company_report_header_row.html", true, true, "Services/ReportsRepository");
 			$tpl_header->setCurrentBlock('meta');
