@@ -10,6 +10,7 @@
  */
 
 require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeProgressListGUI.php");
+require_once('./Modules/StudyProgramme/classes/class.ilObjStudyProgrammeAdmin.php');
 
 class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgressListGUI {
 	/**
@@ -40,9 +41,11 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
 	function __construct(ilStudyProgrammeUserProgress $a_progress) {
 		parent::__construct($a_progress);
 		
-		global $tpl, $rbacsystem;
+		global $tpl, $rbacsystem, $ilSetting, $ilAccess;
 		$this->il_tpl = $tpl;
 		$this->il_rbacsystem = $rbacsystem;
+		$this->il_setting = $ilSetting;
+		$this->il_access = $ilAccess;
 	}
 	
 	public function getIndent() {
@@ -128,7 +131,17 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
 	}
 	
 	public function shouldShowSubProgress(ilStudyProgrammeUserProgress $a_progress) {
-		return $a_progress->isRelevant();
+		if($a_progress->isRelevant()) {
+			$prg = $a_progress->getStudyProgramme();
+			$can_read = $this->il_access->checkAccess("read", "", $prg->getRefId(), "prg", $prg->getId());
+			if($this->visible_on_pd_mode == ilObjStudyProgrammeAdmin::SETTING_VISIBLE_ON_PD_READ && !$can_read) {
+				return false;
+			}
+
+			return true;
+		}
+		
+		return false;
 	}
 	
 	public function newSubItem(ilStudyProgrammeUserProgress $a_progress) {

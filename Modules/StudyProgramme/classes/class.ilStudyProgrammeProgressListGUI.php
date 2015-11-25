@@ -6,9 +6,10 @@
  * Class ilStudyProgrammeProgressListGUI
  *
  * @author: Richard Klees <richard.klees@concepts-and-training.de>
+ * @author: Stefan Hecken <stefan.hecken@concepts-and-training.de>
  *
  */
-
+require_once('./Modules/StudyProgramme/classes/class.ilObjStudyProgrammeAdmin.php');
 class ilStudyProgrammeProgressListGUI {
 	protected static $tpl_file = "tpl.progress_list_item.html";
 
@@ -35,6 +36,16 @@ class ilStudyProgrammeProgressListGUI {
 	 */
 	protected $html;
 
+	/**
+	 * @var string
+	 */
+	protected $show_info_mesage;
+
+	/**
+	 * @var string
+	 */
+	protected $visible_on_pd_mode;
+
 	function __construct(ilStudyProgrammeUserProgress $a_progress) {
 		global $lng, $ilCtrl;
 		$this->il_lng = $lng;
@@ -44,6 +55,8 @@ class ilStudyProgrammeProgressListGUI {
 		$this->progress = $a_progress;
 		$this->tpl = null;
 		$this->html = null;
+		$this->show_info_mesage = false;
+		$this->visible_on_pd_mode = "read";
 	}
 	
 	public function getHTML() {
@@ -57,7 +70,6 @@ class ilStudyProgrammeProgressListGUI {
 	
 	protected function fillTemplate($tpl) {
 		$programme = $this->progress->getStudyProgramme();
-		
 		$title_and_icon_target = $this->getTitleAndIconTarget($this->progress);
 		
 		if ($title_and_icon_target) {
@@ -83,7 +95,11 @@ class ilStudyProgrammeProgressListGUI {
 			$tpl->parseCurrentBlock();
 		}
 		
-		
+		if($this->show_info_mesage) {
+			if($this->showMoreObjectsInfo($programme)) {
+				$tpl->setVariable("MORE_OBJECTS",$this->il_lng->txt("prg_more_objects_without_read_permission"));
+			}
+		}
 		$tpl->setVariable("TXT_DESC", $programme->getDescription());
 		$tpl->setVariable("PROGRESS_BAR", $this->buildProgressBar($this->progress));
 	}
@@ -171,6 +187,26 @@ class ilStudyProgrammeProgressListGUI {
 					  , $a_progress->getCurrentAmountOfPoints()
 					  , $max_points
 					  );
+	}
+
+	public function setShowInfoMessage($show_info_mesage) {
+		$this->show_info_mesage = $show_info_mesage;
+	}
+
+	public function setVisibleOnPDMode($visible_on_pd_mode) {
+		$this->visible_on_pd_mode = $visible_on_pd_mode;
+	}
+
+	protected function showMoreObjectsInfo($programme) {
+		$children = $programme->getChildren();
+		foreach ($children as $key => $child) {
+			$read = $this->il_access->checkAccess("read", "", $child->getRefId(), "prg", $child->getId());
+			if(!$read && $this->visible_on_pd_mode != ilObjStudyProgrammeAdmin::SETTING_VISIBLE_ON_PD_ALLWAYS) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 }
 
