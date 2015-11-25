@@ -353,7 +353,7 @@ class ilParticipationStatusAdminGUI
 		$succ_parti = $crs_utils->getSuccessfullParticipants();
 
 		$getSuccessfullParticipants = "";
-		if($min_parti > count($succ_parti)) {
+		if($min_parti > 0 && $min_parti > count($succ_parti)) {
 			$tpl_adivce = new ilTemplate("tpl.gev_my_advice.html", true, true, "Services/GEV/Desktop");
 			$tpl_adivce->setCurrentBlock("advice");
 			$tpl_adivce->setVariable("ADVICE", sprintf($this->gLng->txt("gev_training_min_participation_count_not_reached"),$min_parti));
@@ -598,7 +598,7 @@ class ilParticipationStatusAdminGUI
 		$min_parti = ($crs_utils->getMinParticipants() === null) ? 0 : $crs_utils->getMinParticipants();
 		$succ_parti = $crs_utils->getSuccessfullParticipants();
 
-		if($min_parti > count($succ_parti)) {
+		if($min_parti > 0 && $min_parti > count($succ_parti)) {
 			$confirm->addItem("",
 				"",
 				sprintf($lng->txt("gev_training_min_participation_count_not_reached"),$min_parti)
