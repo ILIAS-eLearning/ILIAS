@@ -119,7 +119,9 @@ class gevWBDDictionary implements Dictionary {
 															)
 								)
 							);
-	
+	/**
+	* {@inheritdoc }
+	*/
 	public function getWBDName($key, $section) {
 		$name = $this->getName($key, $section, self::WBD_NAME); 
 		
@@ -130,6 +132,9 @@ class gevWBDDictionary implements Dictionary {
 		return $name;
 	}
 
+	/**
+	* {@inheritdoc }
+	*/
 	public function getInternalName($key, $section) {
 		$name = $this->getName($key, $section, self::INTERNAL_NAME); 
 		

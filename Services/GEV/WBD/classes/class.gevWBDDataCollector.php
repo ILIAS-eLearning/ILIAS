@@ -395,7 +395,6 @@ class gevWBDDataCollector implements WBDDataCollector {
 		if($limit) {
 			$sql .= " LIMIT ".$this->gDB->quote($limit,'integer');
 		}
-		//echo $sql;
 
 		return $sql;
 	}
@@ -551,7 +550,6 @@ class gevWBDDataCollector implements WBDDataCollector {
 		if($limit) {
 			$sql .= " LIMIT ".$this->gDB->quote($limit,'integer');
 		}
-echo $sql;
 		return $sql;
 	}
 
@@ -769,7 +767,6 @@ echo $sql;
 		$sql = "UPDATE ".$table."\n"
 				." SET last_wbd_report = "$this->gDB->quote($this->getCurrentDate(),"text")."\n"
 				." WHERE ".$this->gDB->in("row_id",$rows,false,'text')."\n";
-				//echo $sql;
 		$this->gDB->manipulate($sql);
 	}
 
@@ -779,7 +776,6 @@ echo $sql;
 	 * @param ilObjUser $user
 	 */
 	public function raiseEventUserChanged(ilObjUser $user) {
-		echo "event";
 		$this->gAppEventHandler->raise("Services/User", "afterUpdate", array("user_obj" => $user));
 	}
 
@@ -807,7 +803,6 @@ echo $sql;
 		$sql = "UPDATE hist_usercoursestatus\n"
 				." SET wbd_booking_id = ".$this->gDB->quote($booking_id,"text")."\n"
 				." WHERE row_id = ".$this->gDB->quote($row_id,"integer")."\n";
-//echo $sql;
 		$result = $this->gDB->query($sql);
 	}
 
