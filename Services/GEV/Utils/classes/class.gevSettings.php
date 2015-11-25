@@ -290,10 +290,11 @@ class gevSettings {
 	const USR_WBD_EXIT_DATE			= "usr_udf_wbd_exit_date";
 	const USR_WBD_NEXT_ACTION		= "usr_udf_wbd_next_action";
 
-	const USR_WBD_NEXT_ACTION_NOTHING	= "0 - keine Aktion";
-	const USR_WBD_NEXT_ACTION_NEW		= "1 - Erstanlage";
-	const USR_WBD_NEXT_ACTION_AFILIATE	= "2 - Aufnahme";
-	const USR_WBD_NEXT_ACTION_RELEASE	= "3 - Transferfähig machen";
+	const USR_WBD_NEXT_ACTION_NOTHING			= "0 - keine Aktion";
+	const USR_WBD_NEXT_ACTION_NEW_TP_SERVICE	= "1 - Erstanlage TP Service";
+	const USR_WBD_NEXT_ACTION_NEW_TP_Basis		= "2 - Erstanlage TP Basis";
+	const USR_WBD_NEXT_ACTION_AFFILIATE			= "3 - Aufnahme";
+	const USR_WBD_NEXT_ACTION_RELEASE			= "4 - Transferfähig machen";
 
 	//basic templates for flexible decentral trainings
 	const DCT_TPL_FLEX_PRESENCE = "dct_tpl_flex_presence";

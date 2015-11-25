@@ -56,8 +56,6 @@ class gevUserUtils {
 	const WBD_ERROR_USER_DEACTIVATED 	= 'USER_DEACTIVATED';
 	const WBD_ERROR_NO_RELEASE			= 'NO_RELEASE';
 
-	static $specialUserIds = array(6,13);
-
 	static $wbd_agent_status_mapping = array(
 		//1 - Angestellter Außendienst
 		self::WBD_AGENTSTATUS1 => array(
@@ -2220,12 +2218,41 @@ class gevUserUtils {
 		return $this->hasRoleIn($roles);
 	}
 
-	public function wbdCheckForNew() {
+	/**
+	* Checks requirements user must have to get in pool for new wbd account
+	*
+	* WBD Resistration done
+	* has specified Role
+	* is an existing user
+	* is aktive
+	* is not root oder anomynos
+	* entry date is passed
+	* has no BWV Id
+	* has specifed TP-Types
+	*
+	* @return boolean
+	*/
+	public function wbdShouldBeRegisteredAsNew() {
 		return $this->hasDoneWBDRegistration() && $this->hasWBDRelevantRole() && $this->userExists() && $this->isActive() && !$this->hasSpecialUserId()
-				&& $this->entryDatePassed() && $this->isWBDBWVIdEmpty() && !$this->hasWBDType(self::WBD_TP_SERVICE);
+				&& $this->entryDatePassed() && $this->isWBDBWVIdEmpty() && $this->hasWBDType(self::WBD_NO_SERVICE);
 	}
 
-	public function wbdCheckForAffiliate() {
+	/**
+	* Checks requirements user must have to get in pool for affiliate as TP-Service
+	*
+	* WBD Resistration done
+	* has specified Role
+	* is an existing user
+	* is aktive
+	* is not root oder anomynos
+	* entry date is passed
+	* has BWV Id
+	* has not specifed TP-Type
+	* has no open specified errors
+	*
+	* @return boolean
+	*/
+	public function wbdShouldBeAffiliateAsTPService() {
 		$wbd_errors = array(WBD_ERROR_WRONG_USERDATA
 							, WBD_ERROR_USER_SERVICETYPE
 							, WBD_ERROR_USER_DIFFERENT_TP
@@ -2237,7 +2264,20 @@ class gevUserUtils {
 				&& !$this->hasOpenWBDErrors($wbd_errors);
 	}
 
-	public function wbdCheckForRelease() {
+	/**
+	* Checks requirements user must have to get in pool for release
+	*
+	* is an existing user
+	* is not root oder anomynos
+	* exit date is passed
+	* has no wbd exit date
+	* has specifed TP-Type
+	* has BWV Id
+	* has no open specified errors
+	*
+	* @return boolean
+	*/
+	public function wbdShouldBeReleased() {
 		$wbd_errors = array(WBD_ERROR_WRONG_USERDATA
 							, WBD_ERROR_USER_SERVICETYPE
 							, WBD_ERROR_USER_DIFFERENT_TP
@@ -2250,28 +2290,49 @@ class gevUserUtils {
 				&& !$this->hasOpenWBDErrors($wbd_errors);
 	}
 
+	/**
+	* checks bwvs id empty or not
+	*
+	* @return boolean
+	*/
 	protected function isWBDBWVIdEmpty() {
 		return $this->getWBDBWVId() === null;
 	}
 
+	/**
+	* checks user is active
+	*
+	* @return boolean
+	*/
 	protected function isActive() {
 		return $this->getUser()->getActive();
 	}
 
+	/**
+	* checks user has one of given wbd tp types
+	*
+	* @param array
+	* @return boolen
+	*/
 	protected function hasOneWBDTypeOf(array $wbd_types) {
-		foreach ($variable as $value) {
-			if($this->hasWBDType($value)) {
-				return true;
-			}
-		}
-
-		return false;
+		return in_array($this->getWBDTPType(), $wbd_types);
 	}
 
+	/**
+	* checks user has specified wbd tp type
+	* 
+	* @param string
+	* @return boolean
+	*/
 	protected function hasWBDType($wbd_type) {
 		return $this->getWBDTPType() == $wbd_type;
 	}
 
+	/**
+	* checks if entry date is passed or not
+	*
+	* @return boolean
+	*/
 	protected function entryDatePassed() {
 		$now = date("Y-m-d");
 		$entry_date = $this->getEntryDate();
@@ -2283,14 +2344,32 @@ class gevUserUtils {
 		return $entry_date->get(IL_CALC_DATE) <= $now;
 	}
 
+	/**
+	* checks if user is an real ilias user
+	*
+	* @return boolean
+	*/
 	protected function userExists() {
 		return ilObjUser::_lookupLogin($this->user_id) !== false;
 	}
 
+	static $specialUserIds = array(6,13);
+	/**
+	* checks user is not root or anomynos or some one else
+	* look at array $specialUserIds
+	*
+	* @return boolean
+	*/
 	protected function hasSpecialUserId() {
 		return in_array($this->user_id, self::$specialUserIds);
 	}
 
+	/**
+	* checks if there are some open WBD errors according to specified error group
+	*
+	* @param array
+	* @return boolean
+	*/
 	protected function hasOpenWBDErrors(array $wbd_errors) {
 		$sql = "SELECT DISTINCT count(usr_id) as cnt\n"
 				." FROM wbd_errors\n"
@@ -2306,6 +2385,11 @@ class gevUserUtils {
 		return false;
 	}
 
+	/**
+	* check if there is an WBD Exit date
+	*
+	* @return boolean
+	*/
 	protected function hasExitDateWBD() {
 		return $this->getExitDateWBD() !== null;
 	}

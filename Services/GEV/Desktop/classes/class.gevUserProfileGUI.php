@@ -218,9 +218,9 @@ class gevUserProfileGUI {
 			$bwv_id->setValue($bwv_id_value);
 			$form->addItem($bwv_id);
 
-			$bwv_id = new ilNonEditableValueGUI($this->lng->txt("gev_wbd_type"));
-			$bwv_id->setValue($this->user_utils->getWBDTPType());
-			$form->addItem($bwv_id);
+			$tp_type = new ilNonEditableValueGUI($this->lng->txt("gev_wbd_type"));
+			$tp_type->setValue($this->user_utils->getWBDTPType());
+			$form->addItem($tp_type);
 		}
 		
 		$ad_title = new ilNonEditableValueGUI($this->lng->txt("gev_ad_title"));
