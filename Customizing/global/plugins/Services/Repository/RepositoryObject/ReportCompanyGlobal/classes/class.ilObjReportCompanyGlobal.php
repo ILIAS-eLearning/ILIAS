@@ -40,8 +40,6 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 		// but since right now __clone is not defined for queries...
 		$this->query_class = get_class($query);
 
-
-
 		// this is quite a hack, but once we have the new filter-api it can be fixed
 		$filter_orgus = $this->filter->get('orgu');
 		if(count($filter_orgus) > 0) {
@@ -120,8 +118,8 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 				->multiselect_custom( "dct_type"
 							 , $this->lng->txt("gev_course_type")
 							 , array($this->lng->txt("gev_dec_trainings_fixed") => "hc.edu_program = ".$this->gIldb->quote("dezentrales Training","text")." AND hc.dct_type = ".$this->gIldb->quote("fixed","text")
-							 		, $this->lng->txt("gev_dec_trainings_flexible") => "hc.edu_program = ".$this->gIldb->quote("dezentrales Training","text")." AND hc.dct_type = ".$this->gIldb->quote("flexible","text")
-							 		, $this->lng->txt("non_dec_trainings") => "hc.edu_program != ".$this->gIldb->quote("dezentrales Training","text"))
+							 		,$this->lng->txt("gev_dec_trainings_flexible") => "hc.edu_program = ".$this->gIldb->quote("dezentrales Training","text")." AND hc.dct_type = ".$this->gIldb->quote("flexible","text")
+							 		,$this->lng->txt("non_dec_trainings") => "hc.edu_program != ".$this->gIldb->quote("dezentrales Training","text"))
 							 , array()
 							 , ""
 							 , 200
@@ -162,9 +160,9 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 	}
 
 	protected function fetchData(callable $callback){
-		$data = $this->joinPartialDatas(
-				$this->fetchPartialData($this->getPartialQuery(true))
-				,$this->fetchPartialData($this->getPartialQuery(false))
+		$data = $this->joinPartialDataSets(
+				$this->fetchPartialDataSet($this->getPartialQuery(true))
+				,$this->fetchPartialDataSet($this->getPartialQuery(false))
 				);
 
 		$sum_data = array();
@@ -224,13 +222,13 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 		return $query;
 	}
 
-	protected function fetchPartialData($a_query) {
+	protected function fetchPartialDataSet($a_query) {
 		$query = $a_query->sql()."\n "
 				. $this->queryWhere()."\n "
 				. $a_query->sqlGroupBy()."\n"
 				. $this->queryHaving()."\n"
 				. $this->queryOrder();
-		//die($query);
+
 		$res = $this->gIldb->query($query);
 		$return = array();
 		while($rec = $this->gIldb->fetchAssoc($res)) {
@@ -240,7 +238,7 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 		return $return;
 	}
 
-	protected function joinPartialDatas(array $a_data, array $b_data) {
+	protected function joinPartialDataSets(array $a_data, array $b_data) {
 		$return = array();
 		//seems like a nice usecase for linq
 		foreach ($this->types as $type) {
