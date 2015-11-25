@@ -697,7 +697,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 			return array();
 		}
 
-		$tp_types = array(gevSttings::USR_WBD_NEXT_ACTION_NEW_TP_SERVICE, gevSttings::USR_WBD_NEXT_ACTION_NEW_TP_Basis);
+		$tp_types = array(gevSttings::USR_WBD_NEXT_ACTION_NEW_TP_SERVICE, gevSttings::USR_WBD_NEXT_ACTION_NEW_TP_BASIS);
 		$sql = "SELECT * FROM hist_user\n"
 				." WHERE hist_historic = ".$this->ilDB->quote(0, "integer")."\n"
 				."    AND deleted = ".$this->ilDB->quote(0, "integer")."\n"
