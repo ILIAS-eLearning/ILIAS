@@ -793,32 +793,32 @@ function validate(obj){
     switch(obj.id.substr(0,5).toLowerCase()){
         case 'label':
             modified_object=obj.parentNode;
-            if(obj.value.length>1&&obj.value.length<50){
+            if(obj.value.length>1&&obj.value.length<50&&obj.value!=''){
                 validated=true;
             }
         break;
         case 'group':
         case 'crite':
             modified_object=obj.parentNode.parentNode;
-            if(obj.value.length>3&&obj.value.length<50){
+            if(obj.value.length>3&&obj.value.length<50&&obj.value!=''){
                 validated=true;
             }
         break;
         case 'behav':
             modified_object=obj.parentNode;
-            if(obj.value.length>5&&obj.value.length<4000){
+            if(obj.value.length>5&&obj.value.length<4000&&obj.value!=''){
                 validated=true;
             }
         break;
         case 'point':
             modified_object=obj.parentNode;
-            if(obj.value>=0){
+            if(obj.value>=0&&obj.value!=''){
                 validated=true;
             }
         break;
         case 'passi':
             modified_object=obj.parentNode;            
-            if(obj.value>=0&&obj.value<=100&&obj.value!=''){
+            if(obj.value>=0&&obj.value<=100&&obj.value!=''&&obj.value.indexOf( '.' ) == -1){
                 validated=true;
             }
         break;
