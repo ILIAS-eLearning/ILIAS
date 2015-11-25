@@ -651,13 +651,21 @@ die ("ilObjComponentSettigsGUI::updatePluginDB: deprecated");
 	
 	function confirmUninstallPlugin()
 	{
-		global $ilCtrl, $tpl;
+		global $ilCtrl, $tpl, $ilPluginAdmin;
 		
 		include_once("./Services/Component/classes/class.ilPlugin.php");
 		$pl = ilPlugin::getPluginObject($_GET["ctype"], $_GET["cname"],
 			$_GET["slot_id"], $_GET["pname"]);
 		
-		$question = sprintf($this->lng->txt("cmps_uninstall_confirm"), $pl->getPluginName());
+		$pl_meta = $ilPluginAdmin->getAllData($_GET["ctype"], $_GET["cname"],
+			$_GET["slot_id"], $_GET["pname"]);
+		
+		$activation = (bool)$pl_meta["activation_possible"];
+		$reason = $pl_meta["inactive_reason"];
+		
+		$question = $activation
+			? sprintf($this->lng->txt("cmps_uninstall_confirm"), $pl->getPluginName())
+			: sprintf($this->lng->txt("cmps_uninstall_inactive_confirm"), $pl->getPluginName(), $reason);		
 		
 		$ilCtrl->setParameter($this, "ctype", $_GET["ctype"]);
 		$ilCtrl->setParameter($this, "cname", $_GET["cname"]);
