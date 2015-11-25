@@ -1443,7 +1443,7 @@ print $sql;
 				." WHERE hist_historic = ".$this->ilDB->quote(0, "integer")."\n"
 				."    AND deleted = ".$this->ilDB->quote(0, "integer")."\n"
 				."    AND last_wbd_report IS NULL\n"
-				."    AND next_wbd_action = ".$this->ilDB->quote(gevSttings::USR_WBD_NEXT_ACTION_RELEASE,"text")."\n";
+				."    AND next_wbd_action = ".$this->ilDB->quote(gevSettings::USR_WBD_NEXT_ACTION_RELEASE,"text")."\n";
 
 		/*$sql = "SELECT * FROM hist_user"
 					." WHERE hist_historic = ".$this->ilDB->quote(0, "integer")
