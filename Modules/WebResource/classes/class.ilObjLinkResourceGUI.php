@@ -1437,8 +1437,6 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 
-		// output locator
-		//$this->__setLocator();
 		$this->tpl->setLocator();
 
 		// output message
@@ -1450,7 +1448,17 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 		// display infopanel if something happened
 		ilUtil::infoPanel();;
 	}
-	
+
+	function addLocatorItems()
+	{
+		global $ilLocator;
+
+		if (is_object($this->object))
+		{
+			$ilLocator->addItem($this->object->getTitle(),$this->ctrl->getLinkTarget($this),"",$this->object->getRefId(), "webr");
+		}
+	}
+
 	protected function handleSubItemLinks($a_target)
 	{
 		// #15647 - handle internal links
