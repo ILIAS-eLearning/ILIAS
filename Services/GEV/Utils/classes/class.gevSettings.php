@@ -292,7 +292,7 @@ class gevSettings {
 
 	const USR_WBD_NEXT_ACTION_NOTHING			= "0 - keine Aktion";
 	const USR_WBD_NEXT_ACTION_NEW_TP_SERVICE	= "1 - Erstanlage TP Service";
-	const USR_WBD_NEXT_ACTION_NEW_TP_Basis		= "2 - Erstanlage TP Basis";
+	const USR_WBD_NEXT_ACTION_NEW_TP_BASIS		= "2 - Erstanlage TP Basis";
 	const USR_WBD_NEXT_ACTION_AFFILIATE			= "3 - Aufnahme";
 	const USR_WBD_NEXT_ACTION_RELEASE			= "4 - Transferfähig machen";
 
