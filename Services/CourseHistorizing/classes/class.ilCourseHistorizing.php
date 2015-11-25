@@ -131,7 +131,8 @@ class ilCourseHistorizing extends ilHistorizingStorage
 			'dl_booking'			=> 'integer',
 			'dl_waitinglist'		=> 'integer',
 			'dbv_hot_topic'			=> 'text',
-			'virtual_classroom_type'=> 'text'		
+			'virtual_classroom_type'=> 'text',
+			'dct_type'				=> 'text'
 
 		);
 
