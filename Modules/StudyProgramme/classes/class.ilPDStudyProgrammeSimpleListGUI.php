@@ -68,7 +68,7 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI {
 		//check which kind of option is selected in settings
 		$this->readVisibleOnPDMode();
 		//check to display info message if option "read" is selected
-		$this->checkToShowInfoMessage();
+		$this->readToShowInfoMessage();
 		
 		// As this won't be visible we don't have to initialize this.
 		if (!$this->userHasReadableStudyProgrammes()) {
@@ -159,7 +159,7 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI {
 		return $this->il_access->checkAccess($permission, "", $prg->getRefId(), "prg", $prg->getId());
 	}
 
-	protected function checkToShowInfoMessage() {
+	protected function readToShowInfoMessage() {
 		$this->show_info_message = ($_GET['view'] == ilPDSelectedItemsBlockGUI::VIEW_MY_STUDYPROGRAMME);
 	}
 
