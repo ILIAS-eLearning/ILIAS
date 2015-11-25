@@ -45,7 +45,7 @@ class ilDataCollectionDatatype {
 	const INPUTFORMAT_FORMULA = 11;
 	const INPUTFORMAT_NON_EDITABLE_VALUE = 12;
 	const LINK_MAX_LENGTH = 40;
-	public static $mob_suffixes = array( 'jpg', 'jpeg', 'gif', 'png', 'mp3', 'flx', 'mp4', 'm4v', 'mov', 'wmv' );
+	public static $mob_suffixes = array('jpg', 'jpeg', 'gif', 'png', 'mp3', 'flx', 'mp4', 'm4v', 'mov', 'wmv');
 	/**
 	 * @var int
 	 */
@@ -265,6 +265,8 @@ class ilDataCollectionDatatype {
 					$input = new ilSelectInputGUI($title, 'field_' . $field->getId());
 				} else {
 					$input = new ilMultiSelectInputGUI($title, 'field_' . $field->getId());
+					$input->setWidth(100);
+					$input->setWidthUnit('%');
 				}
 				break;
 			case ilDataCollectionDatatype::INPUTFORMAT_RATING:
@@ -344,12 +346,12 @@ class ilDataCollectionDatatype {
 				}
 				// Sort by values ASC
 				asort($options);
-				$options = array( '' => $lng->txt('dcl_any') ) + $options;
+				$options = array('' => $lng->txt('dcl_any')) + $options;
 				$input->setOptions($options);
 				break;
 			case ilDataCollectionDatatype::INPUTFORMAT_RATING:
 				$input = $table->addFilterItemByMetaType("filter_" . $field->getId(), ilTable2GUI::FILTER_SELECT, false, $field->getId());
-				$options = array( "" => $lng->txt("dcl_any"), 1 => ">1", 2 => ">2", 3 => ">3", 4 => ">4", 5 => "5" );
+				$options = array("" => $lng->txt("dcl_any"), 1 => ">1", 2 => ">2", 3 => ">3", 4 => ">4", 5 => "5");
 				$input->setOptions($options);
 				break;
 			case ilDataCollectionDatatype::INPUTFORMAT_MOB:
@@ -372,7 +374,7 @@ class ilDataCollectionDatatype {
 				}
 				// Sort by values ASC
 				asort($options);
-				$options = array( '' => $lng->txt('dcl_any') ) + $options;
+				$options = array('' => $lng->txt('dcl_any')) + $options;
 				$input->setOptions($options);
 				break;
 		}
@@ -387,7 +389,7 @@ class ilDataCollectionDatatype {
 
 	/**
 	 * @param ilDataCollectionRecord $record
-	 * @param ilDataCollectionField  $field
+	 * @param ilDataCollectionField $field
 	 * @param                        $filter
 	 *
 	 * @return bool
@@ -504,7 +506,7 @@ class ilDataCollectionDatatype {
 				$return = $record_field->getValue();
 			}
 		} elseif ($this->id == ilDataCollectionDatatype::INPUTFORMAT_MOB) {
-			if ($value == - 1) //marked for deletion.
+			if ($value == -1) //marked for deletion.
 			{
 				return 0;
 			}
@@ -743,7 +745,7 @@ class ilDataCollectionDatatype {
 				$arr_properties = $record_field->getField()->getProperties();
 				$is_linked_field = $arr_properties[ilDataCollectionField::PROPERTYID_LINK_DETAIL_PAGE_MOB];
 				$has_view = ilDataCollectionRecordViewViewdefinition::getIdByTableId($record_field->getRecord()->getTableId());
-				if (in_array($med->getSuffix(), array( 'jpg', 'jpeg', 'png', 'gif' ))) {
+				if (in_array($med->getSuffix(), array('jpg', 'jpeg', 'png', 'gif'))) {
 					// Image
 					$dir = ilObjMediaObject::_getDirectory($mob->getId());
 					$width = (int)$arr_properties[ilDataCollectionField::PROPERTYID_WIDTH];
@@ -841,7 +843,7 @@ class ilDataCollectionDatatype {
 		if (strlen($value) > self::LINK_MAX_LENGTH) {
 			$link = substr($value, 0, (self::LINK_MAX_LENGTH - 3) / 2);
 			$link .= "...";
-			$link .= substr($value, - (self::LINK_MAX_LENGTH - 3) / 2);
+			$link .= substr($value, -(self::LINK_MAX_LENGTH - 3) / 2);
 		}
 
 		return $link;
@@ -863,7 +865,7 @@ class ilDataCollectionDatatype {
 				}
 				//$datetime = new DateTime();
 				$input = array(
-					"date" => substr($value, 0, - 9),
+					"date" => substr($value, 0, -9),
 					"time" => "00:00:00"
 				);
 				break;
