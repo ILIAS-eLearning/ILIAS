@@ -140,7 +140,8 @@ class ilUserHistorizing extends ilHistorizingStorage
 			'org_unit_above2'				=> 'text',
 			'is_vfs'						=> 'integer',
 			'is_active'						=> 'integer',
-			'exit_date_wbd'					=> 'date'
+			'exit_date_wbd'					=> 'date',
+			'next_wbd_action'				=> 'text'
 
 
 		);

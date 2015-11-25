@@ -300,6 +300,7 @@ class gevDesktopGUI {
 			case "toSaveRequest":
 			case "toChangeCourseData":
 			case "showOpenRequests":
+			case "toWBDRegistration":
 				$this->$a_cmd();
 			case "handleExplorerCommand":
 				break;
@@ -455,6 +456,10 @@ class gevDesktopGUI {
 		$this->ctrl->setParameterByClass("gevBookingGUI", "user_id", $usr_id);
 		$this->ctrl->setParameterByClass("gevBookingGUI", "crs_id", $crs_id);
 		$this->ctrl->redirectByClass("gevBookingGUI", "book");
+	}
+
+	protected function toWBDRegistration() {
+		$this->ctrl->redirectByClass("gevWBDTPServiceRegistrationGUI");
 	}
 	
 	protected function handleExplorerCommand() {
