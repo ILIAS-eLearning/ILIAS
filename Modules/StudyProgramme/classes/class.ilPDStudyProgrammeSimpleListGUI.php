@@ -64,9 +64,9 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI {
 			return;
 		}
 
-		$this->loadUsersAssignments();
+		$this->readUsersAssignments();
 		//check which kind of option is selected in settings
-		$this->setVisibleOnPDMode();
+		$this->readVisibleOnPDMode();
 		//check to display info message if option "read" is selected
 		$this->checkToShowInfoMessage();
 		
@@ -150,7 +150,7 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI {
 		return false;
 	}
 	
-	protected function setVisibleOnPDMode() {
+	protected function readVisibleOnPDMode() {
 		$this->visible_on_pd_mode = $this->il_setting->get(ilObjStudyProgrammeAdmin::SETTING_VISIBLE_ON_PD);
 	}
 
@@ -179,7 +179,7 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI {
 		return $_GET["cmd"] == "jumpToSelectedItems";
 	}
 	
-	protected function loadUsersAssignments() {
+	protected function readUsersAssignments() {
 		require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeUserAssignment.php");
 		$this->users_assignments = ilStudyProgrammeUserAssignment::getInstancesOfUser($this->il_user->getId());
 	}
