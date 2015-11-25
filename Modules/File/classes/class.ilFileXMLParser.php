@@ -334,6 +334,12 @@ class ilFileXMLParser extends ilSaxParser
 		
 		#$ilLog->write(__METHOD__.' '.filesize($this->tmpFilename));
 
+		if(!file_exists($this->tmpFilename))
+		{
+			ilLoggerFactory::getLogger('file')->error(__METHOD__.' "'.$this->tmpFilename. '" file not found.');
+			return;
+		}
+
 		if (filesize ($this->tmpFilename) == 0) {
 			return;
 		}
