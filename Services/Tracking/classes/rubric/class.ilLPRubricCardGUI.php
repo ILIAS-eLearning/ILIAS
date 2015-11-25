@@ -318,7 +318,7 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
         $tmp_write="<td scope=\"rowgroup\">
                     <div class=\"form-group has-success has-feedback\">
                         <label class=\"control-label\" for=\"behaviorname0_0\">{BEHAVIOR_NAME}</label>
-                        <input id=\"${tmp_behavior_name}\" name=\"${tmp_behavior_name}\" type=\"text\" class=\"form-control\" placeholder=\"${behavior['description']}\" value=\"${behavior['description']}\" aria-describedby=\"${tmp_behavior_name}WarningStatus\" onkeyup=\"validate(this)\">
+                        <input id=\"${tmp_behavior_name}\" name=\"${tmp_behavior_name}\" type=\"text\" class=\"form-control\" placeholder=\"${behavior['description']}\" value=\"${behavior['description']}\" aria-describedby=\"${tmp_behavior_name}WarningStatus\" onkeyup=\"validate(this)\" oninput=\"validate(this)\">
                         <span class=\"glyphicon glyphicon-ok form-control-feedback\" aria-hidden=\"true\"></span>
                         <span id=\"${tmp_behavior_name}WarningStatus\" class=\"sr-only\">(ok)</span>
                     </div>
@@ -374,7 +374,7 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
                                 <span class=\"input-group-addon\">
                                     <input type=\"checkbox\" id=\"${tmp_criteria_name}_checkbox\">
                                 </span>
-                                <input id=\"${tmp_criteria_name}\" name=\"${tmp_criteria_name}\" type=\"text\" class=\"form-control\" placeholder=\"${criteria['criteria']}\" value=\"${criteria['criteria']}\" aria-describedby=\"${tmp_group_name}WarningStatus\" onkeyup=\"validate(this)\">                                                        
+                                <input id=\"${tmp_criteria_name}\" name=\"${tmp_criteria_name}\" type=\"text\" class=\"form-control\" placeholder=\"${criteria['criteria']}\" value=\"${criteria['criteria']}\" aria-describedby=\"${tmp_group_name}WarningStatus\" onkeyup=\"validate(this)\" oninput=\"validate(this)\">
                             </div>
                             <span class=\"glyphicon glyphicon-ok form-control-feedback\" aria-hidden=\"true\"></span>
                             <span id=\"${tmp_criteria_name}WarningStatus\" class=\"sr-only\">(ok)</span>
@@ -420,7 +420,7 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
                                     <span class=\"input-group-addon\">
                                         <input type=\"checkbox\" id=\"${tmp_group_name}_checkbox\">
                                     </span>
-                                    <input id=\"${tmp_group_name}\" name=\"${tmp_group_name}\" type=\"text\" class=\"form-control\" placeholder=\"${group['group_name']}\" value=\"${group['group_name']}\" aria-describedby=\"${tmp_group_name}WarningStatus\" onkeyup=\"validate(this)\">                                                        
+                                    <input id=\"${tmp_group_name}\" name=\"${tmp_group_name}\" type=\"text\" class=\"form-control\" placeholder=\"${group['group_name']}\" value=\"${group['group_name']}\" aria-describedby=\"${tmp_group_name}WarningStatus\" onkeyup=\"validate(this)\" oninput=\"validate(this)\">
                                 </div>
                                 <span class=\"glyphicon glyphicon-ok form-control-feedback\" aria-hidden=\"true\"></span>
                                 <span id=\"${tmp_group_name}WarningStatus\" class=\"sr-only\">(ok)</span>
@@ -536,13 +536,13 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
             $tmp_write.="<th scope=\"col\" class=\"col-sm-2\">
                             <div class=\"form-group has-success has-feedback\">
                                 <label class=\"control-label\" for=\"Label${k}\">{LABEL}</label>
-                                <input id=\"Label${k}\" name=\"Label${k}\" type=\"text\" class=\"form-control\" placeholder=\"".$label['label']."\" value=\"".$label['label']."\" aria-describedby=\"Label${k}WarningStatus\" onkeyup=\"validate(this)\" onblur=\"recalculate()\">
+                                <input id=\"Label${k}\" name=\"Label${k}\" type=\"text\" class=\"form-control\" placeholder=\"".$label['label']."\" value=\"".$label['label']."\" aria-describedby=\"Label${k}WarningStatus\" onkeyup=\"validate(this)\" onblur=\"recalculate()\" oninput=\"validate(this)\">
                                 <span class=\"glyphicon glyphicon-ok form-control-feedback\" aria-hidden=\"true\"></span>
                                 <span id=\"Label${k}WarningStatus\" class=\"sr-only\">(ok)</span>
                             </div>
                             <div class=\"form-group has-success has-feedback\">
                                 <label class=\"control-label\" for=\"Points${k}\">{POINT}</label>
-                                <input id=\"Points${k}\" name=\"Points${k}\" type=\"text\" class=\"form-control\" placeholder=\"".$label['weight']."\" value=\"".$label['weight']."\" aria-describedby=\"Points${k}WarningStatus\" onkeyup=\"validate(this)\" onblur=\"recalculate()\">
+                                <input id=\"Points${k}\" name=\"Points${k}\" type=\"text\" class=\"form-control\" placeholder=\"".$label['weight']."\" value=\"".$label['weight']."\" aria-describedby=\"Points${k}WarningStatus\" onkeyup=\"validate(this)\" onblur=\"recalculate()\" oninput=\"validate(this)\">
                                 <span class=\"glyphicon glyphicon-ok form-control-feedback\" aria-hidden=\"true\"></span>
                                 <span id=\"Points${k}WarningStatus\" class=\"sr-only\">(ok)</span>
                             </div>

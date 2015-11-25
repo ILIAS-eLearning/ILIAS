@@ -445,6 +445,7 @@ var RUBRIC = {
         input.setAttribute('placeholder',txt_placeholder);
         input.setAttribute('aria-describedby',txt_label+position+'WarningStatus');
         input.setAttribute('onkeyup','validate(this)');
+        input.setAttribute('oninput','validate(this)');
         input.setAttribute('onblur','recalculate()');
         div.appendChild(input);
         
@@ -504,6 +505,7 @@ var RUBRIC = {
         input.setAttribute('placeholder',txt_label);
         input.setAttribute('aria-describedby',fixed_label+"WarningStatus");
         input.setAttribute('onkeyup','validate(this)');
+        input.setAttribute('oninput','validate(this)');
         
         if(input_has_checkbox===true){            
             inputdiv.appendChild(input);        
