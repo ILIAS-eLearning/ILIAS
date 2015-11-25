@@ -734,7 +734,7 @@ gevUDFUtils::createUDFFields(array(
 												   )
 											, array(gevSettings::USR_WBD_NEXT_ACTION_NOTHING
 													,gevSettings::USR_WBD_NEXT_ACTION_NEW_TP_SERVICE
-													.gevSettings::USR_WBD_NEXT_ACTION_NEW_TP_BASIS
+													,gevSettings::USR_WBD_NEXT_ACTION_NEW_TP_BASIS
 													,gevSettings::USR_WBD_NEXT_ACTION_AFFILIATE
 													,gevSettings::USR_WBD_NEXT_ACTION_RELEASE
 												)
