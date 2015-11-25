@@ -114,6 +114,7 @@ class gevDeadlineMailingJob extends ilCronJob {
 		while ($rec = $this->db->fetchAssoc($res)) {
 			$crs_id = $rec["obj_id"];
 			$crs_utils = gevCourseUtils::getInstance($crs_id);
+			$crs_start_date = $crs_utils->getStartDate();
 			$this->log->write("ilDeadlineMailingJob::run: Checking course ".$crs_id.".");
 			$auto_mails = new gevCrsAutoMails($crs_id);
 			
@@ -131,6 +132,15 @@ class gevDeadlineMailingJob extends ilCronJob {
 			// send the mails that need to be send and store the fact, the mails where send, in the
 			// deadline mailing table.
 			foreach ($mails_to_send as $key) {
+				// Don't send Mails that should be delivered before the training after the training has
+				// started. We check for $start < $now, as the cronjob in our scenario runs a 0:55, so
+				// there would be a lack if we checked for $start <= $now. Time's tough.
+				if ($key != "participation_status_not_set"
+				&& $crs_start_date
+				&& $crs_start_date->get(IL_CAL_DATE) < $now->get(IL_CAL_DATE)) {
+					continue;
+				}
+
 				$mail = $auto_mails->getAutoMail($key);
 				$scheduled_time = $mail->getScheduledFor();
 				

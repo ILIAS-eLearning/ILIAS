@@ -136,6 +136,8 @@ class ilUserHistorizingAppEventListener
 
 
 
+
+
 		/** @var ilObjUser $parameter */
 
 		/*
@@ -161,18 +163,19 @@ class ilUserHistorizingAppEventListener
 			'wbd_type'						=> self::$ilUserHistorizingHelper->getWBDTypeOf($parameter['user_obj']), 
 			'wbd_email'						=> self::$ilUserHistorizingHelper->getWBDEMailOf($parameter['user_obj']),
 			//new 2014-11-17:
-			'job_number' 		=> self::$ilUserHistorizingHelper->getJobNumberOf($parameter['user_obj']), 
-			'adp_number'		=> self::$ilUserHistorizingHelper->getADPNumberOf($parameter['user_obj']), 
-			'position_key'		=> self::$ilUserHistorizingHelper->getPositionKeyOf($parameter['user_obj']), 
-			'org_unit_above1'	=> $org_units_above[0],
-			'org_unit_above2'	=> $org_units_above[1],
+			'job_number' 					=> self::$ilUserHistorizingHelper->getJobNumberOf($parameter['user_obj']), 
+			'adp_number'					=> self::$ilUserHistorizingHelper->getADPNumberOf($parameter['user_obj']), 
+			'position_key'					=> self::$ilUserHistorizingHelper->getPositionKeyOf($parameter['user_obj']), 
+			'org_unit_above1'				=> $org_units_above[0],
+			'org_unit_above2'				=> $org_units_above[1],
 			
 			//new 2014-11-30:
-			'is_vfs'			=>self::$ilUserHistorizingHelper->isVFSOf($parameter['user_obj']),
-			'is_active'			=>self::$ilUserHistorizingHelper->isActiveUser($parameter['user_obj']),
+			'is_vfs'						=> self::$ilUserHistorizingHelper->isVFSOf($parameter['user_obj']),
+			'is_active'						=> self::$ilUserHistorizingHelper->isActiveUser($parameter['user_obj']),
 
 			//new 2015-06-05
-			'exit_date_wbd'		=>$exit_date_wbd
+			'exit_date_wbd'					=> $exit_date_wbd,
+			'next_wbd_action'				=> self::$ilUserHistorizingHelper->getNextWBDAction($parameter['user_obj'])
 		);
 		/*
 		'street'	 	

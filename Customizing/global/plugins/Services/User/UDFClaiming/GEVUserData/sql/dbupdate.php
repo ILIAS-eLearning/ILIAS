@@ -710,3 +710,35 @@ gevUDFUtils::createUDFFields(array(
 	));
 
 ?>
+
+<#12>
+<?php
+
+require_once("Services/GEV/Utils/classes/class.gevUDFUtils.php");
+require_once("Services/User/classes/class.ilUserDefinedFields.php");
+
+gevUDFUtils::createUDFFields(array(
+	"Nächste durchzuführende WBD Aktion" => array( gevSettings::USR_WBD_NEXT_ACTION
+											, UDF_TYPE_SELECT
+											, array( "visible"				=> true
+												   , "changeable"			=> false
+												   , "searchable"			=> true
+												   , "required"				=> false
+												   , "export"				=> true
+												   , "course_export"		=> false
+												   , "group_export"			=> false
+												   , "registration_visible"	=> false
+												   , "visible_lua"			=> false
+												   , "changeable_lua"		=> false
+												   , "certificate"			=> false
+												   )
+											, array(gevSettings::USR_WBD_NEXT_ACTION_NOTHING
+													,gevSettings::USR_WBD_NEXT_ACTION_NEW_TP_SERVICE
+													,gevSettings::USR_WBD_NEXT_ACTION_NEW_TP_BASIS
+													,gevSettings::USR_WBD_NEXT_ACTION_AFFILIATE
+													,gevSettings::USR_WBD_NEXT_ACTION_RELEASE
+												)
+											)
+	));
+
+?>

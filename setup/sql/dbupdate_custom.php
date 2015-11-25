@@ -4637,6 +4637,32 @@ if( !$ilDB->tableExists('crs_custom_attachments') )
 
 <#183>
 <?php
+	$ilCtrlStructureReader->getStructure();
+?>
+
+<#184>
+<?php
+// init helper class
+require_once "Customizing/class.ilCustomInstaller.php";
+
+ilCustomInstaller::initPluginEnv();
+ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "User", "udfc", "GEVUserData");
+?>
+
+<#185>
+<?php
+if(!$ilDB->tableColumnExists('hist_user', 'next_wbd_action')) {
+	$ilDB->addTableColumn('hist_user', 'next_wbd_action', array(
+		'type' => 'text',
+		'length' => 255,
+		'notnull' => false
+		)
+	);
+}
+?>
+
+<#186>
+<?php
 
 		$ilDB->addTableColumn('hist_course', 'dct_type', array(
 			'type' => 'text',

@@ -36,6 +36,8 @@
 * @ilCtrl_Calls gevDesktopGUI: gevTrainerWorkloadGUI
 * @ilCtrl_Calls gevDesktopGUI: gevTrainerOperationByOrgUnitAndTrainerGUI
 * @ilCtrl_Calls gevDesktopGUI: ilObjCourseGUI
+* @ilCtrl_Calls gevDesktopGUI: gevDecentralTrainingCreateMailPreviewDataGUI
+* @ilCtrl_Calls gevDesktopGUI: gevDecentralTrainingCreateBuildingBlockDataGUI
 */
 
 class gevDesktopGUI {
@@ -246,6 +248,15 @@ class gevDesktopGUI {
 				$gui = new ilObjCourseGUI();
 				$this->ctrl->forwardCommand($gui);
 				break;
+			case "gevdecentraltrainingcreatemailpreviewdatagui":
+				require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCreateMailPreviewDataGUI.php");
+				$gui = new gevDecentralTrainingCreateMailPreviewDataGUI();
+				$this->ctrl->forwardCommand($gui);
+				break;
+			case "gevdecentraltrainingcreatebuildingblockdatagui":
+				require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCreateBuildingBlockDataGUI.php");
+				$gui = new gevDecentralTrainingCreateBuildingBlockDataGUI();
+				$this->ctrl->forwardCommand($gui);
 			default:
 				$this->dispatchCmd($cmd);
 				break;
@@ -289,6 +300,7 @@ class gevDesktopGUI {
 			case "toSaveRequest":
 			case "toChangeCourseData":
 			case "showOpenRequests":
+			case "toWBDRegistration":
 				$this->$a_cmd();
 			case "handleExplorerCommand":
 				break;
@@ -444,6 +456,10 @@ class gevDesktopGUI {
 		$this->ctrl->setParameterByClass("gevBookingGUI", "user_id", $usr_id);
 		$this->ctrl->setParameterByClass("gevBookingGUI", "crs_id", $crs_id);
 		$this->ctrl->redirectByClass("gevBookingGUI", "book");
+	}
+
+	protected function toWBDRegistration() {
+		$this->ctrl->redirectByClass("gevWBDTPServiceRegistrationGUI");
 	}
 	
 	protected function handleExplorerCommand() {

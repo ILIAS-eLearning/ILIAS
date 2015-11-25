@@ -1722,6 +1722,9 @@ class gevDecentralTrainingGUI {
 		$settings = gevSettings::getInstance();
 		$mail_utils = gevMailUtils::getInstance();
 		
+		$mail_preview_json = $this->ctrl->getLinkTargetByClass("gevDecentralTrainingCreateMailPreviewDataGUI", 'createPreviewData', '', true);
+		$tpl->setVariable("MAIL_PREVIEW_JSON", $mail_preview_json);
+
 		if($mail_tpl !== null) {
 			$mail_tpl = $mail_utils->getMailTemplateByIdAndLanguage($this->mail_tpl_id,$this->lng->getLangKey());
 			$tpl->setVariable("MAILTEMPLATE_BASE",nl2br($mail_tpl));

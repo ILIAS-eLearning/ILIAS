@@ -231,6 +231,9 @@ class gevDecentralTrainingCourseCreatingBuildingBlock2GUI {
 		$form_add_building_block->setTemplate("tpl.dct_add_building_block.html","Services/GEV/DecentralTrainings");
 		$form_add_building_block->getTemplate()->setVariable("BTN_CMD","toAddCrsBuildingBlock");
 		$form_add_building_block->getTemplate()->setVariable("BTN_VALUE",$this->lng->txt("gev_dec_training_add_building_block"));
+
+		$building_block_json_link = $this->ctrl->getLinkTargetByClass("gevDecentralTrainingCreateBuildingBlockDataGUI", 'changeData', '', true);
+		$form_add_building_block->getTemplate()->setVariable("BUILDING_BLOCK_JSON",$building_block_json_link);
 		$form_add_building_block->setFormAction($this->ctrl->getFormAction($this));
 		$form_add_building_block->setShowTopButtons(false);
 		$form_add_building_block->setId("dct_ab");
@@ -910,6 +913,9 @@ class gevDecentralTrainingCourseCreatingBuildingBlock2GUI {
 		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 		$settings = gevSettings::getInstance();
 		$mail_utils = gevMailUtils::getInstance();
+
+		$mail_preview_json = $this->ctrl->getLinkTargetByClass("gevDecentralTrainingCreateMailPreviewDataGUI", 'createPreviewData', '', true);
+		$tpl->setVariable("MAIL_PREVIEW_JSON", $mail_preview_json);
 		
 		$mail_tpl = $mail_utils->getMailTemplateByIdAndLanguage($settings->getDecentralTrainingMailTemplateId(),$this->lng->getLangKey());
 		$tpl->setVariable("MAILTEMPLATE_PRAE",nl2br($mail_tpl));

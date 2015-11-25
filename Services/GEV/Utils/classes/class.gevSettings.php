@@ -288,6 +288,13 @@ class gevSettings {
 	const USR_WBD_DID_REGISTRATION	= "usr_udf_wbd_did_registration";
 	const USR_WBD_COM_EMAIL			= "usr_udf_wbd_com_email";
 	const USR_WBD_EXIT_DATE			= "usr_udf_wbd_exit_date";
+	const USR_WBD_NEXT_ACTION		= "usr_udf_wbd_next_action";
+
+	const USR_WBD_NEXT_ACTION_NOTHING			= "0 - keine Aktion";
+	const USR_WBD_NEXT_ACTION_NEW_TP_SERVICE	= "1 - Erstanlage TP Service";
+	const USR_WBD_NEXT_ACTION_NEW_TP_BASIS		= "2 - Erstanlage TP Basis";
+	const USR_WBD_NEXT_ACTION_AFFILIATE			= "3 - Aufnahme";
+	const USR_WBD_NEXT_ACTION_RELEASE			= "4 - Transferfähig machen";
 
 	//basic templates for flexible decentral trainings
 	const DCT_TPL_FLEX_PRESENCE = "dct_tpl_flex_presence";
@@ -330,7 +337,7 @@ class gevSettings {
 		,'Austrittsdatum'
 		,'IHK Registernummer'
 		
-		, 'Firmenname'
+		,'Firmenname'
 		
 		,'Hat WBD-Registrierung durchgeführt'
 		,'TP-Typ'
@@ -340,6 +347,7 @@ class gevSettings {
 		,'Beginn erste Zertifizierungsperiode'
 		,'Email WBD'
 		,'Austrittsdatum WBD'
+		,'Nächste durchzuführende WBD Aktion'
 	);
 
 	static $LOCAL_USER_MANDATORY_UDF_FIELDS = array(

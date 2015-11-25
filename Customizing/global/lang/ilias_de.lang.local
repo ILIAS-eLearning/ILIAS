@@ -1396,6 +1396,15 @@ gev#:#cat_create_xrds#:#DBV Report für Vorgesetzte erzeugen
 gev#:#rep_robj_xrds_content#:#Report
 gev#:#rep_robj_xrds_properties#:#Eigenschaften
 gev#:#gev_dec_training_attachment#:#Anhang
+gev#:#gev_wbd_type#:#WBD-Status
+gev#:#gev_bwv_id_info#:#Sie können ihre BWV-Id über die WBD-Registrierung im Menü "Übersicht" eintragen.
+gev#:#gev_wbd_register_exist#:#Ich habe bereits ein Weiterbildungskonto bei der Weiterbildungsdatenbank (GDV / gut beraten) und die Generali soll für mich die Datenpflege (TP-Service) übernehmen.
+gev#:#gev_wbd_register_new#:#Ich habe noch kein Weiterbildungskonto bei der Weiterbildungsdatenbank des Gesamtverbandes der Deutschen Versicherungswirtschaft(GDV / gt beraten) und die Generali soll für mich ein Weiterbildungskonto eröffnen sowie die Datenpflege (TP-Service) übernehmen.
+gev#:#gev_wbd_register_my_bwv_id#:#Meine GDV Vermitller-ID lautet
+gev#:#gev_wbd_register_affiliate#:#TP-Service übernehmen
+gev#:#gev_wbd_affiliate_cb_mandatory#:#Sie müssen dieses Feld bestätigen, um die Übernahme des TP-Service durch die Generali abschließen zu können.
+gev#:#gev_wbd_affiliate_finished#:#Vielen Dank, wir werden für Sie den TP-Service übernehmen.<br />Dieser Prozess wird in den nächsten Tagen abgeschlossen werden.<br />Nach erfolgreicher übernhame des TP-Service werden Sie eine Systemmail erhalten, in der Sie nochmal über die Übernahme informiert werden.
+gev#:#gev_wbd_register_selections#:#Auswahlmöglichkeiten
 gev#:#gev_user_is_inactive#:#(AUSGESCHIEDEN)
 gev#:#gev_dec_training_attachment_delete#:#Anhang entfernen
 gev#:#gev_crs_members#:#Teilnehmer
