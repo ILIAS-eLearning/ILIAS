@@ -32,7 +32,7 @@ class ilObjReportASTD extends ilObjReportBase {
 									,'astd_hours_self_learn' 		=>	" SUM( IF(type = 'Selbstlernkurs' AND credit_points IS NOT NULL, GREATEST(credit_points,0)/1.33, 0)) " 
 									,'astd_hours_language_course'	=>	' 0 '
 									,'astd_participators'			=>	' COUNT(DISTINCT usr_id)'
-									,'astd_accomodation_cost'		=>	" SUM( IF( type = 'Präsenztraining' AND begin_date IS NOT NULL AND end_date IS NOT NULL, (DATEDIFF(begin_date,end_date)+1)*"
+									,'astd_accomodation_cost'		=>	" SUM( IF( type = 'Präsenztraining' AND begin_date IS NOT NULL AND end_date IS NOT NULL, (DATEDIFF(end_date,begin_date)+1)*"
 																.$this->gIldb->quote( $this->getAccomodationCost(),'float').', 0) ) '
 									);
 
@@ -59,6 +59,7 @@ class ilObjReportASTD extends ilObjReportBase {
 				->static_condition(" c.hist_historic = 0 ")
 				->static_condition(" ucs.hist_historic = 0 ")
 				->static_condition(" u.hist_historic = 0 ")
+				->static_condition(" ucs.function = 'Mitglied' ")
 				->static_condition(" ur2.hist_version IS NULL ")
 				->static_condition("(template.hist_historic = 0 OR template.hist_historic IS NULL)");
 		$filter	->action($this->filter_action);
@@ -118,7 +119,7 @@ class ilObjReportASTD extends ilObjReportBase {
 		return $query->sql()."\n "
 			   . $this->queryWhere()."\n "
 			   . $query->sqlGroupBy()."\n"
-			   . "HAVING wrong_role_count = 0 OR wrong_role_count IS NULL \n"
+			   . " HAVING wrong_role_count = 0 OR wrong_role_count IS NULL \n"
 			   . $this->queryOrder();
 	}
 
