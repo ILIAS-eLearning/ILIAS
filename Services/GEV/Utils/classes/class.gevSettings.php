@@ -295,6 +295,8 @@ class gevSettings {
 	const USR_WBD_NEXT_ACTION_AFILIATE	= "2 - Aufnahme";
 	const USR_WBD_NEXT_ACTION_RELEASE	= "3 - Transferfähig machen";
 
+	const USR_WBD_TP_SERVICE_OLD		= "usr_udf_wbd_tp_service_old";
+
 	//basic templates for flexible decentral trainings
 	const DCT_TPL_FLEX_PRESENCE = "dct_tpl_flex_presence";
 	const DCT_TPL_FLEX_WEBINAR = "dct_tpl_flex_webinar";
@@ -347,6 +349,7 @@ class gevSettings {
 		,'Email WBD'
 		,'Austrittsdatum WBD'
 		,'Nächste durchzuführende WBD Aktion'
+		,'Vorheriger TP-Service'
 	);
 
 	static $LOCAL_USER_MANDATORY_UDF_FIELDS = array(

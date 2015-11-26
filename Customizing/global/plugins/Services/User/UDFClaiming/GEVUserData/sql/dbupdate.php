@@ -741,3 +741,30 @@ gevUDFUtils::createUDFFields(array(
 	));
 
 ?>
+
+<#13>
+<?php
+
+require_once("Services/GEV/Utils/classes/class.gevUDFUtils.php");
+require_once("Services/User/classes/class.ilUserDefinedFields.php");
+
+gevUDFUtils::createUDFFields(array(
+	"Vorheriger TP-Service" => array( gevSettings::USR_WBD_TP_SERVICE_OLD
+											, UDF_TYPE_TEXT
+											, array( "visible"				=> true
+												   , "changeable"			=> false
+												   , "searchable"			=> false
+												   , "required"				=> false
+												   , "export"				=> true
+												   , "course_export"		=> false
+												   , "group_export"			=> false
+												   , "registration_visible"	=> false
+												   , "visible_lua"			=> false
+												   , "changeable_lua"		=> false
+												   , "certificate"			=> false
+												   )
+											, null
+											)
+	));
+
+?>

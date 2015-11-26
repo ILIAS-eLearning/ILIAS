@@ -4655,3 +4655,12 @@ if(!$ilDB->tableColumnExists('hist_user', 'next_wbd_action')) {
 	);
 }
 ?>
+
+<#185>
+<?php
+// init helper class
+require_once "Customizing/class.ilCustomInstaller.php";
+
+ilCustomInstaller::initPluginEnv();
+ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "User", "udfc", "GEVUserData");
+?>

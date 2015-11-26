@@ -231,9 +231,10 @@ class gevWBDTPServiceRegistrationGUI {
 			return $this->existingWBDAccount($form);
 		}
 
-		$user_utils->setWBDTPType(gevUserUtils::WBD_EDU_PROVIDER);
+		$this->user_utils->setWBDTPType(gevUserUtils::WBD_EDU_PROVIDER);
 		$this->user_utils->setNextWBDAction(gevSettings::USR_WBD_NEXT_ACTION_AFILIATE);
 		$this->user_utils->setWBDBWVId($form->getInput("bwv_id"));
+		$this->user_utils->setTPServiceOld($form->getInput("tp_service_old"));
 
 		if ($form->getInput("notifications") == "diff") {
 			$this->user_utils->setWBDCommunicationEmail($form->getInput("email"));
@@ -319,20 +320,27 @@ class gevWBDTPServiceRegistrationGUI {
 		//$form->addCommandButton("startRegistration", $this->lng->txt("back"));
 		$form->setFormAction($this->ctrl->getFormAction($this));
 
+		$wbd_link = "<a href='/Customizing/global/skin/genv/static/documents/02_AGB_WBD.pdf' target='_blank' class='blue'>".$this->lng->txt("gev_agb_wbd")."</a>";
+		$agb_link = "<a href='/Customizing/global/skin/genv/static/documents/01_AGB_TGIC.pdf' target='_blank' class='blue'>".$this->lng->txt("gev_agb_tgic")."</a>";
+		$auftrag_link = $this->lng->txt("gev_mandate");
+
 		$chb1 = new ilCheckboxInputGUI("", "chb1");
-		$chb1->setOptionTitle(sprintf($this->lng->txt("Doc1"), ""));
+		$chb1->setOptionTitle(sprintf($this->lng->txt("gev_give_affiliate_tp_service"), $auftrag_link));
+			$old_tp_service = new ilTextInputGUI($this->lng->txt("gev_give_affiliate_tp_service_old"),"tp_service_old");
+			$old_tp_service->setRequired(true);
+		$chb1->addSubItem($old_tp_service);
 		$form->addItem($chb1);
 
 		$chb2 = new ilCheckboxInputGUI("", "chb2");
-		$chb2->setOptionTitle(sprintf($this->lng->txt("Doc2"), ""));
+		$chb2->setOptionTitle($this->lng->txt("gev_give_affiliate_wbd"));
 		$form->addItem($chb2);
 
 		$chb3 = new ilCheckboxInputGUI("", "chb3");
-		$chb3->setOptionTitle(sprintf($this->lng->txt("Doc3"), ""));
+		$chb3->setOptionTitle(sprintf($this->lng->txt("gev_confirm_wbd"), $wbd_link));
 		$form->addItem($chb3);
 
 		$chb4 = new ilCheckboxInputGUI("", "chb4");
-		$chb4->setOptionTitle($this->lng->txt("Doc4"));
+		$chb4->setOptionTitle(sprintf($this->lng->txt("gev_confirm_agb"), $agb_link));
 		$form->addItem($chb4);
 
 		$bwv_id = new ilTextInputGUI($this->lng->txt("gev_wbd_register_my_bwv_id"),"bwv_id");
