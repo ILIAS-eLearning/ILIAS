@@ -62,4 +62,8 @@ class ilObjReportASTDGUI extends ilObjReportBaseGUI {
 		$rec['astd_category'] = $lng->txt($rec['astd_category']);
 		return $rec;
 	}
+
+	public static function transformResultRowXLS($rec) {
+		return self::transformResultRow($rec);
+	}
 }

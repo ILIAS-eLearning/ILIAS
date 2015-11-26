@@ -31,7 +31,7 @@ class ilObjReportASTD extends ilObjReportBase {
 	}
 
 	protected function prepareQueryComponents($a_query) {
-		$this->categories = array(	'astd_hours_not_self_learn' 	=>	" SUM( IF(type IN ('Virtuelles Training','Präsenztraining','Webinar') AND hours IS NOT NULL, hours, 0)) "
+		$this->categories = array(	'astd_hours_not_self_learn' 	=>	" SUM( IF(type IN ('Virtuelles Training','Präsenztraining','Webinar') AND thours IS NOT NULL, thours, 0)) "
 									,'astd_hours_self_learn' 		=>	" SUM( IF(type = 'Selbstlernkurs' AND credit_points IS NOT NULL, GREATEST(credit_points,0)/1.33, 0)) " 
 									,'astd_hours_language_course'	=>	' 0 '
 									,'astd_participators'			=>	' COUNT(DISTINCT usr_id)'
@@ -60,6 +60,7 @@ class ilObjReportASTD extends ilObjReportBase {
 				->static_condition(" c.hist_historic = 0 ")
 				->static_condition(" ucs.hist_historic = 0 ")
 				->static_condition(" u.hist_historic = 0 ")
+				->static_condition("(template.hist_historic = 0 OR template.hist_historic IS NULL)")
 				->static_condition(" c.end_date > from_unixtime(ur1.created_ts) ")
 				->static_condition("(c.end_date < from_unixtime(ur2.created_ts) OR ur2.created_ts IS NULL )");
 		$filter	->action($this->filter_action);
@@ -85,11 +86,14 @@ class ilObjReportASTD extends ilObjReportBase {
 				->select('c.begin_date')
 				->select('c.end_date')
 				->select('c.type')
-				->select('c.hours')
+				->select_raw('c.hours  chours')
+				->select_raw('template.hours thours')
 				->select('ucs.credit_points')
 				->from('hist_usercoursestatus ucs')
 				->join('hist_course c')
 					->on('ucs.crs_id = c.crs_id')
+				->left_join('hist_course template')
+					->on('c.template_obj_id = template.crs_id')
 				->join('hist_userrole ur1')
 					->on('ur1.usr_id = ucs.usr_id AND ur1.action = 1'
 						.' AND '.$this->gIldb->in('ur1.rol_id',$in_role_ids,false,'integer')
@@ -132,6 +136,7 @@ class ilObjReportASTD extends ilObjReportBase {
 				$query = 	'SELECT '.$this->query_sum_parts.' FROM ('
 								.$query_base_set
 								.') as base_set';
+				//die($query_base_set);
 				$res = $this->gIldb->query($query);
 				while($rec = $this->gIldb->fetchAssoc($res)) {
 					foreach($rec as $category => $value) {
