@@ -15417,28 +15417,28 @@ meta#:#md_adv_confirm_definition_select_option_all#:#Handle all existing entries
 meta#:#md_adv_confirm_definition_select_option_single#:#Decide for each existing entry
 meta#:#md_adv_confirm_definition_select_option_all_action#:#New Value
 file#:#file_import#:#Import File
-dcl#:#dcl_boolean_desc#:#Auswahlfeld für "zutreffend"/"nicht zutreffend"
-dcl#:#dcl_text_desc#:#Eingabefeld für Text, Links oder E-Mail-Adressen
-dcl#:#dcl_integer_desc#:#Eingabefeld für ganze Zahlen. Nicht erlaubt sind Brüche und Dezimalzahlen.
-dcl#:#dcl_datetime_desc#:#Datumseingabe per Auswahlmenü oder Kalender
-dcl#:#dcl_mob_desc#:#Möglichkeit zum Hochladen von Bild-, Audio- oder Video-Dateien, die direkt in der Datensammlung präsentiert werden. Erlaubte Dateitypen: %s
-dcl#:#dcl_file_desc#:#Möglichkeit zum Hochladen beliebiger Dateien, die per Link heruntergeladen werden können
-dcl#:#dcl_reference_desc#:#Bereitstellen von Auswahloptionen, die in einem anderen Feld einer Tabelle gepflegt werden
-dcl#:#dcl_reference_title#:#Referenz zu Tabelle und Feld
-dcl#:#dcl_ILIAS_reference_desc#:#Suchfeld, um ein Objekt in ILIAS auszuwählen und zu verlinken
-dcl#:#dcl_rating_desc#:#Benutzer können Einträge mit bis zu fünf Sternen bewerten.
-dcl#:#dcl_formula_desc#:#Ähnlich wie bei der Tabellenkalkulation können per Formel Einträge verbunden oder berechnet werden.
-dcl#:#dcl_additional_info_desc#:#Der Text wird direkt oberhalb der Tabelle angezeigt.
-dcl#:#dcl_public_comments_desc#:#Benutzer können Datensätze dieser Tabelle kommentieren
-dcl#:#dcl_default_sort_field_desc#:#Tabelle wird standardmässig nach dem ausgewählten Feld sortiert.
-dcl#:#dcl_visible_desc#:#Benutzer können diese Tabelle über das Auswahlmenü "Tabelle" aufrufen.
-dcl#:#dcl_ILIAS_reference_link_desc#:#Objekt kann per Link aufgerufen werden, wenn Leserecht vorhanden ist
-dcl#:#dcl_learning_progress_desc#:#Wenn vorhanden, wird der Lernfortschritts des Benutzers angezeigt
-dcl#:#dcl_display_action_menu_desc#:#Objekt kann kopiert oder verknüpft werden, wenn der Benutzer entsprechende Rechte besitzt
-dcl#:#dcl_export_enabled_desc#:#Alle Benutzer können die Daten der Tabelle selber exportieren. Dazu müssen in der Übersicht "Felder der ausgewählten Tabelle" die Felder einzeln als exportierbar ausgewählt werden.
-dcl#:#dcl_add_perm_desc#:#Benutzer können Einträge in dieser Tabelle erstellen.
-dcl#:#dcl_limited_desc#:#Benutzer können Einträge nur bis zum gewählten Datum hinzufügen, bearbeiten und löschen.
-dcl#:#dcl_unique_desc#:#In dieses Feld kann ein gleichlautender Eintrag nur einmal vorgenommen werden.
+dcl#:#dcl_boolean_desc#:#Checkbox for "True" or "False"
+dcl#:#dcl_text_desc#:#Textfield for text, links or e-mail addresses.
+dcl#:#dcl_integer_desc#:#Field for integer values. No decimals or fractions.
+dcl#:#dcl_datetime_desc#:#Field for a date and time.
+dcl#:#dcl_mob_desc#:#Field to upload an image, audio, or video file. They will be displayed directly in the datacollection. Allowed datatypes: %s
+dcl#:#dcl_file_desc#:#Field to upload arbitrary files. They can be downloaded with a link.
+dcl#:#dcl_reference_desc#:#Field to reference options stored in a different field of a table.
+dcl#:#dcl_reference_title#:#Reference to table and field
+dcl#:#dcl_ILIAS_reference_desc#:#Searchfield to select an ILIAS object.
+dcl#:#dcl_rating_desc#:#Users can rate entries with up to five stars.
+dcl#:#dcl_formula_desc#:#You can aggregate several entries in a record with a formula.
+dcl#:#dcl_additional_info_desc#:#The text will be displayed directly above the table.
+dcl#:#dcl_public_comments_desc#:#Users can comment on entries of the table.
+dcl#:#dcl_default_sort_field_desc#:#The table will be sorted by this field by default.
+dcl#:#dcl_visible_desc#:#Users can access this table.
+dcl#:#dcl_ILIAS_reference_link_desc#:#The object can be accesses via link, if they have read permission to that object.
+dcl#:#dcl_learning_progress_desc#:#If available the learning progress of the object will be displayed.
+dcl#:#dcl_display_action_menu_desc#:#Object can be copied or linked if the user has the permissions to do so.
+dcl#:#dcl_export_enabled_desc#:#All users can export the data of this table. You have to specify in the table overview which fields will get exported.
+dcl#:#dcl_add_perm_desc#:#Users can add entries in this table.
+dcl#:#dcl_limited_desc#:#Users can only edit entries in the given time span.
+dcl#:#dcl_unique_desc#:#The value in this field needs to be unique among all entires.
 dcl#:#dcl_formula_detail_desc#:#Entries are generated automatically, you are not able to edit the entry.
 dcl#:#dcl_text_email_detail_desc#:#Please enter a valid URL or E-Mail address.
 dcl#:#dcl_text_email_title#:#Title
