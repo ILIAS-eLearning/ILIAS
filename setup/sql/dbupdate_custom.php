@@ -4672,3 +4672,15 @@ if(!$ilDB->tableColumnExists('hist_user', 'next_wbd_action')) {
 		);	
 
 ?>
+
+<#187>
+<?php
+	if(!$ilDB->tableColumnExists('hist_course', 'template_obj_id')) {
+		$ilDB->addTableColumn('hist_course', 'template_obj_id', array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false
+			)
+		);
+	}
+?>
