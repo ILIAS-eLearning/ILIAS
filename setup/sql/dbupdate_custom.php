@@ -4660,3 +4660,15 @@ if(!$ilDB->tableColumnExists('hist_user', 'next_wbd_action')) {
 	);
 }
 ?>
+
+<#186>
+<?php
+
+		$ilDB->addTableColumn('hist_course', 'dct_type', array(
+			'type' => 'text',
+			'length' => 30,
+			'notnull' => false
+			)
+		);	
+
+?>
