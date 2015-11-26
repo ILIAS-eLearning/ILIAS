@@ -4681,3 +4681,15 @@ require_once "Customizing/class.ilCustomInstaller.php";
 ilCustomInstaller::initPluginEnv();
 ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "User", "udfc", "GEVUserData");
 ?>
+
+<#188>
+<?php
+	if(!$ilDB->tableColumnExists('hist_course', 'template_obj_id')) {
+		$ilDB->addTableColumn('hist_course', 'template_obj_id', array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false
+			)
+		);
+	}
+?>
