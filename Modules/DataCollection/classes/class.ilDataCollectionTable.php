@@ -1545,12 +1545,11 @@ class ilDataCollectionTable {
 		$sql .= $join_str;
 		$sql .= " WHERE record.table_id = " . $ilDB->quote($this->getId(), 'integer') . $where_additions;
 		if ($has_nref) {
-			$sql .= " GROUP BY record.id";
+			$sql .= " GROUP BY record.id, record.owner";
 		}
 		if($id != 'comments' && $sort_field->getDatatypeId() != ilDataCollectionDatatype::INPUTFORMAT_FORMULA) {
 			$sql .= " ORDER BY field_{$id} {$direction}";
 		}
-
 		$set = $ilDB->query($sql);
 		$total_record_ids = array();
 		// Save record-ids in session to enable prev/next links in detail view
