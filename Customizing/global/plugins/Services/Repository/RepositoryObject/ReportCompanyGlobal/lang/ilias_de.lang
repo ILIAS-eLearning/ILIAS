@@ -1,0 +1,20 @@
+<!-- language file start -->
+obj_xrcb#:#Globaler Firmenreport
+objs_xrcb#:#Globaler Firmenreport
+obj_xrcb_duplicate#:#Globaler Firmenreport kopieren
+objs_xrcb_duplicate#:#Globale Firmenreports kopieren
+obj_xrcb_select#:#Globaler Firmenreport auswählen
+xrcb_add#:#Globaler Firmenreport hinzufügen
+xrcb_new#:#Neuen globalen Firmenreport hinzufügen
+xrcb_read#:#Lesezugriff zum Globaler Firmenreport
+xrcb_write#:#Globaler Firmenreport bearbeiten
+xrcb_delete#:#Globaler Firmenreport löschen
+xrcb_visible#:#sichtbar
+xrcb_edit_permission#:#schreibberechtigt
+crs_create_xrcb#:#Globalen Firmenreport erzeugen
+grp_create_xrcb#:#Globalen Firmenreport erzeugen
+fold_create_xrcb#:#Globalen Firmenreport erzeugen
+root_create_xrcb#:#Globalen Firmenreport erzeugen
+cat_create_xrcb#:#Globalen Firmenreport erzeugen
+rep_robj_xrcb_status#:#Status
+rep_robj_xrcb_offline#:#Offline

@@ -29,6 +29,7 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 		$this->gAccess = $ilAccess;
 		$this->gTabs = $ilTabs;
 
+
 		// TODO: this is crapy. The root cause of this problem is, that the
 		// filter should no need to know about it's action. The _rendering_
 		// of the filter needs to know about the action.

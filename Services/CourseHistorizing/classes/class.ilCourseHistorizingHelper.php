@@ -314,4 +314,12 @@ class ilCourseHistorizingHelper
 		return $utils->getVirtualClassType();
 	}
 
+	public static function getDCTType($course) {
+		$utils = gevCourseUtils::getInstanceByObjOrId($course);
+		if($utils->isDecentralTraining()) {
+			return ($utils->isFlexibleDecentrallTraining()) ? 'flexible' : 'fixed';
+		}
+		return;
+	}
+
 }
