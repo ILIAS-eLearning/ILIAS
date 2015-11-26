@@ -98,7 +98,6 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
         $select_prop->setOptions($options);        
         $rubric_commandrow_tpl->setVariable('RURBRIC_COMMANDROW_SELECT',$select_prop->render());
         $rubric_commandrow_tpl->setVariable('RUBRIC_SAVE',$this->lng->txt('save'));
-        $rubric_commandrow_tpl->setVariable('RUBRIC_CANCEL',$this->lng->txt('cancel'));
         $rubric_commandrow_tpl->setVariable('RUBRIC_EXECUTE',$this->lng->txt('execute'));
         $rubric_commandrow_tpl->setVariable('FORM_ACTION',$form_action);
         $rubric_commandrow_tpl->setVariable('PASSING_GRADE_VALUE',"$this->passing_grade");
