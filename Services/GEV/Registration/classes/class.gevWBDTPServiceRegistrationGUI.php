@@ -214,7 +214,7 @@ class gevWBDTPServiceRegistrationGUI {
 		}
 
 		$this->user_utils->setWBDTPType(gevUserUtils::WBD_EDU_PROVIDER);
-		$this->user_utils->setNextWBDAction(gevSettings::USR_WBD_NEXT_ACTION_AFILIATE);
+		$this->user_utils->setNextWBDAction(gevSettings::USR_WBD_NEXT_ACTION_AFFILIATE);
 		$this->user_utils->setWBDBWVId($form->getInput("bwv_id"));
 		$this->user_utils->setTPServiceOld($form->getInput("tp_service_old"));
 
