@@ -100,19 +100,18 @@ class ilDatePresentation
 		self::setLanguage($lng);
 		self::setUseRelativeDates(true);
 	}
-	
-	
-	
+
+
 	/**
 	 * Format a date
 	 * @access public
-	 * @param object $date ilDate or ilDateTime
-	 * @return string date presentation in user specific timezone and language 
+	 * @param ilDateTime|object $date ilDate or ilDateTime
+	 * @return string date presentation in user specific timezone and language
 	 * @static
 	 */
 	public static function formatDate(ilDateTime $date)
 	{
-		global $lng,$ilUser;
+		global $ilUser;
 		
 		if($date->isNull())
 		{
@@ -165,6 +164,69 @@ class ilDatePresentation
 			case ilCalendarSettings::TIME_FORMAT_12:
 				return $date_str.', '.$date->get(IL_CAL_FKT_DATE,'g:ia',$ilUser->getTimeZone());
 		}
+	}
+
+	/**
+	 * Format a date
+	 * @access public
+	 * @param ilDate|ilDateTime $date
+	 * @return string date presentation in user specific timezone and language. This will add the date even if it is yesterday, today, or tomorrow.
+	 * @static
+	 */
+	public static function formatDate2(ilDateTime $date)
+	{
+		global $ilUser;
+
+		if($date->isNull())
+		{
+			return self::getLanguage()->txt('no_date');
+		}
+
+		$has_time = !is_a($date,'ilDate');
+
+		// Converting pure dates to user timezone might return wrong dates
+		if($has_time)
+		{
+			$date_info = $date->get(IL_CAL_FKT_GETDATE,'',$ilUser->getTimeZone());
+		}
+		else
+		{
+			$date_info = $date->get(IL_CAL_FKT_GETDATE,'','UTC');
+		}
+
+		include_once('./Services/Calendar/classes/class.ilCalendarUtil.php');
+		$date_str = $date->get(IL_CAL_FKT_DATE,'d').'. '.
+			ilCalendarUtil::_numericMonthToString($date_info['mon'],false).' '.
+			$date_info['year'];
+
+		if($has_time)
+		{
+			switch($ilUser->getTimeFormat())
+			{
+				case ilCalendarSettings::TIME_FORMAT_24:
+					$date_str .= ', '.$date->get(IL_CAL_FKT_DATE,'H:i',$ilUser->getTimeZone());
+					break;
+				case ilCalendarSettings::TIME_FORMAT_12:
+					$date_str .= ', '.$date->get(IL_CAL_FKT_DATE,'g:ia',$ilUser->getTimeZone());
+					break;
+			}
+		}
+
+
+		if(self::isToday($date) and self::useRelativeDates())
+		{
+			$date_str .= ' ('.self::getLanguage()->txt('today').')';
+		}
+		elseif(self::isTomorrow($date) and self::useRelativeDates())
+		{
+			$date_str .= ' ('.self::getLanguage()->txt('tomorrow').')';
+		}
+		elseif(self::isYesterday($date) and self::useRelativeDates())
+		{
+			$date_str .= ' ('.self::getLanguage()->txt('yesterday').')';
+		}
+
+		return $date_str;
 	}
 	
 	/**
