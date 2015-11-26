@@ -1788,7 +1788,13 @@ class gevUserUtils {
 		$this->udf_utils->setField($this->user_id, gevSettings::USR_BWV_ID, $a_id);
 	}
 	
+	public function setTPServiceOld($tp_service_old) {
+		$this->udf_utils->setField($this->user_id, gevSettings::USR_WBD_TP_SERVICE_OLD, $tp_service_old);
+	}
 
+	public function getTPServiceOld() {
+		return $this->udf_utils->getField($this->user_id, gevSettings::USR_WBD_TP_SERVICE_OLD);
+	}
 
 	public function getRawWBDOKZ() {
 		return $this->udf_utils->getField($this->user_id, gevSettings::USR_WBD_OKZ);

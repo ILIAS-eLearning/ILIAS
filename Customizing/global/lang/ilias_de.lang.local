@@ -1399,7 +1399,7 @@ gev#:#gev_dec_training_attachment#:#Anhang
 gev#:#gev_wbd_type#:#WBD-Status
 gev#:#gev_bwv_id_info#:#Sie können ihre BWV-Id über die WBD-Registrierung im Menü "Übersicht" eintragen.
 gev#:#gev_wbd_register_exist#:#Ich habe bereits ein Weiterbildungskonto bei der Weiterbildungsdatenbank (GDV / gut beraten) und die Generali soll für mich die Datenpflege (TP-Service) übernehmen.
-gev#:#gev_wbd_register_new#:#Ich habe noch kein Weiterbildungskonto bei der Weiterbildungsdatenbank des Gesamtverbandes der Deutschen Versicherungswirtschaft(GDV / gt beraten) und die Generali soll für mich ein Weiterbildungskonto eröffnen sowie die Datenpflege (TP-Service) übernehmen.
+gev#:#gev_wbd_register_new#:#Ich habe noch kein Weiterbildungskonto bei der Weiterbildungsdatenbank des Gesamtverbandes der Deutschen Versicherungswirtschaft(GDV / gut beraten) und die Generali soll für mich ein Weiterbildungskonto eröffnen sowie die Datenpflege (TP-Service) übernehmen.
 gev#:#gev_wbd_register_my_bwv_id#:#Meine GDV Vermitller-ID lautet
 gev#:#gev_wbd_register_affiliate#:#TP-Service übernehmen
 gev#:#gev_wbd_affiliate_cb_mandatory#:#Sie müssen dieses Feld bestätigen, um die Übernahme des TP-Service durch die Generali abschließen zu können.
@@ -1426,3 +1426,6 @@ gev#:#xrcg_write#:#DBV Report für Vorgesetzte bearbeiten
 gev#:#xrcg_delete#:#DBV Report für Vorgesetzte löschen
 gev#:#xrcg_visible#:#sichtbar
 gev#:#xrcg_edit_permission#:#schreibberechtigt
+gev#:#gev_give_affiliate_tp_service#:#Hiermit erteile ich den %s (<a href='/Customizing/global/skin/genv/static/documents/GEV_TPS_Wechsel_AAD.pdf' target='_blank' class='blue'>als AAD</a> / <a href='/Customizing/global/skin/genv/static/documents/GEV_TPS_Wechsel_§84HGB.pdf' target='_blank'  class='blue'>als §84HGB</a>) zur Verwaltung des WBD-Benutzerkontos als Trusted Partner Service.
+gev#:#gev_give_affiliate_wbd#:#Hiermit erteile ich die <a href='/Customizing/global/skin/genv/static/documents/GEV_TPS_Wechsel_Auftrag_BDL.pdf' target='_blank' class='blue'>Einwilligung zur Eintragung von Weiterbildungspunkten und -maßnahmen</a> in die WBD.
+gev#:#gev_give_affiliate_tp_service_old#:#Name des vorherigen TP-Service
