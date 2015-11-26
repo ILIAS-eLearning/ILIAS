@@ -15,10 +15,7 @@ class ilObjReportASTD extends ilObjReportBase {
 	public function __construct($a_ref_id = 0) {
 		parent::__construct($a_ref_id);
 
-		include_once 'Customizing/global/plugins/Services/Repository/RepositoryObject/ReportASTD/config/ASTD_sample_config.php';
-		//this is not nice, this should actually be static. 
-
-
+		include_once 'Customizing/global/plugins/Services/Repository/RepositoryObject/ReportASTD/config/ASTD_config.php';
 		$this->role_utils = gevRoleUtils::getInstance();
 	}
 
@@ -38,6 +35,8 @@ class ilObjReportASTD extends ilObjReportBase {
 									,'astd_accomodation_cost'		=>	" SUM( IF( type = 'Präsenztraining' AND begin_date IS NOT NULL AND end_date IS NOT NULL, (DATEDIFF(begin_date,end_date)+1)*"
 																.$this->gIldb->quote( $this->getAccomodationCost(),'float').', 0) ) '
 									);
+
+		$this->end_date = $this->filter->get('period')['end']->getUnixTime();
 
 		foreach($this->categories as $category => $query) {
 			$this->query_sum_parts[] = $query.' AS '.$category;
@@ -60,9 +59,8 @@ class ilObjReportASTD extends ilObjReportBase {
 				->static_condition(" c.hist_historic = 0 ")
 				->static_condition(" ucs.hist_historic = 0 ")
 				->static_condition(" u.hist_historic = 0 ")
-				->static_condition("(template.hist_historic = 0 OR template.hist_historic IS NULL)")
-				->static_condition(" c.end_date > from_unixtime(ur1.created_ts) ")
-				->static_condition("(c.end_date < from_unixtime(ur2.created_ts) OR ur2.created_ts IS NULL )");
+				->static_condition(" ur2.hist_version IS NULL ")
+				->static_condition("(template.hist_historic = 0 OR template.hist_historic IS NULL)");
 		$filter	->action($this->filter_action);
 		return $filter->compile();
 	}
@@ -78,8 +76,8 @@ class ilObjReportASTD extends ilObjReportBase {
 		return $table;
 	}
 
+
 	protected function queryBaseSet($gender, $in_role_ids, $not_in_role_ids) {
-		$not_in_role_part = count($not_in_role_ids) ? ' AND '.$this->gIldb->in('ur1.rol_id',$not_in_role_ids,true,'integer') : '';
 		$query = call_user_func($this->query_class.'::create');
 		$query	->select('ucs.usr_id')
 				->select('u.gender')
@@ -88,6 +86,7 @@ class ilObjReportASTD extends ilObjReportBase {
 				->select('c.type')
 				->select_raw('c.hours  chours')
 				->select_raw('template.hours thours')
+				->select_raw('SUM(IF(nur1.hist_historic IS NOT NULL AND nur2.hist_historic IS NULL,1,0)) AS wrong_role_count')
 				->select('ucs.credit_points')
 				->from('hist_usercoursestatus ucs')
 				->join('hist_course c')
@@ -97,11 +96,19 @@ class ilObjReportASTD extends ilObjReportBase {
 				->join('hist_userrole ur1')
 					->on('ur1.usr_id = ucs.usr_id AND ur1.action = 1'
 						.' AND '.$this->gIldb->in('ur1.rol_id',$in_role_ids,false,'integer')
-						.$not_in_role_part
-						)
+						.' AND ur1.created_ts < '.$this->end_date )
 				->left_join('hist_userrole ur2')
 					->on('ur2.usr_id = ur1.usr_id AND ur2.rol_id = ur1.rol_id '
-						.' AND ur2.action = -1 AND ur2.hist_version = ur1.hist_version+1')
+						.' AND ur2.action = -1 AND ur2.hist_version = ur1.hist_version+1'
+						.' AND ur2.created_ts < '.$this->end_date)
+				->left_join('hist_userrole nur1')
+					->on('nur1.usr_id = ucs.usr_id AND nur1.action = 1'
+						.' AND '.$this->gIldb->in('nur1.rol_id',$not_in_role_ids,false,'integer')
+						.' AND nur1.created_ts < '.$this->end_date)
+				->left_join('hist_userrole nur2')
+					->on('nur2.usr_id = nur1.usr_id AND nur2.rol_id = nur1.rol_id '
+						.' AND nur2.action = -1 AND nur2.hist_version = nur1.hist_version+1'
+						.' AND nur2.created_ts < '.$this->end_date)
 				->join('hist_user u')
 					->on('u.user_id = ucs.usr_id AND u.gender = '.$this->gIldb->quote($gender,'text'))
 				->group_by('ucs.usr_id')
@@ -111,7 +118,7 @@ class ilObjReportASTD extends ilObjReportBase {
 		return $query->sql()."\n "
 			   . $this->queryWhere()."\n "
 			   . $query->sqlGroupBy()."\n"
-			   . $this->queryHaving()."\n"
+			   . "HAVING wrong_role_count = 0 OR wrong_role_count IS NULL \n"
 			   . $this->queryOrder();
 	}
 
@@ -136,7 +143,6 @@ class ilObjReportASTD extends ilObjReportBase {
 				$query = 	'SELECT '.$this->query_sum_parts.' FROM ('
 								.$query_base_set
 								.') as base_set';
-				//die($query_base_set);
 				$res = $this->gIldb->query($query);
 				while($rec = $this->gIldb->fetchAssoc($res)) {
 					foreach($rec as $category => $value) {
@@ -146,13 +152,13 @@ class ilObjReportASTD extends ilObjReportBase {
 				}
 
 			}
+
 			$not_in_role_ids = array_merge($in_role_ids, $not_in_role_ids);
 		}
 		$data =  array();
 		foreach ($predata as &$rec) {
 			$data[] = call_user_func($callable,$rec);
 		}
-		//die(var_dump($data));
 		return $data;
 	}
 
