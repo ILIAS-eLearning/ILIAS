@@ -1429,3 +1429,28 @@ gev#:#xrcg_edit_permission#:#schreibberechtigt
 gev#:#gev_give_affiliate_tp_service#:#Hiermit erteile ich den %s (<a href='/Customizing/global/skin/genv/static/documents/GEV_TPS_Wechsel_AAD.pdf' target='_blank' class='blue'>als AAD</a> / <a href='/Customizing/global/skin/genv/static/documents/GEV_TPS_Wechsel_§84HGB.pdf' target='_blank'  class='blue'>als §84HGB</a>) zur Verwaltung des WBD-Benutzerkontos als Trusted Partner Service.
 gev#:#gev_give_affiliate_wbd#:#Hiermit erteile ich die <a href='/Customizing/global/skin/genv/static/documents/GEV_TPS_Wechsel_Auftrag_BDL.pdf' target='_blank' class='blue'>Einwilligung zur Eintragung von Weiterbildungspunkten und -maßnahmen</a> in die WBD.
 gev#:#gev_give_affiliate_tp_service_old#:#Name des vorherigen TP-Service
+gev#:#xrcg_edit_permission#:#schreibberechtigt
+gev#:#rep_robj_xatd_content#:#Report
+gev#:#rep_robj_xatd_properties#:#Eigenschaften
+gev#:#xatd_add#:#ASTD Report hinzufügen
+gev#:#xatd_new#:#Neuen ASTD Report hinzufügen
+gev#:#xatd_read#:#Lesezugriff zum ASTD Report
+gev#:#xatd_write#:#ASTD Report bearbeiten
+gev#:#xatd_delete#:#ASTD Report löschen
+gev#:#xatd_visible#:#sichtbar
+gev#:#xatd_edit_permission#:#schreibberechtigt
+gev#:#astd_category#:#Vertrieb + ID
+gev#:#astd_managers_f#:#Executive and Senior Managers<br>(F1 ggf. Vorstände/GFs)<br>weiblich
+gev#:#astd_managers_m#:#Executive and Senior Managers<br>(F1 ggf. Vorstände/GFs)<br>männlich
+gev#:#astd_middle_managers_f#:#Middle Managers<br>(F 2)<br>weiblich
+gev#:#astd_middle_managers_m#:#Middle Managers<br>(F 2)<br>männlich
+gev#:#astd_sales_employee_f#:#Employee Line<br>(F 3 und ID-Mitarbeiter, P2, E1 und E2)<br>weiblich
+gev#:#astd_sales_employee_m#:#Employee Line<br>(F 3 und ID-Mitarbeiter, P2, E1 und E2)<br>männlich
+gev#:#astd_sales_not_employee_f#:#Sales NON Employees<br>(§84 HGB)<br>weiblich
+gev#:#astd_sales_not_employee_m#:#Sales NON Employees<br>(§84 HGB)<br>männlich
+gev#:#astd_hours_not_self_learn#:#Anzahl der Lernstunden interner und externer Veranstaltungen
+gev#:#astd_hours_self_learn#:#Anzahl der E-Learning-Stunden
+gev#:#astd_hours_language_course#:#Anzahl der Sprachkurs-Lernstunden
+gev#:#astd_participators#:#Anzahl der Empfänger von PE-Maßnahmen
+gev#:#astd_accomodation_cost#:#Bewirtungs-, Raum- und Technikkosten
+gev#:#astd_accomodation_cost_per_day_person#:#Bewirtungs-, Raum- und Technikkosten pro Tag und pro Person
