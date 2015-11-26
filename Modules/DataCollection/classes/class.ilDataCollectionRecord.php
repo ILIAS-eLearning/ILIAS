@@ -157,6 +157,12 @@ class ilDataCollectionRecord {
 			. $ilDB->quote($this->getOwner(), "integer") . "," . $ilDB->quote($this->getLastEditBy(), "integer") . "
 			)";
 		$ilDB->manipulate($query);
+
+		$this->loadRecordFields();
+		foreach ($this->getRecordFields() as $recordField) {
+			$recordField->doCreate();
+
+		}
 	}
 
 
@@ -745,7 +751,7 @@ class ilDataCollectionRecord {
 
 
 	/**
-	 * @return array
+	 * @return ilDataCollectionRecordField[]
 	 */
 	public function getRecordFields() {
 		$this->loadRecordFields();
