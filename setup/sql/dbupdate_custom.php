@@ -4672,3 +4672,33 @@ if(!$ilDB->tableColumnExists('hist_user', 'next_wbd_action')) {
 		);	
 
 ?>
+
+<#187>
+<?php
+// init helper class
+require_once "Customizing/class.ilCustomInstaller.php";
+
+ilCustomInstaller::initPluginEnv();
+ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "User", "udfc", "GEVUserData");
+?>
+
+<#188>
+<?php
+if(!$ilDB->tableColumnExists('hist_user', 'next_wbd_action')) {
+	$ilDB->addTableColumn('hist_user', 'next_wbd_action', array(
+		'type' => 'text',
+		'length' => 255,
+		'notnull' => false
+		)
+	);
+}
+?>
+
+<#189>
+<?php
+// init helper class
+require_once "Customizing/class.ilCustomInstaller.php";
+
+ilCustomInstaller::initPluginEnv();
+ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "User", "udfc", "GEVUserData");
+?>

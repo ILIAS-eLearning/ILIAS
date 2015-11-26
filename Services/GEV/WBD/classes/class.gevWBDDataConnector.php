@@ -454,7 +454,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 		$wbd_topic 	= $rec['wbd_topic']; 
 		$begin_date	= $rec['begin']; // date('Y-m-d', strtotime($rec['Beginn']));
 		$end_date 	= $rec['end']; //date('Y-m-d', strtotime($rec['Ende']));
-		$creator_id = -200;
+		$creator_id = -666;
 
 
 		$sql = "SELECT crs_id\n"

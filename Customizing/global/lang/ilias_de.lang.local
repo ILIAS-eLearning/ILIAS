@@ -1426,3 +1426,6 @@ gev#:#xrcg_write#:#DBV Report für Vorgesetzte bearbeiten
 gev#:#xrcg_delete#:#DBV Report für Vorgesetzte löschen
 gev#:#xrcg_visible#:#sichtbar
 gev#:#xrcg_edit_permission#:#schreibberechtigt
+gev#:#gev_give_affiliate_tp_service#:#Hiermit erteile ich den %s (<a href='/Customizing/global/skin/genv/static/documents/GEV_TPS_AAD_Finaler_Auftrag_TPS_AAD.pdf' target='_blank' class='blue'>als AAD</a> / <a href='/Customizing/global/skin/genv/static/documents/GEV_TPSEVG_Finaler_Auftrag_TPS_§84HGB.pdf' target='_blank'  class='blue'>als §84HGB</a>) zur Verwaltung des WBD-Benutzerkontos als Trusted Partner Service.
+gev#:#gev_give_affiliate_wbd#:#Hiermit erteile ich die <a href='/Customizing/global/skin/genv/static/documents/GEV_BDL_Auftrag_BDL.pdf' target='_blank' class='blue'>Einwilligung zur Eintragung von Weiterbildungspunkten und -maßnahmen</a> in die WBD.
+gev#:#gev_give_affiliate_tp_service_old#:#Name des vorherigen TP-Service
