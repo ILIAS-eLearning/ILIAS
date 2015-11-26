@@ -1444,8 +1444,10 @@ gev#:#astd_managers_f#:#Executive and Senior Managers<br>(F1 ggf. Vorstände/GFs
 gev#:#astd_managers_m#:#Executive and Senior Managers<br>(F1 ggf. Vorstände/GFs)<br>männlich
 gev#:#astd_middle_managers_f#:#Middle Managers<br>(F 2)<br>weiblich
 gev#:#astd_middle_managers_m#:#Middle Managers<br>(F 2)<br>männlich
-gev#:#astd_sales_employee_f#:#Employee Line<br>(F 3 und ID-Mitarbeiter, P2, E1 und E2)<br>weiblich
-gev#:#astd_sales_employee_m#:#Employee Line<br>(F 3 und ID-Mitarbeiter, P2, E1 und E2)<br>männlich
+gev#:#astd_employee_f#:#Employee Line<br>(F 3 und ID-Mitarbeiter, P2, E1 und E2)<br>weiblich
+gev#:#astd_employee_m#:#Employee Line<br>(F 3 und ID-Mitarbeiter, P2, E1 und E2)<br>männlich
+gev#:#astd_sales_employee_f#:#Sales Employees<br>(festangestellter AD)<br>weiblich
+gev#:#astd_sales_employee_m#:#Sales Employees<br>(festangestellter AD)<br>männlich
 gev#:#astd_sales_not_employee_f#:#Sales NON Employees<br>(§84 HGB)<br>weiblich
 gev#:#astd_sales_not_employee_m#:#Sales NON Employees<br>(§84 HGB)<br>männlich
 gev#:#astd_hours_not_self_learn#:#Anzahl der Lernstunden interner und externer Veranstaltungen
