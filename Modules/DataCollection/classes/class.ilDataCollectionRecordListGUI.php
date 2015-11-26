@@ -340,6 +340,7 @@ class ilDataCollectionRecordListGUI {
 					$warnings[] = "(" . $i . ", " . ilDataCollectionImporter::getExcelCharForInteger($col) . ") " . $e;
 				}
 			}
+
 			if (!$simulate) {
 				$record->doUpdate();
 			}
@@ -348,6 +349,7 @@ class ilDataCollectionRecordListGUI {
 				break;
 			}
 		}
+
 		$this->endImport($i - 2, $warnings);
 	}
 

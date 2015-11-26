@@ -191,7 +191,6 @@ class ilDataCollectionRecordField {
 	 */
 	public function getValueFromExcel($excel, $row, $col) {
 		$value = $excel->val($row, $col);
-		$value = utf8_encode($value);
 		if ($this->field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_DATETIME) {
 			$value = array(
 				'date' => date('Y-m-d', strtotime($value)),

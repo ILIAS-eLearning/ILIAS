@@ -325,6 +325,7 @@ class ilDataCollectionRecord {
 	 * @param $row
 	 * @param $col
 	 * @param $field ilDataCollectionField
+	 * @return array|string
 	 */
 	public function getRecordFieldValueFromExcel($excel, $row, $col, $field) {
 		$this->loadRecordFields();
