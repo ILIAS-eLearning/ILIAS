@@ -29,7 +29,7 @@ class ilObjReportASTD extends ilObjReportBase {
 
 	protected function prepareQueryComponents($a_query) {
 		$this->categories = array(	'astd_hours_not_self_learn' 	=>	" SUM( IF(type IN ('Virtuelles Training','Präsenztraining','Webinar') AND thours IS NOT NULL, thours, 0)) "
-									,'astd_hours_self_learn' 		=>	" SUM( IF(type = 'Selbstlernkurs' AND credit_points IS NOT NULL, GREATEST(credit_points,0)/1.33, 0)) " 
+									,'astd_hours_self_learn' 		=>	" SUM( IF(type = 'Selbstlernkurs' AND credit_points IS NOT NULL, GREATEST(credit_points,0)*3/4, 0)) " 
 									,'astd_hours_language_course'	=>	' 0 '
 									,'astd_participators'			=>	' COUNT(DISTINCT usr_id)'
 									,'astd_accomodation_cost'		=>	" SUM( IF( type = 'Präsenztraining' AND begin_date IS NOT NULL AND end_date IS NOT NULL, (DATEDIFF(end_date,begin_date)+1)*"
