@@ -183,14 +183,6 @@ class ilObjReportASTD extends ilObjReportBase {
 		}
 	}
 
-	public function setAdminMode($bool) {
-		$this->admin_mode = (int)$bool;
-	}
-
-	public function getAdminMode() {
-		return $this->admin_mode;
-	}
-
 
 	public function doUpdate() {
 		$this->gIldb->manipulate($up = "UPDATE rep_robj_astd SET "
