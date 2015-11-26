@@ -1,20 +1,20 @@
 <!-- language file start -->
-obj_xrcb#:#Globaler Firmenreport
-objs_xrcb#:#Globaler Firmenreport
-obj_xrcb_duplicate#:#Globaler Firmenreport kopieren
-objs_xrcb_duplicate#:#Globale Firmenreports kopieren
-obj_xrcb_select#:#Globaler Firmenreport auswählen
-xrcb_add#:#Globaler Firmenreport hinzufügen
-xrcb_new#:#Neuen globalen Firmenreport hinzufügen
-xrcb_read#:#Lesezugriff zum Globaler Firmenreport
-xrcb_write#:#Globaler Firmenreport bearbeiten
-xrcb_delete#:#Globaler Firmenreport löschen
-xrcb_visible#:#sichtbar
-xrcb_edit_permission#:#schreibberechtigt
-crs_create_xrcb#:#Globalen Firmenreport erzeugen
-grp_create_xrcb#:#Globalen Firmenreport erzeugen
-fold_create_xrcb#:#Globalen Firmenreport erzeugen
-root_create_xrcb#:#Globalen Firmenreport erzeugen
-cat_create_xrcb#:#Globalen Firmenreport erzeugen
-rep_robj_xrcb_status#:#Status
-rep_robj_xrcb_offline#:#Offline
+obj_xrcg#:#Globaler Firmenreport
+objs_xrcg#:#Globaler Firmenreport
+obj_xrcg_duplicate#:#Globaler Firmenreport kopieren
+objs_xrcg_duplicate#:#Globale Firmenreports kopieren
+obj_xrcg_select#:#Globaler Firmenreport auswählen
+xrcg_add#:#Globaler Firmenreport hinzufügen
+xrcg_new#:#Neuen globalen Firmenreport hinzufügen
+xrcg_read#:#Lesezugriff zum Globaler Firmenreport
+xrcg_write#:#Globaler Firmenreport bearbeiten
+xrcg_delete#:#Globaler Firmenreport löschen
+xrcg_visible#:#sichtbar
+xrcg_edit_permission#:#schreibberechtigt
+crs_create_xrcg#:#Globalen Firmenreport erzeugen
+grp_create_xrcg#:#Globalen Firmenreport erzeugen
+fold_create_xrcg#:#Globalen Firmenreport erzeugen
+root_create_xrcg#:#Globalen Firmenreport erzeugen
+cat_create_xrcg#:#Globalen Firmenreport erzeugen
+rep_robj_xrcg_status#:#Status
+rep_robj_xrcg_offline#:#Offline
