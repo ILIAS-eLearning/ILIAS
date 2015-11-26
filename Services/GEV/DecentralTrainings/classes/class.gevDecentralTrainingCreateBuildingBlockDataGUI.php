@@ -29,7 +29,7 @@ class gevDecentralTrainingCreateBuildingBlockDataGUI {
 	}
 
 	public function changeData() {
-		$selected = $_GET["selected"]
+		$selected = $_GET["selected"];
 		if($_GET["type"] == 0) {
 			$this->changeBuildingBlockSelect($selected);
 		} else if($_GET["type"] == 1) {
@@ -39,12 +39,12 @@ class gevDecentralTrainingCreateBuildingBlockDataGUI {
 
 	protected function changeBuildingBlockSelect($selected) {
 		$bb = gevBuildingBlockUtils::getPossibleBuildingBlocksByTopicName($selected);
-		$this->createJson($bb)
+		$this->createJson($bb);
 	}
 
 	protected function changeBuildingBlockInfos($selected) {
 		$infos = gevBuildingBlockUtils::getBuildingBlockInfosById($selected);
-		$this->createJson($infos)
+		$this->createJson($infos);
 	}
 
 	protected function createJson($data) {
