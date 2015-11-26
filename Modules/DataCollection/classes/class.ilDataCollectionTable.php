@@ -659,13 +659,10 @@ class ilDataCollectionTable {
 	 */
 	private function checkLimit() {
 		if ($this->getLimited()) {
-			$now = new ilDateTime(time(), IL_CAL_UNIX);
+			$now = new ilDateTime(date("Y-m-d H:i:s"), IL_CAL_DATE);
 			$from = new ilDateTime($this->getLimitStart(), IL_CAL_DATE);
 			$to = new ilDateTime($this->getLimitEnd(), IL_CAL_DATE);
-
-			if (! ($from <= $now && $now <= $to)) {
-				return false;
-			}
+			return ($from <= $now && $now <= $to);
 		}
 
 		return true;
