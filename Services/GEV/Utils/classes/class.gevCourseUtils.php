@@ -24,6 +24,7 @@ class gevCourseUtils {
 	static $instances = array();
 	const CREATOR_ROLE_TITLE = "Trainingsersteller";
 	const RECIPIENT_MEMBER = "Mitglied";
+	const RECIPIENT_STANDARD = "standard";
 	
 	protected function __construct($a_crs_id) {
 		global $ilDB, $ilLog, $lng, $ilCtrl, $rbacreview, $rbacadmin, $rbacsystem;
@@ -3411,9 +3412,13 @@ class gevCourseUtils {
 		}
 	}
 
-	public function removePreselectedAttachments($function, $files) {
+	public function removePreselectedAttachments(array $functions, $files) {
 		$invitation_mail_settings = new gevCrsInvitationMailSettings($this->crs_id);
-		$invitation_mail_settings->removeCustomAttachment($function, $files);
+
+		foreach ($functions as $key => $function) {
+			$invitation_mail_settings->removeCustomAttachment($function, $files);
+		}
+		
 		$invitation_mail_settings->save();
 	}
 
@@ -3452,9 +3457,12 @@ class gevCourseUtils {
 		}
 	}
 
-	public function addPreselectedAttachments($function, $files) {
+	public function addPreselectedAttachments(array $functions, $files) {
 		$invitation_mail_settings = new gevCrsInvitationMailSettings($this->crs_id);
-		$invitation_mail_settings->addCustomAttachments($function, $files);
+		
+		foreach ($functions as $key => $function) {
+			$invitation_mail_settings->addCustomAttachments($function, $files);
+		}
 		$invitation_mail_settings->save();
 	}
 
