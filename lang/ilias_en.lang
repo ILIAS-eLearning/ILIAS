@@ -15000,16 +15000,17 @@ mmbr#:#mmbr_selected_users#:#Selected Participants
 mmbr#:#mmbr_btn_mail_selected_users#:#Send Mail
 sess#:#sess_mail_permanent_link#:#Click on the following link to find all of the information you need regarding the session:
 sess#:#sess_reg_type#:# Registration Procedure
-sess#:#sess_reg_direct#:#Direct Registration
-sess#:#sess_reg_request#:#Request Participation
+sess#:#sess_reg_direct#:#Declare Participation
+sess#:#sess_reg_direct_info#:#User has to click ‘Join’ to participate in session
+sess#:#sess_reg_request#:#Apply for Participation
 sess#:#sess_reg_disabled#:#No Registration Necessary
-sess#:#sess_reg_request_info#:#An administrator has to apply each user's request for participating at this session.
-sess#:#sess_reg_disabled_info#:#The registration is not deactivated for this session appointment
+sess#:#sess_reg_request_info#:#An administrator has to decide upon each user's apply for participating in session.
+sess#:#sess_reg_disabled_info#:#Users do not need to register to participate in session.
 sess#:#sess_reg_max_members_short#:#Number of Members
 sess#:#sess_reg_max_members#:#Limited Number of Members
-sess#:#sess_reg_max_members_info#:#Define the maximum number of users that can participate to this session.
+sess#:#sess_reg_max_members_info#:#Define the maximum number of users that can participate in session.
 sess#:#sess_reg_waiting_list#:#Waiting List
-sess#:#sess_reg_waiting_list_info#:#If enabled and the maximum number of users is exceeded, new registrations will be placed on a waiting list.
+sess#:#sess_reg_waiting_list_info#:#If enabled and the maximum number of users is exceeded, new requests for participation will be placed on a waiting list.
 wiki#:#wiki_page_exists#:#Existing Page
 sess#:#sess_section_reg#:#Registration Settings
 assessment#:#save_and_next#:#Save and Continue
@@ -15018,7 +15019,7 @@ sess#:#sess_users_already_assigned#:#The user is already registered for this ses
 sess#:#sess_users_removed_from_list#:#The selected users have been removed from the waiting list.
 sess#:#sess_msg_applicants_assigned#:#Applicant(s) registered for session.
 sess#:#sess_msg_applicants_removed#:#Applicant(s) removed from list.
-sess#:#sess_registered_confirm#:#The registration requires a confirmation of an administrator. You will be notified after the registration process is completed.
+sess#:#sess_registered_confirm#:#Participation requires confirmation by an administrator. You will be notified when your application has been handled.
 style#:#sty_switch#:#Switch
 style#:#sty_default#:#Default
 style#:#sty_media_queries#:#Media Queries
