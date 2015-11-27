@@ -3470,6 +3470,7 @@ class gevCourseUtils {
 		$roles = $this->getCustomRoles($this->crs_id);
 		$ret = array($this->lng->txt("crs_member"));
 		$ret[] = $this->lng->txt("crs_tutor");
+		$ret[] = self::RECIPIENT_STANDARD;
 
 		foreach($roles as $role) {
 			$ret[] = $role["title"];
