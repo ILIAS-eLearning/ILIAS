@@ -14979,11 +14979,11 @@ trac#:#trac_mode_questions_info#:#Benutzer, die alle Fragen richtig beantwortet 
 mmbr#:#mmbr_selected_users#:#Ausgewählte Teilnehmer
 mmbr#:#mmbr_btn_mail_selected_users#:#Mail verschicken
 sess#:#sess_mail_permanent_link#:#Wählen Sie den folgenden Link, um auf den Sitzungsinhalt zuzugreifen:
-sess#:#sess_reg_type#:#Anmeldungsverfahren
+sess#:#sess_reg_type#:#Anmeldeverfahren
 sess#:#sess_reg_direct#:#Direkte Anmeldung
 sess#:#sess_reg_request#:#Teilnahme beantragen
 sess#:#sess_reg_disabled#:#Keine Anmeldung erforderlich
-sess#:#sess_reg_request_info#:#Eine Aufnahme erfolgt nur, wenn sie durch einen Administrator bestätigt wurde.
+sess#:#sess_reg_request_info#:#Eine Teilnahme an der Sitzung erfordert die Zustimmung durch einen Administrator.
 sess#:#sess_reg_disabled_info#:#Für diesen Sitzungstermin ist eine Anmeldung nicht erforderlich.
 sess#:#sess_reg_max_members_short#:#Begrenzte Teilnehmeranzahl
 sess#:#sess_reg_max_members#:#Maximale Anzahl
@@ -15240,10 +15240,10 @@ survey#:#survey_activate_skill_service_info#:#Es wird ein weiterer Reiter 'Kompe
 survey#:#survey_execution_sure_finish#:#Wollen Sie wirklich die Umfrage beenden? Sie können danach Ihre Antworten nicht mehr korrigieren.
 survey#:#survey_execution_exit#:#Zurück zum Magazin
 news#:#news_inactive_private_feed_info#:#Ihr privater Newsfeed ist deaktiviert. Vergeben Sie ein Passwort in den Einstellungen.
-sess#:#sess_mail_sub_dec_sub#:#Ablehnung der Anmeldung für Sitzung "%s"
-sess#:#sess_mail_sub_dec_bod#:#Ihr Aufnahmeantrag für die Sitzung "%s" ist abgelehnt worden.
-sess#:#sess_mail_sub_acc_sub#:#Anmeldung für Sitzung "%s"
-sess#:#sess_mail_sub_acc_bod#:#Sie wurden für den Sitzungstermin "%s" angemeldet.
+sess#:#sess_mail_sub_dec_sub#:#Ablehnung der Teilnahme an Sitzung "%s"
+sess#:#sess_mail_sub_dec_bod#:#Ihr Antrag auf Teilnahme an der Sitzung "%s" ist abgelehnt worden.
+sess#:#sess_mail_sub_acc_sub#:#Teilnahme an Sitzung "%s"
+sess#:#sess_mail_sub_acc_bod#:#Sie wurden für die Teilnahme am Sitzungstermin "%s" zugelassen.
 content#:#cont_notify_on_blocked_users#:#Benachrichtigung über gesperrte Benutzer
 content#:#cont_notify_on_blocked_users_info#:#Sie werden benachrichtigt, sobald Benutzer gesperrt werden, weil sie die maximale Anzahl an Antwortversuchen überschritten haben.
 content#:#cont_user_blocked#:#Gesperrte Benutzer ohne weitere Antwortversuche im Lernmodul "%s".
@@ -15304,7 +15304,7 @@ payment#:#enable_topics_info#:#Wenn aktiviert, können Sie kaufbare Objekte selb
 exc#:#exc_assignment_type#:#Abgabetyp
 trac#:#trac_mode_event_info#:#Tutoren prüfen, welche Teilnehmer an der Sitzung teilgenommen haben, und erfassen die Teilnahme händisch im Reiter 'Sitzungsteilnehmer verwalten'.
 sess#:#sess_lp_preset#:#Lernfortschritt aktivieren
-sess#:#sess_lp_preset_info#:#Den Lernfortschritt für alle anzulegenden Session-Termine aktivieren.
+sess#:#sess_lp_preset_info#:#Den Lernfortschritt für alle anzulegenden Sitzungstermine aktivieren.
 glo#:#glo_copy#:#Glossar kopieren
 form#:#form_open_answer#:#Freitext
 survey#:#survey_access_codes#:#Authentifizierung mit Zugangsschlüsseln
@@ -15477,8 +15477,8 @@ forum#:#file_upload_allowed_fora_desc#:#Wenn "Anhängen von Dateien in ausgewäh
 forum#:#file_upload_allowed_fora#:#Dateien anhängen
 forum#:#file_upload_option_allow#:#Anhängen von Dateien in allen Foren erlauben
 forum#:#file_upload_option_disallow#:#Anhängen von Dateien in ausgewählten Foren erlauben
-forum#:#file_upload_allowed#:#Erlaube das Anhängen von Dateien
-forum#:#allow_file_upload_desc#:#Wenn diese Option aktiviert ist, wird das Anhängen von Dateien in diesem Forum ermöglicht.
+forum#:#file_upload_allowed#:#Dateien anhängen
+forum#:#allow_file_upload_desc#:#Wenn aktiviert, können in diesem Forum Dateien an Forenbeiträge angehängt werden.
 sysc#:#sysc_overview#:#Übersicht
 sysc#:#sysc_groups#:#Systemcheck-Gruppen
 sysc#:#sysc_grp_tree#:#Magazinbaum
@@ -15666,8 +15666,8 @@ content#:#cont_active_from#:#Aktiv ab
 content#:#cont_active_to#:#Aktiv bis
 pd#:#pd_comments_notification#:#Generelle Benachrichtigung über alle Kommentare
 pd#:#pd_comments_notification_info#:#Kommagetrennte Liste von Benutzeraccounts, welche jeden Kommentar als e-Mail erhalten.
-note#:#note_comment_notification_subject#:#Ein neuer Kommentar wurde hinzugefügt zu "%s".
-note#:#note_comment_notification_subjectc#:#Ein Kommentar wurde geändert in "%s".
+note#:#note_comment_notification_subject#:#Neuer Kommentar in "%s".
+note#:#note_comment_notification_subjectc#:#Geänderter Kommentar in "%s".
 note#:#note_comment_notification_salutation#:#Hallo %s,
 note#:#note_by#:#Von
 note#:#note_comment_notification_link#:#Link
@@ -15703,7 +15703,7 @@ grp#:#reg_grp_min_members#:#Minimale Anzahl
 grp#:#grp_cancellation_end#:#Spätester Gruppenaustritt
 grp#:#grp_cancellation_end_rbac_info#:#Das Stornierungsende wurde am %s erreicht. Ein Austritt aus der Gruppe ist jetzt nicht mehr möglich.
 sess#:#sess_reg_min_members#:#Minimale Teilnehmeranzahl
-sess#:#sess_reg_min_members_info#:#Eine minimale Zahl an Teilnehmern muss sich registrieren.
+sess#:#sess_reg_min_members_info#:#Eine minimale Zahl an Teilnehmern muss sich anmelden.
 crs#:#mem_cron_min_members_subject#:#Kurs/Gruppe: Prüfung der minimalen Teilnehmerzahl
 crs#:#mem_cron_min_members_intro#:#Die folgenden Kurse und Gruppen erreichen aktuell nicht die für sie definierte minimale Teilnehmerzahl.
 grp#:#grp_waiting_list_autofill#:#Mit automatischem Aufrücken
@@ -15711,7 +15711,7 @@ grp#:#grp_waiting_list_no_autofill#:#Ohne automatisches Aufrücken
 grp#:#grp_waiting_list_autofill_info#:#Teilnehmer rücken automatisch bei Stornierungen von der Warteliste auf.
 sess#:#sess_reg_waiting_list_none#:#Keine
 sess#:#sess_reg_waiting_list_no_autofill#:#Ohne automatisches Aufrücken
-sess#:#sess_reg_waiting_list_no_autofill_info#:#Ist die maximale Mitgliederanzahl erreicht, können sich weitere Benutzer auf eine Warteliste setzen lassen.
+sess#:#sess_reg_waiting_list_no_autofill_info#:#Ist die maximale Teilnehmeranzahl erreicht, können sich weitere Benutzer auf eine Warteliste setzen lassen.
 sess#:#sess_reg_waiting_list_autofill#:#Mit automatischem Aufrücken
 sess#:#sess_reg_waiting_list_autofill_info#:#Teilnehmer rücken automatisch bei Stornierungen von der Warteliste nach.
 grp#:#grp_cancellation_end_info#:#Mitglieder können nur bis zum gesetzten Datum selbständig die Gruppenmitgliedschaft beenden.
