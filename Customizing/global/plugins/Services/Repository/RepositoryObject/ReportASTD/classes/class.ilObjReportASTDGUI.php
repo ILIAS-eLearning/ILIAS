@@ -56,7 +56,7 @@ class ilObjReportASTDGUI extends ilObjReportBaseGUI {
 		global $lng;
 		foreach ($rec as $key => &$value) {
 			if($key != 'astd_category') {
-				$value = $rec['astd_category'] == 'astd_participators' ? number_format($value, 0) : number_format($value, 2, ',', '.'); 
+				$value = $rec['astd_category'] == 'astd_participators' ? number_format($value, 0, ',', '.') : number_format($value, 2, ',', '.'); 
 			}
 		}
 		$rec['astd_category'] = $lng->txt($rec['astd_category']);
