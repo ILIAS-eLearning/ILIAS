@@ -130,7 +130,7 @@ class gevDecentralTrainingCreationRequestDB {
 										  , unserialize($rec["target_group"])
 										  , $rec["gdv_topic"] ? $rec["gdv_topic"] : null
 										  , $rec["tmp_path_string"] ? $rec["tmp_path_string"] : null
-										  , unserialize($rec["added_files"])
+										  , ($rec["added_file"] === null) ? null : unserialize($rec["added_files"])
 										  );
 			$trainer_ids = array_map(function($v) {return (int)$v;}, explode(self::ARRAY_DELIM, $rec["trainer_ids"]));
 			$request = $this->newCreationRequest( (int)$rec["user_id"]
@@ -177,7 +177,7 @@ class gevDecentralTrainingCreationRequestDB {
 										  , unserialize($rec["target_group"])
 										  , $rec["gdv_topic"] ? $rec["gdv_topic"] : null
 										  , $rec["tmp_path_string"] ? $rec["tmp_path_string"] : null
-										  , unserialize($rec["added_files"])
+										  , ($rec["added_file"] === null) ? null : unserialize($rec["added_files"])
 										  );
 			$trainer_ids = array_map(function($v) {return (int)$v;}, explode(self::ARRAY_DELIM, $rec["trainer_ids"]));
 			$request = $this->newCreationRequest( (int)$rec["user_id"]
@@ -219,7 +219,7 @@ class gevDecentralTrainingCreationRequestDB {
 										  , unserialize($rec["target_group"])
 										  , $rec["gdv_topic"] ? $rec["gdv_topic"] : null
 										  , $rec["tmp_path_string"] ? $rec["tmp_path_string"] : null
-										  , unserialize($rec["added_files"])
+										  , ($rec["added_file"] === null) ? null : unserialize($rec["added_files"])
 										  );
 			$trainer_ids = array_map(function($v) {return (int)$v;}, explode(self::ARRAY_DELIM, $rec["trainer_ids"]));
 			$request = $this->newCreationRequest( (int)$rec["user_id"]
