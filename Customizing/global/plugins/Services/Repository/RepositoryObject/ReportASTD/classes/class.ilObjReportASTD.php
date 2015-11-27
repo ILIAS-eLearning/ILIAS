@@ -61,6 +61,7 @@ class ilObjReportASTD extends ilObjReportBase {
 								)
 				->static_condition(" c.hist_historic = 0 ")
 				->static_condition(" ucs.hist_historic = 0 ")
+				->static_condition(" ucs.participation_status = 'teilgenommen' ")
 				->static_condition(" u.hist_historic = 0 ")
 				->static_condition(" ucs.function = 'Mitglied' ")
 				->static_condition(" ur2.hist_version IS NULL ")
