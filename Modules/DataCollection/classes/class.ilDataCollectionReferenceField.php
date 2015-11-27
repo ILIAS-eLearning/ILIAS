@@ -129,7 +129,6 @@ class ilDataCollectionReferenceField extends ilDataCollectionRecordField {
 	public function getValueFromExcel($excel, $row, $col){
 		global $lng;
 		$value = $excel->val($row, $col);
-		$value = utf8_encode($value);
 		$old = $value;
 		$value = $this->getReferenceFromValue($value);
 		if (!$value) {
@@ -139,7 +138,6 @@ class ilDataCollectionReferenceField extends ilDataCollectionRecordField {
 		}
 
 		return $value;
-
 	}
 
 	/**

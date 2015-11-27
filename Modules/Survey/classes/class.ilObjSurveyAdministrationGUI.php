@@ -391,6 +391,7 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
 		global $lng;
 
 		$lng->loadLanguageModule("survey");
+		include_once "Modules/Survey/classes/class.ilObjSurvey.php";
 
 		include_once("./Services/Administration/classes/class.ilSettingsTemplateConfig.php");
 		$config = new ilSettingsTemplateConfig("svy");
@@ -403,31 +404,14 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
 
 		$config->addSetting(
 			"use_pool",
-			ilSettingsTemplateConfig::BOOL,
+			ilSettingsTemplateConfig::SELECT,
 			$lng->txt("survey_question_pool_usage"),
-			true
-			);
-
-		$config->addSetting(
-			"anonymization_options",
-			ilSettingsTemplateConfig::SELECT,
-			$lng->txt("survey_auth_mode"),
-			true,
-			'personalized',
-			array('personalized' => $this->lng->txt("anonymize_personalized"),
-				'anonymize_without_code' => $this->lng->txt("anonymize_without_code"),
-				'anonymize_with_code' => $this->lng->txt("anonymize_with_code"))
-			);
-
-		$config->addSetting(
-			"rte_switch",
-			ilSettingsTemplateConfig::SELECT,
-			$lng->txt("set_edit_mode"),
 			true,
 			0,
-			array(0 => $this->lng->txt("rte_editor_disabled"),
-				1 => $this->lng->txt("rte_editor_enabled"))
+			array(1 => $this->lng->txt("survey_question_pool_usage_active"),	
+				0 => $this->lng->txt("survey_question_pool_usage_inactive"))
 			);
+		
 		
 		$config->addSetting(
 			"enabled_start_date",
@@ -450,6 +434,49 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
 			true
 			);
 
+		
+		// #17585
+		
+		$config->addSetting(
+			"acc_codes",
+			ilSettingsTemplateConfig::BOOL,
+			$lng->txt("survey_access_codes"),
+			true
+			);
+		
+		$config->addSetting(
+			"evaluation_access",
+			ilSettingsTemplateConfig::SELECT,
+			$lng->txt("evaluation_access"),
+			true,
+			0,
+			array(ilObjSurvey::EVALUATION_ACCESS_OFF => $this->lng->txt("evaluation_access_off"),	
+				ilObjSurvey::EVALUATION_ACCESS_ALL => $this->lng->txt("evaluation_access_all"),
+				ilObjSurvey::EVALUATION_ACCESS_PARTICIPANTS => $this->lng->txt("evaluation_access_participants"))
+			);		
+		
+		$config->addSetting(
+			"anonymization_options",
+			ilSettingsTemplateConfig::SELECT,
+			$lng->txt("survey_results_anonymization"),
+			true,
+			0,
+			array("statpers" => $this->lng->txt("survey_results_personalized"),	
+				"statanon" => $this->lng->txt("survey_results_anonymized"))
+			);
+		
+		/*
+		$config->addSetting(
+			"rte_switch",
+			ilSettingsTemplateConfig::SELECT,
+			$lng->txt("set_edit_mode"),
+			true,
+			0,
+			array(0 => $this->lng->txt("rte_editor_disabled"),
+				1 => $this->lng->txt("rte_editor_enabled"))
+			);
+		*/
+	
 		return $config;
 	}
 

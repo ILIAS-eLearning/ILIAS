@@ -71,23 +71,23 @@ class ilDataCollectionRecordField {
 	 * Read object data from database
 	 */
 	protected function doRead() {
+		if(!$this->record->getId())
+			return;
+
 		$query = "SELECT * FROM il_dcl_record_field WHERE field_id = " . $this->db->quote($this->field->getId(), "integer") . " AND record_id = "
 			. $this->db->quote($this->record->getId(), "integer");
 		$set = $this->db->query($query);
 		$rec = $this->db->fetchAssoc($set);
 		$this->id = $rec['id'];
-
-		if ($this->id == NULL) {
-			$this->doCreate();
-		}
+		
 		$this->loadValue();
 	}
 
 
 	/**
-	 * Create object in database
+	 * Creates an Id and a database entry.
 	 */
-	protected function doCreate() {
+	public function doCreate() {
 		$id = $this->db->nextId("il_dcl_record_field");
 		$query = "INSERT INTO il_dcl_record_field (id, record_id, field_id) VALUES (" . $this->db->quote($id, "integer") . ", "
 			. $this->db->quote($this->record->getId(), "integer") . ", " . $this->db->quote($this->field->getId(), "text") . ")";
@@ -191,7 +191,6 @@ class ilDataCollectionRecordField {
 	 */
 	public function getValueFromExcel($excel, $row, $col) {
 		$value = $excel->val($row, $col);
-		$value = utf8_encode($value);
 		if ($this->field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_DATETIME) {
 			$value = array(
 				'date' => date('Y-m-d', strtotime($value)),
