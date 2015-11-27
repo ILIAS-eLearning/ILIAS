@@ -176,13 +176,25 @@ class ilSurveyParticipantsGUI
 				""
 			);
 		}
+		
+		$hidden_tabs = array();
+		$template = $this->object->getTemplate();
+		if($template)
+		{
+			include_once "Services/Administration/classes/class.ilSettingsTemplate.php";
+			$template = new ilSettingsTemplate($template);
+			$hidden_tabs = $template->getHiddenTabs();
+		}
 
 		// #12277 - invite
-		$ilTabs->addSubTabTarget("invitation",
-			 $this->ctrl->getLinkTarget($this, 'invite'),
-			 array("invite", "saveInvitationStatus",
-			 "inviteUserGroup", "disinviteUserGroup"),
-			 "");		
+		if(!in_array("invitation", $hidden_tabs))
+		{
+			$ilTabs->addSubTabTarget("invitation",
+				 $this->ctrl->getLinkTarget($this, 'invite'),
+				 array("invite", "saveInvitationStatus",
+				 "inviteUserGroup", "disinviteUserGroup"),
+				 "");		
+		}
 		
 		$data = $this->object->getExternalCodeRecipients();
 		if (count($data))
