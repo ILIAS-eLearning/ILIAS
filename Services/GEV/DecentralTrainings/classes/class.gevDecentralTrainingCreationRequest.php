@@ -479,7 +479,7 @@ class gevDecentralTrainingCreationRequest {
 
 		
 		$trgt_utils->addAttachmentsToMailSingleFolder($added_files, $file_storage->getAbsolutePath());
-		$trgt_utils->addPreselectedAttachments(gevCourseUtils::RECIPIENT_MEMBER, $added_files);
+		$trgt_utils->addPreselectedAttachments(array(gevCourseUtils::RECIPIENT_MEMBER,gevCourseUtils::RECIPIENT_STANDARD), $added_files);
 		$trgt_utils->saveCustomAttachments($added_files);
 
 		//Achtiung!!!

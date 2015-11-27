@@ -1959,7 +1959,7 @@ class gevDecentralTrainingGUI {
 			//1. Die Auswahl in den Einladungsmails entfernen
 			//2. Mailanhang löschen
 			//3. Anhang aus Custom Tabelle löschen
-			$crs_utils->removePreselectedAttachments(gevCourseUtils::RECIPIENT_MEMBER, $removed_files);
+			$crs_utils->removePreselectedAttachments(array(gevCourseUtils::RECIPIENT_MEMBER,gevCourseUtils::RECIPIENT_STANDARD), $removed_files);
 			$crs_utils->removeAttachmentsFromMail($removed_files);
 			$crs_utils->deleteCustomAttachment($removed_files);
 		}
@@ -1977,7 +1977,7 @@ class gevDecentralTrainingGUI {
 			if(count($new_files)>0){
 				$this->tmp_path_string = $crs_utils->addAttachmentsToMailSeperateFolder($new_files);
 				$files_new_for_form = $this->splitNewFiles($new_files);
-				$crs_utils->addPreselectedAttachments(gevCourseUtils::RECIPIENT_MEMBER, $files_new_for_form);
+				$crs_utils->addPreselectedAttachments(array(gevCourseUtils::RECIPIENT_MEMBER,gevCourseUtils::RECIPIENT_STANDARD), $files_new_for_form);
 				$crs_utils->saveCustomAttachments($files_new_for_form);
 			}
 		}
