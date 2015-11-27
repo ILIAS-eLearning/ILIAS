@@ -611,7 +611,10 @@ class ilPersonalProfileGUI
 			$this->lng->txt("export")."/".$this->lng->txt("import"),
 			$this->ctrl->getLinkTarget($this, "showExportImport"));
 
-		if($ilUser->getPref("public_profile") != "n" || $this->getProfilePortfolio())
+		// #17570
+		if(($ilUser->getPref("public_profile") && 
+			$ilUser->getPref("public_profile") != "n") || 
+			$this->getProfilePortfolio())
 		{			
 			// profile preview
 			$ilTabs->addNonTabbedLink("profile_preview",
