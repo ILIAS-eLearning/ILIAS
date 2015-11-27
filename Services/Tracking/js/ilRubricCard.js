@@ -383,11 +383,6 @@ var RUBRIC = {
             tr.appendChild(this.createCardFormBodyInputs('Behavior Description',trs.length,a,false));
         }
         
-        var tmp_node=parent_tr;
-        for(var a=1;a<current_row_span;a++){
-            tmp_node=tmp_node.parentNode;
-        }
-        
         parent_tr.parentNode.insertBefore(tr,parent_tr.nextSibling);
         
     },
