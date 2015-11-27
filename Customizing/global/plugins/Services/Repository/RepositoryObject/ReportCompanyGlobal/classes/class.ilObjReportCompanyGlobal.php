@@ -140,7 +140,9 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 							 )
 				->multiselect_custom( 'wb_points'
 							 , $this->lng->txt('gev_edupoints')
-							 , array( $this->lng->txt('gev_trainings_w_points') => ' hc.max_credit_points > 0 ',  $this->lng->txt('gev_trainings_wo_points') => "hc.max_credit_points in (0,'-empty-')")
+							 , array( 
+							 	$this->lng->txt('gev_trainings_w_points') => ' hc.max_credit_points > 0 OR hc.crs_id < 0'
+							 	,$this->lng->txt('gev_trainings_wo_points') => "hc.max_credit_points in (0,'-empty-') AND hc.crs_id > 0")
 							 , array()
 							 , ""
 							 , 200
