@@ -140,7 +140,7 @@ class assQuestionImport
 	protected function getQplImportArchivDirectory()
 	{
 		include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
-		return ilObjQuestionPool::_getImportDirectory() . '/' . $_SESSION["qpl_import_subdir"];
+		return ilObjQuestionPool::_getImportDirectory();
 	}
 	
 	/**
@@ -149,7 +149,7 @@ class assQuestionImport
 	protected function getTstImportArchivDirectory()
 	{
 		include_once "./Modules/Test/classes/class.ilObjTest.php";
-		return ilObjTest::_getImportDirectory() . '/' . $_SESSION["tst_import_subdir"];
+		return ilObjTest::_getImportDirectory();
 	}
 	
 	protected function processNonAbstractedImageReferences($text, $sourceNic)
