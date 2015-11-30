@@ -90,10 +90,10 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 							 )
 				->multiselect( "orgu"
 							 , $this->lng->txt("gev_org_unit_short")
-							 , array("type")
+							 , array("orgu.orgu")
 							 , $org_units_filter
 							 , array()
-							 , ""
+							 , " OR TRUE "
 							 , 200
 							 , 160
 							 )
@@ -209,14 +209,15 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 					->select_raw('COUNT(hucs.usr_id) '.self::$columns_to_sum[$prefix.'_book'])
 					->select_raw('COUNT(DISTINCT hucs.usr_id) '.$prefix.'_user');
 		if($has_participated) {
-			$query	->select_raw('SUM( IF( hucs.credit_points IS NOT NULL AND hucs.credit_points > 0, hucs.credit_points, 0) ) '.self::$columns_to_sum['wp_part']);
+			$query	->select_raw('SUM( IF( hucs.credit_points IS NOT NULL AND hucs.credit_points > 0 AND '.$this->gIldb->in('hucs.okz', self::$wbd_relevant,false,'text')
+					.', hucs.credit_points, 0) ) '.self::$columns_to_sum['wp_part']);
 		}
 		$query 		->from('hist_course hc')
 					->join('hist_usercoursestatus hucs')
 						->on('hc.crs_id = hucs.crs_id'
 							.'	AND '.$this->gIldb->in('hucs.participation_status' , self::$participated, !$has_participated, 'text'));
 		if($this->sql_filter_orgus) {
-			$query	->raw_join('('.$this->sql_filter_orgus.') as orgu ON ')
+			$query	->raw_join(' JOIN ('.$this->sql_filter_orgus.') as orgu ON orgu.usr_id = hucs.usr_id ')
 					->select('orgu.orgu');
 		}
 			$query	->group_by('hc.type')
@@ -230,7 +231,6 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 				. $a_query->sqlGroupBy()."\n"
 				. $this->queryHaving()."\n"
 				. $this->queryOrder();
-
 		$res = $this->gIldb->query($query);
 		$return = array();
 		while($rec = $this->gIldb->fetchAssoc($res)) {
