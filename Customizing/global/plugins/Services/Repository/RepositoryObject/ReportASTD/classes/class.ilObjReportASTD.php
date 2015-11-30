@@ -52,7 +52,7 @@ class ilObjReportASTD extends ilObjReportBase {
 
 	protected function buildFilter($filter) {
 		$filter	->dateperiod( "period"
-								, $this->lng->txt("gev_date_of_issue")
+								, $this->lng->txt("gev_period")
 								, $this->lng->txt("gev_until")
 								, "c.end_date"
 								, "c.end_date"
