@@ -208,8 +208,15 @@ class gevUserProfileGUI {
 		
 		if ($this->user_utils->hasWBDRelevantRole()) {
 			$_bwv_id = $this->user_utils->getWBDBWVId();
+			$next_wbd_action = $this->user_utils->getNextWBDAction();
+			$new_user_actions = array(gevSettings::USR_WBD_NEXT_ACTION_NEW_TP_SERVICE
+										,gevSettings::USR_WBD_NEXT_ACTION_NEW_TP_BASIS);
 			if (!$_bwv_id) {
 				$bwv_id_value = $this->lng->txt("gev_bwv_id_info");
+
+				if(in_array($next_wbd_action,$new_user_actions)){
+					$bwv_id_value = $this->lng->txt("gev_bwv_id_info_get_new");
+				}
 			}
 			else {
 				$bwv_id_value = $_bwv_id;

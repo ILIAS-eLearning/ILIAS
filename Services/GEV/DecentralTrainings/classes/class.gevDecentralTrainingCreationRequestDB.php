@@ -23,6 +23,7 @@ class gevDecentralTrainingCreationRequestDB {
 		$settings = $a_request->settings();
 		$requested_ts = $a_request->requestedTS();
 		$finished_ts = $a_request->finishedTS();
+		
 		$ilDB->manipulate(
 			"INSERT INTO ".self::TABLE_NAME."\n".
 			"       (request_id, user_id, template_obj_id, requested_ts,\n".
@@ -130,7 +131,7 @@ class gevDecentralTrainingCreationRequestDB {
 										  , unserialize($rec["target_group"])
 										  , $rec["gdv_topic"] ? $rec["gdv_topic"] : null
 										  , $rec["tmp_path_string"] ? $rec["tmp_path_string"] : null
-										  , unserialize($rec["added_files"])
+										  , ($rec["added_files"] === null) ? null : unserialize($rec["added_files"])
 										  );
 			$trainer_ids = array_map(function($v) {return (int)$v;}, explode(self::ARRAY_DELIM, $rec["trainer_ids"]));
 			$request = $this->newCreationRequest( (int)$rec["user_id"]
@@ -177,7 +178,7 @@ class gevDecentralTrainingCreationRequestDB {
 										  , unserialize($rec["target_group"])
 										  , $rec["gdv_topic"] ? $rec["gdv_topic"] : null
 										  , $rec["tmp_path_string"] ? $rec["tmp_path_string"] : null
-										  , unserialize($rec["added_files"])
+										  , ($rec["added_files"] === null) ? null : unserialize($rec["added_files"])
 										  );
 			$trainer_ids = array_map(function($v) {return (int)$v;}, explode(self::ARRAY_DELIM, $rec["trainer_ids"]));
 			$request = $this->newCreationRequest( (int)$rec["user_id"]
@@ -219,7 +220,7 @@ class gevDecentralTrainingCreationRequestDB {
 										  , unserialize($rec["target_group"])
 										  , $rec["gdv_topic"] ? $rec["gdv_topic"] : null
 										  , $rec["tmp_path_string"] ? $rec["tmp_path_string"] : null
-										  , unserialize($rec["added_files"])
+										  , ($rec["added_files"] === null) ? null : unserialize($rec["added_files"])
 										  );
 			$trainer_ids = array_map(function($v) {return (int)$v;}, explode(self::ARRAY_DELIM, $rec["trainer_ids"]));
 			$request = $this->newCreationRequest( (int)$rec["user_id"]

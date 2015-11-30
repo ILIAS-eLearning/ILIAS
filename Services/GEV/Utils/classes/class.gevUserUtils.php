@@ -2347,7 +2347,7 @@ class gevUserUtils {
 			return false;
 		}
 
-		return $entry_date->get(IL_CALC_DATE) <= $now;
+		return $entry_date->get(IL_CAL_DATE) <= $now;
 	}
 
 	/**

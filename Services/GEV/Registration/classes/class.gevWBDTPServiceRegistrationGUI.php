@@ -209,6 +209,11 @@ class gevWBDTPServiceRegistrationGUI {
 			}
 		}
 
+		if (!gevUserUtils::isValidBWVId($_POST["bwv_id"])) {
+			ilUtil::sendFailure($this->lng->txt("gev_bwv_id_input_not_valid"));
+			$err = true;
+		}
+
 		if ($err) {
 			return $this->existingWBDAccount($form);
 		}

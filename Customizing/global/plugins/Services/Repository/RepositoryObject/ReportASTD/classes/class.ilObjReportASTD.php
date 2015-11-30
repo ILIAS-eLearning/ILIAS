@@ -29,8 +29,8 @@ class ilObjReportASTD extends ilObjReportBase {
 
 	protected function prepareQueryComponents($a_query) {
 		$this->categories = array(	'astd_hours_not_self_learn' 	=>	" SUM( IF(type IN ('Virtuelles Training','Präsenztraining','Webinar'), "
-																			."IF(chours IS NOT NULL, chours, "
-																				."IF(thours IS NOT NULL, thours, "
+																			."IF(chours IS NOT NULL AND chours != 0, chours, "
+																				."IF(thours IS NOT NULL AND chours != 0, thours, "
 																					."4*GREATEST(credit_points,0)/3)), 0)) "
 									,'astd_hours_self_learn' 		=>	" SUM( IF(type = 'Selbstlernkurs' AND credit_points IS NOT NULL, 4*GREATEST(credit_points,0)/3, 0)) " 
 									,'astd_hours_language_course'	=>	' 0 '
@@ -61,6 +61,7 @@ class ilObjReportASTD extends ilObjReportBase {
 								)
 				->static_condition(" c.hist_historic = 0 ")
 				->static_condition(" ucs.hist_historic = 0 ")
+				->static_condition(" ucs.participation_status = 'teilgenommen' ")
 				->static_condition(" u.hist_historic = 0 ")
 				->static_condition(" ucs.function = 'Mitglied' ")
 				->static_condition(" ur2.hist_version IS NULL ")

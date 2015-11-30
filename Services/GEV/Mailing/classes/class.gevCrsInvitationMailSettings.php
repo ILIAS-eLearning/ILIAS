@@ -210,6 +210,11 @@ class gevCrsInvitationMailSettings {
 		$this->lockAttachments();
 
 		foreach ($this->settings as $function_name => $settings) {
+			if($function_name == "standard" && !array_key_exists("template_id",$settings)) {
+				$settings["template_id"] = -1;
+				
+			}
+
 			$att = serialize($settings["attachments"]);
 			$query = "INSERT INTO gev_crs_invset (crs_id, function_name, template_id, attachments)
 					  VALUES ".
