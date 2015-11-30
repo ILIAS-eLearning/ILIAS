@@ -27,12 +27,17 @@ define ("QT_LONG_MENU", "assLongMenu");
 define ("QT_MULTIPLE_CHOICE_SR", "assSingleChoice");
 define ("QT_MULTIPLE_CHOICE_MR", "assMultipleChoice");
 define ("QT_CLOZE", "assClozeTest");
+define ("QT_ERRORTEXT", "assErrorText");
 define ("QT_MATCHING", "assMatchingQuestion");
 define ("QT_ORDERING", "assOrderingQuestion");
+define ("QT_ORDERING_HORIZONTAL", "assOrderingHorizontal");
 define ("QT_IMAGEMAP", "assImagemapQuestion");
 define ("QT_JAVAAPPLET", "assJavaApplet");
+define ("QT_FLASHAPPLET", "assFlashApplet");
 define ("QT_TEXT", "assTextQuestion");
+define ("QT_FILEUPLOAD", "assFileUpload");
 define ("QT_NUMERIC", "assNumeric");
+define ("QT_FORMULA", "assFormulaQuestion");
 define ("QT_TEXTSUBSET", "assTextSubset");
 
 /**
