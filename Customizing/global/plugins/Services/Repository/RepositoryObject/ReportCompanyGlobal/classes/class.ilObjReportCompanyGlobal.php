@@ -209,7 +209,8 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 					->select_raw('COUNT(hucs.usr_id) '.self::$columns_to_sum[$prefix.'_book'])
 					->select_raw('COUNT(DISTINCT hucs.usr_id) '.$prefix.'_user');
 		if($has_participated) {
-			$query	->select_raw('SUM( IF( hucs.credit_points IS NOT NULL AND hucs.credit_points > 0, hucs.credit_points, 0) ) '.self::$columns_to_sum['wp_part']);
+			$query	->select_raw('SUM( IF( hucs.credit_points IS NOT NULL AND hucs.credit_points > 0 AND '.$this->gIldb->in('hucs.okz', self::$wbd_relevant,false,'text')
+					.', hucs.credit_points, 0) ) '.self::$columns_to_sum['wp_part']);
 		}
 		$query 		->from('hist_course hc')
 					->join('hist_usercoursestatus hucs')
