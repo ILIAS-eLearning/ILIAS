@@ -1428,7 +1428,7 @@ gev#:#xrcg_visible#:#sichtbar
 gev#:#xrcg_edit_permission#:#schreibberechtigt
 gev#:#gev_give_affiliate_tp_service#:#Hiermit erteile ich den %s (<a href='/Customizing/global/skin/genv/static/documents/GEV_TPS_Wechsel_AAD.pdf' target='_blank' class='blue'>als AAD</a> / <a href='/Customizing/global/skin/genv/static/documents/GEV_TPS_Wechsel_§84HGB.pdf' target='_blank'  class='blue'>als §84HGB</a>) zur Verwaltung des WBD-Benutzerkontos als Trusted Partner Service.
 gev#:#gev_give_affiliate_wbd#:#Hiermit erteile ich die <a href='/Customizing/global/skin/genv/static/documents/GEV_TPS_Wechsel_Auftrag_BDL.pdf' target='_blank' class='blue'>Einwilligung zur Eintragung von Weiterbildungspunkten und -maßnahmen</a> in die WBD.
-gev#:#gev_give_affiliate_tp_service_old#:#Name des vorherigen TP-Service
+gev#:#gev_give_affiliate_tp_service_old#:#Name des vorherigen TP-Service oder "Selbstpfleger"
 gev#:#xrcg_edit_permission#:#schreibberechtigt
 gev#:#rep_robj_xatd_content#:#Report
 gev#:#rep_robj_xatd_properties#:#Eigenschaften
