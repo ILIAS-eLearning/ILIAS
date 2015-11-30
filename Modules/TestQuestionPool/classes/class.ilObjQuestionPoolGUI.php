@@ -685,14 +685,17 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$contParser->setQuestionMapping($qtiParser->getImportMapping());
 				$contParser->startParsing();
 			}
-		}
 
-		// set another question pool name (if possible)
-		$qpl_name = $_POST["qpl_new"];
-		if ((strcmp($qpl_name, $newObj->getTitle()) != 0) && (strlen($qpl_name) > 0))
-		{
-			$newObj->setTitle($qpl_name);
+			$newObj->fromXML($_SESSION["qpl_import_xml_file"]);
+
+			// set another question pool name (if possible)
+			if( isset($_POST["qpl_new"]) && strlen($_POST["qpl_new"]) )
+			{
+				$newObj->setTitle($_POST["qpl_new"]);
+			}
+
 			$newObj->update();
+			$newObj->saveToDb();
 		}
 		
 		// delete import directory
