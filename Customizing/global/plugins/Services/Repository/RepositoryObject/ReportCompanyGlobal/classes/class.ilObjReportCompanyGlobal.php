@@ -90,10 +90,10 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 							 )
 				->multiselect( "orgu"
 							 , $this->lng->txt("gev_org_unit_short")
-							 , array("type")
+							 , array("orgu.orgu")
 							 , $org_units_filter
 							 , array()
-							 , ""
+							 , " OR TRUE "
 							 , 200
 							 , 160
 							 )
@@ -217,7 +217,7 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 						->on('hc.crs_id = hucs.crs_id'
 							.'	AND '.$this->gIldb->in('hucs.participation_status' , self::$participated, !$has_participated, 'text'));
 		if($this->sql_filter_orgus) {
-			$query	->raw_join('('.$this->sql_filter_orgus.') as orgu ON ')
+			$query	->raw_join(' JOIN ('.$this->sql_filter_orgus.') as orgu ON orgu.usr_id = hucs.usr_id ')
 					->select('orgu.orgu');
 		}
 			$query	->group_by('hc.type')
@@ -231,7 +231,6 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 				. $a_query->sqlGroupBy()."\n"
 				. $this->queryHaving()."\n"
 				. $this->queryOrder();
-
 		$res = $this->gIldb->query($query);
 		$return = array();
 		while($rec = $this->gIldb->fetchAssoc($res)) {
