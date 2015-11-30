@@ -664,7 +664,7 @@ class ilParticipationStatus
 		switch($this->getMode())
 		{
 			case self::MODE_NON_REVIEWED:
-				if($current == self::STATE_SET)
+				if($current != self::STATE_FINALIZED)
 				{
 					$new = self::STATE_FINALIZED;
 				}
