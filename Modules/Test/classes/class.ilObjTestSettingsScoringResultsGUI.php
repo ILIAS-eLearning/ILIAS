@@ -772,16 +772,6 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
 			}
 		}
 
-		// anonymity
-		$anonymity = new ilRadioGroupInputGUI($this->lng->txt('tst_anonymity'), 'anonymity');
-		if ($this->testOBJ->participantDataExist()) $anonymity->setDisabled(true);
-		$rb = new ilRadioOption($this->lng->txt('tst_anonymity_no_anonymization'), 0);
-		$anonymity->addOption($rb);
-		$rb = new ilRadioOption($this->lng->txt('tst_anonymity_anonymous_test'), 1);
-		$anonymity->addOption($rb);
-		$anonymity->setValue((int)$this->testOBJ->getAnonymity());
-		$form->addItem($anonymity);
-
 		// enable_archiving
 		$enable_archiving = new ilCheckboxInputGUI($this->lng->txt('test_enable_archiving'), 'enable_archiving');
 		$enable_archiving->setInfo($this->lng->txt('test_enable_archiving_desc'));
@@ -804,12 +794,6 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
 					$this->getAvailableTaxonomyIds(), $form->getItemByPostVar('results_tax_filters')->getValue()
 				));
 			}
-		}
-
-		if( $this->formPropertyExists($form, 'anonymity') )
-		{
-			// anonymity setting
-			$this->testOBJ->setAnonymity($form->getItemByPostVar('anonymity')->getValue());
 		}
 
 		if( $this->formPropertyExists($form, 'enable_archiving') )

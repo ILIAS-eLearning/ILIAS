@@ -515,6 +515,16 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 			$questSetType->setDisabled(true);
 		}
 		$form->addItem($questSetType);
+
+		// anonymity
+		$anonymity = new ilRadioGroupInputGUI($this->lng->txt('tst_anonymity'), 'anonymity');
+		if ($this->testOBJ->participantDataExist()) $anonymity->setDisabled(true);
+		$rb = new ilRadioOption($this->lng->txt('tst_anonymity_no_anonymization'), 0);
+		$anonymity->addOption($rb);
+		$rb = new ilRadioOption($this->lng->txt('tst_anonymity_anonymous_test'), 1);
+		$anonymity->addOption($rb);
+		$anonymity->setValue((int)$this->testOBJ->getAnonymity());
+		$form->addItem($anonymity);
 	}
 
 	/**
@@ -562,6 +572,12 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 			{
 				$this->testOBJ->setQuestionSetType($form->getItemByPostVar('question_set_type')->getValue());
 			}
+		}
+
+		// anonymity setting
+		if( !$this->testOBJ->participantDataExist() && $this->formPropertyExists($form, 'anonymity') )
+		{
+			$this->testOBJ->setAnonymity($form->getItemByPostVar('anonymity')->getValue());
 		}
 	}
 
