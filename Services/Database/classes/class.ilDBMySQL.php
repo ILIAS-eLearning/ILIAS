@@ -219,6 +219,14 @@ class ilDBMySQL extends ilDB
 	}
 	
 	/**
+	 * Set the storage engine 
+	 */
+	function setStorageEngine($a_storage_engine) {
+		$storage_engine_var = ($this->isMysql5_6OrHigher()) ? "DEFAULT_STORAGE_ENGINE" : "STORAGE_ENGINE";
+		$this->query("SET SESSION " . $storage_engine_var . " = '" . $a_storage_engine . "'");
+	}
+	
+	/**
 	* Get reserved words
 	*/
 	static function getReservedWords()
@@ -328,10 +336,9 @@ class ilDBMySQL extends ilDB
 		{
 			$this->query("SET SESSION SQL_MODE = 'ONLY_FULL_GROUP_BY'");
 		}
-
-		$this->query("SET SESSION STORAGE_ENGINE = 'MYISAM'");
+		$this->setStorageEngine('MYISAM');
 	}
-
+	
 	/**
 	* now()
 	*
@@ -415,7 +422,26 @@ class ilDBMySQL extends ilDB
 		
 		return false;
 	}
-
+	
+	/**
+	* check wether current MySQL server is version 5.6.x or higher
+	*
+	* NOTE: Two sourcecodes use this or a similar handling:
+	* - classes/class.ilDB.php
+	* - setup/classes/class.ilClient.php
+	*/
+	public function isMysql5_6OrHigher()
+	{
+		$version = explode(".", $this->getDBVersion());
+		if(
+			(int) $version[0] > 5 ||
+			((int) $version[0] == 5 && (int) $version[1] >= 6))
+		{
+			return true;
+		}		
+		return false;
+	}
+	
 	/**
 	* Check query size
 	*/

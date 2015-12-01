@@ -326,7 +326,6 @@ class ilDataCollectionRecordListGUI {
 			}
 			foreach ($fields as $col => $field) {
 				$value = $excel->val($i, $col);
-				$value = utf8_encode($value);
 				try {
 					if ($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_REFERENCE) {
 						$old = $value;

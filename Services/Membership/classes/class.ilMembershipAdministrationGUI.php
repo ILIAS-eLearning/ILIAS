@@ -75,7 +75,7 @@ abstract class ilMembershipAdministrationGUI extends ilObjectGUI
 		}
 	}
 	
-	public function editSettings(ilObjPropertyFormGUI $a_form = null)
+	public function editSettings(ilPropertyFormGUI $a_form = null)
 	{		
 		$this->tabs_gui->setTabActive('settings');	
 				
