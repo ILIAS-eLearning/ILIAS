@@ -10,13 +10,8 @@
 */
 require_once("Services/Calendar/classes/class.ilDate.php");
 trait gevWBDRequest{
-	static $USER_ID = "user_id";
-	static $ROW_ID = "row_id";
-	static $CRS_ID = "crs_id";
-	static $CRS_BEGIN = "from";
-	static $CRS_END = "till";
 	static $USR_STREET = "street";
-	static $USR_HOSE_NUMBER = "house_number";
+	static $USR_HOUSE_NUMBER = "house_number";
 	static $USR_MOBILE_PHONE = "mobile_phone_nr";
 	static $USR_PHONE_NUMBER = "phone_nr";
 
@@ -38,7 +33,7 @@ trait gevWBDRequest{
 		if(array_key_exists(self::$USR_STREET,$data)) {
 			$street_and_number = self::extractHouseNumber($data[self::$USR_STREET]);
 			$data[self::$USR_STREET] = $street_and_number["street"];
-			$data[self::$USR_HOSE_NUMBER] = $street_and_number["nr"];
+			$data[self::$USR_HOUSE_NUMBER] = $street_and_number["nr"];
 		}
 		
 		if(array_key_exists(self::$USR_MOBILE_PHONE, $data)) {

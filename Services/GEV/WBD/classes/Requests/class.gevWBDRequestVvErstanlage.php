@@ -53,6 +53,7 @@ class gevWBDRequestVvErstanlage extends WBDRequestVvErstanlage {
 
 		$this->user_id = $data["user_id"];
 		$this->row_id = $data["row_id"];
+		$this->next_wbd_action = $data["next_wbd_action"];
 	}
 
 	public static function getInstance(array $data) {
@@ -92,7 +93,7 @@ class gevWBDRequestVvErstanlage extends WBDRequestVvErstanlage {
 	* @return boolean
 	*/
 	public function createWBDSuccess($response) {
-		$this->wbd_success = new gevWBDSuccessVvErstanlage($response,$this->row_id);
+		$this->wbd_success = new gevWBDSuccessVvErstanlage($response,$this->row_id, $this->next_wbd_action);
 	}
 
 	/**
