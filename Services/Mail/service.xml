@@ -17,4 +17,5 @@
 	<mailtemplates>
 		<context id="mail_template_generic" class="ilMailTemplateGenericContext" />
 	</mailtemplates>
+	<logging />
 </service>
