@@ -1451,7 +1451,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				"toggleGraphicalAnswers", "deleteAnswer", "deleteImage", "removeJavaapplet"),
 			 "", "", $force_active);
 
-		if ($ilAccess->checkAccess("visible", "", $this->ref_id))
+		if ($ilAccess->checkAccess("read", "", $this->ref_id) || $ilAccess->checkAccess("visible", "", $this->ref_id))
 		{
 			$tabs_gui->addTarget("info_short",
 				 $this->ctrl->getLinkTarget($this, "infoScreen"),
@@ -1600,7 +1600,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	{
 		global $ilAccess, $ilErr, $lng;
 
-		if ($ilAccess->checkAccess("write", "", $a_target))
+		if ($ilAccess->checkAccess("write", "", $a_target) || $ilAccess->checkAccess('read', '', $a_target))
 		{
 			$_GET["baseClass"] = "ilObjQuestionPoolGUI";
 			$_GET["cmd"] = "questions";
