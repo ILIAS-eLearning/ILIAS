@@ -186,15 +186,18 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 		return $data;
 	}
 
+	protected function getRowTemplateTitle() {
+		return 'tpl.cat_global_company_report_data_row.html';
+	}
+
 	protected function buildTable($table) {
 		$table  ->column('type','type')
 				->column('book_book','gev_bookings')
 				->column('book_user','gev_crs_members')
 				->column('part_book','gev_bookings')
 				->column('wp_part','gev_edupoints')
-				->column('part_user','gev_crs_members')
-				->template('tpl.cat_global_company_report_data_row.html', "Services/ReportsRepository");
-		return $table;
+				->column('part_user','gev_crs_members');
+		return parent::buildTable($table);
 	}
 
 	protected function buildOrder($order) {
