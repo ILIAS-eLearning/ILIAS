@@ -155,20 +155,16 @@ class ilPDOAuthentication implements ilAuthInterface {
         if(!isset($this->session))
             $this->session = array();
         $this->session['username'] = $username;
-        $_SESSION['fuckamee'] = true;
     }
 
     private function verifyPassword($username, $password)
     {
-//        return true;
-        global $ilDB;
-        $passhash = md5($password);
-        $query = "SELECT * FROM usr_data WHERE login LIKE ".$ilDB->quote($username, 'text')." and passwd LIKE ".$ilDB->quote($passhash, 'text');
-        $res = $ilDB->query($query);
-        if($row = $ilDB->fetchAssoc($res)) {
-            return true;
-        } else {
-            return false;
-        }
+		require_once 'Services/User/classes/class.ilUserPasswordManager.php';
+
+			/**
+			 * @var $user ilObjUser
+			 */
+			$user = ilObjectFactory::getInstanceByObjId(ilObjUser::_loginExists($username));
+			return ilUserPasswordManager::getInstance()->verifyPassword($user, $password);
     }
 }
