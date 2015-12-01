@@ -197,7 +197,7 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
 
 		if($rbacreview->getRoleFolderOfRole($a_role_id) == $source->getRefId())
 		{
-			$GLOBALS['ilLog']->write(__METHOD__.': Ignoring local role: '.ilObject::_lookupTitle($a_role_id));
+			ilLoggerFactory::getLogger('otpl')->debug('Ignoring local role: '.ilObject::_lookupTitle($a_role_id));
 			return false;
 		}
 

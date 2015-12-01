@@ -33,7 +33,7 @@ class ilDidacticTemplateIncludeFilterPattern extends ilDidacticTemplateFilterPat
 		switch($this->getPatternSubType())
 		{
 			case self::PATTERN_SUBTYPE_REGEX:
-				$GLOBALS['ilLog']->write(__METHOD__.': Checking include pattern with '.$a_source.' against '.$this->getPattern());
+				ilLoggerFactory::getLogger('otpl')->debug('Checking include pattern with '.$a_source.' against '.$this->getPattern());
 				return preg_match('/'.$this->getPattern().'/',$a_source) === 1;
 		}
 		return false;

@@ -107,7 +107,7 @@ class ilDidacticTemplateGUI
 		$new_tpl_id = (int) $_REQUEST['tplid'];
 		if($new_tpl_id == ilDidacticTemplateObjSettings::lookupTemplateId($this->getParentObject()->object->getRefId()))
 		{
-			$GLOBALS['ilLog']->write(__METHOD__.': Template id: '.$new_tpl_id);
+			ilLoggerFactory::getLogger('otpl')->debug('Template id: '.$new_tpl_id);
 			ilUtil::sendInfo($this->lng->txt('didactic_not_changed'),true);
 			$ilCtrl->returnToParent($this);
 		}
