@@ -315,6 +315,11 @@ class ilMimeMail
 	 */
 	function BuildMail()
 	{
+		/**
+		 * @var $ilUser ilObjUser
+		 */
+		global $ilUser;
+
 		require_once './Services/Mail/phpmailer/class.phpmailer.php';
 		$mail = new PHPMailer();
 
@@ -390,7 +395,8 @@ class ilMimeMail
 
 		ilLoggerFactory::getLogger('mail')->debug(sprintf(
 			"Trying to delegate external external email delivery:" .
-			" From: " . $this->xheaders['From'] .
+			" Initiated by: " . $ilUser->getLogin() . " (" . $ilUser->getId() . ")" .
+			" | From: " . $this->xheaders['From'] .
 			" | To: " . implode(', ', $this->sendto) .
 			" | CC: " . implode(', ', $this->abcc) .
 			" | BCC: " . implode(', ', $this->acc) .
