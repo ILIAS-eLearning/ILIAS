@@ -4693,3 +4693,14 @@ ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "User", "udfc", "GEVUserData"
 		);
 	}
 ?>
+
+<#189>
+<?php
+if($ilDB->tableExists('hist_userrole')) {
+	$sql = "ALTER TABLE hist_userrole ADD INDEX rol_ind (rol_id);";
+	$ilDB->manipulate($sql);
+
+	$sql = "ALTER TABLE hist_userrole ADD INDEX usr_ind (usr_id);";
+	$ilDB->manipulate($sql);
+}
+?>
