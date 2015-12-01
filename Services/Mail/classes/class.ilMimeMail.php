@@ -408,7 +408,7 @@ class ilMimeMail
 		if($result)
 		{
 			ilLoggerFactory::getLogger('mail')->debug(sprintf(
-				'Successfully send delegated external mail delivery'
+				'Successfully delegated external mail delivery'
 			));
 		}
 		else
