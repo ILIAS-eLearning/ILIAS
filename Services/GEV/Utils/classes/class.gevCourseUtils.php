@@ -3485,4 +3485,15 @@ class gevCourseUtils {
 
 		return $ret;
 	}
+
+	public function getCustomAttachmentLinks() {
+		$current_attachments = new gevCrsMailAttachments($this->crs_id);
+
+		$ret = array();
+		foreach($this->getCustomAttachments() as $file) {
+			$ret[] = $current_attachments->getPathTo($file);
+		}
+
+		return $ret;
+	}
 }

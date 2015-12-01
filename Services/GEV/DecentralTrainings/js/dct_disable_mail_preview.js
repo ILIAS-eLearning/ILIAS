@@ -125,6 +125,14 @@ function gevShowMailPreview(){
 		});
 		values["ZIELGRUPPEN"] = tg_string;
 
+		var files = [];
+		var files_input = $('input[name=attachment_upload\\[\\]');
+		$.each(files_input, function(k,v) {
+			var str = $(v).val();
+			var res = str.split("\\");
+			files.push(res[$(res).size()-1] + " (wird nach Spepeichern angehangen)");
+		});
+
 		var trainer_ids = $('#trainer_ids').val();
 		
 		var venue = $('#venue').val();
@@ -170,6 +178,12 @@ function gevShowMailPreview(){
 				});
 
 				$('#dct-mail_content').html(html);
+			
+				if("ATTACHMENTS" in data) {
+					files = $.merge(data["ATTACHMENTS"], files);
+				}
+
+				html = html.replace("{ATTACHMENTS}", files.join("<br />"));
 			}
 		});
 	}

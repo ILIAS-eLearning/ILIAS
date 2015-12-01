@@ -135,6 +135,7 @@ class gevDecentralTrainingCreateMailPreviewDataGUI {
 							,"VORABENDANREISE" 				=> ""
 							,"NACHTAGABREISE" 				=> ""
 							,"LISTE" 						=> ""
+							,"ATTACHMENTS"					=> $crs_utils->getCustomAttachmentLinks()
 						);
 
 		if($data_base["STARTDATUM"] !== null) {
