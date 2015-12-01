@@ -907,7 +907,7 @@ abstract class ilHistorizingStorage
 	 *
 	 * @return array Array holding the full record. ( array('field' => 'value', 'field' => 'value') )
 	 */
-	protected static function getCurrentRecordByCase($a_case_id)
+	public static function getCurrentRecordByCase($a_case_id)
 	{
 		/** @var $ilDB ilDB */
 		global $ilDB;
