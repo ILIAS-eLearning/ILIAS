@@ -1585,10 +1585,10 @@ class gevUserUtils {
 		return $tree->getOrgusWhereUserHasPermissionForOperation("book_employees_rcrsv");
 	}
 	
-	public function getOrgUnitsWhereUserCanViewEmployeeBookings() {
+	public function getOrgUnitsWhereUserCanViewEmployeeBookings($user_id = null) {
 		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php");
 		$tree = ilObjOrgUnitTree::_getInstance();
-		return $tree->getOrgusWhereUserHasPermissionForOperation("view_employee_bookings");
+		return $tree->getOrgusWhereUserHasPermissionForOperation("view_employee_bookings", $user_id);
 	}
 	
 	public function getOrgUnitsWhereUserCanViewEmployeeBookingsRecursive() {
@@ -2091,14 +2091,14 @@ class gevUserUtils {
 		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php");
 		$tree = ilObjOrgUnitTree::_getInstance();
 		$org_units = $this->getOrgUnitsWhereUserIsDirectSuperior();
-		$has_view_empl_perm_ref_ids = $this->getOrgUnitsWhereUserCanViewEmployeeBookings();
+		$has_view_empl_perm_ref_ids = $this->getOrgUnitsWhereUserCanViewEmployeeBookings($this->user_id);
 		$ref_ids = array();
 		$ref_id_child_orgunit = array();
 		
 		foreach ($org_units as $org_unit) {
 			// Only take the org units where the user is superior and also has the permission
 			// to view bookings of employees.
-			if (!in_array($has_view_empl_perm_ref_ids, $org_unit["ref_id"])) {
+			if (!in_array($org_unit["ref_id"], $has_view_empl_perm_ref_ids)) {
 				continue;
 			}
 
