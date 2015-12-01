@@ -2548,8 +2548,16 @@ class gevCourseUtils {
 		return $this->getBookings()->isWaitingListActivated();
 	}
 
+	public function getWaitingListLength() {
+		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_MAX_WAITING_LIST_LENGTH);
+	}
+
+	public function setWaitingListLength($waiting_list_lenght) {
+		$this->amd->setField($this->crs_id, gevSettings::CRS_AMD_MAX_WAITING_LIST_LENGTH, $waiting_list_lenght);
+	}
+
 	public function isWaitingListFull() {
-		$waiting_list_lenght = $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_MAX_WAITING_LIST_LENGTH);
+		$waiting_list_lenght = $this->getWaitingListLength();
 		$waiting_list_count = count($this->getBookings()->getWaitingUsers());
 		
 		if($waiting_list_lenght === null || $waiting_list_lenght == 0) {
@@ -3365,8 +3373,6 @@ class gevCourseUtils {
 
 		return false;
 	}
-
-	
 
 	public function getCustomAttachments() {
 		$ret = array();
