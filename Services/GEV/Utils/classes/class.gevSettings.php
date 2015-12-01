@@ -736,28 +736,4 @@ class gevSettings {
 		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 		return gevObjectUtils::getObjId($ref_id);
 	}
-
-	public function getCSNMailTemplateId() {
-		return $this->settings->get(self::DCT_TPL_MAIL_CSN);
-	}
-
-	public function getWebExMailTemplateId() {
-		return $this->settings->get(self::DCT_TPL_MAIL_WEBEX);
-	}
-
-	public function getDecentralTrainingMailTemplateId() {
-		return $this->settings->get(self::DCT_TPL_MAIL_DECENTRAL_TRAINING);
-	}
-
-	public function setCSNMailTemplateId($a_templade_id) {
-		$this->settings->set(self::DCT_TPL_MAIL_CSN, $a_templade_id);
-	}
-	
-	public function setWebExMailTemplateId($a_template_id) {
-		$this->settings->set(self::DCT_TPL_MAIL_WEBEX, $a_templade_id);
-	}
-
-	public function setDecentralTrainingMailTemplateId($a_template_id) {
-		$this->settings->set(self::DCT_TPL_MAIL_DECENTRAL_TRAINING, $a_templade_id);
-	}
 }

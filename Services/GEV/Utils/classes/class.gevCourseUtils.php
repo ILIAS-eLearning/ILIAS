@@ -3374,8 +3374,6 @@ class gevCourseUtils {
 		return false;
 	}
 
-	
-
 	public function getCustomAttachments() {
 		$ret = array();
 

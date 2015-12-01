@@ -262,6 +262,10 @@ class gevDecentralTrainingGUI {
 		***********************/
 		$this->ltype = $form_prev->getInput("ltype");
 		$this->template_id = $form_prev->getInput($this->ltype."_template");
+		
+		require_once("Services/GEV/Mailing/classes/class.gevCrsInvitationMailSettings.php");
+		$inv_mail_settings = new gevCrsInvitationMailSettings($this->template_id);
+		$this->mail_tpl_id = $inv_mail_settings->getTemplateFor("Mitglied");
 
 		require_once("Services/GEV/Mailing/classes/class.gevCrsInvitationMailSettings.php");
 		$inv_mail_settings = new gevCrsInvitationMailSettings($this->template_id);
@@ -325,7 +329,11 @@ class gevDecentralTrainingGUI {
 		$this->ltype = $form_values["ltype"];
 		$this->webinar_vc_type = $form_values["webinar_vc_type"];
 
-		
+		//for mail preview
+		require_once("Services/GEV/Mailing/classes/class.gevCrsInvitationMailSettings.php");
+		$inv_mail_settings = new gevCrsInvitationMailSettings($form_values["template_id"]);
+		$this->mail_tpl_id = $inv_mail_settings->getTemplateFor("Mitglied");
+
 		$title = new catTitleGUI("gev_dec_training_creation", "gev_dec_training_creation_header_note", "GEV_img/ico-head-create-decentral-training.png");
 
 		$form = ($a_form === null) ? $this->buildTrainingOptionsForm($fill, $is_flexible, $form_values) 
@@ -631,6 +639,11 @@ class gevDecentralTrainingGUI {
 			$is_flexible = $this->isCrsTemplateFlexible($obj_id);
 			$this->ltype = $form_values["ltype"];
 			$this->webinar_vc_type = $form_values["webinar_vc_type"];
+
+			//for mail preview
+			require_once("Services/GEV/Mailing/classes/class.gevCrsInvitationMailSettings.php");
+			$inv_mail_settings = new gevCrsInvitationMailSettings($obj_id);
+			$this->mail_tpl_id = $inv_mail_settings->getTemplateFor("Mitglied");
 
 			$form = $this->buildTrainingOptionsForm(true, $is_flexible, $form_values);
 			$is_started = $form_values["no_changes_allowed"];
@@ -1721,7 +1734,7 @@ class gevDecentralTrainingGUI {
 		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 		$settings = gevSettings::getInstance();
 		$mail_utils = gevMailUtils::getInstance();
-		
+
 		$mail_preview_json = $this->ctrl->getLinkTargetByClass("gevDecentralTrainingCreateMailPreviewDataGUI", 'createPreviewData', '', true);
 		$tpl->setVariable("MAIL_PREVIEW_JSON", $mail_preview_json);
 
@@ -1730,14 +1743,25 @@ class gevDecentralTrainingGUI {
 			$tpl->setVariable("MAILTEMPLATE_BASE",nl2br($mail_tpl));
 		}
 
-		$mail_tpl = $mail_utils->getMailTemplateByIdAndLanguage($settings->getDecentralTrainingMailTemplateId(),$this->lng->getLangKey());
-		$tpl->setVariable("MAILTEMPLATE_PRAE",nl2br($mail_tpl));
+		//-2 = "keine E-Mail versenden"
+		if($mail_tpl_id != -2) {
+			//-1 = Nutze die Standardvorlage
+			if($mail_tpl_id == -1) {
+				require_once("Services/GEV/Mailing/classes/class.gevCrsInvitationMailSettings.php");
+				$inv_mail_settings = new gevCrsInvitationMailSettings($this->template_id);
+				$this->mail_tpl_id = $inv_mail_settings->getTemplateFor("standard");
+			}
 
-		$mail_tpl = $mail_utils->getMailTemplateByIdAndLanguage($settings->getCSNMailTemplateId(),$this->lng->getLangKey());
-		$tpl->setVariable("MAILTEMPLATE_CSN",nl2br($mail_tpl));
-
-		$mail_tpl = $mail_utils->getMailTemplateByIdAndLanguage($settings->getWebExMailTemplateId(),$this->lng->getLangKey());
-		$tpl->setVariable("MAILTEMPLATE_WEBEX",nl2br($mail_tpl));
+			//immer noch -1 = keine Email versenden an der Standardvorlage
+			if($this->mail_tpl_id > 0) {
+				$mail_tpl = $mail_utils->getMailTemplateByIdAndLanguage($this->mail_tpl_id,$this->lng->getLangKey());
+				$tpl->setVariable("MAILTEMPLATE",nl2br($mail_tpl));
+			} else {
+				$tpl->setVariable("MAILTEMPLATE",$this->lng->txt("gev_dec_training_no_mail"));
+			}
+		} else {
+			$tpl->setVariable("MAILTEMPLATE",$this->lng->txt("gev_dec_training_no_mail"));
+		}
 
 		if($this->template_id !== null){
 			$tpl_ref = gevObjectUtils::getRefId($this->template_id);
