@@ -227,7 +227,7 @@ abstract class ilDidacticTemplateAction
 			{
 				if($pattern->valid(ilObject::_lookupTitle($role_id)))
 				{
-					$GLOBALS['ilLog']->write(__METHOD__.' Role is valid: '. ilObject::_lookupTitle($role_id));
+					ilLoggerFactory::getLogger('otpl')->debug('Role is valid: '. ilObject::_lookupTitle($role_id));
 					$filtered[$role_id] = $role;
 				}
 			}

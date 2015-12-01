@@ -70,7 +70,7 @@ class ilDidacticTemplateLocalRoleAction extends ilDidacticTemplateAction
 		$role->create();
 		$rbacadmin->assignRoleToFolder($role->getId(),$source->getRefId(),"y");
 
-		$GLOBALS['ilLog']->write(__METHOD__.': Using rolt: '.$this->getRoleTemplateId().' with title "'.ilObject::_lookupTitle($this->getRoleTemplateId().'". '));
+		ilLoggerFactory::getLogger('otpl')->info('Using rolt: '.$this->getRoleTemplateId().' with title "'.ilObject::_lookupTitle($this->getRoleTemplateId().'". '));
 
 		// Copy template permissions
 		$rbacadmin->copyRoleTemplatePermissions(

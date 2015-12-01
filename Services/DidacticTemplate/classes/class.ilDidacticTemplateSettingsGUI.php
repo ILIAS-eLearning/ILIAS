@@ -162,14 +162,12 @@ class ilDidacticTemplateSettingsGUI
 		);
 		$import->setInputFile($tmp);
 
-		$GLOBALS['ilLog']->write(__METHOD__.': Using '.$tmp);
-
 		try {
 			$import->import();
 		}
 		catch(ilDidacticTemplateImportException $e)
 		{
-			$GLOBALS['ilLog']->write(__METHOD__.': Import failed with message: '. $e->getMessage());
+			ilLoggerFactory::getLogger('otpl')->error('Import failed with message: ' . $e->getMessage());
 			ilUtil::sendFailure($this->lng->txt('didactic_import_failed').': '.$e->getMessage());
 		}
 
