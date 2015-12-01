@@ -130,7 +130,11 @@ function gevShowMailPreview(){
 		$.each(files_input, function(k,v) {
 			var str = $(v).val();
 			var res = str.split("\\");
-			files.push(res[$(res).size()-1] + " (wird nach Spepeichern angehangen)");
+			var file = res[$(res).size()-1];
+
+			if(file !== '') {
+				files.push(res[$(res).size()-1] + " (wird nach Spepeichern angehangen)");
+			}
 		});
 
 		var trainer_ids = $('#trainer_ids').val();
@@ -183,7 +187,9 @@ function gevShowMailPreview(){
 					files = $.merge(data["ATTACHMENTS"], files);
 				}
 
-				html = html.replace("{ATTACHMENTS}", files.join("<br />"));
+				if($(files).size() > 0) {
+					$('.attachment_content').html(files.join("<br />"));
+				}
 			}
 		});
 	}
