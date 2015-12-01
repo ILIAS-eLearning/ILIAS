@@ -7449,18 +7449,49 @@ function getAnswerFeedbackPoints()
 
 		if ($this->getAnonymity())
 		{
-			$result = $ilDB->queryF("SELECT tst_active.active_id, tst_active.tries, tst_active.user_fi usr_id, %s login, %s lastname, %s firstname, tst_active.submitted test_finished, usr_data.matriculation, usr_data.active ".
-				"FROM tst_active LEFT JOIN usr_data ON tst_active.user_fi = usr_data.usr_id WHERE tst_active.test_fi = %s ORDER BY usr_data.lastname " . strtoupper($name_sort_order),
+			$query = "
+				SELECT	tst_active.active_id,
+						tst_active.tries,
+						tst_active.user_fi usr_id,
+						%s login,
+						%s lastname,
+						%s firstname,
+						tst_active.submitted test_finished,
+						usr_data.matriculation,
+						usr_data.active,
+						tst_active.lastindex
+				FROM tst_active
+				LEFT JOIN usr_data
+				ON tst_active.user_fi = usr_data.usr_id
+				WHERE tst_active.test_fi = %s
+				ORDER BY usr_data.lastname
+			";
+			$result = $ilDB->queryF($query,
 				array('text', 'text', 'text', 'integer'),
 				array("", $this->lng->txt("anonymous"), "", $this->getTestId())
 			);
 		}
 		else
 		{
-			$result = $ilDB->queryF("SELECT tst_active.active_id, tst_active.tries, tst_active.user_fi usr_id, usr_data.login, usr_data.lastname, usr_data.firstname, tst_active.submitted test_finished, usr_data.matriculation, usr_data.active ".
-				"FROM tst_active LEFT JOIN usr_data ON tst_active.user_fi = usr_data.usr_id WHERE tst_active.test_fi = %s ORDER BY usr_data.lastname " . strtoupper($name_sort_order),
-				array('integer'),
-				array($this->getTestId())
+			$query = "
+				SELECT	tst_active.active_id,
+						tst_active.tries,
+						tst_active.user_fi usr_id,
+						usr_data.login,
+						usr_data.lastname,
+						usr_data.firstname,
+						tst_active.submitted test_finished,
+						usr_data.matriculation,
+						usr_data.active,
+						tst_active.lastindex
+				FROM tst_active
+				LEFT JOIN usr_data
+				ON tst_active.user_fi = usr_data.usr_id
+				WHERE tst_active.test_fi = %s
+				ORDER BY usr_data.lastname
+			";
+			$result = $ilDB->queryF(
+				$query, array('integer'), array($this->getTestId())
 			);
 		}
 		$data = array();

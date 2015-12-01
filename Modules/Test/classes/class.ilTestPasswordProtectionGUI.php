@@ -78,11 +78,23 @@ class ilTestPasswordProtectionGUI
 		}
 	}
 	
-	private function showPasswordFormCmd()
+	protected function buildPasswordMsg()
 	{
-		require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
-		require_once 'Services/Form/classes/class.ilPasswordInputGUI.php';
+		if( !$this->passwordChecker->wrongUserEnteredPasswordExist() )
+		{
+			return '';
+		}
 		
+		return $this->tpl->getMessageHTML(
+			$this->lng->txt('tst_password_entered_wrong_password'), 'failure'
+		);
+	}
+
+	/**
+	 * @return ilPropertyFormGUI
+	 */
+	protected function buildPasswordForm()
+	{
 		$form = new ilPropertyFormGUI();
 		$form->setTitle($this->lng->txt("tst_password_form"));
 		$form->setDescription($this->lng->txt("tst_password_introduction"));
@@ -95,8 +107,20 @@ class ilTestPasswordProtectionGUI
 		$inp->setRequired(true);
 		$inp->setRetype(false);
 		$form->addItem($inp);
+		return $form;
+	}
 
-		$this->tpl->setVariable($this->parentGUI->getContentBlockName(), $this->ctrl->getHTML($form));
+	private function showPasswordFormCmd()
+	{
+		require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
+		require_once 'Services/Form/classes/class.ilPasswordInputGUI.php';
+
+		$msg = $this->buildPasswordMsg();
+		$form = $this->buildPasswordForm();
+
+		$this->tpl->setVariable(
+			$this->parentGUI->getContentBlockName(), $msg.$this->ctrl->getHTML($form)
+		);
 	}
 	
 	private function saveEnteredPasswordCmd()
@@ -105,7 +129,7 @@ class ilTestPasswordProtectionGUI
 		
 		if( !$this->passwordChecker->isUserEnteredPasswordCorrect() )
 		{
-			ilUtil::sendFailure($this->lng->txt("tst_password_entered_wrong_password"), true);
+			$this->passwordChecker->logWrongEnteredPassword();
 		}
 
 		$this->ctrl->redirectByClass($this->getNextCommandClass(), $this->getNextCommandCmd());
