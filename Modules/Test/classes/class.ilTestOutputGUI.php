@@ -783,6 +783,6 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 	{
 		ilUtil::sendFailure(sprintf($this->lng->txt('tst_objective_oriented_test_pass_without_questions'), $this->object->getTitle()), true);
 
-		$this->redirectBackCmd();
+		$this->backToInfoScreenCmd();
 	}
 }
