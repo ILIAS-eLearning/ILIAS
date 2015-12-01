@@ -39,12 +39,10 @@ abstract class ilMailNotification
 	
 	protected $is_in_wsp;
 	protected $wsp_tree; 
-	protected $wsp_access_handler; 
-	
+	protected $wsp_access_handler;
+
 	/**
-	 * Constructor
-	 * @param bool $a_is_personal_workspace
-	 * @return
+	 * @param bool|false $a_is_personal_workspace
 	 */
 	public function __construct($a_is_personal_workspace = false)
 	{
@@ -67,7 +65,6 @@ abstract class ilMailNotification
 	/**
 	 * Set notification type
 	 * @param int $a_type
-	 * @return 
 	 */
 	public function setType($a_type)
 	{
@@ -86,7 +83,6 @@ abstract class ilMailNotification
 	/**
 	 * Set sender of mail
 	 * @param  int $a_usr_id
-	 * @return 
 	 */
 	public function setSender($a_usr_id)
 	{
@@ -103,7 +99,6 @@ abstract class ilMailNotification
 	}
 	
 	/**
-	 * Set mail subject
 	 * @param string $a_subject
 	 * @return string body
 	 */
@@ -113,18 +108,15 @@ abstract class ilMailNotification
 	}
 	
 	/**
-	 * Get mail subject
 	 * @return string
 	 */
 	protected function getSubject()
 	{
 		return $this->subject;
 	}
-	
+
 	/**
-	 * Set mail body
 	 * @param string $a_body
-	 * @return 
 	 */
 	protected function setBody($a_body)
 	{
@@ -142,27 +134,24 @@ abstract class ilMailNotification
 	}
 	
 	/**
-	 * Get body
 	 * @return string 
 	 */
 	protected function getBody()
 	{
 		return $this->body;
 	}
-	
+
 	/**
-	 * set mail recipients
-	 * @param array $a_rcp user ids
-	 * @return 
+	 * @param array $a_rcp
 	 */
-	public function setRecipients($a_rcp)
+	public function setRecipients(array $a_rcp)
 	{
 		$this->recipients = $a_rcp;
 	}
 	
 	/**
 	 * get array of recipients
-	 * @return 
+	 * @return array
 	 */
 	public function getRecipients()
 	{
@@ -246,7 +235,6 @@ abstract class ilMailNotification
 	}
 	
 	/**
-	 * A language
 	 * @param ilLanguage $a_language
 	 */
 	protected function setLanguage($a_language)
@@ -255,28 +243,24 @@ abstract class ilMailNotification
 	}
 	
 	/**
-	 * get language object
 	 * @return ilLanguage
 	 */
 	protected function getLanguage()
 	{
 		return $this->language;
 	}
-	
-	/** 
-	 * Replace new lines
+
+	/**
 	 * @param string $a_keyword
-	 * @return 
+	 * @return string
 	 */
 	protected function getLanguageText($a_keyword)
 	{
 		return str_replace('\n', "\n", $this->getLanguage()->txt($a_keyword));
 	}
-	
+
 	/**
-	 * Set ref id
 	 * @param int $a_id
-	 * @return 
 	 */
 	public function setRefId($a_id)
 	{						
@@ -295,8 +279,7 @@ abstract class ilMailNotification
 	}
 	
 	/**
-	 * get reference id
-	 * @return 
+	 * @return int
 	 */
 	public function getRefId()
 	{
@@ -304,17 +287,15 @@ abstract class ilMailNotification
 	}
 	
 	/**
-	 * get object id
-	 * @return 
+	 * @return int
 	 */
 	public function getObjId()
 	{
 		return $this->obj_id;
 	}
-	
+
 	/**
-	 * set obj id
-	 * @return 
+	 * @param int $a_obj_id
 	 */
 	public function setObjId($a_obj_id)
 	{
@@ -330,30 +311,27 @@ abstract class ilMailNotification
 	{
 		return $this->obj_type;
 	}
-	
+
 	/**
 	 * Additional information for creating notification mails
 	 * @param array $a_info
-	 * @return 
 	 */
-	public function setAdditionalInformation($a_info)
+	public function setAdditionalInformation(array $a_info)
 	{
 		$this->additional_info = $a_info;
 	}
-	
+
 	/**
-	 * Get additional information for generating notification mails
-	 * @return 
+	 * @return array
 	 */
 	public function getAdditionalInformation()
 	{
 		return (array) $this->additional_info; 
 	}
-	
+
 	/**
-	 * Get object title
-	 * @param bool shorten title
-	 * @return 
+	 * @param bool|false $a_shorten
+	 * @return string
 	 */
 	protected function getObjectTitle($a_shorten = false)
 	{
@@ -368,14 +346,13 @@ abstract class ilMailNotification
 		}
 		return $txt;
 	}
-	
+
 	/**
-	 * Send Mail
-	 *  @param array recipients
-	 *  @param array mail type (one 'normal', 'system', 'email')
-	 * @return 
+	 * @param array $a_rcp
+	 * @param string $a_type ('normal', 'system', 'email')
+	 * @param bool|true $a_parse_recipients
 	 */
-	public function sendMail($a_rcp,$a_type,$a_parse_recipients = true)
+	public function sendMail(array $a_rcp, $a_type, $a_parse_recipients = true)
 	{
 		$recipients = array();
 		foreach($a_rcp as $rcp)
@@ -402,31 +379,31 @@ abstract class ilMailNotification
 
 		if(strlen($error))
 		{
-			$GLOBALS['ilLog']->write(__METHOD__.': '.$error);
+			require_once './Services/Logging/classes/public/class.ilLoggerFactory.php';
+			ilLoggerFactory::getLogger('mail')->error($error);
 		}
 	}
-	
+
 	/**
-	 * Init mail
-	 * @return 
+	 * @return ilMail
 	 */
 	protected function initMail()
 	{
 		return $this->mail = new ilMail($this->getSender());
 	}
-	
+
 	/**
-	 * Get mail object
-	 * @return 
+	 * @return ilMail|null
 	 */
 	protected function getMail()
 	{
 		return is_object($this->mail) ? $this->mail : $this->initMail();
 	}
-	
+
 	/**
-	 * Create a permanent link for an object
-	 * @return 
+	 * @param array  $a_params
+	 * @param string $a_append
+	 * @return string
 	 */
 	protected function createPermanentLink($a_params = array(),$a_append = '')
 	{
@@ -449,11 +426,10 @@ abstract class ilMailNotification
 			return ilLink::_getLink(ROOT_FOLDER_ID,'root');
 		}
 	}
-		
+
 	/**
-	 * Utility function 
 	 * @param int $a_usr_id
-	 * @return 
+	 * @return string
 	 */
 	protected function userToString($a_usr_id)
 	{

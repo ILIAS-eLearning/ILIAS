@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once './Services/Logging/classes/public/class.ilLoggerFactory.php';
+
 /**
  * this class encapsulates the PHP mail() function.
  * implements CC, Bcc, Priority headers
@@ -386,7 +388,29 @@ class ilMimeMail
 			$mail->AddAttachment($attachment);
 		}
 
-		$mail->Send();
+		ilLoggerFactory::getLogger('mail')->debug(sprintf(
+			"Trying to delegate external external email delivery:" .
+			" From: " . $this->xheaders['From'] .
+			" | To: " . implode(', ', $this->sendto) .
+			" | CC: " . implode(', ', $this->abcc) .
+			" | BCC: " . implode(', ', $this->acc) .
+			" | Subject: " .$mail->Subject
+		));
+
+		$result = $mail->Send();
+
+		if($result)
+		{
+			ilLoggerFactory::getLogger('mail')->debug(sprintf(
+				'Successfully send delegated external mail delivery'
+			));
+		}
+		else
+		{
+			ilLoggerFactory::getLogger('mail')->debug(sprintf(
+				'Could not deliver external email: ', $mail->ErrorInfo
+			));
+		}
 	}
 
 	/**

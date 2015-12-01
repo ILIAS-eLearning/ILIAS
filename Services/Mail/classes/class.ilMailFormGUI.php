@@ -791,7 +791,8 @@ class ilMailFormGUI
 			}
 			catch(Exception $e)
 			{
-				$GLOBALS['ilLog']->write(sprintf("Mail form called with invalid context id: %s", $context_id));
+				require_once './Services/Logging/classes/public/class.ilLoggerFactory.php';
+				ilLoggerFactory::getLogger('mail')->error(sprintf('%s has been called with invalid context id: %s.', __METHOD__, $context_id));
 			}
 		}
 		else

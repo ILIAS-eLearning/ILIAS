@@ -1044,14 +1044,15 @@ class ilMail
 			}
 
 			foreach($context->getPlaceholders() as $key => $ph_definition)
-		{
-				$result = $context->resolvePlaceholder($key, ilMailFormCall::getContextParameters(), $user);
+			{
+				$result    = $context->resolvePlaceholder($key, ilMailFormCall::getContextParameters(), $user);
 				$a_message = str_replace('[' . $ph_definition['placeholder'] . ']', $result, $a_message);
-        }
+			}
 		}
 		catch(Exception $e)
 		{
-			$GLOBALS['ilLog']->write(sprintf("Mail replacePlaceholders has been called with invalid context."));
+			require_once './Services/Logging/classes/public/class.ilLoggerFactory.php';
+			ilLoggerFactory::getLogger('mail')->error(__METHOD__ . ' has been called with invalid context.');
 		}
 
 		return $a_message;
@@ -1315,14 +1316,9 @@ class ilMail
 					}
 					else if (strtolower($tmp_names[$i]->host) == 'ilias')
 					{
-						if ($id = ilObjUser::getUserIdByLogin(addslashes($tmp_names[$i]->mailbox)))
+						if($id = ilObjUser::getUserIdByLogin(addslashes($tmp_names[$i]->mailbox)))
 						{
-							//$log->write('class.ilMail->getUserIds() recipient:'.$tmp_names[$i]->mailbox.'@'.$tmp_names[$i]->host.' user_id:'.$id);
 							$ids[] = $id;
-						}
-						else
-						{
-							//$log->write('class.ilMail->getUserIds() no user account found for recipient:'.$tmp_names[$i]->mailbox.'@'.$tmp_names[$i]->host);
 						}
 					}
 					else
@@ -1332,16 +1328,8 @@ class ilMail
 						{
 							$ids[] = $id;
 						}
-						else
-						{
-						//$log->write('class.ilMail->getUserIds() external recipient:'.$tmp_names[$i]->mailbox.'@'.$tmp_names[$i]->host);
-						}
 					}
 				}
-			}
-			else
-			{
-				//$log->write('class.ilMail->getUserIds() illegal recipients:'.$a_recipients);
 			}
 		}
 		else
@@ -1780,8 +1768,7 @@ class ilMail
 	*/
 	function sendMail($a_rcp_to,$a_rcp_cc,$a_rcp_bc,$a_m_subject,$a_m_message,$a_attachment,$a_type, $a_use_placeholders = 0)
 	{
-		global $lng,$rbacsystem,$log;
-		//$log->write('class.ilMail.sendMail '.$a_rcp_to.' '.$a_m_subject);
+		global $lng,$rbacsystem;
 
 		$this->mail_to_global_roles = true;
 		if($this->user_id != ANONYMOUS_USER_ID)
