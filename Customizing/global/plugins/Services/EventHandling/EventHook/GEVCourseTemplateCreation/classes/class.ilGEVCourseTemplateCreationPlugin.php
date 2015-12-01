@@ -52,6 +52,8 @@ class ilGEVCourseTemplateCreationPlugin extends ilEventHookPlugin
 			$utils->setCancelDeadline(31);
 			// Buchungsfrist 14 Tage
 			$utils->setBookingDeadline(14);
+			// Wartelistenlänge
+			$utils->setWaitingListLength(10);
 			// Anbieter Generali
 			if ($generali) {
 				$utils->setProviderId($generali);

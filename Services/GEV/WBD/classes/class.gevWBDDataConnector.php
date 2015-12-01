@@ -1504,6 +1504,17 @@ print $sql;
 	public function success_exit_user($row_id) {
 		$this->setWbdExitUserData($row_id);
 		$this->_set_last_wbd_report('hist_user', $row_id);
+
+		$sql = "SELECT user_id FROM hist_user WHERE row_id = ".$this->ilDB->quote($a_row_id, "integer")."";
+		$res = $this->ilDB->query($sql);
+		assert($this->ilDB->numRows($res) == 1);
+
+		if($this->ilDB->numRows($res) == 1) {
+			require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+			$user_utils = gevUserUtils::getInstance($res["user_id"]);
+			$user_utils->setNextWBDAction(gevSettings::USR_WBD_NEXT_ACTION_NOTHING);
+			$this->raiseEventUserChanged($user_utils->getId());
+		}
 	}
 	
 	public function fail_exit_user($row_id, $a_exception) {
