@@ -553,8 +553,10 @@ class assFormulaQuestionGUI extends assQuestionGUI
 
 				$points = new ilNumberInputGUI($this->lng->txt('points'), 'points_' . $result->getResult());
 				$points->setRequired(true);
+				$points->allowDecimals(true);
 				$points->setSize(3);
 				$points->setMinValue(0);
+				$points->setMinvalueShouldBeGreater(true);
 				$points->setValue(strlen($result->getPoints()) ? $result->getPoints() : 1);
 
 				$rating_type = new ilCheckboxInputGUI($this->lng->txt('advanced_rating'), 'rating_advanced_' . $result->getResult());
