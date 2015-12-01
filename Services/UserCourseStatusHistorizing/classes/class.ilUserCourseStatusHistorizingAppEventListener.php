@@ -216,10 +216,8 @@ class ilUserCourseStatusHistorizingAppEventListener
 			if ($end_date) {
 				$data_payload['end_date'] = $end_date->get(IL_CAL_DATE);
 			}
-		}
-
-		if ($individual_start_and_end) {
-			self::$ilUserCourseStatusHistorizingHelper->setIndividualStartAndEnd($user_id, $course_id, $data_payload);
+		} else {
+			self::$ilUserCourseStatusHistorizingHelper->setIndividualStartAndEnd($user_id, $course_id, $data_payload);			
 		}
 
 		if ($event == "setStatusAndPoints" && self::$ilUserCourseStatusHistorizingHelper->hasCertificate($user_id, $course_id))
