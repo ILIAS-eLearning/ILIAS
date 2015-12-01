@@ -85,6 +85,12 @@ class ilObjReportCoupon extends ilObjReportBase {
 		return $filter->compile();
 	}
 
+	protected function getRowTemplateTitle() {
+		if($this->getAdminMode()) {
+			return "tpl.report_coupons_admin_row.html";
+		}
+		return "tpl.report_coupons_row.html";
+	}
 
 	protected function buildTable($table) {
 		$table	->column("code","gev_coupon_bill_item_code")
@@ -96,12 +102,9 @@ class ilObjReportCoupon extends ilObjReportBase {
 			$table	->column("firstname","firstname")
 					->column("lastname","lastname")
 					->column("odbd","gev_od_bd")
-					->column("orgu","gev_org_unit_short")
-					->template("tpl.report_coupons_admin_row.html","Services/ReportsRepository");
-		} else {
-			$table	->template("tpl.report_coupons_row.html","Services/ReportsRepository");
+					->column("orgu","gev_org_unit_short");
 		}
-		return $table;
+		return parent::buildTable($table);
 	}
 
 	protected function buildOrder($order) {
