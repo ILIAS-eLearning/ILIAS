@@ -70,6 +70,10 @@ class ilObjReportASTD extends ilObjReportBase {
 		return $filter->compile();
 	}
 
+	protected function getRowTemplateTitle() {
+		return "tpl.cat_astd_row.html";
+	}
+
 	protected function buildTable($table) {
 
 		$table		->column("astd_category","astd_category");
@@ -77,8 +81,7 @@ class ilObjReportASTD extends ilObjReportBase {
 			$table	->column($position.'_f',$position.'_f')
 					->column($position.'_m',$position.'_m');
 		}
-		$table		->template("tpl.cat_astd_row.html","Services/ReportsRepository");
-		return $table;
+		return parent::buildTable($table);
 	}
 
 
