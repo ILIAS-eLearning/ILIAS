@@ -68,9 +68,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		parent::ilTestServiceGUI($a_object);
 		$this->ref_id = $_GET["ref_id"];
 		
-		global $rbacsystem, $ilUser;
+		global $rbacsystem, $ilUser, $lng;
 		require_once 'Modules/Test/classes/class.ilTestPasswordChecker.php';
-		$this->passwordChecker = new ilTestPasswordChecker($rbacsystem, $ilUser, $this->object);
+		$this->passwordChecker = new ilTestPasswordChecker($rbacsystem, $ilUser, $this->object, $lng);
 		
 		$this->processLocker = null;
 		$this->testSession = null;
