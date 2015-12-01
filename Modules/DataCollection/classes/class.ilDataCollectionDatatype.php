@@ -238,7 +238,7 @@ class ilDataCollectionDatatype
                 }
 				break;
 			case ilDataCollectionDatatype::INPUTFORMAT_NUMBER:
-				$input = new ilTextInputGUI($title, 'field_'.$field->getId());
+				$input = new ilNumberInputGUI($title, 'field_' . $field->getId());
 				break;
 			case ilDataCollectionDatatype::INPUTFORMAT_BOOLEAN:
 				$input = new ilCheckboxInputGUI($title, 'field_'.$field->getId());
