@@ -259,6 +259,20 @@ class ilTestSettingsChangeConfirmationGUI extends ilConfirmationGUI
 
 					break;
 
+				case 'select':
+
+					$value = $item->getValue();
+					if( !is_array($value) )
+					{
+						$value = array($value);
+					}
+					foreach( $value as $option )
+					{
+						$this->addHiddenItem("{$item->getPostVar()}[]", $option);
+					}
+
+					break;
+
 				case 'checkbox':
 
 					if( $item->getChecked() )

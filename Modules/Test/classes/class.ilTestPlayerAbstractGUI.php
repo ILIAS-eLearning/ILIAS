@@ -68,9 +68,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		parent::ilTestServiceGUI($a_object);
 		$this->ref_id = $_GET["ref_id"];
 		
-		global $rbacsystem, $ilUser;
+		global $rbacsystem, $ilUser, $lng;
 		require_once 'Modules/Test/classes/class.ilTestPasswordChecker.php';
-		$this->passwordChecker = new ilTestPasswordChecker($rbacsystem, $ilUser, $this->object);
+		$this->passwordChecker = new ilTestPasswordChecker($rbacsystem, $ilUser, $this->object, $lng);
 		
 		$this->processLocker = null;
 		$this->testSession = null;
@@ -401,7 +401,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		if( $isFirstTestStartRequest )
 		{
 			$this->handleUserSettings();
-			$this->ctrl->redirect($this, "initTest");
+			$this->ctrl->redirect($this, ilTestPlayerCommands::INIT_TEST);
 		}
 		
 		$this->ctrl->redirectByClass("ilobjtestgui", "redirectToInfoScreen");
@@ -444,25 +444,26 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			$this->testSession->setAnonymousId($accessCode);
 			$this->testSession->saveToDb();
 			
-			$this->ctrl->redirect($this, 'displayCode');
+			$this->ctrl->redirect($this, ilTestPlayerCommands::DISPLAY_ACCESS_CODE);
 		}
 
 		$this->testSession->unsetAccessCodeInSession();
 		$this->ctrl->redirect($this, ilTestPlayerCommands::START_TEST);
 	}
 	
-	function displayCodeCmd()
+	function displayAccessCodeCmd()
 	{
 		$this->tpl->addBlockFile($this->getContentBlockName(), "adm_content", "tpl.il_as_tst_anonymous_code_presentation.html", "Modules/Test");
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("TEXT_ANONYMOUS_CODE_CREATED", $this->lng->txt("tst_access_code_created"));
 		$this->tpl->setVariable("TEXT_ANONYMOUS_CODE", $this->testSession->getAccessCodeFromSession());
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("CONTINUE", $this->lng->txt("continue_work"));
+		$this->tpl->setVariable("CMD_CONFIRM", ilTestPlayerCommands::ACCESS_CODE_CONFIRMED);
+		$this->tpl->setVariable("TXT_CONFIRM", $this->lng->txt("continue_work"));
 		$this->tpl->parseCurrentBlock();
 	}
 	
-	function codeConfirmedCmd()
+	function accessCodeConfirmedCmd()
 	{
 		$this->ctrl->redirect($this, ilTestPlayerCommands::START_TEST);
 	}
@@ -928,7 +929,12 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			$this->ctrl->redirectByClass("ilTestEvaluationGUI", "outUserResultsOverview");
 		}
 
-		$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
+		$this->backToInfoScreenCmd();
+	}
+	
+	protected function backToInfoScreenCmd()
+	{
+		$this->ctrl->redirectByClass('ilObjTestGUI', 'redirectToInfoScreen');
 	}
 	
 	/*
@@ -1448,7 +1454,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("MAX_ALLOWED_USERS_MESSAGE", sprintf($this->lng->txt("tst_max_allowed_users_message"), $this->object->getAllowedUsersTimeGap()));
 		$this->tpl->setVariable("MAX_ALLOWED_USERS_HEADING", sprintf($this->lng->txt("tst_max_allowed_users_heading"), $this->object->getAllowedUsersTimeGap()));
-		$this->tpl->setVariable("BACK_TO_INTRODUCTION", $this->lng->txt("tst_results_back_introduction"));
+		$this->tpl->setVariable("CMD_BACK_TO_INFOSCREEN", ilTestPlayerCommands::BACK_TO_INFO_SCREEN);
+		$this->tpl->setVariable("TXT_BACK_TO_INFOSCREEN", $this->lng->txt("tst_results_back_introduction"));
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->parseCurrentBlock();
 	}

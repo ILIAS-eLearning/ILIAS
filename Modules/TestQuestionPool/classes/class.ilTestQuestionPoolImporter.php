@@ -63,6 +63,14 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
 		ilObjQuestionPool::_setImportDirectory($this->getImportDirectory());
 		
 		$newObj->fromXML($xml_file);
+
+		// set another question pool name (if possible)
+		if( isset($_POST["qpl_new"]) && strlen($_POST["qpl_new"]) )
+		{
+			$newObj->setTitle($_POST["qpl_new"]);
+		}
+		
+		$newObj->update();
 		$newObj->saveToDb();
 
 		// FIXME: Copied from ilObjQuestionPoolGUI::importVerifiedFileObject

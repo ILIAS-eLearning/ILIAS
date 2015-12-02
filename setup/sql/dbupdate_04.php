@@ -12370,3 +12370,16 @@ while($row = $ilDB->fetchAssoc($res))
 		$ilDB->addIndex('help_tooltip', array('tt_id', 'module_id'), 'i1');
 	}
 ?>
+<#4792>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#4793>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#4794>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+

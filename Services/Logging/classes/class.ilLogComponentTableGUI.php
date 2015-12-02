@@ -47,6 +47,7 @@ class ilLogComponentTableGUI extends ilTable2GUI
 		$this->addCommandButton('resetComponentLevels', $this->lng->txt('log_component_btn_reset'));
 		
 		$this->setShowRowsSelector(FALSE);
+		$this->setLimit(500);
 	}
 	
 	/**

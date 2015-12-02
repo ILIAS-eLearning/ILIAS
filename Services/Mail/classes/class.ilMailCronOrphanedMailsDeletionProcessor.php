@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once './Services/Logging/classes/public/class.ilLoggerFactory.php';
+
 /**
  * ilMailCronOrphanedMailsDeletionProcessor
  * @author Nadia Ahmad <nahmad@databay.de> 
@@ -25,11 +27,9 @@ class ilMailCronOrphanedMailsDeletionProcessor
 	 */
 	private function deleteAttachments()
 	{
-		global $ilDB, $ilLog;
+		global $ilDB;
 
 		$attachment_paths = array();
-
-		// @todo TESTEN!!!: Anhänge dürfen nur dann gelöscht werden, wenn deren Pfaf in Table mail_attachment bei keinen anderen Einträgen mehr benutzt wird
 
 		$res = $ilDB->query('
 				SELECT path, COUNT(mail_id) cnt_mail_ids
@@ -65,18 +65,26 @@ class ilMailCronOrphanedMailsDeletionProcessor
 					 * @var $file SplFileInfo
 					 */
 
+					$path_name = $file->getPathname();
 					if($file->isDir())
 					{
-						@rmdir($file->getPathname());
+						@rmdir($path_name);
+						ilLoggerFactory::getLogger('mail')->info(sprintf(
+							'Attachment directory (%s) deleted for mail_id:  %s', $path_name, $mail_id
+						));
 					}
 					else
 					{
-						@unlink($file->getPathname());
-
-						$ilLog->write(__METHOD__ . ': Attachment ('.$path.') deleted for mail_id: ' . $mail_id);
+						@unlink($path_name);
+						ilLoggerFactory::getLogger('mail')->info(sprintf(
+							'Attachment file (%s) deleted for mail_id:  %s', $path_name, $mail_id
+						));
 					}
 				}
 				@rmdir($path);
+				ilLoggerFactory::getLogger('mail')->info(sprintf(
+					'Attachment directory (%s) deleted for mail_id:  %s', $path, $mail_id
+				));
 			}
 			catch(Exception $e) { }
 		}
@@ -109,8 +117,6 @@ class ilMailCronOrphanedMailsDeletionProcessor
 	 */
 	public function processDeletion()
 	{	
-		global $ilLog;
-	
 		if(count($this->collector->getMailIdsToDelete()) > 0)
 		{
 			// delete possible attachments ... 
@@ -118,10 +124,15 @@ class ilMailCronOrphanedMailsDeletionProcessor
 			
 
 			$this->deleteMails();
-			$ilLog->write(__METHOD__ . ': Deleted mail_ids: ' . implode(', ', $this->collector->getMailIdsToDelete()));
+			require_once './Services/Logging/classes/public/class.ilLoggerFactory.php';
+			ilLoggerFactory::getLogger('mail')->info(sprintf(
+				'Deleted mail_ids: %s',  implode(', ', $this->collector->getMailIdsToDelete())
+			));
 
 			$this->deleteMarkedAsNotified();
-			$ilLog->write(__METHOD__ . ': Deleted mail_cron_orphaned mail_ids: ' . implode(', ', $this->collector->getMailIdsToDelete()));
+			ilLoggerFactory::getLogger('mail')->info(sprintf(
+				'Deleted mail_cron_orphaned mail_ids: %s', implode(', ', $this->collector->getMailIdsToDelete())
+			));
 		}
 	}
 }

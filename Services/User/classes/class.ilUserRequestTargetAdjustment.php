@@ -54,15 +54,10 @@ class ilUserRequestTargetAdjustment
 	 */
 	protected function storeRequest()
 	{
-		/**
-		 * @var $http ilHTTPS
-		 */
-		global $https;
-
 		if(!ilSession::get('orig_request_target'))
 		{
 			//#16324 don't use the complete REQUEST_URI
-			$url = substr($_SERVER['REQUEST_URI'], (strrpos($_SERVER['REQUEST_URI'], "/")+1));
+			$url = substr($_SERVER['REQUEST_URI'], (strrpos($_SERVER['REQUEST_URI'], '/') +1 ));
 
 			ilSession::set('orig_request_target', $url);
 		}

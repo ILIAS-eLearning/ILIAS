@@ -314,7 +314,7 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 		}
 		
 		include_once './Services/Search/classes/class.ilSearchSettings.php';
-		$settings = new ilSearchSettings();
+		$settings = ilSearchSettings::getInstance();
 		$settings->setMaxHits((int) $_POST['max_hits']);
 		
 		switch((int) $_POST['search_type'])
@@ -339,19 +339,28 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 
 		$settings->setHideAdvancedSearch($_POST['hide_adv_search']);
 		$settings->setAutoCompleteLength($_POST['auto_complete_length']);
-
 		$settings->showInactiveUser($_POST["inactive_user"]);
 		$settings->showLimitedUser($_POST["limited_user"]);
 		
 		$settings->enableDateFilter($_POST['cdate']);
-
-
 		$settings->update();
-
-		unset($_SESSION['search_last_class']);
 		
-		ilUtil::sendSuccess($this->lng->txt('settings_saved'));
-		$this->settingsObject();
+		
+		// refresh lucene server
+		try {
+			$this->refreshLuceneSettings();
+			ilUtil::sendInfo($this->lng->txt('settings_saved'));
+			$this->settingsObject();
+			return true;
+		} 
+		catch (Exception $exception) 
+		{
+			ilUtil::sendFailure($exception->getMessage());
+			$this->settingsObject();
+			return false;
+		}			
+		
+		unset($_SESSION['search_last_class']);
 	}
 	
 	/**
@@ -513,29 +522,47 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 			$settings->update();
 			
 			// refresh lucene server
-			$ilBench->start('Lucene','LuceneRefreshSettings');
-			
 			try {
-				include_once './Services/WebServices/RPC/classes/class.ilRpcClientFactory.php';
-				ilRpcClientFactory::factory('RPCAdministration')->refreshSettings(
-					CLIENT_ID.'_'.$ilSetting->get('inst_id',0));
-			
+				$this->refreshLuceneSettings();
 				ilUtil::sendInfo($this->lng->txt('settings_saved'));
 				$this->luceneSettingsObject();
 				return true;
-			}
-			catch(Exception $e)
+			} 
+			catch (Exception $exception) 
 			{
-				ilLoggerFactory::getLogger('src')->error('Searching failed with message: ' . $e->getMessage());
-				ilUtil::sendFailure($e->getMessage());
+				ilUtil::sendFailure($exception->getMessage());
 				$this->luceneSettingsObject();
 				return false;
-			}
+			}			
 		}
 		
 		ilUtil::sendInfo($this->lng->txt('err_check_input'));
 		$this->luceneSettingsObject();
 		return false;
+	}
+	
+	/**
+	 * Refresh lucene server settings
+	 * @throws Exception
+	 */
+	protected function refreshLuceneSettings()
+	{
+		global $ilSetting;
+		
+		if(!ilSearchSettings::getInstance()->enabledLucene())
+		{
+			return true;
+		}
+		
+		try  
+		{
+			include_once './Services/WebServices/RPC/classes/class.ilRpcClientFactory.php';
+			ilRpcClientFactory::factory('RPCAdministration')->refreshSettings(CLIENT_ID.'_'.$ilSetting->get('inst_id',0));
+		} 
+		catch (Exception $exception) {
+			ilLoggerFactory::getLogger('src')->error('Refresh of lucene server settings failed with message: ' . $e->getMessage());
+			throw $exception;
+		}
 	}
 	
 	protected function advancedLuceneSettingsObject()

@@ -792,9 +792,16 @@ class ilFileSystemGUI
 	/**
 	* delete object file
 	*/
-	function unzipFile($a_file)
+	function unzipFile($a_file = null)
 	{
 		global $lng;
+		
+		// #17470 - direct unzip call (after upload)
+		if(!$a_file &&
+			isset($_GET["upfile"]))
+		{
+			$a_file = basename($_GET["upfile"]);
+		}		
 		
 		$cur_subdir = str_replace(".", "", ilUtil::stripSlashes($_GET["cdir"]));
 		$cur_dir = (!empty($cur_subdir))
