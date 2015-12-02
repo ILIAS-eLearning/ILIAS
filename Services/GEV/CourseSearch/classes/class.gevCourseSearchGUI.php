@@ -64,6 +64,10 @@ class gevCourseSearchGUI {
 			$in_search = true;
 		}
 
+		if($cmd == "clearSearch") {
+			$in_search = false;
+		}
+
 		return $this->render($in_search);
 	}
 
@@ -180,6 +184,10 @@ class gevCourseSearchGUI {
 				//->setCommand("gev_crs_srch_limit", "www.google.de"); // TODO: set this properly
 				//->setCommand("gev_crs_srch_limit", "javascript:gevShowSearchFilter();"); // TODO: set this properly
 				->setCommand("gev_crs_srch_limit", "-"); // TODO: set this properly
+
+		if($a_in_search) {
+			$crs_tbl->setClearSearch("gev_crs_src_clear_search",$this->gCtrl->getLinkTargetByClass("gevCourseSearchGUI", "clearSearch"));
+		}
 
 		return $usrsel
 			 . ( ($hls->countHighlights() > 0 && !$a_in_search)
