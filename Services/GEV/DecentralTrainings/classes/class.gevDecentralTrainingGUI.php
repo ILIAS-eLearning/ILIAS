@@ -2010,7 +2010,7 @@ class gevDecentralTrainingGUI {
 		
 		if(isset($_GET["request_id"])) {
 			require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingUtils.php");
-			$dct_utils = gevDecentralTrainingUtils::getIntance();
+			$dct_utils = gevDecentralTrainingUtils::getInstance();
 			$dct_utils->deliverAttachment($_GET["filename"], $_GET["request_id"]);
 		}
 	}

@@ -420,7 +420,7 @@ class gevDecentralTrainingUtils {
 		foreach ($request->settings()->addedFiles() as $key => $filename) {
 			if(file_exists($file_storage->getAbsolutePath()."/".$filename)) {
 				$this->ctrl->setParameterByClass($class_name, "filename", $filename);
-				$this->ctrl->setParameterByClass($class_name, "request_id", $this->crs_id);
+				$this->ctrl->setParameterByClass($class_name, "request_id", $request_id);
 				$ret[] = '<a href="'.$this->ctrl->getLinkTargetByClass($class_name, "deliverAttachment").'">'.$filename.'</a>';
 				$this->ctrl->clearParametersByClass($class_name);
 			} else {

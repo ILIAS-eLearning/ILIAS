@@ -133,7 +133,7 @@ function gevShowMailPreview(){
 			var file = res[$(res).size()-1];
 
 			if(file !== '') {
-				files.push(res[$(res).size()-1] + " (wird nach Spepeichern angehangen)");
+				files.push(res[$(res).size()-1] + " (wird nach dem Speichern angehangen)");
 			}
 		});
 
