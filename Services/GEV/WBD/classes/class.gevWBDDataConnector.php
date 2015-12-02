@@ -521,7 +521,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 		 		.$this->ilDB->quote($end_date, "text").",\n"
 		 		.$this->ilDB->quote('-empty-', "text").",\n"
 		 		.$this->ilDB->quote('-empty-', "text").",\n"
-		 		.$this->ilDB->quote('-empty-', "text"),",\n"
+		 		.$this->ilDB->quote('-empty-', "text").",\n"
 			.")\n";
 
 			if(!$this->ilDB->query($sql)){
@@ -605,7 +605,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 				.$this->ilDB->quote($begin_date,"text").",\n"
 				.$this->ilDB->quote($end_date,"text").",\n"
 				.$this->ilDB->quote(-1,"integer").",\n"
-				.$this->ilDB->quote(-1"integer").",\n"
+				.$this->ilDB->quote(-1,"integer").",\n"
 			.")";
 
 			if(!$this->ilDB->query($sql)){
