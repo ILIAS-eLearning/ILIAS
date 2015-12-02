@@ -4693,3 +4693,10 @@ ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "User", "udfc", "GEVUserData"
 		);
 	}
 ?>
+
+<#189>
+<?php
+// TEP categories
+$sql = "INSERT INTO tep_type (id, title, bg_color, font_color, tep_active) VALUES (25, 'Weiterbildungstage', 'bf6364', '000000', 1)";
+$ilDB->manipulate($sql);
+?>
