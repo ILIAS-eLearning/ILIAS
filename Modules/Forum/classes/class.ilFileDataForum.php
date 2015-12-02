@@ -79,7 +79,7 @@ class ilFileDataForum extends ilFileData
 
 		while($file = readdir($dp))
 		{
-			if(is_dir($file))
+			if( is_dir( $this->forum_path . $file ) )
 			{
 				continue;
 			}
@@ -107,7 +107,7 @@ class ilFileDataForum extends ilFileData
 
 		while($file = readdir($dp))
 		{
-			if(is_dir($file))
+			if( is_dir( $this->forum_path.$file ) )
 			{
 				continue;
 			}
@@ -141,7 +141,7 @@ class ilFileDataForum extends ilFileData
 	
 			while($file = readdir($dp))
 			{
-				if(is_dir($file))
+				if( is_dir( $this->forum_path . $file ) )
 				{
 					continue;
 				}
