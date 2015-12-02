@@ -300,7 +300,7 @@ class ilUserDataSet extends ilDataSet
 							$f["method"] != "" && isset($a_rec[$up_k]))
 						{
 							$set_method = "set".substr($f["method"], 3);
-							$user->{$set_method}($a_rec[$up_k]);
+							$user->{$set_method}(ilUtil::secureString($a_rec[$up_k]));
 //	echo "<br>-setting-".$set_method."-".$a_rec[$up_k]."-";
 						}
 					}
@@ -328,7 +328,7 @@ class ilUserDataSet extends ilDataSet
 						$this->users[$usr_id] = new ilObjUser($usr_id);
 					}
 					$user = $this->users[$usr_id];
-					$user->writePref($a_rec["Keyword"], $a_rec["Value"]);
+					$user->writePref($a_rec["Keyword"], ilUtil::secureString($a_rec["Value"]));
 				}
 				break;
 		}
